@@ -22,10 +22,10 @@ WNDCLASSEX SEDIT_class_engine;
 HWND SEDIT_handle_frame;
 HWND SEDIT_handle_engine;
 
-CBYTE *SEDIT_name_frame  = "Urban Chaos sewer editor";
-CBYTE *SEDIT_name_engine = "Engine window";
+CBYTE* SEDIT_name_frame  = "Urban Chaos sewer editor";
+CBYTE* SEDIT_name_engine = "Engine window";
 
-HMENU  SEDIT_main_menu;
+HMENU SEDIT_main_menu;
 HACCEL SEDIT_accel;
 
 //
@@ -34,7 +34,7 @@ HACCEL SEDIT_accel;
 
 HCURSOR SEDIT_arrow;
 HCURSOR SEDIT_busy_bee;
-HICON   SEDIT_icon;
+HICON SEDIT_icon;
 
 //
 // The current prim.
@@ -67,12 +67,12 @@ CBYTE SEDIT_default_dir[_MAX_PATH];
 //
 
 OPENFILENAME SEDIT_ofn_map;
-CBYTE        SEDIT_ofn_default_dir_map[_MAX_PATH];
-CBYTE        SEDIT_ofn_file_map       [_MAX_PATH];
+CBYTE SEDIT_ofn_default_dir_map[_MAX_PATH];
+CBYTE SEDIT_ofn_file_map       [_MAX_PATH];
 
 OPENFILENAME SEDIT_ofn_sewers;
-CBYTE        SEDIT_ofn_default_dir_sewers[_MAX_PATH];
-CBYTE        SEDIT_ofn_file_sewers       [_MAX_PATH];
+CBYTE SEDIT_ofn_default_dir_sewers[_MAX_PATH];
+CBYTE SEDIT_ofn_file_sewers       [_MAX_PATH];
 
 //
 // The mouse in the world.
@@ -183,7 +183,7 @@ CBYTE SEDIT_engine_window_text[256];
 
 void SEDIT_set_state_look()
 {
-	CBYTE *tool_name;
+	CBYTE* tool_name;
 
 	switch(SEDIT_tool)
 	{
@@ -440,7 +440,7 @@ void SEDIT_calc_camera_pos()
 // Loads in a map.
 //
 
-void SEDIT_load_map(CBYTE *name)
+void SEDIT_load_map(CBYTE* name)
 {
 	//
 	// Change the cursor to a busy bee.
@@ -531,8 +531,8 @@ void SEDIT_load_map(CBYTE *name)
 	// 
 
 	{
-		CBYTE *ch;
-		CBYTE *ci;
+		CBYTE* ch;
+		CBYTE* ci;
 
 		for (ch = name; *ch; ch++);
 

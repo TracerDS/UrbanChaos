@@ -113,10 +113,10 @@ UINT GEDIT_wm_mousewheel;
 INT EditorResult=0;
 
 
-extern	int		waypoint_colour,
+extern int		waypoint_colour,
 				waypoint_group;
-extern	UBYTE	button_colours[][3];
-//extern	TCHAR	button_classes[][_MAX_PATH];
+extern UBYTE	button_colours[][3];
+//extern TCHAR	button_classes[][_MAX_PATH];
 
 bool				init_mission_editor();
 void				fini_mission_editor();

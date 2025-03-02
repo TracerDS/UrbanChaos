@@ -14,7 +14,7 @@
 #ifndef	PSX
 #include	"..\editor\headers\prim_draw.h"
 #else
-extern	void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3);
+extern void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3);
 
 #endif
 /*
@@ -53,8 +53,8 @@ struct KeyFrameElement	*the_elements;
 struct GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
 struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
 
-SLONG	next_game_chunk=0;
-SLONG	next_anim_chunk=0;
+SLONG next_game_chunk=0;
+SLONG next_anim_chunk=0;
 
 //
 // The bounding boxes of the anim prims in the initial position of
@@ -66,9 +66,9 @@ AnimPrimBbox anim_prim_bbox[MAX_ANIM_CHUNKS];
 
 
 
-extern	SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
 
-SLONG	calc_angle(SLONG dx,SLONG dz)
+SLONG calc_angle(SLONG dx,SLONG dz)
 {
 	SLONG	angle=0;
 
@@ -87,7 +87,7 @@ SLONG	calc_angle(SLONG dx,SLONG dz)
 
 }
 
-SLONG	angle_diff(SLONG angle1,SLONG angle2)
+SLONG angle_diff(SLONG angle1,SLONG angle2)
 {
 	SLONG	diff;
 
@@ -110,7 +110,7 @@ SLONG	angle_diff(SLONG angle1,SLONG angle2)
 	return diff;
 }
 
-SLONG	valid_grab_angle(SLONG angle,SLONG dx,SLONG dz)
+SLONG valid_grab_angle(SLONG angle,SLONG dx,SLONG dz)
 {
 	SLONG	wall_angle,diff;
 	return(1);
@@ -137,7 +137,7 @@ extern void highlight_face(SLONG face);
 
 #define	ON_MAP(x,z) (((x)>=0) && ((z)>=0) && ((x)<MAP_WIDTH) && ((z)<MAP_HEIGHT))
 
-SLONG	find_cable_y_along(struct DFacet *p_facet,SLONG along)
+SLONG find_cable_y_along(struct DFacet *p_facet,SLONG along)
 {
 	SLONG	max_at,y;
 	SLONG	angle_step1,angle_step2,count;
@@ -200,7 +200,7 @@ SLONG check_grab_cable_facet(SLONG facet,SLONG *grab_x,SLONG *grab_y,SLONG *grab
 
 	p_facet=&dfacets[facet];
 
-extern	SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along);
+extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along);
 
 	dist = nearest_point_on_line_and_dist_and_along(
 			p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -251,7 +251,7 @@ SLONG check_grab_ladder_facet(SLONG facet,SLONG *grab_x,SLONG *grab_y,SLONG *gra
 
 	p_facet=&dfacets[facet];
 
-extern	SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along);
+extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along);
 
 	dist = nearest_point_on_line_and_dist_and_along(
 				p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -338,10 +338,10 @@ SLONG get_cable_along(SLONG facet,SLONG ax,SLONG az)
 	return along;
 }
 
-extern	SLONG nearest_point_on_line_and_dist_calc_y(	SLONG x1, SLONG y1,SLONG z1,	SLONG x2, SLONG y2,SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_y,SLONG *ret_z);
+extern SLONG nearest_point_on_line_and_dist_calc_y(	SLONG x1, SLONG y1,SLONG z1,	SLONG x2, SLONG y2,SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_y,SLONG *ret_z);
 
 
-SLONG	grab_px[4],grab_py[4],grab_pz[4];
+SLONG grab_px[4],grab_py[4],grab_pz[4];
 	SLONG	best_dist;
 	SLONG	best_x;
 	SLONG	best_y;
@@ -1211,10 +1211,10 @@ SLONG find_grab_face_in_sewers(
 
 
 struct Matrix33		r_matrix;
-struct	Matrix31	offset;
+struct Matrix31	offset;
 SLONG matrix[9];
 
-void	calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
 {
 	struct	SVector		temp; //max points per object?
 	struct GameKeyFrameElement *anim_info;
@@ -1229,7 +1229,7 @@ void	calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x
 		//
 		// stuff added for more compression of anims
 		//
-extern	struct	PrimPoint	*anim_mids; //[256];
+extern struct	PrimPoint	*anim_mids; //[256];
 
 		index1=dt->CurrentFrame->XYZIndex;
 		index2=dt->NextFrame->XYZIndex;
@@ -1356,7 +1356,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 	if(object==SUB_OBJECT_LEFT_HAND || object==SUB_OBJECT_RIGHT_HAND)
 		*y+=HAND_HEIGHT;
 }
-void	calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
 {
 	struct	SVector		temp; //max points per object?
 	struct Matrix33		r_matrix;
@@ -1374,7 +1374,7 @@ void	calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLO
 		//
 		// stuff added for more compression of anims
 		//
-extern	struct	PrimPoint	*anim_mids; //[256];
+extern struct	PrimPoint	*anim_mids; //[256];
 
 		index1=dt->CurrentFrame->XYZIndex;
 		index2=dt->NextFrame->XYZIndex;
@@ -1438,7 +1438,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 
 }
 #ifndef	PSX
-void	calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2)
+void calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2)
 {
 	struct	SVector		temp; //max points per object?
 	struct Matrix33		r_matrix;
@@ -1456,7 +1456,7 @@ void	calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLO
 		//
 		// stuff added for more compression of anims
 		//
-extern	struct	PrimPoint	*anim_mids; //[256];
+extern struct	PrimPoint	*anim_mids; //[256];
 
 		index1=dt->CurrentFrame->XYZIndex;
 		index2=dt->NextFrame->XYZIndex;
@@ -1520,7 +1520,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 
 }
 #endif
-void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
 {
 	struct	Matrix31	offset;
 	struct GameKeyFrameElement *anim_info;
@@ -1533,7 +1533,7 @@ void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next
 		//
 		// stuff added for more compression of anims
 		//
-extern	struct	PrimPoint	*anim_mids; //[256];
+extern struct	PrimPoint	*anim_mids; //[256];
 
 		index1=cur_frame->XYZIndex;
 		index2=next_frame->XYZIndex;

@@ -14,7 +14,7 @@
 // 
 
 NAV_Waypoint NAV_waypoint[NAV_MAX_WAYPOINTS];
-UWORD        NAV_waypoint_free;		// The head of the free list.
+UWORD NAV_waypoint_free;		// The head of the free list.
 
 void NAV_waypoint_check(UWORD index)
 {

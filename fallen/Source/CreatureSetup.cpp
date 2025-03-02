@@ -18,12 +18,12 @@
 
 //---------------------------------------------------------------
 
-SLONG			creature_count,
+SLONG creature_count,
 				creature_type;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -94,7 +94,7 @@ bool	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_creature_setup(EventPoint *the_ep)
+void do_creature_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	creature_type			=	the_ep->Data[0];

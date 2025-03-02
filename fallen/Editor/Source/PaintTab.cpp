@@ -188,7 +188,7 @@ ControlDef	texture_def[]	=
 };
 
 
-extern	void	sync_animtmaps(void);
+extern void	sync_animtmaps(void);
 
 
 
@@ -293,7 +293,7 @@ PaintTab::~PaintTab()
 }
 
 void	fix_all_selected_faces_for_tile_mode(void);
-extern	void	find_highest_selected_tmap(SLONG *tx,SLONG *ty);
+extern void	find_highest_selected_tmap(SLONG *tx,SLONG *ty);
 /*
 void	scale_selected_tmaps(SLONG scale)
 {
@@ -374,7 +374,7 @@ void	PaintTab::UpdateTabInfo(void)
 }
 
 //---------------------------------------------------------------
-extern	SLONG	editor_texture_set;
+extern SLONG	editor_texture_set;
 
 void	PaintTab::DrawTabContent(void)
 {
@@ -388,7 +388,7 @@ void	PaintTab::DrawTabContent(void)
 	SetWorkWindowBounds(ContentLeft()+1,ContentTop()+1,ContentWidth()-1,ContentHeight()-1);
 
 	DrawControlSet();
-	extern	UWORD	diff_page_count1,diff_page_count2;
+	extern UWORD	diff_page_count1,diff_page_count2;
 	{
 		CBYTE	str[100];
 		sprintf(str,"diff tex(world %d) %d  shared %d",editor_texture_set,diff_page_count1,diff_page_count2); 
@@ -485,7 +485,7 @@ void	draw_selected_face_textures(SLONG tx,SLONG ty,SLONG zoom)
 	}
 }
 
-extern	void	build_texture(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE page,UBYTE u0,UBYTE v0,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3);
+extern void	build_texture(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE page,UBYTE u0,UBYTE v0,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3);
 
 void	PaintTab::DrawAnimTmapSelector(void)
 {
@@ -608,8 +608,8 @@ void	PaintTab::SelectStyle(MFPoint *clicked_point)
 
 }
 
-extern	UBYTE	tmap2[];
-extern	void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
+extern UBYTE	tmap2[];
+extern void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
 
 void	PaintTab::DrawStyleTexture(void)
 {
@@ -725,8 +725,8 @@ void	PaintTab::DrawTexture(void)
 						c1			=	1<<TextureZoom;
 						while(c1)
 						{
-	extern	UWORD	pal_to_16[];
-	extern	UWORD	yc_to_555[8][256*64];
+	extern UWORD	pal_to_16[];
+	extern UWORD	yc_to_555[8][256*64];
 							pixel	=	yc_to_555[CurrentTexturePage][texture_ptr[c1-1]+(256*32)];
 							zoom	=	256>>TextureZoom;
 							while(zoom--)
@@ -780,7 +780,7 @@ void	PaintTab::DrawTexture(void)
 							CBYTE str[100];
 							SLONG	x,y,page;
 							page=CurrentTexturePage*64;
-extern	UWORD	page_count[];
+extern UWORD	page_count[];
 							for(y=0;y<8;y++)
 							for(x=0;x<8;x++)
 							{
@@ -824,7 +824,7 @@ extern	UWORD	page_count[];
 							CBYTE str[100];
 							SLONG	x,y,page;
 							page=CurrentTexturePage*64;
-extern	UWORD	page_count[];
+extern UWORD	page_count[];
 							for(y=0;y<8;y++)
 							for(x=0;x<8;x++)
 							{
@@ -1779,7 +1779,7 @@ void	PaintTab::HandleControl(UWORD control_id)
 			break;
 
 		case	CTRL_BUILD_OTHER:
-extern	SLONG	build_psx;
+extern SLONG	build_psx;
 			build_psx^=1;
 			create_city(BUILD_MODE_EDITOR);
 			break;
@@ -1874,7 +1874,7 @@ extern	SLONG	build_psx;
 			edit_info.Clipped^=2;
 			break;
 		case	CTRL_TEX_SET_CLIPPED:
-extern	void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 			{
 
 				SLONG	minx,maxx,minz,maxz;
@@ -2098,7 +2098,7 @@ void	PaintTab::HandleTextureControl(UWORD control_id)
 			edit_info.Clipped^=2;
 			break;
 		case	CTRL_TEX_SET_CLIPPED:
-extern	void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 			{
 
 				SLONG	minx,maxx,minz,maxz;
@@ -3255,7 +3255,7 @@ bool	PaintTab::ApplyTexture(struct EditFace *edit_face)
 				}
 				if(prim_faces4[edit_face->Face].ThingIndex<0)
 				{
-extern	void	set_wall_texture_info(SLONG	wall,UBYTE page,EdTexture	*current_texture,UBYTE type,UBYTE side);
+extern void	set_wall_texture_info(SLONG	wall,UBYTE page,EdTexture	*current_texture,UBYTE type,UBYTE side);
 					UBYTE	type=0;
 					if(PaintMode==STYLE_PAINT)
 					{
@@ -3267,7 +3267,7 @@ extern	void	set_wall_texture_info(SLONG	wall,UBYTE page,EdTexture	*current_textu
 						//
 						// apply an individual texture to a wall face
 						//
-extern	void	apply_texture_to_wall_face(SLONG face,SLONG texture);
+extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
 						SLONG	t;
 						SLONG	x=0,y=0,c0;
 

@@ -90,7 +90,7 @@ static void ScribbleCheck ( void )
 
 
 // Some externs
-extern	SLONG	is_person_ko(Thing *p_person);
+extern SLONG	is_person_ko(Thing *p_person);
 
 
 // constants for physics
@@ -119,11 +119,11 @@ extern bool allow_debug_keys;
 
 static void siren(Vehicle* veh, UBYTE play);
 static inline void GetCarPoints(Thing* p_car, SLONG* x, SLONG* y, SLONG* z, SLONG step);
-extern	SLONG	is_person_ko_and_lay_down(Thing *p_person);
+extern SLONG	is_person_ko_and_lay_down(Thing *p_person);
 //
 // random vehicle types
 //
-UBYTE	vehicle_random[] =
+UBYTE vehicle_random[] =
 {
 	VEH_TYPE_VAN,	VEH_TYPE_CAR,	VEH_TYPE_TAXI,	VEH_TYPE_JEEP,
 	VEH_TYPE_SEDAN,	VEH_TYPE_VAN,	VEH_TYPE_CAR,	VEH_TYPE_TAXI,
@@ -135,7 +135,7 @@ UBYTE	vehicle_random[] =
 //
 // vehicle information per type
 
-struct	VehInfo
+struct VehInfo
 {
 	SWORD	DX[4],DZ[4];
 
@@ -259,7 +259,7 @@ void get_car_door_offsets(SLONG type, SLONG door, SLONG *dx,SLONG *dz)
 	*dz=(veh_info[type].DZ[door + 1]*50)>>8;
 }
 
-SLONG	VEH_collide_line_ignore_walls = 0;
+SLONG VEH_collide_line_ignore_walls = 0;
 
 UWORD get_vehicle_body_prim(SLONG type)
 {
@@ -1085,17 +1085,17 @@ void free_vehicle(Thing *p_thing)
 //
 // (don't static functions have the "static" keyword?)
 
-SLONG	calc_car_collision_turn(Thing *p_car,SLONG angle,SLONG tilt,SLONG roll);
-void	calc_car_normal(SLONG *p,SLONG *dy,SLONG *nx,SLONG *ny,SLONG *nz);
-void	calc_car_vect(SLONG p1,SLONG p2,SLONG *dy,SLONG *vx,SLONG *vy,SLONG *vz);
-void	normalise_val256(SLONG *vx,SLONG *vy,SLONG *vz);
+SLONG calc_car_collision_turn(Thing *p_car,SLONG angle,SLONG tilt,SLONG roll);
+void calc_car_normal(SLONG *p,SLONG *dy,SLONG *nx,SLONG *ny,SLONG *nz);
+void calc_car_vect(SLONG p1,SLONG p2,SLONG *dy,SLONG *vx,SLONG *vy,SLONG *vz);
+void normalise_val256(SLONG *vx,SLONG *vy,SLONG *vz);
 
 
 
 
 
 
-void	animate_car(Thing *p_car)
+void animate_car(Thing *p_car)
 {
 	SLONG	tween_step;
 	DrawTween	*draw_info;
@@ -1116,13 +1116,13 @@ void	animate_car(Thing *p_car)
 	{
 		p_car->Genus.Vehicle->Draw.AnimTween-=256;
 
-SLONG	advance_keyframe(DrawTween *draw_info);
+SLONG advance_keyframe(DrawTween *draw_info);
 		advance_keyframe(&p_car->Genus.Vehicle->Draw);
 	}
 }
 
 
-void	draw_car(Thing *p_car)
+void draw_car(Thing *p_car)
 {
 	SLONG	x[8],y[8],z[8];
 	SLONG	vector[3];
@@ -1140,7 +1140,7 @@ void	draw_car(Thing *p_car)
 /*
 	{
 		CBYTE	str[30];
-extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 
 		sprintf(str,"S%d W%d A%d d %d",p_car->Genus.Vehicle->Steering,p_car->Genus.Vehicle->Wheel,p_car->Genus.Vehicle->IsAnalog,(p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING));
 
@@ -1157,7 +1157,7 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 		// Draw the car as an animating prim.
 		//
 
-		extern	void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
+		extern void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
 
 		p_car->WorldPos.Y -= info->BodyOffset;
 
@@ -1579,7 +1579,7 @@ extern SLONG there_is_a_los_car(SLONG x1, SLONG y1, SLONG z1,SLONG x2, SLONG y2,
 extern SLONG should_i_collide_against_this_anim_prim(Thing *p_animprim);
 
 VEH_Col VEH_col[VEH_MAX_COL];
-SLONG   VEH_col_upto;
+SLONG VEH_col_upto;
 
 // VEH_collide_find_things
 //
@@ -2164,7 +2164,7 @@ static void process_car(Thing *p_car);
 //	8	    2
 //   3    2 
 //     4
-void	nudge_car(Thing* p_car,SLONG flags,SLONG *x,SLONG *z,SLONG neg)
+void nudge_car(Thing* p_car,SLONG flags,SLONG *x,SLONG *z,SLONG neg)
 {
 	SLONG	dx=0,dz=0;
 	switch(flags&15)
@@ -2244,7 +2244,7 @@ void	nudge_car(Thing* p_car,SLONG flags,SLONG *x,SLONG *z,SLONG neg)
 	}
 
 }
-SLONG	car_hit_flags;
+SLONG car_hit_flags;
 static SLONG CollideCar(Thing* p_car, SLONG step)
 {
 	Vehicle*	veh = p_car->Genus.Vehicle;
@@ -4812,7 +4812,7 @@ void VEH_reduce_health(
 }
 
 
-Thing   *vehicle_wheel_pos_vehicle;
+Thing *vehicle_wheel_pos_vehicle;
 VehInfo *vehicle_wheel_pos_info;
 
 

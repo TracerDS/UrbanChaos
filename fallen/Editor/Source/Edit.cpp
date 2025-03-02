@@ -17,17 +17,17 @@
 
 #define	SET_TEXTURE_ROCKS(t)	{t.X=4;t.Y=4;t.Width=2;t.Height=2;t.Page=0;t.DrawFlags=(POLY_FLAG_GOURAD|POLY_FLAG_TEXTURED);}
 
-extern	void load_palette(CBYTE *palette);
-extern	SLONG	calc_edit_height_at(SLONG x,SLONG z);
-extern	SLONG	next_inside; //building.cpp
+extern void load_palette(CBYTE* palette);
+extern SLONG	calc_edit_height_at(SLONG x,SLONG z);
+extern SLONG	next_inside; //building.cpp
 
-extern	SLONG	editor_texture_set;
-extern	UWORD	page_count[];
-extern	UWORD	moved_from[16*64];
-extern	UWORD	moved_to[16*64];
+extern SLONG	editor_texture_set;
+extern UWORD	page_count[];
+extern UWORD	moved_from[16*64];
+extern UWORD	moved_to[16*64];
 
-extern	UWORD	*psx_remap;//[128];
-extern	UWORD	page_remap[];
+extern UWORD	*psx_remap;//[128];
+extern UWORD	page_remap[];
 
 struct	MapBlock2
 {
@@ -57,10 +57,10 @@ extern SLONG	save_psx;
 struct	Light	d_lights[MAX_D_LIGHTS];
 UWORD	next_d_light=1;
 
-//extern	ULONG		WorkWindowHeight,   //just for now as application does not get these
+//extern ULONG		WorkWindowHeight,   //just for now as application does not get these
 //					WorkWindowWidth; 
-extern	void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
-extern	void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
+extern void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
+extern void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
 
 
 //struct	EditMapElement	edit_map_eles[65000];
@@ -230,7 +230,7 @@ void	clear_lights()
 
 
 //insert_cube((engine.X>>8)>>ELE_SHIFT,(engine.Y>>8)>>ELE_SHIFT,(engine.Z>>8)>>ELE_SHIFT);
-extern	UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense);
+extern UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense);
 
 SLONG	place_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z)
 {
@@ -309,11 +309,11 @@ UWORD	is_road[]=
 	323,324,325,326,327,328,331,332,333,334,340,341,342,343,348,349,350,351,352,353,354,355,356,0
 };
 
-extern	void	move_texture(UWORD from,UWORD to);
-extern	UWORD	get_split_bits(UWORD tex);
+extern void	move_texture(UWORD from,UWORD to);
+extern UWORD	get_split_bits(UWORD tex);
 
 
-void	save_game_map(CBYTE *name)
+void	save_game_map(CBYTE* name)
 {
 	UWORD	temp1,temp2,temp3,temp;
 	SLONG	save_type=26, ob_size;
@@ -335,7 +335,7 @@ void	save_game_map(CBYTE *name)
 	//
 
 	CBYTE  gamename[256];
-	CBYTE *ch;
+	CBYTE* ch;
 
 	strcpy(gamename, name);
 
@@ -373,7 +373,7 @@ extern void	save_ob_ob(MFFileHandle	handle);
 
 		FileWrite(handle,(UBYTE*)&save_type,4);
 
-extern	void	add_flat_roof_to_pap();
+extern void	add_flat_roof_to_pap();
 		add_flat_roof_to_pap();
 
 		ob_size = sizeof(OB_ob_upto) + (sizeof(OB_Ob)*OB_ob_upto) + (sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
@@ -554,7 +554,7 @@ extern	void	add_flat_roof_to_pap();
 
 
 
-		extern	void	save_super_map(MFFileHandle	handle);
+		extern void	save_super_map(MFFileHandle	handle);
 		save_super_map(handle);
 		FileWrite(handle,(UBYTE*)&editor_texture_set,sizeof(editor_texture_set));
 
@@ -610,7 +610,7 @@ void	save_texture_styles_psx(UBYTE world);
 	}
 	else
 	{
-//extern	void	save_texture_styles(UBYTE world);
+//extern void	save_texture_styles(UBYTE world);
 //		save_texture_styles(editor_texture_set);
 	}
 
@@ -624,7 +624,7 @@ void	save_texture_styles_psx(UBYTE world);
 }
 
 
-void	save_tex_remap(CBYTE *name)
+void	save_tex_remap(CBYTE* name)
 {
 	CBYTE	name2[128];
 	SLONG	c0;
@@ -654,7 +654,7 @@ void	save_tex_remap(CBYTE *name)
 	
 }
 
-void	load_tex_remap(CBYTE *name)
+void	load_tex_remap(CBYTE* name)
 {
 	CBYTE	name2[128];
 	SLONG	c0;
@@ -1349,7 +1349,7 @@ SLONG	load_map(CBYTE	*name)
 
 
 //	clear_map();
-//extern	void	load_game_map();
+//extern void	load_game_map();
 //	load_game_map();
 //	return;
 
@@ -2618,7 +2618,7 @@ void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG co
 	engine.ClipFlag=temp;
 }
 
-void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE *str,UBYTE col)
+void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE* str,UBYTE col)
 {
 	struct	SVector	p1;
 	struct	SVector	res1,res2;
@@ -3109,7 +3109,7 @@ void	draw_map_thing(SLONG	map_thing)
 	switch(p_mthing->Type)
 	{
 		case	MAP_THING_TYPE_ANIM_PRIM:
-extern	void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
+extern void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
 			//			break;
 			rotate_obj	(
 							p_mthing->AngleX,
@@ -3149,11 +3149,11 @@ extern	void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,
 
 				SLONG	px,py,pz,y;
 
-extern	void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
+extern void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
 
 				find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
-extern	SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 				y=find_alt_for_this_pos(p_mthing->X,p_mthing->Z);
 //				y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
 				y-=py;
@@ -3165,7 +3165,7 @@ extern	SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 
 				SLONG	px,py,pz,y;
 
-extern	void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
+extern void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
 
 				find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
@@ -3401,7 +3401,7 @@ SLONG	add_floor_tri_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLONG
 	setShade3((struct BucketTri*)current_bucket_pool,s1,s2,s3);
 	((struct BucketTri*)current_bucket_pool)->DebugInfo=z1;
 	((struct BucketTri*)current_bucket_pool)->DebugFlags=0;
-	add_bucket((void *)current_bucket_pool,az+300);
+	add_bucket((void* )current_bucket_pool,az+300);
 
 
 	current_bucket_pool	+=	sizeof(struct BucketTri);
@@ -3548,7 +3548,7 @@ SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLON
 	setShade4((struct BucketQuad*)current_bucket_pool,s1,s2,s3,s4);
 	((struct BucketQuad*)current_bucket_pool)->DebugInfo=z1;
 	((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
-	add_bucket((void *)current_bucket_pool,az+300);
+	add_bucket((void* )current_bucket_pool,az+300);
 
 
 
@@ -4631,7 +4631,7 @@ void	init_editor()
 	PAP_clear();
 
 	clear_map();
-extern	void	init_map();
+extern void	init_map();
 	init_map();
 /*
 	edit_map_eles[0].CubeType.Prim=255;

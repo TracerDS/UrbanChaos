@@ -13,19 +13,19 @@
 
 
 
-extern	UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect);         //prim.c??
-extern	void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect);         //prim.c??
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,struct  SMatrix31* mat2);
 
 #ifdef	EDITOR
-extern	void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3);   //prim_edit.h
-extern	void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2);             //prim_edit.h
-extern	bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face); //edit.h
-extern	bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face); //edit.h
-extern	struct SVector	selected_prim_xyz;
-extern	SWORD	SelectFlag;
-extern	SWORD	SelectDrawn;
+extern void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3);   //prim_edit.h
+extern void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2);             //prim_edit.h
+extern bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face); //edit.h
+extern bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face); //edit.h
+extern struct SVector	selected_prim_xyz;
+extern SWORD	SelectFlag;
+extern SWORD	SelectDrawn;
 #endif
 
 
@@ -100,7 +100,7 @@ void	add_quad_to_bucket(SLONG p0,SLONG p1,SLONG p2,SLONG p3,struct SVector *res,
 			CLIP256(p_f4->Bright[2]+bright[p2]),
 			CLIP256(p_f4->Bright[3]+bright[p3]));
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 			current_bucket_pool	+=	sizeof(struct BucketQuad);
 		}
 	
@@ -151,7 +151,7 @@ inline void	add_split_quad_to_bucket(SLONG p0,SLONG p1,SLONG p3,SLONG p2,struct 
 							info[p0].Z,info[p1].Z,
 							info[p2].Z,info[p3].Z);
 
-		add_bucket((void *)current_bucket_pool,az);
+		add_bucket((void* )current_bucket_pool,az);
 		current_bucket_pool	+=	sizeof(struct BucketQuad);
 	}
 	
@@ -408,7 +408,7 @@ inline void	split_quad(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res,s
 //	add_quad_to_bucket(p0,p1,p2,p3,res,points,bright,flags,p_f4);
 }
 
-extern	UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3);
+extern UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3);
 
 void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 {
@@ -594,7 +594,7 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 					((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 					((struct BucketQuad*)current_bucket_pool)->DebugFlags=p_f4->FaceFlags;
 
-					add_bucket((void *)current_bucket_pool,az);
+					add_bucket((void* )current_bucket_pool,az);
 #ifdef	EDITOR
 					if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
 					{
@@ -717,7 +717,7 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 #ifdef	EDITOR
 			if(check_mouse_over_prim_tri(global_res,p0,p1,p2,c0))
 			{
@@ -860,7 +860,7 @@ void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	Pr
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketQuad*)current_bucket_pool)->DebugFlags=p_f4->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 #ifdef	EDITOR
@@ -899,7 +899,7 @@ void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	Pr
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 #ifdef	EDITOR
 			check_mouse_over_prim_tri(global_res,p0,p1,p2,c0);
 #endif
@@ -910,7 +910,7 @@ void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	Pr
 	}
 					
 }
-extern	void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
+extern void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
 
 void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
 {
@@ -1061,7 +1061,7 @@ void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -1113,7 +1113,7 @@ void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 				((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 				((struct BucketTri*)current_bucket_pool)->DebugFlags=0;
 				
-				add_bucket((void *)current_bucket_pool,az);
+				add_bucket((void* )current_bucket_pool,az);
 
 				current_bucket_pool+=sizeof(struct BucketTri);
 
@@ -1164,7 +1164,7 @@ void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}

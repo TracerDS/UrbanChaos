@@ -167,7 +167,7 @@ void	free_mission(UWORD mission)
 
 //---------------------------------------------------------------
 
-void	init_mission(UWORD mission_ref,CBYTE *mission_name)
+void	init_mission(UWORD mission_ref,CBYTE* mission_name)
 {
 	UWORD		c0;
 	Mission		*the_mission;
@@ -1194,7 +1194,7 @@ void SetEPTextID(EventPoint *ep, SLONG value) {
 	ep->Data[9]=value;
 }
 
-CBYTE *GetEPText(EventPoint *ep) {
+CBYTE* GetEPText(EventPoint *ep) {
 	if (!ep->Data[0]) return 0;
 	return (CBYTE*)(ep->Data[0]);
 }
@@ -1646,7 +1646,7 @@ bool valid_mission() {
 	// street names when they are not.
 	//
 
-	CBYTE *title = "Is this message a street or place name?";
+	CBYTE* title = "Is this message a street or place name?";
 
 	FILE *handle;
 	
@@ -1679,7 +1679,7 @@ bool valid_mission() {
 			{
 				if (ep->Data[0])
 				{
-					extern SLONG is_street_name(CBYTE *str_in);
+					extern SLONG is_street_name(CBYTE* str_in);
 
 					if (ep->Data[2] == 0xffff)
 					{
@@ -1695,7 +1695,7 @@ bool valid_mission() {
 						//
 					}
 					else
-					if (is_street_name((CBYTE *) ep->Data[0]))
+					if (is_street_name((CBYTE* ) ep->Data[0]))
 					{
 						CBYTE mess[512];
 

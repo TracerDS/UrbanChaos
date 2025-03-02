@@ -29,12 +29,12 @@
 PrimInfo *prim_info;//[256];//MAX_PRIM_OBJECTS];
 
 #if !defined(PSX) && !defined(TARGET_DC)
-struct	SVector			global_res[15560]; //max points per object?
-SLONG	global_flags[15560];
-UWORD	global_bright[15560];
+struct SVector			global_res[15560]; //max points per object?
+SLONG global_flags[15560];
+UWORD global_bright[15560];
 #endif
 
-extern	struct KeyFrameChunk 	*test_chunk;
+extern struct KeyFrameChunk 	*test_chunk;
 
 
 
@@ -43,11 +43,11 @@ extern	struct KeyFrameChunk 	*test_chunk;
 #define	USED_FACE4	(1<<2)
 
 #ifndef PSX
-CBYTE	prim_names[MAX_PRIM_OBJECTS][32];
+CBYTE prim_names[MAX_PRIM_OBJECTS][32];
 #endif
 
 #ifndef PSX
-void	delete_prim_points_block(SLONG start,SLONG count)
+void delete_prim_points_block(SLONG start,SLONG count)
 {
 	SLONG	c0;
 
@@ -58,7 +58,7 @@ void	delete_prim_points_block(SLONG start,SLONG count)
 	next_prim_point-=count;
 }
 
-void	delete_prim_faces3_block(SLONG start,SLONG count)
+void delete_prim_faces3_block(SLONG start,SLONG count)
 {
 	SLONG	c0;
 
@@ -69,7 +69,7 @@ void	delete_prim_faces3_block(SLONG start,SLONG count)
 	next_prim_face3-=count;
 }
 
-void	delete_prim_faces4_block(SLONG start,SLONG count)
+void delete_prim_faces4_block(SLONG start,SLONG count)
 {
 	SLONG	c0;
 
@@ -84,7 +84,7 @@ void	delete_prim_faces4_block(SLONG start,SLONG count)
 // adjusts all the point references in the face structures
 // because we have deleted a block of points
 //
-void	fix_faces_for_del_points(SLONG start,SLONG count)
+void fix_faces_for_del_points(SLONG start,SLONG count)
 {
 	SLONG	c0,c1;
 	for(c0=1;c0<next_prim_face3;c0++)
@@ -109,7 +109,7 @@ void	fix_faces_for_del_points(SLONG start,SLONG count)
 	}
 }
 
-void	fix_objects_for_del_points(SLONG start,SLONG count)
+void fix_objects_for_del_points(SLONG start,SLONG count)
 {
 	SLONG	c0,c1;
 	for(c0=1;c0<next_prim_object;c0++)
@@ -122,7 +122,7 @@ void	fix_objects_for_del_points(SLONG start,SLONG count)
 	}
 }
 
-void	fix_objects_for_del_faces3(SLONG start,SLONG count)
+void fix_objects_for_del_faces3(SLONG start,SLONG count)
 {
 	SLONG	c0,c1;
 	for(c0=1;c0<next_prim_object;c0++)
@@ -135,7 +135,7 @@ void	fix_objects_for_del_faces3(SLONG start,SLONG count)
 	}
 }
 
-void	fix_objects_for_del_faces4(SLONG start,SLONG count)
+void fix_objects_for_del_faces4(SLONG start,SLONG count)
 {
 	SLONG	c0,c1;
 	for(c0=1;c0<next_prim_object;c0++)
@@ -148,7 +148,7 @@ void	fix_objects_for_del_faces4(SLONG start,SLONG count)
 	}
 }
 
-void	compress_prims()
+void compress_prims()
 {
 #if !defined(PSX) && !defined(TARGET_DC)
 	SLONG	c0,c1;
@@ -248,7 +248,7 @@ void	compress_prims()
 
 
 
-void	clear_prims()
+void clear_prims()
 {
 	SLONG c0;
 	//
@@ -269,7 +269,7 @@ void	clear_prims()
 }
 
 // Smooth lighting on a prim
-SLONG	sum_shared_brightness_prim(SWORD shared_point,struct PrimObject *p_obj)
+SLONG sum_shared_brightness_prim(SWORD shared_point,struct PrimObject *p_obj)
 {
 	SLONG	c0,point;
 	SLONG	face;
@@ -302,7 +302,7 @@ SLONG	sum_shared_brightness_prim(SWORD shared_point,struct PrimObject *p_obj)
 		return(0);
 }
 
-void	set_shared_brightness_prim(SWORD shared_point,SWORD bright,struct PrimObject *p_obj)
+void set_shared_brightness_prim(SWORD shared_point,SWORD bright,struct PrimObject *p_obj)
 {
 	SLONG	c0,point;
 	SLONG	face;
@@ -329,7 +329,7 @@ void	set_shared_brightness_prim(SWORD shared_point,SWORD bright,struct PrimObjec
 
 
 
-void	smooth_a_prim(SLONG prim)
+void smooth_a_prim(SLONG prim)
 {
 	SLONG	face;
 	SLONG	bright;
@@ -374,7 +374,7 @@ void	smooth_a_prim(SLONG prim)
  *
  */
 
-SLONG	copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing)
+SLONG copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing)
 {
 	SLONG	c0;
 	struct	PrimObject	*p_obj;
@@ -441,7 +441,7 @@ SLONG	copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing)
 	return(end_prim_object+1);
 }
 
-void	delete_prim_points(SLONG start,SLONG end)
+void delete_prim_points(SLONG start,SLONG end)
 {
 	SLONG	c0,offset;
 	offset=end-start;
@@ -473,7 +473,7 @@ void	delete_prim_points(SLONG start,SLONG end)
 			prim_faces4[c0].Points[3]-=offset;
 	}
 }
-void	delete_prim_faces3(SLONG start,SLONG end)
+void delete_prim_faces3(SLONG start,SLONG end)
 {
 	SLONG	c0,offset;
 	offset=end-start;
@@ -492,7 +492,7 @@ void	delete_prim_faces3(SLONG start,SLONG end)
 	}
 }
 
-void	delete_prim_faces4(SLONG start,SLONG end)
+void delete_prim_faces4(SLONG start,SLONG end)
 {
 	SLONG	c0,offset;
 	offset=end-start;
@@ -511,7 +511,7 @@ void	delete_prim_faces4(SLONG start,SLONG end)
 	}
 }
 
-void	delete_prim_objects(SLONG start,SLONG end)
+void delete_prim_objects(SLONG start,SLONG end)
 {
 	SLONG	c0,offset;
 	offset=end-start;
@@ -522,7 +522,7 @@ void	delete_prim_objects(SLONG start,SLONG end)
 	}
 }
 
-void	delete_last_prim()
+void delete_last_prim()
 {
 	next_prim_point=prim_objects[next_prim_object-1].StartPoint;
 	next_prim_face3=prim_objects[next_prim_object-1].StartFace3;
@@ -531,7 +531,7 @@ void	delete_last_prim()
 }
 
 
-void	delete_a_prim(UWORD prim)
+void delete_a_prim(UWORD prim)
 {
 	SLONG	c0;
 
@@ -555,7 +555,7 @@ void	delete_a_prim(UWORD prim)
 
 //void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SWORD bright)
 /*
-UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect)
+UWORD calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect)
 {
 	SLONG	dx,dy,dz,dist;
 	SLONG	lx,ly,lz;
@@ -587,7 +587,7 @@ UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect)
 */
 
 #ifndef	PSX
-void	calc_normal(SWORD	face,struct SVector *p_normal)
+void calc_normal(SWORD	face,struct SVector *p_normal)
 {
 	SLONG	vx,vy,vz,wx,wy,wz;
 	struct	PrimFace3 *this_face3;
@@ -667,7 +667,7 @@ void	calc_normal(SWORD	face,struct SVector *p_normal)
 
 }
 
-void	quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz)
+void quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz)
 {
 	SLONG	vx,vy,vz,wx,wy,wz;
 	struct	PrimFace3 *this_face3;
@@ -713,7 +713,7 @@ void	quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz)
 #define	in_shadow(x,y,z,i,j,k)	0
 #define	in_shadowo(x,y,z,i,j,k)	0
 
-UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense)
+UWORD apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense)
 {
 //	SLONG	length,vx,vy,vz,wx,wy,wz;
 	struct	MyMapElement*	me;
@@ -2050,7 +2050,7 @@ UBYTE prim_get_shadow_type(SLONG prim)
 
 
 #ifndef PSX
-void	fn_anim_prim_normal(Thing *p_thing)
+void fn_anim_prim_normal(Thing *p_thing)
 {
 	Switch		*the_switch;
 	SLONG	     tween_step;
@@ -2128,7 +2128,7 @@ void	fn_anim_prim_normal(Thing *p_thing)
 	}
 }
 
-void	create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw)
+void create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw)
 {
  	SLONG	new_thing;
 	Thing	*t_thing;
@@ -2192,7 +2192,7 @@ void	create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw)
 	}
 }
 
-void	set_anim_prim_anim(SLONG anim_prim, SLONG anim)
+void set_anim_prim_anim(SLONG anim_prim, SLONG anim)
 {
 	Thing *t_thing = TO_THING(anim_prim);
 
@@ -2519,7 +2519,7 @@ void mark_prim_objects_as_unloaded()
 
 
 #ifndef	PSX
-void	re_center_prim(SLONG prim,SLONG dx,SLONG dy,SLONG dz)
+void re_center_prim(SLONG prim,SLONG dx,SLONG dy,SLONG dz)
 {
  	SLONG	c0;
 	struct	PrimObject	*p_obj;

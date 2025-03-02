@@ -23,9 +23,9 @@ typedef struct
 
 //---------------------------------------------------------------
 
-extern	void	set_state_function(Thing *t_thing,UBYTE state);
-extern	void	set_generic_person_state_function(Thing *t_thing,UBYTE state);
-extern	void	set_generic_person_just_function(Thing *t_thing,UBYTE state);
+extern void	set_state_function(Thing *t_thing,UBYTE state);
+extern void	set_generic_person_state_function(Thing *t_thing,UBYTE state);
+extern void	set_generic_person_just_function(Thing *t_thing,UBYTE state);
 
 //---------------------------------------------------------------
 

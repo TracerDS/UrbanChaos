@@ -283,9 +283,9 @@ ULONG MCARD_Icon[]={
 	0x5448457b, 0xbfb33336, 0x1a7777ab, 0xbbbbbbb3, 0x4888663e, 0xbbbbbb36, 0xa7777a1e, 0xbbbbb3fb
 };
 
-extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id,SLONG flag);
-extern void	draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id);
-extern void	PCReadFile(CBYTE *name,UBYTE *addr,ULONG len);
+extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
+extern void	draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id);
+extern void	PCReadFile(CBYTE* name,UBYTE *addr,ULONG len);
 
 extern int sfx_volume;
 extern int music_volume;
@@ -411,7 +411,7 @@ int Wadmenu_textlow=0x001f1f1f;
 #define WADMENU_FILETEMPLATE		"urban\\level%02d\\level.nad"
 #endif
 
-extern SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count);
+extern SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count);
 extern void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
 
 extern char level_done[48];
@@ -421,7 +421,7 @@ extern UBYTE Wadmenu_PadType;
 void Wadmenu_ReadWads(char *fname)
 {
 	if (brief_mem)
-		MemFree((void *)brief_mem);
+		MemFree((void* )brief_mem);
 	
 	brief_mem=(char *)MemAlloc((sizeof(BriefEntry)*MAX_BRIEFING)+4);
 
@@ -435,7 +435,7 @@ void Wadmenu_ClearWads()
 {
 	if (brief_mem)
 	{
-		MemFree((void *)brief_mem);
+		MemFree((void* )brief_mem);
 		brief_mem=0;
 	}
 }
@@ -446,10 +446,10 @@ extern SLONG MDEC_Play(char *fname,int len,int lang);
 
 #define MAX_IN_ONE		8
 
-char	Wadmenu_level[MAX_IN_ONE];
-SLONG	Wadmenu_levels_used;
+char Wadmenu_level[MAX_IN_ONE];
+SLONG Wadmenu_levels_used;
 
-char	Wadmenu_group[48];
+char Wadmenu_group[48];
 
 void Wadmenu_BuildAvailable()
 {
@@ -559,9 +559,9 @@ UBYTE wadmenu_f_width[]={
 
 };
 
-SLONG Wadmenu_text_width2(CBYTE *message)
+SLONG Wadmenu_text_width2(CBYTE* message)
 {
-	CBYTE *p=message;
+	CBYTE* p=message;
 	SLONG width=0;
 
 	while(*p)
@@ -573,7 +573,7 @@ SLONG Wadmenu_text_width2(CBYTE *message)
 	return width;
 }
 
-void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id)
+void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 {
 #ifndef VERSION_KANJI
 	SPRT *p;
@@ -1443,11 +1443,11 @@ void Wadmenu_PadConfigFree(TIM_IMAGE *tim)
 	}
 }
 
-void Wadmenu_BadCop(TIM_IMAGE *tim,CBYTE *mess)
+void Wadmenu_BadCop(TIM_IMAGE *tim,CBYTE* mess)
 {
 	SLONG line,x;
 	CBYTE buf[80];
-	CBYTE *p,*p2;
+	CBYTE* p,*p2;
 
 	int awaiting=1;
 
@@ -1561,7 +1561,7 @@ char *Wadmenu_DoCredits(TIM_IMAGE *tim)
 	int awaiting=1;
 	int cred_off=0;
 	int delay;
-	CBYTE *chr_buf;
+	CBYTE* chr_buf;
 
 //	credit=(CreditData*)MemAlloc(6144);
 
@@ -2255,7 +2255,7 @@ void Wadmenu_NewMenu(WadMenuItem *menu,SLONG selected)
 //	Wadmenu_oldtitle=menu[i].name;
 }
 
-SLONG	part_leaf_col[]={
+SLONG part_leaf_col[]={
 	0x00634040,
 	0x00406340,
 	0x004f4f40,
@@ -2581,7 +2581,7 @@ void Wadmenu_LoadingScreen(TIM_IMAGE *tim)
 //	Wadmenu_draw_text(296,192,W_(WAD_LOADING),MENU_TEXTHIGH,WADMENU_TEXT_BIG|WADMENU_TEXT_RIGHT);
 	AENG_flip2(tim[0].paddr);
 
-	MemFree((void *)Back_Image);
+	MemFree((void* )Back_Image);
 }
 
 #ifdef VERSION_DEMO
@@ -2624,7 +2624,7 @@ extern UBYTE my_heap[];
 	for(i=0;i<150;i++)
 		VSync(0);
 
-//	MemFree((void *)Back_Image);
+//	MemFree((void* )Back_Image);
 }
 
 void Wadmenu_Features()
@@ -3126,7 +3126,7 @@ void Wadmenu_Introduction()
 	Wadmenu_AutoLoadInfo();
 #endif
 	vibra_mode=0;
-void	InitVideo();
+void InitVideo();
 	InitVideo();
 
 	ClearImage(&r,0,0,0);
@@ -3570,7 +3570,7 @@ SLONG Wadmenu_MCARD_Check(SLONG mode)
 // the controller button presses and set the mode dependant
 // on weither it is pressed or not.
 
-SWORD	MCard_message;
+SWORD MCard_message;
 
 SLONG Wadmenu_MCARD_Select(SLONG mode,SLONG selmode)
 {
@@ -3994,10 +3994,10 @@ void Wadmenu_AutoLoadInfo()
 }
 
 
-void Wadmenu_Encrypt(CBYTE *code, SLONG level)
+void Wadmenu_Encrypt(CBYTE* code, SLONG level)
 {
 	SLONG i;
-	CBYTE *pack1,*pack2,*pack;
+	CBYTE* pack1,*pack2,*pack;
 	SLONG seed;
 
 	// Build a random seed specifically for this level
@@ -4026,7 +4026,7 @@ void Wadmenu_Encrypt(CBYTE *code, SLONG level)
 	code[11]=0;
 }
 
-void Wadmenu_GenerateCode(CBYTE *code,SLONG level,SLONG time)
+void Wadmenu_GenerateCode(CBYTE* code,SLONG level,SLONG time)
 {
 	SLONG h,m,s,i;
 

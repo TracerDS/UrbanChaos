@@ -85,7 +85,7 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
 
  	pMMStream->GetMediaStream(MSPID_PrimaryVideo, &pPrimaryVidStream);
 	ASSERT ( pPrimaryVidStream != NULL );
- 	pPrimaryVidStream->QueryInterface(IID_IDirectDrawMediaStream, (void **)&pDDStream);
+ 	pPrimaryVidStream->QueryInterface(IID_IDirectDrawMediaStream, (void* *)&pDDStream);
 	ASSERT ( pDDStream != NULL );
 
 	InitStruct(ddsd);
@@ -176,7 +176,7 @@ void RenderFileToMMStream(const char * szFileName, IMultiMediaStream **ppMMStrea
 		NULL,
 		CLSCTX_INPROC_SERVER,
 		IID_IAMMultiMediaStream,
-		(void **)&pAMStream);
+		(void* *)&pAMStream);
 
 	WCHAR wPath[MAX_PATH];		// Wide (32-bit) string name
 
@@ -217,9 +217,9 @@ void RenderFileToMMStream(const char * szFileName, IMultiMediaStream **ppMMStrea
 	*ppMMStream = pAMStream;
 }
 
-extern	CBYTE	DATA_DIR[];
+extern CBYTE	DATA_DIR[];
 
-void InitBackImage(CBYTE *name)
+void InitBackImage(CBYTE* name)
 {
 	MFFileHandle	image_file;
 	SLONG	height;
@@ -643,7 +643,7 @@ HRESULT	Display::InitInterfaces(void)
     }
 
     // Get DD4 interface
-	result	=	lp_DD->QueryInterface((REFIID)IID_IDirectDraw4,(void **)&lp_DD4);
+	result	=	lp_DD->QueryInterface((REFIID)IID_IDirectDraw4,(void* *)&lp_DD4);
 	if(FAILED(result))
 	{
         // Error
@@ -655,7 +655,7 @@ HRESULT	Display::InitInterfaces(void)
     }
 
     // Get D3D interface
-	result	=	lp_DD4->QueryInterface((REFIID)IID_IDirect3D3,(void **)&lp_D3D);
+	result	=	lp_DD4->QueryInterface((REFIID)IID_IDirect3D3,(void* *)&lp_D3D);
 	if(FAILED(result))
     {
         // Error
@@ -2072,7 +2072,7 @@ HRESULT	Display::ShowWorkScreen(void)
 	return	lp_DD_FrontSurface->Blt(&DisplayRect,lp_DD_WorkSurface,NULL,DDBLT_WAIT,NULL);
 }
 
-void *Display::screen_lock(void)
+void* Display::screen_lock(void)
 {
 	if (DisplayFlags & DISPLAY_LOCKED)
 	{

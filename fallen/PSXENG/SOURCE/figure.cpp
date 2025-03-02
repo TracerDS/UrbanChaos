@@ -21,7 +21,7 @@
 #include	"ctrller.h"
 
 //SLONG	highest=0;
-extern	ULONG	available_bucket_ram();
+extern ULONG	available_bucket_ram();
 
 extern ControllerPacket PAD_Input1,PAD_Input2;
 
@@ -31,9 +31,9 @@ extern UWORD floor_psx_col[128][128];
 extern PSX_POLY_Point *perm_pp_array;
 
 int ware_flag;
-extern	void	check_prim_ptr_ni(void **x);
+extern void	check_prim_ptr_ni(void* *x);
 
-//extern	UWORD	debug_count[10];
+//extern UWORD	debug_count[10];
 
 #define	RED(col)	(((col) >> 8) & 0xfc)
 #define	GREEN(col)	(((col) >> 2) & 0xf8)
@@ -42,13 +42,13 @@ extern	void	check_prim_ptr_ni(void **x);
 #define	MAX_STEAM	100
 						   
 extern SLONG	steam_seed;
-extern	void	fuck_z(PSX_POLY_Point *pp);
+extern void	fuck_z(PSX_POLY_Point *pp);
 
 extern SLONG	get_steam_rand(void**);
 #define	MAT_SHIFT	(6)
 #define	MAT_SHIFTD	(8-MAT_SHIFT)
 
-void	build_peep_rot_matrix(SLONG yaw,SLONG roll,MATRIX *m)
+void build_peep_rot_matrix(SLONG yaw,SLONG roll,MATRIX *m)
 {
 	SVECTOR r;
 
@@ -75,7 +75,7 @@ void	build_peep_rot_matrix(SLONG yaw,SLONG roll,MATRIX *m)
 //	m->t[2]=0;
 }
 
-void	draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
+void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
 {
 #ifndef PSX
 	SLONG	c0;
@@ -156,7 +156,7 @@ void	draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
 #endif
 }
 
-void	calc_floor_col(SLONG x,SLONG z,SLONG *r,SLONG *g,SLONG *b)
+void calc_floor_col(SLONG x,SLONG z,SLONG *r,SLONG *g,SLONG *b)
 {
 	SLONG	in;
 	SLONG	in1_r,in2_r,in3_r,in0_r;
@@ -222,7 +222,7 @@ void	calc_floor_col(SLONG x,SLONG z,SLONG *r,SLONG *g,SLONG *b)
 		*b=0;
 }
 
-void	build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween,SLONG shift)
+void build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween,SLONG shift)
 {
 	SLONG	v,w;
 
@@ -733,7 +733,7 @@ SLONG FIGURE_draw_prim_tween(
 	
 }
 /*
-MATRIX	light_mat={{{2364,2364,2364},
+MATRIX light_mat={{{2364,2364,2364},
 					{0,0,0},{0,0,0} },
 //					{2364,2364,2364},
 //					{2364,2364,2364} },
@@ -743,7 +743,7 @@ MATRIX	light_mat={{{2364,2364,2364},
 //MATRIX	 comb_matrix;
 
 #define	MAT_SHIFT	(3)
-void	build_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1)
+void build_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1)
 {
 	SLONG	v,w;
 
@@ -822,7 +822,7 @@ void POLY_build_no_tween_matrix(GameKeyFrameElement *anim_info,GameKeyFrameEleme
 
 }
 
-void	set_light_matrix( MATRIX *comb_matrix_local)
+void set_light_matrix( MATRIX *comb_matrix_local)
 {
 	MATRIX	light_dir;
 
@@ -839,10 +839,10 @@ void	set_light_matrix( MATRIX *comb_matrix_local)
 
 
 
-extern	UWORD	darci_normal_count;
-extern	UWORD	*darci_normal;
+extern UWORD	darci_normal_count;
+extern UWORD	*darci_normal;
 
-void	 FIGURE_draw_prim_tween_lit(
+void FIGURE_draw_prim_tween_lit(
 		SLONG prim,
 		SLONG x,
 		SLONG y,
@@ -1534,11 +1534,11 @@ void	 FIGURE_draw_prim_tween_lit(
 //	return(return_value);
 }
 
-SWORD	mid_peep_z;
-UBYTE	draw_order[20];
+SWORD mid_peep_z;
+UBYTE draw_order[20];
 
-SWORD	store_z[20];
-SBYTE	part_offset[20]=
+SWORD store_z[20];
+SBYTE part_offset[20]=
 {
 	1,//"pelvis",
 	0,//"lfemur",
@@ -1561,9 +1561,9 @@ SBYTE	part_offset[20]=
 };
 
 
-SLONG	pers_off=0;
+SLONG pers_off=0;
 /*
-void	precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae1,GameKeyFrameElement *ae2,SLONG tween,MATRIX *r_matrix,SLONG z_bodge,SLONG ele_count)
+void precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae1,GameKeyFrameElement *ae2,SLONG tween,MATRIX *r_matrix,SLONG z_bodge,SLONG ele_count)
 {
 	struct GameKeyFrameElement *anim_info;
 	struct GameKeyFrameElement *anim_info_next;
@@ -1891,11 +1891,11 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 //
 // If you are the other side of a fence to the camera, then sort yourself away from the fence
 //
-extern	SLONG AENG_cam_yaw;
-extern	UBYTE WARE_get_caps(UBYTE ware,UBYTE x,UBYTE z,UBYTE dir);
+extern SLONG AENG_cam_yaw;
+extern UBYTE WARE_get_caps(UBYTE ware,UBYTE x,UBYTE z,UBYTE dir);
 
 
-inline	UBYTE peep_get_caps(UWORD ware,UBYTE x,UBYTE z,UBYTE dir)
+inline UBYTE peep_get_caps(UWORD ware,UBYTE x,UBYTE z,UBYTE dir)
 {
 /*
 	if(ware)
@@ -2025,10 +2025,10 @@ extern char GDisp_Bucket[];
 #endif
 
 
-CBYTE	str2[8];
+CBYTE str2[8];
 
 
-inline	void FIGURE_draw(Thing *p_thing)
+inline void FIGURE_draw(Thing *p_thing)
 {
 	SLONG dx;
 	SLONG dy;
@@ -2118,7 +2118,7 @@ inline	void FIGURE_draw(Thing *p_thing)
 		//
 		// stuff added for more compression of anims
 		//
-extern	struct	PrimPoint	*anim_mids; //[256];
+extern struct	PrimPoint	*anim_mids; //[256];
 
 		index1=dt->CurrentFrame->XYZIndex;
 		index2=dt->NextFrame->XYZIndex;
@@ -2281,7 +2281,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 /*
 	{
 		CBYTE	str2[6];
-extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 
 		sprintf(str2,"%d",sort_z_offset);
 
@@ -2400,9 +2400,9 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 #define	MAX_FIG	16
 
-UWORD	fig_count=0;
-ULONG	fig_dist[MAX_FIG];
-Thing	*fig_thing[MAX_FIG];	
+UWORD fig_count=0;
+ULONG fig_dist[MAX_FIG];
+Thing *fig_thing[MAX_FIG];	
 
 void sort_figure_queue()
 {
@@ -2436,7 +2436,7 @@ void sort_figure_queue()
 	}
 }
 
-extern	DrawTween	dead_tween;
+extern DrawTween	dead_tween;
 
 void FIGURE_draw_queued(Thing *p_thing,SLONG dist)
 {
@@ -2456,11 +2456,11 @@ void FIGURE_draw_queued(Thing *p_thing,SLONG dist)
 	fig_thing[fig_count]=p_thing;
 	fig_count++;
 }
-extern	UBYTE	remove_dead_people;
+extern UBYTE	remove_dead_people;
 
-extern	SLONG	my_draw_dist;
+extern SLONG	my_draw_dist;
 
-void	DoFigureDraw()
+void DoFigureDraw()
 {
 	PSX_POLY_Point	holdpp[4];
 	perm_pp_array=holdpp;

@@ -260,9 +260,9 @@ THING_INDEX VEHICLE_create(
 	return ans;
 }
 
-extern	void scan_walk_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLONG x2, SLONG y2, SLONG z2,SLONG face);
+extern void scan_walk_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLONG x2, SLONG y2, SLONG z2,SLONG face);
 
-void	add_walkable_quad(THING_INDEX index,SLONG cx,SLONG cy,SLONG cz,SLONG face)
+void add_walkable_quad(THING_INDEX index,SLONG cx,SLONG cy,SLONG cz,SLONG face)
 {
   	SLONG	x[4],y[4],z[4];
 	SLONG	c0,p0;
@@ -303,7 +303,7 @@ void	add_walkable_quad(THING_INDEX index,SLONG cx,SLONG cy,SLONG cz,SLONG face)
 	next_prim_face4++;
 }
 
-void	place_walkable_faces_for_prim(THING_INDEX index,SLONG prim)
+void place_walkable_faces_for_prim(THING_INDEX index,SLONG prim)
 {
 	SLONG	x,y,z;
 	SLONG	c0;
@@ -342,7 +342,7 @@ void	place_walkable_faces_for_prim(THING_INDEX index,SLONG prim)
 // for each furniture thing, scan for walkable faces, copy them, then index them to the thing
 //
 
-void	FURN_add_walkable()
+void FURN_add_walkable()
 {
 	THING_INDEX	current_thing;
 	Thing	*p_thing;

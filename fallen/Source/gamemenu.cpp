@@ -75,7 +75,7 @@ SLONG GAMEMENU_wait;
 // The reason you lost the level.
 //
 
-CBYTE *GAMEMENU_level_lost_reason;
+CBYTE* GAMEMENU_level_lost_reason;
 
 
 
@@ -511,7 +511,7 @@ SLONG GAMEMENU_slowdown_mul()
 }
 
 
-void GAMEMENU_set_level_lost_reason(CBYTE *reason)
+void GAMEMENU_set_level_lost_reason(CBYTE* reason)
 {
 	GAMEMENU_level_lost_reason = reason;
 }

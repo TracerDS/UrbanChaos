@@ -15,9 +15,9 @@
 SLONG MEM_bytes_used;
 
 
-void *MEM_alloc(SLONG num_bytes)
+void* MEM_alloc(SLONG num_bytes)
 {
-	void *ans;
+	void* ans;
 
 	ans = malloc(num_bytes);
 
@@ -29,7 +29,7 @@ void *MEM_alloc(SLONG num_bytes)
 }
 
 
-void MEM_free(void *memory)
+void MEM_free(void* memory)
 {
 	ASSERT(memory);
 
@@ -41,7 +41,7 @@ void MEM_free(void *memory)
 
 
 
-SLONG MEM_block_size(void *memory)
+SLONG MEM_block_size(void* memory)
 {
 	ASSERT(memory);
 

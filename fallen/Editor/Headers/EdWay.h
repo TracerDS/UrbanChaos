@@ -17,8 +17,8 @@ struct EditWaypoint
 	SLONG		X,Y,Z;
 };
 
-extern	ULONG				ed_waypoint_count;
-extern	EditWaypoint		edit_waypoints[MAX_EDIT_WAYPOINTS];
+extern ULONG				ed_waypoint_count;
+extern EditWaypoint		edit_waypoints[MAX_EDIT_WAYPOINTS];
 
 //---------------------------------------------------------------
 

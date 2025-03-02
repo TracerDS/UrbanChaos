@@ -12,7 +12,7 @@
 #endif
 
 
-HANDLE	MFHeap	=	NULL;
+HANDLE MFHeap	=	NULL;
 
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 struct HeapDebugInfo
@@ -29,7 +29,7 @@ int iNumNewDelTraces = 0;
 
 struct newdeltrace
 {
-	void *pvAddr;
+	void* pvAddr;
 	ULONG ulsize;
 	ULONG ulSequenceNumber;
 } ndtList[MAX_NUM_DELNEW_TRACES];
@@ -74,7 +74,7 @@ void DumpDebug ( void )
 
 //---------------------------------------------------------------
 
-bool	SetupMemory()
+bool SetupMemory()
 {
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 	pFirst = NULL;
@@ -92,7 +92,7 @@ bool	SetupMemory()
 
 //---------------------------------------------------------------
 
-void	ResetMemory()
+void ResetMemory()
 {
 	if(MFHeap)
 	{
@@ -107,7 +107,7 @@ void	ResetMemory()
 
 //---------------------------------------------------------------
 
-void	*MemAlloc(ULONG size)
+void* MemAlloc(ULONG size)
 {
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 	if ( bDumpDebug )
@@ -122,7 +122,7 @@ void	*MemAlloc(ULONG size)
 	size += sizeof ( HeapDebugInfo );
 #endif
 	size	=	(size+3)&0xfffffffc;
-	void *ptr = (void*)HeapAlloc(MFHeap,HEAP_ZERO_MEMORY,size);
+	void* ptr = (void*)HeapAlloc(MFHeap,HEAP_ZERO_MEMORY,size);
 	ASSERT ( ptr != NULL );
 
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
@@ -144,7 +144,7 @@ void	*MemAlloc(ULONG size)
 	return ptr;
 }
 
-void	*MemReAlloc(void *ptr, ULONG size)
+void* MemReAlloc(void* ptr, ULONG size)
 {
 	size = (size + 3) & 0xfffffffc;
 	ptr = (void*)HeapReAlloc(MFHeap, HEAP_ZERO_MEMORY, ptr, size);
@@ -155,7 +155,7 @@ void	*MemReAlloc(void *ptr, ULONG size)
 
 //---------------------------------------------------------------
 
-void	MemFree(void *mem_ptr)
+void MemFree(void* mem_ptr)
 {
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 	if ( bDumpDebug )
@@ -192,7 +192,7 @@ void	MemFree(void *mem_ptr)
 //---------------------------------------------------------------
 
 /*
-void	MemClear(void *mem_ptr,ULONG size)
+void MemClear(void* mem_ptr,ULONG size)
 {
 }
 */
@@ -205,17 +205,17 @@ void	MemClear(void *mem_ptr,ULONG size)
 #ifndef HEAP_DEBUGGING_PLEASE_BOB
 
 // Do nothing.
-void MFnewTrace ( void *pvAddr, size_t size )
+void MFnewTrace ( void* pvAddr, size_t size )
 {
 }
 
-void MFdeleteTrace ( void *pvAddr )
+void MFdeleteTrace ( void* pvAddr )
 {
 }
 
 #else //#ifndef HEAP_DEBUGGING_PLEASE_BOB
 
-void MFnewTrace ( void *pvAddr, size_t size )
+void MFnewTrace ( void* pvAddr, size_t size )
 {
 	if ( bDumpDebug )
 	{
@@ -230,7 +230,7 @@ void MFnewTrace ( void *pvAddr, size_t size )
 	iNumNewDelTraces++;
 }
 
-void MFdeleteTrace ( void *pvAddr )
+void MFdeleteTrace ( void* pvAddr )
 {
 	if ( bDumpDebug )
 	{

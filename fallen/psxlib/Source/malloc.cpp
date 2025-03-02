@@ -13,13 +13,13 @@
 #include <MFStdLib.h>
 
 typedef struct {
-	void *next;
+	void* next;
 	SLONG size;
 } DM_Header;
 
-void *free_list;
+void* free_list;
 
-void *dud_malloc_init(void* base,void* end)
+void* dud_malloc_init(void* base,void* end)
 {
 	DM_Header *head;
 
@@ -34,7 +34,7 @@ void *dud_malloc_init(void* base,void* end)
 	printf("Allocated %d bytes.\n",size-8);
 }
 
-void *dud_malloc(SLONG size)
+void* dud_malloc(SLONG size)
 {
 	// Align to 4 byte boundary and add 8 bytes for header size
 
@@ -51,7 +51,7 @@ void *dud_malloc(SLONG size)
 		p=(DM_Header*)addr;
 		p->next=0;
 		p->size=alloc_size;
-		return (void *)(addr+sizeof(DM_Header));
+		return (void* )(addr+sizeof(DM_Header));
 	}
 	else
 	{
@@ -101,7 +101,7 @@ void dud_defrag()
 	}
 }
 
-void dud_free(void *p)
+void dud_free(void* p)
 {
 	DM_Header *head=(DM_Header*)((SLONG)p-sizeof(DM_Header));
 

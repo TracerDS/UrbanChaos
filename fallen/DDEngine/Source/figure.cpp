@@ -63,7 +63,7 @@ SLONG FIGURE_alpha = 255;
 
 SLONG	steam_seed;
 
-extern	UWORD	alt_texture[];
+extern UWORD	alt_texture[];
 
 UBYTE	body_part_upper[]=
 {
@@ -879,7 +879,7 @@ SLONG	get_steam_rand()
 	return(steam_seed>>8);
 }
 
-extern	int AENG_detail_crinkles;
+extern int AENG_detail_crinkles;
 
 #define	MAX_STEAM	100
 void	draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
@@ -1003,7 +1003,7 @@ void    init_flames()
 	} else TRACE("Missing flame palette file.\n");
 }
 
-extern	int AENG_detail_skyline;
+extern int AENG_detail_skyline;
 
 void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 {
@@ -1389,7 +1389,7 @@ void FIGURE_rotate_obj(SLONG xangle,SLONG yangle,SLONG zangle, Matrix33 *r3)
 
 
 //UBYTE	store_dprod[500];
-extern	UBYTE TEXTURE_dontexist[];
+extern UBYTE TEXTURE_dontexist[];
 
 // 0->3
 // 4->7
@@ -2047,7 +2047,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 					pPrimObj->wNumMaterials++;
 					// Yes, this is a horrible way to do things - memory fragmented all over the place. Tough. Deal with it.
 					// And yes, I could use realloc(), but it doesn't seem to be very happy on the DC, so I won't.
-					void *pOldMats = (void *)pPrimObj->pMaterials;
+					void* pOldMats = (void* )pPrimObj->pMaterials;
 					pPrimObj->pMaterials = (PrimObjectMaterial *)MemAlloc ( pPrimObj->wNumMaterials * sizeof ( *pMaterial ) );
 					ASSERT ( pPrimObj->pMaterials != NULL );
 					if ( pPrimObj->pMaterials == NULL ) { DeadAndBuried ( 0x001f001f ); }
@@ -2953,7 +2953,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 	pcBlock += TPO_iNumListIndices * sizeof ( UWORD );
 
 	// Now the verts, aligned to 32 bytes lines.
-	pPrimObj->pD3DVertices = (void *)( ( (DWORD)pcBlock + 31 ) & ~31 );
+	pPrimObj->pD3DVertices = (void* )( ( (DWORD)pcBlock + 31 ) & ~31 );
 	memcpy ( pPrimObj->pD3DVertices , TPO_pVert, TPO_iNumVertices * sizeof ( D3DVERTEX ) );
 	pcBlock = (char *)pPrimObj->pD3DVertices + TPO_iNumVertices * sizeof ( D3DVERTEX );
 
@@ -2965,8 +2965,8 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 
 #if 0
-	//void *pPermanentVerts = MemAlloc ( 32 + TPO_iNumVertices * sizeof ( D3DVERTEX ) );
-	pPermanentVerts  = (void *)( ( (DWORD)pPermanentVerts + 31 ) & ~31 );
+	//void* pPermanentVerts = MemAlloc ( 32 + TPO_iNumVertices * sizeof ( D3DVERTEX ) );
+	pPermanentVerts  = (void* )( ( (DWORD)pPermanentVerts + 31 ) & ~31 );
 	ASSERT ( pPermanentVerts != NULL );
 	memcpy ( pPermanentVerts, TPO_pVert, TPO_iNumVertices * sizeof ( D3DVERTEX ) );
 	pPrimObj->pD3DVertices = pPermanentVerts;
@@ -3905,7 +3905,7 @@ static int iCounter = 0;
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -3986,7 +3986,7 @@ extern DIJOYSTATE the_state;
 			(the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					3,
 					wTempVerts,
 					4,
@@ -3997,7 +3997,7 @@ extern DIJOYSTATE the_state;
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -4013,7 +4013,7 @@ extern DIJOYSTATE the_state;
 			hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -4021,7 +4021,7 @@ extern DIJOYSTATE the_state;
 			hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -4029,7 +4029,7 @@ extern DIJOYSTATE the_state;
 			hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -4188,7 +4188,7 @@ extern DIJOYSTATE the_state;
 			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
-			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 4, wIndices, 5, D3DDP_MULTIMATRIX );
+			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void* )&d3dmm, 4, wIndices, 5, D3DDP_MULTIMATRIX );
 			ASSERT ( SUCCEEDED ( hres ) );
 		}
 		else
@@ -4310,7 +4310,7 @@ extern DIJOYSTATE the_state;
 			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
-			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 3, wIndices, 4, D3DDP_MULTIMATRIX );
+			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void* )&d3dmm, 3, wIndices, 4, D3DDP_MULTIMATRIX );
 			ASSERT ( SUCCEEDED ( hres ) );
 		}
 		else
@@ -4558,7 +4558,7 @@ extern DIJOYSTATE the_state;
 						pa->RS.SetChanged();
 						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
-						HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 4, wIndices, 5, D3DDP_MULTIMATRIX );
+						HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void* )&d3dmm, 4, wIndices, 5, D3DDP_MULTIMATRIX );
 						ASSERT ( SUCCEEDED ( hres ) );
 
 
@@ -4876,7 +4876,7 @@ extern DIJOYSTATE the_state;
 						pa->RS.SetChanged();
 						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
-						HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 3, wIndices, 4, D3DDP_MULTIMATRIX );
+						HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void* )&d3dmm, 3, wIndices, 4, D3DDP_MULTIMATRIX );
 						ASSERT ( SUCCEEDED ( hres ) );
 
 					}
@@ -6295,7 +6295,7 @@ extern DIJOYSTATE the_state;
 			(the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					3,
 					wTempVerts,
 					4,
@@ -6306,7 +6306,7 @@ extern DIJOYSTATE the_state;
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -7554,7 +7554,7 @@ void FIGURE_draw(Thing *p_thing)
 		//
 		// stuff added for more compression of anims
 		//
-extern	struct	PrimPoint	*anim_mids; //[256];
+extern struct	PrimPoint	*anim_mids; //[256];
 
 		index1=dt->CurrentFrame->XYZIndex;
 		index2=dt->NextFrame->XYZIndex;
@@ -10053,7 +10053,7 @@ static int iCounter = 0;
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,
@@ -10134,7 +10134,7 @@ extern DIJOYSTATE the_state;
 			(the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					3,
 					wTempVerts,
 					4,
@@ -10145,7 +10145,7 @@ extern DIJOYSTATE the_state;
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive (
 					D3DPT_TRIANGLELIST,
 					D3DFVF_VERTEX,
-					(void *)&d3dmm,
+					(void* )&d3dmm,
 					pMat->wNumVertices,
 					pwStripIndices,
 					pMat->wNumStripIndices,

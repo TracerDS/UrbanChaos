@@ -20,7 +20,7 @@
 // Star: 125, 70, 100
 //
 
-void SKY_init(CBYTE *star_file);
+void SKY_init(CBYTE* star_file);
 
 
 

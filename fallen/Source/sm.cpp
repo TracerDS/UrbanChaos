@@ -33,7 +33,7 @@ typedef struct
 #define SM_MAX_SPHERES 1024
 
 SM_Sphere SM_sphere[SM_MAX_SPHERES];
-SLONG     SM_sphere_upto;
+SLONG SM_sphere_upto;
 
 
 //
@@ -51,7 +51,7 @@ typedef struct
 #define SM_MAX_LINKS 1024
 
 SM_Link SM_link[SM_MAX_LINKS];
-SLONG   SM_link_upto;
+SLONG SM_link_upto;
 
 
 //
@@ -73,7 +73,7 @@ typedef struct
 #define SM_MAX_OBJECTS 16
 
 SM_Object SM_object[SM_MAX_OBJECTS];
-SLONG     SM_object_upto;
+SLONG SM_object_upto;
 
 
 
@@ -441,7 +441,7 @@ void SM_process()
 // Getting the spheres.
 //
 
-SLONG   SM_get_upto;
+SLONG SM_get_upto;
 SM_Info SM_get_info;
 
 void SM_get_start()

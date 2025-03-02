@@ -38,7 +38,7 @@ static FileClump*	tclump = NULL;
 static bool			writing;
 static bool			init_convert = false;
 
-TGA_Info	TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink = true);
+TGA_Info	TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink = true);
 
 #ifndef TARGET_DC
 static void		TGA_make_conversion_tables(void);
@@ -153,7 +153,7 @@ TGA_Info TGA_load(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixe
 //
 // load a TGA from file
 
-TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink)
+TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink)
 {
 
 
@@ -782,7 +782,7 @@ static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, 
 	return ti;
 }
 
-TGA_Info TGA_load_remap(const CBYTE *file,const CBYTE *pname,SLONG max_width,SLONG max_height,TGA_Pixel *data)
+TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLONG max_height,TGA_Pixel *data)
 {
 	SLONG i;
 	SLONG x;
@@ -1004,9 +1004,9 @@ TGA_Info TGA_load_remap(const CBYTE *file,const CBYTE *pname,SLONG max_width,SLO
 //
 // expects to load a 16 colour indexed palletised tga
 //
-extern	volatile HWND		hDDLibWindow;
+extern volatile HWND		hDDLibWindow;
 
-void	psx_load_error(CBYTE *err,const CBYTE *fname)
+void	psx_load_error(CBYTE* err,const CBYTE* fname)
 {
 #ifndef TARGET_DC
 	CBYTE title[256];
@@ -1026,7 +1026,7 @@ void	psx_load_error(CBYTE *err,const CBYTE *fname)
 }
 
 
-TGA_Info TGA_load_psx(const CBYTE *file,SLONG        max_width,SLONG        max_height,UBYTE   *data,UBYTE *pal)
+TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_height,UBYTE   *data,UBYTE *pal)
 {
 	SLONG i;
 	SLONG x;
@@ -1300,7 +1300,7 @@ UBYTE TGA_header[18] =
 };
 
 void TGA_save(
-		const CBYTE *file,
+		const CBYTE* file,
 		SLONG        width,
 		SLONG        height,
 		TGA_Pixel   *data,

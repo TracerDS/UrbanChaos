@@ -96,10 +96,10 @@ extern SLONG MFX_OnKey,MFX_OffKey;
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern	SLONG	SpecialClose(SLONG handle);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialClose(SLONG handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -109,7 +109,7 @@ extern	SLONG	SpecialClose(SLONG handle);
 #define	FileSeek(h,m,o) SpecialSeek(h,m,o)
 
 #ifdef PSX
-CBYTE *psx_game_name;
+CBYTE* psx_game_name;
 #endif
 
 #define	FILE_CLOSE_ERROR		((MFFileHandle)-101)
@@ -124,7 +124,7 @@ CBYTE *psx_game_name;
 //
 // psx has no sewers at the moment
 //
-SLONG ES_load(CBYTE *filename)
+SLONG ES_load(CBYTE* filename)
 {
 	return(0);
 }
@@ -148,9 +148,9 @@ CBYTE ELEV_last_map_loaded[MAX_PATH];
 
 #ifdef	MIKE
 
-MFFileHandle			llog_handle		=	NULL;
-extern	TCHAR *witem_strings[];
-void		TesterText(CBYTE *error, ...)
+MFFileHandle llog_handle		=	NULL;
+extern TCHAR *witem_strings[];
+void TesterText(CBYTE* error, ...)
 {
 	CBYTE 			buf[512];
 	va_list 		argptr;
@@ -182,15 +182,15 @@ void		TesterText(CBYTE *error, ...)
 
 #ifndef PSX
 #ifndef TARGET_DC
-extern	UBYTE	vehicle_random[];
+extern UBYTE	vehicle_random[];
 
-CBYTE      junk[2048];
+CBYTE junk[2048];
 EventPoint event_point;
 
-extern	SLONG save_psx;
-SLONG	iamapsx=0;
+extern SLONG save_psx;
+SLONG iamapsx=0;
 
-void ELEV_load_level(CBYTE *fname_level)
+void ELEV_load_level(CBYTE* fname_level)
 {
 	SLONG i;
 	SLONG j;
@@ -340,7 +340,7 @@ void ELEV_load_level(CBYTE *fname_level)
 
 				while(max++ < 128 * 128)
 				{
-SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
+SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 
 					mx=(Random()%100)+14;
 					mz=(Random()%100)+14;
@@ -860,7 +860,7 @@ SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 							ee.follow    = follow;				// For PCOM_MOVE_FOLLOW
 							ee.zone      = event_point.Data[4] >> 8;
 
-extern	SWORD	people_types[50];
+extern SWORD	people_types[50];
 
 							people_types[ed.subtype]++;
 
@@ -1333,7 +1333,7 @@ extern	SWORD	people_types[50];
 								{
 									case BT_OIL_DRUM:
 
-										extern SLONG playing_level(const CBYTE *name);
+										extern SLONG playing_level(const CBYTE* name);
 
 										if (playing_level("Semtex.ucm"))
 										{
@@ -1835,8 +1835,8 @@ extern	SWORD	people_types[50];
 				SLONG match;
 				SLONG mworld;
 
-				CBYTE *ch;
-				CBYTE *blah;
+				CBYTE* ch;
+				CBYTE* blah;
 
 				for (ch = fname_level; *ch && *ch != '\\'; ch++);
 
@@ -2074,11 +2074,11 @@ void load_level_anim_prims();
 #endif
 
 
-void save_dreamcast_wad(CBYTE *fname);
-void load_dreamcast_wad(CBYTE *fname);
+void save_dreamcast_wad(CBYTE* fname);
+void load_dreamcast_wad(CBYTE* fname);
 
 
-SLONG	quick_load=0;
+SLONG quick_load=0;
 UBYTE loading_screen_active;
 //
 // Initialises the game using the given files.
@@ -2089,10 +2089,10 @@ UBYTE loading_screen_active;
 
 // The stuff that is common to DC and PC.
 void ELEV_game_init_common(
-		CBYTE *fname_map,
-		CBYTE *fname_lighting,
-		CBYTE *fname_citsez,
-		CBYTE *fname_level)
+		CBYTE* fname_map,
+		CBYTE* fname_lighting,
+		CBYTE* fname_citsez,
+		CBYTE* fname_level)
 {
 extern void SND_BeginAmbient();
 	MFX_load_wave_list();
@@ -2105,10 +2105,10 @@ extern void SND_BeginAmbient();
 
 
 SLONG ELEV_game_init(
-		CBYTE *fname_map,
-		CBYTE *fname_lighting,
-		CBYTE *fname_citsez,
-		CBYTE *fname_level)
+		CBYTE* fname_map,
+		CBYTE* fname_lighting,
+		CBYTE* fname_citsez,
+		CBYTE* fname_level)
 {
 	SLONG i;
 
@@ -2158,10 +2158,10 @@ SLONG ELEV_game_init(
 
 #if !defined(PSX)
 SLONG ELEV_game_init(
-		CBYTE *fname_map,
-		CBYTE *fname_lighting,
-		CBYTE *fname_citsez,
-		CBYTE *fname_level)
+		CBYTE* fname_map,
+		CBYTE* fname_lighting,
+		CBYTE* fname_citsez,
+		CBYTE* fname_level)
 {
 	SLONG i;
 
@@ -2233,7 +2233,7 @@ void global_load();
 	init_projectiles();
 	init_specials();
 	BAT_init();
-void	init_gangattack();
+void init_gangattack();
 	init_gangattack();
 	init_map();
 	init_user_interface();
@@ -2294,7 +2294,7 @@ void	init_gangattack();
 	//
 	// static's in sound.cpp
 	//
-void	init_ambient();
+void init_ambient();
 	init_ambient();
 	
 extern void MAP_beacon_init();
@@ -2650,12 +2650,12 @@ extern void SND_BeginAmbient();
 //
 
 void ELEV_create_similar_name(
-		CBYTE *dest,
-		CBYTE *src,
-		CBYTE *ext)
+		CBYTE* dest,
+		CBYTE* src,
+		CBYTE* ext)
 {
-	CBYTE *ch;
-	CBYTE *ci;
+	CBYTE* ch;
+	CBYTE* ci;
 
 	//
 	// Find the start of the source filename.
@@ -2714,13 +2714,13 @@ CBYTE ELEV_fname_citsez  [_MAX_PATH];
 CBYTE ELEV_fname_level   [_MAX_PATH];
 
 
-SLONG ELEV_load_name(CBYTE *fname_level)
+SLONG ELEV_load_name(CBYTE* fname_level)
 {
 	SLONG ans;
 
-	CBYTE *fname_map;
-	CBYTE *fname_lighting;
-	CBYTE *fname_citsez;
+	CBYTE* fname_map;
+	CBYTE* fname_lighting;
+	CBYTE* fname_citsez;
 
 	MFFileHandle handle;
 
@@ -2825,7 +2825,7 @@ SLONG ELEV_load_name(CBYTE *fname_level)
 
 extern MFFileHandle	playback_file;
 
-extern	CBYTE	tab_map_name[];
+extern CBYTE	tab_map_name[];
 
 #endif
 
@@ -2835,10 +2835,10 @@ extern SLONG PSX_inv_open;
 SLONG ELEV_load_user(SLONG mission)
 {
 #ifndef	PSX
-	CBYTE *fname_map;
-	CBYTE *fname_lighting;
-	CBYTE *fname_citsez;
-	CBYTE *fname_level;
+	CBYTE* fname_map;
+	CBYTE* fname_lighting;
+	CBYTE* fname_citsez;
+	CBYTE* fname_level;
 	CBYTE  curr_directory[_MAX_PATH];
 
 #ifndef TARGET_DC
@@ -3075,7 +3075,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 				//
 				// oh my god, crazy shit, it's a long shot but it just might work
 				//
-extern	void	load_whole_game(CBYTE	*gamename);
+extern void	load_whole_game(CBYTE	*gamename);
 
 				load_whole_game(ELEV_fname_level);
 				return(4);
@@ -3267,7 +3267,7 @@ extern	void	load_whole_game(CBYTE	*gamename);
 
 #if 1
 
-extern	void	load_whole_game(CBYTE	*gamename);
+extern void	load_whole_game(CBYTE	*gamename);
 extern char *Wadmenu_AttractMenu();
 extern UBYTE Wadmenu_Video;
 extern int Wadmenu_Levelwon;
@@ -3318,7 +3318,7 @@ extern void PANEL_new_widescreen_init();
 	EWAY_conv_active=0;
 	PSX_inv_open=0;
 
-extern	void	init_record(SLONG level);
+extern void	init_record(SLONG level);
 
 #ifndef FS_ISO9660
 	init_record(wad_level);
@@ -3328,10 +3328,10 @@ extern	void	init_record(SLONG level);
 
 //	return ELEV_load_name("levels\\psx_test.ucp");
 #else
-	CBYTE *fname_map="data\\jumper1.iam";
-	CBYTE *fname_lighting="data\\lighting\\jumper1.lgt";
-	CBYTE *fname_citsez=NULL;//"data\\gptest1.sew";
-	CBYTE *fname_level=NULL; //"data\\gptest1.ucm";
+	CBYTE* fname_map="data\\jumper1.iam";
+	CBYTE* fname_lighting="data\\lighting\\jumper1.lgt";
+	CBYTE* fname_citsez=NULL;//"data\\gptest1.sew";
+	CBYTE* fname_level=NULL; //"data\\gptest1.ucm";
 	return ELEV_game_init(
 				fname_map,
 				fname_lighting,
@@ -3343,19 +3343,19 @@ extern	void	init_record(SLONG level);
 #endif
 }
 
-void	reload_level()
+void reload_level()
 {
 #ifndef PSX
 	 ELEV_load_name(ELEV_fname_level);
 #else
-extern	void	load_whole_game(CBYTE	*gamename);
-extern  void Wadmenu_LoadingScreen(TIM_IMAGE *tim);
-extern  void *mem_all;
-extern  void setup_textures(int world);
+extern void	load_whole_game(CBYTE	*gamename);
+extern void Wadmenu_LoadingScreen(TIM_IMAGE *tim);
+extern void* mem_all;
+extern void setup_textures(int world);
 
 	 TIM_IMAGE tim;
 
-extern	void	end_record();
+extern void	end_record();
 
 #ifndef FS_ISO9660
 	end_record();
@@ -3384,7 +3384,7 @@ extern void PANEL_new_widescreen_init();
 	 EWAY_conv_active=0;
 	 PSX_inv_open=0;
 
-extern	void	init_playback();
+extern void	init_playback();
 
 //	 init_playback();
 #endif

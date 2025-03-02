@@ -92,7 +92,7 @@ void	do_player_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_player_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_player_message(EventPoint *ep, CBYTE* msg) {
 	strcpy(msg,"Unknown");
 	if (ep) {
 		strcpy(msg,wplayer_strings[ep->Data[0]-PT_DARCI]);

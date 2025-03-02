@@ -126,27 +126,27 @@ struct Thing
 
 typedef struct Thing Thing;
 
-extern	UWORD	*thing_class_head;
+extern UWORD	*thing_class_head;
 
 //---------------------------------------------------------------
 
-void			init_things();
-THING_INDEX		alloc_primary_thing(UWORD thing_class);
-void			free_primary_thing(THING_INDEX thing);
-THING_INDEX		alloc_secondary_thing(UWORD secondary_thing);
-void			free_secondary_thing(THING_INDEX thing);
-void			add_thing_to_map(Thing *t_thing);
-void			remove_thing_from_map(Thing *t_thing);
-void			move_thing_on_map(Thing *t_thing,GameCoord *new_position);
-void			process_things(SLONG f_r_i);
+void init_things();
+THING_INDEX alloc_primary_thing(UWORD thing_class);
+void free_primary_thing(THING_INDEX thing);
+THING_INDEX alloc_secondary_thing(UWORD secondary_thing);
+void free_secondary_thing(THING_INDEX thing);
+void add_thing_to_map(Thing *t_thing);
+void remove_thing_from_map(Thing *t_thing);
+void move_thing_on_map(Thing *t_thing,GameCoord *new_position);
+void process_things(SLONG f_r_i);
 
-void			log_primary_used_list();
-void			log_primary_unused_list();
+void log_primary_used_list();
+void log_primary_unused_list();
 
-Thing			*alloc_thing(SBYTE classification);
-void			free_thing(Thing *t_thing);
+Thing *alloc_thing(SBYTE classification);
+void free_thing(Thing *t_thing);
 
-Thing			*nearest_class(Thing *the_thing,ULONG class_mask,ULONG *closest);
+Thing *nearest_class(Thing *the_thing,ULONG class_mask,ULONG *closest);
 
 inline void		set_thing_pos(Thing *t,SLONG x,SLONG y,SLONG z)	\
 												{

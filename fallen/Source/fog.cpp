@@ -11,7 +11,7 @@
 // Messages drawn straight to the screen.
 //
 
-void MSG_add(CBYTE *message, ...);
+void MSG_add(CBYTE* message, ...);
 
 //
 // This function returns the height of the floor at (x,z).
@@ -328,7 +328,7 @@ void FOG_process()
 
 SLONG FOG_get_upto;
 
-void     FOG_get_start() {FOG_get_upto = 0;}
+void FOG_get_start() {FOG_get_upto = 0;}
 FOG_Info FOG_get_info()
 {
 	SLONG trans;

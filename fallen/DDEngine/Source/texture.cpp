@@ -676,7 +676,7 @@ void TEXTURE_choose_set(SLONG number)
 		//
 
 		load_texture_styles(false, number);
-extern	void	load_texture_instyles(UBYTE editor, UBYTE world);
+extern void	load_texture_instyles(UBYTE editor, UBYTE world);
 		load_texture_instyles(false, number);
 		TEXTURE_fix_texture_styles();
 
@@ -1001,7 +1001,7 @@ static void TEXTURE_load_page(SLONG page)
 }
 
 
-void TEXTURE_initialise_clumping(CBYTE *fname_level)
+void TEXTURE_initialise_clumping(CBYTE* fname_level)
 {
 
 #ifdef TARGET_DC
@@ -2296,8 +2296,8 @@ void TEXTURE_get_minitexturebits_uvs(
 }
 
 
-extern	UWORD	local_next_prim_face3;
-extern	UWORD	local_next_prim_face4;
+extern UWORD	local_next_prim_face3;
+extern UWORD	local_next_prim_face4;
 
 void TEXTURE_fix_texture_styles()
 {
@@ -2721,7 +2721,7 @@ void TEXTURE_86_update()
 }
 
 
-void TEXTURE_set_tga(SLONG page, CBYTE *fn) {
+void TEXTURE_set_tga(SLONG page, CBYTE* fn) {
 	CBYTE fn2[_MAX_PATH];
 	MFFileHandle file;
 

@@ -13,9 +13,9 @@
 
 //extern HWND			CUTSCENE_edit_wnd;
 
-HMENU CreateMultiChoiceMenu(CBYTE *opts) {
+HMENU CreateMultiChoiceMenu(CBYTE* opts) {
 	HMENU menu;
-	CBYTE *pt,*buff;
+	CBYTE* pt,*buff;
 	int   i=1;
 
 	buff=(CBYTE*)malloc(strlen(opts)+1);
@@ -98,7 +98,7 @@ int  PropertyEditor::Type(UWORD index) {
 	return item.lParam;
 }
 
-bool PropertyEditor::Verify(UBYTE type, CBYTE *value) {
+bool PropertyEditor::Verify(UBYTE type, CBYTE* value) {
     switch(type) {
 	case PROPTYPE_STRING: return (bool)value;
 	case PROPTYPE_INT:
@@ -133,7 +133,7 @@ void PropertyEditor::Clear() {
 }
 
 
-int PropertyEditor::Add(CBYTE *name, CBYTE *value, UBYTE type) {
+int PropertyEditor::Add(CBYTE* name, CBYTE* value, UBYTE type) {
 	LVITEM item;
 
 	item.iItem=property_count;
@@ -150,7 +150,7 @@ int PropertyEditor::Add(CBYTE *name, CBYTE *value, UBYTE type) {
 	ListView_SetItem(hWnd,&item);
 
 	if (type==PROPTYPE_MULTI) { // cunningly stash the options in invisible 3rd column
-		CBYTE *pt, *buff;
+		CBYTE* pt, *buff;
 		buff=(CBYTE*)malloc(strlen(value)+1);
 		strcpy(buff,value);
 		item.iItem=property_count;
@@ -167,7 +167,7 @@ int PropertyEditor::Add(CBYTE *name, CBYTE *value, UBYTE type) {
 	return property_count++;
 }
 
-void PropertyEditor::Update(UWORD index, CBYTE *value) {
+void PropertyEditor::Update(UWORD index, CBYTE* value) {
 	LVITEM item;
 
 	switch(Type(index)) {
@@ -203,7 +203,7 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	NMHDR *nm=(NMHDR*)lParam;
 	NMLVODSTATECHANGE *state=(NMLVODSTATECHANGE*)lParam;
 	NMLVDISPINFO *dispinfo=(NMLVDISPINFO*)lParam;
-	CBYTE *txt;
+	CBYTE* txt;
 
 	switch(nm->code) {
 	case LVN_BEGINLABELEDIT:
@@ -255,7 +255,7 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 					break;
 				case PROPTYPE_MULTI:
 //					CBYTE buff[_MAX_PATH];
-					CBYTE *buff;
+					CBYTE* buff;
 					HMENU popup;
 					int	   res;
 
@@ -307,7 +307,7 @@ TreeBrowser::~TreeBrowser() {
 	SetImageList(0,0);
 }
 
-HTREEITEM TreeBrowser::Add(CBYTE *name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img) {
+HTREEITEM TreeBrowser::Add(CBYTE* name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img) {
 	TVINSERTSTRUCT is;
 	HTREEITEM res;
 
@@ -327,11 +327,11 @@ HTREEITEM TreeBrowser::Add(CBYTE *name, HTREEITEM parent, UBYTE indent, SLONG pa
 	return res;
 }
 
-int TreeBrowser::AddDir(CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld) {
+int TreeBrowser::AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld) {
 	HANDLE handle;
 	bool res;
 	WIN32_FIND_DATA data;
-	CBYTE *pt;
+	CBYTE* pt;
 	int count=0;
 
     handle = FindFirstFile(path, &data);
@@ -640,7 +640,7 @@ void TimeLine::Draw(LPARAM lParam) {
 	HBRUSH brs;
 //	CBYTE txt[_MAX_PATH];
 	TLEntry *entry=0;
-	CBYTE *txt;
+	CBYTE* txt;
 	SLONG len, c0;
 	SLONG rgb, oldrgb, oldalign, draw_read_head, rgbmod=0;
 	RECT rc;
@@ -738,7 +738,7 @@ char* TimeLine::GetText(int chan, char *buf) {
 	return buf;
 }
 
-void TimeLine::Add(CBYTE *str) {
+void TimeLine::Add(CBYTE* str) {
 	TLEntry* entry = new TLEntry;
 	ZeroMemory(entry,sizeof(TLEntry));
 	strncpy(entry->title,str,50);

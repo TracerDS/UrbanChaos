@@ -13,9 +13,9 @@
 // The current line we are on.
 //
 
-CBYTE *LEX_stream_buffer;
-CBYTE *LEX_stream_upto;
-SLONG  LEX_stream_line;
+CBYTE* LEX_stream_buffer;
+CBYTE* LEX_stream_upto;
+SLONG LEX_stream_line;
 
 
 
@@ -23,7 +23,7 @@ SLONG  LEX_stream_line;
 // We can push upto one token onto the stack!
 //
 
-SLONG     LEX_stack_valid;
+SLONG LEX_stack_valid;
 LEX_Token LEX_stack;
 
 
@@ -32,7 +32,7 @@ LEX_Token LEX_stack;
 // The last token we read.
 //
 
-SLONG     LEX_top_valid;
+SLONG LEX_top_valid;
 LEX_Token LEX_top;
 
 
@@ -59,7 +59,7 @@ CBYTE LEX_string_buffer[LEX_MAX_STRING_LENGTH + 32];
 void LEX_find_next_token()
 {
 	SLONG  i;
-	CBYTE *dest;
+	CBYTE* dest;
 
 	//
 	// Initailise the answer.
@@ -555,7 +555,7 @@ void LEX_find_next_token()
 
 		struct
 		{
-			CBYTE *keyword;
+			CBYTE* keyword;
 			SLONG  token;
 
 		} keyword[] =
@@ -734,7 +734,7 @@ void LEX_find_next_token()
 
 
 
-void LEX_start(CBYTE *string)
+void LEX_start(CBYTE* string)
 {
 	LEX_stream_buffer = string;
 	LEX_stream_upto   = string;

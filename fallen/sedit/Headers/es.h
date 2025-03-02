@@ -214,7 +214,7 @@ void ES_sewer_water_dheight(SLONG x, SLONG z, SLONG dheight);
 //
 
 SLONG ES_city_water_get(SLONG x, SLONG z);
-void  ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not);
+void ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not);
 
 //
 // Changes the level of the water at the city world coordinate (x,z).
@@ -278,8 +278,8 @@ SLONG ES_undo_redo_valid();
 // Loading / saving the sewer editor. Returns true on success.
 //
 
-SLONG ES_load(CBYTE *filename);
-SLONG ES_save(CBYTE *filename);
+SLONG ES_load(CBYTE* filename);
+SLONG ES_save(CBYTE* filename);
 
 
 

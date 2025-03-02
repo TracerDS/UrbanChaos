@@ -10,18 +10,18 @@
 #include	"cnet.h"
 
 
-GenusFunctions	player_functions[]	=	
+GenusFunctions player_functions[]	=	
 {
 	{	PLAYER_NONE,		NULL			},
 	{	PLAYER_DARCI,		darci_states	},
 	{	PLAYER_ROPER,		roper_states	}
 };
 
-GameCoord	player_pos;
+GameCoord player_pos;
 
 //---------------------------------------------------------------
 #ifndef PSX
-void	init_players()
+void init_players()
 {
 	memset((UBYTE*)PLAYERS,0,sizeof(Player) * MAX_PLAYERS);
 	PLAYER_COUNT	=	0;
@@ -29,7 +29,7 @@ void	init_players()
 #endif
 //---------------------------------------------------------------
 
-Thing	*alloc_player(UBYTE type)
+Thing *alloc_player(UBYTE type)
 {
 	SLONG			c0;
 	Player			*new_player;
@@ -99,7 +99,7 @@ Thing	*alloc_player(UBYTE type)
 
 //---------------------------------------------------------------
 
-void	free_player(Thing *player_thing)
+void free_player(Thing *player_thing)
 {
 	// Set the player type to none & free the thing.
 	player_thing->Genus.Player->PlayerType	=	PLAYER_NONE;
@@ -108,9 +108,9 @@ void	free_player(Thing *player_thing)
 }
 
 //---------------------------------------------------------------
-extern	void	set_up_camera(Thing *t_camera,GameCoord *start_pos,Thing *track_thing);
+extern void	set_up_camera(Thing *t_camera,GameCoord *start_pos,Thing *track_thing);
 // Temporary create player.
-Thing	*create_player(UBYTE type,MAPCO16 x,MAPCO16 y,MAPCO16 z,SLONG player_id)
+Thing *create_player(UBYTE type,MAPCO16 x,MAPCO16 y,MAPCO16 z,SLONG player_id)
 {
 	UBYTE		person_type;
 	SLONG       person_index;
@@ -169,7 +169,7 @@ Thing	*create_player(UBYTE type,MAPCO16 x,MAPCO16 y,MAPCO16 z,SLONG player_id)
 }
 
 /*
-Thing	*create_player_car(UBYTE type,SLONG x,SLONG y,SLONG z)
+Thing *create_player_car(UBYTE type,SLONG x,SLONG y,SLONG z)
 {
 	UBYTE		person_type;
 	Thing		*camera_thing,
@@ -214,7 +214,7 @@ Thing	*create_player_car(UBYTE type,SLONG x,SLONG y,SLONG z)
 */
 //---------------------------------------------------------------
 
-void	store_player_pos()
+void store_player_pos()
 {
 	/*
 	player_pos.X	=	the_def->X<<8;
@@ -234,10 +234,10 @@ void	store_player_pos()
 // If people arround you, but can't see you then sneak
 //
 #ifdef		UNUSED
-extern	THING_INDEX col_with_things[];
+extern THING_INDEX col_with_things[];
 #define MAX_COL_WITH 16
 
-SLONG	should_i_sneak(Thing *p_person)
+SLONG should_i_sneak(Thing *p_person)
 {
 
 	SLONG       col_with_upto;

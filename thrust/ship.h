@@ -78,7 +78,7 @@ SHIP_Ship *SHIP_create(
 				UBYTE  red   = 255,
 				UBYTE  green = 255,
 				UBYTE  blue  = 100,
-				CBYTE *name  = "Player");
+				CBYTE* name  = "Player");
 
 //
 // Flags all the ship's that come alive on

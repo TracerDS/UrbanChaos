@@ -14,11 +14,11 @@
 //---------------------------------------------------------------
 // Maths.cpp
 
-SLONG					Arctan(SLONG X,SLONG Y);
-SLONG					Root(SLONG square);
+SLONG Arctan(SLONG X,SLONG Y);
+SLONG Root(SLONG square);
 #ifdef	__WATCOMC__
 extern UWORD	ini_table[];
-SLONG					Root(SLONG square);
+SLONG Root(SLONG square);
 #pragma aux Root =								\
 		"		xor		ebx,ebx					"\
 		"		bsr		eax,ecx					"\

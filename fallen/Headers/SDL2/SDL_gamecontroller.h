@@ -1042,7 +1042,7 @@ extern DECLSPEC int SDLCALL SDL_GameControllerSetLED(SDL_GameController *gamecon
  *
  * \since This function is available since SDL 2.0.16.
  */
-extern DECLSPEC int SDLCALL SDL_GameControllerSendEffect(SDL_GameController *gamecontroller, const void *data, int size);
+extern DECLSPEC int SDLCALL SDL_GameControllerSendEffect(SDL_GameController *gamecontroller, const void* data, int size);
 
 /**
  * Close a game controller previously opened with SDL_GameControllerOpen().

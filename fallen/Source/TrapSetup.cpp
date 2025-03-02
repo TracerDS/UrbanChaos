@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG			trap_type, trap_speed, trap_steps, trap_mask, trap_axis, trap_range;
+SLONG trap_type, trap_speed, trap_steps, trap_mask, trap_axis, trap_range;
 
 //---------------------------------------------------------------
 
@@ -45,9 +45,9 @@ void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 	}
 }
 
-CBYTE *blank_string[] = { "!" };
+CBYTE* blank_string[] = { "!" };
 
-bool	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -151,7 +151,7 @@ bool	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_trap_setup(EventPoint *the_ep)
+void do_trap_setup(EventPoint *the_ep)
 {
 
 	if (!the_ep) return;
@@ -183,7 +183,7 @@ void	do_trap_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_trap_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_trap_message(EventPoint *ep, CBYTE* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

@@ -6,10 +6,10 @@
 
 //---------------------------------------------------------------
 
-extern	StateFunction	thug_states[];
+extern StateFunction	thug_states[];
 
-void	fn_thug_init(Thing *t_thing);
-void	fn_thug_normal(Thing *t_thing);
+void fn_thug_init(Thing *t_thing);
+void fn_thug_normal(Thing *t_thing);
 
 //---------------------------------------------------------------
 

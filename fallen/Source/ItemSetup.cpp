@@ -18,7 +18,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	item_count,item_type,item_flags;//,item_container;
+SLONG item_count,item_type,item_flags;//,item_container;
 
 //---------------------------------------------------------------
 
@@ -33,7 +33,7 @@ SLONG	item_count,item_type,item_flags;//,item_container;
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-bool	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -116,7 +116,7 @@ bool	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_item_setup(EventPoint *the_ep)
+void do_item_setup(EventPoint *the_ep)
 {
 	item_type	=	the_ep->Data[0];
 	item_count	=	the_ep->Data[1];
@@ -138,7 +138,7 @@ void	do_item_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_item_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_item_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||!ep->Data[0]) 
 		strcpy(msg,"Unknown");
 	else {

@@ -50,7 +50,7 @@ ControlDef	controls[]	=
 
 CBYTE	a_cunning_plan=0;
 
-FileRequester::FileRequester(CBYTE	*path,CBYTE *extension,CBYTE *title,CBYTE *fname)
+FileRequester::FileRequester(CBYTE	*path,CBYTE* extension,CBYTE* title,CBYTE* fname)
 {
 	SLONG	c0;
 	SLONG	x=100,y=100;
@@ -78,7 +78,7 @@ FileRequester::FileRequester(CBYTE	*path,CBYTE *extension,CBYTE *title,CBYTE *fn
 */
 }
 
-UBYTE	edit_and_draw_text(EdRect	*rect,CBYTE *str)
+UBYTE	edit_and_draw_text(EdRect	*rect,CBYTE* str)
 {
 	CBYTE	str2[100];
 	static	count=0;
@@ -118,7 +118,7 @@ UBYTE	edit_and_draw_text(EdRect	*rect,CBYTE *str)
 	return(1);
 }
 
-UBYTE	do_button(EdRect	*rect,CBYTE *str,MFPoint *local_point,UBYTE centered)
+UBYTE	do_button(EdRect	*rect,CBYTE* str,MFPoint *local_point,UBYTE centered)
 {
 	SLONG	w;
 	SLONG	ret=0;

@@ -21,7 +21,7 @@ inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp
 
 /*
 POLY_Point POLY_shadow[POLY_SHADOW_SIZE];
-SLONG      POLY_shadow_upto;
+SLONG POLY_shadow_upto;
 */
 
 //
@@ -40,7 +40,7 @@ typedef struct
 
 //POLY_Page POLY_page[16];
 
-SLONG	mylens=420;
+SLONG mylens=420;
 
 //
 // Only points further than 1/256'th of the draw range are drawn.
@@ -70,13 +70,13 @@ SLONG POLY_screen_mid_y;
 SLONG POLY_screen_mul_x_fix0;
 SLONG POLY_screen_mul_y_fix0;
 
-MATRIX	PSX_view_matrix;
+MATRIX PSX_view_matrix;
 
 void POLY_init()
 {
 }
 
-void	build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m)
+void build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m)
 {
 	SVECTOR r;
 
@@ -103,7 +103,7 @@ void	build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m)
 //	m->t[2]=0;
 }
 
-void	build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m)
+void build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m)
 {
 	SVECTOR r;
 
@@ -733,7 +733,7 @@ inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp
 	return (cprod < 0);
 }
 #endif
-void  POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front)
+void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front)
 {
 	SLONG dx;
 	SLONG dy;
@@ -817,7 +817,7 @@ void  POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SL
 
 }
 
-void  POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front)
+void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front)
 {
 	SLONG dx;
 	SLONG dy;
@@ -909,7 +909,7 @@ void POLY_add_line(POLY_Point *p1, POLY_Point *p2, SLONG width1, SLONG width2, S
 {
 }
 
-void  POLY_add_line_2d(SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour)
+void POLY_add_line_2d(SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour)
 {
 }
 

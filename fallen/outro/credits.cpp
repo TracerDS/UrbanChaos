@@ -15,7 +15,7 @@
 // The credits for each section.
 // 
 
-CBYTE *CREDITS_muckyfoot[] =
+CBYTE* CREDITS_muckyfoot[] =
 {
 	"Mucky Foot are Ashley Hampton, Barry Meade, Chris Knott, Eddie",
 	"Edwards, Fin McGechie, Gary Carr, Guy Simmons, James 'Dudley'",
@@ -133,7 +133,7 @@ CBYTE *CREDITS_muckyfoot[] =
 	"!"
 };
 
-CBYTE *CREDITS_eidos_uk[] =
+CBYTE* CREDITS_eidos_uk[] =
 {
 	"~BSenior Producer",
 	"\tDarren Hedges",
@@ -197,7 +197,7 @@ CBYTE *CREDITS_eidos_uk[] =
 
 
 
-CBYTE *CREDITS_eidos_usa[] =
+CBYTE* CREDITS_eidos_usa[] =
 {
 	"~BAssociate Producer",
 	"\tEric Adams",
@@ -228,7 +228,7 @@ CBYTE *CREDITS_eidos_usa[] =
 	"!"
 };
 
-CBYTE *CREDITS_eidos_france[] =
+CBYTE* CREDITS_eidos_france[] =
 {
 	"~BChef de produit",
 	"\tOlivier Salomon",
@@ -281,7 +281,7 @@ CBYTE *CREDITS_eidos_france[] =
 
 */
 
-CBYTE *CREDITS_eidos_germany[] =
+CBYTE* CREDITS_eidos_germany[] =
 {
 	"~BLeiter Produktentwicklung",
 	"\tBeco Mulderij",
@@ -325,7 +325,7 @@ CBYTE *CREDITS_eidos_germany[] =
 
 
 
-CBYTE *CREDITS_voice_production[] =
+CBYTE* CREDITS_voice_production[] =
 {
 	"~BCasting",
 	"\tPhil Morris at AllintheGame",
@@ -361,7 +361,7 @@ CBYTE *CREDITS_voice_production[] =
 
 
 
-CBYTE *CREDITS_bands[] =
+CBYTE* CREDITS_bands[] =
 {
 	"Way Out West - Urban Chaos",
 	"The 3 Jays - Feeling it too",
@@ -384,7 +384,7 @@ CBYTE *CREDITS_bands[] =
 typedef struct
 {
 	CBYTE  *title;
-	CBYTE **line;
+	CBYTE* *line;
 
 } CREDITS_Section;
 
@@ -578,7 +578,7 @@ void CREDITS_draw()
 
 		if (cs->line[i])
 		{
-			CBYTE *text = cs->line[i];
+			CBYTE* text = cs->line[i];
 
 			//
 			// What style do we draw the text?

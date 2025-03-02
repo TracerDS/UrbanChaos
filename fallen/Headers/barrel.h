@@ -54,11 +54,11 @@ typedef Barrel *BarrelPtr;
 
 void BARREL_init();
 
-extern	BARREL_Sphere *BARREL_sphere; //[BARREL_MAX_SPHERES];
-extern	Barrel *BARREL_barrel;//[BARREL_MAX_BARRELS];
+extern BARREL_Sphere *BARREL_sphere; //[BARREL_MAX_SPHERES];
+extern Barrel *BARREL_barrel;//[BARREL_MAX_BARRELS];
 
-extern	SLONG         BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
-extern	SLONG  BARREL_barrel_upto;
+extern SLONG         BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
+extern SLONG  BARREL_barrel_upto;
 
 
 //

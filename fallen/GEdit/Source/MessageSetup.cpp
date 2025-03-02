@@ -20,12 +20,12 @@
 // Returns true if it thinks the given string is a place or street name.
 //
 
-SLONG is_street_name(CBYTE *str_in)
+SLONG is_street_name(CBYTE* str_in)
 {
 	SLONG  i;
 	SLONG  num_spaces;
 	CBYTE  str[512];
-	CBYTE *ch;
+	CBYTE* ch;
 
 	//
 	// Create a local uppercase version.
@@ -68,7 +68,7 @@ SLONG is_street_name(CBYTE *str_in)
 	// Words the string can't contain.
 	// 
 
-	CBYTE *dont_contain[] =
+	CBYTE* dont_contain[] =
 	{
 		" HIM",
 		" THEM",
@@ -221,7 +221,7 @@ SLONG is_street_name(CBYTE *str_in)
 	// Words the string must contain.
 	//
 
-	CBYTE *must_contain[] =
+	CBYTE* must_contain[] =
 	{
 		"STREET",
 		"DRV",
@@ -275,7 +275,7 @@ SLONG is_street_name(CBYTE *str_in)
 CBYTE		*message_text;
 SLONG		 message_time, message_who;
 
-extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
+extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 
@@ -443,7 +443,7 @@ void	do_message_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 /*
-CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
 		strcpy(msg,(CBYTE*)ep->Data[0]);

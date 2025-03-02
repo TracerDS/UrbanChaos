@@ -31,7 +31,7 @@ typedef struct
 #define FIRE_MAX_FLAMES 256
 
 FIRE_Flame FIRE_flame[FIRE_MAX_FLAMES];
-SLONG      FIRE_flame_free;
+SLONG FIRE_flame_free;
 
 //
 // Fire is a linked list of flames.
@@ -52,7 +52,7 @@ typedef struct
 #define FIRE_MAX_FIRE 8
 
 FIRE_Fire FIRE_fire[FIRE_MAX_FIRE];
-SLONG     FIRE_fire_last;
+SLONG FIRE_fire_last;
 
 
 void FIRE_init()
@@ -326,13 +326,13 @@ void FIRE_process()
 
 #define FIRE_MAX_POINTS 16
 
-UBYTE       FIRE_get_z;
-UBYTE       FIRE_get_xmin;
-UBYTE       FIRE_get_xmax;
-UBYTE       FIRE_get_fire_upto;
-UBYTE       FIRE_get_flame;
-FIRE_Info   FIRE_get_info;
-FIRE_Point 	FIRE_get_point[FIRE_MAX_POINTS];
+UBYTE FIRE_get_z;
+UBYTE FIRE_get_xmin;
+UBYTE FIRE_get_xmax;
+UBYTE FIRE_get_fire_upto;
+UBYTE FIRE_get_flame;
+FIRE_Info FIRE_get_info;
+FIRE_Point FIRE_get_point[FIRE_MAX_POINTS];
 
 void FIRE_get_start(UBYTE z, UBYTE xmin, UBYTE xmax)
 {

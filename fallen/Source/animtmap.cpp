@@ -1,7 +1,7 @@
 #include	"game.h"
 #include	"animtmap.h"
 
-struct	AnimTmap	anim_tmaps[MAX_ANIM_TMAPS];	//2656 bytes
+struct AnimTmap	anim_tmaps[MAX_ANIM_TMAPS];	//2656 bytes
 
 #ifdef	PSX
 //
@@ -15,10 +15,10 @@ struct	AnimTmap	anim_tmaps[MAX_ANIM_TMAPS];	//2656 bytes
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern	SLONG	SpecialClose(SLONG handle);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialClose(SLONG handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -30,7 +30,7 @@ extern	SLONG	SpecialClose(SLONG handle);
 
 #endif
 
-void	sync_animtmaps()
+void sync_animtmaps()
 {
 	SLONG	c0;
 	struct	AnimTmap	*p_anim;
@@ -46,7 +46,7 @@ void	sync_animtmaps()
 	}
 }
 
-void	animate_texture_maps()
+void animate_texture_maps()
 {
 
 	SLONG	c0;
@@ -72,7 +72,7 @@ void	animate_texture_maps()
 	}
 }
 #ifndef PSX
-void	load_animtmaps()
+void load_animtmaps()
 {
 	MFFileHandle	handle;
 	SLONG	how_many;
@@ -92,7 +92,7 @@ void	load_animtmaps()
 	sync_animtmaps();
 }
 
-void	save_animtmaps()
+void save_animtmaps()
 {
 	MFFileHandle	handle;
 	SLONG	how_many=MAX_ANIM_TMAPS;

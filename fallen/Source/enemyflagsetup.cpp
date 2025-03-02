@@ -18,10 +18,10 @@
 
 //---------------------------------------------------------------
 
-SLONG			enemyf_flags,
+SLONG enemyf_flags,
 				enemyf_to_change;
 
-extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
+extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 #define STR_LEN 800
 
 //---------------------------------------------------------------
@@ -38,7 +38,7 @@ extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
 
 
 
-bool	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		ep;
 	SLONG		c0	=	0;
@@ -116,7 +116,7 @@ bool	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_enemy_flags_setup(EventPoint *the_ep)
+void do_enemy_flags_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	enemyf_to_change	=	the_ep->Data[0];

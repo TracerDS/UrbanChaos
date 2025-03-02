@@ -5,7 +5,7 @@
 
 //---------------------------------------------------------------
 
-DisplayModeInfo	DisplayModes[]	=
+DisplayModeInfo DisplayModes[]	=
 {
 	{	false,	0,0,0,			DISPLAY_MODE_NONE			},
 
@@ -55,7 +55,7 @@ DisplayModeInfo	DisplayModes[]	=
 
 extern bool		EmulateLoRes;
 
-SLONG	DisplayModeAvailable(ULONG width, ULONG height, ULONG depth)
+SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth)
 {
 #ifdef	_DEBUG
 	// Shut the compiler up.

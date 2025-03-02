@@ -23,7 +23,7 @@
 #ifndef	PSX
 
 #include	"math.h"
-void	skip_load_a_multi_prim(MFFileHandle	handle);
+void skip_load_a_multi_prim(MFFileHandle	handle);
 
 #else
 
@@ -31,7 +31,7 @@ void	skip_load_a_multi_prim(MFFileHandle	handle);
 // PSX include
 //
 #include "libsn.h"
-extern	void			TEXTURE_choose_set(SLONG number);
+extern void			TEXTURE_choose_set(SLONG number);
 
 #define	MAX_PATH	128
 #define	FILE	SLONG
@@ -40,9 +40,9 @@ extern	void			TEXTURE_choose_set(SLONG number);
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -58,46 +58,46 @@ extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
 #endif
 
 //#include "math.h"
-extern	CBYTE	texture_style_names[200][21];
-extern	void	fix_style_names();
-SLONG	load_a_multi_prim(CBYTE *name);
-void	create_kline_bottle();
-SLONG	load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG type=0);
+extern CBYTE	texture_style_names[200][21];
+extern void	fix_style_names();
+SLONG load_a_multi_prim(CBYTE* name);
+void create_kline_bottle();
+SLONG load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG type=0);
 SLONG load_anim_prim_object(SLONG prim);
 
 #ifdef EDITOR
-extern	CBYTE	inside_names[64][20];
+extern CBYTE	inside_names[64][20];
 #endif
 
 #ifndef PSX
 #ifdef	NO_SERVER
-CBYTE	EXTRAS_DIR[100]="data\\textures";
-CBYTE	PRIM_DIR[100]="server\\prims";
-CBYTE	DATA_DIR[100]="";
-CBYTE	LEVELS_DIR[100]="";
-CBYTE	TEXTURE_WORLD_DIR[100]="";
+CBYTE EXTRAS_DIR[100]="data\\textures";
+CBYTE PRIM_DIR[100]="server\\prims";
+CBYTE DATA_DIR[100]="";
+CBYTE LEVELS_DIR[100]="";
+CBYTE TEXTURE_WORLD_DIR[100]="";
 #else
 
-CBYTE	EXTRAS_DIR[100]="data\\textures";
-CBYTE	PRIM_DIR[100]="u:\\urbanchaos\\prims";
-CBYTE	DATA_DIR[100]="";
-CBYTE	LEVELS_DIR[100]="";
-CBYTE	TEXTURE_WORLD_DIR[100]="";
+CBYTE EXTRAS_DIR[100]="data\\textures";
+CBYTE PRIM_DIR[100]="u:\\urbanchaos\\prims";
+CBYTE DATA_DIR[100]="";
+CBYTE LEVELS_DIR[100]="";
+CBYTE TEXTURE_WORLD_DIR[100]="";
 #endif
 
 #else
 
-struct	FileSystem2
+struct FileSystem2
 {
 	UBYTE	*filemem;
 	ULONG	fileindex;
 	ULONG	filelen;
 };
 
-struct	FileSystem2 file_system[5];
-SLONG	file_handle=1;
+struct FileSystem2 file_system[5];
+SLONG file_handle=1;
 
-SLONG	SpecialSize(SLONG handle)
+SLONG SpecialSize(SLONG handle)
 {
 	return file_system[handle].filelen;
 }
@@ -108,7 +108,7 @@ extern char *GDisp_Bucket;
 extern char GDisp_Bucket[];
 #endif
 
-SLONG	SpecialOpen(CBYTE *name)
+SLONG SpecialOpen(CBYTE* name)
 {
 	SLONG	handle;
 	struct	FileSystem2 *fs;
@@ -164,7 +164,7 @@ extern SLONG MFX_Seek_delay;
 #endif
 }
 
-SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1)
+SLONG SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1)
 {
 	SLONG	c0;
 	struct	FileSystem2 *fs;
@@ -183,7 +183,7 @@ SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1)
 }
 
 
-SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size)
+SLONG SpecialSeek(SLONG handle,SLONG mode,SLONG size)
 {
 	SLONG	c0,max;
 	struct	FileSystem2 *fs;
@@ -201,7 +201,7 @@ SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size)
 	return(size);
 }
 
-SLONG	SpecialClose(SLONG handle)
+SLONG SpecialClose(SLONG handle)
 {
 	struct	FileSystem2 *fs;
 
@@ -221,14 +221,14 @@ extern SLONG MFX_Seek_delay;
 #ifndef PSX
 
 
-UWORD	local_next_prim_point;
-UWORD	local_next_prim_face4;
-UWORD	local_next_prim_face3;
-UWORD	local_next_prim_object;
-UWORD	local_next_prim_multi_object;
+UWORD local_next_prim_point;
+UWORD local_next_prim_face4;
+UWORD local_next_prim_face3;
+UWORD local_next_prim_object;
+UWORD local_next_prim_multi_object;
 
 
-void	record_prim_status()
+void record_prim_status()
 {
 
 	local_next_prim_point = next_prim_point;       
@@ -238,7 +238,7 @@ void	record_prim_status()
 	local_next_prim_multi_object=next_prim_multi_object;
 }
 
-void	revert_to_prim_status()
+void revert_to_prim_status()
 {
 
 	next_prim_point =      local_next_prim_point;       
@@ -250,7 +250,7 @@ void	revert_to_prim_status()
 
 
 
-SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+SLONG find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 {
 	SLONG	found	=	-1;
 	SLONG	dist	=	0x7fffffff,
@@ -290,7 +290,7 @@ SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 }
 
 
-void	change_extension(CBYTE	*name,CBYTE *add,CBYTE *new_name)
+void change_extension(CBYTE	*name,CBYTE* add,CBYTE* new_name)
 {
 	SLONG	c0=0;
 	while(name[c0])
@@ -314,7 +314,7 @@ void	change_extension(CBYTE	*name,CBYTE *add,CBYTE *new_name)
 }
 
 
-void	load_texture_instyles(UBYTE editor, UBYTE world)
+void load_texture_instyles(UBYTE editor, UBYTE world)
 {
 	UWORD	temp,temp2;
 	SLONG	save_type=1;
@@ -358,7 +358,7 @@ void	load_texture_instyles(UBYTE editor, UBYTE world)
 #endif
 
 #ifndef PSX
-void	load_texture_styles(UBYTE editor, UBYTE world)
+void load_texture_styles(UBYTE editor, UBYTE world)
 {
 	UWORD	temp,temp2;
 	SLONG	save_type=1;
@@ -521,7 +521,7 @@ SLONG load_anim_prim_object(SLONG prim)
 //	return(true);
 }
 
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 
 void load_needed_anim_prims()
 {
@@ -614,7 +614,7 @@ void load_level_anim_prims()
 	}
 }
 
-void	load_game_map(CBYTE *name)
+void load_game_map(CBYTE* name)
 {
 	UWORD	i;
 	UWORD	temp;
@@ -651,7 +651,7 @@ void	load_game_map(CBYTE *name)
 
 		FileRead(handle,(UBYTE*)&PAP_2HI(0,0),sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
 
-extern	UWORD WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
+extern UWORD WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
 
 		if(save_psx&&save_type>=26)
 		{
@@ -701,7 +701,7 @@ extern	UWORD WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
 						// Now add an animating prim to the universe
 						//
 
-	extern	void	create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw);
+	extern void	create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw);
 
 						load_anim_prim_object(t_mthing->IndexOther);
 						create_anim_prim(t_mthing->X,t_mthing->Y,t_mthing->Z,t_mthing->IndexOther,t_mthing->AngleY);
@@ -724,7 +724,7 @@ extern	UWORD WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
 						// Now add an animating prim to the universe
 						//
 
-	extern	void	create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw);
+	extern void	create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw);
 
 						load_anim_prim_object(map_thing.IndexOther);
 						create_anim_prim(map_thing.X,map_thing.Y,map_thing.Z,map_thing.IndexOther,map_thing.AngleY);
@@ -807,7 +807,7 @@ extern	UWORD WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
 		FileClose(handle);
 	}
 #ifdef EDITOR
-void	load_tex_remap(CBYTE *name);
+void load_tex_remap(CBYTE* name);
 	load_tex_remap(name);
 #endif
 	DebugText("Julyc npp %d npf3 %d \n",next_prim_point,next_prim_face3);
@@ -815,7 +815,7 @@ void	load_tex_remap(CBYTE *name);
 }
 
 /*
-void	add_point(SLONG x,SLONG y,SLONG z)
+void add_point(SLONG x,SLONG y,SLONG z)
 {
 	prim_points[next_prim_point].X=x;
 	prim_points[next_prim_point].Y=y;
@@ -824,7 +824,7 @@ void	add_point(SLONG x,SLONG y,SLONG z)
 }
 #define	CHEIGHT1	80
 #define	CHEIGHT2	160
-void	build_car_prim()
+void build_car_prim()
 {
 	SLONG sp[5];
 
@@ -841,7 +841,7 @@ void	build_car_prim()
 }
 */
 
-SLONG	load_all_prims(CBYTE	*name)
+SLONG load_all_prims(CBYTE	*name)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;
@@ -867,7 +867,7 @@ SLONG	load_all_prims(CBYTE	*name)
 		FileRead(handle,(UBYTE*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
 		FileClose(handle);
 #ifdef	EDITOR
-extern	void	record_prim_status();
+extern void	record_prim_status();
 		record_prim_status();
 #endif
 		//create_kline_bottle();
@@ -1160,7 +1160,7 @@ void load_all_individual_prims()
 
 //---------------------------------------------------------
 #ifndef	PSX
-void	read_object_name(FILE *file_handle,CBYTE *dest_string)
+void read_object_name(FILE *file_handle,CBYTE* dest_string)
 {
 	CBYTE		the_char	=	0;
 	SLONG	count=0;
@@ -1189,10 +1189,10 @@ void	read_object_name(FILE *file_handle,CBYTE *dest_string)
 }
 
 //---------------------------------------------------------------
-SLONG	key_frame_count,current_element;
-SLONG	x_centre,y_centre,z_centre;
+SLONG key_frame_count,current_element;
+SLONG x_centre,y_centre,z_centre;
 
-void	load_frame_numbers(CBYTE *vue_name,UWORD *frames,SLONG max_frames)
+void load_frame_numbers(CBYTE* vue_name,UWORD *frames,SLONG max_frames)
 {
 	CBYTE	name[200];
 	SLONG	len;
@@ -1290,7 +1290,7 @@ void	load_frame_numbers(CBYTE *vue_name,UWORD *frames,SLONG max_frames)
 	}
 }
 
-void	invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
+void invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
 {
 	Matrix33	temp_mat;
 	SLONG	i,j;
@@ -1314,8 +1314,8 @@ void	invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
 	pp->Z=z;
 }
 
-extern	CBYTE	*body_part_names[];
-void	sort_multi_object(struct KeyFrameChunk *the_chunk)
+extern CBYTE	*body_part_names[];
+void sort_multi_object(struct KeyFrameChunk *the_chunk)
 {
 	SLONG					c0,c1,c2,
 							so,eo,
@@ -1405,7 +1405,7 @@ void	sort_multi_object(struct KeyFrameChunk *the_chunk)
 #endif
 }
 
-void	set_default_people_types(struct	KeyFrameChunk *the_chunk)
+void set_default_people_types(struct	KeyFrameChunk *the_chunk)
 {
 	SLONG	c0,c1;
 
@@ -1423,7 +1423,7 @@ void	set_default_people_types(struct	KeyFrameChunk *the_chunk)
 
 
 
-void	make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *matrix)
+void make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *matrix)
 {
 	ULONG	encode;
 	SLONG	u,v,w;
@@ -1450,7 +1450,7 @@ void	make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *m
 	the_element->CMatrix.M[2]=((((matrix->M[2][0]>>6))<<20)&CMAT0_MASK)+((((matrix->M[2][1]>>6))<<10)&CMAT1_MASK)+((((matrix->M[2][2]>>6))<<0)&CMAT2_MASK);
 }
 
-void	normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
+void normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
 {
 	float	len;
 	SLONG	h,w;
@@ -1483,7 +1483,7 @@ void	normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
 #ifndef PSX
 #ifndef TARGET_DC
 
-void	load_multi_vue(struct	KeyFrameChunk *the_chunk,float shrink_me)
+void load_multi_vue(struct	KeyFrameChunk *the_chunk,float shrink_me)
 {
 	CBYTE					temp_string[512],
 							transform_name[32];
@@ -1718,11 +1718,11 @@ void	load_multi_vue(struct	KeyFrameChunk *the_chunk,float shrink_me)
 }
 
 
-SLONG	load_anim_mesh(CBYTE *fname,float scale)
+SLONG load_anim_mesh(CBYTE* fname,float scale)
 {
 	SLONG	ele_count;
 #ifdef	EDITOR
-extern	SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float scale);
+extern SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float scale);
 	ele_count=read_multi_asc(fname,0,scale);
 #else
 	ele_count=load_a_multi_prim(fname); //ele_count bug
@@ -1732,7 +1732,7 @@ extern	SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float scale);
 
 }
 
-void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float scale)
+void load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE* vue_name,float scale)
 {
 	SLONG		c0;
 	SLONG		ele_count=0;
@@ -1794,7 +1794,7 @@ void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name,float scale)
 extern SLONG		x_centre,
 			y_centre,
 			z_centre;
-SLONG				c1,
+SLONG c1,
 			sp,ep;
 struct PrimObject	*p_obj;
 
@@ -1819,7 +1819,7 @@ struct PrimObject	*p_obj;
 
 		load_multi_vue(the_chunk,scale);
 #ifdef	EDITOR
-extern	void	load_chunk_texture_info(KeyFrameChunk *the_chunk);
+extern void	load_chunk_texture_info(KeyFrameChunk *the_chunk);
 		load_chunk_texture_info(the_chunk);
 #endif
 	}
@@ -1906,7 +1906,7 @@ LCTI obj 137 has f4 0 f3 0
 #ifndef PSX
 #ifndef TARGET_DC
 
-void	read_a_prim(SLONG prim,MFFileHandle	handle,SLONG	save_type)
+void read_a_prim(SLONG prim,MFFileHandle	handle,SLONG	save_type)
 {
 	SLONG	c0;
 	SLONG	sf3,ef3,sf4,ef4,sp,ep;
@@ -1994,9 +1994,9 @@ void	read_a_prim(SLONG prim,MFFileHandle	handle,SLONG	save_type)
 #ifndef	PSX
 #ifndef TARGET_DC
 
-//extern	struct	PrimMultiObject	prim_multi_objects[];
+//extern struct	PrimMultiObject	prim_multi_objects[];
 
-SLONG	load_a_multi_prim(CBYTE *name)
+SLONG load_a_multi_prim(CBYTE* name)
 {
 	SLONG			c0;
 	MFFileHandle	handle;
@@ -2032,7 +2032,7 @@ SLONG	load_a_multi_prim(CBYTE *name)
 
 
 
-SLONG	find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,UWORD prim)
+SLONG find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,UWORD prim)
 {
 	SLONG	c0,sf,ef,point;
 	sf=prim_objects[prim].StartFace4;
@@ -2056,12 +2056,12 @@ SLONG	find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPo
 	return(-1);
 }
 
-extern	void	add_point(SLONG x,SLONG y,SLONG z);
-extern	struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
-extern	SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4);
-extern	void save_prim_asc(UWORD prim,UWORD version);
+extern void	add_point(SLONG x,SLONG y,SLONG z);
+extern struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
+extern SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4);
+extern void save_prim_asc(UWORD prim,UWORD version);
 
-void	create_kline_bottle()
+void create_kline_bottle()
 {
 	float	x,y,z,u,v;
 	float	sqrt_2,a=1.0; //what the fuck should a be
@@ -2119,7 +2119,7 @@ void	create_kline_bottle()
 	*/
 }
 
-void load_palette(CBYTE *palette)
+void load_palette(CBYTE* palette)
 {
 #ifdef	PSX
 	FILE					handle;
@@ -2130,7 +2130,7 @@ void load_palette(CBYTE *palette)
 	handle = MF_Fopen(palette, "rb");
 
 #ifdef	EDITOR
-extern	UBYTE	*pals[];
+extern UBYTE	*pals[];
 	pals[0]=(UBYTE*)ENGINE_palette;
 #endif
 
@@ -2176,9 +2176,9 @@ extern	UBYTE	*pals[];
 
 // 
 
-extern	void	write_a_prim(SLONG prim,MFFileHandle	handle);
+extern void	write_a_prim(SLONG prim,MFFileHandle	handle);
 
-SLONG	save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
+SLONG save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
 {
 	SLONG			c0,point;
 	CBYTE			file_name[64];
@@ -2207,7 +2207,7 @@ SLONG	save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
 	
 }
 
-SLONG	save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk)
+SLONG save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk)
 {
 	SLONG	save_type=5;
 	SLONG	temp;
@@ -2278,7 +2278,7 @@ SLONG	save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chu
 
 }
 
-SLONG	save_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name)
+SLONG save_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;
@@ -2323,7 +2323,7 @@ SLONG	save_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name)
 #endif
 #ifndef TARGET_DC
 #ifndef PSX
-SLONG	load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk)
+SLONG load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk)
 {
 	SLONG	save_type=0,c0;
 	SLONG	temp;
@@ -2462,9 +2462,9 @@ SLONG	load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chu
 
 	if(save_type>4)
 	{
-extern	void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
-extern	void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
-extern	void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count);
+extern void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
+extern void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
+extern void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count);
 
   		convert_keyframe_to_pointer(p_chunk->AnimKeyFrames,p_chunk->TheElements,p_chunk->FightCols,p_chunk->MaxKeyFrames);
 		convert_animlist_to_pointer(p_chunk->AnimList,p_chunk->AnimKeyFrames,p_chunk->MaxAnimFrames);
@@ -2569,7 +2569,7 @@ extern	void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SL
 
 }
 
-SLONG	load_insert_a_multi_prim(MFFileHandle	handle)
+SLONG load_insert_a_multi_prim(MFFileHandle	handle)
 {
 	SLONG			c0;
 	SLONG			save_type=0;
@@ -2597,8 +2597,8 @@ SLONG	load_insert_a_multi_prim(MFFileHandle	handle)
 		return(0);
 }
 
-extern	ULONG	DONT_load;
-SLONG	load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG type)
+extern ULONG	DONT_load;
+SLONG load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG type)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;
@@ -2613,7 +2613,7 @@ SLONG	load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG type)
 
 	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
 
-extern	void	free_game_chunk(GameKeyFrameChunk *the_chunk);
+extern void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 	free_game_chunk(p_chunk);
 
 	DebugText(" load chunk name %s\n",fname);
@@ -2721,7 +2721,7 @@ extern	void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 	return(0);
 	
 }
-SLONG	load_append_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk,SLONG start_frame)
+SLONG load_append_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk,SLONG start_frame)
 {
 	SLONG	save_type=0,c0;
 	SLONG	temp;
@@ -2812,9 +2812,9 @@ SLONG	load_append_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chu
 
 	if(save_type>4)
 	{
-extern	void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
-extern	void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
-extern	void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count);
+extern void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
+extern void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
+extern void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count);
 
   		convert_keyframe_to_pointer(&p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames],&p_chunk->TheElements[p_chunk->MaxElements],&p_chunk->FightCols[p_chunk->MaxFightCols],MaxKeyFrames);
 		convert_animlist_to_pointer(&p_chunk->AnimList[start_frame],&p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames],MaxAnimFrames);
@@ -2836,7 +2836,7 @@ extern	void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SL
 
 }
 
-void	skip_a_prim(SLONG prim,MFFileHandle	handle,SLONG	save_type)
+void skip_a_prim(SLONG prim,MFFileHandle	handle,SLONG	save_type)
 {
 	SLONG	c0;
 	SLONG	sf3,ef3,sf4,ef4,sp,ep;
@@ -2887,7 +2887,7 @@ void	skip_a_prim(SLONG prim,MFFileHandle	handle,SLONG	save_type)
 
 }
 
-void	skip_load_a_multi_prim(MFFileHandle	handle)
+void skip_load_a_multi_prim(MFFileHandle	handle)
 {
 	SLONG			c0;
 	SLONG			save_type=0;
@@ -2906,7 +2906,7 @@ void	skip_load_a_multi_prim(MFFileHandle	handle)
 	}
 }
 
-SLONG	append_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG start_anim,SLONG load_mesh)
+SLONG append_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG start_anim,SLONG load_mesh)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;
@@ -2920,7 +2920,7 @@ SLONG	append_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG sta
 
 	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
 
-extern	void	free_game_chunk(GameKeyFrameChunk *the_chunk);
+extern void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 //	free_game_chunk(p_chunk);
 
 	DebugText(" APPEND chunk name %s\n",fname);

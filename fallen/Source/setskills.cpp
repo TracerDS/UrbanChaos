@@ -35,7 +35,7 @@ UBYTE skills_list[255];
 									SendMessage(the_ctrl,LB_SETCURSEL,d,0);
 
 
-bool	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;

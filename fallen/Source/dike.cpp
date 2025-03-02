@@ -18,7 +18,7 @@
 //
 
 DIKE_Dike DIKE_dike[DIKE_MAX_DIKES];
-SLONG     DIKE_dike_upto;
+SLONG DIKE_dike_upto;
 
 
 //

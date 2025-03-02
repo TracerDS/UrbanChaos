@@ -128,7 +128,7 @@ MenuDef2	generic_popup[]	=
 };
 
 //---------------------------------------------------------------
-extern	MenuDef2	select_clist_popup[];
+extern MenuDef2	select_clist_popup[];
 
 MenuDef2	*condition_defs[][MAX_FIELDS]	=
 {
@@ -151,4 +151,4 @@ MenuDef2	*condition_defs[][MAX_FIELDS]	=
 
 //---------------------------------------------------------------
 
-extern	ControlDef	select_clist_def[];
+extern ControlDef	select_clist_def[];

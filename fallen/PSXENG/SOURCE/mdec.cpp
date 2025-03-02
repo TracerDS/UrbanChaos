@@ -35,8 +35,8 @@ typedef struct {
 #define VIBRA_FINALEEND(f)	{f,0,255}
 
 
-MDEC_vibra	vib_none[]={VIBRA_NONE(32767)};
-MDEC_vibra	vib_intro[]={
+MDEC_vibra vib_none[]={VIBRA_NONE(32767)};
+MDEC_vibra vib_intro[]={
 	VIBRA_GUNSHOT(1671),
 	VIBRA_GUNSHOT(1679),
 	VIBRA_SHOTGUN(1814),

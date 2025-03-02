@@ -32,5 +32,5 @@ struct MFTime
 
 bool	SetupHost(ULONG flags);
 void	ResetHost();
-void	LogText(CBYTE *error, ...);
+void	LogText(CBYTE* error, ...);
 void	Time(struct MFTime *the_time);

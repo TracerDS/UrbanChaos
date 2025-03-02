@@ -36,7 +36,7 @@ typedef struct
 #endif
 
 WATER_Point WATER_point[WATER_MAX_POINTS];
-SLONG       WATER_point_upto;
+SLONG WATER_point_upto;
 
 
 //
@@ -53,7 +53,7 @@ typedef struct
 #define WATER_MAX_FACES 512
 
 WATER_Face WATER_face[WATER_MAX_FACES];
-SLONG      WATER_face_upto;
+SLONG WATER_face_upto;
 
 
 //

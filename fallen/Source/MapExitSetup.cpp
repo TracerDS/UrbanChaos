@@ -17,11 +17,11 @@
 
 //---------------------------------------------------------------
 
-CBYTE *filename;
+CBYTE* filename;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	SLONG		c0	=	0;
@@ -62,7 +62,7 @@ bool	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_mapexit_setup(EventPoint *the_ep)
+void do_mapexit_setup(EventPoint *the_ep)
 {
 	filename = (CBYTE*)the_ep->Data[0];
 	if(!filename) {
@@ -80,7 +80,7 @@ void	do_mapexit_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_mapexit_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_mapexit_message(EventPoint *ep, CBYTE* msg) {
   if ((!ep)||(!ep->Data[0]))
 	  strcpy(msg,"Unknown");
   else

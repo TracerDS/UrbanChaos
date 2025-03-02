@@ -4,81 +4,81 @@
 
 #include	<MFHeader.h>
 
-UBYTE			*WorkWindow;
-SLONG			WorkWindowHeight,
+UBYTE *WorkWindow;
+SLONG WorkWindowHeight,
 	 			WorkWindowWidth;
-MFRect			WorkWindowRect;
+MFRect WorkWindowRect;
 
 //---------------------------------------------------------------
 
-extern	void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern	void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern	void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern	void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern	void	DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern	void	DrawBoxC32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void	DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void	DrawBoxC32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
 
-extern	void	DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void	DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void	DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void	DrawLineC16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void	DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void	DrawLineC32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void	DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void	DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void	DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void	DrawLineC16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void	DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void	DrawLineC32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
 
-extern	void	DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void	DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void	DrawHLine16(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void	DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void	DrawHLine32(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void	DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void	DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void	DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void	DrawHLine16(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void	DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void	DrawHLine32(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void	DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour);
 
-extern	void	DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern	void	DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern	void	DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern	void	DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern	void	DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern	void	DrawVLineC32(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void	DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void	DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void	DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void	DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void	DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void	DrawVLineC32(SLONG x,SLONG y1,SLONG y2,ULONG colour);
 
-extern	void	DrawPoint8(MFPoint *the_point,ULONG colour);
-extern	void	DrawPointC8(MFPoint *the_point,ULONG colour);
-extern	void	DrawPoint16(MFPoint *the_point,ULONG colour);
-extern	void	DrawPointC16(MFPoint *the_point,ULONG colour);
-extern	void	DrawPoint32(MFPoint *the_point,ULONG colour);
-extern	void	DrawPointC32(MFPoint *the_point,ULONG colour);
+extern void	DrawPoint8(MFPoint *the_point,ULONG colour);
+extern void	DrawPointC8(MFPoint *the_point,ULONG colour);
+extern void	DrawPoint16(MFPoint *the_point,ULONG colour);
+extern void	DrawPointC16(MFPoint *the_point,ULONG colour);
+extern void	DrawPoint32(MFPoint *the_point,ULONG colour);
+extern void	DrawPointC32(MFPoint *the_point,ULONG colour);
 
-extern	void	DrawPixel8(SLONG x,SLONG y,ULONG colour);
-extern	void	DrawPixelC8(SLONG x,SLONG y,ULONG colour);
-extern	void	DrawPixel16(SLONG x,SLONG y,ULONG colour);
-extern 	void	DrawPixelC16(SLONG x,SLONG y,ULONG colour);
-extern	void	DrawPixel32(SLONG x,SLONG y,ULONG colour);
-extern	void	DrawPixelC32(SLONG x,SLONG y,ULONG colour);
+extern void	DrawPixel8(SLONG x,SLONG y,ULONG colour);
+extern void	DrawPixelC8(SLONG x,SLONG y,ULONG colour);
+extern void	DrawPixel16(SLONG x,SLONG y,ULONG colour);
+extern void	DrawPixelC16(SLONG x,SLONG y,ULONG colour);
+extern void	DrawPixel32(SLONG x,SLONG y,ULONG colour);
+extern void	DrawPixelC32(SLONG x,SLONG y,ULONG colour);
 
-extern	void	QuickText8(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern 	void	QuickTextC8(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern	void	QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
-extern	void	QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
-extern	void	QuickText16(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern 	void	QuickTextC16(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern	void	QuickChar16(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
-extern	void	QuickText32(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern 	void	QuickTextC32(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern	void	QuickChar32(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void	QuickText8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void	QuickTextC8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void	QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void	QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void	QuickText16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void	QuickTextC16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void	QuickChar16(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void	QuickText32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void	QuickTextC32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void	QuickChar32(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
 
-extern 	void	DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite);
-extern 	void	DrawBSprite16(SLONG x,SLONG y,BSprite *the_sprite);
-extern 	void	DrawBSprite32(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	DrawBSprite16(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	DrawBSprite32(SLONG x,SLONG y,BSprite *the_sprite);
 
-extern	void	DrawBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite);
-extern	void	DrawBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite);
-extern	void	DrawBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	DrawBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	DrawBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	DrawBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite);
 
-extern	void	DrawMonoBSprite8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-extern	void	DrawMonoBSprite16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-extern	void	DrawMonoBSprite32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	DrawMonoBSprite8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	DrawMonoBSprite16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	DrawMonoBSprite32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
 
-extern	void	DrawMonoBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-extern	void	DrawMonoBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-extern	void	DrawMonoBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	DrawMonoBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	DrawMonoBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	DrawMonoBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
 	     
 //---------------------------------------------------------------
 // Set Function pointers for this display depth
@@ -96,21 +96,21 @@ void (*DrawPoint)(MFPoint *the_point,ULONG colour);
 void (*DrawPointC)(MFPoint *the_point,ULONG colour);
 
 
-void  (*DrawPixel)(SLONG x,SLONG y,ULONG colour);
-void  (*DrawPixelC)(SLONG x,SLONG y,ULONG colour);
+void (*DrawPixel)(SLONG x,SLONG y,ULONG colour);
+void (*DrawPixelC)(SLONG x,SLONG y,ULONG colour);
 
-void  (*QuickText)(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-void  (*QuickTextC)(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-void  (*QuickChar)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
-void  (*QuickCharC)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+void (*QuickText)(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+void (*QuickTextC)(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+void (*QuickChar)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+void (*QuickCharC)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
 
-void	(*DrawBSprite)(SLONG x,SLONG y,BSprite *the_sprite);
-void	(*DrawBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite);
+void (*DrawBSprite)(SLONG x,SLONG y,BSprite *the_sprite);
+void (*DrawBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite);
 
-void	(*DrawMonoBSprite)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-void	(*DrawMonoBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+void (*DrawMonoBSprite)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+void (*DrawMonoBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
 
-void	SetDrawFunctions(ULONG depth)
+void SetDrawFunctions(ULONG depth)
 {
 	switch (depth)
 	{
@@ -211,7 +211,7 @@ void	SetDrawFunctions(ULONG depth)
 
 //---------------------------------------------------------------
 
-void	SetWorkWindowBounds(SLONG left, SLONG top, SLONG width, SLONG height)
+void SetWorkWindowBounds(SLONG left, SLONG top, SLONG width, SLONG height)
 {
 	if((left+width)>=WorkScreenPixelWidth)
 	{
@@ -246,7 +246,7 @@ void	SetWorkWindowBounds(SLONG left, SLONG top, SLONG width, SLONG height)
 
 //---------------------------------------------------------------
 
-MFPoint	*GlobalToLocal(MFPoint *the_point)
+MFPoint *GlobalToLocal(MFPoint *the_point)
 {
 	the_point->X	-=	WorkWindowRect.Left;
 	the_point->Y	-=	WorkWindowRect.Top;
@@ -256,7 +256,7 @@ MFPoint	*GlobalToLocal(MFPoint *the_point)
 
 //---------------------------------------------------------------
 
-void	GlobalXYToLocal(SLONG *x,SLONG *y)
+void GlobalXYToLocal(SLONG *x,SLONG *y)
 {
 	*x	-=	WorkWindowRect.Left;
 	*y	-=	WorkWindowRect.Top;

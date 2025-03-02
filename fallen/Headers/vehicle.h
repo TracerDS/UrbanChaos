@@ -19,7 +19,7 @@
 
 // Vehicle structure
 
-typedef	struct	
+typedef struct	
 {
 	UWORD	Compression;
 	UWORD	Length;
@@ -95,7 +95,7 @@ typedef struct
 
 }Vehicle;
 
-typedef	Vehicle* VehiclePtr;
+typedef Vehicle* VehiclePtr;
 
 #define RMAX_VEHICLES	40
 #define MAX_VEHICLES	(save_table[SAVE_TABLE_VEHICLE].Maximum)

@@ -1,19 +1,19 @@
 Deutsch
-Fortsetzen: Drücken Sie |16.
+Fortsetzen: Drï¿½cken Sie |16.
 S P I E L E N D E -
 Der Wagen ist abgeschlossen.
 Munition
 Waffe
 Gesundheit +50
 Auf 5 Sekunden gestellt...
-In Fahrzeug einsteigen: Drücken Sie |4.
-Motorrad benutzen: Drücken Sie |4.
-Gegenstand aufnehmen: Drücken Sie |4.
-Kabel ergreifen: Drücken Sie |1.
-Suche läuft...
+In Fahrzeug einsteigen: Drï¿½cken Sie |4.
+Motorrad benutzen: Drï¿½cken Sie |4.
+Gegenstand aufnehmen: Drï¿½cken Sie |4.
+Kabel ergreifen: Drï¿½cken Sie |1.
+Suche lï¿½uft...
 Abgeschlossen.
-Zurück zum Hauptmenü: Drücken Sie |7.
-Neustart vom letzten automatischen Speichervorgang: Drücken Sie |4.
+Zurï¿½ck zum Hauptmenï¿½: Drï¿½cken Sie |7.
+Neustart vom letzten automatischen Speichervorgang: Drï¿½cken Sie |4.
 Level abgeschlossen
 Start
 Spiel laden
@@ -22,13 +22,13 @@ Optionen
 Grafik
 Sound
 Musik
-Qualität
-Lautstärke
+Qualitï¿½t
+Lautstï¿½rke
 Stereo
 Mono
-Stereokanäle umkehren
+Stereokanï¿½le umkehren
 Treiber
-Auflösung
+Auflï¿½sung
 Reflexionen
 Darstellungstiefe
 Schatten
@@ -52,9 +52,9 @@ Schlagen
 Aktion
 Links
 Rechts
-Vorwärts
-Rückwärts
-Wählen
+Vorwï¿½rts
+Rï¿½ckwï¿½rts
+Wï¿½hlen
 Umsehen
 Rennen
 Kamera
@@ -63,8 +63,8 @@ Gesammelt
 Abgeschlossen
 Nicht geschafft
 Punktzahl
-Primär
-Sekundär
+Primï¿½r
+Sekundï¿½r
 Aufgaben
 Karte
 Waffen
@@ -73,22 +73,22 @@ AK-47
 Granate
 Sprengstoff
 Messer
-Baseball-Schläger
+Baseball-Schlï¿½ger
 Bombe
-Kartenschlüssel
+Kartenschlï¿½ssel
 Daten
 Diskette
 Brecheisen
 Gasmaske
-Schraubenschlüssel
+Schraubenschlï¿½ssel
 Video
 Handschuhe
 Unkrautvernichter
-Schlüssel für den roten Wagen
-Schlüssel für den blauen Wagen
-Schlüssel für den grünen Wagen
-Schlüssel für den schwarzen Wagen
-Schlüssel für den weißen Wagen
+Schlï¿½ssel fï¿½r den roten Wagen
+Schlï¿½ssel fï¿½r den blauen Wagen
+Schlï¿½ssel fï¿½r den grï¿½nen Wagen
+Schlï¿½ssel fï¿½r den schwarzen Wagen
+Schlï¿½ssel fï¿½r den weiï¿½en Wagen
 Drahtschere
 Sind Sie sicher?
 Verbrechensrate
@@ -102,22 +102,22 @@ Komponente:
 Datei:
 Dateigruppe:
 Beim Verschieben der Daten ist ein Fehler aufgetreten:
-Für dieses Programm ist DirectX 6 erforderlich, das mit Ihrem Betriebssystem nicht kompatibel ist.
-Das Deinstallationsprogramm ließ sich nicht initialisieren. Möglicherweise können Sie dieses Produkt nicht deinstallieren.
-Für dieses Programm ist VGA oder eine bessere Auflösung erforderlich.
+Fï¿½r dieses Programm ist DirectX 6 erforderlich, das mit Ihrem Betriebssystem nicht kompatibel ist.
+Das Deinstallationsprogramm lieï¿½ sich nicht initialisieren. Mï¿½glicherweise kï¿½nnen Sie dieses Produkt nicht deinstallieren.
+Fï¿½r dieses Programm ist VGA oder eine bessere Auflï¿½sung erforderlich.
 Urban Chaos Setup
 (Editor)
 Umgebung
 Sterne
 Mond
 Leute
-Pfützen
+Pfï¿½tzen
 Schmutz
 Nebel
 Regen
 Skyline
 Konstitution verbessert
-Stärke verbessert
+Stï¿½rke verbessert
 Ausdauer verbessert
 Reflexe verbessert
 (Load UCM)
@@ -125,8 +125,8 @@ Scanner
 Strecke
 Person
 Gamma
-Auf Standard zurücksetzen
-Stärke
+Auf Standard zurï¿½cksetzen
+Stï¿½rke
 Konstitution
 Geschicklichkeit
 Ausdauer
@@ -142,18 +142,18 @@ Strafpunkte: Zeit!
 Level verloren
 Spiel pausiert
 Runter
-Ich kann nicht auf einen Polizisten schießen.
+Ich kann nicht auf einen Polizisten schieï¿½en.
 Hey! Warum schlagen Sie mich, Darci?
-Ich kann nicht auf unbewaffnete Personen schießen.
+Ich kann nicht auf unbewaffnete Personen schieï¿½en.
 Verbrechnsrate wurde reduziert um
 Spiel gespeichert
 Crinkles
 Farbentiefe
-Sie sind ein guter Bulle, Darci, nur sind Sie leider ein bißchen zu brutal.  Sie verletzen zu viele Zivilisten in der Ausübung ihrer Pflichten.
-Gratuliere zum Erfolg ihrer Mission, Darci. Unglücklicherweise sind Sie für zuviele Opfer verantwortlich. Dies ist Ihre erste Warnung.
-Meine Geduld ist am Ende, Darci.  Unser Job ist es die Bürger von Union City zu beschützen.  Dies ist Ihre letzte Warnung.  Wenn sie auch nur eine Mission mit zuvielen unschuldigen Opfern ausführen, verlange ich ihr Abzeichen.
-Eigentlich können wir es uns nicht erlauben Sie zu verlieren, Darci. Jedoch haben Sie, während der Ausführung ihrer Pflichten zuviele unschuldige Opfer gefordert. Ich werde Ihnen daher ihr Abzeichen entziehen.
-Kriminelle getötet
+Sie sind ein guter Bulle, Darci, nur sind Sie leider ein biï¿½chen zu brutal.  Sie verletzen zu viele Zivilisten in der Ausï¿½bung ihrer Pflichten.
+Gratuliere zum Erfolg ihrer Mission, Darci. Unglï¿½cklicherweise sind Sie fï¿½r zuviele Opfer verantwortlich. Dies ist Ihre erste Warnung.
+Meine Geduld ist am Ende, Darci.  Unser Job ist es die Bï¿½rger von Union City zu beschï¿½tzen.  Dies ist Ihre letzte Warnung.  Wenn sie auch nur eine Mission mit zuvielen unschuldigen Opfern ausfï¿½hren, verlange ich ihr Abzeichen.
+Eigentlich kï¿½nnen wir es uns nicht erlauben Sie zu verlieren, Darci. Jedoch haben Sie, wï¿½hrend der Ausfï¿½hrung ihrer Pflichten zuviele unschuldige Opfer gefordert. Ich werde Ihnen daher ihr Abzeichen entziehen.
+Kriminelle getï¿½tet
 Kriminelle verhaftet
 Kriminelle auf der Flucht
 Bonus gefunden
@@ -164,15 +164,15 @@ Mucky Zeit
 Ja
 Nein
 (Leer)
-3D-Karte wählen
-Primärer Anzeigentreiber
-Sekundärer Anzeigentreiber
+3D-Karte wï¿½hlen
+Primï¿½rer Anzeigentreiber
+Sekundï¿½rer Anzeigentreiber
 Software Modus
 Anzahl der Farben
 Farbtiefe: 16-Bit
 Farbtiefe: 32-Bit
 Dieses Dialogfenster nicht wieder anzeigen
 Miles Sound System Setup
-Bitte wählen Sie ihren 3D Sound Treiber
+Bitte wï¿½hlen Sie ihren 3D Sound Treiber
 Button
 Bonus Mission Unlocked!

@@ -27,9 +27,9 @@ static UBYTE					EmbedOffset = 0;
 extern void POLY_reset_render_states ( void );
 
 static DWORD dwSizeOfFastLoadBuffer = 0;
-void *pvFastLoadBuffer = NULL;
+void* pvFastLoadBuffer = NULL;
 
-inline void *GetMeAFastLoadBufferAtLeastThisBigPlease ( DWORD dwSize )
+inline void* GetMeAFastLoadBufferAtLeastThisBigPlease ( DWORD dwSize )
 {
 	if ( dwSizeOfFastLoadBuffer < dwSize )
 	{
@@ -61,9 +61,9 @@ void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit ( void )
 	}
 }
 
-inline void *FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
+inline void* FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
 {
-	void *pvData = GetMeAFastLoadBufferAtLeastThisBigPlease ( dwSize );
+	void* pvData = GetMeAFastLoadBufferAtLeastThisBigPlease ( dwSize );
 	ASSERT ( pvData != NULL );
 
 	DWORD dwAlignedFileSize = dwSize & ( ~4095 );
@@ -76,7 +76,7 @@ inline void *FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
 	// Finish off with PIO or whatever.
 	if ( dwSize - dwAlignedFileSize > 0 )
 	{
-		dwRead += FileRead ( handle, (void *)( (char *)pvData + dwAlignedFileSize ), dwSize - dwAlignedFileSize  );
+		dwRead += FileRead ( handle, (void* )( (char *)pvData + dwAlignedFileSize ), dwSize - dwAlignedFileSize  );
 	}
 
 	ASSERT ( dwRead == dwSize );
@@ -178,7 +178,7 @@ void D3DTexture::GetTexOffsetAndScale ( float *pfUScale, float *pfUOffset, float
 }
 #endif //#ifdef TEX_EMBED
 
-HRESULT	D3DTexture::ChangeTextureTGA(CBYTE *tga_file) {
+HRESULT	D3DTexture::ChangeTextureTGA(CBYTE* tga_file) {
 
 	if (Type != D3DTEXTURE_TYPE_UNUSED)
 	{
@@ -194,7 +194,7 @@ HRESULT	D3DTexture::ChangeTextureTGA(CBYTE *tga_file) {
 	return	DDERR_GENERIC;
 }
 
-HRESULT	D3DTexture::LoadTextureTGA(CBYTE *tga_file, ULONG id,bool bCanShrink)
+HRESULT	D3DTexture::LoadTextureTGA(CBYTE* tga_file, ULONG id,bool bCanShrink)
 {
 	HRESULT		result;
 

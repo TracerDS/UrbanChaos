@@ -21,7 +21,7 @@ extern SLONG      TEXTURE_page_font;
 
 //---------------------------------------------------------------
 
-SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count)
+SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
 {
 	SLONG				count	=	0,
 						width	=	0;
@@ -59,7 +59,7 @@ SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count)
 
 //---------------------------------------------------------------
 
-SLONG	text_height(CBYTE *message,SLONG font_id,SLONG *char_count)
+SLONG	text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
 {
 	SLONG				count	=	0,
 						height	=	0;
@@ -98,7 +98,7 @@ SLONG	text_height(CBYTE *message,SLONG font_id,SLONG *char_count)
 bool		text_fudge	=	false;
 ULONG       text_colour;
 
-void	draw_text_at(float x, float y,CBYTE *message,SLONG font_id)
+void	draw_text_at(float x, float y,CBYTE* message,SLONG font_id)
 {
 	float				offset_x,
 						offset_y;
@@ -228,7 +228,7 @@ void	draw_text_at(float x, float y,CBYTE *message,SLONG font_id)
 
 //---------------------------------------------------------------
 
-void	draw_centre_text_at(float x, float y,CBYTE *message,SLONG font_id,SLONG flag)
+void	draw_centre_text_at(float x, float y,CBYTE* message,SLONG font_id,SLONG flag)
 {
 	CBYTE				temp;
 	SLONG				char_count	=	0;

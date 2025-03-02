@@ -6,12 +6,12 @@
 #include "c:\fallen\psxeng\headers\Gamut.h"
 
 
-NGAMUT_Gamut	NGAMUT_gamut[NGAMUT_SIZE];
-NGAMUT_Gamut2	NGAMUT_gamut2[NGAMUT_SIZE];
-SLONG			NGAMUT_zmin;
-SLONG			NGAMUT_zmax;
-SLONG			NGAMUT_Ymin,NGAMUT_Ymax;
-SLONG			NGAMUT_xmin,NGAMUT_xmax;
+NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
+NGAMUT_Gamut2 NGAMUT_gamut2[NGAMUT_SIZE];
+SLONG NGAMUT_zmin;
+SLONG NGAMUT_zmax;
+SLONG NGAMUT_Ymin,NGAMUT_Ymax;
+SLONG NGAMUT_xmin,NGAMUT_xmax;
 
 //
 // Initialises the gamut.
@@ -343,8 +343,8 @@ void NGAMUT_view_square(SLONG mid_x, SLONG mid_z, SLONG radius)
 #endif
 
 NGAMUT_Gamut NGAMUT_point_gamut[NGAMUT_SIZE];
-SLONG        NGAMUT_point_zmin;
-SLONG        NGAMUT_point_zmax;
+SLONG NGAMUT_point_zmin;
+SLONG NGAMUT_point_zmax;
 
 void NGAMUT_calculate_point_gamut()
 {
@@ -407,8 +407,8 @@ void NGAMUT_calculate_point_gamut()
 }
 
 NGAMUT_Gamut NGAMUT_lo_gamut[NGAMUT_SIZE_LO];
-SLONG        NGAMUT_lo_zmin;
-SLONG        NGAMUT_lo_zmax;
+SLONG NGAMUT_lo_zmin;
+SLONG NGAMUT_lo_zmax;
 
 void NGAMUT_calculate_lo_gamut()
 {

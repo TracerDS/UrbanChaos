@@ -13,7 +13,7 @@
 
 #include "memory.h"
 
-extern	SLONG	build_psx;
+extern SLONG	build_psx;
 //
 // The width of the roads.
 //
@@ -26,7 +26,7 @@ extern	SLONG	build_psx;
 // 
 
 ROAD_Node *ROAD_node;
-SLONG      ROAD_node_upto;
+SLONG ROAD_node_upto;
 
 //
 // The nodes at the edge of the map.

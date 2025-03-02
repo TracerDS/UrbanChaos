@@ -6,17 +6,17 @@
 
 //---------------------------------------------------------------
 
-bool	SetupMemory();
-void	ResetMemory();
-void	*MemAlloc(ULONG size);
-void	*MemReAlloc(void *ptr, ULONG size);
-void	MemFree(void *mem_ptr);
+bool SetupMemory();
+void ResetMemory();
+void* MemAlloc(ULONG size);
+void* MemReAlloc(void* ptr, ULONG size);
+void MemFree(void* mem_ptr);
 
 
 
 #ifdef DEBUG
-void MFnewTrace ( void *pvAddr, size_t size );
-void MFdeleteTrace ( void *pvAddr );
+void MFnewTrace ( void* pvAddr, size_t size );
+void MFdeleteTrace ( void* pvAddr );
 #endif
 
 

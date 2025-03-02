@@ -138,7 +138,7 @@ typedef struct ml_array     ML_Array;
 typedef struct ml_vector    ML_Vector;
 typedef struct ml_matrix    ML_Matrix;
 
-typedef	struct ml_data
+typedef struct ml_data
 {
 	SLONG type;
 

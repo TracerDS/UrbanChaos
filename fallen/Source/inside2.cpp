@@ -10,9 +10,9 @@
 
 //struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
 
-UWORD	next_inside_storey=1;
-UWORD	next_inside_stair=1;
-SLONG	next_inside_block=1;
+UWORD next_inside_storey=1;
+UWORD next_inside_stair=1;
+SLONG next_inside_block=1;
 
 
 
@@ -59,7 +59,7 @@ SLONG find_inside_flags(SLONG inside,SLONG x,SLONG z)
 	return(rooms[x+z]);
 }
 
-SLONG	get_inside_alt(SLONG	inside)
+SLONG get_inside_alt(SLONG	inside)
 {
 /*
 #ifndef	PSX
@@ -73,8 +73,8 @@ SLONG	get_inside_alt(SLONG	inside)
 
 
 
-UBYTE	slide_inside_stair=0;
-extern	SLONG	slide_door;
+UBYTE slide_inside_stair=0;
+extern SLONG	slide_door;
 
 //
 // mark's
@@ -542,7 +542,7 @@ SLONG person_slide_inside(
 
 
 /*
-SLONG	find_stair_routes(UWORD inside,UBYTE x,UBYTE z,UWORD *up,UWORD *down)
+SLONG find_stair_routes(UWORD inside,UBYTE x,UBYTE z,UWORD *up,UWORD *down)
 {
 	SLONG	stair;
 //	ASSERT(0);
@@ -598,7 +598,7 @@ SLONG	find_stair_routes(UWORD inside,UBYTE x,UBYTE z,UWORD *up,UWORD *down)
 	return(0);
 }
 */
-UWORD	find_stair_in(SLONG mx,SLONG mz,SLONG *rdx,SLONG *rdz,UWORD	inside)
+UWORD find_stair_in(SLONG mx,SLONG mz,SLONG *rdx,SLONG *rdz,UWORD	inside)
 {
 	SLONG	dx,dz;
 	SLONG	stair;
@@ -695,7 +695,7 @@ UWORD	find_stair_in(SLONG mx,SLONG mz,SLONG *rdx,SLONG *rdz,UWORD	inside)
 
 }
 
-SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_floor)
+SLONG find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_floor)
 {
 	SLONG	dx,dz;
 	SLONG	stair;
@@ -869,7 +869,7 @@ SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_
 	
 }
 /*
-void	stair_teleport_bodge(Thing *p_person)
+void stair_teleport_bodge(Thing *p_person)
 {
 	SLONG	x,z;
 	UWORD	up,down;
@@ -1047,7 +1047,7 @@ void INSIDE2_mav_nav_calc(SLONG inside)
 //
 
 UWORD *INSIDE2_backup_mav_nav;
-SLONG  INSIDE2_backup_mav_nav_pitch;
+SLONG INSIDE2_backup_mav_nav_pitch;
 
 void INSIDE2_setup_mav()
 {

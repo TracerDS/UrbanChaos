@@ -55,7 +55,7 @@ typedef struct
 #define DIRT_MAX_TREES 64
 
 DIRT_Tree DIRT_tree[DIRT_MAX_TREES];
-SLONG     DIRT_tree_upto;
+SLONG DIRT_tree_upto;
 
 //
 // Check 1/8th of the dirt each frame.

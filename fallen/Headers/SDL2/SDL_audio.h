@@ -162,7 +162,7 @@ typedef Uint16 SDL_AudioFormat;
  *  You can choose to avoid callbacks and use SDL_QueueAudio() instead, if
  *  you like. Just open your audio device with a NULL callback.
  */
-typedef void (SDLCALL * SDL_AudioCallback) (void *userdata, Uint8 * stream,
+typedef void (SDLCALL * SDL_AudioCallback) (void* userdata, Uint8 * stream,
                                             int len);
 
 /**
@@ -187,7 +187,7 @@ typedef struct SDL_AudioSpec
     Uint16 padding;             /**< Necessary for some compile environments */
     Uint32 size;                /**< Audio buffer size in bytes (calculated) */
     SDL_AudioCallback callback; /**< Callback that feeds the audio device (NULL to use SDL_QueueAudio()). */
-    void *userdata;             /**< Userdata passed to callback (ignored for NULL callbacks). */
+    void* userdata;             /**< Userdata passed to callback (ignored for NULL callbacks). */
 } SDL_AudioSpec;
 
 
@@ -1032,7 +1032,7 @@ extern DECLSPEC SDL_AudioStream * SDLCALL SDL_NewAudioStream(const SDL_AudioForm
  * \sa SDL_AudioStreamClear
  * \sa SDL_FreeAudioStream
  */
-extern DECLSPEC int SDLCALL SDL_AudioStreamPut(SDL_AudioStream *stream, const void *buf, int len);
+extern DECLSPEC int SDLCALL SDL_AudioStreamPut(SDL_AudioStream *stream, const void* buf, int len);
 
 /**
  * Get converted/resampled data from the stream
@@ -1051,7 +1051,7 @@ extern DECLSPEC int SDLCALL SDL_AudioStreamPut(SDL_AudioStream *stream, const vo
  * \sa SDL_AudioStreamClear
  * \sa SDL_FreeAudioStream
  */
-extern DECLSPEC int SDLCALL SDL_AudioStreamGet(SDL_AudioStream *stream, void *buf, int len);
+extern DECLSPEC int SDLCALL SDL_AudioStreamGet(SDL_AudioStream *stream, void* buf, int len);
 
 /**
  * Get the number of converted/resampled bytes available.
@@ -1226,7 +1226,7 @@ extern DECLSPEC void SDLCALL SDL_MixAudioFormat(Uint8 * dst,
  * \sa SDL_ClearQueuedAudio
  * \sa SDL_GetQueuedAudioSize
  */
-extern DECLSPEC int SDLCALL SDL_QueueAudio(SDL_AudioDeviceID dev, const void *data, Uint32 len);
+extern DECLSPEC int SDLCALL SDL_QueueAudio(SDL_AudioDeviceID dev, const void* data, Uint32 len);
 
 /**
  * Dequeue more audio on non-callback devices.
@@ -1274,7 +1274,7 @@ extern DECLSPEC int SDLCALL SDL_QueueAudio(SDL_AudioDeviceID dev, const void *da
  * \sa SDL_ClearQueuedAudio
  * \sa SDL_GetQueuedAudioSize
  */
-extern DECLSPEC Uint32 SDLCALL SDL_DequeueAudio(SDL_AudioDeviceID dev, void *data, Uint32 len);
+extern DECLSPEC Uint32 SDLCALL SDL_DequeueAudio(SDL_AudioDeviceID dev, void* data, Uint32 len);
 
 /**
  * Get the number of bytes of still-queued audio.

@@ -33,7 +33,7 @@
 //
 
 
-struct	ComboHistory
+struct ComboHistory
 {
 	UWORD		Owner;
 	SBYTE		Power[MAX_MOVES];
@@ -47,7 +47,7 @@ struct	ComboHistory
 };
 
 
-struct	BlockingHistory
+struct BlockingHistory
 {
 	UWORD	Owner;				//who this blocking history is for
 	UBYTE	Attack[MAX_MOVES];  // attack move performed
@@ -63,7 +63,7 @@ struct	BlockingHistory
 //
 // Owner is the person under attack by multiple foes
 // This structure has slots for angles that enemies are attacking from
-struct	GangAttack
+struct GangAttack
 {
 	UWORD	Owner;					//who this gang attack is for
 	UWORD	Perp[8];          // who is attacking in each of the eight compass points
@@ -77,17 +77,17 @@ struct	GangAttack
 // Data
 //
 
-extern	struct ComboHistory combo_histories[MAX_HISTORY];
-extern	struct GangAttack gang_attacks[MAX_HISTORY];
+extern struct ComboHistory combo_histories[MAX_HISTORY];
+extern struct GangAttack gang_attacks[MAX_HISTORY];
 
 //
 // Functions
 //
 
-extern	SLONG	get_combat_type_for_node(UBYTE current_node);
-extern	SLONG	get_anim_and_node_for_action(UBYTE current_node,UBYTE action,UWORD *new_anim);
-extern	SLONG	apply_violence(Thing *p_thing);
-extern	SLONG	apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thing *p_aggressor,struct GameFightCol *fight);
+extern SLONG	get_combat_type_for_node(UBYTE current_node);
+extern SLONG	get_anim_and_node_for_action(UBYTE current_node,UBYTE action,UWORD *new_anim);
+extern SLONG	apply_violence(Thing *p_thing);
+extern SLONG	apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thing *p_aggressor,struct GameFightCol *fight);
 
 
 //

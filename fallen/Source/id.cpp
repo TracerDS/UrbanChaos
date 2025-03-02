@@ -38,7 +38,7 @@ typedef struct
 #define ID_MAX_POINTS 1024
 
 ID_Point ID_point[ID_MAX_POINTS];
-SLONG    ID_point_upto;
+SLONG ID_point_upto;
 
 //
 // Faces.
@@ -76,7 +76,7 @@ typedef struct
 #endif
 
 ID_Face ID_face[ID_MAX_FACES];
-SLONG   ID_face_upto;
+SLONG ID_face_upto;
 
 
 //
@@ -182,7 +182,7 @@ typedef struct
 #define ID_MAX_WALLS 64
 
 ID_Wall ID_wall[ID_MAX_WALLS];
-SLONG   ID_wall_upto;
+SLONG ID_wall_upto;
 
 //
 // The 'get_type' function.
@@ -208,7 +208,7 @@ typedef struct
 #define ID_MAX_LINKS 128
 
 ID_Link ID_link[ID_MAX_LINKS];
-SLONG   ID_link_upto;
+SLONG ID_link_upto;
 
 //
 // One linked list per z-row of floor square.
@@ -291,8 +291,8 @@ typedef struct
 #define ID_MAX_ROOMS 32
 
 ID_Room ID_room[ID_MAX_ROOMS];	// Room 0 is unused, it is the NULL room.
-SLONG   ID_room_upto;
-SLONG   ID_flat_upto;
+SLONG ID_room_upto;
+SLONG ID_flat_upto;
 
 //
 // The floor textures for each room type.
@@ -307,7 +307,7 @@ UWORD ID_floor_texture[ID_MAX_FLOOR_TEXTURES];
 //
 
 ID_Stair *ID_stair;
-SLONG     ID_num_stairs;
+SLONG ID_num_stairs;
 
 //
 // The current type of storey 
@@ -332,7 +332,7 @@ typedef struct
 #define ID_MAX_FURN 128
 
 ID_Furn ID_furn[ID_MAX_FURN];
-SLONG   ID_furn_upto;
+SLONG ID_furn_upto;
 
 
 
@@ -1483,7 +1483,7 @@ typedef struct
 #define ID_MAX_PERIMS 32
 
 ID_Perim ID_perim[ID_MAX_PERIMS];
-SLONG    ID_perim_upto;
+SLONG ID_perim_upto;
 
 SLONG ID_calc_room_perim(SLONG room)
 {

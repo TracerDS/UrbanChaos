@@ -106,7 +106,7 @@ SLONG CloseDisplay();
 SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
 void ClearDisplay();
 void FadeDisplay(UBYTE mode);
-void *LockWorkScreen();
+void* LockWorkScreen();
 void UnlockWorkScreen();
 void ShowWorkScreen(ULONG flags);
 void ShowWorkWindow(ULONG flags);

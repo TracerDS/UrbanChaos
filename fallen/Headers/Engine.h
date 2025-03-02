@@ -8,7 +8,7 @@
 
 #ifdef	VERSION_D3D
 
-typedef	struct
+typedef struct
 {
 	float	CameraX,
 			CameraY,
@@ -21,13 +21,13 @@ typedef	struct
 
 #elif defined(VERSION_GLIDE)
 
-typedef	struct
+typedef struct
 {
 }Camera;
 
 #elif defined(VERSION_PSX)
 
-typedef	struct
+typedef struct
 {
 }Camera;
 
@@ -35,12 +35,12 @@ typedef	struct
 
 //---------------------------------------------------------------
 
-struct 	M31
+struct M31
 {
 	float	R[3];
 };
 
-struct 	M33
+struct M33
 {
 	M31		R0,
 			R1,
@@ -59,7 +59,7 @@ struct 	M33
 #define		UV_YZ					R2.R[1]
 #define		UV_ZZ					R2.R[2]
 
-typedef	struct
+typedef struct
 {
 	float		HalfViewHeight,
 				HalfViewWidth,
@@ -73,18 +73,18 @@ typedef	struct
 	M33			CameraMatrix;
 }Engine;
 
-bool	init_3d_engine();
-void	fini_3d_engine();
-void	game_engine(Camera *the_view);
-void	engine_attract();
-void	engine_win_level();
-void	engine_lose_level();
+bool init_3d_engine();
+void fini_3d_engine();
+void game_engine(Camera *the_view);
+void engine_attract();
+void engine_win_level();
+void engine_lose_level();
 
 //---------------------------------------------------------------
 
-void	temp_setup_map();
-bool	new_init_3d_engine();
-void	new_engine(Camera *the_view);
+void temp_setup_map();
+bool new_init_3d_engine();
+void new_engine(Camera *the_view);
 
 //---------------------------------------------------------------
 
@@ -115,27 +115,27 @@ SLONG TEXTURE_get_fiddled_position(
 // Debugging aids.
 //
 
-void	e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void	e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void	e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void	e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void	e_draw_3d_mapwho         (SLONG x1,SLONG z1);
-void	e_draw_3d_mapwho_y       (SLONG x1,SLONG y1,SLONG z1);
+void e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
+void e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
+void e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
+void e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
+void e_draw_3d_mapwho         (SLONG x1,SLONG z1);
+void e_draw_3d_mapwho_y       (SLONG x1,SLONG y1,SLONG z1);
 
 //
 // Messages drawn straight to the screen.
 //
 
-void MSG_add(CBYTE *message, ...);
+void MSG_add(CBYTE* message, ...);
 
 //
 // Engine stuff to help you draw straight to the screen...
 //
 
-void  ENGINE_clear_screen();
-void  ENGINE_flip();
+void ENGINE_clear_screen();
+void ENGINE_flip();
 SLONG ENGINE_lock();		// Locks the screen.. returns true on success.
-void  ENGINE_unlock();
+void ENGINE_unlock();
 
 #include "..\ddengine\headers\font.h"
 

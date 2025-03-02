@@ -13,14 +13,14 @@
 //
 //---------------------------------------------------------------
 
-void	LoadWaveList(CBYTE *wave_path,CBYTE *wave_list)
+void	LoadWaveList(CBYTE* wave_path,CBYTE* wave_list)
 {
 	the_qs_sound_manager.LoadWaves(wave_path,wave_list);
 }
 
 //---------------------------------------------------------------
 
-void	LoadWave(CBYTE *wave_name)
+void	LoadWave(CBYTE* wave_name)
 {
 	the_qs_sound_manager.LoadWave(wave_name);
 }
@@ -209,7 +209,7 @@ void	QSManager::DeactivateSound(void)
 
 //---------------------------------------------------------------
 
-HRESULT	QSManager::LoadWaves(CBYTE *wave_path,CBYTE *script_name)
+HRESULT	QSManager::LoadWaves(CBYTE* wave_path,CBYTE* script_name)
 {
 	CBYTE			wave_name[MAX_PATH],
 					wave_file[MAX_PATH];
@@ -260,7 +260,7 @@ HRESULT	QSManager::LoadWaves(CBYTE *wave_path,CBYTE *script_name)
 
 //---------------------------------------------------------------
 
-HRESULT	QSManager::LoadWave(CBYTE *wave_name)
+HRESULT	QSManager::LoadWave(CBYTE* wave_name)
 {
 	ULONG			streamed=0; //temp?
 	HRESULT			result	=	DSERR_GENERIC;
@@ -587,7 +587,7 @@ Wave::~Wave()
 
 //---------------------------------------------------------------
 
-HRESULT	Wave::Init(CBYTE *file_name,HQMIXER the_mixer)
+HRESULT	Wave::Init(CBYTE* file_name,HQMIXER the_mixer)
 {
 	QMIXWAVEPARAMS		wave_params;
 

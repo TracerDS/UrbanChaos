@@ -74,7 +74,7 @@ UBYTE MUSIC_play(UWORD wave, UBYTE flags) {
 }
 
 // stop current piece playing, optionally fading out
-void  MUSIC_stop(bool fade) {
+void MUSIC_stop(bool fade) {
 	if (fade) {
 		music_fademode=MUSIC_FADING_OUT;
 	} else {
@@ -92,7 +92,7 @@ UWORD MUSIC_wave() {
 }
 
 // call this each game loop to keep things fading in and out nicely and stuff
-void  MUSIC_process() {
+void MUSIC_process() {
 	switch(music_fademode) {
 	case MUSIC_FADING_IN:
 		if (music_current_gain<music_max_gain) music_current_gain++;
@@ -349,7 +349,7 @@ extern SLONG MFX_Conv_playing;
 }
 
 // this is the 'max' gain, fade in/out will go from/to 0 from/to this value
-void  MUSIC_gain(UBYTE gain) 
+void MUSIC_gain(UBYTE gain) 
 {
 	music_max_gain=gain;
 	music_max_gain<<=8;

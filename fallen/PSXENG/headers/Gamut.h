@@ -32,7 +32,7 @@ typedef struct
 
 } NGAMUT_Gamut2;
 
-extern	NGAMUT_Gamut2	NGAMUT_gamut2[NGAMUT_SIZE];
+extern NGAMUT_Gamut2	NGAMUT_gamut2[NGAMUT_SIZE];
 extern NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
 extern SLONG        NGAMUT_zmin;
 extern SLONG        NGAMUT_zmax;

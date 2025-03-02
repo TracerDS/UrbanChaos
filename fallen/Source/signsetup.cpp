@@ -33,7 +33,7 @@ static SLONG flip;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -117,7 +117,7 @@ bool	CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_sign_setup(EventPoint *the_ep)
+void do_sign_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	sign		=	the_ep->Data[0];

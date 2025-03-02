@@ -28,8 +28,8 @@
 #define TRACK_ONSNOW_COLOUR 0x000000
 
 
-Track	*tracks;//[TRACK_BUFFER_LENGTH];
-UWORD	track_head,track_tail,track_eob; //stopped them being pointers by MikeD
+Track *tracks;//[TRACK_BUFFER_LENGTH];
+UWORD track_head,track_tail,track_eob; //stopped them being pointers by MikeD
 
 void TRACKS_InitOnce(SWORD size) 
 {

@@ -146,7 +146,7 @@ public:
 	//	then it can fail, and the return is false;
 	// If the LCD screen is not a standard type, then it does its best,
 	//	or fails and returns false.
-	bool Lcd_WriteScreen ( void *pvData, bool bQueue );
+	bool Lcd_WriteScreen ( void* pvData, bool bQueue );
 
 
 	// Write this screen to the LCD device.
@@ -170,7 +170,7 @@ public:
 
 	// Reads the given file into pvData, which is of size dwSizeOfData.
 	// Return is true on success, false on failure.
-	bool Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfData );
+	bool Flash_ReadFile ( char *pcFilename, void* pvData, DWORD dwSizeOfData );
 
 	// Creates the given file & writes the given data to it.
 	// pcGameName is the game name you wish to be tagged onto the file. Must be less than 16 chars.
@@ -178,7 +178,7 @@ public:
 	// If the file already exists, it is deleted.
 	// If there is not enough space on the device, the call will fail.
 	// Return is true on success, false on failure.
-	bool Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcComment, void *pvData, DWORD dwSizeOfData,
+	bool Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcComment, void* pvData, DWORD dwSizeOfData,
 								 char *pcIconPalette, char *pcIconData );
 
 	// Returns the number of free blocks in this VMU.

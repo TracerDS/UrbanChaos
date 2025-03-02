@@ -53,7 +53,7 @@ typedef struct
 #define OB_MAX_HYDRANTS 4
 
 OB_Hydrant OB_hydrant[OB_MAX_HYDRANTS];
-UBYTE      OB_hydrant_last;
+UBYTE OB_hydrant_last;
 
 #ifndef PSX
 void OB_init()
@@ -600,7 +600,7 @@ extern bool is_in_mission_editor;
 #endif
 
 
-void	load_general_prims()
+void load_general_prims()
 {
 	//
 	//  Stat Up's
@@ -687,7 +687,7 @@ void	load_general_prims()
 	load_prim_object(PRIM_OBJ_WEAPON_AK47_FLASH);
 }
 
-void	set_face_type(SLONG prim,SLONG type)
+void set_face_type(SLONG prim,SLONG type)
 {
 	PrimObject *po;
 	SLONG	j;
@@ -979,7 +979,7 @@ void envmap_specials()
 
 #ifndef TARGET_DC
 
-SLONG	ob_allowed_to_be_walkable(SLONG prim)
+SLONG ob_allowed_to_be_walkable(SLONG prim)
 {
 	/*
 
@@ -988,7 +988,7 @@ SLONG	ob_allowed_to_be_walkable(SLONG prim)
 	// CALLED- IT REMOVES ANY OF THAT FACES PRIM_FACES.
 	//
 
-	extern SLONG playing_level(const CBYTE *name);
+	extern SLONG playing_level(const CBYTE* name);
 
 	if (playing_level("Finale1.ucm"))
 	{
@@ -1006,7 +1006,7 @@ SLONG	ob_allowed_to_be_walkable(SLONG prim)
 	*/
 
 
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 	if(save_psx)
 	{
 		if(prim==21 || prim==22||prim==24)
@@ -1223,7 +1223,7 @@ void OB_remove(OB_Info *oi)
 
 
 
-SLONG	special_object_flag(OB_Info *ob,SLONG flags)
+SLONG special_object_flag(OB_Info *ob,SLONG flags)
 {
 	if (flags & FIND_OB_TRIPWIRE)
 	{
@@ -1435,7 +1435,7 @@ SLONG OB_find_min_y(SLONG prim)
 // any ob's locked to floor need to have their height changed 
 // taking into account water and stuff like that
 
-void	OB_height_fiddle_de_dee()
+void OB_height_fiddle_de_dee()
 {
 	/*
 
@@ -1465,7 +1465,7 @@ void	OB_height_fiddle_de_dee()
 		if(OB_ob[c0].flags&OB_FLAG_ON_FLOOR) //|| (prim_objects[c0].flag & PRIM_FLAG_ON_FLOOR) )
 		{
 			SLONG	min_y,y;
-extern	SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 			y=find_alt_for_this_pos(OB_ob[c0].x,OB_ob[c0].z);
 			min_y=OB_find_min_y(c0);
 			OB_ob[c0].y=y-min_y;

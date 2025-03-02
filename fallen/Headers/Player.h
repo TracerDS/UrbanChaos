@@ -57,12 +57,12 @@ typedef Player*		PlayerPtr;
 
 //---------------------------------------------------------------
 
-extern	GenusFunctions		player_functions[];
+extern GenusFunctions		player_functions[];
 
-void	init_players();
-Thing	*alloc_player(UBYTE type);
-void	free_player(Thing *player_thing);
-Thing	*create_player(UBYTE type,SLONG x,SLONG y,SLONG z,SLONG id);
+void init_players();
+Thing *alloc_player(UBYTE type);
+void free_player(Thing *player_thing);
+Thing *create_player(UBYTE type,SLONG x,SLONG y,SLONG z,SLONG id);
 
 //---------------------------------------------------------------
 

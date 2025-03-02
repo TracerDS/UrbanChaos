@@ -85,7 +85,7 @@ typedef enum {
  * \param data what was passed as `data` to SDL_CreateThread()
  * \returns a value that can be reported through SDL_WaitThread().
  */
-typedef int (SDLCALL * SDL_ThreadFunction) (void *data);
+typedef int (SDLCALL * SDL_ThreadFunction) (void* data);
 
 
 #if (defined(__WIN32__) || defined(__GDK__)) && !defined(__WINRT__)
@@ -112,8 +112,8 @@ typedef int (SDLCALL * SDL_ThreadFunction) (void *data);
 #define SDL_PASSED_BEGINTHREAD_ENDTHREAD
 
 typedef uintptr_t (__cdecl * pfnSDL_CurrentBeginThread)
-                   (void *, unsigned, unsigned (__stdcall *func)(void *),
-                    void * /*arg*/, unsigned, unsigned * /* threadID */);
+                   (void* , unsigned, unsigned (__stdcall *func)(void* ),
+                    void*  /*arg*/, unsigned, unsigned * /* threadID */);
 typedef void (__cdecl * pfnSDL_CurrentEndThread) (unsigned code);
 
 #ifndef SDL_beginthread
@@ -124,13 +124,13 @@ typedef void (__cdecl * pfnSDL_CurrentEndThread) (unsigned code);
 #endif
 
 extern DECLSPEC SDL_Thread *SDLCALL
-SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void *data,
+SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void* data,
                  pfnSDL_CurrentBeginThread pfnBeginThread,
                  pfnSDL_CurrentEndThread pfnEndThread);
 
 extern DECLSPEC SDL_Thread *SDLCALL
 SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn,
-                 const char *name, const size_t stacksize, void *data,
+                 const char *name, const size_t stacksize, void* data,
                  pfnSDL_CurrentBeginThread pfnBeginThread,
                  pfnSDL_CurrentEndThread pfnEndThread);
 
@@ -152,7 +152,7 @@ SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn,
  */
 #define SDL_PASSED_BEGINTHREAD_ENDTHREAD
 
-typedef int (*pfnSDL_CurrentBeginThread)(void (*func)(void *), void *, unsigned, void * /*arg*/);
+typedef int (*pfnSDL_CurrentBeginThread)(void (*func)(void* ), void* , unsigned, void*  /*arg*/);
 typedef void (*pfnSDL_CurrentEndThread)(void);
 
 #ifndef SDL_beginthread
@@ -163,11 +163,11 @@ typedef void (*pfnSDL_CurrentEndThread)(void);
 #endif
 
 extern DECLSPEC SDL_Thread *SDLCALL
-SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void *data,
+SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void* data,
                  pfnSDL_CurrentBeginThread pfnBeginThread,
                  pfnSDL_CurrentEndThread pfnEndThread);
 extern DECLSPEC SDL_Thread *SDLCALL
-SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const size_t stacksize, void *data,
+SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const size_t stacksize, void* data,
                  pfnSDL_CurrentBeginThread pfnBeginThread,
                  pfnSDL_CurrentEndThread pfnEndThread);
 
@@ -205,7 +205,7 @@ SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const siz
  * \sa SDL_WaitThread
  */
 extern DECLSPEC SDL_Thread *SDLCALL
-SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void *data);
+SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void* data);
 
 /**
  * Create a new thread with a specific stack size.
@@ -251,7 +251,7 @@ SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void *data);
  * \sa SDL_WaitThread
  */
 extern DECLSPEC SDL_Thread *SDLCALL
-SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const size_t stacksize, void *data);
+SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const size_t stacksize, void* data);
 
 #endif
 
@@ -419,7 +419,7 @@ extern DECLSPEC SDL_TLSID SDLCALL SDL_TLSCreate(void);
  * \sa SDL_TLSCreate
  * \sa SDL_TLSSet
  */
-extern DECLSPEC void * SDLCALL SDL_TLSGet(SDL_TLSID id);
+extern DECLSPEC void*  SDLCALL SDL_TLSGet(SDL_TLSID id);
 
 /**
  * Set the current thread's value associated with a thread local storage ID.
@@ -427,7 +427,7 @@ extern DECLSPEC void * SDLCALL SDL_TLSGet(SDL_TLSID id);
  * The function prototype for `destructor` is:
  *
  * ```c
- * void destructor(void *value)
+ * void destructor(void* value)
  * ```
  *
  * where its parameter `value` is what was passed as `value` to SDL_TLSSet().
@@ -444,7 +444,7 @@ extern DECLSPEC void * SDLCALL SDL_TLSGet(SDL_TLSID id);
  * \sa SDL_TLSCreate
  * \sa SDL_TLSGet
  */
-extern DECLSPEC int SDLCALL SDL_TLSSet(SDL_TLSID id, const void *value, void (SDLCALL *destructor)(void*));
+extern DECLSPEC int SDLCALL SDL_TLSSet(SDL_TLSID id, const void* value, void (SDLCALL *destructor)(void*));
 
 /**
  * Cleanup all TLS data for this thread.

@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-void	init_projectiles()
+void init_projectiles()
 {
 	memset((UBYTE*)PROJECTILES,0,sizeof(PROJECTILES));
 	PROJECTILE_COUNT	=	0;
@@ -15,7 +15,7 @@ void	init_projectiles()
 
 //---------------------------------------------------------------
 
-Thing	*alloc_projectile(UBYTE type)
+Thing *alloc_projectile(UBYTE type)
 {
 	SLONG			c0;
 	Projectile		*new_proj;
@@ -48,7 +48,7 @@ Thing	*alloc_projectile(UBYTE type)
 
 //---------------------------------------------------------------
 
-void	free_projectile(Thing *proj_thing)
+void free_projectile(Thing *proj_thing)
 {
 	// Set the projectile type to none & free the thing.
 	proj_thing->Genus.Projectile->ProjectileType	=	PROJECTILE_NONE;

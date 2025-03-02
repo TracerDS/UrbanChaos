@@ -90,7 +90,7 @@ SKY_Cloud SKY_cloud[SKY_NUM_CLOUDS];
 
 
 
-void SKY_init(CBYTE *star_file)
+void SKY_init(CBYTE* star_file)
 {
 
 #ifndef TARGET_DC

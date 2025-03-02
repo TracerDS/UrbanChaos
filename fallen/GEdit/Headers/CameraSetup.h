@@ -10,7 +10,7 @@
 //---------------------------------------------------------------
 
 void	do_camera_setup(EventPoint *ep);
-CBYTE	*get_camera_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_camera_message(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 

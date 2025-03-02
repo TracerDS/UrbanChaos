@@ -19,8 +19,8 @@
 
 // pvt globals...
 
-Particle		particles[PSYSTEM_MAX_PARTICLES];
-SLONG			next_free, next_used, particle_count;
+Particle particles[PSYSTEM_MAX_PARTICLES];
+SLONG next_free, next_used, particle_count;
 
 // nick this bit
 

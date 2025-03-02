@@ -45,10 +45,10 @@
 #define	PASTE_ALTITUDE	(1<<1)
 
 
-extern	SWORD	get_new_storey();
-extern	void	free_wall(SWORD wall);
-extern	SWORD	get_new_building();
-extern	SWORD	get_new_wall();
+extern SWORD	get_new_storey();
+extern void	free_wall(SWORD wall);
+extern SWORD	get_new_building();
+extern SWORD	get_new_wall();
 
 
 

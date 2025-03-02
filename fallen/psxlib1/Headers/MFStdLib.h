@@ -42,14 +42,14 @@
 #define	true				1
 #define	false				0
 
-typedef	unsigned char		UBYTE;
+typedef unsigned char		UBYTE;
 typedef signed char			SBYTE;
 typedef char				CBYTE;
 typedef unsigned short		UWORD;
 typedef signed short		SWORD;
 typedef unsigned long		ULONG;
 typedef signed long			SLONG;
-typedef	unsigned char		bool;
+typedef unsigned char		bool;
 
 typedef signed long			FIX_8;
 typedef signed long			FIX_9;
@@ -123,21 +123,21 @@ typedef struct
 #define	FLAGS_USE_3D			(1<<1)
 #define	FLAGS_USE_WORKSCREEN	(1<<2)
 
-extern	UBYTE				WorkScreenDepth,
+extern UBYTE				WorkScreenDepth,
 							*WorkScreen;
-extern	SLONG				WorkScreenHeight,
+extern SLONG				WorkScreenHeight,
 							WorkScreenPixelWidth,
 							WorkScreenWidth;
 
-SLONG			OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG			SetDisplay(ULONG width,ULONG height,ULONG depth);
-SLONG			CloseDisplay();
-void			ClearDisplay();
-void			FadeDisplay(UBYTE mode);
-void			*LockWorkScreen();
-void			UnlockWorkScreen();
-void			ShowWorkScreen(ULONG flags);
-void			ClearWorkScreen(UBYTE colour);
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+SLONG CloseDisplay();
+void ClearDisplay();
+void FadeDisplay(UBYTE mode);
+void* LockWorkScreen();
+void UnlockWorkScreen();
+void ShowWorkScreen(ULONG flags);
+void ClearWorkScreen(UBYTE colour);
 
 //---------------------------------------------------------------
 // Host
@@ -162,14 +162,14 @@ struct MFTime
 	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-SLONG			main(UWORD argc, CBYTE** argv);
-bool			SetupHost(ULONG flags);
-void			ResetHost();
-void			DebugText(CBYTE *error, ...);
-void            TraceText(CBYTE *error, ...);
-bool			LibShellActive();
-bool			LibShellChanged();
-bool			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+SLONG main(UWORD argc, CBYTE** argv);
+bool SetupHost(ULONG flags);
+void ResetHost();
+void DebugText(CBYTE* error, ...);
+void TraceText(CBYTE* error, ...);
+bool LibShellActive();
+bool LibShellChanged();
+bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 #define	NoError					0
 
@@ -182,8 +182,8 @@ bool			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 //#define	ERROR_MSG(e,m)		{if(!(e)) {}}
 //#define ASSERT(e)			{if (!(e)) {}}
 
-//void			DebugText(CBYTE *error, ...);
-//void            TraceText(CBYTE *error, ...);
+//void			DebugText(CBYTE* error, ...);
+//void            TraceText(CBYTE* error, ...);
 #define	DebugText
 #define	TraceText
 #define TRACE
@@ -213,8 +213,8 @@ bool			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 
 #ifdef PSX
-bool	GetInputDevice(UBYTE type,UBYTE sub_type);
-bool	ReadInputDevice();
+bool GetInputDevice(UBYTE type,UBYTE sub_type);
+bool ReadInputDevice();
 #endif
 
 //---------------------------------------------------------------
@@ -233,8 +233,8 @@ bool	ReadInputDevice();
 #define	SAMPLE_FREQ_ORIG	8
 
 
-void	LoadSampleList(CBYTE *sample_file);
-void	PlaySample(SLONG ref,SWORD sample_no,SLONG vol,SLONG pan,SLONG freq,SLONG pri);
+void LoadSampleList(CBYTE* sample_file);
+void PlaySample(SLONG ref,SWORD sample_no,SLONG vol,SLONG pan,SLONG freq,SLONG pri);
 
 
 
@@ -289,11 +289,11 @@ struct WaveParams
 		}Cartesian;
 	}Mode;
 };
-void	LoadWaveList(CBYTE *path,CBYTE *file);
-void	FreeWaveList();
-void	PlayWave(SLONG ref,SLONG wave_id,SLONG play_type,WaveParams *the_params);
-void	StopWave(SLONG ref,SLONG wave_id);
-void	SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale);
+void LoadWaveList(CBYTE* path,CBYTE* file);
+void FreeWaveList();
+void PlayWave(SLONG ref,SLONG wave_id,SLONG play_type,WaveParams *the_params);
+void StopWave(SLONG ref,SLONG wave_id);
+void SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale);
 
 //---------------------------------------------------------------
 // Standard macros.

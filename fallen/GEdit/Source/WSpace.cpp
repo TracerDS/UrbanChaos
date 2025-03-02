@@ -1236,7 +1236,7 @@ void	fini_wptlist()
 //---------------------------------------------------------------
 
 
-HTREEITEM ws_root_waypoint(CBYTE *msg, SLONG type, LPARAM param) {
+HTREEITEM ws_root_waypoint(CBYTE* msg, SLONG type, LPARAM param) {
 	TV_INSERTSTRUCT		tv_is;
 
 	if (msg[0]==0) {

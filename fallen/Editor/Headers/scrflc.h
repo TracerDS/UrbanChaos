@@ -121,32 +121,32 @@ struct	Animation
 #define		PLAYBACK_MODE_PLAY			(1 << 1)
 
 //**************************************|************************************
-extern	SLONG	anim_stop();
-extern	SLONG	anim_record();
+extern SLONG	anim_stop();
+extern SLONG	anim_record();
 
-extern	SLONG	anim_open(SBYTE *file_name, SWORD xpos, SWORD ypos, SWORD width, SWORD height, SBYTE *postage_stamp, SLONG	playback );
-extern	SLONG	anim_close(SLONG playback);
-extern	SLONG	anim_make_next_frame(UBYTE *WScreen, UBYTE *palette );
-extern	SLONG	anim_make_FLI_PSTAMP();
-extern	SLONG	anim_make_FLI_COLOUR256(UBYTE *palette);
-extern	SLONG	anim_make_FLI_COLOUR(UBYTE *palette);
-extern	SLONG	anim_make_FLI_SS2(UBYTE *wscreen, UBYTE *last_screen);
-extern	SLONG	anim_make_FLI_LC(UBYTE *wscreen, UBYTE *last_screen);
-extern	SLONG	anim_make_FLI_BLACK(UBYTE *wscreen );
-extern	SLONG	anim_make_FLI_BRUN(UBYTE *wscreen );
-extern	SLONG	anim_make_FLI_COPY(UBYTE *wscreen );
-extern	SLONG	anim_write_data(UBYTE *data, SLONG size);
-extern	SLONG	anim_store_data(UBYTE *data, SLONG size);
-extern	SLONG	anim_show_next_frame();
-extern	SLONG	anim_show_FLI_PSTAMP();
-extern	SLONG	anim_show_FLI_COLOUR256();
-extern	SLONG	anim_show_FLI_COLOUR();
-extern	SLONG	anim_show_FLI_SS2();
-extern	SLONG	anim_show_FLI_LC();
-extern	SLONG	anim_show_FLI_BLACK();
-extern	SLONG	anim_show_FLI_BRUN();
-extern	SLONG	anim_show_FLI_COPY();
-extern	SLONG	anim_read_data(UBYTE *data, SLONG size);
+extern SLONG	anim_open(SBYTE *file_name, SWORD xpos, SWORD ypos, SWORD width, SWORD height, SBYTE *postage_stamp, SLONG	playback );
+extern SLONG	anim_close(SLONG playback);
+extern SLONG	anim_make_next_frame(UBYTE *WScreen, UBYTE *palette );
+extern SLONG	anim_make_FLI_PSTAMP();
+extern SLONG	anim_make_FLI_COLOUR256(UBYTE *palette);
+extern SLONG	anim_make_FLI_COLOUR(UBYTE *palette);
+extern SLONG	anim_make_FLI_SS2(UBYTE *wscreen, UBYTE *last_screen);
+extern SLONG	anim_make_FLI_LC(UBYTE *wscreen, UBYTE *last_screen);
+extern SLONG	anim_make_FLI_BLACK(UBYTE *wscreen );
+extern SLONG	anim_make_FLI_BRUN(UBYTE *wscreen );
+extern SLONG	anim_make_FLI_COPY(UBYTE *wscreen );
+extern SLONG	anim_write_data(UBYTE *data, SLONG size);
+extern SLONG	anim_store_data(UBYTE *data, SLONG size);
+extern SLONG	anim_show_next_frame();
+extern SLONG	anim_show_FLI_PSTAMP();
+extern SLONG	anim_show_FLI_COLOUR256();
+extern SLONG	anim_show_FLI_COLOUR();
+extern SLONG	anim_show_FLI_SS2();
+extern SLONG	anim_show_FLI_LC();
+extern SLONG	anim_show_FLI_BLACK();
+extern SLONG	anim_show_FLI_BRUN();
+extern SLONG	anim_show_FLI_COPY();
+extern SLONG	anim_read_data(UBYTE *data, SLONG size);
 
 //**************************************|************************************
 #endif

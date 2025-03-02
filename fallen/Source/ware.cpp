@@ -22,16 +22,16 @@
 
 
 WARE_Ware *WARE_ware;//[WARE_MAX_WARES];
-UWORD      WARE_ware_upto;
+UWORD WARE_ware_upto;
 
 UWORD *WARE_nav;//[WARE_MAX_NAVS];
-UWORD  WARE_nav_upto;
+UWORD WARE_nav_upto;
 
 SBYTE *WARE_height;//[WARE_MAX_HEIGHTS];
-UWORD  WARE_height_upto;
+UWORD WARE_height_upto;
 
 UWORD *WARE_rooftex;//[WARE_MAX_ROOFTEXES];
-UWORD  WARE_rooftex_upto;
+UWORD WARE_rooftex_upto;
 
 UBYTE WARE_in;
 
@@ -210,11 +210,11 @@ void WARE_init()
 	//
 	// Load the rooftop textures from the mapfile.
 	//
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 
 	if(!save_psx) // psx has them allready loaded in load_game_map()
 	{
-		CBYTE *ch;
+		CBYTE* ch;
 
 		for (ch = ELEV_last_map_loaded; *ch; ch++);
 

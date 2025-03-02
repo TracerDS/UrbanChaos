@@ -33,12 +33,12 @@ extern enumDisplayType eDisplayType;
 
 //---------------------------------------------------------------
 
-extern	void	InitBackImage(CBYTE *name);
-extern	void UseBackSurface(LPDIRECTDRAWSURFACE4 use);
-extern	void	ResetBackImage();
+extern void	InitBackImage(CBYTE* name);
+extern void UseBackSurface(LPDIRECTDRAWSURFACE4 use);
+extern void	ResetBackImage();
 // Set b3DInFrame to false if there is no 3D going on, i.e. blits will work on the DC.
 // Ignored for the PC.
-extern	void	ShowBackImage(bool b3DInFrame = true);
+extern void	ShowBackImage(bool b3DInFrame = true);
 
 SLONG			OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
 SLONG			CloseDisplay();

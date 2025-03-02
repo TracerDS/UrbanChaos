@@ -47,7 +47,7 @@ typedef struct
 #define CLOTH_MAX_CLOTH 16
 
 CLOTH_Cloth CLOTH_cloth[CLOTH_MAX_CLOTH];
-SLONG       CLOTH_cloth_last;
+SLONG CLOTH_cloth_last;
 
 //
 // The links between the different cloth.
@@ -67,7 +67,7 @@ typedef struct
 #define CLOTH_MAX_LINKS 256
 
 CLOTH_Link CLOTH_link[CLOTH_MAX_LINKS];
-SLONG      CLOTH_link_upto;
+SLONG CLOTH_link_upto;
 
 //
 // How we calculate the normal of each point.

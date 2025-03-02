@@ -5,7 +5,7 @@
 #ifndef _PAP_
 #define _PAP_
 //#include	"game.h" //really requires thing.h but thing.h required game.h so lets cut it off at the pass#
-struct	Thing;
+struct Thing;
 
 //
 // The size of the map and the number of blocks per map square.
@@ -94,11 +94,11 @@ typedef struct
 
 
 
-typedef	PAP_Lo  MEM_PAP_Lo[PAP_SIZE_LO];
-typedef	PAP_Hi  MEM_PAP_Hi[PAP_SIZE_HI];
+typedef PAP_Lo  MEM_PAP_Lo[PAP_SIZE_LO];
+typedef PAP_Hi  MEM_PAP_Hi[PAP_SIZE_HI];
 
-extern	MEM_PAP_Lo *PAP_lo; //[PAP_SIZE_LO][PAP_SIZE_LO];
-extern	MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
+extern MEM_PAP_Lo *PAP_lo; //[PAP_SIZE_LO][PAP_SIZE_LO];
+extern MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 
 
 //extern PAP_Hi PAP_hi[PAP_SIZE_HI][PAP_SIZE_HI];
@@ -178,7 +178,7 @@ SLONG PAP_calc_height_noroads (SLONG x, SLONG z);
 SLONG PAP_calc_map_height_near(SLONG x, SLONG z);
 
 
-void	PAP_clear();
+void PAP_clear();
 
 //
 // Returns true if the given region of map is not on a hill.

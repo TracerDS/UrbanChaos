@@ -6,20 +6,20 @@
 
 //---------------------------------------------------------------
 
-bool	SetupMemory()
+bool SetupMemory()
 {
 	return	true;
 }
 
 //---------------------------------------------------------------
 
-void	ResetMemory()
+void ResetMemory()
 {
 }
 
 //---------------------------------------------------------------
 
-void	*MemAlloc(ULONG size)
+void* MemAlloc(ULONG size)
 {
 	size	=	(size+3)&0xfffffffc;
 	return (void*)malloc(size);
@@ -27,7 +27,7 @@ void	*MemAlloc(ULONG size)
 
 //---------------------------------------------------------------
 
-void	MemFree(void *mem_ptr)
+void MemFree(void* mem_ptr)
 {
 	free(mem_ptr);
 }

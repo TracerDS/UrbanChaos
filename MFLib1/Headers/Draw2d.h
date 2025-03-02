@@ -44,31 +44,31 @@ inline void		SetWorkWindow()	{	WorkWindow=(WorkScreen+WorkWindowRect.Left*WorkSc
 //---------------------------------------------------------------
 // DrawBox.c
 
-extern	void (*DrawBox)(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern	void (*DrawBoxC)(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void (*DrawBox)(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void (*DrawBoxC)(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
 
 //---------------------------------------------------------------
 // DrawLine.c
 
-extern	void (*DrawLine)(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void (*DrawLineC)(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern	void (*DrawHLine)(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void (*DrawHLineC)(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern	void (*DrawVLine)(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern	void (*DrawVLineC)(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void (*DrawLine)(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void (*DrawLineC)(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
+extern void (*DrawHLine)(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void (*DrawHLineC)(SLONG x1,SLONG x2,SLONG y,ULONG colour);
+extern void (*DrawVLine)(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void (*DrawVLineC)(SLONG x,SLONG y1,SLONG y2,ULONG colour);
 
 
 //---------------------------------------------------------------
 // DrawPoint.c
 
-extern	void (*DrawPoint)(MFPoint *the_point,ULONG colour);
-extern	void (*DrawPointC)(MFPoint *the_point,ULONG colour);
+extern void (*DrawPoint)(MFPoint *the_point,ULONG colour);
+extern void (*DrawPointC)(MFPoint *the_point,ULONG colour);
 
 //---------------------------------------------------------------
 // DrawPixel.c
 
-extern	void  (*DrawPixel)(SLONG x,SLONG y,ULONG colour);
-extern	void  (*DrawPixelC)(SLONG x,SLONG y,ULONG colour);
+extern void  (*DrawPixel)(SLONG x,SLONG y,ULONG colour);
+extern void  (*DrawPixelC)(SLONG x,SLONG y,ULONG colour);
 
 //---------------------------------------------------------------
 // DrawRect.c
@@ -82,12 +82,12 @@ void			DrawRectC(MFRect *the_rect,ULONG colour);
 extern UBYTE	*CharTable[];
 
 
-extern	void  (*QuickText)(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern	void  (*QuickTextC)(SLONG x,SLONG y,CBYTE *the_string,ULONG colour);
-extern	void  (*QuickChar)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
-extern	void  (*QuickCharC)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void  (*QuickText)(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void  (*QuickTextC)(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
+extern void  (*QuickChar)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void  (*QuickCharC)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
 
-SLONG			QTStringWidth(CBYTE *the_string);
+SLONG			QTStringWidth(CBYTE* the_string);
 inline SLONG	QTStringHeight()				{	return 8;	}
 inline SLONG	QTCharWidth(CBYTE the_char)			{	return (CharTable[the_char])[0];	}
 inline SLONG	QTCharHeight(CBYTE the_char)		{	return (CharTable[the_char])[1];	}

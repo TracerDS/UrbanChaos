@@ -10,18 +10,18 @@
 #include	"..\editor\headers\Editor.hpp"
 #include	"..\editor\headers\outline.h"
 
-struct	DepthStrip	edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];  //2meg
-UWORD	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
+struct DepthStrip	edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];  //2meg
+UWORD tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
 
-SBYTE	edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
-struct	EditInfo	edit_info;
-UWORD	page_remap[64 * 8];
-
-
-extern	SLONG	build_psx;
+SBYTE edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
+struct EditInfo	edit_info;
+UWORD page_remap[64 * 8];
 
 
-SLONG	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim_type,UBYTE prim_extra,SWORD face)
+extern SLONG	build_psx;
+
+
+SLONG insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim_type,UBYTE prim_extra,SWORD face)
 {
 	return 0;
 }
@@ -40,27 +40,27 @@ SLONG	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z
 #endif
 
 #ifndef	PSX
-SLONG	start_point[200];
+SLONG start_point[200];
 #endif
 
-UWORD	next_roof_bound=1;
+UWORD next_roof_bound=1;
 
 
 
-UWORD	background_prim=0;
+UWORD background_prim=0;
 
 
-void	set_floor_hidden(SLONG storey,UWORD	lower,UWORD flags);
+void set_floor_hidden(SLONG storey,UWORD	lower,UWORD flags);
 
 
-UWORD	end_prim_point=MAX_PRIM_POINTS-2;
-UWORD	end_prim_face4=MAX_PRIM_FACES4-2;
-UWORD	end_prim_face3=MAX_PRIM_FACES3-2;
-UWORD	end_prim_object=MAX_PRIM_OBJECTS-2;
-UWORD	end_prim_multi_object=MAX_PRIM_MOBJECTS-2;
+UWORD end_prim_point=MAX_PRIM_POINTS-2;
+UWORD end_prim_face4=MAX_PRIM_FACES4-2;
+UWORD end_prim_face3=MAX_PRIM_FACES3-2;
+UWORD end_prim_object=MAX_PRIM_OBJECTS-2;
+UWORD end_prim_multi_object=MAX_PRIM_MOBJECTS-2;
 
 #ifndef PSX
-struct	TXTY	texture_xy2[]=
+struct TXTY	texture_xy2[]=
 {
 	{0,0,0},				//0 
 	{0,32,0},				//1 
@@ -117,14 +117,14 @@ struct	TXTY	texture_xy2[]=
 };
 */
 #ifndef PSX
-struct	TXTY	textures_xy[200][5];
-struct	DXTXTY	dx_textures_xy[200][5];
-UBYTE	textures_flags[200][5];
+struct TXTY	textures_xy[200][5];
+struct DXTXTY	dx_textures_xy[200][5];
+UBYTE textures_flags[200][5];
 #endif
 
 
 /*
-struct	TextureInfo texture_info[]=
+struct TextureInfo texture_info[]=
 { //  0     1     2     3     4     5     6     7
 	{1,0},{1,0},{1,0},{1,0},{1,0},{1,0},{1,0},{1,0},    //0
 	{1,0},{1,0},{1,0},{1,0},{1,0},{1,0},{1,0},{1,0},	//1
@@ -215,59 +215,59 @@ struct	TextureInfo texture_info[]=
 
 static SLONG	build_x,build_y,build_z,build_min_y,build_max_y;
 
-extern	void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3); //prim.cpp
-extern	void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2); //prim.cpp
-extern	UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect);
+extern void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3); //prim.cpp
+extern void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2); //prim.cpp
+extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect);
 
-extern	struct	SVector			global_res[]; //max points per object?
-extern	SLONG	global_flags[];
-extern	UWORD	global_bright[];
-extern	float	global_light[];
+extern struct	SVector			global_res[]; //max points per object?
+extern SLONG	global_flags[];
+extern UWORD	global_bright[];
+extern float	global_light[];
 
 #define	SORT_LEVEL_LONG_LEDGE	1
 #define	SORT_LEVEL_FIRE_ESCAPE	3
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
-extern	SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py);
 
-struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece,SLONG flipx=0);
-void	build_face_texture_info(struct PrimFace4* p_f4,UWORD texture);
-struct	PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD texture_piece);
-void	build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height);
-SLONG	build_ledge2(SLONG y,SLONG storey,SLONG out,SLONG height,SLONG dip);
-SLONG	create_strip_points(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG len,SLONG numb,SLONG end_flag);
-SLONG	build_outline(SLONG *sx,SLONG *sz,SLONG storey,SLONG wall,SLONG y,SLONG out);
-void	calc_building_normals();	   
+struct PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece,SLONG flipx=0);
+void build_face_texture_info(struct PrimFace4* p_f4,UWORD texture);
+struct PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD texture_piece);
+void build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height);
+SLONG build_ledge2(SLONG y,SLONG storey,SLONG out,SLONG height,SLONG dip);
+SLONG create_strip_points(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG len,SLONG numb,SLONG end_flag);
+SLONG build_outline(SLONG *sx,SLONG *sz,SLONG storey,SLONG wall,SLONG y,SLONG out);
+void calc_building_normals();	   
 
 
-UWORD	next_building_object=1;
-UWORD	end_building_object=MAX_BUILDING_OBJECTS-2;
+UWORD next_building_object=1;
+UWORD end_building_object=MAX_BUILDING_OBJECTS-2;
 
-UWORD	next_building_facet=1;
-UWORD	end_building_facet=MAX_BUILDING_FACETS-2;
+UWORD next_building_facet=1;
+UWORD end_building_facet=MAX_BUILDING_FACETS-2;
 
-void	fn_building_normal(Thing *b_thing);
+void fn_building_normal(Thing *b_thing);
 
 //data
 
 
-UWORD	diff_page_count1=0;
-UWORD	diff_page_count2=0;
-UWORD	page_count[64*8];
-struct	FWindow		window_list[MAX_WINDOWS];
-struct	FWall		wall_list[MAX_WALLS];
-struct	FStorey		storey_list[MAX_STOREYS];
-struct	FBuilding	building_list[MAX_BUILDINGS];
+UWORD diff_page_count1=0;
+UWORD diff_page_count2=0;
+UWORD page_count[64*8];
+struct FWindow		window_list[MAX_WINDOWS];
+struct FWall		wall_list[MAX_WALLS];
+struct FStorey		storey_list[MAX_STOREYS];
+struct FBuilding	building_list[MAX_BUILDINGS];
 
-struct	BuildingFacet	building_facets[MAX_BUILDING_FACETS];
-struct	BuildingObject	building_objects[MAX_BUILDING_OBJECTS];
+struct BuildingFacet	building_facets[MAX_BUILDING_FACETS];
+struct BuildingObject	building_objects[MAX_BUILDING_OBJECTS];
 
-SLONG	build_mode=1;
+SLONG build_mode=1;
 
-struct	RoomID	room_ids[MAX_INSIDE_STOREYS];
-SLONG	next_inside=1;
+struct RoomID	room_ids[MAX_INSIDE_STOREYS];
+SLONG next_inside=1;
 
-UWORD	floor_texture_sizes[]=
+UWORD floor_texture_sizes[]=
 {
 	16,32,64,128
 };
@@ -284,7 +284,7 @@ UWORD	floor_texture_sizes[]=
 */
 
 
-void	add_page_countxy(SLONG tx,SLONG ty,SLONG page)
+void add_page_countxy(SLONG tx,SLONG ty,SLONG page)
 {
 
 	page=page*64+tx+ty*8;
@@ -301,7 +301,7 @@ void	add_page_countxy(SLONG tx,SLONG ty,SLONG page)
 // Data Abstraction layer for map references
 //******************************************************
 
-SLONG	add_bound_box(UBYTE minx,UBYTE maxx,UBYTE minz,UBYTE maxz,SWORD y)
+SLONG add_bound_box(UBYTE minx,UBYTE maxx,UBYTE minz,UBYTE maxz,SWORD y)
 {
 	if(next_roof_bound>MAX_ROOF_BOUND-2)
 		return(0);
@@ -314,7 +314,7 @@ SLONG	add_bound_box(UBYTE minx,UBYTE maxx,UBYTE minz,UBYTE maxz,SWORD y)
 	return(next_roof_bound-1);
 }
 
-SLONG	get_map_walkable(SLONG x,SLONG z)
+SLONG get_map_walkable(SLONG x,SLONG z)
 {
 	switch(build_mode)
 	{
@@ -346,7 +346,7 @@ void set_map_walkable(SLONG x,SLONG z,SLONG walkable)
 }
 
 
-SLONG	get_map_texture(SLONG x,SLONG z)
+SLONG get_map_texture(SLONG x,SLONG z)
 {
 	switch(build_mode)
 	{
@@ -381,7 +381,7 @@ void set_map_texture(SLONG x,SLONG z,SLONG texture)
 	}
 }
 
-SLONG	get_map_height(SLONG x,SLONG z)
+SLONG get_map_height(SLONG x,SLONG z)
 {
 	switch(build_mode)
 	{
@@ -397,7 +397,7 @@ SLONG	get_map_height(SLONG x,SLONG z)
 	return(0);
 }
 
-SLONG	get_roof_height(SLONG x,SLONG z)
+SLONG get_roof_height(SLONG x,SLONG z)
 {
 	switch(build_mode)
 	{
@@ -413,7 +413,7 @@ SLONG	get_roof_height(SLONG x,SLONG z)
 	return(0);
 }
 
-SLONG	set_map_flag(SLONG x,SLONG z,SLONG flag)
+SLONG set_map_flag(SLONG x,SLONG z,SLONG flag)
 {
 	switch(build_mode)
 	{
@@ -429,7 +429,7 @@ SLONG	set_map_flag(SLONG x,SLONG z,SLONG flag)
 	return(0);
 }
 
-SLONG	mask_map_flag(SLONG x,SLONG z,SLONG flag)
+SLONG mask_map_flag(SLONG x,SLONG z,SLONG flag)
 {
 	switch(build_mode)
 	{
@@ -445,7 +445,7 @@ SLONG	mask_map_flag(SLONG x,SLONG z,SLONG flag)
 	return(0);
 }
 
-SLONG	get_map_flags(SLONG x,SLONG z)
+SLONG get_map_flags(SLONG x,SLONG z)
 {
 	switch(build_mode)
 	{
@@ -477,7 +477,7 @@ void set_map_height(SLONG x,SLONG z,SLONG y)
 	}
 }
 
-SLONG	in_map_range(SLONG x,SLONG z)
+SLONG in_map_range(SLONG x,SLONG z)
 {
 	if(x<0||z<0)
 		return(0);
@@ -501,7 +501,7 @@ SLONG	in_map_range(SLONG x,SLONG z)
 	return(0);
 }
 
-void	place_thing_on_map(SLONG x,SLONG z,SLONG thing)
+void place_thing_on_map(SLONG x,SLONG z,SLONG thing)
 {
 	switch(build_mode)
 	{
@@ -517,7 +517,7 @@ void	place_thing_on_map(SLONG x,SLONG z,SLONG thing)
 	}
 }
 
-void	set_vect_floor_height(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y)
+void set_vect_floor_height(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y)
 {
 	SLONG	step_x,step_z;
 	SLONG	len,count;
@@ -548,22 +548,22 @@ void	set_vect_floor_height(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y)
 }
 
 
-static	SLONG	build_seed=0x12345678;
+static SLONG	build_seed=0x12345678;
 
-SLONG	build_rand()
+SLONG build_rand()
 {
 	build_seed=(build_seed*12345678)+12345678;
 //	LogText(" build_seed %x \n",build_seed);
 	return(build_seed>>16);
 }
 
-void	set_build_seed(SLONG seed)
+void set_build_seed(SLONG seed)
 {
 	build_seed=seed;
 }
 
 
-void	add_walk_face_to_map(SWORD face,SLONG x,SLONG z)
+void add_walk_face_to_map(SWORD face,SLONG x,SLONG z)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
@@ -671,7 +671,7 @@ void scan_walk_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z
 //  0   1
 //
 //	2   3
-void	add_quad_to_walkable_list(SWORD face)
+void add_quad_to_walkable_list(SWORD face)
 {
 	SLONG	x[4],y[4],z[4];
 	SLONG	c0,p0;
@@ -695,7 +695,7 @@ void	add_quad_to_walkable_list(SWORD face)
 	prim_faces4[face].FaceFlags |= FACE_FLAG_WALKABLE;
 }
 
-void	add_tri_to_walkable_list(SWORD face)
+void add_tri_to_walkable_list(SWORD face)
 {
 	/* wrong wrong wrong
 	SLONG	x,z;
@@ -711,7 +711,7 @@ void	add_tri_to_walkable_list(SWORD face)
 	*/
 }
 
-SLONG	place_building_at(UWORD building,UWORD prim,SLONG x,SLONG y,SLONG z)
+SLONG place_building_at(UWORD building,UWORD prim,SLONG x,SLONG y,SLONG z)
 {
 	UWORD	map_thing;
 
@@ -791,7 +791,7 @@ SLONG	place_building_at(UWORD building,UWORD prim,SLONG x,SLONG y,SLONG z)
 }
 
 
-void	add_point(SLONG x,SLONG y,SLONG z)
+void add_point(SLONG x,SLONG y,SLONG z)
 {
 	AENG_dx_prim_points[next_prim_point].X=(float)x;
 	AENG_dx_prim_points[next_prim_point].Y=(float)y;
@@ -803,9 +803,9 @@ void	add_point(SLONG x,SLONG y,SLONG z)
 }
 
 
-SLONG	WindowCount;
+SLONG WindowCount;
 
-SLONG	build_row_wall_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+SLONG build_row_wall_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
 {
 	SLONG	wcount,wwidth,wallwidth,dx,dz,dist;
 
@@ -871,7 +871,7 @@ SLONG	build_row_wall_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLO
 	
 }
 
-SLONG	build_row_wall_points_at_floor_alt(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+SLONG build_row_wall_points_at_floor_alt(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
 {
 	SLONG	wcount,wwidth,wallwidth,dx,dz,dist;
 
@@ -943,7 +943,7 @@ SLONG	build_row_wall_points_at_floor_alt(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLON
 	
 }
 
-SLONG	build_row_wall_only_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+SLONG build_row_wall_only_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
 {
 	SLONG	wcount,wwidth,dx,dz,dist;
 
@@ -990,7 +990,7 @@ SLONG	build_row_wall_only_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z
 	
 }
 
-SLONG	build_row_wall_only_points_at_floor_alt(SLONG dy,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+SLONG build_row_wall_only_points_at_floor_alt(SLONG dy,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
 {
 	SLONG	wcount,wwidth,dx,dz,dist;
 
@@ -1048,7 +1048,7 @@ SLONG	build_row_wall_only_points_at_floor_alt(SLONG dy,SLONG x1,SLONG z1,SLONG x
 	
 }
 
-SLONG	build_row_window_depth_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+SLONG build_row_window_depth_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
 {
 
 	SLONG	wcount,wwidth,wallwidth,dx,dz,dist;
@@ -1126,7 +1126,7 @@ SLONG	build_row_window_depth_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLON
 	
 }
 
-struct	Edge
+struct Edge
 {
 	SWORD	X;
 	UBYTE	Type;
@@ -1135,19 +1135,19 @@ struct	Edge
 	SWORD	Prev;
 };
 
-struct	Edge	*edge_pool_ptr=0;
-static	UWORD	*edge_heads_ptr=0;
-static	ULONG	next_edge;
-static	ULONG	edge_min_z;
-static	SLONG	*flag_blocks=0;
-static	SLONG	*flag_blocks2=0;
-static	UWORD	*cut_blocks=0;
-static	SLONG	global_y;
-SLONG	block_min_x,block_max_x;
+struct Edge	*edge_pool_ptr=0;
+static UWORD	*edge_heads_ptr=0;
+static ULONG	next_edge;
+static ULONG	edge_min_z;
+static SLONG	*flag_blocks=0;
+static SLONG	*flag_blocks2=0;
+static UWORD	*cut_blocks=0;
+static SLONG	global_y;
+SLONG block_min_x,block_max_x;
 #define	MAX_BOUND_SIZE	(200)
 
 
-void	insert_point(SLONG z,SLONG x,SWORD type)
+void insert_point(SLONG z,SLONG x,SWORD type)
 {
 	SLONG	edge;
 
@@ -1233,7 +1233,7 @@ void	insert_point(SLONG z,SLONG x,SWORD type)
 #define	CUT_BLOCK_LEFT		(2)
 #define	CUT_BLOCK_RIGHT		(3)
 
-void	set_cut_blocks(SLONG x,SLONG z)  // x is in pixels // zis in blocks
+void set_cut_blocks(SLONG x,SLONG z)  // x is in pixels // zis in blocks
 {
 
 	LogText(" cut block [%d][%d] top    x %d x %x\n",x>>ELE_SHIFT,z+1,x,x);
@@ -1243,7 +1243,7 @@ void	set_cut_blocks(SLONG x,SLONG z)  // x is in pixels // zis in blocks
 		cut_blocks[(x>>ELE_SHIFT)*4+((z-1)*MAX_BOUND_SIZE*4+CUT_BLOCK_BOTTOM)]=x;
 }
 
-void	set_cut_blocks_z(SLONG x,SLONG z) // x is in blocks z is in pixels
+void set_cut_blocks_z(SLONG x,SLONG z) // x is in blocks z is in pixels
 {
 
 	LogText(" cut block [%d][%d] left   z %d z %x\n",x,z>>ELE_SHIFT,z,z);
@@ -1252,7 +1252,7 @@ void	set_cut_blocks_z(SLONG x,SLONG z) // x is in blocks z is in pixels
 	cut_blocks[(x-1)*4+(((z>>ELE_SHIFT)-0)*MAX_BOUND_SIZE*4+CUT_BLOCK_RIGHT)]=z;
 }
 
-void	scan_line_z(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
+void scan_line_z(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
 {
 	SLONG	dx,dz,count;
 	SLONG	x,z;
@@ -1326,7 +1326,7 @@ void	scan_line_z(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
 	}
 }
 
-UBYTE	scan_line(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
+UBYTE scan_line(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
 {
 	SLONG	dx,dz,count;
 	SLONG	x,z;
@@ -1452,7 +1452,7 @@ UBYTE	scan_line(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
 
 
 
-SLONG	build_edge_list(SLONG storey,SLONG flag)
+SLONG build_edge_list(SLONG storey,SLONG flag)
 {
 	UWORD	wall;
 	SLONG	px,pz;
@@ -1518,7 +1518,7 @@ SLONG	build_edge_list(SLONG storey,SLONG flag)
 	return(angles);
 }
 
-void	build_more_edge_list(SLONG min_z,SLONG max_z,SLONG storey,SLONG flag)
+void build_more_edge_list(SLONG min_z,SLONG max_z,SLONG storey,SLONG flag)
 {
 	UWORD	wall;
 	SLONG	px,pz;
@@ -1565,7 +1565,7 @@ void	build_more_edge_list(SLONG min_z,SLONG max_z,SLONG storey,SLONG flag)
 }
 
 
-void	scan_bottom_line(SLONG x,SLONG z,SLONG x2,SLONG y)
+void scan_bottom_line(SLONG x,SLONG z,SLONG x2,SLONG y)
 {
 	SLONG	dy;
 	//LogText(" scan bottom line (%x,%x)->(%x) \n",x1,(z1>>ELE_SIZE),x2);
@@ -1600,7 +1600,7 @@ void	scan_bottom_line(SLONG x,SLONG z,SLONG x2,SLONG y)
 
 
 // scan horizontal edges
-void	build_bottom_edge_list(SLONG storey,SLONG y)
+void build_bottom_edge_list(SLONG storey,SLONG y)
 {
 	UWORD	wall;
 	SLONG	px,pz;
@@ -1631,7 +1631,7 @@ void	build_bottom_edge_list(SLONG storey,SLONG y)
 }
 
 
-void	bin_edge_list()
+void bin_edge_list()
 {
 	if(edge_pool_ptr)
 	{
@@ -1673,7 +1673,7 @@ void	bin_edge_list()
 #define	OUTSIDE			(2)
 
 
-void	dump_edge_list(UWORD size)
+void dump_edge_list(UWORD size)
 {
 	SLONG	c0;
 	SLONG	edge;
@@ -1698,7 +1698,7 @@ void	dump_edge_list(UWORD size)
 #define MYFX(x)	((  ((x-(min_x<<ELE_SHIFT))*(box_width>>3))>>(ELE_SHIFT-3))+10 )
 #define MYFY(x)	( (((x)*(box_depth>>3))>>(ELE_SHIFT-3))+10)
 /*
-void	show_grid(SLONG width,SLONG depth,SLONG min_x)
+void show_grid(SLONG width,SLONG depth,SLONG min_x)
 {
 	SLONG	xt,xb,zl,zr;
 	SLONG	x,z;
@@ -1785,7 +1785,7 @@ void	show_grid(SLONG width,SLONG depth,SLONG min_x)
 #define	set_UV4(x0,y0,x1,y1,x2,y2,x3,y3) UV[0][0]=(x0);UV[0][1]=(y0);UV[1][0]=(x1);UV[1][1]=(y1);UV[2][0]=(x3);UV[2][1]=(y3);UV[3][0]=(x2);UV[3][1]=(y2);
 
 // mx,mz are map co_ords 0..MAP_WIDTH
-void	build_free_tri_texture_info(struct PrimFace3 *p_f3,SLONG mx,SLONG mz)
+void build_free_tri_texture_info(struct PrimFace3 *p_f3,SLONG mx,SLONG mz)
 {
 	UBYTE tx,ty,page;
 	SLONG	tsize;
@@ -1869,7 +1869,7 @@ void	build_free_tri_texture_info(struct PrimFace3 *p_f3,SLONG mx,SLONG mz)
 	}
 }
 
-void	build_free_quad_texture_info(struct PrimFace4 *p_f4,SLONG mx,SLONG mz)
+void build_free_quad_texture_info(struct PrimFace4 *p_f4,SLONG mx,SLONG mz)
 {
 	UBYTE tx,ty,page;
 	SLONG	tsize;
@@ -1957,7 +1957,7 @@ void	build_free_quad_texture_info(struct PrimFace4 *p_f4,SLONG mx,SLONG mz)
 //x's are in world co-ords
 
 
-void	scan_45(SLONG x1,SLONG z1,SLONG dx,SLONG dz)
+void scan_45(SLONG x1,SLONG z1,SLONG dx,SLONG dz)
 {
 	UBYTE	type=0;
 	SLONG	count;
@@ -2034,7 +2034,7 @@ void	scan_45(SLONG x1,SLONG z1,SLONG dx,SLONG dz)
 	}
 }
 
-SLONG	build_storey_lip(SLONG storey,SLONG y)
+SLONG build_storey_lip(SLONG storey,SLONG y)
 {
 	SLONG	flag=0;
 	SLONG	out,height,dip;
@@ -2073,8 +2073,8 @@ SLONG	build_storey_lip(SLONG storey,SLONG y)
 	return(y);
 }
 
-SLONG	current_building;
-void	create_walkable_structure(SLONG left,SLONG right,SLONG top,SLONG bottom,SLONG y,SLONG sp,SLONG sf4,SLONG dy)
+SLONG current_building;
+void create_walkable_structure(SLONG left,SLONG right,SLONG top,SLONG bottom,SLONG y,SLONG sp,SLONG sf4,SLONG dy)
 {
 	struct	DWalkable	*p_w;
 
@@ -2123,7 +2123,7 @@ void	create_walkable_structure(SLONG left,SLONG right,SLONG top,SLONG bottom,SLO
 //
 //  2    3
 
-void	calc_face_split(struct	PrimFace4	*p_f4)
+void calc_face_split(struct	PrimFace4	*p_f4)
 {
 	SLONG	y0,y1,y2,y3;
 
@@ -2147,7 +2147,7 @@ void	calc_face_split(struct	PrimFace4	*p_f4)
 #define	ROT1	(3<<8)
 #define	ROT2	(2<<8)
 #define	ROT3	(1<<8)
-UWORD	lookup_roof[]=
+UWORD lookup_roof[]=
 {
 		    // ->>>0
 		    //000
@@ -3431,7 +3431,7 @@ UWORD	lookup_roof[]=
 		37,
 };
 
-SLONG	build_easy_roof(SLONG min_x,SLONG edge_min_z,SLONG max_x,SLONG depth,SLONG y,SLONG face_wall,SLONG flag)
+SLONG build_easy_roof(SLONG min_x,SLONG edge_min_z,SLONG max_x,SLONG depth,SLONG y,SLONG face_wall,SLONG flag)
 {
 	SLONG	x,z;
 	SLONG	valid_roof=0;
@@ -3729,7 +3729,7 @@ SLONG	build_easy_roof(SLONG min_x,SLONG edge_min_z,SLONG max_x,SLONG depth,SLONG
 
 }
 
-void	clear_reflective_flag(SLONG min_x,SLONG min_z,SLONG max_x,SLONG max_z)
+void clear_reflective_flag(SLONG min_x,SLONG min_z,SLONG max_x,SLONG max_z)
 {
 	SLONG	minx,maxx,minz,maxz;
 	SLONG	x,z;
@@ -3803,7 +3803,7 @@ OUTLINE_Outline *get_storey_outline(SLONG storey)
 	return oo;
 }
 
-SLONG	do_storeys_overlap(SLONG s1, SLONG s2)
+SLONG do_storeys_overlap(SLONG s1, SLONG s2)
 {
 	OUTLINE_Outline *oos;
 	OUTLINE_Outline *ool;
@@ -3825,7 +3825,7 @@ SLONG	do_storeys_overlap(SLONG s1, SLONG s2)
 	}
 }
 
-SLONG	build_roof_grid(SLONG storey,SLONG y,SLONG flat_flag)
+SLONG build_roof_grid(SLONG storey,SLONG y,SLONG flat_flag)
 {
 	SLONG	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
 	SLONG	width,depth;
@@ -4659,7 +4659,7 @@ SLONG	build_roof_grid(SLONG storey,SLONG y,SLONG flat_flag)
 
 
 
-SLONG	is_storey_circular(SLONG storey)
+SLONG is_storey_circular(SLONG storey)
 {
 	SLONG	sx,sz,wall;
 	sx=storey_list[storey].DX;
@@ -4677,7 +4677,7 @@ SLONG	is_storey_circular(SLONG storey)
 	return(0);
 }
 
-void	set_floor_hidden(SLONG storey,UWORD	lower,UWORD flags)
+void set_floor_hidden(SLONG storey,UWORD	lower,UWORD flags)
 {
 	SLONG	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
 	SLONG	width,depth;
@@ -4805,7 +4805,7 @@ void	set_floor_hidden(SLONG storey,UWORD	lower,UWORD flags)
 
 
 
-void	build_fe_mid_points(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	flag)
+void build_fe_mid_points(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	flag)
 {
 	SLONG	dx,dz,dist;
 
@@ -4825,7 +4825,7 @@ void	build_fe_mid_points(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	flag)
 		add_point(x2-dx,y,z2-dz);
 }
 
-void	build_fire_escape_points(UWORD	storey,SLONG	y,SLONG	flag)
+void build_fire_escape_points(UWORD	storey,SLONG	y,SLONG	flag)
 {
 	SLONG	walls[3],count=0,wall;
 	SLONG	mx,mz,mx2,mz2;
@@ -4878,7 +4878,7 @@ void	build_fire_escape_points(UWORD	storey,SLONG	y,SLONG	flag)
 
 #define	PsetUV4(p_f4,x0,y0,x1,y1,x2,y2,x3,y3,page) p_f4->UV[0][0]=(x0);p_f4->UV[0][1]=(y0);p_f4->UV[1][0]=(x1);p_f4->UV[1][1]=(y1);p_f4->UV[2][0]=(x2);p_f4->UV[2][1]=(y2);p_f4->UV[3][0]=(x3);p_f4->UV[3][1]=(y3);p_f4->TexturePage=page;
 
-void	build_face_texture_info(struct PrimFace4 *p_f4,UWORD texture)
+void build_face_texture_info(struct PrimFace4 *p_f4,UWORD texture)
 {
 	UBYTE tx,ty,page;
 	SLONG	tsize;
@@ -4911,7 +4911,7 @@ void	build_face_texture_info(struct PrimFace4 *p_f4,UWORD texture)
 //   0     1
 //
 //   2     3
-void	set_quad_planar_flag(struct	PrimFace4	*pf4)
+void set_quad_planar_flag(struct	PrimFace4	*pf4)
 {
 	SLONG	p0,p1,p2,p3;
 	SLONG	nx,ny,nz,mx,my,mz;
@@ -4974,7 +4974,7 @@ void	set_quad_planar_flag(struct	PrimFace4	*pf4)
 	}
 }
 
-struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece,SLONG flipx)
+struct PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece,SLONG flipx)
 {
 	struct	PrimFace4	*p4;
 	SLONG	tx,ty;
@@ -5162,7 +5162,7 @@ struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	textur
 	return(p4);
 }
 
-struct	PrimFace4*	create_a_quad_tex(UWORD p1,UWORD p0,UWORD p3,UWORD p2,UWORD	texture,SLONG flipx=0)
+struct PrimFace4*	create_a_quad_tex(UWORD p1,UWORD p0,UWORD p3,UWORD p2,UWORD	texture,SLONG flipx=0)
 {
 	struct	PrimFace4	*p4;
 	SLONG	tx,ty;
@@ -5241,7 +5241,7 @@ struct	PrimFace4*	create_a_quad_tex(UWORD p1,UWORD p0,UWORD p3,UWORD p2,UWORD	te
 	return(p4);
 }
 
-struct	PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD texture_piece)
+struct PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD texture_piece)
 {
 	struct	PrimFace3	*p3;
 	SLONG	tx,ty;
@@ -5282,7 +5282,7 @@ struct	PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD
 	
 }
 
-void	set_texture_fe(struct	PrimFace4 *p4,SLONG xw,SLONG xh,SLONG type)
+void set_texture_fe(struct	PrimFace4 *p4,SLONG xw,SLONG xh,SLONG type)
 {
 	SLONG	tx,ty;
 	switch(type)
@@ -5323,32 +5323,32 @@ void	set_texture_fe(struct	PrimFace4 *p4,SLONG xw,SLONG xh,SLONG type)
 
 #ifdef	OLD_DOG_POO_OF_A_SYSTEM_OR_IS_IT
 /*
-UWORD	next_face_type=1;
-UWORD	next_face_link=1;
-UWORD	next_face_connection=1;
+UWORD next_face_type=1;
+UWORD next_face_link=1;
+UWORD next_face_connection=1;
 
-struct	FaceLink
+struct FaceLink
 {
 	UWORD	Index;
 	UBYTE	Count;
 };
 
-UWORD	face_type_index[50];  // for face type %1  returns index into face_links which you add your ID to , to pull out an inde and number of faces connected to
-struct	FaceLink	face_links[50*20]; // 
-UWORD	face_connection_pool[2000];
+UWORD face_type_index[50];  // for face type %1  returns index into face_links which you add your ID to , to pull out an inde and number of faces connected to
+struct FaceLink	face_links[50*20]; // 
+UWORD face_connection_pool[2000];
 
 
 
 //each type has a variable number of ID's
 
 
-void	add_connection_for_current_id(SLONG offset)
+void add_connection_for_current_id(SLONG offset)
 {
 	face_connection_pool[next_face_connection++]=offset;
 	face_links[next_face_link-1].Count++;
 }
 
-SLONG	advance_face_id_number()
+SLONG advance_face_id_number()
 {
 	face_links[next_face_link].Count=0;
 	face_links[next_face_link].Index=next_face_connection;
@@ -5359,7 +5359,7 @@ SLONG	advance_face_id_number()
 
 }
 
-SLONG	advance_face_type_number()
+SLONG advance_face_type_number()
 {
 	face_type_index[next_face_type]=next_face_link;
 	face_links[next_face_link].Count=0;
@@ -5387,7 +5387,7 @@ SLONG	advance_face_type_number()
 #define	FE_SLOPE2_RAIL		-12
 
 
-SWORD	face_offsets[]=
+SWORD face_offsets[]=
 {
 	0,
 	-1,0,				//1
@@ -5398,13 +5398,13 @@ SWORD	face_offsets[]=
 
 };
 
-UWORD	id_offset[]=
+UWORD id_offset[]=
 {
 	0,1,3,6,9,12
 };
 #define	FACE_TYPE_FIRE_ESCAPE (1<<0)
 
-SLONG	next_connected_face(SLONG type,SLONG id,SLONG count)
+SLONG next_connected_face(SLONG type,SLONG id,SLONG count)
 {
 	switch(type)
 	{
@@ -5418,7 +5418,7 @@ SLONG	next_connected_face(SLONG type,SLONG id,SLONG count)
 	}
 	return(0);
 }
-void	build_firescape(SLONG storey)
+void build_firescape(SLONG storey)
 {
 	SLONG	y=0;
 	SLONG	count=0;
@@ -5572,7 +5572,7 @@ void	build_firescape(SLONG storey)
 //   
 
 #define	LADDER_SPINE_WIDTH		12
-void	build_ladder_points(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	y,SLONG	flag)
+void build_ladder_points(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	y,SLONG	flag)
 {
 	SLONG	dx,dz;
 
@@ -5615,9 +5615,9 @@ void	build_ladder_points(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	y,SLONG	flag)
 
 }
 
-void	calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2);
+void calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2);
 
-void	calc_ladder_pos(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2,SLONG *y,SLONG *extra_height)
+void calc_ladder_pos(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2,SLONG *y,SLONG *extra_height)
 {
 	SLONG	dx,dz;
 	*extra_height=0;
@@ -5654,10 +5654,10 @@ void	calc_ladder_pos(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2,SLONG *y,SLONG *ext
 
 
 #define	MAX_SIZE	20
-SLONG	sp[MAX_SIZE][MAX_SIZE];
-SLONG	xp[MAX_SIZE],zp[MAX_SIZE];
+SLONG sp[MAX_SIZE][MAX_SIZE];
+SLONG xp[MAX_SIZE],zp[MAX_SIZE];
 
-SLONG	flat_fill_a_quad_of_points(SLONG start_point,SLONG w,SLONG h,SLONG texture_style,SLONG wall)
+SLONG flat_fill_a_quad_of_points(SLONG start_point,SLONG w,SLONG h,SLONG texture_style,SLONG wall)
 {
 	SLONG	ax,az;
 	SLONG	y;
@@ -5711,10 +5711,10 @@ SLONG	flat_fill_a_quad_of_points(SLONG start_point,SLONG w,SLONG h,SLONG texture
 }
 
 
-SLONG	sx[200],sz[200];
-SLONG	numb[200];
+SLONG sx[200],sz[200];
+SLONG numb[200];
 
-SLONG	build_skylight(SLONG storey)
+SLONG build_skylight(SLONG storey)
 {
 	SLONG	count=0;
 	SLONG	index,c0;
@@ -5807,7 +5807,7 @@ SLONG	build_skylight(SLONG storey)
 	return(y+up);
 }
 
-void	build_ladder(SLONG storey)
+void build_ladder(SLONG storey)
 {
 	SLONG	y=0,c0;
 	SLONG	count=0;
@@ -5945,7 +5945,7 @@ void	build_ladder(SLONG storey)
 
 
 }
-void	build_ladder_old(SLONG storey)
+void build_ladder_old(SLONG storey)
 {
 	SLONG	y=0,c0;
 	SLONG	count=0;
@@ -6066,7 +6066,7 @@ void	build_ladder_old(SLONG storey)
 //see diag 5.2 page 164 of van dam 1
 
 
-SLONG	calc_sin_from_cos(SLONG sin)
+SLONG calc_sin_from_cos(SLONG sin)
 {
 	SLONG	cos;
 
@@ -6076,7 +6076,7 @@ SLONG	calc_sin_from_cos(SLONG sin)
 
 }
 
-void	calc_new_corner_point(SLONG	x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,SLONG z3,SLONG width,SLONG *res_x,SLONG *res_z)
+void calc_new_corner_point(SLONG	x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,SLONG z3,SLONG width,SLONG *res_x,SLONG *res_z)
 {
 
 	SLONG	vx,vz,dist;
@@ -6169,7 +6169,7 @@ void	calc_new_corner_point(SLONG	x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,SLONG z3
 }
 
 
-void	build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 {
 //	SLONG	sp[10];
 	SLONG	count=0;
@@ -6253,7 +6253,7 @@ void	build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 	}
 }
 
-SLONG	create_strip_points(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG len,SLONG numb,SLONG end_flag)
+SLONG create_strip_points(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG len,SLONG numb,SLONG end_flag)
 {
 	SLONG	count;
 	SLONG	dist;
@@ -6306,7 +6306,7 @@ SLONG	create_strip_points(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,
 
 
 
-SLONG	build_outline(SLONG *sx,SLONG *sz,SLONG storey,SLONG wall,SLONG y,SLONG out)
+SLONG build_outline(SLONG *sx,SLONG *sz,SLONG storey,SLONG wall,SLONG y,SLONG out)
 {
 	SLONG	offset;
 	SLONG	px;
@@ -6353,7 +6353,7 @@ SLONG	build_outline(SLONG *sx,SLONG *sz,SLONG storey,SLONG wall,SLONG y,SLONG ou
 }
 
 
-SLONG	ladder_on_block(SLONG p0,SLONG p1,SLONG p2,SLONG p3)
+SLONG ladder_on_block(SLONG p0,SLONG p1,SLONG p2,SLONG p3)
 {
 	SLONG	ax,az;
 	SLONG	flags;
@@ -6385,7 +6385,7 @@ SLONG	ladder_on_block(SLONG p0,SLONG p1,SLONG p2,SLONG p3)
 //
 //   p0      p1
 /*
-void	build_ledge_around_ladder(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
+void build_ledge_around_ladder(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
 {
 	SLONG	x1,z1,x2,z2,dx,dz;
 
@@ -6417,8 +6417,8 @@ void	build_ledge_around_ladder(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
 
 }
   */
-SLONG	sx_l2[30],sz_l2[30];
-SLONG	build_ledge2(SLONG y,SLONG storey,SLONG out,SLONG height,SLONG dip)
+SLONG sx_l2[30],sz_l2[30];
+SLONG build_ledge2(SLONG y,SLONG storey,SLONG out,SLONG height,SLONG dip)
 {
 	//SLONG	sp[10];
 	SLONG	count=0;
@@ -6559,7 +6559,7 @@ SLONG	build_ledge2(SLONG y,SLONG storey,SLONG out,SLONG height,SLONG dip)
 }
 
 #define	RECESS_SIZE	(32)
-void	append_recessed_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void append_recessed_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 {
 	SLONG	x2,y2,z2;
 	SLONG	dx,dz,len;
@@ -6700,7 +6700,7 @@ void	append_recessed_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,S
 
 
 
-void	append_foundation_wall(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void append_foundation_wall(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 {
 	SLONG	c0;
 	SLONG	start_point[10];
@@ -6793,7 +6793,7 @@ void	append_foundation_wall(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLON
 	}
 }
 
-void	append_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height) //,UBYTE *ptexture,UWORD tcount)
+void append_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height) //,UBYTE *ptexture,UWORD tcount)
 {
 	SLONG	c0;
 	SLONG	start_point[10];
@@ -7022,7 +7022,7 @@ void	append_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG heig
 
 
 
-SLONG	find_near_prim_point(SLONG x,SLONG z,SLONG sp,SLONG ep)
+SLONG find_near_prim_point(SLONG x,SLONG z,SLONG sp,SLONG ep)
 {
 	SLONG	best,best_dist=0x7fffffff,dx,dz,dist,c0;
 
@@ -7042,7 +7042,7 @@ SLONG	find_near_prim_point(SLONG x,SLONG z,SLONG sp,SLONG ep)
 }
 
 
-void	create_recessed_storey_points(SLONG y,SLONG storey,SLONG count,SLONG size)
+void create_recessed_storey_points(SLONG y,SLONG storey,SLONG count,SLONG size)
 {
 
 	SLONG	px,pz,index,dx,dz;
@@ -7157,7 +7157,7 @@ void scan_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLO
 }
 
 
-void	flag_floor_tiles_for_quad(SLONG	p0,SLONG	p1,SLONG	p2,SLONG	p3)
+void flag_floor_tiles_for_quad(SLONG	p0,SLONG	p1,SLONG	p2,SLONG	p3)
 {
 	SLONG	x0,y0,z0,x1,y1,z1,x2,y2,z2,x3,y3,z3;
 
@@ -7184,7 +7184,7 @@ void	flag_floor_tiles_for_quad(SLONG	p0,SLONG	p1,SLONG	p2,SLONG	p3)
 
 }
 
-void	flag_floor_tiles_for_tri(SLONG	p0,SLONG	p1,SLONG	p2)
+void flag_floor_tiles_for_tri(SLONG	p0,SLONG	p1,SLONG	p2)
 {
 	SLONG	x0,y0,z0,x1,y1,z1,x2,y2,z2;
 
@@ -7208,7 +7208,7 @@ void	flag_floor_tiles_for_tri(SLONG	p0,SLONG	p1,SLONG	p2)
 }
 
 
-SLONG	build_roof(UWORD storey,SLONG y,SLONG flat_flag)
+SLONG build_roof(UWORD storey,SLONG y,SLONG flat_flag)
 {
 //	SLONG	x1,z1,x2,z2,x3,z3;
 	SLONG	wall;
@@ -7445,7 +7445,7 @@ SLONG	build_roof(UWORD storey,SLONG y,SLONG flat_flag)
 
 }
 
-SLONG	area_of_quad(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
+SLONG area_of_quad(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
 {
 
 	SLONG dx,dz;
@@ -7464,7 +7464,7 @@ SLONG	area_of_quad(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
 // p2        p32          p3
 
 
-void	create_split_quad_into_4(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
+void create_split_quad_into_4(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
 {
 
 	SLONG	p01,p13,p32,p20,p03;
@@ -7518,7 +7518,7 @@ void	create_split_quad_into_4(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLO
 
 }
 
-void	create_split_quad_into_16(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
+void create_split_quad_into_16(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
 {
 	SLONG	p01,p13,p32,p20,p03;
 	SLONG	x,z;
@@ -7558,7 +7558,7 @@ void	create_split_quad_into_16(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SL
 
 }
 
-void	create_split_quad_into_48(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
+void create_split_quad_into_48(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
 {
 	SLONG	p01,p13,p32,p20,p03;
 	SLONG	x,z;
@@ -7599,7 +7599,7 @@ void	create_split_quad_into_48(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SL
 }
 
 
-void	build_roof_quad(UWORD storey,SLONG y)
+void build_roof_quad(UWORD storey,SLONG y)
 {
 //	SLONG	x1,z1,x2,z2,x3,z3;
 	SLONG	wall;
@@ -7679,7 +7679,7 @@ void	build_roof_quad(UWORD storey,SLONG y)
 }
 
 
-void	center_object(SLONG sp,SLONG ep)
+void center_object(SLONG sp,SLONG ep)
 {
 	SLONG	c0;
 //	,count;
@@ -7722,7 +7722,7 @@ void	center_object(SLONG sp,SLONG ep)
 	
 }
 
-void	center_object_about_xz(SLONG sp,SLONG ep,SLONG x,SLONG z)
+void center_object_about_xz(SLONG sp,SLONG ep,SLONG x,SLONG z)
 {
 	SLONG	c0;
 //	,count;
@@ -7752,7 +7752,7 @@ void	center_object_about_xz(SLONG sp,SLONG ep,SLONG x,SLONG z)
 
 
 
-SLONG	build_facet(SLONG sp,SLONG mp,SLONG sf3,SLONG sf4,SLONG mf4,SLONG prev_facet,UWORD flags,UWORD col_vect)
+SLONG build_facet(SLONG sp,SLONG mp,SLONG sf3,SLONG sf4,SLONG mf4,SLONG prev_facet,UWORD flags,UWORD col_vect)
 {
 	struct	BuildingFacet	*p_obj;
 	p_obj=&building_facets[next_building_facet];
@@ -7794,7 +7794,7 @@ SLONG	build_facet(SLONG sp,SLONG mp,SLONG sf3,SLONG sf4,SLONG mf4,SLONG prev_fac
 	return(next_building_facet-1);
 }
 
-SLONG	build_building(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet)
+SLONG build_building(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet)
 {
 	struct	BuildingObject	*p_bobj;
 	p_bobj=&building_objects[next_building_object];
@@ -7821,7 +7821,7 @@ SLONG	build_building(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet)
 	return(next_building_object-1);
 }
 
-SLONG	build_building2(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet,SLONG cx,SLONG cz)
+SLONG build_building2(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet,SLONG cx,SLONG cz)
 {
 	struct	BuildingObject	*p_bobj;
 	p_bobj=&building_objects[next_building_object];
@@ -7843,7 +7843,7 @@ SLONG	build_building2(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet,SLONG cx,SLO
 	return(next_building_object-1);
 }
 
-SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4)
+SLONG build_prim_object(SLONG sp,SLONG sf3,SLONG sf4)
 {
 	struct	PrimObject	*p_obj;
 	p_obj=&prim_objects[next_prim_object];
@@ -7862,7 +7862,7 @@ SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4)
 }
 
 
-void	find_next_last_coord(SWORD wall,SLONG *x,SLONG *z)
+void find_next_last_coord(SWORD wall,SLONG *x,SLONG *z)
 {
 	SLONG	next_wall;
 	LogText(" find next to last wall %d ",wall);
@@ -7881,7 +7881,7 @@ void	find_next_last_coord(SWORD wall,SLONG *x,SLONG *z)
 	}
 }
 
-struct	LedgeInfo
+struct LedgeInfo
 {
 	SWORD	Storey,Wall;
 	SWORD	Y;
@@ -7890,7 +7890,7 @@ struct	LedgeInfo
 };
 
 
-void	build_single_ledge(struct LedgeInfo	*p_ledge)
+void build_single_ledge(struct LedgeInfo	*p_ledge)
 {
 	
 	SLONG	sp[4],count=0;
@@ -7931,7 +7931,7 @@ void	build_single_ledge(struct LedgeInfo	*p_ledge)
 
 }
 
-SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py)
+SLONG dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py)
 {
 	SLONG	dist,dx,dy;
 
@@ -7947,7 +7947,7 @@ SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG p
 
 }
 
-SLONG	find_wall_for_fe(SLONG fe_x,SLONG fe_y,SLONG storey)
+SLONG find_wall_for_fe(SLONG fe_x,SLONG fe_y,SLONG storey)
 {
 	SLONG 	wall=0;
 	SLONG	px,pz,x1,z1;
@@ -7997,8 +7997,8 @@ SLONG	find_wall_for_fe(SLONG fe_x,SLONG fe_y,SLONG storey)
 	
 }
 
-SLONG	sp_stairs[300];
-void	build_staircase(SLONG	storey)
+SLONG sp_stairs[300];
+void build_staircase(SLONG	storey)
 {
 	SLONG	wall;
 	SLONG	wall_count=0;
@@ -8483,7 +8483,7 @@ void make_cable_flabby(SLONG building)
 
 #define	LIGHT_SIZE	BLOCK_SIZE
 #define	CONE_MULT	5
-SLONG	create_suspended_light(SLONG x,SLONG y,SLONG z,SLONG flags)
+SLONG create_suspended_light(SLONG x,SLONG y,SLONG z,SLONG flags)
 {
 	SLONG	p1,p2;
 	struct	PrimFace3 *p_f3;
@@ -8529,7 +8529,7 @@ SLONG	create_suspended_light(SLONG x,SLONG y,SLONG z,SLONG flags)
    return(0);	
 }
 
-void	build_cable(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wall,SWORD type,SLONG saggysize)
+void build_cable(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wall,SWORD type,SLONG saggysize)
 {
 	SLONG	p1;
 	UWORD	start_point;
@@ -8668,7 +8668,7 @@ void	build_cable(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wal
 	
 }
 
-void	build_cable_old(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wall,SWORD type)
+void build_cable_old(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wall,SWORD type)
 {
 	SLONG	p1;
 	UWORD	start_point;
@@ -8760,7 +8760,7 @@ void	build_cable_old(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD
 	
 }
 
-SLONG	build_cables(SWORD storey,SLONG prev_facet)
+SLONG build_cables(SWORD storey,SLONG prev_facet)
 {
 	SLONG	wall;
 	SLONG	x1,y1,z1,x2,y2,z2;
@@ -8832,7 +8832,7 @@ SLONG	build_cables(SWORD storey,SLONG prev_facet)
 	return(0);
 }
 
-void	build_fence_points_and_faces(SLONG y1,SLONG y2,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall,UBYTE posts)
+void build_fence_points_and_faces(SLONG y1,SLONG y2,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall,UBYTE posts)
 {
 	SLONG	wcount,wwidth,dx,dz,dist;
 	SLONG	start_point;
@@ -8970,7 +8970,7 @@ void	build_fence_points_and_faces(SLONG y1,SLONG y2,SLONG x1,SLONG z1,SLONG x2,S
 	
 }
 
-void	build_high_chain_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height,UBYTE alt_mode)
+void build_high_chain_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height,UBYTE alt_mode)
 {
 	SLONG	c0;
 	SLONG	sp[10];
@@ -9031,7 +9031,7 @@ void	build_high_chain_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLON
 	}
 }
 
-void	build_height_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height,SLONG alt_mode)
+void build_height_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height,SLONG alt_mode)
 {
 	SLONG	c0;
 	SLONG	sp[10];
@@ -9117,7 +9117,7 @@ void	build_height_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG he
 //
 
 /*
-SLONG	find_previous_wall(SLONG storey,SLONG wall)
+SLONG find_previous_wall(SLONG storey,SLONG wall)
 {
 	SLONG	w,next;
 	w=storey_list[storey].WallHead;
@@ -9137,7 +9137,7 @@ SLONG	find_previous_wall(SLONG storey,SLONG wall)
 
 #define	WALL_WIDTH	(60)
 
-void	build_thick_wall_polys(SLONG *x,SLONG *z,SLONG y,SLONG height,SLONG flag,SLONG storey,SLONG wall)
+void build_thick_wall_polys(SLONG *x,SLONG *z,SLONG y,SLONG height,SLONG flag,SLONG storey,SLONG wall)
 {
 	SLONG	sp[8];
 	SLONG	c0;
@@ -9194,7 +9194,7 @@ void	build_thick_wall_polys(SLONG *x,SLONG *z,SLONG y,SLONG height,SLONG flag,SL
 //  2    3
 //
 //  0    1
-SLONG	build_brick_wall(SLONG storey)
+SLONG build_brick_wall(SLONG storey)
 {
 	SLONG	x[4],z[4];
 	SLONG	wall,nwall;
@@ -9310,7 +9310,7 @@ SLONG	build_brick_wall(SLONG storey)
 	return(prev_facet);
 }
 
-void	build_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void build_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 {
 	SLONG alt_mode = 1;	// Stick to floor by default.
 
@@ -9348,7 +9348,7 @@ Go Through fence building all the pieces and slap them into a single facet
 the facet being a special one that sorts normally
 */
 
-SLONG	build_whole_fence(SLONG storey)
+SLONG build_whole_fence(SLONG storey)
 {
 	SLONG	wall,px,pz;
 	SLONG	height,y;
@@ -9401,7 +9401,7 @@ SLONG	build_whole_fence(SLONG storey)
 	return(prev_facet);
 }
 
-SLONG	process_external_pieces(UWORD building)
+SLONG process_external_pieces(UWORD building)
 {
 	SLONG	storey,c0=0;
 	SLONG	prev_facet=0;
@@ -9474,19 +9474,19 @@ SLONG	process_external_pieces(UWORD building)
 }
 
 /*   //pre store face  wall/storey links
-struct	StoreyLink
+struct StoreyLink
 {
 	SWORD	Face;   //storey or wall
 	UWORD	Link;
 };
 
-struct	StoreyLink	storey_link_pool[2000];
-UWORD	next_storey_link=1;
+struct StoreyLink	storey_link_pool[2000];
+UWORD next_storey_link=1;
 
-UWORD	storey_heads[100];
+UWORD storey_heads[100];
 
 
-void	build_link_table(UWORD building)
+void build_link_table(UWORD building)
 {
 	UWORD	storey;
 
@@ -9511,7 +9511,7 @@ void	build_link_table(UWORD building)
 }
 */
 
-void	mark_map_with_ladder(SLONG	storey)
+void mark_map_with_ladder(SLONG	storey)
 {
 	SLONG	x1,z1,x2,z2;
 	SLONG	dx,dz;
@@ -9539,7 +9539,7 @@ void	mark_map_with_ladder(SLONG	storey)
 
 }
 
-void	setup_storey_data(UWORD building,SWORD *wall_for_ladder)
+void setup_storey_data(UWORD building,SWORD *wall_for_ladder)
 {
 	SLONG	wall,storey;
 
@@ -9576,7 +9576,7 @@ void	setup_storey_data(UWORD building,SWORD *wall_for_ladder)
 
 }
 
-SLONG	find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_storey,SLONG storey,UBYTE **ret_tex,UWORD *ret_tcount)
+SLONG find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_storey,SLONG storey,UBYTE **ret_tex,UWORD *ret_tcount)
 {
 	SLONG	found=0;
 	SLONG	wall;
@@ -9701,7 +9701,7 @@ void insert_recessed_wall_vect(
 
 
 
-SLONG	build_storey_floor(SLONG storey,SLONG y,SLONG flag)
+SLONG build_storey_floor(SLONG storey,SLONG y,SLONG flag)
 {
 	SLONG	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
 	SLONG	width,depth;
@@ -9763,7 +9763,7 @@ SLONG	build_storey_floor(SLONG storey,SLONG y,SLONG flag)
 
 
 
-SLONG	build_trench(SLONG prev_facet,SLONG storey)
+SLONG build_trench(SLONG prev_facet,SLONG storey)
 {
 	SLONG	start_point,start_face3,start_face4;
 	SLONG	wall;
@@ -9845,10 +9845,10 @@ SLONG	build_trench(SLONG prev_facet,SLONG storey)
   a facet.
 	
 */
-SWORD	wall_for_fe[100];
-SWORD	wall_for_ladder[100];
+SWORD wall_for_fe[100];
+SWORD wall_for_ladder[100];
 
-SLONG	create_building_prim(UWORD building,SLONG	*small_y)
+SLONG create_building_prim(UWORD building,SLONG	*small_y)
 {
 	UBYTE	pass2=0;
 	SLONG	storey;
@@ -10318,7 +10318,7 @@ SLONG	create_building_prim(UWORD building,SLONG	*small_y)
 }
 
 
-void	copy_to_game_map()
+void copy_to_game_map()
 {
 	SLONG	x,z,c0;
 
@@ -10333,7 +10333,7 @@ void	copy_to_game_map()
 }
 
 
-void	clear_map2()
+void clear_map2()
 {
 	SLONG	x,z,c0;
 
@@ -10436,7 +10436,7 @@ void	clear_map2()
 	memset((UBYTE*)prim_multi_objects,0,sizeof(struct PrimMultiObject)*MAX_PRIM_MOBJECTS);
 }
 
-void	clear_floor_ladder()
+void clear_floor_ladder()
 {
 	SLONG	x,z;
 #ifdef	EDITOR
@@ -10451,7 +10451,7 @@ void	clear_floor_ladder()
 }
 
 
-void	wibble_floor()
+void wibble_floor()
 {
 	SLONG	dx,dz;
 	return;
@@ -10467,7 +10467,7 @@ void	wibble_floor()
 
 
 
-void	clip_building_prim(SLONG prim,SLONG x,SLONG y,SLONG z)
+void clip_building_prim(SLONG prim,SLONG x,SLONG y,SLONG z)
 {
 	SLONG	index;
 	SLONG	best_z=-999999,az;
@@ -10518,7 +10518,7 @@ void	clip_building_prim(SLONG prim,SLONG x,SLONG y,SLONG z)
 
 }
 
-SLONG	calc_win(UWORD *attack,SLONG c1,UWORD *def,SLONG c2)
+SLONG calc_win(UWORD *attack,SLONG c1,UWORD *def,SLONG c2)
 {
 	SLONG b1=0,b2=0;
 	UWORD	data[10];
@@ -10571,7 +10571,7 @@ SLONG	calc_win(UWORD *attack,SLONG c1,UWORD *def,SLONG c2)
 
 }
 
-void	calc_prob()
+void calc_prob()
 {
 	UWORD	c[6];
 	SLONG	total=0,total_win1=0,total_win2=0;
@@ -10593,7 +10593,7 @@ void	calc_prob()
 
 }
 
-void	fix_furniture()
+void fix_furniture()
 {
 	Thing	*p_thing;
 	SLONG	c0;
@@ -10611,7 +10611,7 @@ void	fix_furniture()
 }
 
 
-void	count_floor()
+void count_floor()
 {
 	SLONG x,z;
 	SLONG page,tx,ty;
@@ -10629,7 +10629,7 @@ void	count_floor()
 
 }
 
-void	create_city(UBYTE mode)
+void create_city(UBYTE mode)
 {
 	SLONG	c0;
 	SLONG	bcount=0;
@@ -10717,7 +10717,7 @@ void	create_city(UBYTE mode)
 	//			LogText(" place building y %d \n",y);
 				place_building_at(c0,prim,build_x,y,build_z);
 
-	extern	void save_asc(UWORD building,UWORD version);
+	extern void save_asc(UWORD building,UWORD version);
 	//			save_asc(c0,1);
 				
 				//clip_building_prim(prim,build_x,y,build_z);
@@ -10727,7 +10727,7 @@ void	create_city(UBYTE mode)
 		}
 //		LogText(" next walk link %d \n",next_walk_link);
 	}
-extern	void	apply_global_amb_to_map();
+extern void	apply_global_amb_to_map();
 //	printf(" about to light map \n");
 #ifndef	PSX
 //	apply_global_amb_to_map();
@@ -10800,7 +10800,7 @@ extern	void	apply_global_amb_to_map();
 		for(face=dwalkables[c0].StartFace4;face<dwalkables[c0].EndFace4;face++)
 		{
 			prim_faces4[face].ThingIndex=c0; //dwalkables[c0].Building;
-void	attach_walkable_to_map(SLONG face);
+void attach_walkable_to_map(SLONG face);
 			LogText(" walkable face %d  \n",face);
 
 			{
@@ -10830,7 +10830,7 @@ void	attach_walkable_to_map(SLONG face);
 
 //**************************************8
 
-void	offset_buildings(SLONG x,SLONG y,SLONG z)
+void offset_buildings(SLONG x,SLONG y,SLONG z)
 {
 	SLONG	c0;
 	for (c0=1;c0<MAX_STOREYS;c0++ )
@@ -10858,7 +10858,7 @@ void	offset_buildings(SLONG x,SLONG y,SLONG z)
 }
 
 /*
-void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
+void calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 {
 	SLONG	c0,flags;
 	struct	PrimObject	*p_obj;
@@ -10906,7 +10906,7 @@ void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 	rect->SetRect(min_x-2,min_y-2,max_x-min_x+4,max_y-min_y+4);
 }
 
-void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
+void calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 {
 	SLONG	c0;
 	struct	PrimObject	*p_obj;
@@ -10948,7 +10948,7 @@ void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 	rect->SetRect(min_x,min_y,max_x-min_x,max_y-min_y);
 }
 */
-UWORD	is_it_clockwise(SLONG p0,SLONG p1,SLONG p2)
+UWORD is_it_clockwise(SLONG p0,SLONG p1,SLONG p2)
 {
 	SLONG	z;
 	SLONG	vx,vy,wx,wy;
@@ -10972,7 +10972,7 @@ UWORD	is_it_clockwise(SLONG p0,SLONG p1,SLONG p2)
 //
 #define MAX_POINTS_PER_BUILDING 12560
 
-extern	UBYTE each_point[]; //MAX_POINTS_PER_BUILDING];
+extern UBYTE each_point[]; //MAX_POINTS_PER_BUILDING];
 
 void calc_building_normals()
 {
@@ -11172,7 +11172,7 @@ void calc_building_normals()
 
 //---------------------------------------------------------------
 
-void	fn_building_normal(Thing *b_thing)
+void fn_building_normal(Thing *b_thing)
 {
 	Switch		*the_switch;
 
@@ -11195,9 +11195,9 @@ void	fn_building_normal(Thing *b_thing)
 
 #ifdef	EDITOR
 // problems getting the top face under the fires escape to be a facet member
-extern	SLONG	calc_shadow_co_ord(struct SVector *input,struct SVector *output,SLONG l_x,SLONG l_y,SLONG l_z);
+extern SLONG	calc_shadow_co_ord(struct SVector *input,struct SVector *output,SLONG l_x,SLONG l_y,SLONG l_z);
 
-SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
+SLONG draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
@@ -11390,7 +11390,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 					((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 					((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
 					
-					add_bucket((void *)current_bucket_pool,az);
+					add_bucket((void* )current_bucket_pool,az);
 
 					current_bucket_pool+=sizeof(struct BucketQuad);
 
@@ -11562,7 +11562,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 						((struct BucketQuad*)current_bucket_pool)->DebugInfo=az; //c0;
 						((struct BucketQuad*)current_bucket_pool)->DebugFlags=p_f4->FaceFlags;
 
-						add_bucket((void *)current_bucket_pool,az);
+						add_bucket((void* )current_bucket_pool,az);
 
 						if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
 						{
@@ -11675,7 +11675,7 @@ skip_wall:;
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			if(check_mouse_over_prim_tri(global_res,p0,p1,p2,c0))
 			{
@@ -11695,7 +11695,7 @@ exit:;
 	return(best_z);
 }
 
-void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z)
+void draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z)
 {
 	UWORD	index;
 	SLONG	best_z=-999999,az;

@@ -14,8 +14,8 @@
 
 #define ENV_HEAP_SIZE 16384
 
-CBYTE  ENV_heap[ENV_HEAP_SIZE];
-CBYTE *ENV_heap_upto;
+CBYTE ENV_heap[ENV_HEAP_SIZE];
+CBYTE* ENV_heap_upto;
 
 //
 // The environment variables.
@@ -25,24 +25,24 @@ CBYTE *ENV_heap_upto;
 
 typedef struct
 {
-	CBYTE *name;
-	CBYTE *val;
+	CBYTE* name;
+	CBYTE* val;
 
 } ENV_Var;
 
 ENV_Var ENV_var[ENV_MAX_VARS];
-SLONG   ENV_var_upto;
+SLONG ENV_var_upto;
 
 
 
 
-void ENV_load(CBYTE *fname)
+void ENV_load(CBYTE* fname)
 {
 	SLONG  i;
-	CBYTE *ch;
+	CBYTE* ch;
 
-	CBYTE *heap_name;
-	CBYTE *heap_val;
+	CBYTE* heap_name;
+	CBYTE* heap_val;
 
 #ifndef PSX
 	FILE *handle;
@@ -211,7 +211,7 @@ void ENV_load(CBYTE *fname)
 }
 
 #ifndef PSX
-SLONG ENV_cmp_insensitive(CBYTE *str1, CBYTE *str2)
+SLONG ENV_cmp_insensitive(CBYTE* str1, CBYTE* str2)
 {
 	while (1)
 	{
@@ -226,7 +226,7 @@ SLONG ENV_cmp_insensitive(CBYTE *str1, CBYTE *str2)
 }
 #endif
 
-CBYTE *ENV_get_value_string(CBYTE *name)
+CBYTE* ENV_get_value_string(CBYTE* name)
 {
 	SLONG i;
 
@@ -250,9 +250,9 @@ CBYTE *ENV_get_value_string(CBYTE *name)
 	return NULL;
 }
 
-SLONG  ENV_get_value_number(CBYTE *name, SLONG def)
+SLONG ENV_get_value_number(CBYTE* name, SLONG def)
 {
-	CBYTE *str;
+	CBYTE* str;
 	SLONG  val;
 #ifndef PSX
 	//

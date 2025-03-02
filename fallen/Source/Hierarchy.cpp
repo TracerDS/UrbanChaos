@@ -6,7 +6,7 @@
 
 //**************************************************************************************************
 //JCL - Body Part parent names
-CBYTE	*body_part_parent[][2]=
+CBYTE* body_part_parent[][2]=
 {
 	{"pelvis"		, ""			},
 	{"lfemur"		, "pelvis"		},
@@ -27,7 +27,7 @@ CBYTE	*body_part_parent[][2]=
 
 //**************************************************************************************************
 //! JCL - don't think this can be a permanent thing....
-SLONG	body_part_parent_numbers[]=
+SLONG body_part_parent_numbers[]=
 {
 	-1,
 	0,
@@ -48,7 +48,7 @@ SLONG	body_part_parent_numbers[]=
 
 //**************************************************************************************************
 //! JCL - nor this!!
-SLONG	body_part_children[][5] = 
+SLONG body_part_children[][5] = 
 {
 	{1, 4, 12, -1, 0},
 	{2, -1, 0, 0, 0},
@@ -68,7 +68,7 @@ SLONG	body_part_children[][5] =
 };
 
 //**************************************************************************************************
-inline	void	uncompress_matrix(CMatrix33 *cm, Matrix33 *m)
+inline void	uncompress_matrix(CMatrix33 *cm, Matrix33 *m)
 {
 	SLONG v;
 
@@ -104,7 +104,7 @@ inline	void	uncompress_matrix(CMatrix33 *cm, Matrix33 *m)
 // utility function to calculate the position offset of a body part given various bits of information
 // about its parent...
 
-void	HIERARCHY_Get_Body_Part_Offset( Matrix31 *dest_position, Matrix31 *base_position,
+void HIERARCHY_Get_Body_Part_Offset( Matrix31 *dest_position, Matrix31 *base_position,
 									   CMatrix33 *parent_base_matrix, Matrix31 *parent_base_position,
 									    Matrix33 *parent_curr_matrix, Matrix31 *parent_curr_position)
 {

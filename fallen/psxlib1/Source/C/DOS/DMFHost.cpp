@@ -6,9 +6,9 @@
 
 //---------------------------------------------------------------
 
-MFFileHandle		log_handle	=	NULL;
+MFFileHandle log_handle	=	NULL;
 
-bool	SetupHost(ULONG flags)
+bool SetupHost(ULONG flags)
 {
 	if(!SetupMemory())
 		return	false;
@@ -27,7 +27,7 @@ bool	SetupHost(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	ResetHost()
+void ResetHost()
 {
 	if(log_handle)
 		FileClose(log_handle);
@@ -37,7 +37,7 @@ void	ResetHost()
 
 //---------------------------------------------------------------
 
-void	LogText(CBYTE *error, ...)
+void LogText(CBYTE* error, ...)
 {
 	CBYTE 			buf[512];
 	va_list 		argptr;
@@ -71,7 +71,7 @@ int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 
 //---------------------------------------------------------------
 
-void	Time(struct MFTime *the_time)
+void Time(struct MFTime *the_time)
 {
 /*
 	SYSTEMTIME	new_time;

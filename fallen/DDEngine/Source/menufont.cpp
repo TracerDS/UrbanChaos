@@ -56,7 +56,7 @@ void MENUFONT_Page(SLONG page) {
 
 #endif
 
-/*void MENUFONT_Load(CBYTE *fn, SLONG page, CBYTE *fontlist) {
+/*void MENUFONT_Load(CBYTE* fn, SLONG page, CBYTE* fontlist) {
   TGA_Pixel *temp;
   UBYTE *pt;
   UWORD x,y,ox,oy,ofs, yofs;
@@ -123,7 +123,7 @@ void MENUFONT_Page(SLONG page) {
 
 }
 */
-void MENUFONT_Load(CBYTE *fn, SLONG page, CBYTE *fontlist) {
+void MENUFONT_Load(CBYTE* fn, SLONG page, CBYTE* fontlist) {
   TGA_Pixel *temp;
   UBYTE *pt;
   UWORD x,y,ox,oy,ofs, yofs;
@@ -185,7 +185,7 @@ void MENUFONT_Load(CBYTE *fn, SLONG page, CBYTE *fontlist) {
 #define SC(a) (SIN(a&2047)>>15)
 #define CC(a) (COS(a&2047)>>15)
 
-void MENUFONT_DrawFlanged(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG alpha, SLONG rgb, UBYTE flags) 
+void MENUFONT_DrawFlanged(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG alpha, SLONG rgb, UBYTE flags) 
 {
 	SLONG width=0,height,c0,len=strlen(msg), i;
 	UBYTE *pt;
@@ -239,7 +239,7 @@ void MENUFONT_DrawFlanged(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG alpha
 	}
 }
 
-void MENUFONT_DrawFutzed(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG alpha, SLONG rgb, UBYTE flags) {
+void MENUFONT_DrawFutzed(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG alpha, SLONG rgb, UBYTE flags) {
 	SLONG width=0,height,c0,len=strlen(msg), i,j,k;
 	UBYTE *pt;
 	POLY_Point  pp[4];
@@ -390,7 +390,7 @@ void MENUFONT_Draw_Selection_Box_Sized(SWORD x, SWORD y, SWORD x2, SWORD y2, SLO
 
 
 
-void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG rgb, UWORD flags, SWORD max)
+void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags, SWORD max)
 {
 	SLONG width=0,height,c0,len=strlen(msg);
 	UBYTE hchar = (flags&MENUFONT_SUPER_YCTR) ? (UBYTE)*msg : 'M';
@@ -457,7 +457,7 @@ void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLON
 #endif
 
 
-void MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG rgb, UWORD flags, SWORD max) {
+void MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags, SWORD max) {
 	const UBYTE haloscale=3;
 	SLONG width=0,height,c0,len=strlen(msg);
 	//SLONG col;
@@ -608,7 +608,7 @@ extern float PANEL_GetNextDepthBodge ( void );
 
 
 
-void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE *msg, SLONG rgb, UWORD flags) {
+void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags) {
 	const UBYTE haloscale=3;
 	SLONG c0,len=strlen(msg);
 	//SLONG col;
@@ -690,7 +690,7 @@ void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE *msg, SLONG rgb, 
 	}
 }
 
-void MENUFONT_Dimensions(CBYTE *fn, SLONG &x, SLONG &y, SWORD max, SWORD scale) {
+void MENUFONT_Dimensions(CBYTE* fn, SLONG &x, SLONG &y, SWORD max, SWORD scale) {
 	UBYTE *fn2=(UBYTE*)fn;
 
 
@@ -744,7 +744,7 @@ SLONG	MENUFONT_CharWidth(CBYTE fn, UWORD scale) {
 	return (FontInfo[(UBYTE)fn].width*scale)>>8;
 }
 
-SLONG	MENUFONT_CharFit(CBYTE *fn, SLONG x, UWORD scale) {
+SLONG	MENUFONT_CharFit(CBYTE* fn, SLONG x, UWORD scale) {
 	SLONG ctr=0,width=0;
 	UBYTE *fn2=(UBYTE*)fn;
 
@@ -970,9 +970,9 @@ float MENUFONT_fadein_char(float x, float y, UBYTE ch, UBYTE fade)
 // Draws centred text.
 //
 
-void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE *msg)
+void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE* msg)
 {
-	CBYTE *ch;
+	CBYTE* ch;
 
 	float tx;
 	

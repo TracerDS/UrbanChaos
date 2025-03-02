@@ -40,7 +40,7 @@ typedef struct
 #define PING_MAX_SAMPLES 30
 
 PING_Sample PING_sample[PING_MAX_SAMPLES];
-SLONG       PING_sample_upto;
+SLONG PING_sample_upto;
 
 
 
@@ -56,7 +56,7 @@ SLONG PING_do()
 	SLONG delta;
 
 	SLONG num_bytes;
-	void *data;
+	void* data;
 
 	PING_Message ping_message;
 	PING_Sample *ps;

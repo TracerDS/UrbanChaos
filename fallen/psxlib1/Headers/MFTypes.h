@@ -11,10 +11,10 @@
 #define	false				0
 
 #ifdef	_MF_DOSX
-typedef	unsigned long		bool;
+typedef unsigned long		bool;
 #endif
 
-typedef	unsigned char		UBYTE;
+typedef unsigned char		UBYTE;
 typedef signed char			SBYTE;
 typedef char				CBYTE;
 typedef unsigned short		UWORD;

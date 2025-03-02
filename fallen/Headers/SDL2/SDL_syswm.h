@@ -104,7 +104,7 @@ typedef Uint32 GLuint;
 
 #if defined(SDL_VIDEO_DRIVER_ANDROID)
 typedef struct ANativeWindow ANativeWindow;
-typedef void *EGLSurface;
+typedef void* EGLSurface;
 #endif
 
 #if defined(SDL_VIDEO_DRIVER_VIVANTE)
@@ -294,7 +294,7 @@ struct SDL_SysWMinfo
         {
             struct wl_display *display;             /**< Wayland display */
             struct wl_surface *surface;             /**< Wayland surface */
-            void *shell_surface;                    /**< DEPRECATED Wayland shell_surface (window manager handle) */
+            void* shell_surface;                    /**< DEPRECATED Wayland shell_surface (window manager handle) */
             struct wl_egl_window *egl_window;       /**< Wayland EGL window (native window) */
             struct xdg_surface *xdg_surface;        /**< Wayland xdg surface (window manager handle) */
             struct xdg_toplevel *xdg_toplevel;      /**< Wayland xdg toplevel role */
@@ -305,8 +305,8 @@ struct SDL_SysWMinfo
 #if defined(SDL_VIDEO_DRIVER_MIR)  /* no longer available, left for API/ABI compatibility. Remove in 2.1! */
         struct
         {
-            void *connection;  /**< Mir display server connection */
-            void *surface;  /**< Mir surface */
+            void* connection;  /**< Mir display server connection */
+            void* surface;  /**< Mir surface */
         } mir;
 #endif
 

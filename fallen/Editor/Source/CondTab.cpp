@@ -46,9 +46,9 @@
 
 #include	"CondTab.def"
 
-extern	CBYTE	*class_text[];
-extern	CBYTE	*genus_text[][10];
-extern	CBYTE	*condition_text[];
+extern CBYTE	*class_text[];
+extern CBYTE	*genus_text[][10];
+extern CBYTE	*condition_text[];
 
 //---------------------------------------------------------------
 

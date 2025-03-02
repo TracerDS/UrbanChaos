@@ -831,7 +831,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 		if (pyro->thing->Flags&FLAGS_IN_VIEW) 
 		{
 
-extern	int AENG_detail_skyline;
+extern int AENG_detail_skyline;
 
 			int iNumFlames = 40;
 			if (!AENG_detail_skyline)//||ShiftFlag)
@@ -2493,8 +2493,8 @@ void PYRO_draw_armageddon(Pyro *pyro)
 
 #if 0
 
-extern	void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
-extern	void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt);
+extern void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
+extern void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt);
 
 void ANIMAL_draw(Thing *p_thing) 
 {

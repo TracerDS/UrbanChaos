@@ -32,27 +32,27 @@
 
 
 
-extern	UBYTE	cheat;
+extern UBYTE	cheat;
 
 #undef  BLOCK_SIZE
 #define BLOCK_SIZE (1 << 6)
 
 #ifdef	DOG_POO
-struct	CollisionVectLink	col_vects_links[MAX_COL_VECT_LINK]; //40K
-struct	CollisionVect		col_vects[MAX_COL_VECT];            //300K
+struct CollisionVectLink	col_vects_links[MAX_COL_VECT_LINK]; //40K
+struct CollisionVect		col_vects[MAX_COL_VECT];            //300K
 #endif
 
-void	highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z);
-void	add_debug_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour);
+void highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z);
+void add_debug_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour);
 void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type); //people.cpp
 
 SLONG collide_with_circle(SLONG cx,SLONG cz,SLONG cradius,SLONG *x2,SLONG *z2);
-SLONG	get_fence_hole(struct DFacet *p_facet);
-SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along);
+SLONG get_fence_hole(struct DFacet *p_facet);
+SLONG get_fence_hole_next(struct DFacet *p_facet,SLONG along);
 
 extern bool allow_debug_keys;
 
-inline	SLONG slide_around_box_lowstack(SLONG box_mid_x,SLONG box_mid_z,SLONG box_min_x,SLONG box_min_z,	SLONG box_max_x,SLONG box_max_z,SLONG box_yaw,SLONG radius,SLONG  x1,SLONG  z1,SLONG *x2,SLONG *z2);
+inline SLONG slide_around_box_lowstack(SLONG box_mid_x,SLONG box_mid_z,SLONG box_min_x,SLONG box_min_z,	SLONG box_max_x,SLONG box_max_z,SLONG box_yaw,SLONG radius,SLONG  x1,SLONG  z1,SLONG *x2,SLONG *z2);
 
 //
 // These are defined in person.cpp- I couldn't bear a complete rebuild.
@@ -63,8 +63,8 @@ SLONG get_fence_top   (SLONG x, SLONG z, SLONG col);
 
 
 
-UWORD	next_col_vect=1;
-UWORD	next_col_vect_link=1;
+UWORD next_col_vect=1;
+UWORD next_col_vect_link=1;
 
 #ifdef	PSX
 7SLONG MUL64(SLONG i,SLONG j)
@@ -96,19 +96,19 @@ UWORD	next_col_vect_link=1;
 //		  xx   x
 
 //#ifdef	EDITOR
-struct	WalkLink	walk_links[MAX_WALK_POOL];	//120K
+struct WalkLink	walk_links[MAX_WALK_POOL];	//120K
 
-UWORD	next_walk_link=1;
+UWORD next_walk_link=1;
 //#endif
 
-//extern	SLONG	do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG cell_dx,SLONG cell_dz,SLONG	scale_move);
-//extern	SLONG	do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLONG cell_dz);
-//extern	SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b);
-//extern	void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+//extern SLONG	do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG cell_dx,SLONG cell_dz,SLONG	scale_move);
+//extern SLONG	do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLONG cell_dz);
+//extern SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b);
+//extern void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
 
-extern	void	e_draw_3d_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-extern	void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
-extern	void	e_draw_3d_mapwho_y(SLONG x1,SLONG my_y1,SLONG z1);
+extern void	e_draw_3d_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
+extern void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
+extern void	e_draw_3d_mapwho_y(SLONG x1,SLONG my_y1,SLONG z1);
 
 
 /**************************************************************
@@ -173,7 +173,7 @@ SLONG lines_intersect(SLONG x1,SLONG  my_y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y
 }
 #endif
 
-UBYTE	two4_line_intersection(SLONG x1,SLONG my_y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4)
+UBYTE two4_line_intersection(SLONG x1,SLONG my_y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4)
 {
 	SLONG	ax,bx,cx,ay,by,cy,d,e,f; //,offset;
 	short	x1lo,x1hi; //,x3lo,x3hi;
@@ -264,7 +264,7 @@ UBYTE	two4_line_intersection(SLONG x1,SLONG my_y1,SLONG x2,SLONG y2,SLONG x3,SLO
 
 }
 
-void	clear_all_col_info()
+void clear_all_col_info()
 {
 #ifdef	DOG_POO
 #ifdef	EDITOR
@@ -415,7 +415,7 @@ SLONG get_height_along_facet(SLONG ax,SLONG az,struct DFacet *p_facet)
 #endif
 #endif
 #ifdef	DOG_POO
-ULONG	add_collision_to_single_cell(UWORD	index,SLONG x,SLONG z)
+ULONG add_collision_to_single_cell(UWORD	index,SLONG x,SLONG z)
 {
 	if(x<0||z<0||x>=MAP_WIDTH||z>=MAP_HEIGHT)
 		return(0);
@@ -475,7 +475,7 @@ ULONG remove_collision_from_single_cell(UWORD index, SLONG x, SLONG z)
 
 
 
-ULONG	similar_col_vect(UWORD index)
+ULONG similar_col_vect(UWORD index)
 {
 	ULONG	c0;
 	for(c0=1;c0<next_col_vect;c0++)
@@ -498,7 +498,7 @@ ULONG	similar_col_vect(UWORD index)
 }
 
 
-SLONG	insert_collision_vect(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim_type,UBYTE prim_extra,SWORD face)
+SLONG insert_collision_vect(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim_type,UBYTE prim_extra,SWORD face)
 {
 	SLONG	step_x,step_y,temp_x,temp_z;
 	SLONG	length;
@@ -634,7 +634,7 @@ void remove_collision_vect(UWORD vect)
 #define	TSHIFT	8
 #ifndef	PSX
 #ifndef TARGET_DC
-UBYTE	check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+UBYTE check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
 {
 	SLONG	s,t,top,bot,res;
 	top=(y-uy)*(wx-ux)+(ux-x)*(wy-uy);
@@ -674,7 +674,7 @@ UBYTE	check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SL
 
 #ifndef PSX
 #ifndef TARGET_DC
-SLONG	point_in_quad_old(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
+SLONG point_in_quad_old(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 {
 	SLONG x1,my_y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4;
 	SLONG ret;
@@ -1238,7 +1238,7 @@ void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SL
 	return;
 }
 
-SLONG	global_on=0;
+SLONG global_on=0;
 
 SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z)
 {
@@ -1583,7 +1583,7 @@ SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SL
 }
 
 /*
-SLONG	get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
+SLONG get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
 {
 	struct	PrimFace4 *this_face4;
 	SLONG	obj_x,obj_z,obj_y;
@@ -1610,7 +1610,7 @@ SLONG	get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
 	return(get_height_on_plane_tri(x,z,ux,uy,uz,vx,vy,vz,wx,wy,wz));
 }
 
-SLONG	get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
+SLONG get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
 {
 	struct	PrimFace3 *this_face3;
 	SLONG	obj_x,obj_z,obj_y;
@@ -1639,7 +1639,7 @@ SLONG	get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
 */
 
 /*
-SLONG	get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
+SLONG get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
 {
 	SLONG 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 	struct	PrimFace4 *this_face4;
@@ -1716,7 +1716,7 @@ SLONG	get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
 }
 */
 
-SLONG	calc_height_at(SLONG x,SLONG z)
+SLONG calc_height_at(SLONG x,SLONG z)
 {
 	return 0;
 
@@ -1791,7 +1791,7 @@ SLONG	calc_height_at(SLONG x,SLONG z)
 //
 
 
-SLONG	collision_storey(SLONG type)
+SLONG collision_storey(SLONG type)
 {
 	switch(type)
 	{
@@ -1814,7 +1814,7 @@ SLONG	collision_storey(SLONG type)
 	}
 }
 #ifdef	DOG_POO
-SLONG	do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG cell_dx,SLONG cell_dz,SLONG	scale_move)
+SLONG do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG cell_dx,SLONG cell_dz,SLONG	scale_move)
 {
 	SLONG	vect;
 	struct	CollisionVect	*p_vect;
@@ -1866,7 +1866,7 @@ SLONG	do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG c
 		return(-1);
 }
 
-SLONG	do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLONG cell_dz)
+SLONG do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLONG cell_dz)
 {
 	SLONG	vect;
 	struct	CollisionVect	*p_vect;
@@ -1903,7 +1903,7 @@ SLONG	do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLO
 // new_dist away from col vect, 
 //
 
-SLONG	get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG *ret_z,SLONG new_dist)
+SLONG get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG *ret_z,SLONG new_dist)
 {
 	struct	CollisionVect	*p_vect;
 	SLONG	near_x,near_z;
@@ -1964,7 +1964,7 @@ SLONG	get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG
 // check to see if movement vector intersects a col vect
 //
 
-SLONG	check_vect_vect(MAPCO16 m_dx,MAPCO16 m_dy,MAPCO16 m_dz,Thing *p_thing,SLONG scale)
+SLONG check_vect_vect(MAPCO16 m_dx,MAPCO16 m_dy,MAPCO16 m_dz,Thing *p_thing,SLONG scale)
 {
 	SLONG	cell_dx,cell_dz;
 	ULONG	col;
@@ -2019,7 +2019,7 @@ SLONG	check_vect_vect(MAPCO16 m_dx,MAPCO16 m_dy,MAPCO16 m_dz,Thing *p_thing,SLON
 	return(col);
 }
 
-SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius)
+SLONG check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius)
 {
 	SLONG	x,y,z;
 	SLONG	dx,dz;
@@ -2044,11 +2044,11 @@ SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG ra
 }
 #endif
 
-extern	SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face);
-extern	void	e_draw_3d_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
+extern SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face);
+extern void	e_draw_3d_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
 
 
-void	highlight_face(SLONG face)
+void highlight_face(SLONG face)
 {
 #ifndef	PSX
 #ifndef TARGET_DC
@@ -2121,7 +2121,7 @@ void	highlight_face(SLONG face)
 #endif
 #endif
 }
-void	highlight_rface(SLONG rface)
+void highlight_rface(SLONG rface)
 {
 #ifndef TARGET_DC
 
@@ -2146,7 +2146,7 @@ void	highlight_rface(SLONG rface)
 }
 
 
-void	highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z)
+void highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z)
 {
 #ifndef TARGET_DC
 	return;
@@ -2181,7 +2181,7 @@ void	highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z)
 #endif
 }
 
-SLONG	vect_intersect_wall(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+SLONG vect_intersect_wall(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 {
 	// go through col vects this vect might intersect
 
@@ -2191,7 +2191,7 @@ SLONG	vect_intersect_wall(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG 
 
 /*
 #define	PERSON_RADIUS	(50)
-SLONG	check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale)
+SLONG check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale)
 {
 	SLONG	cell_dx,cell_dz;
 	ULONG	col;
@@ -2231,7 +2231,7 @@ SLONG	check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale)
 	return(col);
 }
 
-SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius)
+SLONG check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius)
 {
 	SLONG	x,y,z;
 	SLONG	dx,dz;
@@ -2256,9 +2256,9 @@ SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG ra
 }
 */
 
-extern	void	set_tween_for_dy(Thing *p_person,SLONG dy);
+extern void	set_tween_for_dy(Thing *p_person,SLONG dy);
 
-SLONG	find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this_building,Thing *p_person,SLONG neg_dy,SLONG pos_dy,SLONG *ret_y)
+SLONG find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this_building,Thing *p_person,SLONG neg_dy,SLONG pos_dy,SLONG *ret_y)
 {
 	SLONG	mx,mz;
 	SLONG	index;
@@ -2487,7 +2487,7 @@ SLONG find_alt_for_this_pos(SLONG  x,SLONG  z)
 }
 #endif
 #endif
-void	correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *angle,SLONG scale)
+void correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *angle,SLONG scale)
 {
 	SLONG	x1,z1,x2,z2,dx,dz;
 
@@ -2517,7 +2517,7 @@ void	correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *an
 }
 
 
-SLONG	ok_to_mount_ladder(struct Thing *p_thing,struct DFacet *p_facet)
+SLONG ok_to_mount_ladder(struct Thing *p_thing,struct DFacet *p_facet)
 {
 	SLONG	dx,dz,px,pz,angle;
 
@@ -2536,7 +2536,7 @@ SLONG	ok_to_mount_ladder(struct Thing *p_thing,struct DFacet *p_facet)
 	}
 }
 
-SLONG	mount_ladder(Thing *p_thing,SLONG facet)
+SLONG mount_ladder(Thing *p_thing,SLONG facet)
 {
 //	SWORD	storey,wall;
 
@@ -2556,9 +2556,9 @@ SLONG	mount_ladder(Thing *p_thing,SLONG facet)
 	return false;
 }
 
-extern	void	locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
+extern void	locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
 
-SLONG	set_person_climb_down_onto_ladder(Thing *p_person,SLONG colvect)
+SLONG set_person_climb_down_onto_ladder(Thing *p_person,SLONG colvect)
 {
 	SLONG	x,z,dx,dz,angle;
 	SLONG	dist=64;
@@ -2720,7 +2720,7 @@ SLONG find_nearby_ladder_colvect(Thing *p_thing)
 
 
 
-void	set_feet_to_y(Thing *p_person,SLONG new_y)
+void set_feet_to_y(Thing *p_person,SLONG new_y)
 {
 	SLONG	x,y,z;
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_LEFT_FOOT,&x,&y,&z);
@@ -2734,7 +2734,7 @@ void	set_feet_to_y(Thing *p_person,SLONG new_y)
 extern void person_splash(Thing *p_person, SLONG limb); // limb == -1 => splash on center not at limb.
 
 
-SLONG	height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface)
+SLONG height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface)
 {
 	SLONG	on_face;
 	SLONG	fx,fy,fz,new_y;
@@ -2791,7 +2791,7 @@ SLONG	height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface)
 //
 // For a person in 3d space, find either a face to stand on, or the floor to stand on, and setup height/onface ... 
 //
-SLONG	plant_feet(Thing *p_person)
+SLONG plant_feet(Thing *p_person)
 {
 	SLONG	on_face;
 	SLONG	fx,fy,fz,new_y;
@@ -2920,7 +2920,7 @@ SLONG	plant_feet(Thing *p_person)
 }
 
 
-SLONG	get_person_radius(SLONG type)
+SLONG get_person_radius(SLONG type)
 {
 	switch(type)
 	{
@@ -2933,7 +2933,7 @@ SLONG	get_person_radius(SLONG type)
 	return(50); // an average person
 }
 
-SLONG	get_person_radius2(SLONG type)
+SLONG get_person_radius2(SLONG type)
 {
 	switch(type)
 	{
@@ -2953,7 +2953,7 @@ SLONG	get_person_radius2(SLONG type)
 // Obsolete nowadays...
 //
 
-SLONG	bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
+SLONG bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 {
 	SLONG	x,y,z;
 	SLONG	dx,dz;
@@ -3027,7 +3027,7 @@ SLONG	bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 
 */
 
-SLONG	get_fence_height(SLONG h)
+SLONG get_fence_height(SLONG h)
 {
 	if(h==2)
 		return(85);
@@ -3043,7 +3043,7 @@ SLONG	get_fence_height(SLONG h)
 #ifndef TARGET_DC
 
 // side_required     0 is the other side or 1 is this side
-void	step_back_along_vect(SLONG x1,SLONG z1,SLONG *x2,SLONG *z2,SLONG vx1,SLONG vz1,SLONG vx2,SLONG vz2,SLONG side_required)
+void step_back_along_vect(SLONG x1,SLONG z1,SLONG *x2,SLONG *z2,SLONG vx1,SLONG vz1,SLONG vx2,SLONG vz2,SLONG side_required)
 {
 //	SLONG	mx,mz,prev_mx,prev_mz;
 	SLONG	dx,dz;
@@ -3125,7 +3125,7 @@ UWORD already[MAX_ALREADY];
 // that col-vect.
 //
 
-UWORD	max_facet_find=0;
+UWORD max_facet_find=0;
 
 SLONG last_slide_colvect;
 SLONG last_slide_dist;
@@ -3928,8 +3928,8 @@ SLONG slide_along_old(
 }
 */
 
-UBYTE   slid_along_fence=0;
-UWORD   fence_colvect=0;
+UBYTE slid_along_fence=0;
+UWORD fence_colvect=0;
 //SLONG	slide_nogo;
 
 SLONG slide_along(
@@ -5040,7 +5040,7 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 #endif
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG	bump_person(Thing *p_person,THING_INDEX index,SLONG x1,SLONG my_y1,SLONG z1,SLONG *x2,SLONG *y2,SLONG *z2)
+SLONG bump_person(Thing *p_person,THING_INDEX index,SLONG x1,SLONG my_y1,SLONG z1,SLONG *x2,SLONG *y2,SLONG *z2)
 {
 	SLONG	bump_radius,my_radius;
 	Thing	*p_bumped;
@@ -5369,7 +5369,7 @@ void slide_along_redges(
 
 /*
 
-UBYTE	roofdxdz[4][2]=
+UBYTE roofdxdz[4][2]=
 {
 	{0,0},
 	{1,0},
@@ -5378,7 +5378,7 @@ UBYTE	roofdxdz[4][2]=
 };
 
 
-SBYTE	roof_dx[]=
+SBYTE roof_dx[]=
 {
 	0,//n
 	1, //e
@@ -5386,7 +5386,7 @@ SBYTE	roof_dx[]=
 	-1, //w
 };
 
-SBYTE	roof_dz[]=
+SBYTE roof_dz[]=
 {
 	-1,//n
 	0, //e
@@ -6430,7 +6430,7 @@ void drop_on_heads(Thing *p_thing)
 		//
 		// calc position of head
 		//
-extern	SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
 		if (col_thing != p_thing)
 		{
@@ -6601,7 +6601,7 @@ ULONG move_thing(
 	{
 		if(p_thing->Genus.Person->PlayerID)
 		{
-extern	void	set_player_visited(UBYTE x,UBYTE z);
+extern void	set_player_visited(UBYTE x,UBYTE z);
 			set_player_visited(x2>>16,z2>>16);
 
 		}
@@ -8085,10 +8085,10 @@ SLONG there_is_a_los(
 	}
 }
 
-UBYTE	last_mav_square_x;
-UBYTE	last_mav_square_z;
-SBYTE	last_mav_dx;
-SBYTE	last_mav_dz;
+UBYTE last_mav_square_x;
+UBYTE last_mav_square_z;
+SBYTE last_mav_dx;
+SBYTE last_mav_dz;
 
 
 SLONG there_is_a_los_mav(
@@ -10291,9 +10291,9 @@ void insert_collision_facets()
 //
 // should be locals but stack overflow
 //
-SLONG	tried;
-SLONG	used_this_go;
-SLONG	failed;
+SLONG tried;
+SLONG used_this_go;
+SLONG failed;
 
 SLONG slide_around_box(
 		SLONG box_mid_x,
@@ -10508,7 +10508,7 @@ SLONG slide_around_box(
 	return true;
 }
 
-inline	SLONG slide_around_box_lowstack(
+inline SLONG slide_around_box_lowstack(
 		SLONG box_mid_x,
 		SLONG box_mid_z,
 		SLONG box_min_x,
@@ -11370,10 +11370,10 @@ void box_circle_early_out(
 //
 
 #ifdef	UNUSED_WIRECUTTERS
-UWORD	next_cut_hole=0;
-UBYTE	hole_pos[8];
+UWORD next_cut_hole=0;
+UBYTE hole_pos[8];
 
-SLONG	get_fence_hole(struct DFacet *p_facet)
+SLONG get_fence_hole(struct DFacet *p_facet)
 {
 	SLONG	c0;
 	UWORD	flags;
@@ -11396,7 +11396,7 @@ SLONG	get_fence_hole(struct DFacet *p_facet)
 	return(0);
 }
 
-SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along)
+SLONG get_fence_hole_next(struct DFacet *p_facet,SLONG along)
 {
 	SLONG	c0;
 	UWORD	flags;
@@ -11421,7 +11421,7 @@ SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along)
 	return(0);
 }
 
-void	set_fence_hole(struct DFacet *p_facet,SLONG pos)
+void set_fence_hole(struct DFacet *p_facet,SLONG pos)
 {
 	if(next_cut_hole<8)
 	{

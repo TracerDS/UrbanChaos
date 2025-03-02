@@ -67,38 +67,38 @@ struct ListEntry {
 //
 
 //void BUTTON_Init(Widget *widget);
-void	BUTTON_Free(Widget *widget);
-void	BUTTON_Draw(Widget *widget);
-void	BUTTON_Push(Widget *widget);
-bool	BUTTON_HitTest(Widget *widget, SLONG x, SLONG y);
+void BUTTON_Free(Widget *widget);
+void BUTTON_Draw(Widget *widget);
+void BUTTON_Push(Widget *widget);
+bool BUTTON_HitTest(Widget *widget, SLONG x, SLONG y);
 
-void	STATIC_Init(Widget *widget); 
+void STATIC_Init(Widget *widget); 
 
-void	CHECK_Draw (Widget *widget);
-void	CHECK_Push (Widget *widget);
-void	RADIO_Push (Widget *widget);
+void CHECK_Draw (Widget *widget);
+void CHECK_Push (Widget *widget);
+void RADIO_Push (Widget *widget);
 
-void	INPUT_Init (Widget *widget); 
-void	INPUT_Free (Widget *widget);
-void	INPUT_Draw (Widget *widget);
-bool	INPUT_Char (Widget *widget, CBYTE key);
-SLONG	INPUT_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
+void INPUT_Init (Widget *widget); 
+void INPUT_Free (Widget *widget);
+void INPUT_Draw (Widget *widget);
+bool INPUT_Char (Widget *widget, CBYTE key);
+SLONG INPUT_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
 
-void	LISTS_Free (Widget *widget);
-void	LISTS_Draw (Widget *widget);
-bool	LISTS_Char (Widget *widget, CBYTE key);
-SLONG	LISTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
-void	LISTS_Push (Widget *widget);
+void LISTS_Free (Widget *widget);
+void LISTS_Draw (Widget *widget);
+bool LISTS_Char (Widget *widget, CBYTE key);
+SLONG LISTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
+void LISTS_Push (Widget *widget);
 
-void	TEXTS_Init (Widget *widget); 
-void	TEXTS_Free (Widget *widget);
-void	TEXTS_Draw (Widget *widget);
-bool	TEXTS_Char (Widget *widget, CBYTE key);
-SLONG	TEXTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
+void TEXTS_Init (Widget *widget); 
+void TEXTS_Free (Widget *widget);
+void TEXTS_Draw (Widget *widget);
+bool TEXTS_Char (Widget *widget, CBYTE key);
+SLONG TEXTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
 
-void	GLYPH_Draw (Widget *widget);
+void GLYPH_Draw (Widget *widget);
 
-void	SHADE_Draw (Widget *widget);
+void SHADE_Draw (Widget *widget);
 
 //---------------------------------------------------------------------------------
 // Section The Second:  Widget Class Definitions
@@ -147,7 +147,7 @@ inline SLONG	AlterAlpha(ULONG rgba, ULONG alpha) {
 	return (rgba&0xffffff)|((alpha&0xff)<<24);
 }
 
-void	WIDGET_Rect(SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG rgb, UBYTE inverse=0, UBYTE flags=RECT_LEFT|RECT_RIGHT|RECT_BOTTOM|RECT_TOP) {
+void WIDGET_Rect(SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG rgb, UBYTE inverse=0, UBYTE flags=RECT_LEFT|RECT_RIGHT|RECT_BOTTOM|RECT_TOP) {
 
 	if (flags&RECT_TOP) {
 		DRAW2D_Box(x+3,y,ox-3,y+3,rgb,inverse);
@@ -190,7 +190,7 @@ void	WIDGET_Rect(SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG rgb, UBYTE inverse=
 	MENUFONT_Draw(dx,oy,256,"]",rgb,0);*/
 }
 
-void	WIDGET_Free(Widget *widget) {
+void WIDGET_Free(Widget *widget) {
 	if (widget->caption) MemFree(widget->caption);
 	if (widget->form) FORM_DelWidget(widget);
 	MemFree(widget);
@@ -313,7 +313,7 @@ void INPUT_Draw (Widget *widget) {
 	WidgetPoint pt,pt2;
 	SLONG flags=0, len, xd, yd, w;
 	ULONG rgb=widget->form->textcolour;
-	CBYTE *str=0;
+	CBYTE* str=0;
 
 	pt=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
 	pt2=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->ox,widget->oy));
@@ -426,7 +426,7 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 		break;
 	case 127:
 		{
-			CBYTE *str=(CBYTE*)widget->data[0];
+			CBYTE* str=(CBYTE*)widget->data[0];
 			SLONG len=strlen(str);
 			if (widget->data[2]<1) { WIDGET_snd(WS_FAIL); break; }
 			WIDGET_snd(WS_MOVE);
@@ -437,7 +437,7 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 		break;
 	case 5:
 		{
-			CBYTE *str=(CBYTE*)widget->data[0];
+			CBYTE* str=(CBYTE*)widget->data[0];
 			SLONG len=strlen(str);
 			if (widget->data[2]>=len) { WIDGET_snd(WS_FAIL); break; }
 			WIDGET_snd(WS_MOVE);
@@ -449,7 +449,7 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 //		if ( ((key>='A')&&(key<='Z')) || ((key>='a')&&(key<='z')) || ((key>='0')&&(key<='9')) || (key==' '))
 		if ( MENUFONT_CharWidth(key) )
 		{
-			CBYTE *str=(CBYTE*)widget->data[0];
+			CBYTE* str=(CBYTE*)widget->data[0];
 			SLONG len;
 			len=strlen(str);
 			if (len<255)
@@ -608,7 +608,7 @@ SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 		// wrap string, pass back via WTM_ADDSTRING
 		{
 			ULONG chrs, temp;
-			CBYTE *str, *walk;
+			CBYTE* str, *walk;
 			CBYTE tmp[_MAX_PATH];
 			str=(CBYTE*)data2;
 			walk=str;
@@ -884,7 +884,7 @@ void SHADE_Draw (Widget *widget) {
 // Section The Fifth:  Generic Widget Stuff
 //
 
-Widget* WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG oy, CBYTE *caption) {
+Widget* WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG oy, CBYTE* caption) {
 	Widget *widget;
 
 	widget = (Widget*) MemAlloc(sizeof(Widget));
@@ -932,7 +932,7 @@ void WIDGET_menu(Form *form, ...) {
 // Section The Sixth:  Generic Form Stuff
 //
 
-Form*	FORM_Create(CBYTE *caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG textcolour) {
+Form*	FORM_Create(CBYTE* caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG textcolour) {
 	Form *form;
 
 	form = (Form*) MemAlloc(sizeof(Form));
@@ -946,7 +946,7 @@ Form*	FORM_Create(CBYTE *caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SL
 	return form;
 }
 
-void	FORM_Free(Form* form) {
+void FORM_Free(Form* form) {
 	Widget *last;
 
 	while (form->children) {
@@ -976,7 +976,7 @@ Widget*	FORM_AddWidget(Form *form, Widget *widget) {
 	return widget;
 }
 
-void	FORM_DelWidget(Widget *widget) {
+void FORM_DelWidget(Widget *widget) {
 	Form *form=widget->form;
 
 	if (widget==form->focus) FORM_Focus(form, widget,-1);
@@ -1000,7 +1000,7 @@ inline bool	FORM_KeyProc(SLONG key) {
 	return 0;
 }
 
-SLONG	FORM_Process(Form* form) {
+SLONG FORM_Process(Form* form) {
 	CBYTE key;
 	Widget *lastfocus;
 	static int lastx = 0,lasty = 0;
@@ -1116,7 +1116,7 @@ Widget*	FORM_GetWidgetFromPoint(Form *form, WidgetPoint pt) {
 }
 
 
-void	FORM_Draw(Form *form) {
+void FORM_Draw(Form *form) {
 	Widget *walk;
 
 /*	if (form->caption) {

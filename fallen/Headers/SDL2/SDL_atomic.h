@@ -367,7 +367,7 @@ extern DECLSPEC int SDLCALL SDL_AtomicAdd(SDL_atomic_t *a, int v);
  * \sa SDL_AtomicGetPtr
  * \sa SDL_AtomicSetPtr
  */
-extern DECLSPEC SDL_bool SDLCALL SDL_AtomicCASPtr(void **a, void *oldval, void *newval);
+extern DECLSPEC SDL_bool SDLCALL SDL_AtomicCASPtr(void* *a, void* oldval, void* newval);
 
 /**
  * Set a pointer to a value atomically.
@@ -384,7 +384,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_AtomicCASPtr(void **a, void *oldval, void *
  * \sa SDL_AtomicCASPtr
  * \sa SDL_AtomicGetPtr
  */
-extern DECLSPEC void* SDLCALL SDL_AtomicSetPtr(void **a, void* v);
+extern DECLSPEC void* SDLCALL SDL_AtomicSetPtr(void* *a, void* v);
 
 /**
  * Get the value of a pointer atomically.
@@ -400,7 +400,7 @@ extern DECLSPEC void* SDLCALL SDL_AtomicSetPtr(void **a, void* v);
  * \sa SDL_AtomicCASPtr
  * \sa SDL_AtomicSetPtr
  */
-extern DECLSPEC void* SDLCALL SDL_AtomicGetPtr(void **a);
+extern DECLSPEC void* SDLCALL SDL_AtomicGetPtr(void* *a);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

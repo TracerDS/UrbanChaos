@@ -23,7 +23,7 @@
 #include "mfx.h"
 #include "sound_id.h"
 
-extern	void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour);
+extern void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour);
 
 //
 // The radius a each wheel and how far apart they are
@@ -46,7 +46,7 @@ extern	void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2
 
 
 BIKE_Bike *BIKE_bike; //[BIKE_MAX_BIKES];
-SLONG      BIKE_bike_upto;
+SLONG BIKE_bike_upto;
 
 
 #ifndef PSX
@@ -668,7 +668,7 @@ void BIKE_process_normal(Thing *p_bike)
 	}
 	else
 	{
-//extern	void	MFX_set_pitch(UWORD channel_id, UWORD wave, SLONG pitchbend);
+//extern void	MFX_set_pitch(UWORD channel_id, UWORD wave, SLONG pitchbend);
 
 		if ((bb->flag & BIKE_FLAG_ONGROUND_BACK))
 		{

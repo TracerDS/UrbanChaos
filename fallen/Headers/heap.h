@@ -13,8 +13,8 @@
 //
 
 void  HEAP_init();
-void *HEAP_get(SLONG num_bytes);
-void  HEAP_give(void *, SLONG num_bytes);
+void* HEAP_get(SLONG num_bytes);
+void  HEAP_give(void* , SLONG num_bytes);
 
 
 //

@@ -17,7 +17,7 @@ char pcPrevFilenameOpened[256];
 #define MAX_LENGTH_OF_FULL_NAME (MAX_LENGTH_OF_BASE_PATH+128)
 CBYTE cTempFilename[MAX_LENGTH_OF_FULL_NAME+1];
 
-CBYTE *MakeFullPathName ( const CBYTE *cFilename )
+CBYTE* MakeFullPathName ( const CBYTE* cFilename )
 {
 	strcpy ( cTempFilename, cBasePath );
 	ASSERT ( strlen ( cFilename ) < ( MAX_LENGTH_OF_FULL_NAME - MAX_LENGTH_OF_BASE_PATH ) );
@@ -27,7 +27,7 @@ CBYTE *MakeFullPathName ( const CBYTE *cFilename )
 
 //---------------------------------------------------------------
 
-bool	FileExists( CBYTE *file_name)
+bool FileExists( CBYTE* file_name)
 {
 	file_name = MakeFullPathName ( file_name );
 
@@ -39,7 +39,7 @@ bool	FileExists( CBYTE *file_name)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileOpen(CBYTE *file_name)
+MFFileHandle FileOpen(CBYTE* file_name)
 {
 	if (!FileExists(file_name))
 		return FILE_OPEN_ERROR;
@@ -75,7 +75,7 @@ MFFileHandle	FileOpen(CBYTE *file_name)
 
 //---------------------------------------------------------------
 
-void	FileClose(MFFileHandle file_handle)
+void FileClose(MFFileHandle file_handle)
 {
 #ifdef DEBUG
 	if ( m_iNumOpenFiles_FileOpen > 1 )
@@ -89,7 +89,7 @@ void	FileClose(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite)
+MFFileHandle FileCreate(CBYTE* file_name,bool overwrite)
 {
 	DWORD			creation_mode;
 	MFFileHandle	result;
@@ -121,7 +121,7 @@ MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite)
 
 //---------------------------------------------------------------
 
-void	FileDelete(CBYTE *file_name)
+void FileDelete(CBYTE* file_name)
 {
 	file_name = MakeFullPathName ( file_name );
 	DeleteFile(file_name);
@@ -129,7 +129,7 @@ void	FileDelete(CBYTE *file_name)
 
 //---------------------------------------------------------------
 
-SLONG	FileSize(MFFileHandle file_handle)
+SLONG FileSize(MFFileHandle file_handle)
 {
 	DWORD	result;
 
@@ -143,7 +143,7 @@ SLONG	FileSize(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-SLONG	FileRead(MFFileHandle file_handle,void *buffer,ULONG size)
+SLONG FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
 {
 	SLONG	bytes_read;
 
@@ -156,7 +156,7 @@ SLONG	FileRead(MFFileHandle file_handle,void *buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG	FileWrite(MFFileHandle file_handle,void *buffer,ULONG size)
+SLONG FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
 {
 	SLONG	bytes_written;
 
@@ -169,7 +169,7 @@ SLONG	FileWrite(MFFileHandle file_handle,void *buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
+SLONG FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
 {
 	DWORD		method;
 
@@ -194,7 +194,7 @@ SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
 
 //---------------------------------------------------------------
 
-SLONG	FileLoadAt(CBYTE *file_name,void *buffer)
+SLONG FileLoadAt(CBYTE* file_name,void* buffer)
 {
 	SLONG			size;
 	MFFileHandle	handle;
@@ -219,7 +219,7 @@ SLONG	FileLoadAt(CBYTE *file_name,void *buffer)
 //---------------------------------------------------------------
 
 
-void TraceText(CBYTE *fmt, ...)
+void TraceText(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -237,12 +237,12 @@ void TraceText(CBYTE *fmt, ...)
 
 //---------------------------------------------------------------
 
-void			FileSetBasePath(CBYTE *path_name)
+void FileSetBasePath(CBYTE* path_name)
 {
 	ASSERT ( strlen ( path_name ) < MAX_LENGTH_OF_BASE_PATH - 1 );
 	strncpy ( cBasePath, path_name, MAX_LENGTH_OF_BASE_PATH - 1 );
 	// Add a trailing slash if need be.
-	CBYTE *pch = cBasePath;
+	CBYTE* pch = cBasePath;
 	if ( *pch != '\0' )
 	{
 		while ( *++pch != '\0' ){}

@@ -18,11 +18,11 @@
 
 //---------------------------------------------------------------
 
-SLONG		platform_speed,platform_flags;
+SLONG platform_speed,platform_flags;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 //	LPTSTR		lbitem_str;
@@ -62,7 +62,7 @@ bool	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_platform_setup(EventPoint *the_ep)
+void do_platform_setup(EventPoint *the_ep)
 {
 	platform_speed =	the_ep->Data[0];
 	platform_flags =	the_ep->Data[1];
@@ -79,7 +79,7 @@ void	do_platform_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 /*
-CBYTE	*get_camera_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_camera_message(EventPoint *ep, CBYTE* msg) {
   if ((!ep)||(!ep->Data[0])||(!ep->Data[1]))
 	  strcpy(msg,"Unknown");
   else

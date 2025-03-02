@@ -62,7 +62,7 @@ void InitGrenades()
 //
 // create a grenade - returns false if we can't
 
-Grenade	*global_g;
+Grenade *global_g;
 
 bool CreateGrenade(Thing* owner, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG timer)
 {
@@ -438,7 +438,7 @@ void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
 SLONG GAMEMENU_is_paused();
 SLONG GAMEMENU_slowdown_mul();
 
-void	show_grenade_path(Thing *p_person)
+void show_grenade_path(Thing *p_person)
 {
 	Grenade*	gp ;
 	SLONG	x,y,z,x1,y1,z1;

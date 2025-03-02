@@ -12,7 +12,7 @@
 
 #ifndef TARGET_DC
 
-void ENV_load(CBYTE *fname);
+void ENV_load(CBYTE* fname);
 
 #else
 
@@ -36,8 +36,8 @@ extern int ENV_save ( char *pcData );
 // retrieve values
 //
 
-CBYTE *ENV_get_value_string(CBYTE *name, CBYTE* section = "Game");				// returns NULL if not found - NOTE: string is in a static buffer
-SLONG  ENV_get_value_number(CBYTE *name, SLONG def, CBYTE* section = "Game");	// returns def if not found
+CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section = "Game");				// returns NULL if not found - NOTE: string is in a static buffer
+SLONG  ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section = "Game");	// returns def if not found
 
 //
 // store values

@@ -540,9 +540,9 @@ void InitProps(PropertyEditor *pedit, UWORD type) {
 	}
 }
 */
-SLONG	LoadAllAnimNames(CBYTE *fname, TreeBrowser *browser, SLONG base_ctr);
+SLONG	LoadAllAnimNames(CBYTE* fname, TreeBrowser *browser, SLONG base_ctr);
 
-int GetItemIndex(CBYTE *str, CBYTE *pathtail) {
+int GetItemIndex(CBYTE* str, CBYTE* pathtail) {
 	int i;
 	CBYTE combined[_MAX_PATH];
 
@@ -559,11 +559,11 @@ int GetItemIndex(CBYTE *str, CBYTE *pathtail) {
 	return 0;
 }
 
-int ScanWavs(TreeBrowser *browser, CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld, CBYTE *pathtail) {
+int ScanWavs(TreeBrowser *browser, CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld, CBYTE* pathtail) {
 	HANDLE handle;
 	bool res;
 	WIN32_FIND_DATA data;
-	CBYTE *pt;
+	CBYTE* pt;
 	int count=0, itemndx;
 
     handle = FindFirstFile(path, &data);
@@ -746,7 +746,7 @@ void	LoadAnim(MFFileHandle file_handle, TreeBrowser *browser, SLONG num)
 	}
 }
 
-SLONG	LoadAllAnimNames(CBYTE *fname, TreeBrowser *browser, SLONG base_ctr)
+SLONG	LoadAllAnimNames(CBYTE* fname, TreeBrowser *browser, SLONG base_ctr)
 {
 	SLONG			anim_count,version,
 					c0;
@@ -829,8 +829,8 @@ void MouselookToggle() {
 	}
 }
 
-int get_index_from_string(CBYTE *string, CBYTE *opts) {
-	CBYTE *pt,*buff;
+int get_index_from_string(CBYTE* string, CBYTE* opts) {
+	CBYTE* pt,*buff;
 	int   i=0, r=-1;
 
 	buff=(CBYTE*)malloc(strlen(opts)+1);
@@ -849,8 +849,8 @@ int get_index_from_string(CBYTE *string, CBYTE *opts) {
 
 }
 
-CBYTE* get_string_from_index(int index, CBYTE *opts, CBYTE *result) {
-	CBYTE *pt=opts;
+CBYTE* get_string_from_index(int index, CBYTE* opts, CBYTE* result) {
+	CBYTE* pt=opts;
 
 	while (index--) {
 	  pt=strchr(pt,'|');
@@ -1542,7 +1542,7 @@ bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
 }
 
 
-bool propeditCB(PropertyEditor *tb, int reason, int index, CBYTE *value) {
+bool propeditCB(PropertyEditor *tb, int reason, int index, CBYTE* value) {
 	int res,i;
 
 	switch(reason) {
@@ -2014,7 +2014,7 @@ bool	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-extern	SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG type=0);
+extern SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG type=0);
 extern void	setup_anim_stuff();
 extern void	setup_global_anim_array();
 

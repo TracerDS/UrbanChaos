@@ -42,15 +42,15 @@ typedef Switch* SwitchPtr;
 
 //---------------------------------------------------------------
 
-void		init_switches();
-Thing		*alloc_switch(UBYTE type);
-void		free_switch(Thing *person_thing);
-THING_INDEX	create_switch();
+void init_switches();
+Thing *alloc_switch(UBYTE type);
+void free_switch(Thing *person_thing);
+THING_INDEX create_switch();
 
-void	fn_switch_player(Thing *s_thing);
-void	fn_switch_thing(Thing *s_thing);
-void	fn_switch_group(Thing *s_thing);
-void	fn_switch_class(Thing *s_thing);
+void fn_switch_player(Thing *s_thing);
+void fn_switch_thing(Thing *s_thing);
+void fn_switch_group(Thing *s_thing);
+void fn_switch_class(Thing *s_thing);
 
 //---------------------------------------------------------------
 

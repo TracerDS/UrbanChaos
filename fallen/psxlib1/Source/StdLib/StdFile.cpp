@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-bool	FileExists(CBYTE *file_name)
+bool FileExists(CBYTE* file_name)
 {
 	if(GetFileAttributes(file_name)==0xffffffff)
 		return	false;
@@ -16,7 +16,7 @@ bool	FileExists(CBYTE *file_name)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileOpen(CBYTE *file_name)
+MFFileHandle FileOpen(CBYTE* file_name)
 {
 	MFFileHandle	result	=	FILE_OPEN_ERROR;
 
@@ -40,14 +40,14 @@ MFFileHandle	FileOpen(CBYTE *file_name)
 
 //---------------------------------------------------------------
 
-void	FileClose(MFFileHandle file_handle)
+void FileClose(MFFileHandle file_handle)
 {
 	CloseHandle(file_handle);
 }
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite)
+MFFileHandle FileCreate(CBYTE* file_name,bool overwrite)
 {
 	DWORD			creation_mode;
 	MFFileHandle	result;
@@ -78,14 +78,14 @@ MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite)
 
 //---------------------------------------------------------------
 
-void	FileDelete(CBYTE *file_name)
+void FileDelete(CBYTE* file_name)
 {
 	DeleteFile(file_name);
 }
 
 //---------------------------------------------------------------
 
-SLONG	FileSize(MFFileHandle file_handle)
+SLONG FileSize(MFFileHandle file_handle)
 {
 	DWORD	result;
 
@@ -99,7 +99,7 @@ SLONG	FileSize(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-SLONG	FileRead(MFFileHandle file_handle,void *buffer,ULONG size)
+SLONG FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
 {
 	SLONG	bytes_read;
 
@@ -112,7 +112,7 @@ SLONG	FileRead(MFFileHandle file_handle,void *buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG	FileWrite(MFFileHandle file_handle,void *buffer,ULONG size)
+SLONG FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
 {
 	SLONG	bytes_written;
 
@@ -125,7 +125,7 @@ SLONG	FileWrite(MFFileHandle file_handle,void *buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
+SLONG FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
 {
 	DWORD		method;
 
@@ -150,7 +150,7 @@ SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
 
 //---------------------------------------------------------------
 
-SLONG	FileLoadAt(CBYTE *file_name,void *buffer)
+SLONG FileLoadAt(CBYTE* file_name,void* buffer)
 {
 	SLONG			size;
 	MFFileHandle	handle;
@@ -176,7 +176,7 @@ SLONG	FileLoadAt(CBYTE *file_name,void *buffer)
 //---------------------------------------------------------------
 
 
-void TraceText(CBYTE *fmt, ...)
+void TraceText(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.

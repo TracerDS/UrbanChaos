@@ -37,11 +37,11 @@
 
 #include "panel.h"
 
-extern	SLONG		EWAY_cam_jumped;
+extern SLONG		EWAY_cam_jumped;
 
-extern	UBYTE	roper_pickup;
-UBYTE	remove_dead_people;
-UBYTE	in_ware=0;
+extern UBYTE	roper_pickup;
+UBYTE remove_dead_people;
+UBYTE in_ware=0;
 
 void SHAPE_droplet(
 		SLONG x,
@@ -53,7 +53,7 @@ void SHAPE_droplet(
 		ULONG colour,
 		SLONG page);
 
-SLONG	sea_offset=0;
+SLONG sea_offset=0;
 
 // For Filtering we need the pad input crap here.
 
@@ -72,10 +72,10 @@ void AENG_calc_gamut(SLONG dist);
 void PANEL_draw_beacons();
 
 extern void NIGHT_lum_init();
-extern	void FIGURE_draw_queued(Thing *p_thing,SLONG dist);
-extern	void	DoFigureDraw();
+extern void FIGURE_draw_queued(Thing *p_thing,SLONG dist);
+extern void	DoFigureDraw();
 
-SLONG	my_draw_dist=20<<8;
+SLONG my_draw_dist=20<<8;
 
 SLONG AENG_cam_x;
 SLONG AENG_cam_y;
@@ -88,10 +88,10 @@ SLONG AENG_cam_pitch;
 SLONG AENG_cam_roll;
 SLONG AENG_lens = (SLONG)(3.3F*65536);
 SLONG TEXTURE_set;
-UBYTE	double_ot=0;
+UBYTE double_ot=0;
 
 SLONG psx_draw_dist=13;
-UWORD	debug_count[10];
+UWORD debug_count[10];
 PSX_POLY_Point *perm_pp_array;
 
 #define MAX_PP_ARRAY 4
@@ -161,7 +161,7 @@ typedef struct
 
 ED_Undo Light_Save;
 /*
-void	check_prim_ptr_ni(void **x)
+void check_prim_ptr_ni(void* *x)
 {
 
 	if(*x>the_display.CurrentDisplayBuffer->PrimMem+BUCKET_MEM-100)
@@ -428,15 +428,15 @@ void AENG_ambient_editor(int store)
 }
 
 #endif
-volatile	SLONG draw_state __attribute__((section(".rdata")))=0;
-SLONG	global_debug=0;
-SLONG	global_debug2=0;
-void	*sync_point=0;
-void	*danger_point=0;
-UBYTE	danger_point_type=0;
+volatile SLONG draw_state __attribute__((section(".rdata")))=0;
+SLONG global_debug=0;
+SLONG global_debug2=0;
+void* sync_point=0;
+void* danger_point=0;
+UBYTE danger_point_type=0;
 
 
-void	do_danger(void **x)
+void do_danger(void* *x)
 {
 	SLONG	count=0;
 	switch(danger_point_type)
@@ -484,7 +484,7 @@ jesus_that_was_unlikely:;
 //     |                                 (last used)
 //                           |           (current pointer)
                 
-ULONG	available_bucket_ram()
+ULONG available_bucket_ram()
 {
 	SLONG	size;
 	size=last_used_bucket_ram-the_display.CurrentPrim; 
@@ -496,7 +496,7 @@ ULONG	available_bucket_ram()
 }
 
 #ifdef	OLDSHIT
-void	check_prim_ptr_ni(void **x)
+void check_prim_ptr_ni(void* *x)
 {
 	SLONG	count=0;
 #ifdef	OLD_FLIP
@@ -567,7 +567,7 @@ jesus_that_was_unlikely:;
 
 #endif
 }
-void	check_prim_ptr_old(void **x)
+void check_prim_ptr_old(void* *x)
 {
 	SLONG	count=0;
 #ifdef	OLD_FLIP
@@ -621,18 +621,18 @@ void	check_prim_ptr_old(void **x)
 #endif
 }
 #endif
-bool		text_fudge	=	false;
-ULONG       text_colour;
+bool text_fudge	=	false;
+ULONG text_colour;
 
 //void AENG_world_line_infinite(SLONG ix1, SLONG iy1, SLONG iz1, SLONG iwidth1, ULONG colour1, 
 //		SLONG ix2, SLONG iy2, SLONG iz2, SLONG iwidth2, ULONG colour2,
 //		SLONG sort_to_front);
 
-void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour)
+void add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour)
 {
 }
 
-void	draw_debug_lines()
+void draw_debug_lines()
 {
 }
 
@@ -700,7 +700,7 @@ SLONG PANEL_fadeout_finished()
 	return false;
 }
 
-void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
+void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
 {
 	POLY_FT4 *p;
 	SLONG f=face-1;
@@ -759,7 +759,7 @@ void AENG_draw_pows()
 
 				ASSERT(0);
 				printf("sprite=%d\n",sprite);
-extern	void POW_init();
+extern void POW_init();
 				POW_init();
 
 				return;
@@ -784,7 +784,7 @@ extern	void POW_init();
 }
 
 
-void	inner_trip(
+void inner_trip(
 		SLONG x1,
 		SLONG y1,
 		SLONG z1,
@@ -1402,7 +1402,7 @@ void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
 	sprintf(timerstr,"%d:%02d",(time/6000),(time/100)%60);
 }
 
-void	AENG_draw_gun_point(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,SLONG col,SLONG z)
+void AENG_draw_gun_point(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,SLONG col,SLONG z)
 {
 	POLY_F3 *p;
 	ALLOCPRIM(p,POLY_F3);
@@ -1413,7 +1413,7 @@ void	AENG_draw_gun_point(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2
 	DOPRIM(get_z_sort(z-8),p);
 }
 
-void	AENG_draw_gun_line(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,SLONG col,SLONG z)
+void AENG_draw_gun_line(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,SLONG col,SLONG z)
 {
 	LINE_F2 *p;
 	ALLOCPRIM(p,LINE_F2);
@@ -1483,7 +1483,7 @@ void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
 #define COMPASS_MID_X	(512-48)
 #define COMPASS_MID_Y	(24)
 
-void	PANEL_draw_compass_north()
+void PANEL_draw_compass_north()
 {
 	POLY_F3 *p;
 	SLONG dx,dy;
@@ -1500,7 +1500,7 @@ void	PANEL_draw_compass_north()
 }
 #endif
 /*
-void	PANEL_draw_compass_to(SLONG x,SLONG z)
+void PANEL_draw_compass_to(SLONG x,SLONG z)
 {
 	POLY_F3 *p;
 	SLONG dx,dy,ang;
@@ -1522,16 +1522,16 @@ void	PANEL_draw_compass_to(SLONG x,SLONG z)
 }
 */
 
-void	PANEL_start()
+void PANEL_start()
 {
 }
 
-void	PANEL_finish()
+void PANEL_finish()
 {
 }
 
 #if 0
-void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer)
+void AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer)
 {
 }
 #endif
@@ -1540,7 +1540,7 @@ void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1
 char vspf_str[80];
 #endif
 
-void MSG_add(CBYTE *fmt, ...)
+void MSG_add(CBYTE* fmt, ...)
 {
 #if 0
 	va_list arg;
@@ -1551,7 +1551,7 @@ void MSG_add(CBYTE *fmt, ...)
 #endif
 }
 
-void Debug_Text(CBYTE *fmt, ...)
+void Debug_Text(CBYTE* fmt, ...)
 {
 }
 */
@@ -1622,7 +1622,7 @@ SBYTE f_descend[]={
 //char text_table[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?^�@_";
 #ifdef VERSION_KANJI
 /*
-CBYTE *Kanji_message[8];
+CBYTE* Kanji_message[8];
 SLONG Kanji_mess_x[8];
 SLONG Kanji_mess_y[8];
 SLONG Kanji_mess_col[8];
@@ -1633,7 +1633,7 @@ TIM_IMAGE Kanji_Tim;
 ULONG Kanji_old_sp;
 
 
-SLONG Kanji_AddString(SLONG x,SLONG y,CBYTE *message,SLONG colour)
+SLONG Kanji_AddString(SLONG x,SLONG y,CBYTE* message,SLONG colour)
 {
 	SLONG Kanji_found=Kanji_next;
 	SLONG i;
@@ -1685,7 +1685,7 @@ void Kanji_Render()
 */
 #endif
 
-void draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id)
+void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 {
 #ifndef VERSION_KANJI
 	SPRT_8 *p;
@@ -1775,7 +1775,7 @@ void draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id)
 #endif
 }
 
-SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count)
+SLONG text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
 {
 #ifndef VERSION_KANJI
 	char *p=message;
@@ -1794,7 +1794,7 @@ SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count)
 #endif
 }
 
-SLONG	text_height(CBYTE *message,SLONG font_id,SLONG *char_count)
+SLONG text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
 {
 #ifndef VERSION_KANJI
 	*char_count=0;//strlen(message);
@@ -1805,13 +1805,13 @@ SLONG	text_height(CBYTE *message,SLONG font_id,SLONG *char_count)
 #endif
 }
 
-void	draw_centre_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id,SLONG flag)
+void draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag)
 {
 	SLONG c;
 	draw_text_at(x-(text_width(message,font_id,&c)/2),y-(text_height(message,font_id,&c)/2),message,font_id);
 }
 
-void CONSOLE_text(CBYTE *text, SLONG delay) 
+void CONSOLE_text(CBYTE* text, SLONG delay) 
 {
 	PANEL_new_text(NULL,delay,text);
 }
@@ -1821,16 +1821,16 @@ void CONSOLE_text_at(
 		SLONG  x,
 		SLONG  y,
 		SLONG  delay,
-		CBYTE *fmt, ...)
+		CBYTE* fmt, ...)
 {
 }
 
-void	CONSOLE_clear()
+void CONSOLE_clear()
 { 
 }
 
 
-void	show_text()
+void show_text()
 {
 }
 
@@ -2083,7 +2083,7 @@ void AENG_e_draw_3d_mapwho(SLONG x1, SLONG z1)
 }
 #endif
 
-SWORD	sync_count=0;
+SWORD sync_count=0;
 
 void AENG_blit()
 {
@@ -2101,7 +2101,7 @@ void AENG_clear_screen()
 }
 
 /*
-void	build_tri(SLONG x,SLONG y)
+void build_tri(SLONG x,SLONG y)
 {
 	POLY_F3	*p;
 
@@ -2353,7 +2353,7 @@ void set_floor_texture_special_tri(POLY_GT3 *p,UWORD texture,UWORD a,UWORD b,UWO
 	setUV3(p,tx[a],ty[a],tx[b],ty[b],tx[c],ty[c]);
 }
 */
-SLONG	calc_light(POLY_Point *pp)
+SLONG calc_light(POLY_Point *pp)
 {
 	SLONG	s;
 	SLONG	x,y,z;
@@ -2385,7 +2385,7 @@ SLONG	calc_light(POLY_Point *pp)
 */
 }
 
-void	do_4_lights(POLY_GT4 *p,POLY_Point *quad)
+void do_4_lights(POLY_GT4 *p,POLY_Point *quad)
 {
 	SLONG	s0,s1,s2,s3;
 
@@ -2405,7 +2405,7 @@ void	do_4_lights(POLY_GT4 *p,POLY_Point *quad)
 //		setSemiTrans(p,1);
 }
 /*
-void	do_4_lights_shadow(POLY_GT4 *p,POLY_Point *quad)
+void do_4_lights_shadow(POLY_GT4 *p,POLY_Point *quad)
 {
 	SLONG	s;
 	s=calc_light(&quad[0])>>1;
@@ -2421,7 +2421,7 @@ void	do_4_lights_shadow(POLY_GT4 *p,POLY_Point *quad)
 	setRGB3(p,s,s,s);
 }
 
-void	do_3_lights(POLY_GT3 *p,POLY_Point *quad)
+void do_3_lights(POLY_GT3 *p,POLY_Point *quad)
 {
 	SLONG	s;
 	s=calc_light(&quad[0]);
@@ -2435,7 +2435,7 @@ void	do_3_lights(POLY_GT3 *p,POLY_Point *quad)
 
 }
 
-void	do_3_lights_shadow(POLY_GT3 *p,POLY_Point *quad)
+void do_3_lights_shadow(POLY_GT3 *p,POLY_Point *quad)
 {
 	SLONG	s;
 	s=calc_light(&quad[0])>>1;
@@ -2450,7 +2450,7 @@ void	do_3_lights_shadow(POLY_GT3 *p,POLY_Point *quad)
 }
 */
 
-void	add_quad(POLY_Point *quad,PAP_Hi *ph)
+void add_quad(POLY_Point *quad,PAP_Hi *ph)
 {
 	SLONG	z;
 	SLONG	shadow;
@@ -2736,7 +2736,7 @@ UBYTE shadow_map[8][4]={{0,0,0,0},{0,0,0,0},{3,0,3,0},{0,0,3,0},{0,0,3,3},{3,0,3
 //	2    n2     3
 
 
-void	split_quad_all(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
+void split_quad_all(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 {
 
 	POLY_GT4	*pa;
@@ -3002,7 +3002,7 @@ void	split_quad_all(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 //		  
 //		  2	    3	 	  2	    3				  2  b  3
 #ifdef	OLD_SPLIT
-void	split_quad_a(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
+void split_quad_a(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 {
 
 	POLY_GT4	*pa;
@@ -3081,7 +3081,7 @@ void	split_quad_a(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 //   0	  1
 //	 a	  b
 //	 2	  3
-void	split_quad_b(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
+void split_quad_b(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 {
 
 	POLY_GT4	*pa;
@@ -3158,7 +3158,7 @@ void	split_quad_b(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 #endif
 //inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p,ULONG day_flag)
 #ifdef	OLD_POO
-inline	void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p,ULONG day_flag)
+inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p,ULONG day_flag)
 {
 	SLONG	z;
 	SLONG	two_pass=0;
@@ -3415,7 +3415,7 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 	}
 }
 #endif
-inline	void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,POLY_GT4 *p)
+inline void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,POLY_GT4 *p)
 {
 	SLONG	z;
 	UWORD	texture;
@@ -3487,7 +3487,7 @@ inline	void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,
 
 	}
 }
-void	add_floor_quad_quick_ni(PSX_POLY_Point *quad,PAP_Hi *ph,POLY_GT4 *p)
+void add_floor_quad_quick_ni(PSX_POLY_Point *quad,PAP_Hi *ph,POLY_GT4 *p)
 {
 	SLONG	z;
 	UWORD	texture;
@@ -3529,7 +3529,7 @@ void	add_floor_quad_quick_ni(PSX_POLY_Point *quad,PAP_Hi *ph,POLY_GT4 *p)
 	}
 }
 #ifdef	DOG_POO
-void	add_floor_quad_ni(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p)
+void add_floor_quad_ni(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p)
 {
 	SLONG	z;
 	SLONG	two_pass=0;
@@ -3664,7 +3664,7 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 }
 #endif
 
-void	add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG shadow,POLY_GT4 *p)
+void add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG shadow,POLY_GT4 *p)
 {
 	SLONG	z;
 	SLONG	two_pass=0;
@@ -3963,7 +3963,7 @@ void add_kerb(PSX_POLY_Point *pp0,PSX_POLY_Point *pp1)
 
 
 
-struct	FloorStore
+struct FloorStore
 {
 	UBYTE	R,G,B;
 	UBYTE	Flag;
@@ -3971,16 +3971,16 @@ struct	FloorStore
 
 #define	MAX_WIDTH	27
 
-extern	void	fuck_z(PSX_POLY_Point *pp);
-void	fuck_floor_z(PSX_POLY_Point *pp)
+extern void	fuck_z(PSX_POLY_Point *pp);
+void fuck_floor_z(PSX_POLY_Point *pp)
 {
 	SLONG	dx,dy,dz;
 	SLONG	t;
 	VECTOR	out1;
 	ULONG	flag;
 
-	extern	SLONG	POLY_cam_yaw;
-extern	SLONG AENG_cam_yaw;
+	extern SLONG	POLY_cam_yaw;
+extern SLONG AENG_cam_yaw;
 /*
 	if (PadKeyIsPressed(&PAD_Input1,PAD_RL))
 		return;
@@ -4750,7 +4750,7 @@ void AENG_draw_ware_floor()
 			ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 			ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-//extern	UBYTE	player_visited[16][128];
+//extern UBYTE	player_visited[16][128];
 //			player_visited[x>>3][z]|=1<<(x&7);
 
 //			me = &MAP[MAP_INDEX(x, z)];
@@ -4864,12 +4864,12 @@ void AENG_draw_ware_floor()
 
 }
 
-struct	BIGVECTOR
+struct BIGVECTOR
 {
 	SLONG	X,Y,Z;
 };
 
-struct	COLOUR
+struct COLOUR
 {
 	UBYTE R,G,B;
 };
@@ -5481,7 +5481,7 @@ void AENG_draw_dirt()
 
 }
 
-void	draw_finished()
+void draw_finished()
 {
 //	draw_state=0;
 	draw_state--;
@@ -5489,13 +5489,13 @@ void	draw_finished()
 }
 
 
-DB	*old_buffer;
-void	*last_used_bucket_ram=0,*first_used_bucket_ram=0;
+DB *old_buffer;
+void* last_used_bucket_ram=0,*first_used_bucket_ram=0;
 
 //
 // just to ensure draw_state is set to 1 immediatly prior to DrawOtag
 //
-void	do_draw()
+void do_draw()
 {
 //	while(draw_state);
 
@@ -5528,7 +5528,7 @@ void AENG_flip_init()
 }
 
 UBYTE Ive_Not_Been_Flipped;
-SLONG	geom=420;
+SLONG geom=420;
 
 void AENG_flip()
 {
@@ -5793,7 +5793,7 @@ void AENG_draw_sparks()
 
 }
 
-void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade);
+void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade);
 
 /*
 #define SKY_MAX_STARS 256
@@ -5808,7 +5808,7 @@ STAR_Data Star[SKY_MAX_STARS];
 
 SVECTOR sky_range[64][9];
 
-void SKY_init(CBYTE *star_file)
+void SKY_init(CBYTE* star_file)
 {
 	UWORD i,j;
 	SVECTOR pos;
@@ -6104,7 +6104,7 @@ void AENG_ride_bike(Thing *p_thing)
 }
 */
 
-void	AENG_draw_tripwires()
+void AENG_draw_tripwires()
 {
 	SLONG map_x1;
 	SLONG map_z1;
@@ -6189,9 +6189,9 @@ void AENG_dfcache_clean()
 }
 
 
-void	fiddle_draw_distance()
+void fiddle_draw_distance()
 {
-extern	SLONG	tick_tock_unclipped;
+extern SLONG	tick_tock_unclipped;
 	if(tick_tock_unclipped)
 	{
 		if((1000/tick_tock_unclipped)<13)
@@ -6417,7 +6417,7 @@ void AENG_draw_warehouse(SLONG info)
 				p_thing = TO_THING(t_index);
 				p_thing->Flags|=FLAGS_IN_VIEW;
 
- extern	ULONG	MESH_colour_and;
+ extern ULONG	MESH_colour_and;
 
 					MESH_colour_and=(t_index+1) & 7;
 
@@ -6575,7 +6575,7 @@ VECTOR temp;
 DVECTOR sysx;
 
 
-void	debug_lines()
+void debug_lines()
 {
 	return;
 #ifndef	NDEBUG
@@ -6590,7 +6590,7 @@ void	debug_lines()
 	x1=10+((x1*300)/BUCKET_MEM);
 	x2=10+((x2*300)/BUCKET_MEM);
 
-void	quick_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG r,SLONG g,SLONG b);
+void quick_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG r,SLONG g,SLONG b);
 
 
 //
@@ -6709,7 +6709,7 @@ void AENG_draw_city(SLONG info)
 	SetFogNearFar(my_draw_dist-(my_draw_dist>>2),my_draw_dist,420);
 	AENG_calc_gamut(my_draw_dist>>8);
 
-extern	void NIGHT_lum_init();
+extern void NIGHT_lum_init();
 extern void NIGHT_dlight_render();
 
 	NIGHT_dlight_render();  
@@ -7044,7 +7044,7 @@ extern void NIGHT_dlight_render();
 				}
 				else
 				{
- extern	ULONG	MESH_colour_and;
+ extern ULONG	MESH_colour_and;
 
 					MESH_colour_and=(THING_NUMBER(p_thing)+1) & 7;
 
@@ -7154,7 +7154,7 @@ extern void NIGHT_dlight_render();
 //								break;
 
 						case DT_VEHICLE:
-extern	void	draw_car(Thing *p_car);
+extern void	draw_car(Thing *p_car);
 							if(p_thing->Class==CLASS_VEHICLE)
 								{
 									if(p_thing->Genus.Vehicle->Driver)
@@ -7208,7 +7208,7 @@ extern	void	draw_car(Thing *p_car);
 
 
 #ifdef	INSIDES_EXIST
-extern	void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
+extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 	if(INDOORS_INDEX_NEXT)
 	{
 		draw_insides(INDOORS_INDEX_NEXT,INDOORS_INDEX_NEXT,INDOORS_INDEX_FADE);
@@ -7303,7 +7303,7 @@ extern	void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 						dfacets[facet].Counter[0] = supermap_counter;
 
 
-extern	void FACET_draw_quick(SLONG facet);
+extern void FACET_draw_quick(SLONG facet);
 
 						FACET_draw_quick(facet);
 						debug_count[4]++;
@@ -7328,7 +7328,7 @@ extern	void FACET_draw_quick(SLONG facet);
 
 #ifdef MIKE
 
-void	quick_rect(SLONG x,SLONG y,SLONG x2,SLONG y2,SLONG r,SLONG g,SLONG b)
+void quick_rect(SLONG x,SLONG y,SLONG x2,SLONG y2,SLONG r,SLONG g,SLONG b)
 {
 void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
 
@@ -7337,7 +7337,7 @@ void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
 
 }
 
-void	show_debug_info()
+void show_debug_info()
 {
 	CBYTE	str[100];
 	ULONG	size;
@@ -7357,7 +7357,7 @@ void	show_debug_info()
 */
 
 
-extern	SLONG	pers_off;
+extern SLONG	pers_off;
 
 	size=the_display.CurrentPrim-&(the_display.CurrentDisplayBuffer->PrimMem[0]);
 //	sprintf(str,"%d %d FC %d",global_debug,draw_state,FC_cam[0].pitch>>8);
@@ -7374,7 +7374,7 @@ extern	SLONG	pers_off;
 	*/
 
 /*
-extern	SWORD	store_z[15];
+extern SWORD	store_z[15];
 	sprintf(str,"po %d P%d LF%d LT%d LF%d T%d ",pers_off,store_z[0],store_z[1],store_z[2],store_z[3],store_z[4]);
 	FONT2D_DrawString(str,10,10);
 
@@ -7398,7 +7398,7 @@ void AENG_draw(SLONG info)
 	PSX_POLY_Point	holdpp[MAX_PP_ARRAY];
 	perm_pp_array=holdpp;
 
-extern	SLONG	tick_tock_unclipped;
+extern SLONG	tick_tock_unclipped;
 	sea_offset+=(tick_tock_unclipped);
 
 	Ive_Not_Been_Flipped++;
@@ -7430,7 +7430,7 @@ extern SLONG	psx_camera();
 }
 
 #ifdef INSIDES_EXIST
-void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
+void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 {
 	SLONG	x,z;
 //	SLONG page;
@@ -7461,7 +7461,7 @@ void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 	//
 	// draw the internal walls
 	//
-//extern	void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
+//extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 //	draw_insides(inside_index,inside_room,fade);
 	
 	p_inside=&inside_storeys[inside_index];
@@ -7569,7 +7569,7 @@ void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 #endif
 
 
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE *fmt, ...)
+SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
 {
 }
 
@@ -7938,7 +7938,7 @@ extern char GDisp_Bucket[];
 {
 #ifndef VERSION_KANJI
 	POLY_FT4 *p;
-	CBYTE *m=chr;
+	CBYTE* m=chr;
 	SLONG x0=x,y0=y;
 	SLONG c,dec;
 
@@ -8133,7 +8133,7 @@ void CONSOLE_draw()
 }
 
 
-void CONSOLE_font(CBYTE *fontpath, SLONG scale)
+void CONSOLE_font(CBYTE* fontpath, SLONG scale)
 {
 }
 

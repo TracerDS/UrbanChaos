@@ -115,13 +115,13 @@ GetReply(DWORD dwMsgType)
 
 
 //-----------------------------------------------------------------------------
-// Name: DirectXSetupCallbackFunction(DWORD , DWORD , LPSTR , LPSTR , void *)
+// Name: DirectXSetupCallbackFunction(DWORD , DWORD , LPSTR , LPSTR , void* )
 // Desc: Handle each reason for why the callback was called, filtering each
 //       message by what the current state of g_fStatus is.
 //-----------------------------------------------------------------------------
 DWORD WINAPI
 DirectXSetupCallbackFunction(DWORD dwReason, DWORD dwMsgType, LPSTR szMessage, LPSTR
-                             szName, void *pInfo)
+                             szName, void* pInfo)
 {
     if (szMessage == NULL && szName == NULL)
         return IDOK;

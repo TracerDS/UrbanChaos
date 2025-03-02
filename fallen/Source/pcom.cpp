@@ -42,9 +42,9 @@ extern bool allow_debug_keys;
 // local prototypes
 //
 
-extern	UBYTE	combo_display;
-void	push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle);
-SLONG	remove_from_gang_attack(Thing *p_person,Thing *p_target);
+extern UBYTE	combo_display;
+void push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle);
+SLONG remove_from_gang_attack(Thing *p_person,Thing *p_target);
 void PCOM_set_person_ai_flee_person(Thing *p_person,Thing *p_scary);
 
 void DriveCar(Thing* p_person);
@@ -55,19 +55,19 @@ void ParkBike(Thing* p_person);
 //
 // externs
 //
-extern	SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
-extern	SLONG	am_i_a_thug(Thing *p_person);
-extern	SLONG	person_normal_animate(Thing *p_person);
-extern	SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
-extern	void set_person_recircle(Thing *p_person);
-extern	void	FC_kill_player_cam(Thing *p_thing);
-extern	UBYTE	GAME_cut_scene;
-extern	SLONG	is_person_dead(Thing *p_person);
-extern	SLONG	is_person_ko(Thing *p_person);
-extern	SLONG person_has_gun_out(Thing *p_person);
-extern	SLONG	is_person_guilty(Thing *p_person);
+extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern SLONG	am_i_a_thug(Thing *p_person);
+extern SLONG	person_normal_animate(Thing *p_person);
+extern SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
+extern void set_person_recircle(Thing *p_person);
+extern void	FC_kill_player_cam(Thing *p_thing);
+extern UBYTE	GAME_cut_scene;
+extern SLONG	is_person_dead(Thing *p_person);
+extern SLONG	is_person_ko(Thing *p_person);
+extern SLONG person_has_gun_out(Thing *p_person);
+extern SLONG	is_person_guilty(Thing *p_person);
 
-extern	UBYTE	vehicle_random[];
+extern UBYTE	vehicle_random[];
 
 extern SLONG there_is_a_los_mav(	// From collide.cpp
 				SLONG x1, SLONG y1, SLONG z1,
@@ -78,7 +78,7 @@ extern SLONG there_is_a_los_mav(	// From collide.cpp
 
 
 #ifndef PSX
-CBYTE *PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] = 
+CBYTE* PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] = 
 {
 	"Player",
 	"Normal",
@@ -110,7 +110,7 @@ CBYTE *PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] =
 	"Get item"
 };
 
-CBYTE *PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
+CBYTE* PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
 {
 	"None",
 	"Suprised",
@@ -143,7 +143,7 @@ CBYTE *PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
 	"Waiting"
 };
 
-CBYTE *PCOM_ai_name[PCOM_AI_NUMBER] =
+CBYTE* PCOM_ai_name[PCOM_AI_NUMBER] =
 {
 	"player",
 	"civillian",
@@ -169,7 +169,7 @@ CBYTE *PCOM_ai_name[PCOM_AI_NUMBER] =
 	"Shoot dead"
 };
 
-CBYTE *PCOM_bent_name[PCOM_BENT_NUMBER] =
+CBYTE* PCOM_bent_name[PCOM_BENT_NUMBER] =
 {
 	"Lazy ",
 	"Diligent ",
@@ -181,7 +181,7 @@ CBYTE *PCOM_bent_name[PCOM_BENT_NUMBER] =
 	"Player-kill"
 };
 
-CBYTE *PCOM_move_name[PCOM_MOVE_NUMBER] =
+CBYTE* PCOM_move_name[PCOM_MOVE_NUMBER] =
 {
 	"NULL",
 	"Still",
@@ -230,7 +230,7 @@ CBYTE *PCOM_move_name[PCOM_MOVE_NUMBER] =
 #define PCOM_MOVE_SPEED_SPRINT	PERSON_SPEED_SPRINT
 
 #ifndef PSX
-CBYTE *PCOM_move_state_name[] =
+CBYTE* PCOM_move_state_name[] =
 {
 	"Player",
 	"Still",
@@ -313,7 +313,7 @@ CBYTE *PCOM_move_state_name[] =
 #define PCOM_MAX_GANG_PEOPLE 64
 
 THING_INDEX PCOM_gang_person[PCOM_MAX_GANG_PEOPLE];
-SLONG       PCOM_gang_person_upto;
+SLONG PCOM_gang_person_upto;
 
 typedef struct
 {
@@ -342,7 +342,7 @@ SLONG PCOM_found_num;
 //
 
 void PCOM_set_person_ai_homesick(Thing *p_person);
-SLONG	person_holding_2handed(Thing *p_person);
+SLONG person_holding_2handed(Thing *p_person);
 
 
 
@@ -1832,7 +1832,7 @@ void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target)
 		}
 	}
 }
-SLONG	am_i_a_thug(Thing *p_person);
+SLONG am_i_a_thug(Thing *p_person);
 
 void PCOM_alert_my_gang_to_flee(Thing *p_person, Thing *p_target)
 {
@@ -3081,7 +3081,7 @@ void PCOM_set_person_move_pickup_special(Thing *p_person, Thing *p_special)
 //
 
 UWORD find_arrestee    (Thing *p_person);
-void  set_person_arrest(Thing *p_person, SLONG who_to_arrest);
+void set_person_arrest(Thing *p_person, SLONG who_to_arrest);
 
 void PCOM_set_person_move_arrest(Thing *p_person)
 {
@@ -3202,11 +3202,11 @@ void PCOM_set_person_move_shoot(Thing *p_person)
 // do cardinal points first then 
 //
 
-UBYTE	gang_angle_priority[]={0,2,6,4,1,7,3,5};
-extern	SLONG	get_gangattack(Thing *p_person);
+UBYTE gang_angle_priority[]={0,2,6,4,1,7,3,5};
+extern SLONG	get_gangattack(Thing *p_person);
 
 
-void	check_players_gang(Thing *p_target)
+void check_players_gang(Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0,count=0;
@@ -3241,7 +3241,7 @@ void	check_players_gang(Thing *p_target)
 	}
 }
 
-UWORD	count_gang(Thing *p_target)
+UWORD count_gang(Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0,count=0;
@@ -3265,9 +3265,9 @@ UWORD	count_gang(Thing *p_target)
 	return(count);
 }
 
-extern	SLONG dist_to_target(Thing *p_person_a,Thing *p_person_b);
+extern SLONG dist_to_target(Thing *p_person_a,Thing *p_person_b);
 
-UWORD	get_any_gang_member(Thing *p_target)
+UWORD get_any_gang_member(Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0,count=0,ret;
@@ -3293,7 +3293,7 @@ UWORD	get_any_gang_member(Thing *p_target)
 	return(0);
 }
 
-UWORD	get_nearest_gang_member(Thing *p_target)
+UWORD get_nearest_gang_member(Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0,count=0,ret;
@@ -3319,7 +3319,7 @@ UWORD	get_nearest_gang_member(Thing *p_target)
 	return(best_targ);
 }
 
-UWORD	find_target_from_gang(Thing *p_target)
+UWORD find_target_from_gang(Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0,perp;
@@ -3343,7 +3343,7 @@ UWORD	find_target_from_gang(Thing *p_target)
 	return(0);
 }
 
-SLONG	remove_from_gang_attack(Thing *p_person,Thing *p_target)
+SLONG remove_from_gang_attack(Thing *p_person,Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0;
@@ -3368,7 +3368,7 @@ SLONG	remove_from_gang_attack(Thing *p_person,Thing *p_target)
 	return(removed);
 }
 
-void	scare_gang_attack(Thing *p_target)
+void scare_gang_attack(Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0;
@@ -3390,7 +3390,7 @@ void	scare_gang_attack(Thing *p_target)
 	}
 }
 
-void	reset_gang_attack(Thing *p_target)
+void reset_gang_attack(Thing *p_target)
 {
 	UWORD	perps[4];
 	Thing	*p_person;
@@ -3436,7 +3436,7 @@ void	reset_gang_attack(Thing *p_target)
 
 
 }
-void	process_gang_attack(Thing *p_person,Thing *p_target)
+void process_gang_attack(Thing *p_person,Thing *p_target)
 {
 	SLONG	gang;
 	SLONG	c0;
@@ -3530,7 +3530,7 @@ void	process_gang_attack(Thing *p_person,Thing *p_target)
 */
 }
 
-void	push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle)
+void push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle)
 {
 	SLONG	c0=4;
 	Thing	*p_copy;
@@ -3599,7 +3599,7 @@ void	push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle
 
 }
 
-void	PCOM_new_gang_attack(Thing *p_person, Thing *p_target)
+void PCOM_new_gang_attack(Thing *p_person, Thing *p_target)
 {
 	SLONG gang;
 	SLONG c0;
@@ -3764,7 +3764,7 @@ void PCOM_set_person_move_leavecar(Thing *p_person)
 // Go back to do what you normally do.
 //
 
-extern	void PCOM_set_person_ai_navtokill(Thing *p_person, Thing *p_target);
+extern void PCOM_set_person_ai_navtokill(Thing *p_person, Thing *p_target);
 void PCOM_set_person_ai_normal(Thing *p_person)
 {
 	if (p_person->Genus.Person->Target)
@@ -4955,7 +4955,7 @@ void PCOM_set_person_ai_summon(Thing *p_person)
 // Returns an item this person should pick up or NULL if this
 // person is not near enough an item or already has one.
 //
-extern	bool PersonIsMIB(Thing* p_person);
+extern bool PersonIsMIB(Thing* p_person);
 /*
 bool PersonIsMIB(Thing* p_person)
 {
@@ -5596,7 +5596,7 @@ THING_INDEX PCOM_create_player(
 							id);
 
 #ifndef PSX
-	extern SLONG playing_level(const CBYTE *name);
+	extern SLONG playing_level(const CBYTE* name);
 
 	if (playing_level("skymiss2.ucm"))
 #else
@@ -5685,7 +5685,7 @@ void PCOM_change_person_attributes(
 
 	if(p_person->Genus.Person->pcom_move == PCOM_MOVE_HANDS_UP)
 	{
-void	drop_current_gun(Thing *p_person,SLONG change_anim);
+void drop_current_gun(Thing *p_person,SLONG change_anim);
 
 		drop_current_gun(p_person,0);
 	}
@@ -5940,16 +5940,16 @@ Thing *PCOM_can_i_see_person_to_bully(Thing *p_person)
 #else
 #define	MAX_ARREST_ME	5
 #endif
-Thing	*arrest_me[MAX_ARREST_ME];
-UWORD	next_arrest=0;
+Thing *arrest_me[MAX_ARREST_ME];
+UWORD next_arrest=0;
 
-void	init_arrest()
+void init_arrest()
 {
 	next_arrest=0;
 }
 
 
-void	do_arrests()
+void do_arrests()
 {
 	SLONG	c0;
 	for(c0=0;c0<next_arrest;c0++)
@@ -7004,7 +7004,7 @@ void PCOM_process_patrol(Thing *p_person)
 	}
 }
 
-SLONG	should_person_regen(Thing *p_person)
+SLONG should_person_regen(Thing *p_person)
 {
 	SLONG	dx,dz;
 	Thing	*p_darci=NET_PERSON(0);
@@ -7022,9 +7022,9 @@ SLONG	should_person_regen(Thing *p_person)
 
 }
 
-extern	ULONG	timer_bored;
+extern ULONG	timer_bored;
 
-SLONG	PCOM_do_regen(Thing *p_person)
+SLONG PCOM_do_regen(Thing *p_person)
 {
 	SLONG wand_x;
 	SLONG wand_z;
@@ -7046,7 +7046,7 @@ SLONG	PCOM_do_regen(Thing *p_person)
 		remove_from_gang_attack(p_person, p_target);
 	}
 
-extern	SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
+extern SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
 	if(WAND_find_good_start_point(&nx,&nz))
 	{
 		GameCoord new_position;
@@ -7221,7 +7221,7 @@ void PCOM_process_wander(Thing *p_person)
 						if(PCOM_do_regen(p_person))
 							return;
 /*
-extern	SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
+extern SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
 						if(WAND_find_good_start_point(&nx,&nz))
 						{
 							GameCoord new_position;
@@ -8329,7 +8329,7 @@ void PCOM_find_mib_appear_pos(
 
 
 #ifndef TARGET_DC
-void	draw_view_line(Thing *p_person,Thing *p_target)
+void draw_view_line(Thing *p_person,Thing *p_target)
 {
 #ifdef PSX
 	return;
@@ -9326,7 +9326,7 @@ void PCOM_process_talk(Thing *p_person)
 	}
 }
 
-void	PCOM_process_hands_up(Thing *p_person)
+void PCOM_process_hands_up(Thing *p_person)
 {
 	Thing	*p_cop;
 	p_cop=TO_THING(p_person->Genus.Person->pcom_ai_arg);
@@ -10135,7 +10135,7 @@ SLONG person_drawn_recently(Thing *p_person)
 // Processes normal behaviour
 //
 
-void	PCOM_teleport_home(Thing *p_person)
+void PCOM_teleport_home(Thing *p_person)
 {
 	GameCoord	pos;
 
@@ -13041,7 +13041,7 @@ void PCOM_process_person(Thing *p_person)
 #endif
 }
 
-struct	Noise
+struct Noise
 {
 	UWORD	Type;
 	UWORD	Person;
@@ -13051,16 +13051,16 @@ struct	Noise
 
 #define	MAX_NOISE	4
 
-SWORD	noise_count=0;
+SWORD noise_count=0;
 
-struct	Noise noises[MAX_NOISE+1];
+struct Noise noises[MAX_NOISE+1];
 
-void	init_noises()
+void init_noises()
 {
 	noise_count=0;
 }
 
-void	process_noises()
+void process_noises()
 {
 	SLONG	c0;
 	for(c0=0;c0<noise_count;c0++)
@@ -13513,7 +13513,7 @@ void PCOM_youre_being_grappled(
 	
 }
 
-SLONG	on_same_side(Thing *p_victim,Thing *p_attacker)
+SLONG on_same_side(Thing *p_victim,Thing *p_attacker)
 {
 	if(p_victim->Genus.Person->PersonType==PERSON_ROPER||p_victim->Genus.Person->PersonType==PERSON_DARCI||p_victim->Genus.Person->PersonType==PERSON_COP)
 	{
@@ -13595,7 +13595,7 @@ SLONG PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
 //
 // you have been attacked
 //
-extern	void	set_person_fight_idle(Thing *p_person);
+extern void	set_person_fight_idle(Thing *p_person);
 
 void PCOM_attack_happened(
 		Thing *p_victim,
@@ -13616,7 +13616,7 @@ void PCOM_attack_happened(
 
 		return;
 	}
-extern	SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 	if(!people_allowed_to_hit_each_other(p_victim,p_attacker))
 	{
 		//
@@ -14019,10 +14019,10 @@ void PCOM_knockdown_happened(Thing *p_person)
 
 
 #ifndef PSX
-CBYTE  PCOM_debug_string[256];
+CBYTE PCOM_debug_string[256];
 #endif
 
-CBYTE *PCOM_person_state_debug(Thing *p_person)
+CBYTE* PCOM_person_state_debug(Thing *p_person)
 {
 #ifndef PSX
 	SLONG i;
@@ -14089,7 +14089,7 @@ CBYTE *PCOM_person_state_debug(Thing *p_person)
 }
 
 
-SLONG	PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop)
+SLONG PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop)
 {
 	if (p_cop == NET_PERSON(0) && stealth_debug)
 	{

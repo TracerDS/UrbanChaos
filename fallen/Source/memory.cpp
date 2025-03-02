@@ -64,7 +64,7 @@ UBYTE do_decrypt[]={0,0,0,0,0,0,0,1,0,1,
 #endif
 
 
-extern	ULONG	level_index;
+extern ULONG	level_index;
 /*
 
   //
@@ -154,7 +154,7 @@ extern	ULONG	level_index;
  darci normal -> 482   tot 681335 (241/1200)
 
 */
-extern	void BAT_normal(Thing *p_thing);
+extern void BAT_normal(Thing *p_thing);
 
 #ifndef PSX
 #define M_(x) x
@@ -168,46 +168,46 @@ extern	void BAT_normal(Thing *p_thing);
 
 /*
 
-extern	SLONG FC_x;
-extern	SLONG FC_y;
-extern	SLONG FC_z;
-extern	SLONG FC_want_x;
-extern	SLONG FC_want_y;
-extern	SLONG FC_want_z;
-extern	SLONG FC_dx;
-extern	SLONG FC_dy;
-extern	SLONG FC_dz;
-extern	SLONG FC_yaw;
-extern	SLONG FC_pitch;
-extern	SLONG FC_roll;
-extern	SLONG FC_want_yaw;
-extern	SLONG FC_want_pitch;
-extern	SLONG FC_want_roll;
-extern	SLONG FC_lens ;	// Initialise this here because of the game editor!
-extern	SLONG FC_toonear;
-extern	SLONG FC_rotate;
-extern	SLONG FC_nobehind;
-extern	SLONG FC_lookabove;
-extern	UBYTE FC_shake;
+extern SLONG FC_x;
+extern SLONG FC_y;
+extern SLONG FC_z;
+extern SLONG FC_want_x;
+extern SLONG FC_want_y;
+extern SLONG FC_want_z;
+extern SLONG FC_dx;
+extern SLONG FC_dy;
+extern SLONG FC_dz;
+extern SLONG FC_yaw;
+extern SLONG FC_pitch;
+extern SLONG FC_roll;
+extern SLONG FC_want_yaw;
+extern SLONG FC_want_pitch;
+extern SLONG FC_want_roll;
+extern SLONG FC_lens ;	// Initialise this here because of the game editor!
+extern SLONG FC_toonear;
+extern SLONG FC_rotate;
+extern SLONG FC_nobehind;
+extern SLONG FC_lookabove;
+extern UBYTE FC_shake;
 */
 
-extern	ULONG        NIGHT_amb_d3d_colour;
-extern	ULONG        NIGHT_amb_d3d_specular;
-extern	SLONG        NIGHT_amb_red;
-extern	SLONG        NIGHT_amb_green;
-extern	SLONG        NIGHT_amb_blue;
-extern	SLONG        NIGHT_amb_norm_x;
-extern	SLONG        NIGHT_amb_norm_y;
-extern	SLONG	     NIGHT_amb_norm_z;
+extern ULONG        NIGHT_amb_d3d_colour;
+extern ULONG        NIGHT_amb_d3d_specular;
+extern SLONG        NIGHT_amb_red;
+extern SLONG        NIGHT_amb_green;
+extern SLONG        NIGHT_amb_blue;
+extern SLONG        NIGHT_amb_norm_x;
+extern SLONG        NIGHT_amb_norm_y;
+extern SLONG	     NIGHT_amb_norm_z;
 
-extern	UBYTE        NIGHT_dlight_free;
-extern	UBYTE        NIGHT_dlight_used;
-extern	ULONG        NIGHT_flag;
-extern	UBYTE        NIGHT_lampost_radius;
-extern	SBYTE        NIGHT_lampost_red;
-extern	SBYTE        NIGHT_lampost_green;
-extern	SBYTE        NIGHT_lampost_blue;
-extern	NIGHT_Colour NIGHT_sky_colour;
+extern UBYTE        NIGHT_dlight_free;
+extern UBYTE        NIGHT_dlight_used;
+extern ULONG        NIGHT_flag;
+extern UBYTE        NIGHT_lampost_radius;
+extern SBYTE        NIGHT_lampost_red;
+extern SBYTE        NIGHT_lampost_green;
+extern SBYTE        NIGHT_lampost_blue;
+extern NIGHT_Colour NIGHT_sky_colour;
 
 extern UWORD EWAY_fake_wander_text_normal_index;
 extern UWORD EWAY_fake_wander_text_normal_number;
@@ -219,14 +219,14 @@ extern UWORD EWAY_fake_wander_text_annoyed_number;
 extern UBYTE semtex;
 extern UBYTE estate;
 
-extern	UWORD	*thing_class_head;
-extern  SWORD	world_type;
+extern UWORD	*thing_class_head;
+extern SWORD	world_type;
 
-extern	void PLAT_process(Thing *p_thing);
-extern	SLONG	TEXTURE_set;
-//extern	Thing *CAM_focus;
+extern void PLAT_process(Thing *p_thing);
+extern SLONG	TEXTURE_set;
+//extern Thing *CAM_focus;
 
-void	convert_index_to_pointers();
+void convert_index_to_pointers();
 
 SLONG load_anim_prim_object(SLONG prim);
 
@@ -239,46 +239,46 @@ PSX_TEX *psx_textures_xy; //[200][5];
 #define LAZY_LOADING_MEMORY_ON_DC_PLEASE_BOB
 #endif
 
-void	*mem_all=0;
-ULONG	mem_all_size=0;
+void* mem_all=0;
+ULONG mem_all_size=0;
 
-UWORD	*psx_remap;
+UWORD *psx_remap;
 
 //
 // supermap stuff to do with ingame facets facet textures inside buildings and walkable rooftops
 //
 
-SWORD	*facet_links; //[MAX_FACET_LINK];
+SWORD *facet_links; //[MAX_FACET_LINK];
 
 struct DBuilding	*dbuildings;//[MAX_DBUILDINGS];
 struct DFacet		*dfacets;   //[MAX_DFACETS	 ];
-struct	DWalkable	*dwalkables;//[MAX_DWALKABLES];
-SWORD				*dstyles;   //[MAX_DSTYLES	 ];
-struct	DStorey		*dstoreys;  //[MAX_DSTOREYS];
+struct DWalkable	*dwalkables;//[MAX_DWALKABLES];
+SWORD *dstyles;   //[MAX_DSTYLES	 ];
+struct DStorey		*dstoreys;  //[MAX_DSTOREYS];
 
-UBYTE	*paint_mem; //[MAX_PAINTMEM];
+UBYTE *paint_mem; //[MAX_PAINTMEM];
 
 
 //
 // for compressed anims
 //
 
-struct	PrimPoint	*anim_mids;//[256];
-ULONG	next_anim_mids=0;
+struct PrimPoint	*anim_mids;//[256];
+ULONG next_anim_mids=0;
 
 //
 // from inside2
 //
 
-struct	InsideStorey	*inside_storeys;//[MAX_INSIDE_RECT];
-struct	Staircase		*inside_stairs;//[MAX_INSIDE_STAIRS];
-UBYTE	*inside_block;//[MAX_INSIDE_MEM];
-UBYTE	inside_tex[64][16];
+struct InsideStorey	*inside_storeys;//[MAX_INSIDE_RECT];
+struct Staircase		*inside_stairs;//[MAX_INSIDE_STAIRS];
+UBYTE *inside_block;//[MAX_INSIDE_MEM];
+UBYTE inside_tex[64][16];
 
 #ifdef PSX
-UWORD	next_inside_storey=1;
-UWORD	next_inside_stair=1;
-SLONG	next_inside_block=1;
+UWORD next_inside_storey=1;
+UWORD next_inside_stair=1;
+SLONG next_inside_block=1;
 #endif
 
 
@@ -286,23 +286,23 @@ SLONG	next_inside_block=1;
 // from building.cpp
 //
 
-struct	BoundBox	*roof_bounds;//[MAX_ROOF_BOUND];
-struct	PrimPoint *prim_points;//[MAX_PRIM_POINTS];
-struct	PrimFace4 *prim_faces4;//[MAX_PRIM_FACES4];
-struct	PrimFace3 *prim_faces3;//[MAX_PRIM_FACES3];
-struct	PrimObject	*prim_objects;//[MAX_PRIM_OBJECTS];
-struct	PrimMultiObject	*prim_multi_objects;//[MAX_PRIM_MOBJECTS];
+struct BoundBox	*roof_bounds;//[MAX_ROOF_BOUND];
+struct PrimPoint *prim_points;//[MAX_PRIM_POINTS];
+struct PrimFace4 *prim_faces4;//[MAX_PRIM_FACES4];
+struct PrimFace3 *prim_faces3;//[MAX_PRIM_FACES3];
+struct PrimObject	*prim_objects;//[MAX_PRIM_OBJECTS];
+struct PrimMultiObject	*prim_multi_objects;//[MAX_PRIM_MOBJECTS];
 PrimNormal *prim_normal;//[MAX_PRIM_POINTS];
 
 
-UWORD	next_roof_face4=1;
-struct	RoofFace4	*roof_faces4;
+UWORD next_roof_face4=1;
+struct RoofFace4	*roof_faces4;
 
 
 
-extern	SLONG EWAY_time_accurate;	// 1600 ticks per second
-extern	SLONG EWAY_time;			// 100  ticks per second
-extern	SLONG EWAY_tick;			// The amount of time since the last process waypoints: (100 ticks per sec.)
+extern SLONG EWAY_time_accurate;	// 1600 ticks per second
+extern SLONG EWAY_time;			// 100  ticks per second
+extern SLONG EWAY_tick;			// The amount of time since the last process waypoints: (100 ticks per sec.)
 
 
 
@@ -310,22 +310,22 @@ extern	SLONG EWAY_tick;			// The amount of time since the last process waypoints
 // The cut-scene camera.
 //
 			   
-extern	SLONG  EWAY_cam_active;
-extern	SLONG  EWAY_cam_x;		// Big coordinates...
-extern	SLONG  EWAY_cam_y;
-extern	SLONG  EWAY_cam_z;
-extern	SLONG  EWAY_cam_dx;
-extern	SLONG  EWAY_cam_dy;
-extern	SLONG  EWAY_cam_dz;
-extern	SLONG  EWAY_cam_yaw;
-extern	SLONG  EWAY_cam_pitch;
-extern	SLONG  EWAY_cam_waypoint;
-extern	SLONG  EWAY_cam_target;
-extern	SLONG  EWAY_cam_delay;
-extern	SLONG  EWAY_cam_speed;
-extern	SLONG  EWAY_cam_freeze;	// Stop the player moving.
-extern	UBYTE *EWAY_counter;
-extern  SLONG  EWAY_cam_cant_interrupt;
+extern SLONG  EWAY_cam_active;
+extern SLONG  EWAY_cam_x;		// Big coordinates...
+extern SLONG  EWAY_cam_y;
+extern SLONG  EWAY_cam_z;
+extern SLONG  EWAY_cam_dx;
+extern SLONG  EWAY_cam_dy;
+extern SLONG  EWAY_cam_dz;
+extern SLONG  EWAY_cam_yaw;
+extern SLONG  EWAY_cam_pitch;
+extern SLONG  EWAY_cam_waypoint;
+extern SLONG  EWAY_cam_target;
+extern SLONG  EWAY_cam_delay;
+extern SLONG  EWAY_cam_speed;
+extern SLONG  EWAY_cam_freeze;	// Stop the player moving.
+extern UBYTE *EWAY_counter;
+extern SLONG  EWAY_cam_cant_interrupt;
 
 extern SLONG EWAY_cam_active;
 extern SLONG EWAY_cam_goinactive;
@@ -360,10 +360,10 @@ extern SLONG EWAY_cam_skip;
 extern SLONG EWAY_cam_last_dyaw;
 
 
-UWORD	*darci_normal;
-UWORD	darci_normal_count=0;
+UWORD *darci_normal;
+UWORD darci_normal_count=0;
 
-void	release_memory()
+void release_memory()
 {
 
 }
@@ -487,7 +487,7 @@ struct MemTable save_table[]=
 };
 
 
-void	init_memory()
+void init_memory()
 {
 	SLONG	c0=0;
 	SLONG	mem_size,mem_cumlative=0;
@@ -512,15 +512,15 @@ void	init_memory()
 	save_table[SAVE_TABLE_DTWEEN].Maximum=RMAX_DRAW_TWEENS;
 	save_table[SAVE_TABLE_DMESH].Maximum=RMAX_DRAW_MESHES;
 
-extern	UBYTE	music_max_gain;
+extern UBYTE	music_max_gain;
 
 //	 temp= ENV_get_value_number("music_vol", 128, "Audio");
 //	 SATURATE(temp,0,255);
 //	 music_max_gain=temp;
 
 
-extern	SLONG	save_psx;
-extern	SLONG	build_psx;
+extern SLONG	save_psx;
+extern SLONG	build_psx;
 
 	if((save_psx=ENV_get_value_number("psx", 0, "Secret")))
 	{
@@ -587,7 +587,7 @@ extern	SLONG	build_psx;
 
 }
 #ifndef	PSX
-void	set_darci_normals()
+void set_darci_normals()
 {
 	SLONG	count_vertex;
 	SLONG	c0,c1,index;
@@ -699,7 +699,7 @@ void	set_darci_normals()
 #endif
 
 #ifndef	PSX
-void	convert_drawtype_to_index(Thing *p_thing,SLONG meshtype)
+void convert_drawtype_to_index(Thing *p_thing,SLONG meshtype)
 {
 	switch(meshtype)
 	{
@@ -747,7 +747,7 @@ void	convert_drawtype_to_index(Thing *p_thing,SLONG meshtype)
 }
 
 
-void	convert_thing_to_index(Thing *p_thing)
+void convert_thing_to_index(Thing *p_thing)
 {
 //	ASSERT(THING_NUMBER(p_thing)!=94);
 	switch(p_thing->DrawType)
@@ -841,7 +841,7 @@ void	convert_thing_to_index(Thing *p_thing)
 
 }
 
-void	convert_pointers_to_index()
+void convert_pointers_to_index()
 {
 	SLONG	c0,i;
 	static int max_people=0,max_car=0,max_mesh=0,max_tween=0,max_anim=0,max_special=0,max_bat=0;
@@ -1049,7 +1049,7 @@ extern CBYTE ELEV_fname_level[];
 
 #define	STORE_DATA(a)	FileWrite(handle,(UBYTE*)&a,sizeof(a));DebugText(" store data %d \n",sizeof(a))
 
-void	convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count)
+void convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count)
 {
 	SLONG	c0;
 	for(c0=0;c0<count;c0++)
@@ -1061,7 +1061,7 @@ void	convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFi
 	}
 }
 
-void	convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count)
+void convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count)
 {
 	SLONG	c0;
 	for(c0=0;c0<count;c0++)
@@ -1070,7 +1070,7 @@ void	convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count
 	}
 }
 
-void	convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count)
+void convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count)
 {
 	SLONG	c0;
 	for(c0=0;c0<count;c0++)
@@ -1081,7 +1081,7 @@ void	convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count
 }
 #endif
 
-void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count)
+void convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count)
 {
 	SLONG	c0;
 
@@ -1114,7 +1114,7 @@ void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,Game
 	}
 }
 
-void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count)
+void convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count)
 {
 	SLONG	c0;
 	for(c0=0;c0<count;c0++)
@@ -1123,7 +1123,7 @@ void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG cou
 	}
 }
 
-void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count)
+void convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count)
 {
 	SLONG	c0;
 	for(c0=0;c0<count;c0++)
@@ -1139,7 +1139,7 @@ void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG cou
 
 #ifndef PSX
 
-void	save_whole_anims(MFFileHandle handle)
+void save_whole_anims(MFFileHandle handle)
 {
 	SLONG	c0,c1;
 	SLONG	blank=-1;
@@ -1350,7 +1350,7 @@ extern void convert_to_psx_gke(GameKeyFrameElementComp *to, GameKeyFrameElement 
 #ifndef	ULTRA_COMPRESSED_ANIMATIONS
 
 
-void	fix_psxed_anims()
+void fix_psxed_anims()
 {
 	SLONG	c0,c1,ele,index;
 	struct	GameKeyFrameElementComp	*p;
@@ -1412,7 +1412,7 @@ void	fix_psxed_anims()
 
 }
 
-void	save_whole_anims_psx(MFFileHandle handle)
+void save_whole_anims_psx(MFFileHandle handle)
 {
 	SLONG	c0,c1;
 	SLONG	blank=-1;
@@ -1808,9 +1808,9 @@ void	save_whole_anims_psx(MFFileHandle handle)
 #define getPSXV(page)		(((page)&0x38)<<2)
 
 //#ifdef PSX
-extern	UWORD	psx_start_page;
+extern UWORD	psx_start_page;
 //#endif
-void	fix_psx_face3(struct	PrimFace3PSX	*p2)
+void fix_psx_face3(struct	PrimFace3PSX	*p2)
 {
 //#ifdef PSX
 	ULONG	page;
@@ -1835,7 +1835,7 @@ void	fix_psx_face3(struct	PrimFace3PSX	*p2)
 //#endif
 }
 
-void	fix_psx_face4(struct	PrimFace4PSX	*p)
+void fix_psx_face4(struct	PrimFace4PSX	*p)
 {
 //#ifdef PSX
 	ULONG	page;
@@ -1859,7 +1859,7 @@ void	fix_psx_face4(struct	PrimFace4PSX	*p)
 	}
 //#endif
 }
-void	save_whole_wad(CBYTE	*gamename,UBYTE type)
+void save_whole_wad(CBYTE	*gamename,UBYTE type)
 {
 
 //	return;
@@ -2204,12 +2204,12 @@ void	save_whole_wad(CBYTE	*gamename,UBYTE type)
 
 
 }
-void	save_whole_game(CBYTE	*gamename)
+void save_whole_game(CBYTE	*gamename)
 {
 	SLONG	level;
 	CBYTE	name[30];
 //	return;
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 
 #ifndef	ULTRA_COMPRESSED_ANIMATIONS
 	if(save_psx)
@@ -2227,7 +2227,7 @@ void WMOVE_remove(UBYTE which_class);
 		//
 		// Also adjusts the face3 and face4 texturepage numbers to the new location
 		//
-SLONG	build_tims_ingame(CBYTE *name);
+SLONG build_tims_ingame(CBYTE* name);
 
 		level=build_tims_ingame(gamename);
 
@@ -2252,9 +2252,9 @@ SLONG	build_tims_ingame(CBYTE *name);
 
 #endif
 
-extern	SLONG	person_normal_animate(Thing *p_person);
+extern SLONG	person_normal_animate(Thing *p_person);
 
-void	convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
+void convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
 {
 	switch(meshtype)
 	{
@@ -2381,10 +2381,10 @@ void	convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
 // and 
 
 
-extern	void	process_hardware_level_input_for_player(Thing *p_thing);
-extern	void	fn_anim_prim_normal(Thing *p_thing);
+extern void	process_hardware_level_input_for_player(Thing *p_thing);
+extern void	fn_anim_prim_normal(Thing *p_thing);
 
-void	convert_thing_to_pointer(Thing *p_thing)
+void convert_thing_to_pointer(Thing *p_thing)
 {
 
 	switch(p_thing->Class)
@@ -2501,7 +2501,7 @@ void BARREL_process_normal(Thing *p_barrel);
 }
 
 
-void	convert_index_to_pointers()
+void convert_index_to_pointers()
 {
 	SLONG	c0;
 	for(c0=0;c0<MAX_THINGS;c0++)
@@ -2546,7 +2546,7 @@ void	convert_index_to_pointers()
 #endif
 }
 
-void	uncache()
+void uncache()
 {
 	SLONG	c0;
 void NIGHT_destroy_all_cached_info();
@@ -2560,7 +2560,7 @@ void NIGHT_destroy_all_cached_info();
 
 #define	GET_DATA(d)	memcpy((UBYTE*)&d,p_all,sizeof(d));p_all+=sizeof(d)
 
-void	load_whole_anims(UBYTE	*p_all)
+void load_whole_anims(UBYTE	*p_all)
 {
 	SLONG	c0,c1;
 	SLONG	dummy;
@@ -2695,7 +2695,7 @@ extern UBYTE EWAY_count_up_add_penalties;
 extern SWORD EWAY_count_up_num_penalties;
 extern UWORD EWAY_count_up_penalty_timer;
 
-void	flag_v_faces()
+void flag_v_faces()
 {
 	SLONG	c0;
 	struct	PrimFace4 *p4;
@@ -2739,10 +2739,10 @@ void	flag_v_faces()
 	}
 }
 #ifndef	NEW_LEVELS
-UWORD	EWAY_timer_bodge[EWAY_MAX_TIMERS];
+UWORD EWAY_timer_bodge[EWAY_MAX_TIMERS];
 #endif
 
-void	load_whole_game(CBYTE	*gamename)
+void load_whole_game(CBYTE	*gamename)
 {
 //	return;
 
@@ -2775,13 +2775,13 @@ void	load_whole_game(CBYTE	*gamename)
 
 extern void SetDisplayClear(SLONG clear);
 extern void AENG_loading_bar(SLONG percent);
-extern	void OB_init();
+extern void OB_init();
 	OB_init(); //ob_hydrant now cleared
 
 	SetDisplayClear(0);
 
 extern int wad_level;
-extern	UBYTE	roper_pickup;
+extern UBYTE	roper_pickup;
 
 	if(wad_level==21)
 	{
@@ -2807,7 +2807,7 @@ void AENG_flip_init();
 	AENG_flip_init();
 #endif
 
-extern	UWORD	player_dlight;
+extern UWORD	player_dlight;
 	player_dlight=0;
 
 #ifdef	ULTRA_COMPRESSED_ANIMATIONS
@@ -3122,9 +3122,9 @@ extern char cd_file_buffer[];
 	printf("BUCKET_MEM = %d\n",BUCKET_MEM);
 #endif
 
-void	setup_global_anim_array();
+void setup_global_anim_array();
 	setup_global_anim_array();
-void	init_dead_tween();
+void init_dead_tween();
 	init_dead_tween();
 
 
@@ -3150,11 +3150,11 @@ extern void PARTICLE_Reset();
 extern void POW_init();
 	POW_init();
 
-extern	void PCOM_init();
+extern void PCOM_init();
 	PCOM_init();
 
 #ifdef	PSX
-void	init_punch_kick();
+void init_punch_kick();
 	init_punch_kick();
 
 #ifndef	NEW_LEVELS
@@ -3166,8 +3166,8 @@ void	init_punch_kick();
 //	calc_prim_info();
 	VEH_init_vehinfo();
 
-extern	void	init_noises();
-extern	void	init_arrest();
+extern void	init_noises();
+extern void	init_arrest();
 		init_noises();
 		init_arrest();
 
@@ -3189,11 +3189,11 @@ extern void SetDisplayFade();
 	SetDisplayClear(1);
 	AENG_create_dx_prim_points();
 	NIGHT_ambient(NIGHT_amb_red,NIGHT_amb_green,NIGHT_amb_blue,NIGHT_amb_norm_x,NIGHT_amb_norm_y,NIGHT_amb_norm_z);
-void	init_gangattack();
+void init_gangattack();
 
 	init_gangattack(); //probably should save these
 
-SBYTE	global_spang_count;
+SBYTE global_spang_count;
 	global_spang_count=0;
 
 
@@ -3601,7 +3601,7 @@ SLONG MEMORY_quick_load()
 // Dreamcast load/save games...
 //
 
-void save_dreamcast_wad(CBYTE *fname)
+void save_dreamcast_wad(CBYTE* fname)
 {
 
 	SLONG	c0=0;
@@ -3630,7 +3630,7 @@ void save_dreamcast_wad(CBYTE *fname)
 
 
 	// Sets up level_index for special fudges.
-extern SLONG get_level_no ( CBYTE *name );
+extern SLONG get_level_no ( CBYTE* name );
 	get_level_no(fname);
 
 
@@ -3868,7 +3868,7 @@ extern SLONG get_level_no ( CBYTE *name );
 #if TEST_DC
 
 
-void load_dreamcast_wad(CBYTE *fname)
+void load_dreamcast_wad(CBYTE* fname)
 {
 	SLONG	c0=0,id;
 	SLONG	*p_slong;
@@ -3900,7 +3900,7 @@ extern void POLY_ClearAllPages ( void );
 
 
 
-	extern	UWORD	player_dlight;
+	extern UWORD	player_dlight;
 	player_dlight=0;
 
 	//
@@ -4236,8 +4236,8 @@ extern void POW_init();
 extern void DIRT_init(SLONG,SLONG,SLONG,SLONG,SLONG,SLONG,SLONG);
 	DIRT_init(100, 3, 3, INFINITY, INFINITY, INFINITY, INFINITY);
 
-extern	void	init_noises();
-extern	void	init_arrest();
+extern void	init_noises();
+extern void	init_arrest();
 	init_noises();
 	init_arrest();
 void MIST_init();
@@ -4270,11 +4270,11 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 	//
 	// Stop it getting too dark, bloody artists!
 	//
-void	init_gangattack();
+void init_gangattack();
 
 	init_gangattack(); //probably should save these
 
-extern	SBYTE	global_spang_count;
+extern SBYTE	global_spang_count;
 	global_spang_count=0;
 
 

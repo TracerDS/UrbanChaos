@@ -79,7 +79,7 @@ void	do_platform_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 /*
-CBYTE	*get_camera_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_camera_message(EventPoint *ep, CBYTE* msg) {
   if ((!ep)||(!ep->Data[0])||(!ep->Data[1]))
 	  strcpy(msg,"Unknown");
   else

@@ -82,7 +82,7 @@ inline SLONG	DIV64(SLONG a,SLONG b)
 //
 // was an inline but fucks up for some reason, so has been made into a function in collide.cpp
 //
-extern	SLONG MUL64(SLONG i,SLONG j);
+extern SLONG MUL64(SLONG i,SLONG j);
 
 
 /*

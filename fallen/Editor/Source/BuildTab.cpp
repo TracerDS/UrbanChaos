@@ -810,7 +810,7 @@ void	BuildTab::DrawTabContent()
 
 
 //---------------------------------------------------------------
-extern	void	hilight_col_info();
+extern void	hilight_col_info();
 
 void	BuildTab::AddHeightOffset(SLONG *x,SLONG *y)
 {
@@ -1834,7 +1834,7 @@ void	BuildTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
 	render_view(0);
 }
 
-void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE *str)
+void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE* str)
 {
 	EdRect	rect;
 	rect.SetRect(x,y,w,h);
@@ -2866,8 +2866,8 @@ SLONG	BuildTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y
 	return(1);
 }
 
-extern	void	insert_cube(SWORD x,SWORD y,SWORD z);
-extern	void	remove_cube(SLONG x,SLONG y,SLONG z);
+extern void	insert_cube(SWORD x,SWORD y,SWORD z);
+extern void	remove_cube(SLONG x,SLONG y,SLONG z);
 
 
 
@@ -3082,7 +3082,7 @@ void	move_building(SLONG building,SLONG dx,SLONG dy,SLONG dz)
 	}
 }
 
-extern	SLONG	get_new_inside_id();
+extern SLONG	get_new_inside_id();
 
 SLONG	copy_insides(SLONG insideid)
 {

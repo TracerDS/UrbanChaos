@@ -280,19 +280,19 @@ typedef struct
 } EWAY_Edef;
 
 
-extern	EWAY_Cond	*EWAY_cond;//[EWAY_MAX_CONDS];
-extern	EWAY_Way	*EWAY_way; //[EWAY_MAX_WAYS];
-extern	EWAY_Edef	*EWAY_edef; //[EWAY_MAX_EDEFS];
-extern	UWORD		*EWAY_timer;//[EWAY_MAX_TIMERS];
-extern	CBYTE		**EWAY_mess; //[EWAY_MAX_MESSES];
-extern	CBYTE		*EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
+extern EWAY_Cond	*EWAY_cond;//[EWAY_MAX_CONDS];
+extern EWAY_Way	*EWAY_way; //[EWAY_MAX_WAYS];
+extern EWAY_Edef	*EWAY_edef; //[EWAY_MAX_EDEFS];
+extern UWORD		*EWAY_timer;//[EWAY_MAX_TIMERS];
+extern CBYTE		**EWAY_mess; //[EWAY_MAX_MESSES];
+extern CBYTE		*EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
 
-extern	SLONG   EWAY_cond_upto;
-extern	SLONG   EWAY_way_upto;
-extern	SLONG   EWAY_edef_upto;
-extern	SLONG	EWAY_mess_buffer_upto;
-extern	SLONG	EWAY_mess_upto;
-extern	SLONG	EWAY_timer_upto;
+extern SLONG   EWAY_cond_upto;
+extern SLONG   EWAY_way_upto;
+extern SLONG   EWAY_edef_upto;
+extern SLONG	EWAY_mess_buffer_upto;
+extern SLONG	EWAY_mess_upto;
+extern SLONG	EWAY_timer_upto;
 
 //
 // The number of counters we have.
@@ -332,7 +332,7 @@ void EWAY_create(
 
 SLONG EWAY_set_message(
 		UBYTE  number,
-		CBYTE *message);
+		CBYTE* message);
 
 //
 // Call this function once you've created all the waypoints. It remaps
@@ -541,7 +541,7 @@ extern UBYTE EWAY_darci_move;
 // as you want to!
 //
 
-void EWAY_load_fake_wander_text(CBYTE *fname);
+void EWAY_load_fake_wander_text(CBYTE* fname);
 
 //
 // Returns one of the random texts loaded in.
@@ -551,7 +551,7 @@ void EWAY_load_fake_wander_text(CBYTE *fname);
 #define EWAY_FAKE_MESSAGE_ANNOYED 1
 #define EWAY_FAKE_MESSAGE_GUILTY  2
 
-CBYTE *EWAY_get_fake_wander_message(SLONG type);
+CBYTE* EWAY_get_fake_wander_message(SLONG type);
 
 // ========================================================
 //
@@ -565,7 +565,7 @@ CBYTE *EWAY_get_fake_wander_message(SLONG type);
 // must set it back to NULL yourself.
 //
 
-extern CBYTE *EWAY_tutorial_string;
+extern CBYTE* EWAY_tutorial_string;
 extern SLONG  EWAY_tutorial_counter;	// Set to 0 when EWAY_tutorial_string is set... so you can tell how long its been when the message triggered.
 
 

@@ -18,7 +18,7 @@ ControlDef	buttons[]	=
 
 //---------------------------------------------------------------
 
-Alert::Alert(CBYTE *text1,CBYTE *text2)
+Alert::Alert(CBYTE* text1,CBYTE* text2)
 {
 	SetRect	(
 				(WorkScreenPixelWidth-BOX_WIDTH)>>1,
@@ -52,7 +52,7 @@ Alert::~Alert()
 
 //---------------------------------------------------------------
 
-bool	Alert::HandleAlert(CBYTE *text1,CBYTE *text2)
+bool	Alert::HandleAlert(CBYTE* text1,CBYTE* text2)
 {
 	UBYTE		control_id,
 				update	=	1;

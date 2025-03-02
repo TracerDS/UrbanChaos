@@ -38,7 +38,7 @@ void	use_global_cloud(ULONG *col);
 //
 
 void POLY_init_texture_flags();
-void POLY_load_texture_flags(CBYTE *fname, SLONG offset = 0);
+void POLY_load_texture_flags(CBYTE* fname, SLONG offset = 0);
 
 // reset renderstates
 

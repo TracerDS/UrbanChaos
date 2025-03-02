@@ -18,8 +18,8 @@
 #include "DIManager.h"
 #endif
 
-extern	UBYTE	GAME_cut_scene;
-extern	SLONG	analogue;
+extern UBYTE	GAME_cut_scene;
+extern SLONG	analogue;
 
 #ifdef	MIKE
 #define	VERSION_NTSC
@@ -44,7 +44,7 @@ extern	SLONG	analogue;
 FC_Cam FC_cam[FC_MAX_CAMS];
 
 
-extern	SLONG person_has_gun_out(Thing *p_person);
+extern SLONG person_has_gun_out(Thing *p_person);
 
 SLONG FC_alter_for_pos(FC_Cam *fc,SLONG *dheight,SLONG *ddist)
 {
@@ -54,8 +54,8 @@ SLONG FC_alter_for_pos(FC_Cam *fc,SLONG *dheight,SLONG *ddist)
 	SLONG	height1,height2;
 	SLONG	p=0;
 
-extern	float POLY_cam_x;
-extern	float POLY_cam_z;
+extern float POLY_cam_x;
+extern float POLY_cam_z;
 
 	px=fc->focus->WorldPos.X>>8;
 	pz=fc->focus->WorldPos.Z>>8;
@@ -1192,7 +1192,7 @@ void FC_process()
 		if (used_to_be_in_warehouse != fc->focus_in_warehouse)
 		{
 //#ifdef	PSX
-extern	SLONG	EWAY_cam_jumped;
+extern SLONG	EWAY_cam_jumped;
 				EWAY_cam_jumped=10;
 //#endif
 			if (fc->focus_in_warehouse)
@@ -2126,9 +2126,9 @@ void FC_explosion(SLONG x, SLONG y, SLONG z, SLONG force)
 	}
 }
 
-extern	void	set_slow_motion(UWORD motion);
+extern void	set_slow_motion(UWORD motion);
 
-void	FC_kill_player_cam(Thing *p_thing)
+void FC_kill_player_cam(Thing *p_thing)
 {
 	FC_cam[0].focus=p_thing;
 	FC_force_camera_behind(0);
@@ -2136,7 +2136,7 @@ void	FC_kill_player_cam(Thing *p_thing)
 //	set_slow_motion(500);
 }
 
-void	FC_unkill_player_cam(Thing *p_thing)
+void FC_unkill_player_cam(Thing *p_thing)
 {
 	FC_cam[0].focus=p_thing;
 	FC_force_camera_behind(0);

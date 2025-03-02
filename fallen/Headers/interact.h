@@ -25,7 +25,7 @@
 // Data
 //
 /*
-extern	struct KeyFrame	*anim_array[300],
+extern struct KeyFrame	*anim_array[300],
 						*cop_array[300],
 						*darci_array[300],
 						*van_array[20],
@@ -33,18 +33,18 @@ extern	struct KeyFrame	*anim_array[300],
 						*thug_array[300];
 */
 
-extern	struct GameKeyFrame	*global_anim_array[4][450];
+extern struct GameKeyFrame	*global_anim_array[4][450];
 
-extern	struct KeyFrameChunk 	*test_chunk;
+extern struct KeyFrameChunk 	*test_chunk;
 #if !defined(PSX) && !defined(TARGET_DC)
-extern	struct KeyFrameChunk 	test_chunk2,
+extern struct KeyFrameChunk 	test_chunk2,
 								test_chunk3,
 								thug_chunk;
 #endif
 
-extern	struct KeyFrameElement	*the_elements;
-extern	struct GameKeyFrameChunk 	game_chunk[MAX_GAME_CHUNKS];
-extern	struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
+extern struct KeyFrameElement	*the_elements;
+extern struct GameKeyFrameChunk 	game_chunk[MAX_GAME_CHUNKS];
+extern struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
 
 
 //
@@ -105,9 +105,9 @@ extern SLONG find_grab_face_in_sewers(
 				SLONG *grab_angle);
 #endif
 
-extern	void	calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
-extern	void	calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2);
-extern	void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
+extern void	calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
+extern void	calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2);
+extern void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
 
 
 //

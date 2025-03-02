@@ -48,7 +48,7 @@
 #define OBM_OLD_RESTORE     32755
 
 
-void ticklist_init(HWND hWnd, SLONG id, CBYTE *pc[], SLONG bitmask) {
+void ticklist_init(HWND hWnd, SLONG id, CBYTE* pc[], SLONG bitmask) {
 	SLONG		c0			=	1;									
 	HWND		the_ctrl	=	GetDlgItem(hWnd,id);					
 	LPTSTR		lbitem_str	=	pc[0];								
@@ -70,7 +70,7 @@ void ticklist_close(HWND hWnd, SLONG id) {
 	SetWindowLong(the_ctrl,GWL_WNDPROC,(long)previous);
 }
 
-bool	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) {
+bool CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) {
 	WNDPROC previous = (WNDPROC) GetWindowLong(hWnd, GWL_USERDATA);
 	
 	switch(message) {

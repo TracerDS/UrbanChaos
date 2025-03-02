@@ -44,7 +44,7 @@ void FONT_format(
 // draw after the 'cursor'th character.
 //
 
-void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cursor, CBYTE *fmt, ...);
+void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cursor, CBYTE* fmt, ...);
 
 
 #endif

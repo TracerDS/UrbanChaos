@@ -69,7 +69,7 @@ SLONG NET_get_connection_number()
 	return 0;
 }
 
-CBYTE *NET_get_connection_name(SLONG connection)
+CBYTE* NET_get_connection_name(SLONG connection)
 {
 	return nullptr;
 }
@@ -80,7 +80,7 @@ SLONG NET_connection_make(SLONG connection)
 	return false;
 }
 
-SLONG NET_create_session(CBYTE *session_name, SLONG max_players, CBYTE *my_player_name)
+SLONG NET_create_session(CBYTE* session_name, SLONG max_players, CBYTE* my_player_name)
 {
 	return false;
 }
@@ -97,7 +97,7 @@ NET_Sinfo NET_get_session_info(SLONG session)
 	return ans;
 }
 
-SLONG NET_join_session(SLONG session, CBYTE *my_player_name)
+SLONG NET_join_session(SLONG session, CBYTE* my_player_name)
 {
 	return false;
 }
@@ -119,7 +119,7 @@ SLONG NET_get_num_players()
 	return 1;
 }
 
-CBYTE *NET_get_player_name(SLONG player)
+CBYTE* NET_get_player_name(SLONG player)
 {
 	return "Unknown";
 }

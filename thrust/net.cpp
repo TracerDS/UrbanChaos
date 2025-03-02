@@ -24,8 +24,8 @@ static const GUID NET_application_guid = { 0xfb222ea3, 0x6565, 0x11d3, { 0xa7, 0
 // to create addresses.
 // 
 
-LPDIRECTPLAY4A      NET_dp;
-LPDIRECTPLAYLOBBY3A	NET_lobby;
+LPDIRECTPLAY4A NET_dp;
+LPDIRECTPLAYLOBBY3A NET_lobby;
 
 
 //
@@ -120,7 +120,7 @@ SLONG NET_connection_lan()
 	DPCOMPOUNDADDRESSELEMENT address_element[1];
 	SLONG                    num_elements;
 
-	void *address;
+	void* address;
 	ULONG address_size;
 
 	HRESULT res;
@@ -159,7 +159,7 @@ SLONG NET_connection_lan()
 	// Allocate memory for the address.
 	//
 
-	address = (void *) malloc(address_size);
+	address = (void* ) malloc(address_size);
 
 	//
 	// Actually create the address now.
@@ -196,7 +196,7 @@ SLONG NET_connection_lan()
 
 
 
-SLONG NET_session_create(CBYTE *session_name, SLONG max_players)
+SLONG NET_session_create(CBYTE* session_name, SLONG max_players)
 {
 	SLONG i;
 
@@ -271,7 +271,7 @@ typedef struct
 #define NET_MAX_SESSIONS 16
 
 NET_Session NET_session[NET_MAX_SESSIONS];
-SLONG       NET_session_upto;
+SLONG NET_session_upto;
 
 
 //
@@ -403,7 +403,7 @@ void NET_session_leave()
 
 
 
-void NET_player_message_send(SLONG num_bytes, void *data, SLONG guaranteed)
+void NET_player_message_send(SLONG num_bytes, void* data, SLONG guaranteed)
 {
 	HRESULT res;
 
@@ -431,7 +431,7 @@ void NET_player_message_send(SLONG num_bytes, void *data, SLONG guaranteed)
 
 
 
-SLONG NET_player_message_receive(SLONG *num_bytes, void **data)
+SLONG NET_player_message_receive(SLONG *num_bytes, void* *data)
 {
   tail_recurse:;
 
@@ -442,7 +442,7 @@ SLONG NET_player_message_receive(SLONG *num_bytes, void **data)
 
 	HRESULT res;
 
-	res = NET_dp->Receive(&from, &to, 0, (void *) NET_buffer, &buffer_length);
+	res = NET_dp->Receive(&from, &to, 0, (void* ) NET_buffer, &buffer_length);
 
 	if (res == DPERR_NOMESSAGES)
 	{	
@@ -462,7 +462,7 @@ SLONG NET_player_message_receive(SLONG *num_bytes, void **data)
 		//
 
 	   *num_bytes = buffer_length;
-	   *data      = (void *) NET_buffer;
+	   *data      = (void* ) NET_buffer;
 
 		return NET_PLAYER_MESSAGE_FROM_SERVER;
 	}
@@ -503,7 +503,7 @@ SLONG NET_player_message_receive(SLONG *num_bytes, void **data)
 
 
 
-void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void *data, SLONG guaranteed)
+void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void* data, SLONG guaranteed)
 {
 	HRESULT res;
 
@@ -524,7 +524,7 @@ void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void *data
 
 
 
-SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void **data)
+SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void* *data)
 {
   tail_recurse:;
 
@@ -535,7 +535,7 @@ SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void **da
 
 	HRESULT res;
 
-	res = NET_dp->Receive(&from, &to, 0, (void *) NET_buffer, &buffer_length);
+	res = NET_dp->Receive(&from, &to, 0, (void* ) NET_buffer, &buffer_length);
 
 	if (res == DPERR_NOMESSAGES)
 	{	
@@ -610,7 +610,7 @@ SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void **da
 
 	   *player    = (SLONG) from;
 	   *num_bytes = buffer_length;
-	   *data      = (void *) NET_buffer;
+	   *data      = (void* ) NET_buffer;
 
 		return NET_SERVER_MESSAGE_FROM_PLAYER;
 	}

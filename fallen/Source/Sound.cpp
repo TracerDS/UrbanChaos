@@ -27,7 +27,7 @@ enum WorldType
 	QuietCity
 };
 
-WorldType	wtype;
+WorldType wtype;
 
 enum HeightType
 {
@@ -60,23 +60,23 @@ extern SLONG	CAM_cur_x,
 */
 //---------------------------------------------------------------
 
-SLONG	creature_time	=	400,
+SLONG creature_time	=	400,
 		siren_time		=	300,
 		in_sewer_time   =	0,
 		thunder_time	=	0;
 
-SLONG	music_id		=	0;
-SWORD	world_type=WORLD_TYPE_CITY_POP;
+SLONG music_id		=	0;
+SWORD world_type=WORLD_TYPE_CITY_POP;
 
 void SewerSoundProcess();
 
-static	SLONG wind_id=0, tick_tock=0;
+static SLONG wind_id=0, tick_tock=0;
 
 
 static SLONG indoors_id=0, outdoors_id=0, rain_id=0, rain_id2=0, thunder_id=0, indoors_vol=0, outdoors_vol=255, weather_vol=255, music_vol=255, next_music=0;
 
 #ifndef PSX
-void	init_ambient()
+void init_ambient()
 {
 	indoors_id=0, outdoors_id=0, rain_id=0, rain_id2=0, thunder_id=0, indoors_vol=0, outdoors_vol=255, weather_vol=255, music_vol=255, next_music=0;
 	wind_id=0, tick_tock=0;
@@ -150,7 +150,7 @@ void SND_BeginAmbient()
 #endif
 }
 
-void	new_outdoors_effects()
+void new_outdoors_effects()
 {
 #ifndef PSX
 	SLONG	c0,dx,dy,dz,wave_id;
@@ -259,7 +259,7 @@ void	new_outdoors_effects()
 }
 
 
-void	process_ambient_effects() {
+void process_ambient_effects() {
 
 	if (GAME_FLAGS&GF_INDOORS) {
 		if (indoors_vol<255) indoors_vol++;
@@ -279,7 +279,7 @@ void	process_ambient_effects() {
 
 }
 
-void	process_weather()
+void process_weather()
 {
 #ifdef PSX
 	return;
@@ -418,7 +418,7 @@ void	process_weather()
 }
 
 
-void	SOUND_reset() {
+void SOUND_reset() {
 
 	// free up any playing sources
 	//A3DStopAll();
@@ -646,11 +646,11 @@ void StopScreamFallSound(Thing *p_thing) {
 }
 
 
-void	SOUND_InitFXGroups(CBYTE *fn) {
+void SOUND_InitFXGroups(CBYTE* fn) {
 #ifndef PSX
 #ifndef TARGET_DC
-  CBYTE *buff = new char[32768];
-  CBYTE *pt,*split;
+  CBYTE* buff = new char[32768];
+  CBYTE* pt,*split;
   CBYTE name[128],value[128];
   CBYTE index=0;
   GetPrivateProfileSection("Groups",buff,32767,fn);
@@ -687,13 +687,13 @@ void	SOUND_InitFXGroups(CBYTE *fn) {
 }
 
 /*
-SLONG	play_quick_wave_old(WaveParams *wave,SLONG sample,SLONG id,SLONG mode)
+SLONG play_quick_wave_old(WaveParams *wave,SLONG sample,SLONG id,SLONG mode)
 {
 	return play_quick_wave_xyz(wave->Mode.Cartesian.X,wave->Mode.Cartesian.Y,wave->Mode.Cartesian.Z,sample,id,mode);
 }
 */
 #ifndef PSX
-SLONG	play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range, UBYTE flags)
+SLONG play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range, UBYTE flags)
 {
 	SLONG x,y,z,dx,dy,dz,ang;
 
@@ -718,7 +718,7 @@ SLONG	play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range, UBYTE flag
 }
 #endif
 
-void	play_glue_wave(UWORD type, UWORD id, SLONG x, SLONG y, SLONG z) {
+void play_glue_wave(UWORD type, UWORD id, SLONG x, SLONG y, SLONG z) {
 	switch(type) {
 	case 0:
 //		play_quick_wave_xyz(x,y,z,id,0,0);
@@ -732,7 +732,7 @@ void	play_glue_wave(UWORD type, UWORD id, SLONG x, SLONG y, SLONG z) {
 
 }
 
-void	play_music(UWORD id, UBYTE track) {
+void play_music(UWORD id, UBYTE track) {
 	SLONG flags;
 	music_id=AMBIENT_EFFECT_REF+2;
 //	flags=(looped) ? MFX_LOOPED : 0;
@@ -745,7 +745,7 @@ void	play_music(UWORD id, UBYTE track) {
 
 
 /*
-void	NewFreeWaveList() {
+void NewFreeWaveList() {
 #ifdef USE_A3D
 	A3DFreeWaveList();
 #else
@@ -753,17 +753,17 @@ void	NewFreeWaveList() {
 #endif
 }
 
-void	NewLoadWaveFile(CBYTE *name) {
+void NewLoadWaveFile(CBYTE* name) {
 #ifdef USE_A3D
 	A3DLoadWaveFile(name);
 #else
-extern	void	LoadWave(CBYTE *wave_name);
+extern void	LoadWave(CBYTE* wave_name);
 
 	LoadWave(name);
 #endif
 }
 
-void	NewLoadWaveList(CBYTE *names[]) {
+void NewLoadWaveList(CBYTE* names[]) {
   SLONG i;
   CBYTE buff[_MAX_PATH];
 #ifndef PSX
@@ -797,7 +797,7 @@ void	NewLoadWaveList(CBYTE *names[]) {
 
 //GameCoord SewerSounds[SEWER_SOUND_MAX];
 
-void	SOUND_SewerPrecalc() {
+void SOUND_SewerPrecalc() {
 /*	NS_Hi *ns;
 	SBYTE temp_map[PAP_SIZE_HI][PAP_SIZE_HI];
 	SLONG x,y,sx,sy;

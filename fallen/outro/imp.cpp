@@ -117,7 +117,7 @@ SLONG IMP_add_line(IMP_Mesh *im, SLONG *max_lines, UWORD v1, UWORD v2)
 
 
 
-IMP_Mesh IMP_load(CBYTE *fname, float scale)
+IMP_Mesh IMP_load(CBYTE* fname, float scale)
 {
 	SLONG i;
 	SLONG j;
@@ -1154,7 +1154,7 @@ void IMP_free(IMP_Mesh *im)
 }
 
 
-SLONG IMP_binary_save(CBYTE *fname, IMP_Mesh *im)
+SLONG IMP_binary_save(CBYTE* fname, IMP_Mesh *im)
 {
 	FILE *handle = fopen(fname, "wb");
 
@@ -1196,7 +1196,7 @@ SLONG IMP_binary_save(CBYTE *fname, IMP_Mesh *im)
 	return false;
 }
 
-IMP_Mesh IMP_binary_load(CBYTE *fname)
+IMP_Mesh IMP_binary_load(CBYTE* fname)
 {
 	IMP_Mesh ans;
 

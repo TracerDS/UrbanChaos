@@ -25,7 +25,7 @@
 
 
 NIGHT_Slight *NIGHT_slight;//[NIGHT_MAX_SLIGHTS];
-SLONG        NIGHT_slight_upto;
+SLONG NIGHT_slight_upto;
 
 //
 // The mapwho for static lights.
@@ -38,28 +38,28 @@ NIGHT_Smap_2d *NIGHT_smap; //[PAP_SIZE_LO][PAP_SIZE_LO];
 
 
 NIGHT_Dlight *NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
-UBYTE        NIGHT_dlight_free;
-UBYTE        NIGHT_dlight_used;
+UBYTE NIGHT_dlight_free;
+UBYTE NIGHT_dlight_used;
 
 
 //
 // The cached lighting.
 //
 
-NIGHT_Square  NIGHT_square[NIGHT_MAX_SQUARES];
-UBYTE         NIGHT_square_free;
-SLONG         NIGHT_square_num_used;
-UBYTE         NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
+NIGHT_Square NIGHT_square[NIGHT_MAX_SQUARES];
+UBYTE NIGHT_square_free;
+SLONG NIGHT_square_num_used;
+UBYTE NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
 
 NIGHT_Dfcache NIGHT_dfcache[NIGHT_MAX_DFCACHES];
-UBYTE         NIGHT_dfcache_free;
-UBYTE		  NIGHT_dfcache_used;
+UBYTE NIGHT_dfcache_free;
+UBYTE NIGHT_dfcache_used;
 
-ULONG        NIGHT_flag;
-UBYTE        NIGHT_lampost_radius;
-SBYTE        NIGHT_lampost_red;
-SBYTE        NIGHT_lampost_green;
-SBYTE        NIGHT_lampost_blue;
+ULONG NIGHT_flag;
+UBYTE NIGHT_lampost_radius;
+SBYTE NIGHT_lampost_red;
+SBYTE NIGHT_lampost_green;
+SBYTE NIGHT_lampost_blue;
 NIGHT_Colour NIGHT_sky_colour;
 
 
@@ -69,14 +69,14 @@ NIGHT_Colour NIGHT_sky_colour;
 //
 // ========================================================
 
-ULONG        NIGHT_amb_d3d_colour;
-ULONG        NIGHT_amb_d3d_specular;
-SLONG        NIGHT_amb_red;
-SLONG        NIGHT_amb_green;
-SLONG        NIGHT_amb_blue;
-SLONG        NIGHT_amb_norm_x;
-SLONG        NIGHT_amb_norm_y;
-SLONG        NIGHT_amb_norm_z;
+ULONG NIGHT_amb_d3d_colour;
+ULONG NIGHT_amb_d3d_specular;
+SLONG NIGHT_amb_red;
+SLONG NIGHT_amb_green;
+SLONG NIGHT_amb_blue;
+SLONG NIGHT_amb_norm_x;
+SLONG NIGHT_amb_norm_y;
+SLONG NIGHT_amb_norm_z;
 
 //
 // The normal should be normalised to 256.
@@ -395,7 +395,7 @@ typedef struct
 #define NIGHT_MAX_LLIGHTS 16
 
 NIGHT_Llight NIGHT_llight[NIGHT_MAX_LLIGHTS];
-SLONG        NIGHT_llight_upto;
+SLONG NIGHT_llight_upto;
 
 
 //
@@ -2473,8 +2473,8 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 	SLONG dlz;
 
 	#ifndef NDEBUG
-	void *min_address;
-	void *max_address;
+	void* min_address;
+	void* max_address;
 	#endif
 
 	SLONG dprod;
@@ -3087,7 +3087,7 @@ NIGHT_Colour NIGHT_get_light_at(
 #ifndef PSX
 
 NIGHT_Found NIGHT_found[NIGHT_MAX_FOUND];
-SLONG       NIGHT_found_upto;
+SLONG NIGHT_found_upto;
 
 
 void NIGHT_find(SLONG x, SLONG y, SLONG z)
@@ -3413,9 +3413,9 @@ SLONG NIGHT_check_index(SLONG walkable_prim_point_index)
 #endif
 
 NIGHT_Colour NIGHT_roof_walkable[MAX_ROOF_FACE4*4];
-UWORD	hidden_roof_index[128][128];
+UWORD hidden_roof_index[128][128];
 
-void	calc_lighting__for_point(SLONG prim_x,SLONG prim_y,SLONG prim_z,NIGHT_Colour *nc)
+void calc_lighting__for_point(SLONG prim_x,SLONG prim_y,SLONG prim_z,NIGHT_Colour *nc)
 {
 	SLONG i;
 	SLONG j;
@@ -3548,7 +3548,7 @@ void	calc_lighting__for_point(SLONG prim_x,SLONG prim_y,SLONG prim_z,NIGHT_Colou
 }
 
 
-void	NIGHT_generate_roof_walkable()
+void NIGHT_generate_roof_walkable()
 {
 	SLONG i;
 	SLONG j;
@@ -3755,7 +3755,7 @@ void	NIGHT_generate_roof_walkable()
 	}
 }
 
-SLONG        NIGHT_first_walkable_prim_point;
+SLONG NIGHT_first_walkable_prim_point;
 NIGHT_Colour NIGHT_walkable[NIGHT_MAX_WALKABLE];
 
 void NIGHT_generate_walkable_lighting()
@@ -3958,7 +3958,7 @@ void NIGHT_destroy_all_cached_info()
 
 
 
-SLONG NIGHT_load_ed_file(CBYTE *name)
+SLONG NIGHT_load_ed_file(CBYTE* name)
 {
 //#ifndef	PSX
 	SLONG i;

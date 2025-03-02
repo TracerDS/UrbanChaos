@@ -2831,7 +2831,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GetHintBoolean(const char *name, SDL_bool d
  * \param oldValue the previous hint value
  * \param newValue the new value hint is to be set to
  */
-typedef void (SDLCALL *SDL_HintCallback)(void *userdata, const char *name, const char *oldValue, const char *newValue);
+typedef void (SDLCALL *SDL_HintCallback)(void* userdata, const char *name, const char *oldValue, const char *newValue);
 
 /**
  * Add a function to watch a particular hint.
@@ -2847,7 +2847,7 @@ typedef void (SDLCALL *SDL_HintCallback)(void *userdata, const char *name, const
  */
 extern DECLSPEC void SDLCALL SDL_AddHintCallback(const char *name,
                                                  SDL_HintCallback callback,
-                                                 void *userdata);
+                                                 void* userdata);
 
 /**
  * Remove a function watching a particular hint.
@@ -2863,7 +2863,7 @@ extern DECLSPEC void SDLCALL SDL_AddHintCallback(const char *name,
  */
 extern DECLSPEC void SDLCALL SDL_DelHintCallback(const char *name,
                                                  SDL_HintCallback callback,
-                                                 void *userdata);
+                                                 void* userdata);
 
 /**
  * Clear all hints.

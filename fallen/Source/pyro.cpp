@@ -65,7 +65,7 @@ GenusFunctions PYRO_functions[PYRO_RANGE] =
 // Zeros out the pyros in the 'the_game' structure.
 //
 
-SBYTE	global_spang_count=0;
+SBYTE global_spang_count=0;
 
 void init_pyros()
 {

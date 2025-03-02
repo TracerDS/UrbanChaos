@@ -50,7 +50,7 @@ void MSG_clear()
 
 #define MSG_TIMER 128
 
-void MSG_add(CBYTE *fmt, ...)
+void MSG_add(CBYTE* fmt, ...)
 {
 	//SLONG i;
 	SLONG oldest   = 0;

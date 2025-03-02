@@ -2,7 +2,7 @@
 // Guy Simmons, 13th February 1997.
 
 #include	<MFHeader.h>
-extern	UBYTE					CurrentPalette[256*3];
+extern UBYTE					CurrentPalette[256*3];
 
 #define	RGB_TO_RGB565(r,g,b)		(UWORD)(((r>>4)<<11)|((g>>3)<<5)|(b>>4))
 #define	RGB_TO_RGB888(r,g,b)		((r<<16)|(g<<8)|(b))
@@ -234,7 +234,7 @@ extern	UBYTE					CurrentPalette[256*3];
 //---------------------------------------------------------------
 
 
-void	DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
+void DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 {
 	UBYTE		packet,
 				*src_ptr;
@@ -250,7 +250,7 @@ void	DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 	DRAW_SPRITE16(pal)
 }
 
-void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
+void DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 {
 	UBYTE		packet,
 				*src_ptr;
@@ -266,7 +266,7 @@ void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 	DRAW_SPRITE32(pal)
 }
 
-void	DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite)
+void DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite)
 {
 	UBYTE		dup_pixel,
 				packet,
@@ -282,19 +282,19 @@ void	DrawBSprite8(SLONG x,SLONG y,BSprite *the_sprite)
 	DRAW_SPRITE
 }
 
-void	DrawBSprite16(SLONG x,SLONG y,BSprite *the_sprite)
+void DrawBSprite16(SLONG x,SLONG y,BSprite *the_sprite)
 {
 	DrawBSpritePal16(x,y,the_sprite,CurrentPalette);
 }
 
-void	DrawBSprite32(SLONG x,SLONG y,BSprite *the_sprite)
+void DrawBSprite32(SLONG x,SLONG y,BSprite *the_sprite)
 {
 	DrawBSpritePal32(x,y,the_sprite,CurrentPalette);
 }
 
 //---------------------------------------------------------------
 
-void	DrawMonoBSprite8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
+void DrawMonoBSprite8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
 	UBYTE		dup_pixel,
 				packet,
@@ -310,7 +310,7 @@ void	DrawMonoBSprite8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 	DRAW_M_SPRITE
 }
 
-void	DrawMonoBSprite16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
+void DrawMonoBSprite16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
 	UBYTE		packet,
 				*src_ptr;
@@ -327,7 +327,7 @@ void	DrawMonoBSprite16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 	DRAW_M_SPRITE
 }
 
-void	DrawMonoBSprite32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
+void DrawMonoBSprite32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
 	UBYTE		packet,
 				*src_ptr;
@@ -344,7 +344,7 @@ void	DrawMonoBSprite32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 	DRAW_M_SPRITE
 }
 
-void	DrawMonoBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
+void DrawMonoBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
 	if(x<0 || (x+the_sprite->SpriteWidth)>=WorkWindowWidth || y<0 || (y+the_sprite->SpriteHeight)>=WorkWindowHeight)
 		return;
@@ -352,7 +352,7 @@ void	DrawMonoBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 	DrawMonoBSprite8(x,y,the_sprite,colour);
 }
 
-void	DrawMonoBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
+void DrawMonoBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
 	if(x<0 || (x+the_sprite->SpriteWidth)>=WorkWindowWidth || y<0 || (y+the_sprite->SpriteHeight)>=WorkWindowHeight)
 		return;
@@ -360,7 +360,7 @@ void	DrawMonoBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 	DrawMonoBSprite16(x,y,the_sprite,colour);
 }
 
-void	DrawMonoBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
+void DrawMonoBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 {
 	if(x<0 || (x+the_sprite->SpriteWidth)>=WorkWindowWidth || y<0 || (y+the_sprite->SpriteHeight)>=WorkWindowHeight)
 		return;
@@ -370,7 +370,7 @@ void	DrawMonoBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite)
+void DrawBSpriteC8(SLONG x,SLONG y,BSprite *the_sprite)
 {
 	UBYTE		dup_pixel,
 				packet,
@@ -500,20 +500,20 @@ duplicate_pixels:
 	}
 }
 
-extern	void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
-extern	void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
 
-void	DrawBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite)
+void DrawBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite)
 {
 	DrawBSpritePalC16(x,y,the_sprite,CurrentPalette);	
 }
 
-void	DrawBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite)
+void DrawBSpriteC32(SLONG x,SLONG y,BSprite *the_sprite)
 {
 	DrawBSpritePalC32(x,y,the_sprite,CurrentPalette);	
 }
 
-void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
+void DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 {
 	UBYTE		packet,
 				*src_ptr;
@@ -652,7 +652,7 @@ duplicate_pixels:
 	}
 }
 
-void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
+void DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal)
 {
 	UBYTE		packet,
 				*src_ptr;
@@ -792,7 +792,7 @@ duplicate_pixels:
 
 //---------------------------------------------------------------
 
-void	SetupBSprites(BSprite *sprite_ref,UBYTE *sprite_data)
+void SetupBSprites(BSprite *sprite_ref,UBYTE *sprite_data)
 {
 	ULONG		spr_count;
 

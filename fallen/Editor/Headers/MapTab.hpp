@@ -73,8 +73,8 @@ class	MapTab	:	public	ModeTab
 
 #define	MAX_MAP_INFO	1000
 	
-extern	struct	MapInfo	map_info[MAX_MAP_INFO];
-extern	UWORD	next_map_info;
+extern struct	MapInfo	map_info[MAX_MAP_INFO];
+extern UWORD	next_map_info;
 
 #endif
 

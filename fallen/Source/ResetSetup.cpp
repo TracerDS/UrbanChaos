@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	reset_counter;
+SLONG reset_counter;
 
 //---------------------------------------------------------------
 
@@ -32,7 +32,7 @@ SLONG	reset_counter;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -79,7 +79,7 @@ bool	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_reset_pick(EventPoint *the_ep)
+void do_reset_pick(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	reset_counter		=	the_ep->Data[0];

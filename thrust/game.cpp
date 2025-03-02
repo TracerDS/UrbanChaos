@@ -680,10 +680,10 @@ SLONG GAME_start_menu()
 										#define GAME_MAX_SESSION_CHOICES       256
 										#define GAME_MAX_SESSION_CHOICE_BUFFER 8192
 
-										static CBYTE *session_choice       [GAME_MAX_SESSION_CHOICES      ];
+										static CBYTE* session_choice       [GAME_MAX_SESSION_CHOICES      ];
 										static CBYTE  session_choice_buffer[GAME_MAX_SESSION_CHOICE_BUFFER];
 
-										CBYTE *session_choice_buffer_upto = session_choice_buffer;
+										CBYTE* session_choice_buffer_upto = session_choice_buffer;
 
 										memset(session_choice_buffer, 0, sizeof(session_choice_buffer));
 

@@ -11,15 +11,15 @@
 
 #include	"..\Editor\Headers\Thing.h"
 
-ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing);
+ULONG move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing);
 
-SLONG	calc_height_at(SLONG x,SLONG z);
+SLONG calc_height_at(SLONG x,SLONG z);
 
 extern Thing			*darci_thing;
 
 //---------------------------------------------------------------
 
-StateFunction	roper_states[]	=
+StateFunction roper_states[]	=
 {
 	{	STATE_INIT,				fn_roper_init	},
 	{	STATE_NORMAL,			fn_roper_normal	},
@@ -30,7 +30,7 @@ StateFunction	roper_states[]	=
 
 //---------------------------------------------------------------
 
-void	fn_roper_init(Thing *t_thing)
+void fn_roper_init(Thing *t_thing)
 {
 //	t_thing->WorldPos.X	=	16896;
 //	t_thing->WorldPos.Y	=	0;
@@ -56,7 +56,7 @@ void	fn_roper_init(Thing *t_thing)
 
 //---------------------------------------------------------------
 
-void	fn_roper_normal(Thing *t_thing)
+void fn_roper_normal(Thing *t_thing)
 {
 
 	return;

@@ -424,7 +424,7 @@ struct ammo_data {
 
 ULONG danger_col[]={0,0xff0000,0xffdd00,0x00dd00};
 
-extern SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count);
+extern SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count);
 
 void PANEL_draw_special(Thing* darci)
 {
@@ -653,9 +653,9 @@ void PANEL_draw_mfd()
 	}
 
 }
-extern CBYTE *EWAY_tutorial_string;
+extern CBYTE* EWAY_tutorial_string;
 
-void PANEL_draw_tutorial(CBYTE *tutor)
+void PANEL_draw_tutorial(CBYTE* tutor)
 {
 	POLY_F4 *p;
 	DR_TPAGE *pp;
@@ -828,7 +828,7 @@ void PANEL_draw_treasure(SLONG count)
 #define		HEALTH_BAR_VERT_GAP	2
 #define		HEALTH_BAR_HORIZ_GAP	2
 
-void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage)
+void PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage)
 {
 	POLY_F4 *p;
 
@@ -1026,9 +1026,9 @@ typedef struct
 #define PANEL_MAX_TEXTS 4	// Power of 2 please!
 
 PANEL_Text PANEL_text[PANEL_MAX_TEXTS];
-SLONG      PANEL_text_head;	// Always acces PANEL_text[PANEL_text_head & (PANEL_MAX_TEXTS - 1)]
-SLONG      PANEL_text_tail;	// Always acces PANEL_text[PANEL_text_tail & (PANEL_MAX_TEXTS - 1)]
-SLONG      PANEL_text_tick;
+SLONG PANEL_text_head;	// Always acces PANEL_text[PANEL_text_head & (PANEL_MAX_TEXTS - 1)]
+SLONG PANEL_text_tail;	// Always acces PANEL_text[PANEL_text_tail & (PANEL_MAX_TEXTS - 1)]
+SLONG PANEL_text_tick;
 
 CBYTE PANEL_msg[320];
 
@@ -1048,9 +1048,9 @@ void PANEL_new_text_init()
 	PANEL_text_tick = 0;
 }
 
-void PANEL_new_text(Thing *who, SLONG delay, CBYTE *fmt, ...)
+void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 {
-	CBYTE *ch;
+	CBYTE* ch;
 
 	PANEL_Text *pt;
 
@@ -1118,10 +1118,10 @@ void PANEL_new_text_process()
 CBYTE PANEL_help_message[64];
 SLONG PANEL_help_timer;
 
-CBYTE *PANEL_info_message=PANEL_help_message;
+CBYTE* PANEL_info_message=PANEL_help_message;
 SLONG PANEL_info_time;
 
-void PANEL_new_info_message(CBYTE *fmt, ...)
+void PANEL_new_info_message(CBYTE* fmt, ...)
 {
 	va_list	ap;
 
@@ -1133,7 +1133,7 @@ void PANEL_new_info_message(CBYTE *fmt, ...)
 }
 
 
-void PANEL_new_help_message(CBYTE *fmt, ...)
+void PANEL_new_help_message(CBYTE* fmt, ...)
 {
 	va_list	ap;
 
@@ -1392,10 +1392,10 @@ void PANEL_draw_beacons()
 		ASSERT(WITHIN(best_beacon, 1, MAP_MAX_BEACONS - 1));
 
 		mb = &MAP_beacon[best_beacon];
-extern	SLONG EWAY_mess_upto;
+extern SLONG EWAY_mess_upto;
 		ASSERT(mb->index>=0 &&mb->index<EWAY_mess_upto);
 
-		extern CBYTE *EWAY_get_mess(SLONG index);
+		extern CBYTE* EWAY_get_mess(SLONG index);
 
 		FONT2D_DrawString(
 			EWAY_get_mess(mb->index),
@@ -1861,7 +1861,7 @@ void PANEL_draw_eog(SLONG win)
 		FONT2D_DrawStringCentred(LEVEL_WON,160,120,0x007f00,511);
 #endif
 
-extern	SLONG	playing_real_mission();
+extern SLONG	playing_real_mission();
 
 		if (playing_real_mission())
 		{
@@ -1893,12 +1893,12 @@ extern	SLONG	playing_real_mission();
 	}
 }
 
-extern	SLONG	stat_killed_thug;
-extern	SLONG	stat_killed_innocent;
-extern	SLONG	stat_arrested_thug;
-extern	SLONG	stat_arrested_innocent;
-extern	SLONG	stat_count_bonus;
-extern	SLONG	stat_start_time,stat_game_time;
+extern SLONG	stat_killed_thug;
+extern SLONG	stat_killed_innocent;
+extern SLONG	stat_arrested_thug;
+extern SLONG	stat_arrested_innocent;
+extern SLONG	stat_count_bonus;
+extern SLONG	stat_start_time,stat_game_time;
 
 typedef struct 
 {

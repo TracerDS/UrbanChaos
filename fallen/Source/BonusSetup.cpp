@@ -17,14 +17,14 @@
 
 //---------------------------------------------------------------
 
-CBYTE		*bonus_text;
-SLONG		 bonus_pts;
-SLONG		 bonus_type;
-SLONG		 bonus_gender; // for translators
+CBYTE* bonus_text;
+SLONG bonus_pts;
+SLONG bonus_type;
+SLONG bonus_gender; // for translators
 
 //---------------------------------------------------------------
 
-TCHAR	*bstrings[]	=
+TCHAR *bstrings[]	=
 {
 	"Primary Objective",
 	"Secondary Objective",
@@ -44,7 +44,7 @@ TCHAR	*bstrings[]	=
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-bool	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG len;
 	HWND		the_ctrl;
@@ -124,7 +124,7 @@ bool	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_bonus_setup(EventPoint *the_ep)
+void do_bonus_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	bonus_text	=	(CBYTE*)the_ep->Data[0];
@@ -159,7 +159,7 @@ void	do_bonus_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 
-CBYTE	*get_bonus_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_bonus_message(EventPoint *ep, CBYTE* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
 		strcpy(msg,(CBYTE*)ep->Data[0]);

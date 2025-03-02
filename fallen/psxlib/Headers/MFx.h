@@ -43,43 +43,43 @@
 
 //----- transport functions -----
 
-void	MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z);
-void	MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position);
-void	MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p);
-void	MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags);
-void	MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags);
+void MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z);
+void MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position);
+void MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p);
+void MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags);
+void MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags);
 
-void	MFX_stop(SLONG channel_id, ULONG wave);
-void	MFX_stop_attached(Thing *p);
+void MFX_stop(SLONG channel_id, ULONG wave);
+void MFX_stop_attached(Thing *p);
 
 //----- audio processing functions -----
 
-void	MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend);
-void	MFX_set_wave(UWORD channel_id, ULONG wave, ULONG new_wave);
-void	MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z);
-void	MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position);
-void	MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain);
+void MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend);
+void MFX_set_wave(UWORD channel_id, ULONG wave, ULONG new_wave);
+void MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z);
+void MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position);
+void MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain);
 
 //----- listener & environment -----
 
-void	MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch);
+void MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch);
 
-void	MFX_set_environment(SLONG env_type);
+void MFX_set_environment(SLONG env_type);
 
 //----- sound library functions -----
 
-void	MFX_load_wave_list(CBYTE *path,CBYTE *script_file);
-void	MFX_load_wave_list(CBYTE *names[]=0);				// load list from array
-void	MFX_load_wave_file(CBYTE *wave_file);
-void	MFX_free_wave_list();
+void MFX_load_wave_list(CBYTE* path,CBYTE* script_file);
+void MFX_load_wave_list(CBYTE* names[]=0);				// load list from array
+void MFX_load_wave_file(CBYTE* wave_file);
+void MFX_free_wave_list();
 
 //----- general system stuff -----
 
-void	MFX_render();
+void MFX_render();
 
 //----- Here this must go, because nowhere else would be right for it.
 
-void	MUSIC_init_level(SLONG world);
+void MUSIC_init_level(SLONG world);
 
 void MFX_Conv_wait();
 SLONG MFX_Conv_play(SLONG waypoint,SLONG conv,SLONG conv_off);

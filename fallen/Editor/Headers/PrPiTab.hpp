@@ -31,9 +31,9 @@
 #define	PRIM_MODE_ANIM_KEY		3
 #define	PRIM_MODE_ANIM_MORPH	4
 
-extern	void	record_prim_status();
+extern void	record_prim_status();
 
-extern	void	apply_user_rotates(struct PrimPoint *point);
+extern void	apply_user_rotates(struct PrimPoint *point);
 
 class	PrimPickTab	:	public	ModeTab
 {
@@ -87,7 +87,7 @@ class	PrimPickTab	:	public	ModeTab
 };
 
 
-extern	 void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z);
+extern void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z);
 
 #endif
 

@@ -10,7 +10,7 @@
 //---------------------------------------------------------------
 
 void	do_platform_setup(EventPoint *ep);
-//CBYTE	*get_platform_message(EventPoint *ep, CBYTE *msg);
+//CBYTE	*get_platform_message(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 

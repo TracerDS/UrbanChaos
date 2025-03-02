@@ -20,14 +20,14 @@
 
 //---------------------------------------------------------------
 
-SLONG			OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG			CloseDisplay();
-SLONG			SetDisplay(ULONG width,ULONG height,ULONG depth);
-void			ShellPaused();
-void			ShellPauseOn();
-void			ShellPauseOff();
-void			DumpBackToTGA(CBYTE *tga_name);
-void			DumpBackToRaw();	
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
+SLONG CloseDisplay();
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+void ShellPaused();
+void ShellPauseOn();
+void ShellPauseOff();
+void DumpBackToTGA(CBYTE* tga_name);
+void DumpBackToRaw();	
 
 
 //---------------------------------------------------------------
@@ -48,8 +48,8 @@ void			DumpBackToRaw();
 #define PANEL_OTZ	(OTSIZE-1)
 #define FLARE_OTZ	(OTSIZE-2)
 
-extern	UWORD	psx_tpages[22];
-extern	UWORD	psx_tpages_clut[16];
+extern UWORD	psx_tpages[22];
+extern UWORD	psx_tpages_clut[16];
 
 #define	SCREEN_WIDTH	512
 #define	SCREEN_HEIGHT	250
@@ -72,7 +72,7 @@ typedef struct {
 
 
 
-typedef	struct
+typedef struct
 {
 
 		UBYTE					*CurrentPrim;

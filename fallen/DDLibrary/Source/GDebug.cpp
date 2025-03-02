@@ -37,7 +37,7 @@ void	FiniDebugLog(void)
 
 //---------------------------------------------------------------
 
-void	DebugText(CBYTE *error, ...)
+void	DebugText(CBYTE* error, ...)
 {
 	CBYTE 			buf[512];
 	SLONG			bytes_written;

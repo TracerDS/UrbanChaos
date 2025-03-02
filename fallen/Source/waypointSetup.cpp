@@ -14,11 +14,11 @@
 
 //---------------------------------------------------------------
 
-SLONG		waypoint_delay;
+SLONG waypoint_delay;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	ways_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	ways_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 
@@ -45,7 +45,7 @@ bool	CALLBACK	ways_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_waypoint_setup(EventPoint *the_ep)
+void do_waypoint_setup(EventPoint *the_ep)
 {
 	waypoint_delay =	the_ep->Data[0];
 	DialogBox	(
@@ -60,7 +60,7 @@ void	do_waypoint_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_waypoint_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_waypoint_message(EventPoint *ep, CBYTE* msg) {
 	float f;
 
 	if ((!ep)||!ep->Data[0])

@@ -32,8 +32,8 @@ typedef struct
 
 #define TRIP_MAX_WIRES 32
 
-extern	TRIP_Wire *TRIP_wire;//[TRIP_MAX_WIRES];
-extern	SLONG     TRIP_wire_upto;
+extern TRIP_Wire *TRIP_wire;//[TRIP_MAX_WIRES];
+extern SLONG     TRIP_wire_upto;
 
 
 //
@@ -96,7 +96,7 @@ typedef struct
 
 } TRIP_Info;
 
-void       TRIP_get_start();
+void TRIP_get_start();
 TRIP_Info *TRIP_get_next ();	// Returns NULL if there are no more trips left.
 
 

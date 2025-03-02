@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG			prim_type, prim_anim;
+SLONG prim_type, prim_anim;
 
 //---------------------------------------------------------------
 
@@ -31,7 +31,7 @@ SLONG			prim_type, prim_anim;
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-bool	CALLBACK	acts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	acts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -94,7 +94,7 @@ bool	CALLBACK	acts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_activate_setup(EventPoint *the_ep)
+void do_activate_setup(EventPoint *the_ep)
 {
 
 	if (!the_ep) return;
@@ -117,7 +117,7 @@ void	do_activate_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_activate_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_activate_message(EventPoint *ep, CBYTE* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

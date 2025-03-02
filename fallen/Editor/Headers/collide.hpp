@@ -13,15 +13,15 @@
 
 // FUNCTIONS
 
-extern	void	calc_collision_info(struct ColInfo *p_col);
-//extern	void	calc_collision_info(SLONG left,SLONG right,SLONG top,SLONG bottom,SLONG depth,SLONG flag);
+extern void	calc_collision_info(struct ColInfo *p_col);
+//extern void	calc_collision_info(SLONG left,SLONG right,SLONG top,SLONG bottom,SLONG depth,SLONG flag);
 
-extern	void	clear_all_col_info();
+extern void	clear_all_col_info();
 
-extern	void	interface_thing();
-extern	void	init_thing();
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
-extern	calc_things_height(struct MapThing *p_thing);
+extern void	interface_thing();
+extern void	init_thing();
+extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern calc_things_height(struct MapThing *p_thing);
 
 
 //

@@ -84,7 +84,7 @@ class	GameEditor		:	public	EditorModule
 		SLONG			DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z);
 		void			ScanEngine();
 		void			RenderEngine();
-		void			MapText(SLONG x,SLONG y,CBYTE *the_str,ULONG col);
+		void			MapText(SLONG x,SLONG y,CBYTE* the_str,ULONG col);
 		void			MapThingInfo(SLONG x,SLONG y,BucketMapThing *the_map_thing);
 		void			MapWaypointInfo(SLONG x,SLONG y,BucketWaypoint *the_waypoint);
 		void			MapSphereInfo(SLONG x,SLONG y,BucketSphereArea *the_sphere);

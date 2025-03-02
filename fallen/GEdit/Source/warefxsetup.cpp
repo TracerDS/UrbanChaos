@@ -82,7 +82,7 @@ void	do_warefx_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_warefx_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_warefx_message(EventPoint *ep, CBYTE* msg) {
 	strcpy(msg,wwarefx_strings[ep->Data[0]]);
 	return msg;
 }

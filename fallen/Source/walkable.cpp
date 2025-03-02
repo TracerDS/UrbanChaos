@@ -4,7 +4,7 @@
 #include	"memory.h"
 #include	"mav.h"
 
-extern	void	highlight_rface(SLONG rface);
+extern void	highlight_rface(SLONG rface);
 //
 // code to do with walkable faces
 //
@@ -14,7 +14,7 @@ extern	void	highlight_rface(SLONG rface);
 //
 
 
-SLONG	clock(const SLONG dx,const SLONG dz,const SLONG dx1,const SLONG dz1)
+SLONG clock(const SLONG dx,const SLONG dz,const SLONG dx1,const SLONG dz1)
 {
 	if((dx*dz1-dz*dx1)<=0)
 		return(0);
@@ -22,7 +22,7 @@ SLONG	clock(const SLONG dx,const SLONG dz,const SLONG dx1,const SLONG dz1)
 		return(1);
 }
 
-SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
+SLONG point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 {
 	SLONG	c0;
 	SWORD	vx[4],vz[4];
@@ -75,8 +75,8 @@ SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 // returns true if on face
 //   *height always trys to have the height
 
-SLONG	gh_vx[4],gh_vy[4],gh_vz[4];//out of stack space (on PSX) so words
-SLONG	get_height_on_face_quad64_at(SLONG rx, SLONG rz, SWORD face,SLONG *height)
+SLONG gh_vx[4],gh_vy[4],gh_vz[4];//out of stack space (on PSX) so words
+SLONG get_height_on_face_quad64_at(SLONG rx, SLONG rz, SWORD face,SLONG *height)
 {
 //	SLONG 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 	struct	PrimFace4 *this_face4;
@@ -312,7 +312,7 @@ SLONG	get_height_on_face_quad64_at(SLONG rx, SLONG rz, SWORD face,SLONG *height)
 // returns 0 or 1 (on face false/true) new_y is alt on face
 //
 /*
-SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face,SLONG *new_y)
+SLONG calc_height_on_face(SLONG x,SLONG z,SLONG face,SLONG *new_y)
 {
 
 	if (face > 0)
@@ -326,7 +326,7 @@ SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face,SLONG *new_y)
 */
 
 
-SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
+SLONG is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
 {
 	if(face<0)
 	{
@@ -712,7 +712,7 @@ SLONG find_height_for_this_pos(	SLONG  x,SLONG  z,	SLONG *ret_face)
 
 }
 
-SLONG	RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
+SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
 {
 	SLONG h0;
 	SLONG h1;

@@ -32,7 +32,7 @@ void FONT_buffer_add(
 		UBYTE  green,
 		UBYTE  blue,
 		UBYTE  shadowed_or_not,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 
 //
 // Draws all the buffered up sentences and clears the buffered list.
@@ -54,7 +54,7 @@ void FONT_buffer_draw();
 // Returns the length of the string in pixels.
 //
 
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE *fmt, ...);
+SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...);
 
 
 //
@@ -68,7 +68,7 @@ SLONG FONT_draw_coloured_text(
 		UBYTE red,
 		UBYTE green,
 		UBYTE blue,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 
 //
 // Draws the char in the given colour- or does nothing if that character is not
@@ -94,7 +94,7 @@ void FONT_draw_speech_bubble_text(
 		UBYTE red,
 		UBYTE green,
 		UBYTE blue,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 
 
 

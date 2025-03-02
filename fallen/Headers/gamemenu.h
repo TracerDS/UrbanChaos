@@ -51,7 +51,7 @@ SLONG GAMEMENU_slowdown_mul();
 // When you lose the level, this is the message that will be displayed.
 //
 
-void GAMEMENU_set_level_lost_reason(CBYTE *reason);
+void GAMEMENU_set_level_lost_reason(CBYTE* reason);
 
 
 //

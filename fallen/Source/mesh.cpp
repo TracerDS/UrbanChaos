@@ -1074,7 +1074,7 @@ typedef struct
 #define MESH_MAX_ADD 256
 
 MESH_Add MESH_add[MESH_MAX_ADD];
-SLONG    MESH_add_upto;
+SLONG MESH_add_upto;
 
 void MESH_add_poly(MESH_Reflection *mr, MESH_Add poly[], SLONG num_points, SLONG page)
 {

@@ -5,15 +5,15 @@
 #include	"wmove.h"
 #include	"animate.h"
 
-extern	SLONG	is_person_dead(Thing *p_person);
+extern SLONG	is_person_dead(Thing *p_person);
 
 #define	GUN_RANGE_BLOCKS	13
 
 #define	GUN_ANGLE_RANGE		64
 
-extern	SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
-SLONG	get_gun_aim_stats(Thing *p_person,SLONG *range,SLONG *spread)
+SLONG get_gun_aim_stats(Thing *p_person,SLONG *range,SLONG *spread)
 {
 	if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
@@ -81,7 +81,7 @@ SLONG	get_gun_aim_stats(Thing *p_person,SLONG *range,SLONG *spread)
 //
 // range is ideal range of weapon (can be used upto twice ideal range) 
 //
-SLONG	calc_target_score(Thing *p_person,Thing *p_target,SLONG range,SLONG spread)
+SLONG calc_target_score(Thing *p_person,Thing *p_target,SLONG range,SLONG spread)
 {
 	SLONG	dx,dy,dz,dist;
 	SLONG	angle;
@@ -142,7 +142,7 @@ SLONG	calc_target_score(Thing *p_person,Thing *p_target,SLONG range,SLONG spread
 
 
 
-THING_INDEX	find_target(Thing *p_person)
+THING_INDEX find_target(Thing *p_person)
 {
 	THING_INDEX	current_thing,best=0;
 	Thing	*t_thing;
@@ -207,7 +207,7 @@ THING_INDEX	find_target(Thing *p_person)
 
 #define MAX_NEW_TARGET_DANGLE (2048 / 7)
 
-extern	SLONG	look_pitch;
+extern SLONG	look_pitch;
 
 SLONG calc_target_score_new(Thing *darci, Thing *p_target)
 {
@@ -641,7 +641,7 @@ THING_INDEX find_target_new(Thing *p_person)
 				/*
 				{
 					CBYTE	str[100];
-extern	void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 					
 					sprintf(str," %d ",score);
 					FONT2D_DrawString_3d(str,p_found->WorldPos.X>>8,(p_found->WorldPos.Y>>8)+256,p_found->WorldPos.Z>>8,0xffffff,32,0);
@@ -718,7 +718,7 @@ extern	void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG w
 
 
 #ifndef PSX
-SLONG	calc_snipe_target_score(Thing *p_person,Thing *p_target)
+SLONG calc_snipe_target_score(Thing *p_person,Thing *p_target)
 {
 	SLONG	dx,dy,dz,dist;
 	SLONG	angle;

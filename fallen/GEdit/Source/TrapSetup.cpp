@@ -45,7 +45,7 @@ void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 	}
 }
 
-CBYTE *blank_string[] = { "!" };
+CBYTE* blank_string[] = { "!" };
 
 bool	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
@@ -183,7 +183,7 @@ void	do_trap_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_trap_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_trap_message(EventPoint *ep, CBYTE* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

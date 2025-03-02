@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	barrel_type;
+SLONG barrel_type;
 
 //---------------------------------------------------------------
 
@@ -32,7 +32,7 @@ SLONG	barrel_type;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	barrel_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	barrel_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -66,7 +66,7 @@ bool	CALLBACK	barrel_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_barrel_setup(EventPoint *the_ep)
+void do_barrel_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	barrel_type		=	the_ep->Data[0];

@@ -28,7 +28,7 @@ typedef struct
 #define LIGHT_MAX_LIGHTS 128
 
 LIGHT_Light LIGHT_light[LIGHT_MAX_LIGHTS];
-UBYTE       LIGHT_free;
+UBYTE LIGHT_free;
 
 //
 // The light mapwho
@@ -56,9 +56,9 @@ LIGHT_Square LIGHT_map[LIGHT_MAP_SIZE][LIGHT_MAP_SIZE];
 //
 
 LIGHT_Colour LIGHT_amb_colour;
-SLONG        LIGHT_amb_norm_x;
-SLONG        LIGHT_amb_norm_y;
-SLONG        LIGHT_amb_norm_z;
+SLONG LIGHT_amb_norm_x;
+SLONG LIGHT_amb_norm_y;
+SLONG LIGHT_amb_norm_z;
 
 //
 // The height field lit by the lights.
@@ -93,7 +93,7 @@ typedef struct
 #endif
 
 LIGHT_Slot LIGHT_slot[LIGHT_MAX_SLOTS];
-UWORD      LIGHT_slot_free;
+UWORD LIGHT_slot_free;
 
 //
 // The cache elements.
@@ -115,7 +115,7 @@ typedef struct
 #endif
 
 LIGHT_Cache LIGHT_cache[LIGHT_MAX_CACHES];
-UBYTE       LIGHT_cache_free;
+UBYTE LIGHT_cache_free;
 
 
 //
@@ -123,7 +123,7 @@ UBYTE       LIGHT_cache_free;
 //
 
 LIGHT_Colour LIGHT_point_colour[LIGHT_MAX_POINTS];
-SLONG        LIGHT_point_colour_upto;
+SLONG LIGHT_point_colour_upto;
 
 
 
@@ -1433,9 +1433,9 @@ void LIGHT_process()
 
 THING_INDEX LIGHT_context_t_index;
 LIGHT_Index LIGHT_context_l_index[LIGHT_MAX_PER_PRIM];
-SLONG       LIGHT_context_l_num;
-SLONG       LIGHT_context_gameturn;
-SLONG       LIGHT_context_context;
+SLONG LIGHT_context_l_num;
+SLONG LIGHT_context_gameturn;
+SLONG LIGHT_context_context;
 
 SLONG LIGHT_get_context(THING_INDEX t_index)
 {
@@ -2052,20 +2052,20 @@ void LIGHT_prim_use_normals(THING_INDEX t_index)
 
 #ifdef	EDITOR
 #include	"c:\fallen\editor\headers\scan.h"
-extern	void	scan_undo_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
-extern	void	apply_ambient_to_floor();
-extern	void	remove_ambient_from_floor();
-extern	void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+extern void	scan_undo_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+extern void	apply_ambient_to_floor();
+extern void	remove_ambient_from_floor();
+extern void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
 #endif
 
-void	apply_global_amb_to_map()
+void apply_global_amb_to_map()
 {
 #ifdef	EDITOR
 
 	scan_function=scan_undo_ambient;
 	scan_map();	
 	remove_ambient_from_floor();
-extern	void	setup_ambient(SLONG dx,SLONG dy,SLONG dz,SLONG bright,SLONG flags);
+extern void	setup_ambient(SLONG dx,SLONG dy,SLONG dz,SLONG bright,SLONG flags);
 // 	setup_ambient(100,100,-70,1024,2);
  	setup_ambient(90,-100,-90,655,2);
 	scan_function=scan_apply_ambient;

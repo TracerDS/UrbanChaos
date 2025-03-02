@@ -181,7 +181,7 @@ DXMaterial	dx_materials[200]=
 void	setup_anim_stuff()
 {
 #ifdef	EDITOR
-extern	SLONG	key_frame_count,current_element;
+extern SLONG	key_frame_count,current_element;
 	current_element	=	0;
 	key_frame_count	=	0;
 #endif
@@ -388,7 +388,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 	dy=128;
 	dz=128;
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
 	alt=calc_height_at(input->X,input->Z);
 
 	if(dx)

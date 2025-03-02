@@ -15,10 +15,10 @@
 #endif
 
 #ifdef EDITOR
-extern	void	copyfile_to_level(CBYTE *str);
-extern	TGA_Info TGA_load_psx(const CBYTE *file,SLONG        max_width,SLONG        max_height,UBYTE   *data,UBYTE *pal);
+extern void	copyfile_to_level(CBYTE* str);
+extern TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_height,UBYTE   *data,UBYTE *pal);
 #endif
-extern	UBYTE	roper_pickup;
+extern UBYTE	roper_pickup;
 
 
 #ifdef TARGET_DC
@@ -66,15 +66,15 @@ The PA has a few other nifty features, it's operated by a foot peddle, so to the
 Another cool trick it has, is it can show you polygon overwrite, it shows you how many times each on screen pixel has been written or read. Everytime a polygon overwrites 
   */
 
-SLONG	find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_storey,SLONG storey);
-SLONG	add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG style_index,SLONG storey_type,SLONG flags,SLONG offsety,SLONG block_height);
-SLONG	add_painted_textures(UBYTE *t,SLONG tcount,SLONG style);
+SLONG find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_storey,SLONG storey);
+SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG style_index,SLONG storey_type,SLONG flags,SLONG offsety,SLONG block_height);
+SLONG add_painted_textures(UBYTE *t,SLONG tcount,SLONG style);
 
 
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 extern SLONG editor_texture_set;
 
-ULONG	level_index=0;
+ULONG level_index=0;
 
 
 //
@@ -85,20 +85,20 @@ ULONG	level_index=0;
 
 
 
-SLONG	next_dbuilding=1;
-SLONG	next_dwalkable=1;
-SLONG	next_dfacet=1;
-SLONG	next_dstyle=1;
-SWORD	next_facet_link=1;
-SWORD	next_paint_mem=1;
-SWORD	next_dstorey=1;
-SWORD	facet_link_count=0;
+SLONG next_dbuilding=1;
+SLONG next_dwalkable=1;
+SLONG next_dfacet=1;
+SLONG next_dstyle=1;
+SWORD next_facet_link=1;
+SWORD next_paint_mem=1;
+SWORD next_dstorey=1;
+SWORD facet_link_count=0;
 
-SLONG	next_inside_mem=1;
+SLONG next_inside_mem=1;
 //SLONG	next_inside_rect=1;
 
 UBYTE SUPERMAP_counter[2];
-extern	SLONG	TEXTURE_set;
+extern SLONG	TEXTURE_set;
 
 #define	NO_MOVE_UP		1
 #define	NO_MOVE_RIGHT	2
@@ -112,7 +112,7 @@ extern	SLONG	TEXTURE_set;
 //
 // returns inside_index && room id for position in world
 //
-UWORD	calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room)
+UWORD calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room)
 {
 	SLONG	c0;
 	SLONG	mx,mz;
@@ -152,7 +152,7 @@ UWORD	calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room)
 #ifdef EDITOR
 #ifndef	PSX
 
-void	add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
+void add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
 {
 	SLONG	dx,dz;
 
@@ -241,11 +241,11 @@ void	add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
 	}
 }
 
-UBYTE	*fill_map;
-UBYTE	*fill_col;
-SLONG	fill_minx,fill_maxx,fill_minz,fill_maxz;
+UBYTE *fill_map;
+UBYTE *fill_col;
+SLONG fill_minx,fill_maxx,fill_minz,fill_maxz;
 
-void	flood_fill_at(UBYTE x,UBYTE z,UBYTE id)
+void flood_fill_at(UBYTE x,UBYTE z,UBYTE id)
 {
 
 	DebugText(" flood %d %d with %d right %d left %d up %d down %d\n",x,z,id,fill_col[x+z*128]&NO_MOVE_RIGHT,fill_col[x+z*128]&NO_MOVE_LEFT,fill_col[x+z*128]&NO_MOVE_UP,fill_col[x+z*128]&NO_MOVE_DOWN);
@@ -277,7 +277,7 @@ void	flood_fill_at(UBYTE x,UBYTE z,UBYTE id)
 }
 
 
-void	flood_fill_rooms(SLONG storey)
+void flood_fill_rooms(SLONG storey)
 {
 	SLONG	c0;
 	SLONG	id=1;
@@ -295,7 +295,7 @@ void	flood_fill_rooms(SLONG storey)
 
 }
 
-SLONG	build_inside_data(SLONG minx,SLONG minz,SLONG maxx,SLONG maxz,SLONG y,SLONG offset_y)
+SLONG build_inside_data(SLONG minx,SLONG minz,SLONG maxx,SLONG maxz,SLONG y,SLONG offset_y)
 {
 	SLONG	x,z;
 	inside_storeys[next_inside_storey].InsideBlock=next_inside_block;
@@ -319,7 +319,7 @@ SLONG	build_inside_data(SLONG minx,SLONG minz,SLONG maxx,SLONG maxz,SLONG y,SLON
 
 }
 
-SLONG	add_stairs_to_inside(SLONG inside,UBYTE x,UBYTE z,UBYTE flags,UWORD next_floor,UWORD prev_floor)
+SLONG add_stairs_to_inside(SLONG inside,UBYTE x,UBYTE z,UBYTE flags,UWORD next_floor,UWORD prev_floor)
 {
 	UWORD	next;
 	next=inside_storeys[inside].StairCaseHead;
@@ -394,7 +394,7 @@ void link_inside_stairs(SLONG start_inside,SLONG end_inside)
 	}
 }
 
-void	add_inside_facets(SLONG storey,SLONG offset_y)
+void add_inside_facets(SLONG storey,SLONG offset_y)
 {
 	SLONG	px,pz,x,z,wall;
 	SLONG	outside_storey;
@@ -516,7 +516,7 @@ void	add_inside_facets(SLONG storey,SLONG offset_y)
 
 }
 /*
-void	flood_fill_behind_doors(SLONG storey)
+void flood_fill_behind_doors(SLONG storey)
 {
 	SLONG	wall;
 	SLONG	id=1;
@@ -560,7 +560,7 @@ void	flood_fill_behind_doors(SLONG storey)
 	}
 }
 */
-void	set_door_bits(SLONG storey)
+void set_door_bits(SLONG storey)
 {
 	SLONG	wall;
 	SLONG	px,pz;
@@ -615,7 +615,7 @@ void	set_door_bits(SLONG storey)
 		storey=storey_list[storey].Next;
 	}
 }
-void	set_stair_bits(SLONG room)
+void set_stair_bits(SLONG room)
 {
 	SLONG	c0;
 
@@ -673,7 +673,7 @@ void	set_stair_bits(SLONG room)
 
 }
 
-SLONG	create_inside_rect(SLONG storey,SLONG offset_y)
+SLONG create_inside_rect(SLONG storey,SLONG offset_y)
 {
 
 	UBYTE	*rect,*dir;
@@ -828,9 +828,9 @@ SLONG	create_inside_rect(SLONG storey,SLONG offset_y)
 	return(inside_index);
 }
 
-extern	UWORD	page_remap[];
+extern UWORD	page_remap[];
 
-SLONG	add_painted_textures(UBYTE *t,SLONG tcount,SLONG style)
+SLONG add_painted_textures(UBYTE *t,SLONG tcount,SLONG style)
 {
 	SLONG	c0=0,count=0;
 
@@ -870,7 +870,7 @@ SLONG	add_painted_textures(UBYTE *t,SLONG tcount,SLONG style)
 	}
 }
 
-SLONG	add_painted_textures_reverse(UBYTE *t,SLONG tcount,SLONG style,SLONG len)
+SLONG add_painted_textures_reverse(UBYTE *t,SLONG tcount,SLONG style,SLONG len)
 {
 	SLONG	c0=0,count=0;
 
@@ -911,7 +911,7 @@ SLONG	add_painted_textures_reverse(UBYTE *t,SLONG tcount,SLONG style,SLONG len)
 }
 
 
-void	clear_storey_data(UWORD building)
+void clear_storey_data(UWORD building)
 {
 	SLONG	wall,storey;
 
@@ -951,7 +951,7 @@ void	clear_storey_data(UWORD building)
 }
 
 
-SLONG	is_building_worth_saving(SLONG building)
+SLONG is_building_worth_saving(SLONG building)
 {
 	SLONG	storey;
 	storey=building_list[building].StoreyHead;
@@ -968,7 +968,7 @@ SLONG	is_building_worth_saving(SLONG building)
 }
 
 
-void	find_minmax_alt_along_vect(SLONG *min_y,SLONG *max_y,SLONG x1,SLONG x2,SLONG z1,SLONG z2)
+void find_minmax_alt_along_vect(SLONG *min_y,SLONG *max_y,SLONG x1,SLONG x2,SLONG z1,SLONG z2)
 {
 	SLONG	dx,dz,len;
 
@@ -1007,7 +1007,7 @@ void	find_minmax_alt_along_vect(SLONG *min_y,SLONG *max_y,SLONG x1,SLONG x2,SLON
 	}
 }
 
-SLONG	add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG style_index,SLONG storey_type,SLONG facet_flags,SLONG offsety,SLONG block_height)
+SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG style_index,SLONG storey_type,SLONG facet_flags,SLONG offsety,SLONG block_height)
 {
 	struct	DFacet	*p_facet;
 	SLONG	min_y,max_y;
@@ -1167,7 +1167,7 @@ SLONG	add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG s
 	return(next_dfacet-1);
 }
 
-void	add_dbuilding(SLONG x,SLONG y,SLONG z,SLONG sf,SLONG ef,SLONG building)
+void add_dbuilding(SLONG x,SLONG y,SLONG z,SLONG sf,SLONG ef,SLONG building)
 {
 	struct	DBuilding	*p_build;
 
@@ -1190,7 +1190,7 @@ void	add_dbuilding(SLONG x,SLONG y,SLONG z,SLONG sf,SLONG ef,SLONG building)
 	p_build->Counter[1] = 0;
 }
 
-SLONG	find_slow_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG *connect_storey,SLONG building,SLONG height) //,UBYTE **texture,SLONG *count)
+SLONG find_slow_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG *connect_storey,SLONG building,SLONG height) //,UBYTE **texture,SLONG *count)
 {
 	SLONG	found=0;
 	SLONG	wall;
@@ -1242,7 +1242,7 @@ SLONG	find_slow_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG *
 
 }
 
-void	create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG wall)
+void create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG wall)
 {
 	struct	DFacet	*p_facet;
 	SLONG	len,dx,dy,dz,count;
@@ -1344,7 +1344,7 @@ void	create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,S
 	p_facet->FHeight=wall_list[wall].TextureStyle2;
 }
 
-void	create_dfacets_for_building(SLONG building)
+void create_dfacets_for_building(SLONG building)
 {
 	SLONG	x1,z1,x2,z2,y1,y2;
 	SLONG	storey,wall;
@@ -1741,7 +1741,7 @@ SLONG first_walkable_prim_face4;
 SLONG number_of_walkable_prim_faces4;
 
 #ifndef PSX
-void	load_walkables(MFFileHandle	handle,SLONG save_type)
+void load_walkables(MFFileHandle	handle,SLONG save_type)
 {
 	SLONG	next_point=1,next_face4=1,next_face3=1;
 
@@ -1851,7 +1851,7 @@ void	load_walkables(MFFileHandle	handle,SLONG save_type)
 }
 #ifdef EDITOR
 
-SLONG	roof_split_funny(struct	RoofFace4	*p_roof)
+SLONG roof_split_funny(struct	RoofFace4	*p_roof)
 {
 	SLONG	y0,y1,y2,y3;
 
@@ -1872,7 +1872,7 @@ SLONG	roof_split_funny(struct	RoofFace4	*p_roof)
 	return(0);
 
 }
-void	add_flat_roof_to_pap()
+void add_flat_roof_to_pap()
 {
 	SLONG	c0,f4,p;
 //	struct	RoofFace4	*p_roof;
@@ -1906,7 +1906,7 @@ void	add_flat_roof_to_pap()
 	}
 }
 
-void	save_walkables(MFFileHandle	handle)
+void save_walkables(MFFileHandle	handle)
 {
 	SLONG	c0,f4,p;
 	struct	RoofFace4	*p_roof;
@@ -1974,7 +1974,7 @@ void	save_walkables(MFFileHandle	handle)
 
 
 }
-void	save_walkables_old(MFFileHandle	handle)
+void save_walkables_old(MFFileHandle	handle)
 {
 	struct	PrimPoint	*points;
 	struct	PrimFace4	*faces4;
@@ -2105,8 +2105,8 @@ void	save_walkables_old(MFFileHandle	handle)
 //
 // inside ob-ob's need to figure out what their inside_index is
 //
-extern	SLONG	build_psx;
-SLONG	save_to_psx(SLONG index)
+extern SLONG	build_psx;
+SLONG save_to_psx(SLONG index)
 {
 	if(!build_psx)
 		return(1);
@@ -2129,7 +2129,7 @@ SLONG	save_to_psx(SLONG index)
 		return(1);
 }
 
-void	save_ob_ob(MFFileHandle	handle)
+void save_ob_ob(MFFileHandle	handle)
 {
 	UWORD	temp;
 	SLONG	c0;
@@ -2200,7 +2200,7 @@ void	save_ob_ob(MFFileHandle	handle)
 
 }
 
-void	save_super_map(MFFileHandle	handle)
+void save_super_map(MFFileHandle	handle)
 {
 	SLONG	c0;
 //void	remap_textures_psx();
@@ -2252,7 +2252,7 @@ void	save_super_map(MFFileHandle	handle)
 }
 #endif
 
-void	load_super_map(MFFileHandle	handle,SLONG save_type)
+void load_super_map(MFFileHandle	handle,SLONG save_type)
 {
 	SLONG	c0;
 
@@ -2549,15 +2549,15 @@ void SUPERMAP_counter_increase(UBYTE which)
 
 #ifndef	PSX
 
-struct	Levels
+struct Levels
 {
-	CBYTE *name;
-	CBYTE *map_name;
+	CBYTE* name;
+	CBYTE* map_name;
 	UWORD level;
 	ULONG	dontload;
 };
 
-struct	Levels levels_quick[]=
+struct Levels levels_quick[]=
 {
 //	{"finale1","Roof1.map",32},
 	{"BAALROG3","Balbash1.map",31},
@@ -2572,13 +2572,13 @@ struct Levels levels_demo[] =
 	{"","",0}
 };
 
-struct	Levels levels2[]=
+struct Levels levels2[]=
 {
 	{"skymiss2","skymap30.map",25,0}, //problem
 	{"","",0}
 };
 
-struct	Levels levels[]=
+struct Levels levels[]=
 {
 	
 	{"FTutor1","fight1.map",1,0},    //0
@@ -2633,19 +2633,19 @@ struct	Levels levels[]=
 // create PSX tims (oh my god)
 //
 
-UWORD	pals16[256][64];  // a single page holds all pals
-UBYTE	psx_tim_page[256][128];
+UWORD pals16[256][64];  // a single page holds all pals
+UBYTE psx_tim_page[256][128];
 
 
-UWORD	moved_from[16*64];
-UWORD	moved_to[16*64];
+UWORD moved_from[16*64];
+UWORD moved_to[16*64];
 
-struct	TimStuff
+struct TimStuff
 {
 	int	Stb,ClutX,ClutY,PageX,PageY;
 };
 
-struct	TimStuff tim_stuff[]=
+struct TimStuff tim_stuff[]=
 {
 	{0,0,500,512+64*0,0},
 	{0,0,500,512+64*1,0},
@@ -2678,7 +2678,7 @@ struct	TimStuff tim_stuff[]=
 };
 
 
-SLONG	load_alt_pal(char *fname,UBYTE *pal)
+SLONG load_alt_pal(char *fname,UBYTE *pal)
 {
 	FILE *handle,*phandle;
 	UBYTE	remap_pal[256*4];
@@ -2736,7 +2736,7 @@ file_error:;
 	return(0);
 }
 
-void	save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom)
+void save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom)
 {
 	FILE *handle;
 	SLONG	x,y;
@@ -2799,7 +2799,7 @@ void	save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom
 
 }
 
-void	save_tim_pal16(char *fname,UWORD index,SLONG	dy,SLONG height)
+void save_tim_pal16(char *fname,UWORD index,SLONG	dy,SLONG height)
 {
 	FILE *handle;
 	int	x,y;
@@ -2864,7 +2864,7 @@ void	save_tim_pal16(char *fname,UWORD index,SLONG	dy,SLONG height)
 }
 
 
-void	copy_to_psx_tim(UBYTE *data,SLONG w,SLONG h,UBYTE *pal,SLONG tim_x,SLONG tim_y)
+void copy_to_psx_tim(UBYTE *data,SLONG w,SLONG h,UBYTE *pal,SLONG tim_x,SLONG tim_y)
 {
 	SLONG	px,py;
 	SLONG	a,b;
@@ -2894,7 +2894,7 @@ void	copy_to_psx_tim(UBYTE *data,SLONG w,SLONG h,UBYTE *pal,SLONG tim_x,SLONG ti
 	#define TEXTURE_DIR "u:\\urbanchaos\\gary16\\"
 #endif
 
-void	make_psx_pal(UWORD page_id,UBYTE *pal)
+void make_psx_pal(UWORD page_id,UBYTE *pal)
 {
 	SLONG	c0;
 	UWORD	col;
@@ -2931,7 +2931,7 @@ void	make_psx_pal(UWORD page_id,UBYTE *pal)
 
 #ifdef EDITOR 
 
-void	copyfile_to_level(CBYTE *str)
+void copyfile_to_level(CBYTE* str)
 {
 	SLONG	fname;
 	CBYTE	str2[100];
@@ -2970,7 +2970,7 @@ void	copyfile_to_level(CBYTE *str)
 	}
 }
 
-void	build_floor_tims()
+void build_floor_tims()
 {
 	SLONG	page,x,y;
 	CBYTE	str[128];
@@ -3047,7 +3047,7 @@ void	build_floor_tims()
 #endif
 
 
-void	build_wall_tims()
+void build_wall_tims()
 {
 	SLONG	page,x,y;
 	CBYTE	str[128];
@@ -3108,7 +3108,7 @@ void	build_wall_tims()
 //
 // Editor saves out tims for wall and floor, floor is a random quantity
 //
-void	build_tims(UWORD	next_texture)
+void build_tims(UWORD	next_texture)
 {
 	CBYTE	str[256];
 	FILE *handle;
@@ -3132,13 +3132,13 @@ void	build_tims(UWORD	next_texture)
 }
 #endif
 
-UWORD	prims_remap[30*64];
+UWORD prims_remap[30*64];
 
 
 
 
 
-SLONG	remap_a_prim_face(UWORD page,SLONG *next_page,SLONG level_no,SLONG start_page)
+SLONG remap_a_prim_face(UWORD page,SLONG *next_page,SLONG level_no,SLONG start_page)
 {
 #ifdef	EDITOR
 
@@ -3230,7 +3230,7 @@ SLONG	remap_a_prim_face(UWORD page,SLONG *next_page,SLONG level_no,SLONG start_p
 }
 
 
-SLONG	setup_psx_jackets(SLONG level_no,SLONG next_page,SLONG start_page)
+SLONG setup_psx_jackets(SLONG level_no,SLONG next_page,SLONG start_page)
 {
 
 	remap_a_prim_face(1*64+21,&next_page,level_no,start_page);
@@ -3253,7 +3253,7 @@ SLONG	setup_psx_jackets(SLONG level_no,SLONG next_page,SLONG start_page)
 }
 
 
-SLONG	get_level_no(CBYTE *name)
+SLONG get_level_no(CBYTE* name)
 {
 	SLONG	p0,p1,c0=0;
 
@@ -3285,8 +3285,8 @@ SLONG	get_level_no(CBYTE *name)
 
 
 
-UWORD	psx_start_page;
-SLONG	build_tims_ingame(CBYTE *name)
+UWORD psx_start_page;
+SLONG build_tims_ingame(CBYTE* name)
 {
 	SLONG	c0;
 	PrimFace4  *p_f4;
@@ -3506,7 +3506,7 @@ SLONG	build_tims_ingame(CBYTE *name)
 
 
 
-void	move_texture(UWORD from,UWORD to)
+void move_texture(UWORD from,UWORD to)
 {
 #ifdef	EDITOR
 	SLONG	x,y;
@@ -3537,9 +3537,9 @@ void	move_texture(UWORD from,UWORD to)
 #endif
 
 }
-extern	UWORD	page_count[];
+extern UWORD	page_count[];
 
-UWORD	get_split_bits(UWORD tex)
+UWORD get_split_bits(UWORD tex)
 {
 	switch(tex&0x3ff)
 	{
@@ -3580,7 +3580,7 @@ UWORD	get_split_bits(UWORD tex)
 }
 
 #ifdef EDITOR 
-SLONG	remap_floor_psx()
+SLONG remap_floor_psx()
 {
 	SLONG	x,z;
 	SLONG	current=4*64;
@@ -3645,12 +3645,12 @@ SLONG	remap_floor_psx()
 	return(current);
 }
 
-SLONG	remap_walls()
+SLONG remap_walls()
 {
 	return(0);
 
 }
-void	remap_textures_psx()
+void remap_textures_psx()
 {
 	
 	//
@@ -3664,10 +3664,10 @@ void	remap_textures_psx()
 }
 #endif
 
-bool	game_create_psx(CBYTE *mission_name);
-bool	make_texture_clumps(CBYTE *mission_name);
-extern	void		TesterText(CBYTE *error, ...);
-extern	CBYTE	ELEV_fname_level   [];
+bool game_create_psx(CBYTE* mission_name);
+bool make_texture_clumps(CBYTE* mission_name);
+extern void		TesterText(CBYTE* error, ...);
+extern CBYTE	ELEV_fname_level   [];
 
 //SLONG    MAV_opt_upto;
 
@@ -3675,9 +3675,9 @@ extern	CBYTE	ELEV_fname_level   [];
 #ifndef TARGET_DC
 
 
-SWORD	people_types[50];
-ULONG	DONT_load=0; // nice global used for people loading
-void	save_all_nads()
+SWORD people_types[50];
+ULONG DONT_load=0; // nice global used for people loading
+void save_all_nads()
 {
 #ifdef	EDITOR
 	SLONG	p0,p1,c0=0;
@@ -3720,7 +3720,7 @@ void	save_all_nads()
 		TRACE("bLevel: %s \n",levels[c0].name);
 		game_create_psx(name);
 		TRACE("cLevel: %s \n",levels[c0].name);
-void	count_people_types();
+void count_people_types();
 		count_people_types();
 
 
@@ -3752,7 +3752,7 @@ void	count_people_types();
 
 extern int	TEXTURE_create_clump;
 
-void	make_all_clumps()
+void make_all_clumps()
 {
 #ifdef TARGET_DC
 	// One day, I need to write a clumper.

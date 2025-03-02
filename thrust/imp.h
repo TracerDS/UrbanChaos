@@ -204,7 +204,7 @@ typedef struct
 
 } IMP_Mesh;
 
-IMP_Mesh IMP_load(CBYTE *fname, float scale = 1.0F);
+IMP_Mesh IMP_load(CBYTE* fname, float scale = 1.0F);
 
 
 //

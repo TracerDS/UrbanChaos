@@ -35,7 +35,7 @@ as possible, and the function will return WALLHUG_FAILED, otherwise it
 will return something else.
 
 wallhug_trivial just does a normal wallhug
-wallhug_tricky  cleans the path up a bit so it looks less foolish.
+wallhug_tricky cleans the path up a bit so it looks less foolish.
 
 *****************************************************************************/
 

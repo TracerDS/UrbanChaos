@@ -66,39 +66,39 @@ struct	PolyInfo
 
 //DATA
 
-extern	SLONG	div_table[65536];
-extern	UWORD	*tmaps[];
-extern	UBYTE	*pals[];
-extern	UBYTE	tmap[];
-extern	UBYTE	tmap2[];
-extern	UBYTE	fade_tables[256*65];
-extern	UBYTE	mix_map[256*256];
-extern	UWORD	pal_to_16[256];
-extern	struct	PolyInfo	poly_info;
+extern SLONG	div_table[65536];
+extern UWORD	*tmaps[];
+extern UBYTE	*pals[];
+extern UBYTE	tmap[];
+extern UBYTE	tmap2[];
+extern UBYTE	fade_tables[256*65];
+extern UBYTE	mix_map[256*256];
+extern UWORD	pal_to_16[256];
+extern struct	PolyInfo	poly_info;
 
 // FUNCTIONS
 
-extern	UWORD	is_it_clockwise(const struct	EnginePoint	*point1,const struct	EnginePoint *point2,const struct	EnginePoint *point3);
-extern	void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
-extern	void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
-//extern	void	my_trig(struct EnginePoint *p3,struct EnginePoint *p2,struct EnginePoint *p1);
-extern	void	init_tmap();
-extern	void	make_fade_table(UBYTE *pal);
-extern	void	make_mix_map(UBYTE *pal);
-extern	void	double_work_window();
-extern	void	init_poly_system();
-extern	void	my_quad(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
+extern UWORD	is_it_clockwise(const struct	EnginePoint	*point1,const struct	EnginePoint *point2,const struct	EnginePoint *point3);
+extern void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
+extern void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
+//extern void	my_trig(struct EnginePoint *p3,struct EnginePoint *p2,struct EnginePoint *p1);
+extern void	init_tmap();
+extern void	make_fade_table(UBYTE *pal);
+extern void	make_mix_map(UBYTE *pal);
+extern void	double_work_window();
+extern void	init_poly_system();
+extern void	my_quad(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
 
-extern	void	render_span8(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
-extern	void	render_span16(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
-extern	void	render_span32(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+extern void	render_span8(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+extern void	render_span16(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+extern void	render_span32(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
 
-extern	void	(*render_span)(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+extern void	(*render_span)(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
 
 
-extern	void	draw_all_spans();
-extern	void	my_quad_noz(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
-extern	void	my_trig_noz(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2);
+extern void	draw_all_spans();
+extern void	my_quad_noz(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
+extern void	my_trig_noz(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2);
 
 
 #endif

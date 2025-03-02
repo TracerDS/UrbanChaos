@@ -14,12 +14,12 @@ volatile UBYTE	Keys[256],
 				LastKey;
 
 //*************************************KEYBOARD STUFF ****************
-static	SWORD	keyboard_patched=0;
-static	UBYTE				oinkey;
-static	void __interrupt far (*old_int)();
-static	void __interrupt far Keyboard_Int();
+static SWORD	keyboard_patched=0;
+static UBYTE				oinkey;
+static void __interrupt far (*old_int)();
+static void __interrupt far Keyboard_Int();
 
-bool	SetupKeyboard()
+bool SetupKeyboard()
 {
 	SWORD	c0;
 	if(keyboard_patched)
@@ -37,7 +37,7 @@ bool	SetupKeyboard()
 	return (1);
 }
 
-void	ResetKeyboard()
+void ResetKeyboard()
 {
 	if(!keyboard_patched)
 		return;
@@ -47,7 +47,7 @@ void	ResetKeyboard()
 	return;
 }
 
-void	__interrupt far Keyboard_Int()
+void __interrupt far Keyboard_Int()
 {
 	SWORD	val,val2;
 	LastKey = (UBYTE)inp(0x060);

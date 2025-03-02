@@ -161,7 +161,7 @@ void VD_untransform(SLONG x_2d, SLONG y_2d, SLONG *x_3d, SLONG *y_3d, SLONG *z_3
 // Saves all the prims with interesting info.
 //
 
-void HMTAB_save_primgrids(CBYTE *fname)
+void HMTAB_save_primgrids(CBYTE* fname)
 {
 	SLONG i;
 	SLONG j;
@@ -274,7 +274,7 @@ void HMTAB_save_primgrids(CBYTE *fname)
 	return;
 }
 
-void HMTAB_load_primgrids(CBYTE *fname)
+void HMTAB_load_primgrids(CBYTE* fname)
 {
 	SLONG i;
 	SLONG j;

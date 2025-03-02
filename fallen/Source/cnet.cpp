@@ -15,7 +15,7 @@ UBYTE CNET_num_players=1;
 #ifndef	PSX
 #ifndef TARGET_DC
 
-void CNET_display_error(CBYTE *error)
+void CNET_display_error(CBYTE* error)
 {
 	SLONG i;
 
@@ -66,7 +66,7 @@ SLONG CNET_configure()
 
 	NET_Message mess;
 
-	CBYTE *my_name;
+	CBYTE* my_name;
 
 	#define NUM_WORDS 8
 	#define NUM_NAMES 16
@@ -76,7 +76,7 @@ SLONG CNET_configure()
 #endif
 #endif
 
-	CBYTE *word[NUM_WORDS] =
+	CBYTE* word[NUM_WORDS] =
 	{
 		"City",
 		"Fallen",
@@ -88,7 +88,7 @@ SLONG CNET_configure()
 		"Siren"
 	};
 
-	CBYTE *name[NUM_NAMES] =
+	CBYTE* name[NUM_NAMES] =
 	{
 		"Dipsy",
 		"La La",

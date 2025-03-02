@@ -76,7 +76,7 @@ TGA_Pixel COMP_tga_colour(float x, float y)
 
 
 
-SLONG COMP_load(CBYTE *filename, COMP_Frame *cf)
+SLONG COMP_load(CBYTE* filename, COMP_Frame *cf)
 {
 #ifdef TARGET_DC
 	// This has been spoofed to save memory -

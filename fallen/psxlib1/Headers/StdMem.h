@@ -6,10 +6,10 @@
 
 //---------------------------------------------------------------
 
-bool	SetupMemory();
-void	ResetMemory();
-void	*MemAlloc(ULONG size);
-void	MemFree(void *mem_ptr);
+bool SetupMemory();
+void ResetMemory();
+void* MemAlloc(ULONG size);
+void MemFree(void* mem_ptr);
 
 //---------------------------------------------------------------
 

@@ -83,7 +83,7 @@ typedef struct
 	
 } PUDDLE_Info;
 
-void         PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max);
+void PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max);
 PUDDLE_Info *PUDDLE_get_next();
 
 

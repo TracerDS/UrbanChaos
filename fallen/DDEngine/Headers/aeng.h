@@ -257,7 +257,7 @@ void AENG_blit();
 // Adds a message to the message system.
 //
 
-void MSG_add(CBYTE *message, ...);
+void MSG_add(CBYTE* message, ...);
 //#define MSG_add
 
 //
@@ -266,7 +266,7 @@ void MSG_add(CBYTE *message, ...);
 
 void  AENG_clear_screen();
 SLONG AENG_lock();
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE *text, ...);
+SLONG FONT_draw(SLONG x, SLONG y, CBYTE* text, ...);
 void  AENG_unlock();
 
 
@@ -363,7 +363,7 @@ void AENG_world_text(
 		UBYTE  blue,
 		UBYTE  green,
 		UBYTE  shadowed_or_not,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 
 
 
@@ -416,10 +416,10 @@ void AENG_groundsquare_draw(
 //
 // panel stuff
 //
-extern	void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
-extern	void	PANEL_draw_timer(SLONG time_in_hundreths, SLONG x, SLONG y);
-extern	void	PANEL_draw_buffered();	// Actually draws the timers....
-extern	void	PANEL_finish();
+extern void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
+extern void	PANEL_draw_timer(SLONG time_in_hundreths, SLONG x, SLONG y);
+extern void	PANEL_draw_buffered();	// Actually draws the timers....
+extern void	PANEL_finish();
 
 //
 // detail level stuff

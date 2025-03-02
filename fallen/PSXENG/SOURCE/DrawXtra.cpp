@@ -25,16 +25,16 @@
 
 extern PSX_POLY_Point *perm_pp_array;
 
-SLONG	steam_seed;
+SLONG steam_seed;
 
-SLONG	get_steam_rand()
+SLONG get_steam_rand()
 {
 	steam_seed*=31415965;
 	steam_seed+=123456789;
 	return(steam_seed>>8);
 }
 
-void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
+void draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 {
 	SLONG	c0;
 	SLONG	trans;
@@ -135,7 +135,7 @@ void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 }
 
 #if 0
-void	draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base)
+void draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base)
 {
 //	SLONG	c0;
 	SLONG	trans;

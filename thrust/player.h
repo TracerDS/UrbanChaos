@@ -123,7 +123,7 @@ void PLAYER_new_gameturn(SLONG gameturn);
 #define PLAYER_CREATE_TIMED_OUT       2
 
 SLONG PLAYER_create_local(
-		CBYTE *name,
+		CBYTE* name,
 		UBYTE  red,
 		UBYTE  green,
 		UBYTE  blue,

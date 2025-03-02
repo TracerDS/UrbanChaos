@@ -24,7 +24,7 @@ static UBYTE completed_missions = 0;
 static SWORD current_selection = -1;
 CBYTE BRIEFING_mission_filename[_MAX_PATH];
 
-CBYTE *mission_names[] = {
+CBYTE* mission_names[] = {
 	"FIRST ASSIGNMENT",
 	"RESCUE ROPER",
 	"AIRBASE",
@@ -35,7 +35,7 @@ CBYTE *mission_names[] = {
 	"POLICE STATION"
 };
 
-CBYTE *mission_filenames[] = {
+CBYTE* mission_filenames[] = {
 	"mission1.ucm",
 	"breakin1.ucm",
 	"air1b.ucm",

@@ -17,7 +17,7 @@
 CBYTE		*nav_text;
 SLONG		 nav_person;
 
-extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
+extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 
@@ -148,7 +148,7 @@ void	do_nav_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 /*
-CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
 		strcpy(msg,(CBYTE*)ep->Data[0]);

@@ -67,8 +67,8 @@ UBYTE						editor_loop();
 #define	FREE_UNSHARED_TEXTURES	(1<<1)
 #define	FREE_ALL_TEXTURES		(3)
 
-extern	void	load_game_textures(UBYTE flags);
-extern	void	free_game_textures(UBYTE flags);
+extern void	load_game_textures(UBYTE flags);
+extern void	free_game_textures(UBYTE flags);
 
 
 #endif

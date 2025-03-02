@@ -10,7 +10,7 @@
 
 
 TRIP_Wire *TRIP_wire;//[TRIP_MAX_WIRES];
-SLONG     TRIP_wire_upto;
+SLONG TRIP_wire_upto;
 
 
 #ifndef PSX
@@ -293,7 +293,7 @@ void TRIP_process()
 	}
 }
 
-SLONG     TRIP_get_upto;
+SLONG TRIP_get_upto;
 TRIP_Info TRIP_get_info;
 
 void TRIP_get_start()

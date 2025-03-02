@@ -27,7 +27,7 @@ typedef struct
 #define CONSOLE_MAX_LINES 35
 
 CONSOLE_Line CONSOLE_line[CONSOLE_MAX_LINES];
-SLONG        CONSOLE_line_upto;	// Just keeps going up beyond CONSOLE_MAX_LINES...
+SLONG CONSOLE_line_upto;	// Just keeps going up beyond CONSOLE_MAX_LINES...
 
 
 
@@ -96,7 +96,7 @@ void CONSOLE_draw()
 
 
 
-void CONSOLE_print(CBYTE *fmt, ...)
+void CONSOLE_print(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -129,7 +129,7 @@ void CONSOLE_print(CBYTE *fmt, ...)
 }
 
 
-CBYTE *CONSOLE_input()
+CBYTE* CONSOLE_input()
 {
 	CBYTE        *ch;
 	CONSOLE_Line *cl;

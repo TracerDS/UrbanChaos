@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-void	init_draw_tweens()
+void init_draw_tweens()
 {
 	SLONG	c0;
 	memset((UBYTE*)DRAW_TWEENS,0,sizeof(DrawTween)*MAX_DRAW_TWEENS);
@@ -21,7 +21,7 @@ void	init_draw_tweens()
 
 //---------------------------------------------------------------
 
-DrawTween	*alloc_draw_tween(SLONG type)
+DrawTween *alloc_draw_tween(SLONG type)
 {
 	SLONG			c0;
 	DrawTween		*new_draw=0;
@@ -58,7 +58,7 @@ SLONG count_draw_tween ( void );
 	return(0);
 }
 
-SLONG	count_draw_tween()
+SLONG count_draw_tween()
 {
 	SLONG			c0;
 	SLONG	count=0;
@@ -77,7 +77,7 @@ SLONG	count_draw_tween()
 
 //---------------------------------------------------------------
 
-void	free_draw_tween(DrawTween *draw_tween)
+void free_draw_tween(DrawTween *draw_tween)
 {
 	// Set the camera type to none & free the thing.
 //	draw_tween->LDrawType	=	DT_NONE;

@@ -10,18 +10,18 @@
 
 #if 0
 #else
-void *dud_malloc_init(void* base,void* end);
-void *dud_malloc(SLONG size);
-void dud_free(void *p);
+void* dud_malloc_init(void* base,void* end);
+void* dud_malloc(SLONG size);
+void dud_free(void* p);
 #endif
 
-ULONG	heap_index=0;
+ULONG heap_index=0;
 SLONG total_mem_size;
 SLONG bucket_mem_size;
 
 //---------------------------------------------------------------
 
-bool	SetupMemory()
+bool SetupMemory()
 {
 
 #ifdef FS_ISO9660
@@ -43,13 +43,13 @@ bool	SetupMemory()
 
 //---------------------------------------------------------------
 
-void	ResetMemory()
+void ResetMemory()
 {
 }
 
 //---------------------------------------------------------------
 
-void	*MemAlloc(ULONG size)
+void* MemAlloc(ULONG size)
 {
 	/*
 	SLONG	pos;
@@ -68,7 +68,7 @@ void	*MemAlloc(ULONG size)
 
 //---------------------------------------------------------------
 
-void	MemFree(void *mem_ptr)
+void MemFree(void* mem_ptr)
 {
 #if 1
 	free3(mem_ptr);
@@ -79,7 +79,7 @@ void	MemFree(void *mem_ptr)
 
 //---------------------------------------------------------------
 
-void	ZeroMemory(void *mem_ptr,ULONG size)
+void ZeroMemory(void* mem_ptr,ULONG size)
 {
 	memset((UBYTE*)mem_ptr,0,size);
 

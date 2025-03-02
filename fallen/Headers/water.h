@@ -44,9 +44,9 @@ void WATER_process();
 // of the water points.
 //
 
-void  WATER_point_index_clear_all();
+void WATER_point_index_clear_all();
 UWORD WATER_point_index_get      (UWORD p_index);
-void  WATER_point_index_set      (UWORD p_index, UWORD index);
+void WATER_point_index_set      (UWORD p_index, UWORD index);
 
 //
 // Returns the first water face in the linked list above a square.

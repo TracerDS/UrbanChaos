@@ -21,10 +21,10 @@
 #include	"c:\fallen\psxeng\headers\psxeng.h"
 #include	"c:\fallen\headers\game.h"
 
-SLONG				DisplayWidth,
+SLONG DisplayWidth,
 					DisplayHeight,
 					DisplayBPP;
-Display				the_display;
+Display the_display;
 
 #if 1
 char *GDisp_Bucket;
@@ -34,12 +34,12 @@ char GDisp_Bucket[BUCKET_MEM];
 
 #include "ctrller.h"
 
-ControllerPacket	PAD_Input1,PAD_Input2;
+ControllerPacket PAD_Input1,PAD_Input2;
 
 ULONG GDisp_OTag[OTSIZE];
 ULONG GDisp_OTag2[OTSIZE];
 
-extern void	PCReadFile(CBYTE *name,UBYTE *addr,ULONG len);
+extern void	PCReadFile(CBYTE* name,UBYTE *addr,ULONG len);
 extern UBYTE Wadmenu_Backdrop[];
 
 extern void MFX_init();
@@ -49,7 +49,7 @@ extern int screen_x;
 extern int screen_y;
 
 //---------------------------------------------------------------
-SLONG	InitHardware()
+SLONG InitHardware()
 {
 	UBYTE act[2];
 #ifndef FS_ISO9660
@@ -78,7 +78,7 @@ SLONG	InitHardware()
 
 }
 
-void	InitVideo()
+void InitVideo()
 {
 	ResetGraph(0);		/* reset graphic subsystem (0:cold,1:warm) */
 	SetGraphDebug(0);	/* set debug mode (0:off, 1:monitor, 2:dump) */
@@ -98,7 +98,7 @@ void	InitVideo()
 	return(1);
 }
 
-void	ReleaseHardware()
+void ReleaseHardware()
 {
 	StopCallback();
 	PadStopCom();
@@ -106,7 +106,7 @@ void	ReleaseHardware()
 }
 
 
-UWORD	psx_tpages[22];
+UWORD psx_tpages[22];
 //UWORD	psx_tpages_clut[16];
 
 #define	MAX_PATH	128
@@ -116,10 +116,10 @@ UWORD	psx_tpages[22];
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern  SLONG	SpecialSize(SLONG handle);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialSize(SLONG handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -133,7 +133,7 @@ extern  SLONG	SpecialSize(SLONG handle);
 #define	fclose(x)		SpecialClose(x)
 #define	fread(a,s1,s2,h) SpecialRead(h,a,s1*s2)
 
-void	setup_textures(int world)
+void setup_textures(int world)
 {
 	UBYTE	*addr;
 	CBYTE	name[32];
@@ -212,7 +212,7 @@ void	setup_textures(int world)
 
 void TEXTURE_choose_set(SLONG number)
 {
-//extern	void	load_texture_styles(UBYTE editor, UBYTE world);
+//extern void	load_texture_styles(UBYTE editor, UBYTE world);
 //	number=13;
 //	load_texture_styles(false, number);
 	setup_textures(number);
@@ -246,7 +246,7 @@ void LoadTitle()
 */
 
 #if 1
-void	GDisp_SetupBucketMem(char *addr,SLONG size)
+void GDisp_SetupBucketMem(char *addr,SLONG size)
 {
 	// Clear the ordering tables (we dont want stray polygons in an area of memory that
 	// is no longer valid.
@@ -265,7 +265,7 @@ void	GDisp_SetupBucketMem(char *addr,SLONG size)
 }   
 #endif
 		  
-SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 {
 	/* initialize environment for double buffer 
 	 *	buffer #0:	(0,  0)-(320,240) (320x240)
@@ -323,7 +323,7 @@ SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 	// Commented out whilst menu is in, this was only temporary only NEway
 //	LoadTitle();
 //	setup_textures(0);
-extern	void AENG_flip_init();
+extern void AENG_flip_init();
 	AENG_flip_init();
 
 	return(0);
@@ -354,35 +354,35 @@ void SetDisplayFade()
 
 //---------------------------------------------------------------
 
-SLONG	CloseDisplay()
+SLONG CloseDisplay()
 {
 }
 
 //---------------------------------------------------------------
 
-SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth)
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 {
 }
 
 
-void	ShowBackImage()
+void ShowBackImage()
 {
 }
-void	LoadBackImage(CBYTE *name)
+void LoadBackImage(CBYTE* name)
 {
 }
-void	InitBackImage(CBYTE *name)
+void InitBackImage(CBYTE* name)
 {
 }
-void	ResetBackImage()
+void ResetBackImage()
 {
 }
 
-UBYTE	psx_motor[2];
+UBYTE psx_motor[2];
 extern int vibra_mode;
 extern int psx_send;
 
-void	PSX_SetShock(UBYTE fast,UBYTE slow)
+void PSX_SetShock(UBYTE fast,UBYTE slow)
 {
 
 	if (vibra_mode && !(GAME_STATE &(GS_LEVEL_LOST|GS_LEVEL_WON)))

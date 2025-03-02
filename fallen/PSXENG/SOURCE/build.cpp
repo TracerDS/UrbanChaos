@@ -8,7 +8,7 @@
 //#include "light.h"
 #include "build.h"
 
-SLONG	check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
+SLONG check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
 {
 	SLONG	step_x,step_z;
 	SLONG	count;
@@ -100,7 +100,7 @@ SLONG	check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
 	return(0);
 }
 #ifndef	PSX
-SLONG	check_col_vect(SLONG vect)
+SLONG check_col_vect(SLONG vect)
 {
 	CollisionVect *p_vect;
 	SLONG	draw;
@@ -152,7 +152,7 @@ SLONG	check_col_vect(SLONG vect)
 	return(draw);
 
 }
-SLONG	draw_bound_box(struct BoundBox *p_box,SLONG r,SLONG g,SLONG b)
+SLONG draw_bound_box(struct BoundBox *p_box,SLONG r,SLONG g,SLONG b)
 {
 	return(0);
 
@@ -167,7 +167,7 @@ SLONG	draw_bound_box(struct BoundBox *p_box,SLONG r,SLONG g,SLONG b)
 	addPrim(&the_display.CurrentDisplayBuffer->ot[4095],p);
 }
 
-SLONG	check_roof_facet(SLONG bbox)
+SLONG check_roof_facet(SLONG bbox)
 {
 	struct	BoundBox *p_box;
 	SLONG	x,z;
@@ -216,7 +216,7 @@ SLONG	check_roof_facet(SLONG bbox)
 
 
 
-SLONG	check_facet(SLONG bx,SLONG by,SLONG bz,SLONG bf_index)
+SLONG check_facet(SLONG bx,SLONG by,SLONG bz,SLONG bf_index)
 {
 	BuildingFacet  *bf;
 

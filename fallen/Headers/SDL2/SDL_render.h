@@ -550,7 +550,7 @@ extern DECLSPEC int SDLCALL SDL_GetTextureScaleMode(SDL_Texture * texture,
  * \sa SDL_GetTextureUserData
  */
 extern DECLSPEC int SDLCALL SDL_SetTextureUserData(SDL_Texture * texture,
-                                                   void *userdata);
+                                                   void* userdata);
 
 /**
  * Get the user-specified pointer associated with a texture
@@ -563,7 +563,7 @@ extern DECLSPEC int SDLCALL SDL_SetTextureUserData(SDL_Texture * texture,
  *
  * \sa SDL_SetTextureUserData
  */
-extern DECLSPEC void * SDLCALL SDL_GetTextureUserData(SDL_Texture * texture);
+extern DECLSPEC void*  SDLCALL SDL_GetTextureUserData(SDL_Texture * texture);
 
 /**
  * Update the given texture rectangle with new pixel data.
@@ -596,7 +596,7 @@ extern DECLSPEC void * SDLCALL SDL_GetTextureUserData(SDL_Texture * texture);
  */
 extern DECLSPEC int SDLCALL SDL_UpdateTexture(SDL_Texture * texture,
                                               const SDL_Rect * rect,
-                                              const void *pixels, int pitch);
+                                              const void* pixels, int pitch);
 
 /**
  * Update a rectangle within a planar YV12 or IYUV texture with new pixel
@@ -685,7 +685,7 @@ extern DECLSPEC int SDLCALL SDL_UpdateNVTexture(SDL_Texture * texture,
  */
 extern DECLSPEC int SDLCALL SDL_LockTexture(SDL_Texture * texture,
                                             const SDL_Rect * rect,
-                                            void **pixels, int *pitch);
+                                            void* *pixels, int *pitch);
 
 /**
  * Lock a portion of the texture for **write-only** pixel access, and expose
@@ -1677,7 +1677,7 @@ extern DECLSPEC int SDLCALL SDL_RenderGeometryRaw(SDL_Renderer *renderer,
                                                const SDL_Color *color, int color_stride,
                                                const float *uv, int uv_stride,
                                                int num_vertices,
-                                               const void *indices, int num_indices, int size_indices);
+                                               const void* indices, int num_indices, int size_indices);
 
 /**
  * Read pixels from the current rendering target to an array of pixels.
@@ -1708,7 +1708,7 @@ extern DECLSPEC int SDLCALL SDL_RenderGeometryRaw(SDL_Renderer *renderer,
 extern DECLSPEC int SDLCALL SDL_RenderReadPixels(SDL_Renderer * renderer,
                                                  const SDL_Rect * rect,
                                                  Uint32 format,
-                                                 void *pixels, int pitch);
+                                                 void* pixels, int pitch);
 
 /**
  * Update the screen with any rendering performed since the previous call.
@@ -1868,7 +1868,7 @@ extern DECLSPEC int SDLCALL SDL_GL_UnbindTexture(SDL_Texture *texture);
 /**
  * Get the CAMetalLayer associated with the given Metal renderer.
  *
- * This function returns `void *`, so SDL doesn't have to include Metal's
+ * This function returns `void* `, so SDL doesn't have to include Metal's
  * headers, but it can be safely cast to a `CAMetalLayer *`.
  *
  * \param renderer The renderer to query
@@ -1879,12 +1879,12 @@ extern DECLSPEC int SDLCALL SDL_GL_UnbindTexture(SDL_Texture *texture);
  *
  * \sa SDL_RenderGetMetalCommandEncoder
  */
-extern DECLSPEC void *SDLCALL SDL_RenderGetMetalLayer(SDL_Renderer * renderer);
+extern DECLSPEC void* SDLCALL SDL_RenderGetMetalLayer(SDL_Renderer * renderer);
 
 /**
  * Get the Metal command encoder for the current frame
  *
- * This function returns `void *`, so SDL doesn't have to include Metal's
+ * This function returns `void* `, so SDL doesn't have to include Metal's
  * headers, but it can be safely cast to an `id<MTLRenderCommandEncoder>`.
  *
  * Note that as of SDL 2.0.18, this will return NULL if Metal refuses to give
@@ -1900,7 +1900,7 @@ extern DECLSPEC void *SDLCALL SDL_RenderGetMetalLayer(SDL_Renderer * renderer);
  *
  * \sa SDL_RenderGetMetalLayer
  */
-extern DECLSPEC void *SDLCALL SDL_RenderGetMetalCommandEncoder(SDL_Renderer * renderer);
+extern DECLSPEC void* SDLCALL SDL_RenderGetMetalCommandEncoder(SDL_Renderer * renderer);
 
 /**
  * Toggle VSync of the given renderer.

@@ -20,24 +20,24 @@
 //
 
 PLAYER_Key PLAYER_key[PLAYER_MAX_PLAYERS];
-SLONG      PLAYER_key_start;
-SLONG      PLAYER_key_gameturn;
+SLONG PLAYER_key_start;
+SLONG PLAYER_key_gameturn;
 
 //
 // The messages relating to players joining and leaving the game.
 //
 
 PLAYER_Message *PLAYER_message[PLAYER_NUM_MESSAGES];
-SLONG           PLAYER_message_start;
-SLONG           PLAYER_message_gameturn;
+SLONG PLAYER_message_start;
+SLONG PLAYER_message_gameturn;
 
 //
 // The gamestate into the past.
 //
 
 PLAYER_Gamestate PLAYER_gamestate[PLAYER_NUM_GAMESTATES];
-SLONG            PLAYER_gamestate_start;
-SLONG            PLAYER_gamestate_gameturn;
+SLONG PLAYER_gamestate_start;
+SLONG PLAYER_gamestate_gameturn;
 
 
 //
@@ -118,7 +118,7 @@ void PLAYER_restore_gamestate(SLONG gameturn)
 
 
 SLONG PLAYER_create_local(
-		CBYTE *name,
+		CBYTE* name,
 		UBYTE  red,
 		UBYTE  green,
 		UBYTE  blue,
@@ -126,7 +126,7 @@ SLONG PLAYER_create_local(
 		float  ship_power)
 {
 	SLONG num_bytes;
-	void *data;
+	void* data;
 
 	//
 	// Say what we're doing...
@@ -582,7 +582,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 
 		while(PLAYER_message[PLAYER_message_gameturn & (PLAYER_NUM_MESSAGES - 1)])
 		{
-			void *free_me_up;
+			void* free_me_up;
 			
 			free_me_up                                                          = PLAYER_message[PLAYER_message_gameturn & (PLAYER_NUM_MESSAGES - 1)];
 			PLAYER_message[PLAYER_message_gameturn & (PLAYER_NUM_MESSAGES - 1)] = PLAYER_message[PLAYER_message_gameturn & (PLAYER_NUM_MESSAGES - 1)]->next;

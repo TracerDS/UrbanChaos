@@ -26,7 +26,7 @@ void	cross_work_window(void)
 	DrawLineC(0,WorkWindowHeight-1,WorkWindowWidth-1,0,WHITE_COL);
 	
 }
-extern	void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+extern void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
 
 //---------------------------------------------------------------
 
@@ -847,7 +847,7 @@ void	PrimPickTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 	drawrect.FillRect(CONTENT_COL_BR);
 	drawrect.HiliteRect(HILITE_COL,HILITE_COL);
 	set_camera_plan();
-extern	void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 	{
 
 		SLONG	minx,maxx,minz,maxz;
@@ -1005,7 +1005,7 @@ void	PrimPickTab::DrawPrims(void)
 			if(prim==CurrentPrim)
 				rect.FillRect(LOLITE_COL);
 
-extern	void	drawkeyframeboxgamechunk(UWORD multi_object,EdRect *bounds_rect,struct GameKeyFrame *the_frame,struct Matrix33 *r_matrix,SLONG person_id,struct GameKeyFrameChunk *the_chunk);
+extern void	drawkeyframeboxgamechunk(UWORD multi_object,EdRect *bounds_rect,struct GameKeyFrame *the_frame,struct Matrix33 *r_matrix,SLONG person_id,struct GameKeyFrameChunk *the_chunk);
 
 			if(anim_chunk[prim].MultiObject[0])
 				drawkeyframeboxgamechunk(anim_chunk[prim].MultiObject[0],&rect,anim_chunk[prim].AnimList[1],&r_matrix,0,&anim_chunk[prim]);
@@ -1393,7 +1393,7 @@ SLONG	PrimPickTab::DragAPrim(UBYTE flags,MFPoint *clicked_point,SLONG button)
 	}
 	*/
 
-extern	void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 	{
 
 		SLONG	minx,maxx,minz,maxz;
@@ -1664,7 +1664,7 @@ SLONG	PrimPickTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-extern	SLONG	calc_edit_height_at(SLONG x,SLONG z);
+extern SLONG	calc_edit_height_at(SLONG x,SLONG z);
 
 SLONG	PrimPickTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
 {
@@ -1700,7 +1700,7 @@ SLONG	PrimPickTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,S
 							SLONG	px,py,pz,y;
 							find_things_min_point(CurrentPrim,&px,&py,&pz);
 
-extern	SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 							y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
 							//y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
 
@@ -1715,7 +1715,7 @@ extern	SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 							SLONG	px,py,pz,y;
 							find_things_min_point(CurrentPrim,&px,&py,&pz);
 
-extern	SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 							//y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
 							y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
 
@@ -1735,7 +1735,7 @@ SLONG	place_anim_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z);
 							SLONG	px,py,pz,y;
 /* HERE HERE HERE */		find_things_min_point(CurrentPrim,&px,&py,&pz);
 
-extern	SLONG	find_alt_for_this_pos(SLONG x,SLONG z);
+extern SLONG	find_alt_for_this_pos(SLONG x,SLONG z);
 
 							y=find_alt_for_this_pos(px,pz);
 //							y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
@@ -1975,7 +1975,7 @@ void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z)
 	
 }
 
-extern		void	clear_map2(void);
+extern void	clear_map2(void);
 
 void	PrimPickTab::HandleControl(UWORD control_id)
 {

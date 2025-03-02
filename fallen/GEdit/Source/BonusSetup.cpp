@@ -159,7 +159,7 @@ void	do_bonus_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 
-CBYTE	*get_bonus_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_bonus_message(EventPoint *ep, CBYTE* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
 		strcpy(msg,(CBYTE*)ep->Data[0]);

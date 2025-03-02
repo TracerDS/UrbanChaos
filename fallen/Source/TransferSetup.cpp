@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	transfer_to;
+SLONG transfer_to;
 
 //---------------------------------------------------------------
 
@@ -32,7 +32,7 @@ SLONG	transfer_to;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -79,7 +79,7 @@ bool	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lPar
 
 //---------------------------------------------------------------
 
-void	do_transfer_pick(EventPoint *the_ep)
+void do_transfer_pick(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	transfer_to		=	the_ep->Data[0];

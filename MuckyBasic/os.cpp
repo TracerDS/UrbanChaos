@@ -37,10 +37,10 @@ extern void MAIN_main();
 
 HINSTANCE OS_this_instance;
 HINSTANCE OS_last_instance;
-LPSTR	  OS_command_line;
-int       OS_start_show_state;
+LPSTR OS_command_line;
+int OS_start_show_state;
 
-CBYTE    *OS_application_name = "muckyBASIC Virtual Machine";
+CBYTE* OS_application_name = "muckyBASIC Virtual Machine";
 
 //
 // Our window class.
@@ -52,7 +52,7 @@ WNDCLASSEX OS_wcl;
 // Our window handle and menu handle.
 //
 
-HWND  OS_window_handle;
+HWND OS_window_handle;
 
 //
 // The DirectX 6 framework library class.
@@ -103,8 +103,8 @@ volatile SLONG KEY_shift;
 //
 // ========================================================
 
-IDirectInput        *OS_joy_direct_input;
-IDirectInputDevice  *OS_joy_input_device;
+IDirectInput *OS_joy_direct_input;
+IDirectInputDevice *OS_joy_input_device;
 IDirectInputDevice2 *OS_joy_input_device2;	// We need this newer interface to poll the joystick.
 
 float OS_joy_x;
@@ -193,7 +193,7 @@ void OS_joy_init()
 		NULL,
 		CLSCTX_INPROC_SERVER,
 	    IID_IDirectInput8W,
-	    (void **) &OS_joy_direct_input);
+	    (void* *) &OS_joy_direct_input);
 
 	hr = OS_joy_direct_input->Initialize(OS_this_instance, DIRECTINPUT_VERSION);
 	
@@ -495,7 +495,7 @@ void OS_decompress_sound(
 	// Allocate the memory.
 	//
 
-   *dest_data = (void *) malloc(*dest_num_bytes);
+   *dest_data = (void* ) malloc(*dest_num_bytes);
 
 	if (!*dest_data)
 	{
@@ -572,11 +572,11 @@ void OS_decompress_sound(
 // Dsound globals.
 //
 
-SLONG                   OS_sound_valid;
-LPDIRECTSOUND           OS_sound_dsound;
-LPDIRECTSOUNDBUFFER     OS_sound_primary;
+SLONG OS_sound_valid;
+LPDIRECTSOUND OS_sound_dsound;
+LPDIRECTSOUNDBUFFER OS_sound_primary;
 LPDIRECTSOUND3DLISTENER OS_sound_listener;
-SLONG                   OS_sound_changed;	// true => we need to commit deferred settings.
+SLONG OS_sound_changed;	// true => we need to commit deferred settings.
 
 
 //
@@ -657,7 +657,7 @@ void OS_sound_init()
 	// Create the listener for 3D sounds.
 	//
 
-    if (OS_sound_primary->QueryInterface(IID_IDirectSound3DListener, (void ** ) &OS_sound_listener) != DS_OK)
+    if (OS_sound_primary->QueryInterface(IID_IDirectSound3DListener, (void* * ) &OS_sound_listener) != DS_OK)
 	{
 		return;
 	}
@@ -686,7 +686,7 @@ void OS_sound_init()
 }
 
 
-OS_Sound *OS_sound_create(CBYTE *fname, SLONG type)
+OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 {
 	SLONG i;
 
@@ -776,7 +776,7 @@ OS_Sound *OS_sound_create(CBYTE *fname, SLONG type)
 		// Read the data into a temporary buffer.
 		//
 
-		void *src = (void *) malloc(mmckinfoData.cksize);
+		void* src = (void* ) malloc(mmckinfoData.cksize);
 
 		if (WaveReadFile(
 				hmmio,              // file handle
@@ -804,7 +804,7 @@ OS_Sound *OS_sound_create(CBYTE *fname, SLONG type)
 	    destwfx.nAvgBytesPerSec = destwfx.nSamplesPerSec * destwfx.nBlockAlign;
 		destwfx.cbSize          = 0;
 
-		void *dest_data = NULL;
+		void* dest_data = NULL;
 		ULONG dest_num_bytes;
 
 		OS_decompress_sound(
@@ -860,7 +860,7 @@ OS_Sound *OS_sound_create(CBYTE *fname, SLONG type)
 		// Lock the sound buffer.
 		//
 
-		void *data;
+		void* data;
 		ULONG num_bytes;
 
 		if (os->buffer->Lock(
@@ -943,7 +943,7 @@ OS_Sound *OS_sound_create(CBYTE *fname, SLONG type)
 		// Lock the sound buffer.
 		//
 
-		void *data;
+		void* data;
 		ULONG num_bytes;
 
 		if (os->buffer->Lock(
@@ -993,7 +993,7 @@ OS_Sound *OS_sound_create(CBYTE *fname, SLONG type)
 
 	if (os->type == OS_SOUND_TYPE_3D)
 	{
-		if (FAILED(os->buffer->QueryInterface(IID_IDirectSound3DBuffer, (void **) &os->buffer3d)))
+		if (FAILED(os->buffer->QueryInterface(IID_IDirectSound3DBuffer, (void* *) &os->buffer3d)))
 		{
 			return NULL;
 		}
@@ -1094,7 +1094,7 @@ OS_Sound *OS_sound_create(UWORD *data, SLONG num_samples, SLONG type)
 	// Lock the sound buffer.
 	//
 
-	void *locked_data;
+	void* locked_data;
 	ULONG locked_bytes;
 
 	if (os->buffer->Lock(
@@ -1129,7 +1129,7 @@ OS_Sound *OS_sound_create(UWORD *data, SLONG num_samples, SLONG type)
 
 	if (os->type == OS_SOUND_TYPE_3D)
 	{
-		if (FAILED(os->buffer->QueryInterface(IID_IDirectSound3DBuffer, (void **) &os->buffer3d)))
+		if (FAILED(os->buffer->QueryInterface(IID_IDirectSound3DBuffer, (void* *) &os->buffer3d)))
 		{
 			return NULL;
 		}
@@ -1320,7 +1320,7 @@ typedef struct
 #define OS_MAX_TEXNAMES 1024
 
 OS_Texname OS_texname[OS_MAX_TEXNAMES];
-SLONG      OS_texname_upto;
+SLONG OS_texname_upto;
 
 
 
@@ -1671,7 +1671,7 @@ void OS_calculate_mask_and_shift(
 }
 
 
-CBYTE *OS_texture_full_path(CBYTE *fname)
+CBYTE* OS_texture_full_path(CBYTE* fname)
 {
 	SLONG i;
 
@@ -1709,7 +1709,7 @@ CBYTE *OS_texture_full_path(CBYTE *fname)
 
 TGA_Pixel OS_texture_tga[OS_TEXTURE_MAX_SIZE * OS_TEXTURE_MAX_SIZE];
 
-OS_Texture *OS_texture_create(CBYTE *fname, SLONG invert)
+OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 {
 	SLONG       format;
 	OS_Texture *ot;
@@ -1983,7 +1983,7 @@ OS_Texture *OS_texture_create(CBYTE *fname, SLONG invert)
 	// Query the texture interface from the surface.
 	//
 
-	VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void **) &ot->ddtx) == DD_OK);
+	VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void* *) &ot->ddtx) == DD_OK);
 
 	//
 	// Insert this texture into the array.
@@ -2135,7 +2135,7 @@ OS_Texture *OS_texture_create(SLONG width, SLONG height, SLONG format)
 	// Query the texture interface from the surface.
 	//
 
-	VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void **) &ot->ddtx) == DD_OK);
+	VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void* *) &ot->ddtx) == DD_OK);
 
 	//
 	// Insert this texture into the array.
@@ -2215,21 +2215,21 @@ SLONG OS_texture_height(OS_Texture *ot)
 
 
 
-SLONG  OS_bitmap_format;		// OS_TEXTURE_FORMAT_*
+SLONG OS_bitmap_format;		// OS_TEXTURE_FORMAT_*
 UWORD *OS_bitmap_uword_screen;	// For 16-bit formats.
-SLONG  OS_bitmap_uword_pitch;	// Pitch in UWORDS
+SLONG OS_bitmap_uword_pitch;	// Pitch in UWORDS
 UBYTE *OS_bitmap_ubyte_screen;	// For the grayscale format.
-SLONG  OS_bitmap_ubyte_pitch;	// Pitch in UBYTES
-SLONG  OS_bitmap_width;
-SLONG  OS_bitmap_height;
-SLONG  OS_bitmap_mask_r;
-SLONG  OS_bitmap_mask_g;
-SLONG  OS_bitmap_mask_b;
-SLONG  OS_bitmap_mask_a;
-SLONG  OS_bitmap_shift_r;
-SLONG  OS_bitmap_shift_g;
-SLONG  OS_bitmap_shift_b;
-SLONG  OS_bitmap_shift_a;
+SLONG OS_bitmap_ubyte_pitch;	// Pitch in UBYTES
+SLONG OS_bitmap_width;
+SLONG OS_bitmap_height;
+SLONG OS_bitmap_mask_r;
+SLONG OS_bitmap_mask_g;
+SLONG OS_bitmap_mask_b;
+SLONG OS_bitmap_mask_a;
+SLONG OS_bitmap_shift_r;
+SLONG OS_bitmap_shift_g;
+SLONG OS_bitmap_shift_b;
+SLONG OS_bitmap_shift_a;
 
 void OS_texture_lock(OS_Texture *ot)
 {
@@ -2698,7 +2698,7 @@ void OS_undo_renderstate_type_changes()
 //
 // ========================================================
 
-void OS_string(CBYTE *fmt, ...)
+void OS_string(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -2722,7 +2722,7 @@ SLONG OS_ticks()
 	return GetTickCount() - OS_game_start_tick_count;
 }
 
-void  OS_ticks_reset()
+void OS_ticks_reset()
 {
 	OS_game_start_tick_count = GetTickCount();
 }
@@ -2839,7 +2839,7 @@ SLONG OS_processor_mhz()
 }
 
 
-void OS_error(CBYTE *fmt, ...)
+void OS_error(CBYTE* fmt, ...)
 {
 	if (!OS_frame_is_fullscreen)
 	{
@@ -2864,7 +2864,7 @@ void OS_error(CBYTE *fmt, ...)
 }
 
 
-SLONG OS_is_archive_bit_set(CBYTE *fname)
+SLONG OS_is_archive_bit_set(CBYTE* fname)
 {
 	SLONG attribs;
 
@@ -2891,7 +2891,7 @@ SLONG OS_is_archive_bit_set(CBYTE *fname)
 	}
 }
 
-void OS_clear_archive_bit(CBYTE *fname)
+void OS_clear_archive_bit(CBYTE* fname)
 {
 	SLONG attribs;
 
@@ -3148,8 +3148,8 @@ typedef struct
 #define OS_MAX_MODES 16
 
 OS_Mode OS_mode[OS_MAX_MODES];
-SLONG   OS_mode_upto;
-SLONG   OS_mode_sel;
+SLONG OS_mode_upto;
+SLONG OS_mode_sel;
 
 //
 // Finds the valid devices from the D3DEnumerated choice and set
@@ -3503,9 +3503,9 @@ bool CALLBACK OS_mydemo_proc(
 //
 
 HANDLE OS_game_thread_handle;
-DWORD  OS_game_thread_id;
+DWORD OS_game_thread_id;
 
-DWORD WINAPI OS_game_thread_function(void *data)
+DWORD WINAPI OS_game_thread_function(void* data)
 {
 	MAIN_main();
 
@@ -3938,7 +3938,7 @@ int WINAPI WinMain(
 			// Could not set that mode!
 			//
 
-			CBYTE *err;
+			CBYTE* err;
 
 			if (res == D3DFWERR_NOZBUFFER)
 			{
@@ -4088,7 +4088,7 @@ void OS_camera_set(
 
 
 OS_Trans OS_trans[OS_MAX_TRANS];
-SLONG    OS_trans_upto;
+SLONG OS_trans_upto;
 
 void OS_transform(
 		float     world_x,
@@ -4733,7 +4733,7 @@ ULONG OS_interpolate_colour(float v, ULONG colour1, ULONG colour2)
 // Functions to pass the the CLIP module.
 //
 
-void OS_clip_helper_interpolate(void *new_point, void *point1, void *point2, float along)
+void OS_clip_helper_interpolate(void* new_point, void* point1, void* point2, float along)
 {
 	OS_Vert *ov1 = (OS_Vert *) point1;
 	OS_Vert *ov2 = (OS_Vert *) point2;
@@ -4784,7 +4784,7 @@ void OS_clip_helper_interpolate(void *new_point, void *point1, void *point2, flo
 	OS_trans_upto += 1;
 }
 
-float OS_clip_helper_signed_distance(void *point)
+float OS_clip_helper_signed_distance(void* point)
 {
 	OS_Vert  *ov;
 	OS_Trans *ot;
@@ -4875,7 +4875,7 @@ void OS_buffer_add_triangle(
 			else
 			{
 				void  *clip_tri[3];
-				void **clip_ans;
+				void* *clip_ans;
 				SLONG  clip_num;
 
 				clip_tri[0] = ov1;
@@ -5781,7 +5781,7 @@ void OS_buffer_draw(
 }
 
 
-void OS_screenshot(CBYTE *fname)
+void OS_screenshot(CBYTE* fname)
 {
 	SLONG r;
 	SLONG g;

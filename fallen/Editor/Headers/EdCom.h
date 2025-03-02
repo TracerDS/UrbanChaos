@@ -24,8 +24,8 @@ struct EditCondition
 					*Prev;
 };
 
-extern	ULONG				ed_condition_count;
-extern	EditCondition		edit_conditions[MAX_EDIT_CONDITIONS];
+extern ULONG				ed_condition_count;
+extern EditCondition		edit_conditions[MAX_EDIT_CONDITIONS];
 
 //---------------------------------------------------------------
 
@@ -51,8 +51,8 @@ struct EditCondList
 					*Prev;
 };
 
-extern	ULONG				ed_clist_count;
-extern	EditCondList		edit_clists[MAX_EDIT_CLISTS],
+extern ULONG				ed_clist_count;
+extern EditCondList		edit_clists[MAX_EDIT_CLISTS],
 							*clists,
 							*clists_end,
 							*win_conditions,
@@ -89,8 +89,8 @@ struct EditCommand
 					*Prev;
 };
 
-extern	ULONG				ed_command_count;
-extern	EditCommand			edit_commands[MAX_EDIT_COMMANDS];
+extern ULONG				ed_command_count;
+extern EditCommand			edit_commands[MAX_EDIT_COMMANDS];
 
 //---------------------------------------------------------------
 
@@ -116,8 +116,8 @@ struct EditComList
 					*Prev;
 };
 
-extern	ULONG				ed_comlist_count;
-extern	EditComList			edit_comlists[MAX_EDIT_COMLISTS],
+extern ULONG				ed_comlist_count;
+extern EditComList			edit_comlists[MAX_EDIT_COMLISTS],
 							*comlists,
 							*comlists_end;
 

@@ -163,14 +163,14 @@ NS_Hi NS_hi[PAP_SIZE_HI][PAP_SIZE_HI];
 //
 
 NS_Cache NS_cache[NS_MAX_CACHES];
-UBYTE    NS_cache_free;
+UBYTE NS_cache_free;
 
 //
 // The water fall.
 //
 
 NS_Fall NS_fall[NS_MAX_FALLS];
-UBYTE   NS_fall_free;
+UBYTE NS_fall_free;
 
 //
 // The things.
@@ -721,7 +721,7 @@ void NS_cache_init()
 #define NS_MAX_SCRATCH_FACES	((HEAP_PAD_SIZE / 2) / sizeof(NS_Face))
 
 NS_Point *NS_scratch_point = (NS_Point *) (&HEAP_pad[0]);
-NS_Face  *NS_scratch_face  = (NS_Face  *) (&HEAP_pad[HEAP_PAD_SIZE / 2]);
+NS_Face *NS_scratch_face  = (NS_Face  *) (&HEAP_pad[HEAP_PAD_SIZE / 2]);
 
 SLONG NS_scratch_point_upto = 0;
 SLONG NS_scratch_face_upto  = 0;
@@ -749,7 +749,7 @@ typedef struct
 #define NS_MAX_SLIGHTS 9
 
 NS_Slight NS_slight[NS_MAX_SLIGHTS];
-SLONG     NS_slight_upto;
+SLONG NS_slight_upto;
 
 
 void NS_add_point(

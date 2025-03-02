@@ -310,7 +310,7 @@ void	init_engine()
 	engine.ClipZ=5000;
 }
 
-void	add_bucket(void *p_bucket,SLONG z)
+void	add_bucket(void* p_bucket,SLONG z)
 {
 	struct	BucketQuad	*the_quad;
 	struct	BucketTri	*the_tri;
@@ -1666,7 +1666,7 @@ void	draw_explode_faces()
 
 				((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 
-				add_bucket((void *)current_bucket_pool,az);
+				add_bucket((void* )current_bucket_pool,az);
 
 				current_bucket_pool	+=	sizeof(struct BucketQuad);
 			}

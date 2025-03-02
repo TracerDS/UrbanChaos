@@ -26,7 +26,7 @@ MEM_PAP_Lo *PAP_lo; //[PAP_SIZE_LO][PAP_SIZE_LO];
 MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 
 
-void	PAP_clear()
+void PAP_clear()
 {
 	memset((UBYTE*) &PAP_lo[0][0],0,sizeof(PAP_Lo)*PAP_SIZE_LO*PAP_SIZE_LO);
 	memset((UBYTE*) &PAP_hi[0][0],0,sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
@@ -456,7 +456,7 @@ SLONG PAP_calc_map_height_near(SLONG x, SLONG z)
 #endif
 
 
-SLONG	PAP_on_slope(SLONG x,SLONG z,SLONG *angle)
+SLONG PAP_on_slope(SLONG x,SLONG z,SLONG *angle)
 {
 	SLONG h0;
 	SLONG h1;

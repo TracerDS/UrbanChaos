@@ -1597,7 +1597,7 @@ void AENG_blit() {grBufferSwap(0);grDepthMask(FXTRUE);grBufferClear(0x00000000, 
 // Adds a message to the message system.
 //
 
-void MSG_add(CBYTE *message, ...)
+void MSG_add(CBYTE* message, ...)
 {
 }
 
@@ -1605,10 +1605,10 @@ void MSG_add(CBYTE *message, ...)
 // Drawing stuff straight to the screen...
 //
 
-void  AENG_clear_screen() {}
+void AENG_clear_screen() {}
 SLONG AENG_lock()         {return 0;}
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE *text, ...) {return 0;}
-void  AENG_unlock() {}
+SLONG FONT_draw(SLONG x, SLONG y, CBYTE* text, ...) {return 0;}
+void AENG_unlock() {}
 
 
 //

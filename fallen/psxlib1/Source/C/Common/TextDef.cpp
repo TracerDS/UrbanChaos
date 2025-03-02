@@ -271,7 +271,7 @@ static UBYTE	Nine[]	=
 	0,1,1,0,0,
 };
 
-static	UBYTE	Colon[]	=
+static UBYTE	Colon[]	=
 {
 	2,3,4,
 	0,1,
@@ -907,7 +907,7 @@ static UBYTE	_z[]	=
 
 //---------------------------------------------------------------
 
-UBYTE	*CharTable[]	=
+UBYTE *CharTable[]	=
 {
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,

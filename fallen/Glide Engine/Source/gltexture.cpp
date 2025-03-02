@@ -311,7 +311,7 @@ void TEXTURE_load()
 	TEXTURE_page_puddle = TEXTURE_NUM_FIDDLED + 4;
 	TEXTURE_page_detail = TEXTURE_NUM_FIDDLED + 5;
 
-	CBYTE *extra_name[TEXTURE_NUM_EXTRA] =
+	CBYTE* extra_name[TEXTURE_NUM_EXTRA] =
 	{
 		"3dfx\\fog.3df",
 		"3dfx\\moon.3df",

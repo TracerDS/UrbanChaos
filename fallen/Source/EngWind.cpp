@@ -36,11 +36,11 @@ extern HWND				GEDIT_client_wnd,
 extern WNDCLASSEX		GEDIT_class_engine;
 
 //void		GI_init();
-//SLONG		GI_load_map(CBYTE *name);
+//SLONG		GI_load_map(CBYTE* name);
 
 //---------------------------------------------------------------
 
-void	calc_camera_pos()
+void calc_camera_pos()
 {
 	FMATRIX_calc(
 					cam_matrix,
@@ -167,7 +167,7 @@ LRESULT CALLBACK	engine_proc	(
 
 //---------------------------------------------------------------
 
-bool	init_ewind()
+bool init_ewind()
 {
 	DWORD		style,
 				style_ex;
@@ -204,7 +204,7 @@ bool	init_ewind()
 
 //---------------------------------------------------------------
 
-void	fini_ewind()
+void fini_ewind()
 {
 	GI_fini();
 //	CloseDisplay();
@@ -215,7 +215,7 @@ void	fini_ewind()
 
 //---------------------------------------------------------------
 
-bool	open_map(MDICREATESTRUCT *mdi_create)
+bool open_map(MDICREATESTRUCT *mdi_create)
 {
 	CBYTE		w_name[_MAX_PATH];
 	DWORD		style;
@@ -266,7 +266,7 @@ bool	open_map(MDICREATESTRUCT *mdi_create)
 #define	YAW_RATE		1
 #define	PITCH_RATE		1
 
-void	process_ewind()
+void process_ewind()
 {
 	ULONG			colour;
 	SLONG			df,dl,dy,dp,dd,

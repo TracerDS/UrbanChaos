@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-typedef	HANDLE		MFFileHandle;
+typedef HANDLE		MFFileHandle;
 
 #define	FILE_OPEN_ERROR			((MFFileHandle)-100)
 #define	FILE_CLOSE_ERROR		((MFFileHandle)-101)
@@ -21,17 +21,17 @@ typedef	HANDLE		MFFileHandle;
 #define	SEEK_MODE_CURRENT		1
 #define	SEEK_MODE_END			2
 
-bool			FileExists(CBYTE *file_name);
-MFFileHandle	FileOpen(CBYTE *file_name);
-void			FileClose(MFFileHandle file_handle);
-MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite);
-void			FileDelete(CBYTE *file_name);
-SLONG			FileSize(MFFileHandle file_handle);
-SLONG			FileRead(MFFileHandle file_handle,void *buffer,ULONG size);
-SLONG			FileWrite(MFFileHandle file_handle,void *buffer,ULONG size);
-SLONG			FileSeek(MFFileHandle file_handle,const int mode,SLONG offset);
-SLONG			FileLoadAt(CBYTE *file_name,void *buffer);
-void			FileSetBasePath(CBYTE *path_name);
+bool FileExists(CBYTE* file_name);
+MFFileHandle FileOpen(CBYTE* file_name);
+void FileClose(MFFileHandle file_handle);
+MFFileHandle FileCreate(CBYTE* file_name,bool overwrite);
+void FileDelete(CBYTE* file_name);
+SLONG FileSize(MFFileHandle file_handle);
+SLONG FileRead(MFFileHandle file_handle,void* buffer,ULONG size);
+SLONG FileWrite(MFFileHandle file_handle,void* buffer,ULONG size);
+SLONG FileSeek(MFFileHandle file_handle,const int mode,SLONG offset);
+SLONG FileLoadAt(CBYTE* file_name,void* buffer);
+void FileSetBasePath(CBYTE* path_name);
 
 
 

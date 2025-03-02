@@ -26,13 +26,13 @@
 // Structures
 //
 
-struct	CollisionVectLink
+struct CollisionVectLink
 {
 	UWORD	Next; //linked list of collision vectors
 	UWORD	VectIndex;
 };	
 
-struct	CollisionVect	
+struct CollisionVect	
 {
 	SLONG	X[2];
 	SWORD	Y[2];
@@ -44,7 +44,7 @@ struct	CollisionVect
 };
 
 
-struct	WalkLink
+struct WalkLink
 {
 	UWORD	Next;
 	SWORD	Face;
@@ -53,11 +53,11 @@ struct	WalkLink
 // Vars
 //
 
-extern	struct	CollisionVectLink	col_vects_links[MAX_COL_VECT_LINK];
-extern	struct	CollisionVect		col_vects[MAX_COL_VECT];
+extern struct	CollisionVectLink	col_vects_links[MAX_COL_VECT_LINK];
+extern struct	CollisionVect		col_vects[MAX_COL_VECT];
 	
-extern	UWORD	next_col_vect;
-extern	UWORD	next_col_vect_link;
+extern UWORD	next_col_vect;
+extern UWORD	next_col_vect_link;
 
 
 
@@ -65,25 +65,25 @@ extern	UWORD	next_col_vect_link;
 // Functions
 //
 
-extern	struct	WalkLink	walk_links[MAX_WALK_POOL];
-extern	UWORD	next_walk_link;
+extern struct	WalkLink	walk_links[MAX_WALK_POOL];
+extern UWORD	next_walk_link;
 
-extern	SLONG	get_fence_height(SLONG h);
-extern	UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4);
-extern	SLONG	lines_intersect(SLONG x1,SLONG  y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y3,SLONG x4,SLONG  y4,SLONG *x,SLONG  *y);
-extern	SLONG	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim,UBYTE prim_extra,SWORD face);
-extern  void    remove_collision_vect(UWORD vect);
+extern SLONG	get_fence_height(SLONG h);
+extern UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4);
+extern SLONG	lines_intersect(SLONG x1,SLONG  y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y3,SLONG x4,SLONG  y4,SLONG *x,SLONG  *y);
+extern SLONG	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim,UBYTE prim_extra,SWORD face);
+extern void    remove_collision_vect(UWORD vect);
 
-extern	SLONG	get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG *ret_z,SLONG new_dist);
-extern	SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius);
-extern	ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing);
-extern	ULONG	move_thing_quick(SLONG dx,SLONG dy,SLONG dz,Thing *p_thing);
-extern	SLONG	check_vect_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale);
-extern	SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG *ret_y,SLONG ignore_faces_of_this_building,UBYTE flag);
-extern	SLONG	dist_to_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG a, SLONG b);
-extern	void	correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *angle,SLONG scale);
-extern	SLONG	height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface);
-extern	SLONG	plant_feet(Thing *p_person);
+extern SLONG	get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG *ret_z,SLONG new_dist);
+extern SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius);
+extern ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing);
+extern ULONG	move_thing_quick(SLONG dx,SLONG dy,SLONG dz,Thing *p_thing);
+extern SLONG	check_vect_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale);
+extern SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG *ret_y,SLONG ignore_faces_of_this_building,UBYTE flag);
+extern SLONG	dist_to_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG a, SLONG b);
+extern void	correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *angle,SLONG scale);
+extern SLONG	height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface);
+extern SLONG	plant_feet(Thing *p_person);
 
 
 //

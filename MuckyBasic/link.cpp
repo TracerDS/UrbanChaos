@@ -17,53 +17,53 @@
 // The data we accumulate as we link.
 // 
 
-SLONG            *LINK_instruction;
-SLONG             LINK_instruction_max;
-SLONG             LINK_instruction_upto;
+SLONG *LINK_instruction;
+SLONG LINK_instruction_max;
+SLONG LINK_instruction_upto;
 
-CBYTE            *LINK_table_data;
-SLONG             LINK_table_data_max;
-SLONG             LINK_table_data_upto;
+CBYTE* LINK_table_data;
+SLONG LINK_table_data_max;
+SLONG LINK_table_data_upto;
 
-LINK_Global      *LINK_global;
-SLONG             LINK_global_max;
-SLONG             LINK_global_upto;
+LINK_Global *LINK_global;
+SLONG LINK_global_max;
+SLONG LINK_global_upto;
 
-LINK_Function    *LINK_function;
-SLONG             LINK_function_max;
-SLONG             LINK_function_upto;
+LINK_Function *LINK_function;
+SLONG LINK_function_max;
+SLONG LINK_function_upto;
 
-LINK_Line        *LINK_line;
-SLONG             LINK_line_max;
-SLONG             LINK_line_upto;
+LINK_Line *LINK_line;
+SLONG LINK_line_max;
+SLONG LINK_line_upto;
 
-LINK_Jump        *LINK_jump;
-SLONG             LINK_jump_max;
-SLONG             LINK_jump_upto;
+LINK_Jump *LINK_jump;
+SLONG LINK_jump_max;
+SLONG LINK_jump_upto;
 
-LINK_Field       *LINK_field;
-SLONG             LINK_field_max;
-SLONG             LINK_field_upto;
+LINK_Field *LINK_field;
+SLONG LINK_field_max;
+SLONG LINK_field_upto;
 
-LINK_Globalref   *LINK_global_ref;
-SLONG             LINK_global_ref_max;
-SLONG             LINK_global_ref_upto;
+LINK_Globalref *LINK_global_ref;
+SLONG LINK_global_ref_max;
+SLONG LINK_global_ref_upto;
 
-LINK_Undefref    *LINK_undef_ref;
-SLONG             LINK_undef_ref_max;
-SLONG             LINK_undef_ref_upto;
+LINK_Undefref *LINK_undef_ref;
+SLONG LINK_undef_ref_max;
+SLONG LINK_undef_ref_upto;
 
-LINK_Fieldref     *LINK_field_ref;
-SLONG              LINK_field_ref_max;
-SLONG              LINK_field_ref_upto;
+LINK_Fieldref *LINK_field_ref;
+SLONG LINK_field_ref_max;
+SLONG LINK_field_ref_upto;
 
 LINK_Datatableref *LINK_data_table_ref;
-SLONG              LINK_data_table_ref_max;
-SLONG              LINK_data_table_ref_upto;
+SLONG LINK_data_table_ref_max;
+SLONG LINK_data_table_ref_upto;
 
-CBYTE            *LINK_debug_data;
-SLONG             LINK_debug_data_max;
-SLONG             LINK_debug_data_upto;
+CBYTE* LINK_debug_data;
+SLONG LINK_debug_data_max;
+SLONG LINK_debug_data_upto;
 
 //
 // Each file.
@@ -110,8 +110,8 @@ typedef struct
 } LINK_File;
 
 LINK_File *LINK_file;
-SLONG      LINK_file_max;
-SLONG      LINK_file_upto;
+SLONG LINK_file_max;
+SLONG LINK_file_upto;
 
 
 
@@ -141,7 +141,7 @@ void LINK_allocate_memory()
 
 	LINK_table_data_max  = 1;
 	LINK_table_data_upto = 0;
-	LINK_table_data      = (CBYTE *) malloc(sizeof(CBYTE) * LINK_table_data_max);
+	LINK_table_data      = (CBYTE* ) malloc(sizeof(CBYTE) * LINK_table_data_max);
 
 	LINK_global_max  = 1;
 	LINK_global_upto = 0;
@@ -181,7 +181,7 @@ void LINK_allocate_memory()
 
 	LINK_debug_data_max  = 1;
 	LINK_debug_data_upto = 0;
-	LINK_debug_data      = (CBYTE *) malloc(sizeof(CBYTE) * LINK_debug_data_max);
+	LINK_debug_data      = (CBYTE* ) malloc(sizeof(CBYTE) * LINK_debug_data_max);
 
 	LINK_file_max  = 1;
 	LINK_file_upto = 0;
@@ -232,7 +232,7 @@ void LINK_free_memory()
 
 
 
-SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname)
+SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 {
 	SLONG i;
 	SLONG j;
@@ -342,7 +342,7 @@ SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname)
 		while(LINK_table_data_upto + lh.data_table_length_in_bytes > LINK_table_data_max)
 		{
 			LINK_table_data_max *= 2;
-			LINK_table_data      = (CBYTE *) realloc(LINK_table_data, sizeof(CBYTE) * LINK_table_data_max);
+			LINK_table_data      = (CBYTE* ) realloc(LINK_table_data, sizeof(CBYTE) * LINK_table_data_max);
 		}
 
 		if (fread(LINK_table_data + LINK_table_data_upto, sizeof(CBYTE), lh.data_table_length_in_bytes, handle) != lh.data_table_length_in_bytes) goto file_error;
@@ -533,7 +533,7 @@ SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname)
 		while(LINK_debug_data_upto + lf->num_debug_data > LINK_debug_data_max)
 		{
 			LINK_debug_data_max *= 2;
-			LINK_debug_data      = (CBYTE *) realloc(LINK_debug_data, sizeof(CBYTE) * LINK_debug_data_max);
+			LINK_debug_data      = (CBYTE* ) realloc(LINK_debug_data, sizeof(CBYTE) * LINK_debug_data_max);
 		}
 
 		if (fread(LINK_debug_data + LINK_debug_data_upto, sizeof(CBYTE), lf->num_debug_data, handle) != lf->num_debug_data) goto file_error;

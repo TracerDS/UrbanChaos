@@ -35,7 +35,7 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 
 //---------------------------------------------------------------
 #ifndef PSX
-CBYTE	demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine which includes 3D volumetric\n"
+CBYTE demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine which includes 3D volumetric\n"
 						"fog, true wall hugging shadows, atomic matter simulation for real-time physical\n"
 						"modelling of dynamic object collisions and so provides the perfect environment \n"
 						"for incredible feats of acrobatic skill and total scenery interaction. \n\n"
@@ -47,21 +47,21 @@ CBYTE	demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine whic
 #endif
 //---------------------------------------------------------------
 
-extern	SLONG	stat_killed_thug;
-extern	SLONG	stat_killed_innocent;
-extern	SLONG	stat_arrested_thug;
-extern	SLONG	stat_arrested_innocent;
+extern SLONG	stat_killed_thug;
+extern SLONG	stat_killed_innocent;
+extern SLONG	stat_arrested_thug;
+extern SLONG	stat_arrested_innocent;
 
 
 #define	MAX_PLAYBACKS	3
 
-CBYTE	*playbacks[]	=
+CBYTE* playbacks[]	=
 {
 	"Data\\Game.pkt",
 	"Data\\Game2.pkt",
 	"Data\\Game3.pkt"
 };
-SLONG	current_playback	=	0;
+SLONG current_playback	=	0;
 
 //extern ULONG get_hardware_input(UWORD type);
 
@@ -76,16 +76,16 @@ UBYTE auto_advance = 0;
 // cycles between playing the intro, showing the high score table &
 // showing the 'PRESS START' bits.
 
-void	LoadBackImage(UBYTE *image_data);
-void	AENG_demo_attract(SLONG x,SLONG y,CBYTE *text);
+void LoadBackImage(UBYTE *image_data);
+void AENG_demo_attract(SLONG x,SLONG y,CBYTE* text);
 extern bool		text_fudge;
-extern	SLONG	do_start_menu();
+extern SLONG	do_start_menu();
 
 #ifndef	PSX
 extern DIJOYSTATE			the_state;
 #endif
 
-SLONG	any_button_pressed()
+SLONG any_button_pressed()
 {
 #ifndef	PSX
 
@@ -112,7 +112,7 @@ SLONG	any_button_pressed()
 
 }
 
-void	game_attract_mode()
+void game_attract_mode()
 {
 	float			y;
 	UBYTE			*image_mem	=	NULL,
@@ -128,7 +128,7 @@ void	game_attract_mode()
 	// make sure lighting is ok
 	//
 #ifndef TARGET_DC
-extern	void NIGHT_init();
+extern void NIGHT_init();
 	NIGHT_init();
 #endif
 
@@ -336,7 +336,7 @@ extern SLONG TEXTURE_page_water;
 		}*/
 
 		//	Record a game.
-extern	bool	allow_debug_keys;
+extern bool	allow_debug_keys;
 		if(allow_debug_keys)
 		{
 			if(ControlFlag && LastKey==KB_R)
@@ -420,7 +420,7 @@ extern	bool	allow_debug_keys;
 
 					case	STARTS_PSX:
 #ifdef EDITOR
-void	make_all_wads();
+void make_all_wads();
 						make_all_wads();
 #endif
 						break;
@@ -617,7 +617,7 @@ extern void FRONTEND_scr_unload_theme ( void );
 extern FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
 #endif
 
-inline void printf2d(SLONG x, SLONG &y, CBYTE *fmt, ...) {
+inline void printf2d(SLONG x, SLONG &y, CBYTE* fmt, ...) {
 #ifndef PSX
 	CBYTE msg[_MAX_PATH];
 #else
@@ -673,12 +673,12 @@ void ScoresCalc() {
 #define SCORE_SPACER 20
 #endif
 
-extern	SLONG	stat_killed_thug;
-extern	SLONG	stat_killed_innocent;
-extern	SLONG	stat_arrested_thug;
-extern	SLONG	stat_arrested_innocent;
-extern	SLONG	stat_count_bonus;
-extern	SLONG	stat_start_time,stat_game_time;
+extern SLONG	stat_killed_thug;
+extern SLONG	stat_killed_innocent;
+extern SLONG	stat_arrested_thug;
+extern SLONG	stat_arrested_innocent;
+extern SLONG	stat_count_bonus;
+extern SLONG	stat_start_time,stat_game_time;
 
 void ScoresDraw() 
 {
@@ -741,7 +741,7 @@ void ScoresDraw()
 //	POLY_frame_init(false, false);
 
 
-extern	SLONG	playing_real_mission();
+extern SLONG	playing_real_mission();
 	
 	if(playing_real_mission())
 	{
@@ -814,11 +814,11 @@ extern	SLONG	playing_real_mission();
 		{
 			typedef struct
 			{
-				CBYTE *level_fname;
-				CBYTE *level_name;
+				CBYTE* level_fname;
+				CBYTE* level_name;
 				SLONG  mins;
 				SLONG  secs;
-				CBYTE *who;
+				CBYTE* who;
 			 
 			} Mime;	// A mucky time!
 
@@ -1104,7 +1104,7 @@ void level_won()
 
 //---------------------------------------------------------------
 
-void	level_lost()
+void level_lost()
 {
 	SLONG tick1;
 	SLONG tick2;
@@ -1244,7 +1244,7 @@ extern void POLY_ClearAllPages ( void );
 	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
 
 	// Really horrible hack.
-void	FRONTEND_scr_img_load_into_screenfull(CBYTE *name, CompressedBackground *screen);
+void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *screen);
 	FRONTEND_scr_img_load_into_screenfull ( "e3load.tga", &(the_display.lp_DD_Background) );
 	UnpackBackground ( (BYTE*)( the_display.lp_DD_Background ), the_display.lp_DD_BackSurface );
 	//AENG_flip();

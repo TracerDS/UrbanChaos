@@ -20,14 +20,14 @@ struct Waypoint
 	SLONG		X,Y,Z;
 };
 
-extern	ULONG				waypoint_count;
-extern	Waypoint			waypoints[MAX_WAYPOINTS];
+extern ULONG				waypoint_count;
+extern Waypoint			waypoints[MAX_WAYPOINTS];
 
 //---------------------------------------------------------------
 
-void	init_waypoints();
-UWORD	alloc_waypoint();
-void	free_waypoint(UWORD wp_index);
+void init_waypoints();
+UWORD alloc_waypoint();
+void free_waypoint(UWORD wp_index);
 
 //---------------------------------------------------------------
 //---------------------------------------------------------------
@@ -82,8 +82,8 @@ extern Condition		conditions[MAX_CONDITIONS];
 //---------------------------------------------------------------
 
 
-void		init_conditions();
-Condition	*alloc_condition();
+void init_conditions();
+Condition *alloc_condition();
 
 //---------------------------------------------------------------
 
@@ -91,7 +91,7 @@ Condition	*alloc_condition();
 
 #define	LIST_TRUE		(1<<0)
 
-struct	ConditionList
+struct ConditionList
 {
 	bool		Used;
 	SLONG		ConditionCount,
@@ -108,9 +108,9 @@ extern ConditionList	con_lists[MAX_CLISTS];
 
 //---------------------------------------------------------------
 
-void			init_clists();
-ConditionList	*alloc_clist();
-void			add_condition(ConditionList *the_list,Condition *the_condition);
+void init_clists();
+ConditionList *alloc_clist();
+void add_condition(ConditionList *the_list,Condition *the_condition);
 
 //---------------------------------------------------------------
 //---------------------------------------------------------------
@@ -170,14 +170,14 @@ extern Command			commands[MAX_COMMANDS];
 //---------------------------------------------------------------
 
 
-void		init_commands();
-Command		*alloc_command();
+void init_commands();
+Command *alloc_command();
 
 //---------------------------------------------------------------
 
 #define	MAX_COMLISTS	200
 
-struct	CommandList
+struct CommandList
 {
 	bool		Used;
 	SLONG		CommandCount,
@@ -193,13 +193,13 @@ extern CommandList		com_lists[MAX_COMLISTS];
 
 //---------------------------------------------------------------
 
-void			init_comlists();
-CommandList		*alloc_comlist();
-void			add_command(CommandList *the_list,Command *the_command);
+void init_comlists();
+CommandList *alloc_comlist();
+void add_command(CommandList *the_list,Command *the_command);
 
 //---------------------------------------------------------------
 
-void	process_condition_lists();
+void process_condition_lists();
 
 //---------------------------------------------------------------
 

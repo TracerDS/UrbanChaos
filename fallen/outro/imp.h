@@ -231,7 +231,7 @@ typedef struct
 
 } IMP_Mesh;
 
-IMP_Mesh IMP_load(CBYTE *fname, float scale = 1.0F);
+IMP_Mesh IMP_load(CBYTE* fname, float scale = 1.0F);
 
 
 //
@@ -247,8 +247,8 @@ void IMP_free(IMP_Mesh *im);
 // Loads and saves a binary version of the mesh.
 //
 
-SLONG    IMP_binary_save(CBYTE *fname, IMP_Mesh *im);	// Returns false on failure.
-IMP_Mesh IMP_binary_load(CBYTE *fname);
+SLONG IMP_binary_save(CBYTE* fname, IMP_Mesh *im);	// Returns false on failure.
+IMP_Mesh IMP_binary_load(CBYTE* fname);
 
 
 #endif

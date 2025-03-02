@@ -57,24 +57,24 @@ void	do_message_setup(EventPoint *the_ep);
 void	do_vehicle_setup(EventPoint *the_ep);
 void	do_bomb_setup(EventPoint *the_ep);
 void	do_burn_setup(EventPoint *the_ep);
-CBYTE	*get_vehicle_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_vehicle_message(EventPoint *ep, CBYTE* msg);
 void	do_vfx_setup(EventPoint *the_ep);
 void	do_sfx_setup(EventPoint *the_ep);
 void	do_wpt_pick(EventPoint *the_ep);
 void	do_barrel_setup(EventPoint *the_ep);
 void	do_spotfx_setup(EventPoint *the_ep);
-CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE* msg);
 void	do_warefx_setup(EventPoint *the_ep);
-CBYTE	*get_warefx_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_warefx_message(EventPoint *ep, CBYTE* msg);
 void	do_treasure_setup(EventPoint *the_ep);
-CBYTE	*get_treasure_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_treasure_message(EventPoint *ep, CBYTE* msg);
 void	do_bonus_setup(EventPoint *the_ep);
-//CBYTE	*get_bonus_message(EventPoint *ep, CBYTE *msg);
+//CBYTE	*get_bonus_message(EventPoint *ep, CBYTE* msg);
 void	do_converse_setup(EventPoint *the_ep);
 void	do_counter_setup(EventPoint *the_ep);
-CBYTE	*get_counter_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_counter_message(EventPoint *ep, CBYTE* msg);
 void	do_lite_setup(EventPoint *the_ep);
-CBYTE	*get_lite_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_lite_message(EventPoint *ep, CBYTE* msg);
 void	do_nav_setup(EventPoint *the_ep);
 void	do_anim_pick(EventPoint *the_ep);
 void	do_transfer_pick(EventPoint *the_ep);
@@ -92,7 +92,7 @@ void	do_sign_setup(EventPoint *the_ep);
 
 //---------------------------------------------------------------
 
-CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg);
+CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 
@@ -498,7 +498,7 @@ SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room) {
 }
 
 
-void SetMenuItemText( HMENU menu, SLONG item, CBYTE *str) {
+void SetMenuItemText( HMENU menu, SLONG item, CBYTE* str) {
 	SLONG res;
 
 	res=ModifyMenu(menu,item,MF_STRING|MF_BYCOMMAND,item,str);
@@ -510,7 +510,7 @@ void SetMenuItemText( HMENU menu, SLONG item, CBYTE *str) {
 
 //---------------------------------------------------------------
 
-CBYTE *WaypointTitle(EventPoint *ep, CBYTE *msg) {
+CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg) {
 	if (!ep->WaypointType)
 		sprintf(msg,"%d",EVENTPOINT_NUMBER(current_mission->EventPoints,ep));
 	else
@@ -518,7 +518,7 @@ CBYTE *WaypointTitle(EventPoint *ep, CBYTE *msg) {
 	return msg;
 }
 
-CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg) {
+CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg) {
 
 	msg[0]=0;
 	if (ep) {
@@ -1354,7 +1354,7 @@ void AENG_world_text(
 		UBYTE  blue,
 		UBYTE  green,
 		UBYTE  shadowed_or_not,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 void AENG_world_line(
 		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
 		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,

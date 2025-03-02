@@ -4,7 +4,7 @@
 
 
 void	(*scan_function)(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
-extern	SWORD	SelectFlag; //edit.h
+extern SWORD	SelectFlag; //edit.h
 
 
 void	scan_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z)

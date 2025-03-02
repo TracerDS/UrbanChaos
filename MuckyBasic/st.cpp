@@ -33,7 +33,7 @@ typedef struct
 	// Where we store strings.
 	//
 
-	CBYTE *buffer;
+	CBYTE* buffer;
 	SLONG  buffer_upto;
 	SLONG  buffer_max;
 
@@ -63,12 +63,12 @@ ST_Table ST_table[ST_TABLE_NUMBER];
 // Computes the hash value of a string.
 //
 
-ULONG ST_hash_value(CBYTE *string)
+ULONG ST_hash_value(CBYTE* string)
 {
 	ULONG ans = 0;
 	SLONG rot = 0;
 
-	CBYTE *ch;
+	CBYTE* ch;
 
 	for (ch = string; *ch; ch++)
 	{
@@ -104,7 +104,7 @@ void ST_init()
 
 		st->buffer_max  = 8192;
 		st->buffer_upto = 0;
-		st->buffer      = (CBYTE *) malloc(sizeof(CBYTE) * st->buffer_max);
+		st->buffer      = (CBYTE* ) malloc(sizeof(CBYTE) * st->buffer_max);
 
 		st->symbol_max  = 1024;
 		st->symbol_upto = 1;	// The 0th element is the NULL index...
@@ -114,7 +114,7 @@ void ST_init()
 
 
 
-void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag)
+void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 {
 	ST_Table  *st;
 	ST_Symbol *ss;
@@ -180,7 +180,7 @@ void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag)
 		//
 
 		st->buffer_max *= 2;
-		st->buffer      = (CBYTE *) realloc(st->buffer, sizeof(CBYTE) * st->buffer_max);
+		st->buffer      = (CBYTE* ) realloc(st->buffer, sizeof(CBYTE) * st->buffer_max);
 	}
 
 	//
@@ -207,13 +207,13 @@ void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag)
 // if it finds the string.
 //
 
-SLONG      ST_found_table;
-SLONG      ST_found_value;
-SLONG      ST_found_flag;
-CBYTE     *ST_found_string;
+SLONG ST_found_table;
+SLONG ST_found_value;
+SLONG ST_found_flag;
+CBYTE* ST_found_string;
 ST_Symbol *ST_found_ss;
 
-SLONG ST_find_in_table(SLONG table, CBYTE *string)
+SLONG ST_find_in_table(SLONG table, CBYTE* string)
 {
 	ST_Table  *st;
 	ST_Symbol *ss;
@@ -265,7 +265,7 @@ SLONG ST_find_in_table(SLONG table, CBYTE *string)
 
 
 
-SLONG ST_find(CBYTE *string)
+SLONG ST_find(CBYTE* string)
 {
 	SLONG table;
 
@@ -287,7 +287,7 @@ SLONG ST_find(CBYTE *string)
 }
 
 
-void ST_update_flag(CBYTE *string, SLONG new_flag)
+void ST_update_flag(CBYTE* string, SLONG new_flag)
 {
 	SLONG table;
 

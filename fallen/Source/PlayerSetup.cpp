@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG		player_type, player_equip;
+SLONG player_type, player_equip;
 
 //---------------------------------------------------------------
 
@@ -30,7 +30,7 @@ SLONG		player_type, player_equip;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-bool	CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	SLONG		c0	=	0;
@@ -72,7 +72,7 @@ bool	CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_player_setup(EventPoint *the_ep)
+void do_player_setup(EventPoint *the_ep)
 {
 	player_type	=	the_ep->Data[0];
 	player_equip=	the_ep->Data[1];
@@ -92,7 +92,7 @@ void	do_player_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_player_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_player_message(EventPoint *ep, CBYTE* msg) {
 	strcpy(msg,"Unknown");
 	if (ep) {
 		strcpy(msg,wplayer_strings[ep->Data[0]-PT_DARCI]);

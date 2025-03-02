@@ -37,7 +37,7 @@
 // structs
 //
 
-typedef	struct
+typedef struct
 {
 	UBYTE				TweakSpeed;
 	SBYTE				Locked;     //which frame if any is locked in place
@@ -63,7 +63,7 @@ typedef	struct
 	UBYTE				PersonID;
 }DrawTween;
 
-typedef	struct
+typedef struct
 {
 	UWORD				Angle;
 	UWORD				Roll;
@@ -81,18 +81,18 @@ typedef	struct
 // Functions
 //
 
-void		init_draw_tweens();
-DrawTween	*alloc_draw_tween(SLONG type);
-void		free_draw_tween(DrawTween *draw_tween);
+void init_draw_tweens();
+DrawTween *alloc_draw_tween(SLONG type);
+void free_draw_tween(DrawTween *draw_tween);
 
 
 //
 // DrawMesh functions.
 //
 
-void      init_draw_meshes();
+void init_draw_meshes();
 DrawMesh *alloc_draw_mesh ();
-void      free_draw_mesh  (DrawMesh *drawmesh);
+void free_draw_mesh  (DrawMesh *drawmesh);
 
 
 

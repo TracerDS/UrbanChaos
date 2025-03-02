@@ -183,7 +183,7 @@ void DIRT_create_grenade(Thing *p_person, SLONG ticks_to_go, SLONG power);
 //
 
 UWORD DIRT_create_mine (Thing *p_person);
-void  DIRT_destroy_mine(UWORD dirt_mine);
+void DIRT_destroy_mine(UWORD dirt_mine);
 
 //
 // This person is trying to shoot a bit of dirt. It returns true if

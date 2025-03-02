@@ -45,7 +45,7 @@
 
 #include	"ComTab.def"
 
-extern	CBYTE	*class_text[],
+extern CBYTE	*class_text[],
 				*genus_text[][10],
 				*condition_text[],
 				*command_text[],

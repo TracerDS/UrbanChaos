@@ -22,16 +22,16 @@
 #define MENUFONT_SUPER_YCTR	(512)
 #define MENUFONT_SHAKE		(1024)
 
-void	MENUFONT_Load(CBYTE *fn, SLONG page, CBYTE *fontlist);
+void	MENUFONT_Load(CBYTE* fn, SLONG page, CBYTE* fontlist);
 void	MENUFONT_Page(SLONG page);
-void	MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG rgb, UWORD flags, SWORD max=-1);
-void	MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE *msg, SLONG rgb, UWORD flags);
+void	MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags, SWORD max=-1);
+void	MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags);
 void	MENUFONT_Free();
-void	MENUFONT_Dimensions(CBYTE *fn, SLONG &x, SLONG &y, SWORD max=-1, SWORD scale=256);
-SLONG	MENUFONT_CharFit(CBYTE *fn, SLONG x, UWORD scale=256);
+void	MENUFONT_Dimensions(CBYTE* fn, SLONG &x, SLONG &y, SWORD max=-1, SWORD scale=256);
+SLONG	MENUFONT_CharFit(CBYTE* fn, SLONG x, UWORD scale=256);
 SLONG	MENUFONT_CharWidth(CBYTE fn, UWORD scale=256);
 #ifdef TARGET_DC
-void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG rgb, UWORD flags, SWORD max=-1);
+void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags, SWORD max=-1);
 #endif
 
 
@@ -76,7 +76,7 @@ void MENUFONT_fadein_line(SLONG x);	// x is in 8-bit fixed point
 // Draws centred text where a fade 255 is opaque and 0 is transparent.
 //
 
-void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE *msg);
+void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE* msg);
 
 
 

@@ -113,7 +113,7 @@ void	MapEdTab::DrawTabContent(void)
 
 
 //---------------------------------------------------------------
-extern	void	hilight_col_info(void);
+extern void	hilight_col_info(void);
 
 
 
@@ -476,8 +476,8 @@ SLONG	MapEdTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y
 	return(1);
 }
 
-extern	void	insert_cube(SWORD x,SWORD y,SWORD z);
-extern	void	remove_cube(SLONG x,SLONG y,SLONG z);
+extern void	insert_cube(SWORD x,SWORD y,SWORD z);
+extern void	remove_cube(SLONG x,SLONG y,SLONG z);
 
 
 
@@ -1337,7 +1337,7 @@ SLONG	calc_edit_height_at(SLONG x,SLONG z)
 }
 
 
-extern	void set_map_height(SLONG x,SLONG z,SLONG y);
+extern void set_map_height(SLONG x,SLONG z,SLONG y);
 
 
 void	fix_furn_height(void)

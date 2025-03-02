@@ -33,7 +33,7 @@ CVECTOR tint_colour[8]={
 //	{255,0,0,0}};
 	{200,150,100,0}};
 
-//extern	UWORD	debug_count[10];
+//extern UWORD	debug_count[10];
 
 /*************************************************************
  *
@@ -260,7 +260,7 @@ SLONG MESH_draw_poly(
 
 	p_obj = &prim_objects[prim&0xffff];
 //	return(0);
-//extern	PrimInfo prim_info[256];//MAX_PRIM_OBJECTS];
+//extern PrimInfo prim_info[256];//MAX_PRIM_OBJECTS];
 
 
 	bodge_z_back=0;//prim_info[prim].radius>>5;
@@ -272,7 +272,7 @@ SLONG MESH_draw_poly(
 //	if (the_display.CurrentPrim>&GDisp_Bucket[BUCKET_MEM-5120])
 //		return(0);
 	
-extern	void	build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m);
+extern void	build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m);
 
 	build_rot_matrix3(i_yaw,-i_pitch,-i_roll,&matrix);
 
@@ -338,7 +338,7 @@ extern	void	build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m);
 /*
 	{
 		CBYTE	str[6];
-extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 
 		sprintf(str,"%d",get_z_sort_near(mid_z));
 

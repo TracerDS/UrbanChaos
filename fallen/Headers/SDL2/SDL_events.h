@@ -591,8 +591,8 @@ typedef struct SDL_UserEvent
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
     Uint32 windowID;    /**< The associated window if any */
     Sint32 code;        /**< User defined event code */
-    void *data1;        /**< User defined data pointer */
-    void *data2;        /**< User defined data pointer */
+    void* data1;        /**< User defined data pointer */
+    void* data2;        /**< User defined data pointer */
 } SDL_UserEvent;
 
 
@@ -662,7 +662,7 @@ typedef union SDL_Event
        the next multiple of 16, 64, and on architectures where pointers are
        even larger the size of SDL_UserEvent will dominate as being 3 pointers.
     */
-    Uint8 padding[sizeof(void *) <= 8 ? 56 : sizeof(void *) == 16 ? 64 : 3 * sizeof(void *)];
+    Uint8 padding[sizeof(void* ) <= 8 ? 56 : sizeof(void* ) == 16 ? 64 : 3 * sizeof(void* )];
 } SDL_Event;
 
 /* Make sure we haven't broken binary compatibility */
@@ -970,7 +970,7 @@ extern DECLSPEC int SDLCALL SDL_PushEvent(SDL_Event * event);
  * \sa SDL_SetEventFilter
  * \sa SDL_AddEventWatch
  */
-typedef int (SDLCALL * SDL_EventFilter) (void *userdata, SDL_Event * event);
+typedef int (SDLCALL * SDL_EventFilter) (void* userdata, SDL_Event * event);
 
 /**
  * Set up a filter to process all events before they change internal state and
@@ -1015,7 +1015,7 @@ typedef int (SDLCALL * SDL_EventFilter) (void *userdata, SDL_Event * event);
  * \sa SDL_PushEvent
  */
 extern DECLSPEC void SDLCALL SDL_SetEventFilter(SDL_EventFilter filter,
-                                                void *userdata);
+                                                void* userdata);
 
 /**
  * Query the current event filter.
@@ -1033,7 +1033,7 @@ extern DECLSPEC void SDLCALL SDL_SetEventFilter(SDL_EventFilter filter,
  * \sa SDL_SetEventFilter
  */
 extern DECLSPEC SDL_bool SDLCALL SDL_GetEventFilter(SDL_EventFilter * filter,
-                                                    void **userdata);
+                                                    void* *userdata);
 
 /**
  * Add a callback to be triggered when an event is added to the event queue.
@@ -1062,7 +1062,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GetEventFilter(SDL_EventFilter * filter,
  * \sa SDL_SetEventFilter
  */
 extern DECLSPEC void SDLCALL SDL_AddEventWatch(SDL_EventFilter filter,
-                                               void *userdata);
+                                               void* userdata);
 
 /**
  * Remove an event watch callback added with SDL_AddEventWatch().
@@ -1078,7 +1078,7 @@ extern DECLSPEC void SDLCALL SDL_AddEventWatch(SDL_EventFilter filter,
  * \sa SDL_AddEventWatch
  */
 extern DECLSPEC void SDLCALL SDL_DelEventWatch(SDL_EventFilter filter,
-                                               void *userdata);
+                                               void* userdata);
 
 /**
  * Run a specific filter function on the current event queue, removing any
@@ -1097,7 +1097,7 @@ extern DECLSPEC void SDLCALL SDL_DelEventWatch(SDL_EventFilter filter,
  * \sa SDL_SetEventFilter
  */
 extern DECLSPEC void SDLCALL SDL_FilterEvents(SDL_EventFilter filter,
-                                              void *userdata);
+                                              void* userdata);
 
 /* @{ */
 #define SDL_QUERY   -1

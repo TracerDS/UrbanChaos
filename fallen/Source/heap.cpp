@@ -212,7 +212,7 @@ void HEAP_add_to_free(HEAP_Free *bit)
 
 
 
-void *HEAP_get(SLONG size)
+void* HEAP_get(SLONG size)
 {
 	void      *ans;
 	HEAP_Free  bit;
@@ -323,7 +323,7 @@ void *HEAP_get(SLONG size)
 }
 
 
-SLONG	HEAP_max_free()
+SLONG HEAP_max_free()
 {
 	if(HEAP_free)
 	{
@@ -340,7 +340,7 @@ SLONG	HEAP_max_free()
 // Gives back an unused block of memory.
 //
 
-void HEAP_give(void *mem, SLONG num_bytes)
+void HEAP_give(void* mem, SLONG num_bytes)
 {
 	HEAP_Free *onheap = (HEAP_Free *) mem;
 

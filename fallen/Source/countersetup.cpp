@@ -14,11 +14,11 @@
 
 //---------------------------------------------------------------
 
-SLONG		counter_value,counter_index;
+SLONG counter_value,counter_index;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 
@@ -48,7 +48,7 @@ bool	CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_counter_setup(EventPoint *the_ep)
+void do_counter_setup(EventPoint *the_ep)
 {
 	counter_value =	the_ep->Data[0];
 	counter_index =	the_ep->Data[1];
@@ -65,7 +65,7 @@ void	do_counter_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_counter_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_counter_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||!ep->Data[1])
 		msg[0]=0;
 	else {

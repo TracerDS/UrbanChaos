@@ -8,21 +8,21 @@
 
 #pragma warning( disable : 4244)
 
-extern	void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3); //prim.cpp
-extern	void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2); //prim.cpp
-extern	UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVECTOR *p_vect);
+extern void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3); //prim.cpp
+extern void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2); //prim.cpp
+extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVECTOR *p_vect);
 
-extern	struct	SVECTOR			global_res[]; //max points per object?
-extern	SLONG	global_flags[];
-extern	UWORD	global_bright[];
-extern	float	global_light[];
+extern struct	SVECTOR			global_res[]; //max points per object?
+extern SLONG	global_flags[];
+extern UWORD	global_bright[];
+extern float	global_light[];
 
 #define	SORT_LEVEL_LONG_LEDGE	1
 #define	SORT_LEVEL_FIRE_ESCAPE	3
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
-extern	void	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim,UBYTE prim_extra,SWORD face);
-extern	SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern void	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim,UBYTE prim_extra,SWORD face);
+extern SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py);
 
 struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
 void	build_face_texture_info(struct PrimFace4* p_f4,UWORD texture);
@@ -5217,14 +5217,14 @@ void	create_city()
 //			LogText(" place building y %d \n",y);
 			place_building_at(prim,build_x,y,build_z);
 
-extern	void save_asc(UWORD building,UWORD version);
+extern void save_asc(UWORD building,UWORD version);
 //			save_asc(c0,1);
 			
 //			clip_building_prim(prim,build_x,y,build_z);
 		}
 		
 	}
-extern	void	apply_global_amb_to_map();
+extern void	apply_global_amb_to_map();
 	apply_global_amb_to_map();
 /*
 	next_prim_object			 =temp_next_prim;
@@ -5379,7 +5379,7 @@ UWORD	is_it_clockwise(SLONG p0,SLONG p1,SLONG p2)
 }
 
 // problems getting the top face under the fires escape to be a facet member
-extern	SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z);
+extern SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z);
 
 SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 {
@@ -5517,7 +5517,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 				((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 				((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
 				
-				add_bucket((void *)current_bucket_pool,az);
+				add_bucket((void* )current_bucket_pool,az);
 
 				current_bucket_pool+=sizeof(struct BucketQuad);
 
@@ -5665,7 +5665,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 					((struct BucketQuad*)current_bucket_pool)->DebugInfo=az; //c0;
 					((struct BucketQuad*)current_bucket_pool)->DebugFlags=p_f4->FaceFlags;
 
-					add_bucket((void *)current_bucket_pool,az);
+					add_bucket((void* )current_bucket_pool,az);
 
 					if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
 					{
@@ -5768,7 +5768,7 @@ skip_wall:;
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			if(check_mouse_over_prim_tri(global_res,p0,p1,p2,c0))
 			{

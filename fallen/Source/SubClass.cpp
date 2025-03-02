@@ -34,7 +34,7 @@ extern void refresh_mission();
 
 
 //	Window procedures used for subclassing.
-WNDPROC		check_procs[50],
+WNDPROC check_procs[50],
 			combo_procs[50],
 			dialog_proc,
 			edit_procs[50],
@@ -50,7 +50,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
   none of these need subclassing any more -- new keyboard thingy
 
-LRESULT	CALLBACK	sc_combo_proc	(
+LRESULT CALLBACK	sc_combo_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -77,7 +77,7 @@ LRESULT	CALLBACK	sc_combo_proc	(
 
 //---------------------------------------------------------------
 
-LRESULT	CALLBACK	sc_check_proc	(
+LRESULT CALLBACK	sc_check_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -104,7 +104,7 @@ LRESULT	CALLBACK	sc_check_proc	(
 
 //---------------------------------------------------------------
 
-LRESULT	CALLBACK	sc_edit_proc	(
+LRESULT CALLBACK	sc_edit_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -132,7 +132,7 @@ LRESULT	CALLBACK	sc_edit_proc	(
 
 //---------------------------------------------------------------
 
-LRESULT	CALLBACK	sc_radio_proc	(
+LRESULT CALLBACK	sc_radio_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -469,7 +469,7 @@ void DeleteCars(Mission *mission) {
 //------------------------------------------------------------------------
 // This counts the unique prims on the map
 
-void	count_prims_map() {
+void count_prims_map() {
 	bool	prim_seen[256]; // ...
 	CBYTE*	msg=(CBYTE*)prim_seen;
 	UWORD	count=0;
@@ -506,7 +506,7 @@ void	count_prims_map() {
 //------------------------------------------------------------------------
 // This writes out updated .IAM files
 
-void	save_prim_map(CBYTE *name)
+void save_prim_map(CBYTE* name)
 {
 	// block-copies all except the prim section which is replaced
 
@@ -766,7 +766,7 @@ SLONG add_prim_to(MapThing *map, SLONG pos, OB_Info *oi) {
 
 // This writes out updated .MAP files
 
-void update_prims_on_map(CBYTE *orig_name) {
+void update_prims_on_map(CBYTE* orig_name) {
 	CBYTE name[_MAX_PATH],name2[_MAX_PATH],name3[_MAX_PATH],msg[_MAX_PATH], *ptr;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	MFFileHandle	handout	=	FILE_OPEN_ERROR;
@@ -1080,7 +1080,7 @@ void remove_map_from_wspace(GameMap* current_map)
 		}
 	}
 
-void		remove_children(HTREEITEM parent);
+void remove_children(HTREEITEM parent);
 
   remove_children(current);
   free_map(current_map-game_maps);
@@ -1089,7 +1089,7 @@ void		remove_children(HTREEITEM parent);
 
 //---------------------------------------------------------------
 
-LRESULT	CALLBACK	sc_tree_proc	(
+LRESULT CALLBACK	sc_tree_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -1267,7 +1267,7 @@ LRESULT	CALLBACK	sc_tree_proc	(
 
 //---------------------------------------------------------------
 
-LRESULT	CALLBACK	sc_dialog_proc	(
+LRESULT CALLBACK	sc_dialog_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,

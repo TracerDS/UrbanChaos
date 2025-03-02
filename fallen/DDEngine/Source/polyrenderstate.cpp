@@ -71,7 +71,7 @@ void POLY_init_texture_flags()
 //
 // load flags from file
 
-void POLY_load_texture_flags(CBYTE *fname, SLONG offset)
+void POLY_load_texture_flags(CBYTE* fname, SLONG offset)
 {
 	FILE *handle = MF_Fopen(fname, "rb");
 
@@ -89,7 +89,7 @@ void POLY_load_texture_flags(CBYTE *fname, SLONG offset)
 
 			if (match == 1 && WITHIN(page, 0, POLY_NUM_PAGES - 1))
 			{
-				CBYTE *c;
+				CBYTE* c;
 
 				for (c = line; *c; c++);	// Zoom to the end of the line.
 

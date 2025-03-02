@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-void Window::SetupWindow(CBYTE *title,ULONG flags,SLONG x,SLONG y,SLONG width,SLONG height)
+void Window::SetupWindow(CBYTE* title,ULONG flags,SLONG x,SLONG y,SLONG width,SLONG height)
 {
 	Flags			=	flags;
 	StateFlags		=	0;

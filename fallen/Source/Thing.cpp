@@ -15,18 +15,18 @@
 #include	"gamemenu.h"
 
 #include "memory.h"
-//extern	ULONG	get_hardware_input(UWORD type);
+//extern ULONG	get_hardware_input(UWORD type);
 
-UWORD	*thing_class_head;
+UWORD *thing_class_head;
 
 THING_INDEX THING_array[THING_ARRAY_SIZE];
-SLONG	tick_tock_unclipped=0;
+SLONG tick_tock_unclipped=0;
 
 #ifndef PSX
 extern bool allow_debug_keys;
 #endif
 
-UWORD	class_priority[]=
+UWORD class_priority[]=
 {
 
 	
@@ -50,7 +50,7 @@ UWORD	class_priority[]=
 
 //---------------------------------------------------------------
 #ifndef PSX
-void	init_things()
+void init_things()
 {
 	SWORD			c0,c1;
 
@@ -87,7 +87,7 @@ void	init_things()
 #endif
 //---------------------------------------------------------------
 
-THING_INDEX	alloc_primary_thing(UWORD thing_class)
+THING_INDEX alloc_primary_thing(UWORD thing_class)
 {
 	THING_INDEX			new_thing;
 
@@ -114,7 +114,7 @@ THING_INDEX	alloc_primary_thing(UWORD thing_class)
 
 //---------------------------------------------------------------
 
-void	free_primary_thing(THING_INDEX thing)
+void free_primary_thing(THING_INDEX thing)
 {
 	UWORD	index;
 	UWORD	prev;
@@ -184,7 +184,7 @@ void	free_primary_thing(THING_INDEX thing)
 
 //---------------------------------------------------------------
 
-THING_INDEX	alloc_secondary_thing(UWORD thing_class)
+THING_INDEX alloc_secondary_thing(UWORD thing_class)
 {
 	THING_INDEX			new_thing;
 //	ASSERT(0);
@@ -210,7 +210,7 @@ THING_INDEX	alloc_secondary_thing(UWORD thing_class)
 
 //---------------------------------------------------------------
 
-void	free_secondary_thing(THING_INDEX thing)
+void free_secondary_thing(THING_INDEX thing)
 {
 	UWORD	index,prev;
 //	ASSERT(0);
@@ -253,7 +253,7 @@ void	free_secondary_thing(THING_INDEX thing)
 
 //---------------------------------------------------------------
 
-void	add_thing_to_map(Thing *t_thing)
+void add_thing_to_map(Thing *t_thing)
 {
 	SLONG mx;
 	SLONG mz;
@@ -308,7 +308,7 @@ void	add_thing_to_map(Thing *t_thing)
 
 //---------------------------------------------------------------
 
-void	remove_thing_from_map(Thing *t_thing)
+void remove_thing_from_map(Thing *t_thing)
 {
 	SLONG mx;
 	SLONG mz;
@@ -346,7 +346,7 @@ void	remove_thing_from_map(Thing *t_thing)
 
 //---------------------------------------------------------------
 
-void	move_thing_on_map(Thing *t_thing,GameCoord *new_position)
+void move_thing_on_map(Thing *t_thing,GameCoord *new_position)
 {
 	SLONG cur_mx = t_thing->WorldPos.X >> (8 + PAP_SHIFT_LO);
 	SLONG cur_mz = t_thing->WorldPos.Z >> (8 + PAP_SHIFT_LO);
@@ -425,7 +425,7 @@ void	move_thing_on_map(Thing *t_thing,GameCoord *new_position)
 
 	*/
 }
-void	move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz)
+void move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz)
 {
 	GameCoord new_position;
 	new_position.X=t_thing->WorldPos.X+dx;
@@ -439,7 +439,7 @@ void	move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz)
 
 //---------------------------------------------------------------
 #ifndef PSX
-void	log_primary_used_list()
+void log_primary_used_list()
 {
 	THING_INDEX		thing;
 
@@ -456,7 +456,7 @@ void	log_primary_used_list()
 //---------------------------------------------------------------
 
 
-void	log_primary_unused_list()
+void log_primary_unused_list()
 {
 	THING_INDEX		thing;
 
@@ -472,7 +472,7 @@ void	log_primary_unused_list()
 
 //---------------------------------------------------------------
 
-void	log_secondary_used_list()
+void log_secondary_used_list()
 {
 	THING_INDEX		thing;
 
@@ -488,7 +488,7 @@ void	log_secondary_used_list()
 
 //---------------------------------------------------------------
 
-void	log_secondary_unused_list()
+void log_secondary_unused_list()
 {
 	THING_INDEX		thing;
 
@@ -503,9 +503,9 @@ void	log_secondary_unused_list()
 }
 
 //---------------------------------------------------------------
-void	Time(struct MFTime *the_time);
+void Time(struct MFTime *the_time);
 
-void	wait_ticks(SLONG wait)
+void wait_ticks(SLONG wait)
 {
 	struct MFTime 	the_time;
 
@@ -524,23 +524,23 @@ void	wait_ticks(SLONG wait)
 #undef NORMAL_TICK_TOCK
 #define	NORMAL_TICK_TOCK	(1000/20)
 
-struct	NET_packet
+struct NET_packet
 {
 	ULONG	Input;
 	SLONG	Check1;
 };
 
-extern	UWORD		controls;
+extern UWORD		controls;
 
 #ifndef	PSX
 
-MFFileHandle	playback_file;
-MFFileHandle	verifier_file;
+MFFileHandle playback_file;
+MFFileHandle verifier_file;
 
-UBYTE	input_type[]={1,2,0,0,0,0,0,0};
+UBYTE input_type[]={1,2,0,0,0,0,0,0};
 
 
-void	do_packets()
+void do_packets()
 {
 	ULONG	input,count=0;
 	NET_Message		answer;
@@ -754,7 +754,7 @@ void	do_packets()
 #else
 
 
-struct	recorder
+struct recorder
 {
 	ULONG	input;
 	UWORD	tick_tock;
@@ -770,7 +770,7 @@ struct	recorder
 #define	MAX_RECORD	5000
 
 struct recorder	record_input[MAX_RECORD];
-UWORD	record_index=0;
+UWORD record_index=0;
 
 #else
 
@@ -782,14 +782,14 @@ UWORD	record_index=0;
 //run off dev kit
 //
 
-void	init_record(SLONG	level)
+void init_record(SLONG	level)
 {
 	record_input[0].input=level;
 
 	record_index=1;
 }
 
-void	end_record()
+void end_record()
 {
 	int handle;
 	CBYTE	fname[50];
@@ -807,7 +807,7 @@ void	end_record()
 }
 
 #endif
-void	init_playback()
+void init_playback()
 {
 #ifndef FS_ISO9660
 	record_index=1;
@@ -816,7 +816,7 @@ void	init_playback()
 #endif
 }
 
-void	do_packets()
+void do_packets()
 {
 
 	PACKET_DATA(0)=get_hardware_input(INPUT_TYPE_ALL); //controls
@@ -855,9 +855,9 @@ void	do_packets()
 
 #endif
 
-static	UWORD slow_mo=0;
+static UWORD slow_mo=0;
 
-void	set_slow_motion(UWORD motion)
+void set_slow_motion(UWORD motion)
 {
 	slow_mo=motion;
 
@@ -866,7 +866,7 @@ void	set_slow_motion(UWORD motion)
 
 #ifndef PSX
 
-UWORD	class_check[]=
+UWORD class_check[]=
 {
 	CLASS_PLAYER	,
 	CLASS_PERSON	,
@@ -952,12 +952,12 @@ void for_things(void (*fn)(Thing* p_thing))
 	}
 }
 
-void	store_thing_data()
+void store_thing_data()
 {
 	for_things(store_thing);
 }
 
-void	check_thing_data()
+void check_thing_data()
 {
 	for_things(check_thing);
 }
@@ -966,7 +966,7 @@ void	check_thing_data()
 
 SLONG REAL_TICK_RATIO = 256;
 
-void	process_things_tick(SLONG frame_rate_independant)
+void process_things_tick(SLONG frame_rate_independant)
 {
 	static	SLONG	prev_tick = 0;
 	SLONG	cur_tick;
@@ -1005,7 +1005,7 @@ void	process_things_tick(SLONG frame_rate_independant)
 
 	// 20/50
 
-extern	UBYTE	record_video;
+extern UBYTE	record_video;
 
 	if(record_video)
 		tick_diff=40;
@@ -1052,10 +1052,10 @@ extern	UBYTE	record_video;
 	TICK_INV_RATIO = 0x10000 / TICK_RATIO;
 
 }
-extern	SWORD	noise_count;
-extern  void	process_noises();
+extern SWORD	noise_count;
+extern void	process_noises();
 
-void	process_things(SLONG frame_rate_independant)
+void process_things(SLONG frame_rate_independant)
 {
 	Thing	*p_thing;
 	Thing			*t_thing;
@@ -1068,7 +1068,7 @@ void	process_things(SLONG frame_rate_independant)
 	
 
 //#ifdef	PSX
-//extern	SWORD	sync_count;
+//extern SWORD	sync_count;
 //	if(sync_count<1)
 //		sync_count=1;
 //#ifdef VERSION_NTSC
@@ -1164,7 +1164,7 @@ void	process_things(SLONG frame_rate_independant)
 	}
 
 
-extern	void WMOVE_process();
+extern void WMOVE_process();
 	WMOVE_process();
 
 	index=thing_class_head[CLASS_PERSON];
@@ -1220,7 +1220,7 @@ extern	void WMOVE_process();
 
 //		index =next;//p_thing->NextLink;
 	}
-extern	void	do_arrests();
+extern void	do_arrests();
 	do_arrests();
 
 
@@ -1262,7 +1262,7 @@ inline bool	is_class_primary(SBYTE classification)
 
 //---------------------------------------------------------------
 
-Thing	*alloc_thing(SBYTE classification)
+Thing *alloc_thing(SBYTE classification)
 {
 	Thing			*t_thing	=	NULL;
 	THING_INDEX		new_thing;
@@ -1286,7 +1286,7 @@ Thing	*alloc_thing(SBYTE classification)
 
 //---------------------------------------------------------------
 
-void	free_thing(Thing *t_thing)
+void free_thing(Thing *t_thing)
 {
 	if (t_thing->Flags&FLAGS_HAS_ATTACHED_SOUND) MFX_stop_attached(t_thing);
 	if(is_class_primary(t_thing->Class))
@@ -1300,7 +1300,7 @@ void	free_thing(Thing *t_thing)
 
 /*
 // 'closest' is set outside of the function & defines the bounds of the check.
-Thing	*nearest_class(Thing *the_thing,ULONG class_mask,ULONG *closest)
+Thing *nearest_class(Thing *the_thing,ULONG class_mask,ULONG *closest)
 {
 	ULONG			distance,
 					radius;
@@ -1417,7 +1417,7 @@ SLONG THING_dist_between(Thing *p_thing_a, Thing *p_thing_b)
 
 //---------------------------------------------------------------
 
-UBYTE	hit_player=0;
+UBYTE hit_player=0;
 //
 // if classes & 1<<31  then its really find sphere
 //

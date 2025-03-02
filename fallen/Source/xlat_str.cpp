@@ -15,7 +15,7 @@
 #define	FILE_OPEN_ERROR	(-1)
 #define FILE_READ_ERROR (-1)
 #include "psxeng.h"
-extern void	ZeroMemory(void *mem_ptr,ULONG size);
+extern void	ZeroMemory(void* mem_ptr,ULONG size);
 
 #endif
 
@@ -35,10 +35,10 @@ extern void	ZeroMemory(void *mem_ptr,ULONG size);
 //
 
 // translated text gets stuffed here
-CBYTE  xlat_buffer[_MAX_PATH + 100];
+CBYTE xlat_buffer[_MAX_PATH + 100];
 
 // current translation set is loaded into here
-CBYTE  xlat_set[MAX_STRING_SPACE];
+CBYTE xlat_set[MAX_STRING_SPACE];
 
 // pointer table
 CBYTE* xlat_ptr[MAX_STRINGS];
@@ -49,7 +49,7 @@ CBYTE* xlat_upto=0;
 // MBCS TWEAKS
 //
 
-UBYTE	previous_byte;
+UBYTE previous_byte;
 
 #ifdef JAPANESE
 #define LEADBYTE(c)		( (previous_byte=c)>>7 )
@@ -85,10 +85,10 @@ inline CBYTE*	mbcs_inc_char(CBYTE* &c) {
 char pcCharCache[MYFILEREAD_CACHE_SIZE];
 int iCharCacheLen = 0;
 int iCharCacheSize = 0;
-MFFileHandle cached_file_handle = (void *)0xdeadbeef;
+MFFileHandle cached_file_handle = (void* )0xdeadbeef;
 SLONG CachedFileRead(MFFileHandle file_handle,char *buffer)
 {
-	ASSERT ( file_handle != (void *)0xdeadbeef );
+	ASSERT ( file_handle != (void* )0xdeadbeef );
 
 	if ( cached_file_handle != file_handle )
 	{
@@ -121,7 +121,7 @@ SLONG CachedFileRead(MFFileHandle file_handle,char *buffer)
 // Call it when you open a new file!
 void CacheFileReadFlush ( void )
 {
-	cached_file_handle = (void *)0xdeadbeef;
+	cached_file_handle = (void* )0xdeadbeef;
 }
 #endif
 
@@ -207,8 +207,8 @@ inline CBYTE*	mbcs_dec_char(CBYTE* &c, CBYTE* base) {
 // some standard library funcs in mbcs-eze.
 // windows has some of these already, but the PSX doesn't, so...
 
-CBYTE*			mbcs_strchr(CBYTE *str, CBYTE c) {
-	CBYTE *scan=str, *end=str+strlen(str);
+CBYTE*			mbcs_strchr(CBYTE* str, CBYTE c) {
+	CBYTE* scan=str, *end=str+strlen(str);
 	while (scan<end) {
 		if (*scan==c) return scan;
 		mbcs_inc_char(scan);
@@ -216,8 +216,8 @@ CBYTE*			mbcs_strchr(CBYTE *str, CBYTE c) {
 	return 0;
 }
 
-void			mbcs_strncpy(CBYTE *dst, CBYTE *src, CBYTE n) {
-	CBYTE *scan=src, *end=src+strlen(src);
+void mbcs_strncpy(CBYTE* dst, CBYTE* src, CBYTE n) {
+	CBYTE* scan=src, *end=src+strlen(src);
 	while (n&&(scan<end)) 
 	{
 		if (LEADBYTE(*scan))
@@ -229,7 +229,7 @@ void			mbcs_strncpy(CBYTE *dst, CBYTE *src, CBYTE n) {
 	}
 }
 
-CBYTE* mbcs_strspnp(CBYTE *str, CBYTE *badlist) {
+CBYTE* mbcs_strspnp(CBYTE* str, CBYTE* badlist) {
 	while (*str&&mbcs_strchr(badlist,*str)) mbcs_inc_char(str);
 	return str;
 }
@@ -243,7 +243,7 @@ CBYTE* XLAT_remap(UBYTE remap_id) {
 }
 
 CBYTE* XLAT_str_ptr(SLONG string_id) {
-	CBYTE *xlated=xlat_ptr[string_id];
+	CBYTE* xlated=xlat_ptr[string_id];
 	if ((xlat_upto==xlat_set)||(!xlat_upto)||!xlated) {
 		#ifdef TARGET_DC
 		ASSERT ( false );
@@ -253,9 +253,9 @@ CBYTE* XLAT_str_ptr(SLONG string_id) {
 	return xlated;
 }
 
-CBYTE* XLAT_str(SLONG string_id, CBYTE *xlat_dest) {
-	CBYTE *xlated=xlat_ptr[string_id];
-	CBYTE *ptr, *ptr2, *buff;
+CBYTE* XLAT_str(SLONG string_id, CBYTE* xlat_dest) {
+	CBYTE* xlated=xlat_ptr[string_id];
+	CBYTE* ptr, *ptr2, *buff;
 	UWORD ofs;
 
 	if (!xlat_dest) xlat_dest=xlat_buffer;
@@ -289,8 +289,8 @@ CBYTE* XLAT_str(SLONG string_id, CBYTE *xlat_dest) {
 
 
 
-CBYTE* XLAT_load_string(MFFileHandle &file, CBYTE *txt) {
-	CBYTE *ptr=txt, *temp;
+CBYTE* XLAT_load_string(MFFileHandle &file, CBYTE* txt) {
+	CBYTE* ptr=txt, *temp;
 	UWORD emergency_bail_out_for_martins_machine=2000;
 	UBYTE leadbyte=1;
 
@@ -321,8 +321,8 @@ CBYTE* XLAT_load_string(MFFileHandle &file, CBYTE *txt) {
 	return txt;
 }
 
-void XLAT_compress_tokens(CBYTE *txt) {
-	CBYTE *test, *scan, *ptr=txt;
+void XLAT_compress_tokens(CBYTE* txt) {
+	CBYTE* test, *scan, *ptr=txt;
 	CBYTE buff[10];
 	UWORD skip;
 	while (scan=mbcs_strchr(txt,'|')) {
@@ -344,9 +344,9 @@ void XLAT_compress_tokens(CBYTE *txt) {
 	}
 }
 
-void XLAT_load(CBYTE *fn) {
+void XLAT_load(CBYTE* fn) {
 	MFFileHandle handle;
-	CBYTE *txt;
+	CBYTE* txt;
 	UWORD id=0;
 	UWORD emergency_bail_out_for_martins_machine=2000;
 
@@ -388,7 +388,7 @@ void XLAT_load(CBYTE *fn) {
 	TRACE("Language data: %s\n",XLAT_str_ptr(X_THIS_LANGUAGE_IS));
 }
 
-void XLAT_poke(SLONG offset, CBYTE *str) {
+void XLAT_poke(SLONG offset, CBYTE* str) {
   strcpy(xlat_upto,str);
   xlat_ptr[offset]=xlat_upto;
   xlat_upto+=strlen(str)+1;

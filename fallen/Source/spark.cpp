@@ -56,7 +56,7 @@ typedef struct
 #define SPARK_MAX_SPARKS 32
 
 SPARK_Spark SPARK_spark[SPARK_MAX_SPARKS];
-SLONG       SPARK_spark_last;
+SLONG SPARK_spark_last;
 
 //
 // The spark mapwho.
@@ -754,18 +754,18 @@ void SPARK_build_spark(
 
 
 
-UBYTE      SPARK_get_z;
-UBYTE      SPARK_get_xmin;
-UBYTE      SPARK_get_xmax;
-UBYTE      SPARK_get_spark;
-UBYTE      SPARK_get_point;
+UBYTE SPARK_get_z;
+UBYTE SPARK_get_xmin;
+UBYTE SPARK_get_xmax;
+UBYTE SPARK_get_spark;
+UBYTE SPARK_get_point;
 SPARK_Info SPARK_get_info;
-SLONG      SPARK_get_x1;
-SLONG      SPARK_get_y1;
-SLONG      SPARK_get_z1;
-SLONG      SPARK_get_x2;
-SLONG      SPARK_get_y2;
-SLONG      SPARK_get_z2;
+SLONG SPARK_get_x1;
+SLONG SPARK_get_y1;
+SLONG SPARK_get_z1;
+SLONG SPARK_get_x2;
+SLONG SPARK_get_y2;
+SLONG SPARK_get_z2;
 
 void SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
 {

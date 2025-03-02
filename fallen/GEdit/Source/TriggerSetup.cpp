@@ -284,7 +284,7 @@ void	do_trigger_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_trigger_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_trigger_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

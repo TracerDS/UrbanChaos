@@ -10,7 +10,7 @@
 
 HANDLE		InitDebugLog();
 void		FiniDebugLog();
-void		DebugText(CBYTE *error, ...);
+void		DebugText(CBYTE* error, ...);
 void		dd_error(HRESULT dd_err);
 void		d3d_error(HRESULT dd_err);
 void		di_error(HRESULT di_err);

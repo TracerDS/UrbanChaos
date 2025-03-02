@@ -271,18 +271,18 @@ typedef struct
 // stamina 
 //
 
-typedef	Person *PersonPtr;
+typedef Person *PersonPtr;
 
 //---------------------------------------------------------------
-extern	SWORD	health[];
+extern SWORD	health[];
 
-extern	GenusFunctions		people_functions[];
-extern	StateFunction		generic_people_functions[];
+extern GenusFunctions		people_functions[];
+extern StateFunction		generic_people_functions[];
 
-void		init_persons();
-Thing		*alloc_person(UBYTE type, UBYTE random_number);
-void		free_person(Thing *person_thing);
-THING_INDEX	create_person(
+void init_persons();
+Thing *alloc_person(UBYTE type, UBYTE random_number);
+void free_person(Thing *person_thing);
+THING_INDEX create_person(
 				SLONG type,
 				SLONG random_number,
 				SLONG x,
@@ -310,7 +310,7 @@ THING_INDEX	create_person(
 #define PERSON_MODE_SPRINT	4
 #define PERSON_MODE_NUMBER	5
 
-extern CBYTE *PERSON_mode_name[PERSON_MODE_NUMBER];
+extern CBYTE* PERSON_mode_name[PERSON_MODE_NUMBER];
 
 //
 // Person speeds to set_person_goto_xz
@@ -324,42 +324,42 @@ extern CBYTE *PERSON_mode_name[PERSON_MODE_NUMBER];
 #define PERSON_SPEED_CRAWL	6
 
 
-void	set_anim(Thing *p_person,SLONG anim);
-void	tween_to_anim(Thing *p_person,SLONG anim);
-void	queue_anim(Thing *p_person,SLONG anim);
-void	set_person_draw_gun(Thing *p_person);
-void	set_person_shoot(Thing *p_person,UWORD shoot_target);
-void	set_person_gun_away(Thing *p_person);
-void	set_person_flip(Thing *p_person,SLONG dir);
-void	set_person_idle(Thing *p_person);
-SLONG	set_person_punch(Thing *p_person);	// Automatically slashes if you have a knife out
-SLONG	set_person_kick(Thing *p_person);
-void	set_person_standing_jump(Thing *p_person);
-void	set_person_running_jump(Thing *p_person);
-void	set_person_pulling_up(Thing	*p_thing);
-void	set_person_drop_down(Thing	*p_person,SLONG flag);
-void	set_person_climb_ladder(Thing *p_person,UWORD storey);
-void	set_thing_velocity(Thing *t_thing,SLONG vel);
-void	set_person_running(Thing *p_person);
-void	set_person_walking(Thing *p_person);
-void	set_person_step_left(Thing *p_person);
-void	set_person_step_right(Thing *p_person);
-void	set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door);
-void	set_person_exit_vehicle(Thing *p_person);
-void	set_person_mount_bike(Thing *p_person, Thing *p_bike);
-void	set_person_dismount_bike(Thing *p_person);
-void	set_person_grappling_hook_pickup(Thing *p_person);
-void	set_person_grappling_hook_release(Thing *p_person);
-void	set_person_can_pickup(Thing *p_person);					// Bends down to pickup a coke can or a head
-void	set_person_can_release(Thing *p_person, SLONG power);	// Throws a coke can or a head. power = 0 - 256
-void	set_person_special_pickup(Thing *p_person);				// Bends down to pick up a special
-void	set_person_barrel_pickup(Thing *p_person);
-void	set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags);
-void	set_person_goto_xz(Thing *p_person, SLONG x, SLONG z, SLONG speed);	// No mavigation- just walks there.
-void	set_person_circle(Thing *p_person, Thing *p_target);	// Makes the person circle around someone.
-void	general_process_person(Thing *p_person);
-void	set_person_dead_normal(Thing *p_thing,Thing *p_aggressor,SLONG death_type,SLONG anim);
-SLONG   set_person_land_on_fence(Thing *p_person,SLONG wall,SLONG set_pos,SLONG while_walking=0);
+void set_anim(Thing *p_person,SLONG anim);
+void tween_to_anim(Thing *p_person,SLONG anim);
+void queue_anim(Thing *p_person,SLONG anim);
+void set_person_draw_gun(Thing *p_person);
+void set_person_shoot(Thing *p_person,UWORD shoot_target);
+void set_person_gun_away(Thing *p_person);
+void set_person_flip(Thing *p_person,SLONG dir);
+void set_person_idle(Thing *p_person);
+SLONG set_person_punch(Thing *p_person);	// Automatically slashes if you have a knife out
+SLONG set_person_kick(Thing *p_person);
+void set_person_standing_jump(Thing *p_person);
+void set_person_running_jump(Thing *p_person);
+void set_person_pulling_up(Thing	*p_thing);
+void set_person_drop_down(Thing	*p_person,SLONG flag);
+void set_person_climb_ladder(Thing *p_person,UWORD storey);
+void set_thing_velocity(Thing *t_thing,SLONG vel);
+void set_person_running(Thing *p_person);
+void set_person_walking(Thing *p_person);
+void set_person_step_left(Thing *p_person);
+void set_person_step_right(Thing *p_person);
+void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door);
+void set_person_exit_vehicle(Thing *p_person);
+void set_person_mount_bike(Thing *p_person, Thing *p_bike);
+void set_person_dismount_bike(Thing *p_person);
+void set_person_grappling_hook_pickup(Thing *p_person);
+void set_person_grappling_hook_release(Thing *p_person);
+void set_person_can_pickup(Thing *p_person);					// Bends down to pickup a coke can or a head
+void set_person_can_release(Thing *p_person, SLONG power);	// Throws a coke can or a head. power = 0 - 256
+void set_person_special_pickup(Thing *p_person);				// Bends down to pick up a special
+void set_person_barrel_pickup(Thing *p_person);
+void set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags);
+void set_person_goto_xz(Thing *p_person, SLONG x, SLONG z, SLONG speed);	// No mavigation- just walks there.
+void set_person_circle(Thing *p_person, Thing *p_target);	// Makes the person circle around someone.
+void general_process_person(Thing *p_person);
+void set_person_dead_normal(Thing *p_thing,Thing *p_aggressor,SLONG death_type,SLONG anim);
+SLONG set_person_land_on_fence(Thing *p_person,SLONG wall,SLONG set_pos,SLONG while_walking=0);
 
 //
 // Makes a person start/stop floating...
@@ -534,7 +534,7 @@ SLONG calc_dist_benefit_to_gun(SLONG dist);
 
 
 // (JCL) return scale value for engine
-SLONG	person_get_scale(Thing *t);
+SLONG person_get_scale(Thing *t);
 
 
 //---------------------------------------------------------------

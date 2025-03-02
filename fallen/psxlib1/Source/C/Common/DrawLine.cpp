@@ -8,7 +8,7 @@
 //---------------------------------------------------------------
 // Standard Bresenham algorithm.
 
-void	DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 {
 	UBYTE	*line_dest;
 	SLONG	ax,ay,
@@ -72,7 +72,7 @@ void	DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 	}
 }
 
-void	DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 {
 	UWORD	*line_dest;
 	SLONG	ax,ay,
@@ -136,7 +136,7 @@ void	DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 	}
 }
 
-void	DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 {
 	ULONG	*line_dest;
 	SLONG	ax,ay,
@@ -204,7 +204,7 @@ void	DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 // Standard Bresenham algorithm.
 // Bloody slow at clipping tho'
 
-void	DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 {
 	SLONG	ax,ay,
 			d,
@@ -264,7 +264,7 @@ void	DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 {
 	UBYTE	*line_dest;
 	ULONG	count;
@@ -282,7 +282,7 @@ void	DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 	}
 }
 
-void	DrawHLine16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLine16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 {
 	UWORD	*line_dest;
 	ULONG	count;
@@ -300,7 +300,7 @@ void	DrawHLine16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 	}
 }
 
-void	DrawHLine32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLine32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 {
 	ULONG	*line_dest;
 	ULONG	count;
@@ -320,7 +320,7 @@ void	DrawHLine32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 {
 	UBYTE	*line_dest;
 	ULONG	count;
@@ -348,7 +348,7 @@ void	DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 	}
 }
 
-void	DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 {
 	UWORD	*line_dest;
 	ULONG	count;
@@ -376,7 +376,7 @@ void	DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 	}
 }
 
-void	DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 {
 	ULONG	*line_dest;
 	ULONG	count;
@@ -406,7 +406,7 @@ void	DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 {
 	UBYTE	*line_dest;
 	ULONG	count,
@@ -427,7 +427,7 @@ void	DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	}
 }
 
-void	DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 {
 	UWORD	*line_dest;
 	ULONG	count,
@@ -448,7 +448,7 @@ void	DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	}
 }
 
-void	DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 {
 	ULONG	*line_dest;
 	ULONG	count,
@@ -472,7 +472,7 @@ void	DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 {
 	UBYTE	*line_dest;
 	ULONG	count;
@@ -501,7 +501,7 @@ void	DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	}	
 }
 
-void	DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 {
 	UWORD	*line_dest;
 	ULONG	count;
@@ -530,7 +530,7 @@ void	DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	}	
 }
 
-void	DrawVLineC32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLineC32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 {
 	ULONG	*line_dest;
 	ULONG	count;

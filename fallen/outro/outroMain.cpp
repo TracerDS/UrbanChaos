@@ -28,7 +28,7 @@ void MAIN_main()
 	OS_scene_begin();
 
 	{
-		CBYTE *str;
+		CBYTE* str;
 
 		if (the_end)
 		{

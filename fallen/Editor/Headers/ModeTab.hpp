@@ -31,7 +31,7 @@ class	ModeTab	:	public	ControlSet
 							ModeTab();
 		inline void			RequestUpdate()		{	if(ExternalUpdate)*ExternalUpdate=1;	}
 
-		void				SetupModeTab(CBYTE *the_title,UWORD id,EdRect *bounding_rect,ULONG *update_ptr);
+		void				SetupModeTab(CBYTE* the_title,UWORD id,EdRect *bounding_rect,ULONG *update_ptr);
 		void				SetTabArea(EdRect *bounding_rect);
 		void				MoveTabArea(EdRect *bounding_rect);
 		void				SetTabDrawArea();

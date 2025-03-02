@@ -33,8 +33,8 @@ void STAIR_set_bounding_box(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2);
 // are invalid and you can't create stairs for this building.
 //
 
-void  STAIR_storey_new   (SLONG handle, UBYTE height);				// 0 => Ground floor, 1 => First floor
-void  STAIR_storey_wall  (UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2, SLONG opposite);
+void STAIR_storey_new   (SLONG handle, UBYTE height);				// 0 => Ground floor, 1 => First floor
+void STAIR_storey_wall  (UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2, SLONG opposite);
 SLONG STAIR_storey_finish();
 
 //

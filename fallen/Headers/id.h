@@ -304,7 +304,7 @@ typedef struct
 {
 	SLONG  x;		// A position inside the room.
 	SLONG  z;
-	CBYTE *what;	// A string describing the room.
+	CBYTE* what;	// A string describing the room.
 
 } ID_Roominfo;
 

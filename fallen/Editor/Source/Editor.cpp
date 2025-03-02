@@ -513,7 +513,7 @@ void	editor()
 			{
 				if(LockWorkScreen())
 				{
-	extern	void	screen_shot();
+	extern void	screen_shot();
 					screen_shot();
 
 	//				do_single_shot(WorkScreen,CurrentPalette);

@@ -73,8 +73,8 @@ class	ColTab	:	public	ModeTab
 
 #define	MAX_COL_INFO	1000
 	
-extern	struct	ColInfo	col_info[MAX_COL_INFO];
-extern	UWORD	next_col_info;
+extern struct	ColInfo	col_info[MAX_COL_INFO];
+extern UWORD	next_col_info;
 
 #endif
 

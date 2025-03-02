@@ -1486,7 +1486,7 @@ SLONG FONT_draw_coloured_char(
 			case ';':  fc = &FONT_punct[FONT_PUNCT_SCOLON]; break;
 			case '\'': fc = &FONT_punct[FONT_PUNCT_APOST ]; break;
 			case '&':  fc = &FONT_punct[FONT_PUNCT_AMPER ]; break;
-			case '£':  fc = &FONT_punct[FONT_PUNCT_POUND ]; break;
+			case 'ï¿½':  fc = &FONT_punct[FONT_PUNCT_POUND ]; break;
 			case '$':  fc = &FONT_punct[FONT_PUNCT_DOLLAR]; break;
 			case '<':  fc = &FONT_punct[FONT_PUNCT_LT    ]; break;
 			case '>':  fc = &FONT_punct[FONT_PUNCT_GT    ]; break;
@@ -1532,7 +1532,7 @@ SLONG FONT_draw_coloured_text(
 		UBYTE red,
 		UBYTE green,
 		UBYTE blue,
-		CBYTE *fmt, ...)
+		CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -1571,7 +1571,7 @@ SLONG FONT_draw_coloured_text(
 
 
 
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE *fmt, ...)
+SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -1617,7 +1617,7 @@ SLONG FONT_draw(SLONG x, SLONG y, CBYTE *fmt, ...)
 #define FONT_BUFFER_SIZE (1024 * 8)
 
 CBYTE  FONT_buffer[FONT_BUFFER_SIZE];
-CBYTE *FONT_buffer_upto;
+CBYTE* FONT_buffer_upto;
 
 typedef struct
 {
@@ -1627,7 +1627,7 @@ typedef struct
 	UBYTE  g;
 	UBYTE  b;
 	UBYTE  s;
-	CBYTE *m;
+	CBYTE* m;
 	
 } FONT_Message;
 
@@ -1644,7 +1644,7 @@ void FONT_buffer_add(
 		UBYTE  g,
 		UBYTE  b,
 		UBYTE  s,
-		CBYTE *fmt, ...)
+		CBYTE* fmt, ...)
 {
 	FONT_Message *fm;
 
@@ -1715,7 +1715,7 @@ void FONT_buffer_draw()
 	SLONG x;
 	SLONG y;
 
-	CBYTE *ch;
+	CBYTE* ch;
 
 	FONT_Message *fm;
 
@@ -1775,7 +1775,7 @@ void FONT_draw_speech_bubble_text(
 		UBYTE red,
 		UBYTE green,
 		UBYTE blue,
-		CBYTE *fmt, ...)
+		CBYTE* fmt, ...)
 {
 
 	//
@@ -1800,7 +1800,7 @@ void FONT_draw_speech_bubble_text(
 	// Draw the message pretend to see how many lines it has.
 	//
 
-	CBYTE *ch;
+	CBYTE* ch;
 	SLONG  cw;
 	SLONG  w = 0;
 	SLONG  lines = 0;

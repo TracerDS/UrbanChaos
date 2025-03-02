@@ -410,12 +410,12 @@ void Font3D::DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, float yaw, float
 	
 }
 
-void Font3D::DrawString(CBYTE *str, ULONG ctrx, ULONG y, ULONG rgb, float scale, CBYTE wibble, UWORD zoom) {
+void Font3D::DrawString(CBYTE* str, ULONG ctrx, ULONG y, ULONG rgb, float scale, CBYTE wibble, UWORD zoom) {
 	static float rotate=0;
 	float thisone;
 	float sep, x, f, zoomctr;
 	UWORD i;
-	CBYTE *c;
+	CBYTE* c;
 
 	//sep=11.5*scale;
 

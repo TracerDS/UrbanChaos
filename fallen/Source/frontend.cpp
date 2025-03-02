@@ -48,7 +48,7 @@
 #include "panel.h"
 
 #include "interfac.h"
-extern	bool	allow_debug_keys;
+extern bool	allow_debug_keys;
 
 //----------------------------------------------------------------------------
 // EXTERNS
@@ -62,7 +62,7 @@ extern DIJOYSTATE			the_state;
 
 extern void	init_joypad_config();
 
-void	FRONTEND_display ( void );
+void FRONTEND_display ( void );
 
 //----------------------------------------------------------------------------
 // DEFINES
@@ -221,7 +221,7 @@ struct MissionCache {
 // This is the order we recommend the missions be played in...
 //
 
-CBYTE *suggest_order[] =
+CBYTE* suggest_order[] =
 {
 	"testdrive1a.ucm",
 	"FTutor1.ucm",
@@ -272,10 +272,10 @@ CBYTE *suggest_order[] =
 
 #define SCRIPT_MEMORY (20 * 1024)
 
-CBYTE  loaded_in_script[SCRIPT_MEMORY];
-CBYTE *loaded_in_script_read_upto;
+CBYTE loaded_in_script[SCRIPT_MEMORY];
+CBYTE* loaded_in_script_read_upto;
 
-void CacheScriptInMemory(CBYTE *script_fname)
+void CacheScriptInMemory(CBYTE* script_fname)
 {
 	//FILE *handle = MF_Fopen(script_fname, "rb");
 	// Er... it's a TEXT FILE
@@ -300,8 +300,8 @@ void FileOpenScript()
 	loaded_in_script_read_upto = loaded_in_script;
 }
 
-CBYTE *LoadStringScript(CBYTE *txt) {
-	CBYTE *ptr=txt;
+CBYTE* LoadStringScript(CBYTE* txt) {
+	CBYTE* ptr=txt;
 
 	ASSERT(loaded_in_script_read_upto);
 
@@ -469,55 +469,55 @@ ULONG FRONTEND_leaf_colours[4] =
 // GLOBALS
 //
 
-MenuData  menu_data[50]; // max menu items...
+MenuData menu_data[50]; // max menu items...
 MenuState menu_state;
-CBYTE	  menu_buffer[2048];
-bool	  grabbing_key=0;
-bool	  grabbing_pad=0;
-bool	  m_bMovingPanel = false;
-Kibble	  kibble[512];
-UBYTE	  kibble_off[512];
-SLONG	  fade_state=0;
-UBYTE	  fade_mode=1;
-SLONG	  fade_rgb=0x000000;
-SBYTE	  menu_mode_queued=0;
-UBYTE	  menu_theme=1;
-UBYTE	  menu_thrash=0; // cunningly thrash the stack...
-SWORD	  districts[40][3]; // x, y, id
-SWORD	  district_count=0;
-SWORD	  district_selected=0;
-SWORD     district_flash=0;
-UBYTE	  district_valid[40];
-SWORD	  mission_count=0;
-SWORD	  mission_selected=0;
-UBYTE	  mission_hierarchy[60];
+CBYTE menu_buffer[2048];
+bool grabbing_key=0;
+bool grabbing_pad=0;
+bool m_bMovingPanel = false;
+Kibble kibble[512];
+UBYTE kibble_off[512];
+SLONG fade_state=0;
+UBYTE fade_mode=1;
+SLONG fade_rgb=0x000000;
+SBYTE menu_mode_queued=0;
+UBYTE menu_theme=1;
+UBYTE menu_thrash=0; // cunningly thrash the stack...
+SWORD districts[40][3]; // x, y, id
+SWORD district_count=0;
+SWORD district_selected=0;
+SWORD district_flash=0;
+UBYTE district_valid[40];
+SWORD mission_count=0;
+SWORD mission_selected=0;
+UBYTE mission_hierarchy[60];
 MissionCache mission_cache[60];
 #ifdef	NDEBUG	
-UBYTE	  complete_point=0;
+UBYTE complete_point=0;
 #else
-UBYTE	  complete_point=0;
+UBYTE complete_point=0;
 #endif
-UBYTE	  mission_launch=0;
-UBYTE	  previous_mission_launch=0;
-bool	  cheating=0;
-SLONG	  MidX=0, MidY;
-float	  ScaleX, ScaleY; // bwahahaha... and lo! the floats creep in! see the extent of my evil powers! muahahaha!  *cough*  er...
+UBYTE mission_launch=0;
+UBYTE previous_mission_launch=0;
+bool cheating=0;
+SLONG MidX=0, MidY;
+float ScaleX, ScaleY; // bwahahaha... and lo! the floats creep in! see the extent of my evil powers! muahahaha!  *cough*  er...
 #ifdef DEBUG
 // Allow saves from init, just so I can test the damn things.
-UBYTE	  AllowSave=1;
+UBYTE AllowSave=1;
 #else
-UBYTE	  AllowSave=0;
+UBYTE AllowSave=0;
 #endif
-SLONG	  CurrentVidMode=0;
-UBYTE	  CurrentBitDepth=16;
-UBYTE	  save_slot;
-UBYTE	  bonus_this_turn = 0;
-UBYTE	  bonus_state = 0;
+SLONG CurrentVidMode=0;
+UBYTE CurrentBitDepth=16;
+UBYTE save_slot;
+UBYTE bonus_this_turn = 0;
+UBYTE bonus_state = 0;
 
-CBYTE	  the_script_file[MAX_PATH];
+CBYTE the_script_file[MAX_PATH];
 #define MISSION_SCRIPT	the_script_file
 
-UBYTE	  IsEnglish=0;
+UBYTE IsEnglish=0;
 
 char *pcSpeechLanguageDir = "talk2\\";
 
@@ -530,7 +530,7 @@ int g_iLevelNumber;
 #endif
 
 // Kludge!
-SLONG	  GammaIndex;
+SLONG GammaIndex;
 
 // That's not a kludge. THIS is a kludge.
 bool m_bGoIntoSaveScreen = false;
@@ -554,7 +554,7 @@ LPDIRECTDRAWSURFACE4 screenfull = NULL;
 // FUNCTIONS
 //
 
-void	FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, UBYTE *image_data)
+void FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, UBYTE *image_data)
 {
 	DDSURFACEDESC2 back;
 	DDSURFACEDESC2 mine;
@@ -600,7 +600,7 @@ extern void CopyBackground(UBYTE* image_data, IDirectDrawSurface4* surface);
 	return;
 }
 
-void	FRONTEND_scr_img_load_into_screenfull(CBYTE *name, LPDIRECTDRAWSURFACE4 *screen)
+void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, LPDIRECTDRAWSURFACE4 *screen)
 {
 	MFFileHandle	image_file;
 	SLONG	height;
@@ -660,10 +660,10 @@ void FRONTEND_scr_unload_theme()
 
 
 void FRONTEND_scr_new_theme(
-		CBYTE *fname_back,
-		CBYTE *fname_map,
-		CBYTE *fname_brief,
-		CBYTE *fname_config)
+		CBYTE* fname_back,
+		CBYTE* fname_map,
+		CBYTE* fname_brief,
+		CBYTE* fname_config)
 {
 	SLONG last = 1;
 
@@ -706,7 +706,7 @@ void FRONTEND_restore_screenfull_surfaces()
 		menu_config_names[menu_theme]);
 }
 
-void	FRONTEND_ParseMissionData(CBYTE *text, CBYTE version, MissionData *mdata) {
+void FRONTEND_ParseMissionData(CBYTE* text, CBYTE version, MissionData *mdata) {
 	UWORD a,n;
 	switch(version) {
 	case 2:
@@ -754,8 +754,8 @@ void	FRONTEND_ParseMissionData(CBYTE *text, CBYTE version, MissionData *mdata) {
 	if (*text==13) *text=0;
 }
 
-CBYTE* FRONTEND_LoadString(MFFileHandle &file, CBYTE *txt) {
-	CBYTE *ptr=txt;
+CBYTE* FRONTEND_LoadString(MFFileHandle &file, CBYTE* txt) {
+	CBYTE* ptr=txt;
 
 	*ptr=0;
 	while (1) {
@@ -769,8 +769,8 @@ CBYTE* FRONTEND_LoadString(MFFileHandle &file, CBYTE *txt) {
 	return txt;
 }
 
-void FRONTEND_SaveString(MFFileHandle &file, CBYTE *txt) {
-	CBYTE *ptr=txt;
+void FRONTEND_SaveString(MFFileHandle &file, CBYTE* txt) {
+	CBYTE* ptr=txt;
 	CBYTE crlf[] = { 13, 10};
 
 	FileWrite(file,txt,strlen(txt));
@@ -808,7 +808,7 @@ void FRONTEND_recenter_menu ( void )
 	menu_state.scroll = 0;
 }
 
-ULONG	FRONTEND_fix_rgb(ULONG rgb, bool sel)
+ULONG FRONTEND_fix_rgb(ULONG rgb, bool sel)
 {
 	rgb=fade_rgb;
 	if (sel) rgb=FRONTEND_AlterAlpha(rgb,0,1);
@@ -819,7 +819,7 @@ ULONG	FRONTEND_fix_rgb(ULONG rgb, bool sel)
 
 #define RandStream(s) ((UWORD)((s = ((s*69069)+1) )>>7))
 
-void	FRONTEND_draw_title(SLONG x, SLONG y, SLONG cutx, CBYTE *str, bool wibble, bool r_to_l) {
+void FRONTEND_draw_title(SLONG x, SLONG y, SLONG cutx, CBYTE* str, bool wibble, bool r_to_l) {
 #ifdef TARGET_DC
 	SLONG rgb=wibble?0xffffffff:0x70ffffff;
 #else
@@ -849,7 +849,7 @@ void	FRONTEND_draw_title(SLONG x, SLONG y, SLONG cutx, CBYTE *str, bool wibble, 
 
 }
 
-void	FRONTEND_init_xition ( void ) {
+void FRONTEND_init_xition ( void ) {
 	MidX=RealDisplayWidth/2;
 	MidY=RealDisplayHeight/2;
 	ScaleX=MidX/64.0f;
@@ -889,7 +889,7 @@ void	FRONTEND_init_xition ( void ) {
 
 LPDIRECTDRAWSURFACE4 lpFRONTEND_show_xition_LastBlit = NULL;
 
-void	FRONTEND_show_xition() {
+void FRONTEND_show_xition() {
 	RECT rc;
 
 	bool bDoBlit = false;
@@ -930,7 +930,7 @@ void	FRONTEND_show_xition() {
 
 extern UBYTE* image_mem;
 
-void	FRONTEND_stop_xition()
+void FRONTEND_stop_xition()
 {
 	switch(menu_state.mode)
 	{
@@ -983,7 +983,7 @@ void	FRONTEND_stop_xition()
 }
 
 
-void	FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = false) {
+void FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = false) {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 	float u,v,w,h;
@@ -1031,7 +1031,7 @@ void	FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = false) {
 
 #define KIBBLE_Z 0.5
 
-void	FRONTEND_kibble_draw() {
+void FRONTEND_kibble_draw() {
 	UWORD c0;
 	Kibble*k;
 	POLY_Point  pp[4];
@@ -1083,7 +1083,7 @@ void	FRONTEND_kibble_draw() {
 
 
 // Oh yuk this is pants - really could look better.
-void	FRONTEND_DrawSlider(MenuData *md) {
+void FRONTEND_DrawSlider(MenuData *md) {
 	SLONG y;
 	ULONG rgb=FRONTEND_fix_rgb(fade_rgb,0);
 	y=md->Y+menu_state.base-menu_state.scroll;
@@ -1093,9 +1093,9 @@ void	FRONTEND_DrawSlider(MenuData *md) {
 	DRAW2D_Box(337+(md->Data),y-8,341+(md->Data),y+8,rgb,0,192);
 } 
 
-void	FRONTEND_DrawMulti(MenuData *md, ULONG rgb) {
+void FRONTEND_DrawMulti(MenuData *md, ULONG rgb) {
 	SLONG x,y,dy,c0;
-	CBYTE *str;
+	CBYTE* str;
 	//ULONG rgb=FRONTEND_fix_rgb(fade_rgb,0);
 	dy=md->Y+menu_state.base-menu_state.scroll;
 	str=md->Choices;
@@ -1138,7 +1138,7 @@ void	FRONTEND_DrawMulti(MenuData *md, ULONG rgb) {
 #endif
 }
 
-void	FRONTEND_DrawKey(MenuData *md) {
+void FRONTEND_DrawKey(MenuData *md) {
 	SLONG x,y,dy,c0,rgb;
 	CBYTE key;
 	CBYTE str[25];
@@ -1220,7 +1220,7 @@ void	FRONTEND_DrawKey(MenuData *md) {
 	}
 }
 
-void	FRONTEND_DrawPad(MenuData *md) {
+void FRONTEND_DrawPad(MenuData *md) {
 	SLONG x,y,dy,c0,rgb;
 	CBYTE str[20];
 	rgb=FRONTEND_fix_rgb(fade_rgb,(grabbing_pad&&((menu_data+menu_state.selected==md)&&((GetTickCount()&0x7ff)<0x3ff))));
@@ -1233,7 +1233,7 @@ void	FRONTEND_DrawPad(MenuData *md) {
 
 //--- kibbly stuff ---
 
-void	FRONTEND_kibble_init_one(Kibble*k, UBYTE type) {
+void FRONTEND_kibble_init_one(Kibble*k, UBYTE type) {
 	
 	SLONG kibble_index = k - kibble;
 
@@ -1300,7 +1300,7 @@ void	FRONTEND_kibble_init_one(Kibble*k, UBYTE type) {
 	}
 }
 
-void	FRONTEND_kibble_init() {
+void FRONTEND_kibble_init() {
 	UWORD c0, densities[] = { 25, 255, 40, 10 };
 	Kibble*k;
 
@@ -1314,7 +1314,7 @@ void	FRONTEND_kibble_init() {
 	for (c0=0,k=kibble;c0<densities[menu_theme];c0++,k++) FRONTEND_kibble_init_one(k,menu_theme+1);
 }
 
-void	FRONTEND_kibble_flurry() {
+void FRONTEND_kibble_flurry() {
 	UWORD n, c0, densities[4];
 	Kibble*k;
 
@@ -1352,7 +1352,7 @@ void	FRONTEND_kibble_flurry() {
 	}
 }
 
-void	FRONTEND_kibble_process() {
+void FRONTEND_kibble_process() {
 	SLONG c0;
 	Kibble*k;
 
@@ -1454,8 +1454,8 @@ void	FRONTEND_kibble_process() {
 
 //--- filing stuff ---
 
-void FRONTEND_fetch_title_from_id(CBYTE *script, CBYTE *ttl, UBYTE id) {
-	CBYTE *text;
+void FRONTEND_fetch_title_from_id(CBYTE* script, CBYTE* ttl, UBYTE id) {
+	CBYTE* text;
 	SLONG ver;
 	MissionData *mdata = MFnew<MissionData>();
 
@@ -1502,13 +1502,13 @@ void FRONTEND_fetch_title_from_id(CBYTE *script, CBYTE *ttl, UBYTE id) {
 	}
 }
 
-UBYTE	best_found[50][4];
-void	init_best_found()
+UBYTE best_found[50][4];
+void init_best_found()
 {
 	memset(&best_found[0][0],50*4,0);
 }
 
-bool FRONTEND_save_savegame(CBYTE *mission_name, UBYTE slot) {
+bool FRONTEND_save_savegame(CBYTE* mission_name, UBYTE slot) {
 	CBYTE fn[_MAX_PATH];
 	MFFileHandle file;
 	UBYTE version=3;
@@ -1583,7 +1583,7 @@ void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=
 	bool   ok;
 	SLONG	c0;
 	MenuData *md=menu_data;
-	CBYTE *str=menu_buffer;
+	CBYTE* str=menu_buffer;
 	SLONG x,y,y2=0;
 	FILETIME time, high_time={0,0};
 
@@ -1631,9 +1631,9 @@ void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=
 	}
 }
 
-CBYTE*	FRONTEND_MissionFilename(CBYTE *script, UBYTE i) {
+CBYTE*	FRONTEND_MissionFilename(CBYTE* script, UBYTE i) {
 	MFFileHandle file;
-	CBYTE *text, *str=menu_buffer;
+	CBYTE* text, *str=menu_buffer;
 	SLONG ver;
 	MissionData *mdata = MFnew<MissionData>();
 	MenuData *md=menu_data;
@@ -1686,10 +1686,10 @@ CBYTE*	FRONTEND_MissionFilename(CBYTE *script, UBYTE i) {
 	return str;
 }
 
-void	FRONTEND_MissionHierarchy(CBYTE *script) {
+void FRONTEND_MissionHierarchy(CBYTE* script) {
 	MFFileHandle file;
 	SLONG best_score;
-	CBYTE *text;
+	CBYTE* text;
 	SLONG ver;
 	MissionData *mdata = MFnew<MissionData>();
 	MenuData *md=menu_data;
@@ -2070,7 +2070,7 @@ void	FRONTEND_MissionHierarchy(CBYTE *script) {
 	MFdelete(mdata);
 }
 
-CBYTE	*brief_wav[]=
+CBYTE* brief_wav[]=
 {
 	"none", //0
 	"none", //1
@@ -2110,9 +2110,9 @@ CBYTE	*brief_wav[]=
 	""
 
 };
-void	FRONTEND_MissionBrief(CBYTE *script, UBYTE i) {
+void FRONTEND_MissionBrief(CBYTE* script, UBYTE i) {
 	MFFileHandle file;
-	CBYTE *text, *str=menu_buffer;
+	CBYTE* text, *str=menu_buffer;
 	SLONG ver;
 	MissionData *mdata = MFnew<MissionData>();
 	MenuData *md=menu_data;
@@ -2185,9 +2185,9 @@ void	FRONTEND_MissionBrief(CBYTE *script, UBYTE i) {
 }
 
 
-void	FRONTEND_MissionList(CBYTE *script, UBYTE district) {
+void FRONTEND_MissionList(CBYTE* script, UBYTE district) {
 /*	MFFileHandle file;
-	CBYTE *text, *str=menu_buffer;
+	CBYTE* text, *str=menu_buffer;
 	SLONG ver;
 	MissionData *mdata = MFnew<MissionData>();
 //	MenuData *md=menu_data;
@@ -2225,7 +2225,7 @@ void	FRONTEND_MissionList(CBYTE *script, UBYTE district) {
 	MFdelete(mdata);
 */
 	UBYTE i=0;
-	CBYTE *str=menu_buffer;
+	CBYTE* str=menu_buffer;
 
 	mission_count=mission_selected=0;
 
@@ -2278,9 +2278,9 @@ void	FRONTEND_MissionList(CBYTE *script, UBYTE district) {
 	*/
 }
 
-void	FRONTEND_CacheMissionList(CBYTE *script) {
+void FRONTEND_CacheMissionList(CBYTE* script) {
 	MFFileHandle file;
-	CBYTE *text, *str;
+	CBYTE* text, *str;
 	SLONG ver;
 	MissionData *mdata = MFnew<MissionData>();
 	UBYTE i=0;
@@ -2315,9 +2315,9 @@ void	FRONTEND_CacheMissionList(CBYTE *script) {
 
 }
 
-void	FRONTEND_districts(CBYTE *script) {
+void FRONTEND_districts(CBYTE* script) {
 	MFFileHandle file;
-	CBYTE *text, *str=menu_buffer;
+	CBYTE* text, *str=menu_buffer;
 	SLONG ver, mapx=0, mapy=0;
 	MenuData *md=menu_data;
 	SLONG x,y;
@@ -2386,7 +2386,7 @@ CBYTE*	FRONTEND_gettitle(UBYTE mode, UBYTE selection) {
 	return XLAT_str_ptr(pt->Label);
 }
 
-void	FRONTEND_easy(UBYTE mode) {
+void FRONTEND_easy(UBYTE mode) {
 	SLONG x,y,y2=0;
 	RawMenuData *pt=raw_menu_data;
 	MenuData *md=menu_data+menu_state.items;
@@ -2614,7 +2614,7 @@ void FRONTEND_store_video_data()
 
 #ifndef TARGET_DC
 
-void	FRONTEND_do_drivers() {
+void FRONTEND_do_drivers() {
 	SLONG			result, count=0, selected=0;
 	ChangeDDInfo	*change_info;
 	DDDriverInfo	*current_driver=0,
@@ -2687,7 +2687,7 @@ void	FRONTEND_do_drivers() {
 		str+=strlen(str)+1;
 
 /*		// Set up pointer to driver for this item
-		SendDlgItemMessage(hDlg, IDC_DRIVERS, CB_SETITEMDATA, (WPARAM)result, (LPARAM)(void *)driver_list);*/
+		SendDlgItemMessage(hDlg, IDC_DRIVERS, CB_SETITEMDATA, (WPARAM)result, (LPARAM)(void* )driver_list);*/
 
 		// Is it the current Driver
 		if(current_driver==driver_list)
@@ -2714,7 +2714,7 @@ void	FRONTEND_do_drivers() {
 	menu_data[3].Choices=menu_buffer;*/
 }
 
-void	FRONTEND_gamma_update() {
+void FRONTEND_gamma_update() {
 /*	if ((menu_state.selected==11)||(menu_state.selected==12)) {
 		the_display.SetGamma(menu_data[11].Data, menu_data[12].Data);
 	}*/
@@ -2725,16 +2725,16 @@ void	FRONTEND_gamma_update() {
 #else //#ifndef TARGET_DC
 
 // Spoof them.
-void	FRONTEND_do_drivers() {
+void FRONTEND_do_drivers() {
 }
 
-void	FRONTEND_gamma_update() {
+void FRONTEND_gamma_update() {
 }
 
 
 #endif //#else //#ifndef TARGET_DC
 
-void	FRONTEND_do_gamma() {
+void FRONTEND_do_gamma() {
 	SLONG x,y,y2=0;
 	MenuData keepsafe;
 	MenuData *md=menu_data+menu_state.items-1;
@@ -2775,7 +2775,7 @@ void	FRONTEND_do_gamma() {
 
 }
 
-void	FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
+void FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 	// Reset this now.
 	dwAutoPlayFMVTimeout = timeGetTime() + AUTOPLAY_FMV_DELAY;
 
@@ -3015,10 +3015,10 @@ void	FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 	FRONTEND_recenter_menu();
 }
 
-void	FRONTEND_draw_districts() {
+void FRONTEND_draw_districts() {
 	UBYTE i,j,id;
 	SWORD x,y;
-	CBYTE *str;
+	CBYTE* str;
 	UWORD fade;
 	ULONG rgb;
 
@@ -3249,7 +3249,7 @@ void FRONTEND_shadowed_text ( char *pcString, int iX, int iY, DWORD dwColour )
 }
 
 
-void	FRONTEND_display()
+void FRONTEND_display()
 {
 	UBYTE i;
 	SLONG rgb, x,x2,y;
@@ -3433,7 +3433,7 @@ extern void PANEL_draw_quad( float left,float top,float right,float bottom,SLONG
 }
 
 
-void	FRONTEND_storedata() {
+void FRONTEND_storedata() {
 	switch(menu_state.mode) {
 	case FE_CONFIG_VIDEO:
 		FRONTEND_store_video_data();
@@ -3497,8 +3497,8 @@ void	FRONTEND_storedata() {
 	}
 }
 
-bool	FRONTEND_ValidMission(SWORD sel) {
-	CBYTE *str=menu_buffer;
+bool FRONTEND_ValidMission(SWORD sel) {
+	CBYTE* str=menu_buffer;
 	UBYTE id=*str;
 
 	while (sel) {
@@ -3510,7 +3510,7 @@ bool	FRONTEND_ValidMission(SWORD sel) {
 	return (bool)(mission_hierarchy[id]&4);
 }
 
-UBYTE	FRONTEND_input() {
+UBYTE FRONTEND_input() {
 	UBYTE scan, any_button=0;
 	static SLONG last_input=0;
 	static UBYTE last_button=0;
@@ -4059,7 +4059,7 @@ UBYTE	FRONTEND_input() {
 //--- externally accessible ---
 
 
-void	FRONTEND_init ( bool bGoToTitleScreen )
+void FRONTEND_init ( bool bGoToTitleScreen )
 {
 
 	static bool bFirstTime = true;
@@ -4098,7 +4098,7 @@ extern SLONG EWAY_cam_active;
 	// Reset the transition buffer's contents.
 	lpFRONTEND_show_xition_LastBlit = NULL;
 
-	CBYTE *str, *lang=ENV_get_value_string("language");
+	CBYTE* str, *lang=ENV_get_value_string("language");
 
 #ifdef VERSION_FRENCH
 	// Kludge for the DC converter
@@ -4209,7 +4209,7 @@ void MENUFONT_MergeLower();
 	bFirstTime = false;
 }
 
-void	FRONTEND_level_lost() 
+void FRONTEND_level_lost() 
 {
 	mission_launch=previous_mission_launch;
 	// Start up the kibble again.
@@ -4220,7 +4220,7 @@ void	FRONTEND_level_lost()
 	FRONTEND_mode(FE_MAINMENU);
 }
 
-void	FRONTEND_level_won() 
+void FRONTEND_level_won() 
 {
 
 	ASSERT(mission_launch<50);
@@ -4322,7 +4322,7 @@ void FRONTEND_playambient3d(SLONG channel, SLONG wave_id, SLONG flags, UBYTE hei
 }
 
 
-void	FRONTEND_sound() {
+void FRONTEND_sound() {
 	static SLONG siren_time=100;
 	SLONG wave_id;
 
@@ -4350,7 +4350,7 @@ void	FRONTEND_sound() {
 }
 
 
-void	FRONTEND_diddle_stats()
+void FRONTEND_diddle_stats()
 {
 #ifndef	FINAL
 #ifndef TARGET_DC
@@ -4370,7 +4370,7 @@ void	FRONTEND_diddle_stats()
 
 }
 
-void	FRONTEND_diddle_music()
+void FRONTEND_diddle_music()
 {
 	TRACE("STARTSCR_mission: %s\n",STARTSCR_mission);
 	MUSIC_bodge_code=0;
@@ -4391,9 +4391,9 @@ void	FRONTEND_diddle_music()
 
 UBYTE this_level_has_the_balrog;
 UBYTE this_level_has_bane;
-UBYTE	is_semtex=0;
+UBYTE is_semtex=0;
 
-SBYTE	FRONTEND_loop() {
+SBYTE FRONTEND_loop() {
 	SBYTE res;
 
 	static SLONG last = 0;
@@ -4549,7 +4549,7 @@ extern int g_iCheatNumber;
 
 		struct
 		{
-			CBYTE *mission;
+			CBYTE* mission;
 			SLONG  dontload;
 			SLONG  has_balrog;
 

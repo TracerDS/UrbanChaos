@@ -20,7 +20,7 @@ inline GameCoord Coord(SLONG x, SLONG y, SLONG z) { GameCoord bob = {x,y,z}; ret
 // ----------------------------------------------------------------------------------------
 
 #ifndef	PSX
-void	RIBBON_draw() {
+void RIBBON_draw() {
 	SLONG i;
 	for (i=0;i<MAX_RIBBONS;i++)
 		if ((Ribbons[i].Flags&RIBBON_FLAG_USED)&&(RIBBON_length(i+1)>2))
@@ -29,7 +29,7 @@ void	RIBBON_draw() {
 
 // ----------------------------------------------------------------------------------------
 
-void	RIBBON_process() {
+void RIBBON_process() {
 	SLONG i,j;
 
 	for (i=0;i<MAX_RIBBONS;i++)
@@ -46,13 +46,13 @@ void	RIBBON_process() {
 
 // ----------------------------------------------------------------------------------------
 
-void	RIBBON_init() {
+void RIBBON_init() {
 	memset((UBYTE*)Ribbons,0,sizeof(Ribbons));
 }
 
 // ----------------------------------------------------------------------------------------
 
-SLONG	RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYTE fade, UBYTE scroll, UBYTE u, UBYTE v, SLONG rgb) 
+SLONG RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYTE fade, UBYTE scroll, UBYTE u, UBYTE v, SLONG rgb) 
 {
 	static SLONG	NextRibbon=0;
 	SLONG LastRibbon;
@@ -85,14 +85,14 @@ SLONG	RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYT
 
 // ----------------------------------------------------------------------------------------
 
-void	RIBBON_free(SLONG ribbon) {
+void RIBBON_free(SLONG ribbon) {
 	Ribbons[ribbon].Flags=0;
 	Ribbons[ribbon].Head=Ribbons[ribbon].Tail=0;
 }
 
 // ----------------------------------------------------------------------------------------
 
-void	RIBBON_extend(SLONG ribbon, SLONG x, SLONG y, SLONG z) {
+void RIBBON_extend(SLONG ribbon, SLONG x, SLONG y, SLONG z) {
 	ribbon--; // 1 based so that "if (!RIBBON_alloc())" is okay
 	if (!(Ribbons[ribbon].Flags & RIBBON_FLAG_USED)) return;
 
@@ -117,7 +117,7 @@ extern SLONG GAMEMENU_menu_type;
 
 // ----------------------------------------------------------------------------------------
 
-SLONG	RIBBON_length(SLONG ribbon) {
+SLONG RIBBON_length(SLONG ribbon) {
 	SLONG len;
 	ribbon--; // 1 based so that "if (!RIBBON_alloc())" is okay
 	if (Ribbons[ribbon].Flags & RIBBON_FLAG_USED) {
@@ -131,7 +131,7 @@ SLONG	RIBBON_length(SLONG ribbon) {
 // ----------------------------------------------------------------------------------------
 
 
-void	RIBBON_life(SLONG ribbon, SLONG life) {
+void RIBBON_life(SLONG ribbon, SLONG life) {
 	ribbon--; // 1 based so that "if (!RIBBON_alloc())" is okay
 	if (Ribbons[ribbon].Flags & RIBBON_FLAG_USED) {
 		Ribbons[ribbon].Life=life;

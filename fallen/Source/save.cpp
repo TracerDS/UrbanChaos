@@ -21,7 +21,7 @@
 
 FILE *SAVE_handle;
 
-SLONG SAVE_out_data(void *data, ULONG num_bytes)
+SLONG SAVE_out_data(void* data, ULONG num_bytes)
 {
 	if (fwrite(data,  1, num_bytes, SAVE_handle) != num_bytes)
 	{	
@@ -33,7 +33,7 @@ SLONG SAVE_out_data(void *data, ULONG num_bytes)
 	}
 }
 
-SLONG LOAD_in_data(void *data, ULONG num_bytes)
+SLONG LOAD_in_data(void* data, ULONG num_bytes)
 {
 	DebugText(" read <%d> \n",num_bytes);
 	if (fread(data, 1, num_bytes, SAVE_handle) != num_bytes)
@@ -69,12 +69,12 @@ SLONG LOAD_open()
 	return 0;
 }
 
-SLONG SAVE_out_data(void *data,ULONG num_bytes)
+SLONG SAVE_out_data(void* data,ULONG num_bytes)
 {
 //	Compress_Compress(data,num_bytes);
 }
 
-SLONG LOAD_in_data(void *data,ULONG num_bytes)
+SLONG LOAD_in_data(void* data,ULONG num_bytes)
 {
 //	Compress_Decompress(data,num_bytes);
 }
@@ -103,8 +103,8 @@ SLONG LOAD_in_data(void *data,ULONG num_bytes)
 
 #define	SAVE_GAME_EWAY					101
 
-UBYTE	skip=SAVE_SKIP;
-UBYTE	skip_class_none=SAVE_SKIP_CLASS_NONE;
+UBYTE skip=SAVE_SKIP;
+UBYTE skip_class_none=SAVE_SKIP_CLASS_NONE;
 
 typedef struct
 {
@@ -191,7 +191,7 @@ SLONG SAVE_special(Thing *p_special)
 	return(ret);
 }
 
-SLONG	SAVE_vehicle(Thing *p_vehicle)
+SLONG SAVE_vehicle(Thing *p_vehicle)
 {
 	Thing	*p_driver;
 	SLONG	ret=1;
@@ -367,7 +367,7 @@ SLONG SAVE_person(Thing *p_person)
 
 
 
-SLONG	SAVE_things()
+SLONG SAVE_things()
 {
 	SLONG	index;
 	Thing	*p_thing;
@@ -412,7 +412,7 @@ SLONG	SAVE_things()
 }
 
 
-SLONG	SAVE_eways()
+SLONG SAVE_eways()
 {
 	UBYTE		marker=SAVE_GAME_EWAY;
 	SLONG		c0,res=1;
@@ -447,7 +447,7 @@ SLONG	SAVE_eways()
 
 
 
-SLONG	SAVE_ingame(CBYTE *fname)
+SLONG SAVE_ingame(CBYTE* fname)
 {
 	SLONG	ret=1;
 
@@ -481,7 +481,7 @@ SLONG	SAVE_ingame(CBYTE *fname)
 
 
 
-SLONG	LOAD_eways()
+SLONG LOAD_eways()
 {
 	SLONG		c0,res=1;
 	EWAY_Way	*ew;
@@ -504,7 +504,7 @@ SLONG	LOAD_eways()
 	return(res);
 }
 
-void	set_person_default_data(Thing *p_person,SAVE_Person *sp)
+void set_person_default_data(Thing *p_person,SAVE_Person *sp)
 {
 	p_person->WorldPos.X=sp->x<<8;
 	p_person->WorldPos.Y=sp->y<<8;
@@ -517,7 +517,7 @@ void	set_person_default_data(Thing *p_person,SAVE_Person *sp)
 
 }
 
-void	LOAD_person_dead(Thing *p_person)
+void LOAD_person_dead(Thing *p_person)
 {
 	SAVE_Person sp;
 
@@ -550,7 +550,7 @@ void	LOAD_person_dead(Thing *p_person)
 
 }
 
-void	LOAD_person_arrested(Thing *p_person)
+void LOAD_person_arrested(Thing *p_person)
 {
 	SAVE_Person sp;
 	
@@ -582,7 +582,7 @@ void	LOAD_person_arrested(Thing *p_person)
 	add_thing_to_map(p_person);
 }
 
-void	LOAD_person_full(Thing *p_person)
+void LOAD_person_full(Thing *p_person)
 {
 	SAVE_Person_extra	extra;
 
@@ -613,7 +613,7 @@ void	LOAD_person_full(Thing *p_person)
 	}
 }
 
-void	LOAD_special_full(Thing *p_special)
+void LOAD_special_full(Thing *p_special)
 {
 	DrawMesh	*draw_mesh;
 	Special		*special;
@@ -634,7 +634,7 @@ void	LOAD_special_full(Thing *p_special)
 		SLONG	index;
 		DrawMesh *dm;
 
-extern	SLONG	find_empty_special();
+extern SLONG	find_empty_special();
 		index=find_empty_special();
 
 		p_special->Genus.Special=TO_SPECIAL(index);
@@ -666,7 +666,7 @@ extern	SLONG	find_empty_special();
 	}
 }
 
-void	LOAD_vehicle_full(Thing *p_vehicle)
+void LOAD_vehicle_full(Thing *p_vehicle)
 {
 	SAVE_Vehicle_extra	extra;
 
@@ -695,7 +695,7 @@ void	LOAD_vehicle_full(Thing *p_vehicle)
 	}
 }
 
-SLONG	LOAD_types()
+SLONG LOAD_types()
 {
 	UBYTE	type;
 	UWORD	thing=0;
@@ -763,7 +763,7 @@ SLONG	LOAD_types()
 						break;
 
 					case	CLASS_SPECIAL:
-void	free_special(Thing *special_thing);
+void free_special(Thing *special_thing);
 							free_special(p_thing);
 							break;
 					case	CLASS_TRACK:
@@ -791,10 +791,10 @@ void	free_special(Thing *special_thing);
 	return 0;
 }
 
-extern	UWORD	*thing_class_head;
+extern UWORD	*thing_class_head;
 
 
-void	fix_thing_lists()
+void fix_thing_lists()
 {
 	SLONG	c0;
 	Thing	*p_thing;
@@ -833,9 +833,9 @@ void	fix_thing_lists()
 		}
 	}
 }
-extern	void free_special(Thing *s_thing);
+extern void free_special(Thing *s_thing);
 
-void	remove_specials()
+void remove_specials()
 {
 	SLONG	index,next;
 	Thing	*p_special;
@@ -851,7 +851,7 @@ void	remove_specials()
 	}
 
 }
-SLONG	LOAD_ingame(CBYTE *fname)
+SLONG LOAD_ingame(CBYTE* fname)
 {
 	SLONG	ret=1;
 
@@ -860,7 +860,7 @@ SLONG	LOAD_ingame(CBYTE *fname)
 	 remove_specials();
 
 
-void	reload_level();
+void reload_level();
 	reload_level();
 
 	DebugText("\nLoadInGame \n\n");

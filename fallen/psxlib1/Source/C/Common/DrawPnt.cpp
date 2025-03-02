@@ -7,12 +7,12 @@
 
 //---------------------------------------------------------------
 
-void	DrawPoint8(MFPoint *the_point,ULONG colour)
+void DrawPoint8(MFPoint *the_point,ULONG colour)
 {
 	*(WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth))	=	(UBYTE)colour;
 }
 
-void	DrawPoint16(MFPoint *the_point,ULONG colour)
+void DrawPoint16(MFPoint *the_point,ULONG colour)
 {
 	UWORD	*ptr;
 	ptr  = (UWORD*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>1);
@@ -20,7 +20,7 @@ void	DrawPoint16(MFPoint *the_point,ULONG colour)
 
 }
 
-void	DrawPoint32(MFPoint *the_point,ULONG colour)
+void DrawPoint32(MFPoint *the_point,ULONG colour)
 {
 	ULONG	*ptr;
 	ptr  = (ULONG*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>2);
@@ -29,7 +29,7 @@ void	DrawPoint32(MFPoint *the_point,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawPointC8(MFPoint *the_point,ULONG colour)
+void DrawPointC8(MFPoint *the_point,ULONG colour)
 {
 	if	(
 			the_point->X>=0					&&
@@ -42,7 +42,7 @@ void	DrawPointC8(MFPoint *the_point,ULONG colour)
 	}
 }
 
-void	DrawPointC16(MFPoint *the_point,ULONG colour)
+void DrawPointC16(MFPoint *the_point,ULONG colour)
 {
 	UWORD	*ptr;
 	if	(
@@ -57,7 +57,7 @@ void	DrawPointC16(MFPoint *the_point,ULONG colour)
 	}
 }
 
-void	DrawPointC32(MFPoint *the_point,ULONG colour)
+void DrawPointC32(MFPoint *the_point,ULONG colour)
 {
 	ULONG	*ptr;
 	if	(

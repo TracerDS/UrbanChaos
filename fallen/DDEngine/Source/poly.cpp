@@ -1055,7 +1055,7 @@ void POLY_fadeout_buffer()
 }
 
 
-extern	UWORD	fade_black;
+extern UWORD	fade_black;
 
 
 
@@ -2360,8 +2360,8 @@ void POLY_add_triangle_slow(POLY_Point *pp[3], SLONG page, SLONG backface_cull, 
 // add a quad to the poly list; note that vertices clockwise go 0,1,3,2 in this call
 //
 
-extern	SLONG TEXTURE_set;
-extern	UBYTE TEXTURE_dontexist[];
+extern SLONG TEXTURE_set;
+extern UBYTE TEXTURE_dontexist[];
 
 void POLY_add_quad_slow(POLY_Point *pp[4], SLONG page, SLONG backface_cull, SLONG generate_clip_flags)
 {
@@ -2378,7 +2378,7 @@ void POLY_add_quad_slow(POLY_Point *pp[4], SLONG page, SLONG backface_cull, SLON
 			sprintf(str,"W%d %d",TEXTURE_set,page);
 		else
 			sprintf(str,"W%d S%d",TEXTURE_set,page);
-//extern	FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=16, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
+//extern FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=16, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
 		FONT2D_DrawString(str,pp[0]->X,pp[0]->Y,0xff0000);
 	}
 #endif
@@ -3592,7 +3592,7 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 
 	if(GAME_STATE&GS_ATTRACT_MODE)
 	{
-extern	void	draw_text_at(float x,float y,CBYTE *message,SLONG font_id);
+extern void	draw_text_at(float x,float y,CBYTE* message,SLONG font_id);
 	extern bool  text_fudge;
 	extern ULONG text_colour;
 

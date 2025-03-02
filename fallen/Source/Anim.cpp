@@ -90,12 +90,12 @@ SAVE INGAME
 
 //poostruct GameKeyFrameElement	gamekeyframeelements[MAX_NUMBER_OF_ELEMENTS];
 #ifdef EDITOR
-extern	struct KeyFrameChunk 	edit_chunk1,edit_chunk2;
-extern	struct KeyFrameElement	*elements_bank1,*elements_bank2;
+extern struct KeyFrameChunk 	edit_chunk1,edit_chunk2;
+extern struct KeyFrameElement	*elements_bank1,*elements_bank2;
 #endif
 
-SLONG	build_psx=0; //save_psx
-extern	SLONG	save_psx;
+SLONG build_psx=0; //save_psx
+extern SLONG	save_psx;
 
 #define	NROPER_ANIM_YOMP					(1)
 #define	NROPER_ANIM_STAND_READY				(2)
@@ -183,16 +183,16 @@ extern	SLONG	save_psx;
 
 #define	NROPER_ANIM_CLIMB_OVER_FENCE		(91)
 
-UWORD	next_prim_point=1;
-UWORD	next_prim_face4=1;
-UWORD	next_prim_face3=1;
-UWORD	next_prim_object=1;
-UWORD	next_prim_multi_object=1;
+UWORD next_prim_point=1;
+UWORD next_prim_face4=1;
+UWORD next_prim_face3=1;
+UWORD next_prim_object=1;
+UWORD next_prim_multi_object=1;
 
 
-UBYTE	roper_pickup=0;
+UBYTE roper_pickup=0;
 
-void	set_next_prim_point(SLONG v)
+void set_next_prim_point(SLONG v)
 {
 	next_prim_point=v;
 }
@@ -201,16 +201,16 @@ void	set_next_prim_point(SLONG v)
 //UWORD	matrix_index_pool[MAX_MATRIX_POOL];
 //struct	AnimItem	anim_index[MAX_CREATURE_TYPES][MAX_ANIMS_PER_CREATURE];		
 #if defined(PSX) || defined(TARGET_DC)
-struct	PrimMultiAnim	prim_multi_anims[1];
+struct PrimMultiAnim	prim_multi_anims[1];
 #else
 
-struct	PrimMultiAnim	prim_multi_anims[10000];
+struct PrimMultiAnim	prim_multi_anims[10000];
 
 #endif
-UWORD	next_prim_multi_anim=1;
+UWORD next_prim_multi_anim=1;
 
 #ifndef PSX
-void	ANIM_init()
+void ANIM_init()
 {
 	SLONG	c0;
 	for(c0=0;c0<MAX_GAME_CHUNKS;c0++)
@@ -231,9 +231,9 @@ void	ANIM_init()
 	}
 }
 
-void	ANIM_fini()
+void ANIM_fini()
 {
-void	free_game_chunk(GameKeyFrameChunk *the_chunk);
+void free_game_chunk(GameKeyFrameChunk *the_chunk);
 	free_game_chunk(&game_chunk[ANIM_TYPE_DARCI]);
 	free_game_chunk(&game_chunk[ANIM_TYPE_ROPER]);
 	free_game_chunk(&game_chunk[ANIM_TYPE_ROPER2]);
@@ -243,7 +243,7 @@ void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 #endif
 //************************************************************************************************
 #ifndef	ULTRA_COMPRESSED_ANIMATIONS
-void	SetCMatrixComp(GameKeyFrameElementComp *e, CMatrix33 *cm)
+void SetCMatrixComp(GameKeyFrameElementComp *e, CMatrix33 *cm)
 {
 	e->Pad = 0;
 
@@ -355,9 +355,9 @@ void convert_to_psx_gke(GameKeyFrameElementComp *to, GameKeyFrameElement *from)
 
 
 //! this could be halved in size(ish) -> symmetrical about diagonal
-SBYTE	UCA_Lookup[256][256];
+SBYTE UCA_Lookup[256][256];
 
-void	UCA_LookupSetup()
+void UCA_LookupSetup()
 {
 	SLONG	c0;
 	SLONG	c1;
@@ -367,7 +367,7 @@ void	UCA_LookupSetup()
 			UCA_Lookup[(UBYTE)c0][(UBYTE)c1] = Root(16383 - ((c0 * c0) + (c1 * c1)));
 }
 #ifndef PSX
-void	SetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm)
+void SetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm)
 {
 	e->Pad = 0;
 
@@ -463,7 +463,7 @@ void	SetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm)
 }
 #endif
 
-void	GetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm)
+void GetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm)
 {
 	SLONG	a, b, c;
 	SLONG	m00, m01, m02;
@@ -574,7 +574,7 @@ void	GetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm)
 void convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_chunk);
 
 #ifndef PSX
-void	init_anim_prims()
+void init_anim_prims()
 {
 	SLONG	c0;
 	for(c0=0;c0<MAX_ANIM_CHUNKS;c0++)
@@ -584,7 +584,7 @@ void	init_anim_prims()
 }
 #endif
 
-void	reset_anim_stuff()
+void reset_anim_stuff()
 {
 	if(test_chunk)
 	{
@@ -610,7 +610,7 @@ void	reset_anim_stuff()
 
 #ifdef EDITOR
 
-void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
+void load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 {
 	CBYTE			anim_name[ANIM_NAME_SIZE];
 	SLONG			anim_flags,
@@ -697,9 +697,9 @@ void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 
 
 
-Anim	*current_anim;
+Anim *current_anim;
 
-void	create_anim(Anim **the_list)
+void create_anim(Anim **the_list)
 {
 	CBYTE		text[32];
 	Anim		*next_anim,
@@ -733,7 +733,7 @@ void	create_anim(Anim **the_list)
 	}
 }
 
-void	load_body_part_info(MFFileHandle file_handle,SLONG version,KeyFrameChunk *the_chunk)
+void load_body_part_info(MFFileHandle file_handle,SLONG version,KeyFrameChunk *the_chunk)
 {
 	SLONG	c0,c1;
 	SLONG	no_people,no_body_bits,string_len;
@@ -752,7 +752,7 @@ void	load_body_part_info(MFFileHandle file_handle,SLONG version,KeyFrameChunk *t
 	}
 }
 
-void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list)
+void load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list)
 {
 //#ifdef	EDITOR
 	SLONG			anim_count,version,
@@ -790,10 +790,10 @@ void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list)
 
 
 
-void	setup_anim_stuff()
+void setup_anim_stuff()
 {
 #ifdef	EDITOR
-extern	SLONG	key_frame_count,current_element;
+extern SLONG	key_frame_count,current_element;
 	current_element	=	0;
 	key_frame_count	=	0;
 #endif
@@ -823,14 +823,14 @@ extern	SLONG	key_frame_count,current_element;
 
 }
 
-UBYTE	estate=0;  //desperate bodge
-UBYTE	semtex=0;
+UBYTE estate=0;  //desperate bodge
+UBYTE semtex=0;
 
 #ifdef	PSX
 /*
-SLONG	load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name);
+SLONG load_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name);
 
-void	setup_people_anims()
+void setup_people_anims()
 {
 #ifdef ULTRA_COMPRESSED_ANIMATIONS
 	UCA_LookupSetup();
@@ -843,7 +843,7 @@ void	setup_people_anims()
 
 }
 
-void	setup_extra_anims()
+void setup_extra_anims()
 {
 	Anim	*key_list;
 	key_list		=	NULL;
@@ -867,10 +867,10 @@ void	setup_extra_anims()
 
 #ifndef TARGET_DC
 
-//extern	SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name);
-extern	SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG peep=0);
+//extern SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name);
+extern SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG peep=0);
 
-void	setup_extra_anims()
+void setup_extra_anims()
 {
 	Anim	*key_list;
 	key_list		=	NULL;
@@ -895,9 +895,9 @@ void	setup_extra_anims()
 //		memcpy(game_chunk[ANIM_TYPE_CIV].PeopleTypes,test_chunk->PeopleTypes,sizeof(struct BodyDef)*MAX_PEOPLE_TYPES);
 		save_anim_system(&game_chunk[5],"u:\\urbanchaos\\data\\van.all");
 
-	extern	void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
-	extern	void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
-	extern	void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count);
+	extern void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
+	extern void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
+	extern void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count);
 
   		convert_keyframe_to_pointer(game_chunk[5].AnimKeyFrames,game_chunk[5].TheElements,game_chunk[5].FightCols,game_chunk[5].MaxKeyFrames);
 		convert_animlist_to_pointer(game_chunk[5].AnimList,game_chunk[5].AnimKeyFrames,game_chunk[5].MaxAnimFrames);
@@ -921,9 +921,9 @@ void	setup_extra_anims()
 	next_game_chunk=4;
 	
 }
-extern	UWORD	darci_normal_count;
-extern	SLONG	append_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG start_anim,SLONG load_mesh);
-void	setup_people_anims()
+extern UWORD	darci_normal_count;
+extern SLONG	append_anim_system(struct GameKeyFrameChunk *p_chunk,CBYTE	*name,SLONG start_anim,SLONG load_mesh);
+void setup_people_anims()
 {
 #ifdef ULTRA_COMPRESSED_ANIMATIONS
 	UCA_LookupSetup();
@@ -967,7 +967,7 @@ void	setup_people_anims()
 	append_anim_system(&game_chunk[ANIM_TYPE_CIV],"newcivf.all",CIV_F_START,1);
 
 extern SLONG	playing_combat_tutorial();
-extern	SLONG	playing_level(const CBYTE *name);
+extern SLONG	playing_level(const CBYTE* name);
 	if(!save_psx)
 	if(playing_combat_tutorial())
 	{
@@ -1007,7 +1007,7 @@ extern	SLONG	playing_level(const CBYTE *name);
 #endif
 #endif
 
-void	setup_global_anim_array()
+void setup_global_anim_array()
 {
 	//
 	// Make everyone use Darci's animations (including Darci!)
@@ -1419,7 +1419,7 @@ void	setup_global_anim_array()
 }
 
 
-void	calc_sub_objects_position_no_tween(GameKeyFrame *cur_frame,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position_no_tween(GameKeyFrame *cur_frame,UWORD object,SLONG *x,SLONG *y,SLONG *z)
 {
 	struct	Matrix31	offset;
 	struct GameKeyFrameElement *anim_info;
@@ -1433,7 +1433,7 @@ void	calc_sub_objects_position_no_tween(GameKeyFrame *cur_frame,UWORD object,SLO
 
 }
 /*
-void	fix_anim_pos(struct KeyFrame *keyframe,struct KeyFrameChunk *chunk)
+void fix_anim_pos(struct KeyFrame *keyframe,struct KeyFrameChunk *chunk)
 {
 	struct	KeyFrame	*first_frame;
 	SLONG	o_count,c0;
@@ -1466,7 +1466,7 @@ void	fix_anim_pos(struct KeyFrame *keyframe,struct KeyFrameChunk *chunk)
 */
 
 #ifndef	PSX
-void	fix_multi_object_for_anim(UWORD obj,struct	PrimMultiAnim	*p_anim)
+void fix_multi_object_for_anim(UWORD obj,struct	PrimMultiAnim	*p_anim)
 {
 	SLONG	sp,ep;
 	UWORD	c0,c1;
@@ -1523,7 +1523,7 @@ Anim::~Anim()
 }
 
 //---------------------------------------------------------------
-void	Anim::StartLooping()
+void Anim::StartLooping()
 {
 	if(FrameListEnd)
 	{
@@ -1533,7 +1533,7 @@ void	Anim::StartLooping()
 
 }
 
-void	 Anim::StopLooping()
+void Anim::StopLooping()
 {
 	if(FrameListEnd)
 	{
@@ -1541,7 +1541,7 @@ void	 Anim::StopLooping()
 	}
 }
 
-void	 Anim::SetAllTweens(SLONG tween)
+void Anim::SetAllTweens(SLONG tween)
 {
 	KeyFrame		*frame_ptr;
 
@@ -1560,7 +1560,7 @@ void	 Anim::SetAllTweens(SLONG tween)
 
 //---------------------------------------------------------------
 
-void	Anim::AddKeyFrame(KeyFrame *the_frame)
+void Anim::AddKeyFrame(KeyFrame *the_frame)
 {
 	KeyFrame		*frame_ptr;
 
@@ -1614,7 +1614,7 @@ void	Anim::AddKeyFrame(KeyFrame *the_frame)
   // Untested
   //
 
-void	Anim::AppendKeyFrame(KeyFrame *the_frame)
+void Anim::AppendKeyFrame(KeyFrame *the_frame)
 {
 	KeyFrame		*frame_ptr;
 
@@ -1664,7 +1664,7 @@ void	Anim::AppendKeyFrame(KeyFrame *the_frame)
 */
 //---------------------------------------------------------------
 
-void	Anim::RemoveKeyFrame(KeyFrame *the_frame)
+void Anim::RemoveKeyFrame(KeyFrame *the_frame)
 {
 	if(the_frame)
 	{
@@ -1696,13 +1696,13 @@ void	Anim::RemoveKeyFrame(KeyFrame *the_frame)
 // class Character
 //---------------------------------------------------------------
 
-void	Character::AddAnim(Anim *the_anim)
+void Character::AddAnim(Anim *the_anim)
 {
 }
 
 //---------------------------------------------------------------
 
-void	Character::RemoveAnim(Anim *the_anim)
+void Character::RemoveAnim(Anim *the_anim)
 {
 }
 
@@ -1712,7 +1712,7 @@ void	Character::RemoveAnim(Anim *the_anim)
 // go through all the elements converting them to the compressed matrix format
 //
 
-void	convert_elements(KeyFrameChunk *the_chunk,GameKeyFrameChunk *game_chunk,UWORD	*p_reloc,SLONG max_ele)
+void convert_elements(KeyFrameChunk *the_chunk,GameKeyFrameChunk *game_chunk,UWORD	*p_reloc,SLONG max_ele)
 {
 	struct	KeyFrameElement *first_element;
 	struct KeyFrameElement *last_element;
@@ -1758,9 +1758,9 @@ void	convert_elements(KeyFrameChunk *the_chunk,GameKeyFrameChunk *game_chunk,UWO
 }
 
 #ifdef EDITOR
-extern	UBYTE	unused_flags[];
+extern UBYTE	unused_flags[];
 
-void	convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_chunk)
+void convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_chunk)
 {
 
 	struct	KeyFrame	*keyframe;
@@ -1950,9 +1950,9 @@ void	convert_anim(Anim *key_list,GameKeyFrameChunk *p_chunk,KeyFrameChunk *the_c
 
 	MemFree((UBYTE*)p_reloc);
 
-void	convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
-void	convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
-void	convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count);
+void convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count);
+void convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count);
+void convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count);
 
 	convert_keyframe_to_index(p_chunk->AnimKeyFrames,p_chunk->TheElements,p_chunk->FightCols,p_chunk->MaxKeyFrames);
 	convert_animlist_to_index(p_chunk->AnimList,p_chunk->AnimKeyFrames,p_chunk->MaxAnimFrames);
@@ -1964,7 +1964,7 @@ void	convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count
 
 #endif
 
-void	free_game_chunk(GameKeyFrameChunk *the_chunk)
+void free_game_chunk(GameKeyFrameChunk *the_chunk)
 {
 	if(the_chunk->PeopleTypes)
 		MemFree((UBYTE*)the_chunk->PeopleTypes);
@@ -1991,7 +1991,7 @@ void	free_game_chunk(GameKeyFrameChunk *the_chunk)
 
 }
 #else
-void	free_game_chunk(GameKeyFrameChunk *the_chunk)
+void free_game_chunk(GameKeyFrameChunk *the_chunk)
 {
 }
 

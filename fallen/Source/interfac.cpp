@@ -44,9 +44,9 @@
 UBYTE player_relative;
 
 
-extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
-extern	void person_normal_move(Thing *p_person);
-UBYTE	cheat=0;
+extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+extern void person_normal_move(Thing *p_person);
+UBYTE cheat=0;
 
 #ifndef	PSX
 // set this to 0 if it all fucks up (it's about 5 in the morning so quite possibly i made
@@ -89,9 +89,9 @@ DWORD m_dwFogTableDebugFogTableMode = D3DFOG_NONE;
 #define	INPUT_KEYS		0
 #define	INPUT_JOYPAD	1
 
-SLONG	input_mode=0;
-SLONG	mouse_input=0;
-SLONG	analogue=0;
+SLONG input_mode=0;
+SLONG mouse_input=0;
+SLONG analogue=0;
 
 
 bool g_bEngineVibrations = true;
@@ -104,32 +104,32 @@ extern SWORD CONTROLS_inventory_mode;
 #define	CONTROLS_inventory_mode	0
 #endif
 
-extern	void	set_person_hug_wall_leap_out(Thing *p_person,SLONG dir);
-SLONG	player_turn_left_right_analogue(Thing *p_thing,SLONG input);
-extern	SLONG is_person_crouching(Thing *p_person);
-extern	SLONG person_has_gun_out(Thing *p_person);
-extern	void	set_person_hug_wall_dir(Thing *p_person,SLONG dir);
-extern	void	set_person_arrest(Thing *p_person,SLONG index);
-extern	void	set_person_draw_special(Thing *p_person);
-extern	SLONG set_person_kick_dir(Thing *p_person,SLONG dir);
-extern	void	set_person_fight_idle(Thing *p_person);
-extern	void	set_person_fight_anim(Thing *p_person,SLONG anim);
-extern	void	reset_gang_attack(Thing *p_target);
-extern	SLONG turn_to_direction_and_find_target(Thing *p_person,SLONG  find_dir);
-extern	SLONG	set_person_cut_fence(Thing *p_person);
-extern	SLONG find_searchable_person(Thing *p_person);
-extern	SLONG set_person_search(Thing *p_person, SLONG ob_index,SLONG ox,SLONG oy,SLONG oz);
-extern	SLONG set_person_search_corpse(Thing *p_person, Thing *p_personb);
-extern	void	set_person_carry(Thing *p_person,SLONG s_index);
-extern	UWORD	find_corpse(Thing *p_person);
+extern void	set_person_hug_wall_leap_out(Thing *p_person,SLONG dir);
+SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input);
+extern SLONG is_person_crouching(Thing *p_person);
+extern SLONG person_has_gun_out(Thing *p_person);
+extern void	set_person_hug_wall_dir(Thing *p_person,SLONG dir);
+extern void	set_person_arrest(Thing *p_person,SLONG index);
+extern void	set_person_draw_special(Thing *p_person);
+extern SLONG set_person_kick_dir(Thing *p_person,SLONG dir);
+extern void	set_person_fight_idle(Thing *p_person);
+extern void	set_person_fight_anim(Thing *p_person,SLONG anim);
+extern void	reset_gang_attack(Thing *p_target);
+extern SLONG turn_to_direction_and_find_target(Thing *p_person,SLONG  find_dir);
+extern SLONG	set_person_cut_fence(Thing *p_person);
+extern SLONG find_searchable_person(Thing *p_person);
+extern SLONG set_person_search(Thing *p_person, SLONG ob_index,SLONG ox,SLONG oy,SLONG oz);
+extern SLONG set_person_search_corpse(Thing *p_person, Thing *p_personb);
+extern void	set_person_carry(Thing *p_person,SLONG s_index);
+extern UWORD	find_corpse(Thing *p_person);
 
-extern  EWAY_Way *EWAY_magic_radius_flag;		   
-extern  void EWAY_set_active(EWAY_Way *ew);
-extern  SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = false);
-extern	SLONG	is_person_dead(Thing *p_person);
-extern	SLONG	is_person_ko(Thing *p_person);
-extern	void	person_pick_best_target(Thing *p_person,SLONG dir);
-extern	void	set_person_walk_backwards(Thing *p_person);
+extern EWAY_Way *EWAY_magic_radius_flag;		   
+extern void EWAY_set_active(EWAY_Way *ew);
+extern SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = false);
+extern SLONG	is_person_dead(Thing *p_person);
+extern SLONG	is_person_ko(Thing *p_person);
+extern void	person_pick_best_target(Thing *p_person,SLONG dir);
+extern void	set_person_walk_backwards(Thing *p_person);
 /*
 
   The new controller philosophy
@@ -168,15 +168,15 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 int psx_pad_mask=0;
 #endif
 
-extern	Thing	*net_players[20];
+extern Thing	*net_players[20];
 
-void	player_apply_move(Thing *p_thing,ULONG input);
-void	player_apply_move_analgue(Thing *p_thing,ULONG input);
+void player_apply_move(Thing *p_thing,ULONG input);
+void player_apply_move_analgue(Thing *p_thing,ULONG input);
 
 #ifndef PSX
-UBYTE	joypad_button_use[16];
+UBYTE joypad_button_use[16];
 #ifndef TARGET_DC
-UBYTE	keybrd_button_use[16];
+UBYTE keybrd_button_use[16];
 #endif
 
 
@@ -299,7 +299,7 @@ void INTERFAC_SetUpJoyPadButtons ( int iMode )
 
 #endif
 
-void	init_joypad_config()
+void init_joypad_config()
 {
 	SLONG  val;
 /*
@@ -381,7 +381,7 @@ void	init_joypad_config()
 #define	INPUT_ACTION_MASK	(~0x3f)
 
 
-struct	ActionInfo
+struct ActionInfo
 {
 	UBYTE	Action;
 	UBYTE	Logic;
@@ -390,7 +390,7 @@ struct	ActionInfo
 };
 
 
-struct	ActionInfo	action_idle[]=
+struct ActionInfo	action_idle[]=
 {
 	{ACTION_FLIP_LEFT,1,INPUT_MASK_JUMP|INPUT_MASK_LEFT},
 	{ACTION_FLIP_RIGHT,1,INPUT_MASK_JUMP|INPUT_MASK_RIGHT},
@@ -404,7 +404,7 @@ struct	ActionInfo	action_idle[]=
 	{0}
 };
 
-struct	ActionInfo	action_walk[]=
+struct ActionInfo	action_walk[]=
 {
 	{ACTION_RUN,0,0},
 	{ACTION_FIGHT_PUNCH,0,INPUT_MASK_PUNCH},
@@ -412,7 +412,7 @@ struct	ActionInfo	action_walk[]=
 	{ACTION_STANDING_JUMP,0,INPUT_MASK_JUMP},
 	{0}
 };
-struct	ActionInfo	action_walk_back[]=
+struct ActionInfo	action_walk_back[]=
 {
 	{ACTION_FIGHT_PUNCH,0,INPUT_MASK_PUNCH},
 	{ACTION_FIGHT_KICK,0,INPUT_MASK_KICK},
@@ -554,33 +554,33 @@ struct ActionInfo	action_dead[] =
 	{0,0,0}
 };
 
-struct	ActionInfo	action_flip_left[]=
+struct ActionInfo	action_flip_left[]=
 {
 	{ACTION_FLIP_LEFT,1,INPUT_MASK_LEFT},
 	{0,0,0}
 };
 
-struct	ActionInfo	action_flip_right[]=
+struct ActionInfo	action_flip_right[]=
 {
 	{ACTION_FLIP_RIGHT,1,INPUT_MASK_RIGHT},
 	{0,0,0}
 };
 
-struct	ActionInfo	action_hug_wall[]=
+struct ActionInfo	action_hug_wall[]=
 {
 	{ACTION_HUG_RIGHT,1,INPUT_MASK_RIGHT},
 	{ACTION_HUG_LEFT,1,INPUT_MASK_LEFT},
 	{0,0,0}
 };
 
-struct	ActionInfo	action_sit[]=
+struct ActionInfo	action_sit[]=
 {
 	{ACTION_UNSIT,0,INPUT_MASK_FORWARDS},
 	{ACTION_UNSIT,0,INPUT_MASK_MOVE},
 	{0,0,0}
 };
 
-struct	ActionInfo	*action_tree[]=
+struct ActionInfo	*action_tree[]=
 {
 	action_idle,
 	action_walk,
@@ -663,7 +663,7 @@ struct	ActionInfo	*action_tree[]=
 //
 // player has pressed punch, look at her hand to see if anything needs throwing etc...
 //
-SLONG	player_activate_in_hand(Thing *p_person)
+SLONG player_activate_in_hand(Thing *p_person)
 {
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_CANNING)
 	{
@@ -733,7 +733,7 @@ SLONG	player_activate_in_hand(Thing *p_person)
 	return (0);
 }
 
-void	set_player_shoot(Thing *p_person,SLONG param)
+void set_player_shoot(Thing *p_person,SLONG param)
 {
 	if(person_has_gun_out(p_person))
 	{
@@ -744,7 +744,7 @@ void	set_player_shoot(Thing *p_person,SLONG param)
 
 }
 
-void	set_player_punch(Thing *p_person)
+void set_player_punch(Thing *p_person)
 {
 	if(p_person->Genus.Person->Mode==PERSON_MODE_FIGHT)
 	{
@@ -866,7 +866,7 @@ SLONG should_person_backflip(Thing *darci)
 					// You can't backflip on platform on "Grim Gardens" a.k.a. botanicc.ucm
 					//
 
-					extern SLONG playing_level(const CBYTE *name);
+					extern SLONG playing_level(const CBYTE* name);
 
 					if (playing_level("botanicc.ucm"))
 					{
@@ -919,7 +919,7 @@ SLONG should_person_backflip(Thing *darci)
 }
 
 
-SLONG	bad_place_for_car(Thing *p_person,Thing *p_vehicle)
+SLONG bad_place_for_car(Thing *p_person,Thing *p_vehicle)
 {
 	SLONG dx;
 	SLONG dz;
@@ -982,9 +982,9 @@ SLONG	bad_place_for_car(Thing *p_person,Thing *p_vehicle)
 //
 // Returns true if a person can get into a particular car.
 // 
-extern	void	get_car_door_offsets(SLONG type,SLONG door, SLONG *dx,SLONG *dz);
+extern void	get_car_door_offsets(SLONG type,SLONG door, SLONG *dx,SLONG *dz);
 
-void	get_car_enter_xz(Thing *p_vehicle,SLONG door, SLONG *cx,SLONG *cz)
+void get_car_enter_xz(Thing *p_vehicle,SLONG door, SLONG *cx,SLONG *cz)
 {
 	SLONG dx;
 	SLONG dz;
@@ -1077,7 +1077,7 @@ SLONG in_right_place_for_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
 
 	for (i = 0; i <= 1; i++)
 	{
-extern	UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
+extern UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
 		get_car_enter_xz(p_vehicle,i,&ix,&iz);
 
@@ -1259,8 +1259,8 @@ ULONG do_an_action(Thing *p_thing, ULONG input)
 	*/
 
 	//if(p_thing->SubState==SUB_STATE_HUG_WALL_STAND||p_thing->SubState==SUB_STATE_HUG_WALL_LOOK_L
-extern	SLONG	can_i_hug_wall(Thing *p_person);
-extern	void	set_person_turn_to_hug_wall(Thing *p_person);
+extern SLONG	can_i_hug_wall(Thing *p_person);
+extern void	set_person_turn_to_hug_wall(Thing *p_person);
 
 	if(p_thing->State==STATE_CARRY)
 	{
@@ -1452,7 +1452,7 @@ extern	void	set_person_turn_to_hug_wall(Thing *p_person);
 
 		}
 
-extern	SLONG	person_on_floor(Thing *p_person);
+extern SLONG	person_on_floor(Thing *p_person);
 		if(person_on_floor(p_thing))
 		if (person_get_in_car(p_thing, &door))
 		{
@@ -1866,7 +1866,7 @@ extern	SLONG	person_on_floor(Thing *p_person);
 			//	SLONG	ob_index;
 				OB_Info *oi;
 
-extern	SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_range,ULONG  prim_flags,SLONG *ob_x,SLONG *ob_y,SLONG *ob_z,SLONG *ob_yaw,SLONG *ob_prim, SLONG *ob_index);
+extern SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_range,ULONG  prim_flags,SLONG *ob_x,SLONG *ob_y,SLONG *ob_z,SLONG *ob_yaw,SLONG *ob_prim, SLONG *ob_index);
 
 //				if(OB_find_type(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,0xff,&ob_x,&ob_y,&ob_z,&ob_yaw,&ob_prim))
 				if(oi=OB_find_index(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,true))
@@ -1915,7 +1915,7 @@ extern	SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_rang
 			//
 
 
-extern	UBYTE	is_semtex;
+extern UBYTE	is_semtex;
 
 #ifdef	PSX
 			if(wad_level==25 && use==193) //psx way of skipping it
@@ -1999,7 +1999,7 @@ extern	UBYTE	is_semtex;
 							message_type = EWAY_FAKE_MESSAGE_ANNOYED;
 						}
 
-						CBYTE *response = EWAY_get_fake_wander_message(message_type);
+						CBYTE* response = EWAY_get_fake_wander_message(message_type);
 
 						if (response)
 						{
@@ -2202,14 +2202,14 @@ extern	UBYTE	is_semtex;
 }
 
 
-extern	void	set_person_hop_back(Thing *p_person);
+extern void	set_person_hop_back(Thing *p_person);
 
 //
 // Given your input button mask, finds the best available option, if any.
 // Currently returns the first it finds
 //
 
-SLONG	find_best_action_from_tree(SLONG action,ULONG input,ULONG *input_used)
+SLONG find_best_action_from_tree(SLONG action,ULONG input,ULONG *input_used)
 {
 	struct	ActionInfo *action_options;
 
@@ -2328,13 +2328,13 @@ Changing location/status
 Summary
 -------
 
-NON_CHANGABLE    (the user can not stop/change in mid anim, exit vehicle,punch)
+NON_CHANGABLE (the user can not stop/change in mid anim, exit vehicle,punch)
 NON_INTERUPTABLE (the anim can not be broken by any means (not even someone jumping on your head), die anim)
-PROJECTILE       (Movement is controlled by physics rather than animation)
+PROJECTILE (Movement is controlled by physics rather than animation)
 
 each action has a list of others you can go to
 
-Dangle			(Looped)
+Dangle (Looped)
 	Pull Up
 	Drop Down
 	SideWays Movement
@@ -2352,7 +2352,7 @@ Drop Down (Exit to Land)
 	Kick
 	Land
 
-Swing	(Exit to Dangle)
+Swing (Exit to Dangle)
 	Drop Down
 	Kick
 
@@ -2430,7 +2430,7 @@ States & Substates
 */
 //modes
 
-SLONG	get_camera_angle()
+SLONG get_camera_angle()
 {
 	SLONG	ca;
 	SLONG	cam_x,cam_y,cam_z,cam_yaw,cam_pitch,cam_roll,cam_lens;
@@ -2448,7 +2448,7 @@ SLONG	get_camera_angle()
 
 }
 
-void	player_stop_move(Thing *p_thing,ULONG input)
+void player_stop_move(Thing *p_thing,ULONG input)
 {
 	if (p_thing->State == STATE_GRAPPLING ||
 		p_thing->State == STATE_CANNING ||
@@ -2493,7 +2493,7 @@ void	player_stop_move(Thing *p_thing,ULONG input)
 	}
 }
 
-void	get_analogue_dxdz(SLONG in_dx,SLONG in_dz,SLONG *dx,SLONG *dz)
+void get_analogue_dxdz(SLONG in_dx,SLONG in_dz,SLONG *dx,SLONG *dz)
 {
 	SLONG	angle;
 	SLONG	ca;
@@ -2535,7 +2535,7 @@ void	get_analogue_dxdz(SLONG in_dx,SLONG in_dz,SLONG *dx,SLONG *dz)
 }
 
 
-void	player_interface_move(Thing *p_thing,ULONG input)
+void player_interface_move(Thing *p_thing,ULONG input)
 {
 	//
 	// left and right at the same time is not allowed
@@ -2562,7 +2562,7 @@ void	player_interface_move(Thing *p_thing,ULONG input)
 	}
 }
 
-void	init_user_interface()
+void init_user_interface()
 {
 	USER_INTERFACE=0;
 #ifndef PSX	
@@ -2603,7 +2603,7 @@ extern bool g_bEngineVibrations;
 //
 //lock things angle to a compass direction
 //
-void	lock_to_compass(Thing *p_thing)
+void lock_to_compass(Thing *p_thing)
 {
 	SLONG	angle;
 
@@ -2639,7 +2639,7 @@ void	lock_to_compass(Thing *p_thing)
 #define	TURN_TIMER	512
 
 #define	JOY_REL_CAMERA	(1<<0)
-SLONG	get_joy_angle(ULONG input,UWORD flags)
+SLONG get_joy_angle(ULONG input,UWORD flags)
 {
 	SLONG	dx=0,dz=0;
 	SLONG	angle=-1;
@@ -2665,12 +2665,12 @@ SLONG	get_joy_angle(ULONG input,UWORD flags)
 	return(angle);
 }
 
-extern	SLONG	EWAY_cam_jumped;
+extern SLONG	EWAY_cam_jumped;
 #ifdef	MIKE
-SLONG	globdx,globdz;
+SLONG globdx,globdz;
 #endif
 
-SLONG	player_turn_left_right_analogue(Thing *p_thing,SLONG input)
+SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input)
 {
 	static	UBYTE	reduce_turn=0;
 
@@ -2867,7 +2867,7 @@ SLONG	player_turn_left_right_analogue(Thing *p_thing,SLONG input)
 
 }
 
-void	process_analogue_movement(Thing *p_thing,SLONG input)
+void process_analogue_movement(Thing *p_thing,SLONG input)
 {
 	SLONG	dx,dz,velocity;
 	SLONG	angle=-1;
@@ -3193,7 +3193,7 @@ void	process_analogue_movement(Thing *p_thing,SLONG input)
 
 #if 1
 // New, clean style!
-SLONG	player_turn_left_right(Thing *p_thing,SLONG input)
+SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 {
 	if(p_thing->SubState==SUB_STATE_RUNNING_HIT_WALL)
 	{
@@ -3464,7 +3464,7 @@ SLONG	player_turn_left_right(Thing *p_thing,SLONG input)
 
 #else
 
-SLONG	player_turn_left_right(Thing *p_thing,SLONG input)
+SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 {
 
 	SLONG	da=94;
@@ -3715,7 +3715,7 @@ SLONG	player_turn_left_right(Thing *p_thing,SLONG input)
 
 #endif
 
-void	player_apply_move(Thing *p_thing,ULONG input)
+void player_apply_move(Thing *p_thing,ULONG input)
 {
 //	SLONG	da=94;
 //	LogText(" player move  input %x \n",input);
@@ -3727,7 +3727,7 @@ void	player_apply_move(Thing *p_thing,ULONG input)
 			{
 				case	SUB_STATE_STOPPING:
 //				case	SUB_STATE_CLIMB_AROUND_WALL:
-void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG	dangle=0);
+void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG	dangle=0);
 #ifdef	UNUSED
 					if(input&INPUT_MASK_LEFT)
 					{
@@ -4185,7 +4185,7 @@ void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG	dan
 }
 
 
-extern	void	set_person_alive_alive_o(Thing *p_person);
+extern void	set_person_alive_alive_o(Thing *p_person);
 
 
 /*
@@ -4283,7 +4283,7 @@ void person_enter_fight_mode(Thing *p_person)
 //
 
 //persumably this will be aplied to a darci or a roper
-ULONG	apply_button_input(struct Thing *p_player,struct Thing *p_person,ULONG input)
+ULONG apply_button_input(struct Thing *p_player,struct Thing *p_person,ULONG input)
 {
 	ULONG	input_used=0;
 	ULONG	processed=0;
@@ -4820,7 +4820,7 @@ void set_person_unsit(Thing *p_person);
 
 //bits   3     2     1     0
 //		 r	   l	 b	   f
-UBYTE	input_to_angle[]=
+UBYTE input_to_angle[]=
 {
 	0,  //nowt
 	0,  //f
@@ -4850,7 +4850,7 @@ UBYTE	input_to_angle[]=
 
 */
 
-extern	UWORD	count_gang(Thing *p_target);
+extern UWORD	count_gang(Thing *p_target);
 
 
 ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
@@ -5010,7 +5010,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 	}
 
 
-	extern	SLONG	get_combat_type_for_node(UBYTE current_node);
+	extern SLONG	get_combat_type_for_node(UBYTE current_node);
 
 
 	if ((pl->Pressed & INPUT_MASK_PUNCH)==0&&(pl->Pressed & INPUT_MASK_KICK)==0)
@@ -5131,7 +5131,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 
 			if(abs(angle)<64)
 			{
-void	set_person_fight_step_forward(Thing *p_person);
+void set_person_fight_step_forward(Thing *p_person);
 				set_person_fight_step_forward(p_person);
 			}
 
@@ -5340,7 +5340,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 		// Shall we bend down to pick up a special or arrest someone?
 		//
 
-		extern	UWORD	find_arrestee(Thing *p_person);
+		extern UWORD	find_arrestee(Thing *p_person);
 		if (p_person->SubState != SUB_STATE_GRAPPLE_HELD && p_person->SubState != SUB_STATE_GRAPPLE_HOLD)
 		if(p_person->State==STATE_IDLE || p_person->State==STATE_FIGHTING||p_person->SubState==SUB_STATE_RUN_STOP)
 		{
@@ -5772,11 +5772,11 @@ typedef struct
 } CAR_Input;
 
 CAR_Input car_input[MAX_CAR_INPUT];
-SLONG     car_input_upto;
-SLONG     car_inputting;
+SLONG car_input_upto;
+SLONG car_inputting;
 */
 
-ULONG	apply_button_input_car(Thing *p_furn,ULONG input)
+ULONG apply_button_input_car(Thing *p_furn,ULONG input)
 {
 	ULONG	processed_input=0;
 
@@ -5963,18 +5963,18 @@ SLONG last_camera_pitch;
 
 SLONG look_pitch = 0;
 
-void	set_look_pitch(SLONG p)
+void set_look_pitch(SLONG p)
 {
 	look_pitch=p;
 }
 
-ULONG	debug_input;
+ULONG debug_input;
 
-ULONG	m_CurrentInput = 0;
-ULONG	m_PreviousInput = 0;
-ULONG	m_CurrentGoneDownInput = 0;
+ULONG m_CurrentInput = 0;
+ULONG m_PreviousInput = 0;
+ULONG m_CurrentGoneDownInput = 0;
 
-ULONG	get_last_input ( UWORD type )
+ULONG get_last_input ( UWORD type )
 {
 	if ( type == INPUT_TYPE_GONEDOWN )
 	{
@@ -5992,7 +5992,7 @@ ULONG	get_last_input ( UWORD type )
 DWORD g_dwLastInputChangeTime = 0;
 
 
-ULONG	get_hardware_input(UWORD type)
+ULONG get_hardware_input(UWORD type)
 {
 	ULONG	input=0;
 	ULONG	padd;
@@ -7430,7 +7430,7 @@ void allow_input_autorepeat ( void )
 
 
 
-ULONG	pre_process_input(SLONG mode,ULONG input)
+ULONG pre_process_input(SLONG mode,ULONG input)
 {
 	return(input);
 /*
@@ -7454,9 +7454,9 @@ ULONG	pre_process_input(SLONG mode,ULONG input)
 
 }
 
-SLONG	FirstPersonMode = false;
+SLONG FirstPersonMode = false;
 
-ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG input,ULONG *processed)
+ULONG apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG input,ULONG *processed)
 {
 	static SLONG look_ami   = false;
 	SLONG fpm = false;
@@ -7729,7 +7729,7 @@ SLONG can_darci_change_weapon(Thing *p_person)
 
 int g_iPlayerCameraMode = 0;
 
-void	process_hardware_level_input_for_player(Thing *p_player)
+void process_hardware_level_input_for_player(Thing *p_player)
 {
 	SLONG  i;
 
@@ -8212,7 +8212,7 @@ void	process_hardware_level_input_for_player(Thing *p_player)
 }
 
 
-SLONG	continue_action(Thing *p_person)
+SLONG continue_action(Thing *p_person)
 {
 	Thing *p_player;
 	ULONG	input,input_used,new_action;
@@ -8255,7 +8255,7 @@ SLONG continue_pressing_action(Thing *p_person)
 }
 
 
-void	set_action_used(Thing *p_person)
+void set_action_used(Thing *p_person)
 {
 	Thing *p_player;
 	if(p_person->Genus.Person->PlayerID)
@@ -8351,7 +8351,7 @@ SLONG continue_firing(Thing *p_person)
 }
 
 
-SLONG	continue_moveing(Thing *p_person)
+SLONG continue_moveing(Thing *p_person)
 {
 	Thing *p_player;
 	ULONG	input;
@@ -8421,7 +8421,7 @@ SLONG	continue_moveing(Thing *p_person)
 	}
 }
 
-SLONG	continue_blocking(Thing *p_person)
+SLONG continue_blocking(Thing *p_person)
 {
 	Thing *p_player;
 	ULONG	input;
@@ -8447,7 +8447,7 @@ SLONG	continue_blocking(Thing *p_person)
 	}
 }
 
-void	remove_action_used(Thing *p_person)
+void remove_action_used(Thing *p_person)
 {
 	Thing *p_player;
 	ULONG	input;

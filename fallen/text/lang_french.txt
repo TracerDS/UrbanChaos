@@ -1,19 +1,19 @@
 French
 Appuyez sur |16 pour continuer.
 - F I N   D E   L A   P A R T I E -
-Véhicule fermé
+Vï¿½hicule fermï¿½
 Munitions
 Pistolet
-Santé +50
+Santï¿½ +50
 Explosion dans 5 sec.
 Appuyez sur |4 pour monter dans la voiture.
 Appuyez sur |4 pour monter sur la moto.
 Appuyez sur |4 pour ramasser l'objet.
-Appuyez sur |1 pour saisir le câble.
+Appuyez sur |1 pour saisir le cï¿½ble.
 Recherche...
-Terminée.
+Terminï¿½e.
 Appuyez sur |7 pour revenir au menu principal.
-Appuyez sur |4 pour reprendre votre dernière sauvegarde automatique.
+Appuyez sur |4 pour reprendre votre derniï¿½re sauvegarde automatique.
 Niveau termine
 Commencer
 Charger partie
@@ -22,30 +22,30 @@ Options
 Graphismes
 Son
 Musique
-Qualité
+Qualitï¿½
 Volume
-Stéréo
+Stï¿½rï¿½o
 Mono
-Stéréo inversée
+Stï¿½rï¿½o inversï¿½e
 Pilotes
-Résolution
+Rï¿½solution
 Reflets
-Portée d'affichage
-Ombres réalistes
+Portï¿½e d'affichage
+Ombres rï¿½alistes
 Details
-Elevés
+Elevï¿½s
 Moyens
 Faibles
 Quitter
 OK
 Annuler
 Commandes
-Pavé numérique
+Pavï¿½ numï¿½rique
 Clavier
 Joystick
 Manette
 Espace
-Entrée
+Entrï¿½e
 Saut
 Pied
 Poing
@@ -59,52 +59,52 @@ Observer
 Courir
 Camera
 Badge
-Ramassé
-Terminé
-Raté
+Ramassï¿½
+Terminï¿½
+Ratï¿½
 Score
 Primaires
 Secondaires
 Objectifs
 Carte
 Armes
-Fusil à pompe
+Fusil ï¿½ pompe
 M-16
 Grenade
 Explosifs
 Couteau
 Batte de base-ball
 Bombe
-Carte magnétique
+Carte magnï¿½tique
 Fichier
 Disquette
 Pied de biche
-Masque à gaz
-Clé
-Vidéo
+Masque ï¿½ gaz
+Clï¿½
+Vidï¿½o
 Gants
-Désherbant
-Clés de la voiture rouge
-Clés de la voiture bleue
-Clés de la voiture verte
-Clés de la voiture noire
-Clés de la voiture blanche
+Dï¿½sherbant
+Clï¿½s de la voiture rouge
+Clï¿½s de la voiture bleue
+Clï¿½s de la voiture verte
+Clï¿½s de la voiture noire
+Clï¿½s de la voiture blanche
 Cisailles
 Etes-vous sur ?
-Taux de criminalité
-Arrêté
-Société
+Taux de criminalitï¿½
+Arrï¿½tï¿½
+Sociï¿½tï¿½
 Copie des fichiers d'installation...
 Copie des fichiers d'installation...
 Copie des fichiers du programme...
-Ce programme nécessite une version 32 bits de Windows
+Ce programme nï¿½cessite une version 32 bits de Windows
 Composant :
 Fichier :
 Groupe de fichiers :
-Une erreur est apparue lors de la copie des données :
-Ce programme s'utilise avec DirectX 6, qui n'est pas compatible avec votre système d'exploitation.
-Le programme de désinstallation n'a pu être initialisé.  Vous ne pourrez peut-être pas désinstaller ce logiciel.
-Ce programme nécessite au minimum une résolution graphique VGA.
+Une erreur est apparue lors de la copie des donnï¿½es :
+Ce programme s'utilise avec DirectX 6, qui n'est pas compatible avec votre systï¿½me d'exploitation.
+Le programme de dï¿½sinstallation n'a pu ï¿½tre initialisï¿½.  Vous ne pourrez peut-ï¿½tre pas dï¿½sinstaller ce logiciel.
+Ce programme nï¿½cessite au minimum une rï¿½solution graphique VGA.
 Installation d'Urban Chaos
 (Editeur)
 Environnement
@@ -118,53 +118,53 @@ Pluie
 Dist. a l'horizon
 Constitution
 Force
-Résistance
-Réflexes
+Rï¿½sistance
+Rï¿½flexes
 (Charger UCM)
 Scanner
 Piste
 Personnage
 Gamma
-Configuration par défaut
+Configuration par dï¿½faut
 For.
 Con.
 Dex.
 Res.
-Aucun plot de heurté !
-Nombre de plots heurtés
+Aucun plot de heurtï¿½ !
+Nombre de plots heurtï¿½s
 Reprendre niveau
 Recommencer niveau
 Abandonner la partie
 Placage de textures
 Perspective 
 Bilineaire
-Pénalité !
+Pï¿½nalitï¿½ !
 Niveau perdu
 Pause
 Couche toi
 Je ne peux pas descendre un flic.
-Hé ! Pourquoi tu me tapes dessus D'arci ?
-Je ne peux pas tiré sur une personne désarmé.
-Taux de criminalité réduit de
-Partie sauvegardée
+Hï¿½ ! Pourquoi tu me tapes dessus D'arci ?
+Je ne peux pas tirï¿½ sur une personne dï¿½sarmï¿½.
+Taux de criminalitï¿½ rï¿½duit de
+Partie sauvegardï¿½e
 Relief
 Couleurs
-T'es un bon flic, D'arci, mais tu donnes du fil à r'tordre. Tu blesses trop de civils pendant tes missions.
-Félicitations pour la réussite de cette mission, D'arci. Cependant tu es responsable d'un nombre important de pertes civiles. Considère cela comme ton premier avertissement.
-Ma patience a des limites, D'arci. Notre job est de protéger les habitants d'Union City. C'est ton dernier avertissement. Encore une mission avec des pertes humaines et tu m'rends ta plaque.
-On ne peut pas s'permettre de te perdre, D'arci. Pourtant, mon devoir est basé sur la protection des citoyens d'Union City. Au cours de tes missions, ton comportement à couter la vie à plus de civils que je n'suis prêt à accepter. J'te r'tire ton badge pour de bon.
-Criminels éliminés
-Criminels arrêtés
+T'es un bon flic, D'arci, mais tu donnes du fil ï¿½ r'tordre. Tu blesses trop de civils pendant tes missions.
+Fï¿½licitations pour la rï¿½ussite de cette mission, D'arci. Cependant tu es responsable d'un nombre important de pertes civiles. Considï¿½re cela comme ton premier avertissement.
+Ma patience a des limites, D'arci. Notre job est de protï¿½ger les habitants d'Union City. C'est ton dernier avertissement. Encore une mission avec des pertes humaines et tu m'rends ta plaque.
+On ne peut pas s'permettre de te perdre, D'arci. Pourtant, mon devoir est basï¿½ sur la protection des citoyens d'Union City. Au cours de tes missions, ton comportement ï¿½ couter la vie ï¿½ plus de civils que je n'suis prï¿½t ï¿½ accepter. J'te r'tire ton badge pour de bon.
+Criminels ï¿½liminï¿½s
+Criminels arrï¿½tï¿½s
 Criminels toujours en cavale
 Bonus acquis
-Bonus ratés
-Temps utilisé
+Bonus ratï¿½s
+Temps utilisï¿½
 Meilleur Temps
 Temps de Mucky
 Oui
 Non
 (Vide)
-Séléction carte 3D
+Sï¿½lï¿½ction carte 3D
 Utiliser carte 3D primaire
 Utiliser carte 3D secondaire
 Utiliser rendu Software
@@ -173,13 +173,13 @@ Couleurs 16-bit
 Couleurs vraies 24-bit
 Ne plus afficher cette boite de dialogue
 Setup Miles Sound System 
-Veuillez séléctionner un pilote son 3D dans la liste ci-dessous
+Veuillez sï¿½lï¿½ctionner un pilote son 3D dans la liste ci-dessous
 Bouton
 Credits
 Mission bonus acquise
 Saut
 Mode
-Personnalisé
+Personnalisï¿½
 Marcher
 Changer de manette
 Tourner
@@ -189,14 +189,14 @@ Langue
 English
 Francais
 Choisissez la VMU
-(Aucune VMU présente)
+(Aucune VMU prï¿½sente)
 (VMU pleine)
 Manette %c port %c
 Echec du chargement !
-Partie chargée
+Partie chargï¿½e
 Echec du chargement de la partie !
-Général
-Ecraser sauvegarde précédente ?
+Gï¿½nï¿½ral
+Ecraser sauvegarde prï¿½cï¿½dente ?
 Pas de manette
 Appuyez sur Start
 Vibrations

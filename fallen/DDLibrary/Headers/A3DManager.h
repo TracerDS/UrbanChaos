@@ -23,7 +23,7 @@ typedef signed short		SWORD;
 typedef unsigned long		ULONG;
 typedef signed long			SLONG;
 
-void            TraceText(CBYTE *error, ...);
+void            TraceText(CBYTE* error, ...);
 #define TRACE				TraceText
 
 #endif
@@ -75,7 +75,7 @@ public:
 	void Del(A3DBase *item);
 	void Clear();
 	A3DBase *Index(SLONG index);
-	A3DBase *Find(CBYTE *want);
+	A3DBase *Find(CBYTE* want);
 	inline SLONG Count()						{ return count; }
 	inline A3DBase *Head()						{ return list; }
 	inline A3DBase *Tail()						{ return tail; }
@@ -173,7 +173,7 @@ public:
 class A3DData : public A3DBase {
 public:
 	// construct, destruct
-	A3DData(CBYTE *fn=0, UBYTE ntype=A3DSOURCE_TYPEDEFAULT);	// constructor: load filename, or no data
+	A3DData(CBYTE* fn=0, UBYTE ntype=A3DSOURCE_TYPEDEFAULT);	// constructor: load filename, or no data
 	virtual ~A3DData();
 };
 
@@ -202,7 +202,7 @@ public:
 	A3DBase		*cloned_from;
 
 	// construct, destruct
-	A3DSource(CBYTE *fn=0);						// constructor: load filename, or no data
+	A3DSource(CBYTE* fn=0);						// constructor: load filename, or no data
 	A3DSource(A3DBase *original);				// constructor: duplicate existing source
 	virtual ~A3DSource();
 

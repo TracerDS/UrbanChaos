@@ -6,22 +6,22 @@
 
 #define	SHELL_NAME		"Mucky Foot Shell"
 
-int						iGlobalCmdShow;
-HANDLE					hShellThread	=	NULL;
-HINSTANCE				hGlobalInstance,
+int iGlobalCmdShow;
+HANDLE hShellThread	=	NULL;
+HINSTANCE hGlobalInstance,
 						hGlobalPrevInstance;
-HWND					hShellWindow	=	NULL;
-LPSTR					szGlobalCmdLine;
-MFFileHandle			log_handle		=	NULL;
-WNDCLASS				wnd_class;
-RECT					ShellRect;
+HWND hShellWindow	=	NULL;
+LPSTR szGlobalCmdLine;
+MFFileHandle log_handle		=	NULL;
+WNDCLASS wnd_class;
+RECT ShellRect;
 
 static UWORD	argc;
 static LPTSTR	argv[MAX_PATH];
 
 LRESULT CALLBACK		WndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam);
-ULONG					ShellThread(ULONG arg);
-SLONG					CreateShellWindow();
+ULONG ShellThread(ULONG arg);
+SLONG CreateShellWindow();
 
 extern UBYTE					DisplayState;
 
@@ -65,7 +65,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR szCmdLine
 
 //---------------------------------------------------------------
 
-bool	SetupHost(ULONG flags)
+bool SetupHost(ULONG flags)
 {
 	DWORD			id;
 
@@ -120,7 +120,7 @@ bool	SetupHost(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	ResetHost()
+void ResetHost()
 {
 	if(log_handle)
 		FileClose(log_handle);
@@ -248,7 +248,7 @@ extern LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
 //---------------------------------------------------------------
 
-ULONG	ShellThread(ULONG arg)
+ULONG ShellThread(ULONG arg)
 {
 	SLONG		result;
 	MSG			msg;
@@ -294,7 +294,7 @@ ULONG	ShellThread(ULONG arg)
 
 //---------------------------------------------------------------
 
-SLONG	CreateShellWindow()
+SLONG CreateShellWindow()
 {
 	hShellWindow	=	CreateWindowEx	(
 											0,
@@ -335,7 +335,7 @@ SLONG	CreateShellWindow()
 
 //---------------------------------------------------------------
 
-void	LogText(CBYTE *error, ...)
+void LogText(CBYTE* error, ...)
 {
 	CBYTE 			buf[512];
 	va_list 		argptr;
@@ -384,7 +384,7 @@ int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 
 //---------------------------------------------------------------
 
-void	Time(struct MFTime *the_time)
+void Time(struct MFTime *the_time)
 {
 	SYSTEMTIME	new_time;
 

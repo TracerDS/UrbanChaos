@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	burn_type;
+SLONG burn_type;
 
 //---------------------------------------------------------------
 /*
@@ -32,7 +32,7 @@ SLONG	burn_type;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 //	HWND		the_ctrl;
@@ -73,7 +73,7 @@ bool	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_burn_setup(EventPoint *the_ep)
+void do_burn_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	burn_type		=	the_ep->Data[0];

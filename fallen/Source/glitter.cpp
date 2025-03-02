@@ -28,7 +28,7 @@ typedef struct
 #define GLITTER_MAX_SPARKS 128
 
 GLITTER_Spark GLITTER_spark[GLITTER_MAX_SPARKS];
-UBYTE         GLITTER_spark_free;
+UBYTE GLITTER_spark_free;
 
 //
 // The collections of sparks.
@@ -50,7 +50,7 @@ typedef struct
 #define GLITTER_MAX_GLITTER 32
 
 GLITTER_Glitter GLITTER_glitter[GLITTER_MAX_GLITTER];
-SLONG           GLITTER_glitter_last;
+SLONG GLITTER_glitter_last;
 
 //
 // The glitter mapwho.
@@ -407,11 +407,11 @@ void GLITTER_process()
 }
 
 
-UBYTE        GLITTER_get_z;
-UBYTE        GLITTER_get_xmin;
-UBYTE        GLITTER_get_xmax;
-UBYTE        GLITTER_get_glitter;
-UBYTE        GLITTER_get_spark;
+UBYTE GLITTER_get_z;
+UBYTE GLITTER_get_xmin;
+UBYTE GLITTER_get_xmax;
+UBYTE GLITTER_get_glitter;
+UBYTE GLITTER_get_spark;
 GLITTER_Info GLITTER_get_info;
 
 void GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)

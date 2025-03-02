@@ -75,16 +75,16 @@ typedef struct SDL_Surface
     SDL_PixelFormat *format;    /**< Read-only */
     int w, h;                   /**< Read-only */
     int pitch;                  /**< Read-only */
-    void *pixels;               /**< Read-write */
+    void* pixels;               /**< Read-write */
 
     /** Application data associated with the surface */
-    void *userdata;             /**< Read-write */
+    void* userdata;             /**< Read-write */
 
     /** information needed for surfaces requiring locks */
     int locked;                 /**< Read-only */
 
     /** list of BlitMap that hold a reference to this surface */
-    void *list_blitmap;         /**< Private */
+    void* list_blitmap;         /**< Private */
 
     /** clipping information */
     SDL_Rect clip_rect;         /**< Read-only */
@@ -216,7 +216,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceWithFormat
  * \sa SDL_CreateRGBSurfaceWithFormat
  * \sa SDL_FreeSurface
  */
-extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceFrom(void *pixels,
+extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceFrom(void* pixels,
                                                               int width,
                                                               int height,
                                                               int depth,
@@ -255,7 +255,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceFrom(void *pixels,
  * \sa SDL_FreeSurface
  */
 extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceWithFormatFrom
-    (void *pixels, int width, int height, int depth, int pitch, Uint32 format);
+    (void* pixels, int width, int height, int depth, int pitch, Uint32 format);
 
 /**
  * Free an RGB surface.
@@ -718,9 +718,9 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_ConvertSurfaceFormat
  */
 extern DECLSPEC int SDLCALL SDL_ConvertPixels(int width, int height,
                                               Uint32 src_format,
-                                              const void * src, int src_pitch,
+                                              const void*  src, int src_pitch,
                                               Uint32 dst_format,
-                                              void * dst, int dst_pitch);
+                                              void*  dst, int dst_pitch);
 
 /**
  * Premultiply the alpha on a block of pixels.
@@ -744,9 +744,9 @@ extern DECLSPEC int SDLCALL SDL_ConvertPixels(int width, int height,
  */
 extern DECLSPEC int SDLCALL SDL_PremultiplyAlpha(int width, int height,
                                                  Uint32 src_format,
-                                                 const void * src, int src_pitch,
+                                                 const void*  src, int src_pitch,
                                                  Uint32 dst_format,
-                                                 void * dst, int dst_pitch);
+                                                 void*  dst, int dst_pitch);
 
 /**
  * Perform a fast fill of a rectangle with a specific color.

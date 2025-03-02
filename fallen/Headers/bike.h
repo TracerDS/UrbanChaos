@@ -91,7 +91,7 @@ typedef BIKE_Bike *BikePtr;
 #define	BIKE_NUMBER(t)			(COMMON_INDEX)(t-TO_BIKE(0))
 
 
-extern	BIKE_Bike *BIKE_bike; //[BIKE_MAX_BIKES];
+extern BIKE_Bike *BIKE_bike; //[BIKE_MAX_BIKES];
 
 
 //

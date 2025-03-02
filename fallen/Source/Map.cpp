@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 #if !defined(PSX) && !defined(TARGET_DC)
-void	init_map()
+void init_map()
 {
 	memset((UBYTE*)MAP,0,sizeof(MAP));
 }

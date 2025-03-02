@@ -26,7 +26,7 @@ void CRINKLE_init();
 // CRINKLE_NULL if it could not load the crinkle.
 //
 
-CRINKLE_Handle CRINKLE_load(CBYTE *sex_filename);
+CRINKLE_Handle CRINKLE_load(CBYTE* sex_filename);
 CRINKLE_Handle CRINKLE_read_bin(FileClump* tclump, int id);
 
 void CRINKLE_write_bin(FileClump* tclump, CRINKLE_Handle hnd, int id);

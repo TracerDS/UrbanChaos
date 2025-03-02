@@ -58,7 +58,7 @@ typedef struct
 #define STAIR_MAX_STAIRS 32
 
 STAIR_Stair STAIR_stair[STAIR_MAX_STAIRS];
-SLONG       STAIR_stair_upto;
+SLONG STAIR_stair_upto;
 
 //
 // The info for each storey.
@@ -82,7 +82,7 @@ typedef struct
 #define STAIR_MAX_STOREYS 32
 
 STAIR_Storey STAIR_storey[STAIR_MAX_STOREYS];
-SLONG        STAIR_storey_upto;
+SLONG STAIR_storey_upto;
 
 //
 // Sets the given square on the given storey.
@@ -185,7 +185,7 @@ typedef struct
 #define STAIR_MAX_LINKS 128
 
 STAIR_Link STAIR_link[STAIR_MAX_LINKS];
-SLONG      STAIR_link_upto;
+SLONG STAIR_link_upto;
 
 //
 // One linked list per z-row of floor square.

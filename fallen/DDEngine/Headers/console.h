@@ -12,9 +12,9 @@
 
 #include "MFStdLib.h"
 
-void CONSOLE_font(CBYTE *fontpath, float scale=1.0);
+void CONSOLE_font(CBYTE* fontpath, float scale=1.0);
 void CONSOLE_draw();
-void CONSOLE_text(CBYTE *text, SLONG delay = 4000);	// Delay in milliseconds
+void CONSOLE_text(CBYTE* text, SLONG delay = 4000);	// Delay in milliseconds
 void CONSOLE_clear();
 void CONSOLE_scroll();
 
@@ -28,6 +28,6 @@ void CONSOLE_text_at(
 		SLONG  x,
 		SLONG  y,
 		SLONG  delay,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 
 #endif

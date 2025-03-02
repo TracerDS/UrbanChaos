@@ -12,7 +12,7 @@ void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit ( void );
 // dwSize = number of bytes to load.
 // return = where the file was loaded.
 // You _must_ copy this or do something with it before loading another file.
-void *FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize );
+void* FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize );
 
 #include	"tga.h"
 #include	"FileClump.h"
@@ -113,9 +113,9 @@ class	D3DTexture
 		SLONG       size;			// The size in pixels of the texture page.
 		SLONG       ContainsAlpha;
 
-		HRESULT		LoadTextureTGA(CBYTE *tga_file,ULONG texid,bool bCanShrink=true);
+		HRESULT		LoadTextureTGA(CBYTE* tga_file,ULONG texid,bool bCanShrink=true);
 
-		HRESULT		ChangeTextureTGA(CBYTE *tga_file);
+		HRESULT		ChangeTextureTGA(CBYTE* tga_file);
 
 		HRESULT		CreateUserPage(SLONG size, bool i_want_an_alpha_channel);	// Power of two between 32 and 256 inclusive
 		HRESULT     LockUser      (UWORD **bitmap, SLONG *pitch);				// Returns the texture page on success. The pitch is in bytes!

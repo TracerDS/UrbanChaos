@@ -61,7 +61,7 @@ SLONG MFX_sound_frame;
 
 AudioOffset Audio_data[128];
 CdlFILE MFX_Speech_Start;
-SLONG	MFX_Speech_End;
+SLONG MFX_Speech_End;
 #if 1
 extern char *GDisp_Bucket;
 #else
@@ -101,14 +101,14 @@ typedef struct {
 	SLONG	  length;
 } MFX_Wave;
 
-MFX_Sound	MFX_channel[MFX_MAX_CHANNELS];
+MFX_Sound MFX_channel[MFX_MAX_CHANNELS];
 MFX_Listener MFX_listener;
-MFX_Wave	MFX_wave[MFX_MAX_WAVES];
+MFX_Wave MFX_wave[MFX_MAX_WAVES];
 
-SLONG		MFX_WavesLoaded;
-SLONG		MFX_WaveFree;
-SLONG		MFX_music_wave;
-SLONG		MFX_music_int;
+SLONG MFX_WavesLoaded;
+SLONG MFX_WaveFree;
+SLONG MFX_music_wave;
+SLONG MFX_music_int;
 
 SLONG MFX_OnKey,MFX_OffKey;
 
@@ -202,7 +202,7 @@ void MFX_StopWave(MFX_Sound *channel,ULONG wave)
 	MFX_OffKey|=1<<channel->channel;
 }
 
-void	MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z)
+void MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z)
 {
 	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
@@ -217,7 +217,7 @@ void	MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, S
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
 }
 
-void	MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position)
+void MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position)
 {
 	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
@@ -228,7 +228,7 @@ void	MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
 }
 
-void	MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
+void MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
 {
 	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
@@ -249,7 +249,7 @@ void	MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
 }
 
-void	MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
+void MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
 {
 	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
@@ -263,11 +263,11 @@ void	MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags|MFX_FLAG_AMBIENT);
 }
 
-void	MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags)
+void MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags)
 {
 }
 
-void	MFX_stop(SLONG channel_id, ULONG wave)
+void MFX_stop(SLONG channel_id, ULONG wave)
 {
 	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
@@ -289,13 +289,13 @@ void	MFX_stop(SLONG channel_id, ULONG wave)
 		MFX_StopWave(&MFX_channel[psx_channel],wave);
 }
 
-void	MFX_stop_attached(Thing *p)
+void MFX_stop_attached(Thing *p)
 {
 }
 
 //----- audio processing functions -----
 
-void	MFX_SetPitch(MFX_Sound *channel,ULONG wave, SLONG pitchbend)
+void MFX_SetPitch(MFX_Sound *channel,ULONG wave, SLONG pitchbend)
 {
 	if (channel->wave!=wave)
 		return;
@@ -303,13 +303,13 @@ void	MFX_SetPitch(MFX_Sound *channel,ULONG wave, SLONG pitchbend)
 	channel->voice.mask|=SPU_VOICE_PITCH;
 }
 
-void	MFX_SetWave(MFX_Sound *channel,ULONG wave, SLONG new_wave)
+void MFX_SetWave(MFX_Sound *channel,ULONG wave, SLONG new_wave)
 {
 	if (channel->wave!=wave)
 		return;
 }
 
-void	MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend)
+void MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend)
 {
 	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
@@ -317,7 +317,7 @@ void	MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend)
 	MFX_SetPitch(&MFX_channel[psx_channel],wave,pitchbend);
 }
 
-void	MFX_set_wave(UWORD channel_id, ULONG wave, ULONG new_wave)
+void MFX_set_wave(UWORD channel_id, ULONG wave, ULONG new_wave)
 {
 	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
@@ -325,7 +325,7 @@ void	MFX_set_wave(UWORD channel_id, ULONG wave, ULONG new_wave)
 	MFX_SetWave(&MFX_channel[psx_channel],wave,new_wave);
 }
 
-void	MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z)
+void MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z)
 {
 	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
@@ -336,7 +336,7 @@ void	MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z)
 	MFX_channel[channel_id].position=&MFX_channel[channel_id].poshold;
 }
 
-void	MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position)
+void MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position)
 {
 	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
@@ -346,7 +346,7 @@ void	MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position)
 
 //----- listener & environment -----
 
-void	MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch)
+void MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch)
 {
 	MFX_listener.position.X=x;
 	MFX_listener.position.Y=y;
@@ -356,20 +356,20 @@ void	MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLON
 	MFX_listener.orientation.vz=roll;
 }
 
-void	MFX_set_environment(SLONG env_type)
+void MFX_set_environment(SLONG env_type)
 {
 	MFX_listener.environment=env_type;
 }
 
 //----- sound library functions -----
 
-extern CBYTE *sound_list[];
+extern CBYTE* sound_list[];
 
-void	MFX_load_wave_list(CBYTE *path,CBYTE *script_file)
+void MFX_load_wave_list(CBYTE* path,CBYTE* script_file)
 {
 }
 #if 0
-void	MFX_load_wave_file(CBYTE *wave_file)
+void MFX_load_wave_file(CBYTE* wave_file)
 {
 	int wave=MFX_WavesLoaded++;
 	int size,handle;
@@ -393,7 +393,7 @@ void	MFX_load_wave_file(CBYTE *wave_file)
 		MFX_wave[wave].length=size-48;
 
 		MFX_WaveFree+=size-48;
-		MemFree((void *)mem);
+		MemFree((void* )mem);
 	} 
 	else
 	{
@@ -408,7 +408,7 @@ void	MFX_load_wave_file(CBYTE *wave_file)
 }
 #endif
 
-void	MFX_load_wave_list(CBYTE *names[]=0)				// load list from array
+void MFX_load_wave_list(CBYTE* names[]=0)				// load list from array
 {
 #if 0
 	char **ptr;
@@ -467,7 +467,7 @@ void	MFX_load_wave_list(CBYTE *names[]=0)				// load list from array
 #endif
 }
 
-void	MFX_free_wave_list()
+void MFX_free_wave_list()
 {
 	MFX_WavesLoaded=0;
 //	MFX_WaveFree=0x1010;
@@ -499,7 +499,7 @@ inline SLONG MFX_Volume(SLONG invol)
 	return (invol*sfx_volume)>>8;
 }
 
-void	MFX_render()
+void MFX_render()
 {
 	int i;
 	MATRIX m;
@@ -845,7 +845,7 @@ UWORD MUSIC_wave()
 	return MFX_music_wave;
 }
 
-void	MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain) 
+void MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain) 
 {
 	return;
 }
@@ -1045,12 +1045,12 @@ SLONG MFX_Conv_play(SLONG waypoint,SLONG conv,SLONG conv_off)
 #endif
 }					   
 #if 0
-SLONG	MFX_QUICK_still_playing()
+SLONG MFX_QUICK_still_playing()
 {
 	return();
 }
 
-void	MFX_QUICK_stop()
+void MFX_QUICK_stop()
 {
 }
 #endif

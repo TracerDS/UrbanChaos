@@ -9,11 +9,11 @@
 // The structures.
 //
 
-LEAD_Lead  LEAD_lead[LEAD_MAX_LEADS];
-SLONG      LEAD_lead_upto;
+LEAD_Lead LEAD_lead[LEAD_MAX_LEADS];
+SLONG LEAD_lead_upto;
 
 LEAD_Point LEAD_point[LEAD_MAX_POINTS];
-SLONG      LEAD_point_upto;
+SLONG LEAD_point_upto;
 
 
 

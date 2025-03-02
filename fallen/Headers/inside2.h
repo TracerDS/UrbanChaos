@@ -66,15 +66,15 @@ struct	Staircase
 //Data
 //
 
-extern	UBYTE	slide_inside_stair;
+extern UBYTE	slide_inside_stair;
 
 
 
-//extern	struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
+//extern struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
 
-extern	UWORD	next_inside_storey;
-extern	UWORD	next_inside_stair;
-extern	SLONG	next_inside_block;
+extern UWORD	next_inside_storey;
+extern UWORD	next_inside_stair;
+extern SLONG	next_inside_block;
 
 
 
@@ -84,12 +84,12 @@ extern	SLONG	next_inside_block;
 
 
 
-extern	SLONG	get_inside_alt(SLONG	inside);
-extern	SLONG find_inside_room(SLONG inside,SLONG x,SLONG z);
-extern	SLONG find_inside_flags(SLONG inside,SLONG x,SLONG z);
-extern	SLONG	person_slide_inside(SLONG inside,SLONG x1,SLONG y1,SLONG z1,SLONG *x2,SLONG *y2,SLONG *z2);
-extern	void	stair_teleport_bodge(Thing *p_person);
-extern	SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_floor);
+extern SLONG	get_inside_alt(SLONG	inside);
+extern SLONG find_inside_room(SLONG inside,SLONG x,SLONG z);
+extern SLONG find_inside_flags(SLONG inside,SLONG x,SLONG z);
+extern SLONG	person_slide_inside(SLONG inside,SLONG x1,SLONG y1,SLONG z1,SLONG *x2,SLONG *y2,SLONG *z2);
+extern void	stair_teleport_bodge(Thing *p_person);
+extern SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_floor);
 
 
 // ========================================================

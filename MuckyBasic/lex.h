@@ -102,10 +102,10 @@ typedef struct
 	{
 		SLONG  slumber;
 		float  flumber;
-		CBYTE *string;
-		CBYTE *variable;
-		CBYTE *label;
-		CBYTE *error;
+		CBYTE* string;
+		CBYTE* variable;
+		CBYTE* label;
+		CBYTE* error;
 	};
 
 } LEX_Token;
@@ -124,7 +124,7 @@ typedef struct
 // Starts reading token from the given string.
 //
 
-void LEX_start(CBYTE *string);
+void LEX_start(CBYTE* string);
 
 
 //

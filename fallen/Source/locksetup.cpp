@@ -33,7 +33,7 @@ static SLONG   lock_unlock;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	lock_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	lock_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -98,7 +98,7 @@ bool	CALLBACK	lock_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_lock_setup(EventPoint *the_ep)
+void do_lock_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	which_vehicle		=	the_ep->Data[0];

@@ -111,7 +111,7 @@ SLONG CAM_cur_x, CAM_cur_y, CAM_cur_z,
 	  CAM_cur_yaw, CAM_cur_pitch, CAM_cur_roll; // these are set appropriate to whichever cam
 
 #ifdef PSX
-UBYTE	continue_waiting,replay_waiting;
+UBYTE continue_waiting,replay_waiting;
 extern SLONG	PSX_eog_timer;
 #endif
 
@@ -119,7 +119,7 @@ extern SLONG	PSX_eog_timer;
 // The editor.
 //
 
-SLONG	save_psx=0; // this was nicked from edit.cpp in the editor...
+SLONG save_psx=0; // this was nicked from edit.cpp in the editor...
 
 //bool g_bGoToCreditsPleaseGameHasFinished = false;
 
@@ -169,7 +169,7 @@ extern bool allow_debug_keys;
 
 
 Game the_game;
-UBYTE	VIOLENCE=VIOLENCE_ALLOWED;
+UBYTE VIOLENCE=VIOLENCE_ALLOWED;
 
 extern SLONG go_into_game;	// This is in attract.cpp If it is true when we leave the loop, then attract goes into the game again.
 
@@ -279,7 +279,7 @@ extern void MFX_init ( void );
 	ATTRACT_loadscreen_draw(160);
 
 
-void	init_joypad_config();
+void init_joypad_config();
 	init_joypad_config();
 	ANIM_init();
 
@@ -399,7 +399,7 @@ void game_shutdown()
 
 	#else
 
-extern void *mem_all;
+extern void* mem_all;
 
 	//
 	// PSX shutdown.
@@ -407,7 +407,7 @@ extern void *mem_all;
 
 	if (mem_all)
 	{
-bool	SetupMemory();
+bool SetupMemory();
 		SetupMemory();
 		mem_all=0;
 	}
@@ -467,7 +467,7 @@ extern DIJOYSTATE			the_state;
 
 #define PAUSE_MENU_SIZE 2
 
-CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"CONTINUE GAME",
 	"EXIT",
@@ -479,11 +479,11 @@ SBYTE game_paused_highlight;
 extern bool  text_fudge;
 extern ULONG text_colour;
 #ifndef PSX
-extern void  draw_centre_text_at(float x,float y,CBYTE *message,SLONG font_id,SLONG flag);
-extern void  draw_text_at(float x,float y,CBYTE *message,SLONG font_id);
+extern void  draw_centre_text_at(float x,float y,CBYTE* message,SLONG font_id,SLONG flag);
+extern void  draw_text_at(float x,float y,CBYTE* message,SLONG font_id);
 #else
-extern void  draw_centre_text_at(SLONG x,SLONG y,CBYTE *message,SLONG font_id,SLONG flag);
-extern void  draw_text_at(SLONG x,SLONG y,CBYTE *message,SLONG font_id);
+extern void  draw_centre_text_at(SLONG x,SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
+extern void  draw_text_at(SLONG x,SLONG y,CBYTE* message,SLONG font_id);
 #endif
 
 
@@ -493,7 +493,7 @@ extern void  draw_text_at(SLONG x,SLONG y,CBYTE *message,SLONG font_id);
 #if !defined(PSX) && !defined(TARGET_DC)
 #define NUM_BULLETS 15
 
-CBYTE *bullet_point[NUM_BULLETS] =
+CBYTE* bullet_point[NUM_BULLETS] =
 {
 	"A - Punch : B - Kick : C - Jump\n",
 	"Try running over a coke can...\n",
@@ -543,7 +543,7 @@ void process_bullet_points()
 //---------------------------------------------------------------
 
 
-bool	game_init()
+bool game_init()
 {
 	SLONG	ret;
 
@@ -679,8 +679,8 @@ extern int m_iPanelYPos;
 		ATTRACT_loadscreen_init();
 
 #ifndef PSX
-extern	CBYTE ELEV_fname_level   [];
-extern	SLONG quick_load;
+extern CBYTE ELEV_fname_level   [];
+extern SLONG quick_load;
 
 		quick_load = true;
 
@@ -693,9 +693,9 @@ extern	SLONG quick_load;
 		ret=1;
 
 #else
-extern	CBYTE *psx_game_name;
-extern  void	reload_level();
-extern	void	load_whole_game(CBYTE	*gamename);
+extern CBYTE* psx_game_name;
+extern void	reload_level();
+extern void	load_whole_game(CBYTE	*gamename);
 
 		reload_level();
 		ret=1;
@@ -727,16 +727,16 @@ static long trk_list[]={1,2,3,4,5,6,7,8,9,10,11,0};
 
 #ifndef	PSX
 
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 		if(save_psx)
 		if(ret==5||ret==1) //loaded a level
 		{
 			CBYTE	save_wad[100];
 			
-	extern	CBYTE ELEV_fname_level[];
+	extern CBYTE ELEV_fname_level[];
 			process_things(0);
 
-	extern	void	save_whole_game(CBYTE	*gamename);
+	extern void	save_whole_game(CBYTE	*gamename);
 
 			change_extension(ELEV_fname_level,"wad",save_wad);
 			save_whole_game(save_wad);
@@ -746,7 +746,7 @@ extern	SLONG	save_psx;
 	}
 
 
-void	init_stats();
+void init_stats();
 	init_stats();
 
 
@@ -766,7 +766,7 @@ void	init_stats();
 
 #ifndef	PSX
 #ifndef TARGET_DC
-bool	game_create_psx(CBYTE *mission_name)
+bool game_create_psx(CBYTE* mission_name)
 {
 	SLONG	ret;
 	DebugText("PSX create psx mission %s\n",mission_name);
@@ -803,7 +803,7 @@ bool	game_create_psx(CBYTE *mission_name)
 	srand(1234567);
 	GAME_STATE=GS_PLAY_GAME;
 
-extern	SLONG quick_load;
+extern SLONG quick_load;
 	quick_load=1;
 
 	//
@@ -833,10 +833,10 @@ extern	SLONG quick_load;
 		{
 			CBYTE	save_wad[100];
 			
-	extern	CBYTE ELEV_fname_level[];
+	extern CBYTE ELEV_fname_level[];
 			process_things(0);
 
-	extern	void	save_whole_game(CBYTE	*gamename);
+	extern void	save_whole_game(CBYTE	*gamename);
 
 			change_extension(mission_name,"wad",save_wad);
 			DebugText("PSX create nad %s\n world %d",save_wad,TEXTURE_SET);
@@ -854,7 +854,7 @@ extern	SLONG quick_load;
 
 }
 
-bool	make_texture_clumps(CBYTE *mission_name)
+bool make_texture_clumps(CBYTE* mission_name)
 {
 #ifdef TARGET_DC
 	ASSERT(false);
@@ -892,7 +892,7 @@ bool	make_texture_clumps(CBYTE *mission_name)
 	srand(1234567);
 	GAME_STATE=GS_PLAY_GAME;
 
-extern	SLONG quick_load;
+extern SLONG quick_load;
 	quick_load=0;
 
 	//
@@ -1044,7 +1044,7 @@ extern void POLY_ClearAllPages ( void );
 
 //extern ULONG	get_hardware_input(UWORD type);
 
-void	game()
+void game()
 {
 	game_startup();
 
@@ -1223,7 +1223,7 @@ void	game()
 
 #ifndef PSX
 #ifndef TARGET_DC
-void	GAME_map_draw_old()
+void GAME_map_draw_old()
 {
 	Thing *darci = NET_PERSON(0);
 
@@ -1264,14 +1264,14 @@ void	GAME_map_draw_old()
 #endif
 #endif
 
-extern	void	overlay_beacons();
+extern void	overlay_beacons();
 
 
 #ifdef	PSX
 /*
-extern	void plan_view_shot(SLONG wx,SLONG wz,SLONG pixelw,SLONG sx,SLONG sy,SLONG w,SLONG h);
+extern void plan_view_shot(SLONG wx,SLONG wz,SLONG pixelw,SLONG sx,SLONG sy,SLONG w,SLONG h);
 
-void	GAME_map_draw()
+void GAME_map_draw()
 {
 	Thing *darci = NET_PERSON(0);
 
@@ -1286,9 +1286,9 @@ void	GAME_map_draw()
 
 #ifndef TARGET_DC
 
-UBYTE	screen_mem[640*3][480];
+UBYTE screen_mem[640*3][480];
 
-void	GAME_map_draw()
+void GAME_map_draw()
 {
 	Thing *darci = NET_PERSON(0);
 
@@ -1337,11 +1337,11 @@ bool leave_map_form_proc(Form *form, Widget *widget, SLONG message)
 
 extern void PANEL_draw_timer_do(SLONG time, SLONG x, SLONG y);
 
-SLONG  already_warned_about_leaving_map;
-UBYTE  draw_map_screen=0;
-UBYTE	single_step=0;
-Form  *form_leave_map = NULL;
-SLONG  form_left_map  = 0;
+SLONG already_warned_about_leaving_map;
+UBYTE draw_map_screen=0;
+UBYTE single_step=0;
+Form *form_leave_map = NULL;
+SLONG form_left_map  = 0;
 
 
 //****************************************************************
@@ -1355,7 +1355,7 @@ SLONG  form_left_map  = 0;
 //
 // don't let the game run faster than this framerate by making you sit in a check the clock loop
 //
-void	lock_frame_rate(SLONG fps)
+void lock_frame_rate(SLONG fps)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
 	static	SLONG tick1 = 0;
@@ -1376,7 +1376,7 @@ void	lock_frame_rate(SLONG fps)
 #endif
 }
 
-void	demo_timeout(SLONG flag)
+void demo_timeout(SLONG flag)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
 #if TIMEOUT_DEMO
@@ -1407,7 +1407,7 @@ void	demo_timeout(SLONG flag)
 // Move off the edge of map test and dodgy widget stuff
 //
 #if	0
-void	edge_map_warning(SLONG flag)
+void edge_map_warning(SLONG flag)
 {
 #ifndef	PSX
 	Widget *widget_text;
@@ -1513,7 +1513,7 @@ void	edge_map_warning(SLONG flag)
 //
 // Provided in two parts
 //
-void	do_leave_map_form()
+void do_leave_map_form()
 {
 #ifndef	PSX
 	SLONG ret;
@@ -1583,7 +1583,7 @@ void	do_leave_map_form()
 //
 // psx camera stuff (the PC does it in the engine?)
 //
-SLONG	psx_camera()
+SLONG psx_camera()
 {
 			//
 			// AENG_draw() understands about cameras now because it has to
@@ -1654,20 +1654,20 @@ SLONG	psx_camera()
 //
 // Get what yoiu have drawn onto the Screen
 //
-inline	void	screen_flip()
+inline void	screen_flip()
 {
 	//
 	//	sCREENSHOT just before screen_flip
 	//
 #ifndef PSX
-extern	void	AENG_screen_shot();
+extern void	AENG_screen_shot();
 			AENG_screen_shot();
 #else
-extern	void	DoFigureDraw();
+extern void	DoFigureDraw();
 	DoFigureDraw();
 
 #ifndef FS_ISO9660
-extern	void	AENG_screen_shot(SLONG width);
+extern void	AENG_screen_shot(SLONG width);
 			if (Keys[KB_S])
 			{
 				AENG_screen_shot(320);
@@ -1731,7 +1731,7 @@ extern UBYTE	psx_motor[];
 #endif
 }
 
-void	playback_game_keys()
+void playback_game_keys()
 {
 	if (Keys[KB_SPACE] || Keys[KB_ENTER] || Keys[KB_PENTER])
 	{
@@ -1763,7 +1763,7 @@ void	playback_game_keys()
 // For those funny fanny keys the PC likes to use
 //
 
-SLONG	special_keys()
+SLONG special_keys()
 {
 #ifdef	EDITOR
 	if (ControlFlag && Keys[KB_E])
@@ -1818,7 +1818,7 @@ SLONG	special_keys()
 //
 // Sound stuff, ask Matt
 //
-void	handle_sfx()
+void handle_sfx()
 {
 
 //	MUSIC_process();
@@ -1882,7 +1882,7 @@ extern SLONG BARREL_fx_rate;
 
 
 
-SLONG	should_i_process_game()
+SLONG should_i_process_game()
 {
 	if (EWAY_tutorial_string)
 	{
@@ -1908,7 +1908,7 @@ SLONG	should_i_process_game()
 		return(1);
 #else
 
-extern	SLONG PSX_inv_open;
+extern SLONG PSX_inv_open;
 
 		if (PSX_inv_open) 
 		{
@@ -1940,7 +1940,7 @@ extern	SLONG PSX_inv_open;
 void draw_debug_lines();
 
 
-inline	void	draw_screen()
+inline void	draw_screen()
 {
 	extern SLONG draw_3d;
 	
@@ -1987,7 +1987,7 @@ extern void MAP_draw();
 //****************************************************************
 //					End of cleanup_zone, have a nice day
 //****************************************************************
-SLONG	hardware_input_replay()
+SLONG hardware_input_replay()
 {
 #ifdef	PSX
 
@@ -2013,7 +2013,7 @@ SLONG	hardware_input_replay()
 	return(0);
 }
 
-SLONG	hardware_input_continue()
+SLONG hardware_input_continue()
 {
 #ifdef	PSX
 	//
@@ -2070,12 +2070,12 @@ extern SLONG game_timeout;
 UWORD env_frame_rate;
 
 
-UBYTE	game_loop()
+UBYTE game_loop()
 {
 #ifndef	PSX
 #ifndef TARGET_DC
-extern	void	save_all_nads();
-extern	SLONG	save_psx;
+extern void	save_all_nads();
+extern SLONG	save_psx;
 	if(save_psx==2)
 		save_all_nads();
 #endif
@@ -2257,7 +2257,7 @@ extern int g_iCheatNumber;
 				// Exit out of the last mission straight away.
 				//
 
-				extern SLONG playing_level(const CBYTE *name);
+				extern SLONG playing_level(const CBYTE* name);
 
 				if  (playing_level("Finale1.ucm"))
 				{
@@ -2416,7 +2416,7 @@ extern int g_iCheatNumber;
 
 				process_controls();
 			}
-void	check_pows();
+void check_pows();
 	check_pows();
 
 			//
@@ -2465,7 +2465,7 @@ void	check_pows();
 			else
 			{
 #ifdef	PSX
-extern	void	do_packets();
+extern void	do_packets();
 
 				do_packets();
 #endif
@@ -2655,7 +2655,7 @@ extern	void	do_packets();
 
 
 				// Get the background loaded.
-void	FRONTEND_scr_img_load_into_screenfull(CBYTE *name, CompressedBackground *screen);
+void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *screen);
 				FRONTEND_scr_img_load_into_screenfull ( "title_blood1.tga", &(the_display.lp_DD_Background) );
 extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 				ASSERT ( lpBackgroundCache != NULL );
@@ -2679,7 +2679,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 			{
 				if (NET_PLAYER(0)->Genus.Player->RedMarks > 1)
 				{
-					CBYTE *mess;
+					CBYTE* mess;
 
  					InitBackImage("deadcivs.tga");
 
@@ -2728,7 +2728,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 						//FONT2D_DrawStringWrap(mess, 10, 300, 0xffffffff);
 						POLY_frame_draw(true, true);
 #else
-extern CBYTE *Wadmenu_CivMess;
+extern CBYTE* Wadmenu_CivMess;
 						Wadmenu_CivMess=mess;
 						break;
 #endif
@@ -2776,7 +2776,7 @@ extern CBYTE *Wadmenu_CivMess;
 		{
 			case	0:
 #ifdef	PSX
-extern	void AENG_flip_init();
+extern void AENG_flip_init();
 				AENG_flip_init();
 				DrawSync(0);
 #endif
@@ -2785,7 +2785,7 @@ extern	void AENG_flip_init();
 			case	GS_REPLAY:
 				GAME_STATE=GS_PLAY_GAME|GS_REPLAY;
 #ifdef	PSX
-extern	void AENG_flip_init();
+extern void AENG_flip_init();
 				AENG_flip_init();
 				DrawSync(0);
 #endif

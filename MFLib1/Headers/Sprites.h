@@ -23,19 +23,19 @@ typedef struct
 }BSprite;
 
 
-extern	void	(*DrawBSprite)(SLONG x,SLONG y,BSprite *the_sprite);
-extern	void	(*DrawBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	(*DrawBSprite)(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	(*DrawBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite);
 
-extern	void	DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
-extern	void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
 
-extern	void	(*DrawMonoBSprite)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-extern	void	(*DrawMonoBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	(*DrawMonoBSprite)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	(*DrawMonoBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
 
 
-extern	void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
-extern	void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
 
-extern	void	SetupBSprites(BSprite *sprite_ref,UBYTE *sprite_data);
+extern void	SetupBSprites(BSprite *sprite_ref,UBYTE *sprite_data);
 
 #endif

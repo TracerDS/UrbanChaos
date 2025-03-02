@@ -12,12 +12,12 @@
 //	Waypoint stuff.
 //---------------------------------------------------------------
 
-ULONG				waypoint_count;
-Waypoint			waypoints[MAX_WAYPOINTS];
+ULONG waypoint_count;
+Waypoint waypoints[MAX_WAYPOINTS];
 
 //---------------------------------------------------------------
 
-void	init_waypoints()
+void init_waypoints()
 {
 	waypoint_count	=	0;
 	memset((UBYTE*)waypoints,0,sizeof(waypoints));
@@ -25,7 +25,7 @@ void	init_waypoints()
 
 //---------------------------------------------------------------
 
-UWORD	alloc_waypoint()
+UWORD alloc_waypoint()
 {
 	UWORD		c0;
 
@@ -47,7 +47,7 @@ UWORD	alloc_waypoint()
 
 //---------------------------------------------------------------
 
-void	free_waypoint(UWORD wp_index)
+void free_waypoint(UWORD wp_index)
 {
 	UWORD		next_index,
 				prev_index;
@@ -69,14 +69,14 @@ void	free_waypoint(UWORD wp_index)
 //	Condition Stuff.
 //---------------------------------------------------------------
 
-ULONG			con_list_count,
+ULONG con_list_count,
 				condition_count;
-Condition		conditions[MAX_CONDITIONS];
-ConditionList	con_lists[MAX_CLISTS];
+Condition conditions[MAX_CONDITIONS];
+ConditionList con_lists[MAX_CLISTS];
 
 //---------------------------------------------------------------
 
-void	init_clists()
+void init_clists()
 {
 	con_list_count	=	0;
 //	ZeroMemory(con_lists,sizeof(con_lists));
@@ -86,7 +86,7 @@ void	init_clists()
 }
 //---------------------------------------------------------------
 
-ConditionList	*alloc_clist()
+ConditionList *alloc_clist()
 {
 	ULONG		c0;
 
@@ -112,7 +112,7 @@ ConditionList	*alloc_clist()
 
 //---------------------------------------------------------------
 
-void	add_condition(ConditionList *the_list,Condition *the_condition)
+void add_condition(ConditionList *the_list,Condition *the_condition)
 {
 	if(!the_list || !the_condition)
 	{
@@ -138,7 +138,7 @@ void	add_condition(ConditionList *the_list,Condition *the_condition)
 
 //---------------------------------------------------------------
 
-void	init_conditions()
+void init_conditions()
 {
 	condition_count	=	0;
 //	ZeroMemory(conditions,sizeof(conditions));
@@ -148,7 +148,7 @@ void	init_conditions()
 
 //---------------------------------------------------------------
 
-Condition	*alloc_condition()
+Condition *alloc_condition()
 {
 	ULONG		c0;
 
@@ -182,14 +182,14 @@ Condition	*alloc_condition()
 //	Command Stuff.
 //---------------------------------------------------------------
 
-ULONG			com_list_count,
+ULONG com_list_count,
 				command_count;
-Command			commands[MAX_COMMANDS];
-CommandList		com_lists[MAX_COMLISTS];
+Command commands[MAX_COMMANDS];
+CommandList com_lists[MAX_COMLISTS];
 
 //---------------------------------------------------------------
 
-void	init_comlists()
+void init_comlists()
 {
 	com_list_count	=	0;
 //	ZeroMemory(com_lists,sizeof(com_lists));
@@ -199,7 +199,7 @@ void	init_comlists()
 }
 //---------------------------------------------------------------
 
-CommandList	*alloc_comlist()
+CommandList *alloc_comlist()
 {
 	ULONG		c0;
 
@@ -225,7 +225,7 @@ CommandList	*alloc_comlist()
 
 //---------------------------------------------------------------
 
-void	add_command(CommandList *the_list,Command *the_command)
+void add_command(CommandList *the_list,Command *the_command)
 {
 	if(!the_list || !the_command)
 	{
@@ -251,7 +251,7 @@ void	add_command(CommandList *the_list,Command *the_command)
 
 //---------------------------------------------------------------
 
-void	init_commands()
+void init_commands()
 {
 	command_count	=	0;
 //	ZeroMemory(commands,sizeof(commands));
@@ -260,7 +260,7 @@ void	init_commands()
 
 //---------------------------------------------------------------
 
-Command	*alloc_command()
+Command *alloc_command()
 {
 	ULONG		c0;
 
@@ -293,7 +293,7 @@ Command	*alloc_command()
 //	Condition processing.
 //---------------------------------------------------------------
 
-bool	process_condition(Condition *the_condition)
+bool process_condition(Condition *the_condition)
 {
 	bool		result	=	false;
 	SLONG		distance;
@@ -413,7 +413,7 @@ bool	process_condition(Condition *the_condition)
 
 //---------------------------------------------------------------
 
-void	process_condition_lists()
+void process_condition_lists()
 {
 	bool		list_fulfilled;
 	ULONG		c0;
@@ -449,10 +449,10 @@ void	process_condition_lists()
 //
 //---------------------------------------------------------------
 //---------------------------------------------------------------
-extern	void	init_person_command(Thing *p_person);
+extern void	init_person_command(Thing *p_person);
 
 
-void	init_person_command_list(Thing *p_person)
+void init_person_command_list(Thing *p_person)
 {
 	p_person->Genus.Person->Command=0;
 	
@@ -471,9 +471,9 @@ void	init_person_command_list(Thing *p_person)
 	}
 
 }
-extern	void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
+extern void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 
-void	advance_person_command(Thing *p_person)
+void advance_person_command(Thing *p_person)
 {
 	struct	Command	*com;
 

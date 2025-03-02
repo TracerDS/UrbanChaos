@@ -54,8 +54,8 @@ public:
 	EdRect		ItemRect;
 /*
 #ifdef	_MSC_VER
-				MenuDef2(CBYTE *s)			{	ItemText=s;	}
-				MenuDef2(CBYTE *s,UBYTE k)	{	ItemText=s;HotKey=k;	}
+				MenuDef2(CBYTE* s)			{	ItemText=s;	}
+				MenuDef2(CBYTE* s,UBYTE k)	{	ItemText=s;HotKey=k;	}
 #endif
 */
 };
@@ -101,7 +101,7 @@ class	Control	:	public EdRect
 		inline UBYTE			GetID()								{	return ControlID;				}
 		inline void				SetType(UBYTE type)						{	ControlType=type;				}
 		inline UBYTE			GetType()							{	return ControlType;				}
-		inline void				SetTitle(CBYTE *title)					{	ControlTitle=title;				}
+		inline void				SetTitle(CBYTE* title)					{	ControlTitle=title;				}
 		inline CBYTE			*GetTitle()							{	return ControlTitle;			}
 		inline void				SetHotKey(UBYTE key)					{	HotKey=key;						}
 		inline UBYTE			GetHotKey()							{	return HotKey;					}
@@ -142,8 +142,8 @@ class	CStaticText	:	public Control
 	public:
 						CStaticText(ControlDef *the_def);
 		void			DrawControl();
-		inline CBYTE	*SetString1(CBYTE *the_string)		{	strncpy(String1,the_string,EDIT_TEXT_LENGTH);String1[EDIT_TEXT_LENGTH-1]=0;return String1;	}
-		inline CBYTE	*SetString2(CBYTE *the_string)		{	strncpy(String2,the_string,EDIT_TEXT_LENGTH);String2[EDIT_TEXT_LENGTH-1]=0;return String2;	}
+		inline CBYTE	*SetString1(CBYTE* the_string)		{	strncpy(String1,the_string,EDIT_TEXT_LENGTH);String1[EDIT_TEXT_LENGTH-1]=0;return String1;	}
+		inline CBYTE	*SetString2(CBYTE* the_string)		{	strncpy(String2,the_string,EDIT_TEXT_LENGTH);String2[EDIT_TEXT_LENGTH-1]=0;return String2;	}
 };
 
 class	CEditText	:	public Control
@@ -160,7 +160,7 @@ class	CEditText	:	public Control
 		void			DrawControl();
 		UWORD			TrackControl(MFPoint *down_point);
 		inline CBYTE	*GetEditString()				{	return EditText;								}
-		inline CBYTE	*SetEditString(CBYTE *the_string)	{	strcpy(EditText,the_string); return EditText;	}
+		inline CBYTE	*SetEditString(CBYTE* the_string)	{	strcpy(EditText,the_string); return EditText;	}
 };
 
 class	CPullDown	:	public Control

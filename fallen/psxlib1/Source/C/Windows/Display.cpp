@@ -7,23 +7,23 @@
 #define	MF_DD2
 
 
-bool					EmulateLoRes		=	false,
+bool EmulateLoRes		=	false,
 						Got3DFX				=	false;
-UBYTE					DisplayActive		=	0,
+UBYTE DisplayActive		=	0,
 						DisplayState		=	0,
 						*WorkScreen,
 						WorkScreenDepth;
-SLONG					DisplayMode			=	DISPLAY_MODE_NONE,
+SLONG DisplayMode			=	DISPLAY_MODE_NONE,
 						WorkScreenHeight,
 						WorkScreenWidth,
 						WorkScreenPixelWidth;
-GUID					DevicePrimary,
+GUID DevicePrimary,
 						Device3DFX;
-DDSURFACEDESC			DD_DisplayDesc;
-LPDIRECTDRAW			lp_DD				=	NULL;	// Main DirectDraw object
-LPDIRECTDRAW2			lp_DD_2				=	NULL;	// Main DirectDraw2 object
-LPDIRECTDRAWCLIPPER     lp_DD_Clipper		=	NULL;
-LPDIRECTDRAWSURFACE		lp_DD_BackSurface	=	NULL,
+DDSURFACEDESC DD_DisplayDesc;
+LPDIRECTDRAW lp_DD				=	NULL;	// Main DirectDraw object
+LPDIRECTDRAW2 lp_DD_2				=	NULL;	// Main DirectDraw2 object
+LPDIRECTDRAWCLIPPER lp_DD_Clipper		=	NULL;
+LPDIRECTDRAWSURFACE lp_DD_BackSurface	=	NULL,
 						lp_DD_FrontSurface	=	NULL,
 						lp_DD_WorkSurface	=	NULL;
 
@@ -31,9 +31,9 @@ volatile UBYTE			MFShellActive		=	0;
 
 
 
-SLONG					CreateSurfaces();
-SLONG					DestroySurfaces();
-void					RestoreSurfaces();
+SLONG CreateSurfaces();
+SLONG DestroySurfaces();
+void RestoreSurfaces();
 HRESULT CALLBACK 		DisplayModesCallback(LPDDSURFACEDESC p_dd_sd, LPVOID ignore);
 
 extern HANDLE			hShellThread;
@@ -45,7 +45,7 @@ bool WINAPI EnumDeviceCallback(GUID FAR *lpGUID,LPSTR lpDriverDescription,LPSTR 
 
 //---------------------------------------------------------------
 
-SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 {
 	SLONG			result	=	DisplayCreationError;
 	HRESULT			dd_result;
@@ -121,7 +121,7 @@ SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 
 //---------------------------------------------------------------
 
-SLONG	CloseDisplay()
+SLONG CloseDisplay()
 {
 	HRESULT			dd_result;
 
@@ -175,7 +175,7 @@ SLONG	CloseDisplay()
 
 //---------------------------------------------------------------
 
-SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth)
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 {
 	SLONG			mode	=	DISPLAY_MODE_NONE;
 	HRESULT			dd_result;
@@ -282,7 +282,7 @@ SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth)
 
 //---------------------------------------------------------------
 
-SLONG	CreateSurfaces()
+SLONG CreateSurfaces()
 {
 #ifdef	_RELEASE
     DDSCAPS			dd_scaps;
@@ -383,7 +383,7 @@ SLONG	CreateSurfaces()
 
 //---------------------------------------------------------------
 
-SLONG	DestroySurfaces()
+SLONG DestroySurfaces()
 {
 	HRESULT		dd_result;
 
@@ -423,7 +423,7 @@ SLONG	DestroySurfaces()
 
 //---------------------------------------------------------------
 
-void	ClearDisplay()
+void ClearDisplay()
 {
 	DDBLTFX	  	 			dd_bltfx;
 	HRESULT			dd_result;
@@ -445,7 +445,7 @@ void	ClearDisplay()
 
 //---------------------------------------------------------------
 
-void	FadeDisplay(UBYTE mode)
+void FadeDisplay(UBYTE mode)
 {
 	switch(mode)
 	{
@@ -458,7 +458,7 @@ void	FadeDisplay(UBYTE mode)
 
 //---------------------------------------------------------------
 
-void	*LockWorkScreen()
+void* LockWorkScreen()
 {
 	DDSURFACEDESC	dd_sd;
 	HRESULT			dd_result;
@@ -486,7 +486,7 @@ void	*LockWorkScreen()
 
 //---------------------------------------------------------------
 
-void	UnlockWorkScreen()
+void UnlockWorkScreen()
 {
 	HRESULT			dd_result;
 
@@ -508,7 +508,7 @@ void	UnlockWorkScreen()
 
 //---------------------------------------------------------------
 
-void	ShowWorkScreen(ULONG flags)
+void ShowWorkScreen(ULONG flags)
 {
 	HRESULT			dd_result;
 
@@ -646,7 +646,7 @@ void	ShowWorkScreen(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	ShowWorkWindow(ULONG flags)
+void ShowWorkWindow(ULONG flags)
 {
 	HRESULT			dd_result;
 	RECT			ww_source_rect;
@@ -811,7 +811,7 @@ void	ShowWorkWindow(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	ClearWorkScreen(UBYTE colour)
+void ClearWorkScreen(UBYTE colour)
 {
 	DDBLTFX	  	 			dd_bltfx;
 	HRESULT			dd_result;
@@ -836,7 +836,7 @@ void	ClearWorkScreen(UBYTE colour)
 
 //---------------------------------------------------------------
 
-void	RestoreSurfaces()
+void RestoreSurfaces()
 {
 	if(lp_DD_FrontSurface)
 	{

@@ -70,7 +70,7 @@
 
 #ifndef PSX
 
-CBYTE *BAT_state_name[BAT_STATE_NUMBER] =
+CBYTE* BAT_state_name[BAT_STATE_NUMBER] =
 {
 	"Idle",
 	"Goto",
@@ -2415,7 +2415,7 @@ THING_INDEX BAT_create(
 	//
 	if(anim_chunk[type].MultiObject[0]==0)
 	{
-extern	SLONG load_anim_prim_object(SLONG prim);
+extern SLONG load_anim_prim_object(SLONG prim);
 		load_anim_prim_object(type);
 //		ASSERT(0);
 

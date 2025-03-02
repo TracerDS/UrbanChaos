@@ -30,13 +30,13 @@ struct	AnimTmap
 
 
 // data
-extern	struct	AnimTmap	anim_tmaps[MAX_ANIM_TMAPS];
+extern struct	AnimTmap	anim_tmaps[MAX_ANIM_TMAPS];
 
 // functions
-extern	void	save_animtmaps();
-extern	void	sync_animtmaps();
-extern	void	animate_texture_maps();
-extern	void	load_animtmaps();
+extern void	save_animtmaps();
+extern void	sync_animtmaps();
+extern void	animate_texture_maps();
+extern void	load_animtmaps();
 
 
 #endif

@@ -41,7 +41,7 @@ void TB_init();
 //
 
 TB_Tb *TB_create (SHIP_Ship *ss, float length);
-void   TB_destroy(TB_Tb     *tt);
+void TB_destroy(TB_Tb     *tt);
 
 
 

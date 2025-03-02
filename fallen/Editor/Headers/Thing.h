@@ -115,14 +115,14 @@ struct	MapThingPSX
 
 
 //data
-extern	struct	MapThing	map_things[MAX_MAP_THINGS];
+extern struct	MapThing	map_things[MAX_MAP_THINGS];
 
 //code
-extern	UWORD	find_empty_map_thing();
-extern	void	delete_thing_from_edit_map(SLONG x,SLONG y,UWORD	thing);
-extern	void	add_thing_to_edit_map(SLONG x,SLONG y,UWORD	thing);
-extern	SLONG	move_thing_on_cells(UWORD thing,SLONG x,SLONG y,SLONG z);
-extern	void	delete_thing(SWORD index);
+extern UWORD	find_empty_map_thing();
+extern void	delete_thing_from_edit_map(SLONG x,SLONG y,UWORD	thing);
+extern void	add_thing_to_edit_map(SLONG x,SLONG y,UWORD	thing);
+extern SLONG	move_thing_on_cells(UWORD thing,SLONG x,SLONG y,SLONG z);
+extern void	delete_thing(SWORD index);
 //---------------------------------------------------------------
 /*
 void			init_things();

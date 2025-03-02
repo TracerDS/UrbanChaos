@@ -71,7 +71,7 @@ struct	MemTable
 	SWORD	StructSize;
 	SWORD	Extra;
 };
-extern	struct MemTable save_table[];
+extern struct MemTable save_table[];
 
 #define	SAVE_TABLE_VEHICLE	29
 #define	SAVE_TABLE_PEOPLE	30
@@ -328,9 +328,9 @@ typedef	struct
 }Game;
 
 
-extern	Game			the_game;
+extern Game			the_game;
 
-extern	UBYTE			VIOLENCE;
+extern UBYTE			VIOLENCE;
 
 // Defines for 'Game' member access.
 

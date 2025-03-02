@@ -25,7 +25,7 @@ GameTexture	game_textures[NUM_GAME_TEXTURES];
 UWORD	page_lookup[64*8];
 
 //---------------------------------------------------------------
-SLONG	load_rect_into_page(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE *name)
+SLONG	load_rect_into_page(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE* name)
 {
 	SLONG	x,y;
 	TGA_Pixel	*tga;
@@ -56,7 +56,7 @@ SLONG	load_rect_into_page(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE
 	MemFree((void*)tga);
 	return(1);
 }
-void	load_splitup_texture_page(UWORD *ptr,CBYTE *path,UWORD page)
+void	load_splitup_texture_page(UWORD *ptr,CBYTE* path,UWORD page)
 {
 	SLONG	x,y;
 	CBYTE	name[256];
@@ -79,9 +79,9 @@ void	load_splitup_texture_page(UWORD *ptr,CBYTE *path,UWORD page)
 	
 }
 
-extern	TGA_Info TGA_load_remap(const CBYTE *file,const CBYTE *pname,SLONG max_width,SLONG max_height,TGA_Pixel *data);
+extern TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLONG max_height,TGA_Pixel *data);
 
-SLONG	load_rect_into_page_remap(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE *name,CBYTE *pname)
+SLONG	load_rect_into_page_remap(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE* name,CBYTE* pname)
 {
 	SLONG	x,y;
 	TGA_Pixel	*tga;
@@ -109,7 +109,7 @@ SLONG	load_rect_into_page_remap(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h
 	return(1);
 }
 
-void	load_splitup_texture_page_remap(UWORD *ptr,CBYTE *path,UWORD page)
+void	load_splitup_texture_page_remap(UWORD *ptr,CBYTE* path,UWORD page)
 {
 	SLONG	x,y;
 	CBYTE	name[256];
@@ -139,7 +139,7 @@ void	load_splitup_texture_page_remap(UWORD *ptr,CBYTE *path,UWORD page)
 	
 }
 
-extern	void	load_game_textures_psx(UBYTE flags);
+extern void	load_game_textures_psx(UBYTE flags);
 void	load_game_textures(UBYTE flags)
 {
 	SLONG	c0;

@@ -10,21 +10,21 @@
 // Allocates an area of memory.
 //
 
-void *MEM_alloc(SLONG num_bytes);
+void* MEM_alloc(SLONG num_bytes);
 
 
 //
 // Frees an area of memory allocated with MEM_alloc();
 //
 
-void MEM_free(void *memory);
+void MEM_free(void* memory);
 
 
 //
 // Returns the length in bytes of the given block.
 //
 
-SLONG MEM_block_size(void *memory);
+SLONG MEM_block_size(void* memory);
 
 
 

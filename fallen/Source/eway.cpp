@@ -58,19 +58,19 @@
 #endif
 
 
-extern	SLONG person_ok_for_conversation(Thing *p_person);
-extern	ULONG	timer_bored; // I don't care I'm making the game better not the code!
+extern SLONG person_ok_for_conversation(Thing *p_person);
+extern ULONG	timer_bored; // I don't care I'm making the game better not the code!
 //
 // The conditions that are part of boolean operations.
 //
-extern	SLONG save_psx;
-SLONG     EWAY_cond_upto;
+extern SLONG save_psx;
+SLONG EWAY_cond_upto;
 
-EWAY_Cond	*EWAY_cond;//[EWAY_MAX_CONDS];
-EWAY_Way	*EWAY_way; //[EWAY_MAX_WAYS];
-EWAY_Edef	*EWAY_edef; //[EWAY_MAX_EDEFS];
-CBYTE		**EWAY_mess; //[EWAY_MAX_MESSES];
-CBYTE		*EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
+EWAY_Cond *EWAY_cond;//[EWAY_MAX_CONDS];
+EWAY_Way *EWAY_way; //[EWAY_MAX_WAYS];
+EWAY_Edef *EWAY_edef; //[EWAY_MAX_EDEFS];
+CBYTE* *EWAY_mess; //[EWAY_MAX_MESSES];
+CBYTE* EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
 
 
 
@@ -111,20 +111,20 @@ static void ScribbleCheck ( void )
 
 #ifdef	PSX
 //#define	ASSERT(x)	
-extern	char *PANEL_wide_cont;
-extern  char PANEL_wide_text[];
+extern char *PANEL_wide_cont;
+extern char PANEL_wide_text[];
 
 #endif
 
 
-SLONG    EWAY_way_upto;
+SLONG EWAY_way_upto;
 
 //
 // The definitions of people we create.
 //
 
 
-SLONG     EWAY_edef_upto;
+SLONG EWAY_edef_upto;
 
 
 //
@@ -157,7 +157,7 @@ UBYTE EWAY_count_up_add_penalties;
 SWORD EWAY_count_up_num_penalties;
 UWORD EWAY_count_up_penalty_timer;
 
-SLONG	EWAY_cam_jumped=0;
+SLONG EWAY_cam_jumped=0;
 
 //
 // The timers are indexed by the bottom byte of the arg of COUNTDOWN conditions.
@@ -186,8 +186,8 @@ UWORD EWAY_fake_wander_text_annoyed_number;
 // The tutorial string.
 //
 
-CBYTE *EWAY_tutorial_string;
-SLONG  EWAY_tutorial_counter;
+CBYTE* EWAY_tutorial_string;
+SLONG EWAY_tutorial_counter;
 
 //
 // How the waypoint system knows when Darci pulls off a particular
@@ -238,8 +238,8 @@ SLONG EWAY_cam_last_z;
 SLONG EWAY_cam_skip;
 SLONG EWAY_cam_last_dyaw;
 
-UBYTE  GAME_cut_scene = 0;
-CBYTE  EWAY_message[128];
+UBYTE GAME_cut_scene = 0;
+CBYTE EWAY_message[128];
 
 //
 // A conversation.
@@ -248,21 +248,21 @@ CBYTE  EWAY_message[128];
 #define EWAY_CONV_TALK_A 0
 #define EWAY_CONV_TALK_B 1
 
-UBYTE		EWAY_conv_active;		// Bool. Is there a conversation going on?
-UWORD		EWAY_conv_waypoint;		// The waypoint that set the conversation going.
+UBYTE EWAY_conv_active;		// Bool. Is there a conversation going on?
+UWORD EWAY_conv_waypoint;		// The waypoint that set the conversation going.
 THING_INDEX EWAY_conv_person_a;
 THING_INDEX EWAY_conv_person_b;
-UWORD       EWAY_conv_str;			// Index into the EWAY_mess_buffer
-UWORD       EWAY_conv_str_count;	// 0 for first line etc
-SLONG       EWAY_conv_timer;		// How long until the next person talks.
-SLONG       EWAY_conv_skip;			// How long until the user is allowed to skip the conversation.
-SLONG		EWAY_conv_ambient;		// true => Don't control the camera or go into widescreen mode.
-SLONG		EWAY_conv_talk=0;
+UWORD EWAY_conv_str;			// Index into the EWAY_mess_buffer
+UWORD EWAY_conv_str_count;	// 0 for first line etc
+SLONG EWAY_conv_timer;		// How long until the next person talks.
+SLONG EWAY_conv_skip;			// How long until the user is allowed to skip the conversation.
+SLONG EWAY_conv_ambient;		// true => Don't control the camera or go into widescreen mode.
+SLONG EWAY_conv_talk=0;
 
 #ifndef	PSX
-extern	CBYTE ELEV_fname_level[_MAX_PATH];
+extern CBYTE ELEV_fname_level[_MAX_PATH];
 
-void	get_level_word(CBYTE *str)
+void get_level_word(CBYTE* str)
 {
 	SLONG	c0=0,c1=0;
 
@@ -283,7 +283,7 @@ void	get_level_word(CBYTE *str)
 
 }
 
-SLONG	playing_combat_tutorial()
+SLONG playing_combat_tutorial()
 {
 #ifdef VERSION_DEMO
 //	return 0;	
@@ -324,7 +324,7 @@ SLONG	playing_combat_tutorial()
 
 }
 
-SLONG	playing_level(const CBYTE *name)
+SLONG playing_level(const CBYTE* name)
 {
  	SLONG	c0=0,c1=0;
 #ifdef VERSION_DEMO
@@ -362,7 +362,7 @@ SLONG	playing_level(const CBYTE *name)
 
 }
 
-CBYTE	*crap_levels[]=
+CBYTE* crap_levels[]=
 {
 	"FTutor1.ucm",
 	"Assault1.ucm",
@@ -379,7 +379,7 @@ CBYTE	*crap_levels[]=
 
 
 };
-SLONG	playing_real_mission()
+SLONG playing_real_mission()
 {
 
 
@@ -406,24 +406,24 @@ SLONG	playing_real_mission()
 
 }
 #else
-SLONG	playing_combat_tutorial()
+SLONG playing_combat_tutorial()
 {
 	return (wad_level==1);
 }
 
 UBYTE PSX_real[]={0,0,0,0,1,0,0,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
 
-SLONG	playing_real_mission()
+SLONG playing_real_mission()
 {
 	return PSX_real[wad_level-1];
 }
 #endif
-Thing	*talk_thing;
+Thing *talk_thing;
 
 //
 // Play the wav for the current mission with waypoint number waypoint
 //
-void	EWAY_talk(ULONG	waypoint)
+void EWAY_talk(ULONG	waypoint)
 {
 
 ANNOYINGSCRIBBLECHECK;
@@ -472,7 +472,7 @@ ANNOYINGSCRIBBLECHECK;
 
 }
 
-void	check_eway_talk(SLONG stop)
+void check_eway_talk(SLONG stop)
 {
 	if(!MFX_QUICK_still_playing())
 		talk_thing=0;
@@ -491,7 +491,7 @@ void	check_eway_talk(SLONG stop)
 //
 // Play a conversation wav  (these have conversation sub parts in the files as a tag of A,B,C,D etc
 //
-void	EWAY_talk_conv(ULONG	waypoint,SLONG conversation)
+void EWAY_talk_conv(ULONG	waypoint,SLONG conversation)
 {
 
 ANNOYINGSCRIBBLECHECK;
@@ -544,7 +544,7 @@ ANNOYINGSCRIBBLECHECK;
 //#define	ASSERT(x) if(!(x)){asm("break 0");}
 #endif
 
-CBYTE	*EWAY_get_mess(SLONG index)
+CBYTE* EWAY_get_mess(SLONG index)
 {
 	ASSERT(index<EWAY_mess_upto);
 	ASSERT(EWAY_mess[index]>=&EWAY_mess_buffer[0] && EWAY_mess[index]<&EWAY_mess_buffer[EWAY_mess_buffer_upto]);
@@ -584,7 +584,7 @@ ANNOYINGSCRIBBLECHECK;
 	EWAY_mess_buffer_upto = 0; //EWAY_mess_buffer;
 	EWAY_mess_upto        = 0;
 
-	memset((UBYTE*)EWAY_mess, 0, sizeof(CBYTE *)*EWAY_MAX_MESSES);
+	memset((UBYTE*)EWAY_mess, 0, sizeof(CBYTE* )*EWAY_MAX_MESSES);
 
 	//
 	// Clear the conditions.
@@ -1646,7 +1646,7 @@ ANNOYINGSCRIBBLECHECK;
 #ifndef TARGET_DC
 SLONG EWAY_set_message(
 		UBYTE  number,
-		CBYTE *message)
+		CBYTE* message)
 {
 	SLONG len = strlen(message) + 1;
 
@@ -1898,7 +1898,7 @@ void EWAY_fix_edef(EWAY_Edef *ee)
 
 #ifndef PSX
 #ifndef TARGET_DC
-SLONG EWAY_load_message_file(CBYTE *fname, UWORD *index, UWORD *number)
+SLONG EWAY_load_message_file(CBYTE* fname, UWORD *index, UWORD *number)
 {
 	FILE *handle = MF_Fopen(fname, "rb");
 
@@ -1906,8 +1906,8 @@ SLONG EWAY_load_message_file(CBYTE *fname, UWORD *index, UWORD *number)
 	{
 		CBYTE  line   [512];
 		CBYTE  message[512];
-		CBYTE *ch;
-		CBYTE *start;
+		CBYTE* ch;
+		CBYTE* start;
 
 		SLONG match;
 		SLONG upto;
@@ -1954,7 +1954,7 @@ SLONG EWAY_load_message_file(CBYTE *fname, UWORD *index, UWORD *number)
 
 
 
-void EWAY_load_fake_wander_text(CBYTE *fname)
+void EWAY_load_fake_wander_text(CBYTE* fname)
 {
 #ifndef PSX
 	CBYTE name_buffer[_MAX_PATH];
@@ -2088,7 +2088,7 @@ void EWAY_load_fake_wander_text(CBYTE *fname)
 #endif
 
 
-CBYTE *EWAY_get_fake_wander_message(SLONG type)
+CBYTE* EWAY_get_fake_wander_message(SLONG type)
 {
 #ifdef TARGET_DC
 	// We only have normal text on DC (not sure why not).
@@ -2421,19 +2421,19 @@ void EWAY_created_last_waypoint()
 #endif
 
 /*
-SLONG	global_write=0;
-SLONG	global_write1=0;
-SLONG	global_write2=0;
-SLONG	global_write3=0;
-SLONG	global_write4=0;
-SLONG	global_write5=0;
-SLONG	global_write6=0;
-SLONG	global_write7=0;
-SLONG	global_write8=0;
-SLONG	global_write9=0;
-SLONG	global_write10=0;
-SLONG	global_write11=0;
-SLONG	global_write12=0;
+SLONG global_write=0;
+SLONG global_write1=0;
+SLONG global_write2=0;
+SLONG global_write3=0;
+SLONG global_write4=0;
+SLONG global_write5=0;
+SLONG global_write6=0;
+SLONG global_write7=0;
+SLONG global_write8=0;
+SLONG global_write9=0;
+SLONG global_write10=0;
+SLONG global_write11=0;
+SLONG global_write12=0;
 */
 
 
@@ -3116,7 +3116,7 @@ ANNOYINGSCRIBBLECHECK;
 				ans=false;
 			else
 #else
-extern	UBYTE	is_semtex;
+extern UBYTE	is_semtex;
 			if((ew-EWAY_way)==124 && is_semtex)		 //miked remove wetback part for PC/Dreamcast
 				ans=false;
 			else
@@ -4534,8 +4534,8 @@ ANNOYINGSCRIBBLECHECK;
 
 void EWAY_process_conversation()
 {
-	CBYTE *ch;
-	CBYTE *str;
+	CBYTE* ch;
+	CBYTE* str;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -5305,7 +5305,7 @@ ANNOYINGSCRIBBLECHECK;
 			// 
 
 			{
-				CBYTE *str;
+				CBYTE* str;
 				UWORD  track_thing = NULL;
 
 				if (!WITHIN(ew->ed.arg1, 0, EWAY_MAX_MESSES - 1))
@@ -5404,7 +5404,7 @@ ANNOYINGSCRIBBLECHECK;
 				NET_PERSON(0)->Genus.Person->Flags2 |= FLAG2_PERSON_INVULNERABLE;
 
 				GAME_STATE = GS_LEVEL_WON;
-extern	void	set_stats();
+extern void	set_stats();
 				set_stats();
 			}
 			break;
@@ -5599,7 +5599,7 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 								p_vehicle,
 								NULL,
 								1050);
-extern	UBYTE	hit_player;
+extern UBYTE	hit_player;
 							hit_player=1;
 							create_shockwave(
 								p_vehicle->WorldPos.X >> 8,
@@ -5696,7 +5696,7 @@ extern	UBYTE	hit_player;
 				UWORD mess    = ew->ed.arg1;
 				SLONG percent = ew->ed.arg2 * CRIME_RATE_SCORE_MUL >> 8;
 
-				CBYTE *str;
+				CBYTE* str;
 
 				if (!WITHIN(mess, 0, EWAY_MAX_MESSES - 1))
 				{
@@ -5968,7 +5968,7 @@ extern	UBYTE	hit_player;
 
 				// -- PLACE AUTOSAVE CODE HERE --
 #ifndef	PSX
-extern	SLONG	SAVE_ingame(CBYTE *fname);
+extern SLONG	SAVE_ingame(CBYTE* fname);
 				SAVE_ingame("");
 				CONSOLE_text("GAME AUTOSAVED");
 #endif
@@ -6509,9 +6509,9 @@ void EWAY_process_penalties()
 
 #ifndef	PSX
 #ifndef TARGET_DC
-extern	SWORD	people_types[50];
+extern SWORD	people_types[50];
 
-void	count_people_types()
+void count_people_types()
 {		 
 	return;
 
@@ -8029,7 +8029,7 @@ void EWAY_deduct_time_penalty(SLONG time_to_deduct_in_hundreths_of_a_second)
 }
 
 #ifdef	UNFINISHED
-void	flag_undeletable_people()
+void flag_undeletable_people()
 {
 	EWAY_Way *ew;
 	EWAY_Cond *ec;

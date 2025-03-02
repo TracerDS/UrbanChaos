@@ -18,7 +18,7 @@
 
 #define	CLIP256(x)		(x>255?255:x)
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
 
 UBYTE					palette[768];
 ULONG					game_flags;
@@ -37,7 +37,7 @@ void	init_game()
 
 
 
-extern	void	setup_game();
+extern void	setup_game();
 #ifdef	POO
 void	game()
 {

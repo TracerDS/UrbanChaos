@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-TCHAR	*wtype_strings[]	=
+TCHAR *wtype_strings[]	=
 {
 	"(Waypoint)",
 	"Create Player",
@@ -70,7 +70,7 @@ TCHAR	*wtype_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wtrigger_strings[]	=
+TCHAR *wtrigger_strings[]	=
 {
 	"Game starts",
 	"Dependency",
@@ -122,7 +122,7 @@ TCHAR	*wtrigger_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*on_trigger_strings[]	=
+TCHAR *on_trigger_strings[]	=
 {
 	"Activate once only- stay active all game",
 	"Activate whenever triggered",
@@ -133,38 +133,38 @@ TCHAR	*on_trigger_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*door_actions[]	=
+TCHAR *door_actions[]	=
 {
 	"Unlock Door",
 	"Lock Door",
 	"!"
 };
 
-TCHAR	*tripwire_actions[]	=
+TCHAR *tripwire_actions[]	=
 {
 	"None",
 	"!"
 };
 
-TCHAR	*ppad_actions[]	=
+TCHAR *ppad_actions[]	=
 {
 	"None",
 	"!"
 };
 
-TCHAR	*efence_actions[]	=
+TCHAR *efence_actions[]	=
 {
 	"None",
 	"!"
 };
 
-TCHAR	*wlevel_actions[]	=
+TCHAR *wlevel_actions[]	=
 {
 	"None",
 	"!"
 };
 
-TCHAR	*scamera_actions[]	=
+TCHAR *scamera_actions[]	=
 {
 	"None",
 	"!"
@@ -172,7 +172,7 @@ TCHAR	*scamera_actions[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wplayer_strings[]	=
+TCHAR *wplayer_strings[]	=
 {
 	"Darci",
 	"Roper",
@@ -183,7 +183,7 @@ TCHAR	*wplayer_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wenemy_strings[]	=
+TCHAR *wenemy_strings[]	=
 /*{
 	"Civillian",
 	"Gang Member",
@@ -251,7 +251,7 @@ TCHAR	*wenemy_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wenemy_ai_strings[]	=
+TCHAR *wenemy_ai_strings[]	=
 {
 	"Nothing",
 	"Civillian",
@@ -280,7 +280,7 @@ TCHAR	*wenemy_ai_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wenemy_move_strings[]	=
+TCHAR *wenemy_move_strings[]	=
 {
 	"Stand Still",
 	"Patrol Waypts (in order)",
@@ -298,7 +298,7 @@ TCHAR	*wenemy_move_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wvehicle_strings[]	=
+TCHAR *wvehicle_strings[]	=
 {
 	"Car",
 	"Van",
@@ -316,7 +316,7 @@ TCHAR	*wvehicle_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wvehicle_behaviour_strings[]	=
+TCHAR *wvehicle_behaviour_strings[]	=
 {
 	"Player drives",
 	"Patrol waypoints",
@@ -326,7 +326,7 @@ TCHAR	*wvehicle_behaviour_strings[]	=
 };
 //---------------------------------------------------------------
 
-TCHAR	*wvehicle_key_strings[]	=
+TCHAR *wvehicle_key_strings[]	=
 {
 	"Unlocked",
 	"Red",
@@ -376,7 +376,7 @@ TCHAR *witem_flag_strings[] =
 	"!"
 };
 
-TCHAR	*witem_strings_old[]	=	
+TCHAR *witem_strings_old[]	=	
 {
 	"Knife",
 	"Baseball Bat",
@@ -426,7 +426,7 @@ TCHAR	*witem_strings_old[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wsfx_strings[]	=	
+TCHAR *wsfx_strings[]	=	
 {
 	"None",
 	"!"
@@ -434,7 +434,7 @@ TCHAR	*wsfx_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wvfx_strings[]	=	
+TCHAR *wvfx_strings[]	=	
 {
 	"Flare",
 	"Fire dome",
@@ -446,7 +446,7 @@ TCHAR	*wvfx_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wspotfx_strings[]	=	
+TCHAR *wspotfx_strings[]	=	
 {
 	"Water fountain",
 	"Water drip",
@@ -458,7 +458,7 @@ TCHAR	*wspotfx_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wcscenes_strings[]	=
+TCHAR *wcscenes_strings[]	=
 {
 	"None",
 	"!"
@@ -466,7 +466,7 @@ TCHAR	*wcscenes_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wmessage_strings[]	=
+TCHAR *wmessage_strings[]	=
 {
 	"None",
 	"!"
@@ -474,7 +474,7 @@ TCHAR	*wmessage_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wcreature_strings[]	=
+TCHAR *wcreature_strings[]	=
 {
 	"Bat",
 	"Gargoyle",
@@ -485,7 +485,7 @@ TCHAR	*wcreature_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wtraptype_strings[]	=
+TCHAR *wtraptype_strings[]	=
 
 {
 	"Steam Jet",
@@ -494,7 +494,7 @@ TCHAR	*wtraptype_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wlitetype_strings[]	=
+TCHAR *wlitetype_strings[]	=
 {
 	"Flashing on/off",
 	"Flashing two-tone",
@@ -505,7 +505,7 @@ TCHAR	*wlitetype_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*wtrapaxis_strings[]	=
+TCHAR *wtrapaxis_strings[]	=
 {
 	"Forward",
 	"Up",
@@ -515,7 +515,7 @@ TCHAR	*wtrapaxis_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*showlines_strings[]	=
+TCHAR *showlines_strings[]	=
 {
 	"Always",
 	"Selected Depencencies",
@@ -639,7 +639,7 @@ TCHAR *colour_strings[] =
 
 //---------------------------------------------------------------
 
-TCHAR	*wweaponitem_strings[]	=	
+TCHAR *wweaponitem_strings[]	=	
 {
 	"Key",				
 	"Gun",
@@ -668,7 +668,7 @@ TCHAR	*wweaponitem_strings[]	=
 	"!"
 };
 
-TCHAR	*wweaponitem_strings_old[]	=	
+TCHAR *wweaponitem_strings_old[]	=	
 {
 	"Knife",
 	"Baseball Bat",
@@ -702,7 +702,7 @@ TCHAR	*wweaponitem_strings_old[]	=
 	"!"
 };
 
-TCHAR	*wotheritem_strings[]	=	
+TCHAR *wotheritem_strings[]	=	
 {
 	"Police Issue Flak Jacket",
 	"Petrol Lighter",
@@ -723,7 +723,7 @@ TCHAR	*wotheritem_strings[]	=
 
 //---------------------------------------------------------------
 
-TCHAR	*witemcontainer_strings[] =
+TCHAR *witemcontainer_strings[] =
 {
 	"None (just lying around)",
 	"Box 1",
@@ -735,7 +735,7 @@ TCHAR	*witemcontainer_strings[] =
 
 //---------------------------------------------------------------
 
-TCHAR	*wbombtype_strings[] =
+TCHAR *wbombtype_strings[] =
 {
 	"Dynamite Stick",
 	"Egg Timer 'n' Wires",
@@ -745,7 +745,7 @@ TCHAR	*wbombtype_strings[] =
 
 //---------------------------------------------------------------
 
-TCHAR	*wfire_strings[] =
+TCHAR *wfire_strings[] =
 {
 	"Flickering flames",
 	"Bonfires all over",
@@ -759,7 +759,7 @@ TCHAR	*wfire_strings[] =
 //---------------------------------------------------------------
 // This one also doesn't have a ! because it's not used the "normal" way...
 
-TCHAR	*zonetype_strings[]	=
+TCHAR *zonetype_strings[]	=
 {
 	"Indoors",
 	"Reverb",

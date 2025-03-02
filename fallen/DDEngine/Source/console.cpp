@@ -52,7 +52,7 @@ CONSOLE_Mess CONSOLE_mess[CONSOLE_MAX_MESSES];
 
 
 
-void CONSOLE_font(CBYTE *fontpath, float scale) {
+void CONSOLE_font(CBYTE* fontpath, float scale) {
 //	if (font) delete font;
 //	font = new Font3D(fontpath,scale);
 }
@@ -213,7 +213,7 @@ void	draw_a_3d_menu(Font3D &font, SLONG	menu);
 
 }
 
-void CONSOLE_text(CBYTE *text, SLONG delay)
+void CONSOLE_text(CBYTE* text, SLONG delay)
 {
 	PANEL_new_text(NULL, delay, text);
 
@@ -221,10 +221,10 @@ void CONSOLE_text(CBYTE *text, SLONG delay)
 
 
 	SLONG i;
-	CBYTE *ch;
-	CBYTE *ch1;
-	CBYTE *ch2;
-	CBYTE *pipe;
+	CBYTE* ch;
+	CBYTE* ch1;
+	CBYTE* ch2;
+	CBYTE* pipe;
 
 	CBYTE temp[1024];
 
@@ -375,7 +375,7 @@ void CONSOLE_text_at(
 		SLONG  x,
 		SLONG  y,
 		SLONG  delay,
-		CBYTE *fmt, ...)
+		CBYTE* fmt, ...)
 {
 	SLONG i;
 
@@ -396,7 +396,7 @@ void CONSOLE_text_at(
 	// Convert to uppercase.
 	//
 
-	for (CBYTE *ch = message; *ch; *ch++ = toupper(*ch));
+	for (CBYTE* ch = message; *ch; *ch++ = toupper(*ch));
 
 	//
 	// Look for an message at the same place.
@@ -447,9 +447,9 @@ void CONSOLE_text_at(
 	}
 }
 
-void CONSOLE_status(CBYTE *msg) {
+void CONSOLE_status(CBYTE* msg) {
 	strcpy(status_text,msg);
-	for (CBYTE *ch = status_text; *ch; *ch++ = toupper(*ch));
+	for (CBYTE* ch = status_text; *ch; *ch++ = toupper(*ch));
 }
 
 #if 0

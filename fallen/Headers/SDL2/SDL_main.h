@@ -195,7 +195,7 @@ extern DECLSPEC void SDLCALL SDL_SetMainReady(void);
  *
  * \since This function is available since SDL 2.0.2.
  */
-extern DECLSPEC int SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void *hInst);
+extern DECLSPEC int SDLCALL SDL_RegisterApp(const char *name, Uint32 style, void* hInst);
 
 /**
  * Deregister the win32 window class from an SDL_RegisterApp call.
@@ -229,7 +229,7 @@ extern DECLSPEC void SDLCALL SDL_UnregisterApp(void);
  *
  * \since This function is available since SDL 2.0.3.
  */
-extern DECLSPEC int SDLCALL SDL_WinRTRunApp(SDL_main_func mainFunction, void * reserved);
+extern DECLSPEC int SDLCALL SDL_WinRTRunApp(SDL_main_func mainFunction, void*  reserved);
 
 #endif /* __WINRT__ */
 
@@ -261,7 +261,7 @@ extern DECLSPEC int SDLCALL SDL_UIKitRunApp(int argc, char *argv[], SDL_main_fun
  *
  * \since This function is available since SDL 2.24.0.
  */
-extern DECLSPEC int SDLCALL SDL_GDKRunApp(SDL_main_func mainFunction, void *reserved);
+extern DECLSPEC int SDLCALL SDL_GDKRunApp(SDL_main_func mainFunction, void* reserved);
 
 /**
  * Callback from the application to let the suspend continue.

@@ -9,7 +9,7 @@
 #endif
 
 #ifndef	PSX
-void	calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2)
+void calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2)
 {
 	SLONG	dx,dz;
 
@@ -36,7 +36,7 @@ void	calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2)
 //
 // find an available block of links
 //
-SLONG	find_empty_facet_block(SLONG count)
+SLONG find_empty_facet_block(SLONG count)
 {
 	SLONG	c0,c1;
 
@@ -78,7 +78,7 @@ SLONG	find_empty_facet_block(SLONG count)
 //
 // facet index is the block to insert a gap before
 //
-SLONG	garbage_collection()
+SLONG garbage_collection()
 {
 	SLONG	index,next=1;
 	SWORD	*mem;
@@ -165,7 +165,7 @@ repeated_duplicate:;
 // create an extra facet for a block.
 //
 
-SLONG	create_extra_facet(SLONG facet,SLONG findex)
+SLONG create_extra_facet(SLONG facet,SLONG findex)
 {
 	SLONG	pos,count=1;
 	SLONG	garbage=0;
@@ -218,7 +218,7 @@ try_again:;
 }
 #endif
 #ifndef PSX
-void	link_facet_to_mapwho(SLONG mx,SLONG mz,SLONG facet)
+void link_facet_to_mapwho(SLONG mx,SLONG mz,SLONG facet)
 {
 	SLONG	index;
 	SLONG	pos;
@@ -287,7 +287,7 @@ void	link_facet_to_mapwho(SLONG mx,SLONG mz,SLONG facet)
 	}
 }
 
-void	add_facet_to_map(SLONG facet)
+void add_facet_to_map(SLONG facet)
 {
 	SLONG	x1,z1,x2,z2,dx,dz;
 	SLONG	count;
@@ -582,7 +582,7 @@ void	add_facet_to_map(SLONG facet)
 	*/
 }
 
-void	process_facet(SLONG facet)
+void process_facet(SLONG facet)
 {
 	if(dfacets[facet].FacetType!=STOREY_TYPE_INSIDE)
 		if(dfacets[facet].FacetType!=STOREY_TYPE_OINSIDE)
@@ -590,7 +590,7 @@ void	process_facet(SLONG facet)
 				add_facet_to_map(facet);
 }
 
-void	process_building(SLONG build)
+void process_building(SLONG build)
 {
 	SLONG	c0;
 	struct	DBuilding *p_build;
@@ -620,7 +620,7 @@ void	process_building(SLONG build)
 	}
 }
 
-void	clear_colvects()
+void clear_colvects()
 {
 	SLONG	x,z;
 
@@ -632,7 +632,7 @@ void	clear_colvects()
 	}
 
 }
-void	clear_facet_links()
+void clear_facet_links()
 {
 	SLONG	c0;
 	for(c0=0;c0<MAX_FACET_LINK;c0++)
@@ -641,7 +641,7 @@ void	clear_facet_links()
 	}
 }
 #endif
-void	attach_walkable_to_map(SLONG face)
+void attach_walkable_to_map(SLONG face)
 {
 
 	SLONG	x=0,z=0;
@@ -743,7 +743,7 @@ void remove_walkable_from_map(SLONG face)
 
 NOGO flag is not used anymore
 
-void	set_nogo_pap_flags()
+void set_nogo_pap_flags()
 {
 	SLONG	x,z;
 
@@ -775,7 +775,7 @@ void	set_nogo_pap_flags()
 #ifndef PSX
 static void mark_naughty_facets();
 
-void	build_quick_city()
+void build_quick_city()
 {
 	SLONG	c0;
 

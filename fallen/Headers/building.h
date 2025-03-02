@@ -398,58 +398,58 @@ typedef SVector PrimNormal;
 
 //data
 #ifndef PSX
-extern	struct	DXTXTY	dx_textures_xy[200][5];
+extern struct	DXTXTY	dx_textures_xy[200][5];
 #endif
 
-extern	UWORD	next_roof_bound;
+extern UWORD	next_roof_bound;
 
 
-extern	UWORD	next_prim_point;
-extern	UWORD	next_prim_face4;
-extern	UWORD	next_prim_face3;
-extern	UWORD	next_prim_object;
-extern	UWORD	next_prim_multi_object;
+extern UWORD	next_prim_point;
+extern UWORD	next_prim_face4;
+extern UWORD	next_prim_face3;
+extern UWORD	next_prim_object;
+extern UWORD	next_prim_multi_object;
 
-extern	UWORD	end_prim_point;
-extern	UWORD	end_prim_face4;
-extern	UWORD	end_prim_face3;
-extern	UWORD	end_prim_object;
-extern	UWORD	end_prim_multi_object;
-
-
-extern	UWORD	next_building_object;
-extern	UWORD	end_building_object;
-
-extern	UWORD	next_building_facet;
-extern	UWORD	end_building_facet;
+extern UWORD	end_prim_point;
+extern UWORD	end_prim_face4;
+extern UWORD	end_prim_face3;
+extern UWORD	end_prim_object;
+extern UWORD	end_prim_multi_object;
 
 
+extern UWORD	next_building_object;
+extern UWORD	end_building_object;
 
-extern	struct	BuildingObject	building_objects[];
-extern	struct	BuildingFacet	building_facets[];
+extern UWORD	next_building_facet;
+extern UWORD	end_building_facet;
 
-extern	struct	FWindow		window_list[MAX_WINDOWS];
-extern	struct	FWall		wall_list[MAX_WALLS];
-extern	struct	FStorey		storey_list[MAX_STOREYS];
-extern	struct	FBuilding	building_list[MAX_BUILDINGS];
-extern	struct	TXTY	textures_xy[200][5];
-extern			UBYTE	textures_flags[200][5];
-extern	struct	TextureInfo texture_info[];
 
-extern	struct	RoomID	room_ids[MAX_INSIDE_STOREYS];
-extern	SLONG	next_inside;
+
+extern struct	BuildingObject	building_objects[];
+extern struct	BuildingFacet	building_facets[];
+
+extern struct	FWindow		window_list[MAX_WINDOWS];
+extern struct	FWall		wall_list[MAX_WALLS];
+extern struct	FStorey		storey_list[MAX_STOREYS];
+extern struct	FBuilding	building_list[MAX_BUILDINGS];
+extern struct	TXTY	textures_xy[200][5];
+extern UBYTE	textures_flags[200][5];
+extern struct	TextureInfo texture_info[];
+
+extern struct	RoomID	room_ids[MAX_INSIDE_STOREYS];
+extern SLONG	next_inside;
 
 // functions
 
-extern	SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern	void	offset_buildings(SLONG x,SLONG y,SLONG z);
-//extern	void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-//extern	void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-extern	void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z);
-extern	void	create_city(UBYTE flag);
-extern	SLONG	create_building_prim(UWORD building,SLONG	*small_y);
-extern	SLONG	next_connected_face(SLONG type,SLONG id,SLONG count);
-extern	SLONG	is_storey_circular(SLONG storey);
+extern SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z);
+extern void	offset_buildings(SLONG x,SLONG y,SLONG z);
+//extern void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
+//extern void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
+extern void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z);
+extern void	create_city(UBYTE flag);
+extern SLONG	create_building_prim(UWORD building,SLONG	*small_y);
+extern SLONG	next_connected_face(SLONG type,SLONG id,SLONG count);
+extern SLONG	is_storey_circular(SLONG storey);
 
 //
 // Returns the start and end of the given wall.

@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	anim_picked;
+SLONG anim_picked;
 
 //---------------------------------------------------------------
 
@@ -32,7 +32,7 @@ SLONG	anim_picked;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	animpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	animpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -79,7 +79,7 @@ bool	CALLBACK	animpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_anim_pick(EventPoint *the_ep)
+void do_anim_pick(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	anim_picked		=	the_ep->Data[0];

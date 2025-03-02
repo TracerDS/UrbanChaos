@@ -46,9 +46,9 @@ struct DXMaterial
 
 SLONG		material_count	=	1;
 
-extern	void	smooth_a_prim(SLONG prim);                     //prim.h
-extern	SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b);
-SLONG	calc_object_index(CBYTE *name,SLONG *extra);
+extern void	smooth_a_prim(SLONG prim);                     //prim.h
+extern SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b);
+SLONG	calc_object_index(CBYTE* name,SLONG *extra);
 
 SWORD	SelectFlag;
 SWORD	SelectDrawn=0;
@@ -1274,7 +1274,7 @@ cx(-C)cz+sxsz=G
 
 #endif
 
-void	comma_to_dot(CBYTE *str)
+void	comma_to_dot(CBYTE* str)
 {
 	while(*str)
 	{
@@ -1284,7 +1284,7 @@ void	comma_to_dot(CBYTE *str)
 	}
 }
 
-extern	SLONG	x_centre,y_centre,z_centre;
+extern SLONG	x_centre,y_centre,z_centre;
 //extern DXMaterial dx_materials[200];
 
 
@@ -1315,7 +1315,7 @@ struct
 #define MAX_NAME_LEN  64
 #define MAX_MATERIALS 64
 
-SLONG read_sex(CBYTE *fname, SLONG scale /* Ignored */, SLONG offset)
+SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 {
 	SLONG i;
 
@@ -1926,7 +1926,7 @@ void	invert_matrix(float *mat,float *out)
 
 }
 
-SLONG read_multi_sex(CBYTE *fname,float shrink)
+SLONG read_multi_sex(CBYTE* fname,float shrink)
 {
 	SLONG i;
 
@@ -2243,7 +2243,7 @@ SLONG read_multi_sex(CBYTE *fname,float shrink)
 			// We must find the texture name now.
 			//
 
-			CBYTE *tname = strstr(line, "filename");
+			CBYTE* tname = strstr(line, "filename");
 
 			ASSERT(tname);
 
@@ -2262,7 +2262,7 @@ SLONG read_multi_sex(CBYTE *fname,float shrink)
 			// 
 
 			{
-				CBYTE *ch;
+				CBYTE* ch;
 
 				for (ch = mat[num_m].name; *ch; ch++);
 
@@ -2678,9 +2678,9 @@ SLONG read_multi_sex(CBYTE *fname,float shrink)
 
 #define	MAX_3DS_LEN	1000
 
-extern void	read_object_name(FILE *file_handle,CBYTE *dest_string);
+extern void	read_object_name(FILE *file_handle,CBYTE* dest_string);
 
-SBYTE read_asc(CBYTE *fname,SLONG scale,ULONG offset)
+SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 {
 	//
 	// Are we loading a '.SEX' file or a '.ASC' file?
@@ -3033,7 +3033,7 @@ SBYTE read_asc(CBYTE *fname,SLONG scale,ULONG offset)
 }
 
 
-SLONG	calc_object_index(CBYTE *name,SLONG *extra)
+SLONG	calc_object_index(CBYTE* name,SLONG *extra)
 {
 	SLONG	c0;
 	for(c0=0;c0<strlen(name);c0++)
@@ -3057,7 +3057,7 @@ SLONG	calc_object_index(CBYTE *name,SLONG *extra)
 	return(-1);
 }
 
-SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float shrink)
+SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 {
 
 	SLONG fname_len = strlen(asc_name);
@@ -3505,7 +3505,7 @@ SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float shrink)
 }
 
 
-void	load_textures_for_prim(CBYTE *str,UWORD prim)
+void	load_textures_for_prim(CBYTE* str,UWORD prim)
 {
 	CBYTE			file_name[64];
 	UWORD			text;
@@ -3550,7 +3550,7 @@ void	load_textures_for_prim(CBYTE *str,UWORD prim)
 }
 
 
-void	save_textures_for_prim(CBYTE *str,UWORD prim)
+void	save_textures_for_prim(CBYTE* str,UWORD prim)
 {
 	CBYTE			file_name[64];
 	SLONG			c0,sf,ef,point;
@@ -3772,7 +3772,7 @@ void	dump_face_info_for_prim(MFFileHandle handle,UWORD prim)
 }
 
 
-UWORD	change_fname_extension(CBYTE *name,CBYTE *ext)
+UWORD	change_fname_extension(CBYTE* name,CBYTE* ext)
 {
 	SLONG	c0;
 	for(c0=0;c0<strlen(name);c0++)
@@ -3789,7 +3789,7 @@ UWORD	change_fname_extension(CBYTE *name,CBYTE *ext)
 	
 }
 
-void	export_tex(CBYTE *fname)
+void	export_tex(CBYTE* fname)
 {
 	SWORD	index;
 	struct	MapThing	*p_thing;
@@ -3968,7 +3968,7 @@ SLONG	is_this_unique(SLONG *dx,SLONG *dy,SLONG *dz,SLONG dx2,SLONG dy2,SLONG dz2
 
 	
 }
-UWORD	find_unique_face_to_offset(CBYTE *fname,SLONG *x,SLONG *y,SLONG *z)
+UWORD	find_unique_face_to_offset(CBYTE* fname,SLONG *x,SLONG *y,SLONG *z)
 {
 	UWORD			text;
 	SLONG			c0;
@@ -4221,9 +4221,9 @@ void	smooth_faces(void)
 }
 
 
-extern	void	apply_global_amb_to_map(void);
+extern void	apply_global_amb_to_map(void);
 
-extern	SWORD	CreateALightThing(SLONG x,SLONG y,SLONG z,SLONG bright);
+extern SWORD	CreateALightThing(SLONG x,SLONG y,SLONG z,SLONG bright);
 
 void	apply_map_thing(SLONG dx,SLONG dy,SLONG dz,struct	MapThing	*p_thing)
 {
@@ -4235,7 +4235,7 @@ void	apply_map_thing(SLONG dx,SLONG dy,SLONG dz,struct	MapThing	*p_thing)
 	}
 }
 
-void	import_tex(CBYTE *fname)
+void	import_tex(CBYTE* fname)
 {
 	UWORD			text;
 	SLONG			c0;

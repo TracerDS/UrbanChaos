@@ -376,7 +376,7 @@ SLONG	CreateShellWindow()
 
 //---------------------------------------------------------------
 
-void	LogText(CBYTE *error, ...)
+void	LogText(CBYTE* error, ...)
 {
 	CBYTE 			buf[512];
 	va_list 		argptr;

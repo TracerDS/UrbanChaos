@@ -43,8 +43,8 @@ VOID D3DUtil_InitLight( D3DLIGHT& ldLightData, D3DLIGHTTYPE ltType,
 // Miscellaneous helper functions
 //-----------------------------------------------------------------------------
 LPDIRECTDRAW4 D3DUtil_GetDirectDrawFromDevice( LPDIRECT3DDEVICE3 pd3dDevice );
-DWORD         D3DUtil_GetDeviceMemoryType( LPDIRECT3DDEVICE3 pd3dDevice );
-DWORD         D3DUtil_GetDisplayDepth( LPDIRECTDRAW4 pDD4=NULL );
+DWORD D3DUtil_GetDeviceMemoryType( LPDIRECT3DDEVICE3 pd3dDevice );
+DWORD D3DUtil_GetDisplayDepth( LPDIRECTDRAW4 pDD4=NULL );
 
 
 
@@ -80,10 +80,10 @@ inline VOID D3DUtil_SetScaleMatrix( D3DMATRIX& m, FLOAT sx, FLOAT sy,
 inline VOID SetScaleMatrix( D3DMATRIX& m, D3DVECTOR& v )
 { D3DUtil_SetScaleMatrix( m, v.x, v.y, v.z ); }
 
-VOID    D3DUtil_SetRotateXMatrix( D3DMATRIX& mat, FLOAT fRads );
-VOID    D3DUtil_SetRotateYMatrix( D3DMATRIX& mat, FLOAT fRads );
-VOID    D3DUtil_SetRotateZMatrix( D3DMATRIX& mat, FLOAT fRads );
-VOID    D3DUtil_SetRotationMatrix( D3DMATRIX& mat, D3DVECTOR& vDir,
+VOID D3DUtil_SetRotateXMatrix( D3DMATRIX& mat, FLOAT fRads );
+VOID D3DUtil_SetRotateYMatrix( D3DMATRIX& mat, FLOAT fRads );
+VOID D3DUtil_SetRotateZMatrix( D3DMATRIX& mat, FLOAT fRads );
+VOID D3DUtil_SetRotationMatrix( D3DMATRIX& mat, D3DVECTOR& vDir,
                                    FLOAT fRads );
 
 

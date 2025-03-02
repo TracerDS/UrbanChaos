@@ -5,7 +5,7 @@
 #pragma warning( disable : 4244 )
 
 
-extern	SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face);
+extern SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face);
 
 struct	
 {
@@ -1580,7 +1580,7 @@ void	highlight_point_on_face(SLONG fx,SLONG fy,SLONG fz,SLONG x,SLONG z,SWORD fa
 	}
 }
 
-extern	void	quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz);
+extern void	quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz);
 
 void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 {

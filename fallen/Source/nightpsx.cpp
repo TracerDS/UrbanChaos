@@ -23,7 +23,7 @@
 // PSX include
 //
 #include "libsn.h"
-extern	void			TEXTURE_choose_set(SLONG number);
+extern void			TEXTURE_choose_set(SLONG number);
 
 #define	MAX_PATH	128
 #define	FILE	SLONG
@@ -32,10 +32,10 @@ extern	void			TEXTURE_choose_set(SLONG number);
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern	SLONG	SpecialClose(SLONG handle);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialClose(SLONG handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -69,7 +69,7 @@ typedef struct
 //#define NIGHT_MAX_SLIGHTS 128
 
 NIGHT_Slight *NIGHT_slight;//[NIGHT_MAX_SLIGHTS];
-SLONG        NIGHT_slight_upto;
+SLONG NIGHT_slight_upto;
 
 //
 // The mapwho for static lights.
@@ -86,10 +86,10 @@ typedef struct
 
 NIGHT_Smap_2d *NIGHT_smap;
 
-UWORD	floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
-UBYTE	floor_lum[32][32];
-SBYTE	lum_off_x;
-SBYTE	lum_off_z;
+UWORD floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
+UBYTE floor_lum[32][32];
+SBYTE lum_off_x;
+SBYTE lum_off_z;
 
 //
 // The dynamic lights.
@@ -112,8 +112,8 @@ typedef struct
 #define NIGHT_MAX_DLIGHTS 64
 
 NIGHT_Dlight *NIGHT_dlight;//[NIGHT_MAX_DLIGHTS];
-UBYTE        NIGHT_dlight_free;
-UBYTE        NIGHT_dlight_used;
+UBYTE NIGHT_dlight_free;
+UBYTE NIGHT_dlight_used;
 
 //
 // 1D mapwho for dynamic lights.
@@ -133,11 +133,11 @@ UBYTE NIGHT_dlight_mapwho[PAP_SIZE_LO];
 
 NIGHT_Dfcache NIGHT_dfcache[NIGHT_MAX_DFCACHES];
 
-ULONG        NIGHT_flag;
-UBYTE        NIGHT_lampost_radius;
-SBYTE        NIGHT_lampost_red;
-SBYTE        NIGHT_lampost_green;
-SBYTE        NIGHT_lampost_blue;
+ULONG NIGHT_flag;
+UBYTE NIGHT_lampost_radius;
+SBYTE NIGHT_lampost_red;
+SBYTE NIGHT_lampost_green;
+SBYTE NIGHT_lampost_blue;
 NIGHT_Colour NIGHT_sky_colour;
 
 
@@ -147,16 +147,16 @@ NIGHT_Colour NIGHT_sky_colour;
 //
 // ========================================================
 
-ULONG        NIGHT_amb_d3d_colour;
-ULONG        NIGHT_amb_d3d_specular;
-SLONG        NIGHT_amb_red;
-SLONG        NIGHT_amb_green;
-SLONG        NIGHT_amb_blue;
-SLONG        NIGHT_amb_norm_x;
-SLONG        NIGHT_amb_norm_y;
-SLONG        NIGHT_amb_norm_z;
-UBYTE         NIGHT_dfcache_free;
-UBYTE		  NIGHT_dfcache_used;
+ULONG NIGHT_amb_d3d_colour;
+ULONG NIGHT_amb_d3d_specular;
+SLONG NIGHT_amb_red;
+SLONG NIGHT_amb_green;
+SLONG NIGHT_amb_blue;
+SLONG NIGHT_amb_norm_x;
+SLONG NIGHT_amb_norm_y;
+SLONG NIGHT_amb_norm_z;
+UBYTE NIGHT_dfcache_free;
+UBYTE NIGHT_dfcache_used;
 
 
 //
@@ -374,7 +374,7 @@ SLONG NIGHT_slight_create(
 	return true;
 }
 
-void  NIGHT_slight_delete(
+void NIGHT_slight_delete(
 		SLONG x,
 		SLONG y,
 		SLONG z,
@@ -443,7 +443,7 @@ void  NIGHT_slight_delete(
 	return;
 }
 
-void  NIGHT_slight_delete_all()
+void NIGHT_slight_delete_all()
 {
 	memset((UBYTE*)NIGHT_smap, 0, sizeof(NIGHT_smap));
 
@@ -466,7 +466,7 @@ typedef struct
 #define NIGHT_MAX_LLIGHTS 16
 
 NIGHT_Llight NIGHT_llight[NIGHT_MAX_LLIGHTS];
-SLONG        NIGHT_llight_upto;
+SLONG NIGHT_llight_upto;
 
 
 //
@@ -1339,7 +1339,7 @@ void NIGHT_light_prim(
 //
 // ========================================================
 
-void  NIGHT_dlight_init()
+void NIGHT_dlight_init()
 {
 }
 
@@ -1407,7 +1407,7 @@ void NIGHT_dlight_colour(UBYTE dlight_index, UBYTE red, UBYTE green, UBYTE blue)
 
 
 
-void  NIGHT_dlight_destroy(UBYTE dlight_index)
+void NIGHT_dlight_destroy(UBYTE dlight_index)
 {
 	SLONG  map;
 	UBYTE  next;
@@ -1760,8 +1760,8 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 	SLONG dlz;
 
 	#ifndef NDEBUG
-	void *min_address;
-	void *max_address;
+	void* min_address;
+	void* max_address;
 	#endif
 
 	// Moved from here. ^ ^ ^ ^
@@ -2660,7 +2660,7 @@ SLONG NIGHT_check_index(SLONG walkable_prim_point_index)
 #endif
 
 /*
-SLONG        NIGHT_first_walkable_prim_point;
+SLONG NIGHT_first_walkable_prim_point;
 NIGHT_Colour NIGHT_walkable[NIGHT_MAX_WALKABLE];
 */
 void NIGHT_generate_walkable_lighting()
@@ -2855,7 +2855,7 @@ void NIGHT_destroy_all_cached_info()
 
 
 #ifndef PSX
-SLONG NIGHT_load_ed_file(CBYTE *name)
+SLONG NIGHT_load_ed_file(CBYTE* name)
 {
 //#ifndef	PSX
 	SLONG i;

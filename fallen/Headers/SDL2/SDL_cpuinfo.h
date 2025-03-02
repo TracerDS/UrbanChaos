@@ -41,7 +41,7 @@
 #define __PRFCHWINTRIN_H
 
 static __inline__ void __attribute__((__always_inline__, __nodebug__))
-_m_prefetch(void *__P)
+_m_prefetch(void* __P)
 {
   __builtin_prefetch (__P, 0, 3 /* _MM_HINT_T0 */);
 }
@@ -535,7 +535,7 @@ extern DECLSPEC size_t SDLCALL SDL_SIMDGetAlignment(void);
  * \sa SDL_SIMDRealloc
  * \sa SDL_SIMDFree
  */
-extern DECLSPEC void * SDLCALL SDL_SIMDAlloc(const size_t len);
+extern DECLSPEC void*  SDLCALL SDL_SIMDAlloc(const size_t len);
 
 /**
  * Reallocate memory obtained from SDL_SIMDAlloc
@@ -559,7 +559,7 @@ extern DECLSPEC void * SDLCALL SDL_SIMDAlloc(const size_t len);
  * \sa SDL_SIMDAlloc
  * \sa SDL_SIMDFree
  */
-extern DECLSPEC void * SDLCALL SDL_SIMDRealloc(void *mem, const size_t len);
+extern DECLSPEC void*  SDLCALL SDL_SIMDRealloc(void* mem, const size_t len);
 
 /**
  * Deallocate memory obtained from SDL_SIMDAlloc
@@ -583,7 +583,7 @@ extern DECLSPEC void * SDLCALL SDL_SIMDRealloc(void *mem, const size_t len);
  * \sa SDL_SIMDAlloc
  * \sa SDL_SIMDRealloc
  */
-extern DECLSPEC void SDLCALL SDL_SIMDFree(void *ptr);
+extern DECLSPEC void SDLCALL SDL_SIMDFree(void* ptr);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

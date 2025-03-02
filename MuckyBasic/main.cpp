@@ -27,7 +27,7 @@
 // Compiles the given file. Returns true on success.
 //
 
-SLONG MAIN_compile(CBYTE *input, CBYTE *output)
+SLONG MAIN_compile(CBYTE* input, CBYTE* output)
 {
 	FILE *handle;
 
@@ -80,7 +80,7 @@ void MAIN_main()
 	// Link.
 	//
 
-	CBYTE *link[] =
+	CBYTE* link[] =
 	{
 		"MuckyBASIC objects\\test.mbo",
 		"MuckyBASIC objects\\test2.mbo",

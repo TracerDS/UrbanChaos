@@ -17,11 +17,11 @@
 
 //---------------------------------------------------------------
 
-SLONG		target_type,target_move,target_speed,target_delay,camera_zoom,camera_rotate;
+SLONG target_type,target_move,target_speed,target_delay,camera_zoom,camera_rotate;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
@@ -80,7 +80,7 @@ bool	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_camtarget_setup(EventPoint *the_ep)
+void do_camtarget_setup(EventPoint *the_ep)
 {
 	target_move  =	the_ep->Data[0];
 	target_type  =	the_ep->Data[1];
@@ -107,7 +107,7 @@ void	do_camtarget_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_camtarget_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_camtarget_message(EventPoint *ep, CBYTE* msg) {
   if ((!ep)||(!ep->Data[0])||(!ep->Data[1]))
 	  strcpy(msg,"Unknown");
   else

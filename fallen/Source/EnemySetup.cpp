@@ -29,7 +29,7 @@
 
 //---------------------------------------------------------------
 
-SLONG			enemy_count,
+SLONG enemy_count,
 				enemy_constitution,
 				enemy_type,
 				enemy_ai,
@@ -43,7 +43,7 @@ SLONG			enemy_count,
 				enemy_has,
 				enemy_combat;
 
-bool			adjust;
+bool adjust;
 
 //---------------------------------------------------------------
 
@@ -59,7 +59,7 @@ bool			adjust;
 
 
 
-bool	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -402,7 +402,7 @@ bool	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_enemy_setup(EventPoint *the_ep, bool do_adjust)
+void do_enemy_setup(EventPoint *the_ep, bool do_adjust)
 {
 	//	Set the dialog.
 	adjust=do_adjust;
@@ -456,7 +456,7 @@ void	do_enemy_setup(EventPoint *the_ep, bool do_adjust)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_enemy_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_enemy_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

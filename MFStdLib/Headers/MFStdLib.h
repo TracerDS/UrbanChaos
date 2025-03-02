@@ -51,7 +51,7 @@
 #define	true				1
 #define	false				0
 
-typedef	unsigned char		UBYTE;
+typedef unsigned char		UBYTE;
 typedef signed char			SBYTE;
 typedef char				CBYTE;
 typedef unsigned short		UWORD;
@@ -92,24 +92,24 @@ typedef struct
 #define	FLAGS_USE_3D			(1<<1)
 #define	FLAGS_USE_WORKSCREEN	(1<<2)
 
-extern	UBYTE				WorkScreenDepth,
+extern UBYTE				WorkScreenDepth,
 							*WorkScreen;
-extern	SLONG				WorkScreenHeight,
+extern SLONG				WorkScreenHeight,
 							WorkScreenPixelWidth,
 							WorkScreenWidth;
 extern SLONG				DisplayWidth,
 							DisplayHeight,
 							DisplayBPP;
 
-SLONG			OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG			SetDisplay(ULONG width,ULONG height,ULONG depth);
-SLONG			CloseDisplay();
-SLONG			ClearDisplay(UBYTE r,UBYTE g,UBYTE b);
-void			FadeDisplay(UBYTE mode);
-void			*LockWorkScreen();
-void			UnlockWorkScreen();
-void			ShowWorkScreen(ULONG flags);
-void			ClearWorkScreen(UBYTE colour);
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+SLONG CloseDisplay();
+SLONG ClearDisplay(UBYTE r,UBYTE g,UBYTE b);
+void FadeDisplay(UBYTE mode);
+void* LockWorkScreen();
+void UnlockWorkScreen();
+void ShowWorkScreen(ULONG flags);
+void ClearWorkScreen(UBYTE colour);
 
 //---------------------------------------------------------------
 // Host
@@ -134,21 +134,21 @@ struct MFTime
 	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-SLONG			main(UWORD argc, TCHAR** argv);
-bool			SetupHost(ULONG flags);
-void			ResetHost();
-//void            TraceText(CBYTE *error, ...);
-void            TraceText(char *error, ...);
-bool			LibShellActive();
-bool			LibShellChanged();
-bool			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+SLONG main(UWORD argc, TCHAR** argv);
+bool SetupHost(ULONG flags);
+void ResetHost();
+//void            TraceText(CBYTE* error, ...);
+void TraceText(char *error, ...);
+bool LibShellActive();
+bool LibShellChanged();
+bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 #define	NoError					0
 
 
 #ifndef NDEBUG
 
-void			DebugText(CBYTE *error, ...);
+void DebugText(CBYTE* error, ...);
 #define TRACE				TraceText
 #define	LogText				DebugText
 #define	MFMessage			LibShellMessage
@@ -180,8 +180,8 @@ void			DebugText(CBYTE *error, ...);
 
 
 #if 0
-bool	GetInputDevice(UBYTE type,UBYTE sub_type);
-bool	ReadInputDevice();
+bool GetInputDevice(UBYTE type,UBYTE sub_type);
+bool ReadInputDevice();
 #endif
 
 //---------------------------------------------------------------

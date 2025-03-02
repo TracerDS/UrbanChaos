@@ -32,7 +32,7 @@ static SLONG	which_waypoint;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	pee_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	pee_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -80,7 +80,7 @@ bool	CALLBACK	pee_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_pee_setup(EventPoint *the_ep)
+void do_pee_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	which_waypoint		=	the_ep->Data[0];

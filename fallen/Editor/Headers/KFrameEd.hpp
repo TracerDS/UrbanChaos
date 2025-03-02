@@ -12,7 +12,7 @@
 
 #define	GOT_ANIM_COPY				(1<<0)
 
-extern	void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,
+extern void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,
 						  struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,
 						  struct Matrix33 *rot_mat,
 						  struct Matrix31 *parent_pos,	struct Matrix33 *parent_mat,

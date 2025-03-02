@@ -8,38 +8,38 @@
 
 //---------------------------------------------------------------
 
-typedef	struct
+typedef struct
 {
 	SLONG		X,
 				Y,
 				Z;
 }GameCoord;
 
-struct	SVector
+struct SVector
 {
 	SLONG	X,Y,Z;
 };
 
-struct	SmallSVector
+struct SmallSVector
 {
 	SWORD	X,Y,Z;
 };
 
 #ifndef	PSX
-struct	SVECTOR
+struct SVECTOR
 {
 	SLONG	X,Y,Z;
 };
 
 #endif
 
-struct	TinyXZ
+struct TinyXZ
 {
 	SBYTE	Dx,Dz;
 	SWORD	Angle;
 };
 
-struct	MiniTextureBits
+struct MiniTextureBits
 {
 	UWORD 	X:3;
 	UWORD 	Y:3;

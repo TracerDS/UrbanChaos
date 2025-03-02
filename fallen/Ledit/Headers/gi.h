@@ -18,7 +18,7 @@ void GI_init();
 // Returns true on success.
 //
 
-SLONG GI_load_map(CBYTE *name);
+SLONG GI_load_map(CBYTE* name);
 
 
 //

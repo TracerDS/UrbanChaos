@@ -44,8 +44,8 @@ typedef struct
 
 } NIGHT_Slight;
 
-extern	NIGHT_Slight *NIGHT_slight;//[NIGHT_MAX_SLIGHTS];
-extern	SLONG        NIGHT_slight_upto;
+extern NIGHT_Slight *NIGHT_slight;//[NIGHT_MAX_SLIGHTS];
+extern SLONG        NIGHT_slight_upto;
 
 typedef struct
 {
@@ -54,9 +54,9 @@ typedef struct
 
 } NIGHT_Smap;
 
-typedef	NIGHT_Smap	NIGHT_Smap_2d[PAP_SIZE_LO];
+typedef NIGHT_Smap	NIGHT_Smap_2d[PAP_SIZE_LO];
 
-extern	NIGHT_Smap_2d *NIGHT_smap; //[PAP_SIZE_LO][PAP_SIZE_LO];
+extern NIGHT_Smap_2d *NIGHT_smap; //[PAP_SIZE_LO][PAP_SIZE_LO];
 
 //
 // The dynamic lights.
@@ -81,7 +81,7 @@ typedef struct
 
 #define NIGHT_MAX_DLIGHTS 64
 
-extern	NIGHT_Dlight *NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
+extern NIGHT_Dlight *NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
 
 
 
@@ -156,7 +156,7 @@ extern UBYTE        NIGHT_square_free;
 extern UBYTE NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
 
 #ifdef	PSX
-extern	UWORD	floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
+extern UWORD	floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
 #endif
 
 //
@@ -415,7 +415,7 @@ extern SBYTE        NIGHT_lampost_blue;
 // on success.
 //
 
-extern SLONG NIGHT_load_ed_file(CBYTE *name);
+extern SLONG NIGHT_load_ed_file(CBYTE* name);
 
 
 // ========================================================
@@ -470,7 +470,7 @@ SLONG NIGHT_slight_create(		// Returns false on failure.
 		SBYTE green,
 		SBYTE blue);
 
-void  NIGHT_slight_delete(
+void NIGHT_slight_delete(
 		SLONG x,
 		SLONG y,
 		SLONG z,
@@ -479,7 +479,7 @@ void  NIGHT_slight_delete(
 		SBYTE green,
 		SBYTE blue);
 
-void  NIGHT_slight_delete_all();
+void NIGHT_slight_delete_all();
 
 
 // ========================================================
@@ -534,9 +534,9 @@ void NIGHT_cache_destroy(UBYTE square_index);
 //
 // ========================================================
 
-void  NIGHT_dfcache_recalc ();
+void NIGHT_dfcache_recalc ();
 UBYTE NIGHT_dfcache_create (UWORD dfacet_index);
-void  NIGHT_dfcache_destroy(UBYTE dfcache_index);
+void NIGHT_dfcache_destroy(UBYTE dfcache_index);
 
 
 // ========================================================

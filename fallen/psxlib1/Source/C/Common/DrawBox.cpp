@@ -10,7 +10,7 @@
 
 //---------------------------------------------------------------
 
-void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 {
 	UBYTE		*ptr;
 	ULONG		big_col,
@@ -60,7 +60,7 @@ void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 	}
 }
 
-void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 {
 	UWORD		*ptr;
 	ULONG		big_col,
@@ -109,7 +109,7 @@ void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 	}
 }
 
-void	DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 {
 	ULONG		*ptr;
 	SLONG		temp_width;
@@ -132,7 +132,7 @@ void	DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 {
 	UBYTE		*ptr;
 	ULONG		big_col,
@@ -207,7 +207,7 @@ void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 	}
 }
 
-void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 {
 	UWORD		*ptr;
 	ULONG		big_col,
@@ -282,7 +282,7 @@ void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 	}
 }
 
-void	DrawBoxC32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void DrawBoxC32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 {
 	ULONG		*ptr;
 	SLONG		temp_width;

@@ -40,14 +40,14 @@ struct Ribbon {
 
 
 
-void	RIBBON_init();
-void	RIBBON_draw();
-void	RIBBON_process();
-SLONG	RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life=-1, UBYTE fade=0, UBYTE scroll=0, UBYTE u=1, UBYTE v=0, SLONG rgb=0xFFFFFF);
-void	RIBBON_free(SLONG ribbon);
-void	RIBBON_extend(SLONG ribbon, SLONG x, SLONG y, SLONG z);
-SLONG	RIBBON_length(SLONG ribbon);
-void	RIBBON_life(SLONG ribbon, SLONG life);
+void RIBBON_init();
+void RIBBON_draw();
+void RIBBON_process();
+SLONG RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life=-1, UBYTE fade=0, UBYTE scroll=0, UBYTE u=1, UBYTE v=0, SLONG rgb=0xFFFFFF);
+void RIBBON_free(SLONG ribbon);
+void RIBBON_extend(SLONG ribbon, SLONG x, SLONG y, SLONG z);
+SLONG RIBBON_length(SLONG ribbon);
+void RIBBON_life(SLONG ribbon, SLONG life);
 
 
 #endif

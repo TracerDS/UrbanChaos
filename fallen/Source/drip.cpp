@@ -22,7 +22,7 @@ typedef struct
 #define DRIP_MAX_DRIPS 1024
 
 DRIP_Drip DRIP_drip[DRIP_MAX_DRIPS];
-SLONG     DRIP_last;
+SLONG DRIP_last;
 
 void DRIP_init()
 {

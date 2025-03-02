@@ -61,7 +61,7 @@
 
 typedef struct
 {
-	CBYTE *name;	// Why not eh?
+	CBYTE* name;	// Why not eh?
 	UBYTE  prim;
 	UBYTE  group;
 
@@ -146,7 +146,7 @@ Thing *person_has_special(Thing *p_person, SLONG special_type);
 //
 
 SLONG should_person_get_item(Thing *p_person, Thing *p_special); // Ignores distance to the special- consider only if that person already has a special like that and whether she can carry it.
-void  person_get_item       (Thing *p_person, Thing *p_special);
+void person_get_item       (Thing *p_person, Thing *p_special);
 
 
 //

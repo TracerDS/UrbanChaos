@@ -42,7 +42,7 @@ void POLY_camera_set(
 // calculated.
 //
 
-extern	MATRIX	PSX_view_matrix;
+extern MATRIX	PSX_view_matrix;
 
 #define POLY_CLIP_LEFT			(1 << 0)
 #define POLY_CLIP_RIGHT			(1 << 1)
@@ -97,7 +97,7 @@ typedef union
 	SLONG	SYSX;
 }PSX_Screen_XY;
 
-void	build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m);
+void build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m);
 
 void POLY_transform(
 		SLONG       world_x,
@@ -288,30 +288,30 @@ void POLY_fadeout_buffer();
 #define POLY_PAGE_ARROW			(EXTRA(0,0))
 //#define POLY_PAGE_PADBITS		(EXTRA(2,6))
 
-void  POLY_frame_init    (SLONG keep_shadow_page);	// true => doesn't delete the shadow polygons.
+void POLY_frame_init    (SLONG keep_shadow_page);	// true => doesn't delete the shadow polygons.
 SLONG POLY_valid_triangle(POLY_Point *p);
 
 SLONG POLY_valid_quad    (POLY_Point *p);
 SLONG POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
-void  POLY_add_triangle  (POLY_Point *p, SLONG page, SLONG shall_i_backface_cull);
-void  POLY_add_quad      (POLY_Point *p, SLONG page, SLONG shall_i_backface_cull);
-void  POLY_add_line      (POLY_Point *p1, POLY_Point *p2, SLONG width1, SLONG width2, SLONG sort_to_front);
-void  POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front);
-void  POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front);
-void  POLY_add_line_2d   (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
-void  POLY_clip_line_box (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2);
-void  POLY_clip_line_add (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
-void  POLY_frame_draw    (SLONG draw_shadow_page);	// false => Doens't draw the shadow polygons.
-extern	SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull);
-extern	SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull);
+void POLY_add_triangle  (POLY_Point *p, SLONG page, SLONG shall_i_backface_cull);
+void POLY_add_quad      (POLY_Point *p, SLONG page, SLONG shall_i_backface_cull);
+void POLY_add_line      (POLY_Point *p1, POLY_Point *p2, SLONG width1, SLONG width2, SLONG sort_to_front);
+void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front);
+void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front);
+void POLY_add_line_2d   (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
+void POLY_clip_line_box (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2);
+void POLY_clip_line_add (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
+void POLY_frame_draw    (SLONG draw_shadow_page);	// false => Doens't draw the shadow polygons.
+extern SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull);
+extern SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull);
 
 
-extern	SLONG POLY_cam_x;
-extern	SLONG POLY_cam_y;
-extern	SLONG POLY_cam_z;
+extern SLONG POLY_cam_x;
+extern SLONG POLY_cam_y;
+extern SLONG POLY_cam_z;
 
-extern	SLONG POLY_cam_off_x;
-extern	SLONG POLY_cam_off_y;
-extern	SLONG POLY_cam_off_z;
+extern SLONG POLY_cam_off_x;
+extern SLONG POLY_cam_off_y;
+extern SLONG POLY_cam_off_z;
 
 #endif

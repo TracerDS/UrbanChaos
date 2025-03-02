@@ -156,7 +156,7 @@ void	redraw_col_tab()
 }
 
 //---------------------------------------------------------------
-extern	void	hilight_col_info();
+extern void	hilight_col_info();
 
 void	ColTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 {

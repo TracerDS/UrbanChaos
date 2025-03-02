@@ -244,37 +244,37 @@ typedef	BucketDXTri			BucketDXTri;
 //*********************************************************
 
 //DATA
-extern	SLONG	poly_count;
+extern SLONG	poly_count;
 
-extern	UBYTE	bucket_pool[MAX_BUCKET_POOL];
-extern	UWORD	select_colour;
-extern	struct	BucketHead	bucket_heads[MAX_BUCKETS];
-extern	UBYTE	*current_bucket_pool;
-extern	UBYTE	*end_bucket_pool;
+extern UBYTE	bucket_pool[MAX_BUCKET_POOL];
+extern UWORD	select_colour;
+extern struct	BucketHead	bucket_heads[MAX_BUCKETS];
+extern UBYTE	*current_bucket_pool;
+extern UBYTE	*end_bucket_pool;
 
 //FUNCTIONS
-extern	struct	EngineStuff	engine;
+extern struct	EngineStuff	engine;
 
-extern	void	set_camera_to_base();
-extern	void	set_camera_to_mid();
-extern	void	set_camera();
-extern	void	set_camera_plan();
-extern	void	set_camera_front();
-extern	void	set_camera_side();
-extern	void	set_camera_angledy(SWORD angle);
-extern	void	clear_camera_angledy();
+extern void	set_camera_to_base();
+extern void	set_camera_to_mid();
+extern void	set_camera();
+extern void	set_camera_plan();
+extern void	set_camera_front();
+extern void	set_camera_side();
+extern void	set_camera_angledy(SWORD angle);
+extern void	clear_camera_angledy();
 
-extern	void	init_camera();
-extern	void	render_view(UBYTE highlight);
-extern	void	init_engine();
-extern	void	add_bucket(void *p_bucket,SLONG z);
-extern	ULONG (*rotate_point_gte)(struct	SVector *v,struct SVector *r);
-extern	ULONG	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r);
-extern	ULONG	rotate_point_gte_normal(struct	SVector *v,struct SVector *r);
-extern	void	calc_world_pos_plan(SLONG x,SLONG y);
-extern	void	calc_world_pos_front(SLONG x,SLONG y);
+extern void	init_camera();
+extern void	render_view(UBYTE highlight);
+extern void	init_engine();
+extern void	add_bucket(void* p_bucket,SLONG z);
+extern ULONG (*rotate_point_gte)(struct	SVector *v,struct SVector *r);
+extern ULONG	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r);
+extern ULONG	rotate_point_gte_normal(struct	SVector *v,struct SVector *r);
+extern void	calc_world_pos_plan(SLONG x,SLONG y);
+extern void	calc_world_pos_front(SLONG x,SLONG y);
 
-extern	void	animate_texture_maps();
+extern void	animate_texture_maps();
 
 
 //*********************************************************

@@ -64,7 +64,7 @@ void IMP_normalise_vector(
 
 
 
-IMP_Mesh IMP_load(CBYTE *fname, float scale)
+IMP_Mesh IMP_load(CBYTE* fname, float scale)
 {
 	SLONG i;
 	SLONG j;

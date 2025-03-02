@@ -11,7 +11,7 @@
 
 
 
-SLONG PRIMTEX_get_number(CBYTE *fname)
+SLONG PRIMTEX_get_number(CBYTE* fname)
 {
 	SLONG page_number;
 	SLONG line_number;
@@ -28,7 +28,7 @@ SLONG PRIMTEX_get_number(CBYTE *fname)
 	CBYTE fullname_pge[MAX_PATH];
 	CBYTE line        [MAX_PATH];
 
-	CBYTE *ch;
+	CBYTE* ch;
 
 	//
 	// Work out the full path of this file on n:\

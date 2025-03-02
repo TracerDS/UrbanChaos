@@ -94,18 +94,18 @@ class Form {
 //
 
 // Forms
-Form*	FORM_Create(CBYTE *caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG textcolour);
+Form*	FORM_Create(CBYTE* caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG textcolour);
 Widget*	FORM_AddWidget(Form *form, Widget *widget);
-void   	FORM_DelWidget(Widget *widget);
-SLONG	FORM_Process(Form* form);
-void	FORM_Draw(Form* form);
-void	FORM_Free(Form* form);
+void FORM_DelWidget(Widget *widget);
+SLONG FORM_Process(Form* form);
+void FORM_Draw(Form* form);
+void FORM_Free(Form* form);
 Widget*	FORM_Focus(Form* form, Widget* widget, SBYTE direction=0);
 Widget*	FORM_GetWidgetFromPoint(Form *form, WidgetPoint pt);
 
 // Widgets
-void	WIDGET_menu(Form *form, ...);
-Widget*	WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG oy, CBYTE *caption);
+void WIDGET_menu(Form *form, ...);
+Widget*	WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG oy, CBYTE* caption);
 //void	WIDGET_State(Widget *widget, SLONG data, SLONG mask=0xFFFF);
 inline void	WIDGET_SetState(Widget *widget, SLONG data, SLONG mask=0) {
 	widget->state=(widget->state&~mask)|data;

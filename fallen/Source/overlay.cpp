@@ -29,13 +29,13 @@
 #define	VERSION_NTSC	1
 #endif
 
-extern	void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
+extern void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
 
 
 //
 // local prototypes
 //
-void	OVERLAY_draw_damage_values();
+void OVERLAY_draw_damage_values();
 
 //
 // This is for everything that gets overlayed during the game
@@ -52,7 +52,7 @@ void	OVERLAY_draw_damage_values();
 #define	INFO_NUMBER	1
 #define	INFO_TEXT	2
 #ifdef	DAMAGE_TEXT
-struct	DamageValue
+struct DamageValue
 {
 	UBYTE	Type;
 	CBYTE	*text_ptr;
@@ -67,12 +67,12 @@ struct	DamageValue
 
 #define	MAX_DAMAGE_VALUES	16
 
-struct	DamageValue	damage_values[MAX_DAMAGE_VALUES];
-SLONG	damage_value_upto=1;
+struct DamageValue	damage_values[MAX_DAMAGE_VALUES];
+SLONG damage_value_upto=1;
 #endif
 
 
-struct	TrackEnemy
+struct TrackEnemy
 {
 	Thing	*PThing;
 	SWORD	State;
@@ -95,12 +95,12 @@ struct Beacon
 	UWORD	OTHER;
 };
 
-struct	Beacon	beacons[MAX_BEACON];
-UWORD	beacon_upto=1;
+struct Beacon	beacons[MAX_BEACON];
+UWORD beacon_upto=1;
 */
 
 
-struct	TrackEnemy	panel_enemy[MAX_TRACK];
+struct TrackEnemy	panel_enemy[MAX_TRACK];
 
 #define	USE_CAR			(1)
 #define	USE_CABLE		(2)
@@ -119,7 +119,7 @@ struct	TrackEnemy	panel_enemy[MAX_TRACK];
 #define	HELP_USE_BIKE		3
 
 #ifndef TARGET_DC
-CBYTE	*help_text[]=
+CBYTE* help_text[]=
 {
 	"Jump up to grab cables",
 	"Press action to pickup items",
@@ -128,7 +128,7 @@ CBYTE	*help_text[]=
 	""
 };
 
-UWORD	help_xlat[] = { X_GRAB_CABLE, X_PICK_UP, X_ENTER_VEHICLE, X_USE_BIKE };
+UWORD help_xlat[] = { X_GRAB_CABLE, X_PICK_UP, X_ENTER_VEHICLE, X_USE_BIKE };
 #endif
 
 #ifndef PSX
@@ -152,7 +152,7 @@ SLONG should_i_add_message(SLONG type)
 	}
 }
 
-void	arrow_object(Thing *p_special,SLONG dir,SLONG type)
+void arrow_object(Thing *p_special,SLONG dir,SLONG type)
 {
 	SLONG	x,y,z;
 
@@ -186,7 +186,7 @@ void	arrow_object(Thing *p_special,SLONG dir,SLONG type)
 	*/
 }
 
-void	arrow_pos(SLONG x,SLONG y,SLONG z,SLONG dir,SLONG type)
+void arrow_pos(SLONG x,SLONG y,SLONG z,SLONG dir,SLONG type)
 {
 	y+=((GAME_TURN+x)<<3)&63;
 
@@ -215,9 +215,9 @@ void	arrow_pos(SLONG x,SLONG y,SLONG z,SLONG dir,SLONG type)
 #endif
 #endif
 
-void	Time(struct MFTime *the_time);
+void Time(struct MFTime *the_time);
 
-void	show_help_text(SLONG index)
+void show_help_text(SLONG index)
 {
 	/*
 #ifndef	PSX
@@ -242,7 +242,7 @@ void	show_help_text(SLONG index)
 
 
 #ifdef	UNUSED
-void	highlight_cable_grab()
+void highlight_cable_grab()
 {
 	SLONG	index;
 	SLONG	x,z;
@@ -327,7 +327,7 @@ void	highlight_cable_grab()
 					
 					my=find_cable_y_along(df,along);
 
-//extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+//extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 
 //					sprintf(str,"%d",((MAVHEIGHT(wx>>8,wz>>8)<<6)-my));
 //					FONT2D_DrawString_3d(str,wx,50+(MAVHEIGHT(wx>>8,wz>>8)<<6),wz,0xff0000,60,0);
@@ -350,7 +350,7 @@ void	highlight_cable_grab()
 
 
 
-SLONG	help_system()
+SLONG help_system()
 {
 	Thing	*p_person;
 	ULONG collide_types;
@@ -433,7 +433,7 @@ SLONG	help_system()
 
 						show_help_text(HELP_USE_CAR);
 
-						extern	void	get_car_enter_xz(Thing *p_vehicle,SLONG *cx,SLONG *cz);
+						extern void	get_car_enter_xz(Thing *p_vehicle,SLONG *cx,SLONG *cz);
 
 						get_car_enter_xz(p_found,&cx,&cz);
 						 
@@ -536,7 +536,7 @@ SLONG	help_system()
 
 
 
-void	track_enemy(Thing *p_thing)
+void track_enemy(Thing *p_thing)
 {
 	#ifdef OLD_POO
 
@@ -598,11 +598,11 @@ void	track_enemy(Thing *p_thing)
 	#endif
 }
 
-struct	TrackEnemy	panel_gun_sight[MAX_TRACK];
-UWORD	track_count=0;
+struct TrackEnemy	panel_gun_sight[MAX_TRACK];
+UWORD track_count=0;
 
 
-void	track_gun_sight(Thing *p_thing,SLONG accuracy)
+void track_gun_sight(Thing *p_thing,SLONG accuracy)
 {
 	SLONG	c0;
 	SLONG	unused=-1;
@@ -651,7 +651,7 @@ void	track_gun_sight(Thing *p_thing,SLONG accuracy)
 
 #ifndef PSX
 #ifndef TARGET_DC
-void	OVERLAY_draw_tracked_enemies()
+void OVERLAY_draw_tracked_enemies()
 {
 	SLONG	c0;
 	for(c0=0;c0<MAX_TRACK;c0++)
@@ -666,7 +666,7 @@ void	OVERLAY_draw_tracked_enemies()
 			h=panel_enemy[c0].PThing->Genus.Person->Health;
 			if(h<0)
 				h=0;
-void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
+void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
 #ifndef PSX
 			PANEL_draw_face(c0*150+5,450-14,panel_enemy[c0].Face,32);
 			PANEL_draw_health_bar(40+c0*150,450,h>>1);
@@ -690,7 +690,7 @@ void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
 #endif
 #endif
 
-void	OVERLAY_draw_gun_sights()
+void OVERLAY_draw_gun_sights()
 {
 	SLONG	c0;
 	SLONG	hx,hy,hz;
@@ -776,7 +776,7 @@ extern SLONG person_holding_special(Thing* p_person, UBYTE special);	// I am so 
 		{
 
 #ifndef PSX
-void	show_grenade_path(Thing *p_person);
+void show_grenade_path(Thing *p_person);
 		show_grenade_path(p_player);
 #endif
 		}
@@ -785,7 +785,7 @@ void	show_grenade_path(Thing *p_person);
 }
 
 #ifndef PSX
-void	OVERLAY_draw_health()
+void OVERLAY_draw_health()
 {
 	SLONG	ph;
 	ph=NET_PERSON(0)->Genus.Person->Health;
@@ -796,7 +796,7 @@ void	OVERLAY_draw_health()
 	
 }
 
-void	OVERLAY_draw_stamina()
+void OVERLAY_draw_stamina()
 {
 	SLONG	ph;
 	ph=NET_PERSON(0)->Genus.Person->Stamina;
@@ -808,9 +808,9 @@ void	OVERLAY_draw_stamina()
 }
 #endif
 
-extern	void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG radius=60);
+extern void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG radius=60);
 
-void	OVERLAY_draw_enemy_health()
+void OVERLAY_draw_enemy_health()
 {
 	Thing *p_person;
 
@@ -864,10 +864,10 @@ void	OVERLAY_draw_enemy_health()
 	}
 }
 #ifdef	PSX
-CBYTE	punch[3];
-CBYTE	kick[3];
+CBYTE punch[3];
+CBYTE kick[3];
 
-void	init_punch_kick()
+void init_punch_kick()
 {
 #ifdef	VERSION_NTSC
 	SLONG	c0;
@@ -941,10 +941,10 @@ void	init_punch_kick()
 }
 #endif
 
-static	SWORD	timer_prev=0;
+static SWORD	timer_prev=0;
 
 #undef	MIKE
-void	OVERLAY_handle()
+void OVERLAY_handle()
 {
 	Thing *darci = NET_PERSON(0);
 	Thing *player = NET_PLAYER(0);
@@ -1073,11 +1073,11 @@ void	OVERLAY_handle()
 	}
 
 
-extern	UBYTE	global_person;
-SLONG	count_draw_tween();
+extern UBYTE	global_person;
+SLONG count_draw_tween();
 		count=count_draw_tween();
 
-extern	SLONG	globdx,globdz;
+extern SLONG	globdx,globdz;
 
 //		sprintf(str," people used %d dt left%d (%d,%d)",global_person,count,globdx,globdz);
 		sprintf(str,"specials %d",cbl);
@@ -1098,7 +1098,7 @@ extern	SLONG	globdx,globdz;
 
 #ifdef	PSX
 
-extern	UBYTE	combo_display;
+extern UBYTE	combo_display;
 #ifdef	VERSION_NTSC
 	if(combo_display||timer_prev)
 	{
@@ -1216,7 +1216,7 @@ extern void PANEL_draw_search(SLONG timer);
 				// I have found the offending code, Holmes!
 				// Now we must teach these heathen a lesson in coding manners.
 				// I shall fetch the larger of my beating sticks.
-extern	UBYTE	cheat;
+extern UBYTE	cheat;
 
 
 #ifndef TARGET_DC
@@ -1225,7 +1225,7 @@ extern	UBYTE	cheat;
 		CBYTE	str[50];
 		ULONG	in;
 
-extern	SLONG	tick_tock_unclipped;
+extern SLONG	tick_tock_unclipped;
 		if(tick_tock_unclipped==0)
 			tick_tock_unclipped=1;
 
@@ -1233,12 +1233,12 @@ extern	SLONG	tick_tock_unclipped;
 		extern SLONG SW_tick1;
 		extern SLONG SW_tick2;
 #endif
-		extern	ULONG	debug_input;
+		extern ULONG	debug_input;
 		in=debug_input;
 
-		extern	SLONG	geom;
-		extern	SLONG	EWAY_cam_jumped;
-		extern	SLONG	look_pitch;
+		extern SLONG	geom;
+		extern SLONG	EWAY_cam_jumped;
+		extern SLONG	look_pitch;
 
 //		sprintf(str,"(%d,%d,%d) fps %d up %d down %d left %d right %d geom %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1,in&INPUT_MASK_FORWARDS,in&INPUT_MASK_BACKWARDS,in&INPUT_MASK_LEFT,in&INPUT_MASK_RIGHT,geom);
 #ifndef PSX
@@ -1369,7 +1369,7 @@ extern	SLONG	tick_tock_unclipped;
 
 
 /*
-void	set_beacon(SLONG bx,SLONG by,SLONG bz)
+void set_beacon(SLONG bx,SLONG by,SLONG bz)
 {
 	
 	if(beacon_upto<(MAX_BEACON-1))
@@ -1382,7 +1382,7 @@ void	set_beacon(SLONG bx,SLONG by,SLONG bz)
 }
 
 
-ULONG	col_type[]=
+ULONG col_type[]=
 {
 	0xff0000,
 	0xff0000,
@@ -1400,7 +1400,7 @@ ULONG	col_type[]=
 };
 */
 
-void	overlay_beacons()
+void overlay_beacons()
 {
 #ifndef PSX
 /*
@@ -1436,7 +1436,7 @@ void	overlay_beacons()
 }
 
 #ifdef	DAMAGE_TEXT
-SLONG	get_damage_index()
+SLONG get_damage_index()
 {
 	SLONG	oldest=-1,oldest_age=-1;
 	SLONG	c0;
@@ -1461,7 +1461,7 @@ SLONG	get_damage_index()
 	return(oldest);
 }
 
-void	free_damage_index(SLONG index)
+void free_damage_index(SLONG index)
 {
 	if(index==damage_value_upto-1)
 		damage_value_upto--;
@@ -1469,7 +1469,7 @@ void	free_damage_index(SLONG index)
 	damage_values[index].Age=-1;
 }
 #endif
-void	add_damage_value(SWORD x,SWORD y,SWORD z,SLONG value)
+void add_damage_value(SWORD x,SWORD y,SWORD z,SLONG value)
 {
 #ifdef	DAMAGE_TEXT
 	SLONG	index;
@@ -1492,7 +1492,7 @@ void	add_damage_value(SWORD x,SWORD y,SWORD z,SLONG value)
 	
 }
 
-void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text)
+void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text)
 {
 #ifdef	DAMAGE_TEXT
 	SLONG	index;
@@ -1515,7 +1515,7 @@ void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text)
 #endif	
 }
 
-void	add_damage_value_thing(Thing *p_thing,SLONG value)
+void add_damage_value_thing(Thing *p_thing,SLONG value)
 {
 #ifdef	DAMAGE_TEXT
 	SLONG	dx,dy,dz;
@@ -1531,7 +1531,7 @@ void	add_damage_value_thing(Thing *p_thing,SLONG value)
 }
 
 #ifdef	DAMAGE_TEXT
-void	OVERLAY_draw_damage_values()
+void OVERLAY_draw_damage_values()
 {
 	SLONG	c0;
 	CBYTE	str[10];
@@ -1542,7 +1542,7 @@ void	OVERLAY_draw_damage_values()
 		{
 			damage_values[c0].Age++;
 
-extern	void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 
 		
 			{
@@ -1598,7 +1598,7 @@ extern	void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG w
 }
 #endif
 
-void	init_overlay()
+void init_overlay()
 {
 //	beacon_upto=1;
 #ifdef	DAMAGE_TEXT

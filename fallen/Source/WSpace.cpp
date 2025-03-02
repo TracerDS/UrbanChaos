@@ -18,18 +18,18 @@
 
 //---------------------------------------------------------------
 
-bool				workspace_changed	=	false;
-CBYTE				map_default_dir[_MAX_PATH],
+bool workspace_changed	=	false;
+CBYTE map_default_dir[_MAX_PATH],
 					map_file_name[_MAX_PATH],
 					map_path_name[_MAX_PATH],
 					mission_name[_MAX_PATH],
 					workspace_dir[_MAX_PATH],
 					workspace_name[_MAX_PATH],
 					workspace_path[_MAX_PATH];
-HANDLE				image_list;
-HWND				ws_tree,wpt_tree;
-HTREEITEM			last_clicked, selected_mission_doohickey=0;
-WSElement			root_item;
+HANDLE image_list;
+HWND ws_tree,wpt_tree;
+HTREEITEM last_clicked, selected_mission_doohickey=0;
+WSElement root_item;
 
 extern HINSTANCE	GEDIT_hinstance;
 
@@ -56,12 +56,12 @@ extern SLONG	mouse_valid,
 				mouse_world_z,
 				mouse_waypoint;
 
-void		calc_camera_pos();
-void		remove_children(HTREEITEM parent);
+void calc_camera_pos();
+void remove_children(HTREEITEM parent);
 
 //---------------------------------------------------------------
 
-bool	init_workspace(HWND parent)
+bool init_workspace(HWND parent)
 {
 	TV_INSERTSTRUCT		tv_is;
 
@@ -107,14 +107,14 @@ bool	init_workspace(HWND parent)
 
 //---------------------------------------------------------------
 
-void	fini_workspace()
+void fini_workspace()
 {
 	
 }
 
 //---------------------------------------------------------------
 
-bool	get_element_at_point(POINT *click_point,WSElement **the_element)
+bool get_element_at_point(POINT *click_point,WSElement **the_element)
 {
 	HTREEITEM			item_handle;
 	TV_HITTESTINFO		hit_test;
@@ -148,7 +148,7 @@ bool	get_element_at_point(POINT *click_point,WSElement **the_element)
 
 //---------------------------------------------------------------
 
-void	handle_ws_context(POINT *click_point)
+void handle_ws_context(POINT *click_point)
 {
 	HMENU				ws_menu;
 	WSElement			*the_element;
@@ -179,7 +179,7 @@ void	handle_ws_context(POINT *click_point)
 
 //---------------------------------------------------------------
 
-bool	handle_ws_dblclk(POINT *click_point)
+bool handle_ws_dblclk(POINT *click_point)
 {
 //	CBYTE				item_text[_MAX_PATH];
 //	TV_ITEM				the_item;
@@ -253,7 +253,7 @@ bool	handle_ws_dblclk(POINT *click_point)
 
 //---------------------------------------------------------------
 
-void	handle_ws_select(WSElement *the_element)
+void handle_ws_select(WSElement *the_element)
 {
 	switch(the_element->ElementType)
 	{
@@ -312,7 +312,7 @@ void	handle_ws_select(WSElement *the_element)
 
 //---------------------------------------------------------------
 
-void	ws_add_map()
+void ws_add_map()
 {
 	CBYTE				*text_buffer;
 	UWORD				item_count,
@@ -462,7 +462,7 @@ bool CALLBACK new_mish_proc	(
 
 //---------------------------------------------------------------
 
-void	ws_new_mission()
+void ws_new_mission()
 {
 	UWORD				new_mission;
 	HTREEITEM			map_handle;
@@ -531,7 +531,7 @@ void	ws_new_mission()
 
 //---------------------------------------------------------------
 
-void	ws_del_mission() {
+void ws_del_mission() {
 	HTREEITEM current = TreeView_GetSelection(ws_tree);
 	SLONG c1;
 	
@@ -548,7 +548,7 @@ void	ws_del_mission() {
 
 //---------------------------------------------------------------
 
-void	ws_add_light_map()
+void ws_add_light_map()
 {
 	CBYTE				temp[_MAX_PATH];
 	OPENFILENAME		open_map;
@@ -598,7 +598,7 @@ void	ws_add_light_map()
 
 //---------------------------------------------------------------
 
-void	ws_add_citsez_map()
+void ws_add_citsez_map()
 {
 	CBYTE				temp[_MAX_PATH];
 	OPENFILENAME		open_map;
@@ -649,7 +649,7 @@ void	ws_add_citsez_map()
 
 //---------------------------------------------------------------
 
-bool	create_workspace()
+bool create_workspace()
 {
 	int					result;
 	CBYTE				temp[_MAX_PATH];
@@ -715,7 +715,7 @@ bool	create_workspace()
 
 //---------------------------------------------------------------
 
-bool	close_workspace()
+bool close_workspace()
 {
 	int					result;
 	UWORD				c0,c1;
@@ -1067,7 +1067,7 @@ bool load_workspace(bool try_loading_default)
 
 #define	GM_VERSION	8
 
-bool	save_workspace()
+bool save_workspace()
 {
 	UBYTE		gm_vers;
 	ULONG		c0,c1,
@@ -1135,7 +1135,7 @@ bool	save_workspace()
 
 //---------------------------------------------------------------
 
-void	remove_children(HTREEITEM parent)
+void remove_children(HTREEITEM parent)
 {
 	HTREEITEM		current_item,
 					next_item;
@@ -1174,7 +1174,7 @@ void	remove_children(HTREEITEM parent)
 // Waypointy stuff
 
 
-bool	init_wptlist(HWND parent)
+bool init_wptlist(HWND parent)
 {
 
 	//	Subclass the tree control windproc.
@@ -1198,7 +1198,7 @@ bool	init_wptlist(HWND parent)
 	return	true;
 }
 
-void	reset_wptlist() {
+void reset_wptlist() {
 
 	//	Set up the tree roots.
 	TreeView_DeleteAllItems(wpt_tree);
@@ -1213,7 +1213,7 @@ void	reset_wptlist() {
 }
 
 
-void	fill_wptlist(Mission *mish) {
+void fill_wptlist(Mission *mish) {
 	SLONG ndx=mish->UsedEPoints;
 	EventPoint *ep_base = mish->EventPoints;
 
@@ -1228,7 +1228,7 @@ void	fill_wptlist(Mission *mish) {
 }
 
 
-void	fini_wptlist()
+void fini_wptlist()
 {
 	
 }
@@ -1236,7 +1236,7 @@ void	fini_wptlist()
 //---------------------------------------------------------------
 
 
-HTREEITEM ws_root_waypoint(CBYTE *msg, SLONG type, LPARAM param) {
+HTREEITEM ws_root_waypoint(CBYTE* msg, SLONG type, LPARAM param) {
 	TV_INSERTSTRUCT		tv_is;
 
 	if (msg[0]==0) {
@@ -1305,7 +1305,7 @@ HTREEITEM ws_find_child(HTREEITEM parent, LPARAM param) {
 	return 0;
 }
 
-SLONG	ws_image_from_type(EventPoint *ep) {
+SLONG ws_image_from_type(EventPoint *ep) {
 	switch(ep->WaypointType) {
 	case	WPT_NONE:			
 	case	WPT_SIMPLE:
@@ -1376,7 +1376,7 @@ SLONG	ws_image_from_type(EventPoint *ep) {
 	return -1;
 }
 
-SLONG	ws_category_from_type(EventPoint *ep) {
+SLONG ws_category_from_type(EventPoint *ep) {
 	switch(ep->WaypointType) {
 // misc
 	case	WPT_NONE:			
@@ -1454,7 +1454,7 @@ SLONG	ws_category_from_type(EventPoint *ep) {
 	return -1;
 }
 
-void	ws_add_waypoint(EventPoint *ep) {
+void ws_add_waypoint(EventPoint *ep) {
 	HTREEITEM			parent;
 	SLONG				code;
 	TV_INSERTSTRUCT		tv_is;
@@ -1491,7 +1491,7 @@ void	ws_add_waypoint(EventPoint *ep) {
 
 }
 
-void	ws_set_waypoint(EventPoint *ep, CBYTE ndx) {
+void ws_set_waypoint(EventPoint *ep, CBYTE ndx) {
 //  HTREEITEM item;
   
 //  item=ws_find_child(0,ws_category_from_type(ep));
@@ -1510,7 +1510,7 @@ void	ws_set_waypoint(EventPoint *ep, CBYTE ndx) {
   }*/
 }
 
-void	ws_sel_waypoint(EventPoint *ep) {
+void ws_sel_waypoint(EventPoint *ep) {
 	HTREEITEM			item;
 	if (!ep) {
 		TreeView_SelectItem(wpt_tree,0);
@@ -1523,7 +1523,7 @@ void	ws_sel_waypoint(EventPoint *ep) {
 	}
 }
 
-void	ws_del_waypoint(EventPoint *ep) {
+void ws_del_waypoint(EventPoint *ep) {
 	HTREEITEM			parent,item;
 	parent=ws_find_child(0,ws_category_from_type(ep));
 	if (parent) {

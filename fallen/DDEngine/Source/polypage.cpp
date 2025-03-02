@@ -199,7 +199,7 @@ PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
 		if ( m_pwIndexBuffer != NULL )
 		{
 			memcpy ( pwNewBuffer, m_pwIndexBuffer, sizeof ( WORD ) * m_iNumIndicesUsed );
-			MemFree ( (void *)m_pwIndexBuffer );
+			MemFree ( (void* )m_pwIndexBuffer );
 		}
 		m_pwIndexBuffer = pwNewBuffer;
 		m_iNumIndicesAlloc = ulNewSize;

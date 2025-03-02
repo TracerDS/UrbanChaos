@@ -25,22 +25,22 @@
 
 
 //#include "math.h"
-extern	CBYTE	texture_style_names[200][21];
-extern	void	fix_style_names();
-SLONG	load_a_multi_prim(CBYTE *name);
-void	create_kline_bottle();
+extern CBYTE	texture_style_names[200][21];
+extern void	fix_style_names();
+SLONG load_a_multi_prim(CBYTE* name);
+void create_kline_bottle();
 
 //
 // This has been ripped from prpitab.cpp in the editor source directory
 //
-UWORD	local_next_prim_point;
-UWORD	local_next_prim_face4;
-UWORD	local_next_prim_face3;
-UWORD	local_next_prim_object;
-UWORD	local_next_prim_multi_object;
+UWORD local_next_prim_point;
+UWORD local_next_prim_face4;
+UWORD local_next_prim_face3;
+UWORD local_next_prim_object;
+UWORD local_next_prim_multi_object;
 
 
-void	record_prim_status()
+void record_prim_status()
 {
 
 	local_next_prim_point = next_prim_point;       
@@ -50,7 +50,7 @@ void	record_prim_status()
 	local_next_prim_multi_object=next_prim_multi_object;
 }
 
-void	revert_to_prim_status()
+void revert_to_prim_status()
 {
 
 	next_prim_point =      local_next_prim_point;       
@@ -78,15 +78,15 @@ volatile UBYTE	Keys[256],
 SVector_F AENG_dx_prim_points[10];
 
 /*
-void	DebugText(CBYTE *error, ...)
+void DebugText(CBYTE* error, ...)
 {
 }
 
-void MSG_add(CBYTE *fmt, ...)
+void MSG_add(CBYTE* fmt, ...)
 {
 }
 */
-void	NET_init()
+void NET_init()
 {
 }
 
@@ -95,7 +95,7 @@ void	NET_init()
 //******************************************************************************************
 
 
-SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+SLONG find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 {
 	SLONG	found	=	-1;
 	SLONG	dist	=	0x7fffffff,
@@ -135,7 +135,7 @@ SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 }
 
 
-void	change_extension(CBYTE	*name,CBYTE *add,CBYTE *new_name)
+void change_extension(CBYTE	*name,CBYTE* add,CBYTE* new_name)
 {
 	SLONG	c0=0;
 	while(name[c0])
@@ -158,7 +158,7 @@ void	change_extension(CBYTE	*name,CBYTE *add,CBYTE *new_name)
 	new_name[c0+4]=0;
 }
 
-void	load_texture_styles(UBYTE flag)
+void load_texture_styles(UBYTE flag)
 {
 	UWORD	temp,temp2;
 	SLONG	save_type=1;
@@ -213,7 +213,7 @@ void	load_texture_styles(UBYTE flag)
 
 }
 
-void	load_game_map(CBYTE *name)
+void load_game_map(CBYTE* name)
 {
 	UWORD	temp;
 	SLONG	save_type=1;
@@ -256,7 +256,7 @@ void	load_game_map(CBYTE *name)
 
 
 
-void	load_super_map(SLONG,SLONG st);
+void load_super_map(SLONG,SLONG st);
 		load_super_map(handle,save_type);
 
 
@@ -266,7 +266,7 @@ void	load_super_map(SLONG,SLONG st);
 
 
 /*
-void	add_point(SLONG x,SLONG y,SLONG z)
+void add_point(SLONG x,SLONG y,SLONG z)
 {
 	prim_points[next_prim_point].X=x;
 	prim_points[next_prim_point].Y=y;
@@ -275,7 +275,7 @@ void	add_point(SLONG x,SLONG y,SLONG z)
 }
 #define	CHEIGHT1	80
 #define	CHEIGHT2	160
-void	build_car_prim()
+void build_car_prim()
 {
 	SLONG sp[5];
 
@@ -292,7 +292,7 @@ void	build_car_prim()
 }
 */
 
-SLONG	load_all_prims(CBYTE	*name)
+SLONG load_all_prims(CBYTE	*name)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;
@@ -318,7 +318,7 @@ SLONG	load_all_prims(CBYTE	*name)
 		FileRead(handle,(UBYTE*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
 		FileClose(handle);
 #ifdef	EDITOR
-extern	void	record_prim_status();
+extern void	record_prim_status();
 		record_prim_status();
 #endif
 		return(1);
@@ -329,13 +329,13 @@ extern	void	record_prim_status();
 //---------------------------------------------------------
 
 //---------------------------------------------------------------
-SLONG	key_frame_count,current_element;
-SLONG	x_centre,y_centre,z_centre;
+SLONG key_frame_count,current_element;
+SLONG x_centre,y_centre,z_centre;
 
 
-extern	CBYTE	*body_part_names[];
+extern CBYTE	*body_part_names[];
 
-void	set_default_people_types(struct	KeyFrameChunk *the_chunk)
+void set_default_people_types(struct	KeyFrameChunk *the_chunk)
 {
 	SLONG	c0,c1;
 
@@ -352,7 +352,7 @@ void	set_default_people_types(struct	KeyFrameChunk *the_chunk)
 
 
 
-void	make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *matrix)
+void make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *matrix)
 {
 	ULONG	encode;
 	SLONG	u,v,w;
@@ -379,17 +379,17 @@ void	make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *m
 	the_element->CMatrix.M[2]=((((matrix->M[2][0]>>6))<<20)&CMAT0_MASK)+((((matrix->M[2][1]>>6))<<10)&CMAT1_MASK)+((((matrix->M[2][2]>>6))<<0)&CMAT2_MASK);
 }
 
-void	load_multi_vue(struct	KeyFrameChunk *the_chunk)
+void load_multi_vue(struct	KeyFrameChunk *the_chunk)
 {
 }
 
 
-void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name)
+void load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE* vue_name)
 {
 }
 
 
-void	read_a_prim(SLONG prim,MFFileHandle	handle)
+void read_a_prim(SLONG prim,MFFileHandle	handle)
 {
 	SLONG	c0;
 	SLONG	sf3,ef3,sf4,ef4,sp,ep;
@@ -453,9 +453,9 @@ void	read_a_prim(SLONG prim,MFFileHandle	handle)
 
 }
 
-//extern	struct	PrimMultiObject	prim_multi_objects[];
+//extern struct	PrimMultiObject	prim_multi_objects[];
 
-SLONG	load_a_multi_prim(CBYTE *name)
+SLONG load_a_multi_prim(CBYTE* name)
 {
 	SLONG			c0;
 	MFFileHandle	handle;
@@ -491,7 +491,7 @@ SLONG	load_a_multi_prim(CBYTE *name)
 
 
 
-SLONG	find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,UWORD prim)
+SLONG find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,UWORD prim)
 {
 	SLONG	c0,sf,ef,point;
 	sf=prim_objects[prim].StartFace4;
@@ -515,12 +515,12 @@ SLONG	find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPo
 	return(-1);
 }
 
-extern	void	add_point(SLONG x,SLONG y,SLONG z);
-extern	struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
-extern	SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4);
-extern	void save_prim_asc(UWORD prim,UWORD version);
+extern void	add_point(SLONG x,SLONG y,SLONG z);
+extern struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
+extern SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4);
+extern void save_prim_asc(UWORD prim,UWORD version);
 
-void	create_kline_bottle()
+void create_kline_bottle()
 {
 	float	x,y,z,u,v;
 	float	sqrt_2,a=1.0; //what the fuck should a be
@@ -578,7 +578,7 @@ void	create_kline_bottle()
 	*/
 }
 
-void load_palette(CBYTE *palette)
+void load_palette(CBYTE* palette)
 {
 }
 
@@ -592,9 +592,9 @@ void load_palette(CBYTE *palette)
 
 // 
 
-extern	void	write_a_prim(SLONG prim,MFFileHandle	handle);
+extern void	write_a_prim(SLONG prim,MFFileHandle	handle);
 
-SLONG	save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
+SLONG save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
 {
 	SLONG			c0,point;
 	CBYTE			file_name[64];
@@ -623,7 +623,7 @@ SLONG	save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
 	
 }
 
-SLONG	save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
+SLONG save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
 {
 	SLONG	save_type=0;
 	SLONG	temp;
@@ -668,7 +668,7 @@ SLONG	save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_
 
 }
 
-SLONG	save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
+SLONG save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;
@@ -696,7 +696,7 @@ SLONG	save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
 	
 }
 
-SLONG	load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
+SLONG load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
 {
 	SLONG	save_type=0,c0;
 	SLONG	temp;
@@ -815,7 +815,7 @@ SLONG	load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_
 
 }
 
-SLONG	load_insert_a_multi_prim(MFFileHandle	handle)
+SLONG load_insert_a_multi_prim(MFFileHandle	handle)
 {
 	SLONG			c0;
 	SLONG			save_type=0;
@@ -843,7 +843,7 @@ SLONG	load_insert_a_multi_prim(MFFileHandle	handle)
 		return(0);
 }
 
-SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
+SLONG load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
 {
 	SLONG			c0,point;
 	MFFileHandle	handle;

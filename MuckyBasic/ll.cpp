@@ -39,7 +39,7 @@ LL_Sound *LL_sound[LL_MAX_SOUNDS];
 
 
 
-LL_Texture *LL_create_texture(CBYTE *fname)
+LL_Texture *LL_create_texture(CBYTE* fname)
 {
 	SLONG i;
 
@@ -136,7 +136,7 @@ void LL_free_texture(LL_Texture *lt)
 
 
 
-LL_Sound *LL_create_sound(CBYTE *fname)
+LL_Sound *LL_create_sound(CBYTE* fname)
 {
 	SLONG i;
 

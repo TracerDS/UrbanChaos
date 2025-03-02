@@ -27,9 +27,9 @@
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -46,7 +46,7 @@ extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
 #define	MAX_FACET_LINK	32000
 
 
-struct	DStorey
+struct DStorey
 {
 	UWORD	Style; //replacement style           // maybe this could be a byte
 	UWORD	Index; //Index to painted info
@@ -86,7 +86,7 @@ struct DBuilding
 	UBYTE	Type;
 };
 
-struct	DWalkable
+struct DWalkable
 {
 	UWORD	StartPoint;	// Unused nowadays
 	UWORD	EndPoint;  	// Unused nowadays
@@ -106,7 +106,7 @@ struct	DWalkable
 	UWORD	Building;
 };
 
-struct	DInsideRect
+struct DInsideRect
 {
 	UBYTE	MapX;
 	UBYTE	MapZ;
@@ -132,13 +132,13 @@ struct	DInsideRect
 #define	GET_INSIDE_TYPE(id)			((id>>6)&3)
 
 
-extern	SWORD	next_paint_mem;
-extern	SWORD	next_dstorey;
-extern	SLONG	next_inside_mem;
+extern SWORD	next_paint_mem;
+extern SWORD	next_dstorey;
+extern SLONG	next_inside_mem;
 
 
-extern	SWORD	next_facet_link;
-extern	SWORD	facet_link_count;
+extern SWORD	next_facet_link;
+extern SWORD	facet_link_count;
 
 #define MAX_DBUILDINGS	1024
 #define MAX_DFACETS		16384
@@ -150,14 +150,14 @@ extern	SWORD	facet_link_count;
 
 
 
-extern	SLONG	next_dwalkable;
-extern	SLONG	next_dbuilding;
-extern	SLONG	next_dfacet;
-extern	SLONG	next_dstyle;
+extern SLONG	next_dwalkable;
+extern SLONG	next_dbuilding;
+extern SLONG	next_dfacet;
+extern SLONG	next_dstyle;
 
 
-void	save_super_map(MFFileHandle	handle);
-void	load_super_map(MFFileHandle	handle,SLONG st);
+void save_super_map(MFFileHandle	handle);
+void load_super_map(MFFileHandle	handle,SLONG st);
 
 //
 // Identifies the subset of the primpoints that are used

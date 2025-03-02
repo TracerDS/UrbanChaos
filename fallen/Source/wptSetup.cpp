@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	wpt_picked;
+SLONG wpt_picked;
 
 //---------------------------------------------------------------
 
@@ -32,7 +32,7 @@ SLONG	wpt_picked;
 //---------------------------------------------------------------
 
 
-bool	CALLBACK	wptpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	wptpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -79,7 +79,7 @@ bool	CALLBACK	wptpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_wpt_pick(EventPoint *the_ep)
+void do_wpt_pick(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	wpt_picked		=	the_ep->Data[0];

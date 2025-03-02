@@ -69,19 +69,19 @@
 // EXTERNAL REFERENCES
 //
 
-extern	SLONG	hardware_input_continue();
-inline	void	screen_flip()
+extern SLONG	hardware_input_continue();
+inline void	screen_flip()
 {
 
 #ifdef PSX
 	//
 	//	sCREENSHOT just before screen_flip
 	//
-extern	void	DoFigureDraw();
+extern void	DoFigureDraw();
 	DoFigureDraw();
 
 #ifndef FS_ISO9660
-extern	void	AENG_screen_shot(SLONG width);
+extern void	AENG_screen_shot(SLONG width);
 			if (Keys[KB_S])
 			{
 				AENG_screen_shot(320);
@@ -96,8 +96,8 @@ extern	void	AENG_screen_shot(SLONG width);
 
 	AENG_flip();
 }
-extern	void	lock_frame_rate(SLONG fps);
-extern	SLONG	person_normal_animate(Thing *p_person);
+extern void	lock_frame_rate(SLONG fps);
+extern SLONG	person_normal_animate(Thing *p_person);
 
 
 typedef Thing* ThingPtr;
@@ -107,10 +107,10 @@ typedef Thing* ThingPtr;
 // GLOBALS
 //
 
-CBYTE *text_disp=0;
+CBYTE* text_disp=0;
 UBYTE PLAYCUTS_fade_level=255;
-bool  PLAYCUTS_slomo=0;
-bool  PLAYCUTS_playing=0;
+bool PLAYCUTS_slomo=0;
+bool PLAYCUTS_playing=0;
 UBYTE PLAYCUTS_slomo_ctr=0;
 UBYTE no_more_packets=0;
 
@@ -120,21 +120,21 @@ UBYTE no_more_packets=0;
 //
 
 #ifndef PSX
-CBYTE		PLAYCUTS_text_data[MAX_CUTSCENE_TEXT];
-CBYTE		*PLAYCUTS_text_ptr=PLAYCUTS_text_data;
-CPData		PLAYCUTS_cutscenes[MAX_CUTSCENES];
-CPPacket	PLAYCUTS_packets[MAX_CUTSCENE_PACKETS];
-CPChannel	PLAYCUTS_tracks[MAX_CUTSCENE_TRACKS];
+CBYTE PLAYCUTS_text_data[MAX_CUTSCENE_TEXT];
+CBYTE* PLAYCUTS_text_ptr=PLAYCUTS_text_data;
+CPData PLAYCUTS_cutscenes[MAX_CUTSCENES];
+CPPacket PLAYCUTS_packets[MAX_CUTSCENE_PACKETS];
+CPChannel PLAYCUTS_tracks[MAX_CUTSCENE_TRACKS];
 #else
-CBYTE		*PLAYCUTS_text_data;
-CPData		*PLAYCUTS_cutscenes;
-CPPacket	*PLAYCUTS_packets;
-CPChannel	*PLAYCUTS_tracks;
+CBYTE* PLAYCUTS_text_data;
+CPData *PLAYCUTS_cutscenes;
+CPPacket *PLAYCUTS_packets;
+CPChannel *PLAYCUTS_tracks;
 #endif
-UWORD	PLAYCUTS_cutscene_ctr=0;
-UWORD	PLAYCUTS_packet_ctr=0;
-UWORD	PLAYCUTS_track_ctr=0;
-UWORD	PLAYCUTS_text_ctr=0;
+UWORD PLAYCUTS_cutscene_ctr=0;
+UWORD PLAYCUTS_packet_ctr=0;
+UWORD PLAYCUTS_track_ctr=0;
+UWORD PLAYCUTS_text_ctr=0;
 
 //----------------------------------------------------------------------------
 // MISC USEFUL FUNCTIONS

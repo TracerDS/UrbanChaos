@@ -39,10 +39,10 @@ typedef struct
 //
 
 POLY_Point POLY_buffer[POLY_BUFFER_SIZE];
-SLONG      POLY_buffer_upto;
+SLONG POLY_buffer_upto;
 
 POLY_Point POLY_shadow[POLY_SHADOW_SIZE];
-SLONG      POLY_shadow_upto;
+SLONG POLY_shadow_upto;
 
 //
 // Only points further than 1/256'th of the draw range are drawn.
@@ -241,9 +241,9 @@ ULONG POLY_interpolate_colour(float v, ULONG colour1, ULONG colour2)
 // 
 
 void POLY_clip_interpolate_transformed(
-		void *void_np,
-		void *void_p1,
-		void *void_p2,
+		void* void_np,
+		void* void_p1,
+		void* void_p2,
 		float along)
 {
 	float np_uoz;
@@ -286,10 +286,10 @@ void POLY_clip_interpolate_transformed(
 	np->colour = POLY_interpolate_colour(along, p1->colour, p2->colour);
 }
 
-float POLY_signed_dist_left  (void *pp) {return          ((POLY_Point *) pp)->X;}
-float POLY_signed_dist_right (void *pp) {return 640.0F - ((POLY_Point *) pp)->X;}
-float POLY_signed_dist_top   (void *pp) {return          ((POLY_Point *) pp)->Y;}
-float POLY_signed_dist_bottom(void *pp) {return 480.0F - ((POLY_Point *) pp)->Y;}
+float POLY_signed_dist_left  (void* pp) {return          ((POLY_Point *) pp)->X;}
+float POLY_signed_dist_right (void* pp) {return 640.0F - ((POLY_Point *) pp)->X;}
+float POLY_signed_dist_top   (void* pp) {return          ((POLY_Point *) pp)->Y;}
+float POLY_signed_dist_bottom(void* pp) {return 480.0F - ((POLY_Point *) pp)->Y;}
 
 void POLY_clip_to_screen(
 		POLY_Point ***polygon,
@@ -299,7 +299,7 @@ void POLY_clip_to_screen(
 	if (clip_or & POLY_CLIP_LEFT)
 	{
 		CLIP_do(
-			(void ***) polygon,
+			(void* **) polygon,
 		    num_points,
 			sizeof(POLY_Point),
 			POLY_clip_interpolate_transformed,
@@ -309,7 +309,7 @@ void POLY_clip_to_screen(
 	if (clip_or & POLY_CLIP_RIGHT)
 	{
 		CLIP_do(
-			(void ***) polygon,
+			(void* **) polygon,
 		    num_points,
 			sizeof(POLY_Point),
 			POLY_clip_interpolate_transformed,
@@ -319,7 +319,7 @@ void POLY_clip_to_screen(
 	if (clip_or & POLY_CLIP_TOP)
 	{
 		CLIP_do(
-			(void ***) polygon,
+			(void* **) polygon,
 		    num_points,
 			sizeof(POLY_Point),
 			POLY_clip_interpolate_transformed,
@@ -329,7 +329,7 @@ void POLY_clip_to_screen(
 	if (clip_or & POLY_CLIP_BOTTOM)
 	{
 		CLIP_do(
-			(void ***) polygon,
+			(void* **) polygon,
 		    num_points,
 			sizeof(POLY_Point),
 			POLY_clip_interpolate_transformed,
@@ -1022,7 +1022,7 @@ void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, S
 	#endif
 }
 
-void  POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, ULONG colour)
+void POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, ULONG colour)
 {
 	#ifdef WORRY_ABOUT_THIS_LATER
 

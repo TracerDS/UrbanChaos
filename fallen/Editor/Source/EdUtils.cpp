@@ -6,7 +6,7 @@
 #include	"c:\fallen\headers\memory.h"
 
 
-extern	SLONG			key_frame_count,current_element;
+extern SLONG			key_frame_count,current_element;
 
 extern SLONG					x_centre,
 								y_centre,
@@ -57,10 +57,10 @@ extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,str
 extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,struct  SMatrix31* mat2);
 
 #define	CLIP256(x)		(x>255?255:x)
-extern	struct	SVector			global_res[]; //max points per object?
-extern	SLONG					global_flags[];
+extern struct	SVector			global_res[]; //max points per object?
+extern SLONG					global_flags[];
 
-extern	UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3);
+extern UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3);
 
 void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *anim_info)
 {
@@ -207,7 +207,7 @@ void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *ani
 				((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 				((struct BucketQuad*)current_bucket_pool)->DebugFlags=p_f4->FaceFlags;
 
-				add_bucket((void *)current_bucket_pool,az);
+				add_bucket((void* )current_bucket_pool,az);
 
 				if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
 				{
@@ -296,7 +296,7 @@ void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *ani
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			if(check_mouse_over_prim_tri(global_res,p0,p1,p2,c0))
 			{
@@ -626,7 +626,7 @@ struct PCXHeader
 	UBYTE				Padding[58];
 };
 
-SLONG	write_pcx(CBYTE *fname,UBYTE *src,UBYTE *pal)
+SLONG	write_pcx(CBYTE* fname,UBYTE *src,UBYTE *pal)
 {
 	UBYTE					pixel,
 							palette[769],
@@ -966,7 +966,7 @@ void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameEle
 						);
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -1023,7 +1023,7 @@ void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameEle
 
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}

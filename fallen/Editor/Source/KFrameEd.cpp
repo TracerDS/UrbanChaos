@@ -30,7 +30,7 @@ UBYTE	re_center_flags[400];
 UBYTE	unused_flags[400];
 
 
-void	load_recenter_flags(CBYTE *filename)
+void	load_recenter_flags(CBYTE* filename)
 {
 	SLONG	c0=0;
 	SLONG	size;
@@ -65,7 +65,7 @@ void	load_recenter_flags(CBYTE *filename)
 
 }
 
-void	save_recenter_flags(CBYTE *filename)
+void	save_recenter_flags(CBYTE* filename)
 {
 	SLONG	c0=0;
 	SLONG	size;
@@ -316,7 +316,7 @@ KeyFrameList		*the_key_list[5];
 
 KeyFrameList::KeyFrameList(KeyFrameEditor *parent,SLONG x,SLONG y,Anim *anim,SLONG max)
 {
-extern	void	add_module(EditorModule *the_module);
+extern void	add_module(EditorModule *the_module);
 	ParentEdit=parent;
 	add_module(this);
 	this->SetupWindow	(
@@ -817,7 +817,7 @@ void	KeyFrameEditor::DrawContent(void)
 }
 
 //---------------------------------------------------------------
-extern	CBYTE	*body_part_names[];
+extern CBYTE	*body_part_names[];
 
 void	KeyFrameEditor::DrawPeopleTypes(void)
 {
@@ -2132,7 +2132,7 @@ void	KeyFrameEditor::AddKeyFrameChunk(void)
 }
 
 //---------------------------------------------------------------
-extern	void	set_default_people_types(struct	KeyFrameChunk *the_chunk);
+extern void	set_default_people_types(struct	KeyFrameChunk *the_chunk);
 
 void	KeyFrameEditor::SetAnimBank(SLONG bank)
 {
@@ -2486,13 +2486,13 @@ void	KeyFrameEditor::HandleControl(ULONG control_id)
 
 				ClearAll(); //problem function because it should go after loading the sex file, so you know it exists
 
-//	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name);
+//	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE* vue_name);
 				{
 					float	shrink=1.0;
 					//
 					// bodge ahoy
 					//
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 					if(save_psx)
 					{
 					if(strcmp(fr->FileName,"balrog.VUE")==0)
@@ -2575,7 +2575,7 @@ extern	SLONG	save_psx;
 
 			break;
 
-//			KeyFrameChunk *the_chunk,CBYTE *vue_name)
+//			KeyFrameChunk *the_chunk,CBYTE* vue_name)
 #ifdef	POO_SHIT_GOD_DAMN
 
 			strcpy(test_chunk->VUEName,fr->Path);
@@ -2819,7 +2819,7 @@ void	KeyFrameEditor::HandleAnimControl(ULONG  control_id)
 			break;
 		case	CTRL_PAINT_MESH:
 			{
-extern	void	bring_module_to_front(EditorModule *the_module);
+extern void	bring_module_to_front(EditorModule *the_module);
 				bring_module_to_front(LinkLevelEditor);
 				LinkLevelEditor->PrimMode->SetPrimTabMode(PRIM_MODE_MULTI);
 				LinkLevelEditor->PrimMode->SetCurrentPrim(test_chunk->MultiObject);
@@ -3281,7 +3281,7 @@ void	test_draw_z(SLONG az,UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 						);
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -3337,7 +3337,7 @@ void	test_draw_z(SLONG az,UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 						);
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -3345,8 +3345,8 @@ void	test_draw_z(SLONG az,UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 	}					
 }
 
-//extern	void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
-extern	void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
+//extern void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
+extern void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
 
 void	draw_3d_mat_circle(SLONG x,SLONG y,SLONG z,SLONG radius,struct Matrix33	*r_matrix,UWORD col)
 {
@@ -3963,7 +3963,7 @@ void	KeyFrameEditor::DoCurrentAnim(void)
 error:;
 }
 
-extern	UWORD	is_it_clockwise(struct SVector *global_res,SLONG p0,SLONG p1,SLONG p2);
+extern UWORD	is_it_clockwise(struct SVector *global_res,SLONG p0,SLONG p1,SLONG p2);
 /*
 UWORD	is_it_clockwise(struct SVector *global_res,SLONG p0,SLONG p1,SLONG p2)
 {
@@ -4420,7 +4420,7 @@ void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketQuad*)current_bucket_pool)->DebugFlags=local_object_flags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -4489,7 +4489,7 @@ next_face4:;
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -4799,7 +4799,7 @@ void	test_draw_game(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKe
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketQuad*)current_bucket_pool)->DebugFlags=local_object_flags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -4868,7 +4868,7 @@ next_face4:;
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=p_f3->FaceFlags;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -5863,7 +5863,7 @@ void	KeyFrameEditor::LoadBodyPartInfo(MFFileHandle file_handle,SLONG version,Key
 	}
 }
 
-extern	SLONG	save_a_multi_prim(CBYTE	*name,SLONG multi);
+extern SLONG	save_a_multi_prim(CBYTE	*name,SLONG multi);
 void	KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk,SLONG save_all)
 {
 	Anim			*next_anim;
@@ -5903,7 +5903,7 @@ void	KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk,SLONG save_all)
 	if(save_all)
 	{
 		void convert_anim(Anim *key_list,GameKeyFrameChunk *game_chunk,KeyFrameChunk *the_chunk);
-		extern	void	free_game_chunk(GameKeyFrameChunk *the_chunk);
+		extern void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 		free_game_chunk(&game_chunk[0]);
 
 		convert_anim(AnimList[Bank],&game_chunk[0],the_chunk);
@@ -5922,7 +5922,7 @@ void	KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk,SLONG save_all)
 				file_name[c0+4]	=	0;
 			}
 
-	extern	SLONG	save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name);
+	extern SLONG	save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name);
 
 			save_anim_system(&game_chunk[0],file_name);
 			free_game_chunk(&game_chunk[0]);

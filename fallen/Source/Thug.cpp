@@ -8,8 +8,8 @@
 #include	"animate.h"
 #include	"pap.h"
 
-SLONG	calc_height_at(SLONG x,SLONG z);
-SLONG	person_normal_animate(Thing *p_person);
+SLONG calc_height_at(SLONG x,SLONG z);
+SLONG person_normal_animate(Thing *p_person);
 
 
 #define	THUG_IDLE		1
@@ -21,7 +21,7 @@ SLONG	person_normal_animate(Thing *p_person);
 
 //---------------------------------------------------------------
 
-StateFunction	thug_states[]	=
+StateFunction thug_states[]	=
 {
 	{	STATE_INIT,				fn_thug_init	},
 	{	STATE_NORMAL,			fn_thug_normal	},
@@ -32,7 +32,7 @@ StateFunction	thug_states[]	=
 
 //---------------------------------------------------------------
 
-void	fn_thug_init(Thing *t_thing)
+void fn_thug_init(Thing *t_thing)
 {
 	ASSERT(0);
 	t_thing->DrawType						=	DT_ROT_MULTI;
@@ -63,7 +63,7 @@ void	fn_thug_init(Thing *t_thing)
 
 //---------------------------------------------------------------
 
-void	fn_thug_normal(Thing *t_thing)
+void fn_thug_normal(Thing *t_thing)
 {
 	#if 0
 

@@ -43,7 +43,7 @@ class	Wave
 							~Wave();
 
 		//	Methods.
-		HRESULT				Init(CBYTE *file_name,HQMIXER the_mixer);
+		HRESULT				Init(CBYTE* file_name,HQMIXER the_mixer);
 		HRESULT				Fini(HQMIXER the_mixer);
 		HRESULT				Load(void);
 		HRESULT				Free(void);
@@ -125,8 +125,8 @@ class	QSManager
 		void				ActivateSound(void);
 		void				DeactivateSound(void);
 
-		HRESULT				LoadWaves(CBYTE *wave_path,CBYTE *script_name);
-		HRESULT				LoadWave(CBYTE *wave_name);
+		HRESULT				LoadWaves(CBYTE* wave_path,CBYTE* script_name);
+		HRESULT				LoadWave(CBYTE* wave_name);
 		HRESULT				FreeWaves(void);
 		HRESULT				AddWave(Wave *the_wave);
 		HRESULT				DeleteWave(Wave *the_wave);

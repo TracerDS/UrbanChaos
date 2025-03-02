@@ -71,7 +71,7 @@ UBYTE STARTSCR_miss_id=0;
 UBYTE STARTSCR_miss_autoadvance=0;
 //CBYTE* STARTSCR_mission=0;
 
-struct	StartMenuItemSimple	startmenu_special[]=
+struct StartMenuItemSimple	startmenu_special[]=
 {
 	{"INNER CITY",0,1,0,0},
 	{"RESCUE ROPER",0,2,0,0},
@@ -84,7 +84,7 @@ struct	StartMenuItemSimple	startmenu_special[]=
 	{"EXIT",0,9,0,0}
 };
 
-struct	StartMenuItemSimple	startmenu[]=
+struct StartMenuItemSimple	startmenu[]=
 {
 	{"START",0,STARTS_START,0,0},
 	{"PLAYBACK ",0,STARTS_PLAYBACK,0,0},
@@ -107,7 +107,7 @@ struct	StartMenuItemSimple	startmenu[]=
 
 };
 
-struct	StartMenuItemComplex	startmenu2[]=
+struct StartMenuItemComplex	startmenu2[]=
 {
 	{"SHADOWS",{"HIGH","MEDIUM","LOW"},0,0,0,0},
 	{"DRAW DIST",{"FAR","MEDIUM","NEAR"},0,0,0,0},
@@ -131,7 +131,7 @@ struct MissionData {
 	CBYTE fn[255], ttl[255];
 };
 
-struct	StartMenu	start_menu[]=
+struct StartMenu	start_menu[]=
 {
 
 	{0,0,0,0}, // dummy
@@ -151,7 +151,7 @@ extern ULONG text_colour;
 
 bool show_game = 1;
 
-void	STARTSCR_plonk_logo() {
+void STARTSCR_plonk_logo() {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 
@@ -176,7 +176,7 @@ void	STARTSCR_plonk_logo() {
 }
 
 
-void	draw_a_menu(SLONG	menu)
+void draw_a_menu(SLONG	menu)
 {
 	SLONG	c0;
 	SLONG	y;
@@ -223,7 +223,7 @@ void	draw_a_menu(SLONG	menu)
 #ifndef	PSX
 
 #if 0
-void	draw_a_3d_menu(Font3D &font, SLONG	menu) 
+void draw_a_3d_menu(Font3D &font, SLONG	menu) 
 {
 	SLONG	c0;
 	SLONG	y;
@@ -272,10 +272,10 @@ void	draw_a_3d_menu(Font3D &font, SLONG	menu)
 
 #endif
 
-//void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE *msg, SLONG rgb, UBYTE flags, UBYTE haloscale);
+//void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE* msg, SLONG rgb, UBYTE flags, UBYTE haloscale);
 
 
-void	draw_a_new_menu(SLONG	menu, SLONG localctr) 
+void draw_a_new_menu(SLONG	menu, SLONG localctr) 
 {
 	SLONG	c0;
 	SLONG	y,rgb;
@@ -353,8 +353,8 @@ void	draw_a_new_menu(SLONG	menu, SLONG localctr)
 
 #ifndef PSX
 
-CBYTE* LoadAString(MFFileHandle &file, CBYTE *txt) {
-	CBYTE *ptr=txt;
+CBYTE* LoadAString(MFFileHandle &file, CBYTE* txt) {
+	CBYTE* ptr=txt;
 
 	*ptr=0;
 	while (1) {
@@ -368,8 +368,8 @@ CBYTE* LoadAString(MFFileHandle &file, CBYTE *txt) {
 	return txt;
 }
 
-void SaveAString(MFFileHandle &file, CBYTE *txt) {
-	CBYTE *ptr=txt;
+void SaveAString(MFFileHandle &file, CBYTE* txt) {
+	CBYTE* ptr=txt;
 	CBYTE crlf[] = { 13, 10};
 
 	FileWrite(file,txt,strlen(txt));
@@ -406,7 +406,7 @@ extern SLONG FONT_TICK;
 //#define	INPUT_TYPE_JOY	(1<<1)
 
 #ifndef TARGET_DC
-SLONG	MainE3BodgeLoop() {
+SLONG MainE3BodgeLoop() {
 	static int input = 0;
 	static int ticker=0;
 	int lastinput;
@@ -472,7 +472,7 @@ extern int do_only_game_intro();
 #endif //#ifndef TARGET_DC
 
 
-SLONG	do_start_menu()
+SLONG do_start_menu()
 {
 	SLONG res;
 
@@ -492,7 +492,7 @@ SLONG	do_start_menu()
 	static  bool doneload=0;
 
 	if (!doneload) {
-		CBYTE *lang=ENV_get_value_string("language");
+		CBYTE* lang=ENV_get_value_string("language");
 		doneload=1;
 		if (!lang) lang="text\\lang_english.txt";
 		XLAT_load(lang);
@@ -732,8 +732,8 @@ void test_the_widgets() {
 bool pass_dlg(Form *form, Widget *widget, SLONG message) {
 /*	CBYTE pw[] = {25, 22, 1, 3, 10, 0, 6, 20, 6, 7, 27, 0 };
 	CBYTE match[] = "mandelbrots";*/
-	CBYTE *pt;
-//	CBYTE *str,*pw2;
+	CBYTE* pt;
+//	CBYTE* str,*pw2;
 	SLONG i;
 	static bool firstpass=1;
 
@@ -783,7 +783,7 @@ bool menu_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-SLONG	LoadMissionList(Form *form, CBYTE *script, SLONG district=-1, UBYTE firstonly=FORCE_FIRST_MISSION);
+SLONG LoadMissionList(Form *form, CBYTE* script, SLONG district=-1, UBYTE firstonly=FORCE_FIRST_MISSION);
 
 bool game_dlg(Form *form, Widget *widget, SLONG message) {
 	Widget *wig,*nxt;
@@ -926,7 +926,7 @@ bool esc_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-void	SaveQuickGame(Form* form) {
+void SaveQuickGame(Form* form) {
 	Widget* widget;
 	SLONG slot;
 	CBYTE fn[_MAX_PATH];
@@ -951,7 +951,7 @@ void	SaveQuickGame(Form* form) {
 	FileClose(file);
 }
 
-void	LoadQuickGame() {
+void LoadQuickGame() {
 	CBYTE fn[_MAX_PATH];
 	MFFileHandle file;
 	SLONG slot=save_slot+1;
@@ -964,7 +964,7 @@ void	LoadQuickGame() {
 	FileClose(file);
 }
 
-void	TemporaryMissionList(Widget *list) {
+void TemporaryMissionList(Widget *list) {
 #ifndef PSX
 
 	CBYTE dir[_MAX_PATH];
@@ -988,11 +988,11 @@ void	TemporaryMissionList(Widget *list) {
 
 
 /*
-void	LoadMissionList(Widget *list, CBYTE *script) {
+void LoadMissionList(Widget *list, CBYTE* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	CBYTE title[256];
 	SLONG a,b,c,d,e;
 	SLONG ver, mapx, mapy;
@@ -1023,7 +1023,7 @@ void	LoadMissionList(Widget *list, CBYTE *script) {
 }
 */
 
-void	ParseMissionData(CBYTE *text, CBYTE version, MissionData *mdata) {
+void ParseMissionData(CBYTE* text, CBYTE version, MissionData *mdata) {
 	int debug;
 
 	switch(version) {
@@ -1053,9 +1053,9 @@ void	ParseMissionData(CBYTE *text, CBYTE version, MissionData *mdata) {
 }
 
 
-void	MissionListCallback(CBYTE *script, MISSION_callback cb) {
+void MissionListCallback(CBYTE* script, MISSION_callback cb) {
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	SLONG ver=0;
 	MissionData *mdata = MFnew<MissionData>();
 
@@ -1081,7 +1081,7 @@ void	MissionListCallback(CBYTE *script, MISSION_callback cb) {
 
 }
 /*
-void testy2(CBYTE *filename) {
+void testy2(CBYTE* filename) {
 	TRACE("returned %s\n",filename);
 }
 
@@ -1089,11 +1089,11 @@ void testy() {
   MissionListCallback(MISSION_SCRIPT,testy2);
 }
 */
-SLONG	LoadMissionList(Form *form, CBYTE *script, SLONG district, UBYTE firstonly) {
+SLONG LoadMissionList(Form *form, CBYTE* script, SLONG district, UBYTE firstonly) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	SLONG i,ver, mapx, mapy, dumpy=100, ct=0;
 	MissionData *mdata = MFnew<MissionData>();
 
@@ -1153,11 +1153,11 @@ SLONG	LoadMissionList(Form *form, CBYTE *script, SLONG district, UBYTE firstonly
 }
 
 
-void	LoadDistrictList(Form *form, CBYTE *script) {
+void LoadDistrictList(Form *form, CBYTE* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	CBYTE title[256];
 	SLONG ver, mapx, mapy, i=0;
 
@@ -1205,11 +1205,11 @@ void	LoadDistrictList(Form *form, CBYTE *script) {
 }
 
 
-void	LoadSpecificDistrict(Form *form, CBYTE *script, UWORD district) {
+void LoadSpecificDistrict(Form *form, CBYTE* script, UWORD district) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	CBYTE title[256];
 	SLONG ver, mapx, mapy, i=0;
 
@@ -1264,11 +1264,11 @@ void	LoadSpecificDistrict(Form *form, CBYTE *script, UWORD district) {
 }
 
 
-void QuickDistrictList(Form *form, CBYTE *script) {
+void QuickDistrictList(Form *form, CBYTE* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	SLONG ver=0;
 	UBYTE index=0;
 	MissionData *mdata = MFnew<MissionData>();
@@ -1300,11 +1300,11 @@ void QuickDistrictList(Form *form, CBYTE *script) {
 
 
 
-UBYTE LoadMissionNumFromId(CBYTE *script, UBYTE id) {
+UBYTE LoadMissionNumFromId(CBYTE* script, UBYTE id) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	SLONG ver=0;
 	UBYTE index=0;
 	MissionData *mdata = MFnew<MissionData>();
@@ -1335,11 +1335,11 @@ UBYTE LoadMissionNumFromId(CBYTE *script, UBYTE id) {
 #endif
 }
 
-void	LoadMissionFilename(CBYTE *script, UBYTE index, CBYTE* fn, UBYTE *id) {
+void LoadMissionFilename(CBYTE* script, UBYTE index, CBYTE* fn, UBYTE *id) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text;
+	CBYTE* text;
 	MissionData *mdata = MFnew<MissionData>();
 	SLONG ver=0;
 
@@ -1374,11 +1374,11 @@ void	LoadMissionFilename(CBYTE *script, UBYTE index, CBYTE* fn, UBYTE *id) {
 #endif
 }
 
-void	LoadNextMissionFilename(UBYTE &current_index, CBYTE *fn, CBYTE *mtitle, CBYTE *script) {
+void LoadNextMissionFilename(UBYTE &current_index, CBYTE* fn, CBYTE* mtitle, CBYTE* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text, *pt;
+	CBYTE* text, *pt;
 	SLONG ver=0, ndx=0;
 	MissionData *mdata = MFnew<MissionData>();
 
@@ -1423,11 +1423,11 @@ void	LoadNextMissionFilename(UBYTE &current_index, CBYTE *fn, CBYTE *mtitle, CBY
 
 
 
-CBYTE*	LoadMissionBriefing(CBYTE *script, UBYTE index) {
+CBYTE*	LoadMissionBriefing(CBYTE* script, UBYTE index) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE *text, *pt;
+	CBYTE* text, *pt;
 	CBYTE fn[_MAX_PATH],mfn[_MAX_PATH];
 	SLONG a,b,c,d,e,n,ver;
 
@@ -1491,7 +1491,7 @@ CBYTE*	LoadMissionBriefing(CBYTE *script, UBYTE index) {
 #endif
 }
 
-void	ScanSavedGames(Widget *list) {
+void ScanSavedGames(Widget *list) {
 #ifndef PSX
 
 	CBYTE dir[_MAX_PATH],ttl[_MAX_PATH];
@@ -1531,7 +1531,7 @@ void	ScanSavedGames(Widget *list) {
 
 bool won_the_game;
 
-void	STARTSCR_notify_gameover(bool won) {
+void STARTSCR_notify_gameover(bool won) {
   won_the_game=won;
   if (won) {
 	  LoadNextMissionFilename(STARTSCR_miss_id, STARTSCR_mission, mission_name, MISSION_SCRIPT);
@@ -1600,11 +1600,11 @@ bool TimeoutCheck() {
 
 // --- widgety core stuff ---
 
-SLONG	MainWidgetLoop() {
+SLONG MainWidgetLoop() {
 	static Form* form=NULL;
 	Widget* widget;
 	SLONG result;
-	CBYTE *txt,*tmp;
+	CBYTE* txt,*tmp;
 #ifdef USE_PASSWORD
 	static SLONG mode=0;
 #else
@@ -1825,13 +1825,13 @@ extern volatile HWND	hDDLibWindow;
 }
 
 
-extern	SLONG ELEV_load_user(SLONG mission);
+extern SLONG ELEV_load_user(SLONG mission);
 
-extern	CBYTE	ELEV_fname_level   [];
-extern	void	save_whole_game(CBYTE	*gamename);
-extern	SLONG	quick_load;
+extern CBYTE	ELEV_fname_level   [];
+extern void	save_whole_game(CBYTE	*gamename);
+extern SLONG	quick_load;
 //MissionListCallback
-void	make_all_wads()
+void make_all_wads()
 {
 	SLONG	c0;
 	CBYTE	save_wad[100];

@@ -9,35 +9,35 @@
 
 
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
-extern	SLONG	person_normal_animate(Thing *p_person);
-extern	void	change_velocity_to(Thing *p_person,SWORD velocity);
-extern	void	person_normal_move(Thing *p_person);
-extern	void	fn_cop_fight(Thing *p_person);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	person_normal_animate(Thing *p_person);
+extern void	change_velocity_to(Thing *p_person,SWORD velocity);
+extern void	person_normal_move(Thing *p_person);
+extern void	fn_cop_fight(Thing *p_person);
 
 
-void	fn_person_moveing(Thing *p_person);
-void	fn_person_idle(Thing *p_person);
-void	fn_person_jumping(Thing *p_person);
-void	fn_person_dangling(Thing	*p_person);
-void	fn_person_laddering(Thing	*p_person);
-void	fn_person_climbing(Thing	*p_person);
-void	fn_person_fighting(Thing *p_person);
-void	fn_person_recoil(Thing *p_person);
-void	fn_person_dying(Thing *p_person);
-void	fn_person_dead(Thing *p_person);
-void	fn_person_gun(Thing *p_person);
-void	fn_person_wait(Thing *p_person);
-void	fn_person_navigate(Thing *p_person);
-void	fn_person_fight(Thing *p_person);
-void	fn_person_stand_up(Thing *p_person);
-void	fn_person_mavigate(Thing *p_person);
+void fn_person_moveing(Thing *p_person);
+void fn_person_idle(Thing *p_person);
+void fn_person_jumping(Thing *p_person);
+void fn_person_dangling(Thing	*p_person);
+void fn_person_laddering(Thing	*p_person);
+void fn_person_climbing(Thing	*p_person);
+void fn_person_fighting(Thing *p_person);
+void fn_person_recoil(Thing *p_person);
+void fn_person_dying(Thing *p_person);
+void fn_person_dead(Thing *p_person);
+void fn_person_gun(Thing *p_person);
+void fn_person_wait(Thing *p_person);
+void fn_person_navigate(Thing *p_person);
+void fn_person_fight(Thing *p_person);
+void fn_person_stand_up(Thing *p_person);
+void fn_person_mavigate(Thing *p_person);
 
 #define	COP_IDLE		1
 
 //---------------------------------------------------------------
 
-StateFunction	cop_states[10]	=
+StateFunction cop_states[10]	=
 {
 	{	STATE_INIT,				fn_cop_init		},
 	{	STATE_NORMAL,			fn_cop_normal	},
@@ -48,7 +48,7 @@ StateFunction	cop_states[10]	=
 
 /*
 
-StateFunction	cop_states[]	=
+StateFunction cop_states[]	=
 {
 	{	STATE_INIT,				fn_cop_init				},
 	{	STATE_NORMAL,			fn_cop_normal				},
@@ -87,7 +87,7 @@ StateFunction	cop_states[]	=
 */
 //---------------------------------------------------------------
 
-void	fn_cop_init(Thing *t_thing)
+void fn_cop_init(Thing *t_thing)
 {
 	t_thing->DrawType						=	DT_ROT_MULTI;
 	// Angle already set when the person was created.
@@ -134,7 +134,7 @@ void	fn_cop_init(Thing *t_thing)
 //---------------------------------------------------------------
 
 //
-void	fn_cop_normal(Thing *t_thing)
+void fn_cop_normal(Thing *t_thing)
 {
 	#if 0
 
@@ -253,7 +253,7 @@ void	fn_cop_normal(Thing *t_thing)
 
 
 
-void	fn_cop_fight(Thing *p_person)
+void fn_cop_fight(Thing *p_person)
 {
 /*
 	Thing	*p_target;

@@ -12,7 +12,7 @@
 #define PARSE_MAX_NODES 65536
 
 PARSE_Node PARSE_node[PARSE_MAX_NODES];
-SLONG      PARSE_node_upto;
+SLONG PARSE_node_upto;
 
 PARSE_Node *PARSE_get_node()
 {
@@ -32,14 +32,14 @@ PARSE_Node *PARSE_get_node()
 #define PARSE_MAX_ERRORS              256
 
 PARSE_Node *PARSE_line[PARSE_MAX_LINES];		// NULL value means that line was blank.
-SLONG       PARSE_line_upto;
-CBYTE       PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
-SLONG       PARSE_string_table_upto;
-CBYTE      *PARSE_error[PARSE_MAX_ERRORS];
-SLONG       PARSE_error_upto;
-SLONG       PARSE_ifcode;			// This gets incremented every time we parse an IF    statement...
-SLONG       PARSE_forcode;			// This gets incremented every time we parse a  FOR   statement...
-SLONG       PARSE_whilecode;		// This gets incremented every time we parse a  WHILE statement...
+SLONG PARSE_line_upto;
+CBYTE PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
+SLONG PARSE_string_table_upto;
+CBYTE* PARSE_error[PARSE_MAX_ERRORS];
+SLONG PARSE_error_upto;
+SLONG PARSE_ifcode;			// This gets incremented every time we parse an IF    statement...
+SLONG PARSE_forcode;			// This gets incremented every time we parse a  FOR   statement...
+SLONG PARSE_whilecode;		// This gets incremented every time we parse a  WHILE statement...
 
 //
 // The error buffer.
@@ -55,7 +55,7 @@ SLONG PARSE_errbuf_upto;
 // returns false.
 //
 
-SLONG PARSE_add_error(CBYTE *fmt, ...)
+SLONG PARSE_add_error(CBYTE* fmt, ...)
 {
 	if (PARSE_error_upto >= PARSE_MAX_ERRORS)
 	{
@@ -105,7 +105,7 @@ jmp_buf PARSE_error_jmp;
 // The reason the parser jumped to PARSE_error_jmp;
 //
 
-CBYTE *PARSE_error_type;
+CBYTE* PARSE_error_type;
 
 
 
@@ -113,7 +113,7 @@ CBYTE *PARSE_error_type;
 // Throws up an error.
 //
 
-void PARSE_throw(CBYTE *error = "Parse error")
+void PARSE_throw(CBYTE* error = "Parse error")
 {
 	PARSE_error_type = error;
 
@@ -129,7 +129,7 @@ void PARSE_throw(CBYTE *error = "Parse error")
 // where it was copied.
 //
 
-CBYTE *PARSE_add_string(CBYTE *string)
+CBYTE* PARSE_add_string(CBYTE* string)
 {
 	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL
 	
@@ -142,7 +142,7 @@ CBYTE *PARSE_add_string(CBYTE *string)
 		PARSE_throw("No more string constant memory");
 	}
 
-	CBYTE *ans = PARSE_string_table + PARSE_string_table_upto;
+	CBYTE* ans = PARSE_string_table + PARSE_string_table_upto;
 
 	strcpy(ans, string);
 
@@ -587,7 +587,7 @@ PARSE_Node *PARSE_var();
 PARSE_Node *PARSE_struct();
 PARSE_Node *PARSE_argument_definition();
 
-SLONG       PARSE_expression_list_depth(PARSE_Node *explist);
+SLONG PARSE_expression_list_depth(PARSE_Node *explist);
 
 
 
@@ -762,7 +762,7 @@ PARSE_Node *PARSE_primary()
 		case LEX_TOKEN_TYPE_VARIABLE:
 			
 			{
-				CBYTE *varname = PARSE_add_string(lt.variable);
+				CBYTE* varname = PARSE_add_string(lt.variable);
 
 				//
 				// This could be a function call.
@@ -2354,7 +2354,7 @@ PARSE_Node *PARSE_statement()
 				LEX_pop();
 
 				CBYTE  label[32];
-				CBYTE *ch;
+				CBYTE* ch;
 
 				itoa(lt.slumber, label, 10);
 
@@ -2388,7 +2388,7 @@ PARSE_Node *PARSE_statement()
 		case LEX_TOKEN_TYPE_VARIABLE:
 
 			{
-				CBYTE *varname = PARSE_add_string(lt.variable);
+				CBYTE* varname = PARSE_add_string(lt.variable);
 
 				//
 				// This could be a function call.
@@ -3409,7 +3409,7 @@ PARSE_Node *PARSE_labelled_statement_list()
 		ans->type   = PARSE_NODE_TYPE_LABEL;
 
 		CBYTE  label[32];
-		CBYTE *ch;
+		CBYTE* ch;
 
 		itoa(lt.slumber, label, 10);
 
@@ -3465,13 +3465,13 @@ PARSE_Node *PARSE_labelled_statement_list()
 //
 
 
-CBYTE *PARSE_program;
-SLONG  PARSE_program_upto;
-SLONG  PARSE_program_max;
+CBYTE* PARSE_program;
+SLONG PARSE_program_upto;
+SLONG PARSE_program_max;
 
 
 
-void PARSE_do(CBYTE *fname)
+void PARSE_do(CBYTE* fname)
 {
 	SLONG       want_to_read;
 	SLONG       bytes_read;
@@ -3497,7 +3497,7 @@ void PARSE_do(CBYTE *fname)
 		//
 
 		PARSE_program_max = 16;
-		PARSE_program     = (CBYTE *) malloc(sizeof(CBYTE) * PARSE_program_max);
+		PARSE_program     = (CBYTE* ) malloc(sizeof(CBYTE) * PARSE_program_max);
 
 		memset(PARSE_program, 0, sizeof(CBYTE) * PARSE_program_max);
 	}
@@ -3544,7 +3544,7 @@ void PARSE_do(CBYTE *fname)
 			//
 
 			PARSE_program_max *= 2;
-			PARSE_program      = (CBYTE *) realloc(PARSE_program, sizeof(CBYTE) * PARSE_program_max);
+			PARSE_program      = (CBYTE* ) realloc(PARSE_program, sizeof(CBYTE) * PARSE_program_max);
 
 			//
 			// Zero out newly allocated memory.

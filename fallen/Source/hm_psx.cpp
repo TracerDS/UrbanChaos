@@ -245,7 +245,7 @@ typedef struct
 #define HM_MAX_OBJECTS 8
 
 HM_Object HM_object[HM_MAX_OBJECTS];
-SLONG     HM_object_upto;
+SLONG HM_object_upto;
 
 
 //
@@ -282,10 +282,10 @@ void HM_init()
 #define HM_MAX_PRIMGRIDS 64
 
 HM_Primgrid HM_primgrid[HM_MAX_PRIMGRIDS];
-SLONG       HM_primgrid_upto;
+SLONG HM_primgrid_upto;
 
 
-void HM_load(CBYTE *fname)
+void HM_load(CBYTE* fname)
 {
 	return;
 }

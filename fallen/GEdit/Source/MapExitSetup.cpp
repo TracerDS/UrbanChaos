@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-CBYTE *filename;
+CBYTE* filename;
 
 //---------------------------------------------------------------
 
@@ -80,7 +80,7 @@ void	do_mapexit_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_mapexit_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_mapexit_message(EventPoint *ep, CBYTE* msg) {
   if ((!ep)||(!ep->Data[0]))
 	  strcpy(msg,"Unknown");
   else

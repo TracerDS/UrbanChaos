@@ -31,12 +31,12 @@ extern CBYTE ELEV_fname_level   [_MAX_PATH];
 //
 
 SLONG ELEV_load_user(SLONG game);
-SLONG ELEV_load_name(CBYTE *fname);
+SLONG ELEV_load_name(CBYTE* fname);
 SLONG ELEV_game_init(
-		CBYTE *fname_map,
-		CBYTE *fname_lighting,
-		CBYTE *fname_sewers,
-		CBYTE *fname_level);
+		CBYTE* fname_map,
+		CBYTE* fname_lighting,
+		CBYTE* fname_sewers,
+		CBYTE* fname_level);
 
 
 

@@ -25,7 +25,7 @@ typedef struct
 #define LAND_MAX_POINTS 256
 
 LAND_Point LAND_point[LAND_MAX_POINTS];
-SLONG      LAND_point_upto;
+SLONG LAND_point_upto;
 
 
 
@@ -45,7 +45,7 @@ typedef struct
 #define LAND_MAX_LINES 256
 
 LAND_Line LAND_line[LAND_MAX_LINES];
-SLONG     LAND_line_upto;
+SLONG LAND_line_upto;
 
 
 //

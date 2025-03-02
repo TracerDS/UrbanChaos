@@ -56,7 +56,7 @@ typedef struct
 	
 } DRIP_Info;
 
-void       DRIP_get_start();
+void DRIP_get_start();
 DRIP_Info *DRIP_get_next (); // NULL => no more drips.
 
 

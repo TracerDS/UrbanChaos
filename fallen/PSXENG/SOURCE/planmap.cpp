@@ -17,11 +17,11 @@
 #define	EDGE_BOTTOM	(1<<3)
 
 #if 0
-extern	UBYTE	player_visited[16][128];    
+extern UBYTE	player_visited[16][128];    
 
-SLONG	clip_left,clip_right,clip_top,clip_bot;
+SLONG clip_left,clip_right,clip_top,clip_bot;
 
-void	draw_quick_rect(SONG page,SLONG csx,SLONG csy,SLONG pixelw)	   
+void draw_quick_rect(SONG page,SLONG csx,SLONG csy,SLONG pixelw)	   
 {
 
 	POLY_FT4 *p=(POLY_F4*)the_display.CurrentPrim;
@@ -42,7 +42,7 @@ void	draw_quick_rect(SONG page,SLONG csx,SLONG csy,SLONG pixelw)
 }
 
 /*
-void	draw_edge(SLONG csx,SLONG csy,SLONG dsx,SLONG dsy)
+void draw_edge(SLONG csx,SLONG csy,SLONG dsx,SLONG dsy)
 {
 	
 	LINE_F2 *p=(LINE_F2*)the_display.CurrentPrim;
@@ -79,7 +79,7 @@ void draw_shadow_quad(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLO
 	
 }
 
-void	draw_shadow_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLONG blue,SLONG shadow,SLONG edge)
+void draw_shadow_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLONG blue,SLONG shadow,SLONG edge)
 {
 
 	if(shadow==0 && edge==0)
@@ -125,11 +125,11 @@ void	draw_shadow_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLO
 	}
 }
 
-UWORD	screen_x,screen_y,screen_width,screen_height,block_size,screen_mx,screen_mz;
-SLONG	screen_pitch;
+UWORD screen_x,screen_y,screen_width,screen_height,block_size,screen_mx,screen_mz;
+SLONG screen_pitch;
 
 
-void	get_screen_xy(SLONG *x,SLONG *z)
+void get_screen_xy(SLONG *x,SLONG *z)
 {
 	SLONG	rx,rz;
 
@@ -153,7 +153,7 @@ void	get_screen_xy(SLONG *x,SLONG *z)
 
 }
 
-void	map_beacon_draw(SLONG x,SLONG z,ULONG col,ULONG flag)
+void map_beacon_draw(SLONG x,SLONG z,ULONG col,ULONG flag)
 {
 	UBYTE	radius;
 	SLONG	screen_pitch;

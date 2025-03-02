@@ -390,49 +390,49 @@ void AENG_blit();
 // Adds a message to the message system.
 //
 
-//void MSG_add(CBYTE *message, ...);
+//void MSG_add(CBYTE* message, ...);
 
 //
 // Drawing stuff straight to the screen...
 //
 
-void  AENG_clear_screen();
+void AENG_clear_screen();
 SLONG AENG_lock();
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE *text, ...);
-void  AENG_unlock();
+SLONG FONT_draw(SLONG x, SLONG y, CBYTE* text, ...);
+void AENG_unlock();
 
 
 //
 // Call once at the end of the whole program.
 // 
 
-extern	void AENG_fini();
+extern void AENG_fini();
 
-extern	void CONSOLE_font(CBYTE *fontpath, SLONG scale);
-extern	void CONSOLE_draw();
-extern	void CONSOLE_text(CBYTE *text, SLONG delay=4000 );	// Delay in milliseconds
-extern	void CONSOLE_clear();
-extern	void CONSOLE_scroll();
+extern void CONSOLE_font(CBYTE* fontpath, SLONG scale);
+extern void CONSOLE_draw();
+extern void CONSOLE_text(CBYTE* text, SLONG delay=4000 );	// Delay in milliseconds
+extern void CONSOLE_clear();
+extern void CONSOLE_scroll();
 
-extern	void AENG_loadbar(SLONG percent);
-extern	void draw_boxout_text(SLONG x,SLONG y,SLONG w,CBYTE *message,SLONG font_id);
+extern void AENG_loadbar(SLONG percent);
+extern void draw_boxout_text(SLONG x,SLONG y,SLONG w,CBYTE* message,SLONG font_id);
 //
 // Messages that appear at specific points on the screen- If you place
 // a message at the same place as an older message, the new message
 // replaces that older one.
 //
 
-extern	void CONSOLE_text_at(SLONG  x,SLONG  y,SLONG  delay,CBYTE *fmt, ...);
+extern void CONSOLE_text_at(SLONG  x,SLONG  y,SLONG  delay,CBYTE* fmt, ...);
 
-extern	void	draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id);
-extern	void	draw_centre_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id,SLONG flag);
+extern void	draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id);
+extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
 
-extern	void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
-extern	void PANEL_draw_timer(SLONG time, SLONG x, SLONG y);
-extern	void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
-extern	void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer);
-extern	void PANEL_draw_buffered();
-extern  SLONG SPRITE_draw(
+extern void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
+extern void PANEL_draw_timer(SLONG time, SLONG x, SLONG y);
+extern void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
+extern void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer);
+extern void PANEL_draw_buffered();
+extern SLONG SPRITE_draw(
 		SLONG x,
 		SLONG y,
 		SLONG z,
@@ -456,13 +456,13 @@ extern void SPRITE_draw_tex(
 		UBYTE h,
 		SLONG sort);
 
-extern	void	PANEL_finish();
-extern	void FONT_buffer_draw();
+extern void	PANEL_finish();
+extern void FONT_buffer_draw();
 
-void	ShowBackImage();
-void	LoadBackImage(CBYTE *name);
-void	InitBackImage(CBYTE *name);
-void	ResetBackImage();
+void ShowBackImage();
+void LoadBackImage(CBYTE* name);
+void InitBackImage(CBYTE* name);
+void ResetBackImage();
 
 extern void SetDisplayClear(SLONG clear);
 
@@ -470,15 +470,15 @@ extern void SetDisplayClear(SLONG clear);
 
 
 
-extern	DB		*old_buffer;
-extern	void	*start_of_bucket_ram;
-extern	void	*first_used_bucket_ram;
-extern	void	*last_used_bucket_ram;
-//extern	SLONG	flipped;
+extern DB		*old_buffer;
+extern void	*start_of_bucket_ram;
+extern void	*first_used_bucket_ram;
+extern void	*last_used_bucket_ram;
+//extern SLONG	flipped;
 
 //#define	 OLD_FLIP	1
 /*
-inline	void	check_prim_ptr(void **x)
+inline void	check_prim_ptr(void* *x)
 {
 #ifdef	OLD_FLIP
 	//
@@ -509,12 +509,12 @@ inline	void	check_prim_ptr(void **x)
 }
 */
 
-extern	void	*danger_point;
-extern	UBYTE	danger_point_type;
-extern	volatile	SLONG draw_state __attribute__((section(".rdata")));
-extern	void	do_danger(void **x);
+extern void	*danger_point;
+extern UBYTE	danger_point_type;
+extern volatile	SLONG draw_state __attribute__((section(".rdata")));
+extern void	do_danger(void* *x);
 
-inline	void	check_prim_ptr(void **x)
+inline void	check_prim_ptr(void* *x)
 {
 
 	if(*x>danger_point)
@@ -525,7 +525,7 @@ inline	void	check_prim_ptr(void **x)
 }
 
 
-//extern	void	check_prim_ptr(void **x);
+//extern void	check_prim_ptr(void* *x);
 	
 
 // Common PSX Engine inlines
@@ -535,7 +535,7 @@ inline	void	check_prim_ptr(void **x)
 //
 
 // these are upto 12 blocks away  // z=0 -> 768 (12 blocks * 256 /4)
-inline	SLONG get_z_sort_near(SLONG z)
+inline SLONG get_z_sort_near(SLONG z)
 {
 
 //	ASSERT(z<1000);
@@ -552,7 +552,7 @@ inline	SLONG get_z_sort_near(SLONG z)
 
 }
 // upto max dist 18 ish to 25 ish
-inline	SLONG get_z_sort(SLONG z)
+inline SLONG get_z_sort(SLONG z)
 {
 
 	if(z>768)
@@ -692,11 +692,11 @@ inline SLONG MF_NormalClip(SLONG a,SLONG b,SLONG c)
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern	SLONG	SpecialOpen(CBYTE *name);
-extern	SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern	SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern  SLONG	SpecialClose(SLONG handle);
-extern	SLONG	SpecialSize(SLONG handle);
+extern SLONG	SpecialOpen(CBYTE* name);
+extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
+extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
+extern SLONG	SpecialClose(SLONG handle);
+extern SLONG	SpecialSize(SLONG handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -711,7 +711,7 @@ extern	SLONG	SpecialSize(SLONG handle);
 #define	fread(a,s1,s2,h) SpecialRead(h,a,s1*s2)
 
 extern void TEXTURE_choose_set(SLONG number);
-extern void	PCReadFile(CBYTE *name,UBYTE *addr,ULONG len);
+extern void	PCReadFile(CBYTE* name,UBYTE *addr,ULONG len);
 extern int vsprintf(char *str,const char *fmt,va_list arg);
 extern void MF_ClearOTag(ULONG *table,SLONG size);
 extern void	PSX_SetShock(UBYTE fast,UBYTE slow);
@@ -727,7 +727,7 @@ extern UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
 #define BreakFrame()
 #define BreakEnd(x)
 
-extern void PANEL_new_text(Thing *who, SLONG delay, CBYTE *fmt, ...);
+extern void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...);
 extern FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
 extern void FONT2D_DrawStringCentred(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
 
@@ -787,8 +787,8 @@ inline UBYTE MAKELUMI(UWORD col,UBYTE lumi)
 #define SetLumi(x,z,lum) floor_lum[x][z]=(lum)
 
 extern void Wadmenu_gameover(int won);
-extern void PANEL_new_help_message(CBYTE *fmt, ...);
-extern void	PSXOverLay(CBYTE *name,ULONG len);
+extern void PANEL_new_help_message(CBYTE* fmt, ...);
+extern void	PSXOverLay(CBYTE* name,ULONG len);
 extern void MAP_beacon_remove(UBYTE beacon);
 extern void PANEL_fadeout_init();
 extern void PANEL_fadeout_start();

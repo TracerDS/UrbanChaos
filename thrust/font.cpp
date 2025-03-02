@@ -75,7 +75,7 @@ CBYTE FONT_punct[] =
 //
 
 OS_Texture *FONT_ot;
-TGA_Pixel   FONT_data[256][256];
+TGA_Pixel FONT_data[256][256];
 
 
 
@@ -270,7 +270,7 @@ SLONG FONT_get_index(CBYTE chr)
 
 		letter = FONT_PUNCT_PLING;
 
-		for (CBYTE *ch = FONT_punct; *ch && *ch != chr; ch++, letter++);
+		for (CBYTE* ch = FONT_punct; *ch && *ch != chr; ch++, letter++);
 	}
 
 	if (!WITHIN(letter, 0, FONT_NUM_LETTERS - 1))
@@ -366,11 +366,11 @@ float FONT_draw_letter(
 // Returns the width of the given string.
 //
 
-float FONT_get_width(CBYTE *str, float scale)
+float FONT_get_width(CBYTE* str, float scale)
 {
 	float ans = 0.0F;
 
-	for (CBYTE *ch = str; *ch; ch++)
+	for (CBYTE* ch = str; *ch; ch++)
 	{
 		ans += FONT_get_letter_width(*ch) * scale;
 	}
@@ -395,7 +395,7 @@ void FONT_format(
 
 
 
-void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cursor, CBYTE *fmt, ...)
+void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cursor, CBYTE* fmt, ...)
 {
 	CBYTE   message[4096];
 	va_list	ap;
@@ -443,7 +443,7 @@ void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cu
 		x -= FONT_get_width(message, scale);
 	}
 
-	CBYTE *ch = message;
+	CBYTE* ch = message;
 
 	while(*ch)
 	{

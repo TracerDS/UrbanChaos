@@ -17,17 +17,17 @@
 
 //---------------------------------------------------------------
 
-SLONG		action_off,
+SLONG action_off,
 			action_on,
 			triggered_by,
 			trigger_radius,
 			trigger_depend,
 			trigger_type;			
-EventPoint	*current_ep;
+EventPoint *current_ep;
 
 //---------------------------------------------------------------
 
-void	update_action_combos(HWND parent)
+void update_action_combos(HWND parent)
 {
 	SLONG		c0;
 
@@ -47,7 +47,7 @@ void	update_action_combos(HWND parent)
 
 //---------------------------------------------------------------
 
-void	update_trigger_radios(HWND parent)
+void update_trigger_radios(HWND parent)
 {
 /*
 	if(SendMessage(GetDlgItem(parent,IDC_RADIO1),BM_GETCHECK,0,0)==BST_CHECKED)
@@ -87,9 +87,9 @@ void	update_trigger_radios(HWND parent)
 
 //---------------------------------------------------------------
 
-void	process_view_wind();
+void process_view_wind();
 
-bool	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -257,7 +257,7 @@ bool	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_trigger_setup(EventPoint *the_ep)
+void do_trigger_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	triggered_by	=	the_ep->TriggeredBy;
@@ -284,7 +284,7 @@ void	do_trigger_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_trigger_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_trigger_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

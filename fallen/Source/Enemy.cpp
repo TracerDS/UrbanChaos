@@ -9,15 +9,15 @@
 
 //extern KeyFrame			*darci_array[100],*roper_array[100];
 
-void	process_enemy(Thing *e_thing);
-void	process_enemy2(Thing *e_thing);
-SLONG	calc_height_at(SLONG x,SLONG z);
+void process_enemy(Thing *e_thing);
+void process_enemy2(Thing *e_thing);
+SLONG calc_height_at(SLONG x,SLONG z);
 
 extern Thing			*darci_thing;
 
 //---------------------------------------------------------------
 
-void	init_enemy(Thing *e_thing)
+void init_enemy(Thing *e_thing)
 {
 	e_thing->DrawType			=	DT_ROT_MULTI;
 

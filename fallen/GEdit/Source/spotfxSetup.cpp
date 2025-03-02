@@ -91,7 +91,7 @@ void	do_spotfx_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE* msg) {
 	strcpy(msg,wspotfx_strings[ep->Data[0]]);
 	return msg;
 }

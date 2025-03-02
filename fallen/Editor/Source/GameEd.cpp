@@ -17,8 +17,8 @@
 
 //---------------------------------------------------------------
 
-extern	CBYTE	*class_text[];
-extern	CBYTE	*genus_text[][10];
+extern CBYTE	*class_text[];
+extern CBYTE	*genus_text[][10];
 
 //---------------------------------------------------------------
 
@@ -157,7 +157,7 @@ void	GameEditor::DrawContent()
 
 //---------------------------------------------------------------
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
 
 void	GameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 {
@@ -881,7 +881,7 @@ void	GameEditor::GameEdEngine()
 				((BucketWaypoint*)current_bucket_pool)->BaseX		=	new_point.X;
 				((BucketWaypoint*)current_bucket_pool)->BaseY		=	new_point.Y;
 
-				add_bucket((void *)current_bucket_pool,new_point.Z-300);
+				add_bucket((void* )current_bucket_pool,new_point.Z-300);
 				current_bucket_pool	+=	sizeof(BucketWaypoint);
 			}
 		}
@@ -901,7 +901,7 @@ void	GameEditor::GameEdEngine()
 			((BucketLine*)current_bucket_pool)->X2			=	wp_points[edit_waypoints[c0].Next].X;
 			((BucketLine*)current_bucket_pool)->Y2			=	wp_points[edit_waypoints[c0].Next].Y;
 
-			add_bucket((void *)current_bucket_pool,1);
+			add_bucket((void* )current_bucket_pool,1);
 			current_bucket_pool	+=	sizeof(BucketLine);
 		}
 	}
@@ -1008,7 +1008,7 @@ void	GameEditor::GameEdEngine()
 						((BucketMapThing*)current_bucket_pool)->EditRef.ItemType	=	ED_ITEM_THING;
 						((BucketMapThing*)current_bucket_pool)->EditRef.ItemRef		=	CurrentThing;
 
-						add_bucket((void *)current_bucket_pool,new_point.Z-300);
+						add_bucket((void* )current_bucket_pool,new_point.Z-300);
 						current_bucket_pool	+=	sizeof(BucketMapThing);
 
 						// Do the size thing for switches.
@@ -1025,7 +1025,7 @@ void	GameEditor::GameEdEngine()
 							((BucketSphereArea*)current_bucket_pool)->EditRef.ItemType	=	ED_ITEM_SIZE_HOOK;
 							((BucketSphereArea*)current_bucket_pool)->EditRef.ItemRef	=	CurrentThing;
 
-							add_bucket((void *)current_bucket_pool,1);
+							add_bucket((void* )current_bucket_pool,1);
 							current_bucket_pool	+=	sizeof(BucketSphereArea);
 						}
 
@@ -1042,7 +1042,7 @@ void	GameEditor::GameEdEngine()
 							((BucketLine*)current_bucket_pool)->X2			=	wp_points[p_mthing->CommandRef].X;
 							((BucketLine*)current_bucket_pool)->Y2			=	wp_points[p_mthing->CommandRef].Y;
 
-							add_bucket((void *)current_bucket_pool,1);
+							add_bucket((void* )current_bucket_pool,1);
 							current_bucket_pool	+=	sizeof(BucketLine);
 						}
 						break;
@@ -1122,7 +1122,7 @@ void	GameEditor::GameEdEngine()
 					((BucketQuad*)current_bucket_pool)->DebugFlags	=	0;
 					((BucketQuad*)current_bucket_pool)->EditRef.ItemType	=	ED_ITEM_MAP_BLOCK;
 					((BucketQuad*)current_bucket_pool)->EditRef.ItemRef		=	CurrentThing;
-					add_bucket((void *)current_bucket_pool,az+300);
+					add_bucket((void* )current_bucket_pool,az+300);
 
 					current_bucket_pool	+=	sizeof(struct BucketQuad);
 				}
@@ -1269,7 +1269,7 @@ SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
 			((BucketQuad*)current_bucket_pool)->EditRef.ItemRef		=	CurrentThing;
 
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 			current_bucket_pool	+=	sizeof(struct BucketQuad);
 		}
 		else
@@ -1351,7 +1351,7 @@ SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
 			((BucketTri*)current_bucket_pool)->EditRef.ItemType	=	ED_ITEM_BUILDING;
 			((BucketTri*)current_bucket_pool)->EditRef.ItemRef	=	CurrentThing;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 			current_bucket_pool	+=	sizeof(struct BucketQuad);
 		}
 		p_f3++;
@@ -1804,7 +1804,7 @@ void	GameEditor::RenderEngine()
 
 //---------------------------------------------------------------
 
-void	GameEditor::MapText(SLONG x,SLONG y,CBYTE *the_str,ULONG col)
+void	GameEditor::MapText(SLONG x,SLONG y,CBYTE* the_str,ULONG col)
 {
 	QuickTextC(x-1,y,the_str,0);
 	QuickTextC(x+1,y,the_str,0);

@@ -40,7 +40,7 @@ typedef struct
 #define ND_MAX_SQUARES 2048
 
 ND_Square ND_square[ND_MAX_SQUARES];
-SLONG     ND_square_upto;
+SLONG ND_square_upto;
 
 
 //
@@ -59,7 +59,7 @@ typedef struct
 #define ND_MAX_EXWALLS 64
 
 ND_Exwall ND_exwall[ND_MAX_EXWALLS];
-SLONG     ND_exwall_upto;
+SLONG ND_exwall_upto;
 
 
 //
@@ -80,7 +80,7 @@ typedef struct
 #define ND_MAX_INWALLS 64
 
 ND_Inwall ND_inwall[ND_MAX_INWALLS];
-SLONG     ND_inwall_upto;
+SLONG ND_inwall_upto;
 
 
 //
@@ -104,7 +104,7 @@ typedef struct
 #define ND_MAX_EXITS 256
 
 ND_Exit ND_exit[ND_MAX_EXITS];
-SLONG   ND_exit_upto;
+SLONG ND_exit_upto;
 
 
 //
@@ -149,7 +149,7 @@ typedef struct
 #define ND_MAX_FLOORS 64
 
 ND_Floor ND_floor[ND_MAX_FLOORS];
-SLONG    ND_floor_upto;
+SLONG ND_floor_upto;
 
 
 

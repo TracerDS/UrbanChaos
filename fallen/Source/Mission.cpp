@@ -16,11 +16,11 @@
 
 //---------------------------------------------------------------
 
-GameMap			game_maps[MAX_MAPS],
+GameMap game_maps[MAX_MAPS],
 				*current_map;
-Mission			mission_pool[MAX_MISSIONS],
+Mission mission_pool[MAX_MISSIONS],
 				*current_mission;
-CBYTE			MissionZones[MAX_MISSIONS][128][128];
+CBYTE MissionZones[MAX_MISSIONS][128][128];
 
 extern CBYTE	map_default_dir[_MAX_PATH],
 				mission_name[_MAX_PATH];
@@ -80,7 +80,7 @@ CBYTE WaypointUses[TT_NUMBER] =
 
 //---------------------------------------------------------------
 
-void	MISSION_init()
+void MISSION_init()
 {
 	ZeroMemory(game_maps,sizeof(game_maps));
 	ZeroMemory(mission_pool,sizeof(mission_pool));
@@ -90,7 +90,7 @@ void	MISSION_init()
 
 //---------------------------------------------------------------
 
-UWORD	alloc_map()
+UWORD alloc_map()
 {
 	UWORD		c0;
 
@@ -108,7 +108,7 @@ UWORD	alloc_map()
 
 //---------------------------------------------------------------
 
-void	free_map(UWORD map)
+void free_map(UWORD map)
 {
 	UWORD		c0;
 
@@ -126,7 +126,7 @@ void	free_map(UWORD map)
 
 //---------------------------------------------------------------
 
-UWORD	alloc_mission(UWORD	map_ref)
+UWORD alloc_mission(UWORD	map_ref)
 {
 	UWORD		c0,c1;
 
@@ -160,14 +160,14 @@ UWORD	alloc_mission(UWORD	map_ref)
 
 //---------------------------------------------------------------
 
-void	free_mission(UWORD mission)
+void free_mission(UWORD mission)
 {
 	ZeroMemory(&mission_pool[mission],sizeof(Mission));
 }
 
 //---------------------------------------------------------------
 
-void	init_mission(UWORD mission_ref,CBYTE *mission_name)
+void init_mission(UWORD mission_ref,CBYTE* mission_name)
 {
 	UWORD		c0;
 	Mission		*the_mission;
@@ -291,7 +291,7 @@ void BreakLink(EventPoint *ep_base, EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-EventPoint	*alloc_eventpoint()
+EventPoint *alloc_eventpoint()
 {
 	UWORD			new_epoint;
 	EventPoint		*ep_base,
@@ -387,7 +387,7 @@ EventPoint	*alloc_eventpoint()
 
 //---------------------------------------------------------------
 
-void	free_eventpoint(EventPoint *the_ep)
+void free_eventpoint(EventPoint *the_ep)
 {
 	EventPoint		*ep_base, *ep_joint;
 	SLONG			 the_point,ins_point;
@@ -454,7 +454,7 @@ void	free_eventpoint(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-void	write_event_extra(FILE *file_handle, EventPoint *ep) {
+void write_event_extra(FILE *file_handle, EventPoint *ep) {
 	SLONG l;
 	UBYTE u;
 
@@ -503,7 +503,7 @@ void	write_event_extra(FILE *file_handle, EventPoint *ep) {
 
 //---------------------------------------------------------------
 
-void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG ver) {
+void read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG ver) {
 	SLONG l;//,m;
 	UWORD *pt;
 	UBYTE u;
@@ -565,7 +565,7 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 #define	M_VERSION		10
 #define	EP_VERSION		1
 
-bool	export_mission()
+bool export_mission()
 {
 	CBYTE				curr_dir[_MAX_PATH];
 	ULONG				m_vers;
@@ -1158,7 +1158,7 @@ bool NoWaypointsFor(EventPoint *ep) {
 
 //---------------------------------------------------------------
 
-bool  HasText(EventPoint *ep) {
+bool HasText(EventPoint *ep) {
 	switch (ep->WaypointType) {
 		case WPT_MESSAGE:
 		case WPT_CREATE_MAP_EXIT:
@@ -1194,7 +1194,7 @@ void SetEPTextID(EventPoint *ep, SLONG value) {
 	ep->Data[9]=value;
 }
 
-CBYTE *GetEPText(EventPoint *ep) {
+CBYTE* GetEPText(EventPoint *ep) {
 	if (!ep->Data[0]) return 0;
 	return (CBYTE*)(ep->Data[0]);
 }
@@ -1646,7 +1646,7 @@ bool valid_mission() {
 	// street names when they are not.
 	//
 
-	CBYTE *title = "Is this message a street or place name?";
+	CBYTE* title = "Is this message a street or place name?";
 
 	FILE *handle;
 	
@@ -1679,7 +1679,7 @@ bool valid_mission() {
 			{
 				if (ep->Data[0])
 				{
-					extern SLONG is_street_name(CBYTE *str_in);
+					extern SLONG is_street_name(CBYTE* str_in);
 
 					if (ep->Data[2] == 0xffff)
 					{
@@ -1695,7 +1695,7 @@ bool valid_mission() {
 						//
 					}
 					else
-					if (is_street_name((CBYTE *) ep->Data[0]))
+					if (is_street_name((CBYTE* ) ep->Data[0]))
 					{
 						CBYTE mess[512];
 

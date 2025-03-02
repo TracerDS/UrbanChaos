@@ -165,7 +165,7 @@ void	redraw_map_tab(void)
 }
 
 //---------------------------------------------------------------
-extern	void	hilight_map_info(UBYTE view_flag);
+extern void	hilight_map_info(UBYTE view_flag);
 
 void	MapTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 {
@@ -345,7 +345,7 @@ void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG co
 		DrawLineC(res[0].X,res[0].Y,res[1].X,res[1].Y,col);
 }
 */
-void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE *str,SLONG col)
+void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE* str,SLONG col)
 {
 	struct	SVector	point;
 	struct	SVector	res;
@@ -489,7 +489,7 @@ SLONG	select_this_map_info(SLONG index,MFPoint *mouse)
 	return(0);
 }
 
-extern	void	calc_prims_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z, EdRect *rect);
+extern void	calc_prims_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z, EdRect *rect);
 
 void	calc_things_world_box(SLONG	map_thing,EdRect *rect)
 {

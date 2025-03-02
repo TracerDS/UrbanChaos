@@ -16,7 +16,7 @@
 // The command line passed to the program.
 //
 
-extern CBYTE *OS_command_line;
+extern CBYTE* OS_command_line;
 
 //
 // Outputs a debug string.
@@ -25,10 +25,10 @@ extern CBYTE *OS_command_line;
 // Returns the Mhz of the current processor.
 //
 
-void  OS_string       (CBYTE *fmt, ...);
-void  OS_reset_ticks  ();
+void OS_string       (CBYTE* fmt, ...);
+void OS_reset_ticks  ();
 SLONG OS_ticks        ();
-void  OS_ticks_reset  ();
+void OS_ticks_reset  ();
 SLONG OS_processor_mhz();
 
 //
@@ -36,7 +36,7 @@ SLONG OS_processor_mhz();
 // fullscreen mode, it return and does nothing.
 //
 
-void OS_error(CBYTE *fmt, ...);
+void OS_error(CBYTE* fmt, ...);
 
 
 //
@@ -44,8 +44,8 @@ void OS_error(CBYTE *fmt, ...);
 // false if the file is not found.
 //
 
-SLONG OS_is_archive_bit_set(CBYTE *fname);
-void  OS_clear_archive_bit (CBYTE *fname);
+SLONG OS_is_archive_bit_set(CBYTE* fname);
+void OS_clear_archive_bit (CBYTE* fname);
 
 
 // ========================================================
@@ -77,7 +77,7 @@ typedef struct os_texture OS_Texture;
 
 #define OS_TEXTURE_MAX_SIZE 512
 
-OS_Texture *OS_texture_create(CBYTE *fname, SLONG invert = false);
+OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert = false);
 OS_Texture *OS_texture_create(SLONG width, SLONG height, SLONG format);
 
 //
@@ -172,7 +172,7 @@ SLONG OS_texture_blit_from_backbuffer(OS_Texture *ot, SLONG x, SLONG y);
 // file inside the "Textures\\" directory.
 //
 
-CBYTE *OS_texture_full_path(CBYTE *fname);
+CBYTE* OS_texture_full_path(CBYTE* fname);
 
 
 
@@ -535,7 +535,7 @@ void OS_clear_screen(
 // Draws the FPS onto the screen. Call ONCE a frame!
 //
 
-void  OS_fps_draw();
+void OS_fps_draw();
 SLONG OS_fps_get ();
 
 //
@@ -550,7 +550,7 @@ void OS_show();
 // number.
 //
 
-void OS_screenshot(CBYTE *fname = NULL);
+void OS_screenshot(CBYTE* fname = NULL);
 
 
 // ========================================================
@@ -582,7 +582,7 @@ typedef struct os_sound OS_Sound;
 #define OS_SOUND_TYPE_2D     1
 #define OS_SOUND_TYPE_3D     2
 
-OS_Sound *OS_sound_create(CBYTE *fname, SLONG type);
+OS_Sound *OS_sound_create(CBYTE* fname, SLONG type);
 
 //
 // Assumes the sound to be mono at 22050 samples per second. 

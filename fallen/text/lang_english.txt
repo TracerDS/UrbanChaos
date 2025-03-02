@@ -39,7 +39,7 @@ Low
 Exit
 Okay
 Cancel
-Controls	
+Controls 
 Keypad
 Keyboard
 Joystick

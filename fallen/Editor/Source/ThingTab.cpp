@@ -29,8 +29,8 @@
 
 //---------------------------------------------------------------
 
-extern	CBYTE	*class_text[];
-extern	CBYTE	*genus_text[][10];
+extern CBYTE	*class_text[];
+extern CBYTE	*genus_text[][10];
 
 //---------------------------------------------------------------
 

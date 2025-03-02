@@ -127,8 +127,8 @@ LPDIRECT3DTEXTURE2 FASTPRIM_find_texture_from_page(SLONG page)
 
 
 #ifdef DEBUG
-void *pvJustChecking1 = NULL;
-void *pvJustChecking2 = NULL;
+void* pvJustChecking1 = NULL;
+void* pvJustChecking2 = NULL;
 #endif
 
 
@@ -163,8 +163,8 @@ void FASTPRIM_init()
 	FASTPRIM_index_free_unused = FASTPRIM_index_max;
 
 #ifdef DEBUG
-	pvJustChecking1 = (void *)FASTPRIM_lvert_buffer;
-	pvJustChecking2 = (void *)FASTPRIM_index;
+	pvJustChecking1 = (void* )FASTPRIM_lvert_buffer;
+	pvJustChecking2 = (void* )FASTPRIM_index;
 #endif
 
 	FASTPRIM_call_upto = 0;
@@ -1380,8 +1380,8 @@ void FASTPRIM_fini()
 #ifdef DEBUG
 	ASSERT ( FASTPRIM_lvert_buffer != NULL );
 	ASSERT ( FASTPRIM_index != NULL );
-	ASSERT ( FASTPRIM_lvert_buffer == (void *)pvJustChecking1 );
-	ASSERT ( FASTPRIM_index == (void *)pvJustChecking2 );
+	ASSERT ( FASTPRIM_lvert_buffer == (void* )pvJustChecking1 );
+	ASSERT ( FASTPRIM_index == (void* )pvJustChecking2 );
 
 
 	char *pcTemp = (char *)( (SLONG)FASTPRIM_lvert + sizeof(D3DLVERTEX) * FASTPRIM_lvert_max );

@@ -155,7 +155,7 @@ extern CBYTE       PARSE_string_table[];
 extern CBYTE      *PARSE_error[];
 extern SLONG       PARSE_error_upto;
 
-void PARSE_do(CBYTE *fname);
+void PARSE_do(CBYTE* fname);
 
 
 

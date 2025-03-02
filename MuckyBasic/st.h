@@ -36,7 +36,7 @@ void ST_init();
 // DONT ADD THE SAME SYMBOL TWICE TO THE SAME TABLE!
 //
 
-void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag);
+void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag);
 
 
 //
@@ -47,9 +47,9 @@ void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag);
 extern SLONG  ST_found_table;	// The table the symbol was in.
 extern SLONG  ST_found_value;	// The value associated with that symbol.
 extern SLONG  ST_found_flag;
-extern CBYTE *ST_found_string;
+extern CBYTE* ST_found_string;
 
-SLONG ST_find(CBYTE *string);
+SLONG ST_find(CBYTE* string);
 
 
 //
@@ -57,7 +57,7 @@ SLONG ST_find(CBYTE *string);
 // It is an error if the symbol is not found.
 //
 
-void ST_update_flag(CBYTE *string, SLONG new_flag);
+void ST_update_flag(CBYTE* string, SLONG new_flag);
 
 
 
@@ -68,7 +68,7 @@ void ST_update_flag(CBYTE *string, SLONG new_flag);
 // false there is nothing left to find.
 //
 
-void  ST_find_all_start();
+void ST_find_all_start();
 SLONG ST_find_all_next ();
 
 

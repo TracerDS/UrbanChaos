@@ -12,7 +12,7 @@
 
 #define CLIP_BUFFER_SIZE 2048
 
-UBYTE  CLIP_buffer[CLIP_BUFFER_SIZE];
+UBYTE CLIP_buffer[CLIP_BUFFER_SIZE];
 UBYTE *CLIP_buffer_upto = CLIP_buffer;
 
 
@@ -21,9 +21,9 @@ UBYTE *CLIP_buffer_upto = CLIP_buffer;
 // given size.
 //
 
-inline void *CLIP_malloc(ULONG size)
+inline void* CLIP_malloc(ULONG size)
 {
-	void *ans;
+	void* ans;
 
 	ASSERT(size < CLIP_BUFFER_SIZE);
 
@@ -41,11 +41,11 @@ inline void *CLIP_malloc(ULONG size)
 
 
 void CLIP_do(
-		void ***polygon,
+		void* **polygon,
 		SLONG  *polygon_num_points,
 		SLONG   sizeof_polygon_point,
-		void  (*interpolate)(void *new_point, void *point1, void *point2, float amount_along_from_1_to_2),
-		float (*signed_distance_from_edge)(void *point))
+		void  (*interpolate)(void* new_point, void* point1, void* point2, float amount_along_from_1_to_2),
+		float (*signed_distance_from_edge)(void* point))
 {
 
 	SLONG i;
@@ -53,8 +53,8 @@ void CLIP_do(
 	SLONG i_p1;
 	SLONG i_p2;
 
-	void *p1;
-	void *p2;
+	void* p1;
+	void* p2;
 
 	float along;
 
@@ -62,7 +62,7 @@ void CLIP_do(
 	// The output buffer.
 	//
 
-	void **output = (void **) CLIP_malloc(2 * sizeof(void *) * *polygon_num_points);
+	void* *output = (void* *) CLIP_malloc(2 * sizeof(void* ) * *polygon_num_points);
 	SLONG  output_upto = 0;
 
 	//

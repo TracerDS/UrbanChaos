@@ -47,7 +47,7 @@ void FONT_draw(
 		float scale,		// 1.0F => Normal scale
 		SLONG cursor,		// If cursor is >= 0, then a cursor is drawn after the 'cursor'th character
 		float shimmer,		// How much to shimmer. 0.0F => no shimmering, 1.0F => maximum shimmering.
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 
 
 

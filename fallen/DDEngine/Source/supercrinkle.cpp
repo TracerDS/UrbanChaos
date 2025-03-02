@@ -205,7 +205,7 @@ ULONG SUPERCRINKLE_hash_function(SLONG crinkle, ULONG colour[4], ULONG specular[
 // Loads the given SUPERCRINKLE from the .SEX file.
 //
 
-void SUPERCRINKLE_load(SLONG crinkle, CBYTE *fname)
+void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 {
 	//
 	// Temporary buffer for holding points and faces.

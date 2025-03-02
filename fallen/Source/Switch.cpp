@@ -5,7 +5,7 @@
 #include	"statedef.h"
 #include	"Switch.h"
 
-StateFunction	switch_functions[]	=
+StateFunction switch_functions[]	=
 {
 	{	SWITCH_NONE,		NULL				},
 	{	SWITCH_PLAYER,		fn_switch_player	},
@@ -16,7 +16,7 @@ StateFunction	switch_functions[]	=
 
 //---------------------------------------------------------------
 
-void	init_switches()
+void init_switches()
 {
 	memset((UBYTE*)SWITCHES,0,sizeof(SWITCHES));
 	SWITCH_COUNT	=	0;
@@ -24,7 +24,7 @@ void	init_switches()
 
 //---------------------------------------------------------------
 
-Thing	*alloc_switch(UBYTE type)
+Thing *alloc_switch(UBYTE type)
 {
 	SLONG			c0;
 	Switch			*new_switch;
@@ -56,7 +56,7 @@ Thing	*alloc_switch(UBYTE type)
 
 //---------------------------------------------------------------
 
-void	free_switch(Thing *switch_thing)
+void free_switch(Thing *switch_thing)
 {
 	// Set the person type to none & free the thing.
 	switch_thing->Genus.Switch->SwitchType	=	SWITCH_NONE;
@@ -66,7 +66,7 @@ void	free_switch(Thing *switch_thing)
 
 //---------------------------------------------------------------
 
-THING_INDEX	create_switch()
+THING_INDEX create_switch()
 {
 	/*
 	Switch			*the_switch;
@@ -95,7 +95,7 @@ THING_INDEX	create_switch()
 
 //---------------------------------------------------------------
 
-void	process_switch_sphere(Thing *s_thing,GameCoord *scanee_coord)
+void process_switch_sphere(Thing *s_thing,GameCoord *scanee_coord)
 {
 	SLONG		distance;
 	Switch		*the_switch;
@@ -119,27 +119,27 @@ void	process_switch_sphere(Thing *s_thing,GameCoord *scanee_coord)
 
 //---------------------------------------------------------------
 
-void	fn_switch_player(Thing *s_thing)
+void fn_switch_player(Thing *s_thing)
 {
 	process_switch_sphere(s_thing,&NET_PERSON(0)->WorldPos);
 }
 
 //---------------------------------------------------------------
 
-void	fn_switch_thing(Thing *s_thing)
+void fn_switch_thing(Thing *s_thing)
 {
 	process_switch_sphere(s_thing,&TO_THING(s_thing->Genus.Switch->Scanee)->WorldPos);
 }
 
 //---------------------------------------------------------------
 
-void	fn_switch_group(Thing *s_thing)
+void fn_switch_group(Thing *s_thing)
 {
 }
 
 //---------------------------------------------------------------
 
-void	fn_switch_class(Thing *s_thing)
+void fn_switch_class(Thing *s_thing)
 {
 	/*
 

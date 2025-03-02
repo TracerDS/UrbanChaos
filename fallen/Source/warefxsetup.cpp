@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	warefx_type;
+SLONG warefx_type;
 
 //---------------------------------------------------------------
 
@@ -31,7 +31,7 @@ SLONG	warefx_type;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-bool	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -63,7 +63,7 @@ bool	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_warefx_setup(EventPoint *the_ep)
+void do_warefx_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	warefx_type 		=	the_ep->Data[0];
@@ -82,7 +82,7 @@ void	do_warefx_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_warefx_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_warefx_message(EventPoint *ep, CBYTE* msg) {
 	strcpy(msg,wwarefx_strings[ep->Data[0]]);
 	return msg;
 }

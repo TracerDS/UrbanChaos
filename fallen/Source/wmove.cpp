@@ -12,10 +12,10 @@
 //#include "prim.h"
 
 extern bool allow_debug_keys;
-extern	SLONG	save_psx;
+extern SLONG	save_psx;
 
 WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
-SLONG       WMOVE_face_upto;
+SLONG WMOVE_face_upto;
 
 #ifndef PSX
 void WMOVE_init()

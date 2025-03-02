@@ -16,8 +16,8 @@
 //
 
 SLONG *VM_code;
-SLONG  VM_code_max;
-SLONG  VM_code_upto;
+SLONG VM_code_max;
+SLONG VM_code_upto;
 SLONG *VM_code_pointer;		// The instruction we are executing...
 
 
@@ -27,7 +27,7 @@ SLONG *VM_code_pointer;		// The instruction we are executing...
 //
 
 ML_Data *VM_stack;
-SLONG    VM_stack_max;
+SLONG VM_stack_max;
 ML_Data *VM_stack_top;		// The top of the stack
 ML_Data *VM_stack_base;		// The current stack frame
 
@@ -37,7 +37,7 @@ ML_Data *VM_stack_base;		// The current stack frame
 //
 
 ML_Data *VM_global;
-SLONG    VM_global_max;
+SLONG VM_global_max;
 
 
 //
@@ -45,7 +45,7 @@ SLONG    VM_global_max;
 //
 
 UBYTE *VM_data;
-SLONG  VM_data_max;
+SLONG VM_data_max;
 
 
 
@@ -206,7 +206,7 @@ ML_Data VM_data_copy(ML_Data original)
 				SLONG length = MEM_block_size(original.strvar);
 
 				ans.type   = ML_TYPE_STRVAR;
-				ans.strvar = (CBYTE *) MEM_alloc(length);
+				ans.strvar = (CBYTE* ) MEM_alloc(length);
 
 				memcpy(ans.strvar, original.strvar, length);
 			}
@@ -341,17 +341,17 @@ void VM_convert_to_string(ML_Data *original)
 	switch(original->type)
 	{
 		case ML_TYPE_UNDEFINED:
-			ans.strvar = (CBYTE *) MEM_alloc(16);	// Enough to hold the string "<UNDEFINED>"
+			ans.strvar = (CBYTE* ) MEM_alloc(16);	// Enough to hold the string "<UNDEFINED>"
 			memcpy(ans.strvar, "<UNDEFINED>", 12);
 			break;
 
 		case ML_TYPE_SLUMBER:
-			ans.strvar = (CBYTE *) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a NULL.
+			ans.strvar = (CBYTE* ) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a NULL.
 			sprintf(ans.strvar, "%d", original->slumber);
 			break;
 
 		case ML_TYPE_FLUMBER:
-			ans.strvar = (CBYTE *) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a NULL.
+			ans.strvar = (CBYTE* ) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a NULL.
 			sprintf(ans.strvar, "%f", original->flumber);
 			break;
 
@@ -366,7 +366,7 @@ void VM_convert_to_string(ML_Data *original)
 
 		case ML_TYPE_BOOLEAN:
 
-			ans.strvar = (CBYTE *) MEM_alloc(6);	// Enough to hold the string "true" or "false"
+			ans.strvar = (CBYTE* ) MEM_alloc(6);	// Enough to hold the string "true" or "false"
 
 			if (original->boolean)
 			{
@@ -393,13 +393,13 @@ void VM_convert_to_string(ML_Data *original)
 // Returns the string held by the given string variable.
 //
 
-CBYTE *VM_get_string(ML_Data string)
+CBYTE* VM_get_string(ML_Data string)
 {
 	switch(string.type)
 	{
 		case ML_TYPE_STRCONST:
 			ASSERT(WITHIN(string.strconst, 0, VM_data_max - 2));
-			return (CBYTE *) (VM_data + string.strconst);
+			return (CBYTE* ) (VM_data + string.strconst);
 
 		case ML_TYPE_STRVAR:
 			return string.strvar;
@@ -1482,7 +1482,7 @@ void VM_execute()
 							//
 
 							result.type   = ML_TYPE_STRVAR;
-							result.strvar = (CBYTE *) MEM_alloc(length);
+							result.strvar = (CBYTE* ) MEM_alloc(length);
 
 							strcpy(result.strvar, str1);
 							strcat(result.strvar, str2);
@@ -1542,7 +1542,7 @@ void VM_execute()
 
 						ASSERT(WITHIN(VM_stack_top[0].strconst, 0, VM_data_max - 2));
 
-						CONSOLE_print((CBYTE *) (VM_data + VM_stack_top[0].strconst));
+						CONSOLE_print((CBYTE* ) (VM_data + VM_stack_top[0].strconst));
 
 						break;
 
@@ -3142,7 +3142,7 @@ void VM_execute()
 			case ML_DO_PUSH_INPUT:
 				
 				{
-					CBYTE *string;
+					CBYTE* string;
 
 					//
 					// Get user input!
@@ -3153,7 +3153,7 @@ void VM_execute()
 					VM_CHECK_STACK_PUSH();
 
 					VM_stack_top[0].type   = ML_TYPE_STRVAR;
-					VM_stack_top[0].strvar = (CBYTE *) MEM_alloc(strlen(string) + 1);
+					VM_stack_top[0].strvar = (CBYTE* ) MEM_alloc(strlen(string) + 1);
 
 					strcpy(VM_stack_top[0].strvar, string);
 
@@ -3916,7 +3916,7 @@ void VM_execute()
 				{
 					ML_Data ans;
 
-					CBYTE *input = VM_get_string(VM_stack_top[0]);
+					CBYTE* input = VM_get_string(VM_stack_top[0]);
 					SLONG  left  = VM_stack_top[1].slumber;
 
 					if (left < 0)
@@ -3929,10 +3929,10 @@ void VM_execute()
 					}
 
 					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (CBYTE *) MEM_alloc(left + 1);
+					ans.strvar = (CBYTE* ) MEM_alloc(left + 1);
 
-					CBYTE *src = input;
-					CBYTE *dst = ans.strvar;
+					CBYTE* src = input;
+					CBYTE* dst = ans.strvar;
 
 					while(left > 0)
 					{
@@ -3998,7 +3998,7 @@ void VM_execute()
 				{
 					ML_Data ans;
 
-					CBYTE *input = VM_get_string(VM_stack_top[0]);
+					CBYTE* input = VM_get_string(VM_stack_top[0]);
 					SLONG  in    = VM_stack_top[1].slumber - 1;	// - 1 because BASIC is 1-based not zero based.
 					SLONG  num   = VM_stack_top[2].slumber;
 					SLONG  len   = strlen(input);
@@ -4013,7 +4013,7 @@ void VM_execute()
 					}
 
 					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (CBYTE *) MEM_alloc(num + 1);
+					ans.strvar = (CBYTE* ) MEM_alloc(num + 1);
 
 					if (!WITHIN(in, 0, len - 1))
 					{
@@ -4021,8 +4021,8 @@ void VM_execute()
 					}
 					else
 					{
-						CBYTE *src = input + in;
-						CBYTE *dst = ans.strvar;
+						CBYTE* src = input + in;
+						CBYTE* dst = ans.strvar;
 
 						while(num > 0)
 						{
@@ -4089,14 +4089,14 @@ void VM_execute()
 				{
 					ML_Data ans;
 
-					CBYTE *input = VM_get_string(VM_stack_top[0]);
+					CBYTE* input = VM_get_string(VM_stack_top[0]);
 					SLONG  len   = VM_stack_top[1].slumber;
 
 					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (CBYTE *) MEM_alloc(len + 1);
+					ans.strvar = (CBYTE* ) MEM_alloc(len + 1);
 
-					CBYTE *src = input;
-					CBYTE *dst = ans.strvar;
+					CBYTE* src = input;
+					CBYTE* dst = ans.strvar;
 
 					while(*src) {src++;}
 
@@ -4318,7 +4318,7 @@ void VM_execute()
 
 
 
-void VM_run(CBYTE *fname)
+void VM_run(CBYTE* fname)
 {
 	SLONG i;
 

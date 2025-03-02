@@ -53,7 +53,7 @@ extern struct GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
 // Prototypes
 //
 
-SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG peep=0);
+SLONG load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG peep=0);
 
 
 //--------------------------------------------------------------------------
@@ -347,7 +347,7 @@ UBYTE ANIMAL_animate(Thing *animal) {
 // Change the animation
 //
 
-void	ANIMAL_set_anim(Thing *thing, SLONG anim) {
+void ANIMAL_set_anim(Thing *thing, SLONG anim) {
 	Animal *animal = ANIMAL_get_animal(thing);
 	UBYTE i;
 	SLONG chunk;
@@ -525,15 +525,15 @@ void ANIM_obj_draw_diddled(Thing *p_thing,DrawTween *dt,float xd,float yd,float 
 // Some convenient recentring stuff i had nowhere else convenient to shove
 
 /*
-struct	PrimPoint prim_points[MAX_PRIM_POINTS];
+struct PrimPoint prim_points[MAX_PRIM_POINTS];
 
-struct	PrimFace4 prim_faces4[MAX_PRIM_FACES3];
+struct PrimFace4 prim_faces4[MAX_PRIM_FACES3];
 
-struct	PrimFace3 prim_faces3[MAX_PRIM_FACES4];
+struct PrimFace3 prim_faces3[MAX_PRIM_FACES4];
 
-struct	PrimObject	prim_objects[MAX_PRIM_OBJECTS];
+struct PrimObject	prim_objects[MAX_PRIM_OBJECTS];
 
-struct	PrimMultiObject	prim_multi_objects[MAX_PRIM_MOBJECTS];
+struct PrimMultiObject	prim_multi_objects[MAX_PRIM_MOBJECTS];
 
 */
 

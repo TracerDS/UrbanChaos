@@ -92,16 +92,16 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 
 #endif
 
-extern	SLONG	am_i_a_thug(Thing *p_person);
-extern	void	drop_current_gun(Thing *p_person,SLONG change_anim);
-extern	SLONG	analogue;
+extern SLONG	am_i_a_thug(Thing *p_person);
+extern void	drop_current_gun(Thing *p_person,SLONG change_anim);
+extern SLONG	analogue;
 
 #ifndef TARGET_DC
 SLONG NIGHT_specular_enable = false;
 #endif
 
 SLONG draw_3d;
-extern	SLONG	mouse_input;
+extern SLONG	mouse_input;
 
 //CBYTE	tab_map_name[200];
 
@@ -115,9 +115,9 @@ LIGHT_Colour amb_choice[AMB_NUM_CHOICES] =
 };
 
 LIGHT_Colour amb_colour;
-SLONG        amb_choice_cur;
+SLONG amb_choice_cur;
 
-UWORD		controls;
+UWORD controls;
 
 
 // this allows darci to go undetected
@@ -171,7 +171,7 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", NULL};
+CBYTE* cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", NULL};
 
 EWAY_Way* eway_find(SLONG id)
 {
@@ -236,9 +236,9 @@ bool allow_debug_keys=0;
 
 bool dkeys_have_been_used;
 
-void parse_console(CBYTE *str) {
+void parse_console(CBYTE* str) {
   CBYTE cmd[20];
-  CBYTE *ptr=str, *pt2=cmd;
+  CBYTE* ptr=str, *pt2=cmd;
   UWORD i;
   Thing	*darci=NET_PERSON(0);
 
@@ -379,7 +379,7 @@ void parse_console(CBYTE *str) {
 //				CONSOLE_text("GAME LOADED");
 				break;
 			case 16:
-void	reload_level();
+void reload_level();
 				if(allow_debug_keys)
 					reload_level();
 				break;
@@ -417,7 +417,7 @@ void	reload_level();
 				MFX_load_wave_list();
 				break;
 			case 20:
-extern	UWORD	fade_black;
+extern UWORD	fade_black;
 				i=atoi(ptr);
 				if(i==0)
 					fade_black=1;
@@ -486,7 +486,7 @@ extern int AENG_detail_crinkles;
 
 TGA_Pixel tga[480 ][640 ];
 
-void	tga_dump()
+void tga_dump()
 {
 	SLONG i;
 	SLONG x;
@@ -909,8 +909,8 @@ void plan_view_shot()
 
 	{
 		CBYTE  fname[256];
-		CBYTE *mapname;
-		CBYTE *ch;
+		CBYTE* mapname;
+		CBYTE* ch;
 
 
 		if (ELEV_fname_level[0])
@@ -981,8 +981,8 @@ void plan_view_shot()
 
 
 
-SLONG	yomp_speed=40;
-SLONG	sprint_speed=70;
+SLONG yomp_speed=40;
+SLONG sprint_speed=70;
 
 extern UBYTE aeng_draw_cloud_flag;
 SLONG can_i_draw_this_special(Thing *p_special)
@@ -1001,7 +1001,7 @@ SLONG can_i_draw_this_special(Thing *p_special)
 }
 
 
-void	CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count) 
+void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count) 
 {
 	Thing *p_special = NULL;
 //	SBYTE count;
@@ -1077,7 +1077,7 @@ void	CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count)
 
 #ifndef PSX
 
-Form   *test_form;
+Form *test_form;
 Widget *widget_text;
 Widget *widget_ok;
 
@@ -1236,7 +1236,7 @@ SBYTE CONTROLS_get_best_item(Thing *darci, Thing *player)
 //
 // does the panel fade in, and if no item is focus it finds if you have a current weapon and sets that as focus
 //
-SLONG	CONTROLS_new_inventory(Thing *darci, Thing *player) 
+SLONG CONTROLS_new_inventory(Thing *darci, Thing *player) 
 {
 	UWORD temp = player->Genus.Player->PopupFade;
 	if (!temp) 
@@ -1276,7 +1276,7 @@ SLONG	CONTROLS_new_inventory(Thing *darci, Thing *player)
 
 //void	CONTROLS_set_inventory(Thing *darci, Thing *player);
 
-void	CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir,SLONG pull_it_out_ooooerrr) 
+void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir,SLONG pull_it_out_ooooerrr) 
 {
 	player->Genus.Player->ItemFocus+=dir;
 	if (player->Genus.Player->ItemFocus==-1) 
@@ -1290,7 +1290,7 @@ void	CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir,SLONG pull_it
 }											  
 
 /*
-void	CONTROLS_set_inventory(Thing *darci, Thing *player) {
+void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	Thing *p_special = NULL;
 	SBYTE count;
 
@@ -1367,10 +1367,10 @@ void	CONTROLS_set_inventory(Thing *darci, Thing *player) {
 //
 // PC VERSION
 //
-extern	UWORD	count_gang(Thing *p_target);
+extern UWORD	count_gang(Thing *p_target);
 
 // new cleaner version
-void	context_music()
+void context_music()
 {
 	UBYTE	mode = 0;
 	Thing	*darci;
@@ -1450,7 +1450,7 @@ void	context_music()
 // old skanky version
 #if 0
 
-void	context_music()
+void context_music()
 {
 	SLONG	music=0;
 	Thing	*darci;
@@ -1669,7 +1669,7 @@ void	context_music()
 
 #endif // old skanky version of context_music
 
-void	set_danger_level()
+void set_danger_level()
 {
 	SLONG num_found;
 	SLONG	i,j;
@@ -1782,7 +1782,7 @@ void	set_danger_level()
 }
 
 #ifndef PSX
-void	process_controls()
+void process_controls()
 {
 	SLONG i;
 	SLONG j;
@@ -2196,7 +2196,7 @@ void	process_controls()
 	{		
 		SLONG look = ROAD_get_mapsquare_type(darci->WorldPos.X >> 16, darci->WorldPos.Z >> 16);
 
-		CBYTE *look_names[] =
+		CBYTE* look_names[] =
 		{
 			"stone",
 			"grass",
@@ -2298,7 +2298,7 @@ SLONG is_person_crouching(Thing *p_person);
 	static bool  is_inputing=0;
 	extern UBYTE InkeyToAscii[];
 	extern UBYTE InkeyToAsciiShift[];
-	extern void CONSOLE_status(CBYTE *msg);
+	extern void CONSOLE_status(CBYTE* msg);
 
 	if (is_inputing) {
 		static CBYTE input_text[MAX_PATH]="] ";
@@ -2458,7 +2458,7 @@ SLONG is_person_crouching(Thing *p_person);
 	{
 		Keys[KB_F12]=0;
 
-extern	UBYTE	cheat;
+extern UBYTE	cheat;
 
 		if(cheat)
 		{
@@ -2488,8 +2488,8 @@ extern	UBYTE	cheat;
 
 	if(Keys[KB_F3])
 	{
-void	save_whole_game(CBYTE	*gamename);
-void	load_whole_game(CBYTE	*gamename);
+void save_whole_game(CBYTE	*gamename);
+void load_whole_game(CBYTE	*gamename);
 
 		Keys[KB_F3]=0;
 		if(ShiftFlag)
@@ -2605,11 +2605,11 @@ void	load_whole_game(CBYTE	*gamename);
 	*/
 
 
-void	set_person_idle(Thing *p_person);
+void set_person_idle(Thing *p_person);
 
 	if(Keys[KB_P])
 	{
-void	save_whole_game(CBYTE	*gamename);
+void save_whole_game(CBYTE	*gamename);
 		save_whole_game("save.me");
 
 	}
@@ -2618,7 +2618,7 @@ void	save_whole_game(CBYTE	*gamename);
 
 	if(Keys[KB_1])
 	{
-extern	UBYTE	anim_type[];
+extern UBYTE	anim_type[];
 										   
 		darci->Genus.Person->PersonType =  PERSON_DARCI;
 		darci->Genus.Person->AnimType =  ANIM_TYPE_DARCI;
@@ -3351,7 +3351,7 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz);
 	GameCoord posn;
 
 	if (Keys[KB_P7]) {
-		CBYTE *names[] = { "flicker", "ribbon", "explosion", "sparklies", "bonfire", "immolate", "testrib", "firewall", "new sploje", "new dome", "whoomph" };
+		CBYTE* names[] = { "flicker", "ribbon", "explosion", "sparklies", "bonfire", "immolate", "testrib", "firewall", "new sploje", "new dome", "whoomph" };
 		Keys[KB_P7]=0;
 		which_pyro++;
 		if (which_pyro==(sizeof(names)>>2)) which_pyro=0;
@@ -3860,7 +3860,7 @@ extern void PYRO_fn_init(Thing *thing);
 				darci->WorldPos.Z-(128<<8)+((Random()&0xff)<<11),
 				0,				0);
 
-extern	void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang);
+extern void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang);
 			PCOM_set_person_ai_kill_person(TO_THING(index),NET_PERSON(0),0);
 
 			skill += 2;
@@ -3931,7 +3931,7 @@ extern	void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLO
 		{
 			Keys[KB_X] = 0;
 			
-void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
+void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 			set_person_mav_to_xz(darci,nav_x<<8,nav_z<<8);
 			
 			ma_valid = true;
@@ -4481,8 +4481,8 @@ void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 		*/
 
 		/*
-extern	SLONG	FC_cam_dist;
-extern	SLONG	FC_cam_height;
+extern SLONG	FC_cam_dist;
+extern SLONG	FC_cam_height;
 		if(Keys[KB_7])
 		{
 			CBYTE	str[50];
@@ -4900,7 +4900,7 @@ extern	SLONG	FC_cam_height;
 }
 
 #else
-SLONG	 PSX_inv_open;
+SLONG PSX_inv_open;
 int PSX_inv_focus;
 int PSX_inv_count;
 int PSX_inv_select;
@@ -4946,7 +4946,7 @@ SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 }
 
 
-void	CONTROLS_new_inventory(Thing *darci, Thing *player) 
+void CONTROLS_new_inventory(Thing *darci, Thing *player) 
 {
 	PSX_inv_open=1;
 	PSX_inv_focus = CONTROLS_get_selected_item(darci,player);
@@ -4965,7 +4965,7 @@ void	CONTROLS_new_inventory(Thing *darci, Thing *player)
 */
 }
 
-void	CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir) 
+void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir) 
 {
 	PSX_inv_timer=3;
 	PSX_inv_focus+=dir;
@@ -4975,7 +4975,7 @@ void	CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir)
 		PSX_inv_focus=0;
 }
 /*
-void	CONTROLS_set_inventory(Thing *darci, Thing *player) {
+void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	Thing *p_special = NULL;
 	SBYTE count;
 
@@ -5050,7 +5050,7 @@ void	CONTROLS_set_inventory(Thing *darci, Thing *player) {
 // PSX VERSION
 //
 
-void	process_controls()
+void process_controls()
 {
 	SLONG i;
 	SLONG x;

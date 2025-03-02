@@ -10,15 +10,15 @@
 //#include	"collide.hpp"  //needed for ele_shift
 //#define		ShowWorkWindow(x)	{DrawLineC(0,0,WorkWindowWidth-1,WorkWindowHeight-1,255);DrawLineC(0,WorkWindowHeight-1,WorkWindowWidth-1,0,255); ShowWorkWindow(x);}
 
-extern	SLONG	editor_texture_set;
+extern SLONG	editor_texture_set;
 
 
 //---------------------------------------------------------------
-extern	void	icon_load_map(UWORD id);
-extern	void	icon_save_map(UWORD id);
-extern	void	handle_icon_click(UWORD id);
-extern	void	slider_redraw(void);
-extern	void	slider_redraw_in(void);
+extern void	icon_load_map(UWORD id);
+extern void	icon_save_map(UWORD id);
+extern void	handle_icon_click(UWORD id);
+extern void	slider_redraw(void);
+extern void	slider_redraw_in(void);
 
 #define	ICON_LOAD_MAP		0
 #define	ICON_SAVE_MAP		1
@@ -111,7 +111,7 @@ ControlDef	prim_content_def[]	=
 };
 //from edutil.cpp
 extern void	draw_a_key_frame_at(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern			void	reset_game(void);
+extern void	reset_game(void);
 
 UBYTE	back_dat[256*256];
 
@@ -207,8 +207,8 @@ SLONG	draw_background(void)
 	return(type);
 }	
 
-extern	void	init_hair(SLONG x,SLONG y,SLONG z);
-extern	void	draw_hair(void);
+extern void	init_hair(SLONG x,SLONG y,SLONG z);
+extern void	draw_hair(void);
 
 void	do_clip_keys(void)
 {
@@ -234,11 +234,11 @@ void	do_clip_keys(void)
 
 	
 }
-extern		void	mini_game_test(void);
-extern	void	interface_thing2(struct MapThing *p_thing);
+extern void	mini_game_test(void);
+extern void	interface_thing2(struct MapThing *p_thing);
 
-//extern	void	draw_col_vects(UWORD	col_vect_link);
-//extern	void	draw_actual_col_vect(UWORD	col_vect);
+//extern void	draw_col_vects(UWORD	col_vect_link);
+//extern void	draw_actual_col_vect(UWORD	col_vect);
 /*
 void	draw_map_col_vects(void)
 {
@@ -369,8 +369,8 @@ extern void	Demo3Dfx(void);
 				UBYTE	film=0;
 				struct	MapThing	*darci;
 
-extern	struct MapThing *init_test_bloke_system(void);
-extern	void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle);
+extern struct MapThing *init_test_bloke_system(void);
+extern void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle);
 //				if(!Keys[KB_B])
 				{
 					darci=init_test_bloke_system();
@@ -400,7 +400,7 @@ extern	void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle);
 				SetWorkWindowBounds(0,0,320,199);
 
 				
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
 
 				darci->X=engine.X>>8;
 				darci->Y=calc_height_at(darci->X,darci->Z);
@@ -464,10 +464,10 @@ extern	SLONG	calc_height_at(SLONG x,SLONG z);
 							{
 								SLONG	y;
 
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
 
 //								y=calc_height_at(engine.X>>8,engine.Z>>8);
-extern	SLONG	play_x,play_y,play_z;
+extern SLONG	play_x,play_y,play_z;
 								draw_test_bloke(darci->X,darci->Y,darci->Z,1,0);
 //								draw_test_bloke(engine.X>>8,y,engine.Z>>8,1,0);
 								if(ShiftFlag)
@@ -484,7 +484,7 @@ extern	SLONG	play_x,play_y,play_z;
 //							back_type=draw_background();
 							back_type=4;
 							render_view(0);
-//extern	void	draw_fader(void);
+//extern void	draw_fader(void);
 //	draw_fader();
 
 							{
@@ -555,7 +555,7 @@ extern	SLONG	play_x,play_y,play_z;
 			break;
 		case ICON_CREATE_CITY:
 			create_city(BUILD_MODE_EDITOR);
-extern	UWORD	count_empty_map_things(void);
+extern UWORD	count_empty_map_things(void);
 				LogText(" npp %d npf %d npf4 %d npo %d UNUSED th %d \n",next_prim_point,next_prim_face3,next_prim_face4,next_prim_object,count_empty_map_things());
 			break;
 	}
@@ -805,7 +805,7 @@ void	build_texture(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE page,UBYTE u0,UBYTE v0,
 
 //	setShade4((struct BucketQuad*)current_bucket_pool,128,128,128,128);
 
-	add_bucket((void *)current_bucket_pool,1);
+	add_bucket((void* )current_bucket_pool,1);
 	current_bucket_pool	+=	sizeof(struct BucketQuad);
 
 }
@@ -1227,7 +1227,7 @@ SLONG	LevelEditor::HandleTexStyleClick(UBYTE flags,MFPoint *clicked_point)
 	}
 	return(0);
 }
-extern	UWORD	page_remap[64*8];
+extern UWORD	page_remap[64*8];
 
 SLONG	LevelEditor::HandlePSXTexClick(UBYTE flags,MFPoint *clicked_point)
 {
@@ -1293,7 +1293,7 @@ void	LevelEditor::HandleStyleControl(ULONG  control_id)
 		case	CTRL_STYLE_NAME_EDIT:
 			if(PaintMode->CurrentStyleEdit)
 			{
-extern	void	fix_style_names(void);
+extern void	fix_style_names(void);
 				fix_style_names();
 				strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0],((CEditText*)StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
 			}
@@ -1301,7 +1301,7 @@ extern	void	fix_style_names(void);
 			//	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
 			break;
 		case	CTRL_STYLE_SAVE:
-extern	void	save_texture_styles(UBYTE world);
+extern void	save_texture_styles(UBYTE world);
 			save_texture_styles(editor_texture_set);
 
 			//SaveAllAnims(&test_chunk);			
@@ -1320,7 +1320,7 @@ void	LevelEditor::HandlePSXControl(ULONG  control_id)
 	{
 /*
 		case	CTRL_PSX_SAVE:
-extern	void	save_texture_styles(UBYTE world);
+extern void	save_texture_styles(UBYTE world);
 //			save_texture_styles(editor_texture_set);
 
 			//SaveAllAnims(&test_chunk);			
@@ -1518,7 +1518,7 @@ void	LevelEditor::HandleInStyleControl(ULONG  control_id)
 		case	CTRL_STYLE_NAME_EDIT:
 			if(PaintMode->CurrentStyleEdit)
 			{
-extern	void	fix_style_names(void);
+extern void	fix_style_names(void);
 				fix_style_names();
 				strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0],((CEditText*)InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
 			}
@@ -2443,7 +2443,7 @@ void	LevelEditor::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
 }
 
 //---------------------------------------------------------------
-extern	void	zoom_map_onto_screen(void);
+extern void	zoom_map_onto_screen(void);
 
 void	ApplyShadow(struct EditFace *edit_face,SLONG shadow)
 {
@@ -2792,7 +2792,7 @@ void	swap_maps();
 				break;
 
 			case	TAB_MAPED:
-extern	ULONG	engine_keys_scroll_plan(void);
+extern ULONG	engine_keys_scroll_plan(void);
 				//temp_update|=engine_keys_zoom();
 				update  += BuildMode->DoZoom();
 				temp_update|=engine_keys_scroll_plan();
@@ -3508,7 +3508,7 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 						//
 						// apply an individual texture to a wall face
 						//
-extern	void	apply_texture_to_wall_face(SLONG face,SLONG texture);
+extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
 						SLONG	t;
 						SLONG	x=0,y=0,c0;
 
@@ -3713,7 +3713,7 @@ SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
 }
 
 
-extern	UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
+extern UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
 bool	LevelEditor::ApplyTexture(struct EditFace *edit_face)
 {
 	SLONG			c0;

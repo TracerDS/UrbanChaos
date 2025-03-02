@@ -17,12 +17,12 @@
 
 //---------------------------------------------------------------
 
-SLONG		camera_type,camera_move,camera_speed,camera_delay,camera_freeze,camera_lock,camera_cant_interrupt;
-EventPoint  *use_me_to_debug;
+SLONG camera_type,camera_move,camera_speed,camera_delay,camera_freeze,camera_lock,camera_cant_interrupt;
+EventPoint *use_me_to_debug;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
@@ -95,7 +95,7 @@ bool	CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_camera_setup(EventPoint *the_ep)
+void do_camera_setup(EventPoint *the_ep)
 {
 	use_me_to_debug=the_ep;
 	camera_move           = the_ep->Data[0];
@@ -126,7 +126,7 @@ void	do_camera_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_camera_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_camera_message(EventPoint *ep, CBYTE* msg) {
   if ((!ep)||(!ep->Data[0])||(!ep->Data[1]))
 	  strcpy(msg,"Unknown");
   else

@@ -2,7 +2,7 @@
 // Guy Simmons, 13th February 1997.
 
 #include	"Editor.hpp"
-extern	UBYTE					CurrentPalette[256*3];
+extern UBYTE					CurrentPalette[256*3];
 /*
 #define	RGB_TO_RGB565(r,g,b)		(UWORD)(((r>>4)<<11)|((g>>3)<<5)|(b>>4))
 #define	RGB_TO_RGB888(r,g,b)		((r<<16)|(g<<8)|(b))
@@ -506,8 +506,8 @@ duplicate_pixels:
 	}
 }
 
-extern	void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
-extern	void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
 
 void	DrawBSpriteC16(SLONG x,SLONG y,BSprite *the_sprite)
 {

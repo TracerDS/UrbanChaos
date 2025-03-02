@@ -94,7 +94,7 @@ float FACET_direction_matrix[9];
 
 
 
-void FACET_output(CBYTE *fmt, ...)
+void FACET_output(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -197,8 +197,8 @@ static int iNumFacetTextures = 0;
 //#define	FACET_REMOVAL_TEST		// show removed facets and use 'F' key to swap (must be defined in build2.cpp too)
 
 SLONG	dfacets_drawn_this_gameturn;
-extern	SLONG	get_fence_hole(struct DFacet *p_facet);
-extern	SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along);
+extern SLONG	get_fence_hole(struct DFacet *p_facet);
+extern SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along);
 
 static	ULONG	facet_seed=0x12345678;
 
@@ -2223,7 +2223,7 @@ added_crinkle_common:;
 
 
 
-extern	UWORD	fade_black;
+extern UWORD	fade_black;
 
 void FACET_draw_quick(SLONG facet,UBYTE alpha)
 {
@@ -2843,7 +2843,7 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 		CBYTE	str[10];
 		sprintf(str,"facet %d h %d bs %d",facet,p_facet->Height,p_facet->BlockHeight);
 
-extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
 		FONT2D_DrawString_3d(str,p_facet->x[0]<<8,p_facet->Y[0],p_facet->z[0]<<8,0xff0000,60,0);
 	}
 */

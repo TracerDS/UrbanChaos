@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-SWORD	AtanTable[] =
+SWORD AtanTable[] =
 {
 	2048L*0/131072L,
 	2048L*81/131072L,
@@ -269,7 +269,7 @@ SWORD	AtanTable[] =
 
 //---------------------------------------------------------------
 
-SLONG	SinTable[]=
+SLONG SinTable[]=
 {
 	0,	//	    0	0.00	0.000000
 	201,	//	    1	0.18	0.003068
@@ -2833,11 +2833,11 @@ SLONG	SinTable[]=
 	65535,	//	 2559	449.82	7.850914
 };
 
-SLONG	*CosTable	=	&SinTable[512];
+SLONG *CosTable	=	&SinTable[512];
 
 //---------------------------------------------------------------
 
-float	SinTableF[]	=	
+float SinTableF[]	=	
 {
 	(float)0.000000,	// 0
 	(float)0.003068,	// 1
@@ -5401,10 +5401,10 @@ float	SinTableF[]	=
 	(float)0.999995,	// 511
 };
 
-float	*CosTableF	=	&SinTableF[512];
+float *CosTableF	=	&SinTableF[512];
 
 //---------------------------------------------------------------
-SLONG	Proportions[]	=
+SLONG Proportions[]	=
 {
 	11585,
 	11563,

@@ -49,9 +49,9 @@ typedef struct
 #define ES_MAX_UNDO 64
 
 ES_Undo ES_undo[ES_MAX_UNDO];
-SLONG   ES_undo_top;	// A circular system: Access these values MOD ES_MAX_UNDO
-SLONG   ES_undo_bot;
-SLONG   ES_undo_stage;
+SLONG ES_undo_top;	// A circular system: Access these values MOD ES_MAX_UNDO
+SLONG ES_undo_bot;
+SLONG ES_undo_stage;
 
 
 
@@ -851,7 +851,7 @@ typedef struct
 } ES_Header;
 
 
-SLONG ES_save(CBYTE *filename)
+SLONG ES_save(CBYTE* filename)
 {
 	ES_Header ed;
 
@@ -901,7 +901,7 @@ SLONG ES_save(CBYTE *filename)
 	return false;
 }
 
-SLONG ES_load(CBYTE *filename)
+SLONG ES_load(CBYTE* filename)
 {
 	ES_Header ed;
 
@@ -1523,7 +1523,7 @@ SLONG ES_city_water_get(SLONG x, SLONG z)
 	}
 }
 
-void  ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
+void ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
 {
 	SLONG ground;
 	SLONG wlevel;

@@ -51,24 +51,24 @@ struct	BodyDef
 };
 
 //data
-extern	struct	AnimItem	anim_item[MAX_CREATURE_TYPES][MAX_ANIMS_PER_CREATURE];
-extern	struct	PrimMultiAnim	prim_multi_anims[];	//500K
+extern struct	AnimItem	anim_item[MAX_CREATURE_TYPES][MAX_ANIMS_PER_CREATURE];
+extern struct	PrimMultiAnim	prim_multi_anims[];	//500K
 
-extern	UWORD	next_prim_multi_anim;
+extern UWORD	next_prim_multi_anim;
 
 
 
 
 // FUNCTIONS
 
-extern	SBYTE	read_a_multi_vue(SLONG m_object);
-extern	void	animate_and_draw_chap();
-extern	void	setup_people_anims();
-extern	void	setup_extra_anims();
-extern	void	setup_global_anim_array();
+extern SBYTE	read_a_multi_vue(SLONG m_object);
+extern void	animate_and_draw_chap();
+extern void	setup_people_anims();
+extern void	setup_extra_anims();
+extern void	setup_global_anim_array();
 
-extern	SLONG	next_game_chunk;
-extern	SLONG	next_anim_chunk;
+extern SLONG	next_game_chunk;
+extern SLONG	next_anim_chunk;
 
 
 
@@ -355,7 +355,7 @@ class	Anim
 							~Anim();
 		void				AddKeyFrame(KeyFrame *the_frame);
 		void				RemoveKeyFrame(KeyFrame *the_frame);
-		inline void			SetAnimName(CBYTE *string)					{	strcpy(AnimName,string);	}
+		inline void			SetAnimName(CBYTE* string)					{	strcpy(AnimName,string);	}
 		inline CBYTE		*GetAnimName()							{	return AnimName;			}
 		inline void			SetCurrentFrame(KeyFrame *the_frame)		{	CurrentFrame=the_frame;		}
 		inline KeyFrame		*GetFrameList()							{	return FrameListStart;		}
@@ -396,7 +396,7 @@ class Character
 		void				AddAnim(Anim *the_anim);		
 		void				RemoveAnim(Anim *the_anim);
 		inline CBYTE		*GetCharName()				{	return CharName;			}
-		inline void			SetCharName(CBYTE *string)		{	strcpy(CharName,string);	}
+		inline void			SetCharName(CBYTE* string)		{	strcpy(CharName,string);	}
 		inline UWORD		GetMultiObject()			{	return MultiObject;			}
 		inline void			SetMultiObject(UWORD multi)		{	MultiObject=multi;			}
 };

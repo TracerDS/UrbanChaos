@@ -30,10 +30,10 @@ SLONG OS_process_messages();
 // Returns the Mhz of the current processor.
 //
 
-void  OS_string       (CBYTE *fmt, ...);
-void  OS_reset_ticks  ();
+void OS_string       (CBYTE* fmt, ...);
+void OS_reset_ticks  ();
 SLONG OS_ticks        ();
-void  OS_ticks_reset  ();
+void OS_ticks_reset  ();
 SLONG OS_processor_mhz();
 
 
@@ -59,7 +59,7 @@ typedef struct os_texture OS_Texture;
 #define OS_TEXTURE_FORMAT_8		 3		// Grayscale
 #define OS_TEXTURE_FORMAT_NUMBER 4
 
-OS_Texture *OS_texture_create(CBYTE *fname, SLONG invert = false);
+OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert = false);
 OS_Texture *OS_texture_create(SLONG size,   SLONG format);
 
 //
@@ -451,7 +451,7 @@ typedef struct os_sound OS_Sound;
 #define OS_SOUND_TYPE_2D     1
 #define OS_SOUND_TYPE_3D     2
 
-OS_Sound *OS_sound_create(CBYTE *fname, SLONG type);
+OS_Sound *OS_sound_create(CBYTE* fname, SLONG type);
 
 
 //

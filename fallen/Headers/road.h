@@ -22,8 +22,8 @@ typedef struct
 
 #define ROAD_MAX_NODES 256
 
-extern	ROAD_Node *ROAD_node;
-extern	SLONG      ROAD_node_upto;
+extern ROAD_Node *ROAD_node;
+extern SLONG      ROAD_node_upto;
 
 //
 // The indices of nodes that lead off (or onto) the map.

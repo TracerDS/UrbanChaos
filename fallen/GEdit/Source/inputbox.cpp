@@ -14,7 +14,7 @@ extern HWND			GEDIT_view_wnd;
 
 //---------------------------------------------------------------
 
-CBYTE *the_title, *the_txt, *the_prompt;
+CBYTE* the_title, *the_txt, *the_prompt;
 
 
 //---------------------------------------------------------------
@@ -63,7 +63,7 @@ bool	CALLBACK	ib_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //---------------------------------------------------------------
 
 
-CBYTE *InputBox(CBYTE *title, CBYTE *prompt, CBYTE *txt) {
+CBYTE* InputBox(CBYTE* title, CBYTE* prompt, CBYTE* txt) {
 	SLONG res;
 
 	//	Set the dialog.

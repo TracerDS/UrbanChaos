@@ -14,7 +14,7 @@
 // 
 
 BALLOON_Balloon *BALLOON_balloon;//[BALLOON_MAX_BALLOONS];
-SLONG           BALLOON_balloon_upto;
+SLONG BALLOON_balloon_upto;
 
 //
 // The desired distance between balloon points.

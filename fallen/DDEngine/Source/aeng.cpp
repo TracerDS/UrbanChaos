@@ -1761,7 +1761,7 @@ void AENG_do_cached_lighting_old()
 
 	NIGHT_Square *nq;
 	
-extern	SLONG	HEAP_max_free();
+extern SLONG	HEAP_max_free();
 
 	if(HEAP_max_free()<4000 || Keys[KB_Q])
 	{
@@ -6269,7 +6269,7 @@ inline	void	general_steam(SLONG x,SLONG z,UWORD texture,SLONG mode)
 	{
 		for(SLONG c0=0;c0<count_steam;c0++)
 		{
-extern	void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
+extern void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
 			draw_steam(stx[c0],sty[c0],stz[c0],lod[c0]);//10+(15-dist)*3);
 
 		}
@@ -7221,7 +7221,7 @@ extern DIJOYSTATE			the_state;
 //#endif
 	{
 
-	extern	SLONG	tick_tock_unclipped;
+	extern SLONG	tick_tock_unclipped;
 		if(tick_tock_unclipped)
 		{
 			int iFramerate = 1000/tick_tock_unclipped;
@@ -7338,7 +7338,7 @@ void	draw_all_boxes();
 	draw_all_boxes();
 
 
-extern	SLONG	tick_tock_unclipped;
+extern SLONG	tick_tock_unclipped;
 	sea_offset+=(tick_tock_unclipped);
 
 
@@ -7487,7 +7487,7 @@ extern	SLONG	tick_tock_unclipped;
 			ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 			ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-extern	UBYTE	player_visited[16][128];
+extern UBYTE	player_visited[16][128];
 //			player_visited[x>>3][z]|=1<<(x&7);
 
 			ph = &PAP_2HI(x,z);
@@ -9034,7 +9034,7 @@ extern	UBYTE	player_visited[16][128];
 
 	LOG_ENTER ( AENG_Draw_Sky )
 
-extern	void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world_camera_z,float world_camera_yaw,float max_dist,ULONG bot_colour,ULONG top_colour);
+extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world_camera_z,float world_camera_yaw,float max_dist,ULONG bot_colour,ULONG top_colour);
 
 #ifdef TARGET_DC
 	// Fade sky textures out a bit.
@@ -9203,7 +9203,7 @@ extern	void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 						POLY_transform((x+1)<<8,y, (z+1)<<8, &fake_roof[2]);
 
 
-	extern	UWORD	hidden_roof_index[128][128];
+	extern UWORD	hidden_roof_index[128][128];
 
 						light_lookup=hidden_roof_index[x][z];
 
@@ -10034,7 +10034,7 @@ extern HWND GEDIT_edit_wnd;
 							case DT_PRIM:
 								break;
 							case DT_ANIM_PRIM:
-								extern	void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
+								extern void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
 								ANIM_obj_draw(p_thing,p_thing->Draw.Tweened);
 
 								if (p_thing->Class == CLASS_BAT &&
@@ -10581,7 +10581,7 @@ extern HWND GEDIT_edit_wnd;
 								break;
 							case DT_ANIMAL_PRIM:
 #if 0
-extern	void	ANIMAL_draw(Thing *p_thing);
+extern void	ANIMAL_draw(Thing *p_thing);
 								ANIMAL_draw(p_thing);
 #endif
 								break;
@@ -11450,7 +11450,7 @@ void	AENG_draw_far_facets()
 
 
 									show_facet(facet);
-extern	void FACET_draw_quick(SLONG facet,UBYTE alpha);
+extern void FACET_draw_quick(SLONG facet,UBYTE alpha);
 									FACET_draw_quick(facet,0);
 #ifdef DEBUG
 									count++;
@@ -14237,7 +14237,7 @@ void	AENG_screen_shot()
 
 		if (the_display.screen_lock())
 		{
-extern	void	tga_dump();
+extern void	tga_dump();
 			tga_dump();
 
 			the_display.screen_unlock();
@@ -14435,7 +14435,7 @@ void AENG_draw_messages()
 		//
 
 		FONT_draw(DisplayWidth >> 1, 20, "Facets: %d", dfacets_drawn_this_gameturn);
-extern	SLONG	damp;
+extern SLONG	damp;
 		FONT_draw(20,30, "DAMP: %d", damp);
 		*/
 
@@ -14844,7 +14844,7 @@ void AENG_e_draw_3d_mapwho_y(SLONG x1, SLONG y1, SLONG z1)
 
 //---------------------------------------------------------------
 
-void	AENG_demo_attract(SLONG x,SLONG y,CBYTE *text)
+void	AENG_demo_attract(SLONG x,SLONG y,CBYTE* text)
 {
 	/*
 
@@ -15523,7 +15523,7 @@ void AENG_world_text(
 		UBYTE  blue,
 		UBYTE  green,
 		UBYTE  shadowed_or_not,
-		CBYTE *fmt, ...)
+		CBYTE* fmt, ...)
 {
 	POLY_Point pp;
 
@@ -16667,7 +16667,7 @@ void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 	//
 	// draw the internal walls
 	//
-extern	void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
+extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 	draw_insides(inside_index,inside_room,fade);
 
 

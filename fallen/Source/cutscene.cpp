@@ -124,24 +124,24 @@ CBYTE interpolate_strings[]="snap|linear|smooth in|smooth out|smooth both";
 
 #define SLOMO_RATE	(10)
 
-PropertyEditor	*pedit;
-TreeBrowser		*browser;
-DragServer		*drag;
-TimeLine		*timeline;
-TimeLineRuler	*ruler;
-TimeLineScroll	*scroll;
-CSData			*cutscene;
-CSPacket		*current_packet=0;
+PropertyEditor *pedit;
+TreeBrowser *browser;
+DragServer *drag;
+TimeLine *timeline;
+TimeLineRuler *ruler;
+TimeLineScroll *scroll;
+CSData *cutscene;
+CSPacket *current_packet=0;
 
-HWND			CUTSCENE_edit_wnd=0;
-bool			CUTSCENE_mouselook=0;
-bool			CUTSCENE_playback=0;
-bool			CUTSCENE_slomo=0;
-bool			CUTSCENE_need_keyboard=0;
-HTREEITEM		darcianim,roperanim,soundbase;
-int				CUTSCENE_slomo_ctr=SLOMO_RATE;
-UBYTE			CUTSCENE_fade_level=255;
-CBYTE			subtitle_str[255];
+HWND CUTSCENE_edit_wnd=0;
+bool CUTSCENE_mouselook=0;
+bool CUTSCENE_playback=0;
+bool CUTSCENE_slomo=0;
+bool CUTSCENE_need_keyboard=0;
+HTREEITEM darcianim,roperanim,soundbase;
+int CUTSCENE_slomo_ctr=SLOMO_RATE;
+UBYTE CUTSCENE_fade_level=255;
+CBYTE subtitle_str[255];
 
 //---------------------------------------------------------------
 
@@ -492,7 +492,7 @@ void CUTSCENE_remove(CSData* cutscene) {
 
 
 /*
-SLONG	CUTSCENE_how_long_is_anim(SLONG who, SLONG anim)
+SLONG CUTSCENE_how_long_is_anim(SLONG who, SLONG anim)
 {
 	GameKeyFrame	*frame;
 	SLONG	total=0;
@@ -540,9 +540,9 @@ void InitProps(PropertyEditor *pedit, UWORD type) {
 	}
 }
 */
-SLONG	LoadAllAnimNames(CBYTE *fname, TreeBrowser *browser, SLONG base_ctr);
+SLONG LoadAllAnimNames(CBYTE* fname, TreeBrowser *browser, SLONG base_ctr);
 
-int GetItemIndex(CBYTE *str, CBYTE *pathtail) {
+int GetItemIndex(CBYTE* str, CBYTE* pathtail) {
 	int i;
 	CBYTE combined[_MAX_PATH];
 
@@ -559,11 +559,11 @@ int GetItemIndex(CBYTE *str, CBYTE *pathtail) {
 	return 0;
 }
 
-int ScanWavs(TreeBrowser *browser, CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld, CBYTE *pathtail) {
+int ScanWavs(TreeBrowser *browser, CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld, CBYTE* pathtail) {
 	HANDLE handle;
 	bool res;
 	WIN32_FIND_DATA data;
-	CBYTE *pt;
+	CBYTE* pt;
 	int count=0, itemndx;
 
     handle = FindFirstFile(path, &data);
@@ -685,7 +685,7 @@ void SkipBodyPartInfo(MFFileHandle file_handle)
 	}
 }
 
-void	LoadAnim(MFFileHandle file_handle, TreeBrowser *browser, SLONG num)
+void LoadAnim(MFFileHandle file_handle, TreeBrowser *browser, SLONG num)
 {
 	CBYTE			anim_name[ANIM_NAME_SIZE];
 	CBYTE			full_name[ANIM_NAME_SIZE+20];
@@ -746,7 +746,7 @@ void	LoadAnim(MFFileHandle file_handle, TreeBrowser *browser, SLONG num)
 	}
 }
 
-SLONG	LoadAllAnimNames(CBYTE *fname, TreeBrowser *browser, SLONG base_ctr)
+SLONG LoadAllAnimNames(CBYTE* fname, TreeBrowser *browser, SLONG base_ctr)
 {
 	SLONG			anim_count,version,
 					c0;
@@ -829,8 +829,8 @@ void MouselookToggle() {
 	}
 }
 
-int get_index_from_string(CBYTE *string, CBYTE *opts) {
-	CBYTE *pt,*buff;
+int get_index_from_string(CBYTE* string, CBYTE* opts) {
+	CBYTE* pt,*buff;
 	int   i=0, r=-1;
 
 	buff=(CBYTE*)malloc(strlen(opts)+1);
@@ -849,8 +849,8 @@ int get_index_from_string(CBYTE *string, CBYTE *opts) {
 
 }
 
-CBYTE* get_string_from_index(int index, CBYTE *opts, CBYTE *result) {
-	CBYTE *pt=opts;
+CBYTE* get_string_from_index(int index, CBYTE* opts, CBYTE* result) {
+	CBYTE* pt=opts;
 
 	while (index--) {
 	  pt=strchr(pt,'|');
@@ -865,7 +865,7 @@ CBYTE* get_string_from_index(int index, CBYTE *opts, CBYTE *result) {
 }
 
 
-int	CUTSCENE_get_chan_from_item(CSData *cutscene, Thing *dragitem) {
+int CUTSCENE_get_chan_from_item(CSData *cutscene, Thing *dragitem) {
 	int channum;
 	CSEditChannel* chan=cutscene->editchannels;
 	for (channum=0;channum<cutscene->channelcount;channum++,chan++)
@@ -1438,7 +1438,7 @@ int LerpModeMangle(int selection, int which) {
 	return res;
 }
 
-int	UnMangleLerp(int flags, int which) {
+int UnMangleLerp(int flags, int which) {
 	if (which==1) flags>>=1;
 	if (which==2) flags>>=4;
 	flags&=(1|2|4);
@@ -1545,7 +1545,7 @@ bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
 }
 
 
-bool propeditCB(PropertyEditor *tb, int reason, int index, CBYTE *value) {
+bool propeditCB(PropertyEditor *tb, int reason, int index, CBYTE* value) {
 	int res,i;
 
 	switch(reason) {
@@ -1650,7 +1650,7 @@ bool propeditCB(PropertyEditor *tb, int reason, int index, CBYTE *value) {
 	return false;
 }
 
-LRESULT	CALLBACK	scene_map_view_proc	(
+LRESULT CALLBACK	scene_map_view_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -1739,7 +1739,7 @@ LRESULT	CALLBACK	scene_map_view_proc	(
 
 extern SLONG	how_long_is_anim(SLONG anim);
 
-bool	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND the_ctrl;
 	static UINT timer;
@@ -2017,11 +2017,11 @@ bool	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-extern	SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG type=0);
+extern SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG type=0);
 extern void	setup_anim_stuff();
 extern void	setup_global_anim_array();
 
-void	do_cutscene_setup(EventPoint *the_ep)
+void do_cutscene_setup(EventPoint *the_ep)
 {
 	HWND dlg;
 	MSG msg;

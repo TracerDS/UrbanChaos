@@ -9,12 +9,12 @@ volatile UBYTE	AltFlag,
 				ShiftFlag;
 volatile UBYTE	Keys[256],
 				LastKey;
-HHOOK			KeyboardHook;
+HHOOK KeyboardHook;
 
 
 //---------------------------------------------------------------
 
-bool	SetupKeyboard()
+bool SetupKeyboard()
 {
 	AltFlag		=	0;
 	ControlFlag	=	0;
@@ -44,7 +44,7 @@ bool	SetupKeyboard()
 
 //---------------------------------------------------------------
 
-void	ResetKeyboard()
+void ResetKeyboard()
 {
 #ifdef	_RELEASE
 	if(KeyboardHook)

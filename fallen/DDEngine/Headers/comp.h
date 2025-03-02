@@ -43,7 +43,7 @@ typedef struct
 #define COMP_TGA_MAX_WIDTH  640
 #define COMP_TGA_MAX_HEIGHT	480
 
-SLONG COMP_load(CBYTE *filename, COMP_Frame *cf);
+SLONG COMP_load(CBYTE* filename, COMP_Frame *cf);
 
 //
 // Calculates a structure that maps one frame onto the next.

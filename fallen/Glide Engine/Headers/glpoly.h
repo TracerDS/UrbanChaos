@@ -191,11 +191,11 @@ void POLY_fadeout_buffer();
 SLONG POLY_valid_triangle(POLY_Point *p[3]);
 SLONG POLY_valid_quad    (POLY_Point *p[4]);
 SLONG POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
-void  POLY_add_triangle  (POLY_Point *p[3], SLONG page, SLONG shall_i_backface_cull);
-void  POLY_add_quad      (POLY_Point *p[4], SLONG page, SLONG shall_i_backface_cull);
-void  POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG sort_to_front);
-void  POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, ULONG colour);
-void  POLY_clip_line_box (float sx1, float sy1, float sx2, float sy2);
-void  POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, ULONG colour);
+void POLY_add_triangle  (POLY_Point *p[3], SLONG page, SLONG shall_i_backface_cull);
+void POLY_add_quad      (POLY_Point *p[4], SLONG page, SLONG shall_i_backface_cull);
+void POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG sort_to_front);
+void POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, ULONG colour);
+void POLY_clip_line_box (float sx1, float sy1, float sx2, float sy2);
+void POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, ULONG colour);
 
 #endif

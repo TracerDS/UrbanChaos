@@ -21,7 +21,7 @@
 SLONG			enemyf_flags,
 				enemyf_to_change;
 
-extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
+extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 #define STR_LEN 800
 
 //---------------------------------------------------------------

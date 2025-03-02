@@ -15,7 +15,7 @@
 // Messages drawn straight to the screen.
 //
 
-//void MSG_add(CBYTE *message, ...);
+//void MSG_add(CBYTE* message, ...);
 
 //
 // This function returns the height of the floor at (x,z).
@@ -43,7 +43,7 @@ typedef struct
 #endif
 
 MIST_Point MIST_point[MIST_MAX_POINTS];
-SLONG      MIST_point_upto;
+SLONG MIST_point_upto;
 
 
 typedef struct
@@ -60,7 +60,7 @@ typedef struct
 #define MIST_MAX_MIST 8
 
 MIST_Mist MIST_mist[MIST_MAX_MIST];
-SLONG     MIST_mist_upto;
+SLONG MIST_mist_upto;
 
 
 
@@ -465,7 +465,7 @@ void MIST_get_point(SLONG px, SLONG pz,
 	*y = /*PAP_calc_height_at(*x,*z) +*/ mm->height;
 }
 
-void  MIST_get_texture(SLONG px, SLONG pz,
+void MIST_get_texture(SLONG px, SLONG pz,
 		float *u,
 		float *v)
 {

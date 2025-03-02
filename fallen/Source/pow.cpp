@@ -17,11 +17,11 @@
 //
 
 POW_Sprite POW_sprite[POW_MAX_SPRITES];
-UBYTE      POW_sprite_free;
+UBYTE POW_sprite_free;
 
 POW_Pow POW_pow[POW_MAX_POWS];
-UBYTE   POW_pow_free;
-UBYTE	POW_pow_used;
+UBYTE POW_pow_free;
+UBYTE POW_pow_used;
 
 UBYTE POW_mapwho[PAP_SIZE_LO];
 
@@ -283,7 +283,7 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
 void POW_init()
 {
 	SLONG i;
-void	check_pows();
+void check_pows();
 		check_pows();
 
 	memset(POW_sprite, 0, sizeof(POW_sprite));
@@ -309,7 +309,7 @@ void	check_pows();
 }
 
 #ifdef	POO
-SLONG	count_occurances(SLONG find)
+SLONG count_occurances(SLONG find)
 {
 	SLONG	sprite;
 	SLONG	count=0;
@@ -329,7 +329,7 @@ SLONG	count_occurances(SLONG find)
 
 }
 
-SLONG	count_used(SLONG find)
+SLONG count_used(SLONG find)
 {
 	SLONG	pow,count2,sprite;
 	POW_Pow    *pp;
@@ -364,7 +364,7 @@ SLONG	count_used(SLONG find)
 
 }
 #endif
-void	check_pows()
+void check_pows()
 {
 	SLONG	sprite;
 #ifdef	POO

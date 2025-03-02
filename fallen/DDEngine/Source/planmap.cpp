@@ -15,7 +15,7 @@
 #define	EDGE_RIGHT	(1<<2)
 #define	EDGE_BOTTOM	(1<<3)
 
-extern	UBYTE	player_visited[16][128];
+extern UBYTE	player_visited[16][128];
 
 
 

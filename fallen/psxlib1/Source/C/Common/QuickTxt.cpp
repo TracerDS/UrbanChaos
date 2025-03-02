@@ -40,7 +40,7 @@ extern UBYTE	*CharTable[];
 
 //---------------------------------------------------------------
 
-void	QuickText8(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
+void QuickText8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 {
 	UBYTE		*the_char_def,
 				*string_dest;
@@ -61,7 +61,7 @@ void	QuickText8(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
 	}
 }
 
-void	QuickText16(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
+void QuickText16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 {
 	UBYTE		*the_char_def;
 	UWORD		*string_dest;
@@ -82,7 +82,7 @@ void	QuickText16(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
 	}
 }
 
-void	QuickText32(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
+void QuickText32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 {
 	UBYTE		*the_char_def;
 	ULONG		*string_dest;
@@ -105,7 +105,7 @@ void	QuickText32(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	QuickTextC8(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
+void QuickTextC8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 {
 	UBYTE		*string_dest,
 				*the_char_def,
@@ -204,7 +204,7 @@ done_char:
 	}
 }
 
-void	QuickTextC16(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
+void QuickTextC16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 {
 	UWORD		*string_dest;
 	UBYTE		*the_char_def,
@@ -303,7 +303,7 @@ done_char:
 	}
 }
 
-void	QuickTextC32(SLONG x,SLONG y,CBYTE *the_string,ULONG colour)
+void QuickTextC32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 {
 	ULONG		*string_dest;
 	UBYTE		*the_char_def,
@@ -404,7 +404,7 @@ done_char:
 
 //---------------------------------------------------------------
 
-void	QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 {
 	UBYTE		*the_char_def,
 				*string_dest;
@@ -420,7 +420,7 @@ void	QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 	DRAW_CHAR
 }
 
-void	QuickChar16(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickChar16(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 {
 	UBYTE		*the_char_def;
 	UWORD		*string_dest;
@@ -436,7 +436,7 @@ void	QuickChar16(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 	DRAW_CHAR16
 }
 
-void	QuickChar32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickChar32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 {
 	UBYTE		*the_char_def;
 	ULONG		*string_dest;
@@ -453,7 +453,7 @@ void	QuickChar32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 }
 //---------------------------------------------------------------
 
-void	QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 {
 	if(x>=WorkWindowWidth || y>=WorkWindowHeight)
 		return;
@@ -466,7 +466,7 @@ void	QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 
 //---------------------------------------------------------------
 
-SLONG	QTStringWidth(CBYTE *the_string)
+SLONG QTStringWidth(CBYTE* the_string)
 {
 	SLONG		width	=	0;
 	

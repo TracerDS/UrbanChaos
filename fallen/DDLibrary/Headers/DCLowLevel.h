@@ -35,7 +35,7 @@ void DCLL_init(void);
 // Loads a sound from a file.
 //
 
-DCLL_Sound *DCLL_load_sound(CBYTE *fname);
+DCLL_Sound *DCLL_load_sound(CBYTE* fname);
 
 
 //
@@ -108,7 +108,7 @@ void DCLL_fini(void);
 void DCLL_stream_set_volume_range(float max_vol);	// 0.0F to 1.0F
 
 
-SLONG DCLL_stream_play(CBYTE *fname, SLONG loop = false);	// Play the file streaming off CD. Looping samples have a lower priority. Returns false if it doesn't issue the play.
+SLONG DCLL_stream_play(CBYTE* fname, SLONG loop = false);	// Play the file streaming off CD. Looping samples have a lower priority. Returns false if it doesn't issue the play.
 void  DCLL_stream_wait(void);								// Wait until the streaming file has finished playing
 void  DCLL_stream_stop(void);								// Stop the streaming sound.
 SLONG DCLL_stream_is_playing(void);							// Returns true if the streaming sound is still playing.
@@ -121,7 +121,7 @@ void  DCLL_stream_volume(float volume);						// 0.0F <= volume <= 1.0F
 //
 // ========================================================
 
-void DCLL_memstream_load  (CBYTE *fname);					// Loads the file.
+void DCLL_memstream_load  (CBYTE* fname);					// Loads the file.
 void DCLL_memstream_volume(float volume);					// 0.0F <= volume <= 1.0F
 void DCLL_memstream_play  (void);							// Loops and plays the file
 void DCLL_memstream_stop  (void);							// Stops playing the file

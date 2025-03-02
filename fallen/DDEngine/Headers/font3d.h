@@ -56,9 +56,9 @@ class Font3D {
 	float	 fontscale;
   public:
     void ClearLetters();
-	void AddLetter(CBYTE *fn);
+	void AddLetter(CBYTE* fn);
 	void DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb=0xffffff, float yaw=0, float roll=0, float pitch=0, float scale=3.5);
-	void DrawString(CBYTE *str, ULONG x, ULONG y, ULONG rgb=0xffffff, float scale=3.5, CBYTE wibble=0, UWORD zoom=0);
+	void DrawString(CBYTE* str, ULONG x, ULONG y, ULONG rgb=0xffffff, float scale=3.5, CBYTE wibble=0, UWORD zoom=0);
 	Font3D(char *path, float scale=1.0);
 	~Font3D();
 };

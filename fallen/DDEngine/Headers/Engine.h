@@ -24,7 +24,7 @@
 // Loads the palette
 //
 
-//void ENGINE_load_palette(CBYTE *palette);
+//void ENGINE_load_palette(CBYTE* palette);
 
 
 //

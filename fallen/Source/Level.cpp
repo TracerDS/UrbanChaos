@@ -25,16 +25,16 @@
 
 #endif
 
-UWORD			comlist_map[MAX_COMLISTS],
+UWORD comlist_map[MAX_COMLISTS],
 				conlist_map[MAX_CLISTS],
 				waypoint_map[MAX_WAYPOINTS];
-THING_INDEX		thing_map[MAX_THINGS];
+THING_INDEX thing_map[MAX_THINGS];
 
-void	store_player_pos(ThingDef *the_def);
+void store_player_pos(ThingDef *the_def);
 
 //---------------------------------------------------------------
 
-bool	load_thing_def(MFFileHandle the_file)
+bool load_thing_def(MFFileHandle the_file)
 {
 	Thing			*b_thing;
 	ThingDef		the_def;
@@ -122,7 +122,7 @@ bool	load_thing_def(MFFileHandle the_file)
 
 //---------------------------------------------------------------
 
-bool	load_waypoint_def(MFFileHandle the_file)
+bool load_waypoint_def(MFFileHandle the_file)
 {
 	UWORD			the_wp;
 	WaypointDef		the_def;
@@ -153,7 +153,7 @@ bool	load_waypoint_def(MFFileHandle the_file)
 
 //---------------------------------------------------------------
 
-bool	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
+bool load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
 {
 	FileRead(the_file,&the_def->Version,sizeof(the_def->Version));
 	if(the_def->Version==0)
@@ -171,7 +171,7 @@ bool	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
 
 //---------------------------------------------------------------
 
-bool	load_command_def(MFFileHandle the_file,CommandDef *the_def)
+bool load_command_def(MFFileHandle the_file,CommandDef *the_def)
 {
 	FileRead(the_file,&the_def->Version,sizeof(the_def->Version));
 	if(the_def->Version==0)
@@ -189,7 +189,7 @@ bool	load_command_def(MFFileHandle the_file,CommandDef *the_def)
 
 //---------------------------------------------------------------
 
-bool	load_clist_def(MFFileHandle the_file)
+bool load_clist_def(MFFileHandle the_file)
 {
 	SLONG				c0;
 	Condition			*the_condition;
@@ -231,7 +231,7 @@ bool	load_clist_def(MFFileHandle the_file)
 
 //---------------------------------------------------------------
 
-bool	load_comlist_def(MFFileHandle the_file)
+bool load_comlist_def(MFFileHandle the_file)
 {
 	SLONG				c0;
 	Command				*the_command;
@@ -273,7 +273,7 @@ bool	load_comlist_def(MFFileHandle the_file)
 
 //---------------------------------------------------------------
 
-bool	load_level(ULONG level)
+bool load_level(ULONG level)
 {
 	CBYTE			level_name[256];
 	UBYTE			version;

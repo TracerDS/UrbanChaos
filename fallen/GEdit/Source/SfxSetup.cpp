@@ -33,7 +33,7 @@ SLONG	sfx_type,sfx_id;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-CBYTE *sfxtypes[] = { "Sound FX", "Music", "!" };
+CBYTE* sfxtypes[] = { "Sound FX", "Music", "!" };
 
 void FillList(HWND hWnd, SLONG id, bool music) {
 	SLONG i;

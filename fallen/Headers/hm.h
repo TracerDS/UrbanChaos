@@ -46,7 +46,7 @@ typedef struct
 
 } HM_Primgrid;
 
-void HM_load(CBYTE *fname);
+void HM_load(CBYTE* fname);
 
 //
 // Returns an HM_Primgrid for the given prim. If one has not

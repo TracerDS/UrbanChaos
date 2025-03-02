@@ -41,7 +41,7 @@ void NET_kill(void);
 //
 
 SLONG  NET_get_connection_number(void);
-CBYTE *NET_get_connection_name  (SLONG connection);
+CBYTE* NET_get_connection_name  (SLONG connection);
 
 //
 // Establishes a connection. Returns true on success.
@@ -61,7 +61,7 @@ SLONG NET_connection_make(SLONG connection);
 // on failure.
 //		 
 
-SLONG NET_create_session(CBYTE *name, SLONG max_players, CBYTE *my_player_name);
+SLONG NET_create_session(CBYTE* name, SLONG max_players, CBYTE* my_player_name);
 
 //
 // Returns the number of sessions available.
@@ -84,7 +84,7 @@ NET_Sinfo  NET_get_session_info  (SLONG session);
 // Joins the given session. Returns false on failure.
 //
 
-SLONG NET_join_session(SLONG session, CBYTE *my_player_name);
+SLONG NET_join_session(SLONG session, CBYTE* my_player_name);
 
 //
 // Leaves the session.
@@ -117,7 +117,7 @@ UBYTE NET_start_game(void);
 //
 
 SLONG  NET_get_num_players(void);
-CBYTE *NET_get_player_name(SLONG player);
+CBYTE* NET_get_player_name(SLONG player);
 
 
 // ========================================================
@@ -177,7 +177,7 @@ typedef struct
 		{
 			UWORD num_bytes;
 			UWORD more_shit;
-			void *data;
+			void* data;
 			
 		} player;
 	};

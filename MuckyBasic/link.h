@@ -131,7 +131,7 @@ typedef struct
 // Links all the object files into an executable. Returns false on failure.
 //
 
-SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname);
+SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname);
 
 
 

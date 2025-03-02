@@ -301,7 +301,7 @@ SLONG PCOM_jumping_navigating_person_continue_moving(Thing *p_person);
 // Returns a string describing the state of the given person.
 //
 
-CBYTE *PCOM_person_state_debug(Thing *p_person);
+CBYTE* PCOM_person_state_debug(Thing *p_person);
 
 
 //
@@ -352,7 +352,7 @@ THING_INDEX PCOM_person_wants_to_kill(Thing *p_person);
 // Inform person a cop is aiming a gun at you
 //
 
-SLONG	PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop);
+SLONG PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop);
 
 //
 // Informs a car driver that he should get out of his car and runaway from someone.
@@ -384,6 +384,6 @@ SLONG PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person);
 // tell near by cops that I'm naughty and that they should arrest me
 //
 
-SLONG	PCOM_call_cop_to_arrest_me(Thing *p_person,SLONG store_it);
+SLONG PCOM_call_cop_to_arrest_me(Thing *p_person,SLONG store_it);
 
 #endif

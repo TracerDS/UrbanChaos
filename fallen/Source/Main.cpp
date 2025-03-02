@@ -60,10 +60,10 @@ void mkt_test()
 //---------------------------------------------------------------
 
 #ifdef	PSX
-ULONG	old_stack;
+ULONG old_stack;
 
 #ifndef VERSION_DEMO
-void	main2()
+void main2()
 {
 #ifdef FS_ISO9600
 	SetMem(2);
@@ -90,7 +90,7 @@ SLONG game_timeout;
 #endif
 
 
-SLONG main(UWORD argc, CBYTE *argv[])
+SLONG main(UWORD argc, CBYTE* argv[])
 {
 #ifndef VERSION_DEMO
 	main2();

@@ -19,8 +19,8 @@ volatile LastMouse	LeftMouse		=	{	0,0,0,{	0,0	}	},
 volatile MFPoint	MousePoint		=	{	0,0				};
 
 
-static	void	_interrupt _loadds far MouseInterrupt(int max, int mickey_x, int mickey_y);
-struct	mouse_info
+static void	_interrupt _loadds far MouseInterrupt(int max, int mickey_x, int mickey_y);
+struct mouse_info
 {
 	SLONG	XMoveRatio;
 	SLONG	YMoveRatio;
@@ -29,7 +29,7 @@ struct	mouse_info
 	UBYTE	Sprite[32*32];
 };
 
-struct	mouse_buffer
+struct mouse_buffer
 {
 	UBYTE	Valid;
 	SLONG	Width;
@@ -43,15 +43,15 @@ struct	mouse_buffer
 	SLONG	YOffset;
 };
 
-static	mouse_setup=0;
-static	struct	mouse_buffer	mbuffer;
-static	struct	mouse_info		minfo;
-static	volatile	SWORD		mouse_mickey_x = 0;
-static	volatile	SWORD		mouse_mickey_y = 0;
-static	mouse_int_setup=0;
+static mouse_setup=0;
+static struct	mouse_buffer	mbuffer;
+static struct	mouse_info		minfo;
+static volatile	SWORD		mouse_mickey_x = 0;
+static volatile	SWORD		mouse_mickey_y = 0;
+static mouse_int_setup=0;
 
 
-void	clip_mouse()
+void clip_mouse()
 {
 	if(MouseX<0)
 		MouseX=0;
@@ -68,7 +68,7 @@ void	clip_mouse()
 }
 
 
-static	void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
+static void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 {
 	#pragma aux MouseInterrupt parm [EAX] [ESI] [EDI]
 	
@@ -213,7 +213,7 @@ static	void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 
 
 
-SLONG	SetupMouse()
+SLONG SetupMouse()
 {
 	struct 	SREGS 	sregs ;
 	union 	REGS 	inregs;
@@ -255,7 +255,7 @@ SLONG	SetupMouse()
 	return (1);
 }
 
-SLONG	ResetMouse()
+SLONG ResetMouse()
 {
 	union 	REGS 	inregs;
 	union 	REGS 	outregs;

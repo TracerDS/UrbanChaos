@@ -136,8 +136,8 @@ extern volatile UBYTE	Keys[256],
 				LastKey;
 
 
-bool	SetupKeyboard();
-void	ResetKeyboard();
+bool SetupKeyboard();
+void ResetKeyboard();
 
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 

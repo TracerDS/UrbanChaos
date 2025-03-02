@@ -18,9 +18,9 @@
 // The result of code generation.
 //
 
-CBYTE *CG_output;
-SLONG  CG_num_errors;
-SLONG  CG_num_warnings;
+CBYTE* CG_output;
+SLONG CG_num_errors;
+SLONG CG_num_warnings;
 
 //
 // The instructions
@@ -47,7 +47,7 @@ SLONG CG_generating_line;
 
 typedef struct
 {
-	CBYTE *name;		// The function name...
+	CBYTE* name;		// The function name...
 	SLONG  debug_name;	// Index into the debug data.
 	SLONG  num_args;
 	SLONG  arg_upto;
@@ -60,7 +60,7 @@ typedef struct
 #define CG_MAX_FUNCS 4096
 
 CG_Func CG_func[CG_MAX_FUNCS];
-SLONG   CG_func_upto;
+SLONG CG_func_upto;
 
 
 
@@ -77,7 +77,7 @@ typedef struct
 #define CG_MAX_LINES 16384
 
 CG_Line CG_line[CG_MAX_LINES];
-SLONG   CG_line_upto;
+SLONG CG_line_upto;
 
 
 //
@@ -99,7 +99,7 @@ typedef struct
 #define CG_MAX_FORWARD_GOTOS 4096
 
 CG_Forward_goto CG_forward_goto[CG_MAX_FORWARD_GOTOS];
-SLONG           CG_forward_goto_upto;
+SLONG CG_forward_goto_upto;
 
 
 //
@@ -136,7 +136,7 @@ typedef struct
 #define CG_MAX_MIFS 4096
 
 CG_Mif CG_mif[CG_MAX_MIFS];
-SLONG  CG_mif_upto;
+SLONG CG_mif_upto;
 
 
 
@@ -161,7 +161,7 @@ typedef struct
 #define CG_MAX_FORS 4096
 
 CG_For CG_for[CG_MAX_FORS];
-SLONG  CG_for_upto;
+SLONG CG_for_upto;
 
 //
 // The while loops.
@@ -181,7 +181,7 @@ typedef struct
 #define CG_MAX_WHILES 4096
 
 CG_While CG_while[CG_MAX_WHILES];
-SLONG    CG_while_upto;
+SLONG CG_while_upto;
 
 //
 // The number of globals used by the program.
@@ -200,9 +200,9 @@ SLONG CG_field_id_upto;
 // The string table.
 //
 
-SLONG  CG_data_table_max;
+SLONG CG_data_table_max;
 UBYTE *CG_data_table;
-SLONG  CG_data_table_upto;
+SLONG CG_data_table_upto;
 
 //
 // The function we are currently generating code for.
@@ -224,7 +224,7 @@ typedef struct
 #define CG_MAX_JUMPS 16384
 
 CG_Jump CG_jump[CG_MAX_JUMPS];
-SLONG   CG_jump_upto;
+SLONG CG_jump_upto;
 
 
 //
@@ -240,7 +240,7 @@ typedef struct
 #define CG_MAX_GLOBALREFS 16384
 
 CG_Globalref CG_globalref[CG_MAX_GLOBALREFS];
-SLONG        CG_globalref_upto;
+SLONG CG_globalref_upto;
 
 
 //
@@ -256,7 +256,7 @@ typedef struct
 #define CG_MAX_FIELDREFS 16384
 
 CG_Fieldref CG_fieldref[CG_MAX_FIELDREFS];
-SLONG       CG_fieldref_upto;
+SLONG CG_fieldref_upto;
 
 
 //
@@ -273,7 +273,7 @@ typedef struct
 #define CG_MAX_UNDEFREFS 16384
 
 CG_Undefref CG_undefref[CG_MAX_UNDEFREFS];
-SLONG       CG_undefref_upto;
+SLONG CG_undefref_upto;
 
 
 
@@ -290,7 +290,7 @@ typedef struct
 #define CG_MAX_DATATABLEREFS 16384
 
 CG_Datatableref CG_datatableref[CG_MAX_DATATABLEREFS];
-SLONG           CG_datatableref_upto;
+SLONG CG_datatableref_upto;
 
 
 //
@@ -310,7 +310,7 @@ SLONG CG_debug_data_upto;
 // an index to it.
 //
 
-SLONG CG_add_string_to_debug_data(CBYTE *string)
+SLONG CG_add_string_to_debug_data(CBYTE* string)
 {
 	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL
 	
@@ -343,7 +343,7 @@ SLONG CG_add_string_to_debug_data(CBYTE *string)
 // into the string table for where it was stored.
 //
 
-SLONG CG_add_string(CBYTE *string)
+SLONG CG_add_string(CBYTE* string)
 {
 	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL.
 
@@ -355,7 +355,7 @@ SLONG CG_add_string(CBYTE *string)
 
 	SLONG ans = CG_data_table_upto;
 
-	strcpy(((CBYTE *) CG_data_table) + CG_data_table_upto, string);
+	strcpy(((CBYTE* ) CG_data_table) + CG_data_table_upto, string);
 
 	CG_data_table_upto += length;
 
@@ -2195,7 +2195,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 
 
-SLONG CG_do(CBYTE *fname, SLONG output)
+SLONG CG_do(CBYTE* fname, SLONG output)
 {
 	SLONG i;
 

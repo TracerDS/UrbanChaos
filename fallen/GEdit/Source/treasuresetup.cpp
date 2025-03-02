@@ -60,7 +60,7 @@ void	do_treasure_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_treasure_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_treasure_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||!ep->Data[0])
 		msg[0]=0;
 	else {

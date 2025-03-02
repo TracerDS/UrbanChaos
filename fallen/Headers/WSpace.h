@@ -41,7 +41,7 @@
 #define IM_BOMB			17
 #define IM_BROKEN		2
 
-struct	WSElement
+struct WSElement
 {
 	UBYTE			ElementType;
 	UWORD			EventPointRef,
@@ -55,33 +55,33 @@ struct	WSElement
 extern bool			workspace_changed;
 extern HWND			ws_tree,wpt_tree;
 
-bool	init_workspace(HWND parent);
-void	fini_workspace();
-void	handle_ws_context(POINT *click_point);
-bool	handle_ws_dblclk(POINT *click_point);
-void	handle_ws_select(WSElement *the_element);
-bool	get_element_at_point(POINT *click_point,WSElement **the_element);
-void	ws_add_map();
-void	ws_new_mission();
-void	ws_del_mission();
-void	ws_add_light_map();
-void	ws_add_citsez_map();
-bool	create_workspace();
-bool	close_workspace();
-bool	load_workspace(bool load_default_workspace);
-bool	save_workspace();
+bool init_workspace(HWND parent);
+void fini_workspace();
+void handle_ws_context(POINT *click_point);
+bool handle_ws_dblclk(POINT *click_point);
+void handle_ws_select(WSElement *the_element);
+bool get_element_at_point(POINT *click_point,WSElement **the_element);
+void ws_add_map();
+void ws_new_mission();
+void ws_del_mission();
+void ws_add_light_map();
+void ws_add_citsez_map();
+bool create_workspace();
+bool close_workspace();
+bool load_workspace(bool load_default_workspace);
+bool save_workspace();
 
 //---------------------------------------------------------------
 // waypointy stuff...
-bool	init_wptlist(HWND parent);
-void	fini_wptlist();
-void	reset_wptlist();
-void	fill_wptlist(Mission *mish);
-HTREEITEM	ws_root_waypoint(CBYTE *msg, SLONG type, LPARAM param);
-void	ws_add_waypoint(EventPoint *ep);
-void	ws_set_waypoint(EventPoint *ep, CBYTE ndx);
-void	ws_sel_waypoint(EventPoint *ep);
-void	ws_del_waypoint(EventPoint *ep);
+bool init_wptlist(HWND parent);
+void fini_wptlist();
+void reset_wptlist();
+void fill_wptlist(Mission *mish);
+HTREEITEM ws_root_waypoint(CBYTE* msg, SLONG type, LPARAM param);
+void ws_add_waypoint(EventPoint *ep);
+void ws_set_waypoint(EventPoint *ep, CBYTE ndx);
+void ws_sel_waypoint(EventPoint *ep);
+void ws_del_waypoint(EventPoint *ep);
 
 
 //---------------------------------------------------------------

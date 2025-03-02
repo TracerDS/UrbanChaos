@@ -65,7 +65,7 @@ void	do_counter_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_counter_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_counter_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||!ep->Data[1])
 		msg[0]=0;
 	else {

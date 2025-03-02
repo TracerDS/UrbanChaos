@@ -64,7 +64,7 @@ class	Window	:	public EdRect
 	public:
 		virtual inline	~Window()	{}
 
-		void			SetupWindow(CBYTE *title,ULONG flags,SLONG x,SLONG y,SLONG width,SLONG height);
+		void			SetupWindow(CBYTE* title,ULONG flags,SLONG x,SLONG y,SLONG width,SLONG height);
 		void			SetContentDrawArea();
 
 		inline UBYTE	GetStateFlags()					{	return StateFlags;							}

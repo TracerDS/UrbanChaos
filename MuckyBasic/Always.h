@@ -8,13 +8,13 @@
 #pragma warning( disable : 4200 )
 
 
-typedef		signed		long			SLONG;
-typedef		unsigned	long			ULONG;
-typedef		signed		short	int		SWORD;
-typedef		unsigned	short	int		UWORD;
-typedef		signed		char   			SBYTE;
-typedef		unsigned 	char			UBYTE;
-typedef					char			CBYTE;
+typedef signed		long			SLONG;
+typedef unsigned	long			ULONG;
+typedef signed		short	int		SWORD;
+typedef unsigned	short	int		UWORD;
+typedef signed		char   			SBYTE;
+typedef unsigned 	char			UBYTE;
+typedef char			CBYTE;
 
 
 //
@@ -83,7 +83,7 @@ typedef					char			CBYTE;
 
 #ifndef NDEBUG
 
-void OS_string(CBYTE *fmt, ...);
+void OS_string(CBYTE* fmt, ...);
 
 #define ASSERT(x) {assert(x);}
 #define TRACE	  OS_string

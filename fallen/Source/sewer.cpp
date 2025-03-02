@@ -186,7 +186,7 @@ void SEWER_precalc()
 	}
 }
 
-void SEWER_save(CBYTE *filename)
+void SEWER_save(CBYTE* filename)
 {
 #ifndef	PSX
 	FILE *handle = MF_Fopen(filename, "wb");
@@ -213,7 +213,7 @@ void SEWER_save(CBYTE *filename)
 #endif
 }
 
-void SEWER_load(CBYTE *filename)
+void SEWER_load(CBYTE* filename)
 {
 #ifndef	PSX
 	FILE *handle = MF_Fopen(filename, "rb");

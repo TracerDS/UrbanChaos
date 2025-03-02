@@ -23,7 +23,7 @@ SLONG MAP_Player_y;
 #define TOPMAP_PULSE_OTZ 2
 #define TOPMAP_WIN_OTZ	3
 								    
-extern	CBYTE	*EWAY_get_mess(SLONG index);    
+extern CBYTE	*EWAY_get_mess(SLONG index);    
 
 inline UBYTE FadeCol(int x,int y)
 {
@@ -82,8 +82,8 @@ void MAP_draw_solid(SLONG page,SLONG x,SLONG y)
 	DOPRIM(TOPMAP_MAP_OTZ,p);
 }
 
-extern void draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id);
-extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id,SLONG flag);
+extern void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id);
+extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
 
 #define STR_BLOCK	"\x07f"
 
@@ -398,7 +398,7 @@ UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
 	SLONG i;
 
 	MAP_Beacon *mb;
-extern	SLONG EWAY_mess_upto;
+extern SLONG EWAY_mess_upto;
 		ASSERT(index>=0 && index<EWAY_mess_upto);
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)

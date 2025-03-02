@@ -127,7 +127,7 @@ void CRINKLE_init()
 
 #define CRINKLE_MAX_LINE 256
 
-CRINKLE_Handle CRINKLE_load(CBYTE *asc_filename)
+CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
 {
 	SLONG i;
 

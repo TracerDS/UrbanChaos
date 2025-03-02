@@ -30,40 +30,40 @@
 // The camera.
 //
 
-SLONG  CAM_mode;
-SLONG  CAM_zoom;
-SLONG  CAM_lens;	// Not used by the camera module - merely a hint to the engine.
-SLONG  CAM_pos_x;	// 16-bits per mapsquare
-SLONG  CAM_pos_y;
-SLONG  CAM_pos_z;
-SLONG  CAM_vel_x;
-SLONG  CAM_vel_y;
-SLONG  CAM_vel_z;
-SLONG  CAM_want_valid;
-SLONG  CAM_want_different;
-SLONG  CAM_want_dx;		// The camera desired offset from the focus thing.
-SLONG  CAM_want_dy;
-SLONG  CAM_want_dz;
-SLONG  CAM_want_angle;	// The current angle used to calc (want_dx,want_dy,want_dz)
-SLONG  CAM_yaw;
-SLONG  CAM_pitch;
-SLONG  CAM_roll;
-float  CAM_radians_yaw;
-float  CAM_radians_pitch;
-float  CAM_radians_roll;
+SLONG CAM_mode;
+SLONG CAM_zoom;
+SLONG CAM_lens;	// Not used by the camera module - merely a hint to the engine.
+SLONG CAM_pos_x;	// 16-bits per mapsquare
+SLONG CAM_pos_y;
+SLONG CAM_pos_z;
+SLONG CAM_vel_x;
+SLONG CAM_vel_y;
+SLONG CAM_vel_z;
+SLONG CAM_want_valid;
+SLONG CAM_want_different;
+SLONG CAM_want_dx;		// The camera desired offset from the focus thing.
+SLONG CAM_want_dy;
+SLONG CAM_want_dz;
+SLONG CAM_want_angle;	// The current angle used to calc (want_dx,want_dy,want_dz)
+SLONG CAM_yaw;
+SLONG CAM_pitch;
+SLONG CAM_roll;
+float CAM_radians_yaw;
+float CAM_radians_pitch;
+float CAM_radians_roll;
 Thing *CAM_focus;
-SLONG  CAM_focus_yaw;
-SLONG  CAM_focus_x;
-SLONG  CAM_focus_y;
-SLONG  CAM_focus_z;
-SLONG  CAM_collide;
-SLONG  CAM_dyaw;	// For first person...
-SLONG  CAM_dpitch;
-SLONG  CAM_rotate;
-SLONG  CAM_rotate_dist;
-SLONG  CAM_shake;
-SLONG  CAM_behind_up;
-SLONG  CAM_type;
+SLONG CAM_focus_yaw;
+SLONG CAM_focus_x;
+SLONG CAM_focus_y;
+SLONG CAM_focus_z;
+SLONG CAM_collide;
+SLONG CAM_dyaw;	// For first person...
+SLONG CAM_dpitch;
+SLONG CAM_rotate;
+SLONG CAM_rotate_dist;
+SLONG CAM_shake;
+SLONG CAM_behind_up;
+SLONG CAM_type;
 
 //
 // When the camera looks at a thing, it looks at a point

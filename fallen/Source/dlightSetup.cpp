@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
+SLONG lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
 
 //---------------------------------------------------------------
 
@@ -45,9 +45,9 @@ static void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 	}
 }
 
-static CBYTE *blank_string[] = { "!" };
+static CBYTE* blank_string[] = { "!" };
 
-bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -225,7 +225,7 @@ bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_lite_setup(EventPoint *the_ep)
+void do_lite_setup(EventPoint *the_ep)
 {
 
 	if (!the_ep) return;
@@ -257,7 +257,7 @@ void	do_lite_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_lite_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_lite_message(EventPoint *ep, CBYTE* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

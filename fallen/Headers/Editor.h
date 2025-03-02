@@ -4,6 +4,6 @@
 #ifndef	EDITOR_H
 #define	EDITOR_H
 
-UBYTE	editor_loop();
+UBYTE editor_loop();
 
 #endif

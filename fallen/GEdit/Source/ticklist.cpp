@@ -48,7 +48,7 @@
 #define OBM_OLD_RESTORE     32755
 
 
-void ticklist_init(HWND hWnd, SLONG id, CBYTE *pc[], SLONG bitmask) {
+void ticklist_init(HWND hWnd, SLONG id, CBYTE* pc[], SLONG bitmask) {
 	SLONG		c0			=	1;									
 	HWND		the_ctrl	=	GetDlgItem(hWnd,id);					
 	LPTSTR		lbitem_str	=	pc[0];								

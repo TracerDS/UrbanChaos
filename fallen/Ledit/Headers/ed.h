@@ -159,8 +159,8 @@ SLONG ED_undo_redo_valid();
 // Loading and saving. Return true on success.
 //
 
-SLONG ED_load(CBYTE *name);
-SLONG ED_save(CBYTE *name);
+SLONG ED_load(CBYTE* name);
+SLONG ED_save(CBYTE* name);
 
 //
 // The format that everything is saved out in.

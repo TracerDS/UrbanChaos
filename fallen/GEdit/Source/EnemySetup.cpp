@@ -456,7 +456,7 @@ void	do_enemy_setup(EventPoint *the_ep, bool do_adjust)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_enemy_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_enemy_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

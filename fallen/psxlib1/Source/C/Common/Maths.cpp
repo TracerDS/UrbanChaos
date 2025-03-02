@@ -10,7 +10,7 @@
 #define	xchg(a,b)			{a^=b;b^=a;a^=b;}
 
 
-SLONG	Arctan(SLONG X,SLONG Y)
+SLONG Arctan(SLONG X,SLONG Y)
 {
 	register SLONG		ax,bx;
 
@@ -87,7 +87,7 @@ nnyprimary:
 
 //---------------------------------------------------------------
 
-UWORD	ini_table[]	=
+UWORD ini_table[]	=
 {
 	1,		2,		2,		4,
 	5,		8,		11,		16,
@@ -100,7 +100,7 @@ UWORD	ini_table[]	=
 };
 
 #ifdef _MSC_VER
-SLONG	Root(SLONG square)
+SLONG Root(SLONG square)
 {
 	__asm
 	{

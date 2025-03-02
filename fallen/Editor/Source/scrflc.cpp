@@ -33,7 +33,7 @@ SLONG	anim_record()
 			// AW180595
 			sprintf((char*)file_name,"anim.flc", anim_number);
 
-//			if ((fpz = FileCreate((CBYTE *)file_name,1) !=FILE_OPEN_ERROR)
+//			if ((fpz = FileCreate((CBYTE* )file_name,1) !=FILE_OPEN_ERROR)
 			{
 				return(anim_open(file_name, 0, 0, 320, 200, 0, PLAYBACK_MODE_RECORD ));
 			}
@@ -73,7 +73,7 @@ SLONG	anim_open(SBYTE *file_name, SWORD xpos, SWORD ypos, SWORD width, SWORD hei
 
 			animation->LastFrame = (UBYTE *)MemAlloc(ScreenWidth * ScreenHeight * 2);
 			animation->NextFrameBuffer = (UBYTE *)MemAlloc(ScreenWidth * ScreenHeight * 2);
-			animation->RecordFileHandle = FileCreate((CBYTE *)file_name, 1);
+			animation->RecordFileHandle = FileCreate((CBYTE* )file_name, 1);
 
 			if(animation->LastFrame==0||animation->NextFrameBuffer==0||animation->RecordFileHandle==0)
 				return(0);
@@ -117,7 +117,7 @@ SLONG	anim_open(SBYTE *file_name, SWORD xpos, SWORD ypos, SWORD width, SWORD hei
 /*
 			animation->PlaybackMode |= playback;
 			if ((animation->NextFrameBuffer = (UBYTE *)MyAlloc(ScreenWidth * ScreenHeight * 2)) == 0 ||
-				(animation->PlayFileHandle = MyOpen((CBYTE *)file_name, MODE_READONLY)) == -1)
+				(animation->PlayFileHandle = MyOpen((CBYTE* )file_name, MODE_READONLY)) == -1)
 			{
 				return(0);
 			}

@@ -19,7 +19,7 @@
 #define	DS_CREATED_SURFACES		(1<<4)
 #define	DS_SCREEN_LOCKED		(1<<5)
 
-enum	DisplayModes
+enum DisplayModes
 {
 	DISPLAY_MODE_NONE			=	0,
 
@@ -82,7 +82,7 @@ typedef struct
 extern DisplayModeInfo	DisplayModes[];
 
 
-SLONG	DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
+SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
 
 
 //---------------------------------------------------------------
@@ -94,10 +94,10 @@ SLONG	DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
 #define	DS_WAIT_VBI			(1<<0)
 #define	DS_DO_FLIP			(1<<1)
 
-extern	UBYTE				DisplayActive,
+extern UBYTE				DisplayActive,
 							WorkScreenDepth,
 							*WorkScreen;
-extern	SLONG				WorkScreenHeight,
+extern SLONG				WorkScreenHeight,
 							WorkScreenPixelWidth,
 							WorkScreenWidth;
 
@@ -109,16 +109,16 @@ extern LPDIRECTDRAWSURFACE	lp_DD_FrontSurface,
 extern volatile UBYTE		MFShellActive;
 #endif
 
-SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG	CloseDisplay();
-SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth);
-void	ClearDisplay();
-void	FadeDisplay(UBYTE mode);
-void	*LockWorkScreen();
-void	UnlockWorkScreen();
-void	ShowWorkScreen(ULONG flags);
-void	ShowWorkWindow(ULONG flags);
-void	ClearWorkScreen(UBYTE colour);
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
+SLONG CloseDisplay();
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+void ClearDisplay();
+void FadeDisplay(UBYTE mode);
+void* LockWorkScreen();
+void UnlockWorkScreen();
+void ShowWorkScreen(ULONG flags);
+void ShowWorkWindow(ULONG flags);
+void ClearWorkScreen(UBYTE colour);
 
 
 //---------------------------------------------------------------

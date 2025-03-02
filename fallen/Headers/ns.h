@@ -286,8 +286,8 @@ void NS_add_prim(
 // When the sewer map is complete.
 //
 
-void NS_save(CBYTE *fname);
-void NS_load(CBYTE *fname);
+void NS_save(CBYTE* fname);
+void NS_load(CBYTE* fname);
 
 
 
@@ -358,7 +358,7 @@ void NS_cache_init();
 //
 
 SLONG NS_cache_create (UBYTE mx, UBYTE mz);
-void  NS_cache_destroy(UBYTE cache);
+void NS_cache_destroy(UBYTE cache);
 
 
 //

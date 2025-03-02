@@ -20,7 +20,7 @@ void QENG_init();
 // Debug messages drawn to the screen.
 //
 
-void MSG_add(CBYTE *message, ...);
+void MSG_add(CBYTE* message, ...);
 
 
 //

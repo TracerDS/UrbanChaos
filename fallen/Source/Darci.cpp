@@ -32,22 +32,22 @@
 
 //#include	"c:\fallen\editor\headers\prim_draw.h"
 /*
-struct	SVector
+struct SVector
 {
 	SLONG	X,Y,Z;
 };
 */				   
 
-SLONG	calc_height_at(SLONG x,SLONG z);
+SLONG calc_height_at(SLONG x,SLONG z);
 
-void	fn_darci_init(Thing *t_thing);
+void fn_darci_init(Thing *t_thing);
 
 #define	GRAVITY		((4<<8))
 
-//extern	SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face);
-extern	SLONG	set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos);
-extern	void	add_damage_value_thing(Thing *p_thing,SLONG value);
-extern	void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle=0);
+//extern SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face);
+extern SLONG	set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos);
+extern void	add_damage_value_thing(Thing *p_thing,SLONG value);
+extern void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle=0);
 
 
 /*
@@ -80,10 +80,10 @@ extern	void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SL
 
 
 //---------------------------------------------------------------
-extern	void	fn_person_moveing(Thing *p_person);
-extern	void	fn_person_idle(Thing *p_person);
+extern void	fn_person_moveing(Thing *p_person);
+extern void	fn_person_idle(Thing *p_person);
 
-StateFunction	darci_states[]	=
+StateFunction darci_states[]	=
 {
 	{	STATE_INIT,				fn_darci_init	},
 	{	STATE_NORMAL,			NULL	},
@@ -99,7 +99,7 @@ StateFunction	darci_states[]	=
 
 //---------------------------------------------------------------
 
-void	fn_darci_init(Thing *t_thing)
+void fn_darci_init(Thing *t_thing)
 {
 
 	//
@@ -146,14 +146,14 @@ KeyFrame*	advance_keyframe(KeyFrame *frame,SLONG count)
 #define	DIR_RIGHT		(1<<3)
 
 
-ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing);
-static	SLONG	air_walking=0;
+ULONG move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing);
+static SLONG	air_walking=0;
 
-static	THING_INDEX	history_thing[100];
-static	SWORD	history=0;
+static THING_INDEX	history_thing[100];
+static SWORD	history=0;
 
 
-SLONG	do_floor_collide(Thing *p_thing,SWORD	pelvis,SLONG *new_y,SLONG *foot_y,SLONG max_range)
+SLONG do_floor_collide(Thing *p_thing,SWORD	pelvis,SLONG *new_y,SLONG *foot_y,SLONG max_range)
 {
 	SLONG	x,y,z;
 	SLONG	floor_y;
@@ -192,7 +192,7 @@ SLONG	do_floor_collide(Thing *p_thing,SWORD	pelvis,SLONG *new_y,SLONG *foot_y,SL
 	return(0);
 }
 
-SLONG	predict_collision_with_floor(Thing *p_thing,SWORD pelvis,SLONG *new_y,SLONG *foot_y)
+SLONG predict_collision_with_floor(Thing *p_thing,SWORD pelvis,SLONG *new_y,SLONG *foot_y)
 {
 	SLONG	ret;
 	GameCoord	temp_pos;
@@ -245,10 +245,10 @@ SLONG	predict_collision_with_floor(Thing *p_thing,SWORD pelvis,SLONG *new_y,SLON
 	return(ret);
 }
 
-extern	SLONG	find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this_building,Thing *p_person,SLONG neg_dy,SLONG pos_dy,SLONG *ret_y);
-extern	SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern SLONG	find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this_building,Thing *p_person,SLONG neg_dy,SLONG pos_dy,SLONG *ret_y);
+extern SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
 
-SLONG	predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWORD	pelvis,SLONG *new_y,SLONG *foot_y)
+SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWORD	pelvis,SLONG *new_y,SLONG *foot_y)
 {
 	SLONG	ret;
 	GameCoord	temp_pos;
@@ -346,7 +346,7 @@ SLONG	predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWOR
 	return(ret);
 }
 
-SLONG	col_is_fence(SLONG	col)
+SLONG col_is_fence(SLONG	col)
 {
 	/*
 	SLONG	face;
@@ -384,7 +384,7 @@ inline bool	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
 
 }
 
-void	set_person_in_building_through_roof(Thing *p_person,SLONG face)
+void set_person_in_building_through_roof(Thing *p_person,SLONG face)
 {
 	SLONG	building,storey,wall,best_storey=0;
 #ifdef	POO
@@ -429,7 +429,7 @@ void	set_person_in_building_through_roof(Thing *p_person,SLONG face)
 }
 
 
-SLONG	damage_person_on_land(Thing *p_thing)
+SLONG damage_person_on_land(Thing *p_thing)
 {
 	SLONG sound;
 	SLONG damage;
@@ -545,7 +545,7 @@ extern SLONG last_slide_dist;
 
 UBYTE just_started_falling_off_backwards;
 
-SLONG	projectile_move_thing(Thing *p_thing,SLONG flag)
+SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 {
 	GameCoord	new_position;
 	DrawTween		*draw_info;
@@ -1125,7 +1125,7 @@ SLONG	projectile_move_thing(Thing *p_thing,SLONG flag)
 }
 
 //could be logarithmic/ linear/ stepped
-void	change_velocity_to(Thing *p_thing,SWORD velocity)
+void change_velocity_to(Thing *p_thing,SWORD velocity)
 {
 	SLONG	dv;
 
@@ -1149,7 +1149,7 @@ void	change_velocity_to(Thing *p_thing,SWORD velocity)
 	}
 }
 
-void	change_velocity_to_slow(Thing *p_thing,SWORD velocity)
+void change_velocity_to_slow(Thing *p_thing,SWORD velocity)
 {
 	SLONG	dv;
 
@@ -1173,7 +1173,7 @@ void	change_velocity_to_slow(Thing *p_thing,SWORD velocity)
 	}
 }
 
-void	trickle_velocity_to(Thing *p_thing,SWORD velocity)
+void trickle_velocity_to(Thing *p_thing,SWORD velocity)
 {
 	SLONG	dv;
 
@@ -1191,7 +1191,7 @@ void	trickle_velocity_to(Thing *p_thing,SWORD velocity)
 	}
 }
 
-void	set_thing_velocity(Thing *t_thing,SLONG vel)
+void set_thing_velocity(Thing *t_thing,SLONG vel)
 {
 	vel=(vel*3)>>2; // fps required , fps used when setting up these values
 
@@ -1201,12 +1201,12 @@ void	set_thing_velocity(Thing *t_thing,SLONG vel)
 
 #define	REQUIRED_DIST_JUMP_GRAB	35
 
-extern	SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b);
-extern	void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
-extern	void calc_things_height(struct MapThing *p_thing); //editor\collide.c
-//extern	struct	CollisionVect		col_vects[];
+extern SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b);
+extern void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern void calc_things_height(struct MapThing *p_thing); //editor\collide.c
+//extern struct	CollisionVect		col_vects[];
 #ifdef	DOG_POO
-SLONG	setup_person_for_jump_grab(Thing *p_thing)
+SLONG setup_person_for_jump_grab(Thing *p_thing)
 {
 	SLONG col,dist;
 	SLONG	x,z;
@@ -1250,10 +1250,10 @@ SLONG	setup_person_for_jump_grab(Thing *p_thing)
 }
 #endif
 
-extern	void	highlight_face(SLONG face);
-extern	void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
+extern void	highlight_face(SLONG face);
+extern void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
 
-void	show_walkable(SLONG mx,SLONG mz)
+void show_walkable(SLONG mx,SLONG mz)
 {
 	SLONG	index;
 	SLONG	check_face;

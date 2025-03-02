@@ -79,10 +79,10 @@ SLONG SERVER_connecting;
 
 
 SLONG SERVER_session_create(
-		CBYTE *name,
+		CBYTE* name,
 		SLONG  max_players,
 		SLONG  connection_type,
-		CBYTE *internet_address)
+		CBYTE* internet_address)
 {
 	ASSERT(max_players <= SERVER_MAX_PLAYERS);
 

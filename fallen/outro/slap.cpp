@@ -13,7 +13,7 @@
 //
 
 UBYTE *SLAP_bitmap;
-SLONG  SLAP_bitmap_size;
+SLONG SLAP_bitmap_size;
 
 
 
@@ -36,7 +36,7 @@ typedef struct
 #define SLAP_MAX_LINKS (SLAP_MAX_BITMAP_SIZE * 4 * 8)
 
 SLAP_Link SLAP_link[SLAP_MAX_LINKS];
-SLONG     SLAP_link_upto;
+SLONG SLAP_link_upto;
 
 
 //

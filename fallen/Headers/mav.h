@@ -53,7 +53,7 @@ extern SLONG  MAV_nav_pitch;
 //
 
 //typedef	SBYTE MAV_height_workaround[PAP_SIZE_HI];
-//extern        MAV_height_workaround *MAV_height;
+//extern MAV_height_workaround *MAV_height;
 
 
 //

@@ -42,7 +42,7 @@ void GI_init()
 }
 
 
-SLONG GI_load_map(CBYTE *name)
+SLONG GI_load_map(CBYTE* name)
 {
 
 	//

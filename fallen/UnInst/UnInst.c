@@ -8,7 +8,7 @@
 
 #include "resource.h"
 
-HANDLE	hInstance;
+HANDLE hInstance;
 static void DeleteThings();
 
 bool APIENTRY DllMain( HANDLE hModule, 

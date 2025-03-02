@@ -20,13 +20,13 @@ void CONSOLE_init();
 // Prints the text.
 //
 
-void CONSOLE_print(CBYTE *fmt, ...);
+void CONSOLE_print(CBYTE* fmt, ...);
 
 //
 // Gets a line of input from the user.
 //
 
-CBYTE *CONSOLE_input();
+CBYTE* CONSOLE_input();
 
 
 

@@ -36,7 +36,7 @@ extern HWND				GEDIT_client_wnd,
 extern WNDCLASSEX		GEDIT_class_engine;
 
 //void		GI_init();
-//SLONG		GI_load_map(CBYTE *name);
+//SLONG		GI_load_map(CBYTE* name);
 
 //---------------------------------------------------------------
 

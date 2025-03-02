@@ -41,7 +41,7 @@ typedef struct
 //
 
 TGA_Info TGA_load(
-			const CBYTE *file,
+			const CBYTE* file,
 			SLONG        max_width,
 			SLONG        max_height,
 			TGA_Pixel   *data);
@@ -53,7 +53,7 @@ TGA_Info TGA_load(
 //
 
 void TGA_save(
-		const CBYTE *file,
+		const CBYTE* file,
 		SLONG        width,
 		SLONG        height,
 		TGA_Pixel   *data,

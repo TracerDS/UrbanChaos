@@ -88,7 +88,7 @@ typedef struct
 
 typedef Pyro* PyroPtr;
 
-void   init_pyros();
+void init_pyros();
 struct Thing *alloc_pyro(UBYTE type);
 //void   free_pyro (struct Thing *pyro_thing);
 
@@ -138,7 +138,7 @@ void PYRO_hitspang(Thing *p_person, SLONG x, SLONG y, SLONG z);
 // Returns the Pyro structure associated with the given pyro thing.
 //
 
-Pyro  *PYRO_get_pyro (Thing *pyro_thing);
+Pyro *PYRO_get_pyro (Thing *pyro_thing);
 
 // blast radius
 

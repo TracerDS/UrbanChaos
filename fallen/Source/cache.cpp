@@ -31,8 +31,8 @@ typedef struct
 
 #define CACHE_MAX_ENTRIES 128
 
-CACHE_Entry  CACHE_entry[CACHE_MAX_ENTRIES];
-CACHE_Index  CACHE_free;
+CACHE_Entry CACHE_entry[CACHE_MAX_ENTRIES];
+CACHE_Index CACHE_free;
 
 
 
@@ -60,10 +60,10 @@ void CACHE_init()
 
 CACHE_Index CACHE_create(
 				SLONG key,
-				void *data,
+				void* data,
 				UWORD num_bytes)
 {
-	void *heap;
+	void* heap;
 
 	CACHE_Index  c_index;
 	CACHE_Entry *ce;

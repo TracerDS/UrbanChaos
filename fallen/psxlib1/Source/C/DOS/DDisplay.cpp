@@ -5,44 +5,44 @@
 #include	"conio.h"
 #include	"dos.h"
 
-typedef	struct
+typedef struct
 {
 	ULONG	MyEDI,MyESI,MyEBP,MyReserved,MyEBX,MyEDX,MyECX,MyEAX;
 	UWORD	MyFlags,MyES,MyDS,MyFS,MyGS,MyIP,MyCS,MySP,MySS;
 }
 	TbRMREGS2;
 
-UBYTE					*WorkScreen,
+UBYTE *WorkScreen,
 						WorkScreenDepth;
-SLONG					WorkScreenHeight,
+SLONG WorkScreenHeight,
 						WorkScreenWidth,
 						WorkScreenPixelWidth;
-UBYTE					CurrentPalette[256*3];
+UBYTE CurrentPalette[256*3];
 
 
-extern	SLONG	SetupMouse();
-extern	SLONG	ResetMouse();
-extern	void	SetDrawFunctions(ULONG depth);
+extern SLONG	SetupMouse();
+extern SLONG	ResetMouse();
+extern void	SetDrawFunctions(ULONG depth);
 
 
 //------------------------------------------------------------
 
-SWORD					VesaBytesPerLine	= 0;
-SWORD					VesaHRes			= 0;
-SWORD					VesaVRes			= 0;
-UBYTE					*VesaData=0;		
-SWORD   				VesaPage			= 0;
-SWORD					VesaGran			= 0;
+SWORD VesaBytesPerLine	= 0;
+SWORD VesaHRes			= 0;
+SWORD VesaVRes			= 0;
+UBYTE *VesaData=0;		
+SWORD VesaPage			= 0;
+SWORD VesaGran			= 0;
 
 
-SWORD	vesa_modes[]=
+SWORD vesa_modes[]=
 {
 	0x13,0x100,0x101,0x103,0x105,0x107,0,0,0,0,0,0,0,0,0,0,0,0,0
 };	
 
 //-----------------------------------------------------------------------
 
-extern	SWORD	video_int(SWORD,SWORD,SWORD,SWORD);
+extern SWORD	video_int(SWORD,SWORD,SWORD,SWORD);
 #pragma aux		video_int=\
 				"push	bp ",\
 				"int	10h ",\
@@ -51,7 +51,7 @@ extern	SWORD	video_int(SWORD,SWORD,SWORD,SWORD);
 
 				
 
-SLONG	VesaGetGran(SWORD mode)
+SLONG VesaGetGran(SWORD mode)
 {
 	union	REGS	inregs;
 	union	REGS	outregs;
@@ -83,7 +83,7 @@ SLONG	VesaGetGran(SWORD mode)
 }
 
 
-SLONG	VesaSetMode(SWORD bx)
+SLONG VesaSetMode(SWORD bx)
 {
 	union	REGS	inregs;
 	union	REGS	outregs;
@@ -99,7 +99,7 @@ SLONG	VesaSetMode(SWORD bx)
 }
 
 
-SLONG	VesaSetPage(SWORD dx)
+SLONG VesaSetPage(SWORD dx)
 {
 	if (VesaPage != dx)
 	{
@@ -112,7 +112,7 @@ SLONG	VesaSetPage(SWORD dx)
 }
 
 
-SLONG	VesaGetInfo()
+SLONG VesaGetInfo()
 {
 	union	REGS	inregs;
 	union	REGS	outregs;
@@ -139,7 +139,7 @@ SLONG	VesaGetInfo()
 }
 
 
-UBYTE	VesaIsModeAvailable(UWORD mode)
+UBYTE VesaIsModeAvailable(UWORD mode)
 {
 	UWORD	*wp;
 	SLONG	t;
@@ -164,12 +164,12 @@ UBYTE	VesaIsModeAvailable(UWORD mode)
 
 #define	DPMI_INT	(0x31)
 
-void *allocDOS(unsigned long int nbytes, short int *pseg, short int *psel)
+void* allocDOS(unsigned long int nbytes, short int *pseg, short int *psel)
 {
 	union  REGS     regs;
 	struct SREGS    sregs;
   	unsigned npara = (nbytes + 15) / 16;
-	void *pprot;
+	void* pprot;
 
   	pprot = NULL;
   	*pseg = 0;			// assume will fail
@@ -189,7 +189,7 @@ void *allocDOS(unsigned long int nbytes, short int *pseg, short int *psel)
 	  // pprot is the protected mode address of the same allocated block.
 	  // The Rational extender maps the 1 MB physical DOS memory into
 	  // the bottom of our virtual address space.
-	  pprot = (void *)((unsigned)*pseg << 4);
+	  pprot = (void* )((unsigned)*pseg << 4);
 	}
 	return(pprot);   
 }
@@ -203,14 +203,14 @@ void freeDOS(short int sel)
    int386(DPMI_INT,&regs,&regs);
 }
 
-struct	ScreenModes
+struct ScreenModes
 {
 	UWORD	Mode;
 	UWORD	Width;
 	UWORD	Height;
 };
 
-struct	ScreenModes screen_modes[]=
+struct ScreenModes screen_modes[]=
 {
 	{0x13,320,200},
 	{0x13,320,200},
@@ -229,9 +229,9 @@ struct	ScreenModes screen_modes[]=
 #define	SCREEN_MODE_1024_768_8			5
 #define	SCREEN_MODE_1280_1024_8			6
 
-UWORD	old_display_mode=0;
+UWORD old_display_mode=0;
 
-UWORD	find_mode(SLONG width,SLONG height)
+UWORD find_mode(SLONG width,SLONG height)
 {
 	SLONG	c0=1;
 
@@ -252,13 +252,13 @@ void MEM_COPY_LONG(UBYTE *,UBYTE *, ULONG);
 		parm [edi] [esi] [ecx]\
 		modify [edi esi ecx];
 
-static	vesa_flag=0;
-static	screen_setup=0;
+static vesa_flag=0;
+static screen_setup=0;
 
-static	SWORD	sect1, sect2;
-static	UBYTE	alloc_for_vesa=0;
-static	UBYTE	*screen_mem=0;
-SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth)
+static SWORD	sect1, sect2;
+static UBYTE	alloc_for_vesa=0;
+static UBYTE	*screen_mem=0;
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth)
 {
 	if(SetDisplay(width,height,depth)==0)
 		return(0);
@@ -267,7 +267,7 @@ SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth)
 	return(1);
 }	
 
-SLONG	CloseDisplay()
+SLONG CloseDisplay()
 {
 	ResetMouse();
 	if(alloc_for_vesa)
@@ -281,7 +281,7 @@ SLONG	CloseDisplay()
 	return(1);
 }
 
-SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth)
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 {
 	union	REGS		inregs;
 	union	REGS		outregs;
@@ -328,7 +328,7 @@ SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth)
 	return(1);
 }
 
-void	ShowWorkScreen(ULONG flags)
+void ShowWorkScreen(ULONG flags)
 {
 	SLONG	copy_size;
 	SLONG	page = 0;
@@ -367,7 +367,7 @@ void	ShowWorkScreen(ULONG flags)
 
 }
 
-void	SetPalette(UBYTE *pal)
+void SetPalette(UBYTE *pal)
 {
 	UWORD	c0;
 
@@ -383,32 +383,32 @@ void	SetPalette(UBYTE *pal)
 
 
 
-void	ClearWorkScreen(UBYTE colour)
+void ClearWorkScreen(UBYTE colour)
 {
 	memset(WorkScreen,0,WorkScreenWidth*WorkScreenHeight);
 }
 
-void	FadeDisplay(UBYTE mode)
+void FadeDisplay(UBYTE mode)
 {
 	
 }
 
-void	*LockWorkScreen()
+void* LockWorkScreen()
 {
 	return((void*)WorkScreen);
 }
 
-void	UnlockWorkScreen()
+void UnlockWorkScreen()
 {
 	
 }
 
-void	ClearDisplay()
+void ClearDisplay()
 {
 	
 }
 
-void	ShowWorkWindow(ULONG flags)
+void ShowWorkWindow(ULONG flags)
 {
 	SLONG	line;
 	UBYTE	*dest,*source;
@@ -454,7 +454,7 @@ void	ShowWorkWindow(ULONG flags)
 }
 
 
-SLONG	FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+SLONG FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 {
 	SLONG	found	=	-1;
 

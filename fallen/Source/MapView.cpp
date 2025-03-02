@@ -51,48 +51,48 @@ extern UBYTE AENG_transparent_warehouses;
 
 //---------------------------------------------------------------
 
-void	do_creature_setup(EventPoint *the_ep);
-void	do_message_setup(EventPoint *the_ep);
+void do_creature_setup(EventPoint *the_ep);
+void do_message_setup(EventPoint *the_ep);
 //void	do_shout_setup(EventPoint *the_ep);
-void	do_vehicle_setup(EventPoint *the_ep);
-void	do_bomb_setup(EventPoint *the_ep);
-void	do_burn_setup(EventPoint *the_ep);
-CBYTE	*get_vehicle_message(EventPoint *ep, CBYTE *msg);
-void	do_vfx_setup(EventPoint *the_ep);
-void	do_sfx_setup(EventPoint *the_ep);
-void	do_wpt_pick(EventPoint *the_ep);
-void	do_barrel_setup(EventPoint *the_ep);
-void	do_spotfx_setup(EventPoint *the_ep);
-CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE *msg);
-void	do_warefx_setup(EventPoint *the_ep);
-CBYTE	*get_warefx_message(EventPoint *ep, CBYTE *msg);
-void	do_treasure_setup(EventPoint *the_ep);
-CBYTE	*get_treasure_message(EventPoint *ep, CBYTE *msg);
-void	do_bonus_setup(EventPoint *the_ep);
-//CBYTE	*get_bonus_message(EventPoint *ep, CBYTE *msg);
-void	do_converse_setup(EventPoint *the_ep);
-void	do_counter_setup(EventPoint *the_ep);
-CBYTE	*get_counter_message(EventPoint *ep, CBYTE *msg);
-void	do_lite_setup(EventPoint *the_ep);
-CBYTE	*get_lite_message(EventPoint *ep, CBYTE *msg);
-void	do_nav_setup(EventPoint *the_ep);
-void	do_anim_pick(EventPoint *the_ep);
-void	do_transfer_pick(EventPoint *the_ep);
-void	do_lock_setup(EventPoint *the_ep);
-void	do_reset_pick(EventPoint *the_ep);
-void	do_enemy_flags_setup(EventPoint *the_ep);
-void	do_stall_setup(EventPoint *the_ep);
-void	do_extend_setup(EventPoint *the_ep);
-void	do_move_setup(EventPoint *the_ep);
-void	do_pee_setup(EventPoint *the_ep);
-void	do_sign_setup(EventPoint *the_ep);
+void do_vehicle_setup(EventPoint *the_ep);
+void do_bomb_setup(EventPoint *the_ep);
+void do_burn_setup(EventPoint *the_ep);
+CBYTE* get_vehicle_message(EventPoint *ep, CBYTE* msg);
+void do_vfx_setup(EventPoint *the_ep);
+void do_sfx_setup(EventPoint *the_ep);
+void do_wpt_pick(EventPoint *the_ep);
+void do_barrel_setup(EventPoint *the_ep);
+void do_spotfx_setup(EventPoint *the_ep);
+CBYTE* get_spotfx_message(EventPoint *ep, CBYTE* msg);
+void do_warefx_setup(EventPoint *the_ep);
+CBYTE* get_warefx_message(EventPoint *ep, CBYTE* msg);
+void do_treasure_setup(EventPoint *the_ep);
+CBYTE* get_treasure_message(EventPoint *ep, CBYTE* msg);
+void do_bonus_setup(EventPoint *the_ep);
+//CBYTE	*get_bonus_message(EventPoint *ep, CBYTE* msg);
+void do_converse_setup(EventPoint *the_ep);
+void do_counter_setup(EventPoint *the_ep);
+CBYTE* get_counter_message(EventPoint *ep, CBYTE* msg);
+void do_lite_setup(EventPoint *the_ep);
+CBYTE* get_lite_message(EventPoint *ep, CBYTE* msg);
+void do_nav_setup(EventPoint *the_ep);
+void do_anim_pick(EventPoint *the_ep);
+void do_transfer_pick(EventPoint *the_ep);
+void do_lock_setup(EventPoint *the_ep);
+void do_reset_pick(EventPoint *the_ep);
+void do_enemy_flags_setup(EventPoint *the_ep);
+void do_stall_setup(EventPoint *the_ep);
+void do_extend_setup(EventPoint *the_ep);
+void do_move_setup(EventPoint *the_ep);
+void do_pee_setup(EventPoint *the_ep);
+void do_sign_setup(EventPoint *the_ep);
 
 
 
 
 //---------------------------------------------------------------
 
-CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg);
+CBYTE* get_message_message(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 
@@ -102,12 +102,12 @@ CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg);
 
 
 
-bool			dragging_ep	=	false,
+bool dragging_ep	=	false,
 				map_valid	=	false;
-UBYTE			link_mode = 0;
+UBYTE link_mode = 0;
 
 //	The camera.
-SLONG			cam_x,
+SLONG cam_x,
 				cam_y,
 				cam_z,
 				cam_yaw,
@@ -121,14 +121,14 @@ SLONG			cam_x,
 				cam_left[3];
 
 //	The mouse.
-SLONG			mouse_valid,
+SLONG mouse_valid,
 				mouse_over,
 				mouse_world_x,
 				mouse_world_y,
 				mouse_world_z,
 				mouse_waypoint;
 
-EventPoint		*hilited_ep		=	NULL,
+EventPoint *hilited_ep		=	NULL,
 				*selected_ep	=	NULL,
 				*link_start_ep	=	NULL;
 
@@ -498,7 +498,7 @@ SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room) {
 }
 
 
-void SetMenuItemText( HMENU menu, SLONG item, CBYTE *str) {
+void SetMenuItemText( HMENU menu, SLONG item, CBYTE* str) {
 	SLONG res;
 
 	res=ModifyMenu(menu,item,MF_STRING|MF_BYCOMMAND,item,str);
@@ -510,7 +510,7 @@ void SetMenuItemText( HMENU menu, SLONG item, CBYTE *str) {
 
 //---------------------------------------------------------------
 
-CBYTE *WaypointTitle(EventPoint *ep, CBYTE *msg) {
+CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg) {
 	if (!ep->WaypointType)
 		sprintf(msg,"%d",EVENTPOINT_NUMBER(current_mission->EventPoints,ep));
 	else
@@ -518,7 +518,7 @@ CBYTE *WaypointTitle(EventPoint *ep, CBYTE *msg) {
 	return msg;
 }
 
-CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg) {
+CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg) {
 
 	msg[0]=0;
 	if (ep) {
@@ -688,7 +688,7 @@ SLONG LocatePrim(SLONG current) {
 
 }
 
-LRESULT	CALLBACK	map_view_proc	(
+LRESULT CALLBACK	map_view_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -1313,7 +1313,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 //---------------------------------------------------------------
 
-bool	init_map_view()
+bool init_map_view()
 {
 	WNDCLASSEX		new_class;
 
@@ -1357,7 +1357,7 @@ void AENG_world_text(
 		UBYTE  blue,
 		UBYTE  green,
 		UBYTE  shadowed_or_not,
-		CBYTE *fmt, ...);
+		CBYTE* fmt, ...);
 void AENG_world_line(
 		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
 		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
@@ -1432,7 +1432,7 @@ void world_cube(SLONG cx, SLONG cy, SLONG cz, SLONG ox, SLONG oy, SLONG oz, SLON
 		cx-ox, cy+oy, cz-oz, 8, colour, 0);
 }
 
-void	process_view_wind()
+void process_view_wind()
 {
 	UBYTE			hilite,
 					no_hilite	=	1,

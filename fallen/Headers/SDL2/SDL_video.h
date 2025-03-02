@@ -56,7 +56,7 @@ typedef struct
     int w;                      /**< width, in screen coordinates */
     int h;                      /**< height, in screen coordinates */
     int refresh_rate;           /**< refresh rate (or zero for unspecified) */
-    void *driverdata;           /**< driver-specific data, initialize to 0 */
+    void* driverdata;           /**< driver-specific data, initialize to 0 */
 } SDL_DisplayMode;
 
 /**
@@ -216,7 +216,7 @@ typedef enum
 /**
  *  \brief An opaque handle to an OpenGL context.
  */
-typedef void *SDL_GLContext;
+typedef void* SDL_GLContext;
 
 /**
  *  \brief OpenGL configuration attributes
@@ -799,7 +799,7 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_CreateWindow(const char *title,
  * \sa SDL_CreateWindow
  * \sa SDL_DestroyWindow
  */
-extern DECLSPEC SDL_Window * SDLCALL SDL_CreateWindowFrom(const void *data);
+extern DECLSPEC SDL_Window * SDLCALL SDL_CreateWindowFrom(const void* data);
 
 /**
  * Get the numeric ID of a window.
@@ -906,7 +906,7 @@ extern DECLSPEC void SDLCALL SDL_SetWindowIcon(SDL_Window * window,
  */
 extern DECLSPEC void* SDLCALL SDL_SetWindowData(SDL_Window * window,
                                                 const char *name,
-                                                void *userdata);
+                                                void* userdata);
 
 /**
  * Retrieve the data pointer associated with a window.
@@ -919,7 +919,7 @@ extern DECLSPEC void* SDLCALL SDL_SetWindowData(SDL_Window * window,
  *
  * \sa SDL_SetWindowData
  */
-extern DECLSPEC void *SDLCALL SDL_GetWindowData(SDL_Window * window,
+extern DECLSPEC void* SDLCALL SDL_GetWindowData(SDL_Window * window,
                                                 const char *name);
 
 /**
@@ -1737,7 +1737,7 @@ typedef enum
  */
 typedef SDL_HitTestResult (SDLCALL *SDL_HitTest)(SDL_Window *win,
                                                  const SDL_Point *area,
-                                                 void *data);
+                                                 void* data);
 
 /**
  * Provide a callback that decides if a window region has special properties.
@@ -1781,7 +1781,7 @@ typedef SDL_HitTestResult (SDLCALL *SDL_HitTest)(SDL_Window *win,
  */
 extern DECLSPEC int SDLCALL SDL_SetWindowHitTest(SDL_Window * window,
                                                  SDL_HitTest callback,
-                                                 void *callback_data);
+                                                 void* callback_data);
 
 /**
  * Request a window to demand attention from the user.
@@ -1934,7 +1934,7 @@ extern DECLSPEC int SDLCALL SDL_GL_LoadLibrary(const char *path);
  * \sa SDL_GL_LoadLibrary
  * \sa SDL_GL_UnloadLibrary
  */
-extern DECLSPEC void *SDLCALL SDL_GL_GetProcAddress(const char *proc);
+extern DECLSPEC void* SDLCALL SDL_GL_GetProcAddress(const char *proc);
 
 /**
  * Unload the OpenGL library previously loaded by SDL_GL_LoadLibrary().
@@ -2021,7 +2021,7 @@ extern DECLSPEC int SDLCALL SDL_GL_GetAttribute(SDL_GLattr attr, int *value);
  * extension-handling library or with SDL_GL_GetProcAddress() and its related
  * functions.
  *
- * SDL_GLContext is an alias for `void *`. It's opaque to the application.
+ * SDL_GLContext is an alias for `void* `. It's opaque to the application.
  *
  * \param window the window to associate with the context
  * \returns the OpenGL context associated with `window` or NULL on error; call

@@ -40,12 +40,12 @@ HWND LEDIT_handle_bpyellow;
 HWND LEDIT_handle_bpblue;
 HWND LEDIT_handle_bpred;
 
-CBYTE *LEDIT_name_frame  = "Urban Chaos lighting editor";
-CBYTE *LEDIT_name_engine = "Engine view";
-CBYTE *LEDIT_name_light  = "Light info";
-CBYTE *LEDIT_name_colour = "Colour box";
+CBYTE* LEDIT_name_frame  = "Urban Chaos lighting editor";
+CBYTE* LEDIT_name_engine = "Engine view";
+CBYTE* LEDIT_name_light  = "Light info";
+CBYTE* LEDIT_name_colour = "Colour box";
 
-HMENU  LEDIT_main_menu;
+HMENU LEDIT_main_menu;
 HACCEL LEDIT_accel;
 
 //
@@ -56,7 +56,7 @@ HCURSOR LEDIT_arrow;
 HCURSOR LEDIT_busy_bee;
 HCURSOR LEDIT_all_dirs;
 HCURSOR LEDIT_upndown;
-HICON   LEDIT_icon;
+HICON LEDIT_icon;
 
 //
 // The colour the brightness trackbar is offset from.
@@ -1145,7 +1145,7 @@ void LEDIT_request_exit()
 // Loads a new map.
 //
 
-void LEDIT_load_map(CBYTE *name)
+void LEDIT_load_map(CBYTE* name)
 {
 	if (ED_undo_undo_valid())
 	{

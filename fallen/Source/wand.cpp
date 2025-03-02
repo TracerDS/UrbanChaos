@@ -366,7 +366,7 @@ void WAND_draw(SLONG map_x, SLONG map_z)
 
 #define	SEARCH_SIZE	1
 
-SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz)
+SLONG WAND_find_good_start_point(SLONG *mapx,SLONG *mapz)
 {
 	Thing	*p_person;
 	SLONG	dx,dz,x,z,minx,maxx,minz,maxz;
@@ -410,7 +410,7 @@ SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz)
 	return(0);
 }
 #define	SEARCH_SIZE2	2
-SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz)
+SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz)
 {
 	SLONG	dx,dz,x,z,minx,maxx,minz,maxz;
 	SLONG	angle;

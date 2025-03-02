@@ -27,8 +27,8 @@
 //---------------------------------------------------------------
 // mikes mouse stuff
 
-extern	volatile SLONG		MouseDX,MouseDY;
-extern	void	RecenterMouse();
+extern volatile SLONG		MouseDX,MouseDY;
+extern void	RecenterMouse();
 
 //---------------------------------------------------------------
 
@@ -76,7 +76,7 @@ extern	void	RecenterMouse();
 #else //#ifdef TARGET_DC
 
 
-inline SLONG check_result(HRESULT f, SLONG line, CBYTE *file)
+inline SLONG check_result(HRESULT f, SLONG line, CBYTE* file)
 {
 //	if (f == DD_OK)			// this is an *INCORRECT* error test; see e.g. Petzold "Programming Windows 95"
 	if ( f >= 0 )

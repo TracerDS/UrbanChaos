@@ -22,8 +22,8 @@ extern SLONG				*CosTable,
 							SinTable[];
 extern SLONG				Proportions[];
 
-SLONG						Arctan(SLONG X,SLONG Y);
-SLONG						Root(SLONG square);
+SLONG Arctan(SLONG X,SLONG Y);
+SLONG Root(SLONG square);
 
 static inline SLONG			Hypotenuse(SLONG x,SLONG y)	
 {											

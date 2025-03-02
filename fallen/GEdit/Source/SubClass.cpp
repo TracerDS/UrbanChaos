@@ -506,7 +506,7 @@ void	count_prims_map() {
 //------------------------------------------------------------------------
 // This writes out updated .IAM files
 
-void	save_prim_map(CBYTE *name)
+void	save_prim_map(CBYTE* name)
 {
 	// block-copies all except the prim section which is replaced
 
@@ -766,7 +766,7 @@ SLONG add_prim_to(MapThing *map, SLONG pos, OB_Info *oi) {
 
 // This writes out updated .MAP files
 
-void update_prims_on_map(CBYTE *orig_name) {
+void update_prims_on_map(CBYTE* orig_name) {
 	CBYTE name[_MAX_PATH],name2[_MAX_PATH],name3[_MAX_PATH],msg[_MAX_PATH], *ptr;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	MFFileHandle	handout	=	FILE_OPEN_ERROR;

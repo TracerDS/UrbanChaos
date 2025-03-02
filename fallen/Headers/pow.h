@@ -125,7 +125,7 @@ void POW_init();
 
 void POW_new(SLONG type, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz);
 
-inline	void POW_create(
+inline void POW_create(
 		SLONG which,
 		SLONG x,	// 16-bits per mapsquare
 		SLONG y,

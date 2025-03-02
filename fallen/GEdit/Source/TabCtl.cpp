@@ -19,7 +19,7 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 	va_list marker;
 	UWORD  i,count=0,j=0;
 	HWND hwndTab=GetDlgItem(wnd,tabctl);
-	CBYTE *pc;
+	CBYTE* pc;
 	DLGPROC wp;
     TabInfo *pTabInfo = new TabInfo;
 

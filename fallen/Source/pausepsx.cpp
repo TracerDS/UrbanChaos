@@ -36,7 +36,7 @@ extern ControllerPacket	PAD_Input1,PAD_Input2;
 extern UBYTE	psx_motor[];
 
 #ifdef VERSION_USA
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -50,7 +50,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_JAPAN
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -64,7 +64,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_FRENCH
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Reprendre niveau",
 	"Recommencer niveau",
@@ -82,7 +82,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 // Gore enablable or not, so it might be German or French, so both versions are getting
 // setup to ignore this section if VERSION_KOREA is defined.
 #if !defined(VERSION_KOREA)&&!defined(VERSION_FRENCH)&&!defined(VERSION_DEMO)
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Level wiederaufnehmen",
 	"Level neu starten",
@@ -97,7 +97,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_SPANISH
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Reanudar nivel",
 	"Reiniciar nivel",
@@ -111,7 +111,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_ITALIAN
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Riprendi livello",
 	"Ricomincia livello",
@@ -125,7 +125,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_KOREA
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -141,14 +141,14 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #ifdef VERSION_ENGLISH
 
 #ifndef VERSION_DEMO
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
 	"Abandon Game"
 };
 #else
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Abandon Game"

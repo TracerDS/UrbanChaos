@@ -75,7 +75,7 @@ typedef struct
 // Data
 //
 
-typedef	OB_Mapwho  OB_workaround[OB_SIZE];
+typedef OB_Mapwho  OB_workaround[OB_SIZE];
 extern OB_workaround *OB_mapwho; //[OB_SIZE][OB_SIZE];
 extern OB_Ob     *OB_ob;//[OB_MAX_OBS];
 extern SLONG     OB_ob_upto;

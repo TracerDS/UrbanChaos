@@ -190,11 +190,11 @@ void A3DManager::Init(SLONG features) {
 
 	CoInitialize(NULL);
 	hr = CoCreateInstance(CLSID_A3dApi, NULL, CLSCTX_INPROC_SERVER,
-	                      IID_IA3d4, (void **)&a3droot);
+	                      IID_IA3d4, (void* *)&a3droot);
     if (FAILED(hr)) return;
 
 	//---
-	hr = a3droot->QueryInterface(IID_IA3dGeom, (void **)&a3dgeom);
+	hr = a3droot->QueryInterface(IID_IA3dGeom, (void* *)&a3dgeom);
 	if (FAILED(hr)) return;
 	//---
 
@@ -214,7 +214,7 @@ void A3DManager::Init(SLONG features) {
 
 	// Use it to acquire a listener
 
-	hr = a3droot->QueryInterface(IID_IA3dListener, (void **)&a3dlis);
+	hr = a3droot->QueryInterface(IID_IA3dListener, (void* *)&a3dlis);
     if (FAILED(hr)) return;
 
 	// Enable the resource manager
@@ -386,7 +386,7 @@ void A3DManager::BindMaterial(SLONG material) {
  *
  */
 
-A3DSource::A3DSource(CBYTE *fn) {
+A3DSource::A3DSource(CBYTE* fn) {
 	A3DBase *data=NULL;
 
 	if (fn) {
@@ -557,7 +557,7 @@ void A3DSource::Rewind() {
  *
  */
 
-A3DData::A3DData(CBYTE *fn, UBYTE ntype) {
+A3DData::A3DData(CBYTE* fn, UBYTE ntype) {
 	HRESULT hr;
 
 	the_a3d_manager.datalist += this;
@@ -636,7 +636,7 @@ A3DBase *A3DList::Index(SLONG index) {
 	return walk;
 };
 
-A3DBase *A3DList::Find(CBYTE *want) {
+A3DBase *A3DList::Find(CBYTE* want) {
 	A3DBase *walk=list;
 
 	while (walk&&stricmp(want,walk->GetTitle())) walk=walk->next;
@@ -750,7 +750,7 @@ bool A3DManager::Valid(A3DBase* item) { return true; }
 A3DSource* A3DManager::ValidChannel(A3DBase* item) { return NULL; }
 A3DBase* A3DManager::ValidWave(A3DBase* item) { return NULL; }
 void A3DManager::BindMaterial(SLONG material) {}
-A3DSource::A3DSource(CBYTE *fn) {}
+A3DSource::A3DSource(CBYTE* fn) {}
 A3DSource::A3DSource(A3DBase *original) {}
 void A3DSource::SetupParams() {}
 void A3DSource::DupeConstruct(A3DBase *original) {}
@@ -764,14 +764,14 @@ UBYTE A3DSource::CBEnded() { return 0; }
 void A3DSource::Play(UBYTE looped) {}
 void A3DSource::Stop() {}
 void A3DSource::Rewind() {}
-A3DData::A3DData(CBYTE *fn, UBYTE ntype) {}
+A3DData::A3DData(CBYTE* fn, UBYTE ntype) {}
 A3DData::~A3DData() {}
 A3DList::~A3DList() {}
 void A3DList::Clear() {}
 void A3DList::Add(A3DBase *item) {}
 void A3DList::Del(A3DBase *item) {}
 A3DBase *A3DList::Index(SLONG index) { return NULL; }
-A3DBase *A3DList::Find(CBYTE *want) { return NULL; }
+A3DBase *A3DList::Find(CBYTE* want) { return NULL; }
 void A3DBase::FreeWave() {}
 ULONG A3DBase::GetLengthSamples() { return 0; }
 float A3DBase::GetLengthSeconds() { return 0.0f; }

@@ -28,7 +28,7 @@ typedef struct
 #define LOG_MAX_DISPLAY 32	// Power of 2 please!
 
 LOG_Display LOG_display[LOG_MAX_DISPLAY];
-SLONG       LOG_display_last;	// The index of the last message.
+SLONG LOG_display_last;	// The index of the last message.
 
 
 //
@@ -58,7 +58,7 @@ void LOG_init()
 // Adds a message to the display system.
 //
 
-void LOG_message(ULONG colour, CBYTE *fmt, ...)
+void LOG_message(ULONG colour, CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -107,7 +107,7 @@ void LOG_draw()
 	}
 }
 
-void LOG_file(CBYTE *fmt, ...)
+void LOG_file(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.

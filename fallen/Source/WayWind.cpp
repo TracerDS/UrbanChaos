@@ -15,9 +15,9 @@
 //---------------------------------------------------------------
 
 
-int						waypoint_colour,
+int waypoint_colour,
 						waypoint_group;
-UBYTE					button_colours[WAY_COLOURS][3]	=	{
+UBYTE button_colours[WAY_COLOURS][3]	=	{
 																{	0,		0,		0	},
 																{	255,	255,	255	},
 																{	255,	0,		0	},
@@ -34,7 +34,7 @@ UBYTE					button_colours[WAY_COLOURS][3]	=	{
 																{	171,	249,	167	},
 																{	168,	178,	54	}
 															};
-TCHAR					button_classes[WAY_COLOURS][_MAX_PATH];
+TCHAR button_classes[WAY_COLOURS][_MAX_PATH];
 
 
 extern HCURSOR			GEDIT_arrow;
@@ -46,7 +46,7 @@ extern HWND				GEDIT_client_wnd,
 
 //---------------------------------------------------------------
 
-void	update_combos(HWND parent)
+void update_combos(HWND parent)
 {
 /*
 	int			c0,
@@ -250,7 +250,7 @@ bool CALLBACK		waypoint_proc	(
 
 //---------------------------------------------------------------
 
-LRESULT	CALLBACK	button_proc	(
+LRESULT CALLBACK	button_proc	(
 									HWND hWnd,
 									UINT message,
 									WPARAM wParam,
@@ -294,7 +294,7 @@ LRESULT	CALLBACK	button_proc	(
 
 //---------------------------------------------------------------
 
-bool	init_wwind()
+bool init_wwind()
 {
 	int				c0;
 	WNDCLASSEX		new_class;
@@ -337,7 +337,7 @@ bool	init_wwind()
 
 //---------------------------------------------------------------
 
-void	fini_wwind()
+void fini_wwind()
 {
 	int			c0;
 

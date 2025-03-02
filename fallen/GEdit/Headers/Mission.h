@@ -40,7 +40,7 @@ struct	EventPoint
 				Prev;
 };
 
-extern	EventPoint		*current_ep;
+extern EventPoint		*current_ep;
 
 //---------------------------------------------------------------
 
@@ -537,7 +537,7 @@ UWORD		alloc_map();
 void		free_map(UWORD map);
 UWORD		alloc_mission(UWORD	map_ref);
 void		free_mission(UWORD mission);
-void		init_mission(UWORD mission_ref,CBYTE *mission_name);
+void		init_mission(UWORD mission_ref,CBYTE* mission_name);
 EventPoint	*alloc_eventpoint();
 void		free_eventpoint(EventPoint *the_ep);
 #ifndef		PSX
@@ -552,9 +552,9 @@ void		ResetUsedpoint(Mission *mission);
 void		ResetFreelist(Mission *mission);
 void		ResetUsedlist(Mission *mission);
 bool		HasText(EventPoint *ep);
-UWORD		GetTextID(CBYTE *msg);
+UWORD		GetTextID(CBYTE* msg);
 UWORD		GetEPTextID(EventPoint *ep);
-//void		SetTextID(CBYTE *msg, SLONG value=-1);
+//void		SetTextID(CBYTE* msg, SLONG value=-1);
 void		SetEPTextID(EventPoint *ep, SLONG value=-1);
 CBYTE	   *GetEPText(EventPoint *ep);
 

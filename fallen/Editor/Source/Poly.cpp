@@ -220,7 +220,7 @@ inline void	clip_rhs_span(struct	Boint	*chopee,SLONG x)
 	chopee->RightX   =	x;
 }	
 
-extern	void	insert_span(struct	Boint	*span,struct	Boint	**head);
+extern void	insert_span(struct	Boint	*span,struct	Boint	**head);
 
 void	do_nowt(void)
 {
@@ -457,7 +457,7 @@ ULONG	span_exists(struct	Boint	*span,struct	Boint	**head)
 	
 }
 
-void	show_line(struct	Boint	**head,CBYTE *str)
+void	show_line(struct	Boint	**head,CBYTE* str)
 {
 	struct	Boint	*p;
 	p=*head;
@@ -627,7 +627,7 @@ exit:;
 
 
 
-SLONG	FileSaveAt(CBYTE *name,UBYTE *ptr,ULONG size)
+SLONG	FileSaveAt(CBYTE* name,UBYTE *ptr,ULONG size)
 {
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	handle=FileCreate(name,1);
@@ -726,7 +726,7 @@ void	init_tmap(void)
 */
 }
 
-extern	SLONG	find_colour(UBYTE *pal,SLONG r,SLONG g,SLONG b);
+extern SLONG	find_colour(UBYTE *pal,SLONG r,SLONG g,SLONG b);
 /*
 SLONG	find_colour(UBYTE *pal,SLONG r,SLONG g,SLONG b)
 {

@@ -4,14 +4,14 @@
 
 #include	<MFHeader.h>
 
-UBYTE					CurrentPalette[256*3];
-LPDIRECTDRAWPALETTE		lp_DD_Palette	=	NULL;
-PALETTEENTRY			ThePalette[256];
+UBYTE CurrentPalette[256*3];
+LPDIRECTDRAWPALETTE lp_DD_Palette	=	NULL;
+PALETTEENTRY ThePalette[256];
 
 //---------------------------------------------------------------
 
 
-void	InitPalettes()
+void InitPalettes()
 {
 #if defined(_DEBUG) && !defined(TARGET_DC)
 	ULONG			c0;
@@ -50,7 +50,7 @@ void	InitPalettes()
 
 //---------------------------------------------------------------
 
-SLONG	CreatePalettes()
+SLONG CreatePalettes()
 {
 	HRESULT			dd_result;
 
@@ -98,7 +98,7 @@ SLONG	CreatePalettes()
 
 //---------------------------------------------------------------
 
-void	DestroyPalettes()
+void DestroyPalettes()
 {
 	HRESULT		dd_result;
 
@@ -121,7 +121,7 @@ void	DestroyPalettes()
 
 //---------------------------------------------------------------
 
-void	RestorePalettes()
+void RestorePalettes()
 {
 	if(lp_DD_Palette && lp_DD_FrontSurface)
 	{
@@ -131,7 +131,7 @@ void	RestorePalettes()
 
 //---------------------------------------------------------------
 
-void	SetPalette(UBYTE *the_palette)
+void SetPalette(UBYTE *the_palette)
 {
 #ifndef TARGET_DC
 	ULONG			c0;
@@ -185,7 +185,7 @@ void	SetPalette(UBYTE *the_palette)
 
 //---------------------------------------------------------------
 
-SLONG	FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+SLONG FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 {
 	SLONG	found	=	-1;
 

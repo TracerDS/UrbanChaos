@@ -23,7 +23,7 @@ void CACHE_init();
 
 CACHE_Index CACHE_create(
 				SLONG key,
-				void *data,
+				void* data,
 				UWORD num_bytes);
 
 //
@@ -39,7 +39,7 @@ SLONG CACHE_is_valid(CACHE_Index c_index);
 typedef struct
 {
 	SLONG key;
-	void *data;
+	void* data;
 	SLONG num_bytes;
 
 } CACHE_Info;

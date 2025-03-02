@@ -16,7 +16,7 @@
 #define AZ_MAX_LINES 512
 
 AZ_Line AZ_line[AZ_MAX_LINES];
-SLONG   AZ_line_upto;
+SLONG AZ_line_upto;
 
 
 

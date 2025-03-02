@@ -221,7 +221,7 @@ typedef SDL_AssertState (SDLCALL *SDL_AssertionHandler)(
  */
 extern DECLSPEC void SDLCALL SDL_SetAssertionHandler(
                                             SDL_AssertionHandler handler,
-                                            void *userdata);
+                                            void* userdata);
 
 /**
  * Get the default assertion handler.
@@ -261,7 +261,7 @@ extern DECLSPEC SDL_AssertionHandler SDLCALL SDL_GetDefaultAssertionHandler(void
  *
  * \sa SDL_SetAssertionHandler
  */
-extern DECLSPEC SDL_AssertionHandler SDLCALL SDL_GetAssertionHandler(void **puserdata);
+extern DECLSPEC SDL_AssertionHandler SDLCALL SDL_GetAssertionHandler(void* *puserdata);
 
 /**
  * Get a list of all assertion failures.

@@ -28,9 +28,9 @@
 #define	FLAGS_SHOW_TEXTURE	(1<<0)
 #define	FLAGS_QUADS			(1<<1)
 #define	FLAGS_FIXED			(1<<2)
-extern	CBYTE	texture_style_names[200][21];
+extern CBYTE	texture_style_names[200][21];
 
-extern	UWORD	floor_texture_sizes[];
+extern UWORD	floor_texture_sizes[];
 
 class	PaintTab	:	public	ModeTab
 {

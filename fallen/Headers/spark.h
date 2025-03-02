@@ -96,7 +96,7 @@ typedef struct
 
 } SPARK_Info;
 
-void        SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
+void SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
 SPARK_Info *SPARK_get_next ();	// NULL => No more sparks...
 
 

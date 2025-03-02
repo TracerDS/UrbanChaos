@@ -582,7 +582,7 @@ typedef struct
 
 } ED_Header;
 
-SLONG ED_load(CBYTE *name)
+SLONG ED_load(CBYTE* name)
 {
 	SLONG i,data_left;
 	UBYTE version = 0;
@@ -702,7 +702,7 @@ SLONG ED_load(CBYTE *name)
 	return false;
 }
 
-SLONG ED_save(CBYTE *name)
+SLONG ED_save(CBYTE* name)
 {
 	SLONG version = 1;
 	SLONG c0;

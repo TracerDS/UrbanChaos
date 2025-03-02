@@ -37,8 +37,8 @@ typedef struct
 #define WMOVE_MAX_FACES	(save_table[SAVE_TABLE_WMOVE].Maximum)
 //#define WMOVE_MAX_FACES 192
 
-extern	WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
-extern	SLONG       WMOVE_face_upto;
+extern WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
+extern SLONG       WMOVE_face_upto;
 
 
 //

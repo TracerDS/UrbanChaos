@@ -140,7 +140,7 @@ typedef struct
 #define BANG_MAX_PHWOARS 4096
 
 BANG_Phwoar BANG_phwoar[BANG_MAX_PHWOARS];
-UBYTE       BANG_phwoar_free;
+UBYTE BANG_phwoar_free;
 
 //
 // An explosion.
@@ -159,7 +159,7 @@ typedef struct
 #define BANG_MAX_BANGS 64
 
 BANG_Bang BANG_bang[BANG_MAX_BANGS];
-SLONG     BANG_last;
+SLONG BANG_last;
 
 //
 // The BANG mapwho.
@@ -608,11 +608,11 @@ void BANG_create(
 
 
 
-UBYTE     BANG_get_xmin;
-UBYTE     BANG_get_xmax;
-UBYTE     BANG_get_z;
-UWORD     BANG_get_bang;
-UWORD     BANG_get_phwoar;
+UBYTE BANG_get_xmin;
+UBYTE BANG_get_xmax;
+UBYTE BANG_get_z;
+UWORD BANG_get_bang;
+UWORD BANG_get_phwoar;
 BANG_Info BANG_get_info;
 
 void BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)

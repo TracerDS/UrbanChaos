@@ -244,7 +244,7 @@ void TEXTURE_set_greyscale(SLONG is_greyscale);
 // Change a specific texture to a different tga
 //
 
-void TEXTURE_set_tga(SLONG page, CBYTE *fn);
+void TEXTURE_set_tga(SLONG page, CBYTE* fn);
 
 //
 // Frees all the texture pages.

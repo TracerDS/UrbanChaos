@@ -19,7 +19,7 @@
 
 
 
-Plat  *PLAT_plat; //[PLAT_MAX_PLATS];
+Plat *PLAT_plat; //[PLAT_MAX_PLATS];
 SLONG PLAT_plat_upto;
 
 //
@@ -317,7 +317,7 @@ void PLAT_process(Thing *p_thing)
 							{
 
 #ifndef PSX
-								extern SLONG playing_level(const CBYTE *name);  // eway.cpp
+								extern SLONG playing_level(const CBYTE* name);  // eway.cpp
 								if (playing_level("botanicc.ucm") &&
 #else
 								if ((wad_level==19) &&

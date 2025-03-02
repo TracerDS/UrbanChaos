@@ -29,9 +29,9 @@ SBYTE f_width[104]={
 	12,12,12,12,11,11,11,11
 };
 
-//char text_table[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?^¬@_";
+//char text_table[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?^ï¿½@_";
 
-void draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id)
+void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 {
 	SPRT *p;
 	DR_TPAGE *tp;
@@ -92,7 +92,7 @@ void draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id)
 	the_display.CurrentPrim=(UBYTE*)p;
 }
 
-SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count)
+SLONG text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
 {
 	char *p=message;
 	int width=0;
@@ -107,13 +107,13 @@ SLONG	text_width(CBYTE *message,SLONG font_id,SLONG *char_count)
 	return(width);
 }
 
-SLONG	text_height(CBYTE *message,SLONG font_id,SLONG *char_count)
+SLONG text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
 {
 	*char_count=0;//strlen(message);
 	return(12);
 }
 
-void	draw_centre_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id,SLONG flag)
+void draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag)
 {
 	SLONG c;
 	draw_text_at(x-(text_width(message,font_id,&c)/2),y-(text_height(message,font_id,&c)/2),message,font_id);

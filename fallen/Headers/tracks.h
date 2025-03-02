@@ -53,8 +53,8 @@ struct Track {
 
 typedef Track* TrackPtr;
 
-extern	Track	*tracks;//[TRACK_BUFFER_LENGTH];
-extern	UWORD	track_head,track_tail,track_eob;
+extern Track	*tracks;//[TRACK_BUFFER_LENGTH];
+extern UWORD	track_head,track_tail,track_eob;
 
 #define	TO_TRACK(x)		(&tracks[x])
 #define	TRACK_NUMBER(x)	(UWORD)(x-TO_TRACK(0))

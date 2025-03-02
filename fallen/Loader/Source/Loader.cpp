@@ -59,8 +59,8 @@ typedef struct {
 
 Display db[2];
 SLONG CurrentDB;
-CBYTE *prim_ptr;
-CBYTE *mem_ptr=(CBYTE*)0x80160000;
+CBYTE* prim_ptr;
+CBYTE* mem_ptr=(CBYTE*)0x80160000;
 
 #define ALLOCPRIM(p,t) { p=(t*)prim_ptr;prim_ptr+=sizeof(t); }
 #define DOPRIM(o,p) addPrim(&db[CurrentDB].ot[o],p)
@@ -260,9 +260,9 @@ UBYTE wadmenu_f_width[]={
 
 };
 
-SLONG Wadmenu_text_width2(CBYTE *message)
+SLONG Wadmenu_text_width2(CBYTE* message)
 {
-	CBYTE *p=message;
+	CBYTE* p=message;
 	SLONG width=0;
 
 	while(*p)
@@ -274,7 +274,7 @@ SLONG Wadmenu_text_width2(CBYTE *message)
 	return width;
 }
 
-void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE *message,SLONG font_id)
+void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 {
 	SPRT *p;
 	DR_TPAGE *tp;
@@ -413,7 +413,7 @@ SLONG LOADER_DispMenu(SLONG selected)
 		
 }
 
-void LoadFile(CBYTE *fname,ULONG *addr,SLONG len)
+void LoadFile(CBYTE* fname,ULONG *addr,SLONG len)
 {
 #ifdef VERSION_CD
 	char str[80];

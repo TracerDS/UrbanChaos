@@ -15,7 +15,7 @@ ModeTab::ModeTab()
 
 //---------------------------------------------------------------
 
-void ModeTab::SetupModeTab(CBYTE *the_title,UWORD id,EdRect *bounding_rect,ULONG *update_ptr)
+void ModeTab::SetupModeTab(CBYTE* the_title,UWORD id,EdRect *bounding_rect,ULONG *update_ptr)
 {
 	Title		=	the_title;
 	SetTabArea(bounding_rect);

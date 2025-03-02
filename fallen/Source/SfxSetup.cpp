@@ -19,7 +19,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	sfx_type,sfx_id;
+SLONG sfx_type,sfx_id;
 
 //---------------------------------------------------------------
 
@@ -33,7 +33,7 @@ SLONG	sfx_type,sfx_id;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-CBYTE *sfxtypes[] = { "Sound FX", "Music", "!" };
+CBYTE* sfxtypes[] = { "Sound FX", "Music", "!" };
 
 void FillList(HWND hWnd, SLONG id, bool music) {
 	SLONG i;
@@ -69,7 +69,7 @@ void IDToSelect(HWND hWnd, SLONG id) {
 }
 
 
-bool	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -124,7 +124,7 @@ bool	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_sfx_setup(EventPoint *the_ep)
+void do_sfx_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	sfx_type		=	the_ep->Data[0];

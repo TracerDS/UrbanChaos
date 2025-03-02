@@ -12,7 +12,7 @@
 #if 1
 #define Arctan(X,Y) (ratan2((Y),(X))<<1)
 #else
-SLONG	Arctan(SLONG X,SLONG Y)
+SLONG Arctan(SLONG X,SLONG Y)
 {
 	register SLONG		ax,bx;
 
@@ -89,7 +89,7 @@ nnyprimary:
 #endif
 //---------------------------------------------------------------
 
-UWORD	ini_table[]	=
+UWORD ini_table[]	=
 {
 	1,		2,		2,		4,
 	5,		8,		11,		16,
@@ -101,7 +101,7 @@ UWORD	ini_table[]	=
 	23170,	32768,	46340,	65535
 };
 
-SLONG	Root(SLONG square)
+SLONG Root(SLONG square)
 {
 	__asm
 	{
@@ -126,7 +126,7 @@ done_it:
 
 //---------------------------------------------------------------
 
-SWORD	AtanTable[] =
+SWORD AtanTable[] =
 {
 	2048L*0/131072L,
 	2048L*81/131072L,
@@ -389,7 +389,7 @@ SWORD	AtanTable[] =
 
 //---------------------------------------------------------------
 
-SLONG	SinTable[]=
+SLONG SinTable[]=
 {
 	0,	//	    0	0.00	0.000000
 	201,	//	    1	0.18	0.003068
@@ -2953,11 +2953,11 @@ SLONG	SinTable[]=
 	65535,	//	 2559	449.82	7.850914
 };
 
-SLONG	*CosTable	=	&SinTable[512];
+SLONG *CosTable	=	&SinTable[512];
 
 //---------------------------------------------------------------
 
-float	SinTableF[]	=	
+float SinTableF[]	=	
 {
 	(float)0.000000,	// 0
 	(float)0.003068,	// 1
@@ -5521,10 +5521,10 @@ float	SinTableF[]	=
 	(float)0.999995,	// 511
 };
 
-float	*CosTableF	=	&SinTableF[512];
+float *CosTableF	=	&SinTableF[512];
 
 //---------------------------------------------------------------
-SLONG	Proportions[]	=
+SLONG Proportions[]	=
 {
 	11585,
 	11563,

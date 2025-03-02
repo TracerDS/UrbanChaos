@@ -47,8 +47,8 @@ void	process_view_wind();
 //---------------------------------------------------------------
 
 void   WaypointCaption(EventPoint *ep);
-CBYTE *WaypointTitle(EventPoint *ep, CBYTE *msg);
-CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
+CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg);
+CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 

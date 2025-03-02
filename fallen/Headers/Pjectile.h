@@ -24,9 +24,9 @@ typedef Projectile* ProjectilePtr;
 
 //---------------------------------------------------------------
 
-void	init_projectiles();
-Thing	*alloc_projectile(UBYTE type);
-void	free_projectile(Thing *proj_thing);
+void init_projectiles();
+Thing *alloc_projectile(UBYTE type);
+void free_projectile(Thing *proj_thing);
 
 //---------------------------------------------------------------
 

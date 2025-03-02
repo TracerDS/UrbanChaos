@@ -57,8 +57,8 @@
 #endif
 
 #ifndef PSX
-UBYTE	player_visited[16][128];
-extern	SLONG	save_psx;
+UBYTE player_visited[16][128];
+extern SLONG	save_psx;
 #else
 #define save_psx (1)
 #endif
@@ -185,118 +185,118 @@ MF_sfx_stop_all();
 extern bool allow_debug_keys;
 #endif
 
-extern	SLONG	person_holding_2handed(Thing *p_person);
-extern	SLONG	continue_dir(Thing *p_person,SLONG dir);
-extern	SLONG	should_i_sneak(Thing *p_person);
-extern	void	change_velocity_to(Thing *p_person,SWORD velocity);
-extern	void	change_velocity_to_slow(Thing *p_person,SWORD velocity);
-extern	SLONG	PAP_on_slope(SLONG x,SLONG z,SLONG *angle);
-extern	SLONG	RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle);
-extern	void	process_gang_attack(Thing *p_person,Thing *p_target);
-extern	void	reset_gang_attack(Thing *p_target);
-extern	void drop_on_heads(Thing *p_thing);
-extern	UWORD	count_gang(Thing *p_target);
-extern	void person_enter_fight_mode(Thing *p_person);
-extern	UWORD	get_any_gang_member(Thing *p_target);
-extern	void	add_damage_value_thing(Thing *p_thing,SLONG value);
-extern	void	set_person_locked_idle_ready(Thing *p_person);
-extern	SLONG	remove_from_gang_attack(Thing *p_person,Thing *p_target);
-extern	SLONG continue_pressing_action(Thing *p_person);
-extern	void	set_action_used(Thing *p_person);
-extern	void	carry_running(Thing *p_person);
-extern	void	set_person_stand_carry(Thing *p_person);
+extern SLONG	person_holding_2handed(Thing *p_person);
+extern SLONG	continue_dir(Thing *p_person,SLONG dir);
+extern SLONG	should_i_sneak(Thing *p_person);
+extern void	change_velocity_to(Thing *p_person,SWORD velocity);
+extern void	change_velocity_to_slow(Thing *p_person,SWORD velocity);
+extern SLONG	PAP_on_slope(SLONG x,SLONG z,SLONG *angle);
+extern SLONG	RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle);
+extern void	process_gang_attack(Thing *p_person,Thing *p_target);
+extern void	reset_gang_attack(Thing *p_target);
+extern void drop_on_heads(Thing *p_thing);
+extern UWORD	count_gang(Thing *p_target);
+extern void person_enter_fight_mode(Thing *p_person);
+extern UWORD	get_any_gang_member(Thing *p_target);
+extern void	add_damage_value_thing(Thing *p_thing,SLONG value);
+extern void	set_person_locked_idle_ready(Thing *p_person);
+extern SLONG	remove_from_gang_attack(Thing *p_person,Thing *p_target);
+extern SLONG continue_pressing_action(Thing *p_person);
+extern void	set_action_used(Thing *p_person);
+extern void	carry_running(Thing *p_person);
+extern void	set_person_stand_carry(Thing *p_person);
 
 
 extern UBYTE stealth_debug;
 
 
-extern	SLONG	plant_feet(Thing *p_person);
-extern	SLONG	calc_angle(SLONG dx,SLONG dz);
-extern	SLONG	set_person_sidle(struct Thing *p_person);
-extern	SLONG	slide_ladder;
+extern SLONG	plant_feet(Thing *p_person);
+extern SLONG	calc_angle(SLONG dx,SLONG dz);
+extern SLONG	set_person_sidle(struct Thing *p_person);
+extern SLONG	slide_ladder;
 
-extern	SLONG	yomp_speed;
-extern	SLONG	sprint_speed;
+extern SLONG	yomp_speed;
+extern SLONG	sprint_speed;
 
-UWORD	player_dlight=0;
+UWORD player_dlight=0;
 
-void	aim_at_victim(Thing *p_person,SLONG count=1);
-void	set_anim_idle(Thing *p_person);
+void aim_at_victim(Thing *p_person,SLONG count=1);
+void set_anim_idle(Thing *p_person);
 SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
-UWORD	find_arrestee(Thing *p_person);
-void	set_person_fight_idle(Thing *p_person);
-SLONG	set_person_pos_for_fence_vault(Thing *p_person,SLONG col);
+UWORD find_arrestee(Thing *p_person);
+void set_person_fight_idle(Thing *p_person);
+SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col);
 
-SLONG	check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG px,SLONG pz);
+SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG px,SLONG pz);
 
-SLONG	find_idle_fight_stance(Thing *p_person);
-SLONG	person_holding_special(Thing* p_person, UBYTE special);
-SLONG	person_holding_bat(Thing *p_person)	{ return person_holding_special(p_person, SPECIAL_BASEBALLBAT); }
-void	set_person_running(Thing *p_person);
+SLONG find_idle_fight_stance(Thing *p_person);
+SLONG person_holding_special(Thing* p_person, UBYTE special);
+SLONG person_holding_bat(Thing *p_person)	{ return person_holding_special(p_person, SPECIAL_BASEBALLBAT); }
+void set_person_running(Thing *p_person);
 
-void	fn_person_moveing(Thing *p_person);
-void	fn_person_idle(Thing *p_person);
-void	fn_person_jumping(Thing *p_person);
-void	fn_person_dangling(Thing	*p_person);
-void	fn_person_laddering(Thing	*p_person);
-void	fn_person_climbing(Thing	*p_person);
-void	fn_person_fighting(Thing *p_person);
-void	fn_person_recoil(Thing *p_person);
-void	fn_person_dying(Thing *p_person);
-void	fn_person_dead(Thing *p_person);
-void	fn_person_gun(Thing *p_person);
-void	fn_person_wait(Thing *p_person);
-void	fn_person_navigate(Thing *p_person);
-void	fn_person_fight(Thing *p_person);
-void	fn_person_stand_up(Thing *p_person);
-void	fn_person_mavigate(Thing *p_person);
-void	fn_person_grapple(Thing *p_person);
-void	fn_person_goto(Thing *p_person);
-void	fn_person_can(Thing *p_person);
-void	fn_person_circle(Thing *p_person);
-void	fn_person_hug_wall(Thing *p_person);
-void	fn_person_search(Thing *p_person);
-void	fn_person_carry(Thing *p_person);
-void	fn_person_float(Thing *p_person);
+void fn_person_moveing(Thing *p_person);
+void fn_person_idle(Thing *p_person);
+void fn_person_jumping(Thing *p_person);
+void fn_person_dangling(Thing	*p_person);
+void fn_person_laddering(Thing	*p_person);
+void fn_person_climbing(Thing	*p_person);
+void fn_person_fighting(Thing *p_person);
+void fn_person_recoil(Thing *p_person);
+void fn_person_dying(Thing *p_person);
+void fn_person_dead(Thing *p_person);
+void fn_person_gun(Thing *p_person);
+void fn_person_wait(Thing *p_person);
+void fn_person_navigate(Thing *p_person);
+void fn_person_fight(Thing *p_person);
+void fn_person_stand_up(Thing *p_person);
+void fn_person_mavigate(Thing *p_person);
+void fn_person_grapple(Thing *p_person);
+void fn_person_goto(Thing *p_person);
+void fn_person_can(Thing *p_person);
+void fn_person_circle(Thing *p_person);
+void fn_person_hug_wall(Thing *p_person);
+void fn_person_search(Thing *p_person);
+void fn_person_carry(Thing *p_person);
+void fn_person_float(Thing *p_person);
 
-SLONG	find_anim_fall_dir(SLONG	anim);
+SLONG find_anim_fall_dir(SLONG	anim);
 
-SLONG	set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req_dist);
-void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle=0);
-void	do_person_on_cable(Thing *p_person);
-SLONG	fight_any_gang_attacker(Thing *p_person);
+SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req_dist);
+void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle=0);
+void do_person_on_cable(Thing *p_person);
+SLONG fight_any_gang_attacker(Thing *p_person);
 
-extern	SLONG	projectile_move_thing(Thing *p_thing,SLONG flag);
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
-extern	SLONG	find_best_grapple(Thing *p_person);
+extern SLONG	projectile_move_thing(Thing *p_thing,SLONG flag);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	find_best_grapple(Thing *p_person);
 
-SLONG	set_person_pos_for_half_step(Thing *p_person,SLONG col);
-void	set_person_sneaking(Thing *p_person);
-void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
-SLONG	turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow);
-SLONG	set_face_thing(Thing *p_person,Thing *p_target);
-void	set_person_mav_to_thing(Thing *p_person,Thing *p_target);
-SLONG	get_pitch_to_thing_quick(Thing *p_person,Thing *p_target);
-void	turn_to_face_thing_quick(Thing *p_person,Thing *p_target);
-SLONG	get_yomp_anim(Thing *p_person);
-SLONG	person_holding_2handed(Thing *p_person);
-void	drop_all_items(Thing *p_person, UBYTE is_being_searched);
-void	set_person_croutch(Thing *p_person);
-void	drop_current_gun(Thing *p_person,SLONG change_anim);
-SLONG	player_running_aim_gun(Thing *p_person);
-SLONG	might_i_be_a_villain(Thing *p_person);
-void	highlight_gun_target(Thing *p_person,Thing *p_target);
-void	locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
-void	set_anim_running(Thing *p_person);
+SLONG set_person_pos_for_half_step(Thing *p_person,SLONG col);
+void set_person_sneaking(Thing *p_person);
+void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
+SLONG turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow);
+SLONG set_face_thing(Thing *p_person,Thing *p_target);
+void set_person_mav_to_thing(Thing *p_person,Thing *p_target);
+SLONG get_pitch_to_thing_quick(Thing *p_person,Thing *p_target);
+void turn_to_face_thing_quick(Thing *p_person,Thing *p_target);
+SLONG get_yomp_anim(Thing *p_person);
+SLONG person_holding_2handed(Thing *p_person);
+void drop_all_items(Thing *p_person, UBYTE is_being_searched);
+void set_person_croutch(Thing *p_person);
+void drop_current_gun(Thing *p_person,SLONG change_anim);
+SLONG player_running_aim_gun(Thing *p_person);
+SLONG might_i_be_a_villain(Thing *p_person);
+void highlight_gun_target(Thing *p_person,Thing *p_target);
+void locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
+void set_anim_running(Thing *p_person);
 
-extern	void	move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz);
+extern void	move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz);
 
 #if !defined(PSX) && !defined(TARGET_DC)
-SLONG	person_is_on_sewer(Thing *p_person);
+SLONG person_is_on_sewer(Thing *p_person);
 #endif
 
 
-GenusFunctions	people_functions[]	=
+GenusFunctions people_functions[]	=
 {
 	{	PERSON_DARCI,		darci_states	},
 	{	PERSON_ROPER,		roper_states	},//roper
@@ -319,7 +319,7 @@ GenusFunctions	people_functions[]	=
 };
 
 
-StateFunction	generic_people_functions[]	=
+StateFunction generic_people_functions[]	=
 {
 	{	STATE_INIT,				NULL				},
 	{	STATE_NORMAL,			NULL				},
@@ -363,7 +363,7 @@ StateFunction	generic_people_functions[]	=
 	{	0,						NULL				}
 };
 
-CBYTE *PERSON_mode_name[PERSON_MODE_NUMBER] =
+CBYTE* PERSON_mode_name[PERSON_MODE_NUMBER] =
 {
 	"Run",
 	"Walk",
@@ -371,19 +371,19 @@ CBYTE *PERSON_mode_name[PERSON_MODE_NUMBER] =
 	"Fight"
 };
 
-SLONG	stat_killed_thug;
-SLONG	stat_killed_innocent;
-SLONG	stat_arrested_thug;
-SLONG	stat_arrested_innocent;
-SLONG	stat_count_bonus;
-SLONG	stat_start_time,stat_game_time;
+SLONG stat_killed_thug;
+SLONG stat_killed_innocent;
+SLONG stat_arrested_thug;
+SLONG stat_arrested_innocent;
+SLONG stat_count_bonus;
+SLONG stat_start_time,stat_game_time;
 
-void	set_stats()
+void set_stats()
 {
 	stat_game_time=GetTickCount()-stat_start_time;
 }
 
-void	init_stats()
+void init_stats()
 {
 	stat_killed_thug=0;
 	stat_killed_innocent=0;
@@ -470,7 +470,7 @@ SWORD health[PERSON_NUM_TYPES]=
 
 
 #ifndef PSX
-void	set_player_visited(UBYTE x,UBYTE z)
+void set_player_visited(UBYTE x,UBYTE z)
 {
 	UWORD	bit;
 	ASSERT(WITHIN(x, 0, 127));
@@ -533,7 +533,7 @@ void SlideSoundCheck(Thing* p_person, bool force=0)
 
 
 #ifndef PSX
-void	init_persons()
+void init_persons()
 {
 	SLONG	c0;
 	memset((UBYTE*)PEOPLE,0,sizeof(Person)*MAX_PEOPLE);
@@ -547,7 +547,7 @@ void	init_persons()
 
 //---------------------------------------------------------------
 
-Thing	*alloc_person(UBYTE type, UBYTE random_number)
+Thing *alloc_person(UBYTE type, UBYTE random_number)
 {
 	SLONG			c0;
 	Person			*new_person;
@@ -707,7 +707,7 @@ Thing	*alloc_person(UBYTE type, UBYTE random_number)
 
 //---------------------------------------------------------------
 
-void	free_person(Thing *person_thing)
+void free_person(Thing *person_thing)
 {
 	// Set the person type to none & free the thing.
 	person_thing->Genus.Person->AnimType	=	PERSON_NONE;
@@ -719,9 +719,9 @@ void	free_person(Thing *person_thing)
 
 //---------------------------------------------------------------
 
-UBYTE	global_person=0;
+UBYTE global_person=0;
 
-THING_INDEX	create_person(
+THING_INDEX create_person(
 				SLONG type,
 				SLONG random_number,
 				SLONG x,
@@ -738,7 +738,7 @@ THING_INDEX	create_person(
 #ifndef	PSX
 #ifndef TARGET_DC
 
-extern	SWORD	people_types[50];
+extern SWORD	people_types[50];
 		people_types[type]++;
 #endif
 #endif
@@ -888,7 +888,7 @@ SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room)
 
 
 //---------------------------------------------------------------
-extern	THING_INDEX col_with[];
+extern THING_INDEX col_with[];
 
 SLONG find_searchable_person(Thing *p_person)
 {
@@ -985,7 +985,7 @@ SLONG set_person_search_corpse(Thing *p_person, Thing *p_dead)
 	return(1);
 }
 
-void	release_searched_item(Thing *p_person)
+void release_searched_item(Thing *p_person)
 {
 	SLONG	index;
 	Thing	*p_thing;
@@ -1193,7 +1193,7 @@ SLONG person_is_lying_on_what(Thing *p_person)
 }
 
 
-SLONG	footstep_wave(Thing *p_person)
+SLONG footstep_wave(Thing *p_person)
 {
 	//
 	// Which one out of a choice of sounds we play.
@@ -1613,7 +1613,7 @@ inline void ShowAnimNumber(SLONG anim) {
 #endif
 }
 
-void	queue_anim(Thing *p_person,SLONG anim)
+void queue_anim(Thing *p_person,SLONG anim)
 {
 	ASSERT(anim!=1);
 //	ASSERT(anim!=54);
@@ -1637,7 +1637,7 @@ void	queue_anim(Thing *p_person,SLONG anim)
 	ShowAnimNumber(anim);
 }
 
-void	tween_to_anim(Thing *p_person,SLONG anim)
+void tween_to_anim(Thing *p_person,SLONG anim)
 {
 //	ASSERT(anim!=54);
 	p_person->Genus.Person->Flags2&=~FLAG2_SYNC_SOUNDFX;
@@ -1661,7 +1661,7 @@ void	tween_to_anim(Thing *p_person,SLONG anim)
 	ShowAnimNumber(anim);
 }
 
-void	set_anim(Thing *p_person,SLONG anim)
+void set_anim(Thing *p_person,SLONG anim)
 {
 	ASSERT(anim!=1);
 //	ASSERT(anim!=54);
@@ -1697,7 +1697,7 @@ void	set_anim(Thing *p_person,SLONG anim)
 
 }
 //				set_anim_of_type(p_person,CIV_M_ANIM_WALK,ANIM_TYPE_CIV);
-void	set_anim_of_type(Thing *p_person,SLONG anim,SLONG type)
+void set_anim_of_type(Thing *p_person,SLONG anim,SLONG type)
 {
 	ASSERT(anim!=1);
 //	ASSERT(anim!=54);
@@ -1736,7 +1736,7 @@ void	set_anim_of_type(Thing *p_person,SLONG anim,SLONG type)
 
 }
 
-void	set_locked_anim(Thing *p_person,SLONG anim,SLONG sub_object)
+void set_locked_anim(Thing *p_person,SLONG anim,SLONG sub_object)
 {
 	ASSERT(anim!=1);
 	ASSERT(anim);
@@ -1753,7 +1753,7 @@ void	set_locked_anim(Thing *p_person,SLONG anim,SLONG sub_object)
 	ShowAnimNumber(anim);
 
 }
-void	set_locked_anim_angle(Thing *p_person,SLONG anim,SLONG sub_object,SLONG dangle)
+void set_locked_anim_angle(Thing *p_person,SLONG anim,SLONG sub_object,SLONG dangle)
 {
 	ASSERT(anim!=1);
 	ASSERT(anim);
@@ -1770,7 +1770,7 @@ void	set_locked_anim_angle(Thing *p_person,SLONG anim,SLONG sub_object,SLONG dan
 	ShowAnimNumber(anim);
 
 }
-void	set_locked_anim_of_type(Thing *p_person,SLONG anim,SLONG sub_object)
+void set_locked_anim_of_type(Thing *p_person,SLONG anim,SLONG sub_object)
 {
 	ASSERT(anim!=1);
 	ASSERT(anim);
@@ -1830,7 +1830,7 @@ SLONG get_cable_sdist_from_end(SLONG facet,SLONG ax,SLONG az)
 	return(d1);
 }
 
-void	person_death_slide(Thing *p_person)
+void person_death_slide(Thing *p_person)
 {
 	SLONG	dx,dy=0,dz;
 	SLONG	along;
@@ -1890,7 +1890,7 @@ void	person_death_slide(Thing *p_person)
 //
 // big drop
 //
-void	set_person_dead_land(Thing *p_thing)
+void set_person_dead_land(Thing *p_thing)
 {
 	DrawTween	*draw_info;
 	WaveParams	die;
@@ -1931,7 +1931,7 @@ void	set_person_dead_land(Thing *p_thing)
 
 
 void emergency_uncarry(Thing *p_person);
-SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+SLONG people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
 void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type)
 {
@@ -2178,10 +2178,10 @@ SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
 }
 
 
-extern	SLONG slide_along(SLONG  x1, SLONG  y1, SLONG  z1,SLONG *x2, SLONG *y2, SLONG *z2,SLONG  extra_wall_height,SLONG  radius,ULONG  flags);
-void	set_fence_hole(struct DFacet *p_facet,SLONG pos);
+extern SLONG slide_along(SLONG  x1, SLONG  y1, SLONG  z1,SLONG *x2, SLONG *y2, SLONG *z2,SLONG  extra_wall_height,SLONG  radius,ULONG  flags);
+void set_fence_hole(struct DFacet *p_facet,SLONG pos);
 
-SLONG	get_along_facet(SLONG	x,SLONG z,SLONG colvect)
+SLONG get_along_facet(SLONG	x,SLONG z,SLONG colvect)
 {
 	DFacet	*p_facet;
 	SLONG	dx,dz;
@@ -2206,8 +2206,8 @@ SLONG	get_along_facet(SLONG	x,SLONG z,SLONG colvect)
 	return(along);
 }
 #ifdef	UNUSED_WIRECUTTERS
-extern	UWORD	fence_colvect;
-SLONG	set_person_cut_fence(Thing *p_person)
+extern UWORD	fence_colvect;
+SLONG set_person_cut_fence(Thing *p_person)
 {
 	SLONG	x1,y1,z1,x2,y2,z2,dx,dz;
 	SLONG	along;
@@ -2372,7 +2372,7 @@ void set_person_dead(
 			if(p_aggressor->Genus.Person->Target==THING_NUMBER(p_thing))
 			{
 				//ASSERT(0);
-				extern	UWORD	find_target_from_gang(Thing *p_target);
+				extern UWORD	find_target_from_gang(Thing *p_target);
 				p_aggressor->Genus.Person->Target=find_target_from_gang(p_aggressor);
 				if(p_aggressor->Genus.Person->PlayerID)
 				if(p_aggressor->Genus.Person->Target==0)
@@ -2757,7 +2757,7 @@ void set_person_dead(
 //
 // 0 is not guilty, 1 is a bit guilty, 2 is very guilty , 3 is top ten most wanted
 //
-SLONG	is_person_guilty(Thing *p_person)
+SLONG is_person_guilty(Thing *p_person)
 {
 	if(p_person->Genus.Person->Flags2&FLAG2_PERSON_GUILTY)
 		return(1);
@@ -2788,7 +2788,7 @@ SLONG	is_person_guilty(Thing *p_person)
 	return(0);
 }
 
-SLONG	person_on_floor(Thing *p_person)
+SLONG person_on_floor(Thing *p_person)
 {
 	if(p_person->SubState==SUB_STATE_RUNNING||p_person->SubState==SUB_STATE_WALKING||p_person->State==STATE_IDLE||p_person->State==STATE_CIRCLING||p_person->State==STATE_GUN||p_person->State==STATE_HIT_RECOIL)
 	{
@@ -2803,7 +2803,7 @@ SLONG	person_on_floor(Thing *p_person)
 	}
 }
 
-SLONG	really_on_floor(Thing *p_person)
+SLONG really_on_floor(Thing *p_person)
 {
 	SLONG foot_x;
 	SLONG foot_y;
@@ -2832,7 +2832,7 @@ SLONG	really_on_floor(Thing *p_person)
 }
 
 
-SLONG	is_person_dead(Thing *p_person)
+SLONG is_person_dead(Thing *p_person)
 {
 	if(p_person->State==STATE_DEAD || (p_person->State==STATE_DYING && (p_person->Genus.Person->Flags&FLAG_PERSON_KO)==0)) 
 		return(1);
@@ -2841,7 +2841,7 @@ SLONG	is_person_dead(Thing *p_person)
 
 }
 
-SLONG	is_person_ko(Thing *p_person)
+SLONG is_person_ko(Thing *p_person)
 {
 	if (p_person->State == STATE_DYING)
 	{
@@ -2856,7 +2856,7 @@ SLONG	is_person_ko(Thing *p_person)
 	return false;
 }
 
-SLONG	is_person_ko_and_lay_down(Thing *p_person)
+SLONG is_person_ko_and_lay_down(Thing *p_person)
 {
 	if (p_person->State == STATE_DYING)
 	{
@@ -2974,7 +2974,7 @@ void knock_person_down(
 }
 
 
-void	person_bodge_forward(Thing *p_person,SLONG dist)
+void person_bodge_forward(Thing *p_person,SLONG dist)
 {
 	SLONG	dx,dy=0,dz;
 	GameCoord new_position = p_person->WorldPos;
@@ -2991,7 +2991,7 @@ void	person_bodge_forward(Thing *p_person,SLONG dist)
 /*
 #define	ON_MAP(x,z)	( ((x)>0) && ((x)<MAP_WIDTH) && ((z)>0) && ((z)<MAP_DEPTH) )
 
-SLONG	find_an_enemy_within_dist(SLONG x,SLONG y,SLONG z,SLONG dist,SLONG group)
+SLONG find_an_enemy_within_dist(SLONG x,SLONG y,SLONG z,SLONG dist,SLONG group)
 {
 	SLONG	dx,dz,blocks;
 	SLONG	mx,mz;
@@ -3059,10 +3059,10 @@ SLONG los_between_heads(
 // for stack reasons, should make barrel use same memory array
 //
 
-extern	THING_INDEX col_with[];
+extern THING_INDEX col_with[];
 
 #ifndef PSX
-void	oscilate_tinpanum(SLONG x,SLONG y,SLONG z,Thing *p_thing,SLONG vol)
+void oscilate_tinpanum(SLONG x,SLONG y,SLONG z,Thing *p_thing,SLONG vol)
 {
 	SLONG       col_with_upto;
 	SLONG		collide_types = (1 << CLASS_PERSON);
@@ -3596,7 +3596,7 @@ SLONG can_i_see_player(Thing *p_person)
 	return can_a_see_b(p_person, NET_PERSON(0));
 }
 
-void	do_look_for_enemies(Thing *p_person)
+void do_look_for_enemies(Thing *p_person)
 {
 	//
 	// THERE MIGHT BE TWO PLAYERS NOW REMEMBER!
@@ -3674,8 +3674,8 @@ void show_me_the_way_to_go_home(Thing *p_person)
 extern void	play_music(UWORD id, UBYTE track);
 
 
-ULONG	timer_bored=0;
-void	general_process_player(Thing *p_person)
+ULONG timer_bored=0;
+void general_process_player(Thing *p_person)
 {
 	DrawTween  *dt;
 
@@ -3704,7 +3704,7 @@ void	general_process_player(Thing *p_person)
 
 	if(p_person->Genus.Person->GangAttack)
 	{
-extern	void	check_players_gang(Thing *p_target);
+extern void	check_players_gang(Thing *p_target);
 		check_players_gang(p_person);
 	}
 /*
@@ -3976,7 +3976,7 @@ void person_pick_best_target(Thing *p_person,SLONG dir)
 	/*
 
 	UWORD	target;
-extern	UWORD	get_nearest_gang_member(Thing *p_target);
+extern UWORD	get_nearest_gang_member(Thing *p_target);
 	target=get_nearest_gang_member(p_person);
 	if(target)
 	{
@@ -3988,7 +3988,7 @@ extern	UWORD	get_nearest_gang_member(Thing *p_target);
 }
 
 
-void	general_process_person(Thing *p_person)
+void general_process_person(Thing *p_person)
 {
 /*
 	if(p_person->State!=STATE_DEAD && p_person->State!=STATE_DYING)
@@ -4741,7 +4741,7 @@ void	general_process_person(Thing *p_person)
 
 }
 
-SLONG	check_on_slippy_slope(Thing *p_person)
+SLONG check_on_slippy_slope(Thing *p_person)
 {
 	SLONG	slope,angle;
 	SLONG	size=50;
@@ -4845,7 +4845,7 @@ SLONG	check_on_slippy_slope(Thing *p_person)
 	return(0);
 
 }
-SLONG	slope_ahead(Thing *p_person,SLONG dist)
+SLONG slope_ahead(Thing *p_person,SLONG dist)
 {
 	SLONG dx;
 	SLONG dz;
@@ -5183,7 +5183,7 @@ void person_normal_move_check(Thing *p_person)
 	person_normal_move_dxdz(p_person,dx,dz);
 }
 
-SLONG	advance_keyframe(DrawTween *draw_info)
+SLONG advance_keyframe(DrawTween *draw_info)
 {
 	SLONG	ret=0;
 	draw_info->CurrentFrame	=	draw_info->NextFrame;
@@ -5213,7 +5213,7 @@ SLONG	advance_keyframe(DrawTween *draw_info)
 	return(ret);
 }
 
-SLONG	retreat_keyframe(DrawTween *draw_info)
+SLONG retreat_keyframe(DrawTween *draw_info)
 {
 	SLONG	ret=0;
 	draw_info->NextFrame	=	draw_info->CurrentFrame;
@@ -5238,9 +5238,9 @@ SLONG	retreat_keyframe(DrawTween *draw_info)
 	}
 	return(ret);
 }
-extern	void	calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
+extern void	calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
 
-void	move_locked_tween(Thing *p_person,DrawTween *dt,SLONG t1,SLONG t2)
+void move_locked_tween(Thing *p_person,DrawTween *dt,SLONG t1,SLONG t2)
 {
 		SLONG x1, y1, z1;
 		SLONG x2, y2, z2;
@@ -5279,7 +5279,7 @@ void	move_locked_tween(Thing *p_person,DrawTween *dt,SLONG t1,SLONG t2)
 }
 
 
-SLONG	person_normal_animate_speed(Thing *p_person,SLONG speed)
+SLONG person_normal_animate_speed(Thing *p_person,SLONG speed)
 {
 	SLONG	ret=0;
 	DrawTween		*draw_info;
@@ -5418,12 +5418,12 @@ extern HWND			CUTSCENE_edit_wnd;
 }
 
 
-SLONG	person_normal_animate(Thing *p_person)
+SLONG person_normal_animate(Thing *p_person)
 {
 	return(person_normal_animate_speed(p_person,256));
 }
 
-SLONG	person_backwards_animate(Thing *p_person)
+SLONG person_backwards_animate(Thing *p_person)
 {
 	SLONG	ret=0;
 	DrawTween		*draw_info;
@@ -5509,7 +5509,7 @@ SLONG	person_backwards_animate(Thing *p_person)
 	return(ret);
 }
 
-void	camera_shoot()
+void camera_shoot()
 {
 	/*
 
@@ -5539,7 +5539,7 @@ void	camera_shoot()
 	*/
 }
 
-void	camera_fight()
+void camera_fight()
 {
 	
 /*
@@ -5570,7 +5570,7 @@ void	camera_fight()
 	
 }
 
-void	camera_normal()
+void camera_normal()
 {
 /*	
 #ifndef PSX
@@ -5640,7 +5640,7 @@ void set_person_aim(Thing *p_person,SLONG locked=0)
 //	p_person->Genus.Person->Flags  |=  (FLAG_PERSON_NON_INT_C);
 }
 
-inline	SLONG	weapon_accuracy_at_dist(Thing *p_person,SLONG dist)
+inline SLONG	weapon_accuracy_at_dist(Thing *p_person,SLONG dist)
 {
 	if(dist<0)
 		return(dist);
@@ -6189,7 +6189,7 @@ SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SL
 	return ammo;
 }
 
-void	actually_fire_gun(Thing *p_person)
+void actually_fire_gun(Thing *p_person)
 {
 	SLONG	rico_id;
 	//	Set up the wave params.
@@ -6595,7 +6595,7 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 
 }
 										    
-void	set_person_running_shoot(Thing *p_person)
+void set_person_running_shoot(Thing *p_person)
 {
 	SLONG ammo,sound,anim,time;
 
@@ -6756,7 +6756,7 @@ SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 
 
 
-void	set_person_shoot(Thing *p_person,UWORD shoot_target)
+void set_person_shoot(Thing *p_person,UWORD shoot_target)
 {
 	SLONG		dx,dz;
 	SLONG		anim = ANIM_PISTOL_SHOOT;
@@ -7040,7 +7040,7 @@ void	set_person_shoot(Thing *p_person,UWORD shoot_target)
 }
 
 #ifndef PSX
-void	set_person_grapple_windup(Thing *p_person)
+void set_person_grapple_windup(Thing *p_person)
 {
 	//
 	// Make sure she has the grappling hook.
@@ -7064,7 +7064,7 @@ void	set_person_grapple_windup(Thing *p_person)
 }
 
 
-void	set_person_grappling_hook_release(Thing *p_person)
+void set_person_grappling_hook_release(Thing *p_person)
 {
 	//
 	// Make sure she has the grappling hook.
@@ -7118,7 +7118,7 @@ SLONG person_has_gun_out(Thing *p_person)
 }
 
 
-void	drop_current_gun(Thing *p_person,SLONG change_anim)
+void drop_current_gun(Thing *p_person,SLONG change_anim)
 {
 	SLONG gx;
 	SLONG gy;
@@ -7286,7 +7286,7 @@ void drop_all_items(Thing *p_person, UBYTE is_being_searched)
 }
 
 
-void	set_person_idle_uncroutch(Thing *p_person)
+void set_person_idle_uncroutch(Thing *p_person)
 {
 	SLONG	anim;
 	set_generic_person_state_function(p_person,STATE_IDLE);
@@ -7318,7 +7318,7 @@ void	set_person_idle_uncroutch(Thing *p_person)
 
 
 
-void	set_person_turn_to_hug_wall(Thing *p_person)
+void set_person_turn_to_hug_wall(Thing *p_person)
 {
 	SLONG	anim;
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
@@ -7341,7 +7341,7 @@ void	set_person_turn_to_hug_wall(Thing *p_person)
 	p_person->Genus.Person->Action=ACTION_HUG_WALL;
 }
 
-void	set_person_hug_wall_dir(Thing *p_person,SLONG dir)
+void set_person_hug_wall_dir(Thing *p_person,SLONG dir)
 {
 	SLONG	gun;
 	SLONG	anim;
@@ -7386,7 +7386,7 @@ void	set_person_hug_wall_dir(Thing *p_person,SLONG dir)
 	}
 
 }
-void	set_person_hug_wall_look(Thing *p_person,SLONG dir)
+void set_person_hug_wall_look(Thing *p_person,SLONG dir)
 {
 	SLONG	gun;
 	SLONG	anim;
@@ -7435,7 +7435,7 @@ void	set_person_hug_wall_look(Thing *p_person,SLONG dir)
 
 }
 
-void	set_person_idle(Thing *p_person)
+void set_person_idle(Thing *p_person)
 {
 	SLONG anim;
 	p_person->Genus.Person->Flags&=~FLAG_PERSON_KO;
@@ -7591,7 +7591,7 @@ void	set_person_idle(Thing *p_person)
 }
 
 
-void	set_person_locked_idle_ready(Thing *p_person)
+void set_person_locked_idle_ready(Thing *p_person)
 {
 	SLONG	anim=ANIM_STAND_READY;
 
@@ -7692,7 +7692,7 @@ void	set_person_locked_idle_ready(Thing *p_person)
 //	Check if back against a wall, for sneak along mode
 //
 
-SLONG	set_person_sidle(struct Thing *p_person)
+SLONG set_person_sidle(struct Thing *p_person)
 {
 	SLONG	dx,dz;
 	SLONG	index,facet;
@@ -7781,7 +7781,7 @@ SLONG	set_person_sidle(struct Thing *p_person)
 }
 
 /*
-void	set_person_idle_ready(Thing *p_person)
+void set_person_idle_ready(Thing *p_person)
 {
 	p_person->SubState=0;
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GRAPPLING)
@@ -7813,7 +7813,7 @@ void	set_person_idle_ready(Thing *p_person)
 // has an offset from the player, that is rotated by the players angle
 //
 #ifdef	UNUSED
-SLONG	foot_hold_available(Thing *p_person,SLONG dx,SLONG dy,SLONG dz)
+SLONG foot_hold_available(Thing *p_person,SLONG dx,SLONG dy,SLONG dz)
 {
 	SLONG	rdx,rdz;
 	SLONG	angle;
@@ -7837,7 +7837,7 @@ SLONG	foot_hold_available(Thing *p_person,SLONG dx,SLONG dy,SLONG dz)
 		return(0);
 }
 
-SLONG	foot_hold_available_obj(Thing *p_person,SLONG dx,SLONG dy,SLONG dz,SLONG obj)
+SLONG foot_hold_available_obj(Thing *p_person,SLONG dx,SLONG dy,SLONG dz,SLONG obj)
 {
 	SLONG	rdx,rdz;
 	SLONG	angle;
@@ -7863,7 +7863,7 @@ SLONG	foot_hold_available_obj(Thing *p_person,SLONG dx,SLONG dy,SLONG dz,SLONG o
 		return(0);
 }
 #endif
-void	set_person_flip(Thing *p_person,SLONG dir)
+void set_person_flip(Thing *p_person,SLONG dir)
 {
 	MSG_add(" start flipping");
 	switch(dir)
@@ -7891,7 +7891,7 @@ void	set_person_flip(Thing *p_person,SLONG dir)
 	p_person->Genus.Person->Flags|=(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 }
 
-void	set_person_running(Thing *p_person)
+void set_person_running(Thing *p_person)
 {
 
 	p_person->Draw.Tweened->Locked = 0;
@@ -7981,7 +7981,7 @@ run:;
 	}
 }
 
-void	set_person_running_frame(Thing *p_person,SLONG frame)
+void set_person_running_frame(Thing *p_person,SLONG frame)
 {
 	switch(p_person->Genus.Person->Mode)
 	{
@@ -8011,7 +8011,7 @@ void	set_person_running_frame(Thing *p_person,SLONG frame)
 
 }
 
-void	set_person_draw_special(Thing *p_person)
+void set_person_draw_special(Thing *p_person)
 {
 	Thing *p_special = NULL;
 /*
@@ -8086,7 +8086,7 @@ void	set_person_draw_special(Thing *p_person)
 		p_person->WorldPos.Z >> 8);
 }
 
-void	set_person_draw_gun(Thing *p_person)
+void set_person_draw_gun(Thing *p_person)
 {
 	if(p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING)
 	{
@@ -8137,7 +8137,7 @@ void	set_person_draw_gun(Thing *p_person)
 		p_person->WorldPos.Z >> 8);
 }
 
-void	set_person_gun_away(Thing *p_person)
+void set_person_gun_away(Thing *p_person)
 {
 /*
 	if (!(p_person->Flags & FLAGS_HAS_GUN))
@@ -8159,7 +8159,7 @@ void	set_person_gun_away(Thing *p_person)
 }
 
 
-void	set_person_step_left(Thing *p_person)
+void set_person_step_left(Thing *p_person)
 {
 	MSG_add(" start step_left");
 	if(p_person->SubState == SUB_STATE_STEP_LEFT)
@@ -8175,7 +8175,7 @@ void	set_person_step_left(Thing *p_person)
 //	p_person->Genus.Person->Flags|=FLAG_PERSON_LOCK_ANIM_CHANGE;
 }
 
-void	set_person_step_right(Thing *p_person)
+void set_person_step_right(Thing *p_person)
 {
 	MSG_add(" start step_left");
 	if(p_person->SubState == SUB_STATE_STEP_RIGHT)
@@ -8191,7 +8191,7 @@ void	set_person_step_right(Thing *p_person)
 //	p_person->Genus.Person->Flags|=FLAG_PERSON_LOCK_ANIM_CHANGE;
 }
 
-void	set_vehicle_anim(Thing *p_vehicle,SLONG anim)
+void set_vehicle_anim(Thing *p_vehicle,SLONG anim)
 {
 	// 1 is still
 	// 2 is open/close
@@ -8210,9 +8210,9 @@ void	set_vehicle_anim(Thing *p_vehicle,SLONG anim)
 	}
 }
 
-void	get_car_enter_xz(Thing *p_vehicle,SLONG door,SLONG *cx,SLONG *cz);
+void get_car_enter_xz(Thing *p_vehicle,SLONG door,SLONG *cx,SLONG *cz);
 
-void	position_person_for_vehicle(Thing *p_person,Thing *p_vehicle,SLONG door)
+void position_person_for_vehicle(Thing *p_person,Thing *p_vehicle,SLONG door)
 {
 	SLONG	ix,iz;
 	GameCoord	new_position;
@@ -8242,7 +8242,7 @@ void	position_person_for_vehicle(Thing *p_person,Thing *p_vehicle,SLONG door)
 
 }
 
-void	set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
+void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
 {
 	ASSERT(door == 0 || door == 1);
 
@@ -8278,7 +8278,7 @@ void	set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
 			{
 				//CONSOLE_text("The car is locked");
 /*
-				extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
+				extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
 
 				add_damage_text(
 					p_person->WorldPos.X          >> 8,
@@ -8412,7 +8412,7 @@ void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, SLONG do
 }
 
 
-void	set_person_exit_vehicle(Thing *p_person)
+void set_person_exit_vehicle(Thing *p_person)
 {
 	Thing *p_vehicle;
 
@@ -8683,7 +8683,7 @@ void set_person_dismount_bike(Thing *p_person)
 #endif
 
 
-void	set_anim_walking(Thing *p_person)
+void set_anim_walking(Thing *p_person)
 {
 	SLONG	anim;
 
@@ -8737,7 +8737,7 @@ void	set_anim_walking(Thing *p_person)
 
 }
 
-void	set_anim_running(Thing *p_person)
+void set_anim_running(Thing *p_person)
 {
 	SLONG	anim;
 
@@ -8786,7 +8786,7 @@ void	set_anim_running(Thing *p_person)
 	}
 
 }
-void	set_anim_idle(Thing *p_person)
+void set_anim_idle(Thing *p_person)
 {
 	SLONG	anim;
 
@@ -8840,7 +8840,7 @@ void	set_anim_idle(Thing *p_person)
 	}
 }
 
-void	set_person_walking(Thing *p_person)
+void set_person_walking(Thing *p_person)
 {
 	set_anim_walking(p_person);
 
@@ -8850,7 +8850,7 @@ void	set_person_walking(Thing *p_person)
 	p_person->Genus.Person->Action = ACTION_WALK;
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 }
-void	set_person_walk_backwards(Thing *p_person)
+void set_person_walk_backwards(Thing *p_person)
 {
 	if(person_holding_2handed(p_person))
 	{
@@ -8869,7 +8869,7 @@ void	set_person_walk_backwards(Thing *p_person)
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 }
 
-void	set_person_sneaking(Thing *p_person)
+void set_person_sneaking(Thing *p_person)
 {
 	set_anim(p_person,ANIM_SNEAK);
 
@@ -8880,7 +8880,7 @@ void	set_person_sneaking(Thing *p_person)
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 }
 
-void	set_person_hop_back(Thing *p_person)
+void set_person_hop_back(Thing *p_person)
 {
 //	p_person->Draw.Tweened->QueuedFrame	=	global_anim_array[p_person->Genus.Person->AnimType][ANIM_WALK];
 //	p_person->Draw.Tweened->CurrentAnim	=	ANIM_WALK;
@@ -8895,7 +8895,7 @@ void	set_person_hop_back(Thing *p_person)
 	set_anim(p_person,ANIM_BACK_HOP);
 }
 
-SLONG	find_idle_fight_stance(Thing *p_person)
+SLONG find_idle_fight_stance(Thing *p_person)
 {
 	SLONG	anim=ANIM_FIGHT;
 
@@ -8927,7 +8927,7 @@ SLONG	find_idle_fight_stance(Thing *p_person)
 	return(anim);
 }
 
-void	set_person_fight_idle(Thing *p_person)
+void set_person_fight_idle(Thing *p_person)
 {
 	SLONG	anim; //=ANIM_FIGHT;
 
@@ -8979,7 +8979,7 @@ void	set_person_fight_idle(Thing *p_person)
 	//set_person_sidle(p_person);
 }
 
-void	set_person_fight_step(Thing *p_person,SLONG dir)
+void set_person_fight_step(Thing *p_person,SLONG dir)
 {
 	SLONG	anim;
 	p_person->Genus.Person->Timer1=0;
@@ -9031,7 +9031,7 @@ void	set_person_fight_step(Thing *p_person,SLONG dir)
 
 }
 
-void	set_person_fight_step_forward(Thing *p_person)
+void set_person_fight_step_forward(Thing *p_person)
 {
 	if(p_person->Draw.Tweened->CurrentAnim	!=ANIM_FIGHT_STEP_N)
 	{
@@ -9042,7 +9042,7 @@ void	set_person_fight_step_forward(Thing *p_person)
 	}
 }
 
-void	set_person_block(Thing *p_person)
+void set_person_block(Thing *p_person)
 {
 	SLONG anim = ANIM_BLOCK_HIGH;
 
@@ -9078,7 +9078,7 @@ void	set_person_block(Thing *p_person)
 	}
 }
 
-void	set_person_idle_croutch(Thing *p_person)
+void set_person_idle_croutch(Thing *p_person)
 {
 	SLONG	anim;
 	set_generic_person_state_function(p_person,STATE_IDLE);
@@ -9129,7 +9129,7 @@ void emergency_uncarry(Thing *p_person)
 }
 
 
-void	carry_running(Thing *p_person)
+void carry_running(Thing *p_person)
 {
 	Thing	*p_target;
 
@@ -9148,7 +9148,7 @@ void	carry_running(Thing *p_person)
 	p_target->Draw.Tweened->Angle=p_person->Draw.Tweened->Angle+1024;
 	p_target->Draw.Tweened->Angle&=2047;
 }
-void	set_person_carry(Thing *p_person,SLONG s_index)
+void set_person_carry(Thing *p_person,SLONG s_index)
 {
 	Thing	*p_target;
 	SLONG dx;
@@ -9182,7 +9182,7 @@ void	set_person_carry(Thing *p_person,SLONG s_index)
 	}
 }
 
-void	set_person_uncarry(Thing *p_person)
+void set_person_uncarry(Thing *p_person)
 {
 	Thing	*p_target;
 	GameCoord new_position = p_person->WorldPos;
@@ -9201,7 +9201,7 @@ void	set_person_uncarry(Thing *p_person)
 
 }
 
-void	set_person_stand_carry(Thing *p_person)
+void set_person_stand_carry(Thing *p_person)
 {
 	Thing	*p_target;
 	p_target=TO_THING(p_person->Genus.Person->Target);
@@ -9215,7 +9215,7 @@ void	set_person_stand_carry(Thing *p_person)
 	p_target->SubState=SUB_STATE_STAND_CARRY_V;
 }
 
-void	fn_person_carry(Thing *p_person)
+void fn_person_carry(Thing *p_person)
 {
 	SLONG	end;
 	Thing	*p_target;
@@ -9257,7 +9257,7 @@ void	fn_person_carry(Thing *p_person)
 	}
 }
 
-void	set_person_arrest(Thing *p_person,SLONG s_index)
+void set_person_arrest(Thing *p_person,SLONG s_index)
 {
 	SLONG	anim;
 	ASSERT(s_index);
@@ -9419,7 +9419,7 @@ void	set_person_arrest(Thing *p_person,SLONG s_index)
 
 }
 
-void	set_person_croutch(Thing *p_person)
+void set_person_croutch(Thing *p_person)
 {
 	SLONG	anim;
 	SLONG	index;
@@ -9472,7 +9472,7 @@ void	set_person_croutch(Thing *p_person)
 }
 
 
-void	set_person_crawling(Thing *p_person)
+void set_person_crawling(Thing *p_person)
 {
 	set_generic_person_state_function(p_person,STATE_MOVEING);
 
@@ -9533,7 +9533,7 @@ void	set_person_crawling(Thing *p_person)
 	p_person->Draw.Tweened->Locked=0; //-SUB_OBJECT_LEFT_FOOT;
 }
 
-SLONG	set_person_leg_sweep(Thing *p_person)
+SLONG set_person_leg_sweep(Thing *p_person)
 {
 	set_generic_person_state_function(p_person,STATE_FIGHTING);
 	set_anim(p_person,ANIM_LEG_SWEEP);
@@ -9681,7 +9681,7 @@ SLONG set_person_punch(Thing *p_person)
 }
 
 #ifdef	UNUSED
-SLONG	set_person_punch_if_can(Thing *p_person)
+SLONG set_person_punch_if_can(Thing *p_person)
 {
 	SLONG	anim;
 	/*
@@ -9767,7 +9767,7 @@ SLONG set_person_kick_dir(Thing *p_person,SLONG dir)
 
 	return(anim);
 }
-void	set_person_fight_anim(Thing *p_person,SLONG anim)
+void set_person_fight_anim(Thing *p_person,SLONG anim)
 {
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_PUNCH;
@@ -9792,7 +9792,7 @@ void	set_person_fight_anim(Thing *p_person,SLONG anim)
 
 }
 /*
-void	set_person_alive_alive_o(Thing *p_person)
+void set_person_alive_alive_o(Thing *p_person)
 {
 	{
 		SLONG ndx=p_person->Genus.Person->BurnIndex;
@@ -9810,14 +9810,14 @@ void	set_person_alive_alive_o(Thing *p_person)
 		p_person->Genus.Person->Flags&=~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
 		if(!CNET_network_game)
 		{
-		extern	void	FC_unkill_player_cam(Thing *p_thing);
+		extern void	FC_unkill_player_cam(Thing *p_thing);
 			FC_unkill_player_cam(p_person);
 		}
 	//	set_anim(p_person,ANIM_STAND_HIP);
 	}
 }
 */
-SLONG	set_person_kick(Thing *p_person)
+SLONG set_person_kick(Thing *p_person)
 {
 	SLONG	anim;
 
@@ -9874,7 +9874,7 @@ SLONG	set_person_kick(Thing *p_person)
 
 }
 
-SLONG	set_person_kick_near(Thing *p_person,SLONG dist)
+SLONG set_person_kick_near(Thing *p_person,SLONG dist)
 {
 	SLONG	anim;
 	SLONG	not_nad=0;
@@ -9916,7 +9916,7 @@ SLONG	set_person_kick_near(Thing *p_person,SLONG dist)
 
 }
 
-SLONG	set_person_stomp(Thing *p_person)
+SLONG set_person_stomp(Thing *p_person)
 {
 	SLONG	anim;
 
@@ -9942,7 +9942,7 @@ SLONG	set_person_stomp(Thing *p_person)
 
 }
 
-void	set_person_position_for_ladder(Thing *p_person,UWORD facet)
+void set_person_position_for_ladder(Thing *p_person,UWORD facet)
 {
 	SLONG	angle,px,pz;
 	GameCoord	new_position;
@@ -9994,7 +9994,7 @@ inline void	play_jump_sound(Thing *p_person) {
 }
 
 
-void	set_person_climb_ladder(Thing *p_person,UWORD storey)
+void set_person_climb_ladder(Thing *p_person,UWORD storey)
 {
 //	MSG_add(" set person climb ladder \n");
 	set_generic_person_state_function(p_person,STATE_CLIMB_LADDER);
@@ -10027,7 +10027,7 @@ void	set_person_climb_ladder(Thing *p_person,UWORD storey)
 	play_jump_sound(p_person);
 
 }
-void	set_person_on_ladder(Thing *p_person)
+void set_person_on_ladder(Thing *p_person)
 {
 //	set_generic_person_state_function(p_person,STATE_CLIMB_LADDER);
 //	MSG_add(" set person ON ladder \n");
@@ -10066,7 +10066,7 @@ void	set_person_on_ladder(Thing *p_person)
 
 }
 
-void	set_person_on_fence(Thing *p_person)
+void set_person_on_fence(Thing *p_person)
 {
 
 //	set_generic_person_state_function(p_person,STATE_CLIMB_LADDER);
@@ -10084,7 +10084,7 @@ void	set_person_on_fence(Thing *p_person)
 }
 
 
-void	set_person_standing_jump(Thing *p_person)
+void set_person_standing_jump(Thing *p_person)
 {
 	SLONG	anim;
  	if(p_person->Genus.Person->InsideIndex)
@@ -10168,7 +10168,7 @@ void	set_person_standing_jump(Thing *p_person)
 	p_person->OnFace = 0;
 }
 
-void	set_person_standing_jump_forwards(Thing *p_person)
+void set_person_standing_jump_forwards(Thing *p_person)
 {
 	SLONG	slope;
 	SLONG	angle;
@@ -10202,7 +10202,7 @@ void	set_person_standing_jump_forwards(Thing *p_person)
 */
 }
 
-void	set_person_standing_jump_backwards(Thing *p_person)
+void set_person_standing_jump_backwards(Thing *p_person)
 {
 	SLONG	slope;
 	SLONG	angle;
@@ -10235,9 +10235,9 @@ void	set_person_standing_jump_backwards(Thing *p_person)
 
 }
 
-void	set_person_running_jump_lr(Thing *p_person,SLONG dir);
+void set_person_running_jump_lr(Thing *p_person,SLONG dir);
 
-void	set_person_running_jump(Thing *p_person)
+void set_person_running_jump(Thing *p_person)
 {
 	SLONG	slope;
 	SLONG	angle;
@@ -10305,11 +10305,11 @@ void	set_person_running_jump(Thing *p_person)
 
 }
 
-void	set_person_running_jump_lr(Thing *p_person,SLONG dir)
+void set_person_running_jump_lr(Thing *p_person,SLONG dir)
 {
 }
 
-SLONG	traverse_pos(Thing	*p_person,SLONG right)
+SLONG traverse_pos(Thing	*p_person,SLONG right)
 {
 	SLONG	lhx,lhy,lhz;
 //	SLONG	rhx,rhy,rhz;
@@ -10453,7 +10453,7 @@ SLONG	traverse_pos(Thing	*p_person,SLONG right)
 }
 
 
-void	set_person_traverse(Thing	*p_person,SLONG right)
+void set_person_traverse(Thing	*p_person,SLONG right)
 {
 	if(traverse_pos(p_person,right)==0)
 		return;
@@ -10475,7 +10475,7 @@ void	set_person_traverse(Thing	*p_person,SLONG right)
 	p_person->Draw.Tweened->Locked=0;
 
 }
-void	set_person_pulling_up(Thing	*p_person)
+void set_person_pulling_up(Thing	*p_person)
 {
 	//
 	// Make sure the person won't pull-up into a nogo zone.
@@ -10522,13 +10522,13 @@ void	set_person_pulling_up(Thing	*p_person)
 
 }
 
-extern	void make_cable_flabby(SLONG building);
+extern void make_cable_flabby(SLONG building);
 
 //
 // Make a person start falling as a projectile...
 //
 
-void	set_person_drop_down(Thing	*p_person,SLONG flag)
+void set_person_drop_down(Thing	*p_person,SLONG flag)
 {
 	SLONG	dv=-2;
 	SLONG	shotgun=0;
@@ -10644,7 +10644,7 @@ void	set_person_drop_down(Thing	*p_person,SLONG flag)
 
 }
 
-void	set_person_locked_drop_down(Thing	*p_person,SLONG vely)
+void set_person_locked_drop_down(Thing	*p_person,SLONG vely)
 {
 	MSG_add(" set person drop locked");
 	set_generic_person_state_function(p_person,STATE_DANGLING);
@@ -10660,10 +10660,10 @@ void	set_person_locked_drop_down(Thing	*p_person,SLONG vely)
 
 }
 
-extern	SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
 
 
-SLONG	is_wall_good_for_bump_and_turn(Thing *p_person,SLONG col)
+SLONG is_wall_good_for_bump_and_turn(Thing *p_person,SLONG col)
 {
 	struct	DFacet	*p_facet;
 
@@ -10704,7 +10704,7 @@ SLONG	is_wall_good_for_bump_and_turn(Thing *p_person,SLONG col)
 }
 
 //#define	VAULT_DA 128
-SLONG	am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_da=128)
+SLONG am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_da=128)
 {
 	SLONG	mdx,mdz,dx,dz,len,dist;
 	SLONG	near_x,near_z;
@@ -10750,7 +10750,7 @@ SLONG	am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_d
 
 		if(p_facet->FacetType==STOREY_TYPE_FENCE ||p_facet->FacetType==STOREY_TYPE_FENCE_FLAT)
 		{
-extern			SLONG which_side(SLONG  x1, SLONG z1,SLONG  x2, SLONG z2,SLONG  a,  SLONG b);
+extern SLONG which_side(SLONG  x1, SLONG z1,SLONG  x2, SLONG z2,SLONG  a,  SLONG b);
 
 			if(which_side(p_facet->x[0]<<8,p_facet->z[0]<<8,p_facet->x[1]<<8,p_facet->z[1]<<8,p_person->WorldPos.X>>8,p_person->WorldPos.Z>>8)<0)
 			{
@@ -10771,7 +10771,7 @@ extern			SLONG which_side(SLONG  x1, SLONG z1,SLONG  x2, SLONG z2,SLONG  a,  SLO
 //
 // hopefully this will work with diagonal fences, should they exist
 //
-SLONG	along_middle_of_facet(Thing *p_person,SLONG col)
+SLONG along_middle_of_facet(Thing *p_person,SLONG col)
 {
 	SLONG	wx,wy,wz;
 	SLONG	on,norm_x,norm_z,dist;
@@ -10978,7 +10978,7 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 	return(1);
 }
 
-SLONG	set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req_dist)
+SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req_dist)
 {
 	SLONG	mdx,mdz,dx,dz,len,dist;
 	SLONG	near_x,near_z;
@@ -11138,7 +11138,7 @@ SLONG	set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req
 	return(0);
 }
 
-SLONG	set_person_pos_for_half_step(Thing *p_person,SLONG col)
+SLONG set_person_pos_for_half_step(Thing *p_person,SLONG col)
 {
 	SLONG	dx,dz;
 	SLONG	wall_angle;
@@ -11253,7 +11253,7 @@ SLONG	set_person_pos_for_half_step(Thing *p_person,SLONG col)
 
 }
 
-inline	SLONG	is_facet_vaultable(SLONG facet)
+inline SLONG	is_facet_vaultable(SLONG facet)
 {
 	struct DFacet	*p_facet;
 
@@ -11269,7 +11269,7 @@ inline	SLONG	is_facet_vaultable(SLONG facet)
 	return(0);
 }
 
-inline	SLONG	is_facet_half_step(SLONG facet)
+inline SLONG	is_facet_half_step(SLONG facet)
 {
 	struct DFacet	*p_facet;
 
@@ -11284,7 +11284,7 @@ inline	SLONG	is_facet_half_step(SLONG facet)
 	return(0);
 }
 
-SLONG	set_person_land_on_fence(Thing	*p_person,SLONG col,SLONG set_pos,SLONG while_walking)
+SLONG set_person_land_on_fence(Thing	*p_person,SLONG col,SLONG set_pos,SLONG while_walking)
 {
 	SLONG	ret;
 	SLONG	dist=45;
@@ -11355,7 +11355,7 @@ SLONG	set_person_land_on_fence(Thing	*p_person,SLONG col,SLONG set_pos,SLONG whi
 
 }
 
-SLONG	set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos)
+SLONG set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos)
 {
 	SLONG	dist=100;
 	MSG_add(" set person land on fence");
@@ -11379,7 +11379,7 @@ SLONG	set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos)
 
 }
 
-SLONG	fight_any_gang_attacker(Thing *p_person)
+SLONG fight_any_gang_attacker(Thing *p_person)
 {
 	if(p_person->SubState!=SUB_STATE_IDLE_CROUTCH_ARREST)
 	if(p_person->Genus.Person->GangAttack)
@@ -11514,7 +11514,7 @@ UWORD find_arrestee(Thing *p_person)
 
 	UWORD	s_index;
 	Thing	*p_target;
-extern	SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes);
+extern SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes);
 	s_index = THING_find_nearest_person(p_person,256,1<<CLASS_PERSON);
 
 	if(s_index)
@@ -11533,11 +11533,11 @@ extern	SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classe
 	*/
 }
 
-UWORD	find_corpse(Thing *p_person)
+UWORD find_corpse(Thing *p_person)
 {
 	UWORD	s_index;
 	Thing	*p_target;
-extern	SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes);
+extern SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes);
 	s_index = THING_find_nearest_person(p_person,256,1<<CLASS_PERSON);
 
 	if(s_index)
@@ -11554,7 +11554,7 @@ extern	SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classe
 	return(0);
 }
 
-UWORD	perform_arrest(Thing *p_person,UWORD s_index)
+UWORD perform_arrest(Thing *p_person,UWORD s_index)
 {
 	Thing	*p_target;
 
@@ -11570,7 +11570,7 @@ UWORD	perform_arrest(Thing *p_person,UWORD s_index)
 		ay+=p_person->WorldPos.Y>>8;
 		az+=p_person->WorldPos.Z>>8;
 
-extern	void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
+extern void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
 		add_damage_text(ax,ay,az,"Arrested");
 */
 		PANEL_new_info_message(XLAT_str(X_ARRESTED));
@@ -11581,9 +11581,9 @@ extern	void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
 	
 }
 
-void	lock_to_compass(Thing *p_thing);
+void lock_to_compass(Thing *p_thing);
 
-void	fn_person_search(Thing *p_person)
+void fn_person_search(Thing *p_person)
 {
 	UWORD last_timer;
 
@@ -11657,7 +11657,7 @@ void	fn_person_search(Thing *p_person)
 	
 }
 
-void	set_person_random_idle(Thing *p_person)
+void set_person_random_idle(Thing *p_person)
 {
 	SLONG	anim=Random();
 
@@ -11743,7 +11743,7 @@ void	set_person_random_idle(Thing *p_person)
 
 }
 
-void	fn_person_idle(Thing *p_person)
+void fn_person_idle(Thing *p_person)
 {
 	SLONG end;
 
@@ -12234,7 +12234,7 @@ void	fn_person_idle(Thing *p_person)
 void PCOM_set_person_ai_flee_person(Thing *p_person,Thing *p_scary);
 void PCOM_make_driver_run_away(Thing *p_driver, Thing *p_scary);
 
-void	set_person_in_vehicle(Thing *p_person,Thing *p_car)
+void set_person_in_vehicle(Thing *p_person,Thing *p_car)
 {
 	SLONG sample;
 
@@ -12342,7 +12342,7 @@ void	set_person_in_vehicle(Thing *p_person,Thing *p_car)
 //	set_vehicle_anim(p_car,1);
 }
 
-void	set_person_out_of_vehicle(Thing *p_person)
+void set_person_out_of_vehicle(Thing *p_person)
 {
 	Thing	*p_car;
 
@@ -12374,7 +12374,7 @@ void	set_person_out_of_vehicle(Thing *p_person)
 // keeping a limb in the same place
 //
 
-void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle)
+void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle)
 {
 	SLONG	lock_x1,lock_y1,lock_z1;
 	SLONG	lock_x2,lock_y2,lock_z2;
@@ -12414,7 +12414,7 @@ void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dan
 
 	move_thing_on_map(p_person,&temp_pos);
 }
-void	locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
+void locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
 {
 	SLONG	lock_x1,lock_y1,lock_z1;
 	SLONG	lock_x2,lock_y2,lock_z2;
@@ -12451,7 +12451,7 @@ void	locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,S
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-void	locked_anim_change_height_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
+void locked_anim_change_height_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
 {
 	SLONG	lock_x1,lock_y1,lock_z1;
 	SLONG	lock_x2,lock_y2,lock_z2;
@@ -12486,7 +12486,7 @@ void	locked_anim_change_height_type(Thing *p_person,UWORD locked_object,UWORD an
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-SLONG	set_limb_to_y(Thing *p_person,SLONG obj,SLONG y)
+SLONG set_limb_to_y(Thing *p_person,SLONG obj,SLONG y)
 {
 	SLONG	x1,y1,z1;
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,obj,&x1,&y1,&z1);
@@ -12499,7 +12499,7 @@ SLONG	set_limb_to_y(Thing *p_person,SLONG obj,SLONG y)
 }
 
 
-void	locked_next_anim_change(Thing *p_person,UWORD locked_object,GameKeyFrame *queued_frame)
+void locked_next_anim_change(Thing *p_person,UWORD locked_object,GameKeyFrame *queued_frame)
 {
 	SLONG	lock_x1,lock_y1,lock_z1;
 	SLONG	lock_x2,lock_y2,lock_z2;
@@ -12530,7 +12530,7 @@ void	locked_next_anim_change(Thing *p_person,UWORD locked_object,GameKeyFrame *q
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-void	locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
+void locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
 {
 	SLONG	lock_x1,lock_y1,lock_z1;
 	SLONG	lock_x2,lock_y2,lock_z2;
@@ -12571,7 +12571,7 @@ void	locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-void	locked_anim_change_end(Thing *p_person,UWORD locked_object,UWORD anim)
+void locked_anim_change_end(Thing *p_person,UWORD locked_object,UWORD anim)
 {
 	SLONG	lock_x1,lock_y1,lock_z1;
 	SLONG	lock_x2,lock_y2,lock_z2;
@@ -12612,7 +12612,7 @@ void	locked_anim_change_end(Thing *p_person,UWORD locked_object,UWORD anim)
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-SLONG	steep_cable(SLONG facet)
+SLONG steep_cable(SLONG facet)
 {
 	struct	DFacet	*p_facet;
 	SLONG	dx,dy,dz,len,m;
@@ -12634,7 +12634,7 @@ SLONG	steep_cable(SLONG facet)
 	return(m);
 }
 
-void	face_down_cable(Thing *p_person,SLONG facet)
+void face_down_cable(Thing *p_person,SLONG facet)
 {
 	struct	DFacet	*p_facet;
 	SLONG	dx,dy,dz,len,m;
@@ -12655,7 +12655,7 @@ void	face_down_cable(Thing *p_person,SLONG facet)
 	}
 }
 
-SLONG	find_best_cable_angle(Thing *p_person,SLONG facet)
+SLONG find_best_cable_angle(Thing *p_person,SLONG facet)
 {
 	struct	DFacet	*p_facet;
 	SLONG	dx,dy,dz,len,m;
@@ -12681,7 +12681,7 @@ SLONG	find_best_cable_angle(Thing *p_person,SLONG facet)
 //
 // see if persons hands are near to grabbing a ledge 
 //
-SLONG	grab_ledge(Thing *p_person)
+SLONG grab_ledge(Thing *p_person)
 {
 	SLONG	x,y,z;
 	SLONG	grab_x,grab_y,grab_z,type;
@@ -13034,7 +13034,7 @@ SLONG	grab_ledge(Thing *p_person)
 	return(0);
 }
 
-void	set_tween_for_dy(Thing *p_person,SLONG dy)
+void set_tween_for_dy(Thing *p_person,SLONG dy)
 {
 	MSG_add(" tween dy %d \n",dy);
 
@@ -13057,7 +13057,7 @@ void	set_tween_for_dy(Thing *p_person,SLONG dy)
 
 }
 
-void	set_tween_for_height(Thing *p_person)
+void set_tween_for_height(Thing *p_person)
 {
 	SLONG	x,y,z;
 	SLONG	floor_y,dy;
@@ -13084,7 +13084,7 @@ void	set_tween_for_height(Thing *p_person)
 
 }
 
-SLONG	over_nogo(Thing *p_person)
+SLONG over_nogo(Thing *p_person)
 {
 	SLONG	mx,mz;
 
@@ -13104,7 +13104,7 @@ SLONG	over_nogo(Thing *p_person)
 }
 
 
-void	fn_person_jumping(Thing *p_person)
+void fn_person_jumping(Thing *p_person)
 {
 	SLONG		end		=	0,
 				grab	=	0,
@@ -13769,7 +13769,7 @@ jump_fly:;
 	}
 }
 
-void	position_person_at_ladder_top(Thing *p_person,SLONG limb)
+void position_person_at_ladder_top(Thing *p_person,SLONG limb)
 {
 	SLONG x1,y1,z1;
 	SLONG	x[2],z[2],y,wall;
@@ -13795,7 +13795,7 @@ void	position_person_at_ladder_top(Thing *p_person,SLONG limb)
 	p_person->WorldPos.Y-=y1<<8;
 }
 
-void	position_person_at_ladder_bot(Thing *p_person,SLONG limb)
+void position_person_at_ladder_bot(Thing *p_person,SLONG limb)
 {
 	SLONG x1,y1,z1;
 	SLONG	x[2],z[2],y,wall;
@@ -13882,7 +13882,7 @@ ULONG check_limb_pos_on_ladder(Thing *p_person,SLONG sub_part, SLONG i_am_going_
 
 
 
-SLONG	check_limb_pos_on_fence(Thing *p_person,SLONG sub_part)
+SLONG check_limb_pos_on_fence(Thing *p_person,SLONG sub_part)
 {
 	SLONG	x1,y1,z1;
 	SLONG	col;
@@ -13922,7 +13922,7 @@ SLONG	check_limb_pos_on_fence(Thing *p_person,SLONG sub_part)
 	}
 }
 
-SLONG	check_limb_pos_on_fence_sideways(Thing *p_person,SLONG sub_part)
+SLONG check_limb_pos_on_fence_sideways(Thing *p_person,SLONG sub_part)
 {
 	SLONG	x1,y1,z1;
 	SLONG	col;
@@ -13951,7 +13951,7 @@ SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect);
 }
 
 
-void	fn_person_laddering(Thing	*p_person)
+void fn_person_laddering(Thing	*p_person)
 {
 	bool		play_it	=	false;
 	UBYTE		last_frame;
@@ -14189,7 +14189,7 @@ void	fn_person_laddering(Thing	*p_person)
 	}
 }
 
-void	fn_person_climbing(Thing	*p_person)
+void fn_person_climbing(Thing	*p_person)
 {
 	SLONG	end,hit;
 	SLONG	left_foot,right_foot;
@@ -14503,7 +14503,7 @@ void	fn_person_climbing(Thing	*p_person)
 }
 
 
-void	set_cable_angle(Thing *p_person)
+void set_cable_angle(Thing *p_person)
 {
 	SLONG	dx,dz;
 	struct	DFacet	*p_facet;
@@ -14524,7 +14524,7 @@ void	set_cable_angle(Thing *p_person)
 
 
 
-void	do_person_on_cable(Thing *p_person)
+void do_person_on_cable(Thing *p_person)
 {
 	SLONG	along;
 	SLONG	mx,my,mz;
@@ -14562,7 +14562,7 @@ void	do_person_on_cable(Thing *p_person)
 	}
 }
 
-void	fn_person_dangling(Thing	*p_person)
+void fn_person_dangling(Thing	*p_person)
 {
 	SLONG ignore_building;
 	SLONG end;
@@ -15145,10 +15145,10 @@ void	fn_person_dangling(Thing	*p_person)
 	
 }
 
-extern	void	trickle_velocity_to(Thing *p_thing,SWORD velocity);
+extern void	trickle_velocity_to(Thing *p_thing,SWORD velocity);
 
 
-void	set_person_running_stop(Thing *p_person,SLONG leg)
+void set_person_running_stop(Thing *p_person,SLONG leg)
 {
 	
 //	tween_to_anim(p_person,ANIM_STOP_RUN_L+leg);
@@ -15324,7 +15324,7 @@ void set_person_unsit(Thing *p_person)
 }
 
 
-SLONG	person_holding_2handed(Thing *p_person)
+SLONG person_holding_2handed(Thing *p_person)
 {
 	if (p_person->Genus.Person->SpecialUse)
 	{
@@ -15344,7 +15344,7 @@ SLONG	person_holding_2handed(Thing *p_person)
 	return(0);
 }
 
-SLONG	person_holding_special(Thing* p_person, UBYTE special)
+SLONG person_holding_special(Thing* p_person, UBYTE special)
 {
 	if (!p_person->Genus.Person->SpecialUse)	return 0;
 
@@ -15353,7 +15353,7 @@ SLONG	person_holding_special(Thing* p_person, UBYTE special)
 	return (p_special->Genus.Special->SpecialType == special) ? 1 : 0;
 }
 
-SLONG	get_yomp_anim(Thing *p_person)
+SLONG get_yomp_anim(Thing *p_person)
 {
 
 
@@ -15387,7 +15387,7 @@ SLONG	get_yomp_anim(Thing *p_person)
 	return(ANIM_YOMP);
 }
 
-void	fn_person_moveing(Thing *p_person)
+void fn_person_moveing(Thing *p_person)
 {
 	UBYTE		last_frame;
 	SLONG		end,
@@ -15733,7 +15733,7 @@ void	fn_person_moveing(Thing *p_person)
 					}
 
 					change_velocity_to(p_person,run_speed);
-extern	UBYTE	cheat;
+extern UBYTE	cheat;
 //					if(cheat==1)
 //						change_velocity_to(p_person,run_speed*2);
 
@@ -16496,7 +16496,7 @@ extern	UBYTE	cheat;
 	}
 }
 
-void	set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags)
+void set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 {
 	if(p_person->Draw.Tweened->CurrentAnim==anim && p_person->Draw.Tweened->FrameIndex<5)
 	{
@@ -16534,7 +16534,7 @@ void	set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 	}
 }
 
-void	set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags)
+void set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 {
 	if(p_person->SubState == SUB_STATE_DRAW_ITEM)
 		return;
@@ -16632,7 +16632,7 @@ void	set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 //	p_person->Genus.Person->Flags|=(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 }
 
-void	fn_person_recoil(Thing *p_person)
+void fn_person_recoil(Thing *p_person)
 {
 	SLONG end;
 
@@ -16704,7 +16704,7 @@ finish:;
 #define FALL_DIR_LAND_ON_FRONT ( 0)
 #define FALL_DIR_LAND_ON_BACK  ( 1)
 
-SLONG	find_anim_fall_dir(SLONG	anim)
+SLONG find_anim_fall_dir(SLONG	anim)
 {
 	switch(anim)
 	{
@@ -16728,12 +16728,12 @@ SLONG	find_anim_fall_dir(SLONG	anim)
 }
 
 
-void	move_away_from_wall(Thing *p_person)
+void move_away_from_wall(Thing *p_person)
 {
 	person_normal_move_dxdz(p_person,1,1);
 }
 
-void	generate_bonus_item(Thing *p_person)
+void generate_bonus_item(Thing *p_person)
 {
 	if(GET_SKILL(p_person)>=12 || ((p_person->Genus.Person->pcom_ai!=PCOM_AI_CIV) && (p_person->Genus.Person->Flags2&FLAG2_PERSON_FAKE_WANDER)&& (Random()&0xff)<34))
 //	if( ((p_person->Genus.Person->pcom_ai!=PCOM_AI_CIV) && (p_person->Genus.Person->Flags2&FLAG2_PERSON_FAKE_WANDER)&& (Random()&0xff)<34))
@@ -16776,7 +16776,7 @@ void	generate_bonus_item(Thing *p_person)
 	}
 }
 
-SLONG	part_bad(Thing *p_person,SLONG part)
+SLONG part_bad(Thing *p_person,SLONG part)
 {
 	SLONG	track_x,track_y,track_z;
 	SLONG	fy,dy;
@@ -16810,7 +16810,7 @@ SLONG	part_bad(Thing *p_person,SLONG part)
 
 }
 
-void	fn_person_dying(Thing *p_person)
+void fn_person_dying(Thing *p_person)
 {
 	SLONG hit;
 	SLONG end;
@@ -17349,13 +17349,13 @@ void	fn_person_dying(Thing *p_person)
 }
 
 
-DrawTween	dead_tween;
-void	init_dead_tween()
+DrawTween dead_tween;
+void init_dead_tween()
 {
 	memset(&dead_tween,0,sizeof(DrawTween));
 }
 
-void	fn_person_dead(Thing *p_person)
+void fn_person_dead(Thing *p_person)
 {
 	SLONG	end;
 	UWORD	try_respawn=0;
@@ -17423,7 +17423,7 @@ void	fn_person_dead(Thing *p_person)
 			}
 			break;
 		case	SUB_STATE_DEAD_RESPAWN:
-extern	SLONG	PCOM_do_regen(Thing *p_person);
+extern SLONG	PCOM_do_regen(Thing *p_person);
 				PCOM_do_regen(p_person);
 			break;
 
@@ -17632,7 +17632,7 @@ extern	SLONG	PCOM_do_regen(Thing *p_person);
 			vanish_time=30;
 
 #ifdef PSX
-extern	UBYTE	remove_dead_people;
+extern UBYTE	remove_dead_people;
 			if(remove_dead_people)
 			{
 				goto	remove_them;
@@ -17710,7 +17710,7 @@ remove_them:;
 
 }
 
-SLONG	dist_from_a_to_b(Thing *a,Thing *b)
+SLONG dist_from_a_to_b(Thing *a,Thing *b)
 {
 	SLONG	dx,dz,dist;
 
@@ -17725,7 +17725,7 @@ SLONG	dist_from_a_to_b(Thing *a,Thing *b)
 }
 
 
-void	player_aim_at_new_person(Thing *p_person,UWORD new_target)
+void player_aim_at_new_person(Thing *p_person,UWORD new_target)
 {
 	SLONG	pitch;
 	Thing	*p_target;
@@ -17740,18 +17740,18 @@ void	player_aim_at_new_person(Thing *p_person,UWORD new_target)
 
 	turn_to_face_thing_quick(p_person,p_target);
 
-//extern	SLONG  FC_focus_yaw;
+//extern SLONG  FC_focus_yaw;
 
 //	FC_focus_yaw=p_person->Draw.Tweened->Angle;
 //	FC_position_for_lookaround(pitch);
-extern	void	set_look_pitch(SLONG p);
+extern void	set_look_pitch(SLONG p);
 	set_look_pitch(pitch);
 
 
 	
 }
 
-SLONG	get_angle_to_target(Thing *p_person)
+SLONG get_angle_to_target(Thing *p_person)
 {
 	Thing *p_target = TO_THING(p_person->Genus.Person->Target);
 	SLONG	dx,dz;
@@ -17767,7 +17767,7 @@ SLONG	get_angle_to_target(Thing *p_person)
 //	return(-1);
 }
 
-SLONG	player_running_aim_gun(Thing *p_person)
+SLONG player_running_aim_gun(Thing *p_person)
 {
 	SLONG	old_target=p_person->Genus.Person->Target;
 	if (p_person->Genus.Person->Target = find_target_new(p_person))
@@ -17887,7 +17887,7 @@ void twist_darci_body_to_angle(Thing *p_person, SLONG twist)
 	}
 }
 
-SLONG	might_i_be_a_villain(Thing *p_person)
+SLONG might_i_be_a_villain(Thing *p_person)
 {
 	if(p_person->Genus.Person->PersonType==PERSON_DARCI||
 		p_person->Genus.Person->PersonType==PERSON_ROPER||
@@ -17899,7 +17899,7 @@ SLONG	might_i_be_a_villain(Thing *p_person)
 
 }
 
-SLONG	am_i_a_thug(Thing *p_person)
+SLONG am_i_a_thug(Thing *p_person)
 {
 	if(p_person->Genus.Person->PersonType==PERSON_THUG_RASTA||
 		p_person->Genus.Person->PersonType==PERSON_THUG_GREY||
@@ -17978,8 +17978,8 @@ SLONG calc_dist_benefit_to_gun(Thing *p_person,SLONG dist)
 	}
 }
 
-extern	SLONG	look_pitch;
-void	highlight_gun_target(Thing *p_person,Thing *p_target)
+extern SLONG	look_pitch;
+void highlight_gun_target(Thing *p_person,Thing *p_target)
 {
 	if(p_person->Genus.Person->PlayerID)
 	{
@@ -18078,7 +18078,7 @@ void	highlight_gun_target(Thing *p_person,Thing *p_target)
 */
 }
 
-void	fn_person_gun(Thing *p_person)
+void fn_person_gun(Thing *p_person)
 {
 	SLONG	end;
 	switch(p_person->SubState)
@@ -18538,7 +18538,7 @@ void	fn_person_gun(Thing *p_person)
 
 #define	COMBO_ACCURACY 300		// Was 190
 
-SLONG	person_new_combat_node(Thing *p_person)
+SLONG person_new_combat_node(Thing *p_person)
 {
 	SBYTE	node=0;
 	UBYTE	new_node=0;
@@ -18640,9 +18640,9 @@ SLONG	person_new_combat_node(Thing *p_person)
 	}
 	return(0);
 }
-extern	SLONG	should_i_block(Thing *p_person,Thing *p_agressor,SLONG anim);
+extern SLONG	should_i_block(Thing *p_person,Thing *p_agressor,SLONG anim);
 
-void	aim_at_victim(Thing *p_person,SLONG count)
+void aim_at_victim(Thing *p_person,SLONG count)
 {
 	if(p_person->Draw.Tweened->CurrentAnim!=ANIM_KICK_COMBO3b)
 	if(p_person->Draw.Tweened->CurrentAnim!=ANIM_FIGHT_STOMP)
@@ -18663,8 +18663,8 @@ void	aim_at_victim(Thing *p_person,SLONG count)
 	}
 }
 
-UBYTE	combo_display=0;
-void	fn_person_fighting(Thing *p_person)
+UBYTE combo_display=0;
+void fn_person_fighting(Thing *p_person)
 {
 	Thing	*p_target;
 	SLONG	end=0;
@@ -18702,7 +18702,7 @@ void	fn_person_fighting(Thing *p_person)
 
 					if(p_person->Genus.Person->PlayerID)
 					{
-extern	SLONG	continue_blocking(Thing *p_person);
+extern SLONG	continue_blocking(Thing *p_person);
 						if(continue_blocking(p_person))
 						{
 							goto	skip_animate;
@@ -19440,7 +19440,7 @@ skip_animate:
 	}
 }
 
-void	fn_person_wait(Thing *p_person)
+void fn_person_wait(Thing *p_person)
 {
 	/*
 
@@ -19483,7 +19483,7 @@ void	fn_person_wait(Thing *p_person)
 }
 
 
-SLONG	turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow)
+SLONG turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow)
 {
 	SLONG	dx,dz;
 	SLONG	angle,pangle;
@@ -19537,7 +19537,7 @@ SLONG	turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow)
 	return(dist);
 }
 
-void	turn_to_face_thing_quick(Thing *p_person,Thing *p_target)
+void turn_to_face_thing_quick(Thing *p_person,Thing *p_target)
 {
 	SLONG	dx,dz;
 	SLONG	angle,pangle;
@@ -19570,7 +19570,7 @@ void	turn_to_face_thing_quick(Thing *p_person,Thing *p_target)
 
 }
 
-SLONG	get_pitch_to_thing_quick(Thing *p_person,Thing *p_target)
+SLONG get_pitch_to_thing_quick(Thing *p_person,Thing *p_target)
 {
 	SLONG	dx,dy,dz,dxz;
 	SLONG	angle,pangle;
@@ -19763,7 +19763,7 @@ void turn_towards_thing(Thing *p_person,Thing *p_target)
 		p_person->Draw.Tweened->Angle=(p_person->Draw.Tweened->Angle-32)&2047;
 }
 
-void	fn_person_stand_up(Thing *p_person)
+void fn_person_stand_up(Thing *p_person)
 {
 	/*
 
@@ -19782,7 +19782,7 @@ void	fn_person_stand_up(Thing *p_person)
 	*/
 
 }
-void	fn_person_fight(Thing *p_person)
+void fn_person_fight(Thing *p_person)
 {
 	Thing	*p_target;
 	SLONG	dist;
@@ -20255,7 +20255,7 @@ void fn_person_goto(Thing *p_person)
 }
 
 #ifdef	UNUSED
-SLONG	hit_enemy(Thing *p_person,SLONG dx,SLONG dz)
+SLONG hit_enemy(Thing *p_person,SLONG dx,SLONG dz)
 {
 
 	SLONG	strike;
@@ -21041,7 +21041,7 @@ void set_person_circle(Thing *p_person, Thing *p_target)
 
 }
 
-void	set_person_hug_wall_leap_out(Thing *p_person,SLONG dir)
+void set_person_hug_wall_leap_out(Thing *p_person,SLONG dir)
 {
 	SLONG	anim;
 	p_person->SubState=SUB_STATE_HUG_WALL_LEAP_OUT;
@@ -21065,7 +21065,7 @@ void	set_person_hug_wall_leap_out(Thing *p_person,SLONG dir)
 	p_person->Genus.Person->Action=ACTION_NONE;
 
 }
-void	set_person_hug_wall_stand(Thing *p_person,SLONG dangle=0,SLONG locked=1)
+void set_person_hug_wall_stand(Thing *p_person,SLONG dangle=0,SLONG locked=1)
 {
 	SLONG	anim;
 	SLONG	dist,dx,dz;
@@ -21117,9 +21117,9 @@ void	set_person_hug_wall_stand(Thing *p_person,SLONG dangle=0,SLONG locked=1)
 //
 // returns true if person is within max_dist of a facet
 //
-extern	SLONG	global_on;
-UWORD	near_facet=0;
-SLONG	check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG px,SLONG pz)
+extern SLONG	global_on;
+UWORD near_facet=0;
+SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG px,SLONG pz)
 {
 	SLONG	loop=4;
 	SLONG	mx,mz;
@@ -21356,7 +21356,7 @@ SLONG	check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 
 }
 // return angle+1
-SLONG	can_i_hug_wall(Thing *p_person)
+SLONG can_i_hug_wall(Thing *p_person)
 {
 	if (p_person->OnFace>0)
 	{
@@ -21408,7 +21408,7 @@ SLONG	can_i_hug_wall(Thing *p_person)
 
 }
 
-SLONG	move_ok(Thing *p_person,SLONG dx,SLONG dz)
+SLONG move_ok(Thing *p_person,SLONG dx,SLONG dz)
 {
 	SLONG	y,dy;
 	SLONG	nx,nz;
@@ -21996,9 +21996,9 @@ void fn_person_circle(Thing *p_person)
 						}
 						else
 						{
-							extern	void PCOM_set_person_move_punch (Thing *p_person);
-							extern	void PCOM_set_person_move_kick  (Thing *p_person);
-							extern	void PCOM_set_person_move_arrest(Thing *p_person);
+							extern void PCOM_set_person_move_punch (Thing *p_person);
+							extern void PCOM_set_person_move_kick  (Thing *p_person);
+							extern void PCOM_set_person_move_arrest(Thing *p_person);
 
 							kick_or_punch++;
 		//					if(p_target->Genus.Person->Flags&FLAG_PERSON_KO)
@@ -22206,7 +22206,7 @@ void fn_person_circle_old(Thing *p_person)
 //*************************************************************************************************************
 //** (JCL)  - get person scale
 
-SLONG	person_get_scale(Thing *t)
+SLONG person_get_scale(Thing *t)
 {
 	// ASSERT( t is actually a person.  probably is, cause this gets called from FIGURE_draw_blah() );
 
@@ -22240,7 +22240,7 @@ SLONG	person_get_scale(Thing *t)
 // returns how many game_turns an anim takes, a game_turn is assumed to be 1/20th of a second
 //
 #ifndef	PSX
-SLONG	how_long_is_anim(SLONG anim)
+SLONG how_long_is_anim(SLONG anim)
 {
 	GameKeyFrame	*frame;
 	SLONG	total=0;

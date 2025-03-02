@@ -17,17 +17,17 @@
 
 //---------------------------------------------------------------
 
-CBYTE		*converse_text;
-SLONG		 converse_p1, converse_p2;
-SLONG        converse_grab_camera;
+CBYTE* converse_text;
+SLONG converse_p1, converse_p2;
+SLONG converse_grab_camera;
 
-extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
+extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 
 #define STR_LEN 800
 
-bool	CALLBACK	cv_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	cv_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG len;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
@@ -139,7 +139,7 @@ bool	CALLBACK	cv_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_converse_setup(EventPoint *the_ep)
+void do_converse_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	converse_text	=	(CBYTE*)the_ep->Data[0];
@@ -171,7 +171,7 @@ void	do_converse_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 /*
-CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_message_message(EventPoint *ep, CBYTE* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
 		strcpy(msg,(CBYTE*)ep->Data[0]);

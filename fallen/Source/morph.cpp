@@ -10,7 +10,7 @@
 // The filenames of the sex files describing each morph.
 //
 
-CBYTE *MORPH_filename[MORPH_NUMBER] =
+CBYTE* MORPH_filename[MORPH_NUMBER] =
 {
 	"morph\\bird01.asc",
 	"morph\\bird03.asc"
@@ -23,7 +23,7 @@ CBYTE *MORPH_filename[MORPH_NUMBER] =
 #define MORPH_MAX_POINTS 1024
 
 MORPH_Point MORPH_point[MORPH_MAX_POINTS];
-SLONG       MORPH_point_upto;
+SLONG MORPH_point_upto;
 
 
 typedef struct
@@ -54,7 +54,7 @@ void MORPH_load()
 	FILE *handle;
 
 	CBYTE  line[256];
-	CBYTE *ch;
+	CBYTE* ch;
 
 	//
 	// Get rid of old point info.

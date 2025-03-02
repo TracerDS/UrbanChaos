@@ -206,36 +206,36 @@ struct	FBuilding
 
 //data
 
-extern	UWORD	next_building_object;
-extern	UWORD	end_building_object;
+extern UWORD	next_building_object;
+extern UWORD	end_building_object;
 
-extern	UWORD	next_building_facet;
-extern	UWORD	end_building_facet;
+extern UWORD	next_building_facet;
+extern UWORD	end_building_facet;
 
 
 
-extern	struct	BuildingObject	building_objects[];
-extern	struct	BuildingFacet	building_facets[];
+extern struct	BuildingObject	building_objects[];
+extern struct	BuildingFacet	building_facets[];
 
-extern	struct	FWindow		window_list[MAX_WINDOWS];
-extern	struct	FWall		wall_list[MAX_WALLS];
-extern	struct	FStorey		storey_list[MAX_STOREYS];
-extern	struct	FBuilding	building_list[MAX_BUILDINGS];
-extern	struct	TXTY	textures_xy[200][8];
-extern			UBYTE	textures_flags[200][8];
-extern	struct	TextureInfo texture_info[];
+extern struct	FWindow		window_list[MAX_WINDOWS];
+extern struct	FWall		wall_list[MAX_WALLS];
+extern struct	FStorey		storey_list[MAX_STOREYS];
+extern struct	FBuilding	building_list[MAX_BUILDINGS];
+extern struct	TXTY	textures_xy[200][8];
+extern UBYTE	textures_flags[200][8];
+extern struct	TextureInfo texture_info[];
 
 
 // functions
 
-extern	SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern	void	offset_buildings(SLONG x,SLONG y,SLONG z);
-//extern	void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-//extern	void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-extern	void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z);
-extern	void	create_city();
-extern	SLONG	create_building_prim(UWORD building,SLONG	*small_y);
-extern	SLONG	next_connected_face(SLONG type,SLONG id,SLONG count);
-extern	SLONG	is_storey_circular(SLONG storey);
+extern SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z);
+extern void	offset_buildings(SLONG x,SLONG y,SLONG z);
+//extern void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
+//extern void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
+extern void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z);
+extern void	create_city();
+extern SLONG	create_building_prim(UWORD building,SLONG	*small_y);
+extern SLONG	next_connected_face(SLONG type,SLONG id,SLONG count);
+extern SLONG	is_storey_circular(SLONG storey);
 
 #endif

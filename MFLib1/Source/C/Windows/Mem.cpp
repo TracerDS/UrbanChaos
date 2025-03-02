@@ -45,14 +45,14 @@ void	*MemAlloc(ULONG size)
 
 //---------------------------------------------------------------
 
-void	MemFree(void *mem_ptr)
+void	MemFree(void* mem_ptr)
 {
 	HeapFree(MFHeap,0,mem_ptr);
 }
 
 //---------------------------------------------------------------
 
-void	MemClear(void *mem_ptr,ULONG size)
+void	MemClear(void* mem_ptr,ULONG size)
 {
 /*
 	ULONG	c0;

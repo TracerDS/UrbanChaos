@@ -23,7 +23,7 @@
 #include "target.h"
 #endif
 
-extern	CBYTE	*EWAY_get_mess(SLONG index);
+extern CBYTE	*EWAY_get_mess(SLONG index);
 
 
 
@@ -1184,7 +1184,7 @@ UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
 
 	MAP_Beacon *mb;
 
-	extern	SLONG	EWAY_mess_upto;
+	extern SLONG	EWAY_mess_upto;
 	ASSERT(index>=0 && index<EWAY_mess_upto);
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)

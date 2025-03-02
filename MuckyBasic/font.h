@@ -31,7 +31,7 @@ SLONG FONT_char_is_valid(CBYTE ch);
 #define FONT_FLAG_JUSTIFY_RIGHT  (1 << 2)
 #define FONT_FLAG_DROP_SHADOW    (1 << 3)
 
-void FONT_draw(float start_x, float start_y, ULONG colour, ULONG flag, float scale, SLONG cursor, CBYTE *fmt, ...);
+void FONT_draw(float start_x, float start_y, ULONG colour, ULONG flag, float scale, SLONG cursor, CBYTE* fmt, ...);
 
 
 #endif

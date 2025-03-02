@@ -7,23 +7,23 @@
 #include	<MFHeader.h>
 
 
-bool					DeviceFound		=	false,
+bool DeviceFound		=	false,
 						GotD3D2			=	false,
 						HasHardware		=	false;
-ULONG					RequestFlags	=	0;
-SLONG					DeviceBitDepth;
-D3DDEVICEDESC			d3d_DeviceDesc;
-GUID					GUIDDevice;
-IDirect3DDevice2		*lp_D3D_Device;
-LPDIRECT3D				lp_D3D			=	NULL;
-LPDIRECT3D2				lp_D3D_2		=	NULL;
-LPDIRECTDRAWSURFACE		lp_DD_ZBuffer;
+ULONG RequestFlags	=	0;
+SLONG DeviceBitDepth;
+D3DDEVICEDESC d3d_DeviceDesc;
+GUID GUIDDevice;
+IDirect3DDevice2 *lp_D3D_Device;
+LPDIRECT3D lp_D3D			=	NULL;
+LPDIRECT3D2 lp_D3D_2		=	NULL;
+LPDIRECTDRAWSURFACE lp_DD_ZBuffer;
 
 HRESULT WINAPI	EnumDeviceCallback(LPGUID,LPSTR,LPSTR,LPD3DDEVICEDESC,LPD3DDEVICEDESC,LPVOID);
 
 //---------------------------------------------------------------
 
-void	SetupD3D2()
+void SetupD3D2()
 {
     HRESULT			dd_result; 
 
@@ -46,7 +46,7 @@ void	SetupD3D2()
 
 //---------------------------------------------------------------
 
-void	ResetD3D2()
+void ResetD3D2()
 {
     HRESULT			dd_result; 
 
@@ -80,7 +80,7 @@ void	ResetD3D2()
 
 //---------------------------------------------------------------
 
-bool	ChooseD3DDevice(ULONG flags)
+bool ChooseD3DDevice(ULONG flags)
 {
     DDSURFACEDESC	dd_sd; 
     HRESULT			dd_result; 

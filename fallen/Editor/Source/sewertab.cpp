@@ -10,7 +10,7 @@
 #include	"c:\fallen\headers\inside2.h"
 #include	"c:\fallen\headers\memory.h"
 
-extern	void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
+extern void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
 
 
 //#pragma	warning	14 9
@@ -170,21 +170,21 @@ ControlDef	inside_tab_def[]	=
 
 SewerTab *the_build;
 
-extern	CBYTE	*storey_name[];
+extern CBYTE	*storey_name[];
 
-extern	SLONG inside_building;
-extern	SLONG inside_storey;
-extern	SLONG inside_valid;
-extern	SLONG inside_failure;
+extern SLONG inside_building;
+extern SLONG inside_storey;
+extern SLONG inside_valid;
+extern SLONG inside_failure;
 
 
 #define MAX_SEED_BACKUPS 16
 
-extern	SLONG seed_inside[MAX_SEED_BACKUPS];
-extern	SLONG seed_stairs[MAX_SEED_BACKUPS];
+extern SLONG seed_inside[MAX_SEED_BACKUPS];
+extern SLONG seed_stairs[MAX_SEED_BACKUPS];
 
-extern	SLONG seed_inside_upto;
-extern	SLONG seed_stairs_upto;
+extern SLONG seed_inside_upto;
+extern SLONG seed_stairs_upto;
 
 
 //
@@ -198,7 +198,7 @@ extern	SLONG seed_stairs_upto;
 #define MAX_SEED_BACKUPS 16
 
 
-extern	CBYTE	inside_names[64][20];
+extern CBYTE	inside_names[64][20];
 
 CBYTE	end_str[]="!";
 
@@ -346,7 +346,7 @@ void	SewerTab::DrawTabContent(void)
 
 
 //---------------------------------------------------------------
-extern	void	hilight_col_info(void);
+extern void	hilight_col_info(void);
 
 void	SewerTab::AddHeightOffset(SLONG *x,SLONG *y)
 {
@@ -807,7 +807,7 @@ void	SewerTab::DrawContentRect(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG col)
 	DrawContentLine(x1,z2,x1,z1,col);
 }
 
-extern	SLONG	find_nearest_point(SLONG x,SLONG z,SLONG index,SLONG *rx,SLONG *rz);
+extern SLONG	find_nearest_point(SLONG x,SLONG z,SLONG index,SLONG *rx,SLONG *rz);
 
 void	SewerTab::DrawRoofFaces(SLONG roof,SLONG storey)
 {
@@ -995,9 +995,9 @@ void	SewerTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
 	render_view(0);
 }
 
-extern	void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE *str);
-extern	SLONG is_storey_habitable(SLONG storey);
-extern	SLONG	identical_storey(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG storey);
+extern void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE* str);
+extern SLONG is_storey_habitable(SLONG storey);
+extern SLONG	identical_storey(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG storey);
 
 void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 {
@@ -1624,8 +1624,8 @@ SLONG	SewerTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y
 	return(1);
 }
 
-extern	void	insert_cube(SWORD x,SWORD y,SWORD z);
-extern	void	remove_cube(SLONG x,SLONG y,SLONG z);
+extern void	insert_cube(SWORD x,SWORD y,SWORD z);
+extern void	remove_cube(SLONG x,SLONG y,SLONG z);
 
 
 
@@ -1848,7 +1848,7 @@ SLONG	SewerTab::DragBuilding(UBYTE flags,UBYTE type)
 //
 // moves all vertices above map co-ord map_x,map_z to mx,mz
 //
-extern	void	move_all_vertices(SLONG map_x,SLONG map_z,SLONG mx,SLONG mz);
+extern void	move_all_vertices(SLONG map_x,SLONG map_z,SLONG mx,SLONG mz);
 
 SLONG	SewerTab::DragVertex(UBYTE flags)
 {
@@ -2014,7 +2014,7 @@ SLONG	SewerTab::DragStairs(UWORD stair,UBYTE flags)
 
 }
 
-extern	SLONG	find_previous_wall(SLONG edit_storey,SLONG wall);
+extern SLONG	find_previous_wall(SLONG edit_storey,SLONG wall);
 
 void	SewerTab::DeleteVertex(void)
 {
@@ -2496,10 +2496,10 @@ SLONG	SewerTab::FenceOptions(void)
 }
 
 
-extern	SLONG	count_wall_size(UWORD storey);
-extern	SLONG	find_n_from_end(SLONG n,UWORD storey);
-extern	void	show_storey(UWORD index);
-extern	void	flip_storey(UWORD storey);
+extern SLONG	count_wall_size(UWORD storey);
+extern SLONG	find_n_from_end(SLONG n,UWORD storey);
+extern void	show_storey(UWORD index);
+extern void	flip_storey(UWORD storey);
 
 
 void	SewerTab::CheckStoreyIntegrity(UWORD storey)
@@ -3139,10 +3139,10 @@ SLONG	SewerTab::SetWorldMouse(ULONG flag)
 
 }
 
-extern	void	free_walls(SLONG wall);
-extern	void	delete_storey_list(SWORD storey);
-extern	void	delete_building(UWORD building);
-extern	void	set_storey_height(SLONG building,SLONG storey ,SLONG height);
+extern void	free_walls(SLONG wall);
+extern void	delete_storey_list(SWORD storey);
+extern void	delete_building(UWORD building);
+extern void	set_storey_height(SLONG building,SLONG storey ,SLONG height);
 
 
 void	SewerTab::HandleControl(UWORD control_id)

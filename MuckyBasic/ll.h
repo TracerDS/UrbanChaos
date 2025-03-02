@@ -118,7 +118,7 @@ typedef struct
 // Creates a texture from a file. Returns NULL on failure.
 //
 
-LL_Texture *LL_create_texture(CBYTE *fname);
+LL_Texture *LL_create_texture(CBYTE* fname);
 
 
 //
@@ -133,7 +133,7 @@ void LL_free_texture(LL_Texture *lt);
 // Loads a sound from a file. Returns NULL on failure.
 // 
 
-LL_Sound *LL_create_sound(CBYTE *fname);
+LL_Sound *LL_create_sound(CBYTE* fname);
 
 //
 // Deletes the sound.

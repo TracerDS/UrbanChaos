@@ -645,7 +645,7 @@ DDModeInfo::DDModeInfo()
 
 DDModeInfo::DDModeInfo(const DDSURFACEDESC & ddDesc)
 {
-	CopyMemory(&ddSurfDesc,(const void *)&ddDesc,sizeof (ddSurfDesc));
+	CopyMemory(&ddSurfDesc,(const void* )&ddDesc,sizeof (ddSurfDesc));
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 	Prev	=	NULL;
 	Next	=	NULL;
@@ -1033,7 +1033,7 @@ HRESULT	D3DDeviceInfo::LoadFormats(LPDIRECT3DDEVICE3 the_d3d_device)
 		callback_info.Count		=	0L;
 		callback_info.Extra		=	(void*)this;
 
-		result	=	the_d3d_device->EnumTextureFormats(TextureFormatEnumCallback,(void *)&callback_info);
+		result	=	the_d3d_device->EnumTextureFormats(TextureFormatEnumCallback,(void* )&callback_info);
 		if(FAILED(result))
 		{
 			// Error
@@ -1449,7 +1449,7 @@ HRESULT DDDriverInfo::Create(
     }
 
     // Get The DirectDraw4 Interface
-    result	=	lpDD->QueryInterface(IID_IDirectDraw4,(void **)&lpDD4);
+    result	=	lpDD->QueryInterface(IID_IDirectDraw4,(void* *)&lpDD4);
     if(FAILED(result))
     {
         // Error
@@ -1457,7 +1457,7 @@ HRESULT DDDriverInfo::Create(
     }
 
     // Get The Direct3D Interface
-    result	=	lpDD->QueryInterface(IID_IDirect3D3,(void **)&lpD3D);
+    result	=	lpDD->QueryInterface(IID_IDirect3D3,(void* *)&lpD3D);
     if(FAILED(result))
     {
         // Error

@@ -12,7 +12,7 @@
 //
 // Draws a mesh using the POLY module.
 //
-extern	void CHOPPER_draw_chopper(Thing *p_chopper);
+extern void CHOPPER_draw_chopper(Thing *p_chopper);
 
 
 SLONG MESH_draw_poly(

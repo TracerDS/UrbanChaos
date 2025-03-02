@@ -13,12 +13,12 @@
 
 extern UBYTE					CurrentPalette[256*3];
 
-void	InitPalettes();
-SLONG	CreatePalettes();
-void	DestroyPalettes();
-void	RestorePalettes();
-void	SetPalette(UBYTE *the_palette);
-SLONG	FindColour(UBYTE *pal,SLONG r,SLONG g,SLONG b);
+void InitPalettes();
+SLONG CreatePalettes();
+void DestroyPalettes();
+void RestorePalettes();
+void SetPalette(UBYTE *the_palette);
+SLONG FindColour(UBYTE *pal,SLONG r,SLONG g,SLONG b);
 
 
 #endif

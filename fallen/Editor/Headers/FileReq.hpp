@@ -16,7 +16,7 @@ class	FileRequester : public	EdRect
 				EdRect		TextEdit;
 				EdRect		TextList[30];
 	public:
-							FileRequester(CBYTE	*Path,CBYTE	*Extension,CBYTE *Title,CBYTE *FileName);
+							FileRequester(CBYTE	*Path,CBYTE	*Extension,CBYTE* Title,CBYTE* FileName);
 				CBYTE		*Path;
 				CBYTE		FileName[200];
 				SLONG		Draw();

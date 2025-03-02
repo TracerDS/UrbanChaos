@@ -90,7 +90,7 @@ inline	SLONG	check_vertex(D3DTLVERTEX	*v)
 		return(0);
 
 }
-extern	D3DTLVERTEX			vertex_pool[];
+extern D3DTLVERTEX			vertex_pool[];
 
 inline void	add_bucket(BucketHead *header,UBYTE bucket_type,SLONG list_index,SLONG z)
 {

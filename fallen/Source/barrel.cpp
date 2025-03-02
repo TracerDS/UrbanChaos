@@ -23,7 +23,7 @@
 #endif
 
 BARREL_Sphere *BARREL_sphere; //[BARREL_MAX_SPHERES];
-SLONG          BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
+SLONG BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
 
 
 //
@@ -43,7 +43,7 @@ extern bool allow_debug_keys;
 #endif
 
 Barrel *BARREL_barrel;//[BARREL_MAX_BARRELS];
-SLONG   BARREL_barrel_upto;
+SLONG BARREL_barrel_upto;
 
 		 
 //
@@ -224,7 +224,7 @@ void BARREL_convert_stationary_to_moving(Thing *p_barrel)
 			{
 				EWAY_count_up += 500;
 
-				void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
+				void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
 
 				add_damage_text(
 					p_barrel->WorldPos.X >> 8,

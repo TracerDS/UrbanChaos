@@ -6,11 +6,11 @@
 #define	SPEED		OnFace
 #define	RADIUS		Index
 
-void	process_effect(Thing *e_thing);
+void process_effect(Thing *e_thing);
 
 //---------------------------------------------------------------
 
-void	init_effect(Thing *e_thing)
+void init_effect(Thing *e_thing)
 {
 	e_thing->DrawType			=	DT_EFFECT;
 	e_thing->SPEED	=	128;
@@ -23,7 +23,7 @@ void	init_effect(Thing *e_thing)
 
 //---------------------------------------------------------------
 
-void	process_effect(Thing *e_thing)
+void process_effect(Thing *e_thing)
 {
 	e_thing->SPEED	=	(e_thing->SPEED*50)/64;
 	if(e_thing->SPEED)

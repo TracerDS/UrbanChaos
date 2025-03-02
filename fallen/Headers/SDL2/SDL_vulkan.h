@@ -122,7 +122,7 @@ extern DECLSPEC int SDLCALL SDL_Vulkan_LoadLibrary(const char *path);
  *
  * \since This function is available since SDL 2.0.6.
  */
-extern DECLSPEC void *SDLCALL SDL_Vulkan_GetVkGetInstanceProcAddr(void);
+extern DECLSPEC void* SDLCALL SDL_Vulkan_GetVkGetInstanceProcAddr(void);
 
 /**
  * Unload the Vulkan library previously loaded by SDL_Vulkan_LoadLibrary()

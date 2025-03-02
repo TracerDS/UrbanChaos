@@ -33,7 +33,7 @@ struct Plat
 #define	TO_PLAT(x)		&PLAT_plat[x]
 #define	PLAT_NUMBER(x)	(UWORD)(x-TO_PLAT(0))
 
-extern	Plat  *PLAT_plat; //[PLAT_MAX_PLATS];
+extern Plat  *PLAT_plat; //[PLAT_MAX_PLATS];
 
 //
 // So we can have a pointer from the thing structure.
@@ -41,7 +41,7 @@ extern	Plat  *PLAT_plat; //[PLAT_MAX_PLATS];
 
 typedef struct Plat *PlatPtr;
 
-extern	SLONG PLAT_plat_upto;
+extern SLONG PLAT_plat_upto;
 
 //
 // Initialises all platform info.

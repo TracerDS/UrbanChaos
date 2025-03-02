@@ -14,10 +14,10 @@
 extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 
-extern	UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4);
-extern	SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face);
-extern	void	process_camera(struct MapThing *p_thing);
-extern	UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVECTOR *p_vect); //prim.h
+extern UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4);
+extern SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face);
+extern void	process_camera(struct MapThing *p_thing);
+extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVECTOR *p_vect); //prim.h
 
 
 void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
@@ -25,15 +25,15 @@ void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list);
 
 UWORD	find_empty_map_thing();
 
-extern	void	setup_anim_stuff(); //edutils
-extern	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE *vue_name); //edutils
-extern	void	load_chunk_texture_info(KeyFrameChunk *the_chunk); //edutils
-extern	void	reset_anim_stuff();
-extern	void	clear_anim_stuff();
-extern	UWORD	find_empty_map_thing();
+extern void	setup_anim_stuff(); //edutils
+extern void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE* vue_name); //edutils
+extern void	load_chunk_texture_info(KeyFrameChunk *the_chunk); //edutils
+extern void	reset_anim_stuff();
+extern void	clear_anim_stuff();
+extern UWORD	find_empty_map_thing();
 
-extern	void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-extern	void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
+extern void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
+extern void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
 
 SLONG					anim_count,
 						current_element,
@@ -283,7 +283,7 @@ ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing)
 		on_its_quad = is_thing_on_this_quad(p_thing->X+m_dx,p_thing->Z+m_dz,p_thing->OnFace);
 		if(!on_its_quad)
 		{
-extern	SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG ignore_faces_of-this_building);
+extern SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG ignore_faces_of-this_building);
 		on_connected_quad=find_face_for_this_pos(p_thing->X+m_dx,p_thing->Y+m_dy,p_thing->Z+m_dz,0);
 
 /*
@@ -1020,7 +1020,7 @@ extern UBYTE	store_pos;
 
 
 //SLONG	calc_shadow_co_ord((struct Matrix31*)&temp,&temp_shadow,10000,10000,10000);//light co_ord
-extern	SLONG	calc_height_at(SLONG x,SLONG z);
+extern SLONG	calc_height_at(SLONG x,SLONG z);
 SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z)
 {
 	SLONG	dx,dy,dz;
@@ -1238,7 +1238,7 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 				((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 				((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
 				
-				add_bucket((void *)current_bucket_pool,az);
+				add_bucket((void* )current_bucket_pool,az);
 
 				current_bucket_pool+=sizeof(struct BucketQuad);
 
@@ -1296,7 +1296,7 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 			((struct BucketQuad*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -1348,7 +1348,7 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 				((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 				((struct BucketTri*)current_bucket_pool)->DebugFlags=0;
 				
-				add_bucket((void *)current_bucket_pool,az);
+				add_bucket((void* )current_bucket_pool,az);
 
 				current_bucket_pool+=sizeof(struct BucketTri);
 
@@ -1399,7 +1399,7 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 			((struct BucketTri*)current_bucket_pool)->DebugInfo=c0;
 			((struct BucketTri*)current_bucket_pool)->DebugFlags=0;
 
-			add_bucket((void *)current_bucket_pool,az);
+			add_bucket((void* )current_bucket_pool,az);
 
 			current_bucket_pool+=sizeof(struct BucketQuad);
 		}
@@ -1571,8 +1571,8 @@ void	set_game_camera(struct MapThing *track_thing)
 	if(Keys[KB_G])
 	{
 		SLONG	mid_x,mid_y,mid_z;
-extern	UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
-extern	void	calc_face_midpoint(SWORD face,SLONG *x,SLONG *y,SLONG *z);
+extern UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
+extern void	calc_face_midpoint(SWORD face,SLONG *x,SLONG *y,SLONG *z);
 		calc_face_midpoint(31989,&mid_x,&mid_y,&mid_z);
 		make_poly_into_glass_shatter_prim(31989,mid_x,mid_y,mid_z);
 		Keys[KB_G]=0;

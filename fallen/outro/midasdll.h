@@ -247,13 +247,13 @@ typedef struct
 } MIDASechoSet;
 
 
-typedef void (MIDAS_CALL *MIDASpostProcFunction)(void *data,
-    unsigned numSamples, void *user);
+typedef void (MIDAS_CALL *MIDASpostProcFunction)(void* data,
+    unsigned numSamples, void* user);
 
 typedef struct _MIDASpostProcessor
 {
     struct _MIDASpostProcessor *next, *prev; /* reserved */
-    void *userData;                          /* reserved */
+    void* userData;                          /* reserved */
     MIDASpostProcFunction floatMono;
     MIDASpostProcFunction floatStereo;
     MIDASpostProcFunction intMono;
@@ -389,7 +389,7 @@ _FUNC(MIDASechoHandle) MIDASaddEchoEffect(MIDASechoSet *echoSet);
 _FUNC(bool)     MIDASremoveEchoEffect(MIDASechoHandle echoHandle);
 
 _FUNC(bool)     MIDASaddPostProcessor(MIDASpostProcessor *postProc,
-                                      unsigned procPos, void *userData);
+                                      unsigned procPos, void* userData);
 _FUNC(bool)     MIDASremovePostProcessor(MIDASpostProcessor *postProc);
 
 

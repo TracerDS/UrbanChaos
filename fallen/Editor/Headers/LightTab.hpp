@@ -56,8 +56,8 @@ class	LightTab	:	public	ModeTab
 };
 
 
-extern	 void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern	void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
+extern void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z);
+extern void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
 
 #endif
 

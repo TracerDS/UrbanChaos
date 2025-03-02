@@ -26,7 +26,7 @@ extern volatile LastMouse	LeftMouse,
 							RightMouse;
 extern volatile MFPoint		MousePoint;
 
-extern	void	RemoveMouse();
-extern	void	PlaceMouse();
+extern void	RemoveMouse();
+extern void	PlaceMouse();
 
 #endif

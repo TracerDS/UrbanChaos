@@ -796,7 +796,7 @@ HRESULT	DIDriverManager::Init(void)
 			NULL,
 			CLSCTX_INPROC_SERVER,
 			IID_IDirectInput8W,
-			(void **) &lp_DI);
+			(void* *) &lp_DI);
 
 		result = lp_DI->Initialize(hGlobalThisInst, DIRECTINPUT_VERSION);
 
@@ -1411,7 +1411,7 @@ int DIDriverManager::ScanForVMUs()
 		current_device = current_device->Next;
 	}
 
-	MapleEnumerateDevices ( MDT_ALLDEVICES, FlashEnumProc, (void *)this, 0 );
+	MapleEnumerateDevices ( MDT_ALLDEVICES, FlashEnumProc, (void* )this, 0 );
 
 	return ( m_iNumMapleDevices );
 
@@ -1474,7 +1474,7 @@ void MapleVMU::EnsureDevicePtr ( void )
 // If the LCD screen is not a standard type, then it does its best,
 //	or fails and returns false.
 
-bool MapleVMU::Lcd_WriteScreen ( void *pvData, bool bQueue )
+bool MapleVMU::Lcd_WriteScreen ( void* pvData, bool bQueue )
 {
 	ASSERT ( type == MDT_LCD );
 	EnsureDevicePtr();
@@ -1521,7 +1521,7 @@ bool MapleVMU::Lcd_WriteScreen ( VMU_Screen *pvmuScreen, bool bQueue )
 	ASSERT ( pvmuScreen != NULL );
 	RotateVMUScreen ( bUpsideDown, pvmuScreen);
 
-	return Lcd_WriteScreen ( (void *)(pvmuScreen->bData), bQueue );
+	return Lcd_WriteScreen ( (void* )(pvmuScreen->bData), bQueue );
 }
 
 
@@ -1556,7 +1556,7 @@ char *m_pszDirectory[MAX_DIRECTORY_ENTRIES+1];
 
 
 // The directory callback.
-bool Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, LPCFSFILEDESC lpcfsfiledesc, void *pvContext )
+bool Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, LPCFSFILEDESC lpcfsfiledesc, void* pvContext )
 {
 	// When called by FastEnumFlashFiles, only the filename is valid in lpcfsfiledesc.
 	if ( m_iNumDirectoryFiles < MAX_DIRECTORY_ENTRIES )
@@ -1702,7 +1702,7 @@ DWORD MapleVMU::Flash_GetFileSize ( char *pcFilename )
 
 // Reads the given file into pvData, which is of size dwSizeOfData.
 // Return is true on success, false on failure.
-bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfData )
+bool MapleVMU::Flash_ReadFile ( char *pcFilename, void* pvData, DWORD dwSizeOfData )
 {
 	ASSERT ( type == MDT_STORAGE );
 	EnsureDevicePtr();
@@ -1756,7 +1756,7 @@ bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfDa
 // If the file already exists, it is deleted.
 // If there is not enough space on the device, the call will fail.
 // Return is true on success, false on failure.
-bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcComment, void *pvData, DWORD dwSizeOfData,
+bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcComment, void* pvData, DWORD dwSizeOfData,
 								 char *pcIconPalette, char *pcIconData )
 {
 	ASSERT ( type == MDT_STORAGE );
@@ -2046,7 +2046,7 @@ bool CreateVMUScreenFromTGA ( char *pchName, VMU_Screen **ppvmuScreen )
 	ASSERT ( *ppvmuScreen == NULL );
 
 	// Load the savegame icon from disk.
-extern TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink);
+extern TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink);
 	TGA_Info tga_info = TGA_load_from_file ( pchName, 48, 32, pPixelData, false );
 	if ( tga_info.valid )
 	{
@@ -2511,7 +2511,7 @@ void OS_joy_init(void)
 		NULL,
 		CLSCTX_INPROC_SERVER,
 	    IID_IDirectInput8W,
-	    (void **) &OS_joy_direct_input);
+	    (void* *) &OS_joy_direct_input);
 
 	extern HINSTANCE hGlobalThisInst;
 	

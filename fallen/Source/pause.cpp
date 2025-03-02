@@ -56,7 +56,7 @@ static SWORD  selected;
 #define PAUSE_MENU_EXIT		2
 #define PAUSE_MENU_SIZE		3
 /*
-static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
+static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",

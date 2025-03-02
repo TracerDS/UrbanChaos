@@ -43,25 +43,25 @@ extern UBYTE AENG_transparent_warehouses;
 //---------------------------------------------------------------
 
 //	Strings.
-CBYTE		*GEDIT_editor_name	=	"Editor Class",
+CBYTE* GEDIT_editor_name	=	"Editor Class",
 			*GEDIT_engine_name	=	"Engine View",
 			*GEDIT_frame_name	=	"Urban Chaos mission editor",
 			*GEDIT_map_name		=	"Map View";
 
-SLONG		df,dl,dy,dp,dd;
+SLONG df,dl,dy,dp,dd;
 
 //	Application instance.
-HINSTANCE	GEDIT_hinstance;
+HINSTANCE GEDIT_hinstance;
 
 //	Icons, Cursors & Menus.
-HCURSOR		GEDIT_arrow,
+HCURSOR GEDIT_arrow,
 			GEDIT_busy;
-HICON		GEDIT_app_icon;
-HMENU		GEDIT_main_menu,
+HICON GEDIT_app_icon;
+HMENU GEDIT_main_menu,
 			main_menu;
 
 //	Window handles.
-HWND		GEDIT_client_wnd,
+HWND GEDIT_client_wnd,
 			GEDIT_edit_wnd,
 			GEDIT_engine_wnd,
 			GEDIT_frame_wnd,
@@ -70,7 +70,7 @@ HWND		GEDIT_client_wnd,
 			GEDIT_workspace_wnd;
 
 //	Window classes.
-WNDCLASSEX	GEDIT_class_editor,
+WNDCLASSEX GEDIT_class_editor,
 			GEDIT_class_engine,
 			GEDIT_class_frame;
 
@@ -93,15 +93,15 @@ EventPoint dummy_ep;
 //
 // prim edit stuff
 //
-SLONG	prim_num	=	125; // helicopter; hey, it's _visible_...
-SLONG	prim_height	=	0;
-SLONG	prim_index	=	-1;
-SLONG	prim_drag	=	0;
-SLONG	prim_dir	=	0;
-SLONG   prim_x		=	0,
+SLONG prim_num	=	125; // helicopter; hey, it's _visible_...
+SLONG prim_height	=	0;
+SLONG prim_index	=	-1;
+SLONG prim_drag	=	0;
+SLONG prim_dir	=	0;
+SLONG prim_x		=	0,
 		prim_z		=	0;
-bool	prim_ware	=	0;
-bool	prim_psxmode=	0;
+bool prim_ware	=	0;
+bool prim_psxmode=	0;
 
 //
 // The mousewheel message.
@@ -113,13 +113,13 @@ UINT GEDIT_wm_mousewheel;
 INT EditorResult=0;
 
 
-extern	int		waypoint_colour,
+extern int		waypoint_colour,
 				waypoint_group;
-extern	UBYTE	button_colours[][3];
-//extern	TCHAR	button_classes[][_MAX_PATH];
+extern UBYTE	button_colours[][3];
+//extern TCHAR	button_classes[][_MAX_PATH];
 
-bool				init_mission_editor();
-void				fini_mission_editor();
+bool init_mission_editor();
+void fini_mission_editor();
 bool CALLBACK		mission_editor_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 
 bool is_in_mission_editor = 0;
@@ -136,7 +136,7 @@ extern HINSTANCE		hGlobalThisInst;
 CBYTE old_path[_MAX_PATH];
 
 
-int	gedit()
+int gedit()
 {
 	int			result;
 	MSG			msg;
@@ -248,7 +248,7 @@ int	gedit()
 
 //---------------------------------------------------------------
 
-bool	init_mission_editor()
+bool init_mission_editor()
 {
 	//	Set up the mission data.
 	MISSION_init();
@@ -261,7 +261,7 @@ bool	init_mission_editor()
 
 //---------------------------------------------------------------
 
-void	fini_mission_editor()
+void fini_mission_editor()
 {
 //	fini_map_view();
 	fini_wwind();
@@ -1416,7 +1416,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 //---------------------------------------------------------------
 /*
-void	controls_to_ep(EventPoint *ep,ULONG flags)
+void controls_to_ep(EventPoint *ep,ULONG flags)
 {
 	SBYTE			wp_type;
 
@@ -1483,7 +1483,7 @@ void	controls_to_ep(EventPoint *ep,ULONG flags)
 */
 //---------------------------------------------------------------
 /*
-void	ep_to_controls(EventPoint *ep,ULONG flags)
+void ep_to_controls(EventPoint *ep,ULONG flags)
 {
 	CBYTE			edit_text[2];
 	WPARAM			w_param;
@@ -1616,7 +1616,7 @@ void	ep_to_controls(EventPoint *ep,ULONG flags)
 */
 //---------------------------------------------------------------
 
-void	menu_no_workspace()
+void menu_no_workspace()
 {
 	EnableMenuItem(GEDIT_main_menu,ID_FILE_NEW_WS,MF_ENABLED);
 	EnableMenuItem(GEDIT_main_menu,ID_FILE_OPEN_WS,MF_ENABLED);
@@ -1627,7 +1627,7 @@ void	menu_no_workspace()
 
 //---------------------------------------------------------------
 
-void	menu_has_workspace()
+void menu_has_workspace()
 {
 	EnableMenuItem(GEDIT_main_menu,ID_FILE_NEW_WS,MF_ENABLED);
 	EnableMenuItem(GEDIT_main_menu,ID_FILE_OPEN_WS,MF_ENABLED);
@@ -1638,14 +1638,14 @@ void	menu_has_workspace()
 
 //---------------------------------------------------------------
 
-void	menu_workspace_changed()
+void menu_workspace_changed()
 {
 //	EnableMenuItem(GEDIT_main_menu,ID_FILE_SAVE_WS,MF_ENABLED);
 }
 
 //---------------------------------------------------------------
 
-void	menu_workspace_saved()
+void menu_workspace_saved()
 {
 //	EnableMenuItem(GEDIT_main_menu,ID_FILE_SAVE_WS,MF_GRAYED);
 }

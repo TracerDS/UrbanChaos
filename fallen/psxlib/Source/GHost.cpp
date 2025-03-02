@@ -163,7 +163,7 @@ char level_done[48];
 UBYTE Video_Played;
 UBYTE Eidos_Played;
 UBYTE Wadmenu_Video;
-CBYTE *Wadmenu_CivMess;
+CBYTE* Wadmenu_CivMess;
 SWORD Wadmenu_Citations;
 SWORD Wadmenu_Current_Con;
 SWORD Wadmenu_Current_Ref;
@@ -357,13 +357,13 @@ extern MFX_sound_frame;
 }
 
 //---------------------------------------------------------------
-SLONG	InitHardware();
+SLONG InitHardware();
 
-extern	void	set_next_prim_point(SLONG v);
-extern	UWORD	next_prim_point;
+extern void	set_next_prim_point(SLONG v);
+extern UWORD	next_prim_point;
 //extern void MFX_Callback_CdRead(UBYTE status,UBYTE *result);
 
-bool	SetupHost(ULONG flags)
+bool SetupHost(ULONG flags)
 {
 
 #ifdef FS_ISO9660
@@ -392,7 +392,7 @@ bool	SetupHost(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	ResetHost()
+void ResetHost()
 {
 	ResetMemory();
 }
@@ -401,7 +401,7 @@ void	ResetHost()
 char cd_file_buffer[128];
 
 
-void	PCReadFile(CBYTE *name,UBYTE *addr,ULONG len)
+void PCReadFile(CBYTE* name,UBYTE *addr,ULONG len)
 {
 #ifndef FS_ISO9660
 	SLONG	fh;
@@ -430,7 +430,7 @@ void	PCReadFile(CBYTE *name,UBYTE *addr,ULONG len)
 #endif
 }
 
-void	PSXOverLay(CBYTE *name,ULONG len)
+void PSXOverLay(CBYTE* name,ULONG len)
 {
 	UBYTE buf[8];
 	memcpy((void*)buf,(void*)my_heap,8);
@@ -446,7 +446,7 @@ void	PSXOverLay(CBYTE *name,ULONG len)
 }
 
 
-bool	LibShellActive()
+bool LibShellActive()
 {
 #ifndef FS_ISO9660
 	pollhost();
@@ -459,18 +459,18 @@ bool	LibShellActive()
 
 //---------------------------------------------------------------
 
-void	Time(MFTime *the_time)
+void Time(MFTime *the_time)
 {
 
 	the_time->Ticks		=	0;
 }
 
-SLONG	GetTickCount()
+SLONG GetTickCount()
 {
 	return PSX_msecond_timer;
 }
 
-bool	GetInputDevice(UBYTE type,UBYTE sub_type)
+bool GetInputDevice(UBYTE type,UBYTE sub_type)
 {		 
 	return(1);
 }
@@ -479,7 +479,7 @@ static unsigned char align[6]={0,1,0xFF,0xFF,0xFF,0xFF};
 int psx_send=0;
 extern UBYTE psx_motor[2];
 
-bool	ReadInputDevice()
+bool ReadInputDevice()
 {
 //	UBYTE motor[2]={0,0};
 	SLONG id;

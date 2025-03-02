@@ -13,7 +13,7 @@
 // The names of the system fields.
 //
 
-CBYTE *SYSVAR_field[SYSVAR_FIELD_NUMBER] =
+CBYTE* SYSVAR_field[SYSVAR_FIELD_NUMBER] =
 {
 	".x",
 	".y",

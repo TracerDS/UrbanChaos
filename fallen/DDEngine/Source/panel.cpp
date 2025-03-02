@@ -452,7 +452,7 @@ SLONG       PANEL_store_upto;
 void PANEL_draw_timer_do(float time, float x, float y)
 {
 	CBYTE  countdown[32];
-	CBYTE *ch;
+	CBYTE* ch;
 
 	SLONG mins = 0;
 
@@ -587,7 +587,7 @@ void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
 #endif
 
 
-extern	void POLY_add_rect(POLY_Point *p1, SLONG width,SLONG height,  SLONG page, UBYTE sort_to_front);
+extern void POLY_add_rect(POLY_Point *p1, SLONG width,SLONG height,  SLONG page, UBYTE sort_to_front);
 
 void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG radius=60)
 {
@@ -1841,7 +1841,7 @@ void PANEL_do_tosses()
 		}
 	}
 }
-extern	UBYTE	estate;
+extern UBYTE	estate;
 
 //
 // Draws a face at (x,y). The face is given by the Thing. NULL => Radio message.
@@ -2174,9 +2174,9 @@ void PANEL_new_text_init()
 
 
 
-void PANEL_new_text(Thing *who, SLONG delay, CBYTE *fmt, ...)
+void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 {
-	CBYTE *ch;
+	CBYTE* ch;
 
 	PANEL_Text *pt;
 
@@ -2438,7 +2438,7 @@ void PANEL_new_text_draw()
 CBYTE PANEL_help_message[256];
 SLONG PANEL_help_timer;
 
-void PANEL_new_help_message(CBYTE *fmt, ...)
+void PANEL_new_help_message(CBYTE* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -2889,7 +2889,7 @@ void PANEL_draw_beacons()
 
 		mb = &MAP_beacon[best_beacon];
 
-		extern CBYTE *EWAY_get_mess(SLONG index);
+		extern CBYTE* EWAY_get_mess(SLONG index);
 
 		FONT2D_DrawString(
 			EWAY_get_mess(mb->index),
@@ -3939,7 +3939,7 @@ void PANEL_flash_sign(SLONG sign, SLONG flip)
 CBYTE PANEL_info_message[512];
 ULONG PANEL_info_time;
 
-void PANEL_new_info_message(CBYTE *fmt, ...)
+void PANEL_new_info_message(CBYTE* fmt, ...)
 {
 	va_list	ap;
 
@@ -4805,7 +4805,7 @@ void PANEL_last()
 		SLONG	c;
 
 #ifdef	STRIP_STATS
-extern	ULONG	strip_stats[];
+extern ULONG	strip_stats[];
 		if(strip_stats[0])
 			strip=(float)strip_stats[1]/(float)strip_stats[0];
 
@@ -5258,7 +5258,7 @@ extern	ULONG	strip_stats[];
 
 				mb = &MAP_beacon[best_beacon];
 
-				extern CBYTE *EWAY_get_mess(SLONG index);
+				extern CBYTE* EWAY_get_mess(SLONG index);
 
 				FONT2D_DrawString(
 					EWAY_get_mess(mb->index),
@@ -5643,7 +5643,7 @@ extern	ULONG	strip_stats[];
 
 				if ((darci->Genus.Person->Timer1 & 0xfff) < 3000 || percent == 1.0F)
 				{
-					CBYTE *text;
+					CBYTE* text;
 
 					if (percent == 1.0F)
 					{
@@ -5888,7 +5888,7 @@ extern DWORD m_dwSizeOfQueue;
 
 				sprintf(ts, __DATE__);
 
-				CBYTE *month[12] =
+				CBYTE* month[12] =
 				{
 					"Jan",
 					"Feb",
@@ -5965,7 +5965,7 @@ extern DWORD m_dwSizeOfQueue;
 		CBYTE ts[40] = __DATE__;
 		float vn;
 
-		CBYTE *month[12] =
+		CBYTE* month[12] =
 		{
 			"Jan",
 			"Feb",

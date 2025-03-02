@@ -43,7 +43,7 @@ extern "C" {
 /* Platform specific functions for Windows */
 #if defined(__WIN32__) || defined(__GDK__)
 	
-typedef void (SDLCALL * SDL_WindowsMessageHook)(void *userdata, void *hWnd, unsigned int message, Uint64 wParam, Sint64 lParam);
+typedef void (SDLCALL * SDL_WindowsMessageHook)(void* userdata, void* hWnd, unsigned int message, Uint64 wParam, Sint64 lParam);
 
 /**
  * Set a callback for every Windows message, run before TranslateMessage().
@@ -53,7 +53,7 @@ typedef void (SDLCALL * SDL_WindowsMessageHook)(void *userdata, void *hWnd, unsi
  *
  * \since This function is available since SDL 2.0.4.
  */
-extern DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void *userdata);
+extern DECLSPEC void SDLCALL SDL_SetWindowsMessageHook(SDL_WindowsMessageHook callback, void* userdata);
 
 #endif /* defined(__WIN32__) || defined(__GDK__) */
 
@@ -222,7 +222,7 @@ extern DECLSPEC int SDLCALL SDL_LinuxSetThreadPriorityAndPolicy(Sint64 threadID,
  *
  * \sa SDL_iPhoneSetEventPump
  */
-extern DECLSPEC int SDLCALL SDL_iPhoneSetAnimationCallback(SDL_Window * window, int interval, void (SDLCALL *callback)(void*), void *callbackParam);
+extern DECLSPEC int SDLCALL SDL_iPhoneSetAnimationCallback(SDL_Window * window, int interval, void (SDLCALL *callback)(void*), void* callbackParam);
 
 #define SDL_iOSSetEventPump(enabled) SDL_iPhoneSetEventPump(enabled)
 
@@ -265,7 +265,7 @@ extern DECLSPEC void SDLCALL SDL_iPhoneSetEventPump(SDL_bool enabled);
  *
  * \sa SDL_AndroidGetActivity
  */
-extern DECLSPEC void * SDLCALL SDL_AndroidGetJNIEnv(void);
+extern DECLSPEC void*  SDLCALL SDL_AndroidGetJNIEnv(void);
 
 /**
  * Retrieve the Java instance of the Android activity class.
@@ -287,7 +287,7 @@ extern DECLSPEC void * SDLCALL SDL_AndroidGetJNIEnv(void);
  *
  * \sa SDL_AndroidGetJNIEnv
  */
-extern DECLSPEC void * SDLCALL SDL_AndroidGetActivity(void);
+extern DECLSPEC void*  SDLCALL SDL_AndroidGetActivity(void);
 
 /**
  * Query Android API level of the current device.

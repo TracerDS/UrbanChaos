@@ -517,26 +517,26 @@ struct	PrimMultiObject
 
 
 //data
-extern	CBYTE	prim_names[2000][32];
-extern	struct	SVector			global_res[]; //max points per object?
-extern	SLONG	global_flags[];
-extern	UWORD	global_bright[];
+extern CBYTE	prim_names[2000][32];
+extern struct	SVector			global_res[]; //max points per object?
+extern SLONG	global_flags[];
+extern UWORD	global_bright[];
 
-extern	UWORD	background_prim;
+extern UWORD	background_prim;
 
 // FUNCTIONS
 
-//extern	void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	PrimMultiAnim *anim_info);
-extern	void	test_poly();
+//extern void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	PrimMultiAnim *anim_info);
+extern void	test_poly();
 
-extern	SLONG	load_all_prims(CBYTE	*name);
-extern	SLONG	save_all_prims(CBYTE	*name);
+extern SLONG	load_all_prims(CBYTE	*name);
+extern SLONG	save_all_prims(CBYTE	*name);
 
-extern	SLONG	copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing);
-extern	void	delete_a_prim(UWORD prim);
-extern	void	delete_last_prim();
-extern	void	calc_normal(SWORD	face,struct SVector *p_normal);
-extern	UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense);
+extern SLONG	copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing);
+extern void	delete_a_prim(UWORD prim);
+extern void	delete_last_prim();
+extern void	calc_normal(SWORD	face,struct SVector *p_normal);
+extern UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense);
 
 
 //

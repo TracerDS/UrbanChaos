@@ -71,7 +71,7 @@ typedef struct SDL_RWops
      *
      *  \return the number of objects read, or 0 at error or end of file.
      */
-    size_t (SDLCALL * read) (struct SDL_RWops * context, void *ptr,
+    size_t (SDLCALL * read) (struct SDL_RWops * context, void* ptr,
                              size_t size, size_t maxnum);
 
     /**
@@ -80,7 +80,7 @@ typedef struct SDL_RWops
      *
      *  \return the number of objects written, or 0 at error or end of file.
      */
-    size_t (SDLCALL * write) (struct SDL_RWops * context, const void *ptr,
+    size_t (SDLCALL * write) (struct SDL_RWops * context, const void* ptr,
                               size_t size, size_t num);
 
     /**
@@ -96,16 +96,16 @@ typedef struct SDL_RWops
 #if defined(__ANDROID__)
         struct
         {
-            void *asset;
+            void* asset;
         } androidio;
 #elif defined(__WIN32__) || defined(__GDK__)
         struct
         {
             SDL_bool append;
-            void *h;
+            void* h;
             struct
             {
-                void *data;
+                void* data;
                 size_t size;
                 size_t left;
             } buffer;
@@ -127,8 +127,8 @@ typedef struct SDL_RWops
         } mem;
         struct
         {
-            void *data1;
-            void *data2;
+            void* data1;
+            void* data2;
         } unknown;
     } hidden;
 
@@ -242,7 +242,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromFP(FILE * fp, SDL_bool autoclose);
  * \sa SDL_RWtell
  * \sa SDL_RWwrite
  */
-extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromFP(void * fp,
+extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromFP(void*  fp,
                                                 SDL_bool autoclose);
 #endif
 
@@ -277,7 +277,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromFP(void * fp,
  * \sa SDL_RWtell
  * \sa SDL_RWwrite
  */
-extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromMem(void *mem, int size);
+extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromMem(void* mem, int size);
 
 /**
  * Use this function to prepare a read-only memory buffer for use with RWops.
@@ -311,7 +311,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromMem(void *mem, int size);
  * \sa SDL_RWseek
  * \sa SDL_RWtell
  */
-extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromConstMem(const void *mem,
+extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromConstMem(const void* mem,
                                                       int size);
 
 /* @} *//* RWFrom functions */
@@ -480,7 +480,7 @@ extern DECLSPEC Sint64 SDLCALL SDL_RWtell(SDL_RWops *context);
  * \sa SDL_RWwrite
  */
 extern DECLSPEC size_t SDLCALL SDL_RWread(SDL_RWops *context,
-                                          void *ptr, size_t size,
+                                          void* ptr, size_t size,
                                           size_t maxnum);
 
 /**
@@ -514,7 +514,7 @@ extern DECLSPEC size_t SDLCALL SDL_RWread(SDL_RWops *context,
  * \sa SDL_RWseek
  */
 extern DECLSPEC size_t SDLCALL SDL_RWwrite(SDL_RWops *context,
-                                           const void *ptr, size_t size,
+                                           const void* ptr, size_t size,
                                            size_t num);
 
 /**
@@ -562,7 +562,7 @@ extern DECLSPEC int SDLCALL SDL_RWclose(SDL_RWops *context);
  *
  * \since This function is available since SDL 2.0.6.
  */
-extern DECLSPEC void *SDLCALL SDL_LoadFile_RW(SDL_RWops *src,
+extern DECLSPEC void* SDLCALL SDL_LoadFile_RW(SDL_RWops *src,
                                               size_t *datasize,
                                               int freesrc);
 
@@ -584,7 +584,7 @@ extern DECLSPEC void *SDLCALL SDL_LoadFile_RW(SDL_RWops *src,
  *
  * \since This function is available since SDL 2.0.10.
  */
-extern DECLSPEC void *SDLCALL SDL_LoadFile(const char *file, size_t *datasize);
+extern DECLSPEC void* SDLCALL SDL_LoadFile(const char *file, size_t *datasize);
 
 /**
  *  \name Read endian functions

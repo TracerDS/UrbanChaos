@@ -298,7 +298,7 @@ SLONG FONT2D_GetIndex(CBYTE chr)
 
 		letter = FONT2D_PUNCT_PLING;
 
-		for (CBYTE *ch = FONT2D_punct; *ch && *ch != chr; ch++, letter++);
+		for (CBYTE* ch = FONT2D_punct; *ch && *ch != chr; ch++, letter++);
 	}
 
 	if (!WITHIN(letter, 0, FONT2D_NUM_LETTERS - 1))
@@ -552,7 +552,7 @@ SLONG FONT2D_DrawStringWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale,
 	SLONG xlook;
 	SLONG len = strlen(str);
 
-	CBYTE *ch;
+	CBYTE* ch;
 
 	FONT2D_rightmost_x = x + 8;
 
@@ -622,7 +622,7 @@ SLONG FONT2D_DrawStringWrapTo(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scal
 	SLONG xlook;
 	SLONG len = strlen(str);
 
-	CBYTE *ch;
+	CBYTE* ch;
 
 	FONT2D_rightmost_x = x + 8;
 
@@ -700,7 +700,7 @@ SLONG FONT2D_DrawStringRightJustify(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLON
 	SLONG xlook;
 	SLONG len = strlen(str);
 
-	CBYTE *ch;
+	CBYTE* ch;
 	CBYTE  backup;
 
 	drawn_upto = 0;
@@ -785,7 +785,7 @@ SLONG FONT2D_DrawStringRightJustifyNoWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb
 		str = "Null string";
 	}
 
-	CBYTE *ch;
+	CBYTE* ch;
 
 	for (ch = str; *ch; ch++)
 	{
@@ -822,7 +822,7 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 
 	if (mid.IsValid())
 	{
-		CBYTE *ch;
+		CBYTE* ch;
 
 		float x = mid.X;
 		float y = mid.Y;
@@ -932,7 +932,7 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 void FONT2D_DrawStringCentred(CBYTE*chr, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
 {
 	SLONG length;
-	CBYTE *ch;
+	CBYTE* ch;
 
 #ifdef TRUETYPE
 	PERHAPS

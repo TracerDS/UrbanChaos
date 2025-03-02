@@ -31,7 +31,7 @@
 //
 
 MAV_Opt *MAV_opt;
-SLONG    MAV_opt_upto;
+SLONG MAV_opt_upto;
 
 
 //
@@ -39,7 +39,7 @@ SLONG    MAV_opt_upto;
 //
 
 UWORD *MAV_nav;
-SLONG  MAV_nav_pitch = 128;
+SLONG MAV_nav_pitch = 128;
 
 
 
@@ -1731,7 +1731,7 @@ UBYTE MAV_dest_z;
 #define MAV_LOOKAHEAD 32
 
 MAV_Action MAV_node[MAV_LOOKAHEAD];
-SLONG      MAV_node_upto;
+SLONG MAV_node_upto;
 
 //
 // Each UBYTE is four two squares. There is three bits for action, and one bit

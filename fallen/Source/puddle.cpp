@@ -50,7 +50,7 @@ typedef struct
 #define PUDDLE_MAX_PUDDLES 256
 
 PUDDLE_Puddle PUDDLE_puddle[PUDDLE_MAX_PUDDLES];
-SLONG         PUDDLE_puddle_upto;
+SLONG PUDDLE_puddle_upto;
 
 //
 // The puddle mapwho system.
@@ -835,10 +835,10 @@ void PUDDLE_process()
 
 
 
-UBYTE       PUDDLE_get_upto;
-UBYTE       PUDDLE_get_z;
-UBYTE       PUDDLE_get_x_min;
-UBYTE       PUDDLE_get_x_max;
+UBYTE PUDDLE_get_upto;
+UBYTE PUDDLE_get_z;
+UBYTE PUDDLE_get_x_min;
+UBYTE PUDDLE_get_x_max;
 PUDDLE_Info PUDDLE_get_info;
 
 void PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max)

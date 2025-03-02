@@ -105,9 +105,9 @@
 # elif defined(__AIX__)
 #pragma alloca
 # elif defined(__MRC__)
-void *alloca(unsigned);
+void* alloca(unsigned);
 # else
-void *alloca(size_t);
+void* alloca(size_t);
 # endif
 #endif
 
@@ -441,15 +441,15 @@ extern "C" {
 #define SDL_stack_free(data)            SDL_free(data)
 #endif
 
-extern DECLSPEC void *SDLCALL SDL_malloc(size_t size);
-extern DECLSPEC void *SDLCALL SDL_calloc(size_t nmemb, size_t size);
-extern DECLSPEC void *SDLCALL SDL_realloc(void *mem, size_t size);
-extern DECLSPEC void SDLCALL SDL_free(void *mem);
+extern DECLSPEC void* SDLCALL SDL_malloc(size_t size);
+extern DECLSPEC void* SDLCALL SDL_calloc(size_t nmemb, size_t size);
+extern DECLSPEC void* SDLCALL SDL_realloc(void* mem, size_t size);
+extern DECLSPEC void SDLCALL SDL_free(void* mem);
 
-typedef void *(SDLCALL *SDL_malloc_func)(size_t size);
-typedef void *(SDLCALL *SDL_calloc_func)(size_t nmemb, size_t size);
-typedef void *(SDLCALL *SDL_realloc_func)(void *mem, size_t size);
-typedef void (SDLCALL *SDL_free_func)(void *mem);
+typedef void* (SDLCALL *SDL_malloc_func)(size_t size);
+typedef void* (SDLCALL *SDL_calloc_func)(size_t nmemb, size_t size);
+typedef void* (SDLCALL *SDL_realloc_func)(void* mem, size_t size);
+typedef void (SDLCALL *SDL_free_func)(void* mem);
 
 /**
  * Get the original set of SDL memory functions
@@ -491,8 +491,8 @@ extern DECLSPEC int SDLCALL SDL_GetNumAllocations(void);
 extern DECLSPEC char *SDLCALL SDL_getenv(const char *name);
 extern DECLSPEC int SDLCALL SDL_setenv(const char *name, const char *value, int overwrite);
 
-extern DECLSPEC void SDLCALL SDL_qsort(void *base, size_t nmemb, size_t size, int (SDLCALL *compare) (const void *, const void *));
-extern DECLSPEC void * SDLCALL SDL_bsearch(const void *key, const void *base, size_t nmemb, size_t size, int (SDLCALL *compare) (const void *, const void *));
+extern DECLSPEC void SDLCALL SDL_qsort(void* base, size_t nmemb, size_t size, int (SDLCALL *compare) (const void* , const void* ));
+extern DECLSPEC void*  SDLCALL SDL_bsearch(const void* key, const void* base, size_t nmemb, size_t size, int (SDLCALL *compare) (const void* , const void* ));
 
 extern DECLSPEC int SDLCALL SDL_abs(int x);
 
@@ -516,10 +516,10 @@ extern DECLSPEC int SDLCALL SDL_isgraph(int x);
 extern DECLSPEC int SDLCALL SDL_toupper(int x);
 extern DECLSPEC int SDLCALL SDL_tolower(int x);
 
-extern DECLSPEC Uint16 SDLCALL SDL_crc16(Uint16 crc, const void *data, size_t len);
-extern DECLSPEC Uint32 SDLCALL SDL_crc32(Uint32 crc, const void *data, size_t len);
+extern DECLSPEC Uint16 SDLCALL SDL_crc16(Uint16 crc, const void* data, size_t len);
+extern DECLSPEC Uint32 SDLCALL SDL_crc32(Uint32 crc, const void* data, size_t len);
 
-extern DECLSPEC void *SDLCALL SDL_memset(SDL_OUT_BYTECAP(len) void *dst, int c, size_t len);
+extern DECLSPEC void* SDLCALL SDL_memset(SDL_OUT_BYTECAP(len) void* dst, int c, size_t len);
 
 #define SDL_zero(x) SDL_memset(&(x), 0, sizeof((x)))
 #define SDL_zerop(x) SDL_memset((x), 0, sizeof(*(x)))
@@ -531,7 +531,7 @@ extern DECLSPEC void *SDLCALL SDL_memset(SDL_OUT_BYTECAP(len) void *dst, int c, 
 
 
 /* Note that memset() is a byte assignment and this is a 32-bit assignment, so they're not directly equivalent. */
-SDL_FORCE_INLINE void SDL_memset4(void *dst, Uint32 val, size_t dwords)
+SDL_FORCE_INLINE void SDL_memset4(void* dst, Uint32 val, size_t dwords)
 {
 #if defined(__GNUC__) && defined(__i386__)
     int u0, u1, u2;
@@ -559,10 +559,10 @@ SDL_FORCE_INLINE void SDL_memset4(void *dst, Uint32 val, size_t dwords)
 #endif
 }
 
-extern DECLSPEC void *SDLCALL SDL_memcpy(SDL_OUT_BYTECAP(len) void *dst, SDL_IN_BYTECAP(len) const void *src, size_t len);
+extern DECLSPEC void* SDLCALL SDL_memcpy(SDL_OUT_BYTECAP(len) void* dst, SDL_IN_BYTECAP(len) const void* src, size_t len);
 
-extern DECLSPEC void *SDLCALL SDL_memmove(SDL_OUT_BYTECAP(len) void *dst, SDL_IN_BYTECAP(len) const void *src, size_t len);
-extern DECLSPEC int SDLCALL SDL_memcmp(const void *s1, const void *s2, size_t len);
+extern DECLSPEC void* SDLCALL SDL_memmove(SDL_OUT_BYTECAP(len) void* dst, SDL_IN_BYTECAP(len) const void* src, size_t len);
+extern DECLSPEC int SDLCALL SDL_memcmp(const void* s1, const void* s2, size_t len);
 
 extern DECLSPEC size_t SDLCALL SDL_wcslen(const wchar_t *wstr);
 extern DECLSPEC size_t SDLCALL SDL_wcslcpy(SDL_OUT_Z_CAP(maxlen) wchar_t *dst, const wchar_t *src, size_t maxlen);
@@ -772,7 +772,7 @@ size_t wcslcat(wchar_t *dst, const wchar_t *src, size_t size);
 #define SDL_vsnprintf vsnprintf
 #endif
 
-SDL_FORCE_INLINE void *SDL_memcpy4(SDL_OUT_BYTECAP(dwords*4) void *dst, SDL_IN_BYTECAP(dwords*4) const void *src, size_t dwords)
+SDL_FORCE_INLINE void* SDL_memcpy4(SDL_OUT_BYTECAP(dwords*4) void* dst, SDL_IN_BYTECAP(dwords*4) const void* src, size_t dwords)
 {
     return SDL_memcpy(dst, src, dwords * 4);
 }

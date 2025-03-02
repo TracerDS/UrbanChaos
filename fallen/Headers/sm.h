@@ -53,7 +53,7 @@ typedef struct
 	
 } SM_Info;
 
-void     SM_get_start();
+void SM_get_start();
 SM_Info *SM_get_next ();
 
 

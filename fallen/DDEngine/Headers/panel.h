@@ -3,20 +3,20 @@
 #define	AENG_PANEL_HPP
 
 
-extern	UBYTE	PANEL_scanner_poo; // sets whether you want a poo scanner or not
+extern UBYTE	PANEL_scanner_poo; // sets whether you want a poo scanner or not
 
-extern	void	PANEL_start();
-extern	void	PANEL_draw_gun_sight(SLONG x,SLONG y,SLONG z,SLONG radius,SLONG scale);
-extern	void	PANEL_draw_timer(SLONG time_in_hundreths, SLONG x, SLONG y);
-extern	void	PANEL_draw_buffered();	// Actually draws the timers....
-extern	void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
+extern void	PANEL_start();
+extern void	PANEL_draw_gun_sight(SLONG x,SLONG y,SLONG z,SLONG radius,SLONG scale);
+extern void	PANEL_draw_timer(SLONG time_in_hundreths, SLONG x, SLONG y);
+extern void	PANEL_draw_buffered();	// Actually draws the timers....
+extern void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
 #if 0
 // Never used!
-extern	void	PANEL_draw_angelic_status(SLONG x, SLONG y, SLONG size, SLONG am_i_an_angel);
-extern	void	PANEL_draw_press_button(SLONG x, SLONG y, SLONG size, SLONG frame);	// Even/odd frame
+extern void	PANEL_draw_angelic_status(SLONG x, SLONG y, SLONG size, SLONG am_i_an_angel);
+extern void	PANEL_draw_press_button(SLONG x, SLONG y, SLONG size, SLONG frame);	// Even/odd frame
 #endif
-extern	void	PANEL_finish();
-extern	void	PANEL_inventory(Thing *darci, Thing *player);
+extern void	PANEL_finish();
+extern void	PANEL_inventory(Thing *darci, Thing *player);
 
 
 //
@@ -36,14 +36,14 @@ void PANEL_new_text_init();
 // The new funky messages-from-people system.
 //
 
-void PANEL_new_text(Thing *who, SLONG delay, CBYTE *fmt, ...);
+void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...);
 
 
 //
 // Help system messages.
 //
 
-void PANEL_new_help_message(CBYTE *fmt, ...);
+void PANEL_new_help_message(CBYTE* fmt, ...);
 
 
 
@@ -52,7 +52,7 @@ void PANEL_new_help_message(CBYTE *fmt, ...);
 // normally goes.
 //
 
-void PANEL_new_info_message(CBYTE *fmt, ...);
+void PANEL_new_info_message(CBYTE* fmt, ...);
 
 
 //

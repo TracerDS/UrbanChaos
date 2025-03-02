@@ -147,7 +147,7 @@ void FMATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch)
 	vector[2] =  MUL64(cy, cp);
 }
 
-void	init_matrix33(struct Matrix33 *mat)
+void init_matrix33(struct Matrix33 *mat)
 {
 	mat->M[0][0] = (1<<15);
 	mat->M[0][1] = 0;
@@ -200,7 +200,7 @@ void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,stru
 
 
 
-void	normalise_matrix(struct Matrix33 *mat)
+void normalise_matrix(struct Matrix33 *mat)
 {
 	SLONG c0;
 
@@ -220,7 +220,7 @@ void	normalise_matrix(struct Matrix33 *mat)
 }
 
 // JCL - use *this* one to normalise a linearly interpolated rotation matrix...
-void	normalise_matrix_rows(struct Matrix33 *mat)
+void normalise_matrix_rows(struct Matrix33 *mat)
 {
 	SLONG c0;
 
@@ -246,7 +246,7 @@ void	normalise_matrix_rows(struct Matrix33 *mat)
 
 
 
-void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween)
+void build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween)
 {
 	SLONG	v,w;
 
@@ -306,7 +306,7 @@ void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMat
 #ifdef	PSX
 #endif
 
-void	FMATRIX_find_angles(SLONG *matrix,SLONG *yaw,SLONG *pitch, SLONG *roll)
+void FMATRIX_find_angles(SLONG *matrix,SLONG *yaw,SLONG *pitch, SLONG *roll)
 {
 	SLONG x;
 	SLONG y;

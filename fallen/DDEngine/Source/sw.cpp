@@ -410,8 +410,8 @@ extern SLONG ALWAYS_recippt[ALWAYS_HOW_MANY_RECIPPT];
 
 #ifndef NDEBUG
 
-SLONG ALWAYS_recip_slow  (SLONG x, CBYTE *file, SLONG line);
-SLONG ALWAYS_recippt_slow(SLONG x, CBYTE *file, SLONG line);
+SLONG ALWAYS_recip_slow  (SLONG x, CBYTE* file, SLONG line);
+SLONG ALWAYS_recippt_slow(SLONG x, CBYTE* file, SLONG line);
 
 #define RECIPPT(x)	(ALWAYS_recippt_slow(x, __FILE__, __LINE__))
 #define RECIP(x)	(ALWAYS_recip_slow  (x, __FILE__, __LINE__))
@@ -466,7 +466,7 @@ void ALWAYS_init()
 
 #ifndef NDEBUG
 
-SLONG ALWAYS_recip_slow(SLONG x, CBYTE *file, SLONG line)
+SLONG ALWAYS_recip_slow(SLONG x, CBYTE* file, SLONG line)
 {
 	if (x <= -ALWAYS_HOW_MANY_RECIPS_MINUS ||
 		x >=  ALWAYS_HOW_MANY_RECIPS)
@@ -479,7 +479,7 @@ SLONG ALWAYS_recip_slow(SLONG x, CBYTE *file, SLONG line)
 	return ALWAYS_recip[x];
 }
 
-SLONG ALWAYS_recippt_slow(SLONG x, CBYTE *file, SLONG line)
+SLONG ALWAYS_recippt_slow(SLONG x, CBYTE* file, SLONG line)
 {
 	if (x <  0 ||
 		x >= ALWAYS_HOW_MANY_RECIPPT)
@@ -1825,7 +1825,7 @@ void SW_reload_textures()
 	// Is this the last level?
 	//
 
-	extern SLONG playing_level(const CBYTE *name);
+	extern SLONG playing_level(const CBYTE* name);
 
 	if (playing_level("Finale1.ucm"))
 	{
@@ -1840,7 +1840,7 @@ void SW_reload_textures()
 	// Load from clumps where required.
 	//
 
-	extern void TEXTURE_initialise_clumping(CBYTE *fname_level);
+	extern void TEXTURE_initialise_clumping(CBYTE* fname_level);
 
 	TEXTURE_initialise_clumping(ELEV_fname_level);
 

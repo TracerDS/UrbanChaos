@@ -42,7 +42,7 @@
 #include	"..\psxeng\headers\panel.h"
 #endif
 
-extern	void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE *text);
+extern void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
 
 
 
@@ -673,7 +673,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					PANEL_icon_time=30;
 #endif
 
-extern	SLONG	stat_count_bonus;
+extern SLONG	stat_count_bonus;
 					stat_count_bonus++;
 				}
 				keep = false;
@@ -1327,7 +1327,7 @@ void special_normal(Thing *s_thing)
 	//						CONSOLE_text(XLAT_str(X_FUSE_SET));
 							free_special(s_thing);
 
-extern	SLONG	stat_count_bonus;
+extern SLONG	stat_count_bonus;
 							stat_count_bonus++;
 
 	//						NET_PLAYER(i)->Genus.Player->Treasure += 1;
@@ -1358,7 +1358,7 @@ extern	SLONG	stat_count_bonus;
 				break;
 			case SPECIAL_HEALTH:
 
-extern	SWORD health[];
+extern SWORD health[];
 				if(NET_PERSON(0)->Genus.Person->Health>health[NET_PERSON(0)->Genus.Person->PersonType]-100)
 				{
 					break;
@@ -1424,7 +1424,7 @@ try_pickup:;
 
 //---------------------------------------------------------------
 #ifndef PSX
-void	init_specials()
+void init_specials()
 {
 	//memset((UBYTE*)SPECIALS,0,sizeof(SPECIALS));
 
@@ -1435,7 +1435,7 @@ void	init_specials()
 #endif
 //---------------------------------------------------------------
 
-SLONG	find_empty_special()
+SLONG find_empty_special()
 {
 	SLONG	c0;
 	for(c0=1;c0<MAX_SPECIALS;c0++)
@@ -1665,7 +1665,7 @@ Thing *alloc_special(
 
 //---------------------------------------------------------------
 
-void	free_special(Thing *special_thing)
+void free_special(Thing *special_thing)
 {
 	// Set the special type to none & free the thing.
 

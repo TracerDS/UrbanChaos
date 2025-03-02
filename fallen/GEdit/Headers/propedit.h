@@ -39,7 +39,7 @@ typedef bool (*TreeBrowserCB)(TreeBrowser *tb, int reason, int index, HTREEITEM 
 
 typedef bool (*TimeLineCB)(TimeLine *tb, int reason, int index, int subline, int cell);
 
-typedef bool (*PropEditCB)(PropertyEditor *tb, int reason, int index, CBYTE *value);
+typedef bool (*PropEditCB)(PropertyEditor *tb, int reason, int index, CBYTE* value);
 
 class GadgetBase {
 public:
@@ -55,11 +55,11 @@ public:
     PropertyEditor(HWND nhWnd);
 
 	void Clear();
-	int  Add(CBYTE *name, CBYTE *value, UBYTE type);
+	int  Add(CBYTE* name, CBYTE* value, UBYTE type);
 	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	int  Type(UWORD index);
-	void Update(UWORD index, CBYTE *value);
-	bool Verify(UBYTE type, CBYTE *value);
+	void Update(UWORD index, CBYTE* value);
+	bool Verify(UBYTE type, CBYTE* value);
 	void SetCallback(PropEditCB cb);
 };
 
@@ -75,8 +75,8 @@ public:
 	TVITEM			drag_item;
 	TreeBrowser(HWND nhWnd);
 	~TreeBrowser();
-	HTREEITEM Add(CBYTE *name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img);
-	int  AddDir(CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld);
+	HTREEITEM Add(CBYTE* name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img);
+	int  AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld);
 	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	void SetImageList(HINSTANCE inst, SLONG idx);
 	void SetDraggable(DragServer *ndrag);
@@ -116,7 +116,7 @@ public:
 	~TimeLine();
 	int GetWidth();
 	void Measure(LPARAM lParam);
-	void Add(CBYTE *str);
+	void Add(CBYTE* str);
 	void Del(UWORD index);
 	void MarkEntry(UWORD index, UWORD start, UWORD length, UBYTE which);
 	void  Draw(LPARAM lParam);

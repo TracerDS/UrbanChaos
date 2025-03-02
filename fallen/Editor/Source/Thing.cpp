@@ -10,7 +10,7 @@
 #include	"prim.h"
 
 
-extern	void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
+extern void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
 
 
 

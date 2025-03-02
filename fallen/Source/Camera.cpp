@@ -6,11 +6,11 @@
 #include	"statedef.h"
 
 extern Camera		test_view;
-void	set_camera_angle(Thing *c_thing,SLONG lag);
+void set_camera_angle(Thing *c_thing,SLONG lag);
 
 //---------------------------------------------------------------
 
-void	init_cameras()
+void init_cameras()
 {
 	memset(CAMERAS,0,sizeof(CAMERAS));
 	CAMERA_COUNT	=	0;
@@ -18,7 +18,7 @@ void	init_cameras()
 
 //---------------------------------------------------------------
 
-Thing	*alloc_camera(UBYTE type)
+Thing *alloc_camera(UBYTE type)
 {
 	SLONG			c0;
 	CameraMan		*new_camera;
@@ -47,7 +47,7 @@ Thing	*alloc_camera(UBYTE type)
 
 //---------------------------------------------------------------
 
-void	free_camera(Thing *camera_thing)
+void free_camera(Thing *camera_thing)
 {
 	// Set the camera type to none & free the thing.
 	camera_thing->Genus.Camera->CameraType	=	CAMERA_NONE;
@@ -56,7 +56,7 @@ void	free_camera(Thing *camera_thing)
 
 //---------------------------------------------------------------
 
-Thing	*create_camera(UBYTE type,GameCoord *start_pos,Thing *track_thing)
+Thing *create_camera(UBYTE type,GameCoord *start_pos,Thing *track_thing)
 {
 	CameraMan		*t_camera;
 	GameCoord		default_pos;
@@ -84,7 +84,7 @@ Thing	*create_camera(UBYTE type,GameCoord *start_pos,Thing *track_thing)
 	return	camera_thing;
 }
 
-void	set_up_camera(Thing *camera_thing,GameCoord *start_pos,Thing *track_thing)
+void set_up_camera(Thing *camera_thing,GameCoord *start_pos,Thing *track_thing)
 {
 	GameCoord		default_pos;
 	CameraMan		*t_camera;
@@ -111,7 +111,7 @@ void	set_up_camera(Thing *camera_thing,GameCoord *start_pos,Thing *track_thing)
 
 //---------------------------------------------------------------
 
-void	set_camera_type(Thing *c_thing,UBYTE type)
+void set_camera_type(Thing *c_thing,UBYTE type)
 {
 	// Set the camera state function.
 	switch(type)
@@ -130,7 +130,7 @@ void	set_camera_type(Thing *c_thing,UBYTE type)
 
 //---------------------------------------------------------------
 
-void	lock_camera_position(Thing *c_thing,GameCoord *lock_pos,bool snap)
+void lock_camera_position(Thing *c_thing,GameCoord *lock_pos,bool snap)
 {
 	CameraMan		*t_camera;
 
@@ -151,7 +151,7 @@ void	lock_camera_position(Thing *c_thing,GameCoord *lock_pos,bool snap)
 
 //---------------------------------------------------------------
 
-void	backup_camera(Thing *c_thing)
+void backup_camera(Thing *c_thing)
 {
 	CameraMan *t_camera;
 
@@ -163,7 +163,7 @@ void	backup_camera(Thing *c_thing)
 	t_camera->StateFn=c_thing->StateFn;
 }
 
-void	restore_old_camera(Thing *c_thing)
+void restore_old_camera(Thing *c_thing)
 {
 	CameraMan *t_camera;
 
@@ -176,7 +176,7 @@ void	restore_old_camera(Thing *c_thing)
 
 }
 
-void	free_camera_position(Thing *c_thing,GameCoord *rel_pos,bool snap)
+void free_camera_position(Thing *c_thing,GameCoord *rel_pos,bool snap)
 {
 	CameraMan		*t_camera;
 
@@ -193,7 +193,7 @@ void	free_camera_position(Thing *c_thing,GameCoord *rel_pos,bool snap)
 	set_camera_type(c_thing,CAMERA_TRACKER);
 }
 
-void	set_game_camera(SLONG dx,SLONG dy,SLONG dz)
+void set_game_camera(SLONG dx,SLONG dy,SLONG dz)
 {
 	CameraMan		*t_camera;
 	Thing			*c_thing;
@@ -213,7 +213,7 @@ void	set_game_camera(SLONG dx,SLONG dy,SLONG dz)
 // A thing may required a special camera angle if its inside a building,
 // or if it's on a firescape
 //
-SLONG	special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
+SLONG special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
 {
 	SLONG wall;
 	SLONG storey;
@@ -286,7 +286,7 @@ SLONG	special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
 //
 // tries to point the camera at the player
 //
-void	set_camera_angle_for_pos(Thing *c_thing,SLONG lag)
+void set_camera_angle_for_pos(Thing *c_thing,SLONG lag)
 {
 	SWORD			angle_diff,angle_to;
 	SLONG	t_dx,t_dy,t_dz;
@@ -336,7 +336,7 @@ void	set_camera_angle_for_pos(Thing *c_thing,SLONG lag)
 //
 // Tries to point the camera in the direction the player is going
 //
-void	set_camera_rangle_for_player_angle(Thing *c_thing,SLONG lag)
+void set_camera_rangle_for_player_angle(Thing *c_thing,SLONG lag)
 {
 	SWORD			angle_diff,angle_to;
 	SLONG	t_dx,t_dy,t_dz;
@@ -361,7 +361,7 @@ void	set_camera_rangle_for_player_angle(Thing *c_thing,SLONG lag)
 
 }
 
-void	process_t_camera(Thing *c_thing)
+void process_t_camera(Thing *c_thing)
 {
 	SLONG			distance,
 					sin,cos,
@@ -663,7 +663,7 @@ void	process_t_camera(Thing *c_thing)
 
 //---------------------------------------------------------------
 
-void	process_f_camera(Thing *c_thing)
+void process_f_camera(Thing *c_thing)
 {
 	SWORD			angle_diff,angle_to;
 	SLONG			distance,
@@ -750,9 +750,9 @@ void	process_f_camera(Thing *c_thing)
 
 //---------------------------------------------------------------
 
-SWORD	spin_step	=	0;
+SWORD spin_step	=	0;
 
-void	spin_camera_around_subject(Thing *c_thing)
+void spin_camera_around_subject(Thing *c_thing)
 {
 	SLONG			distance;
 	CameraMan		*t_camera;

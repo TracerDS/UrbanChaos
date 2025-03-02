@@ -9,7 +9,7 @@
 
 CBYTE COMP_program[COMP_MAX_PROGRAM];
 
-SLONG COMP_do(CBYTE *fname_input, CBYTE *fname_output)
+SLONG COMP_do(CBYTE* fname_input, CBYTE* fname_output)
 {
 	//
 	// Load program.

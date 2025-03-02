@@ -13,7 +13,7 @@
 #define	STARTS_MULTI	9
 #define STARTS_LANGUAGE_CHANGE 10
 
-struct	StartMenu
+struct StartMenu
 {
 	UBYTE	StartIndex;
 	UBYTE	Count;
@@ -21,7 +21,7 @@ struct	StartMenu
 	UWORD	Type;
 };
 
-struct	StartMenuItemSimple
+struct StartMenuItemSimple
 {
 	CBYTE	*Str;
 	SLONG	NextMenu;
@@ -30,7 +30,7 @@ struct	StartMenuItemSimple
 	SLONG	Dummy2;
 };
 
-struct	StartMenuItemComplex
+struct StartMenuItemComplex
 {
 	CBYTE	*Str;
 	CBYTE	*Strb[3];
@@ -42,8 +42,8 @@ struct	StartMenuItemComplex
 
 void STARTSCR_notify_gameover(bool won);
 
-typedef void (*MISSION_callback)(CBYTE *filename);
-void	MissionListCallback(CBYTE *script, MISSION_callback cb);
+typedef void (*MISSION_callback)(CBYTE* filename);
+void MissionListCallback(CBYTE* script, MISSION_callback cb);
 
 
 

@@ -12,14 +12,14 @@
 #include "platutil.h"
 #endif
 
-CBYTE	inifile[_MAX_PATH];
-CBYTE	strbuf[_MAX_PATH];
+CBYTE inifile[_MAX_PATH];
+CBYTE strbuf[_MAX_PATH];
 
 
 #ifndef TARGET_DC
 
 
-void ENV_load(CBYTE *fname)
+void ENV_load(CBYTE* fname)
 {
 	GetCurrentDirectory(_MAX_PATH, inifile);
 	if (inifile[strlen(inifile) - 1] != '\\')	strcat(inifile, "\\");

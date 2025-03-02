@@ -8,8 +8,8 @@
 
 //---------------------------------------------------------------
 
-void	do_enemy_setup(EventPoint *the_ep, bool do_adjust=false);
-CBYTE	*get_enemy_message(EventPoint *ep, CBYTE *msg);
+void do_enemy_setup(EventPoint *the_ep, bool do_adjust=false);
+CBYTE* get_enemy_message(EventPoint *ep, CBYTE* msg);
 
 //---------------------------------------------------------------
 

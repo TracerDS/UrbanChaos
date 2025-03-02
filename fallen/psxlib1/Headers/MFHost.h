@@ -13,7 +13,7 @@ extern LPSTR					szGlobalCmdLine;
 
 #define	main(ac,av)				MF_main(ac,av)
 
-SLONG	main(UWORD argc, CBYTE** argv);
+SLONG main(UWORD argc, CBYTE** argv);
 
 #endif
 
@@ -30,7 +30,7 @@ struct MFTime
 	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-bool	SetupHost(ULONG flags);
-void	ResetHost();
-void	LogText(CBYTE *error, ...);
-void	Time(struct MFTime *the_time);
+bool SetupHost(ULONG flags);
+void ResetHost();
+void LogText(CBYTE* error, ...);
+void Time(struct MFTime *the_time);

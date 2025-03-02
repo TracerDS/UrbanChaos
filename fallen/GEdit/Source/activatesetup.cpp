@@ -117,7 +117,7 @@ void	do_activate_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_activate_message(EventPoint *ep, CBYTE *msg) {
+CBYTE	*get_activate_message(EventPoint *ep, CBYTE* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

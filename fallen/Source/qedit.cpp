@@ -341,8 +341,8 @@ void QEDIT_control()
 
 extern bool  text_fudge;
 extern ULONG text_colour;
-extern void  draw_centre_text_at(float x,float y,CBYTE *message,SLONG font_id);
-extern void  draw_text_at(float x,float y,CBYTE *message,SLONG font_id);
+extern void  draw_centre_text_at(float x,float y,CBYTE* message,SLONG font_id);
+extern void  draw_text_at(float x,float y,CBYTE* message,SLONG font_id);
 
 void QEDIT_draw()
 {

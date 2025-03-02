@@ -14,11 +14,11 @@
 
 //---------------------------------------------------------------
 
-SLONG		treasure_value;
+SLONG treasure_value;
 
 //---------------------------------------------------------------
 
-bool	CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 
@@ -45,7 +45,7 @@ bool	CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_treasure_setup(EventPoint *the_ep)
+void do_treasure_setup(EventPoint *the_ep)
 {
 	treasure_value =	the_ep->Data[0];
 	DialogBox	(
@@ -60,7 +60,7 @@ void	do_treasure_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_treasure_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_treasure_message(EventPoint *ep, CBYTE* msg) {
 	if ((!ep)||!ep->Data[0])
 		msg[0]=0;
 	else {

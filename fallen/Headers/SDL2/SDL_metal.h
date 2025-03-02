@@ -41,7 +41,7 @@ extern "C" {
  *
  *  \note This can be cast directly to an NSView or UIView.
  */
-typedef void *SDL_MetalView;
+typedef void* SDL_MetalView;
 
 /**
  *  \name Metal support functions
@@ -84,7 +84,7 @@ extern DECLSPEC void SDLCALL SDL_Metal_DestroyView(SDL_MetalView view);
  *
  * \sa SDL_Metal_CreateView
  */
-extern DECLSPEC void *SDLCALL SDL_Metal_GetLayer(SDL_MetalView view);
+extern DECLSPEC void* SDLCALL SDL_Metal_GetLayer(SDL_MetalView view);
 
 /**
  * Get the size of a window's underlying drawable in pixels (for use with

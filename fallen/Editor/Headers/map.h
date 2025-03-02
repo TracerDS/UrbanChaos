@@ -32,9 +32,9 @@ struct	DepthStrip
 };
 
 //data
-extern	struct	DepthStrip	edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];  //2meg
-extern	SBYTE	edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
-extern	UWORD	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
+extern struct	DepthStrip	edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];  //2meg
+extern SBYTE	edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
+extern UWORD	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
 
 
 //code

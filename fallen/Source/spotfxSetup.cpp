@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	spotfx_type,spotfx_scale;
+SLONG spotfx_type,spotfx_scale;
 
 //---------------------------------------------------------------
 
@@ -31,7 +31,7 @@ SLONG	spotfx_type,spotfx_scale;
 									}																\
 									SendMessage(the_ctrl,LB_SETCURSEL,d,0);
 
-bool	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -70,7 +70,7 @@ bool	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void	do_spotfx_setup(EventPoint *the_ep)
+void do_spotfx_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
 	spotfx_type 		=	the_ep->Data[0];
@@ -91,7 +91,7 @@ void	do_spotfx_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE *msg) {
+CBYTE* get_spotfx_message(EventPoint *ep, CBYTE* msg) {
 	strcpy(msg,wspotfx_strings[ep->Data[0]]);
 	return msg;
 }
