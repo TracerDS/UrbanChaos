@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+fallen/.vs
+fallen/Debug
+fallen/Release
