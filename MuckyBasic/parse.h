@@ -91,8 +91,8 @@
 #define PARSE_NODE_TYPE_MID                77
 #define PARSE_NODE_TYPE_RIGHT              78
 #define PARSE_NODE_TYPE_LEN                79
-#define PARSE_NODE_TYPE_MATRIX             80	// Child1 is an expression list or NULL
-#define PARSE_NODE_TYPE_VECTOR             81	// Child1 is an expression list or NULL
+#define PARSE_NODE_TYPE_MATRIX             80	// Child1 is an expression list or nullptr
+#define PARSE_NODE_TYPE_VECTOR             81	// Child1 is an expression list or nullptr
 #define PARSE_NODE_TYPE_DPROD              82
 #define PARSE_NODE_TYPE_CPROD              83
 #define PARSE_NODE_TYPE_NORMALISE          84
@@ -148,7 +148,7 @@ typedef struct parse_node
 // returned in the PARSE_output variable.
 //
 
-extern PARSE_Node *PARSE_line[];		// NULL value means that line was blank.
+extern PARSE_Node *PARSE_line[];		// nullptr value means that line was blank.
 extern SLONG       PARSE_line_upto;
 extern SLONG       PARSE_string_table_upto;
 extern CBYTE       PARSE_string_table[];

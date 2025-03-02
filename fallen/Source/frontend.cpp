@@ -322,7 +322,7 @@ CBYTE* LoadStringScript(CBYTE* txt) {
 
 void FileCloseScript()
 {
-	loaded_in_script_read_upto = NULL;
+	loaded_in_script_read_upto = nullptr;
 }
 
 
@@ -538,16 +538,16 @@ bool m_bGoIntoSaveScreen = false;
 
 bool bCanChangeJoypadButtons = false;
 
-LPDIRECTDRAWSURFACE4 screenfull_back = NULL;
-LPDIRECTDRAWSURFACE4 screenfull_map = NULL;
-LPDIRECTDRAWSURFACE4 screenfull_config = NULL;
-LPDIRECTDRAWSURFACE4 screenfull_brief = NULL;
+LPDIRECTDRAWSURFACE4 screenfull_back = nullptr;
+LPDIRECTDRAWSURFACE4 screenfull_map = nullptr;
+LPDIRECTDRAWSURFACE4 screenfull_config = nullptr;
+LPDIRECTDRAWSURFACE4 screenfull_brief = nullptr;
 
 //
 // The surface we use to do swipes\fades.
 //
 
-LPDIRECTDRAWSURFACE4 screenfull = NULL;
+LPDIRECTDRAWSURFACE4 screenfull = nullptr;
 
 
 //----------------------------------------------------------------------------
@@ -580,14 +580,14 @@ void FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, UBYTE *image_data)
 	mine.ddpfPixelFormat = back.ddpfPixelFormat;
 	mine.ddsCaps.dwCaps	 = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
 
-	HRESULT result = the_display.lp_DD4->CreateSurface(&mine, screen, NULL);
+	HRESULT result = the_display.lp_DD4->CreateSurface(&mine, screen, nullptr);
 
 
 	if (FAILED(result))
 	{
 		// Probably out of memory.
 		ASSERT ( false );
-		*screen = NULL;
+		*screen = nullptr;
 		return;
 	}
 
@@ -610,7 +610,7 @@ void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, LPDIRECTDRAWSURFACE4 *sc
 
 	//if (screenfull) FRONTEND_scr_del();
 
-	*screen = NULL;
+	*screen = nullptr;
 
 	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
 
@@ -648,14 +648,14 @@ void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, LPDIRECTDRAWSURFACE4 *sc
 
 void FRONTEND_scr_unload_theme()
 {
-	the_display.lp_DD_Background_use_instead = NULL;
+	the_display.lp_DD_Background_use_instead = nullptr;
 
-	if (screenfull_back  ) {screenfull_back  ->Release(); screenfull_back   = NULL;}
-	if (screenfull_map   ) {screenfull_map   ->Release(); screenfull_map    = NULL;}
-	if (screenfull_brief ) {screenfull_brief ->Release(); screenfull_brief  = NULL;}
-	if (screenfull_config) {screenfull_config->Release(); screenfull_config = NULL;}
+	if (screenfull_back  ) {screenfull_back  ->Release(); screenfull_back   = nullptr;}
+	if (screenfull_map   ) {screenfull_map   ->Release(); screenfull_map    = nullptr;}
+	if (screenfull_brief ) {screenfull_brief ->Release(); screenfull_brief  = nullptr;}
+	if (screenfull_config) {screenfull_config->Release(); screenfull_config = nullptr;}
 
-	screenfull = NULL;
+	screenfull = nullptr;
 }
 
 
@@ -887,7 +887,7 @@ void FRONTEND_init_xition ( void ) {
 	}
 }
 
-LPDIRECTDRAWSURFACE4 lpFRONTEND_show_xition_LastBlit = NULL;
+LPDIRECTDRAWSURFACE4 lpFRONTEND_show_xition_LastBlit = nullptr;
 
 void FRONTEND_show_xition() {
 	RECT rc;
@@ -972,7 +972,7 @@ void FRONTEND_stop_xition()
 		ResetBackImage();
 		the_display.lp_DD_Background=screenfull;
 		image_mem=screenimage;
-		screenfull=NULL; screenimage=NULL;
+		screenfull=nullptr; screenimage=nullptr;
 	}
 
 	*/
@@ -1038,7 +1038,7 @@ void FRONTEND_kibble_draw() {
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 	SLONG matrix[9],x,y,z;
 
-	ASSERT ( kibble != NULL );
+	ASSERT ( kibble != nullptr );
 
 	for (c0=0,k=kibble;c0<512;c0++,k++) 
 	  if (k->type>0) {
@@ -1237,7 +1237,7 @@ void FRONTEND_kibble_init_one(Kibble*k, UBYTE type) {
 	
 	SLONG kibble_index = k - kibble;
 
-	ASSERT ( kibble != NULL );
+	ASSERT ( kibble != nullptr );
 
 	ASSERT(WITHIN(kibble_index, 0, 511));
 
@@ -1318,7 +1318,7 @@ void FRONTEND_kibble_flurry() {
 	UWORD n, c0, densities[4];
 	Kibble*k;
 
-	ASSERT ( kibble != NULL );
+	ASSERT ( kibble != nullptr );
 
 	densities[0] = 125;
 	densities[1] = 512;
@@ -1359,7 +1359,7 @@ void FRONTEND_kibble_process() {
 	static SLONG last = 0;
 	static SLONG now  = 0;
 
-	ASSERT ( kibble != NULL );
+	ASSERT ( kibble != nullptr );
 
 	now = GetTickCount();
 
@@ -1513,7 +1513,7 @@ bool FRONTEND_save_savegame(CBYTE* mission_name, UBYTE slot) {
 	MFFileHandle file;
 	UBYTE version=3;
 
-	CreateDirectory("saves",NULL);
+	CreateDirectory("saves",nullptr);
 
 	sprintf(fn,"saves\\slot%d.wag",slot);
 	file=FileCreate(fn,1);
@@ -1598,7 +1598,7 @@ void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=
 		MFFileHandle file;
 		sprintf(dir,"saves\\slot%d.wag",c0);
 		file = FileOpen(dir);
-		GetFileTime(file,NULL,NULL,&time);
+		GetFileTime(file,nullptr,nullptr,&time);
 		if (file!=FILE_OPEN_ERROR)
 		{
 			FRONTEND_LoadString(file,ttl);
@@ -2819,7 +2819,7 @@ void FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 		break;
 	case FE_MAINMENU:
 		// No title.
-		menu_state.title=NULL;
+		menu_state.title=nullptr;
 		break;
 	case FE_LOADSCREEN:
 		menu_state.title=XLAT_str_ptr(X_LOAD_GAME);
@@ -2869,7 +2869,7 @@ void FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 		menu_state.stackpos = 0;
 
 		MUSIC_mode(MUSIC_MODE_FRONTEND);
-		if (AllowSave) menu_data[2].Choices=NULL;
+		if (AllowSave) menu_data[2].Choices=nullptr;
 		break;
 	case FE_SAVESCREEN:
 		AllowSave=1;
@@ -4096,7 +4096,7 @@ extern SLONG EWAY_cam_active;
 
 
 	// Reset the transition buffer's contents.
-	lpFRONTEND_show_xition_LastBlit = NULL;
+	lpFRONTEND_show_xition_LastBlit = nullptr;
 
 	CBYTE* str, *lang=ENV_get_value_string("language");
 

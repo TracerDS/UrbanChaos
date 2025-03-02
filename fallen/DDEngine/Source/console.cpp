@@ -215,7 +215,7 @@ void	draw_a_3d_menu(Font3D &font, SLONG	menu);
 
 void CONSOLE_text(CBYTE* text, SLONG delay)
 {
-	PANEL_new_text(NULL, delay, text);
+	PANEL_new_text(nullptr, delay, text);
 
 	return;
 
@@ -229,10 +229,10 @@ void CONSOLE_text(CBYTE* text, SLONG delay)
 	CBYTE temp[1024];
 
 	//
-	// Early out on NULL strings or strings with just spaces in them.
+	// Early out on nullptr strings or strings with just spaces in them.
 	//
 
-	if (text == NULL)
+	if (!text )
 	{
 		return;
 	}
@@ -286,7 +286,7 @@ void CONSOLE_text(CBYTE* text, SLONG delay)
 	if (strlen(text) <= CONSOLE_WIDTH)
 	{
 		ch1 = text;
-		ch2 = NULL;
+		ch2 = nullptr;
 	}
 	else
 	{
@@ -463,14 +463,14 @@ static DWORD WINAPI ThreadRun(LPVOID arg);
 static int GetPort(SOCKET& s);
 static void ReadMessage(SOCKET s);
 
-HANDLE	hThread = NULL;
+HANDLE	hThread = nullptr;
 
 void CONSOLE_TCP()
 {
 	if (hThread)	return;
 
 	DWORD	tid;
-	hThread = CreateThread(NULL, 0, ThreadRun, NULL, 0, &tid);
+	hThread = CreateThread(nullptr, 0, ThreadRun, nullptr, 0, &tid);
 }
 
 static DWORD WINAPI ThreadRun(LPVOID arg)

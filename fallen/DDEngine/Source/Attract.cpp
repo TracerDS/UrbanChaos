@@ -21,7 +21,7 @@ void	engine_attract()
 		the_display.screen_unlock();
 	}
 
-	FLIP(NULL,DDFLIP_WAIT);
+	FLIP(nullptr,DDFLIP_WAIT);
 	return;
 }
 

@@ -14,7 +14,7 @@
 
 //
 // Says whether you can enter a building or not, if you can't
-// it returns a NULL building index, otherwise it returns the
+// it returns a nullptr building index, otherwise it returns the
 // building index and where you should be inside the building.
 //
 

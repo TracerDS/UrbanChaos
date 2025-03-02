@@ -127,8 +127,8 @@ LPDIRECT3DTEXTURE2 FASTPRIM_find_texture_from_page(SLONG page)
 
 
 #ifdef DEBUG
-void* pvJustChecking1 = NULL;
-void* pvJustChecking2 = NULL;
+void* pvJustChecking1 = nullptr;
+void* pvJustChecking2 = nullptr;
 #endif
 
 
@@ -1342,8 +1342,8 @@ SLONG FASTPRIM_draw(
 			{
 				FASTPRIM_lvert + fc->lvert,
 				FASTPRIM_matrix,
-				NULL,
-				NULL
+				nullptr,
+				nullptr
 			};
 
 			the_display.lp_D3D_Device->SetTexture(0, fc->texture);
@@ -1378,8 +1378,8 @@ void FASTPRIM_fini()
 {
 
 #ifdef DEBUG
-	ASSERT ( FASTPRIM_lvert_buffer != NULL );
-	ASSERT ( FASTPRIM_index != NULL );
+	ASSERT ( FASTPRIM_lvert_buffer != nullptr );
+	ASSERT ( FASTPRIM_index != nullptr );
 	ASSERT ( FASTPRIM_lvert_buffer == (void* )pvJustChecking1 );
 	ASSERT ( FASTPRIM_index == (void* )pvJustChecking2 );
 
@@ -1395,8 +1395,8 @@ void FASTPRIM_fini()
 	MemFree(FASTPRIM_index);
 	TRACE ( "2\n" );
 
-	FASTPRIM_lvert_buffer = NULL;
-	FASTPRIM_index = NULL;
+	FASTPRIM_lvert_buffer = nullptr;
+	FASTPRIM_index = nullptr;
 
 	#ifdef FASTPRIM_PERFORMANCE
 

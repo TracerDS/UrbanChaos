@@ -66,7 +66,7 @@ void ENV_load(CBYTE* fname)
 
 	handle = MF_Fopen(fname, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		return;
 	}
@@ -247,7 +247,7 @@ CBYTE* ENV_get_value_string(CBYTE* name)
 	// Name not found.
 	//
 #endif
-	return NULL;
+	return nullptr;
 }
 
 SLONG ENV_get_value_number(CBYTE* name, SLONG def)
@@ -261,7 +261,7 @@ SLONG ENV_get_value_number(CBYTE* name, SLONG def)
 
 	str = ENV_get_value_string(name);
 
-	if (str == NULL)
+	if (!str )
 	{
 		return def;
 	}

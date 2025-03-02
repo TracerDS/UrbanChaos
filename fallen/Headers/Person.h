@@ -121,7 +121,7 @@ typedef struct
 	UWORD	NavIndex;		//16
 
 	THING_INDEX	SpecialList;		// A linked list of special_things that the person is carrying.
-	THING_INDEX SpecialUse;			// The special Darci is using at the moment. NULL => Nothing or pistol
+	THING_INDEX SpecialUse;			// The special Darci is using at the moment. nullptr => Nothing or pistol
 	THING_INDEX SpecialDraw;		// While drawing an item- this is the special that you are getting out.
 	UBYTE	pcom_colour;
 	UBYTE   pcom_group;		//20
@@ -476,7 +476,7 @@ void knock_person_down(
 		SLONG  hitpoints,
 		SLONG  origin_x,
 		SLONG  origin_z,
-		Thing *p_aggressor);	// or NULL if you don't know who's responsible
+		Thing *p_aggressor);	// or nullptr if you don't know who's responsible
 
 //
 // Makes 'a' look at 'b'

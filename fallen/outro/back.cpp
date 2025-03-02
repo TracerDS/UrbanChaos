@@ -126,7 +126,7 @@ void BACK_draw()
 			0x00000000,
 			OS_FADE_RIGHT);
 
-		OS_buffer_draw(ob, ot1, NULL, OS_DRAW_ZALWAYS);
+		OS_buffer_draw(ob, ot1, nullptr, OS_DRAW_ZALWAYS);
 	}
 
 	if (between > 0.0F)
@@ -142,7 +142,7 @@ void BACK_draw()
 			0x00000000,
 			OS_FADE_RIGHT);
 
-		OS_buffer_draw(ob, ot2, NULL, OS_DRAW_ZALWAYS);
+		OS_buffer_draw(ob, ot2, nullptr, OS_DRAW_ZALWAYS);
 	}
 
 	if (between > 0.0F && between < 1.0F)
@@ -159,6 +159,6 @@ void BACK_draw()
 			0.0F,
 			ftol((1.0F - between) * 255) | 0x5522ff);
 
-		OS_buffer_draw(ob, BACK_ot_line, NULL, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZALWAYS);
+		OS_buffer_draw(ob, BACK_ot_line, nullptr, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZALWAYS);
 	}
 }

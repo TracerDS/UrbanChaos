@@ -193,7 +193,7 @@ bool	init_ewind()
 	GEDIT_class_engine.hIcon			=	GEDIT_app_icon;
 	GEDIT_class_engine.hCursor			=	GEDIT_arrow;
 	GEDIT_class_engine.hbrBackground	=	GetStockObject(LTGRAY_BRUSH);
-	GEDIT_class_engine.lpszMenuName		=	NULL;
+	GEDIT_class_engine.lpszMenuName		=	nullptr;
 	GEDIT_class_engine.lpszClassName	=	GEDIT_engine_name;
 	GEDIT_class_engine.hIconSm			=	GEDIT_app_icon;
 	if(!RegisterClassEx(&GEDIT_class_engine))
@@ -405,7 +405,7 @@ void	process_ewind()
 		}
 
 
-		InvalidateRect(GEDIT_engine_wnd, NULL, false);
+		InvalidateRect(GEDIT_engine_wnd, nullptr, false);
 
 	}
 }

@@ -27,7 +27,7 @@ MFFileHandle FileOpen(CBYTE* file_name)
 									file_name,
 									(GENERIC_READ|GENERIC_WRITE),
 									(FILE_SHARE_READ|FILE_SHARE_WRITE),
-									NULL,
+									nullptr,
 									OPEN_EXISTING,
 									0,
 									NULL

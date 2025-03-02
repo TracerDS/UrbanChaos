@@ -106,7 +106,7 @@ bool	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //					PlaySound(pc,0,SND_FILENAME|SND_ASYNC);
 					break;
 				case	IDC_BUTTON2:
-//					PlaySound(NULL,0,SND_PURGE);
+//					PlaySound(nullptr,0,SND_PURGE);
 					break;
 				case	IDOK:
 					sfx_type  = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);

@@ -89,7 +89,7 @@ extern UWORD  WARE_rooftex_upto;
 
 //
 // Set to the index of the warehouse if we are inside a warehouse or
-// NULL if we are not.
+// nullptr if we are not.
 //
 
 extern UBYTE WARE_in;
@@ -114,7 +114,7 @@ void WARE_init();
 SLONG WARE_in_floorplan(UBYTE ware, UBYTE x, UBYTE z);
 
 //
-// Returns which warehouse contains the given mapsqure or NULL if no warehouse does.
+// Returns which warehouse contains the given mapsqure or nullptr if no warehouse does.
 //
 
 SLONG WARE_which_contains(UBYTE x, UBYTE z);

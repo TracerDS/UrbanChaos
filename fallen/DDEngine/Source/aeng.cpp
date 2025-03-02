@@ -642,8 +642,8 @@ void AENG_movie_init()
 
   file_error:;
 
-	AENG_frame_last   = NULL;
-	AENG_frame_next   = NULL;
+	AENG_frame_last   = nullptr;
+	AENG_frame_next   = nullptr;
 	AENG_frame_count  = 0;
 	AENG_frame_tick   = 0;
 	AENG_frame_number = 0;
@@ -1862,7 +1862,7 @@ extern SLONG	HEAP_max_free();
 
 				for (x = min_x;x<=max_x+1;x++)
 				{
-					if (NIGHT_cache[x][z] == NULL)
+					if (!NIGHT_cache[x][z] )
 					{
 						//
 						// Creating cached lighting for this square.
@@ -1905,7 +1905,7 @@ extern SLONG	HEAP_max_free();
 			ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
 			ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
 
-			if (NIGHT_cache[x][z] == NULL)
+			if (!NIGHT_cache[x][z] )
 			{
 				//
 				// Creating cached lighting for this square.
@@ -1960,7 +1960,7 @@ void AENG_ensure_appropriate_caching(SLONG ware)
 			ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
 			ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
 
-			if (NIGHT_cache[x][z] == NULL)
+			if (!NIGHT_cache[x][z] )
 			{
 				//
 				// Creating cached lighting for this square.
@@ -2931,7 +2931,7 @@ void AENG_draw_hook()
 		yaw,
 		pitch,
 		roll,
-		NULL,0xff,0);
+		nullptr,0xff,0);
 
 	for (i = HOOK_NUM_POINTS - 1; i >= 1; i--)
 	{
@@ -3673,9 +3673,9 @@ void AENG_draw_dirt()
 					dd->pitch,
 					dd->roll,
 					#ifdef TARGET_DC
-					NULL,0xff,0);
+					nullptr,0xff,0);
 					#else
-					NULL,0,0);
+					nullptr,0,0);
 					#endif
 
 				break;
@@ -3695,9 +3695,9 @@ void AENG_draw_dirt()
 					dd->pitch,
 					dd->roll,
 					#ifdef TARGET_DC
-					NULL,0xff,0);
+					nullptr,0xff,0);
 					#else
-					NULL,0,0);
+					nullptr,0,0);
 					#endif
 
 				kludge_shrink = false;
@@ -4159,9 +4159,9 @@ void AENG_draw_dirt()
 					di.pitch,
 					di.roll,
 #ifdef TARGET_DC
-					NULL,0xff,0);
+					nullptr,0xff,0);
 #else
-					NULL,0,0);
+					nullptr,0,0);
 #endif
 
 				kludge_shrink = false;
@@ -4181,7 +4181,7 @@ void AENG_draw_dirt()
 					di.yaw,
 					di.pitch,
 					di.roll,
-					NULL);
+					nullptr);
 
 				break;
 
@@ -4314,7 +4314,7 @@ void AENG_draw_pows()
 				ap->sy    = pt.Y;
 				ap->sz    = pt.z;
 				ap->Z     = pt.Z;
-				ap->next  = NULL;
+				ap->next  = nullptr;
 
 				//
 				// Add to the bucket list.
@@ -6423,8 +6423,8 @@ void	draw_quick_floor(SLONG warehouse)
 	m_view=(D3DMATRIX *)ptr32;
 
 	mm_draw_floor.lpd3dMatrices	=m_view;
-	mm_draw_floor.lpvLightDirs	=NULL;
-	mm_draw_floor.lpLightTable	=NULL;
+	mm_draw_floor.lpvLightDirs	=nullptr;
+	mm_draw_floor.lpLightTable	=nullptr;
 
 	ptr32=(UBYTE *)(((ULONG)(m_vert_mem_block32+32))&0xffffffe0);
 
@@ -6466,7 +6466,7 @@ void	draw_quick_floor(SLONG warehouse)
 
 
 //	GenerateMMMatrixFromStandardD3DOnes (m_view,g_matProjection,g_matWorld,g_viewData);
-	GenerateMMMatrixFromStandardD3DOnes (m_view,&g_matProjection,NULL,&g_viewData);
+	GenerateMMMatrixFromStandardD3DOnes (m_view,&g_matProjection,nullptr,&g_viewData);
 
 //	colour   = 0x00888888;
 //	specular = 0xff000000;
@@ -8488,7 +8488,7 @@ extern UBYTE	player_visited[16][128];
 								oi->y,
 								oi->z,
 								oi->yaw,
-								NULL);
+								nullptr);
 						}
 					}
 				}
@@ -10068,7 +10068,7 @@ extern HWND GEDIT_edit_wnd;
 											p_thing->WorldPos.Z          >> 8,
 											p_thing->Draw.Tweened->Angle,
 											0,0,
-											NULL,0);
+											nullptr,0);
 
 									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_VAN_WHEEL);
 
@@ -10079,7 +10079,7 @@ extern HWND GEDIT_edit_wnd;
 											p_thing->WorldPos.Z           >> 8,
 											p_thing->Draw.Tweened->Angle,
 											0,0,
-											NULL,0);
+											nullptr,0);
 
 									AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_CAR_WHEEL);
 
@@ -10090,7 +10090,7 @@ extern HWND GEDIT_edit_wnd;
 											p_thing->WorldPos.Z           >> 8,
 											p_thing->Draw.Tweened->Angle,
 											0,0,
-											NULL,0);
+											nullptr,0);
 								}
 								*/
 
@@ -10398,7 +10398,7 @@ extern HWND GEDIT_edit_wnd;
 											p_thing->Draw.Mesh->Angle,
 											p_thing->Draw.Mesh->Tilt,
 											p_thing->Draw.Mesh->Roll,
-											NULL,0xff,0);
+											nullptr,0xff,0);
 								}
 
 								break;
@@ -10441,7 +10441,7 @@ extern HWND GEDIT_edit_wnd;
 												bdi.steer,
 												bdi.pitch,
 												bdi.roll,
-												NULL,0xff,0);
+												nullptr,0xff,0);
 
 										AENG_set_bike_wheel_rotation(bdi.back_rot, PRIM_OBJ_BIKE_BWHEEL);
 
@@ -10453,7 +10453,7 @@ extern HWND GEDIT_edit_wnd;
 												bdi.yaw,
 												0,
 												bdi.roll,
-												NULL,0xff,0);
+												nullptr,0xff,0);
 									}
 
 									// Now some bike fx... first the exhaust
@@ -12539,7 +12539,7 @@ void AENG_draw_warehouse()
 										p_thing->Draw.Mesh->Angle,
 										p_thing->Draw.Mesh->Tilt,
 										p_thing->Draw.Mesh->Roll,
-										NULL,0xff,0);
+										nullptr,0xff,0);
 							}
 
 							break;
@@ -13038,7 +13038,7 @@ void AENG_draw_ns()
 				{
 					nl = &NS_lo[mx][mz];
 
-					if (nl->cache == NULL)
+					if (!nl->cache )
 					{
 						//
 						// We can't see this lo-res mapsquare, so there is no point projecting
@@ -13210,7 +13210,7 @@ void AENG_draw_ns()
 
 			nl = &NS_lo[x][z];
 
-			if (nl->cache == NULL)
+			if (!nl->cache )
 			{
 				//
 				// Create the points and faces for this mapsquare.
@@ -13625,7 +13625,7 @@ void AENG_draw_ns()
 							(z << PAP_SHIFT_LO) + (nst->prim.z << 3),
 							nst->prim.yaw << 3,
 							0, 0,
-							NULL,0xff,0);
+							nullptr,0xff,0);
 
 						break;
 
@@ -14764,7 +14764,7 @@ void AENG_unlock()
 
 void AENG_flip()
 {
-	FLIP(NULL, DDFLIP_WAIT);	// PerMedia2 needs this, or else!
+	FLIP(nullptr, DDFLIP_WAIT);	// PerMedia2 needs this, or else!
 }
 
 void AENG_blit()
@@ -15468,7 +15468,7 @@ void AENG_draw_sewer_editor(
 					et->y,
 					et->z,
 					et->yaw, 0, 0, 
-					NULL,0xff,0);
+					nullptr,0xff,0);
 
 				break;
 
@@ -15497,7 +15497,7 @@ void AENG_draw_sewer_editor(
 				*mouse_over_y,
 				*mouse_over_z & ~0xff,
 				prim_yaw, 0, 0,
-				NULL,0xff,0);
+				nullptr,0xff,0);
 		}
 	}
 

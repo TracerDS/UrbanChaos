@@ -2295,7 +2295,7 @@ void DIRT_pick_up_can_or_head(Thing *p_person)
 
 	SLONG dist;
 
-	SLONG best_can  = NULL;
+	SLONG best_can  = nullptr;
 	SLONG best_dist = INFINITY;
 
 	DIRT_Dirt *dd;
@@ -2889,7 +2889,7 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker)
 	dd->dpitch = 0;//rand() & 0xf;
 	dd->droll  = 0;
 
-	if (p_attacker == NULL)
+	if (!p_attacker )
 	{
 		dd->dx = (rand() & 0xf) - 0x7;
 		dd->dz = (rand() & 0xf) - 0x7;
@@ -3064,7 +3064,7 @@ void DIRT_create_cans(
 	{
 		dd = DIRT_find_useless();
 
-		if (dd == NULL)
+		if (!dd )
 		{
 			return;
 		}
@@ -3115,7 +3115,7 @@ void DIRT_create_brass(
 	{
 		dd = DIRT_find_useless();
 
-		if (dd == NULL)
+		if (!dd )
 		{
 			return;
 		}

@@ -1813,7 +1813,7 @@ void draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG fla
 
 void CONSOLE_text(CBYTE* text, SLONG delay) 
 {
-	PANEL_new_text(NULL,delay,text);
+	PANEL_new_text(nullptr,delay,text);
 }
 
 #if 0
@@ -5426,7 +5426,7 @@ void AENG_draw_dirt()
 							di.yaw,
 							di.pitch,
 							di.roll,
-							NULL,0);
+							nullptr,0);
 //						cp=the_display.CurrentPrim;
 					}
 				}
@@ -5460,7 +5460,7 @@ void AENG_draw_dirt()
 					di.yaw,
 					di.pitch,
 					di.roll,
-					NULL);
+					nullptr);
 					*/
 
 				break;
@@ -5984,7 +5984,7 @@ void AENG_draw_bike(Thing *p_thing)
 					bdi.steer,
 					bdi.pitch,
 					bdi.roll,
-					NULL,0);
+					nullptr,0);
 
 		//	AENG_set_bike_wheel_rotation(bdi.back_rot);
 
@@ -5996,7 +5996,7 @@ void AENG_draw_bike(Thing *p_thing)
 					bdi.yaw,
 					0,
 					bdi.roll,
-					NULL,0);
+					nullptr,0);
 		}
 
 		// Now some bike fx... first the exhaust
@@ -6514,7 +6514,7 @@ void AENG_draw_warehouse(SLONG info)
 									p_thing->Draw.Mesh->Angle,
 									p_thing->Draw.Mesh->Tilt,
 									p_thing->Draw.Mesh->Roll,
-									NULL,0);
+									nullptr,0);
 														
 							break;
 //						case DT_BIKE:
@@ -7147,7 +7147,7 @@ extern void NIGHT_dlight_render();
 									p_thing->Draw.Mesh->Angle,
 									p_thing->Draw.Mesh->Tilt,
 									p_thing->Draw.Mesh->Roll,
-									NULL,0);
+									nullptr,0);
 							break;
 //						case DT_BIKE:
 //							AENG_draw_bike(p_thing);
@@ -7575,7 +7575,7 @@ SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
 
 void AENG_init()
 {
-	SKY_init(NULL);
+	SKY_init(nullptr);
 }
 
 

@@ -26,7 +26,7 @@ extern volatile HWND	hDDLibWindow;
 
 // Why is this global? Because sound sources need access to it too.
 IA3d4		*a3droot;
-IA3dGeom     *a3dgeom = NULL;
+IA3dGeom     *a3dgeom = nullptr;
 A3DManager	the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D);
 
 
@@ -93,7 +93,7 @@ void A3D_Check_Init(void) {
 
 static void RegDBSetKeyValue(
 	char *szKey,		/* in, key string */
-	char *szName,		/* in, name string NULL == Default */
+	char *szName,		/* in, name string nullptr == Default */
 	char *szValue)		/* in, value string */
 {
 	DWORD dwOptions   = REG_OPTION_NON_VOLATILE;
@@ -110,7 +110,7 @@ static void RegDBSetKeyValue(
 		"REG_SZ",			/* address of class string */ 
 		dwOptions,			/* special options flag */
 		samDesired,			/* desired security access */
-		NULL,				/* address of key security structure */
+		nullptr,				/* address of key security structure */
 		&hKey,				/* address of buffer for opened handle  */
 		&dwDisposition);	/* address of disposition value buffer */
 
@@ -188,8 +188,8 @@ void A3DManager::Init(SLONG features) {
 
 	A3dRegister();
 
-	CoInitialize(NULL);
-	hr = CoCreateInstance(CLSID_A3dApi, NULL, CLSCTX_INPROC_SERVER,
+	CoInitialize(nullptr);
+	hr = CoCreateInstance(CLSID_A3dApi, nullptr, CLSCTX_INPROC_SERVER,
 	                      IID_IA3d4, (void* *)&a3droot);
     if (FAILED(hr)) return;
 
@@ -204,7 +204,7 @@ void A3DManager::Init(SLONG features) {
 //	features=A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D;
 	features=A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS; // dirpath seems to be not req'd any more
 
-	a3droot->Init(NULL, features,A3DRENDERPREFS_DEFAULT);
+	a3droot->Init(nullptr, features,A3DRENDERPREFS_DEFAULT);
 
 	// set the coop level
 	
@@ -266,9 +266,9 @@ void A3DManager::Init(SLONG features) {
 }
 
 A3DManager::A3DManager(SLONG features) {
-	a3droot=NULL;
-	a3dlis=NULL;
-	a3dgeom=NULL;
+	a3droot=nullptr;
+	a3dlis=nullptr;
+	a3dgeom=nullptr;
 	memset(mat_lib,0,A3D_MAT_COUNT*sizeof(IA3dMaterial*));
 	//Init(features);
 }
@@ -344,7 +344,7 @@ bool A3DManager::Valid(A3DBase* item) {
 
 	try {
 	  temp = dynamic_cast<A3DBase*>(item);
-	  return true;	// always returns true coz a failed dynamic_cast<> returns NULL, not an exception
+	  return true;	// always returns true coz a failed dynamic_cast<> returns nullptr, not an exception
 	}
 	catch (...) {
 		return false;
@@ -359,7 +359,7 @@ A3DSource* A3DManager::ValidChannel(A3DBase* item) {
 	  return temp;
 	}
 	catch (...) {
-		return NULL;	// redundant
+		return nullptr;	// redundant
 	}
 }
 
@@ -371,7 +371,7 @@ A3DBase* A3DManager::ValidWave(A3DBase* item) {
 	  return temp;
 	}
 	catch (...) {
-		return NULL;	// redundant
+		return nullptr;	// redundant
 	}
 }
 
@@ -387,7 +387,7 @@ void A3DManager::BindMaterial(SLONG material) {
  */
 
 A3DSource::A3DSource(CBYTE* fn) {
-	A3DBase *data=NULL;
+	A3DBase *data=nullptr;
 
 	if (fn) {
 		data=the_a3d_manager.datalist.Find(fn);
@@ -561,8 +561,8 @@ A3DData::A3DData(CBYTE* fn, UBYTE ntype) {
 	HRESULT hr;
 
 	the_a3d_manager.datalist += this;
-	next=NULL;
-	a3dsrc=NULL;
+	next=nullptr;
+	a3dsrc=nullptr;
 
 	owner=0;
 	
@@ -652,7 +652,7 @@ A3DBase *A3DList::Find(CBYTE* want) {
 
 void A3DBase::FreeWave() {
 	if (a3dsrc) a3dsrc->Release();
-	a3dsrc=NULL;
+	a3dsrc=nullptr;
 	length_samples=0;
 	length_seconds=0;
 }
@@ -726,7 +726,7 @@ bool A3DBase::HasEnded(UBYTE early_out) {
 
 
 IA3d4		*a3droot;
-IA3dGeom     *a3dgeom = NULL;
+IA3dGeom     *a3dgeom = nullptr;
 A3DManager	the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D);
 
 void Decode(SLONG hr) {}
@@ -735,7 +735,7 @@ bool Failed(SLONG hr) { return true; }
 void A3D_Check_Init(void) {}
 static void RegDBSetKeyValue(
 	char *szKey,		/* in, key string */
-	char *szName,		/* in, name string NULL == Default */
+	char *szName,		/* in, name string nullptr == Default */
 	char *szValue)		/* in, value string */
 {}
 
@@ -745,10 +745,10 @@ A3DManager::A3DManager(SLONG features) {}
 void A3DCleanUp(void) {}
 void A3DManager::Fini(void) {}
 A3DManager::~A3DManager() {}
-A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, UBYTE flags) { return NULL; }
+A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, UBYTE flags) { return nullptr; }
 bool A3DManager::Valid(A3DBase* item) { return true; }
-A3DSource* A3DManager::ValidChannel(A3DBase* item) { return NULL; }
-A3DBase* A3DManager::ValidWave(A3DBase* item) { return NULL; }
+A3DSource* A3DManager::ValidChannel(A3DBase* item) { return nullptr; }
+A3DBase* A3DManager::ValidWave(A3DBase* item) { return nullptr; }
 void A3DManager::BindMaterial(SLONG material) {}
 A3DSource::A3DSource(CBYTE* fn) {}
 A3DSource::A3DSource(A3DBase *original) {}
@@ -770,8 +770,8 @@ A3DList::~A3DList() {}
 void A3DList::Clear() {}
 void A3DList::Add(A3DBase *item) {}
 void A3DList::Del(A3DBase *item) {}
-A3DBase *A3DList::Index(SLONG index) { return NULL; }
-A3DBase *A3DList::Find(CBYTE* want) { return NULL; }
+A3DBase *A3DList::Index(SLONG index) { return nullptr; }
+A3DBase *A3DList::Find(CBYTE* want) { return nullptr; }
 void A3DBase::FreeWave() {}
 ULONG A3DBase::GetLengthSamples() { return 0; }
 float A3DBase::GetLengthSeconds() { return 0.0f; }

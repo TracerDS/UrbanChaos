@@ -1,17 +1,17 @@
 //	ActivateSetup.cpp
 //	Matthew Rosenfeld, 13rd October 1998.
 
-#include	<MFStdLib.h>
-#include	<windows.h>
-#include	<windowsx.h>
-#include	<ddlib.h>
-#include	<commctrl.h>
-#include	"resource.h"
-#include	"inline.h"
-#include	"gi.h"
+#include <MFStdLib.h>
+#include <windows.h>
+#include <windowsx.h>
+#include <ddlib.h>
+#include <commctrl.h>
+#include "resource.h"
+#include "inline.h"
+#include "gi.h"
 
-#include	"EdStrings.h"
-#include	"GEdit.h"
+#include "EdStrings.h"
+#include "GEdit.h"
 
 
 //---------------------------------------------------------------
@@ -31,16 +31,15 @@ SLONG prim_type, prim_anim;
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-bool CALLBACK	acts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool CALLBACK acts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	SLONG		c0	=	0;
-	HWND		the_ctrl;
-	LPTSTR		lbitem_str;
-
+	SLONG c0 = 0;
+	HWND the_ctrl;
+	LPTSTR lbitem_str;
 
 	switch(message)
 	{
-		case	WM_INITDIALOG:
+		case WM_INITDIALOG:
 			//	Set up the combo box.
 			INIT_COMBO_BOX(IDC_COMBO1,wactivate_strings,prim_type);
 			PostMessage(hWnd,WM_COMMAND,MAKELONG(IDC_COMBO1,CBN_SELCHANGE),(LPARAM)the_ctrl);
@@ -59,7 +58,7 @@ bool CALLBACK	acts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 						);
 
 
-			return	true;
+			return true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))

@@ -106,7 +106,7 @@ SLONG OS_texture_height(OS_Texture *ot);
 // point to the screen memory.
 //
 
-void OS_texture_lock  (OS_Texture *ot);		// OS_bitmap_screen == NULL => lock failed.
+void OS_texture_lock  (OS_Texture *ot);		// OS_bitmap_screen == nullptr => lock failed.
 void OS_texture_unlock(OS_Texture *ot);
 
 //
@@ -168,7 +168,7 @@ SLONG OS_texture_blit_from_backbuffer(OS_Texture *ot, SLONG x, SLONG y);
 //
 // Searches the "Textures\\" directory for the given file and returns
 // the fullpath name.  Returns the address from inside the same static
-// array each time it is called.  Returns NULL if it can't find the
+// array each time it is called.  Returns nullptr if it can't find the
 // file inside the "Textures\\" directory.
 //
 
@@ -302,7 +302,7 @@ typedef struct os_buffer OS_Buffer;
 typedef struct
 {
 	UWORD trans;	// Index into the OS_trans array for the transformed point.
-	UWORD index;	// Before you add any OS_Verts to a buffer make sure they all have this field set to NULL
+	UWORD index;	// Before you add any OS_Verts to a buffer make sure they all have this field set to nullptr
 	float u1;
 	float v1;
 	float u2;		// For multitexturing.
@@ -500,8 +500,8 @@ void OS_buffer_add_line_3d(
 
 void OS_buffer_draw(
 		OS_Buffer  *ob,
-		OS_Texture *ot1,		// NULL => No texture mapping
-		OS_Texture *ot2  = NULL,
+		OS_Texture *ot1,		// nullptr => No texture mapping
+		OS_Texture *ot2  = nullptr,
 		ULONG       draw = OS_DRAW_NORMAL);
 
 
@@ -545,12 +545,12 @@ SLONG OS_fps_get ();
 void OS_show();
 
 //
-// Saves out a screenshot. If the filename is NULL then
+// Saves out a screenshot. If the filename is nullptr then
 // it saves out shot<n>.tga where n is the lowest available
 // number.
 //
 
-void OS_screenshot(CBYTE* fname = NULL);
+void OS_screenshot(CBYTE* fname = nullptr);
 
 
 // ========================================================

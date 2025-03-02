@@ -486,7 +486,7 @@ void	KeyFrameEditor2::DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct
 	for(c2=0,c0=prim_multi_objects[test_chunk2.MultiObject].StartObject;c0<prim_multi_objects[test_chunk2.MultiObject].EndObject;c0++)
 	{
 		the_element			=	&the_frame->FirstElement[c2++];
-   		test_draw((SWORD)c0,0,0,0,0,the_element,the_element,r_matrix, NULL, NULL, NULL, NULL, NULL);
+   		test_draw((SWORD)c0,0,0,0,0,the_element,the_element,r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 	}
 	render_view(0);
 	outline_rect.OutlineRect(0);

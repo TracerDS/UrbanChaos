@@ -41,9 +41,9 @@ StateFunction cop_states[10]	=
 {
 	{	STATE_INIT,				fn_cop_init		},
 	{	STATE_NORMAL,			fn_cop_normal	},
-	{	STATE_HIT,				NULL			},
-	{	STATE_ABOUT_TO_REMOVE,	NULL			},
-	{	STATE_REMOVE_ME,		NULL			}
+	{	STATE_HIT,				nullptr			},
+	{	STATE_ABOUT_TO_REMOVE,	nullptr			},
+	{	STATE_REMOVE_ME,		nullptr			}
 };
 
 /*
@@ -52,21 +52,21 @@ StateFunction cop_states[]	=
 {
 	{	STATE_INIT,				fn_cop_init				},
 	{	STATE_NORMAL,			fn_cop_normal				},
-	{	STATE_HIT,				NULL				},
-	{	STATE_ABOUT_TO_REMOVE,	NULL				},
-	{	STATE_REMOVE_ME,		NULL				},
+	{	STATE_HIT,				nullptr				},
+	{	STATE_ABOUT_TO_REMOVE,	nullptr				},
+	{	STATE_REMOVE_ME,		nullptr				},
 
 	{	STATE_MOVEING,			fn_person_moveing	},
 	{	STATE_IDLE,				fn_person_idle		},
-	{	STATE_LANDING,			NULL				},
+	{	STATE_LANDING,			nullptr				},
 	{	STATE_JUMPING,			fn_person_jumping	},
 	{	STATE_FIGHTING,			fn_person_fighting	},
-	{	STATE_FALLING,			NULL				},
-	{	STATE_USE_SCENERY,		NULL				},
-	{	STATE_DOWN,				NULL				},
-	{	STATE_HIT,				NULL				},
-	{	STATE_CHANGE_LOCATION,	NULL				},
-	{	STATE_DRIVING,			NULL				},
+	{	STATE_FALLING,			nullptr				},
+	{	STATE_USE_SCENERY,		nullptr				},
+	{	STATE_DOWN,				nullptr				},
+	{	STATE_HIT,				nullptr				},
+	{	STATE_CHANGE_LOCATION,	nullptr				},
+	{	STATE_DRIVING,			nullptr				},
 	{	STATE_DYING,			fn_person_dying		},
 	{	STATE_DEAD,				fn_person_dead		},
 	{	STATE_DANGLING,			fn_person_dangling  },
@@ -74,14 +74,14 @@ StateFunction cop_states[]	=
 	{	STATE_HIT_RECOIL,		fn_person_recoil	},
 	{	STATE_CLIMBING,			fn_person_climbing	},
 	{	STATE_GUN,				fn_person_gun		},
-	{	0,						NULL				},
-	{	0,						NULL				},
+	{	0,						nullptr				},
+	{	0,						nullptr				},
 	{	STATE_NAVIGATING,		fn_person_navigate	},
 	{	STATE_WAIT,				fn_person_wait	},
 	{	STATE_FIGHT,			fn_person_fight	},
-	{	0,						NULL				},  //stand up?
+	{	0,						nullptr				},  //stand up?
 	{	STATE_MAVIGATING,		fn_person_mavigate	},
-	{	0,						NULL				}
+	{	0,						nullptr				}
 };
 
 */
@@ -97,7 +97,7 @@ void fn_cop_init(Thing *t_thing)
 	t_thing->Draw.Tweened->TweenStage		=	0;
 	t_thing->Draw.Tweened->CurrentFrame	    =	global_anim_array[t_thing->Genus.Person->AnimType][ANIM_STAND_READY];
 	t_thing->Draw.Tweened->NextFrame		=	t_thing->Draw.Tweened->CurrentFrame->NextFrame;
-	t_thing->Draw.Tweened->QueuedFrame		=	NULL;
+	t_thing->Draw.Tweened->QueuedFrame		=	nullptr;
 /*
 	switch(t_thing->Genus.Person->AnimType)
 	{

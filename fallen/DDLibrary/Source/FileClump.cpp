@@ -12,10 +12,10 @@
 FileClump::FileClump(const char* clumpfn, ULONG max_id, bool readonly)
 {
 	// basic init
-	ClumpFD = NULL;
+	ClumpFD = nullptr;
 	MaxID = max_id;
-	Offsets = NULL;
-	Lengths = NULL;
+	Offsets = nullptr;
+	Lengths = nullptr;
 	NextOffset = 0;
 	ReadOnly = readonly;
 
@@ -105,8 +105,8 @@ bool FileClump::Exists(ULONG id)
 
 UBYTE* FileClump::Read(ULONG id)
 {
-	if (id >= MaxID)	return NULL;
-	if (!Offsets[id])	return NULL;
+	if (id >= MaxID)	return nullptr;
+	if (!Offsets[id])	return nullptr;
 
 	UBYTE*	buffer = new UBYTE[Lengths[id]];
 	
@@ -116,7 +116,7 @@ UBYTE* FileClump::Read(ULONG id)
 		if (fread(buffer, 1, Lengths[id], ClumpFD) != Lengths[id])
 		{
 			delete[] buffer;
-			buffer = NULL;
+			buffer = nullptr;
 		}
 	}
 

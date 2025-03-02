@@ -197,7 +197,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 		// We can't be going to a building off the map!
 		//
 
-		ans.dbuilding = NULL;
+		ans.dbuilding = nullptr;
 
 		return ans;
 	}
@@ -280,7 +280,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 		}
 	}
 
-	ans.dbuilding = NULL;
+	ans.dbuilding = nullptr;
 
 	return ans;
 }
@@ -673,7 +673,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 
 		stairs_ok  = true;
 		num_stairs = 0;
-		stair      = NULL;
+		stair      = nullptr;
 	}
 	else
 	{
@@ -765,7 +765,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 {
 	ENTER_Okay ans;
 
-	ans.dbuilding = NULL;
+	ans.dbuilding = nullptr;
 }
 
 

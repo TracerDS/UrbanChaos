@@ -1534,7 +1534,7 @@ UWORD BIKE_create(
 		// No bikes.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	bb = &BIKE_bike[BIKE_bike_upto++];
@@ -1629,7 +1629,7 @@ UWORD BIKE_create(
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 #endif
@@ -1829,7 +1829,7 @@ void BIKE_set_parked(Thing *p_bike)
 	//
 
 	p_bike->Genus.Bike->mode   = BIKE_MODE_PARKED;
-	p_bike->Genus.Bike->driver = NULL;
+	p_bike->Genus.Bike->driver = nullptr;
 
 	dt->AnimTween    =  0;
 	dt->TweenStage   =  0;

@@ -60,7 +60,7 @@ extern "C" {
  *              ::SDL_WINDOW_RESIZABLE, ::SDL_WINDOW_MAXIMIZED,
  *              ::SDL_WINDOW_MINIMIZED, ::SDL_WINDOW_BORDERLESS is always set,
  *              and ::SDL_WINDOW_FULLSCREEN is always unset.
- * \return the window created, or NULL if window creation failed.
+ * \return the window created, or nullptr if window creation failed.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -73,7 +73,7 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_CreateShapedWindow(const char *title,un
  *
  * \param window The window to query for being shaped.
  * \return SDL_TRUE if the window is a window that can be shaped, SDL_FALSE if
- *         the window is unshaped or NULL.
+ *         the window is unshaped or nullptr.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -131,9 +131,9 @@ extern DECLSPEC int SDLCALL SDL_SetWindowShape(SDL_Window *window,SDL_Surface *s
  * Get the shape parameters of a shaped window.
  *
  * \param window The shaped window whose parameters should be retrieved.
- * \param shape_mode An empty shape-mode structure to fill, or NULL to check
+ * \param shape_mode An empty shape-mode structure to fill, or nullptr to check
  *                   whether the window has a shape.
- * \return 0 if the window has a shape and, provided shape_mode was not NULL,
+ * \return 0 if the window has a shape and, provided shape_mode was not nullptr,
  *         shape_mode has been filled with the mode data,
  *         SDL_NONSHAPEABLE_WINDOW if the SDL_Window given is not a shaped
  *         window, or SDL_WINDOW_LACKS_SHAPE if the SDL_Window given is a

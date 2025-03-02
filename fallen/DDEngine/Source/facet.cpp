@@ -2738,7 +2738,7 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 
 		p_facet->Dfcache = NIGHT_dfcache_create(facet);
 
-		if (p_facet->Dfcache == NULL)
+		if (!p_facet->Dfcache )
 		{
 			return;
 		}
@@ -3941,7 +3941,7 @@ draw_the_facet_common:;
 
 		p_facet->Dfcache = NIGHT_dfcache_create(facet);
 
-		if (p_facet->Dfcache == NULL)
+		if (!p_facet->Dfcache )
 		{
 			LOG_EXIT ( Facet_draw_mid )
 			return;
@@ -4131,7 +4131,7 @@ void FACET_draw_walkable(SLONG build)
 
 	p_dbuilding = &dbuildings[build];
 
-	UWORD *rooftex = NULL;
+	UWORD *rooftex = nullptr;
 
 #ifdef TARGET_DC
 	// Internal stuff fixup
@@ -5457,7 +5457,7 @@ void FACET_project_crinkled_shadow(SLONG facet)
 	SLONG height       = p_facet->Height;
 	SLONG max_height   = INFINITY;
 
-	NIGHT_Colour *col = NULL;	// No cached lighting needed!
+	NIGHT_Colour *col = nullptr;	// No cached lighting needed!
 	
 	SLONG foundation = (p_facet->FHeight) ? 2 : 0;
 

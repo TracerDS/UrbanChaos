@@ -45,7 +45,7 @@
 #define MAX_LINES_PER_PAGE		(256 / MIN_TT_HEIGHT)					// maximum number of cachelines per texture page
 #define MAX_CACHELINES			(MAX_LINES_PER_PAGE * NUM_TT_PAGES)		// maximum number of cachelines
 #define MAX_TEXTCOMMANDS		32										// maximum number of current & pending text commands
-#define TYPEFACE				NULL									// typeface name
+#define TYPEFACE				nullptr									// typeface name
 
 static int					FontHeight;						// height of font
 
@@ -130,7 +130,7 @@ void TT_Init()
 	desc.ddsCaps.dwCaps3 = 0;
 	desc.ddsCaps.dwCaps4 = 0;
 
-	hres = the_display.lp_DD4->CreateSurface(&desc, &pShadowSurface, NULL);
+	hres = the_display.lp_DD4->CreateSurface(&desc, &pShadowSurface, nullptr);
 
 	ASSERT(!FAILED(hres));
 
@@ -142,10 +142,10 @@ void TT_Init()
 		palette[ii].peRed = ii;
 		palette[ii].peGreen = ii;
 		palette[ii].peBlue = ii;
-		palette[ii].peFlags = NULL;
+		palette[ii].peFlags = nullptr;
 	}
 
-	hres = the_display.lp_DD4->CreatePalette(DDPCAPS_8BIT | DDPCAPS_INITIALIZE, palette, &pShadowPalette, NULL);
+	hres = the_display.lp_DD4->CreatePalette(DDPCAPS_8BIT | DDPCAPS_INITIALIZE, palette, &pShadowPalette, nullptr);
 	ASSERT(!FAILED(hres));
 
 	hres = pShadowSurface->SetPalette(pShadowPalette);
@@ -195,7 +195,7 @@ void TT_Init()
 		// create cacheline mappings
 		for (int jj = 0; jj + FontHeight <= 256; jj += FontHeight)
 		{
-			Cache[NumCacheLines].owner = NULL;
+			Cache[NumCacheLines].owner = nullptr;
 			Cache[NumCacheLines].texture = &Texture[ii];
 			Cache[NumCacheLines].y = jj;
 
@@ -270,16 +270,16 @@ void TT_Term()
 	hres = pShadowSurface->ReleaseDC(hDC);
 	ASSERT(!FAILED(hres));
 
-	pShadowSurface->SetPalette(NULL);
+	pShadowSurface->SetPalette(nullptr);
 
 	pShadowPalette->Release();
-	pShadowPalette = NULL;
+	pShadowPalette = nullptr;
 
 	pShadowSurface->Release();
-	pShadowSurface = NULL;
+	pShadowSurface = nullptr;
 
 	DeleteObject(hFont);
-	hFont = NULL;
+	hFont = nullptr;
 
 	for (int ii = 0; ii < NUM_TT_PAGES; ii++)
 	{
@@ -306,7 +306,7 @@ int DrawTextTT(char* string, int x, int y, int rx, int scale, ULONG rgb, int com
 
 	// look for command
 	TextCommand*	tcmd = Commands;
-	TextCommand*	best = NULL;
+	TextCommand*	best = nullptr;
 	bool			exact = false;
 
 	for (int ii = 0; ii < MAX_TEXTCOMMANDS; ii++)
@@ -393,7 +393,7 @@ void PreFlipTT()
 	// check cachelines and release if owned by a deleted text command
 	for (ii = 0; ii < NumCacheLines; ii++)
 	{
-		if (Cache[ii].owner && (Cache[ii].owner->validity == Free))		Cache[ii].owner = NULL;
+		if (Cache[ii].owner && (Cache[ii].owner->validity == Free))		Cache[ii].owner = nullptr;
 	}
 
 	// draw text if there is any to do
@@ -453,9 +453,9 @@ static void MeasureTextCommand(TextCommand* tcmd)
 		static TCHAR cTempString[64+1];
 		ASSERT ( strlen ( string ) < 64 );
 		textConvertCharToUni ( cTempString, string );
-		GetTextExtentExPoint(hDC,cTempString,clen,tcmd->fwidth*AA_SIZE,&chars,NULL,&size);
+		GetTextExtentExPoint(hDC,cTempString,clen,tcmd->fwidth*AA_SIZE,&chars,nullptr,&size);
 #else
-		GetTextExtentExPoint(hDC,string,clen,tcmd->fwidth*AA_SIZE,&chars,NULL,&size);
+		GetTextExtentExPoint(hDC,string,clen,tcmd->fwidth*AA_SIZE,&chars,nullptr,&size);
 #endif
 
 		if ((chars < clen) && (clen - chars < 3))	chars = clen - 3;
@@ -502,9 +502,9 @@ static void DoTextCommand(TextCommand* tcmd)
 		static TCHAR cTempString[64+1];
 		ASSERT ( strlen ( string ) < 64 );
 		textConvertCharToUni ( cTempString, string );
-		GetTextExtentExPoint(hDC,cTempString,clen,tcmd->fwidth*AA_SIZE,&chars,NULL,&size);
+		GetTextExtentExPoint(hDC,cTempString,clen,tcmd->fwidth*AA_SIZE,&chars,nullptr,&size);
 #else
-		GetTextExtentExPoint(hDC,string,clen,tcmd->fwidth*AA_SIZE,&chars,NULL,&size);
+		GetTextExtentExPoint(hDC,string,clen,tcmd->fwidth*AA_SIZE,&chars,nullptr,&size);
 #endif
 
 		// fix up for 1 or 2 characters over
@@ -515,9 +515,9 @@ static void DoTextCommand(TextCommand* tcmd)
 
 		// get width
 #ifdef TARGET_DC
-		GetTextExtentExPoint(hDC,cTempString,chars,0,NULL,NULL,&size);
+		GetTextExtentExPoint(hDC,cTempString,chars,0,nullptr,nullptr,&size);
 #else
-		GetTextExtentExPoint(hDC,string,chars,0,NULL,NULL,&size);
+		GetTextExtentExPoint(hDC,string,chars,0,nullptr,nullptr,&size);
 #endif
 		int		width = size.cx / AA_SIZE;
 
@@ -590,9 +590,9 @@ static void CreateTextLine(char* string, int nchars, int width, int x, int y, Te
 	static TCHAR cTempString[64+1];
 	ASSERT ( strlen ( string ) < 64 );
 	textConvertCharToUni ( cTempString, string );
-	res = ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rect, cTempString, nchars, NULL);
+	res = ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rect, cTempString, nchars, nullptr);
 #else
-	res = ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rect, string, nchars, NULL);
+	res = ExtTextOut(hDC, 0, 0, ETO_OPAQUE, &rect, string, nchars, nullptr);
 #endif
 	ASSERT ( res != 0 );
 
@@ -608,7 +608,7 @@ static void CreateTextLine(char* string, int nchars, int width, int x, int y, Te
 
 	InitStruct(ddsdesc);
 
-	res = pShadowSurface->Lock(NULL, &ddsdesc, DDLOCK_WAIT, NULL);
+	res = pShadowSurface->Lock(nullptr, &ddsdesc, DDLOCK_WAIT, nullptr);
 	ASSERT(!FAILED(res));
 
 	UBYTE*	sptr = (UBYTE*)ddsdesc.lpSurface;
@@ -638,7 +638,7 @@ static void CreateTextLine(char* string, int nchars, int width, int x, int y, Te
 	}
 
 	// unlock the surface
-	res = pShadowSurface->Unlock(NULL);
+	res = pShadowSurface->Unlock(nullptr);
 	ASSERT(!FAILED(res));
 }
 
@@ -708,7 +708,7 @@ static void CopyToCache(CacheLine* cptr, UBYTE* sptr, int spitch, int width)
 static void BlitText()
 {
 	int			ii;
-	D3DTexture*	ctex = NULL;
+	D3DTexture*	ctex = nullptr;
 	CacheLine*	cptr = Cache;
 
 	// go through in texture order
@@ -842,7 +842,7 @@ static void ShowDebug()
 
 	InitStruct(ddsdesc);
 
-	ret = pShadowSurface->Lock(NULL, &ddsdesc, DDLOCK_WAIT, NULL);
+	ret = pShadowSurface->Lock(nullptr, &ddsdesc, DDLOCK_WAIT, nullptr);
 
 	if (FAILED(ret))	return;
 
@@ -863,7 +863,7 @@ static void ShowDebug()
 	}
 
 	the_display.screen_unlock();
-	pShadowSurface->Unlock(NULL);
+	pShadowSurface->Unlock(nullptr);
 
 	ShowTextures();
 }

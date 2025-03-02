@@ -3349,7 +3349,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 						Alert			*quit_alert;
 
 						quit_alert		=	new	Alert;
-						quit_alert->HandleAlert("Can't add next partition to current partition ",NULL);
+						quit_alert->HandleAlert("Can't add next partition to current partition ",nullptr);
 						delete	quit_alert;
 //`						RequestUpdate();
 					}
@@ -3401,7 +3401,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 						Alert			*quit_alert;
 
 						quit_alert		=	new	Alert;
-						quit_alert->HandleAlert("Can't add next partition to current partition ",NULL);
+						quit_alert->HandleAlert("Can't add next partition to current partition ",nullptr);
 						delete	quit_alert;
 //`						RequestUpdate();
 					}

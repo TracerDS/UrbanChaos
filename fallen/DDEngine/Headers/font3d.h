@@ -10,16 +10,13 @@
  *
  */
 
-#ifndef _FONT_3D_H_
-#define _FONT_3D_H_
+#pragma once
 
 // #include <MFStdLib.h>
 
 // why does the above line toast it?
 // oh well... set up manually then...
 
-#define	true				1
-#define	false				0
 #define PI				(3.14159265F)
 typedef	unsigned char		UBYTE;
 typedef signed char			SBYTE;
@@ -62,7 +59,5 @@ class Font3D {
 	Font3D(char *path, float scale=1.0);
 	~Font3D();
 };
-
-#endif
 
 #endif

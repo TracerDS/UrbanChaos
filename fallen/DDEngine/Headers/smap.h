@@ -32,12 +32,12 @@ void SMAP_bike(
 
 //
 // Projects the last shadow map created onto a poly in world-space. The poly
-// should be given in clockwise order.  This function returns NULL if the poly
+// should be given in clockwise order.  This function returns nullptr if the poly
 // is facing away from the light, or if the poly is on the 'wrong side' of
 // the shadow map.  The polygon linked list is valid until the next call
 // to the function.
 //
-// This is not a circular data structure. The last point of the poly has a NULL
+// This is not a circular data structure. The last point of the poly has a nullptr
 // pointer. There is not a copy of the first point at the end of the linked list.
 //
 

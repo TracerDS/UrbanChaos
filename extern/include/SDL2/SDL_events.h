@@ -150,8 +150,8 @@ typedef enum
     /* Drag and drop events */
     SDL_DROPFILE        = 0x1000, /**< The system requests a file open */
     SDL_DROPTEXT,                 /**< text/plain drag-and-drop event */
-    SDL_DROPBEGIN,                /**< A new set of drops is beginning (NULL filename) */
-    SDL_DROPCOMPLETE,             /**< Current set of drops is now complete (NULL filename) */
+    SDL_DROPBEGIN,                /**< A new set of drops is beginning (nullptr filename) */
+    SDL_DROPCOMPLETE,             /**< Current set of drops is now complete (nullptr filename) */
 
     /* Audio hotplug events */
     SDL_AUDIODEVICEADDED = 0x1100, /**< A new audio device is available */
@@ -256,7 +256,7 @@ typedef struct SDL_TextEditingExtEvent
     Uint32 type;                                /**< ::SDL_TEXTEDITING_EXT */
     Uint32 timestamp;                           /**< In milliseconds, populated using SDL_GetTicks() */
     Uint32 windowID;                            /**< The window with keyboard focus, if any */
-    char* text;                                 /**< The editing text, which should be freed with SDL_free(), and will not be NULL */
+    char* text;                                 /**< The editing text, which should be freed with SDL_free(), and will not be nullptr */
     Sint32 start;                               /**< The start cursor of selected editing text */
     Sint32 length;                              /**< The length of selected editing text */
 } SDL_TextEditingExtEvent;
@@ -556,7 +556,7 @@ typedef struct SDL_DropEvent
 {
     Uint32 type;        /**< ::SDL_DROPBEGIN or ::SDL_DROPFILE or ::SDL_DROPTEXT or ::SDL_DROPCOMPLETE */
     Uint32 timestamp;   /**< In milliseconds, populated using SDL_GetTicks() */
-    char *file;         /**< The file name, which should be freed with SDL_free(), is NULL on begin/complete */
+    char *file;         /**< The file name, which should be freed with SDL_free(), is nullptr on begin/complete */
     Uint32 windowID;    /**< The window that was dropped on, if any */
 } SDL_DropEvent;
 
@@ -666,7 +666,7 @@ typedef union SDL_Event
 } SDL_Event;
 
 /* Make sure we haven't broken binary compatibility */
-SDL_COMPILE_TIME_ASSERT(SDL_Event, sizeof(SDL_Event) == sizeof(((SDL_Event *)NULL)->padding));
+SDL_COMPILE_TIME_ASSERT(SDL_Event, sizeof(SDL_Event) == sizeof(((SDL_Event *)nullptr)->padding));
 
 
 /* Function prototypes */
@@ -831,12 +831,12 @@ extern DECLSPEC void SDLCALL SDL_FlushEvents(Uint32 minType, Uint32 maxType);
 /**
  * Poll for currently pending events.
  *
- * If `event` is not NULL, the next event is removed from the queue and stored
+ * If `event` is not nullptr, the next event is removed from the queue and stored
  * in the SDL_Event structure pointed to by `event`. The 1 returned refers to
  * this event, immediately stored in the SDL Event structure -- not an event
  * to follow.
  *
- * If `event` is NULL, it simply returns 1 if there is an event in the queue,
+ * If `event` is nullptr, it simply returns 1 if there is an event in the queue,
  * but will not remove it from the queue.
  *
  * As this function may implicitly call SDL_PumpEvents(), you can only call
@@ -861,7 +861,7 @@ extern DECLSPEC void SDLCALL SDL_FlushEvents(Uint32 minType, Uint32 maxType);
  * ```
  *
  * \param event the SDL_Event structure to be filled with the next event from
- *              the queue, or NULL
+ *              the queue, or nullptr
  * \returns 1 if there is a pending event or 0 if there are none available.
  *
  * \since This function is available since SDL 2.0.0.
@@ -878,14 +878,14 @@ extern DECLSPEC int SDLCALL SDL_PollEvent(SDL_Event * event);
 /**
  * Wait indefinitely for the next available event.
  *
- * If `event` is not NULL, the next event is removed from the queue and stored
+ * If `event` is not nullptr, the next event is removed from the queue and stored
  * in the SDL_Event structure pointed to by `event`.
  *
  * As this function may implicitly call SDL_PumpEvents(), you can only call
  * this function in the thread that initialized the video subsystem.
  *
  * \param event the SDL_Event structure to be filled in with the next event
- *              from the queue, or NULL
+ *              from the queue, or nullptr
  * \returns 1 on success or 0 if there was an error while waiting for events;
  *          call SDL_GetError() for more information.
  *
@@ -901,14 +901,14 @@ extern DECLSPEC int SDLCALL SDL_WaitEvent(SDL_Event * event);
  * Wait until the specified timeout (in milliseconds) for the next available
  * event.
  *
- * If `event` is not NULL, the next event is removed from the queue and stored
+ * If `event` is not nullptr, the next event is removed from the queue and stored
  * in the SDL_Event structure pointed to by `event`.
  *
  * As this function may implicitly call SDL_PumpEvents(), you can only call
  * this function in the thread that initialized the video subsystem.
  *
  * \param event the SDL_Event structure to be filled in with the next event
- *              from the queue, or NULL
+ *              from the queue, or nullptr
  * \param timeout the maximum number of milliseconds to wait for the next
  *                available event
  * \returns 1 on success or 0 if there was an error while waiting for events;

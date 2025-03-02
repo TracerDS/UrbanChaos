@@ -1092,7 +1092,7 @@ void CANID_find_pos_along_vect(SLONG vect, SLONG along, SLONG *x, SLONG *y, SLON
 /*
 
 //
-// Find a colvect for the canid to perch on. Returns NULL
+// Find a colvect for the canid to perch on. Returns nullptr
 // if there is no suitable colvect nearby.
 //
 
@@ -1234,7 +1234,7 @@ UWORD CANID_find_perch(Thing *canid, UWORD ignore_this_vect)
 		// No nearby colvects!
 		//
 
-		return NULL;
+		return nullptr;
 	}
 }
 */
@@ -1327,7 +1327,7 @@ void CANID_init_fly(Thing *canid, Thing *from)
 	}
 	else
 	{
-		ignore_vect = NULL;
+		ignore_vect = nullptr;
 	}
 
 	vect = CANID_find_perch(canid, ignore_vect);

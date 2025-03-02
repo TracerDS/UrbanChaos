@@ -145,7 +145,7 @@ bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				rgb = pushed ? COLOR_BTNSHADOW : COLOR_BTNHIGHLIGHT;
 				pen=CreatePen(PS_SOLID,0,GetSysColor(rgb));
 				open=(HPEN)SelectObject(item->hDC,pen);
-				MoveToEx(item->hDC,item->rcItem.left+1,item->rcItem.bottom-3,NULL);
+				MoveToEx(item->hDC,item->rcItem.left+1,item->rcItem.bottom-3,nullptr);
 				LineTo(item->hDC,item->rcItem.left+1,item->rcItem.top+1);
 				LineTo(item->hDC,item->rcItem.right-3,item->rcItem.top+1);
 				SelectObject(item->hDC,open);
@@ -154,7 +154,7 @@ bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				rgb = pushed ? COLOR_BTNHIGHLIGHT : COLOR_BTNSHADOW;
 				pen=CreatePen(PS_SOLID,0,GetSysColor(rgb));
 				open=(HPEN)SelectObject(item->hDC,pen);
-				MoveToEx(item->hDC,item->rcItem.right-2,item->rcItem.top+2,NULL);
+				MoveToEx(item->hDC,item->rcItem.right-2,item->rcItem.top+2,nullptr);
 				LineTo(item->hDC,item->rcItem.right-2,item->rcItem.bottom-2);
 				LineTo(item->hDC,item->rcItem.left+2,item->rcItem.bottom-2);
 				SelectObject(item->hDC,open);
@@ -194,7 +194,7 @@ bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					rgb=(LOWORD(wParam)==IDC_BUTTON1) ? &lite_rgbA : &lite_rgbB;
 					choosecol.lStructSize=sizeof(choosecol);
 					choosecol.hwndOwner=hWnd;
-					choosecol.hInstance=NULL;
+					choosecol.hInstance=nullptr;
 					choosecol.rgbResult=*rgb;
 					choosecol.Flags=CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 					if (ChooseColor(&choosecol))

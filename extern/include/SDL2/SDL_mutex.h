@@ -142,7 +142,7 @@ typedef struct SDL_mutex SDL_mutex;
  *
  * SDL mutexes are reentrant.
  *
- * \returns the initialized and unlocked mutex or NULL on failure; call
+ * \returns the initialized and unlocked mutex or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -257,7 +257,7 @@ typedef struct SDL_semaphore SDL_sem;
  * wake waiting threads and allow them to retry the wait operation.
  *
  * \param initial_value the starting value of the semaphore
- * \returns a new semaphore or NULL on failure; call SDL_GetError() for more
+ * \returns a new semaphore or nullptr on failure; call SDL_GetError() for more
  *          information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -411,7 +411,7 @@ typedef struct SDL_cond SDL_cond;
 /**
  * Create a condition variable.
  *
- * \returns a new condition variable or NULL on failure; call SDL_GetError()
+ * \returns a new condition variable or nullptr on failure; call SDL_GetError()
  *          for more information.
  *
  * \since This function is available since SDL 2.0.0.

@@ -346,12 +346,12 @@ void VM_convert_to_string(ML_Data *original)
 			break;
 
 		case ML_TYPE_SLUMBER:
-			ans.strvar = (CBYTE* ) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a NULL.
+			ans.strvar = (CBYTE* ) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a nullptr.
 			sprintf(ans.strvar, "%d", original->slumber);
 			break;
 
 		case ML_TYPE_FLUMBER:
-			ans.strvar = (CBYTE* ) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a NULL.
+			ans.strvar = (CBYTE* ) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a nullptr.
 			sprintf(ans.strvar, "%f", original->flumber);
 			break;
 
@@ -406,7 +406,7 @@ CBYTE* VM_get_string(ML_Data string)
 
 		default:
 			ASSERT(0);
-			return NULL;
+			return nullptr;
 	}
 }
 
@@ -1062,7 +1062,7 @@ void VM_do_buffer()
 
 	if (num_indices == 0)
 	{
-		index = NULL;
+		index = nullptr;
 	}
 	else
 	{
@@ -1190,7 +1190,7 @@ void VM_do_draw()
 		// Undefined => draw untextured.
 		//
 
-		lt = NULL;
+		lt = nullptr;
 	}
 	else
 	{
@@ -1475,7 +1475,7 @@ void VM_execute()
 							str1 = VM_get_string(VM_stack_top[0]);
 							str2 = VM_get_string(VM_stack_top[1]);
 
-							length = strlen(str1) + strlen(str2) + 1;	// + 1 for the terminating NULL.
+							length = strlen(str1) + strlen(str2) + 1;	// + 1 for the terminating nullptr.
 
 							//
 							// Build the result.
@@ -4326,7 +4326,7 @@ void VM_run(CBYTE* fname)
 
 	handle = fopen(fname, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		fprintf(stderr, "Unable to open file \"%s\"\n", fname);
 
@@ -4388,7 +4388,7 @@ void VM_run(CBYTE* fname)
 	VM_stack_max  = 2048;
 	VM_stack      = (ML_Data *) malloc(sizeof(ML_Data) * VM_stack_max);
 	VM_stack_top  = VM_stack;
-	VM_stack_base = NULL;
+	VM_stack_base = nullptr;
 
 	//
 	// Allocate the globals and initialise all of them to undefined.
@@ -4428,8 +4428,8 @@ void VM_run(CBYTE* fname)
 
 	fclose(handle);
 
-	if (VM_code)  {free(VM_code);  VM_code  = NULL;}
-	if (VM_stack) {free(VM_stack); VM_stack = NULL;}
+	if (VM_code)  {free(VM_code);  VM_code  = nullptr;}
+	if (VM_stack) {free(VM_stack); VM_stack = nullptr;}
 
 	return;
 }

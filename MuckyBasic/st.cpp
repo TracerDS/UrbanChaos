@@ -107,7 +107,7 @@ void ST_init()
 		st->buffer      = (CBYTE* ) malloc(sizeof(CBYTE) * st->buffer_max);
 
 		st->symbol_max  = 1024;
-		st->symbol_upto = 1;	// The 0th element is the NULL index...
+		st->symbol_upto = 1;	// The 0th element is the nullptr index...
 		st->symbol      = (ST_Symbol *) malloc(sizeof(ST_Symbol) * st->symbol_max);
 	}
 }
@@ -165,13 +165,13 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 	ss->value  = value;
 	ss->flag   = flag;
 	ss->string = (UWORD) st->buffer_upto;
-	ss->next   = NULL;
+	ss->next   = nullptr;
 
 	//
 	// Enough room to add the string?
 	//
 
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL.
+	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr.
 
 	if (st->buffer_upto + length > st->buffer_max)
 	{
@@ -381,7 +381,7 @@ void ST_clear(SLONG table)
 	// Zero length the arrays and clear the hash table.
 	//
 
-	st->symbol_upto = 1;	// 1 because the 0'th index is reserved for NULL.
+	st->symbol_upto = 1;	// 1 because the 0'th index is reserved for nullptr.
 	st->buffer_upto = 0;
 
 	memset(st->hash, 0, sizeof(st->hash));

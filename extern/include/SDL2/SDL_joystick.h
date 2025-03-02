@@ -174,7 +174,7 @@ extern DECLSPEC int SDLCALL SDL_NumJoysticks(void);
  * \param device_index the index of the joystick to query (the N'th joystick
  *                     on the system)
  * \returns the name of the selected joystick. If no name can be found, this
- *          function returns NULL; call SDL_GetError() for more information.
+ *          function returns nullptr; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -191,7 +191,7 @@ extern DECLSPEC const char *SDLCALL SDL_JoystickNameForIndex(int device_index);
  * \param device_index the index of the joystick to query (the N'th joystick
  *                     on the system)
  * \returns the path of the selected joystick. If no path can be found, this
- *          function returns NULL; call SDL_GetError() for more information.
+ *          function returns nullptr; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.24.0.
  *
@@ -311,7 +311,7 @@ extern DECLSPEC SDL_JoystickID SDLCALL SDL_JoystickGetDeviceInstanceID(int devic
  * for use.
  *
  * \param device_index the index of the joystick to query
- * \returns a joystick identifier or NULL if an error occurred; call
+ * \returns a joystick identifier or nullptr if an error occurred; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -325,7 +325,7 @@ extern DECLSPEC SDL_Joystick *SDLCALL SDL_JoystickOpen(int device_index);
  * Get the SDL_Joystick associated with an instance id.
  *
  * \param instance_id the instance id to get the SDL_Joystick for
- * \returns an SDL_Joystick on success or NULL on failure; call SDL_GetError()
+ * \returns an SDL_Joystick on success or nullptr on failure; call SDL_GetError()
  *          for more information.
  *
  * \since This function is available since SDL 2.0.4.
@@ -336,7 +336,7 @@ extern DECLSPEC SDL_Joystick *SDLCALL SDL_JoystickFromInstanceID(SDL_JoystickID 
  * Get the SDL_Joystick associated with a player index.
  *
  * \param player_index the player index to get the SDL_Joystick for
- * \returns an SDL_Joystick on success or NULL on failure; call SDL_GetError()
+ * \returns an SDL_Joystick on success or nullptr on failure; call SDL_GetError()
  *          for more information.
  *
  * \since This function is available since SDL 2.0.12.
@@ -487,7 +487,7 @@ extern DECLSPEC int SDLCALL SDL_JoystickSetVirtualHat(SDL_Joystick *joystick, in
  *
  * \param joystick the SDL_Joystick obtained from SDL_JoystickOpen()
  * \returns the name of the selected joystick. If no name can be found, this
- *          function returns NULL; call SDL_GetError() for more information.
+ *          function returns nullptr; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -501,7 +501,7 @@ extern DECLSPEC const char *SDLCALL SDL_JoystickName(SDL_Joystick *joystick);
  *
  * \param joystick the SDL_Joystick obtained from SDL_JoystickOpen()
  * \returns the path of the selected joystick. If no path can be found, this
- *          function returns NULL; call SDL_GetError() for more information.
+ *          function returns nullptr; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.24.0.
  *
@@ -602,10 +602,10 @@ extern DECLSPEC Uint16 SDLCALL SDL_JoystickGetFirmwareVersion(SDL_Joystick *joys
 /**
  * Get the serial number of an opened joystick, if available.
  *
- * Returns the serial number of the joystick, or NULL if it is not available.
+ * Returns the serial number of the joystick, or nullptr if it is not available.
  *
  * \param joystick the SDL_Joystick obtained from SDL_JoystickOpen()
- * \returns the serial number of the selected joystick, or NULL if
+ * \returns the serial number of the selected joystick, or nullptr if
  *          unavailable.
  *
  * \since This function is available since SDL 2.0.14.

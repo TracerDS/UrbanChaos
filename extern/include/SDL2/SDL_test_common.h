@@ -160,7 +160,7 @@ int SDLTest_CommonArg(SDLTest_CommonState * state, int index);
  *
  * \param state The common state describing the test window for the app.
  * \param argv0 argv[0], as passed to main/SDL_main.
- * \param options an array of strings for application specific options. The last element of the array should be NULL.
+ * \param options an array of strings for application specific options. The last element of the array should be nullptr.
  */
 void SDLTest_CommonLogUsage(SDLTest_CommonState * state, const char *argv0, const char **options);
 

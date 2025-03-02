@@ -166,7 +166,7 @@ void DIRT_release_can_or_head(Thing *p_person, SLONG power);	// 0 <= power <= 25
 
 //
 // Beheads the given person. It takes the velocity from the position of
-// the attacker.  If attacker == NULL, then a random velocity is given.
+// the attacker.  If attacker == nullptr, then a random velocity is given.
 //
 
 void DIRT_behead_person(Thing *p_person, Thing *p_attacker);

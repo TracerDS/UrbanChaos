@@ -65,7 +65,7 @@ void ED_init()
 		ED_light[i].used = false;
 	}
 
-	ED_light[ED_MAX_LIGHTS - 1].next = NULL;
+	ED_light[ED_MAX_LIGHTS - 1].next = nullptr;
 
 	//
 	// Initialise game lighting too.
@@ -98,9 +98,9 @@ SLONG ED_create(
 
 	ED_Light *el;
 
-	if (ED_light_free == NULL)
+	if (!ED_light_free )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -829,7 +829,7 @@ void ED_delete_all()
 		ED_light[i].used = false;
 	}
 
-	ED_light[ED_MAX_LIGHTS - 1].next = NULL;
+	ED_light[ED_MAX_LIGHTS - 1].next = nullptr;
 
 	//
 	// Remove all static lights.

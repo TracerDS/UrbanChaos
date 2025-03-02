@@ -8,8 +8,8 @@
 
 EditorModule::EditorModule()
 {
-	SetLastModuleLink(NULL);
-	SetNextModuleLink(NULL);
+	SetLastModuleLink(nullptr);
+	SetNextModuleLink(nullptr);
 	SetExternalUpdatePtr(0);
 
 	EscapeFlag	=	false;

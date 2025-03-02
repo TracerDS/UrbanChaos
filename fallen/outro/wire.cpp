@@ -194,7 +194,7 @@ void WIRE_plane_draw()
 		ov = &wp->ov;
 	
 		ov->trans    = i;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->u1       = 0.0F;
 		ov->v1       = 0.0F;
 		ov->u2       = 0.0F;
@@ -239,7 +239,7 @@ void WIRE_plane_draw()
 		   &WIRE_point[face[i].p4].ov);
 	}
 
-	OS_buffer_draw(ob, NULL, NULL, OS_DRAW_TRANSPARENT | OS_DRAW_ZALWAYS);
+	OS_buffer_draw(ob, nullptr, nullptr, OS_DRAW_TRANSPARENT | OS_DRAW_ZALWAYS);
 }
 
 

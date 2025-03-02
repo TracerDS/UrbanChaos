@@ -22,7 +22,7 @@ DDDriverManager		the_manager;
 //
 //---------------------------------------------------------------
 
-bool WINAPI DriverEnumCallback	(
+BOOL WINAPI DriverEnumCallback (
 									GUID FAR	*lpGuid,
 									LPTSTR		lpDesc, 
 									LPTSTR		lpName,
@@ -453,7 +453,7 @@ bool	GetDesktopMode	(
 	ReleaseDC(hDesktop,hdc);
 
 	// Get Mode
-	new_mode	=	the_driver->FindMode(w,h,bpp,0,NULL);
+	new_mode	=	the_driver->FindMode(w,h,bpp,0,nullptr);
 	if(!new_mode)
 		return false;
 
@@ -581,7 +581,7 @@ D3DDeviceInfo	*ValidateDevice	(
 	else
 	{
 		// Filter device against mode
-		new_device	=	NULL; //the_driver->FindDeviceSupportsMode(D3D_guid, the_filter, &next_best_device);
+		new_device	=	nullptr; //the_driver->FindDeviceSupportsMode(D3D_guid, the_filter, &next_best_device);
 	}
 
     if(new_device)
@@ -639,24 +639,24 @@ DDModeInfo	*ValidateMode	(
 DDModeInfo::DDModeInfo()
 {
 	InitStruct(ddSurfDesc);
-	Prev	=	NULL;
-	Next	=	NULL;
+	Prev	=	nullptr;
+	Next	=	nullptr;
 }
 
 DDModeInfo::DDModeInfo(const DDSURFACEDESC & ddDesc)
 {
 	CopyMemory(&ddSurfDesc,(const void* )&ddDesc,sizeof (ddSurfDesc));
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
-	Prev	=	NULL;
-	Next	=	NULL;
+	Prev	=	nullptr;
+	Next	=	nullptr;
 }
 
 //---------------------------------------------------------------
 
 DDModeInfo::~DDModeInfo() 
 {
-	Prev	=	NULL;
-	Next	=	NULL;
+	Prev	=	nullptr;
+	Next	=	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -822,24 +822,24 @@ D3DDeviceInfo::D3DDeviceInfo()
 {
 	D3DFlags		=	0;
 
-	szName			=	NULL;
-	szDesc			=	NULL;
+	szName			=	nullptr;
+	szDesc			=	nullptr;
 
 	InitStruct(d3dHalDesc);
 	InitStruct(d3dHelDesc);
 
 	FormatCount		=	0;
-	FormatList		=	NULL;
-	FormatListEnd	=	NULL;
-	OpaqueTexFmt	=	NULL;
-	AlphaTexFmt		=	NULL;
+	FormatList		=	nullptr;
+	FormatListEnd	=	nullptr;
+	OpaqueTexFmt	=	nullptr;
+	AlphaTexFmt		=	nullptr;
 #ifndef TARGET_DC
 	CanDoModulateAlpha = false;
 	CanDoDestInvSourceColour = false;
 #endif
 
-	Prev			=	NULL;
-	Next			=	NULL;
+	Prev			=	nullptr;
+	Next			=	nullptr;
 
 	memset(&ZFormat, 0, sizeof(ZFormat));
 }
@@ -922,17 +922,17 @@ void	D3DDeviceInfo::Destroy (void)
 	if(szDesc)
 	{
 		MemFree(szDesc);
-		szDesc	=	NULL;
+		szDesc	=	nullptr;
 	}
 
 	if(szName)
 	{
 		MemFree(szName);
-		szName	=	NULL;
+		szName	=	nullptr;
 	}
 
-	Prev	=	NULL;
-	Next	=	NULL;
+	Prev	=	nullptr;
+	Next	=	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -1065,7 +1065,7 @@ HRESULT	D3DDeviceInfo::LoadFormats(LPDIRECT3DDEVICE3 the_d3d_device)
 
 void D3DDeviceInfo::FindOpaqueTexFmt()
 {
-	OpaqueTexFmt = NULL;
+	OpaqueTexFmt = nullptr;
 
 	SLONG	best_score = 0;
 
@@ -1119,7 +1119,7 @@ void D3DDeviceInfo::FindAlphaTexFmt()
 	SLONG try_mask_green;
 	SLONG try_mask_blue;
 
-	AlphaTexFmt = NULL;
+	AlphaTexFmt = nullptr;
 
 	SLONG	best_score = 0;
 
@@ -1244,8 +1244,8 @@ HRESULT	D3DDeviceInfo::DestroyFormats(void)
 		}
 
 		FormatCount		=	0;
-		FormatList		=	NULL;
-		FormatListEnd	=	NULL;
+		FormatList		=	nullptr;
+		FormatListEnd	=	nullptr;
 
 		// Mark as unloaded
 		TurnFormatsLoadedOff();
@@ -1268,7 +1268,7 @@ HRESULT	D3DDeviceInfo::AddFormat(DDModeInfo *the_format)
 
 	// Add Format to end of list.
 	the_format->Prev	=	FormatListEnd;
-	the_format->Next	=	NULL;
+	the_format->Next	=	nullptr;
 	
 	// Update list end.
 	if(FormatListEnd)
@@ -1308,7 +1308,7 @@ bool	D3DDeviceInfo::IsHardware(void)
 
 bool	D3DDeviceInfo::Match(GUID *the_guid)
 {
-    if(the_guid==NULL)
+    if(the_guid==nullptr)
         return	false;
 
     if(!IsValid())
@@ -1352,7 +1352,7 @@ DDModeInfo	*D3DDeviceInfo::FindFormat	(
 	}
 
 	// Failure, user may use lpNextBest instead
-	return NULL;
+	return nullptr;
 }
 
 //---------------------------------------------------------------
@@ -1369,15 +1369,15 @@ DDDriverInfo::DDDriverInfo()
 	InitStruct(ddHelCaps);
 
 	ModeCount		=	0;
-	ModeList		=	NULL;
-	ModeListEnd		=	NULL;
+	ModeList		=	nullptr;
+	ModeListEnd		=	nullptr;
 
 	DeviceCount		=	0;
-	DeviceList		=	NULL;
-	DeviceListEnd	=	NULL;
+	DeviceList		=	nullptr;
+	DeviceListEnd	=	nullptr;
 
-	Next		=	NULL;
-	Prev		=	NULL;
+	Next		=	nullptr;
+	Prev		=	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -1398,9 +1398,9 @@ HRESULT DDDriverInfo::Create(
 	ULONG			str_len,
 					str_size;
     HRESULT         result;
-    LPDIRECTDRAW    lpDD	=	NULL;
-    LPDIRECTDRAW4   lpDD4	=	NULL;
-    LPDIRECT3D3     lpD3D	=	NULL;
+    LPDIRECTDRAW    lpDD	=	nullptr;
+    LPDIRECTDRAW4   lpDD4	=	nullptr;
+    LPDIRECT3D3     lpD3D	=	nullptr;
 	LPTSTR			szTemp;
 
 
@@ -1441,7 +1441,7 @@ HRESULT DDDriverInfo::Create(
 		_tcscpy(szDesc,szTemp);
 
     // Create DirectDraw Object
-    result	=	DirectDrawCreate(lpGuid,&lpDD,NULL);		  //BCleak
+    result	=	DirectDrawCreate(lpGuid,&lpDD,nullptr);		  //BCleak
     if(FAILED(result))
     {
         // Error
@@ -1496,7 +1496,7 @@ HRESULT DDDriverInfo::Create(
 
 		ddcaps.dwSize = sizeof(ddcaps);
 
-		lpDD4->GetCaps(&ddcaps, NULL);
+		lpDD4->GetCaps(&ddcaps, nullptr);
 
 		SLONG total = ddcaps.dwVidMemTotal;
 
@@ -1517,19 +1517,19 @@ cleanup:
     if(lpD3D) 
     {
         lpD3D->Release();
-        lpD3D	=	NULL;
+        lpD3D	=	nullptr;
     }
 
     if(lpDD4) 
     {
         lpDD4->Release();
-        lpDD4	=	NULL;
+        lpDD4	=	nullptr;
     }
 
     if(lpDD)
     {
         lpDD->Release();
-        lpDD	=	NULL;
+        lpDD	=	nullptr;
     }
 
 	return	result;
@@ -1547,17 +1547,17 @@ void	DDDriverInfo::Destroy(void)
 	if(szDesc)
 	{
 		MemFree(szDesc);
-		szDesc	=	NULL;
+		szDesc	=	nullptr;
 	}
 
 	if(szName)
 	{
 		MemFree(szName);
-		szName	=	NULL;
+		szName	=	nullptr;
 	}
 
-	Prev	=	NULL;
-	Next	=	NULL;
+	Prev	=	nullptr;
+	Next	=	nullptr;
 
     ValidOff();
 }
@@ -1616,7 +1616,7 @@ HRESULT	DDDriverInfo::LoadModes(LPDIRECTDRAW4 lpDD4)
 		callback_info.Count		=	0L;
 		callback_info.Extra		=	(void*)this;
 
-		result	=	lpDD4->EnumDisplayModes(0L,NULL,&callback_info,ModeEnumCallback);
+		result	=	lpDD4->EnumDisplayModes(0L,nullptr,&callback_info,ModeEnumCallback);
 		if(FAILED(result))
 		{
 			return result;
@@ -1656,8 +1656,8 @@ HRESULT	DDDriverInfo::DestroyModes(void)
 	}
 
 	ModeCount	=	0;
-	ModeList	=	NULL;
-	ModeListEnd	=	NULL;
+	ModeList	=	nullptr;
+	ModeListEnd	=	nullptr;
 
 	return	DD_OK;
 }
@@ -1675,7 +1675,7 @@ HRESULT	DDDriverInfo::AddMode(DDModeInfo *the_mode)
 	{
 		// Add Mode to end of List.
 		the_mode->Prev	=	ModeListEnd;
-		the_mode->Next	=	NULL;
+		the_mode->Next	=	nullptr;
 		
 		// Update list end.
 		if(ModeListEnd)
@@ -1776,7 +1776,7 @@ DDModeInfo	*DDDriverInfo::FindMode	(
     }
 
     // Failure, user may use lpNextBest instead
-    return NULL;
+    return nullptr;
 }
 
 //---------------------------------------------------------------
@@ -1842,8 +1842,8 @@ HRESULT	DDDriverInfo::DestroyDevices(void)
 	}
 
 	DeviceCount		=	0;
-	DeviceList		=	NULL;
-	DeviceListEnd	=	NULL;
+	DeviceList		=	nullptr;
+	DeviceListEnd	=	nullptr;
 
 	return	DD_OK;
 }
@@ -1860,7 +1860,7 @@ HRESULT	DDDriverInfo::AddDevice(D3DDeviceInfo *the_device)
 
 	// Add Device to end of List.
 	the_device->Prev	=	DeviceListEnd;
-	the_device->Next	=	NULL;
+	the_device->Next	=	nullptr;
 	
 	// Update list end.
 	if(DeviceListEnd)
@@ -1892,14 +1892,14 @@ D3DDeviceInfo	*DDDriverInfo::FindDevice	(
 											)
 {
 	D3DDeviceInfo	*current_device,
-					*first_device		=	NULL,
-					*hardware_device	=	NULL,
-					*mmx_device			=	NULL,
-					*rgb_device			=	NULL;
+					*first_device		=	nullptr,
+					*hardware_device	=	nullptr,
+					*mmx_device			=	nullptr,
+					*rgb_device			=	nullptr;
 
 
 	if(next_best)
-		*next_best	=	NULL;
+		*next_best	=	nullptr;
 
 	// Get Root
 	if(!start_device)
@@ -1949,7 +1949,7 @@ D3DDeviceInfo	*DDDriverInfo::FindDevice	(
 	}
 
     // Failure, user may use lpNextBest instead
-    return NULL;
+    return nullptr;
 }
 
 //---------------------------------------------------------------
@@ -1969,8 +1969,8 @@ D3DDeviceInfo	*DDDriverInfo::FindDeviceSupportsMode	(
 	{
 		// Error, Invalid parameters
 		if(next_best_device)
-			*next_best_device	=	NULL;
-		return	NULL;
+			*next_best_device	=	nullptr;
+		return	nullptr;
 	}
 
 	// Get Root
@@ -2012,7 +2012,7 @@ D3DDeviceInfo	*DDDriverInfo::FindDeviceSupportsMode	(
     }
 
     // Failure, user may use lpNextBest instead
-    return NULL;
+    return nullptr;
 }
 
 //---------------------------------------------------------------
@@ -2035,8 +2035,8 @@ DDModeInfo	*DDDriverInfo::FindModeSupportsDevice	(
 	{
 		// Error, Invalid parameters
 		if(next_best)
-			*next_best	=	NULL;
-		return NULL;
+			*next_best	=	nullptr;
+		return nullptr;
 	}
 
 	// Get Root
@@ -2082,7 +2082,7 @@ DDModeInfo	*DDDriverInfo::FindModeSupportsDevice	(
     }
 
     // Failure, user may use lpNextBest instead
-    return	NULL;
+    return	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -2090,7 +2090,7 @@ DDModeInfo	*DDDriverInfo::FindModeSupportsDevice	(
 GUID	*DDDriverInfo::GetGuid(void)
 {
 	if(IsPrimary())
-		return	NULL;
+		return	nullptr;
 	else
 		return	&guid;
 }
@@ -2105,13 +2105,13 @@ DDDriverManager::DDDriverManager()
 {
 	ManagerFlags		=	0;
 	DriverCount			=	0;
-	DriverList			=	NULL;
-	DriverListEnd		=	NULL;
+	DriverList			=	nullptr;
+	DriverListEnd		=	nullptr;
 
-	CurrDriver			=	NULL;
-	CurrMode			=	NULL;
-	CurrDevice			=	NULL;
-	CurrTextureFormat	=	NULL;
+	CurrDriver			=	nullptr;
+	CurrMode			=	nullptr;
+	CurrDevice			=	nullptr;
+	CurrTextureFormat	=	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -2163,7 +2163,7 @@ HRESULT DDDriverManager::LoadDrivers(void)
     // Initialize all valid drivers in system
     callback_info.Result	=	true;
     callback_info.Count		=	0L;
-    callback_info.Extra		=	(void*)NULL;
+    callback_info.Extra		=	(void*)nullptr;
 
     result	=	DirectDrawEnumerate(DriverEnumCallback,&callback_info);
 	if(FAILED(result))
@@ -2213,7 +2213,7 @@ HRESULT	DDDriverManager::AddDriver(DDDriverInfo *the_driver)
 
 	// Add driver to list.
 	the_driver->Prev	=	DriverListEnd;
-	the_driver->Next	=	NULL;
+	the_driver->Next	=	nullptr;
 
 	// Update list end.
 	if(DriverListEnd)
@@ -2240,7 +2240,7 @@ DDDriverInfo	*DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_be
     if(!IsInitialized())
     {
         // Error, not initialized
-        return NULL;
+        return nullptr;
     }
 #endif
 */
@@ -2272,8 +2272,8 @@ DDDriverInfo	*DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_be
 		current_driver = current_driver->Next;
 	}
 
-	DDDriverInfo *choice1 = NULL;
-	DDDriverInfo *choice2 = NULL;
+	DDDriverInfo *choice1 = nullptr;
+	DDDriverInfo *choice2 = nullptr;
 
 	for (i = 0; i < driver_upto; i++)
 	{
@@ -2332,7 +2332,7 @@ DDDriverInfo	*DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_be
 	*/
     
     // Failure, user could use next best instead
-    return NULL;
+    return nullptr;
 }
 
 //---------------------------------------------------------------
@@ -2369,8 +2369,8 @@ DDDriverInfo	*DDDriverManager::FindDriver(DDCAPS *hal,DDCAPS *hel,DDDriverInfo *
 		current_driver = current_driver->Next;
 	}
 
-	DDDriverInfo *choice1 = NULL;
-	DDDriverInfo *choice2 = NULL;
+	DDDriverInfo *choice1 = nullptr;
+	DDDriverInfo *choice2 = nullptr;
 
 	#ifdef NDEBUG
 
@@ -2443,7 +2443,7 @@ DDDriverInfo	*DDDriverManager::FindDriver(DDCAPS *hal,DDCAPS *hel,DDDriverInfo *
 //	}
 
     // Failure, user could use next best instead
-    return NULL;
+    return nullptr;
 }
 
 */

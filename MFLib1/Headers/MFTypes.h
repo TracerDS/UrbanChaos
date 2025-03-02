@@ -3,12 +3,7 @@
 
 // Type definitions for 'Mucky Foot' Libraries.
 
-
-#ifndef _MF_TYPES_H_
-#define _MF_TYPES_H_
-
-#define	true				1
-#define	false				0
+#pragma once
 
 #if defined(_MF_DOSX)
 typedef	unsigned long		bool;
@@ -21,6 +16,3 @@ typedef unsigned short		UWORD;
 typedef signed short		SWORD;
 typedef unsigned long		ULONG;
 typedef signed long			SLONG;
-
-
-#endif

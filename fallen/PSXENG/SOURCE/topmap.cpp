@@ -589,7 +589,7 @@ void MAP_draw_weapons(Thing *player)
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 

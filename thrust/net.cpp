@@ -64,13 +64,13 @@ SLONG NET_init()
 	// Initialise the COM module.
 	//
 
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	//
 	// Create the DirectPlay3 interface.
 	// 
 
-	res = CoCreateInstance(CLSID_DirectPlay, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay4A, (LPVOID*)&NET_dp);
+	res = CoCreateInstance(CLSID_DirectPlay, nullptr, CLSCTX_INPROC_SERVER, IID_IDirectPlay4A, (LPVOID*)&NET_dp);
 
 	if (res != S_OK)
 	{
@@ -79,7 +79,7 @@ SLONG NET_init()
 		return false;
 	}
 
-	res = CoCreateInstance(CLSID_DirectPlayLobby, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlayLobby3A, (LPVOID *) &NET_lobby);
+	res = CoCreateInstance(CLSID_DirectPlayLobby, nullptr, CLSCTX_INPROC_SERVER, IID_IDirectPlayLobby3A, (LPVOID *) &NET_lobby);
 
 	if (res != S_OK)
 	{
@@ -148,7 +148,7 @@ SLONG NET_connection_lan()
 	// How big is the address going to be?
 	//
 
-	res = NET_lobby->CreateCompoundAddress(address_element, num_elements, NULL, &address_size);
+	res = NET_lobby->CreateCompoundAddress(address_element, num_elements, nullptr, &address_size);
 
 	if (res != DPERR_BUFFERTOOSMALL)
 	{
@@ -224,10 +224,10 @@ SLONG NET_session_create(CBYTE* session_name, SLONG max_players)
 
 		res = NET_dp->CreatePlayer(
 			   &NET_player_server,
-				NULL,	// No player name.
-				NULL,	// No event,
-				NULL,	// No data,
-				NULL,	// No data,
+				nullptr,	// No player name.
+				nullptr,	// No event,
+				nullptr,	// No data,
+				nullptr,	// No data,
 				DPPLAYER_SERVERPLAYER);
 		
 		if (res == DP_OK)
@@ -321,7 +321,7 @@ SLONG NET_session_get_number()
 
 	NET_session_upto = 0;
 
-	NET_dp->EnumSessions(&desc, 0, NET_enum_sessions, NULL, 0);
+	NET_dp->EnumSessions(&desc, 0, NET_enum_sessions, nullptr, 0);
 
 	return NET_session_upto;
 }
@@ -367,10 +367,10 @@ SLONG NET_session_join(SLONG session)
 
 		res = NET_dp->CreatePlayer(
 				&NET_player_local,
-				 NULL,	// No name.
-				 NULL,	// No event.
-				 NULL,	// No data.
-				 NULL,	// No data.
+				 nullptr,	// No name.
+				 nullptr,	// No event.
+				 nullptr,	// No data.
+				 nullptr,	// No data.
 				 0);	// No special flags.
 		
 		if (res == DP_OK)

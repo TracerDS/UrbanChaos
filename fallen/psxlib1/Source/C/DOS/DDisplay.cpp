@@ -171,7 +171,7 @@ void* allocDOS(unsigned long int nbytes, short int *pseg, short int *psel)
   	unsigned npara = (nbytes + 15) / 16;
 	void* pprot;
 
-  	pprot = NULL;
+  	pprot = nullptr;
   	*pseg = 0;			// assume will fail
   	*psel = 0;
 

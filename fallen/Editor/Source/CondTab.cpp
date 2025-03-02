@@ -93,7 +93,7 @@ void	draw_clist_box()
 
 ConditionTab::ConditionTab()
 {
-	CurrentCList	=	NULL;
+	CurrentCList	=	nullptr;
 	the_con_tab		=	this;
 	TabMode			=	COND_MODE_NONE;
 
@@ -425,7 +425,7 @@ void	ConditionTab::DoCListPopup(MFPoint *clicked_point,EditCondList *the_clist)
 		case	1:
 			if(CurrentCList==the_clist)
 			{
-				CurrentCList	=	NULL;
+				CurrentCList	=	nullptr;
 				((CEditText*)GetControlPtr(CTRL_CLIST_EDIT))->SetEditString("");
 			}
 			if(ed_clist_count>MAX_VIEW_LISTS)
@@ -562,7 +562,7 @@ void	ConditionTab::CommonConditionOptions(ULONG id,EditCondition *the_condition)
 {
 	switch(id)
 	{
-		case	0:	// NULL.
+		case	0:	// nullptr.
 			break;
 		case	1:	// Delete Condition.
 			if(the_condition)
@@ -597,7 +597,7 @@ EditCondList	*ConditionTab::SelectConditionList()
 	ControlSet		select_set;
 	EditCondList	*current_list,
 					*hilited_list,
-					*selected_list	=	NULL;
+					*selected_list	=	nullptr;
 	EdRect			bounds_rect,
 					item_rect,
 					lists_rect;
@@ -702,7 +702,7 @@ EditCondList	*ConditionTab::SelectConditionList()
 					}
 
 					c0	=	0;
-					hilited_list	=	NULL;
+					hilited_list	=	nullptr;
 					while(current_list && c0<MAX_VIEW_LISTS)
 					{
 						// Create a bounding rect for the list text.
@@ -1080,7 +1080,7 @@ UWORD	ConditionTab::CurrentListHilitePos(MFPoint *current_point)
 EditCondition	*ConditionTab::HilitetedCondition(UWORD select_pos)
 {
 	ULONG			c0;
-	EditCondition	*current_condition	=	NULL;
+	EditCondition	*current_condition	=	nullptr;
 
 
 	if(CurrentCList)

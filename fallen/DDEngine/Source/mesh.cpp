@@ -175,8 +175,8 @@ void MESH_init()
 
 // set crumple parameters for ,-1) call to MESH_draw_poly
 
-static UBYTE*	car_crumples = NULL;
-static UBYTE*	car_assign = NULL;
+static UBYTE*	car_crumples = nullptr;
+static UBYTE*	car_assign = nullptr;
 
 void MESH_set_crumple(UBYTE* assignments, UBYTE* crumples)
 {
@@ -275,7 +275,7 @@ NIGHT_Colour *MESH_draw_guts(
 	SLONG       dmy;
 	SLONG       mdist;
 	SLONG       best_mdist  = 1024;
-	POLY_Point *best_mpoint = NULL;
+	POLY_Point *best_mpoint = nullptr;
 
 	#endif
 
@@ -290,7 +290,7 @@ NIGHT_Colour *MESH_draw_guts(
 */
 
 
-	if (lpc == NULL)
+	if (!lpc )
 	{
 		//
 		// This mesh has not been lit properly... so light it evenly

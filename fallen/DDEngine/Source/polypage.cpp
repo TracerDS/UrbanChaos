@@ -47,20 +47,20 @@ float not_private_smiley_yscale;
 
 PolyPage::PolyPage(ULONG logsize)
 {
-	m_VertexBuffer = NULL;
-	m_VertexPtr = NULL;
+	m_VertexBuffer = nullptr;
+	m_VertexPtr = nullptr;
 	m_VBLogSize = logsize;
 	m_VBUsed = 0;
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-	m_PolyBuffer = NULL;
+	m_PolyBuffer = nullptr;
 	m_PolyBufSize = 1 << logsize;
 	m_PolyBufUsed = 0;
 
-	m_PolySortBuffer = NULL;
+	m_PolySortBuffer = nullptr;
 	m_PolySortBufSize = 0;
 #else
-	m_pwIndexBuffer = NULL;
+	m_pwIndexBuffer = nullptr;
 	m_iNumIndicesAlloc = 0;
 	m_iNumIndicesUsed = 0;
 #endif
@@ -82,15 +82,15 @@ PolyPage::~PolyPage()
 	delete[] m_PolyBuffer;
 	delete[] m_PolySortBuffer;
 #else
-	if ( m_pwIndexBuffer != NULL )
+	if ( m_pwIndexBuffer != nullptr )
 	{
 		MemFree ( m_pwIndexBuffer );
 	}
 #endif
 
-	if ( m_VertexBuffer != NULL )
+	if ( m_VertexBuffer != nullptr )
 	{
-		if ( TheVPool != NULL )
+		if ( TheVPool != nullptr )
 		{
 			TheVPool->ReleaseBuffer(m_VertexBuffer);
 		}
@@ -146,7 +146,7 @@ PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
 
 		m_VertexBuffer = TheVPool->GetBuffer(m_VBLogSize);
 
-		if (!m_VertexBuffer)	return NULL;
+		if (!m_VertexBuffer)	return nullptr;
 
 		m_VertexPtr = (PolyPoint2D*)m_VertexBuffer->GetPtr();
 		m_VBLogSize = m_VertexBuffer->GetLogSize();
@@ -161,7 +161,7 @@ PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
 		if (m_VBUsed + num_points > GetVBSize())
 		{
 			ASSERT ( false );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -195,8 +195,8 @@ PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
 		// And round up to the nearest 4k chunk.
 		ulNewSize = ( ulNewSize + 4095 ) & ~4095;
 		WORD *pwNewBuffer = (WORD *)MemAlloc ( sizeof ( WORD ) * ulNewSize );
-		ASSERT ( pwNewBuffer != NULL );
-		if ( m_pwIndexBuffer != NULL )
+		ASSERT ( pwNewBuffer != nullptr );
+		if ( m_pwIndexBuffer != nullptr )
 		{
 			memcpy ( pwNewBuffer, m_pwIndexBuffer, sizeof ( WORD ) * m_iNumIndicesUsed );
 			MemFree ( (void* )m_pwIndexBuffer );
@@ -243,13 +243,13 @@ PolyPoly* PolyPage::PolyBufAlloc()
 		ASSERT(!m_PolyBufUsed);
 
 		m_PolyBuffer = new PolyPoly[m_PolyBufSize];
-		if (!m_PolyBuffer)	return NULL;
+		if (!m_PolyBuffer)	return nullptr;
 	}
 
 	if (m_PolyBufUsed == m_PolyBufSize)
 	{
 		PolyPoly*	newbuf = new PolyPoly[m_PolyBufSize * 2];
-		if (!newbuf)	return NULL;
+		if (!newbuf)	return nullptr;
 
 		memcpy(newbuf, m_PolyBuffer, m_PolyBufSize * sizeof(PolyPoly));
 
@@ -282,7 +282,7 @@ static inline void InvAlphaPremult(UBYTE* color)
 //
 // submit a fan
 
-static PolyPage* ppLastPolyPageSetup = NULL;
+static PolyPage* ppLastPolyPageSetup = nullptr;
 
 
 #ifdef TEX_EMBED
@@ -303,10 +303,10 @@ void PolyPage::AddFan(POLY_Point** pts, ULONG num_vertices)
 #endif
 
 	PolyPoly*		pp = DRAWN_PP->PolyBufAlloc();
-	ASSERT ( pp != NULL );
+	ASSERT ( pp != nullptr );
 
 	PolyPoint2D*	pv = DRAWN_PP->PointAlloc(num_vertices);
-	ASSERT ( pv != NULL );
+	ASSERT ( pv != nullptr );
 
 
 	pp->first_vertex = pv - DRAWN_PP->m_VertexPtr;
@@ -482,8 +482,8 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 
 #if USE_D3D_VBUF
 	IDirect3DVertexBuffer*	vb = TheVPool->PrepareBuffer(m_VertexBuffer);
-	m_VertexBuffer = NULL;
-	m_VertexPtr = NULL;
+	m_VertexBuffer = nullptr;
+	m_VertexPtr = nullptr;
 
 	PolyPoly*	src = m_PolyBuffer;
 	UWORD*		dst = IxBuffer;
@@ -531,7 +531,7 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 		src++;
 	}
 
-	dev->SetTexture(0, NULL);
+	dev->SetTexture(0, nullptr);
 	dev->DrawIndexedPrimitiveVB(D3DPT_LINELIST, vb, IxBuffer, dst - IxBuffer, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTCLIP | D3DDP_DONOTLIGHT);
 #endif
 
@@ -650,8 +650,8 @@ void PolyPage::AddToBuckets(PolyPoly* buckets[], int count)
 
 	// clear everything else
 #if USE_D3D_VBUF
-	m_VertexBuffer = NULL;
-	m_VertexPtr = NULL;
+	m_VertexBuffer = nullptr;
+	m_VertexPtr = nullptr;
 #endif
 	m_VBUsed = 0;
 	m_PolyBufUsed = 0;
@@ -670,8 +670,8 @@ void PolyPage::Clear()
 
 //#if USE_D3D_VBUF
 	TheVPool->ReleaseBuffer(m_VertexBuffer);
-	m_VertexBuffer = NULL;
-	m_VertexPtr = NULL;
+	m_VertexBuffer = nullptr;
+	m_VertexPtr = nullptr;
 //#endif
 
 	m_VBUsed = 0;
@@ -682,7 +682,7 @@ void PolyPage::Clear()
 	m_PolyBufUsed = 0;
 #else
 	// Free up the index buffer
-	if ( m_pwIndexBuffer != NULL )
+	if ( m_pwIndexBuffer != nullptr )
 	{
 		MemFree ( m_pwIndexBuffer );
 		ASSERT ( m_iNumIndicesAlloc != 0 );
@@ -691,7 +691,7 @@ void PolyPage::Clear()
 	{
 		ASSERT ( m_iNumIndicesAlloc == 0 );
 	}
-	m_pwIndexBuffer = NULL;
+	m_pwIndexBuffer = nullptr;
 	m_iNumIndicesAlloc = 0;
 	m_iNumIndicesUsed = 0;
 #endif //#if WE_NEED_POLYBUFFERS_PLEASE_BOB
@@ -711,7 +711,7 @@ void PolyPage::SortBackFirst()
 	if (m_PolySortBuffer && (m_PolySortBufSize != m_PolyBufSize))
 	{
 		delete[] m_PolySortBuffer;
-		m_PolySortBuffer = NULL;
+		m_PolySortBuffer = nullptr;
 	}
 
 	// allocate a sort array if necessary
@@ -894,7 +894,7 @@ void GenerateMMMatrixFromStandardD3DOnes (	D3DMATRIX *pmOutput,
 	ASSERT ( ( (DWORD)(pmOutput) & 31 ) == 0 );
 
 	D3DMATRIX mMyPrivateWorld;
-	if ( mWorldMatrix == NULL )
+	if ( mWorldMatrix == nullptr )
 	{
 		// Use the standard camera matrix, rather than anything custom.
 		// This is faster than calling POLY_set_local_rotation_none first.

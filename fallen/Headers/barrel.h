@@ -36,7 +36,7 @@ struct Barrel
 {
 	UBYTE type;
 	UBYTE flag;
-	UWORD on;		// For stacked barrels it is the barrel you are supported by (NULL => on the ground)
+	UWORD on;		// For stacked barrels it is the barrel you are supported by (nullptr => on the ground)
 	UWORD bs;		// For moving barrels its an index to 2 BARREL_Spheres in the BARREL_sphere[] array.
 };
 
@@ -76,7 +76,7 @@ UWORD BARREL_alloc(
 		SLONG prim,
 		SLONG x,
 		SLONG z,
-		SLONG waypoint);	// The waypoint that creates this barrel or NULL
+		SLONG waypoint);	// The waypoint that creates this barrel or nullptr
 
 //
 // Returns the position on a burning barrel for where the flame should start.

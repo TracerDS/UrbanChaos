@@ -112,7 +112,7 @@ void SLAP_init(
 
 	for (i = 0; i < SLAP_line_number; i++)
 	{
-		ASSERT(SLAP_line[i] == NULL);
+		ASSERT(SLAP_line[i] == nullptr);
 	}
 
 	#endif
@@ -234,7 +234,7 @@ void SLAP_add_edge(
 		{
 			ASSERT(WITHIN(next, 0, SLAP_link_upto - 1));
 
-			if (next == NULL || SLAP_link[next].pos >= (x >> 7))
+			if (next == nullptr || SLAP_link[next].pos >= (x >> 7))
 			{
 				//
 				// This is where to insert...
@@ -272,7 +272,7 @@ void SLAP_render()
 
 	for (y = 0; y < SLAP_line_number; y++)
 	{
-		if (SLAP_line[y] == NULL)
+		if (!SLAP_line[y] )
 		{
 			//
 			// Nothing to render on this line.
@@ -421,7 +421,7 @@ void SLAP_render()
 					break;
 			}
 
-			if (sk2->next == NULL)
+			if (!sk2->next )
 			{
 				break;
 			}
@@ -436,7 +436,7 @@ void SLAP_render()
 		// Finished this line.
 		//
 
-		SLAP_line[y] = NULL;
+		SLAP_line[y] = nullptr;
 	}
 
 	//

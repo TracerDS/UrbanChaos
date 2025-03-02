@@ -95,7 +95,7 @@ void	draw_comlist_box()
 
 CommandTab::CommandTab()
 {
-	CurrentComList	=	NULL;
+	CurrentComList	=	nullptr;
 	the_com_tab		=	this;
 	TabMode			=	COM_MODE_NONE;
 
@@ -436,7 +436,7 @@ void	CommandTab::DoComListPopup(MFPoint *clicked_point,EditComList *the_comlist)
 		case	1:
 			if(CurrentComList==the_comlist)
 			{
-				CurrentComList	=	NULL;
+				CurrentComList	=	nullptr;
 				((CEditText*)GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString("");
 			}
 			if(ed_comlist_count>MAX_VIEW_LISTS)
@@ -593,7 +593,7 @@ void	CommandTab::CommonCommandOptions(ULONG id,EditCommand *the_command)
 {
 	switch(id)
 	{
-		case	0:	// NULL.
+		case	0:	// nullptr.
 			break;
 		case	1:	// Delete Condition.
 			if(the_command)
@@ -628,7 +628,7 @@ EditCondList	*CommandTab::SelectConditionList()
 	ControlSet		select_set;
 	EditCondList	*current_list,
 					*hilited_list,
-					*selected_list	=	NULL;
+					*selected_list	=	nullptr;
 	EdRect			bounds_rect,
 					item_rect,
 					lists_rect;
@@ -733,7 +733,7 @@ EditCondList	*CommandTab::SelectConditionList()
 					}
 
 					c0	=	0;
-					hilited_list	=	NULL;
+					hilited_list	=	nullptr;
 					while(current_list && c0<MAX_VIEW_LISTS)
 					{
 						// Create a bounding rect for the list text.
@@ -1117,7 +1117,7 @@ UWORD	CommandTab::CurrentListHilitePos(MFPoint *current_point)
 EditCommand	*CommandTab::HilitetedCommand(UWORD select_pos)
 {
 	ULONG			c0;
-	EditCommand		*current_command	=	NULL;
+	EditCommand		*current_command	=	nullptr;
 
 
 	if(CurrentComList)

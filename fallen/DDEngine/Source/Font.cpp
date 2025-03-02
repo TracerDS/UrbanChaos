@@ -1663,7 +1663,7 @@ void FONT_buffer_add(
 	// So we dont have to have an init() function.
 	// 
 
-	if (FONT_buffer_upto == NULL)
+	if (!FONT_buffer_upto )
 	{
 		FONT_buffer_upto = &FONT_buffer[0];
 	}

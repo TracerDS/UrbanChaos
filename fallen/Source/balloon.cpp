@@ -114,7 +114,7 @@ UBYTE BALLOON_create(UWORD thing, UBYTE type)
 		// No balloons left.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	ASSERT(WITHIN(type, 1, BALLOON_TYPE_NUMBER - 1));
@@ -122,7 +122,7 @@ UBYTE BALLOON_create(UWORD thing, UBYTE type)
 	bb = &BALLOON_balloon[BALLOON_balloon_upto];
 
 	bb->type   = type;
-	bb->next   = NULL;
+	bb->next   = nullptr;
 	bb->thing  = thing;
 	bb->yaw    = 0;
 	bb->pitch  = 0;
@@ -460,7 +460,7 @@ void BALLOON_release(UBYTE balloon)
 	switch(p_thing->Class)
 	{
 		case CLASS_PERSON:
-			p_thing->Genus.Person->Balloon = NULL;
+			p_thing->Genus.Person->Balloon = nullptr;
 			break;
 
 		default:
@@ -474,7 +474,7 @@ void BALLOON_release(UBYTE balloon)
 
 		bb = &BALLOON_balloon[balloon];
 
-		bb->thing = NULL;
+		bb->thing = nullptr;
 		balloon   = bb->next;
 	}
 }
@@ -538,7 +538,7 @@ void BALLOON_find_grab(UWORD thing)
 		bb = &BALLOON_balloon[i];
 
 		if (bb->type  == BALLOON_TYPE_UNUSED ||
-			bb->thing != NULL)
+			bb->thing != nullptr)
 		{
 			continue;
 		}

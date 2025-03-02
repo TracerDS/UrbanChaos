@@ -68,7 +68,7 @@ CACHE_Index CACHE_create(
 	CACHE_Index  c_index;
 	CACHE_Entry *ce;
 
-	if (CACHE_free == NULL)
+	if (!CACHE_free )
 	{
 		//
 		// Oh dear! Pick a random cache entry and overwrite that!
@@ -96,7 +96,7 @@ CACHE_Index CACHE_create(
 
 	heap = HEAP_get(num_bytes);
 
-	if (heap == NULL)
+	if (!heap )
 	{
 		//
 		// We can't cache the light info.
@@ -104,7 +104,7 @@ CACHE_Index CACHE_create(
 
 //		MSG_add("No more heap!");
 
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -112,7 +112,7 @@ CACHE_Index CACHE_create(
 		ce->key       = key;
 		ce->data      = heap;
 		ce->num_bytes = num_bytes;
-		ce->next      = NULL;
+		ce->next      = nullptr;
 
 		//
 		// Copy the data into the heap.

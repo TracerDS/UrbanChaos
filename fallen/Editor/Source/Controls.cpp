@@ -108,8 +108,8 @@ CButton::CButton(ControlDef *the_def)
 	SLONG		width;
 
 
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(BUTTON);
@@ -174,8 +174,8 @@ void CButton::DrawControl()
 
 CRadioButton::CRadioButton(ControlDef *the_def)
 {
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(RADIO_BUTTON);
@@ -228,8 +228,8 @@ void CRadioButton::DrawControl()
 
 CCheckBox::CCheckBox(ControlDef *the_def)
 {
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(CHECK_BOX);
@@ -280,8 +280,8 @@ void CCheckBox::DrawControl()
 
 CStaticText::CStaticText(ControlDef *the_def)
 {
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(STATIC_TEXT);
@@ -312,8 +312,8 @@ void CStaticText::DrawControl()
 
 CEditText::CEditText(ControlDef *the_def)
 {
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(EDIT_TEXT);
@@ -607,8 +607,8 @@ CPullDown::CPullDown(ControlDef *the_def)
 	EdRect		item_rect;
 
 
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(PULLDOWN_MENU);
@@ -837,8 +837,8 @@ CPopUp::CPopUp(ControlDef *the_def)
 	EdRect		item_rect;
 
 
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetType(POPUP_MENU);
@@ -1086,8 +1086,8 @@ void CPopUp::SetItemState(UWORD item,UBYTE state)
 
 CHSlider::CHSlider(ControlDef *the_def)
 {
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetDragFlags(0);
@@ -1449,8 +1449,8 @@ void	CHSlider::SetCurrentValue(SLONG value)
 
 CVSlider::CVSlider(ControlDef *the_def)
 {
-	SetLastControl(NULL);
-	SetNextControl(NULL);
+	SetLastControl(nullptr);
+	SetNextControl(nullptr);
 
 	SetFlags(0);
 	SetDragFlags(0);

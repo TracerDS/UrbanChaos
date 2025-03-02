@@ -60,9 +60,9 @@ SLONG GI_load_map(CBYTE* name)
 
 	ELEV_game_init(
 		name,
-		NULL,
-		NULL,
-		NULL);
+		nullptr,
+		nullptr,
+		nullptr);
 
 	//
 	// Start off looking at the city.

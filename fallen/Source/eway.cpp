@@ -197,7 +197,7 @@ SLONG EWAY_tutorial_counter;
 UBYTE EWAY_darci_move;
 
 //
-// If non-NULL then this is the person who say any message!
+// If non-nullptr then this is the person who say any message!
 //
 
 UWORD EWAY_used_thing;	
@@ -482,7 +482,7 @@ void check_eway_talk(SLONG stop)
 		if(stop||talk_thing->State==STATE_HIT_RECOIL||talk_thing->State==STATE_DEAD||talk_thing->State==STATE_DYING)
 		{
 			MFX_QUICK_stop();
-			talk_thing=NULL;
+			talk_thing=nullptr;
 		}
 
 	}
@@ -506,7 +506,7 @@ ANNOYINGSCRIBBLECHECK;
 	//
 	// generate a filename for the wav, filename is    missionname_waypointnumber_SUBPART.wav   S
 	//
-	talk_thing=NULL;
+	talk_thing=nullptr;
 	get_level_word(level);
 #ifdef TARGET_DC
 extern char *pcSpeechLanguageDir;
@@ -873,9 +873,9 @@ UWORD EWAY_create_item(
 
 ANNOYINGSCRIBBLECHECK;
 
-	if (ew == NULL)
+	if (!ew )
 	{
-		way_index = NULL;
+		way_index = nullptr;
 	}
 	else
 	{
@@ -948,8 +948,8 @@ UWORD EWAY_create_vehicle(
 		SLONG world_z,
 		SLONG yaw)
 {
-	Thing      *p_thing = NULL;
-	THING_INDEX p_index = NULL;
+	Thing      *p_thing = nullptr;
+	THING_INDEX p_index = nullptr;
 //	ASSERT(0);
 
 ANNOYINGSCRIBBLECHECK;
@@ -1276,7 +1276,7 @@ EWAY_Cond EWAY_create_cond(
 				}
 				else
 				{
-					ans.arg1 = NULL;
+					ans.arg1 = nullptr;
 				}
 			}
 
@@ -1318,7 +1318,7 @@ EWAY_Cond EWAY_create_cond(
 
 			{
 				SWORD best_dist  = 0x7800;
-				UWORD best_index = NULL;
+				UWORD best_index = nullptr;
 				UWORD best_x;
 				UWORD best_z;
 				SWORD dx;
@@ -1394,7 +1394,7 @@ EWAY_Cond EWAY_create_cond(
 
 		case EWAY_COND_PRIM_ACTIVATED:
 
-			ans.arg1 = NULL;
+			ans.arg1 = nullptr;
 
 			if (OB_find_type(
 					ew->x,
@@ -1487,14 +1487,14 @@ ANNOYINGSCRIBBLECHECK;
 	{
 		//
 		// For these waypoint types, arg is the index of the last Thing
-		// to be created by it.  NULL => it hasn't created anybody yet.
+		// to be created by it.  nullptr => it hasn't created anybody yet.
 		//
 		// (For a camera target with subtype THING has the waypoint that creates
 		//  the thing in arg)
 		//
 
-		ew->ed.arg1 = NULL;
-		ew->ed.arg2 = NULL;
+		ew->ed.arg1 = nullptr;
+		ew->ed.arg2 = nullptr;
 	}
 
 	//
@@ -1541,7 +1541,7 @@ ANNOYINGSCRIBBLECHECK;
 						512,
 						(1 << ANIM_PRIM_TYPE_DOOR));
 
-		if (ew->ed.arg == NULL)
+		if (!ew->ed.arg )
 		{
 #ifndef	PSX
 			sprintf(EWAY_message, "Waypoint %d could not find a door", ew->id);
@@ -1568,7 +1568,7 @@ ANNOYINGSCRIBBLECHECK;
 						512,
 						0xffff);
 
-		if (ew->ed.arg1 == NULL)
+		if (!ew->ed.arg1 )
 		{
 #ifndef PSX
 			sprintf(EWAY_message, "Waypoint %d could not find an anim-prim to activate", ew->id);
@@ -1671,7 +1671,7 @@ SLONG EWAY_set_message(
 		message[len - 1] = '\000';
 #ifndef	FINAL
 #ifndef	PSX
-		PANEL_new_text(NULL, 5000, "Message was not terminated: \"%s\"", message);
+		PANEL_new_text(nullptr, 5000, "Message was not terminated: \"%s\"", message);
 #endif
 #endif
 	}
@@ -1724,7 +1724,7 @@ SLONG EWAY_find_id(SLONG id)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 #endif
 #endif
@@ -1849,7 +1849,7 @@ void EWAY_fix_do(EWAY_Do *ed, EWAY_Way *ew)
 				// Can't track these... its a location.
 				//
 
-				ed->arg2 = NULL;
+				ed->arg2 = nullptr;
 			}
 		}
 	}
@@ -1960,11 +1960,11 @@ void EWAY_load_fake_wander_text(CBYTE* fname)
 	CBYTE name_buffer[_MAX_PATH];
 	CBYTE	str[100];
 
-	EWAY_fake_wander_text_normal_index	 = NULL;
+	EWAY_fake_wander_text_normal_index	 = nullptr;
 	EWAY_fake_wander_text_normal_number	 = 0;
-	EWAY_fake_wander_text_guilty_index	 = NULL;
+	EWAY_fake_wander_text_guilty_index	 = nullptr;
 	EWAY_fake_wander_text_guilty_number	 = 0;
-	EWAY_fake_wander_text_annoyed_index	 = NULL;
+	EWAY_fake_wander_text_annoyed_index	 = nullptr;
 	EWAY_fake_wander_text_annoyed_number = 0;
 
 	XLAT_str(X_THIS_LANGUAGE_IS,name_buffer);
@@ -2010,7 +2010,7 @@ void EWAY_load_fake_wander_text(CBYTE* fname)
 
 	}
 
-	if (fname == NULL)
+	if (!fname )
 	{
 		fname = "text\\citsez.txt";
 	}
@@ -2210,7 +2210,7 @@ void EWAY_created_last_waypoint()
 			SLONG dz;
 			SLONG dist;
 			SLONG best_dist = 0x300;
-			SLONG best_way  = NULL;
+			SLONG best_way  = nullptr;
 
 			EWAY_Way *ew_near;
 
@@ -2246,7 +2246,7 @@ void EWAY_created_last_waypoint()
 				}
 			}
 #ifndef PSX
-			if (best_way == NULL)
+			if (!best_way )
 			{
 				sprintf(EWAY_message, "Camera target %d couldn't attach", i);
 
@@ -2329,7 +2329,7 @@ void EWAY_created_last_waypoint()
 	// Reset the tutorial string.
 	//
 	
-	EWAY_tutorial_string = NULL;
+	EWAY_tutorial_string = nullptr;
 
 	//
 	// Work out the crime rate score multiplier.
@@ -2501,10 +2501,10 @@ ANNOYINGSCRIBBLECHECK;
 
 		case EWAY_COND_DEPENDENT:
 
-			if (ec->arg1 == NULL)
+			if (!ec->arg1 )
 			{
 #ifndef PSX
-				sprintf(EWAY_message, "Waypoint %d has a NULL dependency", ew->id);
+				sprintf(EWAY_message, "Waypoint %d has a nullptr dependency", ew->id);
 
 				CONSOLE_text(EWAY_message, 8000);
 #endif
@@ -2644,7 +2644,7 @@ ANNOYINGSCRIBBLECHECK;
 #ifndef PSX
 					CBYTE mess[128];
 
-					sprintf(mess, "Waypoint %d: cond person dead has NULL dependency", ew->id);
+					sprintf(mess, "Waypoint %d: cond person dead has nullptr dependency", ew->id);
 
 					CONSOLE_text(mess, 8000);
 #endif
@@ -2700,7 +2700,7 @@ ANNOYINGSCRIBBLECHECK;
 
 								if (ew_dead->flag & EWAY_FLAG_ACTIVE)
 								{	
-									if (ew_dead->ed.arg1 == NULL)
+									if (!ew_dead->ed.arg1 )
 									{
 										//
 										// The barrel has been created and destroyed.
@@ -2748,7 +2748,7 @@ ANNOYINGSCRIBBLECHECK;
 				waypoint = ec->arg1;
 				radius   = ec->arg2 * 64;	// Radius in quarter map-squares.
 
-				if (waypoint == NULL)
+				if (!waypoint )
 				{
 					//
 					// Just check for anybody being near.
@@ -3082,7 +3082,7 @@ ANNOYINGSCRIBBLECHECK;
 #ifndef	FINAL
 #ifndef	PSX
 #ifndef TARGET_DC
-				PANEL_new_text(NULL, 4000, "Waypoint %d (arrest) is invalid", ew->id);
+				PANEL_new_text(nullptr, 4000, "Waypoint %d (arrest) is invalid", ew->id);
 #endif
 #endif
 #endif
@@ -3174,7 +3174,7 @@ extern UBYTE	is_semtex;
 #ifndef PSX
 					CBYTE mess[128];
 
-					sprintf(mess, "Waypoint %d: cond person dead has NULL dependency", ew->id);
+					sprintf(mess, "Waypoint %d: cond person dead has nullptr dependency", ew->id);
 
 					CONSOLE_text(mess, 8000);
 #endif
@@ -3308,12 +3308,12 @@ extern UBYTE	is_semtex;
 			{
 				UWORD thing = EWAY_get_person(ec->arg1);
 
-				if (thing == NULL)
+				if (!thing )
 				{
 #ifndef	FINAL
 #ifndef TARGET_DC
 					#ifndef PSX
-					PANEL_new_text(NULL, 10000, "Waypoint %d (in radius direction) bad", ew->id);
+					PANEL_new_text(nullptr, 10000, "Waypoint %d (in radius direction) bad", ew->id);
 					#endif
 #endif
 #endif
@@ -3416,9 +3416,9 @@ extern UBYTE	is_semtex;
 		case EWAY_COND_RANDOM:
 
 			#ifndef NDEBUG
-			if (ec->arg1 == NULL)
+			if (!ec->arg1 )
 			{
-				sprintf(EWAY_message, "Waypoint %d has a NULL dependency", ew->id);
+				sprintf(EWAY_message, "Waypoint %d has a nullptr dependency", ew->id);
 
 				CONSOLE_text(EWAY_message, 8000);
 
@@ -3509,11 +3509,11 @@ extern UBYTE	is_semtex;
 
 			ans = false;
 			
-			if (ec->arg1 == NULL)
+			if (!ec->arg1 )
 			{
 				#ifndef NDEBUG
 
-				PANEL_new_text(NULL, 8000, "Waypoint %d has NULL dependency", ew->id);
+				PANEL_new_text(nullptr, 8000, "Waypoint %d has nullptr dependency", ew->id);
 
 				#endif
 			}
@@ -3650,7 +3650,7 @@ ANNOYINGSCRIBBLECHECK;
 				}
 				else
 				{
-					Thing *who_says = NULL;
+					Thing *who_says = nullptr;
 
 					if (ew->ed.arg2)
 					{
@@ -3730,8 +3730,8 @@ ANNOYINGSCRIBBLECHECK;
 		UWORD person1 = EWAY_get_person(ew->ed.arg1);
 		UWORD person2 = EWAY_get_person(ew->ed.arg2);
 
-		if (person1 == NULL ||
-			person2 == NULL)
+		if (person1 == nullptr ||
+			person2 == nullptr)
 		{
 			ans = false;
 		}
@@ -3818,7 +3818,7 @@ ANNOYINGSCRIBBLECHECK;
 	EWAY_cam_delay          = ew->ed.arg2 * 10;
 	EWAY_cam_waypoint       = waypoint;
 	EWAY_cam_freeze         = !!(ew->ed.subtype & EWAY_SUBTYPE_CAMERA_LOCK_PLAYER);
-	EWAY_cam_thing          = NULL;
+	EWAY_cam_thing          = nullptr;
 	EWAY_cam_lens           = 0x28000;
 	EWAY_cam_lock           = !!(ew->ed.subtype & EWAY_SUBTYPE_CAMERA_LOCK_DIRECTION);
 	EWAY_cam_cant_interrupt = !!(ew->ed.subtype & EWAY_SUBTYPE_CAMERA_CANT_INTERRUPT);
@@ -3883,7 +3883,7 @@ void EWAY_process_camera()
 
 ANNOYINGSCRIBBLECHECK;
 
-	EWAY_cam_warehouse = NULL;
+	EWAY_cam_warehouse = nullptr;
 
 	if (!EWAY_cam_active)
 	{
@@ -4085,7 +4085,7 @@ ANNOYINGSCRIBBLECHECK;
 		}
 	}
 
-	if (EWAY_cam_waypoint == NULL)
+	if (!EWAY_cam_waypoint )
 	{
 		//
 		// No camera movement required.
@@ -4521,8 +4521,8 @@ ANNOYINGSCRIBBLECHECK;
 	extern THING_INDEX PANEL_wide_top_person;
 	extern THING_INDEX PANEL_wide_bot_person;
 
-	PANEL_wide_top_person = NULL;
-	PANEL_wide_bot_person = NULL;
+	PANEL_wide_top_person = nullptr;
+	PANEL_wide_bot_person = nullptr;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4631,7 +4631,7 @@ ANNOYINGSCRIBBLECHECK;
 		EWAY_talk_conv((EWAY_way[EWAY_conv_waypoint].yaw<<8)+(EWAY_way[EWAY_conv_waypoint].index),EWAY_conv_str_count);
 
 		//
-		// What are they saying? Create a NULL terminated string.  Work out
+		// What are they saying? Create a nullptr terminated string.  Work out
 		// how long the string is and how much time wait before the next string.
 		//
 //		ASSERT(0);
@@ -4957,7 +4957,7 @@ ANNOYINGSCRIBBLECHECK;
 
 			PCOM_oscillate_tympanum(
 				PCOM_SOUND_ALARM,
-				NULL,
+				nullptr,
 				ew->x,
 				ew->y,
 				ew->z);
@@ -5014,7 +5014,7 @@ ANNOYINGSCRIBBLECHECK;
 					ew->z,
 					0x400,
 					100,
-					NULL);
+					nullptr);
 			}
 
 			break;
@@ -5061,7 +5061,7 @@ ANNOYINGSCRIBBLECHECK;
 					time = 8000;
 				}
 
-				if (EWAY_mess[ew->ed.arg1] == NULL)
+				if (!EWAY_mess[ew->ed.arg1] )
 				{
 					#ifndef NDEBUG
 					CONSOLE_text("Bug! No message defined");
@@ -5127,7 +5127,7 @@ ANNOYINGSCRIBBLECHECK;
 						}
 						else
 						{
-							Thing *who_says = NULL;
+							Thing *who_says = nullptr;
 
 							if (ew->ed.arg2)
 							{
@@ -5180,7 +5180,7 @@ ANNOYINGSCRIBBLECHECK;
 									if ( NET_PERSON(0)->Genus.Person->Flags & FLAG_PERSON_DRIVING )
 									{
 										Thing *p_vehicle = TO_THING(NET_PERSON(0)->Genus.Person->InCar);
-										ASSERT ( p_vehicle != NULL );
+										ASSERT ( p_vehicle != nullptr );
 										yaw_car = p_vehicle->Genus.Vehicle->Angle;
 										// 2048 in a ful circle. and the car normally crosses at 1024,
 										// so we want the range around 0.
@@ -5306,7 +5306,7 @@ ANNOYINGSCRIBBLECHECK;
 
 			{
 				CBYTE* str;
-				UWORD  track_thing = NULL;
+				UWORD  track_thing = nullptr;
 
 				if (!WITHIN(ew->ed.arg1, 0, EWAY_MAX_MESSES - 1))
 				{
@@ -5419,15 +5419,15 @@ extern void	set_stats();
 
 				SLONG change = EWAY_get_person(ew->ed.arg1);
 
-				if (change == NULL)
+				if (!change )
 				{
 #ifdef	MIKE
 //					ASSERT(0);
-					PANEL_new_text(NULL, 5000, "Adjust enemy waypoint %d: No enemy to change", ew->id);
+					PANEL_new_text(nullptr, 5000, "Adjust enemy waypoint %d: No enemy to change", ew->id);
 #endif
 #ifndef NDEBUG
 #ifndef	PSX
-					PANEL_new_text(NULL, 5000, "Adjust enemy waypoint %d: No enemy to change", ew->id);
+					PANEL_new_text(nullptr, 5000, "Adjust enemy waypoint %d: No enemy to change", ew->id);
 #endif
 #endif
 				}
@@ -5454,15 +5454,15 @@ extern void	set_stats();
 			{
 				SLONG change = EWAY_get_person(ew->ed.arg1);
 
-				if (change == NULL)
+				if (!change )
 				{
 #ifdef	MIKE
 //					ASSERT(0);
-					PANEL_new_text(NULL, 5000, "Adjust enemy flags waypoint %d: No enemy to change", ew->id);
+					PANEL_new_text(nullptr, 5000, "Adjust enemy flags waypoint %d: No enemy to change", ew->id);
 #endif
 #ifndef NDEBUG
 #ifndef	PSX
-					PANEL_new_text(NULL, 5000, "Adjust enemy flags waypoint %d: No enemy to change", ew->id);
+					PANEL_new_text(nullptr, 5000, "Adjust enemy flags waypoint %d: No enemy to change", ew->id);
 #endif
 #endif
 				}
@@ -5534,7 +5534,7 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 			{
 #ifndef NDEBUG
 #ifndef	PSX
-				PANEL_new_text(NULL, 10000, "Waypoint %d (kill waypoint) refers to bad waypoint", ew->id);
+				PANEL_new_text(nullptr, 10000, "Waypoint %d (kill waypoint) refers to bad waypoint", ew->id);
 #endif
 #endif
 			}
@@ -5577,7 +5577,7 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 						// As if this person has never been created.
 						// 
 
-						ewk->ed.arg1 = NULL;
+						ewk->ed.arg1 = nullptr;
 					}
 				}
 				else
@@ -5597,7 +5597,7 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 
 							VEH_reduce_health(
 								p_vehicle,
-								NULL,
+								nullptr,
 								1050);
 extern UBYTE	hit_player;
 							hit_player=1;
@@ -5607,7 +5607,7 @@ extern UBYTE	hit_player;
 								p_vehicle->WorldPos.Z >> 8,
 								0x300,
 								350,
-								NULL,1);
+								nullptr,1);
 							hit_player=0;
 
 
@@ -5616,7 +5616,7 @@ extern UBYTE	hit_player;
 							// As if this vehicle has never been created.
 							// 
 
-							ewk->ed.arg1 = NULL;
+							ewk->ed.arg1 = nullptr;
 
 						}
 					}
@@ -5628,7 +5628,7 @@ extern UBYTE	hit_player;
 					{
 						MAP_beacon_remove(ewk->ed.subtype);
 
-						ewk->ed.subtype = NULL;
+						ewk->ed.subtype = nullptr;
 					}
 				}
 				else
@@ -5704,7 +5704,7 @@ extern UBYTE	hit_player;
 				}
 				else
 				{
-					if (EWAY_mess[mess] == NULL)
+					if (!EWAY_mess[mess] )
 					{
 						str = "No objective message";
 					}
@@ -5722,7 +5722,7 @@ extern UBYTE	hit_player;
 				// If its a Roper mission then the crime rate isn't reduced.
 				//
 #ifndef	FINAL
-				//PANEL_new_text(NULL, 4000, "%s Crime rate reduced by %d%%.", str, percent);
+				//PANEL_new_text(nullptr, 4000, "%s Crime rate reduced by %d%%.", str, percent);
 #endif
 			}
 
@@ -5848,7 +5848,7 @@ extern UBYTE	hit_player;
 						}
 						else
 						{
-							if (EWAY_mess[ew->ed.subtype] == NULL)
+							if (!EWAY_mess[ew->ed.subtype] )
 							{
 								EWAY_conv_str = 0;
 							}
@@ -5885,11 +5885,11 @@ extern UBYTE	hit_player;
 			{
 				THING_INDEX i_player = EWAY_get_person(ew->ed.arg1);
 
-				if (i_player == NULL)
+				if (!i_player )
 				{
 #ifndef	FINAL
 #ifndef	PSX
-					//PANEL_new_text(NULL, 8000, "Waypoint %d: Transfer player didn't have person.", ew->id);
+					//PANEL_new_text(nullptr, 8000, "Waypoint %d: Transfer player didn't have person.", ew->id);
 #endif
 #endif
 				}
@@ -5998,7 +5998,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 				{
 #ifndef	FINAL
 #ifndef	PSX
-					//PANEL_new_text(NULL, 10000, "Lock vehicle waypoint %d points nowhere", ew->id);
+					//PANEL_new_text(nullptr, 10000, "Lock vehicle waypoint %d points nowhere", ew->id);
 #endif
 #endif
 				}
@@ -6014,7 +6014,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 						{
 #ifndef	FINAL
 #ifndef	PSX
-							//PANEL_new_text(NULL, 10000, "Lock vehicle waypoint %d trying to unlock non-vehicle", ew->id);
+							//PANEL_new_text(nullptr, 10000, "Lock vehicle waypoint %d trying to unlock non-vehicle", ew->id);
 #endif
 #endif
 						}
@@ -6175,7 +6175,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 				#ifndef NDEBUG
 				else
 				{
-					PANEL_new_text(NULL, 4000, "Extend time (waypoint %d) points to bad waypoint.", ew->id);
+					PANEL_new_text(nullptr, 4000, "Extend time (waypoint %d) points to bad waypoint.", ew->id);
 				}
 				#endif
 			}
@@ -6841,9 +6841,9 @@ UWORD EWAY_get_person(SLONG waypoint)
 {
 	UWORD ans;
 	
-	if (waypoint == NULL)
+	if (!waypoint )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
@@ -6861,7 +6861,7 @@ UWORD EWAY_get_person(SLONG waypoint)
 	}
 	else
 	{
-		ans = NULL;
+		ans = nullptr;
 	}
 
 	return ans;
@@ -7094,7 +7094,7 @@ UBYTE EWAY_camera_warehouse()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -7200,7 +7200,7 @@ SLONG EWAY_used_person(UWORD t_index)
 
 					EWAY_set_active(ew);
 
-					EWAY_used_thing = NULL;
+					EWAY_used_thing = nullptr;
 
 					//
 					// Don't mark this person as useable any more.
@@ -7334,7 +7334,7 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 	UBYTE score[EWAY_CONVERSE_ANGLES];
 
 	EWAY_cam_thing      = THING_NUMBER(p_thing);
-	EWAY_cam_waypoint   = NULL;
+	EWAY_cam_waypoint   = nullptr;
 	EWAY_cam_lens       = 0x28000;
 	EWAY_cam_freeze     = true;
 	EWAY_cam_lock       = false;
@@ -7679,8 +7679,8 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, UBYTE cam_flags) {
 	}
 
 	EWAY_cam_thing    = 0;
-	EWAY_cam_waypoint = NULL;
-	EWAY_cam_target   = NULL;
+	EWAY_cam_waypoint = nullptr;
+	EWAY_cam_target   = nullptr;
 
 	switch (cam_flags&7) {
 	case 0: // 1-shot closeup
@@ -7903,7 +7903,7 @@ void EWAY_cam_look_at(Thing *p_thing)
 
 	EWAY_cam_active   = true;
 	EWAY_cam_thing    = THING_NUMBER(p_thing);
-	EWAY_cam_waypoint = NULL;
+	EWAY_cam_waypoint = nullptr;
 	EWAY_cam_freeze   = true;
 
 	EWAY_cam_x <<= 8;
@@ -7921,8 +7921,8 @@ void EWAY_cam_relinquish()
 
 	EWAY_cam_jumped=1;
 	EWAY_cam_active   = false;
-	EWAY_cam_thing    = NULL;
-	EWAY_cam_waypoint = NULL;
+	EWAY_cam_thing    = nullptr;
+	EWAY_cam_waypoint = nullptr;
 	EWAY_cam_freeze   = false;
 
 	*/
@@ -8090,7 +8090,7 @@ void flag_undeletable_people()
 					//
 	#ifndef	FINAL
 	#ifndef	PSX
-					//PANEL_new_text(NULL, 4000, "Waypoint %d (arrest) is invalid", ew->id);
+					//PANEL_new_text(nullptr, 4000, "Waypoint %d (arrest) is invalid", ew->id);
 	#endif
 	#endif
 
@@ -8130,7 +8130,7 @@ void flag_undeletable_people()
 #ifndef PSX
 					CBYTE mess[128];
 
-					sprintf(mess, "Waypoint %d: cond person dead has NULL dependency", ew->id);
+					sprintf(mess, "Waypoint %d: cond person dead has nullptr dependency", ew->id);
 
 					CONSOLE_text(mess, 8000);
 #endif

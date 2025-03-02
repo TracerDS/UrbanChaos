@@ -34,7 +34,7 @@
 #endif
 
 
-static FileClump*	tclump = NULL;
+static FileClump*	tclump = nullptr;
 static bool			writing;
 static bool			init_convert = false;
 
@@ -62,7 +62,7 @@ void OpenTGAClump(const char* clumpfn, size_t maxid, bool readonly)
 	}
 
 	delete tclump;
-	tclump = NULL;
+	tclump = nullptr;
 	
 	writing = !readonly;
 
@@ -76,7 +76,7 @@ void OpenTGAClump(const char* clumpfn, size_t maxid, bool readonly)
 void CloseTGAClump()
 {
 	delete tclump;
-	tclump = NULL;
+	tclump = nullptr;
 }
 
 // GetTGAClump
@@ -348,7 +348,7 @@ TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height
 		else
 		{
 			//
-			// We have to load a pixel in at a time to add the NULL alpha channel.
+			// We have to load a pixel in at a time to add the nullptr alpha channel.
 			//
 
 			UBYTE*	buffer = new UBYTE[3 * tga_width * tga_height];
@@ -576,7 +576,7 @@ static UBYTE* ReadSquished(ULONG id)
 {
 	// read squished file
 	UBYTE*	buffer = tclump->Read(id);
-	if (!buffer)	return NULL;
+	if (!buffer)	return nullptr;
 
 	UWORD*	bptr = (UWORD*)buffer;
 
@@ -811,7 +811,7 @@ TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLO
 	//
 
 	phandle = MF_Fopen(pname, "rb");
-	if (phandle == NULL)
+	if (!phandle )
 	{
 		ans.valid = 0;
 		return ans;
@@ -851,7 +851,7 @@ TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLO
 
 	handle = MF_Fopen(file, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		ans.valid = 0;
 		return ans;
@@ -1058,7 +1058,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 
 	handle = MF_Fopen(file, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		psx_load_error("dont exist",file);
 		DebugText(" %s dont exist \n",file);
@@ -1325,7 +1325,7 @@ void TGA_save(
 
 	#endif
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		TRACE("Cannot open TGA file %s\n", file);
 

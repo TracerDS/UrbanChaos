@@ -1427,7 +1427,7 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 
 	handle = fopen(fname, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		//
 		// Could not open file.
@@ -2045,7 +2045,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 	DebugText(" load mesh %s \n",fname);
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		//
 		// Could not open file.
@@ -2077,7 +2077,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 	// Our first prim is marked as non-existent.
 	//
 
-	po = NULL;
+	po = nullptr;
 
 	//
 	// Decode the file a line at a time.
@@ -2112,7 +2112,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 		if (strncmp(line, "Triangle mesh: ", 15) == 0)
 		{
-			if (po != NULL)
+			if (po )
 			{
 				ASSERT(WITHIN(po, &prim_objects[1], &prim_objects[MAX_PRIM_OBJECTS - 1]));
 
@@ -2518,7 +2518,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 	next_prim_object+=object_count+extra_object_count;
 
-	if (po != NULL)
+	if (po )
 	{
 		ASSERT(WITHIN(po, &prim_objects[1], &prim_objects[MAX_PRIM_OBJECTS - 1]));
 

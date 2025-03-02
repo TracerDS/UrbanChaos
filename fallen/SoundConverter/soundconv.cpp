@@ -48,7 +48,7 @@ static void ConvertDir(char* src, char* dst)
 	WIN32_FIND_DATA	found;
 	HANDLE			hFile;
 
-	if (!CreateDirectory(dst, NULL))
+	if (!CreateDirectory(dst, nullptr))
 	{
 		fprintf(stderr, "Can't create directory %s\n", dst);
 		exit(-1);

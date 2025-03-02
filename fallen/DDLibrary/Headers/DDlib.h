@@ -47,7 +47,7 @@ extern void	RecenterMouse();
 // macros to set render state in the card
 #define	REALLY_SET_RENDER_STATE(t,s)				the_display.SetRenderState(t,s)
 #define REALLY_SET_TEXTURE(tex)						the_display.SetTexture(tex)
-#define REALLY_SET_NO_TEXTURE						the_display.SetTexture(NULL)
+#define REALLY_SET_NO_TEXTURE						the_display.SetTexture(nullptr)
 #define	REALLY_SET_TEXTURE_STATE(n,t,s)				the_display.SetTextureState(n,t,s)
 
 /*

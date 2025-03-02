@@ -328,7 +328,7 @@ void LEDIT_set_state_look()
 
 		case LEDIT_MODE_EDIT_LIGHT:
 			
-			if (LEDIT_edit_light == NULL)
+			if (!LEDIT_edit_light )
 			{
 				//
 				// No light is being edited at the moment.
@@ -647,13 +647,13 @@ void LEDIT_undo()
 	// Make sure that our last_placed light is always valid.
 	//
 
-	if (LEDIT_last_placed != NULL)
+	if (LEDIT_last_placed )
 	{
 		ASSERT(WITHIN(LEDIT_last_placed, 1, ED_MAX_LIGHTS - 1));
 
 		if (!ED_light[LEDIT_last_placed].used)
 		{
-			LEDIT_last_placed = NULL;
+			LEDIT_last_placed = nullptr;
 		}
 	}
 
@@ -1050,7 +1050,7 @@ void LEDIT_change_colour(COLORREF cr)
 	// Make sure the window is redrawn.
 	//
 	
-	InvalidateRect(LEDIT_handle_colour, NULL, true);
+	InvalidateRect(LEDIT_handle_colour, nullptr, true);
 
 	//
 	// Set the correct positions of the colour bars.
@@ -1193,7 +1193,7 @@ void LEDIT_load_map(CBYTE* name)
 
 	LEDIT_map_valid   = GI_load_map(name);
 	LEDIT_mode        = LEDIT_MODE_PLACE_LIGHT;
-	LEDIT_last_placed = NULL;
+	LEDIT_last_placed = nullptr;
 
 	if (LEDIT_map_valid)
 	{
@@ -1244,7 +1244,7 @@ void LEDIT_load_map(CBYTE* name)
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(LEDIT_handle_engine, NULL, false);
+	InvalidateRect(LEDIT_handle_engine, nullptr, false);
 
 	//
 	// Change the cursor back to normal.
@@ -1505,7 +1505,7 @@ void LEDIT_process()
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(LEDIT_handle_engine, NULL, false);
+	InvalidateRect(LEDIT_handle_engine, nullptr, false);
 
 	//
 	// Make sure the cursor looks correct.
@@ -1560,7 +1560,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 		//
 
 		if (LEDIT_mode       == LEDIT_MODE_EDIT_LIGHT &&
-			LEDIT_edit_light != NULL)
+			LEDIT_edit_light != nullptr)
 		{	
 			ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
 
@@ -1580,7 +1580,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 		}
 		else
 		if (LEDIT_mode        == LEDIT_MODE_PLACE_LIGHT &&
-			LEDIT_last_placed != NULL)
+			LEDIT_last_placed != nullptr)
 		{
 			//
 			// Move the light we last placed to the new position.
@@ -1656,14 +1656,14 @@ LRESULT CALLBACK LEDIT_callback_frame(
 				case ID_EDIT_DELETE_ARSE:
 
 					if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
-						LEDIT_edit_light != NULL)
+						LEDIT_edit_light != nullptr)
 					{
 						//
 						// Delete the light we are editing.
 						// 
 
 						ED_delete(LEDIT_edit_light);
-						LEDIT_edit_light = NULL;
+						LEDIT_edit_light = nullptr;
 						LEDIT_make_undoable();
 						LEDIT_set_state_look();
 					}
@@ -1678,13 +1678,13 @@ LRESULT CALLBACK LEDIT_callback_frame(
 
 				case ID_EDIT_PLACELIGHT:
 					LEDIT_mode        = LEDIT_MODE_PLACE_LIGHT;
-					LEDIT_last_placed = NULL;
+					LEDIT_last_placed = nullptr;
 					LEDIT_set_state_look();
 					break;
 
 				case ID_EDIT_EDITLIGHTS:
 					LEDIT_mode          = LEDIT_MODE_EDIT_LIGHT;
-					LEDIT_edit_light    = NULL;
+					LEDIT_edit_light    = nullptr;
 					LEDIT_edit_dragging = false;
 					LEDIT_edit_dragged  = false;
 					LEDIT_set_state_look();
@@ -2023,7 +2023,7 @@ LRESULT CALLBACK LEDIT_callback_engine(
 		case WM_MOUSEMOVE:
 
 			if (LEDIT_mode       == LEDIT_MODE_EDIT_LIGHT &&
-				LEDIT_edit_light != NULL                  &&
+				LEDIT_edit_light != nullptr                  &&
 				LEDIT_edit_dragging)
 			{
 				ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
@@ -2046,7 +2046,7 @@ LRESULT CALLBACK LEDIT_callback_engine(
 		case WM_LBUTTONUP:
 
 			if (LEDIT_mode       == LEDIT_MODE_EDIT_LIGHT &&
-				LEDIT_edit_light != NULL                  &&
+				LEDIT_edit_light != nullptr                  &&
 				LEDIT_edit_dragging)
 			{
 				//
@@ -2329,8 +2329,8 @@ LRESULT CALLBACK LEDIT_callback_colour(
 			cc.lpCustColors   = cr;
 			cc.Flags          = CC_ANYCOLOR | CC_RGBINIT | CC_FULLOPEN;
 			cc.lCustData      = 0;
-			cc.lpfnHook       = NULL;
-			cc.lpTemplateName = NULL;
+			cc.lpfnHook       = nullptr;
+			cc.lpTemplateName = nullptr;
 			cc.rgbResult      = RGB(red,green,blue);
 
 			if (ChooseColor(&cc))
@@ -2376,10 +2376,10 @@ void LEDIT_do()
 	// Load our cursors.
 	//
 
-	LEDIT_arrow    = LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW));
-	LEDIT_busy_bee = LoadCursor(NULL, MAKEINTRESOURCE(IDC_WAIT));
-	LEDIT_all_dirs = LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZEALL));
-	LEDIT_upndown  = LoadCursor(NULL, MAKEINTRESOURCE(IDC_SIZENS));
+	LEDIT_arrow    = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_ARROW));
+	LEDIT_busy_bee = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_WAIT));
+	LEDIT_all_dirs = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_SIZEALL));
+	LEDIT_upndown  = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_SIZENS));
 
 	int x1 = SM_CXSMICON;
 	int y1 = SM_CYSMICON;
@@ -2400,10 +2400,10 @@ void LEDIT_do()
 	LEDIT_class_frame.cbSize		= sizeof(WNDCLASSEX);
 	LEDIT_class_frame.cbClsExtra	= 0;
 	LEDIT_class_frame.cbWndExtra	= 0;
-	LEDIT_class_frame.lpszMenuName	= NULL;
+	LEDIT_class_frame.lpszMenuName	= nullptr;
 	LEDIT_class_frame.hIcon			= LEDIT_icon;
 	LEDIT_class_frame.hIconSm		= LEDIT_icon;
-	LEDIT_class_frame.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	LEDIT_class_frame.hCursor		= LoadCursor(nullptr, IDC_ARROW);
 	LEDIT_class_frame.hbrBackground	= (struct HBRUSH__*)GetStockObject(WHITE_BRUSH);
 	
 	if (!RegisterClassEx(&LEDIT_class_frame))
@@ -2427,12 +2427,12 @@ void LEDIT_do()
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
-							NULL,
-							NULL,
+							nullptr,
+							nullptr,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
-	if (LEDIT_handle_frame == NULL)
+	if (!LEDIT_handle_frame )
 	{
 		//
 		// Could not create our main window. 
@@ -2504,10 +2504,10 @@ void LEDIT_do()
 	LEDIT_class_engine.cbSize			= sizeof(WNDCLASSEX);
 	LEDIT_class_engine.cbClsExtra		= 0;
 	LEDIT_class_engine.cbWndExtra		= 0;
-	LEDIT_class_engine.lpszMenuName		= NULL;
-	LEDIT_class_engine.hIcon			= NULL;
-	LEDIT_class_engine.hIconSm			= NULL;
-	LEDIT_class_engine.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	LEDIT_class_engine.lpszMenuName		= nullptr;
+	LEDIT_class_engine.hIcon			= nullptr;
+	LEDIT_class_engine.hIconSm			= nullptr;
+	LEDIT_class_engine.hCursor			= LoadCursor(nullptr, IDC_ARROW);
 	LEDIT_class_engine.hbrBackground	= (struct HBRUSH__*)GetStockObject(GRAY_BRUSH);
 
 	if (RegisterClassEx(&LEDIT_class_engine) == 0)
@@ -2539,9 +2539,9 @@ void LEDIT_do()
 							rect.right  - rect.left,
 							rect.bottom - rect.top,
 							LEDIT_handle_frame,
-							NULL,
+							nullptr,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	//
 	// The light window class.
@@ -2554,10 +2554,10 @@ void LEDIT_do()
 	LEDIT_class_light.cbSize		= sizeof(WNDCLASSEX);
 	LEDIT_class_light.cbClsExtra	= 0;
 	LEDIT_class_light.cbWndExtra	= 0;
-	LEDIT_class_light.lpszMenuName	= NULL;
-	LEDIT_class_light.hIcon			= NULL;
-	LEDIT_class_light.hIconSm		= NULL;
-	LEDIT_class_light.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	LEDIT_class_light.lpszMenuName	= nullptr;
+	LEDIT_class_light.hIcon			= nullptr;
+	LEDIT_class_light.hIconSm		= nullptr;
+	LEDIT_class_light.hCursor		= LoadCursor(nullptr, IDC_ARROW);
 	LEDIT_class_light.hbrBackground	= (struct HBRUSH__*)GetStockObject(LTGRAY_BRUSH);
 
 	if (RegisterClassEx(&LEDIT_class_light) == 0)
@@ -2589,9 +2589,9 @@ void LEDIT_do()
 							rect.right  - rect.left,
 							rect.bottom - rect.top,
 							LEDIT_handle_frame,
-							NULL,
+							nullptr,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	//
 	// So we can use the common controls like trackbars.
@@ -2612,7 +2612,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_RED,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_green = CreateWindow(
 							TRACKBAR_CLASS,
@@ -2623,7 +2623,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_GREEN,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_blue = CreateWindow(
 							TRACKBAR_CLASS,
@@ -2634,7 +2634,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_BLUE,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_bright = CreateWindow(
 							TRACKBAR_CLASS,
@@ -2645,7 +2645,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_BRIGHT,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_range = CreateWindow(
 							TRACKBAR_CLASS,
@@ -2656,7 +2656,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_RANGE,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_anti = CreateWindow(
 							"Button",
@@ -2667,7 +2667,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_ANTI,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	//
 	// Predefined colour buttons.
@@ -2682,7 +2682,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_BWHITE,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_blgrey = CreateWindow(
 							"Button",
@@ -2693,7 +2693,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_BLGREY,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_bdgrey = CreateWindow(
 							"Button",
@@ -2704,7 +2704,7 @@ void LEDIT_do()
 							LEDIT_handle_light,
 							(HMENU) LEDIT_CHILD_BDGREY,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	LEDIT_handle_bpyellow = CreateWindow(
 								"Button",
@@ -2715,7 +2715,7 @@ void LEDIT_do()
 								LEDIT_handle_light,
 								(HMENU) LEDIT_CHILD_BPYELLOW,
 								LEDIT_hinstance,
-								NULL);
+								nullptr);
 
 	LEDIT_handle_bpred = CreateWindow(
 								"Button",
@@ -2726,7 +2726,7 @@ void LEDIT_do()
 								LEDIT_handle_light,
 								(HMENU) LEDIT_CHILD_BPRED,
 								LEDIT_hinstance,
-								NULL);
+								nullptr);
 
 	LEDIT_handle_bpblue = CreateWindow(
 								"Button",
@@ -2737,7 +2737,7 @@ void LEDIT_do()
 								LEDIT_handle_light,
 								(HMENU) LEDIT_CHILD_BPBLUE,
 								LEDIT_hinstance,
-								NULL);
+								nullptr);
 
 	//
 	// Set the range of the trackbars.
@@ -2760,10 +2760,10 @@ void LEDIT_do()
 	LEDIT_class_colour.cbSize			= sizeof(WNDCLASSEX);
 	LEDIT_class_colour.cbClsExtra		= 0;
 	LEDIT_class_colour.cbWndExtra		= 0;
-	LEDIT_class_colour.lpszMenuName		= NULL;
-	LEDIT_class_colour.hIcon			= NULL;
-	LEDIT_class_colour.hIconSm			= NULL;
-	LEDIT_class_colour.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	LEDIT_class_colour.lpszMenuName		= nullptr;
+	LEDIT_class_colour.hIcon			= nullptr;
+	LEDIT_class_colour.hIconSm			= nullptr;
+	LEDIT_class_colour.hCursor			= LoadCursor(nullptr, IDC_ARROW);
 	LEDIT_class_colour.hbrBackground	= (struct HBRUSH__*)GetStockObject(BLACK_BRUSH);
 
 	if (RegisterClassEx(&LEDIT_class_colour) == 0)
@@ -2782,9 +2782,9 @@ void LEDIT_do()
 							180, 10,
 							85,  60,
 							LEDIT_handle_light,
-							NULL,
+							nullptr,
 							LEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	//
 	// Start off with white not black.
@@ -2845,14 +2845,14 @@ void LEDIT_do()
 
 	LEDIT_ofn_map.lStructSize       = sizeof(OPENFILENAME);
 	LEDIT_ofn_map.hwndOwner         = LEDIT_handle_frame;
-	LEDIT_ofn_map.hInstance         = NULL;
+	LEDIT_ofn_map.hInstance         = nullptr;
 	LEDIT_ofn_map.lpstrFilter       = "Game map files\0*.iam\0\0";
-	LEDIT_ofn_map.lpstrCustomFilter = NULL;
+	LEDIT_ofn_map.lpstrCustomFilter = nullptr;
 	LEDIT_ofn_map.nMaxCustFilter    = 0;
 	LEDIT_ofn_map.nFilterIndex      = 0;
 	LEDIT_ofn_map.lpstrFile         = LEDIT_ofn_file_map;
 	LEDIT_ofn_map.nMaxFile          = _MAX_PATH;
-	LEDIT_ofn_map.lpstrFileTitle    = NULL;
+	LEDIT_ofn_map.lpstrFileTitle    = nullptr;
 	LEDIT_ofn_map.nMaxFileTitle     = 0;
 	LEDIT_ofn_map.lpstrInitialDir   = LEDIT_ofn_default_dir_map;
 	LEDIT_ofn_map.lpstrTitle        = "Load a game map";
@@ -2860,20 +2860,20 @@ void LEDIT_do()
 	LEDIT_ofn_map.nFileOffset       = 0;
 	LEDIT_ofn_map.nFileExtension    = 0;
 	LEDIT_ofn_map.lpstrDefExt       = "iam";
-	LEDIT_ofn_map.lCustData         = NULL;
-	LEDIT_ofn_map.lpfnHook          = NULL;
-	LEDIT_ofn_map.lpTemplateName    = NULL;
+	LEDIT_ofn_map.lCustData         = nullptr;
+	LEDIT_ofn_map.lpfnHook          = nullptr;
+	LEDIT_ofn_map.lpTemplateName    = nullptr;
 
 	LEDIT_ofn_light.lStructSize       = sizeof(OPENFILENAME);
 	LEDIT_ofn_light.hwndOwner         = LEDIT_handle_frame;
-	LEDIT_ofn_light.hInstance         = NULL;
+	LEDIT_ofn_light.hInstance         = nullptr;
 	LEDIT_ofn_light.lpstrFilter       = "Lighting files\0*.lgt\0\0";
-	LEDIT_ofn_light.lpstrCustomFilter = NULL;
+	LEDIT_ofn_light.lpstrCustomFilter = nullptr;
 	LEDIT_ofn_light.nMaxCustFilter    = 0;
 	LEDIT_ofn_light.nFilterIndex      = 0;
 	LEDIT_ofn_light.lpstrFile         = LEDIT_ofn_file_light;
 	LEDIT_ofn_light.nMaxFile          = _MAX_PATH;
-	LEDIT_ofn_light.lpstrFileTitle    = NULL;
+	LEDIT_ofn_light.lpstrFileTitle    = nullptr;
 	LEDIT_ofn_light.nMaxFileTitle     = 0;
 	LEDIT_ofn_light.lpstrInitialDir   = LEDIT_ofn_default_dir_light;
 	LEDIT_ofn_light.lpstrTitle        = "Load a lighting file";
@@ -2881,9 +2881,9 @@ void LEDIT_do()
 	LEDIT_ofn_light.nFileOffset       = 0;
 	LEDIT_ofn_light.nFileExtension    = 0;
 	LEDIT_ofn_light.lpstrDefExt       = "lgt";
-	LEDIT_ofn_light.lCustData         = NULL;
-	LEDIT_ofn_light.lpfnHook          = NULL;
-	LEDIT_ofn_light.lpTemplateName    = NULL;
+	LEDIT_ofn_light.lCustData         = nullptr;
+	LEDIT_ofn_light.lpfnHook          = nullptr;
+	LEDIT_ofn_light.lpTemplateName    = nullptr;
 
 	//
 	// The program proper...
@@ -2898,7 +2898,7 @@ void LEDIT_do()
 
 		while(1)
 		{
-			if (!PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE))
+			if (!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
 			{
 				//
 				// No messages pending- send a user message so we can
@@ -2908,7 +2908,7 @@ void LEDIT_do()
 				PostMessage(LEDIT_handle_frame, WM_USER, 0, 0);
 			}
 
-			ret = GetMessage(&msg, NULL, 0, 0);
+			ret = GetMessage(&msg, nullptr, 0, 0);
 
 			if (ret == 0 || ret == -1)
 			{

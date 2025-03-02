@@ -359,7 +359,7 @@ void	load_game_textures_psx(UBYTE flags)
 		if(the_texture->TexturePtr==0)
 		{
 			MessageBox(
-				NULL,
+				nullptr,
 				"You don't have enough free disk space! Try deleting some files and trying again.", "Out of disk space", MB_ICONERROR | MB_OK);
 
 			ASSERT(0);

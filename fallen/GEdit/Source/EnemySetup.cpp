@@ -272,7 +272,7 @@ bool	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			
 
 			memdc=CreateCompatibleDC(item->hDC);
-			bmp=(HBITMAP)LoadImage(NULL, (LPCTSTR)OBM_CHECKBOXES, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+			bmp=(HBITMAP)LoadImage(nullptr, (LPCTSTR)OBM_CHECKBOXES, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
 			obmp=(HBITMAP)SelectObject(memdc,bmp);
 
 			BitBlt(item->hDC,item->rcItem.left+2,item->rcItem.top+2,12,12,memdc,(13*item->itemData),0,SRCCOPY);

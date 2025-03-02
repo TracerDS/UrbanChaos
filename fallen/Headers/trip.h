@@ -45,7 +45,7 @@ void TRIP_init();
 
 //
 // Creates a new length of tripwire. Returns the index of the
-// trip-wire or NULL if it cant create another tripwire.
+// trip-wire or nullptr if it cant create another tripwire.
 //
 // If an identical tripwire already exists, it just returns
 // the index of that tripwire.
@@ -97,7 +97,7 @@ typedef struct
 } TRIP_Info;
 
 void TRIP_get_start();
-TRIP_Info *TRIP_get_next ();	// Returns NULL if there are no more trips left.
+TRIP_Info *TRIP_get_next ();	// Returns nullptr if there are no more trips left.
 
 
 

@@ -68,7 +68,7 @@ struct DFacet
 	UBYTE	FHeight;
 	UBYTE	BlockHeight;
 	UBYTE	Open;				// How open or closed a STOREY_TYPE_OUTSIDE_DOOR is.
-	UBYTE   Dfcache;			// Index into NIGHT_dfcache[] or NULL...
+	UBYTE   Dfcache;			// Index into NIGHT_dfcache[] or nullptr...
 	UBYTE	Shake;				// When a fence has been hit hard by something.
 	UBYTE	CutHole;			
 	UBYTE	Counter[2];
@@ -184,7 +184,7 @@ void add_sewer_ladder(
 
 //
 // Finds the nearest electric fence DBUILDING to the given point.
-// Returns NULL if it couldn't find one withing the given range.
+// Returns nullptr if it couldn't find one withing the given range.
 //
 
 SLONG find_electric_fence_dbuilding(

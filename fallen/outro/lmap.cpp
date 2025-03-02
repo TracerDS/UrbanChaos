@@ -25,11 +25,11 @@ typedef struct
 
 LMAP_Tex LMAP_tex[LMAP_MAX_TEXES] =
 {
-	{16,  NULL},
-	{32,  NULL},
-	{64,  NULL},
-	{128, NULL},
-	{256, NULL},
+	{16,  nullptr},
+	{32,  nullptr},
+	{64,  nullptr},
+	{128, nullptr},
+	{256, nullptr},
 };
 
 
@@ -71,7 +71,7 @@ LMAP_Lmap *LMAP_create(SLONG resolution)
 	{
 		if (LMAP_tex[i].res == resolution)
 		{
-			if (LMAP_tex[i].bitmap != NULL)
+			if (LMAP_tex[i].bitmap )
 			{
 				//
 				// We've already generated this texture.
@@ -128,7 +128,7 @@ LMAP_Lmap *LMAP_create(SLONG resolution)
 
 	ASSERT(0);
 
-	return NULL;
+	return nullptr;
 
   found_texture:;
 
@@ -148,7 +148,7 @@ LMAP_Lmap *LMAP_create(SLONG resolution)
 
 void LMAP_init(LMAP_Lmap *lmap)
 {
-	if (lmap == NULL)
+	if (!lmap )
 	{
 		return;
 	}
@@ -364,7 +364,7 @@ void LMAP_render(LMAP_Lmap *lmap, OS_Texture *ot)
 	{
 		if (LMAP_tex[i].res == lmap->res)
 		{
-			if (LMAP_tex[i].bitmap != NULL)
+			if (LMAP_tex[i].bitmap )
 			{
 				//
 				// We've generated this texture.

@@ -521,13 +521,13 @@ extern DECLSPEC size_t SDLCALL SDL_SIMDGetAlignment(void);
  * SDL_Has*() function, don't use that instruction set with memory allocated
  * through here.
  *
- * SDL_AllocSIMD(0) will return a non-NULL pointer, assuming the system isn't
+ * SDL_AllocSIMD(0) will return a non-nullptr pointer, assuming the system isn't
  * out of memory, but you are not allowed to dereference it (because you only
  * own zero bytes of that buffer).
  *
  * \param len The length, in bytes, of the block to allocate. The actual
  *            allocated block might be larger due to padding, etc.
- * \returns a pointer to the newly-allocated block, NULL if out of memory.
+ * \returns a pointer to the newly-allocated block, nullptr if out of memory.
  *
  * \since This function is available since SDL 2.0.10.
  *
@@ -545,13 +545,13 @@ extern DECLSPEC void * SDLCALL SDL_SIMDAlloc(const size_t len);
  * SDL_malloc, memalign, new[], etc.
  *
  * \param mem The pointer obtained from SDL_SIMDAlloc. This function also
- *            accepts NULL, at which point this function is the same as
- *            calling SDL_SIMDAlloc with a NULL pointer.
+ *            accepts nullptr, at which point this function is the same as
+ *            calling SDL_SIMDAlloc with a nullptr pointer.
  * \param len The length, in bytes, of the block to allocated. The actual
  *            allocated block might be larger due to padding, etc. Passing 0
- *            will return a non-NULL pointer, assuming the system isn't out of
+ *            will return a non-nullptr pointer, assuming the system isn't out of
  *            memory.
- * \returns a pointer to the newly-reallocated block, NULL if out of memory.
+ * \returns a pointer to the newly-reallocated block, nullptr if out of memory.
  *
  * \since This function is available since SDL 2.0.14.
  *
@@ -568,7 +568,7 @@ extern DECLSPEC void * SDLCALL SDL_SIMDRealloc(void *mem, const size_t len);
  * SDL_SIMDAlloc() or SDL_SIMDRealloc(). It can't be used on pointers from
  * malloc, realloc, SDL_malloc, memalign, new[], etc.
  *
- * However, SDL_SIMDFree(NULL) is a legal no-op.
+ * However, SDL_SIMDFree(nullptr) is a legal no-op.
  *
  * The memory pointed to by `ptr` is no longer valid for access upon return,
  * and may be returned to the system or reused by a future allocation. The
@@ -576,7 +576,7 @@ extern DECLSPEC void * SDLCALL SDL_SIMDRealloc(void *mem, const size_t len);
  * function returns, and should be discarded.
  *
  * \param ptr The pointer, returned from SDL_SIMDAlloc or SDL_SIMDRealloc, to
- *            deallocate. NULL is a legal no-op.
+ *            deallocate. nullptr is a legal no-op.
  *
  * \since This function is available since SDL 2.0.10.
  *

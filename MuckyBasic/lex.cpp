@@ -566,7 +566,7 @@ void LEX_find_next_token()
 			{"AND",	      LEX_TOKEN_TYPE_AND      },
 			{"OR",	      LEX_TOKEN_TYPE_OR       },
 			{"NOT",	      LEX_TOKEN_TYPE_NOT      },
-			{"REM",	      NULL                    },	// This is a special case, LEX removes the rest of the line
+			{"REM",	      nullptr                    },	// This is a special case, LEX removes the rest of the line
 			{"CALL",      LEX_TOKEN_TYPE_CALL     },
 			{"FUNC",      LEX_TOKEN_TYPE_FUNC     },
 			{"LOCAL",     LEX_TOKEN_TYPE_LOCAL    },

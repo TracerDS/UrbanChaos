@@ -601,7 +601,7 @@ THING_INDEX find_target_new(Thing *p_person)
 	SLONG enemy;
 	SLONG score;
 	SLONG best_score  = 0;
-	SLONG best_target = NULL;
+	SLONG best_target = nullptr;
 
 	Thing *p_found;
 	Thing *p_enemy;
@@ -612,7 +612,7 @@ THING_INDEX find_target_new(Thing *p_person)
 		// This person hasn't got a gun out.. so no target.
 		// 
 
-		return NULL;
+		return nullptr;
 	}
 
 	if (p_person->Genus.Person->PlayerID)
@@ -707,7 +707,7 @@ extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG w
 			// A person is shooting without having anyone they want to kill!
 			//
 
-			return NULL;
+			return nullptr;
 		}
 	}
 }

@@ -115,8 +115,8 @@ SLONG any_button_pressed()
 void game_attract_mode()
 {
 	float			y;
-	UBYTE			*image_mem	=	NULL,
-					*image		=	NULL;
+	UBYTE			*image_mem	=	nullptr,
+					*image		=	nullptr;
 #ifndef PSX
 	SLONG			height,
 					image_size;
@@ -247,7 +247,7 @@ reinit_because_of_language_change:
 	dev->SetTextureStageState(0, D3DTSS_MAGFILTER,		D3DTFG_LINEAR);
 	dev->SetTextureStageState(0, D3DTSS_MIPFILTER,		D3DTFP_NONE);
 	dev->SetTextureStageState(0, D3DTSS_ADDRESS,		D3DTADDRESS_WRAP);
-	//dev->SetTexture ( 0, NULL );
+	//dev->SetTexture ( 0, nullptr );
 extern LPDIRECT3DTEXTURE2	TEXTURE_get_handle(SLONG page);
 extern SLONG TEXTURE_page_water;
 	dev->SetTexture ( 0, TEXTURE_get_handle(TEXTURE_page_water) );
@@ -860,7 +860,7 @@ extern SLONG	playing_real_mission();
 				{"\\Finale1.ucm"	,"Day Of Reckoning",			5,	48,	"Dave"		},
 				{"\\Gangorder1.ucm"	,"Assassin",					2,	13,	"Marie"		},
 				{"\\FreeCD1.ucm"	,"Demo map",					1,	35, "Justin mucky(hands) Amore"},
-				{NULL}
+				{nullptr}
 			};
 #else
 // DC times, starting from scratch.
@@ -901,7 +901,7 @@ extern SLONG	playing_real_mission();
 				{"\\Gangorder1.ucm"	,"Assassin",					 5,	21,	"Joe Neate"		},
 				{"\\FreeCD1.ucm"	,"Demo map",					40,	00, "Beat me"},
 				{"\\Album1.ucm"		,"Breakout!",					15,	38, "Tom Forsyth"},
-				{NULL}
+				{nullptr}
 			};
 #endif
 
@@ -1228,31 +1228,31 @@ extern void POLY_ClearAllPages ( void );
 	POLY_ClearAllPages();
 
 	// Flip once to flush the rendering (e.g. leaves will be left in).
-	the_display.lp_D3D_Viewport->Clear2 ( 0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
+	the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
 	the_display.lp_D3D_Device->EndScene();
-	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
+	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
 	// Clear both buffers.
 	the_display.lp_D3D_Device->BeginScene();
-	the_display.lp_D3D_Viewport->Clear2 ( 0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
+	the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
 	the_display.lp_D3D_Device->EndScene();
-	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
+	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
 	the_display.lp_D3D_Device->BeginScene();
-	the_display.lp_D3D_Viewport->Clear2 ( 0, NULL, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
+	the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
 	the_display.lp_D3D_Device->EndScene();
-	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
+	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
 	// Really horrible hack.
 void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *screen);
 	FRONTEND_scr_img_load_into_screenfull ( "e3load.tga", &(the_display.lp_DD_Background) );
 	UnpackBackground ( (BYTE*)( the_display.lp_DD_Background ), the_display.lp_DD_BackSurface );
 	//AENG_flip();
-	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
+	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
-	the_display.lp_DD_BackSurface->Blt ( NULL, the_display.lp_DD_FrontSurface, NULL, DDBLT_WAIT, NULL );
+	the_display.lp_DD_BackSurface->Blt ( nullptr, the_display.lp_DD_FrontSurface, nullptr, DDBLT_WAIT, nullptr );
 
-	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
+	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
 	//InitBackImage("e3load.tga");
 	//ShowBackImage(false);
@@ -1311,7 +1311,7 @@ void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed p
 	memset ( &ddsd, 0, sizeof ( ddsd ) );
 	ddsd.dwSize = sizeof ( ddsd );
 
-	hres = the_display.lp_DD_FrontSurface->Lock ( NULL, &ddsd, DDLOCK_WAIT | DDLOCK_WRITEONLY, NULL );
+	hres = the_display.lp_DD_FrontSurface->Lock ( nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_WRITEONLY, nullptr );
 
 	for (i = 0; i < (completion >> 3); i += 1)
 	{
@@ -1364,7 +1364,7 @@ void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed p
 
 	}
 
-	hres = the_display.lp_DD_FrontSurface->Unlock ( NULL );
+	hres = the_display.lp_DD_FrontSurface->Unlock ( nullptr );
 
 
 #else
@@ -1391,7 +1391,7 @@ void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed p
 
 		ddbltfx.dwFillColor = colour;
 
-		HRESULT hres = the_display.lp_DD_BackSurface->Blt ( &rect, NULL, NULL, DDBLT_COLORFILL | DDBLT_DDFX, &ddbltfx );
+		HRESULT hres = the_display.lp_DD_BackSurface->Blt ( &rect, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_DDFX, &ddbltfx );
 
 		hres++;
 

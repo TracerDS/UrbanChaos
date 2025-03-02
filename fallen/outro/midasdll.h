@@ -52,28 +52,6 @@
 #pragma warning 594 9
 #endif
 
-
-/* We'll need to define DWORD, bool, true and false if someone hasn't
-   done that before. For now, we'll just assume that if no-one has defined
-   true we need to define everything. There definitions are compatible with
-   windows.h. If something else in your system defines these differently,
-   things should still work OK as long as false is 0, true is nonzero and
-   DWORD is 32-bit. Take care that you don't compare BOOLs like "bool == true"
-   in that case though, just use "bool".
-
-   THIS IS UGLY AND MAY NEED FIXING!
-   ---------------------------------
-*/
-
-#ifndef true
-#define true 1
-#define false 0
-typedef int bool;
-typedef unsigned long DWORD;
-#endif /* ifndef true */
-
-
-
 enum MIDASoptions
 {
     MIDAS_OPTION_NONE = 0,

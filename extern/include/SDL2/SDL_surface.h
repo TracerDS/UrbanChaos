@@ -67,7 +67,7 @@ typedef struct SDL_BlitMap SDL_BlitMap;  /* this is an opaque type. */
  * \brief A collection of pixels used in software blitting.
  *
  * \note  This structure should be treated as read-only, except for \c pixels,
- *        which, if not NULL, contains the raw pixel data for the surface.
+ *        which, if not nullptr, contains the raw pixel data for the surface.
  */
 typedef struct SDL_Surface
 {
@@ -148,7 +148,7 @@ typedef enum
  * \param Gmask the green mask for the pixels
  * \param Bmask the blue mask for the pixels
  * \param Amask the alpha mask for the pixels
- * \returns the new SDL_Surface structure that is created or NULL if it fails;
+ * \returns the new SDL_Surface structure that is created or nullptr if it fails;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -176,7 +176,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurface
  * \param height the height of the surface
  * \param depth the depth of the surface in bits
  * \param format the SDL_PixelFormatEnum for the new surface's pixel format.
- * \returns the new SDL_Surface structure that is created or NULL if it fails;
+ * \returns the new SDL_Surface structure that is created or nullptr if it fails;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.5.
@@ -207,7 +207,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceWithFormat
  * \param Gmask the green mask for the pixels
  * \param Bmask the blue mask for the pixels
  * \param Amask the alpha mask for the pixels
- * \returns the new SDL_Surface structure that is created or NULL if it fails;
+ * \returns the new SDL_Surface structure that is created or nullptr if it fails;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -245,7 +245,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceFrom(void *pixels,
  * \param depth the depth of the surface in bits
  * \param pitch the pitch of the surface in bytes
  * \param format the SDL_PixelFormatEnum for the new surface's pixel format.
- * \returns the new SDL_Surface structure that is created or NULL if it fails;
+ * \returns the new SDL_Surface structure that is created or nullptr if it fails;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.5.
@@ -260,7 +260,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_CreateRGBSurfaceWithFormatFrom
 /**
  * Free an RGB surface.
  *
- * It is safe to pass NULL to this function.
+ * It is safe to pass nullptr to this function.
  *
  * \param surface the SDL_Surface to free.
  *
@@ -334,7 +334,7 @@ extern DECLSPEC void SDLCALL SDL_UnlockSurface(SDL_Surface * surface);
  *
  * \param src the data stream for the surface
  * \param freesrc non-zero to close the stream after being read
- * \returns a pointer to a new SDL_Surface structure or NULL if there was an
+ * \returns a pointer to a new SDL_Surface structure or nullptr if there was an
  *          error; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -408,7 +408,7 @@ extern DECLSPEC int SDLCALL SDL_SetSurfaceRLE(SDL_Surface * surface,
 /**
  * Returns whether the surface is RLE enabled
  *
- * It is safe to pass a NULL `surface` here; it will return SDL_FALSE.
+ * It is safe to pass a nullptr `surface` here; it will return SDL_FALSE.
  *
  * \param surface the SDL_Surface structure to query
  * \returns SDL_TRUE if the surface is RLE enabled, SDL_FALSE otherwise.
@@ -449,7 +449,7 @@ extern DECLSPEC int SDLCALL SDL_SetColorKey(SDL_Surface * surface,
 /**
  * Returns whether the surface has a color key
  *
- * It is safe to pass a NULL `surface` here; it will return SDL_FALSE.
+ * It is safe to pass a nullptr `surface` here; it will return SDL_FALSE.
  *
  * \param surface the SDL_Surface structure to query
  * \return SDL_TRUE if the surface has a color key, SDL_FALSE otherwise.
@@ -608,7 +608,7 @@ extern DECLSPEC int SDLCALL SDL_GetSurfaceBlendMode(SDL_Surface * surface,
  *
  * \param surface the SDL_Surface structure to be clipped
  * \param rect the SDL_Rect structure representing the clipping rectangle, or
- *             NULL to disable clipping
+ *             nullptr to disable clipping
  * \returns SDL_TRUE if the rectangle intersects the surface, otherwise
  *          SDL_FALSE and blits will be completely clipped.
  *
@@ -645,7 +645,7 @@ extern DECLSPEC void SDLCALL SDL_GetClipRect(SDL_Surface * surface,
  * The returned surface should be freed with SDL_FreeSurface().
  *
  * \param surface the surface to duplicate.
- * \returns a copy of the surface, or NULL on failure; call SDL_GetError() for
+ * \returns a copy of the surface, or nullptr on failure; call SDL_GetError() for
  *          more information.
  */
 extern DECLSPEC SDL_Surface *SDLCALL SDL_DuplicateSurface(SDL_Surface * surface);
@@ -663,7 +663,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_DuplicateSurface(SDL_Surface * surface)
  *            for
  * \param flags the flags are unused and should be set to 0; this is a
  *              leftover from SDL 1.2's API
- * \returns the new SDL_Surface structure that is created or NULL if it fails;
+ * \returns the new SDL_Surface structure that is created or nullptr if it fails;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -688,7 +688,7 @@ extern DECLSPEC SDL_Surface *SDLCALL SDL_ConvertSurface
  *                     optimized for
  * \param flags the flags are unused and should be set to 0; this is a
  *              leftover from SDL 1.2's API
- * \returns the new SDL_Surface structure that is created or NULL if it fails;
+ * \returns the new SDL_Surface structure that is created or nullptr if it fails;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -762,7 +762,7 @@ extern DECLSPEC int SDLCALL SDL_PremultiplyAlpha(int width, int height,
  *
  * \param dst the SDL_Surface structure that is the drawing target
  * \param rect the SDL_Rect structure representing the rectangle to fill, or
- *             NULL to fill the entire surface
+ *             nullptr to fill the entire surface
  * \param color the color to fill with
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
@@ -805,7 +805,7 @@ extern DECLSPEC int SDLCALL SDL_FillRects
  *  Performs a fast blit from the source surface to the destination surface.
  *
  *  This assumes that the source and destination rectangles are
- *  the same size.  If either \c srcrect or \c dstrect are NULL, the entire
+ *  the same size.  If either \c srcrect or \c dstrect are nullptr, the entire
  *  surface (\c src or \c dst) is copied.  The final blit rectangles are saved
  *  in \c srcrect and \c dstrect after all clipping is performed.
  *
@@ -885,7 +885,7 @@ extern DECLSPEC int SDLCALL SDL_UpperBlit
  *
  * \param src the SDL_Surface structure to be copied from
  * \param srcrect the SDL_Rect structure representing the rectangle to be
- *                copied, or NULL to copy the entire surface
+ *                copied, or nullptr to copy the entire surface
  * \param dst the SDL_Surface structure that is the blit target
  * \param dstrect the SDL_Rect structure representing the rectangle that is
  *                copied into

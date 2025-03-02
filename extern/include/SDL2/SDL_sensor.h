@@ -156,7 +156,7 @@ extern DECLSPEC int SDLCALL SDL_NumSensors(void);
  * Get the implementation dependent name of a sensor.
  *
  * \param device_index The sensor to obtain name from
- * \returns the sensor name, or NULL if `device_index` is out of range.
+ * \returns the sensor name, or nullptr if `device_index` is out of range.
  *
  * \since This function is available since SDL 2.0.9.
  */
@@ -198,7 +198,7 @@ extern DECLSPEC SDL_SensorID SDLCALL SDL_SensorGetDeviceInstanceID(int device_in
  * Open a sensor for use.
  *
  * \param device_index The sensor to open
- * \returns an SDL_Sensor sensor object, or NULL if an error occurred.
+ * \returns an SDL_Sensor sensor object, or nullptr if an error occurred.
  *
  * \since This function is available since SDL 2.0.9.
  */
@@ -218,7 +218,7 @@ extern DECLSPEC SDL_Sensor *SDLCALL SDL_SensorFromInstanceID(SDL_SensorID instan
  * Get the implementation dependent name of a sensor
  *
  * \param sensor The SDL_Sensor object
- * \returns the sensor name, or NULL if `sensor` is NULL.
+ * \returns the sensor name, or nullptr if `sensor` is nullptr.
  *
  * \since This function is available since SDL 2.0.9.
  */
@@ -229,7 +229,7 @@ extern DECLSPEC const char *SDLCALL SDL_SensorGetName(SDL_Sensor *sensor);
  *
  * \param sensor The SDL_Sensor object to inspect
  * \returns the SDL_SensorType type, or `SDL_SENSOR_INVALID` if `sensor` is
- *          NULL.
+ *          nullptr.
  *
  * \since This function is available since SDL 2.0.9.
  */
@@ -239,7 +239,7 @@ extern DECLSPEC SDL_SensorType SDLCALL SDL_SensorGetType(SDL_Sensor *sensor);
  * Get the platform dependent type of a sensor.
  *
  * \param sensor The SDL_Sensor object to inspect
- * \returns the sensor platform dependent type, or -1 if `sensor` is NULL.
+ * \returns the sensor platform dependent type, or -1 if `sensor` is nullptr.
  *
  * \since This function is available since SDL 2.0.9.
  */
@@ -249,7 +249,7 @@ extern DECLSPEC int SDLCALL SDL_SensorGetNonPortableType(SDL_Sensor *sensor);
  * Get the instance ID of a sensor.
  *
  * \param sensor The SDL_Sensor object to inspect
- * \returns the sensor instance ID, or -1 if `sensor` is NULL.
+ * \returns the sensor instance ID, or -1 if `sensor` is nullptr.
  *
  * \since This function is available since SDL 2.0.9.
  */

@@ -167,11 +167,11 @@ CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
 	// Open the file.
 	//
 
-	return NULL;
+	return nullptr;
 
 
 #if DISABLE_CRINKLES
-	return NULL;
+	return nullptr;
 #endif
 
 	handle = MF_Fopen(asc_filename, "rb");
@@ -180,7 +180,7 @@ CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
 	{
 		TRACE("Could not open crinkle file \"%s\"\n", asc_filename);
 
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -369,7 +369,7 @@ CRINKLE_Handle CRINKLE_read_bin(FileClump* tclump, int id)
 	// read data
 
 	UBYTE*	buffer = tclump->Read(id);
-	if (!buffer)	return NULL;
+	if (!buffer)	return nullptr;
 
 	UBYTE*	bptr = buffer;
 

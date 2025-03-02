@@ -6,13 +6,13 @@
 #define		INITIAL_HEAP_SIZE		(8*1024*1024)
 #define		MAXIMUM_HEAP_SIZE		0
 
-HANDLE MFHeap	=	NULL;
+HANDLE MFHeap	=	nullptr;
 
 //---------------------------------------------------------------
 
 bool SetupMemory()
 {
-	if(MFHeap==NULL)
+	if(MFHeap==nullptr)
 	{
 	   MFHeap	=	HeapCreate(0,INITIAL_HEAP_SIZE,MAXIMUM_HEAP_SIZE);
 	}
@@ -29,7 +29,7 @@ void ResetMemory()
 	if(MFHeap)
 	{
 		HeapDestroy(MFHeap);
-		MFHeap	=	NULL;
+		MFHeap	=	nullptr;
 	}
 }
 

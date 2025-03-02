@@ -132,21 +132,21 @@ extern MenuDef2	select_clist_popup[];
 
 MenuDef2	*condition_defs[][MAX_FIELDS]	=
 {
-	{	condition_popup,	generic_popup,			generic_popup,			NULL	},	// CON_NONE
-	{	condition_popup,	select_thing_popup,		generic_popup,			NULL	},	// CON_THING_DEAD
-	{	condition_popup,	select_group_popup,		generic_popup,			NULL	},	// CON_ALL_GROUP_DEAD
-	{	condition_popup,	select_group_popup,		generic_popup,			NULL	},	// CON_PERCENT_GROUP_DEAD
-	{	condition_popup,	select_thing_popup,		generic_popup,			NULL	},	// CON_THING_NEAR_PLAYER
-	{	condition_popup,	select_group_popup,		generic_popup,			NULL	},	// CON_GROUP_NEAR_PLAYER
-	{	condition_popup,	select_class_popup,		generic_popup,			NULL	},	// CON_CLASS_NEAR_PLAYER
-	{	condition_popup,	select_thing_popup,		select_thing_popup,		NULL	},	// CON_THING_NEAR_THING
-	{	condition_popup,	select_group_popup,		select_thing_popup,		NULL	},	// CON_GROUP_NEAR_THING
-	{	condition_popup,	select_class_popup,		select_thing_popup,		NULL	},	// CON_CLASS_NEAR_THING
-	{	condition_popup,	select_class_popup,		generic_popup,			NULL	},	// CON_CLASS_COUNT
-	{	condition_popup,	select_group_popup,		generic_popup,			NULL	},	// CON_GROUP_COUNT
-	{	condition_popup,	select_switch_popup,	NULL,					NULL	},	// CON_SWITCH_TRIGGERED
-	{	condition_popup,	generic_popup,			generic_popup,			NULL	},	// CON_TIME
-	{	condition_popup,	select_clist_popup,		generic_popup,			NULL	}	// CON_CLIST_FULFILLED
+	{	condition_popup,	generic_popup,			generic_popup,			nullptr	},	// CON_NONE
+	{	condition_popup,	select_thing_popup,		generic_popup,			nullptr	},	// CON_THING_DEAD
+	{	condition_popup,	select_group_popup,		generic_popup,			nullptr	},	// CON_ALL_GROUP_DEAD
+	{	condition_popup,	select_group_popup,		generic_popup,			nullptr	},	// CON_PERCENT_GROUP_DEAD
+	{	condition_popup,	select_thing_popup,		generic_popup,			nullptr	},	// CON_THING_NEAR_PLAYER
+	{	condition_popup,	select_group_popup,		generic_popup,			nullptr	},	// CON_GROUP_NEAR_PLAYER
+	{	condition_popup,	select_class_popup,		generic_popup,			nullptr	},	// CON_CLASS_NEAR_PLAYER
+	{	condition_popup,	select_thing_popup,		select_thing_popup,		nullptr	},	// CON_THING_NEAR_THING
+	{	condition_popup,	select_group_popup,		select_thing_popup,		nullptr	},	// CON_GROUP_NEAR_THING
+	{	condition_popup,	select_class_popup,		select_thing_popup,		nullptr	},	// CON_CLASS_NEAR_THING
+	{	condition_popup,	select_class_popup,		generic_popup,			nullptr	},	// CON_CLASS_COUNT
+	{	condition_popup,	select_group_popup,		generic_popup,			nullptr	},	// CON_GROUP_COUNT
+	{	condition_popup,	select_switch_popup,	nullptr,					nullptr	},	// CON_SWITCH_TRIGGERED
+	{	condition_popup,	generic_popup,			generic_popup,			nullptr	},	// CON_TIME
+	{	condition_popup,	select_clist_popup,		generic_popup,			nullptr	}	// CON_CLIST_FULFILLED
 };
 
 //---------------------------------------------------------------

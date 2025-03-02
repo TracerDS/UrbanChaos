@@ -326,7 +326,7 @@ extern DECLSPEC const char *SDLCALL SDL_GetVideoDriver(int index);
  * You can use SDL_GetNumVideoDrivers() and SDL_GetVideoDriver() to find a
  * specific `driver_name`.
  *
- * \param driver_name the name of a video driver to initialize, or NULL for
+ * \param driver_name the name of a video driver to initialize, or nullptr for
  *                    the default driver
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
@@ -354,7 +354,7 @@ extern DECLSPEC void SDLCALL SDL_VideoQuit(void);
 /**
  * Get the name of the currently initialized video driver.
  *
- * \returns the name of the current video driver or NULL if no driver has been
+ * \returns the name of the current video driver or nullptr if no driver has been
  *          initialized.
  *
  * \since This function is available since SDL 2.0.0.
@@ -381,7 +381,7 @@ extern DECLSPEC int SDLCALL SDL_GetNumVideoDisplays(void);
  *
  * \param displayIndex the index of display from which the name should be
  *                     queried
- * \returns the name of a display or NULL for an invalid display index or
+ * \returns the name of a display or nullptr for an invalid display index or
  *          failure; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -419,7 +419,7 @@ extern DECLSPEC int SDLCALL SDL_GetDisplayBounds(int displayIndex, SDL_Rect * re
  * so these are good guidelines for the maximum space available to a
  * non-fullscreen window.
  *
- * The parameter `rect` is ignored if it is NULL.
+ * The parameter `rect` is ignored if it is nullptr.
  *
  * This function also returns -1 if the parameter `displayIndex` is out of
  * range.
@@ -441,7 +441,7 @@ extern DECLSPEC int SDLCALL SDL_GetDisplayUsableBounds(int displayIndex, SDL_Rec
  * Get the dots/pixels-per-inch for a display.
  *
  * Diagonal, horizontal and vertical DPI can all be optionally returned if the
- * appropriate parameter is non-NULL.
+ * appropriate parameter is non-nullptr.
  *
  * A failure of this function usually means that either no DPI information is
  * available or the `displayIndex` is out of range.
@@ -458,11 +458,11 @@ extern DECLSPEC int SDLCALL SDL_GetDisplayUsableBounds(int displayIndex, SDL_Rec
  * \param displayIndex the index of the display from which DPI information
  *                     should be queried
  * \param ddpi a pointer filled in with the diagonal DPI of the display; may
- *             be NULL
+ *             be nullptr
  * \param hdpi a pointer filled in with the horizontal DPI of the display; may
- *             be NULL
+ *             be nullptr
  * \param vdpi a pointer filled in with the vertical DPI of the display; may
- *             be NULL
+ *             be nullptr
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
@@ -581,14 +581,14 @@ extern DECLSPEC int SDLCALL SDL_GetCurrentDisplayMode(int displayIndex, SDL_Disp
  * refresh rate default to the desktop mode if they are set to 0. The modes
  * are scanned with size being first priority, format being second priority,
  * and finally checking the refresh rate. If all the available modes are too
- * small, then NULL is returned.
+ * small, then nullptr is returned.
  *
  * \param displayIndex the index of the display to query
  * \param mode an SDL_DisplayMode structure containing the desired display
  *             mode
  * \param closest an SDL_DisplayMode structure filled in with the closest
  *                match of the available display modes
- * \returns the passed in value `closest` or NULL if no matching video mode
+ * \returns the passed in value `closest` or nullptr if no matching video mode
  *          was available; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -651,7 +651,7 @@ extern DECLSPEC int SDLCALL SDL_GetWindowDisplayIndex(SDL_Window * window);
  *
  * \param window the window to affect
  * \param mode the SDL_DisplayMode structure representing the mode to use, or
- *             NULL to use the window's dimensions and the desktop's format
+ *             nullptr to use the window's dimensions and the desktop's format
  *             and refresh rate
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
@@ -688,7 +688,7 @@ extern DECLSPEC int SDLCALL SDL_GetWindowDisplayMode(SDL_Window * window,
  *
  * \param window the window to query
  * \param size the size of the ICC profile
- * \returns the raw ICC profile data on success or NULL on failure; call
+ * \returns the raw ICC profile data on success or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.18.
@@ -770,7 +770,7 @@ extern DECLSPEC Uint32 SDLCALL SDL_GetWindowPixelFormat(SDL_Window * window);
  * \param w the width of the window, in screen coordinates
  * \param h the height of the window, in screen coordinates
  * \param flags 0, or one or more SDL_WindowFlags OR'd together
- * \returns the window that was created or NULL on failure; call
+ * \returns the window that was created or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -791,7 +791,7 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_CreateWindow(const char *title,
  *
  * \param data a pointer to driver-dependent window creation data, typically
  *             your native window cast to a void*
- * \returns the window that was created or NULL on failure; call
+ * \returns the window that was created or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -824,7 +824,7 @@ extern DECLSPEC Uint32 SDLCALL SDL_GetWindowID(SDL_Window * window);
  * these events to specific SDL_Window objects.
  *
  * \param id the ID of the window
- * \returns the window associated with `id` or NULL if it doesn't exist; call
+ * \returns the window associated with `id` or nullptr if it doesn't exist; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -943,14 +943,14 @@ extern DECLSPEC void SDLCALL SDL_SetWindowPosition(SDL_Window * window,
 /**
  * Get the position of a window.
  *
- * If you do not need the value for one of the positions a NULL may be passed
+ * If you do not need the value for one of the positions a nullptr may be passed
  * in the `x` or `y` parameter.
  *
  * \param window the window to query
  * \param x a pointer filled in with the x position of the window, in screen
- *          coordinates, may be NULL
+ *          coordinates, may be nullptr
  * \param y a pointer filled in with the y position of the window, in screen
- *          coordinates, may be NULL
+ *          coordinates, may be nullptr
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -987,7 +987,7 @@ extern DECLSPEC void SDLCALL SDL_SetWindowSize(SDL_Window * window, int w,
 /**
  * Get the size of a window's client area.
  *
- * NULL can safely be passed as the `w` or `h` parameter if the width or
+ * nullptr can safely be passed as the `w` or `h` parameter if the width or
  * height value is not desired.
  *
  * The window size in screen coordinates may differ from the size in pixels,
@@ -998,9 +998,9 @@ extern DECLSPEC void SDLCALL SDL_SetWindowSize(SDL_Window * window, int w,
  *
  * \param window the window to query the width and height from
  * \param w a pointer filled in with the width of the window, in screen
- *          coordinates, may be NULL
+ *          coordinates, may be nullptr
  * \param h a pointer filled in with the height of the window, in screen
- *          coordinates, may be NULL
+ *          coordinates, may be nullptr
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -1015,7 +1015,7 @@ extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * window, int *w,
  * Get the size of a window's borders (decorations) around the client area.
  *
  * Note: If this function fails (returns -1), the size values will be
- * initialized to 0, 0, 0, 0 (if a non-NULL pointer is provided), as if the
+ * initialized to 0, 0, 0, 0 (if a non-nullptr pointer is provided), as if the
  * window in question was borderless.
  *
  * Note: This function may fail on systems where the window has not yet been
@@ -1028,14 +1028,14 @@ extern DECLSPEC void SDLCALL SDL_GetWindowSize(SDL_Window * window, int *w,
  *
  * \param window the window to query the size values of the border
  *               (decorations) from
- * \param top pointer to variable for storing the size of the top border; NULL
+ * \param top pointer to variable for storing the size of the top border; nullptr
  *            is permitted
  * \param left pointer to variable for storing the size of the left border;
- *             NULL is permitted
+ *             nullptr is permitted
  * \param bottom pointer to variable for storing the size of the bottom
- *               border; NULL is permitted
+ *               border; nullptr is permitted
  * \param right pointer to variable for storing the size of the right border;
- *              NULL is permitted
+ *              nullptr is permitted
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
@@ -1056,9 +1056,9 @@ extern DECLSPEC int SDLCALL SDL_GetWindowBordersSize(SDL_Window * window,
  * disabled by the `SDL_HINT_VIDEO_HIGHDPI_DISABLED` hint.
  *
  * \param window the window from which the drawable size should be queried
- * \param w a pointer to variable for storing the width in pixels, may be NULL
+ * \param w a pointer to variable for storing the width in pixels, may be nullptr
  * \param h a pointer to variable for storing the height in pixels, may be
- *          NULL
+ *          nullptr
  *
  * \since This function is available since SDL 2.26.0.
  *
@@ -1088,9 +1088,9 @@ extern DECLSPEC void SDLCALL SDL_SetWindowMinimumSize(SDL_Window * window,
  *
  * \param window the window to query
  * \param w a pointer filled in with the minimum width of the window, may be
- *          NULL
+ *          nullptr
  * \param h a pointer filled in with the minimum height of the window, may be
- *          NULL
+ *          nullptr
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -1120,9 +1120,9 @@ extern DECLSPEC void SDLCALL SDL_SetWindowMaximumSize(SDL_Window * window,
  *
  * \param window the window to query
  * \param w a pointer filled in with the maximum width of the window, may be
- *          NULL
+ *          nullptr
  * \param h a pointer filled in with the maximum height of the window, may be
- *          NULL
+ *          nullptr
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -1302,7 +1302,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_HasWindowSurface(SDL_Window *window);
  * This function is affected by `SDL_HINT_FRAMEBUFFER_ACCELERATION`.
  *
  * \param window the window to query
- * \returns the surface associated with the window, or NULL on failure; call
+ * \returns the surface associated with the window, or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -1486,7 +1486,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GetWindowMouseGrab(SDL_Window * window);
 /**
  * Get the window that currently has an input grab enabled.
  *
- * \returns the window if input is grabbed or NULL otherwise.
+ * \returns the window if input is grabbed or nullptr otherwise.
  *
  * \since This function is available since SDL 2.0.4.
  *
@@ -1502,7 +1502,7 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_GetGrabbedWindow(void);
  * is restricted to when the window has mouse focus.
  *
  * \param window The window that will be associated with the barrier.
- * \param rect A rectangle area in window-relative coordinates. If NULL the
+ * \param rect A rectangle area in window-relative coordinates. If nullptr the
  *             barrier for the specified window will be destroyed.
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
@@ -1518,7 +1518,7 @@ extern DECLSPEC int SDLCALL SDL_SetWindowMouseRect(SDL_Window * window, const SD
  * Get the mouse confinement rectangle of a window.
  *
  * \param window The window to query
- * \returns A pointer to the mouse confinement rectangle of a window, or NULL
+ * \returns A pointer to the mouse confinement rectangle of a window, or nullptr
  *          if there isn't one.
  *
  * \since This function is available since SDL 2.0.18.
@@ -1599,7 +1599,7 @@ extern DECLSPEC int SDLCALL SDL_SetWindowOpacity(SDL_Window * window, float opac
  * If transparency isn't supported on this platform, opacity will be reported
  * as 1.0f without error.
  *
- * The parameter `opacity` is ignored if it is NULL.
+ * The parameter `opacity` is ignored if it is nullptr.
  *
  * This function also returns -1 if an invalid window was provided.
  *
@@ -1661,11 +1661,11 @@ extern DECLSPEC int SDLCALL SDL_SetWindowInputFocus(SDL_Window * window);
  * \param window the window used to select the display whose gamma ramp will
  *               be changed
  * \param red a 256 element array of 16-bit quantities representing the
- *            translation table for the red channel, or NULL
+ *            translation table for the red channel, or nullptr
  * \param green a 256 element array of 16-bit quantities representing the
- *              translation table for the green channel, or NULL
+ *              translation table for the green channel, or nullptr
  * \param blue a 256 element array of 16-bit quantities representing the
- *             translation table for the blue channel, or NULL
+ *             translation table for the blue channel, or nullptr
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
@@ -1689,11 +1689,11 @@ extern DECLSPEC int SDLCALL SDL_SetWindowGammaRamp(SDL_Window * window,
  * \param window the window used to select the display whose gamma ramp will
  *               be queried
  * \param red a 256 element array of 16-bit quantities filled in with the
- *            translation table for the red channel, or NULL
+ *            translation table for the red channel, or nullptr
  * \param green a 256 element array of 16-bit quantities filled in with the
- *              translation table for the green channel, or NULL
+ *              translation table for the green channel, or nullptr
  * \param blue a 256 element array of 16-bit quantities filled in with the
- *             translation table for the blue channel, or NULL
+ *             translation table for the blue channel, or nullptr
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
  *
@@ -1757,7 +1757,7 @@ typedef SDL_HitTestResult (SDLCALL *SDL_HitTest)(SDL_Window *win,
  * special area; the OS will often apply that input to moving the window or
  * resizing the window and not deliver it to the application.
  *
- * Specifying NULL for a callback disables hit-testing. Hit-testing is
+ * Specifying nullptr for a callback disables hit-testing. Hit-testing is
  * disabled by default.
  *
  * Platforms that don't support this functionality will return -1
@@ -1798,7 +1798,7 @@ extern DECLSPEC int SDLCALL SDL_FlashWindow(SDL_Window * window, SDL_FlashOperat
 /**
  * Destroy a window.
  *
- * If `window` is NULL, this function will return immediately after setting
+ * If `window` is nullptr, this function will return immediately after setting
  * the SDL error message to "Invalid window". See SDL_GetError().
  *
  * \param window the window to destroy
@@ -1871,7 +1871,7 @@ extern DECLSPEC void SDLCALL SDL_DisableScreenSaver(void);
  * If you do this, you need to retrieve all of the GL functions used in your
  * program from the dynamic library using SDL_GL_GetProcAddress().
  *
- * \param path the platform dependent OpenGL library name, or NULL to open the
+ * \param path the platform dependent OpenGL library name, or nullptr to open the
  *             default OpenGL library
  * \returns 0 on success or a negative error code on failure; call
  *          SDL_GetError() for more information.
@@ -1906,15 +1906,15 @@ extern DECLSPEC int SDLCALL SDL_GL_LoadLibrary(const char *path);
  * - On X11, function pointers returned by this function are valid for any
  *   context, and can even be looked up before a context is created at all.
  *   This means that, for at least some common OpenGL implementations, if you
- *   look up a function that doesn't exist, you'll get a non-NULL result that
+ *   look up a function that doesn't exist, you'll get a non-nullptr result that
  *   is _NOT_ safe to call. You must always make sure the function is actually
  *   available for a given GL context before calling it, by checking for the
  *   existence of the appropriate extension with SDL_GL_ExtensionSupported(),
  *   or verifying that the version of OpenGL you're using offers the function
  *   as core functionality.
- * - Some OpenGL drivers, on all platforms, *will* return NULL if a function
+ * - Some OpenGL drivers, on all platforms, *will* return nullptr if a function
  *   isn't supported, but you can't count on this behavior. Check for
- *   extensions you use, and if you get a NULL anyway, act as if that
+ *   extensions you use, and if you get a nullptr anyway, act as if that
  *   extension wasn't available. This is probably a bug in the driver, but you
  *   can code defensively for this scenario anyhow.
  * - Just because you're on Linux/Unix, don't assume you'll be using X11.
@@ -2024,7 +2024,7 @@ extern DECLSPEC int SDLCALL SDL_GL_GetAttribute(SDL_GLattr attr, int *value);
  * SDL_GLContext is an alias for `void *`. It's opaque to the application.
  *
  * \param window the window to associate with the context
- * \returns the OpenGL context associated with `window` or NULL on error; call
+ * \returns the OpenGL context associated with `window` or nullptr on error; call
  *          SDL_GetError() for more details.
  *
  * \since This function is available since SDL 2.0.0.
@@ -2055,7 +2055,7 @@ extern DECLSPEC int SDLCALL SDL_GL_MakeCurrent(SDL_Window * window,
 /**
  * Get the currently active OpenGL window.
  *
- * \returns the currently active OpenGL window on success or NULL on failure;
+ * \returns the currently active OpenGL window on success or nullptr on failure;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -2065,7 +2065,7 @@ extern DECLSPEC SDL_Window* SDLCALL SDL_GL_GetCurrentWindow(void);
 /**
  * Get the currently active OpenGL context.
  *
- * \returns the currently active OpenGL context or NULL on failure; call
+ * \returns the currently active OpenGL context or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -2085,9 +2085,9 @@ extern DECLSPEC SDL_GLContext SDLCALL SDL_GL_GetCurrentContext(void);
  * disabled by the `SDL_HINT_VIDEO_HIGHDPI_DISABLED` hint.
  *
  * \param window the window from which the drawable size should be queried
- * \param w a pointer to variable for storing the width in pixels, may be NULL
+ * \param w a pointer to variable for storing the width in pixels, may be nullptr
  * \param h a pointer to variable for storing the height in pixels, may be
- *          NULL
+ *          nullptr
  *
  * \since This function is available since SDL 2.0.1.
  *

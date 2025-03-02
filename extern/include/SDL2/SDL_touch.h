@@ -96,7 +96,7 @@ extern DECLSPEC int SDLCALL SDL_GetNumTouchDevices(void);
 extern DECLSPEC SDL_TouchID SDLCALL SDL_GetTouchDevice(int index);
 
 /**
- * Get the touch device name as reported from the driver or NULL if the index
+ * Get the touch device name as reported from the driver or nullptr if the index
  * is invalid.
  *
  * \since This function is available since SDL 2.0.22.
@@ -130,7 +130,7 @@ extern DECLSPEC int SDLCALL SDL_GetNumTouchFingers(SDL_TouchID touchID);
  *
  * \param touchID the ID of the requested touch device
  * \param index the index of the requested finger
- * \returns a pointer to the SDL_Finger object or NULL if no object at the
+ * \returns a pointer to the SDL_Finger object or nullptr if no object at the
  *          given ID and index could be found.
  *
  * \since This function is available since SDL 2.0.0.

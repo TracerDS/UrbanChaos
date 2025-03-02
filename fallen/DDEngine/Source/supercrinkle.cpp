@@ -23,7 +23,7 @@
 #define SUPERCRINKLE_MAX_LVERTS 16384
 
 //D3DLVERTEX  SUPERCRINKLE_lvert_buffer[SUPERCRINKLE_MAX_LVERTS + 1];
-D3DLVERTEX *SUPERCRINKLE_lvert_buffer = NULL;
+D3DLVERTEX *SUPERCRINKLE_lvert_buffer = nullptr;
 D3DLVERTEX *SUPERCRINKLE_lvert;
 SLONG       SUPERCRINKLE_lvert_upto;
 
@@ -716,7 +716,7 @@ void SUPERCRINKLE_init()
 	//
 
 
-	if ( SUPERCRINKLE_lvert_buffer == NULL )
+	if ( SUPERCRINKLE_lvert_buffer == nullptr )
 	{
 		SUPERCRINKLE_lvert_buffer = (D3DLVERTEX*)MemAlloc ( sizeof(D3DLVERTEX) * ( SUPERCRINKLE_MAX_LVERTS + 1 ) );
 	}
@@ -879,7 +879,7 @@ void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
 	// No cached info found. Create it!
 	//
 
-	if (*free_list == NULL)
+	if (!*free_list )
 	{
 		//
 		// We must free up a structure. Pick a random one.
@@ -903,7 +903,7 @@ void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
 
 		while(1)
 		{
-			if (next == NULL)
+			if (!next )
 			{
 				//	 
 				// Reached the end of the list without finding our cache element!
@@ -942,7 +942,7 @@ void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
 	//
 
 	sh->hash = hash;
-	sh->next = NULL;
+	sh->next = nullptr;
 	
 	for (i = 0; i < sc->num_lverts; i++)
 	{
@@ -1075,8 +1075,8 @@ SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4])
 
 	d3dmm.lpvVertices   = SUPERCRINKLE_lvert + sc->lvert;
 	d3dmm.lpd3dMatrices = SUPERCRINKLE_matrix;
-	d3dmm.lpvLightDirs  = NULL;
-	d3dmm.lpLightTable  = NULL;
+	d3dmm.lpvLightDirs  = nullptr;
+	d3dmm.lpLightTable  = nullptr;
 
 	GenerateMMMatrixFromStandardD3DOnes(
 		SUPERCRINKLE_matrix,

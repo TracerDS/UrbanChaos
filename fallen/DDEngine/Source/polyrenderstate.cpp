@@ -44,7 +44,7 @@ static bool	RenderStates_OK = false;
 #else
 #define SET_TEXTURE(PAGE)		pa->RS.SetTexture(TEXTURE_get_handle(PAGE))
 #endif
-#define SET_NO_TEXTURE			pa->RS.SetTexture(NULL)
+#define SET_NO_TEXTURE			pa->RS.SetTexture(nullptr)
 #define SET_RENDER_STATE(I,V)	pa->RS.SetRenderState(I,V)
 #define SET_EFFECT(FX)			pa->RS.SetEffect(FX)
 
@@ -1613,7 +1613,7 @@ extern void POLY_ClearAllPages ( void );
 		LPDIRECT3DTEXTURE2	tex = POLY_Page[ii].RS.GetTexture();
 		PolyPage *pPolyPage = &(POLY_Page[ii]);
 
-		if ( tex != NULL )
+		if ( tex != nullptr )
 		{
 			for (ii++; ii < POLY_NUM_PAGES; ii++)
 			{
@@ -1650,7 +1650,7 @@ extern void POLY_ClearAllPages ( void );
 	}
 
 #ifdef DEBUG
-	TRACE ( "Number of NULL pages %i\n", iNullTextureCount );
+	TRACE ( "Number of nullptr pages %i\n", iNullTextureCount );
 #endif
 
 extern int iPolyNumPagesRender;

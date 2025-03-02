@@ -764,7 +764,7 @@ SLONG place_building_at(UWORD building,UWORD prim,SLONG x,SLONG y,SLONG z)
 						p_thing->WorldPos.Y=y<<8;
 						p_thing->WorldPos.Z=z<<8;
 						p_thing->StateFn		=	fn_building_normal;		//	Guy.
-//						p_thing->StateFn		=	NULL;
+//						p_thing->StateFn		=	nullptr;
 						p_thing->DrawType		=	DT_NONE;
 						p_thing->Flags			=	0;
 
@@ -3757,7 +3757,7 @@ void clear_reflective_flag(SLONG min_x,SLONG min_z,SLONG max_x,SLONG max_z)
 }
 
 //
-// Returns the OUTLINE_Outline of the given storey.  Returns NULL if
+// Returns the OUTLINE_Outline of the given storey.  Returns nullptr if
 // the storey is not circular.  Non-circular storeys are not defined.
 //
 
@@ -3777,7 +3777,7 @@ OUTLINE_Outline *get_storey_outline(SLONG storey)
 		// Not circular stories don't have outlines.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	oo = OUTLINE_create(128);
@@ -3808,10 +3808,10 @@ SLONG do_storeys_overlap(SLONG s1, SLONG s2)
 	OUTLINE_Outline *oos;
 	OUTLINE_Outline *ool;
 	oos = get_storey_outline(s1);
-	if (oos == NULL)
+	if (!oos )
 		return(0);
 	ool = get_storey_outline(s2);
-	if (ool == NULL)
+	if (!ool )
 		return(0);
 
 

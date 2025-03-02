@@ -85,7 +85,7 @@ LL_Texture *LL_create_texture(CBYTE* fname)
 
 	for (i = 0; i < LL_MAX_TEXTURES; i++)
 	{
-		if (LL_texture[i] == NULL)
+		if (!LL_texture[i] )
 		{
 			LL_texture[i] = lt;
 
@@ -99,7 +99,7 @@ LL_Texture *LL_create_texture(CBYTE* fname)
 
 	ASSERT(0);
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -121,7 +121,7 @@ void LL_free_texture(LL_Texture *lt)
 	{
 		if (LL_texture[i] == lt)
 		{
-			LL_texture[i] = NULL;
+			LL_texture[i] = nullptr;
 
 			return;
 		}
@@ -180,7 +180,7 @@ LL_Sound *LL_create_sound(CBYTE* fname)
 
 	for (i = 0; i < LL_MAX_SOUNDS; i++)
 	{
-		if (LL_sound[i] == NULL)
+		if (!LL_sound[i] )
 		{
 			LL_sound[i] = ls;
 
@@ -194,7 +194,7 @@ LL_Sound *LL_create_sound(CBYTE* fname)
 
 	ASSERT(0);
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -216,7 +216,7 @@ void LL_free_sound(LL_Sound *ls)
 	{
 		if (LL_sound[i] == ls)
 		{
-			LL_sound[i] = NULL;
+			LL_sound[i] = nullptr;
 
 			return;
 		}
@@ -292,7 +292,7 @@ OS_Vert LL_vert[OS_MAX_TRANS];
 
 void LL_draw_buffer(
 		LL_Buffer  *lb,
-		LL_Texture *lt,		// NULL => Draw untextured
+		LL_Texture *lt,		// nullptr => Draw untextured
 		ULONG       rs)		// The LL_RS_* renderstates ORed together.
 {
 	SLONG i;
@@ -381,7 +381,7 @@ void LL_draw_buffer(
 	// Now draw the buffer.
 	//
 
-	OS_buffer_draw(ob, (lt) ? lt->ot : NULL, NULL, rs | OS_DRAW_DOUBLESIDED | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE);
+	OS_buffer_draw(ob, (lt) ? lt->ot : nullptr, nullptr, rs | OS_DRAW_DOUBLESIDED | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE);
 }
 
 

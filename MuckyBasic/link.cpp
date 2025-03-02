@@ -210,19 +210,19 @@ void LINK_free_memory()
 	free(LINK_debug_data    );
 	free(LINK_file          );
 
-	LINK_instruction    = NULL;
-	LINK_table_data     = NULL;
-	LINK_global         = NULL;
-	LINK_function       = NULL;
-	LINK_line           = NULL;
-	LINK_jump           = NULL;
-	LINK_field          = NULL;
-	LINK_global_ref     = NULL;
-	LINK_undef_ref      = NULL;
-	LINK_field_ref      = NULL;
-	LINK_data_table_ref = NULL;
-	LINK_debug_data     = NULL;
-	LINK_file           = NULL;
+	LINK_instruction    = nullptr;
+	LINK_table_data     = nullptr;
+	LINK_global         = nullptr;
+	LINK_function       = nullptr;
+	LINK_line           = nullptr;
+	LINK_jump           = nullptr;
+	LINK_field          = nullptr;
+	LINK_global_ref     = nullptr;
+	LINK_undef_ref      = nullptr;
+	LINK_field_ref      = nullptr;
+	LINK_data_table_ref = nullptr;
+	LINK_debug_data     = nullptr;
+	LINK_file           = nullptr;
 }
 
 
@@ -269,7 +269,7 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 
 		handle = fopen(object_fname[i], "rb");
 
-		if (handle == NULL)
+		if (!handle )
 		{
 			//
 			// ERROR! Can't open object file...
@@ -921,7 +921,7 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 
 	handle = fopen(exec_fname, "wb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		//
 		// ERROR!

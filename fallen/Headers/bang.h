@@ -53,7 +53,7 @@ typedef struct
 } BANG_Info;
 
 void       BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
-BANG_Info *BANG_get_next();	// NULL => No more bangs.
+BANG_Info *BANG_get_next();	// nullptr => No more bangs.
 
 
 

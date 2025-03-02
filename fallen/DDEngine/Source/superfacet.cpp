@@ -1076,8 +1076,8 @@ void SUPERFACET_create_calls(SLONG facet, SLONG direction)
 
 				texture = SUPERFACET_convert_texture(page, quad);
 
-				// Some textures are indeed NULL, if they are missing.
-				//ASSERT ( texture != NULL );
+				// Some textures are indeed nullptr, if they are missing.
+				//ASSERT ( texture != nullptr );
 
 				//
 				// Do we already have this texture?
@@ -1187,7 +1187,7 @@ void SUPERFACET_convert_facet(SLONG facet)
 
 	df = &dfacets[facet];
 
-	if (df->Dfcache == NULL)
+	if (!df->Dfcache )
 	{
 		//
 		// Create cached lighting for the facet.
@@ -1322,7 +1322,7 @@ void SUPERFACET_convert_facet(SLONG facet)
 
 	NIGHT_dfcache_destroy(df->Dfcache);
 
-	df->Dfcache = NULL;
+	df->Dfcache = nullptr;
 
 	//
 	// Add to the queue of facets.
@@ -1345,7 +1345,7 @@ void SUPERFACET_init()
 {
 	#ifdef SUPERFACET_PERFORMANCE
 
-	if (SUPERFACET_handle == NULL)
+	if (!SUPERFACET_handle )
 	{
 		SUPERFACET_handle = fopen("facetcache.txt", "wb");
 	}
@@ -1382,11 +1382,11 @@ void SUPERFACET_init()
 	//
 
 	SUPERFACET_lvert_buffer = (UBYTE            *) MemAlloc(sizeof(D3DLVERTEX)       * SUPERFACET_MAX_LVERTS + 32);
-	ASSERT ( SUPERFACET_lvert_buffer != NULL );
+	ASSERT ( SUPERFACET_lvert_buffer != nullptr );
 	SUPERFACET_index        = (UWORD            *) MemAlloc(sizeof(UWORD)            * SUPERFACET_MAX_INDICES    );
-	ASSERT ( SUPERFACET_index != NULL );
+	ASSERT ( SUPERFACET_index != nullptr );
 	SUPERFACET_facet        = (SUPERFACET_Facet *) MemAlloc(sizeof(SUPERFACET_Facet) * SUPERFACET_MAX_FACETS     );
-	ASSERT ( SUPERFACET_facet != NULL );
+	ASSERT ( SUPERFACET_facet != nullptr );
 
 	//
 	// Initialise data.
@@ -1493,7 +1493,7 @@ void SUPERFACET_redo_lighting(SLONG facet)
 	sf = &SUPERFACET_facet[facet];
 
 					ASSERT(0);
-	if (df->Dfcache == NULL)
+	if (!df->Dfcache )
 	{
 		//
 		// Create cached lighting for the facet.
@@ -1601,7 +1601,7 @@ extern DIJOYSTATE the_state;
 		SUPERFACET_matrix,
 	    &g_matProjection,
 	    //g_matWorld,
-		NULL,
+		nullptr,
 	    &g_viewData);
 #endif
 	#ifdef SUPERFACET_PERFORMANCE
@@ -1756,7 +1756,7 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 		the_display.lp_D3D_Device->SetTexture(0, sc->texture);
 
-		//ASSERT ( sc->texture != NULL );
+		//ASSERT ( sc->texture != nullptr );
 
 		if (sc->flag & SUPERFACET_CALL_FLAG_CRINKLED)
 		{
@@ -1921,8 +1921,8 @@ SLONG SUPERFACET_draw(SLONG facet)
 			{
 				SUPERFACET_lvert + sc->lvert,
 				SUPERFACET_matrix,
-				NULL,
-				NULL
+				nullptr,
+				nullptr
 			};
 #endif
 
@@ -2045,7 +2045,7 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 		the_display.lp_D3D_Device->SetTexture(0, sc->texture);
 
-		//ASSERT ( sc->texture != NULL );
+		//ASSERT ( sc->texture != nullptr );
 
 		if (sc->flag & SUPERFACET_CALL_FLAG_CRINKLED)
 		{
@@ -2208,14 +2208,14 @@ SLONG SUPERFACET_draw(SLONG facet)
 			{
 				SUPERFACET_lvert + sc->lvert,
 				SUPERFACET_matrix,
-				NULL,
-				NULL
+				nullptr,
+				nullptr
 			};
 			#else
 			d3dmm.lpvVertices   = SUPERFACET_lvert + sc->lvert;
 			d3dmm.lpd3dMatrices = SUPERFACET_matrix;
-			d3dmm.lpvLightDirs  = NULL;
-			d3dmm.lpLightTable  = NULL;
+			d3dmm.lpvLightDirs  = nullptr;
+			d3dmm.lpLightTable  = nullptr;
 			#endif
 
 			/*

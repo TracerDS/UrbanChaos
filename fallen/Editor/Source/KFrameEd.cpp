@@ -396,7 +396,7 @@ void	KeyFrameList::DrawKeyFrames(void)
 	if(TheAnim)
 		current_frame	=	TheAnim->GetFrameList();
 
-	ParentEdit->SetSelectedFrame(NULL);
+	ParentEdit->SetSelectedFrame(nullptr);
 
 	if(test_chunk->MultiObject)
 	{
@@ -697,20 +697,20 @@ void	KeyFrameEditor::SetupModule(void)
 
 	setup_anim_stuff();
 
-	AnimList[0]		=	NULL;
-	AnimList[1]		=	NULL;
+	AnimList[0]		=	nullptr;
+	AnimList[1]		=	nullptr;
 
 	AnimCount[0]		=	0;
 	AnimCount[1]		=	0;
 
-	CurrentAnim[0]		=	NULL;
-	CurrentAnim[1]		=	NULL;
+	CurrentAnim[0]		=	nullptr;
+	CurrentAnim[1]		=	nullptr;
 
 	PlayingAnim[0]		=	0;
 	PlayingAnim[1]		=	0;
 
 	Flags			=	0;
-	SelectedFrame	=	NULL;
+	SelectedFrame	=	nullptr;
 
 	KeyFrameRect.SetRect(2,CONTROLS_HEIGHT-(20+KEY_FRAME_IMAGE_SIZE+4),(6*KEY_FRAME_IMAGE_SIZE)+2,KEY_FRAME_IMAGE_SIZE+2);
 	((CHSlider*)WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0,test_chunk->KeyFrameCount);
@@ -932,7 +932,7 @@ void	KeyFrameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 				//
 				// Left click on keyframe (on current playing animation) to drag and drop it somewhere
 				//
-				selected_frame	=	NULL;
+				selected_frame	=	nullptr;
 				max_frames	=	AnimFrameRect.GetWidth()/KEY_FRAME_IMAGE_SIZE;
 				first_frame	=	((CHSlider*)AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
 				if((first_frame+max_frames)>CurrentAnim[Bank]->GetFrameCount())
@@ -1045,7 +1045,7 @@ void	KeyFrameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 				//
 				// Right click in keyframe (on current playing animation) to select it 
 				//
-				selected_frame	=	NULL;
+				selected_frame	=	nullptr;
 				max_frames	=	AnimFrameRect.GetWidth()/KEY_FRAME_IMAGE_SIZE;
 				first_frame	=	((CHSlider*)AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
 				if((first_frame+max_frames)>CurrentAnim[Bank]->GetFrameCount())
@@ -3696,7 +3696,7 @@ void	KeyFrameEditor::DoHierarchicalAnim()
 
 	start_object=prim_multi_objects[test_chunk->MultiObject].StartObject;
 
-	DoAnimRecurse(0, &r_matrix, start_object, NULL, NULL, NULL);
+	DoAnimRecurse(0, &r_matrix, start_object, nullptr, nullptr, nullptr);
 }
 
 void	KeyFrameEditor::DoCurrentAnim(void)
@@ -3906,7 +3906,7 @@ void	KeyFrameEditor::DoCurrentAnim(void)
 						local_object_flags=FACE_FLAG_OUTLINE;
 
 	//   				test_draw(start_object+object_offset,0,0,0,0,the_element,the_element,r_matrix);
-	//				test_draw(start_object+object_offset,AnimOffsetX[Bank],AnimOffsetY[Bank],100,AnimTween[Bank],the_element,the_next_element,&r_matrix, NULL, NULL);
+	//				test_draw(start_object+object_offset,AnimOffsetX[Bank],AnimOffsetY[Bank],100,AnimTween[Bank],the_element,the_next_element,&r_matrix, nullptr, nullptr);
 
 /*					// JCL - work out the parent of the element.
 					SLONG	parent = body_part_parent_numbers[c1];
@@ -3915,7 +3915,7 @@ void	KeyFrameEditor::DoCurrentAnim(void)
 
 					if (parent == -1)
 					{
-						parent_element = NULL;
+						parent_element = nullptr;
 					}
 					else
 					{
@@ -3926,7 +3926,7 @@ void	KeyFrameEditor::DoCurrentAnim(void)
 							parent_next_element	=	the_element;
 					}*/
 					
-					test_draw(start_object+object_offset,AnimOffsetX[Bank] + AnimGlobalOffsetX,AnimOffsetY[Bank] + AnimGlobalOffsetY,100,AnimTween[Bank],the_element,the_next_element,&r_matrix, NULL, NULL, NULL, NULL, NULL);
+					test_draw(start_object+object_offset,AnimOffsetX[Bank] + AnimGlobalOffsetX,AnimOffsetY[Bank] + AnimGlobalOffsetY,100,AnimTween[Bank],the_element,the_next_element,&r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 
 					local_object_flags=0;
 				}
@@ -5113,7 +5113,7 @@ void	KeyFrameEditor::DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct 
 			object_offset=c2; //test_chunk->PeopleTypes[PersonID].BodyPart[c2];
 
 		the_element			=	&the_frame->FirstElement[c2]; //vue part
-   		test_draw(start_object+object_offset,0,0,0,0,the_element,the_element,r_matrix, NULL, NULL, NULL, NULL, NULL);
+   		test_draw(start_object+object_offset,0,0,0,0,the_element,the_element,r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 	}
 
 /*	old system
@@ -5255,7 +5255,7 @@ void	drawkeyframebox(UWORD multi_object,EdRect *bounds_rect,struct KeyFrame *the
 
 //		object_offset=test_chunk->PeopleTypes[person_id].BodyPart[c2];
 		the_element			=	&the_frame->FirstElement[c2]; //vue part
-   		test_draw(start_object+object_offset,0,0,0,0,the_element,the_element,r_matrix, NULL, NULL, NULL, NULL, NULL);
+   		test_draw(start_object+object_offset,0,0,0,0,the_element,the_element,r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 	}
 
 /*	old system
@@ -5535,7 +5535,7 @@ void	KeyFrameEditor::DrawAnimFrames(Anim *the_anim,bool hilite)
 			{
 				current_frame	=	current_frame->NextFrame;
 			}
-			SelectedFrame	=	NULL;
+			SelectedFrame	=	nullptr;
 			for(c0=0;c0<max_frames&&current_frame;c0++)
 			{
 				AnimControls.SetControlDrawArea();

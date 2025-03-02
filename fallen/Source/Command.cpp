@@ -107,7 +107,7 @@ ConditionList *alloc_clist()
 		}
 	}
 
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -122,7 +122,7 @@ void add_condition(ConditionList *the_list,Condition *the_condition)
 
 	//	Add to list.
 	the_condition->Prev	=	the_list->TheListEnd;
-	the_condition->Next	=	NULL;
+	the_condition->Next	=	nullptr;
 
 	//	Update list end.
 	if(the_list->TheListEnd)
@@ -166,15 +166,15 @@ Condition *alloc_condition()
 			conditions[c0].Data3		=	0;
 			conditions[c0].GroupRef		=	0;
 
-			conditions[c0].Next			=	NULL;
-			conditions[c0].Prev			=	NULL;
+			conditions[c0].Next			=	nullptr;
+			conditions[c0].Prev			=	nullptr;
 
 			condition_count++;
 
 			return	&conditions[c0];
 		}
 	}
-	return	NULL;
+	return	nullptr;
 }
 
 
@@ -220,7 +220,7 @@ CommandList *alloc_comlist()
 		}
 	}
 
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -235,7 +235,7 @@ void add_command(CommandList *the_list,Command *the_command)
 
 	//	Add to list.
 	the_command->Prev	=	the_list->TheListEnd;
-	the_command->Next	=	NULL;
+	the_command->Next	=	nullptr;
 
 	//	Update list end.
 	if(the_list->TheListEnd)
@@ -278,15 +278,15 @@ Command *alloc_command()
 			commands[c0].Data3			=	0;
 			commands[c0].GroupRef		=	0;
 
-			commands[c0].Next			=	NULL;
-			commands[c0].Prev			=	NULL;
+			commands[c0].Next			=	nullptr;
+			commands[c0].Prev			=	nullptr;
 
 			command_count++;
 
 			return	&commands[c0];
 		}
 	}
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------

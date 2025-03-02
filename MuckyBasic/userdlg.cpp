@@ -99,8 +99,8 @@ DLGTEMPLATE* _BuildDriverSelectTemplate()
 {
     // Allocate ample memory for building the template
     DLGTEMPLATE* pDlgTemplate = new DLGTEMPLATE[50];
-    if( NULL == pDlgTemplate )
-        return NULL;
+    if( nullptr == pDlgTemplate )
+        return nullptr;
     ZeroMemory( pDlgTemplate, 50*sizeof(DLGTEMPLATE) );
     
     // Fill in the DLGTEMPLATE info
@@ -176,16 +176,16 @@ static VOID UpdateComboBoxesContent( HWND hDlg,
 									 bool bWindowed )
 {
     // Check the parameters
-    if( (NULL==ppCurrentDriver) || (NULL==ppCurrentDevice) || 
-        (NULL==ppCurrentMode) )
+    if( (nullptr==ppCurrentDriver) || (nullptr==ppCurrentDevice) || 
+        (nullptr==ppCurrentMode) )
         return;
 
-    // If the specified driver is NULL, use the first one in the list
-    if( NULL == *ppCurrentDriver) 
+    // If the specified driver is nullptr, use the first one in the list
+    if( nullptr == *ppCurrentDriver) 
         (*ppCurrentDriver) = D3DEnum_GetFirstDriver();
 
-    // If the specified device is NULL, use the first one in the list
-    if( NULL == *ppCurrentDevice) 
+    // If the specified device is nullptr, use the first one in the list
+    if( nullptr == *ppCurrentDevice) 
         (*ppCurrentDevice) = (*ppCurrentDriver)->pFirstDevice;
     
     // Reset the content in each of the combo boxes
@@ -230,7 +230,7 @@ static VOID UpdateComboBoxesContent( HWND hDlg,
     }
 
 	if( (*ppCurrentDriver)->ddDriverCaps.dwCaps2 & DDCAPS2_CANRENDERWINDOWED 
-        && ( NULL == (*ppCurrentDriver)->pGUID )
+        && ( nullptr == (*ppCurrentDriver)->pGUID )
 		&& (*ppCurrentDevice)->bCompatbileWithDesktop )
 	{
 		// Add windowed mode to the combo box of available modes
@@ -239,7 +239,7 @@ static VOID UpdateComboBoxesContent( HWND hDlg,
         
 		// Associate ModeInfo ptr with the item in the combo box
         SendDlgItemMessage( hDlg, IDC_MODE_COMBO, CB_SETITEMDATA, 
-                            (WPARAM)dwItem, (LPARAM)NULL );
+                            (WPARAM)dwItem, (LPARAM)nullptr );
 
         // If the current device is windowed, set this as current
         if( bWindowed )

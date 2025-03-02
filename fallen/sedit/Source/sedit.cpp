@@ -508,7 +508,7 @@ void SEDIT_load_map(CBYTE* name)
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(SEDIT_handle_engine, NULL, false);
+	InvalidateRect(SEDIT_handle_engine, nullptr, false);
 
 	//
 	// Change the cursor back to normal.
@@ -980,7 +980,7 @@ void SEDIT_process()
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(SEDIT_handle_engine, NULL, false);
+	InvalidateRect(SEDIT_handle_engine, nullptr, false);
 }
 
 
@@ -1665,8 +1665,8 @@ void SEDIT_do()
 	// Load our cursors.
 	//
 
-	SEDIT_arrow    = LoadCursor(NULL, MAKEINTRESOURCE(IDC_ARROW));
-	SEDIT_busy_bee = LoadCursor(NULL, MAKEINTRESOURCE(IDC_WAIT));
+	SEDIT_arrow    = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_ARROW));
+	SEDIT_busy_bee = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_WAIT));
 
 	//
 	// Our icons.
@@ -1685,10 +1685,10 @@ void SEDIT_do()
 	SEDIT_class_frame.cbSize		= sizeof(WNDCLASSEX);
 	SEDIT_class_frame.cbClsExtra	= 0;
 	SEDIT_class_frame.cbWndExtra	= 0;
-	SEDIT_class_frame.lpszMenuName	= NULL;
+	SEDIT_class_frame.lpszMenuName	= nullptr;
 	SEDIT_class_frame.hIcon			= SEDIT_icon;
 	SEDIT_class_frame.hIconSm		= SEDIT_icon;
-	SEDIT_class_frame.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	SEDIT_class_frame.hCursor		= LoadCursor(nullptr, IDC_ARROW);
 	SEDIT_class_frame.hbrBackground	= (struct HBRUSH__ *)GetStockObject(WHITE_BRUSH);
 	
 	if (!RegisterClassEx(&SEDIT_class_frame))
@@ -1711,12 +1711,12 @@ void SEDIT_do()
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
 							CW_USEDEFAULT,
-							NULL,
-							NULL,
+							nullptr,
+							nullptr,
 							SEDIT_hinstance,
-							NULL);
+							nullptr);
 
-	if (SEDIT_handle_frame == NULL)
+	if (!SEDIT_handle_frame )
 	{
 		//
 		// Could not create our main window. 
@@ -1738,10 +1738,10 @@ void SEDIT_do()
 	SEDIT_class_engine.cbSize			= sizeof(WNDCLASSEX);
 	SEDIT_class_engine.cbClsExtra		= 0;
 	SEDIT_class_engine.cbWndExtra		= 0;
-	SEDIT_class_engine.lpszMenuName		= NULL;
-	SEDIT_class_engine.hIcon			= NULL;
-	SEDIT_class_engine.hIconSm			= NULL;
-	SEDIT_class_engine.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	SEDIT_class_engine.lpszMenuName		= nullptr;
+	SEDIT_class_engine.hIcon			= nullptr;
+	SEDIT_class_engine.hIconSm			= nullptr;
+	SEDIT_class_engine.hCursor			= LoadCursor(nullptr, IDC_ARROW);
 	SEDIT_class_engine.hbrBackground	= (struct HBRUSH__ *)GetStockObject(GRAY_BRUSH);
 
 	if (RegisterClassEx(&SEDIT_class_engine) == 0)
@@ -1773,9 +1773,9 @@ void SEDIT_do()
 							rect.right  - rect.left,
 							rect.bottom - rect.top,
 							SEDIT_handle_frame,
-							NULL,
+							nullptr,
 							SEDIT_hinstance,
-							NULL);
+							nullptr);
 
 	//
 	// Our main menu.
@@ -1858,14 +1858,14 @@ void SEDIT_do()
 
 	SEDIT_ofn_map.lStructSize       = sizeof(OPENFILENAME);
 	SEDIT_ofn_map.hwndOwner         = SEDIT_handle_frame;
-	SEDIT_ofn_map.hInstance         = NULL;
+	SEDIT_ofn_map.hInstance         = nullptr;
 	SEDIT_ofn_map.lpstrFilter       = "Game map files\0*.iam\0\0";
-	SEDIT_ofn_map.lpstrCustomFilter = NULL;
+	SEDIT_ofn_map.lpstrCustomFilter = nullptr;
 	SEDIT_ofn_map.nMaxCustFilter    = 0;
 	SEDIT_ofn_map.nFilterIndex      = 0;
 	SEDIT_ofn_map.lpstrFile         = SEDIT_ofn_file_map;
 	SEDIT_ofn_map.nMaxFile          = _MAX_PATH;
-	SEDIT_ofn_map.lpstrFileTitle    = NULL;
+	SEDIT_ofn_map.lpstrFileTitle    = nullptr;
 	SEDIT_ofn_map.nMaxFileTitle     = 0;
 	SEDIT_ofn_map.lpstrInitialDir   = SEDIT_ofn_default_dir_map;
 	SEDIT_ofn_map.lpstrTitle        = "Load a game map";
@@ -1873,20 +1873,20 @@ void SEDIT_do()
 	SEDIT_ofn_map.nFileOffset       = 0;
 	SEDIT_ofn_map.nFileExtension    = 0;
 	SEDIT_ofn_map.lpstrDefExt       = "iam";
-	SEDIT_ofn_map.lCustData         = NULL;
-	SEDIT_ofn_map.lpfnHook          = NULL;
-	SEDIT_ofn_map.lpTemplateName    = NULL;
+	SEDIT_ofn_map.lCustData         = nullptr;
+	SEDIT_ofn_map.lpfnHook          = nullptr;
+	SEDIT_ofn_map.lpTemplateName    = nullptr;
 
 	SEDIT_ofn_sewers.lStructSize       = sizeof(OPENFILENAME);
 	SEDIT_ofn_sewers.hwndOwner         = SEDIT_handle_frame;
-	SEDIT_ofn_sewers.hInstance         = NULL;
+	SEDIT_ofn_sewers.hInstance         = nullptr;
 	SEDIT_ofn_sewers.lpstrFilter       = "Sewer map files\0*.sew\0\0";
-	SEDIT_ofn_sewers.lpstrCustomFilter = NULL;
+	SEDIT_ofn_sewers.lpstrCustomFilter = nullptr;
 	SEDIT_ofn_sewers.nMaxCustFilter    = 0;
 	SEDIT_ofn_sewers.nFilterIndex      = 0;
 	SEDIT_ofn_sewers.lpstrFile         = SEDIT_ofn_file_sewers;
 	SEDIT_ofn_sewers.nMaxFile          = _MAX_PATH;
-	SEDIT_ofn_sewers.lpstrFileTitle    = NULL;
+	SEDIT_ofn_sewers.lpstrFileTitle    = nullptr;
 	SEDIT_ofn_sewers.nMaxFileTitle     = 0;
 	SEDIT_ofn_sewers.lpstrInitialDir   = SEDIT_ofn_default_dir_sewers;
 	SEDIT_ofn_sewers.lpstrTitle        = "Load a sewer map";
@@ -1894,9 +1894,9 @@ void SEDIT_do()
 	SEDIT_ofn_sewers.nFileOffset       = 0;
 	SEDIT_ofn_sewers.nFileExtension    = 0;
 	SEDIT_ofn_sewers.lpstrDefExt       = "sew";
-	SEDIT_ofn_sewers.lCustData         = NULL;
-	SEDIT_ofn_sewers.lpfnHook          = NULL;
-	SEDIT_ofn_sewers.lpTemplateName    = NULL;
+	SEDIT_ofn_sewers.lCustData         = nullptr;
+	SEDIT_ofn_sewers.lpfnHook          = nullptr;
+	SEDIT_ofn_sewers.lpTemplateName    = nullptr;
 
 	//
 	// The program proper...
@@ -1911,7 +1911,7 @@ void SEDIT_do()
 
 		while(1)
 		{
-			if (!PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE))
+			if (!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
 			{
 				//
 				// No messages pending- send a user message so we can
@@ -1921,7 +1921,7 @@ void SEDIT_do()
 				PostMessage(SEDIT_handle_frame, WM_USER, 0, 0);
 			}
 
-			ret = GetMessage(&msg, NULL, 0, 0);
+			ret = GetMessage(&msg, nullptr, 0, 0);
 
 			if (ret == 0 || ret == -1)
 			{

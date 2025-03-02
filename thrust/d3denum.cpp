@@ -36,15 +36,15 @@ bool CALLBACK _DriverSelectProc( HWND, UINT, WPARAM, LPARAM );
 //-----------------------------------------------------------------------------
 // Global data for the enumerator functions
 //-----------------------------------------------------------------------------
-static LPDIRECTDRAW4 g_pDD                = NULL;  // Used for callbacks
+static LPDIRECTDRAW4 g_pDD                = nullptr;  // Used for callbacks
 static bool          g_bRefRastEnumerated = false; // For the reference rast
 static bool          g_bDevicesEnumerated = false; // Used during enumeration
 
-D3DEnum_DriverInfo*  g_pFirstDriver   = NULL; // List of DD drivers
-D3DEnum_DriverInfo*  g_pDefaultDriver = NULL; // Default driver
-D3DEnum_DriverInfo*  g_pCurrentDriver = NULL; // The selected DD driver
+D3DEnum_DriverInfo*  g_pFirstDriver   = nullptr; // List of DD drivers
+D3DEnum_DriverInfo*  g_pDefaultDriver = nullptr; // Default driver
+D3DEnum_DriverInfo*  g_pCurrentDriver = nullptr; // The selected DD driver
 
-static HRESULT (*g_fnAppConfirmFn)(DDCAPS*, D3DDEVICEDESC*) = NULL;
+static HRESULT (*g_fnAppConfirmFn)(DDCAPS*, D3DDEVICEDESC*) = nullptr;
 
 
 
@@ -63,7 +63,7 @@ static HRESULT WINAPI EnumDisplayModesCallback( DDSURFACEDESC2* pddsd,
                                                 VOID* pvContext )
 {
     // Check parameters
-    if( NULL==pddsd || NULL==pvContext )
+    if( nullptr==pddsd || nullptr==pvContext )
         return DDENUMRET_CANCEL;
 
     D3DEnum_DeviceInfo* pDevice = (D3DEnum_DeviceInfo*)pvContext;
@@ -78,7 +78,7 @@ static HRESULT WINAPI EnumDisplayModesCallback( DDSURFACEDESC2* pddsd,
 	if( ( 8==dwModeDepth) ) return DDENUMRET_OK;
 
     // Create a new mode structure
-    if( NULL == ( pNewMode = new D3DEnum_ModeInfo ) )
+    if( nullptr == ( pNewMode = new D3DEnum_ModeInfo ) )
         return DDENUMRET_CANCEL;
 
     // Initialize the new mode structure
@@ -98,7 +98,7 @@ static HRESULT WINAPI EnumDisplayModesCallback( DDSURFACEDESC2* pddsd,
         ( 16 == pddsd->ddpfPixelFormat.dwRGBBitCount ) )
         pDevice->pCurrentMode = pNewMode;
 	
-	if( NULL == pDevice->pCurrentMode )
+	if( nullptr == pDevice->pCurrentMode )
         pDevice->pCurrentMode = pNewMode;
 
     return DDENUMRET_OK;
@@ -120,7 +120,7 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
     D3DEnum_DeviceInfo* pNewDevice;
 
     // Check params
-    if( NULL==pGUID || NULL==pHALDesc || NULL==pHELDesc || NULL==pDriver )
+    if( nullptr==pGUID || nullptr==pHALDesc || nullptr==pHELDesc || nullptr==pDriver )
         return D3DENUMRET_CANCEL;
 
     // Handle specific device GUIDs. NullDevice renders nothing
@@ -136,8 +136,8 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 	D3DDEVICEDESC* pDesc       = bIsHardware ? pHALDesc : pHELDesc;
 
     // Only enumerate software rasterizers for the primary device (which has
-	// a NULL GUID). This is to avoid duplicates
-    if( pDriver->pGUID != NULL )
+	// a nullptr GUID). This is to avoid duplicates
+    if( pDriver->pGUID != nullptr )
 	    if( false == bIsHardware )
 			return D3DENUMRET_OK;
 
@@ -149,7 +149,7 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 			return D3DENUMRET_OK;
 
     // Create a new D3D Driver struct
-    if( NULL == ( pNewDevice = new D3DEnum_DeviceInfo ) )
+    if( nullptr == ( pNewDevice = new D3DEnum_DeviceInfo ) )
         return D3DENUMRET_CANCEL;
     ZeroMemory( pNewDevice, sizeof(D3DEnum_DeviceInfo) );
 
@@ -164,13 +164,13 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
         pDriver->pCurrentDevice = pNewDevice;
     else
 	{
-		if( NULL == pDriver->pCurrentDevice )
+		if( nullptr == pDriver->pCurrentDevice )
 			if( D3DCOLOR_RGB & pHELDesc->dcmColorModel )
 				pDriver->pCurrentDevice = pNewDevice;
 	}
 
     // Enumerate the display modes
-    g_pDD->EnumDisplayModes( 0, NULL, pNewDevice, EnumDisplayModesCallback );
+    g_pDD->EnumDisplayModes( 0, nullptr, pNewDevice, EnumDisplayModesCallback );
 
 	// Get the display mode's depth
 	DDSURFACEDESC2 ddsd;
@@ -188,7 +188,7 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 			if( pMode->ddsd.ddpfPixelFormat.dwRGBBitCount == dwDisplayBPP )
 			{
 				pNewDevice->bCompatbileWithDesktop = true;
-	            if( NULL == pDriver->pGUID )
+	            if( nullptr == pDriver->pGUID )
 				   	pNewDevice->bWindowed = true;
 			}
 		}
@@ -254,13 +254,13 @@ static bool WINAPI DirectDrawEnumCallbackEx( GUID FAR* pGUID, LPSTR strDesc,
 
     // Copy the DDDriver info into a new DriverInfo struct
     D3DEnum_DriverInfo* pNewDriver = new D3DEnum_DriverInfo;
-    if( NULL == pNewDriver )
+    if( nullptr == pNewDriver )
 		return D3DENUMRET_CANCEL;
 
     ZeroMemory( pNewDriver, sizeof(D3DEnum_DriverInfo) );
 
     // Copy the GUID (if specified) and the driver name
-    if( NULL != pGUID  )
+    if( nullptr != pGUID  )
     {
         memcpy( &pNewDriver->guid, pGUID, sizeof(GUID) );
         pNewDriver->pGUID = &pNewDriver->guid;
@@ -286,7 +286,7 @@ static bool WINAPI DirectDrawEnumCallbackEx( GUID FAR* pGUID, LPSTR strDesc,
 		(*pDriver) = pNewDriver;
 
 		// Decide if this is a good default driver
-		if( NULL == pGUID )
+		if( nullptr == pGUID )
 			g_pCurrentDriver = pNewDriver;
 	}
 	else
@@ -308,7 +308,7 @@ static bool WINAPI DirectDrawEnumCallbackEx( GUID FAR* pGUID, LPSTR strDesc,
 static bool WINAPI DirectDrawEnumCallback( GUID FAR* pGUID, LPSTR strDesc,
                                            LPSTR strName, VOID* )
 {
-	return DirectDrawEnumCallbackEx( pGUID, strDesc, strName, NULL, NULL );
+	return DirectDrawEnumCallbackEx( pGUID, strDesc, strName, nullptr, nullptr );
 }
 
 
@@ -356,7 +356,7 @@ static VOID RefreshListForDesktopCompatibility()
 	// Get the currect display mode description
 	LPDIRECTDRAW  pDD;
 	DDSURFACEDESC ddsd;
-	if( FAILED( DirectDrawCreate( NULL, &pDD, NULL ) ) )
+	if( FAILED( DirectDrawCreate( nullptr, &pDD, nullptr ) ) )
 		return;
 	ddsd.dwSize = sizeof(DDSURFACEDESC);
 	pDD->GetDisplayMode( &ddsd );
@@ -402,7 +402,7 @@ HRESULT D3DEnum_EnumerateDevices(
 	// We need to manually get the procedure address for the DDrawEnumEx()
 	// function.
 	HMODULE hDDrawDLL = GetModuleHandle("DDRAW.DLL");
-	if( NULL == hDDrawDLL )
+	if( nullptr == hDDrawDLL )
 	{
 		DEBUG_MSG( TEXT("Can't load DDRAW.DLL!") );
 		return D3DENUMERR_NODIRECTDRAW;
@@ -413,15 +413,15 @@ HRESULT D3DEnum_EnumerateDevices(
 		             GetProcAddress( hDDrawDLL, "DirectDrawEnumerateExA" );
 
 	if( pDDrawEnumFn )
-		pDDrawEnumFn( DirectDrawEnumCallbackEx, NULL,
+		pDDrawEnumFn( DirectDrawEnumCallbackEx, nullptr,
 					  DDENUM_ATTACHEDSECONDARYDEVICES |
 					  DDENUM_DETACHEDSECONDARYDEVICES |
 					  DDENUM_NONDISPLAYDEVICES );
 	else
-        DirectDrawEnumerate( DirectDrawEnumCallback, NULL );
+        DirectDrawEnumerate( DirectDrawEnumCallback, nullptr );
 
 	// Select a driver. Ask for a hardware device that renders in a window
-	return D3DEnum_SelectDefaultDriver( NULL );
+	return D3DEnum_SelectDefaultDriver( nullptr );
 }
 
 
@@ -541,7 +541,7 @@ INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, bool bCurrentlyWindowed )
 	INT nResult = -1;
 
     // Check in case drivers weren't properly enumerated beforehand.
-    if( NULL == g_pCurrentDriver )
+    if( nullptr == g_pCurrentDriver )
         return -1;
 
 	// Refresh the list of devices to mark which devices (if any) are
@@ -585,7 +585,7 @@ HRESULT D3DEnum_GetSelectedDriver( LPGUID* ppDriverGUID, LPGUID* ppDeviceGUID,
         return E_INVALIDARG;
 
     // Abort if things weren't setup correctly
-    if( NULL == g_pCurrentDriver )
+    if( nullptr == g_pCurrentDriver )
         return D3DENUMERR_ENUMERATIONFAILED;
 
     // Copy the driver and device GUID ptrs
@@ -614,7 +614,7 @@ HRESULT D3DEnum_GetSelectedDriver( D3DEnum_DriverInfo** ppDriverInfo,
 
 {
     // Abort if things weren't setup correctly
-    if( NULL == g_pCurrentDriver )
+    if( nullptr == g_pCurrentDriver )
         return D3DENUMERR_ENUMERATIONFAILED;
 
     // Copy the driver and device info ptrs

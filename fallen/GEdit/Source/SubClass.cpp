@@ -997,14 +997,14 @@ void show_mission_info()
 		num_shotgun, num_ammo_shotgun,
 		num_ak47,    num_ammo_ak47);
 
-	MessageBox(NULL, message, "Mission info", MB_OK|MB_ICONEXCLAMATION);
+	MessageBox(nullptr, message, "Mission info", MB_OK|MB_ICONEXCLAMATION);
 }
 
 
 void set_car_collision_with_road_prims()
 {
 	switch(MessageBox(
-			NULL,
+			nullptr,
 			(current_mission->Flags & MISSION_FLAG_CARS_WITH_ROAD_PRIMS) ? "Collision is currently ON" : "Collision is now OFF",
 			"Set car collision with prims on the roads",
 			MB_YESNOCANCEL|MB_ICONQUESTION))

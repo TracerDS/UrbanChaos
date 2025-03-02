@@ -453,7 +453,7 @@ void PANEL_draw_special(Thing* darci)
 	}
 	else
 	{
-		specialtype = NULL;
+		specialtype = nullptr;
 		ammo        = 0;
 	}
 	if (darci->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
@@ -715,7 +715,7 @@ void PANEL_new_funky()
 
 	darci=NET_PERSON(0);
 
-	if (darci == NULL)
+	if (!darci )
 	{
 		return;
 	}
@@ -753,8 +753,8 @@ void PANEL_new_funky()
 	}
 	else
 	{
-		PANEL_wide_top_person     = NULL;
-		PANEL_wide_bot_person     = NULL;
+		PANEL_wide_top_person     = nullptr;
+		PANEL_wide_bot_person     = nullptr;
 		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
@@ -933,7 +933,7 @@ void PANEL_inventory(Thing *darci)
 	DR_TPAGE *p;
 	CBYTE draw_list[10];
 	UBYTE draw_count=0;
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SLONG x,c0,i,y;
 	UBYTE current_item = 0;
 
@@ -958,7 +958,7 @@ void PANEL_inventory(Thing *darci)
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 
@@ -1016,7 +1016,7 @@ extern void	CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count);
 }
 typedef struct
 {
-	Thing *who;			// Who is saying the message. NULL => computer message
+	Thing *who;			// Who is saying the message. nullptr => computer message
 	CBYTE  text[320];
 	SLONG  delay;		// 0 => unused.
 	SLONG  turns;		// The number of turns this message has been alive for.
@@ -1038,7 +1038,7 @@ void PANEL_new_text_init()
 
 	for(i=0;i<PANEL_MAX_TEXTS;i++)
 	{
-		PANEL_text[i].who=NULL;
+		PANEL_text[i].who=nullptr;
 		PANEL_text[i].delay=0;
 		PANEL_text[i].text[0]=0;
 	}
@@ -1055,7 +1055,7 @@ void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 	PANEL_Text *pt;
 
 	//
-	// Early out on NULL strings or strings with just spaces in them.
+	// Early out on nullptr strings or strings with just spaces in them.
 	//
 
 	va_list	ap;
@@ -1275,7 +1275,7 @@ void PANEL_draw_beacons()
 		angle=darci->Draw.Tweened->Angle;
 
 
-	SLONG best_beacon = NULL;
+	SLONG best_beacon = nullptr;
 	SLONG best_score  = INFINITY;
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -1493,8 +1493,8 @@ void PANEL_render_thugs()
 
 void PANEL_new_widescreen_init()
 {
-	PANEL_wide_top_person     = NULL;
-	PANEL_wide_bot_person     = NULL;
+	PANEL_wide_top_person     = nullptr;
+	PANEL_wide_bot_person     = nullptr;
 	PANEL_wide_top_is_talking = false;
 	PANEL_wide_text[0]        = '\000';
 	PANEL_wide_cont			  = 0;
@@ -1578,8 +1578,8 @@ void PANEL_new_widescreen()
 	}
 	else
 	{
-		PANEL_wide_top_person = NULL;
-		PANEL_wide_bot_person = NULL;
+		PANEL_wide_top_person = nullptr;
+		PANEL_wide_bot_person = nullptr;
 	}
 
 	//
@@ -1596,7 +1596,7 @@ void PANEL_new_widescreen()
 
 		if (pt->delay && pt->turns <= 5)
 		{
-			if (pt->who == NULL)
+			if (!pt->who )
 			{
 				//
 				// This is a message that goes on the bottom.
@@ -1644,7 +1644,7 @@ void PANEL_new_widescreen()
 	// Draw the two faces.
 	//
 
-	if (PANEL_wide_top_person != NULL)
+	if (PANEL_wide_top_person )
 	{
 		PANEL_new_face(TO_THING(PANEL_wide_top_person),280,8);
 //		PANEL_new_face(
@@ -1661,7 +1661,7 @@ void PANEL_new_widescreen()
 
 	if (PANEL_wide_text[0])
 	{
-		PANEL_new_face(PANEL_wide_bot_person ?  TO_THING(PANEL_wide_bot_person) : NULL, 8, 200);
+		PANEL_new_face(PANEL_wide_bot_person ?  TO_THING(PANEL_wide_bot_person) : nullptr, 8, 200);
 		if (PANEL_wide_top_is_talking)
 		{
 			AENG_text_wrappoint = 276;
@@ -1745,7 +1745,7 @@ void PANEL_new_face(Thing *who,SLONG x,SLONG y)
 	POLY_FT4 *p;
 	SLONG u,v,face;
 
-	if (who==NULL || who->Class != CLASS_PERSON)
+	if (who==nullptr || who->Class != CLASS_PERSON)
 		face=EXTRA(6,2);
 	else
 	{

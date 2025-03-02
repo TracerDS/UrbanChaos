@@ -15,7 +15,7 @@ typedef int s32;
 typedef unsigned int u32;
 
 //static s32		focus = 1;		// we have focus
-//static HBINK	bink = NULL;	// a bink file is loaded
+//static HBINK	bink = nullptr;	// a bink file is loaded
 
 // BinkMessage
 //
@@ -87,7 +87,7 @@ static bool NextBinkFrame(IDirectDrawSurface* lpdds, DDSURFACEDESC* lpddsd, s32 
 	//		ClearScreen(lpdds, lpddsd);
 	//	}
 	//	BinkCopyToBuffer(bink, lpddsd->lpSurface, lpddsd->lPitch, bink->Height, xoff, yoff, stype);
-	//	lpdds->Unlock(NULL);
+	//	lpdds->Unlock(nullptr);
 	//	if (flip)	rc = flip();
 	//}
 
@@ -121,7 +121,7 @@ static void EndMovie(IDirectDrawSurface* lpdds, DDSURFACEDESC* lpddsd, bool (*fl
 	if (SUCCEEDED(res))
 	{
 		ClearScreen(lpdds, lpddsd);
-		lpdds->Unlock(NULL);
+		lpdds->Unlock(nullptr);
 		if (flip)	flip();
 	}*/
 }
@@ -171,7 +171,7 @@ void BinkPlay(const char* filename, IDirectDrawSurface* lpdds, bool (*flip)())
 //	{
 //		MessageBox(0, "Can't playback the movie ... bad video resolution", "Error", MB_OK);
 //		BinkClose(bink);
-//		bink = NULL;
+//		bink = nullptr;
 //		return;
 //	}
 //
@@ -222,7 +222,7 @@ void BinkPlay(const char* filename, IDirectDrawSurface* lpdds, bool (*flip)())
 //	EndMovie(lpdds, &DDSD, flip);
 //
 //	BinkClose(bink);
-//	bink = NULL;
+//	bink = nullptr;
 }
 
 

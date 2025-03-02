@@ -120,7 +120,7 @@ SLONG BARREL_spheres_get()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //
@@ -263,7 +263,7 @@ void BARREL_convert_stationary_to_moving(Thing *p_barrel)
 
 	bb->bs    =  BARREL_spheres_get();
 	bb->flag &= ~(BARREL_FLAG_STACKED|BARREL_FLAG_STILL);
-	bb->on    =  NULL;
+	bb->on    =  nullptr;
 
 	for (i = 0; i < 2; i++)
 	{
@@ -1329,7 +1329,7 @@ UWORD BARREL_alloc(
 		// No more barrels left!
 		//
 
-		return NULL;
+		return nullptr;
 	}
 	
 	bb = &BARREL_barrel[BARREL_barrel_upto++];
@@ -1398,8 +1398,8 @@ UWORD BARREL_alloc(
 
 			bb->type   = type;
 			bb->flag   = BARREL_FLAG_STACKED;
-			bb->on     = NULL;	// NULL => stacked on the ground
-			bb->bs     = NULL;
+			bb->on     = nullptr;	// nullptr => stacked on the ground
+			bb->bs     = nullptr;
 
 			if (bb->type == BARREL_TYPE_BIN)
 			{
@@ -1420,7 +1420,7 @@ UWORD BARREL_alloc(
 					1 << CLASS_BARREL);
 
 			y  = PAP_calc_map_height_at(x,z) + (BARREL_HEIGHT / 2);
-			on = NULL;
+			on = nullptr;
 
 			if (type == BARREL_TYPE_BURNING) {
 				Pyro* pyro;
@@ -1487,7 +1487,7 @@ UWORD BARREL_alloc(
 			BARREL_barrel_upto -= 1;
 			free_thing(p_thing);
 
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
@@ -1498,7 +1498,7 @@ UWORD BARREL_alloc(
 
 		BARREL_barrel_upto -= 1;
 
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1787,7 +1787,7 @@ void BARREL_dissapear(Thing *p_barrel)
 
 		ASSERT(EWAY_way[p_barrel->Velocity].ed.type == EWAY_DO_CREATE_BARREL);
 
-		EWAY_way[p_barrel->Velocity].ed.arg1 = NULL;
+		EWAY_way[p_barrel->Velocity].ed.arg1 = nullptr;
 	}
 
 
@@ -1816,7 +1816,7 @@ void BARREL_dissapear(Thing *p_barrel)
 		// Make the player choose a new target.
 		//
 
-		NET_PERSON(0)->Genus.Person->Target = NULL;
+		NET_PERSON(0)->Genus.Person->Target = nullptr;
 	}
 }
 
@@ -1855,7 +1855,7 @@ void BARREL_shoot(
 			// barrel is going!
 			//
 
-			p_shooter->Genus.Person->Target = NULL;
+			p_shooter->Genus.Person->Target = nullptr;
 		}
 
 		BARREL_dissapear(p_barrel);

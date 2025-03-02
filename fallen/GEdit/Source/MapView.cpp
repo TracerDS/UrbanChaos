@@ -128,9 +128,9 @@ SLONG			mouse_valid,
 				mouse_world_z,
 				mouse_waypoint;
 
-EventPoint		*hilited_ep		=	NULL,
-				*selected_ep	=	NULL,
-				*link_start_ep	=	NULL;
+EventPoint		*hilited_ep		=	nullptr,
+				*selected_ep	=	nullptr,
+				*link_start_ep	=	nullptr;
 
 extern int		waypoint_colour,
 				waypoint_group;
@@ -921,13 +921,13 @@ LRESULT	CALLBACK	map_view_proc	(
 			case 1: // heh
 				if(link_mode>0) {
 					link_mode=0;
-					link_start_ep=NULL;
+					link_start_ep=nullptr;
 				}
 				if(selected_ep&&!hilited_ep)
 				{
 					WaypointCaption(0);
-					selected_ep	=	NULL;
-					ws_sel_waypoint(NULL);
+					selected_ep	=	nullptr;
+					ws_sel_waypoint(nullptr);
 					return	0;
 				}
 				break;
@@ -986,7 +986,7 @@ LRESULT	CALLBACK	map_view_proc	(
 									mv_menu,
 									TPM_LEFTALIGN|TPM_LEFTBUTTON|TPM_RIGHTBUTTON,
 									LOWORD(lParam),HIWORD(lParam),
-									0,GEDIT_view_wnd,NULL
+									0,GEDIT_view_wnd,nullptr
 								);
 				DestroyMenu(mv_menu);
 				
@@ -1232,7 +1232,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 						  hilited_ep->EPRef=(link_start_ep-current_mission->EventPoints);
 						  if (selected_ep) ep_to_controls2(selected_ep);
 						}
-						link_start_ep=NULL;
+						link_start_ep=nullptr;
 						link_mode=0;
 					} else {
 						if (hilited_ep) link_start_ep=hilited_ep;
@@ -1240,7 +1240,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 					break;
 
 				case	ID_EVENTPOINTROOT_DEPENDENCY_CANCEL:
-					link_start_ep=NULL;
+					link_start_ep=nullptr;
 					break;
 
 				case	ID_EVENTPOINTROOT_COPYWAYPOINT:
@@ -1257,11 +1257,11 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 				case	ID_EVENTPOINTROOT_DELETEWAYPOINT:
 					if (hilited_ep) {
-						if (selected_ep==hilited_ep) selected_ep=NULL;
+						if (selected_ep==hilited_ep) selected_ep=nullptr;
 						ws_del_waypoint(hilited_ep);
 						free_eventpoint(hilited_ep);
-						if (hilited_ep==link_start_ep) link_start_ep=NULL;
-						hilited_ep	=	NULL;
+						if (hilited_ep==link_start_ep) link_start_ep=nullptr;
+						hilited_ep	=	nullptr;
 					}
 					break;
 
@@ -1272,7 +1272,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 						SLONG i;
 
 						EventPoint *ep;
-						EventPoint *lower = NULL;
+						EventPoint *lower = nullptr;
 
 						//
 						// Look for a lower numbered waypoint.
@@ -1297,7 +1297,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 						if (lower)
 						{
-							MessageBox(NULL,"Select OK to renumber the waypoint", "Hello Simon", MB_ABORTRETRYIGNORE|MB_ICONQUESTION);
+							MessageBox(nullptr,"Select OK to renumber the waypoint", "Hello Simon", MB_ABORTRETRYIGNORE|MB_ICONQUESTION);
 						}
 					}
 
@@ -1322,18 +1322,18 @@ bool	init_map_view()
 	new_class.cbClsExtra	=	0;
 	new_class.cbWndExtra	=	sizeof(HANDLE);
 	new_class.hInstance		=	GEDIT_hinstance;
-	new_class.hIcon			=	NULL;
+	new_class.hIcon			=	nullptr;
 	new_class.hCursor		=	GEDIT_arrow;
 	new_class.hbrBackground	=	(struct HBRUSH__ *)GetStockObject(LTGRAY_BRUSH);
-	new_class.lpszMenuName	=	NULL;
+	new_class.lpszMenuName	=	nullptr;
 	new_class.lpszClassName	=	GEDIT_map_name;
-	new_class.hIconSm		=	NULL;
+	new_class.hIconSm		=	nullptr;
 	if(!RegisterClassEx(&new_class))
 		return	false;		//	Couldn't register the class.
 
-	hilited_ep	  =	NULL;
-	selected_ep	  =	NULL;
-	link_start_ep =	NULL;
+	hilited_ep	  =	nullptr;
+	selected_ep	  =	nullptr;
+	link_start_ep =	nullptr;
 
 	return	true;
 }
@@ -1583,7 +1583,7 @@ void	process_view_wind()
 				prim_dir<<3,
 				0,
 				0,
-				NULL,0);
+				nullptr,0);
 
 			INDOORS_INDEX=calc_inside_for_xyz(mouse_world_x, (mouse_world_y + prim_height), mouse_world_z,&INDOORS_ROOM);
 			if (INDOORS_INDEX) 
@@ -1597,7 +1597,7 @@ void	process_view_wind()
 		//	Draw all waypoints within a certain distance of the camera.
 		if(current_mission&&(edit_mode!=2))
 		{
-//			hilited_ep		=	NULL;
+//			hilited_ep		=	nullptr;
 			ep_base		=	current_mission->EventPoints;
 			current_ep	=	current_mission->UsedEPoints;
 			while(current_ep)
@@ -1807,7 +1807,7 @@ void	process_view_wind()
 			}
 
 			if(no_hilite)
-				hilited_ep	=	NULL;
+				hilited_ep	=	nullptr;
 /*
 			//	Draw the hilited ep, if any.
 			if(hilited_ep)
@@ -1925,7 +1925,7 @@ void	process_view_wind()
 		FONT_buffer_draw();
 		CONSOLE_draw();
 
-		InvalidateRect(GEDIT_view_wnd, NULL, false);
+		InvalidateRect(GEDIT_view_wnd, nullptr, false);
 
 	}
 }

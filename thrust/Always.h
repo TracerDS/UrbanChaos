@@ -67,15 +67,6 @@ typedef char			CBYTE;
 //#define SHOW_X(a)			{TRACE(#a" = 0x%x\n", (a));}
 //#define SHOW_FL(a)		{TRACE(#a" = %f\n", (a));}
 
-
-#ifndef false
-#define false 0
-#endif
-
-#ifndef true
-#define true 1
-#endif
-
 //
 // Error checking macros
 // 

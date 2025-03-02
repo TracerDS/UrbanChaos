@@ -14,7 +14,7 @@ void CLOTH_init();
 
 
 //
-// Creates a new piece of cloth.  Returns NULL on failure.
+// Creates a new piece of cloth.  Returns nullptr on failure.
 //
 
 #define CLOTH_TYPE_UNUSED 0

@@ -29,7 +29,7 @@ void MF_load_textures(IMP_Mesh *im)
 		}
 		else
 		{
-			it->ot_tex = NULL;
+			it->ot_tex = nullptr;
 		}
 
 		//
@@ -43,8 +43,8 @@ void MF_load_textures(IMP_Mesh *im)
 		}
 		else
 		{
-			it->ot_bpos = NULL;
-			it->ot_bneg = NULL;
+			it->ot_bpos = nullptr;
+			it->ot_bneg = nullptr;
 		}
 	}
 }
@@ -552,7 +552,7 @@ void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->u;
@@ -599,7 +599,7 @@ void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw)
 		OS_buffer_draw(
 			it->ob,
 			it->ot_tex,
-			NULL,
+			nullptr,
 			draw | ((it->sided == IMP_SIDED_DOUBLE) ? OS_DRAW_DOUBLESIDED : 0));
 	}
 }
@@ -626,7 +626,7 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw, ULONG colour)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->colour   = colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->u;
@@ -673,7 +673,7 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw, ULONG colour)
 		OS_buffer_draw(
 			it->ob,
 			it->ot_tex,
-			NULL,
+			nullptr,
 			draw | ((it->sided == IMP_SIDED_DOUBLE) ? OS_DRAW_DOUBLESIDED : 0));
 	}
 }
@@ -705,7 +705,7 @@ void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 		iv = &im->vert [is->vert];
 
 		ov->trans    = is->vert;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = iv->lu;
@@ -742,7 +742,7 @@ void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 	OS_buffer_draw(
 		ob,
 		ot,
-		NULL,
+		nullptr,
 		draw);
 }
 
@@ -779,7 +779,7 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 				iv = &im->vert [is->vert];
 
 				ov->trans    = is->vert;
-				ov->index    = NULL;
+				ov->index    = nullptr;
 				ov->colour   = is->colour;
 				ov->specular = 0x00000000;
 				ov->u1       = iv->lu;
@@ -799,7 +799,7 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 				ov = &MF_vert  [i];
 				is = &im->svert[i];
 
-				ov->index = NULL;
+				ov->index = nullptr;
 				ov->u2    = is->u + is->du;
 				ov->v2    = is->v + is->dv;
 			}
@@ -861,7 +861,7 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 					OS_buffer_draw(
 						it->ob,
 						ot,
-						NULL,
+						nullptr,
 						draw);
 				}
 			}
@@ -897,7 +897,7 @@ void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->colour   = is->colour;
 		ov->specular = 0x000000;
 		ov->u1       = is->lu;
@@ -942,7 +942,7 @@ void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 	OS_buffer_draw(
 		ob,
 		ot,
-		NULL,
+		nullptr,
 		draw);
 }
 
@@ -971,7 +971,7 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 		iv = &im->vert [is->vert];
 
 		ov->trans    = is->vert;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->lu;
@@ -1028,7 +1028,7 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 			OS_buffer_draw(
 				it->ob,
 				ot,
-				NULL,
+				nullptr,
 				draw);
 		}
 	}
@@ -1069,7 +1069,7 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 				iv = &im->vert [is->vert];
 
 				ov->trans    = is->vert;
-				ov->index    = NULL;
+				ov->index    = nullptr;
 				ov->colour   = is->colour;
 				ov->specular = 0x00000000;
 				ov->u1       = is->lu;
@@ -1089,7 +1089,7 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 				ov = &MF_vert  [i];
 				is = &im->svert[i];
 
-				ov->index = NULL;
+				ov->index = nullptr;
 				ov->u2    = is->u + is->du;
 				ov->v2    = is->v + is->dv;
 			}
@@ -1165,7 +1165,7 @@ void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS
 		iv = &im->vert [is->vert];
 
 		ov->trans    = is->vert;
-		ov->index    = NULL;
+		ov->index    = nullptr;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->lu;

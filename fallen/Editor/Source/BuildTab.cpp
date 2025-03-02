@@ -4733,7 +4733,7 @@ void	delete_building(UWORD building)
 }
 
 //
-// Returns the OUTLINE_Outline of the given storey.  Returns NULL if
+// Returns the OUTLINE_Outline of the given storey.  Returns nullptr if
 // the storey is not circular.  Non-circular storeys are not defined.
 //
 
@@ -4753,7 +4753,7 @@ OUTLINE_Outline *get_storey_outline(SLONG storey)
 		// Not circular stories don't have outlines.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	oo = OUTLINE_create(128);
@@ -4784,10 +4784,10 @@ SLONG	do_storeys_overlap(SLONG s1,SLONG s2)
 	OUTLINE_Outline *oos;
 	OUTLINE_Outline *ool;
 	oos=get_storey_outline(s1);
-	if(oos==NULL)
+	if(oos==nullptr)
 		return(0);
 	ool=get_storey_outline(s2);
-	if(ool==NULL)
+	if(ool==nullptr)
 		return(0);
 
 	
@@ -4837,7 +4837,7 @@ SLONG	set_storey_height(SLONG building,SLONG storey ,SLONG height)
 
 						ool = get_storey_outline(link);
 
-						if (ool == NULL)
+						if (!ool )
 						{
 						}
 						else
@@ -5184,7 +5184,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 						Alert			*quit_alert;
 
 						quit_alert		=	new	Alert;
-						quit_alert->HandleAlert("Can't add next storey to current floor (roof/firescape?) ",NULL);
+						quit_alert->HandleAlert("Can't add next storey to current floor (roof/firescape?) ",nullptr);
 						delete	quit_alert;
 //`						RequestUpdate();
 					}
@@ -5298,7 +5298,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 					Alert			*quit_alert;
 
 					quit_alert		=	new	Alert;
-					res=quit_alert->HandleAlert("Delete ALL BUILDINGS you crazy fucker? ",NULL);
+					res=quit_alert->HandleAlert("Delete ALL BUILDINGS you crazy fucker? ",nullptr);
 					delete	quit_alert;
 
 					
@@ -5352,7 +5352,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 
 					Alert			*quit_alert;
 					quit_alert		=	new	Alert;
-					quit_alert->HandleAlert("Can't Duplicate current storey (roof/firescape?) ",NULL);
+					quit_alert->HandleAlert("Can't Duplicate current storey (roof/firescape?) ",nullptr);
 					delete	quit_alert;
 					RequestUpdate();
 //					update_modules();
@@ -5639,7 +5639,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 						Alert			*quit_alert;
 
 						quit_alert		=	new	Alert;
-						quit_alert->HandleAlert("Can't add SKYLIGHT storey to current floor (roof/firescape?) ",NULL);
+						quit_alert->HandleAlert("Can't add SKYLIGHT storey to current floor (roof/firescape?) ",nullptr);
 						delete	quit_alert;
 //`						RequestUpdate();
 					}

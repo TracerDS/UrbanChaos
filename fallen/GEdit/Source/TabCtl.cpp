@@ -9,7 +9,7 @@
 #include	<commctrl.h>
 
 DLGTEMPLATE * WINAPI LockDlgResource(HINSTANCE hInstance, LPCSTR lpszResName) 	{ 
-    HRSRC hrsrc = FindResource(NULL, lpszResName, RT_DIALOG); 
+    HRSRC hrsrc = FindResource(nullptr, lpszResName, RT_DIALOG); 
     HGLOBAL hglb = LoadResource(hInstance, hrsrc); 
     return (DLGTEMPLATE *) LockResource(hglb);
 } 

@@ -4,11 +4,7 @@
 // Type definitions for 'Mucky Foot' Libraries.
 
 
-#ifndef _MF_TYPES_H_
-#define _MF_TYPES_H_
-
-#define	true				1
-#define	false				0
+#pragma once
 
 #ifdef	_MF_DOSX
 typedef unsigned long		bool;

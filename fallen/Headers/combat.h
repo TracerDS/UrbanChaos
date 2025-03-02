@@ -134,7 +134,7 @@ SLONG turn_to_target_and_kick (Thing *p_person);
 
 //
 // Finds the best anims for the person to punch or kick someone. If no
-// anim is any good the funcion either returns NULL, or, if (flag &
+// anim is any good the funcion either returns nullptr, or, if (flag &
 // FUND_BEST_USE_DEFAULT) it returns a default punch/kick.
 //
 

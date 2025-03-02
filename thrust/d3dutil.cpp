@@ -118,7 +118,7 @@ VOID D3DUtil_InitLight( D3DLIGHT& light, D3DLIGHTTYPE ltType,
 //-----------------------------------------------------------------------------
 LPDIRECTDRAW4 D3DUtil_GetDirectDrawFromDevice( LPDIRECT3DDEVICE3 pd3dDevice )
 {
-	LPDIRECTDRAW4        pDD = NULL;
+	LPDIRECTDRAW4        pDD = nullptr;
 	LPDIRECTDRAWSURFACE4 pddsRender;
 
     if( pd3dDevice )
@@ -342,10 +342,10 @@ VOID D3DUtil_SetRotationMatrix( D3DMATRIX& mat, D3DVECTOR& vDir, FLOAT fRads )
 DWORD D3DUtil_GetDisplayDepth( LPDIRECTDRAW4 pDD4 )
 {
 	// If the caller did not supply a DDraw object, just create a temp one.
-	if( NULL == pDD4 )
+	if( nullptr == pDD4 )
 	{
 		LPDIRECTDRAW pDD1;
-		if( FAILED( DirectDrawCreate( NULL, &pDD1, NULL ) ) )
+		if( FAILED( DirectDrawCreate( nullptr, &pDD1, nullptr ) ) )
 			return 0L;
 	
 		HRESULT hr = pDD1->QueryInterface( IID_IDirectDraw4, (VOID**)&pDD4 );

@@ -189,7 +189,7 @@ typedef struct SDL_RWops
  * \param file a UTF-8 string representing the filename to open
  * \param mode an ASCII string representing the mode to be used for opening
  *             the file.
- * \returns a pointer to the SDL_RWops structure that is created, or NULL on
+ * \returns a pointer to the SDL_RWops structure that is created, or nullptr on
  *          failure; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -228,7 +228,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromFP(FILE * fp, SDL_bool autoclose);
  * \param autoclose SDL_TRUE to close the `FILE*` when closing the SDL_RWops,
  *                  SDL_FALSE to leave the `FILE*` open when the RWops is
  *                  closed
- * \returns a pointer to the SDL_RWops structure that is created, or NULL on
+ * \returns a pointer to the SDL_RWops structure that is created, or nullptr on
  *          failure; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -262,7 +262,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromFP(void * fp,
  *
  * \param mem a pointer to a buffer to feed an SDL_RWops stream
  * \param size the buffer size, in bytes
- * \returns a pointer to a new SDL_RWops structure, or NULL if it fails; call
+ * \returns a pointer to a new SDL_RWops structure, or nullptr if it fails; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -297,7 +297,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromMem(void *mem, int size);
  *
  * \param mem a pointer to a read-only buffer to feed an SDL_RWops stream
  * \param size the buffer size, in bytes
- * \returns a pointer to a new SDL_RWops structure, or NULL if it fails; call
+ * \returns a pointer to a new SDL_RWops structure, or nullptr if it fails; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -333,7 +333,7 @@ extern DECLSPEC SDL_RWops *SDLCALL SDL_RWFromConstMem(const void *mem,
  * method is called, all SDL_RWops must be allocated through this function, so
  * they can all be freed correctly with SDL_FreeRW().
  *
- * \returns a pointer to the allocated memory on success, or NULL on failure;
+ * \returns a pointer to the allocated memory on success, or nullptr on failure;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -556,9 +556,9 @@ extern DECLSPEC int SDLCALL SDL_RWclose(SDL_RWops *context);
  * The data should be freed with SDL_free().
  *
  * \param src the SDL_RWops to read all available data from
- * \param datasize if not NULL, will store the number of bytes read
+ * \param datasize if not nullptr, will store the number of bytes read
  * \param freesrc if non-zero, calls SDL_RWclose() on `src` before returning
- * \returns the data, or NULL if there was an error.
+ * \returns the data, or nullptr if there was an error.
  *
  * \since This function is available since SDL 2.0.6.
  */
@@ -579,8 +579,8 @@ extern DECLSPEC void *SDLCALL SDL_LoadFile_RW(SDL_RWops *src,
  * SDL_LoadFile_RW.
  *
  * \param file the path to read all available data from
- * \param datasize if not NULL, will store the number of bytes read
- * \returns the data, or NULL if there was an error.
+ * \param datasize if not nullptr, will store the number of bytes read
+ * \returns the data, or nullptr if there was an error.
  *
  * \since This function is available since SDL 2.0.10.
  */

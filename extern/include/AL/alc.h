@@ -164,7 +164,7 @@ typedef void ALCvoid;
 /**
  * Device specifier string.
  *
- * If device handle is NULL, it is instead a null-character separated list of
+ * If device handle is nullptr, it is instead a null-character separated list of
  * strings of known device specifiers (list ends with an empty string).
  */
 #define ALC_DEVICE_SPECIFIER                     0x1005
@@ -177,7 +177,7 @@ typedef void ALCvoid;
 /**
  * Capture device specifier string.
  *
- * If device handle is NULL, it is instead a null-character separated list of
+ * If device handle is nullptr, it is instead a null-character separated list of
  * strings of known capture device specifiers (list ends with an empty string).
  */
 #define ALC_CAPTURE_DEVICE_SPECIFIER             0x310
@@ -194,7 +194,7 @@ typedef void ALCvoid;
 /**
  * Device's extended specifier string.
  *
- * If device handle is NULL, it is instead a null-character separated list of
+ * If device handle is nullptr, it is instead a null-character separated list of
  * strings of known extended device specifiers (list ends with an empty string).
  */
 #define ALC_ALL_DEVICES_SPECIFIER                0x1013
@@ -206,7 +206,7 @@ typedef void ALCvoid;
 /** Create and attach a context to the given device. */
 ALC_API ALCcontext* ALC_APIENTRY alcCreateContext(ALCdevice *device, const ALCint *attrlist) ALC_API_NOEXCEPT;
 /**
- * Makes the given context the active process-wide context. Passing NULL clears
+ * Makes the given context the active process-wide context. Passing nullptr clears
  * the active context.
  */
 ALC_API ALCboolean  ALC_APIENTRY alcMakeContextCurrent(ALCcontext *context) ALC_API_NOEXCEPT;
@@ -236,17 +236,17 @@ ALC_API ALCenum ALC_APIENTRY alcGetError(ALCdevice *device) ALC_API_NOEXCEPT;
 /* Extension support. */
 
 /**
- * Query for the presence of an extension on the device. Pass a NULL device to
+ * Query for the presence of an extension on the device. Pass a nullptr device to
  * query a device-inspecific extension.
  */
 ALC_API ALCboolean ALC_APIENTRY alcIsExtensionPresent(ALCdevice *device, const ALCchar *extname) ALC_API_NOEXCEPT;
 /**
- * Retrieve the address of a function. Given a non-NULL device, the returned
+ * Retrieve the address of a function. Given a non-nullptr device, the returned
  * function may be device-specific.
  */
 ALC_API ALCvoid*   ALC_APIENTRY alcGetProcAddress(ALCdevice *device, const ALCchar *funcname) ALC_API_NOEXCEPT;
 /**
- * Retrieve the value of an enum. Given a non-NULL device, the returned value
+ * Retrieve the value of an enum. Given a non-nullptr device, the returned value
  * may be device-specific.
  */
 ALC_API ALCenum    ALC_APIENTRY alcGetEnumValue(ALCdevice *device, const ALCchar *enumname) ALC_API_NOEXCEPT;

@@ -54,8 +54,8 @@ bool			IsPalettized(LPDDPIXELFORMAT lp_dd_pf);
 bool			GetDesktopMode(DDDriverInfo	*the_driver,LPGUID D3D_guid,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
 bool			GetFullscreenMode(DDDriverInfo *the_driver,GUID *D3D_guid,SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
 DDDriverInfo	*ValidateDriver(GUID *DD_guid);
-D3DDeviceInfo	*ValidateDevice(DDDriverInfo *the_driver,GUID *D3D_guid,DDModeInfo *the_filter=NULL);
-DDModeInfo		*ValidateMode(DDDriverInfo	*the_driver,DWORD w,DWORD h,DWORD bpp,DWORD refresh,D3DDeviceInfo *the_filter=NULL);
+D3DDeviceInfo	*ValidateDevice(DDDriverInfo *the_driver,GUID *D3D_guid,DDModeInfo *the_filter=nullptr);
+DDModeInfo		*ValidateMode(DDDriverInfo	*the_driver,DWORD w,DWORD h,DWORD bpp,DWORD refresh,D3DDeviceInfo *the_filter=nullptr);
 
 //---------------------------------------------------------------
 
@@ -144,7 +144,7 @@ class	D3DDeviceInfo
 		void				FindOpaqueTexFmt();
 		void				FindAlphaTexFmt();
 
-		DDModeInfo			*FindFormat(SLONG bpp,DDModeInfo **next_best_format,DDModeInfo *start=NULL);
+		DDModeInfo			*FindFormat(SLONG bpp,DDModeInfo **next_best_format,DDModeInfo *start=nullptr);
 
 		inline	SLONG		CountFormats()			{	return	FormatCount;					}
 		inline	bool		FormatsLoaded()			{	return	((D3DFlags&D3D_DEVICE_F_LOADED) ? true : false);	}
@@ -171,7 +171,7 @@ class	D3DDeviceInfo
 /*
     LPDDModeInfo FindFormat (LPDDPIXELFORMAT lpddsd, 
 						     LPDDModeInfo * lpNextBest,
-						     LPDDModeInfo lpStartFormat = NULL);
+						     LPDDModeInfo lpStartFormat = nullptr);
 
     DWORD EnumFormats (const D3DDEV_ENUMINFO & eiInfo);
 */
@@ -237,7 +237,7 @@ class	DDDriverInfo
 
 		HRESULT				AddMode(DDModeInfo *the_mode);
 		HRESULT				DeleteMode(DDModeInfo *the_mode);
-		DDModeInfo			*FindMode(SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **next_best=NULL,DDModeInfo *start_mode=NULL);
+		DDModeInfo			*FindMode(SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **next_best=nullptr,DDModeInfo *start_mode=nullptr);
 
 		inline	SLONG		CountModes()			{	return ModeCount;						}
 		inline	bool		ModesLoaded()			{	return ((DriverFlags&DD_DRIVER_M_LOADED) ? true : false);	}
@@ -252,9 +252,9 @@ class	DDDriverInfo
 
 		HRESULT				AddDevice(D3DDeviceInfo *the_device);
 		HRESULT				DeleteDevice(D3DDeviceInfo *the_device);
-		D3DDeviceInfo		*FindDevice(GUID *the_guid, D3DDeviceInfo **next_best,D3DDeviceInfo *start_device=NULL);
-		D3DDeviceInfo		*FindDeviceSupportsMode(GUID *the_guid,DDModeInfo *the_mode,D3DDeviceInfo **next_best_device,D3DDeviceInfo *start_device=NULL);
-		DDModeInfo			*FindModeSupportsDevice(SLONG w, SLONG h, SLONG bpp,SLONG refresh,D3DDeviceInfo *the_device,DDModeInfo **next_best,DDModeInfo *start_device=NULL);
+		D3DDeviceInfo		*FindDevice(GUID *the_guid, D3DDeviceInfo **next_best,D3DDeviceInfo *start_device=nullptr);
+		D3DDeviceInfo		*FindDeviceSupportsMode(GUID *the_guid,DDModeInfo *the_mode,D3DDeviceInfo **next_best_device,D3DDeviceInfo *start_device=nullptr);
+		DDModeInfo			*FindModeSupportsDevice(SLONG w, SLONG h, SLONG bpp,SLONG refresh,D3DDeviceInfo *the_device,DDModeInfo **next_best,DDModeInfo *start_device=nullptr);
 
 		inline	SLONG		CountDevices()			{	return DeviceCount;						}
 		inline	bool		DevicesLoaded()			{	return ((DriverFlags&DD_DRIVER_D_LOADED) ? true : false);	}
@@ -292,8 +292,8 @@ class	DDDriverManager
 		HRESULT				DestroyDrivers();
 
 		HRESULT				AddDriver(DDDriverInfo *the_driver);
-		DDDriverInfo		*FindDriver(GUID *guid,DDDriverInfo **next_best,DDDriverInfo *start_driver=NULL);
-		DDDriverInfo		*FindDriver(DDCAPS *hal,DDCAPS *hel,DDDriverInfo **next_best,DDDriverInfo *start_driver=NULL);
+		DDDriverInfo		*FindDriver(GUID *guid,DDDriverInfo **next_best,DDDriverInfo *start_driver=nullptr);
+		DDDriverInfo		*FindDriver(DDCAPS *hal,DDCAPS *hel,DDDriverInfo **next_best,DDDriverInfo *start_driver=nullptr);
 
 		inline	bool		IsInitialised()			{	return	ManagerFlags&DD_DRIVER_INIT;		}
 		inline	void		InitOn()				{	ManagerFlags	|=	DD_DRIVER_INIT;			}

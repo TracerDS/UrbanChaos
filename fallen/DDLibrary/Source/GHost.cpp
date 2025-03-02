@@ -43,9 +43,9 @@ DWORD	DDLibThread(LPVOID param)
 											CW_USEDEFAULT,
 											CW_USEDEFAULT,
 											HWND_DESKTOP,
-											NULL,
+											nullptr,
 											hGlobalThisInst,
-								            NULL
+								            nullptr
 										);
 
 #else
@@ -63,9 +63,9 @@ DWORD	DDLibThread(LPVOID param)
 											CW_USEDEFAULT,
 											CW_USEDEFAULT,
 											HWND_DESKTOP,
-											NULL,
+											nullptr,
 											hGlobalThisInst,
-								            NULL
+								            nullptr
 										);
 #endif
 
@@ -73,7 +73,7 @@ DWORD	DDLibThread(LPVOID param)
 	UpdateWindow(hDDLibWindow);
 
 	ShellActive	=	true;
-	while(GetMessage(&msg,NULL,0,0))
+	while(GetMessage(&msg,nullptr,0,0))
 	{
 		TranslateMessage(&msg); 
 		DispatchMessage(&msg);
@@ -119,8 +119,8 @@ bool	SetupHost(ULONG flags)
 	DDLibClass.lpfnWndProc		=	DDLibShellProc;
 	DDLibClass.style			=	0;
 	DDLibClass.hIcon			=	LoadIcon(hGlobalThisInst, MAKEINTRESOURCE(IDI_ICON2));
-	DDLibClass.hCursor			=	LoadCursor(NULL, IDC_ARROW);
-	DDLibClass.lpszMenuName		=	NULL;
+	DDLibClass.hCursor			=	LoadCursor(nullptr, IDC_ARROW);
+	DDLibClass.lpszMenuName		=	nullptr;
 	DDLibClass.cbClsExtra		=	0;
 	DDLibClass.cbWndExtra		=	0;
 	DDLibClass.hbrBackground	=	(HBRUSH)GetStockObject(BLACK_BRUSH);
@@ -141,9 +141,9 @@ bool	SetupHost(ULONG flags)
 											CW_USEDEFAULT,
 											CW_USEDEFAULT,
 											HWND_DESKTOP,
-											NULL,
+											nullptr,
 											hGlobalThisInst,
-								            NULL
+								            nullptr
 										);
 
 	if(hDDLibWindow)
@@ -184,7 +184,7 @@ void	ResetHost(void)
 	FiniDebugLog();
 #endif
 
-    UnregisterClass(TEXT("Urban Chaos"),GetModuleHandle(NULL));
+    UnregisterClass(TEXT("Urban Chaos"),GetModuleHandle(nullptr));
 }
 
 //---------------------------------------------------------------
@@ -312,9 +312,9 @@ bool	LibShellActive(void)
 	
 	while(1)
 	{
-		while(PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
+		while(PeekMessage(&msg,nullptr,0,0,PM_NOREMOVE))
 		{
-			result	=	(SLONG)GetMessage(&msg,NULL,0,0);
+			result	=	(SLONG)GetMessage(&msg,nullptr,0,0);
 #ifndef TARGET_DC
 			if(result)
 			{
@@ -380,7 +380,7 @@ bool	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 				buff2[512];
 	ULONG		flag; 
 
-	if (pMessage == NULL)
+	if (!pMessage )
 	{
 		pMessage = "Looks like a coder has caught a bug.";
 	}
@@ -457,7 +457,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
 #ifdef TARGET_DC
 	// This malloc has to be a malloc, not a MemAlloc - the heap has not yet been set up.
 	lpszGlobalArgs = (char *)malloc ( ( _tcslen (lpszArgs) + 1 ) * sizeof(*lpszGlobalArgs) );
-	ASSERT ( lpszGlobalArgs != NULL );
+	ASSERT ( lpszGlobalArgs != nullptr );
 	textConvertUniToChar ( lpszGlobalArgs, lpszArgs );
 #else
 	lpszGlobalArgs	=	lpszArgs;
@@ -483,7 +483,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
 	// So you can't have multiple release builds of fallen running at once!
 	//
 
-	CreateMutex(NULL, true, "This is your friendly Urban Chaos mutex!");
+	CreateMutex(nullptr, true, "This is your friendly Urban Chaos mutex!");
 
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
@@ -508,7 +508,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
 	// note the event is automatically deleted by the system when the app exits (even if it crashes)
 
 	#ifdef FINAL
-	HANDLE	hEvent = CreateEventA(NULL, false, false, "UrbanChaosExclusionZone");
+	HANDLE	hEvent = CreateEventA(nullptr, false, false, "UrbanChaosExclusionZone");
 	if (GetLastError() != ERROR_ALREADY_EXISTS)
 	#endif
 	{

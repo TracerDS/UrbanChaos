@@ -195,7 +195,7 @@ SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const siz
  * \param fn the SDL_ThreadFunction function to call in the new thread
  * \param name the name of the thread
  * \param data a pointer that is passed to `fn`
- * \returns an opaque pointer to the new thread object on success, NULL if the
+ * \returns an opaque pointer to the new thread object on success, nullptr if the
  *          new thread could not be created; call SDL_GetError() for more
  *          information.
  *
@@ -242,7 +242,7 @@ SDL_CreateThread(SDL_ThreadFunction fn, const char *name, void *data);
  * \param name the name of the thread
  * \param stacksize the size, in bytes, to allocate for the new thread stack.
  * \param data a pointer that is passed to `fn`
- * \returns an opaque pointer to the new thread object on success, NULL if the
+ * \returns an opaque pointer to the new thread object on success, nullptr if the
  *          new thread could not be created; call SDL_GetError() for more
  *          information.
  *
@@ -263,7 +263,7 @@ SDL_CreateThreadWithStackSize(SDL_ThreadFunction fn, const char *name, const siz
  *
  * \param thread the thread to query
  * \returns a pointer to a UTF-8 string that names the specified thread, or
- *          NULL if it doesn't have a name.
+ *          nullptr if it doesn't have a name.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -298,7 +298,7 @@ extern DECLSPEC SDL_threadID SDLCALL SDL_ThreadID(void);
  *
  * \param thread the thread to query
  * \returns the ID of the specified thread, or the ID of the current thread if
- *          `thread` is NULL.
+ *          `thread` is nullptr.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -332,13 +332,13 @@ extern DECLSPEC int SDLCALL SDL_SetThreadPriority(SDL_ThreadPriority priority);
  * such, only one thread may call SDL_WaitThread() on another.
  *
  * The return code for the thread function is placed in the area pointed to by
- * `status`, if `status` is not NULL.
+ * `status`, if `status` is not nullptr.
  *
  * You may not wait on a thread that has been used in a call to
  * SDL_DetachThread(). Use either that function or this one, but not both, or
  * behavior is undefined.
  *
- * It is safe to pass a NULL thread to this function; it is a no-op.
+ * It is safe to pass a nullptr thread to this function; it is a no-op.
  *
  * Note that the thread pointer is freed by this function and is not valid
  * afterward.
@@ -346,7 +346,7 @@ extern DECLSPEC int SDLCALL SDL_SetThreadPriority(SDL_ThreadPriority priority);
  * \param thread the SDL_Thread pointer that was returned from the
  *               SDL_CreateThread() call that started this thread
  * \param status pointer to an integer that will receive the value returned
- *               from the thread function by its 'return', or NULL to not
+ *               from the thread function by its 'return', or nullptr to not
  *               receive such value back.
  *
  * \since This function is available since SDL 2.0.0.
@@ -380,7 +380,7 @@ extern DECLSPEC void SDLCALL SDL_WaitThread(SDL_Thread * thread, int *status);
  * You may not call SDL_WaitThread() on a thread that has been detached. Use
  * either that function or this one, but not both, or behavior is undefined.
  *
- * It is safe to pass NULL to this function; it is a no-op.
+ * It is safe to pass nullptr to this function; it is a no-op.
  *
  * \param thread the SDL_Thread pointer that was returned from the
  *               SDL_CreateThread() call that started this thread
@@ -411,7 +411,7 @@ extern DECLSPEC SDL_TLSID SDLCALL SDL_TLSCreate(void);
  * Get the current thread's value associated with a thread local storage ID.
  *
  * \param id the thread local storage ID
- * \returns the value associated with the ID for the current thread or NULL if
+ * \returns the value associated with the ID for the current thread or nullptr if
  *          no value has been set; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.

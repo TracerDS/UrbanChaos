@@ -67,7 +67,7 @@ void SHIP_init();
 
 
 //
-// Creates a new ship.  Returns NULL on failure.
+// Creates a new ship.  Returns nullptr on failure.
 //
 
 SHIP_Ship *SHIP_create(

@@ -50,7 +50,7 @@ void WATER_point_index_set      (UWORD p_index, UWORD index);
 
 //
 // Returns the first water face in the linked list above a square.
-// Returns the next face... NULL => the end of the list.
+// Returns the next face... nullptr => the end of the list.
 //
 
 UWORD WATER_get_first_face(SLONG x, SLONG z);

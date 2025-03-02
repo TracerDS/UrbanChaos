@@ -159,7 +159,7 @@ D3DTexture *TEXTURE_get_D3DTexture(SLONG page);
 
 
 //
-// The handle of each crinkle. NULL => No crinkle for that page.
+// The handle of each crinkle. nullptr => No crinkle for that page.
 //
 
 extern CRINKLE_Handle TEXTURE_crinkle[22 * 64];

@@ -52,17 +52,17 @@ int WaveOpenFile(
 
 
 	// Initialization...
-	*ppwfxInfo = NULL;
+	*ppwfxInfo = nullptr;
 	nError = 0;
-	hmmioIn = NULL;
+	hmmioIn = nullptr;
 	
-	if ((hmmioIn = mmioOpen(pszFileName, NULL, MMIO_ALLOCBUF | MMIO_READ)) == NULL)
+	if (!(hmmioIn = mmioOpen(pszFileName, nullptr, MMIO_ALLOCBUF | MMIO_READ)) )
 		{
 		nError = ER_CANNOTOPEN;
 		goto ERROR_READING_WAVE;
 		}
 
-	if ((nError = (int)mmioDescend(hmmioIn, pckInRIFF, NULL, 0)) != 0)
+	if ((nError = (int)mmioDescend(hmmioIn, pckInRIFF, nullptr, 0)) != 0)
 		{
 		goto ERROR_READING_WAVE;
 		}
@@ -117,7 +117,7 @@ int WaveOpenFile(
 		}
 							
 	// Ok, now allocate that waveformatex structure.
-	if ((*ppwfxInfo = GlobalAlloc(GMEM_FIXED, sizeof(WAVEFORMATEX)+cbExtraAlloc)) == NULL)
+	if (!(*ppwfxInfo = GlobalAlloc(GMEM_FIXED, sizeof(WAVEFORMATEX)+cbExtraAlloc)) )
 		{
 		nError = ER_MEM;
 		goto ERROR_READING_WAVE;
@@ -149,16 +149,16 @@ int WaveOpenFile(
 	goto TEMPCLEANUP;               
 
 ERROR_READING_WAVE:
-	if (*ppwfxInfo != NULL)
+	if (*ppwfxInfo )
 		{
 		GlobalFree(*ppwfxInfo);
-		*ppwfxInfo = NULL;
+		*ppwfxInfo = nullptr;
 		}               
 
-	if (hmmioIn != NULL)
+	if (hmmioIn )
 	{
 	mmioClose(hmmioIn, 0);
-		hmmioIn = NULL;
+		hmmioIn = nullptr;
 		}
 	
 TEMPCLEANUP:
@@ -294,16 +294,16 @@ int WaveCloseReadFile(
 			)
 {
 
-	if (*ppwfxSrc != NULL)
+	if (*ppwfxSrc )
 		{
 		GlobalFree(*ppwfxSrc);
-		*ppwfxSrc = NULL;
+		*ppwfxSrc = nullptr;
 		}
 
-	if (*phmmio != NULL)
+	if (*phmmio )
 		{
 		mmioClose(*phmmio, 0);
-		*phmmio = NULL;
+		*phmmio = nullptr;
 		}
 
 	return(0);
@@ -336,10 +336,10 @@ int WaveCreateFile(
 	dwFactChunk = (DWORD)-1;
 	nError = 0;
 
-	*phmmioOut = mmioOpen(pszFileName, NULL,
+	*phmmioOut = mmioOpen(pszFileName, nullptr,
 			MMIO_ALLOCBUF | MMIO_READWRITE|MMIO_CREATE);
 
-    if (*phmmioOut == NULL)
+    if (!*phmmioOut )
 		{
 		nError = ER_CANNOTWRITE;
 	goto ERROR_CANNOT_WRITE;    // cannot save WAVE file
@@ -547,7 +547,7 @@ int WaveCloseWriteFile(
 								
 	nError = 0;
 
-	if (*phmmioOut == NULL)
+	if (!*phmmioOut )
 		return(0);
 
 	pmmioinfoOut->dwFlags |= MMIO_DIRTY;
@@ -570,7 +570,7 @@ int WaveCloseWriteFile(
 
 
 	nError = mmioSeek(*phmmioOut, 0, SEEK_SET);
-	if ((nError = (int)mmioDescend(*phmmioOut, pckOutRIFF, NULL, 0)) != 0)
+	if ((nError = (int)mmioDescend(*phmmioOut, pckOutRIFF, nullptr, 0)) != 0)
 		{
 		goto ERROR_CANNOT_WRITE;
 		}
@@ -601,10 +601,10 @@ int WaveCloseWriteFile(
 	
 
 ERROR_CANNOT_WRITE:
-	if (*phmmioOut != NULL)
+	if (*phmmioOut )
 		{
 	mmioClose(*phmmioOut, 0);
-		*phmmioOut = NULL;
+		*phmmioOut = nullptr;
 		}
 
 	return(nError);
@@ -791,8 +791,8 @@ int WaveLoadFile(
 	int                                     nError;
 	UINT                            cbActualRead;
 
-	*ppbData = NULL;
-	*ppwfxInfo = NULL;
+	*ppbData = nullptr;
+	*ppwfxInfo = nullptr;
 	*cbSize = 0;
 	
 	if ((nError = WaveOpenFile(pszFileName, &hmmioIn, ppwfxInfo, &ckInRiff)) != 0)
@@ -806,7 +806,7 @@ int WaveLoadFile(
 		}
 
 	// Ok, size of wave data is in ckIn, allocate that buffer.
-	if ((*ppbData = (BYTE *)GlobalAlloc(GMEM_FIXED, ckIn.cksize)) == NULL)
+	if (!(*ppbData = (BYTE *)GlobalAlloc(GMEM_FIXED, ckIn.cksize)) )
 		{
 		nError = ER_MEM;
 		goto ERROR_LOADING;
@@ -821,23 +821,23 @@ int WaveLoadFile(
 	goto DONE_LOADING;
 
 ERROR_LOADING:
-	if (*ppbData != NULL)
+	if (*ppbData )
 		{
 		GlobalFree(*ppbData);
-		*ppbData = NULL;
+		*ppbData = nullptr;
 		}
-	if (*ppwfxInfo != NULL)
+	if (*ppwfxInfo )
 		{
 		GlobalFree(*ppwfxInfo);
-		*ppwfxInfo = NULL;
+		*ppwfxInfo = nullptr;
 		}
 			
 DONE_LOADING:
 	// Close the wave file. 
-	if (hmmioIn != NULL)
+	if (hmmioIn )
 		{
 		mmioClose(hmmioIn, 0);
-		hmmioIn = NULL;
+		hmmioIn = nullptr;
 		}
 
 	return(nError);

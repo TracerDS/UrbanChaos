@@ -738,7 +738,7 @@ extern struct KeyFrameChunk 	*test_chunk;
 	for(c2=0,c0=prim_multi_objects[prim].StartObject;c0<prim_multi_objects[prim].EndObject;c0++)
 	{
 		the_element			=	&the_frame->FirstElement[c2++];
-		test_draw(c0,0,0,0,0,the_element,the_element,&r_matrix, NULL, NULL, NULL, NULL, NULL);
+		test_draw(c0,0,0,0,0,the_element,the_element,&r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 	}
 	render_view(1);
 	bounds_rect.OutlineRect(0);

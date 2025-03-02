@@ -432,7 +432,7 @@ extern DECLSPEC Uint32 SDLCALL SDL_MasksToPixelFormatEnum(int bpp,
  * errors such as `Blit combination not supported` may occur.
  *
  * \param pixel_format one of the SDL_PixelFormatEnum values
- * \returns the new SDL_PixelFormat structure or NULL on failure; call
+ * \returns the new SDL_PixelFormat structure or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -458,7 +458,7 @@ extern DECLSPEC void SDLCALL SDL_FreeFormat(SDL_PixelFormat *format);
  * The palette entries are initialized to white.
  *
  * \param ncolors represents the number of color entries in the color palette
- * \returns a new SDL_Palette structure on success or NULL on failure (e.g. if
+ * \returns a new SDL_Palette structure on success or nullptr on failure (e.g. if
  *          there wasn't enough memory); call SDL_GetError() for more
  *          information.
  *

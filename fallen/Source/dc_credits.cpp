@@ -657,12 +657,12 @@ void OhNoThisIsActually ( char *pcString, int iX, int iY, float fZ )
 				{
 					// Need more particles!
 					ASSERT ( false );
-					tpCur = NULL;
+					tpCur = nullptr;
 					break;
 				}
 			}
 
-			if ( tpCur != NULL )
+			if ( tpCur != nullptr )
 			{
 				int iLetter = FONT2D_GetIndex ( *pcString );
 				FONT2D_Letter *fl = &FONT2D_letter[iLetter];
@@ -717,7 +717,7 @@ void ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisT
 	tlv[3].sy = 480.0f;
 
 	the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, true );
-	the_display.lp_D3D_Device->SetTexture ( 0, NULL );
+	the_display.lp_D3D_Device->SetTexture ( 0, nullptr );
 
 	HRESULT hres = the_display.lp_D3D_Device->DrawPrimitive ( 
 						D3DPT_TRIANGLEFAN,
@@ -835,15 +835,15 @@ void DreamCastCredits ( void )
 
 
 	// Create the memory chunks required.
-	ASSERT ( tpParticles == NULL );
-	ASSERT ( tlvertParticles == NULL );
-	ASSERT ( wParticleIndices == NULL );
+	ASSERT ( tpParticles == nullptr );
+	ASSERT ( tlvertParticles == nullptr );
+	ASSERT ( wParticleIndices == nullptr );
 	tpParticles			= (TomPart *)		MemAlloc ( MAX_PARTICLES * sizeof ( *tpParticles ) );
 	tlvertParticles		= (D3DTLVERTEX *)	MemAlloc ( 4 * MAX_PARTICLES * sizeof ( *tlvertParticles ) );
 	wParticleIndices	= (WORD *)			MemAlloc ( 6 * MAX_PARTICLES * sizeof ( *wParticleIndices ) );
-	ASSERT ( tpParticles != NULL );
-	ASSERT ( tlvertParticles != NULL );
-	ASSERT ( wParticleIndices != NULL );
+	ASSERT ( tpParticles != nullptr );
+	ASSERT ( tlvertParticles != nullptr );
+	ASSERT ( wParticleIndices != nullptr );
 
 	for ( int i = 0; i < MAX_PARTICLES; i++ )
 	{
@@ -892,7 +892,7 @@ extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
 #else
 	LPDIRECT3DTEXTURE2 ptexFontTex = TEXTURE_get_handle ( TEXTURE_page_font2d );
 #endif
-	ASSERT ( ptexFontTex != NULL );
+	ASSERT ( ptexFontTex != nullptr );
 
 
 	float fCreditsCountdown = 0.0f;
@@ -1035,7 +1035,7 @@ extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
 
 
 		// Prep the screen draw.
-		the_display.lp_D3D_Viewport->Clear2 ( 0, NULL, D3DCLEAR_TARGET, 0x000000ff, 0.0f, 0 );
+		the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x000000ff, 0.0f, 0 );
 
 
 
@@ -1188,13 +1188,13 @@ extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
 
 		// Display any crappy "no controller" message.
 extern DIDeviceInfo *primary_device;
-		if ( primary_device == NULL )
+		if ( primary_device == nullptr )
 		{
 			ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisTime();
 		}
 
 
-		the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
+		the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
 		// Get input.
 		DWORD dwInput = get_hardware_input ( INPUT_TYPE_JOY );
@@ -1429,12 +1429,12 @@ extern DIDeviceInfo *primary_device;
 						{
 							// Need more particles!
 							ASSERT ( false );
-							tpCur = NULL;
+							tpCur = nullptr;
 							break;
 						}
 					}
 
-					if ( tpCur != NULL )
+					if ( tpCur != nullptr )
 					{
 						// Create this particle then.
 
@@ -1540,23 +1540,23 @@ extern DIDeviceInfo *primary_device;
 	}
 
 
-	the_display.lp_D3D_Device->SetTexture ( 0, NULL );
+	the_display.lp_D3D_Device->SetTexture ( 0, nullptr );
 
 
 	// Free the memory.
-	ASSERT ( tpParticles != NULL );
-	ASSERT ( tlvertParticles != NULL );
-	ASSERT ( wParticleIndices != NULL );
+	ASSERT ( tpParticles != nullptr );
+	ASSERT ( tlvertParticles != nullptr );
+	ASSERT ( wParticleIndices != nullptr );
 	MemFree ( tpParticles );
 	MemFree ( tlvertParticles );
 	MemFree ( wParticleIndices );
-	tpParticles = NULL;
-	tlvertParticles = NULL;
-	wParticleIndices = NULL;
+	tpParticles = nullptr;
+	tlvertParticles = nullptr;
+	wParticleIndices = nullptr;
 
-	ASSERT ( pcCreditsText != NULL );
+	ASSERT ( pcCreditsText != nullptr );
 	MemFree ( pcCreditsText );
-	pcCreditsText = NULL;
+	pcCreditsText = nullptr;
 
 
 }

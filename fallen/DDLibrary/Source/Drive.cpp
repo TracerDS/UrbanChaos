@@ -19,7 +19,7 @@ static bool	SpeechCD;				// speech on CD?
 static void Exit(void)
 {
 #ifndef TARGET_DC
-	MessageBox(NULL, "Cannot locate Urban Chaos CD-ROM", NULL, MB_ICONERROR);
+	MessageBox(nullptr, "Cannot locate Urban Chaos CD-ROM", nullptr, MB_ICONERROR);
 #else
 	ASSERT(false);
 #endif
@@ -65,7 +65,7 @@ void LocateCDROM(void)
 
 	if (!GetLogicalDriveStrings(255, strings))
 	{
-		MessageBox(NULL, "Cannot locate system devices - serious internal error", NULL, MB_ICONERROR);
+		MessageBox(nullptr, "Cannot locate system devices - serious internal error", nullptr, MB_ICONERROR);
 		exit(0);
 	}
 
@@ -95,7 +95,7 @@ void LocateCDROM(void)
 			sptr += strlen(sptr) + 1;
 		}
 
-		if (MessageBox(NULL, "Cannot locate Urban Chaos CD-ROM", NULL, MB_ICONERROR | MB_RETRYCANCEL) == IDCANCEL)
+		if (MessageBox(nullptr, "Cannot locate Urban Chaos CD-ROM", nullptr, MB_ICONERROR | MB_RETRYCANCEL) == IDCANCEL)
 		{
 			break;
 		}

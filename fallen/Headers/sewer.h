@@ -82,7 +82,7 @@ typedef struct
 } SEWER_Face;
 
 void SEWER_get_start(SLONG x, SLONG z);
-SEWER_Face *SEWER_get_next ();	// NULL => there are no more faces.
+SEWER_Face *SEWER_get_next ();	// nullptr => there are no more faces.
 SEWER_Face *SEWER_get_water();	// Returns the water faces...
 
 

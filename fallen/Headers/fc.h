@@ -18,7 +18,7 @@ typedef struct
 	// What the camera is looking at.
 	//
 
-	Thing *focus;			// NULL => Camera is not used.
+	Thing *focus;			// nullptr => Camera is not used.
 	SLONG  focus_x;
 	SLONG  focus_y;
 	SLONG  focus_z;
@@ -66,7 +66,7 @@ extern FC_Cam FC_cam[FC_MAX_CAMS];
 
 
 //
-// Creates nice NULL cameras.
+// Creates nice nullptr cameras.
 //
 
 void FC_init();

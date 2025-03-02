@@ -12,8 +12,8 @@ void Window::SetupWindow(CBYTE* title,ULONG flags,SLONG x,SLONG y,SLONG width,SL
 	Flags			=	flags;
 	StateFlags		=	0;
 
-	TabList			=	NULL;
-	CurrentTab		=	NULL;
+	TabList			=	nullptr;
+	CurrentTab		=	nullptr;
 
 	if(Flags&HAS_TITLE)
 	{
@@ -429,10 +429,10 @@ void Window::BringTabToFront(ModeTab *the_tab)
 	else
 	{									// At start of list.
 		TabList		=	the_tab->GetNextTabLink();
-		TabList->SetLastTabLink(NULL);
+		TabList->SetLastTabLink(nullptr);
 	}
-	the_tab->SetLastTabLink(NULL);
-	the_tab->SetNextTabLink(NULL);
+	the_tab->SetLastTabLink(nullptr);
+	the_tab->SetNextTabLink(nullptr);
 	AddTab(the_tab);
 }
 
@@ -517,7 +517,7 @@ void	Window::ActivateLastTab(void)
 
 void Window::AddTab(ModeTab *the_tab)
 {
-	if(CurrentTab == NULL)			// Start of list?
+	if (!CurrentTab )			// Start of list?
 	{
 		TabList		=	the_tab;
 		CurrentTab	=	TabList;

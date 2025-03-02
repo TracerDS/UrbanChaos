@@ -1767,11 +1767,11 @@ void	PaintTab::HandleControl(UWORD control_id)
 		case	CTRL_TEX_CLEAR:
 			{
 				Alert				rus;
-				if(rus.HandleAlert("Remove painted textures?",NULL)==1)
+				if(rus.HandleAlert("Remove painted textures?",nullptr)==1)
 				{
 					remove_painted_textures();
 				}
-				if(rus.HandleAlert("Remove style textures?",NULL)==1)
+				if(rus.HandleAlert("Remove style textures?",nullptr)==1)
 				{
 					remove_style_textures();
 				}

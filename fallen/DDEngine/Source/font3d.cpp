@@ -155,7 +155,7 @@ void Font3D::AddLetter(char *fn) {
 
 	handle = MF_Fopen(fn, "rb");
 
-	if (handle == NULL) return; // Could not open file
+	if (!handle ) return; // Could not open file
 
 	if (nextchar==100)  return; // no more room, erk
 

@@ -86,7 +86,7 @@ class	Control	:	public EdRect
 		ControlDef		*TheDef;
 
 	public:
-								Control()							{	ControlTitle=NULL;LastControl=NULL;NextControl=NULL;	}
+								Control()							{	ControlTitle=nullptr;LastControl=nullptr;NextControl=nullptr;	}
 		virtual void			DrawControl();
 		virtual UWORD			TrackControl(MFPoint *down_point);
 		virtual	void			TrackKey();

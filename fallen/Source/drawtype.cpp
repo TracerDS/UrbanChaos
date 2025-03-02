@@ -139,7 +139,7 @@ DrawMesh *alloc_draw_mesh()
 			//
 
 			ans->Angle = 0;
-			ans->Cache = NULL;
+			ans->Cache = nullptr;
 			ans->Hm    = 255;	// 255 means no Hm.
 
 			return ans;
@@ -148,7 +148,7 @@ DrawMesh *alloc_draw_mesh()
 
 //	ASSERT(0);
 
-	return NULL;
+	return nullptr;
 }
 
 void free_draw_mesh(DrawMesh *drawmesh)

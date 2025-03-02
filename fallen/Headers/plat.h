@@ -53,7 +53,7 @@ void PLAT_init();
 //
 // Looks for the nearest ob to the given location. It removes that ob
 // and in its place puts an identical platform.  Returns the THING_NUMBER
-// of the new PLAT thing or NULL if the call failed.
+// of the new PLAT thing or nullptr if the call failed.
 //
 
 #define PLAT_MOVE_STILL         0

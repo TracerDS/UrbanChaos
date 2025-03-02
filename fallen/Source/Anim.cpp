@@ -846,7 +846,7 @@ void setup_people_anims()
 void setup_extra_anims()
 {
 	Anim	*key_list;
-	key_list		=	NULL;
+	key_list		=	nullptr;
 	SLONG	c0	=	0;
 	Anim	*curr;
 
@@ -873,7 +873,7 @@ extern SLONG	load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,S
 void setup_extra_anims()
 {
 	Anim	*key_list;
-	key_list		=	NULL;
+	key_list		=	nullptr;
 /*
    	load_key_frame_chunks(test_chunk,"van.vue");
 
@@ -1499,12 +1499,12 @@ void fix_multi_object_for_anim(UWORD obj,struct	PrimMultiAnim	*p_anim)
 
 Anim::Anim()
 {
-	CurrentFrame	=	NULL;
-	FrameListStart	=	NULL;
-	FrameListEnd	=	NULL;
+	CurrentFrame	=	nullptr;
+	FrameListStart	=	nullptr;
+	FrameListEnd	=	nullptr;
 	FrameCount		=	0;
-	LastAnim		=	NULL;
-	NextAnim		=	NULL;
+	LastAnim		=	nullptr;
+	NextAnim		=	nullptr;
 	AnimFlags		=	0;
 }
 
@@ -1571,17 +1571,17 @@ void Anim::AddKeyFrame(KeyFrame *the_frame)
 		frame_ptr				=	(KeyFrame*)MemAlloc(sizeof(KeyFrame));
 		ERROR_MSG(frame_ptr,"Unable to allocate memory for key frame.");
 		*frame_ptr				=	*the_frame;
-		frame_ptr->NextFrame	=	NULL;
-		frame_ptr->PrevFrame	=	NULL;
+		frame_ptr->NextFrame	=	nullptr;
+		frame_ptr->PrevFrame	=	nullptr;
 		frame_ptr->TweenStep	=	the_frame->TweenStep;
 		frame_ptr->Fight		=	the_frame->Fight;
-		if(FrameListStart==NULL)
+		if(FrameListStart==nullptr)
 		{
 			FrameListStart			=	frame_ptr;
 			FrameListEnd			=	FrameListStart;
 			FrameListEnd->Flags		|=	ANIM_FLAG_LAST_FRAME;
 		}
-		else if(CurrentFrame==NULL)
+		else if(CurrentFrame==nullptr)
 		{
 			if(FrameListEnd)
 			{
@@ -1625,17 +1625,17 @@ void Anim::AppendKeyFrame(KeyFrame *the_frame)
 		frame_ptr				=	(KeyFrame*)MemAlloc(sizeof(KeyFrame));
 		ERROR_MSG(frame_ptr,"Unable to allocate memory for key frame.");
 		*frame_ptr				=	*the_frame;
-		frame_ptr->NextFrame	=	NULL;
-		frame_ptr->PrevFrame	=	NULL;
+		frame_ptr->NextFrame	=	nullptr;
+		frame_ptr->PrevFrame	=	nullptr;
 		frame_ptr->TweenStep	=	the_frame->TweenStep;
 		frame_ptr->Fight		=	the_frame->Fight;
-		if(FrameListStart==NULL)
+		if(FrameListStart==nullptr)
 		{
 			FrameListStart			=	frame_ptr;
 			FrameListEnd			=	FrameListStart;
 			FrameListEnd->Flags		|=	ANIM_FLAG_LAST_FRAME;
 		}
-		else if(CurrentFrame==NULL)
+		else if(CurrentFrame==nullptr)
 		{
 			if(FrameListEnd)
 			{

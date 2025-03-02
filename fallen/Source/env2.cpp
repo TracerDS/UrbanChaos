@@ -40,7 +40,7 @@ CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section)
 {
 	GetPrivateProfileString(section, name, "", strbuf, _MAX_PATH, inifile);
 	TRACE("[%s] %s = \"%s\"\n", section, name, strbuf);
-	return strbuf[0] ? strbuf : NULL;
+	return strbuf[0] ? strbuf : nullptr;
 }
 
 SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section)
@@ -149,7 +149,7 @@ char *ENV_load ( char *pcData )
 	return ( pcData );
 }
 
-// Call once with pcData = NULL, and it returns the number of
+// Call once with pcData = nullptr, and it returns the number of
 // bytes it needs to save the data. Call it again with a pointer
 // to the start of this data, and it will actually fill in the data
 // (and return the number of bytes again).
@@ -166,7 +166,7 @@ int ENV_save ( char *pcData )
 		iNumStrings++;
 	}
 
-	if ( pcData != NULL )
+	if ( pcData != nullptr )
 	{
 		// Now write it out.
 		*pcData++ = (BYTE)iNumStrings;

@@ -528,13 +528,13 @@ void	setup_game()
 	anim_count		=	0;
 
 
-	anim_list		=	NULL;
-	current_anim	=	NULL;
+	anim_list		=	nullptr;
+	current_anim	=	nullptr;
 	motion			=	0;
 
-	darci_list		=	NULL;
-	roper_list		=	NULL;
-	cop_list		=	NULL;
+	darci_list		=	nullptr;
+	roper_list		=	nullptr;
+	cop_list		=	nullptr;
 
    	load_key_frame_chunks(&test_chunk,"darci1.vue");
 	load_all_anims(&test_chunk,&darci_list);

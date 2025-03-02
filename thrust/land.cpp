@@ -450,7 +450,7 @@ void LAND_draw_all(float mid_x, float mid_y, float zoom)
 			0x00aaaaff);
 	}
 
-	OS_buffer_draw(ob, LAND_ot, NULL, OS_DRAW_ADD | OS_DRAW_DOUBLESIDED);
+	OS_buffer_draw(ob, LAND_ot, nullptr, OS_DRAW_ADD | OS_DRAW_DOUBLESIDED);
 }
 
 

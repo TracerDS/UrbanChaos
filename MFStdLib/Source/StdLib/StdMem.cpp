@@ -12,7 +12,7 @@
 #endif
 
 
-HANDLE MFHeap	=	NULL;
+HANDLE MFHeap	=	nullptr;
 
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 struct HeapDebugInfo
@@ -36,7 +36,7 @@ struct newdeltrace
 
 
 
-HeapDebugInfo *pFirst = NULL;
+HeapDebugInfo *pFirst = nullptr;
 ULONG ulCurrentSequenceNumber = 0;
 
 // Set this to 1 in a debugger to dump the info.
@@ -52,7 +52,7 @@ void DumpDebug ( void )
 	TRACE ( "\nMemory debug dump\n" );
 
 	HeapDebugInfo *phdi = pFirst;
-	while ( phdi != NULL )
+	while ( phdi != nullptr )
 	{
 		TRACE ( "ID<0x%x> size<0x%x> \n", phdi->ulSeqNum, phdi->ulSize );
 
@@ -77,10 +77,10 @@ void DumpDebug ( void )
 bool SetupMemory()
 {
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
-	pFirst = NULL;
+	pFirst = nullptr;
 	ulCurrentSequenceNumber = 0;
 #endif
-	if(MFHeap==NULL)
+	if(MFHeap==nullptr)
 	{
 	   MFHeap	=	HeapCreate(0,INITIAL_HEAP_SIZE,MAXIMUM_HEAP_SIZE);
 	}
@@ -97,10 +97,10 @@ void ResetMemory()
 	if(MFHeap)
 	{
 		HeapDestroy(MFHeap);
-		MFHeap	=	NULL;
+		MFHeap	=	nullptr;
 	}
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
-	pFirst = NULL;
+	pFirst = nullptr;
 	// Sequence number is not reset.
 #endif
 }
@@ -123,7 +123,7 @@ void* MemAlloc(ULONG size)
 #endif
 	size	=	(size+3)&0xfffffffc;
 	void* ptr = (void*)HeapAlloc(MFHeap,HEAP_ZERO_MEMORY,size);
-	ASSERT ( ptr != NULL );
+	ASSERT ( ptr != nullptr );
 
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 	HeapDebugInfo *phdi = (HeapDebugInfo *)ptr;
@@ -132,10 +132,10 @@ void* MemAlloc(ULONG size)
 	phdi->ulSeqNum = ulCurrentSequenceNumber++;
 	phdi->ulSize = ulOriginalSize;
 	phdi->pNext = pFirst;
-	phdi->pPrev = NULL;
-	if ( pFirst != NULL )
+	phdi->pPrev = nullptr;
+	if ( pFirst != nullptr )
 	{
-		ASSERT ( pFirst->pPrev == NULL );
+		ASSERT ( pFirst->pPrev == nullptr );
 		pFirst->pPrev = phdi;
 	}
 	pFirst = phdi;
@@ -148,7 +148,7 @@ void* MemReAlloc(void* ptr, ULONG size)
 {
 	size = (size + 3) & 0xfffffffc;
 	ptr = (void*)HeapReAlloc(MFHeap, HEAP_ZERO_MEMORY, ptr, size);
-	ASSERT(ptr != NULL);
+	ASSERT(ptr != nullptr);
 
 	return ptr;
 }
@@ -169,7 +169,7 @@ void MemFree(void* mem_ptr)
 	// Set up ulSpotted in a debugger to track interesting items.
 	ASSERT ( ulSpotted != phdi->ulSeqNum );
 
-	if ( phdi->pPrev != NULL )
+	if ( phdi->pPrev != nullptr )
 	{
 		ASSERT ( phdi->pPrev->pNext == phdi );
 		phdi->pPrev->pNext = phdi->pNext;
@@ -179,7 +179,7 @@ void MemFree(void* mem_ptr)
 		ASSERT ( pFirst == phdi );
 		pFirst = phdi->pNext;
 	}
-	if ( phdi->pNext != NULL )
+	if ( phdi->pNext != nullptr )
 	{
 		ASSERT ( phdi->pNext->pPrev == phdi );
 		phdi->pNext->pPrev = phdi->pPrev;

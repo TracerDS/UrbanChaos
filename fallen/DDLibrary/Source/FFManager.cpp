@@ -17,7 +17,7 @@ FFManager* the_ff_manager;
 FFManager::FFManager() {
 	testeffect=0;
 	ForceFeedback=0;
-	DeviceInfo=the_input_manager.FindDevice(JOYSTICK,0,NULL,NULL);
+	DeviceInfo=the_input_manager.FindDevice(JOYSTICK,0,nullptr,nullptr);
 	if (!DeviceInfo) return;
 	lpdiInputDevice=DeviceInfo->lpdiInputDevice;
 
@@ -68,13 +68,13 @@ bool FFManager::Test() {
 	effect.cAxes = 2; 
 	effect.rgdwAxes = dwAxes;
 	effect.rglDirection = lDirection; 
-	effect.lpEnvelope = NULL; 
+	effect.lpEnvelope = nullptr; 
 	effect.cbTypeSpecificParams = sizeof(DICONSTANTFORCE);
 	effect.lpvTypeSpecificParams = &diConstantForce;  
 
 	diConstantForce.lMagnitude = DI_FFNOMINALMAX;   // full force 
 
-	res=lpdiInputDevice->CreateEffect(GUID_ConstantForce,&effect,&testeffect,NULL);
+	res=lpdiInputDevice->CreateEffect(GUID_ConstantForce,&effect,&testeffect,nullptr);
 	if (res==DI_OK) {
 		res=testeffect->Start(1,0);
 		return true;

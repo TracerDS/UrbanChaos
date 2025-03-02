@@ -705,11 +705,11 @@ SLONG find_best_grapple(Thing *p_person)
 		// Only let Darci grapple because otherwise set_anim() crashes
 		//
 
-		return NULL;
+		return nullptr;
 	}
 */
 	// don't let roper grapple, cos junior asked for him not to
-//	if (p_person->Genus.Person->AnimType == ANIM_TYPE_ROPER) return NULL;
+//	if (p_person->Genus.Person->AnimType == ANIM_TYPE_ROPER) return nullptr;
 	//
 
 	if(!p_person->Genus.Person->PlayerID || p_person->Genus.Person->Mode==PERSON_MODE_FIGHT)
@@ -1196,7 +1196,7 @@ SLONG find_best_kick(Thing *p_person, ULONG flag)
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 }
@@ -1794,8 +1794,8 @@ void set_person_dead_combat(Thing *p_thing,Thing *p_aggressor,SLONG death_type,S
 
 	if (p_aggressor)
 	{
-		p_aggressor->Genus.Person->Target = NULL;
-		p_aggressor->Genus.Person->InWay  = NULL;
+		p_aggressor->Genus.Person->Target = nullptr;
+		p_aggressor->Genus.Person->InWay  = nullptr;
 
 		if(p_aggressor->Genus.Person->PlayerID)
 		{
@@ -3075,7 +3075,7 @@ SLONG find_attack_stance(
 	// Initialise stance.
 	//
 
-	best_target   =  NULL;
+	best_target   =  nullptr;
 	best_dist     =  0;
 	best_dx       =  0;
 	best_dz       =  0;
@@ -3300,7 +3300,7 @@ SLONG find_attack_stance(
 	}
 	else
 	{
-	   *stance_target   = NULL;
+	   *stance_target   = nullptr;
 	   *stance_angle    = p_person->Draw.Tweened->Angle;
 	   *stance_position = p_person->WorldPos;
 		return(0);
@@ -3521,7 +3521,7 @@ Thing *is_person_under_attack_low_level(Thing *p_person,SLONG any_state,SLONG ra
 	SLONG  dist;
 
 	SLONG  best_dist   = INFINITY;
-	Thing *best_person = NULL;
+	Thing *best_person = nullptr;
 
 	//
 	// any_state is old!
@@ -3575,7 +3575,7 @@ Thing *is_person_under_attack_low_level(Thing *p_person,SLONG any_state,SLONG ra
 					// Is he attacking me?
 					//
 
-					Thing *p_attacking = NULL;
+					Thing *p_attacking = nullptr;
 
 					if (p_found->Genus.Person->pcom_ai_arg)
 					{

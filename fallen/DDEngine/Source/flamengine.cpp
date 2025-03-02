@@ -34,7 +34,7 @@ SLONG TEXTURE_flame_lock()
 
 	if (FAILED(res))
 	{
-		TEXTURE_shadow_bitmap = NULL;
+		TEXTURE_shadow_bitmap = nullptr;
 		TEXTURE_shadow_pitch  = 0;
 
 		return false;
@@ -782,8 +782,8 @@ void Flamengine::Feedback() {
 	rcDest.top = 0;			rcDest.left = 0;
 	rcDest.bottom = 256;	rcDest.right = 256;
  
-//	res=TEXTURE_texture[TEXTURE_page_menuflame].GetSurface()->Blt(&rcDest,the_display.lp_DD_BackSurface,&rcSource,DDBLT_WAIT,NULL);
-	res=TEXTURE_texture[TEXTURE_page_menuflame].GetSurface()->Blt(NULL,the_display.lp_DD_BackSurface,&rcSource,DDBLT_WAIT,NULL);
+//	res=TEXTURE_texture[TEXTURE_page_menuflame].GetSurface()->Blt(&rcDest,the_display.lp_DD_BackSurface,&rcSource,DDBLT_WAIT,nullptr);
+	res=TEXTURE_texture[TEXTURE_page_menuflame].GetSurface()->Blt(nullptr,the_display.lp_DD_BackSurface,&rcSource,DDBLT_WAIT,nullptr);
 
 
 }

@@ -102,7 +102,7 @@ extern float POLY_screen_height;
 // any one of these flags set => point is off screen
 #define POLY_CLIP_OFFSCREEN     (POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM | POLY_CLIP_FAR | POLY_CLIP_NEAR)
 
-typedef struct
+struct POLY_Point
 {
 	float x;	//              
 	float y;	// 3D points... 
@@ -121,13 +121,12 @@ typedef struct
 	ULONG specular;		// xxRRGGBB
 
 	// IsValid - point has been rotated & projected; screen coords OK
-	inline bool	IsValid()		{ return ((clip & POLY_CLIP_TRANSFORMED) != 0); }
+	bool IsValid() noexcept { return ((clip & POLY_CLIP_TRANSFORMED) != 0); }
 	// MaybeValid - point has been rotated, but may be in front of the nearplane; screen coords not necessarily OK
-	inline bool	MaybeValid()	{ return ((clip & (POLY_CLIP_TRANSFORMED | POLY_CLIP_NEAR)) != 0); }
+	bool MaybeValid() noexcept { return ((clip & (POLY_CLIP_TRANSFORMED | POLY_CLIP_NEAR)) != 0); }
 	// NearClip - point is in front of the nearplane
-	inline bool	NearClip()		{ return ((clip & POLY_CLIP_NEAR) != 0); }
-	
-} POLY_Point;
+	bool NearClip() noexcept { return ((clip & POLY_CLIP_NEAR) != 0); }
+};
 
 
 #ifdef TARGET_DC

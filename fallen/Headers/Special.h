@@ -85,7 +85,7 @@ typedef struct
 
 	UWORD ammo;		// The amount of ammo this thing has or the countdown to going off for an activated mine.
 
-	UWORD waypoint;	// The index of the waypoint that created this special- or NULL
+	UWORD waypoint;	// The index of the waypoint that created this special- or nullptr
 					// if it wasn't created by a waypoint.
 
 					// For an activate MINE in SPECIAL_SUBSTATE_IS_DIRT, this is the index of the DIRT_dirt
@@ -113,7 +113,7 @@ void init_specials();
 
 //
 // Creates an item.  'waypoint' is the index of the waypoint that created
-// the item or NULL if this item was not created by a waypoint.  When the item
+// the item or nullptr if this item was not created by a waypoint.  When the item
 // is collected, the waypoint that created the item is notified.
 //
 
@@ -135,7 +135,7 @@ void special_drop(Thing *p_special, Thing *p_person);
 
 //
 // Returns the special if the person own a special of the given type or
-// NULL if the person isn't carrying a special of that type.
+// nullptr if the person isn't carrying a special of that type.
 //
 
 Thing *person_has_special(Thing *p_person, SLONG special_type);

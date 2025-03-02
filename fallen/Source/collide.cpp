@@ -2642,7 +2642,7 @@ SLONG find_nearby_ladder_colvect_radius(
 	SLONG i_vect;
 
 	SLONG best_dist = INFINITY;
-	SLONG best_vect = NULL;
+	SLONG best_vect = nullptr;
 
 	struct	DFacet *p_vect;
 
@@ -2827,7 +2827,7 @@ SLONG plant_feet(Thing *p_person)
 	}
 	else
 	{
-		ignore_building = NULL;
+		ignore_building = nullptr;
 	}
 */
 
@@ -3132,7 +3132,7 @@ SLONG last_slide_dist;
 SLONG actual_sliding;
 SLONG slide_door;
 SLONG slide_ladder;
-SLONG slide_into_warehouse;		// NULL if you have not gone into a warehouse or the index of the warehouse if you have.
+SLONG slide_into_warehouse;		// nullptr if you have not gone into a warehouse or the index of the warehouse if you have.
 SLONG slide_outof_warehouse;
 
 /*
@@ -3229,7 +3229,7 @@ SLONG slide_along_old(
 
 	num_slides         = 0;
 	last_slide         = 0;
-	last_slide_colvect = NULL;
+	last_slide_colvect = nullptr;
 	slide_door         = 0;
 	slide_ladder       = 0;
 	actual_sliding     = false;
@@ -3996,7 +3996,7 @@ SLONG slide_along(
 	//
 
 	last_slide            = 0;
-	last_slide_colvect    = NULL;
+	last_slide_colvect    = nullptr;
 	slide_door            = 0;
 	slide_ladder          = 0;
 	actual_sliding        = false;
@@ -4852,7 +4852,7 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 
 	num_slides         = 0;
 	last_slide         = 0;
-	last_slide_colvect = NULL;
+	last_slide_colvect = nullptr;
 	slide_door         = 0;
 	actual_sliding     = false;
 
@@ -5257,7 +5257,7 @@ void slide_along_redges(
 
 	if (IS_ROOF_HIDDEN_FACE(-face4))
 	{
-		f4      = NULL;
+		f4      = nullptr;
 		mx      = ROOF_HIDDEN_X(-face4);
 		mz      = ROOF_HIDDEN_Z(-face4);
 
@@ -5575,7 +5575,7 @@ SLONG collide_against_objects(
 	// If this person is standing on a prim, don't collide with that prim!
 	//
 
-	SLONG ignore_prim = NULL;
+	SLONG ignore_prim = nullptr;
 
 	if (p_thing->OnFace>0)
 	{
@@ -5750,7 +5750,7 @@ SLONG collide_against_objects(
 
 										set_person_dead(
 											p_thing,
-											NULL,
+											nullptr,
 											PERSON_DEATH_TYPE_OTHER,
 											false,
 											0);
@@ -6525,7 +6525,7 @@ ULONG move_thing(
 	SLONG new_y;
 	SLONG new_face;
 	SLONG slid_odd;
-//	SLONG ignore_building = NULL;
+//	SLONG ignore_building = nullptr;
 	SLONG fall_off_flag = 0;
 
 	extern SLONG yomp_speed;
@@ -6551,7 +6551,7 @@ ULONG move_thing(
 
 	if (!p_thing)
 	{
-		MSG_add("ERROR: move_slidey_thing(NULL!)");
+		MSG_add("ERROR: move_slidey_thing(nullptr!)");
 
 		return 0;						 
 	}
@@ -6776,7 +6776,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 
 			new_face = find_face_for_this_pos(x2>>8, y2>>8, z2>>8, &new_y, 0,0); //ignore_building,0)
 
-			if (new_face == NULL)
+			if (!new_face )
 			{
 				//
 				// Walked off a face.
@@ -7394,7 +7394,7 @@ SLONG check_vector_against_mapsquare(
 
 	f_list = pl->ColVectHead;
 
-	if (f_list == NULL)
+	if (!f_list )
 	{
 		//
 		// No dfacets on this mapsquare!
@@ -7793,7 +7793,7 @@ SLONG there_is_a_los(
 	los_v_dy = y2 - my_y1;
 	los_v_dz = z2 - z1;
 
-	los_failure_dfacet = NULL;	// might help
+	los_failure_dfacet = nullptr;	// might help
 
 	if (abs(los_v_dx) + abs(los_v_dz) < 16)
 	{
@@ -7828,7 +7828,7 @@ SLONG there_is_a_los(
 				los_failure_x      = los_v_x;
 				los_failure_y      = los_v_y;
 				los_failure_z      = los_v_z;
-				los_failure_dfacet = NULL;
+				los_failure_dfacet = nullptr;
 
 				return false;
 			}
@@ -9482,7 +9482,7 @@ THING_INDEX find_nearby_person(
 	// 
 
 	best_dist  = INFINITY;
-	best_thing = NULL;
+	best_thing = nullptr;
 
 	for (i = 0; i < nearby_upto; i++)
 	{
@@ -9580,7 +9580,7 @@ SLONG find_intersected_colvect(
 	SATURATE(mx2, 0, MAP_WIDTH  - 1);
 	SATURATE(mz2, 0, MAP_HEIGHT - 1);
 
-	best_ans   =  NULL;
+	best_ans   =  nullptr;
 	best_score = -INFINITY;
 
 	for (mx = mx1; mx <= mx2; mx++)

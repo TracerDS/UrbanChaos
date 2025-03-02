@@ -47,7 +47,7 @@
 #define EWAY_COND_COUNTDOWN		  		11	// arg1 is the ID of waypoint with dependency. arg2 is hundreths of a second to wait
 #define EWAY_COND_COUNTDOWN_SEE	  		12	// A countdown that appears on-screen.
 #define EWAY_COND_PERSON_DEAD	  		13	// For person dead triggers, arg1 is the ID of the node that creates the person.
-#define EWAY_COND_PERSON_NEAR	  		14	// Some given person nearby.  Person near triggers have the radius in arg2 and ID of the node in arg1. (ID == NULL => Anybody)	
+#define EWAY_COND_PERSON_NEAR	  		14	// Some given person nearby.  Person near triggers have the radius in arg2 and ID of the node in arg1. (ID == nullptr => Anybody)	
 #define EWAY_COND_CAMERA_AT		  		15	// EWAY_DO_CAMERA_WAYPOINT waypoints must have this condition set.
 #define EWAY_COND_PLAYER_CUBE	  		16	// The player enters a cube.
 #define EWAY_COND_A_SEE_B		  		17	// For A_SEE_B_, arg1 is person doing the seeing, arg2 is person being looked at.
@@ -65,7 +65,7 @@
 #define EWAY_COND_CRIME_RATE_GTEQ		29	// When the crime rate is >= arg1.
 #define EWAY_COND_CRIME_RATE_LTEQ		30	// When the crime rate is <= arg1.
 #define EWAY_COND_IS_MURDERER			31	// true when the person given by arg1 has killed someone.
-#define EWAY_COND_PERSON_IN_VEHICLE		32	// Arg1 is the person, arg2 is the vehicle. If arg2 == NULL, then any vehicle will do!
+#define EWAY_COND_PERSON_IN_VEHICLE		32	// Arg1 is the person, arg2 is the vehicle. If arg2 == nullptr, then any vehicle will do!
 #define EWAY_COND_THING_RADIUS_DIR		33	// When the person/vehicle given by arg 1 enters the radius (arg2 in 1/4 blocks) and points roughly in the direction of the waypoint... 
 #define EWAY_COND_SPECIFIC_ITEM_HELD	34	// When a particular item is held. 'arg1' gives waypoint that creates item.
 #define EWAY_COND_RANDOM				35	// arg1 is the dependency waypoint
@@ -137,7 +137,7 @@ typedef struct
 	UWORD z;
 
 	UBYTE index;
-	UBYTE ware;				// which warehouse the waypoint is in (or NULL if the waypoint isn't
+	UBYTE ware;				// which warehouse the waypoint is in (or nullptr if the waypoint isn't
 							// inside a warehouse.  Set when you call EWAY_work_out_which_ones_are_in_warehouses()
 	EWAY_Cond ec;
 	EWAY_Stay es;
@@ -258,7 +258,7 @@ typedef struct
 #define EWAY_ARG_ITEM_FOLLOW_PERSON		1	// the item is created by a person not where the wpt is
 #define EWAY_ARG_ITEM_STASHED_IN_PRIM	2	// the item is hidden inside a prim and created when searched
 
-#define EWAY_MESSAGE_WHO_RADIO	    NULL
+#define EWAY_MESSAGE_WHO_RADIO	    nullptr
 #define EWAY_MESSAGE_WHO_STREETNAME 0xffff
 #define EWAY_MESSAGE_WHO_TUTORIAL   0xfffe
 
@@ -391,8 +391,8 @@ SLONG EWAY_get_delay(SLONG waypoint, SLONG default_delay);
 
 //
 // Returns the angle associated with the given waypoint.
-// Returns the person associated with the given waypoint or NULL if there is no such person.
-// Returns the warehouse the waypoint is in or NULL if the waypoint isn't in a warehouse.
+// Returns the person associated with the given waypoint or nullptr if there is no such person.
+// Returns the warehouse the waypoint is in or nullptr if the waypoint isn't in a warehouse.
 //
 
 UWORD EWAY_get_angle    (SLONG waypoint);
@@ -465,7 +465,7 @@ SLONG EWAY_grab_camera(
 
 //
 // Returns the index of the warehouse the EWAY_camera should be inside
-// or NULL if the camera is outside.
+// or nullptr if the camera is outside.
 //
 
 UBYTE EWAY_camera_warehouse();
@@ -561,8 +561,8 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type);
 
 //
 // When the waypoint system triggers a tutorial help message,
-// this pointer is set from NULL to the tutorial string.  You
-// must set it back to NULL yourself.
+// this pointer is set from nullptr to the tutorial string.  You
+// must set it back to nullptr yourself.
 //
 
 extern CBYTE* EWAY_tutorial_string;

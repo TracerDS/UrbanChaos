@@ -123,7 +123,7 @@ bool CALLBACK OS_joy_enum(
     hr = OS_joy_direct_input->CreateDevice(
 								instance->guidInstance,
 							   &OS_joy_input_device,
-							    NULL);
+							    nullptr);
 
     if (FAILED(hr))
 	{
@@ -131,8 +131,8 @@ bool CALLBACK OS_joy_enum(
 		// Cant use this joystick for some reason!
 		//
 
-		OS_joy_input_device  = NULL;
-		OS_joy_input_device2 = NULL;
+		OS_joy_input_device  = nullptr;
+		OS_joy_input_device2 = nullptr;
 
         return DIENUM_CONTINUE;
 	}
@@ -165,9 +165,9 @@ void OS_joy_init()
 	// Initialise everything.
 	//
 
-	OS_joy_direct_input  = NULL;
-	OS_joy_input_device  = NULL;
-	OS_joy_input_device2 = NULL;
+	OS_joy_direct_input  = nullptr;
+	OS_joy_input_device  = nullptr;
+	OS_joy_input_device2 = nullptr;
 
 	//
 	// Create the direct input object.
@@ -177,7 +177,7 @@ void OS_joy_init()
 			OS_this_instance,
 			DIRECTINPUT_VERSION,
 		   &OS_joy_direct_input,
-			NULL);
+			nullptr);
 
     if (FAILED(hr)) 
 	{
@@ -195,18 +195,18 @@ void OS_joy_init()
     hr = OS_joy_direct_input->EnumDevices(
 								DIDEVTYPE_JOYSTICK,
 								OS_joy_enum,
-								NULL,
+								nullptr,
 								DIEDFL_ATTACHEDONLY);
 
-	if (OS_joy_input_device  == NULL ||
-		OS_joy_input_device2 == NULL)
+	if (OS_joy_input_device  == nullptr ||
+		OS_joy_input_device2 == nullptr)
 	{
 		//
 		// The joystick wasn't properly found.
 		// 
 
-		OS_joy_input_device  = NULL;
-		OS_joy_input_device2 = NULL;
+		OS_joy_input_device  = nullptr;
+		OS_joy_input_device2 = nullptr;
 
 		return;
 	}
@@ -276,9 +276,9 @@ void OS_joy_poll()
 {
 	HRESULT hr;
 
-	if (OS_joy_direct_input  == NULL ||
-		OS_joy_input_device  == NULL ||
-		OS_joy_input_device2 == NULL)
+	if (OS_joy_direct_input  == nullptr ||
+		OS_joy_input_device  == nullptr ||
+		OS_joy_input_device2 == nullptr)
 	{
 		//
 		// No joystick detected.
@@ -384,11 +384,11 @@ void OS_decompress_sound(
 
 	switch(acmStreamOpen(
 		   &has,
-			NULL,
+			nullptr,
 		    source_format,
 		    dest_format,
-			NULL,
-			NULL,
+			nullptr,
+			nullptr,
 			0,
 			ACM_STREAMOPENF_NONREALTIME))
 	{
@@ -524,7 +524,7 @@ void OS_sound_init()
 	// Create direct sound.
 	//
  
-    if (DirectSoundCreate(NULL, &OS_sound_dsound, NULL) != DS_OK)
+    if (DirectSoundCreate(nullptr, &OS_sound_dsound, nullptr) != DS_OK)
 	{
         return;
 	}
@@ -549,7 +549,7 @@ void OS_sound_init()
 	dsbd.dwSize  = sizeof(dsbd);
 	dsbd.dwFlags = DSBCAPS_PRIMARYBUFFER | DSBCAPS_CTRL3D;
 	
-	if (OS_sound_dsound->CreateSoundBuffer(&dsbd, &OS_sound_primary, NULL) != DS_OK)
+	if (OS_sound_dsound->CreateSoundBuffer(&dsbd, &OS_sound_primary, nullptr) != DS_OK)
 	{
 		return;
 	}
@@ -622,7 +622,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 
 	if (!OS_sound_valid)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -643,7 +643,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 	// No more sounds available.
 	//
 
-	return NULL;
+	return nullptr;
 
   found_spare_sound:;
 
@@ -656,14 +656,14 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 
 	if (WaveOpenFile(fname, &hmmio, &pwfx, &mmckinfoParent) != 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if (WaveStartDataRead(&hmmio, &mmckinfoData, &mmckinfoParent) != 0)
 	{
 	    WaveCloseReadFile(&hmmio, &pwfx);
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -689,7 +689,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 		{
 			WaveCloseReadFile(&hmmio, &pwfx);
 
-			return NULL;
+			return nullptr;
 		}
 
 		//
@@ -706,7 +706,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 	    destwfx.nAvgBytesPerSec = destwfx.nSamplesPerSec * destwfx.nBlockAlign;
 		destwfx.cbSize          = 0;
 
-		void* dest_data = NULL;
+		void* dest_data = nullptr;
 		ULONG dest_num_bytes;
 
 		OS_decompress_sound(
@@ -719,7 +719,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 		
 		if (!dest_data)
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		//
@@ -751,11 +751,11 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 				break;
 		}
 
-		if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, NULL) != DS_OK)
+		if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, nullptr) != DS_OK)
 		{
 			WaveCloseReadFile(&hmmio, &pwfx);
 
-			return NULL;
+			return nullptr;
 		}
 
 		//
@@ -770,13 +770,13 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 				0,              // Size of lock; ignored in this case
 				&data,			// Address of lock start
 				&num_bytes,     // Number of bytes locked
-				NULL,           // Wraparound start; not used
-				NULL,           // Wraparound size; not used
+				nullptr,           // Wraparound start; not used
+				nullptr,           // Wraparound size; not used
 				DSBLOCK_ENTIREBUFFER) != DS_OK)
 		{
 			WaveCloseReadFile(&hmmio, &pwfx);
 
-			return NULL;
+			return nullptr;
 		}
 		
 		ASSERT(num_bytes == dest_num_bytes);
@@ -798,7 +798,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 		// Unlock the buffer and close the wave file.
 		//
 
-		os->buffer->Unlock(data, num_bytes, NULL, 0);
+		os->buffer->Unlock(data, num_bytes, nullptr, 0);
 
 		WaveCloseReadFile(&hmmio, &pwfx);
 
@@ -834,11 +834,11 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 				break;
 		}
 
-		if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, NULL) != DS_OK)
+		if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, nullptr) != DS_OK)
 		{
 			WaveCloseReadFile(&hmmio, &pwfx);
 
-			return NULL;
+			return nullptr;
 		}
 
 		//
@@ -853,13 +853,13 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 				0,              // Size of lock; ignored in this case
 				&data,			// Address of lock start
 				&num_bytes,     // Number of bytes locked
-				NULL,           // Wraparound start; not used
-				NULL,           // Wraparound size; not used
+				nullptr,           // Wraparound start; not used
+				nullptr,           // Wraparound size; not used
 				DSBLOCK_ENTIREBUFFER) != DS_OK)
 		{
 			WaveCloseReadFile(&hmmio, &pwfx);
 
-			return NULL;
+			return nullptr;
 		}
 		
 		//
@@ -875,14 +875,14 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 		{
 			WaveCloseReadFile(&hmmio, &pwfx);
 
-			return NULL;
+			return nullptr;
 		}
 
 		//
 		// Unlock the buffer and close the wave file.
 		//
 
-		os->buffer->Unlock(data, num_bytes, NULL, 0);
+		os->buffer->Unlock(data, num_bytes, nullptr, 0);
 
 		WaveCloseReadFile(&hmmio, &pwfx);
 	}
@@ -891,13 +891,13 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 	// If this buffer is 3D, then get the 3D interface.
 	//
 	
-	os->buffer3d = NULL;
+	os->buffer3d = nullptr;
 
 	if (os->type == OS_SOUND_TYPE_3D)
 	{
 		if (FAILED(os->buffer->QueryInterface(IID_IDirectSound3DBuffer, (void* *) &os->buffer3d)))
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		os->buffer3d->SetMinDistance(4.0F, DS3D_DEFERRED);
@@ -909,7 +909,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type)
 
 void OS_sound_play(OS_Sound *os, SLONG flag)
 {
-	if (!OS_sound_valid || os == NULL || os->buffer == NULL)
+	if (!!OS_sound_valid || os == nullptr || os->buffer )
 	{
 		return;
 	}
@@ -939,7 +939,7 @@ void OS_sound_play(OS_Sound *os, SLONG flag)
 
 void OS_sound_stop(OS_Sound *os)
 {
-	if (!OS_sound_valid || os == NULL || os->buffer == NULL)
+	if (!!OS_sound_valid || os == nullptr || os->buffer )
 	{
 		return;
 	}
@@ -953,7 +953,7 @@ void OS_sound_finish()
 
 void OS_sound_2d_set_volume(OS_Sound *os, float volume)
 {
-	if (!OS_sound_valid || os == NULL || os->buffer == NULL)
+	if (!!OS_sound_valid || os == nullptr || os->buffer )
 	{
 		return;
 	}
@@ -971,7 +971,7 @@ void OS_sound_2d_set_volume(OS_Sound *os, float volume)
 
 void OS_sound_3d_set_range(OS_Sound *os, float min, float max)
 {
-	if (!OS_sound_valid || os == NULL || os->buffer == NULL)
+	if (!!OS_sound_valid || os == nullptr || os->buffer )
 	{
 		return;
 	}
@@ -991,7 +991,7 @@ void OS_sound_3d_set_position(
 		float dy,
 		float dz)
 {
-	if (!OS_sound_valid || os == NULL || os->buffer == NULL)
+	if (!!OS_sound_valid || os == nullptr || os->buffer )
 	{
 		return;
 	}
@@ -1144,7 +1144,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 
 	OS_Tformat *otf = (OS_Tformat *) malloc(sizeof(OS_Tformat));
 
-	if (otf == NULL)
+	if (!otf )
 	{
 		//
 		// Oh dear!
@@ -1324,13 +1324,13 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 	data = (TGA_Pixel *) malloc(256 * 256 * sizeof(TGA_Pixel));
 
-	if (data == NULL)
+	if (!data )
 	{
 		//
 		// Oh dear!
 		//
 
-		return NULL;
+		return nullptr;
 	}
 	
 	//
@@ -1353,7 +1353,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 		free(data);
 
-		return NULL;
+		return nullptr;
 	}
 
 	if (ti.width != ti.height)
@@ -1364,7 +1364,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 		free(data);
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -1421,7 +1421,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 		free(data);
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -1430,7 +1430,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 	ot = (OS_Texture *) malloc(sizeof(OS_Texture));
 	
-	if (ot == NULL)
+	if (!ot )
 	{
 		//
 		// It's really not worth checking for this... but anyway!
@@ -1438,7 +1438,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 		free(data);
 
-		return NULL;
+		return nullptr;
 	}	
 
 	strncpy(ot->name, fname, _MAX_PATH);
@@ -1466,10 +1466,10 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 	ot->ddsd.ddsCaps.dwCaps2 = DDSCAPS2_TEXTUREMANAGE | DDSCAPS2_HINTSTATIC;
 	ot->ddsd.ddpfPixelFormat = best_otf->ddpf;
 
-	VERIFY(OS_frame.GetDirectDraw()->CreateSurface(
+	VERIFY(OS_frame.direct_draw->CreateSurface(
 										&ot->ddsd,
 										&ot->ddsurface,
-										NULL) == DD_OK);
+										nullptr) == DD_OK);
 
 	if (invert)
 	{
@@ -1507,7 +1507,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 	memset(&ddsd, 0, sizeof(ddsd));
 	ddsd.dwSize = sizeof(ddsd);
 
-	VERIFY(ot->ddsurface->Lock(NULL, &ddsd, DDLOCK_WAIT, NULL) == DD_OK);
+	VERIFY(ot->ddsurface->Lock(nullptr, &ddsd, DDLOCK_WAIT, nullptr) == DD_OK);
 
 	//
 	// Copy the tga data into the surface.
@@ -1568,7 +1568,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 	// Unlock the surface.
 	//
 
-	ot->ddsurface->Unlock(NULL);
+	ot->ddsurface->Unlock(nullptr);
 
 	//
 	// Query the texture interface from the surface.
@@ -1612,12 +1612,12 @@ OS_Texture *OS_texture_create(SLONG size, SLONG format)
 		dh.dwSize = sizeof(dh);
 		ds.dwSize = sizeof(ds);
 
-		VERIFY(OS_frame.GetD3DDevice()->GetCaps(&dh, &ds) == D3D_OK);
+		VERIFY(OS_frame.direct_3d->GetCaps(&dh, &ds) == D3D_OK);
 
 		if (size > dh.dwMaxTextureWidth ||
 			size > dh.dwMaxTextureHeight)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1641,7 +1641,7 @@ OS_Texture *OS_texture_create(SLONG size, SLONG format)
 			// We have no suitable texture format.
 			//
 
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1657,13 +1657,13 @@ OS_Texture *OS_texture_create(SLONG size, SLONG format)
 
 	ot = (OS_Texture *) malloc(sizeof(OS_Texture));
 	
-	if (ot == NULL)
+	if (!ot )
 	{
 		//
 		// It's really not worth checking for this... but anyway!
 		//
 
-		return NULL;
+		return nullptr;
 	}	
 
 	sprintf(ot->name, "Generated");
@@ -1691,10 +1691,10 @@ OS_Texture *OS_texture_create(SLONG size, SLONG format)
 	ot->ddsd.ddsCaps.dwCaps2 = DDSCAPS2_TEXTUREMANAGE | DDSCAPS2_HINTDYNAMIC;
 	ot->ddsd.ddpfPixelFormat = otf->ddpf;
 
-	if (OS_frame.GetDirectDraw()->CreateSurface(
+	if (OS_frame.direct_draw->CreateSurface(
 										&ot->ddsd,
 										&ot->ddsurface,
-										NULL) != DD_OK)
+										nullptr) != DD_OK)
 	{
 		//
 		// Oh dear...
@@ -1702,7 +1702,7 @@ OS_Texture *OS_texture_create(SLONG size, SLONG format)
 
 		free(ot);
 
-		return NULL;
+		return nullptr;
 	}
 
 	
@@ -1807,12 +1807,12 @@ void OS_texture_lock(OS_Texture *ot)
 	ddsd.dwSize = sizeof(ddsd);
 
 	VERIFY((res = ot->ddsurface->Lock(
-					NULL,
+					nullptr,
 				   &ddsd,
 					DDLOCK_WAIT      |
 					DDLOCK_WRITEONLY |
 					DDLOCK_NOSYSLOCK,
-					NULL)) == DD_OK);
+					nullptr)) == DD_OK);
 
 	ASSERT(WITHIN(ot->format, 0, OS_TEXTURE_FORMAT_NUMBER - 1));
 
@@ -1827,12 +1827,12 @@ void OS_texture_lock(OS_Texture *ot)
 		OS_bitmap_ubyte_screen = (UBYTE *) ddsd.lpSurface;
 		OS_bitmap_ubyte_pitch  = ddsd.lPitch;
 
-		OS_bitmap_uword_screen = NULL;
+		OS_bitmap_uword_screen = nullptr;
 		OS_bitmap_uword_pitch  = 0;
 	}
 	else
 	{
-		OS_bitmap_ubyte_screen = NULL;
+		OS_bitmap_ubyte_screen = nullptr;
 		OS_bitmap_ubyte_pitch  = 0;
 
 		OS_bitmap_uword_screen = (UWORD *) ddsd.lpSurface;
@@ -1858,7 +1858,7 @@ void OS_texture_unlock(OS_Texture *ot)
 	// Unlock the surface.
 	//
 
-	ot->ddsurface->Unlock(NULL);
+	ot->ddsurface->Unlock(nullptr);
 }
 
 
@@ -1874,7 +1874,7 @@ void OS_texture_unlock(OS_Texture *ot)
 
 void OS_init_renderstates()
 {
-	LPDIRECT3DDEVICE3 d3d = OS_frame.GetD3DDevice();
+	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
 	//
 	// Setup renderstates.
@@ -1950,7 +1950,7 @@ void OS_pipeline_calculate()
 {
 	ULONG num_passes;
 
-	LPDIRECT3DDEVICE3 d3d = OS_frame.GetD3DDevice();
+	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
 	OS_pipeline_method_mul = 0;
 
@@ -2035,7 +2035,7 @@ void OS_pipeline_calculate()
 
 void OS_change_renderstate_for_type(ULONG draw)
 {
-	LPDIRECT3DDEVICE3 d3d = OS_frame.GetD3DDevice();
+	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
 	if (draw & OS_DRAW_ADD)
 	{
@@ -2208,7 +2208,7 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 void OS_undo_renderstate_type_changes()
 {
-	LPDIRECT3DDEVICE3 d3d = OS_frame.GetD3DDevice();
+	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
 	d3d->SetTextureStageState(0, D3DTSS_COLOROP,       D3DTOP_MODULATE);
 	d3d->SetTextureStageState(0, D3DTSS_COLORARG1,     D3DTA_TEXTURE);
@@ -2525,7 +2525,7 @@ SLONG OS_process_messages()
 
 	while(1)
 	{
-		if (!PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE))
+		if (!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
 		{
 			//
 			// No messages pending.
@@ -2534,7 +2534,7 @@ SLONG OS_process_messages()
 			return OS_CARRY_ON;
 		}
 
-		ret = GetMessage(&msg, NULL, 0, 0);
+		ret = GetMessage(&msg, nullptr, 0, 0);
 
 		if (ret == 0 || ret == -1)
 		{
@@ -2558,7 +2558,7 @@ typedef struct
 {
 	D3DEnum_DriverInfo *driver;
 	D3DEnum_DeviceInfo *device;
-	D3DEnum_ModeInfo   *mode;		// NULL => Use windowed mode.
+	D3DEnum_ModeInfo   *mode;		// nullptr => Use windowed mode.
 
 } OS_Mode;
 
@@ -2579,7 +2579,7 @@ void OS_mode_init()
 
 	D3DEnum_DriverInfo *vi;
 	D3DEnum_DeviceInfo *ci;
-	D3DEnum_ModeInfo   *mi; 	// NULL => Use windowed mode.
+	D3DEnum_ModeInfo   *mi; 	// nullptr => Use windowed mode.
 
 	OS_mode_upto = 0;
 	OS_mode_sel  = 0;
@@ -2605,7 +2605,7 @@ void OS_mode_init()
 				{
 					OS_mode[OS_mode_upto].driver = vi;
 					OS_mode[OS_mode_upto].device = ci;
-					OS_mode[OS_mode_upto].mode   = NULL;
+					OS_mode[OS_mode_upto].mode   = nullptr;
 
 					#ifdef NDEBUG
 					lookfor512x384 = false;//(vi != D3DEnum_GetFirstDriver());
@@ -2657,7 +2657,7 @@ void OS_mode_init()
 						}
 					}
 
-					if (OS_mode[OS_mode_upto].mode == NULL)
+					if (!OS_mode[OS_mode_upto].mode )
 					{
 						//
 						// Make sure this device support windowed mode!
@@ -2737,9 +2737,9 @@ void OS_mydemo_setup_mode_combo(HWND combo_handle, SLONG mode)
 	{
 		index = SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) "In a window");
 
-		SendMessage(combo_handle, CB_SETITEMDATA, (WPARAM) index, (LPARAM) NULL);
+		SendMessage(combo_handle, CB_SETITEMDATA, (WPARAM) index, (LPARAM) nullptr);
 
-		if (NULL == OS_mode[mode].mode)
+		if (nullptr == OS_mode[mode].mode)
 		{
 			//
 			// This is the current selection.
@@ -2933,10 +2933,10 @@ int WINAPI WinMain(
 	OS_wcl.cbSize			= sizeof(WNDCLASSEX);
 	OS_wcl.cbClsExtra		= 0;
 	OS_wcl.cbWndExtra		= 0;
-	OS_wcl.lpszMenuName		= NULL;
+	OS_wcl.lpszMenuName		= nullptr;
 	OS_wcl.hIcon			= LoadIcon(this_instance, MAKEINTRESOURCE(IDI_ICON1));
-	OS_wcl.hIconSm			= NULL;//LoadIcon(this_instance, MAKEINTRESOURCE(IDI_ICON1));
-	OS_wcl.hCursor			= LoadCursor(NULL, IDC_ARROW);
+	OS_wcl.hIconSm			= nullptr;//LoadIcon(this_instance, MAKEINTRESOURCE(IDI_ICON1));
+	OS_wcl.hCursor			= LoadCursor(nullptr, IDC_ARROW);
 	OS_wcl.hbrBackground	= (HBRUSH) GetStockObject(GRAY_BRUSH);
 
 	//
@@ -2981,10 +2981,10 @@ int WINAPI WinMain(
 							50,
 							rect.right  - rect.left,
 							rect.bottom - rect.top,
-							NULL,
-							NULL,
+							nullptr,
+							nullptr,
 							this_instance,
-							NULL);
+							nullptr);
 	}
 
 	//
@@ -3012,7 +3012,7 @@ int WINAPI WinMain(
 	// Enumerate the devices.
 	//
 
-	D3DEnum_EnumerateDevices(NULL);
+	D3DEnum_EnumerateDevices(nullptr);
 
 	D3DEnum_DriverInfo *di = D3DEnum_GetFirstDriver();
 
@@ -3104,7 +3104,7 @@ int WINAPI WinMain(
 		}
 		else
 		{
-			display_mode = NULL;
+			display_mode = nullptr;
 
 			OS_frame_is_fullscreen = false;
 			OS_frame_is_hardware   = true;
@@ -3174,7 +3174,7 @@ int WINAPI WinMain(
 				// Find the texture formats.
 				//
 
-				OS_frame.GetD3DDevice()->EnumTextureFormats(OS_texture_enumerate_pixel_formats, NULL);
+				OS_frame.direct_3d->EnumTextureFormats(OS_texture_enumerate_pixel_formats, nullptr);
 
 				//
 				// Set the masks and shifts for each texture format.
@@ -3490,7 +3490,7 @@ void OS_clear_screen(UBYTE r, UBYTE g, UBYTE b, float z)
 
 void OS_scene_begin()
 {
-	OS_frame.GetD3DDevice()->BeginScene();
+	OS_frame.direct_3d->BeginScene();
 
 	//
 	// Set the render states to their default values.
@@ -3501,7 +3501,7 @@ void OS_scene_begin()
 
 void OS_scene_end()
 {
-	OS_frame.GetD3DDevice()->EndScene();
+	OS_frame.direct_3d->EndScene();
 }
 
 
@@ -3577,7 +3577,7 @@ void OS_fps()
 			OS_FADE_BOTTOM);
 	}
 
-	OS_buffer_draw(ob, NULL);
+	OS_buffer_draw(ob, nullptr);
 }
 
 
@@ -3606,7 +3606,7 @@ void OS_show()
 			LPDIRECTDRAWSURFACE4 fb = OS_frame.GetFrontBuffer();
 			LPDIRECTDRAWSURFACE4 bb = OS_frame.GetBackBuffer();
 
-			fb->Blt(NULL, bb, NULL, DDBLT_WAIT, NULL);
+			fb->Blt(nullptr, bb, nullptr, DDBLT_WAIT, nullptr);
 		}
 	}
 	else
@@ -3688,7 +3688,7 @@ OS_Buffer *OS_buffer_create()
 	memset(ob->flert, 0, sizeof(OS_Flert) * ob->max_flerts );
 	memset(ob->index, 0, sizeof(UWORD   ) * ob->max_indices);
 
-	ob->next = NULL;
+	ob->next = nullptr;
 
 	return ob;
 }
@@ -3706,7 +3706,7 @@ OS_Buffer *OS_buffer_get()
 	{
 		ans            = OS_buffer_free;
 		OS_buffer_free = OS_buffer_free->next;
-		ans->next      = NULL;
+		ans->next      = nullptr;
 	}
 	else
 	{
@@ -3822,9 +3822,9 @@ void OS_buffer_add_triangle(
 		}
 		else
 		{
-			if (ov1->index == NULL) {OS_buffer_add_vert(ob, ov1);}
-			if (ov2->index == NULL) {OS_buffer_add_vert(ob, ov2);}
-			if (ov3->index == NULL) {OS_buffer_add_vert(ob, ov3);}
+			if (!ov1->index ) {OS_buffer_add_vert(ob, ov1);}
+			if (!ov2->index ) {OS_buffer_add_vert(ob, ov2);}
+			if (!ov3->index ) {OS_buffer_add_vert(ob, ov3);}
 
 			//
 			// Add this triangle. All the points are transformed and at least
@@ -4407,7 +4407,7 @@ void OS_buffer_draw(
 		OS_Texture *ot2,
 		ULONG       draw)
 {
-	LPDIRECT3DDEVICE3 d3d = OS_frame.GetD3DDevice();
+	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
 	if (ob->num_flerts == 0)
 	{
@@ -4420,7 +4420,7 @@ void OS_buffer_draw(
 		return;
 	}
 
-	if (ot1 == NULL)
+	if (!ot1 )
 	{
 		//
 		// No texturing.

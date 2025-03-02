@@ -138,9 +138,9 @@ INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, bool bCurrentlyWindowed );
 // Desc: Returns the currently selected driver, device, and display mode.
 //-----------------------------------------------------------------------------
 HRESULT D3DEnum_GetSelectedDriver( LPGUID* ppDriverGUID, LPGUID* ppDeviceGuid,
-                                   LPDDSURFACEDESC2* pddsdDisplayMode = NULL,
-								   bool* pbWindowed = NULL,
-								   bool* pbIsHardware = NULL );
+                                   LPDDSURFACEDESC2* pddsdDisplayMode = nullptr,
+								   bool* pbWindowed = nullptr,
+								   bool* pbIsHardware = nullptr );
 
 
 

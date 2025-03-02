@@ -238,7 +238,7 @@ LPSTR	  lpszGlobalArgs;
 HINSTANCE hGlobalPrevInst;
 HINSTANCE hGlobalThisInst;
 
-volatile HWND		hDDLibWindow	=	NULL;
+volatile HWND		hDDLibWindow	=	nullptr;
 
 static UWORD	argc;
 static LPTSTR	argv[MAX_PATH];
@@ -260,10 +260,10 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
 	wc.hInstance = hThisInst;
-	wc.hIcon = LoadIcon( NULL, IDI_APPLICATION);    /* generic icon */
-	wc.hCursor = LoadCursor( NULL, IDC_ARROW );
+	wc.hIcon = LoadIcon( nullptr, IDI_APPLICATION);    /* generic icon */
+	wc.hCursor = LoadCursor( nullptr, IDC_ARROW );
 	wc.hbrBackground = GetStockObject( GRAY_BRUSH );
-	wc.lpszMenuName =  NULL;
+	wc.lpszMenuName =  nullptr;
 	wc.lpszClassName = "WinGlideClass";
 	rc = RegisterClass( &wc );
 
@@ -288,10 +288,10 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int
 					   CW_USEDEFAULT,
 					   0x100, /* GetSystemMetrics(SM_CXSCREEN), */
 					   0x40, /* GetSystemMetrics(SM_CYSCREEN), */
-					   NULL,
-					   NULL,
+					   nullptr,
+					   nullptr,
 					   hThisInst,
-					   NULL);
+					   nullptr);
   
 	if (!hDDLibWindow)
 	{
@@ -343,9 +343,9 @@ bool LibShellActive()
 {
 	MSG msg;
 
-	while(PeekMessage(&msg,NULL,0,0,PM_NOREMOVE))
+	while(PeekMessage(&msg,nullptr,0,0,PM_NOREMOVE))
 	{
-		if(GetMessage(&msg, NULL, 0, 0))
+		if(GetMessage(&msg, nullptr, 0, 0))
 		{
 			//
 			// Pass the message to the message handler.

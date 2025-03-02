@@ -64,11 +64,11 @@ typedef enum
  * It's possible a platform can only report battery percentage or time left
  * but not both.
  *
- * \param seconds seconds of battery life left, you can pass a NULL here if
+ * \param seconds seconds of battery life left, you can pass a nullptr here if
  *                you don't care, will return -1 if we can't determine a
  *                value, or we're not running on a battery
  * \param percent percentage of battery life left, between 0 and 100, you can
- *                pass a NULL here if you don't care, will return -1 if we
+ *                pass a nullptr here if you don't care, will return -1 if we
  *                can't determine a value, or we're not running on a battery
  * \returns an SDL_PowerState enum representing the current battery state.
  *

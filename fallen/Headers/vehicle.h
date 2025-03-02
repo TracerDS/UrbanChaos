@@ -217,7 +217,7 @@ void VEH_find_door(
 
 
 //
-// Returns NULL if there isn't a driver...
+// Returns nullptr if there isn't a driver...
 //
 
 Thing *get_vehicle_driver(Thing *p_vehicle);

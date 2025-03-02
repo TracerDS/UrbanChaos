@@ -184,13 +184,13 @@ extern DECLSPEC void SDLCALL SDL_SetMainReady(void);
  * Most applications do not need to, and should not, call this directly; SDL
  * will call it when initializing the video subsystem.
  *
- * \param name the window class name, in UTF-8 encoding. If NULL, SDL
+ * \param name the window class name, in UTF-8 encoding. If nullptr, SDL
  *             currently uses "SDL_app" but this isn't guaranteed.
- * \param style the value to use in WNDCLASSEX::style. If `name` is NULL, SDL
+ * \param style the value to use in WNDCLASSEX::style. If `name` is nullptr, SDL
  *              currently uses `(CS_BYTEALIGNCLIENT | CS_OWNDC)` regardless of
  *              what is specified here.
  * \param hInst the HINSTANCE to use in WNDCLASSEX::hInstance. If zero, SDL
- *              will use `GetModuleHandle(NULL)` instead.
+ *              will use `GetModuleHandle(nullptr)` instead.
  * \returns 0 on success, -1 on error. SDL_GetError() may have details.
  *
  * \since This function is available since SDL 2.0.2.
@@ -223,7 +223,7 @@ extern DECLSPEC void SDLCALL SDL_UnregisterApp(void);
  * Initialize and launch an SDL/WinRT application.
  *
  * \param mainFunction the SDL app's C-style main(), an SDL_main_func
- * \param reserved reserved for future use; should be NULL
+ * \param reserved reserved for future use; should be nullptr
  * \returns 0 on success or -1 on failure; call SDL_GetError() to retrieve
  *          more information on the failure.
  *
@@ -255,7 +255,7 @@ extern DECLSPEC int SDLCALL SDL_UIKitRunApp(int argc, char *argv[], SDL_main_fun
  * Initialize and launch an SDL GDK application.
  *
  * \param mainFunction the SDL app's C-style main(), an SDL_main_func
- * \param reserved reserved for future use; should be NULL
+ * \param reserved reserved for future use; should be nullptr
  * \returns 0 on success or -1 on failure; call SDL_GetError() to retrieve
  *          more information on the failure.
  *

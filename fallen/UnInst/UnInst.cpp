@@ -12,10 +12,9 @@ HANDLE hInstance;
 static void DeleteThings();
 
 bool APIENTRY DllMain( HANDLE hModule, 
-                       DWORD  ul_reason_for_call, 
-                       LPVOID lpReserved
-					 )
-{
+	DWORD  ul_reason_for_call, 
+	LPVOID lpReserved
+) {
 	hInstance = hModule;
     return true;
 }
@@ -43,7 +42,7 @@ LONG APIENTRY UninstUnInitialize(HWND hwndDlg,HANDLE hInstance,LONG lRes)
 	return 0;
 }
 
-static void ReportError(const TCHAR* error)	{ MessageBox(NULL, error, "Error", MB_OK | MB_ICONINFORMATION); }
+static void ReportError(const TCHAR* error)	{ MessageBox(nullptr, error, "Error", MB_OK | MB_ICONINFORMATION); }
 
 static void ReportLastError()
 {
@@ -53,9 +52,9 @@ static void ReportLastError()
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 					FORMAT_MESSAGE_FROM_SYSTEM | 
 					FORMAT_MESSAGE_IGNORE_INSERTS, 
-					NULL, GetLastError(), 
+					nullptr, GetLastError(), 
 					MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-					(LPTSTR)&lpMsgBuf, 0, NULL);
+					(LPTSTR)&lpMsgBuf, 0, nullptr);
 
 	ReportError((LPCTSTR)lpMsgBuf);
 	LocalFree(lpMsgBuf);
@@ -76,7 +75,7 @@ static void DeleteThings()
 	{
 		DWORD	len = MAX_PATH;
 
-		RegQueryValueEx(hRegKey, "Path", NULL, NULL, (unsigned char*)szAppPath, &len);
+		RegQueryValueEx(hRegKey, "Path", nullptr, nullptr, (unsigned char*)szAppPath, &len);
 
 		RegCloseKey(hRegKey);
 	}

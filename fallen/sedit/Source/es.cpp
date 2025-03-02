@@ -859,7 +859,7 @@ SLONG ES_save(CBYTE* filename)
 
 	handle = fopen(filename, "wb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		return false;
 	}
@@ -909,7 +909,7 @@ SLONG ES_load(CBYTE* filename)
 
 	handle = fopen(filename, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		return false;
 	}

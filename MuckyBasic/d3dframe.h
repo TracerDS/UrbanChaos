@@ -67,9 +67,9 @@ class CD3DFramework
 
 public:
     // Access functions for DirectX objects
-    LPDIRECTDRAW4        GetDirectDraw()     { return m_pDD; }
+    LPDIRECTDRAW4        direct_draw     { return m_pDD; }
     LPDIRECT3D3          GetDirect3D()       { return m_pD3D; }
-    LPDIRECT3DDEVICE3    GetD3DDevice()      { return m_pd3dDevice; }
+    LPDIRECT3DDEVICE3    direct_3d      { return m_pd3dDevice; }
     LPDIRECT3DVIEWPORT3  GetViewport()       { return m_pvViewport; }
     LPDIRECTDRAWSURFACE4 GetFrontBuffer()    { return m_pddsFrontBuffer; }
     LPDIRECTDRAWSURFACE4 GetBackBuffer()     { return m_pddsBackBuffer; }

@@ -308,7 +308,7 @@ class	Display
 															}
 		inline	HRESULT			SetTexture(LPDIRECT3DTEXTURE2 tex)
 															{
-																ASSERT ( lp_D3D_Device != NULL );
+																ASSERT ( lp_D3D_Device != nullptr );
 																return lp_D3D_Device->SetTexture(0, tex);
 															}
 		inline	HRESULT			SetTextureState(DWORD stage, D3DTEXTURESTAGESTATETYPE type, DWORD dw)

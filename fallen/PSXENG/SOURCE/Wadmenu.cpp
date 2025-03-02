@@ -853,7 +853,7 @@ char *Wadmenu_GetWad(TIM_IMAGE *tim)
 			if (selected==-1)
 			{
 				GAME_TURN=0;
-				return NULL;
+				return nullptr;
 			}
 			else
 			{
@@ -1022,7 +1022,7 @@ char *Wadmenu_GetWad(TIM_IMAGE *tim)
 					GAME_TURN=0;
 					Wadmenu_ParticleEffect(WADMENU_BRIEF_OUT,0,0);
 					MFX_Conv_stop();
-					return NULL;
+					return nullptr;
 				}
 			} else
 				pad_key--;
@@ -1615,7 +1615,7 @@ char *Wadmenu_DoCredits(TIM_IMAGE *tim)
 	Wadpart_Init();
 //	MFX_Init_Speech(0);
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1716,7 +1716,7 @@ char *Wadmenu_PadConfig(TIM_IMAGE *tim)
 		GAME_TURN++;
 	}
 	Wadmenu_ParticleEffect(WADMENU_PAD_OUT,0,0);
-	return NULL;
+	return nullptr;
 }
 
 #ifndef FS_ISO9660
@@ -1883,7 +1883,7 @@ char *Wadmenu_ViewTims(TIM_IMAGE *tim)
 	}
 	setup_textures(0);
 
-	return NULL;
+	return nullptr;
 }
 #endif
 
@@ -1944,7 +1944,7 @@ char *Wadmenu_VideoPosition(TIM_IMAGE *tim)
 		MFX_render();
 		GAME_TURN++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 #ifndef FS_ISO9660
@@ -2023,14 +2023,14 @@ WadMenuItem VolumeMenu[]={
 	{(WAD_MENU_FXVOL),	WADMENU_TYPE_SLIDER,(void (*)(WadMenuItem *))&sfx_volume,0,0},
 	{(WAD_MENU_MUSVOL),	WADMENU_TYPE_SLIDER,(void (*)(WadMenuItem *))&music_volume,-1,0},
 	{(WAD_MENU_SPEECH), WADMENU_TYPE_SLIDER,(void (*)(WadMenuItem *))&speech_volume,5,0},
-	{(WAD_MENU_RETURN),	WADMENU_TYPE_BACK,NULL,0,1},
+	{(WAD_MENU_RETURN),	WADMENU_TYPE_BACK,nullptr,0,1},
 	{(WAD_MENU_VOLUME),	0,0,0,0}
 };
 
 WadMenuItem AudioMenu[]={
 	{(WAD_AUD_STEREO),	WADMENU_TYPE_VOID,(void (*)(WadMenuItem *))Wadmenu_MonoStereo,0,0},
 	{(WAD_MENU_VOLUME),	WADMENU_TYPE_MENU,(void (*)(WadMenuItem *))VolumeMenu,0,0},
-	{(WAD_MENU_RETURN),	WADMENU_TYPE_BACK,(void (*)(WadMenuItem *))NULL,0,1},
+	{(WAD_MENU_RETURN),	WADMENU_TYPE_BACK,(void (*)(WadMenuItem *))nullptr,0,1},
 	{(WAD_MENU_AUDIO),	0,0,0,0}
 };
 
@@ -2040,7 +2040,7 @@ WadMenuItem LanguageMenu[]={
 	{(WAD_LANG_FRENCH),		WADMENU_TYPE_VOID,(void (*)(WadMenuItem *))&WadMenu_Language,1,0},
 	{(WAD_LANG_SPAN),		WADMENU_TYPE_VOID,(void (*)(WadMenuItem *))&WadMenu_Language,2,0},
 	{(WAD_LANG_ITAL),		WADMENU_TYPE_VOID,(void (*)(WadMenuItem *))&WadMenu_Language,3,0},
-	{(WAD_MENU_RETURN),		WADMENU_TYPE_BACK,NULL,0,1},
+	{(WAD_MENU_RETURN),		WADMENU_TYPE_BACK,nullptr,0,1},
 	{(WAD_MENU_LANG),		0,0,0,0}
 };
 #endif
@@ -2052,7 +2052,7 @@ WadMenuItem Config[]={
 #if 0
 	{(WAD_MENU_LANG),		WADMENU_TYPE_MENU,(void (*)(WadMenuItem *))LanguageMenu,0,0},
 #endif
-	{(WAD_MENU_RETURN),		WADMENU_TYPE_BACK,(void (*)(WadMenuItem *))NULL,0,1},
+	{(WAD_MENU_RETURN),		WADMENU_TYPE_BACK,(void (*)(WadMenuItem *))nullptr,0,1},
 	{(WAD_MENU_CONFIG),		0,0,0,0}
 };
 
@@ -2745,7 +2745,7 @@ extern SLONG demo_timeout,demo_mode;
 	if (demo_mode==1)
 	{
 		Wadmenu_Features();
-		return NULL;
+		return nullptr;
 	}
 #endif
 
@@ -2816,7 +2816,7 @@ extern SLONG demo_timeout,demo_mode;
 	if (Wadmenu_CivMess)
 	{
 		Wadmenu_BadCop(&tim[0],Wadmenu_CivMess);
-		Wadmenu_CivMess=NULL;
+		Wadmenu_CivMess=nullptr;
 		if (Wadmenu_Citations==4)
 			Wadmenu_Levelwon=0;
 	}
@@ -2899,12 +2899,12 @@ extern SLONG demo_timeout,demo_mode;
 #ifndef VERSION_DEMO
 						if (str=="LOADED")
 						{
-							str=NULL;
+							str=nullptr;
 							menu=EndOfLevelMenu;
 							Wadmenu_Levelwon=1;
 						}
 #endif
-						if (str==NULL)
+						if (str==nullptr)
 							Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
 						PAD_KEY(5);
 					}
@@ -3936,7 +3936,7 @@ char *Wadmenu_LoadGame(TIM_IMAGE *tim)
 	if (loaded)
 		return "LOADED";
 	else
-		return NULL;
+		return nullptr;
 }
 #endif
 

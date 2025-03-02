@@ -3503,7 +3503,7 @@ void FACET_draw(SLONG facet,UBYTE fade_alpha)
 			col = NIGHT_dfcache[p_facet->Dfcache].colour;
 		}
 
-//		ASSERT(p_facet->Dfcache != NULL);
+//		ASSERT(p_facet->Dfcache != nullptr);
 	}
 	else
 	{
@@ -4483,7 +4483,7 @@ void FACET_draw_walkable(SLONG build)
 	UBYTE		col_red3,col_green3,col_blue3;
 	UBYTE		warehouse,NormalRot;
 
-	UWORD		*rooftex=NULL;
+	UWORD		*rooftex=nullptr;
 
 
 	ASSERT(build>=1 && build<=next_dbuilding-1);

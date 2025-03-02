@@ -243,7 +243,7 @@ SLONG calc_map_height_at(SLONG x, SLONG z);
 // that col-vect.
 //
 
-extern SLONG last_slide_colvect;	// The last colvect you slid along, or NULL if you didn't slide.
+extern SLONG last_slide_colvect;	// The last colvect you slid along, or nullptr if you didn't slide.
 
 #define SLIDE_ALONG_DEFAULT_EXTRA_WALL_HEIGHT (-0x50)
 
@@ -336,7 +336,7 @@ THING_INDEX find_nearby_person(
 
 //
 // Looks for any colvect that intersects the given line segment.
-// If it find a colvect it returns it, otherwise it returns NULL.
+// If it find a colvect it returns it, otherwise it returns nullptr.
 // If there is more than one colvect intersected, it prefers to
 // return ladders and fences.
 //
@@ -422,7 +422,7 @@ void create_shockwave(
 		SLONG  z,
 		SLONG  radius,
 		SLONG  maxdamage,		// Remember- a person's maximum health is 200
-		Thing *p_aggressor,ULONG just_people=0);	// Who caused the shockwave or NULL if you don't know
+		Thing *p_aggressor,ULONG just_people=0);	// Who caused the shockwave or nullptr if you don't know
 
 
 //

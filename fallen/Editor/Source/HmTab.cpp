@@ -175,7 +175,7 @@ void HMTAB_save_primgrids(CBYTE* fname)
 
 	handle = fopen(fname, "wb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		TRACE("Could not open file %s\n", fname);
 
@@ -288,7 +288,7 @@ void HMTAB_load_primgrids(CBYTE* fname)
 
 	handle = fopen(fname, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		TRACE("Could not open file %s\n", fname);
 

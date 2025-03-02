@@ -165,14 +165,14 @@ SLONG	FileRequester::Draw()
 
 	ofn.lStructSize       = sizeof(OPENFILENAME);
 	ofn.hwndOwner         = hDDLibWindow;
-	ofn.hInstance         = NULL;
+	ofn.hInstance         = nullptr;
 	ofn.lpstrFilter       = filter; //"Editor File\0*.ucm\0\0";
-	ofn.lpstrCustomFilter = NULL;
+	ofn.lpstrCustomFilter = nullptr;
 	ofn.nMaxCustFilter    = 0;
 	ofn.nFilterIndex      = 0;
 	ofn.lpstrFile         = FileName;
 	ofn.nMaxFile          = 100;
-	ofn.lpstrFileTitle    = NULL;
+	ofn.lpstrFileTitle    = nullptr;
 	ofn.nMaxFileTitle     = 0;
 	ofn.lpstrInitialDir   = Path;
 	ofn.lpstrTitle        = Title;
@@ -180,9 +180,9 @@ SLONG	FileRequester::Draw()
 	ofn.nFileOffset       = 0;
 	ofn.nFileExtension    = 0;
 	ofn.lpstrDefExt       = &WildCard[2];
-	ofn.lCustData         = NULL;
-	ofn.lpfnHook          = NULL;
-	ofn.lpTemplateName    = NULL;
+	ofn.lCustData         = nullptr;
+	ofn.lpfnHook          = nullptr;
+	ofn.lpTemplateName    = nullptr;
 
 
 	if(save)

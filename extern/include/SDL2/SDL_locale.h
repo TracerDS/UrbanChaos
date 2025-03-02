@@ -43,7 +43,7 @@ extern "C" {
 typedef struct SDL_Locale
 {
     const char *language;  /**< A language name, like "en" for English. */
-    const char *country;  /**< A country, like "US" for America. Can be NULL. */
+    const char *country;  /**< A country, like "US" for America. Can be nullptr. */
 } SDL_Locale;
 
 /**
@@ -58,9 +58,9 @@ typedef struct SDL_Locale
  * language specifier (such as "en" for English, "de" for German, etc).
  * Country strings are in the format YY, where "YY" is an ISO-3166 country
  * code (such as "US" for the United States, "CA" for Canada, etc). Country
- * might be NULL if there's no specific guidance on them (so you might get {
- * "en", "US" } for American English, but { "en", NULL } means "English
- * language, generically"). Language strings are never NULL, except to
+ * might be nullptr if there's no specific guidance on them (so you might get {
+ * "en", "US" } for American English, but { "en", nullptr } means "English
+ * language, generically"). Language strings are never nullptr, except to
  * terminate the array.
  *
  * Please note that not all of these strings are 2 characters; some are three
@@ -69,11 +69,11 @@ typedef struct SDL_Locale
  * The returned list of locales are in the order of the user's preference. For
  * example, a German citizen that is fluent in US English and knows enough
  * Japanese to navigate around Tokyo might have a list like: { "de", "en_US",
- * "jp", NULL }. Someone from England might prefer British English (where
+ * "jp", nullptr }. Someone from England might prefer British English (where
  * "color" is spelled "colour", etc), but will settle for anything like it: {
- * "en_GB", "en", NULL }.
+ * "en_GB", "en", nullptr }.
  *
- * This function returns NULL on error, including when the platform does not
+ * This function returns nullptr on error, including when the platform does not
  * supply this information at all.
  *
  * This might be a "slow" call that has to query the operating system. It's
@@ -83,8 +83,8 @@ typedef struct SDL_Locale
  * possible, and you can call this function again to get an updated copy of
  * preferred locales.
  *
- * \return array of locales, terminated with a locale with a NULL language
- *         field. Will return NULL on error.
+ * \return array of locales, terminated with a locale with a nullptr language
+ *         field. Will return nullptr on error.
  *
  * \since This function is available since SDL 2.0.14.
  */

@@ -51,7 +51,7 @@ void MIST_process();
 //
 
 void  MIST_get_start ();
-SLONG MIST_get_detail();	// NULL => No more layers of mist.
+SLONG MIST_get_detail();	// nullptr => No more layers of mist.
 void  MIST_get_point (SLONG px, SLONG pz,
 		SLONG *x,
 		SLONG *y,

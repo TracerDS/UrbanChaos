@@ -69,7 +69,7 @@ DIKE_Dike *DIKE_create(
 
 	if (!WITHIN(DIKE_dike_upto, 0, DIKE_MAX_DIKES - 1))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	dd = &DIKE_dike[DIKE_dike_upto++];

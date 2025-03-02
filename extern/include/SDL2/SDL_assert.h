@@ -212,7 +212,7 @@ typedef SDL_AssertState (SDLCALL *SDL_AssertionHandler)(
  * This callback is NOT reset to SDL's internal handler upon SDL_Quit()!
  *
  * \param handler the SDL_AssertionHandler function to call when an assertion
- *                fails or NULL for the default handler
+ *                fails or nullptr for the default handler
  * \param userdata a pointer that is passed to `handler`
  *
  * \since This function is available since SDL 2.0.0.
@@ -250,8 +250,8 @@ extern DECLSPEC SDL_AssertionHandler SDLCALL SDL_GetDefaultAssertionHandler(void
  *
  * The parameter `puserdata` is a pointer to a void*, which will store the
  * "userdata" pointer that was passed to SDL_SetAssertionHandler(). This value
- * will always be NULL for the default handler. If you don't care about this
- * data, it is safe to pass a NULL pointer to this function to ignore it.
+ * will always be nullptr for the default handler. If you don't care about this
+ * data, it is safe to pass a nullptr pointer to this function to ignore it.
  *
  * \param puserdata pointer which is filled with the "userdata" pointer that
  *                  was passed to SDL_SetAssertionHandler()
@@ -282,7 +282,7 @@ extern DECLSPEC SDL_AssertionHandler SDLCALL SDL_GetAssertionHandler(void **puse
  * }
  * ```
  *
- * \returns a list of all failed assertions or NULL if the list is empty. This
+ * \returns a list of all failed assertions or nullptr if the list is empty. This
  *          memory should not be modified or freed by the application.
  *
  * \since This function is available since SDL 2.0.0.

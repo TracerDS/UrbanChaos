@@ -52,7 +52,7 @@ void CAM_set_angle(
 #define CAM_TYPE_ZOOM		5
 
 void  CAM_set_type(SLONG type);		// Sets up the mode, focus and zoom stuff to the given type.
-SLONG CAM_get_type();			// Returns either the last type set or NULL if no type has been set.
+SLONG CAM_get_type();			// Returns either the last type set or nullptr if no type has been set.
 
 //
 // Gives the camera the shakes...

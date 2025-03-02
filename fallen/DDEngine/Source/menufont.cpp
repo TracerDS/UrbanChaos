@@ -135,7 +135,7 @@ void MENUFONT_Load(CBYTE* fn, SLONG page, CBYTE* fontlist) {
 
   // scan the tga...
   temp = new TGA_Pixel[256*256];
-  ASSERT ( temp != NULL );
+  ASSERT ( temp != nullptr );
   strcpy(tmp,TEXTURE_EXTRA_DIR);
   strcat(tmp,fn);
   TGA_load(tmp,256,256,temp,-1,false);
@@ -404,11 +404,11 @@ void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLON
 #ifdef TARGET_DC
 	// Scan for the word "VMU".
 	// Mark the "U" as not to be drawn.
-	UBYTE *pDontDrawThisLetter = NULL;
+	UBYTE *pDontDrawThisLetter = nullptr;
 	if ( bWriteVMInsteadOfVMU )
 	{
 		pDontDrawThisLetter = (UBYTE *)strstr ( msg, "VMU" );
-		if ( pDontDrawThisLetter != NULL )
+		if ( pDontDrawThisLetter != nullptr )
 		{
 			// Point to the U
 			pDontDrawThisLetter += 2;
@@ -474,11 +474,11 @@ void MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD f
 #ifdef TARGET_DC
 	// Scan for the word "VMU".
 	// Mark the "U" as not to be drawn.
-	UBYTE *pDontDrawThisLetter = NULL;
+	UBYTE *pDontDrawThisLetter = nullptr;
 	if ( bWriteVMInsteadOfVMU )
 	{
 		pDontDrawThisLetter = (UBYTE *)strstr ( msg, "VMU" );
-		if ( pDontDrawThisLetter != NULL )
+		if ( pDontDrawThisLetter != nullptr )
 		{
 			// Point to the U
 			pDontDrawThisLetter += 2;
@@ -600,7 +600,7 @@ extern float PANEL_GetNextDepthBodge ( void );
 // I don't want to have to code a VMU->VM skipping thing for every rout,
 // so here's a checker.
 #ifdef DEBUG
-#define CHECKTHEREARENOVMUSINHERE(string) ASSERT ( strstr ( string, "VMU" ) == NULL )
+#define CHECKTHEREARENOVMUSINHERE(string) ASSERT ( strstr ( string, "VMU" ) == nullptr )
 #else
 #define CHECKTHEREARENOVMUSINHERE(string) sizeof ( string )
 #endif
@@ -697,11 +697,11 @@ void MENUFONT_Dimensions(CBYTE* fn, SLONG &x, SLONG &y, SWORD max, SWORD scale) 
 #ifdef TARGET_DC
 	// Scan for the word "VMU".
 	// Mark the "U" as not to be drawn.
-	UBYTE *pDontDrawThisLetter = NULL;
+	UBYTE *pDontDrawThisLetter = nullptr;
 	if ( bWriteVMInsteadOfVMU )
 	{
 		pDontDrawThisLetter = (UBYTE *)strstr ( fn, "VMU" );
-		if ( pDontDrawThisLetter != NULL )
+		if ( pDontDrawThisLetter != nullptr )
 		{
 			// Point to the U
 			pDontDrawThisLetter += 2;
@@ -982,9 +982,9 @@ void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE* msg)
 
 	tx = x;
 
-	if (msg == NULL)
+	if (!msg )
 	{
-		msg = "<NULL>";
+		msg = "<nullptr>";
 	}
 
 	for (ch = msg; *ch; ch++)

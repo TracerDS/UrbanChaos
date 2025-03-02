@@ -151,8 +151,8 @@ int	gedit()
 	GEDIT_hinstance	=	hGlobalThisInst;
 
 	//	Load cursors.
-	GEDIT_arrow		=	LoadCursor(NULL,MAKEINTRESOURCE(IDC_ARROW));
-	GEDIT_busy		=	LoadCursor(NULL,MAKEINTRESOURCE(IDC_WAIT));
+	GEDIT_arrow		=	LoadCursor(nullptr,MAKEINTRESOURCE(IDC_ARROW));
+	GEDIT_busy		=	LoadCursor(nullptr,MAKEINTRESOURCE(IDC_WAIT));
 
 	//	Load icons.
 	GEDIT_app_icon	=	LoadIcon(GEDIT_hinstance,MAKEINTRESOURCE(IDI_MFLOGO));
@@ -190,7 +190,7 @@ int	gedit()
 	//	The message loop.
 	while(1)
 	{
-		if(!PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE))
+		if(!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
 		{
 			// No messages pending- send a user message so we can
 			// do our processing and display the engine.
@@ -202,7 +202,7 @@ int	gedit()
 			ClearLatchedKeys();
 		}
 
-		result	=	GetMessage(&msg, NULL, 0, 0);
+		result	=	GetMessage(&msg, nullptr, 0, 0);
 		if(result==0 || result==-1)
 			break;
 
@@ -910,7 +910,7 @@ bool CALLBACK		mission_editor_proc	(
 			if (!res) {
 				DWORD err=GetLastError();
 				CBYTE msg[800];
-				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg, 256, NULL);
+				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg, 256, nullptr);
 				TRACE("bugger: ");
 				TRACE(msg);
 
@@ -1346,7 +1346,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 												ws_menu,
 												TPM_LEFTALIGN|TPM_LEFTBUTTON|TPM_RIGHTBUTTON,
 												click_point.x,click_point.y,
-												0,GEDIT_view_wnd,NULL
+												0,GEDIT_view_wnd,nullptr
 											);
 							DestroyMenu(ws_menu);						*/
 						}

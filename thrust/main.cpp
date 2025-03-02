@@ -259,7 +259,7 @@ void MAIN_main_old()
 
 	SHIP_Ship *ss[2];
 	ORB_Orb   *oo;
-	TB_Tb     *tt[2] = {NULL, NULL};
+	TB_Tb     *tt[2] = {nullptr, nullptr};
 
 	SHIP_init();
 	ORB_init();
@@ -362,7 +362,7 @@ void MAIN_main_old()
 		/*
 		{
 			if (KEY_on[KEY_1]) {KEY_on[KEY_1] = 0; gs = GAMESTATE_store();}
-			if (KEY_on[KEY_2]) {KEY_on[KEY_2] = 0; if (gs) {GAMESTATE_restore(gs); gs = NULL;}}
+			if (KEY_on[KEY_2]) {KEY_on[KEY_2] = 0; if (gs) {GAMESTATE_restore(gs); gs = nullptr;}}
 		}
 		*/
 
@@ -389,7 +389,7 @@ void MAIN_main_old()
 							// Create/destroy the tractor beam.
 							//
 
-							if (tt[0] == NULL)
+							if (!tt[0] )
 							{
 								tt[0] = TB_create(ss[0], 5.0F);
 							}
@@ -397,7 +397,7 @@ void MAIN_main_old()
 							{
 								TB_destroy(tt[0]);
 
-								tt[0] = NULL;
+								tt[0] = nullptr;
 							}
 						}
 					}
@@ -418,7 +418,7 @@ void MAIN_main_old()
 							// Create/destroy the tractor beam.
 							//
 
-							if (tt[1] == NULL)
+							if (!tt[1] )
 							{
 								tt[1] = TB_create(ss[1], 5.0F);
 							}
@@ -426,7 +426,7 @@ void MAIN_main_old()
 							{
 								TB_destroy(tt[1]);
 
-								tt[1] = NULL;
+								tt[1] = nullptr;
 							}
 						}
 					}
@@ -446,7 +446,7 @@ void MAIN_main_old()
 					{
 						TB_destroy(tt[0]);
 
-						tt[0] = NULL;
+						tt[0] = nullptr;
 					}
 					else
 					if (tt[0]->oo->flag & ORB_FLAG_COLLIDED)
@@ -457,7 +457,7 @@ void MAIN_main_old()
 						{
 							TB_destroy(tt[0]);
 
-							tt[0] = NULL;
+							tt[0] = nullptr;
 						}
 					}
 				}
@@ -472,7 +472,7 @@ void MAIN_main_old()
 					{
 						TB_destroy(tt[1]);
 
-						tt[1] = NULL;
+						tt[1] = nullptr;
 					}
 					else
 					if (tt[1]->oo->flag & ORB_FLAG_COLLIDED)
@@ -483,7 +483,7 @@ void MAIN_main_old()
 						{
 							TB_destroy(tt[1]);
 
-							tt[1] = NULL;
+							tt[1] = nullptr;
 						}
 					}
 				}

@@ -51,7 +51,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// this always succeeds
 	// if event existed before (still succeeds) and ERROR_ALREADY_EXISTS is returned, so die
 	// note the event is automatically deleted by the system when the app exits (even if it crashes)
-	HANDLE	hEvent = CreateEventA(NULL, false, false, "AutoRunExclusionZone");
+	HANDLE	hEvent = CreateEventA(nullptr, false, false, "AutoRunExclusionZone");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
 		return false;
@@ -103,7 +103,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// Main message loop:
 	MSG	msg;
 
-	while (GetMessage(&msg, NULL, 0, 0)) 
+	while (GetMessage(&msg, nullptr, 0, 0)) 
 	{
 		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg)) 
 		{
@@ -133,9 +133,9 @@ static ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbWndExtra		= 0;												// no window extra data
 	wcex.hInstance		= hInstance;										// us
 	wcex.hIcon			= LoadIcon(hInstance, (LPCTSTR)IDI_AUTORUN);		// icon
-	wcex.hCursor		= NULL;												// cursor
-	wcex.hbrBackground	= NULL;												// don't redraw background
-	wcex.lpszMenuName	= NULL;												// no menu
+	wcex.hCursor		= nullptr;												// cursor
+	wcex.hbrBackground	= nullptr;												// don't redraw background
+	wcex.lpszMenuName	= nullptr;												// no menu
 	wcex.lpszClassName	= WINCLASS;											// class name from resource file
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, (LPCTSTR)IDI_AUTORUN);	// small icon
 
@@ -179,7 +179,7 @@ static Director* LoadMenuData()
 		fd = fopen(filename, "r");
 	}
 
-	if (!fd)	return NULL;
+	if (!fd)	return nullptr;
 
 	Director*	obj = new Director(fd);
 
@@ -201,7 +201,7 @@ static bool InitInstance(HINSTANCE hInstance, int nCmdShow)
 	hInst = hInstance;
 
 	// load cursors
-	hNormalCursor = LoadCursor(NULL, (LPCTSTR)IDC_ARROW);
+	hNormalCursor = LoadCursor(nullptr, (LPCTSTR)IDC_ARROW);
 	hSelectCursor = LoadCursor(hInstance, (LPCTSTR)IDC_SELECTCURSOR);
 
 	// create window
@@ -209,7 +209,7 @@ static bool InitInstance(HINSTANCE hInstance, int nCmdShow)
 						pDirector->WindowTitle,
 						WS_BORDER | WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 						CW_USEDEFAULT, 0, CW_USEDEFAULT, 0,
-						NULL, NULL, hInstance, NULL);
+						nullptr, nullptr, hInstance, nullptr);
 
 	if (!hWnd)
 	{
@@ -252,7 +252,7 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 	// load bitmap
 	SetCurrentDirectory("AUTORUN");
 
-	hBackground = (HBITMAP)LoadImage(NULL, pMenu->Bitmap, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	hBackground = (HBITMAP)LoadImage(nullptr, pMenu->Bitmap, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
 	SetCurrentDirectory("..");
 
@@ -276,7 +276,7 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 	int		xoff = ((scrsize.right - scrsize.left) - width) / 2;
 	int		yoff = ((scrsize.bottom - scrsize.top) - height) / 2;
 
-	SetWindowPos(hWnd, NULL, xoff, yoff, width, height, SWP_NOZORDER);
+	SetWindowPos(hWnd, nullptr, xoff, yoff, width, height, SWP_NOZORDER);
 
 	// create font
 	hMenuFont = CreateFont(pMenu->FontSize, 0, 0, 0, pMenu->FontWeight,
@@ -309,7 +309,7 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 	ReleaseDC(hWnd, hdc);
 
 	// refresh
-	InvalidateRect(hWnd, NULL, false);
+	InvalidateRect(hWnd, nullptr, false);
 	UpdateWindow(hWnd);
 
 	// set normal cursor
@@ -322,14 +322,14 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 
 static void CloseMenu()
 {
-	pMenu = NULL;
-	pMenuItem = NULL;
+	pMenu = nullptr;
+	pMenuItem = nullptr;
 
 	if (hBackground)	DeleteObject(hBackground);
-	hBackground = NULL;
+	hBackground = nullptr;
 
 	if (hMenuFont)		DeleteObject(hMenuFont);
-	hMenuFont = NULL;
+	hMenuFont = nullptr;
 }
 
 // WndProc
@@ -389,7 +389,7 @@ static void OnPaint(HWND hWnd)
 	while (item)
 	{
 		SetTextColor(hdc, pMenuItem == item ? pMenu->ColourSelected : pMenu->ColourNormal);
-		DrawTextEx(hdc, item->Text, -1, &item->Area, DT_SINGLELINE | DT_LEFT | DT_TOP, NULL);
+		DrawTextEx(hdc, item->Text, -1, &item->Area, DT_SINGLELINE | DT_LEFT | DT_TOP, nullptr);
 		item = item->Next;
 	}
 
@@ -404,7 +404,7 @@ static void OnPaint(HWND hWnd)
 
 static void OnMouseMove(HWND hWnd, int x, int y)
 {
-	MenuItem*	over = NULL;
+	MenuItem*	over = nullptr;
 
 	MenuItem*	item = pMenu->Item;
 	while (item)
@@ -428,14 +428,14 @@ static void OnMouseMove(HWND hWnd, int x, int y)
 	if (pMenuItem)
 	{
 		SetTextColor(hdc, pMenu->ColourNormal);
-		DrawTextEx(hdc, pMenuItem->Text, -1, &pMenuItem->Area, DT_SINGLELINE | DT_LEFT | DT_TOP, NULL);
+		DrawTextEx(hdc, pMenuItem->Text, -1, &pMenuItem->Area, DT_SINGLELINE | DT_LEFT | DT_TOP, nullptr);
 	}
 
 	// draw new item selected
 	if (over)
 	{
 		SetTextColor(hdc, pMenu->ColourSelected);
-		DrawTextEx(hdc, over->Text, -1, &over->Area, DT_SINGLELINE | DT_LEFT | DT_TOP, NULL);
+		DrawTextEx(hdc, over->Text, -1, &over->Area, DT_SINGLELINE | DT_LEFT | DT_TOP, nullptr);
 	}
 
 	SelectObject(hdc, hFontOld);
@@ -490,7 +490,7 @@ static void OnLButtonDown(HWND hWnd, int x, int y)
 		if (pLastMenu)
 		{
 			OpenMenu(hWnd, pLastMenu);
-			pLastMenu = NULL;
+			pLastMenu = nullptr;
 		}
 		else
 		{
@@ -533,16 +533,16 @@ static void OnLButtonDown(HWND hWnd, int x, int y)
 
 		PROCESS_INFORMATION	pinfo;
 
-		if (!CreateProcess(NULL, document, NULL, NULL, false, 0, NULL, directory, &sinfo, &pinfo))
+		if (!CreateProcess(nullptr, document, nullptr, nullptr, false, 0, nullptr, directory, &sinfo, &pinfo))
 		{
 			LPVOID lpMsgBuf;
 
 			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 							FORMAT_MESSAGE_FROM_SYSTEM | 
 							FORMAT_MESSAGE_IGNORE_INSERTS, 
-							NULL, GetLastError(), 
+							nullptr, GetLastError(), 
 							MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-							(LPTSTR)&lpMsgBuf, 0, NULL);
+							(LPTSTR)&lpMsgBuf, 0, nullptr);
 
 			ReportError((LPCTSTR)lpMsgBuf);
 			LocalFree(lpMsgBuf);
@@ -553,7 +553,7 @@ static void OnLButtonDown(HWND hWnd, int x, int y)
 	else if (verb[0])
 	{
 		// other verb - use ShellExecute
-		ShellExecute(hWnd, verb, document, NULL, directory, SW_SHOWNORMAL);
+		ShellExecute(hWnd, verb, document, nullptr, directory, SW_SHOWNORMAL);
 	}
 
 	if (bExit)
@@ -584,7 +584,7 @@ static bool MacroReplace(TCHAR* cmd, TCHAR* buffer, UINT blen)
 				return false;
 			}
 
-			TCHAR*	replace = NULL;
+			TCHAR*	replace = nullptr;
 
 			if (!strnicmp(cmd, "src", cptr - cmd))		replace = szAutorunDir;
 			else if (!strnicmp(cmd, "dst", cptr - cmd))	replace = pDirector->AppPath;

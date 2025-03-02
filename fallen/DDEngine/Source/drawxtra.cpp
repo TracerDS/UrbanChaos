@@ -129,7 +129,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 		-p_chopper->Draw.Mesh->Angle,
 		-p_chopper->Draw.Mesh->Tilt,
 		-p_chopper->Draw.Mesh->Roll,
-		NULL);
+		nullptr);
 	MESH_draw_poly_inv_matrix(
 		chopper->rotorprim,
 		p_chopper->WorldPos.X >> 8 ,
@@ -138,7 +138,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 		-(p_chopper->Draw.Mesh->Angle+chopper->rotors),
 		-(p_chopper->Draw.Mesh->Tilt),
 		-(p_chopper->Draw.Mesh->Roll),
-		NULL);
+		nullptr);
 
 
 		if (chopper->light) {

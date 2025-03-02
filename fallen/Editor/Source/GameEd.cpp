@@ -741,7 +741,7 @@ void	GameEditor::DoWaypointPopup(MFPoint *clicked_point)
 
 	switch(control_id>>8)
 	{
-		case	0:	// NULL.
+		case	0:	// nullptr.
 			break;
 		case	1:	// Delete Waypoint.
 			// Search through all the things to clear any waypoint references.
@@ -1519,12 +1519,12 @@ void	GameEditor::RenderEngine()
 						offset_y;
 	BucketHead			*p;
 	BucketLine			*the_line;
-	BucketMapThing		*hilited_thing	=	NULL,
-						*selected_thing	=	NULL,
+	BucketMapThing		*hilited_thing	=	nullptr,
+						*selected_thing	=	nullptr,
 						*the_map_thing;
 	BucketQuad			*the_quad;
 	BucketRectArea		*the_rect;
-	BucketSphereArea	*hilited_sphere	=	NULL,
+	BucketSphereArea	*hilited_sphere	=	nullptr,
 						*the_sphere;
 	BucketTri			*the_tri;
 	BucketWaypoint		*hilited_waypoint,
@@ -1786,7 +1786,7 @@ void	GameEditor::RenderEngine()
 	if(PointInContent(&local_point))
 	{
 		GlobalToLocal(&local_point);
-		if(selected_wp!=NULL)
+		if(selected_wp!=nullptr)
 		switch(SelectMode)
 		{
 			case	SELECT_NONE:

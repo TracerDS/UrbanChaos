@@ -37,7 +37,7 @@ void TB_init();
 
 //
 // Creates/destroys a tractor beam. If the ship is not close enough to
-// an orb, the creation function returns NULL.
+// an orb, the creation function returns nullptr.
 //
 
 TB_Tb *TB_create (SHIP_Ship *ss, float length);

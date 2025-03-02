@@ -130,7 +130,7 @@ SLONG FONT2D_found_data(SLONG x, SLONG y)
 	SLONG px;
 	SLONG py;
 
-	ASSERT ( FONT2D_data != NULL );
+	ASSERT ( FONT2D_data != nullptr );
 
 	ASSERT(WITHIN(x, 0, 255));
 
@@ -168,7 +168,7 @@ void FONT2D_init(SLONG font_id)
 
 
 	FONT2D_data = (MyArrayType *)MemAlloc ( sizeof ( TGA_Pixel ) * 256 * 256 );
-	ASSERT ( FONT2D_data != NULL );
+	ASSERT ( FONT2D_data != nullptr );
 
 	sprintf(fname, "%s%s", TEXTURE_EXTRA_DIR, "multifontPC.tga");
 
@@ -254,7 +254,7 @@ void FONT2D_init(SLONG font_id)
 		fl->v -= 14.0F / 256.0F;
 	}
 	MemFree ( FONT2D_data );
-	FONT2D_data = NULL;
+	FONT2D_data = nullptr;
 }
 
 
@@ -463,7 +463,7 @@ void FONT2D_DrawString(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLON
 {
 	UBYTE i;
 
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}
@@ -502,7 +502,7 @@ void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG 
 {
 	UBYTE i;
 
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}
@@ -533,7 +533,7 @@ void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG 
 
 SLONG FONT2D_DrawStringWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
 {
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}
@@ -604,7 +604,7 @@ SLONG FONT2D_DrawStringWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale,
 
 SLONG FONT2D_DrawStringWrapTo(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade, SWORD span)
 {
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}
@@ -677,7 +677,7 @@ SLONG FONT2D_DrawStringWrapTo(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scal
 
 SLONG FONT2D_DrawStringRightJustify(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade, bool bDontDraw )
 {
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}
@@ -780,7 +780,7 @@ SLONG FONT2D_DrawStringRightJustify(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLON
 
 SLONG FONT2D_DrawStringRightJustifyNoWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
 {
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}
@@ -801,7 +801,7 @@ SLONG FONT2D_DrawStringRightJustifyNoWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb
 //POLY_PAGE_FONT2D
 void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade) 
 {
-	if (str == NULL)
+	if (!str )
 	{
 		str = "Null string";
 	}

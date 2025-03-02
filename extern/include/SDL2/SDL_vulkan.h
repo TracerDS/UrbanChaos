@@ -81,12 +81,12 @@ typedef VkSurfaceKHR SDL_vulkanSurface; /* for compatibility with Tizen */
  * application links to a dynamic library and both it and SDL use the same
  * search path.
  *
- * If you specify a non-NULL `path`, an application should retrieve all of the
+ * If you specify a non-nullptr `path`, an application should retrieve all of the
  * Vulkan functions it uses from the dynamic library using
  * SDL_Vulkan_GetVkGetInstanceProcAddr unless you can guarantee `path` points
  * to the same vulkan loader library the application linked to.
  *
- * On Apple devices, if `path` is NULL, SDL will attempt to find the
+ * On Apple devices, if `path` is nullptr, SDL will attempt to find the
  * `vkGetInstanceProcAddr` address within all the Mach-O images of the current
  * process. This is because it is fairly common for Vulkan applications to
  * link with libvulkan (and historically MoltenVK was provided as a static
@@ -101,7 +101,7 @@ typedef VkSurfaceKHR SDL_vulkanSurface; /* for compatibility with Tizen */
  * supported. Either do not link to the Vulkan loader or link to a dynamic
  * library version.
  *
- * \param path The platform dependent Vulkan loader library name or NULL
+ * \param path The platform dependent Vulkan loader library name or nullptr
  * \returns 0 on success or -1 if the library couldn't be loaded; call
  *          SDL_GetError() for more information.
  *
@@ -118,7 +118,7 @@ extern DECLSPEC int SDLCALL SDL_Vulkan_LoadLibrary(const char *path);
  * This should be called after either calling SDL_Vulkan_LoadLibrary() or
  * creating an SDL_Window with the `SDL_WINDOW_VULKAN` flag.
  *
- * \returns the function pointer for `vkGetInstanceProcAddr` or NULL on error.
+ * \returns the function pointer for `vkGetInstanceProcAddr` or nullptr on error.
  *
  * \since This function is available since SDL 2.0.6.
  */
@@ -137,7 +137,7 @@ extern DECLSPEC void SDLCALL SDL_Vulkan_UnloadLibrary(void);
  * Get the names of the Vulkan instance extensions needed to create a surface
  * with SDL_Vulkan_CreateSurface.
  *
- * If `pNames` is NULL, then the number of required Vulkan instance extensions
+ * If `pNames` is nullptr, then the number of required Vulkan instance extensions
  * is returned in `pCount`. Otherwise, `pCount` must point to a variable set
  * to the number of elements in the `pNames` array, and on return the variable
  * is overwritten with the number of names actually written to `pNames`. If
@@ -153,7 +153,7 @@ extern DECLSPEC void SDLCALL SDL_Vulkan_UnloadLibrary(void);
  *               should be retrieved (will be deprecated in a future release)
  * \param pCount A pointer to an unsigned int corresponding to the number of
  *               extensions to be returned
- * \param pNames NULL or a pointer to an array to be filled with required
+ * \param pNames nullptr or a pointer to an array to be filled with required
  *               Vulkan instance extensions
  * \returns SDL_TRUE on success, SDL_FALSE on error.
  *
@@ -196,8 +196,8 @@ extern DECLSPEC SDL_bool SDLCALL SDL_Vulkan_CreateSurface(SDL_Window *window,
  * disabled by the `SDL_HINT_VIDEO_HIGHDPI_DISABLED` hint.
  *
  * \param window an SDL_Window for which the size is to be queried
- * \param w Pointer to the variable to write the width to or NULL
- * \param h Pointer to the variable to write the height to or NULL
+ * \param w Pointer to the variable to write the width to or nullptr
+ * \param h Pointer to the variable to write the height to or nullptr
  *
  * \since This function is available since SDL 2.0.6.
  *

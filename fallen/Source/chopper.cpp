@@ -34,7 +34,7 @@
 
 GenusFunctions CHOPPER_functions[CHOPPER_NUMB] =
 {
-	{CHOPPER_NONE,		NULL},
+	{CHOPPER_NONE,		nullptr},
 	{CHOPPER_CIVILIAN,	CIVILIAN_state_function}
 };
 
@@ -91,7 +91,7 @@ Thing *alloc_chopper(UBYTE type)
 
 	TRACE("Run out of chopper structures.");
 
-	return NULL;
+	return nullptr;
 
   found_chopper:
 
@@ -101,7 +101,7 @@ Thing *alloc_chopper(UBYTE type)
 
 	dm = alloc_draw_mesh();
 
-	if (dm == NULL)
+	if (!dm )
 	{
 		ASSERT(0);
 		//
@@ -116,7 +116,7 @@ Thing *alloc_chopper(UBYTE type)
 
 		TO_CHOPPER(a_index)->ChopperType = CHOPPER_NONE;
 
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -189,7 +189,7 @@ Thing *CHOPPER_create(GameCoord pos, UBYTE type)
 {
 	Thing *p_thing = alloc_chopper(type);
 
-	if (p_thing != NULL)
+	if (p_thing )
 	{
 		p_thing->WorldPos = pos;
 

@@ -68,7 +68,7 @@ SHIP_Ship *SHIP_create(float x, float y, float mass, float power)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -457,6 +457,6 @@ void SHIP_draw_all(float mid_x, float mid_y, float zoom)
 			0xffffff);
 	}
 
-	OS_buffer_draw(ob, SHIP_ot, NULL, OS_DRAW_ADD);
+	OS_buffer_draw(ob, SHIP_ot, nullptr, OS_DRAW_ADD);
 }
 

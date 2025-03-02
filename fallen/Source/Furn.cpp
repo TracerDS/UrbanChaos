@@ -29,13 +29,13 @@ void FURN_door           (Thing *);
 
 StateFunction FURN_statefunctions[] =
 {
-	{STATE_INIT,            NULL},
+	{STATE_INIT,            nullptr},
 	{STATE_NORMAL,          FURN_process_normal},
-	{STATE_COLLISION,       NULL},
-	{STATE_ABOUT_TO_REMOVE, NULL},
-	{STATE_REMOVE_ME,       NULL},
+	{STATE_COLLISION,       nullptr},
+	{STATE_ABOUT_TO_REMOVE, nullptr},
+	{STATE_REMOVE_ME,       nullptr},
 	{STATE_MOVEING,         FURN_process_moveing},
-	{STATE_FDRIVING,        NULL},
+	{STATE_FDRIVING,        nullptr},
 	{STATE_FDOOR,			FURN_door}
 };
 
@@ -90,7 +90,7 @@ Furniture *FURN_alloc_furniture()
 
 	ASSERT(0);
 
-	return NULL;
+	return nullptr;
 }
 
 void FURN_dealloc(Furniture *furn)
@@ -133,7 +133,7 @@ THING_INDEX FURN_create(
 		SLONG prim)
 {
 	DrawMesh   *dm;
-	THING_INDEX ans = NULL;
+	THING_INDEX ans = nullptr;
 	Thing      *p_thing;
 
 	//
@@ -164,7 +164,7 @@ THING_INDEX FURN_create(
 			p_thing->WorldPos.Y      = y;
 			p_thing->WorldPos.Z      = z;
 			p_thing->Draw.Mesh       = dm;
-			p_thing->Genus.Furniture = NULL;
+			p_thing->Genus.Furniture = nullptr;
 
 			//
 			// Initialise the drawmesh info.
@@ -200,7 +200,7 @@ THING_INDEX VEHICLE_create(
 		SLONG prim)
 {
 	DrawMesh   *dm;
-	THING_INDEX ans = NULL;
+	THING_INDEX ans = nullptr;
 	Thing      *p_thing;
 
 	//
@@ -230,7 +230,7 @@ THING_INDEX VEHICLE_create(
 			p_thing->WorldPos.Y      = PAP_calc_height_at(x>>8,z>>8)<<8;
 			p_thing->WorldPos.Z      = z;
 			p_thing->Draw.Mesh       = dm;
-			p_thing->Genus.Furniture = NULL;
+			p_thing->Genus.Furniture = nullptr;
 
 			//
 			// Initialise the drawmesh info.
@@ -252,7 +252,7 @@ THING_INDEX VEHICLE_create(
 			//
 
 //			set_state_function(p_thing, STATE_FDRIVING);
-			p_thing->StateFn=NULL;
+			p_thing->StateFn=nullptr;
 			p_thing->Genus.Furniture=FURN_alloc_furniture();
 		}
 	}
@@ -401,7 +401,7 @@ void FURN_push(
 
 	ASSERT(p_thing->Class == CLASS_FURNITURE);
 
-	if (furn == NULL)
+	if (!furn )
 	{
 		//
 		// This furniture thing is currently stationary.
@@ -959,7 +959,7 @@ void FURN_hypermatterise(THING_INDEX thing)
 
 	HM_Primgrid *hpg = HM_get_primgrid(dm->ObjectId);
 
-	if (furn != NULL)
+	if (furn )
 	{
 		dx = -(SIN(furn->RAngle)*p_thing->Velocity)>>8;
 		dz = -(COS(furn->RAngle)*p_thing->Velocity)>>8;

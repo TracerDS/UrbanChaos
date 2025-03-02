@@ -69,7 +69,7 @@ private:
 	A3DBase *list, *tail;
 	SLONG	 count;
 public:
-	A3DList()									{ count=0; list=tail=NULL; }
+	A3DList()									{ count=0; list=tail=nullptr; }
 	~A3DList();
 	void Add(A3DBase *item);
 	void Del(A3DBase *item);
@@ -79,8 +79,8 @@ public:
 	inline SLONG Count()						{ return count; }
 	inline A3DBase *Head()						{ return list; }
 	inline A3DBase *Tail()						{ return tail; }
-	inline operator+=(A3DBase *item)			{ Add(item); return ( NULL ); };
-	inline operator-=(A3DBase *item)			{ Del(item); return ( NULL ); };
+	inline operator+=(A3DBase *item)			{ Add(item); return ( nullptr ); };
+	inline operator-=(A3DBase *item)			{ Del(item); return ( nullptr ); };
 	inline A3DBase* operator[](SLONG index)		{ return Index(index);	};
 };
 
@@ -113,7 +113,7 @@ public:
 	inline void ListenRot(float head, float roll, float pitch)	{	if (a3dlis) a3dlis->SetOrientationAngles3f(head,pitch,roll);	};
 
 	// channel play
-	A3DSource* Play(A3DData *Original, A3DSource* Channel=NULL, UBYTE Looped=0);
+	A3DSource* Play(A3DData *Original, A3DSource* Channel=nullptr, UBYTE Looped=0);
 
 	// channel check
 	bool Valid(A3DBase* item);
@@ -149,7 +149,7 @@ public:
 	// linked list pointers
 	A3DBase  	*last, *next;
 
-	A3DBase()													{	last=next=NULL; a3dsrc=NULL; title[0]=0; length_samples=0; length_seconds=0; last_time=0; };
+	A3DBase()													{	last=next=nullptr; a3dsrc=nullptr; title[0]=0; length_samples=0; length_seconds=0; last_time=0; };
 	virtual ~A3DBase()											{	/* why can't it be pure virtual? */			};
 
 	// data

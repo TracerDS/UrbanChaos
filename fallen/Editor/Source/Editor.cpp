@@ -139,10 +139,10 @@ void	bring_module_to_front(EditorModule *the_module)
 	else
 	{									// At start of list.
 		ModuleList		=	the_module->GetNextModuleLink();
-		ModuleList->SetLastModuleLink(NULL);
+		ModuleList->SetLastModuleLink(nullptr);
 	}
-	the_module->SetLastModuleLink(NULL);
-	the_module->SetNextModuleLink(NULL);
+	the_module->SetLastModuleLink(nullptr);
+	the_module->SetNextModuleLink(nullptr);
 	add_module(the_module);
 
 	update_modules();
@@ -156,7 +156,7 @@ EditorModule	*point_in_module(MFPoint *clicked_point)
 					*current_module;
 
 
-	clicked_module	=	NULL;
+	clicked_module	=	nullptr;
 	current_module	=	ModuleList;
 	while(current_module)
 	{
@@ -174,7 +174,7 @@ EditorModule	*point_in_module(MFPoint *clicked_point)
 
 void	add_module(EditorModule *the_module)
 {
-	if(CurrentModule==NULL)			// Start of list?
+	if(CurrentModule==nullptr)			// Start of list?
 	{
 		ModuleList		=	the_module;
 		CurrentModule	=	ModuleList;
@@ -196,8 +196,8 @@ void	add_module(EditorModule *the_module)
 
 void create_editor_modules()
 {
-	CurrentModule	=	NULL;
-	ModuleList		=	NULL;
+	CurrentModule	=	nullptr;
+	ModuleList		=	nullptr;
 
 	level_editor	=	new LevelEditor;
 	ERROR_MSG(level_editor,"Unable to create LevelEditor object.");
@@ -499,7 +499,7 @@ void	editor()
 				{
 					LastKey			=	0;
 					quit_alert		=	new	Alert;
-					editor_status	=	!quit_alert->HandleAlert("Are you sure you want to quit?",NULL);
+					editor_status	=	!quit_alert->HandleAlert("Are you sure you want to quit?",nullptr);
 					delete	quit_alert;
 					update_modules();
 				}

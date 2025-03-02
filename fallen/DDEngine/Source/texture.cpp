@@ -752,7 +752,7 @@ static void TEXTURE_load_page(SLONG page)
 #endif //#else //#ifndef TARGET_DC
 
 #ifndef TARGET_DC
-		if ( SOUND_FXMapping != NULL )
+		if ( SOUND_FXMapping != nullptr )
 		{
 			SOUND_FXMapping[page]=fxref;
 		};
@@ -785,7 +785,7 @@ static void TEXTURE_load_page(SLONG page)
 #endif //#else //#ifndef TARGET_DC
 
 #ifndef TARGET_DC
-		if ( SOUND_FXMapping != NULL )
+		if ( SOUND_FXMapping != nullptr )
 		{
 			SOUND_FXMapping[page]=fxref;
 		}
@@ -981,7 +981,7 @@ static void TEXTURE_load_page(SLONG page)
 #else
 			if (!DoesTGAExist("", TEXTURE_MAX_TEXTURES + page))
 			{
-				TEXTURE_crinkle[page] = NULL;
+				TEXTURE_crinkle[page] = nullptr;
 			}
 			else
 			{
@@ -1105,7 +1105,7 @@ extern void ATTRACT_loadscreen_draw(SLONG completion);
 
 #ifdef TARGET_DC
 	bool bFrontEnd = false;
-	if ( ( fname_level == NULL ) || ( 0 == strcmp ( fname_level, "levels\\frontend.ucm" ) ) )
+	if ( ( fname_level == nullptr ) || ( 0 == strcmp ( fname_level, "levels\\frontend.ucm" ) ) )
 	{
 		// Not actually a level - no level stuff loaded.
 		bFrontEnd = true;
@@ -2126,7 +2126,7 @@ LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page)
 #endif
 	if ( page == -1 )
 	{
-		return ( NULL );
+		return ( nullptr );
 	}
 #ifdef TARGET_DC
 	ASSERT(WITHIN(page, 0, TEXTURE_num_textures - 1));
@@ -2637,7 +2637,7 @@ SLONG TEXTURE_shadow_lock()
 
 	if (FAILED(res))
 	{
-		TEXTURE_shadow_bitmap = NULL;
+		TEXTURE_shadow_bitmap = nullptr;
 		TEXTURE_shadow_pitch  = 0;
 
 		return false;
@@ -2691,7 +2691,7 @@ SLONG TEXTURE_86_lock()
 
 	if (FAILED(res))
 	{
-		TEXTURE_shadow_bitmap = NULL;
+		TEXTURE_shadow_bitmap = nullptr;
 		TEXTURE_shadow_pitch  = 0;
 
 		return false;

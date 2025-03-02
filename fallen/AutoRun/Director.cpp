@@ -42,7 +42,7 @@ Menu::Menu(FILE* fd)
 	TopBorder = ReadNumber(fd);
 	LineSpacing = ReadNumber(fd);
 
-	MenuItem*	last = NULL;
+	MenuItem*	last = nullptr;
 
 	for (;;)
 	{
@@ -55,7 +55,7 @@ Menu::Menu(FILE* fd)
 		strcpy(item->Directory, ReadString(fd));
 
 		item->Spacing = ReadNumber(fd);
-		item->Next = NULL;
+		item->Next = nullptr;
 
 		if (last)	last->Next = item;
 		else		Item = item;
@@ -65,7 +65,7 @@ Menu::Menu(FILE* fd)
 		if (item->Spacing & 0x80000000)	break;
 	}
 
-	Next = NULL;
+	Next = nullptr;
 }
 
 // ~Menu
@@ -104,7 +104,7 @@ Director::Director(FILE* fd)
 
 	ULONG	menus = ReadNumber(fd);
 
-	Menu*	last = NULL;
+	Menu*	last = nullptr;
 
 	for (ULONG ii = 0; ii < menus; ii++)
 	{
@@ -159,7 +159,7 @@ void Director::LoadRegistryStrings()
 			{
 				DWORD	len = MAX_PATH;
 
-				RegQueryValueEx(hOurUninstall, "UninstallString", NULL, NULL, (unsigned char*)UninstallString, &len);
+				RegQueryValueEx(hOurUninstall, "UninstallString", nullptr, nullptr, (unsigned char*)UninstallString, &len);
 
 				RegCloseKey(hOurUninstall);
 			}
@@ -177,7 +177,7 @@ void Director::LoadRegistryStrings()
 			{
 				DWORD	len = MAX_PATH;
 
-				RegQueryValueEx(hOurAppPath, "Path", NULL, NULL, (unsigned char*)AppPath, &len);
+				RegQueryValueEx(hOurAppPath, "Path", nullptr, nullptr, (unsigned char*)AppPath, &len);
 				if ((len >= 2) && (AppPath[len - 2] == '\\'))	AppPath[len - 2] = '\0';
 
 				RegCloseKey(hOurAppPath);

@@ -39,9 +39,6 @@
 
 //---------------------------------------------------------------
 
-#define	true				1
-#define	false				0
-
 typedef unsigned char		UBYTE;
 typedef signed char			SBYTE;
 typedef char				CBYTE;

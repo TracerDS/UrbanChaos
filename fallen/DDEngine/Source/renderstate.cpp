@@ -27,7 +27,7 @@ _inline DWORD FloatAsDword ( float fArg )
 
 RenderState::RenderState(DWORD mag_filter, DWORD min_filter)
 {
-	TextureMap = NULL;
+	TextureMap = nullptr;
 	TextureAddress = D3DTADDRESS_CLAMP;
 	TextureMag = mag_filter;
 	TextureMin = min_filter;
@@ -202,18 +202,18 @@ char* RenderState::Validate()
 	// check which alpha modes are used
 	if (AlphaBlendEnable)
 	{
-		if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_ZERO))	return NULL;
-		if ((SrcBlend == D3DBLEND_ZERO) && (DestBlend == D3DBLEND_ONE))	return NULL;
-		if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_ONE))	return NULL;
-		if ((SrcBlend == D3DBLEND_SRCALPHA) && (DestBlend == D3DBLEND_INVSRCALPHA))	return NULL;
-		if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_SRCALPHA))	return NULL;
+		if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_ZERO))	return nullptr;
+		if ((SrcBlend == D3DBLEND_ZERO) && (DestBlend == D3DBLEND_ONE))	return nullptr;
+		if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_ONE))	return nullptr;
+		if ((SrcBlend == D3DBLEND_SRCALPHA) && (DestBlend == D3DBLEND_INVSRCALPHA))	return nullptr;
+		if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_SRCALPHA))	return nullptr;
 
 		//TRACE("SrcBlend = %d DestBlend = %d\n", SrcBlend, DestBlend);
 		//return "Renderstate has a bad alpha blend mode";
 		return "";
 	}
 
-	return NULL;
+	return nullptr;
 }
 #endif
 

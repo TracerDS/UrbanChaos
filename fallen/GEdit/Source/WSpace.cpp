@@ -170,7 +170,7 @@ void	handle_ws_context(POINT *click_point)
 								ws_menu,
 								TPM_LEFTALIGN|TPM_LEFTBUTTON|TPM_RIGHTBUTTON,
 								click_point->x,click_point->y,
-								0,ws_tree,NULL
+								0,ws_tree,nullptr
 							);
 			DestroyMenu(ws_menu);
 		}
@@ -294,7 +294,7 @@ void	handle_ws_select(WSElement *the_element)
 			else
 			{
 				//	We probably need to prompt here, to open the missions associated map.
-//				current_mission	=	NULL;
+//				current_mission	=	nullptr;
 				current_mission	=	&mission_pool[the_element->MissionRef];
 			}
 			break;
@@ -327,7 +327,7 @@ void	ws_add_map()
 	//	Set up the open file structure.
 	ZeroMemory(&open_map,sizeof(OPENFILENAME));
 	open_map.lStructSize		=	sizeof(OPENFILENAME);
-	open_map.hwndOwner			=	NULL;
+	open_map.hwndOwner			=	nullptr;
 	open_map.lpstrFilter		=	"Game map files\0*.iam\0\0";
 	open_map.lpstrFile			=	map_path_name;
 	open_map.nMaxFile			=	_MAX_PATH;
@@ -355,7 +355,7 @@ void	ws_add_map()
 			{
 				//	Yes, so show a message & get outta here.
 				MessageBox	(
-								NULL,
+								nullptr,
 								"This map is already part of the workspace",
 								"DOH!!",
 								MB_OK
@@ -398,14 +398,14 @@ void	ws_add_map()
 					TreeView_Expand(ws_tree,root_item.TreeItem,TVE_EXPAND);
 
 				//	Update the window.
-				InvalidateRect(ws_tree, NULL, false);
+				InvalidateRect(ws_tree, nullptr, false);
 			}
 		}
 		else
 		{
 			//	Error no more maps.
 			MessageBox	(
-							NULL,
+							nullptr,
 							"Run out of Map structures.\n\nClick OK, save your work & then tell Guy.",
 							"Oh bugger!!",
 							MB_OK
@@ -513,7 +513,7 @@ void	ws_new_mission()
 				new_element->MissionRef		=	new_mission;
 
 				//	Update the window.
-				InvalidateRect(ws_tree, NULL, false);
+				InvalidateRect(ws_tree, nullptr, false);
 			}
 		}
 	}
@@ -521,7 +521,7 @@ void	ws_new_mission()
 	{
 		//	Error no more missions.
 		MessageBox	(
-						NULL,
+						nullptr,
 						"Run out of Mission structures.\n\nClick OK, save your work & then tell Guy.",
 						"Oh bugger!!",
 						MB_OK
@@ -540,7 +540,7 @@ void	ws_del_mission() {
 			free_eventpoint(&current_mission->EventPoints[c1]);
 
 	ZeroMemory(current_mission,sizeof(Mission));
-	current_mission=NULL; // hmm
+	current_mission=nullptr; // hmm
 
 	remove_children(current);
 
@@ -560,7 +560,7 @@ void	ws_add_light_map()
 	sprintf(current_mission->LightMapName,"*.lgt");
 	ZeroMemory(&open_map,sizeof(OPENFILENAME));
 	open_map.lStructSize		=	sizeof(OPENFILENAME);
-	open_map.hwndOwner			=	NULL;
+	open_map.hwndOwner			=	nullptr;
 	open_map.lpstrFilter		=	"Light Map files\0*.lgt\0\0";
 //	open_map.lpstrFile			=	current_mission->LightMapName;
 //	open_map.nMaxFile			=	_MAX_PATH;
@@ -591,7 +591,7 @@ void	ws_add_light_map()
 			new_element->ElementType	=	ET_LMAP;
 
 			//	Update the window.
-			InvalidateRect(ws_tree, NULL, false);
+			InvalidateRect(ws_tree, nullptr, false);
 		}
 	}
 }
@@ -610,7 +610,7 @@ void	ws_add_citsez_map()
 	sprintf(current_mission->CitSezMapName,"*.txt");
 	ZeroMemory(&open_map,sizeof(OPENFILENAME));
 	open_map.lStructSize		=	sizeof(OPENFILENAME);
-	open_map.hwndOwner			=	NULL;
+	open_map.hwndOwner			=	nullptr;
 	open_map.lpstrFilter		=	"Text files\0*.txt\0\0";
 	open_map.lpstrFile			=	current_mission->CitSezMapName;
 	open_map.nMaxFile			=	_MAX_PATH;
@@ -641,7 +641,7 @@ void	ws_add_citsez_map()
 			new_element->ElementType	=	ET_LMAP;
 
 			//	Update the window.
-			InvalidateRect(ws_tree, NULL, false);
+			InvalidateRect(ws_tree, nullptr, false);
 		}
 	}
 }
@@ -661,7 +661,7 @@ bool	create_workspace()
 	{
 		//	Ask the user to save etc.
 		result	=	MessageBox	(
-									NULL,
+									nullptr,
 									"Changes have been made to the current workspace.\nDo you want to save?",
 									"Urban Chaos Mission Editor",
 									MB_ICONQUESTION|MB_YESNOCANCEL
@@ -682,7 +682,7 @@ bool	create_workspace()
 	//	Set up the save file structure.
 	ZeroMemory(&save_workspace,sizeof(OPENFILENAME));
 	save_workspace.lStructSize		=	sizeof(OPENFILENAME);
-	save_workspace.hwndOwner		=	NULL;
+	save_workspace.hwndOwner		=	nullptr;
 	save_workspace.lpstrFilter		=	"Editor Workspace Files\0*.ucw\0\0";
 	save_workspace.lpstrFile		=	workspace_path;
 	save_workspace.nMaxFile			=	_MAX_PATH;
@@ -727,7 +727,7 @@ bool	close_workspace()
 	{
 		//	Ask the user to save etc.
 		result	=	MessageBox	(
-									NULL,
+									nullptr,
 									"Changes have been made to the workspace.\nDo you want to save?",
 									"Urban Chaos Mission Editor",
 									MB_ICONQUESTION|MB_YESNOCANCEL
@@ -799,7 +799,7 @@ bool load_workspace(bool try_loading_default)
 	{
 		//	Ask the user to save etc.
 		result	=	MessageBox	(
-									NULL,
+									nullptr,
 									"Changes have been made to the current workspace.\nDo you want to save?",
 									"Urban Chaos Mission Editor",
 									MB_ICONQUESTION|MB_YESNOCANCEL
@@ -843,7 +843,7 @@ bool load_workspace(bool try_loading_default)
 		//	Set up the save file structure.
 		ZeroMemory(&load_workspace,sizeof(OPENFILENAME));
 		load_workspace.lStructSize		=	sizeof(OPENFILENAME);
-		load_workspace.hwndOwner		=	NULL;
+		load_workspace.hwndOwner		=	nullptr;
 		load_workspace.lpstrFilter		=	"Editor Workspace Files\0*.ucw\0\0";
 		load_workspace.lpstrFile		=	workspace_path;
 		load_workspace.nMaxFile			=	_MAX_PATH;
@@ -958,7 +958,7 @@ bool load_workspace(bool try_loading_default)
 						read_event_extra(file_handle,&mission_pool[c0].EventPoints[c1],mission_pool[c0].EventPoints,gm_vers);
 
 					//	Find the map tree item that's going to be the missions parent.
-					map_handle	=	NULL;
+					map_handle	=	nullptr;
 					current_item	=	TreeView_GetChild(ws_tree,TreeView_GetRoot(ws_tree));
 					while(current_item)
 					{
@@ -1038,7 +1038,7 @@ bool load_workspace(bool try_loading_default)
 			}
 			
 			//	Force a redraw on the workspace tree.
-			InvalidateRect(ws_tree, NULL, false);
+			InvalidateRect(ws_tree, nullptr, false);
 			
 			//	Change the root item.
 			sprintf(temp,"Workspace : %s",workspace_name);

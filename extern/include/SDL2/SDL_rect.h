@@ -133,7 +133,7 @@ SDL_FORCE_INLINE SDL_bool SDL_RectEquals(const SDL_Rect *a, const SDL_Rect *b)
 /**
  * Determine whether two rectangles intersect.
  *
- * If either pointer is NULL the function will return SDL_FALSE.
+ * If either pointer is nullptr the function will return SDL_FALSE.
  *
  * \param A an SDL_Rect structure representing the first rectangle
  * \param B an SDL_Rect structure representing the second rectangle
@@ -149,7 +149,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_HasIntersection(const SDL_Rect * A,
 /**
  * Calculate the intersection of two rectangles.
  *
- * If `result` is NULL then this function will return SDL_FALSE.
+ * If `result` is nullptr then this function will return SDL_FALSE.
  *
  * \param A an SDL_Rect structure representing the first rectangle
  * \param B an SDL_Rect structure representing the second rectangle
@@ -182,13 +182,13 @@ extern DECLSPEC void SDLCALL SDL_UnionRect(const SDL_Rect * A,
 /**
  * Calculate a minimal rectangle enclosing a set of points.
  *
- * If `clip` is not NULL then only points inside of the clipping rectangle are
+ * If `clip` is not nullptr then only points inside of the clipping rectangle are
  * considered.
  *
  * \param points an array of SDL_Point structures representing points to be
  *               enclosed
  * \param count the number of structures in the `points` array
- * \param clip an SDL_Rect used for clipping or NULL to enclose all points
+ * \param clip an SDL_Rect used for clipping or nullptr to enclose all points
  * \param result an SDL_Rect structure filled in with the minimal enclosing
  *               rectangle
  * \returns SDL_TRUE if any points were enclosed or SDL_FALSE if all the
@@ -272,7 +272,7 @@ SDL_FORCE_INLINE SDL_bool SDL_FRectEquals(const SDL_FRect *a, const SDL_FRect *b
 /**
  * Determine whether two rectangles intersect with float precision.
  *
- * If either pointer is NULL the function will return SDL_FALSE.
+ * If either pointer is nullptr the function will return SDL_FALSE.
  *
  * \param A an SDL_FRect structure representing the first rectangle
  * \param B an SDL_FRect structure representing the second rectangle
@@ -288,7 +288,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_HasIntersectionF(const SDL_FRect * A,
 /**
  * Calculate the intersection of two rectangles with float precision.
  *
- * If `result` is NULL then this function will return SDL_FALSE.
+ * If `result` is nullptr then this function will return SDL_FALSE.
  *
  * \param A an SDL_FRect structure representing the first rectangle
  * \param B an SDL_FRect structure representing the second rectangle
@@ -322,13 +322,13 @@ extern DECLSPEC void SDLCALL SDL_UnionFRect(const SDL_FRect * A,
  * Calculate a minimal rectangle enclosing a set of points with float
  * precision.
  *
- * If `clip` is not NULL then only points inside of the clipping rectangle are
+ * If `clip` is not nullptr then only points inside of the clipping rectangle are
  * considered.
  *
  * \param points an array of SDL_FPoint structures representing points to be
  *               enclosed
  * \param count the number of structures in the `points` array
- * \param clip an SDL_FRect used for clipping or NULL to enclose all points
+ * \param clip an SDL_FRect used for clipping or nullptr to enclose all points
  * \param result an SDL_FRect structure filled in with the minimal enclosing
  *               rectangle
  * \returns SDL_TRUE if any points were enclosed or SDL_FALSE if all the

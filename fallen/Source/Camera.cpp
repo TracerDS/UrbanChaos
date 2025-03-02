@@ -22,7 +22,7 @@ Thing *alloc_camera(UBYTE type)
 {
 	SLONG			c0;
 	CameraMan		*new_camera;
-	Thing			*camera_thing	=	NULL;
+	Thing			*camera_thing	=	nullptr;
 
 
 	// Run through the camera array & find an unused one.
@@ -60,7 +60,7 @@ Thing *create_camera(UBYTE type,GameCoord *start_pos,Thing *track_thing)
 {
 	CameraMan		*t_camera;
 	GameCoord		default_pos;
-	Thing			*camera_thing	=	NULL;
+	Thing			*camera_thing	=	nullptr;
 
 
 	camera_thing	=	alloc_camera(type);
@@ -117,7 +117,7 @@ void set_camera_type(Thing *c_thing,UBYTE type)
 	switch(type)
 	{
 		case	CAMERA_NONE:
-			c_thing->StateFn	=	NULL;
+			c_thing->StateFn	=	nullptr;
 			break;
 		case	CAMERA_TRACKER:
 			c_thing->StateFn	=	(void(*)(Thing*))process_t_camera;

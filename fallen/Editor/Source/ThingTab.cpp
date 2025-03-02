@@ -364,7 +364,7 @@ EditComList	*ThingTab::SelectCommandList(void)
 	ControlSet		select_set;
 	EditComList		*current_list,
 					*hilited_list,
-					*selected_list	=	NULL;
+					*selected_list	=	nullptr;
 	EdRect			bounds_rect,
 					item_rect,
 					lists_rect;
@@ -469,7 +469,7 @@ EditComList	*ThingTab::SelectCommandList(void)
 					}
 
 					c0	=	0;
-					hilited_list	=	NULL;
+					hilited_list	=	nullptr;
 					while(current_list && c0<MAX_VIEW_LISTS)
 					{
 						// Create a bounding rect for the list text.

@@ -112,7 +112,7 @@ void FIRE_add_flame(FIRE_Fire *ff)
 
 	FIRE_Flame *fl;
 
-	if (FIRE_flame_free == NULL)
+	if (!FIRE_flame_free )
 	{
 		//
 		// No spare flame structure.
@@ -337,7 +337,7 @@ FIRE_Point FIRE_get_point[FIRE_MAX_POINTS];
 void FIRE_get_start(UBYTE z, UBYTE xmin, UBYTE xmax)
 {
 	FIRE_get_fire_upto = 0;
-	FIRE_get_flame     = NULL;
+	FIRE_get_flame     = nullptr;
 	FIRE_get_z         = z;
 	FIRE_get_xmin      = xmin;
 	FIRE_get_xmax      = xmax;
@@ -347,7 +347,7 @@ FIRE_Info *FIRE_get_next()
 {
 	FIRE_Flame *fl;
 
-	if (FIRE_get_flame == NULL)
+	if (!FIRE_get_flame )
 	{
 		while(1)
 		{
@@ -365,7 +365,7 @@ FIRE_Info *FIRE_get_next()
 
 			if (FIRE_get_fire_upto >= FIRE_MAX_FIRE)
 			{
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
@@ -378,5 +378,5 @@ FIRE_Info *FIRE_get_next()
 	// Create the points of the flame.
 	//
 	
-	return NULL;
+	return nullptr;
 }

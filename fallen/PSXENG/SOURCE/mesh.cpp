@@ -136,7 +136,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 		p_chopper->Draw.Mesh->Angle,
 		p_chopper->Draw.Mesh->Tilt,
 		p_chopper->Draw.Mesh->Roll,
-		NULL,0);
+		nullptr,0);
 
 	MESH_draw_poly(
 		chopper->rotorprim,
@@ -146,7 +146,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 		(p_chopper->Draw.Mesh->Angle+chopper->rotors),
 		(p_chopper->Draw.Mesh->Tilt),
 		(p_chopper->Draw.Mesh->Roll),
-		NULL,0);
+		nullptr,0);
 
 /*
 		if (chopper->light) 

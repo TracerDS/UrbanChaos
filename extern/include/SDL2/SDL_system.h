@@ -83,7 +83,7 @@ typedef struct IDirect3DDevice9 IDirect3DDevice9;
  * resource leak.
  *
  * \param renderer the renderer from which to get the associated D3D device
- * \returns the D3D9 device associated with given renderer or NULL if it is
+ * \returns the D3D9 device associated with given renderer or nullptr if it is
  *          not a D3D9 renderer; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.1.
@@ -99,7 +99,7 @@ typedef struct ID3D11Device ID3D11Device;
  * resource leak.
  *
  * \param renderer the renderer from which to get the associated D3D11 device
- * \returns the D3D11 device associated with given renderer or NULL if it is
+ * \returns the D3D11 device associated with given renderer or nullptr if it is
  *          not a D3D11 renderer; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.16.
@@ -119,7 +119,7 @@ typedef struct ID3D12Device ID3D12Device;
  * resource leak.
  *
  * \param renderer the renderer from which to get the associated D3D12 device
- * \returns the D3D12 device associated with given renderer or NULL if it is
+ * \returns the D3D12 device associated with given renderer or nullptr if it is
  *          not a D3D12 renderer; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.24.0.
@@ -281,7 +281,7 @@ extern DECLSPEC void * SDLCALL SDL_AndroidGetJNIEnv(void);
  * https://docs.oracle.com/javase/1.5.0/docs/guide/jni/spec/functions.html
  *
  * \returns the jobject representing the instance of the Activity class of the
- *          Android application, or NULL on error.
+ *          Android application, or nullptr on error.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -371,7 +371,7 @@ extern DECLSPEC void SDLCALL SDL_AndroidBackButton(void);
  * Your internal storage path is typically:
  * `/data/data/your.app.package/files`.
  *
- * \returns the path used for internal storage or NULL on failure; call
+ * \returns the path used for internal storage or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -407,7 +407,7 @@ extern DECLSPEC int SDLCALL SDL_AndroidGetExternalStorageState(void);
  * `/storage/sdcard0/Android/data/your.app.package/files`.
  *
  * \returns the path used for external storage for this application on success
- *          or NULL on failure; call SDL_GetError() for more information.
+ *          or nullptr on failure; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -525,7 +525,7 @@ typedef enum
  * https://msdn.microsoft.com/en-us/library/windows/apps/hh464917.aspx
  *
  * \param pathType the type of path to retrieve, one of SDL_WinRT_Path
- * \returns a UCS-2 string (16-bit, wide-char) containing the path, or NULL if
+ * \returns a UCS-2 string (16-bit, wide-char) containing the path, or nullptr if
  *          the path is not available for any reason; call SDL_GetError() for
  *          more information.
  *
@@ -548,7 +548,7 @@ extern DECLSPEC const wchar_t * SDLCALL SDL_WinRTGetFSPathUNICODE(SDL_WinRT_Path
  * https://msdn.microsoft.com/en-us/library/windows/apps/hh464917.aspx
  *
  * \param pathType the type of path to retrieve, one of SDL_WinRT_Path
- * \returns a UTF-8 string (8-bit, multi-byte) containing the path, or NULL if
+ * \returns a UTF-8 string (8-bit, multi-byte) containing the path, or nullptr if
  *          the path is not available for any reason; call SDL_GetError() for
  *          more information.
  *

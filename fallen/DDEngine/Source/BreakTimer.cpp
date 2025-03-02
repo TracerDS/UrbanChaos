@@ -77,7 +77,7 @@ void BreakStart()
 	time_base = GetFineTimerFreq();
 	for (size_t ii = 0; ii <= MAX_BREAK; ii++)
 	{
-		breakpoint[ii].name = NULL;
+		breakpoint[ii].name = nullptr;
 		breakpoint[ii].time = 0;
 		breakpoint[ii].min_sec = 1000000;
 		breakpoint[ii].max_sec = 0;

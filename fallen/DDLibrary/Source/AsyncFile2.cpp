@@ -69,7 +69,7 @@ void InitAsyncFile(void)
 	// init sync objects
 	InitializeCriticalSection(&csLock);
 
-	hEvent = CreateEvent(NULL, false, false, NULL);
+	hEvent = CreateEvent(nullptr, false, false, nullptr);
 
 	KillThread = 0;
 	CancelKey = 0;
@@ -77,7 +77,7 @@ void InitAsyncFile(void)
 	// begin background thread
 	DWORD	tid;
 
-	hThread = CreateThread(NULL, 0, ThreadRun, NULL, 0, &tid);
+	hThread = CreateThread(nullptr, 0, ThreadRun, nullptr, 0, &tid);
 }
 
 // TermAsyncFile
@@ -148,10 +148,10 @@ DWORD WINAPI ThreadRun(LPVOID arg)
 				}
 				file = next;
 			}
-			CancelKey = NULL;
+			CancelKey = nullptr;
 		}
 
-		AsyncFile*	file = NULL;
+		AsyncFile*	file = nullptr;
 
 		if (ActiveList.next != &ActiveList)
 		{
@@ -172,7 +172,7 @@ DWORD WINAPI ThreadRun(LPVOID arg)
 			while (file->blen > BytesPerMillisecond)
 			{
 				TRACE("Worker: Reading block\n");
-				ReadFile(file->hFile, file->buffer, BytesPerMillisecond, &amount, NULL);
+				ReadFile(file->hFile, file->buffer, BytesPerMillisecond, &amount, nullptr);
 				file->buffer += BytesPerMillisecond;
 				file->blen -= BytesPerMillisecond;
 				Sleep(0);
@@ -181,7 +181,7 @@ DWORD WINAPI ThreadRun(LPVOID arg)
 			if (file->blen)
 			{
 				TRACE("Worker: Reading final block\n");
-				ReadFile(file->hFile, file->buffer, file->blen, &amount, NULL);
+				ReadFile(file->hFile, file->buffer, file->blen, &amount, nullptr);
 			}
 			TRACE("Worker: Complete\n");
 
@@ -207,7 +207,7 @@ bool LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key)
 	AsyncFile*	file = FreeList.next;
 
 	// open the file
-	file->hFile = CreateFile (filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+	file->hFile = CreateFile (filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
 	if (!file->hFile)	return false;
 
 	// set the key
@@ -251,7 +251,7 @@ void* GetNextCompletedAsyncFile(void)
 	}
 	LeaveCriticalSection(&csLock);
 
-	return NULL;
+	return nullptr;
 }
 
 // CancelAsyncFile

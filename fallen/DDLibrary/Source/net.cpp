@@ -92,9 +92,7 @@ SLONG NET_get_session_number()
 
 NET_Sinfo NET_get_session_info(SLONG session)
 {
-	NET_Sinfo ans;
-
-	return ans;
+	return {};
 }
 
 SLONG NET_join_session(SLONG session, CBYTE* my_player_name)

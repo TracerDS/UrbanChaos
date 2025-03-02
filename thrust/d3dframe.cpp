@@ -35,7 +35,7 @@
 static HRESULT WINAPI EnumZBufferFormatsCallback( DDPIXELFORMAT* pddpf,
                                                   VOID* pddpfDesired )
 {
-    if( NULL==pddpf || NULL==pddpfDesired )
+    if( nullptr==pddpf || nullptr==pddpfDesired )
         return D3DENUMRET_CANCEL;
 
     // If the current pixel format's match the desired ones (DDPF_ZBUFFER and
@@ -62,19 +62,19 @@ static HRESULT WINAPI EnumZBufferFormatsCallback( DDPIXELFORMAT* pddpf,
 //-----------------------------------------------------------------------------
 CD3DFramework::CD3DFramework()
 {
-     m_hWnd             = NULL;
+     m_hWnd             = nullptr;
      m_bIsFullscreen    = false;
      m_dwRenderWidth    = 0L;
      m_dwRenderHeight   = 0L;
-     m_pddsFrontBuffer  = NULL;
-     m_pddsBackBuffer   = NULL;
-     m_pddsRenderTarget = NULL;
-     m_pddsZBuffer      = NULL;
-     m_pd3dDevice       = NULL;
-     m_pvViewport       = NULL;
-     m_pDD              = NULL;
-     m_pD3D             = NULL;
-     m_dwDeviceMemType  = NULL;
+     m_pddsFrontBuffer  = nullptr;
+     m_pddsBackBuffer   = nullptr;
+     m_pddsRenderTarget = nullptr;
+     m_pddsZBuffer      = nullptr;
+     m_pd3dDevice       = nullptr;
+     m_pvViewport       = nullptr;
+     m_pDD              = nullptr;
+     m_pD3D             = nullptr;
+     m_dwDeviceMemType  = nullptr;
 }
 
 
@@ -108,7 +108,7 @@ HRESULT CD3DFramework::DestroyObjects()
     if( m_pd3dDevice )
         if( 0 < ( nD3D = m_pd3dDevice->Release() ) )
             DEBUG_MSG( TEXT("Error: D3DDevice object is still referenced!") );
-	m_pd3dDevice = NULL;
+	m_pd3dDevice = nullptr;
 
     // In windowed mode, release the explicity created backbuffer.
     if( false == m_bIsFullscreen )
@@ -126,7 +126,7 @@ HRESULT CD3DFramework::DestroyObjects()
         if( 0 < ( nDD = m_pDD->Release() ) )
             DEBUG_MSG( TEXT("Error: DDraw object is still referenced!") );
 	}
-	m_pDD = NULL;
+	m_pDD = nullptr;
 
     // Return successful, unless there are outstanding DD or D3DDevice refs.
     return ( nDD==0 && nD3D==0 ) ? S_OK : D3DFWERR_NONZEROREFCOUNT;
@@ -145,9 +145,9 @@ HRESULT CD3DFramework::Initialize( HWND hWnd, GUID* pDriverGUID,
 {
 	HRESULT hr;
 
-    // Check params. A NULL mode is valid for windowed modes only. A NULL 
+    // Check params. A nullptr mode is valid for windowed modes only. A nullptr 
 	// device GUID is legal for apps that only want 2D support.
-    if( NULL==hWnd || ( NULL==pMode && (dwFlags&D3DFW_FULLSCREEN) ) )
+    if( nullptr==hWnd || ( nullptr==pMode && (dwFlags&D3DFW_FULLSCREEN) ) )
         return E_INVALIDARG;
 
     // Setup state for windowed/fullscreen mode
@@ -191,7 +191,7 @@ HRESULT CD3DFramework::CreateEnvironment( GUID* pDriverGUID, GUID* pDeviceGUID,
 		return hr;
 
 	// If there is no device GUID, then the app only wants 2D, so we're done
-	if( NULL == pDeviceGUID )
+	if( nullptr == pDeviceGUID )
 		return S_OK;
 
 	// Create and attach the zbuffer
@@ -221,7 +221,7 @@ HRESULT CD3DFramework::CreateDirectDraw( GUID* pDriverGUID, DWORD dwFlags )
 {
     // Create the DirectDraw interface, and query for the DD4 interface
     LPDIRECTDRAW pDD;
-    if( FAILED( DirectDrawCreate( pDriverGUID, &pDD, NULL ) ) )
+    if( FAILED( DirectDrawCreate( pDriverGUID, &pDD, nullptr ) ) )
     {
         DEBUG_MSG( TEXT("Could not create DirectDraw") );
         return D3DFWERR_NODIRECTDRAW;
@@ -370,7 +370,7 @@ HRESULT CD3DFramework::CreateBuffers( DDSURFACEDESC2* pddsd, DWORD dwFlags )
 			ddsd.dwBackBufferCount = 1;
 		}
 
-		if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsFrontBuffer, NULL ) ) )
+		if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsFrontBuffer, nullptr ) ) )
 		{
 			DEBUG_MSG( TEXT("Error: Can't create primary surface") );
 			if( hr != DDERR_OUTOFVIDEOMEMORY )
@@ -416,7 +416,7 @@ HRESULT CD3DFramework::CreateBuffers( DDSURFACEDESC2* pddsd, DWORD dwFlags )
 		if( 0L == ( dwFlags & D3DFW_BACKBUFFER ) )
 			ddsd.ddsCaps.dwCaps |= DDSCAPS_3DDEVICE;
     
-		if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsFrontBuffer, NULL ) ) )
+		if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsFrontBuffer, nullptr ) ) )
 		{
 			DEBUG_MSG( TEXT("Error: Can't create primary surface") );
 			if( hr != DDERR_OUTOFVIDEOMEMORY )
@@ -427,7 +427,7 @@ HRESULT CD3DFramework::CreateBuffers( DDSURFACEDESC2* pddsd, DWORD dwFlags )
 
 		// If in windowed-mode, create a clipper object
 		LPDIRECTDRAWCLIPPER pcClipper;
-		if( FAILED( hr = m_pDD->CreateClipper( 0, &pcClipper, NULL ) ) )
+		if( FAILED( hr = m_pDD->CreateClipper( 0, &pcClipper, nullptr ) ) )
 		{
 			DEBUG_MSG( TEXT("Error: Couldn't create clipper") );
 			return D3DFWERR_NOCLIPPER;
@@ -448,7 +448,7 @@ HRESULT CD3DFramework::CreateBuffers( DDSURFACEDESC2* pddsd, DWORD dwFlags )
 			ddsd.dwHeight       = m_dwRenderHeight;
 			ddsd.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_3DDEVICE;
 
-			if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsBackBuffer, NULL ) ) )
+			if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsBackBuffer, nullptr ) ) )
 			{
 				DEBUG_MSG( TEXT("Error: Couldn't create the backbuffer") );
 				if( hr != DDERR_OUTOFVIDEOMEMORY )
@@ -503,7 +503,7 @@ HRESULT CD3DFramework::CreateZBuffer()
     memcpy( &ddsd.ddpfPixelFormat, &m_ddpfZBuffer, sizeof(DDPIXELFORMAT) );
 
     // Create and attach a z-buffer
-    if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsZBuffer, NULL ) ) )
+    if( FAILED( hr = m_pDD->CreateSurface( &ddsd, &m_pddsZBuffer, nullptr ) ) )
     {
         DEBUG_MSG( TEXT("Error: Couldn't create a ZBuffer surface") );
 		if( hr != DDERR_OUTOFVIDEOMEMORY )
@@ -540,7 +540,7 @@ HRESULT CD3DFramework::Create3DDevice( GUID* pDeviceGUID )
 
 	// Create the device
     if( FAILED( m_pD3D->CreateDevice( *pDeviceGUID, m_pddsRenderTarget,
-                                      &m_pd3dDevice, NULL ) ) )
+                                      &m_pd3dDevice, nullptr ) ) )
     {
         DEBUG_MSG( TEXT("Couldn't create the D3DDevice") );
         return D3DFWERR_NO3DDEVICE;
@@ -564,7 +564,7 @@ HRESULT CD3DFramework::CreateViewport()
     D3DUtil_InitViewport( vdData, m_dwRenderWidth, m_dwRenderHeight );
 
     // Create the viewport
-    if( FAILED( m_pD3D->CreateViewport( &m_pvViewport, NULL ) ) )
+    if( FAILED( m_pD3D->CreateViewport( &m_pvViewport, nullptr ) ) )
     {
         DEBUG_MSG( TEXT("Error: Couldn't create a viewport") );
         return D3DFWERR_NOVIEWPORT;
@@ -603,21 +603,21 @@ HRESULT CD3DFramework::CreateViewport()
 //-----------------------------------------------------------------------------
 HRESULT CD3DFramework::ShowFrame()
 {
-	if( NULL == m_pddsFrontBuffer )
+	if( nullptr == m_pddsFrontBuffer )
 		return D3DFWERR_NOTINITIALIZED;
 
     // Check for a backbuffer. If no backbuffer exists, then we have nothing to
     // do. However, to be consistent let's check for lost surfaces
-    if( NULL == m_pddsBackBuffer )
+    if( nullptr == m_pddsBackBuffer )
         return m_pddsFrontBuffer->IsLost();
 
     // If we are in fullscreen mode perform a flip.
     if( m_bIsFullscreen )
-        return m_pddsFrontBuffer->Flip( NULL, DDFLIP_WAIT );
+        return m_pddsFrontBuffer->Flip( nullptr, DDFLIP_WAIT );
 
     // Else, we are in windowed mode, so perform a blit.
     return m_pddsFrontBuffer->Blt( &m_rcScreenRect, m_pddsBackBuffer, 
-                                   &m_rcViewportRect, DDBLT_WAIT, NULL );
+                                   &m_rcViewportRect, DDBLT_WAIT, nullptr );
 }
 
 
@@ -637,7 +637,7 @@ HRESULT CD3DFramework::FlipToGDISurface( bool bDrawFrame )
         if( bDrawFrame )
         {
             DrawMenuBar( m_hWnd );
-            RedrawWindow( m_hWnd, NULL, NULL, RDW_FRAME );
+            RedrawWindow( m_hWnd, nullptr, nullptr, RDW_FRAME );
         }
     }
 
@@ -687,7 +687,7 @@ VOID CD3DFramework::Move( INT x, INT y )
 			     x + m_dwRenderWidth, y + m_dwRenderHeight );
 
 		// If we have no backbuffer, then update viewport rect as well
-		if( NULL == m_pddsBackBuffer )
+		if( nullptr == m_pddsBackBuffer )
 			CopyMemory( &m_rcViewportRect, &m_rcScreenRect, sizeof(RECT) );
     }
 }
@@ -703,7 +703,7 @@ VOID CD3DFramework::Move( INT x, INT y )
 //-----------------------------------------------------------------------------
 HRESULT CD3DFramework::ChangeRenderTarget( LPDIRECTDRAWSURFACE4 pddsNewTarget )
 {
-    if( NULL == pddsNewTarget )
+    if( nullptr == pddsNewTarget )
         return E_INVALIDARG;
 
     // Get the new render target dimensions
@@ -714,7 +714,7 @@ HRESULT CD3DFramework::ChangeRenderTarget( LPDIRECTDRAWSURFACE4 pddsNewTarget )
     m_dwRenderHeight = ddsd.dwHeight;
 
     // If a z-buffer is attached, delete and recreate it
-    if( NULL != m_pddsZBuffer )
+    if( nullptr != m_pddsZBuffer )
     {
         // Remove the old z-buffer
         m_pddsRenderTarget->DeleteAttachedSurface( 0, m_pddsZBuffer );

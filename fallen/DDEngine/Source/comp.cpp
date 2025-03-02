@@ -7,30 +7,26 @@
 #include "ic.h"
 #include "tga.h"
 
-
-
 //
 // COMP_Delta data structures.  There are as many pan structures as you need
 // followed by at least one COMP_Update structure.  If (last) then that
 // COMP_Update is the last one.
 //
 
-typedef struct
+struct COMP_Pan
 {
 	UBYTE num;
 	UBYTE pan;
+};
 
-} COMP_Pan;
-
-typedef struct
+struct COMP_Update
 {
 	UBYTE     x;
 	UBYTE     y;
 	UBYTE     num;
 	UBYTE     last;	// true => there are no more update structures.
 	IC_Packet ip[];
-
-} COMP_Update;
+};
 
 
 //
@@ -159,10 +155,10 @@ SLONG COMP_load(CBYTE* filename, COMP_Frame *cf)
 //
 
 SLONG COMP_square_error(
-		COMP_Frame *f1,
+		COMP_Frame* f1,
 		SLONG       sx1,
 		SLONG       sy1,
-		COMP_Frame *f2,
+		COMP_Frame* f2,
 		SLONG       sx2,
 		SLONG       sy2,
 		SLONG       size)
@@ -212,10 +208,10 @@ SLONG COMP_square_error(
 //
 
 void COMP_square_copy(
-		COMP_Frame *f1,
+		COMP_Frame* f1,
 		SLONG       sx1,
 		SLONG       sy1,
-		COMP_Frame *f2,
+		COMP_Frame* f2,
 		SLONG       sx2,
 		SLONG       sy2,
 		SLONG       size)
@@ -708,7 +704,7 @@ void COMP_decomp(
 COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 {
 	ASSERT(false);
-	return ( NULL );
+	return ( nullptr );
 }
 
 #endif //#else //#ifndef TARGET_DC

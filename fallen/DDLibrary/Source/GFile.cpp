@@ -47,10 +47,10 @@ MFFileHandle	FileOpen(CBYTE* file_name)
 									file_name,
 									(GENERIC_READ|GENERIC_WRITE),
 									(FILE_SHARE_READ|FILE_SHARE_WRITE),
-									NULL,
+									nullptr,
 									OPEN_EXISTING,
 									0,
-									NULL
+									nullptr
     	                   		);
 		if(result==INVALID_HANDLE_VALUE)
 			result	=	FILE_OPEN_ERROR;
@@ -86,10 +86,10 @@ MFFileHandle	FileCreate(CBYTE* file_name,bool overwrite)
 								file_name,
 								(GENERIC_READ|GENERIC_WRITE),
 								(FILE_SHARE_READ|FILE_SHARE_WRITE),
-								NULL,
+								nullptr,
 								creation_mode,
 								0,
-								NULL
+								nullptr
 	                   		);
 	if(result==INVALID_HANDLE_VALUE)
 		result	=	FILE_CREATION_ERROR;
@@ -112,7 +112,7 @@ SLONG	FileSize(MFFileHandle file_handle)
 	DWORD	result;
 
 
-	result	=	GetFileSize(file_handle,NULL);
+	result	=	GetFileSize(file_handle,nullptr);
 	if(result==0xffffffff)
 		return	FILE_SIZE_ERROR;
 	else
@@ -126,7 +126,7 @@ SLONG	FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
 	SLONG	bytes_read;
 
 
-	if(ReadFile(file_handle,buffer,size,(LPDWORD)&bytes_read,NULL)==false)
+	if(ReadFile(file_handle,buffer,size,(LPDWORD)&bytes_read,nullptr)==false)
 		return	FILE_READ_ERROR;
 	else
 		return	bytes_read;
@@ -139,7 +139,7 @@ SLONG	FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
 	SLONG	bytes_written;
 
 
-	if(WriteFile(file_handle,buffer,size,(LPDWORD)&bytes_written,NULL)==false)
+	if(WriteFile(file_handle,buffer,size,(LPDWORD)&bytes_written,nullptr)==false)
 		return	FILE_WRITE_ERROR;
 	else
 		return	bytes_written;
@@ -164,7 +164,7 @@ SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
 			method	=	FILE_END;
 			break;
 	}
-	if(SetFilePointer(file_handle,offset,NULL,method)==0xffffffff)
+	if(SetFilePointer(file_handle,offset,nullptr,method)==0xffffffff)
 		return	FILE_SEEK_ERROR;
 	else
 		return	0;

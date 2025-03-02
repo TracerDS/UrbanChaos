@@ -86,7 +86,7 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_GetMouseFocus(void);
  * The current button state is returned as a button bitmask, which can be
  * tested using the `SDL_BUTTON(X)` macros (where `X` is generally 1 for the
  * left, 2 for middle, 3 for the right button), and `x` and `y` are set to the
- * mouse cursor position relative to the focus window. You can pass NULL for
+ * mouse cursor position relative to the focus window. You can pass nullptr for
  * either `x` or `y`.
  *
  * \param x the x coordinate of the mouse cursor position relative to the
@@ -120,9 +120,9 @@ extern DECLSPEC Uint32 SDLCALL SDL_GetMouseState(int *x, int *y);
  * reason to use this function, you probably want SDL_GetMouseState() instead.
  *
  * \param x filled in with the current X coord relative to the desktop; can be
- *          NULL
+ *          nullptr
  * \param y filled in with the current Y coord relative to the desktop; can be
- *          NULL
+ *          nullptr
  * \returns the current button state as a bitmask which can be tested using
  *          the SDL_BUTTON(X) macros.
  *
@@ -139,7 +139,7 @@ extern DECLSPEC Uint32 SDLCALL SDL_GetGlobalMouseState(int *x, int *y);
  * tested using the `SDL_BUTTON(X)` macros (where `X` is generally 1 for the
  * left, 2 for middle, 3 for the right button), and `x` and `y` are set to the
  * mouse deltas since the last call to SDL_GetRelativeMouseState() or since
- * event initialization. You can pass NULL for either `x` or `y`.
+ * event initialization. You can pass nullptr for either `x` or `y`.
  *
  * \param x a pointer filled with the last recorded x coordinate of the mouse
  * \param y a pointer filled with the last recorded y coordinate of the mouse
@@ -161,7 +161,7 @@ extern DECLSPEC Uint32 SDLCALL SDL_GetRelativeMouseState(int *x, int *y);
  * Note that this function will appear to succeed, but not actually move the
  * mouse when used over Microsoft Remote Desktop.
  *
- * \param window the window to move the mouse into, or NULL for the current
+ * \param window the window to move the mouse into, or nullptr for the current
  *               mouse focus
  * \param x the x coordinate within the window
  * \param y the y coordinate within the window
@@ -305,7 +305,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_GetRelativeMouseMode(void);
  *              relative to the actual mouse position
  * \param hot_y the Y-axis location of the upper left corner of the cursor
  *              relative to the actual mouse position
- * \returns a new cursor with the specified parameters on success or NULL on
+ * \returns a new cursor with the specified parameters on success or nullptr on
  *          failure; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -325,7 +325,7 @@ extern DECLSPEC SDL_Cursor *SDLCALL SDL_CreateCursor(const Uint8 * data,
  * \param surface an SDL_Surface structure representing the cursor image
  * \param hot_x the x position of the cursor hot spot
  * \param hot_y the y position of the cursor hot spot
- * \returns the new cursor on success or NULL on failure; call SDL_GetError()
+ * \returns the new cursor on success or nullptr on failure; call SDL_GetError()
  *          for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -341,7 +341,7 @@ extern DECLSPEC SDL_Cursor *SDLCALL SDL_CreateColorCursor(SDL_Surface *surface,
  * Create a system cursor.
  *
  * \param id an SDL_SystemCursor enum value
- * \returns a cursor on success or NULL on failure; call SDL_GetError() for
+ * \returns a cursor on success or nullptr on failure; call SDL_GetError() for
  *          more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -355,7 +355,7 @@ extern DECLSPEC SDL_Cursor *SDLCALL SDL_CreateSystemCursor(SDL_SystemCursor id);
  *
  * This function sets the currently active cursor to the specified one. If the
  * cursor is currently visible, the change will be immediately represented on
- * the display. SDL_SetCursor(NULL) can be used to force cursor redraw, if
+ * the display. SDL_SetCursor(nullptr) can be used to force cursor redraw, if
  * this is desired for any reason.
  *
  * \param cursor a cursor to make active
@@ -374,7 +374,7 @@ extern DECLSPEC void SDLCALL SDL_SetCursor(SDL_Cursor * cursor);
  * This function returns a pointer to the current cursor which is owned by the
  * library. It is not necessary to free the cursor with SDL_FreeCursor().
  *
- * \returns the active cursor or NULL if there is no mouse.
+ * \returns the active cursor or nullptr if there is no mouse.
  *
  * \since This function is available since SDL 2.0.0.
  *
@@ -388,7 +388,7 @@ extern DECLSPEC SDL_Cursor *SDLCALL SDL_GetCursor(void);
  * You do not have to call SDL_FreeCursor() on the return value, but it is
  * safe to do so.
  *
- * \returns the default cursor on success or NULL on failure.
+ * \returns the default cursor on success or nullptr on failure.
  *
  * \since This function is available since SDL 2.0.0.
  *

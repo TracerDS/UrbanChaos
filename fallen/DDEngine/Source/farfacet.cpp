@@ -152,7 +152,7 @@ UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE 
 
 		FARFACET_lvert_max   *= 2;
 		FARFACET_lvert_buffer = (D3DLVERTEX *) realloc(FARFACET_lvert_buffer, sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
-		ASSERT ( FARFACET_lvert_buffer != NULL );
+		ASSERT ( FARFACET_lvert_buffer != nullptr );
 		FARFACET_lvert        = (D3DLVERTEX *) ((SLONG(FARFACET_lvert_buffer) + 31) & ~0x1f);
 
 		ASSERT ( FARFACET_lvert_upto < FARFACET_lvert_max );
@@ -805,7 +805,7 @@ void FARFACET_init()
 	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,   false);
 #endif
 
-	FARFACET_renderstate.SetTexture(NULL);
+	FARFACET_renderstate.SetTexture(nullptr);
 
 }
 
@@ -1014,7 +1014,7 @@ void FARFACET_draw(
 	GenerateMMMatrixFromStandardD3DOnes(
 		FARFACET_matrix,
 	    &matMyProj,
-	    NULL,
+	    nullptr,
 	    &g_viewData);
 #endif
 
@@ -1109,8 +1109,8 @@ extern SLONG CurDrawDistance;
 			{
 				FARFACET_lvert + fs->lvert,
 				FARFACET_matrix,
-				NULL,
-				NULL
+				nullptr,
+				nullptr
 			};
 
 			//TRACE ( "S2" );

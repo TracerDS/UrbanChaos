@@ -221,7 +221,7 @@ void QENG_render()
 
 void QENG_flip()
 {
-	FLIP(NULL,DDFLIP_WAIT);
+	FLIP(nullptr,DDFLIP_WAIT);
 }
 
 void QENG_clear_screen()

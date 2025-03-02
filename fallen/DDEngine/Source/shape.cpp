@@ -2171,7 +2171,7 @@ void SHAPE_draw_balloon(SLONG balloon)
 		bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x >> 8,
 		bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y >> 8,
 		bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z >> 8,
-		bb->yaw, bb->pitch, 0, NULL,0xff);
+		bb->yaw, bb->pitch, 0, nullptr,0xff);
 
 
 }

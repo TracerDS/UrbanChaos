@@ -1844,7 +1844,7 @@ void PANEL_do_tosses()
 extern UBYTE	estate;
 
 //
-// Draws a face at (x,y). The face is given by the Thing. NULL => Radio message.
+// Draws a face at (x,y). The face is given by the Thing. nullptr => Radio message.
 //
 
 #define PANEL_FACE_LARGE 1
@@ -1951,7 +1951,7 @@ void PANEL_new_face(
 		{1,4,1},	// Tramp
 	};
 
-	if (who == NULL || who->Class != CLASS_PERSON)
+	if (who == nullptr || who->Class != CLASS_PERSON)
 	{
 		face = PANEL_FACE_RADIO;
 	}
@@ -2148,7 +2148,7 @@ void PANEL_new_face(
 #define PANEL_TEXT_MAX_LENGTH 300
 typedef struct
 {
-	Thing *who;			// Who is saying the message. NULL => computer message
+	Thing *who;			// Who is saying the message. nullptr => computer message
 	CBYTE  text[PANEL_TEXT_MAX_LENGTH+2];
 	SLONG  delay;		// 0 => unused.
 	SLONG  turns;		// The number of turns this message has been alive for.
@@ -2181,10 +2181,10 @@ void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 	PANEL_Text *pt;
 
 	//
-	// Early out on NULL strings or strings with just spaces in them.
+	// Early out on nullptr strings or strings with just spaces in them.
 	//
 
-	if (fmt == NULL)
+	if (!fmt )
 	{
 		return;
 	}
@@ -2221,7 +2221,7 @@ void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 		ASSERT(0);
 
 		//
-		// strlen doesn't include the NULL byte.
+		// strlen doesn't include the nullptr byte.
 		//
 
 		return;
@@ -2588,7 +2588,7 @@ void PANEL_new_widescreen()
 
 		if (pt->delay && pt->turns <= 1)
 		{
-			if (pt->who == NULL)
+			if (!pt->who )
 			{
 				//
 				// This is a message that goes on the bottom.
@@ -2635,7 +2635,7 @@ void PANEL_new_widescreen()
 	// Draw the two faces.
 	//
 
-	if (PANEL_wide_top_person != NULL)
+	if (PANEL_wide_top_person )
 	{
 		PANEL_new_face(
 			TO_THING(PANEL_wide_top_person),
@@ -2651,7 +2651,7 @@ void PANEL_new_widescreen()
 	if (PANEL_wide_text[0])
 	{
 		PANEL_new_face(
-			(PANEL_wide_bot_person) ? TO_THING(PANEL_wide_bot_person) : NULL,
+			(PANEL_wide_bot_person) ? TO_THING(PANEL_wide_bot_person) : nullptr,
 			8.0F,
 			float(DisplayHeight) - 72.0F,
 			PANEL_FACE_LARGE);
@@ -2747,7 +2747,7 @@ void PANEL_draw_beacons()
 
 	Thing *darci = NET_PERSON(0);
 
-	SLONG best_beacon = NULL;
+	SLONG best_beacon = nullptr;
 	float best_score  = float(INFINITY);
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -2929,8 +2929,8 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 	}
 	else
 	{
-		PANEL_wide_top_person     = NULL;
-		PANEL_wide_bot_person     = NULL;
+		PANEL_wide_top_person     = nullptr;
+		PANEL_wide_bot_person     = nullptr;
 		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
@@ -2948,7 +2948,7 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 	SLONG who;			// One of PANEL_WHO_*
 	SLONG health;		// From 0 to 256
 	SLONG stamina;		// From 0 to 256
-	SLONG specialtype;	// The gun in use or NULL if not using a special,
+	SLONG specialtype;	// The gun in use or nullptr if not using a special,
 	SLONG ammo;			// The amount of ammo used by the gun
 
 	ASSERT(WITHIN(which, 0, 1));
@@ -2966,7 +2966,7 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 	}
 	else
 	{
-		specialtype = NULL;
+		specialtype = nullptr;
 		ammo        = 0;
 	}
 	
@@ -4161,7 +4161,7 @@ void PANEL_inventory(Thing *darci, Thing *player) {
 	SLONG rgb,rgb2;
 	CBYTE draw_list[10];
 	UBYTE draw_count=0;
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SLONG x,c0;
 	UBYTE current_item = 0;
 	SLONG sel;
@@ -4225,7 +4225,7 @@ void PANEL_inventory(Thing *darci, Thing *player) {
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 
@@ -4382,7 +4382,7 @@ void PANEL_last()
 
 	Thing *darci = NET_PERSON(0);
 
-	if (darci == NULL)
+	if (!darci )
 	{
 		return;
 	}
@@ -4399,8 +4399,8 @@ void PANEL_last()
 	}
 	else
 	{
-		PANEL_wide_top_person     = NULL;
-		PANEL_wide_bot_person     = NULL;
+		PANEL_wide_top_person     = nullptr;
+		PANEL_wide_bot_person     = nullptr;
 		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
@@ -5029,7 +5029,7 @@ extern ULONG	strip_stats[];
 
 		ULONG colour;
 
-		SLONG best_beacon = NULL;
+		SLONG best_beacon = nullptr;
 		float best_score  = float(INFINITY);
 
 		for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -6211,7 +6211,7 @@ void PANEL_draw_VMU_ammo_counts ( void )
 
 	// Run through the weapons.
 	Thing *darci  = NET_PERSON(0);
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 
 	// The pistol is special.
 	if (darci->Flags & FLAGS_HAS_GUN) 
@@ -6231,7 +6231,7 @@ void PANEL_draw_VMU_ammo_counts ( void )
 	ASSERT ( ( darci->Genus.Person->ammo_packs_ak47 % SPECIAL_AMMO_IN_A_AK47 ) == 0 );
 	ASSERT ( ( darci->Genus.Person->ammo_packs_shotgun % SPECIAL_AMMO_IN_A_SHOTGUN ) == 0 );
 
-	if ( darci->Genus.Person->SpecialList != NULL )
+	if ( darci->Genus.Person->SpecialList != nullptr )
 	{
 		p_special = TO_THING(darci->Genus.Person->SpecialList);
 
@@ -6271,7 +6271,7 @@ void PANEL_draw_VMU_ammo_counts ( void )
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 

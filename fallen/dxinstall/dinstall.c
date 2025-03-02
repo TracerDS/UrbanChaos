@@ -53,7 +53,7 @@ GetReply(DWORD dwMsgType)
         MSG     msg;
 
         // Forward my messages...
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             if (msg.message == WM_QUIT ||
                 msg.message == WM_CLOSE ||
@@ -123,7 +123,7 @@ DWORD WINAPI
 DirectXSetupCallbackFunction(DWORD dwReason, DWORD dwMsgType, LPSTR szMessage, LPSTR
                              szName, void* pInfo)
 {
-    if (szMessage == NULL && szName == NULL)
+    if (!szMessage == nullptr && szName )
         return IDOK;
     SetButtons(g_hDlg, -1);
     if (g_fStatus == SHOW_ALL)
@@ -274,7 +274,7 @@ DirectXGetVersion(void )
     //      DirectX 3:      0x00040003
     //      DirectX 5:      0x00040005
     //      DirectX 6:      0x00040006
-    MessageBox(NULL, szBuf, "Results:", MB_OK | MB_ICONINFORMATION);
+    MessageBox(nullptr, szBuf, "Results:", MB_OK | MB_ICONINFORMATION);
 }
 
 
@@ -305,7 +305,7 @@ DirectXInstall(HWND hWnd)
         // Create a modeless dialog box so we can show messages that don't
         // need user input
         g_hDlg = CreateDialog(g_hInstance, "INSTDX", hWnd, (DLGPROC) DlgProc);
-        if (g_hDlg == NULL)
+        if (!g_hDlg )
         {
             char    buf[200];
 
@@ -338,7 +338,7 @@ DirectXInstall(HWND hWnd)
     if (g_fStatus == SHOW_NONE)
     {
         g_hDlg = CreateDialog(g_hInstance, "INSTDX", hWnd, (DLGPROC) DlgProc);
-        if (g_hDlg == NULL)
+        if (!g_hDlg )
         {
             char    buf[200];
 
@@ -394,7 +394,7 @@ DirectXInstall(HWND hWnd)
             break;
     }
     DestroyWindow(g_hDlg);
-    g_hDlg = NULL;
+    g_hDlg = nullptr;
 	SendMessage(hWnd, WM_COMMAND, IDEXIT, 0);
     return (true);
 }

@@ -86,7 +86,7 @@ typedef struct SDLTest_TextWindow
  *  \param w The width of the window (currently ignored)
  *  \param h The height of the window (currently ignored)
  *
- *  \returns the new window, or NULL on failure.
+ *  \returns the new window, or nullptr on failure.
  *
  *  \since This function is available since SDL 2.24.0
  */

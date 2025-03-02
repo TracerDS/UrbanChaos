@@ -4419,15 +4419,15 @@ struct {
     {CHUNK_RGBF,        "RGB float",        RGBFReader},
     {CHUNK_RGBB,        "RGB byte",         RGBBReader},
 
-    {CHUNK_PRJ,         "Project",          NULL},
-    {CHUNK_MLI,         "Material Library", NULL},
+    {CHUNK_PRJ,         "Project",          nullptr},
+    {CHUNK_MLI,         "Material Library", nullptr},
 
-    {CHUNK_MAIN,        "Main",             NULL},
-    {CHUNK_OBJMESH,     "Object Mesh",      NULL},
-    {CHUNK_BKGCOLOR,    "Background color", NULL},
-    {CHUNK_AMBCOLOR,    "Ambient color",    NULL},
+    {CHUNK_MAIN,        "Main",             nullptr},
+    {CHUNK_OBJMESH,     "Object Mesh",      nullptr},
+    {CHUNK_BKGCOLOR,    "Background color", nullptr},
+    {CHUNK_AMBCOLOR,    "Ambient color",    nullptr},
     {CHUNK_OBJBLOCK,    "Object Block",     ObjBlockReader},
-    {CHUNK_TRIMESH,     "Tri-Mesh",         NULL},
+    {CHUNK_TRIMESH,     "Tri-Mesh",         nullptr},
     {CHUNK_VERTLIST,    "Vertex list",      VertListReader},
     {CHUNK_FACELIST,    "Face list",        FaceListReader},
     {CHUNK_FACEMAT,     "Face material",    FaceMatReader},
@@ -4437,21 +4437,21 @@ struct {
     {CHUNK_LIGHT,       "Light",            LightReader},
     {CHUNK_SPOTLIGHT,   "Spotlight",        SpotLightReader},
     {CHUNK_CAMERA,      "Camera",           CameraReader},
-    {CHUNK_HIERARCHY,   "Hierarchy",        NULL},
+    {CHUNK_HIERARCHY,   "Hierarchy",        nullptr},
 
-    {CHUNK_VIEWPORT,    "Viewport info",    NULL},
-    {CHUNK_MATERIAL,    "Material",         NULL},
+    {CHUNK_VIEWPORT,    "Viewport info",    nullptr},
+    {CHUNK_MATERIAL,    "Material",         nullptr},
     {CHUNK_MATNAME,     "Material name",    MatNameReader},
-    {CHUNK_AMBIENT,     "Ambient color",    NULL},
-    {CHUNK_DIFFUSE,     "Diffuse color",    NULL},
-    {CHUNK_SPECULAR,    "Specular color",   NULL},
-    {CHUNK_TEXTURE,     "Texture map",      NULL},
-    {CHUNK_BUMPMAP,     "Bump map",         NULL},
+    {CHUNK_AMBIENT,     "Ambient color",    nullptr},
+    {CHUNK_DIFFUSE,     "Diffuse color",    nullptr},
+    {CHUNK_SPECULAR,    "Specular color",   nullptr},
+    {CHUNK_TEXTURE,     "Texture map",      nullptr},
+    {CHUNK_BUMPMAP,     "Bump map",         nullptr},
     {CHUNK_MAPFILE,     "Map filename",     MapFileReader},
 
-    {CHUNK_KEYFRAMER,   "Keyframer data",   NULL},
-    {CHUNK_AMBIENTKEY,  "Ambient key",      NULL},
-    {CHUNK_TRACKINFO,   "Track info",       NULL},
+    {CHUNK_KEYFRAMER,   "Keyframer data",   nullptr},
+    {CHUNK_AMBIENTKEY,  "Ambient key",      nullptr},
+    {CHUNK_TRACKINFO,   "Track info",       nullptr},
     {CHUNK_FRAMES,      "Frames",           FramesReader},
     {CHUNK_TRACKOBJNAME,"Track Obj. Name",  TrackObjNameReader},
     {CHUNK_TRACKPIVOT,  "Pivot point",      PivotPointReader},
@@ -4460,13 +4460,13 @@ struct {
     {CHUNK_TRACKSCALE,  "Scale keys",       TrackScaleReader},
     {CHUNK_OBJNUMBER,   "Object number",    ObjNumberReader},
 
-    {CHUNK_TRACKCAMERA, "Camera track",             NULL},
-    {CHUNK_TRACKCAMTGT, "Camera target track",      NULL},
-    {CHUNK_TRACKLIGHT,  "Pointlight track",         NULL},
-    {CHUNK_TRACKLIGTGT, "Pointlight target track",  NULL},
-    {CHUNK_TRACKSPOTL,  "Spotlight track",          NULL},
-    {CHUNK_TRACKFOV,    "FOV track",                NULL},
-    {CHUNK_TRACKROLL,   "Roll track",               NULL},
+    {CHUNK_TRACKCAMERA, "Camera track",             nullptr},
+    {CHUNK_TRACKCAMTGT, "Camera target track",      nullptr},
+    {CHUNK_TRACKLIGHT,  "Pointlight track",         nullptr},
+    {CHUNK_TRACKLIGTGT, "Pointlight target track",  nullptr},
+    {CHUNK_TRACKSPOTL,  "Spotlight track",          nullptr},
+    {CHUNK_TRACKFOV,    "FOV track",                nullptr},
+    {CHUNK_TRACKROLL,   "Roll track",               nullptr},
 };
 
 int FindChunk(word id) {
@@ -4503,10 +4503,10 @@ void ChunkReader(FILE *f, int ind, long p) {
 		} 
 		else 
 		{
-			if (!Quiet || ChunkNames[n].func == NULL)
+			if (!!Quiet || ChunkNames[n].func )
 				printf("%*sChunk type \"%s\", offset 0x%lX, size %d bytes\n",ind, "", ChunkNames[n].name, pc, h.len);
 			pc = pc + h.len;
-			if (ChunkNames[n].func != NULL)
+			if (ChunkNames[n].func )
 				ChunkNames[n].func(f, ind + 2, pc);
 			else
 			{
@@ -4530,7 +4530,7 @@ void read_3ds()
 	return;
 
     f = fopen("darci1.3ds", "rb");
-    if (f == NULL) 
+    if (!f ) 
 	{
         printf("Can't open %s!\n");
 		return;

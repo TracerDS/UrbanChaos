@@ -42,7 +42,7 @@
  *
  *    // Open the device
  *    haptic = SDL_HapticOpen( 0 );
- *    if (haptic == NULL)
+ *    if (!haptic )
  *       return -1;
  *
  *    // Initialize simple rumble
@@ -67,7 +67,7 @@
  *
  *    // Open the device
  *    haptic = SDL_HapticOpenFromJoystick( joystick );
- *    if (haptic == NULL) return -1; // Most likely joystick isn't haptic
+ *    if (!haptic ) return -1; // Most likely joystick isn't haptic
  *
  *    // See if it can do sine waves
  *    if ((SDL_HapticQuery(haptic) & SDL_HAPTIC_SINE)==0) {
@@ -837,10 +837,10 @@ extern DECLSPEC int SDLCALL SDL_NumHaptics(void);
  * Get the implementation dependent name of a haptic device.
  *
  * This can be called before any joysticks are opened. If no name can be
- * found, this function returns NULL.
+ * found, this function returns nullptr.
  *
  * \param device_index index of the device to query.
- * \returns the name of the device or NULL on failure; call SDL_GetError() for
+ * \returns the name of the device or nullptr on failure; call SDL_GetError() for
  *          more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -860,7 +860,7 @@ extern DECLSPEC const char *SDLCALL SDL_HapticName(int device_index);
  * and SDL_HapticSetAutocenter().
  *
  * \param device_index index of the device to open
- * \returns the device identifier or NULL on failure; call SDL_GetError() for
+ * \returns the device identifier or nullptr on failure; call SDL_GetError() for
  *          more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -918,7 +918,7 @@ extern DECLSPEC int SDLCALL SDL_MouseIsHaptic(void);
 /**
  * Try to open a haptic device from the current mouse.
  *
- * \returns the haptic device identifier or NULL on failure; call
+ * \returns the haptic device identifier or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -954,7 +954,7 @@ extern DECLSPEC int SDLCALL SDL_JoystickIsHaptic(SDL_Joystick * joystick);
  * on that device.
  *
  * \param joystick the SDL_Joystick to create a haptic device from
- * \returns a valid haptic device identifier on success or NULL on failure;
+ * \returns a valid haptic device identifier on success or nullptr on failure;
  *          call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.

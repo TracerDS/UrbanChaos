@@ -918,7 +918,7 @@ UBYTE	*CharTable[]	=
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,
-	Null,	Null,	Null,	Null,	NULL,	Null,	Null,	Null,
+	Null,	Null,	Null,	Null,	nullptr,	Null,	Null,	Null,
 	Space,	Excl,	Quotes,	Null,	Dollar,	Percent,And,	Null,
 	BrackO,	BrackC,	Astrisk,Plus,	Comma,	Minus,	Stop,	Null,
 	Zero,	One,	Two,	Three,	Four,	Five,	Six,	Seven,

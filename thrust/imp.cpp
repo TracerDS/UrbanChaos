@@ -172,13 +172,13 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 	ans.quad  = (IMP_Quad  *) malloc(sizeof(IMP_Quad ) * max_quads );
 	ans.edge  = (IMP_Edge  *) malloc(sizeof(IMP_Edge ) * max_edges );
 
-	if (ans.mat   == NULL ||
-		ans.vert  == NULL ||
-		ans.tvert == NULL ||
-		ans.face  == NULL ||
-		ans.svert == NULL ||
-		ans.quad  == NULL ||
-		ans.edge  == NULL)
+	if (ans.mat   == nullptr ||
+		ans.vert  == nullptr ||
+		ans.tvert == nullptr ||
+		ans.face  == nullptr ||
+		ans.svert == nullptr ||
+		ans.quad  == nullptr ||
+		ans.edge  == nullptr)
 	{
 		goto file_error;
 	}
@@ -274,7 +274,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 				ans.mat = (IMP_Mat *) realloc(ans.mat, sizeof(IMP_Mat) * max_mats);
 
-				if (ans.mat == NULL)
+				if (!ans.mat )
 				{
 					goto file_error;
 				}
@@ -324,7 +324,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 				ans.vert = (IMP_Vert *) realloc(ans.vert, sizeof(IMP_Vert) * max_verts);
 
-				if (ans.vert == NULL)
+				if (!ans.vert )
 				{
 					goto file_error;
 				}
@@ -357,7 +357,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 				ans.tvert = (IMP_Tvert *) realloc(ans.tvert, sizeof(IMP_Tvert) * max_tverts);
 
-				if (ans.tvert == NULL)
+				if (!ans.tvert )
 				{
 					goto file_error;
 				}
@@ -390,7 +390,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 				ans.face = (IMP_Face *) realloc(ans.face, sizeof(IMP_Face) * max_faces);
 
-				if (ans.face == NULL)
+				if (!ans.face )
 				{
 					goto file_error;
 				}
@@ -753,7 +753,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 				ans.svert = (IMP_Svert *) realloc(ans.svert, sizeof(IMP_Svert) * max_sverts);
 
-				if (ans.svert == NULL)
+				if (!ans.svert )
 				{
 					goto file_error;
 				}
@@ -897,7 +897,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 									ans.quad = (IMP_Quad *) realloc(ans.quad, sizeof(IMP_Quad) * max_quads);
 
-									if (ans.quad == NULL)
+									if (!ans.quad )
 									{
 										goto file_error;
 									}
@@ -991,7 +991,7 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 				ans.edge = (IMP_Edge *) realloc(ans.edge, sizeof(IMP_Edge) * max_edges);
 
-				if (ans.edge == NULL)
+				if (!ans.edge )
 				{
 					goto file_error;
 				}
@@ -1035,10 +1035,10 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 
 void IMP_free(IMP_Mesh *im)
 {
-	if (im->mat  ) {free(im->mat  ); im->mat   = NULL;}
-	if (im->vert ) {free(im->vert ); im->vert  = NULL;}
-	if (im->tvert) {free(im->tvert); im->tvert = NULL;}
-	if (im->face ) {free(im->face ); im->face  = NULL;}
-	if (im->svert) {free(im->svert); im->svert = NULL;}
-	if (im->quad ) {free(im->quad ); im->quad  = NULL;}
+	if (im->mat  ) {free(im->mat  ); im->mat   = nullptr;}
+	if (im->vert ) {free(im->vert ); im->vert  = nullptr;}
+	if (im->tvert) {free(im->tvert); im->tvert = nullptr;}
+	if (im->face ) {free(im->face ); im->face  = nullptr;}
+	if (im->svert) {free(im->svert); im->svert = nullptr;}
+	if (im->quad ) {free(im->quad ); im->quad  = nullptr;}
 }

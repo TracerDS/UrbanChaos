@@ -15,7 +15,7 @@ void FALL_init();
 
 
 //
-// Creates a new waterfall. NULL => Couldn't create one.
+// Creates a new waterfall. nullptr => Couldn't create one.
 //
 
 UBYTE FALL_create(

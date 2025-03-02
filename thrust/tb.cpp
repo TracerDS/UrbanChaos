@@ -64,7 +64,7 @@ TB_Tb *TB_create(SHIP_Ship *ss, float length)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 
   found_an_orb:;
 
@@ -97,7 +97,7 @@ TB_Tb *TB_create(SHIP_Ship *ss, float length)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -269,7 +269,7 @@ void TB_draw_all(float mid_x, float mid_y, float zoom)
 		}
 	}
 
-	OS_buffer_draw(ob, TB_ot, NULL, OS_DRAW_ADD | OS_DRAW_DOUBLESIDED);
+	OS_buffer_draw(ob, TB_ot, nullptr, OS_DRAW_ADD | OS_DRAW_DOUBLESIDED);
 }
 
 

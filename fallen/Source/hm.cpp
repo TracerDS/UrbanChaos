@@ -102,7 +102,7 @@ typedef struct
 
 } HM_Edge;
 
-typedef UWORD HM_Index;	// Index into the point[] array or NULL if there is no point here.
+typedef UWORD HM_Index;	// Index into the point[] array or nullptr if there is no point here.
 
 //
 // Each point of the original prim is given in terms of the
@@ -296,7 +296,7 @@ void HM_load(CBYTE* fname)
 
 	handle = MF_Fopen(fname, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		TRACE("Could not open file %s\n", fname);
 
@@ -581,7 +581,7 @@ UBYTE HM_create(
 	ho->bounciness = bounciness;
 	ho->friction   = friction;
 	ho->damping    = damping;
-	ho->bump       = NULL;
+	ho->bump       = nullptr;
 
 	//
 	// The bounding box of the prim.
@@ -669,7 +669,7 @@ UBYTE HM_create(
 	ho->num_indices = ho->x_res * ho->y_res * ho->z_res;
 	ho->index       = (HM_Index *) MemAlloc(ho->num_indices * sizeof(HM_Index));
 
-	ASSERT(ho->index != NULL);
+	ASSERT(ho->index != nullptr);
 
 	//
 	// Clear out the indices.
@@ -703,13 +703,13 @@ UBYTE HM_create(
 	// How many points do we need?
 	//
 
-	num_points = 1;	// point 0 is the NULL point, so we always need one point.
+	num_points = 1;	// point 0 is the nullptr point, so we always need one point.
 
 	for (x = 0; x < x_res; x++)
 	for (y = 0; y < y_res; y++)
 	for (z = 0; z < z_res; z++)
 	{
-		if (ho->index[HM_index(ho, x, y, z)] != NULL)
+		if (ho->index[HM_index(ho, x, y, z)] )
 		{
 			num_points += 1;
 		}
@@ -721,7 +721,7 @@ UBYTE HM_create(
 
 	ho->point = (HM_Point *) MemAlloc(num_points * sizeof(HM_Point));
 
-	ASSERT(ho->point != NULL);
+	ASSERT(ho->point != nullptr);
 
 	//
 	// Put in the correct indices into the point array.
@@ -737,7 +737,7 @@ UBYTE HM_create(
 	for (y = 0; y < y_res; y++)
 	for (z = 0; z < z_res; z++)
 	{
-		if (ho->index[HM_index(ho, x, y, z)] != NULL)
+		if (ho->index[HM_index(ho, x, y, z)] )
 		{
 			ASSERT(WITHIN(point_upto, 1, num_points - 1));
 
@@ -807,7 +807,7 @@ UBYTE HM_create(
 	{
 		index1 = HM_index(ho, x, y, z);
 
-		if (ho->index[index1] == NULL)
+		if (!ho->index[index1] )
 		{
 			continue;
 		}
@@ -828,7 +828,7 @@ UBYTE HM_create(
 				{
 					index2 = HM_index(ho, x + dx, y + dy, z + dz);
 
-					if (ho->index[index2] != NULL)
+					if (ho->index[index2] )
 					{
 						num_edges += 1;
 					}
@@ -862,7 +862,7 @@ UBYTE HM_create(
 	{
 		index1 = HM_index(ho, x, y, z);
 
-		if (ho->index[index1] == NULL)
+		if (!ho->index[index1] )
 		{
 			continue;
 		}
@@ -883,7 +883,7 @@ UBYTE HM_create(
 				{
 					index2 = HM_index(ho, x + dx, y + dy, z + dz);
 
-					if (ho->index[index2] != NULL)
+					if (ho->index[index2] )
 					{
 						ASSERT(WITHIN(edge_upto, 0, ho->num_edges - 1));
 
@@ -940,7 +940,7 @@ UBYTE HM_create(
 	ho->num_meshes = po->EndPoint - po->StartPoint;
 	ho->mesh       = (HM_Mesh *) MemAlloc(ho->num_meshes * sizeof(HM_Mesh));
 
-	ASSERT(ho->mesh != NULL);
+	ASSERT(ho->mesh != nullptr);
 
 	for (i = 0; i < ho->num_meshes; i++)
 	{
@@ -1018,10 +1018,10 @@ UBYTE HM_create(
 		index_y = ho->index[HM_index(ho, x,     y + 1, z    )];
 		index_z = ho->index[HM_index(ho, x,     y,     z + 1)];
 
-		if (index_o != NULL &&
-			index_x != NULL &&
-			index_y != NULL &&
-			index_z != NULL)
+		if (index_o != nullptr &&
+			index_x != nullptr &&
+			index_y != nullptr &&
+			index_z != nullptr)
 		{
 			//
 			// Points closer to the centre of gravity and origin of
@@ -1404,7 +1404,7 @@ SLONG HM_cube_exists(
 
 		index = HM_index(ho, px, py, pz);
 
-		if (ho->index[index] == NULL)
+		if (!ho->index[index] )
 		{
 			//
 			// No point here.

@@ -46,7 +46,7 @@ void ORB_init();
 
 
 //
-// Create a new orb. Returns NULL on failure.
+// Create a new orb. Returns nullptr on failure.
 //
 
 ORB_Orb *ORB_create(float x, float y, float radius);

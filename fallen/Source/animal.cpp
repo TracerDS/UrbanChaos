@@ -22,7 +22,7 @@
 
 GenusFunctions ANIMAL_functions[ANIMAL_NUMBER] =
 {
-	{ANIMAL_NONE,	NULL},
+	{ANIMAL_NONE,	nullptr},
 	{ANIMAL_CANID,	CANID_state_function}
 };
 /*
@@ -139,8 +139,8 @@ DrawTween *alloc_tween(SLONG type, SLONG part) {
 		dt->Tilt			=	0;
 		dt->AnimTween		=	0;
 		dt->TweenStage		=	0;
-		dt->NextFrame		=	NULL;
-		dt->QueuedFrame		=	NULL;
+		dt->NextFrame		=	nullptr;
+		dt->QueuedFrame		=	nullptr;
 /*		dt->TheChunk		=	&animal_anim_chunk[chunk];
 		dt->CurrentFrame	=	animal_anim_chunk[chunk].AnimList[1];*/
 /*		dt->TheChunk		=	&game_chunk[6];
@@ -200,7 +200,7 @@ Thing *alloc_animal(UBYTE type)
 
 	TRACE("Run out of animal structures.");
 
-	return NULL;
+	return nullptr;
 
   found_animal:
 
@@ -208,14 +208,14 @@ Thing *alloc_animal(UBYTE type)
 	// Find the drawtween structures for the animal.
 	//
 	dt = alloc_tween(type,0);
-	if (dt == NULL) {
+	if (!dt ) {
 		// Could not allocate a drawtween structure.
 		TRACE("Run out of drawtween structures.");
 
 		// Free up the animal structure we allocated.
 		TO_ANIMAL(a_index)->AnimalType = ANIMAL_NONE;
 
-		return NULL;
+		return nullptr;
 	}
 //	TO_ANIMAL(a_index)->dts[0]=dt; // backup? :P actually animal_get_drawtween needs it
 
@@ -290,7 +290,7 @@ Thing *ANIMAL_create(GameCoord pos, UBYTE type)
 	Thing *p_thing = alloc_animal(type);
 	return(0);
 
-	if (p_thing != NULL)
+	if (p_thing )
 	{
 		p_thing->WorldPos = pos;
 
@@ -363,8 +363,8 @@ void ANIMAL_set_anim(Thing *thing, SLONG anim) {
 //		dt=animal->dts[i];
 		dt=thing->Draw.Tweened;
 		dt->AnimTween	 = 0;
-		dt->NextFrame	 = NULL;
-		dt->QueuedFrame	 = NULL;
+		dt->NextFrame	 = nullptr;
+		dt->QueuedFrame	 = nullptr;
 //		dt->CurrentFrame	 = animal_anim_chunk[chunk].AnimList[anim];
 		dt->CurrentFrame	 = game_chunk[chunk].AnimList[anim];
 		dt->CurrentAnim	 = anim;

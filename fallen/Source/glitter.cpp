@@ -71,7 +71,7 @@ void GLITTER_init()
 
 	for (i = 0; i < GLITTER_MAPWHO; i++)
 	{
-		GLITTER_mapwho[i] = NULL;
+		GLITTER_mapwho[i] = nullptr;
 	}
 
 	//
@@ -117,7 +117,7 @@ UBYTE GLITTER_create(
 		// Off the map.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -145,7 +145,7 @@ UBYTE GLITTER_create(
 	// No spare glitter.
 	//
 
-	return NULL;
+	return nullptr;
 
   found_unused_glitter:;
 
@@ -161,7 +161,7 @@ UBYTE GLITTER_create(
 	gg->red   = (colour >> 16) & 0xff;
 	gg->green = (colour >>  8) & 0xff;
 	gg->blue  = (colour >>  0) & 0xff;
-	gg->spark =  NULL;
+	gg->spark =  nullptr;
 
 	//
 	// Add te glitter to the mapwho.
@@ -181,7 +181,7 @@ void GLITTER_add(
 {
 	UBYTE spark;
 
-	if (glitter == NULL)
+	if (!glitter )
 	{
 		return;
 	}
@@ -190,7 +190,7 @@ void GLITTER_add(
 	// Are there any sparks in the free list?
 	//
 
-	if (GLITTER_spark_free == NULL)
+	if (!GLITTER_spark_free )
 	{
 		return;
 	}
@@ -250,7 +250,7 @@ void GLITTER_add(
 
 void GLITTER_destroy(UBYTE glitter)
 {
-	if (glitter == NULL)
+	if (!glitter )
 	{
 		return;
 	}
@@ -334,7 +334,7 @@ void GLITTER_process()
 
 		if (gg->flag & GLITTER_FLAG_DESTROY)
 		{
-			if (gg->spark == NULL)
+			if (!gg->spark )
 			{
 				//
 				// Kill this glitter.
@@ -424,7 +424,7 @@ void GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
 	{
 		GLITTER_get_glitter = GLITTER_mapwho[GLITTER_get_z];
 
-		if (GLITTER_get_glitter != NULL)
+		if (GLITTER_get_glitter )
 		{
 			ASSERT(WITHIN(GLITTER_get_glitter, 1, GLITTER_MAX_GLITTER - 1));
 
@@ -433,8 +433,8 @@ void GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
 	}
 	else
 	{
-		GLITTER_get_glitter = NULL;
-		GLITTER_get_spark   = NULL;
+		GLITTER_get_glitter = nullptr;
+		GLITTER_get_spark   = nullptr;
 	}
 }
 
@@ -445,16 +445,16 @@ GLITTER_Info *GLITTER_get_next()
 
   tail_recurse:;
 
-	if (GLITTER_get_glitter == NULL)
+	if (!GLITTER_get_glitter )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	ASSERT(WITHIN(GLITTER_get_glitter, 1, GLITTER_MAX_GLITTER - 1));
 
 	gg = &GLITTER_glitter[GLITTER_get_glitter];
 
-	if (GLITTER_get_spark == NULL)
+	if (!GLITTER_get_spark )
 	{
 		ASSERT(WITHIN(gg->next, 0, GLITTER_MAX_GLITTER - 1));
 

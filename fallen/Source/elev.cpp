@@ -148,7 +148,7 @@ CBYTE ELEV_last_map_loaded[MAX_PATH];
 
 #ifdef	MIKE
 
-MFFileHandle llog_handle		=	NULL;
+MFFileHandle llog_handle		=	nullptr;
 extern TCHAR *witem_strings[];
 void TesterText(CBYTE* error, ...)
 {
@@ -158,7 +158,7 @@ void TesterText(CBYTE* error, ...)
 	{
 		llog_handle	=	FileCreate("tester.log",1);
 		if(llog_handle==FILE_CREATION_ERROR)
-			llog_handle	=	NULL;			
+			llog_handle	=	nullptr;			
 	}
 
 	if(llog_handle)
@@ -224,7 +224,7 @@ void ELEV_load_level(CBYTE* fname_level)
 	SLONG cutscene_count = 0;
 	SLONG water_level = -0x80;
 	
-	MFFileHandle handle = NULL;
+	MFFileHandle handle = nullptr;
 	CBYTE       *error;
 
 	SLONG enemy_type;
@@ -265,7 +265,7 @@ void ELEV_load_level(CBYTE* fname_level)
 
 	load_ok = true;
 
-	if (fname_level != NULL)
+	if (fname_level )
 	{
 		handle = FileOpen(fname_level);
 
@@ -392,8 +392,8 @@ SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 					ecd.negate    = (event_point.Flags>>1)&1;
 					ecd.arg1      = 0;
 					ecd.arg2      = 0;
-					ecd.bool_arg1 = NULL;
-					ecd.bool_arg2 = NULL;
+					ecd.bool_arg1 = nullptr;
+					ecd.bool_arg2 = nullptr;
 
 					es.type = EWAY_STAY_ALWAYS;
 					es.arg  = 0;
@@ -727,7 +727,7 @@ SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 							{
 								enemy_type  = event_point.Data[0];
 								enemy_count = event_point.Data[1];
-								follow      = NULL;
+								follow      = nullptr;
 							}
 
 							//
@@ -1072,7 +1072,7 @@ extern SWORD	people_types[50];
 											PRIM_OBJ_BARREL,
 											ew_world_x + (Random() & 0xf) - 0x7,
 											ew_world_z + (Random() & 0xf) - 0x7,
-											NULL);
+											nullptr);
 									}
 
 									goto dont_create_a_waypoint;
@@ -1111,7 +1111,7 @@ extern SWORD	people_types[50];
 
 							switch(event_point.Data[1])
 							{
-								case NULL:
+								case nullptr:
 								case CT_NORMAL:
 									ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_PLACE;
 									break;
@@ -1151,8 +1151,8 @@ extern SWORD	people_types[50];
 							//
 
 							ecd.type   = EWAY_COND_CAMERA_AT;
-							ecd.arg1   = NULL;
-							ecd.arg2   = NULL;
+							ecd.arg1   = nullptr;
+							ecd.arg2   = nullptr;
 							ecd.negate = false;
 
 							break;
@@ -1284,7 +1284,7 @@ extern SWORD	people_types[50];
 							}
 							else
 							{
-								ee.follow = NULL;
+								ee.follow = nullptr;
 							}
 
 							break;
@@ -1384,7 +1384,7 @@ extern SWORD	people_types[50];
 										prim,
 										ew_world_x,
 										ew_world_z,
-										NULL);
+										nullptr);
 
 									goto dont_create_a_waypoint;
 								}
@@ -1428,7 +1428,7 @@ extern SWORD	people_types[50];
 							{
 								ed.type    = EWAY_DO_MESSAGE;
 								ed.arg1    = mess_count++;
-								ed.arg2    = NULL;	// Who says the message
+								ed.arg2    = nullptr;	// Who says the message
 								ed.subtype = 0;		// The time the message lasts for.
 							}
 
@@ -2082,7 +2082,7 @@ SLONG quick_load=0;
 UBYTE loading_screen_active;
 //
 // Initialises the game using the given files.
-// Any of the files can be NULL except the map file.
+// Any of the files can be nullptr except the map file.
 //
 
 
@@ -2257,8 +2257,8 @@ void init_gangattack();
 	extern THING_INDEX PANEL_wide_bot_person;
 
 	PANEL_wide_text[0]    = 0;
-	PANEL_wide_top_person = NULL;
-	PANEL_wide_bot_person = NULL;
+	PANEL_wide_top_person = nullptr;
+	PANEL_wide_bot_person = nullptr;
 
 #endif
 	load_animtmaps();
@@ -2366,7 +2366,7 @@ extern void MAP_pulse_init();
 	// Load in the lighting.
 	//
 
-	if (fname_lighting == NULL || !NIGHT_load_ed_file(fname_lighting))
+	if (fname_lighting == nullptr || !NIGHT_load_ed_file(fname_lighting))
 	{
 		//
 		// Default lighting.
@@ -2757,7 +2757,7 @@ SLONG ELEV_load_name(CBYTE* fname_level)
 	// Extract map, sewer and lighting filenames from the level file.
 	//
 
-	if (fname_level == NULL)
+	if (!fname_level )
 	{
 		return false;
 	}
@@ -2794,12 +2794,12 @@ SLONG ELEV_load_name(CBYTE* fname_level)
 	FileClose(handle);
 
 	//
-	// Sort out NULL filenames.
+	// Sort out nullptr filenames.
 	//
 
-	fname_map      = (ELEV_fname_map     [0]) ? ELEV_fname_map      : NULL;
-	fname_lighting = (ELEV_fname_lighting[0]) ? ELEV_fname_lighting : NULL;
-	fname_citsez   = (ELEV_fname_citsez  [0]) ? ELEV_fname_citsez   : NULL;
+	fname_map      = (ELEV_fname_map     [0]) ? ELEV_fname_map      : nullptr;
+	fname_lighting = (ELEV_fname_lighting[0]) ? ELEV_fname_lighting : nullptr;
+	fname_citsez   = (ELEV_fname_citsez  [0]) ? ELEV_fname_citsez   : nullptr;
 
 	//
 	// Do the load.
@@ -2995,14 +2995,14 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 
 			ofn.lStructSize       = sizeof(OPENFILENAME);
 			ofn.hwndOwner         = hDDLibWindow;
-			ofn.hInstance         = NULL;
+			ofn.hInstance         = nullptr;
 			ofn.lpstrFilter       = "Level files\0*.ucm\0Wad files\0*.wad\0\0";
-			ofn.lpstrCustomFilter = NULL;
+			ofn.lpstrCustomFilter = nullptr;
 			ofn.nMaxCustFilter    = 0;
 			ofn.nFilterIndex      = 0;
 			ofn.lpstrFile         = ELEV_fname_level;
 			ofn.nMaxFile          = _MAX_PATH;
-			ofn.lpstrFileTitle    = NULL;
+			ofn.lpstrFileTitle    = nullptr;
 			ofn.nMaxFileTitle     = 0;
 			ofn.lpstrInitialDir   = "Levels";
 			ofn.lpstrTitle        = "Load a level";
@@ -3010,9 +3010,9 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "ucm";
-			ofn.lCustData         = NULL;
-			ofn.lpfnHook          = NULL;
-			ofn.lpTemplateName    = NULL;
+			ofn.lCustData         = nullptr;
+			ofn.lpfnHook          = nullptr;
+			ofn.lpTemplateName    = nullptr;
 
 			if (!GetOpenFileName(&ofn))
 			{
@@ -3100,14 +3100,14 @@ extern void	load_whole_game(CBYTE	*gamename);
 
 			ofn.lStructSize       = sizeof(OPENFILENAME);
 			ofn.hwndOwner         = hDDLibWindow;
-			ofn.hInstance         = NULL;
+			ofn.hInstance         = nullptr;
 			ofn.lpstrFilter       = "Game map files\0*.iam\0\0";
-			ofn.lpstrCustomFilter = NULL;
+			ofn.lpstrCustomFilter = nullptr;
 			ofn.nMaxCustFilter    = 0;
 			ofn.nFilterIndex      = 0;
 			ofn.lpstrFile         = ELEV_fname_map;
 			ofn.nMaxFile          = _MAX_PATH;
-			ofn.lpstrFileTitle    = NULL;
+			ofn.lpstrFileTitle    = nullptr;
 			ofn.nMaxFileTitle     = 0;
 			ofn.lpstrInitialDir   = "data";
 			ofn.lpstrTitle        = "Load a game map";
@@ -3115,9 +3115,9 @@ extern void	load_whole_game(CBYTE	*gamename);
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "iam";
-			ofn.lCustData         = NULL;
-			ofn.lpfnHook          = NULL;
-			ofn.lpTemplateName    = NULL;
+			ofn.lCustData         = nullptr;
+			ofn.lpfnHook          = nullptr;
+			ofn.lpTemplateName    = nullptr;
 
 			if (!GetOpenFileName(&ofn))
 			{
@@ -3151,14 +3151,14 @@ extern void	load_whole_game(CBYTE	*gamename);
 
 			ofn.lStructSize       = sizeof(OPENFILENAME);
 			ofn.hwndOwner         = hDDLibWindow;
-			ofn.hInstance         = NULL;
+			ofn.hInstance         = nullptr;
 			ofn.lpstrFilter       = "Lighting files\0*.lgt\0\0";
-			ofn.lpstrCustomFilter = NULL;
+			ofn.lpstrCustomFilter = nullptr;
 			ofn.nMaxCustFilter    = 0;
 			ofn.nFilterIndex      = 0;
 			ofn.lpstrFile         = ELEV_fname_lighting;
 			ofn.nMaxFile          = _MAX_PATH;
-			ofn.lpstrFileTitle    = NULL;
+			ofn.lpstrFileTitle    = nullptr;
 			ofn.nMaxFileTitle     = 0;
 			ofn.lpstrInitialDir   = "data\\lighting";
 			ofn.lpstrTitle        = "Load a lighting file";
@@ -3166,13 +3166,13 @@ extern void	load_whole_game(CBYTE	*gamename);
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "lgt";
-			ofn.lCustData         = NULL;
-			ofn.lpfnHook          = NULL;
-			ofn.lpTemplateName    = NULL;
+			ofn.lCustData         = nullptr;
+			ofn.lpfnHook          = nullptr;
+			ofn.lpTemplateName    = nullptr;
 
 			if (!GetOpenFileName(&ofn))
 			{
-				fname_lighting = NULL;
+				fname_lighting = nullptr;
 			}
 			else
 			{
@@ -3200,14 +3200,14 @@ extern void	load_whole_game(CBYTE	*gamename);
 
 			ofn.lStructSize       = sizeof(OPENFILENAME);
 			ofn.hwndOwner         = hDDLibWindow;
-			ofn.hInstance         = NULL;
+			ofn.hInstance         = nullptr;
 			ofn.lpstrFilter       = "Text files\0*.txt\0\0";
-			ofn.lpstrCustomFilter = NULL;
+			ofn.lpstrCustomFilter = nullptr;
 			ofn.nMaxCustFilter    = 0;
 			ofn.nFilterIndex      = 0;
 			ofn.lpstrFile         = ELEV_fname_citsez;
 			ofn.nMaxFile          = _MAX_PATH;
-			ofn.lpstrFileTitle    = NULL;
+			ofn.lpstrFileTitle    = nullptr;
 			ofn.nMaxFileTitle     = 0;
 			ofn.lpstrInitialDir   = "\\text";
 			ofn.lpstrTitle        = "Load a Citizen-sez text file";
@@ -3215,13 +3215,13 @@ extern void	load_whole_game(CBYTE	*gamename);
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "txt";
-			ofn.lCustData         = NULL;
-			ofn.lpfnHook          = NULL;
-			ofn.lpTemplateName    = NULL;
+			ofn.lCustData         = nullptr;
+			ofn.lpfnHook          = nullptr;
+			ofn.lpTemplateName    = nullptr;
 
 			if (!GetOpenFileName(&ofn))
 			{
-				fname_citsez = NULL;
+				fname_citsez = nullptr;
 			}
 			else
 			{
@@ -3232,7 +3232,7 @@ extern void	load_whole_game(CBYTE	*gamename);
 			// We don't have a level.
 			//
 			
-			fname_level = NULL;
+			fname_level = nullptr;
 
 			//
 			// Restore our current directory.
@@ -3293,12 +3293,12 @@ extern void Wadmenu_Introduction();
 		psx_game_name=Wadmenu_AttractMenu();
 //		psx_game_name="levels\\level07\\level.nad";
 		if (strcmp(psx_game_name,"MDEC")==0)
-			psx_game_name=NULL;
+			psx_game_name=nullptr;
 #ifndef VERSION_DEMO
 	}
 	while(!psx_game_name);
 #else
-	if (psx_game_name==NULL)
+	if (psx_game_name==nullptr)
 		return 0;
 #endif
 
@@ -3330,8 +3330,8 @@ extern void	init_record(SLONG level);
 #else
 	CBYTE* fname_map="data\\jumper1.iam";
 	CBYTE* fname_lighting="data\\lighting\\jumper1.lgt";
-	CBYTE* fname_citsez=NULL;//"data\\gptest1.sew";
-	CBYTE* fname_level=NULL; //"data\\gptest1.ucm";
+	CBYTE* fname_citsez=nullptr;//"data\\gptest1.sew";
+	CBYTE* fname_level=nullptr; //"data\\gptest1.ucm";
 	return ELEV_game_init(
 				fname_map,
 				fname_lighting,

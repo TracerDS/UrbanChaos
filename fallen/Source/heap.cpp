@@ -80,7 +80,7 @@ void HEAP_init()
 	HEAP_free->start = (UBYTE *) &HEAP_heap[0];
 	HEAP_free->end   = (UBYTE *) &HEAP_heap[HEAP_SIZE];
 	HEAP_free->size  = HEAP_SIZE;
-	HEAP_free->next  = NULL;
+	HEAP_free->next  = nullptr;
 
 	HEAP_check();
 }
@@ -185,7 +185,7 @@ void HEAP_add_to_free(HEAP_Free *bit)
 
 	while(1)
 	{
-		if (next == NULL || next->size <= bit->size)
+		if (next == nullptr || next->size <= bit->size)
 		{
 			//
 			// This is where we insert our 'bit'.
@@ -222,13 +222,13 @@ void* HEAP_get(SLONG size)
 	HEAP_check();
 	#endif
 
-	if (HEAP_free == NULL)
+	if (!HEAP_free )
 	{
 		//
 		// No more free memory!
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -250,7 +250,7 @@ void* HEAP_get(SLONG size)
 		// No large-enough block.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -261,7 +261,7 @@ void* HEAP_get(SLONG size)
 	bit.start = HEAP_free->start + size;
 	bit.end   = HEAP_free->end;
 	bit.size  = HEAP_free->size  - size;
-	bit.next  = NULL;
+	bit.next  = nullptr;
 
 	ASSERT(bit.start + bit.size == bit.end);
 
@@ -367,7 +367,7 @@ void HEAP_give(void* mem, SLONG num_bytes)
 	onheap->start = (UBYTE *) mem;
 	onheap->end   = onheap->start + num_bytes;
 	onheap->size  = num_bytes;
-	onheap->next  = NULL;
+	onheap->next  = nullptr;
 
 	//
 	// Add it to the free list.

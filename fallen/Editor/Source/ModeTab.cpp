@@ -8,8 +8,8 @@
 
 ModeTab::ModeTab()
 {
-	SetLastTabLink(NULL);
-	SetNextTabLink(NULL);
+	SetLastTabLink(nullptr);
+	SetNextTabLink(nullptr);
 	SetExternalUpdatePtr(0);
 }
 

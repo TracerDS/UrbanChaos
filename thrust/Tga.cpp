@@ -39,7 +39,7 @@ TGA_Info TGA_load(
 
 	handle = fopen(file, "rb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		TRACE("Could not open TGA file %s", file);
 		ans.valid = false;
@@ -121,7 +121,7 @@ TGA_Info TGA_load(
 	else
 	{
 		//
-		// We have to load a pixel in at a time to add the NULL alpha channel.
+		// We have to load a pixel in at a time to add the nullptr alpha channel.
 		//
 
 		for (i = 0; i < tga_width * tga_height; i++)
@@ -243,7 +243,7 @@ void TGA_save(
 
 	handle = fopen(file, "wb");
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		TRACE("Cannot open TGA file %s\n", file);
 

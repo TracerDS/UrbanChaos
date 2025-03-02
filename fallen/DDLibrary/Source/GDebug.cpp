@@ -15,14 +15,14 @@ HANDLE	InitDebugLog(void)
 								"DebugLog.txt",
 								(GENERIC_READ|GENERIC_WRITE),
 								(FILE_SHARE_READ|FILE_SHARE_WRITE),
-								NULL,
+								nullptr,
 								CREATE_ALWAYS,
 								0,
-								NULL
+								nullptr
 	                   		);
 	if(LogFile==INVALID_HANDLE_VALUE)
 	{
-		LogFile	=	NULL;
+		LogFile	=	nullptr;
 	}
 	return	LogFile;
 }
@@ -49,7 +49,7 @@ void	DebugText(CBYTE* error, ...)
 		vsprintf(buf, error,argptr); 
 		va_end(argptr);
 
-		WriteFile(LogFile,buf,strlen(buf),(LPDWORD)&bytes_written,NULL);
+		WriteFile(LogFile,buf,strlen(buf),(LPDWORD)&bytes_written,nullptr);
 	}
 }
 

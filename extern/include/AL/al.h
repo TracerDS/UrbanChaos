@@ -367,7 +367,7 @@ typedef void ALvoid;
  * A Source is Streaming if one or more Buffers have been attached using
  * alSourceQueueBuffers.
  *
- * A Source is Undetermined when it has the NULL buffer attached using
+ * A Source is Undetermined when it has the nullptr buffer attached using
  * AL_BUFFER.
  */
 #define AL_SOURCE_TYPE                           0x1027
@@ -596,7 +596,7 @@ AL_API void AL_APIENTRY alSourceUnqueueBuffers(ALuint source, ALsizei nb, ALuint
 AL_API void AL_APIENTRY alGenBuffers(ALsizei n, ALuint *buffers) AL_API_NOEXCEPT;
 /** Delete buffer objects */
 AL_API void AL_APIENTRY alDeleteBuffers(ALsizei n, const ALuint *buffers) AL_API_NOEXCEPT;
-/** Verify an ID is a valid buffer (including the NULL buffer) */
+/** Verify an ID is a valid buffer (including the nullptr buffer) */
 AL_API ALboolean AL_APIENTRY alIsBuffer(ALuint buffer) AL_API_NOEXCEPT;
 
 /**

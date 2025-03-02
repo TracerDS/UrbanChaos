@@ -188,7 +188,7 @@ extern DECLSPEC Uint32 SDLCALL SDL_hid_device_change_count(void);
  * \param vendor_id The Vendor ID (VID) of the types of device to open.
  * \param product_id The Product ID (PID) of the types of device to open.
  * \returns a pointer to a linked list of type SDL_hid_device_info, containing
- *          information about the HID devices attached to the system, or NULL
+ *          information about the HID devices attached to the system, or nullptr
  *          in the case of failure. Free this linked list by calling
  *          SDL_hid_free_enumeration().
  *
@@ -214,14 +214,14 @@ extern DECLSPEC void SDLCALL SDL_hid_free_enumeration(SDL_hid_device_info *devs)
  * Open a HID device using a Vendor ID (VID), Product ID (PID) and optionally
  * a serial number.
  *
- * If `serial_number` is NULL, the first device with the specified VID and PID
+ * If `serial_number` is nullptr, the first device with the specified VID and PID
  * is opened.
  *
  * \param vendor_id The Vendor ID (VID) of the device to open.
  * \param product_id The Product ID (PID) of the device to open.
  * \param serial_number The Serial Number of the device to open (Optionally
- *                      NULL).
- * \returns a pointer to a SDL_hid_device object on success or NULL on
+ *                      nullptr).
+ * \returns a pointer to a SDL_hid_device object on success or nullptr on
  *          failure.
  *
  * \since This function is available since SDL 2.0.18.
@@ -235,7 +235,7 @@ extern DECLSPEC SDL_hid_device * SDLCALL SDL_hid_open(unsigned short vendor_id, 
  * platform-specific path name can be used (eg: /dev/hidraw0 on Linux).
  *
  * \param path The path name of the device to open
- * \returns a pointer to a SDL_hid_device object on success or NULL on
+ * \returns a pointer to a SDL_hid_device object on success or nullptr on
  *          failure.
  *
  * \since This function is available since SDL 2.0.18.

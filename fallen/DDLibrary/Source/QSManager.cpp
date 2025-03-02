@@ -123,7 +123,7 @@ QSManager		the_qs_sound_manager;
 QSManager::QSManager()
 {
 	ManagerFlags	=	0;
-	WaveList		=	WaveListEnd	=	NULL;
+	WaveList		=	WaveListEnd	=	nullptr;
 	WaveCount		=	0;
 }
 
@@ -307,7 +307,7 @@ HRESULT	QSManager::FreeWaves(void)
 	}
 
 	//	Initialise wave list.
-	WaveList	=	WaveListEnd	=	NULL;
+	WaveList	=	WaveListEnd	=	nullptr;
 	WaveCount	=	0;
 
 	return	DS_OK;
@@ -325,7 +325,7 @@ HRESULT	QSManager::AddWave(Wave *the_wave)
 
 	// Add sample to list.
 	the_wave->Prev	=	WaveListEnd;
-	the_wave->Next	=	NULL;
+	the_wave->Next	=	nullptr;
 
 	// Update list end.
 	if(WaveListEnd)
@@ -574,9 +574,9 @@ HRESULT	QSManager::StopWave(SLONG wave_ref,SLONG wave_id)
 Wave::Wave()
 {
 	WaveFlags	=	0;
-	MixWave		=	NULL;
-	Next		=	NULL;
-	Prev		=	NULL;
+	MixWave		=	nullptr;
+	Next		=	nullptr;
+	Prev		=	nullptr;
 }
 
 //---------------------------------------------------------------

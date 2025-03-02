@@ -41,7 +41,7 @@ void InitAsyncFile(void)
 
 void TermAsyncFile(void)
 {
-	CancelAsyncFile(NULL);
+	CancelAsyncFile(nullptr);
 }
 
 // LoadAsyncFile
@@ -57,7 +57,7 @@ bool LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key)
 	AsyncFile*	file = FreeList.next;
 
 	// open the file
-	file->hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+	file->hFile = CreateFile(filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_FLAG_OVERLAPPED | FILE_FLAG_SEQUENTIAL_SCAN, nullptr);
 	if (!file->hFile)	return false;
 
 	// set the key
@@ -68,7 +68,7 @@ bool LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key)
 	file->Control.OffsetHigh = 0;
 	file->Control.hEvent = 0;
 
-	if (!ReadFileEx(file->hFile, buffer, blen, &file->Control, NULL))
+	if (!ReadFileEx(file->hFile, buffer, blen, &file->Control, nullptr))
 	{
 		// failure
 		CloseHandle(file->hFile);
@@ -101,7 +101,7 @@ void* GetNextCompletedAsyncFile(void)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // CancelAsyncFile

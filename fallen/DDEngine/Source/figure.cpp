@@ -83,7 +83,7 @@ void DeadAndBuried ( DWORD dwColour )
 
 	InitStruct(mine);
 	mine.dwFlags = DDSD_PITCH;
-	res = the_display.lp_DD_FrontSurface->Lock ( NULL, &mine, DDLOCK_WAIT, NULL );
+	res = the_display.lp_DD_FrontSurface->Lock ( nullptr, &mine, DDLOCK_WAIT, nullptr );
 	if (FAILED(res))	return;
 
 	char *pdwDest = (char *)mine.lpSurface;
@@ -97,7 +97,7 @@ void DeadAndBuried ( DWORD dwColour )
 		}
 	}
 
-	res = the_display.lp_DD_FrontSurface->Unlock ( NULL );
+	res = the_display.lp_DD_FrontSurface->Unlock ( nullptr );
 
 }
 
@@ -161,11 +161,11 @@ ALIGNED_STATIC_ARRAY ( static float *, MM_pNormal, 4, float, 8 );
 
 #if 0
 // The MM lighting table.
-D3DCOLOR *MM_pcFadeTable = NULL;
-D3DCOLOR *MM_pcFadeTableTint = NULL;
-D3DMATRIX *MM_pMatrix = NULL;
-D3DVERTEX *MM_Vertex = NULL;
-float *MM_pNormal = NULL;
+D3DCOLOR *MM_pcFadeTable = nullptr;
+D3DCOLOR *MM_pcFadeTableTint = nullptr;
+D3DMATRIX *MM_pMatrix = nullptr;
+D3DVERTEX *MM_Vertex = nullptr;
+float *MM_pNormal = nullptr;
 #endif
 
 D3DVECTOR MM_vLightDir;
@@ -183,11 +183,11 @@ void BuildMMLightingTable ( Pyro *p, DWORD colour_and=0xffffffff )
 	// EXCEPT FOR THE AMBIENT ONE, WHICH IS CORRECT.
 	// Daft bloody system.
 
-	ASSERT ( MM_pcFadeTable != NULL );
-	ASSERT ( MM_pcFadeTableTint != NULL );
-	ASSERT ( MM_pMatrix != NULL );
-	ASSERT ( MM_Vertex != NULL );
-	ASSERT ( MM_pNormal != NULL );
+	ASSERT ( MM_pcFadeTable != nullptr );
+	ASSERT ( MM_pcFadeTableTint != nullptr );
+	ASSERT ( MM_pMatrix != nullptr );
+	ASSERT ( MM_Vertex != nullptr );
+	ASSERT ( MM_pNormal != nullptr );
 
 
 	// Find the brightest-lit vector.
@@ -293,7 +293,7 @@ void BuildMMLightingTable ( Pyro *p, DWORD colour_and=0xffffffff )
 	MM_vLightDir = vTotal;
 
 	// Is this thing on fire?
-	if ( p != NULL )
+	if ( p != nullptr )
 	{
 		// On fire. Blacken with soot or something.
 		cvLight.r = (cvLight.r > p->counter) ? (cvLight.r - p->counter) : 10;
@@ -499,12 +499,12 @@ int MSMesh::SetSize ( int nTriangles )
         if ( m_aTri )
         {
             MemFree( m_aTri );
-            m_aTri = (INDEXTRISTRUCT *)NULL;
+            m_aTri = (INDEXTRISTRUCT *)nullptr;
         }
         if ( m_aVert )
         {
             MemFree( m_aVert );
-            m_aVert = (INDEXVERTSTRUCT *)NULL;
+            m_aVert = (INDEXVERTSTRUCT *)nullptr;
         }
         m_nMaxTri = 0;
         m_nMaxVert = 0;
@@ -523,9 +523,9 @@ int MSMesh::SetSize ( int nTriangles )
             // printf("SetSize allocating space for %d indices and %d vertices\n",
             //      m_nMaxTri, m_nMaxVert );
             m_aTri = (INDEXTRISTRUCT *)MemAlloc( m_nMaxTri * sizeof(INDEXTRISTRUCT) );
-			if ( m_aTri == NULL ) { DeadAndBuried ( 0x07e007e0 ); }
+			if ( m_aTri == nullptr ) { DeadAndBuried ( 0x07e007e0 ); }
             m_aVert = (INDEXVERTSTRUCT *)MemAlloc( m_nMaxVert * sizeof(INDEXVERTSTRUCT) );
-			if ( m_aVert == NULL ) { DeadAndBuried ( 0x07e007e0 ); }
+			if ( m_aVert == nullptr ) { DeadAndBuried ( 0x07e007e0 ); }
             if( !m_aTri || !m_aVert )
                 SetSize(0);    // MemFree half-allocations
         }
@@ -669,7 +669,7 @@ int MSMesh::GetStrip ( WORD *pwVT, int maxLen )
             continue;
         for( dir = 0; dir<3; dir++ )
         {
-            if( ( len = StripLen( trino, dir, 0, NULL, maxLen ) ) > bestLen )
+            if( ( len = StripLen( trino, dir, 0, nullptr, maxLen ) ) > bestLen )
             {                                                   
                 bestLen = len;                                   
                 bestStart = trino;                                   
@@ -793,10 +793,10 @@ int FindMeAFreeLightAndPutItInTheScene ( void )
 		i++;
 	}
 
-	if ( m_pLight[i] == NULL )
+	if ( m_pLight[i] == nullptr )
 	{
 		// Haven't created this one yet.
-		HRESULT hres = (the_display.lp_D3D)->CreateLight ( &(m_pLight[i]), NULL );
+		HRESULT hres = (the_display.lp_D3D)->CreateLight ( &(m_pLight[i]), nullptr );
 		ASSERT ( SUCCEEDED ( hres ) );
 	}
 	// Add the light in.
@@ -809,7 +809,7 @@ int FindMeAFreeLightAndPutItInTheScene ( void )
 void MakeThisLightLikeThis ( int iLightNum, D3DLIGHT *pd3dLight )
 {
 	ASSERT ( m_bLightInScene[iLightNum] );
-	ASSERT ( m_pLight[iLightNum] != NULL );
+	ASSERT ( m_pLight[iLightNum] != nullptr );
 	HRESULT hres = (m_pLight[iLightNum])->SetLight ( (D3DLIGHT *)pd3dLight );
 	ASSERT ( SUCCEEDED ( hres ) );
 }
@@ -822,7 +822,7 @@ void MakeThisLightLikeThis ( int iLightNum, D3DLIGHT2 *pd3dLight )
 void RemoveThisLightFromScene ( int iLightNum )
 {
 	ASSERT ( m_bLightInScene[iLightNum] );
-	ASSERT ( m_pLight[iLightNum] != NULL );
+	ASSERT ( m_pLight[iLightNum] != nullptr );
 	HRESULT hres = (the_display.lp_D3D_Viewport)->DeleteLight ( m_pLight[iLightNum] );
 	ASSERT ( SUCCEEDED ( hres ) );
 	m_bLightInScene[iLightNum] = false;
@@ -855,7 +855,7 @@ void RemoveAllLightsFromScene ( void )
 // HACKED!
 int AddThisSortOfLightToTheScene ( D3DLIGHT2 *pd3dLight )
 {
-	if ( m_pLight[0] == NULL )
+	if ( m_pLight[0] == nullptr )
 	{
 		FindMeAFreeLightAndPutItInTheScene();
 		MakeThisLightLikeThis ( 0, pd3dLight );
@@ -1545,8 +1545,8 @@ void FIGURE_clean_LRU_slot ( int iSlot )
 {
 	TomsPrimObject *ptpo = ptpoLRUQueue[iSlot];
 
-	ASSERT ( ptpo != NULL );
-	if ( ptpo == NULL )
+	ASSERT ( ptpo != nullptr );
+	if ( ptpo == nullptr )
 	{
 		// Toast aversion. This will cause it to leak memory,
 		// but at least it won't die immediately.
@@ -1557,24 +1557,24 @@ void FIGURE_clean_LRU_slot ( int iSlot )
 	// Make sure it doesn't go negative!
 	ASSERT ( ( m_dwSizeOfQueue & 0x80000000 ) == 0 );
 
-	ASSERT ( ptpo != NULL );
+	ASSERT ( ptpo != nullptr );
 	ASSERT ( ptpo->bLRUQueueNumber == iSlot );
 	ASSERT ( ptpo->wNumMaterials > 0 );
-	ASSERT ( ptpo->pMaterials != NULL );
-	ASSERT ( ptpo->pwListIndices != NULL );
+	ASSERT ( ptpo->pMaterials != nullptr );
+	ASSERT ( ptpo->pwListIndices != nullptr );
 	MemFree ( ptpo->pMaterials );
 	// This block include pwStripIndices and pD3DVertices.
 	MemFree ( ptpo->pwListIndices );
 
-	ptpo->pMaterials = NULL;
-	ptpo->pwListIndices = NULL;
-	ptpo->pD3DVertices = NULL;
-	ptpo->pwStripIndices = NULL;
+	ptpo->pMaterials = nullptr;
+	ptpo->pwListIndices = nullptr;
+	ptpo->pD3DVertices = nullptr;
+	ptpo->pwStripIndices = nullptr;
 	ptpo->bLRUQueueNumber = 0xff;
 	ptpo->wNumMaterials = 0;
 	ptpo->wTotalSizeOfObj = 0;
 
-	ptpoLRUQueue[iSlot] = NULL;
+	ptpoLRUQueue[iSlot] = nullptr;
 }
 
 
@@ -1583,7 +1583,7 @@ void FIGURE_clean_all_LRU_slots ( void )
 {
 	for ( int i = 0; i < m_iLRUQueueSize; i++ )
 	{
-		if ( ptpoLRUQueue[i] != NULL )
+		if ( ptpoLRUQueue[i] != nullptr )
 		{
 			FIGURE_clean_LRU_slot ( i );
 		}
@@ -1638,7 +1638,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 			int iOldestSlot = -1;
 			for ( int i = 0; i < m_iLRUQueueSize; i++ )
 			{
-				if ( ptpoLRUQueue[i] != NULL )
+				if ( ptpoLRUQueue[i] != nullptr )
 				{
 					// Careful of wrap-arounds!
 					DWORD dwTurnsAgo = ( GAME_TURN - dwGameTurnLastUsed[i] );
@@ -1684,7 +1684,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 			int iOldestSlot = -1;
 			for ( int i = 0; i < m_iLRUQueueSize; i++ )
 			{
-				if ( ptpoLRUQueue[i] != NULL )
+				if ( ptpoLRUQueue[i] != nullptr )
 				{
 					// Careful of wrap-arounds!
 					DWORD dwTurnsAgo = ( GAME_TURN - dwGameTurnLastUsed[i] );
@@ -1701,7 +1701,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 			{
 				// Shit - this is probably about to thrash. Prevent too much thrashing by always using the same slot.
 				// FIRST CHECK THAT THIS SLOW IS ACTUALLY USED.
-				if ( ptpoLRUQueue[iThrashIndex] == NULL )
+				if ( ptpoLRUQueue[iThrashIndex] == nullptr )
 				{
 					// No, it isn't actually used.
 					// Allow the thrash then.
@@ -1722,7 +1722,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 			// In some cases, we may have decided to clean a cache position that
 			// isn't ocupied, which will die nicely.
 			// In this case, just find the first that is occupied and clean it instead.
-			if ( ptpoLRUQueue[iOldestSlot] == NULL )
+			if ( ptpoLRUQueue[iOldestSlot] == nullptr )
 			{
 				// Warn me.
 				ASSERT ( false );
@@ -1734,7 +1734,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 				iOldestSlot = -1;
 				for ( int i = 0; i < m_iLRUQueueSize; i++ )
 				{
-					if ( ptpoLRUQueue[i] != NULL )
+					if ( ptpoLRUQueue[i] != nullptr )
 					{
 						// Found one.
 						iOldestSlot = i;
@@ -1776,15 +1776,15 @@ int m_iMaxNumIndicesUsed = 0;
 
 
 // Used by the FIGURE_TPO lot.
-static D3DVERTEX *TPO_pVert = NULL;
-static UWORD *TPO_pStripIndices = NULL;
-static UWORD *TPO_pListIndices = NULL;
-static int *TPO_piVertexRemap = NULL;
-static int *TPO_piVertexLinks = NULL;
-static D3DVERTEX *TPO_pCurVertex = NULL;
-static UWORD *TPO_pCurStripIndex = NULL;
-static UWORD *TPO_pCurListIndex = NULL;
-static TomsPrimObject *TPO_pPrimObj = NULL;
+static D3DVERTEX *TPO_pVert = nullptr;
+static UWORD *TPO_pStripIndices = nullptr;
+static UWORD *TPO_pListIndices = nullptr;
+static int *TPO_piVertexRemap = nullptr;
+static int *TPO_piVertexLinks = nullptr;
+static D3DVERTEX *TPO_pCurVertex = nullptr;
+static UWORD *TPO_pCurStripIndex = nullptr;
+static UWORD *TPO_pCurListIndex = nullptr;
+static TomsPrimObject *TPO_pPrimObj = nullptr;
 static int TPO_iNumListIndices = 0;
 static int TPO_iNumStripIndices = 0;
 static int TPO_iNumVertices = 0;
@@ -1809,15 +1809,15 @@ void FIGURE_TPO_init_3d_object ( TomsPrimObject *pPrimObj /*, int iThrashIndex =
 
 
 	// Make sure we're not in the middle of compiling and object already.
-	ASSERT ( TPO_pVert == NULL );
-	ASSERT ( TPO_pStripIndices == NULL );
-	ASSERT ( TPO_pListIndices == NULL );
-	ASSERT ( TPO_piVertexRemap == NULL );
-	ASSERT ( TPO_piVertexLinks == NULL );
-	ASSERT ( TPO_pCurVertex == NULL );
-	ASSERT ( TPO_pCurStripIndex == NULL );
-	ASSERT ( TPO_pCurListIndex == NULL );
-	ASSERT ( TPO_pPrimObj == NULL );
+	ASSERT ( TPO_pVert == nullptr );
+	ASSERT ( TPO_pStripIndices == nullptr );
+	ASSERT ( TPO_pListIndices == nullptr );
+	ASSERT ( TPO_piVertexRemap == nullptr );
+	ASSERT ( TPO_piVertexLinks == nullptr );
+	ASSERT ( TPO_pCurVertex == nullptr );
+	ASSERT ( TPO_pCurStripIndex == nullptr );
+	ASSERT ( TPO_pCurListIndex == nullptr );
+	ASSERT ( TPO_pPrimObj == nullptr );
 	ASSERT ( TPO_iNumListIndices == 0 );
 	ASSERT ( TPO_iNumStripIndices == 0 );
 	ASSERT ( TPO_iNumVertices == 0 );
@@ -1838,21 +1838,21 @@ void FIGURE_TPO_init_3d_object ( TomsPrimObject *pPrimObj /*, int iThrashIndex =
 #endif
 
 	TPO_pVert = (D3DVERTEX *)MemAlloc ( MAX_VERTS * sizeof ( D3DVERTEX ) );
-	ASSERT ( TPO_pVert != NULL );
-	if ( TPO_pVert == NULL ) { DeadAndBuried ( 0xf800f800 ); }
+	ASSERT ( TPO_pVert != nullptr );
+	if ( TPO_pVert == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
 	TPO_pStripIndices = (UWORD *)MemAlloc ( MAX_INDICES * sizeof ( UWORD ) );
-	ASSERT ( TPO_pStripIndices != NULL );
-	if ( TPO_pStripIndices == NULL ) { DeadAndBuried ( 0xf800f800 ); }
+	ASSERT ( TPO_pStripIndices != nullptr );
+	if ( TPO_pStripIndices == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
 	TPO_pListIndices = (UWORD *)MemAlloc ( MAX_INDICES * sizeof ( UWORD ) );
-	ASSERT ( TPO_pListIndices != NULL );
-	if ( TPO_pListIndices == NULL ) { DeadAndBuried ( 0xf800f800 ); }
+	ASSERT ( TPO_pListIndices != nullptr );
+	if ( TPO_pListIndices == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
 
 	TPO_piVertexRemap = (int *)MemAlloc ( MAX_VERTS * sizeof ( int ) );
-	ASSERT ( TPO_piVertexRemap != NULL );
-	if ( TPO_piVertexRemap == NULL ) { DeadAndBuried ( 0xf800f800 ); }
+	ASSERT ( TPO_piVertexRemap != nullptr );
+	if ( TPO_piVertexRemap == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
 	TPO_piVertexLinks = (int *)MemAlloc ( MAX_VERTS * sizeof ( int ) );
-	ASSERT ( TPO_piVertexLinks != NULL );
-	if ( TPO_piVertexLinks == NULL ) { DeadAndBuried ( 0xf800f800 ); }
+	ASSERT ( TPO_piVertexLinks != nullptr );
+	if ( TPO_piVertexLinks == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
 
 	TPO_pCurVertex = TPO_pVert;
 	TPO_pCurStripIndex = TPO_pStripIndices;
@@ -1861,10 +1861,10 @@ void FIGURE_TPO_init_3d_object ( TomsPrimObject *pPrimObj /*, int iThrashIndex =
 
 	//TomsPrimObject *pPrimObj = &(D3DObj[prim]);
 	// Make sure it's not been initialised.
-	ASSERT ( pPrimObj->pD3DVertices == NULL );
-	ASSERT ( pPrimObj->pMaterials == NULL );
-	ASSERT ( pPrimObj->pwListIndices == NULL );
-	ASSERT ( pPrimObj->pwStripIndices == NULL );
+	ASSERT ( pPrimObj->pD3DVertices == nullptr );
+	ASSERT ( pPrimObj->pMaterials == nullptr );
+	ASSERT ( pPrimObj->pwListIndices == nullptr );
+	ASSERT ( pPrimObj->pwStripIndices == nullptr );
 	ASSERT ( pPrimObj->wNumMaterials == 0 );
 
 	TPO_pPrimObj = pPrimObj;
@@ -1900,19 +1900,19 @@ void FIGURE_TPO_init_3d_object ( TomsPrimObject *pPrimObj /*, int iThrashIndex =
 void FIGURE_TPO_add_prim_to_current_object ( SLONG prim, UBYTE ubSubObjectNumber )
 {
 	// Make sure it's been properly prepped.
-	ASSERT ( TPO_pVert != NULL );
-	ASSERT ( TPO_pStripIndices != NULL );
-	ASSERT ( TPO_pListIndices != NULL );
-	ASSERT ( TPO_piVertexRemap != NULL );
-	ASSERT ( TPO_piVertexLinks != NULL );
-	ASSERT ( TPO_pCurVertex != NULL );
-	ASSERT ( TPO_pCurStripIndex != NULL );
-	ASSERT ( TPO_pCurListIndex != NULL );
-	ASSERT ( TPO_pPrimObj != NULL );
+	ASSERT ( TPO_pVert != nullptr );
+	ASSERT ( TPO_pStripIndices != nullptr );
+	ASSERT ( TPO_pListIndices != nullptr );
+	ASSERT ( TPO_piVertexRemap != nullptr );
+	ASSERT ( TPO_piVertexLinks != nullptr );
+	ASSERT ( TPO_pCurVertex != nullptr );
+	ASSERT ( TPO_pCurStripIndex != nullptr );
+	ASSERT ( TPO_pCurListIndex != nullptr );
+	ASSERT ( TPO_pPrimObj != nullptr );
 
 	ASSERT ( prim < MAX_NUMBER_D3D_PRIMS );
 	PrimObject  *p_obj = &prim_objects[prim];
-	ASSERT ( p_obj != NULL );
+	ASSERT ( p_obj != nullptr );
 	TRACE("added prim 0x%x...", p_obj);
 
 	TPO_PrimObjects[TPO_iNumPrims] = prim;
@@ -1938,15 +1938,15 @@ void FIGURE_TPO_add_prim_to_current_object ( SLONG prim, UBYTE ubSubObjectNumber
 void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 0  )
 {
 	// Make sure one has actually been started.
-	ASSERT ( TPO_pVert != NULL );
-	ASSERT ( TPO_pStripIndices != NULL );
-	ASSERT ( TPO_pListIndices != NULL );
-	ASSERT ( TPO_piVertexRemap != NULL );
-	ASSERT ( TPO_piVertexLinks != NULL );
-	ASSERT ( TPO_pCurVertex != NULL );
-	ASSERT ( TPO_pCurStripIndex != NULL );
-	ASSERT ( TPO_pCurListIndex != NULL );
-	ASSERT ( TPO_pPrimObj != NULL );
+	ASSERT ( TPO_pVert != nullptr );
+	ASSERT ( TPO_pStripIndices != nullptr );
+	ASSERT ( TPO_pListIndices != nullptr );
+	ASSERT ( TPO_piVertexRemap != nullptr );
+	ASSERT ( TPO_piVertexLinks != nullptr );
+	ASSERT ( TPO_pCurVertex != nullptr );
+	ASSERT ( TPO_pCurStripIndex != nullptr );
+	ASSERT ( TPO_pCurListIndex != nullptr );
+	ASSERT ( TPO_pPrimObj != nullptr );
 
 	ASSERT ( pPrimObj == TPO_pPrimObj );
 
@@ -1964,7 +1964,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 	{
 		PrimObject  *pOuterObj = &prim_objects[TPO_PrimObjects[iOuterPrimNumber]];
 
-		ASSERT ( pOuterObj != NULL );
+		ASSERT ( pOuterObj != nullptr );
 
 		bool bOuterTris = false;
 		do
@@ -1989,7 +1989,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 				// Find the _rendered_ page, to allow texture paging to do its stuff.
 				UWORD wRealPage = wTexturePage & TEXTURE_PAGE_MASK;
 
-				PolyPage *pRenderedPage = NULL;
+				PolyPage *pRenderedPage = nullptr;
 
 				#ifdef TEX_EMBED
 
@@ -1997,7 +1997,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 				{
 					// Something special about this page, e.g. jacket, special shading, etc.
 					// Don't try to combine them.
-					pRenderedPage = NULL;
+					pRenderedPage = nullptr;
 				}
 				else
 				{
@@ -2014,7 +2014,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 				{
 	#if 1
 	#ifdef TEX_EMBED
-					if ( pRenderedPage != NULL )
+					if ( pRenderedPage != nullptr )
 					{
 						if ( ( pMaterial->wTexturePage & ~TEXTURE_PAGE_MASK ) == 0 )
 						{
@@ -2049,10 +2049,10 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 					// And yes, I could use realloc(), but it doesn't seem to be very happy on the DC, so I won't.
 					void* pOldMats = (void* )pPrimObj->pMaterials;
 					pPrimObj->pMaterials = (PrimObjectMaterial *)MemAlloc ( pPrimObj->wNumMaterials * sizeof ( *pMaterial ) );
-					ASSERT ( pPrimObj->pMaterials != NULL );
-					if ( pPrimObj->pMaterials == NULL ) { DeadAndBuried ( 0x001f001f ); }
+					ASSERT ( pPrimObj->pMaterials != nullptr );
+					if ( pPrimObj->pMaterials == nullptr ) { DeadAndBuried ( 0x001f001f ); }
 
-					if ( pOldMats != NULL )
+					if ( pOldMats != nullptr )
 					{
 						memcpy ( pPrimObj->pMaterials, pOldMats, ( pPrimObj->wNumMaterials - 1 ) * sizeof ( *pMaterial ) );
 						MemFree ( pOldMats );
@@ -2089,7 +2089,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 						float *pfBoundingSphereRadius = &(m_fObjectBoundingSphereRadius[TPO_PrimObjects[iInnerPrimNumber]]);
 						*pfBoundingSphereRadius = 0.0f;
 
-						ASSERT ( pInnerObj != NULL );
+						ASSERT ( pInnerObj != nullptr );
 
 						bool bInnerTris;
 						if ( iInnerPrimNumber == iOuterPrimNumber )
@@ -2166,7 +2166,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 								}
 		#if 1
 		#ifdef TEX_EMBED
-								else if ( pRenderedPage != NULL )
+								else if ( pRenderedPage != nullptr )
 								{
 									//if ( ( ( pMaterial->wTexturePage & ~TEXTURE_PAGE_MASK ) == 0 ) &&
 									//	 ( ( wTexturePage & ~TEXTURE_PAGE_MASK ) == 0 )
@@ -2501,8 +2501,8 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 						// At most 3 edges per tri.
 						EdgeList *pEdgeList = (EdgeList *)MemAlloc ( sizeof ( EdgeList ) * pMaterial->wNumListIndices );
-						ASSERT ( pEdgeList != NULL );
-						if ( pEdgeList == NULL ) { DeadAndBuried ( 0x0000001f ); }
+						ASSERT ( pEdgeList != nullptr );
+						if ( pEdgeList == nullptr ) { DeadAndBuried ( 0x0000001f ); }
 
 						// Add the edges.
 						int iNumEdges = 0;
@@ -2945,8 +2945,8 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 	// Now that it's a unified block, TPO_pListIndices is the thing that needs to
 	// be freed. Obviously, don't free the others - they don't own memory.
 	char *pcBlock = (char *)MemAlloc ( dwTotalSize );
-	ASSERT ( pcBlock != NULL );
-	if ( pcBlock == NULL ) { DeadAndBuried ( 0xffe0ffe0 ); }
+	ASSERT ( pcBlock != nullptr );
+	if ( pcBlock == nullptr ) { DeadAndBuried ( 0xffe0ffe0 ); }
 
 	pPrimObj->pwListIndices = (UWORD *)pcBlock;
 	memcpy ( pPrimObj->pwListIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( UWORD ) );
@@ -2967,17 +2967,17 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 #if 0
 	//void* pPermanentVerts = MemAlloc ( 32 + TPO_iNumVertices * sizeof ( D3DVERTEX ) );
 	pPermanentVerts  = (void* )( ( (DWORD)pPermanentVerts + 31 ) & ~31 );
-	ASSERT ( pPermanentVerts != NULL );
+	ASSERT ( pPermanentVerts != nullptr );
 	memcpy ( pPermanentVerts, TPO_pVert, TPO_iNumVertices * sizeof ( D3DVERTEX ) );
 	pPrimObj->pD3DVertices = pPermanentVerts;
 
 	//UWORD *pPermanentIndices = (UWORD *)MemAlloc ( TPO_iNumListIndices * sizeof ( UWORD ) );
-	ASSERT ( pPermanentIndices != NULL );
+	ASSERT ( pPermanentIndices != nullptr );
 	memcpy ( pPermanentIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( UWORD ) );
 	pPrimObj->pwListIndices = pPermanentIndices;
 
 	//pPermanentIndices = (UWORD *)MemAlloc ( TPO_iNumStripIndices * sizeof ( UWORD ) );
-	ASSERT ( pPermanentIndices != NULL );
+	ASSERT ( pPermanentIndices != nullptr );
 	memcpy ( pPermanentIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof ( UWORD ) );
 	pPrimObj->pwStripIndices = pPermanentIndices;
 #endif
@@ -2999,15 +2999,15 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 
 	// Clean up.
-	TPO_pVert = NULL;
-	TPO_pStripIndices = NULL;
-	TPO_pListIndices = NULL;
-	TPO_piVertexRemap = NULL;
-	TPO_piVertexLinks = NULL;
-	TPO_pCurVertex = NULL;
-	TPO_pCurStripIndex = NULL;
-	TPO_pCurListIndex = NULL;
-	TPO_pPrimObj = NULL;
+	TPO_pVert = nullptr;
+	TPO_pStripIndices = nullptr;
+	TPO_pListIndices = nullptr;
+	TPO_piVertexRemap = nullptr;
+	TPO_piVertexLinks = nullptr;
+	TPO_pCurVertex = nullptr;
+	TPO_pCurStripIndex = nullptr;
+	TPO_pCurListIndex = nullptr;
+	TPO_pPrimObj = nullptr;
 	TPO_iNumListIndices = 0;
 	TPO_iNumStripIndices = 0;
 	TPO_iNumVertices = 0;
@@ -3391,11 +3391,11 @@ no_muzzle_calcs:
 #if 0
 
 		// Set it up then.
-		ASSERT ( MM_pcFadeTable == NULL );
-		ASSERT ( MM_pcFadeTableTint == NULL );
-		ASSERT ( MM_pMatrix == NULL );
-		ASSERT ( MM_Vertex == NULL );
-		ASSERT ( MM_pNormal == NULL );
+		ASSERT ( MM_pcFadeTable == nullptr );
+		ASSERT ( MM_pcFadeTableTint == nullptr );
+		ASSERT ( MM_pMatrix == nullptr );
+		ASSERT ( MM_Vertex == nullptr );
+		ASSERT ( MM_pNormal == nullptr );
 		// Set up some data for the MM rendering thing if it's not already been done.
 
 //	#define ALIGNED_STATIC_ARRAY(name,number,mytype,align)														\
@@ -3542,13 +3542,13 @@ no_muzzle_calcs:
 		if ( !MM_bLightTableAlreadySetUp )
 		{
 
-			Pyro *p = NULL;
+			Pyro *p = nullptr;
 			if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex)
 			{
 				p = TO_PYRO(p_thing->Genus.Person->BurnIndex-1);
 				if (p->PyroType != PYRO_IMMOLATE)
 				{
-					p = NULL;
+					p = nullptr;
 				}
 			}
 			BuildMMLightingTable ( p, colour_and );
@@ -3661,7 +3661,7 @@ extern DWORD g_dw3DStuffY;
 #else //#if USE_TOMS_ENGINE_PLEASE_BOB
 
 
-		Pyro *p = NULL;
+		Pyro *p = nullptr;
 
 		if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex)
 		{
@@ -3669,7 +3669,7 @@ extern DWORD g_dw3DStuffY;
 
 			if (p->PyroType != PYRO_IMMOLATE)
 			{
-				p = NULL;
+				p = nullptr;
 			}
 		}
 
@@ -3803,10 +3803,10 @@ extern DWORD g_dw3DStuffY;
 	// Tell the LRU cache we used this one.
 	FIGURE_touch_LRU_of_object ( pPrimObj );
 
-	ASSERT ( pPrimObj->pD3DVertices != NULL );
-	ASSERT ( pPrimObj->pMaterials != NULL );
-	ASSERT ( pPrimObj->pwListIndices != NULL );
-	ASSERT ( pPrimObj->pwStripIndices != NULL );
+	ASSERT ( pPrimObj->pD3DVertices != nullptr );
+	ASSERT ( pPrimObj->pMaterials != nullptr );
+	ASSERT ( pPrimObj->pwListIndices != nullptr );
+	ASSERT ( pPrimObj->pwStripIndices != nullptr );
 	ASSERT ( pPrimObj->wNumMaterials != 0 );
 
 	PrimObjectMaterial *pMat = pPrimObj->pMaterials;
@@ -3938,8 +3938,8 @@ extern DIJOYSTATE the_state;
 					d3dmm.lpLightTable[i] = dwColour;
 				}
 
-				// And NULL texture (i.e. white).
-				the_display.lp_D3D_Device->SetTexture ( 0, NULL );
+				// And nullptr texture (i.e. white).
+				the_display.lp_D3D_Device->SetTexture ( 0, nullptr );
 			}
 #endif
 #endif
@@ -5101,11 +5101,11 @@ extern DIJOYSTATE the_state;
 	{
 #if 0
 		// Clean up after ourselves.
-		MM_pcFadeTable = NULL;
-		MM_pcFadeTableTint = NULL;
-		MM_pMatrix = NULL;
-		MM_Vertex = NULL;
-		MM_pNormal = NULL;
+		MM_pcFadeTable = nullptr;
+		MM_pcFadeTableTint = nullptr;
+		MM_pMatrix = nullptr;
+		MM_Vertex = nullptr;
+		MM_pNormal = nullptr;
 #endif
 	}
 #endif //#if USE_TOMS_ENGINE_PLEASE_BOB
@@ -6125,10 +6125,10 @@ extern int g_iCheatNumber;
 	FIGURE_touch_LRU_of_object ( pPrimObj );
 
 
-	ASSERT ( pPrimObj->pD3DVertices != NULL );
-	ASSERT ( pPrimObj->pMaterials != NULL );
-	ASSERT ( pPrimObj->pwListIndices != NULL );
-	ASSERT ( pPrimObj->pwStripIndices != NULL );
+	ASSERT ( pPrimObj->pD3DVertices != nullptr );
+	ASSERT ( pPrimObj->pMaterials != nullptr );
+	ASSERT ( pPrimObj->pwListIndices != nullptr );
+	ASSERT ( pPrimObj->pwStripIndices != nullptr );
 	ASSERT ( pPrimObj->wNumMaterials != 0 );
 
 	PrimObjectMaterial *pMat = pPrimObj->pMaterials;
@@ -6248,8 +6248,8 @@ extern DIJOYSTATE the_state;
 					d3dmm.lpLightTable[i] = dwColour;
 				}
 
-				// And NULL texture (i.e. white).
-				the_display.lp_D3D_Device->SetTexture ( 0, NULL );
+				// And nullptr texture (i.e. white).
+				the_display.lp_D3D_Device->SetTexture ( 0, nullptr );
 			}
 #endif
 #endif
@@ -7243,13 +7243,13 @@ void FIGURE_draw(Thing *p_thing)
 
 //#undef ALIGNED_STATIC_ARRAY
 
-	Pyro *p = NULL;
+	Pyro *p = nullptr;
 	if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex)
 	{
 		p = TO_PYRO(p_thing->Genus.Person->BurnIndex-1);
 		if (p->PyroType != PYRO_IMMOLATE)
 		{
-			p = NULL;
+			p = nullptr;
 		}
 	}
 
@@ -7287,10 +7287,10 @@ void FIGURE_draw(Thing *p_thing)
 
 		FIGURE_dhpr_rdata1[0].part_number			= 0;
 		FIGURE_dhpr_rdata1[0].current_child_number	= 0;
-		FIGURE_dhpr_rdata1[0].parent_base_mat		= NULL;
-		FIGURE_dhpr_rdata1[0].parent_base_pos		= NULL;
-		FIGURE_dhpr_rdata1[0].parent_current_mat		= NULL;
-		FIGURE_dhpr_rdata1[0].parent_current_pos		= NULL;
+		FIGURE_dhpr_rdata1[0].parent_base_mat		= nullptr;
+		FIGURE_dhpr_rdata1[0].parent_base_pos		= nullptr;
+		FIGURE_dhpr_rdata1[0].parent_current_mat		= nullptr;
+		FIGURE_dhpr_rdata1[0].parent_current_pos		= nullptr;
 
 		FIGURE_dhpr_data.start_object			= start_object;
 		if(p_thing->Genus.Person->PersonType==PERSON_ROPER)
@@ -7333,12 +7333,12 @@ void FIGURE_draw(Thing *p_thing)
 				dx,dy,dz,
 				colour,
 				specular,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
+				nullptr,
+				nullptr,
+				nullptr,
+				nullptr,
+				nullptr,
+				nullptr,
 				p_thing);
 		}
 	}
@@ -7348,11 +7348,11 @@ void FIGURE_draw(Thing *p_thing)
 	ASSERT ( MM_bLightTableAlreadySetUp );
 	MM_bLightTableAlreadySetUp = false;
 #if 0
-	MM_pcFadeTable = NULL;
-	MM_pcFadeTableTint = NULL;
-	MM_pMatrix = NULL;
-	MM_Vertex = NULL;
-	MM_pNormal = NULL;
+	MM_pcFadeTable = nullptr;
+	MM_pcFadeTableTint = nullptr;
+	MM_pMatrix = nullptr;
+	MM_Vertex = nullptr;
+	MM_pNormal = nullptr;
 #endif
 #endif //#if USE_TOMS_ENGINE_PLEASE_BOB
 
@@ -7398,7 +7398,7 @@ void FIGURE_draw(Thing *p_thing)
 				py,
 				pz,
 				0, 0, 0,
-				NULL,0xff);
+				nullptr,0xff);
 
 			kludge_shrink = false;
 		}
@@ -7831,13 +7831,13 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 //#undef ALIGNED_STATIC_ARRAY
 
-	Pyro *p = NULL;
+	Pyro *p = nullptr;
 	if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex)
 	{
 		p = TO_PYRO(p_thing->Genus.Person->BurnIndex-1);
 		if (p->PyroType != PYRO_IMMOLATE)
 		{
-			p = NULL;
+			p = nullptr;
 		}
 	}
 
@@ -7875,10 +7875,10 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 		FIGURE_dhpr_rdata1[0].part_number			= 0;
 		FIGURE_dhpr_rdata1[0].current_child_number	= 0;
-		FIGURE_dhpr_rdata1[0].parent_base_mat		= NULL;
-		FIGURE_dhpr_rdata1[0].parent_base_pos		= NULL;
-		FIGURE_dhpr_rdata1[0].parent_current_mat		= NULL;
-		FIGURE_dhpr_rdata1[0].parent_current_pos		= NULL;
+		FIGURE_dhpr_rdata1[0].parent_base_mat		= nullptr;
+		FIGURE_dhpr_rdata1[0].parent_base_pos		= nullptr;
+		FIGURE_dhpr_rdata1[0].parent_current_mat		= nullptr;
+		FIGURE_dhpr_rdata1[0].parent_current_pos		= nullptr;
 
 		FIGURE_dhpr_data.start_object			= start_object;
 		if(p_thing->Genus.Person->PersonType==PERSON_ROPER)
@@ -7922,12 +7922,12 @@ extern struct	PrimPoint	*anim_mids; //[256];
 				dx,dy,dz,
 				colour,
 				specular,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
-				NULL,
+				nullptr,
+				nullptr,
+				nullptr,
+				nullptr,
+				nullptr,
+				nullptr,
 				p_thing);
 		}
 	}
@@ -7937,11 +7937,11 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	ASSERT ( MM_bLightTableAlreadySetUp );
 	MM_bLightTableAlreadySetUp = false;
 #if 0
-	MM_pcFadeTable = NULL;
-	MM_pcFadeTableTint = NULL;
-	MM_pMatrix = NULL;
-	MM_Vertex = NULL;
-	MM_pNormal = NULL;
+	MM_pcFadeTable = nullptr;
+	MM_pcFadeTableTint = nullptr;
+	MM_pMatrix = nullptr;
+	MM_Vertex = nullptr;
+	MM_pNormal = nullptr;
 #endif
 #endif //#if USE_TOMS_ENGINE_PLEASE_BOB
 
@@ -7999,7 +7999,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 				py,
 				pz,
 				0, 0, 0,
-				NULL,0);
+				nullptr,0);
 		}
 
 		*/
@@ -8037,7 +8037,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 				py,
 				pz,
 				0, 0, 0,
-				NULL,0xff);
+				nullptr,0xff);
 
 			kludge_shrink = false;
 		}
@@ -8200,12 +8200,12 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 			specular,
 //			p_thing);
 
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			NULL,
-			NULL,
+			nullptr,
+			nullptr,
+			nullptr,
+			nullptr,
+			nullptr,
+			nullptr,
 			p_thing,
 			i,
 			0xffff00ff);
@@ -9951,10 +9951,10 @@ extern DWORD g_dw3DStuffY;
 	// Tell the LRU cache we used this one.
 	FIGURE_touch_LRU_of_object ( pPrimObj );
 
-	ASSERT ( pPrimObj->pD3DVertices != NULL );
-	ASSERT ( pPrimObj->pMaterials != NULL );
-	ASSERT ( pPrimObj->pwListIndices != NULL );
-	ASSERT ( pPrimObj->pwStripIndices != NULL );
+	ASSERT ( pPrimObj->pD3DVertices != nullptr );
+	ASSERT ( pPrimObj->pMaterials != nullptr );
+	ASSERT ( pPrimObj->pwListIndices != nullptr );
+	ASSERT ( pPrimObj->pwStripIndices != nullptr );
 	ASSERT ( pPrimObj->wNumMaterials != 0 );
 
 	PrimObjectMaterial *pMat = pPrimObj->pMaterials;
@@ -10086,8 +10086,8 @@ extern DIJOYSTATE the_state;
 					d3dmm.lpLightTable[i] = dwColour;
 				}
 
-				// And NULL texture (i.e. white).
-				the_display.lp_D3D_Device->SetTexture ( 0, NULL );
+				// And nullptr texture (i.e. white).
+				the_display.lp_D3D_Device->SetTexture ( 0, nullptr );
 			}
 #endif
 #endif

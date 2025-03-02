@@ -7,12 +7,12 @@
 #define	SHELL_NAME		"Mucky Foot Shell"
 
 int						iGlobalCmdShow;
-HANDLE					hShellThread	=	NULL;
+HANDLE					hShellThread	=	nullptr;
 HINSTANCE				hGlobalInstance,
 						hGlobalPrevInstance;
-HWND					hShellWindow	=	NULL;
+HWND					hShellWindow	=	nullptr;
 LPSTR					szGlobalCmdLine;
-MFFileHandle			log_handle		=	NULL;
+MFFileHandle			log_handle		=	nullptr;
 WNDCLASS				wnd_class;
 RECT					ShellRect;
 
@@ -92,7 +92,7 @@ bool	SetupHost(ULONG flags)
 	{
 		log_handle	=	FileCreate("debug.log",1);
 		if(log_handle==FILE_CREATION_ERROR)
-			log_handle	=	NULL;			
+			log_handle	=	nullptr;			
 	}
 
 #ifndef TARGET_DC
@@ -103,10 +103,10 @@ bool	SetupHost(ULONG flags)
 	wnd_class.cbClsExtra	=	0;
 	wnd_class.cbWndExtra	=	0;
 	wnd_class.hInstance		=	hGlobalInstance;
-	wnd_class.hIcon			=	LoadIcon(NULL, IDI_APPLICATION);
-	wnd_class.hCursor		=	LoadCursor(NULL, IDC_ARROW);
+	wnd_class.hIcon			=	LoadIcon(nullptr, IDI_APPLICATION);
+	wnd_class.hCursor		=	LoadCursor(nullptr, IDC_ARROW);
 	wnd_class.hbrBackground	=	(HBRUSH)GetStockObject(BLACK_BRUSH);
-	wnd_class.lpszMenuName	=	NULL;
+	wnd_class.lpszMenuName	=	nullptr;
 	wnd_class.lpszClassName	=	SHELL_NAME;
 
 #else //#ifndef TARGET_DC
@@ -117,10 +117,10 @@ bool	SetupHost(ULONG flags)
 	wnd_class.cbClsExtra	=	0;
 	wnd_class.cbWndExtra	=	0;
 	wnd_class.hInstance		=	hGlobalInstance;
-	wnd_class.hIcon			=	NULL;
-	wnd_class.hCursor		=	NULL;
-	wnd_class.hbrBackground	=	NULL;
-	wnd_class.lpszMenuName	=	NULL;
+	wnd_class.hIcon			=	nullptr;
+	wnd_class.hCursor		=	nullptr;
+	wnd_class.hbrBackground	=	nullptr;
+	wnd_class.lpszMenuName	=	nullptr;
 	wnd_class.lpszClassName	=	TEXT(SHELL_NAME);
 
 #endif //#else //#ifndef TARGET_DC
@@ -128,7 +128,7 @@ bool	SetupHost(ULONG flags)
 	RegisterClass(&wnd_class);
 
 	hShellThread	=	CreateThread(
-										NULL,
+										nullptr,
 										0,
 										(LPTHREAD_START_ROUTINE)ShellThread,
 										0,
@@ -301,9 +301,9 @@ ULONG	ShellThread(ULONG arg)
 /*
 		while(1)
 		{
-	        if(PeekMessage(&msg,NULL,0,0,PM_REMOVE))
+	        if(PeekMessage(&msg,nullptr,0,0,PM_REMOVE))
 	        {
-//	            if(!GetMessage(&msg,NULL,0,0))
+//	            if(!GetMessage(&msg,nullptr,0,0))
 //	                break;
 	            TranslateMessage(&msg); 
 	            DispatchMessage(&msg);
@@ -315,7 +315,7 @@ ULONG	ShellThread(ULONG arg)
 	        }
 		}
 */
-		while(GetMessage(&msg,NULL,0,0) && (DisplayState&DS_SHELL_WINDOW_OPEN))
+		while(GetMessage(&msg,nullptr,0,0) && (DisplayState&DS_SHELL_WINDOW_OPEN))
 		{
 	    	TranslateMessage(&msg); 
 	    	DispatchMessage(&msg);
@@ -351,10 +351,10 @@ SLONG	CreateShellWindow()
 											GetSystemMetrics(SM_CXSCREEN),
 											GetSystemMetrics(SM_CYSCREEN),
 #endif
-											NULL,
-											NULL,
+											nullptr,
+											nullptr,
 											hGlobalInstance,
-								            NULL
+								            nullptr
 										);
 	ERROR_MSG(hShellWindow,"Can't create the shell window.")
 

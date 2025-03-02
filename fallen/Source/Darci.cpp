@@ -86,10 +86,10 @@ extern void	fn_person_idle(Thing *p_person);
 StateFunction darci_states[]	=
 {
 	{	STATE_INIT,				fn_darci_init	},
-	{	STATE_NORMAL,			NULL	},
-	{	STATE_HIT,				NULL			},
-	{	STATE_ABOUT_TO_REMOVE,	NULL			},
-	{	STATE_REMOVE_ME,		NULL			},
+	{	STATE_NORMAL,			nullptr	},
+	{	STATE_HIT,				nullptr			},
+	{	STATE_ABOUT_TO_REMOVE,	nullptr			},
+	{	STATE_REMOVE_ME,		nullptr			},
 	{	STATE_MOVEING,			fn_person_moveing},
 	{	STATE_IDLE,				fn_person_idle	}
 
@@ -112,8 +112,8 @@ void fn_darci_init(Thing *t_thing)
 	t_thing->Draw.Tweened->Tilt			=	0;
 	t_thing->Draw.Tweened->AnimTween	=	0;
 	t_thing->Draw.Tweened->TweenStage	=	0;
-	t_thing->Draw.Tweened->NextFrame	=	NULL;
-	t_thing->Draw.Tweened->QueuedFrame	=	NULL;
+	t_thing->Draw.Tweened->NextFrame	=	nullptr;
+	t_thing->Draw.Tweened->QueuedFrame	=	nullptr;
 	t_thing->Draw.Tweened->TheChunk		=	&game_chunk[0];
 	t_thing->Draw.Tweened->FrameIndex	=	0;
 	t_thing->Draw.Tweened->Flags		=	FLAGS_DRAW_SHADOW;
@@ -271,7 +271,7 @@ SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWOR
 	}
 	else
 	{
-		ignore_building = NULL;
+		ignore_building = nullptr;
 	}
 
 	
@@ -444,7 +444,7 @@ SLONG damage_person_on_land(Thing *p_thing)
 	     if (p_thing->DY < -20000) {sound = PCOM_SOUND_DROP_BIG;}
 	else if (p_thing->DY < -10000) {sound = PCOM_SOUND_DROP_MED;}
 	else if (p_thing->DY <  -5000) {sound = PCOM_SOUND_DROP;}
-	else                           {sound = NULL;}
+	else                           {sound = nullptr;}
 
 	if (sound)
 	{
@@ -527,7 +527,7 @@ SLONG damage_person_on_land(Thing *p_thing)
 
 			set_person_dead(
 				p_thing,
-				NULL,
+				nullptr,
 				PERSON_DEATH_TYPE_LAND,
 				false,
 				0);

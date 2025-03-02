@@ -72,7 +72,7 @@ SLONG CNET_configure()
 	#define NUM_NAMES 16
 #ifndef	PSX
 #ifndef TARGET_DC
-	srand(time(NULL));
+	srand(time(nullptr));
 #endif
 #endif
 

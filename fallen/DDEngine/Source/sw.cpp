@@ -594,7 +594,7 @@ void SW_insert_span(SW_Span *ss, SLONG line)
 
 	while(1)
 	{
-		if (ss_next == NULL || ss->x2 <= ss_next->x1)
+		if (ss_next == nullptr || ss->x2 <= ss_next->x1)
 		{
 			//
 			// This is where to insert the span.
@@ -1346,7 +1346,7 @@ void SW_add_alpha_sprite(
 	// order they are submitted!
 	//
 
-	sa->next                     = NULL;
+	sa->next                     = nullptr;
    *(SW_alpha_bucket_end[zsort]) = sa;
 	SW_alpha_bucket_end[zsort]   = &sa->next;
 }
@@ -1386,7 +1386,7 @@ void SW_clip_and_draw_span(SW_Span *ss, SLONG line, SLONG mode)
 
 	while(1)
 	{
-		if (ss_next == NULL || ss->x2 <= ss_next->x1)
+		if (ss_next == nullptr || ss->x2 <= ss_next->x1)
 		{
 			//
 			// Draw the span.
@@ -3613,7 +3613,7 @@ void SW_add_triangle(
 
 	st = &SW_texture[page];
 
-	if (st->data == NULL)
+	if (!st->data )
 	{
 		//
 		// No texture loaded.
@@ -5758,7 +5758,7 @@ void SW_test_triangle(
 
 	st = &SW_texture[page];
 
-	if (st->data == NULL)
+	if (!st->data )
 	{
 		//
 		// No texture loaded.

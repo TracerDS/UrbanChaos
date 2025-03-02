@@ -1654,7 +1654,7 @@ LRESULT	CALLBACK	scene_map_view_proc	(
 										LPARAM lParam
 									)
 {
-	static Thing *dragitem=NULL;
+	static Thing *dragitem=nullptr;
 	static int dragmode=0;
 	SLONG wx,wy,wz,dx,dz, angle;
 
@@ -1761,7 +1761,7 @@ bool	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			browser->SetDraggable(drag);
 			browser->SetCallback(browserCB);
 
-//			timer = SetTimer(hWnd,NULL,40,tf);
+//			timer = SetTimer(hWnd,nullptr,40,tf);
 
 			timeline = new TimeLine(
 				GetDlgItem(hWnd,IDC_LIST2), 
@@ -2038,12 +2038,12 @@ void	do_cutscene_setup(EventPoint *the_ep)
 	new_class.cbClsExtra	=	0;
 	new_class.cbWndExtra	=	sizeof(HANDLE);
 	new_class.hInstance		=	GEDIT_hinstance;
-	new_class.hIcon			=	NULL;
+	new_class.hIcon			=	nullptr;
 	new_class.hCursor		=	GEDIT_arrow;
 	new_class.hbrBackground	=	(struct HBRUSH__ *)GetStockObject(BLACK_BRUSH);
-	new_class.lpszMenuName	=	NULL;
+	new_class.lpszMenuName	=	nullptr;
 	new_class.lpszClassName	=	"Scene Map View";
-	new_class.hIconSm		=	NULL;
+	new_class.hIconSm		=	nullptr;
 	the_class=RegisterClassEx(&new_class);
 	if(!the_class) return;
 
@@ -2077,7 +2077,7 @@ void	do_cutscene_setup(EventPoint *the_ep)
 	{
 //		MFX_set_listener(cam_x,cam_y,cam_z,-(cam_yaw),0,-(cam_pitch));
 		MFX_update();
-		if(!PeekMessage(&msg, NULL, NULL, NULL, PM_NOREMOVE))
+		if(!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
 		{
 			// No messages pending- send a user message so we can
 			// do our processing and display the engine.
@@ -2089,7 +2089,7 @@ void	do_cutscene_setup(EventPoint *the_ep)
 			ClearLatchedKeys();
 		}
 
-		result	=	GetMessage(&msg, NULL, 0, 0);
+		result	=	GetMessage(&msg, nullptr, 0, 0);
 		if(result==0 || result==-1)
 			break;
 

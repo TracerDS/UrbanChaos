@@ -115,7 +115,7 @@ typedef struct
 
 
 //
-// Creates a texture from a file. Returns NULL on failure.
+// Creates a texture from a file. Returns nullptr on failure.
 //
 
 LL_Texture *LL_create_texture(CBYTE* fname);
@@ -130,7 +130,7 @@ void LL_free_texture(LL_Texture *lt);
 
 
 //
-// Loads a sound from a file. Returns NULL on failure.
+// Loads a sound from a file. Returns nullptr on failure.
 // 
 
 LL_Sound *LL_create_sound(CBYTE* fname);
@@ -154,7 +154,7 @@ LL_Buffer *LL_create_buffer(
 				SLONG  type,
 				void  *vert,
 				SLONG  num_verts,
-				UWORD *index,			// If NULL then this is a LIST buffer rather than an INDEXED buffer.
+				UWORD *index,			// If nullptr then this is a LIST buffer rather than an INDEXED buffer.
 				SLONG  num_indices);
 
 //
@@ -197,7 +197,7 @@ void LL_free_buffer(LL_Buffer *lb);
 
 void LL_draw_buffer(
 		LL_Buffer  *lb,
-		LL_Texture *lt,		// NULL => Draw untextured
+		LL_Texture *lt,		// nullptr => Draw untextured
 		ULONG       rs);	// The LL_RS_* renderstates ORed together.
 
 

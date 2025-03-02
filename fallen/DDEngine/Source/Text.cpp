@@ -235,7 +235,7 @@ void	draw_centre_text_at(float x, float y,CBYTE* message,SLONG font_id,SLONG fla
 	float				height;
 	float				width;
 
-	height	=	(float) text_height("y",font_id,NULL);
+	height	=	(float) text_height("y",font_id,nullptr);
 	while(*message)
 	{
  		width	=	(float) text_width(message,font_id,&char_count);

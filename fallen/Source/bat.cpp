@@ -298,14 +298,14 @@ void BAT_set_anim(Thing *p_thing, SLONG anim)
 	}
 
 	dt->AnimTween	 =	0;
-	dt->QueuedFrame	 =	NULL;
+	dt->QueuedFrame	 =	nullptr;
 	dt->TheChunk	 = &anim_chunk[p_thing->Genus.Bat->type];
 	dt->CurrentFrame =  anim_chunk[p_thing->Genus.Bat->type].AnimList[anim];
 	dt->NextFrame	 =  dt->CurrentFrame->NextFrame;
 	dt->CurrentAnim	 =  anim;
 	dt->FrameIndex	 =  0;
 
-	if (dt->NextFrame == NULL)
+	if (!dt->NextFrame )
 	{
 		dt->NextFrame = dt->CurrentFrame->NextFrame;
 	}
@@ -605,7 +605,7 @@ void BAT_change_state(Thing *p_thing)
 
 		SLONG best_score = INFINITY;
 		SLONG best_dist  = 0;
-		SLONG best_index = NULL;
+		SLONG best_index = nullptr;
 
 		Thing *p_found;
 
@@ -810,9 +810,9 @@ void BAT_change_state(Thing *p_thing)
 	else
 	if (p_bat->type == BAT_TYPE_BANE)
 	{
-		p_bat->target = NULL;
+		p_bat->target = nullptr;
 
-		if (BAT_summon[0] == NULL)
+		if (!BAT_summon[0] )
 		{
 			new_state = BAT_STATE_BANE_START;
 		}
@@ -843,7 +843,7 @@ void BAT_change_state(Thing *p_thing)
 		}
 		else
 		{
-			p_bat->target = NULL;
+			p_bat->target = nullptr;
 		}
 
 		//
@@ -868,7 +868,7 @@ void BAT_change_state(Thing *p_thing)
 
 			if (p_bat->type   == BAT_TYPE_GARGOYLE &&
 				new_state     == BAT_STATE_CIRCLE  &&
-				p_bat->target != NULL)
+				p_bat->target != nullptr)
 			{
 				new_state = BAT_STATE_ATTACK;
 			}
@@ -1549,7 +1549,7 @@ void BAT_normal(Thing *p_thing)
 							{
 								set_person_dead(
 									p_target,
-									NULL,
+									nullptr,
 									PERSON_DEATH_TYPE_OTHER,
 									false,
 									false);
@@ -2192,7 +2192,7 @@ void BAT_normal(Thing *p_thing)
 								{
 									set_person_dead(
 										darci,
-										NULL,
+										nullptr,
 										PERSON_DEATH_TYPE_OTHER,
 										false,
 										0);
@@ -2366,13 +2366,13 @@ THING_INDEX BAT_create(
 
 	p_thing = alloc_thing(CLASS_BAT);
 
-	if (p_thing == NULL)
+	if (!p_thing )
 	{
 		//
 		// No more things left!
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -2393,7 +2393,7 @@ THING_INDEX BAT_create(
 	// No more bat structures.
 	//
 
-	return NULL;
+	return nullptr;
 
   found_unused_bat:;
 
@@ -2403,9 +2403,9 @@ THING_INDEX BAT_create(
 
 	dt = alloc_draw_tween(DT_ROT_MULTI);
 
-	if (dt == NULL)
+	if (!dt )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 #ifndef PSX
@@ -2434,7 +2434,7 @@ extern SLONG load_anim_prim_object(SLONG prim);
 
 	p_thing->Genus.Bat = p_bat;
 	p_thing->State     = STATE_NORMAL;
-	p_thing->SubState  = NULL;
+	p_thing->SubState  = nullptr;
 	p_thing->StateFn   = BAT_normal;
 	p_thing->Index	   = type;
 
@@ -2449,8 +2449,8 @@ extern SLONG load_anim_prim_object(SLONG prim);
 	dt->Tilt		 =	0;
 	dt->AnimTween	 =	0;
 	dt->TweenStage	 =	0;
-	dt->NextFrame	 =	NULL;
-	dt->QueuedFrame	 =	NULL;
+	dt->NextFrame	 =	nullptr;
+	dt->QueuedFrame	 =	nullptr;
 	dt->TheChunk	 = &anim_chunk[type];
 	dt->CurrentFrame =  anim_chunk[type].AnimList[1];
 	dt->NextFrame	 =  dt->CurrentFrame->NextFrame;
@@ -2469,7 +2469,7 @@ extern SLONG load_anim_prim_object(SLONG prim);
 	p_bat->health   = 100;
 	p_bat->home_x   = x >> 8;
 	p_bat->home_z   = z >> 8;
-	p_bat->target   = NULL;
+	p_bat->target   = nullptr;
 	p_bat->timer    = 0;
 	p_bat->flag     = 0;
 

@@ -41,7 +41,7 @@ HMENU CreateMultiChoiceMenu(CBYTE* opts) {
  */
 
 void GadgetBase::Repaint() {
-  InvalidateRect(hWnd,NULL,false);
+  InvalidateRect(hWnd,nullptr,false);
 }
 
 /**********************************************************************
@@ -272,7 +272,7 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 					res=TrackPopupMenuEx(popup,
 									 TPM_CENTERALIGN|TPM_VCENTERALIGN|TPM_NONOTIFY|TPM_RETURNCMD|TPM_LEFTBUTTON,
 									 pt.x,pt.y,
-									 hWnd, NULL);								 
+									 hWnd, nullptr);								 
 					if (res>0) {
 						GetMenuString(popup,res,buff,_MAX_PATH,MF_BYCOMMAND);
 						Update(item.iItem,buff);
@@ -383,7 +383,7 @@ int TreeBrowser::AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE inden
 void TreeBrowser::SetImageList(HINSTANCE inst, SLONG idx) {
 
 	if (image_list) {
-		TreeView_SetImageList(hWnd,NULL,TVSIL_NORMAL);
+		TreeView_SetImageList(hWnd,nullptr,TVSIL_NORMAL);
 		ImageList_Destroy(image_list);
 	}
 
@@ -582,7 +582,7 @@ TimeLine::TimeLine(HWND nhWnd, TimeLineRuler *nrule, TimeLineScroll *nscroll) {
 	if (ruler) ruler->SetOwner(this);
 	scroll=nscroll;
 	if (scroll) scroll->SetOwner(this);
-	callback=NULL;
+	callback=nullptr;
 }
 
 TimeLine::~TimeLine() {
@@ -704,14 +704,14 @@ void TimeLine::Draw(LPARAM lParam) {
 			rc.left=draw_read_head; rc.right=draw_read_head+16;
 			if (entry->marks[c0]&3) {
 			  which=(entry->marks[c0]&1)?1:2;
-			  MoveToEx(dis->hDC,rc.left,rc.top+(which*8)-4,NULL);
+			  MoveToEx(dis->hDC,rc.left,rc.top+(which*8)-4,nullptr);
 			  LineTo(dis->hDC,rc.right,rc.top+(which*8)-4);
 			  if (entry->marks[c0]&128) { // start
-				MoveToEx(dis->hDC,rc.left,rc.top+(which*8)-8,NULL);
+				MoveToEx(dis->hDC,rc.left,rc.top+(which*8)-8,nullptr);
 				LineTo(dis->hDC,rc.left,rc.top+(which*8));
 			  }
 			  if (entry->marks[c0]&64) {  // end
-				MoveToEx(dis->hDC,rc.right-4,rc.top+(which*8)-8,NULL);
+				MoveToEx(dis->hDC,rc.right-4,rc.top+(which*8)-8,nullptr);
 				LineTo(dis->hDC,rc.right,rc.top+(which*8)-4);
 				LineTo(dis->hDC,rc.right-4,rc.top+(which*8));
 			  }
@@ -774,8 +774,8 @@ void TimeLine::MarkEntry(UWORD index, UWORD start, UWORD length, UBYTE which) {
 void TimeLine::SetReadHead(int newpos) {
 	if (read_head!=newpos) {
 		read_head=newpos;
-		InvalidateRect(hWnd,NULL,false);
-		if (ruler) InvalidateRect(ruler->hWnd,NULL,false);
+		InvalidateRect(hWnd,nullptr,false);
+		if (ruler) InvalidateRect(ruler->hWnd,nullptr,false);
 	}
 	if (callback) callback(this, TLCB_SELECT, SendMessage(hWnd,LB_GETCURSEL,0,0), 1, newpos);
 }
@@ -787,8 +787,8 @@ int	 TimeLine::GetSelectedRow() {
 void TimeLine::SetScrollPos(int newpos) {
 	if (scroll_offset!=newpos) {
 		scroll_offset=newpos;
-		InvalidateRect(hWnd,NULL,false);
-		if (ruler) InvalidateRect(ruler->hWnd,NULL,false);
+		InvalidateRect(hWnd,nullptr,false);
+		if (ruler) InvalidateRect(ruler->hWnd,nullptr,false);
 	}
 }
 

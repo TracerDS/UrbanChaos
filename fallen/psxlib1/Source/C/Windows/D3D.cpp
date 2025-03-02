@@ -15,8 +15,8 @@ SLONG DeviceBitDepth;
 D3DDEVICEDESC d3d_DeviceDesc;
 GUID GUIDDevice;
 IDirect3DDevice2 *lp_D3D_Device;
-LPDIRECT3D lp_D3D			=	NULL;
-LPDIRECT3D2 lp_D3D_2		=	NULL;
+LPDIRECT3D lp_D3D			=	nullptr;
+LPDIRECT3D2 lp_D3D_2		=	nullptr;
 LPDIRECTDRAWSURFACE lp_DD_ZBuffer;
 
 HRESULT WINAPI	EnumDeviceCallback(LPGUID,LPSTR,LPSTR,LPD3DDEVICEDESC,LPD3DDEVICEDESC,LPVOID);
@@ -106,7 +106,7 @@ bool ChooseD3DDevice(ULONG flags)
 		    } 		 
 		    DeviceFound			=	false; 
 			RequestFlags		=	flags;
-		    dd_result			=	lp_D3D_2->EnumDevices(EnumDeviceCallback,NULL);
+		    dd_result			=	lp_D3D_2->EnumDevices(EnumDeviceCallback,nullptr);
 
 			if(dd_result==D3D_OK && DeviceFound)
 			{
@@ -143,7 +143,7 @@ bool ChooseD3DDevice(ULONG flags)
 				if(d3d_DeviceDesc.dwDeviceZBufferBitDepth&DDBD_16)	{	dd_sd.dwZBufferBitDepth=16;	}
 				if(d3d_DeviceDesc.dwDeviceZBufferBitDepth&DDBD_8 )	{	dd_sd.dwZBufferBitDepth=8;	}
 */
-				dd_result	=	lp_DD->CreateSurface(&dd_sd,&lp_DD_ZBuffer,NULL);
+				dd_result	=	lp_DD->CreateSurface(&dd_sd,&lp_DD_ZBuffer,nullptr);
 				if(dd_result!=DD_OK)
 				{
 					LogText("error: %ld - Can't create ZBuffer\n",dd_result&0xffff);

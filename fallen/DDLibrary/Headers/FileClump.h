@@ -21,7 +21,7 @@ public:
 	bool	Write(void* buffer, size_t nbytes, ULONG id);	// write a whole file
 
 private:
-	FILE*			ClumpFD;	// FILE* for the clump, may be NULL if the open failed
+	FILE*			ClumpFD;	// FILE* for the clump, may be nullptr if the open failed
 	ULONG			MaxID;		// maximum ID
 	size_t*			Offsets;	// MaxID offsets
 	size_t*			Lengths;	// MaxID lengths

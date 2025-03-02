@@ -70,7 +70,7 @@ typedef struct
 	UWORD				Tilt;
 	UWORD				ObjectId;
 	CACHE_Index			Cache;  //ubyte
-	UBYTE				Hm;		// 255 => NULL
+	UBYTE				Hm;		// 255 => nullptr
 
 }DrawMesh;
 

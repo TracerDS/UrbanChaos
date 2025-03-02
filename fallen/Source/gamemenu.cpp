@@ -97,7 +97,7 @@ typedef struct
 
 GAMEMENU_Menu GAMEMENU_menu[GAMEMENU_MENU_TYPE_NUMBER] =
 {
-	{NULL},
+	{nullptr},
 	{X_GAME_PAUSED, X_RESUME_LEVEL, X_RESTART_LEVEL, X_ABANDON_GAME},
 	{X_LEVEL_COMPLETE},
 	{X_LEVEL_LOST, X_RESTART_LEVEL,  X_ABANDON_GAME},
@@ -146,7 +146,7 @@ void GAMEMENU_init()
 	GAMEMENU_slowdown           = 0x10000;
 	GAMEMENU_menu_selection     = 1;
 	GAMEMENU_wait               = 0;
-	GAMEMENU_level_lost_reason  = NULL;
+	GAMEMENU_level_lost_reason  = nullptr;
 
 	GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
 }
@@ -343,7 +343,7 @@ extern DIJOYSTATE the_state;
 #ifdef TARGET_DC
 	// If there is no primary (i.e. a controller was removed), go into the pause menu.
 extern DIDeviceInfo *primary_device;
-	if ( ( primary_device == NULL ) && ( GAMEMENU_menu_type == GAMEMENU_MENU_TYPE_NONE ) )
+	if ( ( primary_device == nullptr ) && ( GAMEMENU_menu_type == GAMEMENU_MENU_TYPE_NONE ) )
 	{
 		GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
 	}
@@ -392,7 +392,7 @@ extern DIDeviceInfo *primary_device;
 				{
 					for (i = 1; i <= 7; i++)
 					{
-						if ( GAMEMENU_menu[GAMEMENU_menu_type].word[i] != NULL )
+						if ( GAMEMENU_menu[GAMEMENU_menu_type].word[i] != nullptr )
 						{
 							GAMEMENU_menu_selection = i;
 						}
@@ -412,7 +412,7 @@ extern DIDeviceInfo *primary_device;
 
 				GAMEMENU_menu_selection += 1;
 
-				if ( ( GAMEMENU_menu_selection > 7 ) || ( GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection] == NULL ) )
+				if ( ( GAMEMENU_menu_selection > 7 ) || ( GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection] == nullptr ) )
 				{
 					GAMEMENU_menu_selection = 1;
 				}
@@ -422,7 +422,7 @@ extern DIDeviceInfo *primary_device;
 
 			SATURATE(GAMEMENU_menu_selection, 1, 7);
 
-			if (GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection] == NULL)
+			if (!GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection] )
 			{
 				GAMEMENU_menu_selection -= 1;
 
@@ -451,7 +451,7 @@ extern DIDeviceInfo *primary_device;
 
 				switch(GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection])
 				{
-					case NULL:
+					case nullptr:
 						return GAMEMENU_DO_NEXT_LEVEL;
 
 					case X_RESUME_LEVEL:
@@ -599,7 +599,7 @@ extern void ScoresDraw();	// From attract
 		static iFlash = 0;
 extern DIDeviceInfo *primary_device;
 extern bool AreAnyDevicesConnected ( void );
-		if ( primary_device == NULL )
+		if ( primary_device == nullptr )
 		{
 			UBYTE bMyFade = 255;
 			if ( ( iFlash & 0x10 ) == 0 )

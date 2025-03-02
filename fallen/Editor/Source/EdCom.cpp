@@ -26,8 +26,8 @@ void	init_ed_clists()
 {
 	ed_clist_count	=	0;
 	memset(edit_clists,0,sizeof(edit_clists));
-	clists			=	NULL;
-	clists_end		=	NULL;
+	clists			=	nullptr;
+	clists_end		=	nullptr;
 
 	init_ed_conditions();
 }
@@ -49,8 +49,8 @@ EditCondList	*alloc_ed_clist()
 			sprintf(the_clist->CListName,"Condition List %d",c0);
 
 			the_clist->ConditionCount	=	0;
-			the_clist->ConditionList	=	NULL;
-			the_clist->ConditionListEnd	=	NULL;
+			the_clist->ConditionList	=	nullptr;
+			the_clist->ConditionListEnd	=	nullptr;
 
 			add_clist(the_clist);
 			ed_clist_count++;
@@ -58,7 +58,7 @@ EditCondList	*alloc_ed_clist()
 			return	the_clist;
 		}
 	}
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -91,7 +91,7 @@ void	add_clist(EditCondList *the_clist)
 {
 	//	Add to list.
 	the_clist->Prev	=	clists_end;
-	the_clist->Next	=	NULL;
+	the_clist->Next	=	nullptr;
 
 	//	Update list end.
 	if(clists_end)
@@ -138,7 +138,7 @@ void	add_condition(EditCondList *the_clist,EditCondition *the_condition)
 
 	//	Add to list.
 	the_condition->Prev	=	the_clist->ConditionListEnd;
-	the_condition->Next	=	NULL;
+	the_condition->Next	=	nullptr;
 
 	//	Update list end.
 	if(the_clist->ConditionListEnd)
@@ -224,7 +224,7 @@ EditCondition	*alloc_ed_condition()
 			return	the_condition;
 		}
 	}
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -252,8 +252,8 @@ void		remove_comlist(EditComList *the_comlist);
 void	init_ed_comlists()
 {
 	ed_comlist_count	=	0;
-	comlists			=	NULL;
-	comlists_end		=	NULL;
+	comlists			=	nullptr;
+	comlists_end		=	nullptr;
 	memset(edit_comlists,0,sizeof(edit_comlists));
 
 	init_ed_commands();
@@ -276,8 +276,8 @@ EditComList	*alloc_ed_comlist()
 			sprintf(the_comlist->ComListName,"Command List %d",c0);
 
 			the_comlist->CommandCount	=	0;
-			the_comlist->CommandList	=	NULL;
-			the_comlist->CommandListEnd	=	NULL;
+			the_comlist->CommandList	=	nullptr;
+			the_comlist->CommandListEnd	=	nullptr;
 
 			add_comlist(the_comlist);
 			ed_comlist_count++;
@@ -285,7 +285,7 @@ EditComList	*alloc_ed_comlist()
 			return	the_comlist;
 		}
 	}
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -318,7 +318,7 @@ void	add_comlist(EditComList *the_comlist)
 {
 	//	Add to list.
 	the_comlist->Prev	=	comlists_end;
-	the_comlist->Next	=	NULL;
+	the_comlist->Next	=	nullptr;
 
 	//	Update list end.
 	if(comlists_end)
@@ -365,7 +365,7 @@ void	add_command(EditComList *the_comlist,EditCommand *the_command)
 
 	//	Add to list.
 	the_command->Prev	=	the_comlist->CommandListEnd;
-	the_command->Next	=	NULL;
+	the_command->Next	=	nullptr;
 
 	//	Update list end.
 	if(the_comlist->CommandListEnd)
@@ -451,7 +451,7 @@ EditCommand	*alloc_ed_command()
 			return	the_command;
 		}
 	}
-	return	NULL;
+	return	nullptr;
 }
 
 //---------------------------------------------------------------

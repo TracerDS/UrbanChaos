@@ -54,7 +54,7 @@ void InitGrenades()
 {
 	for (int ii = 0; ii < MAX_GRENADES; ii++)
 	{
-		GrenadeArray[ii].owner = NULL;
+		GrenadeArray[ii].owner = nullptr;
 	}
 }
 
@@ -166,7 +166,7 @@ void DrawGrenades()
 
 		if (gp->owner)
 		{
-			MESH_draw_poly(PRIM_OBJ_ITEM_GRENADE, gp->x >> 8, gp->y >> 8, gp->z >> 8, gp->yaw, gp->pitch, 0, NULL, 0xff);
+			MESH_draw_poly(PRIM_OBJ_ITEM_GRENADE, gp->x >> 8, gp->y >> 8, gp->z >> 8, gp->yaw, gp->pitch, 0, nullptr, 0xff);
 
 			angle   = GAME_TURN;
 			angle <<= 6;
@@ -217,7 +217,7 @@ void ProcessGrenade(Grenade* gp,SLONG explode,SLONG ii)
 			// grenade explodes
 			if(explode)
 				CreateGrenadeExplosion(gp->x, gp->y, gp->z, gp->owner);
-			gp->owner = NULL;
+			gp->owner = nullptr;
 			return;
 		}
 		else

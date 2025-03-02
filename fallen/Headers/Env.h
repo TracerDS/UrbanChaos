@@ -23,7 +23,7 @@ void ENV_load(CBYTE* fname);
 // it loads the block and returns a pointer to the end of the block.
 extern char *ENV_load ( char *pcData );
 
-// Call once with pcData = NULL, and it returns the number of
+// Call once with pcData = nullptr, and it returns the number of
 // bytes it needs to save the data. Call it again with a pointer
 // to the start of this data, and it will actually fill in the data
 // (and return the number of bytes again).
@@ -36,7 +36,7 @@ extern int ENV_save ( char *pcData );
 // retrieve values
 //
 
-CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section = "Game");				// returns NULL if not found - NOTE: string is in a static buffer
+CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section = "Game");				// returns nullptr if not found - NOTE: string is in a static buffer
 SLONG  ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section = "Game");	// returns def if not found
 
 //

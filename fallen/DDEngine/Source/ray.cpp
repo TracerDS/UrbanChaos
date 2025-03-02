@@ -934,7 +934,7 @@ void RAY_render_scene()
 		span[1].in   = 0;
 		span[1].out  = 0;
 		span[1].x    = RAY_SCREEN_SIZE;
-		span[1].next = NULL;
+		span[1].next = nullptr;
 
 		span_upto = 2;
 
@@ -964,7 +964,7 @@ void RAY_render_scene()
 
 				while(1)
 				{
-					if (next != NULL && span_minx > next->x)
+					if (next != nullptr && span_minx > next->x)
 					{
 						//
 						// Don't insert it here.
@@ -1001,7 +1001,7 @@ void RAY_render_scene()
 
 				while(1)
 				{
-					if (next != NULL && span_maxx > next->x)
+					if (next != nullptr && span_maxx > next->x)
 					{
 						//
 						// Don't insert it here.

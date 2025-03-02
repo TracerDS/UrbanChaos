@@ -154,16 +154,16 @@ void SKY_init(CBYTE* star_file)
 	// Place down the stars.
 	//
 
-	if (star_file == NULL)
+	if (!star_file )
 	{
-		handle = NULL;
+		handle = nullptr;
 	}
 	else
 	{
 		handle = MF_Fopen(star_file, "rb");
 	}
 
-	if (handle == NULL)
+	if (!handle )
 	{
 		//
 		// Randomly generate the stars...

@@ -113,7 +113,7 @@ void OB_create(
 
 //
 // Returns an array of all the prims found on the lo-res mapsquare.
-// The array is terminated with an object having a NULL prim.
+// The array is terminated with an object having a nullptr prim.
 //
 
 OB_Info *OB_find(SLONG lo_map_x, SLONG lo_map_z);
@@ -176,7 +176,7 @@ void OB_damage(
 		SLONG  from_dz,		
 		SLONG  ob_x,			// The position of the ob!
 		SLONG  ob_z,
-		Thing *p_aggressor);	// Who caused the damage or NULL if you don't know
+		Thing *p_aggressor);	// Who caused the damage or nullptr if you don't know
 
 //
 // Returns true if there is a prim at (x,y,z)

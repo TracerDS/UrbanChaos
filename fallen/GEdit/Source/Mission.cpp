@@ -84,8 +84,8 @@ void	MISSION_init()
 {
 	ZeroMemory(game_maps,sizeof(game_maps));
 	ZeroMemory(mission_pool,sizeof(mission_pool));
-	current_map		=	NULL;
-	current_mission	=	NULL;
+	current_map		=	nullptr;
+	current_mission	=	nullptr;
 }
 
 //---------------------------------------------------------------
@@ -215,7 +215,7 @@ void ResetUsedpoint(Mission *mission) {
 void ResetFreelist(Mission *mission) {
 	// sheesh
 	SLONG prv=0, c0;
-	EventPoint *last=NULL,*curr=NULL;
+	EventPoint *last=nullptr,*curr=nullptr;
 
 	curr=mission->EventPoints;
 	for (c0=1;c0<MAX_EVENTPOINTS;c0++) {
@@ -233,7 +233,7 @@ void ResetFreelist(Mission *mission) {
 void ResetUsedlist(Mission *mission) {
 	// sheesh
 	SLONG prv=0, c0;
-	EventPoint *last=NULL,*curr;
+	EventPoint *last=nullptr,*curr;
 
 	curr=mission->EventPoints;
 	for (c0=1;c0<MAX_EVENTPOINTS;c0++) {
@@ -343,7 +343,7 @@ EventPoint	*alloc_eventpoint()
 			return	the_epoint;
 		}		
 	}
-	return	NULL;
+	return	nullptr;
   
 
 /*  // shitty method to keep things in numerical order. ish.
@@ -381,7 +381,7 @@ EventPoint	*alloc_eventpoint()
 			return	the_epoint;
 		}		
 	}
-	return	NULL;
+	return	nullptr;
 */
 }
 
@@ -595,7 +595,7 @@ bool	export_mission()
 //		sprintf(mission_name,"*.ucm");
 		sprintf(mission_name,"%s.ucm",current_mission->MissionName);
 		save_mission.lStructSize		=	sizeof(OPENFILENAME);
-		save_mission.hwndOwner			=	NULL;
+		save_mission.hwndOwner			=	nullptr;
 		save_mission.lpstrFilter		=	"Game Mission Files\0*.ucm\0\0";
 		save_mission.lpstrFile			=	mission_name;
 		save_mission.nMaxFile			=	_MAX_PATH;
@@ -938,7 +938,7 @@ void import_mission() {
 	ZeroMemory(&open_mission,sizeof(OPENFILENAME));
 	sprintf(mission_name,"*.ucm");
 	open_mission.lStructSize		=	sizeof(OPENFILENAME);
-	open_mission.hwndOwner			=	NULL;
+	open_mission.hwndOwner			=	nullptr;
 	open_mission.lpstrFilter		=	"Game Mission Files\0*.ucm\0\0";
 	open_mission.lpstrFile			=	mission_name;
 	open_mission.nMaxFile			=	_MAX_PATH;
@@ -1016,7 +1016,7 @@ void import_mission() {
 					new_element->MissionRef		=	new_mission;
 
 					//	Update the window.
-					InvalidateRect(ws_tree, NULL, false);
+					InvalidateRect(ws_tree, nullptr, false);
 				}
 			}
 
@@ -1127,7 +1127,7 @@ void refresh_mission()
 		new_element->MissionRef		=	new_mission;
 
 		//	Update the window.
-		InvalidateRect(ws_tree, NULL, false);
+		InvalidateRect(ws_tree, nullptr, false);
 	}*/
 
 	fclose(file_handle);
@@ -1621,8 +1621,8 @@ bool valid_mission() {
 	bool miss_valid=1;
 
 	if(!current_mission) return false;
-	selected_ep=hilited_ep=NULL;
-	TreeView_SelectItem(wpt_tree,NULL);
+	selected_ep=hilited_ep=nullptr;
+	TreeView_SelectItem(wpt_tree,nullptr);
 
 	treasure_counter=0;
 	
@@ -1688,7 +1688,7 @@ bool valid_mission() {
 						// 
 					}
 					else
-					if (ep->Data[2] != NULL)
+					if (ep->Data[2] )
 					{
 						//
 						// This is a message from someone... so it can't be a street name.
@@ -1705,7 +1705,7 @@ bool valid_mission() {
 						// This could be a street name... better ask the level designer!
 						//
 
-						if (MessageBox(NULL, mess, "Change message type?", MB_ICONQUESTION | MB_YESNO) == IDYES)
+						if (MessageBox(nullptr, mess, "Change message type?", MB_ICONQUESTION | MB_YESNO) == IDYES)
 						{
 							ep->Data[2] = 0xffff;
 						}

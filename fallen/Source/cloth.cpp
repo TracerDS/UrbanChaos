@@ -334,7 +334,7 @@ UBYTE CLOTH_create(
 	// No unused cloth structure :o(
 	//
 
-	return NULL;
+	return nullptr;
 
   found_unused_cloth:;
 

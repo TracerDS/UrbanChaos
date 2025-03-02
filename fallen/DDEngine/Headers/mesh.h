@@ -26,7 +26,7 @@ void MESH_init();
 
 
 //
-// Draws a mesh using the POLY module.  If 'lpc' is NULL then, the ambient
+// Draws a mesh using the POLY module.  If 'lpc' is nullptr then, the ambient
 // light colour is used.  Returns the address of after the end of the lpc array.
 //
 

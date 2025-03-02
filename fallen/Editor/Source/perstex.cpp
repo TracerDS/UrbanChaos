@@ -58,7 +58,7 @@ SLONG PERSTEX_get_number(CBYTE* fname)
 
 	handle_tga = fopen(fullname_tga, "rb");
 
-	if (handle_tga == NULL)
+	if (!handle_tga )
 	{
 		//
 		// Could not find this texture- just use the question mark texture.

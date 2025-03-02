@@ -52,7 +52,7 @@ void BAT_init();
 
 
 //
-// Creates a new bat thing. Returns the THING_INDEX or NULL if
+// Creates a new bat thing. Returns the THING_INDEX or nullptr if
 // it couldn't create a bat.
 //
 

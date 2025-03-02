@@ -434,7 +434,7 @@ void FC_calc_focus(FC_Cam *fc)
 	// By default...
 	//
 
-	fc->focus_in_warehouse = NULL;
+	fc->focus_in_warehouse = nullptr;
 
 	//
 	// Focus yaw.
@@ -1166,7 +1166,7 @@ void FC_process()
 	{
 		fc = &FC_cam[cam];
 
-		if (fc->focus == NULL)
+		if (!fc->focus )
 		{
 			//
 			// This camera is inactive.

@@ -157,7 +157,7 @@ DRIP_Info *DRIP_get_next()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

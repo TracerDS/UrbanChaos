@@ -174,7 +174,7 @@ void PCOM_init();
 
 //
 // Creates a person. Returns the THING_INDEX of the new
-// person or NULL.
+// person or nullptr.
 //
 
 THING_INDEX PCOM_create_person(

@@ -22,13 +22,13 @@ bool	LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key);
 
 // GetNextCompletedAsyncFile
 //
-// return key of next completed file, else NULL
+// return key of next completed file, else nullptr
 
 void*	GetNextCompletedAsyncFile(void);
 
 // CancelAsyncFile
 //
-// cancel async file loading - if NULL, cancels all files
+// cancel async file loading - if nullptr, cancels all files
 
 void	CancelAsyncFile(void* key);
 

@@ -24,16 +24,16 @@ bool	SetupKeyboard()
 	memset((char*)&Keys[0],0,256);
 
 #ifdef	_RELEASE
-	KeyboardHook	=	NULL;
+	KeyboardHook	=	nullptr;
 /*
 	KeyboardHook	=	SetWindowsHookEx(
 											WH_KEYBOARD,
 											(HOOKPROC)KeyboardProc,
-											NULL,
+											nullptr,
 											0
 										);
 	ERROR_MSG(KeyboardHook,"Can't setup the keyboard.")
-	if(KeyboardHook==NULL)
+	if(KeyboardHook==nullptr)
 	{
 		// Unable to set up keyboard.
 		return	false;

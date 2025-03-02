@@ -209,7 +209,7 @@ SLONG THING_find_box(
 		ULONG        classes);
 
 //
-// Finds the nearest thing of the given class. Returns NULL on failure.
+// Finds the nearest thing of the given class. Returns nullptr on failure.
 //
 
 SLONG THING_find_nearest(

@@ -158,13 +158,13 @@
 
 /* Apparently this is needed by several Windows compilers */
 #if !defined(__MACH__)
-#ifndef NULL
+#ifndef nullptr
 #ifdef __cplusplus
-#define NULL 0
+#define nullptr 0
 #else
-#define NULL ((void *)0)
+#define nullptr ((void *)0)
 #endif
-#endif /* NULL */
+#endif /* nullptr */
 #endif /* ! Mac OS X - breaks precompiled headers */
 
 #ifndef SDL_FALLTHROUGH

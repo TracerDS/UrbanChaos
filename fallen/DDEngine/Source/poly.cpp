@@ -3406,7 +3406,7 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 //		BreakTime("FRAMEDRAW start buckets");
 		PolyPoly*	buckets[2048];
 
-		for (i = 0; i < 2048; i++)	buckets[i] = NULL;
+		for (i = 0; i < 2048; i++)	buckets[i] = nullptr;
 
 		for (i = 0; i < POLY_NUM_PAGES; i++)
 		{

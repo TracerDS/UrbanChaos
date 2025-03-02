@@ -17,7 +17,7 @@ void CACHE_init();
 
 //
 // Creates a cache entry for the given thing. It saves all the
-// light info.  If it returns NULL, then it couldn't cache the
+// light info.  If it returns nullptr, then it couldn't cache the
 // info.
 //
 

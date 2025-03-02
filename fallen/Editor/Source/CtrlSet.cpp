@@ -12,7 +12,7 @@ void ControlSet::AddControl(Control *the_control)
 {
 	if(the_control)
 	{
-		if(CurrentControl == NULL)			// Start of list?
+		if (!CurrentControl )			// Start of list?
 		{
 			CurrentControl	=	the_control;
 			ControlList		=	CurrentControl;
@@ -34,8 +34,8 @@ void ControlSet::AddControl(Control *the_control)
 
 ControlSet::ControlSet(ControlDef *defs)
 {
-	ControlList		=	NULL;
-	CurrentControl	=	NULL;
+	ControlList		=	nullptr;
+	CurrentControl	=	nullptr;
 	ControlCount	=	0;
 
 	InitControlSet(defs);
@@ -45,8 +45,8 @@ ControlSet::ControlSet(ControlDef *defs)
 
 ControlSet::ControlSet()
 {
-	ControlList		=	NULL;
-	CurrentControl	=	NULL;
+	ControlList		=	nullptr;
+	CurrentControl	=	nullptr;
 	ControlCount	=	0;
 }
 
@@ -140,8 +140,8 @@ void	ControlSet::FiniControlSet()
 		}
 		current_control	=	next_control;
 	}
-	ControlList		=	NULL;
-	CurrentControl	=	NULL;
+	ControlList		=	nullptr;
+	CurrentControl	=	nullptr;
 	ControlCount	=	0;
 }
 

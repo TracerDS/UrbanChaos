@@ -400,9 +400,9 @@ void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cu
 	CBYTE   message[4096];
 	va_list	ap;
 
-	if (fmt == NULL)
+	if (!fmt )
 	{
-		sprintf(message, "<NULL>");
+		sprintf(message, "<nullptr>");
 	}
 	else
 	{
@@ -474,7 +474,7 @@ void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cu
 						0.0F,
 						0xeeeeeff);
 
-					OS_buffer_draw(ob, NULL, NULL);
+					OS_buffer_draw(ob, nullptr, nullptr);
 				}
 			}
 
@@ -501,9 +501,9 @@ void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cu
 				0.0F,
 				0xeeeeeff);
 
-			OS_buffer_draw(ob, NULL, NULL);
+			OS_buffer_draw(ob, nullptr, nullptr);
 		}
 	}
 
-	OS_buffer_draw(ob, FONT_ot, NULL, OS_DRAW_DOUBLESIDED | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE | OS_DRAW_ALPHABLEND);
+	OS_buffer_draw(ob, FONT_ot, nullptr, OS_DRAW_DOUBLESIDED | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE | OS_DRAW_ALPHABLEND);
 }

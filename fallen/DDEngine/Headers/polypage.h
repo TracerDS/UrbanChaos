@@ -69,7 +69,7 @@ public:
 	// texture embedding
 
 	PolyPage			*pTheRealPolyPage;			// The poly page you actually need to add tris to.
-													// This is never NULL, but may point back to this one.
+													// This is never nullptr, but may point back to this one.
 
 	void				SetTexOffset ( D3DTexture *src );
 	void				SetTexOffset(UBYTE offset);	// 0 for (0,0)-(1,1) else 128 + (0-15) for the subtexture
@@ -249,7 +249,7 @@ extern PolyPage	POLY_Page[POLY_NUM_PAGES];
 
 // The matrices are generated in a slightly odd way. The easiest way to do this
 // is to call this function to generate them:
-// If mWorldMatrix == NULL, then the rout will get it from the standard camera setup.
+// If mWorldMatrix == nullptr, then the rout will get it from the standard camera setup.
 extern void GenerateMMMatrixFromStandardD3DOnes (	D3DMATRIX *mOutput,
 											const D3DMATRIX *mProjectionMatrix,
 											const D3DMATRIX *mWorldMatrix,
@@ -260,7 +260,7 @@ extern void GenerateMMMatrixFromStandardD3DOnes (	D3DMATRIX *mOutput,
 // and similar calls. You can use a different matrix of course and not call
 // POLY_set_local_rotation, which is probably slightly faster.
 extern D3DMATRIX g_matProjection;
-// Actually, don't use g_matWorld, just pass in NULL.
+// Actually, don't use g_matWorld, just pass in nullptr.
 extern D3DMATRIX g_matWorld;
 extern D3DVIEWPORT2 g_viewData;
 
@@ -280,8 +280,8 @@ struct D3DMULTIMATRIX
 {
 	LPVOID			lpvVertices;			// Pointer to the vertex data. MUST be 32-byte aligned.
 	LPD3DMATRIX		lpd3dMatrices;			// Pointer to the array of matrices. MUST be 32-byte aligned.
-	LPVOID			lpvLightDirs;			// Pointer to the array of light vectors (NULL if not lighting). MUST be 8-byte aligned.
-	LPD3DCOLOR		lpLightTable;			// Pointer to the fade table (NULL if not lighting). MUST be 4-byte aligned.
+	LPVOID			lpvLightDirs;			// Pointer to the array of light vectors (nullptr if not lighting). MUST be 8-byte aligned.
+	LPD3DCOLOR		lpLightTable;			// Pointer to the fade table (nullptr if not lighting). MUST be 4-byte aligned.
 };
 
 // Also in the DC/DX headers,

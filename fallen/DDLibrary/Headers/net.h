@@ -19,7 +19,7 @@ void NET_kill(void);
 
 
 //
-// The NULL player ID.
+// The nullptr player ID.
 // Use this player ID to send a message to everyone.
 // If the system sends a message, then it comes from NET_PLAYER_SYSTEM
 //

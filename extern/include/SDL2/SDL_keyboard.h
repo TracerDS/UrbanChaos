@@ -84,7 +84,7 @@ extern DECLSPEC SDL_Window * SDLCALL SDL_GetKeyboardFocus(void);
  * Note: This function doesn't take into account whether shift has been
  * pressed or not.
  *
- * \param numkeys if non-NULL, receives the length of the returned array
+ * \param numkeys if non-nullptr, receives the length of the returned array
  * \returns a pointer to an array of key states.
  *
  * \since This function is available since SDL 2.0.0.
@@ -311,7 +311,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_IsTextInputShown(void);
  * any feedback.
  *
  * \param rect the SDL_Rect structure representing the rectangle to receive
- *             text (ignored if NULL)
+ *             text (ignored if nullptr)
  *
  * \since This function is available since SDL 2.0.0.
  *

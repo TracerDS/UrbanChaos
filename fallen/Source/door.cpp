@@ -53,7 +53,7 @@ UWORD DOOR_find(
 	SATURATE(mz2, 0, PAP_SIZE_LO - 1);
 
 	SLONG best_score = INFINITY;
-	SLONG best_facet = NULL;
+	SLONG best_facet = nullptr;
 
 	for (mx = mx1; mx <= mx2; mx++)
 	for (mz = mz1; mz <= mz2; mz++)
@@ -147,7 +147,7 @@ void DOOR_open(SLONG world_x, SLONG world_z)
 
 		for (i = 0; i < DOOR_MAX_DOORS; i++)
 		{
-			if (DOOR_door[i].facet == NULL)
+			if (!DOOR_door[i].facet )
 			{
 				DOOR_door[i].facet = facet;
 			}
@@ -273,7 +273,7 @@ void DOOR_shut(SLONG world_x, SLONG world_z)
 
 		for (i = 0; i < DOOR_MAX_DOORS; i++)
 		{
-			if (DOOR_door[i].facet == NULL)
+			if (!DOOR_door[i].facet )
 			{
 				DOOR_door[i].facet = facet;
 			}
@@ -421,7 +421,7 @@ void DOOR_process()
 				{
 					open = max;
 
-					DOOR_door[i].facet = NULL;
+					DOOR_door[i].facet = nullptr;
 				}
 			}
 			else
@@ -432,7 +432,7 @@ void DOOR_process()
 				{
 					open = 0;
 
-					DOOR_door[i].facet = NULL;
+					DOOR_door[i].facet = nullptr;
 				}
 			}
 

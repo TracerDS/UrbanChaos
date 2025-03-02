@@ -316,7 +316,7 @@ bool	init_wwind()
 		new_class.cbClsExtra	=	0;
 		new_class.cbWndExtra	=	0;
 		new_class.hInstance		=	GEDIT_hinstance;
-		new_class.hIcon			=	NULL;
+		new_class.hIcon			=	nullptr;
 		new_class.hCursor		=	GEDIT_arrow;
 		new_class.hbrBackground	=	CreateSolidBrush(
 														RGB	(
@@ -325,9 +325,9 @@ bool	init_wwind()
 																button_colours[c0][2]
 															)
 													);
-		new_class.lpszMenuName	=	NULL;
+		new_class.lpszMenuName	=	nullptr;
 		new_class.lpszClassName	=	button_classes[c0];
-		new_class.hIconSm		=	NULL;
+		new_class.hIconSm		=	nullptr;
 		if(!RegisterClassEx(&new_class))
 			return	false;		//	Couldn't register the class.
 	}

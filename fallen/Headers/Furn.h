@@ -15,7 +15,7 @@
 //
 // The furniture structure. A static piece of furniture does not have
 // a structure associated with it. (The pointer in the Thing structure
-// is NULL). If the furniture starts moving, however, it allocates one
+// is nullptr). If the furniture starts moving, however, it allocates one
 // of these structures and decallocates it once it stops.
 //
 

@@ -5,7 +5,7 @@
 #include	<MFHeader.h>
 
 UBYTE CurrentPalette[256*3];
-LPDIRECTDRAWPALETTE lp_DD_Palette	=	NULL;
+LPDIRECTDRAWPALETTE lp_DD_Palette	=	nullptr;
 PALETTEENTRY ThePalette[256];
 
 //---------------------------------------------------------------
@@ -55,21 +55,21 @@ SLONG CreatePalettes()
 	HRESULT			dd_result;
 
 
-	if(lp_DD_Palette==NULL )
+	if(lp_DD_Palette==nullptr )
 	{
 #ifdef	_DEBUG
 		dd_result	=	lp_DD->CreatePalette(
 												DDPCAPS_8BIT,
 												ThePalette,
 												&lp_DD_Palette,
-												NULL
+												nullptr
 											);
 #else
 		dd_result	=	lp_DD->CreatePalette(
 												DDPCAPS_8BIT|DDPCAPS_ALLOW256,
 												ThePalette,
 												&lp_DD_Palette,
-												NULL
+												nullptr
 											);
 #endif
 		if(dd_result!=DD_OK)
@@ -108,7 +108,7 @@ void DestroyPalettes()
 		dd_result	=	lp_DD_Palette->Release();
 		if(dd_result==DD_OK)
 		{
-			lp_DD_Palette	=	NULL;
+			lp_DD_Palette	=	nullptr;
 		}
 		else
 		{

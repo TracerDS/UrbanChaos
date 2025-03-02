@@ -20,12 +20,12 @@ SLONG DisplayMode			=	DISPLAY_MODE_NONE,
 GUID DevicePrimary,
 						Device3DFX;
 DDSURFACEDESC DD_DisplayDesc;
-LPDIRECTDRAW lp_DD				=	NULL;	// Main DirectDraw object
-LPDIRECTDRAW2 lp_DD_2				=	NULL;	// Main DirectDraw2 object
-LPDIRECTDRAWCLIPPER lp_DD_Clipper		=	NULL;
-LPDIRECTDRAWSURFACE lp_DD_BackSurface	=	NULL,
-						lp_DD_FrontSurface	=	NULL,
-						lp_DD_WorkSurface	=	NULL;
+LPDIRECTDRAW lp_DD				=	nullptr;	// Main DirectDraw object
+LPDIRECTDRAW2 lp_DD_2				=	nullptr;	// Main DirectDraw2 object
+LPDIRECTDRAWCLIPPER lp_DD_Clipper		=	nullptr;
+LPDIRECTDRAWSURFACE lp_DD_BackSurface	=	nullptr,
+						lp_DD_FrontSurface	=	nullptr,
+						lp_DD_WorkSurface	=	nullptr;
 
 volatile UBYTE			MFShellActive		=	0;
 
@@ -62,14 +62,14 @@ SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 		// Create Direct Draw Object.
 #ifdef	_DEBUG
 		flags		=	flags;
-		dd_result	=	DirectDrawCreate((GUID*)DDCREATE_EMULATIONONLY,&lp_DD,NULL);
+		dd_result	=	DirectDrawCreate((GUID*)DDCREATE_EMULATIONONLY,&lp_DD,nullptr);
 #else
-		dd_result	=	DirectDrawEnumerate(EnumDeviceCallback,NULL);
+		dd_result	=	DirectDrawEnumerate(EnumDeviceCallback,nullptr);
 
 		if(Got3DFX && flags&FLAGS_USE_3DFX)
-			dd_result	=	DirectDrawCreate(&Device3DFX,&lp_DD,NULL);
+			dd_result	=	DirectDrawCreate(&Device3DFX,&lp_DD,nullptr);
 		else
-			dd_result	=	DirectDrawCreate(NULL,&lp_DD,NULL);
+			dd_result	=	DirectDrawCreate(nullptr,&lp_DD,nullptr);
 #endif
 		if(dd_result==DD_OK)
 		{
@@ -99,9 +99,9 @@ SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 
 				// Find all the available display modes.
 	#ifdef	MF_DD2
-				lp_DD_2->EnumDisplayModes(0,NULL,0,DisplayModesCallback);
+				lp_DD_2->EnumDisplayModes(0,nullptr,0,DisplayModesCallback);
 	#else
-				lp_DD->EnumDisplayModes(0,NULL,0,DisplayModesCallback);
+				lp_DD->EnumDisplayModes(0,nullptr,0,DisplayModesCallback);
 	#endif
 
 #endif
@@ -157,7 +157,7 @@ SLONG CloseDisplay()
 			LogText("error: %ld - Unable to release DirectDraw2\n",dd_result&0xff);
 		}
 		else
-			lp_DD_2		=	NULL;
+			lp_DD_2		=	nullptr;
 	}
 */
 	if(lp_DD)
@@ -168,7 +168,7 @@ SLONG CloseDisplay()
 			LogText("error: %ld - Unable to release DirectDraw\n",dd_result&0xff);
 		}
 		else
-			lp_DD		=	NULL;
+			lp_DD		=	nullptr;
 	}
 	return	NoError;
 }
@@ -231,12 +231,12 @@ SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 			AdjustWindowRectEx	(
 									&temp_rect,
 						            GetWindowStyle(hShellWindow),
-						            GetMenu(hShellWindow) != NULL,
+						            GetMenu(hShellWindow) != nullptr,
 						            GetWindowExStyle(hShellWindow)
         						);
 			SetWindowPos(
 							hShellWindow,
-    	    				NULL,
+    	    				nullptr,
 							0,0,
 							temp_rect.right-temp_rect.left,
 							temp_rect.bottom-temp_rect.top,
@@ -295,20 +295,20 @@ SLONG CreateSurfaces()
     ZeroMemory(&dd_sd,sizeof(dd_sd));
 	dd_sd.dwSize			=	sizeof(dd_sd);
 #ifdef	_DEBUG
-	if(lp_DD_FrontSurface==NULL)
+	if(lp_DD_FrontSurface==nullptr)
 	{
 		// Create DEBUG front surface.
 		dd_sd.dwFlags			=	DDSD_CAPS;
 		dd_sd.ddsCaps.dwCaps	=	DDSCAPS_PRIMARYSURFACE;
 	#ifdef	MF_DD2
-		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_FrontSurface,NULL);
+		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_FrontSurface,nullptr);
 	#else
-		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_FrontSurface,NULL);
+		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_FrontSurface,nullptr);
 	#endif
 		ERROR_MSG((dd_result==DD_OK),"Can't create lp_DD_FrontSurface");
 	}
 
-	if(lp_DD_BackSurface==NULL)
+	if(lp_DD_BackSurface==nullptr)
 	{
 		// Create DEBUG back surface.
 		dd_sd.dwFlags			=	DDSD_CAPS|DDSD_HEIGHT|DDSD_WIDTH;
@@ -316,20 +316,20 @@ SLONG CreateSurfaces()
 		dd_sd.dwWidth			=	WorkScreenWidth;
 		dd_sd.ddsCaps.dwCaps	=	DDSCAPS_OFFSCREENPLAIN|DDSCAPS_3DDEVICE; //|DDSCAPS_SYSTEMMEMORY;
 	#ifdef	MF_DD2
-		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_BackSurface,NULL);
+		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_BackSurface,nullptr);
 	#else
-		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_BackSurface,NULL);
+		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_BackSurface,nullptr);
 	#endif
 		ERROR_MSG((dd_result==DD_OK),"Can't create lp_DD_BackSurface");
 	}
 
-	if(lp_DD_Clipper==NULL)
+	if(lp_DD_Clipper==nullptr)
 	{
 		// Create DEBUG clipper.
 	#ifdef	DD2
-		dd_result				=	lp_DD_2->CreateClipper(0,&lp_DD_Clipper,NULL);
+		dd_result				=	lp_DD_2->CreateClipper(0,&lp_DD_Clipper,nullptr);
 	#else
-		dd_result				=	lp_DD->CreateClipper(0,&lp_DD_Clipper,NULL);
+		dd_result				=	lp_DD->CreateClipper(0,&lp_DD_Clipper,nullptr);
 	#endif
 		ERROR_MSG((dd_result==DD_OK),"Can't create lp_DD_Clipper");
 
@@ -342,16 +342,16 @@ SLONG CreateSurfaces()
 		ERROR_MSG((dd_result==DD_OK),"Can't attach lp_DD_Clipper to lp_DD_FrontSurface");
 	}
 #else
-	if(lp_DD_FrontSurface==NULL)
+	if(lp_DD_FrontSurface==nullptr)
 	{
 		// Create RELEASE front & back Surfaces.
 		dd_sd.dwFlags			=	DDSD_CAPS|DDSD_BACKBUFFERCOUNT;
 		dd_sd.ddsCaps.dwCaps	=	DDSCAPS_COMPLEX|DDSCAPS_FLIP|DDSCAPS_PRIMARYSURFACE|DDSCAPS_3DDEVICE;
 		dd_sd.dwBackBufferCount	=	1;
 	#ifdef	MF_DD2
-		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_FrontSurface,NULL);
+		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_FrontSurface,nullptr);
 	#else
-		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_FrontSurface,NULL);
+		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_FrontSurface,nullptr);
 	#endif
 		ERROR_MSG((dd_result==DD_OK),"Can't create lp_DD_FrontSurface");
 
@@ -361,7 +361,7 @@ SLONG CreateSurfaces()
 		ERROR_MSG((dd_result==DD_OK),"Can't extract lp_DD_BackSurface");
 	}
 #endif
-	if(lp_DD_WorkSurface==NULL)
+	if(lp_DD_WorkSurface==nullptr)
 	{
 		// Create work surface.
 		dd_sd.dwFlags			=	DDSD_CAPS|DDSD_HEIGHT|DDSD_WIDTH;
@@ -369,9 +369,9 @@ SLONG CreateSurfaces()
 		dd_sd.dwWidth			=	WorkScreenWidth;
 		dd_sd.ddsCaps.dwCaps	=	DDSCAPS_OFFSCREENPLAIN|DDSCAPS_SYSTEMMEMORY;
 #ifdef	MF_DD2
-		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_WorkSurface,NULL);
+		dd_result				=	lp_DD_2->CreateSurface(&dd_sd,&lp_DD_WorkSurface,nullptr);
 #else
-		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_WorkSurface,NULL);
+		dd_result				=	lp_DD->CreateSurface(&dd_sd,&lp_DD_WorkSurface,nullptr);
 #endif
 		ERROR_MSG((dd_result==DD_OK),"Can't create lp_DD_WorkSurface");
 	}
@@ -392,7 +392,7 @@ SLONG DestroySurfaces()
 	if(lp_DD_Clipper)
 	{
 		lp_DD_Clipper->Release();
-		lp_DD_Clipper	=	NULL;
+		lp_DD_Clipper	=	nullptr;
 	}
 	if(lp_DD_BackSurface)
 	{
@@ -406,15 +406,15 @@ SLONG DestroySurfaces()
 		dd_result	=	lp_DD_FrontSurface->Release();
 		if(dd_result!=DD_OK)
 			LogText("error: %ld - Unable to release lp_DD_FrontSurface\n",dd_result&0xffff);
-		lp_DD_FrontSurface	=	NULL;
-		lp_DD_BackSurface	=	NULL;
+		lp_DD_FrontSurface	=	nullptr;
+		lp_DD_BackSurface	=	nullptr;
 	}
 	if(lp_DD_WorkSurface)
 	{
 		dd_result	=	lp_DD_WorkSurface->Release();
 		if(dd_result!=DD_OK)
 			LogText("error: %ld - Unable to release lp_DD_WorkSurface\n",dd_result&0xffff);
-		lp_DD_WorkSurface	=	NULL;
+		lp_DD_WorkSurface	=	nullptr;
 	}
 	DisplayState	&=	~(DS_CREATED_SURFACES);
 
@@ -431,14 +431,14 @@ void ClearDisplay()
 
 	dd_bltfx.dwSize			=	sizeof(dd_bltfx);
 	dd_bltfx.dwFillColor	=	0;
-	dd_result	=	lp_DD_FrontSurface->Blt(NULL,NULL,NULL,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
+	dd_result	=	lp_DD_FrontSurface->Blt(nullptr,nullptr,nullptr,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
 	switch(dd_result)
 	{
 		case	DD_OK:
 			break;
 		case	DDERR_SURFACELOST:
 			RestoreSurfaces();
-			lp_DD_FrontSurface->Blt(NULL,NULL,NULL,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
+			lp_DD_FrontSurface->Blt(nullptr,nullptr,nullptr,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
 			break;
 	}
 }
@@ -467,7 +467,7 @@ void* LockWorkScreen()
 	if(lp_DD_WorkSurface)
 	{
 		dd_sd.dwSize	=	sizeof(dd_sd);
-		dd_result		=	lp_DD_WorkSurface->Lock(NULL,&dd_sd,DDLOCK_WAIT,NULL);
+		dd_result		=	lp_DD_WorkSurface->Lock(nullptr,&dd_sd,DDLOCK_WAIT,nullptr);
 		switch(dd_result)
 		{
 			case	DD_OK:
@@ -493,7 +493,7 @@ void UnlockWorkScreen()
 
 	if(lp_DD_WorkSurface)
 	{
-		dd_result	=	lp_DD_WorkSurface->Unlock(NULL);
+		dd_result	=	lp_DD_WorkSurface->Unlock(nullptr);
 		switch(dd_result)
 		{
 			case	DD_OK:
@@ -513,7 +513,7 @@ void ShowWorkScreen(ULONG flags)
 	HRESULT			dd_result;
 
 
-	if(lp_DD_WorkSurface==NULL)
+	if(lp_DD_WorkSurface==nullptr)
 		return;
 
 	// Apparently Blt is better than BltFst for System to Display blits.
@@ -521,9 +521,9 @@ void ShowWorkScreen(ULONG flags)
 	if(flags&DS_WAIT_VBI)
 	{
 #ifdef	MF_DD2
-		dd_result	=	lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+		dd_result	=	lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #else
-		dd_result	=	lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+		dd_result	=	lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #endif
 		switch(dd_result)
 		{
@@ -532,9 +532,9 @@ void ShowWorkScreen(ULONG flags)
 			case	DDERR_SURFACELOST:
 				RestoreSurfaces();
 #ifdef	MF_DD2
-				lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+				lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #else
-				lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+				lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #endif
 				break;
 		}
@@ -546,9 +546,9 @@ void ShowWorkScreen(ULONG flags)
 		dd_result	=	lp_DD_BackSurface->Blt	(
 													&ShellRect,
 													lp_DD_WorkSurface,
-													NULL,
+													nullptr,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 		switch(dd_result)
 		{
@@ -564,9 +564,9 @@ void ShowWorkScreen(ULONG flags)
 		dd_result	=	lp_DD_FrontSurface->Blt	(
 													&ShellRect,
 													lp_DD_BackSurface,
-													NULL,
+													nullptr,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 		switch(dd_result)
 		{
@@ -581,11 +581,11 @@ void ShowWorkScreen(ULONG flags)
 */
 #else
 		dd_result	=	lp_DD_BackSurface->Blt	(
-													NULL,
+													nullptr,
 													lp_DD_WorkSurface,
-													NULL,
+													nullptr,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 		switch(dd_result)
 		{
@@ -598,7 +598,7 @@ void ShowWorkScreen(ULONG flags)
 				LogText("Blt failed in ShowWorkScreen. Error: %ld\n",dd_result&0xffff);
 		}
 /*
-		dd_result	=	lp_DD_FrontSurface->Flip(NULL, DDFLIP_WAIT);
+		dd_result	=	lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 		switch(dd_result)
 		{
 			case	DD_OK:
@@ -618,17 +618,17 @@ void ShowWorkScreen(ULONG flags)
 		dd_result	=	lp_DD_FrontSurface->Blt	(
 													&ShellRect,
 													lp_DD_WorkSurface,
-													NULL,
+													nullptr,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 #else
 		dd_result	=	lp_DD_FrontSurface->Blt	(
-													NULL,
+													nullptr,
 													lp_DD_WorkSurface,
-													NULL,
+													nullptr,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 #endif
 		switch(dd_result)
@@ -657,7 +657,7 @@ void ShowWorkWindow(ULONG flags)
 #endif
 
 
-	if(lp_DD_WorkSurface==NULL)
+	if(lp_DD_WorkSurface==nullptr)
 		return;
 
 	ww_source_rect.left		=	WorkWindowRect.Left;
@@ -670,9 +670,9 @@ void ShowWorkWindow(ULONG flags)
 	if(flags&DS_WAIT_VBI)
 	{
 #ifdef	MF_DD2
-		dd_result	=	lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+		dd_result	=	lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #else
-		dd_result	=	lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+		dd_result	=	lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #endif
 		switch(dd_result)
 		{
@@ -683,9 +683,9 @@ void ShowWorkWindow(ULONG flags)
 				while(lp_DD_BackSurface->GetBltStatus(DDGBS_ISBLTDONE)==DDERR_WASSTILLDRAWING);
 				while(lp_DD_FrontSurface->GetBltStatus(DDGBS_ISBLTDONE)==DDERR_WASSTILLDRAWING);
 #ifdef	MF_DD2
-				lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+				lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #else
-				lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,NULL);
+				lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN,nullptr);
 #endif
 				break;
 		}
@@ -706,7 +706,7 @@ void ShowWorkWindow(ULONG flags)
 													lp_DD_WorkSurface,
 													&ww_source_rect,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 		switch(dd_result)
 		{
@@ -724,7 +724,7 @@ void ShowWorkWindow(ULONG flags)
 													lp_DD_BackSurface,
 													&ShellRect,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 		switch(dd_result)
 		{
@@ -743,7 +743,7 @@ void ShowWorkWindow(ULONG flags)
 													lp_DD_WorkSurface,
 													&ww_source_rect,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 		switch(dd_result)
 		{
@@ -756,7 +756,7 @@ void ShowWorkWindow(ULONG flags)
 				LogText("Blt failed in ShowWorkScreen. Error: %ld\n",dd_result&0xffff);
 		}
 /*
-		dd_result	=	lp_DD_FrontSurface->Flip(NULL, DDFLIP_WAIT);
+		dd_result	=	lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 		switch(dd_result)
 		{
 			case	DD_OK:
@@ -785,7 +785,7 @@ void ShowWorkWindow(ULONG flags)
 													lp_DD_WorkSurface,
 													&ww_source_rect,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 #else
 		dd_result	=	lp_DD_FrontSurface->Blt	(
@@ -793,7 +793,7 @@ void ShowWorkWindow(ULONG flags)
 													lp_DD_WorkSurface,
 													&ww_source_rect,
 													DDBLT_WAIT,
-													NULL
+													nullptr
 												);
 #endif
 		switch(dd_result)
@@ -821,14 +821,14 @@ void ClearWorkScreen(UBYTE colour)
 	{
 		dd_bltfx.dwSize			=	sizeof(dd_bltfx);
 		dd_bltfx.dwFillColor	=	colour;
-		dd_result	=	lp_DD_WorkSurface->Blt(NULL,NULL,NULL,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
+		dd_result	=	lp_DD_WorkSurface->Blt(nullptr,nullptr,nullptr,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
 		switch(dd_result)
 		{
 			case	DD_OK:
 				break;
 			case	DDERR_SURFACELOST:
 				RestoreSurfaces();
-				lp_DD_WorkSurface->Blt(NULL,NULL,NULL,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
+				lp_DD_WorkSurface->Blt(nullptr,nullptr,nullptr,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
 				break;
 		}
 	}

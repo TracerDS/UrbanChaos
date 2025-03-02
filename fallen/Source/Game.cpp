@@ -256,7 +256,7 @@ extern void	UCA_LookupSetup();
 	else
 	{
 #ifndef TARGET_DC
-		MessageBox(NULL, "Unable to open display", NULL, MB_OK | MB_ICONWARNING);
+		MessageBox(nullptr, "Unable to open display", nullptr, MB_OK | MB_ICONWARNING);
 #else
 		ASSERT(false);
 #endif
@@ -317,7 +317,7 @@ extern VMU_Screen *pvmuscreenUCLogo;
 extern VMU_Screen *pvmuscreenWait;
 
 
-#define LOAD_VMU_SCREEN(myname,filename) if ( pvmuscreen ## myname == NULL ) CreateVMUScreenFromTGA ( filename, &(pvmuscreen ## myname) );
+#define LOAD_VMU_SCREEN(myname,filename) if ( pvmuscreen ## myname == nullptr ) CreateVMUScreenFromTGA ( filename, &(pvmuscreen ## myname) );
 
 	LOAD_VMU_SCREEN ( Ammo,			"server\\textures\\extras\\DC\\VMU_ammo_count2.tga" );
 	LOAD_VMU_SCREEN ( MFLogo,		"server\\textures\\extras\\DC\\VMU_muckylogo.tga" );
@@ -604,8 +604,8 @@ extern int m_iPanelYPos;
 	//
 
 #ifdef TARGET_DC
-	playback_file = NULL;
-	verifier_file	=	NULL;
+	playback_file = nullptr;
+	verifier_file	=	nullptr;
 #else
 
 	if(GAME_STATE&GS_RECORD)
@@ -615,7 +615,7 @@ extern int m_iPanelYPos;
 #if VERIFY_PLAYBACK
 		verifier_file	=	FileCreate(verifier_name,true);
 #else
-		verifier_file	=	NULL;
+		verifier_file	=	nullptr;
 #endif
 	}
 	else if(GAME_STATE&GS_PLAYBACK)
@@ -626,17 +626,17 @@ extern int m_iPanelYPos;
 #if VERIFY_PLAYBACK
 		verifier_file	=	FileOpen(verifier_name);
 #else
-		verifier_file	=	NULL;
+		verifier_file	=	nullptr;
 #endif
 	}
 
 	if ( playback_file == FILE_CREATION_ERROR )
 	{
-		playback_file = NULL;
+		playback_file = nullptr;
 	}
 	if ( verifier_file == FILE_CREATION_ERROR )
 	{
-		verifier_file = NULL;
+		verifier_file = nullptr;
 	}
 
 #endif
@@ -670,8 +670,8 @@ extern int m_iPanelYPos;
 	extern THING_INDEX PANEL_wide_top_person;
 	extern THING_INDEX PANEL_wide_bot_person;
 
-	PANEL_wide_top_person = NULL;
-	PANEL_wide_bot_person = NULL;
+	PANEL_wide_top_person = nullptr;
+	PANEL_wide_bot_person = nullptr;
 
 
 	if(GAME_STATE&GS_REPLAY)
@@ -750,7 +750,7 @@ void init_stats();
 	init_stats();
 
 
-	EWAY_tutorial_string = NULL;
+	EWAY_tutorial_string = nullptr;
 
 
 
@@ -989,13 +989,13 @@ void FIGURE_clean_all_LRU_slots ( void );
 	if (playback_file)
 	{
 		FileClose(playback_file);
-		playback_file = NULL;
+		playback_file = nullptr;
 	}
 
 	if (verifier_file)
 	{
 		FileClose(verifier_file);
-		verifier_file = NULL;
+		verifier_file = nullptr;
 	}
 #endif
 
@@ -1077,7 +1077,7 @@ void game()
 		}
 
 		ShowBackImage(false);
-		the_display.Flip(NULL, DDFLIP_WAIT);
+		the_display.Flip(nullptr, DDFLIP_WAIT);
 	}
 
 	ResetBackImage();
@@ -1193,7 +1193,7 @@ void game()
 		}
 
 		ShowBackImage(false);
-		the_display.Flip(NULL, DDFLIP_WAIT);
+		the_display.Flip(nullptr, DDFLIP_WAIT);
 	}
 
 	ResetBackImage();
@@ -1340,7 +1340,7 @@ extern void PANEL_draw_timer_do(SLONG time, SLONG x, SLONG y);
 SLONG already_warned_about_leaving_map;
 UBYTE draw_map_screen=0;
 UBYTE single_step=0;
-Form *form_leave_map = NULL;
+Form *form_leave_map = nullptr;
 SLONG form_left_map  = 0;
 
 
@@ -1528,7 +1528,7 @@ void do_leave_map_form()
 	{
 		FORM_Free(form_leave_map);
 
-		form_leave_map = NULL;
+		form_leave_map = nullptr;
 
 		if (ret == 2)
 		{
@@ -1713,7 +1713,7 @@ extern void	AENG_screen_shot(SLONG width);
 	}
 #endif
 
-//	FLIP(NULL,DDFLIP_WAIT);
+//	FLIP(nullptr,DDFLIP_WAIT);
 #else
 	//
 	// Always flip on the PSX.
@@ -2123,7 +2123,7 @@ round_again:;
 
 		already_warned_about_leaving_map = GetTickCount();
 		draw_map_screen                  = false;
-		form_leave_map                   = NULL;
+		form_leave_map                   = nullptr;
 		form_left_map                    = 0;
 #ifndef	PSX
 		LastKey = 0;
@@ -2354,7 +2354,7 @@ extern int g_iCheatNumber;
 				{
 					if(hardware_input_continue())
 					{
-						EWAY_tutorial_string = NULL;
+						EWAY_tutorial_string = nullptr;
 
 						NET_PERSON(0)->Genus.Person->Flags    &= ~(FLAG_PERSON_REQUEST_KICK|FLAG_PERSON_REQUEST_PUNCH|FLAG_PERSON_REQUEST_JUMP);
 						NET_PLAYER(0)->Genus.Player->InputDone = -1;
@@ -2658,7 +2658,7 @@ extern void	do_packets();
 void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *screen);
 				FRONTEND_scr_img_load_into_screenfull ( "title_blood1.tga", &(the_display.lp_DD_Background) );
 extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
-				ASSERT ( lpBackgroundCache != NULL );
+				ASSERT ( lpBackgroundCache != nullptr );
 				UnpackBackground ( (BYTE*)( the_display.lp_DD_Background ), lpBackgroundCache );
 
 				MUSIC_mode(MUSIC_MODE_FRONTEND);
@@ -2675,7 +2675,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 
 			#endif
 
-			if ( (NETPERSON != NULL ) && (NET_PERSON(0)!= NULL ) && (NET_PERSON(0)->Genus.Person->PersonType == PERSON_DARCI) )
+			if ( (NETPERSON != nullptr ) && (NET_PERSON(0)!= nullptr ) && (NET_PERSON(0)->Genus.Person->PersonType == PERSON_DARCI) )
 			{
 				if (NET_PLAYER(0)->Genus.Player->RedMarks > 1)
 				{
@@ -2819,7 +2819,7 @@ extern void AENG_flip_init();
 
 		//game_fini();
 
-		NET_PERSON(0) = NULL;	// For the music system...
+		NET_PERSON(0) = nullptr;	// For the music system...
 
 #ifndef PSX
 		if (GAME_STATE==GS_LEVEL_WON)
@@ -2837,7 +2837,7 @@ extern void AENG_flip_init();
 		return	0;
 	}
 
-	NET_PERSON(0) = NULL;	// For the music system...
+	NET_PERSON(0) = nullptr;	// For the music system...
 
 	return 1;
 }

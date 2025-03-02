@@ -171,7 +171,7 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE* cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", NULL};
+CBYTE* cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", nullptr};
 
 EWAY_Way* eway_find(SLONG id)
 {
@@ -185,7 +185,7 @@ EWAY_Way* eway_find(SLONG id)
 		if (ew->id == id) return ew;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 EWAY_Way* eway_find_near(GameCoord pos)
@@ -213,7 +213,7 @@ EWAY_Way* eway_find_near(GameCoord pos)
 
 	if (r>0) return &EWAY_way[r];
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -924,7 +924,7 @@ void plan_view_shot()
 		}
 		else
 		{
-			mapname = NULL;
+			mapname = nullptr;
 		}
 
 		if (mapname)
@@ -1003,7 +1003,7 @@ SLONG can_i_draw_this_special(Thing *p_special)
 
 void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count) 
 {
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 //	SBYTE count;
 
 
@@ -1011,7 +1011,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count)
 	{
 		// Put away your gun.
 //		set_person_gun_away(darci);
-		darci->Genus.Person->SpecialUse = NULL;
+		darci->Genus.Person->SpecialUse = nullptr;
 		darci->Draw.Tweened->PersonID&=  ~0xe0;
 		darci->Genus.Person->Flags&=~FLAG_PERSON_GUN_OUT;
 	}
@@ -1041,7 +1041,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count)
 		if (p_special->Genus.Special->NextSpecial)
 			p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 		else
-			p_special = NULL;
+			p_special = nullptr;
 
 		if (p_special && can_i_draw_this_special(p_special))
 		{
@@ -1055,7 +1055,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count)
 	}
 	else
 	{
-		darci->Genus.Person->SpecialUse = NULL;
+		darci->Genus.Person->SpecialUse = nullptr;
 		darci->Draw.Tweened->PersonID   = 0;
 
 		//
@@ -1100,7 +1100,7 @@ bool form_proc(Form *form, Widget *widget, SLONG message)
 
 SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 	SBYTE count=1; // 0 is fist
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SBYTE current_item = 0;
 
 	if (darci->Genus.Person->SpecialList)
@@ -1121,7 +1121,7 @@ SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 
@@ -1149,7 +1149,7 @@ SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 SBYTE CONTROLS_get_best_item(Thing *darci, Thing *player) 
 {
 	SBYTE count=1; // 0 is fist
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SBYTE current_item = 0,current_score=0;
 
 	if (darci->Genus.Person->SpecialList)
@@ -1209,7 +1209,7 @@ SBYTE CONTROLS_get_best_item(Thing *darci, Thing *player)
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 
@@ -1291,7 +1291,7 @@ void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir,SLONG pull_it
 
 /*
 void CONTROLS_set_inventory(Thing *darci, Thing *player) {
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SBYTE count;
 
 
@@ -1299,7 +1299,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	{
 		// Put away your gun.
 //		set_person_gun_away(darci);
-		darci->Genus.Person->SpecialUse = NULL;
+		darci->Genus.Person->SpecialUse = nullptr;
 		darci->Draw.Tweened->PersonID&=  ~0xe0;
 		darci->Genus.Person->Flags&=~FLAG_PERSON_GUN_OUT;
 	}
@@ -1328,7 +1328,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 		if (p_special->Genus.Special->NextSpecial)
 			p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 		else
-			p_special = NULL;
+			p_special = nullptr;
 
 		if (p_special && can_i_draw_this_special(p_special))
 		{
@@ -1342,7 +1342,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	}
 	else
 	{
-		darci->Genus.Person->SpecialUse = NULL;
+		darci->Genus.Person->SpecialUse = nullptr;
 		darci->Draw.Tweened->PersonID   = 0;
 
 		//
@@ -1676,7 +1676,7 @@ void set_danger_level()
 
 	SLONG dist;
 	SLONG best_dist   = INFINITY;
-	SLONG best_person = NULL;
+	SLONG best_person = nullptr;
 
 	Thing *p_found;
 
@@ -1689,7 +1689,7 @@ void set_danger_level()
 		Thing *p_person = NET_PERSON(i);
 		Thing *p_player = NET_PLAYER(i);
 
-		if (p_person == NULL)
+		if (!p_person )
 		{
 			continue;
 		}
@@ -1874,17 +1874,17 @@ void process_controls()
 
 		if (is_there_room_behind_person(darci, false))
 		{
-			PANEL_new_text(NULL, 400, "There is room behind Darci");
+			PANEL_new_text(nullptr, 400, "There is room behind Darci");
 		}
 
 		//set_person_recoil(darci, ANIM_HIT_FRONT_HI, 0);
-		//set_person_dead(darci, NULL, PERSON_DEATH_TYPE_LEG_SWEEP, 0, 0);
+		//set_person_dead(darci, nullptr, PERSON_DEATH_TYPE_LEG_SWEEP, 0, 0);
 	}
 #endif //#ifndef TARGET_DC
 
 
-//	PANEL_new_text(NULL, 2000, "abcdefghijk lmnopqr stuvwxyz ABCDEFG HIJKLMNO PQRSTUVWXYZ 0123456789 !\"�$%^ &*(){} []<>\\/:;'@ #~?-=+.,");
-//	PANEL_new_text(NULL, 2000, "a-b-c-d-e-f-g  h-i-j-k-l-m-n");
+//	PANEL_new_text(nullptr, 2000, "abcdefghijk lmnopqr stuvwxyz ABCDEFG HIJKLMNO PQRSTUVWXYZ 0123456789 !\"�$%^ &*(){} []<>\\/:;'@ #~?-=+.,");
+//	PANEL_new_text(nullptr, 2000, "a-b-c-d-e-f-g  h-i-j-k-l-m-n");
 	
 	#if THIS_IS_A_LOS_TEST
 
@@ -2002,7 +2002,7 @@ void process_controls()
 	if ((GAME_TURN & 0x7f) == 16)
 	{
 		PANEL_new_text(
-			NULL,
+			nullptr,
 			8000,
 			"abcdefghijklmnopqrstuvw "
 			"xyzABCDEFGHIJKLMNOPQRS "
@@ -2090,7 +2090,7 @@ void process_controls()
 
 			if(FC_cam[1].focus)
 			{
-				FC_cam[1].focus=NULL;
+				FC_cam[1].focus=nullptr;
 			}
 			else
 			{
@@ -2210,9 +2210,9 @@ void process_controls()
 	*/
 
 /*
-	static DIKE_Dike *dd = NULL;
+	static DIKE_Dike *dd = nullptr;
 
-	if (dd == NULL || Keys[KB_7])
+	if (dd == nullptr || Keys[KB_7])
 	{
 		Keys[KB_7] = 0;
 
@@ -2398,7 +2398,7 @@ SLONG is_person_crouching(Thing *p_person);
 					CONTROLS_inventory_mode=0;
 
 
-				Thing *p_special = NULL;
+				Thing *p_special = nullptr;
 
 				if (!ShiftFlag)
 				{
@@ -2774,7 +2774,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		{
 			Keys[KB_LBRACE] = 0;
 
-			ERROR_MSG(false, NULL);
+			ERROR_MSG(false, nullptr);
 		}
 */
 	}
@@ -3615,7 +3615,7 @@ extern void PYRO_fn_init(Thing *thing);
 	*/
 
 	{
-		static UBYTE dlight = NULL;
+		static UBYTE dlight = nullptr;
 
 		if (Keys[KB_L])
 		{
@@ -3625,7 +3625,7 @@ extern void PYRO_fn_init(Thing *thing);
 			{
 				NIGHT_dlight_destroy(dlight);
 
-				dlight = NULL;
+				dlight = nullptr;
 			}
 			else
 			{
@@ -4523,14 +4523,14 @@ extern SLONG	FC_cam_height;
 
 				SetCapture(hDDLibWindow);
 
-				ShowCursor(NULL);
+				ShowCursor(nullptr);
 			}
 			else
 			{
 				ReleaseCapture();
 				ShowCursor(1);
 			}
-				//SetCursor(LoadCursor(NULL,IDC_ARROW));
+				//SetCursor(LoadCursor(nullptr,IDC_ARROW));
 
 
 
@@ -4570,7 +4570,7 @@ extern SLONG	FC_cam_height;
 					world_x,
 					world_y,
 					world_z,
-					NULL);
+					nullptr);
 			}
 		}
 #endif //#ifndef TARGET_DC
@@ -4599,7 +4599,7 @@ extern SLONG	FC_cam_height;
 				darci->WorldPos.X + 0x8000 >> 8,
 				darci->WorldPos.Y + 0x2000 >> 8,
 				darci->WorldPos.Z + 0x8000 >> 8,
-				NULL);
+				nullptr);
 
 			alloc_special(
 				SPECIAL_SHOTGUN,
@@ -4607,7 +4607,7 @@ extern SLONG	FC_cam_height;
 				darci->WorldPos.X + 0x8000 >> 8,
 				darci->WorldPos.Y + 0x2000 >> 8,
 				darci->WorldPos.Z + 0x8000 >> 8,
-				NULL);
+				nullptr);
 			*/
 
 			SLONG	wx,wy,wz,dx,dz;
@@ -4854,7 +4854,7 @@ extern SLONG	FC_cam_height;
 					PRIM_OBJ_BARREL,
 					world_x,
 					world_z,
-					NULL);
+					nullptr);
 			}
 		}
 #else
@@ -4865,7 +4865,7 @@ extern SLONG	FC_cam_height;
 					141,
 					(darci->WorldPos.X>>8)+200,
 					darci->WorldPos.Z>>8,
-					NULL);
+					nullptr);
 		}
 
 #endif
@@ -4911,7 +4911,7 @@ int PSX_inv_timer=0;
 
 SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 	SBYTE count=1; // 0 is fist
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SBYTE current_item = 0;
 
 	if (darci->Genus.Person->SpecialList)
@@ -4931,7 +4931,7 @@ SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 			if (p_special->Genus.Special->NextSpecial)
 				p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 			else
-				p_special = NULL;
+				p_special = nullptr;
 		}
 	}
 
@@ -4976,7 +4976,7 @@ void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir)
 }
 /*
 void CONTROLS_set_inventory(Thing *darci, Thing *player) {
-	Thing *p_special = NULL;
+	Thing *p_special = nullptr;
 	SBYTE count;
 
 
@@ -5017,7 +5017,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 		if (p_special->Genus.Special->NextSpecial)
 			p_special = TO_THING(p_special->Genus.Special->NextSpecial);
 		else
-			p_special = NULL;
+			p_special = nullptr;
 	}
 
 	if (p_special)
@@ -5026,7 +5026,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	}
 	else
 	{
-		darci->Genus.Person->SpecialUse = NULL;
+		darci->Genus.Person->SpecialUse = nullptr;
 		darci->Draw.Tweened->PersonID   = 0;
 
 		//

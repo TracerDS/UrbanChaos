@@ -13,7 +13,7 @@
 
 typedef struct
 {
-	UWORD facet;	// NULL => Unused.
+	UWORD facet;	// nullptr => Unused.
 
 } DOOR_Door;
 

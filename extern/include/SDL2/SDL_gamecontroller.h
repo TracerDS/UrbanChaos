@@ -213,7 +213,7 @@ extern DECLSPEC int SDLCALL SDL_GameControllerNumMappings(void);
 /**
  * Get the mapping at a particular index.
  *
- * \returns the mapping string. Must be freed with SDL_free(). Returns NULL if
+ * \returns the mapping string. Must be freed with SDL_free(). Returns nullptr if
  *          the index is out of range.
  *
  * \since This function is available since SDL 2.0.6.
@@ -226,7 +226,7 @@ extern DECLSPEC char * SDLCALL SDL_GameControllerMappingForIndex(int mapping_ind
  * The returned string must be freed with SDL_free().
  *
  * \param guid a structure containing the GUID for which a mapping is desired
- * \returns a mapping string or NULL on error; call SDL_GetError() for more
+ * \returns a mapping string or nullptr on error; call SDL_GetError() for more
  *          information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -245,7 +245,7 @@ extern DECLSPEC char * SDLCALL SDL_GameControllerMappingForGUID(SDL_JoystickGUID
  *
  * \param gamecontroller the game controller you want to get the current
  *                       mapping for
- * \returns a string that has the controller's mapping or NULL if no mapping
+ * \returns a string that has the controller's mapping or nullptr if no mapping
  *          is available; call SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -283,7 +283,7 @@ extern DECLSPEC SDL_bool SDLCALL SDL_IsGameController(int joystick_index);
  *
  * \param joystick_index the device_index of a device, from zero to
  *                       SDL_NumJoysticks()-1
- * \returns the implementation-dependent name for the game controller, or NULL
+ * \returns the implementation-dependent name for the game controller, or nullptr
  *          if there is no name or the index is invalid.
  *
  * \since This function is available since SDL 2.0.0.
@@ -304,7 +304,7 @@ extern DECLSPEC const char *SDLCALL SDL_GameControllerNameForIndex(int joystick_
  *
  * \param joystick_index the device_index of a device, from zero to
  *                       SDL_NumJoysticks()-1
- * \returns the implementation-dependent path for the game controller, or NULL
+ * \returns the implementation-dependent path for the game controller, or nullptr
  *          if there is no path or the index is invalid.
  *
  * \since This function is available since SDL 2.24.0.
@@ -333,7 +333,7 @@ extern DECLSPEC SDL_GameControllerType SDLCALL SDL_GameControllerTypeForIndex(in
  *
  * \param joystick_index the device_index of a device, from zero to
  *                       SDL_NumJoysticks()-1
- * \returns the mapping string. Must be freed with SDL_free(). Returns NULL if
+ * \returns the mapping string. Must be freed with SDL_free(). Returns nullptr if
  *          no mapping is available.
  *
  * \since This function is available since SDL 2.0.9.
@@ -353,7 +353,7 @@ extern DECLSPEC char *SDLCALL SDL_GameControllerMappingForDeviceIndex(int joysti
  *
  * \param joystick_index the device_index of a device, up to
  *                       SDL_NumJoysticks()
- * \returns a gamecontroller identifier or NULL if an error occurred; call
+ * \returns a gamecontroller identifier or nullptr if an error occurred; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.0.
@@ -368,7 +368,7 @@ extern DECLSPEC SDL_GameController *SDLCALL SDL_GameControllerOpen(int joystick_
  * Get the SDL_GameController associated with an instance id.
  *
  * \param joyid the instance id to get the SDL_GameController for
- * \returns an SDL_GameController on success or NULL on failure; call
+ * \returns an SDL_GameController on success or nullptr on failure; call
  *          SDL_GetError() for more information.
  *
  * \since This function is available since SDL 2.0.4.
@@ -400,7 +400,7 @@ extern DECLSPEC SDL_GameController *SDLCALL SDL_GameControllerFromPlayerIndex(in
  *
  * \param gamecontroller a game controller identifier previously returned by
  *                       SDL_GameControllerOpen()
- * \returns the implementation dependent name for the game controller, or NULL
+ * \returns the implementation dependent name for the game controller, or nullptr
  *          if there is no name or the identifier passed is invalid.
  *
  * \since This function is available since SDL 2.0.0.
@@ -418,7 +418,7 @@ extern DECLSPEC const char *SDLCALL SDL_GameControllerName(SDL_GameController *g
  *
  * \param gamecontroller a game controller identifier previously returned by
  *                       SDL_GameControllerOpen()
- * \returns the implementation dependent path for the game controller, or NULL
+ * \returns the implementation dependent path for the game controller, or nullptr
  *          if there is no path or the identifier passed is invalid.
  *
  * \since This function is available since SDL 2.24.0.
@@ -514,11 +514,11 @@ extern DECLSPEC Uint16 SDLCALL SDL_GameControllerGetFirmwareVersion(SDL_GameCont
 /**
  * Get the serial number of an opened controller, if available.
  *
- * Returns the serial number of the controller, or NULL if it is not
+ * Returns the serial number of the controller, or nullptr if it is not
  * available.
  *
  * \param gamecontroller the game controller object to query.
- * \return the serial number, or NULL if unavailable.
+ * \return the serial number, or nullptr if unavailable.
  *
  * \since This function is available since SDL 2.0.14.
  */
@@ -657,7 +657,7 @@ extern DECLSPEC SDL_GameControllerAxis SDLCALL SDL_GameControllerGetAxisFromStri
  * The caller should not SDL_free() the returned string.
  *
  * \param axis an enum value for a given SDL_GameControllerAxis
- * \returns a string for the given axis, or NULL if an invalid axis is
+ * \returns a string for the given axis, or nullptr if an invalid axis is
  *          specified. The string returned is of the format used by
  *          SDL_GameController mapping strings.
  *
@@ -776,7 +776,7 @@ extern DECLSPEC SDL_GameControllerButton SDLCALL SDL_GameControllerGetButtonFrom
  * The caller should not SDL_free() the returned string.
  *
  * \param button an enum value for a given SDL_GameControllerButton
- * \returns a string for the given button, or NULL if an invalid button is
+ * \returns a string for the given button, or nullptr if an invalid button is
  *          specified. The string returned is of the format used by
  *          SDL_GameController mapping strings.
  *
@@ -1062,7 +1062,7 @@ extern DECLSPEC void SDLCALL SDL_GameControllerClose(SDL_GameController *gamecon
  *
  * \param gamecontroller the controller to query
  * \param button a button on the game controller
- * \returns the sfSymbolsName or NULL if the name can't be found
+ * \returns the sfSymbolsName or nullptr if the name can't be found
  *
  * \since This function is available since SDL 2.0.18.
  *
@@ -1076,7 +1076,7 @@ extern DECLSPEC const char* SDLCALL SDL_GameControllerGetAppleSFSymbolsNameForBu
  *
  * \param gamecontroller the controller to query
  * \param axis an axis on the game controller
- * \returns the sfSymbolsName or NULL if the name can't be found
+ * \returns the sfSymbolsName or nullptr if the name can't be found
  *
  * \since This function is available since SDL 2.0.18.
  *

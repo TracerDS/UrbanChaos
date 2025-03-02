@@ -148,8 +148,8 @@ UBYTE BANG_phwoar_free;
 
 typedef struct
 {
-	UWORD index;	// Linked list into the phwoar array- NULL => bang is unused.
-	UWORD next;		// Linked list on a mapwho square NULL terminated.
+	UWORD index;	// Linked list into the phwoar array- nullptr => bang is unused.
+	UWORD next;		// Linked list on a mapwho square nullptr terminated.
 	UWORD x;
 	SWORD y;
 	UWORD z;
@@ -180,8 +180,8 @@ void BANG_init()
 
 	for (i = 0; i < BANG_MAX_BANGS; i++)
 	{
-		BANG_bang[i].index = NULL;
-		BANG_bang[i].next  = NULL;
+		BANG_bang[i].index = nullptr;
+		BANG_bang[i].next  = nullptr;
 	}
 
 	//
@@ -195,7 +195,7 @@ void BANG_init()
 		BANG_phwoar[i].next = i + 1;
 	}
 
-	BANG_phwoar[BANG_MAX_PHWOARS - 1].next = NULL;
+	BANG_phwoar[BANG_MAX_PHWOARS - 1].next = nullptr;
 
 	//
 	// Initialise the mapwho.
@@ -203,13 +203,13 @@ void BANG_init()
 
 	for (i = 0; i < BANG_MAPWHO; i++)
 	{
-		BANG_mapwho[i] = NULL;
+		BANG_mapwho[i] = nullptr;
 	}
 }
 
 //
-// Creates a new phwoar structure. Returns NULL if there
-// are no free phwoars.  A NULL 'parent' means that this is
+// Creates a new phwoar structure. Returns nullptr if there
+// are no free phwoars.  A nullptr 'parent' means that this is
 // the first phwaor in a new bang. In this case 'where' is
 // ignored and the phwoar is placed at (0,0,0)
 //
@@ -225,13 +225,13 @@ UWORD BANG_new_phwoar(
 	BANG_Phwoar *bp;
 	BANG_Phwoar *pp;
 
-	if (BANG_phwoar_free == NULL)
+	if (!BANG_phwoar_free )
 	{
 		//
 		// No spare phwoars.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	ph               = BANG_phwoar_free;
@@ -243,7 +243,7 @@ UWORD BANG_new_phwoar(
 	// What are the coordinates of this phwoar?
 	//
 
-	if (parent == NULL)
+	if (!parent )
 	{
 		//
 		// This is the first phwoar of a new bang.
@@ -358,7 +358,7 @@ UWORD BANG_new_phwoar(
 	bp->radius  = BANG_type[type].initial_radius;
 	bp->grow    = BANG_type[type].initial_grow;
 	bp->counter = 0;
-	bp->next    = NULL;
+	bp->next    = nullptr;
 
 	return ph;
 }
@@ -384,7 +384,7 @@ void BANG_process()
 	{
 		bb = &BANG_bang[i];
 
-		if (bb->index == NULL)
+		if (!bb->index )
 		{
 			continue;
 		}
@@ -504,7 +504,7 @@ void BANG_process()
 		// Is this bang dead?	  Hello Mark! love Jan
 		//
 
-		if (bb->index == NULL)
+		if (!bb->index )
 		{
 			//
 			// Remove the bang from the mapwho.
@@ -562,7 +562,7 @@ void BANG_create(
 			BANG_last = 1;
 		}
 
-		if (BANG_bang[BANG_last].index == NULL)
+		if (!BANG_bang[BANG_last].index )
 		{
 			goto found_unused_bang;
 		}
@@ -583,7 +583,7 @@ void BANG_create(
 	BANG_bang[BANG_last].x     = x;
 	BANG_bang[BANG_last].y     = y;
 	BANG_bang[BANG_last].z     = z;
-	BANG_bang[BANG_last].index = BANG_new_phwoar(NULL, type, 0);
+	BANG_bang[BANG_last].index = BANG_new_phwoar(nullptr, type, 0);
 
 	//
 	// Insert it into the mapwho.
@@ -602,7 +602,7 @@ void BANG_create(
 		// Oh well. Nobody is ever going to see it!
 		//
 
-		BANG_bang[BANG_last].next = NULL;
+		BANG_bang[BANG_last].next = nullptr;
 	}
 }
 
@@ -620,14 +620,14 @@ void BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
 	if (WITHIN(z, 0, BANG_MAPWHO - 1))
 	{
 		BANG_get_bang   = BANG_mapwho[z];
-		BANG_get_phwoar = NULL;
+		BANG_get_phwoar = nullptr;
 		BANG_get_xmin   = xmin;
 		BANG_get_xmax   = xmax;
 	}
 	else
 	{
-		BANG_get_bang   = NULL;
-		BANG_get_phwoar = NULL;
+		BANG_get_bang   = nullptr;
+		BANG_get_phwoar = nullptr;
 	}
 }
 
@@ -637,7 +637,7 @@ BANG_Info *BANG_get_next()
 	BANG_Phwoar *bp;
 	BANG_Type   *bt;
 
-	if (BANG_get_phwoar == NULL)
+	if (!BANG_get_phwoar )
 	{
 		//
 		// Look for a bang within the desired x-range.
@@ -645,9 +645,9 @@ BANG_Info *BANG_get_next()
 
 		while(1)
 		{
-			if (BANG_get_bang == NULL)
+			if (!BANG_get_bang )
 			{
-				return NULL;
+				return nullptr;
 			}
 
 			ASSERT(WITHIN(BANG_get_bang, 1, BANG_MAX_BANGS - 1));
@@ -658,13 +658,13 @@ BANG_Info *BANG_get_next()
 			{
 				BANG_get_phwoar = bb->index;
 
-				if (BANG_get_phwoar == NULL)
+				if (!BANG_get_phwoar )
 				{
 					//
 					// This is bad!
 					//
 
-					return NULL;
+					return nullptr;
 				}
 
 				break;
@@ -711,7 +711,7 @@ BANG_Info *BANG_get_next()
 
 	BANG_get_phwoar = bp->next;
 
-	if (BANG_get_phwoar == NULL)
+	if (!BANG_get_phwoar )
 	{
 		BANG_get_bang = bb->next;
 	}

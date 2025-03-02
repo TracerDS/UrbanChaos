@@ -12,9 +12,9 @@
 #define	xchg(a,b)			{a^=b;b^=a;a^=b;}
 
 
-SLONG Arctan(SLONG X,SLONG Y)
+SLONG Arctan(SLONG X, SLONG Y)
 {
-	register SLONG		ax,bx;
+	SLONG ax,bx;
 
 	ax = X;
 	if(ax)

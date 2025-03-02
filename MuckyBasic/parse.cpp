@@ -31,7 +31,7 @@ PARSE_Node *PARSE_get_node()
 #define PARSE_MAX_STRING_TABLE_SIZE 65536
 #define PARSE_MAX_ERRORS              256
 
-PARSE_Node *PARSE_line[PARSE_MAX_LINES];		// NULL value means that line was blank.
+PARSE_Node *PARSE_line[PARSE_MAX_LINES];		// nullptr value means that line was blank.
 SLONG PARSE_line_upto;
 CBYTE PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
 SLONG PARSE_string_table_upto;
@@ -77,7 +77,7 @@ SLONG PARSE_add_error(CBYTE* fmt, ...)
 	// Put it into the buffer.
 	//
 
-	SLONG len = strlen(error) + 1;	// + 1 to include terminating NULL.
+	SLONG len = strlen(error) + 1;	// + 1 to include terminating nullptr.
 
 	if (PARSE_errbuf_upto + len > PARSE_MAX_ERRBUF)
 	{
@@ -131,7 +131,7 @@ void PARSE_throw(CBYTE* error = "Parse error")
 
 CBYTE* PARSE_add_string(CBYTE* string)
 {
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL
+	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr
 	
 	if (PARSE_string_table_upto + length > PARSE_MAX_STRING_TABLE_SIZE)
 	{
@@ -656,7 +656,7 @@ PARSE_Node *PARSE_function_call()
 
 		ans           = PARSE_get_node();
 		ans->type     = PARSE_NODE_TYPE_CALL;
-		ans->child1   = NULL;
+		ans->child1   = nullptr;
 		ans->args     = 0;
 		ans->variable = PARSE_add_string(name);
 
@@ -946,7 +946,7 @@ PARSE_Node *PARSE_primary()
 
 				LEX_pop();
 
-				ans->child1 = NULL;
+				ans->child1 = nullptr;
 				ans->args   = 0;
 			}
 			else
@@ -1233,7 +1233,7 @@ PARSE_Node *PARSE_primary()
 				// This is a one-argugment version.
 				//
 
-				ans->child2 = NULL;
+				ans->child2 = nullptr;
 
 				return ans;
 			}
@@ -1333,7 +1333,7 @@ PARSE_Node *PARSE_primary()
 				// This is a two-argument version.
 				//
 
-				ans->child3 = NULL;
+				ans->child3 = nullptr;
 
 				return ans;
 			}
@@ -1398,7 +1398,7 @@ PARSE_Node *PARSE_primary()
 				// This is the identity matrix.
 				//
 
-				ans->child1 = NULL;
+				ans->child1 = nullptr;
 			}
 			else
 			{
@@ -1470,7 +1470,7 @@ PARSE_Node *PARSE_primary()
 				// This is the zero vector (0,0,0).
 				//
 
-				ans->child1 = NULL;
+				ans->child1 = nullptr;
 			}
 			else
 			{
@@ -1518,7 +1518,7 @@ PARSE_Node *PARSE_primary()
 
 			PARSE_throw();
 
-			return NULL;
+			return nullptr;
 	}
 }
 
@@ -2037,7 +2037,7 @@ PARSE_Node *PARSE_var()
 
 	PARSE_throw();
 
-	return NULL;
+	return nullptr;
 }
 
 PARSE_Node *PARSE_struct()
@@ -2079,7 +2079,7 @@ PARSE_Node *PARSE_struct()
 
 	PARSE_throw();
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2178,9 +2178,9 @@ PARSE_Node *PARSE_argument_definition()
 	// Initailise our answer.
 	//
 
-	PARSE_Node *ans  = NULL;
-	PARSE_Node *arg  = NULL;
-	PARSE_Node *last = NULL;
+	PARSE_Node *ans  = nullptr;
+	PARSE_Node *arg  = nullptr;
+	PARSE_Node *last = nullptr;
 
 	lt = LEX_get();
 
@@ -2190,7 +2190,7 @@ PARSE_Node *PARSE_argument_definition()
 		// No arguements?
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	LEX_pop();
@@ -2229,13 +2229,13 @@ PARSE_Node *PARSE_argument_definition()
 
 				arg->type     = PARSE_NODE_TYPE_ARGUMENT;
 				arg->variable = PARSE_add_string(lt.variable);
-				arg->child1   = NULL;
+				arg->child1   = nullptr;
 
 				//
 				// Is this the first argument?
 				//
 
-				if (ans == NULL)
+				if (!ans )
 				{
 					ans = arg;
 				}
@@ -2468,8 +2468,8 @@ PARSE_Node *PARSE_statement()
 				//
 
 				ans->type   = PARSE_NODE_TYPE_MIF;
-				ans->child2 = NULL;
-				ans->child3 = NULL;
+				ans->child2 = nullptr;
+				ans->child3 = nullptr;
 
 				return ans;
 			}
@@ -2494,8 +2494,8 @@ PARSE_Node *PARSE_statement()
 				//
 
 				ans->type   = PARSE_NODE_TYPE_MIF;
-				ans->child2 = NULL;
-				ans->child3 = NULL;
+				ans->child2 = nullptr;
+				ans->child3 = nullptr;
 
 				return ans;
 			}
@@ -2532,7 +2532,7 @@ PARSE_Node *PARSE_statement()
 				// IF and THEN without an ELSE.
 				//
 
-				ans->child3 = NULL;
+				ans->child3 = nullptr;
 			}
 
 			return ans;
@@ -2611,7 +2611,7 @@ PARSE_Node *PARSE_statement()
 						// This is an anonymous FOR loop.
 						//
 
-						ans->lvalue = NULL;
+						ans->lvalue = nullptr;
 					}
 				}
 				
@@ -2634,7 +2634,7 @@ PARSE_Node *PARSE_statement()
 					// this FOR loop's lvalue > the expression.
 					//
 
-					if (ans->lvalue == NULL)
+					if (!ans->lvalue )
 					{
 						//
 						// ERROR!
@@ -2656,7 +2656,7 @@ PARSE_Node *PARSE_statement()
 
 				if (lt.type != LEX_TOKEN_TYPE_STEP)
 				{
-					if (ans->lvalue == NULL)
+					if (!ans->lvalue )
 					{
 						//
 						// ERROR! Can't build a default STEP for an anonymous FOR loop.
@@ -2735,7 +2735,7 @@ PARSE_Node *PARSE_statement()
 				// An anonymous NEXT.
 				//
 
-				ans->lvalue = NULL;
+				ans->lvalue = nullptr;
 			}
 
 			return ans;
@@ -2892,7 +2892,7 @@ PARSE_Node *PARSE_statement()
 				// No argument to return...
 				//
 
-				ans->child1 = NULL;
+				ans->child1 = nullptr;
 			}
 			else
 			{
@@ -2960,7 +2960,7 @@ PARSE_Node *PARSE_statement()
 
 				LEX_pop();
 
-				ans->child1 = NULL;
+				ans->child1 = nullptr;
 				ans->args   = 0;
 			}
 			else
@@ -3007,7 +3007,7 @@ PARSE_Node *PARSE_statement()
 				// A CLS without an argument list.
 				//
 
-				ans->child1 = NULL;
+				ans->child1 = nullptr;
 				ans->args   = 0;
 			}
 			else
@@ -3024,7 +3024,7 @@ PARSE_Node *PARSE_statement()
 
 					LEX_pop();
 
-					ans->child1 = NULL;
+					ans->child1 = nullptr;
 					ans->args   = 0;
 				}
 				else
@@ -3300,7 +3300,7 @@ PARSE_Node *PARSE_statement()
 
 			PARSE_throw();
 
-			return NULL;	// To stop the compiler complaining that not all control paths return a value.
+			return nullptr;	// To stop the compiler complaining that not all control paths return a value.
 	}
 }
 

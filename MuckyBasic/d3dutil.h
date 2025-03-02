@@ -17,8 +17,8 @@
 //-----------------------------------------------------------------------------
 // Typing shortcuts for deleting and freeing objects.
 //-----------------------------------------------------------------------------
-#define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
-#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=NULL; } }
+#define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=nullptr; } }
+#define SAFE_RELEASE(p) { if(p) { (p)->Release(); (p)=nullptr; } }
 
 
 
@@ -44,7 +44,7 @@ VOID D3DUtil_InitLight( D3DLIGHT& ldLightData, D3DLIGHTTYPE ltType,
 //-----------------------------------------------------------------------------
 LPDIRECTDRAW4 D3DUtil_GetDirectDrawFromDevice( LPDIRECT3DDEVICE3 pd3dDevice );
 DWORD D3DUtil_GetDeviceMemoryType( LPDIRECT3DDEVICE3 pd3dDevice );
-DWORD D3DUtil_GetDisplayDepth( LPDIRECTDRAW4 pDD4=NULL );
+DWORD D3DUtil_GetDisplayDepth( LPDIRECTDRAW4 pDD4=nullptr );
 
 
 

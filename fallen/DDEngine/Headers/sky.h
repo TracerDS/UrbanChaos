@@ -8,7 +8,7 @@
 
 //
 // Needs the screen to have been initialised.
-// if 'star_file' is NULL, then stars are placed randomly, otherwise
+// if 'star_file' is nullptr, then stars are placed randomly, otherwise
 // it should be an ascii file of the form...
 //
 //

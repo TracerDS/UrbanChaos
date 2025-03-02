@@ -62,7 +62,7 @@ ORB_Orb *ORB_create(float x, float y, float radius)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -171,5 +171,5 @@ void ORB_draw_all(float mid_x, float mid_y, float zoom)
 		}
 	}
 
-	OS_buffer_draw(ob, ORB_ot, NULL, OS_DRAW_ADD);
+	OS_buffer_draw(ob, ORB_ot, nullptr, OS_DRAW_ADD);
 }

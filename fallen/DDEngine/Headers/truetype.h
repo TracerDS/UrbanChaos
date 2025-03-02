@@ -50,7 +50,7 @@ enum Validity
 
 struct CacheLine
 {
-	TextCommand*	owner;			// owning TextCommand, or NULL if free
+	TextCommand*	owner;			// owning TextCommand, or nullptr if free
 	int				sx,sy;			// screen x,y to render to
 	int				width;			// width used
 	int				height;			// height used
@@ -74,7 +74,7 @@ extern void PreFlipTT();
 
 // draw text
 
-extern int DrawTextTT(char* string, int x, int y, int rx, int scale, ULONG rgb, int command, long* width = NULL);
+extern int DrawTextTT(char* string, int x, int y, int rx, int scale, ULONG rgb, int command, long* width = nullptr);
 
 // get height
 

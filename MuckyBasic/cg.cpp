@@ -312,7 +312,7 @@ SLONG CG_debug_data_upto;
 
 SLONG CG_add_string_to_debug_data(CBYTE* string)
 {
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL
+	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr
 	
 	if (CG_debug_data_upto + length > CG_MAX_DEBUG_DATA)
 	{
@@ -345,7 +345,7 @@ SLONG CG_add_string_to_debug_data(CBYTE* string)
 
 SLONG CG_add_string(CBYTE* string)
 {
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating NULL.
+	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr.
 
 	if (CG_data_table_upto + length > CG_data_table_max)
 	{
@@ -1187,7 +1187,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			{
 				ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
 
-				if (pn->child1 == NULL)
+				if (!pn->child1 )
 				{
 					//
 					// The function doesn't return anything. Make it
@@ -1250,7 +1250,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			ASSERT(WITHIN(CG_for_upto, 0, CG_MAX_FORS - 1));
 
 			CG_for[CG_for_upto].type     = CG_FOR_TYPE_ANON;
-			CG_for[CG_for_upto].lvalue   = NULL;
+			CG_for[CG_for_upto].lvalue   = nullptr;
 			CG_for[CG_for_upto].loopto   = CG_instruction_upto;
 			CG_for[CG_for_upto].overstep = CG_instruction_upto - 1;
 			CG_for[CG_for_upto].forcode  = pn->forcode;
@@ -1309,7 +1309,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 						continue;
 					}
 
-					if (pn->lvalue == NULL)
+					if (!pn->lvalue )
 					{
 						//
 						// Match this FOR loop...
@@ -1371,7 +1371,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 					// generate code for it.
 					//
 
-					pn->lvalue = NULL;
+					pn->lvalue = nullptr;
 
 					goto found_matching_for;
 				}
@@ -2090,7 +2090,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 		case PARSE_NODE_TYPE_LEFT:
 
-			if (pn->child2 == NULL)
+			if (!pn->child2 )
 			{
 				//
 				// This is a one-argument version. Push the constant 1 onto the stack.
@@ -2107,7 +2107,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 		case PARSE_NODE_TYPE_RIGHT:
 
-			if (pn->child2 == NULL)
+			if (!pn->child2 )
 			{
 				//
 				// This is a one-argument version. Push the constant 1 onto the stack.
@@ -2124,7 +2124,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 		case PARSE_NODE_TYPE_MID:
 
-			if (pn->child3 == NULL)
+			if (!pn->child3 )
 			{
 				//
 				// This is a two-argument version. Push the constant 1 onto the stack.
@@ -2231,7 +2231,7 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 	// Initialise output.
 	//
 
-	CG_output       = NULL;
+	CG_output       = nullptr;
 	CG_num_errors   = 0;
 	CG_num_warnings = 0;
 

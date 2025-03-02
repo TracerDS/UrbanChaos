@@ -106,13 +106,13 @@ public:
 
 	MapleVMU ( void )
 	{
-		pNextVMU = NULL;
+		pNextVMU = nullptr;
 		type = 0;
 		iEnumNumber = -1;
-		pUnknown = NULL;
+		pUnknown = nullptr;
 		bUpsideDown = true;
 		dwLcdBufferId = 0;
-		pLcdBuffer = NULL;
+		pLcdBuffer = nullptr;
 		Vib_bGotDevInfo = false;
 		Vib_fMinFreq = 0.5f;
 		Vib_fMaxFreq = 20.0f;
@@ -120,16 +120,16 @@ public:
 
 	~MapleVMU ( void )
 	{
-		if ( pLcdBuffer != NULL )
+		if ( pLcdBuffer != nullptr )
 		{
 			ASSERT ( type == MDT_LCD );
-			ASSERT ( pLcd != NULL );
+			ASSERT ( pLcd != nullptr );
 			ASSERT ( dwLcdBufferId != 0 );
 			pLcd->FreeLcdBuffer ( dwLcdBufferId );
 			dwLcdBufferId = 0;
-			pLcdBuffer = NULL;
+			pLcdBuffer = nullptr;
 		}
-		if ( pUnknown != NULL )
+		if ( pUnknown != nullptr )
 		{
 			// Whatever it was, release it.
 			pUnknown->Release();
@@ -270,12 +270,12 @@ class	DIDriverManager
 		HRESULT				Init();
 		HRESULT				Fini();
 
-		HRESULT				LoadDevices ( bool *pbChanged=NULL );
+		HRESULT				LoadDevices ( bool *pbChanged=nullptr );
 		HRESULT				DestroyAllDevices();
 		HRESULT				DestroyDevice(DIDeviceInfo *the_device);
 
 		HRESULT				AddDevice(DIDeviceInfo *the_driver);
-		DIDeviceInfo		*FindDevice(UBYTE type,UBYTE sub_type,DIDeviceInfo **next_best,DIDeviceInfo *start_device=NULL);
+		DIDeviceInfo		*FindDevice(UBYTE type,UBYTE sub_type,DIDeviceInfo **next_best,DIDeviceInfo *start_device=nullptr);
 
 		DIDeviceInfo		*FindFirstWithButtonPressed ( UBYTE type, UBYTE sub_type );
 
@@ -304,7 +304,7 @@ MapleVMU *FindFirstVMUOnCurrentController ( void );
 
 
 // Tries to find a memory VMU at slot iVMUNum on controller iCtrlNum.
-// If not, returns NULL. Controllers are numbered 0-3, VMU numbers 0-1.
+// If not, returns nullptr. Controllers are numbered 0-3, VMU numbers 0-1.
 MapleVMU *FindMemoryVMUAt ( int iCtrlNum, int iVMUNum );
 
 
@@ -320,16 +320,16 @@ void DeleteInvalidDevice ( void );
 // Returns the current VMU. If it can't be found any more, and
 // bFindNextBest is true, it tries to find the first one on the
 // primary, and then tries to find the first one on anything.
-// If bFindNextBest is false, it just returns NULL.
+// If bFindNextBest is false, it just returns nullptr.
 MapleVMU *FindCurrentStorageVMU ( bool bFindNextBest );
 
-// Sets the current storage VMU. If NULL, there will be no current VMU.
+// Sets the current storage VMU. If nullptr, there will be no current VMU.
 void SetCurrentStorageVMU ( MapleVMU *pVMU );
 
 
 
 // Tries to find a vibration VMU on the primary. If there are two (unlikely),
-// it retruns the first one. If there are none, it returns NULL.
+// it retruns the first one. If there are none, it returns nullptr.
 // Yes, I know they're not actually VMUs that vibrate.
 MapleVMU *FindFirstVibratorOnCurrentController ( void );
 

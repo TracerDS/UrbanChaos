@@ -46,10 +46,10 @@ void	*LockWorkScreen(void)
 	{
 		InitStruct(dd_sd);
 		result			=	the_display.lp_DD_WorkSurface->Lock	(
-																	NULL,
+																	nullptr,
 																	&dd_sd,
 																	DDLOCK_WAIT,
-																	NULL
+																	nullptr
 																);
 		switch(result)
 		{
@@ -77,7 +77,7 @@ void	UnlockWorkScreen(void)
 
 	if(the_display.lp_DD_WorkSurface)
 	{
-		result	=	the_display.lp_DD_WorkSurface->Unlock(NULL);
+		result	=	the_display.lp_DD_WorkSurface->Unlock(nullptr);
 		if(result==DDERR_SURFACELOST)
 		{
 			the_display.Restore();
@@ -98,7 +98,7 @@ void	ClearWorkScreen(UBYTE colour)
 	{
 		InitStruct(dd_bltfx);
 		dd_bltfx.dwFillColor	=	colour;
-		result	=	the_display.lp_DD_WorkSurface->Blt(NULL,NULL,NULL,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
+		result	=	the_display.lp_DD_WorkSurface->Blt(nullptr,nullptr,nullptr,DDBLT_COLORFILL|DDBLT_WAIT,&dd_bltfx);
 		switch(result)
 		{
 			case	DD_OK:
@@ -123,7 +123,7 @@ void	ShowWorkWindow(ULONG flags)
 					ww_source_rect;
 
 
-	if(the_display.lp_DD_WorkSurface==NULL)
+	if(the_display.lp_DD_WorkSurface==nullptr)
 		return;
 
 	ww_source_rect.left		=	WorkWindowRect.Left;
@@ -139,7 +139,7 @@ void	ShowWorkWindow(ULONG flags)
 															the_display.lp_DD_WorkSurface,
 															&ww_source_rect,
 															DDBLT_WAIT,
-															NULL
+															nullptr
 														);
 	}
 	else
@@ -156,7 +156,7 @@ void	ShowWorkWindow(ULONG flags)
 															the_display.lp_DD_WorkSurface,
 															&ww_source_rect,
 															DDBLT_WAIT,
-															NULL
+															nullptr
 														);
 	}
 	if(result==DDERR_SURFACELOST)

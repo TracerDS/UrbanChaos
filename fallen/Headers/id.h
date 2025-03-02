@@ -117,7 +117,7 @@ void ID_remove_inside_things();
 
 
 //
-// Returs the room index of a mapsquare.  0 == NULL room index.
+// Returs the room index of a mapsquare.  0 == nullptr room index.
 // This is a mapsquare, not a world position.
 //
 
@@ -175,7 +175,7 @@ void  ID_this_is_where_i_am(SLONG x, SLONG z);
 SLONG ID_should_i_draw     (SLONG x, SLONG z);	// (x,z) must be in the bounding square of the floorplan.
 
 //
-// Returns index of the first face above a floor square. 0 => NULL index.
+// Returns index of the first face above a floor square. 0 => nullptr index.
 // Returns true if the face is a quad, otherwise it is a triangle.
 // Returns the texture of the face.
 // Returns the next face in the linked list of faces above a floor square.

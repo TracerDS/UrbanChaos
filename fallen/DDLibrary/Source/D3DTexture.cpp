@@ -17,9 +17,9 @@
 #endif
 
 #ifdef TEX_EMBED
-static D3DTexture*				EmbedSource = NULL;
-static LPDIRECTDRAWSURFACE4		EmbedSurface = NULL;
-static LPDIRECT3DTEXTURE2		EmbedTexture = NULL;
+static D3DTexture*				EmbedSource = nullptr;
+static LPDIRECTDRAWSURFACE4		EmbedSurface = nullptr;
+static LPDIRECT3DTEXTURE2		EmbedTexture = nullptr;
 static UBYTE					EmbedOffset = 0;
 #endif
 
@@ -27,15 +27,15 @@ static UBYTE					EmbedOffset = 0;
 extern void POLY_reset_render_states ( void );
 
 static DWORD dwSizeOfFastLoadBuffer = 0;
-void* pvFastLoadBuffer = NULL;
+void* pvFastLoadBuffer = nullptr;
 
 inline void* GetMeAFastLoadBufferAtLeastThisBigPlease ( DWORD dwSize )
 {
 	if ( dwSizeOfFastLoadBuffer < dwSize )
 	{
-		if ( pvFastLoadBuffer != NULL )
+		if ( pvFastLoadBuffer != nullptr )
 		{
-			VirtualFree ( pvFastLoadBuffer, NULL, MEM_RELEASE );
+			VirtualFree ( pvFastLoadBuffer, nullptr, MEM_RELEASE );
 		}
 		// Grow slightly more than needed to prevent hammering.
 		dwSizeOfFastLoadBuffer = ( dwSize * 5 / 4 + 1024 );
@@ -44,19 +44,19 @@ inline void* GetMeAFastLoadBufferAtLeastThisBigPlease ( DWORD dwSize )
 
 		TRACE ( "Growing FastLoad buffer to 0x%x bytes\n", dwSizeOfFastLoadBuffer );
 
-		pvFastLoadBuffer = VirtualAlloc ( NULL, dwSizeOfFastLoadBuffer, MEM_COMMIT, PAGE_READWRITE );
-		ASSERT ( pvFastLoadBuffer != NULL );
+		pvFastLoadBuffer = VirtualAlloc ( nullptr, dwSizeOfFastLoadBuffer, MEM_COMMIT, PAGE_READWRITE );
+		ASSERT ( pvFastLoadBuffer != nullptr );
 	}
 	return ( pvFastLoadBuffer );
 }
 
 void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit ( void )
 {
-	if ( pvFastLoadBuffer != NULL )
+	if ( pvFastLoadBuffer != nullptr )
 	{
 		TRACE ( "Freeing FastLoad buffer\n" );
-		VirtualFree ( pvFastLoadBuffer, NULL, MEM_RELEASE );
-		pvFastLoadBuffer = NULL;
+		VirtualFree ( pvFastLoadBuffer, nullptr, MEM_RELEASE );
+		pvFastLoadBuffer = nullptr;
 		dwSizeOfFastLoadBuffer = 0;
 	}
 }
@@ -64,7 +64,7 @@ void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit ( void )
 inline void* FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
 {
 	void* pvData = GetMeAFastLoadBufferAtLeastThisBigPlease ( dwSize );
-	ASSERT ( pvData != NULL );
+	ASSERT ( pvData != nullptr );
 
 	DWORD dwAlignedFileSize = dwSize & ( ~4095 );
 	// DMA read
@@ -99,9 +99,9 @@ void D3DTexture::BeginLoading()
 	SLONG first_time = true;
 
 #ifdef TEX_EMBED
-	EmbedSource = NULL;
-	EmbedSurface = NULL;
-	EmbedTexture = NULL;
+	EmbedSource = nullptr;
+	EmbedSurface = nullptr;
+	EmbedTexture = nullptr;
 	EmbedOffset = 0;
 #endif
 
@@ -112,7 +112,7 @@ void D3DTexture::BeginLoading()
 
 void D3DPage::EnsureLoaded ( void )
 {
-	if ( this->pTex != NULL )
+	if ( this->pTex != nullptr )
 	{
 		// Cool - already done.
 		return;
@@ -120,23 +120,23 @@ void D3DPage::EnsureLoaded ( void )
 
 	// OK, we need to load this up.
 	this->pTex = MFnew<D3DTexture>();
-	ASSERT ( this->pTex != NULL );
+	ASSERT ( this->pTex != nullptr );
 
 	HRESULT hres = this->pTex->LoadTextureTGA ( this->pcFilename, -1, true );
 	if ( FAILED(hres) )
 	{
-		this->pTex = NULL;
+		this->pTex = nullptr;
 	}
 }
 
 void D3DPage::Unload ( void )
 {
-	if ( this->pTex != NULL )
+	if ( this->pTex != nullptr )
 	{
-		ASSERT ( pTex != NULL );
+		ASSERT ( pTex != nullptr );
 		pTex->Destroy();
 		MFdelete(pTex);
-		pTex = NULL;
+		pTex = nullptr;
 	}
 }
 
@@ -207,8 +207,8 @@ HRESULT	D3DTexture::LoadTextureTGA(CBYTE* tga_file, ULONG id,bool bCanShrink)
 		return DD_OK;
 	}
 
-	lp_Texture = NULL;
-	lp_Surface = NULL;
+	lp_Texture = nullptr;
+	lp_Surface = nullptr;
 
 	this->bCanShrink = bCanShrink;
 
@@ -247,8 +247,8 @@ HRESULT D3DTexture::CreateUserPage(SLONG texture_size, bool i_want_an_alpha_chan
 
 	ASSERT(Type == D3DTEXTURE_TYPE_UNUSED);
 
-	lp_Texture = NULL;
-	lp_Surface = NULL;
+	lp_Texture = nullptr;
+	lp_Surface = nullptr;
 	UserWantsAlpha       = i_want_an_alpha_channel;
 
 	//
@@ -356,7 +356,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 
 	tga = (TGA_Pixel *) MemAlloc (256 * 256 * sizeof(TGA_Pixel));
 
-	if (tga == NULL)
+	if (!tga )
 	{
 		TRACE("Not enough MAIN memory to load tga %s\n", texture_name);
 
@@ -528,7 +528,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 #endif
 		dd_sd.dwTextureStage = 0;
 
-		VERIFY(SUCCEEDED(the_display.lp_DD4->CreateSurface(&dd_sd, &lp_Surface, NULL)));
+		VERIFY(SUCCEEDED(the_display.lp_DD4->CreateSurface(&dd_sd, &lp_Surface, nullptr)));
 		VERIFY(SUCCEEDED(lp_Surface->QueryInterface(IID_IDirect3DTexture2,(LPVOID *)&lp_Texture)));
 
 		interlace = ti.width;
@@ -540,7 +540,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 	//
 
 	dd_sd.dwSize = sizeof(dd_sd);
-	HRESULT	res = lp_Surface->Lock(NULL, &dd_sd, 0, NULL);
+	HRESULT	res = lp_Surface->Lock(nullptr, &dd_sd, 0, nullptr);
 	ASSERT(SUCCEEDED(res));
 
 	//
@@ -682,7 +682,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 	//
 	// Unlock the surface.
 	//
-	VERIFY(SUCCEEDED(lp_Surface->Unlock(NULL)));
+	VERIFY(SUCCEEDED(lp_Surface->Unlock(nullptr)));
 
 	MemFree(tga);
 
@@ -727,7 +727,7 @@ HRESULT D3DTexture::Reload_user()
 	}
 
 	best_score = 0;
-	best_mi    = NULL;
+	best_mi    = nullptr;
 
 	if (UserWantsAlpha)
 	{
@@ -803,7 +803,7 @@ HRESULT D3DTexture::Reload_user()
 		}
 	}
 
-	if (best_mi == NULL)
+	if (!best_mi )
 	{
 		//
 		// Couldn't find a suitable texture format.
@@ -867,7 +867,7 @@ HRESULT D3DTexture::Reload_user()
 	dd_sd.ddsCaps.dwCaps2 = DDSCAPS2_TEXTUREMANAGE;
 #endif
 
-	VERIFY(SUCCEEDED(the_display.lp_DD4->CreateSurface(&dd_sd, &lp_Surface, NULL)));
+	VERIFY(SUCCEEDED(the_display.lp_DD4->CreateSurface(&dd_sd, &lp_Surface, nullptr)));
 
 	//
 	// Get d3d texture interface.
@@ -897,7 +897,7 @@ HRESULT D3DTexture::LockUser(UWORD **bitmap, SLONG *pitch)
 
 	InitStruct(dd_sd);
 
-	if (lp_Surface == NULL || FAILED(lp_Surface->Lock(NULL, &dd_sd, DDLOCK_WAIT, NULL)))
+	if (lp_Surface == nullptr || FAILED(lp_Surface->Lock(nullptr, &dd_sd, DDLOCK_WAIT, nullptr)))
 	{
 		return DDERR_GENERIC;
 	}
@@ -914,7 +914,7 @@ void D3DTexture::UnlockUser()
 {
 //	ASSERT(Type == D3DTEXTURE_TYPE_USER);
 
-   	VERIFY(SUCCEEDED(lp_Surface->Unlock(NULL)));
+   	VERIFY(SUCCEEDED(lp_Surface->Unlock(nullptr)));
 }
 
 HRESULT D3DTexture::Reload(void)
@@ -942,7 +942,7 @@ HRESULT D3DTexture::Reload(void)
 			MFdelete(current_font);
 			current_font	=	next_font;
 		}
-		FontList	=	NULL;
+		FontList	=	nullptr;
 	}
 
 	switch(Type)
@@ -980,7 +980,7 @@ HRESULT	D3DTexture::Destroy(void)
 			MFdelete(current_font);
 			current_font	=	next_font;
 		}
-		FontList	=	NULL;
+		FontList	=	nullptr;
 	}
 
 	// Release texture.
@@ -989,7 +989,7 @@ HRESULT	D3DTexture::Destroy(void)
 		DebugText("Releasing texture\n");
 		a = lp_Texture->Release();
 		DebugText("Done\n");
-		lp_Texture			=	NULL;
+		lp_Texture			=	nullptr;
 	}
 
 	// Release surface.
@@ -998,10 +998,10 @@ HRESULT	D3DTexture::Destroy(void)
 		DebugText("Releasing surface\n");
 		c = lp_Surface->Release();
 		DebugText("Done\n");
-		lp_Surface	=	NULL;
+		lp_Surface	=	nullptr;
 	}
 
-//	TextureHandle = NULL;
+//	TextureHandle = nullptr;
 
 	return	DD_OK;
 }
@@ -1056,7 +1056,7 @@ map_font:
 		}
 		else
 		{
-			the_font->NextFont	=	NULL;
+			the_font->NextFont	=	nullptr;
 			FontList			=	the_font;
 		}
 

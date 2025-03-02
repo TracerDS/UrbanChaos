@@ -33,7 +33,7 @@
 //-----------------------------------------------------------------------------
 DWORD       g_fStatus = SHOW_ALL;   // filter setting for messages from DirectXSetup
 HINSTANCE   g_hInstance;            // global instance handle
-HWND        g_hDlg = NULL;          // window handle to dialog proc
+HWND        g_hDlg = nullptr;          // window handle to dialog proc
 char        g_szAppTitle[256];      // application title
 int         g_wReply = -1;          // global value for dialog return
 
@@ -285,7 +285,7 @@ DirectXInstallInit(HINSTANCE hInstance)
     pWndClass->lpfnWndProc = (WNDPROC) DirectXInstallWndProc;
     pWndClass->hInstance = hInstance;
     pWndClass->hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIN_ICON));
-    pWndClass->hCursor = LoadCursor(NULL, IDC_ARROW);
+    pWndClass->hCursor = LoadCursor(nullptr, IDC_ARROW);
     pWndClass->hbrBackground = GetStockObject(WHITE_BRUSH);
     pWndClass->lpszMenuName = "MainMenu";
     pWndClass->lpszClassName = (LPSTR) "DirectXInstall";
@@ -320,7 +320,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
             return (0);     // Exits if unable to initialize     */
 
 	// really install?
-	if (MessageBox(NULL, "Are you sure you want to install DirectX 6.1 onto your system?", "DirectX 6.1", MB_YESNO | MB_ICONQUESTION) != IDYES)
+	if (MessageBox(nullptr, "Are you sure you want to install DirectX 6.1 onto your system?", "DirectX 6.1", MB_YESNO | MB_ICONQUESTION) != IDYES)
 	{
 		return 0;
 	}
@@ -334,10 +334,10 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
                         CW_USEDEFAULT,
                         CW_USEDEFAULT,
                         CW_USEDEFAULT,
-                        NULL,
-                        NULL,
+                        nullptr,
+                        nullptr,
                         g_hInstance,
-                        NULL);
+                        nullptr);
 
     if (!hWnd)              // Was the window created?
         return (0);
@@ -348,7 +348,7 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdS
 //    SetStatusChecks(hWnd);  // Check the default message menu item
 	SendMessage(hWnd, WM_COMMAND, IDINSTALL, 0);
 
-    while (GetMessage(&msg, NULL, 0, 0))
+    while (GetMessage(&msg, nullptr, 0, 0))
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);

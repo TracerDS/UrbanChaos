@@ -149,7 +149,7 @@ extern UBYTE        NIGHT_square_free;
 
 //
 // The cached lighting mapwho. Contains indices into the
-// NIGHT_square array, or NULL if there is no cached lighting
+// NIGHT_square array, or nullptr if there is no cached lighting
 // for that square.
 //
 

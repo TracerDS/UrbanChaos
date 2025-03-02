@@ -97,7 +97,7 @@ extern GAME_Menu GAME_menu_player;
 GAME_Menu GAME_menu_top =
 {
 	"Multiplayer Thrust (c) Mark Adami 1999",
-	NULL,
+	nullptr,
 	0,
 	{
 		{
@@ -121,12 +121,12 @@ GAME_Menu GAME_menu_top =
 
 		{
 			"Exit Game",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_EXIT_GAME
 		},
 
 		{
-			NULL
+			nullptr
 		}
 	}
 };
@@ -139,24 +139,24 @@ GAME_Menu GAME_menu_join =
 	{
 		{
 			"Choose Game",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_MAKE_CHOICE,
 		},
 
 		{
 			"Refresh Server list",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_ENUMERATE_LAN_SESSIONS,
 		},
 
 		{
 			"Join Game",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_JOIN_GAME,
 		},
 
 		{
-			NULL
+			nullptr
 		}
 	}
 };
@@ -169,14 +169,14 @@ GAME_Menu GAME_menu_server =
 	{
 		{
 			"Game Name:",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_EDIT_TEXT,
 			"Unnamed"
 		},
 
 		{
 			"Maximum Players:",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_EDIT_VALUE,
 			"4",
 			4,
@@ -186,12 +186,12 @@ GAME_Menu GAME_menu_server =
 
 		{
 			"Create LAN game",
-			NULL,
+			nullptr,
 			GAME_MENU_ACTION_INITIATE_LAN_GAME,
 		},
 
 		{
-			NULL
+			nullptr
 		}
 	}
 };
@@ -211,7 +211,7 @@ GAME_Menu GAME_menu_player =
 		},
 
 		{
-			NULL
+			nullptr
 		}
 	}	
 };
@@ -233,9 +233,9 @@ SLONG GAME_start_menu()
 	float y;
 
 	GAME_Menu *gm        = &GAME_menu_top;
-	GAME_Item *gi        =  NULL;
-	CBYTE     *error     =  NULL;
-	CBYTE     *text      =  NULL;
+	GAME_Item *gi        =  nullptr;
+	CBYTE     *error     =  nullptr;
+	CBYTE     *text      =  nullptr;
 	SLONG      cursor    =  0;
 	SLONG      choose    =  false;
 	CBYTE     *ch;
@@ -253,12 +253,12 @@ SLONG GAME_start_menu()
 
 			if (error)
 			{
-				error = NULL;
+				error = nullptr;
 			}
 			else
 			if (text)
 			{
-				text = NULL;
+				text = nullptr;
 			}
 			else
 			if (choose)
@@ -267,7 +267,7 @@ SLONG GAME_start_menu()
 			}
 			else
 			{
-				if (gm->parent == NULL)
+				if (!gm->parent )
 				{
 					return GAME_START_MENU_EXIT;
 				}
@@ -296,7 +296,7 @@ SLONG GAME_start_menu()
 					// Stop editing the text.
 					//
 
-					text = NULL;
+					text = nullptr;
 				}
 
 				if (KEY_on[KEY_UP] ||
@@ -307,7 +307,7 @@ SLONG GAME_start_menu()
 					// so that they leak into changing the menu selection.
 					//														
 
-					text = NULL;
+					text = nullptr;
 				}
 
 				if (KEY_on[KEY_BACKSPACE])
@@ -554,7 +554,7 @@ SLONG GAME_start_menu()
 											GAME_menu_server.item[0].text,
 											GAME_menu_server.item[1].value,
 											SERVER_CONNECT_TYPE_LAN,
-											NULL))
+											nullptr))
 									{
 										error = "Failed to create new game";
 									}
@@ -618,7 +618,7 @@ SLONG GAME_start_menu()
 									// We use inkey to edit the text...
 									//
 
-									KEY_inkey = NULL;
+									KEY_inkey = nullptr;
 
 									break;
 
@@ -696,7 +696,7 @@ SLONG GAME_start_menu()
 										if (sessions == 0)
 										{
 											GAME_menu_join.item[0].num_choices = 0;
-											GAME_menu_join.item[0].choice      = NULL;
+											GAME_menu_join.item[0].choice      = nullptr;
 										}
 										else
 										{
@@ -787,7 +787,7 @@ SLONG GAME_start_menu()
 
 				FONT_format(FONT_FLAG_JUSTIFY_LEFT);
 
-				if (gm->item[i].num_choices == 0 || gm->item[i].choice == NULL)
+				if (!gm->item[i].num_choices == 0 || gm->item[i].choice )
 				{
 					FONT_draw(0.51F, y, 0x666666, 1.0F, -1, "<None>");
 				}
@@ -851,7 +851,7 @@ SLONG GAME_start_menu()
 				0.0F,
 				0x101020);
 
-			OS_buffer_draw(ob, NULL, NULL, OS_DRAW_MULTIPLY | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE);
+			OS_buffer_draw(ob, nullptr, nullptr, OS_DRAW_MULTIPLY | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE);
 
 			FONT_format(FONT_FLAG_JUSTIFY_CENTRE);
 
@@ -1170,7 +1170,7 @@ void GAME_do_player_old()
 
 	SHIP_Ship *ss[2];
 	ORB_Orb   *oo;
-	TB_Tb     *tt[2] = {NULL, NULL};
+	TB_Tb     *tt[2] = {nullptr, nullptr};
 
 	SHIP_init();
 	ORB_init();
@@ -1294,7 +1294,7 @@ void GAME_do_player_old()
 						// Create/destroy the tractor beam.
 						//
 
-						if (tt[0] == NULL)
+						if (!tt[0] )
 						{
 							tt[0] = TB_create(ss[0], 5.0F);
 						}
@@ -1302,7 +1302,7 @@ void GAME_do_player_old()
 						{
 							TB_destroy(tt[0]);
 
-							tt[0] = NULL;
+							tt[0] = nullptr;
 						}
 					}
 				}
@@ -1323,7 +1323,7 @@ void GAME_do_player_old()
 						// Create/destroy the tractor beam.
 						//
 
-						if (tt[1] == NULL)
+						if (!tt[1] )
 						{
 							tt[1] = TB_create(ss[1], 5.0F);
 						}
@@ -1331,7 +1331,7 @@ void GAME_do_player_old()
 						{
 							TB_destroy(tt[1]);
 
-							tt[1] = NULL;
+							tt[1] = nullptr;
 						}
 					}
 				}
@@ -1351,7 +1351,7 @@ void GAME_do_player_old()
 				{
 					TB_destroy(tt[0]);
 
-					tt[0] = NULL;
+					tt[0] = nullptr;
 				}
 				else
 				if (tt[0]->oo->flag & ORB_FLAG_COLLIDED)
@@ -1362,7 +1362,7 @@ void GAME_do_player_old()
 					{
 						TB_destroy(tt[0]);
 
-						tt[0] = NULL;
+						tt[0] = nullptr;
 					}
 				}
 			}
@@ -1377,7 +1377,7 @@ void GAME_do_player_old()
 				{
 					TB_destroy(tt[1]);
 
-					tt[1] = NULL;
+					tt[1] = nullptr;
 				}
 				else
 				if (tt[1]->oo->flag & ORB_FLAG_COLLIDED)
@@ -1388,7 +1388,7 @@ void GAME_do_player_old()
 					{
 						TB_destroy(tt[1]);
 
-						tt[1] = NULL;
+						tt[1] = nullptr;
 					}
 				}
 			}

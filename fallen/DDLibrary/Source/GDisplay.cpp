@@ -26,17 +26,17 @@ SLONG				RealDisplayWidth;
 SLONG				RealDisplayHeight;
 SLONG				DisplayBPP;
 Display				the_display;
-volatile SLONG		hDDLibStyle		=	NULL,
-					hDDLibStyleEx	=	NULL;
-volatile HWND		hDDLibWindow	=	NULL;
-volatile HMENU		hDDLibMenu		=	NULL;
+volatile SLONG		hDDLibStyle		=	nullptr,
+					hDDLibStyleEx	=	nullptr;
+volatile HWND		hDDLibWindow	=	nullptr;
+volatile HMENU		hDDLibMenu		=	nullptr;
 
 int					VideoRes = -1;				// 0 = 320x240, 1 = 512x384, 2= 640x480, 3 = 800x600, 4 = 1024x768, -1 = unknown
 
 enumDisplayType eDisplayType;
 
 //---------------------------------------------------------------
- UBYTE			*image_mem	=	NULL,*image		=	NULL;
+ UBYTE			*image_mem	=	nullptr,*image		=	nullptr;
 
 
 #ifdef DEBUG
@@ -84,13 +84,13 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
 	DDSURFACEDESC            ddsd;
 
  	pMMStream->GetMediaStream(MSPID_PrimaryVideo, &pPrimaryVidStream);
-	ASSERT ( pPrimaryVidStream != NULL );
+	ASSERT ( pPrimaryVidStream != nullptr );
  	pPrimaryVidStream->QueryInterface(IID_IDirectDrawMediaStream, (void* *)&pDDStream);
-	ASSERT ( pDDStream != NULL );
+	ASSERT ( pDDStream != nullptr );
 
 	InitStruct(ddsd);
 
-	pDDStream->GetFormat(&ddsd, NULL, NULL, NULL);
+	pDDStream->GetFormat(&ddsd, nullptr, nullptr, nullptr);
 
  	midrect.top    = 420 - (ddsd.dwWidth  >> 1);
 	midrect.left   = 240 - (ddsd.dwHeight >> 1);
@@ -103,25 +103,25 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
  	rect.right  = ddsd.dwWidth;
 
  	pDDStream->CreateSample(back_surface, &rect, 0, &pSample);
-	ASSERT ( pSample != NULL );
+	ASSERT ( pSample != nullptr );
 	pMMStream->SetState(STREAMSTATE_RUN);
 
 
-	while (pSample->Update(0, NULL, NULL, NULL) == S_OK)
+	while (pSample->Update(0, nullptr, nullptr, nullptr) == S_OK)
 	{
 		if (FAILED(pSurface->Blt(
-				NULL,
+				nullptr,
 				back_surface,
 			   &rect,
 				DDBLT_WAIT,
-				NULL)))
+				nullptr)))
 		{
 			pSurface->Blt(
 			   &midrect,
 				back_surface,
 			   &rect,
 				DDBLT_WAIT,
-				NULL);
+				nullptr);
 		}
 
 		MSG msg;
@@ -167,13 +167,13 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
 
 void RenderFileToMMStream(const char * szFileName, IMultiMediaStream **ppMMStream, IDirectDraw *pDD)
 {	
-	IAMMultiMediaStream *pAMStream = NULL;
+	IAMMultiMediaStream *pAMStream = nullptr;
 
 	HRESULT hres;
 
  	CoCreateInstance(
 		CLSID_AMMultiMediaStream,
-		NULL,
+		nullptr,
 		CLSCTX_INPROC_SERVER,
 		IID_IAMMultiMediaStream,
 		(void* *)&pAMStream);
@@ -188,7 +188,7 @@ void RenderFileToMMStream(const char * szFileName, IMultiMediaStream **ppMMStrea
 		wPath,
 		sizeof(wPath) / sizeof(wPath[0]));
 
-	hres = pAMStream->Initialize(STREAMTYPE_READ, 0, NULL);
+	hres = pAMStream->Initialize(STREAMTYPE_READ, 0, nullptr);
 	if ( FAILED ( hres ) )
 	{
 		switch ( hres )
@@ -210,8 +210,8 @@ void RenderFileToMMStream(const char * szFileName, IMultiMediaStream **ppMMStrea
 			break;
 		}
 	}
- 	hres = pAMStream->AddMediaStream(pDD, &MSPID_PrimaryVideo, 0, NULL);
- 	hres = pAMStream->AddMediaStream(NULL, &MSPID_PrimaryAudio, AMMSF_ADDDEFAULTRENDERER, NULL);
+ 	hres = pAMStream->AddMediaStream(pDD, &MSPID_PrimaryVideo, 0, nullptr);
+ 	hres = pAMStream->AddMediaStream(nullptr, &MSPID_PrimaryAudio, AMMSF_ADDDEFAULTRENDERER, nullptr);
  	hres = pAMStream->OpenFile(wPath, 0);
 
 	*ppMMStream = pAMStream;
@@ -254,7 +254,7 @@ void UseBackSurface(LPDIRECTDRAWSURFACE4 use)
 	the_display.use_this_background_surface(use);
 }
 
-LPDIRECTDRAWSURFACE4 m_lpLastBackground = NULL;
+LPDIRECTDRAWSURFACE4 m_lpLastBackground = nullptr;
 
 void ResetBackImage(void)
 {
@@ -344,7 +344,7 @@ SLONG ClearDisplay(UBYTE r,UBYTE g,UBYTE b)
 	dd_bltfx.dwSize			=	sizeof(dd_bltfx);
 	dd_bltfx.dwFillColor	=	0;
  
-	the_display.lp_DD_FrontSurface->Blt(NULL,NULL,NULL,DDBLT_COLORFILL,&dd_bltfx);
+	the_display.lp_DD_FrontSurface->Blt(nullptr,nullptr,nullptr,DDBLT_COLORFILL,&dd_bltfx);
 
 	return	0;
 }
@@ -382,7 +382,7 @@ void LoadBackImage(UBYTE *image_data)
 		InitStruct(dd_sd);
 		try_count		=	0;
 do_the_lock:
-		result			=	the_display.lp_DD_BackSurface->Lock(NULL,&dd_sd,DDLOCK_WAIT|DDLOCK_NOSYSLOCK,NULL);
+		result			=	the_display.lp_DD_BackSurface->Lock(nullptr,&dd_sd,DDLOCK_WAIT|DDLOCK_NOSYSLOCK,nullptr);
 		switch(result)
 		{
 			case	DD_OK:
@@ -399,7 +399,7 @@ do_the_lock:
 				}
 				try_count	=	0;
 do_the_unlock:
-				result	=	the_display.lp_DD_BackSurface->Unlock(NULL);
+				result	=	the_display.lp_DD_BackSurface->Unlock(nullptr);
 				switch(result)
 				{
 					case	DDERR_SURFACELOST:
@@ -431,24 +431,24 @@ do_the_unlock:
 Display::Display()
 {
 	DisplayFlags	=	0;
-	CurrDevice		=	NULL;
-	CurrDriver		=	NULL;
-	CurrMode		=	NULL;
+	CurrDevice		=	nullptr;
+	CurrDriver		=	nullptr;
+	CurrMode		=	nullptr;
 
 	CreateZBufferOn();
 
-	lp_DD_FrontSurface	=	NULL;
-	lp_DD_BackSurface	=	NULL;
-	lp_DD_WorkSurface	=	NULL;
-	lp_DD_ZBuffer		=	NULL;
-	lp_D3D_Black        =   NULL;
-	lp_D3D_White        =   NULL;
-	lp_D3D_User         =   NULL;
-	lp_DD_GammaControl	=	NULL;
+	lp_DD_FrontSurface	=	nullptr;
+	lp_DD_BackSurface	=	nullptr;
+	lp_DD_WorkSurface	=	nullptr;
+	lp_DD_ZBuffer		=	nullptr;
+	lp_D3D_Black        =   nullptr;
+	lp_D3D_White        =   nullptr;
+	lp_D3D_User         =   nullptr;
+	lp_DD_GammaControl	=	nullptr;
 
 
 	BackColour		=	BK_COL_BLACK;
-	TextureList		=	NULL;
+	TextureList		=	nullptr;
 }
 
 Display::~Display()
@@ -532,7 +532,7 @@ HRESULT	Display::Fini(void)
 	if (lp_DD_Background)
 	{
 		lp_DD_Background->Release();
-		lp_DD_Background = NULL;
+		lp_DD_Background = nullptr;
 	}
     FiniBack();
     FiniFront();
@@ -552,7 +552,7 @@ HRESULT	Display::GenerateDefaults(void)
 	HRESULT			result;
 
 
-	new_driver	=	ValidateDriver(NULL);
+	new_driver	=	ValidateDriver(nullptr);
 	if(!new_driver)
     {
         // Error, invalid DD Guid
@@ -568,7 +568,7 @@ HRESULT	Display::GenerateDefaults(void)
 		if	(
 				!GetFullscreenMode	(
 										new_driver,
-										NULL,
+										nullptr,
 										DEFAULT_WIDTH,
 										DEFAULT_HEIGHT,
 										DEFAULT_DEPTH,
@@ -589,7 +589,7 @@ HRESULT	Display::GenerateDefaults(void)
 		if	(
 				!GetDesktopMode	(
 									new_driver,
-									NULL,
+									nullptr,
 									&new_mode,
 									&new_device
 								)
@@ -620,7 +620,7 @@ HRESULT	Display::InitInterfaces(void)
     if(!CurrDriver)
     {
 		// So, Grab the Primary DD driver.
-		CurrDriver	=	ValidateDriver(NULL);
+		CurrDriver	=	ValidateDriver(nullptr);
 		if(!CurrDriver)
 		{
 			// Error, No current Driver
@@ -634,7 +634,7 @@ HRESULT	Display::InitInterfaces(void)
     the_guid	=	CurrDriver->GetGuid();
     
     // Create DD interface
-    result	=	DirectDrawCreate(the_guid,&lp_DD,NULL);
+    result	=	DirectDrawCreate(the_guid,&lp_DD,nullptr);
     if(FAILED(result))
     {
         // Error
@@ -687,21 +687,21 @@ HRESULT	Display::FiniInterfaces(void)
 	if(lp_D3D)
 	{
 		lp_D3D->Release();
-		lp_D3D	=	NULL;
+		lp_D3D	=	nullptr;
 	}
 
     // Release DirectDraw4 Interface
 	if(lp_DD4)
 	{
 		lp_DD4->Release();
-		lp_DD4	=	NULL;
+		lp_DD4	=	nullptr;
 	}
 
     // Release DirectDraw Interface
 	if(lp_DD)
 	{
 		lp_DD->Release();
-		lp_DD	=	NULL;
+		lp_DD	=	nullptr;
 	}
 
 	// Success
@@ -780,7 +780,7 @@ LPDIRECTDRAWSURFACE4 mirror;
 
 static bool quick_flipper()
 {
-	the_display.lp_DD_FrontSurface->Blt(&the_display.DisplayRect,mirror,NULL,DDBLT_WAIT,NULL);
+	the_display.lp_DD_FrontSurface->Blt(&the_display.DisplayRect,mirror,nullptr,DDBLT_WAIT,nullptr);
 
 	return true;
 }
@@ -812,7 +812,7 @@ void PlayQuickMovie(SLONG type, SLONG language_ignored, bool bIgnored)
 	mine.ddpfPixelFormat = back.ddpfPixelFormat;
 	mine.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
 
-	HRESULT result = the_display.lp_DD4->CreateSurface(&mine, &mirror, NULL);
+	HRESULT result = the_display.lp_DD4->CreateSurface(&mine, &mirror, nullptr);
 
 	IDirectDrawSurface *lpdds;
 
@@ -890,12 +890,12 @@ HRESULT	Display::InitFullscreenMode(void)
 		AdjustWindowRectEx	(
 								&DisplayRect,
 						        GetWindowStyle(hDDLibWindow),
-						        GetMenu(hDDLibWindow) != NULL,
+						        GetMenu(hDDLibWindow) != nullptr,
 						        GetWindowExStyle(hDDLibWindow)
         					);
 		SetWindowPos(
 						hDDLibWindow,
-    	    			NULL,
+    	    			nullptr,
 						0,0,
 						DisplayRect.right-DisplayRect.left,
 						DisplayRect.bottom-DisplayRect.top,
@@ -1125,7 +1125,7 @@ HRESULT	Display::InitFront(void)
 	}
 
 	// Create Primary surface
-	result	=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_FrontSurface,NULL);
+	result	=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_FrontSurface,nullptr);
 	if(FAILED(result))
 	{
 		// Error
@@ -1137,7 +1137,7 @@ HRESULT	Display::InitFront(void)
 	result = lp_DD_FrontSurface->QueryInterface(IID_IDirectDrawGammaControl, (void**)&lp_DD_GammaControl);
 	if (FAILED(result))
 	{
-		lp_DD_GammaControl = NULL;
+		lp_DD_GammaControl = nullptr;
 		TRACE("No gamma\n");
 	}
 	else
@@ -1192,14 +1192,14 @@ HRESULT	Display::FiniFront(void)
 	if (lp_DD_GammaControl)
 	{
 		lp_DD_GammaControl->Release();
-		lp_DD_GammaControl = NULL;
+		lp_DD_GammaControl = nullptr;
 	}
 
 	// Release Front Surface Object
 	if(lp_DD_FrontSurface)
 	{
 		lp_DD_FrontSurface->Release();
-		lp_DD_FrontSurface	=	NULL;
+		lp_DD_FrontSurface	=	nullptr;
 	}
 
 	// Success
@@ -1259,7 +1259,7 @@ HRESULT	Display::InitBack(void)
 			dd_sd.ddsCaps.dwCaps |= DDSCAPS_SYSTEMMEMORY;
 		}
 
-		result				=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_BackSurface,NULL);
+		result				=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_BackSurface,nullptr);
 		if(FAILED(result))
 		{
 			DebugText("InitBack: unable to create back surface\n");
@@ -1304,7 +1304,7 @@ HRESULT	Display::InitBack(void)
 			dd_sd.dwWidth			=	w;
 			dd_sd.dwHeight			=	h;
 			memcpy(&dd_sd.ddpfPixelFormat, CurrDevice->GetZFormat(), sizeof(DDPIXELFORMAT));
-			result	=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_ZBuffer,NULL);
+			result	=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_ZBuffer,nullptr);
 			if(FAILED(result))
 			{
 				DebugText("InitBack: unable to create ZBuffer\n");
@@ -1324,7 +1324,7 @@ HRESULT	Display::InitBack(void)
 					if(lp_DD_ZBuffer)
 					{
 						lp_DD_ZBuffer->Release();
-						lp_DD_ZBuffer	=	NULL;
+						lp_DD_ZBuffer	=	nullptr;
 					}
 
 					// Note: we may be able to continue without a z buffer
@@ -1334,7 +1334,7 @@ HRESULT	Display::InitBack(void)
 		}
 
 		//	Create the D3D device interface
-		result	=	lp_D3D->CreateDevice(CurrDevice->guid,lp_DD_BackSurface,&lp_D3D_Device,NULL);
+		result	=	lp_D3D->CreateDevice(CurrDevice->guid,lp_DD_BackSurface,&lp_D3D_Device,nullptr);
 		if(FAILED(result))
 		{
 			DebugText("InitBack: unable to create D3D device\n");
@@ -1388,7 +1388,7 @@ HRESULT	Display::InitBack(void)
 			dd_sd.ddsCaps.dwCaps	=	DDSCAPS_OFFSCREENPLAIN|DDSCAPS_SYSTEMMEMORY;
 			dd_sd.dwWidth			=	w;
 			dd_sd.dwHeight			=	h;
-			result	=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_WorkSurface,NULL);
+			result	=	lp_DD4->CreateSurface(&dd_sd,&lp_DD_WorkSurface,nullptr);
 			if(FAILED(result))
 			{
 				DebugText("InitBack: unable to create work surface\n");
@@ -1421,7 +1421,7 @@ HRESULT	Display::FiniBack(void)
 		if(lp_DD_WorkSurface)
 		{
 			lp_DD_WorkSurface->Release();
-			lp_DD_WorkSurface	=	NULL;
+			lp_DD_WorkSurface	=	nullptr;
 		}
 	}
 
@@ -1435,7 +1435,7 @@ HRESULT	Display::FiniBack(void)
 		if(lp_D3D_Device)
 		{
 			lp_D3D_Device->Release();
-			lp_D3D_Device	=	NULL;
+			lp_D3D_Device	=	nullptr;
 		}
 
 		// Release Z Buffer
@@ -1447,7 +1447,7 @@ HRESULT	Display::FiniBack(void)
 
 			// Release Z-Buffer
 			lp_DD_ZBuffer->Release();
-			lp_DD_ZBuffer	=	NULL;
+			lp_DD_ZBuffer	=	nullptr;
 		}
 	}
 
@@ -1455,7 +1455,7 @@ HRESULT	Display::FiniBack(void)
 	if(lp_DD_BackSurface)
 	{
 		lp_DD_BackSurface->Release();
-		lp_DD_BackSurface	=	NULL;
+		lp_DD_BackSurface	=	nullptr;
 	}
 
 	// Success
@@ -1477,7 +1477,7 @@ HRESULT	Display::InitViewport(void)
 	}
 
 	// Create Viewport
-	result	=	lp_D3D->CreateViewport(&lp_D3D_Viewport,NULL);
+	result	=	lp_D3D->CreateViewport(&lp_D3D_Viewport,nullptr);
     if(FAILED(result))
     {
 		// Output error.
@@ -1489,14 +1489,14 @@ HRESULT	Display::InitViewport(void)
 	if(FAILED(result))
     {
 		lp_D3D_Viewport->Release();
-		lp_D3D_Viewport	=	NULL;
+		lp_D3D_Viewport	=	nullptr;
 
         // Output error.
 		return	result;
     }
 
 	// Black material.
-	result	=	lp_D3D->CreateMaterial(&lp_D3D_Black,NULL);
+	result	=	lp_D3D->CreateMaterial(&lp_D3D_Black,nullptr);
 	if(FAILED(result))
 	{
 		DebugText("InitViewport: Error creating black material\n");
@@ -1518,7 +1518,7 @@ HRESULT	Display::InitViewport(void)
 	{
 		DebugText("InitViewport: Error setting black material\n");
 		lp_D3D_Black->Release();
-		lp_D3D_Black	=	NULL;
+		lp_D3D_Black	=	nullptr;
 		return	result;
 	}
 	result	=	lp_D3D_Black->GetHandle(lp_D3D_Device,&black_handle);
@@ -1526,12 +1526,12 @@ HRESULT	Display::InitViewport(void)
 	{
 		DebugText("InitViewport: Error getting black handle\n");
 		lp_D3D_Black->Release();
-		lp_D3D_Black	=	NULL;
+		lp_D3D_Black	=	nullptr;
 		return	result;
 	}
 
 	// White material.
-	result	=	lp_D3D->CreateMaterial(&lp_D3D_White,NULL);
+	result	=	lp_D3D->CreateMaterial(&lp_D3D_White,nullptr);
 	if(FAILED(result))
 	{
 		DebugText("InitViewport: Error creating white material\n");
@@ -1551,7 +1551,7 @@ HRESULT	Display::InitViewport(void)
 	{
 		DebugText("InitViewport: Error setting white material\n");
 		lp_D3D_White->Release();
-		lp_D3D_White	=	NULL;
+		lp_D3D_White	=	nullptr;
 		return	result;
 	}
 	result	=	lp_D3D_White->GetHandle(lp_D3D_Device,&white_handle);
@@ -1559,7 +1559,7 @@ HRESULT	Display::InitViewport(void)
 	{
 		DebugText("InitViewport: Error getting white handle\n");
 		lp_D3D_White->Release();
-		lp_D3D_White	=	NULL;
+		lp_D3D_White	=	nullptr;
 		return	result;
 	}
 
@@ -1575,7 +1575,7 @@ HRESULT	Display::InitViewport(void)
 	{
 		lp_D3D_Device->DeleteViewport(lp_D3D_Viewport);
 		lp_D3D_Viewport->Release();
-		lp_D3D_Viewport	=	NULL;
+		lp_D3D_Viewport	=	nullptr;
 
 		return	result;
 	}
@@ -1599,11 +1599,11 @@ void Display::SetUserColour(UBYTE red, UBYTE green, UBYTE blue)
 	if (lp_D3D_User)
 	{
 		lp_D3D_User->Release();
-		lp_D3D_User	=	NULL;
-		user_handle =   NULL;
+		lp_D3D_User	=	nullptr;
+		user_handle =   nullptr;
 	}
 
-	result = lp_D3D->CreateMaterial(&lp_D3D_User,NULL);
+	result = lp_D3D->CreateMaterial(&lp_D3D_User,nullptr);
 
 	ASSERT(!FAILED(result));
 
@@ -1638,22 +1638,22 @@ HRESULT	Display::FiniViewport(void)
 	if(lp_D3D_Black)
 	{
 		lp_D3D_Black->Release();
-		lp_D3D_Black	=	NULL;
-		black_handle    =   NULL;
+		lp_D3D_Black	=	nullptr;
+		black_handle    =   nullptr;
 	}
 
 	if(lp_D3D_White)
 	{
 		lp_D3D_White->Release();
-		lp_D3D_White	=	NULL;
-		white_handle    =   NULL;
+		lp_D3D_White	=	nullptr;
+		white_handle    =   nullptr;
 	}
 
 	if (lp_D3D_User)
 	{
 		lp_D3D_User->Release();
-		lp_D3D_User		=	NULL;
-		user_handle     =   NULL;
+		lp_D3D_User		=	nullptr;
+		user_handle     =   nullptr;
 	}
 
 	// Release D3D viewport
@@ -1661,7 +1661,7 @@ HRESULT	Display::FiniViewport(void)
 	{
 		lp_D3D_Device->DeleteViewport(lp_D3D_Viewport);
         lp_D3D_Viewport->Release();
-        lp_D3D_Viewport	=	NULL;
+        lp_D3D_Viewport	=	nullptr;
 	}
 
 	// Success
@@ -1792,7 +1792,7 @@ HRESULT	Display::ChangeMode	(
 	// Step 1. Get New Mode
 	//
 	// Find new mode corresponding to w, h, bpp
-	new_mode	=	old_driver->FindMode(w, h, bpp, 0, NULL);
+	new_mode	=	old_driver->FindMode(w, h, bpp, 0, nullptr);
 	if(!new_mode)
 	{
 		result	=	DDERR_GENERIC;
@@ -1805,7 +1805,7 @@ HRESULT	Display::ChangeMode	(
 	//
 	if(new_mode->ModeSupported(old_device))
 	{
-		new_device	=	NULL;
+		new_device	=	nullptr;
 	}
 	else
 	{
@@ -1954,7 +1954,7 @@ HRESULT	Display::AddLoadedTexture(D3DTexture *the_texture)
 	// Check that this isn't a circular list and that this texture isn't already loaded.
 	D3DTexture *t = TextureList;
 	int iCountdown = 10000;
-	while ( t != NULL )
+	while ( t != nullptr )
 	{
 		ASSERT ( t != the_texture );
 		t = t->NextTexture;
@@ -1973,7 +1973,7 @@ HRESULT	Display::AddLoadedTexture(D3DTexture *the_texture)
 
 void Display::RemoveAllLoadedTextures(void)
 {
-	TextureList = NULL;
+	TextureList = nullptr;
 }
 
 HRESULT	Display::FreeLoadedTextures(void)
@@ -2054,7 +2054,7 @@ HRESULT	Display::toGDI(void)
 	if((hDDLibWindow) && (IsWindow(hDDLibWindow)))
 	{
 		DrawMenuBar(hDDLibWindow);
-		RedrawWindow(hDDLibWindow, NULL, NULL, RDW_FRAME);
+		RedrawWindow(hDDLibWindow, nullptr, nullptr, RDW_FRAME);
 	}
 
 	// Success
@@ -2069,7 +2069,7 @@ HRESULT	Display::fromGDI(void)
 
 HRESULT	Display::ShowWorkScreen(void)
 {
-	return	lp_DD_FrontSurface->Blt(&DisplayRect,lp_DD_WorkSurface,NULL,DDBLT_WAIT,NULL);
+	return	lp_DD_FrontSurface->Blt(&DisplayRect,lp_DD_WorkSurface,nullptr,DDBLT_WAIT,nullptr);
 }
 
 void* Display::screen_lock(void)
@@ -2089,7 +2089,7 @@ void* Display::screen_lock(void)
 
 		InitStruct(ddsdesc);
 
-		ret = lp_DD_BackSurface->Lock(NULL, &ddsdesc, DDLOCK_WAIT | DDLOCK_NOSYSLOCK, NULL);
+		ret = lp_DD_BackSurface->Lock(nullptr, &ddsdesc, DDLOCK_WAIT | DDLOCK_NOSYSLOCK, nullptr);
 
 		if (SUCCEEDED(ret))
 		{
@@ -2105,7 +2105,7 @@ void* Display::screen_lock(void)
 		{
 			d3d_error(ret);
 
-			screen = NULL;
+			screen = nullptr;
 		}
 	}
 
@@ -2116,10 +2116,10 @@ void  Display::screen_unlock(void)
 {
 	if (DisplayFlags & DISPLAY_LOCKED)
 	{
-		lp_DD_BackSurface->Unlock(NULL);
+		lp_DD_BackSurface->Unlock(nullptr);
 	}
 
-	screen        =  NULL;
+	screen        =  nullptr;
 	DisplayFlags &= ~DISPLAY_LOCKED;
 }
 
@@ -2243,7 +2243,7 @@ void Display::blit_back_buffer()
 
 	if (the_display.IsFullScreen())
 	{
-		res = lp_DD_FrontSurface->Blt(NULL,lp_DD_BackSurface,NULL,DDBLT_WAIT,0);
+		res = lp_DD_FrontSurface->Blt(nullptr,lp_DD_BackSurface,nullptr,DDBLT_WAIT,0);
 	}
 	else
 	{
@@ -2263,7 +2263,7 @@ void Display::blit_back_buffer()
 		dest.right  += clientpos.x;
 		dest.bottom += clientpos.y;
 
-		res = lp_DD_FrontSurface->Blt(&dest,lp_DD_BackSurface,NULL,DDBLT_WAIT,0);
+		res = lp_DD_FrontSurface->Blt(&dest,lp_DD_BackSurface,nullptr,DDBLT_WAIT,0);
 	}
 
 	if (FAILED(res))
@@ -2278,7 +2278,7 @@ void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
 	HRESULT			res;
 
 	InitStruct(mine);
-	res = surface->Lock(NULL, &mine, DDLOCK_WAIT, NULL);
+	res = surface->Lock(nullptr, &mine, DDLOCK_WAIT, nullptr);
 	if (FAILED(res))	return;
 
 	SLONG  pitch = mine.lPitch >> 2;
@@ -2293,7 +2293,7 @@ void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
 
 	SLONG	lsy = -1;
 	SLONG	sy = 0;
-	ULONG*	lmem = NULL;
+	ULONG*	lmem = nullptr;
 
 	for (height = 0; (unsigned)height < mine.dwHeight; height++)
 	{
@@ -2325,7 +2325,7 @@ void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
 		sy += sdy;
 	}
 
-	surface->Unlock(NULL);
+	surface->Unlock(nullptr);
 }
 
 void CopyBackground(UBYTE* image_data, IDirectDrawSurface4* surface)
@@ -2352,7 +2352,7 @@ HRESULT Display::Flip(LPDIRECTDRAWSURFACE4 alt,SLONG flags)
 	}
 	else
 	{
-		return	lp_DD_FrontSurface->Blt(&DisplayRect,lp_DD_BackSurface,NULL,DDBLT_WAIT,NULL);
+		return	lp_DD_FrontSurface->Blt(&DisplayRect,lp_DD_BackSurface,nullptr,DDBLT_WAIT,nullptr);
 	}
 }
 
@@ -2379,10 +2379,10 @@ void Display::create_background_surface(UBYTE *image_data)
 	if (lp_DD_Background)
 	{
 		lp_DD_Background->Release();
-		lp_DD_Background = NULL;
+		lp_DD_Background = nullptr;
 	}
 	
-	lp_DD_Background_use_instead = NULL;
+	lp_DD_Background_use_instead = nullptr;
 
 	//
 	// Create a mirror surface to the back buffer.
@@ -2404,12 +2404,12 @@ void Display::create_background_surface(UBYTE *image_data)
 	mine.ddpfPixelFormat = back.ddpfPixelFormat;
 	mine.ddsCaps.dwCaps	 = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
 
-	HRESULT result = lp_DD4->CreateSurface(&mine, &lp_DD_Background, NULL);
+	HRESULT result = lp_DD4->CreateSurface(&mine, &lp_DD_Background, nullptr);
 
 	if (FAILED(result))
 	{
-		lp_DD_Background = NULL;
-		background_image_mem = NULL;
+		lp_DD_Background = nullptr;
+		background_image_mem = nullptr;
 		return;
 	}
 
@@ -2424,13 +2424,13 @@ void Display::create_background_surface(UBYTE *image_data)
 
 void Display::blit_background_surface(bool b3DInFrame)
 {
-	LPDIRECTDRAWSURFACE4 lpBG = NULL;
+	LPDIRECTDRAWSURFACE4 lpBG = nullptr;
 
-	if ( lp_DD_Background_use_instead != NULL )
+	if ( lp_DD_Background_use_instead != nullptr )
 	{
 		lpBG = lp_DD_Background_use_instead;
 	}
-	else if ( lp_DD_Background != NULL )
+	else if ( lp_DD_Background != nullptr )
 	{
 		lpBG = lp_DD_Background;
 	}
@@ -2443,7 +2443,7 @@ void Display::blit_background_surface(bool b3DInFrame)
 	HRESULT result;
 
 	{
-		result = lp_DD_BackSurface->Blt(NULL,lpBG,NULL,DDBLT_WAIT,0);
+		result = lp_DD_BackSurface->Blt(nullptr,lpBG,nullptr,DDBLT_WAIT,0);
 
 		if (FAILED(result))
 		{
@@ -2457,15 +2457,15 @@ void Display::destroy_background_surface()
 	if (lp_DD_Background)
 	{
 		lp_DD_Background->Release();
-		lp_DD_Background = NULL;
+		lp_DD_Background = nullptr;
 	}
 
-	background_image_mem = NULL;
+	background_image_mem = nullptr;
 }
 
 bool Display::IsGammaAvailable()
 {
-	return (lp_DD_GammaControl != NULL);
+	return (lp_DD_GammaControl != nullptr);
 }
 
 // note: 0,256 is normal - white is *exclusive*

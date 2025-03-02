@@ -71,7 +71,7 @@ typedef struct
 } FIRE_Info;
 
 void       FIRE_get_start(UBYTE z, UBYTE x_min, UBYTE x_max);
-FIRE_Info *FIRE_get_next ();		// NULL => No more fire here.
+FIRE_Info *FIRE_get_next ();		// nullptr => No more fire here.
 
 
 

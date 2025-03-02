@@ -76,12 +76,12 @@ class	D3DTexture
 
 		D3DTexture()							{
 													TextureFlags	=	0;
-													FontList		=	NULL;
-													NextTexture=NULL;
+													FontList		=	nullptr;
+													NextTexture=nullptr;
 													#ifndef TARGET_DC
 													#endif
-													lp_Surface=NULL;
-													lp_Texture=NULL;
+													lp_Surface=nullptr;
+													lp_Texture=nullptr;
 													Type = D3DTEXTURE_TYPE_UNUSED;
 #ifdef TEX_EMBED
 													wPageNum = -1;	// None.
@@ -180,10 +180,10 @@ public:
 	{
 		bPageType = 0;
 		bNumTextures = 0;
-		pcDirectory = NULL;
-		pcFilename = NULL;
-		pTex = NULL;
-		ppcTextureList = NULL;
+		pcDirectory = nullptr;
+		pcFilename = nullptr;
+		pTex = nullptr;
+		ppcTextureList = nullptr;
 	}
 
 	// Call this when linking a standard D3DTexture to the page - it will demand-load the page's texture.

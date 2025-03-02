@@ -133,20 +133,20 @@ MenuDef2	generic_popup2[]	=
 
 MenuDef2	*command_defs[][MAX_FIELDS]	=
 {
-	{	command_popup,		NULL,					NULL,								NULL	},	//	COM_NONE
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_ATTACK_PLAYER
-	{	command_popup,		select_thing_popup2,	select_secondary_popup,				NULL	},	//	COM_ATTACK_THING
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_ATTACK_GROUP
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_ATTACK_CLASS
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_DEFEND_PLAYER
-	{	command_popup,		select_thing_popup2,	select_secondary_popup,				NULL	},	//	COM_DEFEND_THING
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_DEFEND_GROUP
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_DEFEND_CLASS
-	{	command_popup,		select_waypoint_popup,	select_secondary_popup,				NULL	},	//	COM_PATROL_WAYPOINT
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	},	//	COM_START_TIMER
-	{	command_popup,		select_switch_popup2,	select_secondary_popup,				NULL	},	//	COM_WAIT_FOR_TRIGGER
-	{	command_popup,		select_clist_popup,		select_secondary_popup,				NULL	},	//	COM_WAIT_FOR_CLIST
-	{	command_popup,		NULL,					select_secondary_popup,				NULL	}	//	COM_FOLLOW_PLAYER
+	{	command_popup,		nullptr,					nullptr,								nullptr	},	//	COM_NONE
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_ATTACK_PLAYER
+	{	command_popup,		select_thing_popup2,	select_secondary_popup,				nullptr	},	//	COM_ATTACK_THING
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_ATTACK_GROUP
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_ATTACK_CLASS
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_DEFEND_PLAYER
+	{	command_popup,		select_thing_popup2,	select_secondary_popup,				nullptr	},	//	COM_DEFEND_THING
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_DEFEND_GROUP
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_DEFEND_CLASS
+	{	command_popup,		select_waypoint_popup,	select_secondary_popup,				nullptr	},	//	COM_PATROL_WAYPOINT
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	},	//	COM_START_TIMER
+	{	command_popup,		select_switch_popup2,	select_secondary_popup,				nullptr	},	//	COM_WAIT_FOR_TRIGGER
+	{	command_popup,		select_clist_popup,		select_secondary_popup,				nullptr	},	//	COM_WAIT_FOR_CLIST
+	{	command_popup,		nullptr,					select_secondary_popup,				nullptr	}	//	COM_FOLLOW_PLAYER
 };
 
 //---------------------------------------------------------------

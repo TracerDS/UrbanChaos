@@ -23,9 +23,9 @@ CBYTE* CREDITS_muckyfoot[] =
 	"Mark Smart, Mark Adami, Martin Oliver, Matthew Rosenfeld, Mike",
 	"Burnham, Mike Diskett, Ollie Shaw, Richard Franke, Simon 'Grimmy'",
 	"Keating, Stuart Black, Tom Forsyth, Tom Ireland and Wayne Imlach.",
-	NULL,
+	nullptr,
 	"Here's an effort to divide up what we did to make Urban Chaos!",
-	NULL,
+	nullptr,
 
 	"~BProgramming",
 	"\tMike Diskett",
@@ -37,11 +37,11 @@ CBYTE* CREDITS_muckyfoot[] =
 	"\tTom Forsyth",
 	"~I\tAdditional programming",
 	"\t\tJeremy Longley",
-	NULL,
+	nullptr,
 
 	"~BArt Direction",
 	"\tFin McGechie",
-	NULL,
+	nullptr,
 
 	"~BArt",
 	"\tStuart Black",
@@ -55,28 +55,28 @@ CBYTE* CREDITS_muckyfoot[] =
 	"\t\tTerry Catrell",
 	"\t\tJoe Rider",
 	"\t\tSteve Brown",
-	NULL,
+	nullptr,
 
 	"~BAnimation",
 	"\tOllie Shaw",
 	"\tJunior Walker",
 	"\tChris Knott",
-	NULL,
+	nullptr,
 
 	"~BLevel Design",
 	"\tSimon 'Grimmy' Keating",
 	"\tBarry Meade",
-	NULL,
+	nullptr,
 
 	"~BSound and Music",
 	"\tMartin Oliver",
-	NULL,
+	nullptr,
 
 	"~BScripting",
 	"\tBarry Meade",
 	"\tSimon 'Grimmy' Keating",
 	"\tFin McGechie",
-	NULL,
+	nullptr,
 
 	"~BTesting",
 	"\tJustin (mucky)hands Amore",
@@ -103,7 +103,7 @@ CBYTE* CREDITS_muckyfoot[] =
 	"\t\tLorne Tietjen",
 	"\t\tDavid Walker",
 	"\t\tDavid Wright",
-	NULL,
+	nullptr,
 	"\tMichael Burnham",
 	"\tTom Forsyth",
 	"\tGary Carr",
@@ -111,21 +111,21 @@ CBYTE* CREDITS_muckyfoot[] =
 	"\tTom Ireland",
 	"\tJan Svarovsky",
 	"\tand everyone at MuckyFoot",
-	NULL,
+	nullptr,
 
 	"~BIT and Mucky Website",
 	"\tMichael Burnham",
-	NULL,
+	nullptr,
 
 	"~BPR",
 	"\tCathy Campos at PanachePR",
-	NULL,
+	nullptr,
 
 	"~BFurry Friends",
 	"\tSam",
 	"\tLisa",
 	"\tBarney",
-	NULL,
+	nullptr,
 
 	"Special thanks to Glenn Corpes and a big mucky \"Thank You\" from",
 	"Mucky Foot to everyone at Eidos. Hello to the Wednesday night",
@@ -137,39 +137,39 @@ CBYTE* CREDITS_eidos_uk[] =
 {
 	"~BSenior Producer",
 	"\tDarren Hedges",
-	NULL,
+	nullptr,
 	"~BLocalisation Team",
 	"\tHolly Andrews",
 	"\tFlavia Timiani",
-	NULL,
+	nullptr,
 
 	"~BMarketing",
 	"\tKaren Ridley",
 	"\tLorna Evans",
-	NULL,
+	nullptr,
 
 	"~BPR",
 	"\tJonathan Rosenblatt",
 	"\tSteve Starvis",
-	NULL,
+	nullptr,
 
 	"~BCreative Services",
 	"\tCaroline Simon",
-	NULL,
+	nullptr,
 
 	"~BLocalisation QA",
 	"\tMichael Weissmuller",
 	"\tAlex Lepoureau",
 	"\tAlessandro Mantelli",
-	NULL,
+	nullptr,
 
 	"~BQA Manager",
 	"\tTony Bourne",
-	NULL,
+	nullptr,
 
 	"~BLead QA",
 	"\tJean Duret",
-	NULL,
+	nullptr,
 
 	"~BQA",
 	"\tLinus Dominique (Assistant Lead)",
@@ -187,7 +187,7 @@ CBYTE* CREDITS_eidos_uk[] =
 	"\tNoel Cowan",
 	"\tPatrick Cowan",
 	"\tTyrone O'Neil",
-	NULL,
+	nullptr,
 
 	"~BWith thanks for the last leg",
 	"\tIain McNeil",
@@ -201,24 +201,24 @@ CBYTE* CREDITS_eidos_usa[] =
 {
 	"~BAssociate Producer",
 	"\tEric Adams",
-	NULL,
+	nullptr,
 
 	"~BQA Manager",
 	"\tMike McHale",
-	NULL,
+	nullptr,
 
 	"~BProduct Manager",
 	"\tJennifer Fitzsimmons",
-	NULL,
+	nullptr,
 
 	"~BMarketing Manager",
 	"\tSusan Boshkoff",
-	NULL,
+	nullptr,
 
 	"~BPR",
 	"\tBrian Kemp",
 	"\tGreg Rizzer",
-	NULL,
+	nullptr,
 
 	"~BTesting",
 	"\tCorey Fong",
@@ -232,23 +232,23 @@ CBYTE* CREDITS_eidos_france[] =
 {
 	"~BChef de produit",
 	"\tOlivier Salomon",
-	NULL,
+	nullptr,
 
 	"~BResponsable localisation",
 	"\tSt�phan Gonizzi",		// This has got an accent
-	NULL,
+	nullptr,
 
 	"~BResponsable RP",
 	"\tPriscille Demoly",
-	NULL,
+	nullptr,
 
 	"~BTesteur de la VF",
 	"\tGuillaume Mahouin",
-	NULL,
+	nullptr,
 
 	"~BTraduction",
 	"\tAround the Word, Paris",
-	NULL,
+	nullptr,
 
 	"~BEnregistrement des voix fran�aises",	// This has got an accent in it!
 	"\tLe Lotus Rose, Paris",
@@ -264,15 +264,15 @@ CBYTE* CREDITS_eidos_france[] =
 {
 	"~BMarketing Manager",
 	"\tOlivier Salomon",
-	NULL,
+	nullptr,
 
 	"~BLocalisation Manager",
 	"\tSt�phan Gonizzi",
-	NULL,
+	nullptr,
 
 	"~BPR Manager",
 	"\tPriscille Demoly",
-	NULL,
+	nullptr,
 
 	"~BLocalisation Testing",
 	"\tGuillaume Mahouin",
@@ -285,35 +285,35 @@ CBYTE* CREDITS_eidos_germany[] =
 {
 	"~BLeiter Produktentwicklung",
 	"\tBeco Mulderij",
-	NULL,
+	nullptr,
 
 	"~BProdukt-Manager",
 	"\tLars Wittkuhn",
-	NULL,
+	nullptr,
 
 	"~BLeiter Marketing",
 	"\tKnut-Jochen Bergel",
-	NULL,
+	nullptr,
 
 	"~BPR-Manager",
 	"\tSascha Denise Green-Kaiser",
-	NULL,
+	nullptr,
 
 	"~BLokalisierungs-Manager",
 	"\tHeidi Maria Kohne",
-	NULL,
+	nullptr,
 
 	"~BQA-Manager",
 	"S�ren Winterfeldt", // Accent!
-	NULL,
+	nullptr,
 
 	"~B�bersetzung",	// Accent!
 	"\tViolet Media, Isabel Sterner",
-	NULL,
+	nullptr,
 
 	"~BAudio",
 	"\tHastings International Audio Network",
-	NULL,
+	nullptr,
 
 	"~BTonmeister",
 	"\tCedric Hopf",
@@ -329,14 +329,14 @@ CBYTE* CREDITS_voice_production[] =
 {
 	"~BCasting",
 	"\tPhil Morris at AllintheGame",
-	NULL,
+	nullptr,
 
 	"~BVoice Production",
 	"\tBarry Meade",
 	"\tMartin Oliver",
 	"\tChris O'Saughanessy",
 	"\tPhil Morris",
-	NULL,
+	nullptr,
 
 	"~BVoice Actors",
 	"\tJohnnie Fiori",
@@ -348,11 +348,11 @@ CBYTE* CREDITS_voice_production[] =
 	"\tTed Maynard",
 	"\tBrad Lavelle",
 	"\tTogo Igawa",
-	NULL,
+	nullptr,
 
 	"~BTranslation",
 	"\tAround the Word, Paris",
-	NULL,
+	nullptr,
 
 	"~BFrench Voices",
 	"\tLe Lotus Rose, Paris",
@@ -370,7 +370,7 @@ CBYTE* CREDITS_bands[] =
 	"Infidels - Everything",
 	"Infidels - Ooma Gabba",
 	"Special Forces 'Something Else... The bleep tune' courtesy of Photek Productions",
-	NULL,
+	nullptr,
 	"Many Thanks to Miles Jacobson at Anglo.",
 	"!"
 };
@@ -529,13 +529,13 @@ void CREDITS_draw()
 
 	y = CREDITS_current_y;
 
-	for (i = 0; cs->line[i] == NULL || cs->line[i][0] != '!'; i++)
+	for (i = 0; cs->line[i] == nullptr || cs->line[i][0] != '!'; i++)
 	{
 		flag      = FONT_FLAG_JUSTIFY_LEFT;
 		scale     = 0.6F;
 		dont_draw = false;
 	
-		if (cs->line[i] == NULL)
+		if (!cs->line[i] )
 		{
 			//
 			// Blank line.

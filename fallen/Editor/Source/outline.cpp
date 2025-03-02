@@ -13,43 +13,39 @@
 #define OUTLINE_LINK_TYPE_START 0
 #define OUTLINE_LINK_TYPE_END   1
 
-typedef struct outline_link
+struct OUTLINE_Link
 {
 	SLONG x;
 	SLONG type;
-	
-	struct outline_link *next;
+	OUTLINE_Link* next;
+};
 
-} OUTLINE_Link;
-
-typedef struct outline_outline
+struct OUTLINE_Outline
 {
 	SLONG max_z;
-	OUTLINE_Link *link[];
+	OUTLINE_Link* link[];
+};
 
-} OUTLINE_Outline;
 
-
-OUTLINE_Outline *OUTLINE_create(SLONG num_z_squares)
+OUTLINE_Outline* OUTLINE_create(SLONG num_z_squares)
 {
 	SLONG num_bytes;
 
-	OUTLINE_Outline *oo;
+	OUTLINE_Outline* oo;
 	
 	//
 	// How much memory does this outline take?
 	//
 	
-	num_bytes = sizeof(OUTLINE_Outline) + sizeof(OUTLINE_Link *) * num_z_squares;
+	num_bytes = sizeof(OUTLINE_Outline) + sizeof(OUTLINE_Link*) * num_z_squares;
 
-	oo = (OUTLINE_Outline *) malloc(num_bytes);
+	oo = (OUTLINE_Outline *) calloc(num_bytes, 1);
+	if (!oo)
+		return nullptr;
 
 	//
 	// Initialise it.
 	//
-
-	memset(oo, 0, num_bytes);
-
 	oo->max_z = num_z_squares;
 
 	return oo;
@@ -76,7 +72,7 @@ void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, SLONG link_z)
 	{
 		here = false;
 
-		if (next == NULL)
+		if (!next )
 		{
 			//
 			// We must insert the link here.
@@ -169,7 +165,7 @@ void OUTLINE_add_line(
 
 		ol->type = type;
 		ol->x    = x1;
-		ol->next = NULL;
+		ol->next = nullptr;
 
 		//
 		// Insert it.
@@ -222,11 +218,11 @@ SLONG OUTLINE_overlap(
 
 	while(1)
 	{
-		if (ol1 == NULL ||
-			ol2 == NULL)
+		if (ol1 == nullptr ||
+			ol2 == nullptr)
 		{
-			if (ol1 == NULL) {ASSERT(!on1);}
-			if (ol2 == NULL) {ASSERT(!on2);}
+			if (!ol1 ) {ASSERT(!on1);}
+			if (!ol2 ) {ASSERT(!on2);}
 
 			return false;
 		}
@@ -338,7 +334,7 @@ SLONG OUTLINE_inside(
 
 	while(1)
 	{
-		if (ol == NULL || ol->next == NULL)
+		if (!ol == nullptr || ol->next )
 		{
 			return false;
 		}

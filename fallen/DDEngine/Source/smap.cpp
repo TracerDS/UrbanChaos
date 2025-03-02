@@ -1165,7 +1165,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 		if (SMAP_link_upto == num_points)
 		{
-			sl->next = NULL;
+			sl->next = nullptr;
 		}
 
 		sl->clip = 0;
@@ -1185,7 +1185,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 		// No part of the shadow map falls on this poly.
 		//
 
-		return NULL;
+		return nullptr;
 	}
 
 	//
@@ -1213,7 +1213,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 		if (cross >= 0)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1227,7 +1227,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 		if (SMAP_wrong_side(poly))
 		{
-			return NULL;
+			return nullptr;
 		}
 		else
 		{
@@ -1248,7 +1248,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 		sl1 = sl;
 		sl2 = sl->next;
 
-		if (sl2 == NULL) {sl2 = poly;}
+		if (!sl2 ) {sl2 = poly;}
 
 		if ((sl1->clip ^ sl2->clip) & SMAP_CLIP_U_LESS)
 		{
@@ -1307,7 +1307,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 	while(1)
 	{
-		if (next == NULL)
+		if (!next )
 		{
 			break;
 		}
@@ -1339,8 +1339,8 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 	// Early outs?
 	// 
 
-	if ( clip_and) {return NULL;}
-	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return NULL;} else {SMAP_convert_uvs(poly); return poly;}}
+	if ( clip_and) {return nullptr;}
+	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return nullptr;} else {SMAP_convert_uvs(poly); return poly;}}
 
 	// ======================
 	//
@@ -1353,7 +1353,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 		sl1 = sl;
 		sl2 = sl->next;
 
-		if (sl2 == NULL) {sl2 = poly;}
+		if (!sl2 ) {sl2 = poly;}
 
 		if ((sl1->clip ^ sl2->clip) & SMAP_CLIP_U_MORE)
 		{
@@ -1412,7 +1412,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 	while(1)
 	{
-		if (next == NULL)
+		if (!next )
 		{
 			break;
 		}
@@ -1444,8 +1444,8 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 	// Early outs?
 	// 
 
-	if ( clip_and) {return NULL;}
-	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return NULL;} else {SMAP_convert_uvs(poly); return poly;}}
+	if ( clip_and) {return nullptr;}
+	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return nullptr;} else {SMAP_convert_uvs(poly); return poly;}}
 
 	// ======================
 	//
@@ -1458,7 +1458,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 		sl1 = sl;
 		sl2 = sl->next;
 
-		if (sl2 == NULL) {sl2 = poly;}
+		if (!sl2 ) {sl2 = poly;}
 
 		if ((sl1->clip ^ sl2->clip) & SMAP_CLIP_V_LESS)
 		{
@@ -1517,7 +1517,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 	while(1)
 	{
-		if (next == NULL)
+		if (!next )
 		{
 			break;
 		}
@@ -1549,8 +1549,8 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 	// Early outs?
 	// 
 
-	if ( clip_and) {return NULL;}
-	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return NULL;} else {SMAP_convert_uvs(poly); return poly;}}
+	if ( clip_and) {return nullptr;}
+	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return nullptr;} else {SMAP_convert_uvs(poly); return poly;}}
 
 	// ======================
 	//
@@ -1563,7 +1563,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 		sl1 = sl;
 		sl2 = sl->next;
 
-		if (sl2 == NULL) {sl2 = poly;}
+		if (!sl2 ) {sl2 = poly;}
 
 		if ((sl1->clip ^ sl2->clip) & SMAP_CLIP_V_MORE)
 		{
@@ -1622,7 +1622,7 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 	while(1)
 	{
-		if (next == NULL)
+		if (!next )
 		{
 			break;
 		}
@@ -1654,8 +1654,8 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 	// Early outs?
 	// 
 
-	if ( clip_and) {return NULL;}
-	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return NULL;} else {SMAP_convert_uvs(poly); return poly;}}
+	if ( clip_and) {return nullptr;}
+	if (!clip_or)  {if (SMAP_wrong_side(poly)) {return nullptr;} else {SMAP_convert_uvs(poly); return poly;}}
 
 	//
 	// Hmm! Done clipping and still not clipped!
@@ -1663,5 +1663,5 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
 
 	ASSERT(0);
 
-	return NULL;
+	return nullptr;
 }

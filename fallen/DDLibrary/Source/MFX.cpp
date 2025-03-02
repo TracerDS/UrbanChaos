@@ -57,7 +57,7 @@ struct MFX_Sample
 
 struct MFX_QWave
 {
-	MFX_QWave*	next;		// next voice to be queued, or NULL
+	MFX_QWave*	next;		// next voice to be queued, or nullptr
 	ULONG		wave;		// sound sample to be played
 	ULONG		flags;
 	bool		is3D;
@@ -93,7 +93,7 @@ ALCcontext* alContext;
 
 static MFX_Voice	Voices[MAX_VOICE];
 static MFX_QWave	QWaves[MAX_QWAVE];
-static MFX_QWave*	QFree;		// first free queue elt. (NEVER NULL - we waste one element)
+static MFX_QWave*	QFree;		// first free queue elt. (NEVER nullptr - we waste one element)
 static MFX_QWave*	QFreeLast;	// last free queue elt.
 
 static MFX_Sample	Samples[MAX_SAMPLE];
@@ -153,9 +153,9 @@ void MFX_init()
 
 	while (strcmp(names[0], "!"))
 	{
-		sptr->prev_lru = NULL;
-		sptr->next_lru = NULL;
-		sptr->fname = NULL;
+		sptr->prev_lru = nullptr;
+		sptr->next_lru = nullptr;
+		sptr->fname = nullptr;
 		sptr->handle = 0;
 		sptr->is3D = true;
 		sptr->size = 0;
@@ -206,9 +206,9 @@ void MFX_init()
 
 	sptr = &TalkSample;
 
-	sptr->prev_lru = NULL;
-	sptr->next_lru = NULL;
-	sptr->fname = NULL;
+	sptr->prev_lru = nullptr;
+	sptr->next_lru = nullptr;
+	sptr->fname = nullptr;
 	sptr->handle = 0;
 	sptr->is3D = TALK_3D ? true : false;
 	sptr->size = 0;
@@ -234,7 +234,7 @@ void MFX_term()
 
 	UnloadTalkFile();
 
-	alcMakeContextCurrent(NULL);
+	alcMakeContextCurrent(nullptr);
 	alcDestroyContext(alContext);
 	alcCloseDevice(alDevice);
 
@@ -301,11 +301,11 @@ static void InitVoices()
 		Voices[ii].x = 0;
 		Voices[ii].y = 0;
 		Voices[ii].z = 0;
-		Voices[ii].thing = NULL;
-		Voices[ii].queue = NULL;
+		Voices[ii].thing = nullptr;
+		Voices[ii].queue = nullptr;
 		Voices[ii].queuesz = 0;
-		Voices[ii].smp = NULL;
-		Voices[ii].handle = NULL;
+		Voices[ii].smp = nullptr;
+		Voices[ii].handle = nullptr;
 		Voices[ii].is3D = false;
 	}
 
@@ -313,7 +313,7 @@ static void InitVoices()
 	{
 		QWaves[ii].next = &QWaves[ii+1];
 	}
-	QWaves[ii-1].next = NULL;
+	QWaves[ii-1].next = nullptr;
 	QFree = &QWaves[0];
 	QFreeLast = &QWaves[ii-1];
 
@@ -339,7 +339,7 @@ static MFX_Voice* FindVoice(UWORD channel_id, ULONG wave)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static MFX_Voice* FindFirst(UWORD channel_id)
@@ -355,7 +355,7 @@ static MFX_Voice* FindFirst(UWORD channel_id)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // find the next active voice with the same channel ID
@@ -374,7 +374,7 @@ static MFX_Voice* FindNext(MFX_Voice* vptr)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static MFX_Voice* FindFree(UWORD channel_id)
@@ -390,7 +390,7 @@ static MFX_Voice* FindFree(UWORD channel_id)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static void FreeVoiceSource(MFX_Voice* vptr)
@@ -414,7 +414,7 @@ static void FreeVoice(MFX_Voice* vptr)
 	{
 		QFreeLast = QFreeLast->next;
 	}
-	vptr->queue = NULL;
+	vptr->queue = nullptr;
 	vptr->queuesz = 0;
 
 	// reset data
@@ -424,11 +424,11 @@ static void FreeVoice(MFX_Voice* vptr)
 	{
 		vptr->thing->Flags &= ~FLAGS_HAS_ATTACHED_SOUND;
 	}
-	vptr->thing = NULL;
+	vptr->thing = nullptr;
 	vptr->flags = 0;
 	vptr->id = 0;
 	vptr->wave = 0;
-	vptr->smp = NULL;
+	vptr->smp = nullptr;
 }
 
 static MFX_Voice* GetVoiceForWave(UWORD channel_id, ULONG wave, ULONG flags)
@@ -458,10 +458,10 @@ static MFX_Voice* GetVoiceForWave(UWORD channel_id, ULONG wave, ULONG flags)
 	}
 	else
 	{
-		// found a voice - return NULL if not queued but never overlapped (else queue)
+		// found a voice - return nullptr if not queued but never overlapped (else queue)
 		if ((flags & (MFX_NEVER_OVERLAP | MFX_QUEUED)) == MFX_NEVER_OVERLAP)
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -473,12 +473,12 @@ static SLONG SetupVoiceTalk(MFX_Voice* vptr, char* filename)
 	vptr->id = 0;
 	vptr->wave = NumSamples;
 	vptr->flags = 0;
-	vptr->thing = NULL;
-	vptr->queue = NULL;
+	vptr->thing = nullptr;
+	vptr->queue = nullptr;
 	vptr->queuesz = 0;
-	vptr->smp = NULL;
+	vptr->smp = nullptr;
 	vptr->queuesz = 0;
-	vptr->smp = NULL;
+	vptr->smp = nullptr;
 	vptr->playing = false;
 	vptr->ratemult = 1.0;
 	vptr->gain = 1.0;
@@ -506,10 +506,10 @@ static void SetupVoice(MFX_Voice* vptr, UWORD channel_id, ULONG wave, ULONG flag
 	vptr->wave = wave;
 	vptr->flags = flags;
 	vptr->is3D = is3D;
-	vptr->thing = NULL;
-	vptr->queue = NULL;
+	vptr->thing = nullptr;
+	vptr->queue = nullptr;
 	vptr->queuesz = 0;
-	vptr->smp = NULL;
+	vptr->smp = nullptr;
 	vptr->playing = false;
 	vptr->ratemult = 1.0;
 	vptr->gain = 1.0;
@@ -680,7 +680,7 @@ static void SetVoiceRate(MFX_Voice* vptr, float mult)
 
 static void SetVoiceGain(MFX_Voice* vptr, float gain)
 {
-	if (vptr->smp == NULL)
+	if (!vptr->smp )
 	{
 		return;
 	}
@@ -777,7 +777,7 @@ static void QueueWave(MFX_Voice* vptr, UWORD wave, ULONG flags, bool is3D, SLONG
 		qptr = vptr->queue;
 	}
 
-	qptr->next = NULL;
+	qptr->next = nullptr;
 	qptr->flags = flags;
 	qptr->wave = wave;
 	qptr->is3D = is3D;
@@ -922,7 +922,7 @@ void MFX_set_volumes(SLONG fx, SLONG amb, SLONG mus)
 
 void MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z)
 {
-	PlayWave(channel_id, wave, flags, true, x >> 8, y >> 8, z >> 8, NULL);
+	PlayWave(channel_id, wave, flags, true, x >> 8, y >> 8, z >> 8, nullptr);
 }
 
 void MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
@@ -942,12 +942,12 @@ void MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
 			Samples[wave].type = SMP_Ambient;
 		}
 	}
-	PlayWave(channel_id, wave, flags, true, FC_cam[0].x, FC_cam[0].y, FC_cam[0].z, NULL);
+	PlayWave(channel_id, wave, flags, true, FC_cam[0].x, FC_cam[0].y, FC_cam[0].z, nullptr);
 }
 
 UBYTE MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags)
 {
-	return PlayWave(channel_id, wave, flags, false, 0, 0, 0, NULL);
+	return PlayWave(channel_id, wave, flags, false, 0, 0, 0, nullptr);
 }
 
 void MFX_stop(SLONG channel_id, ULONG wave)
@@ -1140,7 +1140,7 @@ static void UnloadWaveFile(MFX_Sample* sptr)
 	{
 		sptr->prev_lru->next_lru = sptr->next_lru;
 		sptr->next_lru->prev_lru = sptr->prev_lru;
-		sptr->next_lru = sptr->prev_lru = NULL;
+		sptr->next_lru = sptr->prev_lru = nullptr;
 	}
 
 	// cancel pending IO
