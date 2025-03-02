@@ -366,15 +366,15 @@ void VM_convert_to_string(ML_Data *original)
 
 		case ML_TYPE_BOOLEAN:
 
-			ans.strvar = (CBYTE *) MEM_alloc(6);	// Enough to hold the string "TRUE" or "FALSE"
+			ans.strvar = (CBYTE *) MEM_alloc(6);	// Enough to hold the string "true" or "false"
 
 			if (original->boolean)
 			{
-				memcpy(ans.strvar, "TRUE", 5);
+				memcpy(ans.strvar, "true", 5);
 			}
 			else
 			{
-				memcpy(ans.strvar, "FALSE", 6);
+				memcpy(ans.strvar, "false", 6);
 			}
 
 			break;
@@ -2123,7 +2123,7 @@ void VM_execute()
 			case ML_DO_JNEQ_POP_1:
 
 				{
-					SLONG are_equal = FALSE;
+					SLONG are_equal = false;
 
 					VM_POP_STACK(2);
 
@@ -2146,7 +2146,7 @@ void VM_execute()
 							// Different types aren't equal.
 							//
 
-							are_equal = FALSE;
+							are_equal = false;
 
 							goto found_out_equality;
 						}
@@ -2166,18 +2166,18 @@ void VM_execute()
 										VM_get_string(VM_stack_top[0]), 
 										VM_get_string(VM_stack_top[1])) == 0)
 								{
-									are_equal = TRUE;
+									are_equal = true;
 								}
 								else
 								{
-									are_equal = FALSE;
+									are_equal = false;
 								}
 							}
 
 							break;
 
 						case ML_TYPE_UNDEFINED:
-							are_equal = TRUE;
+							are_equal = true;
 							break;
 
 						default:
@@ -4401,13 +4401,13 @@ void VM_run(CBYTE *fname)
 	memset(VM_global, 0, sizeof(ML_Data) * VM_global_max);
 
 	//
-	// Initialise the KEY[] array to FALSE.
+	// Initialise the KEY[] array to false.
 	//
 
 	for (i = 0; i < 256; i++)
 	{
 		VM_global[VM_EXTRA_GLOBAL_KEY(i)].type    = ML_TYPE_BOOLEAN;
-		VM_global[VM_EXTRA_GLOBAL_KEY(i)].boolean = FALSE;
+		VM_global[VM_EXTRA_GLOBAL_KEY(i)].boolean = false;
 	}
 
 	//

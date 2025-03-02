@@ -509,7 +509,7 @@ SLONG load_anim_prim_object(SLONG prim)
 
 	if (!handle)
 	{
-		return FALSE;
+		return false;
 	}
 	MF_Fclose(handle);
 */
@@ -518,7 +518,7 @@ SLONG load_anim_prim_object(SLONG prim)
 		next_anim_chunk=prim+1;
 
 	return(load_anim_system(&anim_chunk[prim],fname));
-//	return(TRUE);
+//	return(true);
 }
 
 extern	SLONG	save_psx;
@@ -881,7 +881,7 @@ extern	void	record_prim_status();
 
 //
 // Loads in the given prim object if it is not already loaded.
-// Returns FALSE on failure.
+// Returns false on failure.
 //
 
 
@@ -924,7 +924,7 @@ SLONG load_prim_object(SLONG prim)
 		// Don't load twice!
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	sprintf(fname, "%s\\nprim%03d.prm", PRIM_DIR,prim);
@@ -948,7 +948,7 @@ SLONG load_prim_object(SLONG prim)
 			po->EndFace3=0;
 			po->StartFace4=0;
 			po->EndFace4=0;
-			return FALSE;
+			return false;
 		}
 		file_type=0;
 	}
@@ -1007,7 +1007,7 @@ SLONG load_prim_object(SLONG prim)
 		po->StartFace4 = po->EndFace4 = 0;
 		ASSERT(0);
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -1112,7 +1112,7 @@ SLONG load_prim_object(SLONG prim)
 	//
 	DebugText(" next_prim_point %d primface3 %d primface4 %d   load prim %d \n",next_prim_point,next_prim_face3,next_prim_face4,prim);
 
-	return TRUE;
+	return true;
 
   file_error:;
 	DebugText("FAILED next_prim_point %d primface3 %d primface4 %d   load prim %d \n",next_prim_point,next_prim_face3,next_prim_face4,prim);
@@ -1123,7 +1123,7 @@ SLONG load_prim_object(SLONG prim)
 
 	FileClose(handle);
 
-	return FALSE;
+	return false;
 }
 
 

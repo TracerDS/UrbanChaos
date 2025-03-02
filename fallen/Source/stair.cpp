@@ -599,7 +599,7 @@ SLONG STAIR_storey_finish()
 			// An invalid storey.
 			//
 
-			return FALSE;
+			return false;
 		}
 
 		ASSERT(WITHIN(next1, 1, STAIR_link_upto - 1));
@@ -622,7 +622,7 @@ SLONG STAIR_storey_finish()
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 //
@@ -1222,7 +1222,7 @@ SLONG STAIR_get(SLONG handle, ID_Stair **stair, SLONG *num_stairs)
 	// Could not find a storey with the given handle.
 	//
 
-	return FALSE;
+	return false;
 
   found_storey_handle:
 
@@ -1291,7 +1291,7 @@ SLONG STAIR_get(SLONG handle, ID_Stair **stair, SLONG *num_stairs)
 
    *stair = STAIR_id_stair;
 
-    return TRUE;
+    return true;
 }
 
 

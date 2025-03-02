@@ -25,7 +25,7 @@ void WAND_get_next_place(
 
 
 //
-// Returns TRUE if the given square is a good place to wander.
+// Returns true if the given square is a good place to wander.
 //
 
 SLONG WAND_square_is_wander(SLONG map_x, SLONG map_z);

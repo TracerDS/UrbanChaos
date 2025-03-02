@@ -843,7 +843,7 @@ void Display::RunFMV()
 	// should we run it?
 	if (!ENV_get_value_number("play_movie", 1, "Movie"))	return;
 
-	PlayQuickMovie(0,0,TRUE);
+	PlayQuickMovie(0,0,true);
 }
 
 
@@ -1993,7 +1993,7 @@ HRESULT	Display::FreeLoadedTextures(void)
 		if ( iCountdown == 0 )
 		{
 			// Oh dear - not good.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 			break;
 		}
 	}

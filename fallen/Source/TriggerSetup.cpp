@@ -34,13 +34,13 @@ void	update_action_combos(HWND parent)
 /*obsolete
 	if(trigger_type==TT_NONE || trigger_type==TT_NORMAL)
 	{
-		EnableWindow(GetDlgItem(parent,IDC_COMBO3),FALSE);
-		EnableWindow(GetDlgItem(parent,IDC_COMBO4),FALSE);
+		EnableWindow(GetDlgItem(parent,IDC_COMBO3),false);
+		EnableWindow(GetDlgItem(parent,IDC_COMBO4),false);
 	}
 	else
 	{
-		EnableWindow(GetDlgItem(parent,IDC_COMBO3),TRUE);
-		EnableWindow(GetDlgItem(parent,IDC_COMBO4),TRUE);
+		EnableWindow(GetDlgItem(parent,IDC_COMBO3),true);
+		EnableWindow(GetDlgItem(parent,IDC_COMBO4),true);
 	}
 	*/
 }
@@ -53,8 +53,8 @@ void	update_trigger_radios(HWND parent)
 	if(SendMessage(GetDlgItem(parent,IDC_RADIO1),BM_GETCHECK,0,0)==BST_CHECKED)
 	{
 		triggered_by	=	TB_PROXIMITY;
-		EnableWindow(GetDlgItem(parent,IDC_EDIT2),TRUE);
-		EnableWindow(GetDlgItem(parent,IDC_EDIT3),FALSE);
+		EnableWindow(GetDlgItem(parent,IDC_EDIT2),true);
+		EnableWindow(GetDlgItem(parent,IDC_EDIT3),false);
 		SendMessage	(
 						GetDlgItem(parent,IDC_SPIN2),
 						UDM_SETPOS,
@@ -65,8 +65,8 @@ void	update_trigger_radios(HWND parent)
 	else
 	{
 		triggered_by	=	TB_DEPENDENCY;
-		EnableWindow(GetDlgItem(parent,IDC_EDIT2),FALSE);
-		EnableWindow(GetDlgItem(parent,IDC_EDIT3),TRUE);
+		EnableWindow(GetDlgItem(parent,IDC_EDIT2),false);
+		EnableWindow(GetDlgItem(parent,IDC_EDIT3),true);
 		SendMessage	(
 						GetDlgItem(parent,IDC_SPIN3),
 						UDM_SETPOS,
@@ -89,7 +89,7 @@ void	update_trigger_radios(HWND parent)
 
 void	process_view_wind();
 
-BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -133,11 +133,11 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					//	Default to proximity.
 					triggered_by			=	TB_PROXIMITY;
 					current_ep->TriggeredBy	=	triggered_by;
-					SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,TRUE,0);
+					SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,true,0);
 					trigger_radius	=	0;
 					break;
 				case	TB_PROXIMITY:
-					SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,TRUE,0);
+					SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,true,0);
 					SendMessage	(
 									GetDlgItem(hWnd,IDC_SPIN2),
 									UDM_SETPOS,
@@ -152,7 +152,7 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 								);
 					break;
 				case	TB_DEPENDENCY:
-					SendMessage(GetDlgItem(hWnd,IDC_RADIO2),BM_SETCHECK,TRUE,0);
+					SendMessage(GetDlgItem(hWnd,IDC_RADIO2),BM_SETCHECK,true,0);
 					SendMessage	(
 									GetDlgItem(hWnd,IDC_SPIN2),
 									UDM_SETPOS,
@@ -174,7 +174,7 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			update_action_combos(hWnd);
 			update_trigger_radios(hWnd);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -182,7 +182,7 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				case	IDOK:
 //					SendMessage(hWnd,WM_CLOSE,0,0);
 					EndDialog(hWnd,IDOK);
-					return	TRUE;
+					return	true;
 
 				case	IDC_COMBO1:
 					if(HIWORD(wParam)==CBN_SELCHANGE)
@@ -190,14 +190,14 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 						//	Get the 'Trigger Type'.
 						trigger_type	=	SendMessage	(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0)	+	1;
 						update_action_combos(hWnd);
-						return	TRUE;
+						return	true;
 					}
 					break;
 
 				case	IDC_RADIO1:
 				case	IDC_RADIO2:
 					update_trigger_radios(hWnd);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -213,7 +213,7 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 								0,
 								MAKELONG(lp_ntfy->iPos+(lp_ntfy->iDelta*31),0)
 							);
-				return	TRUE;
+				return	true;
 			}
 			break;
 /*
@@ -222,7 +222,7 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN1 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
 				trigger_data1	=	HIWORD(wParam);
-				return	TRUE;
+				return	true;
 			}
 			else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN2 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
@@ -230,7 +230,7 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				current_ep->Radius	=	trigger_radius;
 				process_view_wind();
 				SendMessage(GEDIT_edit_wnd,WM_PAINT,0,0);
-				return	TRUE;
+				return	true;
 			}
 			else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN3 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
@@ -244,15 +244,15 @@ BOOL	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 								);
 //				process_view_wind();
 //				SendMessage(GEDIT_edit_wnd,WM_PAINT,0,0);
-				return	TRUE;
+				return	true;
 			}
 			break;
 */
 		case	WM_CLOSE:
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

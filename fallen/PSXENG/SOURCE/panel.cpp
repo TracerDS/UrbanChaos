@@ -755,7 +755,7 @@ void PANEL_new_funky()
 	{
 		PANEL_wide_top_person     = NULL;
 		PANEL_wide_bot_person     = NULL;
-		PANEL_wide_top_is_talking = FALSE;
+		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
 
@@ -1414,7 +1414,7 @@ void PANEL_render_thugs()
 	SLONG i;
 	SLONG dx,dz,cx,cy;
 	SLONG colour,dist;
-	BOOL display;
+	bool display;
 	SLONG angle;
 
 	darci=NET_PERSON(0);
@@ -1449,7 +1449,7 @@ void PANEL_render_thugs()
 			continue;
 		}
 
-		display = FALSE;
+		display = false;
 
 		switch(p_found->Genus.Person->PersonType)
 		{
@@ -1459,7 +1459,7 @@ void PANEL_render_thugs()
 			case PERSON_MIB1:
 			case PERSON_MIB2:
 			case PERSON_MIB3:
-				display = TRUE;
+				display = true;
 				colour=0x7f0000;
 				break;
 
@@ -1469,7 +1469,7 @@ void PANEL_render_thugs()
 
 		if (PCOM_person_wants_to_kill(p_found) == THING_NUMBER(darci))
 		{
-			display=TRUE;
+			display=true;
 			colour = GAME_TURN&6?0x7f7f7f:0x7f0000;
 		}
 
@@ -1495,7 +1495,7 @@ void PANEL_new_widescreen_init()
 {
 	PANEL_wide_top_person     = NULL;
 	PANEL_wide_bot_person     = NULL;
-	PANEL_wide_top_is_talking = FALSE;
+	PANEL_wide_top_is_talking = false;
 	PANEL_wide_text[0]        = '\000';
 	PANEL_wide_cont			  = 0;
 }
@@ -1604,7 +1604,7 @@ void PANEL_new_widescreen()
 
 				PANEL_wide_copy(pt->text);
 
-				PANEL_wide_top_is_talking = FALSE;
+				PANEL_wide_top_is_talking = false;
 
 				pt->delay = 0;
 			}
@@ -1618,7 +1618,7 @@ void PANEL_new_widescreen()
 
 					PANEL_wide_copy(pt->text);
 
-					PANEL_wide_top_is_talking = TRUE;
+					PANEL_wide_top_is_talking = true;
 
 					pt->delay = 0;
 				}
@@ -1630,7 +1630,7 @@ void PANEL_new_widescreen()
 
 					PANEL_wide_copy(pt->text);
 
-					PANEL_wide_top_is_talking = FALSE;
+					PANEL_wide_top_is_talking = false;
 					PANEL_wide_bot_person     = THING_NUMBER(pt->who);
 
 					pt->delay = 0;

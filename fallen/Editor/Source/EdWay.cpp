@@ -29,7 +29,7 @@ UWORD	alloc_ed_waypoint()
 	{
 		if(!edit_waypoints[c0].Used)
 		{
-			edit_waypoints[c0].Used	=	TRUE;
+			edit_waypoints[c0].Used	=	true;
 			edit_waypoints[c0].Next	=	0;
 			edit_waypoints[c0].Prev	=	0;
 
@@ -57,7 +57,7 @@ void	free_ed_waypoint(UWORD wp_index)
 	if(next_index)
 		edit_waypoints[next_index].Prev	=	prev_index;
 
-	edit_waypoints[wp_index].Used	=	FALSE;
+	edit_waypoints[wp_index].Used	=	false;
 	ed_waypoint_count--;
 }
 

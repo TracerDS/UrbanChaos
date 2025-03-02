@@ -818,7 +818,7 @@ UBYTE MUSIC_play(UWORD wave,UBYTE flags)
 #endif
 }
 
-void MUSIC_stop(BOOL fade)
+void MUSIC_stop(bool fade)
 {
 #ifndef MIKE
 	CBYTE param[8];

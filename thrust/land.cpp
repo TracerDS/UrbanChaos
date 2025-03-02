@@ -255,7 +255,7 @@ SLONG LAND_collide_sphere(
 	LAND_Point *lp1;
 	LAND_Point *lp2;
 
-	SLONG ans = FALSE;
+	SLONG ans = false;
 
 	//
 	// Initialise the normal.
@@ -288,7 +288,7 @@ SLONG LAND_collide_sphere(
 
 			LOG_file("    Collision with point %d normal (%f,%f)\n", i, lp->nx, lp->ny);
 
-			ans = TRUE;
+			ans = true;
 		}
 	}
 
@@ -362,7 +362,7 @@ SLONG LAND_collide_sphere(
 						LOG_file("    0: Collision normal = (%f,%f) (%d,%d)\n", v[0].f,v[1].f, v[0].i,v[1].i);
 					}
 
-					ans = TRUE;
+					ans = true;
 				}
 			}
 		}

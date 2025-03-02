@@ -1053,7 +1053,7 @@ SMAP_Link SMAP_link[SMAP_MAX_LINKS];
 SLONG     SMAP_link_upto;
 
 //
-// Returns TRUE if the poly is the wrong side of the
+// Returns true if the poly is the wrong side of the
 // shadow map... i.e. nearer to the light.
 //
 
@@ -1089,11 +1089,11 @@ SLONG SMAP_wrong_side(SMAP_Link *sl)
 
 	if (av_n >= SMAP_n_min + (SMAP_n_max - SMAP_n_min) * 0.75F)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 

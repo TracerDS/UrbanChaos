@@ -7,12 +7,12 @@
 		LOCAL i,j
 	
 		FOR i = 2 TO SQRT(n)
-			IF n MOD i = 0 THEN RETURN FALSE
+			IF n MOD i = 0 THEN RETURN false
 		NEXT i
 
 		j = 55
 
-		RETURN TRUE
+		RETURN true
 
 	ENDFUNC
 

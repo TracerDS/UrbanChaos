@@ -15,7 +15,7 @@ void GI_init();
 //
 // Releases any old stuff and loads the given map file.
 // Enters city view automatically.
-// Returns TRUE on success.
+// Returns true on success.
 //
 
 SLONG GI_load_map(CBYTE *name);
@@ -44,7 +44,7 @@ void GI_render_view_into_backbuffer(
 
 //
 // Gives the position of the given screen pixel in the world.
-// Returns FALSE if there was no intersection.
+// Returns false if there was no intersection.
 //
 
 SLONG GI_get_pixel_world_pos(

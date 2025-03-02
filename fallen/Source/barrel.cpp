@@ -39,7 +39,7 @@ SLONG          BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_
 #define BARREL_FLAG_CANS     (1 << 6)	// This bin contains cans.
 
 #ifndef PSX
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 #endif
 
 Barrel *BARREL_barrel;//[BARREL_MAX_BARRELS];
@@ -1179,7 +1179,7 @@ void BARREL_process_normal(Thing *p_barrel)
 	BARREL_push_apart(
 		bs1,
 		bs2,
-		TRUE);
+		true);
 
 	//
 	// The barrel is positioned at the average of the two spheres.
@@ -1290,7 +1290,7 @@ void BARREL_process_normal(Thing *p_barrel)
 			bs2->z >> 8,
 			8,
 			0x00ff4444,
-			TRUE);
+			true);
 	}
 #endif
 #endif
@@ -1643,7 +1643,7 @@ void BARREL_position_on_hands(Thing *p_barrel, Thing *p_person)
 	BARREL_push_apart(
 		bs1,
 		bs2,
-		FALSE);
+		false);
 
 	//
 	// The velocity of the barrels.
@@ -1831,11 +1831,11 @@ void BARREL_shoot(
 	if ( (p_barrel->Genus.Barrel->flag & BARREL_FLAG_STILL) &&
 		!(p_barrel->Genus.Barrel->flag & BARREL_FLAG_STACKED))
 	{
-		in_the_air = FALSE;
+		in_the_air = false;
 	}
 	else
 	{
-		in_the_air = TRUE;
+		in_the_air = true;
 	}
 
 

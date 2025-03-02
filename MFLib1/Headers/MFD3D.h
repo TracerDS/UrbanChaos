@@ -9,7 +9,7 @@
 #define	D3D_ZBUFFER			(1<<2)
 #define	D3D_RAMP			(1<<3)
 
-extern BOOL					HasHardware;
+extern bool					HasHardware;
 extern IDirect3DDevice2		*lp_D3D_Device;
 extern LPDIRECT3D2			lp_D3D_2;
 
@@ -17,7 +17,7 @@ extern LPDIRECT3D2			lp_D3D_2;
 
 void	SetupD3D2();
 void	ResetD3D2();
-BOOL	ChooseD3DDevice(ULONG flags);
+bool	ChooseD3DDevice(ULONG flags);
 
 //----------------------------------------------------------------------
 

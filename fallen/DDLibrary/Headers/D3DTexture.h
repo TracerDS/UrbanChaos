@@ -55,15 +55,15 @@ class	D3DTexture
 		CBYTE					texture_name[256];
 		ULONG					ID;		// texture ID for FileClump
 		// Allow the texture to be shrunk or replaced with junk for faster loading.
-		BOOL					bCanShrink;
+		bool					bCanShrink;
 		SLONG					TextureFlags;
 		Font					*FontList;
 		LPDIRECT3DTEXTURE2		lp_Texture;
 		LPDIRECTDRAWSURFACE4	lp_Surface;
 		HRESULT					Reload_TGA (void);
 		HRESULT					Reload_user(void);
-		BOOL					GreyScale;
-		BOOL					UserWantsAlpha;	// The user page needs an alpha-channel.
+		bool					GreyScale;
+		bool					UserWantsAlpha;	// The user page needs an alpha-channel.
 #ifdef TEX_EMBED
 		//char *name;			// Texture file name.
 		UBYTE bPagePos;			// Position in page.
@@ -89,10 +89,10 @@ class	D3DTexture
 													bPageType = D3DPAGE_NONE;
 #endif
 													// IT WOULD FUCKING HELP IF SOME OF THESE ACTUALLY GOT SET UP WITH DEFAULTS
-													GreyScale = FALSE;
-													UserWantsAlpha = FALSE;
+													GreyScale = false;
+													UserWantsAlpha = false;
 													ID = -1;
-													bCanShrink = FALSE;
+													bCanShrink = false;
 												}
 
 		//
@@ -113,11 +113,11 @@ class	D3DTexture
 		SLONG       size;			// The size in pixels of the texture page.
 		SLONG       ContainsAlpha;
 
-		HRESULT		LoadTextureTGA(CBYTE *tga_file,ULONG texid,BOOL bCanShrink=TRUE);
+		HRESULT		LoadTextureTGA(CBYTE *tga_file,ULONG texid,bool bCanShrink=true);
 
 		HRESULT		ChangeTextureTGA(CBYTE *tga_file);
 
-		HRESULT		CreateUserPage(SLONG size, BOOL i_want_an_alpha_channel);	// Power of two between 32 and 256 inclusive
+		HRESULT		CreateUserPage(SLONG size, bool i_want_an_alpha_channel);	// Power of two between 32 and 256 inclusive
 		HRESULT     LockUser      (UWORD **bitmap, SLONG *pitch);				// Returns the texture page on success. The pitch is in bytes!
 		void        UnlockUser	  (void);
 
@@ -135,7 +135,7 @@ class	D3DTexture
 		// is re-loaded.
 		//
 
-		void set_greyscale(BOOL is_greyscale);
+		void set_greyscale(bool is_greyscale);
 
 		LPDIRECT3DTEXTURE2		GetD3DTexture()			{ return lp_Texture; }
 		LPDIRECTDRAWSURFACE4	GetSurface(void)		{ return lp_Surface; }
@@ -154,11 +154,11 @@ class	D3DTexture
 																					}
 																				}
 
-		inline	BOOL		IsFont(void)				{	return	TextureFlags&D3D_TEXTURE_FONT;	}
+		inline	bool		IsFont(void)				{	return	TextureFlags&D3D_TEXTURE_FONT;	}
 		inline	void		FontOn(void)				{	TextureFlags	|=	D3D_TEXTURE_FONT;	}
 		inline	void		FontOff(void)				{	TextureFlags	&=	~D3D_TEXTURE_FONT;	}
 
-		inline	BOOL		IsFont2(void)				{	return	TextureFlags&D3D_TEXTURE_FONT2;	}
+		inline	bool		IsFont2(void)				{	return	TextureFlags&D3D_TEXTURE_FONT2;	}
 		inline	void		Font2On(void)				{	TextureFlags	|=	D3D_TEXTURE_FONT2;	}
 		inline	void		Font2Off(void)				{	TextureFlags	&=	~D3D_TEXTURE_FONT2;	}
 };

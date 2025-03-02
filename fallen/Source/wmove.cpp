@@ -11,7 +11,7 @@
 
 //#include "prim.h"
 
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 extern	SLONG	save_psx;
 
 WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
@@ -405,7 +405,7 @@ void WMOVE_create(Thing *p_thing)
 	// MarkZA - when you fix this, give me a yell and I'll test it and all that.
 	// Actually, I think you may be able to reproduce it on the PC as well, since it now uses the
 	// same character system. Oh, but only if you're loading from DADs. So you'll need to do that.
-	//ASSERT ( FALSE );
+	//ASSERT ( false );
 	//return;
 #endif
 
@@ -953,22 +953,22 @@ void WMOVE_draw()
 		AENG_world_line(
 			pp0->X, pp0->Y, pp0->Z, 0x6, colour,
 			pp1->X, pp1->Y, pp1->Z, 0x6, colour,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			pp1->X, pp1->Y, pp1->Z, 0x6, colour,
 			pp3->X, pp3->Y, pp3->Z, 0x6, colour,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			pp3->X, pp3->Y, pp3->Z, 0x6, colour,
 			pp2->X, pp2->Y, pp2->Z, 0x6, colour,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			pp2->X, pp2->Y, pp2->Z, 0x6, colour,
 			pp0->X, pp0->Y, pp0->Z, 0x6, colour,
-			TRUE);
+			true);
 	}
 }
 

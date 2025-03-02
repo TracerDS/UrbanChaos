@@ -10,7 +10,7 @@
 
 //
 // Takes the output of the PARSE module and spews out
-// code to the given filename.  Returns FALSE on failure.
+// code to the given filename.  Returns false on failure.
 // CG_output[] hold the errors/warnings/status of the
 // code generation phase.
 //

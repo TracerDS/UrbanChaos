@@ -35,11 +35,11 @@ class TimeLineScroll;
 
 //typedef void (*PROPEDIT_notify)(PropertyEditor *pe);
 
-typedef BOOL (*TreeBrowserCB)(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *txt);
+typedef bool (*TreeBrowserCB)(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *txt);
 
-typedef BOOL (*TimeLineCB)(TimeLine *tb, int reason, int index, int subline, int cell);
+typedef bool (*TimeLineCB)(TimeLine *tb, int reason, int index, int subline, int cell);
 
-typedef BOOL (*PropEditCB)(PropertyEditor *tb, int reason, int index, CBYTE *value);
+typedef bool (*PropEditCB)(PropertyEditor *tb, int reason, int index, CBYTE *value);
 
 class GadgetBase {
 public:
@@ -56,10 +56,10 @@ public:
 
 	void Clear();
 	int  Add(CBYTE *name, CBYTE *value, UBYTE type);
-	BOOL Process(HWND parent, WPARAM wParam, LPARAM lParam);
+	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	int  Type(UWORD index);
 	void Update(UWORD index, CBYTE *value);
-	BOOL Verify(UBYTE type, CBYTE *value);
+	bool Verify(UBYTE type, CBYTE *value);
 	void SetCallback(PropEditCB cb);
 };
 
@@ -76,8 +76,8 @@ public:
 	TreeBrowser(HWND nhWnd);
 	~TreeBrowser();
 	HTREEITEM Add(CBYTE *name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img);
-	int  AddDir(CBYTE *path, BOOL subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld);
-	BOOL Process(HWND parent, WPARAM wParam, LPARAM lParam);
+	int  AddDir(CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld);
+	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	void SetImageList(HINSTANCE inst, SLONG idx);
 	void SetDraggable(DragServer *ndrag);
 	void SetCallback(TreeBrowserCB cb);
@@ -97,7 +97,7 @@ private:
 public:
 	DragServer(HWND nparent, HINSTANCE inst);
 	~DragServer();
-	BOOL Process(UINT message, WPARAM wParam, LPARAM lParam);
+	bool Process(UINT message, WPARAM wParam, LPARAM lParam);
 	void Begin(HWND src);
 	HWND Target() { return target; };
 };
@@ -120,7 +120,7 @@ public:
 	void Del(UWORD index);
 	void MarkEntry(UWORD index, UWORD start, UWORD length, UBYTE which);
 	void  Draw(LPARAM lParam);
-	BOOL  Process(HWND parent, WPARAM wParam, LPARAM lParam);
+	bool  Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	void  SetImageList(HINSTANCE inst, SLONG idx);
 	void  SetReadHead(int newpos);
 	int   GetReadHead() { return read_head; };
@@ -140,7 +140,7 @@ private:
 public:
 	TimeLineRuler(HWND nhWnd);
 	void Draw(LPARAM lParam);
-	BOOL Process(HWND parent, WPARAM wParam, LPARAM lParam);
+	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	void SetOwner(TimeLine *nown);
 };
 
@@ -149,6 +149,6 @@ private:
 	TimeLine	*owner;
 public:
 	TimeLineScroll(HWND nhWnd);
-	BOOL Process(HWND parent, WPARAM wParam, LPARAM lParam);
+	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
 	void SetOwner(TimeLine *nown);
 };

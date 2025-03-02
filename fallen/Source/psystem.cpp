@@ -31,7 +31,7 @@ extern UBYTE fire_pal[768];
 #endif
 
 static SLONG prev_tick;
-static BOOL first_pass;
+static bool first_pass;
 
 void PARTICLE_Reset() {
 	SLONG c0;
@@ -381,8 +381,8 @@ void PARTICLE_Run() {
 												p_hurt,
 												NULL,
 												PERSON_DEATH_TYPE_OTHER,
-												FALSE,
-												FALSE);
+												false,
+												false);
 										}
 									}
 								} // (abs(dist) < 0x40)

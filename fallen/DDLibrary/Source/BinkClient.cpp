@@ -235,12 +235,12 @@ void BinkPlay(const char* filename, IDirectDrawSurface* lpdds, bool (*flip)())
 // Sod it - spoof the lot of them.
 void BinkMessage(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	ASSERT(FALSE);
+	ASSERT(false);
 }
 
 void BinkPlay(const char* filename, IDirectDrawSurface* lpdds, bool (*flip)())
 {
-	ASSERT(FALSE);
+	ASSERT(false);
 }
 
 

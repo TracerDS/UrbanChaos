@@ -56,7 +56,7 @@ int WaveLoadFile(TCHAR*, UINT *, WAVEFORMATEX **, BYTE **);
 int WaveSaveFile(TCHAR*, UINT, DWORD, WAVEFORMATEX *, BYTE *);
 
 int WaveCopyUselessChunks(HMMIO *, MMCKINFO *, MMCKINFO *, HMMIO *, MMCKINFO *, MMCKINFO *);
-BOOL riffCopyChunk(HMMIO, HMMIO, const LPMMCKINFO);
+bool riffCopyChunk(HMMIO, HMMIO, const LPMMCKINFO);
 
 
 #ifdef __cplusplus

@@ -91,7 +91,7 @@ public:
 	// DC does all our sorting for us.
 	static void			EnableAlphaSort()				{}
 	static void			DisableAlphaSort()				{}
-	static bool			AlphaSortEnabled()				{ return FALSE; }
+	static bool			AlphaSortEnabled()				{ return false; }
 #else
 
 	// sort polygons in approx. Z order

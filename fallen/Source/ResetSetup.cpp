@@ -32,7 +32,7 @@ SLONG	reset_counter;
 //---------------------------------------------------------------
 
 
-BOOL	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -56,7 +56,7 @@ BOOL	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							MAKELONG(reset_counter,0)
 						);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -66,15 +66,15 @@ BOOL	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case WM_CLOSE:
 			EndDialog(hWnd,0);
-			return TRUE;
+			return true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

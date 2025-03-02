@@ -99,7 +99,7 @@ UWORD	alloc_map()
 	{
 		if(!game_maps[c0].Used)
 		{
-			game_maps[c0].Used	=	TRUE;
+			game_maps[c0].Used	=	true;
 			return	c0;
 		}
 	}
@@ -321,7 +321,7 @@ EventPoint	*alloc_eventpoint()
 			BreakLink(ep_base,the_epoint);
 
 			// Add it to the used list
-			ResetLink(ep_base,the_epoint,TRUE);
+			ResetLink(ep_base,the_epoint,true);
 
 
 /*			//	Remove it from the free list.
@@ -334,7 +334,7 @@ EventPoint	*alloc_eventpoint()
 				TO_EVENTPOINT(ep_base,current_mission->UsedEPoints)->Prev	=	new_epoint;
 			current_mission->UsedEPoints								=	new_epoint;
 */
-			the_epoint->Used	=	TRUE;
+			the_epoint->Used	=	true;
 
 			ResetFreepoint(current_mission);
 			ResetUsedpoint(current_mission);
@@ -376,7 +376,7 @@ EventPoint	*alloc_eventpoint()
 				TO_EVENTPOINT(ep_base,current_mission->UsedEPoints)->Prev	=	new_epoint;
 			current_mission->UsedEPoints								=	new_epoint;
 
-			the_epoint->Used	=	TRUE;
+			the_epoint->Used	=	true;
 
 			return	the_epoint;
 		}		
@@ -424,9 +424,9 @@ void	free_eventpoint(EventPoint *the_ep)
 		BreakLink(ep_base,the_ep);
 
 		// Add it to the used list
-		ResetLink(ep_base,the_ep,FALSE);
+		ResetLink(ep_base,the_ep,false);
 
-		the_ep->Used=FALSE;
+		the_ep->Used=false;
 
 		ResetFreepoint(current_mission);
 		ResetUsedpoint(current_mission);
@@ -447,7 +447,7 @@ void	free_eventpoint(EventPoint *the_ep)
 		the_ep->Prev	=	0;
 		current_mission->FreeEPoints	=	EVENTPOINT_NUMBER(ep_base,the_ep);
 
-		the_ep->Used	=	FALSE;
+		the_ep->Used	=	false;
 */
 	}
 }
@@ -565,7 +565,7 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 #define	M_VERSION		10
 #define	EP_VERSION		1
 
-BOOL	export_mission()
+bool	export_mission()
 {
 	CBYTE				curr_dir[_MAX_PATH];
 	ULONG				m_vers;
@@ -582,7 +582,7 @@ BOOL	export_mission()
 
 	if (!valid_mission()) {
 		MessageBox(0,"The mission is invalid. Check the list of waypoints for warning symbols, fix the mistakes, and try again.","Error",MB_ICONEXCLAMATION|MB_OK);
-		return FALSE;
+		return false;
 	}
 
 	if(current_mission)
@@ -777,7 +777,7 @@ BOOL	export_mission()
 									 // Got me too- like the validate one did!
 
 								ASSERT(0);
-								return FALSE;
+								return false;
 						}
 
 						switch(ep->TriggeredBy)
@@ -911,10 +911,10 @@ BOOL	export_mission()
 				fclose(file_handle);
 			}
 
-			return	TRUE;
+			return	true;
 		}
 	}
-	return	FALSE;
+	return	false;
 }
 
 
@@ -1016,7 +1016,7 @@ void import_mission() {
 					new_element->MissionRef		=	new_mission;
 
 					//	Update the window.
-					InvalidateRect(ws_tree, NULL, FALSE);
+					InvalidateRect(ws_tree, NULL, false);
 				}
 			}
 
@@ -1127,7 +1127,7 @@ void refresh_mission()
 		new_element->MissionRef		=	new_mission;
 
 		//	Update the window.
-		InvalidateRect(ws_tree, NULL, FALSE);
+		InvalidateRect(ws_tree, NULL, false);
 	}*/
 
 	fclose(file_handle);
@@ -1143,7 +1143,7 @@ void refresh_mission()
 
 //---------------------------------------------------------------
 
-BOOL NoWaypointsFor(EventPoint *ep) {
+bool NoWaypointsFor(EventPoint *ep) {
 	EventPoint *scan;
 	SLONG c0;
 
@@ -1151,14 +1151,14 @@ BOOL NoWaypointsFor(EventPoint *ep) {
 	for(c0=0;c0<MAX_EVENTPOINTS;c0++,scan++) 
 		if (scan->Used) {
 			if ((scan!=ep)&&(ep->Group==scan->Group)&&(ep->Colour==scan->Colour)&&(scan->WaypointType==WPT_SIMPLE))
-				return FALSE;
+				return false;
 		}
-	return TRUE;
+	return true;
 }
 
 //---------------------------------------------------------------
 
-BOOL  HasText(EventPoint *ep) {
+bool  HasText(EventPoint *ep) {
 	switch (ep->WaypointType) {
 		case WPT_MESSAGE:
 		case WPT_CREATE_MAP_EXIT:
@@ -1204,22 +1204,22 @@ CBYTE *GetEPText(EventPoint *ep) {
 
 SLONG treasure_counter;
 
-BOOL SingleFlagCheck(SLONG test) {
+bool SingleFlagCheck(SLONG test) {
 	SLONG gotone=0, i;
 	for (i=0;i<32;i++) {
 		if (test&(1<<i)) {
-			if (gotone) return FALSE; // more than one of em
+			if (gotone) return false; // more than one of em
 			gotone=1;
 		}
 	}
-	return (BOOL)gotone;
+	return (bool)gotone;
 }
 
 
-BOOL valid_ep(EventPoint *ep) {
+bool valid_ep(EventPoint *ep) {
 
 
-	if ((WaypointUses[ep->TriggeredBy] & WPU_DEPEND)&&!ep->EPRef) return FALSE;
+	if ((WaypointUses[ep->TriggeredBy] & WPU_DEPEND)&&!ep->EPRef) return false;
 
 	if ((WaypointUses[ep->TriggeredBy] & WPU_BOOLEAN) && !ep->EPRefBool)
 	{
@@ -1230,7 +1230,7 @@ BOOL valid_ep(EventPoint *ep) {
 		if (ep->TriggeredBy != TT_PERSON_SEEN &&
 			ep->TriggeredBy != TT_PERSON_IN_VEHICLE)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1242,67 +1242,67 @@ BOOL valid_ep(EventPoint *ep) {
 
 		if (!ep->EPRef)
 		{
-			return FALSE;
+			return false;
 		}
 
 		if (current_mission->EventPoints[ep->EPRef].WaypointType != WPT_CREATE_PLAYER &&
 			current_mission->EventPoints[ep->EPRef].WaypointType != WPT_CREATE_ENEMIES)
 		{
-			return FALSE;
+			return false;
 		}
 
 		if (ep->EPRefBool)
 		{
 			if (current_mission->EventPoints[ep->EPRefBool].WaypointType != WPT_CREATE_VEHICLE)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 	}
 
-//	if ((WaypointUses[ep->TriggeredBy] & WPU_TIME)&&!ep->Radius) return FALSE;
+//	if ((WaypointUses[ep->TriggeredBy] & WPU_TIME)&&!ep->Radius) return false;
 	//if ((WaypointUses[ep->TriggeredBy] & WPU_RADIUS ... eh, who cares
 	if (WaypointUses[ep->TriggeredBy] & WPU_COUNTER) {
-		if ((!ep->Radius)||(ep->EPRef<1)||(ep->EPRef>10)) return FALSE; // trigger would go off immediately, or bad counter num
+		if ((!ep->Radius)||(ep->EPRef<1)||(ep->EPRef>10)) return false; // trigger would go off immediately, or bad counter num
 	}
-	if ((WaypointUses[ep->TriggeredBy] & WPU_RADTEXT)&&!ep->Radius) return FALSE;
+	if ((WaypointUses[ep->TriggeredBy] & WPU_RADTEXT)&&!ep->Radius) return false;
 	// whereas that one's a doozy
 
 	// special depends
 	if (ep->TriggeredBy==TT_HALFDEAD) {
-		if (current_mission->EventPoints[ep->EPRef].WaypointType!=WPT_CREATE_ENEMIES) return FALSE;
+		if (current_mission->EventPoints[ep->EPRef].WaypointType!=WPT_CREATE_ENEMIES) return false;
 	}
 	if (ep->TriggeredBy==TT_ITEM_HELD) {
-		if (!ep->EPRef) return FALSE;
-		if (current_mission->EventPoints[ep->EPRef].WaypointType==WPT_CREATE_ITEM) return TRUE;
+		if (!ep->EPRef) return false;
+		if (current_mission->EventPoints[ep->EPRef].WaypointType==WPT_CREATE_ITEM) return true;
 		if (current_mission->EventPoints[ep->EPRef].WaypointType==WPT_CREATE_ENEMIES) {
 			if (!current_mission->EventPoints[ep->EPRef].Data[8]) return SingleFlagCheck(current_mission->EventPoints[ep->EPRef].Data[9]);
 			if (!current_mission->EventPoints[ep->EPRef].Data[9]) return SingleFlagCheck(current_mission->EventPoints[ep->EPRef].Data[8]);
-			return FALSE;
+			return false;
 		}
-		return FALSE;
+		return false;
 	}
 
 	if (ep->TriggeredBy==TT_SPECIFIC_ITEM_HELD) {
-		if (!ep->EPRef) return FALSE;
-		if (current_mission->EventPoints[ep->EPRef].WaypointType!=WPT_CREATE_ITEM) return FALSE;
+		if (!ep->EPRef) return false;
+		if (current_mission->EventPoints[ep->EPRef].WaypointType!=WPT_CREATE_ITEM) return false;
 	}
 
 	if (ep->TriggeredBy==TT_PERSON_SEEN) {
 		SLONG type;
 		// must be a person (enemy or player)
 		type=current_mission->EventPoints[ep->EPRef].WaypointType;
-		if ((type!=WPT_CREATE_ENEMIES)&&(type!=WPT_CREATE_PLAYER)) return FALSE;
+		if ((type!=WPT_CREATE_ENEMIES)&&(type!=WPT_CREATE_PLAYER)) return false;
 		if (ep->EPRefBool) { // null bool is ok ("see anyone") but if it points, must be person
 			type=current_mission->EventPoints[ep->EPRefBool].WaypointType;
-			if ((type!=WPT_CREATE_ENEMIES)&&(type!=WPT_CREATE_PLAYER)) return FALSE;
+			if ((type!=WPT_CREATE_ENEMIES)&&(type!=WPT_CREATE_PLAYER)) return false;
 		}
 	}
 	if ((ep->TriggeredBy==TT_PERSON_USED)||(ep->TriggeredBy==TT_PERSON_ARRESTED)||(ep->TriggeredBy==TT_PLAYER_CARRY_PERSON)) {
 		SLONG type;
 		// must be a person (enemy)
 		type=current_mission->EventPoints[ep->EPRef].WaypointType;
-		if (type!=WPT_CREATE_ENEMIES) return FALSE;
+		if (type!=WPT_CREATE_ENEMIES) return false;
 	}
 
 	if (ep->TriggeredBy == TT_THING_RADIUS_DIR ||
@@ -1318,36 +1318,36 @@ BOOL valid_ep(EventPoint *ep) {
 			type != WPT_CREATE_PLAYER  &&
 			type != WPT_CREATE_VEHICLE)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
-	if ((ep->TriggeredBy==TT_CONVERSATION_OVER)&&(current_mission->EventPoints[ep->EPRef].WaypointType!=WPT_CONVERSATION)) return FALSE;
+	if ((ep->TriggeredBy==TT_CONVERSATION_OVER)&&(current_mission->EventPoints[ep->EPRef].WaypointType!=WPT_CONVERSATION)) return false;
 
 	switch (ep->WaypointType) {
 	case WPT_NONE:
-		return FALSE;					// these don't exist
+		return false;					// these don't exist
 
 	case WPT_SIMPLE:
-		return TRUE;					// these are simple
+		return true;					// these are simple
 
 	case WPT_CREATE_PLAYER:
-		return TRUE;					// these too
+		return true;					// these too
 
 	case WPT_ADJUST_ENEMY:
 		// same as create but extra check... (so, falling thru to next case)
-		if (!ep->Data[6]) return FALSE;
+		if (!ep->Data[6]) return false;
 		if (current_mission->EventPoints[ep->Data[6]].WaypointType!=WPT_CREATE_ENEMIES &&
 			current_mission->EventPoints[ep->Data[6]].WaypointType!=WPT_CREATE_PLAYER)
 		{
-			return FALSE;
+			return false;
 		}
-		return TRUE;
+		return true;
 
 	case WPT_CREATE_ENEMIES:
 //		if ((!ep->Data[0])||(!ep->Data[1]))
 		if ((!HIWORD(ep->Data[0]))||(!LOWORD(ep->Data[0])))
-			return FALSE;
+			return false;
 		// ai
 		switch (ep->Data[5]&0xffff) {
 //		if ((ep->Data[5]==3)||(ep->Data[5]==8)||(ep->Data[5]==17)) { // assassin/bodyguard/genocide
@@ -1355,70 +1355,70 @@ BOOL valid_ep(EventPoint *ep) {
 		case 8:
 		case 17:
 			SLONG targ;
-			if (!ep->Data[7]) return FALSE;
+			if (!ep->Data[7]) return false;
 			targ=current_mission->EventPoints[ep->Data[7]].WaypointType;
 			if ((targ!=WPT_CREATE_ENEMIES)&&(targ!=WPT_CREATE_PLAYER))
-				return FALSE;
+				return false;
 		default:
 			;// moo
 		}
 		// move
 		if ((ep->Data[3]==1)||(ep->Data[3]==2)) {
-			if (NoWaypointsFor(ep)) return FALSE;
+			if (NoWaypointsFor(ep)) return false;
 		}
 		if (ep->Data[3]==4) { // follow
 			SLONG targ;
-			if (!ep->Data[1]) return FALSE;
+			if (!ep->Data[1]) return false;
 			targ=current_mission->EventPoints[ep->Data[1]].WaypointType;
 			if ((targ!=WPT_CREATE_ENEMIES)&&(targ!=WPT_CREATE_PLAYER))
-				return FALSE;
+				return false;
 		}
-		return TRUE;
+		return true;
 
 	case WPT_ENEMY_FLAGS:
-		if (!ep->Data[0]) return FALSE;
+		if (!ep->Data[0]) return false;
 		if (current_mission->EventPoints[ep->Data[0]].WaypointType!=WPT_CREATE_ENEMIES)
-			return FALSE;
-		return TRUE;
+			return false;
+		return true;
 
 	case WPT_CREATE_VEHICLE:
-		if (!ep->Data[0]) return FALSE;
-		if ((ep->Data[1]==3)&&(!ep->Data[2])) return FALSE;
-		return TRUE;
+		if (!ep->Data[0]) return false;
+		if ((ep->Data[1]==3)&&(!ep->Data[2])) return false;
+		return true;
 
 	case WPT_CREATE_ITEM:
 		if ((!ep->Data[0])||(!ep->Data[1]))
-			return FALSE;
-		return TRUE;
+			return false;
+		return true;
 
 	case WPT_CREATE_CREATURE:
 		if ((!ep->Data[0])||(!ep->Data[1]))
-			return FALSE;
-		return TRUE;
+			return false;
+		return true;
 
 	case WPT_CREATE_CAMERA:
 	case WPT_CAMERA_WAYPOINT:
-		return TRUE;		// need to find out what makes cameras invalid
+		return true;		// need to find out what makes cameras invalid
 
 	case WPT_CREATE_TARGET:
 	case WPT_TARGET_WAYPOINT:
 		if ((!ep->Data[0])||(!ep->Data[1]))
-			return FALSE;
-		return TRUE;
+			return false;
+		return true;
 
 	case WPT_CREATE_MAP_EXIT:
-		if (!ep->Data[0]) return FALSE;
-		return TRUE;
+		if (!ep->Data[0]) return false;
+		return true;
 
 	case WPT_MESSAGE:
-		if (!ep->Data[0]) return FALSE;
-		return TRUE;
+		if (!ep->Data[0]) return false;
+		return true;
 
 	case WPT_CONVERSATION:
-		if (!ep->Data[0]) return FALSE;
-		if (!ep->Data[1]) return FALSE;
-		if (!ep->Data[2]) return FALSE;
-		return TRUE;
+		if (!ep->Data[0]) return false;
+		if (!ep->Data[1]) return false;
+		if (!ep->Data[2]) return false;
+		return true;
 
 
 	case WPT_SOUND_EFFECT:
@@ -1432,52 +1432,52 @@ BOOL valid_ep(EventPoint *ep) {
 	case WPT_CONE_PENALTIES:
 	case WPT_NO_FLOOR:
 	case WPT_SHAKE_CAMERA:
-		return TRUE;
+		return true;
 
 	case WPT_SHOUT:
-		if (!ep->Data[0]) return FALSE;
-		return TRUE;
+		if (!ep->Data[0]) return false;
+		return true;
 
 	case WPT_ACTIVATE_PRIM:
 	case WPT_CREATE_TRAP:
 	case WPT_LINK_PLATFORM:
-		return TRUE;
+		return true;
 
 	case WPT_CREATE_BOMB:
 		// default is legit; it'll just be a dud...
-		return TRUE;
+		return true;
 
 	case WPT_BURN_PRIM:
-		return TRUE;
+		return true;
 
 	case WPT_NAV_BEACON:
-		return (ep->Data[0]) ? TRUE : FALSE;
+		return (ep->Data[0]) ? true : false;
 
 	case WPT_CREATE_BARREL:
-		return TRUE;
+		return true;
 
 	case WPT_KILL_WAYPOINT:
-		return (ep->Data[0]) ? TRUE : FALSE;
+		return (ep->Data[0]) ? true : false;
 
 	case WPT_CREATE_TREASURE:
 		treasure_counter++;
-		return (ep->Data[0]) ? TRUE : FALSE;
+		return (ep->Data[0]) ? true : false;
 
 	case WPT_BONUS_POINTS:
-		return (ep->Data[0]) ? TRUE : FALSE;
+		return (ep->Data[0]) ? true : false;
 
 	case WPT_GROUP_LIFE:
-		return TRUE;
+		return true;
 
 	case WPT_GROUP_DEATH:
-		return TRUE;
+		return true;
 
 	case WPT_INTERESTING:
-		return TRUE;
+		return true;
 
 	case WPT_DYNAMIC_LIGHT:
 		// might even not be a lie...
-		return TRUE;
+		return true;
 
 	case WPT_INCREMENT:
 
@@ -1487,32 +1487,32 @@ BOOL valid_ep(EventPoint *ep) {
 
 		if (WITHIN(ep->Data[0], 1, 10))
 		{
-			return TRUE;
+			return true;
 		}
 
-		return FALSE;
+		return false;
 
 	case WPT_GOTHERE_DOTHIS:
-		return TRUE;
+		return true;
 
 	case WPT_TRANSFER_PLAYER:
 		
 		if (!WITHIN(ep->Data[0], 1, MAX_EVENTPOINTS - 1))
 		{
-			return FALSE;
+			return false;
 		}
 
 		if (current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_ENEMIES &&
 			current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_PLAYER)
 		{
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 
 	case WPT_AUTOSAVE:
 	case WPT_MAKE_SEARCHABLE:
-		return TRUE;
+		return true;
 
 	case WPT_LOCK_VEHICLE:
 
@@ -1521,29 +1521,29 @@ BOOL valid_ep(EventPoint *ep) {
 			{
 				if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 		}
 
-		return FALSE;
+		return false;
 
 		break;
 
 	case WPT_GROUP_RESET:
-		return TRUE;
+		return true;
 
 	case WPT_COUNT_UP_TIMER:
-		return TRUE;
+		return true;
 
 	case WPT_RESET_COUNTER:
 		return WITHIN(ep->Data[0], 0, 9);
 
 	case WPT_CREATE_MIST:
-		return TRUE;
+		return true;
 
 	case WPT_WAREFX:
-		return TRUE;
+		return true;
 
 	case WPT_STALL_CAR:
 
@@ -1552,12 +1552,12 @@ BOOL valid_ep(EventPoint *ep) {
 			{
 				if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 		}
 
-		return FALSE;
+		return false;
 
 	case WPT_EXTEND:
 
@@ -1568,13 +1568,13 @@ BOOL valid_ep(EventPoint *ep) {
 				{
 					if (ep->Data[1])
 					{
-						return TRUE;
+						return true;
 					}
 				}
 			}
 		}
 
-		return FALSE;
+		return false;
 
 	case WPT_MOVE_THING:
 
@@ -1586,11 +1586,11 @@ BOOL valid_ep(EventPoint *ep) {
 				current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ITEM    ||
 				current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_CREATURE)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 
 	case WPT_MAKE_PERSON_PEE:
 
@@ -1599,28 +1599,28 @@ BOOL valid_ep(EventPoint *ep) {
 			if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_PLAYER  ||
 				current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ENEMIES)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 
 	case WPT_SIGN:
-		return TRUE;
+		return true;
 
 	default:
 		ASSERT(0);
-		return FALSE;
+		return false;
 	}
 }
 
 
-BOOL valid_mission() {
+bool valid_mission() {
 	SLONG c0;
 	EventPoint *ep;
-	BOOL miss_valid=1;
+	bool miss_valid=1;
 
-	if(!current_mission) return FALSE;
+	if(!current_mission) return false;
 	selected_ep=hilited_ep=NULL;
 	TreeView_SelectItem(wpt_tree,NULL);
 

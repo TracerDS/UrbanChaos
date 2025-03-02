@@ -52,7 +52,7 @@ Alert::~Alert()
 
 //---------------------------------------------------------------
 
-BOOL	Alert::HandleAlert(CBYTE *text1,CBYTE *text2)
+bool	Alert::HandleAlert(CBYTE *text1,CBYTE *text2)
 {
 	UBYTE		control_id,
 				update	=	1;
@@ -117,9 +117,9 @@ BOOL	Alert::HandleAlert(CBYTE *text1,CBYTE *text2)
 			LeftMouse.ButtonState	=	0;
 			control_id				=	(UBYTE)AlertSet.HandleControlSetClick(LEFT_CLICK,&mouse_point);
 			if(control_id==1)
-				return	TRUE;
+				return	true;
 			else if(control_id==2)
-				return	FALSE;
+				return	false;
 		}
 		else if(LastKey)
 		{
@@ -128,14 +128,14 @@ BOOL	Alert::HandleAlert(CBYTE *text1,CBYTE *text2)
 			{
 				LastKey	=	0;
 				if(control_id==1)
-					return	TRUE;
+					return	true;
 				else if(control_id==2)
-					return	FALSE;
+					return	false;
 			}
 		}
 	}
 	SetWorkWindowBounds(temp_x,temp_y,temp_width,temp_height);
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

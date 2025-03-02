@@ -567,7 +567,7 @@ void	add_walk_face_to_map(SWORD face,SLONG x,SLONG z)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 
 	if(next_walk_link>=(MAX_WALK_POOL-4))

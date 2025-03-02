@@ -638,7 +638,7 @@ SLONG	write_pcx(CBYTE *fname,UBYTE *src,UBYTE *pal)
 	PCXHeader				the_header;
 
 
-	f_handle	=	FileCreate(fname,TRUE);
+	f_handle	=	FileCreate(fname,true);
 	if(f_handle!=FILE_CREATION_ERROR)
 	{
 		// Create & write out header.

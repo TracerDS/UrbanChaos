@@ -324,7 +324,7 @@ void TEXTURE_DC_pack_load_page(SLONG page)
 			// Create a new 256x256 texture.
 			//
 
-			tt->CreateUserPage(256, FALSE);
+			tt->CreateUserPage(256, false);
 		}
 
 		//
@@ -332,7 +332,7 @@ void TEXTURE_DC_pack_load_page(SLONG page)
 		//
 
 		TGA_Pixel *tga = (TGA_Pixel *) malloc(sizeof(TGA_Pixel) * 64 * 64);
-		TGA_Info   ti  = TGA_load(name_res64, 64, 64, tga, 0, FALSE);
+		TGA_Info   ti  = TGA_load(name_res64, 64, 64, tga, 0, false);
 
 		if (ti.valid)
 		{
@@ -675,9 +675,9 @@ void TEXTURE_choose_set(SLONG number)
 		// Load in the style defs.
 		//
 
-		load_texture_styles(FALSE, number);
+		load_texture_styles(false, number);
 extern	void	load_texture_instyles(UBYTE editor, UBYTE world);
-		load_texture_instyles(FALSE, number);
+		load_texture_instyles(false, number);
 		TEXTURE_fix_texture_styles();
 
 	}
@@ -863,7 +863,7 @@ static void TEXTURE_load_page(SLONG page)
 		if ( FAILED ( hres ) )
 		{
 			TRACE ( "Page %s not found", name_res32 );
-			TEXTURE_dontexist[page] = TRUE;
+			TEXTURE_dontexist[page] = true;
 		}
 
 
@@ -902,7 +902,7 @@ static void TEXTURE_load_page(SLONG page)
 					//
 					DebugText(" cant find page %d name64 %s \n",page,name_res64);
 
-					TEXTURE_dontexist[page] = TRUE;
+					TEXTURE_dontexist[page] = true;
 				}
 			}
 		}
@@ -933,8 +933,8 @@ static void TEXTURE_load_page(SLONG page)
 		if ( FAILED ( hres ) )
 		{
 			TRACE ( "Page %s not found", name_res32 );
-			ASSERT ( FALSE );
-			TEXTURE_dontexist[page] = TRUE;
+			ASSERT ( false );
+			TEXTURE_dontexist[page] = true;
 		}
 #else
 
@@ -949,7 +949,7 @@ static void TEXTURE_load_page(SLONG page)
 		}
 		else
 		{
-			TEXTURE_dontexist[page] = TRUE;
+			TEXTURE_dontexist[page] = true;
 		}
 #endif
 	}
@@ -977,7 +977,7 @@ static void TEXTURE_load_page(SLONG page)
 		{
 #ifdef TARGET_DC
 			// Shouldn't get here.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 #else
 			if (!DoesTGAExist("", TEXTURE_MAX_TEXTURES + page))
 			{
@@ -1026,7 +1026,7 @@ extern void SetLastClumpfile(char* file, size_t size);	// in GDisplay.cpp, horri
 
 #ifdef TARGET_DC
 		// Shouldn't be coming here.
-		ASSERT ( FALSE );
+		ASSERT ( false );
 #else
 
 		// load textures from the clump
@@ -1104,11 +1104,11 @@ extern void ATTRACT_loadscreen_draw(SLONG completion);
 	TEXTURE_initialise_clumping(fname_level);
 
 #ifdef TARGET_DC
-	bool bFrontEnd = FALSE;
+	bool bFrontEnd = false;
 	if ( ( fname_level == NULL ) || ( 0 == strcmp ( fname_level, "levels\\frontend.ucm" ) ) )
 	{
 		// Not actually a level - no level stuff loaded.
-		bFrontEnd = TRUE;
+		bFrontEnd = true;
 	}
 	// This should agree in theory.
 	ASSERT ( loading_screen_active == !bFrontEnd );
@@ -1257,9 +1257,9 @@ extern void ATTRACT_loadscreen_draw(SLONG completion);
 	TEXTURE_texture[TEXTURE_page_puddle    ].LoadTextureTGA(TEXTURE_EXTRA_DIR"puddle01.tga", TEXTURE_page_puddle);
 LOADED_THIS_MANY_TEXTURES(5);
 	TEXTURE_texture[TEXTURE_page_drip      ].LoadTextureTGA(TEXTURE_EXTRA_DIR"drip.tga", TEXTURE_page_drip);
-	TEXTURE_texture[TEXTURE_page_shadow    ].CreateUserPage(TEXTURE_SHADOW_SIZE, the_display.GetDeviceInfo()->DestInvSourceColourSupported() ? FALSE : TRUE);
+	TEXTURE_texture[TEXTURE_page_shadow    ].CreateUserPage(TEXTURE_SHADOW_SIZE, the_display.GetDeviceInfo()->DestInvSourceColourSupported() ? false : true);
 	TEXTURE_texture[TEXTURE_page_bang      ].LoadTextureTGA(TEXTURE_EXTRA_DIR"fireball.tga", TEXTURE_page_bang);
-	TEXTURE_texture[TEXTURE_page_font      ].LoadTextureTGA(TEXTURE_EXTRA_DIR"font.tga", TEXTURE_page_font,FALSE);
+	TEXTURE_texture[TEXTURE_page_font      ].LoadTextureTGA(TEXTURE_EXTRA_DIR"font.tga", TEXTURE_page_font,false);
 	TEXTURE_needed[TEXTURE_page_font] = 1;
 LOADED_THIS_MANY_TEXTURES(5);
 	//TEXTURE_texture[TEXTURE_page_logo      ].LoadTextureTGA(TEXTURE_EXTRA_DIR"logo3.tga", TEXTURE_page_logo);
@@ -1269,7 +1269,7 @@ LOADED_THIS_MANY_TEXTURES(5);
 		sprintf(str, "%ssky.tga",   TEXTURE_world_dir);
 
 		// Until the VQ quality improves, don't VQ the sky - it looks pretty grim.
-		TEXTURE_texture[TEXTURE_page_sky       ].LoadTextureTGA(str,TEXTURE_page_sky,FALSE);
+		TEXTURE_texture[TEXTURE_page_sky       ].LoadTextureTGA(str,TEXTURE_page_sky,false);
 	}
 //	TEXTURE_texture[TEXTURE_page_sky       ].LoadTextureTGA(TEXTURE_EXTRA_DIR"sky2.tga", TEXTURE_page_sky);
 
@@ -1281,19 +1281,19 @@ LOADED_THIS_MANY_TEXTURES(5);
 	TEXTURE_texture[TEXTURE_page_barbwire  ].LoadTextureTGA(TEXTURE_EXTRA_DIR"barbed.tga", TEXTURE_page_barbwire);
 LOADED_THIS_MANY_TEXTURES(6);
 
-	TEXTURE_texture[TEXTURE_page_font2d    ].LoadTextureTGA(TEXTURE_EXTRA_DIR"multifontPC.tga", TEXTURE_page_font2d, FALSE);
+	TEXTURE_texture[TEXTURE_page_font2d    ].LoadTextureTGA(TEXTURE_EXTRA_DIR"multifontPC.tga", TEXTURE_page_font2d, false);
 	TEXTURE_needed[TEXTURE_page_font2d] = 1;
 
 	//	TEXTURE_texture[TEXTURE_page_lcdfont   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"font3.tga", TEXTURE_page_
 #ifdef TARGET_DC
-	TEXTURE_texture[TEXTURE_page_lcdfont   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"olyfont2dc.tga", TEXTURE_page_lcdfont, FALSE);
+	TEXTURE_texture[TEXTURE_page_lcdfont   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"olyfont2dc.tga", TEXTURE_page_lcdfont, false);
 #else
-	TEXTURE_texture[TEXTURE_page_lcdfont   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"olyfont2.tga", TEXTURE_page_lcdfont, FALSE);
+	TEXTURE_texture[TEXTURE_page_lcdfont   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"olyfont2.tga", TEXTURE_page_lcdfont, false);
 #endif
 	TEXTURE_needed[TEXTURE_page_lcdfont] = 1;
 
 
-	TEXTURE_texture[TEXTURE_page_lastpanel   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"PCdisplay.tga",    TEXTURE_page_lastpanel, FALSE);
+	TEXTURE_texture[TEXTURE_page_lastpanel   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"PCdisplay.tga",    TEXTURE_page_lastpanel, false);
 	TEXTURE_needed[TEXTURE_page_lastpanel] = 1;
 
 	FONT2D_init(TEXTURE_page_font2d);	// do it now so it's still in the CD-ROM cache
@@ -1348,13 +1348,13 @@ LOADED_THIS_MANY_TEXTURES(4);
 LOADED_THIS_MANY_TEXTURES(4);
 
 	// frontend stuff...
-	TEXTURE_texture[TEXTURE_page_bigbutton ].LoadTextureTGA(TEXTURE_EXTRA_DIR"bigbutt.tga", TEXTURE_page_bigbutton, FALSE);
+	TEXTURE_texture[TEXTURE_page_bigbutton ].LoadTextureTGA(TEXTURE_EXTRA_DIR"bigbutt.tga", TEXTURE_page_bigbutton, false);
 	TEXTURE_needed [TEXTURE_page_bigbutton] = 1;
 	TEXTURE_texture[TEXTURE_page_bigleaf   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"bigleaf.tga", TEXTURE_page_bigleaf);
 	TEXTURE_needed [TEXTURE_page_bigleaf] = 1;
 	TEXTURE_texture[TEXTURE_page_bigrain   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"raindrop2.tga", TEXTURE_page_bigrain);
 	TEXTURE_needed [TEXTURE_page_bigrain] = 1;
-	TEXTURE_texture[TEXTURE_page_tinybutt  ].LoadTextureTGA(TEXTURE_EXTRA_DIR"tinybutt.tga", TEXTURE_page_tinybutt, FALSE);
+	TEXTURE_texture[TEXTURE_page_tinybutt  ].LoadTextureTGA(TEXTURE_EXTRA_DIR"tinybutt.tga", TEXTURE_page_tinybutt, false);
 	TEXTURE_needed [TEXTURE_page_tinybutt] = 1;
 	TEXTURE_texture[TEXTURE_page_snowflake ].LoadTextureTGA(TEXTURE_EXTRA_DIR"snowflake.tga", TEXTURE_page_snowflake);
 	TEXTURE_needed [TEXTURE_page_snowflake] = 1;
@@ -1363,7 +1363,7 @@ LOADED_THIS_MANY_TEXTURES(4);
 	TEXTURE_needed [TEXTURE_page_finalglow] = 1;
 
 	// Used for the screensaver. Don't use the MVQ - it doesn't get 100% black.
-	TEXTURE_texture[TEXTURE_page_fade_MF     ].LoadTextureTGA(TEXTURE_EXTRA_DIR"fade_MF.tga",      TEXTURE_page_fade_MF, FALSE);
+	TEXTURE_texture[TEXTURE_page_fade_MF     ].LoadTextureTGA(TEXTURE_EXTRA_DIR"fade_MF.tga",      TEXTURE_page_fade_MF, false);
 	TEXTURE_needed [TEXTURE_page_fade_MF] = 1;
 
 LOADED_THIS_MANY_TEXTURES(7);
@@ -1406,7 +1406,7 @@ LOADED_THIS_MANY_TEXTURES(6);
 #endif
 	{
 
-		TEXTURE_texture[TEXTURE_page_fadecat     ].LoadTextureTGA(TEXTURE_EXTRA_DIR"fadecat.tga",      TEXTURE_page_fadecat, FALSE);
+		TEXTURE_texture[TEXTURE_page_fadecat     ].LoadTextureTGA(TEXTURE_EXTRA_DIR"fadecat.tga",      TEXTURE_page_fadecat, false);
 
 		TEXTURE_texture[TEXTURE_page_tyretrack_alpha	].LoadTextureTGA(TEXTURE_EXTRA_DIR"tyremark_alpha.tga", TEXTURE_page_tyretrack_alpha);
 
@@ -1417,8 +1417,8 @@ LOADED_THIS_MANY_TEXTURES(6);
 LOADED_THIS_MANY_TEXTURES(5);
 
 		// Done above.
-		//TEXTURE_texture[TEXTURE_page_lastpanel   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"PCdisplay.tga",    TEXTURE_page_lastpanel, FALSE);
-		TEXTURE_texture[TEXTURE_page_lastpanel2  ].LoadTextureTGA(TEXTURE_EXTRA_DIR"PCdisplay01.tga",  TEXTURE_page_lastpanel2, FALSE);
+		//TEXTURE_texture[TEXTURE_page_lastpanel   ].LoadTextureTGA(TEXTURE_EXTRA_DIR"PCdisplay.tga",    TEXTURE_page_lastpanel, false);
+		TEXTURE_texture[TEXTURE_page_lastpanel2  ].LoadTextureTGA(TEXTURE_EXTRA_DIR"PCdisplay01.tga",  TEXTURE_page_lastpanel2, false);
 
 		TEXTURE_texture[TEXTURE_page_sign        ].LoadTextureTGA(TEXTURE_EXTRA_DIR"signs.tga",        TEXTURE_page_sign);
 		TEXTURE_texture[TEXTURE_page_shadowsquare].LoadTextureTGA(TEXTURE_EXTRA_DIR"shadowsquare.tga", TEXTURE_page_shadowsquare);
@@ -1498,13 +1498,13 @@ LOADED_THIS_MANY_TEXTURES(3);
 	// The video page.
 	// 
 
-//not used anymore?	TEXTURE_texture[86].CreateUserPage(TEXTURE_VIDEO_SIZE, FALSE);
+//not used anymore?	TEXTURE_texture[86].CreateUserPage(TEXTURE_VIDEO_SIZE, false);
 
 	//
 	// The flames on the main menu
 	//
 
-//not used anymore?    TEXTURE_texture[TEXTURE_page_menuflame].CreateUserPage(256,FALSE);
+//not used anymore?    TEXTURE_texture[TEXTURE_page_menuflame].CreateUserPage(256,false);
 
 
 	//
@@ -1899,7 +1899,7 @@ LOADED_THIS_MANY_TEXTURES(1);
 	{
 		BEGIN_SCENE;
 
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_init(false, false);
 
 		{
 			SLONG i;
@@ -1930,7 +1930,7 @@ LOADED_THIS_MANY_TEXTURES(1);
 			}
 		}
 
-		POLY_frame_draw(TRUE, TRUE);
+		POLY_frame_draw(true, true);
 
 		END_SCENE;
 
@@ -1956,7 +1956,7 @@ extern void AENG_guess_detail_levels();
 	// Start a new frame, so that the new textures get set up and sorted.
 	// Yes, it is crufty why starting a new frame does this. But it's historical.
 	// Just trust me, OK?
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 #endif
 
 }
@@ -2640,7 +2640,7 @@ SLONG TEXTURE_shadow_lock()
 		TEXTURE_shadow_bitmap = NULL;
 		TEXTURE_shadow_pitch  = 0;
 
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -2653,7 +2653,7 @@ SLONG TEXTURE_shadow_lock()
 		TEXTURE_shadow_shift_blue  = TEXTURE_texture[TEXTURE_page_shadow].shift_blue;
 		TEXTURE_shadow_shift_alpha = TEXTURE_texture[TEXTURE_page_shadow].shift_alpha;
 
-		return TRUE;
+		return true;
 	}
 }
 
@@ -2694,7 +2694,7 @@ SLONG TEXTURE_86_lock()
 		TEXTURE_shadow_bitmap = NULL;
 		TEXTURE_shadow_pitch  = 0;
 
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -2707,7 +2707,7 @@ SLONG TEXTURE_86_lock()
 		TEXTURE_shadow_shift_blue  = TEXTURE_texture[86].shift_blue;
 		TEXTURE_shadow_shift_alpha = TEXTURE_texture[86].shift_alpha;
 
-		return TRUE;
+		return true;
 	}
 }
 

@@ -25,11 +25,11 @@ SLONG SAVE_out_data(void *data, ULONG num_bytes)
 {
 	if (fwrite(data,  1, num_bytes, SAVE_handle) != num_bytes)
 	{	
-		return FALSE;
+		return false;
 	}
 	else
 	{	
-		return TRUE;
+		return true;
 	}
 }
 
@@ -38,11 +38,11 @@ SLONG LOAD_in_data(void *data, ULONG num_bytes)
 	DebugText(" read <%d> \n",num_bytes);
 	if (fread(data, 1, num_bytes, SAVE_handle) != num_bytes)
 	{	
-		return FALSE;
+		return false;
 	}
 	else
 	{	
-		return TRUE;
+		return true;
 	}
 }
 
@@ -167,7 +167,7 @@ typedef struct
 } SAVE_Vehicle_extra;
 
 //
-// Saves out a person thing structure. Returns FALSE on failure.
+// Saves out a person thing structure. Returns false on failure.
 //
 
 SLONG SAVE_special(Thing *p_special)
@@ -338,7 +338,7 @@ SLONG SAVE_person(Thing *p_person)
 
 		if (!SAVE_out_data(&sp, sizeof(SAVE_Person)))
 		{
-			return FALSE;
+			return false;
 		}
 	}
 	else
@@ -359,10 +359,10 @@ SLONG SAVE_person(Thing *p_person)
 		ret&=SAVE_out_data(p_person->Genus.Person, sizeof(Person));
 		ret&=SAVE_out_data(p_person, sizeof(Thing));
 		if(ret==0)
-			return(FALSE);
+			return(false);
 
 	}
-	return(TRUE);
+	return(true);
 }
 
 
@@ -381,19 +381,19 @@ SLONG	SAVE_things()
 			case	CLASS_PERSON:
 				if(!SAVE_person(p_thing))
 				{
-					return(FALSE);
+					return(false);
 				}
 				break;
 			case	CLASS_SPECIAL:
 				if(!SAVE_special(p_thing))
 				{
-					return(FALSE);
+					return(false);
 				}
 				break;
 			case	CLASS_VEHICLE:
 				if(!SAVE_vehicle(p_thing))
 				{
-					return(FALSE);
+					return(false);
 				}
 				break;
 			case	CLASS_NONE:
@@ -420,7 +420,7 @@ SLONG	SAVE_eways()
 
 	if (!SAVE_out_data(&marker, sizeof(marker)))
 	{
-		return	FALSE;
+		return	false;
 	}
 
 	for(c0=0;c0<EWAY_way_upto;c0++)
@@ -439,10 +439,10 @@ SLONG	SAVE_eways()
 		}
 
 		if(!res)
-			return(FALSE);
+			return(false);
 	}
 	res&=SAVE_out_data(EWAY_timer, sizeof(UWORD)*EWAY_MAX_TIMERS);
-	return TRUE;
+	return true;
 }
 
 
@@ -462,7 +462,7 @@ SLONG	SAVE_ingame(CBYTE *fname)
 
 	MF_Fclose(SAVE_handle);
 //	SAVE_VALID=1;
-	return(TRUE);
+	return(true);
 
 }
 
@@ -498,7 +498,7 @@ SLONG	LOAD_eways()
 			res&=LOAD_in_data(&ew->timer, sizeof(ew->timer));
 		}
 		if(!res)
-			return(FALSE);
+			return(false);
 	}
 	res&=LOAD_in_data(EWAY_timer, sizeof(UWORD)*EWAY_MAX_TIMERS);
 	return(res);
@@ -873,7 +873,7 @@ void	reload_level();
 	fix_thing_lists();
 //	SAVE_VALID=1;
 
-	return(TRUE);
+	return(true);
 
 }
 

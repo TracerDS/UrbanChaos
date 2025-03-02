@@ -15,7 +15,7 @@ void QLS_init();
 
 
 //
-// Returns TRUE if a quick-savegame is available to load.
+// Returns true if a quick-savegame is available to load.
 //
 
 void QLS_available();
@@ -29,7 +29,7 @@ void QLS_save();
 
 
 //
-// Loads the last QLS_saved game. Reurns FALSE on failure. In which
+// Loads the last QLS_saved game. Reurns false on failure. In which
 // case the whole of gamestate will probably be screwed and you'll
 // have to restart the level.
 //

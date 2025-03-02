@@ -271,7 +271,7 @@ void PUDDLE_create(
 		x2, z2,
 		y,
 		PUDDLE_TYPE_WHOLE,
-		FALSE);
+		false);
 }
 
 
@@ -375,7 +375,7 @@ void PUDDLE_precalculate()
 						px2, pz2,
 						py,
 						PUDDLE_TYPE_CORNER,
-						FALSE);
+						false);
 				}
 
 			  not_a_corner_of_a_building:;
@@ -436,7 +436,7 @@ void PUDDLE_precalculate()
 						px2, pz2,
 						py,
 						PUDDLE_TYPE_CORNER,
-						FALSE);
+						false);
 				}
 
 			  not_a_corner_of_a_road:;
@@ -661,11 +661,11 @@ SLONG PUDDLE_in(
 	if (!WITHIN(mx, 0, MAP_WIDTH  - 1) ||
 		!WITHIN(mz, 0, MAP_HEIGHT - 1))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if(MAV_SPARE(mx,mz) & MAV_SPARE_FLAG_WATER)
-		return(TRUE);
+		return(true);
 
 	if (PAP_2HI(mx,mz).Flags & PAP_FLAG_REFLECTIVE)
 	{
@@ -700,14 +700,14 @@ SLONG PUDDLE_in(
 					if (WITHIN(x, px1, px2) &&
 						WITHIN(z, pz1, pz2))
 					{
-						return TRUE;
+						return true;
 					}
 				}
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 

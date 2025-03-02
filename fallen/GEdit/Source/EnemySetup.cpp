@@ -43,7 +43,7 @@ SLONG			enemy_count,
 				enemy_has,
 				enemy_combat;
 
-BOOL			adjust;
+bool			adjust;
 
 //---------------------------------------------------------------
 
@@ -59,7 +59,7 @@ BOOL			adjust;
 
 
 
-BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -189,7 +189,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			CheckDlgButton(hWnd, IDC_WITH_SIDE_KICK     ,  (enemy_combat & PCOM_COMBAT_SIDE_KICK     )  ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hWnd, IDC_WITH_BACK_KICK     ,  (enemy_combat & PCOM_COMBAT_BACK_KICK     )  ? BST_CHECKED : BST_UNCHECKED);
 
-			return	TRUE;
+			return	true;
 		}
 
 		case	WM_COMMAND:
@@ -200,7 +200,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 						{
 							SLONG ai;
-							BOOL  enable;
+							bool  enable;
 
 							ai = SendMessage((HWND)lParam,CB_GETCURSEL,0,0);
 
@@ -215,11 +215,11 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 									// We need to know who to kill/protect.
 									//
 
-									enable = TRUE;
+									enable = true;
 									break;
 
 								default:
-									enable = FALSE;
+									enable = false;
 									break;
 							}
 
@@ -231,7 +231,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					break;
 				case	IDC_COMBO2:
 					if (HIWORD(wParam)==CBN_SELCHANGE) {
-						BOOL b=(SendMessage((HWND)lParam,CB_GETCURSEL,0,0)==4 || (SendMessage((HWND)lParam,CB_GETCURSEL,0,0)==6));
+						bool b=(SendMessage((HWND)lParam,CB_GETCURSEL,0,0)==4 || (SendMessage((HWND)lParam,CB_GETCURSEL,0,0)==6));
 						EnableWindow(GetDlgItem(hWnd,IDC_STATIC_ADJUST3),b);
 						EnableWindow(GetDlgItem(hWnd,IDC_SPIN5),b);
 						EnableWindow(GetDlgItem(hWnd,IDC_EDIT5),b);
@@ -239,7 +239,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					break;
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -255,7 +255,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			GetWindowRect(GetDlgItem(hWnd,item->CtlID),&rc);
 			item->itemWidth=rc.right-rc.left;
 			item->itemHeight=16;
-			return TRUE;
+			return true;
 		}
 
 		case WM_DRAWITEM:
@@ -284,7 +284,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			if (item->itemState & ODS_FOCUS) 
 				DrawFocusRect(item->hDC,&item->rcItem);
 
-			return TRUE;
+			return true;
 		}
 */
 		case	WM_NOTIFY:
@@ -299,7 +299,7 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 								0,
 								MAKELONG(lp_ntfy->iPos+(lp_ntfy->iDelta*4),0)
 							);
-				return	TRUE;
+				return	true;
 			}
 			break;
 
@@ -308,12 +308,12 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN1 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
 				enemy_count			=	HIWORD(wParam);
-				return	TRUE;
+				return	true;
 			}
 			else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN2 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
 				enemy_constitution	=	HIWORD(wParam);
-				return	TRUE;
+				return	true;
 			}
 			break;
 
@@ -395,14 +395,14 @@ BOOL	CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 			EndDialog(hWnd,0);
 
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
 
-void	do_enemy_setup(EventPoint *the_ep, BOOL do_adjust)
+void	do_enemy_setup(EventPoint *the_ep, bool do_adjust)
 {
 	//	Set the dialog.
 	adjust=do_adjust;

@@ -235,7 +235,7 @@ CBYTE *CREDITS_eidos_france[] =
 	NULL,
 
 	"~BResponsable localisation",
-	"\tStéphan Gonizzi",		// This has got an accent
+	"\tStï¿½phan Gonizzi",		// This has got an accent
 	NULL,
 
 	"~BResponsable RP",
@@ -250,7 +250,7 @@ CBYTE *CREDITS_eidos_france[] =
 	"\tAround the Word, Paris",
 	NULL,
 
-	"~BEnregistrement des voix françaises",	// This has got an accent in it!
+	"~BEnregistrement des voix franï¿½aises",	// This has got an accent in it!
 	"\tLe Lotus Rose, Paris",
 	"!"
 };
@@ -267,7 +267,7 @@ CBYTE *CREDITS_eidos_france[] =
 	NULL,
 
 	"~BLocalisation Manager",
-	"\tStéphan Gonizzi",
+	"\tStï¿½phan Gonizzi",
 	NULL,
 
 	"~BPR Manager",
@@ -304,10 +304,10 @@ CBYTE *CREDITS_eidos_germany[] =
 	NULL,
 
 	"~BQA-Manager",
-	"Sören Winterfeldt", // Accent!
+	"Sï¿½ren Winterfeldt", // Accent!
 	NULL,
 
-	"~BÜbersetzung",	// Accent!
+	"~Bï¿½bersetzung",	// Accent!
 	"\tViolet Media, Isabel Sterner",
 	NULL,
 
@@ -533,7 +533,7 @@ void CREDITS_draw()
 	{
 		flag      = FONT_FLAG_JUSTIFY_LEFT;
 		scale     = 0.6F;
-		dont_draw = FALSE;
+		dont_draw = false;
 	
 		if (cs->line[i] == NULL)
 		{
@@ -541,7 +541,7 @@ void CREDITS_draw()
 			// Blank line.
 			//
 
-			dont_draw = TRUE;
+			dont_draw = true;
 		}
 		else
 		if (y < 0.10F)
@@ -550,7 +550,7 @@ void CREDITS_draw()
 			// Dont draw...
 			//
 
-			dont_draw = TRUE;
+			dont_draw = true;
 		}
 		else
 		if (y < 0.30F)
@@ -573,7 +573,7 @@ void CREDITS_draw()
 			// Don't draw...
 			//
 
-			dont_draw = TRUE;
+			dont_draw = true;
 		}
 
 		if (cs->line[i])

@@ -25,7 +25,7 @@ SaveTab::SaveTab()
 
 	CurrentLevel	=	0;
 	HilitedLevel	=	0;
-	SaveState		=	TRUE;
+	SaveState		=	true;
 
 	InitControlSet(save_tab_def);
 
@@ -105,7 +105,7 @@ void	SaveTab::HandleTab(MFPoint *current_point)
 	UBYTE		update	=	0;
 	UWORD		select_pos;
 	MFPoint		local_point;
-	static BOOL	cleanup	=	FALSE;
+	static bool	cleanup	=	false;
 
 	
 	ModeTab::HandleTab(current_point);
@@ -117,13 +117,13 @@ void	SaveTab::HandleTab(MFPoint *current_point)
 	if(select_pos)
 	{
 		update	=	1;
-		cleanup	=	TRUE;
+		cleanup	=	true;
 	}
 
 	if(!update && cleanup)
 	{
 		update	=	1;
-		cleanup	=	FALSE;
+		cleanup	=	false;
 	}
 
 	if(update)
@@ -303,7 +303,7 @@ void	SaveTab::LoadLevel(void)
 	WaypointDef			the_w_def;
 
 
-	if(SaveState==FALSE)
+	if(SaveState==false)
 	{
 		if(!save_alert.HandleAlert("The current level has not been saved.","Do you wish to continue?"))
 		{
@@ -725,7 +725,7 @@ void	SaveTab::SaveLevel(void)
 
 
 	sprintf(level_name,"\\Fallen\\Levels\\Level%3.3d.lev",CurrentLevel);
-	save_file	=	FileCreate(level_name,TRUE);
+	save_file	=	FileCreate(level_name,true);
 	if(save_file!=FILE_CREATION_ERROR)
 	{
 		// Write file version.
@@ -872,7 +872,7 @@ void	SaveTab::SaveLevel(void)
 		FileClose(save_file);
 	}
 
-	SaveState	=	TRUE;
+	SaveState	=	true;
 	MapLevels();
 }
 

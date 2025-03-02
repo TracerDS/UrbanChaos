@@ -316,12 +316,12 @@ void BAT_set_anim(Thing *p_thing, SLONG anim)
 
 
 //
-// Animates the bat. Returns TRUE if the current anim is over.
+// Animates the bat. Returns true if the current anim is over.
 //
 
 SLONG BAT_animate(Thing *p_thing)
 {
-	SLONG ret = FALSE;
+	SLONG ret = false;
 	SLONG tween_step;
 
 	DrawTween *dt = p_thing->Draw.Tweened;
@@ -393,7 +393,7 @@ SLONG BAT_turn_to_target(Thing *p_thing)
 		p_target->WorldPos.Z >> 8,
 		16,
 		0x00ff00,
-		TRUE);
+		true);
 
 	*/
 
@@ -458,7 +458,7 @@ SLONG BAT_turn_to_place(Thing *p_thing, SLONG world_x, SLONG world_z)
 		world_z,
 		16,
 		0xffffff,
-		TRUE);
+		true);
 */
 
 	dx = world_x - (p_thing->WorldPos.X >> 8);
@@ -1551,8 +1551,8 @@ void BAT_normal(Thing *p_thing)
 									p_target,
 									NULL,
 									PERSON_DEATH_TYPE_OTHER,
-									FALSE,
-									FALSE);
+									false,
+									false);
 							}
 
 							p_bat->flag |= BAT_FLAG_ATTACKED;	// Don't do this until the next swoop.
@@ -1623,7 +1623,7 @@ void BAT_normal(Thing *p_thing)
 				want_z,
 				0,
 				0xff0000,
-				FALSE);
+				false);
 
 			*/
 
@@ -1753,7 +1753,7 @@ void BAT_normal(Thing *p_thing)
 			// Don't change state!
 			// 
 
-			end = FALSE;
+			end = false;
 
 			break;
 		case BAT_STATE_DEAD:
@@ -1817,7 +1817,7 @@ void BAT_normal(Thing *p_thing)
 					break;
 			}
 
-			end          = FALSE;
+			end          = false;
 			p_bat->timer = 0;
 
 			break;
@@ -1876,7 +1876,7 @@ void BAT_normal(Thing *p_thing)
 				{
 					if (p_bat->substate == BAT_SUBSTATE_YOMP_START)
 					{
-						end = FALSE;
+						end = false;
 
 						BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP);
 
@@ -1885,7 +1885,7 @@ void BAT_normal(Thing *p_thing)
 					else
 					if (p_bat->substate == BAT_SUBSTATE_YOMP_MIDDLE)
 					{
-						end = FALSE;
+						end = false;
 
 						if (p_bat->timer == 0)
 						{
@@ -1914,7 +1914,7 @@ void BAT_normal(Thing *p_thing)
 					// Emergency! How has this happened? Quick fix for now!
 					//
 
-					end          = TRUE;
+					end          = true;
 					p_bat->timer = 0;
 				}
 				else
@@ -1997,7 +1997,7 @@ void BAT_normal(Thing *p_thing)
 					{
 						if (p_bat->substate == BAT_SUBSTATE_YOMP_START)
 						{
-							end = FALSE;
+							end = false;
 
 							BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP);
 
@@ -2006,7 +2006,7 @@ void BAT_normal(Thing *p_thing)
 						else
 						if (p_bat->substate == BAT_SUBSTATE_YOMP_MIDDLE)
 						{
-							end = FALSE;
+							end = false;
 
 							if (p_bat->timer == 0)
 							{
@@ -2194,7 +2194,7 @@ void BAT_normal(Thing *p_thing)
 										darci,
 										NULL,
 										PERSON_DEATH_TYPE_OTHER,
-										FALSE,
+										false,
 										0);
 								}
 								else

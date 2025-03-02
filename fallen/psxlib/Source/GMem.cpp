@@ -21,7 +21,7 @@ SLONG bucket_mem_size;
 
 //---------------------------------------------------------------
 
-BOOL	SetupMemory()
+bool	SetupMemory()
 {
 
 #ifdef FS_ISO9660
@@ -37,7 +37,7 @@ BOOL	SetupMemory()
 	InitHeap3((void*)&my_heap[0],total_mem_size);
 	printf("Allocated Memory: %d\n",total_mem_size);
 
-	return(TRUE);
+	return(true);
 
 }
 

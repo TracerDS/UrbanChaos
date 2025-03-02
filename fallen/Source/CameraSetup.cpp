@@ -22,7 +22,7 @@ EventPoint  *use_me_to_debug;
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
@@ -66,7 +66,7 @@ BOOL	CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			CheckDlgButton(hWnd,IDC_LOCK_DIRECTION,camera_lock);
 			CheckDlgButton(hWnd,IDC_CANT_INTERRUPT,camera_cant_interrupt);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -81,16 +81,16 @@ BOOL	CALLBACK	cams_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					camera_cant_interrupt=IsDlgButtonChecked(hWnd,IDC_CANT_INTERRUPT);
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case	WM_CLOSE:
 //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

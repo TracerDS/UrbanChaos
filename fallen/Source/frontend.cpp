@@ -48,7 +48,7 @@
 #include "panel.h"
 
 #include "interfac.h"
-extern	BOOL	allow_debug_keys;
+extern	bool	allow_debug_keys;
 
 //----------------------------------------------------------------------------
 // EXTERNS
@@ -472,9 +472,9 @@ ULONG FRONTEND_leaf_colours[4] =
 MenuData  menu_data[50]; // max menu items...
 MenuState menu_state;
 CBYTE	  menu_buffer[2048];
-BOOL	  grabbing_key=0;
-BOOL	  grabbing_pad=0;
-BOOL	  m_bMovingPanel = FALSE;
+bool	  grabbing_key=0;
+bool	  grabbing_pad=0;
+bool	  m_bMovingPanel = false;
 Kibble	  kibble[512];
 UBYTE	  kibble_off[512];
 SLONG	  fade_state=0;
@@ -499,7 +499,7 @@ UBYTE	  complete_point=0;
 #endif
 UBYTE	  mission_launch=0;
 UBYTE	  previous_mission_launch=0;
-BOOL	  cheating=0;
+bool	  cheating=0;
 SLONG	  MidX=0, MidY;
 float	  ScaleX, ScaleY; // bwahahaha... and lo! the floats creep in! see the extent of my evil powers! muahahaha!  *cough*  er...
 #ifdef DEBUG
@@ -533,10 +533,10 @@ int g_iLevelNumber;
 SLONG	  GammaIndex;
 
 // That's not a kludge. THIS is a kludge.
-bool m_bGoIntoSaveScreen = FALSE;
+bool m_bGoIntoSaveScreen = false;
 
 
-BOOL bCanChangeJoypadButtons = FALSE;
+bool bCanChangeJoypadButtons = false;
 
 LPDIRECTDRAWSURFACE4 screenfull_back = NULL;
 LPDIRECTDRAWSURFACE4 screenfull_map = NULL;
@@ -586,7 +586,7 @@ void	FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, UBYTE *image_data)
 	if (FAILED(result))
 	{
 		// Probably out of memory.
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		*screen = NULL;
 		return;
 	}
@@ -689,7 +689,7 @@ void FRONTEND_scr_new_theme(
 		case 3:	the_display.lp_DD_Background_use_instead = screenfull_brief;  break;
 		case 4:	the_display.lp_DD_Background_use_instead = screenfull_config; break;
 		default:
-			ASSERT ( FALSE );
+			ASSERT ( false );
 			break;
 	}
 
@@ -808,7 +808,7 @@ void FRONTEND_recenter_menu ( void )
 	menu_state.scroll = 0;
 }
 
-ULONG	FRONTEND_fix_rgb(ULONG rgb, BOOL sel)
+ULONG	FRONTEND_fix_rgb(ULONG rgb, bool sel)
 {
 	rgb=fade_rgb;
 	if (sel) rgb=FRONTEND_AlterAlpha(rgb,0,1);
@@ -819,7 +819,7 @@ ULONG	FRONTEND_fix_rgb(ULONG rgb, BOOL sel)
 
 #define RandStream(s) ((UWORD)((s = ((s*69069)+1) )>>7))
 
-void	FRONTEND_draw_title(SLONG x, SLONG y, SLONG cutx, CBYTE *str, BOOL wibble, BOOL r_to_l) {
+void	FRONTEND_draw_title(SLONG x, SLONG y, SLONG cutx, CBYTE *str, bool wibble, bool r_to_l) {
 #ifdef TARGET_DC
 	SLONG rgb=wibble?0xffffffff:0x70ffffff;
 #else
@@ -892,7 +892,7 @@ LPDIRECTDRAWSURFACE4 lpFRONTEND_show_xition_LastBlit = NULL;
 void	FRONTEND_show_xition() {
 	RECT rc;
 
-	bool bDoBlit = FALSE;
+	bool bDoBlit = false;
 
 	if (menu_state.mode>=100)
 	{
@@ -900,7 +900,7 @@ void	FRONTEND_show_xition() {
 		rc.left=MidX-(fade_state*ScaleX); rc.right=MidX+(fade_state*ScaleX); // set to 5...
 		if ( rc.left < rc.right )
 		{
-			bDoBlit = TRUE;
+			bDoBlit = true;
 		}
 	}
 	else
@@ -917,7 +917,7 @@ void	FRONTEND_show_xition() {
 		}
 		if ( rc.right > 0 )
 		{
-			bDoBlit = TRUE;
+			bDoBlit = true;
 		}
 	}
 
@@ -983,7 +983,7 @@ void	FRONTEND_stop_xition()
 }
 
 
-void	FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = FALSE) {
+void	FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = false) {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 	float u,v,w,h;
@@ -1026,7 +1026,7 @@ void	FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = FALSE) {
 	pp[3].X=x+size; pp[3].Y=y+size; 
 	pp[3].u=w; pp[3].v=h;
 
-	POLY_add_quad(quad,(which<4)?POLY_PAGE_BIG_BUTTONS:POLY_PAGE_TINY_BUTTONS,FALSE,TRUE);
+	POLY_add_quad(quad,(which<4)?POLY_PAGE_BIG_BUTTONS:POLY_PAGE_TINY_BUTTONS,false,true);
 }
 
 #define KIBBLE_Z 0.5
@@ -1076,7 +1076,7 @@ void	FRONTEND_kibble_draw() {
 		pp[3].X=(k->x>>8)+x; pp[3].Y=(k->y>>8)+y; pp[3].Z=KIBBLE_Z;
 		pp[3].u=1; pp[3].v=1;
 
-		POLY_add_quad(quad,k->page,FALSE,TRUE);
+		POLY_add_quad(quad,k->page,false,true);
 
 	}
 }
@@ -1375,14 +1375,14 @@ void	FRONTEND_kibble_process() {
 		// Front-end running at less than 10 fps! Turn off a random kibble!
 		//
 
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
-		kibble_off[rand() & 0x1ff] = TRUE;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
+		kibble_off[rand() & 0x1ff] = true;
 	}
 	else
 	if (now < last + 50)
@@ -1391,14 +1391,14 @@ void	FRONTEND_kibble_process() {
 		// More than 20 fps...
 		//
 
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
-		kibble_off[rand() & 0x1ff] = FALSE;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
+		kibble_off[rand() & 0x1ff] = false;
 	}
 #endif
 
@@ -1536,7 +1536,7 @@ bool FRONTEND_save_savegame(CBYTE *mission_name, UBYTE slot) {
 
 	FileClose(file);
 
-	return TRUE;
+	return true;
 }
 
 bool FRONTEND_load_savegame(UBYTE slot) {
@@ -1571,16 +1571,16 @@ bool FRONTEND_load_savegame(UBYTE slot) {
 	}
 	FileClose(file);
 
-	return TRUE;
+	return true;
 }
 
 
-void FRONTEND_find_savegames ( bool bGreyOutEmpties=FALSE, bool bCheckSaveSpace=FALSE )
+void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=false )
 {
 	CBYTE dir[_MAX_PATH],ttl[_MAX_PATH];
 	WIN32_FIND_DATA data;
 	HANDLE handle;
-	BOOL   ok;
+	bool   ok;
 	SLONG	c0;
 	MenuData *md=menu_data;
 	CBYTE *str=menu_buffer;
@@ -2775,7 +2775,7 @@ void	FRONTEND_do_gamma() {
 
 }
 
-void	FRONTEND_mode(SBYTE mode, bool bDoTransition=TRUE) {
+void	FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 	// Reset this now.
 	dwAutoPlayFMVTimeout = timeGetTime() + AUTOPLAY_FMV_DELAY;
 
@@ -2882,12 +2882,12 @@ void	FRONTEND_mode(SBYTE mode, bool bDoTransition=TRUE) {
 		{
 			FRONTEND_init_xition();
 		}
-		FRONTEND_find_savegames ( FALSE, TRUE );
+		FRONTEND_find_savegames ( false, true );
 		FRONTEND_easy(mode);
 		menu_state.title=XLAT_str_ptr(X_SAVE_GAME);
 		break;
 	case FE_LOADSCREEN:
-		FRONTEND_find_savegames ( TRUE, FALSE );
+		FRONTEND_find_savegames ( true, false );
 		if ( bDoTransition )
 		{
 			FRONTEND_init_xition();
@@ -3147,7 +3147,7 @@ void	FRONTEND_draw_districts() {
 								0x000000,
 								256,
 								POLY_PAGE_FONT2D,
-								fade, FALSE);
+								fade, false);
 
 							FONT2D_DrawStrikethrough(
 								FONT2D_leftmost_x + 0 - STRIKETHROUGH_HANGOVER_L,
@@ -3156,7 +3156,7 @@ void	FRONTEND_draw_districts() {
 								rgb,
 								256,
 								POLY_PAGE_FONT2D,
-								fade, TRUE);
+								fade, true);
 						}
 					}
 					else
@@ -3183,7 +3183,7 @@ void	FRONTEND_draw_districts() {
 								0x000000,
 								256,
 								POLY_PAGE_FONT2D,
-								fade, FALSE);
+								fade, false);
 
 							FONT2D_DrawStrikethrough(
 								x				   - STRIKETHROUGH_HANGOVER_L,
@@ -3192,7 +3192,7 @@ void	FRONTEND_draw_districts() {
 								rgb,
 								256,
 								POLY_PAGE_FONT2D,
-								fade, TRUE);
+								fade, true);
 						}
 					}
 				}
@@ -3288,10 +3288,10 @@ void	FRONTEND_display()
 	ShowBackImage();
 	if ((fade_mode&3)==1) FRONTEND_show_xition();
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 #endif
 	FRONTEND_kibble_draw();
-	//POLY_frame_draw(FALSE, FALSE);
+	//POLY_frame_draw(false, false);
 
 
 	int iBigFontScale = BIG_FONT_SCALE;
@@ -3306,7 +3306,7 @@ void	FRONTEND_display()
 		}
 	}
 
-	//POLY_frame_init(FALSE, FALSE);
+	//POLY_frame_init(false, false);
 	for (i=0;i<menu_state.items;i++,md++) {
 		y=md->Y+menu_state.base-menu_state.scroll;
 		if ((y>=100)&&(y<=400)) {
@@ -3360,7 +3360,7 @@ void	FRONTEND_display()
 		DRAW2D_Tri(320,430, 335,415, 305,415,fade_rgb,0);
 	}
 	if (menu_state.title && (menu_state.mode != FE_MAINMENU)) {
-		BOOL dir;
+		bool dir;
 		x2=SIN(fade_state<<3)>>10;
 		switch(menu_state.mode) {
 		case FE_MAPSCREEN:
@@ -3378,14 +3378,14 @@ void	FRONTEND_display()
 		FontPage=POLY_PAGE_NEWFONT;
 		FRONTEND_draw_title(x+2,44,x2,menu_state.title,0,dir);
 #ifndef TARGET_DC
-		POLY_frame_draw(FALSE, FALSE);
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_draw(false, false);
+		POLY_frame_init(false, false);
 #endif
 		FontPage=POLY_PAGE_NEWFONT_INVERSE;
 		FRONTEND_draw_title(x,40,x2,menu_state.title,1,dir);
 #ifndef TARGET_DC
-		POLY_frame_draw(FALSE, FALSE);
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_draw(false, false);
+		POLY_frame_init(false, false);
 #endif
 		FRONTEND_draw_button(x2,8,whichmap[menu_theme]);
 	}
@@ -3393,8 +3393,8 @@ void	FRONTEND_display()
 	if ((menu_state.mode>=100)&&*menu_buffer) {
 		//DRAW2D_Box(0,48,640,432,fade_rgb&0xff000000,1,127);
 #ifndef TARGET_DC
-		POLY_frame_draw(FALSE, FALSE);
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_draw(false, false);
+		POLY_frame_init(false, false);
 #endif
 		x=SIN(fade_state<<3)>>10;
 		FRONTEND_draw_button(642-(x*10),8,whichmap[menu_theme]);
@@ -3427,7 +3427,7 @@ extern void PANEL_draw_quad( float left,float top,float right,float bottom,SLONG
 	}
 
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE, FALSE);
+	POLY_frame_draw(false, false);
 #endif
 
 }
@@ -3497,7 +3497,7 @@ void	FRONTEND_storedata() {
 	}
 }
 
-BOOL	FRONTEND_ValidMission(SWORD sel) {
+bool	FRONTEND_ValidMission(SWORD sel) {
 	CBYTE *str=menu_buffer;
 	UBYTE id=*str;
 
@@ -3507,7 +3507,7 @@ BOOL	FRONTEND_ValidMission(SWORD sel) {
 		str+=strlen(str)+1;
 		id=*str;
 	}
-	return (BOOL)(mission_hierarchy[id]&4);
+	return (bool)(mission_hierarchy[id]&4);
 }
 
 UBYTE	FRONTEND_input() {
@@ -3850,7 +3850,7 @@ UBYTE	FRONTEND_input() {
 			break;
 		case OT_PADMOVE:
 			// Enter pad-move mode.
-			m_bMovingPanel = TRUE;
+			m_bMovingPanel = true;
 			break;
 		case OT_BUTTON:
 		case OT_BUTTON_L:
@@ -4062,7 +4062,7 @@ UBYTE	FRONTEND_input() {
 void	FRONTEND_init ( bool bGoToTitleScreen )
 {
 
-	static bool bFirstTime = TRUE;
+	static bool bFirstTime = true;
 
 
 	dwAutoPlayFMVTimeout = timeGetTime() + AUTOPLAY_FMV_DELAY;
@@ -4075,8 +4075,8 @@ void	FRONTEND_init ( bool bGoToTitleScreen )
 	// stuff actually works properly. Obscure or what?
 extern UBYTE EWAY_conv_active;
 extern SLONG EWAY_cam_active;
-	EWAY_conv_active = FALSE;
-	EWAY_cam_active = FALSE;
+	EWAY_conv_active = false;
+	EWAY_cam_active = false;
 
 	TICK_RATIO = (1 << TICK_SHIFT);
 
@@ -4090,7 +4090,7 @@ extern SLONG EWAY_cam_active;
 		pcSpeechLanguageDir = "talk2_french\\";
 		break;
 	default:
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		break;
 	}
 
@@ -4184,7 +4184,7 @@ void MENUFONT_MergeLower();
 	{
 		// Just won a mission - going into save game.
 		FRONTEND_mode(FE_SAVESCREEN);
-		m_bGoIntoSaveScreen = FALSE;
+		m_bGoIntoSaveScreen = false;
 	}
 	else
 	{
@@ -4206,7 +4206,7 @@ void MENUFONT_MergeLower();
 		return;
 	}
 
-	bFirstTime = FALSE;
+	bFirstTime = false;
 }
 
 void	FRONTEND_level_lost() 
@@ -4282,7 +4282,7 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 		{
 	#ifdef TARGET_DC
 			// Not used.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 	#else
 			the_game.RoperConstitution=NET_PLAYER(0)->Genus.Player->Constitution;
 			the_game.RoperStrength=NET_PLAYER(0)->Genus.Player->Strength;
@@ -4304,7 +4304,7 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 	InitBackImage(menu_back_names[menu_theme]);
 	FRONTEND_kibble_init();*/
 	FRONTEND_mode(FE_SAVESCREEN);
-	m_bGoIntoSaveScreen = TRUE;
+	m_bGoIntoSaveScreen = true;
 }
 
 void FRONTEND_playambient3d(SLONG channel, SLONG wave_id, SLONG flags, UBYTE height = 0)
@@ -4555,42 +4555,42 @@ extern int g_iCheatNumber;
 
 		} whattoload[] =
 		{
-			{"testdrive1a.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"FTutor1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"Assault1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"police1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"police2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"Bankbomb1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"police3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"Gangorder2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"police4.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"bball2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"wstores1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"e3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | 0, /* balrog ? */ FALSE},
-			{"westcrime1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"carbomb1.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"botanicc.ucm", (1 << PERSON_MIB1) | 0, /* balrog ? */ FALSE},
-			{"Semtex.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"AWOL1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"mission2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"park2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"MIB.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"skymiss2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"factory1.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"estate2.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"Stealtst1.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"snow2.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"Gordout1.ucm", (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"Baalrog3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ TRUE },
-			{"Finale1.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"Gangorder1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"FreeCD1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"jung3.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ FALSE},
-			{"fight1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"fight2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"testdrive2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"testdrive3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
-			{"Album1.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ FALSE},
+			{"testdrive1a.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"FTutor1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"Assault1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"police1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"police2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"Bankbomb1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"police3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"Gangorder2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"police4.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"bball2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"wstores1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"e3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | 0, /* balrog ? */ false},
+			{"westcrime1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"carbomb1.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"botanicc.ucm", (1 << PERSON_MIB1) | 0, /* balrog ? */ false},
+			{"Semtex.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"AWOL1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"mission2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"park2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"MIB.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"skymiss2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"factory1.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"estate2.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"Stealtst1.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"snow2.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"Gordout1.ucm", (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"Baalrog3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ true },
+			{"Finale1.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"Gangorder1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"FreeCD1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"jung3.ucm", (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | 0, /* balrog ? */ false},
+			{"fight1.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"fight2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"testdrive2.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"testdrive3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
+			{"Album1.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
 
 			{"!"}
 		};
@@ -4666,7 +4666,7 @@ extern int g_iCheatNumber;
 			// No violence.
 			//
 
-			VIOLENCE = FALSE;
+			VIOLENCE = false;
 		}
 		else
 		{
@@ -4674,7 +4674,7 @@ extern int g_iCheatNumber;
 			// Default violence.
 			//
 
-			VIOLENCE = TRUE;
+			VIOLENCE = true;
 		}
 
 		if (cheating) FRONTEND_diddle_stats();

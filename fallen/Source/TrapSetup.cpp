@@ -47,7 +47,7 @@ void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 
 CBYTE *blank_string[] = { "!" };
 
-BOOL	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -108,7 +108,7 @@ BOOL	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							MAKELONG(trap_range,0)
 						);
 
-			return	TRUE;
+			return	true;
 
 		case WM_MEASUREITEM:
 			return ticklist_measure(hWnd, wParam, lParam);
@@ -136,7 +136,7 @@ BOOL	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					trap_range= SendMessage (GetDlgItem(hWnd,IDC_SPIN3),UDM_GETPOS,0,0);
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 
 			}
 			break;
@@ -144,9 +144,9 @@ BOOL	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 		case	WM_CLOSE:
 			ticklist_close(hWnd, IDC_LIST1);
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

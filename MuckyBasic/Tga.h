@@ -56,7 +56,7 @@ void TGA_save(
 		SLONG        width,
 		SLONG        height,
 		TGA_Pixel   *data,
-		SLONG        contains_alpha);	// FALSE => Save without the alpha data.
+		SLONG        contains_alpha);	// false => Save without the alpha data.
 
 
 

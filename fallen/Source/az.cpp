@@ -49,7 +49,7 @@ void AZ_create_lines()
 
 	for (x = 0; x < MAP_WIDTH; x++)
 	{
-		found_curb = FALSE;
+		found_curb = false;
 
 		for (z = 0; z < MAP_HEIGHT; z++)
 		{
@@ -62,7 +62,7 @@ void AZ_create_lines()
 
 				if (!found_curb)
 				{
-					found_curb = TRUE;
+					found_curb = true;
 					x1         = x;
 					z1         = z;
 				}
@@ -71,7 +71,7 @@ void AZ_create_lines()
 			{
 				if (found_curb)
 				{
-					found_curb = FALSE;
+					found_curb = false;
 					x2         = x;
 					z2         = z - 1;
 
@@ -99,7 +99,7 @@ void AZ_create_lines()
 
 	for (z = 0; z < MAP_HEIGHT; z++)
 	{
-		found_curb = FALSE;
+		found_curb = false;
 
 		for (x = 0; x < MAP_WIDTH; x++)
 		{
@@ -112,7 +112,7 @@ void AZ_create_lines()
 
 				if (!found_curb)
 				{
-					found_curb = TRUE;
+					found_curb = true;
 					x1         = x;
 					z1         = z;
 				}
@@ -121,7 +121,7 @@ void AZ_create_lines()
 			{
 				if (found_curb)
 				{
-					found_curb = FALSE;
+					found_curb = false;
 					x2         = x - 1;
 					z2         = z;
 

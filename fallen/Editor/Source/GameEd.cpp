@@ -55,7 +55,7 @@ void	GameEditor::SetupModule()
 	HilitedItem.ItemType	=	0;
 	LastItem.ItemType		=	0;
 	SelectedItem.ItemType	=	0;
-	FlashState				=	TRUE;
+	FlashState				=	true;
 	EdEngine				=	engine;
 	SelectMode				=	0;
 
@@ -170,7 +170,7 @@ void	GameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 		case	NO_CLICK:
 			break;
 		case	LEFT_CLICK:
-			SaveMode->SetSaveState(FALSE);
+			SaveMode->SetSaveState(false);
 			switch(HilitedItem.ItemType)
 			{
 				case	ED_ITEM_NONE:
@@ -377,7 +377,7 @@ void	GameEditor::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
 
 void	GameEditor::HandleModule()
 {
-	BOOL			flash	=	FALSE;
+	bool			flash	=	false;
 	ULONG			update	=	0;
    	SLONG			dx		=	0,
 					dy		=	0,
@@ -390,7 +390,7 @@ void	GameEditor::HandleModule()
 	Time(&current_time);
 	if(current_time.MSeconds>500)
 	{
-		flash		=	TRUE;
+		flash		=	true;
 	}
 	if(FlashState!=flash)
 	{
@@ -1021,7 +1021,7 @@ void	GameEditor::GameEdEngine()
 							((BucketSphereArea*)current_bucket_pool)->X				=	new_point.X;
 							((BucketSphereArea*)current_bucket_pool)->Y				=	new_point.Y;
 							((BucketSphereArea*)current_bucket_pool)->Radius		=	(p_mthing->Data[0]*EdEngine.Scale)>>11;
-							((BucketSphereArea*)current_bucket_pool)->ShowSizeHook	=	TRUE;
+							((BucketSphereArea*)current_bucket_pool)->ShowSizeHook	=	true;
 							((BucketSphereArea*)current_bucket_pool)->EditRef.ItemType	=	ED_ITEM_SIZE_HOOK;
 							((BucketSphereArea*)current_bucket_pool)->EditRef.ItemRef	=	CurrentThing;
 

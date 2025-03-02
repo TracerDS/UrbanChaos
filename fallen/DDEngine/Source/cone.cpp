@@ -489,7 +489,7 @@ void CONE_clip(
 	// crosses over the edge of a polygon, then create a point at the intersection.
 	//
 
-	point_info_then->failed_side = TRUE;
+	point_info_then->failed_side = true;
 
 	for (i = 0; i < CONE_point_upto; i++)
 	{
@@ -507,11 +507,11 @@ void CONE_clip(
 			// This point is on the front side of the quad.
 			//
 
-			point_info_now->failed_side = TRUE;
+			point_info_now->failed_side = true;
 		}
 		else
 		{
-			point_info_now->failed_side = FALSE;
+			point_info_now->failed_side = false;
 
 			//
 			// The origin of the cone is on the front of the quad and this
@@ -584,7 +584,7 @@ void CONE_clip(
 
 					point_info_now->failed_dprod = j;
 
-					if (point_info_then->failed_side  == FALSE &&
+					if (point_info_then->failed_side  == false &&
 						point_info_then->failed_dprod == num_points)
 					{
 						//
@@ -659,7 +659,7 @@ void CONE_clip(
 			cp->z      = iz;
 			cp->colour = icolour;
 
-			if (point_info_then->failed_side  == FALSE &&
+			if (point_info_then->failed_side  == false &&
 				point_info_then->failed_dprod  < num_points)
 			{
 				//
@@ -783,7 +783,7 @@ void CONE_intersect_square(
 
 	if (f_list)
 	{
-		exit = FALSE;
+		exit = false;
 
 		while(!exit)
 		{
@@ -794,7 +794,7 @@ void CONE_intersect_square(
 			if (facet < 0)
 			{
 				facet = -facet;
-				exit  =  TRUE;
+				exit  =  true;
 			}
 			
 			//
@@ -1135,7 +1135,7 @@ void CONE_draw()
 
 		if (POLY_valid_triangle(tri))
 		{
-			POLY_add_triangle(tri, POLY_PAGE_ADDITIVE, FALSE);
+			POLY_add_triangle(tri, POLY_PAGE_ADDITIVE, false);
 		}
 	}
 }

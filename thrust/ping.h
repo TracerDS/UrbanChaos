@@ -14,7 +14,7 @@
 // After calling this function GAME_turn, GAME_process and GAME_tick are
 // all set to the same values are the server (theoretically).
 //
-// Returns FALSE on failure.
+// Returns false on failure.
 //
 
 SLONG PING_do();

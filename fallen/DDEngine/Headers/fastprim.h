@@ -16,7 +16,7 @@ void FASTPRIM_init();
 
 
 //
-// Draws a prim fastly. Return TRUE if it did it okay.
+// Draws a prim fastly. Return true if it did it okay.
 //
 
 SLONG FASTPRIM_draw(

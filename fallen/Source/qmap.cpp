@@ -150,7 +150,7 @@ void QMAP_compress_all()
 
 //
 // Makes sure there is then given amount of room at the end of the all array.
-// Returns TRUE on success.
+// Returns true on success.
 //
 
 SLONG QMAP_make_room_at_the_end_of_the_all_array(SLONG elements)
@@ -161,7 +161,7 @@ SLONG QMAP_make_room_at_the_end_of_the_all_array(SLONG elements)
 
 	if (QMAP_all_upto + elements <= QMAP_MAX_ALL)
 	{
-		return TRUE;
+		return true;
 	}
 
 	//
@@ -172,14 +172,14 @@ SLONG QMAP_make_room_at_the_end_of_the_all_array(SLONG elements)
 
 	if (QMAP_all_upto + elements <= QMAP_MAX_ALL)
 	{
-		return TRUE;
+		return true;
 	}
 
 	//
 	// No room, even after compression :o(
 	//
 
-	return FALSE;
+	return false;
 }
 
 

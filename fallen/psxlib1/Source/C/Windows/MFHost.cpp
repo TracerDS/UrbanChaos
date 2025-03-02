@@ -65,15 +65,15 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR szCmdLine
 
 //---------------------------------------------------------------
 
-BOOL	SetupHost(ULONG flags)
+bool	SetupHost(ULONG flags)
 {
 	DWORD			id;
 
 
 	if(!SetupMemory())
-		return	FALSE;
+		return	false;
 	if(!SetupKeyboard())
-		return	FALSE;
+		return	false;
 
 	if(flags&H_CREATE_LOG)
 	{
@@ -111,11 +111,11 @@ BOOL	SetupHost(ULONG flags)
 		// This could potentially cause a problem if the shell window couldn't be created.
 		while(!DisplayActive)
 		{
-			SleepEx(100,FALSE);
+			SleepEx(100,false);
 		}
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -284,7 +284,7 @@ ULONG	ShellThread(ULONG arg)
 	    	DispatchMessage(&msg);
 		}
 	}
-	SleepEx(100,FALSE);
+	SleepEx(100,false);
 	DisplayActive	=	0;
 	MFShellActive	=	0;
 
@@ -375,10 +375,10 @@ int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 			break;
 
 		case IDRETRY:
-			return TRUE;
+			return true;
 
 	}
-	return FALSE;
+	return false;
 
 }
 

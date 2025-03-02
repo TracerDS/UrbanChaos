@@ -27,7 +27,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
 //---------------------------------------------------------------
 
-BOOL	SetupKeyboard(void)
+bool	SetupKeyboard(void)
 {
 #ifndef TARGET_DC
 	AltFlag		=	0;
@@ -51,11 +51,11 @@ BOOL	SetupKeyboard(void)
 	if(KeyboardHook==NULL)
 	{
 		// Unable to set up keyboard.
-		return	FALSE;
+		return	false;
 	}
 */
 #endif
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -160,7 +160,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 
 	SetFlagsFromKeyArray();
 
-	return	FALSE;
+	return	false;
 }
 
 //

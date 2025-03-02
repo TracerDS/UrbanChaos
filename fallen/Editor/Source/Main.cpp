@@ -278,8 +278,8 @@ void	load_game_textures(UBYTE flags)
 	//
 
 void	load_texture_instyles(UBYTE editor, UBYTE world);
-	load_texture_instyles(TRUE, editor_texture_set);
-	load_texture_styles(TRUE, editor_texture_set);
+	load_texture_instyles(true, editor_texture_set);
+	load_texture_styles(true, editor_texture_set);
 	load_game_textures_psx(flags);
 }
 

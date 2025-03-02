@@ -139,7 +139,7 @@ void POLY_transform_c(
 		float       world_y,
 		float       world_z,
 		POLY_Point *pt,
-		bool		bResetTheFTRV = FALSE);
+		bool		bResetTheFTRV = false);
 
 #define POLY_transform POLY_transform_c
 
@@ -155,14 +155,14 @@ void POLY_transform(
 		float       world_y,
 		float       world_z,
 		POLY_Point *pt,
-		bool		bUnused = FALSE);
+		bool		bUnused = false);
 
 void POLY_transform_c(
 		float       world_x,
 		float       world_y,
 		float       world_z,
 		POLY_Point *pt,
-		bool		bUnused = FALSE);
+		bool		bUnused = false);
 
 
 #endif //#else //#ifdef TARGET_DC
@@ -194,7 +194,7 @@ void POLY_transform_from_view_space(POLY_Point *pt);
 
 //
 // Returns the screen coordinates if the point is not
-// zclipped. Returns TRUE on success.  This transformation
+// zclipped. Returns true on success.  This transformation
 // function does not care about the z-range.
 //
 
@@ -234,7 +234,7 @@ float POLY_approx_len(float dx, float dy);
 //
 // Gives the screen position and approximate screen radius of
 // the circle corresponding to the given sphere in world space.
-// Returns FALSE if the sphere is behind you.
+// Returns false if the sphere is behind you.
 //
 
 SLONG POLY_get_sphere_circle(
@@ -311,7 +311,7 @@ SLONG POLY_sphere_visible(
 		float radius);
 
 //
-// Returns TRUE if the given texture page is drawn two-pass with the
+// Returns true if the given texture page is drawn two-pass with the
 // next higher-numbered texture page over the top of it.
 //
 
@@ -434,7 +434,7 @@ void POLY_fadeout_buffer();
 //
 // While adding triangles to a page, if there are enough triangles using the same
 // texture, then they are drawn immediately. The exeption to this is the shadow
-// page which is only draw with a call to POLY_frame_draw(TRUE).
+// page which is only draw with a call to POLY_frame_draw(true).
 //
 
 //
@@ -575,7 +575,7 @@ void POLY_fadeout_buffer();
 
 //
 // Clears all buffers, ready for a new frame.
-// Checks the clipflags and backface culling of the triangle and returns TRUE if it should be drawn.
+// Checks the clipflags and backface culling of the triangle and returns true if it should be drawn.
 // Adds a triangle and a quad.
 // Adds a line. The widths are given in world-space sizes. if (sort_to_front) then lines will be drawn last with no z-buffer.
 // Sets the box against which clip-lines are clipped.
@@ -583,13 +583,13 @@ void POLY_fadeout_buffer();
 // Draws all the triangles and quads.
 //
 
-void  POLY_frame_init    (SLONG keep_shadow_page, SLONG keep_text_page);	// TRUE => doesn't delete the shadow polygons.
+void  POLY_frame_init    (SLONG keep_shadow_page, SLONG keep_text_page);	// true => doesn't delete the shadow polygons.
 SLONG POLY_valid_triangle(POLY_Point *p[3]);
 SLONG POLY_valid_quad    (POLY_Point *p[4]);
 SLONG POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
 void  POLY_add_poly      (POLY_Point** poly, SLONG poly_points, SLONG page);
-void  POLY_add_triangle  (POLY_Point *p[3], SLONG page, SLONG shall_i_backface_cull, SLONG generate_clip_flags = FALSE);
-void  POLY_add_quad      (POLY_Point *p[4], SLONG page, SLONG shall_i_backface_cull, SLONG generate_clip_flags = FALSE);
+void  POLY_add_triangle  (POLY_Point *p[3], SLONG page, SLONG shall_i_backface_cull, SLONG generate_clip_flags = false);
+void  POLY_add_quad      (POLY_Point *p[4], SLONG page, SLONG shall_i_backface_cull, SLONG generate_clip_flags = false);
 void  POLY_add_quad_split2(POLY_Point *pp[4], SLONG page, SLONG backface_cull);
 void  POLY_create_cylinder_points(POLY_Point* p1, POLY_Point* p2, float width, POLY_Point* pout);
 void  POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG page, UBYTE sort_to_front);
@@ -597,7 +597,7 @@ void  POLY_add_line_tex  (POLY_Point *p1, POLY_Point *p2, float width1, float wi
 void  POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, ULONG colour);
 void  POLY_clip_line_box (float sx1, float sy1, float sx2, float sy2);
 void  POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, ULONG colour);
-void  POLY_frame_draw    (SLONG draw_shadow_page, SLONG draw_text_page);	// FALSE => Doens't draw the shadow polygons.
+void  POLY_frame_draw    (SLONG draw_shadow_page, SLONG draw_text_page);	// false => Doens't draw the shadow polygons.
 
 void  POLY_sort_sewater_page();		// Sorts the sewater page polys in order of distance from the eye.
 
@@ -623,7 +623,7 @@ void POLY_add_shared_point(POLY_Point *pp);
 void POLY_add_shared_tri  (UWORD p1, UWORD p2, UWORD p3);	// 0 => The first shared point added.
 
 //
-// Returns TRUE if the given screen coordinate is inside the quad.
+// Returns true if the given screen coordinate is inside the quad.
 // If it is, then it returns the amount along the two vectors 0-1, 0-2
 // that the point lies.
 //

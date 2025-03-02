@@ -67,25 +67,25 @@ SLONG CloseDisplay()
 {
 	grGlideShutdown();
 
-	return TRUE;
+	return true;
 }
 
 void DebugText(char *, ...)
 {
 }
 
-BOOL SetupHost(ULONG flags)
+bool SetupHost(ULONG flags)
 {
-	return TRUE;
+	return true;
 }
 
 void ResetHost()
 {
 }
 
-BOOL LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
+bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 {
-	return FALSE;
+	return false;
 }
 
 void LoadBackImage(UBYTE *input)
@@ -253,7 +253,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int
 
 
 	WNDCLASS    wc;
-	BOOL        rc;
+	bool        rc;
 
 	wc.style = CS_DBLCLKS;
 	wc.lpfnWndProc = OS_message_handler;
@@ -339,7 +339,7 @@ void di_error(HRESULT dd_err)
 {
 }
 
-BOOL LibShellActive()
+bool LibShellActive()
 {
 	MSG msg;
 
@@ -355,7 +355,7 @@ BOOL LibShellActive()
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 #include "ddlib.h"

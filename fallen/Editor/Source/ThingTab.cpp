@@ -189,12 +189,12 @@ UWORD	ThingTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 void	ThingTab::HandleTab(MFPoint *current_point)
 {
 	UBYTE		update	=	UPDATE_NONE;
-	static BOOL	cleanup	=	FALSE;
+	static bool	cleanup	=	false;
 
 	
 	if(TabMode)
 	{
-		cleanup	=	TRUE;
+		cleanup	=	true;
 		return;
 	}
 	if(TabData)
@@ -208,12 +208,12 @@ void	ThingTab::HandleTab(MFPoint *current_point)
 	ModeTab::HandleTab(current_point);
 	
 	if(CurrentSet.HandleControlSet(current_point))
-		cleanup	=	TRUE;
+		cleanup	=	true;
 
 	if(update==UPDATE_NONE && cleanup)
 	{
 		update	=	UPDATE_ALL;
-		cleanup	=	FALSE;
+		cleanup	=	false;
 	}
 
 	UpdateTab(update);
@@ -357,7 +357,7 @@ void	ThingTab::HandleBuildingControl(UWORD control_id)
 
 EditComList	*ThingTab::SelectCommandList(void)
 {
-	BOOL			exit		=	FALSE;
+	bool			exit		=	false;
 	UBYTE			update		=	2;
 	UWORD			select_pos;
 	SLONG			c0;
@@ -426,7 +426,7 @@ EditComList	*ThingTab::SelectCommandList(void)
 			if(select_pos)
 			{
 				selected_list	=	hilited_list;
-				exit			=	TRUE;
+				exit			=	true;
 			}
 			else
 			{

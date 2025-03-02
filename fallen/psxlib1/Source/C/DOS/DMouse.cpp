@@ -201,7 +201,7 @@ static	void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 	{
 		// Redraw mouse from/to phyiscal screen, saving original vesa page
 		vesa_page = lbVesaPage;
-		screen_remove(FALSE);
+		screen_remove(false);
 		screen_place();
 		if (lbDisplay.VesaIsSetUp)
 		{

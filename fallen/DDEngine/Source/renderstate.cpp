@@ -34,15 +34,15 @@ RenderState::RenderState(DWORD mag_filter, DWORD min_filter)
 	TextureMapBlend = D3DTBLEND_MODULATE;
 
 	ZEnable = D3DZB_TRUE;
-	ZWriteEnable = TRUE;
+	ZWriteEnable = true;
 	ZFunc = D3DCMP_LESSEQUAL;
-	ColorKeyEnable = FALSE;
+	ColorKeyEnable = false;
 
-	FogEnable = TRUE;
-	AlphaTestEnable = FALSE;
+	FogEnable = true;
+	AlphaTestEnable = false;
 	SrcBlend = D3DBLEND_ONE;
 	DestBlend = D3DBLEND_ZERO;
-	AlphaBlendEnable = FALSE;
+	AlphaBlendEnable = false;
 	CullMode = D3DCULL_NONE;
 
 	ZBias = 0;
@@ -77,8 +77,8 @@ void RenderState::SetTempTransparent()
 
 		SrcBlend = D3DBLEND_SRCALPHA;
 		DestBlend = D3DBLEND_INVSRCALPHA;
-		AlphaBlendEnable = TRUE;
-		ZWriteEnable = FALSE;
+		AlphaBlendEnable = true;
+		ZWriteEnable = false;
 		TextureMapBlend = D3DTBLEND_MODULATEALPHA;
 		Effect = RS_None;
 	}
@@ -233,7 +233,7 @@ void RenderState::InitScene(DWORD fog_colour)
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHAREF, 0x07);
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHAFUNC, D3DCMP_GREATER);
 
-	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE, TRUE); 
+	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE, true); 
 
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGCOLOR, fog_colour);
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLEMODE, D3DFOG_LINEAR);
@@ -320,13 +320,13 @@ void RenderState::SetChanged()
 	}
 }
 
-// Returns TRUE if the renderstates are equivalent,
+// Returns true if the renderstates are equivalent,
 // ie you don't need any renderstate changes to go from one to the other.
 bool RenderState::IsSameRenderState ( RenderState *pRS )
 {
-	bool bRes = TRUE; 
+	bool bRes = true; 
 
-#define CHECK_RS(name) if ( name != pRS->name ) { bRes = FALSE; }
+#define CHECK_RS(name) if ( name != pRS->name ) { bRes = false; }
 
 	CHECK_RS ( TextureMap );
 	CHECK_RS ( TextureAddress );

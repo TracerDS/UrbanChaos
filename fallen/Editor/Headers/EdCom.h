@@ -11,7 +11,7 @@
 
 struct EditCondition
 {
-	BOOL			Used;
+	bool			Used;
 
 	UWORD			Flags,
 					ConditionType,
@@ -40,7 +40,7 @@ void			free_ed_condition(EditCondition *the_condition);
 
 struct EditCondList
 {
-	BOOL			Used;
+	bool			Used;
 	CBYTE			CListName[32];
 
 	EditCondition	*ConditionList,
@@ -76,7 +76,7 @@ void			move_condition(EditCondList *the_clist,EditCondition *insert_point,EditCo
 
 struct EditCommand
 {
-	BOOL			Used;
+	bool			Used;
 
 	UWORD			Flags,
 					CommandType,
@@ -105,7 +105,7 @@ void			free_ed_command(EditCommand *the_command);
 
 struct EditComList
 {
-	BOOL			Used;
+	bool			Used;
 	CBYTE			ComListName[32];
 
 	EditCommand		*CommandList,

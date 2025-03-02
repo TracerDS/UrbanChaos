@@ -37,7 +37,7 @@ SLONG TEXTURE_flame_lock()
 		TEXTURE_shadow_bitmap = NULL;
 		TEXTURE_shadow_pitch  = 0;
 
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -50,7 +50,7 @@ SLONG TEXTURE_flame_lock()
 		TEXTURE_shadow_shift_blue  = TEXTURE_texture[TEXTURE_page_menuflame].shift_blue;
 		TEXTURE_shadow_shift_alpha = TEXTURE_texture[TEXTURE_page_menuflame].shift_alpha;
 
-		return TRUE;
+		return true;
 	}
 }
 
@@ -629,7 +629,7 @@ void Flamengine::Blit() {
 	pp[3].colour	=	0xffffff;
 	pp[3].specular	=	0xff000000;
 
-	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,false,true);
 
 }
 
@@ -682,7 +682,7 @@ void Flamengine::BlitHalf(CBYTE side) {
 	pp[3].colour	=	0xffffff;
 	pp[3].specular	=	0xff000000;
 
-	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,false,true);
 
 }
 
@@ -732,7 +732,7 @@ void Flamengine::BlitOffset() {
 	pp[3].colour	=	0xffffff;
 	pp[3].specular	=	0xff000000;
 
-	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,false,true);
 
 	pp[0].u		=	0.1f; // L
 	pp[0].v		=	0.2f; // T
@@ -747,7 +747,7 @@ void Flamengine::BlitOffset() {
 	pp[2].colour	=	0xafafaf;
 	pp[3].colour	=	0xafafaf;
 
-	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_MENUFLAME,false,true);
 
 }
 
@@ -765,12 +765,12 @@ void Flamengine::Feedback() {
 	the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_TARGET);
 
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 #endif
 //	Blit();
 	BlitOffset();
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 #endif
    
 

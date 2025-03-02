@@ -190,7 +190,7 @@ void	QSManager::ActivateSound(void)
 	//	Activate QSound.
 	if(!IsActive())
 	{
-		if(!QS(Activate(HQMixer,TRUE)))
+		if(!QS(Activate(HQMixer,true)))
 			ActiveOn();
 	}
 }
@@ -202,7 +202,7 @@ void	QSManager::DeactivateSound(void)
 	//	Deactivate QSound.
 	if(IsActive())
 	{
-		if(!QS(Activate(HQMixer,FALSE)))
+		if(!QS(Activate(HQMixer,false)))
 			ActiveOff();
 	}
 }
@@ -354,8 +354,8 @@ HRESULT	QSManager::PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WavePar
 {
 	float			f_scale;
 	int				channel;
-	BOOL			channel_done	=	FALSE,
-					has_channel		=	FALSE;
+	bool			channel_done	=	false,
+					has_channel		=	false;
 	SLONG			c0,
 					play_flags	=	QMIX_QUEUEWAVE,
 					play_loop	=	0;
@@ -387,7 +387,7 @@ HRESULT	QSManager::PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WavePar
 	{
 		if(Channels[c0].GetUserRef()==wave_ref)
 		{
-			has_channel	=	TRUE;
+			has_channel	=	true;
 			break;
 		}
 	}
@@ -528,7 +528,7 @@ HRESULT	QSManager::PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WavePar
 
 HRESULT	QSManager::StopWave(SLONG wave_ref,SLONG wave_id)
 {
-	BOOL			has_channel	=	FALSE;
+	bool			has_channel	=	false;
 	SLONG			c0;
 	TCHAR			error_text[256];
 	QMIX_RESULT		r;
@@ -539,7 +539,7 @@ HRESULT	QSManager::StopWave(SLONG wave_ref,SLONG wave_id)
 	{
 		if(Channels[c0].GetUserRef()==wave_ref)
 		{
-			has_channel	=	TRUE;
+			has_channel	=	true;
 			break;
 		}
 	}

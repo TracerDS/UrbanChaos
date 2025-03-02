@@ -27,7 +27,7 @@ typedef struct
 	UBYTE     x;
 	UBYTE     y;
 	UBYTE     num;
-	UBYTE     last;	// TRUE => there are no more update structures.
+	UBYTE     last;	// true => there are no more update structures.
 	IC_Packet ip[];
 
 } COMP_Update;
@@ -54,7 +54,7 @@ TGA_Pixel COMP_tga_colour(float x, float y)
 #ifdef TARGET_DC
 	// This has been spoofed to save memory -
 	// hopefully we won't need it.
-	ASSERT(FALSE);
+	ASSERT(false);
 	return ans;
 #else
 	SLONG px;
@@ -81,8 +81,8 @@ SLONG COMP_load(CBYTE *filename, COMP_Frame *cf)
 #ifdef TARGET_DC
 	// This has been spoofed to save memory -
 	// hopefully we won't need it.
-	ASSERT(FALSE);
-	return TRUE;
+	ASSERT(false);
+	return true;
 #else
 
 	SLONG px;
@@ -108,7 +108,7 @@ SLONG COMP_load(CBYTE *filename, COMP_Frame *cf)
 
 	if (!COMP_tga_info.valid)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -146,7 +146,7 @@ SLONG COMP_load(CBYTE *filename, COMP_Frame *cf)
 		cf->p[py][px].blue  = b;
 	}
 
-	return TRUE;
+	return true;
 #endif
 }
 
@@ -435,7 +435,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 
 	cu       = (COMP_Update *) (cp + 1);
 	ip       = (IC_Packet   *) (cp + 1);
-	cu_valid = FALSE;
+	cu_valid = false;
 	cu_num   = 0;
 
 	for (sx = 0; sx < COMP_SIZE; sx += 4)
@@ -484,7 +484,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 					// We have to start another run!
 					//
 
-					cu_valid = FALSE;
+					cu_valid = false;
 				}
 			}
 			else
@@ -501,7 +501,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 				cu->x    = sx;
 				cu->y    = sy;
 				cu->num  = 1;
-				cu->last = FALSE;
+				cu->last = false;
 				ip       = cu->ip;
 
 				*ip = IC_pack(
@@ -511,7 +511,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 						sx,
 						sy);
 
-				cu_valid = TRUE;
+				cu_valid = true;
 			}
 
 			//
@@ -535,7 +535,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 			// square to update.
 			//
 
-			cu_valid = FALSE;
+			cu_valid = false;
 		}
 	}
 
@@ -557,7 +557,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 		// Mark the last packet as the last one.
 		//
 
-		cu->last = TRUE;
+		cu->last = true;
 	}
 
 	UBYTE *data_start = COMP_data.data;
@@ -702,12 +702,12 @@ void COMP_decomp(
 		COMP_Delta *delta,
 		COMP_Frame *result)
 {
-	ASSERT(FALSE);
+	ASSERT(false);
 }
 
 COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 {
-	ASSERT(FALSE);
+	ASSERT(false);
 	return ( NULL );
 }
 

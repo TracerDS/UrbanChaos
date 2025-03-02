@@ -50,7 +50,7 @@ class	TextureTab	:	public	ModeTab
 		inline ULONG		GetTextureFlags()			{	return TextureFlags;		}
 		inline void			SetTextureFlags(ULONG flags)	{	TextureFlags=flags;			}
 		Undo				MyUndo;
-		BOOL				ApplyTexture(struct EditFace *edit_face);
+		bool				ApplyTexture(struct EditFace *edit_face);
 };
 
 

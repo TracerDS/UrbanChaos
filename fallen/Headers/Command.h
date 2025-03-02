@@ -14,7 +14,7 @@
 
 struct Waypoint
 {
-	BOOL		Used;
+	bool		Used;
 	UWORD		Next,
 				Prev;
 	SLONG		X,Y,Z;
@@ -65,7 +65,7 @@ void	free_waypoint(UWORD wp_index);
 
 struct Condition
 {
-	BOOL		Used;
+	bool		Used;
 	UWORD		Flags,
 				ConditionType,
 				GroupRef;
@@ -93,7 +93,7 @@ Condition	*alloc_condition();
 
 struct	ConditionList
 {
-	BOOL		Used;
+	bool		Used;
 	SLONG		ConditionCount,
 				Flags;
 	Condition	*TheList,
@@ -150,7 +150,7 @@ void			add_condition(ConditionList *the_list,Condition *the_condition);
 
 struct Command
 {
-	BOOL		Used;
+	bool		Used;
 	UWORD		Flags,
 				CommandType,
 				GroupRef;
@@ -179,7 +179,7 @@ Command		*alloc_command();
 
 struct	CommandList
 {
-	BOOL		Used;
+	bool		Used;
 	SLONG		CommandCount,
 				Flags;
 	Command		*TheList,

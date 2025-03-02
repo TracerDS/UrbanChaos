@@ -3191,7 +3191,7 @@ UWORD	PaintTab::ConvertTexToMiniTex(void)
 	return(*((UWORD*)&tex));
 }
 
-BOOL	PaintTab::ApplyTexture(struct EditFace *edit_face)
+bool	PaintTab::ApplyTexture(struct EditFace *edit_face)
 {
 	SLONG		c0;
 

@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-BOOL	SetupMemory();
+bool	SetupMemory();
 void	ResetMemory();
 void	*MemAlloc(ULONG size);
 void	*MemReAlloc(void *ptr, ULONG size);

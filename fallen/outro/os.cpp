@@ -136,7 +136,7 @@ ULONG OS_joy_button_up;		// The buttons that have just been released
 // The callback function for enumerating joysticks.
 //
 
-//BOOL CALLBACK OS_joy_enum(
+//bool CALLBACK OS_joy_enum(
 //		LPCDIDEVICEINSTANCE instance, 
 //        LPVOID              context )
 //{
@@ -512,7 +512,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 					// Must be 1555
 					//
 
-					OS_tformat[OS_TEXTURE_FORMAT_1555].valid =  TRUE;
+					OS_tformat[OS_TEXTURE_FORMAT_1555].valid =  true;
 					OS_tformat[OS_TEXTURE_FORMAT_1555].ddpf  = *lpddpf;
 				}
 				else
@@ -522,7 +522,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 					// Must be 4444
 					//
 
-					OS_tformat[OS_TEXTURE_FORMAT_4444].valid =  TRUE;
+					OS_tformat[OS_TEXTURE_FORMAT_4444].valid =  true;
 					OS_tformat[OS_TEXTURE_FORMAT_4444].ddpf  = *lpddpf;
 				}
 			}
@@ -532,7 +532,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 				// This is a good RGB pixel format.
 				//
 
-				OS_tformat[OS_TEXTURE_FORMAT_RGB].valid =  TRUE;
+				OS_tformat[OS_TEXTURE_FORMAT_RGB].valid =  true;
 				OS_tformat[OS_TEXTURE_FORMAT_RGB].ddpf  = *lpddpf;
 			}
 		}
@@ -555,7 +555,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 				// This is what we want. An 8-bit luminance format.
 				//
 
-				OS_tformat[OS_TEXTURE_FORMAT_8].valid =  TRUE;
+				OS_tformat[OS_TEXTURE_FORMAT_8].valid =  true;
 				OS_tformat[OS_TEXTURE_FORMAT_8].ddpf  = *lpddpf;
 			}
 		}
@@ -1278,15 +1278,15 @@ void OS_init_renderstates()
 	// 
 
 	d3d->SetRenderState(D3DRENDERSTATE_SHADEMODE,          D3DSHADE_GOURAUD);
-	d3d->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE, TRUE);
-	d3d->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,     TRUE);
-	d3d->SetRenderState(D3DRENDERSTATE_ZENABLE,            TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE, true);
+	d3d->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,     true);
+	d3d->SetRenderState(D3DRENDERSTATE_ZENABLE,            true);
 	d3d->SetRenderState(D3DRENDERSTATE_ZFUNC,              D3DCMP_LESSEQUAL);
-	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,       TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,       true);
 	d3d->SetRenderState(D3DRENDERSTATE_CULLMODE,           D3DCULL_CCW);
-	d3d->SetRenderState(D3DRENDERSTATE_FOGENABLE,          FALSE);
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,   FALSE);
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,    FALSE);
+	d3d->SetRenderState(D3DRENDERSTATE_FOGENABLE,          false);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,   false);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,    false);
 
 	if (KEY_on[KEY_A])
 	{
@@ -1434,21 +1434,21 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_ADD)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_ONE);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ONE);
 	}
 
 	if (draw & OS_DRAW_MULTIPLY)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_DESTCOLOR);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_SRCCOLOR);
 	}
 
 	if (draw & OS_DRAW_MULBYONE)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_DESTCOLOR);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ZERO);
 	}
@@ -1465,7 +1465,7 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_TRANSPARENT)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_ZERO);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ONE);
 	}
@@ -1477,13 +1477,13 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_NOZWRITE)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, FALSE);
+		d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, false);
 	}
 
 	if (draw & OS_DRAW_ALPHAREF)
 	{
 		d3d->SetRenderState(D3DRENDERSTATE_ALPHAFUNC,D3DCMP_NOTEQUAL);
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,true);
 
 		//
 		// Make sure the alpha from the texture gets through.
@@ -1510,7 +1510,7 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_ALPHABLEND)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_SRCALPHA);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_INVSRCALPHA);
 
@@ -1611,11 +1611,11 @@ void OS_undo_renderstate_type_changes()
 
 	d3d->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_WRAP);
 
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false);
 	d3d->SetRenderState(D3DRENDERSTATE_CULLMODE,         D3DCULL_CCW);
-	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,     TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,     true);
 	d3d->SetRenderState(D3DRENDERSTATE_ZFUNC,            D3DCMP_LESSEQUAL);
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,  FALSE);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,  false);
 
 	d3d->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFG_LINEAR);
 	d3d->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
@@ -1789,7 +1789,7 @@ SLONG OS_process_messages()
 	{
 		Keys[KB_ESC] = 0;
 
-		KEY_on[KEY_ESCAPE] = TRUE;
+		KEY_on[KEY_ESCAPE] = true;
 	}
 
 	return OS_CARRY_ON;
@@ -1889,10 +1889,10 @@ void OS_mode_init()
 					OS_mode[OS_mode_upto].mode   = NULL;
 
 					#ifdef NDEBUG
-					lookfor512x384 = FALSE;//(vi != D3DEnum_GetFirstDriver());
-					lookfor640x480 = TRUE;
+					lookfor512x384 = false;//(vi != D3DEnum_GetFirstDriver());
+					lookfor640x480 = true;
 					#else
-					lookfor512x384 = FALSE;
+					lookfor512x384 = false;
 					lookfor640x480 = !ci->bWindowed;
 					#endif
 
@@ -1913,7 +1913,7 @@ void OS_mode_init()
 								// We already have our mode.
 								//
 
-								lookfor640x480 = FALSE;
+								lookfor640x480 = false;
 
 								break;
 							}
@@ -2054,7 +2054,7 @@ void OS_mydemo_setup_mode_combo(HWND combo_handle, SLONG mode)
 #define OS_MYDEMO_RUN	1
 #define OS_MYDEMO_EXIT	2
 
-BOOL CALLBACK OS_mydemo_proc(
+bool CALLBACK OS_mydemo_proc(
 				HWND   dialog_handle,
 				UINT   message_type,
 				WPARAM param_w,
@@ -2102,7 +2102,7 @@ BOOL CALLBACK OS_mydemo_proc(
 
 			OS_mydemo_setup_mode_combo(combo_handle, OS_mode_sel);
 
-			return TRUE;
+			return true;
 
 		case WM_COMMAND:
 
@@ -2110,11 +2110,11 @@ BOOL CALLBACK OS_mydemo_proc(
 			{
 				case IDOK:
 					EndDialog(dialog_handle, OS_MYDEMO_RUN);
-					return TRUE;
+					return true;
 
 				case IDCANCEL:
 					EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-					return TRUE;
+					return true;
 
 				case IDC_COMBO_DRIVER:
 
@@ -2165,10 +2165,10 @@ BOOL CALLBACK OS_mydemo_proc(
 
 		case WM_CLOSE:
 			EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 #endif
@@ -2238,7 +2238,7 @@ int WINAPI WinMain(
 	if (AdjustWindowRect(
 			&rect,
 			 WS_CAPTION,
-			 FALSE) == 0)
+			 false) == 0)
 	{
 		rect.right -= 200;
 		rect.left  += 200;
@@ -2290,7 +2290,7 @@ int WINAPI WinMain(
 	{
 		if (MIDASinit())
 		{
-			OS_midas_ok = TRUE;
+			OS_midas_ok = true;
 
 			break;
 		}
@@ -2391,8 +2391,8 @@ int WINAPI WinMain(
 		GUID           *driver;
 		GUID           *device;
 		DDSURFACEDESC2 *display_mode;
-		BOOL            is_windowed;
-		BOOL            is_hardware;
+		bool            is_windowed;
+		bool            is_hardware;
 
 		#if WE_USE_THE_DEFAULT_DIALOG_BOX		
 
@@ -2400,7 +2400,7 @@ int WINAPI WinMain(
 		// Prompt the user for a device and a driver.
 		//
 
-		INT ret = D3DEnum_UserDlgSelectDriver(OS_window_handle, TRUE);
+		INT ret = D3DEnum_UserDlgSelectDriver(OS_window_handle, true);
 
 		D3DEnum_GetSelectedDriver(
 			&driver,
@@ -2421,15 +2421,15 @@ int WINAPI WinMain(
 		{
 			display_mode = &OS_mode[OS_mode_sel].mode->ddsd;
 
-			OS_frame_is_fullscreen = TRUE;
-			OS_frame_is_hardware   = TRUE;
+			OS_frame_is_fullscreen = true;
+			OS_frame_is_hardware   = true;
 		}
 		else
 		{
 			display_mode = NULL;
 
-			OS_frame_is_fullscreen = FALSE;
-			OS_frame_is_hardware   = TRUE;
+			OS_frame_is_fullscreen = false;
+			OS_frame_is_hardware   = true;
 		}
 
 		#endif
@@ -2465,7 +2465,7 @@ int WINAPI WinMain(
 				// Hide the mouse.
 				// 
 
-				ShowCursor(FALSE);
+				ShowCursor(false);
 
 				//
 				// Makes the window not redraw itself when we go fullscreen.
@@ -3807,7 +3807,7 @@ void OS_sound_start()
 {
 	if (OS_module)
 	{
-		OS_module_handle = MIDASplayModule(OS_module,FALSE);
+		OS_module_handle = MIDASplayModule(OS_module,false);
 	}
 }
 

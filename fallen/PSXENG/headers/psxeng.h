@@ -803,7 +803,7 @@ extern void POLY2D_TextImage(SLONG image,SLONG x,SLONG y,SLONG col);
 #define MUSIC_FLAG_QUEUED	8
 #define MUSIC_FLAG_OVERRIDE 16
 extern UBYTE MUSIC_play(UWORD wave,UBYTE flags);
-extern void MUSIC_stop(BOOL fade);
+extern void MUSIC_stop(bool fade);
 extern SLONG MFX_Conv_playing;
 extern void MFX_Conv_stop();
 extern void MFX_Mute(SLONG mute);

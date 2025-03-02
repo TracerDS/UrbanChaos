@@ -27,7 +27,7 @@ CACHE_Index CACHE_create(
 				UWORD num_bytes);
 
 //
-// Returns TRUE if the given CACHE_Index contains valid info.
+// Returns true if the given CACHE_Index contains valid info.
 //
 
 SLONG CACHE_is_valid(CACHE_Index c_index);

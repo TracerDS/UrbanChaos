@@ -130,7 +130,7 @@ void	set_camera_type(Thing *c_thing,UBYTE type)
 
 //---------------------------------------------------------------
 
-void	lock_camera_position(Thing *c_thing,GameCoord *lock_pos,BOOL snap)
+void	lock_camera_position(Thing *c_thing,GameCoord *lock_pos,bool snap)
 {
 	CameraMan		*t_camera;
 
@@ -176,7 +176,7 @@ void	restore_old_camera(Thing *c_thing)
 
 }
 
-void	free_camera_position(Thing *c_thing,GameCoord *rel_pos,BOOL snap)
+void	free_camera_position(Thing *c_thing,GameCoord *rel_pos,bool snap)
 {
 	CameraMan		*t_camera;
 

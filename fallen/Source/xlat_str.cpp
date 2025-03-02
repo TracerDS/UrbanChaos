@@ -246,7 +246,7 @@ CBYTE* XLAT_str_ptr(SLONG string_id) {
 	CBYTE *xlated=xlat_ptr[string_id];
 	if ((xlat_upto==xlat_set)||(!xlat_upto)||!xlated) {
 		#ifdef TARGET_DC
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		#endif
 	  return "missing language file. get t:\\lang-english.txt and stick it in your fallen\\text directory";
 	}
@@ -263,7 +263,7 @@ CBYTE* XLAT_str(SLONG string_id, CBYTE *xlat_dest) {
 	buff=xlat_dest;
 
 	if ((xlat_upto==xlat_set)||(!xlat_upto)||!xlated) {
-		ASSERT ( FALSE );
+		ASSERT ( false );
 	  return "missing language file. get t:\\lang-english.txt and stick it in your fallen\\text directory";
 	}
 
@@ -361,7 +361,7 @@ void XLAT_load(CBYTE *fn) {
 #ifndef PSX
 	if (!FileExists(fn))
 	{
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		return;
 	}
 #endif

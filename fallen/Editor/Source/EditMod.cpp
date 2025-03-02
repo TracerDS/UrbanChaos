@@ -12,7 +12,7 @@ EditorModule::EditorModule()
 	SetNextModuleLink(NULL);
 	SetExternalUpdatePtr(0);
 
-	EscapeFlag	=	FALSE;
+	EscapeFlag	=	false;
 }
 
 //---------------------------------------------------------------

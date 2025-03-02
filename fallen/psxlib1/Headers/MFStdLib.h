@@ -39,8 +39,8 @@
 
 //---------------------------------------------------------------
 
-#define	TRUE				1
-#define	FALSE				0
+#define	true				1
+#define	false				0
 
 typedef	unsigned char		UBYTE;
 typedef signed char			SBYTE;
@@ -49,7 +49,7 @@ typedef unsigned short		UWORD;
 typedef signed short		SWORD;
 typedef unsigned long		ULONG;
 typedef signed long			SLONG;
-typedef	unsigned char		BOOL;
+typedef	unsigned char		bool;
 
 typedef signed long			FIX_8;
 typedef signed long			FIX_9;
@@ -163,13 +163,13 @@ struct MFTime
 };
 
 SLONG			main(UWORD argc, CBYTE** argv);
-BOOL			SetupHost(ULONG flags);
+bool			SetupHost(ULONG flags);
 void			ResetHost();
 void			DebugText(CBYTE *error, ...);
 void            TraceText(CBYTE *error, ...);
-BOOL			LibShellActive();
-BOOL			LibShellChanged();
-BOOL			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+bool			LibShellActive();
+bool			LibShellChanged();
+bool			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 #define	NoError					0
 
@@ -213,8 +213,8 @@ BOOL			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 
 #ifdef PSX
-BOOL	GetInputDevice(UBYTE type,UBYTE sub_type);
-BOOL	ReadInputDevice();
+bool	GetInputDevice(UBYTE type,UBYTE sub_type);
+bool	ReadInputDevice();
 #endif
 
 //---------------------------------------------------------------

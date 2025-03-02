@@ -35,9 +35,9 @@ SLONG	sfx_type,sfx_id;
 
 CBYTE *sfxtypes[] = { "Sound FX", "Music", "!" };
 
-void FillList(HWND hWnd, SLONG id, BOOL music) {
+void FillList(HWND hWnd, SLONG id, bool music) {
 	SLONG i;
-	BOOL is_music;
+	bool is_music;
 	HWND the_ctrl;
 
 	i=0;
@@ -69,7 +69,7 @@ void IDToSelect(HWND hWnd, SLONG id) {
 }
 
 
-BOOL	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -87,7 +87,7 @@ BOOL	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //			SendMessage(GetDlgItem(hWnd,IDC_LIST1),LB_SETCURSEL,sfx_id,0);
 			IDToSelect(hWnd,sfx_id);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -114,12 +114,12 @@ BOOL	CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

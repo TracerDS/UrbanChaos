@@ -173,7 +173,7 @@ static VOID UpdateComboBoxesContent( HWND hDlg,
 							         D3DEnum_DriverInfo** ppCurrentDriver, 
                                      D3DEnum_DeviceInfo** ppCurrentDevice, 
                                      D3DEnum_ModeInfo** ppCurrentMode,
-									 BOOL bWindowed )
+									 bool bWindowed )
 {
     // Check the parameters
     if( (NULL==ppCurrentDriver) || (NULL==ppCurrentDevice) || 
@@ -274,13 +274,13 @@ static VOID UpdateComboBoxesContent( HWND hDlg,
 // Name: _DriverSelectProc()
 // Desc: Windows message handling function for the driver select dialog
 //-----------------------------------------------------------------------------
-BOOL CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam, 
+bool CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam, 
                                  LPARAM lParam )
 {
     static D3DEnum_DriverInfo *pOldDriver,  *pNewDriver;
     static D3DEnum_DeviceInfo *pOldDevice,  *pNewDevice;
     static D3DEnum_ModeInfo   *pOldMode,    *pNewMode;
-    static BOOL                bOldWindowed, bNewWindowed;
+    static bool                bOldWindowed, bNewWindowed;
 
     // Handle the initialization message
     if( WM_INITDIALOG == uiMsg )
@@ -293,7 +293,7 @@ BOOL CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam,
 
         UpdateComboBoxesContent( hDlg, &pOldDriver, &pOldDevice, 
                                  &pOldMode, bOldWindowed );
-        return TRUE;
+        return true;
     }
     
     if( WM_COMMAND == uiMsg )
@@ -312,12 +312,12 @@ BOOL CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam,
                 g_pCurrentDriver->pCurrentDevice->bWindowed    = bNewWindowed;
  
                 EndDialog( hDlg, IDOK );
-                return TRUE;
+                return true;
             }
             else
             {
                 EndDialog( hDlg, IDCANCEL );
-                return TRUE;
+                return true;
             }
         }
 
@@ -325,7 +325,7 @@ BOOL CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam,
         else if( IDCANCEL == LOWORD(wParam) )
         {
             EndDialog( hDlg, IDCANCEL );
-            return TRUE;
+            return true;
         }
 
         // Handle the case when the user chooses an item in the combo boxes.
@@ -337,7 +337,7 @@ BOOL CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam,
                                             dwIndex, 0 );
             
             if( (CB_ERR==dwIndex) )
-                return TRUE;
+                return true;
 
             // Handle the case where one of these may have changed. The
             // combo boxes will need to be updated to reflect the changes.
@@ -364,20 +364,20 @@ BOOL CALLBACK _DriverSelectProc( HWND hDlg, UINT uiMsg, WPARAM wParam,
 					if( pNewObject )
 					{
 						pNewMode = (D3DEnum_ModeInfo*)pNewObject;
-						bNewWindowed = FALSE;
+						bNewWindowed = false;
 					}
 					else
-						bNewWindowed = TRUE;
+						bNewWindowed = true;
                     break;
             }
 
             UpdateComboBoxesContent( hDlg, &pNewDriver, &pNewDevice,
                                      &pNewMode, bNewWindowed );
 
-            return TRUE;
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 

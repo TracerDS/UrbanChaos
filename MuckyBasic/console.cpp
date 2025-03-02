@@ -135,7 +135,7 @@ CBYTE *CONSOLE_input()
 	CONSOLE_Line *cl;
 
 	SLONG flash  = OS_ticks();
-	SLONG draw   = TRUE;
+	SLONG draw   = true;
 	SLONG cursor = 0;
 
 	//
@@ -180,7 +180,7 @@ CBYTE *CONSOLE_input()
 			}
 
 			flash = OS_ticks();
-			draw  = TRUE;
+			draw  = true;
 		}
 
 		if (KEY_on[KEY_DELETE])
@@ -208,7 +208,7 @@ CBYTE *CONSOLE_input()
 			}
 
 			flash = OS_ticks();
-			draw  = TRUE;
+			draw  = true;
 		}
 
 		if (KEY_on[KEY_RIGHT])
@@ -221,7 +221,7 @@ CBYTE *CONSOLE_input()
 			}
 
 			flash = OS_ticks();
-			draw  = TRUE;
+			draw  = true;
 		}
 
 		if (KEY_on[KEY_END])
@@ -234,7 +234,7 @@ CBYTE *CONSOLE_input()
 			}
 
 			flash = OS_ticks();
-			draw  = TRUE;
+			draw  = true;
 		}
 
 		if (KEY_on[KEY_HOME])
@@ -244,7 +244,7 @@ CBYTE *CONSOLE_input()
 			cursor = 0;
 
 			flash = OS_ticks();
-			draw  = TRUE;
+			draw  = true;
 		}
 
 		if (KEY_inkey)
@@ -275,7 +275,7 @@ CBYTE *CONSOLE_input()
 			}
 
 			flash = OS_ticks();
-			draw  = TRUE;
+			draw  = true;
 
 			KEY_inkey = 0;
 		}
@@ -283,7 +283,7 @@ CBYTE *CONSOLE_input()
 		if (OS_ticks() > flash + 500)
 		{
 			flash = OS_ticks();
-			draw ^= TRUE;
+			draw ^= true;
 		}
 
 		if (draw)

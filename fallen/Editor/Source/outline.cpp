@@ -74,7 +74,7 @@ void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, SLONG link_z)
 
 	while(1)
 	{
-		here = FALSE;
+		here = false;
 
 		if (next == NULL)
 		{
@@ -82,12 +82,12 @@ void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, SLONG link_z)
 			// We must insert the link here.
 			//
 
-			here = TRUE;
+			here = true;
 		}
 		else
 		if (next->x > ol->x)
 		{
-			here = TRUE;
+			here = true;
 		}
 		else
 		if (next->x == ol->x)
@@ -98,7 +98,7 @@ void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, SLONG link_z)
 
 			if (ol->x == OUTLINE_LINK_TYPE_END)
 			{
-				here = TRUE;
+				here = true;
 			}
 		}
 
@@ -210,15 +210,15 @@ void OUTLINE_free(OUTLINE_Outline *oo)
 
 
 //
-// Returns TRUE if the two linked lists overlap.
+// Returns true if the two linked lists overlap.
 //
 
 SLONG OUTLINE_overlap(
 		OUTLINE_Link *ol1,
 		OUTLINE_Link *ol2)
 {
-	SLONG on1 = FALSE;
-	SLONG on2 = FALSE;
+	SLONG on1 = false;
+	SLONG on2 = false;
 
 	while(1)
 	{
@@ -228,7 +228,7 @@ SLONG OUTLINE_overlap(
 			if (ol1 == NULL) {ASSERT(!on1);}
 			if (ol2 == NULL) {ASSERT(!on2);}
 
-			return FALSE;
+			return false;
 		}
 
 		if ((ol1->x < ol2->x) || (ol1->x == ol2->x && ol1->type == OUTLINE_LINK_TYPE_END))
@@ -249,7 +249,7 @@ SLONG OUTLINE_overlap(
 				( on1 && ol1->type == OUTLINE_LINK_TYPE_END));
 
 			ol1  = ol1->next;
-			on1 ^= TRUE;
+			on1 ^= true;
 		}
 		else
 		if (ol2->x < ol1->x || (ol1->x == ol2->x && ol2->type == OUTLINE_LINK_TYPE_END))
@@ -270,7 +270,7 @@ SLONG OUTLINE_overlap(
 				( on2 && ol2->type == OUTLINE_LINK_TYPE_END));
 
 			ol2  = ol2->next;
-			on2 ^= TRUE;
+			on2 ^= true;
 		}
 		else
 		if (ol1->x == ol2->x)
@@ -283,12 +283,12 @@ SLONG OUTLINE_overlap(
 			// both starting here- so they must overlap.
 			//
 
-			return TRUE;
+			return true;
 		}
 
 		if (on1 && on2)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 }
@@ -307,15 +307,15 @@ SLONG OUTLINE_overlap(
 				oo1->link[z],
 				oo2->link[z]))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
-// Returns TRUE if the given square is in the outline.
+// Returns true if the given square is in the outline.
 //
 
 SLONG OUTLINE_inside(
@@ -331,7 +331,7 @@ SLONG OUTLINE_inside(
 		// Not in z-range.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	ol = oo->link[z];
@@ -340,7 +340,7 @@ SLONG OUTLINE_inside(
 	{
 		if (ol == NULL || ol->next == NULL)
 		{
-			return FALSE;
+			return false;
 		}
 
 		if (ol->type       == OUTLINE_LINK_TYPE_START &&
@@ -348,7 +348,7 @@ SLONG OUTLINE_inside(
 		{
 			if (WITHIN(x, ol->x, ol->next->x - 1))
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -400,13 +400,13 @@ SLONG OUTLINE_intersects(
 		if (OUTLINE_inside(oo, mx1, mz1) ||
 			OUTLINE_inside(oo, mx2, mz1))
 		{
-			return TRUE;
+			return true;
 		}
 
 		x += dx << 8;
 		z += dz << 8;
 	}
 
-	return FALSE;
+	return false;
 }
 

@@ -52,28 +52,28 @@ struct	WSElement
 
 //---------------------------------------------------------------
 
-extern BOOL			workspace_changed;
+extern bool			workspace_changed;
 extern HWND			ws_tree,wpt_tree;
 
-BOOL	init_workspace(HWND parent);
+bool	init_workspace(HWND parent);
 void	fini_workspace();
 void	handle_ws_context(POINT *click_point);
-BOOL	handle_ws_dblclk(POINT *click_point);
+bool	handle_ws_dblclk(POINT *click_point);
 void	handle_ws_select(WSElement *the_element);
-BOOL	get_element_at_point(POINT *click_point,WSElement **the_element);
+bool	get_element_at_point(POINT *click_point,WSElement **the_element);
 void	ws_add_map();
 void	ws_new_mission();
 void	ws_del_mission();
 void	ws_add_light_map();
 void	ws_add_citsez_map();
-BOOL	create_workspace();
-BOOL	close_workspace();
-BOOL	load_workspace(BOOL load_default_workspace);
-BOOL	save_workspace();
+bool	create_workspace();
+bool	close_workspace();
+bool	load_workspace(bool load_default_workspace);
+bool	save_workspace();
 
 //---------------------------------------------------------------
 // waypointy stuff...
-BOOL	init_wptlist(HWND parent);
+bool	init_wptlist(HWND parent);
 void	fini_wptlist();
 void	reset_wptlist();
 void	fill_wptlist(Mission *mish);

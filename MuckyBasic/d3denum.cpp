@@ -29,7 +29,7 @@ DECLARE_HANDLE(HMONITOR);
 // Constants and function prototypes for the user select driver dialog
 //-----------------------------------------------------------------------------
 DLGTEMPLATE*  _BuildDriverSelectTemplate();
-BOOL CALLBACK _DriverSelectProc( HWND, UINT, WPARAM, LPARAM );
+bool CALLBACK _DriverSelectProc( HWND, UINT, WPARAM, LPARAM );
 
 
 
@@ -38,8 +38,8 @@ BOOL CALLBACK _DriverSelectProc( HWND, UINT, WPARAM, LPARAM );
 // Global data for the enumerator functions
 //-----------------------------------------------------------------------------
 static LPDIRECTDRAW4 g_pDD                = NULL;  // Used for callbacks
-static BOOL          g_bRefRastEnumerated = FALSE; // For the reference rast
-static BOOL          g_bDevicesEnumerated = FALSE; // Used during enumeration
+static bool          g_bRefRastEnumerated = false; // For the reference rast
+static bool          g_bDevicesEnumerated = false; // Used during enumeration
 
 D3DEnum_DriverInfo*  g_pFirstDriver   = NULL; // List of DD drivers
 D3DEnum_DriverInfo*  g_pDefaultDriver = NULL; // Default driver
@@ -130,16 +130,16 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 
 	// Set a flag so we know enumeration is working. This is just a feature to
 	// help return more informative return codes later on.
-    g_bDevicesEnumerated = TRUE;
+    g_bDevicesEnumerated = true;
 
 	// Get info about this device.
-    BOOL           bIsHardware = ( 0 != pHALDesc->dwFlags );
+    bool           bIsHardware = ( 0 != pHALDesc->dwFlags );
 	D3DDEVICEDESC* pDesc       = bIsHardware ? pHALDesc : pHELDesc;
 
     // Only enumerate software rasterizers for the primary device (which has
 	// a NULL GUID). This is to avoid duplicates
     if( pDriver->pGUID != NULL )
-	    if( FALSE == bIsHardware )
+	    if( false == bIsHardware )
 			return D3DENUMRET_OK;
 
 
@@ -188,9 +188,9 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 		{
 			if( pMode->ddsd.ddpfPixelFormat.dwRGBBitCount == dwDisplayBPP )
 			{
-				pNewDevice->bCompatbileWithDesktop = TRUE;
+				pNewDevice->bCompatbileWithDesktop = true;
 	            if( NULL == pDriver->pGUID )
-				   	pNewDevice->bWindowed = TRUE;
+				   	pNewDevice->bWindowed = true;
 			}
 		}
 	}
@@ -208,7 +208,7 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 		delete pNewDevice;
 
     if( IsEqualGUID( *pGUID, IID_IDirect3DRefDevice ) )
-        g_bRefRastEnumerated = TRUE;
+        g_bRefRastEnumerated = true;
 
     return D3DENUMRET_OK;
 }
@@ -222,7 +222,7 @@ static HRESULT WINAPI Enum3DDevicesCallback( GUID* pGUID, LPSTR strDesc,
 //       multimon or a type of card which uses a separate 2D card in
 //       conjunction with the 3D card, this is only done once.
 //-----------------------------------------------------------------------------
-static BOOL WINAPI DirectDrawEnumCallbackEx( GUID FAR* pGUID, LPSTR strDesc,
+static bool WINAPI DirectDrawEnumCallbackEx( GUID FAR* pGUID, LPSTR strDesc,
 											 LPSTR strName, VOID*,
 											 HMONITOR hMonitor )
 {
@@ -306,7 +306,7 @@ static BOOL WINAPI DirectDrawEnumCallbackEx( GUID FAR* pGUID, LPSTR strDesc,
 // Name: DirectDrawEnumCallback()
 // Desc: Non-mulitmon version of the ddraw enumeration callback
 //-----------------------------------------------------------------------------
-static BOOL WINAPI DirectDrawEnumCallback( GUID FAR* pGUID, LPSTR strDesc,
+static bool WINAPI DirectDrawEnumCallback( GUID FAR* pGUID, LPSTR strDesc,
                                            LPSTR strName, VOID* )
 {
 	return DirectDrawEnumCallbackEx( pGUID, strDesc, strName, NULL, NULL );
@@ -374,13 +374,13 @@ static VOID RefreshListForDesktopCompatibility()
 		for( D3DEnum_DeviceInfo* pDevice=pDriver->pFirstDevice; pDevice;
 			 pDevice = pDevice->pNext )
 		{
-			pDevice->bCompatbileWithDesktop = FALSE;
+			pDevice->bCompatbileWithDesktop = false;
 
 			for( D3DEnum_ModeInfo* pMode=pDevice->pFirstMode; pMode;
 				 pMode = pMode->pNext )
 			{
 				if( pMode->ddsd.ddpfPixelFormat.dwRGBBitCount == dwDisplayBPP )
-					pDevice->bCompatbileWithDesktop = TRUE;
+					pDevice->bCompatbileWithDesktop = true;
 			}
 		}
 	}
@@ -398,7 +398,7 @@ HRESULT D3DEnum_EnumerateDevices(
 							HRESULT (*AppConfirmFn)(DDCAPS*, D3DDEVICEDESC*) )
 {
 	g_fnAppConfirmFn     = AppConfirmFn;
-    g_bRefRastEnumerated = FALSE;
+    g_bRefRastEnumerated = false;
 
 	// We need to manually get the procedure address for the DDrawEnumEx()
 	// function.
@@ -447,26 +447,26 @@ HRESULT D3DEnum_SelectDefaultDriver( DWORD dwFlags )
 			for( D3DEnum_DeviceInfo* pDevice = pDriver->pFirstDevice; pDevice;
 				 pDevice = pDevice->pNext )
 			{
-				BOOL bFound = FALSE;
+				bool bFound = false;
 
 			    if( IsEqualGUID( *pDevice->pGUID, IID_IDirect3DRGBDevice ) )
 				{
 					if( dwFlags & D3DENUM_RGBEMULATION )
-						bFound = TRUE;
+						bFound = true;
 				}
 			    else if( IsEqualGUID( *pDevice->pGUID, IID_IDirect3DRefDevice ) )
 				{
 					if( dwFlags & D3DENUM_REFERENCERAST )
-						bFound = TRUE;
+						bFound = true;
 				}
 				else
 				{
 					if( dwFlags & D3DENUM_PRIMARYHAL )
 						if( pDriver == g_pFirstDriver )
-							bFound = TRUE;
+							bFound = true;
 					if( dwFlags & D3DENUM_SECONDARYHAL )
 						if( pDriver != g_pFirstDriver )
-							bFound = TRUE;
+							bFound = true;
 				}
 				
 				if( bFound )
@@ -485,13 +485,13 @@ HRESULT D3DEnum_SelectDefaultDriver( DWORD dwFlags )
 	// final two passes allow fullscreen modes.
 	for( WORD pass=0; pass<4; pass++ )
 	{
-		BOOL bSeekHardware = ( pass & 0x1 ) ? FALSE : TRUE;
-		BOOL bSeekWindowed = ( pass & 0x2 ) ? FALSE : TRUE;
+		bool bSeekHardware = ( pass & 0x1 ) ? false : true;
+		bool bSeekWindowed = ( pass & 0x2 ) ? false : true;
 		
 		// Skip the passes we aren't allowing
-		if( (TRUE==bSeekHardware) && (dwFlags&D3DENUM_SOFTWAREONLY) )			
+		if( (true==bSeekHardware) && (dwFlags&D3DENUM_SOFTWAREONLY) )			
 			continue;
-		if( (TRUE==bSeekWindowed) && (dwFlags&D3DENUM_FULLSCREENONLY) )			
+		if( (true==bSeekWindowed) && (dwFlags&D3DENUM_FULLSCREENONLY) )			
 			continue;
 
 		for( D3DEnum_DriverInfo* pDriver = g_pFirstDriver; pDriver;
@@ -508,7 +508,7 @@ HRESULT D3DEnum_SelectDefaultDriver( DWORD dwFlags )
 			{
 				if( bSeekHardware != pDevice->bIsHardware )
 					continue;
-				if( bSeekWindowed && FALSE == pDevice->bCompatbileWithDesktop )
+				if( bSeekWindowed && false == pDevice->bCompatbileWithDesktop )
 					continue;
 
 				pDevice->bWindowed = bSeekWindowed;
@@ -521,9 +521,9 @@ HRESULT D3DEnum_SelectDefaultDriver( DWORD dwFlags )
 	}
 
 	// No compatible devices were found. Return an error code
-    if( FALSE == g_bDevicesEnumerated )
+    if( false == g_bDevicesEnumerated )
 		return D3DENUMERR_ENUMERATIONFAILED; // Enumeration really did fail
-    if( FALSE == g_bRefRastEnumerated )
+    if( false == g_bRefRastEnumerated )
 		return D3DENUMERR_SUGGESTREFRAST;    // Suggest enabling the RefRast
 	
 	return D3DENUMERR_NOCOMPATIBLEDEVICES;
@@ -537,7 +537,7 @@ HRESULT D3DEnum_SelectDefaultDriver( DWORD dwFlags )
 // Desc: Displays a dialog box for the user to select a driver/device/mode.
 //       The return values are akin to the Windows DialogBox() function.
 //-----------------------------------------------------------------------------
-INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, BOOL bCurrentlyWindowed )
+INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, bool bCurrentlyWindowed )
 {
 	INT nResult = -1;
 
@@ -577,8 +577,8 @@ INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, BOOL bCurrentlyWindowed )
 // Desc: Returns the currently selected driver, device, and display mode
 //-----------------------------------------------------------------------------
 HRESULT D3DEnum_GetSelectedDriver( LPGUID* ppDriverGUID, LPGUID* ppDeviceGUID, 
-                                   LPDDSURFACEDESC2* ppddsd, BOOL* pbWindowed,
-								   BOOL* pbIsHardware )
+                                   LPDDSURFACEDESC2* ppddsd, bool* pbWindowed,
+								   bool* pbIsHardware )
 
 {
     // Check parans

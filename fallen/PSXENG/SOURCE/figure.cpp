@@ -297,7 +297,7 @@ SLONG FIGURE_draw_prim_tween(
 		SLONG	red,SLONG green,SLONG blue,
 		SLONG sort_offset,SLONG scale
 
-		)	// TRUE => The faces are drawn in the wrong order.
+		)	// true => The faces are drawn in the wrong order.
 {
 	SLONG i;
 	SLONG j;
@@ -860,7 +860,7 @@ void	 FIGURE_draw_prim_tween_lit(
 		SLONG	skill
 //		MATRIX	*comb_matrix_local
 
-		)	// TRUE => The faces are drawn in the wrong order.
+		)	// true => The faces are drawn in the wrong order.
 {
 	SLONG i;
 
@@ -1876,7 +1876,7 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 		   &ae2[index],
 		   &r_matrix,
 			dx,dy,dz,
-			FALSE,wx,wy,wz,128,128,128,0,2);
+			false,wx,wy,wz,128,128,128,0,2);
 
 		//
 		// restore normal camera matrix at end of each draw prim tween
@@ -2350,7 +2350,7 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 						&ae2[index],
 						&r_matrix,
 						dx,dy,dz,
-						FALSE,wx,wy,wz,red,green,blue,sort_z_offset,0);
+						false,wx,wy,wz,red,green,blue,sort_z_offset,0);
 
 				}
 
@@ -2384,7 +2384,7 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 					&ae2[index],
 					&r_matrix,
 					dx,dy,dz,
-					FALSE,wx,wy,wz,red,green,blue,mid_peep_z);//sort_z_offset);
+					false,wx,wy,wz,red,green,blue,mid_peep_z);//sort_z_offset);
 	*/
 
 
@@ -2637,7 +2637,7 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 		   &ae2[i],
 		   &r_matrix,
 			dx,dy,dz,
-			TRUE);
+			true);
 	}
 }
 #endif

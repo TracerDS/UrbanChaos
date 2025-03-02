@@ -255,7 +255,7 @@ extern	SLONG	save_psx;
 	// The height of the map not including the roofs of warehouses.
 	//
 
-	MAV_calc_height_array(TRUE);
+	MAV_calc_height_array(true);
 
 	//
 	// Initialise the warehouse structures.
@@ -489,7 +489,7 @@ extern	SLONG	save_psx;
 		OB_ob[i].flags &= ~OB_FLAG_WAREHOUSE;
 	}
 
-	MAV_calc_height_array(FALSE);
+	MAV_calc_height_array(false);
 
 	for (i = 1; i < WARE_ware_upto; i++)
 	{
@@ -852,7 +852,7 @@ MAV_Action WARE_mav_enter(Thing *p_person, UBYTE ware, UBYTE caps)
 			(ww->door[best_door].out_z << 8) + 0x80,
 			0,
 			0x00ff00,
-			TRUE);
+			true);
 #endif
 #endif
 #endif
@@ -1074,11 +1074,11 @@ SLONG WARE_in_floorplan(UBYTE ware, UBYTE x, UBYTE z)
 			// Inside the bounding box of the warehouse and in a building too...
 			//
 
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 #ifndef PSX
@@ -1131,7 +1131,7 @@ void WARE_debug()
 				x2, y2, z2,
 				16,
 				0x00ff00,
-				TRUE);
+				true);
 		}
 
 		//
@@ -1204,12 +1204,12 @@ void WARE_debug()
 				AENG_world_line(
 					x1, y1, z1, 4, 0x00000077,
 					x2, y2, z2, 4, 0x00000077,
-					TRUE);
+					true);
 
 				AENG_world_line(
 					x2, y1, z1, 4, 0x00000077,
 					x1, y2, z2, 4, 0x00000077,
-					TRUE);
+					true);
 
 				//
 				// Draw the options for leaving this square.
@@ -1242,7 +1242,7 @@ void WARE_debug()
 							AENG_world_line(
 								mx, y1, mz, 0, 0,
 								lx, y2, lz, 9, colour[k],
-								TRUE);
+								true);
 						}
 
 						lx += -dz * 16;
@@ -1282,7 +1282,7 @@ SLONG WARE_inside(UBYTE ware, SLONG x, SLONG y, SLONG z)
 		// Outside the floorplan of the building.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	//

@@ -23,7 +23,7 @@
 // 
 // ========================================================
 
-SLONG NET_init();	// Returns FALSE on failure.
+SLONG NET_init();	// Returns false on failure.
 void  NET_kill();
 
 
@@ -35,8 +35,8 @@ void  NET_kill();
 // ========================================================
 
 //
-// Establishes a connection or returns TRUE is the connection is
-// already active.  Return FALSE on failure.
+// Establishes a connection or returns true is the connection is
+// already active.  Return false on failure.
 //
 
 SLONG NET_connection_lan     ();		// Makes a connection to the LAN
@@ -52,7 +52,7 @@ SLONG NET_connection_internet(CBYTE *str);	// The internet using TCP/IP give is 
 // ========================================================
 
 //
-// Creates a session. Returns TRUE on success.
+// Creates a session. Returns true on success.
 //		 
 
 SLONG NET_session_create (CBYTE *session_name, SLONG max_players);
@@ -82,7 +82,7 @@ SLONG     NET_session_get_number();
 NET_Sinfo NET_session_get_info  (SLONG session);
 
 //
-// Joins the given session. Returns TRUE on success.
+// Joins the given session. Returns true on success.
 //
 
 SLONG NET_session_join(SLONG session);
@@ -105,7 +105,7 @@ void NET_session_leave();
 // For a player to send a message to the server.
 //
 
-void NET_player_message_send(SLONG num_bytes, void *data, SLONG guaranteed = FALSE);
+void NET_player_message_send(SLONG num_bytes, void *data, SLONG guaranteed = false);
 
 //
 // Receiving messages. If you get NET_MESSAGE_FROM_SERVER, then *num_bytes
@@ -132,7 +132,7 @@ typedef SLONG NET_Player;
 // Sends a message to the given player.
 //
 
-void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void *data, SLONG guaranteed = FALSE);
+void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void *data, SLONG guaranteed = false);
 
 //
 // Receives a message.

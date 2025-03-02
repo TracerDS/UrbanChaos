@@ -160,7 +160,7 @@ PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
 
 		if (m_VBUsed + num_points > GetVBSize())
 		{
-			ASSERT ( FALSE );
+			ASSERT ( false );
 			return NULL;
 		}
 	}
@@ -1029,7 +1029,7 @@ HRESULT DrawIndPrimMM ( LPDIRECT3DDEVICE3 lpDevice,
 	D3DLVERTEX *pLVert = (D3DLVERTEX *)d3dmm->lpvVertices;
 
 	WORD *pwCurIndex = pwIndices;
-	while ( TRUE )
+	while ( true )
 	{
 		WORD wIndex[3];
 		// Start a strip.
@@ -1037,8 +1037,8 @@ HRESULT DrawIndPrimMM ( LPDIRECT3DDEVICE3 lpDevice,
 		wIndex[2] = *pwCurIndex++;
 		ASSERT ( dwNumIndices > 1 );
 		dwNumIndices -= 2;
-		bool bEven = TRUE;
-		while ( TRUE )
+		bool bEven = true;
+		while ( true )
 		{
 			bEven = !bEven;
 			wIndex[0] = wIndex[1];

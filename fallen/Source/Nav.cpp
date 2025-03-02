@@ -85,7 +85,7 @@ SLONG NAV_wall_in_way(SLONG x, SLONG z, SLONG dirn)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 
 
@@ -117,17 +117,17 @@ SLONG NAV_wall_in_way(SLONG x, SLONG z, SLONG dirn)
 		// You can't navigate off the map.
 		//
 		
-		return TRUE;
+		return true;
 	}
 	else
 	{
 		if (MAP[MAP_INDEX(mx,mz)].Flags & FLOOR_HIDDEN)
 		{
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 }

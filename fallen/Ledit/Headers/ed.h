@@ -156,7 +156,7 @@ SLONG ED_undo_redo_valid();
 
 
 //
-// Loading and saving. Return TRUE on success.
+// Loading and saving. Return true on success.
 //
 
 SLONG ED_load(CBYTE *name);

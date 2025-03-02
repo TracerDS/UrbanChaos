@@ -78,7 +78,7 @@ class	Window	:	public EdRect
 		inline SLONG	ContentBottom()					{	return ContentRect.GetBottom();				}
 		inline SLONG	ContentWidth()					{	return ContentRect.GetWidth();				}
 		inline SLONG	ContentHeight()					{	return ContentRect.GetHeight();				}
-		inline BOOL		PointInContent(MFPoint *the_point)	{	return ContentRect.PointInRect(the_point);	}
+		inline bool		PointInContent(MFPoint *the_point)	{	return ContentRect.PointInRect(the_point);	}
 		void			FillContent(ULONG the_colour);
 		void			ClearContent();
 
@@ -86,7 +86,7 @@ class	Window	:	public EdRect
 		inline SLONG	ControlsTop()					{	return ControlRect.GetTop();				}
 		inline SLONG	ControlsWidth()					{	return ControlRect.GetWidth();				}
 		inline SLONG	ControlsHeight()				{	return ControlRect.GetHeight();				}
-		inline BOOL		PointInControls(MFPoint *the_point)	{	return ControlRect.PointInRect(the_point);	}
+		inline bool		PointInControls(MFPoint *the_point)	{	return ControlRect.PointInRect(the_point);	}
 		inline void		SetControlsWidth(UWORD width)		{	ControlAreaWidth=width;SetAreaSizes();		}
 		inline void		SetControlsHeight(UWORD height)		{	ControlAreaHeight=height;SetAreaSizes();	}
 

@@ -9,7 +9,7 @@
 class	SaveTab	:	public	ModeTab
 {
 	private:
-		BOOL			SaveState;
+		bool			SaveState;
 		ULONG			LevelsMap[32];
 		SLONG			CurrentLevel,
 						HilitedLevel;
@@ -31,11 +31,11 @@ class	SaveTab	:	public	ModeTab
 		void			LoadLevel();
 		void			SaveLevel();
 
-		inline void		SetSaveState(BOOL state)		{	SaveState=state;		}
-		inline BOOL		GetSaveState()				{	return SaveState;		}
+		inline void		SetSaveState(bool state)		{	SaveState=state;		}
+		inline bool		GetSaveState()				{	return SaveState;		}
 
 		inline void		SetMapBit(UBYTE bit)			{	LevelsMap[bit>>5]	|=	(1<<(bit&0x1f));	}
-		inline BOOL		GetMapBit(UBYTE bit)			{	if(LevelsMap[bit>>5]&(1<<(bit&0x1f)))return TRUE;else return FALSE;	}
+		inline bool		GetMapBit(UBYTE bit)			{	if(LevelsMap[bit>>5]&(1<<(bit&0x1f)))return true;else return false;	}
 };
 
 //---------------------------------------------------------------

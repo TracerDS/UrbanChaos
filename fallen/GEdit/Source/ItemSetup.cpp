@@ -33,7 +33,7 @@ SLONG	item_count,item_type,item_flags;//,item_container;
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-BOOL	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -70,7 +70,7 @@ BOOL	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							0,
 							MAKELONG(item_count,0)
 						);
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -94,7 +94,7 @@ BOOL	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				case	IDCANCEL:
 					ticklist_close(hWnd, IDC_LIST1);
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -107,11 +107,11 @@ BOOL	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN1 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
 				item_count			=	HIWORD(wParam);
-				return	TRUE;
+				return	true;
 			}
 			break;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

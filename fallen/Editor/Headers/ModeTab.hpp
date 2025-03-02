@@ -50,7 +50,7 @@ class	ModeTab	:	public	ControlSet
 		inline ModeTab		*GetLastTabLink()				{	return LastModeTab;				}
 		inline ModeTab		*GetNextTabLink()				{	return NextModeTab;				}
 
-		inline BOOL			PointInTabContent(MFPoint *the_point){	return ContentRect.PointInRect(the_point);	}
+		inline bool			PointInTabContent(MFPoint *the_point){	return ContentRect.PointInRect(the_point);	}
 		inline SLONG		ContentLeft()					{	return ContentRect.GetLeft();				}
 		inline SLONG		ContentTop()					{	return ContentRect.GetTop();				}
 		inline SLONG		ContentRight()					{	return ContentRect.GetRight();				}
@@ -58,7 +58,7 @@ class	ModeTab	:	public	ControlSet
 		inline SLONG		ContentWidth()					{	return ContentRect.GetWidth();				}
 		inline SLONG		ContentHeight()					{	return ContentRect.GetHeight();				}
 
-		inline BOOL			PointInTitle(MFPoint *the_point)		{	return TitleRect.PointInRect(the_point);	}
+		inline bool			PointInTitle(MFPoint *the_point)		{	return TitleRect.PointInRect(the_point);	}
 		inline SLONG		TitleLeft()						{	return TitleRect.GetLeft();					}
 		inline SLONG		TitleRight()					{	return TitleRect.GetRight();				}
 		inline SLONG		TitleTop()						{	return TitleRect.GetTop();					}

@@ -1,36 +1,32 @@
 // Draw2D.h
 // Guy Simmons, 7th October 1996.
 
-#ifndef _DRAW2D_H_
-#define _DRAW2D_H_
+#pragma once
 
 #ifndef	_MF_TYPES_H_
-	#include	<MFTypes.h>
+#	include <MFTypes.h>
 #endif
 
-#ifndef	_DISPLAY_H_
-	#include	<Display.h>
-#endif
+#include <Display.h>
 
 
-typedef struct
+struct MFPoint
 {
-	SLONG		X,
-				Y;
-}MFPoint;
+	SLONG X, Y;
+};
 
-typedef struct
+struct MFRect
 {
-	SLONG		Left,
-				Top,
-				Right,
-				Bottom,
-				Width,
-				Height;
-}MFRect;
+	SLONG Left, Top, Right, Bottom, Width, Height;
+};
 
-inline BOOL		XYInRect(SLONG x,SLONG y,MFRect *the_rect)			{	if(x>=the_rect->Left&&y>=the_rect->Top&&x<=the_rect->Right&&y<=the_rect->Bottom)return TRUE;else return FALSE;	}
-inline BOOL		PointInRect(MFPoint *the_point,MFRect *the_rect)	{	if(the_point->X>=the_rect->Left&&the_point->Y>=the_rect->Top&&the_point->X<=the_rect->Right&&the_point->Y<=the_rect->Bottom)return TRUE;else return FALSE;	}
+inline bool XYInRect(SLONG x, SLONG y, MFRect* the_rect) {
+	return x >= the_rect->Left && y >= the_rect->Top && x <= the_rect->Right && y <= the_rect->Bottom;
+}
+inline bool PointInRect(MFPoint* the_point, MFRect* the_rect) {
+	return the_point->X >= the_rect->Left && the_point->Y >= the_rect->Top
+		&& the_point->X <= the_rect->Right && the_point->Y <= the_rect->Bottom;
+}
 
 //---------------------------------------------------------------
 // Draw2D.c

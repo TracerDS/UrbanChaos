@@ -451,7 +451,7 @@ void BUILD_draw_inside()
 				quad[3]->u = float(p_f4->UV[3][0]) * (1.0F / 256.0F);
 				quad[3]->v = float(p_f4->UV[3][1]) * (1.0F / 256.0F);
 
-				POLY_add_quad(quad, p_f4->TexturePage, TRUE);
+				POLY_add_quad(quad, p_f4->TexturePage, true);
 			}
 		}
 
@@ -487,7 +487,7 @@ void BUILD_draw_inside()
 				tri[2]->u = float(p_f3->UV[2][0]) * (1.0F / 256.0F);
 				tri[2]->v = float(p_f3->UV[2][1]) * (1.0F / 256.0F);
 
-				POLY_add_triangle(tri, p_f3->TexturePage, TRUE);
+				POLY_add_triangle(tri, p_f3->TexturePage, true);
 			}
 		}
 		

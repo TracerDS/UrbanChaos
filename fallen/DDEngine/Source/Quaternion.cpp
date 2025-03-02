@@ -229,17 +229,17 @@ void	fmat_to_mat(FloatMatrix *fm, Matrix33 *m)
 //***************************************************************************************************
 //***************************************************************************************************
 
-BOOL	is_unit(float a, float b, float c)
+bool	is_unit(float a, float b, float c)
 {
 	return (fabs(1.0 - (a*a + b*b + c*c)) < 0.01);
 }
 
-BOOL	check_isonormal(FloatMatrix &m)
+bool	check_isonormal(FloatMatrix &m)
 {
-	BOOL	r = TRUE;
+	bool	r = true;
 
 	if ((m.M[0][0] == 0) && (m.M[0][1] == 0) && (m.M[0][2] == 0))
-		return TRUE; // void matrix
+		return true; // void matrix
 
 #ifdef _DEBUG_POO
 	// check units
@@ -270,9 +270,9 @@ BOOL	check_isonormal(FloatMatrix &m)
 	if ((fabs(x - m.M[2][0]) > 0.03) ||
 	    (fabs(y - m.M[2][1]) > 0.03) ||
 	    (fabs(z - m.M[2][2]) > 0.03))
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
 void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
@@ -296,7 +296,7 @@ void	CQuaternion::BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct 
 	cmat_to_fmat(cm1, &f1);
 	cmat_to_fmat(cm2, &f2);
 
-	BOOL	a, b;
+	bool	a, b;
 	a = check_isonormal(f1);
 	b = check_isonormal(f2);
 
@@ -436,7 +436,7 @@ void	QuatToMatrixInteger(QuatInt *quat, Matrix33 *m)
 //! er.. this should be loaded in....
 
 SWORD	acos_table[1025]; // only half of it!
-BOOL	acos_table_init = FALSE;
+bool	acos_table_init = false;
 
 void	BuildACosTable()
 {
@@ -447,7 +447,7 @@ void	BuildACosTable()
 		acos_table[c0] = SLONG(acos(float(c0) / 1025.f) / (2 * 3.1415926) * 2047);
 	}
 
-	acos_table_init = TRUE;
+	acos_table_init = true;
 }
 
 //***************************************************************************************************
@@ -544,7 +544,7 @@ void	cmat_to_mat(CMatrix33 *cm, Matrix33 *m)
 }
 
 //***************************************************************************************************
-BOOL	check_isonormal_integer(Matrix33 &m)
+bool	check_isonormal_integer(Matrix33 &m)
 {
 	// check handedness
 	SLONG	x = (m.M[0][1] * m.M[1][2] - m.M[0][2] * m.M[1][1]) >> 15;
@@ -554,9 +554,9 @@ BOOL	check_isonormal_integer(Matrix33 &m)
 	if ((abs(x - m.M[2][0]) > 1000) ||
 	    (abs(y - m.M[2][1]) > 1000) ||
 	    (abs(z - m.M[2][2]) > 1000))
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
 //***************************************************************************************************
@@ -571,7 +571,7 @@ void	QUATERNION_BuildTweenInteger(struct Matrix33 *dest,struct CMatrix33 *cm1,st
 	cmat_to_mat(cm1, &m1);
 	cmat_to_mat(cm2, &m2);
 
-	BOOL	a, b;
+	bool	a, b;
 	a = check_isonormal_integer(m1);
 	b = check_isonormal_integer(m2);
 

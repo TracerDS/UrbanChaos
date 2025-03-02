@@ -131,15 +131,15 @@ MAV_Action MAV_do(
 			UBYTE caps);	// OR together all the thing you can do
 
 //
-// After calling MAV_do() if this value is TRUE, then the call found
-// a route all the way to the destination. If this value is FALSE there
-// still might be a way to get there, but if it is TRUE there definitely is.
+// After calling MAV_do() if this value is true, then the call found
+// a route all the way to the destination. If this value is false there
+// still might be a way to get there, but if it is true there definitely is.
 //
 
 extern UBYTE MAV_do_found_dest;
 
 //
-// Using the MAV_height array, this function returns TRUE if the given point
+// Using the MAV_height array, this function returns true if the given point
 // is underground or within a building.
 // 
 

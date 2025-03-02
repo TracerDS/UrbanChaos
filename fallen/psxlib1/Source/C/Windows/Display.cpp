@@ -7,8 +7,8 @@
 #define	MF_DD2
 
 
-BOOL					EmulateLoRes		=	FALSE,
-						Got3DFX				=	FALSE;
+bool					EmulateLoRes		=	false,
+						Got3DFX				=	false;
 UBYTE					DisplayActive		=	0,
 						DisplayState		=	0,
 						*WorkScreen,
@@ -41,7 +41,7 @@ extern HWND				hShellWindow;
 extern RECT				ShellRect;
 extern void				SetDrawFunctions(ULONG depth);
 
-BOOL WINAPI EnumDeviceCallback(GUID FAR *lpGUID,LPSTR lpDriverDescription,LPSTR lpDriverName,LPVOID lpContext);
+bool WINAPI EnumDeviceCallback(GUID FAR *lpGUID,LPSTR lpDriverDescription,LPSTR lpDriverName,LPVOID lpContext);
 
 //---------------------------------------------------------------
 
@@ -886,7 +886,7 @@ HRESULT CALLBACK DisplayModesCallback(LPDDSURFACEDESC p_dd_sd, LPVOID ignore)
 			)
 		{
 			DisplayModes[c0].DD_ModeDesc	=	*p_dd_sd;
-			DisplayModes[c0].Availability	=	TRUE;
+			DisplayModes[c0].Availability	=	true;
 			break;
 		}
 	}
@@ -895,7 +895,7 @@ HRESULT CALLBACK DisplayModesCallback(LPDDSURFACEDESC p_dd_sd, LPVOID ignore)
 
 //---------------------------------------------------------------
 
-BOOL WINAPI EnumDeviceCallback(
+bool WINAPI EnumDeviceCallback(
 								GUID FAR *lpGUID,
 								LPSTR lpDriverDescription,
 								LPSTR lpDriverName,
@@ -915,7 +915,7 @@ BOOL WINAPI EnumDeviceCallback(
 			if((*(str_ptr+1)=='D'||*(str_ptr+1)=='d') && (*(str_ptr+2)=='F'||*(str_ptr+2)=='f') && (*(str_ptr+3)=='X'||*(str_ptr+3)=='x'))
 			{
 				Device3DFX	=	*lpGUID;
-				Got3DFX		=	TRUE;
+				Got3DFX		=	true;
 				return	DDENUMRET_CANCEL;
 			}
 		}

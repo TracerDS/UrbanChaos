@@ -201,7 +201,7 @@ void ELEV_load_level(CBYTE *fname_level)
 	SLONG tz;
 	SLONG angle;
 	SLONG version;
-	SLONG load_ok = FALSE;
+	SLONG load_ok = false;
 	SLONG flag;
 	
 	SLONG ew_id;
@@ -251,7 +251,7 @@ void ELEV_load_level(CBYTE *fname_level)
 
 	EWAY_init();	
 
-	iamapsx=ENV_get_value_number("iamapsx", FALSE);
+	iamapsx=ENV_get_value_number("iamapsx", false);
 
 	//
 	// Start off with no players.
@@ -263,7 +263,7 @@ void ELEV_load_level(CBYTE *fname_level)
 	// Load the level.
 	//
 
-	load_ok = TRUE;
+	load_ok = true;
 
 	if (fname_level != NULL)
 	{
@@ -275,7 +275,7 @@ void ELEV_load_level(CBYTE *fname_level)
 			// Couldn't open file.
 			//
 
-			load_ok = FALSE;
+			load_ok = false;
 		}
 		else
 		{
@@ -491,11 +491,11 @@ SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 
 							ecd1.type   = EWAY_COND_DEPENDENT;
 							ecd1.arg1   = event_point.EPRef;
-							ecd1.negate = FALSE;
+							ecd1.negate = false;
 
 							ecd2.type   = EWAY_COND_DEPENDENT;
 							ecd2.arg1   = event_point.EPRefBool;
-							ecd2.negate = FALSE;
+							ecd2.negate = false;
 
 							ecd.type      =  EWAY_COND_BOOL_AND;
 							ecd.bool_arg1 = &ecd1;
@@ -511,11 +511,11 @@ SLONG	WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 
 							ecd1.type   = EWAY_COND_DEPENDENT;
 							ecd1.arg1   = event_point.EPRef;
-							ecd1.negate = FALSE;
+							ecd1.negate = false;
 
 							ecd2.type   = EWAY_COND_DEPENDENT;
 							ecd2.arg1   = event_point.EPRefBool;
-							ecd2.negate = FALSE;
+							ecd2.negate = false;
 
 							ecd.type      =  EWAY_COND_BOOL_OR;
 							ecd.bool_arg1 = &ecd1;
@@ -1153,7 +1153,7 @@ extern	SWORD	people_types[50];
 							ecd.type   = EWAY_COND_CAMERA_AT;
 							ecd.arg1   = NULL;
 							ecd.arg2   = NULL;
-							ecd.negate = FALSE;
+							ecd.negate = false;
 
 							break;
 
@@ -1484,7 +1484,7 @@ extern	SWORD	people_types[50];
 												ew_world_y,
 												ew_world_z,
 												0x100,
-												FALSE);
+												false);
 
 								if (oi)
 								{
@@ -1621,7 +1621,7 @@ extern	SWORD	people_types[50];
 					}
 //					if(0)
 
-					if (save_psx || ENV_get_value_number("iamapsx", FALSE))
+					if (save_psx || ENV_get_value_number("iamapsx", false))
 					{
 						//
 						// Skip waypoints marked as optional. We do it here so that
@@ -2002,7 +2002,7 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 	{
 	  file_error:;
 
-		load_ok = FALSE;
+		load_ok = false;
 
 		//
 		// Finish with the file.
@@ -2133,7 +2133,7 @@ SLONG ELEV_game_init(
 		strcpy ( cTempName, "levels_french\\" );
 		break;
 	default:
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		break;
 	}
 
@@ -2147,7 +2147,7 @@ SLONG ELEV_game_init(
 
 	ELEV_game_init_common ( fname_map, fname_lighting, fname_citsez, fname_level );
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2416,7 +2416,7 @@ extern void MAP_pulse_init();
 	find_anim_prim_bboxes();
 #endif
 
-	loading_screen_active = TRUE;
+	loading_screen_active = true;
 
 	if(!quick_load)
 	{
@@ -2427,7 +2427,7 @@ extern void MAP_pulse_init();
 		// PACK_do();
 	}
 
-	loading_screen_active = FALSE;
+	loading_screen_active = false;
 
 	EWAY_process(); //pre process map, stick it here Or we get stack overflow
 //	MUSIC_WORLD=(Random()%6)+1;
@@ -2635,7 +2635,7 @@ extern void SND_BeginAmbient();
 
 	ATTRACT_loadscreen_draw(100 * 256 / 100);
 
-	return TRUE;
+	return true;
 
 }
 #endif
@@ -2759,7 +2759,7 @@ SLONG ELEV_load_name(CBYTE *fname_level)
 
 	if (fname_level == NULL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	handle = FileOpen(fname_level);
@@ -2770,8 +2770,8 @@ SLONG ELEV_load_name(CBYTE *fname_level)
 		// Couldn't open file.
 		//
 
-		ASSERT ( FALSE );
-		return FALSE;
+		ASSERT ( false );
+		return false;
 	}
 
 	strcpy(ELEV_fname_level, fname_level);	// I hope this is OK
@@ -2820,7 +2820,7 @@ SLONG ELEV_load_name(CBYTE *fname_level)
 
 	FileClose(handle);
 
-	return TRUE;	
+	return true;	
 }
 
 extern MFFileHandle	playback_file;
@@ -2962,7 +2962,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 	
 #ifdef TARGET_DC
 	// Should never get here on DC.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 
 #else //#ifdef TARGET_DC
 
@@ -3016,7 +3016,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 
 			if (!GetOpenFileName(&ofn))
 			{
-				return FALSE;
+				return false;
 			}
 
 			//
@@ -3122,7 +3122,7 @@ extern	void	load_whole_game(CBYTE	*gamename);
 			if (!GetOpenFileName(&ofn))
 			{
 				goto	try_again;
-//				return FALSE;
+//				return false;
 			}
 			else
 			{
@@ -3251,10 +3251,10 @@ extern	void	load_whole_game(CBYTE	*gamename);
 						fname_level);
 
 		case IDCANCEL:
-			return FALSE;
+			return false;
 
 		default:
-			return FALSE;
+			return false;
 	}
 
 #endif //#else //#ifdef TARGET_DC

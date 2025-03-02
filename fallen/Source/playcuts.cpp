@@ -109,8 +109,8 @@ typedef Thing* ThingPtr;
 
 CBYTE *text_disp=0;
 UBYTE PLAYCUTS_fade_level=255;
-BOOL  PLAYCUTS_slomo=0;
-BOOL  PLAYCUTS_playing=0;
+bool  PLAYCUTS_slomo=0;
+bool  PLAYCUTS_playing=0;
 UBYTE PLAYCUTS_slomo_ctr=0;
 UBYTE no_more_packets=0;
 
@@ -250,7 +250,7 @@ CPPacket *PLAYCUTS_Get_Packet(CPChannel* chan, SLONG cell) {
 
 // finds the packets to the left and right of a cell
 
-BOOL PLAYCUTS_find_surrounding_packets(CPChannel *chan, SLONG cell, SLONG* left, SLONG* right) {
+bool PLAYCUTS_find_surrounding_packets(CPChannel *chan, SLONG cell, SLONG* left, SLONG* right) {
 	SLONG leftmax=-1, rightmin=2001, packctr=0;
 	CPPacket *pack;
 	*left=-1; *right=2001;
@@ -599,23 +599,23 @@ void PLAYCUTS_Play(CPData *cutscene) {
 
 		MFX_set_listener(FC_cam[0].x,FC_cam[0].y,FC_cam[0].z,-(FC_cam[0].yaw>>8),-(1024),-(FC_cam[0].pitch>>8));
 
-		AENG_draw(FALSE);
+		AENG_draw(false);
 
 		if (text_disp) {
 #ifndef PSX
-			POLY_frame_init(FALSE, FALSE);
+			POLY_frame_init(false, false);
 #endif
 			FONT2D_DrawStringCentred(text_disp,320,400,0x7fffffff,256,POLY_PAGE_FONT2D);
 #ifndef PSX
-			POLY_frame_draw(FALSE, FALSE);
+			POLY_frame_draw(false, false);
 #endif
 		}
 
 		if (PLAYCUTS_fade_level<255) {
 #ifndef PSX
-			POLY_frame_init(FALSE, FALSE);
+			POLY_frame_init(false, false);
 			DRAW2D_Box(0, 0, 640, 480, (255-PLAYCUTS_fade_level)<<24, 1, 255);
-			POLY_frame_draw(FALSE, FALSE);
+			POLY_frame_draw(false, false);
 #endif
 		}
 

@@ -78,7 +78,7 @@ UBYTE auto_advance = 0;
 
 void	LoadBackImage(UBYTE *image_data);
 void	AENG_demo_attract(SLONG x,SLONG y,CBYTE *text);
-extern BOOL		text_fudge;
+extern bool		text_fudge;
 extern	SLONG	do_start_menu();
 
 #ifndef	PSX
@@ -135,11 +135,11 @@ extern	void NIGHT_init();
 
 
 	if (auto_advance) {
-		go_into_game = TRUE;
+		go_into_game = true;
 		auto_advance=0;
 		GAME_STATE &= ~GS_ATTRACT_MODE;
 		GAME_STATE |=  GS_PLAY_GAME;
-	} else go_into_game = FALSE;
+	} else go_into_game = false;
 /*
 	image_size	=	640*480*3;
 	image_mem	=	(UBYTE*)MemAlloc(image_size);
@@ -171,7 +171,7 @@ extern	void NIGHT_init();
 	MFX_load_wave_list();
 
 
-	bool bReinitBecauseOfLanguageChange = FALSE;
+	bool bReinitBecauseOfLanguageChange = false;
 reinit_because_of_language_change:
 
 
@@ -179,8 +179,8 @@ reinit_because_of_language_change:
 	// If the softreset combo was pressed, go straight to the title screen.
 	if ( g_bDreamcastABXYStartComboPressed )
 	{
-		g_bDreamcastABXYStartComboPressed = FALSE;
-		FRONTEND_init ( TRUE );
+		g_bDreamcastABXYStartComboPressed = false;
+		FRONTEND_init ( true );
 	}
 	else
 	{
@@ -191,7 +191,7 @@ reinit_because_of_language_change:
 #endif
 
 
-	bReinitBecauseOfLanguageChange = FALSE;
+	bReinitBecauseOfLanguageChange = false;
 
 	//
 	// Create a surface from this image.
@@ -223,17 +223,17 @@ reinit_because_of_language_change:
 
 
 	dev->SetRenderState(D3DRENDERSTATE_FILLMODE,			D3DFILL_SOLID);
-	dev->SetRenderState(D3DRENDERSTATE_STIPPLEDALPHA,		FALSE);
+	dev->SetRenderState(D3DRENDERSTATE_STIPPLEDALPHA,		false);
 	dev->SetRenderState(D3DRENDERSTATE_SHADEMODE,			D3DSHADE_GOURAUD);
-	dev->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE,	TRUE);
-	dev->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,		FALSE);
-	dev->SetRenderState(D3DRENDERSTATE_SUBPIXEL,			TRUE);
-	dev->SetRenderState(D3DRENDERSTATE_ZENABLE,				TRUE);
+	dev->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE,	true);
+	dev->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,		false);
+	dev->SetRenderState(D3DRENDERSTATE_SUBPIXEL,			true);
+	dev->SetRenderState(D3DRENDERSTATE_ZENABLE,				true);
 	dev->SetRenderState(D3DRENDERSTATE_ZFUNC,				D3DCMP_LESSEQUAL);
-	dev->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,		TRUE);
+	dev->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,		true);
 	dev->SetRenderState(D3DRENDERSTATE_CULLMODE,			D3DCULL_NONE);
-	dev->SetRenderState(D3DRENDERSTATE_FOGENABLE,			FALSE);
-	dev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,		FALSE);
+	dev->SetRenderState(D3DRENDERSTATE_FOGENABLE,			false);
+	dev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,		false);
 	dev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC,			D3DCMP_ALWAYS);
 	dev->SetRenderState(D3DRENDERSTATE_ANTIALIAS,			D3DANTIALIAS_NONE);
 	dev->SetTextureStageState(0, D3DTSS_COLOROP,		D3DTOP_MODULATE);
@@ -255,7 +255,7 @@ extern SLONG TEXTURE_page_water;
 	dev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
 	dev->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
-	dev->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,	FALSE);
+	dev->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,	false);
 	dev->SetRenderState(D3DRENDERSTATE_SRCBLEND,			D3DBLEND_ONE);
 	dev->SetRenderState(D3DRENDERSTATE_DESTBLEND,			D3DBLEND_ZERO);
 #endif
@@ -306,7 +306,7 @@ extern SLONG TEXTURE_page_water;
 			{
 				GAME_STATE &= ~GS_ATTRACT_MODE;
 				GAME_STATE |=  GS_PLAY_GAME;
-				go_into_game=TRUE;
+				go_into_game=true;
 			}*/
 		}
 
@@ -336,7 +336,7 @@ extern SLONG TEXTURE_page_water;
 		}*/
 
 		//	Record a game.
-extern	BOOL	allow_debug_keys;
+extern	bool	allow_debug_keys;
 		if(allow_debug_keys)
 		{
 			if(ControlFlag && LastKey==KB_R)
@@ -344,7 +344,7 @@ extern	BOOL	allow_debug_keys;
 				LastKey	=	0;
 				GAME_STATE	&= ~GS_ATTRACT_MODE;
 				GAME_STATE	|=	GS_PLAY_GAME;
-				go_into_game =  TRUE;
+				go_into_game =  true;
 
 				GAME_STATE	|=	GS_RECORD;
 			}
@@ -355,7 +355,7 @@ extern	BOOL	allow_debug_keys;
 				LastKey	=	0;
 				GAME_STATE	&= ~GS_ATTRACT_MODE;
 				GAME_STATE	|=	GS_PLAY_GAME;
-				go_into_game =  TRUE;
+				go_into_game =  true;
 
 				GAME_STATE	|=	GS_PLAYBACK;
 			}
@@ -374,7 +374,7 @@ extern	BOOL	allow_debug_keys;
  		//LoadBackImage(image_mem);
 //		the_display.blit_background_surface();
 
-		text_fudge	=	TRUE;
+		text_fudge	=	true;
 //		y	-=	0.25f;
 //		y--;
 		if(Keys[KB_LEFT]||Keys[KB_RIGHT]||Keys[KB_UP]||Keys[KB_DOWN]||Keys[KB_SPACE]||Keys[KB_ENTER]) y=500;
@@ -431,7 +431,7 @@ void	make_all_wads();
 						{
 						GAME_STATE	&= ~GS_ATTRACT_MODE;
 						GAME_STATE	|=	GS_PLAY_GAME;
-						go_into_game =  TRUE;
+						go_into_game =  true;
 
 #ifdef TARGET_DC
 						// Unload all the frontend gubbins.
@@ -458,7 +458,7 @@ extern void	init_joypad_config();
 						GAME_STATE	&= ~GS_ATTRACT_MODE;
 						GAME_STATE	|=	GS_PLAY_GAME;
 						GAME_STATE	|=	GS_PLAYBACK;
-						go_into_game =  TRUE;
+						go_into_game =  true;
 						break;
 					case	STARTS_EDITOR:
 						GAME_STATE	=	GS_EDITOR;
@@ -499,7 +499,7 @@ extern void FRONTEND_scr_unload_theme ( void );
 
 						// This goto makes the compiler very unhappy - it seems to get very confused.
 						//goto reinit_because_of_language_change;
-						bReinitBecauseOfLanguageChange = TRUE;
+						bReinitBecauseOfLanguageChange = true;
 						break;
 
 				}
@@ -516,11 +516,11 @@ extern void FRONTEND_scr_unload_theme ( void );
 		/*
 		if(y<40.0f)
 		{
-			text_fudge	=	FALSE;
+			text_fudge	=	false;
 			GAME_STATE	|=	(GS_PLAYBACK|GS_PLAY_GAME);
 			playback_name	=	playbacks[current_playback];
 
-			go_into_game = FALSE;	// Go into game could be set by game_loop()!!!
+			go_into_game = false;	// Go into game could be set by game_loop()!!!
 			game_loop();
 			GAME_STATE	=	GS_ATTRACT_MODE;
 			y	=	490.0f;
@@ -571,7 +571,7 @@ extern void FRONTEND_scr_unload_theme ( void );
 
 /*			AENG_clear_screen();
 			AENG_fade_out(255);*/
-			ShowBackImage(FALSE);
+			ShowBackImage(false);
 			AENG_flip();
 
 		}
@@ -599,7 +599,7 @@ extern void FRONTEND_scr_unload_theme ( void );
 		}
 	}
 
-	text_fudge	=	FALSE;
+	text_fudge	=	false;
 /*
 	the_display.destroy_background_surface();
 
@@ -738,7 +738,7 @@ void ScoresDraw()
 
 	CBYTE	str[128];
 
-//	POLY_frame_init(FALSE, FALSE);
+//	POLY_frame_init(false, false);
 
 
 extern	SLONG	playing_real_mission();
@@ -930,7 +930,7 @@ extern	SLONG	playing_real_mission();
 					mucky_time = mm->mins * 60 + mm->secs;
 					their_time = (h * 60 + m) * 60 + s;
 
-					extern BOOL dkeys_have_been_used;
+					extern bool dkeys_have_been_used;
 
 extern bool g_bPunishMePleaseICheatedOnThisLevel;
 					if (their_time >= mucky_time || dkeys_have_been_used || g_bPunishMePleaseICheatedOnThisLevel)
@@ -976,7 +976,7 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 	}
 
 
-//	POLY_frame_draw(FALSE, FALSE);
+//	POLY_frame_draw(false, false);
 
 #endif
 
@@ -1220,7 +1220,7 @@ void	level_lost()
 void ATTRACT_loadscreen_init()
 {
 
-	PANEL_disable_screensaver ( TRUE );
+	PANEL_disable_screensaver ( true );
 
 #ifdef TARGET_DC
 
@@ -1255,7 +1255,7 @@ void	FRONTEND_scr_img_load_into_screenfull(CBYTE *name, CompressedBackground *sc
 	the_display.lp_DD_FrontSurface->Flip ( NULL, DDFLIP_WAIT );
 
 	//InitBackImage("e3load.tga");
-	//ShowBackImage(FALSE);
+	//ShowBackImage(false);
 	//AENG_flip();
 
 	// Then free up the compressed image data again.
@@ -1266,11 +1266,11 @@ void	FRONTEND_scr_img_load_into_screenfull(CBYTE *name, CompressedBackground *sc
 
 #ifndef PSX
 	InitBackImage("e3load.tga");
-	ShowBackImage(FALSE);
+	ShowBackImage(false);
 	AENG_flip();
 	// Er... why do this again????
 	InitBackImage("e3load.tga");
-	ShowBackImage(FALSE);
+	ShowBackImage(false);
 	AENG_flip();
 #endif
 
@@ -1409,7 +1409,7 @@ void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed p
 void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed point from 0 to 256.
 {
 #ifndef	PSX
-	ShowBackImage(FALSE);
+	ShowBackImage(false);
 	PANEL_draw_completion_bar(completion);
 	AENG_flip();
 #endif

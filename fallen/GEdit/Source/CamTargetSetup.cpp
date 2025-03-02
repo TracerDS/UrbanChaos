@@ -21,7 +21,7 @@ SLONG		target_type,target_move,target_speed,target_delay,camera_zoom,camera_rota
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
@@ -52,7 +52,7 @@ BOOL	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN2),UDM_SETPOS,0,target_delay);
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN3),UDM_SETPOS,0,camera_zoom);
 			SendMessage(GetDlgItem(hWnd,IDC_CHECK1),BM_SETCHECK,camera_rotate,0);
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -66,16 +66,16 @@ BOOL	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					camera_rotate= SendMessage(GetDlgItem(hWnd,IDC_CHECK1),BM_GETCHECK,0,0);
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case	WM_CLOSE:
 //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

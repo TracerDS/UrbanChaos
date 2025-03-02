@@ -168,7 +168,7 @@ BuildTab *the_build;
 //
 // The building the stairs have been calculated for.
 // The storey the inside building stuff has been calculated for.
-// TRUE => the inside stuff is valid.
+// true => the inside stuff is valid.
 //
 
 SLONG inside_building;
@@ -721,8 +721,8 @@ BuildTab::BuildTab(EditorModule *parent)
 
 	inside_building = 0;
 	inside_storey   = 0;
-	inside_valid    = FALSE;
-	inside_failure  = FALSE;
+	inside_valid    = false;
+	inside_failure  = false;
 
 	the_build=this;
 	ResetBuildTab();
@@ -1844,7 +1844,7 @@ void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE *str)
 }
 
 //
-// Returns TRUE if the given storey can have an inside generated for it.
+// Returns true if the given storey can have an inside generated for it.
 //
 
 SLONG is_storey_habitable(SLONG storey)
@@ -1857,11 +1857,11 @@ SLONG is_storey_habitable(SLONG storey)
 
 	if ((storey_list[storey].StoreyType == STOREY_TYPE_NORMAL) && is_storey_circular(storey))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -1942,8 +1942,8 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 	// Recalculate the insides all the time!
 	//
 
-	inside_valid   = FALSE;
-	inside_failure = FALSE;
+	inside_valid   = false;
+	inside_failure = false;
 
 	//
 	// Shall we recalculate the insides?
@@ -1961,7 +1961,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 			inside_building = EditBuilding;
 			inside_storey   = EditStorey;
-			inside_valid    = FALSE;
+			inside_valid    = false;
 		}
 
 		if (inside_valid)
@@ -1972,7 +1972,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 		}
 		else
 		{
-			inside_valid = FALSE;
+			inside_valid = false;
 			
 			/*
 
@@ -2000,7 +2000,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 				// create_super_dbuilding() always puts the building into dbuilding 1.
 				//
 
-				inside_valid = ENTER_setup(1, storey_height, FALSE, TRUE);
+				inside_valid = ENTER_setup(1, storey_height, false, true);
 
 				if (!inside_valid)
 				{
@@ -2008,7 +2008,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 					// We can't go inside this building.
 					//
 
-					inside_failure = TRUE;
+					inside_failure = true;
 				}
 				else
 				{
@@ -2025,7 +2025,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 	}
 	else
 	{
-		inside_valid = FALSE;
+		inside_valid = false;
 	}
 
 /*

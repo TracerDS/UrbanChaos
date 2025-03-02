@@ -297,12 +297,12 @@ void	ConditionTab::HandleTab(MFPoint *current_point)
 	EdRect		condition_rect,
 				lists_rect;
 	MFPoint		local_point;
-	static BOOL	cleanup	=	FALSE;
+	static bool	cleanup	=	false;
 	
 
 	if(TabMode)
 	{
-		cleanup	=	TRUE;
+		cleanup	=	true;
 		return;
 	}
 	if(TabData)
@@ -332,18 +332,18 @@ void	ConditionTab::HandleTab(MFPoint *current_point)
 	if(lists_rect.PointInRect(&local_point) && !cleanup)
 	{
 		update	=	UPDATE_LISTS_BOX;
-		cleanup	=	TRUE;
+		cleanup	=	true;
 	}
 	else if(condition_rect.PointInRect(&local_point) && !cleanup)
 	{
 		update	=	UPDATE_CURRENT_LIST;
-		cleanup	=	TRUE;
+		cleanup	=	true;
 	}
 
 	if(update==UPDATE_NONE && cleanup)
 	{
 		update	=	UPDATE_ALL;
-		cleanup	=	FALSE;
+		cleanup	=	false;
 	}
 
 	UpdateTab(update);
@@ -590,7 +590,7 @@ void	ConditionTab::CommonConditionOptions(ULONG id,EditCondition *the_condition)
 
 EditCondList	*ConditionTab::SelectConditionList()
 {
-	BOOL			exit		=	FALSE;
+	bool			exit		=	false;
 	UBYTE			update		=	2;
 	UWORD			select_pos;
 	SLONG			c0;
@@ -659,7 +659,7 @@ EditCondList	*ConditionTab::SelectConditionList()
 			if(select_pos)
 			{
 				selected_list	=	hilited_list;
-				exit			=	TRUE;
+				exit			=	true;
 			}
 			else
 			{

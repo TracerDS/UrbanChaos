@@ -22,7 +22,7 @@
 
 extern int				waypoint_colour,
 						waypoint_group;
-extern volatile	BOOL	ShellActive;
+extern volatile	bool	ShellActive;
 extern CBYTE			*GEDIT_engine_name;
 extern UBYTE			button_colours[][3];
 extern HCURSOR			GEDIT_arrow;
@@ -167,7 +167,7 @@ LRESULT CALLBACK	engine_proc	(
 
 //---------------------------------------------------------------
 
-BOOL	init_ewind()
+bool	init_ewind()
 {
 	DWORD		style,
 				style_ex;
@@ -177,11 +177,11 @@ BOOL	init_ewind()
 	//	Sneakily pretend that this was the window created by SetupHost!
 //	hDDLibWindow	=	GEDIT_frame_wnd;
 	hDDLibWindow	=	GEDIT_edit_wnd;
-	ShellActive		=	TRUE;
+	ShellActive		=	true;
 
 	//	Open this display using our engine window.
 	if(OpenDisplay(640,480,16,FLAGS_USE_3D) != 0)
-		return	FALSE;		//	Couldn't open the display.
+		return	false;		//	Couldn't open the display.
 
 	//	Create engine window class.
 	GEDIT_class_engine.cbSize			=	sizeof(WNDCLASSEX);
@@ -197,9 +197,9 @@ BOOL	init_ewind()
 	GEDIT_class_engine.lpszClassName	=	GEDIT_engine_name;
 	GEDIT_class_engine.hIconSm			=	GEDIT_app_icon;
 	if(!RegisterClassEx(&GEDIT_class_engine))
-		return	FALSE;		//	Couldn't register the class.
+		return	false;		//	Couldn't register the class.
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -215,7 +215,7 @@ void	fini_ewind()
 
 //---------------------------------------------------------------
 
-BOOL	open_map(MDICREATESTRUCT *mdi_create)
+bool	open_map(MDICREATESTRUCT *mdi_create)
 {
 	CBYTE		w_name[_MAX_PATH];
 	DWORD		style;
@@ -237,7 +237,7 @@ BOOL	open_map(MDICREATESTRUCT *mdi_create)
 		AdjustWindowRect(
 							&engine_rect,
 							style,
-							FALSE
+							false
 						);
 
 		//	The window name.
@@ -254,9 +254,9 @@ BOOL	open_map(MDICREATESTRUCT *mdi_create)
 		mdi_create->style	=	0;
 		mdi_create->lParam	=	0;
 
-		return	TRUE;
+		return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
@@ -405,7 +405,7 @@ void	process_ewind()
 		}
 
 
-		InvalidateRect(GEDIT_engine_wnd, NULL, FALSE);
+		InvalidateRect(GEDIT_engine_wnd, NULL, false);
 
 	}
 }

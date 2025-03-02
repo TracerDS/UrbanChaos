@@ -241,13 +241,13 @@ void FC_change_camera_type(SLONG cam, SLONG cam_type)
 
 
 //
-// Returns TRUE if the camera needs to go around to the front of the player
+// Returns true if the camera needs to go around to the front of the player
 // and move up to be able to see the focus.
 //
 
 SLONG FC_must_move_up_and_around(SLONG cam)
 {
-	return FALSE;
+	return false;
 }
 
 
@@ -810,7 +810,7 @@ void FC_force_camera_behind(SLONG cam)
 
 	goy = fc->focus_y + FC_focus_above(fc);
 
-	fc->toonear = FALSE;
+	fc->toonear = false;
 
 	//
 	// Can we get there?
@@ -886,7 +886,7 @@ void FC_force_camera_behind(SLONG cam)
 		dx = abs(gox - fc->focus_x);
 		dz = abs(goz - fc->focus_z);
 
-		fc->toonear           = TRUE;
+		fc->toonear           = true;
 		fc->toonear_dist      = QDIST2(dx,dz);
 		fc->toonear_x         = fc->want_x;
 		fc->toonear_y         = fc->want_y;
@@ -952,11 +952,11 @@ void FC_setup_initial_camera(SLONG cam)
 	fc->pitch = fc->want_pitch;
 	fc->roll  = fc->want_roll;
 
-	fc->toonear = FALSE;
+	fc->toonear = false;
 }
 
 //
-// Returns TRUE if the camera is allowed to rotate
+// Returns true if the camera is allowed to rotate
 // in the given direction.
 //
 
@@ -1027,19 +1027,19 @@ SLONG FC_allowed_to_rotate(FC_Cam *fc, SLONG rotate_dir)
 		{
 			if (!MAV_inside(cx,cy,cz))
 			{
-				return FALSE;
+				return false;
 			}
 		}
 		else
 		{
 			if (MAV_inside(cx,cy,cz))
 			{
-				return FALSE;
+				return false;
 			}
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1132,7 +1132,7 @@ void FC_setup_camera_for_warehouse(SLONG cam)
 	fc->pitch = fc->want_pitch;
 	fc->roll  = fc->want_roll;
 
-	fc->toonear = FALSE;
+	fc->toonear = false;
 }
 
 
@@ -1284,14 +1284,14 @@ extern	SLONG	EWAY_cam_jumped;
 
 				if (abs(dangle) > 200)
 				{
-					fc->toonear = FALSE;
+					fc->toonear = false;
 					fc->x       = fc->want_x     = fc->toonear_x;
 					fc->y       = fc->want_y     = fc->toonear_y;
 					fc->z       = fc->want_z     = fc->toonear_z;
 					fc->yaw     = fc->want_yaw   = fc->toonear_yaw;
 					fc->pitch   = fc->want_pitch = fc->toonear_pitch;
 					fc->roll    = fc->want_roll  = fc->toonear_roll;
-					fc->smooth_transition = TRUE;
+					fc->smooth_transition = true;
 				}				
 			}
 		}
@@ -1786,7 +1786,7 @@ extern	SLONG	EWAY_cam_jumped;
 			// We are not too near anymore.
 			// 
 
-			fc->toonear = FALSE;
+			fc->toonear = false;
 		}
 
 		//
@@ -1818,7 +1818,7 @@ extern	SLONG	EWAY_cam_jumped;
 			fc->want_y = fc->y;
 			fc->want_z = fc->z;
 
-			fc->smooth_transition = FALSE;
+			fc->smooth_transition = false;
 		}
 
 		//
@@ -1949,10 +1949,10 @@ SLONG FC_can_see_point(
 		y += dy;
 		z += dz;
 
-		if (MAV_inside(x,y,z)) {return FALSE;}
+		if (MAV_inside(x,y,z)) {return false;}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1977,7 +1977,7 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person)
 		p_person->State == STATE_DANGLING     ||
 		p_person->State == STATE_CLIMBING)
 	{
-		return TRUE;
+		return true;
 	}
 
 	//
@@ -2009,7 +2009,7 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person)
 		fc->y = old_fc_y;
 		fc->z = old_fc_z;
 
-		return TRUE;
+		return true;
 	}
 
 	x = p_person->WorldPos.X >> 8;
@@ -2043,7 +2043,7 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person)
 			fc->y = old_fc_y;
 			fc->z = old_fc_z;
 
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -2051,7 +2051,7 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person)
 	fc->y = old_fc_y;
 	fc->z = old_fc_z;
 
-	return TRUE;
+	return true;
 }
 #endif
 
@@ -2077,7 +2077,7 @@ void FC_position_for_lookaround(SLONG cam, SLONG pitch)
 	fc->want_z = fc->focus_z          + (vector[2] * 3 >> 2);
 #endif
 
-	fc->toonear      = TRUE;
+	fc->toonear      = true;
 	fc->toonear_dist = 0x90000;
 }
 
@@ -2120,7 +2120,7 @@ void FC_explosion(SLONG x, SLONG y, SLONG z, SLONG force)
 #endif
 #ifdef TARGET_DC
 			// Make sure this happens.
-			Vibrate ( 10.0f, (float)(shake) * ( 1.0f / 255.0f ), 2.0f, TRUE );
+			Vibrate ( 10.0f, (float)(shake) * ( 1.0f / 255.0f ), 2.0f, true );
 #endif
 		}
 	}

@@ -71,7 +71,7 @@ SLONG LEDIT_bright_base_blue;
 // 
 
 CBYTE LEDIT_map_name[_MAX_PATH];
-SLONG LEDIT_map_valid;		// TRUE => A map is loaded.
+SLONG LEDIT_map_valid;		// true => A map is loaded.
 
 //
 // The program default directory.
@@ -297,12 +297,12 @@ void LEDIT_set_state_look()
 	// Things that depend on what we are doing.
 	//
 
-	EnableWindow(LEDIT_handle_bwhite,   TRUE);
-	EnableWindow(LEDIT_handle_blgrey,   TRUE);
-	EnableWindow(LEDIT_handle_bdgrey,   TRUE);
-	EnableWindow(LEDIT_handle_bpyellow, TRUE);
-	EnableWindow(LEDIT_handle_bpblue,   TRUE);
-	EnableWindow(LEDIT_handle_bpred,    TRUE);
+	EnableWindow(LEDIT_handle_bwhite,   true);
+	EnableWindow(LEDIT_handle_blgrey,   true);
+	EnableWindow(LEDIT_handle_bdgrey,   true);
+	EnableWindow(LEDIT_handle_bpyellow, true);
+	EnableWindow(LEDIT_handle_bpblue,   true);
+	EnableWindow(LEDIT_handle_bpred,    true);
 	
 	EnableMenuItem(LEDIT_main_menu, ID_EDIT_DELETE_ARSE, MF_GRAYED);
 
@@ -315,12 +315,12 @@ void LEDIT_set_state_look()
 			
 			SetWindowText(LEDIT_handle_light, "Values to place a light with");
 
-			EnableWindow(LEDIT_handle_red,    TRUE);
-			EnableWindow(LEDIT_handle_green,  TRUE);
-			EnableWindow(LEDIT_handle_blue,   TRUE);
-			EnableWindow(LEDIT_handle_bright, TRUE);
-			EnableWindow(LEDIT_handle_range,  TRUE);
-			EnableWindow(LEDIT_handle_anti,   TRUE);
+			EnableWindow(LEDIT_handle_red,    true);
+			EnableWindow(LEDIT_handle_green,  true);
+			EnableWindow(LEDIT_handle_blue,   true);
+			EnableWindow(LEDIT_handle_bright, true);
+			EnableWindow(LEDIT_handle_range,  true);
+			EnableWindow(LEDIT_handle_anti,   true);
 
 			CheckMenuItem(LEDIT_main_menu, ID_EDIT_PLACELIGHT, MF_CHECKED);
 
@@ -336,30 +336,30 @@ void LEDIT_set_state_look()
 
 				SetWindowText(LEDIT_handle_light, "Select a light to edit...");
 
-				EnableWindow(LEDIT_handle_red,    FALSE);
-				EnableWindow(LEDIT_handle_green,  FALSE);
-				EnableWindow(LEDIT_handle_blue,   FALSE);
-				EnableWindow(LEDIT_handle_bright, FALSE);
-				EnableWindow(LEDIT_handle_range,  FALSE);
-				EnableWindow(LEDIT_handle_anti,   FALSE);
+				EnableWindow(LEDIT_handle_red,    false);
+				EnableWindow(LEDIT_handle_green,  false);
+				EnableWindow(LEDIT_handle_blue,   false);
+				EnableWindow(LEDIT_handle_bright, false);
+				EnableWindow(LEDIT_handle_range,  false);
+				EnableWindow(LEDIT_handle_anti,   false);
 
-				EnableWindow(LEDIT_handle_bwhite,   FALSE);
-				EnableWindow(LEDIT_handle_blgrey,   FALSE);
-				EnableWindow(LEDIT_handle_bdgrey,   FALSE);
-				EnableWindow(LEDIT_handle_bpyellow, FALSE);
-				EnableWindow(LEDIT_handle_bpblue,   FALSE);
-				EnableWindow(LEDIT_handle_bpred,    FALSE);
+				EnableWindow(LEDIT_handle_bwhite,   false);
+				EnableWindow(LEDIT_handle_blgrey,   false);
+				EnableWindow(LEDIT_handle_bdgrey,   false);
+				EnableWindow(LEDIT_handle_bpyellow, false);
+				EnableWindow(LEDIT_handle_bpblue,   false);
+				EnableWindow(LEDIT_handle_bpred,    false);
 			}
 			else
 			{
 				SetWindowText(LEDIT_handle_light, "Editing a light");
 
-				EnableWindow(LEDIT_handle_red,    TRUE);
-				EnableWindow(LEDIT_handle_green,  TRUE);
-				EnableWindow(LEDIT_handle_blue,   TRUE);
-				EnableWindow(LEDIT_handle_bright, TRUE);
-				EnableWindow(LEDIT_handle_range,  TRUE);
-				EnableWindow(LEDIT_handle_anti,   TRUE);
+				EnableWindow(LEDIT_handle_red,    true);
+				EnableWindow(LEDIT_handle_green,  true);
+				EnableWindow(LEDIT_handle_blue,   true);
+				EnableWindow(LEDIT_handle_bright, true);
+				EnableWindow(LEDIT_handle_range,  true);
+				EnableWindow(LEDIT_handle_anti,   true);
 
 				EnableMenuItem(LEDIT_main_menu, ID_EDIT_DELETE_ARSE, MF_ENABLED);
 			}
@@ -372,12 +372,12 @@ void LEDIT_set_state_look()
 			
 			SetWindowText(LEDIT_handle_light, "Setting ambient light");
 
-			EnableWindow(LEDIT_handle_red,    TRUE);
-			EnableWindow(LEDIT_handle_green,  TRUE);
-			EnableWindow(LEDIT_handle_blue,   TRUE);
-			EnableWindow(LEDIT_handle_bright, TRUE);
-			EnableWindow(LEDIT_handle_range,  FALSE);
-			EnableWindow(LEDIT_handle_anti,   FALSE);
+			EnableWindow(LEDIT_handle_red,    true);
+			EnableWindow(LEDIT_handle_green,  true);
+			EnableWindow(LEDIT_handle_blue,   true);
+			EnableWindow(LEDIT_handle_bright, true);
+			EnableWindow(LEDIT_handle_range,  false);
+			EnableWindow(LEDIT_handle_anti,   false);
 
 			SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
 
@@ -389,12 +389,12 @@ void LEDIT_set_state_look()
 			
 			SetWindowText(LEDIT_handle_light, "Changing the lights under lamposts");
 
-			EnableWindow(LEDIT_handle_red,    TRUE);
-			EnableWindow(LEDIT_handle_green,  TRUE);
-			EnableWindow(LEDIT_handle_blue,   TRUE);
-			EnableWindow(LEDIT_handle_bright, TRUE);
-			EnableWindow(LEDIT_handle_range,  TRUE);
-			EnableWindow(LEDIT_handle_anti,   TRUE);
+			EnableWindow(LEDIT_handle_red,    true);
+			EnableWindow(LEDIT_handle_green,  true);
+			EnableWindow(LEDIT_handle_blue,   true);
+			EnableWindow(LEDIT_handle_bright, true);
+			EnableWindow(LEDIT_handle_range,  true);
+			EnableWindow(LEDIT_handle_anti,   true);
 
 			CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETLAMPOSTCOLOUR, MF_CHECKED);
 
@@ -404,12 +404,12 @@ void LEDIT_set_state_look()
 			
 			SetWindowText(LEDIT_handle_light, "Set the sky colour");
 
-			EnableWindow(LEDIT_handle_red,    TRUE);
-			EnableWindow(LEDIT_handle_green,  TRUE);
-			EnableWindow(LEDIT_handle_blue,   TRUE);
-			EnableWindow(LEDIT_handle_bright, TRUE);
-			EnableWindow(LEDIT_handle_range,  FALSE);
-			EnableWindow(LEDIT_handle_anti,   FALSE);
+			EnableWindow(LEDIT_handle_red,    true);
+			EnableWindow(LEDIT_handle_green,  true);
+			EnableWindow(LEDIT_handle_blue,   true);
+			EnableWindow(LEDIT_handle_bright, true);
+			EnableWindow(LEDIT_handle_range,  false);
+			EnableWindow(LEDIT_handle_anti,   false);
 
 			SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
 
@@ -559,7 +559,7 @@ void LEDIT_sync_colours()
 
 				LEDIT_change_colour(RGB(red, green, blue));
 
-				SendMessage(LEDIT_handle_range, TBM_SETPOS, TRUE, 255 - el->range);
+				SendMessage(LEDIT_handle_range, TBM_SETPOS, true, 255 - el->range);
 			}
 
 			break;
@@ -604,7 +604,7 @@ void LEDIT_sync_colours()
 
 			LEDIT_change_colour(RGB(signed_red, signed_green, signed_blue));
 
-			SendMessage(LEDIT_handle_range, TBM_SETPOS, TRUE, 255 - range);
+			SendMessage(LEDIT_handle_range, TBM_SETPOS, true, 255 - range);
 
 			break;
 
@@ -1023,7 +1023,7 @@ void LEDIT_edited_light(SLONG make_undoable)
 // Changes the colour of the colour box in the light window.
 //
 
-SLONG LEDIT_dont_normalise_brightness_bar;	// Set to TRUE while dragging the brightness trackbar
+SLONG LEDIT_dont_normalise_brightness_bar;	// Set to true while dragging the brightness trackbar
 
 void LEDIT_change_colour(COLORREF cr)
 {
@@ -1050,15 +1050,15 @@ void LEDIT_change_colour(COLORREF cr)
 	// Make sure the window is redrawn.
 	//
 	
-	InvalidateRect(LEDIT_handle_colour, NULL, TRUE);
+	InvalidateRect(LEDIT_handle_colour, NULL, true);
 
 	//
 	// Set the correct positions of the colour bars.
 	//
 
-	SendMessage(LEDIT_handle_red,   TBM_SETPOS, TRUE, (cr >>  0) & 0xff);
-	SendMessage(LEDIT_handle_green, TBM_SETPOS, TRUE, (cr >>  8) & 0xff);
-	SendMessage(LEDIT_handle_blue,  TBM_SETPOS, TRUE, (cr >> 16) & 0xff);
+	SendMessage(LEDIT_handle_red,   TBM_SETPOS, true, (cr >>  0) & 0xff);
+	SendMessage(LEDIT_handle_green, TBM_SETPOS, true, (cr >>  8) & 0xff);
+	SendMessage(LEDIT_handle_blue,  TBM_SETPOS, true, (cr >> 16) & 0xff);
 
 	if (!LEDIT_dont_normalise_brightness_bar)
 	{
@@ -1070,7 +1070,7 @@ void LEDIT_change_colour(COLORREF cr)
 		LEDIT_bright_base_green = (cr >>  8) & 0xff;
 		LEDIT_bright_base_blue  = (cr >> 16) & 0xff;
 
-		SendMessage(LEDIT_handle_bright, TBM_SETPOS, TRUE, 256);
+		SendMessage(LEDIT_handle_bright, TBM_SETPOS, true, 256);
 	}
 }
 
@@ -1244,7 +1244,7 @@ void LEDIT_load_map(CBYTE *name)
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(LEDIT_handle_engine, NULL, FALSE);
+	InvalidateRect(LEDIT_handle_engine, NULL, false);
 
 	//
 	// Change the cursor back to normal.
@@ -1472,7 +1472,7 @@ void LEDIT_process()
 	}
 	else
 	{
-		LEDIT_mouse_valid = FALSE;
+		LEDIT_mouse_valid = false;
 	}
 
 	if (LEDIT_mouse_valid && LEDIT_mode == LEDIT_MODE_PLACE_LIGHT)
@@ -1505,7 +1505,7 @@ void LEDIT_process()
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(LEDIT_handle_engine, NULL, FALSE);
+	InvalidateRect(LEDIT_handle_engine, NULL, false);
 
 	//
 	// Make sure the cursor looks correct.
@@ -1685,8 +1685,8 @@ LRESULT CALLBACK LEDIT_callback_frame(
 				case ID_EDIT_EDITLIGHTS:
 					LEDIT_mode          = LEDIT_MODE_EDIT_LIGHT;
 					LEDIT_edit_light    = NULL;
-					LEDIT_edit_dragging = FALSE;
-					LEDIT_edit_dragged  = FALSE;
+					LEDIT_edit_dragging = false;
+					LEDIT_edit_dragged  = false;
 					LEDIT_set_state_look();
 					break;
 
@@ -1715,7 +1715,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 						{
 							case IDYES:
 								LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
-								ED_lampost_on_set(TRUE);
+								ED_lampost_on_set(true);
 								LEDIT_set_state_look();
 								break;
 
@@ -1748,13 +1748,13 @@ LRESULT CALLBACK LEDIT_callback_frame(
 					break;
 
 				case ID_MAP_NIGHTSKY:
-					ED_night_set(TRUE);
+					ED_night_set(true);
 					LEDIT_sync_colours();
 					LEDIT_set_state_look();
 					break;
 
 				case ID_MAP_DAYTIME:
-					ED_night_set(FALSE);
+					ED_night_set(false);
 					LEDIT_set_state_look();
 					break;
 
@@ -1794,7 +1794,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 				scancode += 0x80;
 			}
 
-			Keys[scancode] = TRUE;
+			Keys[scancode] = true;
 
 			AltFlag     = (Keys[KB_LALT]     || Keys[KB_RALT]);
 			ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
@@ -1815,7 +1815,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 				scancode += 0x80;
 			}
 
-			Keys[scancode] = FALSE;
+			Keys[scancode] = false;
 
 			AltFlag     = (Keys[KB_LALT]     || Keys[KB_RALT]);
 			ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
@@ -1972,8 +1972,8 @@ LRESULT CALLBACK LEDIT_callback_engine(
 
 							el = &ED_light[LEDIT_edit_light];
 
-							LEDIT_edit_dragging = TRUE;
-							LEDIT_edit_dragged  = FALSE;
+							LEDIT_edit_dragging = true;
+							LEDIT_edit_dragged  = false;
 							LEDIT_edit_drag_dx  = LEDIT_mouse_world_x - el->x;
 							LEDIT_edit_drag_dy  = LEDIT_mouse_world_y - el->y;
 							LEDIT_edit_drag_dz  = LEDIT_mouse_world_z - el->z;
@@ -1998,7 +1998,7 @@ LRESULT CALLBACK LEDIT_callback_engine(
 						}
 						else
 						{
-							LEDIT_edit_dragging = FALSE;
+							LEDIT_edit_dragging = false;
 						}
 
 						break;
@@ -2053,7 +2053,7 @@ LRESULT CALLBACK LEDIT_callback_engine(
 				// Stop dragging the light.
 				//
 
-				LEDIT_edit_dragging = FALSE;
+				LEDIT_edit_dragging = false;
 
 				//
 				// Release the capture on the mouse.
@@ -2134,7 +2134,7 @@ LRESULT CALLBACK LEDIT_callback_light(
 				SATURATE(green, 0, 255);
 				SATURATE(blue,  0, 255);
 
-				LEDIT_dont_normalise_brightness_bar = TRUE;
+				LEDIT_dont_normalise_brightness_bar = true;
 
 				//
 				// Set the colour in the colour box.
@@ -2152,7 +2152,7 @@ LRESULT CALLBACK LEDIT_callback_light(
 
 				LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
 
-				LEDIT_dont_normalise_brightness_bar = FALSE;
+				LEDIT_dont_normalise_brightness_bar = false;
 			}
 			else
 			{
@@ -2261,7 +2261,7 @@ LRESULT CALLBACK LEDIT_callback_light(
 				LEDIT_change_colour(RGB(red,green,blue));
 			}
 
-			LEDIT_edited_light(TRUE);
+			LEDIT_edited_light(true);
 
 			return 0;
 
@@ -2345,7 +2345,7 @@ LRESULT CALLBACK LEDIT_callback_colour(
 				// Change what we are editing.
 				//
 
-				LEDIT_edited_light(TRUE);
+				LEDIT_edited_light(true);
 			}
 			
 			return 0;
@@ -2461,10 +2461,10 @@ void LEDIT_do()
 	// Sneakily pretend that this was the window created by SetupHost!
 	//
 
-	extern volatile BOOL ShellActive;
+	extern volatile bool ShellActive;
 
 	hDDLibWindow = LEDIT_handle_frame;
-	ShellActive  = TRUE;
+	ShellActive  = true;
 
 	//
 	// Open this display using our engine window.
@@ -2527,7 +2527,7 @@ void LEDIT_do()
 	AdjustWindowRectEx(
 		&rect,
 		 WS_CAPTION | WS_VISIBLE | WS_CHILD,
-		 FALSE,
+		 false,
 		 0);
 
 	LEDIT_handle_engine = CreateWindow(
@@ -2577,7 +2577,7 @@ void LEDIT_do()
 	AdjustWindowRectEx(
 		&rect,
 		 WS_CAPTION | WS_VISIBLE | WS_CHILD,
-		 FALSE,
+		 false,
 		 0);
 
 	LEDIT_handle_light = CreateWindow(
@@ -2743,11 +2743,11 @@ void LEDIT_do()
 	// Set the range of the trackbars.
 	// 
 
-	SendMessage(LEDIT_handle_red,    TBM_SETRANGE, TRUE, MAKELONG(0, 255));
-	SendMessage(LEDIT_handle_green,  TBM_SETRANGE, TRUE, MAKELONG(0, 255));
-	SendMessage(LEDIT_handle_blue,   TBM_SETRANGE, TRUE, MAKELONG(0, 255));
-	SendMessage(LEDIT_handle_range,  TBM_SETRANGE, TRUE, MAKELONG(0 ,220));
-	SendMessage(LEDIT_handle_bright, TBM_SETRANGE, TRUE, MAKELONG(0 ,512));
+	SendMessage(LEDIT_handle_red,    TBM_SETRANGE, true, MAKELONG(0, 255));
+	SendMessage(LEDIT_handle_green,  TBM_SETRANGE, true, MAKELONG(0, 255));
+	SendMessage(LEDIT_handle_blue,   TBM_SETRANGE, true, MAKELONG(0, 255));
+	SendMessage(LEDIT_handle_range,  TBM_SETRANGE, true, MAKELONG(0 ,220));
+	SendMessage(LEDIT_handle_bright, TBM_SETRANGE, true, MAKELONG(0 ,512));
 
 	//
 	// The colour window is a window we create ourselves.
@@ -2800,7 +2800,7 @@ void LEDIT_do()
 	LEDIT_bright_base_green = 255;
 	LEDIT_bright_base_blue  = 255;
 
-	SendMessage(LEDIT_handle_bright, TBM_SETPOS, TRUE, 256);
+	SendMessage(LEDIT_handle_bright, TBM_SETPOS, true, 256);
 
 	//
 	// Put a tick in the middle of the brightness trackbar.

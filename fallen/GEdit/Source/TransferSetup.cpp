@@ -32,7 +32,7 @@ SLONG	transfer_to;
 //---------------------------------------------------------------
 
 
-BOOL	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -56,7 +56,7 @@ BOOL	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lPar
 							MAKELONG(transfer_to,0)
 						);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -66,15 +66,15 @@ BOOL	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lPar
 
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case WM_CLOSE:
 			EndDialog(hWnd,0);
-			return TRUE;
+			return true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

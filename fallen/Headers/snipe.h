@@ -10,7 +10,7 @@
 // The snipe camera.
 //
 
-extern SLONG SNIPE_on;			// TRUE => Snipe mode is active
+extern SLONG SNIPE_on;			// true => Snipe mode is active
 extern SLONG SNIPE_cam_x;
 extern SLONG SNIPE_cam_y;
 extern SLONG SNIPE_cam_z;

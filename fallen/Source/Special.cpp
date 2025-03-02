@@ -219,7 +219,7 @@ void special_drop(Thing *p_special, Thing *p_person)
 
 
 //
-// Returns TRUE if the person is carrying a two-handed weapon.
+// Returns true if the person is carrying a two-handed weapon.
 //
 
 SLONG person_has_twohanded_weapon(Thing *p_person)
@@ -248,7 +248,7 @@ SLONG should_person_get_item(Thing *p_person, Thing *p_special)
 	if (p_person->State    == STATE_MOVEING &&
 		p_person->SubState == SUB_STATE_RUNNING_SKID_STOP)
 	{
-		return FALSE;
+		return false;
 	}
 
 	switch(p_special->Genus.Special->SpecialType)
@@ -266,14 +266,14 @@ SLONG should_person_get_item(Thing *p_person, Thing *p_special)
 				// Always pick up a gun if you haven't got one.
 				//
 
-				return TRUE;
+				return true;
 			}
 
 		case SPECIAL_HEALTH:
 			return (p_person->Genus.Person->Health < health[p_person->Genus.Person->PersonType]);	// If not at maximum health
 
 		case SPECIAL_BOMB:
-			return FALSE;
+			return false;
 
 		case SPECIAL_AK47:
 
@@ -338,10 +338,10 @@ SLONG should_person_get_item(Thing *p_person, Thing *p_special)
 			return p_person->Flags & FLAGS_HAS_GUN;
 
 		case	SPECIAL_MINE:
-			return(FALSE);  //added my MD
+			return(false);  //added my MD
 
 		default:
-			return TRUE;
+			return true;
 	}
 }
 
@@ -356,7 +356,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 {
 	Thing *p_gun;
 
-	SLONG keep      = FALSE;
+	SLONG keep      = false;
 	SLONG x_message = 0;
 	SLONG overflow  = 0; // ammo left over
 
@@ -449,7 +449,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 
 			special_pickup(p_special, p_person);
 
-			keep = TRUE;
+			keep = true;
 
 			*/
 
@@ -495,7 +495,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					// Dont free up the special.
 					//
 
-					keep = TRUE;
+					keep = true;
 
 					x_message = X_SHOTGUN;
 
@@ -541,7 +541,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					// Dont free up the special.
 					//
 
-					keep = TRUE;
+					keep = true;
 
 					x_message = X_AK;
 				}
@@ -575,7 +575,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					// Dont free up the special.
 					//
 
-					keep = TRUE;
+					keep = true;
 
 					x_message = X_GRENADE;
 				}
@@ -607,7 +607,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					// Dont free up the special.
 					//
 
-					keep = TRUE;
+					keep = true;
 				}
 				if(p_special->SubState == SPECIAL_SUBSTATE_ACTIVATED)
 				{
@@ -676,7 +676,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 extern	SLONG	stat_count_bonus;
 					stat_count_bonus++;
 				}
-				keep = FALSE;
+				keep = false;
 				break;
 
 
@@ -705,7 +705,7 @@ extern	SLONG	stat_count_bonus;
 			// Dont free up the special.
 			//
 
-			keep = TRUE;
+			keep = true;
 
 			break;
 	}

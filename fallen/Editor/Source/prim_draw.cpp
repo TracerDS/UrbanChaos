@@ -21,8 +21,8 @@ extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* tra
 #ifdef	EDITOR
 extern	void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3);   //prim_edit.h
 extern	void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2);             //prim_edit.h
-extern	BOOL	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face); //edit.h
-extern	BOOL	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face); //edit.h
+extern	bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face); //edit.h
+extern	bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face); //edit.h
 extern	struct SVector	selected_prim_xyz;
 extern	SWORD	SelectFlag;
 extern	SWORD	SelectDrawn;

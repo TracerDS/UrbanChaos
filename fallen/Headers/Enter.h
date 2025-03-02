@@ -30,7 +30,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me);
 
 
 //
-// Returns TRUE if you can leave the building you are in.
+// Returns true if you can leave the building you are in.
 // If so, it fills in map_x,map_z with where should be
 // outside the building.
 //
@@ -53,7 +53,7 @@ void ENTER_get_extents(
 //
 // Sets-up the ID module to represent the insides of the given storey
 // of the given building thing.  The storey must be part of the building's
-// storey linked list!  Returns TRUE on sucess.
+// storey linked list!  Returns true on sucess.
 //
 // If (find_best_layout) then the ENTER module asks the ID module to find
 // the best layout it can starting with the given seed. It then puts the

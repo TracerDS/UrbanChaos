@@ -23,7 +23,7 @@ SLONG			creature_count,
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -58,14 +58,14 @@ BOOL	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							MAKELONG(creature_count,0)
 						);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -74,7 +74,7 @@ BOOL	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN1 && LOWORD(wParam)==SB_THUMBPOSITION)
 			{
 				creature_count			=	HIWORD(wParam);
-				return	TRUE;
+				return	true;
 			}
 			break;
 
@@ -87,9 +87,9 @@ BOOL	CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 											)	+	1;
 
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

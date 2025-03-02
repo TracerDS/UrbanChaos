@@ -87,14 +87,14 @@ SLONG SUPERFACET_free_range_end;
 #define SUPERFACET_CALL_FLAG_CRINKLED (1 << 2)
 
 #ifdef SHOW_ME_SUPERFACET_DEBUGGING_PLEASE_BOB
-bool m_bShowDebuggingInfo = FALSE;
+bool m_bShowDebuggingInfo = false;
 #endif
 
 
 
 typedef struct
 {
-	UBYTE flag;		// TRUE => this call is in use.
+	UBYTE flag;		// true => this call is in use.
 	UBYTE dir;		// The direction of the facet...
 	UWORD quads;	// The number of quads this call draws.
 	UWORD lvert;
@@ -1550,10 +1550,10 @@ void SUPERFACET_start_frame()
 #ifdef TARGET_DC
 	#define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
 extern DIJOYSTATE the_state;
-	bool bShowDebug = FALSE;
+	bool bShowDebug = false;
 	if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
 	{
-		bShowDebug = TRUE;
+		bShowDebug = true;
 	}
 
 	if ( m_bShowDebuggingInfo != bShowDebug )
@@ -1652,7 +1652,7 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 	if (Keys[KB_R])
 	{
-		return FALSE;
+		return false;
 	}
 
 	#endif
@@ -1700,13 +1700,13 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 	// Some default settings, for later.
 #if 0
-	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false );
 	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_SRCBLEND,  D3DBLEND_SRCALPHA );
 	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA );
 	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE );
 #else
 	// Should do this properly.
-	the_display.SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+	the_display.SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false );
 	the_display.SetRenderState(D3DRENDERSTATE_SRCBLEND,  D3DBLEND_SRCALPHA );
 	the_display.SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA );
 	the_display.SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE );
@@ -1765,7 +1765,7 @@ SLONG SUPERFACET_draw(SLONG facet)
 			//
 
 			// Doesn't work yet.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 
 			ULONG colour  [4];
 			ULONG specular[4];
@@ -1979,8 +1979,8 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 			// Switch the modes for the windows.
 			the_display.lp_D3D_Device->SetTexture(0, sc->texture_2pass);
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, FALSE);
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, false);
 			the_display.lp_D3D_Device->SetTextureStageState ( 0, D3DTSS_COLOROP,   D3DTOP_SELECTARG1 );
 
 #if 1
@@ -2006,8 +2006,8 @@ SLONG SUPERFACET_draw(SLONG facet)
 #endif
 
 			// And go back to sanity.
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, TRUE);
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false);
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, true);
 			the_display.lp_D3D_Device->SetTextureStageState ( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 
 
@@ -2271,7 +2271,7 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 			the_display.lp_D3D_Device->SetTexture(0, sc->texture_2pass);
 
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, TRUE           );
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, true           );
 
 			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_DECAL);
 
@@ -2300,8 +2300,8 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 			// And go back to sanity.
 			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATE);
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, TRUE );
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false );
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_FOGENABLE, true );
 			the_display.lp_D3D_Device->SetTextureStageState ( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 		}
 	}
@@ -2309,7 +2309,7 @@ SLONG SUPERFACET_draw(SLONG facet)
 
 #endif
 
-	return TRUE;
+	return true;
 }
 
 

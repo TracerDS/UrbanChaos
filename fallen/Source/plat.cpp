@@ -312,8 +312,8 @@ void PLAT_process(Thing *p_thing)
 								   &y2,
 								   &z2,
 									10,
-									FALSE,
-									FALSE))
+									false,
+									false))
 							{
 
 #ifndef PSX
@@ -353,7 +353,7 @@ void PLAT_process(Thing *p_thing)
 											p_person,
 											NULL,
 											PERSON_DEATH_TYPE_OTHER,
-											FALSE,
+											false,
  											0);
 									}
 								}
@@ -411,7 +411,7 @@ void PLAT_process(Thing *p_thing)
 										EWAY_DONT_CARE,
 										plat->colour,
 										plat->group,
-										TRUE);
+										true);
 
 						if (waypoint == EWAY_NO_MATCH)
 						{
@@ -630,7 +630,7 @@ UWORD PLAT_create(
 	dm->Cache    = 0;
 	dm->Hm       = 0;
 
-	plat->used     = TRUE;
+	plat->used     = true;
 	plat->colour   = colour;
 	plat->group    = group;
 	plat->move     = move;

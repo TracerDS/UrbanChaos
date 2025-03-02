@@ -840,7 +840,7 @@ SLONG FURN_slide_along(
 			*y2 <<= 8;
 			*z2 <<= 8;
 
-			return FALSE;	// FALSE => Still moving.
+			return false;	// false => Still moving.
 		}
 
 		if (p_thing->State == STATE_FDOOR)
@@ -870,7 +870,7 @@ SLONG FURN_slide_along(
 			*y2 = y1 << 8;
 			*z2 = z1 << 8;
 
-			return TRUE; // TRUE => No more movement.
+			return true; // true => No more movement.
 		}
 		else
 		{
@@ -935,7 +935,7 @@ SLONG FURN_slide_along(
 			*y2 <<= 8;
 			*z2 <<= 8;
 
-			return TRUE;	// bumped the car
+			return true;	// bumped the car
 		}
 	}
 
@@ -943,7 +943,7 @@ SLONG FURN_slide_along(
 	*y2 <<= 8;
 	*z2 <<= 8;
 
-	return FALSE; // FALSE => Still moving.	 //didnt bump car
+	return false; // false => Still moving.	 //didnt bump car
 }
 
 

@@ -62,7 +62,7 @@ void ED_init()
 	for (i = 1; i < ED_MAX_LIGHTS - 1; i++)
 	{
 		ED_light[i].next = i + 1;
-		ED_light[i].used = FALSE;
+		ED_light[i].used = false;
 	}
 
 	ED_light[ED_MAX_LIGHTS - 1].next = NULL;
@@ -122,7 +122,7 @@ SLONG ED_create(
 	el            = &ED_light[ED_light_free];
 	ED_light_free =  el->next;
 
-	el->used  = TRUE;
+	el->used  = true;
 	el->x     = x;
 	el->y     = y;
 	el->z     = z;
@@ -688,18 +688,18 @@ SLONG ED_load(CBYTE *name)
 
 		ED_undo_store();
 
-		return TRUE;
+		return true;
 	
 	  file_error:;
 
 //		fclose(handle);
 		FileClose(handle);
 
-		return FALSE;
+		return false;
 
 	}
 
-	return FALSE;
+	return false;
 }
 
 SLONG ED_save(CBYTE *name)
@@ -757,16 +757,16 @@ SLONG ED_save(CBYTE *name)
 
 		ED_undo_store();
 
-		return TRUE;
+		return true;
 
 	  file_error:;
 
 		fclose(handle);
 
-		return FALSE;
+		return false;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -802,7 +802,7 @@ void ED_delete(SLONG light)
 	// Mark as unused.
 	//
 
-	el->used = FALSE;
+	el->used = false;
 
 	//
 	// Recalc game lighting.
@@ -826,7 +826,7 @@ void ED_delete_all()
 	for (i = 1; i < ED_MAX_LIGHTS - 1; i++)
 	{
 		ED_light[i].next = i + 1;
-		ED_light[i].used = FALSE;
+		ED_light[i].used = false;
 	}
 
 	ED_light[ED_MAX_LIGHTS - 1].next = NULL;

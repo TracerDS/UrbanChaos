@@ -78,15 +78,15 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,LPTSTR szCmdLin
 
 //---------------------------------------------------------------
 
-BOOL	SetupHost(ULONG flags)
+bool	SetupHost(ULONG flags)
 {
 	DWORD			id;
 
 
 	if(!SetupMemory())
-		return	FALSE;
+		return	false;
 	if(!SetupKeyboard())
-		return	FALSE;
+		return	false;
 
 	if(flags&H_CREATE_LOG)
 	{
@@ -145,12 +145,12 @@ BOOL	SetupHost(ULONG flags)
 #ifdef TARGET_DC
 			Sleep(100);
 #else
-			SleepEx(100,FALSE);
+			SleepEx(100,false);
 #endif
 		}
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -324,7 +324,7 @@ ULONG	ShellThread(ULONG arg)
 #ifdef TARGET_DC
 	Sleep(100);
 #else
-	SleepEx(100,FALSE);
+	SleepEx(100,false);
 #endif
 	DisplayActive	=	0;
 	MFShellActive	=	0;
@@ -417,13 +417,13 @@ int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 			break;
 
 		case IDRETRY:
-			return TRUE;
+			return true;
 
 	}
 #else //#ifndef TARGET_DC
 	LogText("Mucky Foot Message\n    %s\nIn   : %s\nLine : %u",pMessage,pFile,dwLine);
 #endif //#else //#ifndef TARGET_DC
-	return FALSE;
+	return false;
 
 }
 

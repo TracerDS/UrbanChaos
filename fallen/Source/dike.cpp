@@ -414,7 +414,7 @@ void DIKE_draw(DIKE_Dike *dd)
 		dd->bz >> 8,
 		32,
 		0xffffff,
-		FALSE);
+		false);
 
 	//
 	// The steering vector of the bike.
@@ -440,7 +440,7 @@ void DIKE_draw(DIKE_Dike *dd)
 		dd->fz - steer[2] >> 8,
 		16,
 		0xffffff,
-		FALSE);
+		false);
 }
 
 

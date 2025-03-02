@@ -102,8 +102,8 @@ CBYTE	*get_message_message(EventPoint *ep, CBYTE *msg);
 
 
 
-BOOL			dragging_ep	=	FALSE,
-				map_valid	=	FALSE;
+bool			dragging_ep	=	false,
+				map_valid	=	false;
 UBYTE			link_mode = 0;
 
 //	The camera.
@@ -135,7 +135,7 @@ EventPoint		*hilited_ep		=	NULL,
 extern int		waypoint_colour,
 				waypoint_group;
 extern CBYTE	*GEDIT_map_name;
-extern BOOL		map_valid;
+extern bool		map_valid;
 extern CBYTE	map_name[];
 extern UBYTE	button_colours[][3];
 extern UBYTE	edit_mode;
@@ -146,7 +146,7 @@ extern SLONG	prim_num,
 				prim_drag,
 				prim_dir,
 				prim_x,prim_z;
-extern BOOL		prim_psxmode;
+extern bool		prim_psxmode;
 
 //	The camera.
 extern SLONG	cam_x,
@@ -185,7 +185,7 @@ SLONG zone_colours[ZF_NUM] = { 0x000000, 0x7f7f7f, 0xff0000, 0x0000ff, 0x00ffff,
 
 //---------------------------------------------------------------
 
-BOOL TypeHasProperties(SLONG type) {
+bool TypeHasProperties(SLONG type) {
 	switch(type) {
 		case WPT_NONE:
 		case WPT_TELEPORT:
@@ -251,7 +251,7 @@ BOOL TypeHasProperties(SLONG type) {
 	return 0;
 }
 
-BOOL HasProperties(EventPoint *ep) {
+bool HasProperties(EventPoint *ep) {
 	return TypeHasProperties(ep->WaypointType);
 }
 
@@ -291,7 +291,7 @@ SLONG OpenProperties(EventPoint *ep) {
 			break;
 
 		case WPT_ADJUST_ENEMY:
-			do_enemy_setup(ep,TRUE);
+			do_enemy_setup(ep,true);
 			break;
 
 		case WPT_CREATE_VEHICLE:
@@ -450,7 +450,7 @@ SLONG OpenProperties(EventPoint *ep) {
 	return 0;
 }
 
-SLONG GetEventY(EventPoint *ep, BOOL base=0) {
+SLONG GetEventY(EventPoint *ep, bool base=0) {
 	if (ep->Flags&WPT_FLAGS_INSIDE) {
 		if (ep->Y)
 			return get_inside_alt(ep->Y);
@@ -796,7 +796,7 @@ LRESULT	CALLBACK	map_view_proc	(
 					leaping_disabled=0;
 
 					//	Set up for dragging.
-					dragging_ep	=	TRUE;
+					dragging_ep	=	true;
 					SetCapture(hWnd);
 				}
 				else
@@ -868,7 +868,7 @@ LRESULT	CALLBACK	map_view_proc	(
 
 //						WaypointCaption(new_event); // update to reflect settings
 
-						workspace_changed	=	TRUE;
+						workspace_changed	=	true;
 					}
 					return	0;
 				}
@@ -881,7 +881,7 @@ LRESULT	CALLBACK	map_view_proc	(
 			if(dragging_ep)
 			{
 				ReleaseCapture();
-				dragging_ep	=	FALSE;
+				dragging_ep	=	false;
 				return	0;
 			}
 			break;
@@ -990,7 +990,7 @@ LRESULT	CALLBACK	map_view_proc	(
 								);
 				DestroyMenu(mv_menu);
 				
-				workspace_changed	=	TRUE;
+				workspace_changed	=	true;
 
 				return	0;
 			}
@@ -1145,7 +1145,7 @@ LRESULT	CALLBACK	map_view_proc	(
 					selected_ep->Z&=0xFF00;
 				}
 
-				workspace_changed	=	TRUE;
+				workspace_changed	=	true;
 
 				return	0;
 			}
@@ -1216,7 +1216,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 						INDOORS_DBUILDING=inside_storeys[INDOORS_INDEX].Building;
 					else INDOORS_DBUILDING=0;
 					AENG_transparent_warehouses=0;
-					MAV_calc_height_array(FALSE);
+					MAV_calc_height_array(false);
 					break;
 				case	ID_EVENTPOINTROOT_WARE:
 					hilited_ep->Flags&=~WPT_FLAGS_INSIDE;
@@ -1225,7 +1225,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 					INDOORS_INDEX=INDOORS_ROOM=0;
 					INDOORS_DBUILDING=0;
 					AENG_transparent_warehouses=1;
-					MAV_calc_height_array(TRUE);
+					MAV_calc_height_array(true);
 					break;
 
 				case	ID_EVENTPOINTROOT_DEPENDENCY_LINK:
@@ -1313,7 +1313,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 //---------------------------------------------------------------
 
-BOOL	init_map_view()
+bool	init_map_view()
 {
 	WNDCLASSEX		new_class;
 
@@ -1332,13 +1332,13 @@ BOOL	init_map_view()
 	new_class.lpszClassName	=	GEDIT_map_name;
 	new_class.hIconSm		=	NULL;
 	if(!RegisterClassEx(&new_class))
-		return	FALSE;		//	Couldn't register the class.
+		return	false;		//	Couldn't register the class.
 
 	hilited_ep	  =	NULL;
 	selected_ep	  =	NULL;
 	link_start_ep =	NULL;
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -1555,7 +1555,7 @@ void	process_view_wind()
 		// This is _not_ efficient.
 		// But not a buttload of choice without hacking editor stuff into the main game code :P
 		if (edit_mode==1) {
-			POLY_frame_init(FALSE,FALSE);
+			POLY_frame_init(false,false);
 			for (x=0;x<128;x++)
 				for (z=0;z<128;z++) {
 //					PAP_Hi here = PAP_2HI(x,z);
@@ -1571,13 +1571,13 @@ void	process_view_wind()
 							GI_groundsquare_draw(x<<8,y+0x40,z<<8,zone_colours[zones_mode]|(0x7F<<24),0);
 					}
 				}
-			POLY_frame_draw(FALSE,FALSE);
+			POLY_frame_draw(false,false);
 		}
 
 		// experimental prim nonsense
 		if ((edit_mode==2)&&(prim_index==-1))
 		{
-			POLY_frame_init(FALSE,FALSE);
+			POLY_frame_init(false,false);
 			MESH_draw_poly(
 				prim_num,
 				mouse_world_x,
@@ -1593,7 +1593,7 @@ void	process_view_wind()
 				INDOORS_DBUILDING=inside_storeys[INDOORS_INDEX].Building;
 			else INDOORS_DBUILDING=0;
 
-			POLY_frame_draw(FALSE,FALSE);
+			POLY_frame_draw(false,false);
 
 		}
 
@@ -1638,17 +1638,17 @@ void	process_view_wind()
 						SLONG cx=ep_ptr->X, cz=ep_ptr->Z, cy=PAP_calc_map_height_at(cx,cz);
 //						SLONG ox=LOWORD(ep_ptr->Radius),oy=ep_ptr->Y-cy,oz=HIWORD(ep_ptr->Radius);
 						SLONG ox=LOWORD(ep_ptr->Radius),oy=GetEventY(ep_ptr)-cy,oz=HIWORD(ep_ptr->Radius);
-						POLY_frame_init(FALSE,FALSE);
+						POLY_frame_init(false,false);
 						   world_cube(cx,cy,cz,ox,oy,oz,colour);
-						POLY_frame_draw(FALSE,FALSE);
+						POLY_frame_draw(false,false);
 
 					} else {
 						if (GetEventY(ep_ptr)>(h=PAP_calc_map_height_at(ep_ptr->X, ep_ptr->Z))) {
-							POLY_frame_init(FALSE,FALSE);
+							POLY_frame_init(false,false);
 								AENG_world_line(
 									ep_ptr->X, GetEventY(ep_ptr), ep_ptr->Z, 8, colour,
 									ep_ptr->X, h, ep_ptr->Z, 8, colour, 0);
-							POLY_frame_draw(FALSE,FALSE);
+							POLY_frame_draw(false,false);
 						}
 					}
 
@@ -1720,11 +1720,11 @@ void	process_view_wind()
 													(button_colours[targ->Colour][1]<<8)	|
 													(button_colours[targ->Colour][2]);
 								if (targ->Used) {
-									POLY_frame_init(FALSE, FALSE);
+									POLY_frame_init(false, false);
 									AENG_world_line(
 										ep_ptr->X, GetEventY(ep_ptr,1)+0x10, ep_ptr->Z, 10, colour,
 										targ->X, GetEventY(targ,1)+0x10, targ->Z, 2, colour2, 0);
-									POLY_frame_draw(FALSE, FALSE);
+									POLY_frame_draw(false, false);
 								} else {
 									ep_ptr->EPRef=0;
 									ep_to_controls2(selected_ep);
@@ -1746,11 +1746,11 @@ void	process_view_wind()
 													(button_colours[targ->Colour][1]<<8)	|
 													(button_colours[targ->Colour][2]);
 								if (targ->Used) {
-									POLY_frame_init(FALSE, FALSE);
+									POLY_frame_init(false, false);
 									AENG_world_line(
 										ep_ptr->X, GetEventY(ep_ptr,1)+0x10, ep_ptr->Z, 10, colour,
 										targ->X, GetEventY(targ,1)+0x10, targ->Z, 2, colour2, 0);
-									POLY_frame_draw(FALSE, FALSE);
+									POLY_frame_draw(false, false);
 								} else {
 									ep_ptr->EPRefBool=0;
 									ep_to_controls2(selected_ep);
@@ -1781,11 +1781,11 @@ void	process_view_wind()
 						dirx = SIN(dir)/512; dirz=COS(dir)/512;
 						dirx+=ep_ptr->X; dirz+=ep_ptr->Z;
 
-						POLY_frame_init(FALSE, FALSE);
+						POLY_frame_init(false, false);
 						AENG_world_line_alpha(
 							ep_ptr->X,GetEventY(ep_ptr,1)+0x10, ep_ptr->Z, 00, 0xFFFFFF00,
 							dirx,	  GetEventY(ep_ptr,1)+0x10, dirz, 16, 0x00FFFF00, 0);
-						POLY_frame_draw(FALSE, FALSE);
+						POLY_frame_draw(false, false);
 					}
 
 
@@ -1795,11 +1795,11 @@ void	process_view_wind()
 						if (tmp) {
 							targ=TO_EVENTPOINT(ep_base,tmp);
 							if ((targ)&&((targ->WaypointType==WPT_CREATE_TARGET)||(targ->WaypointType==WPT_TARGET_WAYPOINT))) {
-								POLY_frame_init(FALSE, FALSE);
+								POLY_frame_init(false, false);
 								AENG_world_line_alpha(
 									ep_ptr->X, GetEventY(ep_ptr,1)+0x10, ep_ptr->Z, 1, 0xFFFFFF00,
 									targ->X, GetEventY(ep_ptr,1)+0x10, targ->Z, 200, 0x00FFFF00, 0);
-								POLY_frame_draw(FALSE, FALSE);
+								POLY_frame_draw(false, false);
 							}
 						}
 					}
@@ -1928,7 +1928,7 @@ void	process_view_wind()
 		FONT_buffer_draw();
 		CONSOLE_draw();
 
-		InvalidateRect(GEDIT_view_wnd, NULL, FALSE);
+		InvalidateRect(GEDIT_view_wnd, NULL, false);
 
 	}
 }

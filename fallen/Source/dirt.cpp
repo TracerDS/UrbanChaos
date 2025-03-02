@@ -261,7 +261,7 @@ void DIRT_init(
 					{
 						DIRT_tree[DIRT_tree_upto].x       = oi->x;
 						DIRT_tree[DIRT_tree_upto].z       = oi->z;
-						DIRT_tree[DIRT_tree_upto].inrange = FALSE;
+						DIRT_tree[DIRT_tree_upto].inrange = false;
 
 						DIRT_tree_upto += 1;
 					}
@@ -410,7 +410,7 @@ void DIRT_set_focus(
 					}
 				}
 
-				DIRT_tree[i].inrange = FALSE;
+				DIRT_tree[i].inrange = false;
 			}
 		}
 		else
@@ -490,7 +490,7 @@ void DIRT_set_focus(
 					}
 				}
 
-				DIRT_tree[i].inrange = TRUE;
+				DIRT_tree[i].inrange = true;
 			}
 		}
 	}
@@ -1689,7 +1689,7 @@ void DIRT_process()
 				mx = dd->x >> 8;
 				mz = dd->z >> 8;
 
-				collided = FALSE;
+				collided = false;
 
 				if (PAP_on_map_hi(mx,mz))
 				{
@@ -1713,7 +1713,7 @@ void DIRT_process()
 					// Stop the water going off the map.
 					// 
 
-					collided = TRUE;
+					collided = true;
 				}
 
 				if (collided)
@@ -2395,7 +2395,7 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
 		// No dirt if there is no floor!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	DIRT_Dirt *dd;
@@ -2463,7 +2463,7 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
 		case DIRT_TYPE_THROWCAN:
 			ans->type  = DIRT_INFO_TYPE_PRIM;
 			ans->prim  = PRIM_OBJ_CAN;
-			ans->held  = FALSE;
+			ans->held  = false;
 			ans->yaw   = dd->yaw;
 			ans->pitch = dd->pitch;
 			ans->roll  = dd->roll;
@@ -2482,7 +2482,7 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
 
 				ans->type  = DIRT_INFO_TYPE_PRIM;
 				ans->prim  = PRIM_OBJ_CAN;
-				ans->held  = TRUE;
+				ans->held  = true;
 				ans->yaw   = dd->yaw;
 				ans->pitch = dd->pitch;
 				ans->roll  = dd->roll;
@@ -2523,7 +2523,7 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
 		case DIRT_TYPE_BRASS:
 			ans->type  = DIRT_INFO_TYPE_PRIM;
 			ans->prim  = dd->UU.Head.prim;
-			ans->held  = FALSE;
+			ans->held  = false;
 			ans->yaw   = dd->yaw;
 			ans->pitch = dd->pitch;
 			ans->roll  = dd->roll;
@@ -2725,7 +2725,7 @@ SLONG DIRT_shoot(Thing *p_person)
 		// No dirt if there is no floor!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -2812,11 +2812,11 @@ SLONG DIRT_shoot(Thing *p_person)
 				break;
 		}
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 

@@ -75,7 +75,7 @@ void SPARK_init()
 
 	for (i = 0; i < SPARK_MAX_SPARKS; i++)
 	{
-		SPARK_spark[i].used = FALSE;
+		SPARK_spark[i].used = false;
 	}
 
 	SPARK_spark_last = 1;
@@ -465,7 +465,7 @@ void SPARK_create(
 
   found_spare_spark:;
 
-	ss->used    = TRUE;
+	ss->used    = true;
 	ss->die     = rand() % max_life;
 	ss->die    += 8;
 	ss->glitter = NULL;	// To be created later... maybe!
@@ -543,7 +543,7 @@ void SPARK_create(
 	// Create a couple of other smaller tendrils.
 	//
 
-	SPARK_create_auxillary(ss, TRUE, TRUE);
+	SPARK_create_auxillary(ss, true, true);
 }
 
 void SPARK_process()
@@ -568,7 +568,7 @@ void SPARK_process()
 
 		if (ss->die == 0)
 		{
-			ss->used = FALSE;
+			ss->used = false;
 
 			//
 			// Kill off the glitter object.

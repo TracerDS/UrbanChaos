@@ -7,11 +7,11 @@
 #ifndef _MF_TYPES_H_
 #define _MF_TYPES_H_
 
-#define	TRUE				1
-#define	FALSE				0
+#define	true				1
+#define	false				0
 
 #ifdef	_MF_DOSX
-typedef	unsigned long		BOOL;
+typedef	unsigned long		bool;
 #endif
 
 typedef	unsigned char		UBYTE;

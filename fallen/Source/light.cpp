@@ -677,7 +677,7 @@ void LIGHT_hf_light_up(LIGHT_Index l_index)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 	SLONG x;
 	SLONG y;
@@ -810,7 +810,7 @@ void LIGHT_hf_light_down(LIGHT_Index l_index)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 	SLONG x;
 	SLONG y;
@@ -1352,8 +1352,8 @@ void LIGHT_process()
 
 		if (ll->type)
 		{
-			just_on  = FALSE;
-			just_off = FALSE;
+			just_on  = false;
+			just_off = false;
 
 			if (ll->type == LIGHT_TYPE_PULSE)
 			{
@@ -1366,13 +1366,13 @@ void LIGHT_process()
 
 				if (ll->counter == (ll->param >> 1))
 				{
-					just_off = TRUE;
+					just_off = true;
 				}
 				
 				if (ll->counter >= ll->param)
 				{
 					ll->counter = 0;
-					just_on     = TRUE;
+					just_on     = true;
 				}
 			}
 
@@ -1394,11 +1394,11 @@ void LIGHT_process()
 
 					if (ll->counter & 0x80)
 					{
-						just_on = TRUE;
+						just_on = true;
 					}
 					else
 					{
-						just_off = TRUE;
+						just_off = true;
 					}
 				}
 				else

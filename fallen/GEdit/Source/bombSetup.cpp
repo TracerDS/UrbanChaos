@@ -32,7 +32,7 @@ SLONG	bomb_type,bomb_size,bomb_fx;
 //---------------------------------------------------------------
 
 
-BOOL	CALLBACK	bomb_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	bomb_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -51,7 +51,7 @@ BOOL	CALLBACK	bomb_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							MAKELONG(1024,0));
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_SETPOS,0,MAKELONG(bomb_size,0));
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -63,14 +63,14 @@ BOOL	CALLBACK	bomb_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case WM_CLOSE:
 			ticklist_close(hWnd, IDC_LIST1);
 			EndDialog(hWnd,0);
-			return TRUE;
+			return true;
 
 		case WM_MEASUREITEM:
 			return ticklist_measure(hWnd, wParam, lParam);
@@ -78,7 +78,7 @@ BOOL	CALLBACK	bomb_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			return ticklist_draw(hWnd, wParam, lParam);
 
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

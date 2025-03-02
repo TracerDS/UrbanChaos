@@ -21,7 +21,7 @@ CBYTE *filename;
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	SLONG		c0	=	0;
@@ -39,7 +39,7 @@ BOOL	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				SendMessage(the_ctrl,CB_SETCURSEL,c0,0);
 
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -49,15 +49,15 @@ BOOL	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					SendMessage(the_ctrl,WM_GETTEXT,_MAX_PATH,(long)filename);
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case	WM_CLOSE:
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

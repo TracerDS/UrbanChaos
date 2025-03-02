@@ -31,13 +31,13 @@ struct MFTime
 	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-BOOL	SetupHost(ULONG flags);
+bool	SetupHost(ULONG flags);
 void	ResetHost();
 //void	LogText(CBYTE *error, ...);
 //void	Time(struct MFTime *the_time);
-BOOL	LibShellActive();
-BOOL	LibShellChanged();
-BOOL	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+bool	LibShellActive();
+bool	LibShellChanged();
+bool	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 void	ShellPaused();
 void	ShellPauseOn();
 void	ShellPauseOff();

@@ -620,7 +620,7 @@ void	save_texture_styles_psx(UBYTE world);
 	// Create the game.map aswell...
 	//
 
-//	CopyFile(gamename, "data\\game.map", FALSE);
+//	CopyFile(gamename, "data\\game.map", false);
 }
 
 
@@ -2060,7 +2060,7 @@ UBYTE	check_big_point_triangle(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG 
 //
 // p2   p3
 
-BOOL	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face)
+bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face)
 {
 	SLONG	az;
 
@@ -2080,14 +2080,14 @@ BOOL	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,S
 				hilited_face.Z			=	az;
 				hilited_face.PEle		=	(struct EditMapElement*)-1;
 				hilited_face.Bucket		=	(struct BucketHead*)current_bucket_pool;
-				return	TRUE;
+				return	true;
 			}
 		}
 	}
-	return	FALSE;
+	return	false;
 }
 
-BOOL	check_mouse_over_floor_quad(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3, SLONG x4,SLONG y4,SLONG face,SLONG az)
+bool	check_mouse_over_floor_quad(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3, SLONG x4,SLONG y4,SLONG face,SLONG az)
 {
 	if	(
 			check_big_point_triangle(MouseX,MouseY,x1,y1,x2,y2,x3,y3)	||
@@ -2101,10 +2101,10 @@ BOOL	check_mouse_over_floor_quad(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SL
 			hilited_face.Z			=	az;
 			hilited_face.PEle		=	(struct EditMapElement*)-2;
 			hilited_face.Bucket		=	(struct BucketHead*)current_bucket_pool;
-			return	TRUE;
+			return	true;
 		}
 	}
-	return	FALSE;
+	return	false;
 }
 
 
@@ -2112,7 +2112,7 @@ BOOL	check_mouse_over_floor_quad(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SL
 
 
 
-BOOL	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face)
+bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face)
 {
 	SLONG	az;
 
@@ -2129,11 +2129,11 @@ BOOL	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SL
 				hilited_face.Z			=	az;
 				hilited_face.PEle		=	(struct EditMapElement*)-1;
 				hilited_face.Bucket		=	(struct BucketHead*)current_bucket_pool;
-				return	TRUE;
+				return	true;
 			}
 		}
 	}
-	return	FALSE;
+	return	false;
 }
 
 void	check_mouse_quad(struct EditMapElement *p_ele,struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG wx,SLONG wy,SLONG wz,SLONG face)

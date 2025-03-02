@@ -31,7 +31,7 @@ SLONG	warefx_type;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-BOOL	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -43,7 +43,7 @@ BOOL	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 		case	WM_INITDIALOG:
 
 			INIT_COMBO_BOX(IDC_COMBO1,wwarefx_strings,warefx_type);
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -53,12 +53,12 @@ BOOL	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

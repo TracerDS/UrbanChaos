@@ -202,7 +202,7 @@ void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag)
 
 
 //
-// Looks for the string in the given table. Returns TRUE if it
+// Looks for the string in the given table. Returns true if it
 // finds one. Sets the ST_found_table and ST_found_value variables
 // if it finds the string.
 //
@@ -254,12 +254,12 @@ SLONG ST_find_in_table(SLONG table, CBYTE *string)
 				ST_found_ss     = ss;
 				ST_found_string = string;
 
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -279,11 +279,11 @@ SLONG ST_find(CBYTE *string)
 				table,
 				string))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -346,7 +346,7 @@ SLONG ST_find_all_next()
 
 			if (ST_find_all_table >= ST_TABLE_NUMBER)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 		else
@@ -362,7 +362,7 @@ SLONG ST_find_all_next()
 			ST_found_value  =  ss->value;
 			ST_found_flag   =  ss->flag;
 
-			return TRUE;
+			return true;
 		}
 	}
 }

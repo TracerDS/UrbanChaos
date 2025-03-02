@@ -4,7 +4,7 @@
 #ifndef _MF_MEM_H_
 #define _MF_MEM_H_
 
-BOOL	SetupMemory();
+bool	SetupMemory();
 void	ResetMemory();
 void	*MemAlloc(ULONG size);
 void	MemFree(void *mem_ptr);

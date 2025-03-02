@@ -1952,7 +1952,7 @@ SLONG slide_along_prim(
 		SLONG *x2, SLONG *y2, SLONG *z2,
 		SLONG  radius,
 		SLONG  shrink,
-		SLONG  dont_slide)	// TRUE => Don't move if the vector collides with the prim.
+		SLONG  dont_slide)	// true => Don't move if the vector collides with the prim.
 {
 	SLONG old_x2 = *x2;
 	SLONG old_y2 = *y2;
@@ -2022,7 +2022,7 @@ SLONG slide_along_prim(
 			*y2 <<= 8;
 			*z2 <<= 8;
 
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -2030,7 +2030,7 @@ SLONG slide_along_prim(
    *y2 = old_y2;
    *z2 = old_z2;
 
-	return FALSE;
+	return false;
 }
 
 
@@ -2595,7 +2595,7 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 
 		if (f_list)
 		{
-			exit = FALSE;
+			exit = false;
 
 			do
 			{
@@ -2604,7 +2604,7 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 				if (facet < 0)
 				{
 					facet = -facet;
-					exit  =  TRUE;
+					exit  =  true;
 				}
 
 				df = &dfacets[facet];
@@ -2631,7 +2631,7 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 							if (WITHIN(z1, minz, maxz) &&
 								WITHIN(z2, minz, maxz))
 							{
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -2650,7 +2650,7 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 							if (WITHIN(x1, minx, maxx) &&
 								WITHIN(x2, minx, maxx))
 							{
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -2660,7 +2660,7 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 

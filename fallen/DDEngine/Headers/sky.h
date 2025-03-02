@@ -55,7 +55,7 @@ void SKY_draw_poly_moon(
 
 //
 // Draws the reflection of the moon and returns its bounding box on screen.
-// Returns FALSE if the moon was off-screen.
+// Returns false if the moon was off-screen.
 //
 
 SLONG SKY_draw_moon_reflection(

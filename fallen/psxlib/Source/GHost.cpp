@@ -27,7 +27,7 @@
 #define	PAUSE_ACK				(1<<1)
 
 
-volatile BOOL		ShellActive;
+volatile bool		ShellActive;
 
 
 volatile UBYTE	AltFlag,
@@ -177,7 +177,7 @@ CBYTE Wadmenu_MuckyName[12];
 SLONG demo_mode,demo_timeout;
 #endif
 
-extern void MUSIC_stop(BOOL fade);
+extern void MUSIC_stop(bool fade);
 extern UBYTE MUSIC_play(UWORD wave,UBYTE flags);
 extern ControllerPacket PAD_Input1,PAD_Input2;
 
@@ -363,7 +363,7 @@ extern	void	set_next_prim_point(SLONG v);
 extern	UWORD	next_prim_point;
 //extern void MFX_Callback_CdRead(UBYTE status,UBYTE *result);
 
-BOOL	SetupHost(ULONG flags)
+bool	SetupHost(ULONG flags)
 {
 
 #ifdef FS_ISO9660
@@ -371,10 +371,10 @@ BOOL	SetupHost(ULONG flags)
 //	_96_init();
 #endif
 
-	ShellActive	=	TRUE;
+	ShellActive	=	true;
 
 	if(!SetupMemory())
-		return	FALSE;
+		return	false;
 
 	InitHardware();
 #ifdef VERSION_PAL
@@ -387,7 +387,7 @@ BOOL	SetupHost(ULONG flags)
 //	ClearImage(&r,0,0,0);
 	PSX_msecond_timer=0;
 //	VSyncCallback(Host_VbRoutine);
-	return(TRUE);
+	return(true);
 }
 
 //---------------------------------------------------------------
@@ -446,12 +446,12 @@ void	PSXOverLay(CBYTE *name,ULONG len)
 }
 
 
-BOOL	LibShellActive()
+bool	LibShellActive()
 {
 #ifndef FS_ISO9660
 	pollhost();
 #endif
-	return(TRUE);
+	return(true);
 }
 
 //---------------------------------------------------------------
@@ -470,7 +470,7 @@ SLONG	GetTickCount()
 	return PSX_msecond_timer;
 }
 
-BOOL	GetInputDevice(UBYTE type,UBYTE sub_type)
+bool	GetInputDevice(UBYTE type,UBYTE sub_type)
 {		 
 	return(1);
 }
@@ -479,7 +479,7 @@ static unsigned char align[6]={0,1,0xFF,0xFF,0xFF,0xFF};
 int psx_send=0;
 extern UBYTE psx_motor[2];
 
-BOOL	ReadInputDevice()
+bool	ReadInputDevice()
 {
 //	UBYTE motor[2]={0,0};
 	SLONG id;

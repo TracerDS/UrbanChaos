@@ -20,7 +20,7 @@
 
 #ifdef TARGET_DC
 // The Yanks call them VMUs, Europeans call them VMs. Madness.
-bool bWriteVMInsteadOfVMU = FALSE;
+bool bWriteVMInsteadOfVMU = false;
 #endif
 
 
@@ -31,14 +31,14 @@ CBYTE	 FontName[_MAX_PATH];
 SLONG	 FontPage;
 SLONG	 FONT_TICK=0;
 
-inline BOOL Red(SLONG ofs, TGA_Pixel *data) {
+inline bool Red(SLONG ofs, TGA_Pixel *data) {
 	return ((data[ofs].red>200)&&(!data[ofs].blue)&&(!data[ofs].green));
 }
-inline BOOL Bloo(SLONG ofs, TGA_Pixel *data) {
+inline bool Bloo(SLONG ofs, TGA_Pixel *data) {
 	return ((data[ofs].blue>200)&&(!data[ofs].red)&&(!data[ofs].green));
 }
 
-inline BOOL Mata(SLONG ofs, TGA_Pixel *data) {
+inline bool Mata(SLONG ofs, TGA_Pixel *data) {
   return (Red(ofs,data)&&Red(ofs+1,data)&&(Red(ofs+256,data)));
 }
 
@@ -138,7 +138,7 @@ void MENUFONT_Load(CBYTE *fn, SLONG page, CBYTE *fontlist) {
   ASSERT ( temp != NULL );
   strcpy(tmp,TEXTURE_EXTRA_DIR);
   strcat(tmp,fn);
-  TGA_load(tmp,256,256,temp,-1,FALSE);
+  TGA_load(tmp,256,256,temp,-1,false);
 
   pt=(UBYTE*)fontlist;
 
@@ -218,7 +218,7 @@ void MENUFONT_DrawFlanged(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG alpha
 					pp[1].X=x+width;	pp[1].Y=y+(SIN(((x+width+FONT_TICK)<<i)&2047)>>13);
 					pp[2].X=x;			pp[2].Y=y+height;
 					pp[3].X=x+width;	pp[3].Y=y+height;
-					POLY_add_quad(quad,FontPage,FALSE,TRUE);
+					POLY_add_quad(quad,FontPage,false,true);
 				}
 			else
 				for (i=1;i<4;i++) {
@@ -230,7 +230,7 @@ void MENUFONT_DrawFlanged(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG alpha
 					pp[2].Y=y+height+SC((x+(i*194)+FONT_TICK)<<2);
 					pp[3].X=x+width+CC((x+width-(i*128)+FONT_TICK)<<2);
 					pp[3].Y=y+height+CC((x+width+FONT_TICK)<<2);
-					POLY_add_quad(quad,FontPage,FALSE,TRUE);
+					POLY_add_quad(quad,FontPage,false,true);
 				}
 		}
 
@@ -302,7 +302,7 @@ void MENUFONT_DrawFutzed(SWORD x, SWORD y, UWORD scale, CBYTE *msg, SLONG alpha,
 				pp[0].Y=pp[1].Y=yc;
 				yc+=ys;
 				pp[2].Y=pp[3].Y=yc;
-				POLY_add_quad(quad,FontPage,FALSE,TRUE);
+				POLY_add_quad(quad,FontPage,false,true);
 			}
 		}
 
@@ -346,7 +346,7 @@ void MENUFONT_Draw_Selection_Box_Sized(SWORD x, SWORD y, SWORD x2, SWORD y2, SLO
 	pp[2].X=x;			pp[2].Y=y+height;
 	pp[3].X=x+width;	pp[3].Y=y+height;
 
-	POLY_add_quad(quad,POLY_PAGE_ALPHA,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_ALPHA,false,true);
 	
 	// Then draw a pure white frame.
 	rgb = 0xffffffff;
@@ -359,7 +359,7 @@ void MENUFONT_Draw_Selection_Box_Sized(SWORD x, SWORD y, SWORD x2, SWORD y2, SLO
 	pp[2].X=x;			pp[2].Y=y+uwLineWidth;
 	pp[3].X=x+width;	pp[3].Y=y+uwLineWidth;
 
-	POLY_add_quad(quad,POLY_PAGE_COLOUR,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_COLOUR,false,true);
 
 	// Bottom line.
 	pp[0].X=x;			pp[0].Y=y+height-uwLineWidth;
@@ -367,7 +367,7 @@ void MENUFONT_Draw_Selection_Box_Sized(SWORD x, SWORD y, SWORD x2, SWORD y2, SLO
 	pp[2].X=x;			pp[2].Y=y+height;
 	pp[3].X=x+width;	pp[3].Y=y+height;
 
-	POLY_add_quad(quad,POLY_PAGE_COLOUR,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_COLOUR,false,true);
 
 	// Left line.
 	pp[0].X=x;				pp[0].Y=y;
@@ -375,7 +375,7 @@ void MENUFONT_Draw_Selection_Box_Sized(SWORD x, SWORD y, SWORD x2, SWORD y2, SLO
 	pp[2].X=x;				pp[2].Y=y+height;
 	pp[3].X=x+uwLineWidth;	pp[3].Y=y+height;
 
-	POLY_add_quad(quad,POLY_PAGE_COLOUR,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_COLOUR,false,true);
 
 	// Right line.
 	pp[0].X=x+width-uwLineWidth;	pp[0].Y=y;
@@ -383,7 +383,7 @@ void MENUFONT_Draw_Selection_Box_Sized(SWORD x, SWORD y, SWORD x2, SWORD y2, SLO
 	pp[2].X=x+width-uwLineWidth;	pp[2].Y=y+height;
 	pp[3].X=x+width;				pp[3].Y=y+height;
 
-	POLY_add_quad(quad,POLY_PAGE_COLOUR,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_COLOUR,false,true);
 
 }
 
@@ -582,7 +582,7 @@ extern float PANEL_GetNextDepthBodge ( void );
 					pp[2].X=x;			pp[2].Y=y+height;
 					pp[3].X=x+width;	pp[3].Y=y+height;
 
-					POLY_add_quad(quad,FontPage,FALSE,TRUE);
+					POLY_add_quad(quad,FontPage,false,true);
 				}
 			}
 
@@ -678,7 +678,7 @@ void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE *msg, SLONG rgb, 
 				pp[2].X=x;			pp[2].Y=y+height;
 				pp[3].X=x+width;	pp[3].Y=y+height;
 
-				POLY_add_quad(quad,FontPage,FALSE,TRUE);
+				POLY_add_quad(quad,FontPage,false,true);
 			}
 
 		}
@@ -768,7 +768,7 @@ void MENUFONT_MergeLower() {
 	for (c='a';c<='z';c++) {
 	  FontInfo[c]=FontInfo[c-32];
 	}
-/*	for (c='à';c<='ý';c++) {
+/*	for (c='ï¿½';c<='ï¿½';c++) {
 	  FontInfo[c]=FontInfo[c-32];
 	}*/
 	for (c=224;c<=252;c++) {

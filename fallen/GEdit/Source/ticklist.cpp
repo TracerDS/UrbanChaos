@@ -70,7 +70,7 @@ void ticklist_close(HWND hWnd, SLONG id) {
 	SetWindowLong(the_ctrl,GWL_WNDPROC,(long)previous);
 }
 
-BOOL	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) {
+bool	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) {
 	WNDPROC previous = (WNDPROC) GetWindowLong(hWnd, GWL_USERDATA);
 	
 	switch(message) {
@@ -83,7 +83,7 @@ BOOL	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) 
 			SendMessage(hWnd,LB_SETITEMDATA,item,res);
 			SendMessage(hWnd,LB_GETITEMRECT,item,(long)&rc);
 			InvalidateRect(hWnd,&rc,0);
-			return FALSE;
+			return false;
 		}
 		break;
 	case WM_LBUTTONDOWN:
@@ -97,7 +97,7 @@ BOOL	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) 
 			SendMessage(hWnd,LB_SETITEMDATA,item,res);
 			SendMessage(hWnd,LB_GETITEMRECT,item,(long)&rc);
 			InvalidateRect(hWnd,&rc,0);
-			return FALSE;
+			return false;
 		}
 		break;
 	}
@@ -119,17 +119,17 @@ SLONG ticklist_bitmask(HWND hWnd, SLONG id) {
 }
 
 
-BOOL ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam)
+bool ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT item = (LPMEASUREITEMSTRUCT) lParam;
 	RECT rc;
 	GetWindowRect(GetDlgItem(hWnd,item->CtlID),&rc);
 	item->itemWidth=rc.right-rc.left;
 	item->itemHeight=16;
-	return TRUE;
+	return true;
 }
 
-BOOL ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam)
+bool ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	HWND ctl = GetDlgItem(hWnd,wParam);
 	HDC  memdc;
@@ -155,5 +155,5 @@ BOOL ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam)
 	if (item->itemState & ODS_FOCUS) 
 		DrawFocusRect(item->hDC,&item->rcItem);
 
-	return TRUE;
+	return true;
 }

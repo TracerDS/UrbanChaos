@@ -251,14 +251,14 @@ SLONG ROAD_is_road(SLONG map_x, SLONG map_z)
 	if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(map_z, 0, PAP_SIZE_HI - 1))
 	{
-		return FALSE;
+		return false;
 	}
 
 	ph = &PAP_2HI(map_x,map_z);
 
 	if (ph->Flags & PAP_FLAG_HIDDEN)
 	{
-		return FALSE;
+		return false;
 	}
 
 	num = ph->Texture & 0x3ff;
@@ -268,28 +268,28 @@ SLONG ROAD_is_road(SLONG map_x, SLONG map_z)
 	if (WITHIN(num, 256, 256+22))
 //	if (WITHIN(num, 256, 306))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 #else
 	if (build_psx)
 	{
 		if(WITHIN(num, 256, 256+22))
-			return(TRUE);
+			return(true);
 	}
 	else
 	{
 
 		if (WITHIN(num, 323, 356) || ((TEXTURE_set == 7 || TEXTURE_set == 8) && (num == 35 || num == 36 || num == 39)))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 #endif
 }
 
@@ -301,7 +301,7 @@ SLONG ROAD_is_zebra(SLONG map_x, SLONG map_z)
 	if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(map_z, 0, PAP_SIZE_HI - 1))
 	{
-		return FALSE;
+		return false;
 	}
 
 	ph = &PAP_2HI(map_x,map_z);
@@ -310,11 +310,11 @@ SLONG ROAD_is_zebra(SLONG map_x, SLONG map_z)
 
 	if (num == 333 || num == 334)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -500,7 +500,7 @@ void ROAD_disconnect(SLONG n1, SLONG n2)
 
 //
 // Fills in the indices of a road that intersects a road from (x1,z1) to (x2,z2).
-// This function returns TRUE if it found an intersecting road or FALSE if it didn't.
+// This function returns true if it found an intersecting road or false if it didn't.
 // 
 
 SLONG ROAD_intersect(
@@ -592,7 +592,7 @@ SLONG ROAD_intersect(
 							   *ix  = x1;
 							   *iz  = rn->z;
 
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -632,7 +632,7 @@ SLONG ROAD_intersect(
 							   *ix  = rn->x;
 							   *iz  = z1;
 
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -645,7 +645,7 @@ SLONG ROAD_intersect(
 	// Found no intersecting roads.
 	//
 
-	return FALSE;
+	return false;
 }
 
 
@@ -816,7 +816,7 @@ void ROAD_add(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 
 
 //
-// Returns TRUE if the given square lies along the middle of a road.
+// Returns true if the given square lies along the middle of a road.
 //
 
 SLONG ROAD_is_middle(SLONG map_x, SLONG map_z)
@@ -830,7 +830,7 @@ SLONG ROAD_is_middle(SLONG map_x, SLONG map_z)
 	if (!WITHIN(map_x, 2, PAP_SIZE_HI - 3) ||
 		!WITHIN(map_z, 2, PAP_SIZE_HI - 3))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -839,12 +839,12 @@ SLONG ROAD_is_middle(SLONG map_x, SLONG map_z)
 
 	if (!ROAD_is_road(map_x,map_z))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (!ROAD_is_road(map_x + 2, map_z + 2))
 	{
-		return FALSE;
+		return false;
 	}
 
 	for (dx = -2; dx <= +2; dx++)
@@ -855,11 +855,11 @@ SLONG ROAD_is_middle(SLONG map_x, SLONG map_z)
 
 		if (!ROAD_is_road(mx,mz))
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -883,11 +883,11 @@ SLONG ROAD_is_end_of_the_line(SLONG n)
 			rn->x == PAP_SIZE_HI - 1 ||
 			rn->z == PAP_SIZE_HI - 1)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -925,8 +925,8 @@ void ROAD_wander_calc()
 
 	for (x = 2; x < PAP_SIZE_HI - 2; x++)
 	{
-		p1valid = FALSE;
-		p2valid = FALSE;
+		p1valid = false;
+		p2valid = false;
 
 		for (z = 1; z < PAP_SIZE_HI - 1; z++)
 		{
@@ -934,12 +934,12 @@ void ROAD_wander_calc()
 			{
 				if (!p1valid)
 				{
-					p1valid = TRUE;
+					p1valid = true;
 					p1      = z;
 				}
 				else
 				{
-					p2valid = TRUE;
+					p2valid = true;
 					p2      = z;
 				}
 			}
@@ -957,8 +957,8 @@ void ROAD_wander_calc()
 					}
 				}
 
-				p1valid = FALSE;
-				p2valid = FALSE;
+				p1valid = false;
+				p2valid = false;
 			}
 		}
 	}
@@ -969,8 +969,8 @@ void ROAD_wander_calc()
 
 	for (z = 2; z < PAP_SIZE_HI - 2; z++)
 	{
-		p1valid = FALSE;
-		p2valid = FALSE;
+		p1valid = false;
+		p2valid = false;
 
 		for (x = 1; x < PAP_SIZE_HI - 1; x++)
 		{
@@ -978,12 +978,12 @@ void ROAD_wander_calc()
 			{
 				if (!p1valid)
 				{
-					p1valid = TRUE;
+					p1valid = true;
 					p1      = x;
 				}
 				else
 				{
-					p2valid = TRUE;
+					p2valid = true;
 					p2      = x;
 				}
 			}
@@ -1001,8 +1001,8 @@ void ROAD_wander_calc()
 					}
 				}
 
-				p1valid = FALSE;
-				p2valid = FALSE;
+				p1valid = false;
+				p2valid = false;
 			}
 		}
 	}
@@ -1018,18 +1018,18 @@ void ROAD_wander_calc()
 
 		if (rn->c[0] && rn->c[1] == NULL)
 		{
-			onedge = FALSE;
+			onedge = false;
 
 			//
 			// This node is only connected to one other. It is a canditate for
 			// leading of the edge of the map.
 			//
 
-			if (rn->x == 2) {rn->x = 0; onedge = TRUE;}
-			if (rn->z == 2) {rn->z = 0; onedge = TRUE;}
+			if (rn->x == 2) {rn->x = 0; onedge = true;}
+			if (rn->z == 2) {rn->z = 0; onedge = true;}
 
-			if (rn->x == PAP_SIZE_HI - 3) {rn->x = PAP_SIZE_HI - 1; onedge = TRUE;}
-			if (rn->z == PAP_SIZE_HI - 3) {rn->z = PAP_SIZE_HI - 1; onedge = TRUE;}
+			if (rn->x == PAP_SIZE_HI - 3) {rn->x = PAP_SIZE_HI - 1; onedge = true;}
+			if (rn->z == PAP_SIZE_HI - 3) {rn->z = PAP_SIZE_HI - 1; onedge = true;}
 
 			if (onedge)
 			{
@@ -1233,7 +1233,7 @@ void ROAD_debug()
 			nx, ny + 0x60, nz,
 			0,
 			0x000000,
-			FALSE);
+			false);
 		
 		for (j = 0; j < 4; j++)
 		{	
@@ -1250,7 +1250,7 @@ void ROAD_debug()
 					mx, my + 0x10, mz,
 					0,
 					0x008800,
-					FALSE);
+					false);
 			}
 		}
 	}
@@ -1478,7 +1478,7 @@ void ROAD_calc_mapsquare_type()
 
 		if (!done[page])
 		{
-			done[page] = TRUE;
+			done[page] = true;
 
 			if (ROAD_is_road(mx,mz))
 			{

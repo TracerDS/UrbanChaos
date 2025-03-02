@@ -411,7 +411,7 @@ extern SBYTE        NIGHT_lampost_green;
 extern SBYTE        NIGHT_lampost_blue;
 
 //
-// Loads a lighting file saved from the ED module.  Return TRUE
+// Loads a lighting file saved from the ED module.  Return true
 // on success.
 //
 
@@ -461,7 +461,7 @@ NIGHT_Colour NIGHT_ambient_at_point(
 //
 // ========================================================
 
-SLONG NIGHT_slight_create(		// Returns FALSE on failure.
+SLONG NIGHT_slight_create(		// Returns false on failure.
 		SLONG x,
 		SLONG y,
 		SLONG z,
@@ -523,7 +523,7 @@ void NIGHT_dlight_squares_down();
 //
 
 void NIGHT_cache_recalc ();
-void NIGHT_cache_create (UBYTE lo_map_x, UBYTE lo_map_z, UBYTE inside_warehouse = FALSE);
+void NIGHT_cache_create (UBYTE lo_map_x, UBYTE lo_map_z, UBYTE inside_warehouse = false);
 void NIGHT_cache_create_inside(UBYTE lo_map_x, UBYTE lo_map_z,SLONG floor_y);
 void NIGHT_cache_destroy(UBYTE square_index);
 

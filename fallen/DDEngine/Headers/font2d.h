@@ -72,7 +72,7 @@ SLONG FONT2D_DrawStringWrap(CBYTE*chr, SLONG x, SLONG y, ULONG rgb=0xffffff, SLO
 // line it finished on.
 //
 
-SLONG FONT2D_DrawStringRightJustify(CBYTE*chr, SLONG x, SLONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0, bool bDontDraw=FALSE);
+SLONG FONT2D_DrawStringRightJustify(CBYTE*chr, SLONG x, SLONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0, bool bDontDraw=false);
 
 SLONG FONT2D_DrawStringRightJustifyNoWrap(CBYTE*chr, SLONG x, SLONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
 
@@ -91,7 +91,7 @@ void FONT2D_DrawStringCentred(CBYTE*chr, SLONG x, SLONG y, ULONG rgb=0xffffff, S
 //
 
 //void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SLONG fade=0);
-void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb, SLONG scale, SLONG page, SLONG fade, bool bUseLastOffset=FALSE);
+void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb, SLONG scale, SLONG page, SLONG fade, bool bUseLastOffset=false);
 
 
 

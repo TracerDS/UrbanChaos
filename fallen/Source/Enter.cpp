@@ -13,7 +13,7 @@
 #ifndef	PSX
 
 //
-// Returns TRUE if the building is valid to enter.
+// Returns true if the building is valid to enter.
 //
 
 SLONG ENTER_valid(SLONG dbuilding)
@@ -48,11 +48,11 @@ SLONG ENTER_valid(SLONG dbuilding)
 			// Invalid building.
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -227,7 +227,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 
 			if (f_list)
 			{
-				exit = FALSE;
+				exit = false;
 
 				while(1)
 				{
@@ -238,7 +238,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 					if (facet < 0)
 					{
 						facet = -facet;
-						exit  =  TRUE;
+						exit  =  true;
 					}
 
 					ASSERT(WITHIN(facet, 1, next_dfacet - 1));
@@ -294,7 +294,7 @@ SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z)
 	// the current building!
 	//
 
-	return FALSE;
+	return false;
 }
 
 
@@ -383,7 +383,7 @@ SLONG ENTER_get_type(SLONG id, SLONG block)
 
 //
 // Sets up the stair module with the given dbuilding.
-// Returns FALSE if it couldn't put the stairs in.
+// Returns false if it couldn't put the stairs in.
 //
 
 SLONG ENTER_setup_stairs(SLONG dbuilding)
@@ -471,17 +471,17 @@ SLONG ENTER_setup_stairs(SLONG dbuilding)
 					df->Z[0] >> PAP_SHIFT_HI,
 					df->X[1] >> PAP_SHIFT_HI,
 					df->Z[1] >> PAP_SHIFT_HI,
-					FALSE);
+					false);
 			}
 		}
 
-		if (STAIR_storey_finish() == FALSE)
+		if (STAIR_storey_finish() == false)
 		{
 			//
 			// This is an invalid storey.
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -492,7 +492,7 @@ SLONG ENTER_setup_stairs(SLONG dbuilding)
 
 	STAIR_calculate(db->SeedStairs);
 
-	return TRUE;
+	return true;
 }
 
 
@@ -529,7 +529,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 		// You cant go inside crates.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (!ENTER_valid(dbuilding))
@@ -538,7 +538,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 		// Cant go into this building.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -556,7 +556,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 		// No storey at this height.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if ((height & 0xff) != (building_bot & 0xff))
@@ -565,7 +565,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 		// This height is not at the floor level of any storey.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -594,13 +594,13 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 	// Find the position of the stairs throughout this building.
 	//
 
-	if (ENTER_setup_stairs(dbuilding) == FALSE)
+	if (ENTER_setup_stairs(dbuilding) == false)
 	{
 		//
 		// Couldn't setup the stairs... one of the storeys is not circular?
 		//
 
-		return FALSE;
+		return false;
 	}
 	
 	//
@@ -671,7 +671,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 		// No stairs in a warehouse.
 		//
 
-		stairs_ok  = TRUE;
+		stairs_ok  = true;
 		num_stairs = 0;
 		stair      = NULL;
 	}
@@ -711,7 +711,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 
 			db->SeedInside = result;
 
-			return TRUE;
+			return true;
 		}
 		else
 		{
@@ -719,7 +719,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 			// Could not generate the floorplan.
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 	else
@@ -728,7 +728,7 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 		// Could not get stairs.
 		//
 
-		return FALSE;
+		return false;
 	}
 }
 
@@ -740,12 +740,12 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 
 
 //
-// Returns TRUE if the building is valid to enter.
+// Returns true if the building is valid to enter.
 //
 
 SLONG ENTER_valid(SLONG dbuilding)
 {
-	return FALSE;
+	return false;
 }
 
 
@@ -772,7 +772,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z)
 {
 
-	return FALSE;
+	return false;
 }
 
 
@@ -806,13 +806,13 @@ SLONG ENTER_get_type(SLONG id, SLONG block)
 SLONG ENTER_setup_stairs(SLONG dbuilding)
 {
 
-	return FALSE;
+	return false;
 }
 
 
 SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_best_layout)
 {
-	return FALSE;
+	return false;
 }
 
 #endif

@@ -19,7 +19,7 @@ static	UBYTE				oinkey;
 static	void __interrupt far (*old_int)();
 static	void __interrupt far Keyboard_Int();
 
-BOOL	SetupKeyboard()
+bool	SetupKeyboard()
 {
 	SWORD	c0;
 	if(keyboard_patched)

@@ -30,7 +30,7 @@ struct MFTime
 	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-BOOL	SetupHost(ULONG flags);
+bool	SetupHost(ULONG flags);
 void	ResetHost();
 void	LogText(CBYTE *error, ...);
 void	Time(struct MFTime *the_time);

@@ -41,7 +41,7 @@ void PUDDLE_splash(
 		SLONG z);
 
 //
-// Returns TRUE if the given point is in a puddle.
+// Returns true if the given point is in a puddle.
 //
 
 SLONG PUDDLE_in(

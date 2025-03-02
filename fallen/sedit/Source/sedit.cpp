@@ -54,7 +54,7 @@ UINT SEDIT_wm_mousewheel;
 // 
 
 CBYTE SEDIT_map_name[_MAX_PATH];
-SLONG SEDIT_map_valid;		// TRUE => A map is loaded.
+SLONG SEDIT_map_valid;		// true => A map is loaded.
 
 //
 // The program default directory.
@@ -477,7 +477,7 @@ void SEDIT_load_map(CBYTE *name)
 	SEDIT_view_flag        = 0;
 	SEDIT_tool             = SEDIT_TOOL_PLACE_SEWERS;
 	SEDIT_doing            = SEDIT_DOING_NOTHING;
-	SEDIT_city_water_place = FALSE;
+	SEDIT_city_water_place = false;
 
 	//
 	// Start looking at the middle of the map.
@@ -508,7 +508,7 @@ void SEDIT_load_map(CBYTE *name)
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(SEDIT_handle_engine, NULL, FALSE);
+	InvalidateRect(SEDIT_handle_engine, NULL, false);
 
 	//
 	// Change the cursor back to normal.
@@ -891,7 +891,7 @@ void SEDIT_process()
 				SEDIT_cam_pitch,
 				0);
 
-			SEDIT_mouse_valid = FALSE;
+			SEDIT_mouse_valid = false;
 
 			break;
 
@@ -957,7 +957,7 @@ void SEDIT_process()
 			}
 			else
 			{
-				SEDIT_mouse_valid = FALSE;
+				SEDIT_mouse_valid = false;
 			}
 
 			break;
@@ -980,7 +980,7 @@ void SEDIT_process()
 	// Make sure the engine draws something.
 	//
 
-	InvalidateRect(SEDIT_handle_engine, NULL, FALSE);
+	InvalidateRect(SEDIT_handle_engine, NULL, false);
 }
 
 
@@ -1202,7 +1202,7 @@ LRESULT CALLBACK SEDIT_callback_frame(
 				scancode += 0x80;
 			}
 
-			Keys[scancode] = TRUE;
+			Keys[scancode] = true;
 
 			AltFlag     = (Keys[KB_LALT]     || Keys[KB_RALT]);
 			ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
@@ -1223,7 +1223,7 @@ LRESULT CALLBACK SEDIT_callback_frame(
 				scancode += 0x80;
 			}
 
-			Keys[scancode] = FALSE;
+			Keys[scancode] = false;
 
 			AltFlag     = (Keys[KB_LALT]     || Keys[KB_RALT]);
 			ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
@@ -1307,11 +1307,11 @@ LRESULT CALLBACK SEDIT_callback_choose_prim(
 
 				GetWindowRect(dialog_handle, &rect);
 				GetCursorPos (&mouse);
-				MoveWindow   (dialog_handle, mouse.x, mouse.y, rect.right - rect.left, rect.bottom - rect.top, FALSE);
+				MoveWindow   (dialog_handle, mouse.x, mouse.y, rect.right - rect.left, rect.bottom - rect.top, false);
 			}
 			else
 			{
-				EndDialog(dialog_handle, FALSE);
+				EndDialog(dialog_handle, false);
 			}
 
 			return 0;
@@ -1328,18 +1328,18 @@ LRESULT CALLBACK SEDIT_callback_choose_prim(
 						item        = SendMessage(list_handle, LB_GETCURSEL, 0, 0);
 						selection   = item + 1;
 
-						return TRUE;
+						return true;
 					}
 
 					break;
 
 				case IDOK:
 					EndDialog(dialog_handle, selection);
-					return TRUE;
+					return true;
 
 				case IDCANCEL:
 					EndDialog(dialog_handle, 0);
-					return TRUE;
+					return true;
 
 				default:
 					break;
@@ -1351,7 +1351,7 @@ LRESULT CALLBACK SEDIT_callback_choose_prim(
 			break;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1413,7 +1413,7 @@ LRESULT CALLBACK SEDIT_callback_engine(
 					// Start placing down water.
 					//
 
-					SEDIT_city_water_place       =  TRUE;
+					SEDIT_city_water_place       =  true;
 					SEDIT_city_water_place_state = !ES_city_water_get(SEDIT_mouse_world_x, SEDIT_mouse_world_z);
 				}
 				else
@@ -1533,7 +1533,7 @@ LRESULT CALLBACK SEDIT_callback_engine(
 					break;
 			}
 
-			SEDIT_city_water_place = FALSE;
+			SEDIT_city_water_place = false;
 
 			//
 			// Make anything the user did undoable.
@@ -1761,7 +1761,7 @@ void SEDIT_do()
 	AdjustWindowRectEx(
 		&rect,
 		 WS_CAPTION | WS_CHILD,
-		 FALSE,
+		 false,
 		 0);
 
 	SEDIT_handle_engine = CreateWindow(
@@ -1795,10 +1795,10 @@ void SEDIT_do()
 	// Sneakily pretend that this was the window created by SetupHost!
 	//
 
-	extern volatile BOOL ShellActive;
+	extern volatile bool ShellActive;
 
 	hDDLibWindow = SEDIT_handle_frame;
-	ShellActive  = TRUE;
+	ShellActive  = true;
 
 	//
 	// Open this display using our engine window.

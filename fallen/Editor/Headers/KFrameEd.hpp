@@ -98,7 +98,7 @@ class	KeyFrameEditor	:	public	EditorModule
 		void			SetPersonBits();
 		void			SetBodyType(SLONG part);
 		SLONG			GetPartID(UWORD current);
-		void			DrawAnimFrames(Anim *the_anim,BOOL hilite);
+		void			DrawAnimFrames(Anim *the_anim,bool hilite);
 		Anim			*DrawAllAnimsBox();
 		void			ClearAll();
 		void			AppendAnim();

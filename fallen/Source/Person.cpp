@@ -182,7 +182,7 @@ MF_sfx_stop_all();
 //	 Now she's a real sexy groover
 
 #ifndef PSX
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 #endif
 
 extern	SLONG	person_holding_2handed(Thing *p_person);
@@ -482,27 +482,27 @@ void	set_player_visited(UBYTE x,UBYTE z)
 }
 #endif
 
-inline BOOL	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
+inline bool	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
 	if (p_person->Draw.Tweened->FrameIndex>=frameindex) {
 		if (!(p_person->Genus.Person->Flags2&FLAG2_SYNC_SOUNDFX)) {
 			p_person->Genus.Person->Flags2|=FLAG2_SYNC_SOUNDFX;
-			return TRUE;
+			return true;
 		}
 	} else {
 		p_person->Genus.Person->Flags2&=~FLAG2_SYNC_SOUNDFX;
 	}
-	return FALSE;
+	return false;
 
 }
 
-BOOL PersonIsMIB(Thing* p_person)
+bool PersonIsMIB(Thing* p_person)
 {
 	return (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB3);
 }
 
-void SlideSoundCheck(Thing* p_person, BOOL force=0)
+void SlideSoundCheck(Thing* p_person, bool force=0)
 {
 	if (p_person->Genus.Person->Flags&FLAG_PERSON_SLIDING)
 	{
@@ -837,7 +837,7 @@ extern	SWORD	people_types[50];
 
 
 //
-// Returns TRUE if there is enough room in front of the given person.
+// Returns true if there is enough room in front of the given person.
 // 
 
 SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room)
@@ -871,7 +871,7 @@ SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room)
 		// Too much height difference.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (!there_is_a_los(
@@ -879,10 +879,10 @@ SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room)
 			x2, y2, z2,
 			LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2088,7 +2088,7 @@ void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type)
 }
 
 //
-// Returns TRUE if there is room behind the person for him to die
+// Returns true if there is room behind the person for him to die
 // in the given direction.
 // 
 
@@ -2123,7 +2123,7 @@ SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
 		// No room to die this way round.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -2154,7 +2154,7 @@ SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
 			(p_person->WorldPos.Z + dz     >> 8),
 			0,
 			0,
-			TRUE);
+			true);
 	
 	*/
 
@@ -2171,10 +2171,10 @@ SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
 		// No room to die this way round.
 		//
 
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2255,8 +2255,8 @@ void set_person_dead(
 	DrawTween  *draw_info;
 	SLONG		anim;
 	SLONG       substate;
-	SLONG       quick  = FALSE;
-	SLONG       locked = FALSE;
+	SLONG       quick  = false;
+	SLONG       locked = false;
 
 	ASSERT(p_thing->Class == CLASS_PERSON);
 	p_thing->Draw.Tweened->Roll	 = 0;
@@ -2458,7 +2458,7 @@ void set_person_dead(
 			// a sound effect.
 			// 
 
-			quick = TRUE;
+			quick = true;
 
 			break;
 
@@ -2475,7 +2475,7 @@ void set_person_dead(
 			// We must do a locked anim change.
 			//
 
-			locked = TRUE;
+			locked = true;
 
 			//
 			// Is this person on their front or back?
@@ -2574,7 +2574,7 @@ void set_person_dead(
 			}
 
 			StopScreamFallSound(p_thing); // just in case
-			locked   = TRUE;
+			locked   = true;
 			substate = SUB_STATE_DYING_FINAL_ANI;
 
 			break;
@@ -2626,7 +2626,7 @@ void set_person_dead(
 			// play a sound effect
 			//
 
-			quick = TRUE;
+			quick = true;
 			break;
 
 		case PERSON_DEATH_TYPE_STAY_ALIVE_PRONE:
@@ -2640,7 +2640,7 @@ void set_person_dead(
 			// play a sound effect
 			//
 
-			quick = TRUE;
+			quick = true;
 
 			break;
 
@@ -2849,11 +2849,11 @@ SLONG	is_person_ko(Thing *p_person)
 		{
 			case SUB_STATE_DYING_KNOCK_DOWN_WAIT:
 			case SUB_STATE_DYING_KNOCK_DOWN:	// An extra substate compared to the old version...
-				return TRUE;
+				return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 SLONG	is_person_ko_and_lay_down(Thing *p_person)
@@ -2863,11 +2863,11 @@ SLONG	is_person_ko_and_lay_down(Thing *p_person)
 		switch(p_person->SubState)
 		{
 			case SUB_STATE_DYING_KNOCK_DOWN_WAIT:
-				return TRUE;
+				return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 void knock_person_down(
@@ -2907,7 +2907,7 @@ void knock_person_down(
 		origin_x,
 		origin_z);
 
-	behind = FALSE;
+	behind = false;
 
 	if ((p_person->Genus.Person->pcom_bent & PCOM_BENT_PLAYERKILL) && (!p_aggressor || !p_aggressor->Genus.Person->PlayerID))
 	{
@@ -3030,7 +3030,7 @@ SLONG	find_an_enemy_within_dist(SLONG x,SLONG y,SLONG z,SLONG dist,SLONG group)
 
 
 //
-// Returns TRUE if there is a LOS between the two people's heads.
+// Returns true if there is a LOS between the two people's heads.
 //
 
 SLONG los_between_heads(
@@ -3167,7 +3167,7 @@ SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b)
 }
 
 //
-// Returns TRUE if a person is crouching
+// Returns true if a person is crouching
 //
 
 SLONG is_person_crouching(Thing *p_person)
@@ -3183,7 +3183,7 @@ SLONG is_person_crouching(Thing *p_person)
 
 
 //
-// Returns TRUE if person_a can see person_b
+// Returns true if person_a can see person_b
 //
 
 //
@@ -3223,7 +3223,7 @@ SLONG can_a_see_b(
 		//
 		// can't see player during cut scene
 		//
-		return FALSE;
+		return false;
 	}
 
 	*/
@@ -3236,7 +3236,7 @@ SLONG can_a_see_b(
 		// while the other isn't.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if(range==0)
@@ -3248,11 +3248,11 @@ SLONG can_a_see_b(
 	// Is darci moving?
 	//
 
-	p_person_b_moving = TRUE;
+	p_person_b_moving = true;
 
 	if (p_person_b->State == STATE_IDLE || (p_person_b->State == STATE_GUN && p_person_b->SubState == SUB_STATE_AIM_GUN))
 	{
-		p_person_b_moving = FALSE;
+		p_person_b_moving = false;
 	}
 
 	dx = p_person_b->WorldPos.X - p_person_a->WorldPos.X;
@@ -3324,7 +3324,7 @@ SLONG can_a_see_b(
 		// Too far away.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	{
@@ -3345,11 +3345,11 @@ SLONG can_a_see_b(
 
 			if (dangle < 700 || dangle > 2048 - 700)
 			{
-				return TRUE;
+				return true;
 			}
 			else
 			{
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -3374,7 +3374,7 @@ SLONG can_a_see_b(
 						// Too far away to see out of the corner of your eye.
 						//
 
-						return FALSE;
+						return false;
 					}
 				}
 			}
@@ -3391,7 +3391,7 @@ SLONG can_a_see_b(
 			//
 
 			if(no_los)
-				return(TRUE);
+				return(true);
 
 			if (p_person_b->Genus.Person->Ware)
 			{
@@ -3408,7 +3408,7 @@ SLONG can_a_see_b(
 						(p_person_b->WorldPos.Z >> 8),
 						LOS_FLAG_IGNORE_UNDERGROUND_CHECK))
 				{
-					return TRUE;
+					return true;
 				}
 			}
 			else
@@ -3439,17 +3439,17 @@ SLONG can_a_see_b(
 						(p_person_b->WorldPos.Z >> 8),
 						0,
 						0x00123456,
-						TRUE);
+						true);
 
 					*/
 
-					return TRUE;
+					return true;
 				}
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -3476,7 +3476,7 @@ SLONG can_i_see_place(Thing *p_person, SLONG x, SLONG y, SLONG z)
 		// Too far away.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (abs(dy) > abs(dist >> 1))
@@ -3485,7 +3485,7 @@ SLONG can_i_see_place(Thing *p_person, SLONG x, SLONG y, SLONG z)
 		// Too high up.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -3524,11 +3524,11 @@ SLONG can_i_see_place(Thing *p_person, SLONG x, SLONG y, SLONG z)
 			// No building in the way
 			//
 
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -3547,7 +3547,7 @@ void set_person_sliding_tackle(Thing *p_person, Thing *p_target)
 }
 
 //
-// Returns TRUE if the person vaults...
+// Returns true if the person vaults...
 //
 
 SLONG set_person_vault(Thing *p_person, SLONG facet)
@@ -3560,10 +3560,10 @@ SLONG set_person_vault(Thing *p_person, SLONG facet)
 
 		set_generic_person_state_function(p_person, STATE_MOVEING);
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 SLONG set_person_climb_half(Thing *p_person, SLONG facet)
@@ -3576,10 +3576,10 @@ SLONG set_person_climb_half(Thing *p_person, SLONG facet)
 
 		set_generic_person_state_function(p_person, STATE_MOVEING);
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
@@ -3721,7 +3721,7 @@ extern	void	check_players_gang(Thing *p_target);
 			p_person->WorldPos.Z                  >> 8,
 			0,
 			0x330088,
-			FALSE);
+			false);
 	}
 */
 
@@ -4036,7 +4036,7 @@ void	general_process_person(Thing *p_person)
 			p_person->WorldPos.Z                  >> 8,
 			0,
 			0x330088,
-			FALSE);
+			false);
 */
 	//
 	// every 64 turns clear the flag been shot, this flag gives you super vision
@@ -4067,7 +4067,7 @@ void	general_process_person(Thing *p_person)
 			p_person->WorldPos.Z                  >> 8,
 			0,
 			0x330088,
-			FALSE);
+			false);
 	}
 	if(p_person->Genus.Person->Flags&FLAG_PERSON_FELON)
 	{
@@ -4082,7 +4082,7 @@ void	general_process_person(Thing *p_person)
 			p_person->WorldPos.Z                  >> 8,
 			0,
 			0x33ff88,
-			FALSE);
+			false);
 	}
 */
 	if(ControlFlag)
@@ -4103,7 +4103,7 @@ void	general_process_person(Thing *p_person)
 			p_target->WorldPos.Z                  >> 8,
 			0,
 			0x33ff88,
-			FALSE);
+			false);
 	}
 #endif
 
@@ -4149,7 +4149,7 @@ void	general_process_person(Thing *p_person)
 						32,0x00ff00,p_person->WorldPos.X >> 8,p_person->WorldPos.Y + 0x1000 >> 8,p_person->WorldPos.Z >> 8,
 						0,
 						0x000000,
-						TRUE);
+						true);
 	}
 */
 	#ifndef NDEBUG
@@ -4174,7 +4174,7 @@ void	general_process_person(Thing *p_person)
 					p_person->WorldPos.Z          >> 8,
 					0,
 					0x000000,
-					TRUE);
+					true);
 			}
 		}
 	}
@@ -4204,7 +4204,7 @@ void	general_process_person(Thing *p_person)
 		AENG_world_line(
 			px, py, pz, 0, 0xffffff,
 			px, py + 20, pz, 32, 0xccccff,
-			FALSE);
+			false);
 	}
 */
 
@@ -4392,7 +4392,7 @@ void	general_process_person(Thing *p_person)
 				p_person,
 				NULL,
 				PERSON_DEATH_TYPE_OTHER,
-				FALSE,
+				false,
 				0);
 
 		} else {
@@ -4499,7 +4499,7 @@ void	general_process_person(Thing *p_person)
 						p_person,
 						NET_PERSON(0),
 						PCOM_AI_SUBSTATE_TALK_ASK,
-						FALSE);
+						false);
 
 
 //					PANEL_new_text(p_person, 4000, "Hey! Why are you hitting me, Darci?");
@@ -5380,7 +5380,7 @@ SLONG	person_normal_animate_speed(Thing *p_person,SLONG speed)
 			if(apply_violence(p_person)==0)
 			{
 #ifndef PSX
-extern BOOL PLAYCUTS_playing;
+extern bool PLAYCUTS_playing;
 #ifdef EDITOR
 extern HWND			CUTSCENE_edit_wnd;
 				if (!(CUTSCENE_edit_wnd||PLAYCUTS_playing))
@@ -5590,7 +5590,7 @@ void	camera_normal()
 		CAM_set_zoom(0x340 * 180 / 256);
 		CAM_set_behind_up(0x18000 * 100 / 256);
 		CAM_lens = CAM_LENS_WIDEANGLE;
-		CAM_set_collision(FALSE);
+		CAM_set_collision(false);
 	}
 	else
 	{
@@ -5995,7 +5995,7 @@ SLONG get_shoot_damage(Thing *p_person, Thing *p_target,SLONG *gun_type)
 
 SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SLONG *time)
 {
-	SLONG ammo = FALSE;
+	SLONG ammo = false;
 	SLONG ammo_in_clip;
 
 	if (PersonIsMIB(p_person))
@@ -6087,7 +6087,7 @@ SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SL
 			// We have ammo.
 			//
 
-			ammo = TRUE;
+			ammo = true;
 		}
 		else
 		{
@@ -6153,7 +6153,7 @@ SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SL
 			// We have ammo.
 			//
 
-			ammo  = TRUE;
+			ammo  = true;
 		   *anim  = ANIM_PISTOL_SHOOT;
 		}
 		else
@@ -6698,7 +6698,7 @@ SLONG get_persons_best_weapon_with_ammo(Thing *p_person)
 
 
 //
-// Returns TRUE if you shouldn't hit this person due to
+// Returns true if you shouldn't hit this person due to
 // a cutscene playing.
 //
 
@@ -6708,11 +6708,11 @@ SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 	{
 		if (p_target->Class == CLASS_PERSON)
 		{
-			SLONG dont_shoot_in_a_cutscene = FALSE;
+			SLONG dont_shoot_in_a_cutscene = false;
 
 			if (p_target->Genus.Person->PlayerID)
 			{
-				dont_shoot_in_a_cutscene = TRUE;
+				dont_shoot_in_a_cutscene = true;
 			}
 			else
 			if (p_target->Genus.Person->pcom_move == PCOM_MOVE_FOLLOW)
@@ -6729,7 +6729,7 @@ SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 
 					if (p_follow->Class == CLASS_PERSON && p_follow->Genus.Person->PlayerID)
 					{
-						dont_shoot_in_a_cutscene = TRUE;
+						dont_shoot_in_a_cutscene = true;
 					}
 				}
 			}
@@ -6740,12 +6740,12 @@ SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 				// Don't shoot.
 				//
 
-				return TRUE;
+				return true;
 			}
 		}			
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -6760,7 +6760,7 @@ void	set_person_shoot(Thing *p_person,UWORD shoot_target)
 {
 	SLONG		dx,dz;
 	SLONG		anim = ANIM_PISTOL_SHOOT;
-	SLONG       ammo = FALSE;
+	SLONG       ammo = false;
 	SLONG		sound;
 	SLONG		time;
 
@@ -7100,7 +7100,7 @@ SLONG person_has_gun_out(Thing *p_person)
 
 	if (!p_person->Genus.Person->SpecialUse)
 	{
-		return FALSE;
+		return false;
 	}
 
 	{
@@ -7114,7 +7114,7 @@ SLONG person_has_gun_out(Thing *p_person)
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -7459,7 +7459,7 @@ void	set_person_idle(Thing *p_person)
 			// You are a player and you're not in fight mode.
 			//
 
-			Thing *p_attacker = is_person_under_attack_low_level(p_person, FALSE, 0x200);
+			Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
 
 			if (p_attacker)
 			{
@@ -8306,11 +8306,11 @@ void	set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
 
 		extern UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
-		sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim = TRUE;
+		sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim = true;
 
 		position_person_for_vehicle(p_person,p_vehicle,door);
 
-		sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim = FALSE;
+		sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim = false;
 	}
 
 //	set_locked_anim(p_person,ANIM_DANCE_BOOGIE,SUB_OBJECT_LEFT_FOOT);
@@ -8426,7 +8426,7 @@ void	set_person_exit_vehicle(Thing *p_person)
 	SLONG door_y;
 	SLONG door_z;
 	SLONG side;
-	SLONG otherside = FALSE;
+	SLONG otherside = false;
 	SLONG	dx,dz;
 
 	GameCoord newpos;
@@ -8468,7 +8468,7 @@ void	set_person_exit_vehicle(Thing *p_person)
 		door_z+dz,
 		0,
 		0x03f008,
-		TRUE);
+		true);
 
 	#endif
 #endif
@@ -8511,7 +8511,7 @@ void	set_person_exit_vehicle(Thing *p_person)
 			//
 
 			side      = !side;
-			otherside =  TRUE;
+			otherside =  true;
 
 			goto try_again;
 		}
@@ -8935,7 +8935,7 @@ void	set_person_fight_idle(Thing *p_person)
 
 	if(p_person->Genus.Person->PlayerID)
 	{
-		Thing *p_attacker = is_person_under_attack_low_level(p_person, FALSE, 0x200);
+		Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
 
 		if (p_attacker == NULL)
 		{
@@ -10358,7 +10358,7 @@ SLONG	traverse_pos(Thing	*p_person,SLONG right)
 			if (!WITHIN(cx >> 8, 0, PAP_SIZE_HI - 1) ||
 				!WITHIN(cz >> 8, 0, PAP_SIZE_HI - 1))
 			{
-				return FALSE;
+				return false;
 			}
 
 			//
@@ -10367,7 +10367,7 @@ SLONG	traverse_pos(Thing	*p_person,SLONG right)
 
 			if (PAP_calc_map_height_at(cx,cz) > y + 0x30)
 			{
-				return FALSE;
+				return false;
 			}
 
 			cx >>= 8;
@@ -10375,7 +10375,7 @@ SLONG	traverse_pos(Thing	*p_person,SLONG right)
 
 			if (PAP_2HI(cx,cz).Flags & PAP_FLAG_NOGO)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 	}
@@ -10728,7 +10728,7 @@ SLONG	am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_d
 			p_facet->x[1]<<8,p_facet->Y[0],p_facet->z[1]<<8,
 			0,
 			0x330088,
-			TRUE);
+			true);
 */
 
 	mdx=abs(dx);
@@ -10829,7 +10829,7 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 
 	if (!WITHIN(p_person->WorldPos.Y >> 8, bot - 30, top))
 	{
-		return FALSE;
+		return false;
 	}
 
 	p_facet = &dfacets[col];
@@ -11232,7 +11232,7 @@ SLONG	set_person_pos_for_half_step(Thing *p_person,SLONG col)
 					ax1, az1,
 					ax2, az2))
 			{
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -11762,7 +11762,7 @@ void	fn_person_idle(Thing *p_person)
 					(p_person->WorldPos.Z >> 8),
 					0,
 					0x00123456,
-					TRUE);
+					true);
 	}
 */
 #endif
@@ -11824,7 +11824,7 @@ void	fn_person_idle(Thing *p_person)
 
 			//if(count_gang(p_person)==0)
 			{
-				Thing *p_attacker = is_person_under_attack_low_level(p_person, FALSE, 0x200);
+				Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
 
 				if (p_attacker == NULL)
 				{
@@ -11933,7 +11933,7 @@ void	fn_person_idle(Thing *p_person)
 
 			if (p_person->SubState!=SUB_STATE_IDLE_CROUTCH_ARREST)
 			{
-				Thing *p_attacker = is_person_under_attack_low_level(p_person, FALSE, 0x100);
+				Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x100);
 
 
 				if(p_person->Genus.Person->pcom_colour)
@@ -12768,7 +12768,7 @@ SLONG	grab_ledge(Thing *p_person)
 				   &grab_z,
 				   &grab_angle,
 				    ignore_building,
-					FALSE,&type,
+					false,&type,
 					p_person);
 	}
 
@@ -13914,11 +13914,11 @@ SLONG	check_limb_pos_on_fence(Thing *p_person,SLONG sub_part)
 
 	if (WITHIN(y1, bottom + 20, top))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -13953,7 +13953,7 @@ SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect);
 
 void	fn_person_laddering(Thing	*p_person)
 {
-	BOOL		play_it	=	FALSE;
+	bool		play_it	=	false;
 	UBYTE		last_frame;
 	SLONG		end=0,hit,
 				foot_step_wave;
@@ -13965,7 +13965,7 @@ void	fn_person_laddering(Thing	*p_person)
 				last_frame	=	p_person->Draw.Tweened->FrameIndex;
 				end			=	person_normal_animate(p_person);
 				if(p_person->Draw.Tweened->FrameIndex!=last_frame && p_person->Draw.Tweened->FrameIndex==3)
-					play_it	=	TRUE;
+					play_it	=	true;
 
 				if(end==1)
 				{
@@ -13977,15 +13977,15 @@ void	fn_person_laddering(Thing	*p_person)
 			break;
 		case	SUB_STATE_CLIMB_UP_LADDER:
 	
-				on_ladder_left =	check_limb_pos_on_ladder(p_person,SUB_OBJECT_LEFT_HAND,  FALSE);
-				on_ladder_right=    check_limb_pos_on_ladder(p_person,SUB_OBJECT_RIGHT_HAND, FALSE);
+				on_ladder_left =	check_limb_pos_on_ladder(p_person,SUB_OBJECT_LEFT_HAND,  false);
+				on_ladder_right=    check_limb_pos_on_ladder(p_person,SUB_OBJECT_RIGHT_HAND, false);
 					
 				if ((on_ladder_left&on_ladder_right) & PERSON_LIMB_ON_LADDER)
 				{
 					last_frame	=	p_person->Draw.Tweened->FrameIndex;
 					end			=	person_normal_animate(p_person);
 					if(p_person->Draw.Tweened->FrameIndex!=last_frame && ((p_person->Draw.Tweened->FrameIndex%3==0) || (p_person->Draw.Tweened->FrameIndex%6==0)))
-						play_it	=	TRUE;
+						play_it	=	true;
 
 					if(end==1)
 					{
@@ -14072,15 +14072,15 @@ void	fn_person_laddering(Thing	*p_person)
 			break;
 		case	SUB_STATE_CLIMB_DOWN_LADDER:
 
-				on_ladder_left =check_limb_pos_on_ladder(p_person,SUB_OBJECT_LEFT_FOOT,  TRUE);
-				on_ladder_right=check_limb_pos_on_ladder(p_person,SUB_OBJECT_RIGHT_FOOT, TRUE);
+				on_ladder_left =check_limb_pos_on_ladder(p_person,SUB_OBJECT_LEFT_FOOT,  true);
+				on_ladder_right=check_limb_pos_on_ladder(p_person,SUB_OBJECT_RIGHT_FOOT, true);
 					
 				if ((on_ladder_left&on_ladder_right) & PERSON_LIMB_ON_LADDER)
 				{
 					last_frame	=	p_person->Draw.Tweened->FrameIndex;
 					end			=	person_backwards_animate(p_person);
 					if(p_person->Draw.Tweened->FrameIndex!=last_frame && ((p_person->Draw.Tweened->FrameIndex%3==0) || (p_person->Draw.Tweened->FrameIndex%6==0)))
-						play_it	=	TRUE;
+						play_it	=	true;
 
 					if(end==1)
 					{
@@ -14165,7 +14165,7 @@ void	fn_person_laddering(Thing	*p_person)
 				last_frame	=	p_person->Draw.Tweened->FrameIndex;
 				end			=	person_normal_animate(p_person);
 				if(p_person->Draw.Tweened->FrameIndex!=last_frame && (p_person->Draw.Tweened->FrameIndex==1 || p_person->Draw.Tweened->FrameIndex==3))
-					play_it	=	TRUE;
+					play_it	=	true;
 
 				if(end==1)
 				{
@@ -14766,7 +14766,7 @@ void	fn_person_dangling(Thing	*p_person)
 					// We don't grab faces when falling (backwards) off a face.
 					//
 
-					grab = FALSE;
+					grab = false;
 				}
 				else
 				{
@@ -15174,7 +15174,7 @@ SLONG should_person_automatically_land_on_fence(Thing *p_person, SLONG facet)
 
 	if (p_person->Genus.Person->PlayerID == 0)
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (p_person->Genus.Person->SpecialUse)
@@ -15186,7 +15186,7 @@ SLONG should_person_automatically_land_on_fence(Thing *p_person, SLONG facet)
 			//
 			// While holding wire cutters don't auto climb fences, because you might want to cut it
 			//
-			return(FALSE);
+			return(false);
 
 		}
 	}
@@ -15220,11 +15220,11 @@ SLONG should_person_automatically_land_on_fence(Thing *p_person, SLONG facet)
 			if ((da > FENCE_DA        && da < 1024 - FENCE_DA ) ||
 				(da > FENCE_DA + 1024 && da < 2048 - FENCE_DA ))
 			{
-				return FALSE;
+				return false;
 			}
 			else
 			{
-				return TRUE;
+				return true;
 			}
 		}
 	}
@@ -15239,7 +15239,7 @@ SLONG should_person_automatically_land_on_fence(Thing *p_person, SLONG facet)
 
 	*/
 
-	return FALSE;
+	return false;
 }
 
 void process_a_vaulting_person(Thing *p_person)
@@ -18069,7 +18069,7 @@ void	highlight_gun_target(Thing *p_person,Thing *p_target)
 			p_target->WorldPos.Z                  >> 8,
 			0,
 			0x330088,
-			FALSE);
+			false);
 
 
 		{
@@ -18131,7 +18131,7 @@ void	fn_person_gun(Thing *p_person)
 							{
 								p_person->Genus.Person->Timer1=0;  // 1/5th of a second
 
-								set_person_shoot(p_person, TRUE);
+								set_person_shoot(p_person, true);
 
 								return;
 							}
@@ -18380,7 +18380,7 @@ void	fn_person_gun(Thing *p_person)
 
 				if (end == 1)
 				{
-					SLONG firing_an_ak = FALSE;
+					SLONG firing_an_ak = false;
 					SLONG fire_length  = 4;
 					
 					if (!p_person->Genus.Person->PlayerID && p_person->Genus.Person->SpecialUse && TO_THING(p_person->Genus.Person->SpecialUse)->Genus.Special->SpecialType == SPECIAL_AK47)
@@ -18389,12 +18389,12 @@ void	fn_person_gun(Thing *p_person)
 						// This person is firing the AK47!
 						//
 
-						firing_an_ak = TRUE;
+						firing_an_ak = true;
 					}
 
 					if (PersonIsMIB(p_person))
 					{
-						firing_an_ak = TRUE;
+						firing_an_ak = true;
 						fire_length  = 6;
 					}
 
@@ -18402,7 +18402,7 @@ void	fn_person_gun(Thing *p_person)
 					{
 						SLONG old_timer = p_person->Genus.Person->Timer1;
 
-						set_person_shoot(p_person, TRUE);
+						set_person_shoot(p_person, true);
 
 						p_person->Genus.Person->Timer1 = old_timer + 1;
 
@@ -18429,7 +18429,7 @@ void	fn_person_gun(Thing *p_person)
 								{
 									p_person->Genus.Person->Timer1=0;  // 1/5th of a second
 
-									set_person_shoot(p_person, TRUE);
+									set_person_shoot(p_person, true);
 
 									return;
 								}
@@ -20250,7 +20250,7 @@ void fn_person_goto(Thing *p_person)
 		p_person->Genus.Person->GotoZ,
 		0x0,
 		0x00ff0000,
-		TRUE);
+		true);
 */
 }
 
@@ -20272,7 +20272,7 @@ SLONG	hit_enemy(Thing *p_person,SLONG dx,SLONG dz)
 }
 #endif
 //
-// Returns TRUE if you've reached your destination.
+// Returns true if you've reached your destination.
 //
 
 SLONG process_person_goto_xz(Thing *p_person,SLONG x,SLONG z,SLONG dist)
@@ -21143,7 +21143,7 @@ SLONG	check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 						pz,
 						0,
 						0x00123456,
-						TRUE);
+						true);
 	  */
 
 	{
@@ -21184,7 +21184,7 @@ SLONG	check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 				break;
 		}
 		loop--;
-		exit   = FALSE;
+		exit   = false;
 		if(mx>=0 && mz>=0 && mx<32 && mz<32)
 		{
 			f_list = PAP_2LO(mx,mz).ColVectHead;
@@ -21207,7 +21207,7 @@ SLONG	check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 				if (i_facet < 0)
 				{
 					i_facet = -i_facet;
-					exit   =   TRUE;
+					exit   =   true;
 				}
 
 				df = &dfacets[i_facet];
@@ -21627,7 +21627,7 @@ void fn_person_circle(Thing *p_person)
 	UBYTE	renav=0;
 	UWORD	reqd_anim=0;
 
-	BOOL poo;
+	bool poo;
 	
 	Thing *p_target = TO_THING(p_person->Genus.Person->Target);
 	SLONG	hit_distance=140;

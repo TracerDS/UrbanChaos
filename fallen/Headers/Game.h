@@ -392,9 +392,9 @@ extern	UBYTE			VIOLENCE;
 
 #ifdef TARGET_DC
 // Don't use these!
-#define	MAP						(ASSERT(FALSE),the_game.Map)
-#define	MAP2(x,y)				(ASSERT(FALSE),the_game.Map[(y)+((x)*MAP_WIDTH)])
-#define	MAP_WHO(i)				(ASSERT(FALSE),MAP[i].MapWho)
+#define	MAP						(ASSERT(false),the_game.Map)
+#define	MAP2(x,y)				(ASSERT(false),the_game.Map[(y)+((x)*MAP_WIDTH)])
+#define	MAP_WHO(i)				(ASSERT(false),MAP[i].MapWho)
 #else
 #define	MAP						(the_game.Map)
 #define	MAP2(x,y)				(the_game.Map[(y)+((x)*MAP_WIDTH)])
@@ -538,7 +538,7 @@ inline UWORD Random()
 
 void			game_startup();
 void			game_shutdown();
-BOOL			game_init();
+bool			game_init();
 void			game();
 void			game_attract_mode();
 UBYTE			game_loop();

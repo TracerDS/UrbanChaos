@@ -37,7 +37,7 @@ LEX_Token LEX_top;
 
 
 //
-// TRUE if the last token found was a NEWLINE
+// true if the last token found was a NEWLINE
 //
 
 SLONG LEX_last_token_newline;
@@ -65,7 +65,7 @@ void LEX_find_next_token()
 	// Initailise the answer.
 	//
 
-	LEX_top_valid = TRUE;
+	LEX_top_valid = true;
 	LEX_top.line  = LEX_stream_line;
 
 	//
@@ -83,7 +83,7 @@ void LEX_find_next_token()
 			LEX_stream_upto++;
 			LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
 
-			LEX_last_token_newline = TRUE;
+			LEX_last_token_newline = true;
 
 			return;
 		}
@@ -109,13 +109,13 @@ void LEX_find_next_token()
 		{
 			LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
 
-			LEX_last_token_newline = TRUE;
+			LEX_last_token_newline = true;
 		}
 
 		return;
 	}
 
-	LEX_last_token_newline = FALSE;
+	LEX_last_token_newline = false;
 
 	//
 	// Arithmetic characters..
@@ -163,7 +163,7 @@ void LEX_find_next_token()
 						LEX_stream_upto++;
 						LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
 
-						LEX_last_token_newline = TRUE;
+						LEX_last_token_newline = true;
 
 						return;
 					}
@@ -172,7 +172,7 @@ void LEX_find_next_token()
 					{
 						LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
 
-						LEX_last_token_newline = TRUE;
+						LEX_last_token_newline = true;
 
 						return;
 					}
@@ -444,7 +444,7 @@ void LEX_find_next_token()
 	else
 	if (isdigit(*LEX_stream_upto) || *LEX_stream_upto == '.')
 	{
-		SLONG doing_fraction = FALSE;
+		SLONG doing_fraction = false;
 
 		double number = 0.0F;
 		double frac   = 0.1F;
@@ -492,7 +492,7 @@ void LEX_find_next_token()
 				}
 				else
 				{
-					doing_fraction = TRUE;
+					doing_fraction = true;
 				}
 			}
 			else
@@ -572,8 +572,8 @@ void LEX_find_next_token()
 			{"LOCAL",     LEX_TOKEN_TYPE_LOCAL    },
 			{"PRINT",     LEX_TOKEN_TYPE_PRINT    },
 			{"ELSE",      LEX_TOKEN_TYPE_ELSE     },
-			{"TRUE",      LEX_TOKEN_TYPE_TRUE     },
-			{"FALSE",     LEX_TOKEN_TYPE_FALSE    },
+			{"true",      LEX_TOKEN_TYPE_TRUE     },
+			{"false",     LEX_TOKEN_TYPE_FALSE    },
 			{"SQRT",      LEX_TOKEN_TYPE_SQRT     },
 			{"ABS",       LEX_TOKEN_TYPE_ABS      },
 			{"INPUT",     LEX_TOKEN_TYPE_INPUT    },
@@ -635,7 +635,7 @@ void LEX_find_next_token()
 							LEX_stream_upto++;
 							LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
 
-							LEX_last_token_newline = TRUE;
+							LEX_last_token_newline = true;
 
 							return;
 						}
@@ -644,7 +644,7 @@ void LEX_find_next_token()
 						{
 							LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
 
-							LEX_last_token_newline = TRUE;
+							LEX_last_token_newline = true;
 
 							return;
 						}
@@ -739,8 +739,8 @@ void LEX_start(CBYTE *string)
 	LEX_stream_buffer = string;
 	LEX_stream_upto   = string;
 
-	LEX_top_valid          = FALSE;
-	LEX_last_token_newline = FALSE;
+	LEX_top_valid          = false;
+	LEX_last_token_newline = false;
 }
 
 LEX_Token LEX_get()
@@ -762,13 +762,13 @@ LEX_Token LEX_pop()
 		LEX_find_next_token();
 	}
 
-	LEX_top_valid = FALSE;
+	LEX_top_valid = false;
 	ans           = LEX_top;
 
 	if (LEX_stack_valid)
 	{	
-		LEX_stack_valid = FALSE;
-		LEX_top_valid   = TRUE;
+		LEX_stack_valid = false;
+		LEX_top_valid   = true;
 		LEX_top         = LEX_stack;
 	}
 
@@ -781,13 +781,13 @@ void LEX_push(LEX_Token lt)
 	{
 		ASSERT(!LEX_stack_valid);
 
-		LEX_stack_valid = TRUE;
+		LEX_stack_valid = true;
 		LEX_stack       = LEX_top;
 		LEX_top         = lt;
 	}
 	else
 	{
-		LEX_top_valid = TRUE;
+		LEX_top_valid = true;
 		LEX_top       = lt;
 	}
 }
@@ -812,7 +812,7 @@ void LEX_next_line()
 			// Push the token back on the stack...
 			//
 
-			LEX_top_valid = TRUE;
+			LEX_top_valid = true;
 
 			return;
 		}	

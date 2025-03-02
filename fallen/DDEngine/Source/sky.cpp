@@ -467,7 +467,7 @@ void SKY_draw_poly_clouds(
 			pp[3].v = st->v2;
 		}
 
-		POLY_add_quad(quad, POLY_PAGE_CLOUDS, FALSE, TRUE);
+		POLY_add_quad(quad, POLY_PAGE_CLOUDS, false, true);
 	}
 
 	return;
@@ -613,7 +613,7 @@ void SKY_draw_poly_moon(
 				pp[j].v = moon_uv[j].v;
 			}
 
-			POLY_add_quad(quad, POLY_PAGE_MOON, FALSE, TRUE);
+			POLY_add_quad(quad, POLY_PAGE_MOON, false, true);
 
 			on_screen_for += 1;
 
@@ -657,7 +657,7 @@ void SKY_draw_poly_moon(
 				// Draw the man on the moon.
 				// 
 
-				POLY_add_quad(quad, POLY_PAGE_MANONMOON, FALSE, TRUE);
+				POLY_add_quad(quad, POLY_PAGE_MANONMOON, false, true);
 			}
 #endif
 		}
@@ -802,7 +802,7 @@ SLONG SKY_draw_moon_reflection(
 		// Abandon the moon.
 		//
 
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -813,7 +813,7 @@ SLONG SKY_draw_moon_reflection(
 			// Abandon the moon.
 			//
 
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -893,7 +893,7 @@ SLONG SKY_draw_moon_reflection(
 					}
 				}
 
-				POLY_add_quad(quad, POLY_PAGE_MOON, FALSE, TRUE);
+				POLY_add_quad(quad, POLY_PAGE_MOON, false, true);
 
 				if (i == 0)
 				{
@@ -913,7 +913,7 @@ SLONG SKY_draw_moon_reflection(
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 #endif //#ifndef TARGET_DC
 
@@ -1002,7 +1002,7 @@ void SKY_draw_poly_sky(
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, POLY_PAGE_SKY, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_SKY, false, true);
 
 	pp[0].X        = 0.0F;
 	pp[0].Y        = screen_y - 1024.0F;
@@ -1045,7 +1045,7 @@ void SKY_draw_poly_sky(
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, POLY_PAGE_SKY, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_SKY, false, true);
 
 }
 #endif
@@ -1188,7 +1188,7 @@ void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world
 			//ASSERT ( quad[3]->Z < 0.0009f );
 #endif
 
-			POLY_add_quad(quad, POLY_PAGE_SKY, FALSE,1);
+			POLY_add_quad(quad, POLY_PAGE_SKY, false,1);
 		}
 	}
 }

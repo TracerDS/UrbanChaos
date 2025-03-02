@@ -175,7 +175,7 @@ void PARSE_do(CBYTE *fname);
 #define PARSE_NODE_TYPE_FAKE_WHILE_COND 10005
 
 // That have their 'ifcode' field set to the IF instruction
-// that they correspond to.	 The function should return FALSE
+// that they correspond to.	 The function should return false
 // to abort.
 //
 
@@ -185,7 +185,7 @@ void PARSE_traverse(PARSE_Node *pn, SLONG (*user_function)(PARSE_Node *pn));
 
 
 //
-// Returns TRUE if the two PARSE trees are the same.
+// Returns true if the two PARSE trees are the same.
 //
 
 SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2);

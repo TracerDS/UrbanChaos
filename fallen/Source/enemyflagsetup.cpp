@@ -38,7 +38,7 @@ extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
 
 
 
-BOOL	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		ep;
 	SLONG		c0	=	0;
@@ -71,7 +71,7 @@ BOOL	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			//  Subclass and init the listbox
 			ticklist_init(hWnd, IDC_LIST1, wenemy_flag_strings,enemyf_flags);
 	
-			return	TRUE;
+			return	true;
 		}
 
 		case	WM_COMMAND:
@@ -79,7 +79,7 @@ BOOL	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -109,9 +109,9 @@ BOOL	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 			EndDialog(hWnd,0);
 
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

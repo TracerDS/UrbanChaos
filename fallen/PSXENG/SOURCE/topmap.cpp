@@ -407,7 +407,7 @@ extern	SLONG EWAY_mess_upto;
 
 		if (!mb->used)
 		{
-			mb->used         = TRUE;
+			mb->used         = true;
 			mb->counter      = 0;
 			mb->track_thing  = track_thing;
 			mb->index          = index;
@@ -557,7 +557,7 @@ void MAP_beacon_remove(UBYTE beacon)
 {
 	ASSERT(WITHIN(beacon, 0, MAP_MAX_BEACONS - 1));
 
-	MAP_beacon[beacon].used = FALSE;
+	MAP_beacon[beacon].used = false;
 }
 
 #ifdef TOPMAP_BACK

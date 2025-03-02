@@ -26,8 +26,8 @@ extern CBYTE ELEV_fname_level   [_MAX_PATH];
 
 
 //
-// Prompts for a level and loads it. Returns FALSE on failure.
-// Loads the given level in. Returns FALSE on failure.
+// Prompts for a level and loads it. Returns false on failure.
+// Loads the given level in. Returns false on failure.
 //
 
 SLONG ELEV_load_user(SLONG game);

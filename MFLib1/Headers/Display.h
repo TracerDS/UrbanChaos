@@ -1,11 +1,10 @@
 //	Display.h
 //	Guy Simmons, 6th October 1996.
 
-#ifndef _DISPLAY_H_
-#define _DISPLAY_H_
+#pragma once
 
 #ifndef	_MF_TYPES_H_
-	#include	<MFTypes.h>
+#	include <MFTypes.h>
 #endif
 
 
@@ -19,7 +18,7 @@
 #define	DS_CREATED_SURFACES		(1<<4)
 #define	DS_SCREEN_LOCKED		(1<<5)
 
-enum	DisplayModes
+enum DisplayModes
 {
 	DISPLAY_MODE_NONE			=	0,
 
@@ -67,38 +66,32 @@ enum	DisplayModes
 	DISPLAY_MODE_COUNT
 };
 
-typedef struct
+struct DisplayModeInfo
 {
-	BOOL			Availability;	// Do we have this mode?
-	ULONG			Width,			// Display dimensions.
-					Height,
-					Depth;
-	SLONG			DisplayMode;	// Internal host screen mode identifier.
-#ifdef	_MF_WINDOWS
-	DDSURFACEDESC	DD_ModeDesc;
+	bool Availability;	// Do we have this mode?
+	ULONG Width, Height, Depth; // Display dimensions.
+	SLONG DisplayMode;	// Internal host screen mode identifier.
+#ifdef _MF_WINDOWS
+	DDSURFACEDESC DD_ModeDesc;
 #endif
-}DisplayModeInfo;
+};
 
-extern DisplayModeInfo	DisplayModes[];
+extern DisplayModeInfo DisplayModes[];
 
 
-SLONG	DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
+SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
 
 
 //---------------------------------------------------------------
 // Display.cpp
 
-#define	FLAGS_USE_3DFX		(1<<0)
+#define	FLAGS_USE_3DFX (1<<0)
 
-#define	DS_WAIT_VBI			(1<<0)
-#define	DS_DO_FLIP			(1<<1)
+#define	DS_WAIT_VBI (1<<0)
+#define	DS_DO_FLIP (1<<1)
 
-extern	UBYTE				DisplayActive,
-							WorkScreenDepth,
-							*WorkScreen;
-extern	SLONG				WorkScreenHeight,
-							WorkScreenPixelWidth,
-							WorkScreenWidth;
+extern UBYTE DisplayActive, WorkScreenDepth, *WorkScreen;
+extern SLONG WorkScreenHeight, WorkScreenPixelWidth, WorkScreenWidth;
 
 #ifdef	_MF_WINDOWS
 extern DDSURFACEDESC		DD_DisplayDesc;
@@ -108,18 +101,13 @@ extern LPDIRECTDRAWSURFACE	lp_DD_FrontSurface,
 extern volatile UBYTE		MFShellActive;
 #endif
 
-SLONG	OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG	CloseDisplay();
-SLONG	SetDisplay(ULONG width,ULONG height,ULONG depth);
-void	ClearDisplay();
-void	FadeDisplay(UBYTE mode);
-void	*LockWorkScreen();
-void	UnlockWorkScreen();
-void	ShowWorkScreen(ULONG flags);
-void	ShowWorkWindow(ULONG flags);
-void	ClearWorkScreen(UBYTE colour);
-
-
-//---------------------------------------------------------------
-
-#endif
+SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
+SLONG CloseDisplay();
+SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+void ClearDisplay();
+void FadeDisplay(UBYTE mode);
+void *LockWorkScreen();
+void UnlockWorkScreen();
+void ShowWorkScreen(ULONG flags);
+void ShowWorkWindow(ULONG flags);
+void ClearWorkScreen(UBYTE colour);

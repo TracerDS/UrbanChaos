@@ -36,10 +36,10 @@
 
 //---------------------------------------------------------------
 
-// If bActuallyGetOne is FALSE, then just the current types are set up, no device is actually grabbed.
+// If bActuallyGetOne is false, then just the current types are set up, no device is actually grabbed.
 void	ClearPrimaryDevice ( void );
-BOOL	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne = TRUE );
-BOOL	ReadInputDevice();
+bool	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne = true );
+bool	ReadInputDevice();
 
 
 
@@ -55,7 +55,7 @@ BOOL	ReadInputDevice();
 #ifdef TARGET_DC
 struct VMU_Screen
 {
-	bool	bRotated;			// TRUE if this has been rotated.
+	bool	bRotated;			// true if this has been rotated.
 	BYTE	bData[32*6];		// The bitmap data itself.
 };
 
@@ -86,7 +86,7 @@ public:
 	MAPLEDEVTYPE			type;				// What sort of device is this?
 	GUID					guid;				// The device's GUID.
 	int						iEnumNumber;		// What number device is this on this controller (0/1)?
-	bool					bUpsideDown;		// TRUE if a VMU screen is upside down or not.
+	bool					bUpsideDown;		// true if a VMU screen is upside down or not.
 	union
 	{
 		IUnknown			*pUnknown;			// Generic pointer
@@ -110,10 +110,10 @@ public:
 		type = 0;
 		iEnumNumber = -1;
 		pUnknown = NULL;
-		bUpsideDown = TRUE;
+		bUpsideDown = true;
 		dwLcdBufferId = 0;
 		pLcdBuffer = NULL;
-		Vib_bGotDevInfo = FALSE;
+		Vib_bGotDevInfo = false;
 		Vib_fMinFreq = 0.5f;
 		Vib_fMaxFreq = 20.0f;
 	}
@@ -141,21 +141,21 @@ public:
 
 	// Write this standard 48x32 bitmap to the LCD.
 	// Data format is 3x32 bytes, like you'd expect.
-	// If bQueue is TRUE, this (almost) always works.
-	// If bQueue is FALSE, if there is a problem, like it's busy,
-	//	then it can fail, and the return is FALSE;
+	// If bQueue is true, this (almost) always works.
+	// If bQueue is false, if there is a problem, like it's busy,
+	//	then it can fail, and the return is false;
 	// If the LCD screen is not a standard type, then it does its best,
-	//	or fails and returns FALSE.
+	//	or fails and returns false.
 	bool Lcd_WriteScreen ( void *pvData, bool bQueue );
 
 
 	// Write this screen to the LCD device.
 	// The screen will be rotated as needed.
-	// If bQueue is TRUE, this (almost) always works.
-	// If bQueue is FALSE, if there is a problem, like it's busy,
-	//	then it can fail, and the return is FALSE;
+	// If bQueue is true, this (almost) always works.
+	// If bQueue is false, if there is a problem, like it's busy,
+	//	then it can fail, and the return is false;
 	// If the LCD screen is not a standard type, then it does its best,
-	//	or fails and returns FALSE.
+	//	or fails and returns false.
 	bool Lcd_WriteScreen ( VMU_Screen *pvmuScreen, bool bQueue );
 
 
@@ -169,7 +169,7 @@ public:
 	DWORD Flash_GetFileSize ( char *pcFilename );
 
 	// Reads the given file into pvData, which is of size dwSizeOfData.
-	// Return is TRUE on success, FALSE on failure.
+	// Return is true on success, false on failure.
 	bool Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfData );
 
 	// Creates the given file & writes the given data to it.
@@ -177,7 +177,7 @@ public:
 	// pcComment is any comment you wish to be tagged onto the file. Must be less than 16 chars.
 	// If the file already exists, it is deleted.
 	// If there is not enough space on the device, the call will fail.
-	// Return is TRUE on success, FALSE on failure.
+	// Return is true on success, false on failure.
 	bool Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcComment, void *pvData, DWORD dwSizeOfData,
 								 char *pcIconPalette, char *pcIconData );
 
@@ -233,16 +233,16 @@ class	DIDeviceInfo
 		HRESULT				Create(LPCDIDEVICEINSTANCE lpDIDevice);
 		void				Destroy();
 
-		inline	BOOL		IsValid()				{	return	DeviceFlags&DI_DEVICE_VALID;	}
+		inline	bool		IsValid()				{	return	DeviceFlags&DI_DEVICE_VALID;	}
 		inline	void		ValidOn()				{	DeviceFlags		|=	DI_DEVICE_VALID;	}
 		inline	void		ValidOff()				{	DeviceFlags		&=	~DI_DEVICE_VALID;	}
 
-		inline	BOOL		NeedsPoll()				{	return	DeviceFlags&DI_DEVICE_NEEDS_POLL;	}
+		inline	bool		NeedsPoll()				{	return	DeviceFlags&DI_DEVICE_NEEDS_POLL;	}
 		inline	void		NeedsPollOn()			{	DeviceFlags		|=	DI_DEVICE_NEEDS_POLL;	}
 		inline	void		NeedsPollOff()			{	DeviceFlags		&=	~DI_DEVICE_NEEDS_POLL;	}
 
-		BOOL				GetThisDevice ( UBYTE type );
-		BOOL				DIEnumDeviceObjectsProc ( LPCDIDEVICEOBJECTINSTANCE pDIDOI );
+		bool				GetThisDevice ( UBYTE type );
+		bool				DIEnumDeviceObjectsProc ( LPCDIDEVICEOBJECTINSTANCE pDIDOI );
 
 
 };
@@ -281,7 +281,7 @@ class	DIDriverManager
 
 		int					ScanForVMUs ( void );
 
-		inline	BOOL		IsInitialised()			{	return	ManagerFlags&DI_DRIVER_INIT;		}
+		inline	bool		IsInitialised()			{	return	ManagerFlags&DI_DRIVER_INIT;		}
 		inline	void		InitOn()				{	ManagerFlags	|=	DI_DRIVER_INIT;			}
 		inline	void		InitOff()				{	ManagerFlags	&=	~DI_DRIVER_INIT;		}
 };
@@ -311,16 +311,16 @@ MapleVMU *FindMemoryVMUAt ( int iCtrlNum, int iVMUNum );
 // Forces a rescan of devices. Any new devices will be added to the available list.
 // This does not reassign the primary - if you want to do that,
 // call ClearPrimaryDevice().
-// If anything new was found, or anything existing was removed, returns TRUE.
+// If anything new was found, or anything existing was removed, returns true.
 bool RescanDevices ( void );
 
 // Often called after a RescanDevices - deletes any missing devices.
 void DeleteInvalidDevice ( void );
 
 // Returns the current VMU. If it can't be found any more, and
-// bFindNextBest is TRUE, it tries to find the first one on the
+// bFindNextBest is true, it tries to find the first one on the
 // primary, and then tries to find the first one on anything.
-// If bFindNextBest is FALSE, it just returns NULL.
+// If bFindNextBest is false, it just returns NULL.
 MapleVMU *FindCurrentStorageVMU ( bool bFindNextBest );
 
 // Sets the current storage VMU. If NULL, there will be no current VMU.
@@ -339,17 +339,17 @@ void SetVibrationEnable ( bool bEnabled );
 
 
 // Make the vibrator in the primary device vibrate with the given
-// characteristics. Returns TRUE if it works, or FALSE if not.
-// The most common cause of FALSE is that another vibration
+// characteristics. Returns true if it works, or false if not.
+// The most common cause of false is that another vibration
 // is already happening, or was set off very recently.
 //
 // fFrequency is in Hz.
 // fStartPower is from 1.0 (max) to 0.0
 // fShrinkTime is the time in seconds for the power to shrink to 0.
 //		If this is 0, the effect will be a one-shot one - a single jolt, basically.
-// bEnsureThisHappens - set this to TRUE to wait for up to a tenth of a second
+// bEnsureThisHappens - set this to true to wait for up to a tenth of a second
 //		for this to be activated. This is for important thing.
-bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEnsureThisHappens=FALSE );
+bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEnsureThisHappens=false );
 
 
 

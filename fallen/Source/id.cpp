@@ -877,7 +877,7 @@ void ID_wall_colvects_insert()
 
 	ID_colvect_old_next_col_vect      = next_col_vect;
 	ID_colvect_old_next_col_vect_link = next_col_vect_link;
-	ID_colvect_stuff_valid            = TRUE;
+	ID_colvect_stuff_valid            = true;
 	
 	if (ID_storey_type == ID_STOREY_TYPE_WAREHOUSE)
 	{
@@ -960,7 +960,7 @@ void ID_wall_colvects_insert()
 				
 				do
 				{
-					changed = FALSE;
+					changed = false;
 
 					for (j = 0; j < point_upto - 1; j++)
 					{
@@ -970,7 +970,7 @@ void ID_wall_colvects_insert()
 							SWAP(point[j + 0].z,    point[j + 1].z);
 							SWAP(point[j + 0].dist, point[j + 1].dist);
 
-							changed = TRUE;
+							changed = true;
 						}
 					}
 
@@ -1017,11 +1017,11 @@ void ID_wall_colvects_remove()
 
 	next_col_vect          = ID_colvect_old_next_col_vect;
 	next_col_vect_link     = ID_colvect_old_next_col_vect_link;
-	ID_colvect_stuff_valid = FALSE;
+	ID_colvect_stuff_valid = false;
 }
 
 //
-// Returns TRUE if the given wall lies on the perimeter of the given
+// Returns true if the given wall lies on the perimeter of the given
 // room. If it does then the function gives back the section of wall
 // that lies on the edge of the room. The sense of the wall segment
 // is such that the room lies of the right of the wall.
@@ -1118,11 +1118,11 @@ SLONG ID_is_wall_on_room_perim(
 			*x2 = iw->x2;
 			*z2 = iw->z2;
 
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1140,8 +1140,8 @@ SLONG ID_is_wall_on_room_perim(
 	ASSERT(!dx || !dz);
 	ASSERT(dx >= 0 && dz >= 0);
 
-	found_start = FALSE;
-	flip_ends   = FALSE;
+	found_start = false;
+	flip_ends   = false;
 
 	for (x = wx1, z = wz1; x != wx2 || z != wz2; x += dx, z += dz)
 	{
@@ -1156,8 +1156,8 @@ SLONG ID_is_wall_on_room_perim(
 					*x1 = x;
 					*z1 = z;
 
-					found_start = TRUE;
-					flip_ends   = FALSE;
+					found_start = true;
+					flip_ends   = false;
 				}
 
 				*x2 = x + 1;
@@ -1171,8 +1171,8 @@ SLONG ID_is_wall_on_room_perim(
 					*x1 = x;
 					*z1 = z;
 
-					found_start = TRUE;
-					flip_ends   = TRUE;
+					found_start = true;
+					flip_ends   = true;
 				}
 
 				*x2 = x + 1;
@@ -1189,8 +1189,8 @@ SLONG ID_is_wall_on_room_perim(
 					*x1 = x;
 					*z1 = z;
 
-					found_start = TRUE;
-					flip_ends   = TRUE;
+					found_start = true;
+					flip_ends   = true;
 				}
 
 				*x2 = x;
@@ -1204,8 +1204,8 @@ SLONG ID_is_wall_on_room_perim(
 					*x1 = x;
 					*z1 = z;
 
-					found_start = TRUE;
-					flip_ends   = FALSE;
+					found_start = true;
+					flip_ends   = false;
 				}
 
 				*x2 = x;
@@ -1295,7 +1295,7 @@ void ID_create_mapsquare_faces(
 			}
 		}
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_WALLTOP, 0), TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_WALLTOP, 0), true);
 	}
 
 	if (face_type == ID_WALL_FACES_FRAME ||
@@ -1344,7 +1344,7 @@ void ID_create_mapsquare_faces(
 		z[3] = dpz[0];
 		y[3] = INDOORS_HEIGHT_FLOOR + 0;
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 4), TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 4), true);
 
 		x[0] = dpx[1];
 		z[0] = dpz[1];
@@ -1362,7 +1362,7 @@ void ID_create_mapsquare_faces(
 		z[3] = dpz[3];
 		y[3] = INDOORS_HEIGHT_FLOOR + 0;
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 5), TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 5), true);
 
 		//
 		// Top of door frame.
@@ -1384,7 +1384,7 @@ void ID_create_mapsquare_faces(
 		z[3] = dpz[3];
 		y[3] = INDOORS_HEIGHT_FLOOR + ID_FRAME_HEIGHT;
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 1), TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 1), true);
 
 		x[0] = cpx[2];
 		z[0] = cpz[2];
@@ -1402,7 +1402,7 @@ void ID_create_mapsquare_faces(
 		z[3] = dpz[2];
 		y[3] = INDOORS_HEIGHT_FLOOR + 0;
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 2), TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 2), true);
 
 		x[0] = dpx[3];
 		z[0] = dpz[3];
@@ -1420,7 +1420,7 @@ void ID_create_mapsquare_faces(
 		z[3] = cpz[3];
 		y[3] = INDOORS_HEIGHT_FLOOR + 0;
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 3), TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, ID_get_texture(room_type, ID_TEXTURE_TYPE_DOOR, 3), true);
 	}
 	else
 	{
@@ -1461,7 +1461,7 @@ void ID_create_mapsquare_faces(
 			texture = ID_get_texture(room_type, ID_TEXTURE_TYPE_WALL, 0);
 		}
 
-		ID_add_face_to_square(map_x, map_z, x, y, z, texture, TRUE);
+		ID_add_face_to_square(map_x, map_z, x, y, z, texture, true);
 	}
 }
 
@@ -1469,7 +1469,7 @@ void ID_create_mapsquare_faces(
 
 //
 // Returns the perimeter of the given room.  The first
-// point appears again at the end of the array.  Returns FALSE if
+// point appears again at the end of the array.  Returns false if
 // it fails to find a perimeter!
 //
 
@@ -1571,7 +1571,7 @@ SLONG ID_calc_room_perim(SLONG room)
 					// ERROR! FAILURE!
 					//
 
-					return FALSE;
+					return false;
 				}
 
 				ID_perim[ID_perim_upto].x = seg[i].x2;
@@ -1585,18 +1585,18 @@ SLONG ID_calc_room_perim(SLONG room)
 			// ERROR! FAILURE!
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 
 	ID_perim_upto += 1;
 
-	return TRUE;
+	return true;
 }
 
 
 //
-// Returns TRUE if it can find the perimeter for all the rooms!
+// Returns true if it can find the perimeter for all the rooms!
 //
 
 SLONG ID_i_can_find_the_room_perims()
@@ -1607,11 +1607,11 @@ SLONG ID_i_can_find_the_room_perims()
 	{
 		if (!ID_calc_room_perim(i))
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1887,7 +1887,7 @@ void ID_add_wall_faces(SLONG wall)
 		pz[3] = z2 >> 8;
 
 		texture = 15;
-		quad    = TRUE;
+		quad    = true;
 		
 		ID_add_face_to_square(mx, mz, px, py, pz, texture, quad);
 
@@ -1927,7 +1927,7 @@ void ID_add_wall_faces(SLONG wall)
 			pz[3] = z1 >> 8;
 
 			texture = 14;
-			quad    = TRUE;
+			quad    = true;
 			
 			ID_add_face_to_square(mx, mz, px, py, pz, texture, quad);
 		}
@@ -2204,12 +2204,12 @@ void ID_add_room_faces(SLONG room)
 			if (ID_storey_type == ID_STOREY_TYPE_WAREHOUSE &&
 				iw->type       == ID_WALL_T_OUTSIDE)
 			{
-				ID_create_mapsquare_faces(mx, mz, cpx, cpz, ID_room[room].type, wall_faces_type,     FALSE);
-				ID_create_mapsquare_faces(mx, mz, cpx, cpz, ID_room[room].type, ID_WALL_FACES_UPPER, TRUE);
+				ID_create_mapsquare_faces(mx, mz, cpx, cpz, ID_room[room].type, wall_faces_type,     false);
+				ID_create_mapsquare_faces(mx, mz, cpx, cpz, ID_room[room].type, ID_WALL_FACES_UPPER, true);
 			}
 			else
 			{
-				ID_create_mapsquare_faces(mx, mz, cpx, cpz, ID_room[room].type, wall_faces_type, TRUE);
+				ID_create_mapsquare_faces(mx, mz, cpx, cpz, ID_room[room].type, wall_faces_type, true);
 			}
 
 			x += dx;
@@ -2262,7 +2262,7 @@ void ID_clear_inside_walls()
 
 //
 // Picks a random place to start a wall.  It prefers
-// corners.  Returns TRUE on sucess or FALSE if it
+// corners.  Returns true on sucess or false if it
 // couldn't find a suitable place.
 //
 
@@ -2304,7 +2304,7 @@ SLONG ID_get_wall_start(SLONG *x, SLONG *z)
 				*z = ID_wall[wall].z2;
 			}
 
-			return TRUE;
+			return true;
 		}
 		else
 		{
@@ -2335,12 +2335,12 @@ SLONG ID_get_wall_start(SLONG *x, SLONG *z)
 				*x = ID_wall[wall].x1 + along * dx;
 				*z = ID_wall[wall].z1 + along * dz;
 
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
@@ -2695,7 +2695,7 @@ SLONG ID_intersects_badly(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 			// are the only ones we have to check.
 			//
 
-			return FALSE;
+			return false;
 		}
 
 		dx = iw->x2 - iw->x1;
@@ -2729,7 +2729,7 @@ SLONG ID_intersects_badly(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 					   &ix,
 					   &iz) == DO_INTERSECT)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -2739,7 +2739,7 @@ SLONG ID_intersects_badly(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 	// This line does not intersect badly with any outside wall.
 	//
 
-	return FALSE;
+	return false;
 }
 
 
@@ -3144,7 +3144,7 @@ void ID_find_flats()
 
 		while(1)
 		{
-			changed = FALSE;
+			changed = false;
 
 			for (i = 1; i < ID_room_upto; i++)
 			{
@@ -3185,7 +3185,7 @@ void ID_find_flats()
 											// Mark this room as also being in our flat.
 											//
 
-											changed = TRUE;
+											changed = true;
 
 											ID_room[neighbour].flat = ir->flat;
 										}
@@ -3270,7 +3270,7 @@ void ID_assign_flat_room_types(SLONG flat)
 
 	do
 	{
-		changed = FALSE;
+		changed = false;
 
 		for (i = 0; i < num_rooms - 1; i++)
 		{
@@ -3279,7 +3279,7 @@ void ID_assign_flat_room_types(SLONG flat)
 				SWAP(size [i], size [i + 1]);
 				SWAP(order[i], order[i + 1]);
 
-				changed = TRUE;
+				changed = true;
 			}
 		}
 	}
@@ -3397,7 +3397,7 @@ void ID_assign_room_types(SLONG storey_type)
 
 	do
 	{
-		changed = FALSE;
+		changed = false;
 
 		for (i = 1; i < ID_room_upto - 1; i++)
 		{
@@ -3406,7 +3406,7 @@ void ID_assign_room_types(SLONG storey_type)
 				SWAP(size [i], size [i + 1]);
 				SWAP(order[i], order[i + 1]);
 
-				changed = TRUE;
+				changed = true;
 			}
 		}
 	}
@@ -3473,7 +3473,7 @@ void ID_assign_room_types(SLONG storey_type)
 				// Lots of rooms, might as well have a loo.
 				//
 
-				have_loo = TRUE;
+				have_loo = true;
 			}
 
 			if (have_loo)
@@ -3657,7 +3657,7 @@ void ID_assign_room_types(SLONG storey_type)
 }
 
 //
-// Puts in connecting doors between rooms.  Returns FALSE
+// Puts in connecting doors between rooms.  Returns false
 // on failure.
 //
 
@@ -3722,7 +3722,7 @@ SLONG ID_make_connecting_doors(SLONG storey_type)
 	// Accessing the connected array.
 	//
 
-	#define DO_CONNECT(r1,r2)     {connected[(r1)][(r2)] = TRUE;}
+	#define DO_CONNECT(r1,r2)     {connected[(r1)][(r2)] = true;}
 	#define IS_CONNECTED(r1,r2)   (connected[(r1)][(r2)])
 	#define	MARK_CONNECTED(r1,r2) {DO_CONNECT(r1,r2); DO_CONNECT(r2,r1);}
 
@@ -3769,7 +3769,7 @@ SLONG ID_make_connecting_doors(SLONG storey_type)
 
 		if (!ID_calc_room_perim(i))
 		{
-			return FALSE;
+			return false;
 		}
 
 		//
@@ -3863,7 +3863,7 @@ SLONG ID_make_connecting_doors(SLONG storey_type)
 					// the block outside on the other side of the room.
 					//
 
-					if (ID_FLOOR(imx,imz)->room != i) {return FALSE;}
+					if (ID_FLOOR(imx,imz)->room != i) {return false;}
 
 					ASSERT(WITHIN(doorchoice_upto, 0, MAX_DOORCHOICES - 1));
 
@@ -4121,7 +4121,7 @@ SLONG ID_make_connecting_doors(SLONG storey_type)
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 //
@@ -4367,7 +4367,7 @@ void ID_fit_doors()
 							door_thing,
 							angle,
 							ajar,
-							FALSE);
+							false);
 					}
 
 					break;
@@ -4392,7 +4392,7 @@ void ID_fit_doors()
 							door_thing,
 							angle,
 							ajar,
-							FALSE);
+							false);
 					}
 
 					break;
@@ -4496,7 +4496,7 @@ void ID_fit_stairs()
 
 
 //
-// Fits a kitchen out. Returns FALSE on failure.
+// Fits a kitchen out. Returns false on failure.
 //
 
 SLONG ID_fit_kitchen(SLONG room)
@@ -4535,7 +4535,7 @@ SLONG ID_fit_kitchen(SLONG room)
 
 	if (!ID_calc_room_perim(room))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -4628,11 +4628,11 @@ SLONG ID_fit_kitchen(SLONG room)
 	// middle.
 	//
 
-	return TRUE;
+	return true;
 }
 
 //
-// Returns FALSE on failure.
+// Returns false on failure.
 //
 
 SLONG ID_fit_loo(SLONG room)
@@ -4734,7 +4734,7 @@ SLONG ID_fit_loo(SLONG room)
 
 	TRACE("Couldn't find entrace to the loo\n");
 
-	return FALSE;
+	return false;
 
   found_door:;
 
@@ -4893,7 +4893,7 @@ SLONG ID_fit_loo(SLONG room)
 
 	if (floor_area < 4)
 	{
-		return TRUE;
+		return true;
 	}
 
 	for (i = 0; i < 4; i++)
@@ -4940,7 +4940,7 @@ SLONG ID_fit_loo(SLONG room)
 
 	if (floor_area < 6)
 	{
-		return TRUE;
+		return true;
 	}
 
 	//
@@ -4950,7 +4950,7 @@ SLONG ID_fit_loo(SLONG room)
 
 	if (!ID_calc_room_perim(room))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -5086,11 +5086,11 @@ SLONG ID_fit_loo(SLONG room)
 		ID_FLOOR(bestmx2, bestmz2)->flag |= ID_FLOOR_FLAG_FURNISHED;
 	}
 
-	return TRUE;
+	return true;
 }
 
 //
-// Returns FALSE on failure.
+// Returns false on failure.
 //
 
 SLONG ID_fit_lounge(SLONG room)
@@ -5232,7 +5232,7 @@ SLONG ID_fit_lounge(SLONG room)
 
 	if (!ID_calc_room_perim(room))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -5615,13 +5615,13 @@ SLONG ID_fit_lounge(SLONG room)
 		MSG_add("Tried to put the coffee table outside the building!");
 	}
 
-	return TRUE;
+	return true;
 }
 
 
 
 //
-// Puts down radiators. Returns FALSE on failure.
+// Puts down radiators. Returns false on failure.
 //
 
 SLONG ID_fit_radiators()
@@ -5689,7 +5689,7 @@ SLONG ID_fit_radiators()
 
 		if (!ID_calc_room_perim(i))
 		{
-			return FALSE;
+			return false;
 		}
 
 		//
@@ -5803,12 +5803,12 @@ SLONG ID_fit_radiators()
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
 //
-// Puts down furniture. Returns FALSE on failure.
+// Puts down furniture. Returns false on failure.
 //
 
 void ID_place_furniture()
@@ -5872,7 +5872,7 @@ void ID_place_furniture()
 
 
 //
-// Returns TRUE if the given wall would go through
+// Returns true if the given wall would go through
 // the middle of some stairs.
 //
 
@@ -5933,7 +5933,7 @@ SLONG ID_goes_through_stairs(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 		{
 			if (WITHIN(mid_z, z1, z2))
 			{
-				return TRUE;
+				return true;
 			}
 		}
 		
@@ -5941,12 +5941,12 @@ SLONG ID_goes_through_stairs(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 		{
 			if (WITHIN(mid_x, x1, x2))
 			{
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -6047,8 +6047,8 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 				corner[i * 2 + 1].x = ID_stair[0].x2 + (i &  1);
 				corner[i * 2 + 1].z = ID_stair[0].z2 + (i >> 1);
 
-				corner[i * 2 + 0].duplicate = FALSE;
-				corner[i * 2 + 1].duplicate = FALSE;
+				corner[i * 2 + 0].duplicate = false;
+				corner[i * 2 + 1].duplicate = false;
 
 				corner[i * 2 + 0].onwall = ID_FLOOR(corner[i * 2 + 0].x, corner[i * 2 + 0].z)->flag & ID_FLOOR_FLAG_ON_WALL;
 				corner[i * 2 + 1].onwall = ID_FLOOR(corner[i * 2 + 1].x, corner[i * 2 + 1].z)->flag & ID_FLOOR_FLAG_ON_WALL;
@@ -6065,8 +6065,8 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 					if (corner[i].x == corner[j].x &&
 						corner[i].z == corner[j].z)
 					{
-						corner[i].duplicate = TRUE;
-						corner[j].duplicate = TRUE;
+						corner[i].duplicate = true;
+						corner[j].duplicate = true;
 					}
 				}
 			}
@@ -6181,7 +6181,7 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 		{
 			x             = wall_start[wall_starts].x;
 			z             = wall_start[wall_starts].z;
-			wall_start_ok = TRUE;
+			wall_start_ok = true;
 		}
 		else
 		{
@@ -6387,7 +6387,7 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 
 	if (!ID_make_connecting_doors(storey_type))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -6396,7 +6396,7 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 
 	ID_find_a_camera_for_each_room();
 
-	return TRUE;
+	return true;
 }
 
 
@@ -6480,12 +6480,12 @@ SLONG ID_is_there_a_room_accessible_from_only_one_other_room()
 		// This room only has one neighbouring room.
 		//
 
-		return TRUE;
+		return true;
 
 	  this_room_has_at_least_two_neighbouring_rooms:;
 	}
 
-	return FALSE;
+	return false;
 }
 
 SLONG ID_score_layout_house_ground()
@@ -6515,7 +6515,7 @@ SLONG ID_score_layout_house_ground()
 	// thin room... but only one.
 	//
 
-	found_corridor = FALSE;
+	found_corridor = false;
 	score          = 0;
 
 	for (i = 1; i < ID_room_upto; i++)
@@ -6542,7 +6542,7 @@ SLONG ID_score_layout_house_ground()
 			{
 				score += 2000;
 
-				found_corridor = TRUE;
+				found_corridor = true;
 			}
 		}
 		else
@@ -7059,7 +7059,7 @@ void ID_calculate_in_squares()
 // Works out which points are inside the building.
 // Points on the wall count as being inside.
 //
-// Returns FALSE on failure.
+// Returns false on failure.
 //
 
 SLONG ID_calculate_in_points()
@@ -7286,8 +7286,8 @@ SLONG ID_calculate_in_points()
 
 		while(next)
 		{
-			if (!WITHIN(next,               1, ID_link_upto - 1)) {return FALSE;}
-			if (!WITHIN(ID_link[next].next, 1, ID_link_upto - 1)) {return FALSE;}
+			if (!WITHIN(next,               1, ID_link_upto - 1)) {return false;}
+			if (!WITHIN(ID_link[next].next, 1, ID_link_upto - 1)) {return false;}
 
 			next1 = next;
 			next2 = ID_link[next].next;
@@ -7316,7 +7316,7 @@ SLONG ID_calculate_in_points()
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG ID_generate_floorplan(SLONG storey_type, ID_Stair stair[], SLONG num_stairs, UWORD seed, UBYTE find_good_layout, UBYTE furnished)
@@ -8298,7 +8298,7 @@ SLONG ID_collide_3d(
 		SLONG x1, SLONG y1, SLONG z1,
 		SLONG x2, SLONG y2, SLONG z2)
 {
-	return FALSE;
+	return false;
 }
 
 
@@ -8512,7 +8512,7 @@ SLONG ID_collide_2d(
 	// Collision with the walls treated as sausages
 	//
 
-	collided = FALSE;
+	collided = false;
 
 	for (i = 0; i < ID_wall_upto; i++)
 	{
@@ -8599,7 +8599,7 @@ SLONG ID_collide_2d(
 								slide_x,
 								slide_z))
 						{
-							collided = TRUE;
+							collided = true;
 
 							x2 = *slide_x;
 							z2 = *slide_z;
@@ -8623,7 +8623,7 @@ SLONG ID_collide_2d(
 							slide_x,
 							slide_z))
 					{
-						collided = TRUE;
+						collided = true;
 
 						x2 = *slide_x;
 						z2 = *slide_z;
@@ -8706,7 +8706,7 @@ SLONG ID_collide_2d(
 								slide_x,
 								slide_z))
 						{
-							collided = TRUE;
+							collided = true;
 
 							x2 = *slide_x;
 							z2 = *slide_z;
@@ -8730,7 +8730,7 @@ SLONG ID_collide_2d(
 							slide_x,
 							slide_z))
 					{
-						collided = TRUE;
+						collided = true;
 
 						x2 = *slide_x;
 						z2 = *slide_z;
@@ -8795,7 +8795,7 @@ SLONG ID_collide_2d_old(
 	// Collide with all the walls.
 	//
 
-	collided = FALSE;
+	collided = false;
 
 	for (i = 0; i < ID_wall_upto; i++)
 	{
@@ -8843,7 +8843,7 @@ SLONG ID_collide_2d_old(
 				x2 = *slide_x;
 				z2 = *slide_z;
 
-				collided = TRUE;
+				collided = true;
 
 				//
 				// Go through all the walls again!
@@ -8860,7 +8860,7 @@ SLONG ID_collide_2d_old(
 
 			if (dx == 0)
 			{
-				through = FALSE;
+				through = false;
 
 				//
 				// Collide with the wall if we start and end on
@@ -8875,14 +8875,14 @@ SLONG ID_collide_2d_old(
 						// Starting and ending on the wall doesn't count.
 						//
 
-						through = TRUE;
+						through = true;
 					}
 				}
 				else
 				if ((x1 < wx1 && x2 > wx1) ||
 					(x1 > wx1 && x2 < wx1))
 				{
-					through = TRUE;
+					through = true;
 				}
 
 				if (through)
@@ -8951,7 +8951,7 @@ SLONG ID_collide_2d_old(
 					    x2 = *slide_x;
 						z2 = *slide_z;
 
-						collided = TRUE;
+						collided = true;
 
 						//
 						// Go through all the walls again!
@@ -8965,7 +8965,7 @@ SLONG ID_collide_2d_old(
 			{
 				ASSERT(dz == 0);
 
-				through = FALSE;
+				through = false;
 
 				//
 				// Collide with the wall if we start and end on
@@ -8980,14 +8980,14 @@ SLONG ID_collide_2d_old(
 						// Starting and ending on the wall doesn't count.
 						//
 
-						through = TRUE;
+						through = true;
 					}
 				}
 				else
 				if ((z1 < wz1 && z2 > wz1) ||
 					(z1 > wz1 && z2 < wz1))
 				{
-					through = TRUE;
+					through = true;
 				}
 
 				if (through)
@@ -9056,7 +9056,7 @@ SLONG ID_collide_2d_old(
 					    x2 = *slide_x;
 						z2 = *slide_z;
 
-						collided = TRUE;
+						collided = true;
 
 						//
 						// Go through all the walls again!
@@ -9085,7 +9085,7 @@ void ID_editor_start_get_walls () {ID_editor_get_wall_upto  = 0;}
 void ID_editor_start_get_stairs() {ID_editor_get_stair_upto = 0;}
 
 //
-// These functions return FALSE if there are no more rooms, walls
+// These functions return false if there are no more rooms, walls
 // or stairs, otherwise they fill out the given structure with
 // info describing the next room, wall or staircase.
 //
@@ -9100,7 +9100,7 @@ SLONG ID_editor_get_room(ID_Roominfo *ans)
 
 	if (ID_editor_get_room_upto >= ID_room_upto)
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -9152,7 +9152,7 @@ SLONG ID_editor_get_room(ID_Roominfo *ans)
 					ans->what = ID_room_name;
 				}
 
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -9170,7 +9170,7 @@ SLONG ID_editor_get_room(ID_Roominfo *ans)
 		// No room square in the bounding box of the room!
 		//
 
-		return TRUE;
+		return true;
 	}
 }
 
@@ -9182,7 +9182,7 @@ SLONG ID_editor_get_wall(ID_Wallinfo *ans)
 	{
 		if (ID_editor_get_wall_upto >= ID_wall_upto)
 		{
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -9208,7 +9208,7 @@ SLONG ID_editor_get_wall(ID_Wallinfo *ans)
 				ans->door[2] = iw->door[2];
 				ans->door[3] = 255;		// Never a fourth door...
 
-				return TRUE;
+				return true;
 			}
 		}
 	}
@@ -9218,7 +9218,7 @@ SLONG ID_editor_get_stair(ID_Stairinfo *ans)
 {
 	if (ID_editor_get_stair_upto >= ID_num_stairs)
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -9237,7 +9237,7 @@ SLONG ID_editor_get_stair(ID_Stairinfo *ans)
 
 		ID_editor_get_stair_upto += 1;
 
-		return TRUE;
+		return true;
 	}
 }
 

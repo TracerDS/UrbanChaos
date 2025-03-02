@@ -51,8 +51,8 @@ void ROAD_sink();
 
 
 //
-// Returns TRUE if the given square is part of a road.
-// Returns TRUE if the given square is on a zebra crossing.
+// Returns true if the given square is part of a road.
+// Returns true if the given square is on a zebra crossing.
 // 
 
 SLONG ROAD_is_road (SLONG map_x, SLONG map_z);
@@ -143,7 +143,7 @@ void ROAD_get_dest(
 		SLONG *world_z);
 
 //
-// Returns TRUE if the given node is the end of the line! i.e. it
+// Returns true if the given node is the end of the line! i.e. it
 // leads you off the edge of the map.
 //
 

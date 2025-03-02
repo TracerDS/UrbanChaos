@@ -23,7 +23,7 @@
 UBYTE MUSIC_play(UWORD wave, UBYTE flags);
 
 // stop current piece playing, optionally fading out
-void  MUSIC_stop(BOOL fade);
+void  MUSIC_stop(bool fade);
 
 // find out the currently playing wave
 UWORD MUSIC_wave();

@@ -628,7 +628,7 @@ void get_rotated_point_world_pos(
 
 //
 // Collides the a movement vector with the bounding-box of the given prim.
-// Returns TRUE if a collision occured.
+// Returns true if a collision occured.
 //
 
 SLONG slide_along_prim(
@@ -641,7 +641,7 @@ SLONG slide_along_prim(
 		SLONG *x2, SLONG *y2, SLONG *z2,
 		SLONG  radius,
 		SLONG  shrink,	// Makes the bounding box of the prim much shorter and smaller.
-		SLONG  dont_slide);	// TRUE => Don't move if the vector collides with the prim.
+		SLONG  dont_slide);	// true => Don't move if the vector collides with the prim.
 
 //
 // Sets the animation used by the given anim_prim. Anims start
@@ -707,7 +707,7 @@ void clear_all_wmove_flags();
 
 
 //
-// Returns TRUE if a face lies along this line. Coordinates are in world coordinates (8-bits per mapsquare)
+// Returns true if a face lies along this line. Coordinates are in world coordinates (8-bits per mapsquare)
 // The line must lie completely within the fence.
 //
 

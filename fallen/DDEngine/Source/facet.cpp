@@ -214,7 +214,7 @@ void FACET_draw(SLONG facet,UBYTE alpha);
 void FACET_draw_rare(SLONG facet,UBYTE alpha);
 
 
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 
 // inline utility calls
 
@@ -1286,7 +1286,7 @@ SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip);
 		}
 		if (POLY_valid_quad(quad))
 		{
-			POLY_add_quad(quad, page, FALSE); // TRUE means perform a backface cull
+			POLY_add_quad(quad, page, false); // true means perform a backface cull
 		}
 	}
 }
@@ -1373,7 +1373,7 @@ void draw_wall_thickness(struct DFacet *p_facet,ULONG fade_alpha)
 
 	if (POLY_valid_quad(quad))
 	{
-		POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE); // TRUE means perform a backface cull
+		POLY_add_quad(quad, POLY_PAGE_COLOUR, false); // true means perform a backface cull
 	}
 }
 
@@ -1770,7 +1770,7 @@ extern int AENG_detail_crinkles;
 				}
 			}
 
-			POLY_add_quad(quad, page, TRUE); // TRUE means perform a backface cull
+			POLY_add_quad(quad, page, true); // true means perform a backface cull
 
 		  added_crinkle:;
 		}
@@ -2107,8 +2107,8 @@ extern int AENG_detail_crinkles;
 
 
 			// I don't think we need to backface cull - should already have been done for the whole facet.
-			//POLY_add_quad(quad, page, TRUE); // TRUE means perform a backface cull
-			POLY_add_quad(quad, page, FALSE);
+			//POLY_add_quad(quad, page, true); // true means perform a backface cull
+			POLY_add_quad(quad, page, false);
 
 added_crinkle_common:;
 		}
@@ -2502,7 +2502,7 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 			p_facet->Z[1],
 			0,
 			0x00444488,
-			TRUE);
+			true);
 
 		#endif
 
@@ -2594,7 +2594,7 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 		// open or closed.
 		//
 #ifdef EDITOR
-		extern BOOL is_in_mission_editor;
+		extern bool is_in_mission_editor;
 		
 		if (is_in_mission_editor)
 		{
@@ -3009,7 +3009,7 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 									quad[2]->v=diff_y[c0+1]/256.0f;
 								}
 
-								POLY_add_quad(quad, page, FALSE); // TRUE means perform a backface cull
+								POLY_add_quad(quad, page, false); // true means perform a backface cull
 							}
 							else
 							{
@@ -3632,7 +3632,7 @@ extern	FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 
 #ifdef DEBUG
-static BOOL bPleaseDoSuperFacets = TRUE;
+static bool bPleaseDoSuperFacets = true;
 #endif
 
 
@@ -4090,7 +4090,7 @@ draw_the_facet_common:;
 
 	#ifdef FACETINFO
 	ASSERT(WITHIN(FACET_facetinfo_current, 0, FACET_MAX_FACETINFO - 1));
-	FACET_facetinfo[FACET_facetinfo_current].done = TRUE;
+	FACET_facetinfo[FACET_facetinfo_current].done = true;
 	#endif
 
 	LOG_EXIT ( Facet_draw_main )
@@ -4334,7 +4334,7 @@ void FACET_draw_walkable(SLONG build)
 							quad[3]->colour   = 0x00000000;
 							quad[3]->specular = 0xff000000;
 
-							POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE);
+							POLY_add_quad(quad, POLY_PAGE_COLOUR, false);
 
 							continue;
 						}
@@ -4711,7 +4711,7 @@ void FACET_draw_walkable_old(SLONG build)
 									prim_points[p_f4->Points[point_order[(ei + 1) & 0x3]]].Z,
 									32,
 									0xffffff,
-									TRUE);
+									true);
 							}
 						}
 					}
@@ -4795,13 +4795,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = quad[3];
 									tri[2] = quad[2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 									
@@ -4811,13 +4811,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = quad[3];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 									
@@ -4830,13 +4830,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = quad[3];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 									
@@ -4846,13 +4846,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = &ps [3];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 									
@@ -4862,13 +4862,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = &ps [3];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 									
@@ -4878,13 +4878,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = quad[3];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 									
@@ -4894,13 +4894,13 @@ void FACET_draw_walkable_old(SLONG build)
 									tri[1] = quad[1];
 									tri[2] = quad[2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									tri[0] = quad[1];
 									tri[1] = &ps [3];
 									tri[2] = &ps [2];
 
-									POLY_add_triangle(tri, page, TRUE);
+									POLY_add_triangle(tri, page, true);
 
 									break;
 
@@ -4911,7 +4911,7 @@ void FACET_draw_walkable_old(SLONG build)
 						}
 						else
 						{
-							POLY_add_quad(quad, page, TRUE);
+							POLY_add_quad(quad, page, true);
 						}
 					}
 					else
@@ -5005,7 +5005,7 @@ void	DRAW_ladder_rungs(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 
 			page = POLY_PAGE_LADDER;
 
-			POLY_add_quad(quad, page, FALSE); // TRUE means perform a backface cull
+			POLY_add_quad(quad, page, false); // true means perform a backface cull
 		}
 	}
 }
@@ -5358,7 +5358,7 @@ void	DRAW_ladder(struct DFacet *p_facet)
 			pp[3].u        = 1.0F;
 			pp[3].v        = top_v;
 
-			POLY_add_quad(quad, POLY_PAGE_LADSHAD, TRUE);
+			POLY_add_quad(quad, POLY_PAGE_LADSHAD, true);
 		}
 	}
 }

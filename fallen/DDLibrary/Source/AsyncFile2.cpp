@@ -69,7 +69,7 @@ void InitAsyncFile(void)
 	// init sync objects
 	InitializeCriticalSection(&csLock);
 
-	hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	hEvent = CreateEvent(NULL, false, false, NULL);
 
 	KillThread = 0;
 	CancelKey = 0;

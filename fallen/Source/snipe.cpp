@@ -30,7 +30,7 @@ SLONG SNIPE_cam_lens;	// 16-bit fixed
 
 void SNIPE_mode_on(SLONG x, SLONG y, SLONG z, SLONG initial_yaw)	// yaw from 0 - 2047
 {
-	SNIPE_on    =  TRUE;
+	SNIPE_on    =  true;
 	SNIPE_yaw   =  initial_yaw         << 16;
 	SNIPE_pitch = -SNIPE_INITIAL_PITCH << 16;
 
@@ -49,7 +49,7 @@ void SNIPE_mode_on(SLONG x, SLONG y, SLONG z, SLONG initial_yaw)	// yaw from 0 -
 
 void SNIPE_mode_off()
 {
-	SNIPE_on = FALSE;
+	SNIPE_on = false;
 }
 
 

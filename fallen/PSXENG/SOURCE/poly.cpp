@@ -590,11 +590,11 @@ SLONG POLY_sphere_visible(
 		view_y - radius >= +view_z           ||
 		view_y + radius <= -view_z)
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		return TRUE;
+		return true;
 	}
 }
 
@@ -618,21 +618,21 @@ SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull)
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (flag_and & (POLY_CLIP_LEFT|POLY_CLIP_RIGHT|POLY_CLIP_TOP|POLY_CLIP_BOTTOM|POLY_CLIP_NEAR|POLY_CLIP_FAR))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if(back_cull)
 	if(!POLY_backface_cull(pp[0],pp[1],pp[2]))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull)
@@ -641,21 +641,21 @@ SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull)
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (flag_and & (POLY_CLIP_LEFT|POLY_CLIP_RIGHT|POLY_CLIP_TOP|POLY_CLIP_BOTTOM|POLY_CLIP_NEAR|POLY_CLIP_FAR))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if(back_cull)
 	if(!POLY_backface_cull(pp[0],pp[1],pp[2]))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_triangle(POLY_Point *pp)
@@ -665,15 +665,15 @@ SLONG POLY_valid_triangle(POLY_Point *pp)
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (flag_and & (POLY_CLIP_LEFT|POLY_CLIP_RIGHT|POLY_CLIP_TOP|POLY_CLIP_BOTTOM|POLY_CLIP_NEAR|POLY_CLIP_FAR))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_quad(POLY_Point *pp)
@@ -683,15 +683,15 @@ SLONG POLY_valid_quad(POLY_Point *pp)
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (flag_and & (POLY_CLIP_LEFT|POLY_CLIP_RIGHT|POLY_CLIP_TOP|POLY_CLIP_BOTTOM|POLY_CLIP_NEAR|POLY_CLIP_FAR))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
@@ -700,14 +700,14 @@ SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 	
 	//
 	// Do no clip rejection, because we don't know the widths of the line.
 	//
 
-	return TRUE;
+	return true;
 }
 
 inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3)

@@ -37,7 +37,7 @@ typedef struct
 
 
 //
-// Loads a frame in from a .TGA file. Returns TRUE on success.
+// Loads a frame in from a .TGA file. Returns true on success.
 //
 
 #define COMP_TGA_MAX_WIDTH  640

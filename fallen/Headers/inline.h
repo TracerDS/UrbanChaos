@@ -122,7 +122,7 @@ inline	SLONG	DIV64(SLONG a,SLONG b)
 	else
 	{
 		// Hasn't been used yet.
-		ASSERT(FALSE);
+		ASSERT(false);
 		slResult =  ( a / ( b >> 16 ) );
 	}
 

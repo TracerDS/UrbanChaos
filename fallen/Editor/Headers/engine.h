@@ -202,7 +202,7 @@ struct	BucketSphereArea
 	UWORD	DrawFlags;
 	UBYTE	BucketType;
 	SLONG	X,Y,Radius;
-	BOOL	ShowSizeHook;
+	bool	ShowSizeHook;
 	EdItem	EditRef;
 };
 
@@ -212,7 +212,7 @@ struct	BucketRectArea
 	UWORD	DrawFlags;
 	UBYTE	BucketType;
 	SLONG	X,Y,Z;
-	BOOL	ShowSizeHook;
+	bool	ShowSizeHook;
 	EdItem	EditRef;
 };
 

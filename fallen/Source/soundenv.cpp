@@ -31,7 +31,7 @@ int SOUNDENV_gndctr;
 //------------------------------------------------------------------------
 
 
-BOOL SOUNDENV_ClearRange(CBYTE map[128][128], SLONG min, SLONG max, SLONG y) {
+bool SOUNDENV_ClearRange(CBYTE map[128][128], SLONG min, SLONG max, SLONG y) {
   SLONG x;
   
   for (x=min;x<=max;x++) {

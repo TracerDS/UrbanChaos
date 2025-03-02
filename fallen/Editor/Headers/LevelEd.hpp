@@ -69,7 +69,7 @@ class	LevelEditor		:	public	EditorModule
 
 		void			HandleModule();
 		void			DoFacePopup(MFPoint *clicked_point);
-		BOOL			ApplyTexture(struct EditFace *edit_face);
+		bool			ApplyTexture(struct EditFace *edit_face);
 		inline void		SetAnimTexture(SLONG tmap)			{	CurrentAnimTmap=(UWORD)tmap;	}
 		ModeTab			*TestMode;
 		PaintTab		*PaintMode;

@@ -137,11 +137,11 @@ SBYTE BRIEFING_select() {
 #endif
 	ReadInputDevice();
 	AENG_clear_screen();
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 	ShowBackImage();
 	the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER);
 	BRIEFING_menu();
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 
 	AENG_flip();
 

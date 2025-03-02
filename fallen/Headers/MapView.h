@@ -40,7 +40,7 @@ extern SLONG			zone_colours[ZF_NUM];
 
 //---------------------------------------------------------------
 
-BOOL	init_map_view();
+bool	init_map_view();
 void	fini_map_view();
 void	process_view_wind();
 
@@ -52,8 +52,8 @@ CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
 
 //---------------------------------------------------------------
 
-BOOL TypeHasProperties(SLONG type);
-BOOL HasProperties(EventPoint *ep);
+bool TypeHasProperties(SLONG type);
+bool HasProperties(EventPoint *ep);
 SLONG OpenProperties(EventPoint *ep);
 void CleanProperties(EventPoint *ep);
 

@@ -88,7 +88,7 @@ extern	SLONG	plant_feet(Thing *p_person);
 
 //
 // Early-out tests for box-box circle-box collision. These functions
-// return TRUE if the primitives don't collide for certain.
+// return true if the primitives don't collide for certain.
 //
 
 void box_box_early_out(
@@ -123,7 +123,7 @@ void box_circle_early_out(
 
 //
 // Slides the given vector against a circle. 
-// Returns TRUE if a collision occurred.
+// Returns true if a collision occurred.
 //
 
 SLONG slide_around_circle(
@@ -137,7 +137,7 @@ SLONG slide_around_circle(
 		SLONG *z2);
 
 //
-// Slides the given vector against a box. Returns TRUE if 
+// Slides the given vector against a box. Returns true if 
 // a collision occurred.
 //
 
@@ -158,7 +158,7 @@ SLONG slide_around_box(
 
 
 //
-// Returns TRUE if a collision vector intersects a rotated box
+// Returns true if a collision vector intersects a rotated box
 //
 
 SLONG collide_box(
@@ -170,7 +170,7 @@ SLONG collide_box(
 		SLONG yaw);
 
 //
-// Returns TRUE if the given line intersects the rotated bounding box.
+// Returns true if the given line intersects the rotated bounding box.
 //
 
 SLONG collide_box_with_line(
@@ -186,7 +186,7 @@ SLONG collide_box_with_line(
 
 
 //
-// Slides the given vector against the sausage.  Returns TRUE
+// Slides the given vector against the sausage.  Returns true
 // if a slide-along occured.
 //
 
@@ -205,7 +205,7 @@ SLONG slide_around_sausage(
 
 //
 // Returns the colvect of a nearby ladder that the thing can mount.
-// Makes the thing mount the given ladder... Returns TRUE if it did.
+// Makes the thing mount the given ladder... Returns true if it did.
 //
 
 SLONG find_nearby_ladder_colvect       (Thing *p_thing);
@@ -259,7 +259,7 @@ SLONG slide_along(
 
 //
 // Slides the movement vector around things- If the person hits a 
-// moving vehicle- he'll die. Returns TRUE if a collision occurs.
+// moving vehicle- he'll die. Returns true if a collision occurs.
 // 
 
 SLONG collide_against_things(
@@ -270,7 +270,7 @@ SLONG collide_against_things(
 
 //
 // Slides the given movement vector around OB_jects.
-// Returns TRUE if a collision occurs.
+// Returns true if a collision occurs.
 //
 
 SLONG collide_against_objects(
@@ -282,7 +282,7 @@ SLONG collide_against_objects(
 
 
 //
-// Returns TRUE if there is a los from 1 to 2.
+// Returns true if there is a los from 1 to 2.
 // If there isn't a los, then it fills in los_failure_[x|y|z] with 
 // the last coordinate from point 1 to 2 that can be seen from point 1.
 //
@@ -305,7 +305,7 @@ SLONG there_is_a_los(
 		SLONG los_flag);
 
 //
-// An FOV calculation. Returns TRUE if I can see him, given
+// An FOV calculation. Returns true if I can see him, given
 // that I am looking in the given direction.
 //
 
@@ -462,7 +462,7 @@ extern COLLIDE_Fastnavrow *COLLIDE_fastnav;
 void COLLIDE_calc_fastnav_bits();
 
 //
-// Returns TRUE if you can fastnav in the given square.
+// Returns true if you can fastnav in the given square.
 //
 
 #ifndef NDEBUG

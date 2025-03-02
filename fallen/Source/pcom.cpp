@@ -31,7 +31,7 @@
 #include "memory.h"
 extern UBYTE stealth_debug;
 #ifndef PSX
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 #endif
 
 
@@ -432,7 +432,7 @@ void PCOM_add_gang_member(THING_INDEX person, UBYTE group)
 }
 
 //
-// Returns TRUE if a fake wandering person should attack Darci.
+// Returns true if a fake wandering person should attack Darci.
 //
 
 SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
@@ -445,7 +445,7 @@ SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
 		// Don't attack Darci when she's in a warehouse.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (EWAY_stop_player_moving())
@@ -454,7 +454,7 @@ SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
 		// In a cutscene...
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (p_person->Genus.Person->PersonType == PERSON_COP)
@@ -463,7 +463,7 @@ SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
 		// Cops always attack the thugs!
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	PCOM_found_num = THING_find_sphere(
@@ -495,11 +495,11 @@ SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
 			case PERSON_MIB1:
 			case PERSON_MIB2:
 			case PERSON_MIB3:
-				return FALSE;
+				return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -599,7 +599,7 @@ SLONG person_has_gun_or_grenade_out(Thing *p_person)
 
 	if (!p_person->Genus.Person->SpecialUse)
 	{
-		return FALSE;
+		return false;
 	}
 
 	{
@@ -614,7 +614,7 @@ SLONG person_has_gun_or_grenade_out(Thing *p_person)
 		}
 	}
 
-	return FALSE;
+	return false;
 }	
 
 
@@ -815,7 +815,7 @@ SLONG PCOM_get_dist_from_home(Thing *p_person)
 
 
 //
-// Returns TRUE if you can try to do a fastnav to the given person.
+// Returns true if you can try to do a fastnav to the given person.
 //	
 
 SLONG PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
@@ -827,7 +827,7 @@ SLONG PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
 			p_target->State == STATE_DANGLING     ||
 			p_target->State == STATE_JUMPING)
 		{
-			return FALSE;
+			return false;
 		}
 
 		SLONG dx = abs(p_target->WorldPos.X - p_person->WorldPos.X);
@@ -836,11 +836,11 @@ SLONG PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
 
 		if (dx < 0x30000 && dz < 0x30000 && dy < 0x10000)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
@@ -1004,7 +1004,7 @@ void PCOM_get_vehicle_navsquare(
 	   *map_dest_z,
 		0,
 		0xff0000,
-		TRUE);
+		true);
 #endif
 	#endif
 #endif
@@ -1013,7 +1013,7 @@ void PCOM_get_vehicle_navsquare(
 //
 // Positions the given person so he is in a good position to sit
 // on the prim.  If 'dont_teleport' then if the person is too far
-// from where he want to sit, this function returns FALSE and
+// from where he want to sit, this function returns false and
 // the person isn't moved.
 //
 
@@ -1058,7 +1058,7 @@ SLONG PCOM_position_person_to_sit_on_prim(
 
 		if (dx + dz > 0x5000)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1066,7 +1066,7 @@ SLONG PCOM_position_person_to_sit_on_prim(
 
 	move_thing_on_map(p_person, &newpos);
 
-	return TRUE;
+	return true;
 }
 
 //
@@ -1280,35 +1280,35 @@ void PCOM_get_mav_action_pos(
 
 
 //
-// Returns TRUE if the person is carrying any sort of gun.
+// Returns true if the person is carrying any sort of gun.
 //
 
 SLONG PCOM_person_has_any_sort_of_gun(Thing *p_person)
 {
 	if (p_person->Flags & FLAGS_HAS_GUN)
 	{
-		return TRUE;
+		return true;
 	}
 
 	if (person_has_special(p_person, SPECIAL_SHOTGUN) ||
 		person_has_special(p_person, SPECIAL_AK47)    ||
 		person_has_special(p_person, SPECIAL_GRENADE))
 	{
-		return TRUE;
+		return true;
 	}
 
 	if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB3)
 	{
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
-// Returns TRUE if the person has gun and ammo to use with it.
+// Returns true if the person has gun and ammo to use with it.
 //
 
 SLONG PCOM_person_has_any_sort_of_h2h(Thing *p_person)
@@ -1336,7 +1336,7 @@ SLONG PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person)
 	{
 		if (p_person->Genus.Person->Ammo)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -1344,7 +1344,7 @@ SLONG PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person)
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB3)
 	{
-		return TRUE;
+		return true;
 	}
 // lazy MARK!
 	if ((p_special = person_has_special(p_person, SPECIAL_SHOTGUN)) ||
@@ -1353,16 +1353,16 @@ SLONG PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person)
 	{
 		if (p_special->Genus.Special->ammo)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
 //
-// Returns TRUE if there are people waiting to get into the given car
+// Returns true if there are people waiting to get into the given car
 // near the car.
 //
 
@@ -1392,19 +1392,19 @@ SLONG PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle)
 
 			if (p_vehin == p_vehicle)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
 SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 {
 	if(p_person->State==STATE_DYING||p_person->State==STATE_DEAD||p_person->State==STATE_CARRY)
-		return(FALSE);
+		return(false);
 
 	if (p_person->State == STATE_MOVEING && (p_person->SubState == SUB_STATE_SIMPLE_ANIM_OVER || p_person->SubState == SUB_STATE_SIMPLE_ANIM))
 	{
@@ -1415,16 +1415,16 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 			// If they're sitting down...
 			//
 
-			return TRUE;
+			return true;
 		}
 	}
 
 	if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NORMAL)
 		if(p_person->Genus.Person->pcom_ai==PCOM_AI_COP_DRIVER &&(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING) &&p_person->Genus.Person->pcom_move==PCOM_MOVE_WANDER)
-			return(TRUE);
+			return(true);
 
 	if(p_person->Genus.Person->Flags & (FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C))
-		return(FALSE);
+		return(false);
 
 
 	switch(p_person->Genus.Person->pcom_move_state)
@@ -1439,21 +1439,21 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 				// In the middle of doing a complicated moving.
 				//
 
-				return FALSE;
+				return false;
 			}
 	}
 
 	if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NORMAL)
 	{
 		if(p_person->Genus.Person->pcom_ai==PCOM_AI_COP_DRIVER &&(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING) &&p_person->Genus.Person->pcom_move==PCOM_MOVE_WANDER)
-			return TRUE;
+			return true;
 
 
 		if (p_person->State == STATE_IDLE    ||
 			p_person->State == STATE_GOTOING ||
 			p_person->State == STATE_NORMAL)
 		{
-			return TRUE;
+			return true;
 		}
 
 		if (p_person->State    == STATE_GUN &&
@@ -1465,7 +1465,7 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 
 			if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NORMAL)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
@@ -1474,7 +1474,7 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 			if (p_person->SubState == SUB_STATE_SIMPLE_ANIM ||
 				p_person->SubState == SUB_STATE_SIMPLE_ANIM_OVER)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 	}
@@ -1484,15 +1484,15 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 		p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_INVESTIGATING ||
 		p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FOLLOWING)
 	{
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
 //
-// Returns TRUE if the person has any kind of gun in his hand- ready to shoot.
+// Returns true if the person has any kind of gun in his hand- ready to shoot.
 //
 
 SLONG PCOM_person_has_gun_in_hand(Thing *p_person)
@@ -1505,7 +1505,7 @@ SLONG PCOM_person_has_gun_in_hand(Thing *p_person)
 		// MIB are ninja shooting machines with built-in AK47s!
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	if (p_person->State    == STATE_GUN &&
@@ -1515,12 +1515,12 @@ SLONG PCOM_person_has_gun_in_hand(Thing *p_person)
 		// Still drawing a weapon.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
 	{
-		return TRUE;
+		return true;
 	}
 
 	if (p_person->Genus.Person->SpecialUse)
@@ -1531,16 +1531,16 @@ SLONG PCOM_person_has_gun_in_hand(Thing *p_person)
 			p_special->Genus.Special->SpecialType == SPECIAL_AK47    ||
 			p_special->Genus.Special->SpecialType == SPECIAL_GRENADE)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
 //
-// Returns TRUE if the target has a gun pointed at you!
+// Returns true if the target has a gun pointed at you!
 //
 
 SLONG PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter)
@@ -1555,11 +1555,11 @@ SLONG PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter)
 		if (dangle <        PCOM_SHOOTME_DANGLE ||
 			dangle > 2048 - PCOM_SHOOTME_DANGLE)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1723,7 +1723,7 @@ SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
 
 	if (darci->Genus.Person->Mode == PERSON_MODE_FIGHT)
 	{
-		return TRUE;
+		return true;
 	}
 
 	/*
@@ -1738,7 +1738,7 @@ SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
 
 	if (PAP_2HI(map_x,map_z).Flags & PAP_FLAG_NAUGHTY)
 	{
-		return TRUE;
+		return true;
 	}
 
 	if (darci->Genus.Person->Action == ACTION_CLIMBING)
@@ -1758,13 +1758,13 @@ SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
 
 		if (PAP_2HI(map_x,map_z).Flags & PAP_FLAG_NAUGHTY)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
 	*/
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1776,7 +1776,7 @@ SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
 // his fight (if they can see him).
 //
 
-void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang = TRUE); // These two functions call eachother!
+void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang = true); // These two functions call eachother!
 
 void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target)
 {
@@ -1827,7 +1827,7 @@ void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target)
 				// This person isn't doing anything important. He can help in the fight.
 				//
 
-				PCOM_set_person_ai_kill_person(p_gang, p_target, FALSE);
+				PCOM_set_person_ai_kill_person(p_gang, p_target, false);
 			}
 		}
 	}
@@ -1979,8 +1979,8 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z,
 	}
 
 	UWORD nav_into_ware   = NULL;
-	UBYTE nav_outof_ware  = FALSE;
-	UBYTE nav_inside_ware = FALSE;
+	UBYTE nav_outof_ware  = false;
+	UBYTE nav_inside_ware = false;
 
 	//
 	// If you are scared and in a warehouse- always run to the exit.
@@ -1991,7 +1991,7 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z,
 	{
 		if (p_person->Genus.Person->Ware)
 		{
-			nav_outof_ware = TRUE;
+			nav_outof_ware = true;
 		}
 	}
 
@@ -2018,7 +2018,7 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z,
 			//
 
 			nav_into_ware   = NULL;
-			nav_inside_ware = TRUE;
+			nav_inside_ware = true;
 		}
 		else
 		{
@@ -2026,8 +2026,8 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z,
 			// We are in the wrong warehouse!
 			//
 
-			nav_outof_ware = TRUE;
-			nav_into_ware  = FALSE;
+			nav_outof_ware = true;
+			nav_into_ware  = false;
 		}
 	}
 
@@ -2115,8 +2115,8 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG s
 	SLONG dest_x;
 	SLONG dest_z;
 
-	UBYTE nav_outof_ware  = FALSE;
-	UBYTE nav_inside_ware = FALSE;
+	UBYTE nav_outof_ware  = false;
+	UBYTE nav_inside_ware = false;
 	SLONG nav_into_ware   = NULL;
 
 	UBYTE caps = (p_person->Genus.Person->pcom_bent & PCOM_BENT_RESTRICTED) ? MAV_CAPS_GOTO : MAV_CAPS_DARCI;
@@ -2142,7 +2142,7 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG s
 			// We should navigate out of the warehouse.
 			//
 
-			nav_outof_ware = TRUE;
+			nav_outof_ware = true;
 		}
 		else
 		if (p_target->Genus.Person->Ware != p_person->Genus.Person->Ware)
@@ -2152,7 +2152,7 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG s
 			// to me.  Leave the one we are in.
 			//
 
-			nav_outof_ware = TRUE;
+			nav_outof_ware = true;
 		}
 		else
 		{
@@ -2160,7 +2160,7 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG s
 			// Our target and I are in the same warehouse.
 			//
 
-			nav_inside_ware = TRUE;
+			nav_inside_ware = true;
 		}
 	}
 	else
@@ -2335,8 +2335,8 @@ void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, SLONG waypoint, SLONG
 
 	UBYTE caps            = (p_person->Genus.Person->pcom_bent & PCOM_BENT_RESTRICTED) ? MAV_CAPS_GOTO : MAV_CAPS_DARCI;
 	UBYTE eware           = EWAY_get_warehouse(waypoint);
-	UBYTE nav_outof_ware  = FALSE;
-	UBYTE nav_inside_ware = FALSE;
+	UBYTE nav_outof_ware  = false;
+	UBYTE nav_inside_ware = false;
 	SLONG nav_into_ware   = NULL;
 
 	//
@@ -2374,7 +2374,7 @@ void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, SLONG waypoint, SLONG
 	{
 		if (eware != p_person->Genus.Person->Ware)
 		{
-			nav_outof_ware = TRUE;
+			nav_outof_ware = true;
 		}
 		else
 		{
@@ -2382,7 +2382,7 @@ void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, SLONG waypoint, SLONG
 			// The waypoint and the person are inside the same warehouse.
 			//
 
-			nav_inside_ware = TRUE;
+			nav_inside_ware = true;
 		}
 	}
 	else
@@ -2916,7 +2916,7 @@ void PCOM_renav(Thing *p_person)
 }
 
 //
-// Returns TRUE if a person has finished navigating.
+// Returns true if a person has finished navigating.
 // 
 
 SLONG PCOM_finished_nav(Thing *p_person)
@@ -2931,7 +2931,7 @@ SLONG PCOM_finished_nav(Thing *p_person)
 		// anything so I guess he's finished!
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	if (p_person->State == STATE_DANGLING)
@@ -2940,7 +2940,7 @@ SLONG PCOM_finished_nav(Thing *p_person)
 		// Can't stop in the middle of a complicated manouvre!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	PCOM_get_person_dest(
@@ -2975,11 +2975,11 @@ SLONG PCOM_finished_nav(Thing *p_person)
 		{
 			p_person->Genus.Person->SlideOdd = 1;
 
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 	else
@@ -4256,11 +4256,11 @@ SLONG PCOM_target_sprinting_towards_me(Thing *p_person, Thing *p_target)
 		if (dangle <        PCOM_SPRINTATME_DANGLE ||
 			dangle > 2048 - PCOM_SPRINTATME_DANGLE)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -4955,16 +4955,16 @@ void PCOM_set_person_ai_summon(Thing *p_person)
 // Returns an item this person should pick up or NULL if this
 // person is not near enough an item or already has one.
 //
-extern	BOOL PersonIsMIB(Thing* p_person);
+extern	bool PersonIsMIB(Thing* p_person);
 /*
-BOOL PersonIsMIB(Thing* p_person)
+bool PersonIsMIB(Thing* p_person)
 {
 	return (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB3);
 };
 */
-BOOL PersonIsMIB(Thing* p_person);
+bool PersonIsMIB(Thing* p_person);
 
 Thing *PCOM_is_there_an_item_i_should_get(Thing *p_person)
 {
@@ -6102,7 +6102,7 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
 	SLONG dy;
 	SLONG dz;
 	SLONG score;
-	SLONG ignore_los = FALSE;
+	SLONG ignore_los = false;
 
 	SLONG  best_score = INFINITY;
 	Thing *best_thing = NULL;
@@ -6130,7 +6130,7 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
 	{
 		p_found = TO_THING(PCOM_found[i]);
 
-		ignore_los = FALSE;	// For people the player is fighting...
+		ignore_los = false;	// For people the player is fighting...
 
 	  try_this_person_too:;
 
@@ -6237,7 +6237,7 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
 						ASSERT(p_target->Class == CLASS_PERSON);
 
 						p_found    = p_target;
-						ignore_los = TRUE;
+						ignore_los = true;
 
 						goto try_this_person_too;
 					}
@@ -6294,7 +6294,7 @@ SLONG PCOM_get_next_patrol_waypoint(Thing *p_person)
 						EWAY_DONT_CARE,
 						p_person->Genus.Person->pcom_colour,
 						p_person->Genus.Person->pcom_group,
-						TRUE);
+						true);
 	}
 	else
 	{
@@ -6302,7 +6302,7 @@ SLONG PCOM_get_next_patrol_waypoint(Thing *p_person)
 						p_person->Genus.Person->pcom_move_arg,
 						p_person->Genus.Person->pcom_colour,
 						p_person->Genus.Person->pcom_group,
-						TRUE);
+						true);
 	}
 	
 	return waypoint;
@@ -6486,7 +6486,7 @@ void PCOM_process_driving_patrol(Thing *p_person)
 										EWAY_DONT_CARE,
 										p_person->Genus.Person->pcom_colour,
 										p_person->Genus.Person->pcom_group,
-										TRUE);
+										true);
 					}
 					else
 					{
@@ -6494,7 +6494,7 @@ void PCOM_process_driving_patrol(Thing *p_person)
 										p_person->Genus.Person->pcom_move_arg,
 										p_person->Genus.Person->pcom_colour,
 										p_person->Genus.Person->pcom_group,
-										TRUE);
+										true);
 					}
 
 					if (p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING)
@@ -8375,8 +8375,8 @@ void	draw_view_line(Thing *p_person,Thing *p_target)
 
 	for(step=0;step<count;step++)
 	{
-		//AENG_world_line(x1,y1,z1,2,0,x1+dx,y1+dy,z1+dz,2,0,TRUE);
-		AENG_world_line(x1,y1,z1,20,0xffffff,x1+dx,y1+dy,z1+dz,20,0xffffff,TRUE);
+		//AENG_world_line(x1,y1,z1,2,0,x1+dx,y1+dy,z1+dz,2,0,true);
+		AENG_world_line(x1,y1,z1,20,0xffffff,x1+dx,y1+dy,z1+dz,20,0xffffff,true);
 
 		x1+=dx<<1;
 		y1+=dy<<1;
@@ -9183,7 +9183,7 @@ void PCOM_process_findcar(Thing *p_person)
 
 					ASSERT(door == 0 || door == 1);
 
-					PCOM_set_person_move_getincar(p_person, p_vehicle, FALSE, door);
+					PCOM_set_person_move_getincar(p_person, p_vehicle, false, door);
 
 					p_person->Genus.Person->pcom_ai_substate = PCOM_AI_SUBSTATE_GETINCAR;
 					p_person->Genus.Person->pcom_ai_counter  = 0;
@@ -9390,7 +9390,7 @@ void PCOM_process_hitch(Thing *p_person)
 					// We can get into a car! Lets do it.
 					//
 
-					PCOM_set_person_move_getincar(p_person, p_vehicle, TRUE, door);
+					PCOM_set_person_move_getincar(p_person, p_vehicle, true, door);
 
 					p_person->Genus.Person->pcom_ai_substate = PCOM_AI_SUBSTATE_GETINCAR;
 					p_person->Genus.Person->pcom_ai_counter  = 0;
@@ -10877,7 +10877,7 @@ void PCOM_process_state_change(Thing *p_person)
 								p_person,
 								p_nasty,
 								PCOM_AI_SUBSTATE_TALK_TELL,
-								FALSE);
+								false);
 
 							if (p_nasty->Genus.Person->PlayerID && p_nasty->Genus.Person->PersonType == PERSON_DARCI)
 							{
@@ -10974,13 +10974,13 @@ void PCOM_process_state_change(Thing *p_person)
 //			if ((GAME_TURN & 0x3) == 0)
 			if ((PTIME(p_person) & 0x3) == 0)
 			{
-				SLONG look = FALSE;
+				SLONG look = false;
 
 				if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NORMAL     ||
 					p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_WARM_HANDS ||
 					p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_HOMESICK)
 				{
-					look = TRUE;
+					look = true;
 				}
 
 				if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_INVESTIGATING)
@@ -10991,7 +10991,7 @@ void PCOM_process_state_change(Thing *p_person)
 					}
 					else
 					{
-						look = TRUE;
+						look = true;
 					}
 				}
 
@@ -11146,7 +11146,7 @@ void PCOM_process_state_change(Thing *p_person)
 			PCOM_process_default(p_person);
 
 			{
-				SLONG look = FALSE;
+				SLONG look = false;
 
 				if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_INVESTIGATING)
 				{
@@ -11156,7 +11156,7 @@ void PCOM_process_state_change(Thing *p_person)
 					}
 					else
 					{
-						look = TRUE;
+						look = true;
 					}
 				}
 
@@ -11164,7 +11164,7 @@ void PCOM_process_state_change(Thing *p_person)
 					p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_WARM_HANDS    ||
 					p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_HOMESICK)
 				{
-					look = TRUE;
+					look = true;
 				}
 
 				if (look)
@@ -11927,7 +11927,7 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 
 	AENG_world_line(p_person->WorldPos.X >> 8, p_person->WorldPos.Y >> 8, p_person->WorldPos.Z >> 8, 16, col,
 					p_person->WorldPos.X >> 8, (p_person->WorldPos.Y >> 8) + 0x100, p_person->WorldPos.Z >> 8, 0, col,
-					TRUE);
+					true);
 #endif
 
 	// set action to none
@@ -11967,7 +11967,7 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 
 #if 0
 #define BLOCKED(C)	AENG_world_line(p_person->WorldPos.X >> 8, p_person->WorldPos.Y >> 8, p_person->WorldPos.Z >> 8, 16, C,		\
-									p_found->WorldPos.X >> 8, p_found->WorldPos.Y >> 8, p_found->WorldPos.Z >> 8, 16, C, TRUE);			
+									p_found->WorldPos.X >> 8, p_found->WorldPos.Y >> 8, p_found->WorldPos.Z >> 8, 16, C, true);			
 #else
 #define BLOCKED(C)
 #endif
@@ -12134,11 +12134,11 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 					// Do we stop for a car in front of us or do we try and drive around?
 					//
 
-					SLONG avoid = FALSE;
+					SLONG avoid = false;
 
 					// avoid parked (driverless) cars and dead cars
-					if (!v_found->Driver)														avoid = TRUE;
-					if ((p_found->State == STATE_DYING) || (p_found->State == STATE_DEAD))		avoid = TRUE;
+					if (!v_found->Driver)														avoid = true;
+					if ((p_found->State == STATE_DYING) || (p_found->State == STATE_DEAD))		avoid = true;
 
 					if (p_person->Genus.Person->pcom_bent & PCOM_BENT_DILIGENT)
 					{
@@ -12146,7 +12146,7 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 						// Diligent people are in a hurry!
 						//
 
-						avoid = TRUE;
+						avoid = true;
 					}
 
 					if (avoid)
@@ -12221,7 +12221,7 @@ void PCOM_process_movement(Thing *p_person)
 	SLONG dspeed;
 	SLONG dlane;
 
-	SLONG renav = FALSE;
+	SLONG renav = false;
 
 	Thing *p_vehicle;
 	Thing *p_target;
@@ -12321,7 +12321,7 @@ void PCOM_process_movement(Thing *p_person)
 							goal_z,
 							0,
 							0x000000ff,
-							TRUE);
+							true);
 					}
 #endif
 #endif
@@ -12345,7 +12345,7 @@ void PCOM_process_movement(Thing *p_person)
 							// Nothing more to do for this subgoal. Initialise a renavigation.
 							//
 
-							renav = TRUE;
+							renav = true;
 						}
 						else
 						{
@@ -12459,7 +12459,7 @@ void PCOM_process_movement(Thing *p_person)
 								(p_person->State == STATE_GUN && p_person->SubState == SUB_STATE_AIM_GUN) ||
 								(p_person->State == STATE_IDLE))
 							{
-								renav = TRUE;
+								renav = true;
 							}
 							else
 							{
@@ -12484,7 +12484,7 @@ void PCOM_process_movement(Thing *p_person)
 								// Running after completing a jump.
 								//
 
-								renav = TRUE;
+								renav = true;
 							}
 
 							break;
@@ -12495,7 +12495,7 @@ void PCOM_process_movement(Thing *p_person)
 							// Stopped doing anything- it must be time for a renavigation!
 							//
 
-							renav = TRUE;
+							renav = true;
 
 							break;
 
@@ -12589,7 +12589,7 @@ void PCOM_process_movement(Thing *p_person)
 								// Stopped doing anything- it must be time for a renavigation!
 								//
 
-								renav = TRUE;
+								renav = true;
 							}
 
 							break;
@@ -12627,7 +12627,7 @@ void PCOM_process_movement(Thing *p_person)
 							// We should try proper mavigation!
 							//
 
-							renav = TRUE;
+							renav = true;
 						}
 						else
 						{
@@ -12645,7 +12645,7 @@ void PCOM_process_movement(Thing *p_person)
 							// Something happened to this bloke! Get him moving again.
 							//
 
-							renav = TRUE;
+							renav = true;
 						}
 					}
 
@@ -13528,7 +13528,7 @@ SLONG	on_same_side(Thing *p_victim,Thing *p_attacker)
 #if DARCI_HITS_COPS
 
 //
-// Returns TRUE if the player hit the cop on purpose.
+// Returns true if the player hit the cop on purpose.
 // 
 
 SLONG PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
@@ -13539,7 +13539,7 @@ SLONG PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
 		// Darci is a known villain.
 		// 
 
-		return TRUE;
+		return true;
 	}
 
 	//
@@ -13564,11 +13564,11 @@ SLONG PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
 			// me on purpose.
 			//
 
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -13583,10 +13583,10 @@ SLONG PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
 		// I am busy hitting somebody- darci is probably trying to help me!
 		//
 
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 #endif
@@ -13984,12 +13984,12 @@ SLONG PCOM_jumping_navigating_person_continue_moving(Thing *p_person)
 				// Stop moving or you'll overshoot.
 				//
 
-				return FALSE;
+				return false;
 			}
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -14240,7 +14240,7 @@ SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 		// Nobody hates themselves.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -14252,7 +14252,7 @@ SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 		if (p_person_a->Genus.Person->pcom_colour ==
 			p_person_b->Genus.Person->pcom_colour)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -14264,7 +14264,7 @@ SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 
 		if (p_person_b->Genus.Person->pcom_ai == PCOM_AI_BODYGUARD && EWAY_get_person(p_person_b->Genus.Person->pcom_ai_other) == THING_NUMBER(p_person_a))
 		{
-			return FALSE;
+			return false;
 		}
 
 		//
@@ -14274,7 +14274,7 @@ SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 		if (p_person_b->Genus.Person->PersonType == PERSON_DARCI ||
 			p_person_b->Genus.Person->PersonType == PERSON_ROPER)
 		{
-			return FALSE;
+			return false;
 		}
 			
 		//
@@ -14283,14 +14283,14 @@ SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 
 		if (p_person_b->Genus.Person->pcom_move == PCOM_MOVE_FOLLOW && EWAY_get_person(p_person_b->Genus.Person->pcom_move_follow) == THING_NUMBER(p_person_a))
 		{
-			return FALSE;
+			return false;
 		}
 
 		//
 		// Players hate everybody else...
 		//
 		
-		return TRUE;
+		return true;
 	}
 
 	if (p_person_a->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NAVTOKILL ||
@@ -14304,11 +14304,11 @@ SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 
 		if (p_person_a->Genus.Person->pcom_ai_arg == THING_NUMBER(p_person_b))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -14718,7 +14718,7 @@ void DriveCar(Thing* p_person)
 		dest_z,
 		0,
 		0x000000,
-		TRUE);
+		true);
 */
 	p_person->Genus.Person->pcom_move_counter += PCOM_TICKS_PER_TURN * TICK_RATIO >> TICK_SHIFT;
 }
@@ -14894,7 +14894,7 @@ void DriveBike(Thing* p_person)
 					rx2, 0, rz2,
 					0,
 					0x004400,
-					FALSE);
+					false);
 			}
 
 #endif
@@ -15040,7 +15040,7 @@ void DriveBike(Thing* p_person)
 			dest_z,
 			0,
 			0x000000,
-			TRUE);
+			true);
 	}
 
 #endif

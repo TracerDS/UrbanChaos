@@ -24,7 +24,7 @@
 
 
 //
-// Compiles the given file. Returns TRUE on success.
+// Compiles the given file. Returns true on success.
 //
 
 SLONG MAIN_compile(CBYTE *input, CBYTE *output)
@@ -46,12 +46,12 @@ SLONG MAIN_compile(CBYTE *input, CBYTE *output)
 			OS_string("%s\n", PARSE_error[i]);
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	CG_do(output, CG_OUTPUT_OBJECT_FILE);
 
-	return TRUE;
+	return true;
 }
 
 

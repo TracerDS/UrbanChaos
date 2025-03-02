@@ -20,7 +20,7 @@ extern	SWORD	SelectDrawn;
 extern	void	calc_prims_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
 
 //
-// Saves out the given prim object. Returns FALSE on failure.
+// Saves out the given prim object. Returns false on failure.
 //
 
 SLONG save_prim_object(SLONG prim);

@@ -72,7 +72,7 @@ struct	Mission
 
 struct	OldMissionB
 {
-	BOOL			Used;
+	bool			Used;
 	CBYTE			BriefName[_MAX_PATH],
 					LightMapName[_MAX_PATH],
 					MapName[_MAX_PATH],
@@ -90,7 +90,7 @@ struct	OldMissionB
 
 struct	OldMission
 {
-	BOOL			Used;
+	bool			Used;
 	CBYTE			BriefName[_MAX_PATH],
 					LightMapName[_MAX_PATH],
 					MapName[_MAX_PATH],
@@ -127,7 +127,7 @@ extern CBYTE MissionZones[MAX_MISSIONS][128][128];
 
 struct	GameMap
 {
-	BOOL		Used;
+	bool		Used;
 	CBYTE		MapName[_MAX_PATH];
 	UWORD		Missions[MAX_MISSIONS];
 };
@@ -544,14 +544,14 @@ void		free_eventpoint(EventPoint *the_ep);
 void		write_event_extra(FILE *file_handle, EventPoint *ep);
 void		read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG ver=0);
 #endif
-BOOL		export_mission();
+bool		export_mission();
 void		import_mission();
-BOOL		valid_mission();
+bool		valid_mission();
 void		ResetFreepoint(Mission *mission);
 void		ResetUsedpoint(Mission *mission);
 void		ResetFreelist(Mission *mission);
 void		ResetUsedlist(Mission *mission);
-BOOL		HasText(EventPoint *ep);
+bool		HasText(EventPoint *ep);
 UWORD		GetTextID(CBYTE *msg);
 UWORD		GetEPTextID(EventPoint *ep);
 //void		SetTextID(CBYTE *msg, SLONG value=-1);

@@ -7,7 +7,7 @@
 
 
 //
-// Return FALSE on failure.
+// Return false on failure.
 // 
 
 SLONG SAVE_ingame(CBYTE *fname);

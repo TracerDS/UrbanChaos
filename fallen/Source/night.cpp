@@ -234,7 +234,7 @@ SLONG NIGHT_slight_create(
 				// Still not enough room!
 				//
 
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -300,7 +300,7 @@ SLONG NIGHT_slight_create(
 	ns->number        += 1;
 	NIGHT_slight_upto += 1;
 
-	return TRUE;
+	return true;
 }
 void NIGHT_slight_delete(
 		SLONG x,
@@ -479,7 +479,7 @@ void NIGHT_light_mapsquare(SLONG lo_map_x, SLONG lo_map_z, NIGHT_Colour *colour,
 		// is on our floor is ignored if we are in a warehouse.
 		//
 
-		inside = TRUE;
+		inside = true;
 	}
 	
 	//
@@ -1104,11 +1104,11 @@ void NIGHT_light_prim(
 		prim_pitch == 0 &&
 		prim_roll  == 0)
 	{
-		rotate = FALSE;
+		rotate = false;
 	}
 	else
 	{
-		rotate = TRUE;
+		rotate = true;
 
 		FMATRIX_calc(
 			matrix,
@@ -1774,7 +1774,7 @@ void NIGHT_dlight_squares_do(SLONG subtract)
 				//
 
 				flist = PAP_2LO(mx,mz).ColVectHead;
-				exit  = FALSE;
+				exit  = false;
 				if (flist)
 				{
 					while(!exit)
@@ -1788,7 +1788,7 @@ void NIGHT_dlight_squares_do(SLONG subtract)
 							//
 
 							facet = -facet;
-							exit  =  TRUE;
+							exit  =  true;
 						}
 
 						ASSERT(WITHIN(facet, 1, next_dfacet - 1));
@@ -1914,7 +1914,7 @@ void NIGHT_dlight_squares_do(SLONG subtract)
 
 void NIGHT_dlight_squares_up()
 {
-	NIGHT_dlight_squares_do(FALSE);
+	NIGHT_dlight_squares_do(false);
 }
 
 void NIGHT_dlight_squares_down()
@@ -1923,7 +1923,7 @@ void NIGHT_dlight_squares_down()
 
 	NIGHT_Dlight *ndl;
 
-	NIGHT_dlight_squares_do(TRUE);
+	NIGHT_dlight_squares_do(true);
 
   destroy_again:;
 
@@ -3407,7 +3407,7 @@ SLONG NIGHT_check_index(SLONG walkable_prim_point_index)
 			first_walkable_prim_point, 
 			first_walkable_prim_point + number_of_walkable_prim_points - 1));
 
-	return TRUE;
+	return true;
 }
 
 #endif
@@ -3982,7 +3982,7 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 
 	if ( ( !handle ) || ( handle == FILE_OPEN_ERROR ) )
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -4011,7 +4011,7 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 //		MF_Fclose(handle);
 		FileClose(handle);
 
-		return FALSE;
+		return false;
 	}
 
 	// okay. since the original lighting editor files didn't include a file version
@@ -4115,7 +4115,7 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 //	MF_Fclose(handle);
 	FileClose(handle);
 
-	return TRUE;
+	return true;
 
   file_error:;
 
@@ -4124,7 +4124,7 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 	FileClose(handle);
 	
 //#endif
-	return FALSE;	
+	return false;	
 }
 
 

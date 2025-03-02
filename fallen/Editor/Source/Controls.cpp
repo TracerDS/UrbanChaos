@@ -1391,28 +1391,28 @@ UWORD	CHSlider::TrackControl(MFPoint *down_point)
 
 //---------------------------------------------------------------
 
-BOOL	CHSlider::PointInControl(MFPoint *the_point)
+bool	CHSlider::PointInControl(MFPoint *the_point)
 {
 	if(DragRect.PointInRect(the_point))
 	{
 		if(LeftButtonFlags&CONTROL_HILITED || RightButtonFlags&CONTROL_HILITED)
 			UnHiliteControl();
-		return	TRUE;
+		return	true;
 	}
 	else if(LeftButtonRect.PointInRect(the_point))
 	{
 		if(DragFlags&CONTROL_HILITED)
 			UnHiliteControl();
-		return	TRUE;
+		return	true;
 	}
 	else if(RightButtonRect.PointInRect(the_point))
 	{
 		if(DragFlags&CONTROL_HILITED)
 			UnHiliteControl();
-		return	TRUE;
+		return	true;
 	}
 	else
-		return	FALSE;
+		return	false;
 }
 
 //---------------------------------------------------------------
@@ -1747,28 +1747,28 @@ UWORD	CVSlider::TrackControl(MFPoint *down_point)
 
 //---------------------------------------------------------------
 
-BOOL	CVSlider::PointInControl(MFPoint *the_point)
+bool	CVSlider::PointInControl(MFPoint *the_point)
 {
 	if(DragRect.PointInRect(the_point))
 	{
 		if(TopButtonFlags&CONTROL_HILITED || BottomButtonFlags&CONTROL_HILITED)
 			UnHiliteControl();
-		return	TRUE;
+		return	true;
 	}
 	else if(TopButtonRect.PointInRect(the_point))
 	{
 		if(DragFlags&CONTROL_HILITED)
 			UnHiliteControl();
-		return	TRUE;
+		return	true;
 	}
 	else if(BottomButtonRect.PointInRect(the_point))
 	{
 		if(DragFlags&CONTROL_HILITED)
 			UnHiliteControl();
-		return	TRUE;
+		return	true;
 	}
 	else
-		return	FALSE;
+		return	false;
 }
 
 //---------------------------------------------------------------

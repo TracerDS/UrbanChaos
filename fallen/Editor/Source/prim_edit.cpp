@@ -765,11 +765,11 @@ void make_object_quad(UWORD prim)
 	{
 		f3_a = &prim_faces3[i];
 
-		combine = FALSE;
+		combine = false;
 
-		if (!(f3_a->FaceFlags & FACE_FLAG_EDGE_VISIBLE_A)) {combine = TRUE; combine_edge = 0;}
-		if (!(f3_a->FaceFlags & FACE_FLAG_EDGE_VISIBLE_B)) {combine = TRUE; combine_edge = 1;}
-		if (!(f3_a->FaceFlags & FACE_FLAG_EDGE_VISIBLE_C)) {combine = TRUE; combine_edge = 2;}
+		if (!(f3_a->FaceFlags & FACE_FLAG_EDGE_VISIBLE_A)) {combine = true; combine_edge = 0;}
+		if (!(f3_a->FaceFlags & FACE_FLAG_EDGE_VISIBLE_B)) {combine = true; combine_edge = 1;}
+		if (!(f3_a->FaceFlags & FACE_FLAG_EDGE_VISIBLE_C)) {combine = true; combine_edge = 2;}
 
 		if (combine)
 		{
@@ -1292,7 +1292,7 @@ extern	SLONG	x_centre,y_centre,z_centre;
 
 
 //
-// Functions to load SEX files. They return FALSE on failure.
+// Functions to load SEX files. They return false on failure.
 //
 // 'scale' is ignored.  If (offset) then the 'y' of the centre of the object
 // is taken as being the lowest point, otherwise it is at the average y.
@@ -1433,7 +1433,7 @@ SLONG read_sex(CBYTE *fname, SLONG scale /* Ignored */, SLONG offset)
 		// Could not open file.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -1473,7 +1473,7 @@ SLONG read_sex(CBYTE *fname, SLONG scale /* Ignored */, SLONG offset)
 	// What version of SEX file we are loading.
 	//
 
-	SLONG old_version = FALSE;
+	SLONG old_version = false;
 
 	//
 	// Decode the file a line at a time.
@@ -1686,7 +1686,7 @@ SLONG read_sex(CBYTE *fname, SLONG scale /* Ignored */, SLONG offset)
 			// Use the old quadify routine.
 			//
 
-			old_version = TRUE;
+			old_version = true;
 		}
 
 		if (match == 10)
@@ -1876,7 +1876,7 @@ SLONG read_sex(CBYTE *fname, SLONG scale /* Ignored */, SLONG offset)
 //	free_game_textures(FREE_SHARED_TEXTURES);
 //	load_game_textures(LOAD_SHARED_TEXTURES);
 
-	return TRUE;
+	return true;
 }
 /*
 typedef struct
@@ -2051,7 +2051,7 @@ SLONG read_multi_sex(CBYTE *fname,float shrink)
 		// Could not open file.
 		//
 
-		return FALSE;
+		return false;
 	}
 	
 	//
@@ -2071,7 +2071,7 @@ SLONG read_multi_sex(CBYTE *fname,float shrink)
 	// What version of SEX file we are loading.
 	//
 
-	SLONG old_version = FALSE;
+	SLONG old_version = false;
 
 	//
 	// Our first prim is marked as non-existent.
@@ -2375,7 +2375,7 @@ SLONG read_multi_sex(CBYTE *fname,float shrink)
 			// Use the old quadify routine.
 			//
 
-			old_version = TRUE;
+			old_version = true;
 		}
 
 		if (match == 10)
@@ -2719,7 +2719,7 @@ SBYTE read_asc(CBYTE *fname,SLONG scale,ULONG offset)
 	int		retval;
 	char	ts[MAX_3DS_LEN];
 	char	test_string[200];
-	UBYTE	found_a_face = FALSE;
+	UBYTE	found_a_face = false;
 //	char	info_text[80];
 //	UWORD	first_point;
 	SLONG	current_point,start_point=99999,end_point=0;
@@ -2918,7 +2918,7 @@ SBYTE read_asc(CBYTE *fname,SLONG scale,ULONG offset)
 					//	init_face(&iface);
 					{
 					}
-					found_a_face = TRUE;
+					found_a_face = true;
 					fscanf(handle,"%*2s %d %*2s %d %*2s %d"
 						"%*3s %d, %*3s, %d %*3s %d",
 						&fpointa,&fpointb,&fpointc,
@@ -3103,7 +3103,7 @@ SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float shrink)
 	int		retval;
 	char	ts[MAX_3DS_LEN];
 	char	test_string[200];
-	UBYTE	found_a_face = FALSE;
+	UBYTE	found_a_face = false;
 //	char	info_text[80];
 //	UWORD	first_point;
 	SLONG	current_point,start_point=99999,end_point=0;
@@ -3412,7 +3412,7 @@ SLONG read_multi_asc(CBYTE *asc_name,UBYTE flag,float shrink)
 					//	init_face(&iface);
 					{
 					}
-					found_a_face = TRUE;
+					found_a_face = true;
 					fscanf(handle,"%*2s %d %*2s %d %*2s %d"
 						"%*3s %d, %*3s, %d %*3s %d",
 						&fpointa,&fpointb,&fpointc,
@@ -4524,7 +4524,7 @@ void save_prim_asc(UWORD prim,UWORD version)
 
 
 //
-// Saves out the given prim object. Returns FALSE on failure.
+// Saves out the given prim object. Returns false on failure.
 //
 
 SLONG save_prim_object(SLONG prim)
@@ -4559,7 +4559,7 @@ SLONG save_prim_object(SLONG prim)
 		// Oh dear!
 		// 
 
-		return FALSE;
+		return false;
 	}
 	
 	//
@@ -4601,7 +4601,7 @@ SLONG save_prim_object(SLONG prim)
 	// All ok.
 	//
 
-	return TRUE;
+	return true;
 
   file_error:;
 
@@ -4611,7 +4611,7 @@ SLONG save_prim_object(SLONG prim)
 
 	fclose(handle);
 
-	return FALSE;
+	return false;
 }
 
 //

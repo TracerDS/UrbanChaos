@@ -238,8 +238,8 @@ void RAY_init()
 	// Sets up the screen.
 	//
 
-	RAY_screen1.CreateUserPage(RAY_SCREEN_SIZE, FALSE);
-	RAY_screen2.CreateUserPage(RAY_SCREEN_SIZE, FALSE);
+	RAY_screen1.CreateUserPage(RAY_SCREEN_SIZE, false);
+	RAY_screen2.CreateUserPage(RAY_SCREEN_SIZE, false);
 
 	//
 	// Precalc.
@@ -603,7 +603,7 @@ void RAY_intersect2(
 
 
 //
-// Returns TRUE if the given point is in shadow.
+// Returns true if the given point is in shadow.
 //
 
 SLONG RAY_in_shadow(
@@ -653,17 +653,17 @@ SLONG RAY_in_shadow(
 			// In shadow.
 			//
 
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
 //
 // Gives the colour of the given NORMALISED! ray. It has a bitfield for which
-// sphere to ignore and a max_recursion level too.  Returns FALSE if no
+// sphere to ignore and a max_recursion level too.  Returns false if no
 // intersection occured.
 //
 
@@ -855,11 +855,11 @@ SLONG RAY_get_colour_from_origin(
 				*ray_b = (*ray_b * rb >> 8);
 			}
 
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1351,18 +1351,18 @@ void RAY_render_polys()
 
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAG,D3DFILTER_LINEAR);
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMIN,D3DFILTER_LINEAR);
-	SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE,TRUE);
-	SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE,true);
+	SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,false);
 	SET_RENDER_STATE(D3DRENDERSTATE_ZFUNC,D3DCMP_LESSEQUAL);
-	SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,false);
 	SET_RENDER_STATE(D3DRENDERSTATE_CULLMODE,D3DCULL_NONE);
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATE);
 	SET_RENDER_STATE(D3DRENDERSTATE_FOGCOLOR,  0x008890ee);
-	SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, false);
 //	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREHANDLE, rs->GetTextureHandle());
 	SET_TEXTURE(rs->GetD3DTexture());
-	SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE,FALSE);
-	SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE,false);
+	SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,false);
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREADDRESS,D3DTADDRESS_WRAP);
 
 	//

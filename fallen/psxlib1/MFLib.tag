@@ -2068,8 +2068,8 @@ FADE_IN c:\mflib1\headers\display.h(11)M
 FADE_OUT c:\mflib1\headers\display.h(12)M
 FadeDisplay c:\mflib1\headers\display.h(77)P
 FadeDisplay c:\mflib1\source\c\windows\display.cpp(251)F
-FALSE c:\dxsdk\sdk\inc\d3drmdef.h(27)M
-FALSE c:\mflib1\headers\mftypes.h(11)M
+false c:\dxsdk\sdk\inc\d3drmdef.h(27)M
+false c:\mflib1\headers\mftypes.h(11)M
 FastFileClose c:\dxsdk\sdk\inc\fastfile.h(19)P
 FastFileFini c:\dxsdk\sdk\inc\fastfile.h(17)P
 FastFileInit c:\dxsdk\sdk\inc\fastfile.h(16)P
@@ -3499,8 +3499,8 @@ T c:\mflib1\source\c\common\textdef.cpp(450)V
 tagCREATESTRUCTA c:\watcom10\h\nt\windows.h(33)V
 tagCREATESTRUCTW c:\watcom10\h\nt\windows.h(34)V
 Three c:\mflib1\source\c\common\textdef.cpp(124)V
-TRUE c:\dxsdk\sdk\inc\d3drmdef.h(28)M
-TRUE c:\mflib1\headers\mftypes.h(10)M
+true c:\dxsdk\sdk\inc\d3drmdef.h(28)M
+true c:\mflib1\headers\mftypes.h(10)M
 Two c:\mflib1\source\c\common\textdef.cpp(112)V
 U c:\mflib1\source\c\common\textdef.cpp(462)V
 UBYTE c:\mflib1\headers\mftypes.h(13)T

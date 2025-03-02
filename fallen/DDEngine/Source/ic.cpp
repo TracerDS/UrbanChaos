@@ -312,7 +312,7 @@ void IC_test()
 			y);
 	}
 
-	TGA_save("testcomp.tga", ti.width, ti.height, test, FALSE);
+	TGA_save("testcomp.tga", ti.width, ti.height, test, false);
 }
 
 #endif

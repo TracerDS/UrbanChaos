@@ -34,7 +34,7 @@ void	store_player_pos(ThingDef *the_def);
 
 //---------------------------------------------------------------
 
-BOOL	load_thing_def(MFFileHandle the_file)
+bool	load_thing_def(MFFileHandle the_file)
 {
 	Thing			*b_thing;
 	ThingDef		the_def;
@@ -117,12 +117,12 @@ BOOL	load_thing_def(MFFileHandle the_file)
 			break;
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_waypoint_def(MFFileHandle the_file)
+bool	load_waypoint_def(MFFileHandle the_file)
 {
 	UWORD			the_wp;
 	WaypointDef		the_def;
@@ -148,12 +148,12 @@ BOOL	load_waypoint_def(MFFileHandle the_file)
 	waypoints[the_wp].Y		=	the_def.Y;
 	waypoints[the_wp].Z		=	the_def.Z;
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
+bool	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
 {
 	FileRead(the_file,&the_def->Version,sizeof(the_def->Version));
 	if(the_def->Version==0)
@@ -166,12 +166,12 @@ BOOL	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
 		FileRead(the_file,&the_def->Data3,sizeof(the_def->Data3));
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_command_def(MFFileHandle the_file,CommandDef *the_def)
+bool	load_command_def(MFFileHandle the_file,CommandDef *the_def)
 {
 	FileRead(the_file,&the_def->Version,sizeof(the_def->Version));
 	if(the_def->Version==0)
@@ -184,12 +184,12 @@ BOOL	load_command_def(MFFileHandle the_file,CommandDef *the_def)
 		FileRead(the_file,&the_def->Data3,sizeof(the_def->Data3));
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_clist_def(MFFileHandle the_file)
+bool	load_clist_def(MFFileHandle the_file)
 {
 	SLONG				c0;
 	Condition			*the_condition;
@@ -226,12 +226,12 @@ BOOL	load_clist_def(MFFileHandle the_file)
 		}
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_comlist_def(MFFileHandle the_file)
+bool	load_comlist_def(MFFileHandle the_file)
 {
 	SLONG				c0;
 	Command				*the_command;
@@ -268,12 +268,12 @@ BOOL	load_comlist_def(MFFileHandle the_file)
 		}
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_level(ULONG level)
+bool	load_level(ULONG level)
 {
 	CBYTE			level_name[256];
 	UBYTE			version;
@@ -543,7 +543,7 @@ BOOL	load_level(ULONG level)
 		}
 		FileClose(level_file);
 	}
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------

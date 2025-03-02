@@ -20,7 +20,7 @@
 
 #define SHIP_FLAG_USED				(1 << 0)
 #define SHIP_FLAG_ACTIVE            (1 << 1)	// If a ship is not active, then it is in the process of joining the game.
-#define SHIP_FLAG_LOCAL             (1 << 2)	// TRUE => This is ship belonging to the local player.
+#define SHIP_FLAG_LOCAL             (1 << 2)	// true => This is ship belonging to the local player.
 #define SHIP_FLAG_TRACTORING		(1 << 3)	// This ship has an active tractor beam.
 #define SHIP_FLAG_COLLIDED			(1 << 4)	// Collided with the landscape last process
 #define SHIP_FLAG_KEY_THRUST		(1 << 5)

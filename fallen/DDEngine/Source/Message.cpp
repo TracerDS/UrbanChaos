@@ -16,7 +16,7 @@
 #define MSG_MAX_MESSAGES 1000
 #endif
 
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 
 //
 // The actual messages.

@@ -94,7 +94,7 @@ LRESULT CALLBACK MouseProc(int code, WPARAM wParam, LPARAM lParam)
 		case	WM_MBUTTONDBLCLK:
 			break;
 	}
-	return	FALSE;
+	return	false;
 }
 
 

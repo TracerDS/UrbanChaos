@@ -24,7 +24,7 @@ LIGHT_Colour MAP_light_get_light(SLONG x, SLONG z)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 
 	MapElement *me;
@@ -38,7 +38,7 @@ void MAP_light_set_light(SLONG x, SLONG z, LIGHT_Colour colour)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 
 	MapElement *me;

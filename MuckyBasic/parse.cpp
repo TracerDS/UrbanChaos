@@ -52,14 +52,14 @@ SLONG PARSE_errbuf_upto;
 
 //
 // Adds the given error. If it has run out of room, it
-// returns FALSE.
+// returns false.
 //
 
 SLONG PARSE_add_error(CBYTE *fmt, ...)
 {
 	if (PARSE_error_upto >= PARSE_MAX_ERRORS)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -81,7 +81,7 @@ SLONG PARSE_add_error(CBYTE *fmt, ...)
 
 	if (PARSE_errbuf_upto + len > PARSE_MAX_ERRBUF)
 	{
-		return FALSE;
+		return false;
 	}
 	
 	strcpy(PARSE_errbuf + PARSE_errbuf_upto, error);
@@ -91,7 +91,7 @@ SLONG PARSE_add_error(CBYTE *fmt, ...)
 	PARSE_error_upto  += 1;
 	PARSE_errbuf_upto += len;
 
-	return TRUE;
+	return true;
 }
 
 //
@@ -160,7 +160,7 @@ SLONG PARSE_set_conditional_flag(PARSE_Node *pn)
 {
 	pn->flag |= PARSE_NODE_FLAG_CONDITIONAL;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -172,13 +172,13 @@ SLONG PARSE_set_expression_flag(PARSE_Node *pn)
 {
 	pn->flag |= PARSE_NODE_FLAG_EXPRESSION;
 
-	return TRUE;
+	return true;
 }
 
 
 
 //
-// Returns TRUE if the given expression is sure to return
+// Returns true if the given expression is sure to return
 // a BOOLEAN value.
 //
 
@@ -197,7 +197,7 @@ SLONG PARSE_expression_is_boolean(PARSE_Node *exp)
 		case PARSE_NODE_TYPE_BOOLEAN:
 		case PARSE_NODE_TYPE_XOR:
 		case PARSE_NODE_TYPE_KEY_VALUE:
-			return TRUE;
+			return true;
 
 		case PARSE_NODE_TYPE_NOP:
 		case PARSE_NODE_TYPE_PLUS:
@@ -269,14 +269,14 @@ SLONG PARSE_expression_is_boolean(PARSE_Node *exp)
 		case PARSE_NODE_TYPE_RIGHT:
 		case PARSE_NODE_TYPE_MATRIX:
 		case PARSE_NODE_TYPE_VECTOR:
-			return FALSE;
+			return false;
 
 		default:
 			ASSERT(0);
 			break;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -419,7 +419,7 @@ SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
 
 	if (tree1->type != tree2->type)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -429,15 +429,15 @@ SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
 	switch(tree1->type)
 	{
 		case PARSE_NODE_TYPE_SLUMBER:
-			if (tree1->slumber != tree2->slumber) return FALSE;
+			if (tree1->slumber != tree2->slumber) return false;
 			break;
 
 		case PARSE_NODE_TYPE_FLUMBER:
-			if (tree1->flumber != tree2->flumber) return FALSE;
+			if (tree1->flumber != tree2->flumber) return false;
 			break;
 
 		case PARSE_NODE_TYPE_STRING:
-			if (strcmp(tree1->string, tree2->string) != 0) return FALSE;
+			if (strcmp(tree1->string, tree2->string) != 0) return false;
 			break;
 
 		case PARSE_NODE_TYPE_VAR_VALUE:
@@ -448,17 +448,17 @@ SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
 		case PARSE_NODE_TYPE_ARGUMENT:
 		case PARSE_NODE_TYPE_LOCAL:
 		case PARSE_NODE_TYPE_EXPORT:
-			if (strcmp(tree1->variable, tree2->variable) != 0) return FALSE;
+			if (strcmp(tree1->variable, tree2->variable) != 0) return false;
 			break;
 
 		case PARSE_NODE_TYPE_GOTO:
 		case PARSE_NODE_TYPE_LABEL:
 		case PARSE_NODE_TYPE_GOSUB:
-			if (strcmp(tree1->label, tree2->label) != 0) return FALSE;
+			if (strcmp(tree1->label, tree2->label) != 0) return false;
 			break;
 
 		case PARSE_NODE_TYPE_BOOLEAN:
-			if (tree1->boolean != tree2->boolean) return FALSE;
+			if (tree1->boolean != tree2->boolean) return false;
 			break;
 
 		case PARSE_NODE_TYPE_NOP:
@@ -538,28 +538,28 @@ SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
 	// Make sure both trees have the same number of children.
 	//
 
-	if ( tree1->child1 && !tree2->child1) return FALSE;
-	if (!tree1->child1 &&  tree2->child1) return FALSE;
+	if ( tree1->child1 && !tree2->child1) return false;
+	if (!tree1->child1 &&  tree2->child1) return false;
 
-	if ( tree1->child2 && !tree2->child2) return FALSE;
-	if (!tree1->child2 &&  tree2->child2) return FALSE;
+	if ( tree1->child2 && !tree2->child2) return false;
+	if (!tree1->child2 &&  tree2->child2) return false;
 
-	if ( tree1->child3 && !tree2->child3) return FALSE;
-	if (!tree1->child3 &&  tree2->child3) return FALSE;
+	if ( tree1->child3 && !tree2->child3) return false;
+	if (!tree1->child3 &&  tree2->child3) return false;
 
 	//
 	// The children must be the same too.
 	//
 
-	if (tree1->child1 && !PARSE_trees_the_same(tree1->child1, tree2->child1)) return FALSE;
-	if (tree1->child2 && !PARSE_trees_the_same(tree1->child2, tree2->child2)) return FALSE;
-	if (tree1->child3 && !PARSE_trees_the_same(tree1->child3, tree2->child3)) return FALSE;
+	if (tree1->child1 && !PARSE_trees_the_same(tree1->child1, tree2->child1)) return false;
+	if (tree1->child2 && !PARSE_trees_the_same(tree1->child2, tree2->child2)) return false;
+	if (tree1->child3 && !PARSE_trees_the_same(tree1->child3, tree2->child3)) return false;
 
 	//
 	// All fine!
 	//
 
-	return TRUE;
+	return true;
 }
 
 
@@ -823,7 +823,7 @@ PARSE_Node *PARSE_primary()
 			ans = PARSE_get_node();
 
 			ans->type    = PARSE_NODE_TYPE_BOOLEAN;
-			ans->boolean = TRUE;
+			ans->boolean = true;
 
 			return ans;
 
@@ -834,7 +834,7 @@ PARSE_Node *PARSE_primary()
 			ans = PARSE_get_node();
 
 			ans->type    = PARSE_NODE_TYPE_BOOLEAN;
-			ans->boolean = FALSE;
+			ans->boolean = false;
 
 			return ans;
 
@@ -3318,7 +3318,7 @@ PARSE_Node *PARSE_statement_list()
 	// Should we continue to PARSE another statement?
 	//
 
-	SLONG another_statement = FALSE;
+	SLONG another_statement = false;
 
 	lt = LEX_get();
 
@@ -3332,7 +3332,7 @@ PARSE_Node *PARSE_statement_list()
 
 			LEX_pop();
 
-			another_statement = TRUE;
+			another_statement = true;
 
 			break;
 
@@ -3342,7 +3342,7 @@ PARSE_Node *PARSE_statement_list()
 			// We don't need a colon before an ENDIF instruction...
 			//
 			
-			another_statement = TRUE;
+			another_statement = true;
 
 			break;
 		
@@ -3357,7 +3357,7 @@ PARSE_Node *PARSE_statement_list()
 				// We dont need a COLON before the next statement.
 				//
 
-				another_statement = TRUE;
+				another_statement = true;
 			}
 
 			break;

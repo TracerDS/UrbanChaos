@@ -771,7 +771,7 @@ SLONG	find_best_grapple(Thing *p_person)
 				// You can't throw MIB
 				// 
 
-				return FALSE;
+				return false;
 			}
 
 			if (grapples[best].Anim == ANIM_PISTOL_WHIP)
@@ -782,7 +782,7 @@ SLONG	find_best_grapple(Thing *p_person)
 
 				if (best_target->Genus.Person->pcom_ai == PCOM_AI_FIGHT_TEST)
 				{
-					return FALSE;
+					return false;
 				}
 			}
 
@@ -808,7 +808,7 @@ SLONG	find_best_grapple(Thing *p_person)
 						"Better not grapple!");
 */
 
-					return FALSE;
+					return false;
 				}
 			}
 
@@ -1349,10 +1349,10 @@ SLONG	check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z
 				// Near enough to pelvis!
 				//
 
-				return TRUE;
+				return true;
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -1553,7 +1553,7 @@ SLONG	check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO
 
 
 //
-// Returns TRUE if he is behind me.
+// Returns true if he is behind me.
 // 
 
 SLONG check_hit_from_behind(Thing *p_me, Thing *p_him)
@@ -1626,7 +1626,7 @@ SLONG check_hit_from_behind(Thing *p_me, Thing *p_him)
 		// He is behind me.
 		//
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
@@ -1634,7 +1634,7 @@ SLONG check_hit_from_behind(Thing *p_me, Thing *p_him)
 		// He is in front of me.
 		//
 
-		return FALSE;
+		return false;
 	}
 }
 
@@ -1940,7 +1940,7 @@ SLONG	apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thi
 				}
 				else
 				{
-					ko = TRUE;
+					ko = true;
 				}
 
 				if (p_thing->Genus.Person->pcom_ai == PCOM_AI_FIGHT_TEST)
@@ -1956,7 +1956,7 @@ SLONG	apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thi
 						((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_SIDE_KICK) && (hit_anim == ANIM_KICK_RIGHT || hit_anim == ANIM_KICK_LEFT)) ||
 						((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_BACK_KICK) && (hit_anim == ANIM_KICK_BEHIND)                             ))
 					{
-						ko = TRUE;
+						ko = true;
 
 						p_thing->Genus.Person->Health = 0;
 					}
@@ -2695,7 +2695,7 @@ extern	 UBYTE	estate;
 
 		if (i_client == THING_NUMBER(p_victim))
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -2708,7 +2708,7 @@ extern	 UBYTE	estate;
 		if (p_victim  ->Genus.Person->pcom_colour ==
 			p_agressor->Genus.Person->pcom_colour)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -3527,7 +3527,7 @@ Thing *is_person_under_attack_low_level(Thing *p_person,SLONG any_state,SLONG ra
 	// any_state is old!
 	//
 
-	ASSERT(any_state == FALSE);
+	ASSERT(any_state == false);
 
 	num = THING_find_sphere(
 				p_person->WorldPos.X >> 8,

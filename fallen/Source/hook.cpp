@@ -121,7 +121,7 @@ void HOOK_make_loop(SLONG x, SLONG z)
 		hp->dx    = 0;
 		hp->dy    = 0;
 		hp->dz    = 0;
-		hp->alive = FALSE;
+		hp->alive = false;
 
 		mx += SIN(i << 2) >> 11;
 		mz += COS(i << 2) >> 11;
@@ -529,8 +529,8 @@ void HOOK_process_flying()
 			SLONG check_x;
 			SLONG check_z;
 			SLONG check_height;
-			SLONG bounced_x = FALSE;
-			SLONG bounced_z = FALSE;
+			SLONG bounced_x = false;
+			SLONG bounced_z = false;
 
 			//
 			// Bounced in x?

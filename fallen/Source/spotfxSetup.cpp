@@ -31,7 +31,7 @@ SLONG	spotfx_type,spotfx_scale;
 									}																\
 									SendMessage(the_ctrl,LB_SETCURSEL,d,0);
 
-BOOL	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -49,7 +49,7 @@ BOOL	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							MAKELONG(1024,0));
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_SETPOS,0,MAKELONG(spotfx_scale,0));
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -60,12 +60,12 @@ BOOL	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

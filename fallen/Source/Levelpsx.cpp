@@ -16,54 +16,54 @@ void	store_player_pos(ThingDef *the_def);
 #define	MFFileHandle	SLONG
 //---------------------------------------------------------------
 
-BOOL	load_thing_def(MFFileHandle the_file)
+bool	load_thing_def(MFFileHandle the_file)
 {
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_waypoint_def(MFFileHandle the_file)
+bool	load_waypoint_def(MFFileHandle the_file)
 {
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
+bool	load_condition_def(MFFileHandle the_file,ConditionDef *the_def)
 {
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_command_def(MFFileHandle the_file,CommandDef *the_def)
+bool	load_command_def(MFFileHandle the_file,CommandDef *the_def)
 {
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_clist_def(MFFileHandle the_file)
+bool	load_clist_def(MFFileHandle the_file)
 {
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_comlist_def(MFFileHandle the_file)
+bool	load_comlist_def(MFFileHandle the_file)
 {
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	load_level(ULONG level)
+bool	load_level(ULONG level)
 {
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------

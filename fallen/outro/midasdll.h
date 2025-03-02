@@ -53,24 +53,24 @@
 #endif
 
 
-/* We'll need to define DWORD, BOOL, TRUE and FALSE if someone hasn't
+/* We'll need to define DWORD, bool, true and false if someone hasn't
    done that before. For now, we'll just assume that if no-one has defined
-   TRUE we need to define everything. There definitions are compatible with
+   true we need to define everything. There definitions are compatible with
    windows.h. If something else in your system defines these differently,
-   things should still work OK as long as FALSE is 0, TRUE is nonzero and
-   DWORD is 32-bit. Take care that you don't compare BOOLs like "bool == TRUE"
+   things should still work OK as long as false is 0, true is nonzero and
+   DWORD is 32-bit. Take care that you don't compare BOOLs like "bool == true"
    in that case though, just use "bool".
 
    THIS IS UGLY AND MAY NEED FIXING!
    ---------------------------------
 */
 
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-typedef int BOOL;
+#ifndef true
+#define true 1
+#define false 0
+typedef int bool;
 typedef unsigned long DWORD;
-#endif /* ifndef TRUE */
+#endif /* ifndef true */
 
 
 
@@ -279,83 +279,83 @@ _FUNC(char*)    MIDASgetErrorMessage(int errorCode);
 
 _FUNC(DWORD)    MIDASgetDisplayRefreshRate();
 
-_FUNC(BOOL)     MIDASstartup();
-_FUNC(BOOL)     MIDASdetectSD();
-_FUNC(BOOL)     MIDASdetectSoundCard();
-_FUNC(BOOL)     MIDASconfig();
-_FUNC(BOOL)     MIDASloadConfig(char *fileName);
-_FUNC(BOOL)     MIDASsaveConfig(char *fileName);
-_FUNC(BOOL)     MIDASreadConfigRegistry(DWORD key, char *subKey);
-_FUNC(BOOL)     MIDASwriteConfigRegistry(DWORD key, char *subKey);
+_FUNC(bool)     MIDASstartup();
+_FUNC(bool)     MIDASdetectSD();
+_FUNC(bool)     MIDASdetectSoundCard();
+_FUNC(bool)     MIDASconfig();
+_FUNC(bool)     MIDASloadConfig(char *fileName);
+_FUNC(bool)     MIDASsaveConfig(char *fileName);
+_FUNC(bool)     MIDASreadConfigRegistry(DWORD key, char *subKey);
+_FUNC(bool)     MIDASwriteConfigRegistry(DWORD key, char *subKey);
 
-_FUNC(BOOL)     MIDASinit();
-_FUNC(BOOL)     MIDASsetOption(int option, DWORD value);
+_FUNC(bool)     MIDASinit();
+_FUNC(bool)     MIDASsetOption(int option, DWORD value);
 _FUNC(DWORD)    MIDASgetOption(int option);
-_FUNC(BOOL)     MIDASclose();
-_FUNC(BOOL)     MIDASsuspend();
-_FUNC(BOOL)     MIDASresume();
-_FUNC(BOOL)     MIDASopenChannels(int numChannels);
-_FUNC(BOOL)     MIDAScloseChannels();
-_FUNC(BOOL)     MIDASsetAmplification(DWORD amplification);
-_FUNC(BOOL)     MIDASstartBackgroundPlay(DWORD pollRate);
-_FUNC(BOOL)     MIDASstopBackgroundPlay();
-_FUNC(BOOL)     MIDASpoll();
+_FUNC(bool)     MIDASclose();
+_FUNC(bool)     MIDASsuspend();
+_FUNC(bool)     MIDASresume();
+_FUNC(bool)     MIDASopenChannels(int numChannels);
+_FUNC(bool)     MIDAScloseChannels();
+_FUNC(bool)     MIDASsetAmplification(DWORD amplification);
+_FUNC(bool)     MIDASstartBackgroundPlay(DWORD pollRate);
+_FUNC(bool)     MIDASstopBackgroundPlay();
+_FUNC(bool)     MIDASpoll();
 _FUNC()     MIDASlock();
 _FUNC()     MIDASunlock();
 _FUNC(char*)    MIDASgetVersionString();
-_FUNC(BOOL)     MIDASsetTimerCallbacks(DWORD rate, BOOL displaySync,
+_FUNC(bool)     MIDASsetTimerCallbacks(DWORD rate, bool displaySync,
 				       void (MIDAS_CALL *preVR)(),
 				       void (MIDAS_CALL *immVR)(),
 				       void (MIDAS_CALL *inVR)());
-_FUNC(BOOL)     MIDASremoveTimerCallbacks();
+_FUNC(bool)     MIDASremoveTimerCallbacks();
 
 _FUNC(DWORD)    MIDASallocateChannel();
-_FUNC(BOOL)     MIDASfreeChannel(DWORD channel);
+_FUNC(bool)     MIDASfreeChannel(DWORD channel);
 
 _FUNC(MIDASmodule) MIDASloadModule(char *fileName);
 _FUNC(MIDASmodulePlayHandle) MIDASplayModule(MIDASmodule module,
-                                             BOOL loopSong);
+                                             bool loopSong);
 _FUNC(MIDASmodulePlayHandle) MIDASplayModuleSection(MIDASmodule module,
                                                     unsigned startPos,
                                                     unsigned endPos,
                                                     unsigned restartPos,
-                                                    BOOL loopSong);
-_FUNC(BOOL)     MIDASstopModule(MIDASmodulePlayHandle playHandle);
-_FUNC(BOOL)     MIDASfreeModule(MIDASmodule module);
+                                                    bool loopSong);
+_FUNC(bool)     MIDASstopModule(MIDASmodulePlayHandle playHandle);
+_FUNC(bool)     MIDASfreeModule(MIDASmodule module);
 
-_FUNC(BOOL)     MIDASgetPlayStatus(MIDASmodulePlayHandle playHandle,
+_FUNC(bool)     MIDASgetPlayStatus(MIDASmodulePlayHandle playHandle,
                                    MIDASplayStatus *status);
-_FUNC(BOOL)     MIDASsetPosition(MIDASmodulePlayHandle playHandle,
+_FUNC(bool)     MIDASsetPosition(MIDASmodulePlayHandle playHandle,
                                  int newPosition);
-_FUNC(BOOL)     MIDASsetMusicVolume(MIDASmodulePlayHandle playHandle,
+_FUNC(bool)     MIDASsetMusicVolume(MIDASmodulePlayHandle playHandle,
                                     unsigned volume);
-_FUNC(BOOL)     MIDASgetModuleInfo(MIDASmodule module, MIDASmoduleInfo *info);
-_FUNC(BOOL)     MIDASgetInstrumentInfo(MIDASmodule module, int instNum,
+_FUNC(bool)     MIDASgetModuleInfo(MIDASmodule module, MIDASmoduleInfo *info);
+_FUNC(bool)     MIDASgetInstrumentInfo(MIDASmodule module, int instNum,
                     MIDASinstrumentInfo *info);
-_FUNC(BOOL)     MIDASsetMusicSyncCallback(MIDASmodulePlayHandle playHandle,
+_FUNC(bool)     MIDASsetMusicSyncCallback(MIDASmodulePlayHandle playHandle,
                                           void (MIDAS_CALL *callback)
                                           (unsigned syncInfo,
                                            unsigned position, unsigned row));
-_FUNC(BOOL)     MIDASfadeMusicChannel(MIDASmodulePlayHandle playHandle,
+_FUNC(bool)     MIDASfadeMusicChannel(MIDASmodulePlayHandle playHandle,
                                       unsigned channel, unsigned fade);
 
 _FUNC(MIDASsample) MIDASloadRawSample(char *fileName, int sampleType,
                     int loopSample);
 _FUNC(MIDASsample) MIDASloadWaveSample(char *fileName, int loopSample);
-_FUNC(BOOL)         MIDASfreeSample(MIDASsample sample);
-_FUNC(BOOL)         MIDASallocAutoEffectChannels(unsigned numChannels);
-_FUNC(BOOL)         MIDASfreeAutoEffectChannels();
+_FUNC(bool)         MIDASfreeSample(MIDASsample sample);
+_FUNC(bool)         MIDASallocAutoEffectChannels(unsigned numChannels);
+_FUNC(bool)         MIDASfreeAutoEffectChannels();
 _FUNC(MIDASsamplePlayHandle) MIDASplaySample(MIDASsample sample,
                         unsigned channel, int priority, unsigned rate,
                         unsigned volume, int panning);
-_FUNC(BOOL)     MIDASstopSample(MIDASsamplePlayHandle sample);
-_FUNC(BOOL)     MIDASsetSampleRate(MIDASsamplePlayHandle sample,
+_FUNC(bool)     MIDASstopSample(MIDASsamplePlayHandle sample);
+_FUNC(bool)     MIDASsetSampleRate(MIDASsamplePlayHandle sample,
                     unsigned rate);
-_FUNC(BOOL)     MIDASsetSampleVolume(MIDASsamplePlayHandle sample,
+_FUNC(bool)     MIDASsetSampleVolume(MIDASsamplePlayHandle sample,
                     unsigned volume);
-_FUNC(BOOL)     MIDASsetSamplePanning(MIDASsamplePlayHandle sample,
+_FUNC(bool)     MIDASsetSamplePanning(MIDASsamplePlayHandle sample,
                     int panning);
-_FUNC(BOOL)     MIDASsetSamplePriority(MIDASsamplePlayHandle sample,
+_FUNC(bool)     MIDASsetSamplePriority(MIDASsamplePlayHandle sample,
                     int priority);
 _FUNC(DWORD)    MIDASgetSamplePlayStatus(MIDASsamplePlayHandle sample);
 
@@ -364,7 +364,7 @@ _FUNC(MIDASstreamHandle) MIDASplayStreamFile(char *fileName,
                                              unsigned sampleRate,
                                              unsigned bufferLength,
                                              int loopStream);
-_FUNC(BOOL)     MIDASstopStream(MIDASstreamHandle stream);
+_FUNC(bool)     MIDASstopStream(MIDASstreamHandle stream);
 
 _FUNC(MIDASstreamHandle) MIDASplayStreamWaveFile(char *fileName,
                                                  unsigned bufferLength,
@@ -374,23 +374,23 @@ _FUNC(MIDASstreamHandle) MIDASplayStreamPolling(unsigned sampleType,
                                                 unsigned sampleRate,
                                                 unsigned bufferLength);
 _FUNC(unsigned) MIDASfeedStreamData(MIDASstreamHandle stream,
-                    unsigned char *data, unsigned numBytes, BOOL feedAll);
+                    unsigned char *data, unsigned numBytes, bool feedAll);
 
-_FUNC(BOOL)     MIDASsetStreamRate(MIDASstreamHandle stream, unsigned rate);
-_FUNC(BOOL)     MIDASsetStreamVolume(MIDASstreamHandle stream,
+_FUNC(bool)     MIDASsetStreamRate(MIDASstreamHandle stream, unsigned rate);
+_FUNC(bool)     MIDASsetStreamVolume(MIDASstreamHandle stream,
                     unsigned volume);
-_FUNC(BOOL)     MIDASsetStreamPanning(MIDASstreamHandle stream, int panning);
+_FUNC(bool)     MIDASsetStreamPanning(MIDASstreamHandle stream, int panning);
 
 _FUNC(DWORD)    MIDASgetStreamBytesBuffered(MIDASstreamHandle stream);
-_FUNC(BOOL)     MIDASpauseStream(MIDASstreamHandle stream);
-_FUNC(BOOL)     MIDASresumeStream(MIDASstreamHandle stream);
+_FUNC(bool)     MIDASpauseStream(MIDASstreamHandle stream);
+_FUNC(bool)     MIDASresumeStream(MIDASstreamHandle stream);
 
 _FUNC(MIDASechoHandle) MIDASaddEchoEffect(MIDASechoSet *echoSet);
-_FUNC(BOOL)     MIDASremoveEchoEffect(MIDASechoHandle echoHandle);
+_FUNC(bool)     MIDASremoveEchoEffect(MIDASechoHandle echoHandle);
 
-_FUNC(BOOL)     MIDASaddPostProcessor(MIDASpostProcessor *postProc,
+_FUNC(bool)     MIDASaddPostProcessor(MIDASpostProcessor *postProc,
                                       unsigned procPos, void *userData);
-_FUNC(BOOL)     MIDASremovePostProcessor(MIDASpostProcessor *postProc);
+_FUNC(bool)     MIDASremovePostProcessor(MIDASpostProcessor *postProc);
 
 
 

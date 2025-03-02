@@ -825,7 +825,7 @@ void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float wi
 					quad[2]->specular |= (0x00888888 & ~POLY_colour_restrict);
 					quad[3]->specular |= (0x00888888 & ~POLY_colour_restrict);
 
-					POLY_add_quad(quad, 86, TRUE);
+					POLY_add_quad(quad, 86, true);
 				}
 			}
 		}
@@ -987,7 +987,7 @@ void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float wi
 			255,
 			225,
 			225,
-			TRUE,
+			true,
 			"%d",
 			best_mpoint - POLY_buffer);
 	}
@@ -1646,7 +1646,7 @@ void MESH_init_reflections()
 
 		if (mr->calculated)
 		{
-			mr->calculated = FALSE;
+			mr->calculated = false;
 
 			MemFree(mr->mp);
 			MemFree(mr->mf);
@@ -2158,7 +2158,7 @@ void MESH_create_reflection(SLONG prim)
 		}
 	}
 
-	mr->calculated = TRUE;
+	mr->calculated = true;
 }
 
 
@@ -2304,7 +2304,7 @@ void MESH_draw_reflection(
 			tri[2]->u = mf->u[2];
 			tri[2]->v = mf->v[2];
 
-			POLY_add_triangle(tri, mf->page, TRUE);
+			POLY_add_triangle(tri, mf->page, true);
 		}
 	}
 }

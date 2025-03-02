@@ -9,7 +9,7 @@
 class	EditorModule	: public Window
 {
 	private:
-		BOOL					EscapeFlag;
+		bool					EscapeFlag;
 		EditorModule			*LastModule,
 								*NextModule;
 
@@ -35,9 +35,9 @@ class	EditorModule	: public Window
 		inline EditorModule		*GetNextModuleLink()						{	return NextModule;		}
 		inline void				SetExternalUpdatePtr(ULONG *ptr)				{	ExternalUpdate=ptr;		}
 
-		inline void				SetLocalEscape()							{	EscapeFlag=TRUE;		}
-		inline void				ClearLocalEscape()							{	EscapeFlag=FALSE;		}
-		inline BOOL				LocalEscape()								{	return EscapeFlag;		}
+		inline void				SetLocalEscape()							{	EscapeFlag=true;		}
+		inline void				ClearLocalEscape()							{	EscapeFlag=false;		}
+		inline bool				LocalEscape()								{	return EscapeFlag;		}
 };
 
 #endif

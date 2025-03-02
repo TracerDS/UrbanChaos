@@ -15,7 +15,7 @@ void FONT_init();
 
 
 //
-// Returns TRUE if the FONT module can draw the ASCII character.
+// Returns true if the FONT module can draw the ASCII character.
 //
 
 SLONG FONT_char_is_valid(CBYTE ch);

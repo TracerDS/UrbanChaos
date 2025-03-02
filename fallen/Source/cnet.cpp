@@ -116,8 +116,8 @@ SLONG CNET_configure()
 
 	my_name = name[rand() % NUM_NAMES];
 
-	CNET_network_game = FALSE;
-	CNET_i_am_host    = FALSE;
+	CNET_network_game = false;
+	CNET_i_am_host    = false;
 	CNET_num_players  = 1;
 	CNET_player_id    = 0;
 #ifndef	PSX
@@ -127,7 +127,7 @@ SLONG CNET_configure()
 		{
 			Keys[KB_ESC] = 0;
 
-			return FALSE;
+			return false;
 		}
 
 		//
@@ -157,7 +157,7 @@ SLONG CNET_configure()
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 
 		while(1)
@@ -168,7 +168,7 @@ SLONG CNET_configure()
 			{
 				Keys[KB_ESC] = 0;
 
-				return FALSE;
+				return false;
 			}
 
 			for (i = 0; i < num_connections; i++)
@@ -183,7 +183,7 @@ SLONG CNET_configure()
 
 					if (NET_connection_make(i))
 					{
-						CNET_connected = TRUE;
+						CNET_connected = true;
 
 						goto choose_session;
 					}
@@ -213,7 +213,7 @@ SLONG CNET_configure()
 		{
 			Keys[KB_ESC] = 0;
 
-			return FALSE;
+			return false;
 		}
 
 		//
@@ -275,7 +275,7 @@ SLONG CNET_configure()
 
 			if (NET_create_session(session_name, 4, my_name))
 			{
-				CNET_i_am_host = TRUE;
+				CNET_i_am_host = true;
 
 				goto joined_session;
 			}
@@ -321,7 +321,7 @@ SLONG CNET_configure()
 
 			NET_leave_session();
 
-			return FALSE;
+			return false;
 		}
 
 		//
@@ -367,10 +367,10 @@ SLONG CNET_configure()
 
 				if (CNET_player_id != NET_PLAYER_NONE)
 				{
-					CNET_network_game = TRUE;
+					CNET_network_game = true;
 					CNET_num_players  = num_players;
 
-					return FALSE;
+					return false;
 				}
 			}
 		}
@@ -393,9 +393,9 @@ SLONG CNET_configure()
 				{
 					CNET_player_id    = mess.system.player_id;
 					CNET_num_players  = num_players;
-					CNET_network_game = TRUE;
+					CNET_network_game = true;
 
-					return FALSE;
+					return false;
 				}
 
 				if (mess.system.sysmess == NET_SYSMESS_LOST_CONNECTION ||

@@ -134,10 +134,10 @@ CSData			*cutscene;
 CSPacket		*current_packet=0;
 
 HWND			CUTSCENE_edit_wnd=0;
-BOOL			CUTSCENE_mouselook=0;
-BOOL			CUTSCENE_playback=0;
-BOOL			CUTSCENE_slomo=0;
-BOOL			CUTSCENE_need_keyboard=0;
+bool			CUTSCENE_mouselook=0;
+bool			CUTSCENE_playback=0;
+bool			CUTSCENE_slomo=0;
+bool			CUTSCENE_need_keyboard=0;
 HTREEITEM		darcianim,roperanim,soundbase;
 int				CUTSCENE_slomo_ctr=SLOMO_RATE;
 UBYTE			CUTSCENE_fade_level=255;
@@ -559,9 +559,9 @@ int GetItemIndex(CBYTE *str, CBYTE *pathtail) {
 	return 0;
 }
 
-int ScanWavs(TreeBrowser *browser, CBYTE *path, BOOL subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld, CBYTE *pathtail) {
+int ScanWavs(TreeBrowser *browser, CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld, CBYTE *pathtail) {
 	HANDLE handle;
-	BOOL res;
+	bool res;
 	WIN32_FIND_DATA data;
 	CBYTE *pt;
 	int count=0, itemndx;
@@ -822,10 +822,10 @@ void MouselookToggle() {
 	{
 		SetCursorPos(320,240);
 		SetCapture(CUTSCENE_edit_wnd);
-		ShowCursor(FALSE);
+		ShowCursor(false);
 	} else {
 		ReleaseCapture();
-		ShowCursor(TRUE);
+		ShowCursor(true);
 	}
 }
 
@@ -895,7 +895,7 @@ Thing* CUTSCENE_item_from_point(CSData *cutscene, SLONG x, SLONG y, SLONG z) {
 	return 0;
 }
 
-BOOL CUTSCENE_find_surrounding_packets(CSChannel *chan, int cell, int* left, int* right) {
+bool CUTSCENE_find_surrounding_packets(CSChannel *chan, int cell, int* left, int* right) {
 	int leftmax=-1, rightmin=2001, packctr=0;
 	CSPacket *pack;
 	*left=-1; *right=2001;
@@ -1295,17 +1295,17 @@ void DoHandleShit() {
 
 	if (subtitle_str[0]) {
 //		the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER);
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_init(false, false);
 //		MENUFONT_Draw(320,400,256,subtitle_str,0x7fffffff,MENUFONT_CENTRED);
 		FONT2D_DrawStringCentred(subtitle_str,320,400,0x7fffffff,16,POLY_PAGE_FONT2D);
-		POLY_frame_draw(FALSE, FALSE);
+		POLY_frame_draw(false, false);
 	}
 
 	if (CUTSCENE_fade_level<255) {
 		//the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER);
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_init(false, false);
 		DRAW2D_Box(0, 0, 640, 480, (255-CUTSCENE_fade_level)<<24, 1, 255);
-		POLY_frame_draw(FALSE, FALSE);
+		POLY_frame_draw(false, false);
 	}
 
 	client_pos.x	=	0;
@@ -1326,7 +1326,7 @@ void DoHandleShit() {
 }
 
 
-BOOL browserCB(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *str) {
+bool browserCB(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *str) {
 	int image=tb->GetImageFromItem(item);
 	CSChannel *chan;
 	CSEditChannel *echan;
@@ -1451,7 +1451,7 @@ int	UnMangleLerp(int flags, int which) {
 	}
 }
 
-BOOL timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
+bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
 	CSChannel *chan;
 	CSEditChannel *edit;
 	CSPacket  *pkt;
@@ -1545,7 +1545,7 @@ BOOL timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
 }
 
 
-BOOL propeditCB(PropertyEditor *tb, int reason, int index, CBYTE *value) {
+bool propeditCB(PropertyEditor *tb, int reason, int index, CBYTE *value) {
 	int res,i;
 
 	switch(reason) {
@@ -1647,7 +1647,7 @@ BOOL propeditCB(PropertyEditor *tb, int reason, int index, CBYTE *value) {
 			}
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 LRESULT	CALLBACK	scene_map_view_proc	(
@@ -1739,7 +1739,7 @@ LRESULT	CALLBACK	scene_map_view_proc	(
 
 extern SLONG	how_long_is_anim(SLONG anim);
 
-BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND the_ctrl;
 	static UINT timer;
@@ -1780,7 +1780,7 @@ BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			cam_focus_dist	=	12 << 8;
 			cam_pitch		=	1800;
 			CUTSCENE_recreate(cutscene);
-			return	TRUE;
+			return	true;
 
 		case	WM_KEYDOWN:
 		case	WM_KEYUP:
@@ -1790,7 +1790,7 @@ BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 		case WM_USER:
 			DoHandleShit();
-			return TRUE;
+			return true;
 
 		case	WM_MEASUREITEM:
 			if (timeline&&(wParam==IDC_LIST2)) timeline->Measure(lParam);
@@ -1809,11 +1809,11 @@ BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			{
 			case	ID_CEDIT_MOUSELOOK:
 				MouselookToggle();
-				return TRUE;
+				return true;
 
 			case	ID_CEDIT_PLAYBACK:
 				CUTSCENE_playback^=1;
-				return TRUE;
+				return true;
 
 			case	ID_CEDIT_REWIND:
 				if ((i=timeline->GetReadHead())>0) timeline->SetReadHead(i-1);
@@ -1875,7 +1875,7 @@ BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					}
 					timeline->SetReadHead(current_packet->start); // heh
 				}
-				return TRUE;
+				return true;
 
 			case	ID_FILE_EXIT:
 				PostMessage(hWnd,WM_CLOSE,0,0);
@@ -1889,7 +1889,7 @@ BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 /*				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;*/
+					return	true;*/
 			}
 			break;
 
@@ -2010,9 +2010,9 @@ BOOL	CALLBACK	cuts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //			EndDialog(hWnd,0);
 			DestroyWindow(hWnd);
 			PostQuitMessage(0);
-			return	FALSE;
+			return	false;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
@@ -2030,7 +2030,7 @@ void	do_cutscene_setup(EventPoint *the_ep)
 	WNDCLASSEX		new_class;
 	ATOM	the_class;
 	LPCTSTR cname;
-	BOOL block_keyboard_messages=0;
+	bool block_keyboard_messages=0;
 
 	subtitle_str[0]=0;
 
@@ -2129,7 +2129,7 @@ void	do_cutscene_setup(EventPoint *the_ep)
 
 
 		if (!block_keyboard_messages) {
-			BOOL ok=1;
+			bool ok=1;
 			if (!CUTSCENE_need_keyboard) ok=!TranslateAccelerator(dlg, CEDIT_accel, &msg);
 			if (ok) {
 				if(dlg==0 || !IsDialogMessage(dlg,&msg))

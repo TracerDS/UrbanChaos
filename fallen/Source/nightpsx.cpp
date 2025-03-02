@@ -334,7 +334,7 @@ SLONG NIGHT_slight_create(
 				// Still not enough room!
 				//
 
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -371,7 +371,7 @@ SLONG NIGHT_slight_create(
 	ns->number        += 1;
 	NIGHT_slight_upto += 1;
 
-	return TRUE;
+	return true;
 }
 
 void  NIGHT_slight_delete(
@@ -1044,11 +1044,11 @@ void NIGHT_light_prim(
 		prim_pitch == 0 &&
 		prim_roll  == 0)
 	{
-		rotate = FALSE;
+		rotate = false;
 	}
 	else
 	{
-		rotate = TRUE;
+		rotate = true;
 
 		FMATRIX_calc(
 			matrix,
@@ -1363,7 +1363,7 @@ UBYTE NIGHT_dlight_create(
 	ndl->y=y;
 	ndl->z=z;
 	ndl->radius=radius;
-//	ndl->used=TRUE;
+//	ndl->used=true;
 
 	ans=NIGHT_dlight_free;
 	NIGHT_dlight_free=ndl->next;
@@ -1669,11 +1669,11 @@ void NIGHT_dfcache_init()
 	for (i = 1; i < NIGHT_MAX_DFCACHES - 1; i++)
 	{
 		NIGHT_dfcache[i].next = i + 1;
-//		NIGHT_dfcache[i].used = FALSE;
+//		NIGHT_dfcache[i].used = false;
 	}
 
 	NIGHT_dfcache[NIGHT_MAX_DFCACHES - 1].next = 0;
-//	NIGHT_dfcache[NIGHT_MAX_DFCACHES - 1].used = FALSE;
+//	NIGHT_dfcache[NIGHT_MAX_DFCACHES - 1].used = false;
 
 	//
 	// Clear all the cached lighting from the DFacets.
@@ -1874,7 +1874,7 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 
 	//ASSERT(!nd->used);
 
-	//nd->used   = TRUE;
+	//nd->used   = true;
 
 	nd->dfacet = dfacet_index;
 	nd->next           = NIGHT_dfcache_used;
@@ -2654,7 +2654,7 @@ SLONG NIGHT_check_index(SLONG walkable_prim_point_index)
 			first_walkable_prim_point, 
 			first_walkable_prim_point + number_of_walkable_prim_points - 1));
 
-	return TRUE;
+	return true;
 }
 
 #endif
@@ -2875,7 +2875,7 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 
 	if (handle==FILE_OPEN_ERROR)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -2898,7 +2898,7 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 
 		FileClose(handle);
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -2973,14 +2973,14 @@ SLONG NIGHT_load_ed_file(CBYTE *name)
 
 	FileClose(handle);
 
-	return TRUE;
+	return true;
 
   file_error:;
 
 	FileClose(handle);
 	
 //#endif
-	return FALSE;	
+	return false;	
 }
 
 #endif

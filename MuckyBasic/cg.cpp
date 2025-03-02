@@ -383,7 +383,7 @@ SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
 
 				ASSERT(0);
 
-				return FALSE;
+				return false;
 			}
 			else
 			{
@@ -527,7 +527,7 @@ SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
 			// Not in a function any more.
 			//
 
-			CG_in_function = FALSE;
+			CG_in_function = false;
 
 			//
 			// We've lost all the symbols in the local symbol table.
@@ -629,7 +629,7 @@ SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
 			break;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -649,7 +649,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 		// Out of memory!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	switch(pn->type)
@@ -926,7 +926,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 				ASSERT(0);
 
-				return FALSE;
+				return false;
 			}
 			else
 			{
@@ -1402,7 +1402,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 					{
 						//
 						// Generate code to jump to after the NEXT in the
-						// condition is TRUE.
+						// condition is true.
 						//
 
 						CG_instruction[CG_instruction_upto++] = ML_DO_IF_TRUE_GOTO;
@@ -1449,7 +1449,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 			//
 			// Create code to jump over the THEN code if the condition
-			// code evaluates to FALSE.
+			// code evaluates to false.
 			//
 
 			CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
@@ -1636,7 +1636,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 			//
 			// Create code to jump over the body of the While-loop if the condition
-			// code evaluates to FALSE.
+			// code evaluates to false.
 			//
 
 			CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
@@ -1868,7 +1868,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			// Not in a function any more.
 			//
 
-			CG_in_function = FALSE;
+			CG_in_function = false;
 
 			//
 			// We've lost all the symbols in the local symbol table.
@@ -2190,7 +2190,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			break;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2283,7 +2283,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 	// to the symbol table and finding our functions.
 	//
 
-	CG_in_function = FALSE;	// Not in a function when we start...
+	CG_in_function = false;	// Not in a function when we start...
 
 	for (i = 0; i < PARSE_line_upto; i++)
 	{
@@ -2298,7 +2298,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 	// Generate code!
 	//
 
-	CG_in_function = FALSE;	// Not in a function when we start...
+	CG_in_function = false;	// Not in a function when we start...
 
 	for (i = 0; i < PARSE_line_upto; i++)
 	{
@@ -2348,7 +2348,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 
 		ASSERT(0);
 
-		return FALSE;
+		return false;
 	}
 
 	CG_instruction[CG_instruction_upto++] = ML_DO_EXIT;
@@ -2393,7 +2393,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 
 		ASSERT(0);
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -2448,7 +2448,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 			OS_string("Symbol \"%s\" = %d\n", ST_found_string, ST_found_value);
 		}
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
@@ -2708,7 +2708,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 
 		fclose(handle);
 
-		return TRUE;
+		return true;
 	}
 
   file_error:;
@@ -2721,7 +2721,7 @@ SLONG CG_do(CBYTE *fname, SLONG output)
 
 	fclose(handle);
 
-	return FALSE;
+	return false;
 }
 
 

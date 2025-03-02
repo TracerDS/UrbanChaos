@@ -171,7 +171,7 @@ void PANEL_draw_quad(
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, page, FALSE, TRUE);
+	POLY_add_quad(quad, page, false, true);
 }
 
 
@@ -427,7 +427,7 @@ void PANEL_draw_number(float x, float y, UBYTE digit)	// 0 <= digit <= 9... Not 
 		pp[3].colour   = colour;
 		pp[3].specular = 0xff000000;
 
-		POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
+		POLY_add_quad(quad, POLY_PAGE_ALPHA, false, true);
 	}
 }
 
@@ -1212,7 +1212,7 @@ void PANEL_funky_quad(
 		quad[2] = &pp[2];
 		quad[3] = &pp[3];
 
-		POLY_add_quad(quad, page, FALSE, TRUE);
+		POLY_add_quad(quad, page, false, true);
 	}
 	else
 	{
@@ -1569,7 +1569,7 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 			pp[3].Y        = PANEL_BEAT_SY(pb2->y) + 5.5F;
 			pp[3].colour   = c2;
 
-			POLY_add_quad(quad, POLY_PAGE_IC_ADDITIVE, FALSE, TRUE);
+			POLY_add_quad(quad, POLY_PAGE_IC_ADDITIVE, false, true);
 		}
 
 		b1 -= 1;
@@ -1694,7 +1694,7 @@ void PANEL_new_toss(
 	pt = &PANEL_toss[PANEL_toss_last];
 	pa = &PANEL_ammo[type];
 
-	pt->used  =  TRUE;
+	pt->used  =  true;
 	pt->type  =  type;
 	pt->x     =  sx + pa->width  * 0.5F;
 	pt->y     =  sy + pa->height * 0.5F;
@@ -1745,7 +1745,7 @@ void PANEL_do_tosses()
 
 				if (pt->y > 490.0F)
 				{
-					pt->used = FALSE;
+					pt->used = false;
 				}
 			}
 		}
@@ -1836,7 +1836,7 @@ void PANEL_do_tosses()
 
 				page = PANEL_page[PANEL_ic[pa->page_one].page][PANEL_PAGE_ALPHA_END];
 
-				POLY_add_quad(quad, page, FALSE, TRUE);
+				POLY_add_quad(quad, page, false, true);
 			}
 		}
 	}
@@ -2521,7 +2521,7 @@ void PANEL_help_message_do()
 
 THING_INDEX PANEL_wide_top_person;
 THING_INDEX PANEL_wide_bot_person;
-SLONG       PANEL_wide_top_is_talking;	// TRUE/FALSE for who is talking now
+SLONG       PANEL_wide_top_is_talking;	// true/false for who is talking now
 CBYTE       PANEL_wide_text[256];
 
 void PANEL_new_widescreen()
@@ -2596,7 +2596,7 @@ void PANEL_new_widescreen()
 
 				strcpy(PANEL_wide_text, pt->text);
 
-				PANEL_wide_top_is_talking = FALSE;
+				PANEL_wide_top_is_talking = false;
 
 				pt->delay = 0;
 			}
@@ -2610,7 +2610,7 @@ void PANEL_new_widescreen()
 
 					strcpy(PANEL_wide_text, pt->text);
 
-					PANEL_wide_top_is_talking = TRUE;
+					PANEL_wide_top_is_talking = true;
 
 					pt->delay = 0;
 				}
@@ -2622,7 +2622,7 @@ void PANEL_new_widescreen()
 
 					strcpy(PANEL_wide_text, pt->text);
 
-					PANEL_wide_top_is_talking = FALSE;
+					PANEL_wide_top_is_talking = false;
 					PANEL_wide_bot_person     = THING_NUMBER(pt->who);
 
 					pt->delay = 0;
@@ -2670,7 +2670,7 @@ void PANEL_new_widescreen()
 				256,
 				POLY_PAGE_FONT2D,
 				0,
-				TRUE);
+				true);
 			iYpos = 75 - iYpos;
 			FONT2D_DrawStringRightJustify(
 				PANEL_wide_text,
@@ -2680,7 +2680,7 @@ void PANEL_new_widescreen()
 				256,
 				POLY_PAGE_FONT2D,
 				0,
-				FALSE);
+				false);
 		}
 		else
 		{
@@ -2873,7 +2873,7 @@ void PANEL_draw_beacons()
 			tri[1] = &pp[1];
 			tri[2] = &pp[2];
 
-			POLY_add_triangle(tri, POLY_PAGE_IC2_ALPHA_END, FALSE, TRUE);
+			POLY_add_triangle(tri, POLY_PAGE_IC2_ALPHA_END, false, true);
 		}
 
 		if (fabs(score) < best_score)
@@ -2931,7 +2931,7 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 	{
 		PANEL_wide_top_person     = NULL;
 		PANEL_wide_bot_person     = NULL;
-		PANEL_wide_top_is_talking = FALSE;
+		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
 
@@ -3464,14 +3464,14 @@ void PANEL_new_funky()
 void	PANEL_start()
 {
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 #endif
 }
 
 void	PANEL_finish()
 {
 #ifndef TARGET_DC
-	POLY_frame_draw(TRUE,TRUE);
+	POLY_frame_draw(true,true);
 #endif
 }
 
@@ -3506,7 +3506,7 @@ void PANEL_fadeout_draw()
 	if (PANEL_fadeout_time)
 	{
 #ifndef TARGET_DC
-		POLY_frame_init(FALSE,FALSE);
+		POLY_frame_init(false,false);
 #endif
 
 		//
@@ -3577,7 +3577,7 @@ void PANEL_fadeout_draw()
 		quad[2] = &pp[2];
 		quad[3] = &pp[3];
 
-		POLY_add_quad(quad, POLY_PAGE_FADECAT, FALSE, TRUE);
+		POLY_add_quad(quad, POLY_PAGE_FADECAT, false, true);
 
 		//
 		// Darken the screen at the end.
@@ -3621,7 +3621,7 @@ void PANEL_fadeout_draw()
 		}
 
 #ifndef TARGET_DC
-		POLY_frame_draw(FALSE,FALSE);
+		POLY_frame_draw(false,false);
 #endif
 	}
 }
@@ -3632,11 +3632,11 @@ SLONG PANEL_fadeout_finished()
 	{
 		if (GetTickCount() > (unsigned)PANEL_fadeout_time + 1024)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -3835,7 +3835,7 @@ void PANEL_last_arrow(float x, float y, float angle, float size, ULONG colour, U
 	pp[3].colour   = colour;
 	pp[3].specular = 0xff000000;
 
-	POLY_add_quad(quad, pls->page, FALSE, TRUE);
+	POLY_add_quad(quad, pls->page, false, true);
 }
 
 
@@ -3917,7 +3917,7 @@ void PANEL_last_bubble(float x1, float y1, float x2, float y2)
 		quad[2] = &pp[blah[i].p3];
 		quad[3] = &pp[blah[i].p4];
 
-		POLY_add_quad(quad, pls->page, FALSE, TRUE);
+		POLY_add_quad(quad, pls->page, false, true);
 	}
 }
 
@@ -4320,8 +4320,8 @@ void PANEL_last()
 		PANEL_darken_screen(640);
 
 #ifndef TARGET_DC
-		POLY_frame_draw(FALSE, FALSE);
-		POLY_frame_init(FALSE, FALSE);
+		POLY_frame_draw(false, false);
+		POLY_frame_init(false, false);
 #endif
 
 		//
@@ -4401,7 +4401,7 @@ void PANEL_last()
 	{
 		PANEL_wide_top_person     = NULL;
 		PANEL_wide_bot_person     = NULL;
-		PANEL_wide_top_is_talking = FALSE;
+		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
 
@@ -4962,7 +4962,7 @@ extern	ULONG	strip_stats[];
 				pp[3].colour   = 0xffffffff;
 				pp[3].specular = 0xff000000;
 
-				POLY_add_quad(quad, POLY_PAGE_LASTPANEL2_ALPHA, FALSE, TRUE);
+				POLY_add_quad(quad, POLY_PAGE_LASTPANEL2_ALPHA, false, true);
 			}
 
 			last_u1 = u1;
@@ -5020,7 +5020,7 @@ extern	ULONG	strip_stats[];
 		float x;
 		float y;
 
-		BOOL thugly;
+		bool thugly;
 
 		POLY_Point  pp [3];
 		POLY_Point *tri[3];
@@ -5041,7 +5041,7 @@ extern	ULONG	strip_stats[];
 				continue;
 			}
 
-			thugly=FALSE;
+			thugly=false;
 
 			if (mb->track_thing)
 			{
@@ -5062,7 +5062,7 @@ extern	ULONG	strip_stats[];
 						case PERSON_MIB1:
 						case PERSON_MIB2:
 						case PERSON_MIB3:
-							thugly=TRUE;
+							thugly=true;
 					}
 					if (p_track->State == STATE_DEAD)
 					{
@@ -5189,7 +5189,7 @@ extern	ULONG	strip_stats[];
 				best_beacon = i;
 			}
 
-			mb->pad = FALSE;
+			mb->pad = false;
 		}
 
 		if (PANEL_info_time > GetTickCount() - 2000)
@@ -5274,7 +5274,7 @@ extern	ULONG	strip_stats[];
 					PANEL_beacon_colour[best_beacon % PANEL_MAX_BEACON_COLOURS],
 					256);
 
-				mb->pad = TRUE;
+				mb->pad = true;
 			}
 		}
 	}
@@ -5324,14 +5324,14 @@ extern	ULONG	strip_stats[];
 				continue;
 			}
 
-			display = FALSE;
+			display = false;
 
 			switch(p_found->Genus.Person->PersonType)
 			{
 				case PERSON_THUG_RASTA:
 				case PERSON_THUG_GREY:
 				case PERSON_THUG_RED:
-					display = TRUE;
+					display = true;
 					size    = 0.5F;
 					colour  = 0xdd2222;
 					break;
@@ -5339,7 +5339,7 @@ extern	ULONG	strip_stats[];
 				case PERSON_MIB1:
 				case PERSON_MIB2:
 				case PERSON_MIB3:
-					display = TRUE;
+					display = true;
 					size    = 0.5F;
 					colour  = 0xdddddd;
 					break;
@@ -5350,7 +5350,7 @@ extern	ULONG	strip_stats[];
 
 			if (PCOM_person_wants_to_kill(p_found) == THING_NUMBER(darci))
 			{
-				display = TRUE;
+				display = true;
 				size    = flash;
 			}
 
@@ -5776,7 +5776,7 @@ extern bool g_bCacheReplacementThrash;
 			PANEL_crap_text ( 310, iYPos + 60, "T" );
 		}
 		g_iCacheReplacements = 0;
-		g_bCacheReplacementThrash = FALSE;
+		g_bCacheReplacementThrash = false;
 
 		// And show the actual cache behaviour.
 extern int m_iLRUQueueSize;
@@ -5832,7 +5832,7 @@ extern DWORD m_dwSizeOfQueue;
 	#ifdef _DEBUG
 	if (just_asked_for_mode_now)
 	{
-		just_asked_for_mode_now = FALSE;
+		just_asked_for_mode_now = false;
 
 		CBYTE text[64];
 
@@ -5858,8 +5858,8 @@ extern DWORD m_dwSizeOfQueue;
 
 	if (!i_know)
 	{
-		the_answer = ENV_get_value_number("iamapsx",FALSE);
-		i_know     = TRUE;
+		the_answer = ENV_get_value_number("iamapsx",false);
+		i_know     = true;
 	}
 
 	if (the_answer)
@@ -6204,7 +6204,7 @@ void PANEL_draw_VMU_ammo_counts ( void )
 	int iMags[4];
 	for ( i = 0; i < 4; i++ )
 	{
-		bHaveWeapon[i] = FALSE;
+		bHaveWeapon[i] = false;
 		iAmmo[i] = 0;
 		iMags[i] = 0;
 	}
@@ -6216,7 +6216,7 @@ void PANEL_draw_VMU_ammo_counts ( void )
 	// The pistol is special.
 	if (darci->Flags & FLAGS_HAS_GUN) 
 	{
-		bHaveWeapon[WEAP_PISTOL] = TRUE;
+		bHaveWeapon[WEAP_PISTOL] = true;
 	}
 
 
@@ -6243,24 +6243,24 @@ void PANEL_draw_VMU_ammo_counts ( void )
 			case SPECIAL_SHOTGUN:
 				// We have a shotty.
 				ASSERT ( !bHaveWeapon[WEAP_SHOTGUN] );
-				bHaveWeapon[WEAP_SHOTGUN] = TRUE;
+				bHaveWeapon[WEAP_SHOTGUN] = true;
 				iAmmo[WEAP_SHOTGUN] = p_special->Genus.Special->ammo;
 				break;
 			case SPECIAL_AK47:
 				// We have an AK47, which we now call an M16.
 				ASSERT ( !bHaveWeapon[WEAP_M16] );
-				bHaveWeapon[WEAP_M16] = TRUE;
+				bHaveWeapon[WEAP_M16] = true;
 				iAmmo[WEAP_M16] = p_special->Genus.Special->ammo;
 				break;
 			case SPECIAL_GRENADE:
 				// Should only have one grenade special.
 				ASSERT ( !bHaveWeapon[WEAP_GRENADE] );
-				bHaveWeapon[WEAP_GRENADE] = TRUE;
+				bHaveWeapon[WEAP_GRENADE] = true;
 				iAmmo[WEAP_GRENADE] = p_special->Genus.Special->ammo;
 				if ( iAmmo[WEAP_GRENADE] == 0 )
 				{
 					// Er... this means we don't have grenades.
-					bHaveWeapon[WEAP_GRENADE] = FALSE;
+					bHaveWeapon[WEAP_GRENADE] = false;
 				}
 				break;
 			default:
@@ -6289,7 +6289,7 @@ extern VMU_Screen *pvmuscreenAmmo;
 
 	// Copy the weapon bitmaps over.
 	memcpy ( vmuscreenTemp.bData, pvmuscreenAmmo->bData, 32 * 6 );
-	vmuscreenTemp.bRotated = FALSE;
+	vmuscreenTemp.bRotated = false;
 
 #define WEAPON_BAR_SCANLINE_SIZE 8
 	for ( i = 0; i < 4; i++ )
@@ -6386,7 +6386,7 @@ void PANEL_draw_completion_bar(SLONG completion)
 	SLONG b;
 
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 #endif
 
 	SLONG i;
@@ -6409,7 +6409,7 @@ void PANEL_draw_completion_bar(SLONG completion)
 	}
 
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,FALSE);
+	POLY_frame_draw(false,false);
 #endif
 }
 
@@ -6420,7 +6420,7 @@ void PANEL_draw_completion_bar(SLONG completion)
 
 
 
-bool bScreensaverEnabled = FALSE;
+bool bScreensaverEnabled = false;
 // Darkness of screensaver, from 0(off)->0xffff(full on)
 int iScreenSaverDarkness = 0;
 
@@ -6450,7 +6450,7 @@ void PANEL_enable_screensaver ( void )
 {
 	if ( !bScreensaverEnabled )
 	{
-		bScreensaverEnabled = TRUE;
+		bScreensaverEnabled = true;
 		iScreensaverXPos = 320;
 		iScreensaverYPos = 240;
 		iScreensaverXInc = 4;
@@ -6460,7 +6460,7 @@ void PANEL_enable_screensaver ( void )
 
 void PANEL_disable_screensaver ( bool bImmediately )
 {
-	bScreensaverEnabled = FALSE;
+	bScreensaverEnabled = false;
 	if ( bImmediately )
 	{
 		// Bin the fade in.
@@ -6495,7 +6495,7 @@ void PANEL_screensaver_draw ( void )
 
 
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 #endif
 
 
@@ -6588,7 +6588,7 @@ void PANEL_screensaver_draw ( void )
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, POLY_PAGE_FADE_MF, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_FADE_MF, false, true);
 
 	// Now draw the darkener around it.
 	// Top block.
@@ -6600,7 +6600,7 @@ void PANEL_screensaver_draw ( void )
 	pp[2].Y        = (float)iScreensaverYPos;
 	pp[3].X        = 640.0f;
 	pp[3].Y        = (float)iScreensaverYPos;
-	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, false, true);
 
 	// Bottom block.
 	pp[0].X        = 0.0f;
@@ -6611,7 +6611,7 @@ void PANEL_screensaver_draw ( void )
 	pp[2].Y        = 480.0f;
 	pp[3].X        = 640.0f;
 	pp[3].Y        = 480.0f;
-	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, false, true);
 
 	// Left block.
 	pp[0].X        = 0.0f;
@@ -6622,7 +6622,7 @@ void PANEL_screensaver_draw ( void )
 	pp[2].Y        = (float)iScreensaverYPos + SCREENSAVER_SIZE;
 	pp[3].X        = (float)iScreensaverXPos;
 	pp[3].Y        = (float)iScreensaverYPos + SCREENSAVER_SIZE;
-	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, false, true);
 
 	// Right block.
 	pp[0].X        = (float)iScreensaverXPos + SCREENSAVER_SIZE;
@@ -6633,11 +6633,11 @@ void PANEL_screensaver_draw ( void )
 	pp[2].Y        = (float)iScreensaverYPos + SCREENSAVER_SIZE;
 	pp[3].X        = 640.0f;
 	pp[3].Y        = (float)iScreensaverYPos + SCREENSAVER_SIZE;
-	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_COLOUR_ALPHA, false, true);
 
 
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,FALSE);
+	POLY_frame_draw(false,false);
 #endif
 
 }

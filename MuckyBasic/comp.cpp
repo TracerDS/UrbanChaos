@@ -23,7 +23,7 @@ SLONG COMP_do(CBYTE *fname_input, CBYTE *fname_output)
 		// Could not open input file.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -40,7 +40,7 @@ SLONG COMP_do(CBYTE *fname_input, CBYTE *fname_output)
 		// No data read?
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (bytes_read >= COMP_MAX_PROGRAM)
@@ -49,7 +49,7 @@ SLONG COMP_do(CBYTE *fname_input, CBYTE *fname_output)
 		// Our source buffer isn't large enough!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	ST_init();
@@ -58,5 +58,5 @@ SLONG COMP_do(CBYTE *fname_input, CBYTE *fname_output)
 
 	CG_do(fname_output);
 
-	return TRUE;
+	return true;
 }

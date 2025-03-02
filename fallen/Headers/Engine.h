@@ -73,7 +73,7 @@ typedef	struct
 	M33			CameraMatrix;
 }Engine;
 
-BOOL	init_3d_engine();
+bool	init_3d_engine();
 void	fini_3d_engine();
 void	game_engine(Camera *the_view);
 void	engine_attract();
@@ -83,7 +83,7 @@ void	engine_lose_level();
 //---------------------------------------------------------------
 
 void	temp_setup_map();
-BOOL	new_init_3d_engine();
+bool	new_init_3d_engine();
 void	new_engine(Camera *the_view);
 
 //---------------------------------------------------------------
@@ -134,7 +134,7 @@ void MSG_add(CBYTE *message, ...);
 
 void  ENGINE_clear_screen();
 void  ENGINE_flip();
-SLONG ENGINE_lock();		// Locks the screen.. returns TRUE on success.
+SLONG ENGINE_lock();		// Locks the screen.. returns true on success.
 void  ENGINE_unlock();
 
 #include "..\ddengine\headers\font.h"

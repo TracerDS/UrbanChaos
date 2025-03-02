@@ -952,7 +952,7 @@ SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname)
 
 	LINK_free_memory();
 
-	return TRUE;
+	return true;
 
   file_error:;
 
@@ -967,7 +967,7 @@ SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname)
 
 	LINK_free_memory();
 
-	return FALSE;
+	return false;
 }
 
 

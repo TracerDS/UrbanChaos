@@ -290,9 +290,9 @@ void PCOM_process_person(Thing *p_person);
 //
 // If this person is jumping while navigating, but he needs to
 // releasing 'forwards' to avoid overshooting... this function
-// returns FALSE.
+// returns false.
 //
-// All other times, it returns TRUE.
+// All other times, it returns true.
 //
 
 SLONG PCOM_jumping_navigating_person_continue_moving(Thing *p_person);
@@ -313,7 +313,7 @@ void PCOM_make_people_talk_to_eachother(
 		Thing *p_person_b,
 		UBYTE  is_a_asking_a_question,
 		UBYTE  stay_looking_at_eachother,
-		UBYTE  make_the_person_talked_at_listen = TRUE);
+		UBYTE  make_the_person_talked_at_listen = true);
 
 //
 // Makes two people stop talking to eachother.
@@ -325,7 +325,7 @@ void PCOM_stop_people_talking_to_eachother(
 
 
 //
-// Returns TRUE if a person is doing nothing interesting.  i.e. he
+// Returns true if a person is doing nothing interesting.  i.e. he
 // is happy to talk to somebody or lookat around at something.
 //
 
@@ -333,7 +333,7 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person);
 
 
 //
-// Returns TRUE if person_a does not like person_b... i.e. wants
+// Returns true if person_a does not like person_b... i.e. wants
 // to kill him!
 //
 

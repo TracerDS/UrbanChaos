@@ -205,7 +205,7 @@ struct SDL_SysWMmsg
 #if defined(SDL_VIDEO_DRIVER_OS2)
         struct
         {
-            BOOL fFrame;                /**< TRUE if hwnd is a frame window */
+            bool fFrame;                /**< true if hwnd is a frame window */
             HWND hwnd;                  /**< The window receiving the message */
             ULONG msg;                  /**< The message identifier */
             MPARAM mp1;                 /**< The first first message parameter */

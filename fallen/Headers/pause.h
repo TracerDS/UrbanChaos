@@ -12,7 +12,7 @@
 #define _PAUSE_
 
 //
-// Returns TRUE if you should exit the game loop...
+// Returns true if you should exit the game loop...
 //
 
 SLONG PAUSE_handler();

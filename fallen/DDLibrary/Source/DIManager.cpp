@@ -114,10 +114,10 @@ int m_iNumMapleDevices;
 // Forces a rescan of devices. Any new devices will be added to the available list.
 // This does not reassign the primary - if you want to do that,
 // call ClearPrimaryDevice().
-// If anything new was found, or anything existing was removed, returns TRUE.
+// If anything new was found, or anything existing was removed, returns true.
 bool RescanDevices ( void )
 {
-	bool bChanged = FALSE;
+	bool bChanged = false;
 	HRESULT result = the_input_manager.LoadDevices ( &bChanged );
 	return bChanged;
 }
@@ -144,7 +144,7 @@ void DeleteInvalidDevice ( void )
 }
 
 
-BOOL	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne )
+bool	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne )
 {
 
 	SHARON ( "GetInputDevice\n" );
@@ -156,7 +156,7 @@ BOOL	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne )
 	{
 #ifdef TARGET_DC
 		// Tsk tsk.
-		ASSERT ( FALSE );
+		ASSERT ( false );
 #endif
 
 		DIDeviceInfo *the_device;
@@ -169,26 +169,26 @@ BOOL	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne )
 	}
 	else
 	{
-		return TRUE;
+		return true;
 	}
 }
 
 
 //---------------------------------------------------------------
 
-// Returns TRUE if there are any devices connected,
+// Returns true if there are any devices connected,
 // whether or not any of them is the primary.
-BOOL AreAnyDevicesConnected ( void )
+bool AreAnyDevicesConnected ( void )
 {
 	if ( the_input_manager.DeviceList != NULL )
 	{
 		ASSERT ( the_input_manager.DeviceCount != 0 );
-		return TRUE;
+		return true;
 	}
 	else
 	{
 		//ASSERT ( the_input_manager.DeviceCount == 0 );
-		return FALSE;
+		return false;
 	}
 }
 
@@ -196,9 +196,9 @@ BOOL AreAnyDevicesConnected ( void )
 
 //---------------------------------------------------------------
 
-BOOL	ReadInputDevice(void)
+bool	ReadInputDevice(void)
 {
-	BOOL			read_it	=	FALSE;
+	bool			read_it	=	false;
 	HRESULT			result;
 
 	if ( primary_device ==  NULL )
@@ -214,13 +214,13 @@ BOOL	ReadInputDevice(void)
 		else
 		{
 			// None has pressed a button yet, which is fine.
-			return FALSE;
+			return false;
 		}
 #else //#ifdef TARGET_DC
 		primary_device = the_input_manager.FindDevice(JOYSTICK,0,NULL);
 		if (primary_device == NULL)
 		{
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -316,7 +316,7 @@ BOOL	ReadInputDevice(void)
 				}
 #endif
 
-				read_it	=	TRUE;
+				read_it	=	true;
 				break;
 		}
 	}
@@ -332,7 +332,7 @@ BOOL	ReadInputDevice(void)
 //
 //---------------------------------------------------------------
 
-BOOL CALLBACK	DIDeviceEnumCallback	(
+bool CALLBACK	DIDeviceEnumCallback	(
 											LPCDIDEVICEINSTANCE	lpDIDevice,
 											LPVOID				lpExtra
 										)
@@ -536,7 +536,7 @@ void	DIDeviceInfo::Destroy(void)
 
 
 // The EnumDeviceObjects callback.
-BOOL DIDeviceInfo::DIEnumDeviceObjectsProc(LPCDIDEVICEOBJECTINSTANCE pDIDOI)
+bool DIDeviceInfo::DIEnumDeviceObjectsProc(LPCDIDEVICEOBJECTINSTANCE pDIDOI)
 {
     if ((LOBYTE(LOWORD(pDIDOI->dwType)) & DIDFT_AXIS) != 0)
     {
@@ -599,14 +599,14 @@ BOOL DIDeviceInfo::DIEnumDeviceObjectsProc(LPCDIDEVICEOBJECTINSTANCE pDIDOI)
 		SHARON ( "Ooh - it's a wacky joypad object!\n" );
 	}
 
-    return(TRUE);
+    return(true);
 }
 
 
 
 
 // Useful stub to convert from a callback to something more sane.
-BOOL CALLBACK
+bool CALLBACK
 DIEnumDeviceObjectsProcStub(LPCDIDEVICEOBJECTINSTANCE pDIDOI, LPVOID pvContext)
 {
     DIDeviceInfo *pDevice = (DIDeviceInfo *)pvContext;
@@ -616,7 +616,7 @@ DIEnumDeviceObjectsProcStub(LPCDIDEVICEOBJECTINSTANCE pDIDOI, LPVOID pvContext)
 
 
 
-BOOL DIDeviceInfo::GetThisDevice ( UBYTE type )
+bool DIDeviceInfo::GetThisDevice ( UBYTE type )
 {
 	SHARON ( "DIDeviceInfo::GetThisDevice\n" );
 
@@ -645,24 +645,24 @@ BOOL DIDeviceInfo::GetThisDevice ( UBYTE type )
 																	coopflags
 																);
 	if(FAILED(result))
-		return	FALSE;
+		return	false;
 
 	// Set the data format.  Fudged for Joysticks for now.
 	result	=	lpdiInputDevice->SetDataFormat(&c_dfDIJoystick);
 	if(FAILED(result))
-		return	FALSE;
+		return	false;
 
 	// Get the device capabilities, mainly to find out if we need to poll.
 	InitStruct(di_dcaps);
 
 	result	=	lpdiInputDevice->GetCapabilities(&di_dcaps);
 	if(FAILED(result))
-		return	FALSE;
+		return	false;
 
 	if(di_dcaps.dwFlags&DIDC_POLLEDDATAFORMAT)
 	{
 #ifdef TARGET_DC
-		ASSERT ( FALSE );
+		ASSERT ( false );
 #endif
 		this->NeedsPollOn();
 	}
@@ -695,13 +695,13 @@ BOOL DIDeviceInfo::GetThisDevice ( UBYTE type )
 	result = lpdiInputDevice->EnumObjects(DIEnumDeviceObjectsProcStub, this, 0);
 	if ( FAILED ( result ) )
 	{
-		return FALSE;
+		return false;
 	}
 
     result = lpdiInputDevice->SetDataFormat(&c_dfDIJoystick);
 	if ( FAILED ( result ) )
 	{
-		return FALSE;
+		return false;
 	}
 
 
@@ -739,9 +739,9 @@ BOOL DIDeviceInfo::GetThisDevice ( UBYTE type )
 	// Initially acquire the device.
 	result	=	lpdiInputDevice->Acquire();
 	if(FAILED(result))
-		return	FALSE;
+		return	false;
 
-	return	TRUE;
+	return	true;
 }
 
 
@@ -760,7 +760,7 @@ DIDriverManager::DIDriverManager()
 	DeviceCount			=	0;
 	DeviceList			=	NULL;
 	DeviceListEnd		=	NULL;
-	bVMUScreenUpdatesEnabled = TRUE;
+	bVMUScreenUpdatesEnabled = true;
 }
 
 //---------------------------------------------------------------
@@ -866,7 +866,7 @@ HRESULT	DIDriverManager::Fini(void)
 //---------------------------------------------------------------
 
 // Can be called multiple times - will find any new devices and add them, but retain any existing ones.
-// If pbChanged is non-NULL, it will be set to TRUE if there are any new devices.
+// If pbChanged is non-NULL, it will be set to true if there are any new devices.
 // Note - DC - it WILL bin any VMU devices and remake them.
 HRESULT DIDriverManager::LoadDevices ( bool *pbChanged )
 {
@@ -876,7 +876,7 @@ HRESULT DIDriverManager::LoadDevices ( bool *pbChanged )
 	HRESULT			result;
 
     // Initialize all valid drivers in system
-    callback_info.Result	=	TRUE;
+    callback_info.Result	=	true;
     callback_info.Count		=	0L;
     callback_info.Extra		=	(void*)NULL;
 
@@ -917,7 +917,7 @@ HRESULT DIDriverManager::LoadDevices ( bool *pbChanged )
 		if ( DeviceCount > (unsigned)iOldDeviceCount )
 		{
 			// Yes, something new.
-			*pbChanged = TRUE;
+			*pbChanged = true;
 		}
 		// See if any got removed.
 		pCurDev = the_input_manager.DeviceList;
@@ -925,7 +925,7 @@ HRESULT DIDriverManager::LoadDevices ( bool *pbChanged )
 		{
 			if ( !(pCurDev->IsValid()) )
 			{
-				*pbChanged = TRUE;
+				*pbChanged = true;
 			}
 			pCurDev = pCurDev->Next;
 		}
@@ -945,7 +945,7 @@ HRESULT DIDriverManager::LoadDevices ( bool *pbChanged )
 	{
 		if ( pbChanged != NULL )
 		{
-			*pbChanged = TRUE;
+			*pbChanged = true;
 		}
 	}
 #endif
@@ -1137,7 +1137,7 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed ( UBYTE type, UBYTE su
 					if ( pVMU->type == MDT_LCD )
 					{
 extern VMU_Screen *pvmuscreenPressStart;
-						pVMU->Lcd_WriteScreen ( pvmuscreenPressStart, TRUE );
+						pVMU->Lcd_WriteScreen ( pvmuscreenPressStart, true );
 					}
 					pVMU = pVMU->pNextVMU;
 				}
@@ -1154,7 +1154,7 @@ extern VMU_Screen *pvmuscreenPressStart;
 
 	while(current_device)
 	{
-		bool bGoodDevice = FALSE;
+		bool bGoodDevice = false;
 
 		if(current_device->DeviceType==type)
 		{
@@ -1162,13 +1162,13 @@ extern VMU_Screen *pvmuscreenPressStart;
 			{
 				if(current_device->DeviceSubType==sub_type)
 				{
-					bGoodDevice = TRUE;
+					bGoodDevice = true;
 				}
 			}
 			else
 			{
 				// Success.
-				bGoodDevice = TRUE;
+				bGoodDevice = true;
 			}
 		}
 
@@ -1297,13 +1297,13 @@ extern VMU_Screen *pvmuscreenPressStart;
 											{
 												// Display the UC logo.
 	extern VMU_Screen *pvmuscreenUCLogo;
-												pVMU->Lcd_WriteScreen ( pvmuscreenUCLogo, TRUE );
+												pVMU->Lcd_WriteScreen ( pvmuscreenUCLogo, true );
 											}
 											else
 											{
 												// Blank all the other screens.
 												memset ( bTest, 0, 192 );
-												pVMU->Lcd_WriteScreen ( bTest, TRUE );
+												pVMU->Lcd_WriteScreen ( bTest, true );
 											}
 
 										}
@@ -1339,13 +1339,13 @@ extern VMU_Screen *pvmuscreenPressStart;
 
 
 
-BOOL CALLBACK FlashEnumProc(LPCMAPLEDEVICEINSTANCE pmdi, LPVOID pvContext)
+bool CALLBACK FlashEnumProc(LPCMAPLEDEVICEINSTANCE pmdi, LPVOID pvContext)
 {
     DWORD dwPort = pmdi->dwPort;
 	DIDriverManager *pthis = (DIDriverManager *)pvContext;
 
 
-	bool bAdded = FALSE;
+	bool bAdded = false;
 	DIDeviceInfo *current_device = pthis->DeviceList;
 	while(current_device)
 	{
@@ -1365,19 +1365,19 @@ BOOL CALLBACK FlashEnumProc(LPCMAPLEDEVICEINSTANCE pmdi, LPVOID pvContext)
 				 ( ( pmdi->dwDirection == MAPLEDEV_EXPDIR_BOTTOM ) && ( dwControllerDirection == DIPROP_EXPDIR_BOTTOM ) ) )
 			{
 				// Directions match, so the VMU is upside down.
-				pVMU->bUpsideDown = TRUE;
+				pVMU->bUpsideDown = true;
 			}
 			else
 			{
 				// Directions don't match, so they're not.
-				pVMU->bUpsideDown = TRUE;
+				pVMU->bUpsideDown = true;
 			}
 
 			current_device->pFirstVMU = pVMU;
 
 			m_iNumMapleDevices++;
 
-			bAdded = TRUE;
+			bAdded = true;
 			break;
 		}
 		current_device = current_device->Next;
@@ -1385,7 +1385,7 @@ BOOL CALLBACK FlashEnumProc(LPCMAPLEDEVICEINSTANCE pmdi, LPVOID pvContext)
 
 	ASSERT ( bAdded );
 
-    return(TRUE);
+    return(true);
 }
 
 
@@ -1450,7 +1450,7 @@ void MapleVMU::EnsureDevicePtr ( void )
 	case MDT_AUDIO_IN   :
 	case MDT_LIGHTGUN   :
 	default:
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		pUnknown = NULL;
 		return;
 		break;
@@ -1459,7 +1459,7 @@ void MapleVMU::EnsureDevicePtr ( void )
 	if ( FAILED ( hres ) )
 	{
 		// Nads.
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		pUnknown = NULL;
 	}
 
@@ -1468,11 +1468,11 @@ void MapleVMU::EnsureDevicePtr ( void )
 // Write this standard 48x32 bitmap to the LCD.
 // Data format is 6x32 bytes, like you'd expect, except that the
 // VMU is upside down & back to front of course!
-// If bQueue is TRUE, this always works.
-// If bQueue is FALSE, if there is a problem, like it's busy,
-//	then it can fail, and the return is FALSE;
+// If bQueue is true, this always works.
+// If bQueue is false, if there is a problem, like it's busy,
+//	then it can fail, and the return is false;
 // If the LCD screen is not a standard type, then it does its best,
-//	or fails and returns FALSE.
+//	or fails and returns false.
 
 bool MapleVMU::Lcd_WriteScreen ( void *pvData, bool bQueue )
 {
@@ -1482,7 +1482,7 @@ bool MapleVMU::Lcd_WriteScreen ( void *pvData, bool bQueue )
 	if ( !pLcd->IsStandardLcd() )
 	{
 		// Bleuch. No.
-		return FALSE;
+		return false;
 	}
 
 	HRESULT hres;
@@ -1492,7 +1492,7 @@ bool MapleVMU::Lcd_WriteScreen ( void *pvData, bool bQueue )
 		hres = pLcd->GetLcdBuffer ( &pLcdBuffer, &dwLcdBufferId, 192 );
 		if ( FAILED ( hres ) )
 		{
-			return FALSE;
+			return false;
 		}
 	}
 	else
@@ -1505,10 +1505,10 @@ bool MapleVMU::Lcd_WriteScreen ( void *pvData, bool bQueue )
 	hres = pLcd->SendLcdBuffer ( dwLcdBufferId, 0, 0, 0, NULL );
 	if ( FAILED ( hres ) )
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1531,16 +1531,16 @@ bool Flash_CheckVMUOK ( MapleVMU *pthis )
 	ASSERT ( pthis->type == MDT_STORAGE );
 	if ( ( pthis == NULL ) || ( pthis->pFlash == NULL ) )
 	{
-		return FALSE;
+		return false;
 	}
 	HRESULT hres = pthis->pFlash->CheckFormat();
 	if ( FAILED ( hres ) )
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		return TRUE;
+		return true;
 	}
 }
 
@@ -1556,7 +1556,7 @@ char *m_pszDirectory[MAX_DIRECTORY_ENTRIES+1];
 
 
 // The directory callback.
-BOOL Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, LPCFSFILEDESC lpcfsfiledesc, void *pvContext )
+bool Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, LPCFSFILEDESC lpcfsfiledesc, void *pvContext )
 {
 	// When called by FastEnumFlashFiles, only the filename is valid in lpcfsfiledesc.
 	if ( m_iNumDirectoryFiles < MAX_DIRECTORY_ENTRIES )
@@ -1571,7 +1571,7 @@ BOOL Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid
 		else
 		{
 			// Long filename - sod it, coz we're only interested in ours anyway, which are all 8.3 format.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 		}
 
 		// Always terminate with an empty string.
@@ -1579,7 +1579,7 @@ BOOL Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid
 		m_pszDirectory[m_iNumDirectoryFiles] = NULL;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1701,7 +1701,7 @@ DWORD MapleVMU::Flash_GetFileSize ( char *pcFilename )
 }
 
 // Reads the given file into pvData, which is of size dwSizeOfData.
-// Return is TRUE on success, FALSE on failure.
+// Return is true on success, false on failure.
 bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfData )
 {
 	ASSERT ( type == MDT_STORAGE );
@@ -1709,7 +1709,7 @@ bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfDa
 	if ( !Flash_CheckVMUOK ( this ) )
 	{
 		// Don't auto-format.
-		return FALSE;
+		return false;
 	}
 
 	// Reading past the end of the file is an error, so first
@@ -1718,7 +1718,7 @@ bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfDa
 	if ( dwFileSize == -1 )
 	{
 		// File doesn't exist or something.
-		return FALSE;
+		return false;
 	}
 
 	// Don't read past the end.
@@ -1731,8 +1731,8 @@ bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfDa
 	if ( pFile == NULL )
 	{
 		// This should never happen if we checked the size with GetFileSize.
-		//ASSERT ( FALSE );
-		return FALSE;
+		//ASSERT ( false );
+		return false;
 	}
 	else
 	{
@@ -1740,12 +1740,12 @@ bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfDa
 		if ( FAILED ( hres ) )
 		{
 			pFile->Release();
-			return FALSE;
+			return false;
 		}
 		else
 		{
 			pFile->Release();
-			return TRUE;
+			return true;
 		}
 	}
 }
@@ -1755,7 +1755,7 @@ bool MapleVMU::Flash_ReadFile ( char *pcFilename, void *pvData, DWORD dwSizeOfDa
 // pcComment is any comment you wish to be tagged onto the file. Must be less than 16 chars.
 // If the file already exists, it is deleted.
 // If there is not enough space on the device, the call will fail.
-// Return is TRUE on success, FALSE on failure.
+// Return is true on success, false on failure.
 bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcComment, void *pvData, DWORD dwSizeOfData,
 								 char *pcIconPalette, char *pcIconData )
 {
@@ -1764,14 +1764,14 @@ bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcCom
 	if ( !Flash_CheckVMUOK ( this ) )
 	{
 		// Don't auto-format.
-		return FALSE;
+		return false;
 	}
 
 	if ( strlen ( pcFilename ) > ( MAX_FLASH_FILE_NAME - 1 ) )
 	{
 		// Too long.
-		ASSERT ( FALSE );
-		return FALSE;
+		ASSERT ( false );
+		return false;
 	}
 
 	FSFILEDESC desc;
@@ -1853,7 +1853,7 @@ bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcCom
 		if ( pFile == NULL )
 		{
 			// No, doesn't exist - just a general failure.
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -1863,7 +1863,7 @@ bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcCom
 			if ( FAILED ( hres ) )
 			{
 				// Double nads - file exists but can't be deleted????
-				return FALSE;
+				return false;
 			}
 			else
 			{
@@ -1872,7 +1872,7 @@ bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcCom
 				if ( FAILED ( hres ) )
 				{
 					// Nope - maybe we're out of space or something.
-					return FALSE;
+					return false;
 				}
 			}
 		}
@@ -1884,7 +1884,7 @@ bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcCom
 	if ( FAILED ( hres ) )
 	{
 		pFile->Release();
-		return FALSE;
+		return false;
 	}
 
 	// And flush the controller.
@@ -1892,11 +1892,11 @@ bool MapleVMU::Flash_WriteFile ( char *pcFilename, char *pcGameName, char *pcCom
 	if ( FAILED ( hres ) )
 	{
 		pFile->Release();
-		return FALSE;
+		return false;
 	}
 
 	pFile->Release();
-	return TRUE;
+	return true;
 
 }
 
@@ -2046,8 +2046,8 @@ bool CreateVMUScreenFromTGA ( char *pchName, VMU_Screen **ppvmuScreen )
 	ASSERT ( *ppvmuScreen == NULL );
 
 	// Load the savegame icon from disk.
-extern TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, BOOL bCanShrink);
-	TGA_Info tga_info = TGA_load_from_file ( pchName, 48, 32, pPixelData, FALSE );
+extern TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink);
+	TGA_Info tga_info = TGA_load_from_file ( pchName, 48, 32, pPixelData, false );
 	if ( tga_info.valid )
 	{
 		// Create the screen.
@@ -2076,14 +2076,14 @@ extern TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max
 			}
 		}
 
-		(*ppvmuScreen)->bRotated = FALSE;
+		(*ppvmuScreen)->bRotated = false;
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		ASSERT ( FALSE );
-		return FALSE;
+		ASSERT ( false );
+		return false;
 	}
 }
 
@@ -2096,7 +2096,7 @@ bool WriteLCDScreenToCurrentController ( VMU_Screen *pvmuScreen )
 {
 	if ( primary_device == NULL )
 	{
-		return FALSE;
+		return false;
 	}
 
 	MapleVMU *pVMU = primary_device->pFirstVMU;
@@ -2104,12 +2104,12 @@ bool WriteLCDScreenToCurrentController ( VMU_Screen *pvmuScreen )
 	{
 		if ( pVMU->type == MDT_LCD )
 		{
-			pVMU->Lcd_WriteScreen ( pvmuScreen, TRUE );
+			pVMU->Lcd_WriteScreen ( pvmuScreen, true );
 		}
 		pVMU = pVMU->pNextVMU;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2117,9 +2117,9 @@ bool WriteLCDScreenToCurrentController ( VMU_Screen *pvmuScreen )
 GUID m_guidCurrentVMU = GUID_NULL;
 
 // Returns the current VMU. If it can't be found any more, and
-// bFindNextBest is TRUE, it tries to find the first one on the
+// bFindNextBest is true, it tries to find the first one on the
 // primary, and then tries to find the first one on anything.
-// If bFindNextBest is FALSE, it just returns NULL.
+// If bFindNextBest is false, it just returns NULL.
 MapleVMU *FindCurrentStorageVMU ( bool bFindNextBest )
 {
 	if ( !IsEqualGUID ( m_guidCurrentVMU, GUID_NULL ) )
@@ -2224,7 +2224,7 @@ MapleVMU *FindFirstVibratorOnCurrentController ( void )
 
 
 
-bool m_bVibrationsEnabled = TRUE;
+bool m_bVibrationsEnabled = true;
 
 void SetVibrationEnable ( bool bEnabled )
 {
@@ -2233,8 +2233,8 @@ void SetVibrationEnable ( bool bEnabled )
 
 
 // Make the vibrator in the primary device vibrate with the given
-// characteristics. Returns TRUE if it works, or FALSE if not.
-// The most common cause of FALSE is that another vibration
+// characteristics. Returns true if it works, or false if not.
+// The most common cause of false is that another vibration
 // is already happening, or was set off very recently.
 
 static HANDLE m_hVibrationEvent = NULL;
@@ -2244,7 +2244,7 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 	if ( !m_bVibrationsEnabled )
 	{
 		// Shan't.
-		return FALSE;
+		return false;
 	}
 
 	MapleVMU *pVib = FindFirstVibratorOnCurrentController();
@@ -2257,7 +2257,7 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 		// Can alos happen if you rip the pack out at just the wrong time.
 		if ( pVib->pVib == NULL )
 		{
-			return FALSE;
+			return false;
 		}
 
 		if ( !pVib->Vib_bGotDevInfo )
@@ -2272,13 +2272,13 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 			pVib->Vib_fMinFreq = ( vibInfo.minFrequency + 1 ) * (float)VIB_FREQ_INCREMENT_HZ;
 			pVib->Vib_fMaxFreq = ( vibInfo.maxFrequency + 1 ) * (float)VIB_FREQ_INCREMENT_HZ;
 
-			pVib->Vib_bGotDevInfo = TRUE;
+			pVib->Vib_bGotDevInfo = true;
 		}
 
 		if ( m_hVibrationEvent == NULL )
 		{
 			// Set up the event.
-		    m_hVibrationEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+		    m_hVibrationEvent = CreateEvent(NULL, true, true, NULL);
 		}
 
 		VIB_SETTINGS vibset;
@@ -2290,7 +2290,7 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 		else if ( fStartPower < 0.0f )
 		{
 			// Ok then, I won't.
-			return FALSE;
+			return false;
 		}
 
 		if ( fFrequency > pVib->Vib_fMaxFreq )
@@ -2302,7 +2302,7 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 			if ( fFrequency < 0.0f )
 			{
 				// Ok then, I won't.
-				return FALSE;
+				return false;
 			}
 			else
 			{
@@ -2312,7 +2312,7 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 
 
 		vibset.sourceId = 1;
-		vibset.bContinuousVib = FALSE;
+		vibset.bContinuousVib = false;
 		vibset.initialPower = (BYTE)( fStartPower * (float)VIB_POWER_MAX );
 		vibset.direction = VIB_DIRECTION_FORWARD;
 		vibset.frequency = (BYTE)( fFrequency * ( 1.0f / (float)VIB_FREQ_INCREMENT_HZ ) - 1.0f + 0.4999f );
@@ -2377,7 +2377,7 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 			// Nads - not going to hang around any longer.
 			// There was already a vibro command being sent, so tough -
 			// this one gets ditched.
-			return FALSE;
+			return false;
 		}
     
 		ResetEvent ( m_hVibrationEvent );
@@ -2388,20 +2388,20 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 		{
 			// Since there was an error, our event was never signaled.
 			SetEvent ( m_hVibrationEvent );
-			return FALSE;
+			return false;
 		}
 		else if ( ( hres != VIB_OK ) && ( hres != VIBERR_PENDING ) )
 		{
 			// Since there was an error, our event was never signaled.
 			SetEvent ( m_hVibrationEvent );
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -2438,7 +2438,7 @@ SLONG OS_joy_y_range_max;
 // The callback function for enumerating joysticks.
 //
 
-BOOL CALLBACK OS_joy_enum(
+bool CALLBACK OS_joy_enum(
 		LPCDIDEVICEINSTANCE instance, 
         LPVOID              context )
 {
@@ -2653,10 +2653,10 @@ SLONG OS_joy_poll(void)
 
 		memset(&the_state, 0, sizeof(the_state));
 
-		return FALSE;
+		return false;
 	}
 
-	SLONG acquired_already = FALSE;
+	SLONG acquired_already = false;
 
   try_again_after_acquiring:;
 
@@ -2685,7 +2685,7 @@ SLONG OS_joy_poll(void)
 
 				memset(&the_state, 0, sizeof(the_state));
 
-				return FALSE;
+				return false;
 			}
 			else
 			{
@@ -2693,7 +2693,7 @@ SLONG OS_joy_poll(void)
 
 				if (hr == DI_OK)
 				{
-					acquired_already = TRUE;
+					acquired_already = true;
 
 					goto try_again_after_acquiring;
 				}
@@ -2701,18 +2701,18 @@ SLONG OS_joy_poll(void)
 				{
 					memset(&the_state, 0, sizeof(the_state));
 
-					return FALSE;
+					return false;
 				}
 			}
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
 
-BOOL GetInputDevice(UBYTE type, UBYTE sub_type, bool bActuallyGetOne)
+bool GetInputDevice(UBYTE type, UBYTE sub_type, bool bActuallyGetOne)
 {
 	if (type == JOYSTICK && bActuallyGetOne)
 	{
@@ -2725,15 +2725,15 @@ BOOL GetInputDevice(UBYTE type, UBYTE sub_type, bool bActuallyGetOne)
 	if (OS_joy_input_device &&
 		OS_joy_input_device2)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
-BOOL ReadInputDevice()
+bool ReadInputDevice()
 {
 	return OS_joy_poll();
 }

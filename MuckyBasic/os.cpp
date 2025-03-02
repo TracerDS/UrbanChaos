@@ -122,7 +122,7 @@ ULONG OS_joy_button_up;		// The buttons that have just been released
 // The callback function for enumerating joysticks.
 //
 
-BOOL CALLBACK OS_joy_enum(
+bool CALLBACK OS_joy_enum(
 		LPCDIDEVICEINSTANCE instance, 
         LPVOID              context )
 {
@@ -337,7 +337,7 @@ void OS_joy_poll()
 		return;
 	}
 
-	SLONG acquired_already = FALSE;
+	SLONG acquired_already = false;
 
   try_again_after_acquiring:;
 
@@ -380,7 +380,7 @@ void OS_joy_poll()
 
 				if (hr == DI_OK)
 				{
-					acquired_already = TRUE;
+					acquired_already = true;
 
 					goto try_again_after_acquiring;
 				}
@@ -576,7 +576,7 @@ SLONG                   OS_sound_valid;
 LPDIRECTSOUND           OS_sound_dsound;
 LPDIRECTSOUNDBUFFER     OS_sound_primary;
 LPDIRECTSOUND3DLISTENER OS_sound_listener;
-SLONG                   OS_sound_changed;	// TRUE => we need to commit deferred settings.
+SLONG                   OS_sound_changed;	// true => we need to commit deferred settings.
 
 
 //
@@ -669,7 +669,7 @@ void OS_sound_init()
 	OS_sound_listener->SetDopplerFactor(2.0F, DS3D_DEFERRED);
 	OS_sound_listener->SetRolloffFactor(2.0F, DS3D_DEFERRED);
 
-	OS_sound_changed = TRUE;
+	OS_sound_changed = true;
 
 	//
 	// Make sure that the primary buffer is always active. That way we don't
@@ -682,7 +682,7 @@ void OS_sound_init()
 	// DSound is initialised ok.
 	//
 
-	OS_sound_valid = TRUE;
+	OS_sound_valid = true;
 }
 
 
@@ -1214,7 +1214,7 @@ void OS_sound_3d_set_range(OS_Sound *os, float min, float max)
 	os->buffer3d->SetMinDistance(min, DS3D_DEFERRED);
 	os->buffer3d->SetMaxDistance(max, DS3D_DEFERRED);
 
-	OS_sound_changed = TRUE;
+	OS_sound_changed = true;
 }
 
 void OS_sound_3d_set_position(
@@ -1234,7 +1234,7 @@ void OS_sound_3d_set_position(
 	os->buffer3d->SetPosition( x, y, z, DS3D_DEFERRED);
 	os->buffer3d->SetVelocity(dx,dy,dz, DS3D_DEFERRED);
 
-	OS_sound_changed = TRUE;
+	OS_sound_changed = true;
 }
 
 
@@ -1270,7 +1270,7 @@ void OS_sound_listener_set(
 		matrix[5],
 		DS3D_DEFERRED);
 
-	OS_sound_changed = TRUE;
+	OS_sound_changed = true;
 }
 
 
@@ -1281,7 +1281,7 @@ void OS_sound_update_changes()
 	{
 		OS_sound_listener->CommitDeferredSettings();
 
-		OS_sound_changed = FALSE;
+		OS_sound_changed = false;
 	}
 }
 
@@ -1560,7 +1560,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 					// Must be 1555
 					//
 
-					OS_tformat[OS_TEXTURE_FORMAT_1555].valid =  TRUE;
+					OS_tformat[OS_TEXTURE_FORMAT_1555].valid =  true;
 					OS_tformat[OS_TEXTURE_FORMAT_1555].ddpf  = *lpddpf;
 				}
 				else
@@ -1570,7 +1570,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 					// Must be 4444
 					//
 
-					OS_tformat[OS_TEXTURE_FORMAT_4444].valid =  TRUE;
+					OS_tformat[OS_TEXTURE_FORMAT_4444].valid =  true;
 					OS_tformat[OS_TEXTURE_FORMAT_4444].ddpf  = *lpddpf;
 				}
 			}
@@ -1580,7 +1580,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 				// This is a good RGB pixel format.
 				//
 
-				OS_tformat[OS_TEXTURE_FORMAT_RGB].valid =  TRUE;
+				OS_tformat[OS_TEXTURE_FORMAT_RGB].valid =  true;
 				OS_tformat[OS_TEXTURE_FORMAT_RGB].ddpf  = *lpddpf;
 			}
 		}
@@ -1602,7 +1602,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 				// This is what we want. An 8-bit luminance format.
 				//
 
-				OS_tformat[OS_TEXTURE_FORMAT_8].valid =  TRUE;
+				OS_tformat[OS_TEXTURE_FORMAT_8].valid =  true;
 				OS_tformat[OS_TEXTURE_FORMAT_8].ddpf  = *lpddpf;
 			}
 		}
@@ -2309,11 +2309,11 @@ SLONG OS_texture_blit_from_backbuffer(OS_Texture *ot, SLONG x, SLONG y)
 
 	if (ot->ddsurface->Blt(NULL, OS_frame.GetBackBuffer(), &src_rect, DDBLT_WAIT, NULL) == DD_OK)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -2337,17 +2337,17 @@ void OS_init_renderstates()
 	// 
 
 	d3d->SetRenderState(D3DRENDERSTATE_SHADEMODE,          D3DSHADE_GOURAUD);
-	d3d->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE, TRUE);
-	d3d->SetRenderState(D3DRENDERSTATE_DITHERENABLE,       TRUE);
-	d3d->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,     TRUE);
-	d3d->SetRenderState(D3DRENDERSTATE_SUBPIXEL,           TRUE);
-	d3d->SetRenderState(D3DRENDERSTATE_ZENABLE,            TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE, true);
+	d3d->SetRenderState(D3DRENDERSTATE_DITHERENABLE,       true);
+	d3d->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,     true);
+	d3d->SetRenderState(D3DRENDERSTATE_SUBPIXEL,           true);
+	d3d->SetRenderState(D3DRENDERSTATE_ZENABLE,            true);
 	d3d->SetRenderState(D3DRENDERSTATE_ZFUNC,              D3DCMP_LESSEQUAL);
-	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,       TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,       true);
 	d3d->SetRenderState(D3DRENDERSTATE_CULLMODE,           D3DCULL_CCW);
-	d3d->SetRenderState(D3DRENDERSTATE_FOGENABLE,          FALSE);
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,   FALSE);
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,    FALSE);
+	d3d->SetRenderState(D3DRENDERSTATE_FOGENABLE,          false);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,   false);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,    false);
 
 	if (KEY_on[KEY_A])
 	{
@@ -2495,21 +2495,21 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_ADD)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_ONE);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ONE);
 	}
 
 	if (draw & OS_DRAW_MULTIPLY)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_DESTCOLOR);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_SRCCOLOR);
 	}
 
 	if (draw & OS_DRAW_MULBYONE)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_DESTCOLOR);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ZERO);
 	}
@@ -2526,7 +2526,7 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_TRANSPARENT)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_ZERO);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ONE);
 	}
@@ -2538,14 +2538,14 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_NOZWRITE)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, FALSE);
+		d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, false);
 	}
 
 	if (draw & OS_DRAW_ALPHAREF)
 	{
 		d3d->SetRenderState(D3DRENDERSTATE_ALPHAFUNC,D3DCMP_NOTEQUAL);
 		d3d->SetRenderState(D3DRENDERSTATE_ALPHAREF,0);
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,true);
 
 		//
 		// Make sure the alpha from the texture gets through.
@@ -2572,12 +2572,12 @@ void OS_change_renderstate_for_type(ULONG draw)
 
 	if (draw & OS_DRAW_NODITHER)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_DITHERENABLE, FALSE);
+		d3d->SetRenderState(D3DRENDERSTATE_DITHERENABLE, false);
 	}
 
 	if (draw & OS_DRAW_ALPHABLEND)
 	{
-		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
+		d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true);
 		d3d->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_SRCALPHA);
 		d3d->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_INVSRCALPHA);
 
@@ -2678,12 +2678,12 @@ void OS_undo_renderstate_type_changes()
 
 	d3d->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_WRAP);
 
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false);
 	d3d->SetRenderState(D3DRENDERSTATE_CULLMODE,         D3DCULL_CCW);
-	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,     TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,     true);
 	d3d->SetRenderState(D3DRENDERSTATE_ZFUNC,            D3DCMP_LESSEQUAL);
-	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,  FALSE);
-	d3d->SetRenderState(D3DRENDERSTATE_DITHERENABLE,     TRUE);
+	d3d->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,  false);
+	d3d->SetRenderState(D3DRENDERSTATE_DITHERENABLE,     true);
 
 	d3d->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFG_LINEAR);
 	d3d->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
@@ -2731,7 +2731,7 @@ void  OS_ticks_reset()
 SLONG OS_mhz;
 
 //
-// Returns TRUE if the processor has support for the RDTSC instruction.
+// Returns true if the processor has support for the RDTSC instruction.
 // 
 
 SLONG OS_has_rdtsc()
@@ -2751,7 +2751,7 @@ SLONG OS_has_rdtsc()
 		// This is an old 486!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -2767,11 +2767,11 @@ SLONG OS_has_rdtsc()
 
 	if (res & (1 << 4))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -2876,17 +2876,17 @@ SLONG OS_is_archive_bit_set(CBYTE *fname)
 		// Error!
 		//
 
-		return FALSE;
+		return false;
 	}
 	else
 	{
 		if (attribs & FILE_ATTRIBUTE_ARCHIVE)
 		{
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 }
@@ -3037,7 +3037,7 @@ LRESULT CALLBACK OS_message_handler(
 
 			if (KEY_on[KEY_ESCAPE])
 			{
-				OS_message_handler_request_quit = TRUE;
+				OS_message_handler_request_quit = true;
 			}
 
 			break;
@@ -3057,7 +3057,7 @@ LRESULT CALLBACK OS_message_handler(
 			break;
 
 		case WM_CLOSE:
-			OS_message_handler_request_quit = TRUE;
+			OS_message_handler_request_quit = true;
 			return 0;
 
 		default:
@@ -3122,7 +3122,7 @@ void OS_process_messages()
 
 		if (OS_message_handler_request_quit)
 		{
-			OS_message_handler_request_quit = FALSE;
+			OS_message_handler_request_quit = false;
 
 			//
 			// The window has been told to close!
@@ -3192,12 +3192,12 @@ void OS_mode_init()
 					
 					#ifdef NDEBUG
 
-					lookfor512x384 = FALSE;
-					lookfor640x480 = TRUE;
+					lookfor512x384 = false;
+					lookfor640x480 = true;
 
 					#else
 
-					lookfor512x384 = FALSE;
+					lookfor512x384 = false;
 					lookfor640x480 = !ci->bWindowed;
 
 					#endif
@@ -3219,7 +3219,7 @@ void OS_mode_init()
 								// We already have our mode.
 								//
 
-								lookfor640x480 = FALSE;
+								lookfor640x480 = false;
 
 								break;
 							}
@@ -3362,7 +3362,7 @@ void OS_mydemo_setup_mode_combo(HWND combo_handle, SLONG mode)
 #define OS_MYDEMO_RUN	1
 #define OS_MYDEMO_EXIT	2
 
-BOOL CALLBACK OS_mydemo_proc(
+bool CALLBACK OS_mydemo_proc(
 				HWND   dialog_handle,
 				UINT   message_type,
 				WPARAM param_w,
@@ -3428,7 +3428,7 @@ BOOL CALLBACK OS_mydemo_proc(
 
 			CheckDlgButton(dialog_handle, IDC_RUN_PATCH_TEST, BST_CHECKED);
 
-			return TRUE;
+			return true;
 
 		case WM_COMMAND:
 
@@ -3436,11 +3436,11 @@ BOOL CALLBACK OS_mydemo_proc(
 			{
 				case IDOK:
 					EndDialog(dialog_handle, OS_MYDEMO_RUN);
-					return TRUE;
+					return true;
 
 				case IDCANCEL:
 					EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-					return TRUE;
+					return true;
 
 				case IDC_COMBO_DRIVER:
 
@@ -3491,10 +3491,10 @@ BOOL CALLBACK OS_mydemo_proc(
 
 		case WM_CLOSE:
 			EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-			return TRUE;
+			return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -3509,9 +3509,9 @@ DWORD WINAPI OS_game_thread_function(void *data)
 {
 	MAIN_main();
 
-	OS_message_handler_request_quit = TRUE;
-	OS_game_thread_handle           = FALSE;
-	OS_game_thread_id               = FALSE;
+	OS_message_handler_request_quit = true;
+	OS_game_thread_handle           = false;
+	OS_game_thread_id               = false;
 	
 	//
 	// Send a windows message to our window to wake it up so it'll exit.
@@ -3593,7 +3593,7 @@ int WINAPI WinMain(
 	AdjustWindowRect(
 		&rect,
 		 WS_CAPTION,
-		 FALSE);
+		 false);
 
 	OS_window_handle = CreateWindow(
 						OS_application_name,
@@ -3690,8 +3690,8 @@ int WINAPI WinMain(
 		GUID           *driver;
 		GUID           *device;
 		DDSURFACEDESC2 *display_mode;
-		BOOL            is_windowed;
-		BOOL            is_hardware;
+		bool            is_windowed;
+		bool            is_hardware;
 
 		#if WE_USE_THE_DEFAULT_DIALOG_BOX		
 
@@ -3699,7 +3699,7 @@ int WINAPI WinMain(
 		// Prompt the user for a device and a driver.
 		//
 
-		INT ret = D3DEnum_UserDlgSelectDriver(OS_window_handle, TRUE);
+		INT ret = D3DEnum_UserDlgSelectDriver(OS_window_handle, true);
 
 		D3DEnum_GetSelectedDriver(
 			&driver,
@@ -3720,15 +3720,15 @@ int WINAPI WinMain(
 		{
 			display_mode = &OS_mode[OS_mode_sel].mode->ddsd;
 
-			OS_frame_is_fullscreen = TRUE;
-			OS_frame_is_hardware   = TRUE;
+			OS_frame_is_fullscreen = true;
+			OS_frame_is_hardware   = true;
 		}
 		else
 		{
 			display_mode = NULL;
 
-			OS_frame_is_fullscreen = FALSE;
-			OS_frame_is_hardware   = TRUE;
+			OS_frame_is_fullscreen = false;
+			OS_frame_is_hardware   = true;
 		}
 
 		#endif
@@ -3754,7 +3754,7 @@ int WINAPI WinMain(
 			// Hide the mouse.
 			// 
 
-			ShowCursor(FALSE);
+			ShowCursor(false);
 
 			//
 			// Makes the window not redraw itself when we go fullscreen.
@@ -3809,7 +3809,7 @@ int WINAPI WinMain(
 
 					if (OS_frame.GetBackBuffer()->GetSurfaceDesc(&ddsd) == DD_OK)
 					{
-						OS_tformat[OS_TEXTURE_FORMAT_SCREEN].valid = TRUE;
+						OS_tformat[OS_TEXTURE_FORMAT_SCREEN].valid = true;
 						OS_tformat[OS_TEXTURE_FORMAT_SCREEN].ddpf  = ddsd.ddpfPixelFormat;
 					}
 				}
@@ -3931,7 +3931,7 @@ int WINAPI WinMain(
 				// Show the mouse.
 				// 
 
-				ShowCursor(TRUE);
+				ShowCursor(true);
 			}
 
 			//
@@ -4291,7 +4291,7 @@ void OS_scene_begin()
 
 	OS_frame.GetD3DDevice()->BeginScene();
 
-	OS_in_scene = TRUE;
+	OS_in_scene = true;
 
 	//
 	// Set the render states to their default values.
@@ -4306,7 +4306,7 @@ void OS_scene_end()
 
 	OS_frame.GetD3DDevice()->EndScene();
 
-	OS_in_scene = FALSE;
+	OS_in_scene = false;
 }
 
 
@@ -5929,7 +5929,7 @@ void OS_screenshot(CBYTE *fname)
 		width,
 		height,
 		tga,
-		FALSE);
+		false);
 
 	//
 	// Free up tga memory.

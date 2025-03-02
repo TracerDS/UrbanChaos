@@ -15,7 +15,7 @@ class	ThingTab	:	public	ModeTab
 {
 	private:
 		
-		BOOL			Update;
+		bool			Update;
 		UBYTE			CurrentClass,
 						CurrentGenus;
 		UWORD			CurrentThing,

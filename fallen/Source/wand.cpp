@@ -130,16 +130,16 @@ SLONG WAND_square_is_wander(SLONG mx, SLONG mz)
 	if ((PAP_2HI(mx,mz).Flags & PAP_FLAG_WANDER) &&
 		(PAP_2HI(mx,mz).Flags & PAP_FLAG_HIDDEN)==0)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
 //
-// Returns TRUE if the person wants to wander on this square.
+// Returns true if the person wants to wander on this square.
 //
 
 SLONG WAND_square_for_person(Thing *p_person, SLONG mx, SLONG mz)
@@ -351,12 +351,12 @@ void WAND_draw(SLONG map_x, SLONG map_z)
 				AENG_world_line(
 					x1, y, z1, 32, 0xffffff,
 					x2, y, z2, 32, 0xffffff,
-					TRUE);
+					true);
 
 				AENG_world_line(
 					x1, y, z2, 32, 0xffffff,
 					x2, y, z1, 32, 0xffffff,
-					TRUE);
+					true);
 			}
 		}
 	}

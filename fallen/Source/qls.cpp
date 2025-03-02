@@ -33,11 +33,11 @@ void QLS_available()
 	{
 		MF_Fclose(handle);
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 

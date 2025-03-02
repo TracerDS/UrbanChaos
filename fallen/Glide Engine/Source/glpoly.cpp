@@ -539,11 +539,11 @@ SLONG POLY_sphere_visible(
 		view_y - radius >= +view_z           ||
 		view_y + radius <= -view_z)
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		return TRUE;
+		return true;
 	}
 }
 
@@ -564,15 +564,15 @@ SLONG POLY_valid_triangle(POLY_Point *pp[3])
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (flag_and & (POLY_CLIP_LEFT|POLY_CLIP_RIGHT|POLY_CLIP_TOP|POLY_CLIP_BOTTOM|POLY_CLIP_NEAR|POLY_CLIP_FAR))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_quad(POLY_Point *pp[4])
@@ -581,15 +581,15 @@ SLONG POLY_valid_quad(POLY_Point *pp[4])
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (flag_and & (POLY_CLIP_LEFT|POLY_CLIP_RIGHT|POLY_CLIP_TOP|POLY_CLIP_BOTTOM|POLY_CLIP_NEAR|POLY_CLIP_FAR))
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
@@ -598,14 +598,14 @@ SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
-		return FALSE;
+		return false;
 	}
 	
 	//
 	// Do no clip rejection, because we don't know the widths of the line.
 	//
 
-	return TRUE;
+	return true;
 }
 
 
@@ -788,7 +788,7 @@ void POLY_add_quad(POLY_Point *pp[4], SLONG page, SLONG backface_cull)
 			// Just draw the second triangle.
 			//
 
-			POLY_add_triangle(pp + 1, page, FALSE);
+			POLY_add_triangle(pp + 1, page, false);
 
 			return;
 		}
@@ -799,7 +799,7 @@ void POLY_add_quad(POLY_Point *pp[4], SLONG page, SLONG backface_cull)
 			// Just draw the first triangle.
 			//
 
-			POLY_add_triangle(pp + 0, page, FALSE);
+			POLY_add_triangle(pp + 0, page, false);
 
 			return;
 		}

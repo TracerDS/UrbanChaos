@@ -6,12 +6,12 @@
 
 //---------------------------------------------------------------
 
-BOOL	FileExists(CBYTE *file_name)
+bool	FileExists(CBYTE *file_name)
 {
 	if(_access(file_name,0)==-1)
-		return	FALSE;
+		return	false;
 	else
-		return	TRUE;
+		return	true;
 }
 
 //---------------------------------------------------------------
@@ -43,12 +43,12 @@ void	FileClose(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileCreate(CBYTE *file_name,BOOL overwrite)
+MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite)
 {
 	MFFileHandle	result;
 
 
-	if(overwrite==FALSE && FileExists(file_name))
+	if(overwrite==false && FileExists(file_name))
 	{
 		return	result	=	FILE_CREATION_ERROR;
 	}

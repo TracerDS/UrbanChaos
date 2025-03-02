@@ -70,7 +70,7 @@ SLONG GI_load_map(CBYTE *name)
 
 	GI_view = GI_VIEW_CITY;
 
-	return TRUE;	// Nothing ever goes wrong... honest!
+	return true;	// Nothing ever goes wrong... honest!
 }
 
 
@@ -152,7 +152,7 @@ void GI_render_view_into_backbuffer(
 		 cam_pitch,
 		 cam_roll);
 
-	AENG_draw(FALSE);
+	AENG_draw(false);
 }
 
 

@@ -596,7 +596,7 @@ SLONG OB_avoid(
 #ifndef TARGET_DC
 
 #ifdef EDITOR
-extern BOOL is_in_mission_editor;
+extern bool is_in_mission_editor;
 #endif
 
 
@@ -1229,7 +1229,7 @@ SLONG	special_object_flag(OB_Info *ob,SLONG flags)
 	{
 		if (ob->prim == PRIM_OBJ_TRIPWIRE)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -1237,21 +1237,21 @@ SLONG	special_object_flag(OB_Info *ob,SLONG flags)
 	{
 		if (ob->prim == PRIM_OBJ_VALVE)
 		{
-			return TRUE;
+			return true;
 		}
 
 		if (ob->prim == PRIM_OBJ_SWITCH_OFF)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
 // Finds the nearest object whose prim object contains one
-// of the given flags.  Returns FALSE if no object was found
+// of the given flags.  Returns false if no object was found
 // in the range.
 //
 
@@ -1335,7 +1335,7 @@ SLONG OB_find_type(
 
 	if (best_dist == INFINITY)
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -1346,7 +1346,7 @@ SLONG OB_find_type(
 		*ob_prim  = best_prim;
 		*ob_index = best_index;
 
-		return TRUE;
+		return true;
 	}
 }
 
@@ -1696,13 +1696,13 @@ SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z)
 
 				if (dist < 0x100)
 				{
-					return TRUE;	// Very rough!
+					return true;	// Very rough!
 				}
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 #ifndef	PSX

@@ -82,7 +82,7 @@ void	save_recenter_flags(CBYTE *filename)
 	name[c0+3]='c';
 
 
-	file_handle	=	FileCreate(name,TRUE);
+	file_handle	=	FileCreate(name,true);
 	if(file_handle!=FILE_OPEN_ERROR)
 	{
 		size=400;
@@ -378,7 +378,7 @@ void	KeyFrameList::DrawContent(void)
 	KeyControls.ControlSetBounds(GetContentRect());
 	KeyControls.DrawControlSet();
 
-//	DrawAnimFrames(CurrentAnim[Bank],TRUE);
+//	DrawAnimFrames(CurrentAnim[Bank],true);
 }
 
 #define	KEY_OFFSET_Y		(16)
@@ -812,7 +812,7 @@ void	KeyFrameEditor::DrawContent(void)
 		DrawAllAnimsBox();
 
 //	if(CurrentFrame[Bank]&&CurrentFrame[Bank]->FirstElement&&CurrentFrame[Bank]->PrevFrame) //MD
-		DrawAnimFrames(CurrentAnim[Bank],TRUE);
+		DrawAnimFrames(CurrentAnim[Bank],true);
 	}
 }
 
@@ -1118,7 +1118,7 @@ void	KeyFrameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 				{
 					KeyFrame	*frame;
 					case	1: //cut
-						buffer_file	=	FileCreate("Editor\\EdSave\\scrap.dat",TRUE);
+						buffer_file	=	FileCreate("Editor\\EdSave\\scrap.dat",true);
 						if(buffer_file)
 						{
 							SaveAnim(buffer_file,temp_anim);
@@ -1141,7 +1141,7 @@ void	KeyFrameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 						Flags	|=	GOT_ANIM_COPY;
 						break;
 					case	2: //copy
-						buffer_file	=	FileCreate("Editor\\EdSave\\scrap.dat",TRUE);
+						buffer_file	=	FileCreate("Editor\\EdSave\\scrap.dat",true);
 						if(buffer_file)
 						{
 							SaveAnim(buffer_file,temp_anim);
@@ -1272,7 +1272,7 @@ SLONG	KeyFrameEditor::DragAndDropFrame(KeyFrame *selected_frame,SLONG x,SLONG y,
 			{
 				if(LockWorkScreen())
 				{
-					DrawAnimFrames(CurrentAnim[Bank],TRUE);
+					DrawAnimFrames(CurrentAnim[Bank],true);
 					UnlockWorkScreen();
 				}
 				SetWorkWindowBounds(0,0,WorkScreenWidth,WorkScreenHeight);
@@ -2675,7 +2675,7 @@ void	KeyFrameEditor::HandleAnimControl(ULONG  control_id)
 		case	CTRL_ANIM_FRAME_SLIDER:
 			if(LockWorkScreen())
 			{
-				DrawAnimFrames(CurrentAnim[Bank],FALSE);
+				DrawAnimFrames(CurrentAnim[Bank],false);
 				UnlockWorkScreen();
 				ShowWorkWindow(0);
 			}
@@ -5504,7 +5504,7 @@ void	KeyFrameEditor::DrawKeyFrames(void)
 
 //---------------------------------------------------------------
 
-void	KeyFrameEditor::DrawAnimFrames(Anim *the_anim,BOOL hilite)
+void	KeyFrameEditor::DrawAnimFrames(Anim *the_anim,bool hilite)
 {
 	CBYTE				text[16];
 	SLONG				c0,
@@ -5875,7 +5875,7 @@ void	KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk,SLONG save_all)
 	{
 		save_a_multi_prim(the_chunk->ANMName,the_chunk->MultiObject);
 
-		file_handle	=	FileCreate(the_chunk->ANMName,TRUE);
+		file_handle	=	FileCreate(the_chunk->ANMName,true);
 		if(file_handle!=FILE_CREATION_ERROR)
 		{
 			FileWrite(file_handle,&version,sizeof(version));
@@ -6138,7 +6138,7 @@ void	KeyFrameEditor::SaveChunkTextureInfo(KeyFrameChunk *the_chunk)
 			file_name[5]='1'+count-1;
 		}
 
-		file_handle	=	FileCreate(file_name,TRUE);
+		file_handle	=	FileCreate(file_name,true);
 		if(file_handle!=FILE_CREATION_ERROR)
 		{
 			//SLONG	multi=the_chunk->MultiObjectStart;
@@ -6282,7 +6282,7 @@ void	draw_key_frames(void)
 void	draw_anim_frames(void)
 { 
 	if(the_editor->GetCurrentAnim())
-		the_editor->DrawAnimFrames(the_editor->GetCurrentAnim(),FALSE);
+		the_editor->DrawAnimFrames(the_editor->GetCurrentAnim(),false);
 }
 
 //---------------------------------------------------------------

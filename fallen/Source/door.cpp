@@ -62,7 +62,7 @@ UWORD DOOR_find(
 
 		if (f_list)
 		{
-			exit = FALSE;
+			exit = false;
 
 			while(1)
 			{
@@ -71,7 +71,7 @@ UWORD DOOR_find(
 				if (i_facet < 0)
 				{
 					i_facet = -i_facet;
-					exit    =  TRUE;
+					exit    =  true;
 				}
 
 				df = &dfacets[i_facet];

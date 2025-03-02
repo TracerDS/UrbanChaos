@@ -48,8 +48,8 @@
 
 //---------------------------------------------------------------
 
-#define	TRUE				1
-#define	FALSE				0
+#define	true				1
+#define	false				0
 
 typedef	unsigned char		UBYTE;
 typedef signed char			SBYTE;
@@ -135,13 +135,13 @@ struct MFTime
 };
 
 SLONG			main(UWORD argc, TCHAR** argv);
-BOOL			SetupHost(ULONG flags);
+bool			SetupHost(ULONG flags);
 void			ResetHost();
 //void            TraceText(CBYTE *error, ...);
 void            TraceText(char *error, ...);
-BOOL			LibShellActive();
-BOOL			LibShellChanged();
-BOOL			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+bool			LibShellActive();
+bool			LibShellChanged();
+bool			LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 #define	NoError					0
 
@@ -180,8 +180,8 @@ void			DebugText(CBYTE *error, ...);
 
 
 #if 0
-BOOL	GetInputDevice(UBYTE type,UBYTE sub_type);
-BOOL	ReadInputDevice();
+bool	GetInputDevice(UBYTE type,UBYTE sub_type);
+bool	ReadInputDevice();
 #endif
 
 //---------------------------------------------------------------

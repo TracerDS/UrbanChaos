@@ -38,7 +38,7 @@ static FileClump*	tclump = NULL;
 static bool			writing;
 static bool			init_convert = false;
 
-TGA_Info	TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, BOOL bCanShrink = TRUE);
+TGA_Info	TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink = true);
 
 #ifndef TARGET_DC
 static void		TGA_make_conversion_tables(void);
@@ -122,7 +122,7 @@ bool DoesTGAExist(const char* filename, ULONG id)
 SLONG tga_width;
 SLONG tga_height;
 
-TGA_Info TGA_load(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, ULONG id, BOOL bCanShrink )
+TGA_Info TGA_load(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, ULONG id, bool bCanShrink )
 {
 #ifdef TARGET_DC
 	ASSERT (!tclump || (id == -1));
@@ -153,7 +153,7 @@ TGA_Info TGA_load(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixe
 //
 // load a TGA from file
 
-TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, BOOL bCanShrink)
+TGA_Info TGA_load_from_file(const CBYTE *file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink)
 {
 
 

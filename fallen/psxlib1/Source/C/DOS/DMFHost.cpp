@@ -8,12 +8,12 @@
 
 MFFileHandle		log_handle	=	NULL;
 
-BOOL	SetupHost(ULONG flags)
+bool	SetupHost(ULONG flags)
 {
 	if(!SetupMemory())
-		return	FALSE;
+		return	false;
 	if(!SetupKeyboard())
-		return	FALSE;
+		return	false;
 	
 	if(flags&H_CREATE_LOG)
 	{
@@ -22,7 +22,7 @@ BOOL	SetupHost(ULONG flags)
 			log_handle	=	NULL;			
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -66,7 +66,7 @@ int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 	printf("\nAny key to continue.\n");
 	while(!LastKey);
 
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

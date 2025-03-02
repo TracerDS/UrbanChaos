@@ -32,7 +32,7 @@ SLONG	play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range=256, UBYTE 
 SLONG	play_object_wave(SLONG channel, Thing *p_thing,SLONG sample,SLONG mode);
 void	wave_move(SLONG channel, SLONG x, SLONG y, SLONG z);
 SLONG	SOUND_query_current_wave(SLONG id);
-BOOL	SOUND_query_looped(SLONG id);*/
+bool	SOUND_query_looped(SLONG id);*/
 void	play_glue_wave(UWORD type, UWORD id, SLONG x=0, SLONG y=0, SLONG z=0);
 void	process_ambient_effects();
 void	process_weather();
@@ -57,7 +57,7 @@ UBYTE	SOUND_Gender(Thing *p_thing);
 #ifndef PSX
 
 #ifdef DODGYPSXIFY
-extern BOOL dodgy_psx_mode;
+extern bool dodgy_psx_mode;
 #endif
 
 inline SLONG SOUND_Range(SLONG start, SLONG end) {

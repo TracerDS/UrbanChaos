@@ -783,7 +783,7 @@ SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_
 						MSG_add(" upthe stairs is index %d \n",inside_stairs[stair].UpInside);
 
 #ifdef TARGET_DC
-						ASSERT(FALSE);
+						ASSERT(false);
 #else
 						INDOORS_INDEX_FADE=0;
 						INDOORS_INDEX_NEXT=INDOORS_INDEX;
@@ -832,7 +832,7 @@ SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_
 					{
 
 #ifdef TARGET_DC
-						ASSERT(FALSE);
+						ASSERT(false);
 #else
 						if(t<192)
 						{
@@ -1001,7 +1001,7 @@ void INSIDE2_mav_nav_calc(SLONG inside)
 				// if there is a door connecting the two squares.
 				//
 
-				door = FALSE;
+				door = false;
 
 				switch(i)
 				{

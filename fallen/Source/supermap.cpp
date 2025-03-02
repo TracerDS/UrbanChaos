@@ -2446,7 +2446,7 @@ SLONG find_electric_fence_dbuilding(
 
 		if (f_list)
 		{
-			exit = FALSE;
+			exit = false;
 
 			while(!exit)
 			{
@@ -2462,7 +2462,7 @@ SLONG find_electric_fence_dbuilding(
 					// 
 
 					facet = -facet;
-					exit  =  TRUE;
+					exit  =  true;
 				}
 				
 				dist = distance_to_line(
@@ -3486,7 +3486,7 @@ SLONG	build_tims_ingame(CBYTE *name)
 #ifdef TARGET_DC
 	// For some unknown reason this won't compile on the DC. Shouldn't be used
 	// on DC anyway, so...
-	ASSERT(FALSE);
+	ASSERT(false);
 #else
 	{
 		CBYTE	str2[100];
@@ -3664,8 +3664,8 @@ void	remap_textures_psx()
 }
 #endif
 
-BOOL	game_create_psx(CBYTE *mission_name);
-BOOL	make_texture_clumps(CBYTE *mission_name);
+bool	game_create_psx(CBYTE *mission_name);
+bool	make_texture_clumps(CBYTE *mission_name);
 extern	void		TesterText(CBYTE *error, ...);
 extern	CBYTE	ELEV_fname_level   [];
 

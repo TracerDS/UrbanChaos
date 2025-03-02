@@ -61,7 +61,7 @@ void FIGURE_draw_prim_tween(
 		SLONG off_dx,
 		SLONG off_dy,
 		SLONG off_dz,
-		SLONG backwards)	// TRUE => The faces are drawn in the wrong order.
+		SLONG backwards)	// true => The faces are drawn in the wrong order.
 {
 	SLONG i;
 	SLONG j;
@@ -247,7 +247,7 @@ void FIGURE_draw_prim_tween(
 				page <<= 2;
 				page  |= p_f4->TexturePage;
 
-				POLY_add_quad(quad, page, TRUE);
+				POLY_add_quad(quad, page, true);
 			}
 			else
 			{
@@ -272,7 +272,7 @@ void FIGURE_draw_prim_tween(
 				quad[2]->colour = face_colour;
 				quad[3]->colour = face_colour;
 
-				POLY_add_quad(quad, POLY_PAGE_COLOUR, TRUE);
+				POLY_add_quad(quad, POLY_PAGE_COLOUR, true);
 
 				*/
 			}
@@ -325,7 +325,7 @@ void FIGURE_draw_prim_tween(
 				page <<= 2;
 				page  |= p_f3->TexturePage;
 
-				POLY_add_triangle(tri, page, TRUE);
+				POLY_add_triangle(tri, page, true);
 			}
 			else
 			{
@@ -349,7 +349,7 @@ void FIGURE_draw_prim_tween(
 				tri[1]->colour = face_colour;
 				tri[2]->colour = face_colour;
 
-				POLY_add_triangle(tri, POLY_PAGE_COLOUR, TRUE);
+				POLY_add_triangle(tri, POLY_PAGE_COLOUR, true);
 
 				*/
 			}
@@ -470,7 +470,7 @@ void FIGURE_draw(Thing *p_thing)
 		   &ae2[i],
 		   &r_matrix,
 			dx,dy,dz,
-			FALSE);
+			false);
 	}
 }
 
@@ -602,7 +602,7 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 		   &ae2[i],
 		   &r_matrix,
 			dx,dy,dz,
-			TRUE);
+			true);
 	}
 }
 

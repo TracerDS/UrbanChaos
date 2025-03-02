@@ -84,7 +84,7 @@ UWORD PIGEON_find_perch(Thing *pigeon, UWORD ignore_this_vect)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 	SLONG x;
 	SLONG z;

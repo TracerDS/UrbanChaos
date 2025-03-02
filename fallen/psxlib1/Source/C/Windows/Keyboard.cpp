@@ -14,7 +14,7 @@ HHOOK			KeyboardHook;
 
 //---------------------------------------------------------------
 
-BOOL	SetupKeyboard()
+bool	SetupKeyboard()
 {
 	AltFlag		=	0;
 	ControlFlag	=	0;
@@ -35,11 +35,11 @@ BOOL	SetupKeyboard()
 	if(KeyboardHook==NULL)
 	{
 		// Unable to set up keyboard.
-		return	FALSE;
+		return	false;
 	}
 */
 #endif
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -109,7 +109,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 	else
 		ShiftFlag	=	0;
 
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

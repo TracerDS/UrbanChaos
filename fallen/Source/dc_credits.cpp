@@ -362,13 +362,13 @@ struct TomPart
 		fLifetime = -1.0f;
 	}
 
-	// Returns TRUE if still alive.
+	// Returns true if still alive.
 	bool Run ( float fTimeStep )
 	{
 		if ( fLifetime < 0.0f )
 		{
 			// Dead.
-			return FALSE;
+			return false;
 		}
 		fLifetime -= fTimeStep;
 
@@ -381,16 +381,16 @@ struct TomPart
 		wcShade.Run ( fTimeStep );
 		wcBrightness.Run ( fTimeStep );
 
-		return TRUE;
+		return true;
 	}
 
-	// Returns TRUE if it used the vertices.
+	// Returns true if it used the vertices.
 	bool Draw ( D3DTLVERTEX *d3dtlvFirst, float fGlobalFade )
 	{
 		if ( fLifetime < 0.0f )
 		{
 			// Particle is dead.
-			return FALSE;
+			return false;
 		}
 
 		float fX		= wcX.Eval();
@@ -532,7 +532,7 @@ struct TomPart
 		d3dtlvFirst[3].tu = fU1;
 		d3dtlvFirst[3].tv = fV2;
 		
-		return TRUE;
+		return true;
 	}
 
 	// Returns success.
@@ -567,7 +567,7 @@ struct TomPart
 		wcBrightness	.SetRamp ( 0.0f, 2.0f, 0.0f, fFadeTime, fTimeAlive - fFadeTime, fTimeAlive );
 
 		fLifetime = fTimeAlive;
-		return TRUE;
+		return true;
 	}
 
 	// Returns success.
@@ -595,7 +595,7 @@ struct TomPart
 		wcBrightness	= rwcBrightness	;
 
 		fLifetime = fTimeAlive;
-		return TRUE;
+		return true;
 	}
 
 };
@@ -644,7 +644,7 @@ void OhNoThisIsActually ( char *pcString, int iX, int iY, float fZ )
 		{
 			TomPart *tpCur = tpParticles;
 			int iCurTPNum = 0;
-			while ( TRUE )
+			while ( true )
 			{
 				if ( !tpCur->IsAlive() )
 				{
@@ -656,7 +656,7 @@ void OhNoThisIsActually ( char *pcString, int iX, int iY, float fZ )
 				if ( iCurTPNum == MAX_PARTICLES )
 				{
 					// Need more particles!
-					ASSERT ( FALSE );
+					ASSERT ( false );
 					tpCur = NULL;
 					break;
 				}
@@ -716,7 +716,7 @@ void ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisT
 	tlv[2].sy = 480.0f;
 	tlv[3].sy = 480.0f;
 
-	the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, TRUE );
+	the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, true );
 	the_display.lp_D3D_Device->SetTexture ( 0, NULL );
 
 	HRESULT hres = the_display.lp_D3D_Device->DrawPrimitive ( 
@@ -728,7 +728,7 @@ void ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisT
 
 	ASSERT ( SUCCEEDED ( hres ) );
 
-	the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+	the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 
 
 
@@ -738,7 +738,7 @@ void ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisT
 		return;
 	}
 
-extern BOOL AreAnyDevicesConnected ( void );
+extern bool AreAnyDevicesConnected ( void );
 	if ( AreAnyDevicesConnected() )
 	{
 		// Display "No controller" message.
@@ -762,16 +762,16 @@ extern BOOL AreAnyDevicesConnected ( void );
 		char *pcString[3];
 		if ( !IsEnglish )
 		{
-			pcString[0] = "Une manette vient d'etre";		// NOTE! The E in etre should be ê, but the font doesn't have it, and it's all in caps anyway.
+			pcString[0] = "Une manette vient d'etre";		// NOTE! The E in etre should be ï¿½, but the font doesn't have it, and it's all in caps anyway.
 			if ( bWriteVMInsteadOfVMU )
 			{
-				pcString[1] = "retirée ou une VM est";
+				pcString[1] = "retirï¿½e ou une VM est";
 			}
 			else
 			{
-				pcString[1] = "retirée ou une VMU est";
+				pcString[1] = "retirï¿½e ou une VMU est";
 			}
-			pcString[2] = "en cours de détection";
+			pcString[2] = "en cours de dï¿½tection";
 		}
 		else
 		{
@@ -868,11 +868,11 @@ void DreamCastCredits ( void )
 
 
 	// Set my default blending stuff up.
-	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false );
 	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_SRCBLEND,  D3DBLEND_SRCALPHA );
 	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA );
 	the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE );
-	the_display.lp_D3D_Device->SetRenderState (D3DRENDERSTATE_FOGENABLE, FALSE );
+	the_display.lp_D3D_Device->SetRenderState (D3DRENDERSTATE_FOGENABLE, false );
 
 	the_display.lp_D3D_Device->SetTextureStageState ( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE );
 	the_display.lp_D3D_Device->SetTextureStageState ( 0, D3DTSS_COLORARG1, D3DTA_TEXTURE );
@@ -984,7 +984,7 @@ extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
 	DWORD dwTimeGetTime = timeGetTime();
 
 	// Main loop
-	while ( TRUE )
+	while ( true )
 	{
 
 		DWORD dwNewTimeGetTime = timeGetTime();
@@ -1070,7 +1070,7 @@ extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
 
 		if ( iNumIndices > 0 )
 		{
-			the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, TRUE );
+			the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, true );
 			the_display.lp_D3D_Device->SetTexture ( 0, ptexFontTex );
 
 			HRESULT hres = the_display.lp_D3D_Device->DrawIndexedPrimitive ( 
@@ -1084,7 +1084,7 @@ extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
 
 			ASSERT ( SUCCEEDED ( hres ) );
 
-			the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			the_display.lp_D3D_Device->SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 		}
 
 
@@ -1227,11 +1227,11 @@ extern DIDeviceInfo *primary_device;
 			// Generate next line of characters.
 
 			// Skip leading newlines and whitespace, and track any "line" escape characters.
-			bool bHeading = FALSE;
-			bool bSectionBreak = FALSE;
-			bool bFoundSomething = FALSE;
-			bool bRightJustify = FALSE;
-			while ( TRUE )
+			bool bHeading = false;
+			bool bSectionBreak = false;
+			bool bFoundSomething = false;
+			bool bRightJustify = false;
+			while ( true )
 			{
 				switch ( *pcCredits )
 				{
@@ -1243,18 +1243,18 @@ extern DIDeviceInfo *primary_device;
 						{
 						case 's':
 							// New section - do a blank line.
-							bSectionBreak = TRUE;
+							bSectionBreak = true;
 							pcCredits++;
-							bFoundSomething = TRUE;
+							bFoundSomething = true;
 							break;
 						case 'h':
 							// Heading.
-							bHeading = TRUE;
+							bHeading = true;
 							break;
 						case 'r':
 						case 't':
 							// Right-justify
-							bRightJustify = TRUE;
+							bRightJustify = true;
 							break;
 						case 'l':
 							// Half-line gap.
@@ -1282,11 +1282,11 @@ extern DIDeviceInfo *primary_device;
 					// Start the fadeout.
 					fCreditsFade = 1.0001f;
 #endif
-					bFoundSomething = TRUE;
+					bFoundSomething = true;
 					break;
 				default:
 					// Found something to print.
-					bFoundSomething = TRUE;
+					bFoundSomething = true;
 					break;
 				}
 
@@ -1301,7 +1301,7 @@ extern DIDeviceInfo *primary_device;
 			int iTabCount = 0;
 			int iTotalWidth = 0;
 			char *pcStart = pcCredits;
-			bool bFoundTheEndOfTheLine = FALSE;
+			bool bFoundTheEndOfTheLine = false;
 			while ( !bFoundTheEndOfTheLine )
 			{
 				switch ( *pcCredits )
@@ -1318,7 +1318,7 @@ extern DIDeviceInfo *primary_device;
 							break;
 						case 's':
 							// Some sort of break.
-							bFoundTheEndOfTheLine = TRUE;
+							bFoundTheEndOfTheLine = true;
 							break;
 						default:
 							// Something else - ignore.
@@ -1333,7 +1333,7 @@ extern DIDeviceInfo *primary_device;
 
 				case '\n':
 					// End of line.
-					bFoundTheEndOfTheLine = TRUE;
+					bFoundTheEndOfTheLine = true;
 					break;
 
 				default:
@@ -1416,7 +1416,7 @@ extern DIDeviceInfo *primary_device;
 					// Normal letter - print it.
 
 					// Find a free letter.
-					while ( TRUE )
+					while ( true )
 					{
 						if ( !tpCur->IsAlive() )
 						{
@@ -1428,7 +1428,7 @@ extern DIDeviceInfo *primary_device;
 						if ( iCurTPNum == MAX_PARTICLES )
 						{
 							// Need more particles!
-							ASSERT ( FALSE );
+							ASSERT ( false );
 							tpCur = NULL;
 							break;
 						}
@@ -1501,7 +1501,7 @@ extern DIDeviceInfo *primary_device;
 							case WCW_RAMPDOWNEND:	wcBase[iWC].fRampDownEnd	= fValue; break;
 							case WCW_RAMPBASEVALUE:	wcBase[iWC].fRampBaseValue	= fValue; break;
 							default:
-								ASSERT ( FALSE );
+								ASSERT ( false );
 								break;
 							}
 

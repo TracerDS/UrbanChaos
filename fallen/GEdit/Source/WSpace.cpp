@@ -18,7 +18,7 @@
 
 //---------------------------------------------------------------
 
-BOOL				workspace_changed	=	FALSE;
+bool				workspace_changed	=	false;
 CBYTE				map_default_dir[_MAX_PATH],
 					map_file_name[_MAX_PATH],
 					map_path_name[_MAX_PATH],
@@ -33,7 +33,7 @@ WSElement			root_item;
 
 extern HINSTANCE	GEDIT_hinstance;
 
-extern BOOL		map_valid;
+extern bool		map_valid;
 
 //	The camera.
 extern SLONG	cam_x,
@@ -61,7 +61,7 @@ void		remove_children(HTREEITEM parent);
 
 //---------------------------------------------------------------
 
-BOOL	init_workspace(HWND parent)
+bool	init_workspace(HWND parent)
 {
 	TV_INSERTSTRUCT		tv_is;
 
@@ -98,11 +98,11 @@ BOOL	init_workspace(HWND parent)
 	root_item.ElementType		=	ET_NONE;
 
 	//	Set the workspace state & corresponding menus.
-	workspace_changed	=	FALSE;
+	workspace_changed	=	false;
 	menu_no_workspace();
 
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -114,7 +114,7 @@ void	fini_workspace()
 
 //---------------------------------------------------------------
 
-BOOL	get_element_at_point(POINT *click_point,WSElement **the_element)
+bool	get_element_at_point(POINT *click_point,WSElement **the_element)
 {
 	HTREEITEM			item_handle;
 	TV_HITTESTINFO		hit_test;
@@ -138,12 +138,12 @@ BOOL	get_element_at_point(POINT *click_point,WSElement **the_element)
 				*the_element	=	(WSElement*)the_item.lParam;
 				if(*the_element) {
 					last_clicked=item_handle;
-					return	TRUE;
+					return	true;
 				}
 			}
 		}
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
@@ -179,7 +179,7 @@ void	handle_ws_context(POINT *click_point)
 
 //---------------------------------------------------------------
 
-BOOL	handle_ws_dblclk(POINT *click_point)
+bool	handle_ws_dblclk(POINT *click_point)
 {
 //	CBYTE				item_text[_MAX_PATH];
 //	TV_ITEM				the_item;
@@ -235,7 +235,7 @@ BOOL	handle_ws_dblclk(POINT *click_point)
 					if (next) TreeView_SelectItem(ws_tree,next);
 
 
-					return	TRUE;
+					return	true;
 
 				case	ET_MISSION:
 					break;
@@ -248,7 +248,7 @@ BOOL	handle_ws_dblclk(POINT *click_point)
 			}
 		}
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
@@ -398,7 +398,7 @@ void	ws_add_map()
 					TreeView_Expand(ws_tree,root_item.TreeItem,TVE_EXPAND);
 
 				//	Update the window.
-				InvalidateRect(ws_tree, NULL, FALSE);
+				InvalidateRect(ws_tree, NULL, false);
 			}
 		}
 		else
@@ -416,7 +416,7 @@ void	ws_add_map()
 
 //---------------------------------------------------------------
 
-BOOL CALLBACK new_mish_proc	(
+bool CALLBACK new_mish_proc	(
 								HWND hWnd,
 								UINT message,
 								WPARAM wParam,
@@ -428,18 +428,18 @@ BOOL CALLBACK new_mish_proc	(
 		case	WM_INITDIALOG:
 			//	Make sure the edit control has the focus.
 			SetFocus(GetDlgItem(hWnd,IDC_EDIT_MNAME));
-			return	FALSE;
+			return	false;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
-					EndDialog(hWnd,TRUE);
-					return	TRUE;
+					EndDialog(hWnd,true);
+					return	true;
 
 				case	IDCANCEL:
-					EndDialog(hWnd,FALSE);
-					return	TRUE;
+					EndDialog(hWnd,false);
+					return	true;
 
 				case	IDC_EDIT_MNAME:
 					if(HIWORD(wParam)==EN_CHANGE)
@@ -448,16 +448,16 @@ BOOL CALLBACK new_mish_proc	(
 						//	text in the control enable the 'Ok' button else
 						//	disable it.
 						if(GetWindowText((HWND)lParam,mission_name,_MAX_PATH))
-							EnableWindow(GetDlgItem(hWnd,IDOK),TRUE);
+							EnableWindow(GetDlgItem(hWnd,IDOK),true);
 						else
-							EnableWindow(GetDlgItem(hWnd,IDOK),FALSE);
-						return	TRUE;
+							EnableWindow(GetDlgItem(hWnd,IDOK),false);
+						return	true;
 					}
 					break;
 			}
 			break;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
@@ -513,7 +513,7 @@ void	ws_new_mission()
 				new_element->MissionRef		=	new_mission;
 
 				//	Update the window.
-				InvalidateRect(ws_tree, NULL, FALSE);
+				InvalidateRect(ws_tree, NULL, false);
 			}
 		}
 	}
@@ -591,7 +591,7 @@ void	ws_add_light_map()
 			new_element->ElementType	=	ET_LMAP;
 
 			//	Update the window.
-			InvalidateRect(ws_tree, NULL, FALSE);
+			InvalidateRect(ws_tree, NULL, false);
 		}
 	}
 }
@@ -641,7 +641,7 @@ void	ws_add_citsez_map()
 			new_element->ElementType	=	ET_LMAP;
 
 			//	Update the window.
-			InvalidateRect(ws_tree, NULL, FALSE);
+			InvalidateRect(ws_tree, NULL, false);
 		}
 	}
 }
@@ -649,7 +649,7 @@ void	ws_add_citsez_map()
 
 //---------------------------------------------------------------
 
-BOOL	create_workspace()
+bool	create_workspace()
 {
 	int					result;
 	CBYTE				temp[_MAX_PATH];
@@ -668,7 +668,7 @@ BOOL	create_workspace()
 								);
 		if(result==IDCANCEL)
 		{
-			return	FALSE;
+			return	false;
 		}
 		else if(result==IDYES)
 		{
@@ -706,16 +706,16 @@ BOOL	create_workspace()
 		TreeView_SetItem(ws_tree,&set_item);
 
 		//	Set the workspace state & corresponding menus.
-		workspace_changed	=	TRUE;
+		workspace_changed	=	true;
 		menu_has_workspace();
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	close_workspace()
+bool	close_workspace()
 {
 	int					result;
 	UWORD				c0,c1;
@@ -734,7 +734,7 @@ BOOL	close_workspace()
 								);
 		if(result==IDCANCEL)
 		{
-			return	FALSE;
+			return	false;
 		}
 		else if(result==IDYES)
 		{
@@ -766,15 +766,15 @@ BOOL	close_workspace()
 	TreeView_SetItem(ws_tree,&set_item);
 
 	//	Setup the workspace state & corresponding menus.
-	workspace_changed	=	FALSE;
+	workspace_changed	=	false;
 	menu_no_workspace();
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
 
-BOOL load_workspace(BOOL try_loading_default)
+bool load_workspace(bool try_loading_default)
 {
 	int					result;
 	CBYTE				temp[_MAX_PATH];
@@ -806,7 +806,7 @@ BOOL load_workspace(BOOL try_loading_default)
 								);
 		if(result==IDCANCEL)
 		{
-			return	FALSE;
+			return	false;
 		}
 		else if(result==IDYES)
 		{
@@ -856,7 +856,7 @@ BOOL load_workspace(BOOL try_loading_default)
 
 		if (!GetOpenFileName(&load_workspace))
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -1038,7 +1038,7 @@ BOOL load_workspace(BOOL try_loading_default)
 			}
 			
 			//	Force a redraw on the workspace tree.
-			InvalidateRect(ws_tree, NULL, FALSE);
+			InvalidateRect(ws_tree, NULL, false);
 			
 			//	Change the root item.
 			sprintf(temp,"Workspace : %s",workspace_name);
@@ -1051,23 +1051,23 @@ BOOL load_workspace(BOOL try_loading_default)
 			TreeView_SetItem(ws_tree,&set_item);
 
 			//	Set the workspace state & corresponding menus.
-			workspace_changed	=	FALSE;
+			workspace_changed	=	false;
 			menu_has_workspace();
 
 			fclose(file_handle);
 
-			return TRUE;
+			return true;
 		}
 	}
 	
-	return FALSE;
+	return false;
 }
 
 //---------------------------------------------------------------
 
 #define	GM_VERSION	8
 
-BOOL	save_workspace()
+bool	save_workspace()
 {
 	UBYTE		gm_vers;
 	ULONG		c0,c1,
@@ -1127,10 +1127,10 @@ BOOL	save_workspace()
 	//	Set the 'arrow' cursor.
 	SetCursor(GEDIT_arrow);
 
-	workspace_changed	=	FALSE;
+	workspace_changed	=	false;
 	menu_workspace_saved();
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------
@@ -1174,7 +1174,7 @@ void	remove_children(HTREEITEM parent)
 // Waypointy stuff
 
 
-BOOL	init_wptlist(HWND parent)
+bool	init_wptlist(HWND parent)
 {
 
 	//	Subclass the tree control windproc.
@@ -1195,7 +1195,7 @@ BOOL	init_wptlist(HWND parent)
 
 	reset_wptlist();
 
-	return	TRUE;
+	return	true;
 }
 
 void	reset_wptlist() {

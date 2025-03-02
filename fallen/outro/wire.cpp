@@ -289,7 +289,7 @@ void WIRE_init()
 		WIRE_ot_line = OS_texture_create("line.tga");
 		WIRE_ot_dot  = OS_texture_create("dot.tga");
 
-		done = TRUE;
+		done = true;
 	}
 
 	//

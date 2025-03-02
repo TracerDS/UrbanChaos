@@ -63,7 +63,7 @@ static HRESULT WINAPI EnumZBufferFormatsCallback( DDPIXELFORMAT* pddpf,
 CD3DFramework::CD3DFramework()
 {
      m_hWnd             = NULL;
-     m_bIsFullscreen    = FALSE;
+     m_bIsFullscreen    = false;
      m_dwRenderWidth    = 0L;
      m_dwRenderHeight   = 0L;
      m_pddsFrontBuffer  = NULL;
@@ -111,7 +111,7 @@ HRESULT CD3DFramework::DestroyObjects()
 	m_pd3dDevice = NULL;
 
     // In windowed mode, release the explicity created backbuffer.
-    if( FALSE == m_bIsFullscreen )
+    if( false == m_bIsFullscreen )
         SAFE_RELEASE( m_pddsBackBuffer );
     SAFE_RELEASE( m_pddsRenderTarget ); //Note: release before frontbuffer
     SAFE_RELEASE( m_pddsZBuffer );
@@ -152,7 +152,7 @@ HRESULT CD3DFramework::Initialize( HWND hWnd, GUID* pDriverGUID,
 
     // Setup state for windowed/fullscreen mode
     m_hWnd          = hWnd;
-    m_bIsFullscreen = ( dwFlags & D3DFW_FULLSCREEN ) ? TRUE : FALSE;
+    m_bIsFullscreen = ( dwFlags & D3DFW_FULLSCREEN ) ? true : false;
  
     // Create the D3D rendering environment (surfaces, device, viewport, etc.)
     if( FAILED( hr = CreateEnvironment( pDriverGUID, pDeviceGUID, pMode,
@@ -628,7 +628,7 @@ HRESULT CD3DFramework::ShowFrame()
 // Desc: Puts the GDI surface in front of the primary, so that dialog
 //       boxes and other windows drawing funcs may happen.
 //-----------------------------------------------------------------------------
-HRESULT CD3DFramework::FlipToGDISurface( BOOL bDrawFrame )
+HRESULT CD3DFramework::FlipToGDISurface( bool bDrawFrame )
 {
     if( m_pDD && m_bIsFullscreen )
     {
@@ -681,7 +681,7 @@ HRESULT CD3DFramework::RestoreSurfaces()
 //-----------------------------------------------------------------------------
 VOID CD3DFramework::Move( INT x, INT y )
 {
-    if( FALSE == m_bIsFullscreen )
+    if( false == m_bIsFullscreen )
     {
         SetRect( &m_rcScreenRect, x, y, 
 			     x + m_dwRenderWidth, y + m_dwRenderHeight );

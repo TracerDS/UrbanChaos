@@ -70,7 +70,7 @@ struct ListEntry {
 void	BUTTON_Free(Widget *widget);
 void	BUTTON_Draw(Widget *widget);
 void	BUTTON_Push(Widget *widget);
-BOOL	BUTTON_HitTest(Widget *widget, SLONG x, SLONG y);
+bool	BUTTON_HitTest(Widget *widget, SLONG x, SLONG y);
 
 void	STATIC_Init(Widget *widget); 
 
@@ -81,19 +81,19 @@ void	RADIO_Push (Widget *widget);
 void	INPUT_Init (Widget *widget); 
 void	INPUT_Free (Widget *widget);
 void	INPUT_Draw (Widget *widget);
-BOOL	INPUT_Char (Widget *widget, CBYTE key);
+bool	INPUT_Char (Widget *widget, CBYTE key);
 SLONG	INPUT_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
 
 void	LISTS_Free (Widget *widget);
 void	LISTS_Draw (Widget *widget);
-BOOL	LISTS_Char (Widget *widget, CBYTE key);
+bool	LISTS_Char (Widget *widget, CBYTE key);
 SLONG	LISTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
 void	LISTS_Push (Widget *widget);
 
 void	TEXTS_Init (Widget *widget); 
 void	TEXTS_Free (Widget *widget);
 void	TEXTS_Draw (Widget *widget);
-BOOL	TEXTS_Char (Widget *widget, CBYTE key);
+bool	TEXTS_Char (Widget *widget, CBYTE key);
 SLONG	TEXTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
 
 void	GLYPH_Draw (Widget *widget);
@@ -245,7 +245,7 @@ void BUTTON_Push(Widget *widget) {
 	if (widget->form->proc) widget->form->proc(widget->form,widget,WBN_PUSH);
 }
 
-BOOL BUTTON_HitTest(Widget *widget, SLONG x, SLONG y) {
+bool BUTTON_HitTest(Widget *widget, SLONG x, SLONG y) {
 	WidgetPoint pt;
 
     pt = FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
@@ -269,7 +269,7 @@ void CHECK_Draw(Widget *widget) {
 	WidgetPoint pt,wp = WIDGET_Centre(widget);
 	CBYTE check[2] = {0,0};
 
-	MENUFONT_Dimensions("°",pt.x,pt.y);
+	MENUFONT_Dimensions("ï¿½",pt.x,pt.y);
 
 	wp.x=widget->x+pt.x+6+widget->form->x;
 
@@ -278,9 +278,9 @@ void CHECK_Draw(Widget *widget) {
 	flags|=(widget->state&WIDGET_STATE_FOCUS) ? MENUFONT_GLIMMER : 0;
 	if (widget->state&WIDGET_STATE_DISABLED) rgb=((rgb>>1)&0xFF000000) | (rgb&0xFFFFFF);
 	if (widget->methods->Push==CHECK_Push)
-		check[0] = (widget->data[0] ? '÷' : '°');
+		check[0] = (widget->data[0] ? 'ï¿½' : 'ï¿½');
 	else
-		check[0] = (widget->data[0] ? '·' : '°');
+		check[0] = (widget->data[0] ? 'ï¿½' : 'ï¿½');
 	MENUFONT_Draw(widget->x+widget->form->x,wp.y,256,check,rgb,flags|MENUFONT_SUPER_YCTR);
 	MENUFONT_Draw(wp.x,wp.y,256,(CBYTE*)widget->caption,rgb,flags);
 }
@@ -377,7 +377,7 @@ void INPUT_caretchk(Widget *widget) {
 	}
 }
 
-BOOL INPUT_Char (Widget *widget, CBYTE key) {
+bool INPUT_Char (Widget *widget, CBYTE key) {
 	if (widget->state&WIDGET_STATE_DISABLED) return 0;
 	if (key==13) { // tested seperately -- only key that works in -both- modes
 		widget->data[1]^=WIF_EDIT;
@@ -643,7 +643,7 @@ SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 	return 0;
 }
 
-BOOL TEXTS_Char (Widget *widget, CBYTE key) {
+bool TEXTS_Char (Widget *widget, CBYTE key) {
 	ListEntry *item;
 
 	if (widget->state&WIDGET_STATE_DISABLED) return 0;
@@ -793,7 +793,7 @@ void LISTS_Push(Widget *widget) {
 			if (widget->form->proc) widget->form->proc(widget->form,widget,WLN_ENTER);
 }
 
-BOOL LISTS_Char (Widget *widget, CBYTE key) {
+bool LISTS_Char (Widget *widget, CBYTE key) {
 	ListEntry *item;
 
 	if (widget->state&WIDGET_STATE_DISABLED) return 0;
@@ -991,7 +991,7 @@ void	FORM_DelWidget(Widget *widget) {
 	
 }
 
-inline BOOL	FORM_KeyProc(SLONG key) {
+inline bool	FORM_KeyProc(SLONG key) {
 	if (Keys[key]) {
 		Keys[key]=0;
 		EatenKey=1;

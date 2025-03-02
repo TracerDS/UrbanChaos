@@ -190,7 +190,7 @@ extern	SLONG seed_stairs_upto;
 //
 // The building the stairs have been calculated for.
 // The storey the inside building stuff has been calculated for.
-// TRUE => the inside stuff is valid.
+// true => the inside stuff is valid.
 //
 
 
@@ -236,8 +236,8 @@ SewerTab::SewerTab(EditorModule *parent)
 
 	inside_building = 0;
 	inside_storey   = 0;
-	inside_valid    = FALSE;
-	inside_failure  = FALSE;
+	inside_valid    = false;
+	inside_failure  = false;
 
 	the_build=this;
 	ResetSewerTab();

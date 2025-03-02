@@ -80,7 +80,7 @@ typedef struct
 	// Inside the square.
 	//
 
-	UBYTE light_on;	// TRUE or FALSE
+	UBYTE light_on;	// true or false
 	UBYTE light_x;
 	UBYTE light_y;
 	UBYTE light_z;
@@ -275,7 +275,7 @@ SLONG ES_undo_redo_valid();
 
 
 //
-// Loading / saving the sewer editor. Returns TRUE on success.
+// Loading / saving the sewer editor. Returns true on success.
 //
 
 SLONG ES_load(CBYTE *filename);

@@ -8,7 +8,7 @@
 
 
 //
-// Returns TRUE if the normals are similar enough.
+// Returns true if the normals are similar enough.
 //
 
 SLONG IMP_norm_similar(
@@ -25,11 +25,11 @@ SLONG IMP_norm_similar(
 
 	if (dprod > 0.999F)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -64,7 +64,7 @@ void IMP_normalise_vector(
 
 
 //
-// Adds a line between the two vertices. Returns FALSE on failure to
+// Adds a line between the two vertices. Returns false on failure to
 // allocate memory. (Yeah right!)
 //
 
@@ -85,7 +85,7 @@ SLONG IMP_add_line(IMP_Mesh *im, SLONG *max_lines, UWORD v1, UWORD v2)
 			// No need to add the line twice.
 			//
 
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -101,7 +101,7 @@ SLONG IMP_add_line(IMP_Mesh *im, SLONG *max_lines, UWORD v1, UWORD v2)
 
 		if (im->line == NULL)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -110,7 +110,7 @@ SLONG IMP_add_line(IMP_Mesh *im, SLONG *max_lines, UWORD v1, UWORD v2)
 
 	im->num_lines += 1;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -170,7 +170,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 	float pivot_x;
 	float pivot_y;
 	float pivot_z;
-	SLONG pivot_valid = FALSE;
+	SLONG pivot_valid = false;
 	
 	SLONG offset_vert;
 	SLONG offset_tvert;
@@ -303,7 +303,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 				pivot_y = y;
 				pivot_z = z;
 
-				pivot_valid = TRUE;
+				pivot_valid = true;
 			}
 			else
 			{
@@ -1116,7 +1116,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 	// All done...
 	//
 
-	ans.valid = TRUE;
+	ans.valid = true;
 
 	return ans;
 
@@ -1135,7 +1135,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 
 	memset(&ans, 0, sizeof(ans));
 
-	ans.valid = FALSE;
+	ans.valid = false;
 
 	return ans;
 }
@@ -1160,7 +1160,7 @@ SLONG IMP_binary_save(CBYTE *fname, IMP_Mesh *im)
 
 	if (!handle)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -1187,13 +1187,13 @@ SLONG IMP_binary_save(CBYTE *fname, IMP_Mesh *im)
 
 	fclose(handle);
 
-	return TRUE;
+	return true;
 
   file_error:;
 
 	fclose(handle);
 
-	return FALSE;
+	return false;
 }
 
 IMP_Mesh IMP_binary_load(CBYTE *fname)

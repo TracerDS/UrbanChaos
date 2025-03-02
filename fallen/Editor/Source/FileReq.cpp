@@ -25,7 +25,7 @@ UBYTE InkeyToAscii[]=
 
 UBYTE InkeyToAsciiShift[]=
 {
-	/*   0 - 9   */		0,		0,		'!',	'"',	'œ',	'$',	'%',	'^',	'&',	'*',
+	/*   0 - 9   */		0,		0,		'!',	'"',	'ï¿½',	'$',	'%',	'^',	'&',	'*',
 	/*  10 - 19  */		'(',	')',	'_',	'+',	'\b',	'\t',	'Q',	'W',	'E',	'R',
 	/*  20 - 29  */		'T',	'Y',	'U',	'I',	'O',	'P',	'{',	'}',	0,		0,
 	/*  30 - 39  */ 	'A', 	'S',	'D',	'F',	'G',	'H',	'J',	'K',	'L',	':',
@@ -193,7 +193,7 @@ SLONG	FileRequester::Draw()
 	if (!ret)
 	{
 		SetCurrentDirectory(curr_directory);
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -212,7 +212,7 @@ SLONG	FileRequester::Draw()
 		}
 	}
 
-	return(TRUE);
+	return(true);
 
 
 #ifdef	_MF_WINDOWS_DOG_POO

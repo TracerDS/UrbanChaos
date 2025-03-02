@@ -285,7 +285,7 @@ void AENG_fini();
 
 //
 // Returns the position of the ray going through the
-// given screen pixel.  Return FALSE if no intersection
+// given screen pixel.  Return false if no intersection
 // happened!
 //
 

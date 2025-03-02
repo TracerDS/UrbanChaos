@@ -115,18 +115,18 @@ SLONG PING_do()
 		// Recieve messages.
 		//
 
-		SLONG exit_loop = FALSE;
+		SLONG exit_loop = false;
 
 		while(!exit_loop)
 		{
 			switch(NET_player_message_receive(&num_bytes, &data))
 			{
 				case NET_PLAYER_MESSAGE_NONE:
-					exit_loop = TRUE;
+					exit_loop = true;
 					break;
 
 				case NET_PLAYER_MESSAGE_LOST_CONNECTION:
-					return FALSE;
+					return false;
 
 				case NET_PLAYER_MESSAGE_FROM_SERVER:
 
@@ -190,7 +190,7 @@ SLONG PING_do()
 								GAME_turn    = GAME_process >> 4;
 								GAME_tick    = now;
 
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -210,7 +210,7 @@ SLONG PING_do()
 			// a connection yet... so give up.
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 }

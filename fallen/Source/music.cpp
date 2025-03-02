@@ -74,7 +74,7 @@ UBYTE MUSIC_play(UWORD wave, UBYTE flags) {
 }
 
 // stop current piece playing, optionally fading out
-void  MUSIC_stop(BOOL fade) {
+void  MUSIC_stop(bool fade) {
 	if (fade) {
 		music_fademode=MUSIC_FADING_OUT;
 	} else {
@@ -149,7 +149,7 @@ float music_volume;
 
 void MUSIC_play_the_mode(UBYTE mode)
 {
-	just_asked_for_mode_now    = TRUE;
+	just_asked_for_mode_now    = true;
 	just_asked_for_mode_number = mode;
 
 	if (!mode) return;
@@ -365,11 +365,11 @@ SLONG MUSIC_is_playing()
 	
 	if (MFX_QUICK_play_id == last_MFX_QUICK_play_id && MFX_QUICK_still_playing())
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 

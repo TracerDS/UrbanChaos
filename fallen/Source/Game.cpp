@@ -121,11 +121,11 @@ extern SLONG	PSX_eog_timer;
 
 SLONG	save_psx=0; // this was nicked from edit.cpp in the editor...
 
-//bool g_bGoToCreditsPleaseGameHasFinished = FALSE;
+//bool g_bGoToCreditsPleaseGameHasFinished = false;
 
 extern UBYTE editor_loop();
 #ifndef PSX
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 #endif
 //
 // Nearly everything in the whole game.
@@ -171,7 +171,7 @@ extern BOOL allow_debug_keys;
 Game the_game;
 UBYTE	VIOLENCE=VIOLENCE_ALLOWED;
 
-extern SLONG go_into_game;	// This is in attract.cpp If it is TRUE when we leave the loop, then attract goes into the game again.
+extern SLONG go_into_game;	// This is in attract.cpp If it is true when we leave the loop, then attract goes into the game again.
 
 
 
@@ -258,7 +258,7 @@ extern void	UCA_LookupSetup();
 #ifndef TARGET_DC
 		MessageBox(NULL, "Unable to open display", NULL, MB_OK | MB_ICONWARNING);
 #else
-		ASSERT(FALSE);
+		ASSERT(false);
 #endif
 		exit(1);
 	}
@@ -287,9 +287,9 @@ void	init_joypad_config();
 
 #ifdef TARGET_DC
 	// Don't actually get a device until someone presses a button on one of them.
-	GetInputDevice ( JOYSTICK, 0, FALSE );
+	GetInputDevice ( JOYSTICK, 0, false );
 #else
-	GetInputDevice(JOYSTICK,0,TRUE);
+	GetInputDevice(JOYSTICK,0,true);
 #endif
 
 	MORPH_load();
@@ -407,7 +407,7 @@ extern void *mem_all;
 
 	if (mem_all)
 	{
-BOOL	SetupMemory();
+bool	SetupMemory();
 		SetupMemory();
 		mem_all=0;
 	}
@@ -476,7 +476,7 @@ CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 UBYTE game_paused_key;
 SBYTE game_paused_highlight;
 
-extern BOOL  text_fudge;
+extern bool  text_fudge;
 extern ULONG text_colour;
 #ifndef PSX
 extern void  draw_centre_text_at(float x,float y,CBYTE *message,SLONG font_id,SLONG flag);
@@ -533,7 +533,7 @@ void process_bullet_points()
 		bright = 255;
 	}
 
-	text_fudge  = FALSE;
+	text_fudge  = false;
 	text_colour = bright * 0x00010101;
 
 	draw_centre_text_at(10, 420, bullet_point[bullet_upto], 0,0);
@@ -543,7 +543,7 @@ void process_bullet_points()
 //---------------------------------------------------------------
 
 
-BOOL	game_init()
+bool	game_init()
 {
 	SLONG	ret;
 
@@ -611,9 +611,9 @@ extern int m_iPanelYPos;
 	if(GAME_STATE&GS_RECORD)
 	{
 		DebugText(" PLAYBACK GAME\n");
-		playback_file	=	FileCreate(playback_name,TRUE);
+		playback_file	=	FileCreate(playback_name,true);
 #if VERIFY_PLAYBACK
-		verifier_file	=	FileCreate(verifier_name,TRUE);
+		verifier_file	=	FileCreate(verifier_name,true);
 #else
 		verifier_file	=	NULL;
 #endif
@@ -682,13 +682,13 @@ extern int m_iPanelYPos;
 extern	CBYTE ELEV_fname_level   [];
 extern	SLONG quick_load;
 
-		quick_load = TRUE;
+		quick_load = true;
 
 		ANIM_init();
 
 		ELEV_load_name(ELEV_fname_level);
 
-		quick_load = FALSE;
+		quick_load = false;
 
 		ret=1;
 
@@ -766,7 +766,7 @@ void	init_stats();
 
 #ifndef	PSX
 #ifndef TARGET_DC
-BOOL	game_create_psx(CBYTE *mission_name)
+bool	game_create_psx(CBYTE *mission_name)
 {
 	SLONG	ret;
 	DebugText("PSX create psx mission %s\n",mission_name);
@@ -854,10 +854,10 @@ extern	SLONG quick_load;
 
 }
 
-BOOL	make_texture_clumps(CBYTE *mission_name)
+bool	make_texture_clumps(CBYTE *mission_name)
 {
 #ifdef TARGET_DC
-	ASSERT(FALSE);
+	ASSERT(false);
 #endif
 	SLONG	ret;
 	DebugText("Making texture clumps %s\n",mission_name);
@@ -1076,7 +1076,7 @@ void	game()
 			}
 		}
 
-		ShowBackImage(FALSE);
+		ShowBackImage(false);
 		the_display.Flip(NULL, DDFLIP_WAIT);
 	}
 
@@ -1095,7 +1095,7 @@ void	game()
 	TRACE ( "Playing intro FMVs\n" );
 	// Softdec Codec
 	// MUST NOT BE EXITABLE WITH JOYPAD BUTTONS
-	the_display.RunCutscene( -3, 0/*ENV_get_value_number("lang_num", 0, "" )*/, FALSE );
+	the_display.RunCutscene( -3, 0/*ENV_get_value_number("lang_num", 0, "" )*/, false );
 	// Eidos
 	the_display.RunCutscene( -2, 0/*ENV_get_value_number("lang_num", 0, "" )*/ );
 	// Muckyfoot
@@ -1192,7 +1192,7 @@ void	game()
 			}
 		}
 
-		ShowBackImage(FALSE);
+		ShowBackImage(false);
 		the_display.Flip(NULL, DDFLIP_WAIT);
 	}
 
@@ -1229,7 +1229,7 @@ void	GAME_map_draw_old()
 
 	SLONG	x,z,dx,dz,ndx,ndz,angle;
 
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 	ShowBackImage();
 	the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER);
 
@@ -1257,7 +1257,7 @@ void	GAME_map_draw_old()
 	z+=TAB_MAP_MIN_Z;
 	AENG_draw_col_tri(x+ndx,z+ndz,0xff0000,x+dx,z+dz,0xff0000,x-ndx,z-ndz,0xff0000,0);
 
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 
 
 }
@@ -1319,17 +1319,17 @@ void	GAME_map_draw()
 
 #else
 
-BOOL leave_map_form_proc(Form *form, Widget *widget, SLONG message)
+bool leave_map_form_proc(Form *form, Widget *widget, SLONG message)
 {
 	if (widget && widget->methods == &BUTTON_Methods && message == WBN_PUSH)
 	{
 		form->returncode = widget->tag;
 
-		return TRUE;	// Exit
+		return true;	// Exit
 	}
 	else
 	{
-		return FALSE;	// Don't exit
+		return false;	// Don't exit
 	}
 }
 
@@ -1520,7 +1520,7 @@ void	do_leave_map_form()
 
 	form_left_map = 15;
 
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 
 	ret = FORM_Process(form_leave_map);
 
@@ -1574,7 +1574,7 @@ void	do_leave_map_form()
 	{
 		FORM_Draw(form_leave_map);
 
-		POLY_frame_draw(FALSE,FALSE);
+		POLY_frame_draw(false,false);
 	}
 #endif
 }
@@ -1806,7 +1806,7 @@ SLONG	special_keys()
 	{
 		Keys[KB_TAB] = 0;
 		
-		draw_map_screen ^= TRUE;
+		draw_map_screen ^= true;
 	}
 
 	*/
@@ -1890,19 +1890,19 @@ SLONG	should_i_process_game()
 		// Pause the game while a tutorial message appears.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 #ifndef PSX
 
 	if (GAMEMENU_is_paused())
 	{
-		return FALSE;
+		return false;
 	}
 
 
 
-	return TRUE;
+	return true;
 
 	if (!(GAME_FLAGS & (GF_PAUSED|(GF_SHOW_MAP*0))) && !form_leave_map/* && GAME_STATE != GS_LEVEL_LOST && GAME_STATE != GS_LEVEL_WON*/)
 		return(1);
@@ -2122,7 +2122,7 @@ round_again:;
 		TRACE ( "game_loop init2\n" );
 
 		already_warned_about_leaving_map = GetTickCount();
-		draw_map_screen                  = FALSE;
+		draw_map_screen                  = false;
 		form_leave_map                   = NULL;
 		form_left_map                    = 0;
 #ifndef	PSX
@@ -2142,7 +2142,7 @@ round_again:;
 		if (GAME_STATE & GS_PLAYBACK)
 			BreakStart();
 #ifndef	PSX
-		SLONG exit_game_loop = FALSE;
+		SLONG exit_game_loop = false;
 	
 		TRACE ( "game_loop init3\n" );
 
@@ -2196,7 +2196,7 @@ extern int g_iCheatNumber;
 			if ( g_iCheatNumber == 0xd01e7e1 )
 			{
 				// Complete this level.
-				g_bPunishMePleaseICheatedOnThisLevel = TRUE;
+				g_bPunishMePleaseICheatedOnThisLevel = true;
 				GAME_STATE = GS_LEVEL_WON;
 				g_iCheatNumber = 0;
 			}
@@ -2213,7 +2213,7 @@ extern int g_iCheatNumber;
 			{
 				// Bin this game - get back to the main menu.
 				// er... actually, get back to the title screen, according to Sega standards.
-				//g_bDreamcastABXYStartComboPressed = FALSE;
+				//g_bDreamcastABXYStartComboPressed = false;
 				GAME_STATE = GS_LEVEL_LOST;
 				exit_game_loop = GAMEMENU_DO_CHOOSE_NEW_MISSION;
 			}
@@ -2505,13 +2505,13 @@ extern	void	do_packets();
 
 			// pausing and floating text stuff
 
-			SLONG i_want_to_exit = FALSE;
+			SLONG i_want_to_exit = false;
 
 #ifdef PSX
 
 			if (PAUSE_handler())
 			{
-				i_want_to_exit = TRUE;
+				i_want_to_exit = true;
 			}
 
 #endif
@@ -2646,12 +2646,12 @@ extern	void	do_packets();
 #ifndef TARGET_DC
 				extern void OS_hack();
 				
-				the_end = TRUE;
+				the_end = true;
 
 				OS_hack();
 #else
 				// Do the credits.
-				//g_bGoToCreditsPleaseGameHasFinished = TRUE;
+				//g_bGoToCreditsPleaseGameHasFinished = true;
 
 
 				// Get the background loaded.
@@ -2665,7 +2665,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 				MUSIC_mode_process();
 #endif
 
-				the_end = FALSE;
+				the_end = false;
 			}
 			else
 
@@ -2698,7 +2698,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 					{
 #ifndef	PSX
 						ShowBackImage();
-						POLY_frame_init(FALSE,FALSE);
+						POLY_frame_init(false,false);
 
 						switch(the_game.DarciDeadCivWarnings)
 						{
@@ -2726,7 +2726,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 						FONT2D_DrawStringWrapTo(mess, 30, 80, 0xffffff, 256, POLY_PAGE_FONT2D, 0, 350);
 
 						//FONT2D_DrawStringWrap(mess, 10, 300, 0xffffffff);
-						POLY_frame_draw(TRUE, TRUE);
+						POLY_frame_draw(true, true);
 #else
 extern CBYTE *Wadmenu_CivMess;
 						Wadmenu_CivMess=mess;

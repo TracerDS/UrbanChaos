@@ -322,7 +322,7 @@ void NS_slide_along(
 
 
 //
-// Returns TRUE if the given point is inside.
+// Returns true if the given point is inside.
 //
 
 SLONG NS_inside(SLONG x, SLONG y, SLONG z);

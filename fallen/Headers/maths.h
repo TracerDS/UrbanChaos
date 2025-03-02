@@ -8,7 +8,7 @@
 
 
 //
-// Returns TRUE if vector v intersects vector w
+// Returns true if vector v intersects vector w
 // If the two lines touch then that counts as an intersection.
 //
 // Make sure that the cross product of the two vectors doesn't overflow!

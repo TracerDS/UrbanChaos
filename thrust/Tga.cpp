@@ -42,7 +42,7 @@ TGA_Info TGA_load(
 	if (handle == NULL)
 	{
 		TRACE("Could not open TGA file %s", file);
-		ans.valid = FALSE;
+		ans.valid = false;
 		return ans;
 	}
 
@@ -66,7 +66,7 @@ TGA_Info TGA_load(
 	// Is this a valid tga file?
 	//
 
-	ans.valid  = FALSE;
+	ans.valid  = false;
 	ans.width  = tga_width;
 	ans.height = tga_height;
 	ans.flag   = 0;
@@ -97,7 +97,7 @@ TGA_Info TGA_load(
 	// The tga file is valid...
 	//
 
-	ans.valid = TRUE;
+	ans.valid = true;
 
 	//
 	// Skip past the image identification field.
@@ -116,7 +116,7 @@ TGA_Info TGA_load(
 	{
 		if (fread(data, sizeof(TGA_Pixel), tga_width * tga_height, handle) != tga_width * tga_height) goto file_error;
 
-		no_alpha = FALSE;
+		no_alpha = false;
 	}
 	else
 	{
@@ -136,7 +136,7 @@ TGA_Info TGA_load(
 			data[i].alpha = 255;
 		}
 
-		no_alpha = TRUE;
+		no_alpha = true;
 	}
 
 	fclose(handle);
@@ -202,7 +202,7 @@ TGA_Info TGA_load(
 
 	TRACE("File error loading TGA file %s\n", file);
 	fclose(handle);
-	ans.valid = FALSE;
+	ans.valid = false;
 
 	return ans;
 }

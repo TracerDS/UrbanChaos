@@ -23,7 +23,7 @@ extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
 
 #define STR_LEN 800
 
-BOOL	CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG len;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
@@ -70,14 +70,14 @@ BOOL	CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 			SetFocus(GetDlgItem(hWnd,IDC_EDIT1));
 
-			return	FALSE;
+			return	false;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -113,9 +113,9 @@ BOOL	CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			}
 
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

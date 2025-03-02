@@ -139,7 +139,7 @@ SLONG PLAYER_create_local(
 // It gets server messages about remote players joining and leaving
 // and puts them in the PLAYER_message() array.
 //
-// This function FALSE if you lose connection with the server.
+// This function false if you lose connection with the server.
 //
 // If the server reports a keypress in the past that is different from what
 // we guessed the keypress would be, then gamestate is rolled back to what

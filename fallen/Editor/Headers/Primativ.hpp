@@ -31,8 +31,8 @@ class	EdRect
 		void		FillRect(ULONG colour);
 		void		IndentRect(ULONG hilite,ULONG lolite);
 
-		BOOL		PointInRect(MFPoint *the_point);
-		BOOL		IntersectRect(EdRect *the_rect);
+		bool		PointInRect(MFPoint *the_point);
+		bool		IntersectRect(EdRect *the_rect);
 
 		inline SLONG	GetTop()			{	return Top;			}
 		inline SLONG	GetLeft()			{	return Left;		}

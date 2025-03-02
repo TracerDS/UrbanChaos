@@ -85,11 +85,11 @@ SLONG  CAM_type;
 void CAM_set_focus    (Thing *focus)     
 {
 	CAM_focus     = focus;
-	CAM_want_valid = FALSE;
-	CAM_want_different = FALSE;
+	CAM_want_valid = false;
+	CAM_want_different = false;
 }
-void CAM_set_mode     (SLONG  mode)      {CAM_mode      = mode;  CAM_want_valid = FALSE; CAM_want_different = FALSE;}
-void CAM_set_zoom     (SLONG  zoom)      {CAM_zoom      = zoom;  CAM_want_valid = FALSE; CAM_want_different = FALSE;}
+void CAM_set_mode     (SLONG  mode)      {CAM_mode      = mode;  CAM_want_valid = false; CAM_want_different = false;}
+void CAM_set_zoom     (SLONG  zoom)      {CAM_zoom      = zoom;  CAM_want_valid = false; CAM_want_different = false;}
 void CAM_set_behind_up(SLONG  behind_up) {CAM_behind_up = behind_up;}
 void CAM_set_collision(SLONG  col)       {CAM_collide   = col;}
 void CAM_set_pos(
@@ -153,7 +153,7 @@ void CAM_set_type(SLONG type)
 			CAM_set_zoom(0x600);
 			CAM_set_behind_up(0x20000);
 			CAM_lens = CAM_LENS_WIDEANGLE;
-			CAM_set_collision(TRUE);
+			CAM_set_collision(true);
 			break;
 
 		case CAM_TYPE_LOWER:
@@ -161,7 +161,7 @@ void CAM_set_type(SLONG type)
 			CAM_set_zoom(0x420);
 			CAM_set_behind_up(0x8000);
 			CAM_lens = CAM_LENS_NORMAL;
-			CAM_set_collision(TRUE);
+			CAM_set_collision(true);
 			break;
 
 		case CAM_TYPE_BEHIND:
@@ -170,7 +170,7 @@ void CAM_set_type(SLONG type)
 			CAM_set_zoom(0x340 * 180 / 256);
 			CAM_set_behind_up(0x18000 * 180 / 256);
 			CAM_lens = CAM_LENS_WIDEANGLE;
-			CAM_set_collision(FALSE);
+			CAM_set_collision(false);
 
 			/*
 			CAM_set_mode(CAM_MODE_NORMAL);
@@ -185,7 +185,7 @@ void CAM_set_type(SLONG type)
 			CAM_set_zoom(0x380);
 			CAM_set_behind_up(0x38000);
 			CAM_lens = CAM_LENS_WIDEANGLE;
-			CAM_set_collision(TRUE);
+			CAM_set_collision(true);
 			break;
 
 		case CAM_TYPE_ZOOM:
@@ -193,7 +193,7 @@ void CAM_set_type(SLONG type)
 			CAM_set_zoom(0x520);
 			CAM_set_behind_up(0x38000);
 			CAM_lens = CAM_LENS_NORMAL;
-			CAM_set_collision(TRUE);
+			CAM_set_collision(true);
 			break;
 
 //		default:
@@ -650,7 +650,7 @@ void CAM_process_crappy()
 	SLONG dest_y;
 	SLONG dest_z;
 
-//	if (Keys[KB_5]) {Keys[KB_5] = 0; CAM_want_valid = FALSE; CAM_want_different = TRUE;}
+//	if (Keys[KB_5]) {Keys[KB_5] = 0; CAM_want_valid = false; CAM_want_different = true;}
 
 	if (!CAM_want_valid)
 	{
@@ -727,7 +727,7 @@ void CAM_process_crappy()
 				// Yes! That's good.
 				// 
 
-				los_check[i].los  = TRUE;
+				los_check[i].los  = true;
 				los_check[i].dist = 256;
 				los_check[i].dx   = dx;
 				los_check[i].dy   = dy;
@@ -758,11 +758,11 @@ void CAM_process_crappy()
 					// Let this count as a los.
 					//
 
-					los_check[i].los = TRUE;
+					los_check[i].los = true;
 				}
 				else
 				{
-					los_check[i].los = FALSE;
+					los_check[i].los = false;
 				}
 			}
 		}
@@ -917,7 +917,7 @@ void CAM_process_crappy()
 		CAM_want_dy    = best_dy;
 		CAM_want_dz    = best_dz;
 		CAM_want_angle = best_angle;
-		CAM_want_valid = TRUE;
+		CAM_want_valid = true;
 	}
 
 	static SLONG focus_x = 0;
@@ -933,8 +933,8 @@ void CAM_process_crappy()
 		// Always recalculate the angle when our focus is moving.
 		//
 
-		CAM_want_valid     = FALSE;
-		CAM_want_different = FALSE;
+		CAM_want_valid     = false;
+		CAM_want_different = false;
 	}
 
 	//
@@ -958,7 +958,7 @@ void CAM_process_crappy()
 	// Point at our focus thing.
 	//
 
-	CAM_look_at_thing(TRUE);
+	CAM_look_at_thing(true);
 
 }
 
@@ -1061,15 +1061,15 @@ void CAM_process_normal()
 		focus_x  = CAM_focus_x;
 		focus_z  = CAM_focus_z;
 
-		focus_moving = TRUE;
+		focus_moving = true;
 
 	}
 	else
 	{
 	 	if(CAM_focus->Genus.Person->Action==ACTION_SIDE_STEP)
-			focus_moving = TRUE;
+			focus_moving = true;
 		else
-			focus_moving = FALSE;
+			focus_moving = false;
 	}
 
 	if (CAM_focus->Class                == CLASS_PERSON &&
@@ -1235,7 +1235,7 @@ void CAM_process_normal()
 
 		if ((!CAM_collide)||INDOORS_INDEX)
 		{
-			behind = FALSE;
+			behind = false;
 		}
 		else
 		{
@@ -1271,7 +1271,7 @@ void CAM_process_normal()
 
 			if ((!CAM_collide) || INDOORS_INDEX)
 			{
-				hit = FALSE;
+				hit = false;
 			}
 			else
 			{
@@ -1558,7 +1558,7 @@ void CAM_process_normal()
 	// Point at our focus thing.
 	//
 
-	CAM_look_at_thing(TRUE);
+	CAM_look_at_thing(true);
 }
 
 
@@ -1569,7 +1569,7 @@ void CAM_process_stationary()
 	// Just point at our focus thing.
 	//
 
-	CAM_look_at_thing(TRUE);
+	CAM_look_at_thing(true);
 }
 
 void CAM_process_behind()
@@ -1610,7 +1610,7 @@ void CAM_process_behind()
 	// Point at our focus thing.
 	//
 
-	CAM_look_at_thing(TRUE);
+	CAM_look_at_thing(true);
 }
 
 void CAM_process_shoot_normal()
@@ -1659,7 +1659,7 @@ void CAM_process_shoot_normal()
 	// Point at our focus thing.
 	//
 
-	CAM_look_at_thing(TRUE);
+	CAM_look_at_thing(true);
 }
 
 void CAM_process_fight_normal()
@@ -1710,7 +1710,7 @@ void CAM_process_fight_normal()
 	// Point at our focus thing.
 	//
 
-	CAM_look_at_thing(TRUE);
+	CAM_look_at_thing(true);
 }
 
 SLONG CAM_div_move = 8;
@@ -1811,7 +1811,7 @@ void CAM_process_first_person()
 		CAM_focus_y = want_y;
 		CAM_focus_z = want_z;
 
-		CAM_look_at_thing(TRUE);
+		CAM_look_at_thing(true);
 	}
 }
 
@@ -2106,7 +2106,7 @@ void CAM_set_dpos(
 	CAM_radians_yaw   = float(CAM_yaw)   * (2.0F * PI / 2048.0F);
 	CAM_radians_pitch = float(CAM_pitch) * (2.0F * PI / 2048.0F);
 
-	CAM_look_at_thing(FALSE);
+	CAM_look_at_thing(false);
 }
 
 void CAM_set_to_leave_sewers_position(Thing *darci)
@@ -2140,7 +2140,7 @@ void CAM_set_to_leave_sewers_position(Thing *darci)
 	// No swooping to look at the thing.
 	//
 
-	CAM_look_at_thing(FALSE);
+	CAM_look_at_thing(false);
 }
 
 #endif

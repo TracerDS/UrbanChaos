@@ -11,7 +11,7 @@
 
 #include "MFStdLib.h"
 
-void	FRONTEND_init ( bool bGoToTitleScreen = FALSE );
+void	FRONTEND_init ( bool bGoToTitleScreen = false );
 SBYTE	FRONTEND_loop();
 void	FRONTEND_level_won();
 void	FRONTEND_level_lost();

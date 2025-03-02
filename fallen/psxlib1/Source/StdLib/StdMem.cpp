@@ -10,16 +10,16 @@ HANDLE	MFHeap	=	NULL;
 
 //---------------------------------------------------------------
 
-BOOL	SetupMemory()
+bool	SetupMemory()
 {
 	if(MFHeap==NULL)
 	{
 	   MFHeap	=	HeapCreate(0,INITIAL_HEAP_SIZE,MAXIMUM_HEAP_SIZE);
 	}
 	if(MFHeap)
-		return	TRUE;
+		return	true;
 	else
-		return	FALSE;
+		return	false;
 }
 
 //---------------------------------------------------------------

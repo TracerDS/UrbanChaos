@@ -6,9 +6,9 @@
 
 //---------------------------------------------------------------
 
-BOOL		init_ewind();
+bool		init_ewind();
 void		fini_ewind();
-BOOL		open_map(MDICREATESTRUCT *mdi_create);
+bool		open_map(MDICREATESTRUCT *mdi_create);
 void		process_ewind();
 
 //---------------------------------------------------------------

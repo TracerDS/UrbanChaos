@@ -22,7 +22,7 @@ DDDriverManager		the_manager;
 //
 //---------------------------------------------------------------
 
-BOOL WINAPI DriverEnumCallback	(
+bool WINAPI DriverEnumCallback	(
 									GUID FAR	*lpGuid,
 									LPTSTR		lpDesc, 
 									LPTSTR		lpName,
@@ -397,33 +397,33 @@ SLONG	BitDepthToFlags(SLONG bpp)
 
 //---------------------------------------------------------------
 
-BOOL	IsPalettized(LPDDPIXELFORMAT lp_dd_pf)
+bool	IsPalettized(LPDDPIXELFORMAT lp_dd_pf)
 {
 	if(!lp_dd_pf)
 	{
         // Error, 
-		return FALSE;
+		return false;
 	}
 
 	if(lp_dd_pf->dwFlags&DDPF_PALETTEINDEXED1)
-		return TRUE;
+		return true;
 
 	if(lp_dd_pf->dwFlags&DDPF_PALETTEINDEXED2)
-		return TRUE;
+		return true;
 
 	if(lp_dd_pf->dwFlags&DDPF_PALETTEINDEXED4)
-		return TRUE;
+		return true;
 
 	if(lp_dd_pf->dwFlags&DDPF_PALETTEINDEXED8)
-		return TRUE;
+		return true;
 
 	// Not palettized
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
 
-BOOL	GetDesktopMode	(
+bool	GetDesktopMode	(
 							DDDriverInfo	*the_driver,
 							LPGUID			D3D_guid,
 							DDModeInfo		**the_mode,
@@ -440,7 +440,7 @@ BOOL	GetDesktopMode	(
 
 	// Check Parameters
 	if((!the_driver) || (!the_mode) || (!the_device))
-		return FALSE;
+		return false;
 
 	// Get Desktop Mode info
 	hDesktop	=	GetDesktopWindow();
@@ -455,14 +455,14 @@ BOOL	GetDesktopMode	(
 	// Get Mode
 	new_mode	=	the_driver->FindMode(w,h,bpp,0,NULL);
 	if(!new_mode)
-		return FALSE;
+		return false;
 
 	// Get Compatible Device
 	new_device	=	the_driver->FindDeviceSupportsMode(D3D_guid,new_mode,&next_best_device);
 	if(!new_device)
 	{
 		if(!next_best_device)
-			return FALSE;
+			return false;
 		new_device	=	next_best_device;
 	}
 
@@ -471,12 +471,12 @@ BOOL	GetDesktopMode	(
 	*the_device	=	new_device;
 
 	// Success
-	return TRUE;
+	return true;
 }
 
 //---------------------------------------------------------------
 
-BOOL	GetFullscreenMode	(
+bool	GetFullscreenMode	(
 								DDDriverInfo	*the_driver,
 								GUID			*D3D_guid,
 								SLONG			w,
@@ -495,14 +495,14 @@ BOOL	GetFullscreenMode	(
 
 	// Check Parameters
 	if((!the_driver) || (!the_mode) || (!the_device))
-		return FALSE;
+		return false;
 
 	// Get D3D Device
 	new_device	=	the_driver->FindDevice(D3D_guid,&next_best_device);
 	if(!new_device)
 	{
 		if(!next_best_device)
-			return	FALSE;
+			return	false;
 		new_device	=	next_best_device;
 	}
 
@@ -522,7 +522,7 @@ BOOL	GetFullscreenMode	(
 	if(!new_mode)
 	{
 		if(!next_best_mode)
-			return	FALSE;
+			return	false;
 		new_mode	=	next_best_mode;
 	}
 
@@ -531,7 +531,7 @@ BOOL	GetFullscreenMode	(
 	*the_device	=	new_device;
 
 	// Success
-	return TRUE;
+	return true;
 }
 
 //---------------------------------------------------------------
@@ -572,7 +572,7 @@ D3DDeviceInfo	*ValidateDevice	(
 
 	// Check Parameters
 	if(!the_driver)
-		return FALSE;
+		return false;
 
 	if(!the_filter)
 	{
@@ -610,7 +610,7 @@ DDModeInfo	*ValidateMode	(
 
 	// Check Parameters
 	if(!the_driver)
-		return FALSE;
+		return false;
 
 	if(!the_filter)
 		new_mode	=	the_driver->FindMode(w, h, bpp, refresh, &next_best_mode);
@@ -733,7 +733,7 @@ HRESULT DDModeInfo::GetMode(SLONG *w,SLONG *h,SLONG *bpp,SLONG *refresh)
 
 //---------------------------------------------------------------
 
-BOOL	DDModeInfo::ModeSupported(D3DDeviceInfo *the_device)
+bool	DDModeInfo::ModeSupported(D3DDeviceInfo *the_device)
 {
 	SLONG		bpp,
 				depths,
@@ -742,7 +742,7 @@ BOOL	DDModeInfo::ModeSupported(D3DDeviceInfo *the_device)
 
 	// Check Parameters
 	if(!the_device)
-		return FALSE;
+		return false;
 
 	// Make sure D3D device supports this mode
 	bpp			=	GetBPP();
@@ -758,16 +758,16 @@ BOOL	DDModeInfo::ModeSupported(D3DDeviceInfo *the_device)
 	if(depths & depth_flags)
 	{
 		// Supported !!!
-		return TRUE;
+		return true;
 	}
 
 	// Not Supported !!!
-	return FALSE;
+	return false;
 }
   
 //---------------------------------------------------------------
 
-BOOL	DDModeInfo::Match(SLONG w,SLONG h,SLONG bpp)
+bool	DDModeInfo::Match(SLONG w,SLONG h,SLONG bpp)
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 
@@ -780,19 +780,19 @@ BOOL	DDModeInfo::Match(SLONG w,SLONG h,SLONG bpp)
 			// Check for palettized mode.
 			if(bpp<=8 && !IsPalettized(&ddSurfDesc.ddpfPixelFormat))
 			{
-				return	FALSE;
+				return	false;
 			}
 
-			return	TRUE;
+			return	true;
 		}
 	}
 
-    return FALSE;
+    return false;
 }
 
 //---------------------------------------------------------------
 
-BOOL	DDModeInfo::Match(SLONG bpp)
+bool	DDModeInfo::Match(SLONG bpp)
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 
@@ -802,14 +802,14 @@ BOOL	DDModeInfo::Match(SLONG bpp)
 		// Check for palettized mode.
 		if(bpp<=8 && !IsPalettized(&ddSurfDesc.ddpfPixelFormat))
 		{
-			return	FALSE;
+			return	false;
 		}
 
-		return	TRUE;
+		return	true;
 	}
 
 
-	return FALSE;
+	return false;
 }
 
 //---------------------------------------------------------------
@@ -1029,7 +1029,7 @@ HRESULT	D3DDeviceInfo::LoadFormats(LPDIRECT3DDEVICE3 the_d3d_device)
 		}
 		
 		// Enumerate all Texture Formats for this device
-		callback_info.Result	=	TRUE;
+		callback_info.Result	=	true;
 		callback_info.Count		=	0L;
 		callback_info.Extra		=	(void*)this;
 
@@ -1201,7 +1201,7 @@ HRESULT	D3DDeviceInfo::LoadZFormats(LPDIRECT3D3 d3d)
 	HRESULT			result;
 
 	// Enumerate all Z formats for this device
-	callback_info.Result	=	TRUE;
+	callback_info.Result	=	true;
 	callback_info.Count		=	0;
 	callback_info.Extra		=	(void*)this;
 
@@ -1293,32 +1293,32 @@ HRESULT	D3DDeviceInfo::DelFormat(DDModeInfo	*the_format)
 
 //---------------------------------------------------------------
 
-BOOL	D3DDeviceInfo::IsHardware(void)
+bool	D3DDeviceInfo::IsHardware(void)
 {
 	SLONG	colour_model;
  
 	
 	colour_model	=	d3dHalDesc.dcmColorModel;
 	if(colour_model)
-		return TRUE;
-	return FALSE;
+		return true;
+	return false;
 }
 
 //---------------------------------------------------------------
 
-BOOL	D3DDeviceInfo::Match(GUID *the_guid)
+bool	D3DDeviceInfo::Match(GUID *the_guid)
 {
     if(the_guid==NULL)
-        return	FALSE;
+        return	false;
 
     if(!IsValid())
-        return	FALSE;
+        return	false;
     
     if(*the_guid!=guid)
-        return	FALSE;
+        return	false;
 
     // Success
-    return TRUE;
+    return true;
 }
 
 //---------------------------------------------------------------
@@ -1407,7 +1407,7 @@ HRESULT DDDriverInfo::Create(
 	if(IsValid())
     {
 		// Programmer Error, already valid, call Fini to cleanup
-        return FALSE;
+        return false;
     }
 
 	// Copy GUID
@@ -1564,10 +1564,10 @@ void	DDDriverInfo::Destroy(void)
 
 //---------------------------------------------------------------
 
-BOOL	DDDriverInfo::Match(GUID *the_guid)
+bool	DDDriverInfo::Match(GUID *the_guid)
 {
 	if(!IsValid())
-        return	FALSE;
+        return	false;
 
 	if(!the_guid)
     {
@@ -1575,22 +1575,22 @@ BOOL	DDDriverInfo::Match(GUID *the_guid)
 		if (the_display.IsFullScreen())
 		{
 			if(!IsPrimary())
-				return	TRUE;
+				return	true;
 		}
 		else
 		*/
 		{
 			if(IsPrimary())
-				return	TRUE;
+				return	true;
 		}
     }
     else
     {
 		if(*the_guid==guid)
-            return	TRUE;
+            return	true;
     }
 
-    return FALSE;
+    return false;
 }
 
 //---------------------------------------------------------------
@@ -1612,7 +1612,7 @@ HRESULT	DDDriverInfo::LoadModes(LPDIRECTDRAW4 lpDD4)
 		}
 		
 		// Enumerate all modes for this driver.
-		callback_info.Result	=	TRUE;
+		callback_info.Result	=	true;
 		callback_info.Count		=	0L;
 		callback_info.Extra		=	(void*)this;
 
@@ -1798,7 +1798,7 @@ HRESULT	DDDriverInfo::LoadDevices(LPDIRECT3D3 lpD3D3)
 		}
 		
 		// Enumerate all D3D Devices for this driver.
-		callback_info.Result	=	TRUE;
+		callback_info.Result	=	true;
 		callback_info.Count		=	0L;
 		callback_info.Extra		=	(void*)this;
 
@@ -2161,7 +2161,7 @@ HRESULT DDDriverManager::LoadDrivers(void)
 
 
     // Initialize all valid drivers in system
-    callback_info.Result	=	TRUE;
+    callback_info.Result	=	true;
     callback_info.Count		=	0L;
     callback_info.Extra		=	(void*)NULL;
 

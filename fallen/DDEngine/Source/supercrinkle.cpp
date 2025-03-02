@@ -700,7 +700,7 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE *fname)
 	// Mark this page as crinkled.
 	//
 
-	SUPERCRINKLE_is_crinkled[crinkle] = TRUE;
+	SUPERCRINKLE_is_crinkled[crinkle] = true;
 }
 
 
@@ -1096,7 +1096,7 @@ SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4])
 		SUPERCRINKLE_index + sc->index,
 		sc->num_indices);
 
-	return TRUE;
+	return true;
 }
 
 

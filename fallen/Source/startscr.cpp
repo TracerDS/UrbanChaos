@@ -146,10 +146,10 @@ struct	StartMenu	start_menu[]=
 static UBYTE mission_num;
 static CHAR mission_name[_MAX_PATH]; // this is getting kinda skanky now
 
-extern BOOL  text_fudge;
+extern bool  text_fudge;
 extern ULONG text_colour;
 
-BOOL show_game = 1;
+bool show_game = 1;
 
 void	STARTSCR_plonk_logo() {
 	POLY_Point  pp[4];
@@ -172,7 +172,7 @@ void	STARTSCR_plonk_logo() {
 	pp[2].X=0;		pp[2].Y=93;
 	pp[3].X=161;	pp[3].Y=93;
 
-	POLY_add_quad(quad,POLY_PAGE_MENULOGO,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_MENULOGO,false,true);
 }
 
 
@@ -183,7 +183,7 @@ void	draw_a_menu(SLONG	menu)
 	SLONG	complex;
 
 
-	text_fudge  = FALSE;
+	text_fudge  = false;
 
 	y=200-20*start_menu[menu].Count;
 
@@ -231,7 +231,7 @@ void	draw_a_3d_menu(Font3D &font, SLONG	menu)
 	UBYTE   isthis;
 
 
-	text_fudge  = FALSE;
+	text_fudge  = false;
 
 	y=240-(25*start_menu[menu].Count);
 
@@ -458,7 +458,7 @@ SLONG	MainE3BodgeLoop() {
 			pp[2].X=406;		pp[2].Y=385+43;
 			pp[3].X=406+144;	pp[3].Y=385+43;
 
-			POLY_add_quad(quad,POLY_PAGE_MENULOGO,FALSE,TRUE);
+			POLY_add_quad(quad,POLY_PAGE_MENULOGO,false,true);
 
 	}
 	ticker--;
@@ -487,9 +487,9 @@ SLONG	do_start_menu()
 	static  float i=1;
 	static	SLONG tune_id=0;
 	static	SLONG localctr = 0;
-	static  BOOL realmenu=0;
+	static  bool realmenu=0;
 
-	static  BOOL doneload=0;
+	static  bool doneload=0;
 
 	if (!doneload) {
 		CBYTE *lang=ENV_get_value_string("language");
@@ -518,7 +518,7 @@ SLONG	do_start_menu()
 	// up royally.
 //    fire.Run();	
 
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 //	draw_a_menu(menu);
 //    the_display.blit_background_surface();
 //	ShowBackImage();
@@ -558,7 +558,7 @@ extern void calc_camera_pos();
 	//STARTSCR_plonk_logo();
 #else
 	res=MainE3BodgeLoop();
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 	return res;
 #endif
 	
@@ -570,7 +570,7 @@ extern void calc_camera_pos();
 #else
 	if (realmenu) {
 		res=MainWidgetLoop();
-		POLY_frame_draw(FALSE,TRUE);
+		POLY_frame_draw(false,true);
 		MFX_set_listener(0,0,0,0,0,0);
 		MFX_update();
 		return res;
@@ -585,7 +585,7 @@ extern void calc_camera_pos();
 //	draw_a_3d_menu(font,menu);
 
 
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 
 	MFX_set_listener(0,0,0,0,0,0);
 	MFX_update();
@@ -729,13 +729,13 @@ void test_the_widgets() {
 	CBYTE export_name[] = EXPORT_NAME;
 	CBYTE export_co[] = EXPORT_CO;
 
-BOOL pass_dlg(Form *form, Widget *widget, SLONG message) {
+bool pass_dlg(Form *form, Widget *widget, SLONG message) {
 /*	CBYTE pw[] = {25, 22, 1, 3, 10, 0, 6, 20, 6, 7, 27, 0 };
 	CBYTE match[] = "mandelbrots";*/
 	CBYTE *pt;
 //	CBYTE *str,*pw2;
 	SLONG i;
-	static BOOL firstpass=1;
+	static bool firstpass=1;
 
 	if (!widget) {
 		if (message==WFN_PAINT) {
@@ -778,14 +778,14 @@ BOOL pass_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-BOOL menu_dlg(Form *form, Widget *widget, SLONG message) {
+bool menu_dlg(Form *form, Widget *widget, SLONG message) {
 	if (widget) form->returncode=widget->tag;
 	return 0;
 }
 
 SLONG	LoadMissionList(Form *form, CBYTE *script, SLONG district=-1, UBYTE firstonly=FORCE_FIRST_MISSION);
 
-BOOL game_dlg(Form *form, Widget *widget, SLONG message) {
+bool game_dlg(Form *form, Widget *widget, SLONG message) {
 	Widget *wig,*nxt;
 	SLONG dist;
 
@@ -851,7 +851,7 @@ void DrawPolaroid() {
 	pp[2].X=378;	pp[2].Y=462;
 	pp[3].X=630;	pp[3].Y=480;
 	
-	POLY_add_quad(quad,POLY_PAGE_COLOUR,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_COLOUR,false,true);
 
 	pp[0].colour=0xFFFFFF; pp[0].specular=0;
 	pp[0].Z=0.5f;
@@ -868,12 +868,12 @@ void DrawPolaroid() {
 	pp[2].u=0;		pp[2].v=1;
 	pp[3].u=1;		pp[3].v=1;
 	
-	POLY_add_quad(quad,POLY_PAGE_POLAROID,FALSE,TRUE);
+	POLY_add_quad(quad,POLY_PAGE_POLAROID,false,true);
 }
 
 UWORD save_slot;
 
-BOOL save_dlg(Form *form, Widget *widget, SLONG message) {
+bool save_dlg(Form *form, Widget *widget, SLONG message) {
 	if (widget) {
 		switch(widget->tag) {
 		case 1: 
@@ -886,7 +886,7 @@ BOOL save_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-BOOL brief_dlg(Form *form, Widget *widget, SLONG message) {
+bool brief_dlg(Form *form, Widget *widget, SLONG message) {
 	ULONG c,t;
 
 	if (!widget) {
@@ -906,7 +906,7 @@ BOOL brief_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-BOOL load_dlg(Form *form, Widget *widget, SLONG message) {
+bool load_dlg(Form *form, Widget *widget, SLONG message) {
 	if (widget) {
 		switch(widget->tag) {
 		case 1: form->returncode=-1; break;
@@ -919,7 +919,7 @@ BOOL load_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-BOOL esc_dlg(Form *form, Widget *widget, SLONG message) {
+bool esc_dlg(Form *form, Widget *widget, SLONG message) {
 	if (!widget) {
 		if ((message==WFN_CHAR)&&(LastKey==1)) form->returncode=-1;
 	}
@@ -970,7 +970,7 @@ void	TemporaryMissionList(Widget *list) {
 	CBYTE dir[_MAX_PATH];
 	WIN32_FIND_DATA data;
 	HANDLE handle;
-	BOOL   ok;
+	bool   ok;
 
 	strcpy(dir,"levels\\*.ucm");
 	handle=FindFirstFile(dir,&data);
@@ -1497,7 +1497,7 @@ void	ScanSavedGames(Widget *list) {
 	CBYTE dir[_MAX_PATH],ttl[_MAX_PATH];
 	WIN32_FIND_DATA data;
 	HANDLE handle;
-	BOOL   ok;
+	bool   ok;
 	SLONG	c0;
 
 /*	strcpy(dir,"saves\\*.wag");
@@ -1529,9 +1529,9 @@ void	ScanSavedGames(Widget *list) {
 #endif
 }
 
-BOOL won_the_game;
+bool won_the_game;
 
-void	STARTSCR_notify_gameover(BOOL won) {
+void	STARTSCR_notify_gameover(bool won) {
   won_the_game=won;
   if (won) {
 	  LoadNextMissionFilename(STARTSCR_miss_id, STARTSCR_mission, mission_name, MISSION_SCRIPT);
@@ -1545,12 +1545,12 @@ void	STARTSCR_notify_gameover(BOOL won) {
 
 #define CUNNING_FILE "c:\\windows\\system\\a3duc149.dl_"
 
-BOOL TimeoutCheck() {
+bool TimeoutCheck() {
 #ifndef PSX
 	SYSTEMTIME time;
 	FILETIME ftime1,ftime2,ftime3;
 	HANDLE handle;
-	BOOL arse=0;
+	bool arse=0;
 
 	GetSystemTime(&time);
 	SystemTimeToFileTime(&time,&ftime1);

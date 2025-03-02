@@ -92,17 +92,17 @@ SLONG SERVER_session_create(
 
 			if (!NET_connection_lan())
 			{
-				return FALSE;
+				return false;
 			}
 
 			break;
 
 		case SERVER_CONNECT_TYPE_INTERNET:
-			return FALSE;
+			return false;
 
 		default:
 			ASSERT(0);
-			return FALSE;
+			return false;
 	}
 
 	if (NET_session_create(name, max_players))
@@ -124,11 +124,11 @@ SLONG SERVER_session_create(
 		SERVER_connecting = -1;
 		SERVER_turn       =  0;
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -205,7 +205,7 @@ void SERVER_process()
 			//
 
 			{
-				SLONG exit_loop = FALSE;
+				SLONG exit_loop = false;
 
 				UBYTE *upto     = ((UBYTE *) data) + 4;
 				SLONG  gameturn = ((SLONG *) data)[0];
@@ -422,7 +422,7 @@ void SERVER_process()
 
 														new_player.sbn.name[31] = '\000';
 
-														NET_server_message_to_player(sp->player_id, sizeof(new_player), &new_player, TRUE);
+														NET_server_message_to_player(sp->player_id, sizeof(new_player), &new_player, true);
 
 														//
 														// Create the new ship locally.
@@ -491,7 +491,7 @@ void SERVER_process()
 
 							default:
 								LOG_message(0xffffff, "Unknown block type.");
-								exit_loop = TRUE;
+								exit_loop = true;
 								break;
 						}
 					}
@@ -574,7 +574,7 @@ void SERVER_process()
 
 						GAMESTATE_store(&send_gamestate.sbg.gs);
 
-						NET_server_message_to_player(sp->player_id, sizeof(send_gamestate), &send_gamestate, TRUE);
+						NET_server_message_to_player(sp->player_id, sizeof(send_gamestate), &send_gamestate, true);
 
 						//
 						// Change the mode.

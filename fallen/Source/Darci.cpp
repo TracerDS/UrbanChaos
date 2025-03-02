@@ -371,16 +371,16 @@ SLONG	col_is_fence(SLONG	col)
 		return(0);
 }
 
-inline BOOL	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
+inline bool	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
 	if (p_person->Draw.Tweened->FrameIndex>=frameindex) {
 		if (!(p_person->Genus.Person->Flags2&FLAG2_SYNC_SOUNDFX)) {
 			p_person->Genus.Person->Flags2|=FLAG2_SYNC_SOUNDFX;
-			return TRUE;
+			return true;
 		}
 	} else {
 		p_person->Genus.Person->Flags2&=~FLAG2_SYNC_SOUNDFX;
 	}
-	return FALSE;
+	return false;
 
 }
 
@@ -413,7 +413,7 @@ void	set_person_in_building_through_roof(Thing *p_person,SLONG face)
 		{
 			p_person->WorldPos.Y-=200<<8;
 
-			if (ENTER_setup(building, storey, TRUE))
+			if (ENTER_setup(building, storey, true))
 			{
 				p_person->Flags     |= FLAGS_IN_BUILDING;
 				GAME_FLAGS |= GF_INDOORS;
@@ -529,7 +529,7 @@ SLONG	damage_person_on_land(Thing *p_thing)
 				p_thing,
 				NULL,
 				PERSON_DEATH_TYPE_LAND,
-				FALSE,
+				false,
 				0);
 
 			return(1);
@@ -698,7 +698,7 @@ SLONG	projectile_move_thing(Thing *p_thing,SLONG flag)
 
 						if (flag & 8)
 						{
-							just_started_falling_off_backwards = TRUE;
+							just_started_falling_off_backwards = true;
 							
 						}
 
@@ -708,7 +708,7 @@ SLONG	projectile_move_thing(Thing *p_thing,SLONG flag)
 							extra_wall_height,			// Stop Darci going through walls- the extra height added to a wall height.
 							50,SLIDE_ALONG_FLAG_JUMPING);
 
-						just_started_falling_off_backwards = FALSE;
+						just_started_falling_off_backwards = false;
 
 //
 // This next bit of code is probably redundant as we can no longer jump through doors, but It cant do any harm to leave it in (apart from code bloat)
@@ -1078,7 +1078,7 @@ SLONG	projectile_move_thing(Thing *p_thing,SLONG flag)
 								p_thing->WorldPos.Z           >> 8,
 								0x0,
 								0xffeeee,
-								FALSE);
+								false);
 
 							*/
 
@@ -1104,7 +1104,7 @@ SLONG	projectile_move_thing(Thing *p_thing,SLONG flag)
 					p_thing->WorldPos.Z           >> 8,
 					0x0,
 					0xaacc00,
-					FALSE);
+					false);
 
 				*/
 

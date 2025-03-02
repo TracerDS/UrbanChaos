@@ -95,7 +95,7 @@ void SHADOW_do();
 
 
 //
-// Returns TRUE if the given point is in shadow.
+// Returns true if the given point is in shadow.
 //
 
 SLONG SHADOW_in(SLONG x, SLONG y, SLONG z);

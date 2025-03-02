@@ -130,8 +130,8 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z);
 #define PAP_2LO(x,z) (PAP_lo[(x)][(z)])
 #define PAP_2HI(x,z) (PAP_hi[(x)][(z)])
 
-#define PAP_on_map_hi(x,z) ((WITHIN((x), 0, PAP_SIZE_HI -1) && WITHIN((z), 0, PAP_SIZE_HI -1))?TRUE:FALSE)
-#define PAP_on_map_lo(x,z) ((WITHIN((x), 0, PAP_SIZE_LO -1) && WITHIN((z), 0, PAP_SIZE_LO -1))?TRUE:FALSE)
+#define PAP_on_map_hi(x,z) ((WITHIN((x), 0, PAP_SIZE_HI -1) && WITHIN((z), 0, PAP_SIZE_HI -1))?true:false)
+#define PAP_on_map_lo(x,z) ((WITHIN((x), 0, PAP_SIZE_LO -1) && WITHIN((z), 0, PAP_SIZE_LO -1))?true:false)
 
 
 #else
@@ -143,8 +143,8 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z);
 
 #else
 
-//#define PAP_on_map_hi(x,z) ((WITHIN((x), 0, PAP_SIZE_HI -1) && WITHIN((z), 0, PAP_SIZE_HI -1))?TRUE:FALSE)
-//#define PAP_on_map_lo(x,z) ((WITHIN((x), 0, PAP_SIZE_LO -1) && WITHIN((z), 0, PAP_SIZE_LO -1))?TRUE:FALSE)
+//#define PAP_on_map_hi(x,z) ((WITHIN((x), 0, PAP_SIZE_HI -1) && WITHIN((z), 0, PAP_SIZE_HI -1))?true:false)
+//#define PAP_on_map_lo(x,z) ((WITHIN((x), 0, PAP_SIZE_LO -1) && WITHIN((z), 0, PAP_SIZE_LO -1))?true:false)
 
 void PAP_assert_if_off_map_lo(SLONG x, SLONG z);
 void PAP_assert_if_off_map_hi(SLONG x, SLONG z);
@@ -181,7 +181,7 @@ SLONG PAP_calc_map_height_near(SLONG x, SLONG z);
 void	PAP_clear();
 
 //
-// Returns TRUE if the given region of map is not on a hill.
+// Returns true if the given region of map is not on a hill.
 //
 
 SLONG PAP_is_flattish(

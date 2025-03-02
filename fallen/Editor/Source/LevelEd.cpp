@@ -3714,7 +3714,7 @@ SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
 
 
 extern	UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
-BOOL	LevelEditor::ApplyTexture(struct EditFace *edit_face)
+bool	LevelEditor::ApplyTexture(struct EditFace *edit_face)
 {
 	SLONG			c0;
 

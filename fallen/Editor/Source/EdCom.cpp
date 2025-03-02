@@ -45,7 +45,7 @@ EditCondList	*alloc_ed_clist()
 		if(!edit_clists[c0].Used)
 		{
 			the_clist	=	&edit_clists[c0];
-			the_clist->Used	=	TRUE;
+			the_clist->Used	=	true;
 			sprintf(the_clist->CListName,"Condition List %d",c0);
 
 			the_clist->ConditionCount	=	0;
@@ -81,7 +81,7 @@ void	free_ed_clist(EditCondList *the_clist)
 	//	Now free the condition list.
 	remove_clist(the_clist);
 
-	the_clist->Used	=	FALSE;
+	the_clist->Used	=	false;
 	ed_clist_count--;
 }
 
@@ -208,10 +208,10 @@ EditCondition	*alloc_ed_condition()
 
 	for(c0=1;c0<MAX_EDIT_CONDITIONS;c0++)
 	{
-		if(edit_conditions[c0].Used==FALSE)
+		if(edit_conditions[c0].Used==false)
 		{
 			the_condition		=	&edit_conditions[c0];
-			the_condition->Used	=	TRUE;
+			the_condition->Used	=	true;
 
 			the_condition->Flags			=	0;
 			the_condition->ConditionType	=	0;
@@ -231,7 +231,7 @@ EditCondition	*alloc_ed_condition()
 
 void			free_ed_condition(EditCondition *the_condition)
 {
-	the_condition->Used	=	FALSE;
+	the_condition->Used	=	false;
 	ed_condition_count--;
 }
 
@@ -272,7 +272,7 @@ EditComList	*alloc_ed_comlist()
 		if(!edit_comlists[c0].Used)
 		{
 			the_comlist			=	&edit_comlists[c0];
-			the_comlist->Used	=	TRUE;
+			the_comlist->Used	=	true;
 			sprintf(the_comlist->ComListName,"Command List %d",c0);
 
 			the_comlist->CommandCount	=	0;
@@ -308,7 +308,7 @@ void	free_ed_comlist(EditComList *the_comlist)
 	//	Now free the command list.
 	remove_comlist(the_comlist);
 
-	the_comlist->Used	=	FALSE;
+	the_comlist->Used	=	false;
 	ed_comlist_count--;
 }
 
@@ -435,10 +435,10 @@ EditCommand	*alloc_ed_command()
 
 	for(c0=1;c0<MAX_EDIT_COMMANDS;c0++)
 	{
-		if(edit_commands[c0].Used==FALSE)
+		if(edit_commands[c0].Used==false)
 		{
 			the_command			=	&edit_commands[c0];
-			the_command->Used	=	TRUE;
+			the_command->Used	=	true;
 
 			the_command->Flags			=	0;
 			the_command->CommandType	=	0;
@@ -458,7 +458,7 @@ EditCommand	*alloc_ed_command()
 
 void			free_ed_command(EditCommand *the_command)
 {
-	the_command->Used	=	FALSE;
+	the_command->Used	=	false;
 	ed_command_count--;
 }
 

@@ -93,7 +93,7 @@ class	Control	:	public EdRect
 		virtual	void			HiliteControl(MFPoint *current_point);
 		virtual	void			UnHiliteControl();
 
-		virtual inline BOOL		PointInControl(MFPoint *the_point)		{	return PointInRect(the_point);	}
+		virtual inline bool		PointInControl(MFPoint *the_point)		{	return PointInRect(the_point);	}
 
 		inline void				SetFlags(UBYTE flags)					{	Flags=flags;					}
 		inline UBYTE			GetFlags()							{	return Flags;					}
@@ -221,7 +221,7 @@ class	CHSlider	:	public	Control
 		void			HiliteControl(MFPoint *current_point);
 		void			UnHiliteControl();
 		UWORD			TrackControl(MFPoint *down_point);
-		BOOL			PointInControl(MFPoint *the_point);
+		bool			PointInControl(MFPoint *the_point);
 
 		void			SetCurrentValue(SLONG value);
 		inline void		SetUpdateFunction(void (*the_fn)())		{	update_function=the_fn;					}
@@ -264,7 +264,7 @@ class	CVSlider	:	public	Control
 		void			HiliteControl(MFPoint *current_point);
 		void			UnHiliteControl();
 		UWORD			TrackControl(MFPoint *down_point);
-		BOOL			PointInControl(MFPoint *the_point);
+		bool			PointInControl(MFPoint *the_point);
 
 		void			SetCurrentValue(SLONG value);
 		inline void		SetUpdateFunction(void (*the_fn)())		{	update_function=the_fn;					}

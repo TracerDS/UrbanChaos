@@ -149,7 +149,7 @@ SLONG PRIMTEX_get_number(CBYTE *fname)
 	CopyFile(
 		fullname_tga,
 		fullname_pge,
-		TRUE);		// TRUE => don't overwrite an existing file- doesn't matter because fullname_pga doesn't exist.
+		true);		// true => don't overwrite an existing file- doesn't matter because fullname_pga doesn't exist.
 
 	return page_number;
 }

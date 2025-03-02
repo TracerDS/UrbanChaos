@@ -18,7 +18,7 @@ HINSTANCE			hGlobalPrevInst,
 LPSTR				lpszGlobalArgs;
 WNDCLASS			DDLibClass;
 
-volatile BOOL		ShellActive;
+volatile bool		ShellActive;
 volatile ULONG		PauseFlags		=	0,
 					PauseCount		=	0;
 
@@ -72,43 +72,43 @@ DWORD	DDLibThread(LPVOID param)
 	ShowWindow(hDDLibWindow,iGlobalWinMode);
 	UpdateWindow(hDDLibWindow);
 
-	ShellActive	=	TRUE;
+	ShellActive	=	true;
 	while(GetMessage(&msg,NULL,0,0))
 	{
 		TranslateMessage(&msg); 
 		DispatchMessage(&msg);
 	}
-	ShellActive	=	FALSE;
+	ShellActive	=	false;
 
 	return	0;
 }
 
 //---------------------------------------------------------------
 
-BOOL	SetupKeyboard(void);
+bool	SetupKeyboard(void);
 void	ResetKeyboard(void);
 
-BOOL	SetupHost(ULONG flags)
+bool	SetupHost(ULONG flags)
 {
 	DWORD			id;
 
 
-	ShellActive	=	FALSE;
+	ShellActive	=	false;
 
 #ifndef NDEBUG
 	InitDebugLog();
 #endif
 
 	if(!SetupMemory())
-		return	FALSE;
+		return	false;
 	if(!SetupKeyboard())
-		return	FALSE;
+		return	false;
 
 #ifdef TARGET_DC
 	if(the_input_manager.Init()!=DI_OK)
 	{
-		ASSERT ( FALSE );
-		return	FALSE;
+		ASSERT ( false );
+		return	false;
 	}
 #endif
 
@@ -160,7 +160,7 @@ BOOL	SetupHost(ULONG flags)
 //		ShowWindow(hDDLibWindow,iGlobalWinMode);
 //		UpdateWindow(hDDLibWindow);
 
-		ShellActive	=	TRUE;
+		ShellActive	=	true;
 	}
 
 	the_game.DarciStrength=0;
@@ -300,7 +300,7 @@ extern SLONG app_inactive;
 extern SLONG restore_surfaces;
 
 
-BOOL	LibShellActive(void)
+bool	LibShellActive(void)
 {
 	SLONG		result;
 	MSG			msg;
@@ -326,7 +326,7 @@ BOOL	LibShellActive(void)
 			}
 			else
 			{
-				ShellActive	=	FALSE;
+				ShellActive	=	false;
 			}
 #endif
 		}
@@ -353,7 +353,7 @@ BOOL	LibShellActive(void)
 			FRONTEND_restore_screenfull_surfaces();
 		}
 
-		restore_surfaces = FALSE;
+		restore_surfaces = false;
 	}
 
 	return	ShellActive;
@@ -361,21 +361,21 @@ BOOL	LibShellActive(void)
 
 //---------------------------------------------------------------
 
-BOOL	LibShellChanged(void)
+bool	LibShellChanged(void)
 {
 	if(the_display.IsDisplayChanged())
 	{
 		the_display.DisplayChangedOff();
-		return	TRUE;
+		return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
 
-BOOL	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
+bool	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 {
-	BOOL		result;
+	bool		result;
 	CBYTE		buff1[512],
 				buff2[512];
 	ULONG		flag; 
@@ -393,7 +393,7 @@ BOOL	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 	strcat(buff2, "\n\nAbort=Kill Application, Retry=Debug, Ignore=Continue");
 	flag	=	MB_ABORTRETRYIGNORE|MB_ICONSTOP|MB_DEFBUTTON3;
 
-	result	=	FALSE;
+	result	=	false;
 	the_display.toGDI();
 	switch(MessageBox(hDDLibWindow,buff2,"Mucky Foot Message",flag))
 	{
@@ -410,7 +410,7 @@ BOOL	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
 
 	the_display.fromGDI();
 #else
-	result = TRUE;
+	result = true;
 #endif
 
 	return	result;
@@ -483,7 +483,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
 	// So you can't have multiple release builds of fallen running at once!
 	//
 
-	CreateMutex(NULL, TRUE, "This is your friendly Urban Chaos mutex!");
+	CreateMutex(NULL, true, "This is your friendly Urban Chaos mutex!");
 
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
@@ -508,7 +508,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
 	// note the event is automatically deleted by the system when the app exits (even if it crashes)
 
 	#ifdef FINAL
-	HANDLE	hEvent = CreateEventA(NULL, FALSE, FALSE, "UrbanChaosExclusionZone");
+	HANDLE	hEvent = CreateEventA(NULL, false, false, "UrbanChaosExclusionZone");
 	if (GetLastError() != ERROR_ALREADY_EXISTS)
 	#endif
 	{

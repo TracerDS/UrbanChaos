@@ -24,7 +24,7 @@ void SUPERFACET_start_frame();
 
 
 //
-// Draws a super-fast facet if it can, otherwise returns FALSE!
+// Draws a super-fast facet if it can, otherwise returns false!
 //
 
 SLONG SUPERFACET_draw(SLONG facet);

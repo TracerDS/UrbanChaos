@@ -41,7 +41,7 @@ HMENU CreateMultiChoiceMenu(CBYTE *opts) {
  */
 
 void GadgetBase::Repaint() {
-  InvalidateRect(hWnd,NULL,FALSE);
+  InvalidateRect(hWnd,NULL,false);
 }
 
 /**********************************************************************
@@ -98,9 +98,9 @@ int  PropertyEditor::Type(UWORD index) {
 	return item.lParam;
 }
 
-BOOL PropertyEditor::Verify(UBYTE type, CBYTE *value) {
+bool PropertyEditor::Verify(UBYTE type, CBYTE *value) {
     switch(type) {
-	case PROPTYPE_STRING: return (BOOL)value;
+	case PROPTYPE_STRING: return (bool)value;
 	case PROPTYPE_INT:
 		{
 			if (!value||(!*value)) return false;
@@ -199,7 +199,7 @@ void PropertyEditor::Update(UWORD index, CBYTE *value) {
 //--- main processing ---
 
 
-BOOL PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
+bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	NMHDR *nm=(NMHDR*)lParam;
 	NMLVODSTATECHANGE *state=(NMLVODSTATECHANGE*)lParam;
 	NMLVDISPINFO *dispinfo=(NMLVDISPINFO*)lParam;
@@ -211,9 +211,9 @@ BOOL PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 		case PROPTYPE_BOOL:
 		case PROPTYPE_READONLY:
 		case PROPTYPE_BUTTON:
-			return TRUE;
+			return true;
 		default:
-			return FALSE;
+			return false;
 		}
 		break;
 	case LVN_ENDLABELEDIT:
@@ -285,7 +285,7 @@ BOOL PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 		}
 		break;
 	}
-	return TRUE;
+	return true;
 }
 
 
@@ -327,9 +327,9 @@ HTREEITEM TreeBrowser::Add(CBYTE *name, HTREEITEM parent, UBYTE indent, SLONG pa
 	return res;
 }
 
-int TreeBrowser::AddDir(CBYTE *path, BOOL subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld) {
+int TreeBrowser::AddDir(CBYTE *path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld) {
 	HANDLE handle;
-	BOOL res;
+	bool res;
 	WIN32_FIND_DATA data;
 	CBYTE *pt;
 	int count=0;
@@ -490,7 +490,7 @@ HTREEITEM TreeBrowser::GetChildFromItem(HTREEITEM hItem, int ofs) {
 
 //--- process messages ---
 
-BOOL TreeBrowser::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
+bool TreeBrowser::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	char msg[128];
 
 	LPNMTREEVIEW nm=(LPNMTREEVIEW)lParam;
@@ -499,7 +499,7 @@ BOOL TreeBrowser::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 		if (drag) {
 			if (callback) {
 				GetTextFromItem(nm->itemNew.hItem,msg,128);
-				if (!callback(this,TBCB_DRAG,nm->itemNew.lParam,nm->itemNew.hItem,msg)) return FALSE;
+				if (!callback(this,TBCB_DRAG,nm->itemNew.lParam,nm->itemNew.hItem,msg)) return false;
 			}
 			drag_item=nm->itemNew;
 			drag_item.iImage=GetImageFromItem(nm->itemNew.hItem); // b'cos the provided one doesn't give it. gits.
@@ -514,7 +514,7 @@ BOOL TreeBrowser::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 		if (callback) callback(this,TBCB_DBLCLK,selection,TreeView_GetSelection(hWnd),msg);
 		break;
 	}
-	return FALSE;
+	return false;
 }
 
 /**********************************************************************
@@ -540,14 +540,14 @@ void DragServer::Begin(HWND src) {
 	SetCapture(parent);
 }
 
-BOOL DragServer::Process(UINT message, WPARAM wParam, LPARAM lParam) {
+bool DragServer::Process(UINT message, WPARAM wParam, LPARAM lParam) {
 	POINT pt;
 
 	switch (message) {
 	case WM_MOUSEMOVE:
 		if (source) {
 			SetCursor(cursor);
-			return TRUE;
+			return true;
 		}
 		break;
 	case WM_LBUTTONUP:
@@ -559,7 +559,7 @@ BOOL DragServer::Process(UINT message, WPARAM wParam, LPARAM lParam) {
 		source=0;
 		break;
 	}
-	return FALSE;
+	return false;
 }
 
 
@@ -595,7 +595,7 @@ TimeLine::~TimeLine() {
 }
 
 
-BOOL TimeLine::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
+bool TimeLine::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	POINT pt;
 
 	switch (HIWORD(wParam)) {
@@ -855,7 +855,7 @@ TimeLineRuler::Draw(LPARAM lParam) {
 
 }
 
-BOOL TimeLineRuler::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
+bool TimeLineRuler::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	POINT pt;
 
 	switch(HIWORD(wParam)) {
@@ -888,7 +888,7 @@ void TimeLineScroll::SetOwner(TimeLine *nown) {
 	owner=nown;
 }
 
-BOOL TimeLineScroll::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
+bool TimeLineScroll::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	short int nPos = (short int)HIWORD(wParam);
 	int oldpos = GetScrollPos(hWnd,SB_CTL);
 	int inc=0;
@@ -915,7 +915,7 @@ BOOL TimeLineScroll::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	}
 	oldpos+=inc;
 	if (oldpos<0) oldpos=0;
-	SetScrollPos(hWnd,SB_CTL,oldpos,TRUE);
+	SetScrollPos(hWnd,SB_CTL,oldpos,true);
 	owner->SetScrollPos(oldpos);
 	return false;
 }

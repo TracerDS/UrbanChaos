@@ -19,7 +19,7 @@ CBYTE *the_title, *the_txt, *the_prompt;
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	ib_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	ib_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	switch(message)
 	{
@@ -34,7 +34,7 @@ BOOL	CALLBACK	ib_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 						);
 
 			SetFocus(GetDlgItem(hWnd,IDC_EDIT1));
-			return	FALSE;
+			return	false;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -46,18 +46,18 @@ BOOL	CALLBACK	ib_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 									(LPARAM)the_txt
 								);
 					EndDialog(hWnd,IDOK);
-					return TRUE;
+					return true;
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case	WM_CLOSE:
 			EndDialog(hWnd,IDCANCEL);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

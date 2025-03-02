@@ -32,7 +32,7 @@ SLONG	burn_type;
 //---------------------------------------------------------------
 
 
-BOOL	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 //	HWND		the_ctrl;
@@ -43,7 +43,7 @@ BOOL	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 	{
 		case	WM_INITDIALOG:
 			ticklist_init(hWnd, IDC_LIST1, wfire_strings,burn_type);
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -53,14 +53,14 @@ BOOL	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case WM_CLOSE:
 			ticklist_close(hWnd, IDC_LIST1);
 			EndDialog(hWnd,0);
-			return TRUE;
+			return true;
 
 		case WM_MEASUREITEM:
 			return ticklist_measure(hWnd, wParam, lParam);
@@ -68,7 +68,7 @@ BOOL	CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			return ticklist_draw(hWnd, wParam, lParam);
 
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

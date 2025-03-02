@@ -11,7 +11,7 @@
 
 struct EditWaypoint
 {
-	BOOL		Used;
+	bool		Used;
 	UWORD		Next,
 				Prev;
 	SLONG		X,Y,Z;

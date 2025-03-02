@@ -122,7 +122,7 @@ OB_Info *OB_find_inside(SLONG x, SLONG z,SLONG indoors);
 
 //
 // Finds the nearest object whose prim object contains one
-// of the given flags.  Returns FALSE if no object was found
+// of the given flags.  Returns false if no object was found
 // in the range.
 //
 
@@ -179,7 +179,7 @@ void OB_damage(
 		Thing *p_aggressor);	// Who caused the damage or NULL if you don't know
 
 //
-// Returns TRUE if there is a prim at (x,y,z)
+// Returns true if there is a prim at (x,y,z)
 //
 
 SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z);

@@ -15,8 +15,8 @@
 typedef struct
 {
 	UWORD index;	// This is the number of the global.
-	UBYTE export;	// TRUE => This global is exported
-	UBYTE local;	// TRUE => This global is local to the file.
+	UBYTE export;	// true => This global is exported
+	UBYTE local;	// true => This global is local to the file.
 	SLONG name;		// Index into the debug data
 
 } LINK_Global;
@@ -24,7 +24,7 @@ typedef struct
 typedef struct
 {
 	SLONG name;
-	SLONG export;		// TRUE => this function is exported.
+	SLONG export;		// true => this function is exported.
 	SLONG line_start;	// The first and last line of the function body
 	SLONG line_end;
 	SLONG num_args;		// The number of arguments to the function
@@ -128,7 +128,7 @@ typedef struct
 // ========================================================
 
 //
-// Links all the object files into an executable. Returns FALSE on failure.
+// Links all the object files into an executable. Returns false on failure.
 //
 
 SLONG LINK_do(CBYTE *object_fname[], SLONG num_object_files, CBYTE *exec_fname);

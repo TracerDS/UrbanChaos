@@ -431,13 +431,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = quad[3];
 				tri[2] = quad[2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 				
@@ -447,13 +447,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = quad[3];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 				
@@ -465,13 +465,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = quad[3];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 				
@@ -481,13 +481,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = &ps [3];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 				
@@ -497,13 +497,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = &ps [3];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 				
@@ -513,13 +513,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = quad[3];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 				
@@ -529,13 +529,13 @@ void MAP_sprite(
 				tri[1] = quad[1];
 				tri[2] = quad[2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				tri[0] = quad[1];
 				tri[1] = &ps [3];
 				tri[2] = &ps [2];
 
-				POLY_add_triangle(tri, page, FALSE, TRUE);
+				POLY_add_triangle(tri, page, false, true);
 
 				break;
 
@@ -546,7 +546,7 @@ void MAP_sprite(
 	}
 	else
 	{
-		POLY_add_quad(quad, page, FALSE, TRUE);
+		POLY_add_quad(quad, page, false, true);
 	}
 }
 
@@ -651,7 +651,7 @@ void MAP_draw_line(
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_COLOUR, false, true);
 }
 
 
@@ -738,7 +738,7 @@ void MAP_draw_dot(
 	tri[1] = &pp[1];
 	tri[2] = &pp[2];
 
-	POLY_add_triangle(tri, POLY_PAGE_IC2_ALPHA, FALSE, TRUE);
+	POLY_add_triangle(tri, POLY_PAGE_IC2_ALPHA, false, true);
 }
 
 #endif //#ifndef TARGET_DC
@@ -908,7 +908,7 @@ void MAP_pulse_draw(float wx, float wz, float radius, ULONG colour, UBYTE fade)
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, false, true);
 }
 
 //
@@ -1060,7 +1060,7 @@ void MAP_draw_arrow(float angle, ULONG colour)
 	quad[2] = &pp[2];
 	quad[3] = &pp[3];
 
-	POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, false, true);
 }
 
 void MAP_draw_3d_arrow(
@@ -1139,7 +1139,7 @@ void MAP_draw_3d_arrow(
 		pp[i].Y = 240.0F - (vy * pp[i].Z * width);
 	}
 
-	POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, FALSE, TRUE);
+	POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, false, true);
 }
 
 #endif //#ifndef TARGET_DC
@@ -1193,7 +1193,7 @@ UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
 
 		if (!mb->used)
 		{
-			mb->used         = TRUE;
+			mb->used         = true;
 			mb->counter      = 0;
 			mb->track_thing  = track_thing;
 			mb->index          = index;
@@ -1390,7 +1390,7 @@ void MAP_beacon_draw_all()
 			quad[2] = &pp[2];
 			quad[3] = &pp[3];
 
-			POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, FALSE, TRUE);
+			POLY_add_quad(quad, POLY_PAGE_IC2_ALPHA_END, false, true);
 		
 			//
 			// Draw the text
@@ -1417,7 +1417,7 @@ void MAP_beacon_remove(UBYTE beacon)
 {
 	ASSERT(WITHIN(beacon, 0, MAP_MAX_BEACONS - 1));
 
-	MAP_beacon[beacon].used = FALSE;
+	MAP_beacon[beacon].used = false;
 }
 
 
@@ -1528,7 +1528,7 @@ void MAP_draw()
 	//
 
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 #endif
 
 	//
@@ -1797,7 +1797,7 @@ void MAP_draw()
 	//
 
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,FALSE);
+	POLY_frame_draw(false,false);
 #endif
 }
 

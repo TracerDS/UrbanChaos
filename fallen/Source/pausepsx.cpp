@@ -71,9 +71,9 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 	"Abandonner la partie"
 };
 #define PAUSE_STR "PAUSE"
-#define SURE_STR "Etes-vous sûr(e) ?"
+#define SURE_STR "Etes-vous sï¿½r(e) ?"
 #define YORN_STR STR_CROSS" Oui / "STR_TRI" Non."
-#define CTRL_REMOVED "Manette retirée"
+#define CTRL_REMOVED "Manette retirï¿½e"
 #define CTRL_NOTSUPP "Manette non compatible"
 #endif
 
@@ -92,7 +92,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 #define SURE_STR "Sind Sie sicher?"
 #define YORN_STR STR_CROSS" Ja / "STR_TRI" Nein"
 #define CTRL_REMOVED "Controller enfernt"
-#define CTRL_NOTSUPP "Controller nicht unterstützt"
+#define CTRL_NOTSUPP "Controller nicht unterstï¿½tzt"
 #endif
 #endif
 
@@ -103,9 +103,9 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 	"Reiniciar nivel",
 	"Abandonar partida"
 };
-#define PAUSE_STR "MENÚ DE PAUSA"
-#define SURE_STR "¿Estás seguro ?"
-#define YORN_STR STR_CROSS" Sì / "STR_TRI" No."
+#define PAUSE_STR "MENï¿½ DE PAUSA"
+#define SURE_STR "ï¿½Estï¿½s seguro ?"
+#define YORN_STR STR_CROSS" Sï¿½ / "STR_TRI" No."
 #define CTRL_REMOVED "El mando se ha quitado"
 #define CTRL_NOTSUPP "Mando no soportado"
 #endif
@@ -119,7 +119,7 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 };
 #define PAUSE_STR "MENU PAUSA"
 #define SURE_STR "Sei sicuro?"
-#define YORN_STR STR_CROSS" Sì / "STR_TRI" No"
+#define YORN_STR STR_CROSS" Sï¿½ / "STR_TRI" No"
 #define CTRL_REMOVED "Controller rimosso"
 #define CTRL_NOTSUPP "Controller non supportato"
 #endif
@@ -175,7 +175,7 @@ SLONG PAUSE_handler() {
 extern demo_timeout;
 	static SLONG demo_timer=20*demo_timeout;
 #endif
-	SLONG ans = FALSE;
+	SLONG ans = false;
 
 	if (Keys[KB_ESC])
 	{
@@ -198,7 +198,7 @@ extern demo_timeout;
 		}
 	}
 
-	if (!(GAME_FLAGS & GF_PAUSED)) return FALSE;
+	if (!(GAME_FLAGS & GF_PAUSED)) return false;
 
 	psx_motor[0]=psx_motor[1]=0;
 
@@ -256,7 +256,7 @@ extern demo_timeout;
 			//draw_3d ^= 1;
 			GAME_FLAGS &= ~GF_PAUSED;
 			GAME_STATE  =  GS_REPLAY;
-			ans         = TRUE;
+			ans         = true;
 			delay=10;
 			MFX_Mute(0);
 			break;
@@ -273,7 +273,7 @@ extern demo_timeout;
 			GAME_STATE = 0;
 #endif
 			delay=10;
-			ans = TRUE;
+			ans = true;
 			Wadmenu_MuckyTime=0;
 			MFX_Mute(0);
 		}

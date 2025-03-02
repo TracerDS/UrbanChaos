@@ -64,7 +64,7 @@ extern void load_texture_styles(UBYTE load_editor_names, UBYTE world);
 
 //
 // Loads in the given prim object if it is not already loaded.
-// Returns FALSE on failure.
+// Returns false on failure.
 //
 
 SLONG load_prim_object(SLONG prim);

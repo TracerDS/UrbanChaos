@@ -36,7 +36,7 @@ struct RenderState
 	void		SetChanged();		// set changed members
 
 #ifdef TARGET_DC
-	bool		NeedsSorting()	{ return FALSE; }
+	bool		NeedsSorting()	{ return false; }
 #else
 	bool		NeedsSorting()	{ return !ZWriteEnable; }
 #endif
@@ -57,7 +57,7 @@ struct RenderState
 	static bool				AllowFadeOut;
 #endif
 
-	bool	IsAlphaBlendEnabled() { return ( AlphaBlendEnable != FALSE );}
+	bool	IsAlphaBlendEnabled() { return ( AlphaBlendEnable != false );}
 
 private:
 	LPDIRECT3DTEXTURE2		TextureMap;

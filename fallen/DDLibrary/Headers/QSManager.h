@@ -48,15 +48,15 @@ class	Wave
 		HRESULT				Load(void);
 		HRESULT				Free(void);
 
-		inline	BOOL		IsValid(void)				{	return	WaveFlags&QS_WAVE_VALID;		}
+		inline	bool		IsValid(void)				{	return	WaveFlags&QS_WAVE_VALID;		}
 		inline	void		ValidOn(void)				{	WaveFlags		|=	QS_WAVE_VALID;		}
 		inline	void		ValidOff(void)				{	WaveFlags		&=	~QS_WAVE_VALID;		}
 
-		inline	BOOL		IsLoaded(void)				{	return	WaveFlags&QS_WAVE_LOADED;		}
+		inline	bool		IsLoaded(void)				{	return	WaveFlags&QS_WAVE_LOADED;		}
 		inline	void		LoadedOn(void)				{	WaveFlags		|=	QS_WAVE_LOADED;		}
 		inline	void		LoadedOff(void)				{	WaveFlags		&=	~QS_WAVE_LOADED;	}
 
-		inline	BOOL		IsStreamed(void)			{	return	WaveFlags&QS_WAVE_STREAMED;	}
+		inline	bool		IsStreamed(void)			{	return	WaveFlags&QS_WAVE_STREAMED;	}
 		inline	void		StreamedOn(void)			{	WaveFlags		|=	QS_WAVE_STREAMED;	}
 		inline	void		StreamedOff(void)			{	WaveFlags		&=	~QS_WAVE_STREAMED;	}
 
@@ -134,11 +134,11 @@ class	QSManager
 		HRESULT				PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WaveParams *the_params);
 		HRESULT				StopWave(SLONG wave_ref,SLONG wave_id);
 
-		inline	BOOL		IsInitialised(void)			{	return	ManagerFlags&QS_MANAGER_INIT;		}
+		inline	bool		IsInitialised(void)			{	return	ManagerFlags&QS_MANAGER_INIT;		}
 		inline	void		InitOn(void)				{	ManagerFlags	|=	QS_MANAGER_INIT;		}
 		inline	void		InitOff(void)				{	ManagerFlags	&=	~QS_MANAGER_INIT;		}
 
-		inline	BOOL		IsActive(void)				{	return	ManagerFlags&QS_MANAGER_ACTIVE;		}
+		inline	bool		IsActive(void)				{	return	ManagerFlags&QS_MANAGER_ACTIVE;		}
 		inline	void		ActiveOn(void)				{	ManagerFlags	|=	QS_MANAGER_ACTIVE;		}
 		inline	void		ActiveOff(void)				{	ManagerFlags	&=	~QS_MANAGER_ACTIVE;		}
 

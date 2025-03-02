@@ -7,9 +7,9 @@
 #include	<MFHeader.h>
 
 
-BOOL					DeviceFound		=	FALSE,
-						GotD3D2			=	FALSE,
-						HasHardware		=	FALSE;
+bool					DeviceFound		=	false,
+						GotD3D2			=	false,
+						HasHardware		=	false;
 ULONG					RequestFlags	=	0;
 SLONG					DeviceBitDepth;
 D3DDEVICEDESC			d3d_DeviceDesc;
@@ -37,7 +37,7 @@ void	SetupD3D2()
 			if(dd_result==DD_OK)
 			{
 				LogText("D3D2 installed.\n");
-				GotD3D2	=	TRUE;
+				GotD3D2	=	true;
 			}
 		}
 	}
@@ -80,7 +80,7 @@ void	ResetD3D2()
 
 //---------------------------------------------------------------
 
-BOOL	ChooseD3DDevice(ULONG flags)
+bool	ChooseD3DDevice(ULONG flags)
 {
     DDSURFACEDESC	dd_sd; 
     HRESULT			dd_result; 
@@ -104,7 +104,7 @@ BOOL	ChooseD3DDevice(ULONG flags)
 		        case	32:	DeviceBitDepth	=	DDBD_32;break;
 		        default:	DeviceBitDepth	=	0;
 		    } 		 
-		    DeviceFound			=	FALSE; 
+		    DeviceFound			=	false; 
 			RequestFlags		=	flags;
 		    dd_result			=	lp_D3D_2->EnumDevices(EnumDeviceCallback,NULL);
 
@@ -163,12 +163,12 @@ BOOL	ChooseD3DDevice(ULONG flags)
 					LogText("Can't create direct draw device\n");
 					goto	exit_false;
 				}
-				return	TRUE;
+				return	true;
 			}
 		}
 	}
 exit_false:
-	return	FALSE;
+	return	false;
 } 
 
 //---------------------------------------------------------------
@@ -221,7 +221,7 @@ HRESULT WINAPI	EnumDeviceCallback(
 			return	D3DENUMRET_OK;		// No RGB gouraud shading.
 	}
 
-    DeviceFound	=	TRUE;
+    DeviceFound	=	true;
     CopyMemory(&GUIDDevice,lpGUID,sizeof(GUID));
 //    strcpy(DeviceDesc, lpszDeviceDesc);
 //    strcpy(DeviceName, lpszDeviceName);
@@ -249,7 +249,7 @@ HRESULT WINAPI	EnumDeviceCallback(
     lpUserArg	=	lpUserArg;
 
 #ifdef	_DEBUG
-	HardwareDevice     =	FALSE;
+	HardwareDevice     =	false;
 #else
 	// If there is no hardware support the color model is zero. 
     HardwareDevice	=	(0 != lpd3dHWDeviceDesc->dcmColorModel); 
@@ -312,7 +312,7 @@ HRESULT WINAPI	EnumDeviceCallback(
 //        return D3DENUMRET_OK; 
 
 		// This is a device we are interested in. Save the details. 
-		DeviceFound	=	TRUE;
+		DeviceFound	=	true;
 		CopyMemory(&guid_device, lpGUID, sizeof(GUID));
 		strcpy(DeviceDesc, lpszDeviceDesc);
 		strcpy(DeviceName, lpszDeviceName);
@@ -329,7 +329,7 @@ HRESULT WINAPI	EnumDeviceCallback(
     }
 #else
 	// This is a device we are interested in. Save the details. 
-    DeviceFound	=	TRUE;
+    DeviceFound	=	true;
     CopyMemory(&guid_device, lpGUID, sizeof(GUID));
     strcpy(DeviceDesc, lpszDeviceDesc);
     strcpy(DeviceName, lpszDeviceName);

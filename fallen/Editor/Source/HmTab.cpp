@@ -320,7 +320,7 @@ void HMTAB_load_primgrids(CBYTE *fname)
 
 		hp = &HMTAB_prim[hm_pg.prim];
 
-		hp->defined = TRUE;
+		hp->defined = true;
 		hp->x_res   = hm_pg.x_res;
 		hp->y_res   = hm_pg.y_res;
 		hp->z_res   = hm_pg.z_res;
@@ -494,7 +494,7 @@ void HmTab::draw_grid(UWORD prim)
 		// We had better define it!
 		//
 
-		hp->defined = TRUE;
+		hp->defined = true;
 
 		hp->x_res = 2;
 		hp->y_res = 2;
@@ -777,7 +777,7 @@ void HmTab::draw_cog(UWORD prim)
 		// We had better define it!
 		//
 
-		hp->defined = TRUE;
+		hp->defined = true;
 
 		hp->x_res = 2;
 		hp->y_res = 2;
@@ -859,7 +859,7 @@ void HmTab::draw_cog(UWORD prim)
 // Looks for a point in the given HMTAB_prim that is close to the
 // mouse and moves it to the mouse position.
 //
-// (mouse_x, mouse_y) should be in window coordinates. Returns TRUE
+// (mouse_x, mouse_y) should be in window coordinates. Returns true
 // if it was close enough to change a point.
 //
 
@@ -888,7 +888,7 @@ SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
 	SLONG dx;
 	SLONG dy;
 	SLONG dist;
-	SLONG change = FALSE;
+	SLONG change = false;
 
 	ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 	ASSERT(WITHIN(prim, 1, HMTAB_MAX_PRIMS  - 1));
@@ -903,7 +903,7 @@ SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
 		// We had better define it!
 		//
 
-		hp->defined = TRUE;
+		hp->defined = true;
 
 		hp->x_res = 2;
 		hp->y_res = 2;
@@ -975,7 +975,7 @@ SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
 
 				hp->x_point[i] = DIV64(mx - pi->minx, bbdx);
 
-				change = TRUE;
+				change = true;
 			}
 		}
 	}
@@ -1001,7 +1001,7 @@ SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
 
 				hp->y_point[i] = DIV64(my - pi->miny, bbdy);
 
-				change = TRUE;
+				change = true;
 			}
 		}
 	}
@@ -1027,7 +1027,7 @@ SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
 
 				hp->z_point[i] = DIV64(mz - pi->minz, bbdz);
 
-				change = TRUE;
+				change = true;
 			}
 		}
 	}
@@ -1174,7 +1174,7 @@ void HmTab::DrawTabContent()
 
 void HmTab::HandleTab(MFPoint *current_point)
 {
-	SLONG change = FALSE;
+	SLONG change = false;
 
 	//
 	// Do the buttons.
@@ -1186,8 +1186,8 @@ void HmTab::HandleTab(MFPoint *current_point)
 	// Do the keyboard.
 	//
 
-	if (Keys[KB_HOME]) {VD_cam_scale += 0x30000; change = TRUE;}
-	if (Keys[KB_END ]) {VD_cam_scale -= 0x30000; change = TRUE;}
+	if (Keys[KB_HOME]) {VD_cam_scale += 0x30000; change = true;}
+	if (Keys[KB_END ]) {VD_cam_scale -= 0x30000; change = true;}
 
 	SATURATE(VD_cam_scale, 0x800000, 0x4000000);
 
@@ -1205,7 +1205,7 @@ void HmTab::HandleTab(MFPoint *current_point)
 				break;
 		}
 
-		change = TRUE;
+		change = true;
 	}
 
 	if (change)
@@ -1214,7 +1214,7 @@ void HmTab::HandleTab(MFPoint *current_point)
 		// Redraw ourselves..
 		//
 
-		RedrawModuleContent = TRUE;
+		RedrawModuleContent = true;
 		RequestUpdate();
 	}
 }
@@ -1477,7 +1477,7 @@ void HmTab::HandleControl(UWORD control_id)
 	if (hp->y_point[hp->y_res - 1] < 0x10000) {hp->y_point[hp->y_res - 1] = 0x10000;}
 	if (hp->z_point[hp->z_res - 1] < 0x10000) {hp->z_point[hp->z_res - 1] = 0x10000;}
 
-	RedrawModuleContent = TRUE;
+	RedrawModuleContent = true;
 	RequestUpdate();
 }
 
@@ -1573,7 +1573,7 @@ SLONG HmTab::HandleModuleContentClick(MFPoint *clicked_point, UBYTE flags, SLONG
 		}
 	}
 
-	RedrawModuleContent = TRUE;
+	RedrawModuleContent = true;
 	RequestUpdate();
 
 	return 0;

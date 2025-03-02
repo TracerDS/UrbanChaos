@@ -116,7 +116,7 @@ public:
 	A3DSource* Play(A3DData *Original, A3DSource* Channel=NULL, UBYTE Looped=0);
 
 	// channel check
-	BOOL Valid(A3DBase* item);
+	bool Valid(A3DBase* item);
 	A3DSource *ValidChannel(A3DBase* item);
 	A3DBase	  *ValidWave(A3DBase* item);
 
@@ -160,8 +160,8 @@ public:
 	inline CBYTE		*GetTitle()								{	return title;											};
 	ULONG				 GetLengthSamples();
 	float				 GetLengthSeconds();
-	BOOL				 HasEnded(UBYTE early_out);
-//	BOOL				 HasEnded() 							{   float f; a3dsrc->GetWaveTime(&f); return (f>GetLengthSeconds()); };
+	bool				 HasEnded(UBYTE early_out);
+//	bool				 HasEnded() 							{   float f; a3dsrc->GetWaveTime(&f); return (f>GetLengthSeconds()); };
 
 
 };
@@ -196,7 +196,7 @@ private:
 	void DoChange(A3DBase *original);
 	void SetupParams();
 public:
-	BOOL		autofree;
+	bool		autofree;
 	ULONG		Flags;
 	SLONG		User;							// random user-defined var
 	A3DBase		*cloned_from;

@@ -237,7 +237,7 @@ SLONG GAME_start_menu()
 	CBYTE     *error     =  NULL;
 	CBYTE     *text      =  NULL;
 	SLONG      cursor    =  0;
-	SLONG      choose    =  FALSE;
+	SLONG      choose    =  false;
 	CBYTE     *ch;
 
 	while(1)
@@ -263,7 +263,7 @@ SLONG GAME_start_menu()
 			else
 			if (choose)
 			{
-				choose = FALSE;
+				choose = false;
 			}
 			else
 			{
@@ -430,7 +430,7 @@ SLONG GAME_start_menu()
 					KEY_on[KEY_RETURN] = 0;
 					KEY_on[KEY_ENTER ] = 0;
 
-					choose = FALSE;
+					choose = false;
 				}
 
 				//
@@ -725,7 +725,7 @@ SLONG GAME_start_menu()
 
 									if (gi->choice && gi->num_choices)
 									{
-										choose = TRUE;
+										choose = true;
 									}
 
 									break;
@@ -941,7 +941,7 @@ SLONG GAME_do_player()
 {
 	SLONG i;
 	SLONG rollback               = 0;
-	SLONG ignore_server_messages = FALSE;
+	SLONG ignore_server_messages = false;
 
 	GAME_init_level(0);
 
@@ -980,7 +980,7 @@ SLONG GAME_do_player()
 			return GAME_DO_PLAYER_LEFT_SESSION;
 		}
 
-		ignore_server_messages = FALSE;
+		ignore_server_messages = false;
 
 		while(GAME_tick < OS_ticks())
 		{	
@@ -1020,7 +1020,7 @@ SLONG GAME_do_player()
 				// Only process server messages once for each time we draw the screen.
 				//
 
-				ignore_server_messages = TRUE;
+				ignore_server_messages = true;
 
 				if (rollback)
 				{

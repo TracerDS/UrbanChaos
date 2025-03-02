@@ -57,7 +57,7 @@
 #endif
 
 
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 
 SLONG FIGURE_alpha = 255;
 
@@ -105,7 +105,7 @@ void DeadAndBuried ( DWORD dwColour )
 
 
 
-// Returns TRUE if this chunk is not near-Z clipped, FALSE if it is.
+// Returns true if this chunk is not near-Z clipped, false if it is.
 bool FIGURE_draw_prim_tween_person_only_just_set_matrix (
 		int iMatrixNum,
 		SLONG prim,
@@ -134,7 +134,7 @@ void FIGURE_draw_prim_tween_person_only(
 
 
 #ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
-bool m_bPleaseInflatePeople = FALSE;
+bool m_bPleaseInflatePeople = false;
 #endif
 
 
@@ -169,7 +169,7 @@ float *MM_pNormal = NULL;
 #endif
 
 D3DVECTOR MM_vLightDir;
-bool MM_bLightTableAlreadySetUp = FALSE;
+bool MM_bLightTableAlreadySetUp = false;
 
 
 
@@ -733,11 +733,11 @@ int MSMesh::NextTri( int v1, int v2, int *v3 )
 
 static MSMesh mesh;
 
-BOOL MSOptimizeIndexedList( WORD *pwIndices, int nTriangles )
+bool MSOptimizeIndexedList( WORD *pwIndices, int nTriangles )
 {
 
    if( !mesh.SetSize( nTriangles ) )
-      return FALSE;
+      return false;
 
    mesh.Clear();
 
@@ -750,7 +750,7 @@ BOOL MSOptimizeIndexedList( WORD *pwIndices, int nTriangles )
    }
 
    if( mesh.NumVertices() == 0 )
-     return FALSE;
+     return false;
 
    int nLength = nTriangles;
    int nTotal = 0;
@@ -762,7 +762,7 @@ BOOL MSOptimizeIndexedList( WORD *pwIndices, int nTriangles )
       nTotal += nLength;
    }
 
-   return TRUE;
+   return true;
 }
 
 
@@ -782,7 +782,7 @@ int m_iNumLights = 0;
 int FindMeAFreeLightAndPutItInTheScene ( void )
 {
 	int i = 0;
-	while ( TRUE )
+	while ( true )
 	{
 		ASSERT ( i < MAX_NUM_OF_LIGHTS );
 		if ( !m_bLightInScene[i] )
@@ -802,7 +802,7 @@ int FindMeAFreeLightAndPutItInTheScene ( void )
 	// Add the light in.
 	HRESULT hres = (the_display.lp_D3D_Viewport)->AddLight ( m_pLight[i] );
 	ASSERT ( SUCCEEDED ( hres ) );
-	m_bLightInScene[i] = TRUE;
+	m_bLightInScene[i] = true;
 	return ( i );
 }
 
@@ -825,7 +825,7 @@ void RemoveThisLightFromScene ( int iLightNum )
 	ASSERT ( m_pLight[iLightNum] != NULL );
 	HRESULT hres = (the_display.lp_D3D_Viewport)->DeleteLight ( m_pLight[iLightNum] );
 	ASSERT ( SUCCEEDED ( hres ) );
-	m_bLightInScene[iLightNum] = FALSE;
+	m_bLightInScene[iLightNum] = false;
 }
 
 #if 0
@@ -1424,7 +1424,7 @@ TomsPrimObject D3DPeopleObj[MAX_NUMBER_D3D_PEOPLE];
 
 
 // iFaceNum: the face number
-// bTri: TRUE if it's a tri, FALSE if it's a quad.
+// bTri: true if it's a tri, false if it's a quad.
 UWORD FIGURE_find_face_D3D_texture_page ( int iFaceNum, bool bTri )
 {
 	// Find the texture page/shading info.
@@ -1488,7 +1488,7 @@ UWORD FIGURE_find_face_D3D_texture_page ( int iFaceNum, bool bTri )
 					//page=jacket_lookup[3][GET_SKILL(p_thing)>>2];
 					break;
 				default:
-					ASSERT(FALSE);
+					ASSERT(false);
 					break;
 			}
 			//page+=FACE_PAGE_OFFSET;
@@ -1599,7 +1599,7 @@ void FIGURE_clean_all_LRU_slots ( void )
 
 #ifdef DEBUG
 int g_iCacheReplacements = 0;
-bool g_bCacheReplacementThrash = FALSE;
+bool g_bCacheReplacementThrash = false;
 #endif
 
 // Adds the primobj to the LRU queue somewhere, evicting something else if need be.
@@ -1661,7 +1661,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 
 	#ifdef DEBUG
 				// And warn us.
-				g_bCacheReplacementThrash = TRUE;
+				g_bCacheReplacementThrash = true;
 	#endif
 			}
 
@@ -1714,7 +1714,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 
 	#ifdef DEBUG
 				// And warn us.
-				g_bCacheReplacementThrash = TRUE;
+				g_bCacheReplacementThrash = true;
 	#endif
 			}
 
@@ -1725,7 +1725,7 @@ void FIGURE_find_and_clean_prim_queue_item ( TomsPrimObject *pPrimObj, int iThra
 			if ( ptpoLRUQueue[iOldestSlot] == NULL )
 			{
 				// Warn me.
-				ASSERT ( FALSE );
+				ASSERT ( false );
 
 				// And recover gracefully...
 
@@ -1966,7 +1966,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 		ASSERT ( pOuterObj != NULL );
 
-		bool bOuterTris = FALSE;
+		bool bOuterTris = false;
 		do
 		{
 			int iOuterFaceNum;
@@ -2099,7 +2099,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 						}
 						else
 						{
-							bInnerTris = FALSE;
+							bInnerTris = false;
 						}
 
 						do
@@ -2128,7 +2128,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 										// If the outer loop was scanning tris,
 										// it did so after scanning all quads,
 										// so why are we scanning quads in the inner loop?
-										ASSERT ( FALSE );
+										ASSERT ( false );
 										iInnerFaceNum = pInnerObj->StartFace4;
 									}
 									else
@@ -2157,12 +2157,12 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 							{
 								UWORD wTexturePage = FIGURE_find_face_D3D_texture_page ( iInnerFaceNum, bInnerTris );
 
-								bool bSamePage = FALSE;
+								bool bSamePage = false;
 
 								if ( pMaterial->wTexturePage == wTexturePage )
 								{
 									// Exactly the same page.
-									bSamePage = TRUE;
+									bSamePage = true;
 								}
 		#if 1
 		#ifdef TEX_EMBED
@@ -2176,7 +2176,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 										if ( pRenderedPage == ( POLY_Page[wTexturePage & TEXTURE_PAGE_MASK].pTheRealPolyPage ) )
 										{
 											// The textures match!
-											bSamePage = TRUE;
+											bSamePage = true;
 										}
 									}
 								}
@@ -2518,14 +2518,14 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 							for ( int j = 0; j < 3; j++ )
 							{
 								// Look for edge wI1, wI2.
-								bool bFound = FALSE;
+								bool bFound = false;
 								for ( int k = 0; k < iNumEdges; k++ )
 								{
 									if ( ( ( pEdgeList[k].wPt1 == wI1 ) && ( pEdgeList[k].wPt2 == wI2 ) ) ||
 										 ( ( pEdgeList[k].wPt1 == wI2 ) && ( pEdgeList[k].wPt2 == wI1 ) ) )
 									{
 										// Found the edge.
-										bFound = TRUE;
+										bFound = true;
 										break;
 									}
 								}
@@ -2797,8 +2797,8 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 					// Previous edge.
 					WORD wIndex0 = -1;
 					WORD wIndex1 = -1;
-					bool bOdd = FALSE;
-					bool bFirst = TRUE;
+					bool bOdd = false;
+					bool bFirst = true;
 					for (int i = pMaterial->wNumListIndices / 3; i > 0; i-- )
 					{
 						// Can we continue the list?
@@ -2864,7 +2864,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 							}
 							else
 							{
-								bFirst = FALSE;
+								bFirst = false;
 							}
 							*TPO_pCurStripIndex++ = pSrcIndex[0];
 							*TPO_pCurStripIndex++ = pSrcIndex[1];
@@ -2883,7 +2883,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 	#endif
 							wIndex0 = pSrcIndex[2];
 							wIndex1 = pSrcIndex[1];
-							bOdd = FALSE;
+							bOdd = false;
 						}
 						pSrcIndex += 3;
 					}
@@ -3784,7 +3784,7 @@ extern DWORD g_dw3DStuffY;
 
 #if 1
 	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, FALSE );
+	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, false );
 #endif
 
 
@@ -3894,7 +3894,7 @@ static int iCounter = 0;
 			// Fast as lightning.
 			LOG_ENTER ( Figure_Set_RenderState )
 			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 			LOG_EXIT ( Figure_Set_RenderState )
@@ -3926,7 +3926,7 @@ static int iCounter = 0;
 #ifdef TARGET_DC
 #define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
 extern DIJOYSTATE the_state;
-			bool bShowDebug = FALSE;
+			bool bShowDebug = false;
 			if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
 			{
 				DWORD dwColour = (DWORD)pwStripIndices;
@@ -3974,7 +3974,7 @@ extern DIJOYSTATE the_state;
 
 			LOG_ENTER ( Figure_Set_RenderState )
 			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 
@@ -4061,7 +4061,7 @@ extern DIJOYSTATE the_state;
 
 #if 1
 	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, TRUE );
+	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, true );
 #endif
 
 	LOG_EXIT ( Figure_Draw_Polys )
@@ -4185,7 +4185,7 @@ extern DIJOYSTATE the_state;
 
 
 			//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 4, wIndices, 5, D3DDP_MULTIMATRIX );
@@ -4307,7 +4307,7 @@ extern DIJOYSTATE the_state;
 
 
 			//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 			HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 3, wIndices, 4, D3DDP_MULTIMATRIX );
@@ -4455,7 +4455,7 @@ extern DIJOYSTATE the_state;
 
 					HRESULT hres;
 
-					if (FALSE && the_display.GetDeviceInfo()->AdamiLightingSupported())
+					if (false && the_display.GetDeviceInfo()->AdamiLightingSupported())
 					{
 						// Draw lighting triangle
 						PolyPage *tpa = &(POLY_Page[POLY_PAGE_COLOUR]);
@@ -4466,14 +4466,14 @@ extern DIJOYSTATE the_state;
 
 					//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
 					pa->RS.SetChanged();
-					pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+					pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 					pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 					hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, tlVertex, 4, wIndices, 6, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT );
 #else
 
 					static iCount = 0;
 
-					if ( FALSE )
+					if ( false )
 					{
 
 						// LVertex.
@@ -4495,7 +4495,7 @@ extern DIJOYSTATE the_state;
 
 						HRESULT hres;
 
-						if (FALSE && the_display.GetDeviceInfo()->AdamiLightingSupported())
+						if (false && the_display.GetDeviceInfo()->AdamiLightingSupported())
 						{
 							// Draw lighting triangle
 							PolyPage *tpa = &(POLY_Page[POLY_PAGE_COLOUR]);
@@ -4505,7 +4505,7 @@ extern DIJOYSTATE the_state;
 						}
 
 						//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 						pa->RS.SetChanged();
 						hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_LVERTEX, lVertex, 4, wIndices, 6, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT );
@@ -4538,7 +4538,7 @@ extern DIJOYSTATE the_state;
 						}
 
 #if 0
-						if ( FALSE && the_display.GetDeviceInfo()->AdamiLightingSupported() )
+						if ( false && the_display.GetDeviceInfo()->AdamiLightingSupported() )
 						{
 							// Draw lighting triangle
 							PolyPage *tpa = &(POLY_Page[POLY_PAGE_COLOUR]);
@@ -4556,7 +4556,7 @@ extern DIJOYSTATE the_state;
 
 						//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
 						pa->RS.SetChanged();
-						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 						HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 4, wIndices, 5, D3DDP_MULTIMATRIX );
 						ASSERT ( SUCCEEDED ( hres ) );
@@ -4749,7 +4749,7 @@ extern DIJOYSTATE the_state;
 					// TLVERTEX stuff.
 					WORD wIndices[3] = {0,1,2};
 					D3DTLVERTEX tlVertex[3];
-					bool bBinned = FALSE;
+					bool bBinned = false;
 					for ( int i = 0; i < 3; i++ )
 					{
 						tlVertex[i].dvSX = tri[i]->X * PolyPage::s_XScale;
@@ -4763,7 +4763,7 @@ extern DIJOYSTATE the_state;
 
 						if ( ( tri[i]->Z <= 0.0f ) || ( tri[i]->Z >= 1.0f ) )
 						{
-							bBinned = TRUE;
+							bBinned = true;
 						}
 					}
 
@@ -4771,7 +4771,7 @@ extern DIJOYSTATE the_state;
 					{
 						HRESULT hres;
 
-						if ( FALSE && the_display.GetDeviceInfo()->AdamiLightingSupported())
+						if ( false && the_display.GetDeviceInfo()->AdamiLightingSupported())
 						{
 							// Draw lighting triangle
 							PolyPage *tpa = &(POLY_Page[POLY_PAGE_COLOUR]);
@@ -4781,7 +4781,7 @@ extern DIJOYSTATE the_state;
 						}
 
 						//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 						pa->RS.SetChanged();
 						hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, tlVertex, 3, wIndices, 3, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT );
@@ -4789,7 +4789,7 @@ extern DIJOYSTATE the_state;
 #else
 
 					static int iCount = 0;
-					if ( FALSE )
+					if ( false )
 					{
 						// LVertex.
 						WORD wIndices[3] = {0,1,2};
@@ -4812,7 +4812,7 @@ extern DIJOYSTATE the_state;
 
 						HRESULT hres;
 
-						if ( FALSE && the_display.GetDeviceInfo()->AdamiLightingSupported())
+						if ( false && the_display.GetDeviceInfo()->AdamiLightingSupported())
 						{
 							// Draw lighting triangle
 							PolyPage *tpa = &(POLY_Page[POLY_PAGE_COLOUR]);
@@ -4822,7 +4822,7 @@ extern DIJOYSTATE the_state;
 						}
 
 						//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 						pa->RS.SetChanged();
 						hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_LVERTEX, lVertex, 3, wIndices, 3, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT );
@@ -4856,7 +4856,7 @@ extern DIJOYSTATE the_state;
 						}
 
 #if 0
-						if ( FALSE && the_display.GetDeviceInfo()->AdamiLightingSupported() )
+						if ( false && the_display.GetDeviceInfo()->AdamiLightingSupported() )
 						{
 							// Draw lighting triangle
 							PolyPage *tpa = &(POLY_Page[POLY_PAGE_COLOUR]);
@@ -4874,7 +4874,7 @@ extern DIJOYSTATE the_state;
 
 						//pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
 						pa->RS.SetChanged();
-						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+						pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 						pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 						HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive ( D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *)&d3dmm, 3, wIndices, 4, D3DDP_MULTIMATRIX );
 						ASSERT ( SUCCEEDED ( hres ) );
@@ -5667,12 +5667,12 @@ extern int g_iCheatNumber;
 		if ( m_bPleaseInflatePeople )
 		{
 			CONSOLE_text("Looks like the inflation is wearing off now D'arci.");
-			m_bPleaseInflatePeople = FALSE;
+			m_bPleaseInflatePeople = false;
 		}
 		else
 		{
 			CONSOLE_text("The Illinois Enema Bandit has inflated everyone D'arci!");
-			m_bPleaseInflatePeople = TRUE;
+			m_bPleaseInflatePeople = true;
 		}
 		// And rebuild all prims.
 		FIGURE_clean_all_LRU_slots();
@@ -5832,8 +5832,8 @@ extern int g_iCheatNumber;
 	
 	// Gets pre-incremented to 0 before use.
 	int iTPOPartNumber = -1;
-	bool bWholePersonVisible = TRUE;
-	bool bBitsOfPersonVisible = FALSE;
+	bool bWholePersonVisible = true;
+	bool bBitsOfPersonVisible = false;
 
 
 	recurse_level = 0;
@@ -5895,23 +5895,23 @@ extern int g_iCheatNumber;
 						if(p_person->Draw.Tweened->Flags&DT_FLAG_GUNFLASH)
 						{
 							SLONG	prim;
-							bool bDrawMuzzleFlash = FALSE;
+							bool bDrawMuzzleFlash = false;
 							p_person->Draw.Tweened->Flags&=~DT_FLAG_GUNFLASH;
 							switch(p_person->Draw.Tweened->PersonID>>5)
 							{
 								case	1:	// Pistol
 									prim = 261;
-									bDrawMuzzleFlash = TRUE;
+									bDrawMuzzleFlash = true;
 									break;
 
 								case	3:	// Shotgun
 									prim = 262;
-									bDrawMuzzleFlash = TRUE;
+									bDrawMuzzleFlash = true;
 									break;
 
 								case	5:	// AK
 									prim = 263;
-									bDrawMuzzleFlash = TRUE;
+									bDrawMuzzleFlash = true;
 									break;
 
 								default:
@@ -6117,7 +6117,7 @@ extern int g_iCheatNumber;
 
 #if 1
 	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, FALSE );
+	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, false );
 #endif
 
 
@@ -6220,7 +6220,7 @@ static int iCounter = 0;
 			// Fast as lightning.
 			LOG_ENTER ( Figure_Set_RenderState )
 			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 			LOG_EXIT ( Figure_Set_RenderState )
@@ -6236,7 +6236,7 @@ static int iCounter = 0;
 #ifdef TARGET_DC
 #define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
 extern DIJOYSTATE the_state;
-			bool bShowDebug = FALSE;
+			bool bShowDebug = false;
 			if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
 			{
 				DWORD dwColour = (DWORD)pwStripIndices;
@@ -6283,7 +6283,7 @@ extern DIJOYSTATE the_state;
 
 			LOG_ENTER ( Figure_Set_RenderState )
 			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 
@@ -6344,7 +6344,7 @@ extern DIJOYSTATE the_state;
 
 #if 1
 	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, TRUE );
+	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, true );
 #endif
 
 	LOG_EXIT ( Figure_Draw_Polys )
@@ -6399,12 +6399,12 @@ extern int g_iCheatNumber;
 		if ( m_bPleaseInflatePeople )
 		{
 			CONSOLE_text("Looks like the inflation is wearing off now D'arci.");
-			m_bPleaseInflatePeople = FALSE;
+			m_bPleaseInflatePeople = false;
 		}
 		else
 		{
 			CONSOLE_text("The Illinois Enema Bandit has inflated everyone D'arci!");
-			m_bPleaseInflatePeople = TRUE;
+			m_bPleaseInflatePeople = true;
 		}
 		// And rebuild all prims.
 		FIGURE_clean_all_LRU_slots();
@@ -6520,23 +6520,23 @@ extern int g_iCheatNumber;
 						if(p_person->Draw.Tweened->Flags&DT_FLAG_GUNFLASH)
 						{
 							SLONG	prim;
-							bool bDrawMuzzleFlash = FALSE;
+							bool bDrawMuzzleFlash = false;
 							p_person->Draw.Tweened->Flags&=~DT_FLAG_GUNFLASH;
 							switch(p_person->Draw.Tweened->PersonID>>5)
 							{
 								case	1:	// Pistol
 									prim = 261;
-									bDrawMuzzleFlash = TRUE;
+									bDrawMuzzleFlash = true;
 									break;
 
 								case	3:	// Shotgun
 									prim = 262;
-									bDrawMuzzleFlash = TRUE;
+									bDrawMuzzleFlash = true;
 									break;
 
 								case	5:	// AK
 									prim = 263;
-									bDrawMuzzleFlash = TRUE;
+									bDrawMuzzleFlash = true;
 									break;
 
 								default:
@@ -6746,12 +6746,12 @@ extern int g_iCheatNumber;
 		if ( m_bPleaseInflatePeople )
 		{
 			CONSOLE_text("Looks like the inflation is wearing off now D'arci.");
-			m_bPleaseInflatePeople = FALSE;
+			m_bPleaseInflatePeople = false;
 		}
 		else
 		{
 			CONSOLE_text("The Illinois Enema Bandit has inflated everyone D'arci!");
-			m_bPleaseInflatePeople = TRUE;
+			m_bPleaseInflatePeople = true;
 		}
 		// And rebuild all prims.
 		FIGURE_clean_all_LRU_slots();
@@ -7255,7 +7255,7 @@ void FIGURE_draw(Thing *p_thing)
 
 	BuildMMLightingTable ( p, 0 );
 
-	MM_bLightTableAlreadySetUp = TRUE;
+	MM_bLightTableAlreadySetUp = true;
 
 
 #endif
@@ -7346,7 +7346,7 @@ void FIGURE_draw(Thing *p_thing)
 #if USE_TOMS_ENGINE_PLEASE_BOB
 	// Clean up after ourselves.
 	ASSERT ( MM_bLightTableAlreadySetUp );
-	MM_bLightTableAlreadySetUp = FALSE;
+	MM_bLightTableAlreadySetUp = false;
 #if 0
 	MM_pcFadeTable = NULL;
 	MM_pcFadeTableTint = NULL;
@@ -7390,7 +7390,7 @@ void FIGURE_draw(Thing *p_thing)
 			py += p_person->WorldPos.Y >> 8;
 			pz += p_person->WorldPos.Z >> 8;
 
-			kludge_shrink = TRUE;
+			kludge_shrink = true;
 
 			MESH_draw_poly(
 				PRIM_OBJ_ITEM_GRENADE,
@@ -7400,7 +7400,7 @@ void FIGURE_draw(Thing *p_thing)
 				0, 0, 0,
 				NULL,0xff);
 
-			kludge_shrink = FALSE;
+			kludge_shrink = false;
 		}
 	}
 	p_thing->Flags&=~FLAGS_PERSON_AIM_AND_RUN;
@@ -7480,7 +7480,7 @@ void FIGURE_draw(Thing *p_thing)
 			p_thing->WorldPos.Y + 0xc000 >> 8,
 			p_thing->WorldPos.Z          >> 8,
 			0, 0xffffff,
-			TRUE);
+			true);
 
 	}
 #endif
@@ -7843,7 +7843,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 
 	BuildMMLightingTable ( p, 0 );
 
-	MM_bLightTableAlreadySetUp = TRUE;
+	MM_bLightTableAlreadySetUp = true;
 
 
 #endif
@@ -7935,7 +7935,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 #if USE_TOMS_ENGINE_PLEASE_BOB
 	// Clean up after ourselves.
 	ASSERT ( MM_bLightTableAlreadySetUp );
-	MM_bLightTableAlreadySetUp = FALSE;
+	MM_bLightTableAlreadySetUp = false;
 #if 0
 	MM_pcFadeTable = NULL;
 	MM_pcFadeTableTint = NULL;
@@ -8029,7 +8029,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 			py += p_person->WorldPos.Y >> 8;
 			pz += p_person->WorldPos.Z >> 8;
 
-			kludge_shrink = TRUE;
+			kludge_shrink = true;
 
 			MESH_draw_poly(
 				PRIM_OBJ_ITEM_GRENADE,
@@ -8039,7 +8039,7 @@ extern	struct	PrimPoint	*anim_mids; //[256];
 				0, 0, 0,
 				NULL,0xff);
 
-			kludge_shrink = FALSE;
+			kludge_shrink = false;
 		}
 	}
 	p_thing->Flags&=~FLAGS_PERSON_AIM_AND_RUN;
@@ -8100,7 +8100,7 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 			apb->maxz + (p_thing->WorldPos.Z >> 8),
 			0x16,
 			0x000ccccff,
-			TRUE);
+			true);
 	}
 
 	*/
@@ -8653,9 +8653,9 @@ void FIGURE_draw_prim_tween_reflection(
 
 				if (the_display.GetDeviceInfo()->AdamiLightingSupported())
 				{
-					POLY_add_quad(quad, POLY_PAGE_COLOUR, TRUE);
+					POLY_add_quad(quad, POLY_PAGE_COLOUR, true);
 				}
-				POLY_add_quad(quad, page,             TRUE);
+				POLY_add_quad(quad, page,             true);
 			}
 			else
 			{
@@ -8680,7 +8680,7 @@ void FIGURE_draw_prim_tween_reflection(
 				quad[2]->colour = face_colour;
 				quad[3]->colour = face_colour;
 
-				POLY_add_quad(quad, POLY_PAGE_COLOUR, TRUE);
+				POLY_add_quad(quad, POLY_PAGE_COLOUR, true);
 
 				quad[0]->colour = colour;
 				quad[1]->colour = colour;
@@ -8736,9 +8736,9 @@ void FIGURE_draw_prim_tween_reflection(
 
 				if (the_display.GetDeviceInfo()->AdamiLightingSupported())
 				{
-					POLY_add_triangle(tri, POLY_PAGE_COLOUR, TRUE);
+					POLY_add_triangle(tri, POLY_PAGE_COLOUR, true);
 				}
-				POLY_add_triangle(tri, page,             TRUE);
+				POLY_add_triangle(tri, page,             true);
 			}
 			else
 			{
@@ -8762,7 +8762,7 @@ void FIGURE_draw_prim_tween_reflection(
 				tri[1]->colour = face_colour;
 				tri[2]->colour = face_colour;
 
-				POLY_add_triangle(tri, POLY_PAGE_COLOUR, TRUE);
+				POLY_add_triangle(tri, POLY_PAGE_COLOUR, true);
 
 				tri[0]->colour = colour;
 				tri[1]->colour = colour;
@@ -8974,7 +8974,7 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 // Also assumes the lighting has been set up, etc.
 // This just sets up the matrix and light vector it's asked to - it doesn't
 // do anything else.
-// Return value is TRUE if this body part is not clipped by the near-Z.
+// Return value is true if this body part is not clipped by the near-Z.
 bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 (
 		int iMatrixNum,
@@ -9200,7 +9200,7 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 	if ( ( ( ( g_matWorld._43 * 32768.0f ) - ( (m_fObjectBoundingSphereRadius[prim]) * character_scalef ) ) < ( POLY_ZCLIP_PLANE * 32768.0f ) ) )
 	{
 		// Clipped by Z-plane. Don't set this matrix up, just return.
-		return FALSE;
+		return false;
 	}
 
 
@@ -9385,7 +9385,7 @@ extern DWORD g_dw3DStuffY;
 
 	LOG_EXIT ( Figure_Draw_Prim_Tween )
 
-	return TRUE;
+	return true;
 
 }
 
@@ -9932,7 +9932,7 @@ extern DWORD g_dw3DStuffY;
 
 #if 1
 	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, FALSE );
+	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, false );
 #endif
 
 
@@ -10042,7 +10042,7 @@ static int iCounter = 0;
 			// Fast as lightning.
 			LOG_ENTER ( Figure_Set_RenderState )
 			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 			LOG_EXIT ( Figure_Set_RenderState )
@@ -10074,7 +10074,7 @@ static int iCounter = 0;
 #ifdef TARGET_DC
 #define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
 extern DIJOYSTATE the_state;
-			bool bShowDebug = FALSE;
+			bool bShowDebug = false;
 			if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
 			{
 				DWORD dwColour = (DWORD)pwStripIndices;
@@ -10122,7 +10122,7 @@ extern DIJOYSTATE the_state;
 
 			LOG_ENTER ( Figure_Set_RenderState )
 			pa->RS.SetRenderState ( D3DRENDERSTATE_CULLMODE, D3DCULL_CCW );
-			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, FALSE );
+			pa->RS.SetRenderState ( D3DRENDERSTATE_ALPHABLENDENABLE, false );
 			pa->RS.SetRenderState ( D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATEALPHA );
 			pa->RS.SetChanged();
 
@@ -10181,7 +10181,7 @@ extern DIJOYSTATE the_state;
 
 #if 1
 	// The MM stuff doesn't like specular to be enabled.
-	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, TRUE );
+	(the_display.lp_D3D_Device)->SetRenderState ( D3DRENDERSTATE_SPECULARENABLE, true );
 #endif
 
 	LOG_EXIT ( Figure_Draw_Polys )

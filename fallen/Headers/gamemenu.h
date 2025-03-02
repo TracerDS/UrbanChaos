@@ -31,7 +31,7 @@ SLONG GAMEMENU_process();
 
 
 //
-// Returns TRUE if the game is paused.
+// Returns true if the game is paused.
 //
 
 SLONG GAMEMENU_is_paused();

@@ -54,7 +54,7 @@ class	ControlSet
 		void				HiliteControlDrawArea(ULONG hilite,ULONG lolite);
 		inline void			ControlSetBounds(EdRect *bounds_rect)	{	SetRect=*bounds_rect;					}
 		inline EdRect		*ControlGetBounds()					{	return &SetRect;						}
-		inline BOOL			PointInControlSet(MFPoint *the_point)	{	return SetRect.PointInRect(the_point);	}
+		inline bool			PointInControlSet(MFPoint *the_point)	{	return SetRect.PointInRect(the_point);	}
 
 		inline MFPoint		*GlobalToLocal(MFPoint *the_point)		{	the_point->X-=SetRect.GetLeft();the_point->Y-=SetRect.GetTop();return the_point;	}
 		inline MFPoint		*LocalToGlobal(MFPoint *the_point)		{	the_point->X+=SetRect.GetLeft();the_point->Y+=SetRect.GetTop();return the_point;	}

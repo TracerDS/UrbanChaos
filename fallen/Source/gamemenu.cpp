@@ -80,7 +80,7 @@ CBYTE *GAMEMENU_level_lost_reason;
 
 
 #ifdef TARGET_DC
-bool bDontShowThePauseScreen = FALSE;
+bool bDontShowThePauseScreen = false;
 #endif
 
 
@@ -202,7 +202,7 @@ SLONG GAMEMENU_process()
 extern DIJOYSTATE the_state;
 			if ( ( ( the_state.rgbButtons[DI_DC_BUTTON_X] & 0x80 ) != 0 ) && ( ( the_state.rgbButtons[DI_DC_BUTTON_Y] & 0x80 ) != 0 ) )
 			{
-				bDontShowThePauseScreen = TRUE;
+				bDontShowThePauseScreen = true;
 			}
 		}
 		else
@@ -288,8 +288,8 @@ extern DIJOYSTATE the_state;
 		extern SLONG EWAY_cam_freeze;
 		extern UBYTE GAME_cut_scene;
 
-		EWAY_cam_freeze = FALSE;
-		GAME_cut_scene  = FALSE;
+		EWAY_cam_freeze = false;
+		GAME_cut_scene  = false;
 	}
 
 #ifdef TARGET_DC
@@ -302,7 +302,7 @@ extern DIJOYSTATE the_state;
 
 
 #ifdef TARGET_DC
-		bDontShowThePauseScreen = FALSE;
+		bDontShowThePauseScreen = false;
 #endif
 
 
@@ -546,11 +546,11 @@ void GAMEMENU_draw()
 
 
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 #endif
 	PANEL_darken_screen(GAMEMENU_background);
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,FALSE);
+	POLY_frame_draw(false,false);
 #endif
 
 
@@ -559,13 +559,13 @@ void GAMEMENU_draw()
 	//
 
 #ifndef TARGET_DC
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 #endif
 
 	MENUFONT_fadein_line(GAMEMENU_fadein_x);
 	MENUFONT_fadein_draw(320, 100, 255, XLAT_str(GAMEMENU_menu[GAMEMENU_menu_type].word[0]));
 
-	bool bDrawMainPartOfMenu = TRUE;
+	bool bDrawMainPartOfMenu = true;
 
 	if (GAMEMENU_menu_type == GAMEMENU_MENU_TYPE_LOST)
 	{
@@ -598,7 +598,7 @@ extern void ScoresDraw();	// From attract
 	{
 		static iFlash = 0;
 extern DIDeviceInfo *primary_device;
-extern BOOL AreAnyDevicesConnected ( void );
+extern bool AreAnyDevicesConnected ( void );
 		if ( primary_device == NULL )
 		{
 			UBYTE bMyFade = 255;
@@ -662,7 +662,7 @@ extern BOOL AreAnyDevicesConnected ( void );
 				MENUFONT_fadein_draw( 320, 155 +  40, bMyFade, pcString[1] );
 				MENUFONT_fadein_draw( 320, 155 +  80, bMyFade, pcString[2] );
 				MENUFONT_fadein_draw( 320, 155 + 120, bMyFade, pcString[3] );
-				bDrawMainPartOfMenu = FALSE;
+				bDrawMainPartOfMenu = false;
 #endif
 			}
 
@@ -690,6 +690,6 @@ extern BOOL AreAnyDevicesConnected ( void );
 	}
 
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,FALSE);
+	POLY_frame_draw(false,false);
 #endif
 }

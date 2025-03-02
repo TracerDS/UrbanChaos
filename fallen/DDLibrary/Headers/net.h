@@ -44,7 +44,7 @@ SLONG  NET_get_connection_number(void);
 CBYTE *NET_get_connection_name  (SLONG connection);
 
 //
-// Establishes a connection. Returns TRUE on success.
+// Establishes a connection. Returns true on success.
 //
 
 SLONG NET_connection_make(SLONG connection);
@@ -57,7 +57,7 @@ SLONG NET_connection_make(SLONG connection);
 // ========================================================
 
 //
-// Creates a session. Makes this machine the host. Returns FALSE
+// Creates a session. Makes this machine the host. Returns false
 // on failure.
 //		 
 
@@ -81,7 +81,7 @@ SLONG      NET_get_session_number(void);
 NET_Sinfo  NET_get_session_info  (SLONG session);
 
 //
-// Joins the given session. Returns FALSE on failure.
+// Joins the given session. Returns false on failure.
 //
 
 SLONG NET_join_session(SLONG session, CBYTE *my_player_name);
@@ -143,7 +143,7 @@ void NET_message_send(
 		UWORD  num_bytes);
 
 //
-// Returns TRUE if there is a message in the queue.
+// Returns true if there is a message in the queue.
 //
 
 SLONG NET_message_waiting(void);

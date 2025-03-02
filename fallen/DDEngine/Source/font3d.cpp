@@ -342,7 +342,7 @@ void Font3D::DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, float yaw, float
 		pp[2].colour	=	rgb;//0xffffff;
 		pp[2].specular	=	SPEC;
 
-		POLY_add_triangle(tri,POLY_PAGE_MENUTEXT,TRUE,TRUE);
+		POLY_add_triangle(tri,POLY_PAGE_MENUTEXT,true,true);
 
 
 /*
@@ -372,7 +372,7 @@ void Font3D::DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, float yaw, float
 		pp[2].colour	=	rgb;//0xffffff;
 		pp[2].specular	=	SPEC;
 
-		POLY_add_triangle(tri,POLY_PAGE_MENUPASS,FALSE,TRUE);
+		POLY_add_triangle(tri,POLY_PAGE_MENUPASS,false,true);
 */
 
 
@@ -402,7 +402,7 @@ void Font3D::DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, float yaw, float
 		pp[2].colour	=	0;
 		pp[2].specular	=	0xff000000;
 
-		POLY_add_triangle(tri,POLY_PAGE_MENUTEXT,TRUE,TRUE);
+		POLY_add_triangle(tri,POLY_PAGE_MENUTEXT,true,true);
 
 
 

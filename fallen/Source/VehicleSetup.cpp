@@ -37,12 +37,12 @@ extern CBYTE *WaypointTitle(EventPoint *ep, CBYTE *msg);
 CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
 
 
-BOOL	CALLBACK	vs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	vs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
-	BOOL		en;
+	bool		en;
 	SLONG		ep;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
 	CBYTE		msg[_MAX_PATH],str[_MAX_PATH];
@@ -71,20 +71,20 @@ BOOL	CALLBACK	vs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				ep =	ep_ptr->Next;
 			}
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 				case	IDC_COMBO2:
 					c0=SendMessage((HWND)lParam,CB_GETCURSEL,0,0);
 					en=(c0==3);
 					EnableWindow(GetDlgItem(hWnd,IDC_COMBO3),en);
 					EnableWindow(GetDlgItem(hWnd,IDC_LABEL1),en);
-					return TRUE;
+					return true;
 			}
 			break;
 
@@ -120,9 +120,9 @@ BOOL	CALLBACK	vs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			}
 
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

@@ -27,14 +27,14 @@ CBYTE *MakeFullPathName ( const CBYTE *cFilename )
 
 //---------------------------------------------------------------
 
-BOOL	FileExists( CBYTE *file_name)
+bool	FileExists( CBYTE *file_name)
 {
 	file_name = MakeFullPathName ( file_name );
 
 	if(GetFileAttributes(file_name)==0xffffffff)
-		return	FALSE;
+		return	false;
 	else
-		return	TRUE;
+		return	true;
 }
 
 //---------------------------------------------------------------
@@ -89,7 +89,7 @@ void	FileClose(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileCreate(CBYTE *file_name,BOOL overwrite)
+MFFileHandle	FileCreate(CBYTE *file_name,bool overwrite)
 {
 	DWORD			creation_mode;
 	MFFileHandle	result;
@@ -148,7 +148,7 @@ SLONG	FileRead(MFFileHandle file_handle,void *buffer,ULONG size)
 	SLONG	bytes_read;
 
 
-	if(ReadFile(file_handle,buffer,size,(LPDWORD)&bytes_read,NULL)==FALSE)
+	if(ReadFile(file_handle,buffer,size,(LPDWORD)&bytes_read,NULL)==false)
 		return	FILE_READ_ERROR;
 	else
 		return	bytes_read;
@@ -161,7 +161,7 @@ SLONG	FileWrite(MFFileHandle file_handle,void *buffer,ULONG size)
 	SLONG	bytes_written;
 
 
-	if(WriteFile(file_handle,buffer,size,(LPDWORD)&bytes_written,NULL)==FALSE)
+	if(WriteFile(file_handle,buffer,size,(LPDWORD)&bytes_written,NULL)==false)
 		return	FILE_WRITE_ERROR;
 	else
 		return	bytes_written;

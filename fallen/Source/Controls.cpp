@@ -97,7 +97,7 @@ extern	void	drop_current_gun(Thing *p_person,SLONG change_anim);
 extern	SLONG	analogue;
 
 #ifndef TARGET_DC
-SLONG NIGHT_specular_enable = FALSE;
+SLONG NIGHT_specular_enable = false;
 #endif
 
 SLONG draw_3d;
@@ -125,7 +125,7 @@ UBYTE stealth_debug = 0;
 SWORD CONTROLS_inventory_mode = 0;
 
 
-BOOL dodgy_psx_mode=0;
+bool dodgy_psx_mode=0;
 
 #ifndef EDITOR
 //---------------------------------------------------------------
@@ -218,23 +218,23 @@ EWAY_Way* eway_find_near(GameCoord pos)
 
 
 #ifdef TARGET_DC
-BOOL allow_debug_keys=0;
+bool allow_debug_keys=0;
 
 #else
 
 #ifndef NDEBUG
-BOOL allow_debug_keys=1;
+bool allow_debug_keys=1;
 #else
 #ifdef FAST_EDDIE
-BOOL allow_debug_keys=1;
+bool allow_debug_keys=1;
 #else
-BOOL allow_debug_keys=0;
+bool allow_debug_keys=0;
 #endif
 #endif
 
 #endif
 
-BOOL dkeys_have_been_used;
+bool dkeys_have_been_used;
 
 void parse_console(CBYTE *str) {
   CBYTE cmd[20];
@@ -353,7 +353,7 @@ void parse_console(CBYTE *str) {
 				else 
 					CONSOLE_text("debug mode off");			
 
-				dkeys_have_been_used = TRUE;
+				dkeys_have_been_used = true;
 
 				break;
 
@@ -559,7 +559,7 @@ void	tga_dump()
 		640 ,
 		480 ,
 	   &tga[0][0],
-		FALSE);
+		false);
 
 }
 
@@ -784,7 +784,7 @@ void plan_view_shot()
 		switch(ew->ed.type)
 		{
 			case EWAY_DO_CREATE_PLAYER:
-				dot_do   = TRUE;
+				dot_do   = true;
 				red      = 0;
 				green    = 0;
 				blue     = 0;
@@ -792,7 +792,7 @@ void plan_view_shot()
 				break;
 
 			case EWAY_DO_CREATE_ITEM:
-				dot_do = TRUE;
+				dot_do = true;
 				red    = 210;
 				green  = 210;
 				blue   = 40;
@@ -805,7 +805,7 @@ void plan_view_shot()
 					case PERSON_DARCI:
 					case PERSON_ROPER:
 
-						dot_do = TRUE;
+						dot_do = true;
 						red    = 55;
 						green  = 255;
 						blue   = 55;
@@ -831,11 +831,11 @@ void plan_view_shot()
 
 						if (ee->pcom_move != PCOM_MOVE_WANDER)
 						{
-							dot_do = TRUE;
+							dot_do = true;
 						}
 						else
 						{
-							dot_do = FALSE;
+							dot_do = false;
 						}
 
 						red   = 255;
@@ -847,7 +847,7 @@ void plan_view_shot()
 
 					case PERSON_COP:
 
-						dot_do = TRUE;
+						dot_do = true;
 						red    = 55;
 						green  = 55;
 						blue   = 255;
@@ -862,7 +862,7 @@ void plan_view_shot()
 					case PERSON_MIB2:
 					case PERSON_MIB3:
 
-						dot_do = TRUE;
+						dot_do = true;
 
 						red    = 255;
 						green  = 55;
@@ -874,7 +874,7 @@ void plan_view_shot()
 				break;
 
 			default:
-				dot_do = FALSE;
+				dot_do = false;
 				break;
 		}
 
@@ -965,7 +965,7 @@ void plan_view_shot()
 			128 * 3,
 			128 * 3,
 		   &tga[0][0],
-			FALSE);
+			false);
 	}
 }
 
@@ -992,11 +992,11 @@ SLONG can_i_draw_this_special(Thing *p_special)
 		p_special->Genus.Special->SpecialType                     == SPECIAL_EXPLOSIVES ||
 		p_special->Genus.Special->SpecialType                     == SPECIAL_WIRE_CUTTER)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -1081,17 +1081,17 @@ Form   *test_form;
 Widget *widget_text;
 Widget *widget_ok;
 
-BOOL form_proc(Form *form, Widget *widget, SLONG message)
+bool form_proc(Form *form, Widget *widget, SLONG message)
 {
 	if (widget && widget->methods == &BUTTON_Methods && message == WBN_PUSH)
 	{
-		form->returncode = TRUE;
+		form->returncode = true;
 
-		return TRUE;	// Exit
+		return true;	// Exit
 	}
 	else
 	{
-		return FALSE;	// Don't exit
+		return false;	// Don't exit
 	}
 }
 
@@ -1807,11 +1807,11 @@ void	process_controls()
 	
 	/*
 	{
-		static werwer = FALSE;
+		static werwer = false;
 
 		if (!werwer)
 		{
-			werwer = TRUE;
+			werwer = true;
 
 			extern void DCLL_looping_sample_conversion();
 
@@ -1872,7 +1872,7 @@ void	process_controls()
 
 		SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind);
 
-		if (is_there_room_behind_person(darci, FALSE))
+		if (is_there_room_behind_person(darci, false))
 		{
 			PANEL_new_text(NULL, 400, "There is room behind Darci");
 		}
@@ -1924,7 +1924,7 @@ void	process_controls()
 			x2, y2, z2,
 			16,
 			colour,
-			FALSE);
+			false);
 	}
 
 	#endif
@@ -2111,7 +2111,7 @@ void	process_controls()
 		{
 			Keys[KB_U] = 0;
 
-			if (is_there_room_behind_person(darci, FALSE))
+			if (is_there_room_behind_person(darci, false))
 			{
 				PANEL_new_text(darci, 1000, "Enough room behind me.");
 			}
@@ -2262,7 +2262,7 @@ SLONG is_person_crouching(Thing *p_person);
 			darci->WorldPos.Z >> 8,
 			0,
 			0x111111,
-			TRUE);
+			true);
 	}
 */
 	// this stuff shouldn't even _be_ in process_controls.
@@ -2295,7 +2295,7 @@ SLONG is_person_crouching(Thing *p_person);
 	// console processing
 	
 	
-	static BOOL  is_inputing=0;
+	static bool  is_inputing=0;
 	extern UBYTE InkeyToAscii[];
 	extern UBYTE InkeyToAsciiShift[];
 	extern void CONSOLE_status(CBYTE *msg);
@@ -2312,7 +2312,7 @@ SLONG is_person_crouching(Thing *p_person);
 			strcpy(input_text,"] ");
 		} else {
 
-			POLY_frame_init(FALSE, FALSE);
+			POLY_frame_init(false, false);
 
 			if (LastKey) {
 				UWORD len=strlen(input_text);
@@ -2330,7 +2330,7 @@ SLONG is_person_crouching(Thing *p_person);
 			}
 			
 			CONSOLE_status(input_text);
-			POLY_frame_draw(FALSE, FALSE);
+			POLY_frame_draw(false, false);
 
 		}
 		return;
@@ -2584,7 +2584,7 @@ void	load_whole_game(CBYTE	*gamename);
 				darci->WorldPos.Y + 0x8000 >> 8,
 				darci->WorldPos.Z          >> 8,
 				0, 0xffffff,
-				TRUE);
+				true);
 		}
 	}
 
@@ -2599,7 +2599,7 @@ void	load_whole_game(CBYTE	*gamename);
 			darci->WorldPos.Y + 0x8000 >> 8,
 			darci->WorldPos.Z          >> 8,
 			0, 0xff0000,
-			TRUE);
+			true);
 	}
 
 	*/
@@ -2774,7 +2774,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		{
 			Keys[KB_LBRACE] = 0;
 
-			ERROR_MSG(FALSE, NULL);
+			ERROR_MSG(false, NULL);
 		}
 */
 	}
@@ -2873,7 +2873,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		Keys[KB_B] = 0;
 
 			extern SLONG NIGHT_specular_enable;
-			NIGHT_specular_enable ^= TRUE;
+			NIGHT_specular_enable ^= true;
 	}
 
 	*/
@@ -3022,19 +3022,19 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 			AENG_world_line(
 				x1, 0, z1, 16, 0x00ffffff,
 				x2, 0, z2, 16, 0x00dddddd,
-				TRUE);
+				true);
 		}
 		else
 		{
 			AENG_world_line(
 				x1, 0, z1, 16, 0x00eeee00,
 				x2, 0, z2, 16, 0x00dddd00,
-				TRUE);
+				true);
 
 			AENG_world_line(
 				x2, 12, z2, 8, 0x00866dd,
 				los_failure_x, 12, los_failure_z, 8, 0x00ff22ee,
-				TRUE);
+				true);
 			
 		}
 	}
@@ -3082,7 +3082,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 			// Enter the building on a new floor.
 			//
 
-			if (ENTER_setup(INDOORS_BUILDING, new_storey, TRUE))
+			if (ENTER_setup(INDOORS_BUILDING, new_storey, true))
 			{
 				GameCoord newpos;
 
@@ -3317,20 +3317,20 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz);
 		{
 			startx     = darci->WorldPos.X >> 8;
 			startz     = darci->WorldPos.Z >> 8;
-			startvalid = TRUE;
+			startvalid = true;
 		}
 		else
 		if (!endvalid)
 		{
 			endx     = darci->WorldPos.X >> 8;
 			endz     = darci->WorldPos.Z >> 8;
-			endvalid = TRUE;
+			endvalid = true;
 		}
 
 		if (startvalid && endvalid)
 		{
-			startvalid = FALSE;
-			endvalid   = FALSE;
+			startvalid = false;
+			endvalid   = false;
 
 			TRIP_create(
 				darci->WorldPos.Y + 0x4000 >> 8,
@@ -3809,7 +3809,7 @@ extern void PYRO_fn_init(Thing *thing);
 			AENG_world_line(
 				x1, y1, z1, 32, 0x00ffff00,
 				x2, y2, z2, 0,  0x000000ff,
-				TRUE);
+				true);
 		}
 	}
 #endif
@@ -3924,7 +3924,7 @@ extern	void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLO
 			nav_x = darci->WorldPos.X >> 16;
 			nav_z = darci->WorldPos.Z >> 16;
 
-			ma_valid = FALSE;
+			ma_valid = false;
 		}
 
 		if (Keys[KB_X])
@@ -3934,7 +3934,7 @@ extern	void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLO
 void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 			set_person_mav_to_xz(darci,nav_x<<8,nav_z<<8);
 			
-			ma_valid = TRUE;
+			ma_valid = true;
 
 		}
 */
@@ -4355,7 +4355,7 @@ void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 
 					if (WITHIN(darci->WorldPos.Y >> 8, bot - 0x40, bot + 0x40))
 					{
-						if (ENTER_setup(eo.dbuilding, bot, TRUE, FALSE))
+						if (ENTER_setup(eo.dbuilding, bot, true, false))
 						{
 							//
 							// Remember where Darci is.

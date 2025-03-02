@@ -41,7 +41,7 @@ void ST_add(SLONG table, CBYTE *string, SLONG value, SLONG flag);
 
 //
 // Finds the symbol. It checks the CALL,LOCAL,GLOBAL,LIBRRARY,SYSTEM
-// symbol tables in that order. Returns TRUE if it found the symbol.
+// symbol tables in that order. Returns true if it found the symbol.
 //
 
 extern SLONG  ST_found_table;	// The table the symbol was in.
@@ -63,9 +63,9 @@ void ST_update_flag(CBYTE *string, SLONG new_flag);
 
 //
 // Finds everything in the symbol tables. Call ST_find_all_start(),
-// then every call to ST_find_all_next() that returns TRUE fills in
+// then every call to ST_find_all_next() that returns true fills in
 // the ST_found_* variables. When a call to ST_find_all_next() returns
-// FALSE there is nothing left to find.
+// false there is nothing left to find.
 //
 
 void  ST_find_all_start();

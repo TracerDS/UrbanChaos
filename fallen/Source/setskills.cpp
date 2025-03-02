@@ -35,7 +35,7 @@ UBYTE skills_list[255];
 									SendMessage(the_ctrl,LB_SETCURSEL,d,0);
 
 
-BOOL	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -51,7 +51,7 @@ BOOL	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 			PostMessage(hWnd,CBN_SELCHANGE,0,(LONG)GetDlgItem(hWnd,IDC_COMBO1));
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -72,15 +72,15 @@ BOOL	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					break;
 				case	IDOK:
 					EndDialog(hWnd,1);
-					return  TRUE;
+					return  true;
 				case	IDCANCEL:
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 	}
-	return	FALSE;
+	return	false;
 
 }
 

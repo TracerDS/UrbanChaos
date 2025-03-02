@@ -29,7 +29,7 @@ void STAIR_set_bounding_box(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2);
 // put staircases opposite that wall but not touching it. It only
 // uses the last opposite wall it is given.
 //
-// STAIR_storey_finish() returns FALSE if the walls added for the storey
+// STAIR_storey_finish() returns false if the walls added for the storey
 // are invalid and you can't create stairs for this building.
 //
 
@@ -45,7 +45,7 @@ void STAIR_calculate(UWORD seed);
 
 //
 // Returns the stairs for the given floor.  The 'id' of the ID_stair is
-// not filled in.  Returns FALSE if it couldn't find a storey with
+// not filled in.  Returns false if it couldn't find a storey with
 // the given handle.
 //
 

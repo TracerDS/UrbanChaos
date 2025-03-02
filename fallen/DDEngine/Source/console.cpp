@@ -59,7 +59,7 @@ void CONSOLE_font(CBYTE *fontpath, float scale) {
 
 
 //
-// Returns TRUE if there is no text to write to the screen.
+// Returns true if there is no text to write to the screen.
 //
 
 SLONG CONSOLE_no_text()
@@ -70,7 +70,7 @@ SLONG CONSOLE_no_text()
 /*
 	if (GAME_STATE & GS_PLAYBACK)
 	{
-		return TRUE;
+		return true;
 	}
 */
 	for (i = 0; i < CONSOLE_MAX_MESSES; i++)
@@ -83,16 +83,16 @@ SLONG CONSOLE_no_text()
 			// There is a text_at message to display.
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 /*
 	if (Data[0].Age)
 	{
-		return FALSE;
+		return false;
 	}
 */
-	return TRUE;
+	return true;
 }
 
 static SLONG last_tick;
@@ -122,17 +122,17 @@ void CONSOLE_draw() {
 	if (CONSOLE_no_text()&&!Data[0].Age)
 	{
 /*		static moo=0;
-		POLY_frame_init(FALSE,FALSE);
+		POLY_frame_init(false,false);
 		FONT2D_DrawString("YADDA YADDA...",10,10,0xFF00FF,16,POLY_PAGE_FONT2D,moo>>2);
 		moo++;
-		POLY_frame_draw(FALSE,FALSE);*/
+		POLY_frame_draw(false,false);*/
 		//
 		// Nothing to draw.
 		//
 		if (*status_text) {
-			POLY_frame_init(FALSE, FALSE);
+			POLY_frame_init(false, false);
 			FONT2D_DrawString(status_text,10,10,0x7f00ff00,256,POLY_PAGE_FONT2D);
-			POLY_frame_draw(FALSE,TRUE);
+			POLY_frame_draw(false,true);
 		}
 
 		return;
@@ -143,7 +143,7 @@ void CONSOLE_draw() {
 	// probably want to change this to only blank areas we'll be writing to
 //	the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER);
 	
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 	if (*status_text) FONT2D_DrawString(status_text,10,10,0x7f00ff00,256,POLY_PAGE_FONT2D);
 /*
 	if (GAME_STATE & GS_PLAYBACK)
@@ -205,7 +205,7 @@ void	draw_a_3d_menu(Font3D &font, SLONG	menu);
 		}
 	}*/
 
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 	if (!Data[0].Age) CONSOLE_scroll();
 
 

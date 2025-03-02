@@ -485,19 +485,19 @@ static SLONG SetupVoiceTalk(MFX_Voice* vptr, char* filename)
 
 	if (!Volumes[SMP_Effect])
 	{
-		return FALSE;
+		return false;
 	}
 
 	LoadTalkFile(filename);
 	if (!TalkSample.handle)
 	{
-		return FALSE;
+		return false;
 	}
 
 	vptr->smp = &TalkSample;
 	FinishLoading(vptr);
 
-	return TRUE;
+	return true;
 }
 
 static void SetupVoice(MFX_Voice* vptr, UWORD channel_id, ULONG wave, ULONG flags, bool is3D)
@@ -889,7 +889,7 @@ static UBYTE PlayTalk(char* filename, SLONG x, SLONG y, SLONG z)
 
 	if (!SetupVoiceTalk(vptr, filename))
 	{
-		return FALSE;
+		return false;
 	}
 
 	MoveVoice(vptr);

@@ -5,7 +5,7 @@
 #define	TEXT_H
 
 //---------------------------------------------------------------
-extern BOOL text_fudge;
+extern bool text_fudge;
 extern ULONG text_colour;
 
 

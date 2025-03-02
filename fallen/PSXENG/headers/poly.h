@@ -209,7 +209,7 @@ void POLY_fadeout_buffer();
 
 //
 // Clears all buffers, ready for a new frame.
-// Checks the clipflags and backface culling of the triangle and returns TRUE if it should be drawn.
+// Checks the clipflags and backface culling of the triangle and returns true if it should be drawn.
 // Adds a triangle and a quad.
 // Adds a line. The widths are given in world-space sizes. if (sort_to_front) then lines will be drawn last with no z-buffer.
 // Sets the box against which clip-lines are clipped.
@@ -288,7 +288,7 @@ void POLY_fadeout_buffer();
 #define POLY_PAGE_ARROW			(EXTRA(0,0))
 //#define POLY_PAGE_PADBITS		(EXTRA(2,6))
 
-void  POLY_frame_init    (SLONG keep_shadow_page);	// TRUE => doesn't delete the shadow polygons.
+void  POLY_frame_init    (SLONG keep_shadow_page);	// true => doesn't delete the shadow polygons.
 SLONG POLY_valid_triangle(POLY_Point *p);
 
 SLONG POLY_valid_quad    (POLY_Point *p);
@@ -301,7 +301,7 @@ void  POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1,
 void  POLY_add_line_2d   (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
 void  POLY_clip_line_box (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2);
 void  POLY_clip_line_add (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
-void  POLY_frame_draw    (SLONG draw_shadow_page);	// FALSE => Doens't draw the shadow polygons.
+void  POLY_frame_draw    (SLONG draw_shadow_page);	// false => Doens't draw the shadow polygons.
 extern	SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull);
 extern	SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull);
 

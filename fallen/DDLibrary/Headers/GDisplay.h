@@ -36,9 +36,9 @@ extern enumDisplayType eDisplayType;
 extern	void	InitBackImage(CBYTE *name);
 extern	void UseBackSurface(LPDIRECTDRAWSURFACE4 use);
 extern	void	ResetBackImage();
-// Set b3DInFrame to FALSE if there is no 3D going on, i.e. blits will work on the DC.
+// Set b3DInFrame to false if there is no 3D going on, i.e. blits will work on the DC.
 // Ignored for the PC.
-extern	void	ShowBackImage(bool b3DInFrame = TRUE);
+extern	void	ShowBackImage(bool b3DInFrame = true);
 
 SLONG			OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
 SLONG			CloseDisplay();
@@ -117,13 +117,13 @@ class	Display
 		inline	void TurnValidViewportOn()				{	ValidFlags	|=	DWF_VALID_VIEWPORT;			}
 		inline	void TurnValidViewportOff()				{	ValidFlags	&=	~DWF_VALID_VIEWPORT;		}
 
-		inline	BOOL			IsValidDefaults()		{	return	((CurrDriver && CurrMode && CurrDevice) ? TRUE : FALSE);	}
-		inline	BOOL			IsValidInterface()		{	return	((ValidFlags&DWF_VALID_INTERFACE) ? TRUE : FALSE);			}
-		inline	BOOL			IsValidFullscreen()		{	return	((ValidFlags&DWF_VALID_FULLSCREEN) ? TRUE : FALSE);			}
-		inline	BOOL			IsValidFront()			{	return	((ValidFlags&DWF_VALID_FRONT) ? TRUE : FALSE);				}
-		inline	BOOL			IsValidBack()			{	return	((ValidFlags&DWF_VALID_BACK) ? TRUE : FALSE);				}
-		inline	BOOL			IsValidWork()			{	return	((ValidFlags&DWF_VALID_WORK) ? TRUE : FALSE);				}
-		inline	BOOL			IsValidViewport()		{	return	((ValidFlags&DWF_VALID_VIEWPORT) ? TRUE : FALSE);			}
+		inline	bool			IsValidDefaults()		{	return	((CurrDriver && CurrMode && CurrDevice) ? true : false);	}
+		inline	bool			IsValidInterface()		{	return	((ValidFlags&DWF_VALID_INTERFACE) ? true : false);			}
+		inline	bool			IsValidFullscreen()		{	return	((ValidFlags&DWF_VALID_FULLSCREEN) ? true : false);			}
+		inline	bool			IsValidFront()			{	return	((ValidFlags&DWF_VALID_FRONT) ? true : false);				}
+		inline	bool			IsValidBack()			{	return	((ValidFlags&DWF_VALID_BACK) ? true : false);				}
+		inline	bool			IsValidWork()			{	return	((ValidFlags&DWF_VALID_WORK) ? true : false);				}
+		inline	bool			IsValidViewport()		{	return	((ValidFlags&DWF_VALID_VIEWPORT) ? true : false);			}
 
 		UBYTE *background_image_mem;
 
@@ -228,7 +228,7 @@ class	Display
 		HRESULT					FiniWork();
 
 		void					RunFMV();
-		void					RunCutscene(int which, int language=0, bool bAllowButtonsToExit=TRUE );
+		void					RunCutscene(int which, int language=0, bool bAllowButtonsToExit=true );
 
 		HRESULT					ChangeMode(SLONG w,SLONG h,SLONG bpp,SLONG refresh);
 
@@ -271,11 +271,11 @@ class	Display
 																}
 																else
 																{
-																	bInScene = TRUE;
+																	bInScene = true;
 																	return	lp_D3D_Device->BeginScene();
 																}
 															}
-		inline	HRESULT			EndScene()				{	/*TRACE("EndScene ");*/ bInScene = FALSE; return	lp_D3D_Device->EndScene();	}
+		inline	HRESULT			EndScene()				{	/*TRACE("EndScene ");*/ bInScene = false; return	lp_D3D_Device->EndScene();	}
 		inline	HRESULT			ClearViewport()			{
 																HRESULT hres = lp_D3D_Viewport->Clear	(
 																									1,
@@ -328,35 +328,35 @@ class	Display
 															}
 
 
-		inline	BOOL			IsValid()				{	return	(((ValidFlags&DWF_VALID)==DWF_VALID) ? TRUE : FALSE);	}
+		inline	bool			IsValid()				{	return	(((ValidFlags&DWF_VALID)==DWF_VALID) ? true : false);	}
 
-		inline	BOOL			IsDisplayChanged()		{	return	(((AttribFlags&DWF_DISPLAY_CHANGED)==DWF_DISPLAY_CHANGED) ? TRUE : FALSE);	}
+		inline	bool			IsDisplayChanged()		{	return	(((AttribFlags&DWF_DISPLAY_CHANGED)==DWF_DISPLAY_CHANGED) ? true : false);	}
 		inline	void			DisplayChangedOn()		{	AttribFlags		|=	DWF_DISPLAY_CHANGED;	}
 		inline	void			DisplayChangedOff()		{	AttribFlags		&=	~DWF_DISPLAY_CHANGED;	}
 
-		inline	BOOL			IsTexturesInvalid()		{	return	(((AttribFlags&DWF_TEXTURES_INVALID)==DWF_TEXTURES_INVALID) ? TRUE : FALSE);}
+		inline	bool			IsTexturesInvalid()		{	return	(((AttribFlags&DWF_TEXTURES_INVALID)==DWF_TEXTURES_INVALID) ? true : false);}
 		inline	void			TexturesInvalidOn()		{	AttribFlags		|=	DWF_TEXTURES_INVALID;	}
 		inline	void			TexturesInvalidOff()	{	AttribFlags		&=	~DWF_TEXTURES_INVALID;	}
 
-		inline	BOOL			IsFullScreen()			{	return	(AttribFlags&DWF_FULLSCREEN);		}
+		inline	bool			IsFullScreen()			{	return	(AttribFlags&DWF_FULLSCREEN);		}
 		inline	void			FullScreenOn()			{	AttribFlags		|=	DWF_FULLSCREEN;			}
 		inline	void			FullScreenOff()			{	AttribFlags		&=	~DWF_FULLSCREEN;		}
 
-		inline	BOOL			IsCreateZBuffer()		{	return	(AttribFlags&DWF_ZBUFFER);			}
+		inline	bool			IsCreateZBuffer()		{	return	(AttribFlags&DWF_ZBUFFER);			}
 		inline	void			CreateZBufferOn()		{	AttribFlags		|=	DWF_ZBUFFER;			}
 		inline	void			CreateZBufferOff()		{	AttribFlags		&=	~DWF_ZBUFFER;			}
 
-		inline	BOOL			IsUse3D()				{	return	(AttribFlags&DWF_USE_3D);			}
+		inline	bool			IsUse3D()				{	return	(AttribFlags&DWF_USE_3D);			}
 		inline	void			Use3DOn()				{	AttribFlags		|=	DWF_USE_3D;				}
 		inline	void			Use3DOff()				{	AttribFlags		&=	~DWF_USE_3D;			}
 
 #ifndef TARGET_DC
-		inline	BOOL			IsUseWork()				{	return	(AttribFlags&DWF_USE_WORK);			}
+		inline	bool			IsUseWork()				{	return	(AttribFlags&DWF_USE_WORK);			}
 		inline	void			UseWorkOn()				{	AttribFlags		|=	DWF_USE_WORK;			}
 		inline	void			UseWorkOff()			{	AttribFlags		&=	~DWF_USE_WORK;			}
 #endif
 		
-		inline	BOOL			IsInitialised()			{	return	DisplayFlags&DISPLAY_INIT;			}
+		inline	bool			IsInitialised()			{	return	DisplayFlags&DISPLAY_INIT;			}
 		inline	void			InitOn()				{	DisplayFlags	|=	DISPLAY_INIT;			}
 		inline	void			InitOff()				{	DisplayFlags	&=	~DISPLAY_INIT;			}
 
@@ -382,7 +382,7 @@ class	Display
 
 		void create_background_surface(UBYTE *image_data);	// Must be same dimensions as back buffer!
 		void use_this_background_surface(LPDIRECTDRAWSURFACE4 this_one);
-		void blit_background_surface(bool b3DInFrame = TRUE);
+		void blit_background_surface(bool b3DInFrame = true);
 		void destroy_background_surface();
 };
 

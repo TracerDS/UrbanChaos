@@ -508,7 +508,7 @@ void CRINKLE_do(
 #ifndef TARGET_DC
 	if (Keys[KB_RSHIFT])
 	{
-		flip = TRUE;
+		flip = true;
 	}
 #endif
 #endif
@@ -801,7 +801,7 @@ void CRINKLE_do(
 				// Draw the triangle.
 				//
 
-				POLY_add_triangle(tri, page, TRUE);
+				POLY_add_triangle(tri, page, true);
 
 				//
 				// Restore the old colours.
@@ -813,7 +813,7 @@ void CRINKLE_do(
 			}
 			else
 			{
-				POLY_add_triangle(tri, page, TRUE);
+				POLY_add_triangle(tri, page, true);
 			}
 		}
 	}
@@ -837,7 +837,7 @@ void CRINKLE_project(
 #ifndef TARGET_DC
 	if (Keys[KB_RSHIFT])
 	{
-		flip = TRUE;
+		flip = true;
 	}
 #endif
 
@@ -952,7 +952,7 @@ void CRINKLE_project(
 			tri[1]->z,
 			3,
 			0xffffff,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			tri[1]->x,
@@ -965,7 +965,7 @@ void CRINKLE_project(
 			tri[2]->z,
 			3,
 			0xffffff,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			tri[2]->x,
@@ -978,7 +978,7 @@ void CRINKLE_project(
 			tri[0]->z,
 			3,
 			0xffffff,
-			TRUE);
+			true);
 	}
 }
 

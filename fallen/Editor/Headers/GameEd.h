@@ -43,7 +43,7 @@ class	GameEditor		:	public	EditorModule
 {
 	private:
 
-		BOOL			FlashState;
+		bool			FlashState;
 		UBYTE			SelectMode;
 		SLONG			CurrentThing,
 						FlashCount;

@@ -41,7 +41,7 @@ WNDPROC		check_procs[50],
 			radio_procs[50],
 			tree_proc;
 
-extern BOOL		map_valid;
+extern bool		map_valid;
 
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
@@ -470,7 +470,7 @@ void DeleteCars(Mission *mission) {
 // This counts the unique prims on the map
 
 void	count_prims_map() {
-	BOOL	prim_seen[256]; // ...
+	bool	prim_seen[256]; // ...
 	CBYTE*	msg=(CBYTE*)prim_seen;
 	UWORD	count=0;
 //	OB_Ob *walk=OB_ob;
@@ -532,7 +532,7 @@ void	save_prim_map(CBYTE *name)
 	ptr=strchr(name2,'.');
 	ptr++;
 	strcpy(ptr,"ia_");
-	handout=FileCreate(name2,TRUE);
+	handout=FileCreate(name2,true);
 	if(handout==FILE_OPEN_ERROR) {
 		FileClose(handle);
 		MessageBox(GEDIT_edit_wnd,"File create error.","Error.",MB_ICONEXCLAMATION|MB_OK);
@@ -791,7 +791,7 @@ void update_prims_on_map(CBYTE *orig_name) {
 	ptr=strchr(name2,'.');
 	ptr++;
 	strcpy(ptr,"ma_");
-	handout=FileCreate(name2,TRUE);
+	handout=FileCreate(name2,true);
 	if(handout==FILE_OPEN_ERROR) {
 		FileClose(handle);
 		sprintf(msg,"File create error: %s",name2);

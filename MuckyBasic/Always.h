@@ -69,12 +69,12 @@ typedef					char			CBYTE;
 #define SHOW_FL(a)			{TRACE(#a" = %f\n", (a));}
 
 
-#ifndef FALSE
-#define FALSE 0
+#ifndef false
+#define false 0
 #endif
 
-#ifndef TRUE
-#define TRUE 1
+#ifndef true
+#define true 1
 #endif
 
 //

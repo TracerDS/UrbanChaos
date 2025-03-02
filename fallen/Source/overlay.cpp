@@ -144,11 +144,11 @@ SLONG should_i_add_message(SLONG type)
 	{
 		last_message[type] = GAME_TURN;
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -174,13 +174,13 @@ void	arrow_object(Thing *p_special,SLONG dir,SLONG type)
 
 	if(dir==1)
 	{
-		AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,FALSE);
-		AENG_world_line(x,y+64,z,20,0xff0000,x,y+128,z,20,0x800000,FALSE);
+		AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,false);
+		AENG_world_line(x,y+64,z,20,0xff0000,x,y+128,z,20,0x800000,false);
 	}
 	else
 	{
-		AENG_world_line(x,y+128,z,1,0xff0000,x,y+64,z,50,0x800000,FALSE);
-		AENG_world_line(x,y+64,z,20,0xff0000,x,y,z,20,0x800000,FALSE);
+		AENG_world_line(x,y+128,z,1,0xff0000,x,y+64,z,50,0x800000,false);
+		AENG_world_line(x,y+64,z,20,0xff0000,x,y,z,20,0x800000,false);
 	}
 
 	*/
@@ -202,13 +202,13 @@ void	arrow_pos(SLONG x,SLONG y,SLONG z,SLONG dir,SLONG type)
 
 	if(dir==1)
 	{
-		AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,FALSE);
-		AENG_world_line(x,y+64,z,20,0x800000,x,y+128,z,20,0x400000,FALSE);
+		AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,false);
+		AENG_world_line(x,y+64,z,20,0x800000,x,y+128,z,20,0x400000,false);
 	}
 	else
 	{
-		AENG_world_line(x,y-0,z,1,0xff0000,x,y-64,z,50,0x800000,FALSE);
-		AENG_world_line(x,y-64,z,20,0x800000,x,y-128,z,20,0x400000,FALSE);
+		AENG_world_line(x,y-0,z,1,0xff0000,x,y-64,z,50,0x800000,false);
+		AENG_world_line(x,y-64,z,20,0x800000,x,y-128,z,20,0x400000,false);
 	}
 	*/
 }
@@ -257,7 +257,7 @@ void	highlight_cable_grab()
 	x=p_person->WorldPos.X>>8;
 	z=p_person->WorldPos.Z>>8;
 
-	exit   = FALSE;
+	exit   = false;
 	f_list = PAP_2LO(x>>10,z>>10).ColVectHead;
 
 
@@ -282,7 +282,7 @@ void	highlight_cable_grab()
 		if (i_facet < 0)
 		{
 			i_facet = -i_facet;
-			exit   =   TRUE;
+			exit   =   true;
 		}
 
 		df = &dfacets[i_facet];
@@ -841,7 +841,7 @@ void	OVERLAY_draw_enemy_health()
 					{
 						SLONG percent;
 
-						extern BOOL PersonIsMIB(Thing *p_person);
+						extern bool PersonIsMIB(Thing *p_person);
 
 						if (PersonIsMIB(p_target))
 						{

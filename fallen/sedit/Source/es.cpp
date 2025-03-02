@@ -111,7 +111,7 @@ void ES_init()
 	for (x = 0; x < PAP_SIZE_HI; x++)
 	for (z = 0; z < PAP_SIZE_HI; z++)
 	{
-		ES_city_water_on[x][z] = FALSE;
+		ES_city_water_on[x][z] = false;
 	}
 
 	for (x = 0; x < PAP_SIZE_LO; x++)
@@ -510,7 +510,7 @@ void ES_build_sewers()
 			num_links  = 0;
 			num_facets = 0;
 
-			for (f_list = pl->ColVectHead, exit = FALSE; !exit; f_list += 1)
+			for (f_list = pl->ColVectHead, exit = false; !exit; f_list += 1)
 			{
 				facet = facet_links[f_list];
 
@@ -521,7 +521,7 @@ void ES_build_sewers()
 					//
 
 					facet = -facet;
-					exit  =  TRUE;
+					exit  =  true;
 				}
 
 				num_facets += 1;
@@ -861,7 +861,7 @@ SLONG ES_save(CBYTE *filename)
 
 	if (handle == NULL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -892,13 +892,13 @@ SLONG ES_save(CBYTE *filename)
 
 	ES_undo_store();
 
-	return TRUE;
+	return true;
 
   file_error:;
 
 	fclose(handle);
 
-	return FALSE;
+	return false;
 }
 
 SLONG ES_load(CBYTE *filename)
@@ -911,7 +911,7 @@ SLONG ES_load(CBYTE *filename)
 
 	if (handle == NULL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -933,7 +933,7 @@ SLONG ES_load(CBYTE *filename)
 
 		fclose(handle);
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -960,13 +960,13 @@ SLONG ES_load(CBYTE *filename)
 
 	ES_undo_store();
 
-	return TRUE;
+	return true;
 
   file_error:;
 
 	fclose(handle);
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1515,11 +1515,11 @@ SLONG ES_city_water_get(SLONG x, SLONG z)
 
 	if (ES_city_water_on[map_x][map_z])
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -1538,7 +1538,7 @@ void  ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
 	{
 		if (!ES_city_water_on[map_x][map_z])
 		{
-			ES_city_water_on[map_x][map_z] = TRUE;
+			ES_city_water_on[map_x][map_z] = true;
 
 			//
 			// Make sure the water level here is not underground.
@@ -1570,7 +1570,7 @@ void  ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
 	{
 		if (ES_city_water_on[map_x][map_z])
 		{
-			ES_city_water_on[map_x][map_z] = FALSE;
+			ES_city_water_on[map_x][map_z] = false;
 
 			//
 			// Put the the water above the city.

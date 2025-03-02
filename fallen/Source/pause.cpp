@@ -68,13 +68,13 @@ static CBYTE *pause_menu[PAUSE_MENU_SIZE] =
 SLONG PAUSE_handler() {
 	SLONG i,text_colour,input,temp;
 	static SLONG lastinput=0;
-	SLONG ans = FALSE;
+	SLONG ans = false;
 
 
 #ifndef	PSX
 
 	input=0;
-extern BOOL ReadInputDevice();
+extern bool ReadInputDevice();
 	if(ReadInputDevice())
 	{
 /*
@@ -110,7 +110,7 @@ extern BOOL ReadInputDevice();
 		selected = 0;
 	}
 
-	if (!(GAME_FLAGS & GF_PAUSED)) return FALSE;
+	if (!(GAME_FLAGS & GF_PAUSED)) return false;
 
 
 	if (Keys[KB_UP]) {
@@ -146,21 +146,21 @@ extern BOOL ReadInputDevice();
 			//draw_3d ^= 1;
 			GAME_FLAGS &= ~GF_PAUSED;
 			GAME_STATE  =  GS_REPLAY;
-			ans         = TRUE;
+			ans         = true;
 			OutputDebugString("Restart\n");
 			break;
 
 		case PAUSE_MENU_EXIT:
 			GAME_FLAGS &= ~GF_PAUSED;
 			GAME_STATE	=	0;
-			ans         = TRUE;
+			ans         = true;
 			break;
 		}
 	}
 
 	#ifndef	PSX
 
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_init(false,false);
 
 	PANEL_draw_quad(
 		320 - 170,
@@ -171,8 +171,8 @@ extern BOOL ReadInputDevice();
 		0x88000000);
 
 #ifndef TARGET_DC
-	POLY_frame_draw(FALSE,TRUE);
-	POLY_frame_init(FALSE,FALSE);
+	POLY_frame_draw(false,true);
+	POLY_frame_init(false,false);
 #endif
 
 	SLONG offset;
@@ -205,7 +205,7 @@ extern BOOL ReadInputDevice();
 			text_size);
 	}
 
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 
 	#endif
 
@@ -217,7 +217,7 @@ extern BOOL ReadInputDevice();
 
 	the_display.lp_D3D_Viewport->Clear(1, &the_display.ViewportRect, D3DCLEAR_ZBUFFER);
 	
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 
 	//font.DrawString(startmenu2[c0+start_menu[menu].StartIndex].Str,200,y,text_colour,2.0+(isthis*0.5f),isthis);
 	font.DrawString("PAUSED",320,50,NORMAL_COLOUR,3.0,0);
@@ -230,7 +230,7 @@ extern BOOL ReadInputDevice();
 		font.DrawString(pause_menu[i],320,200+(60*i),text_colour,3.0+(selected==i),(selected==i));
 	}
 
-	POLY_frame_draw(FALSE,TRUE);
+	POLY_frame_draw(false,true);
 
 	*/
 

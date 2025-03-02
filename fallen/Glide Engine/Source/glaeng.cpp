@@ -890,7 +890,7 @@ void AENG_draw()
 
 				if (POLY_valid_quad(quad))
 				{
-					POLY_add_quad(quad, POLY_PAGE_PUDDLE, FALSE);
+					POLY_add_quad(quad, POLY_PAGE_PUDDLE, false);
 				}
 
 			  ignore_this_puddle:;
@@ -902,8 +902,8 @@ void AENG_draw()
 	// Draw the reflections and the puddles and clear the poly lists.
 	//
 
-	POLY_frame_draw(FALSE);
-	POLY_frame_init(TRUE);
+	POLY_frame_draw(false);
+	POLY_frame_init(true);
 
 	#endif
 
@@ -994,7 +994,7 @@ void AENG_draw()
 						quad[2] = &ps[2];
 						quad[3] = &ps[3];
 
-						POLY_add_quad(quad, page, TRUE);					
+						POLY_add_quad(quad, page, true);					
 					}
 					else
 					{
@@ -1004,13 +1004,13 @@ void AENG_draw()
 							tri[1] = quad[1];
 							tri[2] = quad[2];
 
-							POLY_add_triangle(tri, page, TRUE);
+							POLY_add_triangle(tri, page, true);
 
 							tri[0] = &ps[1];
 							tri[1] = &ps[3];
 							tri[2] = &ps[2];
 
-							POLY_add_triangle(tri, page, TRUE);
+							POLY_add_triangle(tri, page, true);
 						}
 						else
 						{
@@ -1018,19 +1018,19 @@ void AENG_draw()
 							tri[1] = quad[3];
 							tri[2] = quad[2];
 
-							POLY_add_triangle(tri, page, TRUE);
+							POLY_add_triangle(tri, page, true);
 
 							tri[0] = &ps[0];
 							tri[1] = &ps[1];
 							tri[2] = &ps[2];
 
-							POLY_add_triangle(tri, page, TRUE);
+							POLY_add_triangle(tri, page, true);
 						}
 					}
 				}
 				else
 				{
-					POLY_add_quad(quad, page, TRUE);
+					POLY_add_quad(quad, page, true);
 				}
 			}
 
@@ -1097,7 +1097,7 @@ void AENG_draw()
 								// Add the poly.
 								//
 
-								POLY_add_quad(quad, page, TRUE);
+								POLY_add_quad(quad, page, true);
 							}
 						}
 					}
@@ -1264,7 +1264,7 @@ void AENG_draw()
 						AENG_world_line(
 							p_vect->X[0], p_vect->Y[0], p_vect->Z[0], 32, 0x00ff0000,
 							p_vect->X[1], p_vect->Y[1], p_vect->Z[1], 0,  0x000000ff,
-							TRUE);
+							true);
 					}
 
 					#endif
@@ -1335,7 +1335,7 @@ void AENG_draw()
 
 		for (i = 0; i < DIRT_MAX_DIRT; i++)
 		{
-			falling = FALSE;
+			falling = false;
 
 			di = DIRT_get_info(i);
 
@@ -1403,7 +1403,7 @@ void AENG_draw()
 				temp[2].Y -= matrix[1] * LEAF_SIZE;
 				temp[2].Z -= matrix[2] * LEAF_SIZE;
 
-				falling = TRUE;
+				falling = true;
 			}
 
 			//
@@ -1448,7 +1448,7 @@ void AENG_draw()
 					angle += 2.0F * PI / 3.0F;
 				}
 
-				POLY_add_triangle(tri, POLY_PAGE_MASKED, FALSE);
+				POLY_add_triangle(tri, POLY_PAGE_MASKED, false);
 			}
 
 		  do_next_dirt:;
@@ -1547,7 +1547,7 @@ void AENG_draw()
 
 				if (POLY_valid_quad(quad))
 				{
-					POLY_add_quad(quad, TEXTURE_page_fog, FALSE);
+					POLY_add_quad(quad, TEXTURE_page_fog, false);
 				}
 			}
 		}

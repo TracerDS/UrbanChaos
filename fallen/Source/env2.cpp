@@ -157,7 +157,7 @@ int ENV_save ( char *pcData )
 {
 	// First see how many env variables there are.
 	int iNumStrings = 0;
-	while ( TRUE )
+	while ( true )
 	{
 		if ( pchNameList[iNumStrings ][0] == '\0' )
 		{
@@ -267,12 +267,12 @@ void ENV_init ( void )
 	if ( bCountry == COUNTRY_AMERICA )
 	{
 		// Then Yanks have VMUs.
-		bWriteVMInsteadOfVMU = FALSE;
+		bWriteVMInsteadOfVMU = false;
 	}
 	else
 	{
 		// Everyone else has VMs.
-		bWriteVMInsteadOfVMU = TRUE;
+		bWriteVMInsteadOfVMU = true;
 	}
 
 
@@ -304,7 +304,7 @@ CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section)
 		return ( "text\\lang_french.txt" );
 		break;
 	default:
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		return ( "text\\lang_english.txt" );
 		break;
 	}
@@ -313,12 +313,12 @@ CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section)
 SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section)
 {
 	int iStringNum = 0;
-	while ( TRUE )
+	while ( true )
 	{
 		if ( pchNameList[iStringNum][0] == '\0' )
 		{
 			// Reached the end of the list. Oops.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 			return ( def );
 			break;
 		}
@@ -328,14 +328,14 @@ SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section)
 		}
 		iStringNum++;
 	}
-	ASSERT ( FALSE );
+	ASSERT ( false );
 	return ( def );
 }
 
 // Unused.
 void ENV_set_value_string(CBYTE* name, CBYTE* value, CBYTE* section)
 {
-	ASSERT ( FALSE );
+	ASSERT ( false );
 }
 
 void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section)
@@ -343,12 +343,12 @@ void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section)
 	int iStringNum = 0;
 	// MUST be a byte value.
 	ASSERT ( ( value >= 0 ) && ( value <= 255 ) );
-	while ( TRUE )
+	while ( true )
 	{
 		if ( pchNameList[iStringNum][0] == '\0' )
 		{
 			// Reached the end of the list. Oops.
-			ASSERT ( FALSE );
+			ASSERT ( false );
 			return;
 		}
 		if ( 0 == stricmp ( pchNameList[iStringNum], name ) )
@@ -358,7 +358,7 @@ void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section)
 		}
 		iStringNum++;
 	}
-	ASSERT ( FALSE );
+	ASSERT ( false );
 }
 
 

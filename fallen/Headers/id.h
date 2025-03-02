@@ -176,7 +176,7 @@ SLONG ID_should_i_draw     (SLONG x, SLONG z);	// (x,z) must be in the bounding 
 
 //
 // Returns index of the first face above a floor square. 0 => NULL index.
-// Returns TRUE if the face is a quad, otherwise it is a triangle.
+// Returns true if the face is a quad, otherwise it is a triangle.
 // Returns the texture of the face.
 // Returns the next face in the linked list of faces above a floor square.
 //
@@ -248,7 +248,7 @@ void  ID_set_point_index	 (SLONG face, SLONG point, UWORD index);
 
 
 //
-// Returns TRUE if the vector collides with the insides.
+// Returns true if the vector collides with the insides.
 //
 
 SLONG ID_collide_3d(
@@ -322,7 +322,7 @@ void ID_editor_start_get_walls ();
 void ID_editor_start_get_stairs();
 
 //
-// These functions return FALSE if there are no more rooms, walls
+// These functions return false if there are no more rooms, walls
 // or stairs, otherwise they fill out the given structure with
 // info describing the next room, wall or staircase.
 //

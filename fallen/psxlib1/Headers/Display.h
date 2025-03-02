@@ -69,7 +69,7 @@ enum	DisplayModes
 
 typedef struct
 {
-	BOOL			Availability;	// Do we have this mode?
+	bool			Availability;	// Do we have this mode?
 	ULONG			Width,			// Display dimensions.
 					Height,
 					Depth;

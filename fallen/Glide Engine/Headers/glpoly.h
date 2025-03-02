@@ -176,7 +176,7 @@ void POLY_fadeout_buffer();
 
 //
 // Clears all buffers, ready for a new frame.
-// Checks the clipflags and backface culling of the triangle and returns TRUE if it should be drawn.
+// Checks the clipflags and backface culling of the triangle and returns true if it should be drawn.
 // Adds a triangle and a quad.
 // Adds a line. The widths are given in world-space sizes. if (sort_to_front) then lines will be drawn last with no z-buffer.
 // Sets the box against which clip-lines are clipped.

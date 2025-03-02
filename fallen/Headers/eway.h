@@ -64,23 +64,23 @@
 #define EWAY_COND_KILLED_NOT_ARRESTED	28	// When the person is killed. Arresting the person doesn't count.
 #define EWAY_COND_CRIME_RATE_GTEQ		29	// When the crime rate is >= arg1.
 #define EWAY_COND_CRIME_RATE_LTEQ		30	// When the crime rate is <= arg1.
-#define EWAY_COND_IS_MURDERER			31	// TRUE when the person given by arg1 has killed someone.
+#define EWAY_COND_IS_MURDERER			31	// true when the person given by arg1 has killed someone.
 #define EWAY_COND_PERSON_IN_VEHICLE		32	// Arg1 is the person, arg2 is the vehicle. If arg2 == NULL, then any vehicle will do!
 #define EWAY_COND_THING_RADIUS_DIR		33	// When the person/vehicle given by arg 1 enters the radius (arg2 in 1/4 blocks) and points roughly in the direction of the waypoint... 
 #define EWAY_COND_SPECIFIC_ITEM_HELD	34	// When a particular item is held. 'arg1' gives waypoint that creates item.
 #define EWAY_COND_RANDOM				35	// arg1 is the dependency waypoint
-#define EWAY_COND_PLAYER_FIRED_GUN		36	// Returns TRUE if the player has fired a gun.
+#define EWAY_COND_PLAYER_FIRED_GUN		36	// Returns true if the player has fired a gun.
 #define EWAY_COND_PRIM_ACTIVATED		37	// Looks for a switch or a valve and monitors it... radius in arg1
 #define EWAY_COND_DARCI_GRABBED			38	// True if the player has someone in a hold.
 #define EWAY_COND_PUNCHED_AND_KICKED    39	// arg1 is the dependency for when to start counting.
 #define EWAY_COND_MOVE_RADIUS_DIR		40	// A thing (arg1) in radius pointing in roughtly the right direction.
-#define EWAY_COND_AFTER_FIRST_GAMETURN  41	// TRUE from the second gameturn onwards.
+#define EWAY_COND_AFTER_FIRST_GAMETURN  41	// true from the second gameturn onwards.
 
 
 typedef struct eway_conddef
 {
 	UBYTE type;		// EWAY_COND_*
-	UBYTE negate;	// TRUE => negate the output of this condition.
+	UBYTE negate;	// true => negate the output of this condition.
 	
 	UWORD arg1;
 	UWORD arg2;
@@ -322,7 +322,7 @@ void EWAY_create(
 		EWAY_Do      *ed,
 		EWAY_Stay    *es,
 		EWAY_Edef    *ee,				// Used only for waypoints that create enemies.
-		SLONG         unreferenced,		// TRUE => This waypoint is not referred to from any other one.
+		SLONG         unreferenced,		// true => This waypoint is not referred to from any other one.
 		SLONG         kludge_index,		// For EWAY_DO_CONVERSATION ... the message number.
 		UWORD magic_index);				// For EWAY_DO_CONVERSATION ... the sample identification
 
@@ -356,7 +356,7 @@ void EWAY_work_out_which_ones_are_in_warehouses();
 void EWAY_process();
 
 //
-// If this functions returns TRUE, then the camera cutscene system
+// If this functions returns true, then the camera cutscene system
 // wants the player so stop being able to move.
 //
 
@@ -450,7 +450,7 @@ SLONG EWAY_find_nearest_waypoint(
 		SLONG group);	// or EWAY_DONT_CARE
 
 //
-// Returns TRUE if the EWAY module wants to capture the camera.
+// Returns true if the EWAY module wants to capture the camera.
 // It so, then it gives the camera aswell.
 // 
 
@@ -480,7 +480,7 @@ SLONG EWAY_is_active(SLONG waypoint);
 
 //
 // Tells the waypoint system that the player has pressed 'action' near
-// a person whose 'PERSON_FLAG_USEABLE' flag is set.  Returns TRUE if
+// a person whose 'PERSON_FLAG_USEABLE' flag is set.  Returns true if
 // the IS_PERSON_USED waypoint is now going to trigger off a message.
 //
 
@@ -488,7 +488,7 @@ SLONG EWAY_used_person(UWORD t_index);
 
 
 //
-// Returns TRUE if a conversation is in progress. It tells you
+// Returns true if a conversation is in progress. It tells you
 // who is speaking to eachother too.
 //
 

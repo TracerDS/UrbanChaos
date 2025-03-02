@@ -22,7 +22,7 @@ SLONG		platform_speed,platform_flags;
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 //	LPTSTR		lbitem_str;
@@ -34,7 +34,7 @@ BOOL	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 		case	WM_INITDIALOG:
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_SETPOS,0,platform_speed);
 			ticklist_init(hWnd, IDC_LIST1, wplatform_flag_strings,platform_flags);
-			return	TRUE;
+			return	true;
 
 		case WM_MEASUREITEM:
 			return ticklist_measure(hWnd, wParam, lParam);
@@ -50,14 +50,14 @@ BOOL	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 		case	WM_CLOSE:
 			ticklist_close(hWnd, IDC_LIST1);
 			EndDialog(hWnd,0);
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

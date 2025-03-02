@@ -254,7 +254,7 @@ SLONG BIKE_process_suspension(
 		SLONG *wheel_y,
 		SLONG *wheel_dy)
 {
-	SLONG onground = FALSE;
+	SLONG onground = false;
 
 	SLONG ground = PAP_calc_map_height_at(sus_x >> 8, sus_z >> 8) << 8;
 	
@@ -303,7 +303,7 @@ SLONG BIKE_process_suspension(
 
 	if (wy <= ground + (BIKE_WHEEL_RADIUS + 0x2 << 8))
 	{
-		onground = TRUE;
+		onground = true;
 	}
 
 	//
@@ -1471,7 +1471,7 @@ again:;
 		bb->front_z >> 8,
 		8,
 		0x44ff88,
-		TRUE);
+		true);
 
 	AENG_world_line_infinite(
 		bb->front_x >> 8,
@@ -1484,7 +1484,7 @@ again:;
 		bb->front_z + steer[2] >> 8,
 		8,
 		0xff00ff,
-		TRUE);
+		true);
 
 	AENG_world_line(
 		p_bike->WorldPos.X >> 8,
@@ -1497,7 +1497,7 @@ again:;
 		(p_bike->WorldPos.Z >> 8),
 		0,
 		0x5050f4,
-		TRUE);
+		true);
 
 	*/
 	if(go_again)

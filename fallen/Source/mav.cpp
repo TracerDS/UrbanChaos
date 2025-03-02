@@ -634,7 +634,7 @@ void MAV_precalculate()
 	// Calculates the MAV_height array including warehouses.
 	//
 
-	MAV_calc_height_array(FALSE);
+	MAV_calc_height_array(false);
 
 	//
 	// Make the staircase prims change the MAV_height array 
@@ -739,11 +739,11 @@ void MAV_precalculate()
 				if (!(PAP_2HI( x, z).Flags & PAP_FLAG_HIDDEN) &&
 					!(PAP_2HI(tx,tz).Flags & PAP_FLAG_HIDDEN))
 				{
-					both_ground = TRUE;
+					both_ground = true;
 				}
 				else
 				{
-					both_ground = FALSE;
+					both_ground = false;
 				}
 
 				//
@@ -1519,12 +1519,12 @@ void MAV_draw(
 		AENG_world_line(
 			x1, y1, z1, 4, 0x00000077,
 			x2, y2, z2, 4, 0x00000077,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			x2, y1, z1, 4, 0x00000077,
 			x1, y2, z2, 4, 0x00000077,
-			TRUE);
+			true);
 
 		//
 		// Draw the options for leaving this square.
@@ -1557,7 +1557,7 @@ void MAV_draw(
 						AENG_world_line(
 							mx, y1, mz, 0, 0,
 							lx, y2, lz, 9, colour[j],
-							TRUE);
+							true);
 					}
 
 					lx += -dz * 16;
@@ -1583,7 +1583,7 @@ void MAV_draw(
 					AENG_world_line(
 						mx, y1, mz, 0, 0,
 						lx, y2, lz, 9, colour[0],
-						TRUE);
+						true);
 				}
 			}
 		}
@@ -1595,7 +1595,7 @@ void MAV_draw(
 #endif
 
 //
-// Returns TRUE if you can walk from a to b. If it returns FALSE, then
+// Returns true if you can walk from a to b. If it returns false, then
 // (MAV_last_x, MAV_last_z) is the last square it reached, and (MAV_dmx, MAV_dmz)
 // is the direction it tried to leave the square in.
 //
@@ -1636,7 +1636,7 @@ SLONG MAV_can_i_walk(
 
 	if (dist == 0)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
@@ -1680,11 +1680,11 @@ SLONG MAV_can_i_walk(
 			// Is there a wall in the way?
 			//
 
-			if (MAV_dmx == -1 && !(mo->opt[MAV_DIR_XS] & MAV_CAPS_GOTO)) {return FALSE;}
-			if (MAV_dmx == +1 && !(mo->opt[MAV_DIR_XL] & MAV_CAPS_GOTO)) {return FALSE;}
+			if (MAV_dmx == -1 && !(mo->opt[MAV_DIR_XS] & MAV_CAPS_GOTO)) {return false;}
+			if (MAV_dmx == +1 && !(mo->opt[MAV_DIR_XL] & MAV_CAPS_GOTO)) {return false;}
 
-			if (MAV_dmz == -1 && !(mo->opt[MAV_DIR_ZS] & MAV_CAPS_GOTO)) {return FALSE;}
-			if (MAV_dmz == +1 && !(mo->opt[MAV_DIR_ZL] & MAV_CAPS_GOTO)) {return FALSE;}
+			if (MAV_dmz == -1 && !(mo->opt[MAV_DIR_ZS] & MAV_CAPS_GOTO)) {return false;}
+			if (MAV_dmz == +1 && !(mo->opt[MAV_DIR_ZL] & MAV_CAPS_GOTO)) {return false;}
 
 			if (MAV_dmx && MAV_dmz)
 			{
@@ -1694,19 +1694,19 @@ SLONG MAV_can_i_walk(
 
 				mo = &MAV_opt[MAV_NAV(mx,MAV_last_mz)];
 
-				if (MAV_dmz == -1 && !(mo->opt[MAV_DIR_ZS] & MAV_CAPS_GOTO)) {return FALSE;}
-				if (MAV_dmz == +1 && !(mo->opt[MAV_DIR_ZL] & MAV_CAPS_GOTO)) {return FALSE;}
+				if (MAV_dmz == -1 && !(mo->opt[MAV_DIR_ZS] & MAV_CAPS_GOTO)) {return false;}
+				if (MAV_dmz == +1 && !(mo->opt[MAV_DIR_ZL] & MAV_CAPS_GOTO)) {return false;}
 
 				mo = &MAV_opt[MAV_NAV(MAV_last_mx,mz)];
 
-				if (MAV_dmx == -1 && !(mo->opt[MAV_DIR_XS] & MAV_CAPS_GOTO)) {return FALSE;}
-				if (MAV_dmx == +1 && !(mo->opt[MAV_DIR_XL] & MAV_CAPS_GOTO)) {return FALSE;}
+				if (MAV_dmx == -1 && !(mo->opt[MAV_DIR_XS] & MAV_CAPS_GOTO)) {return false;}
+				if (MAV_dmx == +1 && !(mo->opt[MAV_DIR_XL] & MAV_CAPS_GOTO)) {return false;}
 			}
 
 			if (mx == bx &&
 				mz == bz)
 			{
-				return TRUE;
+				return true;
 			}
 
 			MAV_last_mx = mx;
@@ -2117,7 +2117,7 @@ MAV_Action MAV_do(
 	// Clear the flag by default.
 	//
 
-	MAV_do_found_dest = FALSE;
+	MAV_do_found_dest = false;
 
 	//
 	// Clear the flags.
@@ -2208,7 +2208,7 @@ MAV_Action MAV_do(
 			// Found the destination.
 			//
 
-			MAV_do_found_dest = TRUE;
+			MAV_do_found_dest = true;
 
 			//
 			// Work out the first action and return it as the answer.
@@ -2412,16 +2412,16 @@ SLONG MAV_inside(
 	if (WITHIN(x, 0, MAP_WIDTH  - 1) &&
 		WITHIN(z, 0, MAP_HEIGHT - 1))
 	{
-		if (y < -127) {return TRUE;}
-		if (y > +127) {return FALSE;}
+		if (y < -127) {return true;}
+		if (y > +127) {return false;}
 
 		if (y < MAVHEIGHT(x,z))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -2456,7 +2456,7 @@ SLONG MAV_height_los_fast(
 			MAV_height_los_fail_y = y - (dy >> 0);
 			MAV_height_los_fail_z = z - (dz >> 0);
 
-			return FALSE;
+			return false;
 		}
 
 		x += dx;
@@ -2464,7 +2464,7 @@ SLONG MAV_height_los_fast(
 		z += dz;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG MAV_height_los_slow(
@@ -2506,7 +2506,7 @@ SLONG MAV_height_los_slow(
 			MAV_height_los_fail_y = y;
 			MAV_height_los_fail_z = z;
 
-			return FALSE;
+			return false;
 		}
 
 		x += dx;
@@ -2514,7 +2514,7 @@ SLONG MAV_height_los_slow(
 		z += dz;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -2522,7 +2522,7 @@ SLONG MAV_height_los_slow(
 
 //
 // Finds the nearest building entrance to the given place.  Returns
-// FALSE if the building doesn't have an entrance.
+// false if the building doesn't have an entrance.
 //
 
 #ifdef UNUSED

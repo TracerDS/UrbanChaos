@@ -107,7 +107,7 @@ void WARE_init();
 
 
 //
-// Returns TRUE if the mapsquare is contained within the warehouse. Beware! There are
+// Returns true if the mapsquare is contained within the warehouse. Beware! There are
 // cases when this function will get it wrong... but it isn't often!
 // 
 
@@ -121,7 +121,7 @@ SLONG WARE_which_contains(UBYTE x, UBYTE z);
 
 //
 // Returns whether the given (x,y,z) is 'underground' inside the warehouse. i.e. if
-// it inside a crate. If returns TRUE if the point is outside the warehouse aswell.
+// it inside a crate. If returns true if the point is outside the warehouse aswell.
 //
 
 SLONG WARE_inside(UBYTE ware, SLONG x, SLONG y, SLONG z);

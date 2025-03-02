@@ -101,7 +101,7 @@ class	PaintTab	:	public	ModeTab
 		inline void			SetAnimTmap(ULONG v)			{	CurrentAnimTmap=v;			}
 
 		Undo				MyUndo;
-		BOOL				ApplyTexture(struct EditFace *edit_face);
+		bool				ApplyTexture(struct EditFace *edit_face);
 		EditorModule		*Parent;
 		ControlSet			PaletteSet,
 							StyleSet,

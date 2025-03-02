@@ -256,7 +256,7 @@ UWORD       EWAY_conv_str;			// Index into the EWAY_mess_buffer
 UWORD       EWAY_conv_str_count;	// 0 for first line etc
 SLONG       EWAY_conv_timer;		// How long until the next person talks.
 SLONG       EWAY_conv_skip;			// How long until the user is allowed to skip the conversation.
-SLONG		EWAY_conv_ambient;		// TRUE => Don't control the camera or go into widescreen mode.
+SLONG		EWAY_conv_ambient;		// true => Don't control the camera or go into widescreen mode.
 SLONG		EWAY_conv_talk=0;
 
 #ifndef	PSX
@@ -604,8 +604,8 @@ ANNOYINGSCRIBBLECHECK;
 	// Clear camera and conversation stuff.
 	//
 
-	EWAY_cam_active  = FALSE;
-	EWAY_conv_active = FALSE;
+	EWAY_cam_active  = false;
+	EWAY_conv_active = false;
 
 	//
 	// Clear the counters.
@@ -917,7 +917,7 @@ ANNOYINGSCRIBBLECHECK;
 	{
 		SLONG	ob_index;
 		OB_Info *oi;
-		oi=OB_find_index(world_x,world_y,world_z,2048,FALSE);
+		oi=OB_find_index(world_x,world_y,world_z,2048,false);
 		if(oi)
 		{
 			ob_index=oi->index;
@@ -1946,10 +1946,10 @@ SLONG EWAY_load_message_file(CBYTE *fname, UWORD *index, UWORD *number)
 
 		MF_Fclose(handle);
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -2143,7 +2143,7 @@ CBYTE *EWAY_get_fake_wander_message(SLONG type)
 	if (number == 0)
 	{
 		// return "I have nothing to say to you."; // not only does this look rubbish, it's not been translated.
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		return 0; // this gets passed to PANEL_new_text() which early-out's on nulls, so we're safe.
 	}
 	else
@@ -2392,11 +2392,11 @@ void EWAY_created_last_waypoint()
 
 	// THIS IS CAUSING BUGS! IM GOING TO MAKE ALL MESSAGES AND CONVERSATIONS
 	// NEVER TRIGGER UNTIL AFTER THE FIRST GAMETURN NOT JUST IF THEY ARE SET
-	// TO EWAY COND TRUE
+	// TO EWAY COND true
 
 	//
 	// Make all message and conversation waypoint that have a
-	// condition TRUE have a condtion AFTER_FIRST_GAMETURN instead. So
+	// condition true have a condtion AFTER_FIRST_GAMETURN instead. So
 	// they have a chance of triggering on the PSX.
 	//
 
@@ -2438,20 +2438,20 @@ SLONG	global_write12=0;
 
 
 
-SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = FALSE)
+SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = false)
 {
-	SLONG ans = FALSE;
+	SLONG ans = false;
 
 ANNOYINGSCRIBBLECHECK;
 
 	switch(ec->type)
 	{
 		case EWAY_COND_FALSE:
-			ans = FALSE;
+			ans = false;
 			break;
 
 		case EWAY_COND_TRUE: 
-			ans = TRUE;
+			ans = true;
 			break;
 
 		case EWAY_COND_PROXIMITY:
@@ -2473,7 +2473,7 @@ ANNOYINGSCRIBBLECHECK;
 				}
 				else
 				{
-					ans = FALSE;
+					ans = false;
 				}
 			}
 
@@ -2484,11 +2484,11 @@ ANNOYINGSCRIBBLECHECK;
 			break;
 
 		case EWAY_COND_PRESSURE:
-			ans = FALSE;
+			ans = false;
 			break;
 
 		case EWAY_COND_CAMERA:
-			ans = FALSE;
+			ans = false;
 			break;
 
 		case EWAY_COND_SWITCH:
@@ -2508,7 +2508,7 @@ ANNOYINGSCRIBBLECHECK;
 
 				CONSOLE_text(EWAY_message, 8000);
 #endif
-				ans = FALSE;
+				ans = false;
 
 				//
 				// Don't print the message again.
@@ -2531,7 +2531,7 @@ ANNOYINGSCRIBBLECHECK;
 				EWAY_Cond *ec1 = &EWAY_cond[ec->arg1];
 				EWAY_Cond *ec2 = &EWAY_cond[ec->arg2];
 
-				ans = EWAY_evaluate_condition(ew, ec1, TRUE) && EWAY_evaluate_condition(ew, ec2, TRUE);
+				ans = EWAY_evaluate_condition(ew, ec1, true) && EWAY_evaluate_condition(ew, ec2, true);
 			}
 
 			break;
@@ -2542,7 +2542,7 @@ ANNOYINGSCRIBBLECHECK;
 				EWAY_Cond *ec1 = &EWAY_cond[ec->arg1];
 				EWAY_Cond *ec2 = &EWAY_cond[ec->arg2];
 
-				ans = EWAY_evaluate_condition(ew, ec1, TRUE) || EWAY_evaluate_condition(ew, ec2, TRUE);
+				ans = EWAY_evaluate_condition(ew, ec1, true) || EWAY_evaluate_condition(ew, ec2, true);
 			}
 
 			break;
@@ -2573,23 +2573,23 @@ ANNOYINGSCRIBBLECHECK;
 						if (ec->arg2 <= EWAY_tick)
 						{
 							ec->arg2 = 0;
-							ans      = TRUE;
+							ans      = true;
 						}
 						else
 						{
 							ec->arg2 -= EWAY_tick;
-							ans       = FALSE;
+							ans       = false;
 						}
 	#else
 						if (ec->arg2 <= EWAY_tick*2)
 						{
 							ec->arg2 = 0;
-							ans		= TRUE;
+							ans		= true;
 						}
 						else
 						{
 							ec->arg2 -= EWAY_tick*2;
-							ans		= FALSE;
+							ans		= false;
 						}
 	#endif			
 					}
@@ -2620,7 +2620,7 @@ ANNOYINGSCRIBBLECHECK;
 					// Not counting down.
 					//
 
-					ans = FALSE;
+					ans = false;
 				}
 			}
 
@@ -2628,7 +2628,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		case EWAY_COND_PERSON_DEAD:
 
-			ans = FALSE; // By default.
+			ans = false; // By default.
 
 			{
 				SLONG waypoint;
@@ -2676,13 +2676,13 @@ ANNOYINGSCRIBBLECHECK;
 								}
 */
 
-								extern BOOL PersonIsMIB(Thing* p_person);
+								extern bool PersonIsMIB(Thing* p_person);
 
 								if (p_thing->Class == CLASS_PERSON && PersonIsMIB(p_thing))
 								{
 									if (p_thing->Flags & FLAGS_ON_MAPWHO)
 									{
-										ans = FALSE;
+										ans = false;
 									}
 								}
 							}
@@ -2696,7 +2696,7 @@ ANNOYINGSCRIBBLECHECK;
 						case EWAY_DO_CREATE_BARREL:
 							
 							{
-								ans = FALSE;
+								ans = false;
 
 								if (ew_dead->flag & EWAY_FLAG_ACTIVE)
 								{	
@@ -2706,7 +2706,7 @@ ANNOYINGSCRIBBLECHECK;
 										// The barrel has been created and destroyed.
 										//
 
-										ans = TRUE;
+										ans = true;
 									}
 								}
 							}
@@ -2779,7 +2779,7 @@ ANNOYINGSCRIBBLECHECK;
 					}
 					else
 					{
-						ans = FALSE;	// Person hasn't been created yet.
+						ans = false;	// Person hasn't been created yet.
 					}
 				}
 			}
@@ -2792,7 +2792,7 @@ ANNOYINGSCRIBBLECHECK;
 			// This condition is perversely set in EWAY_process_camera().
 			//
 
-			ans = FALSE;
+			ans = false;
 
 			break;
 
@@ -2801,7 +2801,7 @@ ANNOYINGSCRIBBLECHECK;
 			{
 				Thing *darci = NET_PERSON(0);
 
-				ans = FALSE; // By default...
+				ans = false; // By default...
 
 				if (darci)
 				{
@@ -2819,7 +2819,7 @@ ANNOYINGSCRIBBLECHECK;
 						if (WITHIN(darci->WorldPos.X >> 8, minx, maxx) &&
 							WITHIN(darci->WorldPos.Z >> 8, minz, maxz))
 						{
-							ans = TRUE;
+							ans = true;
 						}
 					}
 				}
@@ -2829,7 +2829,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		case EWAY_COND_A_SEE_B:
 
-			ans = FALSE; // by default...
+			ans = false; // by default...
 
 			{
 				SLONG i_a = ec->arg1;
@@ -2858,7 +2858,7 @@ ANNOYINGSCRIBBLECHECK;
 			// Boy, this is slow!
 			//
 
-			ans = FALSE;
+			ans = false;
 
 			{
 				SLONG i;
@@ -2895,17 +2895,17 @@ ANNOYINGSCRIBBLECHECK;
 									// Found someone alive.
 									//
 
-									ans = FALSE;
+									ans = false;
 
 									break;
 								}
 								else
 								{
 									//
-									// Found at least one dead person- so make the default be TRUE.
+									// Found at least one dead person- so make the default be true.
 									//
 
-									ans = TRUE;
+									ans = true;
 								}
 							}
 						}
@@ -2918,7 +2918,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		case EWAY_COND_HALF_DEAD:
 
-			ans = FALSE;
+			ans = false;
 
 			{
 				SLONG i_person = EWAY_get_person(ec->arg1);
@@ -2933,8 +2933,8 @@ ANNOYINGSCRIBBLECHECK;
 
 					if (WITHIN(p_person->Genus.Person->Health, 10, 100))
 					{
-						//return TRUE;
-						ans = TRUE;
+						//return true;
+						ans = true;
 					}
 				}
 			}
@@ -2943,7 +2943,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		case EWAY_COND_ITEM_HELD:
 
-			ans = FALSE;
+			ans = false;
 
 			//
 			// Is the player carrying our item?
@@ -2953,7 +2953,7 @@ ANNOYINGSCRIBBLECHECK;
 			{
 				if (NET_PERSON(0)->Flags & FLAGS_HAS_GUN)
 				{
-					ans = TRUE;
+					ans = true;
 				}
 			}
 			else
@@ -2962,7 +2962,7 @@ ANNOYINGSCRIBBLECHECK;
 						NET_PERSON(0),
 						ec->arg1))
 				{
-					ans = TRUE;
+					ans = true;
 				}
 			}
 
@@ -2993,7 +2993,7 @@ ANNOYINGSCRIBBLECHECK;
 				}
 			}
 
-			ans = FALSE;
+			ans = false;
 
 			if (ew->es.type == EWAY_STAY_ALWAYS)
 			{
@@ -3019,18 +3019,18 @@ ANNOYINGSCRIBBLECHECK;
 				}
 
 				//
-				// Always return FALSE, this waypoint will be set active in 
+				// Always return false, this waypoint will be set active in 
 				// do_an_action() in interfac.cpp.
 				//
 
-				ans = FALSE;
+				ans = false;
 			}
 
 			break;
 
 		case EWAY_COND_PRIM_DAMAGED:
 
-			ans = FALSE;
+			ans = false;
 			
 			if (ec->arg1)
 			{
@@ -3038,7 +3038,7 @@ ANNOYINGSCRIBBLECHECK;
 
 				if (OB_ob[ec->arg1].flags & OB_FLAG_DAMAGED)
 				{
-					ans = TRUE;
+					ans = true;
 				}
 			}
 
@@ -3048,11 +3048,11 @@ ANNOYINGSCRIBBLECHECK;
 
 			ASSERT(WITHIN(ec->arg1, 1, EWAY_way_upto - 1));
 			
-			ans = FALSE;
+			ans = false;
 
 			if (EWAY_way[ec->arg1].flag & EWAY_FLAG_FINISHED)
 			{
-				ans = TRUE;
+				ans = true;
 			}
 
 			break;
@@ -3061,18 +3061,18 @@ ANNOYINGSCRIBBLECHECK;
 			
 			ASSERT(WITHIN(ec->arg1, 0, EWAY_MAX_COUNTERS - 1));
 
-			ans = FALSE;
+			ans = false;
 
 			if (EWAY_counter[ec->arg1] >= ec->arg2)
 			{
-				ans = TRUE;
+				ans = true;
 			}
 
 			break;
 
 		case EWAY_COND_PERSON_ARRESTED:
 
-			ans = FALSE; // By default.
+			ans = false; // By default.
 
 			if (ec->arg1 == 0)
 			{
@@ -3113,12 +3113,12 @@ ANNOYINGSCRIBBLECHECK;
 		case EWAY_COND_PLAYER_CUBOID:
 #ifdef	PSX
 			if((ew-EWAY_way)==124 && wad_level==25)		 //miked remove wetback part
-				ans=FALSE;
+				ans=false;
 			else
 #else
 extern	UBYTE	is_semtex;
 			if((ew-EWAY_way)==124 && is_semtex)		 //miked remove wetback part for PC/Dreamcast
-				ans=FALSE;
+				ans=false;
 			else
 
 #endif
@@ -3145,11 +3145,11 @@ extern	UBYTE	is_semtex;
 						WITHIN(darci->WorldPos.Z >> 8, z1, z2))
 					{
 //						ASSERT(0);
-						ans = TRUE;
+						ans = true;
 					}
 					else
 					{
-						ans = FALSE;
+						ans = false;
 					}
 				}
 			}
@@ -3158,7 +3158,7 @@ extern	UBYTE	is_semtex;
 
 		case EWAY_COND_KILLED_NOT_ARRESTED:
 
-			ans = FALSE; // By default.
+			ans = false; // By default.
 
 			{
 				SLONG waypoint;
@@ -3205,7 +3205,7 @@ extern	UBYTE	is_semtex;
 
 									if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_ARRESTED))
 									{
-										ans = TRUE;
+										ans = true;
 									}
 								}
 							}
@@ -3241,7 +3241,7 @@ extern	UBYTE	is_semtex;
 		case EWAY_COND_IS_MURDERER:
 
 			{
-				ans = FALSE;
+				ans = false;
 
 				UWORD person = EWAY_get_person(ec->arg1);
 
@@ -3251,7 +3251,7 @@ extern	UBYTE	is_semtex;
 
 					if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_IS_MURDERER)
 					{
-						ans = TRUE;
+						ans = true;
 					}
 				}
 			}
@@ -3260,7 +3260,7 @@ extern	UBYTE	is_semtex;
 
 		case EWAY_COND_PERSON_IN_VEHICLE:
 
-			ans = FALSE;
+			ans = false;
 
 			{
 				UWORD person;
@@ -3287,12 +3287,12 @@ extern	UBYTE	is_semtex;
 
 							if (p_person->Genus.Person->InCar == EWAY_way[ec->arg2].ed.arg1)
 							{
-								ans = TRUE;
+								ans = true;
 							}
 						}
 						else
 						{	
-							ans = TRUE;
+							ans = true;
 						}
 					}
 				}
@@ -3303,7 +3303,7 @@ extern	UBYTE	is_semtex;
 		case EWAY_COND_THING_RADIUS_DIR:
 		case EWAY_COND_MOVE_RADIUS_DIR:
 			
-			ans = FALSE;
+			ans = false;
 
 			{
 				UWORD thing = EWAY_get_person(ec->arg1);
@@ -3376,7 +3376,7 @@ extern	UBYTE	is_semtex;
 								// Angle near enough too...
 								//
 
-								ans = TRUE;
+								ans = true;
 							}
 						}
 					}
@@ -3387,7 +3387,7 @@ extern	UBYTE	is_semtex;
 
 		case EWAY_COND_SPECIFIC_ITEM_HELD:
 
-			ans = FALSE;
+			ans = false;
 
 			{
 				EWAY_Way *ew_other;
@@ -3406,7 +3406,7 @@ extern	UBYTE	is_semtex;
 
 					if (ew_other->flag & EWAY_FLAG_GOTITEM)
 					{
-						ans = TRUE;
+						ans = true;
 					}
 				}
 			}
@@ -3489,7 +3489,7 @@ extern	UBYTE	is_semtex;
 				}
 			}
 
-			ans = FALSE;
+			ans = false;
 
 			break;
 
@@ -3507,7 +3507,7 @@ extern	UBYTE	is_semtex;
 
 		case EWAY_COND_PUNCHED_AND_KICKED:
 
-			ans = FALSE;
+			ans = false;
 			
 			if (ec->arg1 == NULL)
 			{
@@ -3542,7 +3542,7 @@ extern	UBYTE	is_semtex;
 						if ((ec->arg2 & 0xff) >= 2 &&
 							(ec->arg2 >> 8)   >= 2)
 						{
-							ans = TRUE;
+							ans = true;
 						}
 					}
 					else
@@ -3592,7 +3592,7 @@ ANNOYINGSCRIBBLECHECK;
 	{
 		if (GAME_TURN < 1)
 		{
-			ans = FALSE;
+			ans = false;
 		}
 	}
 
@@ -3625,7 +3625,7 @@ ANNOYINGSCRIBBLECHECK;
 					}
 					else
 					{
-						ans = FALSE;
+						ans = false;
 					}
 
 					/*
@@ -3683,7 +3683,7 @@ ANNOYINGSCRIBBLECHECK;
 							}
 							else
 							{
-								ans = FALSE;
+								ans = false;
 							}
 
 							/*
@@ -3706,7 +3706,7 @@ ANNOYINGSCRIBBLECHECK;
 	{
 		if (EWAY_stop_player_moving() && !EWAY_cam_goinactive)
 		{
-			ans = FALSE;
+			ans = false;
 		}
 	}
 
@@ -3720,7 +3720,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		if (!person_ok_for_conversation(darci))
 		{
-			ans = FALSE;
+			ans = false;
 		}
 
 		//
@@ -3733,7 +3733,7 @@ ANNOYINGSCRIBBLECHECK;
 		if (person1 == NULL ||
 			person2 == NULL)
 		{
-			ans = FALSE;
+			ans = false;
 		}
 		else
 		{
@@ -3743,7 +3743,7 @@ ANNOYINGSCRIBBLECHECK;
 			if (!person_ok_for_conversation(p_person1) ||
 			    !person_ok_for_conversation(p_person2))
 			{
-				ans = FALSE;
+				ans = false;
 			}
 			else
 			{
@@ -3764,7 +3764,7 @@ ANNOYINGSCRIBBLECHECK;
 						x2, y2, z2,
 						LOS_FLAG_IGNORE_UNDERGROUND_CHECK))
 				{
-					ans = FALSE;
+					ans = false;
 				}
 			}
 		}
@@ -3774,7 +3774,7 @@ ANNOYINGSCRIBBLECHECK;
 	{
 #ifndef TARGET_DC
 		// Bloody annoying on DC, and slows everything to a crawl.
-//		TRACE("EVAL TRUE type %d way %d \n",ec->type,ew-EWAY_way);
+//		TRACE("EVAL true type %d way %d \n",ec->type,ew-EWAY_way);
 #endif
 	}
 
@@ -3804,8 +3804,8 @@ ANNOYINGSCRIBBLECHECK;
 	
 	ew = &EWAY_way[waypoint];
 
-	EWAY_cam_active         = TRUE;
-	EWAY_cam_goinactive     = FALSE;
+	EWAY_cam_active         = true;
+	EWAY_cam_goinactive     = false;
 	EWAY_cam_x              = ew->x << 8;
 	EWAY_cam_y              = ew->y << 8;
 	EWAY_cam_z              = ew->z << 8;
@@ -3837,7 +3837,7 @@ ANNOYINGSCRIBBLECHECK;
 	// Find the lowest numbered camera-target waypoint.
 	//
 
-	EWAY_cam_target = EWAY_find_waypoint(1, EWAY_DO_CAMERA_TARGET, ew->colour, ew->group, FALSE);
+	EWAY_cam_target = EWAY_find_waypoint(1, EWAY_DO_CAMERA_TARGET, ew->colour, ew->group, false);
 
 	if (EWAY_cam_target == EWAY_NO_MATCH)
 	{
@@ -3847,7 +3847,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		CONSOLE_text("No target for camera", 8000);
 
-		EWAY_cam_active = FALSE;
+		EWAY_cam_active = false;
 	}
 
 	MFX_stop(THING_NUMBER(NET_PERSON(0)),S_SEARCH_END);
@@ -3870,7 +3870,7 @@ void EWAY_process_camera()
 	SLONG speed;
 	SLONG wspeed;
 
-	SLONG target_stationary = FALSE;
+	SLONG target_stationary = false;
 
 	SLONG look_x;
 	SLONG look_y;
@@ -3897,8 +3897,8 @@ ANNOYINGSCRIBBLECHECK;
 		if (EWAY_cam_goinactive==0)
 		{
 			EWAY_cam_jumped=10;
-			EWAY_cam_active     = FALSE;
-			EWAY_cam_goinactive	= FALSE;
+			EWAY_cam_active     = false;
+			EWAY_cam_goinactive	= false;
 		}
 ANNOYINGSCRIBBLECHECK;
 		return;
@@ -3926,7 +3926,7 @@ ANNOYINGSCRIBBLECHECK;
 
 			if (p_thing->State == STATE_IDLE)
 			{
-				target_stationary = TRUE;
+				target_stationary = true;
 			}
 			if (p_thing->State == STATE_MOVEING)
 			{
@@ -3934,7 +3934,7 @@ ANNOYINGSCRIBBLECHECK;
 					p_thing->SubState == SUB_STATE_SIMPLE_ANIM_OVER)
 					
 				{
-					target_stationary = TRUE;
+					target_stationary = true;
 				}
 			}
 		}
@@ -3969,7 +3969,7 @@ ANNOYINGSCRIBBLECHECK;
 		switch(ew_look->ed.subtype)
 		{
 			case EWAY_SUBTYPE_CAMERA_TARGET_PLACE:
-				target_stationary = TRUE;
+				target_stationary = true;
 				break;
 
 			case EWAY_SUBTYPE_CAMERA_TARGET_THING:
@@ -4004,7 +4004,7 @@ ANNOYINGSCRIBBLECHECK;
 
 							if (p_thing->State == STATE_IDLE)
 							{
-								target_stationary = TRUE;
+								target_stationary = true;
 							}
 							if (p_thing->State == STATE_MOVEING)
 							{
@@ -4012,7 +4012,7 @@ ANNOYINGSCRIBBLECHECK;
 									p_thing->SubState == SUB_STATE_SIMPLE_ANIM_OVER)
 									
 								{
-									target_stationary = TRUE;
+									target_stationary = true;
 								}
 							}
 						}
@@ -4049,7 +4049,7 @@ ANNOYINGSCRIBBLECHECK;
 
 							if (p_look->State == STATE_IDLE)
 							{
-								target_stationary = TRUE;
+								target_stationary = true;
 							}
 							if (p_look->State == STATE_MOVEING)
 							{
@@ -4057,7 +4057,7 @@ ANNOYINGSCRIBBLECHECK;
 									p_look->SubState == SUB_STATE_SIMPLE_ANIM_OVER)
 									
 								{
-									target_stationary = TRUE;
+									target_stationary = true;
 								}
 							}
 						}
@@ -4073,7 +4073,7 @@ ANNOYINGSCRIBBLECHECK;
 						look_y            = ew_look->y;
 						look_z            = ew_look->z;
 						look_yaw          = ew_look->yaw << 11;
-						target_stationary = TRUE;
+						target_stationary = true;
 					}
 				}
 
@@ -4139,7 +4139,7 @@ ANNOYINGSCRIBBLECHECK;
 							ew_go->flag |= EWAY_FLAG_ACTIVE | EWAY_FLAG_DEAD;
 						}
 
-						next = EWAY_find_waypoint(EWAY_cam_waypoint + 1, EWAY_DO_CAMERA_WAYPOINT, ew_go->colour, ew_go->group, FALSE);
+						next = EWAY_find_waypoint(EWAY_cam_waypoint + 1, EWAY_DO_CAMERA_WAYPOINT, ew_go->colour, ew_go->group, false);
 
 						if (next == EWAY_NO_MATCH || next <= EWAY_cam_waypoint)
 						{
@@ -4149,7 +4149,7 @@ ANNOYINGSCRIBBLECHECK;
 							//
 
 							//if (EWAY_cam_goinactive==0)
-								EWAY_cam_goinactive = 2;//TRUE;
+								EWAY_cam_goinactive = 2;//true;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4251,7 +4251,7 @@ skip_camera:;
 					// Move onto the next waypoint.
 					//
 
-					next = EWAY_find_waypoint(EWAY_cam_waypoint + 1, EWAY_DO_CAMERA_WAYPOINT, ew_go->colour, ew_go->group, FALSE);
+					next = EWAY_find_waypoint(EWAY_cam_waypoint + 1, EWAY_DO_CAMERA_WAYPOINT, ew_go->colour, ew_go->group, false);
 
 					if (next == EWAY_NO_MATCH || next <= EWAY_cam_waypoint)
 					{
@@ -4261,13 +4261,13 @@ skip_camera:;
 						//
 
 						//if (EWAY_cam_goinactive==0)
-							EWAY_cam_goinactive = 2;//TRUE;
+							EWAY_cam_goinactive = 2;//true;
 
 						//
 						// Make the camera look at Darci properly.
 						// 
 	#ifdef OLD_CAM
-						CAM_look_at_thing(FALSE);
+						CAM_look_at_thing(false);
 	#endif
 ANNOYINGSCRIBBLECHECK;
 						return;
@@ -4501,7 +4501,7 @@ ANNOYINGSCRIBBLECHECK;
 
 void EWAY_finish_conversation()
 {
-	EWAY_conv_active = FALSE;
+	EWAY_conv_active = false;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4674,7 +4674,7 @@ ANNOYINGSCRIBBLECHECK;
 			TO_THING(EWAY_conv_person_a),
 			TO_THING(EWAY_conv_person_b),
 			ch[-1] == '?' || ch[-2] == '?',
-			TRUE);
+			true);
 
 		if (!EWAY_conv_ambient)
 		{
@@ -5101,8 +5101,8 @@ ANNOYINGSCRIBBLECHECK;
 							PCOM_make_people_talk_to_eachother(
 								TO_THING(EWAY_used_thing),
 								NET_PERSON(0),
-								FALSE,
-								FALSE);
+								false,
+								false);
 						}
 					}
 					else
@@ -5184,14 +5184,14 @@ ANNOYINGSCRIBBLECHECK;
 										yaw_car = p_vehicle->Genus.Vehicle->Angle;
 										// 2048 in a ful circle. and the car normally crosses at 1024,
 										// so we want the range around 0.
-										bool bCarGoingBackwards = FALSE;
+										bool bCarGoingBackwards = false;
 										if ( ( yaw_car > ( 1024+512 ) ) || ( yaw_car < 512 ) )
 										{
-											bCarGoingBackwards = TRUE;
+											bCarGoingBackwards = true;
 										}
 
 										// Stores the info between laps.
-										static m_bBackwardsCarCheat = FALSE;
+										static m_bBackwardsCarCheat = false;
 
 										if ( who_says == 0 )
 										{
@@ -5218,7 +5218,7 @@ ANNOYINGSCRIBBLECHECK;
 												// 2 LAPS COMPLETE
 												if ( !bCarGoingBackwards )
 												{
-													m_bBackwardsCarCheat = FALSE;
+													m_bBackwardsCarCheat = false;
 												}
 												else
 												{
@@ -5238,7 +5238,7 @@ ANNOYINGSCRIBBLECHECK;
 												// 3 LAPS COMPLETE
 												if ( !bCarGoingBackwards )
 												{
-													m_bBackwardsCarCheat = FALSE;
+													m_bBackwardsCarCheat = false;
 												}
 												TRACE ( "3: Car yaw: %i\n", yaw_car );
 												TRACE ( "Cheating: %i\n", (int)m_bBackwardsCarCheat );
@@ -5274,9 +5274,9 @@ ANNOYINGSCRIBBLECHECK;
 										PCOM_make_people_talk_to_eachother(
 											who_says,
 											NET_PERSON(0),
-											FALSE,
-											FALSE,
-											FALSE);
+											false,
+											false,
+											false);
 									}
 								}
 							}
@@ -5371,7 +5371,7 @@ ANNOYINGSCRIBBLECHECK;
 
 			if (ew->ed.arg1)
 			{
-				set_electric_fence_state(ew->ed.arg1, TRUE);
+				set_electric_fence_state(ew->ed.arg1, true);
 			}
 
 			break;
@@ -5640,7 +5640,7 @@ extern	UBYTE	hit_player;
 
 					if (ew->ed.arg1)
 					{
-						set_electric_fence_state(ew->ed.arg1, FALSE);
+						set_electric_fence_state(ew->ed.arg1, false);
 					}
 				}
 				else
@@ -5833,7 +5833,7 @@ extern	UBYTE	hit_player;
 						// Start a converstaion.
 						//
 
-						EWAY_conv_active    = TRUE;
+						EWAY_conv_active    = true;
 						EWAY_conv_waypoint  = ew - EWAY_way;
 						EWAY_conv_person_a  = person_a;
 						EWAY_conv_person_b  = person_b;
@@ -6093,7 +6093,7 @@ extern	SLONG	SAVE_ingame(CBYTE *fname);
 			//
 
 			EWAY_count_up               = 0;
-			EWAY_count_up_add_penalties = FALSE;
+			EWAY_count_up_add_penalties = false;
 			EWAY_count_up_num_penalties = 0;
 			EWAY_count_up_penalty_timer = 0;
 			EWAY_counter[3]             = 0;
@@ -6379,7 +6379,7 @@ ANNOYINGSCRIBBLECHECK;
 
 		if (ew->ed.arg1)
 		{
-			set_electric_fence_state(ew->ed.arg1, FALSE);
+			set_electric_fence_state(ew->ed.arg1, false);
 		}
 	}
 
@@ -6391,7 +6391,7 @@ ANNOYINGSCRIBBLECHECK;
 		// We have to add on all the penalty waypoints visibly on-screen.
 		//
 
-		EWAY_count_up_add_penalties = TRUE;
+		EWAY_count_up_add_penalties = true;
 		EWAY_count_up_penalty_timer = 0;
 
 		//
@@ -6474,7 +6474,7 @@ void EWAY_process_penalties()
 			{
 				if (EWAY_count_up_penalty_timer >= 400)
 				{
-					EWAY_count_up_add_penalties = FALSE;
+					EWAY_count_up_add_penalties = false;
 				}
 			}
 			else
@@ -6482,7 +6482,7 @@ void EWAY_process_penalties()
 			{
 				if (EWAY_count_up_penalty_timer >= 400)
 				{
-					EWAY_count_up_add_penalties = FALSE;
+					EWAY_count_up_add_penalties = false;
 				}
 			}
 			else
@@ -6585,10 +6585,10 @@ ANNOYINGSCRIBBLECHECK;
 //	offset=GAME_TURN&1;
 
 	//
-	// This will be set to TRUE if we draw a the count-up timer.
+	// This will be set to true if we draw a the count-up timer.
 	//
 
-	EWAY_count_up_visible = FALSE;
+	EWAY_count_up_visible = false;
 
 	//
 	// Update the time.
@@ -6664,7 +6664,7 @@ ANNOYINGSCRIBBLECHECK;
 
 					PANEL_draw_timer(EWAY_count_up / 10, 320, 50);
 
-					EWAY_count_up_visible = TRUE;
+					EWAY_count_up_visible = true;
 
 					{
 						SLONG secs = EWAY_count_up / 1000;
@@ -7058,7 +7058,7 @@ SLONG EWAY_grab_camera(
 		if (!EWAY_stop_player_moving())
 #endif
 		{
-			return FALSE;
+			return false;
 		}
 		else
 		{
@@ -7147,11 +7147,11 @@ SLONG EWAY_is_active(SLONG waypoint)
 
 	if (ew->flag & EWAY_FLAG_ACTIVE)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -7159,7 +7159,7 @@ SLONG EWAY_is_active(SLONG waypoint)
 SLONG EWAY_used_person(UWORD t_index)
 {
 	UWORD i;
-	SLONG ans = FALSE;
+	SLONG ans = false;
 	
 	EWAY_Way *ew;
 
@@ -7212,7 +7212,7 @@ SLONG EWAY_used_person(UWORD t_index)
 
 					if (ew->ed.type == EWAY_DO_MESSAGE)
 					{
-						ans = TRUE;
+						ans = true;
 					}
 				}
 			}
@@ -7336,9 +7336,9 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 	EWAY_cam_thing      = THING_NUMBER(p_thing);
 	EWAY_cam_waypoint   = NULL;
 	EWAY_cam_lens       = 0x28000;
-	EWAY_cam_freeze     = TRUE;
-	EWAY_cam_lock       = FALSE;
-	EWAY_cam_goinactive = FALSE;
+	EWAY_cam_freeze     = true;
+	EWAY_cam_lock       = false;
+	EWAY_cam_goinactive = false;
 
 	//
 	// If the current camera can see the listener and the thing, then
@@ -7396,7 +7396,7 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 					EWAY_cam_y = y << 8;
 					EWAY_cam_z = z << 8;
 
-					EWAY_cam_active = TRUE;
+					EWAY_cam_active = true;
 
 					return;
 				}
@@ -7608,7 +7608,7 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 		EWAY_cam_thing = 0;
 	}
 
-	EWAY_cam_active = TRUE;
+	EWAY_cam_active = true;
 }
 
 
@@ -7742,7 +7742,7 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, UBYTE cam_flags) {
 	EWAY_cam_x = targ.X + dx;
 	EWAY_cam_y = targ.Y + dy;
 	EWAY_cam_z = targ.Z + dz;
-	EWAY_cam_active   = TRUE;
+	EWAY_cam_active   = true;
 	EWAY_cam_freeze   = (cam_flags&32) ? 0 : 1;
 
 	FC_move_to(0,EWAY_cam_x>>8,EWAY_cam_y>>8,EWAY_cam_z>>8);
@@ -7834,7 +7834,7 @@ void EWAY_cam_look_at(Thing *p_thing)
 		}
 		else
 		{
-			view[i] = FALSE;
+			view[i] = false;
 		}
 	}
 
@@ -7901,10 +7901,10 @@ void EWAY_cam_look_at(Thing *p_thing)
 		EWAY_cam_z -= dz >> 8;
 	}
 
-	EWAY_cam_active   = TRUE;
+	EWAY_cam_active   = true;
 	EWAY_cam_thing    = THING_NUMBER(p_thing);
 	EWAY_cam_waypoint = NULL;
-	EWAY_cam_freeze   = TRUE;
+	EWAY_cam_freeze   = true;
 
 	EWAY_cam_x <<= 8;
 	EWAY_cam_y <<= 8;
@@ -7920,10 +7920,10 @@ void EWAY_cam_relinquish()
 	/*
 
 	EWAY_cam_jumped=1;
-	EWAY_cam_active   = FALSE;
+	EWAY_cam_active   = false;
 	EWAY_cam_thing    = NULL;
 	EWAY_cam_waypoint = NULL;
-	EWAY_cam_freeze   = FALSE;
+	EWAY_cam_freeze   = false;
 
 	*/
 }
@@ -7967,11 +7967,11 @@ SLONG EWAY_conversation_happening(
 	   *person_a = EWAY_conv_person_a;
 	   *person_b = EWAY_conv_person_b;
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -8081,7 +8081,7 @@ void	flag_undeletable_people()
 				break;
 
 			case EWAY_COND_PERSON_ARRESTED:
-				ans = FALSE; // By default.
+				ans = false; // By default.
 
 				if (ec->arg1 == 0)
 				{
@@ -8161,7 +8161,7 @@ void	flag_undeletable_people()
 
 									if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_ARRESTED))
 									{
-										ans = TRUE;
+										ans = true;
 									}
 								}
 							}

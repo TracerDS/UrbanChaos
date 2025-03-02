@@ -959,7 +959,7 @@ extern CBYTE ELEV_fname_level[];
 		else
 		{
 			//ASSERT ( strstr ( ELEV_fname_level, "Album1" ) );
-			//ASSERT ( FALSE );
+			//ASSERT ( false );
 		}
 	}
 	if(level_index==20 || level_index==19 || level_index==	26|| level_index==	24 || strstr ( ELEV_fname_level, "Album1" ) )
@@ -2239,7 +2239,7 @@ SLONG	build_tims_ingame(CBYTE *name);
 #ifdef TARGET_DC
 		// Hmmmm.. this has trouble copiling on the DC.
 		// shouldn't be using it, anyway.
-		ASSERT(FALSE);
+		ASSERT(false);
 #else
 		CopyFile(name,gamename,0);
 #endif
@@ -3255,7 +3255,7 @@ void MEMORY_quick_init()
 {
 	FileDelete(MEMORY_QUICK_FNAME);
 
-	MEMORY_quick_avaliable = FALSE;
+	MEMORY_quick_avaliable = false;
 }
 
 void MEMORY_quick_save()
@@ -3402,7 +3402,7 @@ void MEMORY_quick_save()
 
 	MF_Fclose(handle);
 
-	MEMORY_quick_avaliable = TRUE;
+	MEMORY_quick_avaliable = true;
 
 	return;
 
@@ -3412,7 +3412,7 @@ void MEMORY_quick_save()
 
 	FileDelete(MEMORY_QUICK_FNAME);
 
-	MEMORY_quick_avaliable = FALSE;
+	MEMORY_quick_avaliable = false;
 
 	return;
 }
@@ -3434,7 +3434,7 @@ SLONG MEMORY_quick_load()
 
 	if (!handle)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -3580,13 +3580,13 @@ SLONG MEMORY_quick_load()
 	NIGHT_dfcache_recalc();
 	NIGHT_generate_walkable_lighting();
 
-	return TRUE;
+	return true;
 
   file_error:;
 
 	MF_Fclose(handle);
 
-	return FALSE;
+	return false;
 }
 
 
@@ -3970,7 +3970,7 @@ extern void POLY_ClearAllPages ( void );
 
 
 extern UBYTE loading_screen_active;
-	loading_screen_active = TRUE;
+	loading_screen_active = true;
 
 	//
 	// Assign the data...
@@ -4255,7 +4255,7 @@ extern void PANEL_new_text_init();
 
 	// Clear the cheat status.
 extern bool g_bPunishMePleaseICheatedOnThisLevel;
-	g_bPunishMePleaseICheatedOnThisLevel = FALSE;
+	g_bPunishMePleaseICheatedOnThisLevel = false;
 
 	calc_prim_normals();
 //	find_anim_prim_bboxes();
@@ -4287,7 +4287,7 @@ extern void EWAY_reactivate_waypoints_that_arent_in_the_dad_file ( void );
 	EWAY_reactivate_waypoints_that_arent_in_the_dad_file ();
 #endif
 	
-	loading_screen_active = FALSE;
+	loading_screen_active = false;
 
 }
 

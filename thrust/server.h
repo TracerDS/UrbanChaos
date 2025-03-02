@@ -13,7 +13,7 @@
 
 
 //
-// Creates a new session. Returns TRUE on success.
+// Creates a new session. Returns true on success.
 //
 
 #define SERVER_CONNECT_TYPE_LAN      0
@@ -131,7 +131,7 @@ typedef struct
 	UBYTE blue;
 	CBYTE name[32];
 	UBYTE ship_index;	// Index into the SHIP_ship structure.
-	UBYTE local;		// if TRUE, then this is you!
+	UBYTE local;		// if true, then this is you!
 	UWORD padding;
 	SLONG active;		// The gameturn when this ship becomes active.
 	float x;

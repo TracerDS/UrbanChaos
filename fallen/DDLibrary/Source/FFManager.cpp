@@ -35,7 +35,7 @@ void FFManager::ReleaseFX() {
 }
 
 
-BOOL FFManager::FFSupported(LPDIRECTINPUTDEVICE2 device) {
+bool FFManager::FFSupported(LPDIRECTINPUTDEVICE2 device) {
 	DIDEVCAPS caps;
 
 	if (!device) {
@@ -48,14 +48,14 @@ BOOL FFManager::FFSupported(LPDIRECTINPUTDEVICE2 device) {
 	}
 }
 
-BOOL FFManager::Test() {
+bool FFManager::Test() {
 	DIEFFECT effect;
 	DICONSTANTFORCE diConstantForce;  
 	DWORD    dwAxes[2] = { DIJOFS_X, DIJOFS_Y };
 	LONG     lDirection[2] = { 18000, 0 };
 	HRESULT  res;
 
-	if ((!ForceFeedback)||(!lpdiInputDevice)) return FALSE;
+	if ((!ForceFeedback)||(!lpdiInputDevice)) return false;
 	if (testeffect) testeffect->Release();
 
 	effect.dwSize=sizeof(effect);
@@ -77,9 +77,9 @@ BOOL FFManager::Test() {
 	res=lpdiInputDevice->CreateEffect(GUID_ConstantForce,&effect,&testeffect,NULL);
 	if (res==DI_OK) {
 		res=testeffect->Start(1,0);
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 	
 }
 

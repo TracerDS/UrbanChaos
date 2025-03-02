@@ -112,13 +112,13 @@ SLONG MATHS_seg_intersect(
 
 	if (vx1 < vx2)
 	{
-		if (wx1 < vx1 && wx2 < vx1) {return FALSE;}
-		if (wx1 > vx2 && wx2 > vx2) {return FALSE;}
+		if (wx1 < vx1 && wx2 < vx1) {return false;}
+		if (wx1 > vx2 && wx2 > vx2) {return false;}
 	}
 	else
 	{
-		if (wx1 > vx1 && wx2 > vx1) {return FALSE;}
-		if (wx1 < vx2 && wx2 < vx2) {return FALSE;}
+		if (wx1 > vx1 && wx2 > vx1) {return false;}
+		if (wx1 < vx2 && wx2 < vx2) {return false;}
 	}
 
 	//
@@ -127,13 +127,13 @@ SLONG MATHS_seg_intersect(
 
 	if (vz1 < vz2)
 	{
-		if (wz1 < vz1 && wz2 < vz1) {return FALSE;}
-		if (wz1 > vz2 && wz2 > vz2) {return FALSE;}
+		if (wz1 < vz1 && wz2 < vz1) {return false;}
+		if (wz1 > vz2 && wz2 > vz2) {return false;}
 	}
 	else
 	{
-		if (wz1 > vz1 && wz2 > vz1) {return FALSE;}
-		if (wz1 < vz2 && wz2 < vz2) {return FALSE;}
+		if (wz1 > vz1 && wz2 > vz1) {return false;}
+		if (wz1 < vz2 && wz2 < vz2) {return false;}
 	}
 
 	//
@@ -172,7 +172,7 @@ SLONG MATHS_seg_intersect(
 		// t is negative, so the line segments don't cross.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (abs(dcrossb) > abs(dcrossa))
@@ -181,7 +181,7 @@ SLONG MATHS_seg_intersect(
 		// t = dcrossb / dcrossa and t > 0 so t must be more than one.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -196,7 +196,7 @@ SLONG MATHS_seg_intersect(
 		// q is negative so the line segments don't cross.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (abs(acrossb) > abs(dcrossa))
@@ -205,10 +205,10 @@ SLONG MATHS_seg_intersect(
 		// q is more than one.
 		//
 
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 	
 	//
 	// What about if dcrossb and/or acrossb are zero?

@@ -18,7 +18,7 @@ SLONG		counter_value,counter_index;
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 
@@ -30,7 +30,7 @@ BOOL	CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_SETPOS,0,MAKELONG(counter_value,0));
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN2),UDM_SETRANGE,0,MAKELONG(1,10));
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN2),UDM_SETPOS,0,MAKELONG(counter_index,0));
-			return	TRUE;
+			return	true;
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
@@ -39,11 +39,11 @@ BOOL	CALLBACK	counter_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					counter_index=SendMessage(GetDlgItem(hWnd,IDC_SPIN2),UDM_GETPOS,0,0);
 				case	IDCANCEL:
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

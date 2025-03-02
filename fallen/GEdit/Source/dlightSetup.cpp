@@ -47,7 +47,7 @@ static void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 
 static CBYTE *blank_string[] = { "!" };
 
-BOOL	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -108,7 +108,7 @@ BOOL	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							MAKELONG(trap_range,0)
 						);*/
 
-			return	TRUE;
+			return	true;
 
 		case WM_MEASUREITEM:
 			return ticklist_measure(hWnd, wParam, lParam);
@@ -124,7 +124,7 @@ BOOL	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				HPEN pen;
 				HPEN open;
 				SLONG rgb;
-				BOOL pushed;
+				bool pushed;
 				RECT rc;
 
 				rc=item->rcItem; rc.left+=2; rc.top+=2; rc.bottom-=2; rc.right-=2;
@@ -163,7 +163,7 @@ BOOL	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				if (item->itemState & ODS_FOCUS) 
 					DrawFocusRect(item->hDC,&item->rcItem);
 
-				return TRUE;
+				return true;
 			}
 			default:
 				return ticklist_draw(hWnd, wParam, lParam);
@@ -210,7 +210,7 @@ BOOL	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //					lite_range= SendMessage (GetDlgItem(hWnd,IDC_SPIN3),UDM_GETPOS,0,0);
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 
 			}
 			break;
@@ -218,9 +218,9 @@ BOOL	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 		case	WM_CLOSE:
 			ticklist_close(hWnd, IDC_LIST1);
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

@@ -93,7 +93,7 @@ extern ULONG wallhug_current_count;
 ULONG wallhug_cleanup(wallhug_path *path, ULONG retval);
 ULONG wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, ULONG max_count);
 void wallhug_hugstep(wallhug_info *hugger);
-BOOL wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger);
+bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger);
 
 
 #define WALLHUG_ADDMOD4(a, b) (((a) + (b)) & 3)
@@ -102,6 +102,6 @@ extern UBYTE wallhug_last_hugstart;
 extern UBYTE wallhug_last_handed;
 extern UBYTE wallhug_last_dirn;
 extern ULONG wallhug_last_hug_count;
-extern BOOL wallhug_looking_for_last;
+extern bool wallhug_looking_for_last;
 
 #endif

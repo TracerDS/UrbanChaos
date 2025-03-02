@@ -262,7 +262,7 @@ void FASTPRIM_free_queue_for_call(FASTPRIM_Call *fc)
 	SLONG old_lvert_free_end;
 	SLONG old_index_free_end;
 
-	SLONG copy_to_beginning = FALSE;
+	SLONG copy_to_beginning = false;
 
 	while(1)
 	{
@@ -288,7 +288,7 @@ void FASTPRIM_free_queue_for_call(FASTPRIM_Call *fc)
 			FASTPRIM_lvert_upto = fc->lvertcount;
 			FASTPRIM_index_upto = fc->indexcount;
 
-			copy_to_beginning = TRUE;
+			copy_to_beginning = true;
 
 			#ifdef FASTPRIM_PERFORMANCE
 			fprintf(FASTPRIM_handle, "Wrap...\n");
@@ -484,7 +484,7 @@ SLONG FASTPRIM_draw(
 
 	if (!Keys[KB_R])
 	{
-		return FALSE;
+		return false;
 	}
 
 	#endif
@@ -539,7 +539,7 @@ SLONG FASTPRIM_draw(
 			// Less than 1 mapsquare distant... drawn the old way!
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -549,7 +549,7 @@ SLONG FASTPRIM_draw(
 	#ifndef TARGET_DC
 	if (!Keys[KB_R])
 	{
-		return FALSE;
+		return false;
 	}
 	#endif
 
@@ -1306,7 +1306,7 @@ SLONG FASTPRIM_draw(
 
 				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_SRCALPHA   );
 				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_INVSRCALPHA);
-				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE                );
+				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true                );
 			}
 			else
 			{
@@ -1316,7 +1316,7 @@ SLONG FASTPRIM_draw(
 
 				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_SRCBLEND,         D3DBLEND_ONE);
 				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_DESTBLEND,        D3DBLEND_ONE); 
-				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE        );
+				the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, true        );
 			}
 
 			the_display.lp_D3D_Device->SetTexture(0, fc->texture);
@@ -1330,7 +1330,7 @@ SLONG FASTPRIM_draw(
 											fc->indexcount,
 											0);
 
-			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
+			the_display.lp_D3D_Device->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false);
 		}
 		else
 		{
@@ -1370,7 +1370,7 @@ SLONG FASTPRIM_draw(
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 

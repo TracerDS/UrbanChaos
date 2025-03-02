@@ -32,14 +32,14 @@ wallhug_waypoint wallhug_dirn_steps[4] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
 
 static SLONG dx, dy, bresval;
 static ULONG y_dirn, x_dirn;
-static BOOL x_longer;
+static bool x_longer;
 
 ULONG wallhug_current_count;
 UBYTE wallhug_last_hugstart;
 UBYTE wallhug_last_handed;
 UBYTE wallhug_last_dirn;
 ULONG wallhug_last_hug_count;
-BOOL wallhug_looking_for_last = FALSE;
+bool wallhug_looking_for_last = false;
 
 //----------------------------------------------------------------------------
 // set up the info for the bresenham line-draw
@@ -52,8 +52,8 @@ static void bresenham_start(wallhug_waypoint start,
 	xdiff = (ULONG)end.x; xdiff -= (ULONG)start.x;
 	ydiff = (ULONG)end.y; ydiff -= (ULONG)start.y;
 
-	if (abs(xdiff) > abs(ydiff)) x_longer = TRUE;
-	else						 x_longer = FALSE;
+	if (abs(xdiff) > abs(ydiff)) x_longer = true;
+	else						 x_longer = false;
 
 
 	// work out which direction the line is, for stepping along the x or 
@@ -257,7 +257,7 @@ inline void wallhug_hugstep(wallhug_info *hugger)
 //----------------------------------------------------------------------------
 // true if there's a direct line-of-sight from start to end
 
-static BOOL line_of_sight(wallhug_waypoint start, wallhug_waypoint end)
+static bool line_of_sight(wallhug_waypoint start, wallhug_waypoint end)
 {
 	wallhug_waypoint current = start;
 	ULONG dirn;
@@ -268,21 +268,21 @@ static BOOL line_of_sight(wallhug_waypoint start, wallhug_waypoint end)
 	{
 		dirn = bresenham();
 
-		if (WALLHUG_WALL_IN_WAY(current.x, current.y, dirn)) return FALSE;
+		if (WALLHUG_WALL_IN_WAY(current.x, current.y, dirn)) return false;
 
 		STEP_DIRN(current, dirn);
 	}
 
-	return TRUE;
+	return true;
 }
 
 //----------------------------------------------------------------------------
 
-inline static BOOL huggers_met_again(wallhug_info *huggers)
+inline static bool huggers_met_again(wallhug_info *huggers)
 {
 	wallhug_waypoint one_ahead;
 
-	if (huggers[0].dirn == WALLHUG_FAILED_DIRN || huggers[0].dirn == WALLHUG_DONE) return FALSE;
+	if (huggers[0].dirn == WALLHUG_FAILED_DIRN || huggers[0].dirn == WALLHUG_DONE) return false;
 
 	one_ahead = huggers[0].current;
 	STEP_DIRN(one_ahead, huggers[0].dirn);
@@ -291,17 +291,17 @@ inline static BOOL huggers_met_again(wallhug_info *huggers)
 		huggers[1].current.y == one_ahead.y &&
 		WALLHUG_ADDMOD4(huggers[0].dirn, 2) == huggers[1].dirn)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
 //----------------------------------------------------------------------------
 
-inline BOOL wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger)
+inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger)
 {
 	ULONG c1;
 
@@ -322,9 +322,9 @@ inline BOOL wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successfu
 
 //----------------------------------------------------------------------------
 					
-static BOOL line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
+static bool line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
 {
-	BOOL deleted_waypoint, done_anything_at_all = FALSE;
+	bool deleted_waypoint, done_anything_at_all = false;
 	wallhug_waypoint start;
 	ULONG finalised, walker;
 
@@ -339,7 +339,7 @@ static BOOL line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
 		if (first_waypoint == 0) start = path->start;
 		else					 start = path->waypoints[first_waypoint - 1];
 
-		for (deleted_waypoint = FALSE; walker < path->length;)
+		for (deleted_waypoint = false; walker < path->length;)
 		{
 			ULONG lookahead;
 
@@ -349,8 +349,8 @@ static BOOL line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
 					line_of_sight(start, path->waypoints[walker + lookahead]))
 				{
 					walker += lookahead;
-					deleted_waypoint = TRUE;
-					done_anything_at_all = TRUE;
+					deleted_waypoint = true;
+					done_anything_at_all = true;
 					goto found_line;
 				}
 			}

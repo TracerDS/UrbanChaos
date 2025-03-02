@@ -202,7 +202,7 @@ void VEH_collide_find_things(
 		SLONG z,
 		SLONG radius,
 		SLONG ignore_thing_index,
-		SLONG ignore_prims = FALSE);
+		SLONG ignore_prims = false);
 
 //
 // Returns the position where one enter/exists a vehicle.

@@ -33,7 +33,7 @@ extern UBYTE SUPERCRINKLE_is_crinkled[512];
 
 //
 // Draws the given crinkle. It assumes the POLY_local_rotation
-// has been setup properly already.  Returns TRUE if it drew
+// has been setup properly already.  Returns true if it drew
 // a SUPERCRINKLE.
 //
 
@@ -46,9 +46,9 @@ SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4]);
 // Dummy routs.
 inline void SUPERCRINKLE_init() {}
 
-#define SUPERCRINKLE_IS_CRINKLED(num) FALSE
+#define SUPERCRINKLE_IS_CRINKLED(num) false
 
-inline SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4]){ return FALSE; }
+inline SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4]){ return false; }
 
 
 #endif //#else //#if SUPERCRINKLES_ENABLED

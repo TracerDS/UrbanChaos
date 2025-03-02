@@ -621,7 +621,7 @@ void	check_prim_ptr_old(void **x)
 #endif
 }
 #endif
-BOOL		text_fudge	=	FALSE;
+bool		text_fudge	=	false;
 ULONG       text_colour;
 
 //void AENG_world_line_infinite(SLONG ix1, SLONG iy1, SLONG iz1, SLONG iwidth1, ULONG colour1, 
@@ -693,11 +693,11 @@ SLONG PANEL_fadeout_finished()
 	{
 		if (GetTickCount() > PANEL_fadeout_time + 2048)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
@@ -1971,7 +1971,7 @@ void AENG_set_camera_radians(
 		AENG_LENS);
 
 	FMATRIX_vector(AENG_cam_vec,y*2048,p*2048);
-//	POLY_frame_init(FALSE);
+//	POLY_frame_init(false);
 }
 
 /*
@@ -5030,7 +5030,7 @@ void AENG_draw_dirt()
 
 	for (i = 0; i < DIRT_MAX_DIRT; i++)
 	{
-		falling = FALSE;
+		falling = false;
 		if(DIRT_get_info(i,&di)==0)
 		{
 //			goto	do_next_dirt;
@@ -5129,7 +5129,7 @@ void AENG_draw_dirt()
 						temp[1].vy -= (matrix[1] * LEAF_SIZE)>>16;
 						temp[1].vz -= (matrix[2] * LEAF_SIZE)>>16;
 
-						falling = TRUE;
+						falling = true;
 					}
 
 					//
@@ -5280,7 +5280,7 @@ void AENG_draw_dirt()
 					temp[2].vy -= (matrix[1] * LEAF_SIZE)>>16;
 					temp[2].vz -= (matrix[2] * LEAF_SIZE)>>16;
 
-					falling = TRUE;
+					falling = true;
 				}
 
 				//
@@ -6321,7 +6321,7 @@ void AENG_draw_warehouse(SLONG info)
 					SLONG f_list;
 					SLONG facet;
 					SLONG build;
-					SLONG exit = FALSE;
+					SLONG exit = false;
 
 					f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -6345,7 +6345,7 @@ void AENG_draw_warehouse(SLONG info)
 								// 
 
 								facet = -facet;
-								exit  =  TRUE;
+								exit  =  true;
 							}
 		 					ASSERT(facet>0 && facet<next_dfacet);
 
@@ -6903,7 +6903,7 @@ extern void NIGHT_dlight_render();
 					SLONG f_list;
 					SLONG facet;
 					SLONG build;
-					SLONG exit = FALSE;
+					SLONG exit = false;
 
 					f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -6926,7 +6926,7 @@ extern void NIGHT_dlight_render();
 								// 
 
 								facet = -facet;
-								exit  =  TRUE;
+								exit  =  true;
 							}
 //		 					ASSERT(facet>0 && facet<next_dfacet);
 
@@ -7263,7 +7263,7 @@ extern	void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 			SLONG f_list;
 			SLONG facet;
 			SLONG build;
-			SLONG exit = FALSE;
+			SLONG exit = false;
 
 			f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -7284,7 +7284,7 @@ extern	void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 						// 
 
 						facet = -facet;
-						exit  =  TRUE;
+						exit  =  true;
 					}
 
 

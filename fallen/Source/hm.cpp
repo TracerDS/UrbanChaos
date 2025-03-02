@@ -274,7 +274,7 @@ void HM_init()
 
 	for (i = 0; i < HM_MAX_OBJECTS; i++)
 	{
-		HM_object[i].used = FALSE;
+		HM_object[i].used = false;
 	}
 }
 
@@ -569,7 +569,7 @@ UBYTE HM_create(
 
   found_unused_hm_object:;
 
-	ho->used  = TRUE;
+	ho->used  = true;
 	ho->prim  = prim;
 	ho->x_res = x_res;
 	ho->y_res = y_res;
@@ -621,7 +621,7 @@ UBYTE HM_create(
 	for (y = 0; y < y_res - 1; y++)
 	for (z = 0; z < z_res - 1; z++)
 	{
-		empty[x][y][z] = TRUE;
+		empty[x][y][z] = true;
 	}
 
 	//
@@ -651,7 +651,7 @@ UBYTE HM_create(
 				{
 					if (WITHIN(pp->Z, cubez[z], cubez[z + 1]))
 					{
-						empty[x][y][z] = FALSE;
+						empty[x][y][z] = false;
 
 						goto do_next_point;
 					}
@@ -1141,7 +1141,7 @@ void HM_destroy(UBYTE hm_index)
 
 	if (ho->used)
 	{
-		ho->used = FALSE;
+		ho->used = false;
 
 		//
 		// Free up MemAlloc'ed memory.
@@ -1357,7 +1357,7 @@ void HM_find_mesh_point(
 
 //
 // Returnstrue if the cube of the hypermatter object exists. If you pass
-// an out-of-bounds cube, then it just returns FALSE.
+// an out-of-bounds cube, then it just returns false.
 //
 
 SLONG HM_cube_exists(
@@ -1382,7 +1382,7 @@ SLONG HM_cube_exists(
 		!WITHIN(y_cube, 0, ho->y_res - 2) ||
 		!WITHIN(z_cube, 0, ho->z_res - 2))
 	{
-		return FALSE;
+		return false;
 	}
 
 	for (i = 0; i < 8; i++)
@@ -1399,7 +1399,7 @@ SLONG HM_cube_exists(
 			!WITHIN(py, 0, ho->y_res - 1) ||
 			!WITHIN(pz, 0, ho->z_res - 1))
 		{
-			return FALSE;
+			return false;
 		}
 
 		index = HM_index(ho, px, py, pz);
@@ -1410,11 +1410,11 @@ SLONG HM_cube_exists(
 			// No point here.
 			//
 
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1461,7 +1461,7 @@ SLONG HM_is_point_in_cube(
 
 	if (!HM_cube_exists(ho, x_cube, y_cube, z_cube))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -1551,10 +1551,10 @@ SLONG HM_is_point_in_cube(
 		*rel_y = ry;
 		*rel_z = rz;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 //
@@ -1933,7 +1933,7 @@ void HM_process_bump(HM_Object *ho, HM_Bump *hb)
 }
 
 //
-// Returns TRUE if the given bump structure is no longer relavent- i.e.
+// Returns true if the given bump structure is no longer relavent- i.e.
 // the bumping point is no longer bumping.
 //
 
@@ -1968,7 +1968,7 @@ SLONG HM_bump_dead(HM_Object *ho, HM_Bump *hb)
 		   &rel_y,
 		   &rel_z))
 	{
-		return FALSE;
+		return false;
 	}
 			
 
@@ -1996,7 +1996,7 @@ SLONG HM_bump_dead(HM_Object *ho, HM_Bump *hb)
 				   &rel_y,
 				   &rel_z))
 			{
-				return FALSE;
+				return false;
 			}
 		}
 	}
@@ -2005,7 +2005,7 @@ SLONG HM_bump_dead(HM_Object *ho, HM_Bump *hb)
 	// The point is not inside the object... don't collide any more.
 	//
 
-	return TRUE;
+	return true;
 }
 
 void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
@@ -3019,11 +3019,11 @@ SLONG HM_stationary(UBYTE hm_index)
 
 	if (dx + dy + dz < 0.25F)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 

@@ -680,7 +680,7 @@ void NS_cache_init()
 
 	for (i = 1; i < NS_MAX_CACHES - 1; i++)
 	{
-		NS_cache[i].used = FALSE;
+		NS_cache[i].used = false;
 		NS_cache[i].next = i + 1;
 	}
 
@@ -1255,11 +1255,11 @@ void NS_cache_create_wallstrip(
 		bot -=  24;
 		bot &= ~7;
 
-		darken_bottom = TRUE;
+		darken_bottom = true;
 	}
 	else
 	{
-		darken_bottom = FALSE;
+		darken_bottom = false;
 	}
 
 	//
@@ -1295,7 +1295,7 @@ void NS_cache_create_wallstrip(
 		if (darken_bottom)
 		{
 			usenorm       = NS_NORM_GREY;
-			darken_bottom = FALSE;
+			darken_bottom = false;
 		}
 		else
 		{
@@ -3084,7 +3084,7 @@ void NS_cache_create_grates(UBYTE mx, UBYTE mz)
 #if WE_CALCULATE_OUR_OWN_LIGHT_POSITIONS
 
 //
-// Returns where the light for a lo-res mapsquare should go. Returns FALSE
+// Returns where the light for a lo-res mapsquare should go. Returns false
 // if there is no light in this mapsquare.
 //
 
@@ -3258,14 +3258,14 @@ SLONG NS_cache_find_light(
 		// No decent place to put a light here.
 		//
 
-		return FALSE;
+		return false;
 	}
 
    *light_x = best_x;
    *light_y = best_y;
    *light_z = best_z;
 
-	return TRUE;
+	return true;
 }
 
 #endif
@@ -3305,7 +3305,7 @@ SLONG NS_cache_create(UBYTE mx, UBYTE mz)
 		// We can't generate the edge of the map.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -3376,7 +3376,7 @@ SLONG NS_cache_create(UBYTE mx, UBYTE mz)
 	//
 
 	nc->next       = NULL;
-	nc->used       = TRUE;
+	nc->used       = true;
 	nc->map_x      = mx;
 	nc->map_z      = mz;
 	nc->num_points = NS_scratch_point_upto;
@@ -3411,7 +3411,7 @@ SLONG NS_cache_create(UBYTE mx, UBYTE mz)
 
 	NS_lo[mx][mz].cache = c_index;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -3469,7 +3469,7 @@ void NS_cache_destroy(UBYTE cache)
 	// Mark as unused and return to the free list.
 	//
 
-	nc->used      = FALSE;
+	nc->used      = false;
 	nc->next      = NS_cache_free;
 	NS_cache_free = cache;
 
@@ -3563,7 +3563,7 @@ void NS_slide_along(
 {
 	SLONG i;
 	SLONG height;
-	SLONG collided = FALSE;
+	SLONG collided = false;
 
 	SLONG mx;
 	SLONG mz;
@@ -3631,7 +3631,7 @@ void NS_slide_along(
 			case NS_HI_TYPE_ROCK:
 			case NS_HI_TYPE_CURVE:
 			case NS_HI_TYPE_NOTHING:
-				collide = TRUE;
+				collide = true;
 				break;
 
 			default:
@@ -3648,11 +3648,11 @@ void NS_slide_along(
 
 				if (*y2 + 0x4000 < height)
 				{
-					collide = TRUE;
+					collide = true;
 				}
 				else
 				{
-					collide = FALSE;
+					collide = false;
 				}
 
 				break;
@@ -3732,7 +3732,7 @@ SLONG NS_there_is_a_los(
 		//
 		// there is a los for this small distance
 		//
-		return(TRUE); 
+		return(true); 
 	}
 	dx = (dx << 5) / len;
 	dy = (dy << 5) / len;
@@ -3750,11 +3750,11 @@ SLONG NS_there_is_a_los(
 			NS_los_fail_y = y - dy;
 			NS_los_fail_z = z - dz;
 
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }	
 
 

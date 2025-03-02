@@ -163,7 +163,7 @@ SLONG PLAYER_create_local(
 	// Send this message guaranteed.
 	// 
 
-	NET_player_message_send(sizeof(join_message), &join_message, TRUE);
+	NET_player_message_send(sizeof(join_message), &join_message, true);
 
 	//
 	// Wait until the server responds with a copy of gamestate.
@@ -213,7 +213,7 @@ SLONG PLAYER_create_local(
 				//
 
 				{
-					SLONG exit_loop = FALSE;
+					SLONG exit_loop = false;
 
 					UBYTE *upto     = ((UBYTE *) data) + 4;
 					SLONG  gameturn = ((SLONG *) data)[0];
@@ -365,7 +365,7 @@ SLONG PLAYER_create_local(
 	got_it.gameturn      = GAME_turn;
 	got_it.received.type = SERVER_BLOCK_TYPE_RECEIVED_GAMESTATE;
 
-	NET_player_message_send(sizeof(got_it), &got_it, TRUE);
+	NET_player_message_send(sizeof(got_it), &got_it, true);
 
 	return PLAYER_CREATE_OK;
 }
@@ -395,7 +395,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 	ASSERT(PLAYER_key_gameturn == GAME_turn - 1);
 
    *rollback          = PLAYER_key_gameturn;
-    rollback_happened = FALSE;
+    rollback_happened = false;
 
 	//
 	// Clear out the new keypresses and update the start of the keypress history.
@@ -621,14 +621,14 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 					//
 
 				   *rollback          = 0;
-					rollback_happened = FALSE;
+					rollback_happened = false;
 
-					return FALSE;
+					return false;
 
 				case NET_PLAYER_MESSAGE_FROM_SERVER:
 
 					{
-						SLONG exit_loop = FALSE;
+						SLONG exit_loop = false;
 
 						UBYTE *upto     = ((UBYTE *) data) + 4;
 						SLONG  gameturn = ((SLONG *) data)[0];
@@ -730,7 +730,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 																//
 
 															   *rollback          = turn;
-																rollback_happened = TRUE;
+																rollback_happened = true;
 
 																ASSERT(*rollback < GAME_turn);
 
@@ -807,7 +807,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 		PLAYER_restore_gamestate(*rollback);
 	}
 
-	return TRUE;
+	return true;
 }
 
 

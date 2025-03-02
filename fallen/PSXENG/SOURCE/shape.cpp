@@ -288,7 +288,7 @@ void SHAPE_semisphere(
 
 				if (POLY_valid_triangle(tri))
 				{
-					POLY_add_triangle(tri, page, TRUE);
+					POLY_add_triangle(tri, page, true);
 				}
 			}
 		}
@@ -312,7 +312,7 @@ void SHAPE_semisphere(
 
 				if (POLY_valid_quad(quad))
 				{
-					POLY_add_quad(quad, page, TRUE);
+					POLY_add_quad(quad, page, true);
 				}
 			}
 		}
@@ -573,7 +573,7 @@ void SHAPE_semisphere_textured(
 
 				if (POLY_valid_triangle(tri))
 				{
-					POLY_add_triangle(tri, page, TRUE);
+					POLY_add_triangle(tri, page, true);
 				}
 			}
 		}
@@ -597,7 +597,7 @@ void SHAPE_semisphere_textured(
 
 				if (POLY_valid_quad(quad))
 				{
-					POLY_add_quad(quad, page, TRUE);
+					POLY_add_quad(quad, page, true);
 				}
 			}
 		}
@@ -749,7 +749,7 @@ void SHAPE_sphere(
 
 		if (POLY_valid_triangle(tri))
 		{
-			POLY_add_triangle(tri, POLY_PAGE_COLOUR, FALSE);
+			POLY_add_triangle(tri, POLY_PAGE_COLOUR, false);
 		}
 
 		//
@@ -765,7 +765,7 @@ void SHAPE_sphere(
 
 		if (POLY_valid_triangle(tri))
 		{
-			POLY_add_triangle(tri, POLY_PAGE_COLOUR, FALSE);
+			POLY_add_triangle(tri, POLY_PAGE_COLOUR, false);
 		}
 	}
 
@@ -792,7 +792,7 @@ void SHAPE_sphere(
 
 			if (POLY_valid_quad(quad))
 			{
-				POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE);
+				POLY_add_quad(quad, POLY_PAGE_COLOUR, false);
 			}
 		}
 	}
@@ -878,8 +878,8 @@ void SHAPE_sparky_line(
 			p1 = i - 1;
 			p2 = i + 1;
 
-			n1_valid = FALSE;
-			n2_valid = FALSE;
+			n1_valid = false;
+			n2_valid = false;
 
 			if (p1 > 0 && (pp[p1].clip & POLY_CLIP_TRANSFORMED))
 			{
@@ -899,7 +899,7 @@ void SHAPE_sparky_line(
 				pnx = -dy;
 				pny =  dx;
 
-				n1_valid = TRUE;
+				n1_valid = true;
 			}
 
 			if (p2 < num_points && (pp[p2].clip & POLY_CLIP_TRANSFORMED))
@@ -938,7 +938,7 @@ void SHAPE_sparky_line(
 					pny =  dx;
 				}
 
-				n2_valid = TRUE;
+				n2_valid = true;
 			}
 
 			nx[i] = pnx;
@@ -982,7 +982,7 @@ void SHAPE_sparky_line(
 			pp1.colour       = colour & 0x00ffffff;
 			pp2.colour       = colour & 0x00ffffff;
 
-			POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE);
+			POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
 
 			pp1.X = pp[i + 0].X + (nx[i + 0] * 0.25F);
 			pp1.Y = pp[i + 0].Y + (ny[i + 0] * 0.25F);
@@ -995,7 +995,7 @@ void SHAPE_sparky_line(
 			pp1.colour       = colour;
 			pp2.colour       = colour;
 
-			POLY_add_quad(quad, POLY_PAGE_ADDITIVE, FALSE);
+			POLY_add_quad(quad, POLY_PAGE_ADDITIVE, false);
 
 			pp1.X = pp[i + 0].X - nx[i + 0];
 			pp1.Y = pp[i + 0].Y - ny[i + 0];
@@ -1008,7 +1008,7 @@ void SHAPE_sparky_line(
 			pp1.colour       = colour & 0x00ffffff;
 			pp2.colour       = colour & 0x00ffffff;
 
-			POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE);
+			POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
 
 			pp1.X = pp[i + 0].X - (nx[i + 0] * 0.25F);
 			pp1.Y = pp[i + 0].Y - (ny[i + 0] * 0.25F);
@@ -1021,7 +1021,7 @@ void SHAPE_sparky_line(
 			pp1.colour       = colour;
 			pp2.colour       = colour;
 
-			POLY_add_quad(quad, POLY_PAGE_ADDITIVE, FALSE);
+			POLY_add_quad(quad, POLY_PAGE_ADDITIVE, false);
 		}
 	}
 }
@@ -1131,7 +1131,7 @@ void SHAPE_glitter(
 		bot.u        = 0.0F;
 		bot.v        = 1.0F;
 
-		POLY_add_triangle(tri, POLY_PAGE_SPARKLE, FALSE);
+		POLY_add_triangle(tri, POLY_PAGE_SPARKLE, false);
 	}
 }
 
@@ -1308,7 +1308,7 @@ void SHAPE_tripwire(
 		   &pp[2].u, &pp[2].v,
 		   &pp[3].u, &pp[3].v);
 
-		POLY_add_quad(quad, POLY_PAGE_FOG, FALSE);
+		POLY_add_quad(quad, POLY_PAGE_FOG, false);
 
 		SHAPE_tripwire_uvs(
 			0x2345 - counter,
@@ -1317,7 +1317,7 @@ void SHAPE_tripwire(
 		   &pp[2].u, &pp[2].v,
 		   &pp[3].u, &pp[3].v);
 
-		POLY_add_quad(quad, POLY_PAGE_FOG, FALSE);
+		POLY_add_quad(quad, POLY_PAGE_FOG, false);
 	}
 }
 
@@ -1396,7 +1396,7 @@ void SHAPE_waterfall(
 
 	if (POLY_valid_quad(quad))
 	{
-		POLY_add_quad(quad, POLY_PAGE_SEWATER, TRUE);
+		POLY_add_quad(quad, POLY_PAGE_SEWATER, true);
 	}
 
 	quad[0] = &pp[4];
@@ -1406,7 +1406,7 @@ void SHAPE_waterfall(
 
 	if (POLY_valid_quad(quad))
 	{
-		POLY_add_quad(quad, POLY_PAGE_SEWATER, TRUE);
+		POLY_add_quad(quad, POLY_PAGE_SEWATER, true);
 	}
 }
 
@@ -1513,7 +1513,7 @@ void SHAPE_droplet(
 		bot.u        = 0.0F;
 		bot.v        = 1.0F;
 
-		POLY_add_triangle(tri, POLY_PAGE_DROPLET, FALSE);
+		POLY_add_triangle(tri, POLY_PAGE_DROPLET, false);
 	}
 }
 
@@ -1636,7 +1636,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 				pp[3].u        = 0.0F;
 				pp[3].v        = 0.0F;
 
-				POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE);
+				POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
 			}
 
 			break;
@@ -1731,7 +1731,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 
 			if (POLY_valid_quad(quad))
 			{
-				POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE);
+				POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
 			}
 
 			quad[0] = &pp[2];
@@ -1741,7 +1741,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 
 			if (POLY_valid_quad(quad))
 			{
-				POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE);
+				POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
 			}
 
 			break;

@@ -43,11 +43,11 @@ SLONG PAP_on_map_lo(SLONG x, SLONG z)
 	if (WITHIN(x, 0, PAP_SIZE_LO - 1) &&
 		WITHIN(z, 0, PAP_SIZE_LO - 1))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -56,11 +56,11 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z)
 	if (WITHIN(x, 0, PAP_SIZE_HI - 1) &&
 		WITHIN(z, 0, PAP_SIZE_HI - 1))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -352,11 +352,11 @@ SLONG PAP_is_flattish(
 
 		if (abs(max - min) > 0x10)
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG PAP_calc_height_noroads(SLONG x, SLONG z)

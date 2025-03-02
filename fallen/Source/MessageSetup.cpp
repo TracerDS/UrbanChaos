@@ -17,7 +17,7 @@
 
 
 //
-// Returns TRUE if it thinks the given string is a place or street name.
+// Returns true if it thinks the given string is a place or street name.
 //
 
 SLONG is_street_name(CBYTE *str_in)
@@ -61,7 +61,7 @@ SLONG is_street_name(CBYTE *str_in)
 		// Too many spaces...
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -115,7 +115,7 @@ SLONG is_street_name(CBYTE *str_in)
 
 		if (strstr(str, dont_contain[i]))
 		{
-			return FALSE;
+			return false;
 		}
 
 		i++;
@@ -153,7 +153,7 @@ SLONG is_street_name(CBYTE *str_in)
 			// Street...
 			//
 
-			return TRUE;
+			return true;
 		}
 
 		if (ch[-2] == ' ' &&
@@ -164,7 +164,7 @@ SLONG is_street_name(CBYTE *str_in)
 			// Road...
 			//
 
-			return TRUE;
+			return true;
 		}
 
 		if (ch[-2] == ' ' &&
@@ -175,7 +175,7 @@ SLONG is_street_name(CBYTE *str_in)
 			// Drive...
 			//
 
-			return TRUE;
+			return true;
 		}
 
 
@@ -188,7 +188,7 @@ SLONG is_street_name(CBYTE *str_in)
 			// Drive...
 			//
 
-			return TRUE;
+			return true;
 		}
 
 		if (ch[-2] == ' ' &&
@@ -199,7 +199,7 @@ SLONG is_street_name(CBYTE *str_in)
 			// Boulevard...
 			//
 
-			return TRUE;
+			return true;
 		}
 
 		if (ch[-3] == ' ' &&
@@ -211,7 +211,7 @@ SLONG is_street_name(CBYTE *str_in)
 			// Boulevard...
 			//
 
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -256,13 +256,13 @@ SLONG is_street_name(CBYTE *str_in)
 
 		if (strstr(str, must_contain[i]))
 		{
-			return TRUE;
+			return true;
 		}
 
 		i++;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -281,7 +281,7 @@ extern CBYTE *WaypointExtra(EventPoint *ep, CBYTE *msg);
 
 #define STR_LEN 800
 
-BOOL	CALLBACK	ms_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	ms_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG len, ep, c0;
 	HWND  the_ctrl;
@@ -349,14 +349,14 @@ BOOL	CALLBACK	ms_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			}
 
 			SetFocus(GetDlgItem(hWnd,IDC_EDIT1));
-			return	FALSE;
+			return	false;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -404,9 +404,9 @@ BOOL	CALLBACK	ms_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			}
 
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

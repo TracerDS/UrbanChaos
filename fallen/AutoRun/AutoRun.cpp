@@ -29,7 +29,7 @@ HFONT		hMenuFont;				// menu font
 static ATOM				MyRegisterClass(HINSTANCE hInstance);
 static void				GetLanguageData();
 static Director*		LoadMenuData();
-static BOOL				InitInstance(HINSTANCE, int);
+static bool				InitInstance(HINSTANCE, int);
 static void				OpenMenu(HWND hWnd, Menu* menu);
 static void				CloseMenu();
 static LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -51,16 +51,16 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// this always succeeds
 	// if event existed before (still succeeds) and ERROR_ALREADY_EXISTS is returned, so die
 	// note the event is automatically deleted by the system when the app exits (even if it crashes)
-	HANDLE	hEvent = CreateEventA(NULL, FALSE, FALSE, "AutoRunExclusionZone");
+	HANDLE	hEvent = CreateEventA(NULL, false, false, "AutoRunExclusionZone");
 	if (GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		return FALSE;
+		return false;
 	}
 
 	// get the autorun directory
 	if (!GetCurrentDirectory(MAX_PATH, szAutorunDir))
 	{
-		return FALSE;
+		return false;
 	}
 
 	// remove trailing \ if present
@@ -70,7 +70,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	// go into AUTORUN directory
 	if (!SetCurrentDirectory("AUTORUN"))
 	{
-		return FALSE;
+		return false;
 	}
 
 	// register window class
@@ -84,7 +84,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 	if (!pDirector)
 	{
-		return FALSE;
+		return false;
 	}
 
 	// go back up
@@ -94,7 +94,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	if (!InitInstance(hInstance, nCmdShow))
 	{
 		delete pDirector;
-		return FALSE;
+		return false;
 	}
 
 	// load accelerators
@@ -193,7 +193,7 @@ static Director* LoadMenuData()
 // get system information
 // create main window
 
-static BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+static bool InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
 	HWND hWnd;
 
@@ -213,11 +213,11 @@ static BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 	if (!hWnd)
 	{
-		return FALSE;
+		return false;
 	}
 
 	// modify window menu
-	HMENU	hMenu = GetSystemMenu(hWnd, FALSE);
+	HMENU	hMenu = GetSystemMenu(hWnd, false);
 
 	RemoveMenu(hMenu, SC_RESTORE, MF_BYCOMMAND);
 	RemoveMenu(hMenu, SC_SIZE, MF_BYCOMMAND);
@@ -230,7 +230,7 @@ static BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
 
-	return TRUE;
+	return true;
 }
 
 // OpenMenu
@@ -280,7 +280,7 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 
 	// create font
 	hMenuFont = CreateFont(pMenu->FontSize, 0, 0, 0, pMenu->FontWeight,
-							FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, 
+							false, false, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH, 
 							pMenu->FontName);
 	
 	// measure the menu strings
@@ -309,7 +309,7 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 	ReleaseDC(hWnd, hdc);
 
 	// refresh
-	InvalidateRect(hWnd, NULL, FALSE);
+	InvalidateRect(hWnd, NULL, false);
 	UpdateWindow(hWnd);
 
 	// set normal cursor
@@ -533,7 +533,7 @@ static void OnLButtonDown(HWND hWnd, int x, int y)
 
 		PROCESS_INFORMATION	pinfo;
 
-		if (!CreateProcess(NULL, document, NULL, NULL, FALSE, 0, NULL, directory, &sinfo, &pinfo))
+		if (!CreateProcess(NULL, document, NULL, NULL, false, 0, NULL, directory, &sinfo, &pinfo))
 		{
 			LPVOID lpMsgBuf;
 

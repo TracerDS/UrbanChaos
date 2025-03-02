@@ -114,7 +114,7 @@ extern	SLONG	is_person_ko(Thing *p_person);
 #define CAR_VEL_SHIFT	4
 
 #ifndef PSX
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 #endif
 
 static void siren(Vehicle* veh, UBYTE play);
@@ -437,7 +437,7 @@ SLONG VEH_find_runover_things(Thing *p_vehicle, UWORD thing_index[], SLONG max_n
 			cz,
 			0,
 			0xff0000,
-			TRUE);
+			true);
 	}
 #endif
 #endif
@@ -566,7 +566,7 @@ void VEH_find_door(Thing *p_vehicle, SLONG i_am_a_passenger, SLONG *door_x, SLON
 }
 
 //
-// Returns TRUE if the given car is completely on the road.
+// Returns true if the given car is completely on the road.
 //
 
 SLONG VEH_on_road(Thing *p_vehicle, SLONG step)
@@ -597,7 +597,7 @@ SLONG VEH_on_road(Thing *p_vehicle, SLONG step)
 		{
 			if (!ROAD_is_road(cx >> 8, cz >> 8))
 			{
-				return FALSE;
+				return false;
 			}
 
 			cx += dx;
@@ -605,7 +605,7 @@ SLONG VEH_on_road(Thing *p_vehicle, SLONG step)
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 // add damage to a specified area of a vehicle
@@ -718,7 +718,7 @@ void VEH_init_vehinfo()
 
 #ifdef TARGET_DC
 	// Just allocate these once.
-	static bool bAllocatedVertexAssignments = FALSE;
+	static bool bAllocatedVertexAssignments = false;
 	if ( !bAllocatedVertexAssignments )
 	{
 		for (ii = 0; ii < VEH_TYPE_NUMBER; ii++)
@@ -794,7 +794,7 @@ void VEH_init_vehinfo()
 	}
 
 #ifdef TARGET_DC
-	bAllocatedVertexAssignments = TRUE;
+	bAllocatedVertexAssignments = true;
 #endif
 
 #endif
@@ -1882,7 +1882,7 @@ void VEH_shake_fences(SLONG mx, SLONG mz)
 
 	if (f_list)
 	{
-		exit = FALSE;
+		exit = false;
 
 		while(1)
 		{
@@ -1893,7 +1893,7 @@ void VEH_shake_fences(SLONG mx, SLONG mz)
 			if (facet < 0)
 			{
 				facet = -facet;
-				exit  =  TRUE;
+				exit  =  true;
 			}
 
 			ASSERT(WITHIN(facet, 1, next_dfacet - 1));
@@ -2329,7 +2329,7 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
 //				if (is_driven_by_player(p_car))
 //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
 //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
-//								TRUE);
+//								true);
 
 				// shake fence
 #ifndef	PSX
@@ -2379,7 +2379,7 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
 		
 /*			AENG_world_line(px, y[0], pz, 32, 0xFFFFFF,
 							(x[0] + x[1] + x[2] + x[3])/4, y[0], (z[0] + z[1] + z[2] + z[3])/4, 0, 0xFFFFFF,
-							TRUE);*/
+							true);*/
 		}
 	}
 
@@ -2414,7 +2414,7 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
 //					if (is_driven_by_player(p_car))
 //					AENG_world_line((x[jj] + x[kk]) / 2, (y[jj] + y[kk]) / 2, (z[jj] + z[kk]) / 2, 32, 0xff0000,
 //									(x[jj] + x[kk]) / 2, (y[jj] + y[kk]) / 2 + 0xC00, (z[jj] + z[kk]) / 2, 0, 0xff0000,
-//									TRUE);
+//									true);
 
 					DoDamage(p_car, vc);
 				}
@@ -2449,7 +2449,7 @@ static SLONG CollideCar(Thing* p_car, SLONG step)
 //					if (is_driven_by_player(p_car))
 //					AENG_world_line((x[kk] + x[jj]) / 2, (y[kk] + y[jj]) / 2, (z[kk] + z[jj]) / 2, 32, 0xff00,
 //									(x[kk] + x[jj]) / 2, (y[kk] + y[jj]) / 2 + 0xC00, (z[kk] + z[jj]) / 2, 0, 0xff00,
-//									TRUE);		
+//									true);		
 
 					DoDamage(p_car, vc);
 
@@ -3099,7 +3099,7 @@ void VEH_driving(Thing *p_thing)
 
 	if (GAME_FLAGS & GF_CARS_WITH_ROAD_PRIMS)
 	{
-		ignore_prims = FALSE;
+		ignore_prims = false;
 	}
 	else
 	{
@@ -3175,7 +3175,7 @@ void VEH_driving(Thing *p_thing)
 		UWORD people[MAX_RUNOVER];
 		SLONG num;
 
-		SLONG box_valid = FALSE;
+		SLONG box_valid = false;
 		SLONG miny;
 		SLONG maxy;
 		SLONG prim;
@@ -3251,7 +3251,7 @@ void VEH_driving(Thing *p_thing)
 					matrix[2] = -sin_yaw;
 					matrix[3] =  cos_yaw;
 
-					box_valid = TRUE;
+					box_valid = true;
 				}
 
 				//
@@ -4295,8 +4295,8 @@ static void process_car(Thing *p_car)
 	SLONG		dy[4];
 	VehInfo*	info;
 	Vehicle*	vp;
-	BOOL		squeaky=0;
-	BOOL		crunchy=0;
+	bool		squeaky=0;
+	bool		crunchy=0;
 /*
 	{
 		SLONG	door;

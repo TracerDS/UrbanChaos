@@ -33,7 +33,7 @@ static SLONG flip;
 //---------------------------------------------------------------
 
 
-BOOL	CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG		c0	=	0;
 	HWND		the_ctrl;
@@ -83,7 +83,7 @@ BOOL	CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			CheckDlgButton(hWnd, IDC_FLIP_LEFT_RIGHT, (flip & 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hWnd, IDC_FLIP_TOP_BOTTOM, (flip & 2) ? BST_CHECKED : BST_UNCHECKED);
 
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
@@ -104,15 +104,15 @@ BOOL	CALLBACK	sign_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 				case	IDCANCEL:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
 		case WM_CLOSE:
 			EndDialog(hWnd,0);
-			return TRUE;
+			return true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

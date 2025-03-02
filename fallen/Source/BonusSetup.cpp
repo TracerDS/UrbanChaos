@@ -44,7 +44,7 @@ TCHAR	*bstrings[]	=
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-BOOL	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SLONG len;
 	HWND		the_ctrl;
@@ -84,14 +84,14 @@ BOOL	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			SendMessage(GetDlgItem(hWnd,c0),BM_SETCHECK,BST_CHECKED,0);
 
 			SetFocus(GetDlgItem(hWnd,IDC_EDIT1));
-			return	FALSE;
+			return	false;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -117,9 +117,9 @@ BOOL	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			bonus_gender= SendMessage( GetDlgItem(hWnd,IDC_RADIO2),BM_GETCHECK,0,0)==BST_CHECKED;
 
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

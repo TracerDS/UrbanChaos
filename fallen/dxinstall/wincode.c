@@ -271,12 +271,12 @@ DirectXInstallWndProc(HWND hWnd, WORD message, WPARAM wParam, LPARAM lParam)
 //       such information as what function will process messages, what cursor
 //       and icon to use, etc.
 //-----------------------------------------------------------------------------
-BOOL
+bool
 DirectXInstallInit(HINSTANCE hInstance)
 {
     HANDLE      hMemory;        // handle to allocated memory
     PWNDCLASS   pWndClass;      // structure pointer
-    BOOL        bSuccess;       // RegisterClass() result
+    bool        bSuccess;       // RegisterClass() result
 
     hMemory = LocalAlloc(LPTR, sizeof(WNDCLASS));
     pWndClass = (PWNDCLASS) LocalLock(hMemory);

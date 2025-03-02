@@ -40,8 +40,8 @@ void OS_error(CBYTE *fmt, ...);
 
 
 //
-// Returns TRUE if the given file has its archive bit set. Returns
-// FALSE if the file is not found.
+// Returns true if the given file has its archive bit set. Returns
+// false if the file is not found.
 //
 
 SLONG OS_is_archive_bit_set(CBYTE *fname);
@@ -77,7 +77,7 @@ typedef struct os_texture OS_Texture;
 
 #define OS_TEXTURE_MAX_SIZE 512
 
-OS_Texture *OS_texture_create(CBYTE *fname, SLONG invert = FALSE);
+OS_Texture *OS_texture_create(CBYTE *fname, SLONG invert = false);
 OS_Texture *OS_texture_create(SLONG width, SLONG height, SLONG format);
 
 //
@@ -154,7 +154,7 @@ extern SLONG  OS_bitmap_shift_a;
 //
 // Blitting a portion of the backbuffer onto the texture.
 // This will fail if the backbuffer and the texture are in
-// different formats.  Returns TRUE on success.
+// different formats.  Returns true on success.
 //
 // The (x,y) is the upper left hand corner of the texture and
 // the size of the region is given by the size of the texture.

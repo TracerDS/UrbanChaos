@@ -36,7 +36,7 @@ UBYTE SEWER_square[SEWER_SIZE][SEWER_SIZE];
 
 
 //
-// Returns TRUE if the sewer square is walkable.
+// Returns true if the sewer square is walkable.
 //
 
 #define SEWER_TYPE_WALKABLE(type) (WITHIN((type), SEWER_TYPE_ON, SEWER_TYPE_LADDER_ZL))
@@ -257,11 +257,11 @@ SLONG SEWER_can_i_enter(UBYTE x, UBYTE z)
 	{
 		if (SEWER_TYPE_WALKABLE(SEWER_square[x][z]))
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -294,7 +294,7 @@ void SEWER_colvects_insert()
 
 	SEWER_colvect_old_next_col_vect      = next_col_vect;
 	SEWER_colvect_old_next_col_vect_link = next_col_vect_link;
-	SEWER_colvect_stuff_valid            = TRUE;
+	SEWER_colvect_stuff_valid            = true;
 
 	//
 	// Scan the map one way...
@@ -302,7 +302,7 @@ void SEWER_colvects_insert()
 
 	for (x = 1; x < SEWER_SIZE - 1; x++)
 	{
-		started = FALSE;
+		started = false;
 
 		for (z = 0; z < SEWER_SIZE; z++)
 		{
@@ -321,7 +321,7 @@ void SEWER_colvects_insert()
 					x1 = x << 8;
 					z1 = z << 8;
 
-					started = TRUE;
+					started = true;
 
 					//
 					// Get the orientation of the colvect correct.
@@ -337,7 +337,7 @@ void SEWER_colvects_insert()
 					x2 = x << 8;
 					z2 = z << 8;
 
-					started = FALSE;
+					started = false;
 
 					//
 					// Insert the colvect.
@@ -370,7 +370,7 @@ void SEWER_colvects_insert()
 
 	for (z = 1; z < SEWER_SIZE - 1; z++)
 	{
-		started = FALSE;
+		started = false;
 
 		for (x = 0; x < SEWER_SIZE; x++)
 		{
@@ -389,7 +389,7 @@ void SEWER_colvects_insert()
 					x1 = x << 8;
 					z1 = z << 8;
 
-					started = TRUE;
+					started = true;
 
 					//
 					// Get the orientation of the colvect correct.
@@ -405,7 +405,7 @@ void SEWER_colvects_insert()
 					x2 = x << 8;
 					z2 = z << 8;
 
-					started = FALSE;
+					started = false;
 
 					//
 					// Insert the colvect.
@@ -450,7 +450,7 @@ void SEWER_colvects_remove()
 
 	next_col_vect             = SEWER_colvect_old_next_col_vect;
 	next_col_vect_link        = SEWER_colvect_old_next_col_vect_link;
-	SEWER_colvect_stuff_valid = FALSE;
+	SEWER_colvect_stuff_valid = false;
 }
 
 
@@ -815,7 +815,7 @@ void SEWER_super_curve(
 	SEWER_norm3_x     = n3x;
 	SEWER_norm3_y     = n3y;
 	SEWER_norm3_z     = n3z;
-	SEWER_turn_corner = FALSE;
+	SEWER_turn_corner = false;
 }
 
 //     	 norm3
@@ -915,7 +915,7 @@ void SEWER_super_curve_corner(
 	SEWER_norm3_x     = n3x;
 	SEWER_norm3_y     = n3y;
 	SEWER_norm3_z     = n3z;
-	SEWER_turn_corner = TRUE;
+	SEWER_turn_corner = true;
 }
 
 void SEWER_super_set()	// Dont call more than SEWER_CURVE_STEPS times for each call to SEWER_super_curve*()
@@ -1062,8 +1062,8 @@ void SEWER_get_start(SLONG x, SLONG z)
 	SEWER_get_type              = SEWER_square[x][z];
 	SEWER_get_x                 = x;
 	SEWER_get_z                 = z;
-	SEWER_got_floor             = FALSE;
-	SEWER_got_wall              = FALSE;
+	SEWER_got_floor             = false;
+	SEWER_got_wall              = false;
 	SEWER_got_pillar            = (SEWER_get_type != SEWER_TYPE_PILLAR);
 	SEWER_got_wall1_count       = 0;
 	SEWER_got_wall2_count       = 0;
@@ -1077,18 +1077,18 @@ void SEWER_get_start(SLONG x, SLONG z)
 
 	if (SEWER_get_type == SEWER_TYPE_OFF)
 	{
-		SEWER_got_floor  = TRUE;
-		SEWER_got_wall   = TRUE;
-		SEWER_got_pillar = TRUE;
+		SEWER_got_floor  = true;
+		SEWER_got_wall   = true;
+		SEWER_got_pillar = true;
 	}
 	else
 	if (WITHIN(SEWER_get_type, SEWER_TYPE_ON, SEWER_TYPE_PILLAR))
 	{
-		SEWER_got_wall = TRUE;
+		SEWER_got_wall = true;
 	}
 	else
 	{
-		SEWER_got_floor = TRUE;
+		SEWER_got_floor = true;
 	}
 }
 
@@ -1126,7 +1126,7 @@ SEWER_Face *SEWER_get_next()
 
 		SEWER_face.page = SEWER_PAGE_FLOOR;
 
-		SEWER_got_floor = TRUE;
+		SEWER_got_floor = true;
 
 		return &SEWER_face;
 	}
@@ -1535,7 +1535,7 @@ SEWER_Face *SEWER_get_next()
 				// Finished with getting walls.
 				//
 
-				SEWER_got_wall = TRUE;
+				SEWER_got_wall = true;
 			}
 			else
 			{
@@ -1561,7 +1561,7 @@ SEWER_Face *SEWER_get_next()
 		{
 			if (SEWER_got_pillar_count >= 4)
 			{
-				SEWER_got_pillar = TRUE;
+				SEWER_got_pillar = true;
 			}
 			else
 			{

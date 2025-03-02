@@ -50,7 +50,7 @@ SLONG collide_with_circle(SLONG cx,SLONG cz,SLONG cradius,SLONG *x2,SLONG *z2);
 SLONG	get_fence_hole(struct DFacet *p_facet);
 SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along);
 
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 
 inline	SLONG slide_around_box_lowstack(SLONG box_mid_x,SLONG box_mid_z,SLONG box_min_x,SLONG box_min_z,	SLONG box_max_x,SLONG box_max_z,SLONG box_yaw,SLONG radius,SLONG  x1,SLONG  z1,SLONG *x2,SLONG *z2);
 
@@ -437,7 +437,7 @@ ULONG	add_collision_to_single_cell(UWORD	index,SLONG x,SLONG z)
 }
 
 //
-// Returns TRUE if it actually removed something.
+// Returns true if it actually removed something.
 //
 
 ULONG remove_collision_from_single_cell(UWORD index, SLONG x, SLONG z)
@@ -913,8 +913,8 @@ SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect)
 // distance to the nearest point on the line Q.  The distance is negative
 // if the point is on the right-hand-side looking down the line segment.
 // The function returns a vector connecting P with Q.  'onoroff' is set to
-// TRUE if the nearest point on the line Q, lies within the line segment
-// and FALSE if it lies on one of the end points.
+// true if the nearest point on the line Q, lies within the line segment
+// and false if it lies on one of the end points.
 //
 
 
@@ -964,7 +964,7 @@ void signed_dist_to_line_with_normal(
 //		*vec_z = db;
 
 		*dist  =  QDIST2(abs(da),abs(db));
-		*on    =  FALSE;
+		*on    =  false;
 
 //		MSG_add("Nearest to point 1: cprod %d", cprod);
 
@@ -995,7 +995,7 @@ void signed_dist_to_line_with_normal(
 //		*vec_z = db;
 
 		*dist  =  QDIST2(abs(da),abs(db));
-		*on    =  FALSE;
+		*on    =  false;
 
 //		MSG_add("Nearest to point 2: cprod %d", cprod);
 
@@ -1017,7 +1017,7 @@ void signed_dist_to_line_with_normal(
     *dist  =  cprod / len;
 	*vec_x = -dz;
 	*vec_z =  dx;
-	*on    =  TRUE;
+	*on    =  true;
 
 	return;
 }
@@ -1073,7 +1073,7 @@ void signed_dist_to_line_with_normal_mark(
 		*vec_z = db;
 
 		*dist  =  QDIST2(abs(da),abs(db));
-		*on    =  FALSE;
+		*on    =  false;
 
 //		MSG_add("Nearest to point 1: cprod %d", cprod);
 
@@ -1104,7 +1104,7 @@ void signed_dist_to_line_with_normal_mark(
 		*vec_z = db;
 
 		*dist  =  QDIST2(abs(da),abs(db));
-		*on    =  FALSE;
+		*on    =  false;
 
 //		MSG_add("Nearest to point 2: cprod %d", cprod);
 
@@ -1139,7 +1139,7 @@ void signed_dist_to_line_with_normal_mark(
 		*vec_z = -dx;
 	}
 	*/
-	*on    =  TRUE;
+	*on    =  true;
 
 	return;
 }
@@ -2550,10 +2550,10 @@ SLONG	mount_ladder(Thing *p_thing,SLONG facet)
 
 		set_person_climb_ladder(p_thing,facet);
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 extern	void	locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
@@ -3199,7 +3199,7 @@ SLONG slide_along_old(
 	SLONG	same_again=0;
 	UBYTE already_upto=0;
 
-	UBYTE slid_along_fence = FALSE;
+	UBYTE slid_along_fence = false;
 	UWORD fence_colvect    = 0;
 
 #ifndef PSX
@@ -3232,7 +3232,7 @@ SLONG slide_along_old(
 	last_slide_colvect = NULL;
 	slide_door         = 0;
 	slide_ladder       = 0;
-	actual_sliding     = FALSE;
+	actual_sliding     = false;
 
 	if (COLLIDE_can_i_fastnav( x1 >> 16,  z1 >> 16) &&
 		COLLIDE_can_i_fastnav(*x2 >> 16, *z2 >> 16))
@@ -3242,7 +3242,7 @@ SLONG slide_along_old(
 		// means there aren't any colvects next to them.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -3347,7 +3347,7 @@ SLONG slide_along_old(
 							y_top = get_fence_top(x1, z1, i_vect);
 							y_bot = get_fence_bottom(x1, z1, i_vect)-30;
 
-							fence = TRUE;
+							fence = true;
 						}
 						else
 						{
@@ -3834,7 +3834,7 @@ SLONG slide_along_old(
 
 							if (dx || dz)
 							{
-								actual_sliding = TRUE;
+								actual_sliding = true;
 
 								if(on)
 								{
@@ -3862,7 +3862,7 @@ SLONG slide_along_old(
 									// the fence as the last_slide_colvect.
 									//
 
-									slid_along_fence = TRUE;
+									slid_along_fence = true;
 									fence_colvect    = i_vect;
 								}
 							}
@@ -3999,9 +3999,9 @@ SLONG slide_along(
 	last_slide_colvect    = NULL;
 	slide_door            = 0;
 	slide_ladder          = 0;
-	actual_sliding        = FALSE;
+	actual_sliding        = false;
 	slide_into_warehouse  = 0;
-	slide_outof_warehouse = FALSE;
+	slide_outof_warehouse = false;
 //	slide_nogo=1;
 
 	/*
@@ -4237,7 +4237,7 @@ SLONG slide_along(
 		// means there aren't any colvects next to them.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -4276,7 +4276,7 @@ SLONG slide_along(
 		// Check all the facets on this square.
 		//
 
-		exit   = FALSE;
+		exit   = false;
 		f_list = PAP_2LO(mx,mz).ColVectHead;
 
 		if (!f_list)
@@ -4297,7 +4297,7 @@ SLONG slide_along(
 			if (i_facet < 0)
 			{
 				i_facet = -i_facet;
-				exit   =   TRUE;
+				exit   =   true;
 			}
 
 			df = &dfacets[i_facet];
@@ -4351,7 +4351,7 @@ SLONG slide_along(
 				y_top = get_fence_top   (x1 >> 8, z1 >> 8, i_facet);
 				y_bot = get_fence_bottom(x1 >> 8, z1 >> 8, i_facet) - 0x48;
 
-				fence = TRUE;
+				fence = true;
 			}
 			else
 			{
@@ -4373,7 +4373,7 @@ SLONG slide_along(
 			// Shall we ignore this facet?
 			//
 
-			SLONG ignore_this_facet = FALSE;
+			SLONG ignore_this_facet = false;
 
 			if (just_started_falling_off_backwards)
 			{
@@ -4382,13 +4382,13 @@ SLONG slide_along(
 				// higher than you.
 				//
 
-				ignore_this_facet = TRUE;
+				ignore_this_facet = true;
 
 				if (df->FacetType == STOREY_TYPE_NORMAL)
 				{
 					if (y_top > ((my_y1 >> 8) + 0x80))
 					{
-						ignore_this_facet = FALSE;
+						ignore_this_facet = false;
 						y_bot -= 0x100;
 					}
 				}
@@ -4444,9 +4444,9 @@ SLONG slide_along(
 					// We ignore the sided-ness of the facet nowadays...
 					//
 
-					reverse = FALSE;
+					reverse = false;
 
-					if (fz1 > fz2) {SWAP(fz1,fz2); reverse = TRUE;}
+					if (fz1 > fz2) {SWAP(fz1,fz2); reverse = true;}
 
 					if (WITHIN(*z2, fz1 - radius, fz2 + radius) && (WITHIN(*x2, fx1 - radius, fx2 + radius) || (x1 < fx1 && *x2 > fx1) || (x1 > fx1 && *x2 < fx1)))
 					{
@@ -4509,7 +4509,7 @@ SLONG slide_along(
 									{
 										if (dbuildings[df->Building].Type == BUILDING_TYPE_WAREHOUSE)
 										{
-											slide_outof_warehouse = TRUE;
+											slide_outof_warehouse = true;
 										}
 									}
 								}
@@ -4530,12 +4530,12 @@ SLONG slide_along(
 									{
 										if (dbuildings[df->Building].Type == BUILDING_TYPE_WAREHOUSE)
 										{
-											slide_outof_warehouse = TRUE;
+											slide_outof_warehouse = true;
 										}
 									}
 								}
 
-								return FALSE;
+								return false;
 							}
 
 							if (x1 < fx1)
@@ -4570,12 +4570,12 @@ SLONG slide_along(
 						// Set up the globals!
 						//
 
-						actual_sliding     = TRUE;
+						actual_sliding     = true;
 						last_slide_colvect = i_facet;
 
 						if (fence)
 						{
-							slid_along_fence = TRUE;
+							slid_along_fence = true;
 							fence_colvect    = i_facet;
 						}
 
@@ -4593,9 +4593,9 @@ SLONG slide_along(
 					// We ignore the sided-ness of the facet nowadays...
 					//
 
-					reverse = FALSE;
+					reverse = false;
 
-					if (fx1 > fx2) {SWAP(fx1,fx2); reverse = TRUE;}
+					if (fx1 > fx2) {SWAP(fx1,fx2); reverse = true;}
 
 					if (WITHIN(*x2, fx1 - radius, fx2 + radius) && (WITHIN(*z2, fz1 - radius, fz2 + radius) || (z1 < fz1 && *z2 > fz1) || (z1 > fz1 && *z2 < fz1)))
 					{
@@ -4658,7 +4658,7 @@ SLONG slide_along(
 									{
 										if (dbuildings[df->Building].Type == BUILDING_TYPE_WAREHOUSE)
 										{
-											slide_outof_warehouse = TRUE;
+											slide_outof_warehouse = true;
 										}
 									}
 								}
@@ -4679,12 +4679,12 @@ SLONG slide_along(
 									{
 										if (dbuildings[df->Building].Type == BUILDING_TYPE_WAREHOUSE)
 										{
-											slide_outof_warehouse = TRUE;
+											slide_outof_warehouse = true;
 										}
 									}
 								}
 
-								return FALSE;
+								return false;
 							}
 
 							if (z1 < fz1)
@@ -4719,12 +4719,12 @@ SLONG slide_along(
 						// Set up the globals!
 						//
 
-						actual_sliding     = TRUE;
+						actual_sliding     = true;
 						last_slide_colvect = i_facet;
 
 						if (fence)
 						{
-							slid_along_fence = TRUE;
+							slid_along_fence = true;
 							fence_colvect    = i_facet;
 						}
 
@@ -4751,7 +4751,7 @@ skip_collide:;
 		last_slide_colvect = fence_colvect;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -4854,7 +4854,7 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 	last_slide         = 0;
 	last_slide_colvect = NULL;
 	slide_door         = 0;
-	actual_sliding     = FALSE;
+	actual_sliding     = false;
 
 	for (mx = minx; mx <= maxx; mx++)
 	for (mz = minz; mz <= maxz; mz++)
@@ -5280,7 +5280,7 @@ void slide_along_redges(
 		// Do we slide against this edge?
 		//
 
-		hard_edge = FALSE;
+		hard_edge = false;
 
 		if (f4)
 		{
@@ -5308,7 +5308,7 @@ void slide_along_redges(
 
 				if (abs(height1 - height2) > 1)
 				{
-					hard_edge = TRUE;
+					hard_edge = true;
 				}
 			}
 		}
@@ -5529,7 +5529,7 @@ ULONG move_thing_quick(SLONG dx,SLONG dy,SLONG dz,Thing *p_thing)
 
 
 //
-// Collides the given movement vector with objects. Returns TRUE if
+// Collides the given movement vector with objects. Returns true if
 // a collision occurred.
 //
 
@@ -5557,7 +5557,7 @@ SLONG collide_against_objects(
 
 	PrimInfo *pi;
 
-	ans = FALSE;
+	ans = false;
 
 	xmin = (*x2 >> 8) - 0x180 >> PAP_SHIFT_LO;
 	zmin = (*z2 >> 8) - 0x180 >> PAP_SHIFT_LO;
@@ -5626,13 +5626,13 @@ SLONG collide_against_objects(
 							x2, y2, z2,
 							radius,
 							prim_get_collision_model(oi->prim) == PRIM_COLLIDE_SMALLBOX,
-							FALSE))
+							false))
 					{
 						//
 						// Slid along this prim.
 						//
 
-						ans = TRUE;
+						ans = true;
 
 						if (p_thing)
 						{
@@ -5736,7 +5736,7 @@ SLONG collide_against_objects(
 								radius + 0x40 << 8,
 								x1, z1, x2, z2))
 						{
-							ans = TRUE;
+							ans = true;
 
 							if (p_thing)
 							{
@@ -5752,7 +5752,7 @@ SLONG collide_against_objects(
 											p_thing,
 											NULL,
 											PERSON_DEATH_TYPE_OTHER,
-											FALSE,
+											false,
 											0);
 									}
 
@@ -5825,13 +5825,13 @@ SLONG collide_against_objects(
 
 
 //
-// Returns TRUE if you should collide against the given anim prim
+// Returns true if you should collide against the given anim prim
 //
 
 #ifdef	ANIM_PRIM
 SLONG should_i_collide_against_this_anim_prim(Thing *p_aprim)
 {
-	SLONG collide_or_not = FALSE;
+	SLONG collide_or_not = false;
 
 	switch(get_anim_prim_type(p_aprim->Index))
 	{
@@ -5842,7 +5842,7 @@ SLONG should_i_collide_against_this_anim_prim(Thing *p_aprim)
 			// Always collide with normal anim-prims.
 			//
 
-			collide_or_not = TRUE;
+			collide_or_not = true;
 
 			break;
 
@@ -5872,7 +5872,7 @@ SLONG should_i_collide_against_this_anim_prim(Thing *p_aprim)
 
 
 //
-// Collides the given movement vector with things. Returns TRUE if a
+// Collides the given movement vector with things. Returns true if a
 // collision occurred.
 //
 
@@ -5895,7 +5895,7 @@ SLONG collide_against_things(
 
 	SLONG on;
 
-	ans = FALSE;
+	ans = false;
 
 	//
 	// Which things do we collide with?
@@ -6014,7 +6014,7 @@ SLONG collide_against_things(
 								//*z2=tz2;
 								sweep_feet(col_thing,p_thing,0);
 
-								ans = TRUE;
+								ans = true;
 							}
 						}
 					}
@@ -6033,7 +6033,7 @@ SLONG collide_against_things(
 							*x2=x1;
 							*z2=z1;
 
-							ans = TRUE;
+							ans = true;
 						}
 					}
 					else
@@ -6062,7 +6062,7 @@ SLONG collide_against_things(
 									50 << 8,
 									x1, z1, x2, z2))
 							{
-								ans = TRUE;
+								ans = true;
 							}
 						}
 					}
@@ -6081,10 +6081,10 @@ SLONG collide_against_things(
 						x1, my_y1, z1,
 						x2, y2, z2,
 						radius,
-						FALSE,
-						FALSE))
+						false,
+						false))
 				{
-					ans = TRUE;
+					ans = true;
 				}
 
 				break;
@@ -6111,14 +6111,14 @@ SLONG collide_against_things(
 								x1, my_y1, z1,
 								x2, y2, z2,
 								radius,
-								FALSE,
-								FALSE))
+								false,
+								false))
 						{
 							//
 							// Slid along this prim.
 							//
 
-							ans = TRUE;
+							ans = true;
 
 							if (p_thing && p_thing->Class == CLASS_PERSON)
 							{
@@ -6219,7 +6219,7 @@ SLONG collide_against_things(
 						*x2 = old_x2;
 						*z2 = old_z2;
 
-						ans = TRUE;
+						ans = true;
 					}
 					else
 					{
@@ -6324,7 +6324,7 @@ SLONG collide_against_things(
 							0x40 << 8,
 							x1, z1, x2, z2);
 
-						ans = TRUE;
+						ans = true;
 					}
 				}
 
@@ -6621,7 +6621,7 @@ extern	void	set_player_visited(UBYTE x,UBYTE z);
 	// Remember if you've slid against something that isn't a wall or a fence.
 	//
 
-	slid_odd = FALSE;
+	slid_odd = false;
 
 	//
 	// Collide with things.
@@ -6899,7 +6899,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 			{
 				// long drop
 				fall_off_flag        |= FALL_OFF_FLAG_TRUE;
-//				fall_off = TRUE;
+//				fall_off = true;
 			}
 			else
 			{
@@ -6972,7 +6972,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 					{
 						// long drop
 						fall_off_flag        |= FALL_OFF_FLAG_TRUE;
-		//				fall_off = TRUE;
+		//				fall_off = true;
 					}
 					else
 					{
@@ -7284,7 +7284,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 }
 
 //
-// Set when check_vector_against_mapsquare() returns TRUE.
+// Set when check_vector_against_mapsquare() returns true.
 // 
 
 SLONG los_failure_x;
@@ -7312,7 +7312,7 @@ void start_checking_against_a_new_vector()
 }
 
 //
-// Returns TRUE if the vector intersects a dfacet above the
+// Returns true if the vector intersects a dfacet above the
 // given lo-res mapsquare.  It fills in los_failure_... variables too.
 //
 
@@ -7363,22 +7363,22 @@ SLONG check_vector_against_mapsquare(
 		AENG_world_line(
 			mx1, 0, mz1, 16, 0xffffffff,
 			mx2, 0, mz1, 16, 0xffffffff,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			mx2, 0, mz1, 16, 0xffffffff,
 			mx2, 0, mz2, 16, 0xffffffff,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			mx2, 0, mz2, 16, 0xffffffff,
 			mx1, 0, mz2, 16, 0xffffffff,
-			TRUE);
+			true);
 
 		AENG_world_line(
 			mx1, 0, mz2, 16, 0xffffffff,
 			mx1, 0, mz1, 16, 0xffffffff,
-			TRUE);
+			true);
 	}
 
 	*/
@@ -7400,14 +7400,14 @@ SLONG check_vector_against_mapsquare(
 		// No dfacets on this mapsquare!
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	SLONG dlx = save_stack.x2 - save_stack.x1;
 	SLONG dly = save_stack.y2 - save_stack.my_y1;
 	SLONG dlz = save_stack.z2 - save_stack.z1;
 
-	exit = FALSE;
+	exit = false;
 
 	while(1)
 	{
@@ -7418,7 +7418,7 @@ SLONG check_vector_against_mapsquare(
 		if(i_dfacet==0)
 		{
  			ASSERT(0);
-			return FALSE;
+			return false;
 		}
 
 		if (i_dfacet < 0)
@@ -7427,7 +7427,7 @@ SLONG check_vector_against_mapsquare(
 			// The marker for the last facet above this mapsquare.
 			//
 
-			exit     =  TRUE;
+			exit     =  true;
 			i_dfacet = -i_dfacet;
 		}
 
@@ -7520,7 +7520,7 @@ SLONG check_vector_against_mapsquare(
 									los_failure_z      = iz;
 									los_failure_dfacet = i_dfacet;
 
-									return TRUE;
+									return true;
 								}
 							}
 						}
@@ -7567,7 +7567,7 @@ SLONG check_vector_against_mapsquare(
 									los_failure_z      = df->z[0] << 8;
 									los_failure_dfacet = i_dfacet;
 
-									return TRUE;
+									return true;
 								}
 							}
 						}
@@ -7595,7 +7595,7 @@ SLONG check_vector_against_mapsquare(
 
 		if (exit)
 		{
-				return FALSE;
+				return false;
 		}
 
 		f_list += 1;
@@ -7604,7 +7604,7 @@ SLONG check_vector_against_mapsquare(
 
 
 //
-// Returns TRUE if the given ray intersects any object on the mapsquare.
+// Returns true if the given ray intersects any object on the mapsquare.
 //
 
 SLONG check_vector_against_mapsquare_objects(
@@ -7659,7 +7659,7 @@ SLONG check_vector_against_mapsquare_objects(
 								save_stack.x1, save_stack.z1,
 								save_stack.x2, save_stack.z2))
 						{
-							return TRUE;
+							return true;
 						}
 					}
 				}
@@ -7721,7 +7721,7 @@ SLONG check_vector_against_mapsquare_objects(
 									save_stack.x1, save_stack.z1,
 									save_stack.x2, save_stack.z2))
 							{
-								return TRUE;
+								return true;
 							}
 						}
 					}
@@ -7732,7 +7732,7 @@ SLONG check_vector_against_mapsquare_objects(
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -7801,7 +7801,7 @@ SLONG there_is_a_los(
 		// Looking straight down... practically.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	//
@@ -7830,7 +7830,7 @@ SLONG there_is_a_los(
 				los_failure_z      = los_v_z;
 				los_failure_dfacet = NULL;
 
-				return FALSE;
+				return false;
 			}
 
 			los_v_x += cdx;
@@ -7881,7 +7881,7 @@ SLONG there_is_a_los(
 						los_v_mx, los_v_mz,
 						los_flags))
 				{	
-					return FALSE;
+					return false;
 				}
 
 				if (!(los_flags & LOS_FLAG_IGNORE_PRIMS))
@@ -7890,7 +7890,7 @@ SLONG there_is_a_los(
 							los_v_mx, los_v_mz,
 							los_flags & LOS_FLAG_INCLUDE_CARS))
 					{
-						return FALSE;
+						return false;
 					}
 				}
 			}
@@ -7898,7 +7898,7 @@ SLONG there_is_a_los(
 			if (los_v_mx == los_v_end_mx &&
 				los_v_mz == los_v_end_mz)
 			{
-				return TRUE;
+				return true;
 			}
 
 			//
@@ -7929,7 +7929,7 @@ SLONG there_is_a_los(
 							los_v_mx, los_v_mz,
 							los_flags))
 					{	
-						return FALSE;
+						return false;
 					}
 
 					if (!(los_flags & LOS_FLAG_IGNORE_PRIMS))
@@ -7938,7 +7938,7 @@ SLONG there_is_a_los(
 								los_v_mx, los_v_mz,
 								los_flags & LOS_FLAG_INCLUDE_CARS))
 						{
-							return FALSE;
+							return false;
 						}
 					}
 				}
@@ -7954,7 +7954,7 @@ SLONG there_is_a_los(
 
 				if (los_v_mx > los_v_end_mx)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 			else
@@ -7963,7 +7963,7 @@ SLONG there_is_a_los(
 
 				if (los_v_mx < los_v_end_mx)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -7996,7 +7996,7 @@ SLONG there_is_a_los(
 						los_v_mx, los_v_mz,
 						los_flags))
 				{	
-					return FALSE;
+					return false;
 				}
 
 				if (!(los_flags & LOS_FLAG_IGNORE_PRIMS))
@@ -8005,7 +8005,7 @@ SLONG there_is_a_los(
 							los_v_mx, los_v_mz,
 							los_flags & LOS_FLAG_INCLUDE_CARS))
 					{
-						return FALSE;
+						return false;
 					}
 				}
 			}
@@ -8013,7 +8013,7 @@ SLONG there_is_a_los(
 			if (los_v_mx == los_v_end_mx &&
 				los_v_mz == los_v_end_mz)
 			{
-				return TRUE;
+				return true;
 			}
 
 			//
@@ -8044,7 +8044,7 @@ SLONG there_is_a_los(
 							los_v_mx, los_v_mz,
 							los_flags))
 					{	
-						return FALSE;
+						return false;
 					}
 
 					if (!(los_flags & LOS_FLAG_IGNORE_PRIMS))
@@ -8053,7 +8053,7 @@ SLONG there_is_a_los(
 								los_v_mx, los_v_mz,
 								los_flags & LOS_FLAG_INCLUDE_CARS))
 						{
-							return FALSE;
+							return false;
 						}
 					}
 				}
@@ -8069,7 +8069,7 @@ SLONG there_is_a_los(
 
 				if (los_v_mz > los_v_end_mz)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 			else
@@ -8078,7 +8078,7 @@ SLONG there_is_a_los(
 
 				if (los_v_mz < los_v_end_mz)
 				{
-					return TRUE;
+					return true;
 				}
 			}
 		}
@@ -8980,7 +8980,7 @@ SLONG there_is_a_los(
 										los_failure_y = iy            - dy;
 										los_failure_z = iz            - dz;
 
-										return FALSE;
+										return false;
 									}
 								}
 								else
@@ -8992,7 +8992,7 @@ SLONG there_is_a_los(
 										los_failure_y = iy            - dy;
 										los_failure_z = iz            - dz;
 
-										return FALSE;
+										return false;
 									}
 								}
 							}
@@ -9022,7 +9022,7 @@ SLONG there_is_a_los(
 										los_failure_y = iy            - dy;
 										los_failure_z = p_facet->Z[0] - dz;
 
-										return FALSE;
+										return false;
 									}
 								}
 								else
@@ -9035,7 +9035,7 @@ SLONG there_is_a_los(
 										los_failure_y = iy            - dy;
 										los_failure_z = p_facet->Z[0] - dz;
 
-										return FALSE;
+										return false;
 									}
 								}
 							}
@@ -9046,7 +9046,7 @@ SLONG there_is_a_los(
 							// No diagonals?
 							//
 
-							static once_only = FALSE;
+							static once_only = false;
 
 							ASSERT(once_only);
 					}
@@ -9060,7 +9060,7 @@ SLONG there_is_a_los(
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 */
@@ -9226,7 +9226,7 @@ SLONG collide_box(
 							// Definitely collided.
 							// 
 
-							return TRUE;
+							return true;
 						}
 
 						//
@@ -9253,7 +9253,7 @@ SLONG collide_box(
 							// One point of the box lies on the line!
 							//
 
-							return TRUE;
+							return true;
 						}
 
 						side = SIGN(cprod);
@@ -9273,7 +9273,7 @@ SLONG collide_box(
 							// Different side of the line. Intersection!
 							//
 
-							return TRUE;
+							return true;
 						}
 
 						//
@@ -9291,7 +9291,7 @@ SLONG collide_box(
 							// Different side of the line. Intersection!
 							//
 
-							return TRUE;
+							return true;
 						}
 
 
@@ -9310,7 +9310,7 @@ SLONG collide_box(
 							// Different side of the line. Intersection!
 							//
 
-							return TRUE;
+							return true;
 						}
 					}
 				}
@@ -9320,7 +9320,7 @@ SLONG collide_box(
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 #endif
 SLONG slide_around_circle(
@@ -9354,7 +9354,7 @@ SLONG slide_around_circle(
 			*x2 = x1;
 			*z2 = z1;
 
-			return TRUE;
+			return true;
 		}
 		else
 		{
@@ -9371,11 +9371,11 @@ SLONG slide_around_circle(
 			*x2 += dx;
 			*z2 += dz;
 
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 SLONG collide_with_circle(
 		SLONG cx,
@@ -9398,10 +9398,10 @@ SLONG collide_with_circle(
 	if (dist < cradius)
 	{
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -9421,7 +9421,7 @@ SLONG in_my_fov(
 		// In my 180degree FOV
 		//
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
@@ -9429,7 +9429,7 @@ SLONG in_my_fov(
 		// He is behind me.
 		//
 
-		return FALSE;
+		return false;
 	}
 }
 #ifdef	UNUSED
@@ -9729,7 +9729,7 @@ SLONG collide_against_sausage(
 					*slide_z = vz2;
 				}
 
-				return TRUE;
+				return true;
 			}
 			else
 			{
@@ -9740,7 +9740,7 @@ SLONG collide_against_sausage(
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 	else
@@ -9768,7 +9768,7 @@ SLONG collide_against_sausage(
 					*slide_z = sz1 - swidth;
 				}
 
-				return TRUE;
+				return true;
 			}
 			else
 			{
@@ -9779,7 +9779,7 @@ SLONG collide_against_sausage(
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -9811,7 +9811,7 @@ SLONG collide_against_sausage(
 		*slide_x = sx1 + dx;
 		*slide_z = sz1 + dz;
 
-		return TRUE;
+		return true;
 	}
 
 	dx = vx2 - sx2;
@@ -9838,10 +9838,10 @@ SLONG collide_against_sausage(
 		*slide_x = sx2 + dx;
 		*slide_z = sz2 + dz;
 
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 #endif
 #endif
@@ -9893,7 +9893,7 @@ SLONG slide_around_sausage(
 		// No collision.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -9915,13 +9915,13 @@ SLONG slide_around_sausage(
    *x2 += dx;
    *z2 += dz;
 
-    return TRUE;
+    return true;
 }
 #endif
 #endif
 
 //
-// Returns TRUE if Darci can't move from from one square to the other and
+// Returns true if Darci can't move from from one square to the other and
 // there should be a collision vect along the join.
 //
 
@@ -9950,12 +9950,12 @@ SLONG stop_movement_between(
 	PAP_Hi *ph1 = &PAP_2HI(mx1,mz1);
 	PAP_Hi *ph2 = &PAP_2HI(mx2,mz2);
 
-	SLONG normal = TRUE;
+	SLONG normal = true;
 
 	if ((ph1->Flags & (PAP_FLAG_WATER | PAP_FLAG_HIDDEN)) ||
 		(ph2->Flags & (PAP_FLAG_WATER | PAP_FLAG_HIDDEN)))
 	{
-		normal = FALSE;
+		normal = false;
 	}
 
 	/*
@@ -9968,7 +9968,7 @@ SLONG stop_movement_between(
 		// Too much of a height difference.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	*/
@@ -9979,7 +9979,7 @@ SLONG stop_movement_between(
 		// The edge of some water.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	/*
@@ -9990,12 +9990,12 @@ SLONG stop_movement_between(
 		// The edge of a sewer entrance.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	*/
 
-	return FALSE;
+	return false;
 }
 
 
@@ -10092,13 +10092,13 @@ void insert_collision_facets()
 		// To a lower x.
 		//
 
-		fstart = FALSE;
+		fstart = false;
 
 		for (z = 1; z < PAP_SIZE_HI; z++)
 		{
 			if (z == PAP_SIZE_HI - 1)
 			{
-				blocked = FALSE;
+				blocked = false;
 			}
 			else
 			{
@@ -10112,7 +10112,7 @@ void insert_collision_facets()
 					fx1 = x << PAP_SHIFT_HI;
 					fz1 = z << PAP_SHIFT_HI;
 
-					fstart = TRUE;
+					fstart = true;
 				}
 			}
 			else
@@ -10122,7 +10122,7 @@ void insert_collision_facets()
 					fx2 = x << PAP_SHIFT_HI;
 					fz2 = z << PAP_SHIFT_HI;
 
-					fstart = FALSE;
+					fstart = false;
 
 					//
 					// Create a JUST_COLLISION facet.
@@ -10139,13 +10139,13 @@ void insert_collision_facets()
 		// To a higher x.
 		//
 
-		fstart = FALSE;
+		fstart = false;
 
 		for (z = 1; z < PAP_SIZE_HI; z++)
 		{
 			if (z == PAP_SIZE_HI - 1)
 			{
-				blocked = FALSE;
+				blocked = false;
 			}
 			else
 			{
@@ -10159,7 +10159,7 @@ void insert_collision_facets()
 					fx1 = x + 1 << PAP_SHIFT_HI;
 					fz1 = z     << PAP_SHIFT_HI;
 
-					fstart = TRUE;
+					fstart = true;
 				}
 			}
 			else
@@ -10169,7 +10169,7 @@ void insert_collision_facets()
 					fx2 = x + 1 << PAP_SHIFT_HI;
 					fz2 = z     << PAP_SHIFT_HI;
 
-					fstart = FALSE;
+					fstart = false;
 
 					//
 					// Create a JUST_COLLISION facet.
@@ -10194,13 +10194,13 @@ void insert_collision_facets()
 		// To a lower z.
 		//
 
-		fstart = FALSE;
+		fstart = false;
 
 		for (x = 1; x < PAP_SIZE_HI; x++)
 		{
 			if (x == PAP_SIZE_HI - 1)
 			{
-				blocked = FALSE;
+				blocked = false;
 			}
 			else
 			{
@@ -10214,7 +10214,7 @@ void insert_collision_facets()
 					fx1 = x << PAP_SHIFT_HI;
 					fz1 = z << PAP_SHIFT_HI;
 
-					fstart = TRUE;
+					fstart = true;
 				}
 			}
 			else
@@ -10224,7 +10224,7 @@ void insert_collision_facets()
 					fx2 = x << PAP_SHIFT_HI;
 					fz2 = z << PAP_SHIFT_HI;
 
-					fstart = FALSE;
+					fstart = false;
 
 					//
 					// Create a JUST_COLLISION facet.
@@ -10241,13 +10241,13 @@ void insert_collision_facets()
 		// To a higher z.
 		//
 
-		fstart = FALSE;
+		fstart = false;
 
 		for (x = 1; x < PAP_SIZE_HI; x++)
 		{
 			if (x == PAP_SIZE_HI - 1)
 			{
-				blocked = FALSE;
+				blocked = false;
 			}
 			else
 			{
@@ -10261,7 +10261,7 @@ void insert_collision_facets()
 					fx1 = x    << PAP_SHIFT_HI;
 					fz1 = z + 1 << PAP_SHIFT_HI;
 
-					fstart = TRUE;
+					fstart = true;
 				}
 			}
 			else
@@ -10271,7 +10271,7 @@ void insert_collision_facets()
 					fx2 = x     << PAP_SHIFT_HI;
 					fz2 = z + 1 << PAP_SHIFT_HI;
 
-					fstart = FALSE;
+					fstart = false;
 
 					//
 					// Create a JUST_COLLISION facet.
@@ -10413,7 +10413,7 @@ SLONG slide_around_box(
 		// We don't collide with the bounding box.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -10505,7 +10505,7 @@ SLONG slide_around_box(
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 inline	SLONG slide_around_box_lowstack(
@@ -10622,7 +10622,7 @@ inline	SLONG slide_around_box_lowstack(
 		// We don't collide with the bounding box.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -10678,7 +10678,7 @@ inline	SLONG slide_around_box_lowstack(
 	*x2 += box_mid_x;
 	*z2 += box_mid_z;
 
-	return TRUE;
+	return true;
 }
 
 SLONG collide_box_with_line(
@@ -10757,7 +10757,7 @@ SLONG collide_box_with_line(
 		// The line definitely intersects the box.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	if (rx2 < minx) {clip2 |= COL_CLIP_XS;}
@@ -10771,7 +10771,7 @@ SLONG collide_box_with_line(
 		// The line definitely intersects the box.
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	UBYTE clip_and = clip1 & clip2;
@@ -10782,7 +10782,7 @@ SLONG collide_box_with_line(
 		// The line does not intersect the box.
 		// 
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -10797,7 +10797,7 @@ SLONG collide_box_with_line(
 		
 		if (WITHIN(iz, minz, maxz))
 		{	
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -10807,7 +10807,7 @@ SLONG collide_box_with_line(
 
 		if (WITHIN(iz, minz, maxz))
 		{	
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -10817,7 +10817,7 @@ SLONG collide_box_with_line(
 
 		if (WITHIN(ix, minx, maxx))
 		{	
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -10827,7 +10827,7 @@ SLONG collide_box_with_line(
 
 		if (WITHIN(iz, minx, maxx))
 		{	
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -10835,7 +10835,7 @@ SLONG collide_box_with_line(
 	// It dosn't collide after all.
 	//
 
-	return FALSE;
+	return false;
 }
 
 
@@ -11241,7 +11241,7 @@ void COLLIDE_calc_fastnav_bits()
 #ifndef NDEBUG
 
 //
-// Returns TRUE if you can fastnav in the given square.
+// Returns true if you can fastnav in the given square.
 //
 
 SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z)
@@ -11249,7 +11249,7 @@ SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z)
 	if (!WITHIN(x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(z, 0, PAP_SIZE_HI - 1))
 	{
-		return TRUE;
+		return true;
 	}
 
 	SLONG byte = z >> 3;
@@ -11306,7 +11306,7 @@ void COLLIDE_debug_fastnav(
 				cz + 0x10,
 				16,
 				0xff00ff,
-				TRUE);
+				true);
 
 			AENG_world_line(
 				cx + 0x10,
@@ -11319,7 +11319,7 @@ void COLLIDE_debug_fastnav(
 				cz + 0x10,
 				16,
 				0xff00ff,
-				TRUE);
+				true);
 		}
 	}
 }

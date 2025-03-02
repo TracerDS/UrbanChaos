@@ -29,8 +29,8 @@ typedef struct
 				Height;
 }MFRect;
 
-inline BOOL		XYInRect(SLONG x,SLONG y,MFRect *the_rect)			{	if(x>=the_rect->Left&&y>=the_rect->Top&&x<=the_rect->Right&&y<=the_rect->Bottom)return TRUE;else return FALSE;	}
-inline BOOL		PointInRect(MFPoint *the_point,MFRect *the_rect)	{	if(the_point->X>=the_rect->Left&&the_point->Y>=the_rect->Top&&the_point->X<=the_rect->Right&&the_point->Y<=the_rect->Bottom)return TRUE;else return FALSE;	}
+inline bool		XYInRect(SLONG x,SLONG y,MFRect *the_rect)			{	if(x>=the_rect->Left&&y>=the_rect->Top&&x<=the_rect->Right&&y<=the_rect->Bottom)return true;else return false;	}
+inline bool		PointInRect(MFPoint *the_point,MFRect *the_rect)	{	if(the_point->X>=the_rect->Left&&the_point->Y>=the_rect->Top&&the_point->X<=the_rect->Right&&the_point->Y<=the_rect->Bottom)return true;else return false;	}
 
 //---------------------------------------------------------------
 // Draw2D.c

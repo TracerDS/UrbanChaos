@@ -76,7 +76,7 @@ SLONG NET_init()
 	{
 		CoUninitialize();
 
-		return FALSE;
+		return false;
 	}
 
 	res = CoCreateInstance(CLSID_DirectPlayLobby, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlayLobby3A, (LPVOID *) &NET_lobby);
@@ -85,10 +85,10 @@ SLONG NET_init()
 	{
 		CoUninitialize();
 
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -131,7 +131,7 @@ SLONG NET_connection_lan()
 		// Already connected to the LAN!
 		//
 
-		return TRUE;
+		return true;
 	}
 
 	//
@@ -152,7 +152,7 @@ SLONG NET_connection_lan()
 
 	if (res != DPERR_BUFFERTOOSMALL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -169,7 +169,7 @@ SLONG NET_connection_lan()
 
 	if (res != DP_OK)
 	{
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -180,12 +180,12 @@ SLONG NET_connection_lan()
 	
 	if (res != DP_OK)
 	{
-		return FALSE;
+		return false;
 	}
 
 	NET_connection = NET_CONNECTION_LAN;
 
-	return TRUE;
+	return true;
 }
 
 
@@ -232,7 +232,7 @@ SLONG NET_session_create(CBYTE *session_name, SLONG max_players)
 		
 		if (res == DP_OK)
 		{
-			return TRUE;
+			return true;
 		}
 		else
 		{
@@ -242,12 +242,12 @@ SLONG NET_session_create(CBYTE *session_name, SLONG max_players)
 
 			NET_dp->Close();
 
-			return FALSE;
+			return false;
 		}
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -278,7 +278,7 @@ SLONG       NET_session_upto;
 // The session enumeration function.
 //
 
-BOOL FAR PASCAL NET_enum_sessions(
+bool FAR PASCAL NET_enum_sessions(
 					LPCDPSESSIONDESC2 lpThisSD,
 					LPDWORD           lpdwTimeOut,
 					DWORD             dwFlags,
@@ -288,12 +288,12 @@ BOOL FAR PASCAL NET_enum_sessions(
 
 	if (dwFlags & DPESC_TIMEDOUT)
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (!WITHIN(NET_session_upto, 0, NET_MAX_SESSIONS - 1))
 	{
-		return FALSE;
+		return false;
 	}
 
 	ns = &NET_session[NET_session_upto];
@@ -307,7 +307,7 @@ BOOL FAR PASCAL NET_enum_sessions(
 
 	NET_session_upto += 1;
 
-	return TRUE;
+	return true;
 }
 
 SLONG NET_session_get_number()
@@ -375,18 +375,18 @@ SLONG NET_session_join(SLONG session)
 		
 		if (res == DP_OK)
 		{
-			return TRUE;
+			return true;
 		}
 		else
 		{
 			NET_dp->Close();
 
-			return FALSE;
+			return false;
 		}
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 

@@ -40,7 +40,7 @@ struct	StartMenuItemComplex
 	SLONG	Dummy2;
 };
 
-void STARTSCR_notify_gameover(BOOL won);
+void STARTSCR_notify_gameover(bool won);
 
 typedef void (*MISSION_callback)(CBYTE *filename);
 void	MissionListCallback(CBYTE *script, MISSION_callback cb);

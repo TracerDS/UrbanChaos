@@ -33,7 +33,7 @@
 
 typedef struct
 {
-    BOOL		Result;		// Success/Failure
+    bool		Result;		// Success/Failure
     DWORD		Count;		// Current count
     void		*Extra;		// Current Driver/Device/Etc.
 }CallbackInfo;
@@ -50,9 +50,9 @@ class	DDDriverManager;
 SLONG			FlagsToBitDepth(SLONG flags);
 ULONG			FlagsToMask(SLONG flags);
 SLONG			BitDepthToFlags(SLONG bpp);
-BOOL			IsPalettized(LPDDPIXELFORMAT lp_dd_pf);
-BOOL			GetDesktopMode(DDDriverInfo	*the_driver,LPGUID D3D_guid,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
-BOOL			GetFullscreenMode(DDDriverInfo *the_driver,GUID *D3D_guid,SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
+bool			IsPalettized(LPDDPIXELFORMAT lp_dd_pf);
+bool			GetDesktopMode(DDDriverInfo	*the_driver,LPGUID D3D_guid,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
+bool			GetFullscreenMode(DDDriverInfo *the_driver,GUID *D3D_guid,SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
 DDDriverInfo	*ValidateDriver(GUID *DD_guid);
 D3DDeviceInfo	*ValidateDevice(DDDriverInfo *the_driver,GUID *D3D_guid,DDModeInfo *the_filter=NULL);
 DDModeInfo		*ValidateMode(DDDriverInfo	*the_driver,DWORD w,DWORD h,DWORD bpp,DWORD refresh,D3DDeviceInfo *the_filter=NULL);
@@ -76,9 +76,9 @@ class	DDModeInfo
 		SLONG			GetHeight();
 		SLONG			GetBPP();
 		HRESULT			GetMode(SLONG *w,SLONG *h,SLONG *bpp,SLONG *refresh);
-		BOOL			ModeSupported(D3DDeviceInfo *the_device);
-		BOOL			Match(SLONG w,SLONG h,SLONG bpp);
-		BOOL			Match(SLONG bpp);
+		bool			ModeSupported(D3DDeviceInfo *the_device);
+		bool			Match(SLONG w,SLONG h,SLONG bpp);
+		bool			Match(SLONG bpp);
 };
 
 //---------------------------------------------------------------
@@ -128,10 +128,10 @@ class	D3DDeviceInfo
 		HRESULT				Create(LPGUID lpD3DGuid,LPTSTR lpD3DName,LPTSTR lpD3DDesc,LPD3DDEVICEDESC lpD3DHal,LPD3DDEVICEDESC lpD3DHel);
 		void				Destroy();
 
-		BOOL				IsHardware();
-		BOOL				Match(GUID *the_guid);
+		bool				IsHardware();
+		bool				Match(GUID *the_guid);
 
-		inline	BOOL		IsValid()				{	return	D3DFlags&D3D_DEVICE_VALID;		}
+		inline	bool		IsValid()				{	return	D3DFlags&D3D_DEVICE_VALID;		}
 		inline	void		ValidOn()				{	D3DFlags	|=	D3D_DEVICE_VALID;		}
 		inline	void		ValidOff()				{	D3DFlags	&=	~D3D_DEVICE_VALID;		}
 
@@ -147,7 +147,7 @@ class	D3DDeviceInfo
 		DDModeInfo			*FindFormat(SLONG bpp,DDModeInfo **next_best_format,DDModeInfo *start=NULL);
 
 		inline	SLONG		CountFormats()			{	return	FormatCount;					}
-		inline	BOOL		FormatsLoaded()			{	return	((D3DFlags&D3D_DEVICE_F_LOADED) ? TRUE : FALSE);	}
+		inline	bool		FormatsLoaded()			{	return	((D3DFlags&D3D_DEVICE_F_LOADED) ? true : false);	}
 		inline	void		TurnFormatsLoadedOn()	{	D3DFlags	|=	D3D_DEVICE_F_LOADED;	}
 		inline	void		TurnFormatsLoadedOff()	{	D3DFlags	&=	~D3D_DEVICE_F_LOADED;	}
 
@@ -159,9 +159,9 @@ class	D3DDeviceInfo
 		// caps methods
 		void				CheckCaps(LPDIRECT3DDEVICE3 the_device);
 #ifdef TARGET_DC
-		bool				ModulateAlphaSupported()			{ return TRUE; }
-		bool				DestInvSourceColourSupported()		{ return TRUE; }
-		bool				AdamiLightingSupported()			{ return FALSE; }
+		bool				ModulateAlphaSupported()			{ return true; }
+		bool				DestInvSourceColourSupported()		{ return true; }
+		bool				AdamiLightingSupported()			{ return false; }
 #else
 		bool				ModulateAlphaSupported()			{ return CanDoModulateAlpha; }
 		bool				DestInvSourceColourSupported()		{ return CanDoDestInvSourceColour; }
@@ -214,19 +214,19 @@ class	DDDriverInfo
 		HRESULT				Create(GUID	*lpGuid,LPTSTR	lpDriverName,LPTSTR	lpDriverDesc);
 		void				Destroy();
 
-		BOOL				Match(GUID *the_guid);
+		bool				Match(GUID *the_guid);
 
 		GUID				*GetGuid();
 
-		inline	BOOL		IsValid()				{	return	DriverFlags&DD_DRIVER_VALID;	}
+		inline	bool		IsValid()				{	return	DriverFlags&DD_DRIVER_VALID;	}
 		inline	void		ValidOn()				{	DriverFlags		|=	DD_DRIVER_VALID;	}
 		inline	void		ValidOff()				{	DriverFlags		&=	~DD_DRIVER_VALID;	}
 
-		inline	BOOL		IsPrimary()				{	return	DriverFlags&DD_DRIVER_PRIMARY;	}
+		inline	bool		IsPrimary()				{	return	DriverFlags&DD_DRIVER_PRIMARY;	}
 		inline	void		PrimaryOn()				{	DriverFlags		|=	DD_DRIVER_PRIMARY;	}
 		inline	void		PrimaryOff()			{	DriverFlags		&=	~DD_DRIVER_PRIMARY;	}
 
-		inline	BOOL		IsD3D()					{	return	DriverFlags&DD_DRIVER_D3D;		}
+		inline	bool		IsD3D()					{	return	DriverFlags&DD_DRIVER_D3D;		}
 		inline	void		D3DOn()					{	DriverFlags		|=	DD_DRIVER_D3D;		}
 		inline	void		D3DOff()				{	DriverFlags		&=	~DD_DRIVER_D3D;		}
 
@@ -240,7 +240,7 @@ class	DDDriverInfo
 		DDModeInfo			*FindMode(SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **next_best=NULL,DDModeInfo *start_mode=NULL);
 
 		inline	SLONG		CountModes()			{	return ModeCount;						}
-		inline	BOOL		ModesLoaded()			{	return ((DriverFlags&DD_DRIVER_M_LOADED) ? TRUE : FALSE);	}
+		inline	bool		ModesLoaded()			{	return ((DriverFlags&DD_DRIVER_M_LOADED) ? true : false);	}
 		inline	void		TurnModesLoadedOn()		{	DriverFlags		|=	DD_DRIVER_M_LOADED;	}
 		inline	void		TurnModesLoadedOff()	{	DriverFlags		&=	~DD_DRIVER_M_LOADED;}
 
@@ -257,7 +257,7 @@ class	DDDriverInfo
 		DDModeInfo			*FindModeSupportsDevice(SLONG w, SLONG h, SLONG bpp,SLONG refresh,D3DDeviceInfo *the_device,DDModeInfo **next_best,DDModeInfo *start_device=NULL);
 
 		inline	SLONG		CountDevices()			{	return DeviceCount;						}
-		inline	BOOL		DevicesLoaded()			{	return ((DriverFlags&DD_DRIVER_D_LOADED) ? TRUE : FALSE);	}
+		inline	bool		DevicesLoaded()			{	return ((DriverFlags&DD_DRIVER_D_LOADED) ? true : false);	}
 		inline	void		TurnDevicesLoadedOn()	{	DriverFlags		|=	DD_DRIVER_D_LOADED;	}
 		inline	void		TurnDevicesLoadedOff()	{	DriverFlags		&=	~DD_DRIVER_D_LOADED;}
 
@@ -295,7 +295,7 @@ class	DDDriverManager
 		DDDriverInfo		*FindDriver(GUID *guid,DDDriverInfo **next_best,DDDriverInfo *start_driver=NULL);
 		DDDriverInfo		*FindDriver(DDCAPS *hal,DDCAPS *hel,DDDriverInfo **next_best,DDDriverInfo *start_driver=NULL);
 
-		inline	BOOL		IsInitialised()			{	return	ManagerFlags&DD_DRIVER_INIT;		}
+		inline	bool		IsInitialised()			{	return	ManagerFlags&DD_DRIVER_INIT;		}
 		inline	void		InitOn()				{	ManagerFlags	|=	DD_DRIVER_INIT;			}
 		inline	void		InitOff()				{	ManagerFlags	&=	~DD_DRIVER_INIT;		}
 };

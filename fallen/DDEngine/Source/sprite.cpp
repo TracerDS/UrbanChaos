@@ -136,7 +136,7 @@ void SPRITE_draw_tex_distorted(
 			quad[2] = &pp[2];
 			quad[3] = &pp[3];
 
-			POLY_add_quad(quad, page, FALSE, TRUE);
+			POLY_add_quad(quad, page, false, true);
 		}
 	}
 }
@@ -243,7 +243,7 @@ void SPRITE_draw(
 			quad[2] = &pp[2];
 			quad[3] = &pp[3];
 
-			POLY_add_quad(quad, page, FALSE, TRUE);
+			POLY_add_quad(quad, page, false, true);
 		}
 	}
 }
@@ -270,7 +270,7 @@ void SPRITE_draw_tex(
 		world_y,
 		world_z,
 	   &mid,
-	   TRUE);
+	   true);
 
 	if (mid.IsValid())
 	{
@@ -348,7 +348,7 @@ void SPRITE_draw_tex(
 			quad[2] = &pp[2];
 			quad[3] = &pp[3];
 
-			POLY_add_quad(quad, page, FALSE, TRUE);
+			POLY_add_quad(quad, page, false, true);
 		}
 	}
 }

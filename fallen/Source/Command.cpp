@@ -34,7 +34,7 @@ UWORD	alloc_waypoint()
 	{
 		if(!waypoints[c0].Used)
 		{
-			waypoints[c0].Used	=	TRUE;
+			waypoints[c0].Used	=	true;
 			waypoints[c0].Next	=	0;
 			waypoints[c0].Prev	=	0;
 
@@ -61,7 +61,7 @@ void	free_waypoint(UWORD wp_index)
 	if(next_index)
 		waypoints[next_index].Prev	=	prev_index;
 
-	waypoints[wp_index].Used	=	FALSE;
+	waypoints[wp_index].Used	=	false;
 	waypoint_count--;
 }
 
@@ -95,7 +95,7 @@ ConditionList	*alloc_clist()
 	{
 		if(!con_lists[c0].Used)
 		{
-			con_lists[c0].Used				=	TRUE;
+			con_lists[c0].Used				=	true;
 
 			con_lists[c0].ConditionCount	=	0;
 			con_lists[c0].Flags				=	0;
@@ -157,7 +157,7 @@ Condition	*alloc_condition()
 	{
 		if(!conditions[c0].Used)
 		{
-			conditions[c0].Used			=	TRUE;
+			conditions[c0].Used			=	true;
 
 			conditions[c0].Flags		=	0;
 			conditions[c0].ConditionType=	0;
@@ -208,7 +208,7 @@ CommandList	*alloc_comlist()
 	{
 		if(!com_lists[c0].Used)
 		{
-			com_lists[c0].Used				=	TRUE;
+			com_lists[c0].Used				=	true;
 
 			com_lists[c0].CommandCount		=	0;
 			com_lists[c0].Flags				=	0;
@@ -269,7 +269,7 @@ Command	*alloc_command()
 	{
 		if(!commands[c0].Used)
 		{
-			commands[c0].Used			=	TRUE;
+			commands[c0].Used			=	true;
 
 			commands[c0].Flags			=	0;
 			commands[c0].CommandType	=	0;
@@ -293,9 +293,9 @@ Command	*alloc_command()
 //	Condition processing.
 //---------------------------------------------------------------
 
-BOOL	process_condition(Condition *the_condition)
+bool	process_condition(Condition *the_condition)
 {
-	BOOL		result	=	FALSE;
+	bool		result	=	false;
 	SLONG		distance;
 	GameCoord	*start_coord,*end_coord;
 	Switch		*the_switch;
@@ -307,26 +307,26 @@ BOOL	process_condition(Condition *the_condition)
 			break;
 		case	CON_THING_DEAD:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 				if(TO_THING(the_condition->Data1)->State==STATE_DYING || TO_THING(the_condition->Data1)->State==STATE_DEAD)
 				{
 					the_condition->Flags	=	CONDITION_TRUE;
-					result					=	TRUE;
+					result					=	true;
 				}
 			}
 			break;
 		case	CON_ALL_GROUP_DEAD:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 			}
 			break;
 		case	CON_PERCENT_GROUP_DEAD:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 			}
@@ -341,7 +341,7 @@ BOOL	process_condition(Condition *the_condition)
 									);
 			if(distance<=the_condition->Data2)
 			{
-				result	=	TRUE;
+				result	=	true;
 			}
 			break;
 		case	CON_GROUP_NEAR_PLAYER:
@@ -358,7 +358,7 @@ BOOL	process_condition(Condition *the_condition)
 									);
 			if(distance<=the_condition->Data3)
 			{
-				result	=	TRUE;
+				result	=	true;
 			}
 			break;
 		case	CON_GROUP_NEAR_THING:
@@ -367,21 +367,21 @@ BOOL	process_condition(Condition *the_condition)
 			break;
 		case	CON_CLASS_COUNT:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 			}
 			break;
 		case	CON_GROUP_COUNT:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 			}
 			break;
 		case	CON_SWITCH_TRIGGERED:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 				the_switch	=	TO_THING(the_condition->Data1)->Genus.Switch;
@@ -389,20 +389,20 @@ BOOL	process_condition(Condition *the_condition)
 				{
 					if(!(the_switch->Flags&SWITCH_FLAGS_RESET))
 						the_condition->Flags	=	CONDITION_TRUE;
-					result	=	TRUE;
+					result	=	true;
 				}
 			}
 			break;
 		case	CON_TIME:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 			}
 			break;
 		case	CON_CLIST_FULFILLED:
 			if(the_condition->Flags&CONDITION_TRUE)
-				result	=	TRUE;
+				result	=	true;
 			else
 			{
 			}
@@ -415,7 +415,7 @@ BOOL	process_condition(Condition *the_condition)
 
 void	process_condition_lists()
 {
-	BOOL		list_fulfilled;
+	bool		list_fulfilled;
 	ULONG		c0;
 	Condition	*the_condition;
 
@@ -424,13 +424,13 @@ void	process_condition_lists()
 	{
 		if(con_lists[c0].Used)
 		{
-			list_fulfilled	=	TRUE;
+			list_fulfilled	=	true;
 			the_condition	=	con_lists[c0].TheList;
 			while(the_condition)
 			{
 				if(!process_condition(the_condition))
 				{
-					list_fulfilled	=	FALSE;
+					list_fulfilled	=	false;
 					break;
 				}
 				the_condition	=	the_condition->Next;

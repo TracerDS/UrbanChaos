@@ -39,7 +39,7 @@ class CD3DFramework
 {
     // Internal variables for the framework class
     HWND                 m_hWnd;             // The window object
-    BOOL                 m_bIsFullscreen;    // Fullscreen vs. windowed
+    bool                 m_bIsFullscreen;    // Fullscreen vs. windowed
     DWORD                m_dwRenderWidth;    // Dimensions of the render target
     DWORD                m_dwRenderHeight;
     RECT                 m_rcScreenRect;     // Screen rect for window
@@ -78,10 +78,10 @@ public:
     // Functions to aid rendering
     HRESULT RestoreSurfaces();
     HRESULT ShowFrame();
-    HRESULT FlipToGDISurface( BOOL bDrawFrame );
+    HRESULT FlipToGDISurface( bool bDrawFrame );
 
     // Functions for managing screen and viewport bounds
-    BOOL    IsFullscreen()                  { return m_bIsFullscreen; }
+    bool    IsFullscreen()                  { return m_bIsFullscreen; }
     RECT*   GetViewportRect()               { return &m_rcViewportRect; }
     VOID    Move( INT x, INT y );
 

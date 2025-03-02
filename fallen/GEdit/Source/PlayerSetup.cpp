@@ -30,7 +30,7 @@ SLONG		player_type, player_equip;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-BOOL	CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	SLONG		c0	=	0;
@@ -46,14 +46,14 @@ BOOL	CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //			the_ctrl	=	GetDlgItem(hWnd,IDC_RADIO1+(player_type-PT_DARCI));
 //			SendMessage(the_ctrl,BM_SETCHECK,1,0);
 			SendMessage(GetDlgItem(hWnd,IDC_CHECK1),BM_SETCHECK,player_equip,0);
-			return	TRUE;
+			return	true;
 
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
 				case	IDOK:
 					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 
@@ -65,9 +65,9 @@ BOOL	CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 										)	+	PT_DARCI;
 			player_equip=	SendMessage(GetDlgItem(hWnd,IDC_CHECK1),BM_GETCHECK,0,0);
 			EndDialog(hWnd,0);
-			return	TRUE;
+			return	true;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

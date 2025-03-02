@@ -557,7 +557,7 @@ void SW_init(
 
 		if (!recips_initialised)
 		{
-			recips_initialised = TRUE;
+			recips_initialised = true;
 
 			ALWAYS_init();
 		}
@@ -1852,7 +1852,7 @@ void SW_reload_textures()
 		// Which TEXTURE_texture do we use for this SW_texture?
 		//
 
-		flat_page_hack = FALSE;
+		flat_page_hack = false;
 
 		if (i < 22 * 64)
 		{
@@ -1902,7 +1902,7 @@ void SW_reload_textures()
 					break;
 
 				case POLY_PAGE_COLOUR:
-					flat_page_hack = TRUE;
+					flat_page_hack = true;
 					break;
 
 				case POLY_PAGE_LADDER:
@@ -1977,7 +1977,7 @@ void SW_reload_textures()
 					break;
 
 				case POLY_PAGE_COLOUR_ALPHA:
-					flat_page_hack = TRUE;
+					flat_page_hack = true;
 					SW_bucket[i] = 9;
 					break;
 
@@ -1995,7 +1995,7 @@ void SW_reload_textures()
 					//
 					// Unsupported texture.
 					//
-					ASSERT ( FALSE );
+					ASSERT ( false );
 
 					continue;
 			}
@@ -2108,7 +2108,7 @@ void SW_reload_textures()
 				}
 
 				st->data    = (TGA_Pixel *) MemAlloc(st->size * st->size * sizeof(TGA_Pixel));
-				st->blurred = FALSE;
+				st->blurred = false;
 				
 				strcpy(st->name, TEXTURE_texture[tt_index].texture_name);
 
@@ -2147,7 +2147,7 @@ void SW_reload_textures()
 							SW_halfsize(st->data, st->size);
 							
 							st->size >>= 1;
-							st->halved = TRUE;
+							st->halved = true;
 							st->data   = (TGA_Pixel *) realloc(st->data, st->size * st->size * sizeof(TGA_Pixel));
 						}
 					}
@@ -2168,7 +2168,7 @@ void SW_reload_textures()
 							{
 								SW_blur(st->data, st->size);
 
-								st->blurred = TRUE;
+								st->blurred = true;
 							}
 						}
 					}
@@ -3584,7 +3584,7 @@ void SW_render_spans()
 void SW_render_spans()
 {
 	// Stubbed - shouldn't be used anyway.
-	ASSERT(FALSE);
+	ASSERT(false);
 }
 
 

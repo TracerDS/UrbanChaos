@@ -35,7 +35,7 @@ void QENG_set_camera(
 	QENG_cam_z = SLONG(z);
 
 	POLY_camera_set(x, y, z, yaw, pitch, roll, 128.0F * 256.0F, 8.0F);
-	POLY_frame_init(FALSE, FALSE);
+	POLY_frame_init(false, false);
 }
 
 //
@@ -56,7 +56,7 @@ void QENG_world_line(
 	POLY_Point pp1;
 	POLY_Point pp2;
 
-	QENG_mouse_over = FALSE;	
+	QENG_mouse_over = false;	
 
 	POLY_transform(
 		float(x1),
@@ -207,7 +207,7 @@ void QENG_draw(QMAP_Draw *qd)
 
 		if (POLY_valid_quad(quad))
 		{
-			POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE);
+			POLY_add_quad(quad, POLY_PAGE_COLOUR, false);
 		}
 
 	  abandon_this_face:;
@@ -216,7 +216,7 @@ void QENG_draw(QMAP_Draw *qd)
 
 void QENG_render()
 {
-	POLY_frame_draw(TRUE, TRUE);
+	POLY_frame_draw(true, true);
 }
 
 void QENG_flip()

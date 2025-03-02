@@ -75,10 +75,10 @@ void ErrChk(SLONG hr) {
 	Decode(hr);
 }
 
-BOOL Failed(SLONG hr) {
-	if (hr==S_OK) FALSE;
+bool Failed(SLONG hr) {
+	if (hr==S_OK) false;
 	Decode(hr);
-	return TRUE;
+	return true;
 }
 
 void A3D_Check_Init(void) {
@@ -339,15 +339,15 @@ A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, UBYTE flags) 
 // Channel Check
 //
 
-BOOL A3DManager::Valid(A3DBase* item) {
+bool A3DManager::Valid(A3DBase* item) {
 	A3DBase *temp;
 
 	try {
 	  temp = dynamic_cast<A3DBase*>(item);
-	  return TRUE;	// always returns TRUE coz a failed dynamic_cast<> returns NULL, not an exception
+	  return true;	// always returns true coz a failed dynamic_cast<> returns NULL, not an exception
 	}
 	catch (...) {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -687,7 +687,7 @@ float A3DBase::GetLengthSeconds() {
 }
 
 
-BOOL A3DBase::HasEnded(UBYTE early_out) {
+bool A3DBase::HasEnded(UBYTE early_out) {
 	ULONG t,c;
 
 	if (a3dsrc) {
@@ -731,7 +731,7 @@ A3DManager	the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PAT
 
 void Decode(SLONG hr) {}
 void ErrChk(SLONG hr) {}
-BOOL Failed(SLONG hr) { return TRUE; }
+bool Failed(SLONG hr) { return true; }
 void A3D_Check_Init(void) {}
 static void RegDBSetKeyValue(
 	char *szKey,		/* in, key string */
@@ -746,7 +746,7 @@ void A3DCleanUp(void) {}
 void A3DManager::Fini(void) {}
 A3DManager::~A3DManager() {}
 A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, UBYTE flags) { return NULL; }
-BOOL A3DManager::Valid(A3DBase* item) { return TRUE; }
+bool A3DManager::Valid(A3DBase* item) { return true; }
 A3DSource* A3DManager::ValidChannel(A3DBase* item) { return NULL; }
 A3DBase* A3DManager::ValidWave(A3DBase* item) { return NULL; }
 void A3DManager::BindMaterial(SLONG material) {}
@@ -775,7 +775,7 @@ A3DBase *A3DList::Find(CBYTE *want) { return NULL; }
 void A3DBase::FreeWave() {}
 ULONG A3DBase::GetLengthSamples() { return 0; }
 float A3DBase::GetLengthSeconds() { return 0.0f; }
-BOOL A3DBase::HasEnded(UBYTE early_out) { return TRUE; }
+bool A3DBase::HasEnded(UBYTE early_out) { return true; }
 
 
 #endif //#else //#ifndef TARGET_DC

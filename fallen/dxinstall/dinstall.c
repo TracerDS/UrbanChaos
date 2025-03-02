@@ -286,7 +286,7 @@ DirectXGetVersion(void )
 //       results.  This function starts a modeless version of MessageBox() so
 //       that the user can see the progress of the DirectX installation.
 //-----------------------------------------------------------------------------
-BOOL
+bool
 DirectXInstall(HWND hWnd)
 {
     char    szSource[_MAX_PATH];
@@ -311,7 +311,7 @@ DirectXInstall(HWND hWnd)
 
             LoadString(g_hInstance, STR_NODIALOG, buf, 200);
             MessageBox(hWnd, string, g_szAppTitle, MB_ICONSTOP | MB_OK);
-            return FALSE;
+            return false;
         }
         ShowWindow(GetDlgItem(g_hDlg, IDBUT1), SW_HIDE);
         ShowWindow(GetDlgItem(g_hDlg, IDBUT2), SW_HIDE);
@@ -344,7 +344,7 @@ DirectXInstall(HWND hWnd)
 
             LoadString(g_hInstance, STR_NODIALOG, buf, 200);
             MessageBox(hWnd, string, g_szAppTitle, MB_ICONSTOP | MB_OK);
-            return FALSE;
+            return false;
         }
         ShowWindow(GetDlgItem(g_hDlg, IDBUT1), SW_HIDE);
         ShowWindow(GetDlgItem(g_hDlg, IDBUT2), SW_HIDE);
@@ -396,6 +396,6 @@ DirectXInstall(HWND hWnd)
     DestroyWindow(g_hDlg);
     g_hDlg = NULL;
 	SendMessage(hWnd, WM_COMMAND, IDEXIT, 0);
-    return (TRUE);
+    return (true);
 }
 

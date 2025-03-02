@@ -66,9 +66,9 @@ FONT_Letter FONT_letter[FONT_NUM_LETTERS];
 
 CBYTE FONT_punct[] =
 {
-	"!\"£$%^&*(){}[]<>\\/:;'@#~?-=+.,"
+	"!\"ï¿½$%^&*(){}[]<>\\/:;'@#~?-=+.,"
 
-	"©ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüüýþÿ"
+	"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 };
 
 
@@ -91,7 +91,7 @@ float FONT_end_y;
 
 
 //
-// Returns TRUE if it finds pixel data at (x,y)
+// Returns true if it finds pixel data at (x,y)
 // 
 
 SLONG FONT_found_data(SLONG x, SLONG y)
@@ -112,12 +112,12 @@ SLONG FONT_found_data(SLONG x, SLONG y)
 		{
 			if (FONT_data[255- py][px].alpha > 32)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -264,11 +264,11 @@ SLONG FONT_char_is_valid(CBYTE ch)
 {
 	if (FONT_get_index(ch) == FONT_PUNCT_QMARK && ch != '?')
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		return TRUE;
+		return true;
 	}
 }
 
@@ -300,7 +300,7 @@ float FONT_draw_letter(
 		ULONG      colour  = 0xffffffff,
 		float      scale   = 1.0F,
 		float      shimmer = 0.0F,
-		SLONG      italic  = FALSE)
+		SLONG      italic  = false)
 {
 	SLONG letter;
 	float width;

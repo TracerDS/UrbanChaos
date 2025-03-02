@@ -194,7 +194,7 @@ void OVAL_project_onto_mapsquare(UBYTE map_x, UBYTE map_z, SLONG page)
 			world_y[i],
 			float(map_z + (i >> 1) << 8),
 			quad[i],
-			TRUE);
+			true);
 
 #ifdef TARGET_DC
 		// "Z-bias" bodge to stop Z-fighting.
@@ -229,7 +229,7 @@ void OVAL_project_onto_mapsquare(UBYTE map_x, UBYTE map_z, SLONG page)
 #endif
 
 
-		POLY_add_quad(quad, page, FALSE);
+		POLY_add_quad(quad, page, false);
 	}
 }
 

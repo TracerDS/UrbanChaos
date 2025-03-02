@@ -11,15 +11,15 @@
  *
  */
 
-BOOL	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
+bool	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 
 SLONG				ticklist_bitmask(HWND hWnd, SLONG id);
 
 void				ticklist_init(HWND hWnd, SLONG id, CBYTE *pc[], SLONG bitmask);
 void				ticklist_close(HWND hWnd, SLONG id);
 
-BOOL				ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam);
-BOOL				ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam);
+bool				ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam);
+bool				ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam);
 
 
 /*

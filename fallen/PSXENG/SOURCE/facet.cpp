@@ -3987,8 +3987,8 @@ void	DRAW_ladder_sides(SLONG x1,SLONG z1, struct DFacet	*p_facet,SLONG dx,SLONG 
 	SLONG	z1pdx;
 	SLONG	c0=0;//,pc=0;
 	SLONG	face_flag=0;
-	SLONG	bottom_off=FALSE;
-	SLONG	top_off=FALSE;
+	SLONG	bottom_off=false;
+	SLONG	top_off=false;
 	SWORD	b0,z;
 	UBYTE	u,v;
 
@@ -4044,7 +4044,7 @@ void	DRAW_ladder_sides(SLONG x1,SLONG z1, struct DFacet	*p_facet,SLONG dx,SLONG 
 			||(MIN4(quad[0].Word.SX,quad[1].Word.SX,quad[2].Word.SX,quad[3].Word.SX)>511)
 			||(MAX4(quad[0].Word.SY,quad[1].Word.SY,quad[2].Word.SY,quad[3].Word.SY)<0)
 			||(MIN4(quad[0].Word.SY,quad[1].Word.SY,quad[2].Word.SY,quad[3].Word.SY)>255))
-				bottom_off=TRUE;
+				bottom_off=true;
 
 		quad[0].Z=get_z_sort(quad[0].Z>>0);
 
@@ -4068,9 +4068,9 @@ void	DRAW_ladder_sides(SLONG x1,SLONG z1, struct DFacet	*p_facet,SLONG dx,SLONG 
 				||(MIN4(quad[4].Word.SY,quad[5].Word.SY,quad[6].Word.SY,quad[7].Word.SY)>255))
 			{
 				if (!bottom_off)
-					 top_off=TRUE;
+					 top_off=true;
 			} else
-				bottom_off=FALSE;
+				bottom_off=false;
 
 			if (!bottom_off)
 			{

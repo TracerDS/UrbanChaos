@@ -26,7 +26,7 @@ SLONG	get_gun_aim_stats(Thing *p_person,SLONG *range,SLONG *spread)
 	   *range  = 8 << 8;
 	   *spread = 20;
 
-		return TRUE;
+		return true;
 	}
 
 	if (p_person->Genus.Person->Flags&FLAG_PERSON_GUN_OUT)

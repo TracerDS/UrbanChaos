@@ -66,7 +66,7 @@ void TRIP_process();
 
 
 //
-// Returns TRUE if the given tripwire is activated.
+// Returns true if the given tripwire is activated.
 //
 
 SLONG TRIP_activated(UBYTE tripwire);

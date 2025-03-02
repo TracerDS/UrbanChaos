@@ -18,7 +18,7 @@ SLONG		treasure_value;
 
 //---------------------------------------------------------------
 
-BOOL	CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
+bool	CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 
@@ -28,7 +28,7 @@ BOOL	CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 		case	WM_INITDIALOG:
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_SETRANGE,0,MAKELONG(0,10000));
 			SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_SETPOS,0,treasure_value);
-			return	TRUE;
+			return	true;
 		case	WM_COMMAND:
 			switch(LOWORD(wParam))
 			{
@@ -36,11 +36,11 @@ BOOL	CALLBACK	treasure_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					treasure_value=SendMessage(GetDlgItem(hWnd,IDC_SPIN1),UDM_GETPOS,0,0);
 				case	IDCANCEL:
 					EndDialog(hWnd,0);
-					return	TRUE;
+					return	true;
 			}
 			break;
 	}
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------

@@ -81,7 +81,7 @@ inline SLONG check_result(HRESULT f, SLONG line, CBYTE *file)
 //	if (f == DD_OK)			// this is an *INCORRECT* error test; see e.g. Petzold "Programming Windows 95"
 	if ( f >= 0 )
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -89,7 +89,7 @@ inline SLONG check_result(HRESULT f, SLONG line, CBYTE *file)
 		LogText("Error in %s line %d\n\t", file, line);
 		dd_error(f);
 
-		return TRUE;
+		return true;
 	}
 }
 

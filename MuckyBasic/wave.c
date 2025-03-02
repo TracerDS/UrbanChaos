@@ -186,7 +186,7 @@ int WaveStartDataRead(
 	// Do a nice little seek...
 	if ((nError = mmioSeek(*phmmioIn, pckInRIFF->dwDataOffset + sizeof(FOURCC), SEEK_SET)) == -1)
 		{
-		ASSERT(FALSE);
+		ASSERT(false);
 		}
 
 	nError = 0;
@@ -588,7 +588,7 @@ int WaveCloseWriteFile(
 	else 
 		{
 		nError = 0;
-		ASSERT(FALSE);
+		ASSERT(false);
 		}
 
 // CANTWRITEFACT:
@@ -708,7 +708,7 @@ ERROR_IN_PROC:
 	return(nError);
 }
 
-/** BOOL RIFFAPI riffCopyChunk(HMMIO hmmioSrc, HMMIO hmmioDst, const LPMMCKINFO lpck)
+/** bool RIFFAPI riffCopyChunk(HMMIO hmmioSrc, HMMIO hmmioDst, const LPMMCKINFO lpck)
  *
  *  DESCRIPTION:
  *      
@@ -716,14 +716,14 @@ ERROR_IN_PROC:
  *  ARGUMENTS:
  *      (LPWAVECONVCB lpwc, LPMMCKINFO lpck)
  *
- *  RETURN (BOOL NEAR PASCAL):
+ *  RETURN (bool NEAR PASCAL):
  *
  *
  *  NOTES:
  *
  **  */
 
-BOOL riffCopyChunk(HMMIO hmmioSrc, HMMIO hmmioDst, const LPMMCKINFO lpck)
+bool riffCopyChunk(HMMIO hmmioSrc, HMMIO hmmioDst, const LPMMCKINFO lpck)
 {
     MMCKINFO    ck;
     HPSTR       hpBuf;
@@ -733,7 +733,7 @@ BOOL riffCopyChunk(HMMIO hmmioSrc, HMMIO hmmioDst, const LPMMCKINFO lpck)
     //
     hpBuf = (HPSTR)GlobalAllocPtr(GHND, lpck->cksize);
     if (!hpBuf)
-	return (FALSE);
+	return (false);
 
     ck.ckid   = lpck->ckid;
     ck.cksize = lpck->cksize;
@@ -752,14 +752,14 @@ BOOL riffCopyChunk(HMMIO hmmioSrc, HMMIO hmmioDst, const LPMMCKINFO lpck)
     if (hpBuf)
 	GlobalFreePtr(hpBuf);
 
-    return (TRUE);
+    return (true);
 
 rscc_Error:
 
     if (hpBuf)
 	GlobalFreePtr(hpBuf);
 
-    return (FALSE);
+    return (false);
 } /* RIFFSupCopyChunk() */
 
 

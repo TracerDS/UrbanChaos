@@ -68,8 +68,8 @@ UBYTE	cheat=0;
 
 #endif
 
-bool g_bPunishMePleaseICheatedOnThisLevel = FALSE;
-//bool m_bDontMoveIfBothTriggersDown = FALSE;
+bool g_bPunishMePleaseICheatedOnThisLevel = false;
+//bool m_bDontMoveIfBothTriggersDown = false;
 
 
 #ifdef DEBUG
@@ -94,7 +94,7 @@ SLONG	mouse_input=0;
 SLONG	analogue=0;
 
 
-bool g_bEngineVibrations = TRUE;
+bool g_bEngineVibrations = true;
 
 
 // on PC controls_inventory_mode has no effect on your ability to move, its purely a graphical effect on top of screen while you cycle through weapons
@@ -125,7 +125,7 @@ extern	UWORD	find_corpse(Thing *p_person);
 
 extern  EWAY_Way *EWAY_magic_radius_flag;		   
 extern  void EWAY_set_active(EWAY_Way *ew);
-extern  SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = FALSE);
+extern  SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = false);
 extern	SLONG	is_person_dead(Thing *p_person);
 extern	SLONG	is_person_ko(Thing *p_person);
 extern	void	person_pick_best_target(Thing *p_person,SLONG dir);
@@ -181,24 +181,24 @@ UBYTE	keybrd_button_use[16];
 
 
 
-bool m_bForceWalk = FALSE;
+bool m_bForceWalk = false;
 
 int g_iCheatNumber = -1;
 
 
 #ifdef TARGET_DC
 
-bool g_bDreamcastABXYStartComboPressed = FALSE;
-bool m_bDreamcastABXYStartComboPressedLastTime = FALSE;
-bool g_bDreamcastABXYStartShouldGoToBootRomImmediately = TRUE;
+bool g_bDreamcastABXYStartComboPressed = false;
+bool m_bDreamcastABXYStartComboPressedLastTime = false;
+bool g_bDreamcastABXYStartShouldGoToBootRomImmediately = true;
 
-bool g_bShowDarcisPositionOnScreen = FALSE;
+bool g_bShowDarcisPositionOnScreen = false;
 char cCheatString[30] = "";
 #ifdef DEBUG
 // Can't be arsed typing in the cheat code all the time.
-bool g_bCheatsEnabled = TRUE;
+bool g_bCheatsEnabled = true;
 #else
-bool g_bCheatsEnabled = FALSE;
+bool g_bCheatsEnabled = false;
 #endif
 
 void INTERFAC_SetUpJoyPadButtons ( int iMode )
@@ -279,7 +279,7 @@ void INTERFAC_SetUpJoyPadButtons ( int iMode )
 		joypad_button_use[JOYPAD_BUTTON_1STPERSON]	= DI_DC_BUTTON_RTRIGGER;
 		break;
 	default:
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		// Not good. Set up something sensible anyway.
 		joypad_button_use[JOYPAD_BUTTON_KICK]		= DI_DC_BUTTON_LTRIGGER;
 		joypad_button_use[JOYPAD_BUTTON_PUNCH]		= DI_DC_BUTTON_RTRIGGER;
@@ -766,8 +766,8 @@ void	set_player_punch(Thing *p_person)
 
 
 //
-// Returns TRUE if a person can safely jump. Returns
-// FALSE if they are in the doorway to a warehouse.
+// Returns true if a person can safely jump. Returns
+// false if they are in the doorway to a warehouse.
 //
 
 SLONG should_i_jump(Thing *darci)
@@ -813,7 +813,7 @@ SLONG should_i_jump(Thing *darci)
 		x1 == x3 && z1 == z3 &&
 		x1 == x4 && z1 == z4)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
@@ -825,7 +825,7 @@ SLONG should_i_jump(Thing *darci)
 
 
 //
-// Returns TRUE if a person can safely backflip.
+// Returns true if a person can safely backflip.
 //
 
 SLONG should_person_backflip(Thing *darci)
@@ -870,7 +870,7 @@ SLONG should_person_backflip(Thing *darci)
 
 					if (playing_level("botanicc.ucm"))
 					{
-						return FALSE;
+						return false;
 					}
 				}
 			}
@@ -957,7 +957,7 @@ SLONG	bad_place_for_car(Thing *p_person,Thing *p_vehicle)
 		jx,0,jz,
 		16,
 		0x0000ff,
-		TRUE);
+		true);
 */
 
 	signed_dist_to_line_with_normal(ix,iz,jx,jz,
@@ -980,7 +980,7 @@ SLONG	bad_place_for_car(Thing *p_person,Thing *p_vehicle)
 }
 
 //
-// Returns TRUE if a person can get into a particular car.
+// Returns true if a person can get into a particular car.
 // 
 extern	void	get_car_door_offsets(SLONG type,SLONG door, SLONG *dx,SLONG *dz);
 
@@ -1051,7 +1051,7 @@ void SHAPE_semisphere(
 		iz,
 		16,
 		0x0000ff,
-		TRUE);
+		true);
 */
 
 	#endif
@@ -1098,7 +1098,7 @@ extern	UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 			iz,
 			0,
 			0x03f008,
-			TRUE);
+			true);
 */
 	
 		#endif
@@ -1118,12 +1118,12 @@ extern	UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
 				ASSERT(*door == 0 || *door == 1);
 
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1136,7 +1136,7 @@ SLONG person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
 		// This vehicle is already occupied.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (p_vehicle->State == STATE_DEAD)
@@ -1145,7 +1145,7 @@ SLONG person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
 		// Broken car!
 		// 
 
-		return FALSE;
+		return false;
 	}
 
 	//
@@ -1157,7 +1157,7 @@ SLONG person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
 
 
 //
-// Returns TRUE if the person can get into a car. Sets the person BUMP_CAR flag and
+// Returns true if the person can get into a car. Sets the person BUMP_CAR flag and
 // their InCar field to be the index of the car they can get into and sets *door
 // to be 0 or 1 depending on which door they are getting into.
 //
@@ -1192,11 +1192,11 @@ SLONG person_get_in_car(Thing *p_thing, SLONG *door)
 		{
 			p_thing->Genus.Person->InCar = THING_NUMBER(col_thing);
 
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -1869,7 +1869,7 @@ extern	SLONG	person_on_floor(Thing *p_person);
 extern	SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_range,ULONG  prim_flags,SLONG *ob_x,SLONG *ob_y,SLONG *ob_z,SLONG *ob_yaw,SLONG *ob_prim, SLONG *ob_index);
 
 //				if(OB_find_type(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,0xff,&ob_x,&ob_y,&ob_z,&ob_yaw,&ob_prim))
-				if(oi=OB_find_index(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,TRUE))
+				if(oi=OB_find_index(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,true))
 				{
 					if(oi)
 					if(set_person_search(p_thing,oi->index,oi->x,oi->y,oi->z))
@@ -1958,8 +1958,8 @@ extern	UBYTE	is_semtex;
 							PCOM_make_people_talk_to_eachother(
 								TO_THING(use),
 								p_thing,
-								FALSE,
-								FALSE);
+								false,
+								false);
 							//PANEL_new_text(NULL,4000,"ACTION use person");
 							return INPUT_MASK_ACTION;
 						}
@@ -1986,8 +1986,8 @@ extern	UBYTE	is_semtex;
 						PCOM_make_people_talk_to_eachother(
 							TO_THING(use),
 							p_thing,
-							FALSE,
-							FALSE);
+							false,
+							false);
 
 
 						if (TO_THING(use)->Genus.Person->Flags2 & FLAG2_PERSON_GUILTY)
@@ -2011,8 +2011,8 @@ extern	UBYTE	is_semtex;
 							PCOM_make_people_talk_to_eachother(
 								TO_THING(use),
 								p_thing,
-								FALSE,
-								FALSE);
+								false,
+								false);
 						}
 					}
 				}
@@ -2566,27 +2566,27 @@ void	init_user_interface()
 {
 	USER_INTERFACE=0;
 #ifndef PSX	
-	PANEL_scanner_poo=ENV_get_value_number("scanner_follows",	TRUE, "Game");
+	PANEL_scanner_poo=ENV_get_value_number("scanner_follows",	true, "Game");
 #endif
 #ifdef TARGET_DC
-	analogue = ENV_get_value_number("analogue_pad_mode",	TRUE, "Game");
+	analogue = ENV_get_value_number("analogue_pad_mode",	true, "Game");
 
 extern bool g_bEngineVibrations;
-	if ( ENV_get_value_number("vibration_mode",	TRUE, "") == 0 )
+	if ( ENV_get_value_number("vibration_mode",	true, "") == 0 )
 	{
-		SetVibrationEnable ( FALSE );
-		g_bEngineVibrations = FALSE;
+		SetVibrationEnable ( false );
+		g_bEngineVibrations = false;
 	}
 	else
 	{
-		SetVibrationEnable ( TRUE );
-		if ( ENV_get_value_number("vibration_engine",	TRUE, "") == 0 )
+		SetVibrationEnable ( true );
+		if ( ENV_get_value_number("vibration_engine",	true, "") == 0 )
 		{
-			g_bEngineVibrations = FALSE;
+			g_bEngineVibrations = false;
 		}
 		else
 		{
-			g_bEngineVibrations = TRUE;
+			g_bEngineVibrations = true;
 		}
 	}
 #endif
@@ -2907,11 +2907,11 @@ void	process_analogue_movement(Thing *p_thing,SLONG input)
 
 	if (abs(dangle) > 512)
 	{
-		facing_camera = TRUE;
+		facing_camera = true;
 	}
 	else
 	{
-		facing_camera = FALSE;
+		facing_camera = false;
 	}
 
 
@@ -4878,7 +4878,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 
 				person_pick_best_target(p_person,1);
 				GAME_FLAGS|=GF_SIDE_ON_COMBAT;
-				pl->DoneSomething = TRUE;
+				pl->DoneSomething = true;
 				return INPUT_MASK_ACTION;
 			}
 			else
@@ -4887,7 +4887,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 
 				person_pick_best_target(p_person,-1);
 				GAME_FLAGS|=GF_SIDE_ON_COMBAT;
-				pl->DoneSomething = TRUE;
+				pl->DoneSomething = true;
 				return INPUT_MASK_ACTION;
 			}
 		}
@@ -5326,7 +5326,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 		if (pl->Pressed & (INPUT_MASK_ACTION|INPUT_MASK_PUNCH|INPUT_MASK_KICK|INPUT_MASK_JUMP))
 		{
 			p_person->Genus.Person->Flags|=FLAG_PERSON_REQUEST_BLOCK;
-			pl->DoneSomething = TRUE;
+			pl->DoneSomething = true;
 						//PANEL_new_text(NULL,4000,"grapple");
 			return (pl->Pressed & (INPUT_MASK_ACTION|INPUT_MASK_PUNCH|INPUT_MASK_KICK|INPUT_MASK_JUMP));
 
@@ -5350,7 +5350,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 			if (p_person->Genus.Person->PersonType==PERSON_DARCI && (index=find_arrestee(p_person)))
 			{
 				set_person_arrest(p_person,index);
-				pl->DoneSomething = TRUE;
+				pl->DoneSomething = true;
 				//PANEL_new_text(NULL,4000,"combat DO arrest");
 				return INPUT_MASK_ACTION;
 			}
@@ -5380,7 +5380,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 			}		
 			
 			person_pick_best_target(p_person,1);
-			pl->DoneSomething = TRUE;
+			pl->DoneSomething = true;
 			return INPUT_MASK_ACTION;
 		}
 	}
@@ -5532,7 +5532,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 				//	WAVE_PLAY_INTERUPT);
 			}
 
-			pl->DoneSomething = TRUE;
+			pl->DoneSomething = true;
 		}
 		else
 		if (pl->Pressed & INPUT_MASK_KICK)
@@ -5645,7 +5645,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 							p_person->WorldPos.Z           >> 8,
 							0x0,
 							0xffeeee,
-							FALSE);
+							false);
 						{
 							CBYTE	str[100];
 							sprintf(str," back kick timer1 %d\n",p_person->Genus.Person->Timer1);
@@ -5682,7 +5682,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 			// So we can differentiate a left-release from a left-punch-release
 			//
 
-			pl->DoneSomething = TRUE;
+			pl->DoneSomething = true;
 		}
 		else
 		if (pl->Pressed & INPUT_MASK_ACTION)
@@ -5695,7 +5695,7 @@ void	set_person_fight_step_forward(Thing *p_person);
 
 
 			//set_person_block(p_person);
-			pl->DoneSomething = TRUE;
+			pl->DoneSomething = true;
 				//PANEL_new_text(NULL,4000,"action in fight is block");
 			return(INPUT_MASK_ACTION);
 
@@ -6000,7 +6000,7 @@ ULONG	get_hardware_input(UWORD type)
 	UWORD	c0;
 
 
-	static bool bLastInputWasntAnInputCozThereWasNoController = TRUE;
+	static bool bLastInputWasntAnInputCozThereWasNoController = true;
 
 //
 //	Temporary joystick stuff.
@@ -6179,11 +6179,11 @@ extern DIJOYSTATE			the_state;
 				if ( BUTTON_IS_PRESSED(the_state.rgbButtons[joypad_button_use[JOYPAD_BUTTON_MOVE]] ) )
 				{
 					// Force walk
-					m_bForceWalk = TRUE;
+					m_bForceWalk = true;
 				}
 				else
 				{
-					m_bForceWalk = FALSE;
+					m_bForceWalk = false;
 				}
 
 
@@ -6296,20 +6296,20 @@ extern DIJOYSTATE			the_state;
 					if ( !m_bDreamcastABXYStartComboPressedLastTime )
 					{
 						// Yes. Set the flag.
-						g_bDreamcastABXYStartComboPressed = TRUE;
-						m_bDreamcastABXYStartComboPressedLastTime = TRUE;
+						g_bDreamcastABXYStartComboPressed = true;
+						m_bDreamcastABXYStartComboPressedLastTime = true;
 
 						if ( g_bDreamcastABXYStartShouldGoToBootRomImmediately )
 						{
 							// We haven't go to the Main menu yet, so just toast the machine, back to the boot ROM.
-							ASSERT ( FALSE );
+							ASSERT ( false );
 							ResetToFirmware();
 						}
 					}
 				}
 				else
 				{
-					m_bDreamcastABXYStartComboPressedLastTime = FALSE;
+					m_bDreamcastABXYStartComboPressedLastTime = false;
 				}
 
 
@@ -6356,7 +6356,7 @@ extern DIJOYSTATE			the_state;
 							// BARRY BARRY
 							// Enable the fast-key cheats.
 							CONSOLE_text("OK, fast cheats enabled, D'arci.");
-							g_bCheatsEnabled = TRUE;
+							g_bCheatsEnabled = true;
 						}
 						else if ( IS_STRING ( "Y X B A" ) )
 						{
@@ -6388,7 +6388,7 @@ extern DIJOYSTATE			the_state;
 							// YABBADABBA (doo)
 							// Finish this level immediately.
 							// 0xd01e7e1 = "do level" sort of.
-							g_bPunishMePleaseICheatedOnThisLevel = TRUE;
+							g_bPunishMePleaseICheatedOnThisLevel = true;
 							cheat = 1;
 							g_iCheatNumber = 0xd01e7e1;
 						}				
@@ -6478,14 +6478,14 @@ extern bool m_bTweakFramerates;
 					m_dwFogTableDebugFogTableMode = dwFogTableMode;
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLEMODE, dwFogTableMode);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGCOLOR, 0x00ff00ff);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, TRUE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, true);
 
 					memset ( the_state.rgbButtons, 0, 32 );
 					input = ( 0x3f << 18 ) | ( 0x3f << 25 );
 				}
 				else
 				{
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, false);
 				}
 #endif
 #endif
@@ -6744,7 +6744,7 @@ extern bool bWriteVMInsteadOfVMU;
 #ifdef DREAMCAST_CHEATS_PLEASE_BOB
 				if ( g_bCheatsEnabled )
 				{
-					static bool bWeCheatedLastFrame = FALSE;
+					static bool bWeCheatedLastFrame = false;
 
 					// Cheat enable is Start+both triggers.
 					// These ignore remapping of course.
@@ -6754,7 +6754,7 @@ extern bool bWriteVMInsteadOfVMU;
 					{
 						// Captain Cheat to the rescue!
 						// But disable fast time reporting.
-						g_bPunishMePleaseICheatedOnThisLevel = TRUE;
+						g_bPunishMePleaseICheatedOnThisLevel = true;
 						cheat = 1;
 						// All cheats are on different directions of the D-pad.
 						if ( BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_UP]) )
@@ -6775,7 +6775,7 @@ extern bool bWriteVMInsteadOfVMU;
 							{
 
 								// Stop multiple cheats every single frame, or you get guns all over the place.
-								bWeCheatedLastFrame = TRUE;
+								bWeCheatedLastFrame = true;
 
 #define CHEAT_RING_SIZE 128
 								alloc_special(SPECIAL_AK47		, SPECIAL_SUBSTATE_NONE,(NET_PERSON(0)->WorldPos.X>>8)+CHEAT_RING_SIZE ,NET_PERSON(0)->WorldPos.Y>>8 ,(NET_PERSON(0)->WorldPos.Z>>8)+CHEAT_RING_SIZE, 0);
@@ -6801,7 +6801,7 @@ extern bool bWriteVMInsteadOfVMU;
 							if ( !bWeCheatedLastFrame )
 							{
 								// Stop it toggling madly.
-								bWeCheatedLastFrame = TRUE;
+								bWeCheatedLastFrame = true;
 
 								// Toggle on-screen position.
 								g_bShowDarcisPositionOnScreen = !g_bShowDarcisPositionOnScreen;
@@ -6811,7 +6811,7 @@ extern bool bWriteVMInsteadOfVMU;
 						}
 						else
 						{
-							bWeCheatedLastFrame = FALSE;
+							bWeCheatedLastFrame = false;
 						}
 
 						// Remove any non-directional button inputs. Leave the analog and direction ones.
@@ -6820,7 +6820,7 @@ extern bool bWriteVMInsteadOfVMU;
 					else
 					{
 						// Cheat buttons not down - allow another.
-						bWeCheatedLastFrame = FALSE;
+						bWeCheatedLastFrame = false;
 					}
 				}
 #endif
@@ -6860,7 +6860,7 @@ extern bool bWriteVMInsteadOfVMU;
 				{
 					// There wasn't a last input, so ignore any buttons pressed when the controller is inserted/recognised.
 					m_PreviousInput = m_CurrentInput;
-					bLastInputWasntAnInputCozThereWasNoController = FALSE;
+					bLastInputWasntAnInputCozThereWasNoController = false;
 				}
 
 				m_CurrentGoneDownInput = ( m_CurrentInput & ~(m_PreviousInput) ) & INPUT_MASK_ALL_BUTTONS;
@@ -6878,7 +6878,7 @@ extern bool bWriteVMInsteadOfVMU;
 		else
 		{
 			// No controller.
-			bLastInputWasntAnInputCozThereWasNoController = TRUE;
+			bLastInputWasntAnInputCozThereWasNoController = true;
 		}
 	}
 #endif
@@ -7239,7 +7239,7 @@ extern SLONG Wadmenu_MuckyTime;
 	{
 
 #ifdef TARGET_DC
-		ASSERT ( FALSE );
+		ASSERT ( false );
 #else //#ifdef TARGET_DC
 
 		if(Keys[keybrd_button_use[KEYBRD_BUTTON_FORWARDS]])
@@ -7454,12 +7454,12 @@ ULONG	pre_process_input(SLONG mode,ULONG input)
 
 }
 
-SLONG	FirstPersonMode = FALSE;
+SLONG	FirstPersonMode = false;
 
 ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG input,ULONG *processed)
 {
-	static SLONG look_ami   = FALSE;
-	SLONG fpm = FALSE;
+	static SLONG look_ami   = false;
+	SLONG fpm = false;
 	SLONG	gun=0;
 
 	*processed=0;
@@ -7481,7 +7481,7 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 	if ((Keys[KB_A] && !ShiftFlag) || the_state.rgbButtons[joypad_button_use[JOYPAD_BUTTON_1STPERSON]])
 #endif
 	{
-		fpm = TRUE;
+		fpm = true;
 	}
 #else
 
@@ -7489,14 +7489,14 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 	if (input & INPUT_MASK_CAMERA)
 	{
 //#ifndef	PSX
-		fpm = TRUE;
+		fpm = true;
 //#endif
 	}
 #endif
 
 	if (p_person->State != STATE_IDLE && p_person->State != STATE_GUN && p_person->State != STATE_NORMAL && p_person->State != STATE_HIT_RECOIL)
 	{
-		fpm = FALSE;
+		fpm = false;
 	}
 
 	/*
@@ -7504,7 +7504,7 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 	if (p_person->Genus.Person->Action == ACTION_AIM_GUN ||
 		p_person->Genus.Person->Action == ACTION_SHOOT)
 	{
-		fpm = TRUE;
+		fpm = true;
 		gun=1;
 	}
 	else
@@ -7516,7 +7516,7 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 			// Drawing the pistol.
 			//
 
-			fpm = TRUE;
+			fpm = true;
 		}
 		else
 		{
@@ -7530,7 +7530,7 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 			{
 				case SPECIAL_AK47:
 				case SPECIAL_SHOTGUN:
-					fpm = TRUE;
+					fpm = true;
 					break;
 			}
 		}
@@ -7547,7 +7547,7 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 			//
 
 			p_person->Genus.Person->Flags2|=FLAG2_PERSON_LOOK;
-			look_ami    =  TRUE;
+			look_ami    =  true;
 			look_pitch  = -FC_cam[p_person->Genus.Person->PlayerID-1].pitch >> 8;
 			look_pitch &= 2047;
 
@@ -7671,7 +7671,7 @@ ULONG	apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 			else
 				FC_force_camera_behind(p_person->Genus.Person->PlayerID-1);
 
-			look_ami   = FALSE;
+			look_ami   = false;
 			look_pitch = 0;
 		}
 
@@ -7686,12 +7686,12 @@ SLONG can_darci_change_weapon(Thing *p_person)
 {
 	if (EWAY_stop_player_moving())
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (p_person->State == STATE_IDLE)
 	{
-		return TRUE;
+		return true;
 	}
 
 	if (p_person->State == STATE_MOVEING)
@@ -7699,7 +7699,7 @@ SLONG can_darci_change_weapon(Thing *p_person)
 		if (p_person->SubState == SUB_STATE_RUNNING ||
 			p_person->SubState == SUB_STATE_WALKING)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
@@ -7707,19 +7707,19 @@ SLONG can_darci_change_weapon(Thing *p_person)
 	{
 		if (p_person->SubState == SUB_STATE_AIM_GUN)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 	if (p_person->SubState == SUB_STATE_ITEM_AWAY)
-			return TRUE;
+			return true;
 
 	if (p_person->SubState == SUB_STATE_DRAW_ITEM)
-			return TRUE;
+			return true;
 
 	if (p_person->SubState == SUB_STATE_DRAW_GUN)
-			return TRUE;
+			return true;
 
-	return FALSE;
+	return false;
 }
 
 //
@@ -7763,12 +7763,12 @@ void	process_hardware_level_input_for_player(Thing *p_player)
 
 #ifdef TARGET_DC
 	// Saner system.
-	static bool bChangeCameraModePressedLastTime = FALSE;
+	static bool bChangeCameraModePressedLastTime = false;
 	if ( pl->Pressed&INPUT_MASK_CAMERA )
 	{
 		if ( !bChangeCameraModePressedLastTime )
 		{
-			bChangeCameraModePressedLastTime = TRUE;
+			bChangeCameraModePressedLastTime = true;
 
 			// Cycle through the modes. There are four, apparently.
 			g_iPlayerCameraMode++;
@@ -7798,7 +7798,7 @@ void	process_hardware_level_input_for_player(Thing *p_player)
 	}
 	else
 	{
-		bChangeCameraModePressedLastTime = FALSE;
+		bChangeCameraModePressedLastTime = false;
 	}
 #else
 	// Blimey! Mad system!
@@ -7913,7 +7913,7 @@ void	process_hardware_level_input_for_player(Thing *p_player)
 
 	if (pl->Pressed)
 	{
-		pl->DoneSomething = FALSE;
+		pl->DoneSomething = false;
 	}
 
 	//
@@ -7953,7 +7953,7 @@ void	process_hardware_level_input_for_player(Thing *p_player)
 
 	}
 
-	SLONG no_control = FALSE;
+	SLONG no_control = false;
 
 	extern Form *form_leave_map;
 	extern SLONG form_left_map;
@@ -8302,7 +8302,7 @@ SLONG continue_firing(Thing *p_person)
 		{
 			if (p_special->Genus.Special->ammo == 0)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 	}
@@ -8314,11 +8314,11 @@ SLONG continue_firing(Thing *p_person)
 
 		if (input & INPUT_MASK_PUNCH)
 		{
-			return TRUE;
+			return true;
 		}
 		else
 		{
-			return FALSE;
+			return false;
 		}
 	}
 	else
@@ -8338,15 +8338,15 @@ SLONG continue_firing(Thing *p_person)
 
 			if (p_target->State == STATE_DEAD)
 			{
-				return FALSE;
+				return false;
 			}
 			else
 			{
-				return TRUE;
+				return true;
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 }
 

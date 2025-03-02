@@ -273,7 +273,7 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 	{
 		df = &dfacets[i];
 
-		df->Counter[0] = FALSE;
+		df->Counter[0] = false;
 	}
 
 	//
@@ -317,7 +317,7 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 
 		if (f_list)
 		{
-			exit = FALSE;
+			exit = false;
 
 			while(!exit)
 			{
@@ -330,7 +330,7 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 					//
 
 					facet = -facet;
-					exit  =  TRUE;
+					exit  =  true;
 				}
 
 				ASSERT(WITHIN(facet, 1, next_dfacet - 1));
@@ -354,7 +354,7 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 				// Mark this facet as done.
 				//
 
-				df->Counter[0] = TRUE;
+				df->Counter[0] = true;
 
 				//
 				// Only draw certain types of facet.
@@ -797,12 +797,12 @@ void FARFACET_init()
 	//
 
 
-	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_FOGENABLE, TRUE);
+	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_FOGENABLE, true);
 
 #if 0
 // These are all completely ignored by the DC SetChanged thing - don't bother.
-	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_ZENABLE,   FALSE);
-	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,   FALSE);
+	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_ZENABLE,   false);
+	FARFACET_renderstate.SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,   false);
 #endif
 
 	FARFACET_renderstate.SetTexture(NULL);
@@ -1020,7 +1020,7 @@ void FARFACET_draw(
 
 
 #ifdef DEBUG
-	the_display.SetRenderState ( D3DRENDERSTATE_FOGENABLE, FALSE );
+	the_display.SetRenderState ( D3DRENDERSTATE_FOGENABLE, false );
 #endif
 
 	//
@@ -1132,7 +1132,7 @@ extern SLONG CurDrawDistance;
 	//
 
 #ifdef DEBUG
-	the_display.SetRenderState ( D3DRENDERSTATE_FOGENABLE, TRUE );
+	the_display.SetRenderState ( D3DRENDERSTATE_FOGENABLE, true );
 #endif
 
 	FARFACET_default_renderstate.SetChanged();

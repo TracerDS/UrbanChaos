@@ -21,7 +21,7 @@ static void Exit(void)
 #ifndef TARGET_DC
 	MessageBox(NULL, "Cannot locate Urban Chaos CD-ROM", NULL, MB_ICONERROR);
 #else
-	ASSERT(FALSE);
+	ASSERT(false);
 #endif
 	exit(1);
 }

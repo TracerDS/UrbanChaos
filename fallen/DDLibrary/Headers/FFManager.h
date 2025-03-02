@@ -25,9 +25,9 @@ class FFManager {
 		FFManager();
 		~FFManager();
 		
-		BOOL FFSupported(LPDIRECTINPUTDEVICE2 device);
+		bool FFSupported(LPDIRECTINPUTDEVICE2 device);
 		void ReleaseFX();
-		BOOL Test();
+		bool Test();
 };
 
 extern FFManager* the_ff_manager;

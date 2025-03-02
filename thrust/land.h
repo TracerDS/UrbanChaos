@@ -35,7 +35,7 @@ void LAND_calc_normals();
 //
 // Checks to see if the given circle has collided with the landscape.
 // If it the circle does collide, then if gives back the normal of the
-// point in the landscape where the the circle touched and returns TRUE.
+// point in the landscape where the the circle touched and returns true.
 //
 
 SLONG LAND_collide_sphere(

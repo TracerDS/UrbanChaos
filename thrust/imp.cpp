@@ -8,7 +8,7 @@
 
 
 //
-// Returns TRUE if the normals are similar enough.
+// Returns true if the normals are similar enough.
 //
 
 SLONG IMP_norm_similar(
@@ -25,11 +25,11 @@ SLONG IMP_norm_similar(
 
 	if (dprod > 0.999F)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -115,7 +115,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 	float pivot_x;
 	float pivot_y;
 	float pivot_z;
-	SLONG pivot_valid = FALSE;
+	SLONG pivot_valid = false;
 	
 	SLONG offset_vert;
 	SLONG offset_tvert;
@@ -243,7 +243,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 				pivot_y = y;
 				pivot_z = z;
 
-				pivot_valid = TRUE;
+				pivot_valid = true;
 			}
 			else
 			{
@@ -1008,7 +1008,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 		}
 	}
 
-	ans.valid = TRUE;
+	ans.valid = true;
 
 	return ans;
 
@@ -1027,7 +1027,7 @@ IMP_Mesh IMP_load(CBYTE *fname, float scale)
 
 	memset(&ans, 0, sizeof(ans));
 
-	ans.valid = FALSE;
+	ans.valid = false;
 
 	return ans;
 }

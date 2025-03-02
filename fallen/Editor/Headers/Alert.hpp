@@ -17,7 +17,7 @@ class	Alert	:	public	EdRect
 				Alert();
 				Alert(CBYTE *text1,CBYTE *text2);
 				~Alert();
-		BOOL	HandleAlert(CBYTE *text1,CBYTE *text2);
+		bool	HandleAlert(CBYTE *text1,CBYTE *text2);
 };
 
 #endif

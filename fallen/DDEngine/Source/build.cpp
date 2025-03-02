@@ -473,7 +473,7 @@ void BUILD_draw_inside()
 				page <<= 2;
 				page  |= p_f4->TexturePage;
 
-				POLY_add_quad(quad, page, TRUE);
+				POLY_add_quad(quad, page, true);
 			}
 		}
 
@@ -513,7 +513,7 @@ void BUILD_draw_inside()
 				page <<= 2;
 				page  |= p_f3->TexturePage;
 
-				POLY_add_triangle(tri, page, TRUE);
+				POLY_add_triangle(tri, page, true);
 			}
 		}
 		

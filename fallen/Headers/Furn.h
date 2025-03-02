@@ -114,7 +114,7 @@ void FURN_turn_into_door(
 // against the bounding box of the fucniture.  It returns
 // where you should slide to.  If 'dont_slide', then if the
 // vector intersects with the box, instead of sliding along it,
-// it zeros out the movement vector. It returns TRUE in this
+// it zeros out the movement vector. It returns true in this
 // case.
 //
 // It assumes that the pitch of the furniture is zero!!!

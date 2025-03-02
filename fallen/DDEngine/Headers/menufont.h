@@ -48,7 +48,7 @@ extern CharData FontInfo[256];
 
 #ifdef TARGET_DC
 // The Yanks call them VMUs, Europeans call them VMs. Madness.
-// Set this to TRUE if you're a European.
+// Set this to true if you're a European.
 extern bool bWriteVMInsteadOfVMU;
 #endif
 

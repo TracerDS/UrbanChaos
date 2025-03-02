@@ -215,11 +215,11 @@ SLONG POLY_page_is_masked_self_illuminating(SLONG page)
 	if (WITHIN(page, 0, POLY_NUM_PAGES - 1) &&
 		(POLY_page_flag[page] & POLY_PAGE_FLAG_2PASS))
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -844,7 +844,7 @@ SLONG POLY_get_screen_pos(
 
 	if (vz < POLY_Z_NEARPLANE)
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
@@ -853,7 +853,7 @@ SLONG POLY_get_screen_pos(
 		*screen_x = POLY_screen_mid_x - POLY_screen_mul_x * vx * Z;
 		*screen_y = POLY_screen_mid_y - POLY_screen_mul_y * vy * Z;
 
-		return TRUE;
+		return true;
 	}
 }
 
@@ -1025,22 +1025,22 @@ SLONG POLY_sphere_visible(
 		// Behind the view pyramid.
 		//
 
-		return FALSE;
+		return false;
 	}
 
 	if (view_x + radius < -view_z ||
 	    view_x - radius > +view_z)
 	{
-		return FALSE;
+		return false;
 	}
 
 	if (view_y + radius * 1.4F < -view_z ||
 	    view_y - radius * 1.4F > +view_z)
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -1157,50 +1157,50 @@ void POLY_frame_init(SLONG keep_shadow_page, SLONG keep_text_page)
 SLONG POLY_valid_triangle(POLY_Point *pp[3])
 {
 	// all points must be either near-clipped or fully transformed
-	if (!pp[0]->MaybeValid())		return FALSE;
-	if (!pp[1]->MaybeValid())		return FALSE;
-	if (!pp[2]->MaybeValid())		return FALSE;
+	if (!pp[0]->MaybeValid())		return false;
+	if (!pp[1]->MaybeValid())		return false;
+	if (!pp[2]->MaybeValid())		return false;
 
 	// if all points are clipped in one direction, polygon is invalid
 	if ((pp[0]->clip & pp[1]->clip & pp[2]->clip) & POLY_CLIP_OFFSCREEN)
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_quad(POLY_Point *pp[4])
 {
 	// all points must be either near-clipped or fully transformed
-	if (!pp[0]->MaybeValid())		return FALSE;
-	if (!pp[1]->MaybeValid())		return FALSE;
-	if (!pp[2]->MaybeValid())		return FALSE;
-	if (!pp[3]->MaybeValid())		return FALSE;
+	if (!pp[0]->MaybeValid())		return false;
+	if (!pp[1]->MaybeValid())		return false;
+	if (!pp[2]->MaybeValid())		return false;
+	if (!pp[3]->MaybeValid())		return false;
 
 	// if all points are clipped in one direction, polygon is invalid
 	if ((pp[0]->clip & pp[1]->clip & pp[2]->clip & pp[3]->clip) & POLY_CLIP_OFFSCREEN)
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 {
 	// all points must be either near-clipped or fully transformed
-	if (!p1->IsValid())			return FALSE;
-	if (!p2->IsValid())			return FALSE;
+	if (!p1->IsValid())			return false;
+	if (!p2->IsValid())			return false;
 
 	// if all points are clipped in one direction, line is invalid
 	// (wrong: line thickness might revalidate it; but we don't care too much)
 	if ((p1->clip & p2->clip) & POLY_CLIP_OFFSCREEN)
 	{
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 // POLY_tri_backfacing
@@ -1672,7 +1672,7 @@ void POLY_add_poly(POLY_Point** poly, SLONG poly_points, SLONG page)
 		POLY_setclip(rptr[ii]);
 		if (tmp != rptr[ii]->clip)
 		{
-			TRACE("ERROR!  Polygon vertex clip flags not set\n(Hint: add ,TRUE parameter to the add polygon call if you set screen coordinates by hand, or call POLY_setclip())\n");
+			TRACE("ERROR!  Polygon vertex clip flags not set\n(Hint: add ,true parameter to the add polygon call if you set screen coordinates by hand, or call POLY_setclip())\n");
  			ASSERT(0);
 			// now trace through the call - I've just realized this won't necessarily work ;-(
 			POLY_transform(rptr[ii]->x, rptr[ii]->y, rptr[ii]->z, rptr[ii]);
@@ -2100,8 +2100,8 @@ void POLY_add_quad_fast(POLY_Point *pt[4], SLONG page, SLONG backface_cull, SLON
 		// Needs near-clipping...
 		//
 
-		POLY_add_triangle(pt,  page, backface_cull, FALSE);
-		POLY_add_triangle(pt2, page, backface_cull, FALSE);
+		POLY_add_triangle(pt,  page, backface_cull, false);
+		POLY_add_triangle(pt2, page, backface_cull, false);
 
 		LOG_EXIT ( POLY_add_quad )
 		return;
@@ -2140,7 +2140,7 @@ void POLY_add_quad_fast(POLY_Point *pt[4], SLONG page, SLONG backface_cull, SLON
 			//
 
 			LOG_EXIT ( POLY_add_quad )
-			POLY_add_triangle(pt + 1, page, FALSE, FALSE);
+			POLY_add_triangle(pt + 1, page, false, false);
 
 			return;
 		}
@@ -2152,7 +2152,7 @@ void POLY_add_quad_fast(POLY_Point *pt[4], SLONG page, SLONG backface_cull, SLON
 			//
 
 			LOG_EXIT ( POLY_add_quad )
-			POLY_add_triangle(pt, page, FALSE, FALSE);
+			POLY_add_triangle(pt, page, false, false);
 
 			return;
 		}
@@ -2676,7 +2676,7 @@ void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float wi
 	POLY_setclip(ppt[3]);
 #endif
 
-	POLY_add_quad(ppt, page, FALSE, TRUE);
+	POLY_add_quad(ppt, page, false, true);
 }
 
 
@@ -2807,7 +2807,7 @@ void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, S
 	POLY_setclip(ppt[3]);
 #endif
 
-	POLY_add_quad(ppt, page, FALSE, TRUE);
+	POLY_add_quad(ppt, page, false, true);
 }
 
 //
@@ -2868,7 +2868,7 @@ void POLY_add_rect(POLY_Point *p1, SLONG width,SLONG height,  SLONG page, UBYTE 
 	POLY_setclip(ppt[3]);
 #endif
 
-	POLY_add_quad(ppt, page, FALSE, TRUE);
+	POLY_add_quad(ppt, page, false, true);
 }
 
 void  POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, ULONG colour)
@@ -2927,7 +2927,7 @@ void  POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, ULONG colour)
 	POLY_setclip(ppt[3]);
 #endif
 
-	POLY_add_quad(ppt, POLY_PAGE_COLOUR, FALSE, TRUE);
+	POLY_add_quad(ppt, POLY_PAGE_COLOUR, false, true);
 }
 
 
@@ -3349,7 +3349,7 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 				{
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_ONE);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_ONE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZBIAS, 2);
 				}
 /*
@@ -3362,8 +3362,8 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 					SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATEALPHA);
 					SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_SRCALPHA);
 					SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_INVSRCALPHA);
-					SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
-					SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,FALSE);
+					SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
+					SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,false);
 				}
 */
 
@@ -3375,11 +3375,11 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 				if (Keys[KB_P1])//&&allow_debug_keys)
 #endif
 				{
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,FALSE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,false);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_ONE);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_ONE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,FALSE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,false);
 				}
 #endif
 #endif
@@ -3484,7 +3484,7 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 				{
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_ONE);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_ONE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZBIAS, 2);
 				}
 
@@ -3497,18 +3497,18 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATEALPHA);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_SRCALPHA);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_INVSRCALPHA);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,FALSE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,false);
 				}
 
 #ifdef EDITOR
 				if (Keys[KB_P1]&&!CUTSCENE_edit_wnd)
 				{
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,FALSE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,false);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_ONE);
 					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_ONE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
-					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,FALSE);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
+					REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,false);
 				}
 #endif
 
@@ -3593,10 +3593,10 @@ void POLY_frame_draw(SLONG draw_shadow_page, SLONG draw_text_page)
 	if(GAME_STATE&GS_ATTRACT_MODE)
 	{
 extern	void	draw_text_at(float x,float y,CBYTE *message,SLONG font_id);
-	extern BOOL  text_fudge;
+	extern bool  text_fudge;
 	extern ULONG text_colour;
 
-		text_fudge  = FALSE;
+		text_fudge  = false;
 		text_colour = 0x00ffffff;
 		draw_text_at(200,150,"Press Anything To Play",0);
 
@@ -3619,7 +3619,7 @@ void POLY_frame_draw_odd()
 
 #ifdef TARGET_DC
 	// I'd like to know.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 
 	//
@@ -3634,14 +3634,14 @@ void POLY_frame_draw_odd()
 #define FORCE_SET_RENDER_STATE(t,s) RenderState::s_State.SetRenderState(t,s); REALLY_SET_RENDER_STATE(t,s)
 #define FORCE_SET_TEXTURE(s) RenderState::s_State.SetTexture(s); REALLY_SET_TEXTURE(s)
 
-	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE,TRUE);
-	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,FALSE);
+	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE,true);
+	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,false);
 	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ZFUNC,D3DCMP_LESSEQUAL);
-	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,FALSE);
+	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,false);
 	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_CULLMODE,D3DCULL_NONE);
 	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATE);//ALPHA);
 	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREADDRESS,D3DTADDRESS_CLAMP);
-	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
+	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
 	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_ONE);//SRCALPHA);
 	FORCE_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_ONE);//INVSRCALPHA);
 
@@ -3671,7 +3671,7 @@ void POLY_frame_draw_odd()
 
 	if (POLY_Page[POLY_PAGE_SKY].NeedsRendering())
 	{
-		FORCE_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
+		FORCE_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, false);
 		FORCE_SET_TEXTURE(TEXTURE_get_handle(TEXTURE_page_sky));
 
 		POLY_Page[POLY_PAGE_SKY].Render(the_display.lp_D3D_Device);
@@ -3679,7 +3679,7 @@ void POLY_frame_draw_odd()
 
 	if (POLY_Page[POLY_PAGE_MOON].NeedsRendering())
 	{
-		FORCE_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
+		FORCE_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, false);
 		FORCE_SET_TEXTURE(TEXTURE_get_handle(TEXTURE_page_moon));
 
 		POLY_Page[POLY_PAGE_MOON].Render(the_display.lp_D3D_Device);
@@ -3703,7 +3703,7 @@ void POLY_frame_draw_puddles()
 
 #ifdef TARGET_DC
 	// I'd like to know.
-	ASSERT ( FALSE );
+	ASSERT ( false );
 #endif
 
 
@@ -3747,19 +3747,19 @@ void POLY_frame_draw_sewater()
 	{
 #if 1
 		// Shouldn't be any sewers.
-		ASSERT(FALSE);
+		ASSERT(false);
 #else
 		BEGIN_SCENE;
 
-		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,TRUE);
+		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,true);
 		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZFUNC,D3DCMP_LESSEQUAL);
-		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,TRUE);
+		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,true);
 		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATEALPHA);
-		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
+		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
 		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_SRCALPHA);
 		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_INVSRCALPHA);
 		REALLY_SET_TEXTURE(TEXTURE_get_handle(TEXTURE_page_water));
-		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE,FALSE);
+		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE,false);
 		REALLY_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREADDRESS,D3DTADDRESS_WRAP);
 
 		//
@@ -3809,11 +3809,11 @@ SLONG POLY_get_sphere_circle(
 		*screen_y      = SLONG(pp.Y);
 		*screen_radius = SLONG(width);
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		return FALSE;
+		return false;
 	}
 }
 
@@ -3835,24 +3835,24 @@ void POLY_frame_draw_focused(float focus)
 
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAG,FILTER_TYPE); //l
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMIN,FILTER_TYPE); //l
-	SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE,TRUE);
-	SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,TRUE);
+	SET_RENDER_STATE(D3DRENDERSTATE_SPECULARENABLE,true);
+	SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,true);
 	SET_RENDER_STATE(D3DRENDERSTATE_ZFUNC,D3DCMP_LESSEQUAL);
-	SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,false);
 	SET_RENDER_STATE(D3DRENDERSTATE_CULLMODE,D3DCULL_NONE);
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATE);
 	SET_RENDER_STATE(D3DRENDERSTATE_FOGCOLOR,  0x00000000);
-	SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE, false);
 #ifndef TARGET_DC
-	SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,false);
 #endif
-	SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,FALSE);
-	SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE,FALSE);
+	SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,false);
+	SET_RENDER_STATE(D3DRENDERSTATE_ALPHATESTENABLE,false);
 	SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREADDRESS,D3DTADDRESS_CLAMP);
 
 	SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND,D3DBLEND_ONE);
 	SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND,D3DBLEND_ONE);
-	SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,TRUE);
+	SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,true);
 
 	//
 	// Draw each standard texture page unfocused one way.
@@ -3894,7 +3894,7 @@ void POLY_frame_draw_focused(float focus)
 		{
 #ifndef TARGET_DC
 			TEXTURE_set_colour_key(i);
-			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,TRUE);
+			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,true);
 #endif
 		}
 
@@ -3914,7 +3914,7 @@ void POLY_frame_draw_focused(float focus)
 		if (POLY_page_flag[i] & POLY_PAGE_FLAG_TRANSPARENT)
 		{
 #ifndef TARGET_DC
-			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,FALSE);
+			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,false);
 #endif
 		}
 	}
@@ -3953,7 +3953,7 @@ void POLY_frame_draw_focused(float focus)
 		{
 #ifndef TARGET_DC
 			TEXTURE_set_colour_key(i);
-			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,TRUE);
+			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,true);
 #endif
 		}
 
@@ -3974,7 +3974,7 @@ void POLY_frame_draw_focused(float focus)
 		if (POLY_page_flag[i] & POLY_PAGE_FLAG_TRANSPARENT)
 		{
 #ifndef TARGET_DC
-			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,FALSE);
+			SET_RENDER_STATE(D3DRENDERSTATE_COLORKEYENABLE,false);
 #endif
 		}
 	}
@@ -4014,14 +4014,14 @@ SLONG POLY_inside_quad(
 	   *along_01 = alonga;
 	   *along_02 = alongb;
 
-		return TRUE;
+		return true;
 	}
 	else
 	{
 	   *along_01 = alonga;
 	   *along_02 = alongb;
 
-		return FALSE;
+		return false;
 	}
 }
 

@@ -97,7 +97,7 @@ extern	void	init_user_interface();
 extern	SLONG	continue_action(Thing *p_person);
 extern	SLONG	continue_moveing(Thing *p_person);
 extern	SLONG	continue_firing(Thing *p_person);
-extern	SLONG	person_get_in_car(Thing *p_person);	// Returns TRUE if it finds a car and set the person's InCar field
+extern	SLONG	person_get_in_car(Thing *p_person);	// Returns true if it finds a car and set the person's InCar field
 extern	SLONG	person_get_in_specific_car(Thing *p_person, Thing *p_vehicle);
 
 
@@ -142,7 +142,7 @@ extern void allow_input_autorepeat ( void );
 
 
 // A flag that says that ABXYStart was pressed.
-// When you handle it, set it to FALSE.
+// When you handle it, set it to false.
 extern bool g_bDreamcastABXYStartComboPressed;
 
 

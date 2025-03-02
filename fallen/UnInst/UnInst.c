@@ -11,13 +11,13 @@
 HANDLE	hInstance;
 static void DeleteThings();
 
-BOOL APIENTRY DllMain( HANDLE hModule, 
+bool APIENTRY DllMain( HANDLE hModule, 
                        DWORD  ul_reason_for_call, 
                        LPVOID lpReserved
 					 )
 {
 	hInstance = hModule;
-    return TRUE;
+    return true;
 }
 
 LONG APIENTRY UninstInitialize(HWND hwndDlg,HANDLE hTheirInstance,LONG lRes)

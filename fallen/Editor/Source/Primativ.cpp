@@ -244,7 +244,7 @@ void	EdRect::IndentRect(ULONG hilite,ULONG lolite)
 
 //****************************************************************************
 
-BOOL	EdRect::PointInRect(MFPoint *the_point)
+bool	EdRect::PointInRect(MFPoint *the_point)
 {
 	if(the_point->X >= Left && the_point->X <= Right)
 	{
@@ -258,7 +258,7 @@ BOOL	EdRect::PointInRect(MFPoint *the_point)
 
 //assumes rectangles are normal (i.e right is on the right
 
-BOOL	EdRect::IntersectRect(EdRect *the_rect)
+bool	EdRect::IntersectRect(EdRect *the_rect)
 {
 	SLONG	flags=0;
 	MFPoint	p;

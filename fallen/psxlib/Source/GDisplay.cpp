@@ -214,7 +214,7 @@ void TEXTURE_choose_set(SLONG number)
 {
 //extern	void	load_texture_styles(UBYTE editor, UBYTE world);
 //	number=13;
-//	load_texture_styles(FALSE, number);
+//	load_texture_styles(false, number);
 	setup_textures(number);
 }
 

@@ -40,14 +40,14 @@ HeapDebugInfo *pFirst = NULL;
 ULONG ulCurrentSequenceNumber = 0;
 
 // Set this to 1 in a debugger to dump the info.
-volatile bool bDumpDebug = FALSE;
+volatile bool bDumpDebug = false;
 // Set this to an ID you want to track in the debugger.
 volatile ULONG ulSpotted = -1;
 
 
 void DumpDebug ( void )
 {
-	bDumpDebug = FALSE;
+	bDumpDebug = false;
 
 	TRACE ( "\nMemory debug dump\n" );
 
@@ -74,7 +74,7 @@ void DumpDebug ( void )
 
 //---------------------------------------------------------------
 
-BOOL	SetupMemory()
+bool	SetupMemory()
 {
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 	pFirst = NULL;
@@ -85,9 +85,9 @@ BOOL	SetupMemory()
 	   MFHeap	=	HeapCreate(0,INITIAL_HEAP_SIZE,MAXIMUM_HEAP_SIZE);
 	}
 	if(MFHeap)
-		return	TRUE;
+		return	true;
 	else
-		return	FALSE;
+		return	false;
 }
 
 //---------------------------------------------------------------
@@ -238,14 +238,14 @@ void MFdeleteTrace ( void *pvAddr )
 	}
 
 	// Search for this entry.
-	bool bFound = FALSE;
+	bool bFound = false;
 	for ( int i = 0; i < iNumNewDelTraces; i++ )
 	{
 		if ( ndtList[i].pvAddr == pvAddr )
 		{
 			iNumNewDelTraces--;
 			ndtList[i] = ndtList[iNumNewDelTraces];
-			bFound = TRUE;
+			bFound = true;
 			break;
 		}
 	}

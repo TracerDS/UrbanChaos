@@ -63,9 +63,9 @@ void	update_combos(HWND parent)
 	{
 		the_combo	=	GetDlgItem(parent,c0);
 		if(((c0-IDC_COMBO2)+1)==selected)
-			EnableWindow(the_combo,TRUE);
+			EnableWindow(the_combo,true);
 		else
-			EnableWindow(the_combo,FALSE);
+			EnableWindow(the_combo,false);
 	}
 
 */
@@ -82,7 +82,7 @@ void	update_combos(HWND parent)
 										lbitem_str	=	s[c0++];									\
 									}							
 
-BOOL CALLBACK		waypoint_proc	(
+bool CALLBACK		waypoint_proc	(
 										HWND hWnd,
 										UINT message,
 										WPARAM wParam,
@@ -90,7 +90,7 @@ BOOL CALLBACK		waypoint_proc	(
 									)
 {
 /*
-	BOOL				update	=	FALSE;
+	bool				update	=	false;
 	int					c0,
 						ctrl_id,
 						sel_id;
@@ -126,7 +126,7 @@ BOOL CALLBACK		waypoint_proc	(
 			SendMessage(the_ctrl,EM_SETLIMITTEXT,1,0);
 			SendMessage(the_ctrl,WM_SETTEXT,0,(LPARAM)"A");
 
-			return	TRUE;
+			return	true;
 
 		case	WM_VSCROLL:
 			if(GetWindowLong((HWND)lParam,GWL_ID)==IDC_SCROLLBAR1)
@@ -142,14 +142,14 @@ BOOL CALLBACK		waypoint_proc	(
 							edit_text[0]	=	'Z';
 						SendMessage(the_ctrl,WM_SETTEXT,0,(LPARAM)edit_text);
 						SendMessage(the_ctrl,EM_SETSEL,0,-1);
-						return	TRUE;
+						return	true;
 					case	SB_LINEUP:
 						edit_text[0]++;
 						if(edit_text[0]>'Z')
 							edit_text[0]	=	'A';
 						SendMessage(the_ctrl,WM_SETTEXT,0,(LPARAM)edit_text);
 						SendMessage(the_ctrl,EM_SETSEL,0,-1);
-						return	TRUE;
+						return	true;
 				}
 			}
 			break;
@@ -198,14 +198,14 @@ BOOL CALLBACK		waypoint_proc	(
 
 					ReleaseDC(hWnd,hdc);
 
-					return	TRUE;
+					return	true;
 
 				case	IDC_COMBO1:
 					if(HIWORD(wParam)==CBN_SELCHANGE)
 					{
 						update_combos(hWnd);
 					}
-					return	TRUE;
+					return	true;
 
 				case	IDC_EDIT1:
 					if(HIWORD(wParam)==EN_UPDATE)
@@ -218,14 +218,14 @@ BOOL CALLBACK		waypoint_proc	(
 						if(edit_text[0]<'A' || edit_text[0]>'z' || (edit_text[0]>'Z' && edit_text[0]<'a'))
 						{
 							edit_text[0]	=	waypoint_group+'A';
-							update	=	TRUE;
+							update	=	true;
 						}
 
 						//	Now make sure it's upper case.
 						if(islower(edit_text[0]))
 						{
 							edit_text[0]	=	toupper(edit_text[0]);
-							update	=	TRUE;
+							update	=	true;
 						}
 
 						//	Set the text if necessary.
@@ -238,14 +238,14 @@ BOOL CALLBACK		waypoint_proc	(
 						//	Set the new group.
 						waypoint_group	=	edit_text[0]-'A';
 
-						return	TRUE;
+						return	true;
 					}
 					break;
 			}
 			break;
 	}
 */
-	return	FALSE;
+	return	false;
 }
 
 //---------------------------------------------------------------
@@ -294,7 +294,7 @@ LRESULT	CALLBACK	button_proc	(
 
 //---------------------------------------------------------------
 
-BOOL	init_wwind()
+bool	init_wwind()
 {
 	int				c0;
 	WNDCLASSEX		new_class;
@@ -329,10 +329,10 @@ BOOL	init_wwind()
 		new_class.lpszClassName	=	button_classes[c0];
 		new_class.hIconSm		=	NULL;
 		if(!RegisterClassEx(&new_class))
-			return	FALSE;		//	Couldn't register the class.
+			return	false;		//	Couldn't register the class.
 	}
 
-	return	TRUE;
+	return	true;
 }
 
 //---------------------------------------------------------------

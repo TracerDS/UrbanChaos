@@ -46,9 +46,9 @@ struct D3DEnum_DeviceInfo
     GUID*               pGUID;
     CHAR                strName[40];
     D3DDEVICEDESC       ddDesc;
-    BOOL                bIsHardware;
-	BOOL                bCompatbileWithDesktop;
-	BOOL                bWindowed;
+    bool                bIsHardware;
+	bool                bCompatbileWithDesktop;
+	bool                bWindowed;
 
     D3DEnum_ModeInfo*   pCurrentMode;
     D3DEnum_ModeInfo*   pFirstMode;
@@ -128,7 +128,7 @@ HRESULT D3DEnum_SelectDefaultDriver( DWORD dwFlags );
 //       IDOK if a new driver/device/mode was selected, or IDCANCEL if not.
 //       Any error will result in a -1 for a return code.
 //-----------------------------------------------------------------------------
-INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, BOOL bCurrentlyWindowed );
+INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, bool bCurrentlyWindowed );
 
 
 
@@ -139,8 +139,8 @@ INT D3DEnum_UserDlgSelectDriver( HWND hwndParent, BOOL bCurrentlyWindowed );
 //-----------------------------------------------------------------------------
 HRESULT D3DEnum_GetSelectedDriver( LPGUID* ppDriverGUID, LPGUID* ppDeviceGuid,
                                    LPDDSURFACEDESC2* pddsdDisplayMode = NULL,
-								   BOOL* pbWindowed = NULL,
-								   BOOL* pbIsHardware = NULL );
+								   bool* pbWindowed = NULL,
+								   bool* pbIsHardware = NULL );
 
 
 

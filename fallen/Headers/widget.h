@@ -40,10 +40,10 @@ class Widget;
 class Form;
 
 typedef void (*WIDGET_Void)(Widget *widget);
-typedef BOOL (*WIDGET_Clik)(Widget *widget, SLONG x, SLONG y);
-typedef BOOL (*WIDGET_Char)(Widget *widget, CBYTE key);
+typedef bool (*WIDGET_Clik)(Widget *widget, SLONG x, SLONG y);
+typedef bool (*WIDGET_Char)(Widget *widget, CBYTE key);
 typedef SLONG(*WIDGET_Data)(Widget *widget, SLONG code, SLONG data1, SLONG data2);
-typedef BOOL (*FORM_Proc)(Form *form, Widget *widget, SLONG message);
+typedef bool (*FORM_Proc)(Form *form, Widget *widget, SLONG message);
 
 //----------------------------------------------------------------------------
 // Widget Structures

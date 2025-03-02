@@ -185,7 +185,7 @@ void HM_find_mesh_pos(
 		SLONG *roll);
 
 //
-// Returns TRUE if the given hypermatter object is stationary.
+// Returns true if the given hypermatter object is stationary.
 //
 
 SLONG HM_stationary(UBYTE hm_index);

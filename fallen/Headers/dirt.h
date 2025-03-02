@@ -186,7 +186,7 @@ UWORD DIRT_create_mine (Thing *p_person);
 void  DIRT_destroy_mine(UWORD dirt_mine);
 
 //
-// This person is trying to shoot a bit of dirt. It returns TRUE if
+// This person is trying to shoot a bit of dirt. It returns true if
 // the person shot anything.
 //
 

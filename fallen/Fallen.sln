@@ -21,7 +21,7 @@ Global
 		{66A37855-71A1-40B6-BA26-2F4C69C4FFA8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		HideSolutionNode = false
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {09C5B373-EE52-4974-94C2-D58DE1719687}

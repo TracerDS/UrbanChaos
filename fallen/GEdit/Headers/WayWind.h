@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-BOOL	init_wwind();
+bool	init_wwind();
 void	fini_wwind();
 
 #define	WAY_COLOURS 15

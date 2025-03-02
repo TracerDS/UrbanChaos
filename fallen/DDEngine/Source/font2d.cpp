@@ -76,7 +76,7 @@ FONT2D_Letter FONT2D_letter[FONT2D_NUM_LETTERS];
 
 CBYTE FONT2D_punct[] =
 {
-	"!\"£$%^&*(){}[]<>\\/:;'@#_?-=+.,"
+	"!\"ï¿½$%^&*(){}[]<>\\/:;'@#_?-=+.,"
 
 	//
 	// German characters in decimal and octal!
@@ -85,13 +85,13 @@ CBYTE FONT2D_punct[] =
 	// (a) We can type them in directly and this can be physically matched against the bitmap
 	// (b) We can type them *all* in, instead of missing a few
 
-	"ÄËÏÖØÜßïöø"
+	"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 
 	//
 	// French characters
 	//
 
-	"ÆÇÔàâçèéêîïôøû"
+	"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 
 	//
 	// Spanish
@@ -99,7 +99,7 @@ CBYTE FONT2D_punct[] =
 	// 161,191,216,225,228,233,237,241,243,248,250
 	//
 
-	"¡¿Øáäéíñóøú"
+	"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 
 	//
 	// Italian
@@ -108,7 +108,7 @@ CBYTE FONT2D_punct[] =
 	//
 	//
 
-	"ÀÈÌÒÙàìòùü©®"
+	"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 };
 
 
@@ -120,7 +120,7 @@ typedef TGA_Pixel MyArrayType[256][256];
 MyArrayType *FONT2D_data;
 
 //
-// Returns TRUE if it finds pixel data at (x,y)
+// Returns true if it finds pixel data at (x,y)
 // 
 
 SLONG FONT2D_found_data(SLONG x, SLONG y)
@@ -143,12 +143,12 @@ SLONG FONT2D_found_data(SLONG x, SLONG y)
 		{
 			if (((*FONT2D_data)[py][px]).alpha)
 			{
-				return TRUE;
+				return true;
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
@@ -177,7 +177,7 @@ void FONT2D_init(SLONG font_id)
 			256,
 			256,
 		    &((*FONT2D_data)[0][0]),
-		    font_id, FALSE);
+		    font_id, false);
 
 	ASSERT(ti.valid);
 	ASSERT(ti.width  == 256);
@@ -270,7 +270,7 @@ SLONG FONT2D_GetIndex(CBYTE chr)
 	// Remap certain characters first
 	//
 
-	if (chr=='É') chr='E';
+	if (chr=='ï¿½') chr='E';
 
 	//
 	// Find our letter index.
@@ -315,9 +315,9 @@ SLONG FONT2D_GetLetterWidth(CBYTE chr)
 {
 	SLONG letter;
 
-	if ( ( chr == ' ' ) || ( chr == '¬' ) )
+	if ( ( chr == ' ' ) || ( chr == 'ï¿½' ) )
 	{
-		// ¬ is a non-wrapping space.
+		// ï¿½ is a non-wrapping space.
 		return 8;
 	}
 
@@ -362,8 +362,8 @@ SLONG FONT2D_DrawLetter(CBYTE chr, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLO
 		chr = 39;
 	}
 
-	// ¬ is a non-wrapping space.
-	if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || chr=='¬' )
+	// ï¿½ is a non-wrapping space.
+	if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || chr=='ï¿½' )
 	{
 		return 8 * scale >> 8;
 	}
@@ -447,7 +447,7 @@ FONT2D_DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, SLONG scale, SLONG pag
 	pp[2].X=x;			pp[2].Y=y+scale;
 	pp[3].X=x+scale;	pp[3].Y=y+scale;
 	pp[0].Z=pp[1].Z=pp[2].Z=pp[3].Z=0.5f;
-	POLY_add_quad(quad,page,FALSE,TRUE);
+	POLY_add_quad(quad,page,false,true);
 }
 
 */
@@ -1080,7 +1080,7 @@ void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb, SLONG scal
 		quad[2] = &pp[2];
 		quad[3] = &pp[3];
 
-		POLY_add_quad(quad, page, FALSE, TRUE);
+		POLY_add_quad(quad, page, false, true);
 	}
 
 }

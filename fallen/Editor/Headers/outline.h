@@ -34,7 +34,7 @@ void OUTLINE_free(OUTLINE_Outline *oo);
 
 
 //
-// Returns TRUE if the two outlines overlap.
+// Returns true if the two outlines overlap.
 //
 
 SLONG OUTLINE_overlap(
@@ -43,7 +43,7 @@ SLONG OUTLINE_overlap(
 
 
 //
-// Returns TRUE if the given line goes through an outline.
+// Returns true if the given line goes through an outline.
 //
 
 SLONG OUTLINE_intersects(

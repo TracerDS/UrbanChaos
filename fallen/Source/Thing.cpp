@@ -23,7 +23,7 @@ THING_INDEX THING_array[THING_ARRAY_SIZE];
 SLONG	tick_tock_unclipped=0;
 
 #ifndef PSX
-extern BOOL allow_debug_keys;
+extern bool allow_debug_keys;
 #endif
 
 UWORD	class_priority[]=
@@ -972,7 +972,7 @@ void	process_things_tick(SLONG frame_rate_independant)
 	SLONG	cur_tick;
 
 	SLONG	tick_diff;
-	static BOOL first_pass=TRUE;
+	static bool first_pass=true;
 
  	cur_tick=GetTickCount();
 	tick_diff=cur_tick-prev_tick;
@@ -981,7 +981,7 @@ void	process_things_tick(SLONG frame_rate_independant)
 	if(first_pass)
 	{
 		tick_diff=NORMAL_TICK_TOCK;
-		first_pass=FALSE;
+		first_pass=false;
 	}
 
 #ifndef PSX
@@ -1228,9 +1228,9 @@ extern	void	do_arrests();
 
 //---------------------------------------------------------------
 
-inline BOOL	is_class_primary(SBYTE classification)
+inline bool	is_class_primary(SBYTE classification)
 {
-//	return(TRUE);
+//	return(true);
 
 	switch(classification)
 	{
@@ -1239,7 +1239,7 @@ inline BOOL	is_class_primary(SBYTE classification)
 		case	CLASS_CAMERA:
 		case	CLASS_SWITCH:
 		case	CLASS_TRACK:
-			return	FALSE;
+			return	false;
 		// Primaries.
 		case	CLASS_PLAYER:
 		case	CLASS_PROJECTILE:
@@ -1253,10 +1253,10 @@ inline BOOL	is_class_primary(SBYTE classification)
 		case	CLASS_BARREL:
 		case	CLASS_BIKE:
 		case	CLASS_BAT:
-			return	TRUE;
+			return	true;
 		default:
 			ASSERT(0);
-			return	FALSE;
+			return	false;
 	}
 }
 

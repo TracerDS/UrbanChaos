@@ -84,7 +84,7 @@ inline void *FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
 	return ( pvData );
 }
 
-static bool m_bTexturePagesInitialised = FALSE;
+static bool m_bTexturePagesInitialised = false;
 
 
 void FreeAllD3DPages ( void )
@@ -96,7 +96,7 @@ void FreeAllD3DPages ( void )
 
 void D3DTexture::BeginLoading()
 {
-	SLONG first_time = TRUE;
+	SLONG first_time = true;
 
 #ifdef TEX_EMBED
 	EmbedSource = NULL;
@@ -122,7 +122,7 @@ void D3DPage::EnsureLoaded ( void )
 	this->pTex = MFnew<D3DTexture>();
 	ASSERT ( this->pTex != NULL );
 
-	HRESULT hres = this->pTex->LoadTextureTGA ( this->pcFilename, -1, TRUE );
+	HRESULT hres = this->pTex->LoadTextureTGA ( this->pcFilename, -1, true );
 	if ( FAILED(hres) )
 	{
 		this->pTex = NULL;
@@ -171,7 +171,7 @@ void D3DTexture::GetTexOffsetAndScale ( float *pfUScale, float *pfUOffset, float
 		*pfVOffset = 0.25f * (float)( bPagePos >> 2 );
 		break;
 	default:
-		ASSERT ( FALSE );
+		ASSERT ( false );
 		break;
 	}
 
@@ -194,7 +194,7 @@ HRESULT	D3DTexture::ChangeTextureTGA(CBYTE *tga_file) {
 	return	DDERR_GENERIC;
 }
 
-HRESULT	D3DTexture::LoadTextureTGA(CBYTE *tga_file, ULONG id,BOOL bCanShrink)
+HRESULT	D3DTexture::LoadTextureTGA(CBYTE *tga_file, ULONG id,bool bCanShrink)
 {
 	HRESULT		result;
 
@@ -241,7 +241,7 @@ HRESULT	D3DTexture::LoadTextureTGA(CBYTE *tga_file, ULONG id,BOOL bCanShrink)
 	return	DD_OK;
 }
 
-HRESULT D3DTexture::CreateUserPage(SLONG texture_size, BOOL i_want_an_alpha_channel)
+HRESULT D3DTexture::CreateUserPage(SLONG texture_size, bool i_want_an_alpha_channel)
 {
 	HRESULT result;
 
@@ -381,7 +381,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 		//
 
 		TRACE("TGA %s is invalid\n", texture_name);
-		//ASSERT ( FALSE );
+		//ASSERT ( false );
 		MemFree(tga);
 		return DDERR_GENERIC;
 	}
@@ -1008,7 +1008,7 @@ HRESULT	D3DTexture::Destroy(void)
 
 #define	MATCH_TGA_PIXELS(p1,p2)		((p1)->red==(p2)->red&&(p1)->green==(p2)->green&&(p1)->blue==(p2)->blue)
 
-BOOL	scan_for_baseline(TGA_Pixel **line_ptr,TGA_Pixel *underline,TGA_Info *info,SLONG *y_ptr)
+bool	scan_for_baseline(TGA_Pixel **line_ptr,TGA_Pixel *underline,TGA_Info *info,SLONG *y_ptr)
 {
 	while(*y_ptr<info->height)
 	{
@@ -1017,13 +1017,13 @@ BOOL	scan_for_baseline(TGA_Pixel **line_ptr,TGA_Pixel *underline,TGA_Info *info,
 			//	Got the baseline so drop to the next line.
 			*y_ptr		+=	1;
 			*line_ptr	+=	info->width;
-			return	TRUE;
+			return	true;
 		}
 
 		*y_ptr		+=	1;
 		*line_ptr	+=	info->width;
 	}
-	return	FALSE;
+	return	false;
 }
 
 HRESULT	D3DTexture::CreateFonts(TGA_Info *tga_info,TGA_Pixel *tga_data)
@@ -1144,7 +1144,7 @@ Font *D3DTexture::GetFont(SLONG id)
 	return	current_font;
 }
 
-void D3DTexture::set_greyscale(BOOL is_greyscale)
+void D3DTexture::set_greyscale(bool is_greyscale)
 {
 	if (is_greyscale != GreyScale)
 	{

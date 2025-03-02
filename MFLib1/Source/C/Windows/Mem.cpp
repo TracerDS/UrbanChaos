@@ -11,7 +11,7 @@ HANDLE	MFHeap	=	NULL;
 
 //---------------------------------------------------------------
 
-BOOL	SetupMemory()
+bool	SetupMemory()
 {
 	if(MFHeap==NULL)
 	{
@@ -19,9 +19,9 @@ BOOL	SetupMemory()
 	}
 	ERROR_MSG(MFHeap,"Can't setup memory.")
 	if(MFHeap)
-		return	TRUE;
+		return	true;
 	else
-		return	FALSE;
+		return	false;
 }
 
 //---------------------------------------------------------------

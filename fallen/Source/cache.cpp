@@ -132,11 +132,11 @@ SLONG CACHE_is_valid(CACHE_Index c_index)
 	{
 		if (CACHE_entry[c_index].flag & CACHE_FLAG_VALID)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 
