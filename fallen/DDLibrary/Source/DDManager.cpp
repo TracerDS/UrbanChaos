@@ -345,7 +345,7 @@ HRESULT WINAPI ZFormatEnumCallback(LPDDPIXELFORMAT lpZFormat, LPVOID lpExtra)
 
 //---------------------------------------------------------------
 
-SLONG	FlagsToBitDepth(SLONG flags)
+std::int32_t	FlagsToBitDepth(std::int32_t flags)
 {
 	if(flags&DDBD_1)
 		return	1;
@@ -365,7 +365,7 @@ SLONG	FlagsToBitDepth(SLONG flags)
 		return 0L;
 }
 
-ULONG	FlagsToMask(SLONG flags)
+std::uint32_t	FlagsToMask(std::int32_t flags)
 {
 	if (flags & DDBD_1)		return	0x01;
 	if (flags & DDBD_2)		return	0x03;
@@ -380,7 +380,7 @@ ULONG	FlagsToMask(SLONG flags)
 
 //---------------------------------------------------------------
 
-SLONG	BitDepthToFlags(SLONG bpp)
+std::int32_t	BitDepthToFlags(std::int32_t bpp)
 {
 	switch(bpp)
 	{
@@ -430,7 +430,7 @@ bool	GetDesktopMode	(
 							D3DDeviceInfo	**the_device
 						)
 {
-	SLONG			w,h,bpp;
+	std::int32_t			w,h,bpp;
 	HDC				hdc;
 	HWND			hDesktop;
 	DDModeInfo		*new_mode;
@@ -479,10 +479,10 @@ bool	GetDesktopMode	(
 bool	GetFullscreenMode	(
 								DDDriverInfo	*the_driver,
 								GUID			*D3D_guid,
-								SLONG			w,
-								SLONG			h,
-								SLONG			bpp,
-								SLONG			refresh,
+								std::int32_t			w,
+								std::int32_t			h,
+								std::int32_t			bpp,
+								std::int32_t			refresh,
 								DDModeInfo		**the_mode,
 								D3DDeviceInfo	**the_device
 							)
@@ -661,7 +661,7 @@ DDModeInfo::~DDModeInfo()
 
 //---------------------------------------------------------------
 
-SLONG	DDModeInfo::GetWidth(void)
+std::int32_t	DDModeInfo::GetWidth()
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 
@@ -675,7 +675,7 @@ SLONG	DDModeInfo::GetWidth(void)
  
 //---------------------------------------------------------------
 
-SLONG	DDModeInfo::GetHeight(void)
+std::int32_t	DDModeInfo::GetHeight()
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 
@@ -689,7 +689,7 @@ SLONG	DDModeInfo::GetHeight(void)
 
 //---------------------------------------------------------------
 
-SLONG	DDModeInfo::GetBPP(void)
+std::int32_t	DDModeInfo::GetBPP()
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 	ASSERT(ddSurfDesc.ddpfPixelFormat.dwSize == sizeof(ddSurfDesc.ddpfPixelFormat));
@@ -704,7 +704,7 @@ SLONG	DDModeInfo::GetBPP(void)
 
 //---------------------------------------------------------------
 
-HRESULT DDModeInfo::GetMode(SLONG *w,SLONG *h,SLONG *bpp,SLONG *refresh)
+HRESULT DDModeInfo::GetMode(std::int32_t *w,std::int32_t *h,std::int32_t *bpp,std::int32_t *refresh)
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 	ASSERT(ddSurfDesc.ddpfPixelFormat.dwSize == sizeof(ddSurfDesc.ddpfPixelFormat));
@@ -722,9 +722,9 @@ HRESULT DDModeInfo::GetMode(SLONG *w,SLONG *h,SLONG *bpp,SLONG *refresh)
 		return	DDERR_GENERIC;
 
 	// Get Width, height, BPP
-	*w			=	(SLONG)ddSurfDesc.dwWidth;
-	*h			=	(SLONG)ddSurfDesc.dwHeight;
-	*bpp		=	(SLONG)ddSurfDesc.ddpfPixelFormat.dwRGBBitCount;
+	*w			=	(std::int32_t)ddSurfDesc.dwWidth;
+	*h			=	(std::int32_t)ddSurfDesc.dwHeight;
+	*bpp		=	(std::int32_t)ddSurfDesc.ddpfPixelFormat.dwRGBBitCount;
 	*refresh	=	0L;
 
 	// Success
@@ -735,7 +735,7 @@ HRESULT DDModeInfo::GetMode(SLONG *w,SLONG *h,SLONG *bpp,SLONG *refresh)
 
 bool	DDModeInfo::ModeSupported(D3DDeviceInfo *the_device)
 {
-	SLONG		bpp,
+	std::int32_t		bpp,
 				depths,
 				depth_flags;
 
@@ -767,7 +767,7 @@ bool	DDModeInfo::ModeSupported(D3DDeviceInfo *the_device)
   
 //---------------------------------------------------------------
 
-bool	DDModeInfo::Match(SLONG w,SLONG h,SLONG bpp)
+bool	DDModeInfo::Match(std::int32_t w,std::int32_t h,std::int32_t bpp)
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 
@@ -792,7 +792,7 @@ bool	DDModeInfo::Match(SLONG w,SLONG h,SLONG bpp)
 
 //---------------------------------------------------------------
 
-bool	DDModeInfo::Match(SLONG bpp)
+bool	DDModeInfo::Match(std::int32_t bpp)
 {
 	ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
 
@@ -861,7 +861,7 @@ HRESULT	D3DDeviceInfo::Create	(
 									LPD3DDEVICEDESC lpD3DHel
 								)
 {
-	ULONG			str_len,
+	std::uint32_t			str_len,
 					str_size;
 	LPTSTR			szTemp;
 
@@ -913,7 +913,7 @@ HRESULT	D3DDeviceInfo::Create	(
 
 //---------------------------------------------------------------
 
-void	D3DDeviceInfo::Destroy (void)
+void	D3DDeviceInfo::Destroy ()
 {
 	// Destroy Texture Formats
 //	DestroyFormats();
@@ -985,7 +985,7 @@ void D3DDeviceInfo::CheckCaps(LPDIRECT3DDEVICE3 the_device)
 		TRACE("Card *cannot* do ADAMI LIGHTING\n");
 	}
 
-	SLONG adami_lighting = ENV_get_value_number("Adami_lighting", -1, "Render");
+	std::int32_t adami_lighting = ENV_get_value_number("Adami_lighting", -1, "Render");
 
 	if (adami_lighting == -1)
 	{
@@ -1067,7 +1067,7 @@ void D3DDeviceInfo::FindOpaqueTexFmt()
 {
 	OpaqueTexFmt = nullptr;
 
-	SLONG	best_score = 0;
+	std::int32_t	best_score = 0;
 
 	for (DDModeInfo* mi = FormatList; mi; mi = mi->Next)
 	{
@@ -1079,7 +1079,7 @@ void D3DDeviceInfo::FindOpaqueTexFmt()
 
 			if (mi->ddSurfDesc.ddpfPixelFormat.dwRGBBitCount >= 16)
 			{
-				SLONG score  = 0x100;
+				std::int32_t score  = 0x100;
 				score -= mi->ddSurfDesc.ddpfPixelFormat.dwRGBBitCount;
 									
 				if (mi->ddSurfDesc.ddpfPixelFormat.dwFlags & DDPF_ALPHAPIXELS)
@@ -1105,23 +1105,23 @@ void D3DDeviceInfo::FindOpaqueTexFmt()
 
 //---------------------------------------------------------------
 
-extern void OS_calculate_mask_and_shift(ULONG bitmask, SLONG* mask,	SLONG* shift);
+extern void OS_calculate_mask_and_shift(std::uint32_t bitmask, std::int32_t* mask,	std::int32_t* shift);
 
 void D3DDeviceInfo::FindAlphaTexFmt()
 {
-	SLONG try_shift_alpha;
-	SLONG try_shift_red;
-	SLONG try_shift_green;
-	SLONG try_shift_blue;
+	std::int32_t try_shift_alpha;
+	std::int32_t try_shift_red;
+	std::int32_t try_shift_green;
+	std::int32_t try_shift_blue;
 		  
-	SLONG try_mask_alpha;
-	SLONG try_mask_red;
-	SLONG try_mask_green;
-	SLONG try_mask_blue;
+	std::int32_t try_mask_alpha;
+	std::int32_t try_mask_red;
+	std::int32_t try_mask_green;
+	std::int32_t try_mask_blue;
 
 	AlphaTexFmt = nullptr;
 
-	SLONG	best_score = 0;
+	std::int32_t	best_score = 0;
 
 	for (DDModeInfo* mi = FormatList; mi; mi = mi->Next)
 	{
@@ -1131,7 +1131,7 @@ void D3DDeviceInfo::FindAlphaTexFmt()
 			{
 				if (mi->ddSurfDesc.ddpfPixelFormat.dwRGBBitCount >= 16)
 				{
-					SLONG	score;
+					std::int32_t	score;
 
 					//
 					// Find out how many bits there are for each component.
@@ -1224,7 +1224,7 @@ HRESULT	D3DDeviceInfo::LoadZFormats(LPDIRECT3D3 d3d)
 
 //---------------------------------------------------------------
 
-HRESULT	D3DDeviceInfo::DestroyFormats(void)
+HRESULT	D3DDeviceInfo::DestroyFormats()
 {
 	DDModeInfo		*current_format,
 					*next_format;
@@ -1293,9 +1293,9 @@ HRESULT	D3DDeviceInfo::DelFormat(DDModeInfo	*the_format)
 
 //---------------------------------------------------------------
 
-bool	D3DDeviceInfo::IsHardware(void)
+bool	D3DDeviceInfo::IsHardware()
 {
-	SLONG	colour_model;
+	std::int32_t	colour_model;
  
 	
 	colour_model	=	d3dHalDesc.dcmColorModel;
@@ -1324,7 +1324,7 @@ bool	D3DDeviceInfo::Match(GUID *the_guid)
 //---------------------------------------------------------------
 
 DDModeInfo	*D3DDeviceInfo::FindFormat	(
-											SLONG			bpp,
+											std::int32_t			bpp,
 											DDModeInfo		**next_best_format,
 											DDModeInfo		*start
 										)
@@ -1395,7 +1395,7 @@ HRESULT DDDriverInfo::Create(
 								LPTSTR	lpDriverDesc
 							)
 {
-	ULONG			str_len,
+	std::uint32_t			str_len,
 					str_size;
     HRESULT         result;
     LPDIRECTDRAW    lpDD	=	nullptr;
@@ -1498,7 +1498,7 @@ HRESULT DDDriverInfo::Create(
 
 		lpDD4->GetCaps(&ddcaps, nullptr);
 
-		SLONG total = ddcaps.dwVidMemTotal;
+		std::int32_t total = ddcaps.dwVidMemTotal;
 
 		if (total < 5 * 1024 * 1024)
 		{
@@ -1537,7 +1537,7 @@ cleanup:
 
 //---------------------------------------------------------------
 
-void	DDDriverInfo::Destroy(void)
+void	DDDriverInfo::Destroy()
 {
 	// Destroy all Modes and Devices.
 	DestroyDevices();
@@ -1639,7 +1639,7 @@ HRESULT	DDDriverInfo::LoadModes(LPDIRECTDRAW4 lpDD4)
 
 //---------------------------------------------------------------
 
-HRESULT	DDDriverInfo::DestroyModes(void)
+HRESULT	DDDriverInfo::DestroyModes()
 {
 	DDModeInfo		*current_mode,
 					*next_mode;
@@ -1734,10 +1734,10 @@ HRESULT	DDDriverInfo::DeleteMode(DDModeInfo *the_mode)
 //---------------------------------------------------------------
 
 DDModeInfo	*DDDriverInfo::FindMode	(
-										SLONG			w,
-										SLONG			h,
-										SLONG			bpp,
-										SLONG			refresh,
+										std::int32_t			w,
+										std::int32_t			h,
+										std::int32_t			bpp,
+										std::int32_t			refresh,
 										DDModeInfo		**next_best,
 										DDModeInfo		*start_mode
 									)
@@ -1825,7 +1825,7 @@ HRESULT	DDDriverInfo::LoadDevices(LPDIRECT3D3 lpD3D3)
 
 //---------------------------------------------------------------
 
-HRESULT	DDDriverInfo::DestroyDevices(void)
+HRESULT	DDDriverInfo::DestroyDevices()
 {
 	D3DDeviceInfo	*current_device,
 					*next_device;
@@ -2018,10 +2018,10 @@ D3DDeviceInfo	*DDDriverInfo::FindDeviceSupportsMode	(
 //---------------------------------------------------------------
 
 DDModeInfo	*DDDriverInfo::FindModeSupportsDevice	(
-														SLONG			w, 
-														SLONG			h, 
-														SLONG			bpp,
-														SLONG			refresh,
+														std::int32_t			w, 
+														std::int32_t			h, 
+														std::int32_t			bpp,
+														std::int32_t			refresh,
 														D3DDeviceInfo	*the_device,
 														DDModeInfo		**next_best,
 														DDModeInfo		*start_mode
@@ -2087,7 +2087,7 @@ DDModeInfo	*DDDriverInfo::FindModeSupportsDevice	(
 
 //---------------------------------------------------------------
 
-GUID	*DDDriverInfo::GetGuid(void)
+GUID	*DDDriverInfo::GetGuid()
 {
 	if(IsPrimary())
 		return	nullptr;
@@ -2123,7 +2123,7 @@ DDDriverManager::~DDDriverManager()
 
 //---------------------------------------------------------------
 
-HRESULT	DDDriverManager::Init(void)
+HRESULT	DDDriverManager::Init()
 {
 	HRESULT			result;
 
@@ -2141,7 +2141,7 @@ HRESULT	DDDriverManager::Init(void)
 
 //---------------------------------------------------------------
 
-HRESULT	DDDriverManager::Fini(void)
+HRESULT	DDDriverManager::Fini()
 {
 	if(IsInitialised())
 	{
@@ -2154,7 +2154,7 @@ HRESULT	DDDriverManager::Fini(void)
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverManager::LoadDrivers(void)
+HRESULT DDDriverManager::LoadDrivers()
 {
 	CallbackInfo	callback_info;
 	HRESULT			result;
@@ -2183,7 +2183,7 @@ HRESULT DDDriverManager::LoadDrivers(void)
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverManager::DestroyDrivers(void)
+HRESULT DDDriverManager::DestroyDrivers()
 {
 	DDDriverInfo	*current_driver,
 					*next_driver;
@@ -2258,10 +2258,10 @@ DDDriverInfo	*DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_be
 	// Find all the drivers.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	DDDriverInfo *driver[10];
-	SLONG         driver_upto = 0;
+	std::int32_t         driver_upto = 0;
 
 	while(current_driver)
 	{
@@ -2355,10 +2355,10 @@ DDDriverInfo	*DDDriverManager::FindDriver(DDCAPS *hal,DDCAPS *hel,DDDriverInfo *
 	// Find all the drivers.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	DDDriverInfo *driver[10];
-	SLONG         driver_upto = 0;
+	std::int32_t         driver_upto = 0;
 
 	while(current_driver)
 	{

@@ -17,53 +17,53 @@
 // The data we accumulate as we link.
 // 
 
-SLONG *LINK_instruction;
-SLONG LINK_instruction_max;
-SLONG LINK_instruction_upto;
+std::int32_t *LINK_instruction;
+std::int32_t LINK_instruction_max;
+std::int32_t LINK_instruction_upto;
 
-CBYTE* LINK_table_data;
-SLONG LINK_table_data_max;
-SLONG LINK_table_data_upto;
+char* LINK_table_data;
+std::int32_t LINK_table_data_max;
+std::int32_t LINK_table_data_upto;
 
 LINK_Global *LINK_global;
-SLONG LINK_global_max;
-SLONG LINK_global_upto;
+std::int32_t LINK_global_max;
+std::int32_t LINK_global_upto;
 
 LINK_Function *LINK_function;
-SLONG LINK_function_max;
-SLONG LINK_function_upto;
+std::int32_t LINK_function_max;
+std::int32_t LINK_function_upto;
 
 LINK_Line *LINK_line;
-SLONG LINK_line_max;
-SLONG LINK_line_upto;
+std::int32_t LINK_line_max;
+std::int32_t LINK_line_upto;
 
 LINK_Jump *LINK_jump;
-SLONG LINK_jump_max;
-SLONG LINK_jump_upto;
+std::int32_t LINK_jump_max;
+std::int32_t LINK_jump_upto;
 
 LINK_Field *LINK_field;
-SLONG LINK_field_max;
-SLONG LINK_field_upto;
+std::int32_t LINK_field_max;
+std::int32_t LINK_field_upto;
 
 LINK_Globalref *LINK_global_ref;
-SLONG LINK_global_ref_max;
-SLONG LINK_global_ref_upto;
+std::int32_t LINK_global_ref_max;
+std::int32_t LINK_global_ref_upto;
 
 LINK_Undefref *LINK_undef_ref;
-SLONG LINK_undef_ref_max;
-SLONG LINK_undef_ref_upto;
+std::int32_t LINK_undef_ref_max;
+std::int32_t LINK_undef_ref_upto;
 
 LINK_Fieldref *LINK_field_ref;
-SLONG LINK_field_ref_max;
-SLONG LINK_field_ref_upto;
+std::int32_t LINK_field_ref_max;
+std::int32_t LINK_field_ref_upto;
 
 LINK_Datatableref *LINK_data_table_ref;
-SLONG LINK_data_table_ref_max;
-SLONG LINK_data_table_ref_upto;
+std::int32_t LINK_data_table_ref_max;
+std::int32_t LINK_data_table_ref_upto;
 
-CBYTE* LINK_debug_data;
-SLONG LINK_debug_data_max;
-SLONG LINK_debug_data_upto;
+char* LINK_debug_data;
+std::int32_t LINK_debug_data_max;
+std::int32_t LINK_debug_data_upto;
 
 //
 // Each file.
@@ -71,47 +71,47 @@ SLONG LINK_debug_data_upto;
 
 typedef struct
 {
-	SLONG first_instruction;
-	SLONG num_instructions;
+	std::int32_t first_instruction;
+	std::int32_t num_instructions;
 
-	SLONG first_table_datum;
-	SLONG num_table_data;
+	std::int32_t first_table_datum;
+	std::int32_t num_table_data;
 
-	SLONG first_global;
-	SLONG num_globals;
+	std::int32_t first_global;
+	std::int32_t num_globals;
 
-	SLONG first_function;
-	SLONG num_functions;
+	std::int32_t first_function;
+	std::int32_t num_functions;
 
-	SLONG first_line;
-	SLONG num_lines;
+	std::int32_t first_line;
+	std::int32_t num_lines;
 
-	SLONG first_jump;
-	SLONG num_jumps;
+	std::int32_t first_jump;
+	std::int32_t num_jumps;
 
-	SLONG first_field;
-	SLONG num_fields;
+	std::int32_t first_field;
+	std::int32_t num_fields;
 
-	SLONG first_global_ref;
-	SLONG num_global_refs;
+	std::int32_t first_global_ref;
+	std::int32_t num_global_refs;
 	
-	SLONG first_undef_ref;
-	SLONG num_undef_refs;
+	std::int32_t first_undef_ref;
+	std::int32_t num_undef_refs;
 
-	SLONG first_field_ref;
-	SLONG num_field_refs;
+	std::int32_t first_field_ref;
+	std::int32_t num_field_refs;
 
-	SLONG first_data_table_ref;
-	SLONG num_data_table_refs;
+	std::int32_t first_data_table_ref;
+	std::int32_t num_data_table_refs;
 
-	SLONG first_debug_datum;
-	SLONG num_debug_data;
+	std::int32_t first_debug_datum;
+	std::int32_t num_debug_data;
 
 } LINK_File;
 
 LINK_File *LINK_file;
-SLONG LINK_file_max;
-SLONG LINK_file_upto;
+std::int32_t LINK_file_max;
+std::int32_t LINK_file_upto;
 
 
 
@@ -119,8 +119,8 @@ SLONG LINK_file_upto;
 // The number of globals and fields in the executable.
 // 
 
-SLONG LINK_global_id_upto;
-SLONG LINK_field_id_upto;
+std::int32_t LINK_global_id_upto;
+std::int32_t LINK_field_id_upto;
 
 
 
@@ -137,11 +137,11 @@ void LINK_allocate_memory()
 {
 	LINK_instruction_max  = 1;
 	LINK_instruction_upto = 0;
-	LINK_instruction      = (SLONG *) malloc(sizeof(SLONG) * LINK_instruction_max);
+	LINK_instruction      = (std::int32_t *) malloc(sizeof(std::int32_t) * LINK_instruction_max);
 
 	LINK_table_data_max  = 1;
 	LINK_table_data_upto = 0;
-	LINK_table_data      = (CBYTE* ) malloc(sizeof(CBYTE) * LINK_table_data_max);
+	LINK_table_data      = (char* ) malloc(sizeof(char) * LINK_table_data_max);
 
 	LINK_global_max  = 1;
 	LINK_global_upto = 0;
@@ -181,7 +181,7 @@ void LINK_allocate_memory()
 
 	LINK_debug_data_max  = 1;
 	LINK_debug_data_upto = 0;
-	LINK_debug_data      = (CBYTE* ) malloc(sizeof(CBYTE) * LINK_debug_data_max);
+	LINK_debug_data      = (char* ) malloc(sizeof(char) * LINK_debug_data_max);
 
 	LINK_file_max  = 1;
 	LINK_file_upto = 0;
@@ -232,12 +232,12 @@ void LINK_free_memory()
 
 
 
-SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
+std::int32_t LINK_do(char* object_fname[], std::int32_t num_object_files, char* exec_fname)
 {
-	SLONG i;
-	SLONG j;
-	SLONG instruction;
-	SLONG magic;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t instruction;
+	std::int32_t magic;
 
 	LINK_Header        lh;
 	LINK_File         *lf;
@@ -249,7 +249,7 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 	LINK_Datatableref *lt;
 	FILE              *handle;
 
-	#define LINK_MAGIC_CHECK() {if (fread(&magic, sizeof(SLONG), 1, handle) != 1) goto file_error; ASSERT(magic == 12345678);}
+	#define LINK_MAGIC_CHECK() {if (fread(&magic, sizeof(std::int32_t), 1, handle) != 1) goto file_error; ASSERT(magic == 12345678);}
 
 	//
 	// Initialise all data.
@@ -323,10 +323,10 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 		while(LINK_instruction_upto + lh.num_instructions > LINK_instruction_max)
 		{
 			LINK_instruction_max *= 2;
-			LINK_instruction      = (SLONG *) realloc(LINK_instruction, sizeof(SLONG) * LINK_instruction_max);
+			LINK_instruction      = (std::int32_t *) realloc(LINK_instruction, sizeof(std::int32_t) * LINK_instruction_max);
 		}
 
-		if (fread(LINK_instruction + LINK_instruction_upto, sizeof(SLONG), lh.num_instructions, handle) != lh.num_instructions) goto file_error;
+		if (fread(LINK_instruction + LINK_instruction_upto, sizeof(std::int32_t), lh.num_instructions, handle) != lh.num_instructions) goto file_error;
 
 		LINK_instruction_upto += lh.num_instructions;
 
@@ -342,10 +342,10 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 		while(LINK_table_data_upto + lh.data_table_length_in_bytes > LINK_table_data_max)
 		{
 			LINK_table_data_max *= 2;
-			LINK_table_data      = (CBYTE* ) realloc(LINK_table_data, sizeof(CBYTE) * LINK_table_data_max);
+			LINK_table_data      = (char* ) realloc(LINK_table_data, sizeof(char) * LINK_table_data_max);
 		}
 
-		if (fread(LINK_table_data + LINK_table_data_upto, sizeof(CBYTE), lh.data_table_length_in_bytes, handle) != lh.data_table_length_in_bytes) goto file_error;
+		if (fread(LINK_table_data + LINK_table_data_upto, sizeof(char), lh.data_table_length_in_bytes, handle) != lh.data_table_length_in_bytes) goto file_error;
 
 		LINK_table_data_upto += lh.data_table_length_in_bytes;
 
@@ -528,15 +528,15 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 
 		lf->first_debug_datum = LINK_debug_data_upto;
 
-		if (fread(&lf->num_debug_data, sizeof(SLONG), 1, handle) != 1) goto file_error;
+		if (fread(&lf->num_debug_data, sizeof(std::int32_t), 1, handle) != 1) goto file_error;
 
 		while(LINK_debug_data_upto + lf->num_debug_data > LINK_debug_data_max)
 		{
 			LINK_debug_data_max *= 2;
-			LINK_debug_data      = (CBYTE* ) realloc(LINK_debug_data, sizeof(CBYTE) * LINK_debug_data_max);
+			LINK_debug_data      = (char* ) realloc(LINK_debug_data, sizeof(char) * LINK_debug_data_max);
 		}
 
-		if (fread(LINK_debug_data + LINK_debug_data_upto, sizeof(CBYTE), lf->num_debug_data, handle) != lf->num_debug_data) goto file_error;
+		if (fread(LINK_debug_data + LINK_debug_data_upto, sizeof(char), lf->num_debug_data, handle) != lf->num_debug_data) goto file_error;
 
 		LINK_debug_data_upto += lf->num_debug_data;
 
@@ -551,8 +551,8 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 		//
 
 		{
-			UBYTE junk[1024];
-			SLONG read;
+			std::uint8_t junk[1024];
+			std::int32_t read;
 
 			read = fread(junk, 1, 1024, handle);
 
@@ -911,7 +911,7 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 	ML_Header mh;
 
 	mh.version                      = ML_VERSION_NUMBER;
-	mh.instructions_memory_in_bytes = LINK_instruction_upto * sizeof(SLONG);
+	mh.instructions_memory_in_bytes = LINK_instruction_upto * sizeof(std::int32_t);
 	mh.data_table_length_in_bytes   = LINK_table_data_upto;
 	mh.num_globals                  = LINK_global_upto;
 
@@ -936,13 +936,13 @@ SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname)
 	// The instructions.
 	//
 
-	if (fwrite(LINK_instruction, sizeof(SLONG), LINK_instruction_upto, handle) != LINK_instruction_upto) goto file_error;
+	if (fwrite(LINK_instruction, sizeof(std::int32_t), LINK_instruction_upto, handle) != LINK_instruction_upto) goto file_error;
 
 	//
 	// The string table.
 	//
 
-	if (fwrite(LINK_table_data, sizeof(UBYTE), LINK_table_data_upto, handle) != LINK_table_data_upto) goto file_error;
+	if (fwrite(LINK_table_data, sizeof(std::uint8_t), LINK_table_data_upto, handle) != LINK_table_data_upto) goto file_error;
 
 	fclose(handle);
 

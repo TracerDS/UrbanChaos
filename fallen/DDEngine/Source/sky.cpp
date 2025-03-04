@@ -21,9 +21,9 @@
 #ifndef TARGET_DC
 typedef struct
 {
-	UBYTE colour;
-	UBYTE spread;
-	UWORD shit;
+	std::uint8_t colour;
+	std::uint8_t spread;
+	std::uint16_t shit;
 	float yaw;
 	float pitch;
 	float vector[3];
@@ -33,7 +33,7 @@ typedef struct
 #define SKY_MAX_STARS 4096
 
 SKY_Star SKY_star[SKY_MAX_STARS];
-SLONG    SKY_star_upto;
+std::int32_t    SKY_star_upto;
 
 //
 // Each cloud texture...
@@ -61,10 +61,10 @@ SKY_Texture SKY_texture[SKY_NUM_TEXTURES] =
 
 typedef struct
 {
-	UBYTE texture;
-	UBYTE flip;		// 1 => Reflect the cloud texture in u.
-	UBYTE width;
-	UBYTE height;
+	std::uint8_t texture;
+	std::uint8_t flip;		// 1 => Reflect the cloud texture in u.
+	std::uint8_t width;
+	std::uint8_t height;
 	float yaw;
 	float pitch;
 	float dyaw;
@@ -90,29 +90,29 @@ SKY_Cloud SKY_cloud[SKY_NUM_CLOUDS];
 
 
 
-void SKY_init(CBYTE* star_file)
+void SKY_init(char* star_file)
 {
 
 #ifndef TARGET_DC
 
-	SLONG i;
+	std::int32_t i;
 
 	float twidth;
 	float theight;
 
-	SLONG yaw;
-	SLONG pitch;
-	SLONG bright;
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	ULONG colour;
-	ULONG spread;
-	SLONG match;
+	std::int32_t yaw;
+	std::int32_t pitch;
+	std::int32_t bright;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::uint32_t colour;
+	std::uint32_t spread;
+	std::int32_t match;
 
 	FILE *handle;
 
-	CBYTE line[128];
+	char line[128];
 
 	SKY_Cloud   *sc;
 	SKY_Texture *st;
@@ -146,8 +146,8 @@ void SKY_init(CBYTE* star_file)
 		twidth  *= 0.3F + (float(rand()) * 0.5F / float(RAND_MAX));
 		theight *= 0.3F + (float(rand()) * 0.5F / float(RAND_MAX));
 
-		sc->width  = UBYTE(twidth);
-		sc->height = UBYTE(theight);
+		sc->width  = std::uint8_t(twidth);
+		sc->height = std::uint8_t(theight);
 	}
 
 	//
@@ -251,7 +251,7 @@ void SKY_draw_stars(
 		float mid_z,
 		float max_dist)	// How far away anything is drawn.
 {
-	SLONG i;
+	std::int32_t i;
 
 	float yaw;
 	float pitch;
@@ -287,8 +287,8 @@ void SKY_draw_stars(
 
 		if (!(pp.clip & (POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM | POLY_CLIP_NEAR | POLY_CLIP_FAR)))
 		{
-			SLONG px = SLONG(pp.X * xmul);
-			SLONG py = SLONG(pp.Y * ymul);
+			std::int32_t px = std::int32_t(pp.X * xmul);
+			std::int32_t py = std::int32_t(pp.Y * ymul);
 
 			if ((rand() & 0x7f) == (i & 0x7f))
 			{
@@ -306,7 +306,7 @@ void SKY_draw_stars(
 
 				if (ss->spread)
 				{
-					ULONG col = the_display.GetFormattedPixel(ss->spread, ss->spread, ss->spread);
+					std::uint32_t col = the_display.GetFormattedPixel(ss->spread, ss->spread, ss->spread);
 
 					the_display.PlotFormattedPixel(px - 1, py, col);
 					the_display.PlotFormattedPixel(px + 1, py, col);
@@ -327,8 +327,8 @@ void SKY_draw_poly_clouds(
 		float max_dist)
 {
 	
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float yaw;
 	float pitch;
@@ -336,7 +336,7 @@ void SKY_draw_poly_clouds(
 
 	SVector_F temp;
 	SVector_F pos;
-	ULONG     flag;
+	std::uint32_t     flag;
 
 	float screen_width  = float(DisplayWidth);
 	float screen_height = float(DisplayHeight);
@@ -423,7 +423,7 @@ void SKY_draw_poly_clouds(
 		#define SKY_VERY_FAR_AWAY (1.0F / 65536.0F)
 
 		mid.Z        = SKY_VERY_FAR_AWAY;
-		mid.colour   = 0xff333333 + 0x00010101 * SLONG(sc->dyaw * (128.0F / 0.0005F));;
+		mid.colour   = 0xff333333 + 0x00010101 * std::int32_t(sc->dyaw * (128.0F / 0.0005F));;
 		mid.specular = 0x000000;
 
 		for (j = 0; j < 4; j++)
@@ -484,13 +484,13 @@ void SKY_draw_poly_moon(
 		float mid_z,
 		float max_dist)
 {
-	static SLONG on_screen_for = 0;
-	static SLONG last_cam_dyaw = 0;
-	static SLONG last_cam_dpitch = 0;
-	static SLONG draw_man = 0;
+	static std::int32_t on_screen_for = 0;
+	static std::int32_t last_cam_dyaw = 0;
+	static std::int32_t last_cam_dpitch = 0;
+	static std::int32_t draw_man = 0;
 	
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float yaw;
 	float pitch;
@@ -498,7 +498,7 @@ void SKY_draw_poly_moon(
 
 	SVector_F temp;
 	SVector_F pos;
-	ULONG     flag;
+	std::uint32_t     flag;
 
 	float screen_width  = float(DisplayWidth);
 	float screen_height = float(DisplayHeight);
@@ -625,8 +625,8 @@ void SKY_draw_poly_moon(
 				// Fade in and out.
 				//
 
-				SLONG man_alpha;
-				SLONG man_colour;
+				std::int32_t man_alpha;
+				std::int32_t man_colour;
 
 				if (draw_man > 120)
 				{
@@ -672,8 +672,8 @@ void SKY_draw_poly_moon(
 #ifdef	CAM_OLD
 	if (CAM_get_mode() == CAM_MODE_FIRST_PERSON)
 	{
-		SLONG cam_dyaw;
-		SLONG cam_dpitch;	
+		std::int32_t cam_dyaw;
+		std::int32_t cam_dpitch;	
 
 		CAM_get_dangle(&cam_dyaw, &cam_dpitch);
 
@@ -711,7 +711,7 @@ void SKY_draw_poly_moon(
 
 
 #ifndef TARGET_DC
-SLONG SKY_draw_moon_reflection(
+std::int32_t SKY_draw_moon_reflection(
 		float  mid_x,
 		float  mid_y,
 		float  mid_z,
@@ -722,8 +722,8 @@ SLONG SKY_draw_moon_reflection(
 		float *moon_y2)
 {
 	
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float x;
 	float y;
@@ -735,7 +735,7 @@ SLONG SKY_draw_moon_reflection(
 
 	SVector_F temp;
 	SVector_F pos;
-	ULONG     flag;
+	std::uint32_t     flag;
 
 	float screen_width  = float(DisplayWidth);
 	float screen_height = float(DisplayHeight);
@@ -750,10 +750,10 @@ SLONG SKY_draw_moon_reflection(
 	POLY_Point  pp[4];
 	POLY_Point *quad[4];
 
-	SLONG angle1;
-	SLONG angle2;
-	SLONG offset1;
-	SLONG offset2;
+	std::int32_t angle1;
+	std::int32_t angle2;
+	std::int32_t offset1;
+	std::int32_t offset2;
 
 	quad[0] = &pp[0];
 	quad[1] = &pp[1];
@@ -835,8 +835,8 @@ SLONG SKY_draw_moon_reflection(
 			// What's the first lines' wibble?
 			//
 
-			angle1  = SLONG(y) * SKY_wibble_y1;
-			angle2  = SLONG(y) * SKY_wibble_y2;
+			angle1  = std::int32_t(y) * SKY_wibble_y1;
+			angle2  = std::int32_t(y) * SKY_wibble_y2;
 			angle1 += GAME_TURN * SKY_wibble_g1;
 			angle2 += GAME_TURN * SKY_wibble_g2;
 
@@ -861,8 +861,8 @@ SLONG SKY_draw_moon_reflection(
 				// What's the next lines' wibble?
 				//
 
-				angle1  = SLONG(y + SKY_MOON_SEG_DY) * SKY_wibble_y1;
-				angle2  = SLONG(y + SKY_MOON_SEG_DY) * SKY_wibble_y2;
+				angle1  = std::int32_t(y + SKY_MOON_SEG_DY) * SKY_wibble_y1;
+				angle2  = std::int32_t(y + SKY_MOON_SEG_DY) * SKY_wibble_y2;
 				angle1 += GAME_TURN * SKY_wibble_g1;
 				angle2 += GAME_TURN * SKY_wibble_g2;
 
@@ -925,8 +925,8 @@ void SKY_draw_poly_sky(
 		float world_camera_z,
 		float world_camera_yaw,
 		float max_dist,
-		ULONG bot_colour,
-		ULONG top_colour)
+		std::uint32_t bot_colour,
+		std::uint32_t top_colour)
 {
 	float px;
 	float py;
@@ -1055,12 +1055,12 @@ void SKY_draw_poly_sky(
 //
 //	2  3
 
-void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world_camera_z,float world_camera_yaw,float max_dist,ULONG bot_colour,ULONG top_colour)
+void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world_camera_z,float world_camera_yaw,float max_dist,std::uint32_t bot_colour,std::uint32_t top_colour)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	float x;
 	float y;

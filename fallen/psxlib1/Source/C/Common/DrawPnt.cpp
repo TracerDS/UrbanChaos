@@ -7,29 +7,29 @@
 
 //---------------------------------------------------------------
 
-void DrawPoint8(MFPoint *the_point,ULONG colour)
+void DrawPoint8(MFPoint *the_point,std::uint32_t colour)
 {
-	*(WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth))	=	(UBYTE)colour;
+	*(WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth))	=	(std::uint8_t)colour;
 }
 
-void DrawPoint16(MFPoint *the_point,ULONG colour)
+void DrawPoint16(MFPoint *the_point,std::uint32_t colour)
 {
-	UWORD	*ptr;
-	ptr  = (UWORD*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>1);
-	*ptr = (UWORD)colour;
+	std::uint16_t	*ptr;
+	ptr  = (std::uint16_t*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>1);
+	*ptr = (std::uint16_t)colour;
 
 }
 
-void DrawPoint32(MFPoint *the_point,ULONG colour)
+void DrawPoint32(MFPoint *the_point,std::uint32_t colour)
 {
-	ULONG	*ptr;
-	ptr  = (ULONG*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>2);
-	*ptr = (ULONG)colour;
+	std::uint32_t	*ptr;
+	ptr  = (std::uint32_t*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>2);
+	*ptr = (std::uint32_t)colour;
 }
 
 //---------------------------------------------------------------
 
-void DrawPointC8(MFPoint *the_point,ULONG colour)
+void DrawPointC8(MFPoint *the_point,std::uint32_t colour)
 {
 	if	(
 			the_point->X>=0					&&
@@ -38,13 +38,13 @@ void DrawPointC8(MFPoint *the_point,ULONG colour)
 			the_point->Y<WorkWindowHeight
 		)
 	{
-		*(WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth))	=	(UBYTE)colour;
+		*(WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth))	=	(std::uint8_t)colour;
 	}
 }
 
-void DrawPointC16(MFPoint *the_point,ULONG colour)
+void DrawPointC16(MFPoint *the_point,std::uint32_t colour)
 {
-	UWORD	*ptr;
+	std::uint16_t	*ptr;
 	if	(
 			the_point->X>=0					&&
 			the_point->X<WorkWindowWidth	&&
@@ -52,14 +52,14 @@ void DrawPointC16(MFPoint *the_point,ULONG colour)
 			the_point->Y<WorkWindowHeight
 		)
 	{
-		ptr  = (UWORD*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>1);
-		*ptr = (UWORD)colour;
+		ptr  = (std::uint16_t*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>1);
+		*ptr = (std::uint16_t)colour;
 	}
 }
 
-void DrawPointC32(MFPoint *the_point,ULONG colour)
+void DrawPointC32(MFPoint *the_point,std::uint32_t colour)
 {
-	ULONG	*ptr;
+	std::uint32_t	*ptr;
 	if	(
 			the_point->X>=0					&&
 			the_point->X<WorkWindowWidth	&&
@@ -67,8 +67,8 @@ void DrawPointC32(MFPoint *the_point,ULONG colour)
 			the_point->Y<WorkWindowHeight
 		)
 	{
-		ptr  = (ULONG*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>2);
-		*ptr = (ULONG)colour;
+		ptr  = (std::uint32_t*)WorkWindow+the_point->X+(the_point->Y*WorkScreenWidth>>2);
+		*ptr = (std::uint32_t)colour;
 	}
 }
 

@@ -14,10 +14,10 @@
 
 void MAIN_main()
 {
-	SLONG time1 = OS_ticks();
-	SLONG time2;
+	std::int32_t time1 = OS_ticks();
+	std::int32_t time2;
 
-	extern UBYTE the_end;
+	extern std::uint8_t the_end;
 
 	//
 	// Quickly clear the screen.
@@ -28,7 +28,7 @@ void MAIN_main()
 	OS_scene_begin();
 
 	{
-		CBYTE* str;
+		char* str;
 
 		if (the_end)
 		{

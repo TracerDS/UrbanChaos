@@ -95,17 +95,17 @@
 
 typedef struct
 {
-	SLONG type;
-	SLONG line;
+	std::int32_t type;
+	std::int32_t line;
 
 	union
 	{
-		SLONG  slumber;
+		std::int32_t  slumber;
 		float  flumber;
-		CBYTE* string;
-		CBYTE* variable;
-		CBYTE* label;
-		CBYTE* error;
+		char* string;
+		char* variable;
+		char* label;
+		char* error;
 	};
 
 } LEX_Token;
@@ -124,7 +124,7 @@ typedef struct
 // Starts reading token from the given string.
 //
 
-void LEX_start(CBYTE* string);
+void LEX_start(char* string);
 
 
 //

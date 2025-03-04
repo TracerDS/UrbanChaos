@@ -12,10 +12,10 @@
 
 typedef struct
 {
-	UBYTE blue;
-	UBYTE green;
-	UBYTE red;
-	UBYTE alpha;
+	std::uint8_t blue;
+	std::uint8_t green;
+	std::uint8_t red;
+	std::uint8_t alpha;
 
 } TGA_Pixel;
 
@@ -29,10 +29,10 @@ typedef struct
 
 typedef struct
 {
-	SLONG valid;
-	SLONG width;
-	SLONG height;
-	ULONG flag;
+	std::int32_t valid;
+	std::int32_t width;
+	std::int32_t height;
+	std::uint32_t flag;
 	
 } TGA_Info;
 
@@ -41,9 +41,9 @@ typedef struct
 //
 
 TGA_Info TGA_load(
-			const CBYTE* file,
-			SLONG        max_width,
-			SLONG        max_height,
+			const char* file,
+			std::int32_t        max_width,
+			std::int32_t        max_height,
 			TGA_Pixel   *data);
 
 #if 0
@@ -53,11 +53,11 @@ TGA_Info TGA_load(
 //
 
 void TGA_save(
-		const CBYTE* file,
-		SLONG        width,
-		SLONG        height,
+		const char* file,
+		std::int32_t        width,
+		std::int32_t        height,
 		TGA_Pixel   *data,
-		SLONG        contains_alpha);	// false => Save without the alpha data.
+		std::int32_t        contains_alpha);	// false => Save without the alpha data.
 
 #endif
 

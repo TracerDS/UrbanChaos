@@ -28,11 +28,11 @@ typedef struct
 {
 	COMMON(SwitchType)
 
-	UBYTE		ScanMode;
-	UBYTE		padtoword;
-	UWORD		Scanee;
+	std::uint8_t		ScanMode;
+	std::uint8_t		padtoword;
+	std::uint16_t		Scanee;
 
-	SLONG		Depth,
+	std::int32_t		Depth,
 				Height,
 				Radius,
 				Width;
@@ -43,7 +43,7 @@ typedef Switch* SwitchPtr;
 //---------------------------------------------------------------
 
 void init_switches();
-Thing *alloc_switch(UBYTE type);
+Thing *alloc_switch(std::uint8_t type);
 void free_switch(Thing *person_thing);
 THING_INDEX create_switch();
 

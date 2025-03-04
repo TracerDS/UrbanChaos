@@ -15,35 +15,35 @@
 
 struct StartMenu
 {
-	UBYTE	StartIndex;
-	UBYTE	Count;
-	UBYTE	Current;
-	UWORD	Type;
+	std::uint8_t	StartIndex;
+	std::uint8_t	Count;
+	std::uint8_t	Current;
+	std::uint16_t	Type;
 };
 
 struct StartMenuItemSimple
 {
-	CBYTE	*Str;
-	SLONG	NextMenu;
-	SLONG	Action;
-	SLONG	Dummy1;
-	SLONG	Dummy2;
+	char	*Str;
+	std::int32_t	NextMenu;
+	std::int32_t	Action;
+	std::int32_t	Dummy1;
+	std::int32_t	Dummy2;
 };
 
 struct StartMenuItemComplex
 {
-	CBYTE	*Str;
-	CBYTE	*Strb[3];
-	SLONG	NextMenu;
-	SLONG	Action;
-	SLONG	Item;
-	SLONG	Dummy2;
+	char	*Str;
+	char	*Strb[3];
+	std::int32_t	NextMenu;
+	std::int32_t	Action;
+	std::int32_t	Item;
+	std::int32_t	Dummy2;
 };
 
 void STARTSCR_notify_gameover(bool won);
 
-typedef void (*MISSION_callback)(CBYTE* filename);
-void MissionListCallback(CBYTE* script, MISSION_callback cb);
+typedef void (*MISSION_callback)(char* filename);
+void MissionListCallback(char* script, MISSION_callback cb);
 
 
 

@@ -70,7 +70,7 @@ static VOID AddDialogControl( WORD** pp, DWORD dwStyle, SHORT x, SHORT y,
                               LPTSTR strClassName, LPTSTR strTitle )
 {
     // DWORD align the current ptr
-    DLGITEMTEMPLATE* p = (DLGITEMTEMPLATE*)(((((ULONG)(*pp))+3)>>2)<<2);
+    DLGITEMTEMPLATE* p = (DLGITEMTEMPLATE*)(((((std::uint32_t)(*pp))+3)>>2)<<2);
 
     p->style           = dwStyle | WS_CHILD | WS_VISIBLE;
     p->dwExtendedStyle = 0L;

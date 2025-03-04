@@ -8,10 +8,10 @@
 //
 // OPTIMISE THIS AT SOME POINT MARK! 'roll' AND 'pitch' ARE NEARLY ALWAYS 0!
 //
-void MATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
+void MATRIX_calc(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll)
 {
-	SLONG cy, cp, cr;
-	SLONG sy, sp, sr;
+	std::int32_t cy, cp, cr;
+	std::int32_t sy, sp, sr;
 
 	yaw=(yaw+2048)&2047;
 	pitch=(pitch+2048)&2047;
@@ -41,10 +41,10 @@ void MATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
 	matrix[8] =  ((cy * cp)>>15)<<1;
 }
 /*
-void MATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
+void MATRIX_calc(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll)
 {
-	SLONG cy, cp, cr;
-	SLONG sy, sp, sr;
+	std::int32_t cy, cp, cr;
+	std::int32_t sy, sp, sr;
 
 	sy = sin(yaw);
 	sp = sin(pitch);
@@ -73,10 +73,10 @@ void MATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
 
 
 #ifndef	PSX
-void MATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch)
+void MATRIX_vector(std::int32_t vector[3], std::int32_t yaw, std::int32_t pitch)
 {
-	SLONG cy, cp;
-	SLONG sy, sp;
+	std::int32_t cy, cp;
+	std::int32_t sy, sp;
 
 	yaw=(yaw+2048)&2047;
 	pitch=(pitch+2048)&2047;
@@ -94,7 +94,7 @@ void MATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch)
 
 //                                     .075     3.3         1/(22*256)                               
 #define	pMUL64(a,b)	(((a>>2)*(b>>2))>>12)
-void MATRIX_skew(SLONG matrix[9], FIX_16 skew, FIX_16 zoom, FIX_16 scale)
+void MATRIX_skew(std::int32_t matrix[9], FIX_16 skew, FIX_16 zoom, FIX_16 scale)
 {
 	//
 	// Squish up the matrix according to the aspect ratio of the screen.
@@ -141,7 +141,7 @@ void MATRIX_skew(SLONG matrix[9], FIX_16 skew, FIX_16 zoom, FIX_16 scale)
 }
 #endif
 #ifndef	PSX
-void MATRIX_3x3mul(SLONG a[9], SLONG m[9], SLONG n[9])
+void MATRIX_3x3mul(std::int32_t a[9], std::int32_t m[9], std::int32_t n[9])
 {
 	a[0] = ((m[0] * n[0])>>16) + ((m[1] * n[3])>>16) + ((m[2] * n[6])>>16);
 	a[1] = ((m[0] * n[1])>>16) + ((m[1] * n[4])>>16) + ((m[2] * n[7])>>16);

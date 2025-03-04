@@ -15,7 +15,7 @@ ModeTab::ModeTab()
 
 //---------------------------------------------------------------
 
-void ModeTab::SetupModeTab(CBYTE* the_title,UWORD id,EdRect *bounding_rect,ULONG *update_ptr)
+void ModeTab::SetupModeTab(char* the_title,std::uint16_t id,EdRect *bounding_rect,std::uint32_t *update_ptr)
 {
 	Title		=	the_title;
 	SetTabArea(bounding_rect);
@@ -64,7 +64,7 @@ void ModeTab::SetTabArea(EdRect *bounding_rect)
 
 void ModeTab::MoveTabArea(EdRect *bounding_rect)
 {
-	SLONG		offset_x;
+	std::int32_t		offset_x;
 
 
 	offset_x	=	bounding_rect->GetLeft()-ContentRect.GetLeft();
@@ -166,7 +166,7 @@ void ModeTab::HandleTab(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-UWORD ModeTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t ModeTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
 	clicked_point	=	clicked_point;
 	switch(flags)

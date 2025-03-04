@@ -21,8 +21,8 @@ DIJOYSTATE			the_state;
 DIDeviceInfo		*primary_device	=	nullptr;
 DIDriverManager		the_input_manager;
 
-UBYTE last_type;
-UBYTE last_sub_type;
+std::uint8_t last_type;
+std::uint8_t last_sub_type;
 
 
 
@@ -144,7 +144,7 @@ void DeleteInvalidDevice ( void )
 }
 
 
-bool	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne )
+bool	GetInputDevice ( std::uint8_t type, std::uint8_t sub_type, bool bActuallyGetOne )
 {
 
 	SHARON ( "GetInputDevice\n" );
@@ -196,7 +196,7 @@ bool AreAnyDevicesConnected ( void )
 
 //---------------------------------------------------------------
 
-bool	ReadInputDevice(void)
+bool	ReadInputDevice()
 {
 	bool			read_it	=	false;
 	HRESULT			result;
@@ -311,7 +311,7 @@ bool	ReadInputDevice(void)
 
 				for ( int i = 0; i < primary_device->NumButtons; i++ )
 				{
-					ASSERT ( primary_device->ButtonMappings[i] != (UBYTE) -1 );
+					ASSERT ( primary_device->ButtonMappings[i] != (std::uint8_t) -1 );
 					the_state.rgbButtons[primary_device->ButtonMappings[i]] = temp_state.rgbButtons[i];
 				}
 #endif
@@ -499,7 +499,7 @@ HRESULT	DIDeviceInfo::Create(LPCDIDEVICEINSTANCE lpDIDevice)
 	dipropdword.diph.dwHow = DIPH_DEVICE;
 	result = lpdiInputDevice->GetProperty(DIPROP_PORTNUMBER, &dipropdword.diph);
 	ASSERT (SUCCEEDED(result));
-	PortNumber = (UBYTE)dipropdword.dwData;
+	PortNumber = (std::uint8_t)dipropdword.dwData;
 
 #ifdef TARGET_DC
 	// Get the device's direction.
@@ -515,7 +515,7 @@ HRESULT	DIDeviceInfo::Create(LPCDIDEVICEINSTANCE lpDIDevice)
 
 //---------------------------------------------------------------
 
-void	DIDeviceInfo::Destroy(void)
+void	DIDeviceInfo::Destroy()
 {
 	SHARON ( "DIDeviceInfo::Destroy\n" );
 	if(IsValid())
@@ -589,7 +589,7 @@ bool DIDeviceInfo::DIEnumDeviceObjectsProc(LPCDIDEVICEOBJECTINSTANCE pDIDOI)
 				SHARON ( "Eh? Unknown button number\n" );
 				break;
 			}
-			ButtonMappings[NumButtons] = (UBYTE)iMapping;
+			ButtonMappings[NumButtons] = (std::uint8_t)iMapping;
 		}
 #endif
 		NumButtons++;
@@ -616,7 +616,7 @@ DIEnumDeviceObjectsProcStub(LPCDIDEVICEOBJECTINSTANCE pDIDOI, LPVOID pvContext)
 
 
 
-bool DIDeviceInfo::GetThisDevice ( UBYTE type )
+bool DIDeviceInfo::GetThisDevice ( std::uint8_t type )
 {
 	SHARON ( "DIDeviceInfo::GetThisDevice\n" );
 
@@ -670,7 +670,7 @@ bool DIDeviceInfo::GetThisDevice ( UBYTE type )
 
 
 	//ASSERT ( di_dcaps.dwButtons < 256 );
-	//NumButtons = (UBYTE)di_dcaps.dwButtons;
+	//NumButtons = (std::uint8_t)di_dcaps.dwButtons;
 
 
 
@@ -772,7 +772,7 @@ DIDriverManager::~DIDriverManager()
 
 //---------------------------------------------------------------
 
-HRESULT	DIDriverManager::Init(void)
+HRESULT	DIDriverManager::Init()
 {
 	SHARON ( "DIDriverManager::Init\n");
 	HRESULT			result;
@@ -846,7 +846,7 @@ HRESULT	DIDriverManager::Init(void)
 
 //---------------------------------------------------------------
 
-HRESULT	DIDriverManager::Fini(void)
+HRESULT	DIDriverManager::Fini()
 {
 	SHARON ( "DIDriverManager::Fini\n" );
 	if(IsInitialised())
@@ -955,7 +955,7 @@ HRESULT DIDriverManager::LoadDevices ( bool *pbChanged )
 
 //---------------------------------------------------------------
 
-HRESULT DIDriverManager::DestroyAllDevices(void)
+HRESULT DIDriverManager::DestroyAllDevices()
 {
 	SHARON ( "DIDriverManager::DestroyDevices\n" );
 
@@ -1054,7 +1054,7 @@ HRESULT	DIDriverManager::AddDevice(DIDeviceInfo *the_device)
 
 //---------------------------------------------------------------
 
-DIDeviceInfo *DIDriverManager::FindDevice(UBYTE type,UBYTE sub_type,DIDeviceInfo **next_best,DIDeviceInfo *start_device)
+DIDeviceInfo *DIDriverManager::FindDevice(std::uint8_t type,std::uint8_t sub_type,DIDeviceInfo **next_best,DIDeviceInfo *start_device)
 {
 	SHARON ( "DIDriverManager::FindDevice\n" );
 
@@ -1114,7 +1114,7 @@ static DWORD dwLastTimeWeSentPicciesToVMUs = 0;
 // Sega says I have to.
 #define LOOK_FOR_START_NOT_JUST_ANY_BUTTON 1
 
-DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed ( UBYTE type, UBYTE sub_type )
+DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed ( std::uint8_t type, std::uint8_t sub_type )
 {
     DIDeviceInfo	*current_device;
 
@@ -2046,7 +2046,7 @@ bool CreateVMUScreenFromTGA ( char *pchName, VMU_Screen **ppvmuScreen )
 	ASSERT ( *ppvmuScreen == nullptr );
 
 	// Load the savegame icon from disk.
-extern TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink);
+extern TGA_Info TGA_load_from_file(const char* file, std::int32_t max_width, std::int32_t max_height, TGA_Pixel* data, bool bCanShrink);
 	TGA_Info tga_info = TGA_load_from_file ( pchName, 48, 32, pPixelData, false );
 	if ( tga_info.valid )
 	{
@@ -2055,13 +2055,13 @@ extern TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max
 		ASSERT ( *ppvmuScreen != nullptr );
 
 		// Convert to black and while.
-		UBYTE *pbDst = (**ppvmuScreen).bData;
+		std::uint8_t *pbDst = (**ppvmuScreen).bData;
 		TGA_Pixel *pcSrc = pPixelData;
 		for ( int iY = 0; iY < 32; iY++ )
 		{
 			for ( int iX1 = 0; iX1 < 6; iX1++ )
 			{
-				UBYTE bThisByte = 0;
+				std::uint8_t bThisByte = 0;
 				for ( int iX2 = 0; iX2 < 8; iX2++ )
 				{
 					bThisByte <<= 1;
@@ -2429,10 +2429,10 @@ IDirectInput        *OS_joy_direct_input;
 IDirectInputDevice  *OS_joy_input_device;
 IDirectInputDevice2 *OS_joy_input_device2;	// We need this newer interface to poll the joystick.
 
-SLONG OS_joy_x_range_min;
-SLONG OS_joy_x_range_max;
-SLONG OS_joy_y_range_min;
-SLONG OS_joy_y_range_max;
+std::int32_t OS_joy_x_range_min;
+std::int32_t OS_joy_x_range_max;
+std::int32_t OS_joy_y_range_min;
+std::int32_t OS_joy_y_range_max;
 
 //
 // The callback function for enumerating joysticks.
@@ -2486,7 +2486,7 @@ BOOL CALLBACK OS_joy_enum(
 // Initialises the joystick.
 //
 
-void OS_joy_init(void)
+void OS_joy_init()
 {
 	HRESULT hr;
 
@@ -2639,7 +2639,7 @@ void OS_joy_init(void)
 // Polls the joystick.
 //
 
-SLONG OS_joy_poll(void)
+std::int32_t OS_joy_poll()
 {
 	HRESULT hr;
 
@@ -2656,7 +2656,7 @@ SLONG OS_joy_poll(void)
 		return false;
 	}
 
-	SLONG acquired_already = false;
+	std::int32_t acquired_already = false;
 
   try_again_after_acquiring:;
 
@@ -2712,7 +2712,7 @@ SLONG OS_joy_poll(void)
 
 
 
-bool GetInputDevice(UBYTE type, UBYTE sub_type, bool bActuallyGetOne)
+bool GetInputDevice(std::uint8_t type, std::uint8_t sub_type, bool bActuallyGetOne)
 {
 	if (type == JOYSTICK && bActuallyGetOne)
 	{

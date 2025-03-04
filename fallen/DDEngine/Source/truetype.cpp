@@ -59,7 +59,7 @@ static HFONT				hOldFont;						// old font for DC
 static D3DTexture			Texture[NUM_TT_PAGES];			// texture pages
 static CacheLine			Cache[MAX_CACHELINES];			// cache lines
 static int					NumCacheLines;					// actual number of cache lines
-static UWORD				PixMapping[256];				// maps 8bpp greyscale to texture format
+static std::uint16_t				PixMapping[256];				// maps 8bpp greyscale to texture format
 
 static TextCommand			Commands[MAX_TEXTCOMMANDS];		// text commands
 
@@ -76,7 +76,7 @@ static void CreateTextLine(char* string, int nchars, int width, int x, int y, Te
 static int NewCacheLine();
 
 // copy from 8bpp to texture
-static void CopyToCache(CacheLine* cptr, UBYTE* sptr, int spitch, int width);
+static void CopyToCache(CacheLine* cptr, std::uint8_t* sptr, int spitch, int width);
 
 // blit text across
 static void BlitText();
@@ -85,7 +85,7 @@ static void BlitText();
 static void ShowTextures();
 
 // blit an area of the current texture to the screen
-static void TexBlit(int x1, int y1, int x2, int y2, int dx, int dy, ULONG rgb, ULONG scale);
+static void TexBlit(int x1, int y1, int x2, int y2, int dx, int dy, std::uint32_t rgb, std::uint32_t scale);
 
 // copy the shadow buffer & textures to the screen
 static void ShowDebug();
@@ -142,7 +142,7 @@ void TT_Init()
 		palette[ii].peRed = ii;
 		palette[ii].peGreen = ii;
 		palette[ii].peBlue = ii;
-		palette[ii].peFlags = nullptr;
+		palette[ii].peFlags = 0;
 	}
 
 	hres = the_display.lp_DD4->CreatePalette(DDPCAPS_8BIT | DDPCAPS_INITIALIZE, palette, &pShadowPalette, nullptr);
@@ -292,7 +292,7 @@ void TT_Term()
 //
 // exported function to draw formatted text
 
-int DrawTextTT(char* string, int x, int y, int rx, int scale, ULONG rgb, int command, long* width)
+int DrawTextTT(char* string, int x, int y, int rx, int scale, std::uint32_t rgb, int command, long* width)
 {
 	int	nbytes;
 
@@ -611,7 +611,7 @@ static void CreateTextLine(char* string, int nchars, int width, int x, int y, Te
 	res = pShadowSurface->Lock(nullptr, &ddsdesc, DDLOCK_WAIT, nullptr);
 	ASSERT(!FAILED(res));
 
-	UBYTE*	sptr = (UBYTE*)ddsdesc.lpSurface;
+	std::uint8_t*	sptr = (std::uint8_t*)ddsdesc.lpSurface;
 	int		spitch = ddsdesc.lPitch;
 
 	// copy to cache
@@ -659,13 +659,13 @@ static int NewCacheLine()
 //
 // copy from the shadow surface to a texture
 
-static void CopyToCache(CacheLine* cptr, UBYTE* sptr, int spitch, int width)
+static void CopyToCache(CacheLine* cptr, std::uint8_t* sptr, int spitch, int width)
 {
 	if (width > 256)	width = 256;
 
 	HRESULT	res;
-	UWORD*	dptr;
-	SLONG	dpitch;
+	std::uint16_t*	dptr;
+	std::int32_t	dpitch;
 
 	res = cptr->texture->LockUser(&dptr, &dpitch);
 	if (FAILED(res))	return;
@@ -779,7 +779,7 @@ static void ShowTextures()
 //
 // "blit" from texture to screen
 
-static void TexBlit(int x1, int y1, int x2, int y2, int dx, int dy, ULONG rgb, ULONG scale)
+static void TexBlit(int x1, int y1, int x2, int y2, int dx, int dy, std::uint32_t rgb, std::uint32_t scale)
 {
 	PolyPoint2D		vert[4], *vp = vert;
 	
@@ -828,11 +828,11 @@ static void TexBlit(int x1, int y1, int x2, int y2, int dx, int dy, ULONG rgb, U
 
 static void ShowDebug()
 {
-	UWORD	mapping[256];
+	std::uint16_t	mapping[256];
 
 	for (int ii = 0; ii < 256; ii++)
 	{
-		UBYTE	col = ii >> 3;
+		std::uint8_t	col = ii >> 3;
 		mapping[ii] = (col << 10) | (col << 5) | col;
 	}
 
@@ -846,10 +846,10 @@ static void ShowDebug()
 
 	if (FAILED(ret))	return;
 
-	UBYTE*	sptr = (UBYTE*)ddsdesc.lpSurface;
+	std::uint8_t*	sptr = (std::uint8_t*)ddsdesc.lpSurface;
 	int		spitch = ddsdesc.lPitch;
 
-	UWORD*	dptr = (UWORD*)the_display.screen_lock();
+	std::uint16_t*	dptr = (std::uint16_t*)the_display.screen_lock();
 	int		dpitch = the_display.screen_pitch / 2;
 
 	for (int y = 0; y < FontHeight * AA_SIZE; y++)

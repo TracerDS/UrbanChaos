@@ -31,28 +31,28 @@
 
 //----- volume functions
 
-void	MFX_get_volumes(SLONG* fx, SLONG* amb, SLONG* mus);	// all 0 to 127
-void	MFX_set_volumes(SLONG fx, SLONG amb, SLONG mus);
+void	MFX_get_volumes(std::int32_t* fx, std::int32_t* amb, std::int32_t* mus);	// all 0 to 127
+void	MFX_set_volumes(std::int32_t fx, std::int32_t amb, std::int32_t mus);
 
 //----- playback functions -----
 
-void	MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z);
-void	MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p);
-void	MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags);
-UBYTE	MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags);
+void	MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t z);
+void	MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing* p);
+void	MFX_play_ambient(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags);
+std::uint8_t	MFX_play_stereo(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags);
 
-void	MFX_stop(SLONG channel_id, ULONG wave);
+void	MFX_stop(std::int32_t channel_id, std::uint32_t wave);
 void	MFX_stop_attached(Thing *p);
 
 //----- audio processing functions -----
 
-void	MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend);
-void	MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain);
-void	MFX_set_queue_gain(UWORD channel_id, ULONG wave, UBYTE gain);
+void	MFX_set_pitch(std::uint16_t channel_id, std::uint32_t wave, std::int32_t pitchbend);
+void	MFX_set_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain);
+void	MFX_set_queue_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain);
 
 //----- listener -----
 
-void	MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch);
+void	MFX_set_listener(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t heading, std::int32_t roll, std::int32_t pitch);
 
 //----- sound library functions -----
 
@@ -61,7 +61,7 @@ void	MFX_free_wave_list();
 
 //----- querying information back -----
 
-UWORD	MFX_get_wave(UWORD channel_id, UBYTE index=0);
+std::uint16_t	MFX_get_wave(std::uint16_t channel_id, std::uint8_t index=0);
 
 //----- general system stuff -----
 
@@ -75,9 +75,9 @@ void	MFX_term();
 
 // Mikes bodge stuff to get conversation in
 
-SLONG	MFX_QUICK_play(CBYTE* str, SLONG x=0, SLONG y=0, SLONG z=0);	// should be low-res (24.8) coordinates
-void	MFX_QUICK_wait(void);
+std::int32_t	MFX_QUICK_play(char* str, std::int32_t x=0, std::int32_t y=0, std::int32_t z=0);	// should be low-res (24.8) coordinates
+void	MFX_QUICK_wait();
 void	MFX_QUICK_stop ();
-SLONG	MFX_QUICK_still_playing(void);
+std::int32_t	MFX_QUICK_still_playing();
 
 #endif

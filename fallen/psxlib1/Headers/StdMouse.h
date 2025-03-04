@@ -8,18 +8,18 @@
 
 struct LastMouse
 {
-	SLONG		ButtonState,
+	std::int32_t		ButtonState,
 				MouseX,
 				MouseY;
 	MFPoint		MousePoint;
 };
 
 
-extern volatile UBYTE		MouseMoved,
+extern volatile std::uint8_t		MouseMoved,
 							LeftButton,
 							MiddleButton,
 							RightButton;
-extern volatile SLONG		MouseX,
+extern volatile std::int32_t		MouseX,
 							MouseY;
 extern volatile LastMouse	LeftMouse,
 							MiddleMouse,

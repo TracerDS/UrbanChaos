@@ -15,9 +15,9 @@
 
 typedef struct
 {
-	UWORD flag;
-	UBYTE ship;
-	UBYTE orb;
+	std::uint16_t flag;
+	std::uint8_t ship;
+	std::uint8_t orb;
 	float length;
  
 } TB_Tb;

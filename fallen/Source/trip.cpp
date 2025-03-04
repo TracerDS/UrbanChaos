@@ -10,7 +10,7 @@
 
 
 TRIP_Wire *TRIP_wire;//[TRIP_MAX_WIRES];
-SLONG TRIP_wire_upto;
+std::int32_t TRIP_wire_upto;
 
 
 #ifndef PSX
@@ -20,14 +20,14 @@ void TRIP_init()
 }
 #endif
 
-UBYTE TRIP_create(
-		SLONG y,
-		SLONG x1,
-		SLONG z1,
-		SLONG x2,
-		SLONG z2)
+std::uint8_t TRIP_create(
+		std::int32_t y,
+		std::int32_t x1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
 	TRIP_Wire *tw;
 
@@ -91,24 +91,24 @@ UBYTE TRIP_create(
 
 #define TRIP_NOT_COLLIDED (-1)
 
-SLONG TRIP_collide(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2,
-		SLONG x,
-		SLONG z)
+std::int32_t TRIP_collide(
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2,
+		std::int32_t x,
+		std::int32_t z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG da;
-	SLONG db;
+	std::int32_t da;
+	std::int32_t db;
 
-	SLONG len;
-	SLONG dist;
-	SLONG along;
+	std::int32_t len;
+	std::int32_t dist;
+	std::int32_t along;
 
-	SLONG dprod;
-	SLONG cprod;
+	std::int32_t dprod;
+	std::int32_t cprod;
 
 	dx = x2 - x1;
 	dz = z2 - z1;
@@ -143,31 +143,31 @@ SLONG TRIP_collide(
 
 void TRIP_process()
 {
-	SLONG i;
+	std::int32_t i;
 	
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG lfx;
-	SLONG lfy;
-	SLONG lfz;
+	std::int32_t lfx;
+	std::int32_t lfy;
+	std::int32_t lfz;
 
-	SLONG rfx;
-	SLONG rfy;
-	SLONG rfz;
+	std::int32_t rfx;
+	std::int32_t rfy;
+	std::int32_t rfz;
 
-	SLONG hx;
-	SLONG hy;
-	SLONG hz;
+	std::int32_t hx;
+	std::int32_t hy;
+	std::int32_t hz;
 
-	SLONG tx;
-	SLONG tz;
+	std::int32_t tx;
+	std::int32_t tz;
 
-	SLONG dist;
-	SLONG along;
-	SLONG feet;
-	SLONG head;
+	std::int32_t dist;
+	std::int32_t along;
+	std::int32_t feet;
+	std::int32_t head;
 
 	TRIP_Wire *tw;
 	Thing     *darci = NET_PERSON(0);
@@ -293,7 +293,7 @@ void TRIP_process()
 	}
 }
 
-SLONG TRIP_get_upto;
+std::int32_t TRIP_get_upto;
 TRIP_Info TRIP_get_info;
 
 void TRIP_get_start()
@@ -337,7 +337,7 @@ TRIP_Info *TRIP_get_next()
 }
 
 
-SLONG TRIP_activated(UBYTE tripwire)
+std::int32_t TRIP_activated(std::uint8_t tripwire)
 {
 	TRIP_Wire *tw;
 
@@ -349,7 +349,7 @@ SLONG TRIP_activated(UBYTE tripwire)
 }
 
 
-void TRIP_deactivate(UBYTE tripwire)
+void TRIP_deactivate(std::uint8_t tripwire)
 {
 	TRIP_Wire *tw;
 

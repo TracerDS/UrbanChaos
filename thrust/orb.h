@@ -23,7 +23,7 @@
 
 typedef struct
 {
-	ULONG flag;
+	std::uint32_t flag;
 	float x;
 	float y;
 	float mass;

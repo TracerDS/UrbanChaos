@@ -5,11 +5,11 @@
 
 
 
-volatile UBYTE		MouseMoved		=	0,
+volatile std::uint8_t		MouseMoved		=	0,
 					LeftButton		=	0,
 					MiddleButton	=	0,
 					RightButton		=	0;
-volatile SLONG		MouseX,
+volatile std::int32_t		MouseX,
 					MouseY;
 volatile LastMouse	LeftMouse		=	{	0,0,0,{	0,0	}	},
 					MiddleMouse		=	{	0,0,0,{	0,0	}	},

@@ -42,7 +42,7 @@
 #include	"..\psxeng\headers\panel.h"
 #endif
 
-extern void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+extern void	add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 
 
 
@@ -110,15 +110,15 @@ void special_pickup(Thing *p_special, Thing *p_person)
 void special_drop(Thing *p_special, Thing *p_person)
 {
 	#ifndef NDEBUG
-	SLONG count = 0;
+	std::int32_t count = 0;
 	#endif
 
 	ASSERT(p_special->Class == CLASS_SPECIAL);
 	ASSERT(p_person ->Class == CLASS_PERSON );
 	ASSERT(p_special->Genus.Special->SpecialType!=SPECIAL_MINE);
 
-	UWORD  next =  p_person->Genus.Person->SpecialList;
-	UWORD *prev = &p_person->Genus.Person->SpecialList;
+	std::uint16_t  next =  p_person->Genus.Person->SpecialList;
+	std::uint16_t *prev = &p_person->Genus.Person->SpecialList;
 
 	while(1)
 	{
@@ -151,15 +151,15 @@ void special_drop(Thing *p_special, Thing *p_person)
 			p_special->Genus.Special->OwnerThing  = NULL;
 
 			{
-				SLONG gx;
-				SLONG gy;
-				SLONG gz;
+				std::int32_t gx;
+				std::int32_t gy;
+				std::int32_t gz;
 
 				extern void find_nice_place_near_person(	// In person.cpp
 								Thing *p_person,
-								SLONG *nice_x,	// 8-bits per mapsquare
-								SLONG *nice_y,
-								SLONG *nice_z);
+								std::int32_t *nice_x,	// 8-bits per mapsquare
+								std::int32_t *nice_y,
+								std::int32_t *nice_z);
 
 				find_nice_place_near_person(
 					p_person,
@@ -222,7 +222,7 @@ void special_drop(Thing *p_special, Thing *p_person)
 // Returns true if the person is carrying a two-handed weapon.
 //
 
-SLONG person_has_twohanded_weapon(Thing *p_person)
+std::int32_t person_has_twohanded_weapon(Thing *p_person)
 {
 	return (person_has_special(p_person, SPECIAL_SHOTGUN) ||
 			person_has_special(p_person, SPECIAL_AK47   ) ||
@@ -234,7 +234,7 @@ SLONG person_has_twohanded_weapon(Thing *p_person)
 // Should this person pick up the item?
 //
 
-SLONG should_person_get_item(Thing *p_person, Thing *p_special)
+std::int32_t should_person_get_item(Thing *p_person, Thing *p_special)
 {
 	Thing *p_grenade;
 	Thing *p_explosives;
@@ -329,10 +329,10 @@ SLONG should_person_get_item(Thing *p_person, Thing *p_special)
 
 		case SPECIAL_AMMO_SHOTGUN: 
 			return(p_person->Genus.Person->ammo_packs_shotgun<255-SPECIAL_AMMO_IN_A_SHOTGUN);
-			return (SLONG) person_has_special(p_person, SPECIAL_SHOTGUN);
+			return (std::int32_t) person_has_special(p_person, SPECIAL_SHOTGUN);
 		case SPECIAL_AMMO_AK47:    
 			return(p_person->Genus.Person->ammo_packs_ak47<255-SPECIAL_AMMO_IN_A_AK47);
-			return (SLONG) person_has_special(p_person, SPECIAL_AK47);
+			return (std::int32_t) person_has_special(p_person, SPECIAL_AK47);
 		case SPECIAL_AMMO_PISTOL:  
 			return(p_person->Genus.Person->ammo_packs_pistol<255-SPECIAL_AMMO_IN_A_PISTOL);
 			return p_person->Flags & FLAGS_HAS_GUN;
@@ -356,9 +356,9 @@ void person_get_item(Thing *p_person, Thing *p_special)
 {
 	Thing *p_gun;
 
-	SLONG keep      = false;
-	SLONG x_message = 0;
-	SLONG overflow  = 0; // ammo left over
+	std::int32_t keep      = false;
+	std::int32_t x_message = 0;
+	std::int32_t overflow  = 0; // ammo left over
 
 //	PANEL_new_text(0,4000," PICKUP special %d \n",p_special->Genus.Special->SpecialType);
 
@@ -370,7 +370,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 			{
 				x_message = X_AMMO;
 
-				overflow=(SWORD)p_person->Genus.Person->Ammo + p_special->Genus.Special->ammo;
+				overflow=(std::int16_t)p_person->Genus.Person->Ammo + p_special->Genus.Special->ammo;
 				while (overflow>15)
 				{
 					p_person->Genus.Person->ammo_packs_pistol += 15;
@@ -378,7 +378,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 				}
 				p_person->Genus.Person->Ammo=overflow;
 
-/*				if ((SWORD)p_person->Genus.Person->Ammo + p_special->Genus.Special->ammo<256)
+/*				if ((std::int16_t)p_person->Genus.Person->Ammo + p_special->Genus.Special->ammo<256)
 					p_person->Genus.Person->Ammo += p_special->Genus.Special->ammo;
 				else
 					p_person->Genus.Person->Ammo = 255;*/
@@ -468,7 +468,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					{
 						p_has->Genus.Special->ammo = SPECIAL_AMMO_IN_A_SHOTGUN;
 					}*/
-					overflow=(SWORD)p_gun->Genus.Special->ammo + p_special->Genus.Special->ammo;
+					overflow=(std::int16_t)p_gun->Genus.Special->ammo + p_special->Genus.Special->ammo;
 					while (overflow>SPECIAL_AMMO_IN_A_SHOTGUN)
 					{
 						p_person->Genus.Person->ammo_packs_shotgun += SPECIAL_AMMO_IN_A_SHOTGUN;
@@ -516,7 +516,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					{
 						p_has->Genus.Special->ammo = SPECIAL_AMMO_IN_A_AK47;
 					}*/
-					overflow=(SWORD)p_gun->Genus.Special->ammo + p_special->Genus.Special->ammo;
+					overflow=(std::int16_t)p_gun->Genus.Special->ammo + p_special->Genus.Special->ammo;
 					while (overflow>SPECIAL_AMMO_IN_A_AK47)
 					{
 						p_person->Genus.Person->ammo_packs_ak47 += SPECIAL_AMMO_IN_A_AK47;
@@ -673,7 +673,7 @@ void person_get_item(Thing *p_person, Thing *p_special)
 					PANEL_icon_time=30;
 #endif
 
-extern SLONG	stat_count_bonus;
+extern std::int32_t	stat_count_bonus;
 					stat_count_bonus++;
 				}
 				keep = false;
@@ -801,13 +801,13 @@ DIRT_Info special_di;
 
 void special_normal(Thing *s_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 	
 	if (s_thing->Flags & FLAG_SPECIAL_HIDDEN)
 	{
@@ -823,8 +823,8 @@ void special_normal(Thing *s_thing)
 	if (s_thing->SubState == SPECIAL_SUBSTATE_PROJECTILE)
 	{
 		SpecialPtr ss;
-		SLONG      velocity;
-		SLONG      ground;
+		std::int32_t      velocity;
+		std::int32_t      ground;
 
 		ss        = s_thing->Genus.Special;
 		velocity  = ss->timer;
@@ -885,7 +885,7 @@ void special_normal(Thing *s_thing)
 		if (s_thing->Genus.Special->SpecialType == SPECIAL_GRENADE &&
 			s_thing->SubState                   == SPECIAL_SUBSTATE_ACTIVATED)
 		{
-			SLONG ticks = 16 * TICK_RATIO >> TICK_SHIFT;
+			std::int32_t ticks = 16 * TICK_RATIO >> TICK_SHIFT;
 
 			if (s_thing->Genus.Special->timer < ticks)
 			{
@@ -993,7 +993,7 @@ void special_normal(Thing *s_thing)
 
 				if (s_thing->SubState == SPECIAL_SUBSTATE_ACTIVATED)
 				{
-					SLONG tickdown = 0x10 * TICK_RATIO >> TICK_SHIFT;
+					std::int32_t tickdown = 0x10 * TICK_RATIO >> TICK_SHIFT;
 
 
 					//
@@ -1023,7 +1023,7 @@ void special_normal(Thing *s_thing)
 						MFX_play_xyz(THING_NUMBER(s_thing),SOUND_Range(S_EXPLODE_MEDIUM,S_EXPLODE_BIG),0,s_thing->WorldPos.X,s_thing->WorldPos.Y,s_thing->WorldPos.Z);
 
 						{
-							SLONG cx,cz;
+							std::int32_t cx,cz;
 							cx=s_thing->WorldPos.X>>8;
 							cz=s_thing->WorldPos.Z>>8;
 							DIRT_gust(s_thing,cx,cz,cx+0xa0,cz);
@@ -1082,14 +1082,14 @@ void special_normal(Thing *s_thing)
 				else
 				if ((GAME_TURN&1) == (THING_NUMBER(s_thing)&1))
 				{
-					SLONG i;
-					SLONG j;
+					std::int32_t i;
+					std::int32_t j;
 
-					SLONG wx;
-					SLONG wy;
-					SLONG wz;
+					std::int32_t wx;
+					std::int32_t wy;
+					std::int32_t wz;
 
-					SLONG num_found = THING_find_sphere(
+					std::int32_t num_found = THING_find_sphere(
 											s_thing->WorldPos.X >> 8,
 											s_thing->WorldPos.Y >> 8,
 											s_thing->WorldPos.Z >> 8,
@@ -1137,9 +1137,9 @@ void special_normal(Thing *s_thing)
 
 									if (dist < 0x3000)
 									{
-										SLONG fx;
-										SLONG fy;
-										SLONG fz;
+										std::int32_t fx;
+										std::int32_t fy;
+										std::int32_t fz;
 
 										calc_sub_objects_position(
 											p_person,
@@ -1186,9 +1186,9 @@ void special_normal(Thing *s_thing)
 							case CLASS_VEHICLE:
 
 								{
-									SLONG wx;
-									SLONG wy;
-									SLONG wz;
+									std::int32_t wx;
+									std::int32_t wy;
+									std::int32_t wz;
 
 									Thing *p_vehicle = p_found;
 
@@ -1254,7 +1254,7 @@ void special_normal(Thing *s_thing)
 
 						if (dist < 0xa0)
 						{
-							SLONG x_message;
+							std::int32_t x_message;
 
 							//
 							// Near enough to pick it up.
@@ -1327,7 +1327,7 @@ void special_normal(Thing *s_thing)
 	//						CONSOLE_text(XLAT_str(X_FUSE_SET));
 							free_special(s_thing);
 
-extern SLONG	stat_count_bonus;
+extern std::int32_t	stat_count_bonus;
 							stat_count_bonus++;
 
 	//						NET_PLAYER(i)->Genus.Player->Treasure += 1;
@@ -1335,7 +1335,7 @@ extern SLONG	stat_count_bonus;
 
 	/*
 							{
-								CBYTE str[64];
+								char str[64];
 
 								sprintf(str, "Badge %d", NET_PLAYER(i)->Genus.Player->Treasure);
 
@@ -1358,7 +1358,7 @@ extern SLONG	stat_count_bonus;
 				break;
 			case SPECIAL_HEALTH:
 
-extern SWORD health[];
+extern std::int16_t health[];
 				if(NET_PERSON(0)->Genus.Person->Health>health[NET_PERSON(0)->Genus.Person->PersonType]-100)
 				{
 					break;
@@ -1426,18 +1426,18 @@ try_pickup:;
 #ifndef PSX
 void init_specials()
 {
-	//memset((UBYTE*)SPECIALS,0,sizeof(SPECIALS));
+	//memset((std::uint8_t*)SPECIALS,0,sizeof(SPECIALS));
 
-	memset((UBYTE*)SPECIALS,0,sizeof(Special) * MAX_SPECIALS);
+	memset((std::uint8_t*)SPECIALS,0,sizeof(Special) * MAX_SPECIALS);
 	SPECIAL_COUNT	=	0;
 }
 
 #endif
 //---------------------------------------------------------------
 
-SLONG find_empty_special()
+std::int32_t find_empty_special()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_SPECIALS;c0++)
 	{
 		if(SPECIALS[c0].SpecialType==SPECIAL_NONE)
@@ -1450,18 +1450,18 @@ SLONG find_empty_special()
 }
 
 Thing *alloc_special(
-		UBYTE type,
-		UBYTE substate,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		UWORD waypoint)
+		std::uint8_t type,
+		std::uint8_t substate,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::uint16_t waypoint)
 {
-	SLONG	  c0;
+	std::int32_t	  c0;
 	DrawMesh *dm;
 	Special	 *new_special;
 	Thing    *special_thing	= NULL;
-	SLONG     special_index;
+	std::int32_t     special_index;
 
 	ASSERT(WITHIN(type, 1, SPECIAL_NUM_TYPES - 1));
 
@@ -1497,11 +1497,11 @@ Thing *alloc_special(
 		//
 
 
-		SLONG  score;
-		SLONG  best_score = -1;
+		std::int32_t  score;
+		std::int32_t  best_score = -1;
 		Thing *best_thing =  NULL;
 
-		SLONG list = thing_class_head[CLASS_SPECIAL];
+		std::int32_t list = thing_class_head[CLASS_SPECIAL];
 
 		while(list)
 		{
@@ -1557,8 +1557,8 @@ Thing *alloc_special(
 					continue;
 			}
 
-			SLONG dx = abs(p_hijack->WorldPos.X - NET_PERSON(0)->WorldPos.X) >> 16;
-			SLONG dz = abs(p_hijack->WorldPos.Z - NET_PERSON(0)->WorldPos.Z) >> 16;
+			std::int32_t dx = abs(p_hijack->WorldPos.X - NET_PERSON(0)->WorldPos.X) >> 16;
+			std::int32_t dz = abs(p_hijack->WorldPos.Z - NET_PERSON(0)->WorldPos.Z) >> 16;
 
 			if (dx + dz > 12)
 			{
@@ -1656,7 +1656,7 @@ Thing *alloc_special(
 		//
 
 		special_thing->SubState             = SPECIAL_SUBSTATE_PROJECTILE;
-		special_thing->Genus.Special->timer = 0x8000;	// 0x8000 => 0! (Its a UWORD)
+		special_thing->Genus.Special->timer = 0x8000;	// 0x8000 => 0! (Its a std::uint16_t)
 	}
 
 	return	special_thing;
@@ -1679,9 +1679,9 @@ void free_special(Thing *special_thing)
 //---------------------------------------------------------------
 
 
-Thing *person_has_special(Thing *p_person, SLONG special_type)
+Thing *person_has_special(Thing *p_person, std::int32_t special_type)
 {
-	SLONG  special;
+	std::int32_t  special;
 	Thing *p_special;
 
 	for (special = p_person->Genus.Person->SpecialList; special; special = p_special->Genus.Special->NextSpecial)
@@ -1741,8 +1741,8 @@ void SPECIAL_prime_grenade(Thing *p_special)
 
 void SPECIAL_throw_mine(Thing *p_special)
 {
-	UWORD dirt;
-	UWORD owner;
+	std::uint16_t dirt;
+	std::uint16_t owner;
 
 	ASSERT(p_special->Genus.Special->SpecialType == SPECIAL_MINE);
 	ASSERT(p_special->SubState                   == SPECIAL_SUBSTATE_ACTIVATED);

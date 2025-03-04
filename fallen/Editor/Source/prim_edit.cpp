@@ -11,7 +11,7 @@
 #include	"c:\fallen\headers\memory.h"
 #include	"c:\fallen\headers\noserver.h"
 
-CBYTE	*body_part_names[]=
+char	*body_part_names[]=
 {
 	"pelvis",
 	"lfemur",
@@ -33,7 +33,7 @@ CBYTE	*body_part_names[]=
 
 struct	Material
 {
-	UBYTE	R,G,B,Index;
+	std::uint8_t	R,G,B,Index;
 
 };
 
@@ -44,21 +44,21 @@ struct DXMaterial
 			B;
 };
 
-SLONG		material_count	=	1;
+std::int32_t		material_count	=	1;
 
-extern void	smooth_a_prim(SLONG prim);                     //prim.h
-extern SLONG	find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b);
-SLONG	calc_object_index(CBYTE* name,SLONG *extra);
+extern void	smooth_a_prim(std::int32_t prim);                     //prim.h
+extern std::int32_t	find_colour(std::uint8_t *the_palette,std::int32_t r,std::int32_t g,std::int32_t b);
+std::int32_t	calc_object_index(char* name,std::int32_t *extra);
 
-SWORD	SelectFlag;
-SWORD	SelectDrawn=0;
+std::int16_t	SelectFlag;
+std::int16_t	SelectDrawn=0;
 
-void	calc_prims_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
+void	calc_prims_screen_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect)
 {
-	SLONG	c0,flags;
+	std::int32_t	c0,flags;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
+	std::int32_t	sp,ep;
+	std::int32_t	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
 
 	p_obj    =&prim_objects[prim];
 
@@ -106,12 +106,12 @@ void	calc_prims_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 	rect->SetRect(min_x-2,min_y-2,max_x-min_x+4,max_y-min_y+4);
 }
 
-void	calc_prims_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
+void	calc_prims_world_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
+	std::int32_t	sp,ep;
+	std::int32_t	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
 
 	p_obj    =&prim_objects[prim];
 
@@ -149,10 +149,10 @@ void	calc_prims_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 }
 
 
-void	re_texture_face_using_screen_co_ords(SWORD	face,SWORD p0,SWORD p1,SWORD p2,SWORD p3)
+void	re_texture_face_using_screen_co_ords(std::int16_t	face,std::int16_t p0,std::int16_t p1,std::int16_t p2,std::int16_t p3)
 {
-	SLONG	lx,ly,dx,dy;
-//	SLONG	uv[4][1];
+	std::int32_t	lx,ly,dx,dy;
+//	std::int32_t	uv[4][1];
 	if(face<0)
 	{
 		
@@ -211,10 +211,10 @@ void	re_texture_face_using_screen_co_ords(SWORD	face,SWORD p0,SWORD p1,SWORD p2,
 	}
 }
 
-void	re_texture_face_using_screen_co_ords2(SWORD	face,SLONG p0,SLONG p1,SLONG p2,SLONG p3)
+void	re_texture_face_using_screen_co_ords2(std::int16_t	face,std::int32_t p0,std::int32_t p1,std::int32_t p2,std::int32_t p3)
 {
-	SLONG	lx,ly,dx,dy;
-//	SLONG	uv[4][1];
+	std::int32_t	lx,ly,dx,dy;
+//	std::int32_t	uv[4][1];
 	if(SelectFlag==6)
 	{
 		if(face<0)
@@ -292,7 +292,7 @@ void	re_texture_face_using_screen_co_ords2(SWORD	face,SLONG p0,SLONG p1,SLONG p2
 	}
 }
 
-void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3)
+void	do_quad_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2,std::int32_t p3)
 {
 	if(SelectFlag==5||SelectFlag==6)
 	{
@@ -359,7 +359,7 @@ void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3)
 				}
 }
 
-void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2)
+void	do_tri_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2)
 {
 
 	if(SelectFlag==8)
@@ -432,24 +432,24 @@ void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2)
 
 #define	PAIR_BODGE	520000
 
-SWORD	corners[3];
+std::int16_t	corners[3];
 
 // find a matching poly for hal_face that would form a quad
 // finds another poly sharing 2 points, with shared edge being longest edge on poly
 
 // find a matching poly for hal_face that would form a quad
 // finds another poly sharing 2 points, with shared edge being longest edge on poly
-UWORD	find_pair(UWORD start_face,UWORD end_face,UWORD half_face,UWORD tolerance)
+std::uint16_t	find_pair(std::uint16_t start_face,std::uint16_t end_face,std::uint16_t half_face,std::uint16_t tolerance)
 {
 	struct	PrimFace3 *p_half_face;
 	struct	PrimFace3 *search_face;
-	SLONG	current_face;
-	UWORD	count=0,c0,points=0;
-	SWORD	p1,p2;
-	SLONG	len1,len2,len3,longest,second_longest,temp_len;
-	UBYTE	which_longest=0;
-	SLONG	dx,dy,dz;
-	UBYTE	failed_match;
+	std::int32_t	current_face;
+	std::uint16_t	count=0,c0,points=0;
+	std::int16_t	p1,p2;
+	std::int32_t	len1,len2,len3,longest,second_longest,temp_len;
+	std::uint8_t	which_longest=0;
+	std::int32_t	dx,dy,dz;
+	std::uint8_t	failed_match;
 
 
 	corners[0]=-1;
@@ -530,7 +530,7 @@ UWORD	find_pair(UWORD start_face,UWORD end_face,UWORD half_face,UWORD tolerance)
 			//compare normals
 			{
 				struct	SVector	pn1,pn2;
-				SLONG dx,dy,dz;
+				std::int32_t dx,dy,dz;
 				calc_normal(-half_face,&pn1);
 				calc_normal(-current_face,&pn2);
 				dx=abs(pn1.X-pn2.X);
@@ -682,12 +682,12 @@ UWORD	find_pair(UWORD start_face,UWORD end_face,UWORD half_face,UWORD tolerance)
 // subtract 1 from face count
 // shuffle down all later faces
 // 
-void	delete_prim_face3(UWORD object,UWORD	face)
+void	delete_prim_face3(std::uint16_t object,std::uint16_t	face)
 {
 	struct	PrimFace3 *this_face;
 	struct	PrimObject *point_object;
-	SLONG	end_face,start_face;
-	UWORD	c0;
+	std::int32_t	end_face,start_face;
+	std::uint16_t	c0;
 	point_object=&prim_objects[object];
 	this_face=&prim_faces3[face];
 	end_face=point_object->EndFace3;
@@ -700,12 +700,12 @@ void	delete_prim_face3(UWORD object,UWORD	face)
 	}
 }
 
-void	delete_prim_face4(UWORD object,UWORD	face)
+void	delete_prim_face4(std::uint16_t object,std::uint16_t	face)
 {
 	struct	PrimFace4 *this_face;
 	struct	PrimObject *point_object;
-	SLONG	end_face,start_face;
-	UWORD	c0;
+	std::int32_t	end_face,start_face;
+	std::uint16_t	c0;
 	point_object=&prim_objects[object];
 	this_face=&prim_faces4[face];
 	end_face=point_object->EndFace4;
@@ -724,26 +724,26 @@ void	delete_prim_face4(UWORD object,UWORD	face)
 // the prim.  It clears those flags from the prim after loading it in.
 //
 
-void make_object_quad(UWORD prim)
+void make_object_quad(std::uint16_t prim)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG p1;
-	SLONG p2;
-	SLONG other;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t other;
 
 	PrimObject *po   = &prim_objects[prim];
 	PrimFace3  *f3_a;
 	PrimFace3  *f3_b;
 	PrimFace4  *f4;
 	
-	SLONG combine;
-	SLONG combine_edge;
-	SLONG combine_p1;
-	SLONG combine_p2;
-	SLONG combine_other;
+	std::int32_t combine;
+	std::int32_t combine_edge;
+	std::int32_t combine_p1;
+	std::int32_t combine_p2;
+	std::int32_t combine_other;
 
 	//
 	// Initialise the quads.
@@ -892,18 +892,18 @@ void make_object_quad(UWORD prim)
 
 
 //convert_object_to_quads()
-void	make_object_quad_old(UWORD prim_object)
+void	make_object_quad_old(std::uint16_t prim_object)
 {
 	struct	SingleObjectFace3 *this_face,*cur_face,*temp_face;
 	struct	SingleObjectFace4 *this_face4;
 	struct SingleObject *point_object;
-	SLONG	no_faces,start_face,end_face;
-	SLONG	no_faces4,start_face4,end_face4;
-	UWORD	c0,c1,temp_match;
-	UWORD	p_cur,p_temp;
-	UWORD	failed_match=0,temp_unique,cur_unique;
-	UWORD	match_tolerance;
-	UWORD	al;
+	std::int32_t	no_faces,start_face,end_face;
+	std::int32_t	no_faces4,start_face4,end_face4;
+	std::uint16_t	c0,c1,temp_match;
+	std::uint16_t	p_cur,p_temp;
+	std::uint16_t	failed_match=0,temp_unique,cur_unique;
+	std::uint16_t	match_tolerance;
+	std::uint16_t	al;
 	point_object=&prim_objects[prim_object];
 
 	no_faces=point_object->EndFace3-point_object->StartFace3;
@@ -948,7 +948,7 @@ void	make_object_quad_old(UWORD prim_object)
 			if(match_tolerance==0)
 			{
 				struct	SVector	pn1,pn2;
-				SLONG dx,dy,dz;
+				std::int32_t dx,dy,dz;
 				calc_normal(temp_match,&pn1);
 				calc_normal(c0,&pn2);
 				dx=abs(pn1.X-pn2.X);
@@ -1089,10 +1089,10 @@ void	make_object_quad_old(UWORD prim_object)
 
 
 /*
-void	fix_multi_object_for_anim(UWORD obj)
+void	fix_multi_object_for_anim(std::uint16_t obj)
 {
-	SLONG	sp,ep;
-	UWORD	c0,c1;
+	std::int32_t	sp,ep;
+	std::uint16_t	c0,c1;
 	struct	PrimMultiAnim	*p_anim;
 	struct	PrimObject	*p_obj;
 	struct	Matrix33 *mat;
@@ -1120,8 +1120,8 @@ void	fix_multi_object_for_anim(UWORD obj)
 	}
 }
 
-#define	SWAP(x,y)	{SLONG temp;temp=x;x=y;y=temp;}
-SBYTE	read_multi_vue(SLONG m_object)
+#define	SWAP(x,y)	{std::int32_t temp;temp=x;x=y;y=temp;}
+std::int8_t	read_multi_vue(std::int32_t m_object)
 {
 	FILE	*handle;
 	char	fname[36];
@@ -1130,9 +1130,9 @@ SBYTE	read_multi_vue(SLONG m_object)
 	struct	Matrix33	mat;
 	int		retval;
 	char	pname[100],pname2[100];
-	SLONG	c_object=prim_multi_objects[1].StartObject-1,c_matrix=next_prim_matrix;
-	SLONG	c0;
-	UWORD	mat_index[100];
+	std::int32_t	c_object=prim_multi_objects[1].StartObject-1,c_matrix=next_prim_matrix;
+	std::int32_t	c0;
+	std::uint16_t	mat_index[100];
 
 	sprintf(fname,"data/man.vue");
 	memset(mat_index,0,200);
@@ -1144,7 +1144,7 @@ SBYTE	read_multi_vue(SLONG m_object)
 			retval = fscanf(handle,"%s",ts);
 			if(!strcmp(ts,"frame"))
 			{
-				SLONG	frame;
+				std::int32_t	frame;
 
 				fscanf(handle,"%d",&frame);
 
@@ -1158,15 +1158,15 @@ SBYTE	read_multi_vue(SLONG m_object)
 
 
 #ifdef	MARKA
-					mat.M[0][0]=(SLONG)(fM[1][0]*(1<<15));
-					mat.M[0][1]=(SLONG)(fM[1][2]*(1<<15));
-					mat.M[0][2]=(SLONG)(-fM[1][1]*(1<<15));
-					mat.M[1][0]=(SLONG)(-fM[0][0]*(1<<15));
-					mat.M[1][1]=(SLONG)(-fM[0][2]*(1<<15));
-					mat.M[1][2]=(SLONG)(fM[0][1]*(1<<15));
-					mat.M[2][0]=(SLONG)(fM[2][0]*(1<<15));
-					mat.M[2][1]=(SLONG)(fM[2][2]*(1<<15));
-					mat.M[2][2]=(SLONG)(-fM[2][1]*(1<<15));
+					mat.M[0][0]=(std::int32_t)(fM[1][0]*(1<<15));
+					mat.M[0][1]=(std::int32_t)(fM[1][2]*(1<<15));
+					mat.M[0][2]=(std::int32_t)(-fM[1][1]*(1<<15));
+					mat.M[1][0]=(std::int32_t)(-fM[0][0]*(1<<15));
+					mat.M[1][1]=(std::int32_t)(-fM[0][2]*(1<<15));
+					mat.M[1][2]=(std::int32_t)(fM[0][1]*(1<<15));
+					mat.M[2][0]=(std::int32_t)(fM[2][0]*(1<<15));
+					mat.M[2][1]=(std::int32_t)(fM[2][2]*(1<<15));
+					mat.M[2][2]=(std::int32_t)(-fM[2][1]*(1<<15));
 
 					SWAP(mat.M[0][1],mat.M[1][0])
 					SWAP(mat.M[0][2],mat.M[2][0])
@@ -1174,20 +1174,20 @@ SBYTE	read_multi_vue(SLONG m_object)
 #endif
 
 
-					mat.M[0][0]=(SLONG)(fM[0][0]*(1<<15));
-					mat.M[0][1]=(SLONG)(fM[1][0]*(1<<15));
-					mat.M[0][2]=(SLONG)(fM[2][0]*(1<<15));
-					mat.M[1][0]=(SLONG)(fM[0][1]*(1<<15));
-					mat.M[1][1]=(SLONG)(fM[1][1]*(1<<15));
-					mat.M[1][2]=(SLONG)(fM[2][1]*(1<<15));
-					mat.M[2][0]=(SLONG)(fM[0][2]*(1<<15));
-					mat.M[2][1]=(SLONG)(fM[1][2]*(1<<15));
-					mat.M[2][2]=(SLONG)(fM[2][2]*(1<<15));
+					mat.M[0][0]=(std::int32_t)(fM[0][0]*(1<<15));
+					mat.M[0][1]=(std::int32_t)(fM[1][0]*(1<<15));
+					mat.M[0][2]=(std::int32_t)(fM[2][0]*(1<<15));
+					mat.M[1][0]=(std::int32_t)(fM[0][1]*(1<<15));
+					mat.M[1][1]=(std::int32_t)(fM[1][1]*(1<<15));
+					mat.M[1][2]=(std::int32_t)(fM[2][1]*(1<<15));
+					mat.M[2][0]=(std::int32_t)(fM[0][2]*(1<<15));
+					mat.M[2][1]=(std::int32_t)(fM[1][2]*(1<<15));
+					mat.M[2][2]=(std::int32_t)(fM[2][2]*(1<<15));
 
 					memcpy(&prim_multi_anims[next_prim_multi_anim].Mat,&mat.M[0][0],sizeof(struct Matrix33));
-					prim_multi_anims[next_prim_multi_anim].DX=(SLONG)fx;
-					prim_multi_anims[next_prim_multi_anim].DY=(SLONG)fy;
-					prim_multi_anims[next_prim_multi_anim].DZ=(SLONG)fz;
+					prim_multi_anims[next_prim_multi_anim].DX=(std::int32_t)fx;
+					prim_multi_anims[next_prim_multi_anim].DY=(std::int32_t)fy;
+					prim_multi_anims[next_prim_multi_anim].DZ=(std::int32_t)fz;
 					if(mat_index[c0-prim_multi_objects[m_object].StartObject]==0)
 					{
 						prim_objects[c0].MatrixHead=next_prim_multi_anim;
@@ -1209,7 +1209,7 @@ SBYTE	read_multi_vue(SLONG m_object)
 }
 */
 
-UBYTE		got_torso	=	0;
+std::uint8_t		got_torso	=	0;
 
 
 #ifdef	MATRIX_CALC
@@ -1274,7 +1274,7 @@ cx(-C)cz+sxsz=G
 
 #endif
 
-void	comma_to_dot(CBYTE* str)
+void	comma_to_dot(char* str)
 {
 	while(*str)
 	{
@@ -1284,7 +1284,7 @@ void	comma_to_dot(CBYTE* str)
 	}
 }
 
-extern SLONG	x_centre,y_centre,z_centre;
+extern std::int32_t	x_centre,y_centre,z_centre;
 //extern DXMaterial dx_materials[200];
 
 
@@ -1315,23 +1315,23 @@ struct
 #define MAX_NAME_LEN  64
 #define MAX_MATERIALS 64
 
-SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
+std::int32_t read_sex(char* fname, std::int32_t scale /* Ignored */, std::int32_t offset)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG match;
+	std::int32_t match;
 
-	SLONG num_f;
-	SLONG num_v;
-	SLONG num_tv;
-	SLONG num_m;
+	std::int32_t num_f;
+	std::int32_t num_v;
+	std::int32_t num_tv;
+	std::int32_t num_m;
 
-	SLONG base_f;
-	SLONG base_v;
+	std::int32_t base_f;
+	std::int32_t base_v;
 
-	SLONG edge_a;
-	SLONG edge_b;
-	SLONG edge_c;
+	std::int32_t edge_a;
+	std::int32_t edge_b;
+	std::int32_t edge_c;
 
 	float version = 1.0F;
 
@@ -1357,11 +1357,11 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 	double base_fu;
 	double base_fv;
 
-	SLONG base_iu;
-	SLONG base_iv;
+	std::int32_t base_iu;
+	std::int32_t base_iv;
 
-	SLONG iu;
-	SLONG iv;
+	std::int32_t iu;
+	std::int32_t iv;
 
 	float min_x;
 	float min_y;
@@ -1379,20 +1379,20 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 	float pivot_y;
 	float pivot_z;
 
-	SLONG num_pivots;
+	std::int32_t num_pivots;
 
-	SLONG num_points = 0;
-	SLONG num_faces  = 0;
+	std::int32_t num_points = 0;
+	std::int32_t num_faces  = 0;
 
-	SLONG m;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
-	SLONG t[3];
+	std::int32_t m;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
+	std::int32_t t[3];
 
-	CBYTE sided[MAX_NAME_LEN];
-	CBYTE alpha[MAX_NAME_LEN];
-	CBYTE tname[MAX_NAME_LEN];
+	char sided[MAX_NAME_LEN];
+	char alpha[MAX_NAME_LEN];
+	char tname[MAX_NAME_LEN];
 
 	PrimObject *po;
 
@@ -1406,22 +1406,22 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 		// Bools...
 		//
 
-		UBYTE double_sided;
-		UBYTE additive_alpha;
-		UBYTE page;				// Prim texture number 0 - 191	// 255 => not loaded.
-		UBYTE col;				// Nearest match in palette.
+		std::uint8_t double_sided;
+		std::uint8_t additive_alpha;
+		std::uint8_t page;				// Prim texture number 0 - 191	// 255 => not loaded.
+		std::uint8_t col;				// Nearest match in palette.
 
-		UBYTE texture_page;		// Which page 0 - 15 this texture will be plonked on.
-		UBYTE texture_base_u;
-		UBYTE texture_base_v;
-		UBYTE padding;
+		std::uint8_t texture_page;		// Which page 0 - 15 this texture will be plonked on.
+		std::uint8_t texture_base_u;
+		std::uint8_t texture_base_v;
+		std::uint8_t padding;
 
-		CBYTE name[MAX_NAME_LEN];
+		char name[MAX_NAME_LEN];
 
 	} mat[MAX_MATERIALS];
 
-	CBYTE oname[MAX_NAME_LEN];
-	CBYTE line [MAX_LINE_LEN];
+	char oname[MAX_NAME_LEN];
+	char line [MAX_LINE_LEN];
 
 	FILE *handle;
 
@@ -1473,7 +1473,7 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 	// What version of SEX file we are loading.
 	//
 
-	SLONG old_version = false;
+	std::int32_t old_version = false;
 
 	//
 	// Decode the file a line at a time.
@@ -1572,7 +1572,7 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 			//
 
 			{
-				mat[num_m].col  = find_colour((UBYTE*)ENGINE_palette, UBYTE(r * 255.0F), UBYTE(g * 255.0F), UBYTE(b * 255.0F));
+				mat[num_m].col  = find_colour((std::uint8_t*)ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
 			}
 
 			num_m += 1;
@@ -1619,9 +1619,9 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 
 			SWAP_FL(y,z);
 
-			prim_points[next_prim_point].X = (SLONG) ((x * GAME_SCALE) / GAME_SCALE_DIV);
-			prim_points[next_prim_point].Y = (SLONG) ((y * GAME_SCALE) / GAME_SCALE_DIV);
-			prim_points[next_prim_point].Z = (SLONG) ((z * GAME_SCALE) / GAME_SCALE_DIV);
+			prim_points[next_prim_point].X = (std::int32_t) ((x * GAME_SCALE) / GAME_SCALE_DIV);
+			prim_points[next_prim_point].Y = (std::int32_t) ((y * GAME_SCALE) / GAME_SCALE_DIV);
+			prim_points[next_prim_point].Z = (std::int32_t) ((z * GAME_SCALE) / GAME_SCALE_DIV);
 
 			//
 			// Update the bounding rectangle of this object.
@@ -1736,8 +1736,8 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 			av_u = (sex_uv[t[0]].u + sex_uv[t[1]].u + sex_uv[t[2]].u) * 0.333F;
 			av_v = (sex_uv[t[0]].v + sex_uv[t[1]].v + sex_uv[t[2]].v) * 0.333F;
 
-			base_iu = SLONG(av_u);
-			base_iv = SLONG(av_v);
+			base_iu = std::int32_t(av_u);
+			base_iv = std::int32_t(av_v);
 
 			base_fu = float(base_iu);
 			base_fv = float(base_iv);
@@ -1749,8 +1749,8 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 
 				tv = 1.0F - tv;	// TGA are upside down.
 
-				iu = SLONG(tu * 31.0F);
-				iv = SLONG(tv * 31.0F);
+				iu = std::int32_t(tu * 31.0F);
+				iv = std::int32_t(tv * 31.0F);
 
 				SATURATE(iu, 0, 31);
 				SATURATE(iv, 0, 31);
@@ -1881,9 +1881,9 @@ SLONG read_sex(CBYTE* fname, SLONG scale /* Ignored */, SLONG offset)
 /*
 typedef struct
 {
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
 } ENGINE_Col;
 
@@ -1926,24 +1926,24 @@ void	invert_matrix(float *mat,float *out)
 
 }
 
-SLONG read_multi_sex(CBYTE* fname,float shrink)
+std::int32_t read_multi_sex(char* fname,float shrink)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG match;
-	SLONG c0;
+	std::int32_t match;
+	std::int32_t c0;
 
-	SLONG num_f;
-	SLONG num_v;
-	SLONG num_tv;
-	SLONG num_m;
+	std::int32_t num_f;
+	std::int32_t num_v;
+	std::int32_t num_tv;
+	std::int32_t num_m;
 
-	SLONG base_f;
-	SLONG base_v;
+	std::int32_t base_f;
+	std::int32_t base_v;
 
-	SLONG edge_a;
-	SLONG edge_b;
-	SLONG edge_c;
+	std::int32_t edge_a;
+	std::int32_t edge_b;
+	std::int32_t edge_c;
 
 	float version = 1.0F;
 
@@ -1966,36 +1966,36 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 	double base_fu;
 	double base_fv;
 
-	SLONG base_iu;
-	SLONG base_iv;
+	std::int32_t base_iu;
+	std::int32_t base_iv;
 
-	SLONG iu;
-	SLONG iv;
+	std::int32_t iu;
+	std::int32_t iv;
 
-	SLONG num_points = 0;
-	SLONG num_faces  = 0;
+	std::int32_t num_points = 0;
+	std::int32_t num_faces  = 0;
 
-	SLONG m;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
-	SLONG t[3];
+	std::int32_t m;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
+	std::int32_t t[3];
 
-	CBYTE sided[MAX_NAME_LEN];
-	CBYTE alpha[MAX_NAME_LEN];
+	char sided[MAX_NAME_LEN];
+	char alpha[MAX_NAME_LEN];
 
-	SLONG	object_index,start_object,object_count=0,extra_object_count=0;
-	CBYTE	object_name[100];
-	SLONG	extra;
-	SLONG	re_center=0;
-	SLONG	its_human=0;
-	UBYTE	its_doggy=0;
+	std::int32_t	object_index,start_object,object_count=0,extra_object_count=0;
+	char	object_name[100];
+	std::int32_t	extra;
+	std::int32_t	re_center=0;
+	std::int32_t	its_human=0;
+	std::uint8_t	its_doggy=0;
 
 
 	PrimObject      *po;
 	PrimMultiObject *pmo;
-	SLONG	darci=0;
-	SLONG	c2;
+	std::int32_t	darci=0;
+	std::int32_t	c2;
 
 
 	struct
@@ -2008,25 +2008,25 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 		// Bools...
 		//
 
-		UBYTE double_sided;
-		UBYTE additive_alpha;
-		UWORD page;			// People texture number 0 - 127 // 255 => not loaded
-		UBYTE col;			// Nearest match in palette.
+		std::uint8_t double_sided;
+		std::uint8_t additive_alpha;
+		std::uint16_t page;			// People texture number 0 - 127 // 255 => not loaded
+		std::uint8_t col;			// Nearest match in palette.
 
-		UBYTE texture_page;		// Which page 0 - 15 this texture will be plonked on.
-		UBYTE texture_base_u;
-		UBYTE texture_base_v;
-		UBYTE padding;
+		std::uint8_t texture_page;		// Which page 0 - 15 this texture will be plonked on.
+		std::uint8_t texture_base_u;
+		std::uint8_t texture_base_v;
+		std::uint8_t padding;
 
-		CBYTE name[MAX_NAME_LEN];
+		char name[MAX_NAME_LEN];
 
 	} mat[MAX_MATERIALS];
 
-	CBYTE oname[MAX_NAME_LEN];
-	CBYTE line [MAX_LINE_LEN];
+	char oname[MAX_NAME_LEN];
+	char line [MAX_LINE_LEN];
 
 	FILE *handle;
-	UBYTE	unique[35];
+	std::uint8_t	unique[35];
 
 	memset(unique,0,35);
 
@@ -2071,7 +2071,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 	// What version of SEX file we are loading.
 	//
 
-	SLONG old_version = false;
+	std::int32_t old_version = false;
 
 	//
 	// Our first prim is marked as non-existent.
@@ -2243,7 +2243,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 			// We must find the texture name now.
 			//
 
-			CBYTE* tname = strstr(line, "filename");
+			char* tname = strstr(line, "filename");
 
 			ASSERT(tname);
 
@@ -2262,7 +2262,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 			// 
 
 			{
-				CBYTE* ch;
+				char* ch;
 
 				for (ch = mat[num_m].name; *ch; ch++);
 
@@ -2292,11 +2292,11 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 			//
 
 			{
-				SLONG col;
+				std::int32_t col;
 
-				mat[num_m].col = find_colour((UBYTE*)ENGINE_palette, UBYTE(r * 255.0F), UBYTE(g * 255.0F), UBYTE(b * 255.0F));
+				mat[num_m].col = find_colour((std::uint8_t*)ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
 
-				LogText(" found col %d for obj rgb %d %d %d \n",num_m,(SLONG)(r*255.0), (SLONG)(g*255.0), (SLONG)(b*255.0) );
+				LogText(" found col %d for obj rgb %d %d %d \n",num_m,(std::int32_t)(r*255.0), (std::int32_t)(g*255.0), (std::int32_t)(b*255.0) );
 				col=mat[num_m].col;
 				LogText(" col used %d  rgb %d %d %d \n",col,ENGINE_palette[col].red,ENGINE_palette[col].green,ENGINE_palette[col].blue);
 
@@ -2324,9 +2324,9 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 			SWAP_FL(y,z);
 
-			prim_points[next_prim_point].X	= (SLONG)((x*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
-			prim_points[next_prim_point].Y	= (SLONG)((y*GAME_SCALE)/(GAME_SCALE_DIV*shrink)); //- md
-			prim_points[next_prim_point].Z	= (SLONG)((z*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
+			prim_points[next_prim_point].X	= (std::int32_t)((x*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
+			prim_points[next_prim_point].Y	= (std::int32_t)((y*GAME_SCALE)/(GAME_SCALE_DIV*shrink)); //- md
+			prim_points[next_prim_point].Z	= (std::int32_t)((z*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
 
 			num_v           += 1;
 			num_points      += 1;
@@ -2455,8 +2455,8 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 			av_u = (sex_uv[t[0]].u + sex_uv[t[1]].u + sex_uv[t[2]].u) * 0.333F;
 			av_v = (sex_uv[t[0]].v + sex_uv[t[1]].v + sex_uv[t[2]].v) * 0.333F;
 
-			base_iu = SLONG(av_u);
-			base_iv = SLONG(av_v);
+			base_iu = std::int32_t(av_u);
+			base_iv = std::int32_t(av_v);
 
 			base_fu = float(base_iu);
 			base_fv = float(base_iv);
@@ -2468,8 +2468,8 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 				tv = 1.0F - tv;	// TGA are upside down.
 
-				iu = SLONG(tu * 31.0F);
-				iv = SLONG(tv * 31.0F);
+				iu = std::int32_t(tu * 31.0F);
+				iv = std::int32_t(tv * 31.0F);
 
 				SATURATE(iu, 0, 31);
 				SATURATE(iv, 0, 31);
@@ -2481,12 +2481,12 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 				prim_faces3[next_prim_face3].UV[i][1] = iv;
 			}
 
-			//prim_faces3[next_prim_face3].UV[0][0] = SLONG(sex_uv[t1].u * 255.99F);
-			//prim_faces3[next_prim_face3].UV[0][1] = SLONG(sex_uv[t1].v * 255.99F);
-			//prim_faces3[next_prim_face3].UV[1][0] = SLONG(sex_uv[t2].u * 255.99F);
-			//prim_faces3[next_prim_face3].UV[1][1] = SLONG(sex_uv[t2].v * 255.99F);
-			//prim_faces3[next_prim_face3].UV[2][0] = SLONG(sex_uv[t3].u * 255.99F);
-			//prim_faces3[next_prim_face3].UV[2][1] = SLONG(sex_uv[t3].v * 255.99F);
+			//prim_faces3[next_prim_face3].UV[0][0] = std::int32_t(sex_uv[t1].u * 255.99F);
+			//prim_faces3[next_prim_face3].UV[0][1] = std::int32_t(sex_uv[t1].v * 255.99F);
+			//prim_faces3[next_prim_face3].UV[1][0] = std::int32_t(sex_uv[t2].u * 255.99F);
+			//prim_faces3[next_prim_face3].UV[1][1] = std::int32_t(sex_uv[t2].v * 255.99F);
+			//prim_faces3[next_prim_face3].UV[2][0] = std::int32_t(sex_uv[t3].u * 255.99F);
+			//prim_faces3[next_prim_face3].UV[2][1] = std::int32_t(sex_uv[t3].v * 255.99F);
 
 			//
 			// The flags are used by make_object_quad()
@@ -2573,7 +2573,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 			{
 				re_center=1;
 				its_human=1;
-				for (SLONG j = po->StartPoint; j < po->EndPoint; j++)
+				for (std::int32_t j = po->StartPoint; j < po->EndPoint; j++)
 				{
 					ASSERT(WITHIN(j, 1, next_prim_point - 1));
 
@@ -2585,7 +2585,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 			if(memcmp(prim_names[i], "pelvis" ,5) == 0 )
 			{
-				for (SLONG j = po->StartPoint; j < po->EndPoint; j++)
+				for (std::int32_t j = po->StartPoint; j < po->EndPoint; j++)
 				{
 					ASSERT(WITHIN(j, 1, next_prim_point - 1));
 
@@ -2612,7 +2612,7 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 			if (po->StartPoint != po->EndPoint)
 			{
-				for (SLONG j = po->StartPoint; j < po->EndPoint; j++)
+				for (std::int32_t j = po->StartPoint; j < po->EndPoint; j++)
 				{
 					ASSERT(WITHIN(j, 1, next_prim_point - 1));
 
@@ -2678,15 +2678,15 @@ SLONG read_multi_sex(CBYTE* fname,float shrink)
 
 #define	MAX_3DS_LEN	1000
 
-extern void	read_object_name(FILE *file_handle,CBYTE* dest_string);
+extern void	read_object_name(FILE *file_handle,char* dest_string);
 
-SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
+std::int8_t read_asc(char* fname,std::int32_t scale,std::uint32_t offset)
 {
 	//
 	// Are we loading a '.SEX' file or a '.ASC' file?
 	//
 
-	SLONG fname_len = strlen(fname);
+	std::int32_t fname_len = strlen(fname);
 
 	if (fname_len >= 5)
 	{
@@ -2719,22 +2719,22 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 	int		retval;
 	char	ts[MAX_3DS_LEN];
 	char	test_string[200];
-	UBYTE	found_a_face = false;
+	std::uint8_t	found_a_face = false;
 //	char	info_text[80];
-//	UWORD	first_point;
-	SLONG	current_point,start_point=99999,end_point=0;
-	SLONG	average_x=0,average_y=0,average_z=0;
-	SLONG	num_points=0,real_start_point;
-	SLONG	min_y=10000;
-	UBYTE	found_object=0;
+//	std::uint16_t	first_point;
+	std::int32_t	current_point,start_point=99999,end_point=0;
+	std::int32_t	average_x=0,average_y=0,average_z=0;
+	std::int32_t	num_points=0,real_start_point;
+	std::int32_t	min_y=10000;
+	std::uint8_t	found_object=0;
 	struct	Material	materials[20];
-	SLONG	mat_count;
-	SLONG	c2;
+	std::int32_t	mat_count;
+	std::int32_t	c2;
 
-	SLONG minx = +INFINITY;
-	SLONG minz = +INFINITY;
-	SLONG maxx = -INFINITY;
-	SLONG maxz = -INFINITY;
+	std::int32_t minx = +INFINITY;
+	std::int32_t minz = +INFINITY;
+	std::int32_t maxx = -INFINITY;
+	std::int32_t maxz = -INFINITY;
 
 	handle = fopen(fname,"r");
 	if(handle)
@@ -2767,7 +2767,7 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 			}
 			else if(!strcmp(ts,"Material"))
 			{
-				CBYTE	str_r[30],str_g[30],str_b[30];
+				char	str_r[30],str_g[30],str_b[30];
 				fscanf(handle,"%s",ts);
 				if(strcmp(ts,"list:"))
 				{
@@ -2785,11 +2785,11 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 					g=atof(str_g)*255;
 					b=atof(str_b)*255;
 
-					materials[mat_count].R=(UBYTE)r;
-					materials[mat_count].G=(UBYTE)g;
-					materials[mat_count].B=(UBYTE)b;
+					materials[mat_count].R=(std::uint8_t)r;
+					materials[mat_count].G=(std::uint8_t)g;
+					materials[mat_count].B=(std::uint8_t)b;
 					{
-						materials[mat_count].Index=find_colour((UBYTE*)ENGINE_palette,(UBYTE)r,(UBYTE)g,(UBYTE)b);
+						materials[mat_count].Index=find_colour((std::uint8_t*)ENGINE_palette,(std::uint8_t)r,(std::uint8_t)g,(std::uint8_t)b);
 					}
 
 
@@ -2852,7 +2852,7 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 //reads in garbage values					fscanf(handle,"%*s %*d %*s %*2s %f %*s%f %*s%f",&f_x, &f_y, &f_z); //%s*
 					if(tds_max)
 					{
-						CBYTE	str_x[20],str_y[20],str_z[20];
+						char	str_x[20],str_y[20],str_z[20];
 						f_x=0;
 						f_y=0;
 						f_z=0;
@@ -2873,13 +2873,13 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 					}
 //poo					printf(" start string =>%s\n",test_string);
 
-//					prim_points[next_prim_point].Z=(SLONG)((-f_x*(float)scale)/100.0); //+(engine.Z>>8)*offset;
-//					prim_points[next_prim_point].X=(SLONG)((f_y*(float)scale)/100.0) ; //+(engine.X>>8)*offset;
-//					prim_points[next_prim_point].Y=(SLONG)((-f_z*(float)scale)/100.0); //+(engine.Y>>8)*offset;
+//					prim_points[next_prim_point].Z=(std::int32_t)((-f_x*(float)scale)/100.0); //+(engine.Z>>8)*offset;
+//					prim_points[next_prim_point].X=(std::int32_t)((f_y*(float)scale)/100.0) ; //+(engine.X>>8)*offset;
+//					prim_points[next_prim_point].Y=(std::int32_t)((-f_z*(float)scale)/100.0); //+(engine.Y>>8)*offset;
 
-					prim_points[next_prim_point].X	=	(SLONG)((f_x*GAME_SCALE)/GAME_SCALE_DIV);
-					prim_points[next_prim_point].Y	=	(SLONG)((f_z*GAME_SCALE)/GAME_SCALE_DIV); //- md
-					prim_points[next_prim_point].Z	=	(SLONG)((f_y*GAME_SCALE)/GAME_SCALE_DIV);
+					prim_points[next_prim_point].X	=	(std::int32_t)((f_x*GAME_SCALE)/GAME_SCALE_DIV);
+					prim_points[next_prim_point].Y	=	(std::int32_t)((f_z*GAME_SCALE)/GAME_SCALE_DIV); //- md
+					prim_points[next_prim_point].Z	=	(std::int32_t)((f_y*GAME_SCALE)/GAME_SCALE_DIV);
 
 /*
 					if(offset)
@@ -2958,7 +2958,7 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 			}
 			else if(!strcmp(ts,"Material:"))
 			{
-				SLONG	mat;
+				std::int32_t	mat;
 				fscanf(handle,"%d",&mat); 
 				prim_faces3[next_prim_face3-1].Col2=materials[mat].Index;
 				prim_faces3[next_prim_face3-1].DrawFlags=POLY_G;
@@ -3033,9 +3033,9 @@ SBYTE read_asc(CBYTE* fname,SLONG scale,ULONG offset)
 }
 
 
-SLONG	calc_object_index(CBYTE* name,SLONG *extra)
+std::int32_t	calc_object_index(char* name,std::int32_t *extra)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<strlen(name);c0++)
 	{
 		name[c0]=tolower(name[c0]);
@@ -3057,14 +3057,14 @@ SLONG	calc_object_index(CBYTE* name,SLONG *extra)
 	return(-1);
 }
 
-SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
+std::int32_t read_multi_asc(char* asc_name,std::uint8_t flag,float shrink)
 {
 
-	SLONG fname_len = strlen(asc_name);
+	std::int32_t fname_len = strlen(asc_name);
 
 	if (fname_len >= 5)
 	{
-		SLONG	ret;
+		std::int32_t	ret;
 		asc_name[fname_len - 3]='S';
 		asc_name[fname_len - 2]='E';
 		asc_name[fname_len - 1]='X';
@@ -3103,22 +3103,22 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 	int		retval;
 	char	ts[MAX_3DS_LEN];
 	char	test_string[200];
-	UBYTE	found_a_face = false;
+	std::uint8_t	found_a_face = false;
 //	char	info_text[80];
-//	UWORD	first_point;
-	SLONG	current_point,start_point=99999,end_point=0;
-	SLONG	average_x=0,average_y=0,average_z=0;
-	SLONG	num_points=0,real_start_point;
-	SLONG	min_y=0,c0;
-	UBYTE	found_object=0;
+//	std::uint16_t	first_point;
+	std::int32_t	current_point,start_point=99999,end_point=0;
+	std::int32_t	average_x=0,average_y=0,average_z=0;
+	std::int32_t	num_points=0,real_start_point;
+	std::int32_t	min_y=0,c0;
+	std::uint8_t	found_object=0;
 	struct	Material	materials[20];
-	SLONG	mat_count,
+	std::int32_t	mat_count,
 			material_index	=	0;
-	SLONG	object_index,start_object,object_count=0,extra_object_count=0;
-	CBYTE	object_name[100];
-	SLONG	extra;
-	SLONG	its_human=0;
-	SLONG	c2;
+	std::int32_t	object_index,start_object,object_count=0,extra_object_count=0;
+	char	object_name[100];
+	std::int32_t	extra;
+	std::int32_t	its_human=0;
+	std::int32_t	c2;
 
 
 
@@ -3219,7 +3219,7 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 			}
 			else if(!strcmp(ts,"Material"))
 			{
-				CBYTE	str_r[30],str_g[30],str_b[30];
+				char	str_r[30],str_g[30],str_b[30];
 				float	r,g,b;
 
 				fscanf(handle,"%s",ts);
@@ -3243,13 +3243,13 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 					g=atof(str_g)*255;
 					b=atof(str_b)*255;
 
-					materials[mat_count].R=(UBYTE)r;
-					materials[mat_count].G=(UBYTE)g;
-					materials[mat_count].B=(UBYTE)b;
+					materials[mat_count].R=(std::uint8_t)r;
+					materials[mat_count].G=(std::uint8_t)g;
+					materials[mat_count].B=(std::uint8_t)b;
 					{
 // Guy - fudge round Mikes fudge, this will prolly stop editor bits from working.
 						if(pals[0])
-							materials[mat_count].Index=find_colour((UBYTE*)ENGINE_palette,(UBYTE)r,(UBYTE)g,(UBYTE)b);
+							materials[mat_count].Index=find_colour((std::uint8_t*)ENGINE_palette,(std::uint8_t)r,(std::uint8_t)g,(std::uint8_t)b);
 							LogText("find material = %d \n",materials[mat_count].Index);
 //						else
 //							materials[mat_count].Index	=	0;
@@ -3359,7 +3359,7 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 //reads in garbage values					fscanf(handle,"%*s %*d %*s %*2s %f %*s%f %*s%f",&f_x, &f_y, &f_z); //%s*
 					if(tds_max)
 					{
-						CBYTE	str_x[20],str_y[20],str_z[20];
+						char	str_x[20],str_y[20],str_z[20];
 
 						fscanf(handle,"%3s%s Y:%s Z:%s",test_string,&str_x, &str_y, &str_z); //%s*
 						comma_to_dot(str_x);
@@ -3379,15 +3379,15 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 
 /*
 // Guy - Added scaling to multi objects.
-					prim_points[next_prim_point].X=(SLONG)((f_x)); //+(engine.X>>8);
-					prim_points[next_prim_point].Y=-(SLONG)((f_z)); //+(engine.Y>>8);
-					prim_points[next_prim_point].Z=(SLONG)((f_y)); //+(engine.Z>>8);
+					prim_points[next_prim_point].X=(std::int32_t)((f_x)); //+(engine.X>>8);
+					prim_points[next_prim_point].Y=-(std::int32_t)((f_z)); //+(engine.Y>>8);
+					prim_points[next_prim_point].Z=(std::int32_t)((f_y)); //+(engine.Z>>8);
 */
 //					LogText(" multi asc in %f,%f,%f\n",f_x,f_y,f_z);
 
-					prim_points[next_prim_point].X	=	(SLONG)((f_x*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
-					prim_points[next_prim_point].Y	=	(SLONG)((f_z*GAME_SCALE)/(GAME_SCALE_DIV*shrink)); //- md
-					prim_points[next_prim_point].Z	=	(SLONG)((f_y*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
+					prim_points[next_prim_point].X	=	(std::int32_t)((f_x*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
+					prim_points[next_prim_point].Y	=	(std::int32_t)((f_z*GAME_SCALE)/(GAME_SCALE_DIV*shrink)); //- md
+					prim_points[next_prim_point].Z	=	(std::int32_t)((f_y*GAME_SCALE)/(GAME_SCALE_DIV*shrink));
 
 //					LogText(" multi asc store %d,%d,%d \n",prim_points[next_prim_point].X,prim_points[next_prim_point].Y,prim_points[next_prim_point].Z);
 
@@ -3448,7 +3448,7 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 			}
 			else if(!strcmp(ts,"Material:"))
 			{
-				SLONG	mat_no=0;
+				std::int32_t	mat_no=0;
 				fscanf(handle,"%d",&mat_no); //get material number
 //				LogText(" mat_no %d \n",mat_no);
 
@@ -3505,11 +3505,11 @@ SLONG read_multi_asc(CBYTE* asc_name,UBYTE flag,float shrink)
 }
 
 
-void	load_textures_for_prim(CBYTE* str,UWORD prim)
+void	load_textures_for_prim(char* str,std::uint16_t prim)
 {
-	CBYTE			file_name[64];
-	UWORD			text;
-	SLONG			c0,sf,ef,point,mf;
+	char			file_name[64];
+	std::uint16_t			text;
+	std::int32_t			c0,sf,ef,point,mf;
 	MFFileHandle	handle;
 	PrimPoint		pf[3];
 
@@ -3525,10 +3525,10 @@ void	load_textures_for_prim(CBYTE* str,UWORD prim)
 		{
 			for(point=0;point<3;point++)
 			{
-				FileRead(handle,(UBYTE*)&pf[point],sizeof(struct	PrimPoint));
+				FileRead(handle,(std::uint8_t*)&pf[point],sizeof(struct	PrimPoint));
 			}
-			FileRead(handle,(UBYTE*)&prim_faces4[c0].TexturePage,sizeof(prim_faces4[c0].TexturePage));
-			FileRead(handle,(UBYTE*)&prim_faces4[c0].UV[0][0],sizeof(prim_faces4[c0].UV));
+			FileRead(handle,(std::uint8_t*)&prim_faces4[c0].TexturePage,sizeof(prim_faces4[c0].TexturePage));
+			FileRead(handle,(std::uint8_t*)&prim_faces4[c0].UV[0][0],sizeof(prim_faces4[c0].UV));
 /*
 			mf=find_matching_face(&pf[0],&pf[1],&pf[2],prim);
 			if(mf>0)
@@ -3550,10 +3550,10 @@ void	load_textures_for_prim(CBYTE* str,UWORD prim)
 }
 
 
-void	save_textures_for_prim(CBYTE* str,UWORD prim)
+void	save_textures_for_prim(char* str,std::uint16_t prim)
 {
-	CBYTE			file_name[64];
-	SLONG			c0,sf,ef,point;
+	char			file_name[64];
+	std::int32_t			c0,sf,ef,point;
 	MFFileHandle	handle;
 
 
@@ -3568,22 +3568,22 @@ void	save_textures_for_prim(CBYTE* str,UWORD prim)
 		{
 			for(point=0;point<3;point++)
 			{
-				FileWrite(handle,(UBYTE*)&prim_points[prim_faces4[c0].Points[point]],sizeof(struct	PrimPoint));
+				FileWrite(handle,(std::uint8_t*)&prim_points[prim_faces4[c0].Points[point]],sizeof(struct	PrimPoint));
 			}
-			FileWrite(handle,(UBYTE*)&prim_faces4[c0].TexturePage,sizeof(prim_faces4[c0].TexturePage));
-			FileWrite(handle,(UBYTE*)&prim_faces4[c0].UV[0][0],sizeof(prim_faces4[c0].UV));
+			FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].TexturePage,sizeof(prim_faces4[c0].TexturePage));
+			FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].UV[0][0],sizeof(prim_faces4[c0].UV));
 		}
 		FileClose(handle);
 	}
 }
 
 
-SLONG	save_all_prims(CBYTE	*name)
+std::int32_t	save_all_prims(char	*name)
 {
-	SLONG			c0,point;
+	std::int32_t			c0,point;
 	MFFileHandle	handle;
-	CBYTE			file_name[64];
-	UWORD		dummy[100];
+	char			file_name[64];
+	std::uint16_t		dummy[100];
 
 	//
 	// In case it hasn't been done already.
@@ -3603,10 +3603,10 @@ SLONG	save_all_prims(CBYTE	*name)
 	// of the bounding box.
 	//
 
-	SLONG i;
-	SLONG j;
-	SLONG centre_x;
-	SLONG centre_z;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t centre_x;
+	std::int32_t centre_z;
 
 	PrimInfo   *pi;
 	PrimObject *obj;
@@ -3640,17 +3640,17 @@ SLONG	save_all_prims(CBYTE	*name)
 	handle	=	FileCreate(file_name,1);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)&next_prim_point,sizeof(UWORD));
-		FileWrite(handle,(UBYTE*)&next_prim_face4,sizeof(UWORD));
-		FileWrite(handle,(UBYTE*)&next_prim_face3,sizeof(UWORD));
-		FileWrite(handle,(UBYTE*)&next_prim_object,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&next_prim_point,sizeof(std::uint16_t));
+		FileWrite(handle,(std::uint8_t*)&next_prim_face4,sizeof(std::uint16_t));
+		FileWrite(handle,(std::uint8_t*)&next_prim_face3,sizeof(std::uint16_t));
+		FileWrite(handle,(std::uint8_t*)&next_prim_object,sizeof(std::uint16_t));
 
-		FileWrite(handle,(UBYTE*)dummy,sizeof(UWORD)*10);
+		FileWrite(handle,(std::uint8_t*)dummy,sizeof(std::uint16_t)*10);
 
-		FileWrite(handle,(UBYTE*)prim_points,sizeof(struct PrimPoint)*next_prim_point);
-		FileWrite(handle,(UBYTE*)prim_faces4,sizeof(struct PrimFace4)*next_prim_face4);
-		FileWrite(handle,(UBYTE*)prim_faces3,sizeof(struct PrimFace3)*next_prim_face3);
-		FileWrite(handle,(UBYTE*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
+		FileWrite(handle,(std::uint8_t*)prim_points,sizeof(struct PrimPoint)*next_prim_point);
+		FileWrite(handle,(std::uint8_t*)prim_faces4,sizeof(struct PrimFace4)*next_prim_face4);
+		FileWrite(handle,(std::uint8_t*)prim_faces3,sizeof(struct PrimFace3)*next_prim_face3);
+		FileWrite(handle,(std::uint8_t*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
 
 		FileClose(handle);
 		return(1);
@@ -3658,10 +3658,10 @@ SLONG	save_all_prims(CBYTE	*name)
 	return(0);
 }
 
-void	write_a_prim(SLONG prim,MFFileHandle	handle)
+void	write_a_prim(std::int32_t prim,MFFileHandle	handle)
 {
-	SLONG	c0;
-	SLONG	sf,ef,sp,ep;
+	std::int32_t	c0;
+	std::int32_t	sf,ef,sp,ep;
 
 
 	if(handle!=FILE_OPEN_ERROR)
@@ -3669,40 +3669,40 @@ void	write_a_prim(SLONG prim,MFFileHandle	handle)
 		sp=prim_objects[prim].StartPoint;
 		ep=prim_objects[prim].EndPoint;
 
-		FileWrite(handle,(UBYTE*)prim_names[prim],32); //sizeof(prim_objects[prim].ObjectName));
+		FileWrite(handle,(std::uint8_t*)prim_names[prim],32); //sizeof(prim_objects[prim].ObjectName));
 //		prim_objects[prim].Dummy[3]=PRIM_START_SAVE_TYPE+1; pointless
 
-		FileWrite(handle,(UBYTE*)&sp,sizeof(sp));
-		FileWrite(handle,(UBYTE*)&ep,sizeof(ep));
+		FileWrite(handle,(std::uint8_t*)&sp,sizeof(sp));
+		FileWrite(handle,(std::uint8_t*)&ep,sizeof(ep));
 		for(c0=sp;c0<ep;c0++)
-			FileWrite(handle,(UBYTE*)&prim_points[c0],sizeof(struct PrimPoint));
+			FileWrite(handle,(std::uint8_t*)&prim_points[c0],sizeof(struct PrimPoint));
 
 
 		sf=prim_objects[prim].StartFace3;
 		ef=prim_objects[prim].EndFace3;
-		FileWrite(handle,(UBYTE*)&sf,sizeof(sf));
-		FileWrite(handle,(UBYTE*)&ef,sizeof(ef));
+		FileWrite(handle,(std::uint8_t*)&sf,sizeof(sf));
+		FileWrite(handle,(std::uint8_t*)&ef,sizeof(ef));
 		for(c0=sf;c0<ef;c0++)
-			FileWrite(handle,(UBYTE*)&prim_faces3[c0],sizeof(struct PrimFace3));
+			FileWrite(handle,(std::uint8_t*)&prim_faces3[c0],sizeof(struct PrimFace3));
 
 		sf=prim_objects[prim].StartFace4;
 		ef=prim_objects[prim].EndFace4;
-		FileWrite(handle,(UBYTE*)&sf,sizeof(sf));
-		FileWrite(handle,(UBYTE*)&ef,sizeof(ef));
+		FileWrite(handle,(std::uint8_t*)&sf,sizeof(sf));
+		FileWrite(handle,(std::uint8_t*)&ef,sizeof(ef));
 		for(c0=sf;c0<ef;c0++)
-			FileWrite(handle,(UBYTE*)&prim_faces4[c0],sizeof(struct PrimFace4));
+			FileWrite(handle,(std::uint8_t*)&prim_faces4[c0],sizeof(struct PrimFace4));
 	}
 }
 
 
-SLONG	save_a_multi_prim(CBYTE	*name,SLONG multi)
+std::int32_t	save_a_multi_prim(char	*name,std::int32_t multi)
 {
-	SLONG			c0,point;
+	std::int32_t			c0,point;
 	MFFileHandle	handle;
-	CBYTE			file_name[64];
-	SLONG			save_type=4;
-	SLONG			so,eo;
-	CBYTE			ext_name[80];
+	char			file_name[64];
+	std::int32_t			save_type=4;
+	std::int32_t			so,eo;
+	char			ext_name[80];
 
 	change_extension(name,"moj",ext_name);
 //	sprintf(ext_name,"data/%s",ext_name);
@@ -3710,13 +3710,13 @@ SLONG	save_a_multi_prim(CBYTE	*name,SLONG multi)
 	if(handle!=FILE_OPEN_ERROR)
 	{
 		
-		FileWrite(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
 		so=prim_multi_objects[multi].StartObject;
 		eo=prim_multi_objects[multi].EndObject;
 
-		FileWrite(handle,(UBYTE*)&so,sizeof(so));
-		FileWrite(handle,(UBYTE*)&eo,sizeof(eo));
+		FileWrite(handle,(std::uint8_t*)&so,sizeof(so));
+		FileWrite(handle,(std::uint8_t*)&eo,sizeof(eo));
 
 		for(c0=so;c0<eo;c0++)
 			write_a_prim(c0,handle);
@@ -3730,51 +3730,51 @@ SLONG	save_a_multi_prim(CBYTE	*name,SLONG multi)
 
 
 
-void	dump_face_info_for_prim(MFFileHandle handle,UWORD prim)
+void	dump_face_info_for_prim(MFFileHandle handle,std::uint16_t prim)
 {
-	SLONG			c0,sf,ef,point;
-	SLONG			count;
+	std::int32_t			c0,sf,ef,point;
+	std::int32_t			count;
 	
 	sf=prim_objects[prim].StartFace4;
 	ef=prim_objects[prim].EndFace4;
 	count=ef-sf;
-	FileWrite(handle,(UBYTE*)&count,sizeof(count));
+	FileWrite(handle,(std::uint8_t*)&count,sizeof(count));
 
 	for(c0=sf;c0<ef;c0++)
 	{
 		for(point=0;point<3;point++)
 		{
-			FileWrite(handle,(UBYTE*)&prim_points[prim_faces4[c0].Points[point]],sizeof(struct	PrimPoint));
+			FileWrite(handle,(std::uint8_t*)&prim_points[prim_faces4[c0].Points[point]],sizeof(struct	PrimPoint));
 		}
-		FileWrite(handle,(UBYTE*)&prim_faces4[c0].TexturePage,sizeof(prim_faces4[c0].TexturePage));
-		FileWrite(handle,(UBYTE*)&prim_faces4[c0].DrawFlags,sizeof(prim_faces4[c0].DrawFlags));
-		FileWrite(handle,(UBYTE*)&prim_faces4[c0].Col2,sizeof(prim_faces4[c0].Col2));
-		FileWrite(handle,(UBYTE*)&prim_faces4[c0].FaceFlags,sizeof(prim_faces4[c0].FaceFlags));
-		FileWrite(handle,(UBYTE*)&prim_faces4[c0].UV[0][0],sizeof(prim_faces4[c0].UV));
+		FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].TexturePage,sizeof(prim_faces4[c0].TexturePage));
+		FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].DrawFlags,sizeof(prim_faces4[c0].DrawFlags));
+		FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].Col2,sizeof(prim_faces4[c0].Col2));
+		FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].FaceFlags,sizeof(prim_faces4[c0].FaceFlags));
+		FileWrite(handle,(std::uint8_t*)&prim_faces4[c0].UV[0][0],sizeof(prim_faces4[c0].UV));
 	}
 
 	sf=prim_objects[prim].StartFace3;
 	ef=prim_objects[prim].EndFace3;
 	count=ef-sf;
-	FileWrite(handle,(UBYTE*)&count,sizeof(count));
+	FileWrite(handle,(std::uint8_t*)&count,sizeof(count));
 	for(c0=sf;c0<ef;c0++)
 	{
 		for(point=0;point<3;point++)
 		{
-			FileWrite(handle,(UBYTE*)&prim_points[prim_faces3[c0].Points[point]],sizeof(struct	PrimPoint));
+			FileWrite(handle,(std::uint8_t*)&prim_points[prim_faces3[c0].Points[point]],sizeof(struct	PrimPoint));
 		}
-		FileWrite(handle,(UBYTE*)&prim_faces3[c0].TexturePage,sizeof(prim_faces3[c0].TexturePage));
-		FileWrite(handle,(UBYTE*)&prim_faces3[c0].DrawFlags,sizeof(prim_faces3[c0].DrawFlags));
-		FileWrite(handle,(UBYTE*)&prim_faces3[c0].Col2,sizeof(prim_faces3[c0].Col2));
-		FileWrite(handle,(UBYTE*)&prim_faces3[c0].FaceFlags,sizeof(prim_faces3[c0].FaceFlags));
-		FileWrite(handle,(UBYTE*)&prim_faces3[c0].UV[0][0],sizeof(prim_faces3[c0].UV));
+		FileWrite(handle,(std::uint8_t*)&prim_faces3[c0].TexturePage,sizeof(prim_faces3[c0].TexturePage));
+		FileWrite(handle,(std::uint8_t*)&prim_faces3[c0].DrawFlags,sizeof(prim_faces3[c0].DrawFlags));
+		FileWrite(handle,(std::uint8_t*)&prim_faces3[c0].Col2,sizeof(prim_faces3[c0].Col2));
+		FileWrite(handle,(std::uint8_t*)&prim_faces3[c0].FaceFlags,sizeof(prim_faces3[c0].FaceFlags));
+		FileWrite(handle,(std::uint8_t*)&prim_faces3[c0].UV[0][0],sizeof(prim_faces3[c0].UV));
 	}
 }
 
 
-UWORD	change_fname_extension(CBYTE* name,CBYTE* ext)
+std::uint16_t	change_fname_extension(char* name,char* ext)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<strlen(name);c0++)
 	{
 		if(name[c0]=='.')
@@ -3789,19 +3789,19 @@ UWORD	change_fname_extension(CBYTE* name,CBYTE* ext)
 	
 }
 
-void	export_tex(CBYTE* fname)
+void	export_tex(char* fname)
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 	MFFileHandle	handle;
-	SLONG	save_type=5;
+	std::int32_t	save_type=5;
 
 	change_fname_extension(fname,"tex");
 	handle	=	FileCreate(fname,1);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		SLONG	count=-1;
-		FileWrite(handle,(UBYTE*)&save_type,sizeof(save_type));
+		std::int32_t	count=-1;
+		FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 		index=background_prim;
 		while(index)
 		{
@@ -3810,9 +3810,9 @@ void	export_tex(CBYTE* fname)
 			dump_face_info_for_prim(handle,p_thing->IndexOther);
 			index=p_thing->IndexNext;
 		}
-		FileWrite(handle,(UBYTE*)&count,sizeof(count));
-		FileWrite(handle,(UBYTE*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-		FileWrite(handle,(UBYTE*)&edit_info.amb_dx,4*5);
+		FileWrite(handle,(std::uint8_t*)&count,sizeof(count));
+		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
+		FileWrite(handle,(std::uint8_t*)&edit_info.amb_dx,4*5);
 
 
 
@@ -3824,14 +3824,14 @@ void	export_tex(CBYTE* fname)
 
 #define	CLOSE(x,y)	(abs((x)-(y))<5)
 
-SLONG	find_and_apply_to_quad(struct PrimPoint *pp,struct PrimFace4 *face4,SLONG gx,SLONG gy,SLONG gz)
+std::int32_t	find_and_apply_to_quad(struct PrimPoint *pp,struct PrimFace4 *face4,std::int32_t gx,std::int32_t gy,std::int32_t gz)
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 
-	SLONG			c0,sf,ef,point;
-	SLONG			count;
-	UWORD	prim;
+	std::int32_t			c0,sf,ef,point;
+	std::int32_t			count;
+	std::uint16_t	prim;
 	
 	index=background_prim;
 	while(index)
@@ -3860,7 +3860,7 @@ SLONG	find_and_apply_to_quad(struct PrimPoint *pp,struct PrimFace4 *face4,SLONG 
 					prim_faces4[c0].DrawFlags=face4->DrawFlags;
 					prim_faces4[c0].TexturePage=face4->TexturePage;
 					prim_faces4[c0].Col2=face4->Col2;
-					memcpy((UBYTE*)prim_faces4[c0].UV,(UBYTE*)face4->UV,sizeof(prim_faces4[c0].UV));
+					memcpy((std::uint8_t*)prim_faces4[c0].UV,(std::uint8_t*)face4->UV,sizeof(prim_faces4[c0].UV));
 					return(1);
 			   }
 		}
@@ -3869,14 +3869,14 @@ SLONG	find_and_apply_to_quad(struct PrimPoint *pp,struct PrimFace4 *face4,SLONG 
 	return(0);
 }
 
-SLONG	find_and_apply_to_tri(struct PrimPoint *pp,struct PrimFace3 *face3,SLONG gx,SLONG gy,SLONG gz)
+std::int32_t	find_and_apply_to_tri(struct PrimPoint *pp,struct PrimFace3 *face3,std::int32_t gx,std::int32_t gy,std::int32_t gz)
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 
-	SLONG			c0,sf,ef,point;
-	SLONG			count;
-	UWORD	prim;
+	std::int32_t			c0,sf,ef,point;
+	std::int32_t			count;
+	std::uint16_t	prim;
 	
 	index=background_prim;
 	while(index)
@@ -3905,7 +3905,7 @@ SLONG	find_and_apply_to_tri(struct PrimPoint *pp,struct PrimFace3 *face3,SLONG g
 					prim_faces3[c0].DrawFlags=face3->DrawFlags;
 					prim_faces3[c0].TexturePage=face3->TexturePage;
 					prim_faces3[c0].Col2=face3->Col2;
-					memcpy((UBYTE*)prim_faces3[c0].UV,(UBYTE*)face3->UV,sizeof(prim_faces3[c0].UV));
+					memcpy((std::uint8_t*)prim_faces3[c0].UV,(std::uint8_t*)face3->UV,sizeof(prim_faces3[c0].UV));
 					return(1);
 			   }
 		}
@@ -3915,16 +3915,16 @@ SLONG	find_and_apply_to_tri(struct PrimPoint *pp,struct PrimFace3 *face3,SLONG g
 }
 
 
-SLONG	is_this_unique(SLONG *dx,SLONG *dy,SLONG *dz,SLONG dx2,SLONG dy2,SLONG dz2)
+std::int32_t	is_this_unique(std::int32_t *dx,std::int32_t *dy,std::int32_t *dz,std::int32_t dx2,std::int32_t dy2,std::int32_t dz2)
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 
-	SLONG			c0,sf,ef,point;
-	SLONG			count,unique=0,at_face=0;
-	SLONG	mx,my,mz,mx2,my2,mz2;
-	UWORD	prim;
-	SLONG rx,ry,rz;
+	std::int32_t			c0,sf,ef,point;
+	std::int32_t			count,unique=0,at_face=0;
+	std::int32_t	mx,my,mz,mx2,my2,mz2;
+	std::uint16_t	prim;
+	std::int32_t rx,ry,rz;
 	
 	index=background_prim;
 	while(index)
@@ -3968,43 +3968,43 @@ SLONG	is_this_unique(SLONG *dx,SLONG *dy,SLONG *dz,SLONG dx2,SLONG dy2,SLONG dz2
 
 	
 }
-UWORD	find_unique_face_to_offset(CBYTE* fname,SLONG *x,SLONG *y,SLONG *z)
+std::uint16_t	find_unique_face_to_offset(char* fname,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
-	UWORD			text;
-	SLONG			c0;
+	std::uint16_t			text;
+	std::int32_t			c0;
 	MFFileHandle	handle;
 	PrimPoint		pf[3];
 //	struct		PrimFace3 pf3;
 	struct		PrimFace4 pf4;
-	SLONG 	count;
-	SLONG	save_type;
-	SLONG unique;
+	std::int32_t 	count;
+	std::int32_t	save_type;
+	std::int32_t unique;
 
-	SLONG	dx,dy,dz,dx2,dy2,dz2;
+	std::int32_t	dx,dy,dz,dx2,dy2,dz2;
 
 	handle	=	FileOpen(fname);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 //		LogText(" fing unique save type=%d \n",save_type);
 		while(1)
 		{
 			
-			FileRead(handle,(UBYTE*)&count,sizeof(count));
+			FileRead(handle,(std::uint8_t*)&count,sizeof(count));
 			if(count==-1)
 				break;
 
 			for(c0=0;c0<count;c0++)
 			{
-				FileRead(handle,(UBYTE*)&pf[0],sizeof(struct	PrimPoint)*3);
+				FileRead(handle,(std::uint8_t*)&pf[0],sizeof(struct	PrimPoint)*3);
 
-				FileRead(handle,(UBYTE*)&pf4.TexturePage,sizeof(pf4.TexturePage));
-				FileRead(handle,(UBYTE*)&pf4.DrawFlags,sizeof(pf4.DrawFlags));
+				FileRead(handle,(std::uint8_t*)&pf4.TexturePage,sizeof(pf4.TexturePage));
+				FileRead(handle,(std::uint8_t*)&pf4.DrawFlags,sizeof(pf4.DrawFlags));
 				if(save_type>2)
-					FileRead(handle,(UBYTE*)&pf4.Col2,sizeof(pf4.Col2));
+					FileRead(handle,(std::uint8_t*)&pf4.Col2,sizeof(pf4.Col2));
 				if(save_type>3)
-					FileRead(handle,(UBYTE*)&pf4.FaceFlags,sizeof(pf4.FaceFlags));
-				FileRead(handle,(UBYTE*)&pf4.UV[0][0],sizeof(pf4.UV));
+					FileRead(handle,(std::uint8_t*)&pf4.FaceFlags,sizeof(pf4.FaceFlags));
+				FileRead(handle,(std::uint8_t*)&pf4.UV[0][0],sizeof(pf4.UV));
 
 				dx=pf[1].X-pf[0].X;
 				dy=pf[1].Y-pf[0].Y;
@@ -4025,15 +4025,15 @@ UWORD	find_unique_face_to_offset(CBYTE* fname,SLONG *x,SLONG *y,SLONG *z)
 				}
 
 			}
-			FileRead(handle,(UBYTE*)&count,sizeof(count));
+			FileRead(handle,(std::uint8_t*)&count,sizeof(count));
 /*
 			for(c0=0;c0<count;c0++)
 			{
-				FileRead(handle,(UBYTE*)&pf[0],sizeof(struct	PrimPoint)*3);
+				FileRead(handle,(std::uint8_t*)&pf[0],sizeof(struct	PrimPoint)*3);
 
-				FileRead(handle,(UBYTE*)&pf3.TexturePage,sizeof(pf3.TexturePage));
-				FileRead(handle,(UBYTE*)&pf3.DrawFlags,sizeof(pf3.DrawFlags));
-				FileRead(handle,(UBYTE*)&pf3.UV,sizeof(pf3.UV));
+				FileRead(handle,(std::uint8_t*)&pf3.TexturePage,sizeof(pf3.TexturePage));
+				FileRead(handle,(std::uint8_t*)&pf3.DrawFlags,sizeof(pf3.DrawFlags));
+				FileRead(handle,(std::uint8_t*)&pf3.UV,sizeof(pf3.UV));
 
 //				find_and_apply_to_tri(&pf[0],&pf3);
 			}
@@ -4043,18 +4043,18 @@ UWORD	find_unique_face_to_offset(CBYTE* fname,SLONG *x,SLONG *y,SLONG *z)
 	}
   	return(0);
 }
-SLONG	sum_shared_brightness_flag(SWORD shared_point)
+std::int32_t	sum_shared_brightness_flag(std::int16_t shared_point)
 {
-	SLONG	c0,point;
-	SLONG	face;
-	SLONG	bright=0;
-	SLONG count=0;
+	std::int32_t	c0,point;
+	std::int32_t	face;
+	std::int32_t	bright=0;
+	std::int32_t count=0;
 
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 
-	SLONG			sf,ef;
-	UWORD	prim;
+	std::int32_t			sf,ef;
+	std::uint16_t	prim;
 	
 	index=background_prim;
 	while(index)
@@ -4110,15 +4110,15 @@ SLONG	sum_shared_brightness_flag(SWORD shared_point)
 		return(0);
 }
 
-void	set_shared_brightness_flag(SWORD shared_point,SWORD bright)
+void	set_shared_brightness_flag(std::int16_t shared_point,std::int16_t bright)
 {
-	SLONG	c0,point;
-	SLONG	face;
+	std::int32_t	c0,point;
+	std::int32_t	face;
 
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
-	SLONG			sf,ef;
-	UWORD	prim;
+	std::int32_t			sf,ef;
+	std::uint16_t	prim;
 
 	index=background_prim;
 	while(index)
@@ -4169,14 +4169,14 @@ void	set_shared_brightness_flag(SWORD shared_point,SWORD bright)
 
 void	smooth_faces(void)
 {
-	SLONG	c0,c1,point;
-	SLONG	face;
-	SLONG	bright;
+	std::int32_t	c0,c1,point;
+	std::int32_t	face;
+	std::int32_t	bright;
 
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
-	SLONG			sf,ef;
-	UWORD	prim;
+	std::int32_t			sf,ef;
+	std::uint16_t	prim;
 
 	index=background_prim;
 	while(index)
@@ -4223,9 +4223,9 @@ void	smooth_faces(void)
 
 extern void	apply_global_amb_to_map(void);
 
-extern SWORD	CreateALightThing(SLONG x,SLONG y,SLONG z,SLONG bright);
+extern std::int16_t	CreateALightThing(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright);
 
-void	apply_map_thing(SLONG dx,SLONG dy,SLONG dz,struct	MapThing	*p_thing)
+void	apply_map_thing(std::int32_t dx,std::int32_t dy,std::int32_t dz,struct	MapThing	*p_thing)
 {
 	switch(p_thing->Type)
 	{
@@ -4235,18 +4235,18 @@ void	apply_map_thing(SLONG dx,SLONG dy,SLONG dz,struct	MapThing	*p_thing)
 	}
 }
 
-void	import_tex(CBYTE* fname)
+void	import_tex(char* fname)
 {
-	UWORD			text;
-	SLONG			c0;
+	std::uint16_t			text;
+	std::int32_t			c0;
 	MFFileHandle	handle;
 	PrimPoint		pf[3];
 	struct		PrimFace3 pf3;
 	struct		PrimFace4 pf4;
-	SLONG 	count;
-	SLONG	save_type;
-	SLONG	gx=0,gy=0,gz=0;
-	SLONG	remap_quad=0,remap_tri=0;
+	std::int32_t 	count;
+	std::int32_t	save_type;
+	std::int32_t	gx=0,gy=0,gz=0;
+	std::int32_t	remap_quad=0,remap_tri=0;
 	
 	if(ShiftFlag)
 	{
@@ -4265,12 +4265,12 @@ void	import_tex(CBYTE* fname)
 	handle	=	FileOpen(fname);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 //		LogText(" IMPORT TEX save type=%d \n",save_type);
 		while(1)
 		{
 			
-			FileRead(handle,(UBYTE*)&count,sizeof(count));
+			FileRead(handle,(std::uint8_t*)&count,sizeof(count));
 			if(count==-1)
 				break;
 
@@ -4278,63 +4278,63 @@ void	import_tex(CBYTE* fname)
 			{
 				if(save_type<5)
 				{
-					SLONG	c0;
+					std::int32_t	c0;
 					struct	OldPrimPoint	pp;
 					for(c0=0;c0<3;c0++)
 					{
 
-						FileRead(handle,(UBYTE*)&pp,sizeof(struct	OldPrimPoint));
-						pf[c0].X=(SWORD)pp.X;
-						pf[c0].Y=(SWORD)pp.Y;
-						pf[c0].Z=(SWORD)pp.Z;
+						FileRead(handle,(std::uint8_t*)&pp,sizeof(struct	OldPrimPoint));
+						pf[c0].X=(std::int16_t)pp.X;
+						pf[c0].Y=(std::int16_t)pp.Y;
+						pf[c0].Z=(std::int16_t)pp.Z;
 					}
 				}
 				else
 				{
-					FileRead(handle,(UBYTE*)&pf[0],sizeof(struct	PrimPoint)*3);
+					FileRead(handle,(std::uint8_t*)&pf[0],sizeof(struct	PrimPoint)*3);
 				}
 
-				FileRead(handle,(UBYTE*)&pf4.TexturePage,sizeof(pf4.TexturePage));
-				FileRead(handle,(UBYTE*)&pf4.DrawFlags,sizeof(pf4.DrawFlags));
+				FileRead(handle,(std::uint8_t*)&pf4.TexturePage,sizeof(pf4.TexturePage));
+				FileRead(handle,(std::uint8_t*)&pf4.DrawFlags,sizeof(pf4.DrawFlags));
 				if(save_type>2)
-					FileRead(handle,(UBYTE*)&pf4.Col2,sizeof(pf4.Col2));
+					FileRead(handle,(std::uint8_t*)&pf4.Col2,sizeof(pf4.Col2));
 				if(save_type>3)
-					FileRead(handle,(UBYTE*)&pf4.FaceFlags,sizeof(pf4.FaceFlags));
-				FileRead(handle,(UBYTE*)&pf4.UV[0][0],sizeof(pf4.UV));
+					FileRead(handle,(std::uint8_t*)&pf4.FaceFlags,sizeof(pf4.FaceFlags));
+				FileRead(handle,(std::uint8_t*)&pf4.UV[0][0],sizeof(pf4.UV));
 
 				if(find_and_apply_to_quad(&pf[0],&pf4,gx,gy,gz))
 					remap_quad++;
 			}
-			FileRead(handle,(UBYTE*)&count,sizeof(count));
+			FileRead(handle,(std::uint8_t*)&count,sizeof(count));
 
 			for(c0=0;c0<count;c0++)
 			{
 
 				if(save_type<5)
 				{
-					SLONG	c0;
+					std::int32_t	c0;
 					struct	OldPrimPoint	pp;
 					for(c0=0;c0<3;c0++)
 					{
 
-						FileRead(handle,(UBYTE*)&pp,sizeof(struct	OldPrimPoint));
-						pf[c0].X=(SWORD)pp.X;
-						pf[c0].Y=(SWORD)pp.Y;
-						pf[c0].Z=(SWORD)pp.Z;
+						FileRead(handle,(std::uint8_t*)&pp,sizeof(struct	OldPrimPoint));
+						pf[c0].X=(std::int16_t)pp.X;
+						pf[c0].Y=(std::int16_t)pp.Y;
+						pf[c0].Z=(std::int16_t)pp.Z;
 					}
 				}
 				else
 				{
-					FileRead(handle,(UBYTE*)&pf[0],sizeof(struct	PrimPoint)*3);
+					FileRead(handle,(std::uint8_t*)&pf[0],sizeof(struct	PrimPoint)*3);
 				}
 
-				FileRead(handle,(UBYTE*)&pf3.TexturePage,sizeof(pf3.TexturePage));
-				FileRead(handle,(UBYTE*)&pf3.DrawFlags,sizeof(pf3.DrawFlags));
+				FileRead(handle,(std::uint8_t*)&pf3.TexturePage,sizeof(pf3.TexturePage));
+				FileRead(handle,(std::uint8_t*)&pf3.DrawFlags,sizeof(pf3.DrawFlags));
 				if(save_type>2)
-					FileRead(handle,(UBYTE*)&pf3.Col2,sizeof(pf3.Col2));
+					FileRead(handle,(std::uint8_t*)&pf3.Col2,sizeof(pf3.Col2));
 				if(save_type>3)
-					FileRead(handle,(UBYTE*)&pf3.FaceFlags,sizeof(pf3.FaceFlags));
-				FileRead(handle,(UBYTE*)&pf3.UV[0][0],sizeof(pf3.UV));
+					FileRead(handle,(std::uint8_t*)&pf3.FaceFlags,sizeof(pf3.FaceFlags));
+				FileRead(handle,(std::uint8_t*)&pf3.UV[0][0],sizeof(pf3.UV));
 
 				if(find_and_apply_to_tri(&pf[0],&pf3,gx,gy,gz))
 					remap_tri++;
@@ -4343,13 +4343,13 @@ void	import_tex(CBYTE* fname)
 		if(save_type>1)
 		{
 			struct	MapThing	mt;
-			SLONG	c0;
+			std::int32_t	c0;
 			for(c0=0;c0<MAX_MAP_THINGS;c0++)
 			{
-				FileRead(handle,(UBYTE*)&mt,sizeof(struct MapThing));
+				FileRead(handle,(std::uint8_t*)&mt,sizeof(struct MapThing));
 				apply_map_thing(gx,gy,gz,&mt);
 			}
-			FileRead(handle,(UBYTE*)&edit_info.amb_dx,4*5);
+			FileRead(handle,(std::uint8_t*)&edit_info.amb_dx,4*5);
 //			apply_global_amb_to_map();
 			if(save_type>3)
 				smooth_faces();
@@ -4359,7 +4359,7 @@ void	import_tex(CBYTE* fname)
 	}
 }
 
-void save_asc(UWORD building,UWORD version)
+void save_asc(std::uint16_t building,std::uint16_t version)
 {
 	
 //	struct	SingleTexture	*texture;
@@ -4370,16 +4370,16 @@ void save_asc(UWORD building,UWORD version)
 	struct	BuildingFacet	*p_facet;
 	struct	BuildingObject	*point_object;
 
-	SLONG	no_faces,start_face,current_face;
-	SLONG	no_faces4,start_face4;
+	std::int32_t	no_faces,start_face,current_face;
+	std::int32_t	no_faces4,start_face4;
 	MFFileHandle	fpz;
-	CBYTE name[50];
-	UWORD	save_type=0,col;
-	SLONG	start_point,end_point,no_points;
-	SLONG	c0;
-	CBYTE	string[100];
-	UBYTE	flag=0;
-	UWORD	count;
+	char name[50];
+	std::uint16_t	save_type=0,col;
+	std::int32_t	start_point,end_point,no_points;
+	std::int32_t	c0;
+	char	string[100];
+	std::uint8_t	flag=0;
+	std::uint16_t	count;
 
 	point_object=&building_objects[building];
 	no_faces=point_object->EndFace3-point_object->StartFace3;
@@ -4441,7 +4441,7 @@ void save_asc(UWORD building,UWORD version)
 	}
 }
 
-void save_prim_asc(UWORD prim,UWORD version)
+void save_prim_asc(std::uint16_t prim,std::uint16_t version)
 {
 	
 //	struct	SingleTexture	*texture;
@@ -4451,16 +4451,16 @@ void save_prim_asc(UWORD prim,UWORD version)
 	struct	PrimFace3		*this_face;
 	struct	PrimObject	*point_object;
 
-	SLONG	no_faces,start_face,current_face;
-	SLONG	no_faces4,start_face4;
+	std::int32_t	no_faces,start_face,current_face;
+	std::int32_t	no_faces4,start_face4;
 	MFFileHandle	fpz;
-	CBYTE name[50];
-	UWORD	save_type=0,col;
-	SLONG	start_point,end_point,no_points;
-	SLONG	c0;
-	CBYTE	string[100];
-	UBYTE	flag=0;
-	UWORD	count;
+	char name[50];
+	std::uint16_t	save_type=0,col;
+	std::int32_t	start_point,end_point,no_points;
+	std::int32_t	c0;
+	char	string[100];
+	std::uint8_t	flag=0;
+	std::uint16_t	count;
 
 	point_object=&prim_objects[prim];
 	no_faces=point_object->EndFace3-point_object->StartFace3;
@@ -4527,20 +4527,20 @@ void save_prim_asc(UWORD prim,UWORD version)
 // Saves out the given prim object. Returns false on failure.
 //
 
-SLONG save_prim_object(SLONG prim)
+std::int32_t save_prim_object(std::int32_t prim)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG num_points;
-	SLONG num_faces3;
-	SLONG num_faces4;
+	std::int32_t num_points;
+	std::int32_t num_faces3;
+	std::int32_t num_faces4;
 
 	PrimObject *po;
 
-	CBYTE fname[256];
+	char fname[256];
 	FILE *handle;
 
-	UWORD	save_type=PRIM_START_SAVE_TYPE+1;
+	std::uint16_t	save_type=PRIM_START_SAVE_TYPE+1;
 
 	ASSERT(WITHIN(prim, 0, 265));
 
@@ -4620,7 +4620,7 @@ SLONG save_prim_object(SLONG prim)
 
 void save_all_individual_prims()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 1; i < 266; i++)
 	{

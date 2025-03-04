@@ -23,7 +23,7 @@ void MSG_clear();
 // If you add the same message more than once, only one copy will appear.
 //
 
-//void MSG_add(CBYTE* message, ...);
+//void MSG_add(char* message, ...);
 
 
 //

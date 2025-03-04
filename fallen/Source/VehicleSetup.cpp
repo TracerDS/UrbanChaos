@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG veh_type, veh_move, veh_targ, veh_key;
+std::int32_t veh_type, veh_move, veh_targ, veh_key;
 
 //---------------------------------------------------------------
 
@@ -33,19 +33,19 @@ SLONG veh_type, veh_move, veh_targ, veh_key;
 
 //---------------------------------------------------------------
 
-extern CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg);
-CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
+extern char* WaypointTitle(EventPoint *ep, char* msg);
+char* WaypointExtra(EventPoint *ep, char* msg);
 
 
 bool CALLBACK	vs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 	bool		en;
-	SLONG		ep;
+	std::int32_t		ep;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
-	CBYTE		msg[_MAX_PATH],str[_MAX_PATH];
+	char		msg[_MAX_PATH],str[_MAX_PATH];
 
 	
 	switch(message)
@@ -154,7 +154,7 @@ void do_vehicle_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE* get_vehicle_message(EventPoint *ep, CBYTE* msg) {
+char* get_vehicle_message(EventPoint *ep, char* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

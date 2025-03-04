@@ -39,16 +39,16 @@
 
 typedef struct
 {
-	UBYTE				TweakSpeed;
-	SBYTE				Locked;     //which frame if any is locked in place
-	UBYTE				FrameIndex;
-	UBYTE				QueuedFrameIndex;
+	std::uint8_t				TweakSpeed;
+	std::int8_t				Locked;     //which frame if any is locked in place
+	std::uint8_t				FrameIndex;
+	std::uint8_t				QueuedFrameIndex;
 	
-	SWORD				Angle,AngleTo,
+	std::int16_t				Angle,AngleTo,
 						Roll,DRoll,
 						Tilt,TiltTo;
 
-	SLONG				CurrentAnim,
+	std::int32_t				CurrentAnim,
 						AnimTween,
 						TweenStage;
 	struct	GameKeyFrame			*CurrentFrame,
@@ -57,20 +57,20 @@ typedef struct
 						*QueuedFrame;
 	struct	GameKeyFrameChunk		*TheChunk;
 
-	UBYTE				Flags;
-	UBYTE				Drawn;  //game turn last drawn
-	UBYTE				MeshID;
-	UBYTE				PersonID;
+	std::uint8_t				Flags;
+	std::uint8_t				Drawn;  //game turn last drawn
+	std::uint8_t				MeshID;
+	std::uint8_t				PersonID;
 }DrawTween;
 
 typedef struct
 {
-	UWORD				Angle;
-	UWORD				Roll;
-	UWORD				Tilt;
-	UWORD				ObjectId;
+	std::uint16_t				Angle;
+	std::uint16_t				Roll;
+	std::uint16_t				Tilt;
+	std::uint16_t				ObjectId;
 	CACHE_Index			Cache;  //ubyte
-	UBYTE				Hm;		// 255 => nullptr
+	std::uint8_t				Hm;		// 255 => nullptr
 
 }DrawMesh;
 
@@ -82,7 +82,7 @@ typedef struct
 //
 
 void init_draw_tweens();
-DrawTween *alloc_draw_tween(SLONG type);
+DrawTween *alloc_draw_tween(std::int32_t type);
 void free_draw_tween(DrawTween *draw_tween);
 
 

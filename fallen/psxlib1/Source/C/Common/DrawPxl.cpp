@@ -7,52 +7,52 @@
 
 //---------------------------------------------------------------
 
-void DrawPixel8(SLONG x,SLONG y,ULONG colour)
+void DrawPixel8(std::int32_t x,std::int32_t y,std::uint32_t colour)
 {
-	*(WorkWindow+x+(y*WorkScreenWidth))	=	(UBYTE)colour;
+	*(WorkWindow+x+(y*WorkScreenWidth))	=	(std::uint8_t)colour;
 }
 
-void DrawPixel16(SLONG x,SLONG y,ULONG colour)
+void DrawPixel16(std::int32_t x,std::int32_t y,std::uint32_t colour)
 {
-	UWORD	*ptr;
-	ptr  = (UWORD*)WorkWindow+x+(y*WorkScreenWidth>>1);
-	*ptr = (UWORD)colour;
+	std::uint16_t	*ptr;
+	ptr  = (std::uint16_t*)WorkWindow+x+(y*WorkScreenWidth>>1);
+	*ptr = (std::uint16_t)colour;
 }
 
-void DrawPixel32(SLONG x,SLONG y,ULONG colour)
+void DrawPixel32(std::int32_t x,std::int32_t y,std::uint32_t colour)
 {
-	ULONG	*ptr;
-	ptr  = (ULONG*)WorkWindow+x+(y*WorkScreenWidth>>2);
-	*ptr = (ULONG)colour;
+	std::uint32_t	*ptr;
+	ptr  = (std::uint32_t*)WorkWindow+x+(y*WorkScreenWidth>>2);
+	*ptr = (std::uint32_t)colour;
 }
 
 //---------------------------------------------------------------
 
-void DrawPixelC8(SLONG x,SLONG y,ULONG colour)
+void DrawPixelC8(std::int32_t x,std::int32_t y,std::uint32_t colour)
 {
 	if(x>=0 && x<WorkWindowWidth && y>=0 && y<WorkWindowHeight)
 	{
-		*(WorkWindow+x+(y*WorkScreenWidth))	=	(UBYTE)colour;
+		*(WorkWindow+x+(y*WorkScreenWidth))	=	(std::uint8_t)colour;
 	}
 }
 
-void DrawPixelC16(SLONG x,SLONG y,ULONG colour)
+void DrawPixelC16(std::int32_t x,std::int32_t y,std::uint32_t colour)
 {
 	if(x>=0 && x<WorkWindowWidth && y>=0 && y<WorkWindowHeight)
 	{
-		UWORD	*ptr;
-		ptr  = (UWORD*)WorkWindow+x+(y*WorkScreenWidth>>1);
-		*ptr = (UWORD)colour;
+		std::uint16_t	*ptr;
+		ptr  = (std::uint16_t*)WorkWindow+x+(y*WorkScreenWidth>>1);
+		*ptr = (std::uint16_t)colour;
 	}
 }
 
-void DrawPixelC32(SLONG x,SLONG y,ULONG colour)
+void DrawPixelC32(std::int32_t x,std::int32_t y,std::uint32_t colour)
 {
 	if(x>=0 && x<WorkWindowWidth && y>=0 && y<WorkWindowHeight)
 	{
-		ULONG	*ptr;
-		ptr  = (ULONG*)WorkWindow+x+(y*WorkScreenWidth>>2);
-		*ptr = (ULONG)colour;
+		std::uint32_t	*ptr;
+		ptr  = (std::uint32_t*)WorkWindow+x+(y*WorkScreenWidth>>2);
+		*ptr = (std::uint32_t)colour;
 	}
 }
 

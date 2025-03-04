@@ -20,31 +20,31 @@
 //
 
 PLAYER_Key PLAYER_key[PLAYER_MAX_PLAYERS];
-SLONG PLAYER_key_start;
-SLONG PLAYER_key_gameturn;
+std::int32_t PLAYER_key_start;
+std::int32_t PLAYER_key_gameturn;
 
 //
 // The messages relating to players joining and leaving the game.
 //
 
 PLAYER_Message *PLAYER_message[PLAYER_NUM_MESSAGES];
-SLONG PLAYER_message_start;
-SLONG PLAYER_message_gameturn;
+std::int32_t PLAYER_message_start;
+std::int32_t PLAYER_message_gameturn;
 
 //
 // The gamestate into the past.
 //
 
 PLAYER_Gamestate PLAYER_gamestate[PLAYER_NUM_GAMESTATES];
-SLONG PLAYER_gamestate_start;
-SLONG PLAYER_gamestate_gameturn;
+std::int32_t PLAYER_gamestate_start;
+std::int32_t PLAYER_gamestate_gameturn;
 
 
 //
 // Our local SHIP_ship \ PLAYER_key index.
 //
 
-SLONG PLAYER_local_index;
+std::int32_t PLAYER_local_index;
 
 
 
@@ -67,7 +67,7 @@ void PLAYER_init()
 
 
 
-void PLAYER_new_gameturn(SLONG gameturn)
+void PLAYER_new_gameturn(std::int32_t gameturn)
 {
 	if (PLAYER_gamestate_start == -1)
 	{
@@ -106,7 +106,7 @@ void PLAYER_new_gameturn(SLONG gameturn)
 	PLAYER_gamestate[gameturn & (PLAYER_NUM_GAMESTATES - 1)].gameturn = gameturn;
 }
 
-void PLAYER_restore_gamestate(SLONG gameturn)
+void PLAYER_restore_gamestate(std::int32_t gameturn)
 {
 	ASSERT(WITHIN(gameturn, PLAYER_gamestate_start, PLAYER_gamestate_gameturn));
 	ASSERT(PLAYER_gamestate[gameturn & (PLAYER_NUM_GAMESTATES - 1)].gameturn == gameturn);
@@ -117,15 +117,15 @@ void PLAYER_restore_gamestate(SLONG gameturn)
 
 
 
-SLONG PLAYER_create_local(
-		CBYTE* name,
-		UBYTE  red,
-		UBYTE  green,
-		UBYTE  blue,
+std::int32_t PLAYER_create_local(
+		char* name,
+		std::uint8_t  red,
+		std::uint8_t  green,
+		std::uint8_t  blue,
 		float  ship_mass,
 		float  ship_power)
 {
-	SLONG num_bytes;
+	std::int32_t num_bytes;
 	void* data;
 
 	//
@@ -146,7 +146,7 @@ SLONG PLAYER_create_local(
 
 	struct
 	{
-		SLONG                     gameturn;
+		std::int32_t                     gameturn;
 		SERVER_Block_request_join join;
 
 	} join_message;
@@ -169,7 +169,7 @@ SLONG PLAYER_create_local(
 	// Wait until the server responds with a copy of gamestate.
 	//
 
-	SLONG start = OS_ticks();
+	std::int32_t start = OS_ticks();
 
 	while(1)
 	{
@@ -213,14 +213,14 @@ SLONG PLAYER_create_local(
 				//
 
 				{
-					SLONG exit_loop = false;
+					std::int32_t exit_loop = false;
 
-					UBYTE *upto     = ((UBYTE *) data) + 4;
-					SLONG  gameturn = ((SLONG *) data)[0];
+					std::uint8_t *upto     = ((std::uint8_t *) data) + 4;
+					std::int32_t  gameturn = ((std::int32_t *) data)[0];
 
 					while(!exit_loop)
 					{
-						if (upto - ((UBYTE *) data) >= num_bytes)
+						if (upto - ((std::uint8_t *) data) >= num_bytes)
 						{
 							//
 							// Finished processing the message.
@@ -287,7 +287,7 @@ SLONG PLAYER_create_local(
 										//
 
 										{
-											SLONG dprocess = (sbg->gameturn << 4) - GAME_process;
+											std::int32_t dprocess = (sbg->gameturn << 4) - GAME_process;
 
 											GAME_turn    = sbg->gameturn;
 											GAME_process = sbg->gameturn << 4;
@@ -357,7 +357,7 @@ SLONG PLAYER_create_local(
 
 	struct
 	{
-		SLONG                           gameturn;
+		std::int32_t                           gameturn;
 		SERVER_Block_received_gamestate received;
 
 	} got_it;
@@ -374,18 +374,18 @@ SLONG PLAYER_create_local(
 
 
 
-SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
+std::int32_t PLAYER_process(std::int32_t *rollback, std::int32_t ignore_server_messages)
 {
-	SLONG i;
-	SLONG j;
-	SLONG num_bytes;
-	SLONG rollback_happened;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t num_bytes;
+	std::int32_t rollback_happened;
 
 	void       *data;
 	PLAYER_Key *pk;
 	SHIP_Ship  *ss;
 
-	UBYTE local;
+	std::uint8_t local;
 
 	//
 	// Rollback only happens we get a different keypress before PLAYER_key_gameturn,
@@ -467,7 +467,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 			{
 				if (ss->flag & SHIP_FLAG_ACTIVE)
 				{
-					UBYTE last;
+					std::uint8_t last;
 
 					if (ss->active == GAME_turn)
 					{
@@ -517,7 +517,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 
 	if (SHIP_ship[PLAYER_local_index].flag & SHIP_FLAG_ACTIVE)
 	{
-		SLONG num_turns;
+		std::int32_t num_turns;
 
 		num_turns = GAME_turn - SHIP_ship[PLAYER_local_index].active + 1;
 
@@ -534,11 +534,11 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 			{
 				#define PLAYER_MAX_NUM_KEYS 256
 
-				SLONG                         gameturn;
+				std::int32_t                         gameturn;
 				union
 				{
 					SERVER_Block_my_keypress_list sbm;
-					UBYTE                         room[sizeof(SERVER_Block_my_keypress_list) + 2 * PLAYER_MAX_NUM_KEYS];
+					std::uint8_t                         room[sizeof(SERVER_Block_my_keypress_list) + 2 * PLAYER_MAX_NUM_KEYS];
 				};
 
 			} my_keys;
@@ -554,7 +554,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 				my_keys.sbm.key[i] = pk->key[(GAME_turn - i) & (PLAYER_NUM_KEYS - 1)];
 			}
 
-			NET_player_message_send(sizeof(SLONG) + sizeof(SERVER_Block_my_keypress_list) + my_keys.sbm.num_keys, &my_keys);
+			NET_player_message_send(sizeof(std::int32_t) + sizeof(SERVER_Block_my_keypress_list) + my_keys.sbm.num_keys, &my_keys);
 		}
 	}
 
@@ -628,14 +628,14 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 				case NET_PLAYER_MESSAGE_FROM_SERVER:
 
 					{
-						SLONG exit_loop = false;
+						std::int32_t exit_loop = false;
 
-						UBYTE *upto     = ((UBYTE *) data) + 4;
-						SLONG  gameturn = ((SLONG *) data)[0];
+						std::uint8_t *upto     = ((std::uint8_t *) data) + 4;
+						std::int32_t  gameturn = ((std::int32_t *) data)[0];
 
 						while(!exit_loop)
 						{
-							if (upto - ((UBYTE *) data) >= num_bytes)
+							if (upto - ((std::uint8_t *) data) >= num_bytes)
 							{
 								//
 								// Finished processing the message.
@@ -683,11 +683,11 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 									case SERVER_BLOCK_TYPE_REMOTE_KEYPRESS_LIST:
 										
 										{
-											SLONG  i;
-											SLONG  j;
-											SLONG  turn;
-											UBYTE  key;
-											UBYTE  repeat;
+											std::int32_t  i;
+											std::int32_t  j;
+											std::int32_t  turn;
+											std::uint8_t  key;
+											std::uint8_t  repeat;
 
 											SHIP_Ship  *ss;
 											PLAYER_Key *pk;
@@ -759,7 +759,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 											}
 
 											upto += sizeof(SERVER_Block_remote_keypress_list);
-											upto += sizeof(UBYTE) * sbk->num_keys;
+											upto += sizeof(std::uint8_t) * sbk->num_keys;
 										}
 
 										break;
@@ -812,7 +812,7 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages)
 
 
 
-void PLAYER_process_messages(SLONG gameturn)
+void PLAYER_process_messages(std::int32_t gameturn)
 {
 	ASSERT(WITHIN(gameturn, PLAYER_message_start, PLAYER_message_gameturn));
 
@@ -881,9 +881,9 @@ void PLAYER_process_messages(SLONG gameturn)
 
 
 
-void PLAYER_press_keys(SLONG gameturn)
+void PLAYER_press_keys(std::int32_t gameturn)
 {
-	SLONG i;
+	std::int32_t i;
 
 	PLAYER_Key *pk;	
 	SHIP_Ship  *ss;

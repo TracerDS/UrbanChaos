@@ -12,8 +12,8 @@
 // The bitmap we are rendering to.
 //
 
-UBYTE *SLAP_bitmap;
-SLONG SLAP_bitmap_size;
+std::uint8_t *SLAP_bitmap;
+std::int32_t SLAP_bitmap_size;
 
 
 
@@ -26,25 +26,25 @@ SLONG SLAP_bitmap_size;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE padding;
-	UWORD next;
-	SLONG pos;		// 8-bit fixed point.
+	std::uint8_t type;
+	std::uint8_t padding;
+	std::uint16_t next;
+	std::int32_t pos;		// 8-bit fixed point.
 
 } SLAP_Link;
 
 #define SLAP_MAX_LINKS (SLAP_MAX_BITMAP_SIZE * 4 * 8)
 
 SLAP_Link SLAP_link[SLAP_MAX_LINKS];
-SLONG SLAP_link_upto;
+std::int32_t SLAP_link_upto;
 
 
 //
 // 4 line per bitmap pixel. Each line has a linked list of SLAP_Links.
 //
 
-UWORD SLAP_line[SLAP_MAX_BITMAP_SIZE * 4];
-SLONG SLAP_line_number;	// SLAP_bitmap_size * 4
+std::uint16_t SLAP_line[SLAP_MAX_BITMAP_SIZE * 4];
+std::int32_t SLAP_line_number;	// SLAP_bitmap_size * 4
 
 
 
@@ -53,12 +53,12 @@ SLONG SLAP_line_number;	// SLAP_bitmap_size * 4
 // Adds a value to a pixel.
 // 
 
-inline void SLAP_add_pixel(SLONG px, SLONG py, SLONG value)
+inline void SLAP_add_pixel(std::int32_t px, std::int32_t py, std::int32_t value)
 {
 	ASSERT(WITHIN(px, 0, SLAP_bitmap_size - 1));
 	ASSERT(WITHIN(py, 0, SLAP_bitmap_size - 1));
 
-	SLONG now = SLAP_bitmap[py * SLAP_bitmap_size + px];
+	std::int32_t now = SLAP_bitmap[py * SLAP_bitmap_size + px];
 
 	now += value;
 
@@ -77,8 +77,8 @@ inline void SLAP_add_pixel(SLONG px, SLONG py, SLONG value)
 
 
 void SLAP_init(
-		UBYTE *bitmap,
-		SLONG  bitmap_size)
+		std::uint8_t *bitmap,
+		std::int32_t  bitmap_size)
 {
 	//
 	// Proper size...
@@ -108,7 +108,7 @@ void SLAP_init(
 	// Make sure all the links have been cleared up after the last render.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < SLAP_line_number; i++)
 	{
@@ -121,19 +121,19 @@ void SLAP_init(
 
 
 void SLAP_add_edge(
-		SLONG x1, SLONG y1,
-		SLONG x2, SLONG y2)
+		std::int32_t x1, std::int32_t y1,
+		std::int32_t x2, std::int32_t y2)
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 	
-	SLONG type;
+	std::int32_t type;
 
-	UWORD  next;
-	UWORD *prev;
+	std::uint16_t  next;
+	std::uint16_t *prev;
 
 
 	//
@@ -260,12 +260,12 @@ void SLAP_add_edge(
 
 void SLAP_render()
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG on;
+	std::int32_t on;
 
-	SLONG add;
+	std::int32_t add;
 
 	SLAP_Link *sk1;
 	SLAP_Link *sk2;

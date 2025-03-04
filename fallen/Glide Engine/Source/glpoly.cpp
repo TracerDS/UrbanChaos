@@ -39,10 +39,10 @@ typedef struct
 //
 
 POLY_Point POLY_buffer[POLY_BUFFER_SIZE];
-SLONG POLY_buffer_upto;
+std::int32_t POLY_buffer_upto;
 
 POLY_Point POLY_shadow[POLY_SHADOW_SIZE];
-SLONG POLY_shadow_upto;
+std::int32_t POLY_shadow_upto;
 
 //
 // Only points further than 1/256'th of the draw range are drawn.
@@ -143,18 +143,18 @@ void POLY_init()
 }
 
 
-ULONG POLY_interpolate_colour(float v, ULONG colour1, ULONG colour2)
+std::uint32_t POLY_interpolate_colour(float v, std::uint32_t colour1, std::uint32_t colour2)
 {
-	SLONG rb1, rb2, drb, rba;
-	SLONG ga1, ga2, dga, gaa;
+	std::int32_t rb1, rb2, drb, rba;
+	std::int32_t ga1, ga2, dga, gaa;
 
 	union
 	{
 		float vfloat;
-		ULONG vfixed8;
+		std::uint32_t vfixed8;
 	};
 
-	SLONG answer;
+	std::int32_t answer;
 
 	//
 	// Early outs.
@@ -293,8 +293,8 @@ float POLY_signed_dist_bottom(void* pp) {return 480.0F - ((POLY_Point *) pp)->Y;
 
 void POLY_clip_to_screen(
 		POLY_Point ***polygon,
-		SLONG        *num_points,
-		UBYTE         clip_or)
+		std::int32_t        *num_points,
+		std::uint8_t         clip_or)
 {
 	if (clip_or & POLY_CLIP_LEFT)
 	{
@@ -509,7 +509,7 @@ void POLY_transform_using_local_rotation(
 	}
 }
 
-SLONG POLY_sphere_visible(
+std::int32_t POLY_sphere_visible(
 		float world_x,
 		float world_y,
 		float world_z,
@@ -550,7 +550,7 @@ SLONG POLY_sphere_visible(
 
 void POLY_fadeout_buffer()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < POLY_buffer_upto; i++)
 	{
@@ -558,9 +558,9 @@ void POLY_fadeout_buffer()
 	}
 }
 
-SLONG POLY_valid_triangle(POLY_Point *pp[3])
+std::int32_t POLY_valid_triangle(POLY_Point *pp[3])
 {
-	ULONG flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip;
+	std::uint32_t flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
@@ -575,9 +575,9 @@ SLONG POLY_valid_triangle(POLY_Point *pp[3])
 	return true;
 }
 
-SLONG POLY_valid_quad(POLY_Point *pp[4])
+std::int32_t POLY_valid_quad(POLY_Point *pp[4])
 {
-	ULONG flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip & pp[3]->clip;
+	std::uint32_t flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip & pp[3]->clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
@@ -592,9 +592,9 @@ SLONG POLY_valid_quad(POLY_Point *pp[4])
 	return true;
 }
 
-SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
+std::int32_t POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 {
-	ULONG flag_and = p1->clip & p2->clip;
+	std::uint32_t flag_and = p1->clip & p2->clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
@@ -609,7 +609,7 @@ SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 }
 
 
-inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3)
+inline std::int32_t POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3)
 {
 	float vx1;
 	float vy1;
@@ -638,9 +638,9 @@ inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp
 
 #define POLY_Z_DETAIL (0.25F)
 
-void POLY_add_triangle(POLY_Point *pp[3], SLONG page, SLONG backface_cull)
+void POLY_add_triangle(POLY_Point *pp[3], std::int32_t page, std::int32_t backface_cull)
 {
-	SLONG i;
+	std::int32_t i;
 
 	POLY_GVertex gv[8];
 
@@ -708,8 +708,8 @@ void POLY_add_triangle(POLY_Point *pp[3], SLONG page, SLONG backface_cull)
 	//
 
 	POLY_Point **poly      = pp;
-	SLONG        poly_size = 3;
-	UBYTE        clip_or   = pp[0]->clip | pp[1]->clip | pp[2]->clip;
+	std::int32_t        poly_size = 3;
+	std::uint8_t        clip_or   = pp[0]->clip | pp[1]->clip | pp[2]->clip;
 
 	if (clip_or)
 	{
@@ -753,9 +753,9 @@ void POLY_add_triangle(POLY_Point *pp[3], SLONG page, SLONG backface_cull)
 		sizeof(POLY_GVertex));
 }
 
-void POLY_add_quad(POLY_Point *pp[4], SLONG page, SLONG backface_cull)
+void POLY_add_quad(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull)
 {
-	SLONG i;
+	std::int32_t i;
 
 	POLY_GVertex gv[8];
 
@@ -767,8 +767,8 @@ void POLY_add_quad(POLY_Point *pp[4], SLONG page, SLONG backface_cull)
 
 	if (backface_cull)
 	{
-		SLONG first;
-		SLONG second;
+		std::int32_t first;
+		std::int32_t second;
 
 		first  = POLY_backface_cull(pp[0], pp[1], pp[2]);
 		second = POLY_backface_cull(pp[1], pp[3], pp[2]);
@@ -863,8 +863,8 @@ void POLY_add_quad(POLY_Point *pp[4], SLONG page, SLONG backface_cull)
 	//
 
 	POLY_Point **poly      = pp;
-	SLONG        poly_size = 4;
-	UBYTE        clip_or   = pp[0]->clip | pp[1]->clip | pp[2]->clip | pp[3]->clip;
+	std::int32_t        poly_size = 4;
+	std::uint8_t        clip_or   = pp[0]->clip | pp[1]->clip | pp[2]->clip | pp[3]->clip;
 
 	if (clip_or)
 	{
@@ -906,7 +906,7 @@ void POLY_add_quad(POLY_Point *pp[4], SLONG page, SLONG backface_cull)
 		sizeof(POLY_GVertex));
 }
 
-void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG sort_to_front)
+void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t sort_to_front)
 {
 	#ifdef WORRY_ABOUT_THIS_LATER
 
@@ -1022,7 +1022,7 @@ void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, S
 	#endif
 }
 
-void POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, ULONG colour)
+void POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, std::uint32_t colour)
 {
 	#ifdef WORRY_ABOUT_THIS_LATER
 
@@ -1110,13 +1110,13 @@ void POLY_clip_line_box(float sx1, float sy1, float sx2, float sy2)
 	POLY_clip_bottom = sy2;
 }
 
-void POLY_clip_line_add(float sx1, float sy1, float sx2, float sy2, ULONG colour)
+void POLY_clip_line_add(float sx1, float sy1, float sx2, float sy2, std::uint32_t colour)
 {
-	UBYTE clip1 = 0;
-	UBYTE clip2 = 0;
-	UBYTE clip_and;
-	UBYTE clip_or;
-	UBYTE clip_xor;
+	std::uint8_t clip1 = 0;
+	std::uint8_t clip2 = 0;
+	std::uint8_t clip_and;
+	std::uint8_t clip_or;
+	std::uint8_t clip_xor;
 
 	float along;
 
@@ -1145,7 +1145,7 @@ void POLY_clip_line_add(float sx1, float sy1, float sx2, float sy2, ULONG colour
 		return;
 	}
 
-	#define SWAP_UB(q,w) {UBYTE temp = (q); (q) = (w); (w) = temp;}
+	#define SWAP_UB(q,w) {std::uint8_t temp = (q); (q) = (w); (w) = temp;}
 
 	if (clip_or)
 	{

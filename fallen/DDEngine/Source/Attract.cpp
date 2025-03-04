@@ -15,7 +15,7 @@ void	engine_attract()
 	count++;
 	if (the_display.screen_lock())
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"%d",count);
 		FONT_draw_coloured_text(220,5,128,128,128,str);
 		the_display.screen_unlock();

@@ -33,9 +33,9 @@ W_Particle Wadpart_Particle[WADPART_MAXPARTICLES];
 #define WADMENU_TEXT_ICON	(WADMENU_TEXT_NORMAL)
 #define WADMENU_TEXT_MISSION (WADMENU_TEXT_CENTRE)
 
-extern void Wadmenu_draw_text(SLONG x,SLONG y,char *str,SLONG colour,SLONG flags);
-extern SLONG Wadmenu_draw_char(SLONG x,SLONG y,unsigned char c,SLONG colour);
-extern void Wadmenu_Image(SLONG id,SLONG x,SLONG y,SLONG scale,SLONG colour);
+extern void Wadmenu_draw_text(std::int32_t x,std::int32_t y,char *str,std::int32_t colour,std::int32_t flags);
+extern std::int32_t Wadmenu_draw_char(std::int32_t x,std::int32_t y,unsigned char c,std::int32_t colour);
+extern void Wadmenu_Image(std::int32_t id,std::int32_t x,std::int32_t y,std::int32_t scale,std::int32_t colour);
 
 
 void Wadpart_RenderLeaf(W_Particle *part)
@@ -46,9 +46,9 @@ void Wadpart_RenderLeaf(W_Particle *part)
 	MATRIX m;
 	SVECTOR pp[4];
 	VECTOR rp[4];
-	SLONG flag,scale=part->scale;
-	SLONG vx,vy;
-	SLONG rot_add=((SLONG)part)&4095;
+	std::int32_t flag,scale=part->scale;
+	std::int32_t vx,vy;
+	std::int32_t rot_add=((std::int32_t)part)&4095;
 
 	vx=part->location.vx>>8;
 	vy=part->location.vy>>8;
@@ -106,16 +106,16 @@ void Wadpart_RenderLeaf(W_Particle *part)
 
 void Wadpart_Init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for(i=0;i<WADPART_MAXPARTICLES;i++)
 	{
 		Wadpart_Particle[i].used=0;
 	}
 }
-SLONG Wadpart_Sync()
+std::int32_t Wadpart_Sync()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for(i=0;i<WADPART_MAXPARTICLES;i++)
 		if ((Wadpart_Particle[i].used)&&!(Wadpart_Particle[i].flags&WADPART_FLAG_AMBIENT))
@@ -125,14 +125,14 @@ SLONG Wadpart_Sync()
 
 inline W_Particle *Wadpart_FindParticle()
 {
-	SLONG i;
+	std::int32_t i;
 	for(i=0;i<WADPART_MAXPARTICLES;i++)
 		if (!Wadpart_Particle[i].used)
 			return &Wadpart_Particle[i];
 	return 0;
 }
 
-void Wadpart_AddTextParticle(SLONG text,SLONG colour,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags)
+void Wadpart_AddTextParticle(std::int32_t text,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -154,7 +154,7 @@ void Wadpart_AddTextParticle(SLONG text,SLONG colour,SLONG x,SLONG y,SLONG dx,SL
 	p->flags=flags;
 }
 
-void Wadpart_AddStringParticle(char *text,SLONG colour,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags)
+void Wadpart_AddStringParticle(char *text,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -164,7 +164,7 @@ void Wadpart_AddStringParticle(char *text,SLONG colour,SLONG x,SLONG y,SLONG dx,
 		return;
 
 	p->type=WADPART_TYPE_STRING;
-	p->value=(SLONG)text;
+	p->value=(std::int32_t)text;
 	p->colour=colour;
 	p->life=life;
 	p->scale=256;
@@ -177,7 +177,7 @@ void Wadpart_AddStringParticle(char *text,SLONG colour,SLONG x,SLONG y,SLONG dx,
 }
 
 
-void Wadpart_AddLeafParticle(SLONG image,SLONG colour,SLONG x,SLONG y,SLONG scale,SLONG flags)
+void Wadpart_AddLeafParticle(std::int32_t image,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t scale,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -200,7 +200,7 @@ void Wadpart_AddLeafParticle(SLONG image,SLONG colour,SLONG x,SLONG y,SLONG scal
 }
 
 
-void Wadpart_AddBloodParticle(SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG scale,SLONG flags)
+void Wadpart_AddBloodParticle(std::int32_t x,std::int32_t y,std::int32_t vx,std::int32_t vy,std::int32_t scale,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -222,7 +222,7 @@ void Wadpart_AddBloodParticle(SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG scale,SLON
 	p->used=1;
 }
 
-void Wadpart_AddImageParticle(SLONG image,SLONG colour,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags)
+void Wadpart_AddImageParticle(std::int32_t image,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -251,7 +251,7 @@ void Wadpart_AddImageParticle(SLONG image,SLONG colour,SLONG x,SLONG y,SLONG dx,
 	p->flags=flags;
 }
 
-void Wadpart_AddBoardParticle(SLONG image,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags)
+void Wadpart_AddBoardParticle(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -284,7 +284,7 @@ void Wadpart_AddBoardParticle(SLONG image,SLONG x,SLONG y,SLONG dx,SLONG dy,SLON
 extern char Wadmenu_char_width[];
 extern char Wadmenu_char_table[];
 
-void Wadpart_AddAnimParticle(SLONG image,SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG scale,SLONG life,SLONG flags)
+void Wadpart_AddAnimParticle(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t vx,std::int32_t vy,std::int32_t scale,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -307,7 +307,7 @@ void Wadpart_AddAnimParticle(SLONG image,SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG
 	p->used=1;
 }
 
-void Wadpart_AddRainParticle(SLONG image,SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG scale,SLONG life,SLONG flags)
+void Wadpart_AddRainParticle(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t vx,std::int32_t vy,std::int32_t scale,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -333,10 +333,10 @@ void Wadpart_AddRainParticle(SLONG image,SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG
 extern int Wadmenu_text_width(char *str);
 #endif
 
-void Wadpart_AddCharExplode(SLONG text,SLONG colour,SLONG x,SLONG y,SLONG life,SLONG flags)
+void Wadpart_AddCharExplode(std::int32_t text,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t life,std::int32_t flags)
 {
 	W_Particle *p;
-	SLONG x0=x;
+	std::int32_t x0=x;
 	char *c=W_(text);
 #ifndef VERSION_KANJI
 	if (flags & WADMENU_TEXT_CENTRE)
@@ -348,7 +348,7 @@ void Wadpart_AddCharExplode(SLONG text,SLONG colour,SLONG x,SLONG y,SLONG life,S
 
 	while(*c)
 	{
-		SLONG c0=(int)strchr(Wadmenu_char_table,toupper(*c));
+		std::int32_t c0=(int)strchr(Wadmenu_char_table,toupper(*c));
 
 		if (*c==32)
 		{
@@ -486,7 +486,7 @@ void Wadpart_Animate(W_Particle *part)
 
 }
 
-void Wadpart_AddRectParticle(SLONG x,SLONG y,SLONG w,SLONG h,SLONG colour,SLONG flags)
+void Wadpart_AddRectParticle(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t colour,std::int32_t flags)
 {
 	W_Particle *p;
 
@@ -509,7 +509,7 @@ void Wadpart_AddRectParticle(SLONG x,SLONG y,SLONG w,SLONG h,SLONG colour,SLONG 
 
 
 
-void Wadpart_Box(SLONG x,SLONG y,SLONG w,SLONG h,SLONG colour)
+void Wadpart_Box(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t colour)
 {
 	POLY_F4 *p;
 	DR_TPAGE *tp;
@@ -527,12 +527,12 @@ void Wadpart_Box(SLONG x,SLONG y,SLONG w,SLONG h,SLONG colour)
 
 }
 
-extern void Wadmenu_Backboard(SLONG id,SLONG x,SLONG y);
+extern void Wadmenu_Backboard(std::int32_t id,std::int32_t x,std::int32_t y);
 
 void Wadpart_Render()
 {
 	POLY_FT4 *p;
-	SLONG i;
+	std::int32_t i;
 	W_Particle *part=Wadpart_Particle;
 
 	for(i=0;i<WADPART_MAXPARTICLES;i++,part++)

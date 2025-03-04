@@ -51,37 +51,37 @@
 
 typedef struct
 {
-	UWORD		Flags;			// pyro flags
-	UBYTE		PyroType;		// firewall, bonfire, etc
-	UBYTE		dlight;			// dynamic light as appropriate
+	std::uint16_t		Flags;			// pyro flags
+	std::uint8_t		PyroType;		// firewall, bonfire, etc
+	std::uint8_t		dlight;			// dynamic light as appropriate
 	Thing*		thing;			// points at its thing. ooer.
 	Thing*		victim;			// to be immolated
 	GameCoord	target;			// for fire walls; or touchpoint of pools?
-	SLONG		radius;			// for area-effect fire
-	SLONG		counter;		// various timings
-	ULONG		radii[8];		// for firepool base
-	SLONG		scale;			// size adjustment
-	SLONG		tints[2];		// for flarey things
-	SLONG		soundid;		// might make this a byte index later
-	SWORD		Timer1;			//was in thing
-	UWORD		Dummy;
+	std::int32_t		radius;			// for area-effect fire
+	std::int32_t		counter;		// various timings
+	std::uint32_t		radii[8];		// for firepool base
+	std::int32_t		scale;			// size adjustment
+	std::int32_t		tints[2];		// for flarey things
+	std::int32_t		soundid;		// might make this a byte index later
+	std::int16_t		Timer1;			//was in thing
+	std::uint16_t		Dummy;
 }Pyro;
 
 typedef struct
 {
-	SLONG		x,y,z,flags;
+	std::int32_t		x,y,z,flags;
 }RadPoint;
 
 typedef struct
 {
-	UWORD		radius, delta;
+	std::uint16_t		radius, delta;
 }PyrPoint;
 
 typedef struct
 {
-	UWORD		Flags;			// pyro flags
-	UBYTE		PyroType;		// firewall, bonfire, etc
-	UBYTE		padding;
+	std::uint16_t		Flags;			// pyro flags
+	std::uint8_t		PyroType;		// firewall, bonfire, etc
+	std::uint8_t		padding;
 	Thing*		thing;			// points at its thing. ooer.
 	PyrPoint	points[17];		// 8 bottom rung, 8 top run, 1 centre
 }Pyrex;
@@ -89,7 +89,7 @@ typedef struct
 typedef Pyro* PyroPtr;
 
 void init_pyros();
-struct Thing *alloc_pyro(UBYTE type);
+struct Thing *alloc_pyro(std::uint8_t type);
 //void   free_pyro (struct Thing *pyro_thing);
 
 
@@ -111,20 +111,20 @@ extern StateFunction IRONICWATERFALL_state_function[];
 extern StateFunction NEWDOME_state_function[];
 extern StateFunction PYRO_state_function[]; // generic
 
-void PYRO_init_state(Thing *pyro_thing, UBYTE new_state);
+void PYRO_init_state(Thing *pyro_thing, std::uint8_t new_state);
 
 //
 // Creates a pyro thing of the given type.  It puts it at the
 // given position on the mapwho and puts it into state STATE_INIT.
 //
 
-Thing *PYRO_create(GameCoord pos, UBYTE type);
+Thing *PYRO_create(GameCoord pos, std::uint8_t type);
 
 //
 // Creates one or more pyro things according to a set of flags
 //
 
-void PYRO_construct(GameCoord posn, SLONG types, SLONG scale);
+void PYRO_construct(GameCoord posn, std::int32_t types, std::int32_t scale);
 
 //
 // Creates a hitspang from the shooter to the given target
@@ -132,7 +132,7 @@ void PYRO_construct(GameCoord posn, SLONG types, SLONG scale);
 //
 
 void PYRO_hitspang(Thing *p_person, Thing *victim);
-void PYRO_hitspang(Thing *p_person, SLONG x, SLONG y, SLONG z);
+void PYRO_hitspang(Thing *p_person, std::int32_t x, std::int32_t y, std::int32_t z);
 
 //
 // Returns the Pyro structure associated with the given pyro thing.
@@ -142,7 +142,7 @@ Pyro *PYRO_get_pyro (Thing *pyro_thing);
 
 // blast radius
 
-void PYRO_blast_radius(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG strength);
+void PYRO_blast_radius(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, std::int32_t strength);
 
 
 #endif

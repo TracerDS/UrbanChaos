@@ -15,19 +15,19 @@
 struct Waypoint
 {
 	bool		Used;
-	UWORD		Next,
+	std::uint16_t		Next,
 				Prev;
-	SLONG		X,Y,Z;
+	std::int32_t		X,Y,Z;
 };
 
-extern ULONG				waypoint_count;
+extern std::uint32_t				waypoint_count;
 extern Waypoint			waypoints[MAX_WAYPOINTS];
 
 //---------------------------------------------------------------
 
 void init_waypoints();
-UWORD alloc_waypoint();
-void free_waypoint(UWORD wp_index);
+std::uint16_t alloc_waypoint();
+void free_waypoint(std::uint16_t wp_index);
 
 //---------------------------------------------------------------
 //---------------------------------------------------------------
@@ -66,17 +66,17 @@ void free_waypoint(UWORD wp_index);
 struct Condition
 {
 	bool		Used;
-	UWORD		Flags,
+	std::uint16_t		Flags,
 				ConditionType,
 				GroupRef;
-	SLONG		Data1,
+	std::int32_t		Data1,
 				Data2,
 				Data3;
 	Condition	*Next,
 				*Prev;
 };
 
-extern ULONG			condition_count;
+extern std::uint32_t			condition_count;
 extern Condition		conditions[MAX_CONDITIONS];
 
 //---------------------------------------------------------------
@@ -94,16 +94,16 @@ Condition *alloc_condition();
 struct ConditionList
 {
 	bool		Used;
-	SLONG		ConditionCount,
+	std::int32_t		ConditionCount,
 				Flags;
 	Condition	*TheList,
 				*TheListEnd;
 };
 
-extern ULONG			con_list_count;
+extern std::uint32_t			con_list_count;
 extern ConditionList	con_lists[MAX_CLISTS];
 
-#define	CONLIST_NUMBER(c)	(UWORD)(c-con_lists)
+#define	CONLIST_NUMBER(c)	(std::uint16_t)(c-con_lists)
 #define TO_CONLIST(c)		(&con_lists[c])
 
 //---------------------------------------------------------------
@@ -151,20 +151,20 @@ void add_condition(ConditionList *the_list,Condition *the_condition);
 struct Command
 {
 	bool		Used;
-	UWORD		Flags,
+	std::uint16_t		Flags,
 				CommandType,
 				GroupRef;
-	SLONG		Data1,
+	std::int32_t		Data1,
 				Data2,
 				Data3;
 	Command		*Next,
 				*Prev;
 };
 
-extern ULONG			command_count;
+extern std::uint32_t			command_count;
 extern Command			commands[MAX_COMMANDS];
 
-#define	COMMAND_NUMBER(x)	  (ULONG)(x-&commands[0])
+#define	COMMAND_NUMBER(x)	  (std::uint32_t)(x-&commands[0])
 #define TO_COMMAND(x)		   (&commands[x])
 
 //---------------------------------------------------------------
@@ -180,16 +180,16 @@ Command *alloc_command();
 struct CommandList
 {
 	bool		Used;
-	SLONG		CommandCount,
+	std::int32_t		CommandCount,
 				Flags;
 	Command		*TheList,
 				*TheListEnd;
 };
 
-extern ULONG			com_list_count;
+extern std::uint32_t			com_list_count;
 extern CommandList		com_lists[MAX_COMLISTS];
 
-#define	COMLIST_NUMBER(c)	(UWORD)(c-com_lists)
+#define	COMLIST_NUMBER(c)	(std::uint16_t)(c-com_lists)
 
 //---------------------------------------------------------------
 

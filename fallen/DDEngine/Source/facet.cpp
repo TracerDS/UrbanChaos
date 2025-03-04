@@ -58,8 +58,8 @@
 
 typedef struct
 {
-	UWORD page;
-	UWORD quads;
+	std::uint16_t page;
+	std::uint16_t quads;
 	
 } FACET_Pageinfo;
 
@@ -67,8 +67,8 @@ typedef struct
 
 typedef struct
 {
-	UBYTE          done;
-	UBYTE          num_pages;
+	std::uint8_t          done;
+	std::uint8_t          num_pages;
 	FACET_Pageinfo page[FACET_MAX_PAGEINFO_PER_FACET];
 
 } FACET_Facetinfo;
@@ -81,7 +81,7 @@ FACET_Facetinfo FACET_facetinfo[FACET_MAX_FACETINFO];
 // The facet we are currently drawing... (this isn't passed down to FillFacetPointsCommon())!
 //
 
-SLONG FACET_facetinfo_current;
+std::int32_t FACET_facetinfo_current;
 
 
 #endif
@@ -94,13 +94,13 @@ float FACET_direction_matrix[9];
 
 
 
-void FACET_output(CBYTE* fmt, ...)
+void FACET_output(char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[512];
+	char   message[512];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -114,18 +114,18 @@ void FACET_output(CBYTE* fmt, ...)
 
 void FACET_facetinfo_trace()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG num_facets = 0;
-	SLONG num_pages  = 0;
-	SLONG num_quads  = 0;
+	std::int32_t num_facets = 0;
+	std::int32_t num_pages  = 0;
+	std::int32_t num_quads  = 0;
 
-	SLONG max_pages_per_facet = 0;
+	std::int32_t max_pages_per_facet = 0;
 
 	#define MAX_QUADS_PER_PAGE 1024
 
-	SLONG quads_per_page[MAX_QUADS_PER_PAGE];
+	std::int32_t quads_per_page[MAX_QUADS_PER_PAGE];
 
 	memset(quads_per_page, 0, sizeof(quads_per_page));
 
@@ -196,13 +196,13 @@ static int iNumFacetTextures = 0;
 //#define	QUICK_FACET	1
 //#define	FACET_REMOVAL_TEST		// show removed facets and use 'F' key to swap (must be defined in build2.cpp too)
 
-SLONG	dfacets_drawn_this_gameturn;
-extern SLONG	get_fence_hole(struct DFacet *p_facet);
-extern SLONG	get_fence_hole_next(struct DFacet *p_facet,SLONG along);
+std::int32_t	dfacets_drawn_this_gameturn;
+extern std::int32_t	get_fence_hole(struct DFacet *p_facet);
+extern std::int32_t	get_fence_hole_next(struct DFacet *p_facet,std::int32_t along);
 
-static	ULONG	facet_seed=0x12345678;
+static	std::uint32_t	facet_seed=0x12345678;
 
-inline void	apply_cloud(SLONG x,SLONG y,SLONG z,ULONG *col)
+inline void	apply_cloud(std::int32_t x,std::int32_t y,std::int32_t z,std::uint32_t *col)
 {
 	return;
 }
@@ -210,15 +210,15 @@ inline void	apply_cloud(SLONG x,SLONG y,SLONG z,ULONG *col)
 void	DRAW_ladder(struct DFacet *p_facet);
 
 
-void FACET_draw(SLONG facet,UBYTE alpha);
-void FACET_draw_rare(SLONG facet,UBYTE alpha);
+void FACET_draw(std::int32_t facet,std::uint8_t alpha);
+void FACET_draw_rare(std::int32_t facet,std::uint8_t alpha);
 
 
 extern bool allow_debug_keys;
 
 // inline utility calls
 
-inline float grid_height_at(SLONG mx,SLONG mz)
+inline float grid_height_at(std::int32_t mx,std::int32_t mz)
 {
 	float	dy;
 	PAP_Hi	*pap;
@@ -234,17 +234,17 @@ inline float grid_height_at(SLONG mx,SLONG mz)
 
 inline float grid_height_at_world(float x,float z)
 {
-	return(grid_height_at( ((SLONG)x)>>8,((SLONG)z)>>8) );
+	return(grid_height_at( ((std::int32_t)x)>>8,((std::int32_t)z)>>8) );
 }
 
-ULONG facet_rand()
+std::uint32_t facet_rand()
 {
 	facet_seed=(facet_seed*69069)+1;
 
 	return(facet_seed>>7);
 }
 
-void	set_facet_seed(SLONG seed)
+void	set_facet_seed(std::int32_t seed)
 {
 	facet_seed=seed;
 }
@@ -255,7 +255,7 @@ void	set_facet_seed(SLONG seed)
 #define	GAP_HEIGHT		96.0
 #define	GAP_WIDTH_PERC	0.2
 #ifdef	UNUSED_WIRE_CUTTERS
-void	draw_fence_gap(POLY_Point *quad[4],SLONG page,SLONG along,float sx,float sy,float sz,float dx,float dy,float dz)
+void	draw_fence_gap(POLY_Point *quad[4],std::int32_t page,std::int32_t along,float sx,float sy,float sz,float dx,float dy,float dz)
 {
   	POLY_Point   *pp;
   	POLY_Point   ppb[3];
@@ -355,14 +355,14 @@ void	draw_fence_gap(POLY_Point *quad[4],SLONG page,SLONG along,float sx,float sy
 //
 // set u,v in the poly points and return the page number for this quad
 
-SLONG flip;	// Nasty!
+std::int32_t flip;	// Nasty!
 
-SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLONG count,SLONG flipx=0)
+std::int32_t texture_quad(POLY_Point *quad[4],std::int32_t texture_style,std::int32_t pos,std::int32_t count,std::int32_t flipx=0)
 {
-	SLONG	page;
-	SLONG	texture_piece;
-	SLONG   rand;
-	SLONG	random=0;
+	std::int32_t	page;
+	std::int32_t	texture_piece;
+	std::int32_t   rand;
+	std::int32_t	random=0;
 
 	rand = facet_rand() & 0x3;
 
@@ -373,7 +373,7 @@ SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLONG count
 		texture_piece=flipx?TEXTURE_PIECE_RIGHT:TEXTURE_PIECE_LEFT;
 	else
 	{
-		static const UBYTE choice[4] =
+		static const std::uint8_t choice[4] =
 		{
 			TEXTURE_PIECE_MIDDLE,
 			TEXTURE_PIECE_MIDDLE,
@@ -388,7 +388,7 @@ SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLONG count
 
 	if(texture_style<0)
 	{
-		SLONG	index;
+		std::int32_t	index;
 		struct	DStorey *p_storey;
 
 		flip=0;
@@ -560,12 +560,12 @@ SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLONG count
 //
 // find page and flip
 //
-SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip)
+std::int32_t	get_texture_page(std::int32_t texture_style,std::int32_t pos,std::int32_t count,std::uint8_t *rflip)
 {
-	SLONG	page;
-	SLONG	texture_piece;
-	SLONG   rand;
-	SLONG	flip;
+	std::int32_t	page;
+	std::int32_t	texture_piece;
+	std::int32_t   rand;
+	std::int32_t	flip;
 
 	rand = facet_rand() & 0x3;
 
@@ -576,7 +576,7 @@ SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip)
 		texture_piece=TEXTURE_PIECE_LEFT;
 	else
 	{
-		static const UBYTE choice[4] =
+		static const std::uint8_t choice[4] =
 		{
 			TEXTURE_PIECE_MIDDLE,
 			TEXTURE_PIECE_MIDDLE,
@@ -589,7 +589,7 @@ SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip)
 
 	if(texture_style<0)
 	{
-		SLONG	index;
+		std::int32_t	index;
 		struct	DStorey *p_storey;
 
 		flip=0;
@@ -631,14 +631,14 @@ SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip)
 		flip=dx_textures_xy[texture_style][texture_piece].Flip;
 	}
 
-	*rflip=UBYTE(flip);
+	*rflip=std::uint8_t(flip);
 	return(page);
 }
 
 
-SLONG	texture_quad2(POLY_Point *quad[4],SLONG texture_style,SLONG texture_piece)
+std::int32_t	texture_quad2(POLY_Point *quad[4],std::int32_t texture_style,std::int32_t texture_piece)
 {
-	SLONG	page;
+	std::int32_t	page;
 
 	if(texture_style==0)
 		texture_style=1;
@@ -698,9 +698,9 @@ SLONG	texture_quad2(POLY_Point *quad[4],SLONG texture_style,SLONG texture_piece)
 	return(page);
 
 }
-SLONG	texture_tri2(POLY_Point *quad[3],SLONG texture_style,SLONG texture_piece)
+std::int32_t	texture_tri2(POLY_Point *quad[3],std::int32_t texture_style,std::int32_t texture_piece)
 {
-	SLONG	page;
+	std::int32_t	page;
 
 	if(texture_style==0)
 		texture_style=1;
@@ -756,7 +756,7 @@ SLONG	texture_tri2(POLY_Point *quad[3],SLONG texture_style,SLONG texture_piece)
 //
 // should work for any angle
 //
-void	build_fence_poles(float sx,float sy,float sz,float fdx,float fdz,SLONG count,float *rdx,float *rdz,SLONG style)
+void	build_fence_poles(float sx,float sy,float sz,float fdx,float fdz,std::int32_t count,float *rdx,float *rdz,std::int32_t style)
 {
 	float	x[13],y[13],z[13];
 	float	dx,dz,nx,nz,dist;
@@ -817,7 +817,7 @@ void	build_fence_poles(float sx,float sy,float sz,float fdx,float fdz,SLONG coun
 
 	while(count-->0)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 		
 		POLY_buffer_upto = 0;
 		pp = &POLY_buffer[0];
@@ -885,8 +885,8 @@ void	build_fence_poles(float sx,float sy,float sz,float fdx,float fdz,SLONG coun
 		//	   2	 5     6
 		//	 1	   4
 		{
-			SLONG	q,t;
-			SLONG	q_lookup[]={1,2,0};
+			std::int32_t	q,t;
+			std::int32_t	q_lookup[]={1,2,0};
 
 			for(q=0;q<3;q++)
 			{
@@ -898,7 +898,7 @@ void	build_fence_poles(float sx,float sy,float sz,float fdx,float fdz,SLONG coun
 
 				if (POLY_valid_quad(quad))
 				{
-					SLONG	page;
+					std::int32_t	page;
 					
 					//
 					// Texture the quad.
@@ -922,7 +922,7 @@ void	build_fence_poles(float sx,float sy,float sz,float fdx,float fdz,SLONG coun
 
 				if (POLY_valid_triangle(tri))
 				{
-					SLONG	page=0;
+					std::int32_t	page=0;
 					
 					//
 					// Texture the quad.
@@ -954,13 +954,13 @@ void cable_draw(struct DFacet *p_facet)
 	float	x1,y1,z1;			// start of cable
 	float	x2,y2,z2;			// end of cable
 	float	dx,dy,dz;			// section vector
-	SLONG	count;				// number of sections
+	std::int32_t	count;				// number of sections
 	float	cx,cy,cz;			// current point on cable
 
-	SLONG	angle;				// current eccentricity angle
-	SLONG	dangle1;			// delta angle #1
-	SLONG	dangle2;			// delta angle #2
-	SLONG	sag;				// sagginess
+	std::int32_t	angle;				// current eccentricity angle
+	std::int32_t	dangle1;			// delta angle #1
+	std::int32_t	dangle2;			// delta angle #2
+	std::int32_t	sag;				// sagginess
 
 
 	POLY_flush_local_rot();
@@ -988,8 +988,8 @@ void cable_draw(struct DFacet *p_facet)
 	cz = z1;
 
 	angle = -512;
-	dangle1 = (SWORD)p_facet->StyleIndex;
-	dangle2 = (SWORD)p_facet->Building;
+	dangle1 = (std::int16_t)p_facet->StyleIndex;
+	dangle2 = (std::int16_t)p_facet->Building;
 	sag = p_facet->FHeight * 64;
 
 	//
@@ -1000,7 +1000,7 @@ void cable_draw(struct DFacet *p_facet)
 	POLY_Point	qp[4];			// quad points
 	POLY_Point*	pqp[4];			// ptrs to quad points
 
-	SLONG	ii;
+	std::int32_t	ii;
 
 	POLY_buffer_upto = 0;
 	pp = &POLY_buffer[0];
@@ -1106,11 +1106,11 @@ void cable_draw(struct DFacet *p_facet)
 }
 
 
-void	DRAW_stairs(SLONG stair,SLONG storey,UBYTE fade)
+void	DRAW_stairs(std::int32_t stair,std::int32_t storey,std::uint8_t fade)
 {
-	SLONG	x,y,z;
-	SLONG	prim=0;
-	SLONG	dir,angle;
+	std::int32_t	x,y,z;
+	std::int32_t	prim=0;
+	std::int32_t	dir,angle;
 
 	x=inside_stairs[stair].X<<8;
 	z=inside_stairs[stair].Z<<8;
@@ -1163,12 +1163,12 @@ void	DRAW_stairs(SLONG stair,SLONG storey,UBYTE fade)
 	}
 }
 
-void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade)
+void	draw_insides(std::int32_t indoor_index,std::int32_t room,std::uint8_t fade)
 {
 	struct	InsideStorey	*p_inside;
-	SLONG	c0;
+	std::int32_t	c0;
 	static	int recursive=0;
-	SLONG	stair;
+	std::int32_t	stair;
 	ASSERT(recursive==0);
 
 //	fade=128;
@@ -1197,24 +1197,24 @@ void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade)
 //     0  7 4  3
 
 
-UBYTE	door_poly[][4]=
+std::uint8_t	door_poly[][4]=
 {
 	{0,1,7,6},
 	{1,2,6,5},
 	{2,3,5,4}
 };
 
-void	DRAW_door(float sx,float sy,float sz,float fx,float fy,float fz,float block_height,SLONG count,ULONG fade_alpha,SLONG style,SLONG flipx=0)
+void	DRAW_door(float sx,float sy,float sz,float fx,float fy,float fz,float block_height,std::int32_t count,std::uint32_t fade_alpha,std::int32_t style,std::int32_t flipx=0)
 {
 
 	float	dy,dx,dz;
-	SLONG	start_index;
-	SLONG	page;
-	UBYTE	flip;
+	std::int32_t	start_index;
+	std::int32_t	page;
+	std::uint8_t	flip;
 
   	POLY_Point   *pp,*ps;
 	POLY_Point   *quad[4];
-	SLONG	c0,face;
+	std::int32_t	c0,face;
 
 	start_index=POLY_buffer_upto;
 	dy=block_height*0.7f;
@@ -1243,7 +1243,7 @@ void	DRAW_door(float sx,float sy,float sz,float fx,float fy,float fz,float block
 
 	}
 
-SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip);
+std::int32_t	get_texture_page(std::int32_t texture_style,std::int32_t pos,std::int32_t count,std::uint8_t *rflip);
 	page=get_texture_page(style,0,1,&flip);
 
 	ps[0].u=0.0f;
@@ -1295,7 +1295,7 @@ SLONG	get_texture_page(SLONG texture_style,SLONG pos,SLONG count,UBYTE *rflip);
 // draw the top of an inside wall
 //
 
-void draw_wall_thickness(struct DFacet *p_facet,ULONG fade_alpha)
+void draw_wall_thickness(struct DFacet *p_facet,std::uint32_t fade_alpha)
 {
   	POLY_Point*	pp;
 	POLY_Point*	quad[4];
@@ -1304,7 +1304,7 @@ void draw_wall_thickness(struct DFacet *p_facet,ULONG fade_alpha)
 	float		y;
 	float		dx,dz;
 
-	static const ULONG	colour = 0xFF8844;
+	static const std::uint32_t	colour = 0xFF8844;
 
 	// get coordinates & vector along the facet
 
@@ -1386,15 +1386,15 @@ void FACET_barbedwire_top(struct DFacet *p_facet)
 	float stepx=(dx/mag)*10;
 	float stepy=(dy/mag)*10;
 	float stepz=(dz/mag)*10;
-	SLONG cx=p_facet->x[0] << 8;
-	SLONG cy=p_facet->Y[0];
-	SLONG cz=p_facet->z[0] << 8;
-	SLONG seed=54321678;
+	std::int32_t cx=p_facet->x[0] << 8;
+	std::int32_t cy=p_facet->Y[0];
+	std::int32_t cz=p_facet->z[0] << 8;
+	std::int32_t seed=54321678;
 	float base=0;
-	SLONG contour = 0;
+	std::int32_t contour = 0;
 	float block_height=256.0;
 	float height;
-	ULONG	normal=0;
+	std::uint32_t	normal=0;
 
 	POLY_set_local_rotation_none();
 
@@ -1455,15 +1455,15 @@ void FACET_barbedwire_top(struct DFacet *p_facet)
 
 }
 
-extern UBYTE AENG_transparent_warehouses;
+extern std::uint8_t AENG_transparent_warehouses;
 
-SWORD FacetRows[100];
+std::int16_t FacetRows[100];
 float FacetDiffY[128];
 
 static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, float block_height, 
-							SLONG height, SLONG max_height, NIGHT_Colour* col, SLONG foundation, SLONG count, SLONG invisible,SLONG hug)
+							std::int32_t height, std::int32_t max_height, NIGHT_Colour* col, std::int32_t foundation, std::int32_t count, std::int32_t invisible,std::int32_t hug)
 {	
-	SLONG	hf = 0;
+	std::int32_t	hf = 0;
 
 	ASSERT(POLY_buffer_upto == 0);	// or else FacetDiffY is accessed wrongly
 
@@ -1475,7 +1475,7 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 
 		FacetRows[hf] = POLY_buffer_upto;
 
-		for (SLONG c0 = count; c0 > 0; c0--)
+		for (std::int32_t c0 = count; c0 > 0; c0--)
 		{
 			float	ty;
 
@@ -1486,7 +1486,7 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 			if(hug)
 			{
 				
-				ty = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 				ty+=y;
 
 			}
@@ -1497,7 +1497,7 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 			}
 			else
 			{
-				ty = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 
 				FacetDiffY[POLY_buffer_upto - 1] = ( ( y - ty ) * ( 1.0f / 256.0f ) ) + 1.0f;
 			}
@@ -1515,7 +1515,7 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 					NIGHT_get_d3d_colour(*col, &pp->colour, &pp->specular);
 				}
 
-				//apply_cloud(SLONG(x), SLONG(ty), SLONG(z), &pp->colour);
+				//apply_cloud(std::int32_t(x), std::int32_t(ty), std::int32_t(z), &pp->colour);
 
 				//POLY_fadeout_point(pp);
 
@@ -1555,9 +1555,9 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 
 
 static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float dz, float block_height, 
-							SLONG height, SLONG max_height, NIGHT_Colour* col, SLONG foundation, SLONG count, SLONG invisible,float *diff_y)
+							std::int32_t height, std::int32_t max_height, NIGHT_Colour* col, std::int32_t foundation, std::int32_t count, std::int32_t invisible,float *diff_y)
 {	
-	SLONG	hf = 0;
+	std::int32_t	hf = 0;
 	float	*p_diffy;
 
 
@@ -1572,7 +1572,7 @@ static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float d
 		p_diffy=diff_y;
 		FacetRows[hf] = POLY_buffer_upto;
 
-		for (SLONG c0 = count; c0 > 0; c0--)
+		for (std::int32_t c0 = count; c0 > 0; c0--)
 		{
 			float	ty;
 
@@ -1593,7 +1593,7 @@ static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float d
 				}
 
 				{
-				//	apply_cloud(SLONG(x), SLONG(ty), SLONG(z), &pp->colour);
+				//	apply_cloud(std::int32_t(x), std::int32_t(ty), std::int32_t(z), &pp->colour);
 				}
 
 				//POLY_fadeout_point(pp);
@@ -1623,14 +1623,14 @@ static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float d
 	FacetRows[hf] = POLY_buffer_upto;
 }
 
-static void FillFacetPoints(SLONG count, ULONG base_row, SLONG foundation, SLONG facet_backwards, SLONG style_index, float block_height,SLONG reverse_texture)
+static void FillFacetPoints(std::int32_t count, std::uint32_t base_row, std::int32_t foundation, std::int32_t facet_backwards, std::int32_t style_index, float block_height,std::int32_t reverse_texture)
 {
 	POLY_Point*		quad[4];
 
-	SLONG	row1 = FacetRows[base_row];
-	SLONG	row2 = FacetRows[base_row+1];
+	std::int32_t	row1 = FacetRows[base_row];
+	std::int32_t	row2 = FacetRows[base_row+1];
 
-	SLONG c0;
+	std::int32_t c0;
 	for (c0 = 0; c0 < row2 - row1 - 1; c0++)
 	{
 		if (facet_backwards)
@@ -1650,7 +1650,7 @@ static void FillFacetPoints(SLONG count, ULONG base_row, SLONG foundation, SLONG
 
 		if (POLY_valid_quad(quad))
 		{
-			SLONG page;
+			std::int32_t page;
 			if(reverse_texture)
 				page = texture_quad(quad, dstyles[style_index], count-2-c0, count,1);
 			else
@@ -1797,9 +1797,9 @@ extern int AENG_detail_crinkles;
 
 // Like MakeFacetPoints, but used in the most common cases.
 inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float dz, float block_height, 
-							SLONG height, NIGHT_Colour* col, SLONG foundation, SLONG count, SLONG hug)
+							std::int32_t height, NIGHT_Colour* col, std::int32_t foundation, std::int32_t count, std::int32_t hug)
 {	
-	SLONG	hf = 0;
+	std::int32_t	hf = 0;
 
 
 
@@ -1816,7 +1816,7 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 
 		FacetRows[hf] = POLY_buffer_upto;
 
-		for (SLONG c0 = count; c0 > 0; c0--)
+		for (std::int32_t c0 = count; c0 > 0; c0--)
 		{
 			float	ty;
 
@@ -1827,7 +1827,7 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 			if(hug)
 			{
 				
-				ty = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 				ty+=y;
 
 			}
@@ -1838,7 +1838,7 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 			}
 			else
 			{
-				ty = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 
 				FacetDiffY[POLY_buffer_upto - 1] = ( ( y - ty ) * ( 1.0f / 256.0f ) ) + 1.0f;
 			}
@@ -1856,7 +1856,7 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 					NIGHT_get_d3d_colour(*col, &pp->colour, &pp->specular);
 				}
 
-				//apply_cloud(SLONG(x), SLONG(ty), SLONG(z), &pp->colour);
+				//apply_cloud(std::int32_t(x), std::int32_t(ty), std::int32_t(z), &pp->colour);
 
 				//POLY_fadeout_point(pp);
 
@@ -1881,20 +1881,20 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 
 
 // Like FillFacetPoints, but used in the most common cases.
-inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation, SLONG style_index, float block_height )
+inline void FillFacetPointsCommon(std::int32_t count, std::uint32_t base_row, std::int32_t foundation, std::int32_t style_index, float block_height )
 {
 	POLY_Point*		quad[4];
 
 	LOG_ENTER ( Facet_FillFacetPoints )
 
-	SLONG	row1 = FacetRows[base_row];
-	SLONG	row2 = FacetRows[base_row+1];
+	std::int32_t	row1 = FacetRows[base_row];
+	std::int32_t	row2 = FacetRows[base_row+1];
 
 	#ifdef FACETINFO
 	FACET_Facetinfo *ff;
 	#endif
 
-	SLONG c0;
+	std::int32_t c0;
 	for (c0 = 0; c0 < row2 - row1 - 1; c0++)
 	{
 		{
@@ -1906,7 +1906,7 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
 
 		if (POLY_valid_quad(quad))
 		{
-			SLONG page;
+			std::int32_t page;
 			page = texture_quad(quad, dstyles[style_index], c0, count);
 
 			#ifdef FACETINFO
@@ -1923,7 +1923,7 @@ inline void FillFacetPointsCommon(SLONG count, ULONG base_row, SLONG foundation,
 
 				ff = &FACET_facetinfo[FACET_facetinfo_current];
 
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < ff->num_pages; i++)
 				{
@@ -2094,8 +2094,8 @@ extern int AENG_detail_crinkles;
 						world_z,
 						FACET_direction_matrix);
 
-					ULONG colour  [4] = {quad[0]->colour,   quad[1]->colour,   quad[2]->colour,   quad[3]->colour  };
-					ULONG specular[4] = {quad[0]->specular, quad[1]->specular, quad[2]->specular, quad[3]->specular};
+					std::uint32_t colour  [4] = {quad[0]->colour,   quad[1]->colour,   quad[2]->colour,   quad[3]->colour  };
+					std::uint32_t specular[4] = {quad[0]->specular, quad[1]->specular, quad[2]->specular, quad[3]->specular};
 
 					if (SUPERCRINKLE_draw(page, colour, specular))
 					{
@@ -2121,7 +2121,7 @@ added_crinkle_common:;
 
 			#ifdef FACETINFO
 
-			SLONG page;
+			std::int32_t page;
 			page = texture_quad(quad, dstyles[style_index], c0, count);
 
 			if (FACET_facetinfo[FACET_facetinfo_current].done)
@@ -2136,7 +2136,7 @@ added_crinkle_common:;
 
 				ff = &FACET_facetinfo[FACET_facetinfo_current];
 
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < ff->num_pages; i++)
 				{
@@ -2169,7 +2169,7 @@ added_crinkle_common:;
 	{
 		#ifdef FACETINFO
 
-		SLONG page;
+		std::int32_t page;
 		page = texture_quad(quad, dstyles[style_index], c0, count);
 
 		if (FACET_facetinfo[FACET_facetinfo_current].done)
@@ -2184,7 +2184,7 @@ added_crinkle_common:;
 
 			ff = &FACET_facetinfo[FACET_facetinfo_current];
 
-			SLONG i;
+			std::int32_t i;
 
 			for (i = 0; i < ff->num_pages; i++)
 			{
@@ -2223,14 +2223,14 @@ added_crinkle_common:;
 
 
 
-extern UWORD	fade_black;
+extern std::uint16_t	fade_black;
 
-void FACET_draw_quick(SLONG facet,UBYTE alpha)
+void FACET_draw_quick(std::int32_t facet,std::uint8_t alpha)
 {
   	POLY_Point   *pp;
 	POLY_Point   *quad[4];
 	float	fx1,fx2,fz1,fz2,fy1,fy2,height;
-	ULONG	col=0xff000000;
+	std::uint32_t	col=0xff000000;
 	struct		  DFacet	*p_facet;
 
 
@@ -2331,35 +2331,35 @@ void FACET_draw_quick(SLONG facet,UBYTE alpha)
 
 
 // Handles all sorts of facets - called by FACET_draw in those cases.
-void FACET_draw_rare(SLONG facet,UBYTE alpha)
+void FACET_draw_rare(std::int32_t facet,std::uint8_t alpha)
 {
 	struct		  DFacet	*p_facet;
-	static SWORD  rows[100];
-	SLONG		  c0,count;
-	SLONG		  dx,dz;
+	static std::int16_t  rows[100];
+	std::int32_t		  c0,count;
+	std::int32_t		  dx,dz;
 	float		  x,y,z,sx,sy,sz,fdx,fdz;
-	SLONG		  height;
+	std::int32_t		  height;
   	POLY_Point   *pp;
-	SLONG         hf;
+	std::int32_t         hf;
 	POLY_Point   *quad[4];
-	SLONG		  style_index;
+	std::int32_t		  style_index;
 	NIGHT_Colour *col;
-	SLONG         max_height;
-	SLONG		foundation=0;
+	std::int32_t         max_height;
+	std::int32_t		foundation=0;
 	static float	diff_y[128];
 	float		block_height=256.0;
 
-	SLONG		diag=0;
-	SLONG		facet_backwards=0;
-	ULONG		fade_alpha=alpha<<24;
-	SLONG		inside_clip=0;
-	SLONG		reverse_textures=0;
-	SLONG		style_index_offset=1;
-	SLONG		style_index_step=2;
+	std::int32_t		diag=0;
+	std::int32_t		facet_backwards=0;
+	std::uint32_t		fade_alpha=alpha<<24;
+	std::int32_t		inside_clip=0;
+	std::int32_t		reverse_textures=0;
+	std::int32_t		style_index_offset=1;
+	std::int32_t		style_index_step=2;
 #ifdef	UNUSED_WIRECUTTERS
-	SLONG		fence_gap,fence_gap_compare; //GAME_TURN&0xff;
+	std::int32_t		fence_gap,fence_gap_compare; //GAME_TURN&0xff;
 #endif
-	SLONG	flipx=0;
+	std::int32_t	flipx=0;
 
 
 	#define MAX_SHAKE 32
@@ -2613,11 +2613,11 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 	else
 	{
 
-		SLONG i;
+		std::int32_t i;
 
-		ULONG clip;
-		ULONG clip_and;
-		ULONG clip_or;
+		std::uint32_t clip;
+		std::uint32_t clip_and;
+		std::uint32_t clip_or;
 
 		POLY_Point bound;
 
@@ -2777,8 +2777,8 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 
 
 		{
-			SLONG	len;
-			SLONG	adx,adz;
+			std::int32_t	len;
+			std::int32_t	adx,adz;
 
 			adx=abs(dx);
 			adz=abs(dz);
@@ -2840,10 +2840,10 @@ void FACET_draw_rare(SLONG facet,UBYTE alpha)
 /*
 
 	{
-		CBYTE	str[10];
+		char	str[10];
 		sprintf(str,"facet %d h %d bs %d",facet,p_facet->Height,p_facet->BlockHeight);
 
-extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 		FONT2D_DrawString_3d(str,p_facet->x[0]<<8,p_facet->Y[0],p_facet->z[0]<<8,0xff0000,60,0);
 	}
 */
@@ -2886,7 +2886,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 					{
 						if(diag)
 						{
-							dy=(float)PAP_calc_height_noroads((SLONG)x,(SLONG)z);
+							dy=(float)PAP_calc_height_noroads((std::int32_t)x,(std::int32_t)z);
 						}
 						else
 						{
@@ -2976,7 +2976,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 					if(hf>0)
 					{
-						SLONG	row1,row2;
+						std::int32_t	row1,row2;
 
 						row1=rows[hf-1];
 						row2=rows[hf];
@@ -2995,7 +2995,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 							if (POLY_valid_quad(quad))
 							{
-								SLONG page;
+								std::int32_t page;
 								
 								//
 								// Texture the quad.
@@ -3073,7 +3073,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 				if(inside_clip) //INDOORS_INDEX)
 				{
-					SLONG	top;
+					std::int32_t	top;
 					top=block_height;
 					top=(top*height)>>2;
 					top+=sy;
@@ -3172,12 +3172,12 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 				float stepx=(dx/mag)*10;
 				float stepy=(dy/mag)*10;
 				float stepz=(dz/mag)*10;
-				SLONG cx=p_facet->x[0] << 8;
-				SLONG cy=p_facet->Y[0];
-				SLONG cz=p_facet->z[0] << 8;
-				SLONG seed=54321678;
+				std::int32_t cx=p_facet->x[0] << 8;
+				std::int32_t cy=p_facet->Y[0];
+				std::int32_t cz=p_facet->z[0] << 8;
+				std::int32_t seed=54321678;
 				float base=0;
-				SLONG contour = 0;
+				std::int32_t contour = 0;
 
 
 				while (base<mag) {
@@ -3267,11 +3267,11 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 							pp = &POLY_buffer[POLY_buffer_upto++];
 
-//							dy=0; //(float)(PAP_2HI(((SLONG)x)>>8,((SLONG)z)>>8).Alt<<3);
+//							dy=0; //(float)(PAP_2HI(((std::int32_t)x)>>8,((std::int32_t)z)>>8).Alt<<3);
 /*
 							if(diag)
 							{
-								dy=PAP_calc_height_at((SLONG)x,(SLONG)z);
+								dy=PAP_calc_height_at((std::int32_t)x,(std::int32_t)z);
 							}
 							else
 							{
@@ -3289,7 +3289,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 									*col,
 									&pp->colour,
 									&pp->specular);
-							//apply_cloud((SLONG)x,(SLONG)(y+dy),(SLONG)z,&pp->colour);
+							//apply_cloud((std::int32_t)x,(std::int32_t)(y+dy),(std::int32_t)z,&pp->colour);
 
 								//POLY_fadeout_point(pp);
 							}
@@ -3310,7 +3310,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 					// now draw the quads
 					//
 					{
-						SLONG	row1,row2;
+						std::int32_t	row1,row2;
 
 						row1=rows[0];
 						row2=rows[1];
@@ -3331,7 +3331,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 							if (POLY_valid_quad(quad))
 							{
-								SLONG	page;
+								std::int32_t	page;
 								
 								//
 								// Texture the quad.
@@ -3453,12 +3453,12 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 						ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
 						pp = &POLY_buffer[POLY_buffer_upto++];
-//						dy=(float)(PAP_2HI(((SLONG)x)>>8,((SLONG)z)>>8).Alt<<3);
+//						dy=(float)(PAP_2HI(((std::int32_t)x)>>8,((std::int32_t)z)>>8).Alt<<3);
 
 /*
 						if(diag)
 						{
-							dy=PAP_calc_height_at((SLONG)x,(SLONG)z);
+							dy=PAP_calc_height_at((std::int32_t)x,(std::int32_t)z);
 						}
 						else
 						{
@@ -3482,7 +3482,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 								&pp->colour,
 								&pp->specular);
 
-							//apply_cloud((SLONG)x,(SLONG)(y+dy),(SLONG)z,&pp->colour);
+							//apply_cloud((std::int32_t)x,(std::int32_t)(y+dy),(std::int32_t)z,&pp->colour);
 							//POLY_fadeout_point(pp);
 							pp->colour|=fade_alpha;
 						}
@@ -3501,7 +3501,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 				}
 
 				{
-					SLONG	row1,row2;
+					std::int32_t	row1,row2;
 
 					row1=rows[0];
 					row2=rows[1];
@@ -3524,7 +3524,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 						if(fence_gap && c0==(fence_gap_compare>>8))
 						{
-							SLONG	page;
+							std::int32_t	page;
 							float	fdy;
 
 							fdy=diff_y[c0+1]-diff_y[c0];
@@ -3545,7 +3545,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 						{
 							if (POLY_valid_quad(quad))
 							{
-								SLONG	page;
+								std::int32_t	page;
 								
 								//
 								// Texture the quad.
@@ -3638,32 +3638,32 @@ static bool bPleaseDoSuperFacets = true;
 
 
 // Like FACET_draw_rare, but for the most common class.
-void FACET_draw(SLONG facet,UBYTE alpha)
+void FACET_draw(std::int32_t facet,std::uint8_t alpha)
 {
 	struct		  DFacet	*p_facet;
-	static SWORD  rows[100];
-	SLONG		  c0,count;
-	SLONG		  dx,dz;
+	static std::int16_t  rows[100];
+	std::int32_t		  c0,count;
+	std::int32_t		  dx,dz;
 	float		  x,y,z,sx,sy,sz,fdx,fdz;
-	SLONG		  height;
+	std::int32_t		  height;
   	POLY_Point   *pp;
-	SLONG         hf;
+	std::int32_t         hf;
 	POLY_Point   *quad[4];
-	SLONG		  style_index;
+	std::int32_t		  style_index;
 	NIGHT_Colour *col;
-	SLONG         max_height;
-	SLONG		foundation=0;
+	std::int32_t         max_height;
+	std::int32_t		foundation=0;
 	static float	diff_y[128];
 	float		block_height=256.0;
 
-	SLONG		diag=0;
-	SLONG		facet_backwards=0;
-	ULONG		fade_alpha=alpha<<24;
-	SLONG		inside_clip=0;
-	SLONG		reverse_textures=0;
-	//SLONG		style_index_offset=1;
-	SLONG		style_index_step=2;
-	SLONG	flipx=0;
+	std::int32_t		diag=0;
+	std::int32_t		facet_backwards=0;
+	std::uint32_t		fade_alpha=alpha<<24;
+	std::int32_t		inside_clip=0;
+	std::int32_t		reverse_textures=0;
+	//std::int32_t		style_index_offset=1;
+	std::int32_t		style_index_step=2;
+	std::int32_t	flipx=0;
 
 
 	LOG_ENTER ( Facet_draw_start )
@@ -3751,13 +3751,13 @@ void FACET_draw(SLONG facet,UBYTE alpha)
 	// entire facet.
 	//
 
-	ULONG clip_or;		// Used below.
+	std::uint32_t clip_or;		// Used below.
 	{
 
-		SLONG i;
+		std::int32_t i;
 
-		ULONG clip;
-		ULONG clip_and;
+		std::uint32_t clip;
+		std::uint32_t clip_and;
 
 		POLY_Point bound;
 
@@ -4099,23 +4099,23 @@ draw_the_facet_common:;
 
 
 
-extern SLONG AENG_drawing_a_warehouse;
+extern std::int32_t AENG_drawing_a_warehouse;
 
-void FACET_draw_walkable(SLONG build)
+void FACET_draw_walkable(std::int32_t build)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG ep;
+	std::int32_t ep;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
-	SLONG page;
-	SLONG warehouse; 
+	std::int32_t page;
+	std::int32_t warehouse; 
 
-	SLONG walkable;
+	std::int32_t walkable;
 
 	struct	RoofFace4  *p_f4;
 	struct DWalkable *p_walk;
@@ -4131,7 +4131,7 @@ void FACET_draw_walkable(SLONG build)
 
 	p_dbuilding = &dbuildings[build];
 
-	UWORD *rooftex = nullptr;
+	std::uint16_t *rooftex = nullptr;
 
 #ifdef TARGET_DC
 	// Internal stuff fixup
@@ -4213,7 +4213,7 @@ void FACET_draw_walkable(SLONG build)
 					   &pp->colour,
 					   &pp->specular);
 
-					//apply_cloud((SLONG)px,(SLONG)py,(SLONG) pz,&pp->colour);
+					//apply_cloud((std::int32_t)px,(std::int32_t)py,(std::int32_t) pz,&pp->colour);
 
 					//POLY_fadeout_point(pp);
 				}
@@ -4229,7 +4229,7 @@ void FACET_draw_walkable(SLONG build)
 					   &pp->colour,
 					   &pp->specular);
 
-					//apply_cloud((SLONG)px,(SLONG)py,(SLONG) pz,&pp->colour);
+					//apply_cloud((std::int32_t)px,(std::int32_t)py,(std::int32_t) pz,&pp->colour);
 
 					//POLY_fadeout_point(pp);
 				}
@@ -4245,7 +4245,7 @@ void FACET_draw_walkable(SLONG build)
 					   &pp->colour,
 					   &pp->specular);
 
-					//apply_cloud((SLONG)px,(SLONG)py,(SLONG) pz,&pp->colour);
+					//apply_cloud((std::int32_t)px,(std::int32_t)py,(std::int32_t) pz,&pp->colour);
 
 					//POLY_fadeout_point(pp);
 				}
@@ -4261,7 +4261,7 @@ void FACET_draw_walkable(SLONG build)
 					   &pp->colour,
 					   &pp->specular);
 
-					//apply_cloud((SLONG)px,(SLONG)py,(SLONG) pz,&pp->colour);
+					//apply_cloud((std::int32_t)px,(std::int32_t)py,(std::int32_t) pz,&pp->colour);
 
 					//POLY_fadeout_point(pp);
 				}
@@ -4278,7 +4278,7 @@ void FACET_draw_walkable(SLONG build)
 #ifndef TARGET_DC
 					if(ControlFlag&&allow_debug_keys)
 					{
-						SLONG	x,z,y;
+						std::int32_t	x,z,y;
 
 						x=(p_f4->RX&127)<<8;
 						z=(p_f4->RZ&127)<<8;
@@ -4575,26 +4575,26 @@ void FACET_draw_walkable(SLONG build)
 //
 // when walkable faces where prim_faces
 //
-void FACET_draw_walkable_old(SLONG build)
+void FACET_draw_walkable_old(std::int32_t build)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
-	SLONG page;
+	std::int32_t page;
 
-	SLONG walkable;
+	std::int32_t walkable;
 
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -4653,7 +4653,7 @@ void FACET_draw_walkable_old(SLONG build)
 					   &pp->colour,
 					   &pp->specular);
 #endif
-					//apply_cloud((SLONG)AENG_dx_prim_points[i].X,(SLONG)AENG_dx_prim_points[i].Y,(SLONG)AENG_dx_prim_points[i].Z,&pp->colour);
+					//apply_cloud((std::int32_t)AENG_dx_prim_points[i].X,(std::int32_t)AENG_dx_prim_points[i].Y,(std::int32_t)AENG_dx_prim_points[i].Z,&pp->colour);
 
 					//POLY_fadeout_point(pp);
 //					pp->colour|=fade_alpha;
@@ -4692,9 +4692,9 @@ void FACET_draw_walkable_old(SLONG build)
 						// Draw the slide-edges
 						//
 
-						SLONG ei;
+						std::int32_t ei;
 						
-						UBYTE point_order[4] = {0, 1, 3, 2};
+						std::uint8_t point_order[4] = {0, 1, 3, 2};
 						
 						for (ei = 0; ei < 4; ei++)
 						{
@@ -4927,15 +4927,15 @@ void FACET_draw_walkable_old(SLONG build)
 
 
 
-void	DRAW_ladder_rungs(float x1,float z1,float x2,float z2,struct DFacet	*p_facet,float dx,float dz,ULONG colour, ULONG specular)
+void	DRAW_ladder_rungs(float x1,float z1,float x2,float z2,struct DFacet	*p_facet,float dx,float dz,std::uint32_t colour, std::uint32_t specular)
 {
-	SLONG	count;
+	std::int32_t	count;
 	float	y;
 	POLY_Point *quad[4];
 	POLY_Point *pp;
 
 	// Do this signed so that the alpha values stay at ff or 00 as appropriate.
-	ULONG dcolour = ((signed)colour >> 2) & 0xff3f3f3f;
+	std::uint32_t dcolour = ((signed)colour >> 2) & 0xff3f3f3f;
 
 	//
 	// do a height test so just process rungs in height range we can see
@@ -4997,7 +4997,7 @@ void	DRAW_ladder_rungs(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 
 		if (POLY_valid_quad(quad))
 		{
-			SLONG	page;
+			std::int32_t	page;
 			
 			//
 			// Texture the quad.
@@ -5011,17 +5011,17 @@ void	DRAW_ladder_rungs(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 }
 
 #define	LADDER_SPINE_WIDTH		12
-void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_facet,float dx,float dz,ULONG colour, ULONG specular)
+void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_facet,float dx,float dz,std::uint32_t colour, std::uint32_t specular)
 {
-	SLONG	count;
+	std::int32_t	count;
 	float	y;
 	POLY_Point *quad[4];
 	POLY_Point *pp;
 	float	height;
-	UWORD	sp[64];
+	std::uint16_t	sp[64];
 
 	// Do this signed so that the alpha values stay at ff or 00 as appropriate.
-	ULONG dcolour = ((signed)colour >> 2) & 0xff3f3f3f;
+	std::uint32_t dcolour = ((signed)colour >> 2) & 0xff3f3f3f;
 
 	float v;
 
@@ -5040,7 +5040,7 @@ void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 	{
 		float	x1mdz,x1pdx,x2mdx,x2mdz;
 		float	z1pdx,z1pdz,z2mdz,z2pdx;
-		SLONG	c0=0;
+		std::int32_t	c0=0;
 
 		x1mdz=x1-dz;
 		x1pdx=x1+dx;
@@ -5127,7 +5127,7 @@ void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 
 				if (POLY_valid_quad(quad))
 				{
-					SLONG	page;
+					std::int32_t	page;
 					
 					page = POLY_PAGE_LADDER;
 
@@ -5141,7 +5141,7 @@ void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 
 				if (POLY_valid_quad(quad))
 				{
-					SLONG	page;
+					std::int32_t	page;
 
 					page = POLY_PAGE_LADDER;
 
@@ -5155,7 +5155,7 @@ void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 
 				if (POLY_valid_quad(quad))
 				{
-					SLONG	page;
+					std::int32_t	page;
 					
 					//page = texture_quad(quad,dstyles[0],0,0);
 					//page=texture_quad(quad,dstyles[p_facet->StyleIndex],1,5);
@@ -5171,7 +5171,7 @@ void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 
 				if (POLY_valid_quad(quad))
 				{
-					SLONG	page;
+					std::int32_t	page;
 					
 					//page = texture_quad(quad,dstyles[0],0,0);
 					//page=texture_quad(quad,dstyles[p_facet->StyleIndex],1,5);
@@ -5188,12 +5188,12 @@ void	DRAW_ladder_sides(float x1,float z1,float x2,float z2,struct DFacet	*p_face
 	
 void	DRAW_ladder(struct DFacet *p_facet)
 {
-	SLONG	dx,dz;
-	SLONG	dx3,dz3;
-	SLONG	x1,z1,x2,z2;
+	std::int32_t	dx,dz;
+	std::int32_t	dx3,dz3;
+	std::int32_t	x1,z1,x2,z2;
 
-	ULONG colour;
-	ULONG specular;
+	D3DCOLOR colour;
+	D3DCOLOR specular;
 
 	//
 	// Don't bother drawing the sewer ladders when we're not in the sewers.
@@ -5283,8 +5283,8 @@ void	DRAW_ladder(struct DFacet *p_facet)
 	// Draw the ladder shadow...
 	//
 
-	SLONG bx;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t bz;
 
 	bx = (x1 + x2 - (dz << 3) >> 9);
 	bz = (z1 + z2 + (dx << 3) >> 9);
@@ -5367,18 +5367,18 @@ void	DRAW_ladder(struct DFacet *p_facet)
 #ifdef EDITOR
 
 void FACET_draw_ns_ladder(
-		SLONG x1,
-		SLONG z1,
-		SLONG x2,
-		SLONG z2,
-		SLONG height)
+		std::int32_t x1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t z2,
+		std::int32_t height)
 {
 	DFacet df;
 
-	SLONG y;
+	std::int32_t y;
 
-	SLONG mx = (x1 + x2 << 7) + ((z2 - z1) << 2) >> 8;
-	SLONG mz = (z1 + z2 << 7) - ((x2 - x1) << 2) >> 8;
+	std::int32_t mx = (x1 + x2 << 7) + ((z2 - z1) << 2) >> 8;
+	std::int32_t mz = (z1 + z2 << 7) - ((x2 - x1) << 2) >> 8;
 
 	ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));
@@ -5414,11 +5414,11 @@ void FACET_draw_ns_ladder(
 
 
 
-void FACET_project_crinkled_shadow(SLONG facet)
+void FACET_project_crinkled_shadow(std::int32_t facet)
 {
-	SLONG i;
-	SLONG page;
-	SLONG style_index;
+	std::int32_t i;
+	std::int32_t page;
+	std::int32_t style_index;
 
 	//
 	// Our facet.
@@ -5443,8 +5443,8 @@ void FACET_project_crinkled_shadow(SLONG facet)
 	// Everything we need to work out the world positions of all the facet points.
 	//
 
-	SLONG dx = p_facet->x[1] - p_facet->x[0];
-	SLONG dz = p_facet->z[1] - p_facet->z[0];
+	std::int32_t dx = p_facet->x[1] - p_facet->x[0];
+	std::int32_t dz = p_facet->z[1] - p_facet->z[0];
 
 	float sx = float(p_facet->x[0] << 8);
 	float sy = float(p_facet->Y[0]     );
@@ -5454,14 +5454,14 @@ void FACET_project_crinkled_shadow(SLONG facet)
 	float fdz = SIGN(dz) * 256.0F;
 
 	float block_height = float(p_facet->BlockHeight << 4);
-	SLONG height       = p_facet->Height;
-	SLONG max_height   = INFINITY;
+	std::int32_t height       = p_facet->Height;
+	std::int32_t max_height   = INFINITY;
 
 	NIGHT_Colour *col = nullptr;	// No cached lighting needed!
 	
-	SLONG foundation = (p_facet->FHeight) ? 2 : 0;
+	std::int32_t foundation = (p_facet->FHeight) ? 2 : 0;
 
-	SLONG count = abs(dx) + abs(dz);
+	std::int32_t count = abs(dx) + abs(dz);
 
 	//
 	// Work out the texturing.
@@ -5479,10 +5479,10 @@ void FACET_project_crinkled_shadow(SLONG facet)
 	#define MAX_FACET_ROWS   32
 
 	SVector_F  facet_point[MAX_FACET_POINTS];
-	SLONG      facet_point_upto;
+	std::int32_t      facet_point_upto;
 
 	SVector_F *facet_row[MAX_FACET_ROWS];
-	SLONG      facet_row_upto;
+	std::int32_t      facet_row_upto;
 
 	SVector_F *sv;
 
@@ -5520,7 +5520,7 @@ void FACET_project_crinkled_shadow(SLONG facet)
 
 			if (foundation == 2)
 			{
-				ty = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 			}
 			else
 			{
@@ -5549,7 +5549,7 @@ void FACET_project_crinkled_shadow(SLONG facet)
 	// Now we have all our points, we can go through each face in turn.
 	//
 
-	SLONG base_row;
+	std::int32_t base_row;
 	SVector_F  poly[4];
 
 	height     = p_facet->Height;
@@ -5565,7 +5565,7 @@ void FACET_project_crinkled_shadow(SLONG facet)
 	while(height >= 0)
 	{
 		{
-			UBYTE rflip;
+			std::uint8_t rflip;
 
 			ASSERT(WITHIN(base_row,     0, facet_row_upto - 1));
 			ASSERT(WITHIN(base_row + 1, 0, facet_row_upto - 1));

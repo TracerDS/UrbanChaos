@@ -23,38 +23,38 @@ z>>1 for bucket size
 
 
 //struct	Bucket	buckets[MAX_BUCKET_POOL];
-UBYTE	bucket_pool[MAX_BUCKET_POOL];
-UWORD	select_colour	=	0xffff;
+std::uint8_t	bucket_pool[MAX_BUCKET_POOL];
+std::uint16_t	select_colour	=	0xffff;
 struct	BucketHead	bucket_heads[MAX_BUCKETS];
-UBYTE	*current_bucket_pool=bucket_pool;
-UBYTE	*end_bucket_pool=&bucket_pool[MAX_BUCKET_POOL-100];
+std::uint8_t	*current_bucket_pool=bucket_pool;
+std::uint8_t	*end_bucket_pool=&bucket_pool[MAX_BUCKET_POOL-100];
 
-ULONG (*rotate_point_gte)(struct	SVector *v,struct SVector *r);
+std::uint32_t (*rotate_point_gte)(struct	SVector *v,struct SVector *r);
 
 
 struct	EngineStuff	engine;
 
-SLONG	poly_count=0;
-SLONG	vect_count=0;
-SLONG	small_z=0,big_z=0;
+std::int32_t	poly_count=0;
+std::int32_t	vect_count=0;
+std::int32_t	small_z=0,big_z=0;
 
-SLONG	view_mode=0;
+std::int32_t	view_mode=0;
 
 
 struct	ExplodeFaces
 {
 	struct	PrimPoint P[3];
 	struct	PrimFace3 Face3;
-	SLONG	X,Y,Z;
-	SLONG	VX,VY,VZ;
-	SLONG	Timer;
-	SWORD	AX,AY;
+	std::int32_t	X,Y,Z;
+	std::int32_t	VX,VY,VZ;
+	std::int32_t	Timer;
+	std::int16_t	AX,AY;
 };
 
 #define	MAX_EX_FACE	20
 struct	ExplodeFaces	ex_faces[MAX_EX_FACE];
-SLONG	next_ex_face=1;
-SLONG	debug_info=0;
+std::int32_t	next_ex_face=1;
+std::int32_t	debug_info=0;
 void	draw_explode_faces();
 
 #define	DEBUG_INFO	(1<<0)
@@ -63,7 +63,7 @@ void	draw_explode_faces();
 
 inline void	rotate_point_old(struct EnginePoint* eptr)								
 {																			
-	SLONG	x,y,z;
+	std::int32_t	x,y,z;
 
 	eptr->X3d-=engine.X>>8;
 	eptr->Y3d-=engine.Y>>8;
@@ -114,10 +114,10 @@ inline void	rotate_point_old(struct EnginePoint* eptr)
 
 #define	EYE_DIST	0
 
-ULONG	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r)
+std::uint32_t	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r)
 {
-	SLONG	x,y,z,vx,vy,vz;
-	ULONG	flags=0;
+	std::int32_t	x,y,z,vx,vy,vz;
+	std::uint32_t	flags=0;
 /*
 	if(engine.ClipFlag&ENGINE_CLIPY_FLAG)
 	if( v->Y > engine.ClipMaxY||v->Y < engine.ClipMinY)
@@ -160,7 +160,7 @@ ULONG	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r)
 	}
 	else
 	{
-		SLONG	xdiv,ydiv;
+		std::int32_t	xdiv,ydiv;
 		xdiv=( x/(r->Z+EYE_DIST) );
 		ydiv=( y/(r->Z+EYE_DIST) );
 
@@ -209,14 +209,14 @@ ULONG	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r)
 	return(flags);
 }
 
-ULONG	rotate_point_gte_normal(struct	SVector *v,struct SVector *r)
+std::uint32_t	rotate_point_gte_normal(struct	SVector *v,struct SVector *r)
 {
-	SLONG	x,y,z,vx,vy,vz;
-	ULONG	flags=0;
+	std::int32_t	x,y,z,vx,vy,vz;
+	std::uint32_t	flags=0;
 /*
 	if(engine.ClipFlag&ENGINE_CLIPY_FLAG)
 	{
-		SLONG	dy;
+		std::int32_t	dy;
 		dy=(engine.TrueY-engine.Y)>>8;
 		
 		if( v->Y+dy > engine.ClipMaxY||v->Y+dy < engine.ClipMinY)
@@ -310,7 +310,7 @@ void	init_engine()
 	engine.ClipZ=5000;
 }
 
-void	add_bucket(void* p_bucket,SLONG z)
+void	add_bucket(void* p_bucket,std::int32_t z)
 {
 	struct	BucketQuad	*the_quad;
 	struct	BucketTri	*the_tri;
@@ -363,12 +363,12 @@ void	add_bucket(void* p_bucket,SLONG z)
 
 
 /* Example bucket use
-void	draw_block(UWORD	prev_block,UWORD	c_block)
+void	draw_block(std::uint16_t	prev_block,std::uint16_t	c_block)
 {
 	struct	EnginePoint		*p_start,*p1;
 		struct	SVector			res[8];
-	SLONG	flags[8],flag;
-	SLONG	c0;
+	std::int32_t	flags[8],flag;
+	std::int32_t	c0;
 	struct	Block			*p_b;
 	struct	Bucket			*p_bucket;
 		
@@ -431,7 +431,7 @@ void	draw_quad_anti(struct	MfEnginePoint *p1,struct	MfEnginePoint *p2,struct	MfE
 
 
 //change poly draw to understand buckets directly
-void	draw_quad_bucket(struct BucketQuad *p_b,SLONG z)
+void	draw_quad_bucket(struct BucketQuad *p_b,std::int32_t z)
 {
 	struct EnginePoint	p1,p2,p3,p4;
 
@@ -551,10 +551,10 @@ wire:;
 	if(p_b->DebugInfo)
 	{
 
-		CBYTE	str1[10];
-		CBYTE	str2[10];
-		CBYTE	str3[10];
-		SLONG 	x,y;
+		char	str1[10];
+		char	str2[10];
+		char	str3[10];
+		std::int32_t 	x,y;
 		sprintf(str1,"f%d",p_b->DebugInfo);
 		sprintf(str2,"W%d",prim_faces4[p_b->DebugInfo].ThingIndex);
 		sprintf(str3,"S%d",wall_list[-prim_faces4[p_b->DebugInfo].ThingIndex].StoreyHead);
@@ -580,8 +580,8 @@ wire:;
 	//if(p_b->DebugInfo==28334)
 //	if(ShiftFlag)
 	{
-		CBYTE	str[100];
-		SLONG 	x,y;
+		char	str[100];
+		std::int32_t 	x,y;
 		sprintf(str,"%d",p_b->DebugInfo);
 		x=(p_b->P[0].X+p_b->P[1].X+p_b->P[2].X+p_b->P[3].X)>>2;
 		y=(p_b->P[0].Y+p_b->P[1].Y+p_b->P[2].Y+p_b->P[3].Y)>>2;
@@ -677,8 +677,8 @@ wire:;
 
 	if(0)
 	{
-		CBYTE	str[100];
-		SLONG 	x,y;
+		char	str[100];
+		std::int32_t 	x,y;
 		if(p_b->DebugInfo>0)
 			sprintf(str," z=%d",p_b->DebugInfo);
 		else
@@ -708,10 +708,10 @@ void	draw_rect_bucket(struct BucketRect *p_b)
 	DrawBoxC(p_b->P[0].X,p_b->P[0].Y,p_b->Width,p_b->Height,p_b->Col);
 }
 
-void	hilite_a_floor_face(SWORD face,UBYTE info_flag)
+void	hilite_a_floor_face(std::int16_t face,std::uint8_t info_flag)
 {
 	struct	SVector	point,res[4];
-	SLONG	dx,dy,dz;
+	std::int32_t	dx,dy,dz;
 
 	dx=selected_prim_xyz.X;
 	dy=selected_prim_xyz.Y;
@@ -744,20 +744,20 @@ void	hilite_a_floor_face(SWORD face,UBYTE info_flag)
 	
 }
 
-void	hilite_a_face(SWORD face,UBYTE info_flag)
+void	hilite_a_face(std::int16_t face,std::uint8_t info_flag)
 {
-	UWORD			*points;
-	SLONG			flags[4];
+	std::uint16_t			*points;
+	std::int32_t			flags[4];
 	struct SVector	res[4];
-	SLONG			ox,oy,oz,c0;
+	std::int32_t			ox,oy,oz,c0;
 	struct SVector	norm;
-	SLONG	flag_and,flag_or;
-	CBYTE	str[100];
+	std::int32_t	flag_and,flag_or;
+	char	str[100];
 
-	SLONG	wall;
-	SLONG	storey;
-	SLONG	building;
-	SLONG	thing;
+	std::int32_t	wall;
+	std::int32_t	storey;
+	std::int32_t	building;
+	std::int32_t	thing;
 
 	Thing *p_thing;
 	if(face<0)
@@ -930,14 +930,14 @@ void	hilite_a_face(SWORD face,UBYTE info_flag)
 	}
 }
 
-void	render_buckets(UBYTE highlight)
+void	render_buckets(std::uint8_t highlight)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	BucketHead	*p;
 	struct	BucketQuad	*the_quad;
 	struct	BucketTri	*the_tri;
 	void	*bucket;
-	CBYTE	str[100];
+	char	str[100];
 
 	if(view_mode&8)
 		p=&bucket_heads[0];
@@ -948,11 +948,11 @@ void	render_buckets(UBYTE highlight)
 	{
 		bucket=p->BucketPtr;
 		{
-			SLONG	count=0;
+			std::int32_t	count=0;
 			p->BucketPtr=0;
 			while(bucket)
 			{
-				UWORD	temp;
+				std::uint16_t	temp;
 				count++;
 				switch(((struct BucketGeneric*)bucket)->BucketType)
 				{
@@ -985,7 +985,7 @@ void	render_buckets(UBYTE highlight)
 /*		
 		if(next_face_selected>1)
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			for(c0=0;c0<next_face_selected;c0++)
 			{
 				hilite_a_face(face_selected_list[c0],0);
@@ -1039,9 +1039,9 @@ void	render_buckets(UBYTE highlight)
 }
 
 
-void	render_view(UBYTE highlight)
+void	render_view(std::uint8_t highlight)
 {
-	static	SLONG			prev_time;
+	static	std::int32_t			prev_time;
 	struct MFTime 	the_time;
 	draw_explode_faces();
 
@@ -1090,7 +1090,7 @@ void	render_view(UBYTE highlight)
 	}
 	Time(&the_time);
 #ifdef	TEST_3DFX
-void	render_buckets_3dfx(UBYTE highlight);
+void	render_buckets_3dfx(std::uint8_t highlight);
 	render_buckets_3dfx(highlight);
 #else
 	render_buckets(highlight);
@@ -1100,9 +1100,9 @@ void	render_buckets_3dfx(UBYTE highlight);
 
 	if((engine.ShowDebug)) //||(ShiftFlag))
 	{
-		CBYTE	str[100];
-		static	SLONG	times[10],turn=0;
-		SLONG	time;
+		char	str[100];
+		static	std::int32_t	times[10],turn=0;
+		std::int32_t	time;
 		turn++;
 		Time(&the_time);
 		time=the_time.Ticks;
@@ -1114,7 +1114,7 @@ void	render_buckets_3dfx(UBYTE highlight);
 		times[turn%10]=time-prev_time;
 
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			time=0;
 			for(c0=0;c0<10;c0++)
 				time+=times[c0];
@@ -1190,7 +1190,7 @@ void	set_camera()
 	engine.SinZ=SIN((engine.AngleZ>>8)&2047);
 }
 
-void	set_camera_angledy(SWORD angle)
+void	set_camera_angledy(std::int16_t angle)
 {
 
 	if(angle)
@@ -1214,7 +1214,7 @@ void	clear_camera_angledy()
 
 void	set_camera_plan()
 {
-	SLONG	angle;
+	std::int32_t	angle;
 
 	engine.VW=WorkWindowWidth;
 	engine.VH=WorkWindowHeight;
@@ -1235,7 +1235,7 @@ void	set_camera_plan()
 
 void	set_camera_front()
 {
-	SLONG	angle;
+	std::int32_t	angle;
 
 	engine.VW=WorkWindowWidth;
 	engine.VH=WorkWindowHeight;
@@ -1256,7 +1256,7 @@ void	set_camera_front()
 
 void	set_camera_side()
 {
-	SLONG	angle;
+	std::int32_t	angle;
 
 	engine.VW=WorkWindowWidth;
 	engine.VH=WorkWindowHeight;
@@ -1277,7 +1277,7 @@ void	set_camera_side()
 
 //mousex,0,mousey
 /*
-void	reverse_transform(SLONG x,SLONG y,SLONG z,SLONG *out_x,SLONG *out_y,SLONG *out_z)
+void	reverse_transform(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t *out_x,std::int32_t *out_y,std::int32_t *out_z)
 {
 	if(sint==0)
 		return;
@@ -1297,9 +1297,9 @@ void	reverse_transform(SLONG x,SLONG y,SLONG z,SLONG *out_x,SLONG *out_y,SLONG *
 */
 
 
-void	calc_world_pos_plan(SLONG x,SLONG y)
+void	calc_world_pos_plan(std::int32_t x,std::int32_t y)
 {
-	SLONG	temp_x,temp_z;
+	std::int32_t	temp_x,temp_z;
 	if(engine.Scale)
 	{
 		temp_x=(((x-engine.VW2)<<16)/engine.Scale);
@@ -1310,9 +1310,9 @@ void	calc_world_pos_plan(SLONG x,SLONG y)
 
 }
 
-void	calc_world_pos_front(SLONG x,SLONG y)
+void	calc_world_pos_front(std::int32_t x,std::int32_t y)
 {
-	SLONG	temp_x,temp_y;
+	std::int32_t	temp_x,temp_y;
 
 	if(engine.Scale)
 	{
@@ -1324,12 +1324,12 @@ void	calc_world_pos_front(SLONG x,SLONG y)
 }
 
 
-void	dump_face_info(SWORD face)
+void	dump_face_info(std::int16_t face)
 {
 	struct	MapThing	*p_thing;
-	SLONG	x,y,z;
-	SLONG	c0;
-	SWORD	index[]={0,1,3,2,0};
+	std::int32_t	x,y,z;
+	std::int32_t	c0;
+	std::int16_t	index[]={0,1,3,2,0};
 	
 	if(face>0)
 	{
@@ -1371,7 +1371,7 @@ void	dump_face_info(SWORD face)
 
 }
 
-void	calc_txty(SWORD face,SLONG *tx,SLONG *ty,SWORD mid_x,SWORD mid_y,SWORD mid_z)
+void	calc_txty(std::int16_t face,std::int32_t *tx,std::int32_t *ty,std::int16_t mid_x,std::int16_t mid_y,std::int16_t mid_z)
 {
 
 	if(face>0)
@@ -1381,10 +1381,10 @@ void	calc_txty(SWORD face,SLONG *tx,SLONG *ty,SWORD mid_x,SWORD mid_y,SWORD mid_
 	}
 }
 
-void	rotate_point_by_xyz(struct SVector *p,SLONG ax,SLONG ay,SLONG az)
+void	rotate_point_by_xyz(struct SVector *p,std::int32_t ax,std::int32_t ay,std::int32_t az)
 {
-	SLONG	cosy,siny,cosx,sinx,cosz,sinz;
-	SLONG	rx,ry,rz;
+	std::int32_t	cosy,siny,cosx,sinx,cosz,sinz;
+	std::int32_t	rx,ry,rz;
 
 	ax=(ax+2048)&2047;
 	ay=(ay+2048)&2047;
@@ -1408,7 +1408,7 @@ void	rotate_point_by_xyz(struct SVector *p,SLONG ax,SLONG ay,SLONG az)
 	
 }
 
-void	rotate_ex_face(SWORD index)
+void	rotate_ex_face(std::int16_t index)
 {
 
 	rotate_point_by_xyz((SVector*)&ex_faces[index].P[0],ex_faces[index].AX,ex_faces[index].AY,0);
@@ -1417,7 +1417,7 @@ void	rotate_ex_face(SWORD index)
 	
 }
 
-void	remove_ex_face(SWORD	index)
+void	remove_ex_face(std::int16_t	index)
 {
 	ex_faces[index].X=0;
 	if(index==next_ex_face-1)
@@ -1425,9 +1425,9 @@ void	remove_ex_face(SWORD	index)
 	
 }
 
-SLONG	find_an_empty_explode_face()
+std::int32_t	find_an_empty_explode_face()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_EX_FACE;c0++)
 	{
 		if(ex_faces[c0].X==0)
@@ -1442,16 +1442,16 @@ SLONG	find_an_empty_explode_face()
 }
 
 
-void	split_explode_face(SWORD index)
+void	split_explode_face(std::int16_t index)
 {
-	SWORD	aindex[]={0,1,2,0,1,2};
-	SLONG	dx,dy,dz;
-	SLONG	len,b_len=0,b_index=0;
-	SLONG	mid_x,mid_y,mid_z,mid_shade,mid_tx,mid_ty;
-	SLONG	face1,face2;
-	SLONG	tri1[3],tri2[3];
-	SLONG	*tri;
-	SLONG	c0,c1;
+	std::int16_t	aindex[]={0,1,2,0,1,2};
+	std::int32_t	dx,dy,dz;
+	std::int32_t	len,b_len=0,b_index=0;
+	std::int32_t	mid_x,mid_y,mid_z,mid_shade,mid_tx,mid_ty;
+	std::int32_t	face1,face2;
+	std::int32_t	tri1[3],tri2[3];
+	std::int32_t	*tri;
+	std::int32_t	c0,c1;
 	for(c0=0;c0<3;c0++)
 	{
 		
@@ -1567,7 +1567,7 @@ void	split_explode_face(SWORD index)
 
 void	move_explode_faces()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<next_ex_face;c0++)
 	{
 		if(ex_faces[c0].X)
@@ -1600,10 +1600,10 @@ void	draw_explode_faces()
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	ULONG	flag_and,flag_or;
-	SLONG	c0;
-	SLONG az;
-	SLONG	flags[3];
+	std::uint32_t	flag_and,flag_or;
+	std::int32_t	c0;
+	std::int32_t az;
+	std::int32_t	flags[3];
 
 	SVector	res[3];
 
@@ -1676,10 +1676,10 @@ void	draw_explode_faces()
 
 
 
-void	add_explode_face(struct	PrimPoint *p0,struct	PrimPoint	*p1,struct PrimPoint *p2,struct	PrimFace3 *p_face,SLONG x,SLONG y,SLONG z,SLONG vx,SLONG vy,SLONG vz)
+void	add_explode_face(struct	PrimPoint *p0,struct	PrimPoint	*p1,struct PrimPoint *p2,struct	PrimFace3 *p_face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t vx,std::int32_t vy,std::int32_t vz)
 {
-	SLONG	index;
-	SLONG	ax,ay,az;
+	std::int32_t	index;
+	std::int32_t	ax,ay,az;
 	index=find_an_empty_explode_face();
 //	y=y+50;
 	if(index)
@@ -1736,20 +1736,20 @@ void	add_explode_face(struct	PrimPoint *p0,struct	PrimPoint	*p1,struct PrimPoint
 }
 
 
-UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z)
+std::uint16_t	make_poly_into_glass_shatter_prim(std::int16_t face,std::int16_t mid_x,std::int16_t mid_y,std::int16_t mid_z)
 {
-	UWORD	next_game_point=next_prim_point;
-	UWORD	next_game_face3=next_prim_face3;
-	UWORD	next_game_object=next_prim_object;
-	SLONG	count,cp=0,snp=0,c0,side;
-	SLONG	x1,y1,z1,x2,y2,z2,tx1,ty1,tx2,ty2;
-	SWORD	index[]={0,1,3,2,0};
-	SWORD	text_x[1000];
-	SWORD	text_y[1000];
+	std::uint16_t	next_game_point=next_prim_point;
+	std::uint16_t	next_game_face3=next_prim_face3;
+	std::uint16_t	next_game_object=next_prim_object;
+	std::int32_t	count,cp=0,snp=0,c0,side;
+	std::int32_t	x1,y1,z1,x2,y2,z2,tx1,ty1,tx2,ty2;
+	std::int16_t	index[]={0,1,3,2,0};
+	std::int16_t	text_x[1000];
+	std::int16_t	text_y[1000];
 	struct	PrimPoint	points[1000];
 	struct	MapThing	*p_thing;
-	UWORD 	tindex = 0;
-	SWORD	tf;
+	std::uint16_t 	tindex = 0;
+	std::int16_t	tf;
 
 	struct	PrimPoint	pp0,pp1,pp2;
 	struct	PrimFace3	face3;
@@ -1759,7 +1759,7 @@ UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD
 
 	if(face>0)
 	{
-		SLONG	dx,dy,tx,ty;
+		std::int32_t	dx,dy,tx,ty;
 // 		if(prim_faces4[face].DrawFlags==POLY_NULL)
 //			return(0);
 
@@ -1820,7 +1820,7 @@ UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD
 
 		for(tf=1;tf<cp;tf++)
 		{
-			SLONG	p0,p1,p2;
+			std::int32_t	p0,p1,p2;
 
 			p2=tf;
 			p1=0;

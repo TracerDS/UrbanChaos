@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG prim_type, prim_anim;
+std::int32_t prim_type, prim_anim;
 
 //---------------------------------------------------------------
 
@@ -33,7 +33,7 @@ SLONG prim_type, prim_anim;
 
 bool CALLBACK acts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	SLONG c0 = 0;
+	std::int32_t c0 = 0;
 	HWND the_ctrl;
 	LPTSTR lbitem_str;
 
@@ -65,7 +65,7 @@ bool CALLBACK acts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				case	IDC_COMBO1:
 					if (HIWORD(wParam)==CBN_SELCHANGE) {
-						SLONG show=(SendMessage((HWND)lParam,CB_GETCURSEL,0,0)==3)?SW_SHOW:SW_HIDE;
+						std::int32_t show=(SendMessage((HWND)lParam,CB_GETCURSEL,0,0)==3)?SW_SHOW:SW_HIDE;
 						ShowWindow(GetDlgItem(hWnd,IDC_STATIC_ANIM),show);
 						ShowWindow(GetDlgItem(hWnd,IDC_SPIN1),show);
 						ShowWindow(GetDlgItem(hWnd,IDC_EDIT1),show);
@@ -116,7 +116,7 @@ void do_activate_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE* get_activate_message(EventPoint *ep, CBYTE* msg) {
+char* get_activate_message(EventPoint *ep, char* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

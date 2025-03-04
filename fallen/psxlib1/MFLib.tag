@@ -220,7 +220,7 @@ Button_SetText c:\watcom10\h\nt\windowsx.h(941)M
 C c:\mflib1\source\c\common\textdef.cpp(245)V
 c_dfDIKeyboard c:\dxsdk\sdk\inc\dinput.h(162)V
 c_dfDIMouse c:\dxsdk\sdk\inc\dinput.h(161)V
-CBYTE c:\mflib1\headers\mftypes.h(15)T
+char c:\mflib1\headers\mftypes.h(15)T
 CharTable c:\mflib1\source\c\common\quicktxt.cpp(6)V
 CharTable c:\mflib1\source\c\common\textdef.cpp(824)V
 CheckDefDlgRecursion c:\watcom10\h\nt\windowsx.h(125)M
@@ -3445,7 +3445,7 @@ RGBA_SETALPHA c:\dxsdk\sdk\inc\d3dtypes.h(83)M
 RGBA_TORGB c:\dxsdk\sdk\inc\d3dtypes.h(85)M
 RightButton c:\mflib1\source\c\windows\display.cpp(35)V
 S c:\mflib1\source\c\common\textdef.cpp(438)V
-SBYTE c:\mflib1\headers\mftypes.h(14)T
+std::int8_t c:\mflib1\headers\mftypes.h(14)T
 ScrollBar_Enable c:\watcom10\h\nt\windowsx.h(1010)M
 ScrollBar_GetPos c:\watcom10\h\nt\windowsx.h(1015)M
 ScrollBar_GetRange c:\watcom10\h\nt\windowsx.h(1018)M
@@ -3478,7 +3478,7 @@ ShellThread c:\mflib1\source\c\windows\display.cpp(45)P
 ShowWorkScreen c:\mflib1\headers\display.h(80)P
 ShowWorkScreen c:\mflib1\source\c\windows\display.cpp(293)F
 Six c:\mflib1\source\c\common\textdef.cpp(160)V
-SLONG c:\mflib1\headers\mftypes.h(19)T
+std::int32_t c:\mflib1\headers\mftypes.h(19)T
 Space c:\mflib1\source\c\common\textdef.cpp(15)V
 Static_Enable c:\watcom10\h\nt\windowsx.h(926)M
 Static_GetIcon c:\watcom10\h\nt\windowsx.h(933)M
@@ -3492,7 +3492,7 @@ SubclassDialog c:\watcom10\h\nt\windowsx.h(104)M
 SubclassWindow c:\watcom10\h\nt\windowsx.h(86)M
 SubtractRgn c:\watcom10\h\nt\windowsx.h(51)M
 swap c:\mflib1\headers\mfutils.h(10)M
-SWORD c:\mflib1\headers\mftypes.h(17)T
+std::int16_t c:\mflib1\headers\mftypes.h(17)T
 szGlobalCmdLine c:\mflib1\headers\mfhost.h(10)V
 szGlobalCmdLine c:\mflib1\source\c\windows\mfhost.cpp(12)V
 T c:\mflib1\source\c\common\textdef.cpp(450)V
@@ -3503,12 +3503,12 @@ true c:\dxsdk\sdk\inc\d3drmdef.h(28)M
 true c:\mflib1\headers\mftypes.h(10)M
 Two c:\mflib1\source\c\common\textdef.cpp(112)V
 U c:\mflib1\source\c\common\textdef.cpp(462)V
-UBYTE c:\mflib1\headers\mftypes.h(13)T
-ULONG c:\mflib1\headers\mftypes.h(18)T
+std::uint8_t c:\mflib1\headers\mftypes.h(13)T
+std::uint32_t c:\mflib1\headers\mftypes.h(18)T
 UnionRgn c:\watcom10\h\nt\windowsx.h(52)M
 UnlockWorkScreen c:\mflib1\headers\display.h(79)P
 UnlockWorkScreen c:\mflib1\source\c\windows\display.cpp(286)F
-UWORD c:\mflib1\headers\mftypes.h(16)T
+std::uint16_t c:\mflib1\headers\mftypes.h(16)T
 V c:\mflib1\source\c\common\textdef.cpp(474)V
 VIRTUAL c:\dxsdk\sdk\inc\d3drmobj.h(14)M
 W c:\mflib1\source\c\common\textdef.cpp(486)V

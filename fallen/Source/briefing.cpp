@@ -20,11 +20,11 @@
 //------------------------------------------------------------------------
 // Temporary Blatantly Hackish Stuff
 
-static UBYTE completed_missions = 0;
-static SWORD current_selection = -1;
-CBYTE BRIEFING_mission_filename[_MAX_PATH];
+static std::uint8_t completed_missions = 0;
+static std::int16_t current_selection = -1;
+char BRIEFING_mission_filename[_MAX_PATH];
 
-CBYTE* mission_names[] = {
+char* mission_names[] = {
 	"FIRST ASSIGNMENT",
 	"RESCUE ROPER",
 	"AIRBASE",
@@ -35,7 +35,7 @@ CBYTE* mission_names[] = {
 	"POLICE STATION"
 };
 
-CBYTE* mission_filenames[] = {
+char* mission_filenames[] = {
 	"mission1.ucm",
 	"breakin1.ucm",
 	"air1b.ucm",
@@ -46,7 +46,7 @@ CBYTE* mission_filenames[] = {
 	"police.ucm"
 };
 
-UBYTE mission_ranges[][2] = {
+std::uint8_t mission_ranges[][2] = {
 	{ 0, 0 },
 	{ 1, 1 },
 	{ 2, 2 },
@@ -61,24 +61,24 @@ UBYTE mission_ranges[][2] = {
 //------------------------------------------------------------------------
 // Load and save game data
 
-CBYTE BRIEFING_load_game() {
+char BRIEFING_load_game() {
 	MFFileHandle handle;
-	SLONG		 test;
+	std::int32_t		 test;
 
 	handle = FileOpen("savegame.dat");
-	test=(SLONG)handle;
+	test=(std::int32_t)handle;
 	if (test<0) return 0; // Could not open file
 	FileRead(handle,&completed_missions,1);
 	FileClose(handle);
 	return 1;
 }
 
-CBYTE BRIEFING_save_game() {
+char BRIEFING_save_game() {
 	MFFileHandle     handle;
-	SLONG			 test;
+	std::int32_t			 test;
 
 	handle = FileCreate("savegame.dat",1);
-	test=(SLONG)handle;
+	test=(std::int32_t)handle;
 	if (test<0) return 0; // Could not open file
 	FileWrite(handle,&completed_missions,1);
 	FileClose(handle);
@@ -90,11 +90,11 @@ CBYTE BRIEFING_save_game() {
 
 void BRIEFING_menu() {
 /*
-	SLONG	c0;
-	SLONG	y;
-	UBYTE   is_this;
-	UBYTE	min,max;
-	SLONG	text_colour;
+	std::int32_t	c0;
+	std::int32_t	y;
+	std::uint8_t   is_this;
+	std::uint8_t	min,max;
+	std::int32_t	text_colour;
 	static  Font3D font("data\\font3d\\all\\",(float)0.2);
 
 	min=mission_ranges[completed_missions][0];
@@ -122,8 +122,8 @@ void BRIEFING_menu() {
 //------------------------------------------------------------------------
 // Select a mission according to the script. Return the filename
 
-SBYTE BRIEFING_select() {
-	SLONG wave;
+std::int8_t BRIEFING_select() {
+	std::int32_t wave;
 
 	if (current_selection==-1) {
 		current_selection=mission_ranges[completed_missions][0];
@@ -208,7 +208,7 @@ SBYTE BRIEFING_select() {
 
 }
 
-SBYTE BRIEFING_next_mission() {
+std::int8_t BRIEFING_next_mission() {
 	completed_missions++;
 	if (completed_missions>=sizeof(mission_names)/4) return 0;
 	BRIEFING_select();

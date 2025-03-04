@@ -23,27 +23,27 @@ DOOR_Door *DOOR_door;
 // Finds a door facet.
 //
 
-UWORD DOOR_find(
-		SLONG world_x,
-		SLONG world_z)
+std::uint16_t DOOR_find(
+		std::int32_t world_x,
+		std::int32_t world_z)
 {
-	SLONG fx;
-	SLONG fz;
-	SLONG dx;
-	SLONG dz;
-	SLONG score;
+	std::int32_t fx;
+	std::int32_t fz;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t score;
 
-	SLONG mx1 = world_x - 0x200 >> PAP_SHIFT_LO;
-	SLONG mz1 = world_z - 0x200 >> PAP_SHIFT_LO;
-	SLONG mx2 = world_x + 0x200 >> PAP_SHIFT_LO;
-	SLONG mz2 = world_z + 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mx1 = world_x - 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mz1 = world_z - 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mx2 = world_x + 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mz2 = world_z + 0x200 >> PAP_SHIFT_LO;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG f_list;
-	SLONG exit;
-	SLONG i_facet;
+	std::int32_t f_list;
+	std::int32_t exit;
+	std::int32_t i_facet;
 
 	DFacet *df;
 
@@ -52,8 +52,8 @@ UWORD DOOR_find(
 	SATURATE(mx2, 0, PAP_SIZE_LO - 1);
 	SATURATE(mz2, 0, PAP_SIZE_LO - 1);
 
-	SLONG best_score = INFINITY;
-	SLONG best_facet = nullptr;
+	std::int32_t best_score = INFINITY;
+	std::int32_t best_facet = 0;
 
 	for (mx = mx1; mx <= mx2; mx++)
 	for (mz = mz1; mz <= mz2; mz++)
@@ -107,27 +107,27 @@ UWORD DOOR_find(
 }
 
 
-void DOOR_open(SLONG world_x, SLONG world_z)
+void DOOR_open(std::int32_t world_x, std::int32_t world_z)
 {
-	UWORD facet;
+	std::uint16_t facet;
 
 	facet = DOOR_find(world_x, world_z);
 
 	if (facet)
 	{
-		SLONG i;
+		std::int32_t i;
 
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 
-		SLONG left;
-		SLONG right;
+		std::int32_t left;
+		std::int32_t right;
 
 		DFacet *df = &dfacets[facet];
 
@@ -233,27 +233,27 @@ void DOOR_open(SLONG world_x, SLONG world_z)
 
 
 
-void DOOR_shut(SLONG world_x, SLONG world_z)
+void DOOR_shut(std::int32_t world_x, std::int32_t world_z)
 {
-	UWORD facet;
+	std::uint16_t facet;
 
 	facet = DOOR_find(world_x, world_z);
 
 	if (facet)
 	{
-		SLONG i;
+		std::int32_t i;
 
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 
-		SLONG left;
-		SLONG right;
+		std::int32_t left;
+		std::int32_t right;
 
 		DFacet *df = &dfacets[facet];
 
@@ -364,16 +364,16 @@ void DOOR_shut(SLONG world_x, SLONG world_z)
 // Make the door knock people over as it opens...
 //
 
-void DOOR_knock_over_people(DFacet *df, SLONG side)
+void DOOR_knock_over_people(DFacet *df, std::int32_t side)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t z2;
 
 	dx = df->x[1] - df->x[0];
 	dz = df->z[1] - df->z[0];
@@ -388,9 +388,9 @@ void DOOR_knock_over_people(DFacet *df, SLONG side)
 
 void DOOR_process()
 {
-	SLONG i;
-	SLONG open;
-	SLONG max;
+	std::int32_t i;
+	std::int32_t open;
+	std::int32_t max;
 
 	DFacet *df;
 
@@ -421,7 +421,7 @@ void DOOR_process()
 				{
 					open = max;
 
-					DOOR_door[i].facet = nullptr;
+					DOOR_door[i].facet = 0;
 				}
 			}
 			else
@@ -432,7 +432,7 @@ void DOOR_process()
 				{
 					open = 0;
 
-					DOOR_door[i].facet = nullptr;
+					DOOR_door[i].facet = 0;
 				}
 			}
 

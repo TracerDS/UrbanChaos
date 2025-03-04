@@ -28,18 +28,18 @@
 #define	FLAGS_SHOW_TEXTURE	(1<<0)
 #define	FLAGS_QUADS			(1<<1)
 #define	FLAGS_FIXED			(1<<2)
-extern CBYTE	texture_style_names[200][21];
+extern char	texture_style_names[200][21];
 
-extern UWORD	floor_texture_sizes[];
+extern std::uint16_t	floor_texture_sizes[];
 
 class	PaintTab	:	public	ModeTab
 {
 	private:
-		UBYTE				CurrentColour;
-		SLONG				CurrentTexturePage;
-		ULONG				PaintMode,
+		std::uint8_t				CurrentColour;
+		std::int32_t				CurrentTexturePage;
+		std::uint32_t				PaintMode,
 							TextureFlags;
-		SLONG				TextureWidth,
+		std::int32_t				TextureWidth,
 							TextureHeight,
 							TextureX,
 							TextureY,
@@ -48,11 +48,11 @@ class	PaintTab	:	public	ModeTab
 							AnimRect,
 							PaintRect;
 		EdTexture			CurrentTexture;
-		SLONG				CurrentAnimTmap;
-		SLONG				ShowAnimTmap;
+		std::int32_t				CurrentAnimTmap;
+		std::int32_t				ShowAnimTmap;
 
 
-		void				do_undo_me_bloody_self_then(SLONG index);
+		void				do_undo_me_bloody_self_then(std::int32_t index);
 
 	public:
 							PaintTab(EditorModule *parent);
@@ -68,11 +68,11 @@ class	PaintTab	:	public	ModeTab
 		void				UpdatePalette();
 		void				UpdatePaletteInfo();
 		void				HandleTab(MFPoint *current_point);
-		UWORD				HandleTabClick(UBYTE flags,MFPoint *clicked_point);
-		void				HandleControl(UWORD control_id);
-		void				HandlePaletteControl(UWORD control_id);
-		void				HandleTextureControl(UWORD control_id);
-		void				HandleStyleControl(UWORD control_id);
+		std::uint16_t				HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
+		void				HandleControl(std::uint16_t control_id);
+		void				HandlePaletteControl(std::uint16_t control_id);
+		void				HandleTextureControl(std::uint16_t control_id);
+		void				HandleStyleControl(std::uint16_t control_id);
 		void				SelectColour(MFPoint *clicked_point);
 		void				SelectTexture(MFPoint *clicked_point);
 		void				SelectStyle(MFPoint *clicked_point);
@@ -81,24 +81,24 @@ class	PaintTab	:	public	ModeTab
 		void				DoPlanarMap();
 		void				DoPlanarMapF();
 		void				SetEditAnimTexture(MFPoint *clicked_point);
-//		UWORD				ConvertFreeToFixedEle(struct TextureBits *t);
-		UWORD				ConvertFreeToFixedEle(struct TextureBits *t,SLONG *x,SLONG *y,SLONG *width,SLONG *height,SLONG *page);
+//		std::uint16_t				ConvertFreeToFixedEle(struct TextureBits *t);
+		std::uint16_t				ConvertFreeToFixedEle(struct TextureBits *t,std::int32_t *x,std::int32_t *y,std::int32_t *width,std::int32_t *height,std::int32_t *page);
 		void				ConvertFixedToFree(struct TextureBits *t);
 		void				ConvertMiniTex(struct	MiniTextureBits	*tex);
-		UWORD				ConvertTexToMiniTex();
+		std::uint16_t				ConvertTexToMiniTex();
 		void				CutFloorBrush(BuildTab *BuildMode,MFPoint *current_point);
 
-		inline SLONG		GetTexturePage()			{	return CurrentTexturePage;	}
-		inline void			SetTexturePage(SLONG page)		{	CurrentTexturePage=page;	}
+		inline std::int32_t		GetTexturePage()			{	return CurrentTexturePage;	}
+		inline void			SetTexturePage(std::int32_t page)		{	CurrentTexturePage=page;	}
 		inline EdTexture	*GetTexture()				{	return &CurrentTexture;		}
-		inline ULONG		GetTextureFlags()			{	return TextureFlags;		}
-		inline void			SetTextureFlags(ULONG flags)	{	TextureFlags=flags;			}
-		inline ULONG		GetPaintMode()				{	return PaintMode;			}
-		inline void			SetPaintMode(ULONG mode)		{	PaintMode=mode;				}
-		inline UWORD		GetCurrentColour()			{	return CurrentColour;		}
-		inline void			SetCurrentColour(UWORD col)			{	CurrentColour=col;		}
-		inline ULONG		GetAnimTmap()				{	return CurrentAnimTmap;		}
-		inline void			SetAnimTmap(ULONG v)			{	CurrentAnimTmap=v;			}
+		inline std::uint32_t		GetTextureFlags()			{	return TextureFlags;		}
+		inline void			SetTextureFlags(std::uint32_t flags)	{	TextureFlags=flags;			}
+		inline std::uint32_t		GetPaintMode()				{	return PaintMode;			}
+		inline void			SetPaintMode(std::uint32_t mode)		{	PaintMode=mode;				}
+		inline std::uint16_t		GetCurrentColour()			{	return CurrentColour;		}
+		inline void			SetCurrentColour(std::uint16_t col)			{	CurrentColour=col;		}
+		inline std::uint32_t		GetAnimTmap()				{	return CurrentAnimTmap;		}
+		inline void			SetAnimTmap(std::uint32_t v)			{	CurrentAnimTmap=v;			}
 
 		Undo				MyUndo;
 		bool				ApplyTexture(struct EditFace *edit_face);
@@ -107,12 +107,12 @@ class	PaintTab	:	public	ModeTab
 							StyleSet,
 							inStyleSet,
 							TextureSet;
-		SLONG				CurrentTextureRot;
-		SLONG				CurrentStyleEdit;
-		SLONG				CurrentStylePos;
-		SLONG				CurrentInStyleEdit;
-		SLONG				CurrentInStylePos;
-		SLONG				SubMode,SubStatus;
+		std::int32_t				CurrentTextureRot;
+		std::int32_t				CurrentStyleEdit;
+		std::int32_t				CurrentStylePos;
+		std::int32_t				CurrentInStyleEdit;
+		std::int32_t				CurrentInStylePos;
+		std::int32_t				SubMode,SubStatus;
 		MapBlock			CutMapBlock;
 
 };

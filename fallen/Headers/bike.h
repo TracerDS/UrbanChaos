@@ -23,60 +23,60 @@
 
 typedef struct 
 {
-	UWORD yaw;
-	UWORD pitch;
+	std::uint16_t yaw;
+	std::uint16_t pitch;
 
-	UBYTE flag;
-	UBYTE mode;
-	SBYTE accel;
-	SBYTE steer;
+	std::uint8_t flag;
+	std::uint8_t mode;
+	std::int8_t accel;
+	std::int8_t steer;
 
-	SLONG back_x;
-	SLONG back_y;
-	SLONG back_z;
+	std::int32_t back_x;
+	std::int32_t back_y;
+	std::int32_t back_z;
 
-	SLONG back_dx;
-	SLONG back_dy;
-	SLONG back_dz;
+	std::int32_t back_dx;
+	std::int32_t back_dy;
+	std::int32_t back_dz;
 
-	SLONG front_x;
-	SLONG front_y;
-	SLONG front_z;
+	std::int32_t front_x;
+	std::int32_t front_y;
+	std::int32_t front_z;
 
-	SLONG front_dy;
+	std::int32_t front_dy;
 
 	//
 	// Suspension on the wheels.
 	//
 
-	SLONG wheel_y_back;
-	SLONG wheel_y_front;
+	std::int32_t wheel_y_back;
+	std::int32_t wheel_y_front;
 
-	SLONG wheel_dy_back;
-	SLONG wheel_dy_front;
+	std::int32_t wheel_dy_back;
+	std::int32_t wheel_dy_front;
 
 	//
 	// The wheel rotations.
 	//
 
-	UWORD wheel_rot_front;
-	UWORD wheel_rot_back;
+	std::uint16_t wheel_rot_front;
+	std::uint16_t wheel_rot_back;
 
 	// Tyre tracks
 
-	UWORD tyrelast;
-	UWORD ribbon;
-	UWORD ribbon2;
+	std::uint16_t tyrelast;
+	std::uint16_t ribbon;
+	std::uint16_t ribbon2;
 
 	//
 	// Who is driving the bike.
 	//
 
-	UWORD driver;
+	std::uint16_t driver;
 
-	SWORD SlideTimer;
-	UBYTE dirt;				// If the bike is kicking up dirt...
-	UBYTE padding;
+	std::int16_t SlideTimer;
+	std::uint8_t dirt;				// If the bike is kicking up dirt...
+	std::uint8_t padding;
 
 } BIKE_Bike;
 
@@ -105,16 +105,16 @@ void BIKE_init();
 // Creates a new bike. Bikes are always on the ground.
 //
 
-UWORD BIKE_create(
-		SLONG x,
-		SLONG z,
-		SLONG yaw);
+std::uint16_t BIKE_create(
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t yaw);
 
 //
 // Returns the THING_INDEX of a bike the person can get onto.
 //
 
-SLONG BIKE_person_can_mount(Thing *p_person);
+std::int32_t BIKE_person_can_mount(Thing *p_person);
 
 
 //
@@ -136,10 +136,10 @@ void BIKE_set_parked(Thing *p_bike);
 
 typedef struct
 {
-	SBYTE steer;
-	SBYTE accel;
-	SBYTE brake;
-	UBYTE wheelie;
+	std::int8_t steer;
+	std::int8_t accel;
+	std::int8_t brake;
+	std::uint8_t wheelie;
 
 } BIKE_Control;
 
@@ -151,14 +151,14 @@ void         BIKE_control_set(Thing *p_bike, BIKE_Control bc);
 // Returns the roll of the bike.
 //
 
-SLONG BIKE_get_roll(Thing *p_bike);
+std::int32_t BIKE_get_roll(Thing *p_bike);
 
 
 //
 // Returns the speed of the bike.
 //
 
-SLONG BIKE_get_speed(Thing *p_bike);
+std::int32_t BIKE_get_speed(Thing *p_bike);
 
 
 //
@@ -167,20 +167,20 @@ SLONG BIKE_get_speed(Thing *p_bike);
 
 typedef struct
 {
-	UWORD yaw;
-	UWORD pitch;
-	UWORD roll;
-	UWORD steer;
+	std::uint16_t yaw;
+	std::uint16_t pitch;
+	std::uint16_t roll;
+	std::uint16_t steer;
 
-	UWORD front_x;
-	SWORD front_y;
-	UWORD front_z;
-	UWORD front_rot;
+	std::uint16_t front_x;
+	std::int16_t front_y;
+	std::uint16_t front_z;
+	std::uint16_t front_rot;
 
-	UWORD back_x;
-	SWORD back_y;
-	UWORD back_z;
-	UWORD back_rot;
+	std::uint16_t back_x;
+	std::int16_t back_y;
+	std::uint16_t back_z;
+	std::uint16_t back_rot;
 
 } BIKE_Drawinfo;
 

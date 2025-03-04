@@ -25,12 +25,12 @@
 #define SEWER_EDGE_ZL	3
 
 void SEWER_init     ();
-void SEWER_square_on(SLONG x, SLONG z);
-void SEWER_ladder_on(SLONG x, SLONG z, SLONG edge);
-void SEWER_pillar_on(SLONG x, SLONG z);
+void SEWER_square_on(std::int32_t x, std::int32_t z);
+void SEWER_ladder_on(std::int32_t x, std::int32_t z, std::int32_t edge);
+void SEWER_pillar_on(std::int32_t x, std::int32_t z);
 void SEWER_precalc  ();
-void SEWER_save     (CBYTE* filename);
-void SEWER_load     (CBYTE* filename);
+void SEWER_save     (char* filename);
+void SEWER_load     (char* filename);
 
 
 //
@@ -38,7 +38,7 @@ void SEWER_load     (CBYTE* filename);
 // sewage system.
 //
 
-SLONG SEWER_can_i_enter(UBYTE x, UBYTE z);
+std::int32_t SEWER_can_i_enter(std::uint8_t x, std::uint8_t z);
 
 
 //
@@ -54,7 +54,7 @@ void SEWER_colvects_remove();
 // Returns the height of the sewers at (x,z).
 //
 
-SLONG SEWER_calc_height_at(SLONG x, SLONG z);
+std::int32_t SEWER_calc_height_at(std::int32_t x, std::int32_t z);
 
 
 
@@ -70,18 +70,18 @@ SLONG SEWER_calc_height_at(SLONG x, SLONG z);
 
 typedef struct
 {
-	SLONG x[4];
-	SLONG y[4];
-	SLONG z[4];
-	SLONG u[4];	// 16-bit fixed point from 0.0 to 256.0
-	SLONG v[4];	// 16-bit fixed point from 0.0 to 256.0
-	ULONG c[4];
+	std::int32_t x[4];
+	std::int32_t y[4];
+	std::int32_t z[4];
+	std::int32_t u[4];	// 16-bit fixed point from 0.0 to 256.0
+	std::int32_t v[4];	// 16-bit fixed point from 0.0 to 256.0
+	std::uint32_t c[4];
 
-	UBYTE page;	// The sewer page... NOT the texturepage!
+	std::uint8_t page;	// The sewer page... NOT the texturepage!
 	
 } SEWER_Face;
 
-void SEWER_get_start(SLONG x, SLONG z);
+void SEWER_get_start(std::int32_t x, std::int32_t z);
 SEWER_Face *SEWER_get_next ();	// nullptr => there are no more faces.
 SEWER_Face *SEWER_get_water();	// Returns the water faces...
 

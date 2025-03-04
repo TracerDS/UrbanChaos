@@ -28,8 +28,8 @@ MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 
 void PAP_clear()
 {
-	memset((UBYTE*) &PAP_lo[0][0],0,sizeof(PAP_Lo)*PAP_SIZE_LO*PAP_SIZE_LO);
-	memset((UBYTE*) &PAP_hi[0][0],0,sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
+	memset((std::uint8_t*) &PAP_lo[0][0],0,sizeof(PAP_Lo)*PAP_SIZE_LO*PAP_SIZE_LO);
+	memset((std::uint8_t*) &PAP_hi[0][0],0,sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
 }
 
 #ifndef PSX
@@ -38,7 +38,7 @@ void PAP_clear()
 // A couple of debug functions.
 //
 
-SLONG PAP_on_map_lo(SLONG x, SLONG z)
+std::int32_t PAP_on_map_lo(std::int32_t x, std::int32_t z)
 {
 	if (WITHIN(x, 0, PAP_SIZE_LO - 1) &&
 		WITHIN(z, 0, PAP_SIZE_LO - 1))
@@ -51,7 +51,7 @@ SLONG PAP_on_map_lo(SLONG x, SLONG z)
 	}
 }
 
-SLONG PAP_on_map_hi(SLONG x, SLONG z)
+std::int32_t PAP_on_map_hi(std::int32_t x, std::int32_t z)
 {
 	if (WITHIN(x, 0, PAP_SIZE_HI - 1) &&
 		WITHIN(z, 0, PAP_SIZE_HI - 1))
@@ -64,12 +64,12 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z)
 	}
 }
 
-void PAP_assert_if_off_map_lo(SLONG x, SLONG z)
+void PAP_assert_if_off_map_lo(std::int32_t x, std::int32_t z)
 {
 	ASSERT(PAP_on_map_lo(x,z));
 }
 
-void PAP_assert_if_off_map_hi(SLONG x, SLONG z)
+void PAP_assert_if_off_map_hi(std::int32_t x, std::int32_t z)
 {
 	ASSERT(PAP_on_map_hi(x,z));
 }
@@ -77,7 +77,7 @@ void PAP_assert_if_off_map_hi(SLONG x, SLONG z)
 #endif	// PSX
 
 
-SLONG PAP_calc_height_at_point(SLONG map_x, SLONG map_z)
+std::int32_t PAP_calc_height_at_point(std::int32_t map_x, std::int32_t map_z)
 {
 	if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(map_z, 0, PAP_SIZE_HI - 1))
@@ -90,17 +90,17 @@ SLONG PAP_calc_height_at_point(SLONG map_x, SLONG map_z)
 	}
 }
 
-SLONG PAP_calc_height_at(SLONG x, SLONG z)
+std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z)
 {
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
-	SLONG h3;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
+	std::int32_t h3;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
-	SLONG answer;
+	std::int32_t answer;
 
 	PAP_Hi *ph;
 
@@ -109,8 +109,8 @@ SLONG PAP_calc_height_at(SLONG x, SLONG z)
 		return -32767;
 	}
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 
 	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
 		mz < 0 || mz > PAP_SIZE_HI - 2)
@@ -175,7 +175,7 @@ SLONG PAP_calc_height_at(SLONG x, SLONG z)
 //
 // Things sometimes like to think the map is at a strange height
 //
-SLONG PAP_calc_height_at_thing(Thing	*p_thing,SLONG x, SLONG z)
+std::int32_t PAP_calc_height_at_thing(Thing	*p_thing,std::int32_t x, std::int32_t z)
 {
 	switch(p_thing->Class)
 	{
@@ -194,8 +194,8 @@ SLONG PAP_calc_height_at_thing(Thing	*p_thing,SLONG x, SLONG z)
 			{
 				if(find_inside_flags(p_thing->Genus.Person->InsideIndex,x>>8,z>>8)& FLAG_INSIDE_STAIR)
 				{
-					SLONG	res,y1;
-					UWORD	new_floor;
+					std::int32_t	res,y1;
+					std::uint16_t	new_floor;
 
 					res=find_stair_y(p_thing,&y1,x,p_thing->WorldPos.Y>>8,z,&new_floor);
 					if(res)
@@ -223,22 +223,22 @@ SLONG PAP_calc_height_at_thing(Thing	*p_thing,SLONG x, SLONG z)
 }
 
 
-SLONG PAP_calc_map_height_at(SLONG x, SLONG z)
+std::int32_t PAP_calc_map_height_at(std::int32_t x, std::int32_t z)
 {
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
-	SLONG h3;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
+	std::int32_t h3;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
-	SLONG answer;
+	std::int32_t answer;
 
 	PAP_Hi *ph;
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 
 	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
 		mz < 0 || mz > PAP_SIZE_HI - 2)
@@ -315,25 +315,25 @@ SLONG PAP_calc_map_height_at(SLONG x, SLONG z)
 }
 
 #ifndef	PSX
-SLONG PAP_is_flattish(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+std::int32_t PAP_is_flattish(
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG max = -INFINITY;
-	SLONG min = +INFINITY;
+	std::int32_t max = -INFINITY;
+	std::int32_t min = +INFINITY;
 
-	SLONG alongx;
-	SLONG alongz;
+	std::int32_t alongx;
+	std::int32_t alongz;
 
-	SLONG dx = x2 - x1;
-	SLONG dz = z2 - z1;
+	std::int32_t dx = x2 - x1;
+	std::int32_t dz = z2 - z1;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG height;
+	std::int32_t height;
 
 	#define PAP_FLATTISH_SAMPLES 8
 
@@ -359,22 +359,22 @@ SLONG PAP_is_flattish(
 	return true;
 }
 
-SLONG PAP_calc_height_noroads(SLONG x, SLONG z)
+std::int32_t PAP_calc_height_noroads(std::int32_t x, std::int32_t z)
 {
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
-	SLONG h3;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
+	std::int32_t h3;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
-	SLONG answer;
+	std::int32_t answer;
 
 	PAP_Hi *ph;
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 
 	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
 		mz < 0 || mz > PAP_SIZE_HI - 2)
@@ -428,15 +428,15 @@ SLONG PAP_calc_height_noroads(SLONG x, SLONG z)
 	return answer;
 }
 
-SLONG PAP_calc_map_height_near(SLONG x, SLONG z)
+std::int32_t PAP_calc_map_height_near(std::int32_t x, std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG height;
-	SLONG max = -INFINITY;
+	std::int32_t height;
+	std::int32_t max = -INFINITY;
 
 	for (i = 0; i < 4; i++)
 	{
@@ -456,22 +456,22 @@ SLONG PAP_calc_map_height_near(SLONG x, SLONG z)
 #endif
 
 
-SLONG PAP_on_slope(SLONG x,SLONG z,SLONG *angle)
+std::int32_t PAP_on_slope(std::int32_t x,std::int32_t z,std::int32_t *angle)
 {
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
-	SLONG h3;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
+	std::int32_t h3;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
-	SLONG answer;
+	std::int32_t answer;
 
 	PAP_Hi *ph;
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 
 	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
 		mz < 0 || mz > PAP_SIZE_HI - 2)
@@ -523,10 +523,10 @@ SLONG PAP_on_slope(SLONG x,SLONG z,SLONG *angle)
 
 		if (xfrac + zfrac < 0x100)
 		{
-			SLONG	vx,vy,vz;
-			SLONG	wx,wy,wz;
-			SLONG	rx,ry,rz;
-			SLONG	len;
+			std::int32_t	vx,vy,vz;
+			std::int32_t	wx,wy,wz;
+			std::int32_t	rx,ry,rz;
+			std::int32_t	len;
 
 			vx=256;
 			vy=h2-h0;
@@ -559,10 +559,10 @@ SLONG PAP_on_slope(SLONG x,SLONG z,SLONG *angle)
 		}
 		else
 		{
-			SLONG	vx,vy,vz;
-			SLONG	wx,wy,wz;
-			SLONG	rx,ry,rz;
-			SLONG	len;
+			std::int32_t	vx,vy,vz;
+			std::int32_t	wx,wy,wz;
+			std::int32_t	rx,ry,rz;
+			std::int32_t	len;
 
 			vx=-256;
 			vy=h1-h3;

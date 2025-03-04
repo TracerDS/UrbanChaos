@@ -57,8 +57,8 @@
 #endif
 
 #ifndef PSX
-UBYTE player_visited[16][128];
-extern SLONG	save_psx;
+std::uint8_t player_visited[16][128];
+extern std::int32_t	save_psx;
 #else
 #define save_psx (1)
 #endif
@@ -74,8 +74,8 @@ extern SLONG	save_psx;
 
 extern Thing *is_person_under_attack_low_level(
 				Thing *p_person,
-				SLONG  any_state,
-				SLONG  radius);
+				std::int32_t  any_state,
+				std::int32_t  radius);
 
 
 /*
@@ -94,19 +94,19 @@ extern Thing *is_person_under_attack_low_level(
   // the sound system will have to handle this stuff internally
   //
 
-MF_sfx_play_thing(UWORD id,Thing *p,UWORD sample,UWORD pitch,ULONG flags)
-MF_sfx_play_pos(UWORD id,SLONG x,SLONG y,SLONg z,UWORD sample,UWORD pitch,ULONG flags)
-MF_sfx_play_wpos(UWORD id,struct WorldPos *pos,UWORD sample,UWORD pitch,ULONG flags)
-MF_sfx_play(UWORD id,UWORD sample,UWORD vol,UWORD pitch,ULONG flags);
+MF_sfx_play_thing(std::uint16_t id,Thing *p,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
+MF_sfx_play_pos(std::uint16_t id,std::int32_t x,std::int32_t y,SLONg z,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
+MF_sfx_play_wpos(std::uint16_t id,struct WorldPos *pos,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
+MF_sfx_play(std::uint16_t id,std::uint16_t sample,std::uint16_t vol,std::uint16_t pitch,std::uint32_t flags);
 
 //
 // these functions alter samples allready playing, the sfx system will search for a playing sample with matching id and sample, to alter
 //
-MF_sfx_change_pitch_thing(UWORD id,UWORD sample)
-MF_sfx_change_sample(UWORD id,UWORD old_sample,UWORD new_sample,ULONG flags)
-MF_sfx_change_pos(UWORD id,UWORD sample,SLONG x,SLONG y,SLONG z)
+MF_sfx_change_pitch_thing(std::uint16_t id,std::uint16_t sample)
+MF_sfx_change_sample(std::uint16_t id,std::uint16_t old_sample,std::uint16_t new_sample,std::uint32_t flags)
+MF_sfx_change_pos(std::uint16_t id,std::uint16_t sample,std::int32_t x,std::int32_t y,std::int32_t z)
 
-MF_sfx_stop_sample(UWORD id,UWORD sample);
+MF_sfx_stop_sample(std::uint16_t id,std::uint16_t sample);
 MF_sfx_stop_all();
 
 
@@ -185,53 +185,53 @@ MF_sfx_stop_all();
 extern bool allow_debug_keys;
 #endif
 
-extern SLONG	person_holding_2handed(Thing *p_person);
-extern SLONG	continue_dir(Thing *p_person,SLONG dir);
-extern SLONG	should_i_sneak(Thing *p_person);
-extern void	change_velocity_to(Thing *p_person,SWORD velocity);
-extern void	change_velocity_to_slow(Thing *p_person,SWORD velocity);
-extern SLONG	PAP_on_slope(SLONG x,SLONG z,SLONG *angle);
-extern SLONG	RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle);
+extern std::int32_t	person_holding_2handed(Thing *p_person);
+extern std::int32_t	continue_dir(Thing *p_person,std::int32_t dir);
+extern std::int32_t	should_i_sneak(Thing *p_person);
+extern void	change_velocity_to(Thing *p_person,std::int16_t velocity);
+extern void	change_velocity_to_slow(Thing *p_person,std::int16_t velocity);
+extern std::int32_t	PAP_on_slope(std::int32_t x,std::int32_t z,std::int32_t *angle);
+extern std::int32_t	RFACE_on_slope(std::int32_t face,std::int32_t x,std::int32_t z,std::int32_t *angle);
 extern void	process_gang_attack(Thing *p_person,Thing *p_target);
 extern void	reset_gang_attack(Thing *p_target);
 extern void drop_on_heads(Thing *p_thing);
-extern UWORD	count_gang(Thing *p_target);
+extern std::uint16_t	count_gang(Thing *p_target);
 extern void person_enter_fight_mode(Thing *p_person);
-extern UWORD	get_any_gang_member(Thing *p_target);
-extern void	add_damage_value_thing(Thing *p_thing,SLONG value);
+extern std::uint16_t	get_any_gang_member(Thing *p_target);
+extern void	add_damage_value_thing(Thing *p_thing,std::int32_t value);
 extern void	set_person_locked_idle_ready(Thing *p_person);
-extern SLONG	remove_from_gang_attack(Thing *p_person,Thing *p_target);
-extern SLONG continue_pressing_action(Thing *p_person);
+extern std::int32_t	remove_from_gang_attack(Thing *p_person,Thing *p_target);
+extern std::int32_t continue_pressing_action(Thing *p_person);
 extern void	set_action_used(Thing *p_person);
 extern void	carry_running(Thing *p_person);
 extern void	set_person_stand_carry(Thing *p_person);
 
 
-extern UBYTE stealth_debug;
+extern std::uint8_t stealth_debug;
 
 
-extern SLONG	plant_feet(Thing *p_person);
-extern SLONG	calc_angle(SLONG dx,SLONG dz);
-extern SLONG	set_person_sidle(struct Thing *p_person);
-extern SLONG	slide_ladder;
+extern std::int32_t	plant_feet(Thing *p_person);
+extern std::int32_t	calc_angle(std::int32_t dx,std::int32_t dz);
+extern std::int32_t	set_person_sidle(struct Thing *p_person);
+extern std::int32_t	slide_ladder;
 
-extern SLONG	yomp_speed;
-extern SLONG	sprint_speed;
+extern std::int32_t	yomp_speed;
+extern std::int32_t	sprint_speed;
 
-UWORD player_dlight=0;
+std::uint16_t player_dlight=0;
 
-void aim_at_victim(Thing *p_person,SLONG count=1);
+void aim_at_victim(Thing *p_person,std::int32_t count=1);
 void set_anim_idle(Thing *p_person);
-SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
-UWORD find_arrestee(Thing *p_person);
+std::int32_t dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
+std::uint16_t find_arrestee(Thing *p_person);
 void set_person_fight_idle(Thing *p_person);
-SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col);
+std::int32_t set_person_pos_for_fence_vault(Thing *p_person,std::int32_t col);
 
-SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG px,SLONG pz);
+std::int32_t check_near_facet(Thing *p_person,std::int32_t max_dist,std::int32_t max_end_dist,std::int32_t px,std::int32_t pz);
 
-SLONG find_idle_fight_stance(Thing *p_person);
-SLONG person_holding_special(Thing* p_person, UBYTE special);
-SLONG person_holding_bat(Thing *p_person)	{ return person_holding_special(p_person, SPECIAL_BASEBALLBAT); }
+std::int32_t find_idle_fight_stance(Thing *p_person);
+std::int32_t person_holding_special(Thing* p_person, std::uint8_t special);
+std::int32_t person_holding_bat(Thing *p_person)	{ return person_holding_special(p_person, SPECIAL_BASEBALLBAT); }
 void set_person_running(Thing *p_person);
 
 void fn_person_moveing(Thing *p_person);
@@ -259,40 +259,40 @@ void fn_person_search(Thing *p_person);
 void fn_person_carry(Thing *p_person);
 void fn_person_float(Thing *p_person);
 
-SLONG find_anim_fall_dir(SLONG	anim);
+std::int32_t find_anim_fall_dir(std::int32_t	anim);
 
-SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req_dist);
-void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle=0);
+std::int32_t set_person_pos_for_fence(Thing *p_person,std::int32_t col,std::int32_t set_pos,std::int32_t req_dist);
+void locked_anim_change(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t dangle=0);
 void do_person_on_cable(Thing *p_person);
-SLONG fight_any_gang_attacker(Thing *p_person);
+std::int32_t fight_any_gang_attacker(Thing *p_person);
 
-extern SLONG	projectile_move_thing(Thing *p_thing,SLONG flag);
-extern SLONG	calc_height_at(SLONG x,SLONG z);
-extern SLONG	find_best_grapple(Thing *p_person);
+extern std::int32_t	projectile_move_thing(Thing *p_thing,std::int32_t flag);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
+extern std::int32_t	find_best_grapple(Thing *p_person);
 
-SLONG set_person_pos_for_half_step(Thing *p_person,SLONG col);
+std::int32_t set_person_pos_for_half_step(Thing *p_person,std::int32_t col);
 void set_person_sneaking(Thing *p_person);
-void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
-SLONG turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow);
-SLONG set_face_thing(Thing *p_person,Thing *p_target);
+void set_person_mav_to_xz(Thing *p_person,std::int32_t x,std::int32_t z);
+std::int32_t turn_to_face_thing(Thing *p_person,Thing *p_target,std::int32_t slow);
+std::int32_t set_face_thing(Thing *p_person,Thing *p_target);
 void set_person_mav_to_thing(Thing *p_person,Thing *p_target);
-SLONG get_pitch_to_thing_quick(Thing *p_person,Thing *p_target);
+std::int32_t get_pitch_to_thing_quick(Thing *p_person,Thing *p_target);
 void turn_to_face_thing_quick(Thing *p_person,Thing *p_target);
-SLONG get_yomp_anim(Thing *p_person);
-SLONG person_holding_2handed(Thing *p_person);
-void drop_all_items(Thing *p_person, UBYTE is_being_searched);
+std::int32_t get_yomp_anim(Thing *p_person);
+std::int32_t person_holding_2handed(Thing *p_person);
+void drop_all_items(Thing *p_person, std::uint8_t is_being_searched);
 void set_person_croutch(Thing *p_person);
-void drop_current_gun(Thing *p_person,SLONG change_anim);
-SLONG player_running_aim_gun(Thing *p_person);
-SLONG might_i_be_a_villain(Thing *p_person);
+void drop_current_gun(Thing *p_person,std::int32_t change_anim);
+std::int32_t player_running_aim_gun(Thing *p_person);
+std::int32_t might_i_be_a_villain(Thing *p_person);
 void highlight_gun_target(Thing *p_person,Thing *p_target);
-void locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
+void locked_anim_change_of_type(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t type);
 void set_anim_running(Thing *p_person);
 
-extern void	move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz);
+extern void	move_thing_on_map_dxdydz(Thing *t_thing,std::int32_t dx,std::int32_t dy,std::int32_t dz);
 
 #if !defined(PSX) && !defined(TARGET_DC)
-SLONG person_is_on_sewer(Thing *p_person);
+std::int32_t person_is_on_sewer(Thing *p_person);
 #endif
 
 
@@ -363,7 +363,7 @@ StateFunction generic_people_functions[]	=
 	{	0,						NULL				}
 };
 
-CBYTE* PERSON_mode_name[PERSON_MODE_NUMBER] =
+char* PERSON_mode_name[PERSON_MODE_NUMBER] =
 {
 	"Run",
 	"Walk",
@@ -371,12 +371,12 @@ CBYTE* PERSON_mode_name[PERSON_MODE_NUMBER] =
 	"Fight"
 };
 
-SLONG stat_killed_thug;
-SLONG stat_killed_innocent;
-SLONG stat_arrested_thug;
-SLONG stat_arrested_innocent;
-SLONG stat_count_bonus;
-SLONG stat_start_time,stat_game_time;
+std::int32_t stat_killed_thug;
+std::int32_t stat_killed_innocent;
+std::int32_t stat_arrested_thug;
+std::int32_t stat_arrested_innocent;
+std::int32_t stat_count_bonus;
+std::int32_t stat_start_time,stat_game_time;
 
 void set_stats()
 {
@@ -410,7 +410,7 @@ void init_stats()
 #define PERSON_NUMBER		11	// Number of people types.
 */
 
-UBYTE anim_type[PERSON_NUM_TYPES] =
+std::uint8_t anim_type[PERSON_NUM_TYPES] =
 {
 	ANIM_TYPE_DARCI,
 	ANIM_TYPE_ROPER,
@@ -429,7 +429,7 @@ UBYTE anim_type[PERSON_NUM_TYPES] =
 	ANIM_TYPE_CIV //13 
 };
 
-UBYTE mesh_type[PERSON_NUM_TYPES] = 
+std::uint8_t mesh_type[PERSON_NUM_TYPES] = 
 {
 	0, //darci
 	0, //roper
@@ -448,7 +448,7 @@ UBYTE mesh_type[PERSON_NUM_TYPES] =
 	5
 };
 
-SWORD health[PERSON_NUM_TYPES]=
+std::int16_t health[PERSON_NUM_TYPES]=
 {
 	200,
 	400,
@@ -470,9 +470,9 @@ SWORD health[PERSON_NUM_TYPES]=
 
 
 #ifndef PSX
-void set_player_visited(UBYTE x,UBYTE z)
+void set_player_visited(std::uint8_t x,std::uint8_t z)
 {
-	UWORD	bit;
+	std::uint16_t	bit;
 	ASSERT(WITHIN(x, 0, 127));
 	ASSERT(WITHIN(z, 0, 127));
 	bit=x&7;
@@ -482,7 +482,7 @@ void set_player_visited(UBYTE x,UBYTE z)
 }
 #endif
 
-inline bool	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
+inline bool	MagicFrameCheck(Thing *p_person, std::uint8_t frameindex) {
 	if (p_person->Draw.Tweened->FrameIndex>=frameindex) {
 		if (!(p_person->Genus.Person->Flags2&FLAG2_SYNC_SOUNDFX)) {
 			p_person->Genus.Person->Flags2|=FLAG2_SYNC_SOUNDFX;
@@ -535,8 +535,8 @@ void SlideSoundCheck(Thing* p_person, bool force=0)
 #ifndef PSX
 void init_persons()
 {
-	SLONG	c0;
-	memset((UBYTE*)PEOPLE,0,sizeof(Person)*MAX_PEOPLE);
+	std::int32_t	c0;
+	memset((std::uint8_t*)PEOPLE,0,sizeof(Person)*MAX_PEOPLE);
 	for(c0=0;c0<MAX_PEOPLE;c0++)
 	{
 		PEOPLE[c0].AnimType=PERSON_NONE;
@@ -547,9 +547,9 @@ void init_persons()
 
 //---------------------------------------------------------------
 
-Thing *alloc_person(UBYTE type, UBYTE random_number)
+Thing *alloc_person(std::uint8_t type, std::uint8_t random_number)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	Person			*new_person;
 	Thing			*person_thing	=	NULL;
 
@@ -623,7 +623,7 @@ Thing *alloc_person(UBYTE type, UBYTE random_number)
 				//if(new_person->AnimType==ANIM_TYPE_CIV && person_thing->Draw.Tweened->MeshID==0)
 				if(type==PERSON_THUG)
 				{
-					SLONG	mesh=Random()%2;
+					std::int32_t	mesh=Random()%2;
 
 					person_thing->Draw.Tweened->MeshID	=	mesh+1; //normal thug
 
@@ -632,7 +632,7 @@ Thing *alloc_person(UBYTE type, UBYTE random_number)
 				else
 				if(type==PERSON_THUG2)
 				{
-					SLONG	mesh=Random()%5;
+					std::int32_t	mesh=Random()%5;
 					switch(mesh)
 					{
 						case	0:
@@ -719,14 +719,14 @@ void free_person(Thing *person_thing)
 
 //---------------------------------------------------------------
 
-UBYTE global_person=0;
+std::uint8_t global_person=0;
 
 THING_INDEX create_person(
-				SLONG type,
-				SLONG random_number,
-				SLONG x,
-				SLONG y,
-				SLONG z)
+				std::int32_t type,
+				std::int32_t random_number,
+				std::int32_t x,
+				std::int32_t y,
+				std::int32_t z)
 {
 	Thing *p_person = alloc_person(type, random_number);
 	global_person++;
@@ -738,7 +738,7 @@ THING_INDEX create_person(
 #ifndef	PSX
 #ifndef TARGET_DC
 
-extern SWORD	people_types[50];
+extern std::int16_t	people_types[50];
 		people_types[type]++;
 #endif
 #endif
@@ -757,8 +757,8 @@ extern SWORD	people_types[50];
 		// Is this person on a building?
 		//
 
-		SLONG new_y;
-		SLONG face = find_face_for_this_pos(
+		std::int32_t new_y;
+		std::int32_t face = find_face_for_this_pos(
 						x >> 8,
 						y >> 8,
 						z >> 8,
@@ -798,7 +798,7 @@ extern SWORD	people_types[50];
 				p_person->WorldPos.X >> 16,
 				p_person->WorldPos.Z >> 16).Flags & PAP_FLAG_HIDDEN)
 		{
-			SLONG ware_top;
+			std::int32_t ware_top;
 
 			ware_top = PAP_calc_map_height_at(
 						p_person->WorldPos.X >> 8,
@@ -822,7 +822,7 @@ extern SWORD	people_types[50];
 		// Initialise the person straight away!
 		//
 
-		PTIME(p_person)=(UBYTE)Random();
+		PTIME(p_person)=(std::uint8_t)Random();
 		p_person->StateFn(p_person);
 
 		return THING_NUMBER(p_person);
@@ -840,18 +840,18 @@ extern SWORD	people_types[50];
 // Returns true if there is enough room in front of the given person.
 // 
 
-SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room)
+std::int32_t is_there_room_in_front_of_me(Thing *p_person, std::int32_t how_much_room)
 {
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	x1 = p_person->WorldPos.X          >> 8;
 	y1 = p_person->WorldPos.Y + 0x6000 >> 8;
@@ -890,13 +890,13 @@ SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room)
 //---------------------------------------------------------------
 extern THING_INDEX col_with[];
 
-SLONG find_searchable_person(Thing *p_person)
+std::int32_t find_searchable_person(Thing *p_person)
 {
-	SLONG       col_with_upto;
-	SLONG		collide_types = (1 << CLASS_PERSON);
+	std::int32_t       col_with_upto;
+	std::int32_t		collide_types = (1 << CLASS_PERSON);
 	Thing		*col_thing;
-	SLONG		i;
-	SLONG		best_dist=INFINITY,best_index=0,dist;
+	std::int32_t		i;
+	std::int32_t		best_dist=INFINITY,best_index=0,dist;
 
 	col_with_upto = THING_find_sphere(
 					    p_person->WorldPos.X>>8,
@@ -933,9 +933,9 @@ SLONG find_searchable_person(Thing *p_person)
 }
 
 
-SLONG set_person_search(Thing *p_person, SLONG ob_index,SLONG ox,SLONG oy,SLONG oz)
+std::int32_t set_person_search(Thing *p_person, std::int32_t ob_index,std::int32_t ox,std::int32_t oy,std::int32_t oz)
 {
-	SLONG	dx,dz,angle,dangle;
+	std::int32_t	dx,dz,angle,dangle;
 
 	dx=(p_person->WorldPos.X>>8)-ox;
 	dz=(p_person->WorldPos.Z>>8)-oz;
@@ -962,7 +962,7 @@ SLONG set_person_search(Thing *p_person, SLONG ob_index,SLONG ox,SLONG oy,SLONG 
 
 }
 
-SLONG set_person_search_corpse(Thing *p_person, Thing *p_dead)
+std::int32_t set_person_search_corpse(Thing *p_person, Thing *p_dead)
 {
 
 //	set_person_locked_idle_ready(p_person);
@@ -987,9 +987,9 @@ SLONG set_person_search_corpse(Thing *p_person, Thing *p_dead)
 
 void release_searched_item(Thing *p_person)
 {
-	SLONG	index;
+	std::int32_t	index;
 	Thing	*p_thing;
-	SLONG	ob_index;
+	std::int32_t	ob_index;
 
 	MFX_stop(THING_NUMBER(p_person),S_SEARCH_END);
 	switch(p_person->SubState)
@@ -1039,15 +1039,15 @@ void release_searched_item(Thing *p_person)
 
 void find_nice_place_near_person(
 		Thing *p_person,
-		SLONG *nice_x,	// 8-bits per mapsquare
-		SLONG *nice_y,
-		SLONG *nice_z)
+		std::int32_t *nice_x,	// 8-bits per mapsquare
+		std::int32_t *nice_y,
+		std::int32_t *nice_z)
 {
-	SLONG gx;
-	SLONG gy;
-	SLONG gz;
+	std::int32_t gx;
+	std::int32_t gy;
+	std::int32_t gz;
 
-	SLONG	px,py,pz;
+	std::int32_t	px,py,pz;
 
 	//
 	// Anywhere on the same mapsquare as the person should do!
@@ -1097,7 +1097,7 @@ void find_nice_place_near_person(
 //	SUB_STATE_DYING_KNOCK_DOWN	- means they play a get up animation after their current animation is over and don't die.
 //
 
-void set_person_dying(Thing *p_person, UBYTE substate)
+void set_person_dying(Thing *p_person, std::uint8_t substate)
 {
 	//
 	// Valid substate?
@@ -1154,7 +1154,7 @@ void set_person_dying(Thing *p_person, UBYTE substate)
 #define PERSON_ON_HIS_BACK		1
 #define PERSON_ON_HIS_SOMETHING 2
 
-SLONG person_is_lying_on_what(Thing *p_person)
+std::int32_t person_is_lying_on_what(Thing *p_person)
 {
 	ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -1193,17 +1193,17 @@ SLONG person_is_lying_on_what(Thing *p_person)
 }
 
 
-SLONG footstep_wave(Thing *p_person)
+std::int32_t footstep_wave(Thing *p_person)
 {
 	//
 	// Which one out of a choice of sounds we play.
 	// 
 
-//	static SLONG which;
+//	static std::int32_t which;
 
-	SLONG start;
-	SLONG end;
-	SLONG num;
+	std::int32_t start;
+	std::int32_t end;
+	std::int32_t num;
 
 	if (p_person->Genus.Person->Ware)
 	{
@@ -1293,12 +1293,12 @@ SLONG footstep_wave(Thing *p_person)
 // Returns the relative angle of the target from the person.
 //
 
-SLONG get_dangle(Thing *p_person, Thing *p_target)
+std::int32_t get_dangle(Thing *p_person, Thing *p_target)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG angle;
-	SLONG dangle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t angle;
+	std::int32_t dangle;
 
 	dx = p_target->WorldPos.X - p_person->WorldPos.X >> 8;
 	dz = p_target->WorldPos.Z - p_person->WorldPos.Z >> 8;
@@ -1315,9 +1315,9 @@ SLONG get_dangle(Thing *p_person, Thing *p_target)
 
 //---------------------------------------------------------------
 
-SLONG get_fence_bottom(SLONG x, SLONG z, SLONG col)
+std::int32_t get_fence_bottom(std::int32_t x, std::int32_t z, std::int32_t col)
 {
-	SLONG fy;
+	std::int32_t fy;
 
 	if (dfacets[col].FacetFlags & FACET_FLAG_ONBUILDING||dfacets[col].FacetType==STOREY_TYPE_NORMAL)
 	{
@@ -1331,11 +1331,11 @@ SLONG get_fence_bottom(SLONG x, SLONG z, SLONG col)
 	return fy;	// + 20?
 }
 
-SLONG get_fence_top(SLONG x, SLONG z, SLONG col)
+std::int32_t get_fence_top(std::int32_t x, std::int32_t z, std::int32_t col)
 {
-	SLONG fy;
-	SLONG fheight;
-	SLONG ftop;
+	std::int32_t fy;
+	std::int32_t fheight;
+	std::int32_t ftop;
 
 	if (dfacets[col].FacetFlags & FACET_FLAG_ONBUILDING ||dfacets[col].FacetType==STOREY_TYPE_NORMAL)
 	{
@@ -1373,22 +1373,22 @@ SLONG get_fence_top(SLONG x, SLONG z, SLONG col)
 
 void person_splash(
 		Thing *p_person,
-		SLONG  limb)	// -1 => Splash at the centre of the person.
+		std::int32_t  limb)	// -1 => Splash at the centre of the person.
 {
 
 #ifndef	PSX
 
-	SLONG i,type;
+	std::int32_t i,type;
 
-	SLONG foot_x;
-	SLONG foot_y;
-	SLONG foot_z;
+	std::int32_t foot_x;
+	std::int32_t foot_y;
+	std::int32_t foot_z;
 
-	SLONG track_x,track_y,track_z,dx,dy,dz;
+	std::int32_t track_x,track_y,track_z,dx,dy,dz;
 
-	SLONG splash_x;
-	SLONG splash_y;
-	SLONG splash_z;
+	std::int32_t splash_x;
+	std::int32_t splash_y;
+	std::int32_t splash_z;
 
 
 	if (limb == -1)
@@ -1479,7 +1479,7 @@ void person_splash(
 		track_y=(PAP_calc_height_at_thing(p_person,track_x>>8,track_z>>8)<<8)+0x180;
 		
 		{
-			SLONG	mx,mz;
+			std::int32_t	mx,mz;
 
 			mx=(track_x-(dx*0x1ff))>>16;
 			mz=(track_z-(dz*0x1ff))>>16;
@@ -1506,7 +1506,7 @@ void person_splash(
 		track_y=(PAP_calc_height_at_thing(p_person,track_x>>8,track_z>>8)<<8)+0x180;
 
 		{
-			SLONG	mx,mz;
+			std::int32_t	mx,mz;
 
 			mx=(track_x-(dx*0x1ff))>>16;
 			mz=(track_z-(dz*0x1ff))>>16;
@@ -1600,11 +1600,11 @@ void set_persons_personid(Thing *p_person)
 
 // hopefully the compiler's smart enough (heh) to completely optimise out an empty inline function... :P
 
-inline void ShowAnimNumber(SLONG anim) {
+inline void ShowAnimNumber(std::int32_t anim) {
 
 #ifdef SHOW_ANIM_NUMS
 
-	CBYTE str[100];
+	char str[100];
 
 	sprintf(str,"Anim %d",anim);
 
@@ -1613,11 +1613,11 @@ inline void ShowAnimNumber(SLONG anim) {
 #endif
 }
 
-void queue_anim(Thing *p_person,SLONG anim)
+void queue_anim(Thing *p_person,std::int32_t anim)
 {
 	ASSERT(anim!=1);
 //	ASSERT(anim!=54);
-	ASSERT(((ULONG)global_anim_array[p_person->Genus.Person->AnimType][anim])>1000);
+	ASSERT(((std::uint32_t)global_anim_array[p_person->Genus.Person->AnimType][anim])>1000);
 	p_person->Genus.Person->Flags2&=~FLAG2_SYNC_SOUNDFX;
 	if(p_person->Genus.Person->Flags&FLAG_PERSON_LOCK_ANIM_CHANGE)
 	{
@@ -1637,7 +1637,7 @@ void queue_anim(Thing *p_person,SLONG anim)
 	ShowAnimNumber(anim);
 }
 
-void tween_to_anim(Thing *p_person,SLONG anim)
+void tween_to_anim(Thing *p_person,std::int32_t anim)
 {
 //	ASSERT(anim!=54);
 	p_person->Genus.Person->Flags2&=~FLAG2_SYNC_SOUNDFX;
@@ -1661,14 +1661,14 @@ void tween_to_anim(Thing *p_person,SLONG anim)
 	ShowAnimNumber(anim);
 }
 
-void set_anim(Thing *p_person,SLONG anim)
+void set_anim(Thing *p_person,std::int32_t anim)
 {
 	ASSERT(anim!=1);
 //	ASSERT(anim!=54);
 /*
 	if(p_person->Genus.Person->PlayerID==0)
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str," fight %d 
 	}
 */
@@ -1697,14 +1697,14 @@ void set_anim(Thing *p_person,SLONG anim)
 
 }
 //				set_anim_of_type(p_person,CIV_M_ANIM_WALK,ANIM_TYPE_CIV);
-void set_anim_of_type(Thing *p_person,SLONG anim,SLONG type)
+void set_anim_of_type(Thing *p_person,std::int32_t anim,std::int32_t type)
 {
 	ASSERT(anim!=1);
 //	ASSERT(anim!=54);
 /*
 	if(p_person->Genus.Person->PlayerID==0)
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str," fight %d 
 	}
 */
@@ -1736,7 +1736,7 @@ void set_anim_of_type(Thing *p_person,SLONG anim,SLONG type)
 
 }
 
-void set_locked_anim(Thing *p_person,SLONG anim,SLONG sub_object)
+void set_locked_anim(Thing *p_person,std::int32_t anim,std::int32_t sub_object)
 {
 	ASSERT(anim!=1);
 	ASSERT(anim);
@@ -1753,7 +1753,7 @@ void set_locked_anim(Thing *p_person,SLONG anim,SLONG sub_object)
 	ShowAnimNumber(anim);
 
 }
-void set_locked_anim_angle(Thing *p_person,SLONG anim,SLONG sub_object,SLONG dangle)
+void set_locked_anim_angle(Thing *p_person,std::int32_t anim,std::int32_t sub_object,std::int32_t dangle)
 {
 	ASSERT(anim!=1);
 	ASSERT(anim);
@@ -1770,7 +1770,7 @@ void set_locked_anim_angle(Thing *p_person,SLONG anim,SLONG sub_object,SLONG dan
 	ShowAnimNumber(anim);
 
 }
-void set_locked_anim_of_type(Thing *p_person,SLONG anim,SLONG sub_object)
+void set_locked_anim_of_type(Thing *p_person,std::int32_t anim,std::int32_t sub_object)
 {
 	ASSERT(anim!=1);
 	ASSERT(anim);
@@ -1788,16 +1788,16 @@ void set_locked_anim_of_type(Thing *p_person,SLONG anim,SLONG sub_object)
 
 }
 
-SLONG get_cable_sdist_from_end(SLONG facet,SLONG ax,SLONG az)
+std::int32_t get_cable_sdist_from_end(std::int32_t facet,std::int32_t ax,std::int32_t az)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t z1;
 
 
-	SLONG	d1;
+	std::int32_t	d1;
 
 	struct	DFacet	*p_facet;
 
@@ -1832,9 +1832,9 @@ SLONG get_cable_sdist_from_end(SLONG facet,SLONG ax,SLONG az)
 
 void person_death_slide(Thing *p_person)
 {
-	SLONG	dx,dy=0,dz;
-	SLONG	along;
-	SLONG	dist,sdist;
+	std::int32_t	dx,dy=0,dz;
+	std::int32_t	along;
+	std::int32_t	dist,sdist;
 
 	GameCoord new_position = p_person->WorldPos;
 
@@ -1931,9 +1931,9 @@ void set_person_dead_land(Thing *p_thing)
 
 
 void emergency_uncarry(Thing *p_person);
-SLONG people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+std::int32_t people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
-void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type)
+void sweep_feet(Thing *p_person,Thing *p_aggressor,std::int32_t  death_type)
 {
 	SlideSoundCheck(p_person,1);
 
@@ -2006,7 +2006,7 @@ void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type)
 	}
 
 	{
-		SLONG	r,prob;
+		std::int32_t	r,prob;
 		prob=40+(GET_SKILL(p_person)<<3);
 		if((r=(Random()%160))<prob)
 		{
@@ -2092,16 +2092,16 @@ void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type)
 // in the given direction.
 // 
 
-SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
+std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_behind)
 {
-	ULONG los_flag;
+	std::uint32_t los_flag;
 
 	//
 	// A vector in the direction this person is going to die in.
 	// 
 
-	SLONG dx = SIN(p_person->Draw.Tweened->Angle);
-	SLONG dz = COS(p_person->Draw.Tweened->Angle);
+	std::int32_t dx = SIN(p_person->Draw.Tweened->Angle);
+	std::int32_t dz = COS(p_person->Draw.Tweened->Angle);
 
 	if (hit_from_behind)
 	{
@@ -2109,11 +2109,11 @@ SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
 		dz = -dz;
 	}
 
-	SLONG h1 = PAP_calc_map_height_at(
+	std::int32_t h1 = PAP_calc_map_height_at(
 					p_person->WorldPos.X >> 8,
 					p_person->WorldPos.Z >> 8);
 
-	SLONG h2 = PAP_calc_map_height_at(
+	std::int32_t h2 = PAP_calc_map_height_at(
 					p_person->WorldPos.X + dx >> 8,
 					p_person->WorldPos.Z + dz >> 8);
 
@@ -2178,14 +2178,14 @@ SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind)
 }
 
 
-extern SLONG slide_along(SLONG  x1, SLONG  y1, SLONG  z1,SLONG *x2, SLONG *y2, SLONG *z2,SLONG  extra_wall_height,SLONG  radius,ULONG  flags);
-void set_fence_hole(struct DFacet *p_facet,SLONG pos);
+extern std::int32_t slide_along(std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,std::int32_t  extra_wall_height,std::int32_t  radius,std::uint32_t  flags);
+void set_fence_hole(struct DFacet *p_facet,std::int32_t pos);
 
-SLONG get_along_facet(SLONG	x,SLONG z,SLONG colvect)
+std::int32_t get_along_facet(std::int32_t	x,std::int32_t z,std::int32_t colvect)
 {
 	DFacet	*p_facet;
-	SLONG	dx,dz;
-	SLONG	along;
+	std::int32_t	dx,dz;
+	std::int32_t	along;
 	
 	p_facet=&dfacets[colvect];
 
@@ -2206,11 +2206,11 @@ SLONG get_along_facet(SLONG	x,SLONG z,SLONG colvect)
 	return(along);
 }
 #ifdef	UNUSED_WIRECUTTERS
-extern UWORD	fence_colvect;
-SLONG set_person_cut_fence(Thing *p_person)
+extern std::uint16_t	fence_colvect;
+std::int32_t set_person_cut_fence(Thing *p_person)
 {
-	SLONG	x1,y1,z1,x2,y2,z2,dx,dz;
-	SLONG	along;
+	std::int32_t	x1,y1,z1,x2,y2,z2,dx,dz;
+	std::int32_t	along;
 
 
 	dx	=-	(SIN(p_person->Draw.Tweened->Angle)*50)>>8;
@@ -2248,15 +2248,15 @@ SLONG set_person_cut_fence(Thing *p_person)
 void set_person_dead(
 		Thing *p_thing,
 		Thing *p_aggressor,
-		SLONG  death_type,
-		SLONG  behind,
-		SLONG  height)
+		std::int32_t  death_type,
+		std::int32_t  behind,
+		std::int32_t  height)
 {
 	DrawTween  *draw_info;
-	SLONG		anim;
-	SLONG       substate;
-	SLONG       quick  = false;
-	SLONG       locked = false;
+	std::int32_t		anim;
+	std::int32_t       substate;
+	std::int32_t       quick  = false;
+	std::int32_t       locked = false;
 
 	ASSERT(p_thing->Class == CLASS_PERSON);
 	p_thing->Draw.Tweened->Roll	 = 0;
@@ -2372,7 +2372,7 @@ void set_person_dead(
 			if(p_aggressor->Genus.Person->Target==THING_NUMBER(p_thing))
 			{
 				//ASSERT(0);
-				extern UWORD	find_target_from_gang(Thing *p_target);
+				extern std::uint16_t	find_target_from_gang(Thing *p_target);
 				p_aggressor->Genus.Person->Target=find_target_from_gang(p_aggressor);
 				if(p_aggressor->Genus.Person->PlayerID)
 				if(p_aggressor->Genus.Person->Target==0)
@@ -2403,7 +2403,7 @@ void set_person_dead(
 
 	#define MAX_KNOCK_DOWN 6
 
-	static UBYTE knock_down[MAX_KNOCK_DOWN] =
+	static std::uint8_t knock_down[MAX_KNOCK_DOWN] =
 	{
 		ANIM_KD_FRONT_LOW,
 		ANIM_KD_FRONT_MID,
@@ -2503,7 +2503,7 @@ void set_person_dead(
 		case PERSON_DEATH_TYPE_SHOT_AK47:
 
 			{
-				static UWORD shoot_dead_anim[3] =
+				static std::uint16_t shoot_dead_anim[3] =
 				{
 					ANIM_SHOT_DEAD_HEAD,
 					ANIM_SHOT_DEAD_GUT,
@@ -2586,8 +2586,8 @@ void set_person_dead(
 			//
 
 			{
-				SLONG ground;
-				SLONG dy;
+				std::int32_t ground;
+				std::int32_t dy;
 				
 				ground = PAP_calc_height_at_thing(p_thing,p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8);
 				dy     = (p_thing->WorldPos.Y >> 8) - ground;
@@ -2652,8 +2652,8 @@ void set_person_dead(
 			//
 
 			{
-				SLONG ground;
-				SLONG dy;
+				std::int32_t ground;
+				std::int32_t dy;
 				
 				ground = PAP_calc_height_at_thing(p_thing,p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8);
 				dy     = (p_thing->WorldPos.Y >> 8) - ground;
@@ -2757,7 +2757,7 @@ void set_person_dead(
 //
 // 0 is not guilty, 1 is a bit guilty, 2 is very guilty , 3 is top ten most wanted
 //
-SLONG is_person_guilty(Thing *p_person)
+std::int32_t is_person_guilty(Thing *p_person)
 {
 	if(p_person->Genus.Person->Flags2&FLAG2_PERSON_GUILTY)
 		return(1);
@@ -2788,7 +2788,7 @@ SLONG is_person_guilty(Thing *p_person)
 	return(0);
 }
 
-SLONG person_on_floor(Thing *p_person)
+std::int32_t person_on_floor(Thing *p_person)
 {
 	if(p_person->SubState==SUB_STATE_RUNNING||p_person->SubState==SUB_STATE_WALKING||p_person->State==STATE_IDLE||p_person->State==STATE_CIRCLING||p_person->State==STATE_GUN||p_person->State==STATE_HIT_RECOIL)
 	{
@@ -2803,11 +2803,11 @@ SLONG person_on_floor(Thing *p_person)
 	}
 }
 
-SLONG really_on_floor(Thing *p_person)
+std::int32_t really_on_floor(Thing *p_person)
 {
-	SLONG foot_x;
-	SLONG foot_y;
-	SLONG foot_z;
+	std::int32_t foot_x;
+	std::int32_t foot_y;
+	std::int32_t foot_z;
 
 	calc_sub_objects_position(
 		p_person,
@@ -2821,7 +2821,7 @@ SLONG really_on_floor(Thing *p_person)
 	foot_y += p_person->WorldPos.Y >> 8;
 	foot_z += p_person->WorldPos.Z >> 8;
 
-	SLONG ground = PAP_calc_map_height_at(foot_x, foot_z);
+	std::int32_t ground = PAP_calc_map_height_at(foot_x, foot_z);
 
 	if(foot_y>ground+32)
 		return(0);
@@ -2832,7 +2832,7 @@ SLONG really_on_floor(Thing *p_person)
 }
 
 
-SLONG is_person_dead(Thing *p_person)
+std::int32_t is_person_dead(Thing *p_person)
 {
 	if(p_person->State==STATE_DEAD || (p_person->State==STATE_DYING && (p_person->Genus.Person->Flags&FLAG_PERSON_KO)==0)) 
 		return(1);
@@ -2841,7 +2841,7 @@ SLONG is_person_dead(Thing *p_person)
 
 }
 
-SLONG is_person_ko(Thing *p_person)
+std::int32_t is_person_ko(Thing *p_person)
 {
 	if (p_person->State == STATE_DYING)
 	{
@@ -2856,7 +2856,7 @@ SLONG is_person_ko(Thing *p_person)
 	return false;
 }
 
-SLONG is_person_ko_and_lay_down(Thing *p_person)
+std::int32_t is_person_ko_and_lay_down(Thing *p_person)
 {
 	if (p_person->State == STATE_DYING)
 	{
@@ -2872,13 +2872,13 @@ SLONG is_person_ko_and_lay_down(Thing *p_person)
 
 void knock_person_down(
 		Thing *p_person,
-		SLONG  hitpoints,
-		SLONG  origin_x,
-		SLONG  origin_z,
+		std::int32_t  hitpoints,
+		std::int32_t  origin_x,
+		std::int32_t  origin_z,
 		Thing *p_aggressor)
 {
-	SLONG death_type;
-	SLONG behind;
+	std::int32_t death_type;
+	std::int32_t behind;
 
 	//
 	// Ignore other agreossors... the Balrog for instance!
@@ -2974,9 +2974,9 @@ void knock_person_down(
 }
 
 
-void person_bodge_forward(Thing *p_person,SLONG dist)
+void person_bodge_forward(Thing *p_person,std::int32_t dist)
 {
-	SLONG	dx,dy=0,dz;
+	std::int32_t	dx,dy=0,dz;
 	GameCoord new_position = p_person->WorldPos;
 
 	dx	=-	(SIN(p_person->Draw.Tweened->Angle)*dist)>>8;
@@ -2991,11 +2991,11 @@ void person_bodge_forward(Thing *p_person,SLONG dist)
 /*
 #define	ON_MAP(x,z)	( ((x)>0) && ((x)<MAP_WIDTH) && ((z)>0) && ((z)<MAP_DEPTH) )
 
-SLONG find_an_enemy_within_dist(SLONG x,SLONG y,SLONG z,SLONG dist,SLONG group)
+std::int32_t find_an_enemy_within_dist(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t dist,std::int32_t group)
 {
-	SLONG	dx,dz,blocks;
-	SLONG	mx,mz;
-	SLONG	index;
+	std::int32_t	dx,dz,blocks;
+	std::int32_t	mx,mz;
+	std::int32_t	index;
 
 	blocks=dist>>ELE_SHIFT;
 
@@ -3033,17 +3033,17 @@ SLONG find_an_enemy_within_dist(SLONG x,SLONG y,SLONG z,SLONG dist,SLONG group)
 // Returns true if there is a LOS between the two people's heads.
 //
 
-SLONG los_between_heads(
+std::int32_t los_between_heads(
 		Thing *person_1,
 		Thing *person_2)
 {
-	SLONG x1 = person_1->WorldPos.X >> 8;
-	SLONG y1 = person_1->WorldPos.Y >> 8;
-	SLONG z1 = person_1->WorldPos.Z >> 8;
+	std::int32_t x1 = person_1->WorldPos.X >> 8;
+	std::int32_t y1 = person_1->WorldPos.Y >> 8;
+	std::int32_t z1 = person_1->WorldPos.Z >> 8;
 
-	SLONG x2 = person_2->WorldPos.X >> 8;
-	SLONG y2 = person_2->WorldPos.Y >> 8;
-	SLONG z2 = person_2->WorldPos.Z >> 8;
+	std::int32_t x2 = person_2->WorldPos.X >> 8;
+	std::int32_t y2 = person_2->WorldPos.Y >> 8;
+	std::int32_t z2 = person_2->WorldPos.Z >> 8;
 
 	y1 += 0x70;
 	y2 += 0x70;
@@ -3062,12 +3062,12 @@ SLONG los_between_heads(
 extern THING_INDEX col_with[];
 
 #ifndef PSX
-void oscilate_tinpanum(SLONG x,SLONG y,SLONG z,Thing *p_thing,SLONG vol)
+void oscilate_tinpanum(std::int32_t x,std::int32_t y,std::int32_t z,Thing *p_thing,std::int32_t vol)
 {
-	SLONG       col_with_upto;
-	SLONG		collide_types = (1 << CLASS_PERSON);
+	std::int32_t       col_with_upto;
+	std::int32_t		collide_types = (1 << CLASS_PERSON);
 	Thing		*col_thing;
-	SLONG		i;
+	std::int32_t		i;
 
 	col_with_upto = THING_find_sphere(
 					    x,
@@ -3135,20 +3135,20 @@ void oscilate_tinpanum(SLONG x,SLONG y,SLONG z,Thing *p_thing,SLONG vol)
 }
 #endif
 
-SLONG dist_to_target(Thing *p_person_a,Thing *p_person_b)
+std::int32_t dist_to_target(Thing *p_person_a,Thing *p_person_b)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 
 	dx=abs(p_person_a->WorldPos.X-p_person_b->WorldPos.X)>>8;
 	dz=abs(p_person_a->WorldPos.Z-p_person_b->WorldPos.Z)>>8;
 	return(QDIST2(dx,dz));
 }
 
-SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b)
+std::int32_t dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b)
 {
-	SLONG	dx,dz;
-	SLONG	ax,ay,az;
-	SLONG	bx,by,bz;
+	std::int32_t	dx,dz;
+	std::int32_t	ax,ay,az;
+	std::int32_t	bx,by,bz;
 
 	calc_sub_objects_position(p_person_a,p_person_a->Draw.Tweened->AnimTween,SUB_OBJECT_PELVIS,&ax,&ay,&az);
 	calc_sub_objects_position(p_person_b,p_person_b->Draw.Tweened->AnimTween,SUB_OBJECT_PELVIS,&bx,&by,&bz);
@@ -3170,7 +3170,7 @@ SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b)
 // Returns true if a person is crouching
 //
 
-SLONG is_person_crouching(Thing *p_person)
+std::int32_t is_person_crouching(Thing *p_person)
 {
 	ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -3192,19 +3192,19 @@ SLONG is_person_crouching(Thing *p_person)
 //        <0 means forget view conditions and just use max range (useful for player)
 //        >0 clip calculated view distance to this value
 
-SLONG can_a_see_b(
+std::int32_t can_a_see_b(
 		Thing *p_person_a,
-		Thing *p_person_b,SLONG range,SLONG no_los)
+		Thing *p_person_b,std::int32_t range,std::int32_t no_los)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG view;
-	SLONG dist;
-	SLONG angle;
-	SLONG dangle;
-	SLONG p_person_b_moving;
+	std::int32_t view;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t dangle;
+	std::int32_t p_person_b_moving;
 
 
 	if(p_person_a->Flags&FLAGS_PERSON_BEEN_SHOT)
@@ -3383,8 +3383,8 @@ SLONG can_a_see_b(
 			// The height of each person's head.
 			//
 
-			UBYTE ahead = (is_person_crouching(p_person_a)) ? 0x20 : 0x60;
-			UBYTE bhead = (is_person_crouching(p_person_b)) ? 0x20 : 0x60;
+			std::uint8_t ahead = (is_person_crouching(p_person_a)) ? 0x20 : 0x60;
+			std::uint8_t bhead = (is_person_crouching(p_person_b)) ? 0x20 : 0x60;
 
 			//
 			// Angle is valid
@@ -3453,16 +3453,16 @@ SLONG can_a_see_b(
 }
 
 
-SLONG can_i_see_place(Thing *p_person, SLONG x, SLONG y, SLONG z)
+std::int32_t can_i_see_place(Thing *p_person, std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG view;
-	SLONG dist;
-	SLONG angle;
-	SLONG dangle;
+	std::int32_t view;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t dangle;
 
 	dx = x - (p_person->WorldPos.X >> 8);
 	dy = y - (p_person->WorldPos.Y >> 8);
@@ -3505,7 +3505,7 @@ SLONG can_i_see_place(Thing *p_person, SLONG x, SLONG y, SLONG z)
 		// The height of each person's head.
 		//
 
-		UBYTE ahead = (is_person_crouching(p_person)) ? 0x20 : 0x60;
+		std::uint8_t ahead = (is_person_crouching(p_person)) ? 0x20 : 0x60;
 
 		//
 		// Angle is valid
@@ -3550,7 +3550,7 @@ void set_person_sliding_tackle(Thing *p_person, Thing *p_target)
 // Returns true if the person vaults...
 //
 
-SLONG set_person_vault(Thing *p_person, SLONG facet)
+std::int32_t set_person_vault(Thing *p_person, std::int32_t facet)
 {
 	if(set_person_pos_for_fence_vault(p_person,facet))
 	{
@@ -3566,7 +3566,7 @@ SLONG set_person_vault(Thing *p_person, SLONG facet)
 	return false;
 }
 
-SLONG set_person_climb_half(Thing *p_person, SLONG facet)
+std::int32_t set_person_climb_half(Thing *p_person, std::int32_t facet)
 {
 	if(set_person_pos_for_half_step(p_person,facet))
 	{
@@ -3586,7 +3586,7 @@ SLONG set_person_climb_half(Thing *p_person, SLONG facet)
 // can person see player
 //
 
-SLONG can_i_see_player(Thing *p_person)
+std::int32_t can_i_see_player(Thing *p_person)
 {
 	//
 	// THERE MIGHT BE TWO PLAYERS NOW REMEMBER!
@@ -3628,14 +3628,14 @@ void do_look_for_enemies(Thing *p_person)
 #ifdef	UNUSED
 void show_me_the_way_to_go_home(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG home_x = p_person->Genus.Person->HomeX << 8;
-	SLONG home_z = p_person->Genus.Person->HomeZ << 8;
+	std::int32_t home_x = p_person->Genus.Person->HomeX << 8;
+	std::int32_t home_z = p_person->Genus.Person->HomeZ << 8;
 
-	SLONG home_sickness;
-	SLONG darci_distance;
+	std::int32_t home_sickness;
+	std::int32_t darci_distance;
 
 	//
 	// Far from home?
@@ -3671,10 +3671,10 @@ void show_me_the_way_to_go_home(Thing *p_person)
 }
 #endif
 
-extern void	play_music(UWORD id, UBYTE track);
+extern void	play_music(std::uint16_t id, std::uint8_t track);
 
 
-ULONG timer_bored=0;
+std::uint32_t timer_bored=0;
 void general_process_player(Thing *p_person)
 {
 	DrawTween  *dt;
@@ -3849,21 +3849,21 @@ extern void	check_players_gang(Thing *p_target);
 }
 
 
-void person_pick_best_target(Thing *p_person,SLONG dir)
+void person_pick_best_target(Thing *p_person,std::int32_t dir)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG best_dist = INFINITY;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t best_dist = INFINITY;
 
-	UWORD lowest_person = 0xffff;
-	UWORD highest_person = 0;
-	UWORD next_person   = 0xffff;
-	UWORD prev_person   = 0;
+	std::uint16_t lowest_person = 0xffff;
+	std::uint16_t highest_person = 0;
+	std::uint16_t next_person   = 0xffff;
+	std::uint16_t prev_person   = 0;
 
-	SLONG num_found = THING_find_sphere(
+	std::int32_t num_found = THING_find_sphere(
 							p_person->WorldPos.X >> 8,
 							p_person->WorldPos.Y >> 8,
 							p_person->WorldPos.Z >> 8,
@@ -3975,8 +3975,8 @@ void person_pick_best_target(Thing *p_person,SLONG dir)
 
 	/*
 
-	UWORD	target;
-extern UWORD	get_nearest_gang_member(Thing *p_target);
+	std::uint16_t	target;
+extern std::uint16_t	get_nearest_gang_member(Thing *p_target);
 	target=get_nearest_gang_member(p_person);
 	if(target)
 	{
@@ -4112,8 +4112,8 @@ void general_process_person(Thing *p_person)
 	{
 		if (IS_ROOF_HIDDEN_FACE(p_person->OnFace))
 		{
-			SLONG mx = ROOF_HIDDEN_X(p_person->OnFace);
-			SLONG mz = ROOF_HIDDEN_Z(p_person->OnFace);
+			std::int32_t mx = ROOF_HIDDEN_X(p_person->OnFace);
+			std::int32_t mz = ROOF_HIDDEN_Z(p_person->OnFace);
 
 			ASSERT(abs(mx - (p_person->WorldPos.X >> 16)) <= 1);
 			ASSERT(abs(mz - (p_person->WorldPos.Z >> 16)) <= 1);
@@ -4185,9 +4185,9 @@ void general_process_person(Thing *p_person)
 
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS)
 	{
-		SLONG px;
-		SLONG py;
-		SLONG pz;
+		std::int32_t px;
+		std::int32_t py;
+		std::int32_t pz;
 
 		calc_sub_objects_position(
 			p_person,
@@ -4224,11 +4224,11 @@ void general_process_person(Thing *p_person)
 
 		if (f4->FaceFlags & FACE_FLAG_WMOVE)
 		{
-			SLONG now_x;
-			SLONG now_y;
-			SLONG now_z;
-			SLONG now_dangle;
-			SLONG	wmove_index;
+			std::int32_t now_x;
+			std::int32_t now_y;
+			std::int32_t now_z;
+			std::int32_t now_dangle;
+			std::int32_t	wmove_index;
 
 			wmove_index=f4->ThingIndex;
 			ASSERT(WITHIN(wmove_index, 1, WMOVE_face_upto - 1));
@@ -4310,7 +4310,7 @@ void general_process_person(Thing *p_person)
 	}
 
 	{
-		UWORD	max_stamina=128;
+		std::uint16_t	max_stamina=128;
 		if(p_person->Genus.Person->PlayerID)
 		{
 			max_stamina+=NET_PLAYER(p_person->Genus.Person->PlayerID-1)->Genus.Player->Stamina;
@@ -4336,10 +4336,10 @@ void general_process_person(Thing *p_person)
 
 	// check for burning flags
 
-	SLONG get_person_radius(SLONG type);
+	std::int32_t get_person_radius(std::int32_t type);
 
 	if (p_person->Flags & FLAGS_BURNING) {
-		SLONG x2,y2,z2,ndx;
+		std::int32_t x2,y2,z2,ndx;
 		Thing *thing;
 		Pyro  *pyro;
 		TRACE("the pain the pain\n");
@@ -4426,12 +4426,12 @@ void general_process_person(Thing *p_person)
 	{
 		if (p_person->Flags & FLAGS_IN_VIEW)
 		{
-			SLONG penis_x;
-			SLONG penis_y;
-			SLONG penis_z;
+			std::int32_t penis_x;
+			std::int32_t penis_y;
+			std::int32_t penis_z;
 
-			SLONG dx;
-			SLONG dz;
+			std::int32_t dx;
+			std::int32_t dz;
 
 			calc_sub_objects_position(
 				p_person,
@@ -4477,7 +4477,7 @@ void general_process_person(Thing *p_person)
 
 	if (p_person->Genus.Person->UnderAttack)
 	{	
-		SLONG ticks = 256 * TICK_RATIO >> TICK_SHIFT;
+		std::int32_t ticks = 256 * TICK_RATIO >> TICK_SHIFT;
 
 		if (p_person->Genus.Person->UnderAttack <= ticks)
 		{	
@@ -4485,7 +4485,7 @@ void general_process_person(Thing *p_person)
 		}
 		else
 		{
-			SLONG last = p_person->Genus.Person->UnderAttack;
+			std::int32_t last = p_person->Genus.Person->UnderAttack;
 
 			p_person->Genus.Person->UnderAttack -= ticks;
 
@@ -4517,8 +4517,8 @@ void general_process_person(Thing *p_person)
 #ifndef PSX
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GRAPPLING)
 	{
-		SLONG percent;
-		SLONG pitch;
+		std::int32_t percent;
+		std::int32_t pitch;
 
 		if (p_person->State == STATE_GRAPPLING &&
 			p_person->SubState == SUB_STATE_GRAPPLING_WINDUP)
@@ -4545,9 +4545,9 @@ void general_process_person(Thing *p_person)
 		// Make sure the hook is connected to Darci's right hand.
 		//
 
-		SLONG px;
-		SLONG py;
-		SLONG pz;
+		std::int32_t px;
+		std::int32_t py;
+		std::int32_t pz;
 
 		calc_sub_objects_position(
 			p_person,
@@ -4610,19 +4610,19 @@ void general_process_person(Thing *p_person)
 	{
 		if ((p_person->Flags & FLAGS_IN_SEWERS) && p_person->State != STATE_IDLE)
 		{
-			SLONG i;
-			SLONG j;
-			SLONG angle;
+			std::int32_t i;
+			std::int32_t j;
+			std::int32_t angle;
 
-			ULONG bit;
-			ULONG newsewerbits;
-			ULONG oldsewerbits = p_person->Genus.Person->sewerbits;
+			std::uint32_t bit;
+			std::uint32_t newsewerbits;
+			std::uint32_t oldsewerbits = p_person->Genus.Person->sewerbits;
 
-			SLONG partx;
-			SLONG party;
-			SLONG partz;
+			std::int32_t partx;
+			std::int32_t party;
+			std::int32_t partz;
 
-			SLONG sheight = NS_calc_splash_height_at(
+			std::int32_t sheight = NS_calc_splash_height_at(
 								p_person->WorldPos.X >> 8,
 								p_person->WorldPos.Z >> 8);
 
@@ -4701,8 +4701,8 @@ void general_process_person(Thing *p_person)
 	/*
 	if (!(p_person->Flags & FLAGS_IN_SEWERS))
 	{
-		SLONG sx = p_person->WorldPos.X >> 16;
-		SLONG sz = p_person->WorldPos.Z >> 16;
+		std::int32_t sx = p_person->WorldPos.X >> 16;
+		std::int32_t sz = p_person->WorldPos.Z >> 16;
 
 		ASSERT(WITHIN(sx, 0, PAP_SIZE_HI - 1));
 		ASSERT(WITHIN(sz, 0, PAP_SIZE_HI - 1));
@@ -4717,7 +4717,7 @@ void general_process_person(Thing *p_person)
 		{
 			if (PAP_2HI(sx,sz).Flags & PAP_FLAG_SEWER_SQUARE)
 			{
-				SLONG bottom = PAP_calc_height_at(
+				std::int32_t bottom = PAP_calc_height_at(
 									p_person->WorldPos.X >> 8,
 									p_person->WorldPos.Z >> 8) << 8;
 				
@@ -4741,10 +4741,10 @@ void general_process_person(Thing *p_person)
 
 }
 
-SLONG check_on_slippy_slope(Thing *p_person)
+std::int32_t check_on_slippy_slope(Thing *p_person)
 {
-	SLONG	slope,angle;
-	SLONG	size=50;
+	std::int32_t	slope,angle;
+	std::int32_t	size=50;
 
 		if(p_person->Genus.Person->InsideIndex)
 		{
@@ -4801,12 +4801,12 @@ SLONG check_on_slippy_slope(Thing *p_person)
 			//
 			// shit its a nogo, so lets ping to nearest normal space
 			//
-			SLONG	angle,step;
+			std::int32_t	angle,step;
 			for(step=64;step<512;step+=64)
 			{
 				for(angle=0;angle<2048;angle+=256)
 				{
-					SLONG	dx,dz;
+					std::int32_t	dx,dz;
 					dx=(COS(angle)*step)>>8;
 					dz=(SIN(angle)*step)>>8;
 				 	if (!(PAP_2HI(((p_person->WorldPos.X+dx) >> 16)&127, ((p_person->WorldPos.Z+dz) >> 16)&127).Flags & PAP_FLAG_NOGO))
@@ -4845,11 +4845,11 @@ SLONG check_on_slippy_slope(Thing *p_person)
 	return(0);
 
 }
-SLONG slope_ahead(Thing *p_person,SLONG dist)
+std::int32_t slope_ahead(Thing *p_person,std::int32_t dist)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG	slippy;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t	slippy;
 
 	dx = -(SIN(p_person->Draw.Tweened->Angle) * dist) >> 8;
 	dz = -(COS(p_person->Draw.Tweened->Angle) * dist) >> 8;
@@ -4865,16 +4865,16 @@ SLONG slope_ahead(Thing *p_person,SLONG dist)
 	return(slippy);
 
 }
-void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
+void person_normal_move_dxdz(Thing *p_person,std::int32_t dx,std::int32_t dz)
 {
-//	SLONG i;
+//	std::int32_t i;
 
-	SLONG dy;
-	SLONG new_y;
-	SLONG on_face;
+	std::int32_t dy;
+	std::int32_t new_y;
+	std::int32_t on_face;
 
-//	SLONG x1, y1, z1;
-//	SLONG x2, y2, z2;
+//	std::int32_t x1, y1, z1;
+//	std::int32_t x2, y2, z2;
 
 //	GameCoord new_position;
 
@@ -4899,12 +4899,12 @@ void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
 	// Move the person slower if he is at the wrong angle.
 	//
 
-	SLONG dangle = p_person->Draw.Tweened->AngleTo - p_person->Draw.Tweened->Angle;
-	SLONG dspeed = 300 - abs(dangle);
+	std::int32_t dangle = p_person->Draw.Tweened->AngleTo - p_person->Draw.Tweened->Angle;
+	std::int32_t dspeed = 300 - abs(dangle);
 
 	SATURATE(dspeed, 0, 256);
 
-	SLONG ratio = TICK_RATIO * dspeed >> 8;
+	std::int32_t ratio = TICK_RATIO * dspeed >> 8;
 
 	//
 	// Don't do this ratio thing!
@@ -4980,7 +4980,7 @@ void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
 		}
 */
 		{
-			SLONG	mx,mz;
+			std::int32_t	mx,mz;
 
 			mx=(p_person->WorldPos.X+dx) >> 16;
 			mz=(p_person->WorldPos.Z+dz) >> 16;
@@ -5049,7 +5049,7 @@ void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
 	if (dx || dz)
 	{
 /*
-		SLONG	slope=0,angle;
+		std::int32_t	slope=0,angle;
 		if(p_person->SubState!=SUB_STATE_SLIPPING && dy)
 		{
 			
@@ -5072,7 +5072,7 @@ void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
 		check_on_slippy_slope(p_person);
 
 /*
-		SLONG	slope,angle;
+		std::int32_t	slope,angle;
 
 		if(p_person->Genus.Person->InsideIndex)
 		{
@@ -5128,7 +5128,7 @@ void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
 	{
 		if(p_person->SubState==SUB_STATE_SLIPPING)
 		{
-			SLONG	slope,angle;
+			std::int32_t	slope,angle;
 			if(p_person->Genus.Person->InsideIndex)
 			{
 				slope=0;
@@ -5158,8 +5158,8 @@ void person_normal_move_dxdz(Thing *p_person,SLONG dx,SLONG dz)
 
 void person_normal_move(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	dx = -(SIN(p_person->Draw.Tweened->Angle) * p_person->Velocity) >> 8;
 	dz = -(COS(p_person->Draw.Tweened->Angle) * p_person->Velocity) >> 8;
@@ -5168,9 +5168,9 @@ void person_normal_move(Thing *p_person)
 
 void person_normal_move_check(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG	x,z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t	x,z;
 
 	dx = -(SIN(p_person->Draw.Tweened->Angle) * p_person->Velocity) >> 8;
 	dz = -(COS(p_person->Draw.Tweened->Angle) * p_person->Velocity) >> 8;
@@ -5183,9 +5183,9 @@ void person_normal_move_check(Thing *p_person)
 	person_normal_move_dxdz(p_person,dx,dz);
 }
 
-SLONG advance_keyframe(DrawTween *draw_info)
+std::int32_t advance_keyframe(DrawTween *draw_info)
 {
-	SLONG	ret=0;
+	std::int32_t	ret=0;
 	draw_info->CurrentFrame	=	draw_info->NextFrame;
 	if(draw_info->QueuedFrame)
 	{
@@ -5213,9 +5213,9 @@ SLONG advance_keyframe(DrawTween *draw_info)
 	return(ret);
 }
 
-SLONG retreat_keyframe(DrawTween *draw_info)
+std::int32_t retreat_keyframe(DrawTween *draw_info)
 {
-	SLONG	ret=0;
+	std::int32_t	ret=0;
 	draw_info->NextFrame	=	draw_info->CurrentFrame;
 	if(draw_info->QueuedFrame)
 	{
@@ -5238,13 +5238,13 @@ SLONG retreat_keyframe(DrawTween *draw_info)
 	}
 	return(ret);
 }
-extern void	calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
+extern void	calc_sub_objects_position_fix8(Thing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z);
 
-void move_locked_tween(Thing *p_person,DrawTween *dt,SLONG t1,SLONG t2)
+void move_locked_tween(Thing *p_person,DrawTween *dt,std::int32_t t1,std::int32_t t2)
 {
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
-		SLONG	dx,dy,dz;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
+		std::int32_t	dx,dy,dz;
 
 //		calc_sub_objects_position(p_person,tween1,locked,&lock_x1,&lock_y1,&lock_z1);
 //		calc_sub_objects_position(p_person,tween1,locked,&lock_x1,&lock_y1,&lock_z1);
@@ -5279,13 +5279,13 @@ void move_locked_tween(Thing *p_person,DrawTween *dt,SLONG t1,SLONG t2)
 }
 
 
-SLONG person_normal_animate_speed(Thing *p_person,SLONG speed)
+std::int32_t person_normal_animate_speed(Thing *p_person,std::int32_t speed)
 {
-	SLONG	ret=0;
+	std::int32_t	ret=0;
 	DrawTween		*draw_info;
-	SLONG	old_tween;
-	SLONG	dx,dy,dz;
-	SLONG	tween1,tween2;
+	std::int32_t	old_tween;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	tween1,tween2;
 
 //	speed=256;
 
@@ -5300,8 +5300,8 @@ SLONG person_normal_animate_speed(Thing *p_person,SLONG speed)
 	old_tween		=	draw_info->AnimTween;
 
 	{
-		//SLONG	tween_step=speed/(draw_info->CurrentFrame->TweenStep+1);
-		SLONG	tween_step=draw_info->CurrentFrame->TweenStep<<1;
+		//std::int32_t	tween_step=speed/(draw_info->CurrentFrame->TweenStep+1);
+		std::int32_t	tween_step=draw_info->CurrentFrame->TweenStep<<1;
 
 		tween1=draw_info->AnimTween;
 		tween_step  = (tween_step*TICK_RATIO)>>TICK_SHIFT;
@@ -5322,7 +5322,7 @@ SLONG person_normal_animate_speed(Thing *p_person,SLONG speed)
 //	while(draw_info->AnimTween>=256)
 	while(tween2>=256)
 	{
-		SLONG	lock_x1,lock_y1,lock_z1,lock_x2,lock_y2,lock_z2;
+		std::int32_t	lock_x1,lock_y1,lock_z1,lock_x2,lock_y2,lock_z2;
 //		MSG_add(" next frame \n");
 
 //		draw_info->AnimTween	-=	256;
@@ -5345,7 +5345,7 @@ SLONG person_normal_animate_speed(Thing *p_person,SLONG speed)
 		if(draw_info->Locked)
 		{
 			GameCoord	temp_pos;
-			SLONG	locked;
+			std::int32_t	locked;
 
 			locked=abs(draw_info->Locked);
 
@@ -5418,17 +5418,17 @@ extern HWND			CUTSCENE_edit_wnd;
 }
 
 
-SLONG person_normal_animate(Thing *p_person)
+std::int32_t person_normal_animate(Thing *p_person)
 {
 	return(person_normal_animate_speed(p_person,256));
 }
 
-SLONG person_backwards_animate(Thing *p_person)
+std::int32_t person_backwards_animate(Thing *p_person)
 {
-	SLONG	ret=0;
+	std::int32_t	ret=0;
 	DrawTween		*draw_info;
-	SLONG	old_tween;
-	SLONG	tween_step;
+	std::int32_t	old_tween;
+	std::int32_t	tween_step;
 	
 	draw_info		=	p_person->Draw.Tweened;
 
@@ -5456,7 +5456,7 @@ SLONG person_backwards_animate(Thing *p_person)
 	//
 	while(draw_info->AnimTween<0)
 	{
-		SLONG	lock_x1,lock_y1,lock_z1,lock_x2,lock_y2,lock_z2;
+		std::int32_t	lock_x1,lock_y1,lock_z1,lock_x2,lock_y2,lock_z2;
 
 		draw_info->AnimTween	+=	256;
 
@@ -5472,7 +5472,7 @@ SLONG person_backwards_animate(Thing *p_person)
 		if(draw_info->Locked)
 		{
 			GameCoord	temp_pos;
-			SLONG	locked;
+			std::int32_t	locked;
 			//
 			// Part of body is locked in place so across anim maintain its location
 			//
@@ -5515,8 +5515,8 @@ void camera_shoot()
 
 	Thing *darci;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
 	darci = NET_PERSON(0);
 
@@ -5545,8 +5545,8 @@ void camera_fight()
 /*
 	Thing *darci;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
 	darci = NET_PERSON(0);
 
@@ -5576,8 +5576,8 @@ void camera_normal()
 #ifndef PSX
 	Thing *darci;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
 	darci = NET_PERSON(0);
 
@@ -5601,9 +5601,9 @@ void camera_normal()
 }
 
 
-void set_person_aim(Thing *p_person,SLONG locked=0)
+void set_person_aim(Thing *p_person,std::int32_t locked=0)
 {
-	SLONG  anim;
+	std::int32_t  anim;
 	Thing *p_special;
 
 	if (p_person->Genus.Person->SpecialUse)
@@ -5640,7 +5640,7 @@ void set_person_aim(Thing *p_person,SLONG locked=0)
 //	p_person->Genus.Person->Flags  |=  (FLAG_PERSON_NON_INT_C);
 }
 
-inline SLONG	weapon_accuracy_at_dist(Thing *p_person,SLONG dist)
+inline std::int32_t	weapon_accuracy_at_dist(Thing *p_person,std::int32_t dist)
 {
 	if(dist<0)
 		return(dist);
@@ -5695,11 +5695,11 @@ inline SLONG	weapon_accuracy_at_dist(Thing *p_person,SLONG dist)
 // A damage of zero means that he missed the person.
 //
 
-UBYTE VehicleBelongsToMIB(Thing *p_target)
+std::uint8_t VehicleBelongsToMIB(Thing *p_target)
 {
 	Vehicle *veh = p_target->Genus.Vehicle;
 	Thing *thing;
-	SWORD passenger;
+	std::int16_t passenger;
 
 	if ((p_target->Class!=CLASS_VEHICLE)||!veh) return 0; // it's not even a vehicle, so it can't possibly be...
 
@@ -5719,20 +5719,20 @@ UBYTE VehicleBelongsToMIB(Thing *p_target)
 }
 
 
-SLONG get_shoot_damage(Thing *p_person, Thing *p_target,SLONG *gun_type)
+std::int32_t get_shoot_damage(Thing *p_person, Thing *p_target,std::int32_t *gun_type)
 {
-	SLONG damage;
+	std::int32_t damage;
 
-	SLONG dx   = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
-	SLONG dz   = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
-	SLONG dist = QDIST2(dx,dz);
+	std::int32_t dx   = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
+	std::int32_t dz   = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
+	std::int32_t dist = QDIST2(dx,dz);
 
 	//
 	// Work out the chance of hitting our target.
 	//
 
 	{
-		SLONG chance;	// 0 => Never hit, (>= 256) => Definitely hit
+		std::int32_t chance;	// 0 => Never hit, (>= 256) => Definitely hit
 
 		if (p_target->Class == CLASS_VEHICLE)
 		{
@@ -5870,7 +5870,7 @@ SLONG get_shoot_damage(Thing *p_person, Thing *p_target,SLONG *gun_type)
 		// 
 
 		{
-			SLONG	dchance;
+			std::int32_t	dchance;
 			dchance=chance;
 			chance -= weapon_accuracy_at_dist(p_person,dist);
 //			PANEL_new_text(p_person, 2000, "Chance of hitting you is%d%% with dist %d%% at dist %d",dchance * 100 >> 8, chance * 100 >> 8,dist);
@@ -5993,10 +5993,10 @@ SLONG get_shoot_damage(Thing *p_person, Thing *p_target,SLONG *gun_type)
 #define NOT_A_GUN_YOU_SHOOT (-1)
 #define HAD_TO_CHANGE_CLIP  (-2)
 
-SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SLONG *time)
+std::int32_t shoot_get_ammo_sound_anim_time(Thing *p_person,std::int32_t *sound,std::int32_t *anim,std::int32_t *time)
 {
-	SLONG ammo = false;
-	SLONG ammo_in_clip;
+	std::int32_t ammo = false;
+	std::int32_t ammo_in_clip;
 
 	if (PersonIsMIB(p_person))
 	{
@@ -6191,7 +6191,7 @@ SLONG shoot_get_ammo_sound_anim_time(Thing *p_person,SLONG *sound,SLONG *anim,SL
 
 void actually_fire_gun(Thing *p_person)
 {
-	SLONG	rico_id;
+	std::int32_t	rico_id;
 	//	Set up the wave params.
 
 	GameCoord shotPosition = p_person->WorldPos;
@@ -6215,7 +6215,7 @@ void actually_fire_gun(Thing *p_person)
 		// A dynamic light muzzle flash that only lasts one frame.
 		//
 
-		UBYTE dlight;
+		std::uint8_t dlight;
 
 		dlight = NIGHT_dlight_create(
 					(p_person->WorldPos.X >> 8) - (SIN(p_person->Draw.Tweened->Angle) >> 9),
@@ -6234,7 +6234,7 @@ void actually_fire_gun(Thing *p_person)
 
 #ifndef BUILD_PSX
 
-extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
+extern void DIRT_create_brass(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t angle);
 
 	{
 		GameCoord vec;
@@ -6295,10 +6295,10 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 
 	if (p_person->Genus.Person->Target)
 	{
-		SLONG  damage;
+		std::int32_t  damage;
 		Thing *p_target = TO_THING(p_person->Genus.Person->Target);
 		GameCoord vec;
-		SLONG	gun_type;
+		std::int32_t	gun_type;
 /*
 		if (p_target->Class == CLASS_PERSON && is_person_ko(p_target))
 		{
@@ -6334,7 +6334,7 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 
 					if (p_target->Genus.Person->Health > 0 && !is_person_ko(p_target))
 					{
-						SLONG skill = GET_SKILL(p_target);
+						std::int32_t skill = GET_SKILL(p_target);
 
 						if (PersonIsMIB(p_person))
 						{
@@ -6447,7 +6447,7 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 				// Not another full recompile for me!
 				//
 
-				extern void VEH_reduce_health(Thing *p_car, Thing *p_person, SLONG damage);
+				extern void VEH_reduce_health(Thing *p_car, Thing *p_person, std::int32_t damage);
 
 				VEH_reduce_health(
 					p_target,
@@ -6493,11 +6493,11 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 			// Where did the bullet hit if it didn't hit the target?
 			//
 
-			SLONG hitx;
-			SLONG hity;
-			SLONG hitz;
+			std::int32_t hitx;
+			std::int32_t hity;
+			std::int32_t hitz;
 
-			SLONG b_index = THING_find_nearest(
+			std::int32_t b_index = THING_find_nearest(
 								p_target->WorldPos.X >> 8,
 								p_target->WorldPos.Y >> 8,
 								p_target->WorldPos.Z >> 8,
@@ -6562,9 +6562,9 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 			//
 
 			{
-				SLONG endx = p_person->WorldPos.X - (SIN(p_person->Draw.Tweened->Angle) << 2) >> 8;
-				SLONG endy = p_person->WorldPos.Y + 0x6000                                    >> 8;
-				SLONG endz = p_person->WorldPos.Z - (COS(p_person->Draw.Tweened->Angle) << 2) >> 8;
+				std::int32_t endx = p_person->WorldPos.X - (SIN(p_person->Draw.Tweened->Angle) << 2) >> 8;
+				std::int32_t endy = p_person->WorldPos.Y + 0x6000                                    >> 8;
+				std::int32_t endz = p_person->WorldPos.Z - (COS(p_person->Draw.Tweened->Angle) << 2) >> 8;
 
 				if (there_is_a_los(
 						p_person->WorldPos.X >> 8,
@@ -6597,7 +6597,7 @@ extern void DIRT_create_brass(SLONG x,SLONG y,SLONG z,SLONG angle);
 										    
 void set_person_running_shoot(Thing *p_person)
 {
-	SLONG ammo,sound,anim,time;
+	std::int32_t ammo,sound,anim,time;
 
 	if (p_person->Genus.Person->Timer1)
 	{
@@ -6637,7 +6637,7 @@ void set_person_running_shoot(Thing *p_person)
 // Returns the best type of special a person has that's got ammo.
 //
 
-SLONG get_persons_best_weapon_with_ammo(Thing *p_person)
+std::int32_t get_persons_best_weapon_with_ammo(Thing *p_person)
 {
 	Thing *p_special;
 
@@ -6651,7 +6651,7 @@ SLONG get_persons_best_weapon_with_ammo(Thing *p_person)
 	// 	 knife
 	//
 
-	static UBYTE weapon_order[5] =
+	static std::uint8_t weapon_order[5] =
 	{
 		SPECIAL_AK47,
 		SPECIAL_SHOTGUN,
@@ -6660,7 +6660,7 @@ SLONG get_persons_best_weapon_with_ammo(Thing *p_person)
 		SPECIAL_KNIFE		
 	};
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < 5; i++)
 	{
@@ -6702,13 +6702,13 @@ SLONG get_persons_best_weapon_with_ammo(Thing *p_person)
 // a cutscene playing.
 //
 
-SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
+std::int32_t dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 {
 	if (!p_person->Genus.Person->PlayerID)
 	{
 		if (p_target->Class == CLASS_PERSON)
 		{
-			SLONG dont_shoot_in_a_cutscene = false;
+			std::int32_t dont_shoot_in_a_cutscene = false;
 
 			if (p_target->Genus.Person->PlayerID)
 			{
@@ -6721,7 +6721,7 @@ SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 				// Dont shoot people in a cutscene who are following the player.
 				//
 
-				UWORD i_follow = EWAY_get_person(p_person->Genus.Person->pcom_move_follow);
+				std::uint16_t i_follow = EWAY_get_person(p_person->Genus.Person->pcom_move_follow);
 
 				if (i_follow)
 				{
@@ -6756,13 +6756,13 @@ SLONG dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target)
 
 
 
-void set_person_shoot(Thing *p_person,UWORD shoot_target)
+void set_person_shoot(Thing *p_person,std::uint16_t shoot_target)
 {
-	SLONG		dx,dz;
-	SLONG		anim = ANIM_PISTOL_SHOOT;
-	SLONG       ammo = false;
-	SLONG		sound;
-	SLONG		time;
+	std::int32_t		dx,dz;
+	std::int32_t		anim = ANIM_PISTOL_SHOOT;
+	std::int32_t       ammo = false;
+	std::int32_t		sound;
+	std::int32_t		time;
 
 	if (p_person->State == STATE_CARRY)
 	{
@@ -6896,7 +6896,7 @@ void set_person_shoot(Thing *p_person,UWORD shoot_target)
 			// Change Darci's weapon.
 			//
 
-			SLONG special = get_persons_best_weapon_with_ammo(p_person);
+			std::int32_t special = get_persons_best_weapon_with_ammo(p_person);
 
 			if (special)
 			{
@@ -7091,7 +7091,7 @@ void set_person_grappling_hook_release(Thing *p_person)
 // Returns SPECIAL_TYPE if the given person is holding a gun.
 //
 
-SLONG person_has_gun_out(Thing *p_person)
+std::int32_t person_has_gun_out(Thing *p_person)
 {
 	if (p_person->Genus.Person->Flags&FLAG_PERSON_GUN_OUT)
 	{
@@ -7118,11 +7118,11 @@ SLONG person_has_gun_out(Thing *p_person)
 }
 
 
-void drop_current_gun(Thing *p_person,SLONG change_anim)
+void drop_current_gun(Thing *p_person,std::int32_t change_anim)
 {
-	SLONG gx;
-	SLONG gy;
-	SLONG gz;
+	std::int32_t gx;
+	std::int32_t gy;
+	std::int32_t gz;
 
 	Thing *p_special;
 
@@ -7192,12 +7192,12 @@ void drop_current_gun(Thing *p_person,SLONG change_anim)
 	}
 }
 
-void drop_all_items(Thing *p_person, UBYTE is_being_searched)
+void drop_all_items(Thing *p_person, std::uint8_t is_being_searched)
 {
-	SLONG gx;
-	SLONG gy;
-	SLONG gz;
-	UBYTE found_something=0;
+	std::int32_t gx;
+	std::int32_t gy;
+	std::int32_t gz;
+	std::uint8_t found_something=0;
 
 	//
 	// If he has a gun...
@@ -7288,7 +7288,7 @@ void drop_all_items(Thing *p_person, UBYTE is_being_searched)
 
 void set_person_idle_uncroutch(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	set_generic_person_state_function(p_person,STATE_IDLE);
 	p_person->Genus.Person->Action=ACTION_IDLE;
 	p_person->Genus.Person->Flags|=FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C;
@@ -7320,7 +7320,7 @@ void set_person_idle_uncroutch(Thing *p_person)
 
 void set_person_turn_to_hug_wall(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
 	{
@@ -7341,10 +7341,10 @@ void set_person_turn_to_hug_wall(Thing *p_person)
 	p_person->Genus.Person->Action=ACTION_HUG_WALL;
 }
 
-void set_person_hug_wall_dir(Thing *p_person,SLONG dir)
+void set_person_hug_wall_dir(Thing *p_person,std::int32_t dir)
 {
-	SLONG	gun;
-	SLONG	anim;
+	std::int32_t	gun;
+	std::int32_t	anim;
 
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
@@ -7386,10 +7386,10 @@ void set_person_hug_wall_dir(Thing *p_person,SLONG dir)
 	}
 
 }
-void set_person_hug_wall_look(Thing *p_person,SLONG dir)
+void set_person_hug_wall_look(Thing *p_person,std::int32_t dir)
 {
-	SLONG	gun;
-	SLONG	anim;
+	std::int32_t	gun;
+	std::int32_t	anim;
 
 	p_person->Genus.Person->Flags&=~(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 	p_person->Genus.Person->InsideRoom=0;
@@ -7437,7 +7437,7 @@ void set_person_hug_wall_look(Thing *p_person,SLONG dir)
 
 void set_person_idle(Thing *p_person)
 {
-	SLONG anim;
+	std::int32_t anim;
 	p_person->Genus.Person->Flags&=~FLAG_PERSON_KO;
 
 	if(check_on_slippy_slope(p_person))
@@ -7463,7 +7463,7 @@ void set_person_idle(Thing *p_person)
 
 			if (p_attacker)
 			{
-				SLONG anim;
+				std::int32_t anim;
 
 				//
 				// You are under attack by someone.
@@ -7593,7 +7593,7 @@ void set_person_idle(Thing *p_person)
 
 void set_person_locked_idle_ready(Thing *p_person)
 {
-	SLONG	anim=ANIM_STAND_READY;
+	std::int32_t	anim=ANIM_STAND_READY;
 
 	if(p_person->Genus.Person->SpecialUse)
 	{
@@ -7692,15 +7692,15 @@ void set_person_locked_idle_ready(Thing *p_person)
 //	Check if back against a wall, for sneak along mode
 //
 
-SLONG set_person_sidle(struct Thing *p_person)
+std::int32_t set_person_sidle(struct Thing *p_person)
 {
-	SLONG	dx,dz;
-	SLONG	index,facet;
-	SLONG	dist;
-	SLONG	px,pz,mx,mz;
-	SLONG	angle;
-	SLONG	ret_x,ret_z;
-	SLONG	mdx,mdz;
+	std::int32_t	dx,dz;
+	std::int32_t	index,facet;
+	std::int32_t	dist;
+	std::int32_t	px,pz,mx,mz;
+	std::int32_t	angle;
+	std::int32_t	ret_x,ret_z;
+	std::int32_t	mdx,mdz;
 	return(0);
 	/*
 
@@ -7713,8 +7713,8 @@ SLONG set_person_sidle(struct Thing *p_person)
 	for(mdx=-1;mdx<=1;mdx++)
 	for(mdz=-1;mdz<=1;mdz++)
 	{
-		SLONG	mpx,mpz;
-		SLONG	exit=0;
+		std::int32_t	mpx,mpz;
+		std::int32_t	exit=0;
 
 		mpx=(mdx*80+px)>>PAP_SHIFT_LO;
 		mpz=(mdz*80+pz)>>PAP_SHIFT_LO;
@@ -7738,7 +7738,7 @@ SLONG set_person_sidle(struct Thing *p_person)
 
 				p_facet=&dfacets[facet];
 
-		SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+		std::int32_t nearest_point_on_line_and_dist(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z);
 
 				if(p_facet->FacetType==STOREY_TYPE_NORMAL)
 				{
@@ -7751,7 +7751,7 @@ SLONG set_person_sidle(struct Thing *p_person)
 
 					if(dist>0&&dist<40)
 					{
-						SLONG	dx,dz;
+						std::int32_t	dx,dz;
 
 						dx=(px)-ret_x;
 						dz=(pz)-ret_z;
@@ -7813,12 +7813,12 @@ void set_person_idle_ready(Thing *p_person)
 // has an offset from the player, that is rotated by the players angle
 //
 #ifdef	UNUSED
-SLONG foot_hold_available(Thing *p_person,SLONG dx,SLONG dy,SLONG dz)
+std::int32_t foot_hold_available(Thing *p_person,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
-	SLONG	rdx,rdz;
-	SLONG	angle;
+	std::int32_t	rdx,rdz;
+	std::int32_t	angle;
 
-	SLONG	px,py,pz,ret_y,face;
+	std::int32_t	px,py,pz,ret_y,face;
 
 	angle=p_person->Draw.Tweened->Angle;
 
@@ -7837,12 +7837,12 @@ SLONG foot_hold_available(Thing *p_person,SLONG dx,SLONG dy,SLONG dz)
 		return(0);
 }
 
-SLONG foot_hold_available_obj(Thing *p_person,SLONG dx,SLONG dy,SLONG dz,SLONG obj)
+std::int32_t foot_hold_available_obj(Thing *p_person,std::int32_t dx,std::int32_t dy,std::int32_t dz,std::int32_t obj)
 {
-	SLONG	rdx,rdz;
-	SLONG	angle;
-	SLONG	wx,wy,wz;
-	SLONG	px,py,pz,ret_y,face;
+	std::int32_t	rdx,rdz;
+	std::int32_t	angle;
+	std::int32_t	wx,wy,wz;
+	std::int32_t	px,py,pz,ret_y,face;
 
 	angle=p_person->Draw.Tweened->Angle;
 
@@ -7863,7 +7863,7 @@ SLONG foot_hold_available_obj(Thing *p_person,SLONG dx,SLONG dy,SLONG dz,SLONG o
 		return(0);
 }
 #endif
-void set_person_flip(Thing *p_person,SLONG dir)
+void set_person_flip(Thing *p_person,std::int32_t dir)
 {
 	MSG_add(" start flipping");
 	switch(dir)
@@ -7981,7 +7981,7 @@ run:;
 	}
 }
 
-void set_person_running_frame(Thing *p_person,SLONG frame)
+void set_person_running_frame(Thing *p_person,std::int32_t frame)
 {
 	switch(p_person->Genus.Person->Mode)
 	{
@@ -8191,7 +8191,7 @@ void set_person_step_right(Thing *p_person)
 //	p_person->Genus.Person->Flags|=FLAG_PERSON_LOCK_ANIM_CHANGE;
 }
 
-void set_vehicle_anim(Thing *p_vehicle,SLONG anim)
+void set_vehicle_anim(Thing *p_vehicle,std::int32_t anim)
 {
 	// 1 is still
 	// 2 is open/close
@@ -8210,11 +8210,11 @@ void set_vehicle_anim(Thing *p_vehicle,SLONG anim)
 	}
 }
 
-void get_car_enter_xz(Thing *p_vehicle,SLONG door,SLONG *cx,SLONG *cz);
+void get_car_enter_xz(Thing *p_vehicle,std::int32_t door,std::int32_t *cx,std::int32_t *cz);
 
-void position_person_for_vehicle(Thing *p_person,Thing *p_vehicle,SLONG door)
+void position_person_for_vehicle(Thing *p_person,Thing *p_vehicle,std::int32_t door)
 {
-	SLONG	ix,iz;
+	std::int32_t	ix,iz;
 	GameCoord	new_position;
 
 	ASSERT(door == 0 || door == 1);
@@ -8242,7 +8242,7 @@ void position_person_for_vehicle(Thing *p_person,Thing *p_vehicle,SLONG door)
 
 }
 
-void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
+void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, std::int32_t door)
 {
 	ASSERT(door == 0 || door == 1);
 
@@ -8278,7 +8278,7 @@ void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
 			{
 				//CONSOLE_text("The car is locked");
 /*
-				extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+				extern void add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 
 				add_damage_text(
 					p_person->WorldPos.X          >> 8,
@@ -8304,7 +8304,7 @@ void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door)
 		// NASTY HACK! This extern changes the behaviour of get_car_door_offsets()
 		// in vehicle.cpp!
 
-		extern UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
+		extern std::uint8_t sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
 		sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim = true;
 
@@ -8352,8 +8352,8 @@ void remove_person_from_passenger_list(Thing *p_person, Thing *p_vehicle)
 
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_PASSENGER);
 
-	UWORD  next;
-	UWORD *prev;
+	std::uint16_t  next;
+	std::uint16_t *prev;
 
 	prev = &p_vehicle->Genus.Vehicle->Passenger;
 	next =  p_vehicle->Genus.Vehicle->Passenger;
@@ -8394,7 +8394,7 @@ void remove_person_from_passenger_list(Thing *p_person, Thing *p_vehicle)
 
 
 
-void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, SLONG door)
+void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door)
 {
 	//
 	// No animation. Just pop in!
@@ -8422,12 +8422,12 @@ void set_person_exit_vehicle(Thing *p_person)
 	// Where do we want this person to appear?
 	//
 
-	SLONG door_x;
-	SLONG door_y;
-	SLONG door_z;
-	SLONG side;
-	SLONG otherside = false;
-	SLONG	dx,dz;
+	std::int32_t door_x;
+	std::int32_t door_y;
+	std::int32_t door_z;
+	std::int32_t side;
+	std::int32_t otherside = false;
+	std::int32_t	dx,dz;
 
 	GameCoord newpos;
 
@@ -8449,8 +8449,8 @@ void set_person_exit_vehicle(Thing *p_person)
 	dx = 0;//(door_x - (p_vehicle->WorldPos.X >> 8)) >> 2;
 	dz = 0;//(door_z - (p_vehicle->WorldPos.Z >> 8)) >> 2;
 
-	SLONG mx = door_x + dx >> 8;
-	SLONG mz = door_z + dz >> 8;
+	std::int32_t mx = door_x + dx >> 8;
+	std::int32_t mz = door_z + dz >> 8;
 
 	door_y = PAP_calc_map_height_at(door_x + dx,door_z + dz);
 
@@ -8578,7 +8578,7 @@ void set_person_exit_vehicle(Thing *p_person)
 void position_person_for_mounting_bike(Thing *p_person, Thing *p_bike)
 {
 	GameCoord newpos;
-	SLONG     vector[3];
+	std::int32_t     vector[3];
 
 	FMATRIX_vector(
 		vector,
@@ -8685,7 +8685,7 @@ void set_person_dismount_bike(Thing *p_person)
 
 void set_anim_walking(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 
 	if(person_holding_2handed(p_person))
 	{
@@ -8706,7 +8706,7 @@ void set_anim_walking(Thing *p_person)
 
 	if(p_person->Genus.Person->PersonType==PERSON_COP)
 	{
-		SLONG	old;
+		std::int32_t	old;
 		old=p_person->Genus.Person->AnimType;
 		set_anim_of_type(p_person,COP_ROPER_ANIM_WALK,ANIM_TYPE_ROPER);
 		p_person->Genus.Person->AnimType=old;
@@ -8739,7 +8739,7 @@ void set_anim_walking(Thing *p_person)
 
 void set_anim_running(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 
 	if(p_person->Genus.Person->PersonType==PERSON_ROPER)
 	{
@@ -8748,7 +8748,7 @@ void set_anim_running(Thing *p_person)
 	else
 	if(p_person->Genus.Person->PersonType==PERSON_COP)
 	{
-		SLONG	old;
+		std::int32_t	old;
 		old=p_person->Genus.Person->AnimType;
 		set_anim_of_type(p_person,COP_ROPER_ANIM_RUN,ANIM_TYPE_ROPER);
 		p_person->Genus.Person->AnimType=old;
@@ -8756,7 +8756,7 @@ void set_anim_running(Thing *p_person)
 	else
 	if(p_person->Genus.Person->PersonType==PERSON_CIV)
 	{
-		SLONG	old;
+		std::int32_t	old;
 		switch(p_person->Draw.Tweened->MeshID)
 		{
 			case	7:
@@ -8788,7 +8788,7 @@ void set_anim_running(Thing *p_person)
 }
 void set_anim_idle(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 
 	if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT)
 	{
@@ -8895,9 +8895,9 @@ void set_person_hop_back(Thing *p_person)
 	set_anim(p_person,ANIM_BACK_HOP);
 }
 
-SLONG find_idle_fight_stance(Thing *p_person)
+std::int32_t find_idle_fight_stance(Thing *p_person)
 {
-	SLONG	anim=ANIM_FIGHT;
+	std::int32_t	anim=ANIM_FIGHT;
 
 	if (p_person->Genus.Person->SpecialUse)
 	{
@@ -8929,7 +8929,7 @@ SLONG find_idle_fight_stance(Thing *p_person)
 
 void set_person_fight_idle(Thing *p_person)
 {
-	SLONG	anim; //=ANIM_FIGHT;
+	std::int32_t	anim; //=ANIM_FIGHT;
 
 	p_person->Genus.Person->Flags&=~FLAG_PERSON_KO; //bodge
 
@@ -8979,9 +8979,9 @@ void set_person_fight_idle(Thing *p_person)
 	//set_person_sidle(p_person);
 }
 
-void set_person_fight_step(Thing *p_person,SLONG dir)
+void set_person_fight_step(Thing *p_person,std::int32_t dir)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	p_person->Genus.Person->Timer1=0;
 	if(person_holding_bat(p_person))
 	{
@@ -9044,7 +9044,7 @@ void set_person_fight_step_forward(Thing *p_person)
 
 void set_person_block(Thing *p_person)
 {
-	SLONG anim = ANIM_BLOCK_HIGH;
+	std::int32_t anim = ANIM_BLOCK_HIGH;
 
 	set_generic_person_state_function(p_person,STATE_FIGHTING);
 
@@ -9080,7 +9080,7 @@ void set_person_block(Thing *p_person)
 
 void set_person_idle_croutch(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	set_generic_person_state_function(p_person,STATE_IDLE);
 	anim=ANIM_IDLE_CROUTCH;
 
@@ -9133,8 +9133,8 @@ void carry_running(Thing *p_person)
 {
 	Thing	*p_target;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	GameCoord new_position = p_person->WorldPos;
 	p_target=TO_THING(p_person->Genus.Person->Target);
 
@@ -9148,11 +9148,11 @@ void carry_running(Thing *p_person)
 	p_target->Draw.Tweened->Angle=p_person->Draw.Tweened->Angle+1024;
 	p_target->Draw.Tweened->Angle&=2047;
 }
-void set_person_carry(Thing *p_person,SLONG s_index)
+void set_person_carry(Thing *p_person,std::int32_t s_index)
 {
 	Thing	*p_target;
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	GameCoord new_position = p_person->WorldPos;
 
 	p_person->Genus.Person->Mode = PERSON_MODE_RUN;
@@ -9217,7 +9217,7 @@ void set_person_stand_carry(Thing *p_person)
 
 void fn_person_carry(Thing *p_person)
 {
-	SLONG	end;
+	std::int32_t	end;
 	Thing	*p_target;
 
 	p_target=TO_THING(p_person->Genus.Person->Target);
@@ -9240,8 +9240,8 @@ void fn_person_carry(Thing *p_person)
 				break;
 		case	SUB_STATE_STAND_CARRY:
 			{
-				SLONG dx;
-				SLONG dz;
+				std::int32_t dx;
+				std::int32_t dz;
 				GameCoord new_position = p_person->WorldPos;
 
 
@@ -9257,9 +9257,9 @@ void fn_person_carry(Thing *p_person)
 	}
 }
 
-void set_person_arrest(Thing *p_person,SLONG s_index)
+void set_person_arrest(Thing *p_person,std::int32_t s_index)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	ASSERT(s_index);
 
 	set_generic_person_state_function(p_person,STATE_IDLE);
@@ -9281,10 +9281,10 @@ void set_person_arrest(Thing *p_person,SLONG s_index)
 
 	if(s_index)
 	{
-		SLONG	ax,ay,az;
+		std::int32_t	ax,ay,az;
 		Thing	*p_target;
-		SLONG	dx,dz;
-		SLONG	on_what_side;
+		std::int32_t	dx,dz;
+		std::int32_t	on_what_side;
 		GameCoord new_position;
 
 		p_target=TO_THING(s_index);
@@ -9317,7 +9317,7 @@ void set_person_arrest(Thing *p_person,SLONG s_index)
 		}
 		else
 		{
-			SLONG	angle;
+			std::int32_t	angle;
 
 //			angle=lie_down_angle(p_target->Draw.Tweened->CurrentAnim);
 			set_locked_anim(p_target,ANIM_ARREST_BE_CUFFED,0);
@@ -9421,8 +9421,8 @@ void set_person_arrest(Thing *p_person,SLONG s_index)
 
 void set_person_croutch(Thing *p_person)
 {
-	SLONG	anim;
-	SLONG	index;
+	std::int32_t	anim;
+	std::int32_t	index;
 
 	if(p_person->Genus.Person->PersonType==PERSON_DARCI && (index=find_arrestee(p_person)))
 	{
@@ -9483,13 +9483,13 @@ void set_person_crawling(Thing *p_person)
 		//
 
 
-		SLONG x1 = p_person->WorldPos.X;
-		SLONG y1 = p_person->WorldPos.Y;
-		SLONG z1 = p_person->WorldPos.Z;
+		std::int32_t x1 = p_person->WorldPos.X;
+		std::int32_t y1 = p_person->WorldPos.Y;
+		std::int32_t z1 = p_person->WorldPos.Z;
 
-		SLONG x2 = p_person->WorldPos.X;
-		SLONG y2 = p_person->WorldPos.Y;
-		SLONG z2 = p_person->WorldPos.Z;
+		std::int32_t x2 = p_person->WorldPos.X;
+		std::int32_t y2 = p_person->WorldPos.Y;
+		std::int32_t z2 = p_person->WorldPos.Z;
 
 		slide_along(
 			x1, y1, z2,
@@ -9533,7 +9533,7 @@ void set_person_crawling(Thing *p_person)
 	p_person->Draw.Tweened->Locked=0; //-SUB_OBJECT_LEFT_FOOT;
 }
 
-SLONG set_person_leg_sweep(Thing *p_person)
+std::int32_t set_person_leg_sweep(Thing *p_person)
 {
 	set_generic_person_state_function(p_person,STATE_FIGHTING);
 	set_anim(p_person,ANIM_LEG_SWEEP);
@@ -9546,10 +9546,10 @@ SLONG set_person_leg_sweep(Thing *p_person)
 //
 // this should only happen from fight idle or stand idle?
 //
-SLONG set_person_punch(Thing *p_person)
+std::int32_t set_person_punch(Thing *p_person)
 {
-	SLONG anim;
-	SLONG node = 1;
+	std::int32_t anim;
+	std::int32_t node = 1;
 //	ASSERT(p_person->Genus.Person->PersonType!=PERSON_DARCI);
 
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_PUNCH;
@@ -9561,7 +9561,7 @@ SLONG set_person_punch(Thing *p_person)
 		// it is a bit unfair to punch them!
 		//
 
-		UWORD i_target = PCOM_person_wants_to_kill(p_person);
+		std::uint16_t i_target = PCOM_person_wants_to_kill(p_person);
 
 		if (i_target)
 		{
@@ -9681,9 +9681,9 @@ SLONG set_person_punch(Thing *p_person)
 }
 
 #ifdef	UNUSED
-SLONG set_person_punch_if_can(Thing *p_person)
+std::int32_t set_person_punch_if_can(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	/*
 	if(find_best_grapple(p_person))
 	{
@@ -9710,9 +9710,9 @@ SLONG set_person_punch_if_can(Thing *p_person)
 //	PlaySample(6);
 }
 #endif
-SLONG set_person_kick_dir(Thing *p_person,SLONG dir)
+std::int32_t set_person_kick_dir(Thing *p_person,std::int32_t dir)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
 
 	if(p_person->Genus.Person->PlayerID)
@@ -9767,7 +9767,7 @@ SLONG set_person_kick_dir(Thing *p_person,SLONG dir)
 
 	return(anim);
 }
-void set_person_fight_anim(Thing *p_person,SLONG anim)
+void set_person_fight_anim(Thing *p_person,std::int32_t anim)
 {
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_PUNCH;
@@ -9795,7 +9795,7 @@ void set_person_fight_anim(Thing *p_person,SLONG anim)
 void set_person_alive_alive_o(Thing *p_person)
 {
 	{
-		SLONG ndx=p_person->Genus.Person->BurnIndex;
+		std::int32_t ndx=p_person->Genus.Person->BurnIndex;
 		Pyro  *pyro;
 
 		set_person_idle(p_person);
@@ -9817,9 +9817,9 @@ void set_person_alive_alive_o(Thing *p_person)
 	}
 }
 */
-SLONG set_person_kick(Thing *p_person)
+std::int32_t set_person_kick(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
 
@@ -9830,7 +9830,7 @@ SLONG set_person_kick(Thing *p_person)
 		// it is a bit unfair to punch them!
 		//
 
-		UWORD i_target = PCOM_person_wants_to_kill(p_person);
+		std::uint16_t i_target = PCOM_person_wants_to_kill(p_person);
 
 		if (i_target)
 		{
@@ -9874,10 +9874,10 @@ SLONG set_person_kick(Thing *p_person)
 
 }
 
-SLONG set_person_kick_near(Thing *p_person,SLONG dist)
+std::int32_t set_person_kick_near(Thing *p_person,std::int32_t dist)
 {
-	SLONG	anim;
-	SLONG	not_nad=0;
+	std::int32_t	anim;
+	std::int32_t	not_nad=0;
 
 	if (p_person == NET_PERSON(0))
 	{
@@ -9916,9 +9916,9 @@ SLONG set_person_kick_near(Thing *p_person,SLONG dist)
 
 }
 
-SLONG set_person_stomp(Thing *p_person)
+std::int32_t set_person_stomp(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 
 	p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
 	if(p_person->Genus.Person->PlayerID)
@@ -9942,11 +9942,11 @@ SLONG set_person_stomp(Thing *p_person)
 
 }
 
-void set_person_position_for_ladder(Thing *p_person,UWORD facet)
+void set_person_position_for_ladder(Thing *p_person,std::uint16_t facet)
 {
-	SLONG	angle,px,pz;
+	std::int32_t	angle,px,pz;
 	GameCoord	new_position;
-	SLONG	scale=256;
+	std::int32_t	scale=256;
 
 	if(p_person->Genus.Person->PersonType==PERSON_ROPER)
 		scale=320;
@@ -9976,8 +9976,8 @@ void set_person_position_for_ladder(Thing *p_person,UWORD facet)
 }
 
 inline void	play_jump_sound(Thing *p_person) {
-	static SLONG jump_chan=0;
-	SLONG  jump_snd=0;
+	static std::int32_t jump_chan=0;
+	std::int32_t  jump_snd=0;
 #if !defined(PSX) && !defined(TARGET_DC)
 	if (p_person->Flags & FLAGS_IN_SEWERS) {
 		switch (person_is_on_sewer(p_person)) {
@@ -9994,7 +9994,7 @@ inline void	play_jump_sound(Thing *p_person) {
 }
 
 
-void set_person_climb_ladder(Thing *p_person,UWORD storey)
+void set_person_climb_ladder(Thing *p_person,std::uint16_t storey)
 {
 //	MSG_add(" set person climb ladder \n");
 	set_generic_person_state_function(p_person,STATE_CLIMB_LADDER);
@@ -10086,7 +10086,7 @@ void set_person_on_fence(Thing *p_person)
 
 void set_person_standing_jump(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
  	if(p_person->Genus.Person->InsideIndex)
 		return;
 	if(p_person->SubState==SUB_STATE_SLIPPING)
@@ -10098,16 +10098,16 @@ void set_person_standing_jump(Thing *p_person)
 	//
 
 	{
-		SLONG x1;
-		SLONG y1;
-		SLONG z1;
+		std::int32_t x1;
+		std::int32_t y1;
+		std::int32_t z1;
 
-		SLONG x2;
-		SLONG y2;
-		SLONG z2;
+		std::int32_t x2;
+		std::int32_t y2;
+		std::int32_t z2;
 
-		SLONG dx = -SIN(p_person->Draw.Tweened->Angle) >> 2;
-		SLONG dz = -COS(p_person->Draw.Tweened->Angle) >> 2;
+		std::int32_t dx = -SIN(p_person->Draw.Tweened->Angle) >> 2;
+		std::int32_t dz = -COS(p_person->Draw.Tweened->Angle) >> 2;
 
 		x1 = p_person->WorldPos.X          >> 8;
 		y1 = p_person->WorldPos.Y + 0xa000 >> 8;
@@ -10170,8 +10170,8 @@ void set_person_standing_jump(Thing *p_person)
 
 void set_person_standing_jump_forwards(Thing *p_person)
 {
-	SLONG	slope;
-	SLONG	angle;
+	std::int32_t	slope;
+	std::int32_t	angle;
 	if(p_person->OnFace<0)
 	{
 		slope=RFACE_on_slope(-p_person->OnFace,p_person->WorldPos.X>>8,p_person->WorldPos.Z>>8,&angle);
@@ -10204,8 +10204,8 @@ void set_person_standing_jump_forwards(Thing *p_person)
 
 void set_person_standing_jump_backwards(Thing *p_person)
 {
-	SLONG	slope;
-	SLONG	angle;
+	std::int32_t	slope;
+	std::int32_t	angle;
 	if(p_person->OnFace<0)
 	{
 		slope=RFACE_on_slope(-p_person->OnFace,p_person->WorldPos.X>>8,p_person->WorldPos.Z>>8,&angle);
@@ -10235,12 +10235,12 @@ void set_person_standing_jump_backwards(Thing *p_person)
 
 }
 
-void set_person_running_jump_lr(Thing *p_person,SLONG dir);
+void set_person_running_jump_lr(Thing *p_person,std::int32_t dir);
 
 void set_person_running_jump(Thing *p_person)
 {
-	SLONG	slope;
-	SLONG	angle;
+	std::int32_t	slope;
+	std::int32_t	angle;
 	if(p_person->OnFace<0)
 	{
 		slope=RFACE_on_slope(-p_person->OnFace,p_person->WorldPos.X>>8,p_person->WorldPos.Z>>8,&angle);
@@ -10305,18 +10305,18 @@ void set_person_running_jump(Thing *p_person)
 
 }
 
-void set_person_running_jump_lr(Thing *p_person,SLONG dir)
+void set_person_running_jump_lr(Thing *p_person,std::int32_t dir)
 {
 }
 
-SLONG traverse_pos(Thing	*p_person,SLONG right)
+std::int32_t traverse_pos(Thing	*p_person,std::int32_t right)
 {
-	SLONG	lhx,lhy,lhz;
-//	SLONG	rhx,rhy,rhz;
-	SLONG	angle;
-	SLONG	grab_x,grab_y,grab_z,type;
-	SLONG	x,y,z;
-	SLONG	face,grab_angle;
+	std::int32_t	lhx,lhy,lhz;
+//	std::int32_t	rhx,rhy,rhz;
+	std::int32_t	angle;
+	std::int32_t	grab_x,grab_y,grab_z,type;
+	std::int32_t	x,y,z;
+	std::int32_t	face,grab_angle;
 
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_LEFT_HAND, &lhx,&lhy,&lhz);
 //	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_RIGHT_HAND,&rhx,&rhy,&rhz);
@@ -10344,10 +10344,10 @@ SLONG traverse_pos(Thing	*p_person,SLONG right)
 	//
 
 	{
-		SLONG dx;
-		SLONG dz;
-		SLONG cx;
-		SLONG cz;
+		std::int32_t dx;
+		std::int32_t dz;
+		std::int32_t cx;
+		std::int32_t cz;
 
 		for (dx = -32; dx <= 32; dx += 32)
 		for (dz = -32; dz <= 32; dz += 32)
@@ -10402,7 +10402,7 @@ SLONG traverse_pos(Thing	*p_person,SLONG right)
 		return(0); //ladder or cable, or other odd thing found
 
 	{
-		SLONG	new_x,new_y,new_z;
+		std::int32_t	new_x,new_y,new_z;
 		GameCoord	temp_pos;
 
 		x-=-(SIN(angle)*74)>>16; //get hand pos back to start of traverse
@@ -10453,7 +10453,7 @@ SLONG traverse_pos(Thing	*p_person,SLONG right)
 }
 
 
-void set_person_traverse(Thing	*p_person,SLONG right)
+void set_person_traverse(Thing	*p_person,std::int32_t right)
 {
 	if(traverse_pos(p_person,right)==0)
 		return;
@@ -10482,11 +10482,11 @@ void set_person_pulling_up(Thing	*p_person)
 	//
 
 	{
-		SLONG dx = -SIN(p_person->Draw.Tweened->Angle) >> 2;
-		SLONG dz = -COS(p_person->Draw.Tweened->Angle) >> 2;
+		std::int32_t dx = -SIN(p_person->Draw.Tweened->Angle) >> 2;
+		std::int32_t dz = -COS(p_person->Draw.Tweened->Angle) >> 2;
 
-		SLONG mx = p_person->WorldPos.X + dx >> 16;
-		SLONG mz = p_person->WorldPos.Z + dz >> 16;
+		std::int32_t mx = p_person->WorldPos.X + dx >> 16;
+		std::int32_t mz = p_person->WorldPos.Z + dz >> 16;
 
 		if (!WITHIN(mx, 0, PAP_SIZE_HI - 1) ||
 			!WITHIN(mz, 0, PAP_SIZE_HI - 1))
@@ -10522,16 +10522,16 @@ void set_person_pulling_up(Thing	*p_person)
 
 }
 
-extern void make_cable_flabby(SLONG building);
+extern void make_cable_flabby(std::int32_t building);
 
 //
 // Make a person start falling as a projectile...
 //
 
-void set_person_drop_down(Thing	*p_person,SLONG flag)
+void set_person_drop_down(Thing	*p_person,std::int32_t flag)
 {
-	SLONG	dv=-2;
-	SLONG	shotgun=0;
+	std::int32_t	dv=-2;
+	std::int32_t	shotgun=0;
 
 	SlideSoundCheck(p_person,1);
 
@@ -10547,7 +10547,7 @@ void set_person_drop_down(Thing	*p_person,SLONG flag)
 /*
 			if(prim_faces4[p_person->OnFace].Type==FACE_TYPE_CABLE)
 			{
-				SLONG	wall,storey,building;
+				std::int32_t	wall,storey,building;
 				wall=-prim_faces4[p_person->OnFace].ThingIndex;
 				storey=wall_list[wall].StoreyHead;
 				
@@ -10644,7 +10644,7 @@ void set_person_drop_down(Thing	*p_person,SLONG flag)
 
 }
 
-void set_person_locked_drop_down(Thing	*p_person,SLONG vely)
+void set_person_locked_drop_down(Thing	*p_person,std::int32_t vely)
 {
 	MSG_add(" set person drop locked");
 	set_generic_person_state_function(p_person,STATE_DANGLING);
@@ -10660,16 +10660,16 @@ void set_person_locked_drop_down(Thing	*p_person,SLONG vely)
 
 }
 
-extern SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern std::int32_t nearest_point_on_line_and_dist(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z);
 
 
-SLONG is_wall_good_for_bump_and_turn(Thing *p_person,SLONG col)
+std::int32_t is_wall_good_for_bump_and_turn(Thing *p_person,std::int32_t col)
 {
 	struct	DFacet	*p_facet;
 
 
-	SLONG	dist,angle,wy,wx,wz;
-	SLONG	mx,my,mz,dx,dz;
+	std::int32_t	dist,angle,wy,wx,wz;
+	std::int32_t	mx,my,mz,dx,dz;
 
 	angle=p_person->Draw.Tweened->Angle;
 
@@ -10704,17 +10704,17 @@ SLONG is_wall_good_for_bump_and_turn(Thing *p_person,SLONG col)
 }
 
 //#define	VAULT_DA 128
-SLONG am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_da=128)
+std::int32_t am_i_facing_wall(Thing *p_person,std::int32_t col,std::int32_t *wall_angle,std::int32_t vault_da=128)
 {
-	SLONG	mdx,mdz,dx,dz,len,dist;
-	SLONG	near_x,near_z;
-	SLONG	wx,wy,wz;
-	SLONG	angle;
+	std::int32_t	mdx,mdz,dx,dz,len,dist;
+	std::int32_t	near_x,near_z;
+	std::int32_t	wx,wy,wz;
+	std::int32_t	angle;
 	GameCoord	new_position;
-	SLONG	on,norm_x,norm_z;
+	std::int32_t	on,norm_x,norm_z;
 	struct	DFacet	*p_facet;
-	SLONG	req_dist=50;
-	SLONG	side;
+	std::int32_t	req_dist=50;
+	std::int32_t	side;
 
 	p_facet=&dfacets[col];
 
@@ -10736,7 +10736,7 @@ SLONG am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_d
 
 
 	{
-		SLONG da;
+		std::int32_t da;
 		angle=Arctan(-dx,dz)-512; //+512;
 		if(angle<0)
 			angle=2048+angle;
@@ -10750,7 +10750,7 @@ SLONG am_i_facing_wall(Thing *p_person,SLONG col,SLONG *wall_angle,SLONG vault_d
 
 		if(p_facet->FacetType==STOREY_TYPE_FENCE ||p_facet->FacetType==STOREY_TYPE_FENCE_FLAT)
 		{
-extern SLONG which_side(SLONG  x1, SLONG z1,SLONG  x2, SLONG z2,SLONG  a,  SLONG b);
+extern std::int32_t which_side(std::int32_t  x1, std::int32_t z1,std::int32_t  x2, std::int32_t z2,std::int32_t  a,  std::int32_t b);
 
 			if(which_side(p_facet->x[0]<<8,p_facet->z[0]<<8,p_facet->x[1]<<8,p_facet->z[1]<<8,p_person->WorldPos.X>>8,p_person->WorldPos.Z>>8)<0)
 			{
@@ -10771,10 +10771,10 @@ extern SLONG which_side(SLONG  x1, SLONG z1,SLONG  x2, SLONG z2,SLONG  a,  SLONG
 //
 // hopefully this will work with diagonal fences, should they exist
 //
-SLONG along_middle_of_facet(Thing *p_person,SLONG col)
+std::int32_t along_middle_of_facet(Thing *p_person,std::int32_t col)
 {
-	SLONG	wx,wy,wz;
-	SLONG	on,norm_x,norm_z,dist;
+	std::int32_t	wx,wy,wz;
+	std::int32_t	on,norm_x,norm_z,dist;
 	struct	DFacet	*p_facet;
 
 	//
@@ -10806,19 +10806,19 @@ SLONG along_middle_of_facet(Thing *p_person,SLONG col)
 	}
 }
 
-SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
+std::int32_t set_person_pos_for_fence_vault(Thing *p_person,std::int32_t col)
 {
-	SLONG	mdx,mdz,dx,dz,len,dist;
-	SLONG	near_x,near_z;
-	SLONG	wx,wy,wz;
-	SLONG	angle;
+	std::int32_t	mdx,mdz,dx,dz,len,dist;
+	std::int32_t	near_x,near_z;
+	std::int32_t	wx,wy,wz;
+	std::int32_t	angle;
 	GameCoord	new_position;
-	SLONG	on,norm_x,norm_z;
+	std::int32_t	on,norm_x,norm_z;
 	struct	DFacet	*p_facet;
-	SLONG	req_dist=50;
-	SLONG	side;
-	SLONG	bot;
-	SLONG	top;
+	std::int32_t	req_dist=50;
+	std::int32_t	side;
+	std::int32_t	bot;
+	std::int32_t	top;
 
 	//
 	// Is this person in the correct y for the fence.
@@ -10844,7 +10844,7 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 #define	VAULT_DA (p_person->Genus.Person->PlayerID ? 128 : 256)
 
 	{
-		SLONG da;
+		std::int32_t da;
 		angle=Arctan(-mdx,mdz)+1024+512;
 		if(angle<0)
 			angle=2048+angle;
@@ -10887,8 +10887,8 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 	// Make sure you are looking at the fence rather than away from it.
 	//
 
-	SLONG ldx = -SIN(angle) >> 8;
-	SLONG ldz = -COS(angle) >> 8;
+	std::int32_t ldx = -SIN(angle) >> 8;
+	std::int32_t ldz = -COS(angle) >> 8;
 
 	if (!two4_line_intersection(
 			p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -10914,14 +10914,14 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 	//
 
 	{
-		SLONG flx = wx + ldx + (-ldz >> 3) >> 8;
-		SLONG fly = wz + ldz + (+ldx >> 3) >> 8;
+		std::int32_t flx = wx + ldx + (-ldz >> 3) >> 8;
+		std::int32_t fly = wz + ldz + (+ldx >> 3) >> 8;
 
-		SLONG frx = wx + ldx - (-ldz >> 3) >> 8;
-		SLONG fry = wz + ldz - (+ldx >> 3) >> 8;
+		std::int32_t frx = wx + ldx - (-ldz >> 3) >> 8;
+		std::int32_t fry = wz + ldz - (+ldx >> 3) >> 8;
 
-		SLONG fl_height = MAVHEIGHT(flx,fly) << 6;
-		SLONG fr_height = MAVHEIGHT(frx,fry) << 6;
+		std::int32_t fl_height = MAVHEIGHT(flx,fly) << 6;
+		std::int32_t fr_height = MAVHEIGHT(frx,fry) << 6;
 
 		if (fl_height - (p_person->WorldPos.Y >> 8) > 0x50 ||
 			fr_height - (p_person->WorldPos.Y >> 8) > 0x50)
@@ -10945,9 +10945,9 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 	//
 
 	{
-		SLONG	len;
-		SLONG	adx,adz;
-		SLONG	odx,odz;
+		std::int32_t	len;
+		std::int32_t	adx,adz;
+		std::int32_t	odx,odz;
 		if(dist<0)
 		{
 			norm_x=-norm_x;
@@ -10978,14 +10978,14 @@ SLONG set_person_pos_for_fence_vault(Thing *p_person,SLONG col)
 	return(1);
 }
 
-SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req_dist)
+std::int32_t set_person_pos_for_fence(Thing *p_person,std::int32_t col,std::int32_t set_pos,std::int32_t req_dist)
 {
-	SLONG	mdx,mdz,dx,dz,len,dist;
-	SLONG	near_x,near_z;
-	SLONG	wx,wy,wz;
-	SLONG	angle;
+	std::int32_t	mdx,mdz,dx,dz,len,dist;
+	std::int32_t	near_x,near_z;
+	std::int32_t	wx,wy,wz;
+	std::int32_t	angle;
 	GameCoord	new_position;
-	SLONG	on,norm_x,norm_z;
+	std::int32_t	on,norm_x,norm_z;
 	struct	DFacet	*p_facet;
 
 	p_facet=&dfacets[col];
@@ -11005,7 +11005,7 @@ SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req
 		//
 		// The angle is never out of range anymore.
 		//
-		SLONG da = angle - p_person->Draw.Tweened->Angle;
+		std::int32_t da = angle - p_person->Draw.Tweened->Angle;
 
 		//
 		// and now it is out of range again
@@ -11033,11 +11033,11 @@ SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req
 	//
 
 	{
-		SLONG dax = -SIN(angle);
-		SLONG daz = -COS(angle);
+		std::int32_t dax = -SIN(angle);
+		std::int32_t daz = -COS(angle);
 
-		SLONG mx = p_person->WorldPos.X + dax >> 16;
-		SLONG mz = p_person->WorldPos.Z + daz >> 16;
+		std::int32_t mx = p_person->WorldPos.X + dax >> 16;
+		std::int32_t mz = p_person->WorldPos.Z + daz >> 16;
 
 		if (!WITHIN(mx, 0, PAP_SIZE_HI - 1) ||
 			!WITHIN(mz, 0, PAP_SIZE_HI - 1))
@@ -11067,8 +11067,8 @@ SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req
 	//
 
 	{
-		SLONG fence_top    = get_fence_top   (wx,wz, col);
-		SLONG fence_bottom = get_fence_bottom(wx,wz, col);
+		std::int32_t fence_top    = get_fence_top   (wx,wz, col);
+		std::int32_t fence_bottom = get_fence_bottom(wx,wz, col);
 
 		if (WITHIN(wy, fence_bottom + 64, fence_top - 64))
 		{
@@ -11108,8 +11108,8 @@ SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req
 		p_person->Draw.Tweened->Angle=angle;
 
 	{
-		SLONG	len;
-		SLONG	adx,adz;
+		std::int32_t	len;
+		std::int32_t	adx,adz;
 		if(dist<0)
 		{
 			norm_x=-norm_x;
@@ -11138,21 +11138,21 @@ SLONG set_person_pos_for_fence(Thing *p_person,SLONG col,SLONG set_pos,SLONG req
 	return(0);
 }
 
-SLONG set_person_pos_for_half_step(Thing *p_person,SLONG col)
+std::int32_t set_person_pos_for_half_step(Thing *p_person,std::int32_t col)
 {
-	SLONG	dx,dz;
-	SLONG	wall_angle;
+	std::int32_t	dx,dz;
+	std::int32_t	wall_angle;
 	struct	DFacet	*p_facet;
 	p_facet=&dfacets[col];
-	SLONG	on,norm_x,norm_z;
+	std::int32_t	on,norm_x,norm_z;
 
-	SLONG	wx,wy,wz;
+	std::int32_t	wx,wy,wz;
 
 
 	if(am_i_facing_wall(p_person,col,&wall_angle))
 	{
-		SLONG	dist,angle,wy;
-		SLONG	mx,my,mz;
+		std::int32_t	dist,angle,wy;
+		std::int32_t	mx,my,mz;
 
 		wx=p_person->WorldPos.X>>8;
 		wy=p_person->WorldPos.Y>>8;
@@ -11200,10 +11200,10 @@ SLONG set_person_pos_for_half_step(Thing *p_person,SLONG col)
 			return(0);
 
 		{
-			SLONG ax1;
-			SLONG az1;
-			SLONG ax2;
-			SLONG az2;
+			std::int32_t ax1;
+			std::int32_t az1;
+			std::int32_t ax2;
+			std::int32_t az2;
 
 			if (p_facet->x[0] == p_facet->x[1])
 			{
@@ -11253,7 +11253,7 @@ SLONG set_person_pos_for_half_step(Thing *p_person,SLONG col)
 
 }
 
-inline SLONG	is_facet_vaultable(SLONG facet)
+inline std::int32_t	is_facet_vaultable(std::int32_t facet)
 {
 	struct DFacet	*p_facet;
 
@@ -11269,7 +11269,7 @@ inline SLONG	is_facet_vaultable(SLONG facet)
 	return(0);
 }
 
-inline SLONG	is_facet_half_step(SLONG facet)
+inline std::int32_t	is_facet_half_step(std::int32_t facet)
 {
 	struct DFacet	*p_facet;
 
@@ -11284,12 +11284,12 @@ inline SLONG	is_facet_half_step(SLONG facet)
 	return(0);
 }
 
-SLONG set_person_land_on_fence(Thing	*p_person,SLONG col,SLONG set_pos,SLONG while_walking)
+std::int32_t set_person_land_on_fence(Thing	*p_person,std::int32_t col,std::int32_t set_pos,std::int32_t while_walking)
 {
-	SLONG	ret;
-	SLONG	dist=45;
+	std::int32_t	ret;
+	std::int32_t	dist=45;
 
-	SLONG	wall_angle;
+	std::int32_t	wall_angle;
 
 	if(!am_i_facing_wall(p_person,col,&wall_angle,256))
 	{
@@ -11355,9 +11355,9 @@ SLONG set_person_land_on_fence(Thing	*p_person,SLONG col,SLONG set_pos,SLONG whi
 
 }
 
-SLONG set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos)
+std::int32_t set_person_kick_off_wall(Thing	*p_person,std::int32_t col,std::int32_t set_pos)
 {
-	SLONG	dist=100;
+	std::int32_t	dist=100;
 	MSG_add(" set person land on fence");
 	if(p_person->Genus.Person->PersonType==PERSON_ROPER)
 		dist=110;
@@ -11379,12 +11379,12 @@ SLONG set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos)
 
 }
 
-SLONG fight_any_gang_attacker(Thing *p_person)
+std::int32_t fight_any_gang_attacker(Thing *p_person)
 {
 	if(p_person->SubState!=SUB_STATE_IDLE_CROUTCH_ARREST)
 	if(p_person->Genus.Person->GangAttack)
 	{
-		UWORD	attacker;
+		std::uint16_t	attacker;
 		if(attacker=get_any_gang_member(p_person))
 		{
 			// you are under attack by someone
@@ -11402,20 +11402,20 @@ SLONG fight_any_gang_attacker(Thing *p_person)
 	return(0);
 }
 
-UWORD find_arrestee(Thing *p_person)
+std::uint16_t find_arrestee(Thing *p_person)
 {
-	SLONG i;
-	SLONG dist;
-	SLONG score;
-	SLONG best_score;
-	SLONG best_answer;
+	std::int32_t i;
+	std::int32_t dist;
+	std::int32_t score;
+	std::int32_t best_score;
+	std::int32_t best_answer;
 
 	best_score  = 0;
 	best_answer = NULL;
 
 	extern THING_INDEX col_with[];
 
-	SLONG col_with_upto = THING_find_sphere(
+	std::int32_t col_with_upto = THING_find_sphere(
 							p_person->WorldPos.X>>8,
 							p_person->WorldPos.Y>>8,
 							p_person->WorldPos.Z>>8,
@@ -11512,9 +11512,9 @@ UWORD find_arrestee(Thing *p_person)
 
 	/*
 
-	UWORD	s_index;
+	std::uint16_t	s_index;
 	Thing	*p_target;
-extern SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes);
+extern std::int32_t THING_find_nearest_person(Thing *p_person,std::int32_t radius,std::uint32_t classes);
 	s_index = THING_find_nearest_person(p_person,256,1<<CLASS_PERSON);
 
 	if(s_index)
@@ -11533,11 +11533,11 @@ extern SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classe
 	*/
 }
 
-UWORD find_corpse(Thing *p_person)
+std::uint16_t find_corpse(Thing *p_person)
 {
-	UWORD	s_index;
+	std::uint16_t	s_index;
 	Thing	*p_target;
-extern SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes);
+extern std::int32_t THING_find_nearest_person(Thing *p_person,std::int32_t radius,std::uint32_t classes);
 	s_index = THING_find_nearest_person(p_person,256,1<<CLASS_PERSON);
 
 	if(s_index)
@@ -11554,7 +11554,7 @@ extern SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classe
 	return(0);
 }
 
-UWORD perform_arrest(Thing *p_person,UWORD s_index)
+std::uint16_t perform_arrest(Thing *p_person,std::uint16_t s_index)
 {
 	Thing	*p_target;
 
@@ -11563,14 +11563,14 @@ UWORD perform_arrest(Thing *p_person,UWORD s_index)
 
 	if(s_index)
 	{
-		SLONG	ax,ay,az;
+		std::int32_t	ax,ay,az;
 /*
 		calc_sub_objects_position(p_target,p_target->Draw.Tweened->AnimTween,SUB_OBJECT_PELVIS,&ax,&ay,&az);
 		ax+=p_person->WorldPos.X>>8;
 		ay+=p_person->WorldPos.Y>>8;
 		az+=p_person->WorldPos.Z>>8;
 
-extern void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+extern void	add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 		add_damage_text(ax,ay,az,"Arrested");
 */
 		PANEL_new_info_message(XLAT_str(X_ARRESTED));
@@ -11585,7 +11585,7 @@ void lock_to_compass(Thing *p_thing);
 
 void fn_person_search(Thing *p_person)
 {
-	UWORD last_timer;
+	std::uint16_t last_timer;
 
 	switch(p_person->SubState)
 	{
@@ -11642,7 +11642,7 @@ void fn_person_search(Thing *p_person)
 		case SUB_STATE_SEARCH_GETUP:
 			
 			{
-				SLONG end = person_normal_animate(p_person);
+				std::int32_t end = person_normal_animate(p_person);
 
 				if (end)
 				{
@@ -11659,7 +11659,7 @@ void fn_person_search(Thing *p_person)
 
 void set_person_random_idle(Thing *p_person)
 {
-	SLONG	anim=Random();
+	std::int32_t	anim=Random();
 
 	if(person_holding_2handed(p_person))
 	{
@@ -11745,7 +11745,7 @@ void set_person_random_idle(Thing *p_person)
 
 void fn_person_idle(Thing *p_person)
 {
-	SLONG end;
+	std::int32_t end;
 
 #ifndef NDEBUG
 /*
@@ -11784,7 +11784,7 @@ void fn_person_idle(Thing *p_person)
 		// breathe
 		if (MagicFrameCheck(p_person,5))
 		{
-			SLONG x,y,z;
+			std::int32_t x,y,z;
 			calc_sub_objects_position(
 				p_person, p_person->Draw.Tweened->AnimTween,
 				SUB_OBJECT_HEAD,
@@ -11881,7 +11881,7 @@ void fn_person_idle(Thing *p_person)
 
 			if (f4->FaceFlags & FACE_FLAG_WMOVE)
 			{
-				SLONG	wmove_index;
+				std::int32_t	wmove_index;
 
 				WMOVE_Face *wf;
 				Thing      *p_thing;
@@ -11945,7 +11945,7 @@ void fn_person_idle(Thing *p_person)
 				else
 				if (p_attacker)
 				{
-					SLONG anim;
+					std::int32_t anim;
 
 					//
 					// You are under attack by someone.
@@ -11963,10 +11963,10 @@ void fn_person_idle(Thing *p_person)
 			/*
 			if(p_person->Genus.Person->GangAttack)
 			{
-				UWORD	attacker;
+				std::uint16_t	attacker;
 				if(attacker=get_any_gang_member(p_person))
 				{
-					SLONG	anim;
+					std::int32_t	anim;
 					// you are under attack by someone
 					ASSERT(TO_THING(attacker)->Class==CLASS_PERSON);
 					p_person->Genus.Person->Target=attacker; //get_any_gang_member(p_person);
@@ -11989,7 +11989,7 @@ void fn_person_idle(Thing *p_person)
 			// check to see if you should slip down the slope your idle on
 			//
 			{
-				SLONG	slope,angle;
+				std::int32_t	slope,angle;
 				if(p_person->Genus.Person->InsideIndex)
 				{
 					slope=0;
@@ -12066,7 +12066,7 @@ void fn_person_idle(Thing *p_person)
 				{
 					if (end == 1)
 					{	
-						SLONG	anim;
+						std::int32_t	anim;
 						anim=find_idle_fight_stance(p_person);
 
 						queue_anim(p_person, anim);
@@ -12086,7 +12086,7 @@ void fn_person_idle(Thing *p_person)
 						{
 							set_person_random_idle(p_person);
 /*
-							SWORD the_anim=ANIM_IDLE_SCRATCH1+(p_person->Genus.Person->Timer1&1);
+							std::int16_t the_anim=ANIM_IDLE_SCRATCH1+(p_person->Genus.Person->Timer1&1);
 							p_person->Genus.Person->Timer1=(Random()&0xff)+400;
 
 
@@ -12194,7 +12194,7 @@ void fn_person_idle(Thing *p_person)
 				set_person_idle(p_person);
 
 				/*
-				SLONG anim;
+				std::int32_t anim;
 				p_person->SubState=0;
 
 				if (person_has_gun_out(p_person))
@@ -12236,7 +12236,7 @@ void PCOM_make_driver_run_away(Thing *p_driver, Thing *p_scary);
 
 void set_person_in_vehicle(Thing *p_person,Thing *p_car)
 {
-	SLONG sample;
+	std::int32_t sample;
 
 	if(p_car->Genus.Vehicle->Driver)
 	{
@@ -12374,10 +12374,10 @@ void set_person_out_of_vehicle(Thing *p_person)
 // keeping a limb in the same place
 //
 
-void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle)
+void locked_anim_change(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t dangle)
 {
-	SLONG	lock_x1,lock_y1,lock_z1;
-	SLONG	lock_x2,lock_y2,lock_z2;
+	std::int32_t	lock_x1,lock_y1,lock_z1;
+	std::int32_t	lock_x2,lock_y2,lock_z2;
 	DrawTween	*draw_info;
 	GameCoord	temp_pos;
 
@@ -12414,10 +12414,10 @@ void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dan
 
 	move_thing_on_map(p_person,&temp_pos);
 }
-void locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
+void locked_anim_change_of_type(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t type)
 {
-	SLONG	lock_x1,lock_y1,lock_z1;
-	SLONG	lock_x2,lock_y2,lock_z2;
+	std::int32_t	lock_x1,lock_y1,lock_z1;
+	std::int32_t	lock_x2,lock_y2,lock_z2;
 	DrawTween	*draw_info;
 	GameCoord	temp_pos;
 
@@ -12451,10 +12451,10 @@ void locked_anim_change_of_type(Thing *p_person,UWORD locked_object,UWORD anim,S
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-void locked_anim_change_height_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
+void locked_anim_change_height_type(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t type)
 {
-	SLONG	lock_x1,lock_y1,lock_z1;
-	SLONG	lock_x2,lock_y2,lock_z2;
+	std::int32_t	lock_x1,lock_y1,lock_z1;
+	std::int32_t	lock_x2,lock_y2,lock_z2;
 	DrawTween	*draw_info;
 	GameCoord	temp_pos;
 
@@ -12486,9 +12486,9 @@ void locked_anim_change_height_type(Thing *p_person,UWORD locked_object,UWORD an
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-SLONG set_limb_to_y(Thing *p_person,SLONG obj,SLONG y)
+std::int32_t set_limb_to_y(Thing *p_person,std::int32_t obj,std::int32_t y)
 {
-	SLONG	x1,y1,z1;
+	std::int32_t	x1,y1,z1;
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,obj,&x1,&y1,&z1);
 	y1+=(p_person->WorldPos.Y>>8);
 
@@ -12499,10 +12499,10 @@ SLONG set_limb_to_y(Thing *p_person,SLONG obj,SLONG y)
 }
 
 
-void locked_next_anim_change(Thing *p_person,UWORD locked_object,GameKeyFrame *queued_frame)
+void locked_next_anim_change(Thing *p_person,std::uint16_t locked_object,GameKeyFrame *queued_frame)
 {
-	SLONG	lock_x1,lock_y1,lock_z1;
-	SLONG	lock_x2,lock_y2,lock_z2;
+	std::int32_t	lock_x1,lock_y1,lock_z1;
+	std::int32_t	lock_x2,lock_y2,lock_z2;
 	DrawTween	*draw_info;
 	GameCoord	temp_pos;
 
@@ -12530,10 +12530,10 @@ void locked_next_anim_change(Thing *p_person,UWORD locked_object,GameKeyFrame *q
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-void locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type)
+void locked_anim_change_end_type(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t type)
 {
-	SLONG	lock_x1,lock_y1,lock_z1;
-	SLONG	lock_x2,lock_y2,lock_z2;
+	std::int32_t	lock_x1,lock_y1,lock_z1;
+	std::int32_t	lock_x2,lock_y2,lock_z2;
 	DrawTween	*draw_info;
 	GameCoord	temp_pos;
 	
@@ -12571,10 +12571,10 @@ void locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-void locked_anim_change_end(Thing *p_person,UWORD locked_object,UWORD anim)
+void locked_anim_change_end(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim)
 {
-	SLONG	lock_x1,lock_y1,lock_z1;
-	SLONG	lock_x2,lock_y2,lock_z2;
+	std::int32_t	lock_x1,lock_y1,lock_z1;
+	std::int32_t	lock_x2,lock_y2,lock_z2;
 	DrawTween	*draw_info;
 	GameCoord	temp_pos;
 	
@@ -12612,10 +12612,10 @@ void locked_anim_change_end(Thing *p_person,UWORD locked_object,UWORD anim)
 	move_thing_on_map(p_person,&temp_pos);
 }
 
-SLONG steep_cable(SLONG facet)
+std::int32_t steep_cable(std::int32_t facet)
 {
 	struct	DFacet	*p_facet;
-	SLONG	dx,dy,dz,len,m;
+	std::int32_t	dx,dy,dz,len,m;
 	p_facet=&dfacets[facet];
 
 	dx = abs(p_facet->x[1] - p_facet->x[0] << 8);
@@ -12634,10 +12634,10 @@ SLONG steep_cable(SLONG facet)
 	return(m);
 }
 
-void face_down_cable(Thing *p_person,SLONG facet)
+void face_down_cable(Thing *p_person,std::int32_t facet)
 {
 	struct	DFacet	*p_facet;
-	SLONG	dx,dy,dz,len,m;
+	std::int32_t	dx,dy,dz,len,m;
 	p_facet=&dfacets[facet];
 
 	dx = (p_facet->x[1] - p_facet->x[0] << 8);
@@ -12655,11 +12655,11 @@ void face_down_cable(Thing *p_person,SLONG facet)
 	}
 }
 
-SLONG find_best_cable_angle(Thing *p_person,SLONG facet)
+std::int32_t find_best_cable_angle(Thing *p_person,std::int32_t facet)
 {
 	struct	DFacet	*p_facet;
-	SLONG	dx,dy,dz,len,m;
-	SLONG	dangle,cable_angle;
+	std::int32_t	dx,dy,dz,len,m;
+	std::int32_t	dangle,cable_angle;
 
 	p_facet=&dfacets[facet];
 
@@ -12681,14 +12681,14 @@ SLONG find_best_cable_angle(Thing *p_person,SLONG facet)
 //
 // see if persons hands are near to grabbing a ledge 
 //
-SLONG grab_ledge(Thing *p_person)
+std::int32_t grab_ledge(Thing *p_person)
 {
-	SLONG	x,y,z;
-	SLONG	grab_x,grab_y,grab_z,type;
-	SLONG	grab_angle;
-	SLONG	face;
+	std::int32_t	x,y,z;
+	std::int32_t	grab_x,grab_y,grab_z,type;
+	std::int32_t	grab_angle;
+	std::int32_t	face;
 
-	SLONG ignore_building;
+	std::int32_t ignore_building;
 
 	if(p_person->Genus.Person->InsideIndex)
 		return(0);
@@ -12721,7 +12721,7 @@ SLONG grab_ledge(Thing *p_person)
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_LEFT_HAND,&x,&y,&z);
 
 	{
-		SLONG	rx,ry,rz;
+		std::int32_t	rx,ry,rz;
 
 		calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_RIGHT_HAND,&rx,&ry,&rz);
 
@@ -12756,7 +12756,7 @@ SLONG grab_ledge(Thing *p_person)
 	else
 #endif
 	{
-		SLONG	radius=80;
+		std::int32_t	radius=80;
 		if(p_person->State==STATE_CLIMBING)
 			radius=100;
 		face = find_grab_face(
@@ -12781,7 +12781,7 @@ SLONG grab_ledge(Thing *p_person)
 
 		p_person->Genus.Person->Mode = PERSON_MODE_RUN;
 
-		SLONG		new_x,new_y,new_z, old_substate;
+		std::int32_t		new_x,new_y,new_z, old_substate;
 		GameCoord	temp_pos;
 		DrawTween	*draw_info;
 
@@ -12835,7 +12835,7 @@ SLONG grab_ledge(Thing *p_person)
 
 		if(type==1)
 		{
-			SLONG	grad;
+			std::int32_t	grad;
 			//
 			// grabbed a cable
 			//
@@ -12912,15 +12912,15 @@ SLONG grab_ledge(Thing *p_person)
 		//
 
 		{
-			SLONG lx;
-			SLONG ly;
-			SLONG lz;
+			std::int32_t lx;
+			std::int32_t ly;
+			std::int32_t lz;
 
 			calc_sub_objects_position(p_person,0,SUB_OBJECT_LEFT_HAND,&lx,&ly,&lz);
 
-			SLONG rx;
-			SLONG ry;
-			SLONG rz;
+			std::int32_t rx;
+			std::int32_t ry;
+			std::int32_t rz;
 
 			calc_sub_objects_position(p_person,0,SUB_OBJECT_RIGHT_HAND,&rx,&ry,&rz);
 
@@ -13005,7 +13005,7 @@ SLONG grab_ledge(Thing *p_person)
 
 			if (prim_faces4[face].FaceFlags & FACE_FLAG_PRIM)
 			{
-				SLONG ob_index = -prim_faces4[face].ThingIndex;
+				std::int32_t ob_index = -prim_faces4[face].ThingIndex;
 
 				ASSERT(WITHIN(ob_index, 1, OB_ob_upto - 1));
 
@@ -13034,7 +13034,7 @@ SLONG grab_ledge(Thing *p_person)
 	return(0);
 }
 
-void set_tween_for_dy(Thing *p_person,SLONG dy)
+void set_tween_for_dy(Thing *p_person,std::int32_t dy)
 {
 	MSG_add(" tween dy %d \n",dy);
 
@@ -13059,8 +13059,8 @@ void set_tween_for_dy(Thing *p_person,SLONG dy)
 
 void set_tween_for_height(Thing *p_person)
 {
-	SLONG	x,y,z;
-	SLONG	floor_y,dy;
+	std::int32_t	x,y,z;
+	std::int32_t	floor_y,dy;
 
 	if(p_person->DY>0)
 		return;
@@ -13084,9 +13084,9 @@ void set_tween_for_height(Thing *p_person)
 
 }
 
-SLONG over_nogo(Thing *p_person)
+std::int32_t over_nogo(Thing *p_person)
 {
-	SLONG	mx,mz;
+	std::int32_t	mx,mz;
 
 	if(p_person->Genus.Person->Ware)
 		return(0);
@@ -13106,12 +13106,12 @@ SLONG over_nogo(Thing *p_person)
 
 void fn_person_jumping(Thing *p_person)
 {
-	SLONG		end		=	0,
+	std::int32_t		end		=	0,
 				grab	=	0,
 				wave_id1,
 				wave_id2;
 	GameCoord	new_position;
-	SLONG		old_frame,frame;
+	std::int32_t		old_frame,frame;
 //	LogText(" person jumping  substate %d\n",p_person->SubState);
 //	MSG_add(" JUMPING ");	
 	//return;
@@ -13229,7 +13229,7 @@ void fn_person_jumping(Thing *p_person)
 				MSG_add(" standing jump ");
 				end=person_normal_animate(p_person);
 				grab=grab_ledge(p_person);
-				SLONG pinnacle_frame;
+				std::int32_t pinnacle_frame;
 		
 				switch(p_person->Genus.Person->AnimType) 
 				{
@@ -13277,7 +13277,7 @@ void fn_person_jumping(Thing *p_person)
 		case	SUB_STATE_RUNNING_JUMP:
 				if(p_person->Genus.Person->PlayerID)
 				{
-					SLONG	reqd_vel=(50*15)/20;
+					std::int32_t	reqd_vel=(50*15)/20;
 					if(p_person->Velocity<(50*15)/20)
 						p_person->Velocity=(50*15)/20;
 					else
@@ -13488,7 +13488,7 @@ jump_fly:;
 
 #ifdef	NOT_SETUP_IN_PROJECTILE
 							some old tat
-							SLONG	new_y,face;
+							std::int32_t	new_y,face;
 /*
 							calc_sub_objects_position(
 								p_thing,
@@ -13559,7 +13559,7 @@ jump_fly:;
 						else
 						{
 
-							SLONG	new_y,face;
+							std::int32_t	new_y,face;
 							face = find_face_for_this_pos(p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,&new_y,0,0);
 //							ASSERT(face!=GRAB_FACE)
 /*
@@ -13718,7 +13718,7 @@ jump_fly:;
 //					if(p_person->Draw.Tweened->NextFrame->NextFrame==0)
 				if(end||!continue_moveing(p_person))
 					{
-						SLONG	anim;
+						std::int32_t	anim;
 
 						anim=get_yomp_anim(p_person);
 
@@ -13769,12 +13769,12 @@ jump_fly:;
 	}
 }
 
-void position_person_at_ladder_top(Thing *p_person,SLONG limb)
+void position_person_at_ladder_top(Thing *p_person,std::int32_t limb)
 {
-	SLONG x1,y1,z1;
-	SLONG	x[2],z[2],y,wall;
+	std::int32_t x1,y1,z1;
+	std::int32_t	x[2],z[2],y,wall;
 	struct	DFacet	*p_facet;
-	SLONG	top;
+	std::int32_t	top;
 
 	p_facet=&dfacets[p_person->Genus.Person->OnFacet];
 
@@ -13795,12 +13795,12 @@ void position_person_at_ladder_top(Thing *p_person,SLONG limb)
 	p_person->WorldPos.Y-=y1<<8;
 }
 
-void position_person_at_ladder_bot(Thing *p_person,SLONG limb)
+void position_person_at_ladder_bot(Thing *p_person,std::int32_t limb)
 {
-	SLONG x1,y1,z1;
-	SLONG	x[2],z[2],y,wall;
+	std::int32_t x1,y1,z1;
+	std::int32_t	x[2],z[2],y,wall;
 	struct	DFacet	*p_facet;
-	SLONG	bot;
+	std::int32_t	bot;
 
 	p_facet=&dfacets[p_person->Genus.Person->OnFacet];
 
@@ -13831,14 +13831,14 @@ void position_person_at_ladder_bot(Thing *p_person,SLONG limb)
 #define PERSON_LIMB_OFF_TOP		(1 << 3)
 #define PERSON_LIMB_OFF_BOT		(1 << 4)
 
-ULONG check_limb_pos_on_ladder(Thing *p_person,SLONG sub_part, SLONG i_am_going_down)
+std::uint32_t check_limb_pos_on_ladder(Thing *p_person,std::int32_t sub_part, std::int32_t i_am_going_down)
 {
-	SLONG   x1,y1,z1;
-	UWORD	facet;
-	SLONG	x[2],z[2],y,wall;
-	SLONG   top;
-	SLONG   bot;
-	ULONG	ans;
+	std::int32_t   x1,y1,z1;
+	std::uint16_t	facet;
+	std::int32_t	x[2],z[2],y,wall;
+	std::int32_t   top;
+	std::int32_t   bot;
+	std::uint32_t	ans;
 
 	struct	DFacet	*p_facet;
 
@@ -13882,12 +13882,12 @@ ULONG check_limb_pos_on_ladder(Thing *p_person,SLONG sub_part, SLONG i_am_going_
 
 
 
-SLONG check_limb_pos_on_fence(Thing *p_person,SLONG sub_part)
+std::int32_t check_limb_pos_on_fence(Thing *p_person,std::int32_t sub_part)
 {
-	SLONG	x1,y1,z1;
-	SLONG	col;
-	SLONG	top,bottom;
-	SLONG	x,z;
+	std::int32_t	x1,y1,z1;
+	std::int32_t	col;
+	std::int32_t	top,bottom;
+	std::int32_t	x,z;
 
 	//
 	// The top and bottom of the fence.
@@ -13922,15 +13922,15 @@ SLONG check_limb_pos_on_fence(Thing *p_person,SLONG sub_part)
 	}
 }
 
-SLONG check_limb_pos_on_fence_sideways(Thing *p_person,SLONG sub_part)
+std::int32_t check_limb_pos_on_fence_sideways(Thing *p_person,std::int32_t sub_part)
 {
-	SLONG	x1,y1,z1;
-	SLONG	col;
-	SLONG	along;
+	std::int32_t	x1,y1,z1;
+	std::int32_t	col;
+	std::int32_t	along;
 
 	col=p_person->Genus.Person->OnFacet;
 
-SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect);
+std::int32_t calc_along_vect(std::int32_t ax,std::int32_t az,struct DFacet *p_vect);
 
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,sub_part,&x1,&y1,&z1);
 
@@ -13954,10 +13954,10 @@ SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect);
 void fn_person_laddering(Thing	*p_person)
 {
 	bool		play_it	=	false;
-	UBYTE		last_frame;
-	SLONG		end=0,hit,
+	std::uint8_t		last_frame;
+	std::int32_t		end=0,hit,
 				foot_step_wave;
-	ULONG       on_ladder,on_ladder_left,on_ladder_right;
+	std::uint32_t       on_ladder,on_ladder_left,on_ladder_right;
 
 	switch(p_person->SubState)
 	{
@@ -14008,7 +14008,7 @@ void fn_person_laddering(Thing	*p_person)
 
 					if (p_person->Flags & FLAGS_IN_SEWERS)
 					{
-						SLONG   ladder = p_person->Genus.Person->OnFacet;
+						std::int32_t   ladder = p_person->Genus.Person->OnFacet;
 						DFacet *df;
 
 						ASSERT(WITHIN(ladder, 1, next_dfacet - 1));
@@ -14102,7 +14102,7 @@ void fn_person_laddering(Thing	*p_person)
 					/*
 					if (p_person->Flags & FLAGS_IN_SEWERS)
 					{
-						SLONG   ladder = p_person->Genus.Person->OnFacet;
+						std::int32_t   ladder = p_person->Genus.Person->OnFacet;
 						DFacet *df;
 
 						ASSERT(WITHIN(ladder, 1, next_dfacet - 1));
@@ -14191,8 +14191,8 @@ void fn_person_laddering(Thing	*p_person)
 
 void fn_person_climbing(Thing	*p_person)
 {
-	SLONG	end,hit;
-	SLONG	left_foot,right_foot;
+	std::int32_t	end,hit;
+	std::int32_t	left_foot,right_foot;
 
 	switch(p_person->SubState)
 	{
@@ -14215,22 +14215,22 @@ void fn_person_climbing(Thing	*p_person)
 
 						if (p_person->Genus.Person->OnFacet > 0)
 						{
-							SLONG col = p_person->Genus.Person->OnFacet;
+							std::int32_t col = p_person->Genus.Person->OnFacet;
 
 							if (col > 0)
 							{
 								if (dfacets[col].FacetFlags & FACET_FLAG_ELECTRIFIED)
 								{
-									SLONG i;
+									std::int32_t i;
 
-									SLONG px;
-									SLONG py;
-									SLONG pz;
+									std::int32_t px;
+									std::int32_t py;
+									std::int32_t pz;
 #ifndef PSX
 									SPARK_Pinfo p1;
 									SPARK_Pinfo p2;
 									
-									UBYTE limb[4] =
+									std::uint8_t limb[4] =
 									{
 										SUB_OBJECT_LEFT_FOOT,
 										SUB_OBJECT_LEFT_HAND,
@@ -14271,8 +14271,8 @@ void fn_person_climbing(Thing	*p_person)
 #endif
 
 									{
-										SLONG origin_x = p_person->WorldPos.X - SIN(p_person->Draw.Tweened->Angle) >> 8;
-										SLONG origin_z = p_person->WorldPos.Z - COS(p_person->Draw.Tweened->Angle) >> 8;
+										std::int32_t origin_x = p_person->WorldPos.X - SIN(p_person->Draw.Tweened->Angle) >> 8;
+										std::int32_t origin_z = p_person->WorldPos.Z - COS(p_person->Draw.Tweened->Angle) >> 8;
 
 
 										knock_person_down(
@@ -14433,7 +14433,7 @@ void fn_person_climbing(Thing	*p_person)
 				//
 
 				{
-					SLONG ground_y = PAP_calc_height_at_thing(
+					std::int32_t ground_y = PAP_calc_height_at_thing(
 										p_person,
 										p_person->WorldPos.X >> 8,
 										p_person->WorldPos.Z >> 8);
@@ -14505,9 +14505,9 @@ void fn_person_climbing(Thing	*p_person)
 
 void set_cable_angle(Thing *p_person)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 	struct	DFacet	*p_facet;
-	SLONG	angle;
+	std::int32_t	angle;
 
 	ASSERT(p_person->Genus.Person->Flags&FLAG_PERSON_ON_CABLE);
 	ASSERT(dfacets[p_person->Genus.Person->OnFacet].FacetType==STOREY_TYPE_CABLE);
@@ -14526,15 +14526,15 @@ void set_cable_angle(Thing *p_person)
 
 void do_person_on_cable(Thing *p_person)
 {
-	SLONG	along;
-	SLONG	mx,my,mz;
+	std::int32_t	along;
+	std::int32_t	mx,my,mz;
 
-	SLONG hx;
-	SLONG hy;
-	SLONG hz;
+	std::int32_t hx;
+	std::int32_t hy;
+	std::int32_t hz;
 
-	SLONG	lhx,lhy,lhz;
-	SLONG	rhx,rhy,rhz;
+	std::int32_t	lhx,lhy,lhz;
+	std::int32_t	rhx,rhy,rhz;
 
 	if(p_person->Genus.Person->Flags&FLAG_PERSON_ON_CABLE)
 	{
@@ -14564,11 +14564,11 @@ void do_person_on_cable(Thing *p_person)
 
 void fn_person_dangling(Thing	*p_person)
 {
-	SLONG ignore_building;
-	SLONG end;
-	SLONG hit;
-	SLONG	grab;
-	SLONG		wave_id1,
+	std::int32_t ignore_building;
+	std::int32_t end;
+	std::int32_t hit;
+	std::int32_t	grab;
+	std::int32_t		wave_id1,
 				wave_id2;
 
 	switch(p_person->SubState)
@@ -14701,7 +14701,7 @@ void fn_person_dangling(Thing	*p_person)
 				drop_on_heads(p_person);
 
 				{
-					SLONG temp_angle;
+					std::int32_t temp_angle;
 
 					//
 					// If you slip of a face then your velocity is not necessarily in the direction your facing
@@ -14809,7 +14809,7 @@ void fn_person_dangling(Thing	*p_person)
 
 		case	SUB_STATE_DROP_DOWN_OFF_FACE:
 				{
-					SLONG	temp_angle;
+					std::int32_t	temp_angle;
 
 
 //If you slip of a face then your velocity is not necessarily in the direction your facing
@@ -14893,7 +14893,7 @@ void fn_person_dangling(Thing	*p_person)
 				person_normal_animate(p_person);
 				
 				{
-					SLONG	temp_angle;
+					std::int32_t	temp_angle;
 
 //
 //If you slip of a face then your velocity is not necessarily in the direction your facing
@@ -14992,7 +14992,7 @@ void fn_person_dangling(Thing	*p_person)
 			end = person_normal_animate(p_person);
 			if(end)
 			{
-				SLONG	dist,dx,dz;
+				std::int32_t	dist,dx,dz;
 				locked_anim_change(p_person,SUB_OBJECT_PELVIS,ANIM_DANGLE);
 
 				p_person->SubState		=	SUB_STATE_DANGLING;
@@ -15005,7 +15005,7 @@ void fn_person_dangling(Thing	*p_person)
 
 				if(abs(32-dist)<32)
 				{
-					SLONG	angle;
+					std::int32_t	angle;
 					angle=(p_person->Draw.Tweened->Angle+1024)&2047;
 
 					dx = -(SIN(angle) * (32-dist)) >> 8;
@@ -15022,10 +15022,10 @@ void fn_person_dangling(Thing	*p_person)
 				//
 
 				{
-					SLONG dist;
+					std::int32_t dist;
 
-					SLONG dx = -SIN(p_person->Draw.Tweened->Angle);
-					SLONG dz = -COS(p_person->Draw.Tweened->Angle);
+					std::int32_t dx = -SIN(p_person->Draw.Tweened->Angle);
+					std::int32_t dz = -COS(p_person->Draw.Tweened->Angle);
 
 					if (abs(dx) > abs(dz))
 					{
@@ -15071,7 +15071,7 @@ void fn_person_dangling(Thing	*p_person)
 					// Finished pulling ourselves up.
 					//
 
-					SLONG	face,new_y;
+					std::int32_t	face,new_y;
 					//p_person->Draw.Tweened->Locked=0;
 					//p_person->SubState=SUB_STATE_DANGLING;
 					p_person->Draw.Tweened->AnimTween=0;		
@@ -15145,24 +15145,24 @@ void fn_person_dangling(Thing	*p_person)
 	
 }
 
-extern void	trickle_velocity_to(Thing *p_thing,SWORD velocity);
+extern void	trickle_velocity_to(Thing *p_thing,std::int16_t velocity);
 
 
-void set_person_running_stop(Thing *p_person,SLONG leg)
+void set_person_running_stop(Thing *p_person,std::int32_t leg)
 {
 	
 //	tween_to_anim(p_person,ANIM_STOP_RUN_L+leg);
 	p_person->SubState=SUB_STATE_STOPPING;
 }
 
-SLONG should_person_automatically_land_on_fence(Thing *p_person, SLONG facet)
+std::int32_t should_person_automatically_land_on_fence(Thing *p_person, std::int32_t facet)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG da;
-	SLONG mdx;
-	SLONG mdz;
-	SLONG angle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t da;
+	std::int32_t mdx;
+	std::int32_t mdz;
+	std::int32_t angle;
 
 	DFacet *df;
 
@@ -15244,13 +15244,13 @@ SLONG should_person_automatically_land_on_fence(Thing *p_person, SLONG facet)
 
 void process_a_vaulting_person(Thing *p_person)
 {
-	SLONG end;
+	std::int32_t end;
 
 	end = person_normal_animate(p_person);
 
 	if(p_person->Draw.Tweened->FrameIndex==6)
 	{
-		SLONG	wx,wy,wz,fy;
+		std::int32_t	wx,wy,wz,fy;
 
 		calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_LEFT_FOOT,&wx,&wy,&wz);
 
@@ -15324,7 +15324,7 @@ void set_person_unsit(Thing *p_person)
 }
 
 
-SLONG person_holding_2handed(Thing *p_person)
+std::int32_t person_holding_2handed(Thing *p_person)
 {
 	if (p_person->Genus.Person->SpecialUse)
 	{
@@ -15344,7 +15344,7 @@ SLONG person_holding_2handed(Thing *p_person)
 	return(0);
 }
 
-SLONG person_holding_special(Thing* p_person, UBYTE special)
+std::int32_t person_holding_special(Thing* p_person, std::uint8_t special)
 {
 	if (!p_person->Genus.Person->SpecialUse)	return 0;
 
@@ -15353,7 +15353,7 @@ SLONG person_holding_special(Thing* p_person, UBYTE special)
 	return (p_special->Genus.Special->SpecialType == special) ? 1 : 0;
 }
 
-SLONG get_yomp_anim(Thing *p_person)
+std::int32_t get_yomp_anim(Thing *p_person)
 {
 
 
@@ -15389,10 +15389,10 @@ SLONG get_yomp_anim(Thing *p_person)
 
 void fn_person_moveing(Thing *p_person)
 {
-	UBYTE		last_frame;
-	SLONG		end,
+	std::uint8_t		last_frame;
+	std::int32_t		end,
 				foot_step_wave;
-	SLONG		yomp,sprint,change,stamina_used;
+	std::int32_t		yomp,sprint,change,stamina_used;
 
 	MSG_add(" state %d substate %d vel %d \n",p_person->State,p_person->SubState,p_person->Velocity);
 
@@ -15418,7 +15418,7 @@ void fn_person_moveing(Thing *p_person)
 				case	COP_ROPER_ANIM_READY:
 				case	ANIM_FIGHT:
 					{
-						SLONG	anim;
+						std::int32_t	anim;
 						anim=get_yomp_anim(p_person);
 						if(anim==COP_ROPER_ANIM_RUN)
 						{
@@ -15497,7 +15497,7 @@ void fn_person_moveing(Thing *p_person)
 
 		case	SUB_STATE_SLIPPING:
 			{
-				SLONG	angle;
+				std::int32_t	angle;
 				angle=p_person->Draw.Tweened->Angle;
 				p_person->Draw.Tweened->Angle=p_person->Draw.Tweened->AngleTo;
 
@@ -15508,7 +15508,7 @@ void fn_person_moveing(Thing *p_person)
 			}
 
 			{
-				SLONG fx,fy,fz,px,pz,rgb,sz,i,j;
+				std::int32_t fx,fy,fz,px,pz,rgb,sz,i,j;
 				calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,
 					SUB_OBJECT_LEFT_FOOT, &fx, &fy, &fz);
 				fx=(fx<<8) + p_person->WorldPos.X;
@@ -15571,7 +15571,7 @@ void fn_person_moveing(Thing *p_person)
 				{
 					if (p_person->Genus.Person->Timer1)
 					{
-						SLONG ticks = 16 * TICK_RATIO >> TICK_SHIFT;
+						std::int32_t ticks = 16 * TICK_RATIO >> TICK_SHIFT;
 
 						//
 						// Countdown since te person last fired his gun.
@@ -15628,7 +15628,7 @@ void fn_person_moveing(Thing *p_person)
 						case	ANIM_YOMP_START_BAT:
 							
 							{
-								UWORD anim;
+								std::uint16_t anim;
 
 								anim=get_yomp_anim(p_person);
 								if(anim==COP_ROPER_ANIM_RUN)
@@ -15685,7 +15685,7 @@ void fn_person_moveing(Thing *p_person)
 				}
 
 				{
-					SLONG	run_speed=yomp; //_speed;
+					std::int32_t	run_speed=yomp; //_speed;
 					if(p_person->Genus.Person->Mode==PERSON_MODE_SPRINT)
 					{
 						run_speed=sprint; //_speed;
@@ -15733,7 +15733,7 @@ void fn_person_moveing(Thing *p_person)
 					}
 
 					change_velocity_to(p_person,run_speed);
-extern UBYTE	cheat;
+extern std::uint8_t	cheat;
 //					if(cheat==1)
 //						change_velocity_to(p_person,run_speed*2);
 
@@ -15750,7 +15750,7 @@ extern UBYTE	cheat;
 				last_slide_colvect=0;
 				person_normal_move(p_person);
 
-//SLONG	along_middle_of_facet(Thing *p_person,SLONG col)
+//std::int32_t	along_middle_of_facet(Thing *p_person,std::int32_t col)
 				if(p_person->Genus.Person->Flags2&FLAG2_PERSON_CARRYING)
 				{
 					carry_running(p_person);
@@ -15786,7 +15786,7 @@ extern UBYTE	cheat;
 
 						if(p_person->Velocity>35)
 						{
-							SLONG	wall_angle;
+							std::int32_t	wall_angle;
 							if(is_wall_good_for_bump_and_turn(p_person,last_slide_colvect))
 							if(am_i_facing_wall(p_person,last_slide_colvect,&wall_angle))
 							{
@@ -15806,7 +15806,7 @@ extern UBYTE	cheat;
 						if(0)
 						if(p_person->Velocity>35)
 						{
-							SLONG	wall_angle;
+							std::int32_t	wall_angle;
 							if(is_wall_good_for_bump_and_turn(p_person,last_slide_colvect))
 							if(am_i_facing_wall(p_person,last_slide_colvect,&wall_angle))
 							{
@@ -15918,7 +15918,7 @@ extern UBYTE	cheat;
 				
 				if(p_person->Genus.Person->PersonType==PERSON_CIV)
 				{
-					SLONG	old;
+					std::int32_t	old;
 					if(!(p_person->Draw.Tweened->MeshID&1))
 						change_velocity_to(p_person,14);
 					else
@@ -16028,7 +16028,7 @@ extern UBYTE	cheat;
 					case	ANIM_SLIDER_HOLD:
 
 						{
-							SLONG fx,fy,fz,px,pz,rgb,sz,i,j;
+							std::int32_t fx,fy,fz,px,pz,rgb,sz,i,j;
 							calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,
 								SUB_OBJECT_LEFT_FOOT, &fx, &fy, &fz);
 							fx=(fx<<8) + p_person->WorldPos.X;
@@ -16060,7 +16060,7 @@ extern UBYTE	cheat;
 						MFX_stop(THING_NUMBER(p_person),S_SLIDE_START);
 						if (p_person->Velocity>5)
 						{
-							SLONG px,py,pz,rgb,sz;
+							std::int32_t px,py,pz,rgb,sz;
 							calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,
 								SUB_OBJECT_LEFT_FOOT, &px, &py, &pz);
 							px=(px<<8) + p_person->WorldPos.X;
@@ -16255,9 +16255,9 @@ extern UBYTE	cheat;
 
 				if(p_person->Draw.Tweened->FrameIndex<11)
 				{
-					SLONG dx;
-					SLONG dz;
-					SLONG	angle;
+					std::int32_t dx;
+					std::int32_t dz;
+					std::int32_t	angle;
 					angle=p_person->Draw.Tweened->Angle;
 					if(p_person->Genus.Person->Action==ACTION_FLIP_LEFT)
 					{
@@ -16496,7 +16496,7 @@ extern UBYTE	cheat;
 	}
 }
 
-void set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags)
+void set_person_ko_recoil(Thing *p_person,std::int32_t anim,std::uint8_t flags)
 {
 	if(p_person->Draw.Tweened->CurrentAnim==anim && p_person->Draw.Tweened->FrameIndex<5)
 	{
@@ -16511,7 +16511,7 @@ void set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 	}
 	else
 	{
-		SLONG last_anim = p_person->Draw.Tweened->CurrentAnim;
+		std::int32_t last_anim = p_person->Draw.Tweened->CurrentAnim;
 
 		set_locked_anim(p_person, anim,SUB_OBJECT_PELVIS);
 
@@ -16534,7 +16534,7 @@ void set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 	}
 }
 
-void set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags)
+void set_person_recoil(Thing *p_person,std::int32_t anim,std::uint8_t flags)
 {
 	if(p_person->SubState == SUB_STATE_DRAW_ITEM)
 		return;
@@ -16634,7 +16634,7 @@ void set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags)
 
 void fn_person_recoil(Thing *p_person)
 {
-	SLONG end;
+	std::int32_t end;
 
 	SlideSoundCheck(p_person);
 
@@ -16658,7 +16658,7 @@ void fn_person_recoil(Thing *p_person)
 
 	if(p_person->Draw.Tweened->FrameIndex==0)
 	{
-		SLONG	old_velocity;
+		std::int32_t	old_velocity;
 		//
 		// little nudge back
 		//
@@ -16704,7 +16704,7 @@ finish:;
 #define FALL_DIR_LAND_ON_FRONT ( 0)
 #define FALL_DIR_LAND_ON_BACK  ( 1)
 
-SLONG find_anim_fall_dir(SLONG	anim)
+std::int32_t find_anim_fall_dir(std::int32_t	anim)
 {
 	switch(anim)
 	{
@@ -16738,8 +16738,8 @@ void generate_bonus_item(Thing *p_person)
 	if(GET_SKILL(p_person)>=12 || ((p_person->Genus.Person->pcom_ai!=PCOM_AI_CIV) && (p_person->Genus.Person->Flags2&FLAG2_PERSON_FAKE_WANDER)&& (Random()&0xff)<34))
 //	if( ((p_person->Genus.Person->pcom_ai!=PCOM_AI_CIV) && (p_person->Genus.Person->Flags2&FLAG2_PERSON_FAKE_WANDER)&& (Random()&0xff)<34))
 	{
-		SLONG	gx,gy,gz;
-		SLONG	special=SPECIAL_HEALTH;
+		std::int32_t	gx,gy,gz;
+		std::int32_t	special=SPECIAL_HEALTH;
 
 		if(!(p_person->Genus.Person->Flags2&FLAG2_PERSON_FAKE_WANDER))
 		switch(Random()&3)
@@ -16776,10 +16776,10 @@ void generate_bonus_item(Thing *p_person)
 	}
 }
 
-SLONG part_bad(Thing *p_person,SLONG part)
+std::int32_t part_bad(Thing *p_person,std::int32_t part)
 {
-	SLONG	track_x,track_y,track_z;
-	SLONG	fy,dy;
+	std::int32_t	track_x,track_y,track_z;
+	std::int32_t	fy,dy;
 
 
 	if(p_person->Genus.Person->Ware)
@@ -16812,11 +16812,11 @@ SLONG part_bad(Thing *p_person,SLONG part)
 
 void fn_person_dying(Thing *p_person)
 {
-	SLONG hit;
-	SLONG end;
-	SLONG backwards;
-	SWORD on_face;
-	SLONG	height;
+	std::int32_t hit;
+	std::int32_t end;
+	std::int32_t backwards;
+	std::int16_t on_face;
+	std::int32_t	height;
 
 	//
 	// Is this person's pelvis is below the ground, then
@@ -16831,9 +16831,9 @@ void fn_person_dying(Thing *p_person)
 	}
 	else
 	{
-		SLONG pelvis_x;
-		SLONG pelvis_y;
-		SLONG pelvis_z;
+		std::int32_t pelvis_x;
+		std::int32_t pelvis_y;
+		std::int32_t pelvis_z;
 
 		calc_sub_objects_position(
 			p_person,
@@ -16847,7 +16847,7 @@ void fn_person_dying(Thing *p_person)
 		pelvis_y += p_person->WorldPos.Y >> 8;
 		pelvis_z += p_person->WorldPos.Z >> 8;
 
-		SLONG ground = PAP_calc_map_height_at(pelvis_x, pelvis_z);
+		std::int32_t ground = PAP_calc_map_height_at(pelvis_x, pelvis_z);
 
 		if (pelvis_y < ground + 8)
 		{
@@ -17045,7 +17045,7 @@ void fn_person_dying(Thing *p_person)
 
 				if (p_person->Genus.Person->PersonType == PERSON_COP)
 				{
-					extern UBYTE *EWAY_counter;
+					extern std::uint8_t *EWAY_counter;
 
 					if (EWAY_counter[7] < 255)
 					{
@@ -17233,7 +17233,7 @@ void fn_person_dying(Thing *p_person)
 
 				if(p_person->Genus.Person->pcom_ai==PCOM_AI_CIV)
 				{
-					void PCOM_set_person_ai_flee_place(Thing *p_person,SLONG  scary_x,SLONG  scary_z);
+					void PCOM_set_person_ai_flee_place(Thing *p_person,std::int32_t  scary_x,std::int32_t  scary_z);
 
 					if (p_person->Genus.Person->pcom_bent & PCOM_BENT_ROBOT)
 					{
@@ -17301,7 +17301,7 @@ void fn_person_dying(Thing *p_person)
 
 				p_person->SubState = SUB_STATE_DYING_FINAL_ANI;
 				{
-					SLONG	new_y,on_face;
+					std::int32_t	new_y,on_face;
 
 					if (p_person->Genus.Person->pcom_ai == PCOM_AI_HYPOCHONDRIA)
 					{
@@ -17357,8 +17357,8 @@ void init_dead_tween()
 
 void fn_person_dead(Thing *p_person)
 {
-	SLONG	end;
-	UWORD	try_respawn=0;
+	std::int32_t	end;
+	std::uint16_t	try_respawn=0;
 /*
 	if(CNET_network_game)
 	if(p_person->Genus.Person->PlayerID)
@@ -17375,7 +17375,7 @@ void fn_person_dead(Thing *p_person)
 			end=person_normal_animate(p_person);
 			if(end)
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				set_anim(p_person,ANIM_ARREST_BE_CUFFED);
 				p_person->Draw.Tweened->Angle+=1024;
 				p_person->Draw.Tweened->Angle&=2047;
@@ -17423,7 +17423,7 @@ void fn_person_dead(Thing *p_person)
 			}
 			break;
 		case	SUB_STATE_DEAD_RESPAWN:
-extern SLONG	PCOM_do_regen(Thing *p_person);
+extern std::int32_t	PCOM_do_regen(Thing *p_person);
 				PCOM_do_regen(p_person);
 			break;
 
@@ -17512,9 +17512,9 @@ extern SLONG	PCOM_do_regen(Thing *p_person);
 		{
 			if (p_person->Genus.Person->Timer1 != 0xffff)
 			{
-				SLONG px;
-				SLONG py;
-				SLONG pz;
+				std::int32_t px;
+				std::int32_t py;
+				std::int32_t pz;
 
 				calc_sub_objects_position(
 					p_person,
@@ -17548,7 +17548,7 @@ extern SLONG	PCOM_do_regen(Thing *p_person);
 
 				SPARK_Pinfo p1;
 				SPARK_Pinfo p2;
-				UBYTE i;
+				std::uint8_t i;
 
 				PARTICLE_Add(px,py,pz,0,0,0,POLY_PAGE_BLOOM1,0,0xffFFFFFF,PFLAG_FADE,40,255,1,-5,0);
 
@@ -17619,7 +17619,7 @@ extern SLONG	PCOM_do_regen(Thing *p_person);
 	else
 	if(try_respawn)   //MIB's dont respawn
 	{
-		SLONG	vanish_time;
+		std::int32_t	vanish_time;
 #ifdef	PSX
 #define	TIMER_VANISH	0	
 #else
@@ -17632,7 +17632,7 @@ extern SLONG	PCOM_do_regen(Thing *p_person);
 			vanish_time=30;
 
 #ifdef PSX
-extern UBYTE	remove_dead_people;
+extern std::uint8_t	remove_dead_people;
 			if(remove_dead_people)
 			{
 				goto	remove_them;
@@ -17710,9 +17710,9 @@ remove_them:;
 
 }
 
-SLONG dist_from_a_to_b(Thing *a,Thing *b)
+std::int32_t dist_from_a_to_b(Thing *a,Thing *b)
 {
-	SLONG	dx,dz,dist;
+	std::int32_t	dx,dz,dist;
 
 	dx=(a->WorldPos.X-b->WorldPos.X)>>8;
 	dz=(a->WorldPos.Z-b->WorldPos.Z)>>8;
@@ -17725,9 +17725,9 @@ SLONG dist_from_a_to_b(Thing *a,Thing *b)
 }
 
 
-void player_aim_at_new_person(Thing *p_person,UWORD new_target)
+void player_aim_at_new_person(Thing *p_person,std::uint16_t new_target)
 {
-	SLONG	pitch;
+	std::int32_t	pitch;
 	Thing	*p_target;
 
 	ASSERT(p_person->Genus.Person->PlayerID);
@@ -17740,22 +17740,22 @@ void player_aim_at_new_person(Thing *p_person,UWORD new_target)
 
 	turn_to_face_thing_quick(p_person,p_target);
 
-//extern SLONG  FC_focus_yaw;
+//extern std::int32_t  FC_focus_yaw;
 
 //	FC_focus_yaw=p_person->Draw.Tweened->Angle;
 //	FC_position_for_lookaround(pitch);
-extern void	set_look_pitch(SLONG p);
+extern void	set_look_pitch(std::int32_t p);
 	set_look_pitch(pitch);
 
 
 	
 }
 
-SLONG get_angle_to_target(Thing *p_person)
+std::int32_t get_angle_to_target(Thing *p_person)
 {
 	Thing *p_target = TO_THING(p_person->Genus.Person->Target);
-	SLONG	dx,dz;
-	SLONG	angle;
+	std::int32_t	dx,dz;
+	std::int32_t	angle;
 
 //	if(p_target->Class==CLASS_PERSON)
 	{
@@ -17767,9 +17767,9 @@ SLONG get_angle_to_target(Thing *p_person)
 //	return(-1);
 }
 
-SLONG player_running_aim_gun(Thing *p_person)
+std::int32_t player_running_aim_gun(Thing *p_person)
 {
-	SLONG	old_target=p_person->Genus.Person->Target;
+	std::int32_t	old_target=p_person->Genus.Person->Target;
 	if (p_person->Genus.Person->Target = find_target_new(p_person))
 	{
 		Thing *p_target = TO_THING(p_person->Genus.Person->Target);
@@ -17806,11 +17806,11 @@ SLONG player_running_aim_gun(Thing *p_person)
 	return(0);
 }
 
-void twist_darci_body_to_angle(Thing *p_person, SLONG twist)
+void twist_darci_body_to_angle(Thing *p_person, std::int32_t twist)
 {
-	UWORD ahead;
-	UWORD left;
-	UWORD right;
+	std::uint16_t ahead;
+	std::uint16_t left;
+	std::uint16_t right;
 
 	DrawTween *dt = p_person->Draw.Tweened;
 
@@ -17887,7 +17887,7 @@ void twist_darci_body_to_angle(Thing *p_person, SLONG twist)
 	}
 }
 
-SLONG might_i_be_a_villain(Thing *p_person)
+std::int32_t might_i_be_a_villain(Thing *p_person)
 {
 	if(p_person->Genus.Person->PersonType==PERSON_DARCI||
 		p_person->Genus.Person->PersonType==PERSON_ROPER||
@@ -17899,7 +17899,7 @@ SLONG might_i_be_a_villain(Thing *p_person)
 
 }
 
-SLONG am_i_a_thug(Thing *p_person)
+std::int32_t am_i_a_thug(Thing *p_person)
 {
 	if(p_person->Genus.Person->PersonType==PERSON_THUG_RASTA||
 		p_person->Genus.Person->PersonType==PERSON_THUG_GREY||
@@ -17915,9 +17915,9 @@ SLONG am_i_a_thug(Thing *p_person)
 //
 // This needs to take into account the type of weapon, sniper is accurate at a distance etc
 //
-SLONG calc_dist_benefit_to_gun(Thing *p_person,SLONG dist)
+std::int32_t calc_dist_benefit_to_gun(Thing *p_person,std::int32_t dist)
 {
-	SLONG benefit; //in thousandths of a second
+	std::int32_t benefit; //in thousandths of a second
 	
 	
 
@@ -17978,12 +17978,12 @@ SLONG calc_dist_benefit_to_gun(Thing *p_person,SLONG dist)
 	}
 }
 
-extern SLONG	look_pitch;
+extern std::int32_t	look_pitch;
 void highlight_gun_target(Thing *p_person,Thing *p_target)
 {
 	if(p_person->Genus.Person->PlayerID)
 	{
-		SLONG	angle,dx,dy,dz;
+		std::int32_t	angle,dx,dy,dz;
 
 		if(dist_to_target(p_person,p_target)< (10<<8) )
 			track_gun_sight(p_target,256);
@@ -18038,7 +18038,7 @@ void highlight_gun_target(Thing *p_person,Thing *p_target)
 	if (p_person->Genus.Person->PlayerID ||
 		p_target->Genus.Person->PlayerID)
 	{
-		SLONG above;
+		std::int32_t above;
 
 		//
 		// Draw a little mark above our targets head.
@@ -18080,7 +18080,7 @@ void highlight_gun_target(Thing *p_person,Thing *p_target)
 
 void fn_person_gun(Thing *p_person)
 {
-	SLONG	end;
+	std::int32_t	end;
 	switch(p_person->SubState)
 	{
 		case	SUB_STATE_DRAW_GUN:
@@ -18111,8 +18111,8 @@ void fn_person_gun(Thing *p_person)
 
 				if (p_person->Genus.Person->PlayerID)
 				{
-					SLONG twist;
-					SLONG	old_target;
+					std::int32_t twist;
+					std::int32_t	old_target;
 
 					if (p_person->Genus.Person->SpecialUse)
 					{
@@ -18174,7 +18174,7 @@ void fn_person_gun(Thing *p_person)
 										//
 										if ((p_target->State != STATE_DEAD)&&(p_target->State != STATE_DYING))
 										{
-											SLONG	sample;
+											std::int32_t	sample;
 											switch(Random()&3)
 											{
 												case	0:
@@ -18224,7 +18224,7 @@ void fn_person_gun(Thing *p_person)
 
 				{
 					THING_INDEX	target;
-					SLONG	target_good=0;
+					std::int32_t	target_good=0;
 					end=person_normal_animate(p_person);
 
 					//
@@ -18233,8 +18233,8 @@ void fn_person_gun(Thing *p_person)
 
 					if (p_person->Genus.Person->PlayerID)
 					{
-						UWORD old_target;;
-						UWORD new_target;
+						std::uint16_t old_target;;
+						std::uint16_t new_target;
 
 						old_target = p_person->Genus.Person->Target;
 						new_target = find_target(p_person);
@@ -18279,7 +18279,7 @@ void fn_person_gun(Thing *p_person)
 
 						if (target_good || can_a_see_b(p_person, p_target))
 						{
-							SLONG	dist,aimratio;
+							std::int32_t	dist,aimratio;
 
 							if (p_person->Genus.Person->PlayerID ||
 								p_target->Genus.Person->PlayerID)
@@ -18305,7 +18305,7 @@ void fn_person_gun(Thing *p_person)
 							//
 
 							{
-								SLONG min_gunaim = abs(p_target->Velocity << 5) + abs(p_target->Draw.Tweened->Roll << 4);
+								std::int32_t min_gunaim = abs(p_target->Velocity << 5) + abs(p_target->Draw.Tweened->Roll << 4);
 
 								if (p_person->Genus.Person->Gunaim < min_gunaim)
 								{
@@ -18325,7 +18325,7 @@ void fn_person_gun(Thing *p_person)
 		case	SUB_STATE_SHOOT_GUN:
 
 				{
-					UWORD anim_speed = 256;
+					std::uint16_t anim_speed = 256;
 					
 					//
 					// We want the gun shooting to be faster.
@@ -18343,7 +18343,7 @@ void fn_person_gun(Thing *p_person)
 					//
 					// Let's try some gun smoke
 					//
-					SLONG px,py,pz, alpha;
+					std::int32_t px,py,pz, alpha;
 /*
 					calc_sub_objects_position(
 						p_person,
@@ -18380,8 +18380,8 @@ void fn_person_gun(Thing *p_person)
 
 				if (end == 1)
 				{
-					SLONG firing_an_ak = false;
-					SLONG fire_length  = 4;
+					std::int32_t firing_an_ak = false;
+					std::int32_t fire_length  = 4;
 					
 					if (!p_person->Genus.Person->PlayerID && p_person->Genus.Person->SpecialUse && TO_THING(p_person->Genus.Person->SpecialUse)->Genus.Special->SpecialType == SPECIAL_AK47)
 					{
@@ -18400,7 +18400,7 @@ void fn_person_gun(Thing *p_person)
 
 					if (firing_an_ak && p_person->Genus.Person->Timer1 < fire_length)
 					{
-						SLONG old_timer = p_person->Genus.Person->Timer1;
+						std::int32_t old_timer = p_person->Genus.Person->Timer1;
 
 						set_person_shoot(p_person, true);
 
@@ -18481,7 +18481,7 @@ void fn_person_gun(Thing *p_person)
 				}
 				else
 				{
-					SLONG anim;
+					std::int32_t anim;
 					Thing *p_special;
 
 					if (p_person->Genus.Person->SpecialUse == 0)
@@ -18538,11 +18538,11 @@ void fn_person_gun(Thing *p_person)
 
 #define	COMBO_ACCURACY 300		// Was 190
 
-SLONG person_new_combat_node(Thing *p_person)
+std::int32_t person_new_combat_node(Thing *p_person)
 {
-	SBYTE	node=0;
-	UBYTE	new_node=0;
-	UWORD	anim;
+	std::int8_t	node=0;
+	std::uint8_t	new_node=0;
+	std::uint16_t	anim;
 	MSG_add(" new node  y %d \n",p_person->WorldPos.Y>>8);
 	
 	node=p_person->Genus.Person->CombatNode;
@@ -18561,7 +18561,7 @@ SLONG person_new_combat_node(Thing *p_person)
 #ifndef	PSX
 
 			{
-//				CBYTE	str[100];
+//				char	str[100];
 //				sprintf(str,"MISS TIMED COMBO %d GT %d",p_person->Genus.Person->pcom_ai_counter,COMBO_ACCURACY);
 //				CONSOLE_text(str);
 			}
@@ -18640,9 +18640,9 @@ SLONG person_new_combat_node(Thing *p_person)
 	}
 	return(0);
 }
-extern SLONG	should_i_block(Thing *p_person,Thing *p_agressor,SLONG anim);
+extern std::int32_t	should_i_block(Thing *p_person,Thing *p_agressor,std::int32_t anim);
 
-void aim_at_victim(Thing *p_person,SLONG count)
+void aim_at_victim(Thing *p_person,std::int32_t count)
 {
 	if(p_person->Draw.Tweened->CurrentAnim!=ANIM_KICK_COMBO3b)
 	if(p_person->Draw.Tweened->CurrentAnim!=ANIM_FIGHT_STOMP)
@@ -18663,11 +18663,11 @@ void aim_at_victim(Thing *p_person,SLONG count)
 	}
 }
 
-UBYTE combo_display=0;
+std::uint8_t combo_display=0;
 void fn_person_fighting(Thing *p_person)
 {
 	Thing	*p_target;
-	SLONG	end=0;
+	std::int32_t	end=0;
 	//return;
 //	MSG_add(" fighting substate %d action %d",p_person->SubState,p_person->Genus.Person->Action);
 
@@ -18702,7 +18702,7 @@ void fn_person_fighting(Thing *p_person)
 
 					if(p_person->Genus.Person->PlayerID)
 					{
-extern SLONG	continue_blocking(Thing *p_person);
+extern std::int32_t	continue_blocking(Thing *p_person);
 						if(continue_blocking(p_person))
 						{
 							goto	skip_animate;
@@ -18785,7 +18785,7 @@ skip_animate:
 				if(0)
 				if(p_person->Genus.Person->PlayerID)
 				{
-					SLONG	index1=0,index2;
+					std::int32_t	index1=0,index2;
 					switch(p_person->Draw.Tweened->CurrentAnim)
 					{
 						case	ANIM_PUNCH_COMBO1:
@@ -18871,7 +18871,7 @@ skip_animate:
 				if(0)
 				if(p_person->Genus.Person->PlayerID)
 				{
-					SLONG	index1=0,index2;
+					std::int32_t	index1=0,index2;
 					switch(p_person->Draw.Tweened->CurrentAnim)
 					{
 						case	ANIM_KICK_COMBO1:
@@ -18906,7 +18906,7 @@ skip_animate:
 		case	SUB_STATE_HEADBUTT:
 
 				{
-					static UBYTE last_frame = 0;
+					static std::uint8_t last_frame = 0;
 
 					end=person_normal_animate_speed(p_person,256);
 
@@ -18943,7 +18943,7 @@ skip_animate:
 							{
 								if (last_frame == 27 || ((last_frame & 1) == 0 && last_frame >= 14 && last_frame <= 24))
 								{
-									SLONG damage;
+									std::int32_t damage;
 
 									//
 									// A strangulation frame.
@@ -18964,7 +18964,7 @@ skip_animate:
 									//
 
 									Thing *p_target = TO_THING(p_person->Genus.Person->Target);
-									SWORD hit_wave;
+									std::int16_t hit_wave;
 
 									ASSERT(p_target->Class == CLASS_PERSON);
 
@@ -19209,7 +19209,7 @@ skip_animate:
 					{
 	/*
 	#ifndef	PSX
-						CBYTE	str[100];
+						char	str[100];
 						sprintf(str," press c on turn %d escape %d\n",GAME_TURN,p_person->Genus.Person->Escape);
 						CONSOLE_text(str,8000);
 	#endif
@@ -19221,7 +19221,7 @@ skip_animate:
 
 					if (p_attacker->SubState!=SUB_STATE_GRAPPLE_ATTACK)
 					{
-						SLONG escape_count = 23;
+						std::int32_t escape_count = 23;
 
 						if(p_person->Genus.Person->PlayerID)
 						{
@@ -19386,7 +19386,7 @@ skip_animate:
 				p_person->Velocity= 30; //15:30
 				if(p_person->Draw.Tweened->FrameIndex<2)
 				{
-					SLONG	old_angle;
+					std::int32_t	old_angle;
 					old_angle=p_person->Draw.Tweened->Angle;
 					switch(p_person->Draw.Tweened->CurrentAnim)
 					{
@@ -19445,7 +19445,7 @@ void fn_person_wait(Thing *p_person)
 	/*
 
 	struct	Command	*com;
-	SLONG	end;
+	std::int32_t	end;
 	end=person_normal_animate(p_person);
 	if(end==1)
 	{
@@ -19483,13 +19483,13 @@ void fn_person_wait(Thing *p_person)
 }
 
 
-SLONG turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow)
+std::int32_t turn_to_face_thing(Thing *p_person,Thing *p_target,std::int32_t slow)
 {
-	SLONG	dx,dz;
-	SLONG	angle,pangle;
-	SLONG	angle_diff;
-	SLONG	dist;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	dx,dz;
+	std::int32_t	angle,pangle;
+	std::int32_t	angle_diff;
+	std::int32_t	dist;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
 	ASSERT(p_person->Genus.Person->Target);
 	if(p_target->Class!=CLASS_PERSON)
@@ -19539,11 +19539,11 @@ SLONG turn_to_face_thing(Thing *p_person,Thing *p_target,SLONG slow)
 
 void turn_to_face_thing_quick(Thing *p_person,Thing *p_target)
 {
-	SLONG	dx,dz;
-	SLONG	angle,pangle;
-	SLONG	angle_diff;
-	SLONG	dist;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	dx,dz;
+	std::int32_t	angle,pangle;
+	std::int32_t	angle_diff;
+	std::int32_t	dist;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
 //	ASSERT(p_person->Genus.Person->Target);
 	ASSERT(p_target->Class==CLASS_PERSON);
@@ -19570,13 +19570,13 @@ void turn_to_face_thing_quick(Thing *p_person,Thing *p_target)
 
 }
 
-SLONG get_pitch_to_thing_quick(Thing *p_person,Thing *p_target)
+std::int32_t get_pitch_to_thing_quick(Thing *p_person,Thing *p_target)
 {
-	SLONG	dx,dy,dz,dxz;
-	SLONG	angle,pangle;
-	SLONG	angle_diff;
-	SLONG	dist;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	dx,dy,dz,dxz;
+	std::int32_t	angle,pangle;
+	std::int32_t	angle_diff;
+	std::int32_t	dist;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
 //	ASSERT(p_person->Genus.Person->Target);
 	ASSERT(p_target->Class==CLASS_PERSON);
@@ -19600,9 +19600,9 @@ SLONG get_pitch_to_thing_quick(Thing *p_person,Thing *p_target)
 	return(angle&2047);
 }
 
-void set_person_draw_item(Thing *p_person, SLONG special_type)
+void set_person_draw_item(Thing *p_person, std::int32_t special_type)
 {
-	SLONG  anim;
+	std::int32_t  anim;
 	Thing *p_special;
 
 	if(p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING)
@@ -19703,13 +19703,13 @@ void set_person_item_away(Thing *p_person)
 
 void set_face_pos(
 		Thing *p_person,
-		SLONG  world_x,
-		SLONG  world_z)
+		std::int32_t  world_x,
+		std::int32_t  world_z)
 {
-	SLONG dx = world_x - (p_person->WorldPos.X >> 8);
-	SLONG dz = world_z - (p_person->WorldPos.Z >> 8);
+	std::int32_t dx = world_x - (p_person->WorldPos.X >> 8);
+	std::int32_t dz = world_z - (p_person->WorldPos.Z >> 8);
 
-	SLONG angle;
+	std::int32_t angle;
 	
 	angle  = calc_angle(dx,dz);
 	angle += 1024;				// People walk and face backwards!
@@ -19721,12 +19721,12 @@ void set_face_pos(
 }
 
 
-SLONG set_face_thing(Thing *p_person,Thing *p_target)
+std::int32_t set_face_thing(Thing *p_person,Thing *p_target)
 {
-	SLONG	dx,dz;
-	SLONG	angle,pangle;
-	SLONG	angle_diff;
-	SLONG	dist;
+	std::int32_t	dx,dz;
+	std::int32_t	angle,pangle;
+	std::int32_t	angle_diff;
+	std::int32_t	dist;
 
 	dx=(p_target->WorldPos.X-p_person->WorldPos.X)>>8;
 	dz=(p_target->WorldPos.Z-p_person->WorldPos.Z)>>8;
@@ -19741,10 +19741,10 @@ SLONG set_face_thing(Thing *p_person,Thing *p_target)
 
 void turn_towards_thing(Thing *p_person,Thing *p_target)
 {
-	SLONG	dx,dz;
-	SLONG	angle,dangle;
-	SLONG	angle_diff;
-	SLONG	dist;
+	std::int32_t	dx,dz;
+	std::int32_t	angle,dangle;
+	std::int32_t	angle_diff;
+	std::int32_t	dist;
 
 	dx=(p_target->WorldPos.X-p_person->WorldPos.X)>>8;
 	dz=(p_target->WorldPos.Z-p_person->WorldPos.Z)>>8;
@@ -19767,7 +19767,7 @@ void fn_person_stand_up(Thing *p_person)
 {
 	/*
 
-	SLONG	end;
+	std::int32_t	end;
 	end=person_normal_animate(p_person);
 	if(end==1)
 	{
@@ -19785,8 +19785,8 @@ void fn_person_stand_up(Thing *p_person)
 void fn_person_fight(Thing *p_person)
 {
 	Thing	*p_target;
-	SLONG	dist;
-	SLONG	end;
+	std::int32_t	dist;
+	std::int32_t	end;
 
 	p_target=TO_THING(p_person->Genus.Person->Target);
 	ASSERT(0);
@@ -19870,9 +19870,9 @@ void fn_person_fight(Thing *p_person)
 }
 
 
-void set_person_goto_xz(Thing *p_person, SLONG x, SLONG z, SLONG speed)
+void set_person_goto_xz(Thing *p_person, std::int32_t x, std::int32_t z, std::int32_t speed)
 {
-	SLONG velocity;
+	std::int32_t velocity;
 
 	if (p_person->SubState == SUB_STATE_SLIPPING)
 	{
@@ -19900,8 +19900,8 @@ void set_person_goto_xz(Thing *p_person, SLONG x, SLONG z, SLONG speed)
 	p_person->Genus.Person->GotoX     = x;
 	p_person->Genus.Person->GotoZ     = z;
 
-	SLONG dx = abs(x - (p_person->WorldPos.X >> 8));
-	SLONG dz = abs(z - (p_person->WorldPos.Z >> 8));
+	std::int32_t dx = abs(x - (p_person->WorldPos.X >> 8));
+	std::int32_t dz = abs(z - (p_person->WorldPos.Z >> 8));
 
 	if (QDIST2(dx,dz) < 0x40)
 	{
@@ -20104,15 +20104,15 @@ void set_person_goto_xz(Thing *p_person, SLONG x, SLONG z, SLONG speed)
 
 void fn_person_goto(Thing *p_person)
 {
-	SLONG end;
+	std::int32_t end;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG cangle;
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t cangle;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
 	if (p_person->SubState == SUB_STATE_RUNNING_VAULT)
 	{
@@ -20138,7 +20138,7 @@ void fn_person_goto(Thing *p_person)
 			case	ANIM_YOMP_START_BAT:
 				
 				{
-					UWORD anim;
+					std::uint16_t anim;
 
 					anim=get_yomp_anim(p_person);
 					if(anim==COP_ROPER_ANIM_RUN)
@@ -20255,10 +20255,10 @@ void fn_person_goto(Thing *p_person)
 }
 
 #ifdef	UNUSED
-SLONG hit_enemy(Thing *p_person,SLONG dx,SLONG dz)
+std::int32_t hit_enemy(Thing *p_person,std::int32_t dx,std::int32_t dz)
 {
 
-	SLONG	strike;
+	std::int32_t	strike;
 //	return(0);
 //	if(GAME_TURN&1)
 	strike=set_person_punch_if_can(p_person);
@@ -20275,7 +20275,7 @@ SLONG hit_enemy(Thing *p_person,SLONG dx,SLONG dz)
 // Returns true if you've reached your destination.
 //
 
-SLONG process_person_goto_xz(Thing *p_person,SLONG x,SLONG z,SLONG dist)
+std::int32_t process_person_goto_xz(Thing *p_person,std::int32_t x,std::int32_t z,std::int32_t dist)
 {
 	ASSERT(0);
 
@@ -20292,7 +20292,7 @@ void init_person_command(Thing *p_person)
 	ASSERT(0);
 }
 
-SLONG mav_arrived(Thing *p_person)
+std::int32_t mav_arrived(Thing *p_person)
 {
 	ASSERT(0);
 
@@ -20300,14 +20300,14 @@ SLONG mav_arrived(Thing *p_person)
 }
 
 
-SLONG person_mav_again(Thing *p_person)
+std::int32_t person_mav_again(Thing *p_person)
 {
 	ASSERT(0);
 
 	return 0;
 }
 
-UWORD dir_to_angle[]=
+std::uint16_t dir_to_angle[]=
 {
 	512,
 	512+1024,
@@ -20315,7 +20315,7 @@ UWORD dir_to_angle[]=
 	1024
 };
 
-void get_dx_dz_for_dir(SLONG dir,SLONG *dx,SLONG *dz)
+void get_dx_dz_for_dir(std::int32_t dir,std::int32_t *dx,std::int32_t *dz)
 {
 	ASSERT(0);
 }
@@ -20356,7 +20356,7 @@ void set_person_grappling_hook_pickup(Thing *p_person)
 
 void fn_person_grapple(Thing *p_person)
 {
-	SLONG end;
+	std::int32_t end;
 #ifndef PSX
 	switch(p_person->SubState)
 	{
@@ -20364,9 +20364,9 @@ void fn_person_grapple(Thing *p_person)
 			
 			if (p_person->Draw.Tweened->FrameIndex == 2) // i.e. if you have reached the bottom of the pickup animation
 			{
-				SLONG px;
-				SLONG py;
-				SLONG pz;
+				std::int32_t px;
+				std::int32_t py;
+				std::int32_t pz;
 
 				//
 				// Pickup the grappling hook.
@@ -20461,7 +20461,7 @@ void fn_person_grapple(Thing *p_person)
 
 
 
-void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z)
+void set_person_mav_to_xz(Thing *p_person,std::int32_t x,std::int32_t z)
 {
 	ASSERT(0);
 }
@@ -20472,7 +20472,7 @@ void set_person_mav_to_thing(Thing *p_person,Thing *p_target)
 }
 
 #if !defined(TARGET_DC) && !defined(PSX)
-SLONG person_is_on_sewer(Thing *p_person) {
+std::int32_t person_is_on_sewer(Thing *p_person) {
 	NS_Hi *ns;
 	ns=&NS_hi[p_person->WorldPos.X>>(8+PAP_SHIFT_HI)][p_person->WorldPos.Z>>(8+PAP_SHIFT_HI)];
 	if (ns->packed&NS_HI_FLAG_GRATE) return PERSON_ON_METAL;
@@ -20481,7 +20481,7 @@ SLONG person_is_on_sewer(Thing *p_person) {
 }
 #endif
 
-SLONG person_is_on(Thing *p_person)
+std::int32_t person_is_on(Thing *p_person)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
 	if (GAME_FLAGS & GF_SEWERS)
@@ -20528,8 +20528,8 @@ SLONG person_is_on(Thing *p_person)
 		// Check for special floor textures...
 		//
 
-		SLONG mx = p_person->WorldPos.X >> 16;
-		SLONG mz = p_person->WorldPos.Z >> 16;
+		std::int32_t mx = p_person->WorldPos.X >> 16;
+		std::int32_t mz = p_person->WorldPos.Z >> 16;
 
 		if (WITHIN(mx, 0, MAP_WIDTH  - 1) &&
 			WITHIN(mz, 0, MAP_HEIGHT - 1))
@@ -20539,7 +20539,7 @@ SLONG person_is_on(Thing *p_person)
 			return(-255);
 #else
 
-			SLONG page = PAP_2HI(mx,mz).Texture & 0x3ff;
+			std::int32_t page = PAP_2HI(mx,mz).Texture & 0x3ff;
 
 			page=SOUND_FXMapping[page];
 
@@ -20592,7 +20592,7 @@ void set_person_can_pickup(Thing *p_person)
 	p_person->SubState = SUB_STATE_CANNING_PICKUP;
 }
 
-void set_person_can_release(Thing *p_person, SLONG power)
+void set_person_can_release(Thing *p_person, std::int32_t power)
 {
 	Thing *p_special;
 
@@ -20683,7 +20683,7 @@ void set_person_special_pickup(Thing *p_person)
 
 void fn_person_can(Thing *p_person)
 {
-	SLONG end;
+	std::int32_t end;
 
 	switch(p_person->SubState)
 	{
@@ -20708,9 +20708,9 @@ void fn_person_can(Thing *p_person)
 
 					MFX_play_thing(THING_NUMBER(p_person),S_PICKUP_SWISH,0,p_person);
 
-					SLONG px;
-					SLONG py;
-					SLONG pz;
+					std::int32_t px;
+					std::int32_t py;
+					std::int32_t pz;
 
 					calc_sub_objects_position(
 						p_person,
@@ -20748,7 +20748,7 @@ void fn_person_can(Thing *p_person)
 		case SUB_STATE_CANNING_RELEASE:
 
 			{
-				// SLONG when = (p_person->Genus.Person->AnimType==ANIM_TYPE_ROPER) ? 7 : 3;
+				// std::int32_t when = (p_person->Genus.Person->AnimType==ANIM_TYPE_ROPER) ? 7 : 3;
 
 				if (p_person->Draw.Tweened->FrameIndex == 3) // i.e. reached the release part of the anim.
 				{
@@ -20896,7 +20896,7 @@ void fn_person_can(Thing *p_person)
 
 			if (p_person->Draw.Tweened->FrameIndex == (3+p_person->Genus.Person->AnimType))
 			{
-				UWORD  s_index;
+				std::uint16_t  s_index;
 				Thing *s_thing;
 
 				MFX_play_thing(THING_NUMBER(p_person),S_PICKUP_SWISH,0,p_person);
@@ -20951,7 +20951,7 @@ void fn_person_can(Thing *p_person)
 }
 
 
-void set_person_do_a_simple_anim(Thing *p_person, SLONG anim)
+void set_person_do_a_simple_anim(Thing *p_person, std::int32_t anim)
 {
 	set_anim(p_person, anim);
 	set_generic_person_state_function(p_person, STATE_MOVEING);
@@ -20963,7 +20963,7 @@ void set_person_do_a_simple_anim(Thing *p_person, SLONG anim)
 
 void set_person_recircle(Thing *p_person)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	ASSERT(p_person->Genus.Person->PlayerID==0);
 
 	if (p_person->Genus.Person->Target == NULL)
@@ -21003,8 +21003,8 @@ void set_person_recircle(Thing *p_person)
 
 void set_person_circle(Thing *p_person, Thing *p_target)
 {
-	SLONG	dx,dy,dz;
-	SLONG	anim;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	anim;
 	//
 	// Remember who we are circling.
 	//
@@ -21041,9 +21041,9 @@ void set_person_circle(Thing *p_person, Thing *p_target)
 
 }
 
-void set_person_hug_wall_leap_out(Thing *p_person,SLONG dir)
+void set_person_hug_wall_leap_out(Thing *p_person,std::int32_t dir)
 {
-	SLONG	anim;
+	std::int32_t	anim;
 	p_person->SubState=SUB_STATE_HUG_WALL_LEAP_OUT;
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
 	{
@@ -21065,10 +21065,10 @@ void set_person_hug_wall_leap_out(Thing *p_person,SLONG dir)
 	p_person->Genus.Person->Action=ACTION_NONE;
 
 }
-void set_person_hug_wall_stand(Thing *p_person,SLONG dangle=0,SLONG locked=1)
+void set_person_hug_wall_stand(Thing *p_person,std::int32_t dangle=0,std::int32_t locked=1)
 {
-	SLONG	anim;
-	SLONG	dist,dx,dz;
+	std::int32_t	anim;
+	std::int32_t	dist,dx,dz;
 	p_person->SubState=SUB_STATE_HUG_WALL_STAND;
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
 	{
@@ -21099,7 +21099,7 @@ void set_person_hug_wall_stand(Thing *p_person,SLONG dangle=0,SLONG locked=1)
 	else
 	if(abs(32-dist)<32)
 	{
-		SLONG	angle;
+		std::int32_t	angle;
 		angle=(p_person->Draw.Tweened->Angle)&2047;
 
 		dx = -(SIN(angle) * (32-dist)) >> 8;
@@ -21117,17 +21117,17 @@ void set_person_hug_wall_stand(Thing *p_person,SLONG dangle=0,SLONG locked=1)
 //
 // returns true if person is within max_dist of a facet
 //
-extern SLONG	global_on;
-UWORD near_facet=0;
-SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG px,SLONG pz)
+extern std::int32_t	global_on;
+std::uint16_t near_facet=0;
+std::int32_t check_near_facet(Thing *p_person,std::int32_t max_dist,std::int32_t max_end_dist,std::int32_t px,std::int32_t pz)
 {
-	SLONG	loop=4;
-	SLONG	mx,mz;
-	SLONG	c0,exit,f_list,i_facet;
+	std::int32_t	loop=4;
+	std::int32_t	mx,mz;
+	std::int32_t	c0,exit,f_list,i_facet;
 	struct	DFacet	*df;
-	SLONG	y_top,y_bot,pers_y;
-	SLONG	best_dist=99999;
-	SLONG	person_north_south=0;
+	std::int32_t	y_top,y_bot,pers_y;
+	std::int32_t	best_dist=99999;
+	std::int32_t	person_north_south=0;
 
 	SUPERMAP_counter_increase(0);
 	near_facet=0;
@@ -21147,7 +21147,7 @@ SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 	  */
 
 	{
-		SLONG a;
+		std::int32_t a;
 		a=p_person->Draw.Tweened->Angle&2047;
 		if(a<200 || a>2048-200 || (a>1024-200 && a<1024+200))
 		{
@@ -21287,7 +21287,7 @@ SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 				}
 				if (WITHIN(pers_y, y_bot, y_top))
 				{
-					SLONG	dist;
+					std::int32_t	dist;
 
 					dist=distance_to_line(df->x[0]<<8,df->z[0]<<8,df->x[1]<<8,df->z[1]<<8,px,pz);
 	//				df->FacetFlags|=FACET_FLAG_IN_SEWERS;
@@ -21310,8 +21310,8 @@ SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 		}
 /*
 		{
-			SLONG	angle;
-			SLONG	dx,dz,nx,nz;
+			std::int32_t	angle;
+			std::int32_t	dx,dz,nx,nz;
 			angle=(p_person->Draw.Tweened->Angle+1024)&2047;
 			dx = -(SIN(angle) * 128) >> 16;
 			dz = -(COS(angle) * 128) >> 16;
@@ -21356,7 +21356,7 @@ SLONG check_near_facet(Thing *p_person,SLONG max_dist,SLONG max_end_dist,SLONG p
 
 }
 // return angle+1
-SLONG can_i_hug_wall(Thing *p_person)
+std::int32_t can_i_hug_wall(Thing *p_person)
 {
 	if (p_person->OnFace>0)
 	{
@@ -21374,14 +21374,14 @@ SLONG can_i_hug_wall(Thing *p_person)
 	if(p_person->Genus.Person->Ware==0)
 	if(check_near_facet(p_person,64,64,p_person->WorldPos.X>>8,p_person->WorldPos.Z>>8))
 	{
-		SLONG	wall_angle,ft;
+		std::int32_t	wall_angle,ft;
 		ft=dfacets[near_facet].FacetType;
 		if(ft==STOREY_TYPE_NORMAL)
 		if(am_i_facing_wall(p_person,near_facet,&wall_angle,200))
 		{
-			SLONG	wx,wy,wz;
-			SLONG	mx,my,mz;
-			SLONG	dx,dz;
+			std::int32_t	wx,wy,wz;
+			std::int32_t	mx,my,mz;
+			std::int32_t	dx,dz;
 
 			wx=p_person->WorldPos.X>>8;
 			wy=p_person->WorldPos.Y>>8;
@@ -21408,10 +21408,10 @@ SLONG can_i_hug_wall(Thing *p_person)
 
 }
 
-SLONG move_ok(Thing *p_person,SLONG dx,SLONG dz)
+std::int32_t move_ok(Thing *p_person,std::int32_t dx,std::int32_t dz)
 {
-	SLONG	y,dy;
-	SLONG	nx,nz;
+	std::int32_t	y,dy;
+	std::int32_t	nx,nz;
 
 	nx=p_person->WorldPos.X;
 	nz=p_person->WorldPos.Z;
@@ -21440,11 +21440,11 @@ SLONG move_ok(Thing *p_person,SLONG dx,SLONG dz)
 
 void fn_person_hug_wall(Thing *p_person)
 {
-	SLONG	end;
-	SLONG dx;
-	SLONG dz;
-	SLONG	angle;
-	SLONG	dist;
+	std::int32_t	end;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t	angle;
+	std::int32_t	dist;
 
 
 	switch(p_person->SubState)
@@ -21603,7 +21603,7 @@ void fn_person_hug_wall(Thing *p_person)
 }
 
 
-SLONG kick_or_punch = 0;
+std::int32_t kick_or_punch = 0;
 
 void fn_person_circle(Thing *p_person)
 {
@@ -21611,28 +21611,28 @@ void fn_person_circle(Thing *p_person)
 	// start simple orbit the enemy
 	//
 
-	SLONG dx=0;
-	SLONG	dy;
-	SLONG dz=0;
-	SLONG end;
-	SLONG dist;
-	SLONG angle;
-	SLONG shove;
-	SLONG dangle;
-	SLONG random;
-	SLONG ddist;
+	std::int32_t dx=0;
+	std::int32_t	dy;
+	std::int32_t dz=0;
+	std::int32_t end;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t shove;
+	std::int32_t dangle;
+	std::int32_t random;
+	std::int32_t ddist;
 
-	SLONG vx = 0;
-	SLONG vz = 0;
-	UBYTE	renav=0;
-	UWORD	reqd_anim=0;
+	std::int32_t vx = 0;
+	std::int32_t vz = 0;
+	std::uint8_t	renav=0;
+	std::uint16_t	reqd_anim=0;
 
 	bool poo;
 	
 	Thing *p_target = TO_THING(p_person->Genus.Person->Target);
-	SLONG	hit_distance=140;
-	SLONG	bat=0;
-	SLONG	stamp=0;
+	std::int32_t	hit_distance=140;
+	std::int32_t	bat=0;
+	std::int32_t	stamp=0;
 	if(person_holding_bat(p_person))
 		bat=1;
 
@@ -21697,7 +21697,7 @@ void fn_person_circle(Thing *p_person)
 	if (end == 1)
 	{
 
-		SLONG	anim;
+		std::int32_t	anim;
 		//
 		// Carry on with your fighting stance.
 		//
@@ -21766,7 +21766,7 @@ void fn_person_circle(Thing *p_person)
 
 //				if(p_person->Genus.Person->Agression>=0)
 				{
-					SLONG	renav_how_often;
+					std::int32_t	renav_how_often;
 					renav_how_often=(40-(GET_SKILL(p_person)<<1));
 					if(!p_target->Genus.Person->PlayerID)
 					{
@@ -21816,7 +21816,7 @@ void fn_person_circle(Thing *p_person)
 					dist   = QDIST2(abs(dx),abs(dz)) + 1;
 /*
 				{
-					CBYTE	str[100];
+					char	str[100];
 					sprintf(str," combat dist %d hit_dist %d \n",dist,hit_distance);
 					CONSOLE_text(str);
 				}
@@ -21862,8 +21862,8 @@ void fn_person_circle(Thing *p_person)
 				{
 					if(p_person->Genus.Person->Timer1++>10)
 					{
-						SLONG	gang;
-				void	push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle);
+						std::int32_t	gang;
+				void	push_into_attack_group_at_angle(Thing *p_person,std::int32_t gang,std::int32_t reqd_angle);
 						gang=p_target->Genus.Person->GangAttack;
 						if(gang==0)
 						{
@@ -21906,7 +21906,7 @@ void fn_person_circle(Thing *p_person)
 
 				if(abs(dangle)>30)
 				{
-					SLONG	shift=4;
+					std::int32_t	shift=4;
 					if (dangle >  1024) {dangle -= 2048;}
 					if (dangle < -1024) {dangle += 2048;}
 
@@ -21963,7 +21963,7 @@ void fn_person_circle(Thing *p_person)
 					//if(p_person->Draw.Tweened->CurrentAnim!=ANIM_FIGHT || )
 					if(p_person->Draw.Tweened->CurrentAnim!=ANIM_FIGHT && p_person->Draw.Tweened->CurrentAnim!=ANIM_BAT_IDLE && p_person->Draw.Tweened->CurrentAnim!=ANIM_KNIFE_FIGHT_READY)
 					{
-						SLONG	anim;
+						std::int32_t	anim;
 						anim=find_idle_fight_stance(p_person);
 						set_anim(p_person,anim);
 					}
@@ -22063,18 +22063,18 @@ void fn_person_circle(Thing *p_person)
 #ifndef PSX
 void fn_person_circle_old(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG end;
-	SLONG dist;
-	SLONG angle;
-	SLONG shove;
-	SLONG dangle;
-	SLONG random;
-	SLONG ddist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t end;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t shove;
+	std::int32_t dangle;
+	std::int32_t random;
+	std::int32_t ddist;
 
-	SLONG vx = 0;
-	SLONG vz = 0;
+	std::int32_t vx = 0;
+	std::int32_t vz = 0;
 	
 	Thing *p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -22206,7 +22206,7 @@ void fn_person_circle_old(Thing *p_person)
 //*************************************************************************************************************
 //** (JCL)  - get person scale
 
-SLONG person_get_scale(Thing *t)
+std::int32_t person_get_scale(Thing *t)
 {
 	// ASSERT( t is actually a person.  probably is, cause this gets called from FIGURE_draw_blah() );
 
@@ -22230,7 +22230,7 @@ SLONG person_get_scale(Thing *t)
 	}
   
 	// this essentially generates random heights per person
-	//return ((SLONG(t) >> 3) & 7) * (384 / 7) + 128;
+	//return ((std::int32_t(t) >> 3) & 7) * (384 / 7) + 128;
 
 	// PS - this function should be reasonably quick.  it's called 15 times per character per frame.
 }
@@ -22240,17 +22240,17 @@ SLONG person_get_scale(Thing *t)
 // returns how many game_turns an anim takes, a game_turn is assumed to be 1/20th of a second
 //
 #ifndef	PSX
-SLONG how_long_is_anim(SLONG anim)
+std::int32_t how_long_is_anim(std::int32_t anim)
 {
 	GameKeyFrame	*frame;
-	SLONG	total=0;
+	std::int32_t	total=0;
 
 	frame=global_anim_array[0][anim];
 
 
 	while(frame)
 	{
-		SLONG	step;
+		std::int32_t	step;
 
 		step=frame->TweenStep;
 		if(!step)
@@ -22268,7 +22268,7 @@ SLONG how_long_is_anim(SLONG anim)
 }
 #endif
 
-SLONG person_ok_for_conversation(Thing *p_person)
+std::int32_t person_ok_for_conversation(Thing *p_person)
 {
 	if (p_person->Class != CLASS_PERSON)
 	{
@@ -22320,7 +22320,7 @@ void set_person_float_down(Thing *p_person)
 
 void fn_person_float(Thing *p_person)
 {
-	SLONG ground;
+	std::int32_t ground;
 
 	ground = PAP_calc_map_height_at(
 				p_person->WorldPos.X >> 8,
@@ -22381,9 +22381,9 @@ void set_person_injured(Thing *p_person)
 
 void push_people_apart(Thing *p_person, Thing *p_avoid)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	if (p_person->Genus.Person->Ware ||
 		p_avoid ->Genus.Person->Ware)
@@ -22409,11 +22409,11 @@ void push_people_apart(Thing *p_person, Thing *p_avoid)
 		return;
 	}
 
-	SLONG new_x = (p_person->WorldPos.X >> 8) + dx * (0x80 - dist) / dist;
-	SLONG new_z = (p_person->WorldPos.Z >> 8) + dz * (0x80 - dist) / dist;
+	std::int32_t new_x = (p_person->WorldPos.X >> 8) + dx * (0x80 - dist) / dist;
+	std::int32_t new_z = (p_person->WorldPos.Z >> 8) + dz * (0x80 - dist) / dist;
 
-	SLONG old_y = PAP_calc_map_height_at(p_person->WorldPos.X >> 8, p_person->WorldPos.Z >> 8);
-	SLONG new_y = PAP_calc_map_height_at(new_x, new_z);
+	std::int32_t old_y = PAP_calc_map_height_at(p_person->WorldPos.X >> 8, p_person->WorldPos.Z >> 8);
+	std::int32_t new_y = PAP_calc_map_height_at(new_x, new_z);
 
 	if (abs(old_y - new_y) < 0x50)
 	{

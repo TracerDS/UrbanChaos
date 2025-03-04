@@ -8,19 +8,19 @@
 #if !defined(PSX) && !defined(TARGET_DC)
 void init_map()
 {
-	memset((UBYTE*)MAP,0,sizeof(MAP));
+	memset((std::uint8_t*)MAP,0,sizeof(MAP));
 }
 #endif
 //---------------------------------------------------------------
 
 
 
-SLONG MAP_light_get_height(SLONG x, SLONG z)
+std::int32_t MAP_light_get_height(std::int32_t x, std::int32_t z)
 {
 	return 0;
 }
 
-LIGHT_Colour MAP_light_get_light(SLONG x, SLONG z)
+LIGHT_Colour MAP_light_get_light(std::int32_t x, std::int32_t z)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
@@ -31,10 +31,10 @@ LIGHT_Colour MAP_light_get_light(SLONG x, SLONG z)
 
 	me = &MAP[MAP_INDEX(x,z)];
 
-	return me->Colour;
+	return me->Color;
 }
 
-void MAP_light_set_light(SLONG x, SLONG z, LIGHT_Colour colour)
+void MAP_light_set_light(std::int32_t x, std::int32_t z, LIGHT_Colour colour)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
@@ -45,7 +45,7 @@ void MAP_light_set_light(SLONG x, SLONG z, LIGHT_Colour colour)
 
 	me = &MAP[MAP_INDEX(x,z)];
 
-	me->Colour = colour;
+	me->Color = colour;
 }
 
 

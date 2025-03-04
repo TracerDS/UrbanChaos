@@ -3,23 +3,23 @@
 // convert sounds using Miles
 
 #include "windows.h"
-#include <stdio.h>
+#include <cstdio>
 
-#include "c:\fallen\miles\mss.h"
-#pragma comment(lib, "c:\\fallen\\miles\\mss32.lib")
+#include "miles\mss.h"
+#pragma comment(lib, "miles\\mss32.lib")
 
-static void ConvertDir(char* src, char* dst);
-static void ConvertFile(char* src, char* dst);
-static void WriteFile(char* filename, void* data, size_t datalen);
+static void ConvertDir(const char* src, const char* dst);
+static void ConvertFile(const char* src, const char* dst);
+static void WriteFile(const char* filename, void* data, size_t datalen);
 
 // main
 //
 // does the stuff
 
-int main(int argc, char** argv)
+int main(int argc, const char* argv[])
 {
-	char*	src = "TALK2";
-	char*	dst = "TALK2_ADPCM";
+	const char* src = "TALK2";
+	const char* dst = "TALK2_ADPCM";
 
 	if (argc == 3)
 	{
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 		dst = argv[2];
 	}
 
-	char	cmd[256];
+	char cmd[256];
 	sprintf(cmd, "DELTREE /Y %s", dst);
 	system(cmd);
 

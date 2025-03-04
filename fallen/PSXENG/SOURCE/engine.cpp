@@ -37,23 +37,23 @@
 
 #include "panel.h"
 
-extern SLONG		EWAY_cam_jumped;
+extern std::int32_t		EWAY_cam_jumped;
 
-extern UBYTE	roper_pickup;
-UBYTE remove_dead_people;
-UBYTE in_ware=0;
+extern std::uint8_t	roper_pickup;
+std::uint8_t remove_dead_people;
+std::uint8_t in_ware=0;
 
 void SHAPE_droplet(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
-		ULONG colour,
-		SLONG page);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
+		std::uint32_t colour,
+		std::int32_t page);
 
-SLONG sea_offset=0;
+std::int32_t sea_offset=0;
 
 // For Filtering we need the pad input crap here.
 
@@ -66,32 +66,32 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 
 #define AENG_DRAW_DIST	psx_draw_dist
 
-#define	PI16	(SLONG)(3.14159265*65536.0)
+#define	PI16	(std::int32_t)(3.14159265*65536.0)
 
-void AENG_calc_gamut(SLONG dist);
+void AENG_calc_gamut(std::int32_t dist);
 void PANEL_draw_beacons();
 
 extern void NIGHT_lum_init();
-extern void FIGURE_draw_queued(Thing *p_thing,SLONG dist);
+extern void FIGURE_draw_queued(Thing *p_thing,std::int32_t dist);
 extern void	DoFigureDraw();
 
-SLONG my_draw_dist=20<<8;
+std::int32_t my_draw_dist=20<<8;
 
-SLONG AENG_cam_x;
-SLONG AENG_cam_y;
-SLONG AENG_cam_z;
+std::int32_t AENG_cam_x;
+std::int32_t AENG_cam_y;
+std::int32_t AENG_cam_z;
 
-SLONG AENG_cam_vec[3];
+std::int32_t AENG_cam_vec[3];
 
-SLONG AENG_cam_yaw;
-SLONG AENG_cam_pitch;
-SLONG AENG_cam_roll;
-SLONG AENG_lens = (SLONG)(3.3F*65536);
-SLONG TEXTURE_set;
-UBYTE double_ot=0;
+std::int32_t AENG_cam_yaw;
+std::int32_t AENG_cam_pitch;
+std::int32_t AENG_cam_roll;
+std::int32_t AENG_lens = (std::int32_t)(3.3F*65536);
+std::int32_t TEXTURE_set;
+std::uint8_t double_ot=0;
 
-SLONG psx_draw_dist=13;
-UWORD debug_count[10];
+std::int32_t psx_draw_dist=13;
+std::uint16_t debug_count[10];
 PSX_POLY_Point *perm_pp_array;
 
 #define MAX_PP_ARRAY 4
@@ -105,17 +105,17 @@ PSX_POLY_Point *perm_pp_array;
 #define AMBIENT_MODE_GREEN 2
 #define AMBIENT_MODE_BLUE  3
 
-SLONG AENG_ambient_mode=AMBIENT_MODE_OFF;
-SLONG AENG_ambient_last=AMBIENT_MODE_OFF;
+std::int32_t AENG_ambient_mode=AMBIENT_MODE_OFF;
+std::int32_t AENG_ambient_last=AMBIENT_MODE_OFF;
 
 #define AMB_TEXT_HIGH	0x007f7f00
 #define AMB_TEXT_LOW	0x003f3f00
 
-SLONG store_amb_red,store_amb_green,store_amb_blue;
+std::int32_t store_amb_red,store_amb_green,store_amb_blue;
 
 #define AENG_AMBIENT_MOVELIGHT	-1
 
-SLONG AENG_amb_focus;
+std::int32_t AENG_amb_focus;
 extern void NIGHT_light_the_map();
 
 #endif
@@ -125,36 +125,36 @@ extern void NIGHT_light_the_map();
 
 typedef struct
 {
-	UBYTE range;
-	SBYTE red;
-	SBYTE green;
-	SBYTE blue;
-	UBYTE next;
-	UBYTE used;
-	UBYTE flags;
-	UBYTE padding;
-//	UWORD padding;
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::uint8_t range;
+	std::int8_t red;
+	std::int8_t green;
+	std::int8_t blue;
+	std::uint8_t next;
+	std::uint8_t used;
+	std::uint8_t flags;
+	std::uint8_t padding;
+//	std::uint16_t padding;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 	
 } ED_Light;
 
 typedef struct
 {
 	ED_Light     ed_light[ED_MAX_LIGHTS];
-	SLONG        ed_light_free;
-	ULONG        night_flag;
-	ULONG        night_amb_d3d_colour;
-	ULONG        night_amb_d3d_specular;
-	SLONG        night_amb_red;
-	SLONG        night_amb_green;
-	SLONG        night_amb_blue;
-	SBYTE        night_lampost_red;
-	SBYTE        night_lampost_green;
-	SBYTE        night_lampost_blue;
-	UBYTE        padding;
-	SLONG        night_lampost_radius;
+	std::int32_t        ed_light_free;
+	std::uint32_t        night_flag;
+	std::uint32_t        night_amb_d3d_colour;
+	std::uint32_t        night_amb_d3d_specular;
+	std::int32_t        night_amb_red;
+	std::int32_t        night_amb_green;
+	std::int32_t        night_amb_blue;
+	std::int8_t        night_lampost_red;
+	std::int8_t        night_lampost_green;
+	std::int8_t        night_lampost_blue;
+	std::uint8_t        padding;
+	std::int32_t        night_lampost_radius;
 	NIGHT_Colour night_sky_colour;
 
 } ED_Undo;
@@ -178,14 +178,14 @@ void check_prim_ptr_ni(void* *x)
 }
 */
 
-SLONG AENG_ambient_movelight()
+std::int32_t AENG_ambient_movelight()
 {
-	SLONG moved=0;
+	std::int32_t moved=0;
 	NIGHT_Slight *nsl;
 	NIGHT_Smap *ns;
-	SLONG x,z,vx,vz;
+	std::int32_t x,z,vx,vz;
 
-	SBYTE str[48];
+	std::int8_t str[48];
 
 	nsl=&NIGHT_slight[AENG_amb_focus];
 	for(x=0;x<PAP_SIZE_LO;x++)
@@ -260,7 +260,7 @@ SLONG AENG_ambient_movelight()
 	{
 		draw_text_at(DISPLAYWIDTH-32,32,"R2",0xffff00);
 
-		SLONG edit_colour=-1;
+		std::int32_t edit_colour=-1;
 		if (PadKeyIsPressed(&PAD_Input2,PAD_RR))
 			edit_colour=0;
 		if (PadKeyIsPressed(&PAD_Input2,PAD_RU))
@@ -331,7 +331,7 @@ void AENG_ambient_editor(int store)
 #if 0
 	if (PadKeyIsPressed(&PAD_Input2,PAD_FLB))
 	{
-		SLONG vx,vz;
+		std::int32_t vx,vz;
 		vx=NET_PERSON(0)->WorldPos.X>>(PAP_SHIFT_LO+8);
 		vz=NET_PERSON(0)->WorldPos.Z>>(PAP_SHIFT_LO+8);
 		AENG_amb_focus=NIGHT_smap[vx][vz].index;
@@ -428,17 +428,17 @@ void AENG_ambient_editor(int store)
 }
 
 #endif
-volatile SLONG draw_state __attribute__((section(".rdata")))=0;
-SLONG global_debug=0;
-SLONG global_debug2=0;
+volatile std::int32_t draw_state __attribute__((section(".rdata")))=0;
+std::int32_t global_debug=0;
+std::int32_t global_debug2=0;
 void* sync_point=0;
 void* danger_point=0;
-UBYTE danger_point_type=0;
+std::uint8_t danger_point_type=0;
 
 
 void do_danger(void* *x)
 {
-	SLONG	count=0;
+	std::int32_t	count=0;
 	switch(danger_point_type)
 	{
 		case	0:
@@ -484,9 +484,9 @@ jesus_that_was_unlikely:;
 //     |                                 (last used)
 //                           |           (current pointer)
                 
-ULONG available_bucket_ram()
+std::uint32_t available_bucket_ram()
 {
-	SLONG	size;
+	std::int32_t	size;
 	size=last_used_bucket_ram-the_display.CurrentPrim; 
 	if(size<0)
 	{
@@ -498,7 +498,7 @@ ULONG available_bucket_ram()
 #ifdef	OLDSHIT
 void check_prim_ptr_ni(void* *x)
 {
-	SLONG	count=0;
+	std::int32_t	count=0;
 #ifdef	OLD_FLIP
 	//
 	// empty, so you better optimise me out
@@ -569,7 +569,7 @@ jesus_that_was_unlikely:;
 }
 void check_prim_ptr_old(void* *x)
 {
-	SLONG	count=0;
+	std::int32_t	count=0;
 #ifdef	OLD_FLIP
 	//
 	// empty, so you better optimise me out
@@ -622,13 +622,13 @@ void check_prim_ptr_old(void* *x)
 }
 #endif
 bool text_fudge	=	false;
-ULONG text_colour;
+std::uint32_t text_colour;
 
-//void AENG_world_line_infinite(SLONG ix1, SLONG iy1, SLONG iz1, SLONG iwidth1, ULONG colour1, 
-//		SLONG ix2, SLONG iy2, SLONG iz2, SLONG iwidth2, ULONG colour2,
-//		SLONG sort_to_front);
+//void AENG_world_line_infinite(std::int32_t ix1, std::int32_t iy1, std::int32_t iz1, std::int32_t iwidth1, std::uint32_t colour1, 
+//		std::int32_t ix2, std::int32_t iy2, std::int32_t iz2, std::int32_t iwidth2, std::uint32_t colour2,
+//		std::int32_t sort_to_front);
 
-void add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour)
+void add_debug_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t colour)
 {
 }
 
@@ -642,9 +642,9 @@ void FONT_buffer_draw()
 }
 
 extern void PANEL_new_widescreen();
-extern void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
+extern void DRAW2D_Box_Page(std::int32_t x,std::int32_t y,std::int32_t ox,std::int32_t oy,std::int32_t rgb);
 
-SLONG PANEL_fadeout_time;
+std::int32_t PANEL_fadeout_time;
 
 #if 0
 
@@ -670,7 +670,7 @@ void PANEL_fadeout_draw()
 	{
 		POLY_F4 *p;
 		DR_TPAGE *p2;
-		SLONG fade;
+		std::int32_t fade;
 		ALLOCPRIM(p,POLY_F4);
 		ALLOCPRIM(p2,DR_TPAGE);
 
@@ -687,7 +687,7 @@ void PANEL_fadeout_draw()
 	}
 }
 
-SLONG PANEL_fadeout_finished()
+std::int32_t PANEL_fadeout_finished()
 {
 	if (PANEL_fadeout_time)
 	{
@@ -700,10 +700,10 @@ SLONG PANEL_fadeout_finished()
 	return false;
 }
 
-void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
+void PANEL_draw_face(std::int32_t x,std::int32_t y,std::int32_t face,std::int32_t size)
 {
 	POLY_FT4 *p;
-	SLONG f=face-1;
+	std::int32_t f=face-1;
 
 	ALLOCPRIM(p,POLY_FT4);
 
@@ -722,15 +722,15 @@ void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
 
 void AENG_draw_pows()
 {
-	SLONG pow;
-	SLONG sprite,psc;
+	std::int32_t pow;
+	std::int32_t sprite,psc;
 
 	POW_Pow    *pp;
 	POW_Sprite *ps;
 
-	SLONG frame;
-	SLONG	count2=0;
-	SLONG	sc=0;
+	std::int32_t frame;
+	std::int32_t	count2=0;
+	std::int32_t	sc=0;
 
 	//
 	// Draw all used pows. Ignore the NGAMUT for now.
@@ -739,7 +739,7 @@ void AENG_draw_pows()
 
 	for (pow = POW_pow_used; pow && count2++<25; pow = pp->next)
 	{
-		SLONG	count=0;
+		std::int32_t	count=0;
 		ASSERT(WITHIN(pow, 1, POW_MAX_POWS - 1));
 			ASSERT(pow);
 
@@ -785,16 +785,16 @@ extern void POW_init();
 
 
 void inner_trip(
-		SLONG x1,
-		SLONG y1,
-		SLONG z1,
-		SLONG x2,
-		SLONG y2,
-		SLONG z2,
-		SLONG width,
-		ULONG colour,
-		UWORD counter,
-		UBYTE along)
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t y2,
+		std::int32_t z2,
+		std::int32_t width,
+		std::uint32_t colour,
+		std::uint16_t counter,
+		std::uint8_t along)
 {
 	PSX_POLY_Point	*pp=perm_pp_array;
 
@@ -848,19 +848,19 @@ void inner_trip(
 }
 
 void SHAPE_tripwire(
-		SLONG x1,
-		SLONG y1,
-		SLONG z1,
-		SLONG x2,
-		SLONG y2,
-		SLONG z2,
-		SLONG width,
-		ULONG colour,
-		UWORD counter,
-		UBYTE along)
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t y2,
+		std::int32_t z2,
+		std::int32_t width,
+		std::uint32_t colour,
+		std::uint16_t counter,
+		std::uint8_t along)
 {
-	SLONG	sx,sy,sz,step;
-	SLONG	c0;
+	std::int32_t	sx,sy,sz,step;
+	std::int32_t	c0;
 
 	sx=x2-x1;
 	sy=y2-y1;
@@ -890,21 +890,21 @@ void SHAPE_tripwire(
 
 
 void SPRITE_draw_rotated(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		SLONG sort,
-		SLONG rotate,
-		SLONG	fade)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t world_size,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::int32_t sort,
+		std::int32_t rotate,
+		std::int32_t	fade)
 {
 	POLY_FT4* p;
 	PSX_POLY_Point *pp=perm_pp_array;
-	SLONG size,sizex,sizey,opp,adj,angle,b0;
-	UBYTE u,v;
+	std::int32_t size,sizex,sizey,opp,adj,angle,b0;
+	std::uint8_t u,v;
 
 //	return; //md
 
@@ -982,19 +982,19 @@ void SPRITE_draw_rotated(
 
 
 
-SLONG SPRITE_draw(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		SLONG sort)
+std::int32_t SPRITE_draw(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t world_size,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::int32_t sort)
 {
 	POLY_FT4* p;
 	PSX_POLY_Point *pp=perm_pp_array;
-	SLONG size,b0,u,v;
+	std::int32_t size,b0,u,v;
 
 //	return; //md
 
@@ -1060,10 +1060,10 @@ SLONG SPRITE_draw(
 	return(1);
 }
 
-void AENG_set_bike_wheel_rotation(UWORD rot,UBYTE prim)
+void AENG_set_bike_wheel_rotation(std::uint16_t rot,std::uint8_t prim)
 {
 
-	SLONG i;
+	std::int32_t i;
 
 	PrimObject *po;
 	PrimFace4  *f4;
@@ -1074,16 +1074,16 @@ void AENG_set_bike_wheel_rotation(UWORD rot,UBYTE prim)
 	// The texture rotation vector.
 	//
 
-	SLONG du1 = SIN(+rot & 2047) * 15 >> 16;
-	SLONG dv1 = COS(+rot & 2047) * 15 >> 16;
+	std::int32_t du1 = SIN(+rot & 2047) * 15 >> 16;
+	std::int32_t dv1 = COS(+rot & 2047) * 15 >> 16;
 
-	SLONG du2 = SIN(-rot & 2047) * 15 >> 16;
-	SLONG dv2 = COS(-rot & 2047) * 15 >> 16;
+	std::int32_t du2 = SIN(-rot & 2047) * 15 >> 16;
+	std::int32_t dv2 = COS(-rot & 2047) * 15 >> 16;
 
-	SLONG u;
-	SLONG v;
+	std::int32_t u;
+	std::int32_t v;
 
-	static SLONG order[4] = {2, 1, 3, 0};
+	static std::int32_t order[4] = {2, 1, 3, 0};
 
 	//
 	// The faces we rotate the textures on are faces 6 and 7.
@@ -1125,22 +1125,22 @@ void AENG_set_bike_wheel_rotation(UWORD rot,UBYTE prim)
 }
 
 void SPRITE_draw_tex(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		UBYTE u,
-		UBYTE v,
-		UBYTE w,
-		UBYTE h,
-		SLONG sort)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t world_size,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::uint8_t u,
+		std::uint8_t v,
+		std::uint8_t w,
+		std::uint8_t h,
+		std::int32_t sort)
 {
 	POLY_FT4* p;
 	PSX_POLY_Point *pp=perm_pp_array;
-	SLONG size;
+	std::int32_t size;
 
 //	return; //md
 
@@ -1206,12 +1206,12 @@ void AENG_draw_shadow(Thing *thing)
 	PSX_POLY_Point *pp=perm_pp_array;
 	DrawTween *dt = thing->Draw.Tweened;
 	int i;
-	SLONG x,y,z;//,y2,len;
-//	ULONG col;
-	SLONG face,y2,len;
+	std::int32_t x,y,z;//,y2,len;
+//	std::uint32_t col;
+	std::int32_t face,y2,len;
 
 	POLY_FT4 *p;
-	ULONG	flag=0;
+	std::uint32_t	flag=0;
 
 	if(thing->Class==CLASS_PERSON)
 	{
@@ -1253,7 +1253,7 @@ void AENG_draw_shadow(Thing *thing)
 
 //	for(i=0;i<4;i++)
 	{
-		SLONG	poo;
+		std::int32_t	poo;
 		gte_RotTransPers(&pp[3].World,&pp[3].SYSX,&pp[3].P,&pp[3].Flag,&pp[3].Z);
 		gte_RotTransPers3(&pp[0].World,&pp[1].World,&pp[2].World,&pp[0].SYSX,&pp[1].SYSX,&pp[2].SYSX,&poo,&flag,&z);
 		flag|=pp[3].Flag;
@@ -1287,10 +1287,10 @@ void AENG_draw_shadow(Thing *thing)
 
 
 /*
-void PANEL_draw_number(SLONG x, SLONG y, UBYTE digit)	// 0 <= digit <= 9... Not ASCII!
+void PANEL_draw_number(std::int32_t x, std::int32_t y, std::uint8_t digit)	// 0 <= digit <= 9... Not ASCII!
 {
 	POLY_F4 *p;
-	SLONG b;
+	std::int32_t b;
 
 	p=(POLY_F4*)the_display.CurrentPrim;
 	the_display.CurrentPrim+=sizeof(POLY_FT4);
@@ -1333,15 +1333,15 @@ void PANEL_draw_number(SLONG x, SLONG y, UBYTE digit)	// 0 <= digit <= 9... Not 
 */
 
 
-SLONG timerx,timery,timert=0;
-CBYTE timerstr[12];
+std::int32_t timerx,timery,timert=0;
+char timerstr[12];
 
 #if 0
 void PANEL_render_timer()
 {
 	POLY_FT4 *p;
 	TILE *tp;
-	SLONG x;
+	std::int32_t x;
 
 	char *c=timerstr;
 
@@ -1394,7 +1394,7 @@ void PANEL_draw_buffered()
 {
 }
 
-void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
+void PANEL_draw_timer(std::int32_t time, std::int32_t x, std::int32_t y)
 {
 //	timerx=x;
 //	timery=y;
@@ -1402,7 +1402,7 @@ void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
 	sprintf(timerstr,"%d:%02d",(time/6000),(time/100)%60);
 }
 
-void AENG_draw_gun_point(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,SLONG col,SLONG z)
+void AENG_draw_gun_point(std::int32_t x,std::int32_t y,std::int32_t dx1,std::int32_t dy1,std::int32_t dx2,std::int32_t dy2,std::int32_t col,std::int32_t z)
 {
 	POLY_F3 *p;
 	ALLOCPRIM(p,POLY_F3);
@@ -1413,7 +1413,7 @@ void AENG_draw_gun_point(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2
 	DOPRIM(get_z_sort(z-8),p);
 }
 
-void AENG_draw_gun_line(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,SLONG col,SLONG z)
+void AENG_draw_gun_line(std::int32_t x,std::int32_t y,std::int32_t dx1,std::int32_t dy1,std::int32_t dx2,std::int32_t dy2,std::int32_t col,std::int32_t z)
 {
 	LINE_F2 *p;
 	ALLOCPRIM(p,LINE_F2);
@@ -1425,15 +1425,15 @@ void AENG_draw_gun_line(SLONG x,SLONG y,SLONG dx1,SLONG dy1,SLONG dx2,SLONG dy2,
 }
 
 
-void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
+void PANEL_draw_gun_sight(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t accuracy,std::int32_t scale)
 {
-	SLONG	angle,cangle;
-	SLONG	c0;
-	SLONG	dx1,dy1,dx2,dy2;
+	std::int32_t	angle,cangle;
+	std::int32_t	c0;
+	std::int32_t	dx1,dy1,dx2,dy2;
 	PSX_POLY_Point pp;
-	SLONG	r_in,r_out;
-	ULONG	col;
-	SLONG	sat_acc;
+	std::int32_t	r_in,r_out;
+	std::uint32_t	col;
+	std::int32_t	sat_acc;
 
 #define	RADIUS_OUT	82
 #define	RADIUS_IN	42
@@ -1486,7 +1486,7 @@ void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
 void PANEL_draw_compass_north()
 {
 	POLY_F3 *p;
-	SLONG dx,dy;
+	std::int32_t dx,dy;
 
 	ALLOCPRIM(p,POLY_F3);
 
@@ -1500,10 +1500,10 @@ void PANEL_draw_compass_north()
 }
 #endif
 /*
-void PANEL_draw_compass_to(SLONG x,SLONG z)
+void PANEL_draw_compass_to(std::int32_t x,std::int32_t z)
 {
 	POLY_F3 *p;
-	SLONG dx,dy,ang;
+	std::int32_t dx,dy,ang;
 
 	p=(POLY_F3*)the_display.CurrentPrim;
 
@@ -1517,7 +1517,7 @@ void PANEL_draw_compass_to(SLONG x,SLONG z)
 	setRGB0(p,255,0,0);
 	DOPRIM(PANEL_OTZ,p);
 	p++;
-	the_display.CurrentPrim=(UBYTE*)p;
+	the_display.CurrentPrim=(std::uint8_t*)p;
 	
 }
 */
@@ -1531,7 +1531,7 @@ void PANEL_finish()
 }
 
 #if 0
-void AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer)
+void AENG_draw_col_tri(std::int32_t x0,std::int32_t y0,std::int32_t col0,std::int32_t x1,std::int32_t y1,std::int32_t col1,std::int32_t x2,std::int32_t y2,std::int32_t col2,std::int32_t layer)
 {
 }
 #endif
@@ -1540,7 +1540,7 @@ void AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1
 char vspf_str[80];
 #endif
 
-void MSG_add(CBYTE* fmt, ...)
+void MSG_add(char* fmt, ...)
 {
 #if 0
 	va_list arg;
@@ -1551,12 +1551,12 @@ void MSG_add(CBYTE* fmt, ...)
 #endif
 }
 
-void Debug_Text(CBYTE* fmt, ...)
+void Debug_Text(char* fmt, ...)
 {
 }
 */
 // New font, that I'm not convinced will work with NTSC
-SBYTE f_width[]={
+std::int8_t f_width[]={
 	5,1,3,7,5,8,6,2,
 	3,3,5,5,1,5,2,4,
 	5,2,5,5,5,5,5,5,
@@ -1587,7 +1587,7 @@ SBYTE f_width[]={
 	5,4,4,4,4,5,4,5
 };
 
-SBYTE f_descend[]={
+std::int8_t f_descend[]={
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,1,0,1,0,
 	0,0,0,0,0,0,0,0,
@@ -1622,21 +1622,21 @@ SBYTE f_descend[]={
 //char text_table[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?^�@_";
 #ifdef VERSION_KANJI
 /*
-CBYTE* Kanji_message[8];
-SLONG Kanji_mess_x[8];
-SLONG Kanji_mess_y[8];
-SLONG Kanji_mess_col[8];
+char* Kanji_message[8];
+std::int32_t Kanji_mess_x[8];
+std::int32_t Kanji_mess_y[8];
+std::int32_t Kanji_mess_col[8];
 
 
-SLONG Kanji_next=0;
+std::int32_t Kanji_next=0;
 TIM_IMAGE Kanji_Tim;
-ULONG Kanji_old_sp;
+std::uint32_t Kanji_old_sp;
 
 
-SLONG Kanji_AddString(SLONG x,SLONG y,CBYTE* message,SLONG colour)
+std::int32_t Kanji_AddString(std::int32_t x,std::int32_t y,char* message,std::int32_t colour)
 {
-	SLONG Kanji_found=Kanji_next;
-	SLONG i;
+	std::int32_t Kanji_found=Kanji_next;
+	std::int32_t i;
 
 	printf("%s\n",message);
 	for(i=0;i<8;i++)
@@ -1658,11 +1658,11 @@ SLONG Kanji_AddString(SLONG x,SLONG y,CBYTE* message,SLONG colour)
 	return Kanji_found;
 }
 
-SLONG Kanji_str[8];
+std::int32_t Kanji_str[8];
 
 void Kanji_Render()
 {
-	SLONG i,cc;
+	std::int32_t i,cc;
 
 	for(i=0;i<8;i++)
 	{
@@ -1685,14 +1685,14 @@ void Kanji_Render()
 */
 #endif
 
-void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
+void draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id)
 {
 #ifndef VERSION_KANJI
 	SPRT_8 *p;
 	DR_TPAGE *tp;
-	UBYTE* m=(UBYTE*)message;
-	SLONG x0=x,y0=y;
-	SLONG c;
+	std::uint8_t* m=(std::uint8_t*)message;
+	std::int32_t x0=x,y0=y;
+	std::int32_t c;
 
 	ALLOCPRIM(tp,DR_TPAGE);
 	p=(SPRT_8*)the_display.CurrentPrim;
@@ -1744,11 +1744,11 @@ void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 		m++;
 	}
 	DOPRIM(PANEL_OTZ,tp);
-	the_display.CurrentPrim=(UBYTE*)p;
+	the_display.CurrentPrim=(std::uint8_t*)p;
 #else
 #if 0
 	POLY_FT4 *p;
-	SLONG Kanji_found=Kanji_next;
+	std::int32_t Kanji_found=Kanji_next;
 
 	Kanji_found=Kanji_FindString(message);
 
@@ -1756,7 +1756,7 @@ void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 	// on the scratch pad, and since scratch pad strings are sprintf'd in functions
 	// these are unlikely to be the same next time around.
 
-	if ((SLONG)message>0)
+	if ((std::int32_t)message>0)
 		Kanji_JunkString(Kanji_found);
 
 	ALLOCPRIM(p,POLY_FT4);
@@ -1770,12 +1770,12 @@ void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 	p->tpage=getClut(Kanji_clut_x,Kanji_clut_y);
 	DOPRIM(PANEL_OTZ,p);
 #else
-	Kanji_string(x,y,(UWORD*)message,font_id,256);
+	Kanji_string(x,y,(std::uint16_t*)message,font_id,256);
 #endif
 #endif
 }
 
-SLONG text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
+std::int32_t text_width(char* message,std::int32_t font_id,std::int32_t *char_count)
 {
 #ifndef VERSION_KANJI
 	char *p=message;
@@ -1794,7 +1794,7 @@ SLONG text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
 #endif
 }
 
-SLONG text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
+std::int32_t text_height(char* message,std::int32_t font_id,std::int32_t *char_count)
 {
 #ifndef VERSION_KANJI
 	*char_count=0;//strlen(message);
@@ -1805,23 +1805,23 @@ SLONG text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
 #endif
 }
 
-void draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag)
+void draw_centre_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id,std::int32_t flag)
 {
-	SLONG c;
+	std::int32_t c;
 	draw_text_at(x-(text_width(message,font_id,&c)/2),y-(text_height(message,font_id,&c)/2),message,font_id);
 }
 
-void CONSOLE_text(CBYTE* text, SLONG delay) 
+void CONSOLE_text(char* text, std::int32_t delay) 
 {
 	PANEL_new_text(nullptr,delay,text);
 }
 
 #if 0
 void CONSOLE_text_at(
-		SLONG  x,
-		SLONG  y,
-		SLONG  delay,
-		CBYTE* fmt, ...)
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  delay,
+		char* fmt, ...)
 {
 }
 
@@ -1836,12 +1836,12 @@ void show_text()
 
 typedef struct 
 {
-	SLONG	x1,y1,z1;
-	SLONG	x2,y2,z2;
-	SLONG	width1,width2;
-	SLONG   c1;
-//	SLONG	c2;
-	SLONG	sort;
+	std::int32_t	x1,y1,z1;
+	std::int32_t	x2,y2,z2;
+	std::int32_t	width1,width2;
+	std::int32_t   c1;
+//	std::int32_t	c2;
+	std::int32_t	sort;
 } WorldLine;
 
 #define MAX_WORLD_LINE	8
@@ -1852,9 +1852,9 @@ WorldLine world_line[MAX_WORLD_LINE];
 
 
 void AENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 	WorldLine *wl;
 
@@ -1924,16 +1924,16 @@ void AENG_world_line_render()
 #endif
 
 void AENG_set_camera(
-		SLONG wx,
-		SLONG wy,
-		SLONG wz,
-		SLONG y,		    
-		SLONG p,
-		SLONG r)
+		std::int32_t wx,
+		std::int32_t wy,
+		std::int32_t wz,
+		std::int32_t y,		    
+		std::int32_t p,
+		std::int32_t r)
 {
-	SLONG radians_yaw   = ((2*y * PI16) / 2048);
-	SLONG radians_pitch = ((2*p * PI16) / 2048);
-	SLONG radians_roll  = ((2*r * PI16) / 2048);
+	std::int32_t radians_yaw   = ((2*y * PI16) / 2048);
+	std::int32_t radians_pitch = ((2*p * PI16) / 2048);
+	std::int32_t radians_roll  = ((2*r * PI16) / 2048);
 
 	AENG_set_camera_radians(
 		wx,
@@ -1945,16 +1945,16 @@ void AENG_set_camera(
 }
 
 void AENG_set_camera_radians(
-		SLONG wx,
-		SLONG wy,
-		SLONG wz,
-		SLONG y,
-		SLONG p,
-		SLONG r)
+		std::int32_t wx,
+		std::int32_t wy,
+		std::int32_t wz,
+		std::int32_t y,
+		std::int32_t p,
+		std::int32_t r)
 {
-	AENG_cam_x = SLONG(wx);
-	AENG_cam_y = SLONG(wy);
-	AENG_cam_z = SLONG(wz);
+	AENG_cam_x = std::int32_t(wx);
+	AENG_cam_y = std::int32_t(wy);
+	AENG_cam_z = std::int32_t(wz);
 
 	AENG_cam_yaw   = y;
 	AENG_cam_pitch = p;
@@ -1967,7 +1967,7 @@ void AENG_set_camera_radians(
 		AENG_cam_yaw,
 		AENG_cam_pitch,
 		AENG_cam_roll,
-		SLONG(AENG_DRAW_DIST) * 256,
+		std::int32_t(AENG_DRAW_DIST) * 256,
 		AENG_LENS);
 
 	FMATRIX_vector(AENG_cam_vec,y*2048,p*2048);
@@ -1975,7 +1975,7 @@ void AENG_set_camera_radians(
 }
 
 /*
-UWORD pers_lookup[]={
+std::uint16_t pers_lookup[]={
 	0,38,39,15,31+64,30+64,32,33,40,48,49,32,34,35
 };
 */
@@ -2047,14 +2047,14 @@ void AENG_create_dx_prim_points()
 
 #if 0
 void AENG_draw_scanner(
-	    SLONG screen_x1,
-		SLONG screen_y1,
-		SLONG screen_x2,
-		SLONG screen_y2,
-		SLONG map_x,
-		SLONG map_z,
-		SLONG map_zoom,
-		SLONG map_angle)
+	    std::int32_t screen_x1,
+		std::int32_t screen_y1,
+		std::int32_t screen_x2,
+		std::int32_t screen_y2,
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t map_zoom,
+		std::int32_t map_angle)
 {
 }
 
@@ -2063,27 +2063,27 @@ void ANEG_draw_messages()
 }
 
 
-void AENG_e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void AENG_e_draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 	LINE_F2	*p_line_f2;
 
 
 }
-void AENG_e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void AENG_e_draw_3d_line_dir(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 }
-void AENG_e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void AENG_e_draw_3d_line_col(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
 }
-void AENG_e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void AENG_e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
 }
-void AENG_e_draw_3d_mapwho(SLONG x1, SLONG z1)
+void AENG_e_draw_3d_mapwho(std::int32_t x1, std::int32_t z1)
 {
 }
 #endif
 
-SWORD sync_count=0;
+std::int16_t sync_count=0;
 
 void AENG_blit()
 {
@@ -2093,7 +2093,7 @@ void AENG_blit()
 void AENG_unlock()
 {
 }
-SLONG AENG_lock()
+std::int32_t AENG_lock()
 {
 }
 void AENG_clear_screen()
@@ -2101,7 +2101,7 @@ void AENG_clear_screen()
 }
 
 /*
-void build_tri(SLONG x,SLONG y)
+void build_tri(std::int32_t x,std::int32_t y)
 {
 	POLY_F3	*p;
 
@@ -2120,24 +2120,24 @@ void build_tri(SLONG x,SLONG y)
 */
 #define	SET_TX_TY(p,x1,y1,x2,y2,x3,y3,x4,y4)	setUV4(p,x1,y1,x2,y2,x3,y3,x4,y4)
 
-#define	QSET_TX_TY(p,x1,y1,x2,y2,x3,y3,x4,y4,c,pal)	((ULONG*)p)[3]=((x1)<<0)|((y1)<<8)|(c<<16);((ULONG*)p)[6]=((x2)<<0)|((y2)<<8)|(pal<<16);((ULONG*)p)[9]=((x3)<<0)|((y3)<<8);((ULONG*)p)[12]=((x4)<<0)|((y4)<<8);
+#define	QSET_TX_TY(p,x1,y1,x2,y2,x3,y3,x4,y4,c,pal)	((std::uint32_t*)p)[3]=((x1)<<0)|((y1)<<8)|(c<<16);((std::uint32_t*)p)[6]=((x2)<<0)|((y2)<<8)|(pal<<16);((std::uint32_t*)p)[9]=((x3)<<0)|((y3)<<8);((std::uint32_t*)p)[12]=((x4)<<0)|((y4)<<8);
 
-inline void set_floor_texture(POLY_GT4 *p,UWORD texture)
+inline void set_floor_texture(POLY_GT4 *p,std::uint16_t texture)
 {
-	SLONG tpage;
-	SLONG trot;
-	SLONG tflip;
+	std::int32_t tpage;
+	std::int32_t trot;
+	std::int32_t tflip;
 
-	SLONG num;
+	std::int32_t num;
 
-	SLONG u;
-	SLONG v;
-	SLONG s;
-	UWORD	clut,page;
+	std::int32_t u;
+	std::int32_t v;
+	std::int32_t s;
+	std::uint16_t	clut,page;
 
 //	if(texture)
 	{
-		UWORD	cpage;
+		std::uint16_t	cpage;
 		tpage = (texture >> 0x6) & 0xf;
 		trot  = (texture >> 0xa) & 0x3;
 		tflip = (texture >> 0xc) & 0x3;
@@ -2203,22 +2203,22 @@ inline void set_floor_texture(POLY_GT4 *p,UWORD texture)
 }
 
 #ifdef INSIDES_EXIST
-void set_inside_texture(POLY_FT4 *p,UWORD texture)
+void set_inside_texture(POLY_FT4 *p,std::uint16_t texture)
 {
-	SLONG tpage;
-	SLONG trot;
-	SLONG tflip;
+	std::int32_t tpage;
+	std::int32_t trot;
+	std::int32_t tflip;
 
-	SLONG num;
+	std::int32_t num;
 
-	SLONG u;
-	SLONG v;
-	SLONG s;
+	std::int32_t u;
+	std::int32_t v;
+	std::int32_t s;
 
 	if(texture)
 	{
-		UWORD	cpage;
-		SLONG	clutx,cluty;
+		std::uint16_t	cpage;
+		std::int32_t	clutx,cluty;
 		u    = (texture >> 0x0) & 0x7;
 		v    = (texture >> 0x3) & 0x7;
 		tpage = (texture >> 0x6) & 0xf;
@@ -2285,18 +2285,18 @@ void set_inside_texture(POLY_FT4 *p,UWORD texture)
 
 #define	SET_TXTY(p,x1,y1,x2,y2,x3,y3,x4,y4)	tx[0]=x1;ty[0]=y1;tx[1]=x2;ty[1]=y2;tx[2]=x3;ty[2]=y3;tx[3]=x4;ty[3]=y4;
 /*
-void set_floor_texture_special_tri(POLY_GT3 *p,UWORD texture,UWORD a,UWORD b,UWORD c)
+void set_floor_texture_special_tri(POLY_GT3 *p,std::uint16_t texture,std::uint16_t a,std::uint16_t b,std::uint16_t c)
 {
-	SLONG tpage;
-	SLONG trot;
-	SLONG tflip;
+	std::int32_t tpage;
+	std::int32_t trot;
+	std::int32_t tflip;
 
-	SLONG num;
+	std::int32_t num;
 
-	SLONG u;
-	SLONG v;
-	SLONG s;
-	SLONG	tx[4],ty[4];
+	std::int32_t u;
+	std::int32_t v;
+	std::int32_t s;
+	std::int32_t	tx[4],ty[4];
 
 
 	if(texture)
@@ -2353,10 +2353,10 @@ void set_floor_texture_special_tri(POLY_GT3 *p,UWORD texture,UWORD a,UWORD b,UWO
 	setUV3(p,tx[a],ty[a],tx[b],ty[b],tx[c],ty[c]);
 }
 */
-SLONG calc_light(POLY_Point *pp)
+std::int32_t calc_light(POLY_Point *pp)
 {
-	SLONG	s;
-	SLONG	x,y,z;
+	std::int32_t	s;
+	std::int32_t	x,y,z;
 
 //	z=abs(pp->Z)<<8;
 //	z=((AENG_DRAW_DIST<<16)-z)/AENG_DRAW_DIST;
@@ -2387,7 +2387,7 @@ SLONG calc_light(POLY_Point *pp)
 
 void do_4_lights(POLY_GT4 *p,POLY_Point *quad)
 {
-	SLONG	s0,s1,s2,s3;
+	std::int32_t	s0,s1,s2,s3;
 
 	s0=calc_light(&quad[0]);
 	setRGB0(p,s0,s0,s0);
@@ -2407,7 +2407,7 @@ void do_4_lights(POLY_GT4 *p,POLY_Point *quad)
 /*
 void do_4_lights_shadow(POLY_GT4 *p,POLY_Point *quad)
 {
-	SLONG	s;
+	std::int32_t	s;
 	s=calc_light(&quad[0])>>1;
 	setRGB0(p,s,s,s);
 
@@ -2423,7 +2423,7 @@ void do_4_lights_shadow(POLY_GT4 *p,POLY_Point *quad)
 
 void do_3_lights(POLY_GT3 *p,POLY_Point *quad)
 {
-	SLONG	s;
+	std::int32_t	s;
 	s=calc_light(&quad[0]);
 	setRGB0(p,s,s,s);
 
@@ -2437,7 +2437,7 @@ void do_3_lights(POLY_GT3 *p,POLY_Point *quad)
 
 void do_3_lights_shadow(POLY_GT3 *p,POLY_Point *quad)
 {
-	SLONG	s;
+	std::int32_t	s;
 	s=calc_light(&quad[0])>>1;
 	setRGB0(p,s,s,s);
 
@@ -2452,8 +2452,8 @@ void do_3_lights_shadow(POLY_GT3 *p,POLY_Point *quad)
 
 void add_quad(POLY_Point *quad,PAP_Hi *ph)
 {
-	SLONG	z;
-	SLONG	shadow;
+	std::int32_t	z;
+	std::int32_t	shadow;
 #if 0
 	if(the_display.CurrentPrim>&(the_display.CurrentDisplayBuffer->PrimMem[BUCKET_MEM-100]))
 	{
@@ -2483,7 +2483,7 @@ void add_quad(POLY_Point *quad,PAP_Hi *ph)
 	//
 	{
 		POLY_GT4	*p;
-		SLONG	s;
+		std::int32_t	s;
 
 		ALLOCPRIM(p,POLY_GT4);
 
@@ -2502,7 +2502,7 @@ void add_quad(POLY_Point *quad,PAP_Hi *ph)
 		case	0:
 			{
 				POLY_GT4	*p;
-				SLONG	s;
+				std::int32_t	s;
 
 				p=(POLY_GT4 *)the_display.CurrentPrim;
 
@@ -2656,12 +2656,12 @@ void add_quad(POLY_Point *quad,PAP_Hi *ph)
 	*/
 }
 /*
-inline void	add_inside_quad(PSX_POLY_Point *quad,UWORD text,UBYTE **cp,UWORD col0,UBYTE fade)
+inline void	add_inside_quad(PSX_POLY_Point *quad,std::uint16_t text,std::uint8_t **cp,std::uint16_t col0,std::uint8_t fade)
 {
-	SLONG	z;
-	SLONG	shadow;
-	ULONG	padd;
-	SLONG	two_pass=0;
+	std::int32_t	z;
+	std::int32_t	shadow;
+	std::uint32_t	padd;
+	std::int32_t	two_pass=0;
 
 	//
 	// find furthest z
@@ -2683,9 +2683,9 @@ inline void	add_inside_quad(PSX_POLY_Point *quad,UWORD text,UBYTE **cp,UWORD col
 	// no shadow for now
 	//
 	{
-		SLONG	b0;
+		std::int32_t	b0;
 		POLY_FT4	*p;
-//		SLONG	s;
+//		std::int32_t	s;
 
 		p=(POLY_FT4 *)*cp; //the_display.CurrentPrim;
 
@@ -2722,12 +2722,12 @@ inline void	add_inside_quad(PSX_POLY_Point *quad,UWORD text,UBYTE **cp,UWORD col
 	}
 }
 */
-//UBYTE shadow_map[8][4]={{0,0,0,0},{2,1,1,0},{2,1,2,1},{1,1,2,1},{1,1,2,2},{2,1,2,2},{2,1,2,1},{0,1,1,2}};
-//UBYTE shadow_map[8][4]={{0,0,0,0},{3,0,3,0},{3,0,3,0},{0,0,3,0},{0,0,3,3},{3,0,3,3},{3,0,3,0},{0,0,3,3}};
-UBYTE shadow_map[8][4]={{0,0,0,0},{0,0,0,0},{3,0,3,0},{0,0,3,0},{0,0,3,3},{3,0,3,3},{3,0,3,0},{0,0,0,0}};
+//std::uint8_t shadow_map[8][4]={{0,0,0,0},{2,1,1,0},{2,1,2,1},{1,1,2,1},{1,1,2,2},{2,1,2,2},{2,1,2,1},{0,1,1,2}};
+//std::uint8_t shadow_map[8][4]={{0,0,0,0},{3,0,3,0},{3,0,3,0},{0,0,3,0},{0,0,3,3},{3,0,3,3},{3,0,3,0},{0,0,3,3}};
+std::uint8_t shadow_map[8][4]={{0,0,0,0},{0,0,0,0},{3,0,3,0},{0,0,3,0},{0,0,3,3},{3,0,3,3},{3,0,3,0},{0,0,0,0}};
 
 #define	SHADOW_SUB	64
-//UBYTE shadow_map2[8][4]={{0,0,0,0},{SHADOW_SUB,0,SHADOW_SUB,0},{SHADOW_SUB,0,SHADOW_SUB,0},{0,0,SHADOW_SUB,0},{0,0,SHADOW_SUB,SHADOW_SUB},{SHADOW_SUB,0,SHADOW_SUB,SHADOW_SUB},{SHADOW_SUB,0,SHADOW_SUB,0},{0,0,SHADOW_SUB,SHADOW_SUB}};
+//std::uint8_t shadow_map2[8][4]={{0,0,0,0},{SHADOW_SUB,0,SHADOW_SUB,0},{SHADOW_SUB,0,SHADOW_SUB,0},{0,0,SHADOW_SUB,0},{0,0,SHADOW_SUB,SHADOW_SUB},{SHADOW_SUB,0,SHADOW_SUB,SHADOW_SUB},{SHADOW_SUB,0,SHADOW_SUB,0},{0,0,SHADOW_SUB,SHADOW_SUB}};
 
 //  0    n1     1
 //
@@ -2736,13 +2736,13 @@ UBYTE shadow_map[8][4]={{0,0,0,0},{0,0,0,0},{3,0,3,0},{0,0,3,0},{0,0,3,3},{3,0,3
 //	2    n2     3
 
 
-void split_quad_all(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
+void split_quad_all(PSX_POLY_Point *quad,POLY_GT4	*p,std::int32_t z)
 {
 
 	POLY_GT4	*pa;
 	PSX_POLY_Point	pp[5];
-	SLONG	r1,g1,b1,r2,g2,b2;
-	SLONG	u0,v0,u1,v1;
+	std::int32_t	r1,g1,b1,r2,g2,b2;
+	std::int32_t	u0,v0,u1,v1;
 
 	pp[0].World.vx=quad[0].World.vx+128;
 	pp[0].World.vz=quad[0].World.vz+128;
@@ -2995,19 +2995,19 @@ void split_quad_all(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 
 
 
-//UBYTE shadow_map[8][4]={{0,0,0,0},{128,192,192,0},{128,192,128,192},{192,192,192,192},
+//std::uint8_t shadow_map[8][4]={{0,0,0,0},{128,192,192,0},{128,192,128,192},{192,192,192,192},
 //						{192,192,192,192},{192,192,192,192},{192,192,192,192},{0,192,192,192}};
 
 //  quad  0     1      p= 0     1	    split     0  a  1
 //		  
 //		  2	    3	 	  2	    3				  2  b  3
 #ifdef	OLD_SPLIT
-void split_quad_a(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
+void split_quad_a(PSX_POLY_Point *quad,POLY_GT4	*p,std::int32_t z)
 {
 
 	POLY_GT4	*pa;
-	SLONG	r1,g1,b1,r2,g2,b2;
-	SLONG	u0,v0,u1,v1;
+	std::int32_t	r1,g1,b1,r2,g2,b2;
+	std::int32_t	u0,v0,u1,v1;
 
 	//
 	// rhs (is a whole new GT4
@@ -3081,12 +3081,12 @@ void split_quad_a(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 //   0	  1
 //	 a	  b
 //	 2	  3
-void split_quad_b(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
+void split_quad_b(PSX_POLY_Point *quad,POLY_GT4	*p,std::int32_t z)
 {
 
 	POLY_GT4	*pa;
-	SLONG	r1,g1,b1,r2,g2,b2;
-	SLONG	u0,v0,u1,v1;
+	std::int32_t	r1,g1,b1,r2,g2,b2;
+	std::int32_t	u0,v0,u1,v1;
 
 	//
 	// rhs (is a whole new GT4
@@ -3156,14 +3156,14 @@ void split_quad_b(PSX_POLY_Point *quad,POLY_GT4	*p,SLONG z)
 
 }
 #endif
-//inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p,ULONG day_flag)
+//inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,std::uint16_t col0,std::uint16_t col1,std::uint16_t col2,std::uint16_t col3,std::int32_t shadow,std::uint32_t lum,std::int32_t split_all,POLY_GT4 *p,std::uint32_t day_flag)
 #ifdef	OLD_POO
-inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p,ULONG day_flag)
+inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,std::uint16_t col0,std::uint16_t col1,std::uint16_t col2,std::uint16_t col3,std::int32_t shadow,std::uint32_t lum,std::int32_t split_all,POLY_GT4 *p,std::uint32_t day_flag)
 {
-	SLONG	z;
-	SLONG	two_pass=0;
-	UBYTE	*s_map;
-	UWORD	texture;
+	std::int32_t	z;
+	std::int32_t	two_pass=0;
+	std::uint8_t	*s_map;
+	std::uint16_t	texture;
 
 	s_map=&shadow_map[shadow&0xff][0];
 
@@ -3195,9 +3195,9 @@ inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1
 	// no shadow for now
 	//
 	{
-		SLONG	b0,b1,b2,b3;
+		std::int32_t	b0,b1,b2,b3;
 //		POLY_GT4	*p;
-		SLONG	s;
+		std::int32_t	s;
 
 //		ALLOCPRIM(p,POLY_GT4);
 
@@ -3226,12 +3226,12 @@ inline void	add_floor_quad(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1
 		if ((b0==0)||(b0==255))
 			return;
 
-extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWORD b3,SLONG z);
+extern void AENG_add_semi_fade(PSX_POLY_Point *pp,std::uint16_t b0,std::uint16_t b1,std::uint16_t b2,std::uint16_t b3,std::int32_t z);
 
 //		if((b0!=128)||(b1!=128)||(b2!=128)||(b3!=128))
 		if(1)
 		{
-			UBYTE	shift[4];
+			std::uint8_t	shift[4];
 
 			if(shadow)
 			{
@@ -3281,7 +3281,7 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 		else
 /*
 		{
-			UBYTE	shift[4];
+			std::uint8_t	shift[4];
 			//
 			// not in fadeout
 			//
@@ -3352,10 +3352,10 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 			quad[0].SYSX+=1<<16;
 		}
 
-		((SLONG *)p)[2]=quad[0].SYSX;
-		((SLONG *)p)[5]=quad[1].SYSX;
-		((SLONG *)p)[8]=quad[2].SYSX;
-		((SLONG *)p)[11]=quad[3].SYSX;
+		((std::int32_t *)p)[2]=quad[0].SYSX;
+		((std::int32_t *)p)[5]=quad[1].SYSX;
+		((std::int32_t *)p)[8]=quad[2].SYSX;
+		((std::int32_t *)p)[11]=quad[3].SYSX;
 
 
 //		if(split_all || z<10)
@@ -3392,7 +3392,7 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 #ifdef WHEN_DO_I_WANT_TO_TWO_PASS
 		if(two_pass)
 		{
-			memcpy((UBYTE*)*cp,(UBYTE*)p,sizeof(POLY_GT4));
+			memcpy((std::uint8_t*)*cp,(std::uint8_t*)p,sizeof(POLY_GT4));
 			setSemiTrans(p,1);
 			p->tpage&=~(3<<5);
 		}
@@ -3415,10 +3415,10 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 	}
 }
 #endif
-inline void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,POLY_GT4 *p)
+inline void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,std::int32_t no_split,POLY_GT4 *p)
 {
-	SLONG	z;
-	UWORD	texture;
+	std::int32_t	z;
+	std::uint16_t	texture;
 
 
 
@@ -3449,7 +3449,7 @@ inline void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,
 //	ASSERT(z>=0&&z<=2048);
 
 	{
-		SLONG	s;
+		std::int32_t	s;
 
 
 		texture=ph->Texture;
@@ -3466,10 +3466,10 @@ inline void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,
 		}
 
 
-		((SLONG *)p)[2]=quad[0].SYSX;
-		((SLONG *)p)[5]=quad[1].SYSX;
-		((SLONG *)p)[8]=quad[2].SYSX;
-		((SLONG *)p)[11]=quad[3].SYSX;
+		((std::int32_t *)p)[2]=quad[0].SYSX;
+		((std::int32_t *)p)[5]=quad[1].SYSX;
+		((std::int32_t *)p)[8]=quad[2].SYSX;
+		((std::int32_t *)p)[11]=quad[3].SYSX;
 
 //#ifdef MIKE
 		if((no_split&1)==0 && z>FLOOR_SPLIT_DIST)
@@ -3489,8 +3489,8 @@ inline void	add_floor_quad_quick(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG no_split,
 }
 void add_floor_quad_quick_ni(PSX_POLY_Point *quad,PAP_Hi *ph,POLY_GT4 *p)
 {
-	SLONG	z;
-	UWORD	texture;
+	std::int32_t	z;
+	std::uint16_t	texture;
 
 	z=quad[0].Z;
 	if(z<quad[1].Z)
@@ -3518,23 +3518,23 @@ void add_floor_quad_quick_ni(PSX_POLY_Point *quad,PAP_Hi *ph,POLY_GT4 *p)
 
 //		setPolyGT4(p);
 
-		((SLONG *)p)[2]=quad[0].SYSX;
-		((SLONG *)p)[5]=quad[1].SYSX;
-		((SLONG *)p)[8]=quad[2].SYSX;
+		((std::int32_t *)p)[2]=quad[0].SYSX;
+		((std::int32_t *)p)[5]=quad[1].SYSX;
+		((std::int32_t *)p)[8]=quad[2].SYSX;
 //		ASSERT(0);
-		((SLONG *)p)[11]=quad[3].SYSX;
+		((std::int32_t *)p)[11]=quad[3].SYSX;
 		texture=ph->Texture;
 		set_floor_texture(p,texture);
 
 	}
 }
 #ifdef	DOG_POO
-void add_floor_quad_ni(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWORD col2,UWORD col3,SLONG shadow,ULONG lum,SLONG split_all,POLY_GT4 *p)
+void add_floor_quad_ni(PSX_POLY_Point *quad,PAP_Hi *ph,std::uint16_t col0,std::uint16_t col1,std::uint16_t col2,std::uint16_t col3,std::int32_t shadow,std::uint32_t lum,std::int32_t split_all,POLY_GT4 *p)
 {
-	SLONG	z;
-	SLONG	two_pass=0;
-	UBYTE	*s_map;
-	UWORD	texture;
+	std::int32_t	z;
+	std::int32_t	two_pass=0;
+	std::uint8_t	*s_map;
+	std::uint16_t	texture;
 
 	s_map=&shadow_map[shadow&0xff][0];
 
@@ -3567,9 +3567,9 @@ void add_floor_quad_ni(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWO
 	// no shadow for now
 	//
 	{
-		SLONG	b0,b1,b2,b3;
+		std::int32_t	b0,b1,b2,b3;
 //		POLY_GT4	*p;
-		SLONG	s;
+		std::int32_t	s;
 
 //		ALLOCPRIM(p,POLY_GT4);
 
@@ -3598,12 +3598,12 @@ void add_floor_quad_ni(PSX_POLY_Point *quad,PAP_Hi *ph,UWORD col0,UWORD col1,UWO
 		if ((b0==0)||(b0==255))
 			return;
 
-extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWORD b3,SLONG z);
+extern void AENG_add_semi_fade(PSX_POLY_Point *pp,std::uint16_t b0,std::uint16_t b1,std::uint16_t b2,std::uint16_t b3,std::int32_t z);
 
 //		if((b0!=128)||(b1!=128)||(b2!=128)||(b3!=128))
 		if(1)
 		{
-			UBYTE	shift[4];
+			std::uint8_t	shift[4];
 
 			if(shadow)
 			{
@@ -3652,10 +3652,10 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 
 		}
 
-		((SLONG *)p)[2]=quad[0].SYSX;
-		((SLONG *)p)[5]=quad[1].SYSX;
-		((SLONG *)p)[8]=quad[2].SYSX;
-		((SLONG *)p)[11]=quad[3].SYSX;
+		((std::int32_t *)p)[2]=quad[0].SYSX;
+		((std::int32_t *)p)[5]=quad[1].SYSX;
+		((std::int32_t *)p)[8]=quad[2].SYSX;
+		((std::int32_t *)p)[11]=quad[3].SYSX;
 
 
 
@@ -3664,12 +3664,12 @@ extern void AENG_add_semi_fade(PSX_POLY_Point *pp,UWORD b0,UWORD b1,UWORD b2,UWO
 }
 #endif
 
-void add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG shadow,POLY_GT4 *p)
+void add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,std::int32_t shadow,POLY_GT4 *p)
 {
-	SLONG	z;
-	SLONG	two_pass=0;
-	UBYTE	*s_map;
-	UWORD	texture;
+	std::int32_t	z;
+	std::int32_t	two_pass=0;
+	std::uint8_t	*s_map;
+	std::uint16_t	texture;
 
 //	if(shadow==1)
 //		return;
@@ -3773,9 +3773,9 @@ void add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG shadow,POLY_GT4 *p)
 	ASSERT(z>=0&&z<=1024);
 
 	{
-		SLONG	b0,b1,b2,b3;
+		std::int32_t	b0,b1,b2,b3;
 		POLY_GT3	*p1,*p2;
-		SLONG	s;
+		std::int32_t	s;
 
 //		ASSERT(0);
 		ALLOCPRIM(p1,POLY_GT3);
@@ -3788,7 +3788,7 @@ void add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG shadow,POLY_GT4 *p)
 
 //		if((b0!=128)||(b1!=128)||(b2!=128)||(b3!=128))
 		{
-			UBYTE	shift[4];
+			std::uint8_t	shift[4];
 
 
 			p1->x0=p->x1;	  		p2->x0=p->x0;    
@@ -3912,7 +3912,7 @@ void add_floor_2tri(PSX_POLY_Point *quad,PAP_Hi *ph,SLONG shadow,POLY_GT4 *p)
 
 //	setXY3(p1,10,10,150,20,20,100);
 //	setXY3(p2,10,10,150,20,20,100);
-//	if ((MF_NormalClip(((SLONG*)p1)[2],((SLONG*)p1)[5],((SLONG*)p1)[8]))>0)
+//	if ((MF_NormalClip(((std::int32_t*)p1)[2],((std::int32_t*)p1)[5],((std::int32_t*)p1)[8]))>0)
 		DOPRIM(z,p1);
 		DOPRIM(z,p2);
 
@@ -3924,7 +3924,7 @@ void add_kerb(PSX_POLY_Point *pp0,PSX_POLY_Point *pp1)
 {
 	POLY_F4 *p;
 	PSX_POLY_Point pp2,pp3;
-	SLONG z;
+	std::int32_t z;
 /*
 	pp2.World.vx=pp0->World.vx;
 	pp3.World.vx=pp1->World.vx;
@@ -3945,12 +3945,12 @@ void add_kerb(PSX_POLY_Point *pp0,PSX_POLY_Point *pp1)
 	{
 		ALLOCPRIM(p,POLY_F4);
 		setlen(p, 5);//,  setcode(p, 0x28)  ===  setPolyF4(p);
-		((ULONG*)p)[1]=0x28<<24;  //set RGB and code in one long write :)
+		((std::uint32_t*)p)[1]=0x28<<24;  //set RGB and code in one long write :)
 		//setRGB0(p,0,0,0);
-		((SLONG*)p)[2]=pp2.SYSX; 
-		((SLONG*)p)[3]=pp3.SYSX; 
-		((SLONG*)p)[4]=pp0->SYSX; 
-		((SLONG*)p)[5]=pp1->SYSX; 
+		((std::int32_t*)p)[2]=pp2.SYSX; 
+		((std::int32_t*)p)[3]=pp3.SYSX; 
+		((std::int32_t*)p)[4]=pp0->SYSX; 
+		((std::int32_t*)p)[5]=pp1->SYSX; 
 
 //		setXY4(p,pp2.Word.SX,pp2.Word.SY,pp3.Word.SX,pp3.Word.SY,
 //				 pp0->Word.SX,pp0->Word.SY,pp1->Word.SX,pp1->Word.SY);
@@ -3965,8 +3965,8 @@ void add_kerb(PSX_POLY_Point *pp0,PSX_POLY_Point *pp1)
 
 struct FloorStore
 {
-	UBYTE	R,G,B;
-	UBYTE	Flag;
+	std::uint8_t	R,G,B;
+	std::uint8_t	Flag;
 };
 
 #define	MAX_WIDTH	27
@@ -3974,13 +3974,13 @@ struct FloorStore
 extern void	fuck_z(PSX_POLY_Point *pp);
 void fuck_floor_z(PSX_POLY_Point *pp)
 {
-	SLONG	dx,dy,dz;
-	SLONG	t;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	t;
 	VECTOR	out1;
-	ULONG	flag;
+	std::uint32_t	flag;
 
-	extern SLONG	POLY_cam_yaw;
-extern SLONG AENG_cam_yaw;
+	extern std::int32_t	POLY_cam_yaw;
+extern std::int32_t AENG_cam_yaw;
 /*
 	if (PadKeyIsPressed(&PAD_Input1,PAD_RL))
 		return;
@@ -4031,24 +4031,24 @@ void AENG_draw_floor()
 	struct	FloorStore	row[MAX_WIDTH*2];
 	struct	FloorStore	*p1,*p2;
 
-	SLONG world_x=POLY_cam_x;
-	SLONG world_y=POLY_cam_y;
-	SLONG world_z=POLY_cam_z;
-	SWORD	x,z;
-	SLONG	flag;
-	SLONG	kerb=0;
+	std::int32_t world_x=POLY_cam_x;
+	std::int32_t world_y=POLY_cam_y;
+	std::int32_t world_z=POLY_cam_z;
+	std::int16_t	x,z;
+	std::int32_t	flag;
+	std::int32_t	kerb=0;
 
 	PSX_POLY_Point *pp=perm_pp_array;
 	PAP_Hi *ph;
-	UWORD	*col;
-	ULONG	flag_or,flag_and;
-	ULONG	near_clipped;
-	SLONG	max_y=POLY_cam_y;
-	SLONG	roof_y;
-	SLONG	xmax;
-	ULONG	day_flag;
-	SLONG	lum_off_x_local,lum_off_z_local;
-	SLONG	skip_floor=0;
+	std::uint16_t	*col;
+	std::uint32_t	flag_or,flag_and;
+	std::uint32_t	near_clipped;
+	std::int32_t	max_y=POLY_cam_y;
+	std::int32_t	roof_y;
+	std::int32_t	xmax;
+	std::uint32_t	day_flag;
+	std::int32_t	lum_off_x_local,lum_off_z_local;
+	std::int32_t	skip_floor=0;
 
 
 	if(roper_pickup==1)
@@ -4063,8 +4063,8 @@ void AENG_draw_floor()
 	// clear the floor lighting vertex cache
 	//
 	{
-		ULONG	*p;
-		p=(ULONG*)&row[0];
+		std::uint32_t	*p;
+		p=(std::uint32_t*)&row[0];
 		for(z=0;z<MAX_WIDTH*2;z++)
 		{
 			*p++=0;
@@ -4079,7 +4079,7 @@ void AENG_draw_floor()
 
 	for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++)
 	{
-		SLONG	xcount;
+		std::int32_t	xcount;
 
 		xmax=NGAMUT_point_gamut[z].xmax;
 
@@ -4103,8 +4103,8 @@ void AENG_draw_floor()
 			xmax=126;
 		ASSERT(xcount<MAX_WIDTH);
 		{
-			ULONG	*p;
-			p=(ULONG*)p2;
+			std::uint32_t	*p;
+			p=(std::uint32_t*)p2;
 
 			do
 			{
@@ -4127,7 +4127,7 @@ void AENG_draw_floor()
 
 //			if (!(ph->Flags & FLOOR_HIDDEN))
 			{
-				SLONG	shadow;
+				std::int32_t	shadow;
 
 				if(ph->Flags&PAP_FLAG_SINK_SQUARE)
 				{
@@ -4357,7 +4357,7 @@ void AENG_draw_floor()
 				}
 				if (   ((flag_or&(1<<31))==0))// || near_clipped))
 				{
-					SLONG	tflag,c0;
+					std::int32_t	tflag,c0;
 					flag=0xffffffff;
 
 //								if(0)
@@ -4389,10 +4389,10 @@ void AENG_draw_floor()
 					{
 						#define LUMI(x,z) floor_lum[(x)-lum_off_x][(z)-lum_off_z]
 
-						UBYTE	lum;//=LUMI(x,z)+(LUMI(x+1,z)<<8)+(LUMI(x,z+1)<<16)+(LUMI(x+1,z+1)<<24);
-						//SLONG	shadow;
-						UBYTE	*lum_p;
-						UWORD	col0,b0;
+						std::uint8_t	lum;//=LUMI(x,z)+(LUMI(x+1,z)<<8)+(LUMI(x,z+1)<<16)+(LUMI(x+1,z+1)<<24);
+						//std::int32_t	shadow;
+						std::uint8_t	*lum_p;
+						std::uint16_t	col0,b0;
 
 
 
@@ -4553,7 +4553,7 @@ void AENG_draw_floor()
 
 							if(shadow)
 							{
-								UBYTE	*s_map;
+								std::uint8_t	*s_map;
 								s_map=&shadow_map[shadow&0xff][0];
 
 
@@ -4564,7 +4564,7 @@ void AENG_draw_floor()
 								else
 								{
 									//setRGB0(p,p1->R,p1->G,p1->B);
-									((ULONG*)p)[1]=*(ULONG*)p1;
+									((std::uint32_t*)p)[1]=*(std::uint32_t*)p1;
 								}
 								p1++;
 								if(s_map[1])
@@ -4574,7 +4574,7 @@ void AENG_draw_floor()
 								else
 								{
 //									setRGB1(p,p1->R,p1->G,p1->B);
-									((ULONG*)p)[4]=*(ULONG*)p1;
+									((std::uint32_t*)p)[4]=*(std::uint32_t*)p1;
 								}
 								p1--;
 
@@ -4585,7 +4585,7 @@ void AENG_draw_floor()
 								else
 								{
 									//setRGB2(p,p2->R,p2->G,p2->B);
-									((ULONG*)p)[7]=*(ULONG*)p2;
+									((std::uint32_t*)p)[7]=*(std::uint32_t*)p2;
 								}
 								p2++;
 								if(s_map[3])
@@ -4595,7 +4595,7 @@ void AENG_draw_floor()
 								else
 								{
 									//setRGB3(p,p2->R,p2->G,p2->B);
-									((ULONG*)p)[10]=*(ULONG*)p2;
+									((std::uint32_t*)p)[10]=*(std::uint32_t*)p2;
 								}
 								p2--;
 
@@ -4605,10 +4605,10 @@ void AENG_draw_floor()
 
 							else
 							{
-								((ULONG*)p)[1]=*(ULONG*)p1;
-								((ULONG*)p)[4]=((ULONG*)p1)[1];
-								((ULONG*)p)[7]=*(ULONG*)p2;
-								((ULONG*)p)[10]=((ULONG*)p2)[1];
+								((std::uint32_t*)p)[1]=*(std::uint32_t*)p1;
+								((std::uint32_t*)p)[4]=((std::uint32_t*)p1)[1];
+								((std::uint32_t*)p)[7]=*(std::uint32_t*)p2;
+								((std::uint32_t*)p)[10]=((std::uint32_t*)p2)[1];
 							}
 
 
@@ -4632,7 +4632,7 @@ void AENG_draw_floor()
 						if(near_clipped)
 						{
 							LINE_F2	*line;
-							SLONG	r=128;
+							std::int32_t	r=128;
 //									if(near_clipped)
 //										r=255;
 
@@ -4724,21 +4724,21 @@ end_loop:;
 void AENG_draw_ware_floor()
 {
 
-	SLONG world_x=POLY_cam_x;
-	SLONG world_y=POLY_cam_y;
-	SLONG world_z=POLY_cam_z;
-	SWORD	x,z;
-	SLONG	flag;
-	SLONG	kerb=0;
+	std::int32_t world_x=POLY_cam_x;
+	std::int32_t world_y=POLY_cam_y;
+	std::int32_t world_z=POLY_cam_z;
+	std::int16_t	x,z;
+	std::int32_t	flag;
+	std::int32_t	kerb=0;
 
 	PSX_POLY_Point *pp=perm_pp_array;
 	PAP_Hi *ph;
-	UWORD	*col;
-	ULONG	day_flag;
+	std::uint16_t	*col;
+	std::uint32_t	day_flag;
 	
 
 
-//	UBYTE	*current_prim;
+//	std::uint8_t	*current_prim;
 //	current_prim=the_display.CurrentPrim;
 	day_flag=(NIGHT_flag & NIGHT_FLAG_DAYTIME);
 
@@ -4750,7 +4750,7 @@ void AENG_draw_ware_floor()
 			ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 			ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-//extern UBYTE	player_visited[16][128];
+//extern std::uint8_t	player_visited[16][128];
 //			player_visited[x>>3][z]|=1<<(x&7);
 
 //			me = &MAP[MAP_INDEX(x, z)];
@@ -4760,7 +4760,7 @@ void AENG_draw_ware_floor()
 
 			if ((ph->Flags & FLOOR_HIDDEN) && !(ph->Flags & PAP_FLAG_ROOF_EXISTS))
 			{
-				SLONG	near=0;
+				std::int32_t	near=0;
 /*
 				if(ph->Flags&PAP_FLAG_SINK_SQUARE)
 				{
@@ -4816,7 +4816,7 @@ void AENG_draw_ware_floor()
 //				if (POLY_valid_quad(&pp[0])) //inline this
 				if(((pp[0].Flag|pp[1].Flag|pp[2].Flag|pp[3].Flag)&(1<<31))==0)
 				{
-					SLONG	tflag,c0;
+					std::int32_t	tflag,c0;
 					flag=0xffffffff;
 					for(c0=0;c0<4;c0++)
 					{
@@ -4836,10 +4836,10 @@ void AENG_draw_ware_floor()
 						POLY_GT4	*p;
 
 						ALLOCPRIM(p,POLY_GT4);
-						((ULONG*)p)[1]=0x3f3f3f;
-						((ULONG*)p)[4]=0x3f3f3f;
-						((ULONG*)p)[7]=0x3f3f3f;
-						((ULONG*)p)[10]=0x3f3f3f;
+						((std::uint32_t*)p)[1]=0x3f3f3f;
+						((std::uint32_t*)p)[4]=0x3f3f3f;
+						((std::uint32_t*)p)[7]=0x3f3f3f;
+						((std::uint32_t*)p)[10]=0x3f3f3f;
 
 						//
 						// if near clipped dont split poly
@@ -4866,12 +4866,12 @@ void AENG_draw_ware_floor()
 
 struct BIGVECTOR
 {
-	SLONG	X,Y,Z;
+	std::int32_t	X,Y,Z;
 };
 
 struct COLOUR
 {
-	UBYTE R,G,B;
+	std::uint8_t R,G,B;
 };
 
 struct COLOUR	leaf_col[]=
@@ -4883,20 +4883,20 @@ struct COLOUR	leaf_col[]=
 };
 
 void SHAPE_droplet(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
-		ULONG colour,
-		SLONG page)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
+		std::uint32_t colour,
+		std::int32_t page)
 {
 	PSX_POLY_Point *pp=perm_pp_array;
 	POLY_FT3*	p;
-	SLONG			dpx,dpy;
-	SLONG			size,mul,len;
-	SLONG			u,v;
+	std::int32_t			dpx,dpy;
+	std::int32_t			size,mul,len;
+	std::int32_t			u,v;
 
 	pp[0].World.vx=x-POLY_cam_x;
 	pp[0].World.vy=y-POLY_cam_y;
@@ -4959,7 +4959,7 @@ void SHAPE_droplet(
 //	DOPRIM(PANEL_OTZ,p);
 }
 
-extern SLONG matrix[9];
+extern std::int32_t matrix[9];
 
 void SHAPE_rubbish(DIRT_Info *di)
 {
@@ -4968,7 +4968,7 @@ void SHAPE_rubbish(DIRT_Info *di)
 
 void AENG_draw_dirt()
 {
-	SLONG i;
+	std::int32_t i;
 
 	#define LEAF_PAGE		(0)
 	#define LEAF_CENTRE_U	(getPSXU(POLY_PAGE_LEAF)+16)
@@ -4979,23 +4979,23 @@ void AENG_draw_dirt()
 	#define LEAF_UP			8
 	#define LEAF_SIZE       (20+(i&15))
 
-	SLONG j,falling;
+	std::int32_t j,falling;
 
 	DIRT_Info di;
 
-	SLONG yaw;
-	SLONG pitch;
-	SLONG roll;
+	std::int32_t yaw;
+	std::int32_t pitch;
+	std::int32_t roll;
 
-	SLONG angle;
+	std::int32_t angle;
 	SVECTOR temp[3];
 	PSX_POLY_Point *pp=perm_pp_array;
 //	PSX_POLY_Point *tri[3];
-	SLONG	flag,tflag,c0,p,page,clut,z;
-	SLONG	world_x=POLY_cam_x;
-	SLONG	world_y=POLY_cam_y;
-	SLONG	world_z=POLY_cam_z;
-	UBYTE	*cp;
+	std::int32_t	flag,tflag,c0,p,page,clut,z;
+	std::int32_t	world_x=POLY_cam_x;
+	std::int32_t	world_y=POLY_cam_y;
+	std::int32_t	world_z=POLY_cam_z;
+	std::uint8_t	*cp;
 
 	if(roper_pickup==1)
 		return;
@@ -5003,7 +5003,7 @@ void AENG_draw_dirt()
 	cp=the_display.CurrentPrim;
 	check_prim_ptr((void**)&cp);
 
-//	ULONG leaf_colour_choice_rgb[4] =
+//	std::uint32_t leaf_colour_choice_rgb[4] =
 //	{
 //		0x332d1d,
 //		0x243224,
@@ -5011,9 +5011,9 @@ void AENG_draw_dirt()
 //		0x332f07
 //	};
 
-	ULONG col;
-//	ULONG leaf_colour;
-//	ULONG leaf_specular;
+	std::uint32_t col;
+//	std::uint32_t leaf_colour;
+//	std::uint32_t leaf_specular;
 
 //	tri[0] = &pp[0];
 //	tri[1] = &pp[1];
@@ -5164,14 +5164,14 @@ void AENG_draw_dirt()
 
 							if(pp[0].Word.SX>=0 && pp[0].Word.SX<DISPLAYWIDTH && pp[0].Word.SY>=0 &&pp[0].Word.SY<SCREEN_HEIGHT)
 							{
-								UBYTE	rubbish=(7*8)+((i>>3)&3);
-								UBYTE   u,v;
+								std::uint8_t	rubbish=(7*8)+((i>>3)&3);
+								std::uint8_t   u,v;
 
 								u=getPSXU(rubbish);
 								v=getPSXV(rubbish);
 
 
-								SWORD	floor_red,floor_green,floor_blue;
+								std::int16_t	floor_red,floor_green,floor_blue;
 
 	//							angle = i*100;
 								POLY_FT4	*p;
@@ -5188,14 +5188,14 @@ void AENG_draw_dirt()
 
 
 								//setRGB0(p,floor_red,floor_green,floor_blue); //leaf_col[col].R,leaf_col[col].G,leaf_col[col].B);
-								((ULONG *)p)[1]=(0x2c<<24)|0x7f7f7f; //FT3
+								((std::uint32_t *)p)[1]=(0x2c<<24)|0x7f7f7f; //FT3
 								((P_TAG *)p)->len=9;  //FT3
 
 
-								((SLONG *)p)[2]=pp[0].SYSX;
-								((SLONG *)p)[4]=pp[1].SYSX;
-								((SLONG *)p)[6]=pp[2].SYSX;
-								((SLONG *)p)[8]=pp[3].SYSX;
+								((std::int32_t *)p)[2]=pp[0].SYSX;
+								((std::int32_t *)p)[4]=pp[1].SYSX;
+								((std::int32_t *)p)[6]=pp[2].SYSX;
+								((std::int32_t *)p)[8]=pp[3].SYSX;
 
 
 	//							z=(z);
@@ -5336,8 +5336,8 @@ void AENG_draw_dirt()
 //						if(flag==0) 
 						if(pp[0].Word.SX>=0 && pp[0].Word.SX<DISPLAYWIDTH && pp[0].Word.SY>=0 &&pp[0].Word.SY<SCREEN_HEIGHT)
 						{
-							UBYTE	col=i&3;
-							SWORD	floor_red,floor_green,floor_blue;
+							std::uint8_t	col=i&3;
+							std::int16_t	floor_red,floor_green,floor_blue;
 //							angle = i*100;
 							POLY_FT3	*p;
 
@@ -5371,13 +5371,13 @@ void AENG_draw_dirt()
 							SATURATE(floor_blue,0,128);
 
 							//setRGB0(p,floor_red,floor_green,floor_blue); //leaf_col[col].R,leaf_col[col].G,leaf_col[col].B);
-							((ULONG *)p)[1]=(0x24<<24)|(floor_blue<<16)|(floor_green<<8)|floor_red; //FT3
+							((std::uint32_t *)p)[1]=(0x24<<24)|(floor_blue<<16)|(floor_green<<8)|floor_red; //FT3
 							((P_TAG *)p)->len=7;  //FT3
 
 
-							((SLONG *)p)[2]=pp[0].SYSX;
-							((SLONG *)p)[4]=pp[1].SYSX;
-							((SLONG *)p)[6]=pp[2].SYSX;
+							((std::int32_t *)p)[2]=pp[0].SYSX;
+							((std::int32_t *)p)[4]=pp[1].SYSX;
+							((std::int32_t *)p)[6]=pp[2].SYSX;
 //							setXY3(p,pp[0].Word.SX,pp[0].Word.SY,
 //									pp[1].Word.SX,pp[1].Word.SY,
 //									pp[2].Word.SX,pp[2].Word.SY);
@@ -5410,7 +5410,7 @@ void AENG_draw_dirt()
 
 //				printf("DIRT - PRIM (%d)\n",di.prim);
 				{
-					SLONG	dist,dx,dz;
+					std::int32_t	dist,dx,dz;
 					dx=(di.x)-POLY_cam_x;
 					dz=(di.z)-POLY_cam_z;
 					dist=dx*dx+dz*dz;
@@ -5527,13 +5527,13 @@ void AENG_flip_init()
 	ReadInputDevice();
 }
 
-UBYTE Ive_Not_Been_Flipped;
-SLONG geom=420;
+std::uint8_t Ive_Not_Been_Flipped;
+std::int32_t geom=420;
 
 void AENG_flip()
 {
-	static	SLONG	prev_sync;
-	SLONG	temp;
+	static	std::int32_t	prev_sync;
+	std::int32_t	temp;
 
 
 	//
@@ -5542,7 +5542,7 @@ void AENG_flip()
 
 #ifdef	MIKE
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"%d %d",available_bucket_ram()/1024,my_draw_dist>>8);
 		FONT2D_DrawString(str,100,100);
 	}
@@ -5703,9 +5703,9 @@ void AENG_flip()
 
 }
 
-extern UBYTE Wadmenu_PadType;
+extern std::uint8_t Wadmenu_PadType;
 
-void AENG_flip2(ULONG *back_image)
+void AENG_flip2(std::uint32_t *back_image)
 {
 	DB	*old_buffer;
 
@@ -5739,16 +5739,16 @@ void AENG_flip2(ULONG *back_image)
 }
 
 extern void SHAPE_sparky_line(
-		SLONG num_points,
-		SLONG px[],
-		SLONG py[],
-		SLONG pz[],
-		ULONG colour,
-		SLONG width);
+		std::int32_t num_points,
+		std::int32_t px[],
+		std::int32_t py[],
+		std::int32_t pz[],
+		std::uint32_t colour,
+		std::int32_t width);
 
 void AENG_draw_sparks()
 {
-	SLONG z;
+	std::int32_t z;
 	
 
 	SPARK_Info   *si;
@@ -5793,7 +5793,7 @@ void AENG_draw_sparks()
 
 }
 
-void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade);
+void AENG_draw_inside_floor(std::uint16_t inside_index,std::uint16_t inside_room,std::uint8_t fade);
 
 /*
 #define SKY_MAX_STARS 256
@@ -5808,9 +5808,9 @@ STAR_Data Star[SKY_MAX_STARS];
 
 SVECTOR sky_range[64][9];
 
-void SKY_init(CBYTE* star_file)
+void SKY_init(char* star_file)
 {
-	UWORD i,j;
+	std::uint16_t i,j;
 	SVECTOR pos;
 	VECTOR res;
 	MATRIX m;
@@ -5854,8 +5854,8 @@ void SKY_draw_bowl()
 	POLY_FT4* p;
 	VECTOR v;
 	MATRIX m;
-//	SLONG draw_from=0;
-	SWORD	and_flag_y,and_flag_x;
+//	std::int32_t draw_from=0;
+	std::int16_t	and_flag_y,and_flag_x;
 	int i,j;
 
 	angle=((AENG_cam_yaw&2016)-192)&2047;
@@ -5879,7 +5879,7 @@ void SKY_draw_bowl()
 
 
 			//
-			// could do this in one SLONG using SYSX
+			// could do this in one std::int32_t using SYSX
 			//
 			and_flag_y=pp[0].Word.SY&pp[1].Word.SY&pp[2].Word.SY&pp[3].Word.SY;
 
@@ -5915,7 +5915,7 @@ void SKY_draw_bowl()
 /*
 void SKY_draw_stars()
 {
-	SLONG i,pf,flag,z;
+	std::int32_t i,pf,flag,z;
 	DVECTOR xy;
 	LINE_F2 *p;
 	POLY_FT4 *p2;
@@ -5946,7 +5946,7 @@ void SKY_draw_stars()
 			p++;
 		}
 	}
-	the_display.CurrentPrim=(UBYTE *)p;
+	the_display.CurrentPrim=(std::uint8_t *)p;
 }
 
 
@@ -6004,7 +6004,7 @@ void AENG_draw_bike(Thing *p_thing)
 
 		if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
 		{
-			SLONG matrix[9], vector[3], dx,dy,dz;
+			std::int32_t matrix[9], vector[3], dx,dy,dz;
 			FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
 			FMATRIX_TRANSPOSE(matrix);
 			vector[2]=-255; vector[1]=0; vector[0]=0; 
@@ -6053,7 +6053,7 @@ void AENG_ride_bike(Thing *p_thing)
 	p_thing->Draw.Tweened->Roll  = bdi.roll;
 
 	{
-		SLONG roll = bdi.roll;
+		std::int32_t roll = bdi.roll;
 
 		if (roll > 1024)
 		{
@@ -6106,11 +6106,11 @@ void AENG_ride_bike(Thing *p_thing)
 
 void AENG_draw_tripwires()
 {
-	SLONG map_x1;
-	SLONG map_z1;
+	std::int32_t map_x1;
+	std::int32_t map_z1;
 
-	SLONG map_x2;
-	SLONG map_z2;
+	std::int32_t map_x2;
+	std::int32_t map_z2;
 
 	TRIP_Info *ti;
 
@@ -6154,9 +6154,9 @@ void AENG_draw_tripwires()
 
 void AENG_dfcache_clean()
 {
-	SLONG dfcache;
-	SLONG next;
-//	UBYTE lastturn = GAME_TURN - 1;
+	std::int32_t dfcache;
+	std::int32_t next;
+//	std::uint8_t lastturn = GAME_TURN - 1;
 
 	NIGHT_Dfcache *ndf;
 
@@ -6191,7 +6191,7 @@ void AENG_dfcache_clean()
 
 void fiddle_draw_distance()
 {
-extern SLONG	tick_tock_unclipped;
+extern std::int32_t	tick_tock_unclipped;
 	if(tick_tock_unclipped)
 	{
 		if((1000/tick_tock_unclipped)<13)
@@ -6208,18 +6208,18 @@ extern SLONG	tick_tock_unclipped;
 	}
 }
 
-void AENG_draw_warehouse(SLONG info)
+void AENG_draw_warehouse(std::int32_t info)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 //	MapElement *me;
 
 	THING_INDEX t_index;
 	Thing      *p_thing;
-	SLONG	temp_draw_dist;
+	std::int32_t	temp_draw_dist;
 
 	//
 	// Create the gamut
@@ -6235,8 +6235,8 @@ void AENG_draw_warehouse(SLONG info)
 	AENG_calc_gamut(temp_draw_dist>>8);
 /*
 	{
-//		static SLONG near=810,far=22000;
-		static SLONG near=3400,far=4200;
+//		static std::int32_t near=810,far=22000;
+		static std::int32_t near=3400,far=4200;
 
 		SetFogNearFar(near,far,420);
 	}
@@ -6281,7 +6281,7 @@ void AENG_draw_warehouse(SLONG info)
  					if (oi->flags & OB_FLAG_WAREHOUSE)
 					{
 
-							SLONG	dist,dx,dz;
+							std::int32_t	dist,dx,dz;
 							dx=(oi->x)-POLY_cam_x;
 							dz=(oi->z)-POLY_cam_z;
 							dist=dx*dx+dz*dz;
@@ -6318,10 +6318,10 @@ void AENG_draw_warehouse(SLONG info)
 				//
 
 				{
-					SLONG f_list;
-					SLONG facet;
-					SLONG build;
-					SLONG exit = false;
+					std::int32_t f_list;
+					std::int32_t facet;
+					std::int32_t build;
+					std::int32_t exit = false;
 
 					f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -6417,7 +6417,7 @@ void AENG_draw_warehouse(SLONG info)
 				p_thing = TO_THING(t_index);
 				p_thing->Flags|=FLAGS_IN_VIEW;
 
- extern ULONG	MESH_colour_and;
+ extern std::uint32_t	MESH_colour_and;
 
 					MESH_colour_and=(t_index+1) & 7;
 
@@ -6451,7 +6451,7 @@ void AENG_draw_warehouse(SLONG info)
 							else
 */
 							{
-								SLONG	dist,dx,dz;
+								std::int32_t	dist,dx,dz;
 								dx=(p_thing->WorldPos.X>>8)-POLY_cam_x;
 								dz=(p_thing->WorldPos.Z>>8)-POLY_cam_z;
 								dist=dx*dx+dz*dz;
@@ -6527,7 +6527,7 @@ void AENG_draw_warehouse(SLONG info)
 							break;
 						case DT_ANIM_PRIM:
 							{
-//								SLONG	dist,dx,dz;
+//								std::int32_t	dist,dx,dz;
 //								dx=(p_thing->WorldPos.X>>8)-POLY_cam_x;
 //								dz=(p_thing->WorldPos.Z>>8)-POLY_cam_z;
 //								dist=dx*dx+dz*dz;
@@ -6580,7 +6580,7 @@ void debug_lines()
 	return;
 #ifndef	NDEBUG
 #ifdef	MIKE
-	SLONG	x1,x2;
+	std::int32_t	x1,x2;
 
 	// debug stuff
 
@@ -6590,7 +6590,7 @@ void debug_lines()
 	x1=10+((x1*300)/BUCKET_MEM);
 	x2=10+((x2*300)/BUCKET_MEM);
 
-void quick_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG r,SLONG g,SLONG b);
+void quick_rect(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t r,std::int32_t g,std::int32_t b);
 
 
 //
@@ -6657,25 +6657,25 @@ void quick_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG r,SLONG g,SLONG b);
 }
 
 
-void AENG_draw_city(SLONG info)
+void AENG_draw_city(std::int32_t info)
 {
-//	SLONG i;
+//	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 //	MapElement *me;
 
 	THING_INDEX t_index;
 	Thing      *p_thing;
 
-//	SLONG p,flag,Z,r;
+//	std::int32_t p,flag,Z,r;
 
 	PrimInfo *pi;
-	SLONG	supermap_counter;
-	SLONG	max_x;
-	SLONG	max_y=NGAMUT_Ymax;
-	ULONG	incar=0;
+	std::int32_t	supermap_counter;
+	std::int32_t	max_x;
+	std::int32_t	max_y=NGAMUT_Ymax;
+	std::uint32_t	incar=0;
 
 	remove_dead_people=0;
 
@@ -6695,7 +6695,7 @@ void AENG_draw_city(SLONG info)
 #endif
 	if(0)
 	{
-		SLONG near,far;
+		std::int32_t near,far;
 		far=(AENG_DRAW_DIST+2)*256;
 		near=far-(AENG_DRAW_DIST<<6);
 
@@ -6729,7 +6729,7 @@ extern void NIGHT_dlight_render();
 	AENG_draw_floor();
 /*
 	{
-		SLONG near,far;
+		std::int32_t near,far;
 		far=(AENG_DRAW_DIST)*256;
 		near=far-(AENG_DRAW_DIST<<6);
 
@@ -6758,7 +6758,7 @@ extern void NIGHT_dlight_render();
 		AENG_DRAW_DIST=13;
 
 		{
-			SLONG near,far;
+			std::int32_t near,far;
 			far=AENG_DRAW_DIST*256;
 			near=far-(AENG_DRAW_DIST<<6);
 
@@ -6824,7 +6824,7 @@ extern void NIGHT_dlight_render();
 //						if (POLY_sphere_visible(oi->x,oi->y,oi->z,get_prim_info(oi->prim)->radius))
 						{
 							//if(0)
-							SLONG	dist,dx,dz;
+							std::int32_t	dist,dx,dz;
 							dx=(oi->x)-POLY_cam_x;
 							dz=(oi->z)-POLY_cam_z;
 							dist=dx*dx+dz*dz;
@@ -6855,7 +6855,7 @@ extern void NIGHT_dlight_render();
 
 								if (prim_objects[oi->prim].flag & PRIM_FLAG_GLARE)
 								{
-									SLONG	c8;
+									std::int32_t	c8;
 									//for(c8=0;c8<100;c8++);
 									if(oi->prim==230)
 										BLOOM_draw(oi->x,oi->y+48,oi->z, 0,0,0,0x808080,0);
@@ -6900,10 +6900,10 @@ extern void NIGHT_dlight_render();
 				//
 
 				{
-					SLONG f_list;
-					SLONG facet;
-					SLONG build;
-					SLONG exit = false;
+					std::int32_t f_list;
+					std::int32_t facet;
+					std::int32_t build;
+					std::int32_t exit = false;
 
 					f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -7044,7 +7044,7 @@ extern void NIGHT_dlight_render();
 				}
 				else
 				{
- extern ULONG	MESH_colour_and;
+ extern std::uint32_t	MESH_colour_and;
 
 					MESH_colour_and=(THING_NUMBER(p_thing)+1) & 7;
 
@@ -7085,7 +7085,7 @@ extern void NIGHT_dlight_render();
 							}
 */
 							{
-								SLONG	dist,dx,dz;
+								std::int32_t	dist,dx,dz;
 								dx=(p_thing->WorldPos.X>>8)-POLY_cam_x;
 								dz=(p_thing->WorldPos.Z>>8)-POLY_cam_z;
 								dist=dx*dx+dz*dz;
@@ -7171,7 +7171,7 @@ extern void	draw_car(Thing *p_car);
 						case DT_ANIM_PRIM:
 			
 							{
-								SLONG	dist,dx,dz;
+								std::int32_t	dist,dx,dz;
 								dx=(p_thing->WorldPos.X>>8)-POLY_cam_x;
 								dz=(p_thing->WorldPos.Z>>8)-POLY_cam_z;
 								dist=dx*dx+dz*dz;
@@ -7208,7 +7208,7 @@ extern void	draw_car(Thing *p_car);
 
 
 #ifdef	INSIDES_EXIST
-extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
+extern void	draw_insides(std::int32_t indoor_index,std::int32_t room,std::uint8_t fade);
 	if(INDOORS_INDEX_NEXT)
 	{
 		draw_insides(INDOORS_INDEX_NEXT,INDOORS_INDEX_NEXT,INDOORS_INDEX_FADE);
@@ -7260,10 +7260,10 @@ extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 	{
 		for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++)
 		{
-			SLONG f_list;
-			SLONG facet;
-			SLONG build;
-			SLONG exit = false;
+			std::int32_t f_list;
+			std::int32_t facet;
+			std::int32_t build;
+			std::int32_t exit = false;
 
 			f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -7303,7 +7303,7 @@ extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 						dfacets[facet].Counter[0] = supermap_counter;
 
 
-extern void FACET_draw_quick(SLONG facet);
+extern void FACET_draw_quick(std::int32_t facet);
 
 						FACET_draw_quick(facet);
 						debug_count[4]++;
@@ -7328,9 +7328,9 @@ extern void FACET_draw_quick(SLONG facet);
 
 #ifdef MIKE
 
-void quick_rect(SLONG x,SLONG y,SLONG x2,SLONG y2,SLONG r,SLONG g,SLONG b)
+void quick_rect(std::int32_t x,std::int32_t y,std::int32_t x2,std::int32_t y2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
+void DRAW2D_Box_Page(std::int32_t x,std::int32_t y,std::int32_t ox,std::int32_t oy,std::int32_t rgb);
 
 	DRAW2D_Box_Page(x,y,x2,y2,(128<<24)+(r<<16)+(g<<8)+b);
 
@@ -7339,10 +7339,10 @@ void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
 
 void show_debug_info()
 {
-	CBYTE	str[100];
-	ULONG	size;
+	char	str[100];
+	std::uint32_t	size;
 /*
-	static	SLONG	pers=420;
+	static	std::int32_t	pers=420;
 		if (PadKeyIsPressed(&PAD_Input2,PAD_LU))
 		{
 			pers+=5;
@@ -7357,7 +7357,7 @@ void show_debug_info()
 */
 
 
-extern SLONG	pers_off;
+extern std::int32_t	pers_off;
 
 	size=the_display.CurrentPrim-&(the_display.CurrentDisplayBuffer->PrimMem[0]);
 //	sprintf(str,"%d %d FC %d",global_debug,draw_state,FC_cam[0].pitch>>8);
@@ -7374,7 +7374,7 @@ extern SLONG	pers_off;
 	*/
 
 /*
-extern SWORD	store_z[15];
+extern std::int16_t	store_z[15];
 	sprintf(str,"po %d P%d LF%d LT%d LF%d T%d ",pers_off,store_z[0],store_z[1],store_z[2],store_z[3],store_z[4]);
 	FONT2D_DrawString(str,10,10);
 
@@ -7384,28 +7384,28 @@ extern SWORD	store_z[15];
 	sprintf(str,"LH%d SK%d RF%d RT%d RF%d ",store_z[10],store_z[11],store_z[12],store_z[13],store_z[14]);
 	FONT2D_DrawString(str,10,40);
 
-	//FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
+	//FONT2D_DrawString(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
 //	FONT2D_DrawString(str,10,10);
-	//, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
+	//, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
 */
 
 }
 #endif
 
 
-void AENG_draw(SLONG info)
+void AENG_draw(std::int32_t info)
 {
 	PSX_POLY_Point	holdpp[MAX_PP_ARRAY];
 	perm_pp_array=holdpp;
 
-extern SLONG	tick_tock_unclipped;
+extern std::int32_t	tick_tock_unclipped;
 	sea_offset+=(tick_tock_unclipped);
 
 	Ive_Not_Been_Flipped++;
 
 	memset(debug_count,0,20);
 
-extern SLONG	psx_camera();
+extern std::int32_t	psx_camera();
 	// This should fix all those fucking useless warehouse camera problems in one fell swoop.
 	// It sure does.
 	if (psx_camera())
@@ -7430,15 +7430,15 @@ extern SLONG	psx_camera();
 }
 
 #ifdef INSIDES_EXIST
-void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
+void AENG_draw_inside_floor(std::uint16_t inside_index,std::uint16_t inside_room,std::uint8_t fade)
 {
-	SLONG	x,z;
-//	SLONG page;
+	std::int32_t	x,z;
+//	std::int32_t page;
 
 //	float world_x;
 //	float world_y;
-	SLONG floor_y;
-	SLONG roof_y;
+	std::int32_t floor_y;
+	std::int32_t roof_y;
 //	float world_z;
 
 	PSX_POLY_Point *pp=perm_pp_array;
@@ -7450,18 +7450,18 @@ void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 //	PSX_POLY_Point *quad[4];
 
 	struct	InsideStorey	*p_inside;
-	SLONG	in_width;
-	UBYTE	*in_block;
-	SLONG	min_z,max_z;
-//	SLONG	c0;
-	SLONG	floor_type;
-	UBYTE   *current_prim;
+	std::int32_t	in_width;
+	std::uint8_t	*in_block;
+	std::int32_t	min_z,max_z;
+//	std::int32_t	c0;
+	std::int32_t	floor_type;
+	std::uint8_t   *current_prim;
 
 
 	//
 	// draw the internal walls
 	//
-//extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
+//extern void	draw_insides(std::int32_t indoor_index,std::int32_t room,std::uint8_t fade);
 //	draw_insides(inside_index,inside_room,fade);
 	
 	p_inside=&inside_storeys[inside_index];
@@ -7484,9 +7484,9 @@ void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 
 	for (z = min_z; z <= max_z; z++)
 	{
-		SLONG	min_x,max_x;
-		SLONG	face_y;
-		SLONG	col;
+		std::int32_t	min_x,max_x;
+		std::int32_t	face_y;
+		std::int32_t	col;
 		min_x=MAX(NGAMUT_point_gamut[z].xmin,p_inside->MinX);
 		max_x=MIN(NGAMUT_point_gamut[z].xmax,p_inside->MaxX);
 
@@ -7500,7 +7500,7 @@ void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 
 			if ((PAP_2HI(x,z).Flags & (PAP_FLAG_HIDDEN)))
 			{
-				SLONG	room_id;
+				std::int32_t	room_id;
 
 				room_id=in_block[(x-p_inside->MinX)+(z-p_inside->MinZ)*in_width]&(0xf|0x80|0x40);
 
@@ -7541,7 +7541,7 @@ void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 
 					if(((pp[0].Flag|pp[1].Flag|pp[2].Flag|pp[3].Flag)&(1<<31))==0)
 					{
-						SLONG	flag,tflag,c0;
+						std::int32_t	flag,tflag,c0;
 						flag=0xffffffff;
 						for(c0=0;c0<4;c0++)
 						{
@@ -7569,7 +7569,7 @@ void AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 #endif
 
 
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
+std::int32_t FONT_draw(std::int32_t x, std::int32_t y, char* fmt, ...)
 {
 }
 
@@ -7592,19 +7592,19 @@ void AENG_init()
 
 
 
-void AENG_calc_gamut(SLONG dist)
+void AENG_calc_gamut(std::int32_t dist)
 {
-	SLONG width;
-	SLONG height;
-	SLONG depth;
-	SLONG aspect;
-	SLONG matrix[9];
+	std::int32_t width;
+	std::int32_t height;
+	std::int32_t depth;
+	std::int32_t aspect;
+	std::int32_t matrix[9];
 
 	struct
 	{
-		SLONG	x;
-		SLONG	y;
-		SLONG	z;
+		std::int32_t	x;
+		std::int32_t	y;
+		std::int32_t	z;
 
 	} cone[5];
 
@@ -7776,7 +7776,7 @@ void AENG_calc_gamut(SLONG dist)
 		addPrim(&the_display.CurrentDisplayBuffer->ot[700],p4);
 		if(0)
 		{
-			SLONG	x;
+			std::int32_t	x;
 			for(x=0;x<128;x++)
 			{
 				if(NGAMUT_gamut2[x].zmin!=255)
@@ -7795,7 +7795,7 @@ void AENG_calc_gamut(SLONG dist)
 #endif
 	{
 
-		SLONG	c0;
+		std::int32_t	c0;
 		NGAMUT_Ymin=cone[0].y;
 		NGAMUT_Ymax=NGAMUT_Ymin;
 
@@ -7815,7 +7815,7 @@ void AENG_calc_gamut(SLONG dist)
 }
 
 /*
-void AENG_loadbar(SLONG percent)
+void AENG_loadbar(std::int32_t percent)
 {
 	PANEL_draw_health_bar(406,228,percent);
 	DrawSync(0);
@@ -7829,7 +7829,7 @@ void AENG_loadbar(SLONG percent)
 
 char scrn_mem[512*256*2];
 
-void AENG_screen_shot(SLONG width)
+void AENG_screen_shot(std::int32_t width)
 {
 	char *mem;
 	int handle;
@@ -7848,9 +7848,9 @@ void AENG_screen_shot(SLONG width)
 
 #if 0
 void AENG_world_line_infinite(
-		SLONG ix1, SLONG iy1, SLONG iz1, SLONG iwidth1, ULONG colour1, 
-		SLONG ix2, SLONG iy2, SLONG iz2, SLONG iwidth2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t ix1, std::int32_t iy1, std::int32_t iz1, std::int32_t iwidth1, std::uint32_t colour1, 
+		std::int32_t ix2, std::int32_t iy2, std::int32_t iz2, std::int32_t iwidth2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 	/*
 	float x1 = float(ix1);
@@ -7901,19 +7901,19 @@ void AENG_world_line_infinite(
 
 	for (f = 0.0F; f < steps; f += 1.0F)
 	{
-		colour1 = (SLONG(r     ) << 16) | (SLONG(g     ) << 8) | (SLONG(b     ) << 0);
-		colour2 = (SLONG(r + dr) << 16) | (SLONG(g + dg) << 8) | (SLONG(b + db) << 0);
+		colour1 = (std::int32_t(r     ) << 16) | (std::int32_t(g     ) << 8) | (std::int32_t(b     ) << 0);
+		colour2 = (std::int32_t(r + dr) << 16) | (std::int32_t(g + dg) << 8) | (std::int32_t(b + db) << 0);
 
 		AENG_world_line(
-			SLONG(x),
-			SLONG(y),
-			SLONG(z),
-			SLONG(w),
+			std::int32_t(x),
+			std::int32_t(y),
+			std::int32_t(z),
+			std::int32_t(w),
 			colour1,
-			SLONG(x + dx),
-			SLONG(y + dy),
-			SLONG(z + dz),
-			SLONG(w + dw),
+			std::int32_t(x + dx),
+			std::int32_t(y + dy),
+			std::int32_t(z + dz),
+			std::int32_t(w + dw),
 			colour2,
 			sort_to_front);
 
@@ -7934,16 +7934,16 @@ extern char *GDisp_Bucket;
 #else
 extern char GDisp_Bucket[];
 #endif
-	FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0)
+	FONT2D_DrawString(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0)
 {
 #ifndef VERSION_KANJI
 	POLY_FT4 *p;
-	CBYTE* m=chr;
-	SLONG x0=x,y0=y;
-	SLONG c,dec;
+	char* m=chr;
+	std::int32_t x0=x,y0=y;
+	std::int32_t c,dec;
 
-	SLONG cl=getPSXClutT(0);//POLY_PAGE_FONT2D);
-	SLONG tp=getPSXTPageT(0);//POLY_PAGE_FONT2D);
+	std::int32_t cl=getPSXClutT(0);//POLY_PAGE_FONT2D);
+	std::int32_t tp=getPSXTPageT(0);//POLY_PAGE_FONT2D);
 
 //	if (the_display.CurrentPrim>&GDisp_Bucket[BUCKET_MEM-3120])
 //		return;
@@ -7971,7 +7971,7 @@ extern char GDisp_Bucket[];
 			c=*m-32;
 
 			setPolyFT4(p);
-			dec=(((SLONG)f_descend[c])*(scale+1))>>8;
+			dec=(((std::int32_t)f_descend[c])*(scale+1))>>8;
 			setXYWH(p,x0,y0+dec,(scale>>5),(scale>>5));
 			setUVWH(p,(c&7)<<3,(c&0xf8),8,8);
 			if (rgb&&((c<96)||(c>111)))
@@ -7997,14 +7997,14 @@ extern char GDisp_Bucket[];
 		}*/
 		m++;
 	}
-	the_display.CurrentPrim=(UBYTE*)p;
+	the_display.CurrentPrim=(std::uint8_t*)p;
 #else
 #if 0
-	SLONG Kanji_found=Kanji_FindString(chr);
+	std::int32_t Kanji_found=Kanji_FindString(chr);
 	POLY_FT4 *p;
-	SLONG width,ch,height;
+	std::int32_t width,ch,height;
 
-	if ((SLONG)chr>0)
+	if ((std::int32_t)chr>0)
 		Kanji_JunkString(Kanji_found);
 
 	width=text_width(chr,0,&ch);
@@ -8020,7 +8020,7 @@ extern char GDisp_Bucket[];
 	p->tpage=getTPage(0,0,Kanji_buffer_x,Kanji_buffer_y);
 	DOPRIM(PANEL_OTZ,p);
 #else
-	Kanji_string(x,y,(UWORD*)chr,rgb,scale);
+	Kanji_string(x,y,(std::uint16_t*)chr,rgb,scale);
 #endif
 #endif
 	ASSERT(the_display.CurrentPrim-the_display.CurrentDisplayBuffer->PrimMem<BUCKET_MEM);
@@ -8028,9 +8028,9 @@ extern char GDisp_Bucket[];
 
 char FONT2D_WrapStr[128];
 
-SLONG AENG_text_wrappoint=308;
+std::int32_t AENG_text_wrappoint=308;
 
-SLONG FONT2D_DrawStringWrap(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0)
+std::int32_t FONT2D_DrawStringWrap(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0)
 {
 	int	w;
 	int h=0;
@@ -8071,10 +8071,10 @@ SLONG FONT2D_DrawStringWrap(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLO
 
 }
 
-FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade)
+FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade)
 {
 	PSX_POLY_Point pp;
-	SLONG size;
+	std::int32_t size;
 
 	pp.World.vx=world_x-POLY_cam_x;
 	pp.World.vy=world_y-POLY_cam_y;
@@ -8087,16 +8087,16 @@ FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULON
 	FONT2D_DrawString(str,pp.Word.SX,pp.Word.SY,rgb,size,POLY_PAGE_FONT2D,fade);
 }
 
-void FONT2D_DrawStringCentred(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0)
+void FONT2D_DrawStringCentred(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0)
 {
-	SLONG width,c;
+	std::int32_t width,c;
 
 	width=(text_width(chr,0,&c)*scale)>>8;
 	FONT2D_DrawString(chr,x-(width>>1),y-6,rgb,scale,0,0);
 }
 
 
-void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb)
+void DRAW2D_Box_Page(std::int32_t x,std::int32_t y,std::int32_t ox,std::int32_t oy,std::int32_t rgb)
 {
 	POLY_F4 *p;
 
@@ -8133,22 +8133,22 @@ void CONSOLE_draw()
 }
 
 
-void CONSOLE_font(CBYTE* fontpath, SLONG scale)
+void CONSOLE_font(char* fontpath, std::int32_t scale)
 {
 }
 
 #define MAP_MAX_BEACON_COLOURS 6
 
-extern ULONG MAP_beacon_colour[MAP_MAX_BEACON_COLOURS];
+extern std::uint32_t MAP_beacon_colour[MAP_MAX_BEACON_COLOURS];
 
-extern SLONG	analogue;
+extern std::int32_t	analogue;
 
 ImageInfo poly2d_image[]={
 	{0,0,0,136,16},
 	{0,0,16,196,16}
 };
 
-void POLY2D_TextImage(SLONG image,SLONG x,SLONG y,SLONG col)
+void POLY2D_TextImage(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t col)
 {
 	POLY_FT4 *p;
 
@@ -8164,9 +8164,9 @@ void POLY2D_TextImage(SLONG image,SLONG x,SLONG y,SLONG col)
 	DOPRIM(PANEL_OTZ,p);
 }
 
-void AENG_loading_bar_draw(SLONG percent)
+void AENG_loading_bar_draw(std::int32_t percent)
 {
-	SLONG i;
+	std::int32_t i;
 	percent/=5;
 
 	for(i=0;i<percent;i++)
@@ -8175,7 +8175,7 @@ void AENG_loading_bar_draw(SLONG percent)
 	}
 }
 
-void AENG_loading_bar(SLONG percent)
+void AENG_loading_bar(std::int32_t percent)
 {
 	AENG_loading_bar_draw(percent);
 	AENG_flip();

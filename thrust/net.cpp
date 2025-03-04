@@ -40,7 +40,7 @@ DPID NET_player_local;
 // The buffer into which messages are received.
 //
 
-UBYTE NET_buffer[NET_MAX_MESSAGE_LENGTH];
+std::uint8_t NET_buffer[NET_MAX_MESSAGE_LENGTH];
 
 
 //
@@ -51,12 +51,12 @@ UBYTE NET_buffer[NET_MAX_MESSAGE_LENGTH];
 #define NET_CONNECTION_LAN      1
 #define NET_CONNECITON_INTERNET 2
 
-SLONG NET_connection;
+std::int32_t NET_connection;
 
 
 
 
-SLONG NET_init()
+std::int32_t NET_init()
 {
 	HRESULT res;
 
@@ -115,13 +115,13 @@ void NET_kill()
 
 
 
-SLONG NET_connection_lan()
+std::int32_t NET_connection_lan()
 {
 	DPCOMPOUNDADDRESSELEMENT address_element[1];
-	SLONG                    num_elements;
+	std::int32_t                    num_elements;
 
 	void* address;
-	ULONG address_size;
+	std::uint32_t address_size;
 
 	HRESULT res;
 
@@ -196,11 +196,11 @@ SLONG NET_connection_lan()
 
 
 
-SLONG NET_session_create(CBYTE* session_name, SLONG max_players)
+std::int32_t NET_session_create(char* session_name, std::int32_t max_players)
 {
-	SLONG i;
+	std::int32_t i;
 
-	UBYTE   ans;
+	std::uint8_t   ans;
 	HRESULT res;
 
 	DPNAME         dpname;
@@ -260,9 +260,9 @@ SLONG NET_session_create(CBYTE* session_name, SLONG max_players)
 
 typedef struct
 {
-	CBYTE name[NET_MAX_NAME_LENGTH + 8];
-	SLONG num_players;
-	SLONG max_players;
+	char name[NET_MAX_NAME_LENGTH + 8];
+	std::int32_t num_players;
+	std::int32_t max_players;
 	GUID  guidInstance;
 	GUID  guidApplication;
 	
@@ -271,7 +271,7 @@ typedef struct
 #define NET_MAX_SESSIONS 16
 
 NET_Session NET_session[NET_MAX_SESSIONS];
-SLONG NET_session_upto;
+std::int32_t NET_session_upto;
 
 
 //
@@ -310,7 +310,7 @@ bool FAR PASCAL NET_enum_sessions(
 	return true;
 }
 
-SLONG NET_session_get_number()
+std::int32_t NET_session_get_number()
 {
 	DPSESSIONDESC2 desc;
 
@@ -326,7 +326,7 @@ SLONG NET_session_get_number()
 	return NET_session_upto;
 }
 
-NET_Sinfo NET_session_get_info(SLONG session)
+NET_Sinfo NET_session_get_info(std::int32_t session)
 {
 	NET_Sinfo ans;
 
@@ -341,7 +341,7 @@ NET_Sinfo NET_session_get_info(SLONG session)
 }
 
 
-SLONG NET_session_join(SLONG session)
+std::int32_t NET_session_join(std::int32_t session)
 {
 	HRESULT        res;
 	DPSESSIONDESC2 desc;
@@ -403,11 +403,11 @@ void NET_session_leave()
 
 
 
-void NET_player_message_send(SLONG num_bytes, void* data, SLONG guaranteed)
+void NET_player_message_send(std::int32_t num_bytes, void* data, std::int32_t guaranteed)
 {
 	HRESULT res;
 
-	UBYTE *u = (UBYTE *) data;
+	std::uint8_t *u = (std::uint8_t *) data;
 
 	if (u[4] == 4 && num_bytes == 6)
 	{
@@ -431,11 +431,11 @@ void NET_player_message_send(SLONG num_bytes, void* data, SLONG guaranteed)
 
 
 
-SLONG NET_player_message_receive(SLONG *num_bytes, void* *data)
+std::int32_t NET_player_message_receive(std::int32_t *num_bytes, void* *data)
 {
   tail_recurse:;
 
-	ULONG buffer_length = NET_MAX_MESSAGE_LENGTH;
+	std::uint32_t buffer_length = NET_MAX_MESSAGE_LENGTH;
 
 	DPID from;
 	DPID to;
@@ -503,7 +503,7 @@ SLONG NET_player_message_receive(SLONG *num_bytes, void* *data)
 
 
 
-void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void* data, SLONG guaranteed)
+void NET_server_message_to_player(NET_Player player, std::int32_t num_bytes, void* data, std::int32_t guaranteed)
 {
 	HRESULT res;
 
@@ -524,11 +524,11 @@ void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void* data
 
 
 
-SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void* *data)
+std::int32_t NET_server_message_receive(NET_Player *player, std::int32_t *num_bytes, void* *data)
 {
   tail_recurse:;
 
-	ULONG buffer_length = NET_MAX_MESSAGE_LENGTH;
+	std::uint32_t buffer_length = NET_MAX_MESSAGE_LENGTH;
 
 	DPID from;
 	DPID to;
@@ -572,7 +572,7 @@ SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void* *da
 
 					ASSERT(cpmsg->dwPlayerType == DPPLAYERTYPE_PLAYER);
 
-				   *player = (SLONG) cpmsg->dpId;
+				   *player = (std::int32_t) cpmsg->dpId;
 					
 					return NET_SERVER_MESSAGE_PLAYER_JOINED;
 				}
@@ -588,7 +588,7 @@ SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void* *da
 
 					ASSERT(dpmsg->dwPlayerType == DPPLAYERTYPE_PLAYER);
 
-				   *player = (SLONG) dpmsg->dpId;
+				   *player = (std::int32_t) dpmsg->dpId;
 					
 					return NET_SERVER_MESSAGE_PLAYER_LEFT;
 				}
@@ -608,7 +608,7 @@ SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void* *da
 		// This is a message from a player.
 		//
 
-	   *player    = (SLONG) from;
+	   *player    = (std::int32_t) from;
 	   *num_bytes = buffer_length;
 	   *data      = (void* ) NET_buffer;
 

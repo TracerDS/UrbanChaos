@@ -20,20 +20,20 @@
 
 // play or queue a piece according to flags
 // return value is a MUSIC_WAS flag
-UBYTE MUSIC_play(UWORD wave, UBYTE flags);
+std::uint8_t MUSIC_play(std::uint16_t wave, std::uint8_t flags);
 
 // stop current piece playing, optionally fading out
 void  MUSIC_stop(bool fade);
 
 // find out the currently playing wave
-UWORD MUSIC_wave();
+std::uint16_t MUSIC_wave();
 
 // call this each game loop to keep things fading in and out nicely and stuff
 void  MUSIC_process();
 
 */
 // this is the 'max' gain, fade in/out will go from/to 0 from/to this value
-void  MUSIC_gain(UBYTE gain);
+void  MUSIC_gain(std::uint8_t gain);
 
 
 /**********************************************************************************
@@ -61,14 +61,14 @@ void  MUSIC_gain(UBYTE gain);
 #define MUSIC_MODE_CHAOS			(14)
 #define MUSIC_MODE_FORCE   			(128)
 
-void MUSIC_mode(UBYTE mode);
+void MUSIC_mode(std::uint8_t mode);
 void MUSIC_mode_process();
 void MUSIC_reset();
 
-extern UBYTE music_mode_override;
-extern UBYTE MUSIC_bodge_code;
+extern std::uint8_t music_mode_override;
+extern std::uint8_t MUSIC_bodge_code;
 
-extern SLONG MUSIC_is_playing();
+extern std::int32_t MUSIC_is_playing();
 
 
 /**********************************************************************************/

@@ -15,13 +15,13 @@
 // 
 
 void AA_draw(
-		UBYTE *bitmap,
-		UBYTE  x_res,
-		UBYTE  y_res,
-		SLONG  pitch,
-		SLONG  p1x, SLONG p1y,	// 16-bit fixed point.
-		SLONG  p2x, SLONG p2y,
-		SLONG  p3x, SLONG p3y);
+		std::uint8_t *bitmap,
+		std::uint8_t  x_res,
+		std::uint8_t  y_res,
+		std::int32_t  pitch,
+		std::int32_t  p1x, std::int32_t p1y,	// 16-bit fixed point.
+		std::int32_t  p2x, std::int32_t p2y,
+		std::int32_t  p3x, std::int32_t p3y);
 
 
 #endif

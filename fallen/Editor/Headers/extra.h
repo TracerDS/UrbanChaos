@@ -11,16 +11,16 @@
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE height;
-	UBYTE detail;
-	UBYTE shit1;
-	UWORD x;
-	UWORD z;
-	UWORD angle;
-	UWORD radius;
-	SLONG shit2;
-	SLONG shit3;
+	std::uint8_t type;
+	std::uint8_t height;
+	std::uint8_t detail;
+	std::uint8_t shit1;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint16_t angle;
+	std::uint16_t radius;
+	std::int32_t shit2;
+	std::int32_t shit3;
 
 } EXTRA_Thing;
 
@@ -37,7 +37,7 @@ extern EXTRA_Thing EXTRA_thing[EXTRA_MAX_THINGS];
 
 #define EXTRA_SELECT_DIST 256	// How close two things of the same type can be from eachother.
 
-void EXTRA_create_or_delete(SLONG type, SLONG x, SLONG z);
+void EXTRA_create_or_delete(std::int32_t type, std::int32_t x, std::int32_t z);
 
 
 

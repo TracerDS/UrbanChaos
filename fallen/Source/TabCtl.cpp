@@ -17,9 +17,9 @@ DLGTEMPLATE * WINAPI LockDlgResource(HINSTANCE hInstance, LPCSTR lpszResName) 	{
 void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 	TCITEM tie;
 	va_list marker;
-	UWORD  i,count=0,j=0;
+	std::uint16_t  i,count=0,j=0;
 	HWND hwndTab=GetDlgItem(wnd,tabctl);
-	CBYTE* pc;
+	char* pc;
 	DLGPROC wp;
     TabInfo *pTabInfo = new TabInfo;
 
@@ -32,12 +32,12 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 	// get count
 	va_start(marker,tabctl);
 		count=0;
-		i=va_arg(marker,UWORD);
+		i=va_arg(marker,std::uint16_t);
 		while (i) {
 			count++;
-			pc=va_arg(marker,CBYTE*);
+			pc=va_arg(marker,char*);
 			wp=va_arg(marker,DLGPROC);
-			i=va_arg(marker,UWORD);
+			i=va_arg(marker,std::uint16_t);
 		}
 	va_end(marker);
 
@@ -45,19 +45,19 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 	pTabInfo->ChildProc = new DLGPROC[count];
 
 	va_start(marker,tabctl);
-		i=va_arg(marker,UWORD);
+		i=va_arg(marker,std::uint16_t);
 		while (i) {
 
 			pTabInfo->resTabs[j]=LockDlgResource(hInstance,MAKEINTRESOURCE(i));
 
 			tie.mask	= TCIF_TEXT | TCIF_IMAGE;
 			tie.iImage	= -1;
-			tie.pszText = va_arg(marker,CBYTE*);
+			tie.pszText = va_arg(marker,char*);
 			TabCtrl_InsertItem(hwndTab, j, &tie);
 			pTabInfo->ChildProc[j]=va_arg(marker,DLGPROC);
 			j++;
 
-			i=va_arg(marker,UWORD);
+			i=va_arg(marker,std::uint16_t);
 		}
 	va_end(marker);
 
@@ -68,7 +68,7 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 void TABCTL_del(HWND wnd, DWORD tabctl) {
 	HWND tabhWnd=GetDlgItem(wnd,tabctl);
 	TabInfo *pTabInfo = (TabInfo*) GetWindowLong(tabhWnd,GWL_USERDATA);
-//	SLONG i;
+//	std::int32_t i;
 
 //  well there was me thinking we'd need to free up those Locked resources
 //  like any other sane thing in the universe. 'parrently not. silly me.
@@ -96,7 +96,7 @@ void TABCTL_sel(HWND wnd, DWORD tabctl) {
 		CreateDialogIndirect(pTabInfo->hInstance, pTabInfo->resTabs[iSel], tabhWnd, pTabInfo->ChildProc[iSel]);
 }
 
-SLONG TABCTL_getsel(HWND wnd, DWORD tabctl) {
+std::int32_t TABCTL_getsel(HWND wnd, DWORD tabctl) {
 	HWND tabhWnd=GetDlgItem(wnd,tabctl);
     return TabCtrl_GetCurSel(tabhWnd);
 }

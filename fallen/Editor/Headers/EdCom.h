@@ -13,7 +13,7 @@ struct EditCondition
 {
 	bool			Used;
 
-	UWORD			Flags,
+	std::uint16_t			Flags,
 					ConditionType,
 					Data1,
 					Data2,
@@ -24,7 +24,7 @@ struct EditCondition
 					*Prev;
 };
 
-extern ULONG				ed_condition_count;
+extern std::uint32_t				ed_condition_count;
 extern EditCondition		edit_conditions[MAX_EDIT_CONDITIONS];
 
 //---------------------------------------------------------------
@@ -41,24 +41,24 @@ void			free_ed_condition(EditCondition *the_condition);
 struct EditCondList
 {
 	bool			Used;
-	CBYTE			CListName[32];
+	char			CListName[32];
 
 	EditCondition	*ConditionList,
 					*ConditionListEnd;
 
-	ULONG			ConditionCount;
+	std::uint32_t			ConditionCount;
 	EditCondList	*Next,
 					*Prev;
 };
 
-extern ULONG				ed_clist_count;
+extern std::uint32_t				ed_clist_count;
 extern EditCondList		edit_clists[MAX_EDIT_CLISTS],
 							*clists,
 							*clists_end,
 							*win_conditions,
 							*lose_conditions;
 
-#define	ED_CONLIST_NUMBER(c)	(UWORD)(c-edit_clists)
+#define	ED_CONLIST_NUMBER(c)	(std::uint16_t)(c-edit_clists)
 
 //---------------------------------------------------------------
 
@@ -78,7 +78,7 @@ struct EditCommand
 {
 	bool			Used;
 
-	UWORD			Flags,
+	std::uint16_t			Flags,
 					CommandType,
 					Data1,
 					Data2,
@@ -89,7 +89,7 @@ struct EditCommand
 					*Prev;
 };
 
-extern ULONG				ed_command_count;
+extern std::uint32_t				ed_command_count;
 extern EditCommand			edit_commands[MAX_EDIT_COMMANDS];
 
 //---------------------------------------------------------------
@@ -106,22 +106,22 @@ void			free_ed_command(EditCommand *the_command);
 struct EditComList
 {
 	bool			Used;
-	CBYTE			ComListName[32];
+	char			ComListName[32];
 
 	EditCommand		*CommandList,
 					*CommandListEnd;
 
-	ULONG			CommandCount;
+	std::uint32_t			CommandCount;
 	EditComList		*Next,
 					*Prev;
 };
 
-extern ULONG				ed_comlist_count;
+extern std::uint32_t				ed_comlist_count;
 extern EditComList			edit_comlists[MAX_EDIT_COMLISTS],
 							*comlists,
 							*comlists_end;
 
-#define	ED_COMLIST_NUMBER(c)	(UWORD)(c-edit_comlists)
+#define	ED_COMLIST_NUMBER(c)	(std::uint16_t)(c-edit_comlists)
 
 //---------------------------------------------------------------
 

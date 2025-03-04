@@ -27,7 +27,7 @@
 //---------------------------------------------------------------
 // mikes mouse stuff
 
-extern volatile SLONG		MouseDX,MouseDY;
+extern volatile std::int32_t		MouseDX,MouseDY;
 extern void	RecenterMouse();
 
 //---------------------------------------------------------------
@@ -76,7 +76,7 @@ extern void	RecenterMouse();
 #else //#ifdef TARGET_DC
 
 
-inline SLONG check_result(HRESULT f, SLONG line, CBYTE* file)
+inline std::int32_t check_result(HRESULT f, std::int32_t line, char* file)
 {
 //	if (f == DD_OK)			// this is an *INCORRECT* error test; see e.g. Petzold "Programming Windows 95"
 	if ( f >= 0 )

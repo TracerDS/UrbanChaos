@@ -13,21 +13,21 @@
 
 void SMAP_person(
 		Thing     *person, 
-		UBYTE     *bitmap,	// 0 => transparent 255 => opaque
-		UBYTE      u_res,
-		UBYTE      v_res,
-		SLONG      light_dx, // This vector need not be normalised
-		SLONG      light_dy,
-		SLONG      light_dz);
+		std::uint8_t     *bitmap,	// 0 => transparent 255 => opaque
+		std::uint8_t      u_res,
+		std::uint8_t      v_res,
+		std::int32_t      light_dx, // This vector need not be normalised
+		std::int32_t      light_dy,
+		std::int32_t      light_dz);
 
 void SMAP_bike(
 		Thing     *person, 
-		UBYTE     *bitmap,	// 0 => transparent 255 => opaque
-		UBYTE      u_res,
-		UBYTE      v_res,
-		SLONG      light_dx, // This vector need not be normalised
-		SLONG      light_dy,
-		SLONG      light_dz);
+		std::uint8_t     *bitmap,	// 0 => transparent 255 => opaque
+		std::uint8_t      u_res,
+		std::uint8_t      v_res,
+		std::int32_t      light_dx, // This vector need not be normalised
+		std::int32_t      light_dy,
+		std::int32_t      light_dz);
 
 
 //
@@ -51,11 +51,11 @@ typedef struct smap_link
 
 	struct smap_link *next;
 
-	ULONG clip;	// Private!
+	std::uint32_t clip;	// Private!
 	
 } SMAP_Link;
 
-SMAP_Link *SMAP_project_onto_poly(SVector_F poly[], SLONG num_points); // poly must be planar.
+SMAP_Link *SMAP_project_onto_poly(SVector_F poly[], std::int32_t num_points); // poly must be planar.
 
 
 

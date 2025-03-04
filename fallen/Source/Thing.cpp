@@ -15,18 +15,18 @@
 #include	"gamemenu.h"
 
 #include "memory.h"
-//extern ULONG	get_hardware_input(UWORD type);
+//extern std::uint32_t	get_hardware_input(std::uint16_t type);
 
-UWORD *thing_class_head;
+std::uint16_t *thing_class_head;
 
 THING_INDEX THING_array[THING_ARRAY_SIZE];
-SLONG tick_tock_unclipped=0;
+std::int32_t tick_tock_unclipped=0;
 
 #ifndef PSX
 extern bool allow_debug_keys;
 #endif
 
-UWORD class_priority[]=
+std::uint16_t class_priority[]=
 {
 
 	
@@ -52,10 +52,10 @@ UWORD class_priority[]=
 #ifndef PSX
 void init_things()
 {
-	SWORD			c0,c1;
+	std::int16_t			c0,c1;
 
 
-	memset((UBYTE*)THINGS,0,sizeof(Thing)*MAX_THINGS);
+	memset((std::uint8_t*)THINGS,0,sizeof(Thing)*MAX_THINGS);
 
 	for(c0=1;c0<MAX_PRIMARY_THINGS;c0++)
 	{
@@ -82,12 +82,12 @@ void init_things()
 	SECONDARY_UNUSED			=	c1;
 	SECONDARY_COUNT				=	0;
 
-	memset((UBYTE*)thing_class_head,0,CLASS_END*2);
+	memset((std::uint8_t*)thing_class_head,0,CLASS_END*2);
 }
 #endif
 //---------------------------------------------------------------
 
-THING_INDEX alloc_primary_thing(UWORD thing_class)
+THING_INDEX alloc_primary_thing(std::uint16_t thing_class)
 {
 	THING_INDEX			new_thing;
 
@@ -116,8 +116,8 @@ THING_INDEX alloc_primary_thing(UWORD thing_class)
 
 void free_primary_thing(THING_INDEX thing)
 {
-	UWORD	index;
-	UWORD	prev;
+	std::uint16_t	index;
+	std::uint16_t	prev;
 	if(PRIMARY_USED==thing)
 		PRIMARY_USED									=	TO_THING(thing)->LinkChild;
 	else
@@ -184,7 +184,7 @@ void free_primary_thing(THING_INDEX thing)
 
 //---------------------------------------------------------------
 
-THING_INDEX alloc_secondary_thing(UWORD thing_class)
+THING_INDEX alloc_secondary_thing(std::uint16_t thing_class)
 {
 	THING_INDEX			new_thing;
 //	ASSERT(0);
@@ -212,7 +212,7 @@ THING_INDEX alloc_secondary_thing(UWORD thing_class)
 
 void free_secondary_thing(THING_INDEX thing)
 {
-	UWORD	index,prev;
+	std::uint16_t	index,prev;
 //	ASSERT(0);
 
 	index=thing_class_head[TO_THING(thing)->Class];
@@ -255,8 +255,8 @@ void free_secondary_thing(THING_INDEX thing)
 
 void add_thing_to_map(Thing *t_thing)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	PAP_Lo *pl;
 
@@ -286,7 +286,7 @@ void add_thing_to_map(Thing *t_thing)
 	/*
 
 
-	ULONG		mappos;
+	std::uint32_t		mappos;
 
 
 	if(!(t_thing->Flags&FLAGS_ON_MAPWHO))				// Does thing currently exist on map?
@@ -310,8 +310,8 @@ void add_thing_to_map(Thing *t_thing)
 
 void remove_thing_from_map(Thing *t_thing)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	PAP_Lo *pl;
 
@@ -348,17 +348,17 @@ void remove_thing_from_map(Thing *t_thing)
 
 void move_thing_on_map(Thing *t_thing,GameCoord *new_position)
 {
-	SLONG cur_mx = t_thing->WorldPos.X >> (8 + PAP_SHIFT_LO);
-	SLONG cur_mz = t_thing->WorldPos.Z >> (8 + PAP_SHIFT_LO);
+	std::int32_t cur_mx = t_thing->WorldPos.X >> (8 + PAP_SHIFT_LO);
+	std::int32_t cur_mz = t_thing->WorldPos.Z >> (8 + PAP_SHIFT_LO);
 
-	SLONG new_mx = new_position->X >> (8 + PAP_SHIFT_LO);
-	SLONG new_mz = new_position->Z >> (8 + PAP_SHIFT_LO);
+	std::int32_t new_mx = new_position->X >> (8 + PAP_SHIFT_LO);
+	std::int32_t new_mz = new_position->Z >> (8 + PAP_SHIFT_LO);
 /*
 	if (t_thing->Class == CLASS_PERSON)
 	{
 		if(t_thing->Genus.Person->PlayerID)
 		{
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 			dx=abs(new_position->X-t_thing->WorldPos.X)>>16;
 			dz=abs(new_position->Z-t_thing->WorldPos.Z)>>16;
 
@@ -425,7 +425,7 @@ void move_thing_on_map(Thing *t_thing,GameCoord *new_position)
 
 	*/
 }
-void move_thing_on_map_dxdydz(Thing *t_thing,SLONG dx,SLONG dy,SLONG dz)
+void move_thing_on_map_dxdydz(Thing *t_thing,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
 	GameCoord new_position;
 	new_position.X=t_thing->WorldPos.X+dx;
@@ -505,11 +505,11 @@ void log_secondary_unused_list()
 //---------------------------------------------------------------
 void Time(struct MFTime *the_time);
 
-void wait_ticks(SLONG wait)
+void wait_ticks(std::int32_t wait)
 {
 	struct MFTime 	the_time;
 
-	SLONG	tick_reqd;
+	std::int32_t	tick_reqd;
 	Time(&the_time);
 	tick_reqd=the_time.Ticks+wait;
 	while(the_time.Ticks<tick_reqd)
@@ -526,26 +526,26 @@ void wait_ticks(SLONG wait)
 
 struct NET_packet
 {
-	ULONG	Input;
-	SLONG	Check1;
+	std::uint32_t	Input;
+	std::int32_t	Check1;
 };
 
-extern UWORD		controls;
+extern std::uint16_t		controls;
 
 #ifndef	PSX
 
 MFFileHandle playback_file;
 MFFileHandle verifier_file;
 
-UBYTE input_type[]={1,2,0,0,0,0,0,0};
+std::uint8_t input_type[]={1,2,0,0,0,0,0,0};
 
 
 void do_packets()
 {
-	ULONG	input,count=0;
+	std::uint32_t	input,count=0;
 	NET_Message		answer;
 	NET_packet		packets[10];
-	SLONG	c0;
+	std::int32_t	c0;
 
 
 //
@@ -585,7 +585,7 @@ void do_packets()
 
 				if(GAME_STATE&GS_PLAYBACK)		//	Playback a single player game.
 				{
-					SLONG	check;
+					std::int32_t	check;
 					//	Load in the timing stuff.
 					FileRead(playback_file,&TICK_TOCK,sizeof(TICK_TOCK));
 					FileRead(playback_file,&TICK_RATIO,sizeof(TICK_RATIO));
@@ -655,7 +655,7 @@ void do_packets()
 					else
 					{
 						count++;
-	//					PACKET_DATA(answer.player_id)=*(UWORD*)(answer.player.data);
+	//					PACKET_DATA(answer.player_id)=*(std::uint16_t*)(answer.player.data);
 
 						packets[answer.player_id]=*(NET_packet*)(answer.player.data);
 					}
@@ -678,7 +678,7 @@ void do_packets()
 	//
 		if(PLAYER_ID!=0 && CNET_network_game)
 		{
-			SLONG	got_message=0;
+			std::int32_t	got_message=0;
 			while(SHELL_ACTIVE&&!got_message&&LastKey!=KB_ESC)
 			{
 				if(NET_message_waiting())
@@ -756,12 +756,12 @@ void do_packets()
 
 struct recorder
 {
-	ULONG	input;
-	UWORD	tick_tock;
-	UWORD	tick_ratio;
-	UWORD	tick_tock_un;
-	UWORD	pad;
-	ULONG	s1;
+	std::uint32_t	input;
+	std::uint16_t	tick_tock;
+	std::uint16_t	tick_ratio;
+	std::uint16_t	tick_tock_un;
+	std::uint16_t	pad;
+	std::uint32_t	s1;
 
 };
 
@@ -770,7 +770,7 @@ struct recorder
 #define	MAX_RECORD	5000
 
 struct recorder	record_input[MAX_RECORD];
-UWORD record_index=0;
+std::uint16_t record_index=0;
 
 #else
 
@@ -782,7 +782,7 @@ UWORD record_index=0;
 //run off dev kit
 //
 
-void init_record(SLONG	level)
+void init_record(std::int32_t	level)
 {
 	record_input[0].input=level;
 
@@ -792,7 +792,7 @@ void init_record(SLONG	level)
 void end_record()
 {
 	int handle;
-	CBYTE	fname[50];
+	char	fname[50];
 
 	record_input[record_index].input=0xffffffff;
 	record_input[record_index].tick_tock=TICK_TOCK;
@@ -802,7 +802,7 @@ void end_record()
 
 	sprintf(fname,"replay%02d.gam",record_input[0].input);
 	handle=PCcreat(fname,0);
-	PCwrite(handle,(UBYTE*)record_input,record_index*sizeof(struct recorder));
+	PCwrite(handle,(std::uint8_t*)record_input,record_index*sizeof(struct recorder));
 	PCclose(handle);
 }
 
@@ -855,9 +855,9 @@ void do_packets()
 
 #endif
 
-static UWORD slow_mo=0;
+static std::uint16_t slow_mo=0;
 
-void set_slow_motion(UWORD motion)
+void set_slow_motion(std::uint16_t motion)
 {
 	slow_mo=motion;
 
@@ -866,7 +866,7 @@ void set_slow_motion(UWORD motion)
 
 #ifndef PSX
 
-UWORD class_check[]=
+std::uint16_t class_check[]=
 {
 	CLASS_PLAYER	,
 	CLASS_PERSON	,
@@ -933,7 +933,7 @@ void for_things(void (*fn)(Thing* p_thing))
 
 	while (class_check[ix])
 	{
-		UWORD	list;
+		std::uint16_t	list;
 
 		list = thing_class_head[class_check[ix]];
 
@@ -964,14 +964,14 @@ void check_thing_data()
 
 #endif
 
-SLONG REAL_TICK_RATIO = 256;
+std::int32_t REAL_TICK_RATIO = 256;
 
-void process_things_tick(SLONG frame_rate_independant)
+void process_things_tick(std::int32_t frame_rate_independant)
 {
-	static	SLONG	prev_tick = 0;
-	SLONG	cur_tick;
+	static	std::int32_t	prev_tick = 0;
+	std::int32_t	cur_tick;
 
-	SLONG	tick_diff;
+	std::int32_t	tick_diff;
 	static bool first_pass=true;
 
  	cur_tick=GetTickCount();
@@ -1005,7 +1005,7 @@ void process_things_tick(SLONG frame_rate_independant)
 
 	// 20/50
 
-extern UBYTE	record_video;
+extern std::uint8_t	record_video;
 
 	if(record_video)
 		tick_diff=40;
@@ -1052,23 +1052,23 @@ extern UBYTE	record_video;
 	TICK_INV_RATIO = 0x10000 / TICK_RATIO;
 
 }
-extern SWORD	noise_count;
+extern std::int16_t	noise_count;
 extern void	process_noises();
 
-void process_things(SLONG frame_rate_independant)
+void process_things(std::int32_t frame_rate_independant)
 {
 	Thing	*p_thing;
 	Thing			*t_thing;
 	THING_INDEX		current_thing;
 
 
-	SLONG	count=0;
-	UWORD	index=0;
+	std::int32_t	count=0;
+	std::uint16_t	index=0;
 
 	
 
 //#ifdef	PSX
-//extern SWORD	sync_count;
+//extern std::int16_t	sync_count;
 //	if(sync_count<1)
 //		sync_count=1;
 //#ifdef VERSION_NTSC
@@ -1100,7 +1100,7 @@ void process_things(SLONG frame_rate_independant)
 	index=0;
 	while(class_priority[index])
 	{
-		UWORD	list;
+		std::uint16_t	list;
 
 		list=thing_class_head[class_priority[index]];
 		while(list)
@@ -1188,7 +1188,7 @@ extern void WMOVE_process();
 #ifdef	PSX_STERN_REVENGE_BUG_AND_CRAP_DRIVERS
 			poo
 
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 
 			
 
@@ -1228,7 +1228,7 @@ extern void	do_arrests();
 
 //---------------------------------------------------------------
 
-inline bool	is_class_primary(SBYTE classification)
+inline bool	is_class_primary(std::int8_t classification)
 {
 //	return(true);
 
@@ -1262,7 +1262,7 @@ inline bool	is_class_primary(SBYTE classification)
 
 //---------------------------------------------------------------
 
-Thing *alloc_thing(SBYTE classification)
+Thing *alloc_thing(std::int8_t classification)
 {
 	Thing			*t_thing	=	NULL;
 	THING_INDEX		new_thing;
@@ -1300,11 +1300,11 @@ void free_thing(Thing *t_thing)
 
 /*
 // 'closest' is set outside of the function & defines the bounds of the check.
-Thing *nearest_class(Thing *the_thing,ULONG class_mask,ULONG *closest)
+Thing *nearest_class(Thing *the_thing,std::uint32_t class_mask,std::uint32_t *closest)
 {
-	ULONG			distance,
+	std::uint32_t			distance,
 					radius;
-	SLONG			cx,cz,
+	std::int32_t			cx,cz,
 					min_x,max_x,
 					min_z,max_z;
 	Thing			*possible_nearest,
@@ -1403,13 +1403,13 @@ void THING_kill(Thing *p_thing)
 	}
 }
 
-SLONG THING_dist_between(Thing *p_thing_a, Thing *p_thing_b)
+std::int32_t THING_dist_between(Thing *p_thing_a, Thing *p_thing_b)
 {
-	SLONG dx = abs(p_thing_b->WorldPos.X - p_thing_a->WorldPos.X >> 8);
-	SLONG dy = abs(p_thing_b->WorldPos.Y - p_thing_a->WorldPos.Y >> 8);
-	SLONG dz = abs(p_thing_b->WorldPos.Z - p_thing_a->WorldPos.Z >> 8);
+	std::int32_t dx = abs(p_thing_b->WorldPos.X - p_thing_a->WorldPos.X >> 8);
+	std::int32_t dy = abs(p_thing_b->WorldPos.Y - p_thing_a->WorldPos.Y >> 8);
+	std::int32_t dz = abs(p_thing_b->WorldPos.Z - p_thing_a->WorldPos.Z >> 8);
 
-	SLONG dist = QDIST3(dx,dy,dz);
+	std::int32_t dist = QDIST3(dx,dy,dz);
 
 	return dist;
 }
@@ -1417,27 +1417,27 @@ SLONG THING_dist_between(Thing *p_thing_a, Thing *p_thing_b)
 
 //---------------------------------------------------------------
 
-UBYTE hit_player=0;
+std::uint8_t hit_player=0;
 //
 // if classes & 1<<31  then its really find sphere
 //
-SLONG THING_find_sphere(SLONG pos_x, SLONG pos_y, SLONG pos_z, SLONG radius, THING_INDEX *array, SLONG array_size, ULONG classes)
+std::int32_t THING_find_sphere(std::int32_t pos_x, std::int32_t pos_y, std::int32_t pos_z, std::int32_t radius, THING_INDEX *array, std::int32_t array_size, std::uint32_t classes)
 {
-	UBYTE mx;
-	UBYTE mz;
+	std::uint8_t mx;
+	std::uint8_t mz;
 
-	SWORD x1;
-	SWORD z1;
-	SWORD x2;
-	SWORD z2;
+	std::int16_t x1;
+	std::int16_t z1;
+	std::int16_t x2;
+	std::int16_t z2;
 
-	SWORD dx;
-	SWORD dy;
-	SWORD dz;
+	std::int16_t dx;
+	std::int16_t dy;
+	std::int16_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SWORD array_upto;
+	std::int16_t array_upto;
 
 	THING_INDEX t_index;
 	Thing      *p_thing;
@@ -1537,12 +1537,12 @@ SLONG THING_find_sphere(SLONG pos_x, SLONG pos_y, SLONG pos_z, SLONG radius, THI
 
 
 
-SLONG THING_find_box(SLONG x1, SLONG z1, SLONG x2, SLONG z2, THING_INDEX *array, SLONG array_size, ULONG classes)
+std::int32_t THING_find_box(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, THING_INDEX *array, std::int32_t array_size, std::uint32_t classes)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG array_upto;
+	std::int32_t array_upto;
 
 	THING_INDEX t_index;
 	Thing      *p_thing;
@@ -1612,30 +1612,30 @@ SLONG THING_find_box(SLONG x1, SLONG z1, SLONG x2, SLONG z2, THING_INDEX *array,
 }
 
 
-SLONG THING_find_nearest_xyz_p(
-		SLONG centre_x,
-		SLONG centre_y,
-		SLONG centre_z,
-		SLONG radius,
-		ULONG classes,
+std::int32_t THING_find_nearest_xyz_p(
+		std::int32_t centre_x,
+		std::int32_t centre_y,
+		std::int32_t centre_z,
+		std::int32_t radius,
+		std::uint32_t classes,
 		Thing *p_person)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG best_dist  = radius;
-	SLONG best_thing = NULL;
+	std::int32_t best_dist  = radius;
+	std::int32_t best_thing = NULL;
 
 	THING_INDEX t_index;
 	Thing      *p_thing;
@@ -1708,18 +1708,18 @@ SLONG THING_find_nearest_xyz_p(
 	return best_thing;
 }
 
-SLONG THING_find_nearest(
-		SLONG centre_x,
-		SLONG centre_y,
-		SLONG centre_z,
-		SLONG radius,
-		ULONG classes)
+std::int32_t THING_find_nearest(
+		std::int32_t centre_x,
+		std::int32_t centre_y,
+		std::int32_t centre_z,
+		std::int32_t radius,
+		std::uint32_t classes)
 {
 	return(THING_find_nearest_xyz_p(centre_x,centre_y,centre_z,radius,classes,0));
 
 }
 
-SLONG THING_find_nearest_person(Thing *p_person,SLONG radius,ULONG classes)
+std::int32_t THING_find_nearest_person(Thing *p_person,std::int32_t radius,std::uint32_t classes)
 {
 	return(THING_find_nearest_xyz_p(p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,radius,classes,p_person));
 

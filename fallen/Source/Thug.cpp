@@ -8,8 +8,8 @@
 #include	"animate.h"
 #include	"pap.h"
 
-SLONG calc_height_at(SLONG x,SLONG z);
-SLONG person_normal_animate(Thing *p_person);
+std::int32_t calc_height_at(std::int32_t x,std::int32_t z);
+std::int32_t person_normal_animate(Thing *p_person);
 
 
 #define	THUG_IDLE		1
@@ -67,8 +67,8 @@ void fn_thug_normal(Thing *t_thing)
 {
 	#if 0
 
-	SWORD			angle_diff;
-	SLONG			distance,
+	std::int16_t			angle_diff;
+	std::int32_t			distance,
 					dx,dy,dz;
 	DrawTween		*t_draw;
 	GameCoord		dest_position,

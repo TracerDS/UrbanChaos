@@ -120,7 +120,7 @@ NS_Texture NS_texture[NS_MAX_TEXTURES] =
 	{{ 8,  0, 32,  0}, {12,  8,  0,  0}},
 };
 
-SLONG NS_texture_upto = NS_TEXTURE_NUMBER;
+std::int32_t NS_texture_upto = NS_TEXTURE_NUMBER;
 
 //
 // The pages.
@@ -163,21 +163,21 @@ NS_Hi NS_hi[PAP_SIZE_HI][PAP_SIZE_HI];
 //
 
 NS_Cache NS_cache[NS_MAX_CACHES];
-UBYTE NS_cache_free;
+std::uint8_t NS_cache_free;
 
 //
 // The water fall.
 //
 
 NS_Fall NS_fall[NS_MAX_FALLS];
-UBYTE NS_fall_free;
+std::uint8_t NS_fall_free;
 
 //
 // The things.
 //
 
 NS_St NS_st[NS_MAX_STS];
-UBYTE NS_st_free;
+std::uint8_t NS_st_free;
 
 
 //
@@ -196,15 +196,15 @@ UBYTE NS_st_free;
 
 void NS_init()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	NS_Hi *nh;
 
-	memset((UBYTE*)NS_hi, 0, sizeof(NS_hi));
-	memset((UBYTE*)NS_lo, 0, sizeof(NS_lo));
+	memset((std::uint8_t*)NS_hi, 0, sizeof(NS_hi));
+	memset((std::uint8_t*)NS_lo, 0, sizeof(NS_lo));
 
 	//
 	// Rock everywhere.
@@ -242,37 +242,37 @@ void NS_init()
 
 void NS_precalculate()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG top;
-	SLONG num;
-	SLONG used;
-	SLONG above;
+	std::int32_t top;
+	std::int32_t num;
+	std::int32_t used;
+	std::int32_t above;
 
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG px1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t pz2;
 
-	ULONG flag;
-	SLONG curve;
+	std::uint32_t flag;
+	std::int32_t curve;
 
 	NS_Hi *nh;
 	NS_Hi *nh2;
@@ -418,12 +418,12 @@ void NS_precalculate()
 
 			const struct
 			{
-				SBYTE dsx;
-				SBYTE dsz;
-				SBYTE dpx1;
-				SBYTE dpz1;
-				SBYTE dpx2;
-				SBYTE dpz2;
+				std::int8_t dsx;
+				std::int8_t dsz;
+				std::int8_t dpx1;
+				std::int8_t dpz1;
+				std::int8_t dpx2;
+				std::int8_t dpz2;
 
 			} neighbour[4] =
 			{
@@ -480,7 +480,7 @@ void NS_precalculate()
 	#define NS_EVEN_OUT_INNER 3
 	#define NS_EVEN_OUT_OUTER 5
 
-	const static SLONG jitter[8] =
+	const static std::int32_t jitter[8] =
 	{
 		-2,
 		-1,
@@ -661,10 +661,10 @@ void NS_precalculate()
 
 void NS_cache_init()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	//
 	// We keep cached points and faces on the heap.
@@ -723,16 +723,16 @@ void NS_cache_init()
 NS_Point *NS_scratch_point = (NS_Point *) (&HEAP_pad[0]);
 NS_Face *NS_scratch_face  = (NS_Face  *) (&HEAP_pad[HEAP_PAD_SIZE / 2]);
 
-SLONG NS_scratch_point_upto = 0;
-SLONG NS_scratch_face_upto  = 0;
+std::int32_t NS_scratch_point_upto = 0;
+std::int32_t NS_scratch_face_upto  = 0;
 
 //
 // The coordinates of the bottom-left corner of the lo-res mapsquare
 // whose points we are adding to the scratch buffers.
 //
 
-SLONG NS_scratch_origin_x;
-SLONG NS_scratch_origin_z;
+std::int32_t NS_scratch_origin_x;
+std::int32_t NS_scratch_origin_z;
 
 //
 // When we add a point it is lit from this light.
@@ -740,37 +740,37 @@ SLONG NS_scratch_origin_z;
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
 } NS_Slight;
 
 #define NS_MAX_SLIGHTS 9
 
 NS_Slight NS_slight[NS_MAX_SLIGHTS];
-SLONG NS_slight_upto;
+std::int32_t NS_slight_upto;
 
 
 void NS_add_point(
-		SLONG x,
-		SLONG y,
-		SLONG z,	// y is in the NS coordinate system. Eighth map-square from 32 blocks underground.
-		SLONG norm)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,	// y is in the NS coordinate system. Eighth map-square from 32 blocks underground.
+		std::int32_t norm)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG bright;
-	SLONG light;
-	SLONG dprod;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t bright;
+	std::int32_t light;
+	std::int32_t dprod;
 
 	NS_Slight *nss;
 
@@ -839,9 +839,9 @@ void NS_add_point(
 
 
 void NS_add_face(
-		SLONG p[4],
-		UBYTE page,
-		UBYTE texture)
+		std::int32_t p[4],
+		std::uint8_t page,
+		std::uint8_t texture)
 {
 	ASSERT(WITHIN(NS_scratch_face_upto, 0, NS_MAX_SCRATCH_FACES - 1));
 
@@ -868,27 +868,27 @@ void NS_add_face(
 // Creates the top and bottom squares into the scratch pad.
 //
 
-void NS_cache_create_floors(UBYTE mx, UBYTE mz)
+void NS_cache_create_floors(std::uint8_t mx, std::uint8_t mz)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG bx;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t bz;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG page;
+	std::int32_t page;
 
-	SLONG p[4];
+	std::int32_t p[4];
 
 	NS_Hi *ns;
 
@@ -896,10 +896,10 @@ void NS_cache_create_floors(UBYTE mx, UBYTE mz)
 	// The top points.
 	//
 
-	UBYTE pindex[5][5];
+	std::uint8_t pindex[5][5];
 
 	#ifndef NDEBUG
-	memset((UBYTE*)pindex, 255, sizeof(pindex));
+	memset((std::uint8_t*)pindex, 255, sizeof(pindex));
 	#endif
 
 	for (x = 0; x <= 4; x++)
@@ -970,18 +970,18 @@ void NS_cache_create_floors(UBYTE mx, UBYTE mz)
 
 	typedef struct
 	{
-		UBYTE x;
-		UBYTE z;
+		std::uint8_t x;
+		std::uint8_t z;
 
-		UBYTE bot;	// The bot height of square (x,z) (optimisation only)
+		std::uint8_t bot;	// The bot height of square (x,z) (optimisation only)
 
 	} Bsquare;
 
 	#define MAX_BSQUARES 16
 
 	Bsquare bsquare[MAX_BSQUARES];
-	SLONG   bsquare_upto = 0;
-	SLONG   insert;
+	std::int32_t   bsquare_upto = 0;
+	std::int32_t   insert;
 
 	for (x = 0; x < 4; x++)
 	for (z = 0; z < 4; z++)
@@ -1063,7 +1063,7 @@ void NS_cache_create_floors(UBYTE mx, UBYTE mz)
 	// Mark all points as undefined.
 	//
 
-	memset((UBYTE*)pindex, 255, sizeof(pindex));
+	memset((std::uint8_t*)pindex, 255, sizeof(pindex));
 
 	//
 	// Go through each of the squares from the bottom to the top.
@@ -1156,22 +1156,22 @@ void NS_cache_create_floors(UBYTE mx, UBYTE mz)
 // creates it.
 //
 
-SLONG NS_search_start;
-SLONG NS_search_end;		// Exclusive
+std::int32_t NS_search_start;
+std::int32_t NS_search_end;		// Exclusive
 
-SLONG NS_create_wallstrip_point(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG norm)
+std::int32_t NS_create_wallstrip_point(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t norm)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG ans;
+	std::int32_t ans;
 
 	px = (x - NS_scratch_origin_x) >> 3;
 	pz = (z - NS_scratch_origin_z) >> 3;
@@ -1206,10 +1206,10 @@ SLONG NS_create_wallstrip_point(
 	return ans;
 }
 
-SLONG NS_create_wallstrip_point(
-		SLONG x,
-		SLONG y,
-		SLONG z)
+std::int32_t NS_create_wallstrip_point(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
 	return NS_create_wallstrip_point(x, y, z, NS_NORM_DUNNO);
 }
@@ -1222,26 +1222,26 @@ SLONG NS_create_wallstrip_point(
 //
 
 void NS_cache_create_wallstrip(
-		SLONG px1, SLONG pz1,
-		SLONG px2, SLONG pz2,
-		SLONG bot,	// On a mapsquare boundary.
-		SLONG ty1, SLONG ty2,
-		SLONG shared,
-		SLONG norm)
+		std::int32_t px1, std::int32_t pz1,
+		std::int32_t px2, std::int32_t pz2,
+		std::int32_t bot,	// On a mapsquare boundary.
+		std::int32_t ty1, std::int32_t ty2,
+		std::int32_t shared,
+		std::int32_t norm)
 {
-	SLONG last1;
-	SLONG last2;
+	std::int32_t last1;
+	std::int32_t last2;
 
-	SLONG now1;
-	SLONG now2;
+	std::int32_t now1;
+	std::int32_t now2;
 
-	SLONG py1;
-	SLONG py2;
+	std::int32_t py1;
+	std::int32_t py2;
 
-	SLONG p[4];
+	std::int32_t p[4];
 
-	SLONG darken_bottom;
-	SLONG usenorm;
+	std::int32_t darken_bottom;
+	std::int32_t usenorm;
 
 	//
 	// Make sure bot is on a mapsquare boundary.
@@ -1342,17 +1342,17 @@ void NS_cache_create_wallstrip(
 //
 
 void NS_cache_create_extra_bit_left(
-		SLONG px1, SLONG pz1,
-		SLONG px2, SLONG pz2,
-		SLONG bottom,
-		SLONG ty1, SLONG ty2,
-		SLONG norm)
+		std::int32_t px1, std::int32_t pz1,
+		std::int32_t px2, std::int32_t pz2,
+		std::int32_t bottom,
+		std::int32_t ty1, std::int32_t ty2,
+		std::int32_t norm)
 {
-	SLONG dx = px2 - px1 >> 8;
-	SLONG dz = pz2 - pz1 >> 8;
+	std::int32_t dx = px2 - px1 >> 8;
+	std::int32_t dz = pz2 - pz1 >> 8;
 	
-	SLONG pindex[6];
-	SLONG p[4];
+	std::int32_t pindex[6];
+	std::int32_t p[4];
 
 	//
 	// Create all the points.
@@ -1385,17 +1385,17 @@ void NS_cache_create_extra_bit_left(
 }
 
 void NS_cache_create_extra_bit_right(
-		SLONG px1, SLONG pz1,
-		SLONG px2, SLONG pz2,
-		SLONG bottom,
-		SLONG ty1, SLONG ty2,
-		SLONG norm)
+		std::int32_t px1, std::int32_t pz1,
+		std::int32_t px2, std::int32_t pz2,
+		std::int32_t bottom,
+		std::int32_t ty1, std::int32_t ty2,
+		std::int32_t norm)
 {
-	SLONG dx = px2 - px1 >> 8;
-	SLONG dz = pz2 - pz1 >> 8;
+	std::int32_t dx = px2 - px1 >> 8;
+	std::int32_t dz = pz2 - pz1 >> 8;
 	
-	SLONG pindex[6];
-	SLONG p[4];
+	std::int32_t pindex[6];
+	std::int32_t p[4];
 
 	//
 	// Create all the points.
@@ -1432,22 +1432,22 @@ void NS_cache_create_extra_bit_right(
 // Creates all the vertical walls.
 //
 
-void NS_cache_create_walls(UBYTE mx, UBYTE mz)
+void NS_cache_create_walls(std::uint8_t mx, std::uint8_t mz)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG px1, pz1;
-	SLONG px2, pz2;
-	SLONG ty1;
-	SLONG ty2;
-	SLONG bot;
+	std::int32_t px1, pz1;
+	std::int32_t px2, pz2;
+	std::int32_t ty1;
+	std::int32_t ty2;
+	std::int32_t bot;
 
-	SLONG shared_last;
-	SLONG shared_now;
+	std::int32_t shared_last;
+	std::int32_t shared_now;
 
 	NS_Hi *nh;
 	NS_Hi *nh2;
@@ -1885,35 +1885,35 @@ void NS_cache_create_walls(UBYTE mx, UBYTE mz)
 //
 
 void NS_cache_create_curve_sewer(
-		SLONG sx,
-		SLONG sz)
+		std::int32_t sx,
+		std::int32_t sz)
 {
-	SLONG px1;
-	SLONG pz1;
+	std::int32_t px1;
+	std::int32_t pz1;
 
-	SLONG px2;
-	SLONG pz2;
+	std::int32_t px2;
+	std::int32_t pz2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dx1;
-	SLONG dz1;
+	std::int32_t dx1;
+	std::int32_t dz1;
 
-	SLONG dx2;
-	SLONG dz2;
+	std::int32_t dx2;
+	std::int32_t dz2;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 	
-	SLONG p[4];
+	std::int32_t p[4];
 
-	SLONG curve;
+	std::int32_t curve;
 
 	NS_Hi *nh;
 
-	UBYTE pindex[16];
+	std::uint8_t pindex[16];
 
 	ASSERT(WITHIN(sx, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(sz, 0, PAP_SIZE_HI - 1));
@@ -2267,19 +2267,19 @@ void NS_cache_create_curve_sewer(
 }
 
 
-void NS_cache_create_curve_top(SLONG sx, SLONG sz)
+void NS_cache_create_curve_top(std::int32_t sx, std::int32_t sz)
 {
-	UBYTE pindex[16];
-	UBYTE curve;
+	std::uint8_t pindex[16];
+	std::uint8_t curve;
 
-	SLONG ox = sx << 8;
-	SLONG oz = sz << 8;
+	std::int32_t ox = sx << 8;
+	std::int32_t oz = sz << 8;
 
-	SLONG p[4];
+	std::int32_t p[4];
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
 	NS_Hi *nh;
 
@@ -2799,13 +2799,13 @@ void NS_cache_create_curve_top(SLONG sx, SLONG sz)
 // Creates the curvey bits in a lo-res mapsquare
 //
 
-void NS_cache_create_curves(UBYTE mx, UBYTE mz)
+void NS_cache_create_curves(std::uint8_t mx, std::uint8_t mz)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
 	NS_Hi *nh;
 
@@ -2873,23 +2873,23 @@ void NS_cache_create_curves(UBYTE mx, UBYTE mz)
 	}
 }
 
-void NS_cache_create_falls(UBYTE mx, UBYTE mz, NS_Cache *nc)
+void NS_cache_create_falls(std::uint8_t mx, std::uint8_t mz, NS_Cache *nc)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG fall;
+	std::int32_t fall;
 
 	NS_Hi   *nh;
 	NS_Hi   *nh2;
@@ -2917,8 +2917,8 @@ void NS_cache_create_falls(UBYTE mx, UBYTE mz, NS_Cache *nc)
 
 			const struct
 			{
-				SBYTE dx;
-				SBYTE dz;
+				std::int8_t dx;
+				std::int8_t dz;
 
 			} dir[4] =
 			{
@@ -2995,35 +2995,35 @@ void NS_cache_create_falls(UBYTE mx, UBYTE mz, NS_Cache *nc)
 // Creates the walls around the grates.
 //
 
-void NS_cache_create_grates(UBYTE mx, UBYTE mz)
+void NS_cache_create_grates(std::uint8_t mx, std::uint8_t mz)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG fall;
+	std::int32_t fall;
 
 	NS_Hi *nh;
 
-	SLONG p[4]; 
+	std::int32_t p[4]; 
 
 	static struct
 	{
-		SBYTE dx;
-		SBYTE dz;
-		UWORD norm;
+		std::int8_t dx;
+		std::int8_t dz;
+		std::uint16_t norm;
 
 	} order[4] =
 	{
@@ -3088,37 +3088,37 @@ void NS_cache_create_grates(UBYTE mx, UBYTE mz)
 // if there is no light in this mapsquare.
 //
 
-SLONG NS_cache_find_light(
-		UBYTE mx,
-		UBYTE mz,
-		UBYTE *light_x,
-		UBYTE *light_y,
-		UBYTE *light_z)
+std::int32_t NS_cache_find_light(
+		std::uint8_t mx,
+		std::uint8_t mz,
+		std::uint8_t *light_x,
+		std::uint8_t *light_y,
+		std::uint8_t *light_z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG dlx;
-	SLONG dlz;
-	SLONG dist;
+	std::int32_t dlx;
+	std::int32_t dlz;
+	std::int32_t dist;
 
-	SLONG best_x;
-	SLONG best_y;
-	SLONG best_z;
-	SLONG best_score = -INFINITY;
+	std::int32_t best_x;
+	std::int32_t best_y;
+	std::int32_t best_z;
+	std::int32_t best_score = -INFINITY;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
-	SLONG score;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
+	std::int32_t score;
 
 	NS_Lo    *nl;
 	NS_Lo    *nl2;
@@ -3138,11 +3138,11 @@ SLONG NS_cache_find_light(
 
 	struct
 	{
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
 	}     other_light[8];
-	SLONG other_light_upto = 0;
+	std::int32_t other_light_upto = 0;
 
 	ASSERT(WITHIN(mx, 1, PAP_SIZE_LO - 2));
 	ASSERT(WITHIN(mz, 1, PAP_SIZE_LO - 2));
@@ -3271,19 +3271,19 @@ SLONG NS_cache_find_light(
 #endif
 
 
-SLONG NS_cache_create(UBYTE mx, UBYTE mz)
+std::int32_t NS_cache_create(std::uint8_t mx, std::uint8_t mz)
 {
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
 	NS_Cache *nc;
 	NS_Lo    *nl;
 
-	SLONG c_index;
-	SLONG memory_in_bytes;
+	std::int32_t c_index;
+	std::int32_t memory_in_bytes;
 
-	SLONG memory_points;
-	SLONG memory_faces;
+	std::int32_t memory_points;
+	std::int32_t memory_faces;
 
 	//
 	// Make sure this square is uncached and there is a
@@ -3392,7 +3392,7 @@ SLONG NS_cache_create(UBYTE mx, UBYTE mz)
 	// Allocate memory and copy data over from the scratch buffers.
 	//
 
-	nc->memory = (UBYTE *) HEAP_get(memory_in_bytes);
+	nc->memory = (std::uint8_t *) HEAP_get(memory_in_bytes);
 
 	ASSERT(nc->memory != NULL);
 
@@ -3415,11 +3415,11 @@ SLONG NS_cache_create(UBYTE mx, UBYTE mz)
 }
 
 
-void NS_cache_destroy(UBYTE cache)
+void NS_cache_destroy(std::uint8_t cache)
 {
-	SLONG memory_in_bytes;
-	SLONG fall;
-	SLONG next;
+	std::int32_t memory_in_bytes;
+	std::int32_t fall;
+	std::int32_t next;
 
 	NS_Fall  *nf;
 	NS_Cache *nc;
@@ -3491,14 +3491,14 @@ void NS_cache_fini()
 
 
 
-SLONG NS_calc_height_at(SLONG x, SLONG z)
+std::int32_t NS_calc_height_at(std::int32_t x, std::int32_t z)
 {
 	NS_Hi *nh;
 
-	SLONG ans;
+	std::int32_t ans;
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 	
 	if (!WITHIN(mx, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(mz, 0, PAP_SIZE_HI - 1))
@@ -3520,14 +3520,14 @@ SLONG NS_calc_height_at(SLONG x, SLONG z)
 	return ans;
 }
 
-SLONG NS_calc_splash_height_at(SLONG x, SLONG z)
+std::int32_t NS_calc_splash_height_at(std::int32_t x, std::int32_t z)
 {
 	NS_Hi *nh;
 
-	SLONG ans;
+	std::int32_t ans;
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 	
 	if (!WITHIN(mx, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(mz, 0, PAP_SIZE_HI - 1))
@@ -3557,34 +3557,34 @@ SLONG NS_calc_splash_height_at(SLONG x, SLONG z)
 }
 
 void NS_slide_along(
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  radius)
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  radius)
 {
-	SLONG i;
-	SLONG height;
-	SLONG collided = false;
+	std::int32_t i;
+	std::int32_t height;
+	std::int32_t collided = false;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
-	SLONG vx1;
-	SLONG vz1;
-	SLONG vx2;
-	SLONG vz2;
+	std::int32_t vx1;
+	std::int32_t vz1;
+	std::int32_t vx2;
+	std::int32_t vz2;
 
-	SLONG sx1;
-	SLONG sz1;
-	SLONG sx2;
-	SLONG sz2;
-	SLONG sradius;
+	std::int32_t sx1;
+	std::int32_t sz1;
+	std::int32_t sx2;
+	std::int32_t sz2;
+	std::int32_t sradius;
 
 	NS_Hi *nh;
 
-	const struct {SBYTE dx; SBYTE dz;} order[4] =
+	const struct {std::int8_t dx; std::int8_t dz;} order[4] =
 	{
 		{+1, 0},
 		{-1, 0},
@@ -3592,7 +3592,7 @@ void NS_slide_along(
 		{0, -1}
 	};
 
-	SLONG collide;
+	std::int32_t collide;
 
 	//
 	// Keep on the map!
@@ -3699,33 +3699,33 @@ void NS_slide_along(
 
 
 
-SLONG NS_inside(SLONG x, SLONG y, SLONG z)
+std::int32_t NS_inside(std::int32_t x, std::int32_t y, std::int32_t z)
 {
 	return y < NS_calc_height_at(x,z);
 }
 
 
 
-SLONG NS_los_fail_x;
-SLONG NS_los_fail_y;
-SLONG NS_los_fail_z;
+std::int32_t NS_los_fail_x;
+std::int32_t NS_los_fail_y;
+std::int32_t NS_los_fail_z;
 
-SLONG NS_there_is_a_los(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+std::int32_t NS_there_is_a_los(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx = x2 - x1;
-	SLONG dy = y2 - y1;
-	SLONG dz = z2 - z1;
+	std::int32_t dx = x2 - x1;
+	std::int32_t dy = y2 - y1;
+	std::int32_t dz = z2 - z1;
 
-	SLONG len   = QDIST3(abs(dx),abs(dy),abs(dz));
-	SLONG steps = len >> 5;
+	std::int32_t len   = QDIST3(abs(dx),abs(dy),abs(dz));
+	std::int32_t steps = len >> 5;
 
 	if(len==0)
 	{
@@ -3764,10 +3764,10 @@ SLONG NS_there_is_a_los(
 // are no spare sewer things.
 // 
 
-SLONG NS_get_unused_st()
+std::int32_t NS_get_unused_st()
 {
-	SLONG i;
-	SLONG pick;
+	std::int32_t i;
+	std::int32_t pick;
 	
 	NS_St *nst;
 
@@ -3806,10 +3806,10 @@ SLONG NS_get_unused_st()
 
 
 
-void NS_add_ladder(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG height)
+void NS_add_ladder(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t height)
 {
-	SLONG mx = (x1 + x2 << 7) + ((z2 - z1) << 2) >> PAP_SHIFT_LO;
-	SLONG mz = (z1 + z2 << 7) - ((x2 - x1) << 2) >> PAP_SHIFT_LO;
+	std::int32_t mx = (x1 + x2 << 7) + ((z2 - z1) << 2) >> PAP_SHIFT_LO;
+	std::int32_t mz = (z1 + z2 << 7) - ((x2 - x1) << 2) >> PAP_SHIFT_LO;
 
 	if (!WITHIN(mx, 1, PAP_SIZE_LO - 2) ||
 		!WITHIN(mz, 1, PAP_SIZE_LO - 2))
@@ -3823,7 +3823,7 @@ void NS_add_ladder(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG height)
 
 	NS_Lo *nl = &NS_lo[mx][mz];
 
-	SLONG index = NS_get_unused_st();
+	std::int32_t index = NS_get_unused_st();
 
 	if (index == NULL)
 	{
@@ -3858,14 +3858,14 @@ void NS_add_ladder(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG height)
 }
 
 void NS_add_prim(
-		SLONG prim,
-		SLONG yaw,
-		SLONG x,
-		SLONG y,
-		SLONG z)
+		std::int32_t prim,
+		std::int32_t yaw,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
-	SLONG mx = x >> PAP_SHIFT_LO;
-	SLONG mz = z >> PAP_SHIFT_LO;
+	std::int32_t mx = x >> PAP_SHIFT_LO;
+	std::int32_t mz = z >> PAP_SHIFT_LO;
 
 	if (!WITHIN(mx, 1, PAP_SIZE_LO - 2) ||
 		!WITHIN(mz, 1, PAP_SIZE_LO - 2))
@@ -3879,7 +3879,7 @@ void NS_add_prim(
 
 	NS_Lo *nl = &NS_lo[mx][mz];
 
-	SLONG index = NS_get_unused_st();
+	std::int32_t index = NS_get_unused_st();
 
 	if (index == NULL)
 	{

@@ -13,9 +13,9 @@
 // A memory location in the machine is 8-bytes long and contains
 // an ML_Data. There is main memory where globals are held and a
 // stack where computations are peformed and local variables are stored.
-// There is also a string table (CBYTE[]) where string constants are
+// There is also a string table (char[]) where string constants are
 // stored. When an ML_Data must store a variable that is more than an
-// SLONG it just malloc()s the required memory and then stores a pointer
+// std::int32_t it just malloc()s the required memory and then stores a pointer
 // to it.
 //
 
@@ -69,7 +69,7 @@
 #define ML_DO_PUSH_LOCAL_VALUE       43
 #define ML_DO_PUSH_LOCAL_ADDRESS     44
 #define ML_DO_PUSH_LOCAL_QUICK       45
-#define ML_DO_JNEQ_POP_1             46		// For switch statements. Compares two values on the stack. If not equal it pops one value and jumps otherwise it pops both values. The next SLONG hold where to jump to.
+#define ML_DO_JNEQ_POP_1             46		// For switch statements. Compares two values on the stack. If not equal it pops one value and jumps otherwise it pops both values. The next std::int32_t hold where to jump to.
 #define ML_DO_TEXTURE                47
 #define ML_DO_BUFFER                 48
 #define ML_DO_DRAW                   49
@@ -140,26 +140,26 @@ typedef struct ml_matrix    ML_Matrix;
 
 typedef struct ml_data
 {
-	SLONG type;
+	std::int32_t type;
 
 	union
 	{
-		SLONG         value;
-		SLONG         slumber;
+		std::int32_t         value;
+		std::int32_t         slumber;
 		float         flumber;
-		SLONG         strconst;		// Index into the data table.
-		SLONG         local;		// Index into the current stackframe.
-		CBYTE        *strvar;		// Pointer to some MEM_alloc()ed memory.
-		SLONG         boolean;
+		std::int32_t         strconst;		// Index into the data table.
+		std::int32_t         local;		// Index into the current stackframe.
+		char        *strvar;		// Pointer to some MEM_alloc()ed memory.
+		std::int32_t         boolean;
 		ML_Data      *data;			// Pointer to an ML_Data.
 		ML_Structure *structure;	// Pointer to an ML_Structure on the heap.
 		ML_Array     *array;
-		SLONG        *code_pointer;	// Index into instruction memory.
+		std::int32_t        *code_pointer;	// Index into instruction memory.
 		ML_Data      *stack_base;
 		LL_Texture   *lt;
 		LL_Buffer    *lb;
-		CBYTE         character;
-		SLONG         args;
+		char         character;
+		std::int32_t         args;
 		ML_Vector    *vector;
 		ML_Matrix    *matrix;
 		float        *flointer;
@@ -169,29 +169,29 @@ typedef struct ml_data
 
 typedef struct
 {
-	SLONG   field_id;
+	std::int32_t   field_id;
 	ML_Data data;
 
 } ML_Field;
 
 typedef struct ml_structure
 {
-	SLONG    num_fields;
+	std::int32_t    num_fields;
 	ML_Field field[];
 
 } ML_Structure;
 
 typedef struct
 {
-	SLONG size;
-	SLONG stride;	// How many ML_Datas between two array members with consecutive indices in this dimension.
+	std::int32_t size;
+	std::int32_t stride;	// How many ML_Datas between two array members with consecutive indices in this dimension.
 
 } ML_Dimension;
 
 typedef struct ml_array
 {
-	SLONG        length;		// Total number of ML_Datas in the data[] array.
-	SLONG        num_dimensions;
+	std::int32_t        length;		// Total number of ML_Datas in the data[] array.
+	std::int32_t        num_dimensions;
 	ML_Data     *data;			// The actual data on the heap.
 	ML_Dimension dimension[];
 
@@ -221,10 +221,10 @@ typedef struct ml_matrix
 
 typedef struct
 {
-	SLONG version;
-	SLONG instructions_memory_in_bytes;
-	SLONG data_table_length_in_bytes;
-	SLONG num_globals;
+	std::int32_t version;
+	std::int32_t instructions_memory_in_bytes;
+	std::int32_t data_table_length_in_bytes;
+	std::int32_t num_globals;
 
 	//
 	// The instructions...

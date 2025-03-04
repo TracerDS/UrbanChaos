@@ -16,11 +16,11 @@ class	ThingTab	:	public	ModeTab
 	private:
 		
 		bool			Update;
-		UBYTE			CurrentClass,
+		std::uint8_t			CurrentClass,
 						CurrentGenus;
-		UWORD			CurrentThing,
+		std::uint16_t			CurrentThing,
 						TabMode;
-		SLONG			TabData,
+		std::int32_t			TabData,
 						ThingFlags,
 						*DataPtr;
 		ControlSet		CurrentSet;
@@ -32,12 +32,12 @@ class	ThingTab	:	public	ModeTab
 						~ThingTab();
 
 		void			DrawTabContent();
-		void			UpdateTab(UBYTE update_level);
-		UWORD			HandleTabClick(UBYTE flags,MFPoint *clicked_point);
+		void			UpdateTab(std::uint8_t update_level);
+		std::uint16_t			HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
 		void			HandleTab(MFPoint *current_point);
-		void			HandleControl(UWORD control_id);
-		void			HandleClassControl(UWORD control_id);
-		void			HandleBuildingControl(UWORD control_id);
+		void			HandleControl(std::uint16_t control_id);
+		void			HandleClassControl(std::uint16_t control_id);
+		void			HandleBuildingControl(std::uint16_t control_id);
 		EditComList		*SelectCommandList();
 
 		void			DrawClassSet();
@@ -45,16 +45,16 @@ class	ThingTab	:	public	ModeTab
 		void			UpdateClassInfo();
 		void			UpdateCheckBoxes();
 
-		inline UBYTE	GetCurrentClass()			{	return	CurrentClass;	}
-		inline UBYTE	GetCurrentGenus()			{	return	CurrentGenus;	}
-		inline UBYTE	GetThingFlags()				{	return	ThingFlags;		}
-		inline void		SetCurrentClass(UBYTE clss)		{	CurrentClass=clss;UpdateTabInfo();		}
-		inline void		SetCurrentGenus(UBYTE genus)	{	CurrentGenus=genus;UpdateClassInfo();	}
+		inline std::uint8_t	GetCurrentClass()			{	return	CurrentClass;	}
+		inline std::uint8_t	GetCurrentGenus()			{	return	CurrentGenus;	}
+		inline std::uint8_t	GetThingFlags()				{	return	ThingFlags;		}
+		inline void		SetCurrentClass(std::uint8_t clss)		{	CurrentClass=clss;UpdateTabInfo();		}
+		inline void		SetCurrentGenus(std::uint8_t genus)	{	CurrentGenus=genus;UpdateClassInfo();	}
 
-		inline UWORD	GetTabMode()				{	return	TabMode;		}
-		inline void		SetTabMode(UWORD mode)			{	TabMode=mode;			}
-		inline void		SetTabData(SLONG data)			{	TabData=data;			}
-		inline void		SetCurrentThing(UWORD thing)	{	CurrentThing=thing;UpdateClassInfo();	}
+		inline std::uint16_t	GetTabMode()				{	return	TabMode;		}
+		inline void		SetTabMode(std::uint16_t mode)			{	TabMode=mode;			}
+		inline void		SetTabData(std::int32_t data)			{	TabData=data;			}
+		inline void		SetCurrentThing(std::uint16_t thing)	{	CurrentThing=thing;UpdateClassInfo();	}
 };
 
 //---------------------------------------------------------------

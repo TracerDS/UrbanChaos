@@ -4,7 +4,7 @@
 
 #include	<MFHeader.h>
 
-UBYTE CurrentPalette[256*3];
+std::uint8_t CurrentPalette[256*3];
 LPDIRECTDRAWPALETTE lp_DD_Palette	=	NULL;
 PALETTEENTRY ThePalette[256];
 
@@ -13,7 +13,7 @@ PALETTEENTRY ThePalette[256];
 void InitPalettes()
 {
 #ifdef	_DEBUG
-	ULONG			c0;
+	std::uint32_t			c0;
 
 
 	// First set up the Windows static entries.
@@ -21,13 +21,13 @@ void InitPalettes()
 	{
 	    // The first 10 static entries:
 	    ThePalette[c0].peFlags	=	PC_EXPLICIT;
-	    ThePalette[c0].peRed	=	(UBYTE)c0;
+	    ThePalette[c0].peRed	=	(std::uint8_t)c0;
 	    ThePalette[c0].peGreen	=	0;
 	    ThePalette[c0].peBlue	=	0;
 
 	    // The last 10 static entries:
 	    ThePalette[c0+246].peFlags	=	PC_EXPLICIT;
-	    ThePalette[c0+246].peRed	=	(UBYTE)(c0+246);
+	    ThePalette[c0+246].peRed	=	(std::uint8_t)(c0+246);
 	    ThePalette[c0+246].peGreen	=	0;
 	    ThePalette[c0+246].peBlue	=	0;
 	}
@@ -48,7 +48,7 @@ void InitPalettes()
 
 //---------------------------------------------------------------
 
-SLONG CreatePalettes()
+std::int32_t CreatePalettes()
 {
 	HRESULT			dd_result;
 
@@ -110,7 +110,7 @@ void DestroyPalettes()
 		}
 		else
 		{
-//	CBYTE		text[256];
+//	char		text[256];
 //			sprintf(text,"Unable to Release Palette. Error: %ld",dd_result&0xffff);
 //			ERROR_MSG(0,text)
 		}
@@ -129,9 +129,9 @@ void RestorePalettes()
 
 //---------------------------------------------------------------
 
-void SetPalette(UBYTE *the_palette)
+void SetPalette(std::uint8_t *the_palette)
 {
-	ULONG			c0;
+	std::uint32_t			c0;
 	HRESULT			dd_result;
 
 
@@ -141,13 +141,13 @@ void SetPalette(UBYTE *the_palette)
 	{
 	    // The first 10 static entries:
 	    ThePalette[c0].peFlags	=	PC_EXPLICIT;
-	    ThePalette[c0].peRed	=	(UBYTE)c0;
+	    ThePalette[c0].peRed	=	(std::uint8_t)c0;
 	    ThePalette[c0].peGreen	=	0;
 	    ThePalette[c0].peBlue	=	0;
 
 	    // The last 10 static entries:
 	    ThePalette[c0+246].peFlags	=	PC_EXPLICIT;
-	    ThePalette[c0+246].peRed	=	(UBYTE)(c0+246);
+	    ThePalette[c0+246].peRed	=	(std::uint8_t)(c0+246);
 	    ThePalette[c0+246].peGreen	=	0;
 	    ThePalette[c0+246].peBlue	=	0;
 	}
@@ -156,17 +156,17 @@ void SetPalette(UBYTE *the_palette)
 	for(c0=10;c0<246;c0++)
 	{
 	    ThePalette[c0].peFlags	=	PC_NOCOLLAPSE|PC_RESERVED;
-	    ThePalette[c0].peRed	=	(UBYTE)(the_palette[(c0*3)+0]);
-	    ThePalette[c0].peGreen	=	(UBYTE)(the_palette[(c0*3)+1]);
-	    ThePalette[c0].peBlue	=	(UBYTE)(the_palette[(c0*3)+2]);
+	    ThePalette[c0].peRed	=	(std::uint8_t)(the_palette[(c0*3)+0]);
+	    ThePalette[c0].peGreen	=	(std::uint8_t)(the_palette[(c0*3)+1]);
+	    ThePalette[c0].peBlue	=	(std::uint8_t)(the_palette[(c0*3)+2]);
 	}
 #else
 	// Set up all entries.
 	for(c0=0;c0<256;c0++)
 	{
-		ThePalette[c0].peRed	=	(UBYTE)(the_palette[(c0*3)+0]);
-		ThePalette[c0].peGreen	=	(UBYTE)(the_palette[(c0*3)+1]);
-		ThePalette[c0].peBlue	=	(UBYTE)(the_palette[(c0*3)+2]);
+		ThePalette[c0].peRed	=	(std::uint8_t)(the_palette[(c0*3)+0]);
+		ThePalette[c0].peGreen	=	(std::uint8_t)(the_palette[(c0*3)+1]);
+		ThePalette[c0].peBlue	=	(std::uint8_t)(the_palette[(c0*3)+2]);
 	}
 #endif
 	for(c0=0;c0<256;c0++)
@@ -181,9 +181,9 @@ void SetPalette(UBYTE *the_palette)
 
 //---------------------------------------------------------------
 
-SLONG FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+std::int32_t FindColour(std::uint8_t *the_palette,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	SLONG	found	=	-1;
+	std::int32_t	found	=	-1;
 
 	if(r>255)
 		r=255;
@@ -197,7 +197,7 @@ SLONG FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 		case	1:
 		{
 			
-			SLONG	dist	=	0x7fffffff,
+			std::int32_t	dist	=	0x7fffffff,
 					c0,
 					dist2,
 					tr,

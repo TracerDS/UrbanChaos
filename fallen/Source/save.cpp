@@ -21,7 +21,7 @@
 
 FILE *SAVE_handle;
 
-SLONG SAVE_out_data(void* data, ULONG num_bytes)
+std::int32_t SAVE_out_data(void* data, std::uint32_t num_bytes)
 {
 	if (fwrite(data,  1, num_bytes, SAVE_handle) != num_bytes)
 	{	
@@ -33,7 +33,7 @@ SLONG SAVE_out_data(void* data, ULONG num_bytes)
 	}
 }
 
-SLONG LOAD_in_data(void* data, ULONG num_bytes)
+std::int32_t LOAD_in_data(void* data, std::uint32_t num_bytes)
 {
 	DebugText(" read <%d> \n",num_bytes);
 	if (fread(data, 1, num_bytes, SAVE_handle) != num_bytes)
@@ -59,22 +59,22 @@ FILE *SAVE_open()
 
 int SAVE_handle;
 
-SLONG SAVE_open()
+std::int32_t SAVE_open()
 {
 	return 0;
 }
 
-SLONG LOAD_open()
+std::int32_t LOAD_open()
 {
 	return 0;
 }
 
-SLONG SAVE_out_data(void* data,ULONG num_bytes)
+std::int32_t SAVE_out_data(void* data,std::uint32_t num_bytes)
 {
 //	Compress_Compress(data,num_bytes);
 }
 
-SLONG LOAD_in_data(void* data,ULONG num_bytes)
+std::int32_t LOAD_in_data(void* data,std::uint32_t num_bytes)
 {
 //	Compress_Decompress(data,num_bytes);
 }
@@ -103,66 +103,66 @@ SLONG LOAD_in_data(void* data,ULONG num_bytes)
 
 #define	SAVE_GAME_EWAY					101
 
-UBYTE skip=SAVE_SKIP;
-UBYTE skip_class_none=SAVE_SKIP_CLASS_NONE;
+std::uint8_t skip=SAVE_SKIP;
+std::uint8_t skip_class_none=SAVE_SKIP_CLASS_NONE;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE yaw;
-	SBYTE health;
-	UBYTE looklike;	// Top four bits is the PersonID, bottom four bits are PersonType
-	UWORD x;
-	SWORD y;
-	UWORD z;
-	UWORD other_a;	// The car this person is driving
+	std::uint8_t type;
+	std::uint8_t yaw;
+	std::int8_t health;
+	std::uint8_t looklike;	// Top four bits is the PersonID, bottom four bits are PersonType
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
+	std::uint16_t other_a;	// The car this person is driving
 					// The current anim for dead people
-	UWORD other_b;	// The passenger for drivers
-	UBYTE ware;
-	UBYTE drop;
-	UWORD onface;
+	std::uint16_t other_b;	// The passenger for drivers
+	std::uint8_t ware;
+	std::uint8_t drop;
+	std::uint16_t onface;
 
 } SAVE_Person;
 
 typedef struct
 {
-	UBYTE	Type;
-	UBYTE	Person;
-	UWORD	Thing;
-	UWORD	DrawTween;
+	std::uint8_t	Type;
+	std::uint8_t	Person;
+	std::uint16_t	Thing;
+	std::uint16_t	DrawTween;
 
 } SAVE_Person_extra;
 
 typedef struct
 {
-	UBYTE	Type;
-	UBYTE	Pad;
-	UWORD	Thing;
-	UWORD	Special;
-	UWORD	DrawMesh;
+	std::uint8_t	Type;
+	std::uint8_t	Pad;
+	std::uint16_t	Thing;
+	std::uint16_t	Special;
+	std::uint16_t	DrawMesh;
 
 } SAVE_Special_extra;
 
 typedef struct
 {
-	UBYTE	Type;
-	UBYTE	Yaw;
-	UWORD	Thing;
-	UWORD	x;
-	SWORD	y;
-	UWORD	z;
-	UWORD	driver;
-	UWORD	passenger;
+	std::uint8_t	Type;
+	std::uint8_t	Yaw;
+	std::uint16_t	Thing;
+	std::uint16_t	x;
+	std::int16_t	y;
+	std::uint16_t	z;
+	std::uint16_t	driver;
+	std::uint16_t	passenger;
 
 } SAVE_just_vehicle;
 
 typedef struct
 {
-	UBYTE	Type;
-	UBYTE	Pad;
-	UWORD	Thing;
-	UWORD	Vehicle;
-	UWORD	DrawMesh;
+	std::uint8_t	Type;
+	std::uint8_t	Pad;
+	std::uint16_t	Thing;
+	std::uint16_t	Vehicle;
+	std::uint16_t	DrawMesh;
 
 } SAVE_Vehicle_extra;
 
@@ -170,9 +170,9 @@ typedef struct
 // Saves out a person thing structure. Returns false on failure.
 //
 
-SLONG SAVE_special(Thing *p_special)
+std::int32_t SAVE_special(Thing *p_special)
 {
-	SLONG	ret=1;
+	std::int32_t	ret=1;
 
 	SAVE_Special_extra	extra;
 
@@ -191,10 +191,10 @@ SLONG SAVE_special(Thing *p_special)
 	return(ret);
 }
 
-SLONG SAVE_vehicle(Thing *p_vehicle)
+std::int32_t SAVE_vehicle(Thing *p_vehicle)
 {
 	Thing	*p_driver;
-	SLONG	ret=1;
+	std::int32_t	ret=1;
 	SAVE_Vehicle_extra	extra;
 
 	if(p_vehicle->Genus.Vehicle->Driver)
@@ -255,10 +255,10 @@ SLONG SAVE_vehicle(Thing *p_vehicle)
 
 
 
-SLONG SAVE_person(Thing *p_person)
+std::int32_t SAVE_person(Thing *p_person)
 {
 	SAVE_Person sp;
-	SLONG	ret;
+	std::int32_t	ret;
 
 	ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -282,7 +282,7 @@ SLONG SAVE_person(Thing *p_person)
 		return(1);
 		sp.type = SAVE_PERSON_TYPE_WANDERING_CIV;
 
-		return SAVE_out_data(&sp.type, sizeof(UBYTE));
+		return SAVE_out_data(&sp.type, sizeof(std::uint8_t));
 	}
 
 
@@ -367,9 +367,9 @@ SLONG SAVE_person(Thing *p_person)
 
 
 
-SLONG SAVE_things()
+std::int32_t SAVE_things()
 {
-	SLONG	index;
+	std::int32_t	index;
 	Thing	*p_thing;
 
 	for(index=0;index<MAX_THINGS;index++)
@@ -412,10 +412,10 @@ SLONG SAVE_things()
 }
 
 
-SLONG SAVE_eways()
+std::int32_t SAVE_eways()
 {
-	UBYTE		marker=SAVE_GAME_EWAY;
-	SLONG		c0,res=1;
+	std::uint8_t		marker=SAVE_GAME_EWAY;
+	std::int32_t		c0,res=1;
 	EWAY_Way	*ew;
 
 	if (!SAVE_out_data(&marker, sizeof(marker)))
@@ -441,15 +441,15 @@ SLONG SAVE_eways()
 		if(!res)
 			return(false);
 	}
-	res&=SAVE_out_data(EWAY_timer, sizeof(UWORD)*EWAY_MAX_TIMERS);
+	res&=SAVE_out_data(EWAY_timer, sizeof(std::uint16_t)*EWAY_MAX_TIMERS);
 	return true;
 }
 
 
 
-SLONG SAVE_ingame(CBYTE* fname)
+std::int32_t SAVE_ingame(char* fname)
 {
-	SLONG	ret=1;
+	std::int32_t	ret=1;
 
 #ifndef PSX
 	SAVE_handle = MF_Fopen("ingame.sav", "wb");
@@ -481,9 +481,9 @@ SLONG SAVE_ingame(CBYTE* fname)
 
 
 
-SLONG LOAD_eways()
+std::int32_t LOAD_eways()
 {
-	SLONG		c0,res=1;
+	std::int32_t		c0,res=1;
 	EWAY_Way	*ew;
 
 
@@ -500,7 +500,7 @@ SLONG LOAD_eways()
 		if(!res)
 			return(false);
 	}
-	res&=LOAD_in_data(EWAY_timer, sizeof(UWORD)*EWAY_MAX_TIMERS);
+	res&=LOAD_in_data(EWAY_timer, sizeof(std::uint16_t)*EWAY_MAX_TIMERS);
 	return(res);
 }
 
@@ -631,10 +631,10 @@ void LOAD_special_full(Thing *p_special)
 
 	if(p_special->Class!=CLASS_SPECIAL)
 	{
-		SLONG	index;
+		std::int32_t	index;
 		DrawMesh *dm;
 
-extern SLONG	find_empty_special();
+extern std::int32_t	find_empty_special();
 		index=find_empty_special();
 
 		p_special->Genus.Special=TO_SPECIAL(index);
@@ -695,13 +695,13 @@ void LOAD_vehicle_full(Thing *p_vehicle)
 	}
 }
 
-SLONG LOAD_types()
+std::int32_t LOAD_types()
 {
-	UBYTE	type;
-	UWORD	thing=0;
+	std::uint8_t	type;
+	std::uint16_t	thing=0;
 	Thing	*p_thing;
 
-	SLONG	special=0,person=0,car=0;
+	std::int32_t	special=0,person=0,car=0;
 
 
 
@@ -791,12 +791,12 @@ void free_special(Thing *special_thing);
 	return 0;
 }
 
-extern UWORD	*thing_class_head;
+extern std::uint16_t	*thing_class_head;
 
 
 void fix_thing_lists()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	Thing	*p_thing;
 
 	PRIMARY_USED				=	0;
@@ -837,7 +837,7 @@ extern void free_special(Thing *s_thing);
 
 void remove_specials()
 {
-	SLONG	index,next;
+	std::int32_t	index,next;
 	Thing	*p_special;
 
 	index=thing_class_head[CLASS_SPECIAL];
@@ -851,9 +851,9 @@ void remove_specials()
 	}
 
 }
-SLONG LOAD_ingame(CBYTE* fname)
+std::int32_t LOAD_ingame(char* fname)
 {
-	SLONG	ret=1;
+	std::int32_t	ret=1;
 
 	 TRACKS_Reset();
 

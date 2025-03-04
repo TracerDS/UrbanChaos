@@ -25,7 +25,7 @@ typedef struct
 #define LAND_MAX_POINTS 256
 
 LAND_Point LAND_point[LAND_MAX_POINTS];
-SLONG LAND_point_upto;
+std::int32_t LAND_point_upto;
 
 
 
@@ -35,8 +35,8 @@ SLONG LAND_point_upto;
 
 typedef struct
 {
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 	float nx;
 	float ny;
 
@@ -45,7 +45,7 @@ typedef struct
 #define LAND_MAX_LINES 256
 
 LAND_Line LAND_line[LAND_MAX_LINES];
-SLONG LAND_line_upto;
+std::int32_t LAND_line_upto;
 
 
 //
@@ -80,9 +80,9 @@ void LAND_init()
 // Returns the index of a point at (x1,y1)
 //
 
-SLONG LAND_add_point(float x, float y)
+std::int32_t LAND_add_point(float x, float y)
 {
-	SLONG i;
+	std::int32_t i;
 
 	LAND_Point *lp;
 
@@ -121,9 +121,9 @@ void LAND_add_line(float x1, float y1, float x2, float y2)
 }
 
 
-void LAND_add_line(SLONG num_points, Point2d p[])
+void LAND_add_line(std::int32_t num_points, Point2d p[])
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < num_points - 1; i++)
 	{
@@ -138,8 +138,8 @@ void LAND_add_line(SLONG num_points, Point2d p[])
 
 void LAND_calc_normals()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float nx;
 	float ny;
@@ -234,14 +234,14 @@ void LAND_calc_normals()
 }
 
 
-SLONG LAND_collide_sphere(
+std::int32_t LAND_collide_sphere(
 		float  x,
 		float  y,
 		float  radius,
 		float *nx,
 		float *ny)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dy;
@@ -255,7 +255,7 @@ SLONG LAND_collide_sphere(
 	LAND_Point *lp1;
 	LAND_Point *lp2;
 
-	SLONG ans = false;
+	std::int32_t ans = false;
 
 	//
 	// Initialise the normal.
@@ -419,7 +419,7 @@ SLONG LAND_collide_sphere(
 
 void LAND_draw_all(float mid_x, float mid_y, float zoom)
 {
-	SLONG i;
+	std::int32_t i;
 
 	LAND_Line  *ll;
 	LAND_Point *lp1;

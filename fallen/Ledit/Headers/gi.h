@@ -18,7 +18,7 @@ void GI_init();
 // Returns true on success.
 //
 
-SLONG GI_load_map(CBYTE* name);
+std::int32_t GI_load_map(char* name);
 
 
 //
@@ -28,32 +28,32 @@ SLONG GI_load_map(CBYTE* name);
 #define GI_VIEW_CITY	1
 #define GI_VIEW_SEWERS	2
 
-void GI_set_view(SLONG view);
+void GI_set_view(std::int32_t view);
 
 //
 // Renders the view into the the_display.lp_DD_BackSurface.
 //
 
 void GI_render_view_into_backbuffer(
-		SLONG cam_x,
-		SLONG cam_y,
-		SLONG cam_z,
-		SLONG cam_yaw,
-		SLONG cam_pitch,
-		SLONG cam_roll);
+		std::int32_t cam_x,
+		std::int32_t cam_y,
+		std::int32_t cam_z,
+		std::int32_t cam_yaw,
+		std::int32_t cam_pitch,
+		std::int32_t cam_roll);
 
 //
 // Gives the position of the given screen pixel in the world.
 // Returns false if there was no intersection.
 //
 
-SLONG GI_get_pixel_world_pos(
-		SLONG  sx,
-		SLONG  sy,
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z,
-		SLONG inside=0);
+std::int32_t GI_get_pixel_world_pos(
+		std::int32_t  sx,
+		std::int32_t  sy,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z,
+		std::int32_t inside=0);
 
 
 //
@@ -64,14 +64,14 @@ SLONG GI_get_pixel_world_pos(
 #define GI_MOUSE_OVER_LIGHT_BOT (1 << 0)
 #define GI_MOUSE_OVER_LIGHT_TOP (1 << 1)
 
-ULONG GI_light_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight);	// Not a bool!
+std::uint32_t GI_light_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight);	// Not a bool!
 
 
 //
@@ -84,36 +84,36 @@ void GI_fini();
 //	GUY.
 //---------------------------------------------------------------
 
-ULONG GI_waypoint_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight);
+std::uint32_t GI_waypoint_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight);
 
 
-ULONG GI_rad_trigger_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG rad,
-		ULONG colour,
-		UBYTE highlight);
+std::uint32_t GI_rad_trigger_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t rad,
+		std::uint32_t colour,
+		std::uint8_t highlight);
 
 //---------------------------------------------------------------
 //  CANIS
 //---------------------------------------------------------------
 
 void GI_groundsquare_draw(
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE polyinit);
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t polyinit);
 
 //---------------------------------------------------------------
 

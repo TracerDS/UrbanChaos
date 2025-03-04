@@ -23,7 +23,7 @@
 float CONE_origin_x;
 float CONE_origin_y;
 float CONE_origin_z;
-ULONG CONE_origin_colour;
+std::uint32_t CONE_origin_colour;
 float CONE_end_x;
 float CONE_end_y;
 float CONE_end_z;
@@ -37,7 +37,7 @@ typedef struct
 	float      x;
 	float      y;
 	float      z;
-	ULONG      colour;
+	std::uint32_t      colour;
 	POLY_Point pp;
 
 } CONE_Point;
@@ -45,7 +45,7 @@ typedef struct
 #define CONE_MAX_POINTS 64
 
 CONE_Point CONE_point[CONE_MAX_POINTS];
-SLONG      CONE_point_upto;
+std::int32_t      CONE_point_upto;
 
 void CONE_create(
 		float x,
@@ -56,11 +56,11 @@ void CONE_create(
 		float dz,
 		float length,
 		float radius,
-		ULONG colour_start,
-		ULONG colour_end,
-		SLONG detail)
+		std::uint32_t colour_start,
+		std::uint32_t colour_end,
+		std::int32_t detail)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float ax;
 	float ay;
@@ -175,18 +175,18 @@ void CONE_create(
 
 
 
-ULONG CONE_interpolate_colour(float v, ULONG colour1, ULONG colour2)
+std::uint32_t CONE_interpolate_colour(float v, std::uint32_t colour1, std::uint32_t colour2)
 {
-	SLONG rb1, rb2, drb, rba;
-	SLONG ga1, ga2, dga, gaa;
+	std::int32_t rb1, rb2, drb, rba;
+	std::int32_t ga1, ga2, dga, gaa;
 
 	union
 	{
 		float vfloat;
-		ULONG vfixed8;
+		std::uint32_t vfixed8;
 	};
 
-	SLONG answer;
+	std::int32_t answer;
 
 	//
 	// Early outs.
@@ -274,17 +274,17 @@ ULONG CONE_interpolate_colour(float v, ULONG colour1, ULONG colour2)
 //
 
 void CONE_insert_points(
-		SLONG point,
+		std::int32_t point,
 		float x1,
 		float y1,
 		float z1,
-		ULONG colour1,
+		std::uint32_t colour1,
 		float x2,
 		float y2,
 		float z2,
-		ULONG colour2)
+		std::uint32_t colour2)
 {
-	SLONG i;
+	std::int32_t i;
 
 	ASSERT(WITHIN(point, 0, CONE_point_upto - 1));
 
@@ -319,13 +319,13 @@ void CONE_insert_points(
 
 void CONE_clip(
 		CONE_Poly p[],
-		SLONG     num_points)
+		std::int32_t     num_points)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	float av;
 	float aw;
@@ -360,17 +360,17 @@ void CONE_clip(
 	float ix;
 	float iy;
 	float iz;
-	ULONG icolour;
+	std::uint32_t icolour;
 
 	float insert_x1;
 	float insert_y1;
 	float insert_z1;
-	ULONG insert_colour1;
+	std::uint32_t insert_colour1;
 
 	float insert_x2;
 	float insert_y2;
 	float insert_z2;
-	ULONG insert_colour2;
+	std::uint32_t insert_colour2;
 
 	float dprod;
 
@@ -388,13 +388,13 @@ void CONE_clip(
 
 	struct
 	{
-		UBYTE failed_side;
-		UBYTE failed_dprod;
-		UWORD shit;
+		std::uint8_t failed_side;
+		std::uint8_t failed_dprod;
+		std::uint16_t shit;
 		float ix;
 		float iy;
 		float iz;
-		ULONG icolour;
+		std::uint32_t icolour;
 		float dprod[CONE_MAX_POLY_POINTS];
 		
 	} point_info[2],
@@ -739,33 +739,33 @@ void CONE_clip(
 
 #define CONE_COLVECT_DONE 4
 
-SLONG CONE_colvect_done[CONE_COLVECT_DONE];
-SLONG CONE_colvect_done_upto;
+std::int32_t CONE_colvect_done[CONE_COLVECT_DONE];
+std::int32_t CONE_colvect_done_upto;
 
 void CONE_intersect_square(
-		SLONG mx,
-		SLONG mz)
+		std::int32_t mx,
+		std::int32_t mz)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t z1;
 
-	SLONG w_list;
-	SLONG w_face;
+	std::int32_t w_list;
+	std::int32_t w_face;
 
 	PrimFace4 *p_f4;
 	PrimPoint *pp;
 
-	SLONG f_list;
-	SLONG exit;
-	SLONG facet;
-	SLONG build;
+	std::int32_t f_list;
+	std::int32_t exit;
+	std::int32_t facet;
+	std::int32_t build;
 
 	DFacet *df;
 
-	SLONG face_height;
-	UBYTE face_order[4] = {0,1,3,2};
+	std::int32_t face_height;
+	std::uint8_t face_order[4] = {0,1,3,2};
 
 	Thing *p_fthing;
 
@@ -933,29 +933,29 @@ void CONE_intersect_square(
 
 void CONE_intersect_with_map()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG lx;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t lz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG len;
-	SLONG steps;
+	std::int32_t len;
+	std::int32_t steps;
 
 	//
 	// Make sure we dont do the same mapsquare more than once.
@@ -965,11 +965,11 @@ void CONE_intersect_with_map()
 
 	struct
 	{
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
 	}     done[CONE_MAX_DONE] = {{-1,-1},{-1,-1},{-1,-1},{-1,-1}};
-	SLONG done_upto = 0;
+	std::int32_t done_upto = 0;
 
 	//
 	// Make sure we dont do a colvect more than once.
@@ -982,11 +982,11 @@ void CONE_intersect_with_map()
 
 	CONE_colvect_done_upto = 0;
 
-	x1 = SLONG(CONE_origin_x);
-	z1 = SLONG(CONE_origin_z);
+	x1 = std::int32_t(CONE_origin_x);
+	z1 = std::int32_t(CONE_origin_z);
 
-	x2 = SLONG(CONE_end_x);
-	z2 = SLONG(CONE_end_z);
+	x2 = std::int32_t(CONE_end_x);
+	z2 = std::int32_t(CONE_end_z);
 
 	dx = x2 - x1;
 	dz = z2 - z1;
@@ -1060,10 +1060,10 @@ void CONE_intersect_with_map()
 
 void CONE_draw()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	POLY_Point ppo;
 

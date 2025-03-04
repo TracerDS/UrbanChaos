@@ -24,13 +24,13 @@
 
 typedef struct
 {
-	SLONG rhs_min;
-	SLONG rhs_max;
+	std::int32_t rhs_min;
+	std::int32_t rhs_max;
 
-	SLONG lhs_min;
-	SLONG lhs_max;
+	std::int32_t lhs_min;
+	std::int32_t lhs_max;
 
-	SLONG pixel[AA_MAX_SPAN_X];
+	std::int32_t pixel[AA_MAX_SPAN_X];
 
 } AA_Span;
 
@@ -44,9 +44,9 @@ AA_Span AA_span[AA_MAX_SPAN_Y];
 //
 
 void AA_pixel_rhs(
-		SLONG x,
-		SLONG y,
-		SLONG frac)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t frac)
 {
 	ASSERT(WITHIN(x, 0, AA_MAX_SPAN_X - 1));
 	ASSERT(WITHIN(y, 0, AA_MAX_SPAN_Y - 1));
@@ -75,10 +75,10 @@ void AA_pixel_rhs(
 //
 
 void AA_pixel_lhs(
-		SLONG x,
-		SLONG y,
-		SLONG frac_left,
-		SLONG frac_right)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t frac_left,
+		std::int32_t frac_right)
 {
 	ASSERT(WITHIN(x, 0, AA_MAX_SPAN_X - 1));
 	ASSERT(WITHIN(y, 0, AA_MAX_SPAN_Y - 1));
@@ -124,21 +124,21 @@ void AA_pixel_lhs(
 //
 
 void AA_span_rhs(
-		SLONG dydx,
-		SLONG x1,
-		SLONG y1,
-		SLONG x2,
-		SLONG y2)
+		std::int32_t dydx,
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t x2,
+		std::int32_t y2)
 {
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG xleft;
-	SLONG xright;
-	SLONG ytop;
-	SLONG ybot;
+	std::int32_t xleft;
+	std::int32_t xright;
+	std::int32_t ytop;
+	std::int32_t ybot;
 
-	SLONG frac;
+	std::int32_t frac;
 
 	if (x2 == x1)
 	{
@@ -250,23 +250,23 @@ void AA_span_rhs(
 //
 
 void AA_span_lhs(
-		SLONG dydx,
-		SLONG x1,
-		SLONG y1,
-		SLONG x2,
-		SLONG y2)
+		std::int32_t dydx,
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t x2,
+		std::int32_t y2)
 {
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG xleft;
-	SLONG xright;
-	SLONG xpixel;
-	SLONG ytop;
-	SLONG ybot;
+	std::int32_t xleft;
+	std::int32_t xright;
+	std::int32_t xpixel;
+	std::int32_t ytop;
+	std::int32_t ybot;
 
-	SLONG frac_left;
-	SLONG frac_right;
+	std::int32_t frac_left;
+	std::int32_t frac_right;
 
 	if (x2 == x1)
 	{
@@ -397,21 +397,21 @@ void AA_span_lhs(
 // A line on the rhs of the triangle. py1 <= py2
 //
 
-void AA_line_rhs(SLONG px1, SLONG py1, SLONG px2, SLONG py2)
+void AA_line_rhs(std::int32_t px1, std::int32_t py1, std::int32_t px2, std::int32_t py2)
 {
 	if (py1 == py2)
 	{
 		return;
 	}
 
-	SLONG dy;
-	SLONG dx;
+	std::int32_t dy;
+	std::int32_t dx;
 
-	SLONG dydx;
-	SLONG dxdy;
+	std::int32_t dydx;
+	std::int32_t dxdy;
 
-	SLONG x1, x2;
-	SLONG y1, y2;
+	std::int32_t x1, x2;
+	std::int32_t y1, y2;
 	
 	dx   =  px2 - px1;
 	dy   =  py2 - py1;
@@ -473,21 +473,21 @@ void AA_line_rhs(SLONG px1, SLONG py1, SLONG px2, SLONG py2)
 // A line on the lhs of the triangle py1 <= py2
 //
 
-void AA_line_lhs(SLONG px1, SLONG py1, SLONG px2, SLONG py2)
+void AA_line_lhs(std::int32_t px1, std::int32_t py1, std::int32_t px2, std::int32_t py2)
 {
 	if (py1 == py2)
 	{
 		return;
 	}
 
-	SLONG dy;
-	SLONG dx;
+	std::int32_t dy;
+	std::int32_t dx;
 
-	SLONG dydx;
-	SLONG dxdy;
+	std::int32_t dydx;
+	std::int32_t dxdy;
 
-	SLONG x1, x2;
-	SLONG y1, y2;
+	std::int32_t x1, x2;
+	std::int32_t y1, y2;
 	
 	dx   =  px2 - px1;
 	dy   =  py2 - py1;
@@ -548,42 +548,42 @@ void AA_line_lhs(SLONG px1, SLONG py1, SLONG px2, SLONG py2)
 
 
 void AA_draw_do(
-		UBYTE *bitmap,
-		UBYTE  x_res,
-		UBYTE  y_res,
-		SLONG  pitch,
+		std::uint8_t *bitmap,
+		std::uint8_t  x_res,
+		std::uint8_t  y_res,
+		std::int32_t  pitch,
 
 		//
 		// In clockwise order.
 		//
 
-		SLONG  px[3],
-		SLONG  py[3])
+		std::int32_t  px[3],
+		std::int32_t  py[3])
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG miny;
-	SLONG maxy;
+	std::int32_t miny;
+	std::int32_t maxy;
 
-	//SLONG minp;
-	SLONG p1;
-	SLONG p2;
+	//std::int32_t minp;
+	std::int32_t p1;
+	std::int32_t p2;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG x1, y1;
-	SLONG x2, y2;
+	std::int32_t x1, y1;
+	std::int32_t x2, y2;
 
-	SLONG nextp[3] = {1,2,0};
+	std::int32_t nextp[3] = {1,2,0};
 
-	SLONG val;
+	std::int32_t val;
 
-	SLONG  fill_top;
-	SLONG  fill_bot;
+	std::int32_t  fill_top;
+	std::int32_t  fill_bot;
 
-	SLONG fill;
-	UBYTE *line;
+	std::int32_t fill;
+	std::uint8_t *line;
 
 	//
 	// The bounds of the triangle.
@@ -687,7 +687,7 @@ void AA_draw_do(
 
 			SATURATE(val, 0, 255);
 			
-			line[x] = (UBYTE)val;
+			line[x] = (std::uint8_t)val;
 
 			x += 1;
 		}
@@ -701,7 +701,7 @@ void AA_draw_do(
 
 			SATURATE(val, 0, 255);
 
-			line[x] = (UBYTE)val;
+			line[x] = (std::uint8_t)val;
 
 			x += 1;
 		}
@@ -715,7 +715,7 @@ void AA_draw_do(
 
 			SATURATE(val, 0, 255);
 			
-			line[x] = (UBYTE)val;
+			line[x] = (std::uint8_t)val;
 
 			x += 1;
 		}
@@ -734,42 +734,42 @@ void AA_draw_do(
 // 
 
 void AA_draw(
-		UBYTE *bitmap,
-		UBYTE  x_res,
-		UBYTE  y_res,
-		SLONG  pitch,
-		SLONG  p1x, SLONG p1y,	// 16-bit fixed point.
-		SLONG  p2x, SLONG p2y,
-		SLONG  p3x, SLONG p3y)
+		std::uint8_t *bitmap,
+		std::uint8_t  x_res,
+		std::uint8_t  y_res,
+		std::int32_t  pitch,
+		std::int32_t  p1x, std::int32_t p1y,	// 16-bit fixed point.
+		std::int32_t  p2x, std::int32_t p2y,
+		std::int32_t  p3x, std::int32_t p3y)
 {
 #ifndef NDEBUG
-	SLONG i;
+	std::int32_t i;
 #endif
 
-	//SLONG miny;
-	//SLONG maxy;
+	//std::int32_t miny;
+	//std::int32_t maxy;
 
-	SLONG minp;
+	std::int32_t minp;
 
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	//SLONG x;
-	//SLONG y;
+	//std::int32_t x;
+	//std::int32_t y;
 
-	SLONG px[3];
-	SLONG py[3];
+	std::int32_t px[3];
+	std::int32_t py[3];
 
-	//SLONG val;
+	//std::int32_t val;
 
-	//SLONG  fill_top;
-	//SLONG  fill_bot;
+	//std::int32_t  fill_top;
+	//std::int32_t  fill_bot;
 
-	//UBYTE  fill;
-	//UBYTE *line;
+	//std::uint8_t  fill;
+	//std::uint8_t *line;
 
-	SLONG nextp[3] = {1,2,0};
+	std::int32_t nextp[3] = {1,2,0};
 
 	//
 	// Work in AA_FIX-bit internally.
@@ -841,8 +841,8 @@ void AA_draw(
 		// This triangle is already flat along one edge!
 		//
 
-		SLONG tx[3];
-		SLONG ty[3];
+		std::int32_t tx[3];
+		std::int32_t ty[3];
 
 		tx[0] = px[p1];
 		ty[0] = py[p1];
@@ -869,11 +869,11 @@ void AA_draw(
 			// Pointy left triangle. Find the new point along the edge from p1 to p2.
 			//
 
-			SLONG dx = px[p2] - px[p1];
-			SLONG dy = py[p2] - py[p1];
+			std::int32_t dx = px[p2] - px[p1];
+			std::int32_t dy = py[p2] - py[p1];
 
-			SLONG nx;
-			SLONG ny;
+			std::int32_t nx;
+			std::int32_t ny;
 
 			nx = px[p1] + (dx * (py[p3] - py[p1])) / dy;
 			ny = py[p3];
@@ -882,8 +882,8 @@ void AA_draw(
 			// Two new triangles.
 			//
 
-			SLONG tx[3];
-			SLONG ty[3];
+			std::int32_t tx[3];
+			std::int32_t ty[3];
 
 			tx[0] = px[p1];
 			ty[0] = py[p1];
@@ -926,11 +926,11 @@ void AA_draw(
 			// Pointy right triangle. Find the new point along the edge from p1 to p3.
 			//
 
-			SLONG dx = px[p3] - px[p1];
-			SLONG dy = py[p3] - py[p1];
+			std::int32_t dx = px[p3] - px[p1];
+			std::int32_t dy = py[p3] - py[p1];
 
-			SLONG nx;
-			SLONG ny;
+			std::int32_t nx;
+			std::int32_t ny;
 
 			nx = px[p1] + (dx * (py[p2] - py[p1])) / dy;
 			ny = py[p2];
@@ -939,8 +939,8 @@ void AA_draw(
 			// Two new triangles.
 			//
 
-			SLONG tx[3];
-			SLONG ty[3];
+			std::int32_t tx[3];
+			std::int32_t ty[3];
 
 			tx[0] = px[p1];
 			ty[0] = py[p1];

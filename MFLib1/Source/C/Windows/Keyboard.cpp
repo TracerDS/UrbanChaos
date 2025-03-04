@@ -4,10 +4,10 @@
 
 #include	<MFHeader.h>
 
-volatile UBYTE	AltFlag,
+volatile std::uint8_t	AltFlag,
 				ControlFlag,
 				ShiftFlag;
-volatile UBYTE	Keys[256],
+volatile std::uint8_t	Keys[256],
 				LastKey;
 HHOOK			KeyboardHook;
 
@@ -65,8 +65,8 @@ void	ResetKeyboard()
 
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 {
-	UBYTE		key_code;
-	ULONG		virtual_keycode	=	wParam;
+	std::uint8_t		key_code;
+	std::uint32_t		virtual_keycode	=	wParam;
 
 
 	if(code<0)
@@ -75,7 +75,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 	}
 
 	// Get key scan code.
-	key_code	=	(UBYTE)((lParam&KEYMASK_SCAN)>>16);
+	key_code	=	(std::uint8_t)((lParam&KEYMASK_SCAN)>>16);
 
 	// Extended key press?
 	if(lParam&KEYMASK_EXTENDED)

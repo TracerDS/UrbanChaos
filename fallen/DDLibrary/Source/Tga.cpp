@@ -38,12 +38,12 @@ static FileClump*	tclump = nullptr;
 static bool			writing;
 static bool			init_convert = false;
 
-TGA_Info	TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink = true);
+TGA_Info	TGA_load_from_file(const char* file, std::int32_t max_width, std::int32_t max_height, TGA_Pixel* data, bool bCanShrink = true);
 
 #ifndef TARGET_DC
-static void		TGA_make_conversion_tables(void);
-static void		TGA_write_compressed(const TGA_Info& ti, TGA_Pixel* data, ULONG id);
-static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, SLONG max_height);
+static void		TGA_make_conversion_tables();
+static void		TGA_write_compressed(const TGA_Info& ti, TGA_Pixel* data, std::uint32_t id);
+static TGA_Info TGA_read_compressed(TGA_Pixel* data, std::uint32_t id, std::int32_t max_width, std::int32_t max_height);
 #endif
 
 
@@ -96,7 +96,7 @@ FileClump* GetTGAClump()
 //
 // look for a TGA
 
-bool DoesTGAExist(const char* filename, ULONG id)
+bool DoesTGAExist(const char* filename, std::uint32_t id)
 {
 	if (writing)
 	{
@@ -119,10 +119,10 @@ bool DoesTGAExist(const char* filename, ULONG id)
 //
 // loads a TGA
 
-SLONG tga_width;
-SLONG tga_height;
+std::int32_t tga_width;
+std::int32_t tga_height;
 
-TGA_Info TGA_load(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, ULONG id, bool bCanShrink )
+TGA_Info TGA_load(const char* file, std::int32_t max_width, std::int32_t max_height, TGA_Pixel* data, std::uint32_t id, bool bCanShrink )
 {
 #ifdef TARGET_DC
 	ASSERT (!tclump || (id == -1));
@@ -153,34 +153,34 @@ TGA_Info TGA_load(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixe
 //
 // load a TGA from file
 
-TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height, TGA_Pixel* data, bool bCanShrink)
+TGA_Info TGA_load_from_file(const char* file, std::int32_t max_width, std::int32_t max_height, TGA_Pixel* data, bool bCanShrink)
 {
 
 
 
-	SLONG i;
-	SLONG x;
-	SLONG y;
-	SLONG y1;
-	SLONG y2;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t y1;
+	std::int32_t y2;
 
-	//UBYTE red;
-	//UBYTE green;
-	//UBYTE blue;
+	//std::uint8_t red;
+	//std::uint8_t green;
+	//std::uint8_t blue;
 
-	SLONG tga_pixel_depth;
-	SLONG tga_image_type;
-	SLONG tga_id_length;
+	std::int32_t tga_pixel_depth;
+	std::int32_t tga_image_type;
+	std::int32_t tga_id_length;
 
-	SLONG	tga_pal;
+	std::int32_t	tga_pal;
 
-	UBYTE header[18];
-	UBYTE definitely_no_alpha;
+	std::uint8_t header[18];
+	std::uint8_t definitely_no_alpha;
 
 	FILE*	fd;
 
 	TGA_Info ans;
-	UBYTE	pal[256*3];
+	std::uint8_t	pal[256*3];
 
 
 
@@ -209,10 +209,10 @@ TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height
 			for ( int j = 0; j < ans.width; j++ )
 			{
 				int num = ( i & 1 ) | ( ( j & 1 ) << 1 );
-				pdest->alpha = (UBYTE)( junk >> ( num ) );
-				pdest->red   = (UBYTE)( junk >> ( num + 1 ) );
-				pdest->green = (UBYTE)( junk >> ( num + 2 ) );
-				pdest->blue  = (UBYTE)( junk >> ( num + 3 ) );
+				pdest->alpha = (std::uint8_t)( junk >> ( num ) );
+				pdest->red   = (std::uint8_t)( junk >> ( num + 1 ) );
+				pdest->green = (std::uint8_t)( junk >> ( num + 2 ) );
+				pdest->blue  = (std::uint8_t)( junk >> ( num + 3 ) );
 				pdest++;
 			}
 		}
@@ -296,23 +296,23 @@ TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height
 
 	if (header[0x1])
 	{
-		UBYTE	col;
+		std::uint8_t	col;
 		//
 		// The file has colour map data- but how much?
 		//
 
-		SLONG entries      = header[5] + header[6] * 256;
-		SLONG bitsperentry = header[7];
-		ULONG length;
+		std::int32_t entries      = header[5] + header[6] * 256;
+		std::int32_t bitsperentry = header[7];
+		std::uint32_t length;
 		
 		length = ( entries * bitsperentry + 7 ) >> 3;
 		ASSERT(length<=256*3);
 
 		if (fread(&pal[0], 1, length, fd) != length)	goto file_error;
 
-		UBYTE*	buffer = new UBYTE[tga_width * tga_height];
+		std::uint8_t*	buffer = new std::uint8_t[tga_width * tga_height];
 		if (fread(buffer, 1, tga_width * tga_height, fd) != tga_width * tga_height)	goto file_error;
-		UBYTE*	bp = buffer;
+		std::uint8_t*	bp = buffer;
 
 		for (i = 0; i < tga_width * tga_height; i++)
 		{
@@ -351,9 +351,9 @@ TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height
 			// We have to load a pixel in at a time to add the nullptr alpha channel.
 			//
 
-			UBYTE*	buffer = new UBYTE[3 * tga_width * tga_height];
+			std::uint8_t*	buffer = new std::uint8_t[3 * tga_width * tga_height];
 			if (fread(buffer, 1, 3 * tga_width * tga_height,fd) != 3 * tga_width * tga_height)	goto file_error;
-			UBYTE*	bp = buffer;
+			std::uint8_t*	bp = buffer;
 
 			for (i = 0; i < tga_width * tga_height; i++)
 			{
@@ -445,10 +445,10 @@ TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height
 			{
 				for ( int k = tga_width; k > 0; k-- )
 				{
-					pdest->alpha = (UBYTE)( ( (DWORD)psrc1[0].alpha + (DWORD)psrc1[1].alpha + (DWORD)psrc2[0].alpha + (DWORD)psrc2[1].alpha ) >> 2 );
-					pdest->red   = (UBYTE)( ( (DWORD)psrc1[0].red   + (DWORD)psrc1[1].red   + (DWORD)psrc2[0].red   + (DWORD)psrc2[1].red   ) >> 2 );
-					pdest->green = (UBYTE)( ( (DWORD)psrc1[0].green + (DWORD)psrc1[1].green + (DWORD)psrc2[0].green + (DWORD)psrc2[1].green ) >> 2 );
-					pdest->blue  = (UBYTE)( ( (DWORD)psrc1[0].blue  + (DWORD)psrc1[1].blue  + (DWORD)psrc2[0].blue  + (DWORD)psrc2[1].blue  ) >> 2 );
+					pdest->alpha = (std::uint8_t)( ( (DWORD)psrc1[0].alpha + (DWORD)psrc1[1].alpha + (DWORD)psrc2[0].alpha + (DWORD)psrc2[1].alpha ) >> 2 );
+					pdest->red   = (std::uint8_t)( ( (DWORD)psrc1[0].red   + (DWORD)psrc1[1].red   + (DWORD)psrc2[0].red   + (DWORD)psrc2[1].red   ) >> 2 );
+					pdest->green = (std::uint8_t)( ( (DWORD)psrc1[0].green + (DWORD)psrc1[1].green + (DWORD)psrc2[0].green + (DWORD)psrc2[1].green ) >> 2 );
+					pdest->blue  = (std::uint8_t)( ( (DWORD)psrc1[0].blue  + (DWORD)psrc1[1].blue  + (DWORD)psrc2[0].blue  + (DWORD)psrc2[1].blue  ) >> 2 );
 					pdest++;
 					psrc1 += 2;
 					psrc2 += 2;
@@ -481,14 +481,14 @@ TGA_Info TGA_load_from_file(const CBYTE* file, SLONG max_width, SLONG max_height
 //
 // write out a file, squished
 
-static void WriteSquished(UWORD* buffer, size_t nwords, ULONG id)
+static void WriteSquished(std::uint16_t* buffer, size_t nwords, std::uint32_t id)
 {
-	UWORD	used[65536];
-	UWORD	mapping[65536];
+	std::uint16_t	used[65536];
+	std::uint16_t	mapping[65536];
 
 	memset(used, 0, 65536*2);
 
-	UWORD	total = 0;
+	std::uint16_t	total = 0;
 
 	for (size_t ii = 3; ii < nwords; ii++)
 	{
@@ -509,8 +509,8 @@ static void WriteSquished(UWORD* buffer, size_t nwords, ULONG id)
 
 	if (bits_required < bits_normal)
 	{
-		UWORD*	squished = new UWORD[(bits_required + 15) / 16];
-		UWORD*	sptr = squished;
+		std::uint16_t*	squished = new std::uint16_t[(bits_required + 15) / 16];
+		std::uint16_t*	sptr = squished;
 		
 		*sptr++ = 0xFFFF;	// marker for compressed file
 		*sptr++ = buffer[0];
@@ -527,12 +527,12 @@ static void WriteSquished(UWORD* buffer, size_t nwords, ULONG id)
 		// 10-bit A,B,C,D into 16 bits goes:
 		// 0xAAAAAAAAAABBBBBB 0xBBBBCCCCCCCCCCDD 0xDDDDDDDD00000000
 
-		UWORD	cword = 0;	// current word
-		UWORD	cbits = 0;	// # bits in current word
+		std::uint16_t	cword = 0;	// current word
+		std::uint16_t	cbits = 0;	// # bits in current word
 
 		for (size_t ii = 3; ii < nwords; ii++)
 		{
-			UWORD	encoded = used[buffer[ii]] - 1;
+			std::uint16_t	encoded = used[buffer[ii]] - 1;
 
 			ASSERT(encoded < total);
 
@@ -572,13 +572,13 @@ static void WriteSquished(UWORD* buffer, size_t nwords, ULONG id)
 //
 // read in a squished file
 
-static UBYTE* ReadSquished(ULONG id)
+static std::uint8_t* ReadSquished(std::uint32_t id)
 {
 	// read squished file
-	UBYTE*	buffer = tclump->Read(id);
+	std::uint8_t*	buffer = tclump->Read(id);
 	if (!buffer)	return nullptr;
 
-	UWORD*	bptr = (UWORD*)buffer;
+	std::uint16_t*	bptr = (std::uint16_t*)buffer;
 
 	if (*bptr != 0xFFFF)	return buffer;	// unsquished
 
@@ -587,8 +587,8 @@ static UBYTE* ReadSquished(ULONG id)
 	// allocate output buffer
 	size_t	nwords = bptr[1] * bptr[2];
 
-	UBYTE*	output = new UBYTE[2 * (nwords + 3)];
-	UWORD*	optr = (UWORD*)output;
+	std::uint8_t*	output = new std::uint8_t[2 * (nwords + 3)];
+	std::uint16_t*	optr = (std::uint16_t*)output;
 	
 	// copy header
 	*optr++ = *bptr++;
@@ -596,8 +596,8 @@ static UBYTE* ReadSquished(ULONG id)
 	*optr++ = *bptr++;
 
 	// read mapping
-	UWORD	total = *bptr++;
-	UWORD	mapping[65536];
+	std::uint16_t	total = *bptr++;
+	std::uint16_t	mapping[65536];
 
 	for (size_t ii = 0; ii < total; ii++)
 	{
@@ -610,11 +610,11 @@ static UBYTE* ReadSquished(ULONG id)
 
 	// read bit-encoded data
 	int		cbits = 16;
-	UWORD	cword = *bptr++;
+	std::uint16_t	cword = *bptr++;
 
 	for (size_t ii = 0; ii < nwords; ii++)
 	{
-		UWORD	encoded;
+		std::uint16_t	encoded;
 
 		if (cbits > bits)
 		{
@@ -649,14 +649,14 @@ static UBYTE* ReadSquished(ULONG id)
 //
 // make conversion tables
 
-static UBYTE	C8to4[256];
-static UBYTE	C8to5[256];
-static UBYTE	C8to6[256];
-static UBYTE	C4to8[16];
-static UBYTE	C5to8[32];
-static UBYTE	C6to8[64];
+static std::uint8_t	C8to4[256];
+static std::uint8_t	C8to5[256];
+static std::uint8_t	C8to6[256];
+static std::uint8_t	C4to8[16];
+static std::uint8_t	C5to8[32];
+static std::uint8_t	C6to8[64];
 
-static void TGA_make_conversion_tables(void)
+static void TGA_make_conversion_tables()
 {
 	int	ii;
 
@@ -677,24 +677,24 @@ static void TGA_make_conversion_tables(void)
 //
 // write a TGA out compressed
 
-static void TGA_write_compressed(const TGA_Info& ti, TGA_Pixel* data, ULONG id)
+static void TGA_write_compressed(const TGA_Info& ti, TGA_Pixel* data, std::uint32_t id)
 {
 	if (!ti.valid)			return;
 	if (tclump->Exists(id))	return;
 
-	UWORD*	buffer = new UWORD[ti.width * ti.height + 3];
-	UWORD*	bptr = buffer;
+	std::uint16_t*	buffer = new std::uint16_t[ti.width * ti.height + 3];
+	std::uint16_t*	bptr = buffer;
 
-	*bptr++ = (UWORD)ti.contains_alpha;
-	*bptr++ = (UWORD)ti.width;
-	*bptr++ = (UWORD)ti.height;
+	*bptr++ = (std::uint16_t)ti.contains_alpha;
+	*bptr++ = (std::uint16_t)ti.width;
+	*bptr++ = (std::uint16_t)ti.height;
 
 	if (ti.contains_alpha)
 	{
 		// compress to 4:4:4:4
 		for (int ii = 0; ii < ti.width * ti.height; ii++)
 		{
-			UWORD	pix;
+			std::uint16_t	pix;
 
 			pix = C8to4[data->blue];
 			pix |= C8to4[data->green] << 4;
@@ -710,7 +710,7 @@ static void TGA_write_compressed(const TGA_Info& ti, TGA_Pixel* data, ULONG id)
 		// compress to 5:6:5
 		for (int ii = 0; ii < ti.width * ti.height; ii++)
 		{
-			UWORD	pix;
+			std::uint16_t	pix;
 
 			pix = C8to5[data->blue];
 			pix |= C8to6[data->green] << 5;
@@ -729,7 +729,7 @@ static void TGA_write_compressed(const TGA_Info& ti, TGA_Pixel* data, ULONG id)
 //
 // read a TGA in compressed
 
-static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, SLONG max_height)
+static TGA_Info TGA_read_compressed(TGA_Pixel* data, std::uint32_t id, std::int32_t max_width, std::int32_t max_height)
 {
 	TGA_Info	ti;
 
@@ -737,9 +737,9 @@ static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, 
 
 	if (!tclump->Exists(id))		return ti;
 
-	UBYTE*	buffer = ReadSquished(id);
+	std::uint8_t*	buffer = ReadSquished(id);
 	if (!buffer)	return ti;
-	UWORD*	bptr = (UWORD*)buffer;
+	std::uint16_t*	bptr = (std::uint16_t*)buffer;
 
 	ti.valid = 1;
 	ti.contains_alpha = *bptr++;
@@ -754,7 +754,7 @@ static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, 
 		// compress to 4:4:4:4
 		for (int ii = 0; ii < ti.width * ti.height; ii++)
 		{
-			UWORD	pix = *bptr++;
+			std::uint16_t	pix = *bptr++;
 
 			data->blue = C4to8[pix & 0xF];
 			data->green = C4to8[(pix >> 4) & 0xF];
@@ -768,7 +768,7 @@ static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, 
 		// compress to 5:6:5
 		for (int ii = 0; ii < ti.width * ti.height; ii++)
 		{
-			UWORD	pix = *bptr++;
+			std::uint16_t	pix = *bptr++;
 
 			data->blue = C5to8[pix & 0x1F];
 			data->green = C6to8[(pix >> 5) & 0x3F];
@@ -782,29 +782,29 @@ static TGA_Info TGA_read_compressed(TGA_Pixel* data, ULONG id, SLONG max_width, 
 	return ti;
 }
 
-TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLONG max_height,TGA_Pixel *data)
+TGA_Info TGA_load_remap(const char* file,const char* pname,std::int32_t max_width,std::int32_t max_height,TGA_Pixel *data)
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
-	SLONG y1;
-	SLONG y2;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t y1;
+	std::int32_t y2;
 
-	SLONG tga_pixel_depth;
-	SLONG tga_image_type;
-	SLONG tga_id_length;
+	std::int32_t tga_pixel_depth;
+	std::int32_t tga_image_type;
+	std::int32_t tga_id_length;
 
-	SLONG	tga_pal;
+	std::int32_t	tga_pal;
 
-	UBYTE header[18];
-	UBYTE junk;
-	UBYTE definitely_no_alpha;
+	std::uint8_t header[18];
+	std::uint8_t junk;
+	std::uint8_t definitely_no_alpha;
 
 	FILE *handle,*phandle;
 
 	TGA_Info ans;
-	UBYTE	pal[256*3];
-	UBYTE	remap_pal[256*4];
+	std::uint8_t	pal[256*3];
+	std::uint8_t	remap_pal[256*4];
 
 	//
 	// Open the file.
@@ -826,7 +826,7 @@ TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLO
 	MF_Fclose(phandle);
 
 	{
-		SLONG	pal1=0,pal2=0,c0;
+		std::int32_t	pal1=0,pal2=0,c0;
 		for(c0=0;c0<16*4;c0++)
 			pal1+=remap_pal[c0];
 
@@ -862,7 +862,7 @@ TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLO
 	// Read the header.
 	//
 
-	if (fread(header, sizeof(UBYTE), 18, handle) != 18) goto file_error;
+	if (fread(header, sizeof(std::uint8_t), 18, handle) != 18) goto file_error;
 
 	//
 	// Extract info from the header.
@@ -912,31 +912,31 @@ TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLO
 	
 	for (i = 0; i < tga_id_length; i++)
 	{
-		if (fread(&junk, sizeof(UBYTE), 1, handle) != 1) goto file_error;
+		if (fread(&junk, sizeof(std::uint8_t), 1, handle) != 1) goto file_error;
 	}
 
 	if (header[0x1])
 	{
-		UBYTE	col;
+		std::uint8_t	col;
 		//
 		// The file has colour map data- but how much?
 		//
 
-		SLONG entries      = header[5] + header[6] * 256;
-		SLONG bitsperentry = header[7];
-		SLONG length;
+		std::int32_t entries      = header[5] + header[6] * 256;
+		std::int32_t bitsperentry = header[7];
+		std::int32_t length;
 		
 		length = ( entries * bitsperentry + 7 ) >> 3;
 		ASSERT(length<=256*3);
 		
 		{
-			if (fread(&pal[0], sizeof(UBYTE), length, handle) != length) 
+			if (fread(&pal[0], sizeof(std::uint8_t), length, handle) != length) 
 				goto file_error;
 			
 		}
 		for (i = 0; i < tga_width * tga_height; i++)
 		{
-			if (fread(&col, sizeof(UBYTE), 1, handle) != 1) 
+			if (fread(&col, sizeof(std::uint8_t), 1, handle) != 1) 
 				goto file_error;
 			col=255-col;
 
@@ -1006,10 +1006,10 @@ TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLO
 //
 extern volatile HWND		hDDLibWindow;
 
-void	psx_load_error(CBYTE* err,const CBYTE* fname)
+void	psx_load_error(char* err,const char* fname)
 {
 #ifndef TARGET_DC
-	CBYTE title[256];
+	char title[256];
 
 	//
 	// Tell the user about not loading the waypoint.
@@ -1026,27 +1026,27 @@ void	psx_load_error(CBYTE* err,const CBYTE* fname)
 }
 
 
-TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_height,UBYTE   *data,UBYTE *pal)
+TGA_Info TGA_load_psx(const char* file,std::int32_t        max_width,std::int32_t        max_height,std::uint8_t   *data,std::uint8_t *pal)
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
-	SLONG y1;
-	SLONG y2;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t y1;
+	std::int32_t y2;
 
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
-	SLONG tga_pixel_depth;
-	SLONG tga_image_type;
-	SLONG tga_id_length;
+	std::int32_t tga_pixel_depth;
+	std::int32_t tga_image_type;
+	std::int32_t tga_id_length;
 
-	SLONG	tga_pal;
+	std::int32_t	tga_pal;
 
-	UBYTE header[18];
-	UBYTE junk;
-	UBYTE definitely_no_alpha;
+	std::uint8_t header[18];
+	std::uint8_t junk;
+	std::uint8_t definitely_no_alpha;
 
 	FILE *handle;
 
@@ -1072,7 +1072,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 	// Read the header.
 	//
 
-	if (fread(header, sizeof(UBYTE), 18, handle) != 18) goto file_error;
+	if (fread(header, sizeof(std::uint8_t), 18, handle) != 18) goto file_error;
 
 	//
 	// Extract info from the header.
@@ -1125,27 +1125,27 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 	
 	for (i = 0; i < tga_id_length; i++)
 	{
-		if (fread(&junk, sizeof(UBYTE), 1, handle) != 1) goto file_error;
+		if (fread(&junk, sizeof(std::uint8_t), 1, handle) != 1) goto file_error;
 	}
 
 	if (tga_pal)
 	{
-		UBYTE	col,palpos=0;
+		std::uint8_t	col,palpos=0;
 		//
 		// The file has colour map data- but how much?
 		//
 
-		SLONG entries      = header[5] + header[6] * 256;
-		SLONG bitsperentry = header[7];
-		SLONG length;
+		std::int32_t entries      = header[5] + header[6] * 256;
+		std::int32_t bitsperentry = header[7];
+		std::int32_t length;
 		
 		length = entries * bitsperentry + 7 >> 3;
 		ASSERT(length<=256*3);
 		
-		if (fread(&pal[i], sizeof(UBYTE), length, handle) != length) 
+		if (fread(&pal[i], sizeof(std::uint8_t), length, handle) != length) 
 			goto file_error;
 
-		if (fread(data, sizeof(UBYTE),tga_width * tga_height, handle) != tga_width * tga_height) 
+		if (fread(data, sizeof(std::uint8_t),tga_width * tga_height, handle) != tga_width * tga_height) 
 			goto file_error;
 
 		//
@@ -1153,7 +1153,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 		//
 		if(tga_width==64)
 		{
-			SLONG	temp;
+			std::int32_t	temp;
 
 			for (i = 0; i < tga_width * tga_height; i++)
 			{
@@ -1174,7 +1174,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 		{
 			for(i=0;i<(length/3);i++)
 			{
-				SLONG	t;
+				std::int32_t	t;
 
 				t=pal[i*3+0];
 				pal[i*3+0]=pal[i*3+2];
@@ -1184,7 +1184,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 
 
 		{
-			SLONG	pal1=0,pal2=0,c0;
+			std::int32_t	pal1=0,pal2=0,c0;
 			if(length>=255*3)
 			{
 				for(c0=0;c0<16*3;c0++)
@@ -1219,11 +1219,11 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 			TRACE(" not gray scale!\n");
 			return ans;
 		}
-		SLONG	c0;
-		UBYTE	remap[256];
-		SLONG	next_pal=0;
+		std::int32_t	c0;
+		std::uint8_t	remap[256];
+		std::int32_t	next_pal=0;
 		memset(remap,0,255);
-		if (fread(data, sizeof(UBYTE),tga_width * tga_height, handle) != tga_width * tga_height) 
+		if (fread(data, sizeof(std::uint8_t),tga_width * tga_height, handle) != tga_width * tga_height) 
 			goto file_error;
 
 		for(c0=0;c0<tga_width * tga_height;c0++)
@@ -1257,7 +1257,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 	// TGAs are stored upside down to what we expect.
 	//
 
-	UBYTE spare;
+	std::uint8_t spare;
 
 	for (y = 0; y < tga_height / 2; y++)
 	{
@@ -1288,7 +1288,7 @@ TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_
 	return ans;
 }
 
-UBYTE TGA_header[18] =
+std::uint8_t TGA_header[18] =
 {
 	0, 0, 2, 0,
 	0, 0, 0, 0, 
@@ -1300,18 +1300,18 @@ UBYTE TGA_header[18] =
 };
 
 void TGA_save(
-		const CBYTE* file,
-		SLONG        width,
-		SLONG        height,
+		const char* file,
+		std::int32_t        width,
+		std::int32_t        height,
 		TGA_Pixel   *data,
-		SLONG contains_alpha)
+		std::int32_t contains_alpha)
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG num_pixels;
-	UBYTE header[18];
-	SLONG bpp;
+	std::int32_t num_pixels;
+	std::uint8_t header[18];
+	std::int32_t bpp;
 
 	FILE *handle;
 
@@ -1336,7 +1336,7 @@ void TGA_save(
 	// Create the header.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < 18; i++)
 	{
@@ -1354,7 +1354,7 @@ void TGA_save(
 	// Write out the header.
 	//
 
-	fwrite(&header, sizeof(UBYTE), 18, handle);
+	fwrite(&header, sizeof(std::uint8_t), 18, handle);
 
 	//
 	// Write out the pixel data.
@@ -1365,12 +1365,12 @@ void TGA_save(
 	{
 		if (contains_alpha)
 		{
-			fwrite(&data[x + y * width].alpha, sizeof(UBYTE), 1, handle);
+			fwrite(&data[x + y * width].alpha, sizeof(std::uint8_t), 1, handle);
 		}
 
-		fwrite(&data[x + y * width].blue,  sizeof(UBYTE), 1, handle);
-		fwrite(&data[x + y * width].green, sizeof(UBYTE), 1, handle);
-		fwrite(&data[x + y * width].red,   sizeof(UBYTE), 1, handle);
+		fwrite(&data[x + y * width].blue,  sizeof(std::uint8_t), 1, handle);
+		fwrite(&data[x + y * width].green, sizeof(std::uint8_t), 1, handle);
+		fwrite(&data[x + y * width].red,   sizeof(std::uint8_t), 1, handle);
 	}
 
 	MF_Fclose(handle);

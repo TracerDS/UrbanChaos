@@ -14,7 +14,7 @@ extern HWND			GEDIT_view_wnd;
 
 //---------------------------------------------------------------
 
-CBYTE* the_title, *the_txt, *the_prompt;
+char* the_title, *the_txt, *the_prompt;
 
 
 //---------------------------------------------------------------
@@ -63,15 +63,15 @@ bool CALLBACK	ib_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 //---------------------------------------------------------------
 
 
-CBYTE* InputBox(CBYTE* title, CBYTE* prompt, CBYTE* txt) {
-	SLONG res;
+char* InputBox(char* title, char* prompt, char* txt) {
+	std::int32_t res;
 
 	//	Set the dialog.
 	the_title=title;
 	the_prompt=prompt;
 	the_txt = txt;
 	if (!the_txt) {
-		the_txt = (CBYTE*)malloc(_MAX_PATH);
+		the_txt = (char*)malloc(_MAX_PATH);
 		ZeroMemory(the_txt,_MAX_PATH);
 	}
 

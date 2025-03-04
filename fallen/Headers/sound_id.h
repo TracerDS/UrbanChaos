@@ -6,7 +6,7 @@
 #ifndef _sound_id_h_
 #define _sound_id_h_
 
-extern CBYTE* sound_list[];
+extern char* sound_list[];
 
 enum Waves {
     S_NULL,

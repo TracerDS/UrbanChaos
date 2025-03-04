@@ -46,13 +46,13 @@
 
 #include	"CondTab.def"
 
-extern CBYTE	*class_text[];
-extern CBYTE	*genus_text[][10];
-extern CBYTE	*condition_text[];
+extern char	*class_text[];
+extern char	*genus_text[][10];
+extern char	*condition_text[];
 
 //---------------------------------------------------------------
 
-UWORD	field_widths[][MAX_FIELDS]	=
+std::uint16_t	field_widths[][MAX_FIELDS]	=
 {
 	{	CON_LIST_WIDTH-2,	0,				0,				0				},	//	CON_NONE
 	{	FIELD_1_WIDTH,		FIELD_2_WIDTH,	0,				0				},	//	CON_THING_DEAD
@@ -113,7 +113,7 @@ ConditionTab::~ConditionTab()
 
 void	ConditionTab::DrawTabContent()
 {
-	SLONG			message_height,
+	std::int32_t			message_height,
 					message_width;
 	EdRect			message_rect;
 
@@ -171,7 +171,7 @@ void	ConditionTab::DrawTabContent()
 
 //---------------------------------------------------------------
 
-void	ConditionTab::UpdateTab(UBYTE update_level)
+void	ConditionTab::UpdateTab(std::uint8_t update_level)
 {
 	if(update_level)
 	{
@@ -197,11 +197,11 @@ void	ConditionTab::UpdateTab(UBYTE update_level)
 
 //---------------------------------------------------------------
 
-UWORD	ConditionTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	ConditionTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UBYTE			update		=	UPDATE_NONE;
-	UWORD			select_pos;
-	ULONG			control_id	=	0;
+	std::uint8_t			update		=	UPDATE_NONE;
+	std::uint16_t			select_pos;
+	std::uint32_t			control_id	=	0;
 	EditCondList	*the_clist;
 	MFPoint			local_point;
 
@@ -293,7 +293,7 @@ UWORD	ConditionTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 void	ConditionTab::HandleTab(MFPoint *current_point)
 {
-	UBYTE		update	=	UPDATE_NONE;
+	std::uint8_t		update	=	UPDATE_NONE;
 	EdRect		condition_rect,
 				lists_rect;
 	MFPoint		local_point;
@@ -351,9 +351,9 @@ void	ConditionTab::HandleTab(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-void	ConditionTab::HandleControl(UWORD control_id)
+void	ConditionTab::HandleControl(std::uint16_t control_id)
 {
-	SLONG		control	=	control_id&0xff;
+	std::int32_t		control	=	control_id&0xff;
 
 
 	switch(control)
@@ -398,7 +398,7 @@ void	ConditionTab::HandleControl(UWORD control_id)
 
 void	ConditionTab::DoCListPopup(MFPoint *clicked_point,EditCondList *the_clist)
 {
-	ULONG			control_id		=	0;
+	std::uint32_t			control_id		=	0;
 	CPopUp			*the_control	=	0;
 
 
@@ -439,10 +439,10 @@ void	ConditionTab::DoCListPopup(MFPoint *clicked_point,EditCondList *the_clist)
 
 //---------------------------------------------------------------
 
-void	ConditionTab::DoConditionPopup(MFPoint *clicked_point,UWORD select_pos)
+void	ConditionTab::DoConditionPopup(MFPoint *clicked_point,std::uint16_t select_pos)
 {
-	UBYTE			field;
-	ULONG			control_id		=	0;
+	std::uint8_t			field;
+	std::uint32_t			control_id		=	0;
 	CPopUp			*the_control	=	0;
 	EditCondition	*the_condition;
 	EditCondList	*the_cond_list;
@@ -558,7 +558,7 @@ void	ConditionTab::DoConditionPopup(MFPoint *clicked_point,UWORD select_pos)
 
 //---------------------------------------------------------------
 
-void	ConditionTab::CommonConditionOptions(ULONG id,EditCondition *the_condition)
+void	ConditionTab::CommonConditionOptions(std::uint32_t id,EditCondition *the_condition)
 {
 	switch(id)
 	{
@@ -591,9 +591,9 @@ void	ConditionTab::CommonConditionOptions(ULONG id,EditCondition *the_condition)
 EditCondList	*ConditionTab::SelectConditionList()
 {
 	bool			exit		=	false;
-	UBYTE			update		=	2;
-	UWORD			select_pos;
-	SLONG			c0;
+	std::uint8_t			update		=	2;
+	std::uint16_t			select_pos;
+	std::int32_t			c0;
 	ControlSet		select_set;
 	EditCondList	*current_list,
 					*hilited_list,
@@ -749,8 +749,8 @@ EditCondList	*ConditionTab::SelectConditionList()
 
 void	ConditionTab::DrawListsBox()
 {
-	UWORD			select_pos;
-	SLONG			c0;
+	std::uint16_t			select_pos;
+	std::int32_t			c0;
 	EditCondList	*current_list;
 	EdRect			item_rect,
 					lists_rect;
@@ -806,9 +806,9 @@ void	ConditionTab::DrawListsBox()
 
 void	ConditionTab::DrawCurrentList()
 {
-	CBYTE			field_text[MAX_FIELDS][64];
-	UWORD			select_pos;
-	SLONG			c0,c1,
+	char			field_text[MAX_FIELDS][64];
+	std::uint16_t			select_pos;
+	std::int32_t			c0,c1,
 					x_pos;
 	EditCondition	*current_condition;
 	EdRect			field_rects[MAX_FIELDS],
@@ -958,9 +958,9 @@ void	ConditionTab::DrawCurrentList()
 
 //---------------------------------------------------------------
 
-UWORD	ConditionTab::ListsHilitePos(MFPoint *current_point)
+std::uint16_t	ConditionTab::ListsHilitePos(MFPoint *current_point)
 {
-	UWORD			c0;
+	std::uint16_t			c0;
 	EdRect			item_rect,
 					lists_rect;
 
@@ -989,9 +989,9 @@ UWORD	ConditionTab::ListsHilitePos(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-EditCondList	*ConditionTab::HilitetedList(UWORD select_pos)
+EditCondList	*ConditionTab::HilitetedList(std::uint16_t select_pos)
 {
-	ULONG			c0;
+	std::uint32_t			c0;
 	EditCondList	*current_list;
 
 	
@@ -1018,10 +1018,10 @@ EditCondList	*ConditionTab::HilitetedList(UWORD select_pos)
 
 //---------------------------------------------------------------
 
-UWORD	ConditionTab::CurrentListHilitePos(MFPoint *current_point)
+std::uint16_t	ConditionTab::CurrentListHilitePos(MFPoint *current_point)
 {
-	UWORD			c0,c1;
-	SLONG			x_pos;
+	std::uint16_t			c0,c1;
+	std::int32_t			x_pos;
 	EditCondition	*current_condition;
 	EdRect			condition_rect,
 					field_rects[MAX_FIELDS],
@@ -1077,9 +1077,9 @@ UWORD	ConditionTab::CurrentListHilitePos(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-EditCondition	*ConditionTab::HilitetedCondition(UWORD select_pos)
+EditCondition	*ConditionTab::HilitetedCondition(std::uint16_t select_pos)
 {
-	ULONG			c0;
+	std::uint32_t			c0;
 	EditCondition	*current_condition	=	nullptr;
 
 

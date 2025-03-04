@@ -25,14 +25,14 @@ void POLY_init();
 //
 
 void POLY_camera_set(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
-		SLONG view_dist,	// The maximum distance a point should be from the camera.
-		SLONG lens);		// Normally around 1.5F... the higher it is the more zoom you get.
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
+		std::int32_t view_dist,	// The maximum distance a point should be from the camera.
+		std::int32_t lens);		// Normally around 1.5F... the higher it is the more zoom you get.
 
 //
 // Given three points in world space, this function fills in
@@ -55,20 +55,20 @@ extern MATRIX	PSX_view_matrix;
 
 typedef struct
 {
-	SLONG x;	//              
-	SLONG y;	// 3D points... 
-	SLONG z;	//              
+	std::int32_t x;	//              
+	std::int32_t y;	// 3D points... 
+	std::int32_t z;	//              
 
-	SLONG X;	//             
-	SLONG Y;	// 2D points...
-	SLONG Z;	//             
+	std::int32_t X;	//             
+	std::int32_t Y;	// 2D points...
+	std::int32_t Z;	//             
 
-	ULONG clip;
+	std::uint32_t clip;
 
-	SLONG u;
-	SLONG v;
-	ULONG colour;		// xxRRGGBB
-	ULONG specular;		// xxRRGGBB
+	std::int32_t u;
+	std::int32_t v;
+	std::uint32_t colour;		// xxRRGGBB
+	std::uint32_t specular;		// xxRRGGBB
 	
 } POLY_Point;
 
@@ -79,30 +79,30 @@ typedef struct
 	{
 		struct 
 		{
-			SWORD SX,SY;
+			std::int16_t SX,SY;
 		}Word;
-		SLONG	SYSX;
+		std::int32_t	SYSX;
 	};
-	SLONG	Z;
-	SLONG   P;
-	SLONG	Flag;
+	std::int32_t	Z;
+	std::int32_t   P;
+	std::int32_t	Flag;
 } PSX_POLY_Point;
 
 typedef union 
 {
 	struct 
 	{
-		SWORD SX,SY;
+		std::int16_t SX,SY;
 	}Word;
-	SLONG	SYSX;
+	std::int32_t	SYSX;
 }PSX_Screen_XY;
 
-void build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m);
+void build_rot_matrix(std::int32_t yaw,std::int32_t pitch,MATRIX *m);
 
 void POLY_transform(
-		SLONG       world_x,
-		SLONG       world_y,
-		SLONG       world_z,
+		std::int32_t       world_x,
+		std::int32_t       world_y,
+		std::int32_t       world_z,
 		POLY_Point *pt);
 
 //
@@ -111,15 +111,15 @@ void POLY_transform(
 //
 
 void POLY_set_local_rotation(
-		SLONG off_x,
-		SLONG off_y,
-		SLONG off_z,
+		std::int32_t off_x,
+		std::int32_t off_y,
+		std::int32_t off_z,
 		MATRIX *matrix);
 
 void POLY_transform_using_local_rotation(
-		SLONG       local_x,
-		SLONG       local_y,
-		SLONG       local_z,
+		std::int32_t       local_x,
+		std::int32_t       local_y,
+		std::int32_t       local_z,
 		POLY_Point *pt);
 
 //
@@ -128,11 +128,11 @@ void POLY_transform_using_local_rotation(
 // to POLY_camera_set.  radius = world_radius / view_dist.
 //
 
-SLONG POLY_sphere_visible(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG radius);
+std::int32_t POLY_sphere_visible(
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t radius);
 
 //
 // Handy buffers for rotating objects
@@ -144,15 +144,15 @@ SLONG POLY_sphere_visible(
 
 //extern POLY_Point POLY_buffer[POLY_BUFFER_SIZE];
 extern PSX_POLY_Point PSX_POLY_buffer[POLY_BUFFER_SIZE];
-extern SLONG      POLY_buffer_upto;
+extern std::int32_t      POLY_buffer_upto;
 
 //extern POLY_Point POLY_shadow[POLY_BUFFER_SIZE];
-extern SLONG      POLY_shadow_upto;
+extern std::int32_t      POLY_shadow_upto;
 //
 // The fade-out range of the points.
 //
 
-#define POLY_FADEOUT_START	((SLONG)(0.75F*65536))
+#define POLY_FADEOUT_START	((std::int32_t)(0.75F*65536))
 #define POLY_FADEOUT_END	(65536)
 
 //
@@ -164,12 +164,12 @@ static void inline POLY_fadeout_point(POLY_Point *pp)
 {
 	if (pp->z > POLY_FADEOUT_START)
 	{
-		SLONG multi;
-		SLONG red;
-		SLONG green;
-		SLONG blue;
+		std::int32_t multi;
+		std::int32_t red;
+		std::int32_t green;
+		std::int32_t blue;
 
-		multi = (256<<16) - SLONG((pp->z - POLY_FADEOUT_START) * ((256<<16) / (POLY_FADEOUT_END - POLY_FADEOUT_START)));
+		multi = (256<<16) - std::int32_t((pp->z - POLY_FADEOUT_START) * ((256<<16) / (POLY_FADEOUT_END - POLY_FADEOUT_START)));
 		multi>>=8;
 
 		if (multi < 0)
@@ -288,30 +288,30 @@ void POLY_fadeout_buffer();
 #define POLY_PAGE_ARROW			(EXTRA(0,0))
 //#define POLY_PAGE_PADBITS		(EXTRA(2,6))
 
-void POLY_frame_init    (SLONG keep_shadow_page);	// true => doesn't delete the shadow polygons.
-SLONG POLY_valid_triangle(POLY_Point *p);
+void POLY_frame_init    (std::int32_t keep_shadow_page);	// true => doesn't delete the shadow polygons.
+std::int32_t POLY_valid_triangle(POLY_Point *p);
 
-SLONG POLY_valid_quad    (POLY_Point *p);
-SLONG POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
-void POLY_add_triangle  (POLY_Point *p, SLONG page, SLONG shall_i_backface_cull);
-void POLY_add_quad      (POLY_Point *p, SLONG page, SLONG shall_i_backface_cull);
-void POLY_add_line      (POLY_Point *p1, POLY_Point *p2, SLONG width1, SLONG width2, SLONG sort_to_front);
-void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front);
-void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front);
-void POLY_add_line_2d   (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
-void POLY_clip_line_box (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2);
-void POLY_clip_line_add (SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour);
-void POLY_frame_draw    (SLONG draw_shadow_page);	// false => Doens't draw the shadow polygons.
-extern SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull);
-extern SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull);
+std::int32_t POLY_valid_quad    (POLY_Point *p);
+std::int32_t POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
+void POLY_add_triangle  (POLY_Point *p, std::int32_t page, std::int32_t shall_i_backface_cull);
+void POLY_add_quad      (POLY_Point *p, std::int32_t page, std::int32_t shall_i_backface_cull);
+void POLY_add_line      (POLY_Point *p1, POLY_Point *p2, std::int32_t width1, std::int32_t width2, std::int32_t sort_to_front);
+void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, std::int32_t width1, std::int32_t width2,std::int32_t page, std::uint32_t colour, std::int32_t sort_to_front);
+void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, std::int32_t width1, std::int32_t width2,std::int32_t page, std::uint32_t colour, std::int32_t sort_to_front);
+void POLY_add_line_2d   (std::int32_t sx1, std::int32_t sy1, std::int32_t sx2, std::int32_t sy2, std::uint32_t colour);
+void POLY_clip_line_box (std::int32_t sx1, std::int32_t sy1, std::int32_t sx2, std::int32_t sy2);
+void POLY_clip_line_add (std::int32_t sx1, std::int32_t sy1, std::int32_t sx2, std::int32_t sy2, std::uint32_t colour);
+void POLY_frame_draw    (std::int32_t draw_shadow_page);	// false => Doens't draw the shadow polygons.
+extern std::int32_t POLY_valid_quadp(POLY_Point *pp[4],std::uint16_t back_cull);
+extern std::int32_t POLY_valid_trianglep(POLY_Point *pp[3],std::uint16_t back_cull);
 
 
-extern SLONG POLY_cam_x;
-extern SLONG POLY_cam_y;
-extern SLONG POLY_cam_z;
+extern std::int32_t POLY_cam_x;
+extern std::int32_t POLY_cam_y;
+extern std::int32_t POLY_cam_z;
 
-extern SLONG POLY_cam_off_x;
-extern SLONG POLY_cam_off_y;
-extern SLONG POLY_cam_off_z;
+extern std::int32_t POLY_cam_off_x;
+extern std::int32_t POLY_cam_off_y;
+extern std::int32_t POLY_cam_off_z;
 
 #endif

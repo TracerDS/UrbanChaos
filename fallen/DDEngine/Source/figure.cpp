@@ -59,13 +59,13 @@
 
 extern bool allow_debug_keys;
 
-SLONG FIGURE_alpha = 255;
+std::int32_t FIGURE_alpha = 255;
 
-SLONG	steam_seed;
+std::int32_t	steam_seed;
 
-extern UWORD	alt_texture[];
+extern std::uint16_t	alt_texture[];
 
-UBYTE	body_part_upper[]=
+std::uint8_t	body_part_upper[]=
 {
 	0,0,0,0,1,1,1,1,1,1,1,1,0,0,0
 
@@ -108,22 +108,22 @@ void DeadAndBuried ( DWORD dwColour )
 // Returns true if this chunk is not near-Z clipped, false if it is.
 bool FIGURE_draw_prim_tween_person_only_just_set_matrix (
 		int iMatrixNum,
-		SLONG prim,
+		std::int32_t prim,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		SLONG recurse_level,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::int32_t recurse_level,
 		Thing    *p_thing
 		);
 
 void FIGURE_draw_prim_tween_person_only(
-		SLONG prim,
+		std::int32_t prim,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		SLONG recurse_level,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::int32_t recurse_level,
 		Thing    *p_thing
 		);
 
@@ -872,7 +872,7 @@ void RemoveAllLightsFromScene ( void )
 
 
 
-SLONG	get_steam_rand()
+std::int32_t	get_steam_rand()
 {
 	steam_seed*=31415965;
 	steam_seed+=123456789;
@@ -882,11 +882,11 @@ SLONG	get_steam_rand()
 extern int AENG_detail_crinkles;
 
 #define	MAX_STEAM	100
-void	draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
+void	draw_steam(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	float	u,v;
-	SLONG	trans;
+	std::int32_t	trans;
 	//
 	// waft gently up from x,y,z
 	//
@@ -900,7 +900,7 @@ void	draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
 
 	for(c0=0;c0<lod;c0++)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 
 		if(c0&1)
 			u=0.0;
@@ -987,7 +987,7 @@ void	draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
 }
 
 
-UBYTE fire_pal[768];
+std::uint8_t fire_pal[768];
 
 void    init_flames()
 {
@@ -997,7 +997,7 @@ void    init_flames()
 
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&fire_pal,768);
+		FileRead(handle,(std::uint8_t*)&fire_pal,768);
 
 		FileClose(handle);
 	} else TRACE("Missing flame palette file.\n");
@@ -1005,17 +1005,17 @@ void    init_flames()
 
 extern int AENG_detail_skyline;
 
-void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
+void	draw_flames(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod,std::int32_t offset)
 {
-	SLONG	c0;
-	SLONG	trans;
-	SLONG   page;
+	std::int32_t	c0;
+	std::int32_t	trans;
+	std::int32_t   page;
 	float   scale;
 	float   u,v,w,h;
-	UBYTE*  palptr;
-	SLONG   palndx;
+	std::uint8_t*  palptr;
+	std::int32_t   palndx;
 	float   wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4;
-	UBYTE   type;
+	std::uint8_t   type;
 	//
 	// waft gently up from x,y,z
 	//
@@ -1024,7 +1024,7 @@ void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 
 #if 0
 	// Now moved to the actual callers instead.
-	SLONG lod_mul;
+	std::int32_t lod_mul;
 
 	if (!AENG_detail_skyline)//||ShiftFlag)
 	{
@@ -1039,7 +1039,7 @@ void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 	//for(c0=0;c0<lod*lod_mul;c0++)
 	for(c0=0;c0<lod;c0++)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 
 		w=h=1.0;
 		u=v=0.0;
@@ -1172,17 +1172,17 @@ void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 }
 
 #ifndef	PSX
-void	draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base,UBYTE rand)
+void	draw_flame_element(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t c0,std::uint8_t base,std::uint8_t rand)
 {
-//	SLONG	c0;
-	SLONG	trans;
-	SLONG   page;
+//	std::int32_t	c0;
+	std::int32_t	trans;
+	std::int32_t   page;
 	float   scale;
 	float   u,v,w,h;
-	UBYTE*  palptr;
-	SLONG   palndx;
+	std::uint8_t*  palptr;
+	std::int32_t   palndx;
 	float   wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4;
-	SLONG	dx,dy,dz;
+	std::int32_t	dx,dy,dz;
 	//
 	// waft gently up from x,y,z
 	//
@@ -1317,11 +1317,11 @@ void	draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base,UBYTE rand)
 
 
 
-//void FIGURE_rotate_obj2(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
-void FIGURE_rotate_obj2(SLONG pitch,SLONG yaw,SLONG roll, Matrix33 *r3) 
+//void FIGURE_rotate_obj2(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll)
+void FIGURE_rotate_obj2(std::int32_t pitch,std::int32_t yaw,std::int32_t roll, Matrix33 *r3) 
 {
-	SLONG cy, cp, cr;
-	SLONG sy, sp, sr;
+	std::int32_t cy, cp, cr;
+	std::int32_t sy, sp, sr;
 
 	cy = COS(yaw   & 2047);
 	cp = COS(pitch & 2047);
@@ -1346,10 +1346,10 @@ void FIGURE_rotate_obj2(SLONG pitch,SLONG yaw,SLONG roll, Matrix33 *r3)
 	r3->M[2][2]= (MUL64( cy, cp))>>1;
 }
 
-void FIGURE_rotate_obj(SLONG xangle,SLONG yangle,SLONG zangle, Matrix33 *r3) 
+void FIGURE_rotate_obj(std::int32_t xangle,std::int32_t yangle,std::int32_t zangle, Matrix33 *r3) 
 {
-	SLONG	sinx, cosx, siny, cosy, sinz, cosz;
- 	SLONG	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
+	std::int32_t	sinx, cosx, siny, cosy, sinz, cosz;
+ 	std::int32_t	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
 
 	FIGURE_rotate_obj2(xangle,yangle,zangle,r3);
 	return;
@@ -1388,15 +1388,15 @@ void FIGURE_rotate_obj(SLONG xangle,SLONG yangle,SLONG zangle, Matrix33 *r3)
 }
 
 
-//UBYTE	store_dprod[500];
-extern UBYTE TEXTURE_dontexist[];
+//std::uint8_t	store_dprod[500];
+extern std::uint8_t TEXTURE_dontexist[];
 
 // 0->3
 // 4->7
 // 8->11
 // 12->15
 
-UWORD	jacket_lookup[4][8]=
+std::uint16_t	jacket_lookup[4][8]=
 {
 	{64+21,10*64+2,10*64+2,10*64+32},
 	{64+22,10*64+3,10*64+3,10*64+33},
@@ -1425,10 +1425,10 @@ TomsPrimObject D3DPeopleObj[MAX_NUMBER_D3D_PEOPLE];
 
 // iFaceNum: the face number
 // bTri: true if it's a tri, false if it's a quad.
-UWORD FIGURE_find_face_D3D_texture_page ( int iFaceNum, bool bTri )
+std::uint16_t FIGURE_find_face_D3D_texture_page ( int iFaceNum, bool bTri )
 {
 	// Find the texture page/shading info.
-	UWORD wTexturePage;
+	std::uint16_t wTexturePage;
 	DWORD dwDrawFlags, dwFaceFlags;
 	if ( bTri )
 	{
@@ -1777,13 +1777,13 @@ int m_iMaxNumIndicesUsed = 0;
 
 // Used by the FIGURE_TPO lot.
 static D3DVERTEX *TPO_pVert = nullptr;
-static UWORD *TPO_pStripIndices = nullptr;
-static UWORD *TPO_pListIndices = nullptr;
+static std::uint16_t *TPO_pStripIndices = nullptr;
+static std::uint16_t *TPO_pListIndices = nullptr;
 static int *TPO_piVertexRemap = nullptr;
 static int *TPO_piVertexLinks = nullptr;
 static D3DVERTEX *TPO_pCurVertex = nullptr;
-static UWORD *TPO_pCurStripIndex = nullptr;
-static UWORD *TPO_pCurListIndex = nullptr;
+static std::uint16_t *TPO_pCurStripIndex = nullptr;
+static std::uint16_t *TPO_pCurListIndex = nullptr;
 static TomsPrimObject *TPO_pPrimObj = nullptr;
 static int TPO_iNumListIndices = 0;
 static int TPO_iNumStripIndices = 0;
@@ -1792,8 +1792,8 @@ static int TPO_iNumVertices = 0;
 #define TPO_MAX_NUMBER_PRIMS 16
 static int TPO_iNumPrims = 0;
 //static PrimObject *TPO_PrimObjects[TPO_MAX_NUMBER_PRIMS];
-static SLONG TPO_PrimObjects[TPO_MAX_NUMBER_PRIMS];
-static UBYTE TPO_ubPrimObjMMIndex[TPO_MAX_NUMBER_PRIMS];
+static std::int32_t TPO_PrimObjects[TPO_MAX_NUMBER_PRIMS];
+static std::uint8_t TPO_ubPrimObjMMIndex[TPO_MAX_NUMBER_PRIMS];
 static int TPO_iPrimObjIndexOffset[TPO_MAX_NUMBER_PRIMS+1];
 
 
@@ -1840,10 +1840,10 @@ void FIGURE_TPO_init_3d_object ( TomsPrimObject *pPrimObj /*, int iThrashIndex =
 	TPO_pVert = (D3DVERTEX *)MemAlloc ( MAX_VERTS * sizeof ( D3DVERTEX ) );
 	ASSERT ( TPO_pVert != nullptr );
 	if ( TPO_pVert == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
-	TPO_pStripIndices = (UWORD *)MemAlloc ( MAX_INDICES * sizeof ( UWORD ) );
+	TPO_pStripIndices = (std::uint16_t *)MemAlloc ( MAX_INDICES * sizeof ( std::uint16_t ) );
 	ASSERT ( TPO_pStripIndices != nullptr );
 	if ( TPO_pStripIndices == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
-	TPO_pListIndices = (UWORD *)MemAlloc ( MAX_INDICES * sizeof ( UWORD ) );
+	TPO_pListIndices = (std::uint16_t *)MemAlloc ( MAX_INDICES * sizeof ( std::uint16_t ) );
 	ASSERT ( TPO_pListIndices != nullptr );
 	if ( TPO_pListIndices == nullptr ) { DeadAndBuried ( 0xf800f800 ); }
 
@@ -1896,8 +1896,8 @@ void FIGURE_TPO_init_3d_object ( TomsPrimObject *pPrimObj /*, int iThrashIndex =
 // prim = the prim number to add.
 // iSubObjectNumber = sub-object number, used for multimatrix stuff.
 //		Start at 0 and go up by one for each object.
-//void FIGURE_TPO_add_prim_to_current_object ( PrimObject  *p_obj, UBYTE ubSubObjectNumber )
-void FIGURE_TPO_add_prim_to_current_object ( SLONG prim, UBYTE ubSubObjectNumber )
+//void FIGURE_TPO_add_prim_to_current_object ( PrimObject  *p_obj, std::uint8_t ubSubObjectNumber )
+void FIGURE_TPO_add_prim_to_current_object ( std::int32_t prim, std::uint8_t ubSubObjectNumber )
 {
 	// Make sure it's been properly prepped.
 	ASSERT ( TPO_pVert != nullptr );
@@ -1984,10 +1984,10 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 			for ( ; iOuterFaceNum < iOuterFaceEnd; iOuterFaceNum++ )
 			{
-				UWORD wTexturePage = FIGURE_find_face_D3D_texture_page ( iOuterFaceNum, bOuterTris );
+				std::uint16_t wTexturePage = FIGURE_find_face_D3D_texture_page ( iOuterFaceNum, bOuterTris );
 
 				// Find the _rendered_ page, to allow texture paging to do its stuff.
-				UWORD wRealPage = wTexturePage & TEXTURE_PAGE_MASK;
+				std::uint16_t wRealPage = wTexturePage & TEXTURE_PAGE_MASK;
 
 				PolyPage *pRenderedPage = nullptr;
 
@@ -2155,7 +2155,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 							ASSERT ( iInnerFaceNum <= iInnerFaceEnd );
 							for ( ; iInnerFaceNum < iInnerFaceEnd; iInnerFaceNum++ )
 							{
-								UWORD wTexturePage = FIGURE_find_face_D3D_texture_page ( iInnerFaceNum, bInnerTris );
+								std::uint16_t wTexturePage = FIGURE_find_face_D3D_texture_page ( iInnerFaceNum, bInnerTris );
 
 								bool bSamePage = false;
 
@@ -2192,7 +2192,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 									// NOTE! This means that all thug jackets must have the same offsets * scales.
 									// Shouldn't be too hard to arrange.
 									// Ditto for offset tetxures.
-									UWORD wRealPage = wTexturePage & TEXTURE_PAGE_MASK;
+									std::uint16_t wRealPage = wTexturePage & TEXTURE_PAGE_MASK;
 									if ( wTexturePage & TEXTURE_PAGE_FLAG_JACKET )
 									{
 										// Find the real jacket page.
@@ -2930,9 +2930,9 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 	// Do the alloc in one block to be nice to the TLB.
 	DWORD dwTotalSize = 0;
-	dwTotalSize += TPO_iNumListIndices * sizeof ( UWORD );
+	dwTotalSize += TPO_iNumListIndices * sizeof ( std::uint16_t );
 	dwTotalSize += 32 + TPO_iNumVertices * sizeof ( D3DVERTEX );
-	dwTotalSize += TPO_iNumStripIndices * sizeof ( UWORD );
+	dwTotalSize += TPO_iNumStripIndices * sizeof ( std::uint16_t );
 
 	// NOTE! I allocate an extra bit of space on the end because the MM code
 	// actually reads the index just after the end, so that must be valid memory,
@@ -2948,18 +2948,18 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 	ASSERT ( pcBlock != nullptr );
 	if ( pcBlock == nullptr ) { DeadAndBuried ( 0xffe0ffe0 ); }
 
-	pPrimObj->pwListIndices = (UWORD *)pcBlock;
-	memcpy ( pPrimObj->pwListIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( UWORD ) );
-	pcBlock += TPO_iNumListIndices * sizeof ( UWORD );
+	pPrimObj->pwListIndices = (std::uint16_t *)pcBlock;
+	memcpy ( pPrimObj->pwListIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( std::uint16_t ) );
+	pcBlock += TPO_iNumListIndices * sizeof ( std::uint16_t );
 
 	// Now the verts, aligned to 32 bytes lines.
 	pPrimObj->pD3DVertices = (void* )( ( (DWORD)pcBlock + 31 ) & ~31 );
 	memcpy ( pPrimObj->pD3DVertices , TPO_pVert, TPO_iNumVertices * sizeof ( D3DVERTEX ) );
 	pcBlock = (char *)pPrimObj->pD3DVertices + TPO_iNumVertices * sizeof ( D3DVERTEX );
 
-	pPrimObj->pwStripIndices = (UWORD *)pcBlock;
-	memcpy ( pPrimObj->pwStripIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof ( UWORD ) );
-	pcBlock += TPO_iNumStripIndices * sizeof ( UWORD );
+	pPrimObj->pwStripIndices = (std::uint16_t *)pcBlock;
+	memcpy ( pPrimObj->pwStripIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof ( std::uint16_t ) );
+	pcBlock += TPO_iNumStripIndices * sizeof ( std::uint16_t );
 
 	ASSERT ( (DWORD)pcBlock < (DWORD)pPrimObj->pwListIndices + dwTotalSize );
 
@@ -2971,14 +2971,14 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 	memcpy ( pPermanentVerts, TPO_pVert, TPO_iNumVertices * sizeof ( D3DVERTEX ) );
 	pPrimObj->pD3DVertices = pPermanentVerts;
 
-	//UWORD *pPermanentIndices = (UWORD *)MemAlloc ( TPO_iNumListIndices * sizeof ( UWORD ) );
+	//std::uint16_t *pPermanentIndices = (std::uint16_t *)MemAlloc ( TPO_iNumListIndices * sizeof ( std::uint16_t ) );
 	ASSERT ( pPermanentIndices != nullptr );
-	memcpy ( pPermanentIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( UWORD ) );
+	memcpy ( pPermanentIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof ( std::uint16_t ) );
 	pPrimObj->pwListIndices = pPermanentIndices;
 
-	//pPermanentIndices = (UWORD *)MemAlloc ( TPO_iNumStripIndices * sizeof ( UWORD ) );
+	//pPermanentIndices = (std::uint16_t *)MemAlloc ( TPO_iNumStripIndices * sizeof ( std::uint16_t ) );
 	ASSERT ( pPermanentIndices != nullptr );
-	memcpy ( pPermanentIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof ( UWORD ) );
+	memcpy ( pPermanentIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof ( std::uint16_t ) );
 	pPrimObj->pwStripIndices = pPermanentIndices;
 #endif
 
@@ -3026,7 +3026,7 @@ void FIGURE_TPO_finish_3d_object ( TomsPrimObject *pPrimObj, int iThrashIndex = 
 
 
 // Takes a "prim" description and generates D3D-style data for a single prim.
-void FIGURE_generate_D3D_object ( SLONG prim )
+void FIGURE_generate_D3D_object ( std::int32_t prim )
 {
 	PrimObject  *p_obj = &prim_objects[prim];
 	TomsPrimObject *pPrimObj = &(D3DObj[prim]);
@@ -3054,19 +3054,19 @@ void FIGURE_generate_D3D_object ( SLONG prim )
 
 
 void FIGURE_draw_prim_tween(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		ULONG colour,
-		ULONG specular,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::uint32_t colour,
+		std::uint32_t specular,
 		CMatrix33 *parent_base_mat,
 		Matrix31 *parent_base_pos,
 		Matrix33 *parent_curr_mat,
@@ -3074,49 +3074,49 @@ void FIGURE_draw_prim_tween(
 		Matrix33 *end_mat,
 		Matrix31 *end_pos,
 		Thing    *p_thing,
-		SLONG     part_number = 0xffffffff,
-		ULONG     colour_and  = 0xffffffff)
+		std::int32_t     part_number = 0xffffffff,
+		std::uint32_t     colour_and  = 0xffffffff)
 {
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG dprod;
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t dprod;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG dr;
-	SLONG dg;
-	SLONG db;
+	std::int32_t dr;
+	std::int32_t dg;
+	std::int32_t db;
 
-	SLONG face_colour;
+	std::int32_t face_colour;
 
-	SLONG page;
+	std::int32_t page;
 
 	Matrix31  offset;
 	Matrix33  mat2;
 	Matrix33  mat_final;
 
-	ULONG qc0;
-	ULONG qc1;
-	ULONG qc2;
-	ULONG qc3;
+	std::uint32_t qc0;
+	std::uint32_t qc1;
+	std::uint32_t qc2;
+	std::uint32_t qc3;
 
 	SVector temp;
 	
@@ -3130,7 +3130,7 @@ void FIGURE_draw_prim_tween(
 
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
-	SLONG	tex_page_offset;
+	std::int32_t	tex_page_offset;
 
 
 	LOG_ENTER ( Figure_Draw_Prim_Tween )
@@ -3196,7 +3196,7 @@ void FIGURE_draw_prim_tween(
 				    (float(offset.M[2]) / 256.f) * (float(rot_mat->M[2][2]) / 32768.f);
 
 
-	SLONG	character_scale  = person_get_scale(p_thing);
+	std::int32_t	character_scale  = person_get_scale(p_thing);
 	float	character_scalef = float(character_scale) / 256.f;
 	
 	off_x *= character_scalef;
@@ -3223,7 +3223,7 @@ void FIGURE_draw_prim_tween(
 	//
 
 	float fmatrix[9];
-	SLONG imatrix[9];
+	std::int32_t imatrix[9];
 
 	{
 		//
@@ -3816,14 +3816,14 @@ extern DWORD g_dw3DStuffY;
 	d3dmm.lpvLightDirs = MM_pNormal;
 
 	D3DVERTEX *pVertex = (D3DVERTEX *)pPrimObj->pD3DVertices;
-	UWORD *pwListIndices = pPrimObj->pwListIndices;
-	UWORD *pwStripIndices = pPrimObj->pwStripIndices;
+	std::uint16_t *pwListIndices = pPrimObj->pwListIndices;
+	std::uint16_t *pwStripIndices = pPrimObj->pwStripIndices;
 	for ( int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum-- )
 	{
 		// Set up the right texture for this material.
 
-		UWORD wPage = pMat->wTexturePage;
-		UWORD wRealPage = wPage & TEXTURE_PAGE_MASK;
+		std::uint16_t wPage = pMat->wTexturePage;
+		std::uint16_t wRealPage = wPage & TEXTURE_PAGE_MASK;
 
 		if ( wPage & TEXTURE_PAGE_FLAG_JACKET )
 		{
@@ -4975,7 +4975,7 @@ extern DIJOYSTATE the_state;
 		float comb[9];
 		float cam_matrix[9];
 
-		SLONG num_points = ep - sp;
+		std::int32_t num_points = ep - sp;
 
 		extern float AENG_cam_yaw;
 		extern float AENG_cam_pitch;
@@ -5115,41 +5115,41 @@ extern DIJOYSTATE the_state;
 }
 
 void FIGURE_draw_prim_tween_warped(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		ULONG colour,
-		ULONG specular,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::uint32_t colour,
+		std::uint32_t specular,
 		Thing *p_thing)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	ULONG red;
-	ULONG green;
-	ULONG blue;
-	ULONG r;
-	ULONG g;
-	ULONG b;
-	ULONG face_colour;
+	std::uint32_t red;
+	std::uint32_t green;
+	std::uint32_t blue;
+	std::uint32_t r;
+	std::uint32_t g;
+	std::uint32_t b;
+	std::uint32_t face_colour;
 
-	SLONG page;
+	std::int32_t page;
 
 	Matrix31  offset;
 	Matrix33  mat2;
@@ -5187,7 +5187,7 @@ void FIGURE_draw_prim_tween_warped(
 
 	matrix_transformZMY((struct Matrix31*)&temp,rot_mat, &offset);
 
-	SLONG	character_scale  = person_get_scale(p_thing);
+	std::int32_t	character_scale  = person_get_scale(p_thing);
 
 	temp.X = (temp.X * character_scale) / 256;
 	temp.Y = (temp.Y * character_scale) / 256;
@@ -5504,19 +5504,19 @@ void FIGURE_draw_prim_tween_warped(
 
 struct structFIGURE_dhpr_data
 {
-	SLONG					start_object;
+	std::int32_t					start_object;
 	BodyDef					*body_def;
 	Matrix31				*world_pos;
-	SLONG					tween;
+	std::int32_t					tween;
 	GameKeyFrameElement		*ae1;
 	GameKeyFrameElement		*ae2;
 	Matrix33				*world_mat;
 	Matrix33				*world_mat2;
-	SLONG					dx;
-	SLONG					dy;
-	SLONG					dz;
-	ULONG					colour;
-	ULONG					specular;
+	std::int32_t					dx;
+	std::int32_t					dy;
+	std::int32_t					dz;
+	std::uint32_t					colour;
+	std::uint32_t					specular;
 	BYTE					bPersonType;
 	BYTE					bPersonID;
 } FIGURE_dhpr_data;
@@ -5526,8 +5526,8 @@ struct structFIGURE_dhpr_data
 // Got to split this up - the compiler is getting very confused.
 struct structFIGURE_dhpr_rdata1
 {
-	SLONG					part_number;
-	SLONG					current_child_number;
+	std::int32_t					part_number;
+	std::int32_t					current_child_number;
 	CMatrix33				*parent_base_mat;
 	Matrix31				*parent_base_pos;
 	Matrix33				*parent_current_mat;
@@ -5540,8 +5540,8 @@ struct structFIGURE_dhpr_rdata1
 
 struct structFIGURE_dhpr_rdata2
 {
-	//SLONG					part_number;
-	//SLONG					current_child_number;
+	//std::int32_t					part_number;
+	//std::int32_t					current_child_number;
 	//CMatrix33				*parent_base_mat;
 	//Matrix31				*parent_base_pos;
 	//Matrix33				*parent_current_mat;
@@ -5556,7 +5556,7 @@ struct structFIGURE_dhpr_rdata2
 #else
 struct
 {
-	SLONG					part_number;
+	std::int32_t					part_number;
 	CMatrix33				*parent_base_mat;
 	Matrix31				*parent_base_pos;
 	Matrix33				*parent_current_mat;
@@ -5565,7 +5565,7 @@ struct
 	Matrix31				end_pos;
 	Matrix31				pos;
 
-	SLONG					current_child_number;
+	std::int32_t					current_child_number;
 } FIGURE_dhpr_rdata[MAX_RECURSION];
 #endif
 
@@ -5577,7 +5577,7 @@ struct
 #define	PART_PELVIS		5
 #define	PART_HANDS		6
 
-UBYTE	part_type[]=
+std::uint8_t	part_type[]=
 {
 	2,//5,//"pelvis",
 	2,//"lfemur",
@@ -5597,9 +5597,9 @@ UBYTE	part_type[]=
 };
 
 
-ULONG	local_seed;
+std::uint32_t	local_seed;
 
-SLONG	mandom()
+std::int32_t	mandom()
 {
 	local_seed=local_seed*123456789+314159265;
 
@@ -5607,13 +5607,13 @@ SLONG	mandom()
 
 }
 
-void	local_set_seed(SLONG seed)
+void	local_set_seed(std::int32_t seed)
 {
 	seed=local_seed;
 }
 
-ULONG jacket_col;
-ULONG leg_col;
+std::uint32_t jacket_col;
+std::uint32_t leg_col;
 
 
 
@@ -5647,11 +5647,11 @@ void FIGURE_draw_hierarchical_prim_recurse_individual_cull ( Thing *p_person );
 #if DRAW_WHOLE_PERSON_AT_ONCE
 void	FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
 {
-	SLONG	recurse_level = 0;
-	SLONG	dx,dy,dz;
-	UWORD f1,f2;
-	SLONG	civ_flag=0,legs,body,shoes,face,hands,pelvis;
-	//SLONG  limb;
+	std::int32_t	recurse_level = 0;
+	std::int32_t	dx,dy,dz;
+	std::uint16_t f1,f2;
+	std::int32_t	civ_flag=0,legs,body,shoes,face,hands,pelvis;
+	//std::int32_t  limb;
 	struct Matrix33 *rot_mat;
 
 
@@ -5761,7 +5761,7 @@ extern int g_iCheatNumber;
 			int iPartNumber = pDHPR1->part_number;
 			if (pDHPR1->current_child_number == 0)
 			{
-				SLONG	body_part;
+				std::int32_t	body_part;
 				// draw this level.
 
 				ASSERT ( iPartNumber >= 0 );
@@ -5770,7 +5770,7 @@ extern int g_iCheatNumber;
 				body_part=FIGURE_dhpr_data.body_def->BodyPart[iPartNumber];
 
 				// Draw thing with:
-				SLONG prim = FIGURE_dhpr_data.start_object + body_part;
+				std::int32_t prim = FIGURE_dhpr_data.start_object + body_part;
 
 				// Add this prim to it.
 				PrimObject  *p_obj = &prim_objects[prim];
@@ -5847,8 +5847,8 @@ extern int g_iCheatNumber;
 		if (pDHPR1->current_child_number == 0)
 		{
 			{
-				SLONG	body_part;
-				SLONG	id;
+				std::int32_t	body_part;
+				std::int32_t	id;
 				// draw this level.
 
 				ASSERT ( iPartNumber >= 0 );
@@ -5884,7 +5884,7 @@ extern int g_iCheatNumber;
 				if((id=(p_person->Draw.Tweened->PersonID>>5)))
 				{
 
-					SLONG	hand;
+					std::int32_t	hand;
 					if(id==2)
 						hand=SUB_OBJECT_RIGHT_HAND;
 					else
@@ -5894,7 +5894,7 @@ extern int g_iCheatNumber;
 					{
 						if(p_person->Draw.Tweened->Flags&DT_FLAG_GUNFLASH)
 						{
-							SLONG	prim;
+							std::int32_t	prim;
 							bool bDrawMuzzleFlash = false;
 							p_person->Draw.Tweened->Flags&=~DT_FLAG_GUNFLASH;
 							switch(p_person->Draw.Tweened->PersonID>>5)
@@ -6069,18 +6069,18 @@ extern int g_iCheatNumber;
 
 
 
-	SLONG face_colour;
+	std::int32_t face_colour;
 
-	SLONG page;
+	std::int32_t page;
 
 	Matrix31  offset;
 	Matrix33  mat2;
 	Matrix33  mat_final;
 
-	ULONG qc0;
-	ULONG qc1;
-	ULONG qc2;
-	ULONG qc3;
+	std::uint32_t qc0;
+	std::uint32_t qc1;
+	std::uint32_t qc2;
+	std::uint32_t qc3;
 
 	SVector temp;
 	
@@ -6094,7 +6094,7 @@ extern int g_iCheatNumber;
 
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
-	SLONG	tex_page_offset;
+	std::int32_t	tex_page_offset;
 
 
 	LOG_ENTER ( Figure_Draw_Prim_Tween )
@@ -6139,14 +6139,14 @@ extern int g_iCheatNumber;
 
 
 	D3DVERTEX *pVertex = (D3DVERTEX *)pPrimObj->pD3DVertices;
-	UWORD *pwListIndices = pPrimObj->pwListIndices;
-	UWORD *pwStripIndices = pPrimObj->pwStripIndices;
+	std::uint16_t *pwListIndices = pPrimObj->pwListIndices;
+	std::uint16_t *pwStripIndices = pPrimObj->pwStripIndices;
 	for ( int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum-- )
 	{
 		// Set up the right texture for this material.
 
-		UWORD wPage = pMat->wTexturePage;
-		UWORD wRealPage = wPage & TEXTURE_PAGE_MASK;
+		std::uint16_t wPage = pMat->wTexturePage;
+		std::uint16_t wRealPage = wPage & TEXTURE_PAGE_MASK;
 
 		if ( wPage & TEXTURE_PAGE_FLAG_JACKET )
 		{
@@ -6379,11 +6379,11 @@ void	FIGURE_draw_hierarchical_prim_recurse_individual_cull ( Thing *p_person )
 void	FIGURE_draw_hierarchical_prim_recurse ( Thing *p_person )
 #endif
 {
-	SLONG	recurse_level = 0;
-	SLONG	dx,dy,dz;
-	UWORD f1,f2;
-	SLONG	civ_flag=0,legs,body,shoes,face,hands,pelvis;
-	//SLONG  limb;
+	std::int32_t	recurse_level = 0;
+	std::int32_t	dx,dy,dz;
+	std::uint16_t f1,f2;
+	std::int32_t	civ_flag=0,legs,body,shoes,face,hands,pelvis;
+	//std::int32_t  limb;
 	struct Matrix33 *rot_mat;
 
 
@@ -6439,8 +6439,8 @@ extern int g_iCheatNumber;
 		if (pDHPR1->current_child_number == 0)
 		{
 			{
-				SLONG	body_part;
-				SLONG	id;
+				std::int32_t	body_part;
+				std::int32_t	id;
 				// draw this level.
 
 				ASSERT ( iPartNumber >= 0 );
@@ -6509,7 +6509,7 @@ extern int g_iCheatNumber;
 				if((id=(p_person->Draw.Tweened->PersonID>>5)))
 				{
 
-					SLONG	hand;
+					std::int32_t	hand;
 					if(id==2)
 						hand=SUB_OBJECT_RIGHT_HAND;
 					else
@@ -6519,7 +6519,7 @@ extern int g_iCheatNumber;
 					{
 						if(p_person->Draw.Tweened->Flags&DT_FLAG_GUNFLASH)
 						{
-							SLONG	prim;
+							std::int32_t	prim;
 							bool bDrawMuzzleFlash = false;
 							p_person->Draw.Tweened->Flags&=~DT_FLAG_GUNFLASH;
 							switch(p_person->Draw.Tweened->PersonID>>5)
@@ -6727,11 +6727,11 @@ extern int g_iCheatNumber;
 // Old version
 void	FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
 {
-	SLONG	recurse_level = 0;
-	SLONG	dx,dy,dz;
-	UWORD f1,f2;
-	SLONG	civ_flag=0,legs,body,shoes,face,hands,pelvis;
-	//SLONG limb;
+	std::int32_t	recurse_level = 0;
+	std::int32_t	dx,dy,dz;
+	std::uint16_t f1,f2;
+	std::int32_t	civ_flag=0,legs,body,shoes,face,hands,pelvis;
+	//std::int32_t limb;
 	struct Matrix33 *rot_mat;
 
 
@@ -6803,8 +6803,8 @@ extern int g_iCheatNumber;
 		if (FIGURE_dhpr_rdata1[recurse_level].current_child_number == 0)
 		{
 			{
-				SLONG	body_part;
-				SLONG	id;
+				std::int32_t	body_part;
+				std::int32_t	id;
 				// draw this level.
 /*
 				if(civ_flag)
@@ -6883,7 +6883,7 @@ extern int g_iCheatNumber;
 				if((id=(p_person->Draw.Tweened->PersonID>>5)))
 				{
 
-					SLONG	hand;
+					std::int32_t	hand;
 					if(id==2)
 						hand=SUB_OBJECT_RIGHT_HAND;
 					else
@@ -6893,7 +6893,7 @@ extern int g_iCheatNumber;
 					{
 						if(p_person->Draw.Tweened->Flags&DT_FLAG_GUNFLASH)
 						{
-							SLONG	prim;
+							std::int32_t	prim;
 							p_person->Draw.Tweened->Flags&=~DT_FLAG_GUNFLASH;
 							switch(p_person->Draw.Tweened->PersonID>>5)
 							{
@@ -7003,10 +7003,10 @@ extern int g_iCheatNumber;
 
 
 //*************************************************************************************************
-SLONG get_sort_z_bodge(SLONG px,SLONG pz)
+std::int32_t get_sort_z_bodge(std::int32_t px,std::int32_t pz)
 {
-	SLONG	dx,dz;
-	UBYTE	cap;
+	std::int32_t	dx,dz;
+	std::uint8_t	cap;
 	dx=px-POLY_cam_x;
 	dz=pz-POLY_cam_z;
 
@@ -7072,7 +7072,7 @@ SLONG get_sort_z_bodge(SLONG px,SLONG pz)
 
 struct	
 {
-	SWORD	r,g,b;
+	std::int16_t	r,g,b;
 }peep_recol[]=
 {
 	{12,64,64},
@@ -7098,7 +7098,7 @@ struct
 
 };
 
-UBYTE kludge_shrink;
+std::uint8_t kludge_shrink;
 
 
 
@@ -7110,13 +7110,13 @@ UBYTE kludge_shrink;
 // New faster version
 void FIGURE_draw(Thing *p_thing)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG	wx,wy,wz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t	wx,wy,wz;
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	Matrix33 r_matrix;
 
@@ -7196,9 +7196,9 @@ void FIGURE_draw(Thing *p_thing)
 	colour   = 0;
 	specular = 0;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
 	NIGHT_Colour col;
 
@@ -7266,10 +7266,10 @@ void FIGURE_draw(Thing *p_thing)
 	// Draw each body part.
 	//
 
-	//SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	//std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[dt->MeshID]].StartObject;
@@ -7373,10 +7373,10 @@ void FIGURE_draw(Thing *p_thing)
 
 		if (p_person->Genus.Person->SpecialUse && TO_THING(p_person->Genus.Person->SpecialUse)->Genus.Special->SpecialType == SPECIAL_GRENADE)
 		{
-			SLONG px;
-			SLONG py;
-			SLONG pz;
-			SLONG prim;
+			std::int32_t px;
+			std::int32_t py;
+			std::int32_t pz;
+			std::int32_t prim;
 
 			calc_sub_objects_position(
 				p_person,
@@ -7415,13 +7415,13 @@ void FIGURE_draw(Thing *p_thing)
 
 void FIGURE_draw(Thing *p_thing)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG	wx,wy,wz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t	wx,wy,wz;
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	Matrix33 r_matrix;
 
@@ -7432,7 +7432,7 @@ void FIGURE_draw(Thing *p_thing)
 
 /*
 	{
-		static	SLONG	turn = 0;
+		static	std::int32_t	turn = 0;
 		if(turn!=GAME_TURN)
 		{
 			if(Keys[KB_T])
@@ -7505,8 +7505,8 @@ void FIGURE_draw(Thing *p_thing)
 	if(0)
 	{
 
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -7550,7 +7550,7 @@ void FIGURE_draw(Thing *p_thing)
 
 #ifdef	PSX_SIMULATION
 	{
-		SLONG	index1,index2;
+		std::int32_t	index1,index2;
 		//
 		// stuff added for more compression of anims
 		//
@@ -7664,9 +7664,9 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	colour   = 0;
 	specular = 0;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
 	NIGHT_Colour col;
 
@@ -7692,9 +7692,9 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 	/*
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
 	NIGHT_Colour col;
 
@@ -7736,7 +7736,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	if(p_thing->Genus.Person->PersonType==PERSON_THUG_RED)
 	{
 		NIGHT_Colour temp;
-		SLONG	index;
+		std::int32_t	index;
 		index=THING_NUMBER(p_thing)&15;
 //		index=0;
 
@@ -7854,10 +7854,10 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	// Draw each body part.
 	//
 
-	//SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	//std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[dt->MeshID]].StartObject;
@@ -7963,10 +7963,10 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 		if (p_person->Genus.Person->Flags & FLAG_PERSON_CANNING)
 		{
-			SLONG px;
-			SLONG py;
-			SLONG pz;
-			SLONG prim;
+			std::int32_t px;
+			std::int32_t py;
+			std::int32_t pz;
+			std::int32_t prim;
 
 			calc_sub_objects_position(
 				p_person,
@@ -8012,10 +8012,10 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 		if (p_person->Genus.Person->SpecialUse && TO_THING(p_person->Genus.Person->SpecialUse)->Genus.Special->SpecialType == SPECIAL_GRENADE)
 		{
-			SLONG px;
-			SLONG py;
-			SLONG pz;
-			SLONG prim;
+			std::int32_t px;
+			std::int32_t py;
+			std::int32_t pz;
+			std::int32_t prim;
 
 			calc_sub_objects_position(
 				p_person,
@@ -8055,12 +8055,12 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	Matrix33 r_matrix;
 
@@ -8144,9 +8144,9 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 	colour   = 0;
 	specular = 0;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
 	NIGHT_Colour col;
 
@@ -8175,10 +8175,10 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[0]].StartObject;
@@ -8216,12 +8216,12 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 
 void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	ULONG colour;
-	ULONG specular;
+	D3DCOLOR colour;
+	D3DCOLOR specular;
 
 	Matrix33 r_matrix;
 
@@ -8292,10 +8292,10 @@ void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[0]].StartObject;
@@ -8334,10 +8334,10 @@ void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt)
 // The bounding box of the reflected points on screen.
 //
 
-SLONG FIGURE_reflect_x1;
-SLONG FIGURE_reflect_y1;
-SLONG FIGURE_reflect_x2;
-SLONG FIGURE_reflect_y2;
+std::int32_t FIGURE_reflect_x1;
+std::int32_t FIGURE_reflect_y1;
+std::int32_t FIGURE_reflect_x2;
+std::int32_t FIGURE_reflect_y2;
 
 float FIGURE_reflect_height;
 
@@ -8350,7 +8350,7 @@ typedef struct
 	union
 	{
 		float distance;
-		ULONG clip;
+		std::uint32_t clip;
 	};
 
 	POLY_Point pp;
@@ -8360,52 +8360,52 @@ typedef struct
 #define FIGURE_MAX_RPOINTS 256
 
 FIGURE_Rpoint FIGURE_rpoint[FIGURE_MAX_RPOINTS];
-SLONG         FIGURE_rpoint_upto;
+std::int32_t         FIGURE_rpoint_upto;
 
 void FIGURE_draw_prim_tween_reflection(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		ULONG colour,
-		ULONG specular,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::uint32_t colour,
+		std::uint32_t specular,
 		Thing *p_thing)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
-	ULONG red;
-	ULONG green;
-	ULONG blue;
-	ULONG r;
-	ULONG g;
-	ULONG b;
-	ULONG face_colour;
-	SLONG fog;
+	std::uint32_t red;
+	std::uint32_t green;
+	std::uint32_t blue;
+	std::uint32_t r;
+	std::uint32_t g;
+	std::uint32_t b;
+	std::uint32_t face_colour;
+	std::int32_t fog;
 
 	float world_x;
 	float world_y;
 	float world_z;
 
-	SLONG page;
+	std::int32_t page;
 
 	Matrix31  offset;
 	Matrix33  mat2;
@@ -8449,7 +8449,7 @@ void FIGURE_draw_prim_tween_reflection(
 
 	matrix_transformZMY((struct Matrix31*)&temp,rot_mat, &offset);
 
-	SLONG	character_scale  = person_get_scale(p_thing);
+	std::int32_t	character_scale  = person_get_scale(p_thing);
 	temp.X = (temp.X * character_scale) / 256;
 	temp.Y = (temp.Y * character_scale) / 256;
 	temp.Z = (temp.Z * character_scale) / 256;
@@ -8576,8 +8576,8 @@ void FIGURE_draw_prim_tween_reflection(
 				// Update the bounding box.
 				//
 
-				px = SLONG(frp->pp.X);
-				py = SLONG(frp->pp.Y);
+				px = std::int32_t(frp->pp.X);
+				py = std::int32_t(frp->pp.Y);
 
 				if (px < FIGURE_reflect_x1) {FIGURE_reflect_x1 = px;}
 				if (px > FIGURE_reflect_x2) {FIGURE_reflect_x2 = px;}
@@ -8589,7 +8589,7 @@ void FIGURE_draw_prim_tween_reflection(
 				//
 
 				fog  = frp->pp.specular >> 24;
-				fog += SLONG(frp->distance * FIGURE_255_DIVIDED_BY_MAX_DY);
+				fog += std::int32_t(frp->distance * FIGURE_255_DIVIDED_BY_MAX_DY);
 
 				if (fog > 255) {fog = 255;}
 
@@ -8774,14 +8774,14 @@ void FIGURE_draw_prim_tween_reflection(
 	}
 }
 
-void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
+void FIGURE_draw_reflection(Thing *p_thing, std::int32_t height)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	ULONG colour;
-	ULONG specular;
+	D3DCOLOR colour;
+	D3DCOLOR specular;
 
 	POLY_Point *pp;
 
@@ -8810,8 +8810,8 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 	//if (dt->Locked)
 	if (0)
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -8855,9 +8855,9 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 		- dt->Roll, // - = JCL
 	   &r_matrix);
 
-	SLONG posx = p_thing->WorldPos.X >> 8;
-	SLONG posy = p_thing->WorldPos.Y >> 8;
-	SLONG posz = p_thing->WorldPos.Z >> 8;
+	std::int32_t posx = p_thing->WorldPos.X >> 8;
+	std::int32_t posy = p_thing->WorldPos.Y >> 8;
+	std::int32_t posz = p_thing->WorldPos.Z >> 8;
 
 	//
 	// Reflect about y = height.
@@ -8889,9 +8889,9 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 	// What colour do we draw the figure?
 	//
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
 	NIGHT_Colour col;
 
@@ -8930,13 +8930,13 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG j;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
-	SLONG px;
-	SLONG py;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
+	std::int32_t px;
+	std::int32_t py;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[dt->MeshID]].StartObject;
@@ -8978,25 +8978,25 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 (
 		int iMatrixNum,
-		SLONG prim,
+		std::int32_t prim,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		SLONG recurse_level,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::int32_t recurse_level,
 		Thing    *p_thing
 		)
 {
 
 
-	SLONG x										= FIGURE_dhpr_data.world_pos->M[0];
-	SLONG y										= FIGURE_dhpr_data.world_pos->M[1];
-	SLONG z										= FIGURE_dhpr_data.world_pos->M[2];
-	SLONG tween									= FIGURE_dhpr_data.tween;
+	std::int32_t x										= FIGURE_dhpr_data.world_pos->M[0];
+	std::int32_t y										= FIGURE_dhpr_data.world_pos->M[1];
+	std::int32_t z										= FIGURE_dhpr_data.world_pos->M[2];
+	std::int32_t tween									= FIGURE_dhpr_data.tween;
 	struct GameKeyFrameElement *anim_info		= &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number];
 	struct GameKeyFrameElement *anim_info_next	= &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number];
-	ULONG colour								= FIGURE_dhpr_data.colour;
-	ULONG specular								= FIGURE_dhpr_data.specular;
+	std::uint32_t colour								= FIGURE_dhpr_data.colour;
+	std::uint32_t specular								= FIGURE_dhpr_data.specular;
 	CMatrix33 *parent_base_mat					= FIGURE_dhpr_rdata1[recurse_level].parent_base_mat;
 	Matrix31 *parent_base_pos					= FIGURE_dhpr_rdata1[recurse_level].parent_base_pos;
 	Matrix33 *parent_curr_mat					= FIGURE_dhpr_rdata1[recurse_level].parent_current_mat;
@@ -9006,45 +9006,45 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 
 
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG dprod;
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t dprod;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG dr;
-	SLONG dg;
-	SLONG db;
+	std::int32_t dr;
+	std::int32_t dg;
+	std::int32_t db;
 
-	SLONG face_colour;
+	std::int32_t face_colour;
 
-	SLONG page;
+	std::int32_t page;
 
 	Matrix31  offset;
 	Matrix33  mat2;
 	Matrix33  mat_final;
 
-	ULONG qc0;
-	ULONG qc1;
-	ULONG qc2;
-	ULONG qc3;
+	std::uint32_t qc0;
+	std::uint32_t qc1;
+	std::uint32_t qc2;
+	std::uint32_t qc3;
 
 	SVector temp;
 	
@@ -9058,7 +9058,7 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
-	SLONG	tex_page_offset;
+	std::int32_t	tex_page_offset;
 
 
 	LOG_ENTER ( Figure_Draw_Prim_Tween )
@@ -9117,7 +9117,7 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 				    (float(offset.M[2]) / 256.f) * (float(rot_mat->M[2][2]) / 32768.f);
 
 
-	SLONG	character_scale  = person_get_scale(p_thing);
+	std::int32_t	character_scale  = person_get_scale(p_thing);
 	float	character_scalef = float(character_scale) / 256.f;
 	
 	off_x *= character_scalef;
@@ -9133,7 +9133,7 @@ bool FIGURE_draw_prim_tween_person_only_just_set_matrix
 	//
 
 	float fmatrix[9];
-	//SLONG imatrix[9];
+	//std::int32_t imatrix[9];
 
 	//
 	// Create a temporary "tween" matrix between current and next
@@ -9398,20 +9398,20 @@ extern DWORD g_dw3DStuffY;
 // Like FIGURE_draw_prim_tween, but optimised for the person-only case.
 // Also assumes the lighting has been set up, etc.
 void FIGURE_draw_prim_tween_person_only(
-		SLONG prim,
-		//SLONG x,
-		//SLONG y,
-		//SLONG z,
-		//SLONG tween,
+		std::int32_t prim,
+		//std::int32_t x,
+		//std::int32_t y,
+		//std::int32_t z,
+		//std::int32_t tween,
 		//struct GameKeyFrameElement *anim_info,
 		//struct GameKeyFrameElement *anim_info_next,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		//ULONG colour,
-		//ULONG specular,
-		SLONG recurse_level,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		//std::uint32_t colour,
+		//std::uint32_t specular,
+		std::int32_t recurse_level,
 		//CMatrix33 *parent_base_mat,
 		//Matrix31 *parent_base_pos,
 		//Matrix33 *parent_curr_mat,
@@ -9419,71 +9419,71 @@ void FIGURE_draw_prim_tween_person_only(
 		//Matrix33 *end_mat,
 		//Matrix31 *end_pos,
 		Thing    *p_thing
-		//SLONG     part_number = 0xffffffff,
-		//ULONG     colour_and  = 0xffffffff
+		//std::int32_t     part_number = 0xffffffff,
+		//std::uint32_t     colour_and  = 0xffffffff
 		)
 {
 
 
-	SLONG x										= FIGURE_dhpr_data.world_pos->M[0];
-	SLONG y										= FIGURE_dhpr_data.world_pos->M[1];
-	SLONG z										= FIGURE_dhpr_data.world_pos->M[2];
-	SLONG tween									= FIGURE_dhpr_data.tween;
+	std::int32_t x										= FIGURE_dhpr_data.world_pos->M[0];
+	std::int32_t y										= FIGURE_dhpr_data.world_pos->M[1];
+	std::int32_t z										= FIGURE_dhpr_data.world_pos->M[2];
+	std::int32_t tween									= FIGURE_dhpr_data.tween;
 	struct GameKeyFrameElement *anim_info		= &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number];
 	struct GameKeyFrameElement *anim_info_next	= &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number];
-	ULONG colour								= FIGURE_dhpr_data.colour;
-	ULONG specular								= FIGURE_dhpr_data.specular;
+	std::uint32_t colour								= FIGURE_dhpr_data.colour;
+	std::uint32_t specular								= FIGURE_dhpr_data.specular;
 	CMatrix33 *parent_base_mat					= FIGURE_dhpr_rdata1[recurse_level].parent_base_mat;
 	Matrix31 *parent_base_pos					= FIGURE_dhpr_rdata1[recurse_level].parent_base_pos;
 	Matrix33 *parent_curr_mat					= FIGURE_dhpr_rdata1[recurse_level].parent_current_mat;
 	Matrix31 *parent_curr_pos					= FIGURE_dhpr_rdata1[recurse_level].parent_current_pos;
 	Matrix33 *end_mat							= &FIGURE_dhpr_rdata2[recurse_level].end_mat;
 	Matrix31 *end_pos							= &FIGURE_dhpr_rdata2[recurse_level].end_pos;
-	SLONG     part_number						= FIGURE_dhpr_rdata1[recurse_level].part_number;
-	//ULONG     colour_and  = 0xffffffff;
+	std::int32_t     part_number						= FIGURE_dhpr_rdata1[recurse_level].part_number;
+	//std::uint32_t     colour_and  = 0xffffffff;
 
 
 
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG dprod;
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t dprod;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG dr;
-	SLONG dg;
-	SLONG db;
+	std::int32_t dr;
+	std::int32_t dg;
+	std::int32_t db;
 
-	SLONG face_colour;
+	std::int32_t face_colour;
 
-	SLONG page;
+	std::int32_t page;
 
 	Matrix31  offset;
 	Matrix33  mat2;
 	Matrix33  mat_final;
 
-	ULONG qc0;
-	ULONG qc1;
-	ULONG qc2;
-	ULONG qc3;
+	std::uint32_t qc0;
+	std::uint32_t qc1;
+	std::uint32_t qc2;
+	std::uint32_t qc3;
 
 	SVector temp;
 	
@@ -9497,7 +9497,7 @@ void FIGURE_draw_prim_tween_person_only(
 
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
-	SLONG	tex_page_offset;
+	std::int32_t	tex_page_offset;
 
 
 	LOG_ENTER ( Figure_Draw_Prim_Tween )
@@ -9556,7 +9556,7 @@ void FIGURE_draw_prim_tween_person_only(
 				    (float(offset.M[2]) / 256.f) * (float(rot_mat->M[2][2]) / 32768.f);
 
 
-	SLONG	character_scale  = person_get_scale(p_thing);
+	std::int32_t	character_scale  = person_get_scale(p_thing);
 	float	character_scalef = float(character_scale) / 256.f;
 	
 	off_x *= character_scalef;
@@ -9572,7 +9572,7 @@ void FIGURE_draw_prim_tween_person_only(
 	//
 
 	float fmatrix[9];
-	//SLONG imatrix[9];
+	//std::int32_t imatrix[9];
 
 	//
 	// Create a temporary "tween" matrix between current and next
@@ -9964,14 +9964,14 @@ extern DWORD g_dw3DStuffY;
 	d3dmm.lpvLightDirs = MM_pNormal;
 
 	D3DVERTEX *pVertex = (D3DVERTEX *)pPrimObj->pD3DVertices;
-	UWORD *pwListIndices = pPrimObj->pwListIndices;
-	UWORD *pwStripIndices = pPrimObj->pwStripIndices;
+	std::uint16_t *pwListIndices = pPrimObj->pwListIndices;
+	std::uint16_t *pwStripIndices = pPrimObj->pwStripIndices;
 	for ( int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum-- )
 	{
 		// Set up the right texture for this material.
 
-		UWORD wPage = pMat->wTexturePage;
-		UWORD wRealPage = wPage & TEXTURE_PAGE_MASK;
+		std::uint16_t wPage = pMat->wTexturePage;
+		std::uint16_t wRealPage = wPage & TEXTURE_PAGE_MASK;
 
 		if ( wPage & TEXTURE_PAGE_FLAG_JACKET )
 		{

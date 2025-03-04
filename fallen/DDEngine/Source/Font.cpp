@@ -42,8 +42,8 @@
 
 typedef struct
 {
-	UBYTE bit[FONT_HEIGHT];
-	UBYTE width;
+	std::uint8_t bit[FONT_HEIGHT];
+	std::uint8_t width;
 
 } FONT_Char;
 
@@ -1431,17 +1431,17 @@ FONT_Char FONT_punct[FONT_PUNCT_NUMBER] =
 // Draws a character with the given RGB at (x,y).
 //
 
-SLONG FONT_draw_coloured_char(
-		SLONG sx,
-		SLONG sy,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		CBYTE ch)
+std::int32_t FONT_draw_coloured_char(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		char ch)
 {
-	SLONG b;
-	SLONG x;
-	SLONG y;
+	std::int32_t b;
+	std::int32_t x;
+	std::int32_t y;
 
 	FONT_Char *fc;
 
@@ -1526,19 +1526,19 @@ SLONG FONT_draw_coloured_char(
 
 #define FONT_TAB 16
 
-SLONG FONT_draw_coloured_text(
-		SLONG x,
-		SLONG y,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		CBYTE* fmt, ...)
+std::int32_t FONT_draw_coloured_text(
+		std::int32_t x,
+		std::int32_t y,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[FONT_MAX_LENGTH];
+	char   message[FONT_MAX_LENGTH];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -1549,8 +1549,8 @@ SLONG FONT_draw_coloured_text(
 	// Draw the message!
 	//
 
-	CBYTE  *ch;
-	SLONG   xstart = x;
+	char  *ch;
+	std::int32_t   xstart = x;
 
 	for (ch = message; *ch; ch++)
 	{
@@ -1571,13 +1571,13 @@ SLONG FONT_draw_coloured_text(
 
 
 
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
+std::int32_t FONT_draw(std::int32_t x, std::int32_t y, char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[FONT_MAX_LENGTH];
+	char   message[FONT_MAX_LENGTH];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -1588,8 +1588,8 @@ SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
 	// Draw the message!
 	//
 
-	CBYTE  *ch;
-	SLONG   xstart = x;
+	char  *ch;
+	std::int32_t   xstart = x;
 
 	for (ch = message; *ch; ch++)
 	{
@@ -1616,35 +1616,35 @@ SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...)
 
 #define FONT_BUFFER_SIZE (1024 * 8)
 
-CBYTE  FONT_buffer[FONT_BUFFER_SIZE];
-CBYTE* FONT_buffer_upto;
+char  FONT_buffer[FONT_BUFFER_SIZE];
+char* FONT_buffer_upto;
 
 typedef struct
 {
-	SLONG  x;
-	SLONG  y;
-	UBYTE  r;
-	UBYTE  g;
-	UBYTE  b;
-	UBYTE  s;
-	CBYTE* m;
+	std::int32_t  x;
+	std::int32_t  y;
+	std::uint8_t  r;
+	std::uint8_t  g;
+	std::uint8_t  b;
+	std::uint8_t  s;
+	char* m;
 	
 } FONT_Message;
 
 #define FONT_MAX_MESSAGES 256
 
 FONT_Message FONT_message[FONT_MAX_MESSAGES];
-SLONG        FONT_message_upto;
+std::int32_t        FONT_message_upto;
 
 
 void FONT_buffer_add(
-		SLONG  x,
-		SLONG  y,
-		UBYTE  r,
-		UBYTE  g,
-		UBYTE  b,
-		UBYTE  s,
-		CBYTE* fmt, ...)
+		std::int32_t  x,
+		std::int32_t  y,
+		std::uint8_t  r,
+		std::uint8_t  g,
+		std::uint8_t  b,
+		std::uint8_t  s,
+		char* fmt, ...)
 {
 	FONT_Message *fm;
 
@@ -1652,7 +1652,7 @@ void FONT_buffer_add(
 	// Work out the real message.
 	//
 
-	CBYTE   message[FONT_MAX_LENGTH];
+	char   message[FONT_MAX_LENGTH];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -1711,11 +1711,11 @@ void FONT_buffer_add(
 
 void FONT_buffer_draw()
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
 
-	CBYTE* ch;
+	char* ch;
 
 	FONT_Message *fm;
 
@@ -1770,19 +1770,19 @@ void FONT_buffer_draw()
 
 
 void FONT_draw_speech_bubble_text(
-		SLONG x,
-		SLONG y,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		CBYTE* fmt, ...)
+		std::int32_t x,
+		std::int32_t y,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		char* fmt, ...)
 {
 
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[FONT_MAX_LENGTH];
+	char   message[FONT_MAX_LENGTH];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -1793,17 +1793,17 @@ void FONT_draw_speech_bubble_text(
 	// How long is the message.
 	//	
 
-	SLONG length = FONT_draw_coloured_text(-100, -100, 0, 0, 0, message);
-	SLONG width  = SLONG(sqrt(float(length) * 13.0F));
+	std::int32_t length = FONT_draw_coloured_text(-100, -100, 0, 0, 0, message);
+	std::int32_t width  = std::int32_t(sqrt(float(length) * 13.0F));
 
 	//
 	// Draw the message pretend to see how many lines it has.
 	//
 
-	CBYTE* ch;
-	SLONG  cw;
-	SLONG  w = 0;
-	SLONG  lines = 0;
+	char* ch;
+	std::int32_t  cw;
+	std::int32_t  w = 0;
+	std::int32_t  lines = 0;
 
 	for (ch = message; *ch; ch++)
 	{
@@ -1821,8 +1821,8 @@ void FONT_draw_speech_bubble_text(
 	// Work out where we should start drawing the text.
 	//
 
-	SLONG xstart = x;
-	SLONG ystart = y - lines * 10;
+	std::int32_t xstart = x;
+	std::int32_t ystart = y - lines * 10;
 
 	//
 	// Draw the message.

@@ -15,18 +15,18 @@
 
 typedef struct
 {
-	UWORD colour1;	// 5:6:5
-	UWORD colour2;	// 5:6:5
-	ULONG bit;
+	std::uint16_t colour1;	// 5:6:5
+	std::uint16_t colour2;	// 5:6:5
+	std::uint32_t bit;
 
 } IC_Packet;
 
 IC_Packet IC_pack(
 			TGA_Pixel *tga, 
-			SLONG      tga_width,
-			SLONG      tga_height,
-			SLONG      px,
-			SLONG      py);
+			std::int32_t      tga_width,
+			std::int32_t      tga_height,
+			std::int32_t      px,
+			std::int32_t      py);
 
 
 //
@@ -37,10 +37,10 @@ IC_Packet IC_pack(
 void IC_unpack(
 			IC_Packet  ip,
 			TGA_Pixel *tga, 
-			SLONG      tga_width,
-			SLONG      tga_height,
-			SLONG      px,
-			SLONG      py);
+			std::int32_t      tga_width,
+			std::int32_t      tga_height,
+			std::int32_t      px,
+			std::int32_t      py);
 
 
 

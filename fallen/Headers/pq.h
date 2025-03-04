@@ -4,7 +4,7 @@
 //
 //  PQ_Type	(typedef)
 //	PQ_HEAP_MAX_SIZE
-//  SLONG PQ_better(PQ_Type *a, PQ_Type *b);
+//  std::int32_t PQ_better(PQ_Type *a, PQ_Type *b);
 //
 
 //
@@ -18,4 +18,4 @@ static void    PQ_init  ();
 static void    PQ_add   (PQ_Type);
 static void    PQ_remove();
 static PQ_Type PQ_best  ();
-static SLONG   PQ_empty ();
+static std::int32_t   PQ_empty ();

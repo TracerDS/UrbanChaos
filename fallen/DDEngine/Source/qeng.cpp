@@ -13,9 +13,9 @@ void QENG_init()
 	POLY_init();
 }
 
-SLONG QENG_cam_x;
-SLONG QENG_cam_y;
-SLONG QENG_cam_z;
+std::int32_t QENG_cam_x;
+std::int32_t QENG_cam_y;
+std::int32_t QENG_cam_z;
 
 
 //
@@ -30,9 +30,9 @@ void QENG_set_camera(
 		float pitch,
 		float roll)
 {
-	QENG_cam_x = SLONG(x);
-	QENG_cam_y = SLONG(y);
-	QENG_cam_z = SLONG(z);
+	QENG_cam_x = std::int32_t(x);
+	QENG_cam_y = std::int32_t(y);
+	QENG_cam_z = std::int32_t(z);
 
 	POLY_camera_set(x, y, z, yaw, pitch, roll, 128.0F * 256.0F, 8.0F);
 	POLY_frame_init(false, false);
@@ -43,14 +43,14 @@ void QENG_set_camera(
 // mouse is over the line.
 //
 
-SLONG QENG_mouse_over;
+std::int32_t QENG_mouse_over;
 float QENG_mouse_pos_x;	// Position in the world
 float QENG_mouse_pos_y;
 float QENG_mouse_pos_z;
 
 void QENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
 		bool sort_to_front)
 {
 	POLY_Point pp1;
@@ -99,13 +99,13 @@ void QENG_world_line(
 
 void QENG_draw(QMAP_Draw *qd)
 {
-	SLONG i;
+	std::int32_t i;
 
-	UWORD point;
-	UWORD face;
+	std::uint16_t point;
+	std::uint16_t face;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	QMAP_Point *qp;
 	QMAP_Face  *qf;

@@ -17,7 +17,7 @@
 
 struct	EventPoint
 {
-	UBYTE		Colour,				// (the colour and group (A-Z) combine to make a set of 
+	std::uint8_t		Color,				// (the colour and group (A-Z) combine to make a set of 
 				Group,				//  events that are linked, eg the waypoints along a patrol)
 				WaypointType,		// WPT_* -- what the event does when triggered
 				Used,				// bool, whether the event is in use
@@ -27,16 +27,16 @@ struct	EventPoint
 				Direction,			// Angle in degrees, scaled to fit a byte
 				Flags;				// New and improved! Now contains sucks, inverse and inside info too!
 
-	UWORD		EPRef,				// Dependency index for TT_DEPENDENCY and TT_BOOLEAN (first input)
+	std::uint16_t		EPRef,				// Dependency index for TT_DEPENDENCY and TT_BOOLEAN (first input)
 				EPRefBool,			// index for TT_BOOLEAN (second input)
 				AfterTimer;			// for OT_ACTIVE_TIME, how long to wait before resetting
-//fuck	UWORD		MorePadding;        // PSX requires this
-	SLONG		Data[10],
+//fuck	std::uint16_t		MorePadding;        // PSX requires this
+	std::int32_t		Data[10],
 				Radius,				// for TT_RADIUS; used as time argument for TT_TIMER or pointer for TT_SHOUT (eek)
 				X,Y,Z;
 	
 
-	UWORD		Next,
+	std::uint16_t		Next,
 				Prev;
 };
 
@@ -52,51 +52,51 @@ extern EventPoint		*current_ep;
 
 struct	Mission
 {
-	CBYTE			Flags;
-	CBYTE			BriefName[_MAX_PATH],
+	char			Flags;
+	char			BriefName[_MAX_PATH],
 					LightMapName[_MAX_PATH],
 					MapName[_MAX_PATH],
 					MissionName[_MAX_PATH],
 					CitSezMapName[_MAX_PATH];	// Was the sewer file.
-	UWORD			MapIndex,
+	std::uint16_t			MapIndex,
 					FreeEPoints,
 					UsedEPoints;
-	UBYTE			CrimeRate,
+	std::uint8_t			CrimeRate,
 					CivsRate;
 	EventPoint		EventPoints[MAX_EVENTPOINTS];
-	UBYTE			SkillLevels[254]; // up to 254 AI types supported
-	UBYTE			BoredomRate;
-	UBYTE			CarsRate,
+	std::uint8_t			SkillLevels[254]; // up to 254 AI types supported
+	std::uint8_t			BoredomRate;
+	std::uint8_t			CarsRate,
 					MusicWorld;
 };
 
 struct	OldMissionB
 {
 	bool			Used;
-	CBYTE			BriefName[_MAX_PATH],
+	char			BriefName[_MAX_PATH],
 					LightMapName[_MAX_PATH],
 					MapName[_MAX_PATH],
 					MissionName[_MAX_PATH],
 					CitSezMapName[_MAX_PATH];	// Was the sewer file.
-	UWORD			MapIndex,
+	std::uint16_t			MapIndex,
 					FreeEPoints,
 					UsedEPoints;
-	UBYTE			CrimeRate,
+	std::uint8_t			CrimeRate,
 					CivsRate;
 	EventPoint		EventPoints[MAX_EVENTPOINTS];
-	UBYTE			SkillLevels[255]; // up to 255 AI types supported
+	std::uint8_t			SkillLevels[255]; // up to 255 AI types supported
 
 };
 
 struct	OldMission
 {
 	bool			Used;
-	CBYTE			BriefName[_MAX_PATH],
+	char			BriefName[_MAX_PATH],
 					LightMapName[_MAX_PATH],
 					MapName[_MAX_PATH],
 					MissionName[_MAX_PATH],
 					SewerMapName[_MAX_PATH];
-	UWORD			MapIndex,
+	std::uint16_t			MapIndex,
 					FreeEPoints,
 					UsedEPoints,
 					padding;
@@ -106,7 +106,7 @@ struct	OldMission
 extern Mission		mission_pool[MAX_MISSIONS],
 					*current_mission;
 
-extern CBYTE MissionZones[MAX_MISSIONS][128][128];
+extern char MissionZones[MAX_MISSIONS][128][128];
 
 //---------------------------------------------------------------
 
@@ -128,8 +128,8 @@ extern CBYTE MissionZones[MAX_MISSIONS][128][128];
 struct	GameMap
 {
 	bool		Used;
-	CBYTE		MapName[_MAX_PATH];
-	UWORD		Missions[MAX_MISSIONS];
+	char		MapName[_MAX_PATH];
+	std::uint16_t		Missions[MAX_MISSIONS];
 };
 
 extern GameMap		*current_map,
@@ -377,7 +377,7 @@ extern GameMap		*current_map,
 #define	IT_M78_GL				27
 #define	IT_FLAMETHROWER			28
 #define	IT_HOME_MADE_FLAMER		29
-#define	IT_FLAK_JACKET			30	// The second ULONG starts here!
+#define	IT_FLAK_JACKET			30	// The second std::uint32_t starts here!
 #define	IT_PETROL_LIGHTER		31
 #define	IT_SPRAY_CAN			32
 #define	IT_RED_KEY_CARD			33
@@ -526,23 +526,23 @@ extern GameMap		*current_map,
 #define WPU_RADBOX				32
 #define WPU_COUNTER				64
 
-extern CBYTE WaypointUses[TT_NUMBER];
+extern char WaypointUses[TT_NUMBER];
 
 
 //---------------------------------------------------------------
 
 void		MISSION_init();
 
-UWORD		alloc_map();
-void		free_map(UWORD map);
-UWORD		alloc_mission(UWORD	map_ref);
-void		free_mission(UWORD mission);
-void		init_mission(UWORD mission_ref,CBYTE* mission_name);
+std::uint16_t		alloc_map();
+void		free_map(std::uint16_t map);
+std::uint16_t		alloc_mission(std::uint16_t	map_ref);
+void		free_mission(std::uint16_t mission);
+void		init_mission(std::uint16_t mission_ref,char* mission_name);
 EventPoint	*alloc_eventpoint();
 void		free_eventpoint(EventPoint *the_ep);
 #ifndef		PSX
 void		write_event_extra(FILE *file_handle, EventPoint *ep);
-void		read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG ver=0);
+void		read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, std::int32_t ver=0);
 #endif
 bool		export_mission();
 void		import_mission();
@@ -552,11 +552,11 @@ void		ResetUsedpoint(Mission *mission);
 void		ResetFreelist(Mission *mission);
 void		ResetUsedlist(Mission *mission);
 bool		HasText(EventPoint *ep);
-UWORD		GetTextID(CBYTE* msg);
-UWORD		GetEPTextID(EventPoint *ep);
-//void		SetTextID(CBYTE* msg, SLONG value=-1);
-void		SetEPTextID(EventPoint *ep, SLONG value=-1);
-CBYTE	   *GetEPText(EventPoint *ep);
+std::uint16_t		GetTextID(char* msg);
+std::uint16_t		GetEPTextID(EventPoint *ep);
+//void		SetTextID(char* msg, std::int32_t value=-1);
+void		SetEPTextID(EventPoint *ep, std::int32_t value=-1);
+char	   *GetEPText(EventPoint *ep);
 
 
 //---------------------------------------------------------------

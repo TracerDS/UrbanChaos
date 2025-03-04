@@ -12,9 +12,9 @@
 
 typedef	struct
 {
-	SBYTE		DX,
+	std::int8_t		DX,
 				DZ;
-	SWORD		Angle;
+	std::int16_t		Angle;
 }GamutElement;
 
 //---------------------------------------------------------------
@@ -23,7 +23,7 @@ extern GamutElement		gamut_ele_pool[],
 						*gamut_ele_ptr[];
 
 void	build_gamut_table();
-void	draw_gamut(SLONG x,SLONG y);
+void	draw_gamut(std::int32_t x,std::int32_t y);
 
 //---------------------------------------------------------------
 

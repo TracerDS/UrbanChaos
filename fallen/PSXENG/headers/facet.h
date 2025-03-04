@@ -11,15 +11,15 @@
 // Draws the given facet.
 //
 
-void FACET_draw(SLONG facet,UBYTE fade_alpha);
+void FACET_draw(std::int32_t facet,std::uint8_t fade_alpha);
 
 
 //
 // Draws all the walkable faces for the given building.
 //
 
-void FACET_draw_walkable(SLONG building);
-void FACET_draw_ware_walkable(SLONG build);
+void FACET_draw_walkable(std::int32_t building);
+void FACET_draw_ware_walkable(std::int32_t build);
 
 
 //
@@ -32,11 +32,11 @@ void FACET_draw_ware_walkable(SLONG build);
 //
 
 void FACET_draw_ns_ladder(
-		SLONG x1,
-		SLONG z1,
-		SLONG x2,
-		SLONG z2,
-		SLONG height);
+		std::int32_t x1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t z2,
+		std::int32_t height);
 
 
 

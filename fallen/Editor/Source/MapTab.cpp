@@ -59,7 +59,7 @@ ControlDef	map_tab_def[]	=
 MapTab	*the_maptab;
 	
 struct	MapInfo	map_info[MAX_MAP_INFO];
-UWORD	next_map_info=1;
+std::uint16_t	next_map_info=1;
 
 void	redraw_map_tab(void);
 //---------------------------------------------------------------
@@ -67,9 +67,9 @@ void	redraw_map_tab(void);
 // MOVE THIS TO ANOTHER FILE
 void	draw_world_map(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	MapInfo	*p_map;
-	SLONG	prim;
+	std::int32_t	prim;
 
 	for(c0=1;c0<next_map_info;c0++)
 	{
@@ -115,9 +115,9 @@ void	MapTab::Clear(void)
 {
 }
 
-void	delete_map_info(SWORD index)
+void	delete_map_info(std::int16_t index)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=index;c0<next_map_info-1;c0++)
 	{
 		map_info[c0]=map_info[c0+1];
@@ -165,11 +165,11 @@ void	redraw_map_tab(void)
 }
 
 //---------------------------------------------------------------
-extern void	hilight_map_info(UBYTE view_flag);
+extern void	hilight_map_info(std::uint8_t view_flag);
 
-void	MapTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	MapTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 	EdRect	drawrect;
 
 	RedrawModuleContent=0;
@@ -229,7 +229,7 @@ void	MapTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 void	MapTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -237,7 +237,7 @@ void	MapTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -247,7 +247,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	MapTab::KeyboardInterface(void)
+std::int32_t	MapTab::KeyboardInterface(void)
 {
 	if(Keys[KB_TAB])
 	{
@@ -293,9 +293,9 @@ SLONG	MapTab::KeyboardInterface(void)
 //#define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
 
-inline	SLONG normalise_xyz(SLONG *x,SLONG *y,SLONG *z)
+inline	std::int32_t normalise_xyz(std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
-	SLONG	dist;
+	std::int32_t	dist;
 
 	dist=(*x)*(*x)+(*y)*(*y)+(*z)*(*z);
 	dist=sqrl(dist);
@@ -311,7 +311,7 @@ inline	SLONG normalise_xyz(SLONG *x,SLONG *y,SLONG *z)
 }
 
 
-UWORD	CreateMapPlane(SLONG x,SLONG y,SLONG z)
+std::uint16_t	CreateMapPlane(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	z=z;
 	map_info[next_map_info].Left=x;
@@ -325,12 +325,12 @@ UWORD	CreateMapPlane(SLONG x,SLONG y,SLONG z)
 
 
 /*
-void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
 	struct	SVector	point[2];
 	struct	SVector	res[2];
-	SLONG	sx,sy,sz,c0;
-	ULONG	f1,f2;
+	std::int32_t	sx,sy,sz,c0;
+	std::uint32_t	f1,f2;
 	point[0].X=x1;
 	point[0].Y=y1;
 	point[0].Z=z1;
@@ -345,11 +345,11 @@ void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG co
 		DrawLineC(res[0].X,res[0].Y,res[1].X,res[1].Y,col);
 }
 */
-void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE* str,SLONG col)
+void	draw_3d_text(std::int32_t x1,std::int32_t y1,std::int32_t z1,char* str,std::int32_t col)
 {
 	struct	SVector	point;
 	struct	SVector	res;
-	ULONG	f1;
+	std::uint32_t	f1;
 	point.X=x1;
 	point.Y=y1;
 	point.Z=z1;
@@ -359,12 +359,12 @@ void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE* str,SLONG col)
 		QuickTextC(res.X,res.Y,str,col);
 }
 
-void	draw_a_map_info(UBYTE view_flag,UWORD index)
+void	draw_a_map_info(std::uint8_t view_flag,std::uint16_t index)
 {
 	struct	MapInfo	*p_map;
-	SLONG	col=WHITE_COL;
+	std::int32_t	col=WHITE_COL;
 	EdRect	rect;
-	CBYTE	str[100];
+	char	str[100];
 	p_map=&map_info[index];
 
 	if(view_flag)
@@ -395,9 +395,9 @@ void	draw_a_map_info(UBYTE view_flag,UWORD index)
 	}
 }
 
-void	hilight_map_info(UBYTE view_flag)
+void	hilight_map_info(std::uint8_t view_flag)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	if(next_map_info>1)
 	for(c0=1;c0<next_map_info;c0++)
 	{
@@ -406,11 +406,11 @@ void	hilight_map_info(UBYTE view_flag)
 }
 
 
-static void	create_box_from_vect(EdRect *rect,SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+static void	create_box_from_vect(EdRect *rect,std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 	struct	SVector	point[2];
 	struct	SVector	res[2];
-	ULONG	f1,f2;
+	std::uint32_t	f1,f2;
 	point[0].X=x1;
 	point[0].Y=y1;
 	point[0].Z=z1;
@@ -427,11 +427,11 @@ static void	create_box_from_vect(EdRect *rect,SLONG x1,SLONG y1,SLONG z1,SLONG x
 	rect->OutlineRect(WHITE_COL);
 }
 
-static void	create_box_from_point(EdRect *rect,SLONG x1,SLONG y1,SLONG z1)
+static void	create_box_from_point(EdRect *rect,std::int32_t x1,std::int32_t y1,std::int32_t z1)
 {
 	struct	SVector	point[1];
 	struct	SVector	res[1];
-	ULONG	f1,f2;
+	std::uint32_t	f1,f2;
 	point[0].X=x1;
 	point[0].Y=y1;
 	point[0].Z=z1;
@@ -444,7 +444,7 @@ static void	create_box_from_point(EdRect *rect,SLONG x1,SLONG y1,SLONG z1)
 }
 
 	
-SLONG	select_this_map_info(SLONG index,MFPoint *mouse)
+std::int32_t	select_this_map_info(std::int32_t index,MFPoint *mouse)
 {
 	struct	MapInfo	*p_map;
 	EdRect	rect;
@@ -489,9 +489,9 @@ SLONG	select_this_map_info(SLONG index,MFPoint *mouse)
 	return(0);
 }
 
-extern void	calc_prims_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z, EdRect *rect);
+extern void	calc_prims_world_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z, EdRect *rect);
 
-void	calc_things_world_box(SLONG	map_thing,EdRect *rect)
+void	calc_things_world_box(std::int32_t	map_thing,EdRect *rect)
 {
 	struct	MapThing	*p_mthing;
 
@@ -513,9 +513,9 @@ void	calc_things_world_box(SLONG	map_thing,EdRect *rect)
 }
 
 
-void	SetBackgroundForMap(SWORD map)
+void	SetBackgroundForMap(std::int16_t map)
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 	EdRect	rect;
 	EdRect	map_rect;
@@ -540,9 +540,9 @@ void	SetBackgroundForMap(SWORD map)
 }
 
 
-SLONG	select_map_info(MFPoint *mouse,SLONG *ret)
+std::int32_t	select_map_info(MFPoint *mouse,std::int32_t *ret)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=1;c0<next_map_info;c0++)
 	{
@@ -553,9 +553,9 @@ SLONG	select_map_info(MFPoint *mouse,SLONG *ret)
 	return(0);
 }
 
-SLONG	select_map_infoxyz(MFPoint *mouse)
+std::int32_t	select_map_infoxyz(MFPoint *mouse)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	MapThing	*p_mthing;
 	struct	MapInfo		*p_map;
 	EdRect	rect;
@@ -595,16 +595,16 @@ void	normal_info(struct MapInfo *p_map)
 
 }	
 
-SLONG	MapTab::DragAMapDef(UBYTE flags,MFPoint *clicked_point,UWORD copy)
+std::int32_t	MapTab::DragAMapDef(std::uint8_t flags,MFPoint *clicked_point,std::uint16_t copy)
 {
-	SLONG	side;
-	SLONG	drag=0;
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	window=0;
-	SLONG	col  = 0;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	side;
+	std::int32_t	drag=0;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	window=0;
+	std::int32_t	col  = 0;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	flags=flags;
 	copy=copy;
@@ -708,16 +708,16 @@ SLONG	MapTab::DragAMapDef(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 }
 
-SLONG	MapTab::DragAMapDefXYZ(UBYTE flags,MFPoint *clicked_point,UWORD copy)
+std::int32_t	MapTab::DragAMapDefXYZ(std::uint8_t flags,MFPoint *clicked_point,std::uint16_t copy)
 {
-	SLONG	drag=0;
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	window=0;
-	SLONG	col = 0;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
-	SLONG	old_angley,old_mousex;
+	std::int32_t	drag=0;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	window=0;
+	std::int32_t	col = 0;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
+	std::int32_t	old_angley,old_mousex;
 	MFPoint		local_point;
 
 	flags=flags;
@@ -751,7 +751,7 @@ SLONG	MapTab::DragAMapDefXYZ(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 	if(drag)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 		struct	MapInfo	*p_map;
 		p_map=&map_info[drag];
 		
@@ -769,7 +769,7 @@ SLONG	MapTab::DragAMapDefXYZ(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 		while(SHELL_ACTIVE && (LeftButton||RightButton))
 		{
-			SLONG	nx,ny,nz;
+			std::int32_t	nx,ny,nz;
 			last_world_mouse=SetWorldMouse(0);
 
 
@@ -822,11 +822,11 @@ SLONG	MapTab::DragAMapDefXYZ(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 }
 
-SLONG	MapTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	MapTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	flags=flags;
 	clicked_point=clicked_point;
@@ -838,9 +838,9 @@ SLONG	MapTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -891,7 +891,7 @@ SLONG	MapTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-void	MapTab::SetMapPos(SLONG x,SLONG y,SLONG z)
+void	MapTab::SetMapPos(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	map_info[CurrentMap].X=x;
 	map_info[CurrentMap].Y=y;
@@ -899,7 +899,7 @@ void	MapTab::SetMapPos(SLONG x,SLONG y,SLONG z)
 	map_info[CurrentMap].AngleY=0;
 }
 
-SLONG	MapTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	MapTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
 	x=x;
 	y=y;
@@ -932,7 +932,7 @@ SLONG	MapTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG 
 					break;
 				case	MAP_MODE_SELECT_AND_PLACE:
 					{
-						SLONG	side;
+						std::int32_t	side;
 						CurrentMap=select_map_info(clicked_point,&side);
 						DefMode=0;
 						SetControlState(CTRL_MAP_DEF_MODE,CTRL_DESELECTED);
@@ -969,9 +969,9 @@ SLONG	MapTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG 
 	
 }
 
-UWORD	MapTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	MapTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -1023,11 +1023,11 @@ UWORD	MapTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-SLONG	MapTab::SetWorldMouse(ULONG flag)
+std::int32_t	MapTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -1089,7 +1089,7 @@ SLONG	MapTab::SetWorldMouse(ULONG flag)
 }
 
 
-void	MapTab::HandleControl(UWORD control_id)
+void	MapTab::HandleControl(std::uint16_t control_id)
 {
 	switch(control_id&0xff)
 	{

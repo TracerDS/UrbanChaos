@@ -21,7 +21,7 @@ void STAIR_init();
 // should be (0,0)-(1,1).
 //
 
-void STAIR_set_bounding_box(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2);
+void STAIR_set_bounding_box(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::uint8_t z2);
 
 //
 // Tell it about all the storeys of the building.
@@ -33,15 +33,15 @@ void STAIR_set_bounding_box(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2);
 // are invalid and you can't create stairs for this building.
 //
 
-void STAIR_storey_new   (SLONG handle, UBYTE height);				// 0 => Ground floor, 1 => First floor
-void STAIR_storey_wall  (UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2, SLONG opposite);
-SLONG STAIR_storey_finish();
+void STAIR_storey_new   (std::int32_t handle, std::uint8_t height);				// 0 => Ground floor, 1 => First floor
+void STAIR_storey_wall  (std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::uint8_t z2, std::int32_t opposite);
+std::int32_t STAIR_storey_finish();
 
 //
 // Calculates where the stairs should go for each storey.
 //
 
-void STAIR_calculate(UWORD seed);
+void STAIR_calculate(std::uint16_t seed);
 
 //
 // Returns the stairs for the given floor.  The 'id' of the ID_stair is
@@ -49,7 +49,7 @@ void STAIR_calculate(UWORD seed);
 // the given handle.
 //
 
-SLONG STAIR_get(SLONG handle, ID_Stair **stair, SLONG *num_stairs);
+std::int32_t STAIR_get(std::int32_t handle, ID_Stair **stair, std::int32_t *num_stairs);
 
 
 

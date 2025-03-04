@@ -29,8 +29,8 @@ typedef struct
 	// The bitfields for the start and end...
 	//
 
-	ULONG start;
-	ULONG end;
+	std::uint32_t start;
+	std::uint32_t end;
 
 	OS_Texture *ot;
 
@@ -47,8 +47,8 @@ CHECKER_Checker CHECKER_checker[CHECKER_NUM_CHECKERS];
 
 void CHECKER_init()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	CHECKER_Checker *cc;
 
@@ -71,7 +71,7 @@ void CHECKER_init()
 
 
 
-void CHECKER_draw_one(CHECKER_Checker *cc, SLONG colour, SLONG os_draw, float stretch)
+void CHECKER_draw_one(CHECKER_Checker *cc, std::int32_t colour, std::int32_t os_draw, float stretch)
 {
 }
 
@@ -81,14 +81,14 @@ void CHECKER_draw_one(CHECKER_Checker *cc, SLONG colour, SLONG os_draw, float st
 
 void CHECKER_draw()
 {
-	SLONG i;
-	SLONG which;
+	std::int32_t i;
+	std::int32_t which;
 
 	CHECKER_Checker *cc;
 
-	static SLONG last;
-	static SLONG now  = OS_ticks();
-	static SLONG turn;
+	static std::int32_t last;
+	static std::int32_t now  = OS_ticks();
+	static std::int32_t turn;
 
 	//
 	// Never be more than 1/2 a second behind...

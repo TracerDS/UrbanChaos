@@ -1,75 +1,69 @@
 // Game.h
 // Guy Simmons, 17th October 1997.
 
-#ifndef	GAME_H
-#define	GAME_H
+#pragma once
+
+#include <cstdint>
 
 #ifdef	PSX
-#define	DRAW_DIST	13
-#define BUILD_PSX
+#	define	DRAW_DIST	13
+#	define BUILD_PSX
 #else
-#define	DRAW_DIST	22
+#	define	DRAW_DIST	22
 #endif
 
 //---------------------------------------------------------------
 // PC - D3D Specific defines.
 
 #ifndef	PSX
-
-#pragma warning(disable : 4244)		// truncation warning : useless
-#pragma warning(disable : 4101)		// unreferenced local : no-one ever bothers deleting these
-#pragma warning(disable : 4554)		// yes, well ... some people use brackets, others disable this warning
-
-#else
-
+#	pragma warning(disable : 4244)		// truncation warning : useless
+#	pragma warning(disable : 4101)		// unreferenced local : no-one ever bothers deleting these
+#	pragma warning(disable : 4554)		// yes, well ... some people use brackets, others disable this warning
 #endif
-#define	THING_INDEX			UWORD
-#define	COMMON_INDEX		UWORD
 
-
-
-
-
+#define	THING_INDEX std::uint16_t
+#define	COMMON_INDEX std::uint16_t
 
 //---------------------------------------------------------------
 // PC - Glide specific defines.
 /*
 #define	VERSION_GLIDE
-#define	THING_INDEX			SLONG
-#define	COMMON_INDEX		SLONG
+#define	THING_INDEX			std::int32_t
+#define	COMMON_INDEX		std::int32_t
 */
 //---------------------------------------------------------------
 // PSX specific defines.
 /*
 #define	VERSION_PsX
-#define	THING_INDEX			SWORD
-#define	COMMON_INDEX		SWORD
+#define	THING_INDEX			std::int16_t
+#define	COMMON_INDEX		std::int16_t
 */
 //---------------------------------------------------------------
 
-#include	<MFStdLib.h>
-#ifndef		PSX
-#undef      LogText
-#define		LogText
+#include <MFStdLib.h>
+
+#ifndef PSX
+#	undef LogText
+#	define LogText
 #endif
 
-typedef		SLONG	MAPCO8;
-typedef		SLONG	MAPCO16;
-typedef		SLONG	MAPCO24;
+using MAPCO8 = std::int32_t;
+using MAPCO16 = std::int32_t;
+using MAPCO24 = std::int32_t;
 
 //
 // Memory table, the source of all our power
 //
-struct	MemTable
+struct MemTable
 {
-	CBYTE	*Name;
-	void	**Point;
-	UBYTE	Type;
-	SLONG	*CountL;
-	UWORD	*CountW;
-	SLONG	Maximum;
-	SWORD	StructSize;
-	SWORD	Extra;
+	char* Name;
+	void** Point;
+	std::uint8_t Type;
+	std::int32_t* CountL;
+	std::uint16_t* CountW;
+	std::int32_t Maximum;
+	std::int16_t StructSize;
+	std::int16_t Extra;
 };
 extern struct MemTable save_table[];
 
@@ -84,47 +78,46 @@ extern struct MemTable save_table[];
 #define	SAVE_TABLE_FACE4	16
 #define	SAVE_TABLE_PLATS	45	
 
-#include	"Structs.h"
-#include	"State.h"
-//#include	"Level.h"
+#include "Structs.h"
+#include "State.h"
+//#include "Level.h"
 
-#include	"drawtype.h"
-
-#include	"building.h"
-#include    "bike.h"
-#include	"Furn.h"
-#include	"Vehicle.h"
-#include	"inline.h"
-#include	"Person.h"
-#include	"Animal.h"
-#include	"barrel.h"
-#include	"Chopper.h"
-#include	"Pyro.h"
-#include	"Player.h"
-#include	"Plat.h"
-#include	"Pjectile.h"
-#include	"Special.h"
-#include	"bat.h"
-#include	"Switch.h"
-#include	"tracks.h"
-#include	"Thing.h"
-#include	"Controls.h"
-#include	"Map.h"
-#include	"collide.h"
-#include	"interact.h"
+#include "drawtype.h"
+#include "building.h"
+#include "bike.h"
+#include "Furn.h"
+#include "Vehicle.h"
+#include "inline.h"
+#include "Person.h"
+#include "Animal.h"
+#include "barrel.h"
+#include "Chopper.h"
+#include "Pyro.h"
+#include "Player.h"
+#include "Plat.h"
+#include "Pjectile.h"
+#include "Special.h"
+#include "bat.h"
+#include "Switch.h"
+#include "tracks.h"
+#include "Thing.h"
+#include "Controls.h"
+#include "Map.h"
+#include "collide.h"
+#include "interact.h"
 
 #ifdef VERSION_D3D
-#include	"aeng.h"
+#	include "aeng.h"
 #endif
 
 #ifdef	PSX
-#include	"psxeng.h"
-#define _MAX_PATH 260
-#include	"memory.h"
+#	include "psxeng.h"
+#	define _MAX_PATH 260
+#	include "memory.h"
 #endif
 
-#ifdef	EDITOR
-//#include	"Editor.h"
+#ifdef EDITOR
+//#include "Editor.h"
 #endif
 
 //---------------------------------------------------------------
@@ -214,123 +207,118 @@ extern struct MemTable save_table[];
 
 
 // Game structure.
-typedef struct
+struct ENGINE_Col
 {
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
+};
 
-} ENGINE_Col;
 
-
-typedef	struct
+struct Game
 {
-	SLONG			GameState,
-					GameTurn,
-					GameFlags,
+	std::int32_t GameState;
+	std::int32_t GameTurn;
+	std::int32_t GameFlags;
 
-					CameraCount,
-					PersonCount,
-					PlayerCount,
-					AnimalCount,
-					ChopperCount,
-					PyroCount,
-					ProjectileCount,
-					SpecialCount,
-					SwitchCount,
-					BatCount,
+	std::int32_t CameraCount;
+	std::int32_t PersonCount;
+	std::int32_t PlayerCount;
+	std::int32_t AnimalCount;
+	std::int32_t ChopperCount;
+	std::int32_t PyroCount;
+	std::int32_t ProjectileCount;
+	std::int32_t SpecialCount;
+	std::int32_t SwitchCount;
+	std::int32_t BatCount;
 
-					DrawTweenCount,
-					DrawMeshCount,
-					PrimaryThingCount,
-					SecondaryThingCount,
-					TickTock,
-					TickRatio,
-					TickInvRatio,
-					RandSeed,
-					Time,		// In 24-hours in fixed point 8...
-					Season;
+	std::int32_t DrawTweenCount;
+	std::int32_t DrawMeshCount;
+	std::int32_t PrimaryThingCount;
+	std::int32_t SecondaryThingCount;
+	std::int32_t TickTock;
+	std::int32_t TickRatio;
+	std::int32_t TickInvRatio;
+	std::int32_t RandSeed;
+	std::int32_t Time; // In 24-hours in fixed point 8...
+	std::int32_t Season;
 
 	// Map members.
 #if defined(PSX) || defined(TARGET_DC)
-	MapElement		Map[1];
+	MapElement Map[1];
 #else
-	MapElement		Map[MAP_SIZE];
+	MapElement Map[MAP_SIZE];
 #endif
 
 	// Thing members.
-	Vehicle			*Vehicles;//[MAX_VEHICLES];
-	Furniture       *Furnitures;//[MAX_FURNITURE];
-	Person			*People;//[MAX_PEOPLE];
-	Animal			*Animals;//[MAX_ANIMALS];
-	Chopper			*Choppers;//[MAX_CHOPPERS];
-	Pyro			*Pyros;//[MAX_PYROS];
-	Player			*Players;//[MAX_PLAYERS];
-	Projectile		*Projectiles;//[MAX_PROJECTILES];
-	Special			*Specials;//[MAX_SPECIALS];
-	Switch			*Switches;//[MAX_SWITCHES];
-	Bat				*Bats;//[BAT_MAX_BATS];
-	Thing			*Things;//[MAX_THINGS];
+	Vehicle* Vehicles;			// [MAX_VEHICLES];
+	Furniture* Furnitures;		// [MAX_FURNITURE];
+	Person* People;				// [MAX_PEOPLE];
+	Animal* Animals;			// [MAX_ANIMALS];
+	Chopper* Choppers;			// [MAX_CHOPPERS];
+	Pyro* Pyros;				// [MAX_PYROS];
+	Player* Players;			// [MAX_PLAYERS];
+	Projectile* Projectiles;	// [MAX_PROJECTILES];
+	Special* Specials;			// [MAX_SPECIALS];
+	Switch* Switches;			// [MAX_SWITCHES];
+	Bat* Bats;					// [BAT_MAX_BATS];
+	Thing* Things;				// [MAX_THINGS];
 
 	//
 	// The gourad palette
 	//
-	ENGINE_Col		GamePal[256];
+	ENGINE_Col GamePal[256];
 
 	//draw types
-	DrawTween		*DrawTweens;//[MAX_DRAW_TWEENS];
-	DrawMesh		*DrawMeshes;//[MAX_DRAW_MESHES];
+	DrawTween* DrawTweens;	// [MAX_DRAW_TWEENS];
+	DrawMesh* DrawMeshes;	// [MAX_DRAW_MESHES];
 
-	THING_INDEX		UsedPrimaryThings,
-					UnusedPrimaryThings,
-					UsedSecondaryThings,
-					UnusedSecondaryThings;
+	THING_INDEX UsedPrimaryThings, UnusedPrimaryThings, UsedSecondaryThings, UnusedSecondaryThings;
 
-	struct	Thing		   **net_persons;//[10];
-	struct	Thing		   **net_players;//[10];
+	Thing** net_persons; // [10];
+	Thing** net_players; // [10];
 
-	SLONG			indoors_height_floor;		// The heights of the storey you are in.
-	SLONG			indoors_height_ceiling;
-	SLONG			indoors_dbuilding;			// The index of the FBuilding you are in.
-	UWORD			indoors_index_fade;
-	UWORD			indoors_index_fade_ext;
-	UWORD			indoors_index_fade_ext_dir;
-	UWORD			indoors_index_next;
-	UWORD			indoors_index;
-	UWORD			indoors_room;
-	UWORD			indoors_room_next;
-	SLONG			NumberPlayers;
-	ULONG			Packets[16];
-	SLONG			Scores[16];
-	SLONG			MyID;
-	SLONG			UserInterface;
-	UWORD			DetailLevel;
-	UWORD			TextureSet;
-	SLONG			CrimeRate;
-	SLONG			CrimeRateScoreMul;
-	UBYTE			FakeCivs;
-	UBYTE			SaveValid;
-	UBYTE			MusicWorld;
-	UBYTE			BoredomRate;
+	std::int32_t indoors_height_floor;		// The heights of the storey you are in.
+	std::int32_t indoors_height_ceiling;
+	std::int32_t indoors_dbuilding;			// The index of the FBuilding you are in.
+	std::uint16_t indoors_index_fade;
+	std::uint16_t indoors_index_fade_ext;
+	std::uint16_t indoors_index_fade_ext_dir;
+	std::uint16_t indoors_index_next;
+	std::uint16_t indoors_index;
+	std::uint16_t indoors_room;
+	std::uint16_t indoors_room_next;
+	std::int32_t NumberPlayers;
+	std::uint32_t Packets[16];
+	std::int32_t Scores[16];
+	std::int32_t MyID;
+	std::int32_t UserInterface;
+	std::uint16_t DetailLevel;
+	std::uint16_t TextureSet;
+	std::int32_t CrimeRate;
+	std::int32_t CrimeRateScoreMul;
+	std::uint8_t FakeCivs;
+	std::uint8_t SaveValid;
+	std::uint8_t MusicWorld;
+	std::uint8_t BoredomRate;
 
-	UBYTE			DarciStrength;
-	UBYTE			DarciConstitution;
-	UBYTE			DarciSkill;
-	UBYTE			DarciStamina;
-	UBYTE			RoperStrength;
-	UBYTE			RoperConstitution;
-	UBYTE			RoperSkill;
-	UBYTE			RoperStamina;
+	std::uint8_t DarciStrength;
+	std::uint8_t DarciConstitution;
+	std::uint8_t DarciSkill;
+	std::uint8_t DarciStamina;
+	std::uint8_t RoperStrength;
+	std::uint8_t RoperConstitution;
+	std::uint8_t RoperSkill;
+	std::uint8_t RoperStamina;
 
-	UBYTE			DarciDeadCivWarnings;
-	UBYTE			padding[2];
-
-}Game;
+	std::uint8_t DarciDeadCivWarnings;
+	std::uint8_t padding[2];
+};
 
 
-extern Game			the_game;
+extern Game the_game;
 
-extern UBYTE			VIOLENCE;
+extern std::uint8_t VIOLENCE;
 
 // Defines for 'Game' member access.
 
@@ -488,21 +476,21 @@ extern UBYTE			VIOLENCE;
 //#define	NPERSON_NUMBER(t)		(THING_INDEX)(t-NET_PERSON(0))
 
 extern void ResetSmoothTicks();
-extern SLONG SmoothTicks(SLONG raw_ticks);
+extern std::int32_t SmoothTicks(std::int32_t raw_ticks);
 
 //---------------------------------------------------------------
 
-inline void SetSeed(ULONG seed)
+inline void SetSeed(std::uint32_t seed)
 {
 	RAND_SEED	=	seed;
 }
 
-inline ULONG GetSeed()
+inline std::uint32_t GetSeed()
 {
 	return	RAND_SEED;
 }
 /*
-inline UWORD Random()
+inline std::uint16_t Random()
 {
 	//
 	// The numbers are as recommended by Knuth.
@@ -527,8 +515,8 @@ inline UWORD Random()
 	return	(RAND_SEED >> 7);
 }
 */
-//#define	Random()    (DebugText("random  file %s line %d %d\n",__FILE__,__LINE__,RAND_SEED),(UWORD)((RAND_SEED = ((RAND_SEED*69069)+1) )>>7))
-#define	Random()    ((UWORD)((RAND_SEED = ((RAND_SEED*69069)+1) )>>7))
+//#define	Random()    (DebugText("random  file %s line %d %d\n",__FILE__,__LINE__,RAND_SEED),(std::uint16_t)((RAND_SEED = ((RAND_SEED*69069)+1) )>>7))
+#define	Random()    ((std::uint16_t)((RAND_SEED = ((RAND_SEED*69069)+1) )>>7))
 
 
 
@@ -541,12 +529,12 @@ void			game_shutdown();
 bool			game_init();
 void			game();
 void			game_attract_mode();
-UBYTE			game_loop();
+std::uint8_t			game_loop();
 
 //---------------------------------------------------------------
 
-SLONG calc_angle(SLONG dx, SLONG dz);
-SLONG angle_diff(SLONG angle1, SLONG angle2);
+std::int32_t calc_angle(std::int32_t dx, std::int32_t dz);
+std::int32_t angle_diff(std::int32_t angle1, std::int32_t angle2);
 
 
 // Useful.
@@ -575,5 +563,3 @@ void stop_all_fx_and_music ();
 #define	POLY_T						(POLY_FLAG_TEXTURED)
 #define	POLY_G						(POLY_FLAG_GOURAD)
 #define	POLY_F						(0)
-
-#endif

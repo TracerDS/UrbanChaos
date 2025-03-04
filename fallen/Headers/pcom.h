@@ -178,34 +178,34 @@ void PCOM_init();
 //
 
 THING_INDEX PCOM_create_person(
-				SLONG  type,
-				SLONG  colour,
-				SLONG  group,
-				SLONG  ai,
-				SLONG  ai_other,	// An extra arguement for some AI types.
-				SLONG  ai_skill,
-				SLONG  move,
-				SLONG  move_follow,	// Index of the waypoint that creates the person to follow for PCOM_MOVE_FOLLOW
-				SLONG  bent,
-				SLONG  has,
-				SLONG  drop,
-				SLONG  zone,		// The bottom four bits give the zone patroled.
-				SLONG  world_x,
-				SLONG  world_y,
-				SLONG  world_z,
-				SLONG  yaw,
-				SLONG  random,
-				ULONG	flag1=0,
-				ULONG	flag2=0);
+				std::int32_t  type,
+				std::int32_t  colour,
+				std::int32_t  group,
+				std::int32_t  ai,
+				std::int32_t  ai_other,	// An extra arguement for some AI types.
+				std::int32_t  ai_skill,
+				std::int32_t  move,
+				std::int32_t  move_follow,	// Index of the waypoint that creates the person to follow for PCOM_MOVE_FOLLOW
+				std::int32_t  bent,
+				std::int32_t  has,
+				std::int32_t  drop,
+				std::int32_t  zone,		// The bottom four bits give the zone patroled.
+				std::int32_t  world_x,
+				std::int32_t  world_y,
+				std::int32_t  world_z,
+				std::int32_t  yaw,
+				std::int32_t  random,
+				std::uint32_t	flag1=0,
+				std::uint32_t	flag2=0);
 
 THING_INDEX PCOM_create_player(
-				SLONG  type,
-				SLONG  has,
-				SLONG  world_x,
-				SLONG  world_y,
-				SLONG  world_z,
-				SLONG  id,
-				SLONG  yaw);
+				std::int32_t  type,
+				std::int32_t  has,
+				std::int32_t  world_x,
+				std::int32_t  world_y,
+				std::int32_t  world_z,
+				std::int32_t  id,
+				std::int32_t  yaw);
 
 //
 // Changes the attributes of a person. If you change the ai to be bodyguard,
@@ -214,14 +214,14 @@ THING_INDEX PCOM_create_player(
 
 void PCOM_change_person_attributes(
 		Thing *p_person,
-		SLONG  colour,
-		SLONG  group,
-		SLONG  ai,
-		SLONG  ai_other,
-		SLONG  move,
-		SLONG  move_follow,	// Index of the waypoint that creates the person to follow for PCOM_MOVE_FOLLOW
-		SLONG  bent,
-		SLONG  yaw);
+		std::int32_t  colour,
+		std::int32_t  group,
+		std::int32_t  ai,
+		std::int32_t  ai_other,
+		std::int32_t  move,
+		std::int32_t  move_follow,	// Index of the waypoint that creates the person to follow for PCOM_MOVE_FOLLOW
+		std::int32_t  bent,
+		std::int32_t  yaw);
 
 //
 // Makes a sound that can alert people.
@@ -246,11 +246,11 @@ void PCOM_change_person_attributes(
 #define PCOM_SOUND_GRENADE_HIT	17	// A grenade hitting the ground.
 
 void PCOM_oscillate_tympanum(
-		SLONG  type,
+		std::int32_t  type,
 		Thing *p_person,	// The person who caused the sound.
-		SLONG  sound_x,		// The position of the sound.
-		SLONG  sound_y,
-		SLONG  sound_z,UBYTE store_it=1);
+		std::int32_t  sound_x,		// The position of the sound.
+		std::int32_t  sound_y,
+		std::int32_t  sound_z,std::uint8_t store_it=1);
 
 
 //
@@ -295,13 +295,13 @@ void PCOM_process_person(Thing *p_person);
 // All other times, it returns true.
 //
 
-SLONG PCOM_jumping_navigating_person_continue_moving(Thing *p_person);
+std::int32_t PCOM_jumping_navigating_person_continue_moving(Thing *p_person);
 
 //
 // Returns a string describing the state of the given person.
 //
 
-CBYTE* PCOM_person_state_debug(Thing *p_person);
+char* PCOM_person_state_debug(Thing *p_person);
 
 
 //
@@ -311,9 +311,9 @@ CBYTE* PCOM_person_state_debug(Thing *p_person);
 void PCOM_make_people_talk_to_eachother(
 		Thing *p_person_a,
 		Thing *p_person_b,
-		UBYTE  is_a_asking_a_question,
-		UBYTE  stay_looking_at_eachother,
-		UBYTE  make_the_person_talked_at_listen = true);
+		std::uint8_t  is_a_asking_a_question,
+		std::uint8_t  stay_looking_at_eachother,
+		std::uint8_t  make_the_person_talked_at_listen = true);
 
 //
 // Makes two people stop talking to eachother.
@@ -329,7 +329,7 @@ void PCOM_stop_people_talking_to_eachother(
 // is happy to talk to somebody or lookat around at something.
 //
 
-SLONG PCOM_person_doing_nothing_important(Thing *p_person);
+std::int32_t PCOM_person_doing_nothing_important(Thing *p_person);
 
 
 //
@@ -337,7 +337,7 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person);
 // to kill him!
 //
 
-SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b);
+std::int32_t PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b);
 
 
 //
@@ -352,7 +352,7 @@ THING_INDEX PCOM_person_wants_to_kill(Thing *p_person);
 // Inform person a cop is aiming a gun at you
 //
 
-SLONG PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop);
+std::int32_t PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop);
 
 //
 // Informs a car driver that he should get out of his car and runaway from someone.
@@ -368,8 +368,8 @@ void PCOM_make_driver_run_away(Thing *p_driver, Thing *p_scary);
 void PCOM_set_person_ai_talk_to(
 		Thing *p_person,
 		Thing *p_person_talked_at,
-		UBYTE talk_substate,
-		UBYTE stay_looking_at_eachother);
+		std::uint8_t talk_substate,
+		std::uint8_t stay_looking_at_eachother);
 
 
 //
@@ -377,13 +377,13 @@ void PCOM_set_person_ai_talk_to(
 // he want to jump!!!
 //
 
-SLONG PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person);
+std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person);
 
 
 //
 // tell near by cops that I'm naughty and that they should arrest me
 //
 
-SLONG PCOM_call_cop_to_arrest_me(Thing *p_person,SLONG store_it);
+std::int32_t PCOM_call_cop_to_arrest_me(Thing *p_person,std::int32_t store_it);
 
 #endif

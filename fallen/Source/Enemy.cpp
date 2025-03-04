@@ -11,7 +11,7 @@
 
 void process_enemy(Thing *e_thing);
 void process_enemy2(Thing *e_thing);
-SLONG calc_height_at(SLONG x,SLONG z);
+std::int32_t calc_height_at(std::int32_t x,std::int32_t z);
 
 extern Thing			*darci_thing;
 

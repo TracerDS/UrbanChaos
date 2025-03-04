@@ -22,8 +22,8 @@ void HM_init();
 
 typedef struct
 {
-	SLONG version;			// Must be set to 1
-	SLONG num_primgrids;	// The number of prim grids.
+	std::int32_t version;			// Must be set to 1
+	std::int32_t num_primgrids;	// The number of prim grids.
  
 } HM_Header;
 
@@ -31,14 +31,14 @@ typedef struct
 
 typedef struct
 {
-	UBYTE prim;
-	UBYTE x_res;
-	UBYTE y_res;
-	UBYTE z_res;
+	std::uint8_t prim;
+	std::uint8_t x_res;
+	std::uint8_t y_res;
+	std::uint8_t z_res;
 
-	SLONG x_point[HM_MAX_RES];	// No point of the prim should lie outside the hypermatter
-	SLONG y_point[HM_MAX_RES];
-	SLONG z_point[HM_MAX_RES];
+	std::int32_t x_point[HM_MAX_RES];	// No point of the prim should lie outside the hypermatter
+	std::int32_t y_point[HM_MAX_RES];
+	std::int32_t z_point[HM_MAX_RES];
 
 	float x_dgrav;
 	float y_dgrav;
@@ -46,7 +46,7 @@ typedef struct
 
 } HM_Primgrid;
 
-void HM_load(CBYTE* fname);
+void HM_load(char* fname);
 
 //
 // Returns an HM_Primgrid for the given prim. If one has not
@@ -54,7 +54,7 @@ void HM_load(CBYTE* fname);
 // entire prim.  Ignore the 'prim' field of what you get back.
 //
 
-HM_Primgrid *HM_get_primgrid(SLONG prim);
+HM_Primgrid *HM_get_primgrid(std::int32_t prim);
 
 
 //
@@ -64,28 +64,28 @@ HM_Primgrid *HM_get_primgrid(SLONG prim);
 
 #define HM_NO_MORE_OBJECTS 255
 
-UBYTE HM_create(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
+std::uint8_t HM_create(
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
 
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
 
 		// Between 2 and HM_MAX_RES
 
-		SLONG x_res,		// The number of points along the x-axis
-		SLONG y_res,		// The number of points along the y-axis
-		SLONG z_res,		// The number of points along the z-axis
+		std::int32_t x_res,		// The number of points along the x-axis
+		std::int32_t y_res,		// The number of points along the y-axis
+		std::int32_t z_res,		// The number of points along the z-axis
 
-		SLONG x_point[],	// The position of each point along the x-axis, 0 => The bounding box min, 0x10000 => the bb max.
-		SLONG y_point[],
-		SLONG z_point[],
+		std::int32_t x_point[],	// The position of each point along the x-axis, 0 => The bounding box min, 0x10000 => the bb max.
+		std::int32_t y_point[],
+		std::int32_t z_point[],
 
 		//
 		// How the mass varies across the HM_object. If either of them
@@ -110,7 +110,7 @@ UBYTE HM_create(
 // Destroys the given HM_object.
 //
 
-void HM_destroy(UBYTE hm_index);
+void HM_destroy(std::uint8_t hm_index);
 
 
 //
@@ -118,7 +118,7 @@ void HM_destroy(UBYTE hm_index);
 //
 
 void HM_shockwave(
-		UBYTE hm_index,
+		std::uint8_t hm_index,
 		float x,
 		float y,
 		float z,
@@ -130,7 +130,7 @@ void HM_shockwave(
 //
 
 void HM_find_cog(
-		UBYTE  hm_index,
+		std::uint8_t  hm_index,
 		float *x,
 		float *y,
 		float *z);
@@ -140,18 +140,18 @@ void HM_find_cog(
 //
 
 void HM_collide_all();
-void HM_collide(UBYTE hm_index1, UBYTE hm_index2);
+void HM_collide(std::uint8_t hm_index1, std::uint8_t hm_index2);
 
 //
 // Collision of hypermatter objects with the colvects. Colvects
 // are assumed to be infinitely tall.
 //
 
-void HM_colvect_clear(UBYTE hm_index);
+void HM_colvect_clear(std::uint8_t hm_index);
 void HM_colvect_add(
-		UBYTE hm_index,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::uint8_t hm_index,
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 //
 // Processes all the hypermatter objects.
@@ -165,8 +165,8 @@ void HM_process();
 // 
 
 void HM_find_mesh_point(
-		UBYTE  hm_index,
-		SLONG  point,
+		std::uint8_t  hm_index,
+		std::int32_t  point,
 		float *x,
 		float *y,
 		float *z);
@@ -176,19 +176,19 @@ void HM_find_mesh_point(
 //
 
 void HM_find_mesh_pos(
-		UBYTE  hm_index,
-		SLONG *x,
-		SLONG *y,
-		SLONG *z,
-		SLONG *yaw,
-		SLONG *pitch,
-		SLONG *roll);
+		std::uint8_t  hm_index,
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z,
+		std::int32_t *yaw,
+		std::int32_t *pitch,
+		std::int32_t *roll);
 
 //
 // Returns true if the given hypermatter object is stationary.
 //
 
-SLONG HM_stationary(UBYTE hm_index);
+std::int32_t HM_stationary(std::uint8_t hm_index);
 
 //
 // Draws the hypermatter objects.

@@ -70,147 +70,147 @@
 
 struct	BuildingObject
 {
-	SWORD	FacetHead;
-	SWORD	StartFace4;
-	SWORD	EndFace4;	 
-	SWORD	StartFace3;
-	SWORD	EndFace3;
-	SWORD	StartPoint;
-	SWORD	EndPoint;
+	std::int16_t	FacetHead;
+	std::int16_t	StartFace4;
+	std::int16_t	EndFace4;	 
+	std::int16_t	StartFace3;
+	std::int16_t	EndFace3;
+	std::int16_t	StartPoint;
+	std::int16_t	EndPoint;
 };
 
 
 struct	BuildingFacet
 {
-	SWORD	StartFace4;
-	SWORD	MidFace4;
-	SWORD	EndFace4;
-	SWORD	StartFace3;
-	SWORD	EndFace3;
-	SWORD	StartPoint;
-	SWORD	MidPoint;
-	SWORD	EndPoint;
-	SWORD	NextFacet;
-	UWORD	FacetFlags;
+	std::int16_t	StartFace4;
+	std::int16_t	MidFace4;
+	std::int16_t	EndFace4;
+	std::int16_t	StartFace3;
+	std::int16_t	EndFace3;
+	std::int16_t	StartPoint;
+	std::int16_t	MidPoint;
+	std::int16_t	EndPoint;
+	std::int16_t	NextFacet;
+	std::uint16_t	FacetFlags;
 };
 
 
 struct	TempBuilding
 {
-	UWORD	FacetHead;
-	UWORD	FacetCount;
+	std::uint16_t	FacetHead;
+	std::uint16_t	FacetCount;
 
 };
 //4 bytes
 
 struct	TempFacet
 {
-	SLONG	x1;
-	SLONG 	z1;
-	SLONG 	x2;
-	SLONG 	z2;
+	std::int32_t	x1;
+	std::int32_t 	z1;
+	std::int32_t 	x2;
+	std::int32_t 	z2;
 
-	SWORD	Y;
-	UWORD	PrevFacet;
+	std::int16_t	Y;
+	std::uint16_t	PrevFacet;
 
-	UWORD	NextFacet;
-	UWORD	RoofType;
+	std::uint16_t	NextFacet;
+	std::uint16_t	RoofType;
 
-	UWORD	StoreyHead;
-	UWORD	StoreyCount;
+	std::uint16_t	StoreyHead;
+	std::uint16_t	StoreyCount;
 
 };
 //28 bytes
 
 struct	TempStorey
 {
-	UWORD	StoreyFlags;
-	UBYTE	WallStyle;
-	UBYTE	WindowStyle;
-	SWORD	Height;
-	SWORD	Next;
-	SWORD	Count;
+	std::uint16_t	StoreyFlags;
+	std::uint8_t	WallStyle;
+	std::uint8_t	WindowStyle;
+	std::int16_t	Height;
+	std::int16_t	Next;
+	std::int16_t	Count;
 };
 //10 bytes
 
 struct	TXTY
 {
-	UBYTE	Page,Tx,Ty,Flip;
+	std::uint8_t	Page,Tx,Ty,Flip;
 
 };
 
 struct	TextureInfo
 {
-	UBYTE	Type;
-	UBYTE	SubType;
+	std::uint8_t	Type;
+	std::uint8_t	SubType;
 };
 
 
 struct	FWindow
 {
-	UWORD	Dist;
-	UWORD	Height;
-	UWORD	WindowFlags;
-	UWORD	WindowWidth;
-	UWORD	WindowHeight;
-	SWORD	Next;
-	UWORD	Dummy[6];
+	std::uint16_t	Dist;
+	std::uint16_t	Height;
+	std::uint16_t	WindowFlags;
+	std::uint16_t	WindowWidth;
+	std::uint16_t	WindowHeight;
+	std::int16_t	Next;
+	std::uint16_t	Dummy[6];
 };
 
 struct	FWall
 {
-	SWORD	DX,DZ;
-	UWORD	WallFlags;
-	SWORD	WindowHead;
-	UWORD	TextureStyle;
-	UWORD	WindowCount;
-	SWORD	Next;
-	UWORD	DY;
-	UWORD	StoreyHead;
-	UWORD	Dummy[6];
+	std::int16_t	DX,DZ;
+	std::uint16_t	WallFlags;
+	std::int16_t	WindowHead;
+	std::uint16_t	TextureStyle;
+	std::uint16_t	WindowCount;
+	std::int16_t	Next;
+	std::uint16_t	DY;
+	std::uint16_t	StoreyHead;
+	std::uint16_t	Dummy[6];
 };
 
 struct	FStorey
 {
-	SWORD	DX,DY,DZ;
-	UBYTE	StoreyType;
-	UBYTE	StoreyFlags;
+	std::int16_t	DX,DY,DZ;
+	std::uint8_t	StoreyType;
+	std::uint8_t	StoreyFlags;
 
-	UWORD	Height;
-	SWORD	WallHead;
+	std::uint16_t	Height;
+	std::int16_t	WallHead;
 
-	UWORD	WallCount;
-	UWORD	Roof;
+	std::uint16_t	WallCount;
+	std::uint16_t	Roof;
 
-	SWORD	Next;
-	SWORD	Prev;
-	SWORD	Info1;
-	SWORD	Info2;
-	UWORD	BuildingHead;
+	std::int16_t	Next;
+	std::int16_t	Prev;
+	std::int16_t	Info1;
+	std::int16_t	Info2;
+	std::uint16_t	BuildingHead;
 
-	UWORD	Dummy[1];
+	std::uint16_t	Dummy[1];
 };
 
 struct	FBuilding
 {
-	SLONG	X,Y,Z;
-	UWORD	BuildingFlags;
-	SWORD	StoreyHead;
-	SWORD	Angle;
-	UWORD	StoreyCount;
-	CBYTE	str[20];
-	UWORD	Dummy[6];
+	std::int32_t	X,Y,Z;
+	std::uint16_t	BuildingFlags;
+	std::int16_t	StoreyHead;
+	std::int16_t	Angle;
+	std::uint16_t	StoreyCount;
+	char	str[20];
+	std::uint16_t	Dummy[6];
 };
 
 
 
 //data
 
-extern UWORD	next_building_object;
-extern UWORD	end_building_object;
+extern std::uint16_t	next_building_object;
+extern std::uint16_t	end_building_object;
 
-extern UWORD	next_building_facet;
-extern UWORD	end_building_facet;
+extern std::uint16_t	next_building_facet;
+extern std::uint16_t	end_building_facet;
 
 
 
@@ -222,20 +222,20 @@ extern struct	FWall		wall_list[MAX_WALLS];
 extern struct	FStorey		storey_list[MAX_STOREYS];
 extern struct	FBuilding	building_list[MAX_BUILDINGS];
 extern struct	TXTY	textures_xy[200][8];
-extern UBYTE	textures_flags[200][8];
+extern std::uint8_t	textures_flags[200][8];
 extern struct	TextureInfo texture_info[];
 
 
 // functions
 
-extern SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern void	offset_buildings(SLONG x,SLONG y,SLONG z);
-//extern void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-//extern void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-extern void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z);
+extern std::int32_t	place_building_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
+extern void	offset_buildings(std::int32_t x,std::int32_t y,std::int32_t z);
+//extern void	calc_buildings_world_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
+//extern void	calc_buildings_screen_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
+extern void	draw_a_building_at(std::uint16_t building,std::int32_t x,std::int32_t y,std::int32_t z);
 extern void	create_city();
-extern SLONG	create_building_prim(UWORD building,SLONG	*small_y);
-extern SLONG	next_connected_face(SLONG type,SLONG id,SLONG count);
-extern SLONG	is_storey_circular(SLONG storey);
+extern std::int32_t	create_building_prim(std::uint16_t building,std::int32_t	*small_y);
+extern std::int32_t	next_connected_face(std::int32_t type,std::int32_t id,std::int32_t count);
+extern std::int32_t	is_storey_circular(std::int32_t storey);
 
 #endif

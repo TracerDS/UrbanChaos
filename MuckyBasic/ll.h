@@ -19,9 +19,9 @@
 typedef struct
 {
 	OS_Texture *ot;
-	SLONG       width;
-	SLONG       height;
-	SLONG       ref_count;	// This is up to you! It is set to 1 when you create the texture.
+	std::int32_t       width;
+	std::int32_t       height;
+	std::int32_t       ref_count;	// This is up to you! It is set to 1 when you create the texture.
 
 } LL_Texture;
 
@@ -37,8 +37,8 @@ typedef struct
 	float y;
 	float z;
 	float rhw;
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 	float u;
 	float v;
 
@@ -49,9 +49,9 @@ typedef struct
 	float x;
 	float y;
 	float z;
-	ULONG reserved;
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t reserved;
+	std::uint32_t colour;
+	std::uint32_t specular;
 	float u;
 	float v;
 
@@ -82,7 +82,7 @@ typedef struct
 
 typedef struct
 {
-	SLONG  type;
+	std::int32_t  type;
 
 	union
 	{
@@ -92,10 +92,10 @@ typedef struct
 		LL_Vert   *vert;
 	};
 
-	UWORD *index;
-	SLONG  num_verts;
-	SLONG  num_indices;
-	SLONG  ref_count;	// This is up to you! It is set to 1 when you create the buffer.
+	std::uint16_t *index;
+	std::int32_t  num_verts;
+	std::int32_t  num_indices;
+	std::int32_t  ref_count;	// This is up to you! It is set to 1 when you create the buffer.
 
 } LL_Buffer;
 
@@ -107,7 +107,7 @@ typedef struct
 typedef struct
 {
 	OS_Sound *os;
-	SLONG     ref_count;
+	std::int32_t     ref_count;
 
 } LL_Sound;
 
@@ -118,7 +118,7 @@ typedef struct
 // Creates a texture from a file. Returns nullptr on failure.
 //
 
-LL_Texture *LL_create_texture(CBYTE* fname);
+LL_Texture *LL_create_texture(char* fname);
 
 
 //
@@ -133,7 +133,7 @@ void LL_free_texture(LL_Texture *lt);
 // Loads a sound from a file. Returns nullptr on failure.
 // 
 
-LL_Sound *LL_create_sound(CBYTE* fname);
+LL_Sound *LL_create_sound(char* fname);
 
 //
 // Deletes the sound.
@@ -151,11 +151,11 @@ void LL_free_sound(LL_Sound *ls);
 //
 
 LL_Buffer *LL_create_buffer(
-				SLONG  type,
+				std::int32_t  type,
 				void  *vert,
-				SLONG  num_verts,
-				UWORD *index,			// If nullptr then this is a LIST buffer rather than an INDEXED buffer.
-				SLONG  num_indices);
+				std::int32_t  num_verts,
+				std::uint16_t *index,			// If nullptr then this is a LIST buffer rather than an INDEXED buffer.
+				std::int32_t  num_indices);
 
 //
 // Deletes the buffer.
@@ -198,11 +198,11 @@ void LL_free_buffer(LL_Buffer *lb);
 void LL_draw_buffer(
 		LL_Buffer  *lb,
 		LL_Texture *lt,		// nullptr => Draw untextured
-		ULONG       rs);	// The LL_RS_* renderstates ORed together.
+		std::uint32_t       rs);	// The LL_RS_* renderstates ORed together.
 
 
 
-void LL_cls(ULONG colour, float z);
+void LL_cls(std::uint32_t colour, float z);
 
 
 

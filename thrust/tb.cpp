@@ -33,7 +33,7 @@ void TB_init()
 
 TB_Tb *TB_create(SHIP_Ship *ss, float length)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dy;
@@ -177,7 +177,7 @@ void TB_process_one(TB_Tb *tt)
 
 void TB_process_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	TB_Tb *tt;
 
@@ -204,8 +204,8 @@ void TB_process_all()
 
 void TB_draw_all(float mid_x, float mid_y, float zoom)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float x;
 	float y;

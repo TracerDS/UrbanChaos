@@ -20,16 +20,16 @@ GameMap			game_maps[MAX_MAPS],
 				*current_map;
 Mission			mission_pool[MAX_MISSIONS],
 				*current_mission;
-CBYTE			MissionZones[MAX_MISSIONS][128][128];
+char			MissionZones[MAX_MISSIONS][128][128];
 
-extern CBYTE	map_default_dir[_MAX_PATH],
+extern char	map_default_dir[_MAX_PATH],
 				mission_name[_MAX_PATH];
 extern HWND		ws_tree;
 extern EventPoint *selected_ep,*hilited_ep;
 
 //---------------------------------------------------------------
 
-CBYTE WaypointUses[TT_NUMBER] =
+char WaypointUses[TT_NUMBER] =
 {
 	0,											// none
 	WPU_DEPEND,									// dependency
@@ -90,9 +90,9 @@ void	MISSION_init()
 
 //---------------------------------------------------------------
 
-UWORD	alloc_map()
+std::uint16_t	alloc_map()
 {
-	UWORD		c0;
+	std::uint16_t		c0;
 
 
 	for(c0=1;c0<MAX_MAPS;c0++)
@@ -108,9 +108,9 @@ UWORD	alloc_map()
 
 //---------------------------------------------------------------
 
-void	free_map(UWORD map)
+void	free_map(std::uint16_t map)
 {
-	UWORD		c0;
+	std::uint16_t		c0;
 
 
 	//	Free up associated missions.
@@ -126,9 +126,9 @@ void	free_map(UWORD map)
 
 //---------------------------------------------------------------
 
-UWORD	alloc_mission(UWORD	map_ref)
+std::uint16_t	alloc_mission(std::uint16_t	map_ref)
 {
-	UWORD		c0,c1;
+	std::uint16_t		c0,c1;
 
 
 	for(c0=1;c0<MAX_MISSIONS;c0++)
@@ -160,16 +160,16 @@ UWORD	alloc_mission(UWORD	map_ref)
 
 //---------------------------------------------------------------
 
-void	free_mission(UWORD mission)
+void	free_mission(std::uint16_t mission)
 {
 	ZeroMemory(&mission_pool[mission],sizeof(Mission));
 }
 
 //---------------------------------------------------------------
 
-void	init_mission(UWORD mission_ref,CBYTE* mission_name)
+void	init_mission(std::uint16_t mission_ref,char* mission_name)
 {
-	UWORD		c0;
+	std::uint16_t		c0;
 	Mission		*the_mission;
 
 
@@ -214,7 +214,7 @@ void ResetUsedpoint(Mission *mission) {
 
 void ResetFreelist(Mission *mission) {
 	// sheesh
-	SLONG prv=0, c0;
+	std::int32_t prv=0, c0;
 	EventPoint *last=nullptr,*curr=nullptr;
 
 	curr=mission->EventPoints;
@@ -232,7 +232,7 @@ void ResetFreelist(Mission *mission) {
 
 void ResetUsedlist(Mission *mission) {
 	// sheesh
-	SLONG prv=0, c0;
+	std::int32_t prv=0, c0;
 	EventPoint *last=nullptr,*curr;
 
 	curr=mission->EventPoints;
@@ -250,7 +250,7 @@ void ResetUsedlist(Mission *mission) {
 
 void ResetLink(EventPoint *ep_base, EventPoint *the_ep, bool used) {
 	EventPoint *ep_joint;
-	SLONG the_point, the_joint;
+	std::int32_t the_point, the_joint;
 
 	the_point=EVENTPOINT_NUMBER(ep_base,the_ep);
 
@@ -293,7 +293,7 @@ void BreakLink(EventPoint *ep_base, EventPoint *the_ep) {
 
 EventPoint	*alloc_eventpoint()
 {
-	UWORD			new_epoint;
+	std::uint16_t			new_epoint;
 	EventPoint		*ep_base,
 					*the_epoint,
 					*the_ep;
@@ -309,7 +309,7 @@ EventPoint	*alloc_eventpoint()
 			the_epoint					=	TO_EVENTPOINT(ep_base,new_epoint);
 
 			//	Clear it out.
-			the_epoint->Colour			=	0;
+			the_epoint->Color			=	0;
 			the_epoint->Group			=	0;
 			the_epoint->WaypointType	=	0;
 			the_epoint->TriggeredBy		=	0;
@@ -358,7 +358,7 @@ EventPoint	*alloc_eventpoint()
 			new_epoint					=	the_epoint-ep_base;
 
 			//	Clear it out.
-			the_epoint->Colour			=	0;
+			the_epoint->Color			=	0;
 			the_epoint->Group			=	0;
 			the_epoint->WaypointType	=	0;
 			the_epoint->TriggeredBy		=	0;
@@ -390,7 +390,7 @@ EventPoint	*alloc_eventpoint()
 void	free_eventpoint(EventPoint *the_ep)
 {
 	EventPoint		*ep_base, *ep_joint;
-	SLONG			 the_point,ins_point;
+	std::int32_t			 the_point,ins_point;
 
 
 	//	Validate the param.
@@ -455,8 +455,8 @@ void	free_eventpoint(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 void	write_event_extra(FILE *file_handle, EventPoint *ep) {
-	SLONG l;
-	UBYTE u;
+	std::int32_t l;
+	std::uint8_t u;
 
 	if(ep->Used)
 	{
@@ -503,10 +503,10 @@ void	write_event_extra(FILE *file_handle, EventPoint *ep) {
 
 //---------------------------------------------------------------
 
-void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG ver) {
-	SLONG l;//,m;
-	UWORD *pt;
-	UBYTE u;
+void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, std::int32_t ver) {
+	std::int32_t l;//,m;
+	std::uint16_t *pt;
+	std::uint8_t u;
 
 	if(ep->Used)
 	{
@@ -532,7 +532,7 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 			// these don't have translations, they're internal codes or filenames
 			if (ver>4) fread(&l,4,1,file_handle); else l=_MAX_PATH;
 			if (l) {
-				ep->Data[0]	=	(SLONG)malloc(l+1);
+				ep->Data[0]	=	(std::int32_t)malloc(l+1);
 				ZeroMemory((char*)ep->Data[0],l+1);
 				fread((void*)ep->Data[0],l,1,file_handle);
 			} else ep->Data[0]=0;
@@ -550,7 +550,7 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 				fread(&u,1,1,file_handle);
 			if (ver>4) fread(&l,4,1,file_handle); else l=_MAX_PATH;
 			if (l) {
-				ep->Radius = (SLONG)malloc(l+1);
+				ep->Radius = (std::int32_t)malloc(l+1);
 				ZeroMemory((char*)ep->Radius,l+1);
 				fread((void*)ep->Radius,l,1,file_handle);
 			} else ep->Radius=0;
@@ -567,9 +567,9 @@ void	read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, SLONG
 
 bool	export_mission()
 {
-	CBYTE				curr_dir[_MAX_PATH];
-	ULONG				m_vers;
-	ULONG				c0,
+	char				curr_dir[_MAX_PATH];
+	std::uint32_t				m_vers;
+	std::uint32_t				c0,
 						count,
 						current_ep;
 	EventPoint			*ep_base,
@@ -625,8 +625,8 @@ bool	export_mission()
 
 					if (temp_mission->EventPoints[c0].WaypointType==WPT_CREATE_ENEMIES) 
 					{
-						SWORD ai=LOWORD(temp_mission->EventPoints[c0].Data[5]);
-						SLONG skill=HIWORD(temp_mission->EventPoints[c0].Data[5]);
+						std::int16_t ai=LOWORD(temp_mission->EventPoints[c0].Data[5]);
+						std::int32_t skill=HIWORD(temp_mission->EventPoints[c0].Data[5]);
 						if (!skill) skill=current_mission->SkillLevels[ai];
 						temp_mission->EventPoints[c0].Data[5]=ai | (skill<<16);
 					}
@@ -637,7 +637,7 @@ bool	export_mission()
 				//
 
 				{
-					SLONG i;
+					std::int32_t i;
 
 					EventPoint *ep;
 
@@ -919,17 +919,17 @@ bool	export_mission()
 
 
 void import_mission() {
-	UWORD				new_mission;
+	std::uint16_t				new_mission;
 	OPENFILENAME		open_mission;
-	CBYTE				curr_dir[_MAX_PATH];
+	char				curr_dir[_MAX_PATH];
 	FILE				*file_handle;
-	ULONG				m_vers;
+	std::uint32_t				m_vers;
 	HTREEITEM			map_handle;
 	TV_ITEM				map_item;
 	TV_INSERTSTRUCT		tv_is;
 	WSElement			*map_element,
 						*new_element;
-	SLONG				c0;
+	std::int32_t				c0;
 	Mission				*the_mission;
 
 	sprintf(map_default_dir,"c:\\Fallen\\Levels",curr_dir);
@@ -1033,18 +1033,18 @@ void import_mission() {
 
 void refresh_mission()
 {
-//	UWORD				new_mission;
+//	std::uint16_t				new_mission;
 	OPENFILENAME		open_mission;
-	CBYTE				file_name[_MAX_PATH], *chr, msg[_MAX_PATH+200];
+	char				file_name[_MAX_PATH], *chr, msg[_MAX_PATH+200];
 	FILE				*file_handle;
-	ULONG				m_vers;
-	SLONG				temp_map;
+	std::uint32_t				m_vers;
+	std::int32_t				temp_map;
 //	HTREEITEM			map_handle;
 //	TV_ITEM				map_item;
 //	TV_INSERTSTRUCT		tv_is;
 //	WSElement			*map_element,
 //						*new_element;
-	SLONG				c0;
+	std::int32_t				c0;
 //	Mission				*the_mission;
 
 	if (!current_mission) {
@@ -1145,12 +1145,12 @@ void refresh_mission()
 
 bool NoWaypointsFor(EventPoint *ep) {
 	EventPoint *scan;
-	SLONG c0;
+	std::int32_t c0;
 
 	scan=current_mission->EventPoints;
 	for(c0=0;c0<MAX_EVENTPOINTS;c0++,scan++) 
 		if (scan->Used) {
-			if ((scan!=ep)&&(ep->Group==scan->Group)&&(ep->Colour==scan->Colour)&&(scan->WaypointType==WPT_SIMPLE))
+			if ((scan!=ep)&&(ep->Group==scan->Group)&&(ep->Color==scan->Color)&&(scan->WaypointType==WPT_SIMPLE))
 				return false;
 		}
 	return true;
@@ -1172,16 +1172,16 @@ bool  HasText(EventPoint *ep) {
 	}
 }
 
-UWORD GetEPTextID(EventPoint *ep) {
+std::uint16_t GetEPTextID(EventPoint *ep) {
 	if ((!ep->Used)||(!HasText(ep))) return 0;
-	return (UWORD)ep->Data[9];
+	return (std::uint16_t)ep->Data[9];
 }
 
-void SetEPTextID(EventPoint *ep, SLONG value) {
+void SetEPTextID(EventPoint *ep, std::int32_t value) {
 
 	if (value==-1) { // fetch it
 		EventPoint *scan;
-		SLONG c0,tid;
+		std::int32_t c0,tid;
 
 		scan=current_mission->EventPoints;
 		for(c0=0;c0<MAX_EVENTPOINTS;c0++,scan++) {
@@ -1194,18 +1194,18 @@ void SetEPTextID(EventPoint *ep, SLONG value) {
 	ep->Data[9]=value;
 }
 
-CBYTE* GetEPText(EventPoint *ep) {
+char* GetEPText(EventPoint *ep) {
 	if (!ep->Data[0]) return 0;
-	return (CBYTE*)(ep->Data[0]);
+	return (char*)(ep->Data[0]);
 }
 
 //---------------------------------------------------------------
 
 
-SLONG treasure_counter;
+std::int32_t treasure_counter;
 
-bool SingleFlagCheck(SLONG test) {
-	SLONG gotone=0, i;
+bool SingleFlagCheck(std::int32_t test) {
+	std::int32_t gotone=0, i;
 	for (i=0;i<32;i++) {
 		if (test&(1<<i)) {
 			if (gotone) return false; // more than one of em
@@ -1289,7 +1289,7 @@ bool valid_ep(EventPoint *ep) {
 	}
 
 	if (ep->TriggeredBy==TT_PERSON_SEEN) {
-		SLONG type;
+		std::int32_t type;
 		// must be a person (enemy or player)
 		type=current_mission->EventPoints[ep->EPRef].WaypointType;
 		if ((type!=WPT_CREATE_ENEMIES)&&(type!=WPT_CREATE_PLAYER)) return false;
@@ -1299,7 +1299,7 @@ bool valid_ep(EventPoint *ep) {
 		}
 	}
 	if ((ep->TriggeredBy==TT_PERSON_USED)||(ep->TriggeredBy==TT_PERSON_ARRESTED)||(ep->TriggeredBy==TT_PLAYER_CARRY_PERSON)) {
-		SLONG type;
+		std::int32_t type;
 		// must be a person (enemy)
 		type=current_mission->EventPoints[ep->EPRef].WaypointType;
 		if (type!=WPT_CREATE_ENEMIES) return false;
@@ -1312,7 +1312,7 @@ bool valid_ep(EventPoint *ep) {
 		// Waypoint pointed to must be either a person or a vehicle...
 		//
 
-		SLONG type = current_mission->EventPoints[ep->EPRef].WaypointType;
+		std::int32_t type = current_mission->EventPoints[ep->EPRef].WaypointType;
 
 		if (type != WPT_CREATE_ENEMIES &&
 			type != WPT_CREATE_PLAYER  &&
@@ -1354,7 +1354,7 @@ bool valid_ep(EventPoint *ep) {
 		case 3:
 		case 8:
 		case 17:
-			SLONG targ;
+			std::int32_t targ;
 			if (!ep->Data[7]) return false;
 			targ=current_mission->EventPoints[ep->Data[7]].WaypointType;
 			if ((targ!=WPT_CREATE_ENEMIES)&&(targ!=WPT_CREATE_PLAYER))
@@ -1367,7 +1367,7 @@ bool valid_ep(EventPoint *ep) {
 			if (NoWaypointsFor(ep)) return false;
 		}
 		if (ep->Data[3]==4) { // follow
-			SLONG targ;
+			std::int32_t targ;
 			if (!ep->Data[1]) return false;
 			targ=current_mission->EventPoints[ep->Data[1]].WaypointType;
 			if ((targ!=WPT_CREATE_ENEMIES)&&(targ!=WPT_CREATE_PLAYER))
@@ -1616,7 +1616,7 @@ bool valid_ep(EventPoint *ep) {
 
 
 bool valid_mission() {
-	SLONG c0;
+	std::int32_t c0;
 	EventPoint *ep;
 	bool miss_valid=1;
 
@@ -1636,7 +1636,7 @@ bool valid_mission() {
 	fill_wptlist(current_mission);
 
 	if (treasure_counter!=10) {
-		CBYTE msg[100];
+		char msg[100];
 		sprintf(msg,"There are %d treasure items.",treasure_counter);
 		CONSOLE_text(msg,10000);
 	}
@@ -1646,7 +1646,7 @@ bool valid_mission() {
 	// street names when they are not.
 	//
 
-	CBYTE* title = "Is this message a street or place name?";
+	char* title = "Is this message a street or place name?";
 
 	FILE *handle;
 	
@@ -1669,7 +1669,7 @@ bool valid_mission() {
 	}
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i < MAX_EVENTPOINTS; i++)
 		{
@@ -1679,7 +1679,7 @@ bool valid_mission() {
 			{
 				if (ep->Data[0])
 				{
-					extern SLONG is_street_name(CBYTE* str_in);
+					extern std::int32_t is_street_name(char* str_in);
 
 					if (ep->Data[2] == 0xffff)
 					{
@@ -1695,9 +1695,9 @@ bool valid_mission() {
 						//
 					}
 					else
-					if (is_street_name((CBYTE* ) ep->Data[0]))
+					if (is_street_name((char* ) ep->Data[0]))
 					{
-						CBYTE mess[512];
+						char mess[512];
 
 						sprintf(mess, "%s\n\n\"%s\"\n\n(Tell Mark if it misses out a street name or mistakes a normal message for one.)", title, ep->Data[0]);
 

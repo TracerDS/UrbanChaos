@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG barrel_type;
+std::int32_t barrel_type;
 
 //---------------------------------------------------------------
 
@@ -34,7 +34,7 @@ SLONG barrel_type;
 
 bool CALLBACK	barrel_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

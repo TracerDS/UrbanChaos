@@ -17,7 +17,7 @@
 extern void BreakStart();
 extern void BreakEnd(const char* filename);
 extern void BreakTime(const char* name);
-extern void BreakFacets(ULONG facets);
+extern void BreakFacets(std::uint32_t facets);
 extern void BreakFrame();
 
 #else

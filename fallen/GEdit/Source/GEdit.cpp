@@ -28,13 +28,13 @@
 
 //---------------------------------------------------------------
 // from supermap.cpp
-extern UWORD	calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room);
+extern std::uint16_t	calc_inside_for_xyz(std::int32_t x,std::int32_t y,std::int32_t z,std::uint16_t *room);
 
 // from MapView
-extern SLONG GetEventY(EventPoint *ep, bool base=0);
+extern std::int32_t GetEventY(EventPoint *ep, bool base=0);
 
 // from aeng.cpp
-extern UBYTE AENG_transparent_warehouses;
+extern std::uint8_t AENG_transparent_warehouses;
 
 //---------------------------------------------------------------
 
@@ -43,12 +43,12 @@ extern UBYTE AENG_transparent_warehouses;
 //---------------------------------------------------------------
 
 //	Strings.
-CBYTE		*GEDIT_editor_name	=	"Editor Class",
+char		*GEDIT_editor_name	=	"Editor Class",
 			*GEDIT_engine_name	=	"Engine View",
 			*GEDIT_frame_name	=	"Urban Chaos mission editor",
 			*GEDIT_map_name		=	"Map View";
 
-SLONG		df,dl,dy,dp,dd;
+std::int32_t		df,dl,dy,dp,dd;
 
 //	Application instance.
 HINSTANCE	GEDIT_hinstance;
@@ -79,13 +79,13 @@ WNDCLASSEX	GEDIT_class_editor,
 HACCEL GEDIT_accel;
 
 // Mask for waypoints-to-display
-SLONG display_mask = 0xFFFFFFFF;
+std::int32_t display_mask = 0xFFFFFFFF;
 
 // Editing mode (0=waypoints, 1=zones, 2=prims)
-UBYTE edit_mode = 0;
+std::uint8_t edit_mode = 0;
 
 // Jumping on waypoint-tree select
-UBYTE leaping_disabled=0;
+std::uint8_t leaping_disabled=0;
 
 // storage for when a wpt is not selected
 EventPoint dummy_ep;
@@ -93,12 +93,12 @@ EventPoint dummy_ep;
 //
 // prim edit stuff
 //
-SLONG	prim_num	=	125; // helicopter; hey, it's _visible_...
-SLONG	prim_height	=	0;
-SLONG	prim_index	=	-1;
-SLONG	prim_drag	=	0;
-SLONG	prim_dir	=	0;
-SLONG   prim_x		=	0,
+std::int32_t	prim_num	=	125; // helicopter; hey, it's _visible_...
+std::int32_t	prim_height	=	0;
+std::int32_t	prim_index	=	-1;
+std::int32_t	prim_drag	=	0;
+std::int32_t	prim_dir	=	0;
+std::int32_t   prim_x		=	0,
 		prim_z		=	0;
 bool	prim_ware	=	0;
 bool	prim_psxmode=	0;
@@ -115,7 +115,7 @@ INT EditorResult=0;
 
 extern int		waypoint_colour,
 				waypoint_group;
-extern UBYTE	button_colours[][3];
+extern std::uint8_t	button_colours[][3];
 //extern TCHAR	button_classes[][_MAX_PATH];
 
 bool				init_mission_editor();
@@ -133,7 +133,7 @@ extern void ClearLatchedKeys();
 extern HINSTANCE		hGlobalThisInst;
 
 
-CBYTE old_path[_MAX_PATH];
+char old_path[_MAX_PATH];
 
 #ifdef EDITOR
 
@@ -141,7 +141,7 @@ int	gedit()
 {
 	int			result;
 	MSG			msg;
-	UBYTE		block_keyboard_messages;
+	std::uint8_t		block_keyboard_messages;
 
 	is_in_mission_editor = 1;
 
@@ -299,8 +299,8 @@ bool CALLBACK		waypoint_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_INITDIALOG:
 		{
-			SLONG i;
-			CBYTE str[2];
+			std::int32_t i;
+			char str[2];
 
 			SetWindowPos(hWnd, HWND_TOP, 2, 26, 0, 0, SWP_NOSIZE); // relative to parent (tab)
 
@@ -348,9 +348,9 @@ bool CALLBACK		waypoint_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	case	WM_MOUSEWHEEL:
 		if (selected_ep)
 		{
-			SLONG	the_value;
-			SWORD	the_wheel;
-			SLONG	diff;
+			std::int32_t	the_value;
+			std::int16_t	the_wheel;
+			std::int32_t	diff;
 				
 			the_wheel = wParam;    // wheel rotation
 			the_ctrl = GetDlgItem(hWnd,IDC_SPIN1);
@@ -360,7 +360,7 @@ bool CALLBACK		waypoint_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARAM
 //				diff=(the_wheel<0) ? diff=-128 : diff=260;
 //				selected_ep->Y=INDOORS_INDEX=calc_inside_for_xyz(selected_ep->X, GetEventY(selected_ep)+diff, selected_ep->Z,&INDOORS_ROOM);
 
-extern SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room);				
+extern std::int32_t GetNextFloor(EventPoint *ep, std::int8_t dir, std::uint16_t *room);				
 				selected_ep->Y=INDOORS_INDEX=GetNextFloor(selected_ep,the_wheel,&INDOORS_ROOM);
 				if (INDOORS_INDEX) 
 					INDOORS_DBUILDING=inside_storeys[INDOORS_INDEX].Building;
@@ -395,7 +395,7 @@ extern SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room);
 			case IDC_SPIN1:
 			{
 				LPNMUPDOWN ud = (LPNMUPDOWN)lParam;
-				SLONG newpos = (ud->iPos+ud->iDelta);
+				std::int32_t newpos = (ud->iPos+ud->iDelta);
 				if ((newpos<0)||(newpos>1024)) { // that's bad
 					return true;
 				} else {
@@ -456,35 +456,35 @@ extern SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room);
  *		Condition Tab	--	tab dialog procedure
  */
 
-void condition_tab_depend1(HWND hWnd, UBYTE enable) {
+void condition_tab_depend1(HWND hWnd, std::uint8_t enable) {
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_DEPEND1),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT1),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_SPIN1),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_BUTTON1),enable);
 //	EnableWindow(GetDlgItem(hWnd,IDC_CHECK1),enable);
 }
-void condition_tab_depend2(HWND hWnd, UBYTE enable) {
+void condition_tab_depend2(HWND hWnd, std::uint8_t enable) {
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_DEPEND2),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT2),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_SPIN2),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_BUTTON2),enable);
 }
-void condition_tab_timer(HWND hWnd, UBYTE enable) {
+void condition_tab_timer(HWND hWnd, std::uint8_t enable) {
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_TIME),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT3),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_SPIN3),enable);
 	if (enable) SetWindowText(GetDlgItem(hWnd,IDC_STATIC_TIME),"Time:");
 }
-void condition_tab_radius(HWND hWnd, UBYTE enable) {
+void condition_tab_radius(HWND hWnd, std::uint8_t enable) {
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_RADIUS),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT4),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_SPIN4),enable);
 }
-void condition_tab_shout(HWND hWnd, UBYTE enable) {
+void condition_tab_shout(HWND hWnd, std::uint8_t enable) {
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_LISTEN),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT5),enable);
 }
-void condition_tab_counter(HWND hWnd, UBYTE enable) {
+void condition_tab_counter(HWND hWnd, std::uint8_t enable) {
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_TIME),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT3),enable);
 	EnableWindow(GetDlgItem(hWnd,IDC_SPIN3),enable);
@@ -496,7 +496,7 @@ void condition_tab_counter(HWND hWnd, UBYTE enable) {
 }
 
 void condition_tab_update(HWND hWnd) {
-	SLONG ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);
+	std::int32_t ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);
 
 	condition_tab_depend1(hWnd,WaypointUses[ndx] & WPU_DEPEND);
 	condition_tab_depend2(hWnd,WaypointUses[ndx] & WPU_BOOLEAN);
@@ -510,7 +510,7 @@ void condition_tab_update(HWND hWnd) {
 
 bool CALLBACK		condition_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam ) {
 	HWND  the_ctrl, hwndParent = GetParent(hWnd); 
-	SLONG c0;
+	std::int32_t c0;
 	LPTSTR lbitem_str;
 /*
 	if (message==WM_MOUSEWHEEL) {
@@ -583,10 +583,10 @@ bool CALLBACK		condition_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARA
 
 	case	WM_MOUSEWHEEL:
 		{
-		SLONG	ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);
-		SLONG	the_value;
-		SWORD	the_wheel;
-		SWORD	ctlidx, scale1, scale2;
+		std::int32_t	ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);
+		std::int32_t	the_value;
+		std::int16_t	the_wheel;
+		std::int16_t	ctlidx, scale1, scale2;
 
 			switch(ndx) {
 			case TT_RADIUS:
@@ -683,7 +683,7 @@ bool CALLBACK		condition_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARA
 					selected_ep->Radius	= (SendMessage(GetDlgItem(hWnd,IDC_SPIN3),UDM_GETPOS,0,0)&0xffff);
 					if (WaypointUses[SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0)] & WPU_TIME) selected_ep->Radius*=100;
 
-					CBYTE msg[20];
+					char msg[20];
 					sprintf(msg,"rad: %d\n",selected_ep->Radius);
 				    CONSOLE_text(msg,5000);
 				}*/
@@ -716,10 +716,10 @@ bool CALLBACK		condition_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARA
  */
 
 void action_tab_update(HWND hWnd) {
-	SLONG ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);
+	std::int32_t ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO1),CB_GETCURSEL,0,0);
 	EnableWindow(GetDlgItem(hWnd,IDC_BUTTON1),(selected_ep&&TypeHasProperties(ndx+1)));
 	ndx = SendMessage(GetDlgItem(hWnd,IDC_COMBO2),CB_GETCURSEL,0,0);
-	CBYTE enabled = (ndx==2);
+	char enabled = (ndx==2);
 	EnableWindow(GetDlgItem(hWnd,IDC_STATIC_DELAY),enabled);
 	EnableWindow(GetDlgItem(hWnd,IDC_EDIT1),enabled);
 	EnableWindow(GetDlgItem(hWnd,IDC_SPIN1),enabled);
@@ -727,7 +727,7 @@ void action_tab_update(HWND hWnd) {
 
 bool CALLBACK		action_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam ) {
 	HWND  the_ctrl, hwndParent = GetParent(hWnd); 
-	SLONG c0;
+	std::int32_t c0;
 	LPTSTR lbitem_str;
 /*
 	if (message==WM_MOUSEWHEEL) {
@@ -765,8 +765,8 @@ bool CALLBACK		action_tab_proc (HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 	case	WM_MOUSEWHEEL:
 		{
-		SLONG	the_value;
-		SWORD	the_wheel;
+		std::int32_t	the_value;
+		std::int16_t	the_wheel;
 
 			the_wheel = wParam;    // wheel rotation
 			the_ctrl = GetDlgItem(hWnd,IDC_SPIN1);
@@ -819,7 +819,7 @@ HRESULT combo_draw(HWND hWnd, WPARAM wParam, LPARAM lParam) {
 	LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
 	HBRUSH hBr;
 	RECT rc;
-	SLONG bk,tx,col;
+	std::int32_t bk,tx,col;
 
 	FillRect(item->hDC, &item->rcItem, (HBRUSH) GetStockObject(WHITE_BRUSH));
 
@@ -909,13 +909,13 @@ bool CALLBACK		mission_editor_proc	(
 //			res=CreateToolbarEx(hWnd, WS_CHILD|WS_VISIBLE, IDC_TOOLBAR1, 2, GEDIT_hinstance, IDB_TOOLBAR, btns, 2, 24, 24, 16, 16, sizeof(TBBUTTON));
 			if (!res) {
 				DWORD err=GetLastError();
-				CBYTE msg[800];
+				char msg[800];
 				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, err, 0, msg, 256, nullptr);
 				TRACE("bugger: ");
 				TRACE(msg);
 
 			} else {
-//				CBYTE msg[]="Edit Waypoints\0Edit Zones\0\0";
+//				char msg[]="Edit Waypoints\0Edit Zones\0\0";
 //				SendMessage(res,TB_ADDSTRING,0,(long)msg);
 				SendMessage(res,TB_SETPARENT,(WPARAM)hWnd,0);
 			}
@@ -991,7 +991,7 @@ bool CALLBACK		mission_editor_proc	(
 				break;
 			case 2:
 				{
-					SWORD the_wheel = wParam;    // wheel rotation
+					std::int16_t the_wheel = wParam;    // wheel rotation
 					if (GetAsyncKeyState(VK_SHIFT)&(1<<15)) {
 						prim_height+=(the_wheel<0) ? -256 : 256;
 					} else {
@@ -1001,7 +1001,7 @@ bool CALLBACK		mission_editor_proc	(
 						if (prim_height<0) prim_height=0;
 					}
 					if (prim_index!=-1) {
-						UBYTE flag;
+						std::uint8_t flag;
 //						OB_ob[prim_index].flags=(!prim_height) ? OB_FLAG_ON_FLOOR : 0;
 						OB_ob[prim_index].y=prim_height+PAP_calc_map_height_at(prim_x,prim_z);
 
@@ -1077,13 +1077,13 @@ bool CALLBACK		mission_editor_proc	(
 						if (prim_index!=-1) {
 							if (MessageBox(hWnd,"Are you sure you want to trash ALL prims on this level of the same type as the one you have selected now?",
 								"Delete Prims", MB_ICONEXCLAMATION|MB_OKCANCEL)==IDOK) {
-								SLONG x,z,ct=0;
-								CBYTE str[255];
+								std::int32_t x,z,ct=0;
+								char str[255];
 
 								for (x=0;x<OB_SIZE;x++)
 									for(z=0;z<OB_SIZE;z++) {
 										OB_Info *oi=OB_find(x,z);
-										UBYTE oict=0;
+										std::uint8_t oict=0;
 										while((oict<31)&&oi->prim)
 										{
 											if (oi->prim==prim_num) {
@@ -1142,7 +1142,7 @@ bool CALLBACK		mission_editor_proc	(
 					return true;
 
 				case	IDC_CHECK1:
-extern void MAV_calc_height_array(SLONG ignore_warehouses);
+extern void MAV_calc_height_array(std::int32_t ignore_warehouses);
 					AENG_transparent_warehouses = SendMessage(GetDlgItem(hWnd,IDC_CHECK1),BM_GETSTATE,0,0) & BST_CHECKED;
 					MAV_calc_height_array(AENG_transparent_warehouses);
 					return true;
@@ -1418,9 +1418,9 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 //---------------------------------------------------------------
 /*
-void	controls_to_ep(EventPoint *ep,ULONG flags)
+void	controls_to_ep(EventPoint *ep,std::uint32_t flags)
 {
-	SBYTE			wp_type;
+	std::int8_t			wp_type;
 
 	return; // move along, there's nothing to see here
 
@@ -1444,7 +1444,7 @@ void	controls_to_ep(EventPoint *ep,ULONG flags)
 
 	//	Get ID.
 	if(flags&UD_COLOUR)
-		ep->Colour		=	waypoint_colour;
+		ep->Color		=	waypoint_colour;
 	if(flags&UD_GROUP)
 		ep->Group		=	waypoint_group;
 
@@ -1485,11 +1485,11 @@ void	controls_to_ep(EventPoint *ep,ULONG flags)
 */
 //---------------------------------------------------------------
 /*
-void	ep_to_controls(EventPoint *ep,ULONG flags)
+void	ep_to_controls(EventPoint *ep,std::uint32_t flags)
 {
-	CBYTE			edit_text[2];
+	char			edit_text[2];
 	WPARAM			w_param;
-	CBYTE			msg[255];
+	char			msg[255];
 
 	return; // move along, there's nothing to see here
 
@@ -1528,8 +1528,8 @@ void	ep_to_controls(EventPoint *ep,ULONG flags)
 		SendMessage	(
 						GEDIT_edit_wnd,
 						WM_COMMAND,
-						IDC_CUSTOM_1+ep->Colour,
-						(LPARAM)GetDlgItem(GEDIT_edit_wnd,IDC_CUSTOM_1+ep->Colour)
+						IDC_CUSTOM_1+ep->Color,
+						(LPARAM)GetDlgItem(GEDIT_edit_wnd,IDC_CUSTOM_1+ep->Color)
 					);
 
 	//	Set the group.
@@ -1659,9 +1659,9 @@ void	menu_workspace_saved()
  *		Version 2.0 control<-->ep routines
  */
 
-void ep_to_controls2(EventPoint *ep, SWORD tabpage, HWND tab) {
+void ep_to_controls2(EventPoint *ep, std::int16_t tabpage, HWND tab) {
 	HWND ctl;
-	CBYTE msg[800];
+	char msg[800];
 
 	if (!tab) tab=TABCTL_gethwnd(GEDIT_edit_wnd,IDC_TAB1);
 //	if ((!ep)||(!tab)) return;
@@ -1672,9 +1672,9 @@ void ep_to_controls2(EventPoint *ep, SWORD tabpage, HWND tab) {
 
 	switch (tabpage) {
 	case 0: // waypoint info
-		SendMessage(GetDlgItem(tab,IDC_COMBO1),CB_SETCURSEL,ep->Colour,0);
+		SendMessage(GetDlgItem(tab,IDC_COMBO1),CB_SETCURSEL,ep->Color,0);
 		SendMessage(GetDlgItem(tab,IDC_COMBO2),CB_SETCURSEL,ep->Group,0);
-		waypoint_colour = ep->Colour;
+		waypoint_colour = ep->Color;
 		SendMessage(GetDlgItem(tab,IDC_SPIN1),UDM_SETPOS,0,MAKELONG(ep->Y-PAP_calc_map_height_at(ep->X, ep->Z),0));
 		break;
 	case 1:
@@ -1715,13 +1715,13 @@ void ep_to_controls2(EventPoint *ep, SWORD tabpage, HWND tab) {
 	}
 }
 
-bool UseCheck(SLONG newtype, SLONG oldtype, SLONG mask) {
+bool UseCheck(std::int32_t newtype, std::int32_t oldtype, std::int32_t mask) {
   return ((WaypointUses[newtype] & mask)&&!(WaypointUses[oldtype] & mask));
 }
 
-void controls_to_ep2(EventPoint *ep, SWORD tabpage, HWND tab) {
+void controls_to_ep2(EventPoint *ep, std::int16_t tabpage, HWND tab) {
 //	HWND ctl;
-	SLONG ndx;
+	std::int32_t ndx;
 
 	if (!tab) tab=TABCTL_gethwnd(GEDIT_edit_wnd,IDC_TAB1);
 //	if ((!ep)||(!tab)) return;
@@ -1734,21 +1734,21 @@ void controls_to_ep2(EventPoint *ep, SWORD tabpage, HWND tab) {
 
 	switch (tabpage) {
 	case 0: // waypoint info
-		ep->Colour		= SendMessage(GetDlgItem(tab,IDC_COMBO1),CB_GETCURSEL,0,0);
+		ep->Color		= SendMessage(GetDlgItem(tab,IDC_COMBO1),CB_GETCURSEL,0,0);
 		ep->Group		= SendMessage(GetDlgItem(tab,IDC_COMBO2),CB_GETCURSEL,0,0);
-		waypoint_colour = ep->Colour;
+		waypoint_colour = ep->Color;
 		break;
 	case 1:
 		ndx=SendMessage(GetDlgItem(tab,IDC_COMBO1),CB_GETCURSEL,0,0);
 /*		if ( ((ndx==TT_SHOUT_ALL)||(ndx==TT_SHOUT_ANY))
 			&& ((ep->TriggeredBy!=TT_SHOUT_ANY)&&(ep->TriggeredBy!=TT_SHOUT_ANY)) )
-			ep->Radius = (SLONG) malloc(_MAX_PATH);
+			ep->Radius = (std::int32_t) malloc(_MAX_PATH);
 		if ( ((ndx!=TT_SHOUT_ALL)&&(ndx!=TT_SHOUT_ANY))
 			&& ((ep->TriggeredBy==TT_SHOUT_ALL)||(ep->TriggeredBy==TT_SHOUT_ANY)) )
 			free((void*)ep->Radius);*/
 
 		if (UseCheck(ndx,ep->TriggeredBy,WPU_RADTEXT))
-			ep->Radius = (SLONG) malloc(_MAX_PATH);
+			ep->Radius = (std::int32_t) malloc(_MAX_PATH);
 
 		if (UseCheck(ep->TriggeredBy,ndx,WPU_RADTEXT))
 			free((void*)ep->Radius);
@@ -1796,7 +1796,7 @@ void controls_to_ep2(EventPoint *ep, SWORD tabpage, HWND tab) {
 		ep->OnTrigger	= SendMessage(GetDlgItem(tab,IDC_COMBO2),CB_GETCURSEL,0,0)+1;
 		ep->AfterTimer	= LOWORD(SendMessage(GetDlgItem(tab,IDC_SPIN1),UDM_GETPOS,0,0));
 		{
-			CBYTE msg[20];
+			char msg[20];
 			sprintf(msg,"timer: %d",ep->AfterTimer);
 //			CONSOLE_text(msg,1000);
 		}

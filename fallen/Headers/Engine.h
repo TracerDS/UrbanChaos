@@ -13,7 +13,7 @@ typedef struct
 	float	CameraX,
 			CameraY,
 			CameraZ;
-	SLONG	CameraAngle,
+	std::int32_t	CameraAngle,
 			CameraRoll,
 			CameraTilt,
 			CameraRAngle;
@@ -69,7 +69,7 @@ typedef struct
 				ViewHeight,
 				ViewWidth,
 				Lens;
-	SLONG		BucketSize;
+	std::int32_t		BucketSize;
 	M33			CameraMatrix;
 }Engine;
 
@@ -104,10 +104,10 @@ void engine_fiddle_prim_textures();
 // fiddled position are returned.
 //
 
-SLONG TEXTURE_get_fiddled_position(
-		SLONG  square_u,
-		SLONG  square_v,
-		SLONG  page,
+std::int32_t TEXTURE_get_fiddled_position(
+		std::int32_t  square_u,
+		std::int32_t  square_v,
+		std::int32_t  page,
 		float *u,
 		float *v);
 
@@ -115,18 +115,18 @@ SLONG TEXTURE_get_fiddled_position(
 // Debugging aids.
 //
 
-void e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void e_draw_3d_mapwho         (SLONG x1,SLONG z1);
-void e_draw_3d_mapwho_y       (SLONG x1,SLONG y1,SLONG z1);
+void e_draw_3d_line           (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void e_draw_3d_line_dir       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void e_draw_3d_line_col       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void e_draw_3d_mapwho         (std::int32_t x1,std::int32_t z1);
+void e_draw_3d_mapwho_y       (std::int32_t x1,std::int32_t y1,std::int32_t z1);
 
 //
 // Messages drawn straight to the screen.
 //
 
-void MSG_add(CBYTE* message, ...);
+void MSG_add(char* message, ...);
 
 //
 // Engine stuff to help you draw straight to the screen...
@@ -134,7 +134,7 @@ void MSG_add(CBYTE* message, ...);
 
 void ENGINE_clear_screen();
 void ENGINE_flip();
-SLONG ENGINE_lock();		// Locks the screen.. returns true on success.
+std::int32_t ENGINE_lock();		// Locks the screen.. returns true on success.
 void ENGINE_unlock();
 
 #include "..\ddengine\headers\font.h"

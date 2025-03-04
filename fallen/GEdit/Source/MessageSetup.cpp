@@ -20,12 +20,12 @@
 // Returns true if it thinks the given string is a place or street name.
 //
 
-SLONG is_street_name(CBYTE* str_in)
+std::int32_t is_street_name(char* str_in)
 {
-	SLONG  i;
-	SLONG  num_spaces;
-	CBYTE  str[512];
-	CBYTE* ch;
+	std::int32_t  i;
+	std::int32_t  num_spaces;
+	char  str[512];
+	char* ch;
 
 	//
 	// Create a local uppercase version.
@@ -68,7 +68,7 @@ SLONG is_street_name(CBYTE* str_in)
 	// Words the string can't contain.
 	// 
 
-	CBYTE* dont_contain[] =
+	char* dont_contain[] =
 	{
 		" HIM",
 		" THEM",
@@ -221,7 +221,7 @@ SLONG is_street_name(CBYTE* str_in)
 	// Words the string must contain.
 	//
 
-	CBYTE* must_contain[] =
+	char* must_contain[] =
 	{
 		"STREET",
 		"DRV",
@@ -272,10 +272,10 @@ SLONG is_street_name(CBYTE* str_in)
 
 //---------------------------------------------------------------
 
-CBYTE		*message_text;
-SLONG		 message_time, message_who;
+char		*message_text;
+std::int32_t		 message_time, message_who;
 
-extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
+extern char* WaypointExtra(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -283,9 +283,9 @@ extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 bool	CALLBACK	ms_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG len, ep, c0;
+	std::int32_t len, ep, c0;
 	HWND  the_ctrl;
-	CBYTE str[STR_LEN], msg[STR_LEN];
+	char str[STR_LEN], msg[STR_LEN];
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
 
 
@@ -367,7 +367,7 @@ bool	CALLBACK	ms_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							0,0
 						)+1;
 			if (message_text) free(message_text);
-			message_text =	(CBYTE*)malloc(len);
+			message_text =	(char*)malloc(len);
 			ZeroMemory(message_text,len);
 			
 			SendMessage	(
@@ -415,13 +415,13 @@ void	do_message_setup(EventPoint *the_ep)
 {
 
 	//	Set the dialog.
-	message_text	=	(CBYTE*)the_ep->Data[0];
+	message_text	=	(char*)the_ep->Data[0];
 	message_time	=	the_ep->Data[1];
 	message_who 	=	the_ep->Data[2];
 	if (!message_time) message_time=4;
 	if(!message_text)
 	{
-		message_text	=	(CBYTE*)malloc(STR_LEN);
+		message_text	=	(char*)malloc(STR_LEN);
 		ZeroMemory(message_text,STR_LEN);
 		SetEPTextID(the_ep);
 	}
@@ -435,7 +435,7 @@ void	do_message_setup(EventPoint *the_ep)
 				);
 
 	//	Get the data.
-	the_ep->Data[0]		=	(SLONG)message_text;	//	
+	the_ep->Data[0]		=	(std::int32_t)message_text;	//	
 	the_ep->Data[1]		=	message_time;
 	the_ep->Data[2]		=	message_who;
 }
@@ -443,10 +443,10 @@ void	do_message_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 /*
-CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg) {
+char	*get_message_message(EventPoint *ep, char* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
-		strcpy(msg,(CBYTE*)ep->Data[0]);
+		strcpy(msg,(char*)ep->Data[0]);
 	return msg;
 }
 */

@@ -17,11 +17,11 @@
 
 //---------------------------------------------------------------
 
-CBYTE		*converse_text;
-SLONG		 converse_p1, converse_p2;
-SLONG        converse_grab_camera;
+char		*converse_text;
+std::int32_t		 converse_p1, converse_p2;
+std::int32_t        converse_grab_camera;
 
-extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
+extern char* WaypointExtra(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -29,12 +29,12 @@ extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 bool	CALLBACK	cv_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG len;
+	std::int32_t len;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
-	CBYTE		msg[STR_LEN],str[STR_LEN];
+	char		msg[STR_LEN],str[STR_LEN];
 	HWND		the_ctrl, the_ctrl2;
-	SLONG		ep;
-	SLONG		c0	=	0;
+	std::int32_t		ep;
+	std::int32_t		c0	=	0;
 
 	switch(message)
 	{
@@ -93,7 +93,7 @@ bool	CALLBACK	cv_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							0,0
 						)+1;
 			if (converse_text) free(converse_text);
-			converse_text =	(CBYTE*)malloc(len);
+			converse_text =	(char*)malloc(len);
 			ZeroMemory(converse_text,len);
 			
 			SendMessage	(
@@ -142,13 +142,13 @@ bool	CALLBACK	cv_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 void	do_converse_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
-	converse_text	=	(CBYTE*)the_ep->Data[0];
+	converse_text	=	(char*)the_ep->Data[0];
 	converse_p1  	=	the_ep->Data[1];
 	converse_p2  	=	the_ep->Data[2];
 	converse_grab_camera = the_ep->Data[3];
 	if(!converse_text)
 	{
-		converse_text	=	(CBYTE*)malloc(STR_LEN);
+		converse_text	=	(char*)malloc(STR_LEN);
 		ZeroMemory(converse_text,STR_LEN);
 		SetEPTextID(the_ep);
 	}
@@ -162,7 +162,7 @@ void	do_converse_setup(EventPoint *the_ep)
 				);
 
 	//	Get the data.
-	the_ep->Data[0]		=	(SLONG)converse_text;	//	
+	the_ep->Data[0]		=	(std::int32_t)converse_text;	//	
 	the_ep->Data[1]		=	converse_p1;
 	the_ep->Data[2]		=	converse_p2;
 	the_ep->Data[3]		=	converse_grab_camera;
@@ -171,10 +171,10 @@ void	do_converse_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 /*
-CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg) {
+char	*get_message_message(EventPoint *ep, char* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
-		strcpy(msg,(CBYTE*)ep->Data[0]);
+		strcpy(msg,(char*)ep->Data[0]);
 	return msg;
 }
 */

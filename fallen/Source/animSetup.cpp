@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG anim_picked;
+std::int32_t anim_picked;
 
 //---------------------------------------------------------------
 
@@ -34,7 +34,7 @@ SLONG anim_picked;
 
 bool CALLBACK	animpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

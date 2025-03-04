@@ -18,13 +18,13 @@
 
 //---------------------------------------------------------------
 
-SLONG	vfx_types,vfx_scale;
+std::int32_t	vfx_types,vfx_scale;
 
 //---------------------------------------------------------------
 
 bool	CALLBACK	vfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

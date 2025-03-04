@@ -14,7 +14,7 @@
 #ifndef	PSX
 #include	"..\editor\headers\prim_draw.h"
 #else
-extern void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3);
+extern void rotate_obj(std::int16_t xangle,std::int16_t yangle,std::int16_t zangle, Matrix33 *r3);
 
 #endif
 /*
@@ -53,8 +53,8 @@ struct KeyFrameElement	*the_elements;
 struct GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
 struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
 
-SLONG next_game_chunk=0;
-SLONG next_anim_chunk=0;
+std::int32_t next_game_chunk=0;
+std::int32_t next_anim_chunk=0;
 
 //
 // The bounding boxes of the anim prims in the initial position of
@@ -66,11 +66,11 @@ AnimPrimBbox anim_prim_bbox[MAX_ANIM_CHUNKS];
 
 
 
-extern SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern std::int32_t nearest_point_on_line_and_dist(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z);
 
-SLONG calc_angle(SLONG dx,SLONG dz)
+std::int32_t calc_angle(std::int32_t dx,std::int32_t dz)
 {
-	SLONG	angle=0;
+	std::int32_t	angle=0;
 
 	angle=Arctan(-dx,dz)+1024;
 
@@ -87,9 +87,9 @@ SLONG calc_angle(SLONG dx,SLONG dz)
 
 }
 
-SLONG angle_diff(SLONG angle1,SLONG angle2)
+std::int32_t angle_diff(std::int32_t angle1,std::int32_t angle2)
 {
-	SLONG	diff;
+	std::int32_t	diff;
 
 	//0 .. 2047  - 0--2047
 	//0-2047 = -2047    ==-1
@@ -110,9 +110,9 @@ SLONG angle_diff(SLONG angle1,SLONG angle2)
 	return diff;
 }
 
-SLONG valid_grab_angle(SLONG angle,SLONG dx,SLONG dz)
+std::int32_t valid_grab_angle(std::int32_t angle,std::int32_t dx,std::int32_t dz)
 {
-	SLONG	wall_angle,diff;
+	std::int32_t	wall_angle,diff;
 	return(1);
 
 	wall_angle=calc_angle(dx,dz);
@@ -132,19 +132,19 @@ SLONG valid_grab_angle(SLONG angle,SLONG dx,SLONG dz)
 }
 
 
-extern void e_draw_3d_mapwho(SLONG x1,SLONG z1);
-extern void highlight_face(SLONG face);
+extern void e_draw_3d_mapwho(std::int32_t x1,std::int32_t z1);
+extern void highlight_face(std::int32_t face);
 
 #define	ON_MAP(x,z) (((x)>=0) && ((z)>=0) && ((x)<MAP_WIDTH) && ((z)<MAP_HEIGHT))
 
-SLONG find_cable_y_along(struct DFacet *p_facet,SLONG along)
+std::int32_t find_cable_y_along(struct DFacet *p_facet,std::int32_t along)
 {
-	SLONG	max_at,y;
-	SLONG	angle_step1,angle_step2,count;
+	std::int32_t	max_at,y;
+	std::int32_t	angle_step1,angle_step2,count;
 	
 
-	angle_step1=(SWORD)p_facet->StyleIndex;
-	angle_step2=(SWORD)p_facet->Building;
+	angle_step1=(std::int16_t)p_facet->StyleIndex;
+	angle_step2=(std::int16_t)p_facet->Building;
 	count=p_facet->Height;
 
 	//
@@ -160,7 +160,7 @@ SLONG find_cable_y_along(struct DFacet *p_facet,SLONG along)
 
 	if(along<max_at)
 	{
-		SLONG	step,angle;
+		std::int32_t	step,angle;
 
 		step=(along*count);
 		step=(step*angle_step1)>>CABLE_ALONG_SHIFT;
@@ -170,7 +170,7 @@ SLONG find_cable_y_along(struct DFacet *p_facet,SLONG along)
 	}
 	else
 	{
-		SLONG	step,angle;
+		std::int32_t	step,angle;
 
 		step=((CABLE_ALONG_MAX-along)*count);
 		step=-(step*angle_step2)>>CABLE_ALONG_SHIFT;
@@ -181,7 +181,7 @@ SLONG find_cable_y_along(struct DFacet *p_facet,SLONG along)
 	}
 
 	{
-		SLONG	dy;
+		std::int32_t	dy;
 		dy=p_facet->Y[1]-p_facet->Y[0];
 		dy=((dy*along)>>CABLE_ALONG_SHIFT)+p_facet->Y[0];
 
@@ -191,16 +191,16 @@ SLONG find_cable_y_along(struct DFacet *p_facet,SLONG along)
 	return(y);
 }
 
-SLONG check_grab_cable_facet(SLONG facet,SLONG *grab_x,SLONG *grab_y,SLONG *grab_z,SLONG *grab_angle,SLONG radius,SLONG dy,SLONG x,SLONG y,SLONG z)
+std::int32_t check_grab_cable_facet(std::int32_t facet,std::int32_t *grab_x,std::int32_t *grab_y,std::int32_t *grab_z,std::int32_t *grab_angle,std::int32_t radius,std::int32_t dy,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	DFacet *p_facet;
-	SLONG	near_x,near_z,along;
-	SLONG	dist;
-	SLONG	cable_y;
+	std::int32_t	near_x,near_z,along;
+	std::int32_t	dist;
+	std::int32_t	cable_y;
 
 	p_facet=&dfacets[facet];
 
-extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along);
+extern std::int32_t nearest_point_on_line_and_dist_and_along(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z,std::int32_t *ret_along);
 
 	dist = nearest_point_on_line_and_dist_and_along(
 			p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -231,7 +231,7 @@ extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG
 	*grab_z=near_z;
 	*grab_y=cable_y;
 	{
-		SLONG	dx,dz,angle;
+		std::int32_t	dx,dz,angle;
 
 		dx = p_facet->x[1] - p_facet->x[0] << 8;
 		dz = p_facet->z[1] - p_facet->z[0] << 8;
@@ -241,17 +241,17 @@ extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG
 	return(1);
 }
 
-SLONG check_grab_ladder_facet(SLONG facet,SLONG *grab_x,SLONG *grab_y,SLONG *grab_z,SLONG *grab_angle,SLONG radius,SLONG dy,SLONG x,SLONG y,SLONG z)
+std::int32_t check_grab_ladder_facet(std::int32_t facet,std::int32_t *grab_x,std::int32_t *grab_y,std::int32_t *grab_z,std::int32_t *grab_angle,std::int32_t radius,std::int32_t dy,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	DFacet *p_facet;
-	SLONG	near_x,near_z,along;
-	SLONG	dist;
-	SLONG	cable_y;
-	SLONG	top,bot;
+	std::int32_t	near_x,near_z,along;
+	std::int32_t	dist;
+	std::int32_t	cable_y;
+	std::int32_t	top,bot;
 
 	p_facet=&dfacets[facet];
 
-extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along);
+extern std::int32_t nearest_point_on_line_and_dist_and_along(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z,std::int32_t *ret_along);
 
 	dist = nearest_point_on_line_and_dist_and_along(
 				p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -290,19 +290,19 @@ extern SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG
 	return(1);
 }
 
-SLONG get_cable_along(SLONG facet,SLONG ax,SLONG az)
+std::int32_t get_cable_along(std::int32_t facet,std::int32_t ax,std::int32_t az)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t z2;
 
 
-	SLONG along;
+	std::int32_t along;
 
 	struct	DFacet	*p_facet;
 
@@ -338,55 +338,55 @@ SLONG get_cable_along(SLONG facet,SLONG ax,SLONG az)
 	return along;
 }
 
-extern SLONG nearest_point_on_line_and_dist_calc_y(	SLONG x1, SLONG y1,SLONG z1,	SLONG x2, SLONG y2,SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_y,SLONG *ret_z);
+extern std::int32_t nearest_point_on_line_and_dist_calc_y(	std::int32_t x1, std::int32_t y1,std::int32_t z1,	std::int32_t x2, std::int32_t y2,std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_y,std::int32_t *ret_z);
 
 
-SLONG grab_px[4],grab_py[4],grab_pz[4];
-	SLONG	best_dist;
-	SLONG	best_x;
-	SLONG	best_y;
-	SLONG	best_z;
-	SLONG	best_angle;
+std::int32_t grab_px[4],grab_py[4],grab_pz[4];
+	std::int32_t	best_dist;
+	std::int32_t	best_x;
+	std::int32_t	best_y;
+	std::int32_t	best_z;
+	std::int32_t	best_angle;
 
 
-SLONG find_grab_face(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		SLONG  radius,
-		SLONG  dy,
-		SLONG  angle,
-		SLONG *grab_x,
-		SLONG *grab_y,
-		SLONG *grab_z,
-		SLONG *grab_angle,
-		SLONG  ignore_building,
-		SLONG  trench,
-		SLONG *type,
+std::int32_t find_grab_face(
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::int32_t  radius,
+		std::int32_t  dy,
+		std::int32_t  angle,
+		std::int32_t *grab_x,
+		std::int32_t *grab_y,
+		std::int32_t *grab_z,
+		std::int32_t *grab_angle,
+		std::int32_t  ignore_building,
+		std::int32_t  trench,
+		std::int32_t *type,
 		Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
-	SLONG	mx,mz;
+	std::int32_t	mx,mz;
 
-	SLONG	index;
-	SLONG	face;
-	SLONG	near_x,near_y,near_z;
-	SLONG	dist;
-	SLONG	mid_x,mid_z;
-	SLONG	angle_to_face;
-	SLONG	count=0,count2=0;
-	SLONG	cable=0;
+	std::int32_t	index;
+	std::int32_t	face;
+	std::int32_t	near_x,near_y,near_z;
+	std::int32_t	dist;
+	std::int32_t	mid_x,mid_z;
+	std::int32_t	angle_to_face;
+	std::int32_t	count=0,count2=0;
+	std::int32_t	cable=0;
 
-	SLONG  thing;
+	std::int32_t  thing;
 	Thing *p_thing;
-	SLONG	pass=0;
+	std::int32_t	pass=0;
 
 	best_dist = radius;
 	*type=0;
@@ -414,7 +414,7 @@ SLONG find_grab_face(
 	for (mx = x1; mx <= x2; mx++)
 	for (mz = z1; mz <= z2; mz++)
 	{
-		SLONG	facet,exit;
+		std::int32_t	facet,exit;
 
 		index = PAP_2LO(mx,mz).ColVectHead;
 
@@ -429,7 +429,7 @@ SLONG find_grab_face(
 			}
 			if(dfacets[facet].FacetType==STOREY_TYPE_CABLE)
 			{
-				SLONG	grab;
+				std::int32_t	grab;
 				grab=check_grab_cable_facet(facet,grab_x,grab_y,grab_z,grab_angle,radius+30,dy,x,y,z);
 				if(grab)
 				{
@@ -441,7 +441,7 @@ SLONG find_grab_face(
 			else
 			if(dfacets[facet].FacetType==STOREY_TYPE_LADDER)
 			{
-				SLONG	grab;
+				std::int32_t	grab;
 				grab=check_grab_ladder_facet(facet,grab_x,grab_y,grab_z,grab_angle,radius,dy,x,y,z);
 				if(grab)
 				{
@@ -513,11 +513,11 @@ round_again:;
 
 //			if (face > 0)
 			{
-				SLONG	p;
-				SLONG	c0;
-				SLONG	p0,p1,p2,p3;
-				SLONG   face_angle;
-				SLONG   dangle;
+				std::int32_t	p;
+				std::int32_t	c0;
+				std::int32_t	p0,p1,p2,p3;
+				std::int32_t   face_angle;
+				std::int32_t   dangle;
 
 				PrimFace4 *p_f4;
 				struct	RoofFace4	*rf;
@@ -598,7 +598,7 @@ round_again:;
 						// The face is in y-range.
 						//
 
-						UBYTE point_order[4] = {0, 1, 3, 2};
+						std::uint8_t point_order[4] = {0, 1, 3, 2};
 
 						for (i = 0; i < 4; i++)
 						{
@@ -611,8 +611,8 @@ round_again:;
 							//
 							//i==0 is north edge, i==1 is east edge i==2 south edge i==3 is west edge
 							//
-							ULONG faceflag;
-							ULONG edgeflag;
+							std::uint32_t faceflag;
+							std::uint32_t edgeflag;
 							
 							if(pass==0)
 							{
@@ -730,10 +730,10 @@ round_again:;
 												//
 
 												{
-													SLONG fx1;
-													SLONG fz1;
-													SLONG fx2;
-													SLONG fz2;
+													std::int32_t fx1;
+													std::int32_t fz1;
+													std::int32_t fx2;
+													std::int32_t fz2;
 
 													fx1 = near_x;
 													fz1 = near_z;
@@ -779,21 +779,21 @@ round_again:;
 											//
 
 											
-											SLONG cx1 = near_x;
-											SLONG cy1 = grab_py[p0];
-											SLONG cz1 = near_z;
+											std::int32_t cx1 = near_x;
+											std::int32_t cy1 = grab_py[p0];
+											std::int32_t cz1 = near_z;
 
-											SLONG cx2 = near_x;
-											SLONG cy2 = grab_py[p0];
-											SLONG cz2 = near_z;
+											std::int32_t cx2 = near_x;
+											std::int32_t cy2 = grab_py[p0];
+											std::int32_t cz2 = near_z;
 
-											SLONG cx3 = near_x;
-											SLONG cy3 = grab_py[p0];
-											SLONG cz3 = near_z;
+											std::int32_t cx3 = near_x;
+											std::int32_t cy3 = grab_py[p0];
+											std::int32_t cz3 = near_z;
 
-											SLONG cx4 = near_x;
-											SLONG cy4 = grab_py[p0];
-											SLONG cz4 = near_z;
+											std::int32_t cx4 = near_x;
+											std::int32_t cy4 = grab_py[p0];
+											std::int32_t cz4 = near_z;
 
 
 											#define CHECK_WIDTH		32
@@ -804,8 +804,8 @@ round_again:;
 											// snap to being 90 degrees.
 											//
 
-											SLONG dx = SIGN((grab_px[p1] - grab_px[p0]) / 8);
-											SLONG dz = SIGN((grab_pz[p1] - grab_pz[p0]) / 8);
+											std::int32_t dx = SIGN((grab_px[p1] - grab_px[p0]) / 8);
+											std::int32_t dz = SIGN((grab_pz[p1] - grab_pz[p0]) / 8);
 
 //											ASSERT(pass);
 
@@ -823,13 +823,13 @@ round_again:;
 											cx4 += (-dx) * CHECK_WIDTH - (-dz) * CHECK_FORWARD;
 											cz4 += (-dz) * CHECK_WIDTH - (+dx) * CHECK_FORWARD;
 
-											SLONG height1;
-											SLONG height2;
-											SLONG height3;
-											SLONG height4;
+											std::int32_t height1;
+											std::int32_t height2;
+											std::int32_t height3;
+											std::int32_t height4;
 
-											SLONG face1;
-											SLONG face2;
+											std::int32_t face1;
+											std::int32_t face2;
 	
 											if (p_person->Genus.Person->Ware)
 											{
@@ -868,7 +868,7 @@ round_again:;
 												height3 <= height1 &&
 												height4 <= height2)
 											{
-												SLONG dy = height2 - height1;
+												std::int32_t dy = height2 - height1;
 
 												if (abs(dy) < 64)
 												{
@@ -877,10 +877,10 @@ round_again:;
 													//
 
 													{
-														SLONG fx1;
-														SLONG fz1;
-														SLONG fx2;
-														SLONG fz2;
+														std::int32_t fx1;
+														std::int32_t fz1;
+														std::int32_t fx2;
+														std::int32_t fz2;
 
 														fx1 = near_x;
 														fz1 = near_z;
@@ -968,10 +968,10 @@ round_again:;
 
 	if(trench)
 	{
-		SWORD	mx;
-		SWORD	mz;
-		SWORD	dx,dz;
-		SLONG	floor_height;
+		std::int16_t	mx;
+		std::int16_t	mz;
+		std::int16_t	dx,dz;
+		std::int32_t	floor_height;
 
 		//
 		// Person is over trench square so try grab edge of trench
@@ -1068,38 +1068,38 @@ round_again:;
 }
 
 #if !defined(PSX) && !defined(TARGET_DC)
-SLONG find_grab_face_in_sewers(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		SLONG  radius,
-		SLONG  dy,
-		SLONG  angle,
-		SLONG *grab_x,
-		SLONG *grab_y,
-		SLONG *grab_z,
-		SLONG *grab_angle)
+std::int32_t find_grab_face_in_sewers(
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::int32_t  radius,
+		std::int32_t  dy,
+		std::int32_t  angle,
+		std::int32_t *grab_x,
+		std::int32_t *grab_y,
+		std::int32_t *grab_z,
+		std::int32_t *grab_angle)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
-	SLONG dx;
-	SLONG dz;
-	SLONG floor_height;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t floor_height;
 
-	SLONG best_dist = radius;
-	SLONG best_x;
-	SLONG best_y;
-	SLONG best_z;
-	SLONG best_angle;
+	std::int32_t best_dist = radius;
+	std::int32_t best_x;
+	std::int32_t best_y;
+	std::int32_t best_z;
+	std::int32_t best_angle;
 
-	SLONG dist;
-	SLONG dangle;
+	std::int32_t dist;
+	std::int32_t dangle;
 
 	NS_Hi *nh;
 
-	const struct {SBYTE dx; SBYTE dz;} order[4] =
+	const struct {std::int8_t dx; std::int8_t dz;} order[4] =
 	{
 		{+1, 0},
 		{-1, 0},
@@ -1212,20 +1212,20 @@ SLONG find_grab_face_in_sewers(
 
 struct Matrix33		r_matrix;
 struct Matrix31	offset;
-SLONG matrix[9];
+std::int32_t matrix[9];
 
-void calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position(Thing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
 	struct	SVector		temp; //max points per object?
 	struct GameKeyFrameElement *anim_info;
 	struct GameKeyFrameElement *anim_info_next;
 	struct Matrix33 *rot_mat;
-	SLONG	wx,wy,wz;
+	std::int32_t	wx,wy,wz;
 	DrawTween *dt = p_mthing->Draw.Tweened;
 
 #ifdef	PSX
 	{
-		SLONG	index1,index2;
+		std::int32_t	index1,index2;
 		//
 		// stuff added for more compression of anims
 		//
@@ -1289,7 +1289,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 			if (p_mthing->Class == CLASS_PERSON)
 			{
-				SLONG	character_scale  = person_get_scale(p_mthing);
+				std::int32_t	character_scale  = person_get_scale(p_mthing);
 
 				if(character_scale!=256)
 				{
@@ -1356,7 +1356,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	if(object==SUB_OBJECT_LEFT_HAND || object==SUB_OBJECT_RIGHT_HAND)
 		*y+=HAND_HEIGHT;
 }
-void calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position_fix8(Thing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
 	struct	SVector		temp; //max points per object?
 	struct Matrix33		r_matrix;
@@ -1364,13 +1364,13 @@ void calc_sub_objects_position_fix8(Thing *p_mthing,SLONG tween,UWORD object,SLO
 	struct GameKeyFrameElement *anim_info;
 	struct GameKeyFrameElement *anim_info_next;
 	struct Matrix33 *rot_mat;
-	SLONG	wx,wy,wz;
+	std::int32_t	wx,wy,wz;
 
 	DrawTween *dt = p_mthing->Draw.Tweened;
 
 #ifdef	PSX
 	{
-		SLONG	index1,index2;
+		std::int32_t	index1,index2;
 		//
 		// stuff added for more compression of anims
 		//
@@ -1438,7 +1438,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 }
 #ifndef	PSX
-void calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2)
+void calc_sub_objects_position_keys(Thing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2)
 {
 	struct	SVector		temp; //max points per object?
 	struct Matrix33		r_matrix;
@@ -1446,13 +1446,13 @@ void calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLO
 	struct GameKeyFrameElement *anim_info;
 	struct GameKeyFrameElement *anim_info_next;
 	struct Matrix33 *rot_mat;
-	SLONG	wx,wy,wz;
+	std::int32_t	wx,wy,wz;
 
 	DrawTween *dt = p_mthing->Draw.Tweened;
 
 #ifdef	PSX
 	{
-		SLONG	index1,index2;
+		std::int32_t	index1,index2;
 		//
 		// stuff added for more compression of anims
 		//
@@ -1520,16 +1520,16 @@ extern struct	PrimPoint	*anim_mids; //[256];
 
 }
 #endif
-void calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
 	struct	Matrix31	offset;
 	struct GameKeyFrameElement *anim_info;
 	struct GameKeyFrameElement *anim_info_next;
-	SLONG	wx,wy,wz;
+	std::int32_t	wx,wy,wz;
 
 #ifdef	PSX
 	{
-		SLONG	index1,index2;
+		std::int32_t	index1,index2;
 		//
 		// stuff added for more compression of anims
 		//

@@ -19,15 +19,15 @@
 
 typedef struct
 {
-	CBYTE text[CONSOLE_MAX_TEXT_PER_LINE];
-	SLONG cursor;
+	char text[CONSOLE_MAX_TEXT_PER_LINE];
+	std::int32_t cursor;
 
 } CONSOLE_Line;
 
 #define CONSOLE_MAX_LINES 35
 
 CONSOLE_Line CONSOLE_line[CONSOLE_MAX_LINES];
-SLONG CONSOLE_line_upto;	// Just keeps going up beyond CONSOLE_MAX_LINES...
+std::int32_t CONSOLE_line_upto;	// Just keeps going up beyond CONSOLE_MAX_LINES...
 
 
 
@@ -54,10 +54,10 @@ void CONSOLE_init()
 
 void CONSOLE_draw()
 {
-	SLONG i;
-	SLONG first;
-	SLONG last;
-	SLONG num;
+	std::int32_t i;
+	std::int32_t first;
+	std::int32_t last;
+	std::int32_t num;
 	float ypos;
 
 	OS_clear_screen();
@@ -96,13 +96,13 @@ void CONSOLE_draw()
 
 
 
-void CONSOLE_print(CBYTE* fmt, ...)
+void CONSOLE_print(char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[2048];		// Real long... just in case!
+	char   message[2048];		// Real long... just in case!
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -129,14 +129,14 @@ void CONSOLE_print(CBYTE* fmt, ...)
 }
 
 
-CBYTE* CONSOLE_input()
+char* CONSOLE_input()
 {
-	CBYTE        *ch;
+	char        *ch;
 	CONSOLE_Line *cl;
 
-	SLONG flash  = OS_ticks();
-	SLONG draw   = true;
-	SLONG cursor = 0;
+	std::int32_t flash  = OS_ticks();
+	std::int32_t draw   = true;
+	std::int32_t cursor = 0;
 
 	//
 	// Create a new line on the console that we will use as our input.

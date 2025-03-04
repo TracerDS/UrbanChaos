@@ -26,14 +26,14 @@ void MORPH_load();
 
 typedef struct
 {
-	SWORD x;
-	SWORD y;
-	SWORD z;
+	std::int16_t x;
+	std::int16_t y;
+	std::int16_t z;
 	
 } MORPH_Point;
 
-MORPH_Point *MORPH_get_points    (SLONG morph);
-SLONG        MORPH_get_num_points(SLONG morph); 
+MORPH_Point *MORPH_get_points    (std::int32_t morph);
+std::int32_t        MORPH_get_num_points(std::int32_t morph); 
 
 
 #endif

@@ -13,14 +13,14 @@
 //
 //---------------------------------------------------------------
 
-void	LoadWaveList(CBYTE* wave_path,CBYTE* wave_list)
+void	LoadWaveList(char* wave_path,char* wave_list)
 {
 	the_qs_sound_manager.LoadWaves(wave_path,wave_list);
 }
 
 //---------------------------------------------------------------
 
-void	LoadWave(CBYTE* wave_name)
+void	LoadWave(char* wave_name)
 {
 	the_qs_sound_manager.LoadWave(wave_name);
 }
@@ -34,21 +34,21 @@ void	FreeWaveList(void)
 
 //---------------------------------------------------------------
 
-void	PlayWave(SLONG ref,SLONG wave_id,SLONG play_type,WaveParams *the_params)
+void	PlayWave(std::int32_t ref,std::int32_t wave_id,std::int32_t play_type,WaveParams *the_params)
 {
 	the_qs_sound_manager.PlayWave(ref,wave_id-1,play_type,the_params);
 }
 
 //---------------------------------------------------------------
 
-void	StopWave(SLONG ref,SLONG wave_id)
+void	StopWave(std::int32_t ref,std::int32_t wave_id)
 {
 	the_qs_sound_manager.StopWave(ref,wave_id-1);
 }
 
 //---------------------------------------------------------------
 
-void	SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale)
+void	SetListenerPosition(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t scale)
 {
 	float		f_scale;
 	QMIX_RESULT	r;
@@ -71,7 +71,7 @@ void	SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale)
 
 //---------------------------------------------------------------
 
-void	SetListenerOrientation(SLONG angle,SLONG roll,SLONG tilt)
+void	SetListenerOrientation(std::int32_t angle,std::int32_t roll,std::int32_t tilt)
 {
 	QMIX_RESULT	r;
 	QSVECTOR	direction,
@@ -151,8 +151,8 @@ HRESULT	QSManager::Init(void)
 		//	If all is well active QSound.
 		if(HQMixer)
 		{
-			SLONG	r;
-			CBYTE	error_text[200];
+			std::int32_t	r;
+			char	error_text[200];
 			ActivateSound();
 
 			//	Open all the channels.
@@ -209,11 +209,11 @@ void	QSManager::DeactivateSound(void)
 
 //---------------------------------------------------------------
 
-HRESULT	QSManager::LoadWaves(CBYTE* wave_path,CBYTE* script_name)
+HRESULT	QSManager::LoadWaves(char* wave_path,char* script_name)
 {
-	CBYTE			wave_name[MAX_PATH],
+	char			wave_name[MAX_PATH],
 					wave_file[MAX_PATH];
-	ULONG			streamed;
+	std::uint32_t			streamed;
 	FILE			*script_handle;
 	HRESULT			result	=	DSERR_GENERIC;
 	Wave			*new_wave;
@@ -260,9 +260,9 @@ HRESULT	QSManager::LoadWaves(CBYTE* wave_path,CBYTE* script_name)
 
 //---------------------------------------------------------------
 
-HRESULT	QSManager::LoadWave(CBYTE* wave_name)
+HRESULT	QSManager::LoadWave(char* wave_name)
 {
-	ULONG			streamed=0; //temp?
+	std::uint32_t			streamed=0; //temp?
 	HRESULT			result	=	DSERR_GENERIC;
 	Wave			*new_wave;
 
@@ -350,13 +350,13 @@ HRESULT	QSManager::DeleteWave(Wave *the_wave)
 
 //---------------------------------------------------------------
 
-HRESULT	QSManager::PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WaveParams *the_params)
+HRESULT	QSManager::PlayWave(std::int32_t wave_ref,std::int32_t wave_id,std::int32_t play_type,WaveParams *the_params)
 {
 	float			f_scale;
 	int				channel;
 	bool			channel_done	=	false,
 					has_channel		=	false;
-	SLONG			c0,
+	std::int32_t			c0,
 					play_flags	=	QMIX_QUEUEWAVE,
 					play_loop	=	0;
 	LPMIXWAVE		the_wave;
@@ -526,10 +526,10 @@ HRESULT	QSManager::PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WavePar
  
 //---------------------------------------------------------------
 
-HRESULT	QSManager::StopWave(SLONG wave_ref,SLONG wave_id)
+HRESULT	QSManager::StopWave(std::int32_t wave_ref,std::int32_t wave_id)
 {
 	bool			has_channel	=	false;
-	SLONG			c0;
+	std::int32_t			c0;
 	TCHAR			error_text[256];
 	QMIX_RESULT		r;
 
@@ -587,7 +587,7 @@ Wave::~Wave()
 
 //---------------------------------------------------------------
 
-HRESULT	Wave::Init(CBYTE* file_name,HQMIXER the_mixer)
+HRESULT	Wave::Init(char* file_name,HQMIXER the_mixer)
 {
 	QMIXWAVEPARAMS		wave_params;
 

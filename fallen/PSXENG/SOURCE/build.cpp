@@ -8,10 +8,10 @@
 //#include "light.h"
 #include "build.h"
 
-SLONG check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
+std::int32_t check_vect_with_gamut(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2)
 {
-	SLONG	step_x,step_z;
-	SLONG	count;
+	std::int32_t	step_x,step_z;
+	std::int32_t	count;
 /*
 	if((z1<NGAMUT_zmin && z2<NGAMUT_zmin) || (z1>NGAMUT_zmax && z2>NGAMUT_zmax))
 		return(0); //dont draw
@@ -49,7 +49,7 @@ SLONG check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
 
 			if(z1>=NGAMUT_zmin&&z1<=NGAMUT_zmax)
 			{
-				SLONG	temp_x;
+				std::int32_t	temp_x;
 				temp_x=x1>>16;
 				if(temp_x>=NGAMUT_gamut[z1].xmin&&temp_x<=NGAMUT_gamut[z1].xmax)
 					return(1); //draw this facet
@@ -80,7 +80,7 @@ SLONG check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
 		z1<<=8;
 		while(count)
 		{
-			SLONG	temp_z;
+			std::int32_t	temp_z;
 
 			temp_z=z1>>16;
 
@@ -100,12 +100,12 @@ SLONG check_vect_with_gamut(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
 	return(0);
 }
 #ifndef	PSX
-SLONG check_col_vect(SLONG vect)
+std::int32_t check_col_vect(std::int32_t vect)
 {
 	CollisionVect *p_vect;
-	SLONG	draw;
-	SLONG	x1,z1,x2,z2;
-	SLONG	tx1,tz1,tx2,tz2;
+	std::int32_t	draw;
+	std::int32_t	x1,z1,x2,z2;
+	std::int32_t	tx1,tz1,tx2,tz2;
 	p_vect = &col_vects[vect];
 
 
@@ -152,7 +152,7 @@ SLONG check_col_vect(SLONG vect)
 	return(draw);
 
 }
-SLONG draw_bound_box(struct BoundBox *p_box,SLONG r,SLONG g,SLONG b)
+std::int32_t draw_bound_box(struct BoundBox *p_box,std::int32_t r,std::int32_t g,std::int32_t b)
 {
 	return(0);
 
@@ -167,10 +167,10 @@ SLONG draw_bound_box(struct BoundBox *p_box,SLONG r,SLONG g,SLONG b)
 	addPrim(&the_display.CurrentDisplayBuffer->ot[4095],p);
 }
 
-SLONG check_roof_facet(SLONG bbox)
+std::int32_t check_roof_facet(std::int32_t bbox)
 {
 	struct	BoundBox *p_box;
-	SLONG	x,z;
+	std::int32_t	x,z;
 	p_box=&roof_bounds[bbox];
 		return(1);
 
@@ -216,14 +216,14 @@ SLONG check_roof_facet(SLONG bbox)
 
 
 
-SLONG check_facet(SLONG bx,SLONG by,SLONG bz,SLONG bf_index)
+std::int32_t check_facet(std::int32_t bx,std::int32_t by,std::int32_t bz,std::int32_t bf_index)
 {
 	BuildingFacet  *bf;
 
-	SLONG sp;
-	SLONG ep;
-	SLONG i;
-	SLONG	pass=0;
+	std::int32_t sp;
+	std::int32_t ep;
+	std::int32_t i;
+	std::int32_t	pass=0;
 
 
 
@@ -252,7 +252,7 @@ SLONG check_facet(SLONG bx,SLONG by,SLONG bz,SLONG bf_index)
 
 	for (i = sp; i < ep; i++)
 	{
-		SLONG	y;
+		std::int32_t	y;
 
 		y=by+prim_points[i].Y;
 
@@ -283,15 +283,15 @@ SLONG check_facet(SLONG bx,SLONG by,SLONG bz,SLONG bf_index)
 
 void BUILD_draw(Thing *p_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 	
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -303,23 +303,23 @@ void BUILD_draw(Thing *p_thing)
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
 
-	SLONG page;
-	SLONG backface_cull;
-	ULONG shadow;
-	ULONG face_colour;
-	ULONG face_specular;
+	std::int32_t page;
+	std::int32_t backface_cull;
+	std::uint32_t shadow;
+	std::uint32_t face_colour;
+	std::uint32_t face_specular;
 
-	SLONG bx = (p_thing->WorldPos.X >> 8);
-	SLONG by = (p_thing->WorldPos.Y >> 8);
-	SLONG bz = (p_thing->WorldPos.Z >> 8);
+	std::int32_t bx = (p_thing->WorldPos.X >> 8);
+	std::int32_t by = (p_thing->WorldPos.Y >> 8);
+	std::int32_t bz = (p_thing->WorldPos.Z >> 8);
 
-	SLONG bo_index;
-	SLONG bf_index;
+	std::int32_t bo_index;
+	std::int32_t bf_index;
 
 	BuildingFacet  *bf;			 
 	BuildingObject *bo;
-	static	SLONG	most_quads=300;
-	SLONG	count_quad=0;
+	static	std::int32_t	most_quads=300;
+	std::int32_t	count_quad=0;
 	
 	bo_index =  p_thing->Index;
 	bo       = &building_objects[bo_index];
@@ -337,8 +337,8 @@ void BUILD_draw(Thing *p_thing)
 	// The ambient light colour.
 	//
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 /*
 	LIGHT_get_d3d_colour(
 		LIGHT_amb_colour,
@@ -361,8 +361,8 @@ void BUILD_draw(Thing *p_thing)
 
 	while(bf_index)
 	{
-		SLONG	do_facet=1;
-		SLONG	max_z=-999999;
+		std::int32_t	do_facet=1;
+		std::int32_t	max_z=-999999;
 
 		bf = &building_facets[bf_index];
 
@@ -464,7 +464,7 @@ void BUILD_draw(Thing *p_thing)
 	//void	add_quad(POLY_Point *quad,MapElement *me)
 					{
 						POLY_FT4	*p;
-						SLONG	z;
+						std::int32_t	z;
 
 						if(the_display.CurrentPrim+sizeof(*p)>&the_display.CurrentDisplayBuffer->PrimMem[BUCKET_MEM])
 							return;
@@ -597,15 +597,15 @@ void BUILD_draw_inside()
 #ifdef	POO
 	Thing *p_thing = TO_THING(INDOORS_THING);
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 	
 	float max_height;
 
@@ -619,15 +619,15 @@ void BUILD_draw_inside()
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
 
-	ULONG amb_colour;
-	ULONG amb_specular;
+	std::uint32_t amb_colour;
+	std::uint32_t amb_specular;
 
 	float bx = float(p_thing->WorldPos.X >> 8);
 	float by = float(p_thing->WorldPos.Y >> 8);
 	float bz = float(p_thing->WorldPos.Z >> 8);
 
-	SLONG bo_index;
-	SLONG bf_index;
+	std::int32_t bo_index;
+	std::int32_t bf_index;
 
 	BuildingFacet  *bf;
 	BuildingObject *bo;
@@ -639,8 +639,8 @@ void BUILD_draw_inside()
 	// The ambient light colour.
 	//
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 /*
 	LIGHT_get_d3d_colour(
 		LIGHT_amb_colour,

@@ -23,7 +23,7 @@
 #endif
 
 BARREL_Sphere *BARREL_sphere; //[BARREL_MAX_SPHERES];
-SLONG BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
+std::int32_t BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
 
 
 //
@@ -43,7 +43,7 @@ extern bool allow_debug_keys;
 #endif
 
 Barrel *BARREL_barrel;//[BARREL_MAX_BARRELS];
-SLONG BARREL_barrel_upto;
+std::int32_t BARREL_barrel_upto;
 
 		 
 //
@@ -60,7 +60,7 @@ SLONG BARREL_barrel_upto;
 #define BARREL_GRAVITY       0x80
 
 
-SLONG BARREL_fx_rate;
+std::int32_t BARREL_fx_rate;
 
 inline void BARREL_hit_noise(Thing *p_barrel) {
 
@@ -79,7 +79,7 @@ inline void BARREL_hit_noise(Thing *p_barrel) {
 
 void BARREL_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	memset(BARREL_sphere, 0, sizeof(BARREL_Sphere)*BARREL_MAX_SPHERES);
 	memset(BARREL_barrel, 0, sizeof(Barrel)*BARREL_MAX_BARRELS);
@@ -99,9 +99,9 @@ void BARREL_init()
 // Returns an index to two free BARREL_Spheres.
 //
 
-SLONG BARREL_spheres_get()
+std::int32_t BARREL_spheres_get()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < BARREL_MAX_SPHERES / 2; i++)
 	{
@@ -120,14 +120,14 @@ SLONG BARREL_spheres_get()
 		}
 	}
 
-	return nullptr;
+	return 0;
 }
 
 //
 // Marks the two barrel spheres as unused.
 //
 
-void BARREL_spheres_give(SLONG bs)
+void BARREL_spheres_give(std::int32_t bs)
 {
 	ASSERT(WITHIN(bs + 0, 2, BARREL_MAX_SPHERES - 2));
 	ASSERT(WITHIN(bs + 1, 3, BARREL_MAX_SPHERES - 1));
@@ -140,15 +140,15 @@ void BARREL_spheres_give(SLONG bs)
 // Returns the position where the given sphere of a stacked/still barrel would be.
 //
 
-void BARREL_stacked_sphere(Thing *p_barrel, SLONG which_sphere, SLONG *sx, SLONG *sy, SLONG *sz, SLONG *sradius)
+void BARREL_stacked_sphere(Thing *p_barrel, std::int32_t which_sphere, std::int32_t *sx, std::int32_t *sy, std::int32_t *sz, std::int32_t *sradius)
 {
 	ASSERT(p_barrel->Class == CLASS_BARREL);
 
-	SLONG ans_x = p_barrel->WorldPos.X;
-	SLONG ans_y = p_barrel->WorldPos.Y;
-	SLONG ans_z = p_barrel->WorldPos.Z;
+	std::int32_t ans_x = p_barrel->WorldPos.X;
+	std::int32_t ans_y = p_barrel->WorldPos.Y;
+	std::int32_t ans_z = p_barrel->WorldPos.Z;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	FMATRIX_vector(
 		vector,
@@ -196,12 +196,12 @@ void BARREL_stacked_sphere(Thing *p_barrel, SLONG which_sphere, SLONG *sx, SLONG
 
 void BARREL_convert_stationary_to_moving(Thing *p_barrel)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
-	SLONG sradius;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
+	std::int32_t sradius;
 
 	ASSERT(p_barrel->Class == CLASS_BARREL);
 
@@ -217,14 +217,14 @@ void BARREL_convert_stationary_to_moving(Thing *p_barrel)
 		{
 			p_barrel->Genus.Barrel->flag |= BARREL_FLAG_HIT;
 
-			extern UBYTE EWAY_count_up_visible;
-			extern SLONG EWAY_count_up;
+			extern std::uint8_t EWAY_count_up_visible;
+			extern std::int32_t EWAY_count_up;
 
 			if (EWAY_count_up_visible)
 			{
 				EWAY_count_up += 500;
 
-				void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+				void add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 
 				add_damage_text(
 					p_barrel->WorldPos.X >> 8,
@@ -263,7 +263,7 @@ void BARREL_convert_stationary_to_moving(Thing *p_barrel)
 
 	bb->bs    =  BARREL_spheres_get();
 	bb->flag &= ~(BARREL_FLAG_STACKED|BARREL_FLAG_STILL);
-	bb->on    =  nullptr;
+	bb->on    =  0;
 
 	for (i = 0; i < 2; i++)
 	{
@@ -314,30 +314,30 @@ void BARREL_convert_moving_to_stationary(Thing *p_barrel)
 THING_INDEX found_barrel[BARREL_MAX_FIND];
 
 void BARREL_hit_with_sphere(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG radius)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t radius)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
-	SLONG sradius;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
+	std::int32_t sradius;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG ddist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t ddist;
 
 	Thing         *p_found;
 	Barrel        *bb;
 	BARREL_Sphere *bs;
 
-	SLONG       num;
+	std::int32_t       num;
 	
 	num = THING_find_sphere(
 			x, y, z,
@@ -444,60 +444,60 @@ void BARREL_hit_with_sphere(
 
 
 void BARREL_hit_with_prim(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw)
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	Thing         *p_found;
 	Barrel        *bb_found;
 	BARREL_Sphere *bs;
 
-	SLONG       num;
+	std::int32_t       num;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
-	SLONG sradius;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
+	std::int32_t sradius;
 
-	SLONG tx;
-	SLONG tz;
+	std::int32_t tx;
+	std::int32_t tz;
 
-	SLONG rx;
-	SLONG rz;
+	std::int32_t rx;
+	std::int32_t rz;
 
-	SLONG matrix[4];
-	SLONG useangle;
+	std::int32_t matrix[4];
+	std::int32_t useangle;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
-	SLONG minx;
-	SLONG miny;
-	SLONG minz;
+	std::int32_t minx;
+	std::int32_t miny;
+	std::int32_t minz;
           
-	SLONG maxx;
-	SLONG maxy;
-	SLONG maxz;
+	std::int32_t maxx;
+	std::int32_t maxy;
+	std::int32_t maxz;
 
-	SLONG dminx;
-	SLONG dminz;
-	SLONG dmaxx;
-	SLONG dmaxy;
-	SLONG dmaxz;
+	std::int32_t dminx;
+	std::int32_t dminz;
+	std::int32_t dmaxx;
+	std::int32_t dmaxy;
+	std::int32_t dmaxz;
 
-	SLONG best;
-	SLONG best_x;
-	SLONG best_y;
-	SLONG best_z;
+	std::int32_t best;
+	std::int32_t best_x;
+	std::int32_t best_y;
+	std::int32_t best_z;
 
 	PrimInfo *pi = get_prim_info(prim);
 
@@ -718,27 +718,27 @@ void BARREL_hit_with_prim(
 
 void BARREL_process_sphere(Thing *p_barrel, Barrel *bb, BARREL_Sphere *bs)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
-	SLONG sradius;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
+	std::int32_t sradius;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG ddist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t ddist;
 
 	Thing  *p_found;
 	Barrel *bb_found;
 
 	BARREL_Sphere *bso;
 
-	SLONG num;
-	SLONG ground;
+	std::int32_t num;
+	std::int32_t ground;
 
 	//
 	// Gravity and damping.
@@ -994,14 +994,14 @@ void BARREL_process_sphere(Thing *p_barrel, Barrel *bb, BARREL_Sphere *bs)
 void BARREL_push_apart(
 		BARREL_Sphere *bs1,
 		BARREL_Sphere *bs2,
-		SLONG          accelerate_the_spheres_apart_if_they_are_too_close_together)
+		std::int32_t          accelerate_the_spheres_apart_if_they_are_too_close_together)
 {
-	SLONG dx = bs2->x - bs1->x;
-	SLONG dy = bs2->y - bs1->y;
-	SLONG dz = bs2->z - bs1->z;
+	std::int32_t dx = bs2->x - bs1->x;
+	std::int32_t dy = bs2->y - bs1->y;
+	std::int32_t dz = bs2->z - bs1->z;
 
-	SLONG dist  = QDIST3(abs(dx),abs(dy),abs(dz)) + 1;
-	SLONG ddist = (BARREL_SPHERE_DIST << 8) - dist;
+	std::int32_t dist  = QDIST3(abs(dx),abs(dy),abs(dz)) + 1;
+	std::int32_t ddist = (BARREL_SPHERE_DIST << 8) - dist;
 
 	ddist /= 4;
 
@@ -1138,8 +1138,8 @@ void BARREL_process_normal(Thing *p_barrel)
 					// Make sure the barrel is not standing up.
 					//
 
-					SLONG dtilt1 = abs(p_barrel->Draw.Mesh->Tilt -  512);
-					SLONG dtilt2 = abs(p_barrel->Draw.Mesh->Tilt - 1536);
+					std::int32_t dtilt1 = abs(p_barrel->Draw.Mesh->Tilt -  512);
+					std::int32_t dtilt2 = abs(p_barrel->Draw.Mesh->Tilt - 1536);
 
 					if (MIN(dtilt1, dtilt2) < 224)
 					{
@@ -1152,9 +1152,9 @@ void BARREL_process_normal(Thing *p_barrel)
 						bb->flag &= ~BARREL_FLAG_CANS;
 
 						{
-							SLONG angle;
-							SLONG cx;
-							SLONG cz;
+							std::int32_t angle;
+							std::int32_t cx;
+							std::int32_t cz;
 
 							angle = p_barrel->Draw.Mesh->Angle;
 
@@ -1195,11 +1195,11 @@ void BARREL_process_normal(Thing *p_barrel)
 	// Work out the yaw and pitch of the barrel.
 	//
 
-	SLONG dx = bs2->x - bs1->x;
-	SLONG dy = bs2->y - bs1->y;
-	SLONG dz = bs2->z - bs1->z;
+	std::int32_t dx = bs2->x - bs1->x;
+	std::int32_t dy = bs2->y - bs1->y;
+	std::int32_t dz = bs2->z - bs1->z;
 
-	SLONG dxdz = QDIST2(abs(dx),abs(dz));
+	std::int32_t dxdz = QDIST2(abs(dx),abs(dz));
 
 	if (dxdz < 0x100)
 	{
@@ -1226,8 +1226,8 @@ void BARREL_process_normal(Thing *p_barrel)
 		// Make the barrels be able to stand up.
 		//
 
-		SLONG dtilt1 = abs(p_barrel->Draw.Mesh->Tilt -  512);
-		SLONG dtilt2 = abs(p_barrel->Draw.Mesh->Tilt - 1536);
+		std::int32_t dtilt1 = abs(p_barrel->Draw.Mesh->Tilt -  512);
+		std::int32_t dtilt2 = abs(p_barrel->Draw.Mesh->Tilt - 1536);
 
 		if (MIN(dtilt1, dtilt2) < 224)
 		{
@@ -1296,28 +1296,28 @@ void BARREL_process_normal(Thing *p_barrel)
 #endif
 }
 
-UWORD BARREL_alloc(
-		SLONG type,
-		SLONG prim,
-		SLONG x,
-		SLONG z,
-		SLONG waypoint)
+std::uint16_t BARREL_alloc(
+		std::int32_t type,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t waypoint)
 {
-	SLONG i;
-	SLONG y;
-	SLONG on;
-	SLONG ony;
+	std::int32_t i;
+	std::int32_t y;
+	std::int32_t on;
+	std::int32_t ony;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	DrawMesh *dm;
 	Thing    *p_thing;
 	Thing    *p_found;
 	Barrel   *bb;
 
-	SLONG     num;
+	std::int32_t     num;
 
 	//
 	// We need to get a thing, a barrel and a drawmesh.
@@ -1329,7 +1329,7 @@ UWORD BARREL_alloc(
 		// No more barrels left!
 		//
 
-		return nullptr;
+		return 0;
 	}
 	
 	bb = &BARREL_barrel[BARREL_barrel_upto++];
@@ -1342,14 +1342,14 @@ UWORD BARREL_alloc(
 	if(!p_thing)
 	{
 		Thing	*p_del;
-		SLONG	c0;
-		SLONG	best_dist=0x7fffffff;
+		std::int32_t	c0;
+		std::int32_t	best_dist=0x7fffffff;
 		for(c0=1;c0<MAX_THINGS;c0++)
 		{
 			p_del=TO_THING(c0);
 			if(p_del->Class==CLASS_BARREL)
 			{
-				SLONG	dx,dz,dist;
+				std::int32_t	dx,dz,dist;
 
 				dx=x-(p_del->WorldPos.X>>8);
 				dz=z-(p_del->WorldPos.Z>>8);
@@ -1398,8 +1398,8 @@ UWORD BARREL_alloc(
 
 			bb->type   = type;
 			bb->flag   = BARREL_FLAG_STACKED;
-			bb->on     = nullptr;	// nullptr => stacked on the ground
-			bb->bs     = nullptr;
+			bb->on     = 0;	// nullptr => stacked on the ground
+			bb->bs     = 0;
 
 			if (bb->type == BARREL_TYPE_BIN)
 			{
@@ -1420,7 +1420,7 @@ UWORD BARREL_alloc(
 					1 << CLASS_BARREL);
 
 			y  = PAP_calc_map_height_at(x,z) + (BARREL_HEIGHT / 2);
-			on = nullptr;
+			on = 0;
 
 			if (type == BARREL_TYPE_BURNING) {
 				Pyro* pyro;
@@ -1487,7 +1487,7 @@ UWORD BARREL_alloc(
 			BARREL_barrel_upto -= 1;
 			free_thing(p_thing);
 
-			return nullptr;
+			return 0;
 		}
 	}
 	else
@@ -1498,7 +1498,7 @@ UWORD BARREL_alloc(
 
 		BARREL_barrel_upto -= 1;
 
-		return nullptr;
+		return 0;
 	}
 }
 
@@ -1509,21 +1509,21 @@ void BARREL_position_on_hands(Thing *p_barrel, Thing *p_person)
 	ASSERT(p_barrel->Class == CLASS_BARREL);
 	ASSERT(p_person->Class == CLASS_PERSON);
 
-	SLONG lhx;
-	SLONG lhy;
-	SLONG lhz;
+	std::int32_t lhx;
+	std::int32_t lhy;
+	std::int32_t lhz;
 
-	SLONG rhx;
-	SLONG rhy;
-	SLONG rhz;
+	std::int32_t rhx;
+	std::int32_t rhy;
+	std::int32_t rhz;
 
-	SLONG lrx;
-	SLONG lry;
-	SLONG lrz;
+	std::int32_t lrx;
+	std::int32_t lry;
+	std::int32_t lrz;
 
-	SLONG rrx;
-	SLONG rry;
-	SLONG rrz;
+	std::int32_t rrx;
+	std::int32_t rry;
+	std::int32_t rrz;
 
 	if (p_barrel->Genus.Barrel->flag & (BARREL_FLAG_STACKED | BARREL_FLAG_STILL))
 	{
@@ -1620,13 +1620,13 @@ void BARREL_position_on_hands(Thing *p_barrel, Thing *p_person)
 	// Rememober the old position of the barrel spheres so we can work out their velocity.
 	//
 
-	SLONG old_bs1_x = bs1->x;
-	SLONG old_bs1_y = bs1->y;
-	SLONG old_bs1_z = bs1->z;
+	std::int32_t old_bs1_x = bs1->x;
+	std::int32_t old_bs1_y = bs1->y;
+	std::int32_t old_bs1_z = bs1->z;
 
-	SLONG old_bs2_x = bs2->x;
-	SLONG old_bs2_y = bs2->y;
-	SLONG old_bs2_z = bs2->z;
+	std::int32_t old_bs2_x = bs2->x;
+	std::int32_t old_bs2_y = bs2->y;
+	std::int32_t old_bs2_z = bs2->z;
 
 	//
 	// The new position of the barrels.
@@ -1692,10 +1692,10 @@ void BARREL_throw(Thing *p_barrel)
 #ifndef PSX
 GameCoord BARREL_fire_pos(Thing *p_barrel)
 {
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
-	SLONG sradius;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
+	std::int32_t sradius;
 	
 	BARREL_Sphere *bs;
 
@@ -1738,8 +1738,8 @@ void BARREL_dissapear(Thing *p_barrel)
 	// If any barrel is stacked on this one...
 	//
 
-	UWORD found[8];
-	SLONG num_found;
+	std::uint16_t found[8];
+	std::int32_t num_found;
 
 	num_found = THING_find_sphere(
 					p_barrel->WorldPos.X >> 8,
@@ -1750,7 +1750,7 @@ void BARREL_dissapear(Thing *p_barrel)
 					8,
 					1 << CLASS_BARREL);
 
-	SLONG i;
+	std::int32_t i;
 
 	Thing *p_found;
 
@@ -1787,7 +1787,7 @@ void BARREL_dissapear(Thing *p_barrel)
 
 		ASSERT(EWAY_way[p_barrel->Velocity].ed.type == EWAY_DO_CREATE_BARREL);
 
-		EWAY_way[p_barrel->Velocity].ed.arg1 = nullptr;
+		EWAY_way[p_barrel->Velocity].ed.arg1 = 0;
 	}
 
 
@@ -1816,7 +1816,7 @@ void BARREL_dissapear(Thing *p_barrel)
 		// Make the player choose a new target.
 		//
 
-		NET_PERSON(0)->Genus.Person->Target = nullptr;
+		NET_PERSON(0)->Genus.Person->Target = 0;
 	}
 }
 
@@ -1825,8 +1825,8 @@ void BARREL_shoot(
 		Thing *p_barrel,
 		Thing *p_shooter)
 {
-	ULONG in_the_air;
-	SWORD wave;
+	std::uint32_t in_the_air;
+	std::int16_t wave;
 
 	if ( (p_barrel->Genus.Barrel->flag & BARREL_FLAG_STILL) &&
 		!(p_barrel->Genus.Barrel->flag & BARREL_FLAG_STACKED))
@@ -1855,7 +1855,7 @@ void BARREL_shoot(
 			// barrel is going!
 			//
 
-			p_shooter->Genus.Person->Target = nullptr;
+			p_shooter->Genus.Person->Target = 0;
 		}
 
 		BARREL_dissapear(p_barrel);
@@ -1864,7 +1864,7 @@ void BARREL_shoot(
 
 		if (in_the_air)
 		{
-			SLONG i;
+			std::int32_t i;
 			GameCoord pos = barrelpos;
 
 			PARTICLE_Add(pos.X,pos.Y,pos.Z, 0, 0, 0, POLY_PAGE_SMOKECLOUD, 2, 0xFFFFFFFF, PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FADE|PFLAG_RESIZE, 100, 440+(Random()&0x7f), 1, 3, 50);
@@ -1931,7 +1931,7 @@ void BARREL_shoot(
 }
 
 
-SLONG BARREL_is_stacked(Thing *p_barrel)
+std::int32_t BARREL_is_stacked(Thing *p_barrel)
 {
 	return p_barrel->Genus.Barrel->flag & BARREL_FLAG_STACKED;
 }

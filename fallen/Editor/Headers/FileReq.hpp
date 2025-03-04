@@ -9,17 +9,17 @@
 
 class	FileRequester : public	EdRect 
 {
-	private:	CBYTE		*WildCard;
-				CBYTE		*Title;
+	private:	char		*WildCard;
+				char		*Title;
 				EdRect		OK;
 				EdRect		Cancel;
 				EdRect		TextEdit;
 				EdRect		TextList[30];
 	public:
-							FileRequester(CBYTE	*Path,CBYTE	*Extension,CBYTE* Title,CBYTE* FileName);
-				CBYTE		*Path;
-				CBYTE		FileName[200];
-				SLONG		Draw();
+							FileRequester(char	*Path,char	*Extension,char* Title,char* FileName);
+				char		*Path;
+				char		FileName[200];
+				std::int32_t		Draw();
 				ControlSet	Controls;
 
 };

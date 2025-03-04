@@ -24,22 +24,22 @@
 // Loads the palette
 //
 
-//void ENGINE_load_palette(CBYTE* palette);
+//void ENGINE_load_palette(char* palette);
 
 
 //
-// Given a ULONG packed d3d colour or specalar value, it
-// returns the ULONG multiplied by (r,g,b). r, g and b should
+// Given a std::uint32_t packed d3d colour or specalar value, it
+// returns the std::uint32_t multiplied by (r,g,b). r, g and b should
 // be from 0 - 255
 //
 
-inline ULONG ENGINE_multiply_colour(ULONG colour, SLONG r, SLONG g, SLONG b)
+inline std::uint32_t ENGINE_multiply_colour(std::uint32_t colour, std::int32_t r, std::int32_t g, std::int32_t b)
 {
-	ULONG ans;
+	std::uint32_t ans;
 
-	SLONG cr = (colour >>  8) & 0xff;
-	SLONG cg = (colour >> 16) & 0xff;
-	SLONG cb = (colour >> 24) & 0xff;
+	std::int32_t cr = (colour >>  8) & 0xff;
+	std::int32_t cg = (colour >> 16) & 0xff;
+	std::int32_t cb = (colour >> 24) & 0xff;
 
 	cr *= r;
 	cg *= g;
@@ -150,7 +150,7 @@ inline void		init_M33(M33 *m)	{	m->UV_XX=(float)1.0;m->UV_XY=(float)0.0;m->UV_XZ
 										m->UV_ZX=(float)0.0;m->UV_ZY=(float)0.0;m->UV_ZZ=(float)1.0;
 									}
 
-inline void		rotate_on_x(SLONG angle,M33 *matrix) 
+inline void		rotate_on_x(std::int32_t angle,M33 *matrix) 
 {
 	float	sin	=	SIN_F(angle & 2047),
 			cos	=	COS_F(angle & 2047);
@@ -169,7 +169,7 @@ inline void		rotate_on_x(SLONG angle,M33 *matrix)
 	matrix->UV_ZZ	=	((sin*t12)	+	(cos*t22));
 }
 
-inline void		rotate_on_y(SLONG angle,M33 *matrix) 
+inline void		rotate_on_y(std::int32_t angle,M33 *matrix) 
 {
 	float	sin	=	SIN_F(angle & 2047),
 			cos	=	COS_F(angle & 2047);
@@ -188,7 +188,7 @@ inline void		rotate_on_y(SLONG angle,M33 *matrix)
 	matrix->UV_ZZ	=	((-sin*t02)	+	(cos*t22));
 }
 
-inline void		rotate_on_z(SLONG angle,M33 *matrix) 
+inline void		rotate_on_z(std::int32_t angle,M33 *matrix) 
 {
 	float	sin =	SIN_F(angle & 2047),
 			cos =	COS_F(angle & 2047);
@@ -207,7 +207,7 @@ inline void		rotate_on_z(SLONG angle,M33 *matrix)
 	matrix->UV_ZY	=	((sin*t02)	+	(cos*t12));
 }
 
-inline void		angle_vector(SLONG angle, M31 *matrix)
+inline void		angle_vector(std::int32_t angle, M31 *matrix)
 {
 	float	sin	=	SIN_F(angle),
 			cos	=	COS_F(angle);
@@ -219,7 +219,7 @@ inline void		angle_vector(SLONG angle, M31 *matrix)
 	matrix->UV_Z	=	((-sin*t_x)	+	(cos*t_z));
 }
 
-inline void		roll_vector(SLONG roll, M31 *matrix)
+inline void		roll_vector(std::int32_t roll, M31 *matrix)
 {
 	float	sin		=	SIN_F(roll),
 			cos		=	COS_F(roll);
@@ -231,7 +231,7 @@ inline void		roll_vector(SLONG roll, M31 *matrix)
 	matrix->UV_Y	=	((-sin*t_x)	+	(cos*t_y));
 }
 
-inline void		tilt_vector(SLONG tilt, M31 *matrix)
+inline void		tilt_vector(std::int32_t tilt, M31 *matrix)
 {
 	float	sin		=	SIN_F(tilt),
 			cos		=	COS_F(tilt);
@@ -287,7 +287,7 @@ typedef	struct
 	float		CameraX,
 				CameraY,
 				CameraZ;
-	SLONG		CameraAngle,
+	std::int32_t		CameraAngle,
 				CameraRoll,
 				CameraTilt;
 }Camera;
@@ -305,7 +305,7 @@ typedef	struct
 				ViewHeight,
 				ViewWidth,
 				Lens;
-	SLONG		BucketSize;
+	std::int32_t		BucketSize;
 	M33			CameraMatrix;
 	Coord		CameraPos;
 
@@ -354,15 +354,15 @@ struct EnginePointF
 
 //---------------------------------------------------------------
 
-extern UWORD				current_vertex;
+extern std::uint16_t				current_vertex;
 extern D3DTLVERTEX			vertex_pool[MAX_VERTICES];
 
 //---------------------------------------------------------------
 
-ULONG	transform_point(SVECTOR_F *v,SVECTOR_F *r);
+std::uint32_t	transform_point(SVECTOR_F *v,SVECTOR_F *r);
 void	set_camera(Camera *the_camera);
 void	render_buckets();
-void	do_map_who(THING_INDEX thing, SLONG map_x, SLONG map_z);
+void	do_map_who(THING_INDEX thing, std::int32_t map_x, std::int32_t map_z);
 
 //---------------------------------------------------------------
 
@@ -370,12 +370,12 @@ void	do_map_who(THING_INDEX thing, SLONG map_x, SLONG map_z);
 // Debugging aids.
 //
 
-void	e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void	e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void	e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void	e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void	e_draw_3d_mapwho		 (SLONG x1,SLONG z1);
-void	e_draw_3d_mapwho_y		 (SLONG x1,SLONG y1,SLONG z1);
+void	e_draw_3d_line           (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void	e_draw_3d_line_dir       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void	e_draw_3d_line_col       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void	e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void	e_draw_3d_mapwho		 (std::int32_t x1,std::int32_t z1);
+void	e_draw_3d_mapwho_y		 (std::int32_t x1,std::int32_t y1,std::int32_t z1);
 
 
 #endif

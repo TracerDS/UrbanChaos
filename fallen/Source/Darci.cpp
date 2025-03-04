@@ -34,20 +34,20 @@
 /*
 struct SVector
 {
-	SLONG	X,Y,Z;
+	std::int32_t	X,Y,Z;
 };
 */				   
 
-SLONG calc_height_at(SLONG x,SLONG z);
+std::int32_t calc_height_at(std::int32_t x,std::int32_t z);
 
 void fn_darci_init(Thing *t_thing);
 
 #define	GRAVITY		((4<<8))
 
-//extern SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face);
-extern SLONG	set_person_kick_off_wall(Thing	*p_person,SLONG col,SLONG set_pos);
-extern void	add_damage_value_thing(Thing *p_thing,SLONG value);
-extern void	locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG dangle=0);
+//extern std::int32_t	calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face);
+extern std::int32_t	set_person_kick_off_wall(Thing	*p_person,std::int32_t col,std::int32_t set_pos);
+extern void	add_damage_value_thing(Thing *p_thing,std::int32_t value);
+extern void	locked_anim_change(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t dangle=0);
 
 
 /*
@@ -128,7 +128,7 @@ void fn_darci_init(Thing *t_thing)
 void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 
 
-KeyFrame*	advance_keyframe(KeyFrame *frame,SLONG count)
+KeyFrame*	advance_keyframe(KeyFrame *frame,std::int32_t count)
 {
 	LogText(" advance to frame %d \n",count);
 //	return(frame);
@@ -146,17 +146,17 @@ KeyFrame*	advance_keyframe(KeyFrame *frame,SLONG count)
 #define	DIR_RIGHT		(1<<3)
 
 
-ULONG move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing);
-static SLONG	air_walking=0;
+std::uint32_t move_thing(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,struct MapThing *p_thing);
+static std::int32_t	air_walking=0;
 
 static THING_INDEX	history_thing[100];
-static SWORD	history=0;
+static std::int16_t	history=0;
 
 
-SLONG do_floor_collide(Thing *p_thing,SWORD	pelvis,SLONG *new_y,SLONG *foot_y,SLONG max_range)
+std::int32_t do_floor_collide(Thing *p_thing,std::int16_t	pelvis,std::int32_t *new_y,std::int32_t *foot_y,std::int32_t max_range)
 {
-	SLONG	x,y,z;
-	SLONG	floor_y;
+	std::int32_t	x,y,z;
+	std::int32_t	floor_y;
 
 	calc_sub_objects_position(p_thing,p_thing->Draw.Tweened->AnimTween,pelvis?0:3,&x,&y,&z);
 	*foot_y=y;
@@ -192,13 +192,13 @@ SLONG do_floor_collide(Thing *p_thing,SWORD	pelvis,SLONG *new_y,SLONG *foot_y,SL
 	return(0);
 }
 
-SLONG predict_collision_with_floor(Thing *p_thing,SWORD pelvis,SLONG *new_y,SLONG *foot_y)
+std::int32_t predict_collision_with_floor(Thing *p_thing,std::int16_t pelvis,std::int32_t *new_y,std::int32_t *foot_y)
 {
-	SLONG	ret;
+	std::int32_t	ret;
 	GameCoord	temp_pos;
-	SLONG	temp_velocity,temp_dy;
-	SLONG	c0;
-	SLONG	dx,dy,dz;
+	std::int32_t	temp_velocity,temp_dy;
+	std::int32_t	c0;
+	std::int32_t	dx,dy,dz;
 
 //	MSG_add(" START COLLIDE dy %d posy %d ",p_thing->DY,p_thing->WorldPos.Y);
 
@@ -213,7 +213,7 @@ SLONG predict_collision_with_floor(Thing *p_thing,SWORD pelvis,SLONG *new_y,SLON
 //	for(c0=0;c0<3;c0++)
 //	if(0)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 		dx = (SIN(p_thing->Draw.Tweened->Angle)*p_thing->Velocity)>>8; //was 16
 		dz = (COS(p_thing->Draw.Tweened->Angle)*p_thing->Velocity)>>8;
 		dy = p_thing->DY;
@@ -245,19 +245,19 @@ SLONG predict_collision_with_floor(Thing *p_thing,SWORD pelvis,SLONG *new_y,SLON
 	return(ret);
 }
 
-extern SLONG	find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this_building,Thing *p_person,SLONG neg_dy,SLONG pos_dy,SLONG *ret_y);
-extern SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern std::int32_t	find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, std::int32_t ignore_faces_of_this_building,Thing *p_person,std::int32_t neg_dy,std::int32_t pos_dy,std::int32_t *ret_y);
+extern std::int32_t nearest_point_on_line_and_dist(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z);
 
-SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWORD	pelvis,SLONG *new_y,SLONG *foot_y)
+std::int32_t predict_collision_with_face(Thing *p_thing,std::int32_t wx,std::int32_t wy,std::int32_t wz,std::int16_t	pelvis,std::int32_t *new_y,std::int32_t *foot_y)
 {
-	SLONG	ret;
+	std::int32_t	ret;
 	GameCoord	temp_pos;
-	SLONG	temp_velocity,temp_dy;
-	SLONG	c0;
+	std::int32_t	temp_velocity,temp_dy;
+	std::int32_t	c0;
 
-	SLONG	dx,dy,dz,fx,fy,fz;
+	std::int32_t	dx,dy,dz,fx,fy,fz;
 
-	SLONG ignore_building;
+	std::int32_t ignore_building;
 	if(p_thing->DY>0)
 		return(0);
 
@@ -271,7 +271,7 @@ SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWOR
 	}
 	else
 	{
-		ignore_building = nullptr;
+		ignore_building = 0;
 	}
 
 	
@@ -304,7 +304,7 @@ SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWOR
 
 	//ret=find_face_near_y(wx+fx,wy+fy,wz+fz, ignore_building,p_thing,-(abs(p_thing->DY>>8)),5);
 	{
-		SLONG	min_y,max_y;
+		std::int32_t	min_y,max_y;
 		max_y=abs(p_thing->DY>>9);
 		min_y=-max_y;
 		if(max_y<5)
@@ -333,7 +333,7 @@ SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWOR
 /*
 	if(ret)
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str," FOUND face at %d y %d \n",ret,(*new_y));
 		CONSOLE_text(str);
 	}
@@ -346,10 +346,10 @@ SLONG predict_collision_with_face(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,SWOR
 	return(ret);
 }
 
-SLONG col_is_fence(SLONG	col)
+std::int32_t col_is_fence(std::int32_t	col)
 {
 	/*
-	SLONG	face;
+	std::int32_t	face;
 
 	face=col_vects[col].Face;
 	if(face>0)
@@ -371,7 +371,7 @@ SLONG col_is_fence(SLONG	col)
 		return(0);
 }
 
-inline bool	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
+inline bool	MagicFrameCheck(Thing *p_person, std::uint8_t frameindex) {
 	if (p_person->Draw.Tweened->FrameIndex>=frameindex) {
 		if (!(p_person->Genus.Person->Flags2&FLAG2_SYNC_SOUNDFX)) {
 			p_person->Genus.Person->Flags2|=FLAG2_SYNC_SOUNDFX;
@@ -384,9 +384,9 @@ inline bool	MagicFrameCheck(Thing *p_person, UBYTE frameindex) {
 
 }
 
-void set_person_in_building_through_roof(Thing *p_person,SLONG face)
+void set_person_in_building_through_roof(Thing *p_person,std::int32_t face)
 {
-	SLONG	building,storey,wall,best_storey=0;
+	std::int32_t	building,storey,wall,best_storey=0;
 #ifdef	POO
 	wall=prim_faces4[face].ThingIndex;
 	if(wall<0)
@@ -429,10 +429,10 @@ void set_person_in_building_through_roof(Thing *p_person,SLONG face)
 }
 
 
-SLONG damage_person_on_land(Thing *p_thing)
+std::int32_t damage_person_on_land(Thing *p_thing)
 {
-	SLONG sound;
-	SLONG damage;
+	std::int32_t sound;
+	std::int32_t damage;
 
 	StopScreamFallSound(p_thing); // just in case
 
@@ -444,7 +444,7 @@ SLONG damage_person_on_land(Thing *p_thing)
 	     if (p_thing->DY < -20000) {sound = PCOM_SOUND_DROP_BIG;}
 	else if (p_thing->DY < -10000) {sound = PCOM_SOUND_DROP_MED;}
 	else if (p_thing->DY <  -5000) {sound = PCOM_SOUND_DROP;}
-	else                           {sound = nullptr;}
+	else                           {sound = 0;}
 
 	if (sound)
 	{
@@ -521,7 +521,7 @@ SLONG damage_person_on_land(Thing *p_thing)
 			// sets us up in the right spot to change anim to dead
 			//
 
-			//void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim);
+			//void locked_anim_change(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim);
 
 			//locked_anim_change(p_thing,SUB_OBJECT_LEFT_FOOT,ANIM_STAND_READY);
 
@@ -540,20 +540,20 @@ SLONG damage_person_on_land(Thing *p_thing)
 }
 
 
-extern SLONG actual_sliding;
-extern SLONG last_slide_dist;
+extern std::int32_t actual_sliding;
+extern std::int32_t last_slide_dist;
 
-UBYTE just_started_falling_off_backwards;
+std::uint8_t just_started_falling_off_backwards;
 
-SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
+std::int32_t projectile_move_thing(Thing *p_thing,std::int32_t flag)
 {
 	GameCoord	new_position;
 	DrawTween		*draw_info;
-	SLONG	face;
-	SLONG	ret=0;
-	SLONG	col=0;
+	std::int32_t	face;
+	std::int32_t	ret=0;
+	std::int32_t	col=0;
 
-	SLONG	dx,dy,dz;
+	std::int32_t	dx,dy,dz;
 
 	LogText(" projectile\n");
 
@@ -571,7 +571,7 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 
 	if(p_thing->Genus.Person->Ware)
 	{
-		SLONG	px,py,pz,wy;
+		std::int32_t	px,py,pz,wy;
 		//
 		// slide along warehouse roof
 		//
@@ -593,7 +593,7 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 
 	if (flag & (1|8)) // check for walls
 	{
-		SLONG	x1,x2,y1,y2,z1,z2;
+		std::int32_t	x1,x2,y1,y2,z1,z2;
 		{
 			{
 				//
@@ -688,7 +688,7 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 					else
 #endif
 					{
-						SLONG extra_wall_height = 0;
+						std::int32_t extra_wall_height = 0;
 
 						extra_wall_height = 0; //-p_thing->DY << 3;
 
@@ -713,8 +713,8 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 //
 // This next bit of code is probably redundant as we can no longer jump through doors, but It cant do any harm to leave it in (apart from code bloat)
 //
-						extern SLONG slide_into_warehouse;
-						extern SLONG slide_outof_warehouse;
+						extern std::int32_t slide_into_warehouse;
+						extern std::int32_t slide_outof_warehouse;
 						
 						if (slide_into_warehouse)
 						{
@@ -842,7 +842,7 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 //	if(p_thing->Timer1>3)
 	if(flag&(2|4)) // under feet
 	{
-		SLONG	new_y,on_face,foot_y;
+		std::int32_t	new_y,on_face,foot_y;
 		if(face=predict_collision_with_face(p_thing,new_position.X>>8,new_position.Y>>8,new_position.Z>>8,flag&4,&new_y,&foot_y))
 		{
 			//ASSERT(face>0);
@@ -996,7 +996,7 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 	// Is this person going to fall to his death?
 	//
 
-	SLONG death_check;
+	std::int32_t death_check;
 
 	if (p_thing->Genus.Person->PlayerID)
 	{
@@ -1038,12 +1038,12 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 			}
 			else
 			{
-				SLONG i;
+				std::int32_t i;
 
-				SLONG mx;
-				SLONG mz;
+				std::int32_t mx;
+				std::int32_t mz;
 
-				SLONG height;
+				std::int32_t height;
 
 				//
 				// Is this person going to die?
@@ -1125,9 +1125,9 @@ SLONG projectile_move_thing(Thing *p_thing,SLONG flag)
 }
 
 //could be logarithmic/ linear/ stepped
-void change_velocity_to(Thing *p_thing,SWORD velocity)
+void change_velocity_to(Thing *p_thing,std::int16_t velocity)
 {
-	SLONG	dv;
+	std::int32_t	dv;
 
 	velocity=(velocity*3)>>2; // fps required , fps used when setting up these values
 
@@ -1149,9 +1149,9 @@ void change_velocity_to(Thing *p_thing,SWORD velocity)
 	}
 }
 
-void change_velocity_to_slow(Thing *p_thing,SWORD velocity)
+void change_velocity_to_slow(Thing *p_thing,std::int16_t velocity)
 {
-	SLONG	dv;
+	std::int32_t	dv;
 
 	velocity=(velocity*3)>>2; // fps required , fps used when setting up these values
 
@@ -1173,9 +1173,9 @@ void change_velocity_to_slow(Thing *p_thing,SWORD velocity)
 	}
 }
 
-void trickle_velocity_to(Thing *p_thing,SWORD velocity)
+void trickle_velocity_to(Thing *p_thing,std::int16_t velocity)
 {
-	SLONG	dv;
+	std::int32_t	dv;
 
 	velocity=(velocity*3)>>2; // fps required , fps used when setting up these values
 
@@ -1191,7 +1191,7 @@ void trickle_velocity_to(Thing *p_thing,SWORD velocity)
 	}
 }
 
-void set_thing_velocity(Thing *t_thing,SLONG vel)
+void set_thing_velocity(Thing *t_thing,std::int32_t vel)
 {
 	vel=(vel*3)>>2; // fps required , fps used when setting up these values
 
@@ -1201,18 +1201,18 @@ void set_thing_velocity(Thing *t_thing,SLONG vel)
 
 #define	REQUIRED_DIST_JUMP_GRAB	35
 
-extern SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b);
-extern void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+extern std::int32_t dist_to_line(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b);
+extern void nearest_point_on_line(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z);
 extern void calc_things_height(struct MapThing *p_thing); //editor\collide.c
 //extern struct	CollisionVect		col_vects[];
 #ifdef	DOG_POO
-SLONG setup_person_for_jump_grab(Thing *p_thing)
+std::int32_t setup_person_for_jump_grab(Thing *p_thing)
 {
-	SLONG col,dist;
-	SLONG	x,z;
+	std::int32_t col,dist;
+	std::int32_t	x,z;
 	struct	CollisionVect	*p_vect;
 	GameCoord	new_position;
-	SLONG	m_dx,m_dy,m_dz;
+	std::int32_t	m_dx,m_dy,m_dz;
 	new_position	=	p_thing->WorldPos;
 
 
@@ -1229,8 +1229,8 @@ SLONG setup_person_for_jump_grab(Thing *p_thing)
 
 	if(col)
 	{
-		SLONG	new_x,new_z,angle;
-		SLONG	dx,dz;
+		std::int32_t	new_x,new_z,angle;
+		std::int32_t	dx,dz;
 
 		angle=get_point_dist_from_col_vect(col,x,z,&new_x,&new_z,REQUIRED_DIST_JUMP_GRAB);
 		LogText(" move person was %d %d now becomes %d %d\n",x,z,new_x,new_z);
@@ -1250,13 +1250,13 @@ SLONG setup_person_for_jump_grab(Thing *p_thing)
 }
 #endif
 
-extern void	highlight_face(SLONG face);
-extern void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
+extern void	highlight_face(std::int32_t face);
+extern void	e_draw_3d_mapwho(std::int32_t x1,std::int32_t z1);
 
-void show_walkable(SLONG mx,SLONG mz)
+void show_walkable(std::int32_t mx,std::int32_t mz)
 {
-	SLONG	index;
-	SLONG	check_face;
+	std::int32_t	index;
+	std::int32_t	check_face;
 
 	return;
 /*
@@ -1389,24 +1389,24 @@ Alternate Method for Pull Up Onto Storey
 
   Point 
   {
-	UWORD x;
-	UWORD Y;
-	UWORD Z;
+	std::uint16_t x;
+	std::uint16_t Y;
+	std::uint16_t Z;
   }; //6
 
   PolyQuad
   {
 	Point[4];
-	SWORD	PrimFace;
-	UWORD	Flags;	//walkable, verticle, vaultable, high,med,flat,
+	std::int16_t	PrimFace;
+	std::uint16_t	Flags;	//walkable, verticle, vaultable, high,med,flat,
 
   }; //4*6=24+4 =28
 
   PolyTri
   {
 	Point[3];
-	SWORD	PrimFace;
-	UWORD	Flags;	//walkable, verticle, vaultable, high,med,flat,
+	std::int16_t	PrimFace;
+	std::uint16_t	Flags;	//walkable, verticle, vaultable, high,med,flat,
   }; //3*6=18+4 =22
 
 

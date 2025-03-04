@@ -26,11 +26,11 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE next;
-	UBYTE padding;
-	ULONG colour;
-	ULONG lock;	// One bit per point.
+	std::uint8_t type;
+	std::uint8_t next;
+	std::uint8_t padding;
+	std::uint32_t colour;
+	std::uint32_t lock;	// One bit per point.
 
 	float offset_x;
 	float offset_y;
@@ -47,7 +47,7 @@ typedef struct
 #define CLOTH_MAX_CLOTH 16
 
 CLOTH_Cloth CLOTH_cloth[CLOTH_MAX_CLOTH];
-SLONG CLOTH_cloth_last;
+std::int32_t CLOTH_cloth_last;
 
 //
 // The links between the different cloth.
@@ -58,16 +58,16 @@ SLONG CLOTH_cloth_last;
 
 typedef struct
 {
-	UBYTE p1;
-	UBYTE p2;
-	UBYTE type;
+	std::uint8_t p1;
+	std::uint8_t p2;
+	std::uint8_t type;
 	
 } CLOTH_Link;
 
 #define CLOTH_MAX_LINKS 256
 
 CLOTH_Link CLOTH_link[CLOTH_MAX_LINKS];
-SLONG CLOTH_link_upto;
+std::int32_t CLOTH_link_upto;
 
 //
 // How we calculate the normal of each point.
@@ -75,9 +75,9 @@ SLONG CLOTH_link_upto;
 
 typedef struct
 {
-	ULONG num;
-	UBYTE p1[4];
-	UBYTE p2[4];
+	std::uint32_t num;
+	std::uint8_t p1[4];
+	std::uint8_t p2[4];
 	float overnum;
 
 } CLOTH_Normal;
@@ -91,7 +91,7 @@ CLOTH_Normal CLOTH_normal[CLOTH_MAX_NORMALS];
 // The mapwho.
 //
 
-UBYTE CLOTH_mapwho[PAP_SIZE_LO][PAP_SIZE_LO];
+std::uint8_t CLOTH_mapwho[PAP_SIZE_LO][PAP_SIZE_LO];
 
 
 //
@@ -156,20 +156,20 @@ static inline float qdist(float x, float y, float z)
 
 void CLOTH_init()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG y;
-	SLONG dx;
-	SLONG dy;
-	SLONG x1;
-	SLONG y1;
-	SLONG x2;
-	SLONG y2;
-	SLONG o1;
-	SLONG o2;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t o1;
+	std::int32_t o2;
 
-	const struct {SBYTE dx; SBYTE dy;} order[4] =
+	const struct {std::int8_t dx; std::int8_t dy;} order[4] =
 	{
 		{+1, 0},
 		{0, -1},
@@ -274,18 +274,18 @@ void CLOTH_init()
 }
 
 
-UBYTE CLOTH_create(
-		UBYTE type,
-		SLONG ox,
-		SLONG oy,
-		SLONG oz,
-		SLONG iwdx, SLONG iwdy, SLONG iwdz,
-		SLONG ihdx, SLONG ihdy, SLONG ihdz,
-		SLONG dist,
-		ULONG colour)
+std::uint8_t CLOTH_create(
+		std::uint8_t type,
+		std::int32_t ox,
+		std::int32_t oy,
+		std::int32_t oz,
+		std::int32_t iwdx, std::int32_t iwdy, std::int32_t iwdz,
+		std::int32_t ihdx, std::int32_t ihdy, std::int32_t ihdz,
+		std::int32_t dist,
+		std::uint32_t colour)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float x;
 	float y;
@@ -303,8 +303,8 @@ UBYTE CLOTH_create(
 	float hdy;
 	float hdz;
 
-	UBYTE map_x;
-	UBYTE map_z;
+	std::uint8_t map_x;
+	std::uint8_t map_z;
 
 	CLOTH_Cloth *cc;
 	CLOTH_Point *cp;
@@ -415,7 +415,7 @@ UBYTE CLOTH_create(
 }
 
 
-void CLOTH_point_lock(UBYTE cloth, UBYTE w, UBYTE h)
+void CLOTH_point_lock(std::uint8_t cloth, std::uint8_t w, std::uint8_t h)
 {
 	CLOTH_Cloth *cc;
 
@@ -429,7 +429,7 @@ void CLOTH_point_lock(UBYTE cloth, UBYTE w, UBYTE h)
 }
 
 
-void CLOTH_point_move(UBYTE cloth, UBYTE w, UBYTE h, SLONG x, SLONG y, SLONG z)
+void CLOTH_point_move(std::uint8_t cloth, std::uint8_t w, std::uint8_t h, std::int32_t x, std::int32_t y, std::int32_t z)
 {
 	CLOTH_Cloth *cc;
 	CLOTH_Point *cp;
@@ -449,10 +449,10 @@ void CLOTH_point_move(UBYTE cloth, UBYTE w, UBYTE h, SLONG x, SLONG y, SLONG z)
 void CLOTH_process()
 {
 #if 0
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	ULONG bit;
+	std::uint32_t bit;
 
 	float dx;
 	float dy;
@@ -467,9 +467,9 @@ void CLOTH_process()
 	float fy;
 	float fz;
 
-	SLONG times;
+	std::int32_t times;
 
-	static SLONG GAME_TURN = 0;
+	static std::int32_t GAME_TURN = 0;
 
 	CLOTH_Cloth *cc;
 	CLOTH_Point *cp;
@@ -640,7 +640,7 @@ void CLOTH_process()
 }
 
 
-UBYTE CLOTH_get_first(UBYTE lo_map_x, UBYTE lo_map_z)
+std::uint8_t CLOTH_get_first(std::uint8_t lo_map_x, std::uint8_t lo_map_z)
 {
 	ASSERT(WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1));
 	ASSERT(WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1));
@@ -651,10 +651,10 @@ UBYTE CLOTH_get_first(UBYTE lo_map_x, UBYTE lo_map_z)
 
 CLOTH_Info CLOTH_info;
 
-CLOTH_Info *CLOTH_get_info(UBYTE cloth)
+CLOTH_Info *CLOTH_get_info(std::uint8_t cloth)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	float nx;
 	float ny;

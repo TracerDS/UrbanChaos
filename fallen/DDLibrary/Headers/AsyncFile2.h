@@ -6,13 +6,13 @@
 //
 // initialize
 
-void	InitAsyncFile(void);
+void	InitAsyncFile();
 
 // TermAsyncFile
 //
 // terminate
 
-void	TermAsyncFile(void);
+void	TermAsyncFile();
 
 // LoadAsyncFile
 //
@@ -24,7 +24,7 @@ bool	LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key);
 //
 // return key of next completed file, else nullptr
 
-void*	GetNextCompletedAsyncFile(void);
+void*	GetNextCompletedAsyncFile();
 
 // CancelAsyncFile
 //
@@ -39,7 +39,7 @@ void	CancelAsyncFile(void* key);
 struct AsyncFile
 {
 	HANDLE		hFile;		// file handle
-	UBYTE*		buffer;		// buffer for data
+	std::uint8_t*		buffer;		// buffer for data
 	int			blen;		// amount to read
 	void*		hKey;		// user key
 	AsyncFile*	prev;		// previous in chain

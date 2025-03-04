@@ -24,7 +24,7 @@ typedef struct lmap_lmap LMAP_Lmap;
 // two (16 to 256).
 //
 
-LMAP_Lmap *LMAP_create(SLONG resolution);
+LMAP_Lmap *LMAP_create(std::int32_t resolution);
 
 
 

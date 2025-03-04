@@ -62,17 +62,17 @@
 
 typedef struct 
 {
-	UWORD	label;
-	UWORD	tpage;
-	UWORD	clut;
-	UWORD	width;
-	UWORD	height;
-	UBYTE	u,v;
+	std::uint16_t	label;
+	std::uint16_t	tpage;
+	std::uint16_t	clut;
+	std::uint16_t	width;
+	std::uint16_t	height;
+	std::uint8_t	u,v;
 } W_Image;
 
 #include "fendi.h"
 
-extern void AENG_screen_shot(SLONG width);
+extern void AENG_screen_shot(std::int32_t width);
 
 typedef struct WadMenuItem {
 	int name;
@@ -101,14 +101,14 @@ WadMenuFMV Wadmenu_FMV[]={
 	{"\\STR\\PSXCUT3.STR;1",679}
 };
 
-extern SBYTE f_width[];
-extern SBYTE f_descend[];
-extern SLONG stat_game_time;
+extern std::int8_t f_width[];
+extern std::int8_t f_descend[];
+extern std::int32_t stat_game_time;
 
-UBYTE Wadmenu_Backdrop[]={0,0,0,0,0,1,0,0,1,0,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,3,3,3,3};
+std::uint8_t Wadmenu_Backdrop[]={0,0,0,0,0,1,0,0,1,0,3,1,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,3,3,3,3};
 
 typedef struct {
-	SLONG	time;
+	std::int32_t	time;
 	char	*player;
 } ParTimeData;
 
@@ -153,8 +153,8 @@ ParTimeData Wadmenu_ParTime[]={
 	{TIME(0,0,0),"No One"}
 };
 
-extern SLONG Wadmenu_MuckyTime;
-extern CBYTE Wadmenu_MuckyName[];
+extern std::int32_t Wadmenu_MuckyTime;
+extern char Wadmenu_MuckyName[];
 
 #define WADMENU_FMV_EIDOS	0
 #define WADMENU_FMV_MUCKY	1
@@ -163,15 +163,15 @@ extern CBYTE Wadmenu_MuckyName[];
 #define WADMENU_FMV_CUT2	4
 #define WADMENU_FMV_CUT3	5
 
-extern void Wadmenu_DoParticleElement(SLONG mode);
+extern void Wadmenu_DoParticleElement(std::int32_t mode);
 extern void Wadmenu_ParticleSync(TIM_IMAGE *tim);
-extern void Wadmenu_Image(SLONG id,SLONG x,SLONG y,SLONG scale,SLONG colour);
-extern SLONG Wadmenu_GetDistrict(TIM_IMAGE *tim);
-extern void Wadmenu_Backboard(SLONG id,SLONG x,SLONG y);
-extern void Wadmenu_NewMenu(WadMenuItem *menu,SLONG selected);
-extern void Wadmenu_BackMenu(WadMenuItem *menu,SLONG selected);
-extern void Wadmenu_ParticleEffect(SLONG flag,SLONG data1,SLONG data2);
-extern void Wadmenu_DrawIconicStuff(SLONG flag);
+extern void Wadmenu_Image(std::int32_t id,std::int32_t x,std::int32_t y,std::int32_t scale,std::int32_t colour);
+extern std::int32_t Wadmenu_GetDistrict(TIM_IMAGE *tim);
+extern void Wadmenu_Backboard(std::int32_t id,std::int32_t x,std::int32_t y);
+extern void Wadmenu_NewMenu(WadMenuItem *menu,std::int32_t selected);
+extern void Wadmenu_BackMenu(WadMenuItem *menu,std::int32_t selected);
+extern void Wadmenu_ParticleEffect(std::int32_t flag,std::int32_t data1,std::int32_t data2);
+extern void Wadmenu_DrawIconicStuff(std::int32_t flag);
 extern void Wadmenu_InitStats();
 extern void Wadmenu_AutoLoadInfo();
 extern void Wadmenu_Code(TIM_IMAGE *tim);
@@ -246,18 +246,18 @@ extern void Wadmenu_Code(TIM_IMAGE *tim);
 
 typedef struct {
 	char name[32];
-	SLONG opened;
-	UWORD x;
-	UWORD y;
+	std::int32_t opened;
+	std::uint16_t x;
+	std::uint16_t y;
 } W_District;
 
 W_District *Wadmenu_district;
 
-SLONG Wadmenu_districts;
-SLONG Wadmenu_sel_district;
-SLONG Wadmenu_Cheat=0;
+std::int32_t Wadmenu_districts;
+std::int32_t Wadmenu_sel_district;
+std::int32_t Wadmenu_Cheat=0;
 
-UBYTE MCARD_Header[]={
+std::uint8_t MCARD_Header[]={
 	0x53, 0x43,
 	0x11,
 	0x01,
@@ -271,21 +271,21 @@ UBYTE MCARD_Header[]={
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
 
-UWORD MCARD_Clut[]={
+std::uint16_t MCARD_Clut[]={
  	0x7fff, 0x0c63, 0x1ce7, 0x0846, 0x2552, 0x1d0f, 0x18ed, 0x10aa,
 	0x2994, 0x2151, 0x0c88, 0x0023, 0x00ee, 0x0ca2, 0x24a4, 0x8000
 };
 
-ULONG MCARD_Icon[]={
+std::uint32_t MCARD_Icon[]={
 	0x94457a3b, 0xff7dd594, 0x945abbbf, 0xffbac176, 0x597fbbbf, 0xfffacb17, 0x547bffff, 0xfffffbbb,
 	0x79732f1f, 0xffb132f1, 0x7457a33f, 0xfffbbbb3, 0x7445456a, 0xb76457b3, 0x64848857, 0x34488833,
 	0x48844887, 0x35484437, 0x75455447, 0xb3755631, 0xf3a64451, 0xf33a773f, 0x76544563, 0xfb33aa33,
 	0x5448457b, 0xbfb33336, 0x1a7777ab, 0xbbbbbbb3, 0x4888663e, 0xbbbbbb36, 0xa7777a1e, 0xbbbbb3fb
 };
 
-extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
-extern void	draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id);
-extern void	PCReadFile(CBYTE* name,UBYTE *addr,ULONG len);
+extern void	draw_centre_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id,std::int32_t flag);
+extern void	draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id);
+extern void	PCReadFile(char* name,std::uint8_t *addr,std::uint32_t len);
 
 extern int sfx_volume;
 extern int music_volume;
@@ -297,16 +297,16 @@ extern int vibra_mode;
 extern int Wadmenu_Levelwon;
 extern int screen_x;
 extern int screen_y;
-extern UBYTE Wadmenu_Video;
-extern CBYTE* Wadmenu_CivMess;
+extern std::uint8_t Wadmenu_Video;
+extern char* Wadmenu_CivMess;
 // All the stats we can update during the game.
-extern SWORD Wadmenu_Current_Con;
-extern SWORD Wadmenu_Current_Ref;
-extern SWORD Wadmenu_Current_Sta;
-extern SWORD Wadmenu_Current_Str;
-extern SWORD Wadmenu_Citations;
+extern std::int16_t Wadmenu_Current_Con;
+extern std::int16_t Wadmenu_Current_Ref;
+extern std::int16_t Wadmenu_Current_Sta;
+extern std::int16_t Wadmenu_Current_Str;
+extern std::int16_t Wadmenu_Citations;
 
-extern UBYTE Wadmenu_Display;
+extern std::uint8_t Wadmenu_Display;
 
 #define MAX_BRIEFING	48
 
@@ -335,7 +335,7 @@ extern int sel_language;
 //char *level_ext[]={"nad","fad","sad","iad","nad","nad"};
 
 extern ControllerPacket	PAD_Input1,PAD_Input2;
-extern void AENG_flip2(ULONG *back_image);
+extern void AENG_flip2(std::uint32_t *back_image);
 
 int Wadmenu_texthigh=0x007f7f7f;
 int Wadmenu_texttrans=0x003f3f3f;
@@ -411,12 +411,12 @@ int Wadmenu_textlow=0x001f1f1f;
 #define WADMENU_FILETEMPLATE		"urban\\level%02d\\level.nad"
 #endif
 
-extern SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count);
-extern void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
+extern std::int32_t	text_width(char* message,std::int32_t font_id,std::int32_t *char_count);
+extern void DRAW2D_Box_Page(std::int32_t x,std::int32_t y,std::int32_t ox,std::int32_t oy,std::int32_t rgb);
 
 extern char level_done[48];
 
-extern UBYTE Wadmenu_PadType;
+extern std::uint8_t Wadmenu_PadType;
 
 void Wadmenu_ReadWads(char *fname)
 {
@@ -425,9 +425,9 @@ void Wadmenu_ReadWads(char *fname)
 	
 	brief_mem=(char *)MemAlloc((sizeof(BriefEntry)*MAX_BRIEFING)+4);
 
-	PCReadFile(fname,(UBYTE *)brief_mem,(sizeof(BriefEntry)*MAX_BRIEFING)+4);
+	PCReadFile(fname,(std::uint8_t *)brief_mem,(sizeof(BriefEntry)*MAX_BRIEFING)+4);
 
-	wad_used=*(SLONG *)brief_mem;
+	wad_used=*(std::int32_t *)brief_mem;
 	brief=(BriefEntry*)&brief_mem[4];
 }
 
@@ -440,20 +440,20 @@ void Wadmenu_ClearWads()
 	}
 }
 
-extern SLONG MDEC_Play(char *fname,int len,int lang);
+extern std::int32_t MDEC_Play(char *fname,int len,int lang);
 
 #define Wadmenu_PlayFMV(fmv) MDEC_Play(Wadmenu_FMV[fmv].fname,Wadmenu_FMV[fmv].frames,fmv);
 
 #define MAX_IN_ONE		8
 
 char Wadmenu_level[MAX_IN_ONE];
-SLONG Wadmenu_levels_used;
+std::int32_t Wadmenu_levels_used;
 
 char Wadmenu_group[48];
 
 void Wadmenu_BuildAvailable()
 {
-	SLONG i;
+	std::int32_t i;
 
 	Wadmenu_levels_used=0;
 
@@ -527,7 +527,7 @@ char Wadmenu_char_width[]={
 	20,20,20,20,20,20,20,20,
 	20,20,20,20,20,20,20,20};
 
-UBYTE wadmenu_f_width[]={
+std::uint8_t wadmenu_f_width[]={
 	5 ,2 ,5 ,11,8 ,12,10,2,
 	5 ,5 ,8 ,8 ,2 ,8, 3 ,5,
 	8 ,3 ,8 ,8 ,8 ,8 ,8 ,8,
@@ -559,10 +559,10 @@ UBYTE wadmenu_f_width[]={
 
 };
 
-SLONG Wadmenu_text_width2(CBYTE* message)
+std::int32_t Wadmenu_text_width2(char* message)
 {
-	CBYTE* p=message;
-	SLONG width=0;
+	char* p=message;
+	std::int32_t width=0;
 
 	while(*p)
 	{
@@ -573,14 +573,14 @@ SLONG Wadmenu_text_width2(CBYTE* message)
 	return width;
 }
 
-void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
+void Wadmenu_draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id)
 {
 #ifndef VERSION_KANJI
 	SPRT *p;
 	DR_TPAGE *tp;
-	UBYTE* m=(UBYTE*)message;
-	SLONG x0=x,y0=y;
-	SLONG c;
+	std::uint8_t* m=(std::uint8_t*)message;
+	std::int32_t x0=x,y0=y;
+	std::int32_t c;
 
 	ALLOCPRIM(tp,DR_TPAGE);
 	setDrawTPage(tp,0,1,getTPage(0,0,896,256));
@@ -634,7 +634,7 @@ void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 #else
 #if 0
 	POLY_FT4 *p;
-	SLONG Kanji_found=Kanji_next;
+	std::int32_t Kanji_found=Kanji_next;
 
 	Kanji_found=Kanji_FindString(message);
 
@@ -642,7 +642,7 @@ void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 	// on the scratch pad, and since scratch pad strings are sprintf'd in functions
 	// these are unlikely to be the same next time around.
 
-	if ((SLONG)message>0)
+	if ((std::int32_t)message>0)
 		Kanji_JunkString(Kanji_found);
 
 	ALLOCPRIM(p,POLY_FT4);
@@ -656,14 +656,14 @@ void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 	p->tpage=getClut(Kanji_clut_x,Kanji_clut_y);
 	DOPRIM(PANEL_OTZ,p);
 #else
-	Kanji_string(x,y,(UWORD*)message,font_id,256);
+	Kanji_string(x,y,(std::uint16_t*)message,font_id,256);
 #endif
 #endif
 }
 
 
 #ifndef VERSION_KANJI
-SLONG Wadmenu_draw_char(SLONG x,SLONG y,unsigned char c,SLONG colour)
+std::int32_t Wadmenu_draw_char(std::int32_t x,std::int32_t y,unsigned char c,std::int32_t colour)
 {
 	POLY_FT4 *p;
 	int c0;
@@ -695,9 +695,9 @@ SLONG Wadmenu_draw_char(SLONG x,SLONG y,unsigned char c,SLONG colour)
 	return 0;
 }
 
-void Wadmenu_new_text(SLONG x,SLONG y,char *str,SLONG colour)
+void Wadmenu_new_text(std::int32_t x,std::int32_t y,char *str,std::int32_t colour)
 {
-	SLONG x0=x;
+	std::int32_t x0=x;
 	unsigned char *c=(unsigned char *)str;
 
 	while(*c)
@@ -706,7 +706,7 @@ void Wadmenu_new_text(SLONG x,SLONG y,char *str,SLONG colour)
 
 int Wadmenu_text_width(char *str)
 {
-	SLONG w=0;
+	std::int32_t w=0;
 	char *c=str;
 
 	while(*c)
@@ -715,7 +715,7 @@ int Wadmenu_text_width(char *str)
 			w+=16;
 		else
 		{
-			SLONG c0=(int)strchr(Wadmenu_char_table,toupper(*c));
+			std::int32_t c0=(int)strchr(Wadmenu_char_table,toupper(*c));
 			if (c0)
 				w+=Wadmenu_char_width[c0-(int)Wadmenu_char_table];
 		}
@@ -725,11 +725,11 @@ int Wadmenu_text_width(char *str)
 }
 #endif
 
-void Wadmenu_draw_text(SLONG x,SLONG y,char *str,SLONG colour,SLONG flags)
+void Wadmenu_draw_text(std::int32_t x,std::int32_t y,char *str,std::int32_t colour,std::int32_t flags)
 {
-	SLONG tx,ty,count;
-	SLONG tw;
-	SLONG th;
+	std::int32_t tx,ty,count;
+	std::int32_t tw;
+	std::int32_t th;
 
 #ifndef VERSION_KANJI
 	if (flags&WADMENU_TEXT_BIG)
@@ -810,10 +810,10 @@ void Wadmenu_DrawItems(int selected,int moff)
 }
 */
 extern char wadmenu_filename[32];
-extern SLONG MFX_Conv_playing;
-extern SWORD music_current_level;
-extern SLONG MFX_music_int;
-extern SLONG MFX_Speech_End;
+extern std::int32_t MFX_Conv_playing;
+extern std::int16_t music_current_level;
+extern std::int32_t MFX_music_int;
+extern std::int32_t MFX_Speech_End;
 
 int Wadmenu_title;
 int Wadmenu_oldtitle;
@@ -821,7 +821,7 @@ int Wadmenu_Brief_End;
 
 #define BRIEF_MAX_SIZE	8448
 
-UBYTE level_brief[]={0,0,0,0,1,0,0,2,0,0,3,0,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,0};
+std::uint8_t level_brief[]={0,0,0,0,1,0,0,2,0,0,3,0,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,0};
 
 #ifndef VERSION_DEMO
 char *Wadmenu_GetWad(TIM_IMAGE *tim)
@@ -1069,8 +1069,8 @@ void Wadmenu_MonoStereo(WadMenuItem *item)
 
 typedef struct {
 	int name;
-	SLONG config;
-	SLONG flag;
+	std::int32_t config;
+	std::int32_t flag;
 } PadSetup;
 
 PadSetup pad_info[14]={
@@ -1110,16 +1110,16 @@ DVECTOR key_loc[]={
 	{108,192},{108,204}
 };
 
-UBYTE key_just[]={
+std::uint8_t key_just[]={
 	PAD_POSITION_RIGHT,		PAD_POSITION_RIGHT,		PAD_POSITION_LEFT,		PAD_POSITION_RIGHT,
 	PAD_POSITION_LEFT,		PAD_POSITION_RIGHT,		PAD_POSITION_LEFT,		PAD_POSITION_LEFT,
 	PAD_POSITION_LEFT,		PAD_POSITION_RIGHT,		PAD_POSITION_LEFT,		PAD_POSITION_RIGHT,
 	PAD_POSITION_LEFT,		PAD_POSITION_LEFT
 };
 
-extern void Wadpart_Box(SLONG x,SLONG y,SLONG w,SLONG h,SLONG colour);
+extern void Wadpart_Box(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t colour);
 
-void Wadmenu_DrawIconicStuff(SLONG flag)
+void Wadmenu_DrawIconicStuff(std::int32_t flag)
 {
 	if (flag & WADMENU_MAP_SCREEN)
 	{
@@ -1170,7 +1170,7 @@ void Wadmenu_DrawIconicStuff(SLONG flag)
 
 }
 
-void Wadmenu_ParticleEffect(SLONG flag,SLONG data1,SLONG data2)
+void Wadmenu_ParticleEffect(std::int32_t flag,std::int32_t data1,std::int32_t data2)
 {
 	if (flag & WADMENU_EFFECT_IN)
 	{
@@ -1251,12 +1251,12 @@ void Wadmenu_ParticleEffect(SLONG flag,SLONG data1,SLONG data2)
 	}
 }
 
-void Wadmenu_PadDrawConfig(PadInfo *info,SLONG free)
+void Wadmenu_PadDrawConfig(PadInfo *info,std::int32_t free)
 {
 	int i,id;
 	int line=80;
 	char cstr[40];
-	SLONG c,width;
+	std::int32_t c,width;
 
 	if (pad_config!=4)
 	{
@@ -1305,7 +1305,7 @@ void Wadmenu_PadDrawConfig(PadInfo *info,SLONG free)
 	Wadmenu_DrawIconicStuff(WADMENU_PAD_SCREEN);
 }
 
-SLONG Wadmenu_FindKey(SLONG pad)
+std::int32_t Wadmenu_FindKey(std::int32_t pad)
 {
 	pad=pad^0xffff;
 	switch(pad)
@@ -1352,7 +1352,7 @@ void Wadmenu_PadConfigFree(TIM_IMAGE *tim)
 	int key=0,i,done=0;
 	pad_config=4;
 	char cstr[40];
-	UBYTE used[14];
+	std::uint8_t used[14];
 
 	for(i=0;i<14;i++)
 	{
@@ -1443,11 +1443,11 @@ void Wadmenu_PadConfigFree(TIM_IMAGE *tim)
 	}
 }
 
-void Wadmenu_BadCop(TIM_IMAGE *tim,CBYTE* mess)
+void Wadmenu_BadCop(TIM_IMAGE *tim,char* mess)
 {
-	SLONG line,x;
-	CBYTE buf[80];
-	CBYTE* p,*p2;
+	std::int32_t line,x;
+	char buf[80];
+	char* p,*p2;
 
 	int awaiting=1;
 
@@ -1509,7 +1509,7 @@ void Wadmenu_BadCop(TIM_IMAGE *tim,CBYTE* mess)
 }
 
 
-SLONG Wadmenu_DoYorN(TIM_IMAGE *tim,SLONG title)
+std::int32_t Wadmenu_DoYorN(TIM_IMAGE *tim,std::int32_t title)
 {
 	int awaiting=1;
 
@@ -1543,9 +1543,9 @@ SLONG Wadmenu_DoYorN(TIM_IMAGE *tim,SLONG title)
 }
 
 typedef struct {
-	SLONG	text;
-	SWORD	delay;
-	SWORD	flags;
+	std::int32_t	text;
+	std::int16_t	delay;
+	std::int16_t	flags;
 } CreditData;
 
 #define CREDIT_NORMAL		0x0000
@@ -1561,13 +1561,13 @@ char *Wadmenu_DoCredits(TIM_IMAGE *tim)
 	int awaiting=1;
 	int cred_off=0;
 	int delay;
-	CBYTE* chr_buf;
+	char* chr_buf;
 
 //	credit=(CreditData*)MemAlloc(6144);
 
 	delay=Wadmenu_credit[0].delay;
 
-	chr_buf=(CBYTE*)Wadmenu_credit;
+	chr_buf=(char*)Wadmenu_credit;
 	
 #ifndef VERSION_DEMO
 	MUSIC_bodge_code=4;
@@ -1733,7 +1733,7 @@ char *Wadmenu_ViewTims(TIM_IMAGE *tim)
 	int x,y,tex;
 
 	char cstr[22];
-	SLONG offset_y=0;
+	std::int32_t offset_y=0;
 
 	Wadmenu_ParticleSync(tim);
 
@@ -1962,11 +1962,11 @@ void WadMenu_SaveLanguage(int lang)
 	*p2++=WAD_MAX_ITEMS;
 	for(i=0;i<WAD_MAX_ITEMS;i++)
 	{
-		*p2++=((SLONG)p-(SLONG)alloc)-(4*(WAD_MAX_ITEMS+2));
+		*p2++=((std::int32_t)p-(std::int32_t)alloc)-(4*(WAD_MAX_ITEMS+2));
 		strcpy(p,W_(i));
 		p+=strlen(W_(i))+1;
 	}
-	*p2=(SLONG)p-(SLONG)alloc;
+	*p2=(std::int32_t)p-(std::int32_t)alloc;
 
 	handle=PCcreat(langname,0);
 	PCwrite(handle,alloc,*p2);
@@ -1989,7 +1989,7 @@ void WadMenu_LoadLanguage(int lang)
 #else
 	sprintf(langname,"urban\\wadlang.000");
 #endif
-	PCReadFile(langname,(UBYTE*)Wad_Str,4096);
+	PCReadFile(langname,(std::uint8_t*)Wad_Str,4096);
 
 	// Add the base of the file onto all the pointers at the start of the file
 
@@ -2121,21 +2121,21 @@ void Wadmenu_DrawMenu(WadMenuItem *menu,int selected,int stack)
 
 extern void MDEC_VideoSet(int width,int height);
 
-extern UBYTE Video_Played;
-extern UBYTE Eidos_Played;
+extern std::uint8_t Video_Played;
+extern std::uint8_t Eidos_Played;
 
 #ifndef VERSION_DEMO
 #define PAD_KEY(x) { pad_key=x; time_out=GAME_TURN+1800; }
 #else
-extern SLONG demo_timeout;
+extern std::int32_t demo_timeout;
 
 #define PAD_KEY(x) { pad_key=x; time_out=GAME_TURN+(demo_timeout*25); }
 #endif
 
-void Wadmenu_Image(SLONG id,SLONG x,SLONG y,SLONG scale,SLONG colour)
+void Wadmenu_Image(std::int32_t id,std::int32_t x,std::int32_t y,std::int32_t scale,std::int32_t colour)
 {
 	POLY_FT4 *p;
-	SLONG aw,ah;
+	std::int32_t aw,ah;
 	W_Image *w=&image_list[id];
 
 	aw=(w->width*scale)>>8;
@@ -2163,10 +2163,10 @@ void Wadmenu_Image(SLONG id,SLONG x,SLONG y,SLONG scale,SLONG colour)
 
 }
 
-void Wadmenu_Backboard(SLONG id,SLONG x,SLONG y)
+void Wadmenu_Backboard(std::int32_t id,std::int32_t x,std::int32_t y)
 {
 	POLY_FT4 *p;
-	SLONG aw,ah;
+	std::int32_t aw,ah;
 	W_Image *w=&image_list[id];
 
 	ALLOCPRIM(p,POLY_FT4);
@@ -2197,10 +2197,10 @@ void Wadmenu_Backboard(SLONG id,SLONG x,SLONG y)
 }
 
 
-void Wadmenu_BackMenu(WadMenuItem *menu,SLONG selected)
+void Wadmenu_BackMenu(WadMenuItem *menu,std::int32_t selected)
 {
-	SLONG i=0;
-	SLONG line=WADMENU_ITEM_Y;
+	std::int32_t i=0;
+	std::int32_t line=WADMENU_ITEM_Y;
 
 	do
 	{
@@ -2227,10 +2227,10 @@ void Wadmenu_BackMenu(WadMenuItem *menu,SLONG selected)
 }
 
 
-void Wadmenu_NewMenu(WadMenuItem *menu,SLONG selected)
+void Wadmenu_NewMenu(WadMenuItem *menu,std::int32_t selected)
 {
-	SLONG i=0;
-	SLONG line=WADMENU_ITEM_Y;
+	std::int32_t i=0;
+	std::int32_t line=WADMENU_ITEM_Y;
 
 	do
 	{
@@ -2255,14 +2255,14 @@ void Wadmenu_NewMenu(WadMenuItem *menu,SLONG selected)
 //	Wadmenu_oldtitle=menu[i].name;
 }
 
-SLONG part_leaf_col[]={
+std::int32_t part_leaf_col[]={
 	0x00634040,
 	0x00406340,
 	0x004f4f40,
 	0x00405432
 };
 
-void Wadmenu_DoParticleElement(SLONG mode)
+void Wadmenu_DoParticleElement(std::int32_t mode)
 {
 	switch(Wadmenu_Backdrop[mode])
 	{
@@ -2289,7 +2289,7 @@ void Wadmenu_DoParticleElement(SLONG mode)
 	}
 }
 
-void Wadmenu_Box_Page(SLONG x,SLONG y,SLONG x2,SLONG y2,SLONG rgb,SLONG rgb2)
+void Wadmenu_Box_Page(std::int32_t x,std::int32_t y,std::int32_t x2,std::int32_t y2,std::int32_t rgb,std::int32_t rgb2)
 {
 	LINE_F3 *p;
 	ALLOCPRIM(p,LINE_F3);
@@ -2305,9 +2305,9 @@ void Wadmenu_Box_Page(SLONG x,SLONG y,SLONG x2,SLONG y2,SLONG rgb,SLONG rgb2)
 	DRAW2D_Box_Page(x,y,x2,y2,rgb);
 }
 
-SLONG Wadmenu_District_New(SLONG dist)
+std::int32_t Wadmenu_District_New(std::int32_t dist)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for(i=0;i<wad_used;i++)
 	{
@@ -2317,9 +2317,9 @@ SLONG Wadmenu_District_New(SLONG dist)
 	return 0;
 }
 
-void Wadmenu_DrawDistrict(SLONG selected)
+void Wadmenu_DrawDistrict(std::int32_t selected)
 {
-	SLONG i,line,x,flags,c,max_w;
+	std::int32_t i,line,x,flags,c,max_w;
 	// Draw rest of display stuff
 
 	// Only display the district name in English or NTSC versions
@@ -2360,7 +2360,7 @@ void Wadmenu_DrawDistrict(SLONG selected)
 }
 
 
-void Wadmenu_CheatLevels(SLONG cheat)
+void Wadmenu_CheatLevels(std::int32_t cheat)
 {
 	Wadmenu_Cheat=cheat;
 }
@@ -2368,7 +2368,7 @@ void Wadmenu_CheatLevels(SLONG cheat)
 
 void Wadmenu_FindDistricts()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for(i=0;i<28;i++)
 		Wadmenu_district[i].opened=0;
@@ -2383,9 +2383,9 @@ void Wadmenu_FindDistricts()
 	}
 }
 
-void Wadmenu_LevelByDistrict(SLONG dist)
+void Wadmenu_LevelByDistrict(std::int32_t dist)
 {
-	SLONG i;
+	std::int32_t i;
 
 	Wadmenu_levels_used=0;
 
@@ -2396,17 +2396,17 @@ void Wadmenu_LevelByDistrict(SLONG dist)
 	}
 }
 
-SLONG Wadmenu_SwitchDistrict(SLONG dist,SLONG dir)
+std::int32_t Wadmenu_SwitchDistrict(std::int32_t dist,std::int32_t dir)
 {
-	SLONG closest=INFINITY;
-	SLONG close_dist=-1;
-	SLONG i;
+	std::int32_t closest=INFINITY;
+	std::int32_t close_dist=-1;
+	std::int32_t i;
 
 	for(i=0;i<28;i++)
 	{
 		if ((i!=dist)&&Wadmenu_district[i].x&&Wadmenu_district[i].opened)
 		{
-			SLONG new_dist=dir*(Wadmenu_district[i].x-Wadmenu_district[dist].x);
+			std::int32_t new_dist=dir*(Wadmenu_district[i].x-Wadmenu_district[dist].x);
 			if ((new_dist>0)&&(new_dist<closest))
 			{
 				closest=new_dist;
@@ -2417,11 +2417,11 @@ SLONG Wadmenu_SwitchDistrict(SLONG dist,SLONG dir)
 	return close_dist;
 }
 
-SLONG Wadmenu_GetDistrict(TIM_IMAGE *tim)
+std::int32_t Wadmenu_GetDistrict(TIM_IMAGE *tim)
 {
-	SLONG done = 0,pad_key=0;
+	std::int32_t done = 0,pad_key=0;
 
-	SLONG cur_x,cur_y,new_x,new_y,selected;
+	std::int32_t cur_x,cur_y,new_x,new_y,selected;
 
 	Wadmenu_ParticleEffect(WADMENU_MAP_IN,0,0);
 
@@ -2470,7 +2470,7 @@ SLONG Wadmenu_GetDistrict(TIM_IMAGE *tim)
 			if (PadKeyIsPressed(&PAD_Input1,PAD_LL))
 			{
 				MFX_play_ambient(0,S_PISTOL_DRY,MFX_REPLACE);
-				SLONG sel=Wadmenu_SwitchDistrict(Wadmenu_sel_district,-1);
+				std::int32_t sel=Wadmenu_SwitchDistrict(Wadmenu_sel_district,-1);
 				if (sel>=0)
 				{
 					Wadmenu_sel_district=sel;
@@ -2485,7 +2485,7 @@ SLONG Wadmenu_GetDistrict(TIM_IMAGE *tim)
 			if (PadKeyIsPressed(&PAD_Input1,PAD_LR))
 			{
 				MFX_play_ambient(0,S_PISTOL_DRY,MFX_REPLACE);
-				SLONG sel=Wadmenu_SwitchDistrict(Wadmenu_sel_district,1);
+				std::int32_t sel=Wadmenu_SwitchDistrict(Wadmenu_sel_district,1);
 				if (sel>=0)
 				{
 					Wadmenu_sel_district=sel;
@@ -2554,9 +2554,9 @@ extern void	setup_textures(int world);
 void Wadmenu_LoadingScreen(TIM_IMAGE *tim)
 {
 	char fname[20];
-	ULONG *Back_Image;
+	std::uint32_t *Back_Image;
 
-	Back_Image=(ULONG*)MemAlloc(152*1024);
+	Back_Image=(std::uint32_t*)MemAlloc(152*1024);
 
 	MDEC_VideoSet(DisplayWidth,DisplayHeight);
 
@@ -2566,9 +2566,9 @@ void Wadmenu_LoadingScreen(TIM_IMAGE *tim)
 	sprintf(fname,"URBAN\\DEMOLOAD.TIM");
 #endif
 
-	PCReadFile(fname,(UBYTE*)Back_Image,640*241);
+	PCReadFile(fname,(std::uint8_t*)Back_Image,640*241);
 
-	if(OpenTIM((ULONG*)Back_Image)==0)
+	if(OpenTIM((std::uint32_t*)Back_Image)==0)
 	{
 		ReadTIM(&tim[0]);
 	}
@@ -2591,7 +2591,7 @@ void Wadmenu_LoadingScreen(TIM_IMAGE *tim)
 void Wadmenu_DemoSplash()
 {
 	char fname[24];
-	ULONG *Back_Image,i;
+	std::uint32_t *Back_Image,i;
 	TIM_IMAGE tim;
 
 	MUSIC_init_level(0);
@@ -2599,14 +2599,14 @@ void Wadmenu_DemoSplash()
 
 //	SetupMemory();
 
-extern UBYTE my_heap[];
+extern std::uint8_t my_heap[];
 
-	Back_Image=(ULONG*)&my_heap[131072];//(ULONG*)MemAlloc(1024*241);
+	Back_Image=(std::uint32_t*)&my_heap[131072];//(std::uint32_t*)MemAlloc(1024*241);
 
 	sprintf(fname,DEMO_BACKNAME);
-	PCReadFile(fname,(UBYTE*)Back_Image,1024*241);
+	PCReadFile(fname,(std::uint8_t*)Back_Image,1024*241);
 
-	if(OpenTIM((ULONG*)Back_Image)==0)
+	if(OpenTIM((std::uint32_t*)Back_Image)==0)
 	{
 		ReadTIM(&tim);
 	}
@@ -2630,22 +2630,22 @@ extern UBYTE my_heap[];
 void Wadmenu_Features()
 {
 	char fname[24];
-	ULONG *Back_Image,i,scrn;
+	std::uint32_t *Back_Image,i,scrn;
 	TIM_IMAGE tim;
 
-extern UBYTE my_heap[];
+extern std::uint8_t my_heap[];
 
 //	SetupMemory();
 
-	Back_Image=(ULONG*)&my_heap[131072];//(ULONG*)MemAlloc(1024*241); //James I had to cast this to compile MikeD
+	Back_Image=(std::uint32_t*)&my_heap[131072];//(std::uint32_t*)MemAlloc(1024*241); //James I had to cast this to compile MikeD
 
 	for(scrn=1;scrn<5;scrn++)
 	{
 
 		sprintf(fname,"URBAN\\FEATURE%d.TIM",scrn);
-		PCReadFile(fname,(UBYTE*)Back_Image,1024*241);
+		PCReadFile(fname,(std::uint8_t*)Back_Image,1024*241);
 
-		if(OpenTIM((ULONG*)Back_Image)==0)
+		if(OpenTIM((std::uint32_t*)Back_Image)==0)
 		{
 			ReadTIM(&tim);
 		}
@@ -2681,7 +2681,7 @@ char *Wadmenu_AttractMenu()
 #ifndef VERSION_DEMO
 	int time_out=1800;
 #else
-extern SLONG demo_timeout,demo_mode;
+extern std::int32_t demo_timeout,demo_mode;
 
 #ifdef VERSION_PAL
 	int time_out=demo_timeout*25;
@@ -2692,8 +2692,8 @@ extern SLONG demo_timeout,demo_mode;
 	WadMenuItem *menu_stack[4];
 	char fname[20];
 
-	ULONG *Back_Image;
-	ULONG *Pad_Image;
+	std::uint32_t *Back_Image;
+	std::uint32_t *Pad_Image;
 	TIM_IMAGE	tim[2];
 
 	ClearOTag(the_display.DisplayBuffers[0].ot,OTSIZE);
@@ -2756,28 +2756,28 @@ extern SLONG demo_timeout,demo_mode;
 
 	Wadmenu_ReadWads(LANG_ROOT_NAME".pst");
 	Wadmenu_district=MemAlloc(2048);
-	PCReadFile(LANG_ROOT_NAME".DST",(UBYTE*)Wadmenu_district,2048);
+	PCReadFile(LANG_ROOT_NAME".DST",(std::uint8_t*)Wadmenu_district,2048);
 
-	Back_Image=(ULONG*)MemAlloc(258*1024);
+	Back_Image=(std::uint32_t*)MemAlloc(258*1024);
 #ifndef VERSION_DEMO
 	sprintf(fname,"data\\back%d.tim",WADMENU_BACKDROP);
 #else
 	sprintf(fname,"urban\\back0.tim");
 #endif
-	PCReadFile(fname,(UBYTE*)Back_Image,258*1024);
+	PCReadFile(fname,(std::uint8_t*)Back_Image,258*1024);
 
-//	Pad_Image=(ULONG*)MemAlloc(258*1024);
+//	Pad_Image=(std::uint32_t*)MemAlloc(258*1024);
 //	ASSERT(Pad_Image);
-//	PCReadFile("data\\padconf.tim",(UBYTE*)Pad_Image,258*1024);
+//	PCReadFile("data\\padconf.tim",(std::uint8_t*)Pad_Image,258*1024);
 
 //	PSX_SetShock(0,128);
 	
-	if(OpenTIM((ULONG*)Back_Image)==0)
+	if(OpenTIM((std::uint32_t*)Back_Image)==0)
 	{
 		ReadTIM(&tim[0]);
 	}
 
-//	if (OpenTIM((ULONG*)Pad_Image)==0)
+//	if (OpenTIM((std::uint32_t*)Pad_Image)==0)
 //	{
 //		ReadTIM(&tim[1]);
 //	}
@@ -2785,9 +2785,9 @@ extern SLONG demo_timeout,demo_mode;
 	Wadmenu_credit=(CreditData*)MemAlloc(6144);
 
 #ifndef VERSION_DEMO
-	PCReadFile("DATA\\CREDITS.CRD",(UBYTE*)Wadmenu_credit,6144);
+	PCReadFile("DATA\\CREDITS.CRD",(std::uint8_t*)Wadmenu_credit,6144);
 #else
-	PCReadFile("URBAN\\CREDITS.CRD",(UBYTE*)Wadmenu_credit,6144);
+	PCReadFile("URBAN\\CREDITS.CRD",(std::uint8_t*)Wadmenu_credit,6144);
 #endif
 
 	MUSIC_init_level(0);
@@ -2825,7 +2825,7 @@ extern SLONG demo_timeout,demo_mode;
 		menu=EndOfLevelMenu;
 #endif
 
-	Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+	Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 
 	while(!str)
 	{
@@ -2879,10 +2879,10 @@ extern SLONG demo_timeout,demo_mode;
 					MFX_play_ambient(0,S_PISTOL_DRY,MFX_REPLACE);
 					if (stack)
 					{
-						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 						selected=0;
 						menu=menu_stack[--stack];
-						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					}
 					PAD_KEY(10);
 				}
@@ -2893,7 +2893,7 @@ extern SLONG demo_timeout,demo_mode;
 				{
 					if (menu[selected].ptr.value)
 					{
-						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 						MFX_play_ambient(0,S_PISTOL_DRY,MFX_REPLACE);
 						str=menu[selected].ptr.func_str(&tim[menu[selected].info]);
 #ifndef VERSION_DEMO
@@ -2905,7 +2905,7 @@ extern SLONG demo_timeout,demo_mode;
 						}
 #endif
 						if (str==nullptr)
-							Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+							Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 						PAD_KEY(5);
 					}
 				}
@@ -2914,10 +2914,10 @@ extern SLONG demo_timeout,demo_mode;
 					MFX_play_ambient(0,S_PISTOL_DRY,MFX_REPLACE);
 					if (stack)
 					{
-						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 						selected=0;
 						menu=menu_stack[--stack];
-						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					}
 					PAD_KEY(10);
 				}
@@ -2947,12 +2947,12 @@ extern SLONG demo_timeout,demo_mode;
 			case WADMENU_TYPE_MENU:
 				if (PadKeyIsPressed(&PAD_Input1,PAD_RD))
 				{
-					Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+					Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 					MFX_play_ambient(0,S_PISTOL_DRY,0);
 					menu_stack[stack++]=menu;
 					menu=menu[selected].ptr.menu;
 					selected=0;
-					Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+					Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					PAD_KEY(10);
 				}
 				else if (PadKeyIsPressed(&PAD_Input1,PAD_RU))
@@ -2960,10 +2960,10 @@ extern SLONG demo_timeout,demo_mode;
 					MFX_play_ambient(0,S_PISTOL_DRY,0);
 					if (stack)
 					{
-						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 						selected=0;
 						menu=menu_stack[--stack];
-						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					}
 					PAD_KEY(10);
 				}
@@ -3008,10 +3008,10 @@ extern SLONG demo_timeout,demo_mode;
 					MFX_play_ambient(0,S_PISTOL_DRY,0);
 					if (stack)
 					{
-						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 						selected=0;
 						menu=menu_stack[--stack];
-						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					}
 					PAD_KEY(10);
 				}
@@ -3019,11 +3019,11 @@ extern SLONG demo_timeout,demo_mode;
 			case WADMENU_TYPE_BACK:
 				if (PadKeyIsPressed(&PAD_Input1,PAD_RD))
 				{
-					Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+					Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 					MFX_play_ambient(0,S_PISTOL_DRY,0);
 					menu=menu_stack[--stack];
 					selected=0;
-					Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+					Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					PAD_KEY(10);
 				}
 				if (PadKeyIsPressed(&PAD_Input1,PAD_RU))
@@ -3031,10 +3031,10 @@ extern SLONG demo_timeout,demo_mode;
 					MFX_play_ambient(0,S_PISTOL_DRY,0);
 					if (stack)
 					{
-						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 						selected=0;
 						menu=menu_stack[--stack];
-						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+						Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					}
 					PAD_KEY(10);
 				}
@@ -3042,7 +3042,7 @@ extern SLONG demo_timeout,demo_mode;
 			case WADMENU_TYPE_MENUNORET:
 				if (PadKeyIsPressed(&PAD_Input1,PAD_RD))
 				{
-					Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(SLONG)menu,selected);
+					Wadmenu_ParticleEffect(WADMENU_MENU_OUT,(std::int32_t)menu,selected);
 					MFX_play_ambient(0,S_PISTOL_DRY,0);
 					if (Wadmenu_DoYorN(&tim[0],WAD_MENU_ENDGAME))
 					{
@@ -3050,7 +3050,7 @@ extern SLONG demo_timeout,demo_mode;
 						selected=0;
 						Wadmenu_Levelwon=0;
 					}
-					Wadmenu_ParticleEffect(WADMENU_MENU_IN,(SLONG)menu,selected);
+					Wadmenu_ParticleEffect(WADMENU_MENU_IN,(std::int32_t)menu,selected);
 					PAD_KEY(10);
 				}
 				break;
@@ -3136,7 +3136,7 @@ extern void Host_VbRoutine();
 	OpenDisplay(640,480,16,FLAGS_USE_3D|FLAGS_USE_WORKSCREEN);
 	VSyncCallback(Host_VbRoutine);
 
-extern UBYTE my_heap[];
+extern std::uint8_t my_heap[];
 
 	GDisp_SetupBucketMem(&my_heap[OVERLAY_SIZE],65536);
 	XLAT_load(LANG_FILE_NAME);
@@ -3193,13 +3193,13 @@ extern UBYTE my_heap[];
 #define LOAD_BLK(s,t) memcpy((void*)s,(void*)load_ptr,sizeof(t)); load_ptr+=sizeof(t)/2
 
 /*
-SLONG Wadmenu_MCARD_Checking()
+std::int32_t Wadmenu_MCARD_Checking()
 {
 	Wadmenu_draw_text(WADMENU_MCARD_X,WADMENU_MCARD_Y1,W_(WAD_MEM_CHECK),MENU_TEXTHIGH,WADMENU_TEXT_MCARD|WADMENU_TEXT_BIG);
 	return MCARD_Status();
 }
 
-SLONG Wadmenu_MCARD_DoOrExit(SLONG mode,SLONG message1,SLONG message2,SLONG modeyes,SLONG modeno)
+std::int32_t Wadmenu_MCARD_DoOrExit(std::int32_t mode,std::int32_t message1,std::int32_t message2,std::int32_t modeyes,std::int32_t modeno)
 {
 	Wadmenu_draw_text(WADMENU_MCARD_X,WADMENU_MCARD_Y1,W_(message1),MENU_TEXTHIGH,WADMENU_TEXT_MCARD|WADMENU_TEXT_BIG);
 	Wadmenu_draw_text(WADMENU_MCARD_X,WADMENU_MCARD_Y2,W_(message2),MENU_TEXTHIGH,WADMENU_TEXT_MCARD);
@@ -3212,7 +3212,7 @@ SLONG Wadmenu_MCARD_DoOrExit(SLONG mode,SLONG message1,SLONG message2,SLONG mode
 	return mode;
 }
 
-SLONG Wadmenu_MCARD_DoTwoLine(SLONG mode,SLONG message1,SLONG message2,SLONG message3,SLONG message4,SLONG modeyes,SLONG modeno)
+std::int32_t Wadmenu_MCARD_DoTwoLine(std::int32_t mode,std::int32_t message1,std::int32_t message2,std::int32_t message3,std::int32_t message4,std::int32_t modeyes,std::int32_t modeno)
 {
 	Wadmenu_draw_text(WADMENU_MCARD_X,WADMENU_MCARD_Y1,W_(message1),MENU_TEXTHIGH,WADMENU_TEXT_MCARD|WADMENU_TEXT_BIG);
 	Wadmenu_draw_text(WADMENU_MCARD_X,WADMENU_MCARD_Y1+24,W_(message2),MENU_TEXTHIGH,WADMENU_TEXT_MCARD|WADMENU_TEXT_BIG);
@@ -3227,14 +3227,14 @@ SLONG Wadmenu_MCARD_DoTwoLine(SLONG mode,SLONG message1,SLONG message2,SLONG mes
 	return mode;
 }
 
-SLONG Wadmenu_MCARD_YorN(SLONG mode,SLONG message,SLONG modeyes,SLONG modeno)
+std::int32_t Wadmenu_MCARD_YorN(std::int32_t mode,std::int32_t message,std::int32_t modeyes,std::int32_t modeno)
 {
 	return Wadmenu_MCARD_DoOrExit(mode,message,WAD_MEM_YORN,modeyes,modeno);
 }
 
-SLONG Wadmenu_MCARD_SaveMode(SLONG status,SLONG inmode)
+std::int32_t Wadmenu_MCARD_SaveMode(std::int32_t status,std::int32_t inmode)
 {
-	SLONG mode=inmode;
+	std::int32_t mode=inmode;
 		switch(MCARD_STATUS(status))
 		{
 		case MCARD_NOT_AVAILABLE:
@@ -3285,7 +3285,7 @@ SLONG Wadmenu_MCARD_SaveMode(SLONG status,SLONG inmode)
 #define WAD_FILE_NAME "B" AREA_CODE PRODUCT_CODE "URBANSV"
 
 /*
-SLONG Wadmenu_MCARD_FindFile(SLONG status)
+std::int32_t Wadmenu_MCARD_FindFile(std::int32_t status)
 {
 	Wadmenu_draw_text(WADMENU_MCARD_X,WADMENU_MCARD_Y1,W_(WAD_MEM_CHECK),MENU_TEXTHIGH,WADMENU_TEXT_MCARD|WADMENU_TEXT_BIG);
 	draw_centre_text_at(WADMENU_MCARD_X,WADMENU_MCARD_Y3,W_(WAD_MEM_DONTREM),MENU_TEXTHIGH,WADMENU_TEXT_MCARD);
@@ -3299,17 +3299,17 @@ SLONG Wadmenu_MCARD_FindFile(SLONG status)
 
 int check_mode;
 
-void Wadmenu_MCARD_CheckMode(SLONG mode)
+void Wadmenu_MCARD_CheckMode(std::int32_t mode)
 {
 	check_mode=mode;
 }
 
 
-SLONG Wadmenu_MCARD_DoSave(SWORD *buffer)
+std::int32_t Wadmenu_MCARD_DoSave(std::int16_t *buffer)
 {
-	SWORD *save_ptr=buffer;
-	SLONG i,version=CURRENT_VERSION;
-	SLONG func,res;
+	std::int16_t *save_ptr=buffer;
+	std::int32_t i,version=CURRENT_VERSION;
+	std::int32_t func,res;
 
 	SAVE_BLK(MCARD_Header,MCARD_Header);
 	SAVE_BLK(MCARD_Clut,MCARD_Clut);
@@ -3341,22 +3341,22 @@ SLONG Wadmenu_MCARD_DoSave(SWORD *buffer)
 	Wadmenu_MCARD_CheckMode(CHECK_LOAD_WAIT);
 
 	MemCardSync(0,&func,&res);
-	MemCardWriteFile(0x00,WAD_FILE_NAME,(ULONG*)buffer,0,1024);
+	MemCardWriteFile(0x00,WAD_FILE_NAME,(std::uint32_t*)buffer,0,1024);
 }
 
-SLONG Wadmenu_MCARD_DoLoad(SWORD *buffer)
+std::int32_t Wadmenu_MCARD_DoLoad(std::int16_t *buffer)
 {
-	SLONG func,res;
+	std::int32_t func,res;
 
 	Wadmenu_MCARD_CheckMode(CHECK_LOAD_WAIT);
 	MemCardSync(0,&func,&res);
-	MemCardReadFile(0x00,WAD_FILE_NAME,(ULONG*)buffer,0,1024);
+	MemCardReadFile(0x00,WAD_FILE_NAME,(std::uint32_t*)buffer,0,1024);
 }
 
-void Wadmenu_MCARD_EndLoad(SWORD *buffer)
+void Wadmenu_MCARD_EndLoad(std::int16_t *buffer)
 {
-	SWORD *load_ptr=&buffer[128];
-	SLONG i,pad_value,save_version;
+	std::int16_t *load_ptr=&buffer[128];
+	std::int32_t i,pad_value,save_version;
 
 	LOAD_SHORT(save_version);
 	if (save_version!=CURRENT_VERSION)
@@ -3407,13 +3407,13 @@ void Wadmenu_MCARD_EndLoad(SWORD *buffer)
 // to continue with anything.
 
 struct DIRENTRY MCARD_dir[15];
-SLONG MCARD_files;
+std::int32_t MCARD_files;
 
-SLONG Wadmenu_MCARD_Check(SLONG mode)
+std::int32_t Wadmenu_MCARD_Check(std::int32_t mode)
 {
 	static int space;
 	static int exists;
-	SLONG func,res,i;
+	std::int32_t func,res,i;
 
 	switch(mode)
 	{
@@ -3570,9 +3570,9 @@ SLONG Wadmenu_MCARD_Check(SLONG mode)
 // the controller button presses and set the mode dependant
 // on weither it is pressed or not.
 
-SWORD MCard_message;
+std::int16_t MCard_message;
 
-SLONG Wadmenu_MCARD_Select(SLONG mode,SLONG selmode)
+std::int32_t Wadmenu_MCARD_Select(std::int32_t mode,std::int32_t selmode)
 {
 	static holding=1;
 
@@ -3597,7 +3597,7 @@ SLONG Wadmenu_MCARD_Select(SLONG mode,SLONG selmode)
 	return mode;
 }
 
-SLONG Wadmenu_MCARD_Cancel(SLONG mode,SLONG canmode)
+std::int32_t Wadmenu_MCARD_Cancel(std::int32_t mode,std::int32_t canmode)
 {
 	static holding=1;
 
@@ -3621,7 +3621,7 @@ SLONG Wadmenu_MCARD_Cancel(SLONG mode,SLONG canmode)
 	return mode;
 }
 
-SLONG Wadmenu_MCARD_YorN(SLONG mode,SLONG selmode,SLONG canmode)
+std::int32_t Wadmenu_MCARD_YorN(std::int32_t mode,std::int32_t selmode,std::int32_t canmode)
 {
 	MCard_message=0;
 	static holding=1;
@@ -3649,7 +3649,7 @@ SLONG Wadmenu_MCARD_YorN(SLONG mode,SLONG selmode,SLONG canmode)
 }
 
 #ifdef VERSION_NTSC
-SLONG Wadmenu_MCARD_NorY(SLONG mode,SLONG selmode,SLONG canmode)
+std::int32_t Wadmenu_MCARD_NorY(std::int32_t mode,std::int32_t selmode,std::int32_t canmode)
 {
 	MCard_message=0;
 	static holding=1;
@@ -3679,9 +3679,9 @@ SLONG Wadmenu_MCARD_NorY(SLONG mode,SLONG selmode,SLONG canmode)
 }
 #endif
 
-SLONG Wadmenu_MCARD_Create(SLONG mode,char *fname)
+std::int32_t Wadmenu_MCARD_Create(std::int32_t mode,char *fname)
 {
-	SLONG res;
+	std::int32_t res;
 
 	res=MemCardCreateFile(0x00,fname,1);
 	switch(res)
@@ -3702,9 +3702,9 @@ SLONG Wadmenu_MCARD_Create(SLONG mode,char *fname)
 	return mode;
 }
 
-SLONG Wadmenu_MCARD_Format(SLONG mode)
+std::int32_t Wadmenu_MCARD_Format(std::int32_t mode)
 {
-	SLONG res;
+	std::int32_t res;
 	res=MemCardFormat(0x00);
 	switch(res)
 	{
@@ -3724,11 +3724,11 @@ SLONG Wadmenu_MCARD_Format(SLONG mode)
 char *Wadmenu_SaveGame(TIM_IMAGE *tim)
 {
 
-	SLONG	mode=SAVE_MODE_START;
-	SLONG	status;
-	SWORD	*Wadmenu_MCARD_Buffer=(SWORD*)MemAlloc(1024);
-	SWORD	First_Change=1;
-	SLONG	func,res;
+	std::int32_t	mode=SAVE_MODE_START;
+	std::int32_t	status;
+	std::int16_t	*Wadmenu_MCARD_Buffer=(std::int16_t*)MemAlloc(1024);
+	std::int16_t	First_Change=1;
+	std::int32_t	func,res;
 	
 	Wadmenu_ParticleSync(tim);
 
@@ -3855,9 +3855,9 @@ char *Wadmenu_SaveGame(TIM_IMAGE *tim)
 
 char *Wadmenu_LoadGame(TIM_IMAGE *tim)
 {
-	SLONG	mode=LOAD_MODE_START;
-	SLONG	status,loaded=0;
-	SWORD	*Wadmenu_MCARD_Buffer=(SWORD*)MemAlloc(1024);
+	std::int32_t	mode=LOAD_MODE_START;
+	std::int32_t	status,loaded=0;
+	std::int16_t	*Wadmenu_MCARD_Buffer=(std::int16_t*)MemAlloc(1024);
 	
 //	MCARD_Init();
 
@@ -3952,8 +3952,8 @@ void Wadmenu_InitStats()
 #ifndef VERSION_DEMO
 void Wadmenu_AutoLoadInfo()
 {
-	ULONG func,res;
-	SWORD *buffer;
+	std::uint32_t func,res;
+	std::int16_t *buffer;
 
 #ifdef VERSION_PAL
 // Hack around this
@@ -3967,7 +3967,7 @@ void Wadmenu_AutoLoadInfo()
 #endif
 #endif
 
-	buffer=(SWORD*)MemAlloc(1024);
+	buffer=(std::int16_t*)MemAlloc(1024);
 
 	do {
 		MemCardAccept(0x00);
@@ -3979,7 +3979,7 @@ void Wadmenu_AutoLoadInfo()
 	if (res!=0x00)
 		return;
 
-	MemCardReadFile(0x00,WAD_FILE_NAME,(ULONG*)buffer,0,1024);
+	MemCardReadFile(0x00,WAD_FILE_NAME,(std::uint32_t*)buffer,0,1024);
 
 	MemCardSync(0,&func,&res);
 
@@ -3994,11 +3994,11 @@ void Wadmenu_AutoLoadInfo()
 }
 
 
-void Wadmenu_Encrypt(CBYTE* code, SLONG level)
+void Wadmenu_Encrypt(char* code, std::int32_t level)
 {
-	SLONG i;
-	CBYTE* pack1,*pack2,*pack;
-	SLONG seed;
+	std::int32_t i;
+	char* pack1,*pack2,*pack;
+	std::int32_t seed;
 
 	// Build a random seed specifically for this level
 
@@ -4026,9 +4026,9 @@ void Wadmenu_Encrypt(CBYTE* code, SLONG level)
 	code[11]=0;
 }
 
-void Wadmenu_GenerateCode(CBYTE* code,SLONG level,SLONG time)
+void Wadmenu_GenerateCode(char* code,std::int32_t level,std::int32_t time)
 {
-	SLONG h,m,s,i;
+	std::int32_t h,m,s,i;
 
 	// First we need to build the string to encrypt.
 

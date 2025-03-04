@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-bool FileExists(CBYTE* file_name)
+bool FileExists(char* file_name)
 {
 	if(_access(file_name,0)==-1)
 		return	false;
@@ -16,7 +16,7 @@ bool FileExists(CBYTE* file_name)
 
 //---------------------------------------------------------------
 
-MFFileHandle FileOpen(CBYTE* file_name)
+MFFileHandle FileOpen(char* file_name)
 {
 	MFFileHandle	result	=	FILE_OPEN_ERROR;
 
@@ -43,7 +43,7 @@ void FileClose(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-MFFileHandle FileCreate(CBYTE* file_name,bool overwrite)
+MFFileHandle FileCreate(char* file_name,bool overwrite)
 {
 	MFFileHandle	result;
 
@@ -68,16 +68,16 @@ MFFileHandle FileCreate(CBYTE* file_name,bool overwrite)
 
 //---------------------------------------------------------------
 
-void FileDelete(CBYTE* file_name)
+void FileDelete(char* file_name)
 {
 	remove(file_name);
 }
 
 //---------------------------------------------------------------
 
-SLONG FileSize(MFFileHandle file_handle)
+std::int32_t FileSize(MFFileHandle file_handle)
 {
-	SLONG		result;
+	std::int32_t		result;
 
 
 	result	=	filelength(file_handle);
@@ -89,9 +89,9 @@ SLONG FileSize(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-SLONG FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
+std::int32_t FileRead(MFFileHandle file_handle,void* buffer,std::uint32_t size)
 {
-	SLONG	bytes_read;
+	std::int32_t	bytes_read;
 
 
 	bytes_read	=	read(file_handle,buffer,size);
@@ -103,9 +103,9 @@ SLONG FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
+std::int32_t FileWrite(MFFileHandle file_handle,void* buffer,std::uint32_t size)
 {
-	SLONG	bytes_written;
+	std::int32_t	bytes_written;
 
 
 	bytes_written	=	write(file_handle,buffer,size);
@@ -117,7 +117,7 @@ SLONG FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG FileSeek(MFFileHandle file_handle,enum SeekModes mode,SLONG offset)
+std::int32_t FileSeek(MFFileHandle file_handle,enum SeekModes mode,std::int32_t offset)
 {
 	int		method;
 
@@ -142,9 +142,9 @@ SLONG FileSeek(MFFileHandle file_handle,enum SeekModes mode,SLONG offset)
 
 //---------------------------------------------------------------
 
-SLONG FileLoadAt(CBYTE* file_name,void* buffer)
+std::int32_t FileLoadAt(char* file_name,void* buffer)
 {
-	SLONG			size;
+	std::int32_t			size;
 	MFFileHandle	handle;
 
 	

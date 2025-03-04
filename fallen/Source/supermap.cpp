@@ -15,10 +15,10 @@
 #endif
 
 #ifdef EDITOR
-extern void	copyfile_to_level(CBYTE* str);
-extern TGA_Info TGA_load_psx(const CBYTE* file,SLONG        max_width,SLONG        max_height,UBYTE   *data,UBYTE *pal);
+extern void	copyfile_to_level(char* str);
+extern TGA_Info TGA_load_psx(const char* file,std::int32_t        max_width,std::int32_t        max_height,std::uint8_t   *data,std::uint8_t *pal);
 #endif
-extern UBYTE	roper_pickup;
+extern std::uint8_t	roper_pickup;
 
 
 #ifdef TARGET_DC
@@ -66,39 +66,39 @@ The PA has a few other nifty features, it's operated by a foot peddle, so to the
 Another cool trick it has, is it can show you polygon overwrite, it shows you how many times each on screen pixel has been written or read. Everytime a polygon overwrites 
   */
 
-SLONG find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_storey,SLONG storey);
-SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG style_index,SLONG storey_type,SLONG flags,SLONG offsety,SLONG block_height);
-SLONG add_painted_textures(UBYTE *t,SLONG tcount,SLONG style);
+std::int32_t find_connect_wall(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t *connect_storey,std::int32_t storey);
+std::int32_t add_dfacet(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t y,std::int32_t count,std::int32_t style_index,std::int32_t storey_type,std::int32_t flags,std::int32_t offsety,std::int32_t block_height);
+std::int32_t add_painted_textures(std::uint8_t *t,std::int32_t tcount,std::int32_t style);
 
 
-extern SLONG	save_psx;
-extern SLONG editor_texture_set;
+extern std::int32_t	save_psx;
+extern std::int32_t editor_texture_set;
 
-ULONG level_index=0;
+std::uint32_t level_index=0;
 
 
 //
 // temporary!
 //
-//UBYTE	inside_mem[MAX_INSIDE_MEM];
+//std::uint8_t	inside_mem[MAX_INSIDE_MEM];
 
 
 
 
-SLONG next_dbuilding=1;
-SLONG next_dwalkable=1;
-SLONG next_dfacet=1;
-SLONG next_dstyle=1;
-SWORD next_facet_link=1;
-SWORD next_paint_mem=1;
-SWORD next_dstorey=1;
-SWORD facet_link_count=0;
+std::int32_t next_dbuilding=1;
+std::int32_t next_dwalkable=1;
+std::int32_t next_dfacet=1;
+std::int32_t next_dstyle=1;
+std::int16_t next_facet_link=1;
+std::int16_t next_paint_mem=1;
+std::int16_t next_dstorey=1;
+std::int16_t facet_link_count=0;
 
-SLONG next_inside_mem=1;
-//SLONG	next_inside_rect=1;
+std::int32_t next_inside_mem=1;
+//std::int32_t	next_inside_rect=1;
 
-UBYTE SUPERMAP_counter[2];
-extern SLONG	TEXTURE_set;
+std::uint8_t SUPERMAP_counter[2];
+extern std::int32_t	TEXTURE_set;
 
 #define	NO_MOVE_UP		1
 #define	NO_MOVE_RIGHT	2
@@ -112,10 +112,10 @@ extern SLONG	TEXTURE_set;
 //
 // returns inside_index && room id for position in world
 //
-UWORD calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room)
+std::uint16_t calc_inside_for_xyz(std::int32_t x,std::int32_t y,std::int32_t z,std::uint16_t *room)
 {
-	SLONG	c0;
-	SLONG	mx,mz;
+	std::int32_t	c0;
+	std::int32_t	mx,mz;
 	mx=x>>8;
 	mz=z>>8;
 	for(c0=1;c0<next_inside_storey;c0++)
@@ -132,7 +132,7 @@ UWORD calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room)
 
 			if(y>inside_storeys[c0].StoreyY && y<inside_storeys[c0].StoreyY+256)
 			{
-				SLONG	r;
+				std::int32_t	r;
 
 				r=find_inside_room(c0,mx,mz);
 
@@ -152,9 +152,9 @@ UWORD calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room)
 #ifdef EDITOR
 #ifndef	PSX
 
-void add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
+void add_wall(std::uint8_t *map,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t door_flag)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 
 //	if(x1==15616&&x2==15616&&z1==14592&&z2==14080)
 //		ASSERT(0);
@@ -175,7 +175,7 @@ void add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
 
 	if(dx)
 	{
-		SLONG	off_x;
+		std::int32_t	off_x;
 
 		if(dx<0)
 		{
@@ -209,7 +209,7 @@ void add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
 	if(dz)
 	{
 
-		SLONG	off_z;
+		std::int32_t	off_z;
 
 		if(dz<0)
 		{
@@ -241,11 +241,11 @@ void add_wall(UBYTE *map,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG door_flag)
 	}
 }
 
-UBYTE *fill_map;
-UBYTE *fill_col;
-SLONG fill_minx,fill_maxx,fill_minz,fill_maxz;
+std::uint8_t *fill_map;
+std::uint8_t *fill_col;
+std::int32_t fill_minx,fill_maxx,fill_minz,fill_maxz;
 
-void flood_fill_at(UBYTE x,UBYTE z,UBYTE id)
+void flood_fill_at(std::uint8_t x,std::uint8_t z,std::uint8_t id)
 {
 
 	DebugText(" flood %d %d with %d right %d left %d up %d down %d\n",x,z,id,fill_col[x+z*128]&NO_MOVE_RIGHT,fill_col[x+z*128]&NO_MOVE_LEFT,fill_col[x+z*128]&NO_MOVE_UP,fill_col[x+z*128]&NO_MOVE_DOWN);
@@ -277,12 +277,12 @@ void flood_fill_at(UBYTE x,UBYTE z,UBYTE id)
 }
 
 
-void flood_fill_rooms(SLONG storey)
+void flood_fill_rooms(std::int32_t storey)
 {
-	SLONG	c0;
-	SLONG	id=1;
-	SLONG	x,z,px,pz;
-	SLONG	inside;
+	std::int32_t	c0;
+	std::int32_t	id=1;
+	std::int32_t	x,z,px,pz;
+	std::int32_t	inside;
 	inside=storey_list[storey].InsideIDIndex;
 
 	for(c0=0;c0<MAX_ROOMS_PER_FLOOR;c0++)
@@ -295,9 +295,9 @@ void flood_fill_rooms(SLONG storey)
 
 }
 
-SLONG build_inside_data(SLONG minx,SLONG minz,SLONG maxx,SLONG maxz,SLONG y,SLONG offset_y)
+std::int32_t build_inside_data(std::int32_t minx,std::int32_t minz,std::int32_t maxx,std::int32_t maxz,std::int32_t y,std::int32_t offset_y)
 {
-	SLONG	x,z;
+	std::int32_t	x,z;
 	inside_storeys[next_inside_storey].InsideBlock=next_inside_block;
 	for(z=minz;z<maxz;z++)
 	{
@@ -319,9 +319,9 @@ SLONG build_inside_data(SLONG minx,SLONG minz,SLONG maxx,SLONG maxz,SLONG y,SLON
 
 }
 
-SLONG add_stairs_to_inside(SLONG inside,UBYTE x,UBYTE z,UBYTE flags,UWORD next_floor,UWORD prev_floor)
+std::int32_t add_stairs_to_inside(std::int32_t inside,std::uint8_t x,std::uint8_t z,std::uint8_t flags,std::uint16_t next_floor,std::uint16_t prev_floor)
 {
-	UWORD	next;
+	std::uint16_t	next;
 	next=inside_storeys[inside].StairCaseHead;
 
 	inside_storeys[inside].StairCaseHead=next_inside_stair;
@@ -339,14 +339,14 @@ SLONG add_stairs_to_inside(SLONG inside,UBYTE x,UBYTE z,UBYTE flags,UWORD next_f
 
 }
 
-void set_stair_link(SLONG start_inside,SLONG end_inside,SLONG link_stair,SLONG y,SLONG up)
+void set_stair_link(std::int32_t start_inside,std::int32_t end_inside,std::int32_t link_stair,std::int32_t y,std::int32_t up)
 {
-	SLONG	c0;
-	SLONG	stair;
+	std::int32_t	c0;
+	std::int32_t	stair;
 
 	for(c0=start_inside;c0<end_inside;c0++)
 	{
-		SLONG	dy;
+		std::int32_t	dy;
 
 		dy=inside_storeys[c0].StoreyY-y;
 		if((up && dy>0&& dy<300) || ((!up) && dy<0&& dy>-300))
@@ -373,10 +373,10 @@ void set_stair_link(SLONG start_inside,SLONG end_inside,SLONG link_stair,SLONG y
 	}
 }
 
-void link_inside_stairs(SLONG start_inside,SLONG end_inside)
+void link_inside_stairs(std::int32_t start_inside,std::int32_t end_inside)
 {
-	SLONG	c0;
-	SLONG	stair;
+	std::int32_t	c0;
+	std::int32_t	stair;
 
 	for(c0=start_inside;c0<end_inside;c0++)
 	{
@@ -394,20 +394,20 @@ void link_inside_stairs(SLONG start_inside,SLONG end_inside)
 	}
 }
 
-void add_inside_facets(SLONG storey,SLONG offset_y)
+void add_inside_facets(std::int32_t storey,std::int32_t offset_y)
 {
-	SLONG	px,pz,x,z,wall;
-	SLONG	outside_storey;
-	SLONG	pass1=1;
+	std::int32_t	px,pz,x,z,wall;
+	std::int32_t	outside_storey;
+	std::int32_t	pass1=1;
 
 	outside_storey=storey;
 
 
 	while(storey)
 	{
-		SLONG	style_index,count;
-		UBYTE	*texture,*texture2,count2;
-		SLONG	height;
+		std::int32_t	style_index,count;
+		std::uint8_t	*texture,*texture2,count2;
+		std::int32_t	height;
 		wall=storey_list[storey].WallHead;
 		px=storey_list[storey].DX;
 		pz=storey_list[storey].DZ;
@@ -516,11 +516,11 @@ void add_inside_facets(SLONG storey,SLONG offset_y)
 
 }
 /*
-void flood_fill_behind_doors(SLONG storey)
+void flood_fill_behind_doors(std::int32_t storey)
 {
-	SLONG	wall;
-	SLONG	id=1;
-	SLONG	x,z,px,pz;
+	std::int32_t	wall;
+	std::int32_t	id=1;
+	std::int32_t	x,z,px,pz;
 	storey=storey_list[storey].InsideStorey;
 
 	while(storey)
@@ -533,7 +533,7 @@ void flood_fill_behind_doors(SLONG storey)
 
 			if(wall)
 			{
-				SLONG	dx,dz;
+				std::int32_t	dx,dz;
 
 				x=wall_list[wall].DX;
 				z=wall_list[wall].DZ;
@@ -560,11 +560,11 @@ void flood_fill_behind_doors(SLONG storey)
 	}
 }
 */
-void set_door_bits(SLONG storey)
+void set_door_bits(std::int32_t storey)
 {
-	SLONG	wall;
-	SLONG	px,pz;
-	SLONG	x,z;
+	std::int32_t	wall;
+	std::int32_t	px,pz;
+	std::int32_t	x,z;
 
 	while(storey)
 	{
@@ -577,7 +577,7 @@ void set_door_bits(SLONG storey)
 
 			if(wall)
 			{
-				SLONG	dx,dz;
+				std::int32_t	dx,dz;
 
 				x=wall_list[wall].DX;
 				z=wall_list[wall].DZ;
@@ -615,16 +615,16 @@ void set_door_bits(SLONG storey)
 		storey=storey_list[storey].Next;
 	}
 }
-void set_stair_bits(SLONG room)
+void set_stair_bits(std::int32_t room)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=0;c0<MAX_STAIRS_PER_FLOOR;c0++)
 	{
 		if(room_ids[room].StairFlags[c0])
 		{
-			SLONG	sx,sz;
-			SLONG	bits=0;
+			std::int32_t	sx,sz;
+			std::int32_t	bits=0;
 
 			sx=room_ids[room].StairsX[c0];
 			sz=room_ids[room].StairsY[c0];
@@ -673,23 +673,23 @@ void set_stair_bits(SLONG room)
 
 }
 
-SLONG create_inside_rect(SLONG storey,SLONG offset_y)
+std::int32_t create_inside_rect(std::int32_t storey,std::int32_t offset_y)
 {
 
-	UBYTE	*rect,*dir;
-	SLONG	max_x=0,max_z=0,min_x=0x7fffffff,min_z=0x7fffffff;
-	SLONG	wall,px,pz,x,z;
-	SLONG	orig_storey=storey;
-	SLONG	pass1=1;
-	SLONG	inside_storey,inside_room,outside_storey;
-	SLONG	inside_index,c0;
+	std::uint8_t	*rect,*dir;
+	std::int32_t	max_x=0,max_z=0,min_x=0x7fffffff,min_z=0x7fffffff;
+	std::int32_t	wall,px,pz,x,z;
+	std::int32_t	orig_storey=storey;
+	std::int32_t	pass1=1;
+	std::int32_t	inside_storey,inside_room,outside_storey;
+	std::int32_t	inside_index,c0;
 
 	outside_storey=storey;
 	inside_storey=storey_list[storey].InsideStorey;
 	inside_room=storey_list[storey].InsideIDIndex;
 
-	rect=(UBYTE*)MemAlloc(128*128);
-	dir=(UBYTE*)MemAlloc(128*128);
+	rect=(std::uint8_t*)MemAlloc(128*128);
+	dir=(std::uint8_t*)MemAlloc(128*128);
 
 	fill_map=rect;
 	fill_col=dir;
@@ -731,7 +731,7 @@ SLONG create_inside_rect(SLONG storey,SLONG offset_y)
 			add_wall(dir,x,z,px,pz,storey_list[storey].StoreyFlags&FLAG_ISTOREY_DOOR);
 			DebugText(" col after add wall %d,%d to %d,%d \n",x,z,px,pz);
 			{
-				SLONG	x,z;
+				std::int32_t	x,z;
 				for(z=min_z>>8;z<=max_z>>8;z++)
 				{
 					for(x=min_x>>8;x<=max_x>>8;x++)
@@ -797,7 +797,7 @@ SLONG create_inside_rect(SLONG storey,SLONG offset_y)
 	DebugText(" maxx %d maxz %d \n",fill_maxx,fill_maxz);
 
 	{
-		SLONG	x,z;
+		std::int32_t	x,z;
 
 		DebugText("FLOOD \n");
 		for(z=min_z>>8;z<max_z>>8;z++)
@@ -828,11 +828,11 @@ SLONG create_inside_rect(SLONG storey,SLONG offset_y)
 	return(inside_index);
 }
 
-extern UWORD	page_remap[];
+extern std::uint16_t	page_remap[];
 
-SLONG add_painted_textures(UBYTE *t,SLONG tcount,SLONG style)
+std::int32_t add_painted_textures(std::uint8_t *t,std::int32_t tcount,std::int32_t style)
 {
-	SLONG	c0=0,count=0;
+	std::int32_t	c0=0,count=0;
 
 	if(next_dstorey>MAX_DSTOREYS-5)
 		return(0);
@@ -854,7 +854,7 @@ SLONG add_painted_textures(UBYTE *t,SLONG tcount,SLONG style)
 		memcpy(&paint_mem[next_paint_mem],t,count);
 		for(c0=0;c0<count;c0++)
 		{
-			SLONG	page;
+			std::int32_t	page;
 			page=paint_mem[next_paint_mem+c0]&0x7f;
 //			page=page_remap[page];
 
@@ -870,9 +870,9 @@ SLONG add_painted_textures(UBYTE *t,SLONG tcount,SLONG style)
 	}
 }
 
-SLONG add_painted_textures_reverse(UBYTE *t,SLONG tcount,SLONG style,SLONG len)
+std::int32_t add_painted_textures_reverse(std::uint8_t *t,std::int32_t tcount,std::int32_t style,std::int32_t len)
 {
-	SLONG	c0=0,count=0;
+	std::int32_t	c0=0,count=0;
 
 	if(next_dstorey>MAX_DSTOREYS-5)
 		return(0);
@@ -894,7 +894,7 @@ SLONG add_painted_textures_reverse(UBYTE *t,SLONG tcount,SLONG style,SLONG len)
 		memcpy(&paint_mem[next_paint_mem],t,count);
 		for(c0=0;c0<count;c0++)
 		{
-			SLONG	page;
+			std::int32_t	page;
 			page=paint_mem[next_paint_mem+c0]&0x7f;
 //			page=page_remap[page];
 
@@ -911,9 +911,9 @@ SLONG add_painted_textures_reverse(UBYTE *t,SLONG tcount,SLONG style,SLONG len)
 }
 
 
-void clear_storey_data(UWORD building)
+void clear_storey_data(std::uint16_t building)
 {
-	SLONG	wall,storey;
+	std::int32_t	wall,storey;
 
 	storey=building_list[building].StoreyHead;
 	while(storey)
@@ -951,9 +951,9 @@ void clear_storey_data(UWORD building)
 }
 
 
-SLONG is_building_worth_saving(SLONG building)
+std::int32_t is_building_worth_saving(std::int32_t building)
 {
-	SLONG	storey;
+	std::int32_t	storey;
 	storey=building_list[building].StoreyHead;
 
 	while(storey)
@@ -968,9 +968,9 @@ SLONG is_building_worth_saving(SLONG building)
 }
 
 
-void find_minmax_alt_along_vect(SLONG *min_y,SLONG *max_y,SLONG x1,SLONG x2,SLONG z1,SLONG z2)
+void find_minmax_alt_along_vect(std::int32_t *min_y,std::int32_t *max_y,std::int32_t x1,std::int32_t x2,std::int32_t z1,std::int32_t z2)
 {
-	SLONG	dx,dz,len;
+	std::int32_t	dx,dz,len;
 
 	dx=x2-x1;
 	dz=z2-z1;
@@ -995,7 +995,7 @@ void find_minmax_alt_along_vect(SLONG *min_y,SLONG *max_y,SLONG x1,SLONG x2,SLON
 	*max_y=-9999999;
 	while(len>=0)
 	{
-		SLONG	h;
+		std::int32_t	h;
 		h=PAP_calc_height_at(x1>>10,z1>>10)<<3;
 		if(h>*max_y)
 			*max_y=h;
@@ -1007,11 +1007,11 @@ void find_minmax_alt_along_vect(SLONG *min_y,SLONG *max_y,SLONG x1,SLONG x2,SLON
 	}
 }
 
-SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG style_index,SLONG storey_type,SLONG facet_flags,SLONG offsety,SLONG block_height)
+std::int32_t add_dfacet(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t y,std::int32_t count,std::int32_t style_index,std::int32_t storey_type,std::int32_t facet_flags,std::int32_t offsety,std::int32_t block_height)
 {
 	struct	DFacet	*p_facet;
-	SLONG	min_y,max_y;
-	SLONG	offsety_unclip;
+	std::int32_t	min_y,max_y;
+	std::int32_t	offsety_unclip;
 
 	offsety_unclip=offsety;
 	offsety&=(~63);
@@ -1036,7 +1036,7 @@ SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG s
 */
 	if(storey_type==STOREY_TYPE_NORMAL)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 
 		if(x1<(4<<8) && x2<(4<<8) && z1>z2)
 			return(0);
@@ -1124,7 +1124,7 @@ SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG s
 	else
 	if(y==0 &&((facet_flags&FACET_FLAG_HUG_FLOOR)==0))
 	{
-		SLONG	h;
+		std::int32_t	h;
 		// search along facet length looking for strage alt's
 
 		find_minmax_alt_along_vect(&min_y,&max_y,x1,x2,z1,z2);
@@ -1167,7 +1167,7 @@ SLONG add_dfacet(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG count,SLONG s
 	return(next_dfacet-1);
 }
 
-void add_dbuilding(SLONG x,SLONG y,SLONG z,SLONG sf,SLONG ef,SLONG building)
+void add_dbuilding(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t sf,std::int32_t ef,std::int32_t building)
 {
 	struct	DBuilding	*p_build;
 
@@ -1190,12 +1190,12 @@ void add_dbuilding(SLONG x,SLONG y,SLONG z,SLONG sf,SLONG ef,SLONG building)
 	p_build->Counter[1] = 0;
 }
 
-SLONG find_slow_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG *connect_storey,SLONG building,SLONG height) //,UBYTE **texture,SLONG *count)
+std::int32_t find_slow_connect_wall(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t y,std::int32_t *connect_storey,std::int32_t building,std::int32_t height) //,std::uint8_t **texture,std::int32_t *count)
 {
-	SLONG	found=0;
-	SLONG	wall;
-	SLONG	fx1,fz1,fx2,fz2;
-	SLONG	storey;
+	std::int32_t	found=0;
+	std::int32_t	wall;
+	std::int32_t	fx1,fz1,fx2,fz2;
+	std::int32_t	storey;
 
 	storey=building_list[building].StoreyHead;
 
@@ -1242,12 +1242,12 @@ SLONG find_slow_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG y,SLONG *
 
 }
 
-void create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG wall)
+void create_cable_dfacet(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t wall)
 {
 	struct	DFacet	*p_facet;
-	SLONG	len,dx,dy,dz,count;
-	SLONG	c0;
-	SLONG	step_angle1,step_angle2;
+	std::int32_t	len,dx,dy,dz,count;
+	std::int32_t	c0;
+	std::int32_t	step_angle1,step_angle2;
 
 	y1+=PAP_calc_height_at(x1,z1);
 	y2+=PAP_calc_height_at(x2,z2);
@@ -1273,9 +1273,9 @@ void create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,S
 	}
 	else
 	{
-		SLONG	c1,c2;
-		SLONG	m;
-		SLONG	d1,d2;
+		std::int32_t	c1,c2;
+		std::int32_t	m;
+		std::int32_t	d1,d2;
 		if(len==0)
 			len=1;
 		m=(abs(dy)*190)/len;
@@ -1326,8 +1326,8 @@ void create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,S
 	p_facet=&dfacets[next_dfacet++];
 	p_facet->Height=count;
 
-	p_facet->StyleIndex=(SWORD)step_angle1;
-	p_facet->Building=(SWORD)step_angle2;
+	p_facet->StyleIndex=(std::int16_t)step_angle1;
+	p_facet->Building=(std::int16_t)step_angle2;
 
 	p_facet->x[0] = x1 >> 8;
 	p_facet->x[1] = x2 >> 8;
@@ -1344,23 +1344,23 @@ void create_cable_dfacet(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,S
 	p_facet->FHeight=wall_list[wall].TextureStyle2;
 }
 
-void create_dfacets_for_building(SLONG building)
+void create_dfacets_for_building(std::int32_t building)
 {
-	SLONG	x1,z1,x2,z2,y1,y2;
-	SLONG	storey,wall;
-	SLONG	connect_wall,connect_count,connect_storey,prev_wall;
-	SLONG	style_index;
-	SLONG	height;
-	SLONG	offset_y;
-	UBYTE	*texture;
-	SLONG	count;
-	SLONG	start_y;
-	SLONG	inside;
-	SLONG	facet;
-	SLONG	start_inside,end_inside;
-	SLONG	temp_next_dfacet;
-	SLONG   facet_flags;
-	SLONG	circular;
+	std::int32_t	x1,z1,x2,z2,y1,y2;
+	std::int32_t	storey,wall;
+	std::int32_t	connect_wall,connect_count,connect_storey,prev_wall;
+	std::int32_t	style_index;
+	std::int32_t	height;
+	std::int32_t	offset_y;
+	std::uint8_t	*texture;
+	std::int32_t	count;
+	std::int32_t	start_y;
+	std::int32_t	inside;
+	std::int32_t	facet;
+	std::int32_t	start_inside,end_inside;
+	std::int32_t	temp_next_dfacet;
+	std::int32_t   facet_flags;
+	std::int32_t	circular;
 
 	offset_y=building_list[building].OffsetY;
 
@@ -1405,13 +1405,13 @@ void create_dfacets_for_building(SLONG building)
 
 				while(wall)
 				{
-					SLONG	facet_flags=0;
+					std::int32_t	facet_flags=0;
 //					ASSERT(next_dfacet!=64);
 					x2=wall_list[wall].DX;
 					z2=wall_list[wall].DZ;
 					if((wall_list[wall].WallFlags&FLAG_WALL_FACET_LINKED)==0)
 					{
-						SLONG	height;
+						std::int32_t	height;
 						if(!circular)
 						{
 							facet_flags |= FACET_FLAG_UNCLIMBABLE;
@@ -1441,8 +1441,8 @@ void create_dfacets_for_building(SLONG building)
 						
 						if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE  )
 						{
-							SLONG	count2;
-							UBYTE	*texture2;
+							std::int32_t	count2;
+							std::uint8_t	*texture2;
 
 							dstyles[next_dstyle++]=wall_list[wall].TextureStyle2;
 
@@ -1471,7 +1471,7 @@ void create_dfacets_for_building(SLONG building)
 							while(connect_wall)
 							{
 
-								SLONG	ty;
+								std::int32_t	ty;
 
 								connect_count++;
 								wall_list[connect_wall].WallFlags|=FLAG_WALL_FACET_LINKED;
@@ -1487,8 +1487,8 @@ void create_dfacets_for_building(SLONG building)
 
 								if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE)
 								{
-									SLONG	count2;
-									UBYTE	*texture2;
+									std::int32_t	count2;
+									std::uint8_t	*texture2;
 
 									dstyles[next_dstyle++]=wall_list[connect_wall].TextureStyle2;
 
@@ -1734,18 +1734,18 @@ do_fence:;
 #endif
 #endif
 
-SLONG first_walkable_prim_point;
-SLONG number_of_walkable_prim_points;
+std::int32_t first_walkable_prim_point;
+std::int32_t number_of_walkable_prim_points;
 
-SLONG first_walkable_prim_face4;
-SLONG number_of_walkable_prim_faces4;
+std::int32_t first_walkable_prim_face4;
+std::int32_t number_of_walkable_prim_faces4;
 
 #ifndef PSX
-void load_walkables(MFFileHandle	handle,SLONG save_type)
+void load_walkables(MFFileHandle	handle,std::int32_t save_type)
 {
-	SLONG	next_point=1,next_face4=1,next_face3=1;
+	std::int32_t	next_point=1,next_face4=1,next_face3=1;
 
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 
 	FileRead(handle,&next_dwalkable,2);
 	FileRead(handle,&next_roof_face4,2);
@@ -1768,15 +1768,15 @@ void load_walkables(MFFileHandle	handle,SLONG save_type)
 	else
 	{
 		struct	OldPrimPoint	pp;
-		SLONG	c0;
+		std::int32_t	c0;
 
 		for(c0=0;c0<next_point;c0++)
 		{
 
-			FileRead(handle,(UBYTE*)&pp,sizeof(struct	OldPrimPoint));
-			prim_points[next_prim_point+c0].X=(SWORD)pp.X;
-			prim_points[next_prim_point+c0].Y=(SWORD)pp.Y;
-			prim_points[next_prim_point+c0].Z=(SWORD)pp.Z;
+			FileRead(handle,(std::uint8_t*)&pp,sizeof(struct	OldPrimPoint));
+			prim_points[next_prim_point+c0].X=(std::int16_t)pp.X;
+			prim_points[next_prim_point+c0].Y=(std::int16_t)pp.Y;
+			prim_points[next_prim_point+c0].Z=(std::int16_t)pp.Z;
 		}
 	}
 
@@ -1799,7 +1799,7 @@ void load_walkables(MFFileHandle	handle,SLONG save_type)
 
 	for(c0=1;c0<next_dwalkable;c0++)
 	{
-		SLONG	face;
+		std::int32_t	face;
 		dwalkables[c0].StartPoint+=next_prim_point;
 		dwalkables[c0].EndPoint+=next_prim_point;
 
@@ -1834,7 +1834,7 @@ void load_walkables(MFFileHandle	handle,SLONG save_type)
 
 	{
 		struct	RoofFace4 *p_roof;
-		SLONG	c0;
+		std::int32_t	c0;
 		p_roof=&roof_faces4[0];
 
 		for(c0=0;c0<next_roof_face4;c0++)
@@ -1851,9 +1851,9 @@ void load_walkables(MFFileHandle	handle,SLONG save_type)
 }
 #ifdef EDITOR
 
-SLONG roof_split_funny(struct	RoofFace4	*p_roof)
+std::int32_t roof_split_funny(struct	RoofFace4	*p_roof)
 {
-	SLONG	y0,y1,y2,y3;
+	std::int32_t	y0,y1,y2,y3;
 
 	y0=0;
 	y1=p_roof->DY[0];
@@ -1874,15 +1874,15 @@ SLONG roof_split_funny(struct	RoofFace4	*p_roof)
 }
 void add_flat_roof_to_pap()
 {
-	SLONG	c0,f4,p;
+	std::int32_t	c0,f4,p;
 //	struct	RoofFace4	*p_roof;
 	struct	PrimFace4	*p_quad;
 
 	for(c0=1;c0<next_dwalkable;c0++)
 	{
-		SLONG	start;
-		SLONG	building;
-		SLONG	offset_y;
+		std::int32_t	start;
+		std::int32_t	building;
+		std::int32_t	offset_y;
 
 		building=dwalkables[c0].Building;
 
@@ -1890,7 +1890,7 @@ void add_flat_roof_to_pap()
 		start=next_roof_face4;
 		for(f4=dwalkables[c0].StartFace4;f4<dwalkables[c0].EndFace4;f4++)
 		{
-			SLONG	tx,ty;
+			std::int32_t	tx,ty;
 			p_quad=&prim_faces4[f4];
 
 
@@ -1908,7 +1908,7 @@ void add_flat_roof_to_pap()
 
 void save_walkables(MFFileHandle	handle)
 {
-	SLONG	c0,f4,p;
+	std::int32_t	c0,f4,p;
 	struct	RoofFace4	*p_roof;
 	struct	PrimFace4	*p_quad;
 
@@ -1917,9 +1917,9 @@ void save_walkables(MFFileHandle	handle)
 	p_roof=&roof_faces4[1];
 	for(c0=1;c0<next_dwalkable;c0++)
 	{
-		SLONG	start;
-		SLONG	building;
-		SLONG	offset_y;
+		std::int32_t	start;
+		std::int32_t	building;
+		std::int32_t	offset_y;
 
 		building=dwalkables[c0].Building;
 
@@ -1927,7 +1927,7 @@ void save_walkables(MFFileHandle	handle)
 		start=next_roof_face4;
 		for(f4=dwalkables[c0].StartFace4;f4<dwalkables[c0].EndFace4;f4++)
 		{
-			SLONG	tx,ty;
+			std::int32_t	tx,ty;
 			p_quad=&prim_faces4[f4];
 
 			p_roof->RX=prim_points[p_quad->Points[0]].X>>8;
@@ -1980,10 +1980,10 @@ void save_walkables_old(MFFileHandle	handle)
 	struct	PrimFace4	*faces4;
 	struct	PrimFace3	*faces3;
 
-	SLONG	next_point=1,next_face4=1,next_face3=1;
-	SLONG	max_point=1,max_face3=1,max_face4=1;
+	std::int32_t	next_point=1,next_face4=1,next_face3=1;
+	std::int32_t	max_point=1,max_face3=1,max_face4=1;
 
-	SLONG	c0;
+	std::int32_t	c0;
 
 	//
 	//This fucks up if you save twice in a row
@@ -2010,9 +2010,9 @@ void save_walkables_old(MFFileHandle	handle)
 	{
 		for(c0=1;c0<next_dwalkable;c0++)
 		{
-			SLONG	sp,ep,sf,ef;
-			SLONG	copy_to=next_point;
-			SLONG	c1,c2;
+			std::int32_t	sp,ep,sf,ef;
+			std::int32_t	copy_to=next_point;
+			std::int32_t	c1,c2;
 
 			sp=dwalkables[c0].StartPoint;
 			ep=dwalkables[c0].EndPoint;
@@ -2022,9 +2022,9 @@ void save_walkables_old(MFFileHandle	handle)
 
 			for(c1=sp;c1<ep;c1++)
 			{
-				points[next_point].X  =(SLONG)AENG_dx_prim_points[c1].X;
-				points[next_point].Y  =(SLONG)AENG_dx_prim_points[c1].Y;
-				points[next_point++].Z=(SLONG)AENG_dx_prim_points[c1].Z;
+				points[next_point].X  =(std::int32_t)AENG_dx_prim_points[c1].X;
+				points[next_point].Y  =(std::int32_t)AENG_dx_prim_points[c1].Y;
+				points[next_point++].Z=(std::int32_t)AENG_dx_prim_points[c1].Z;
 				ASSERT(next_point<max_point);
 			}
 
@@ -2105,8 +2105,8 @@ void save_walkables_old(MFFileHandle	handle)
 //
 // inside ob-ob's need to figure out what their inside_index is
 //
-extern SLONG	build_psx;
-SLONG save_to_psx(SLONG index)
+extern std::int32_t	build_psx;
+std::int32_t save_to_psx(std::int32_t index)
 {
 	if(!build_psx)
 		return(1);
@@ -2131,8 +2131,8 @@ SLONG save_to_psx(SLONG index)
 
 void save_ob_ob(MFFileHandle	handle)
 {
-	UWORD	temp;
-	SLONG	c0;
+	std::uint16_t	temp;
+	std::int32_t	c0;
 	struct	MapThing	*t_mthing;
 		//
 		// save the prims as OB's
@@ -2148,8 +2148,8 @@ void save_ob_ob(MFFileHandle	handle)
 
 				case	MAP_THING_TYPE_PRIM:		
 					{
-						UWORD	inside=0,room=0;
-						UBYTE	flag=0;
+						std::uint16_t	inside=0,room=0;
+						std::uint8_t	flag=0;
 
 						/*
 
@@ -2194,15 +2194,15 @@ void save_ob_ob(MFFileHandle	handle)
 
 			}
 		}
-		FileWrite(handle,(UBYTE*)&OB_ob_upto,sizeof(OB_ob_upto));
-		FileWrite(handle,(UBYTE*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
-		FileWrite(handle,(UBYTE*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
+		FileWrite(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
+		FileWrite(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
+		FileWrite(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
 
 }
 
 void save_super_map(MFFileHandle	handle)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 //void	remap_textures_psx();
 //	remap_textures_psx();
 
@@ -2230,8 +2230,8 @@ void save_super_map(MFFileHandle	handle)
 	
 	FileWrite(handle,&dbuildings[0],sizeof(struct DBuilding)*next_dbuilding);
 	FileWrite(handle,&dfacets[0],sizeof(struct DFacet)*next_dfacet);
-	FileWrite(handle,&dstyles[0],sizeof(UWORD)*next_dstyle);
-	FileWrite(handle,&paint_mem[0],sizeof(UBYTE)*next_paint_mem);
+	FileWrite(handle,&dstyles[0],sizeof(std::uint16_t)*next_dstyle);
+	FileWrite(handle,&paint_mem[0],sizeof(std::uint8_t)*next_paint_mem);
 	FileWrite(handle,&dstoreys[0],sizeof(struct DStorey)*next_dstorey);
 
 //
@@ -2244,7 +2244,7 @@ void save_super_map(MFFileHandle	handle)
 
 	FileWrite(handle,&inside_storeys[0],sizeof(struct InsideStorey)*next_inside_storey);
 	FileWrite(handle,&inside_stairs[0],sizeof(struct Staircase)*next_inside_stair);
-	FileWrite(handle,&inside_block[0],sizeof(UBYTE)*next_inside_block);
+	FileWrite(handle,&inside_block[0],sizeof(std::uint8_t)*next_inside_block);
 
 	save_walkables(handle);
 	save_ob_ob(handle);
@@ -2252,9 +2252,9 @@ void save_super_map(MFFileHandle	handle)
 }
 #endif
 
-void load_super_map(MFFileHandle	handle,SLONG save_type)
+void load_super_map(MFFileHandle	handle,std::int32_t save_type)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	next_dbuilding=1;
 	next_dfacet=1;
@@ -2277,10 +2277,10 @@ void load_super_map(MFFileHandle	handle,SLONG save_type)
 	
 	FileRead(handle,&dbuildings[0],sizeof(struct DBuilding)*next_dbuilding);
 	FileRead(handle,&dfacets[0],sizeof(struct DFacet)*next_dfacet);
-	FileRead(handle,&dstyles[0],sizeof(UWORD)*next_dstyle);
+	FileRead(handle,&dstyles[0],sizeof(std::uint16_t)*next_dstyle);
 	if(save_type>=17)
 	{
-		FileRead(handle,&paint_mem[0],sizeof(UBYTE)*next_paint_mem);
+		FileRead(handle,&paint_mem[0],sizeof(std::uint8_t)*next_paint_mem);
 		FileRead(handle,&dstoreys[0],sizeof(struct DStorey)*next_dstorey);
 	}
 
@@ -2297,25 +2297,25 @@ void load_super_map(MFFileHandle	handle,SLONG save_type)
 
 		FileRead(handle,&inside_storeys[0],sizeof(struct InsideStorey)*next_inside_storey);
 		FileRead(handle,&inside_stairs[0],sizeof(struct Staircase)*next_inside_stair);
-		FileRead(handle,&inside_block[0],sizeof(UBYTE)*next_inside_block);
+		FileRead(handle,&inside_block[0],sizeof(std::uint8_t)*next_inside_block);
 	}
 	load_walkables(handle,save_type);
 
 	if(save_type>=23)
 	{
-/*		SLONG OB_ob_temp;
-		FileRead(handle,(UBYTE*)&OB_ob_temp,sizeof(OB_ob_upto));
+/*		std::int32_t OB_ob_temp;
+		FileRead(handle,(std::uint8_t*)&OB_ob_temp,sizeof(OB_ob_upto));
 		FileSeek(handle,SEEK_MODE_CURRENT,sizeof(OB_Ob)*OB_ob_temp);
 		FileSeek(handle,SEEK_MODE_CURRENT,sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
 */
-		FileRead(handle,(UBYTE*)&OB_ob_upto,sizeof(OB_ob_upto));
-		FileRead(handle,(UBYTE*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
+		FileRead(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
+		FileRead(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
 
 		//
 		// Notice that strangely they have their very own mapwho
 		//
 
-		FileRead(handle,(UBYTE*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
+		FileRead(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
 	}
 }
 
@@ -2324,14 +2324,14 @@ void load_super_map(MFFileHandle	handle,SLONG save_type)
 // build2.cpp doesn't have an h-file for it!
 //
 
-void add_facet_to_map(SLONG facet);
+void add_facet_to_map(std::int32_t facet);
 
 void add_sewer_ladder(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2,
-		SLONG bottom,
-		SLONG height,
-		SLONG link)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2,
+		std::int32_t bottom,
+		std::int32_t height,
+		std::int32_t link)
 {
 	DFacet *df;
 
@@ -2386,7 +2386,7 @@ void add_sewer_ladder(
 }
 
 /*
-void create_super_dbuilding(SLONG building)
+void create_super_dbuilding(std::int32_t building)
 {
 	next_dbuilding=1;
 	next_dfacet=1;
@@ -2403,27 +2403,27 @@ void create_super_dbuilding(SLONG building)
 
 
 //#endif
-SLONG find_electric_fence_dbuilding(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG range)
+std::int32_t find_electric_fence_dbuilding(
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t range)
 {
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG best_dist  = INFINITY;
-	SLONG best_facet = NULL;
+	std::int32_t best_dist  = INFINITY;
+	std::int32_t best_facet = NULL;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1, mx2;
-	SLONG mz1, mz2;
+	std::int32_t mx1, mx2;
+	std::int32_t mz1, mz2;
 
-	SLONG f_list;
-	SLONG facet;
-	SLONG build;
-	SLONG exit;
+	std::int32_t f_list;
+	std::int32_t facet;
+	std::int32_t build;
+	std::int32_t exit;
 
 	mx1 = (world_x - range) >> PAP_SHIFT_LO;
 	mz1 = (world_z - range) >> PAP_SHIFT_LO;
@@ -2499,9 +2499,9 @@ SLONG find_electric_fence_dbuilding(
 // flags in all the facets of the dbuilding.
 //
 
-void set_electric_fence_state(SLONG dbuilding, SLONG onoroff)
+void set_electric_fence_state(std::int32_t dbuilding, std::int32_t onoroff)
 {
-	SLONG facet;
+	std::int32_t facet;
 
 	for (facet = dbuildings[dbuilding].StartFacet; facet < dbuildings[dbuilding].EndFacet; facet++)
 	{
@@ -2516,13 +2516,13 @@ void set_electric_fence_state(SLONG dbuilding, SLONG onoroff)
 	}
 }
 
-void SUPERMAP_counter_increase(UBYTE which)
+void SUPERMAP_counter_increase(std::uint8_t which)
 {
 	SUPERMAP_counter[which] += 1;
 
 	if (SUPERMAP_counter[which] == 0)
 	{
-		SLONG i;
+		std::int32_t i;
 
 		//
 		// It has wrapped around. We must clear the counter in every dfacet.
@@ -2551,10 +2551,10 @@ void SUPERMAP_counter_increase(UBYTE which)
 
 struct Levels
 {
-	CBYTE* name;
-	CBYTE* map_name;
-	UWORD level;
-	ULONG	dontload;
+	char* name;
+	char* map_name;
+	std::uint16_t level;
+	std::uint32_t	dontload;
 };
 
 struct Levels levels_quick[]=
@@ -2633,12 +2633,12 @@ struct Levels levels[]=
 // create PSX tims (oh my god)
 //
 
-UWORD pals16[256][64];  // a single page holds all pals
-UBYTE psx_tim_page[256][128];
+std::uint16_t pals16[256][64];  // a single page holds all pals
+std::uint8_t psx_tim_page[256][128];
 
 
-UWORD moved_from[16*64];
-UWORD moved_to[16*64];
+std::uint16_t moved_from[16*64];
+std::uint16_t moved_to[16*64];
 
 struct TimStuff
 {
@@ -2678,11 +2678,11 @@ struct TimStuff tim_stuff[]=
 };
 
 
-SLONG load_alt_pal(char *fname,UBYTE *pal)
+std::int32_t load_alt_pal(char *fname,std::uint8_t *pal)
 {
 	FILE *handle,*phandle;
-	UBYTE	remap_pal[256*4];
-	SLONG	c0;
+	std::uint8_t	remap_pal[256*4];
+	std::int32_t	c0;
 
 
 	//
@@ -2702,7 +2702,7 @@ SLONG load_alt_pal(char *fname,UBYTE *pal)
 			goto file_error;
 
 	{
-		SLONG	pal1=0,pal2=0,c0;
+		std::int32_t	pal1=0,pal2=0,c0;
 		for(c0=0;c0<16*4;c0++)
 			pal1+=remap_pal[c0];
 
@@ -2736,10 +2736,10 @@ file_error:;
 	return(0);
 }
 
-void save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom)
+void save_tim(char *fname,unsigned char dat[256][128],std::int32_t index,std::int32_t copy_tom)
 {
 	FILE *handle;
-	SLONG	x,y;
+	std::int32_t	x,y;
 
 	fname[strlen(fname)-2]='o';
 
@@ -2762,13 +2762,13 @@ void save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom
 
 	struct	
 	{
-		SLONG	ID;
-		SLONG	Flag;
+		std::int32_t	ID;
+		std::int32_t	Flag;
 	}clut_head;
 
 	if (handle)
 	{
-		SLONG	bnum;
+		std::int32_t	bnum;
 
 		clut_head.ID=0x10;
 		clut_head.Flag=0; // 4 bit no cluts in tim.   //9; //0x10|1; // has clut & clut is 8bit
@@ -2784,7 +2784,7 @@ void save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom
 		for(y=0;y<256;y+=1)
 		for(x=0;x<128;x+=4)
 		{
-			SLONG	data;
+			std::int32_t	data;
 
 			data=(dat[y][x+3]<<24)+(dat[y][x+2]<<16)+(dat[y][x+1]<<8)+(dat[y][x]<<0);
 			fwrite(&data, 1, sizeof(data), handle); // h  w
@@ -2799,7 +2799,7 @@ void save_tim(char *fname,unsigned char dat[256][128],SLONG index,SLONG copy_tom
 
 }
 
-void save_tim_pal16(char *fname,UWORD index,SLONG	dy,SLONG height)
+void save_tim_pal16(char *fname,std::uint16_t index,std::int32_t	dy,std::int32_t height)
 {
 	FILE *handle;
 	int	x,y;
@@ -2864,10 +2864,10 @@ void save_tim_pal16(char *fname,UWORD index,SLONG	dy,SLONG height)
 }
 
 
-void copy_to_psx_tim(UBYTE *data,SLONG w,SLONG h,UBYTE *pal,SLONG tim_x,SLONG tim_y)
+void copy_to_psx_tim(std::uint8_t *data,std::int32_t w,std::int32_t h,std::uint8_t *pal,std::int32_t tim_x,std::int32_t tim_y)
 {
-	SLONG	px,py;
-	SLONG	a,b;
+	std::int32_t	px,py;
+	std::int32_t	a,b;
 
 
 	for(py=0;py<h;py++)
@@ -2894,11 +2894,11 @@ void copy_to_psx_tim(UBYTE *data,SLONG w,SLONG h,UBYTE *pal,SLONG tim_x,SLONG ti
 	#define TEXTURE_DIR "u:\\urbanchaos\\gary16\\"
 #endif
 
-void make_psx_pal(UWORD page_id,UBYTE *pal)
+void make_psx_pal(std::uint16_t page_id,std::uint8_t *pal)
 {
-	SLONG	c0;
-	UWORD	col;
-	UWORD	*psx_pal;
+	std::int32_t	c0;
+	std::uint16_t	col;
+	std::uint16_t	*psx_pal;
 
 	ASSERT(page_id<256<<2);
 //	if(page_id>13*64)
@@ -2908,7 +2908,7 @@ void make_psx_pal(UWORD page_id,UBYTE *pal)
 
 	for(c0=0;c0<16;c0++)
 	{
-		SLONG	r,g,b;
+		std::int32_t	r,g,b;
 
 		r=*pal++;
 		g=*pal++;
@@ -2931,12 +2931,12 @@ void make_psx_pal(UWORD page_id,UBYTE *pal)
 
 #ifdef EDITOR 
 
-void copyfile_to_level(CBYTE* str)
+void copyfile_to_level(char* str)
 {
-	SLONG	fname;
-	CBYTE	str2[100];
-	SLONG	len=0;
-	SLONG	c0;
+	std::int32_t	fname;
+	char	str2[100];
+	std::int32_t	len=0;
+	std::int32_t	c0;
 
 	for(c0=strlen(str);c0>=0;c0--)
 	{
@@ -2955,7 +2955,7 @@ void copyfile_to_level(CBYTE* str)
 	{
 		if(strcmp(levels[c0].map_name,edit_info.MapName)==0)
 		{
-			ULONG	ret;
+			std::uint32_t	ret;
 			sprintf(str2,"c:\\levels\\%d\\%s",levels[c0].level,&str[fname]);
 			if(CopyFile(str,str2,0)==0)
 			{
@@ -2972,16 +2972,16 @@ void copyfile_to_level(CBYTE* str)
 
 void build_floor_tims()
 {
-	SLONG	page,x,y;
-	CBYTE	str[128];
-	UBYTE	data[32][32];
-	UBYTE	pal[256*3];
+	std::int32_t	page,x,y;
+	char	str[128];
+	std::uint8_t	data[32][32];
+	std::uint8_t	pal[256*3];
 	for(page=4;page<8;page++)
 	{
 		for(y=0;y<256;y+=32)
 		for(x=0;x<256;x+=32)
 		{
-			UWORD	page_id=page*64+(y>>5)*8+(x>>5),file_page_id;
+			std::uint16_t	page_id=page*64+(y>>5)*8+(x>>5),file_page_id;
 
 			//
 			// the remap bit for all the moved floor textures
@@ -3049,16 +3049,16 @@ void build_floor_tims()
 
 void build_wall_tims()
 {
-	SLONG	page,x,y;
-	CBYTE	str[128];
-	UBYTE	data[64][64];
-	UBYTE	pal[256*3];
+	std::int32_t	page,x,y;
+	char	str[128];
+	std::uint8_t	data[64][64];
+	std::uint8_t	pal[256*3];
 	for(page=0;page<4;page++)
 	{
 		for(y=0;y<256;y+=64)
 		for(x=0;x<256;x+=64)
 		{
-			UWORD	page_id=page*16+(y>>6)*4+(x>>6);
+			std::uint16_t	page_id=page*16+(y>>6)*4+(x>>6);
 
 //			ASSERT(page_id!=0);
 
@@ -3108,12 +3108,12 @@ void build_wall_tims()
 //
 // Editor saves out tims for wall and floor, floor is a random quantity
 //
-void build_tims(UWORD	next_texture)
+void build_tims(std::uint16_t	next_texture)
 {
-	CBYTE	str[256];
+	char	str[256];
 	FILE *handle;
 
-	memset((UBYTE*)pals16,0xff,256*128);
+	memset((std::uint8_t*)pals16,0xff,256*128);
 
 	sprintf(str,TEXTURE_DIR"world%d\\tex16.tim",editor_texture_set);
 	build_floor_tims();
@@ -3124,7 +3124,7 @@ void build_tims(UWORD	next_texture)
 
 	handle = MF_Fopen(str, "wb");
 	{
-		fwrite((UBYTE*)&next_texture, 1,2, handle);
+		fwrite((std::uint8_t*)&next_texture, 1,2, handle);
 	}
 	MF_Fclose(handle);
 	copyfile_to_level(str);
@@ -3132,20 +3132,20 @@ void build_tims(UWORD	next_texture)
 }
 #endif
 
-UWORD prims_remap[30*64];
+std::uint16_t prims_remap[30*64];
 
 
 
 
 
-SLONG remap_a_prim_face(UWORD page,SLONG *next_page,SLONG level_no,SLONG start_page)
+std::int32_t remap_a_prim_face(std::uint16_t page,std::int32_t *next_page,std::int32_t level_no,std::int32_t start_page)
 {
 #ifdef	EDITOR
 
-	SLONG	new_page;
-	CBYTE	str[256];
-	UBYTE	data[64][64];
-	UBYTE	pal[256*3];
+	std::int32_t	new_page;
+	char	str[256];
+	std::uint8_t	data[64][64];
+	std::uint8_t	pal[256*3];
 	TGA_Info	ans;
 	if(page==0)
 		return(0);
@@ -3230,7 +3230,7 @@ SLONG remap_a_prim_face(UWORD page,SLONG *next_page,SLONG level_no,SLONG start_p
 }
 
 
-SLONG setup_psx_jackets(SLONG level_no,SLONG next_page,SLONG start_page)
+std::int32_t setup_psx_jackets(std::int32_t level_no,std::int32_t next_page,std::int32_t start_page)
 {
 
 	remap_a_prim_face(1*64+21,&next_page,level_no,start_page);
@@ -3253,9 +3253,9 @@ SLONG setup_psx_jackets(SLONG level_no,SLONG next_page,SLONG start_page)
 }
 
 
-SLONG get_level_no(CBYTE* name)
+std::int32_t get_level_no(char* name)
 {
-	SLONG	p0,p1,c0=0;
+	std::int32_t	p0,p1,c0=0;
 
 	roper_pickup=0;
 
@@ -3265,7 +3265,7 @@ SLONG get_level_no(CBYTE* name)
 		p1=strlen(levels[c0].name)-1;
 		for(;p1>=0;p1--,p0--)
 		{
-			CBYTE	comp;
+			char	comp;
 			if(tolower(name[p0])!=tolower(levels[c0].name[p1]))
 				break;
 		}
@@ -3285,22 +3285,22 @@ SLONG get_level_no(CBYTE* name)
 
 
 
-UWORD psx_start_page;
-SLONG build_tims_ingame(CBYTE* name)
+std::uint16_t psx_start_page;
+std::int32_t build_tims_ingame(char* name)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
-	SLONG	next_page=0,new_page;
-	CBYTE	str[255];
-	SLONG	level_no;
-	UWORD	next_texture;
+	std::int32_t	next_page=0,new_page;
+	char	str[255];
+	std::int32_t	level_no;
+	std::uint16_t	next_texture;
 
 	FILE *handle;
 
 	
 
-	memset((UBYTE*)prims_remap,0,30*64*2);
+	memset((std::uint8_t*)prims_remap,0,30*64*2);
 
 	level_no=get_level_no(name);
 	DebugText("PSX create tims for level%d\n",level_no);
@@ -3315,7 +3315,7 @@ SLONG build_tims_ingame(CBYTE* name)
 		//
 		// find number f textures used by map
 		//
-		fread((UBYTE*)&next_texture, 1,2, handle); 
+		fread((std::uint8_t*)&next_texture, 1,2, handle); 
 		MF_Fclose(handle);
 		psx_start_page=next_texture;
 	}
@@ -3333,7 +3333,7 @@ SLONG build_tims_ingame(CBYTE* name)
 	{
 		fread(&pals16[0][0], 2, 256*64, handle);
 		MF_Fclose(handle);
-		memset((UBYTE*)&pals16[128][0],0xff,128*128);
+		memset((std::uint8_t*)&pals16[128][0],0xff,128*128);
 	}
 	else
 		ASSERT(0);
@@ -3360,11 +3360,11 @@ SLONG build_tims_ingame(CBYTE* name)
 
 //	return;
 
-//	memset((UBYTE*)pals16,0xff,256*128);
+//	memset((std::uint8_t*)pals16,0xff,256*128);
 
 	for(c0=1;c0<next_prim_face3;c0++)
 	{
-		SLONG	page;
+		std::int32_t	page;
 		p_f3 = &prim_faces3[c0];
 
 		page   = p_f3->UV[0][0] & 0xc0;
@@ -3417,7 +3417,7 @@ SLONG build_tims_ingame(CBYTE* name)
 
 	for(c0=1;c0<next_prim_face4;c0++)
 	{
-		SLONG	page;
+		std::int32_t	page;
 		p_f4 = &prim_faces4[c0];
 
 		page   = p_f4->UV[0][0] & 0xc0;
@@ -3489,7 +3489,7 @@ SLONG build_tims_ingame(CBYTE* name)
 	ASSERT(false);
 #else
 	{
-		CBYTE	str2[100];
+		char	str2[100];
 		sprintf(str,"n:\\urbanchaos\\textures\\world%d\\sky.tga",TEXTURE_SET);
 		sprintf(str2,"c:\\levels\\%d\\sky.tga",level_no);  //MD16
 		if(CopyFile(str,str2,0)==0)
@@ -3506,12 +3506,12 @@ SLONG build_tims_ingame(CBYTE* name)
 
 
 
-void move_texture(UWORD from,UWORD to)
+void move_texture(std::uint16_t from,std::uint16_t to)
 {
 #ifdef	EDITOR
-	SLONG	x,y;
-	SLONG	fpage,tpage,fx,fy,tx,ty;
-	UWORD	*ptr_from,*ptr_to;
+	std::int32_t	x,y;
+	std::int32_t	fpage,tpage,fx,fy,tx,ty;
+	std::uint16_t	*ptr_from,*ptr_to;
 
 	fpage=(from>>6)&15;
 	tpage=(to>>6)&31;
@@ -3537,9 +3537,9 @@ void move_texture(UWORD from,UWORD to)
 #endif
 
 }
-extern UWORD	page_count[];
+extern std::uint16_t	page_count[];
 
-UWORD get_split_bits(UWORD tex)
+std::uint16_t get_split_bits(std::uint16_t tex)
 {
 	switch(tex&0x3ff)
 	{
@@ -3580,19 +3580,19 @@ UWORD get_split_bits(UWORD tex)
 }
 
 #ifdef EDITOR 
-SLONG remap_floor_psx()
+std::int32_t remap_floor_psx()
 {
-	SLONG	x,z;
-	SLONG	current=4*64;
+	std::int32_t	x,z;
+	std::int32_t	current=4*64;
 
 	for(x=0;x<MAP_WIDTH;x++)
 	for(z=0;z<MAP_HEIGHT;z++)
 	{
 		if(x<PAP_SIZE_HI && z<PAP_SIZE_HI)
 		{
-			UWORD	texture;
-			UWORD	texture_all;
-			UWORD	split_bits;
+			std::uint16_t	texture;
+			std::uint16_t	texture_all;
+			std::uint16_t	split_bits;
 
 			edit_map[x][z].Texture&=~0xc000;
 			texture_all=edit_map[x][z].Texture;
@@ -3645,7 +3645,7 @@ SLONG remap_floor_psx()
 	return(current);
 }
 
-SLONG remap_walls()
+std::int32_t remap_walls()
 {
 	return(0);
 
@@ -3664,29 +3664,29 @@ void remap_textures_psx()
 }
 #endif
 
-bool game_create_psx(CBYTE* mission_name);
-bool make_texture_clumps(CBYTE* mission_name);
-extern void		TesterText(CBYTE* error, ...);
-extern CBYTE	ELEV_fname_level   [];
+bool game_create_psx(char* mission_name);
+bool make_texture_clumps(char* mission_name);
+extern void		TesterText(char* error, ...);
+extern char	ELEV_fname_level   [];
 
-//SLONG    MAV_opt_upto;
+//std::int32_t    MAV_opt_upto;
 
 
 #ifndef TARGET_DC
 
 
-SWORD people_types[50];
-ULONG DONT_load=0; // nice global used for people loading
+std::int16_t people_types[50];
+std::uint32_t DONT_load=0; // nice global used for people loading
 void save_all_nads()
 {
 #ifdef	EDITOR
-	SLONG	p0,p1,c0=0;
-	SLONG	highest=0;
+	std::int32_t	p0,p1,c0=0;
+	std::int32_t	highest=0;
 
 #if 0
 	{
-		UBYTE	data[32][32];
-		UBYTE	pal[256*3];
+		std::uint8_t	data[32][32];
+		std::uint8_t	pal[256*3];
 		TGA_load_psx("c:\\fallen\\server\\textures\\world8\\psx\\tex215hi.tga",32,32,&data[0][0],pal);
 
 		make_psx_pal(0,pal);
@@ -3697,7 +3697,7 @@ void save_all_nads()
 
 	while(levels[c0].level)
 	{
-		CBYTE	name[100];
+		char	name[100];
 
 		sprintf(name,"%s\\%s.ucm",ENV_get_value_string("level_dir","Secret"),levels[c0].name);
 //#ifdef	MIKE
@@ -3713,7 +3713,7 @@ void save_all_nads()
 		else
 			roper_pickup=0;
 
-		memset((UBYTE*)people_types,0,100);
+		memset((std::uint8_t*)people_types,0,100);
 		DONT_load=levels[c0].dontload;
 
 		strcpy(ELEV_fname_level,name);
@@ -3726,7 +3726,7 @@ void count_people_types();
 
 
 		{
-			SLONG	c1;
+			std::int32_t	c1;
 			DebugText("PEEPS ");
 
 			for(c1=0;c1<16;c1++)
@@ -3758,8 +3758,8 @@ void make_all_clumps()
 	// One day, I need to write a clumper.
 #else
 
-	SLONG	p0,p1,c0=0;
-	SLONG	highest=0;
+	std::int32_t	p0,p1,c0=0;
+	std::int32_t	highest=0;
 
 	TEXTURE_create_clump = 1;
 
@@ -3772,7 +3772,7 @@ void make_all_clumps()
 	{
 		TRACE("Doing level %s\n", lptr[c0].name);
 
-		CBYTE	name[100];
+		char	name[100];
 		sprintf(name,"levels\\%s.ucm",lptr[c0].name);
 		make_texture_clumps(name);
 		DebugText(" level %s mav_opt %d\n",name,MAV_opt_upto);

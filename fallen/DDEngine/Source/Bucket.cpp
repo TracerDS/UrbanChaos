@@ -5,7 +5,7 @@
 #include	"Engine.h"
 
 
-UBYTE			e_bucket_pool[BUCKET_POOL_SIZE],
+std::uint8_t			e_bucket_pool[BUCKET_POOL_SIZE],
 				*e_buckets,
 				*e_end_buckets;
 BucketHead		*bucket_lists[MAX_LISTS][MAX_BUCKETS+1];

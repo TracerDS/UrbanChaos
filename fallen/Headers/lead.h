@@ -12,19 +12,19 @@
 
 typedef struct
 {
-	UBYTE p_num;		// Number of points.
-	UBYTE p_index;		// Index into the LEAD_point array.
-	UWORD attach_x;		// Where the lead is tied to
-	UWORD attach_y;
-	UWORD attach_z;
-	UWORD attach_thing;	// The thing on the other end of the leash.
+	std::uint8_t p_num;		// Number of points.
+	std::uint8_t p_index;		// Index into the LEAD_point array.
+	std::uint16_t attach_x;		// Where the lead is tied to
+	std::uint16_t attach_y;
+	std::uint16_t attach_z;
+	std::uint16_t attach_thing;	// The thing on the other end of the leash.
 
 } LEAD_Lead;
 
 #define LEAD_MAX_LEADS 32
 
 extern LEAD_Lead LEAD_lead[LEAD_MAX_LEADS];
-extern SLONG     LEAD_lead_upto;
+extern std::int32_t     LEAD_lead_upto;
 
 //
 // The points.
@@ -32,19 +32,19 @@ extern SLONG     LEAD_lead_upto;
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 } LEAD_Point;
 
 #define LEAD_MAX_POINTS 256
 
 extern LEAD_Point LEAD_point[LEAD_MAX_POINTS];
-extern SLONG      LEAD_point_upto;
+extern std::int32_t      LEAD_point_upto;
 
 
 
@@ -64,10 +64,10 @@ void LEAD_init();
 #define LEAD_LEN_LONG	3
 
 void LEAD_create(
-		SLONG len,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z);
+		std::int32_t len,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z);
 
 
 //

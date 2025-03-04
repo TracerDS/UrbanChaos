@@ -89,7 +89,7 @@ void MF_specular_spotlight(
 // Adds all the faces of the mesh normally...
 // 
 
-void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL);
+void MF_add_triangles_normal(IMP_Mesh *im, std::uint32_t draw = OS_DRAW_NORMAL);
 
 
 //
@@ -97,7 +97,7 @@ void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL);
 // value for all the points.
 // 
 
-void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL, ULONG colour = 0xffffff);
+void MF_add_triangles_normal_colour(IMP_Mesh *im, std::uint32_t draw = OS_DRAW_NORMAL, std::uint32_t colour = 0xffffff);
 
 
 //
@@ -105,8 +105,8 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL, U
 // sverts.  Draws using the given texture page.
 //
 
-void MF_add_triangles_light           (IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
-void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_light           (IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
 
 
 //
@@ -114,14 +114,14 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw 
 // the sverts.  The texture (ot) should be a specular spotlight texture.
 //
 
-void MF_add_triangles_specular           (IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
-void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_specular           (IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
 
 //
 // Draws the specular shadowed using the diffuse spotlight.
 //
 
-void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP | OS_DRAW_TEX_MUL);
+void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP | OS_DRAW_TEX_MUL);
 
 
 

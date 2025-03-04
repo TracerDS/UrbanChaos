@@ -6,9 +6,9 @@
 #include	"c:\fallen\headers\memory.h"
 
 
-extern SLONG			key_frame_count,current_element;
+extern std::int32_t			key_frame_count,current_element;
 
-extern SLONG					x_centre,
+extern std::int32_t					x_centre,
 								y_centre,
 								z_centre;
 extern struct KeyFrameChunk 	*test_chunk;
@@ -24,8 +24,8 @@ extern struct KeyFrameChunk 	*test_chunk;
 void	invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
 {
 	Matrix33	temp_mat;
-	SLONG	i,j;
-	SLONG	x,y,z;
+	std::int32_t	i,j;
+	std::int32_t	x,y,z;
 
 	for(i=0;i<3;i++)
 	for(j=0;j<3;j++)
@@ -50,23 +50,23 @@ void	invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
 
 //---------------------------------------------------------------
 
-extern void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3);
-extern void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2);
+extern void	do_quad_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2,std::int32_t p3);
+extern void	do_tri_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2);
 extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,struct  SMatrix31* mat2);
 
 #define	CLIP256(x)		(x>255?255:x)
 extern struct	SVector			global_res[]; //max points per object?
-extern SLONG					global_flags[];
+extern std::int32_t					global_flags[];
 
-extern UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3);
+extern std::uint16_t	is_it_clockwise(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3);
 
-void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *anim_info)
+void	draw_element(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,struct KeyFrameElement *anim_info)
 {
-	UWORD				bright[1560];
-	ULONG				flag_and,flag_or;
-	SLONG				az,
+	std::uint16_t				bright[1560];
+	std::uint32_t				flag_and,flag_or;
+	std::int32_t				az,
 						c0,
 						sp,ep;
 	struct Matrix31		offset;
@@ -78,7 +78,7 @@ void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *ani
 	struct SVector		temp; //max points per object?
 	struct PrimObject	*p_obj;
 
-	static	SLONG	scale=256;
+	static	std::int32_t	scale=256;
 
 	if(Keys[KB_LBRACE])
 		scale+=5;
@@ -136,7 +136,7 @@ void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *ani
 		
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			goto	exit;
@@ -224,7 +224,7 @@ void	draw_element(UWORD	prim,SLONG x,SLONG y,SLONG z,struct KeyFrameElement *ani
 
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 				goto	exit;
@@ -315,9 +315,9 @@ exit:;
 //---------------------------------------------------------------
 
 //void	draw_multi_prim(EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix)
-void	draw_a_key_frame_at(UWORD prim,SLONG x,SLONG y,SLONG z)
+void	draw_a_key_frame_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG				c0,c1;
+	std::int32_t				c0,c1;
 	KeyFrame			*the_frame	=	&test_chunk->KeyFrames[0];
 
 
@@ -348,8 +348,8 @@ void	clear_anim_stuff()
 
 void	load_chunk_texture_info_old(KeyFrameChunk *the_chunk)
 {
-	CBYTE				file_name[64];
-	SLONG				c0	=	0,
+	char				file_name[64];
+	std::int32_t				c0	=	0,
 						c1,c2;
 	MFFileHandle		file_handle;
 	struct PrimFace4	*p_f4;
@@ -418,16 +418,16 @@ void	load_chunk_texture_info_old(KeyFrameChunk *the_chunk)
 
 void	load_chunk_texture_info(KeyFrameChunk *the_chunk)
 {
-	CBYTE				file_name[64];
-	SLONG				c0	=	0,
+	char				file_name[64];
+	std::int32_t				c0	=	0,
 						c1,c2;
 	MFFileHandle		file_handle;
 	struct PrimFace4	*p_f4;
 	struct PrimFace3	*p_f3;
 	struct PrimObject	*p_obj;
-	SLONG	save_type;
-	SLONG	multi,count=0;
-	SLONG   sizeof_face_data;
+	std::int32_t	save_type;
+	std::int32_t	multi,count=0;
+	std::int32_t   sizeof_face_data;
 
 
 	strcpy(file_name,the_chunk->VUEName);
@@ -455,7 +455,7 @@ void	load_chunk_texture_info(KeyFrameChunk *the_chunk)
 			{
 				for(c0=prim_multi_objects[multi].StartObject;c0<prim_multi_objects[multi].EndObject;c0++,c1++)
 				{
-					SWORD	count;
+					std::int16_t	count;
 					p_obj		=	&prim_objects[c0];
 					p_f4		=	&prim_faces4[p_obj->StartFace4];
 					p_f3		=	&prim_faces3[p_obj->StartFace3];
@@ -502,7 +502,7 @@ void	load_chunk_texture_info(KeyFrameChunk *the_chunk)
 
 					while(count)
 					{
-						ULONG	poo[50];
+						std::uint32_t	poo[50];
 						FileRead(file_handle,&poo[0],sizeof_face_data);
 						count--;
 					}
@@ -546,7 +546,7 @@ void	load_chunk_texture_info(KeyFrameChunk *the_chunk)
 
 					while(count)
 					{
-						ULONG	poo[50];
+						std::uint32_t	poo[50];
 						FileRead(file_handle,&poo[0],sizeof_face_data);
 						count--;
 					}
@@ -568,10 +568,10 @@ void	load_chunk_texture_info(KeyFrameChunk *the_chunk)
 
 //---------------------------------------------------------------
 
-void do_single_shot(UBYTE *screen,UBYTE *palette)
+void do_single_shot(std::uint8_t *screen,std::uint8_t *palette)
 {
-	CBYTE			f_name[128];
-	SLONG			c0	=	0;
+	char			f_name[128];
+	std::int32_t			c0	=	0;
 
 
 	do
@@ -585,13 +585,13 @@ void do_single_shot(UBYTE *screen,UBYTE *palette)
 
 //---------------------------------------------------------------
 
-SLONG	count	=	0;
+std::int32_t	count	=	0;
 
-void do_record_frame(UBYTE *screen,UBYTE *palette)
+void do_record_frame(std::uint8_t *screen,std::uint8_t *palette)
 {
-	CBYTE			f_name[128];
+	char			f_name[128];
 /*
-	SLONG			c0	=	0;
+	std::int32_t			c0	=	0;
 
 
 	do
@@ -608,30 +608,30 @@ void do_record_frame(UBYTE *screen,UBYTE *palette)
 
 struct PCXHeader
 {
-	UBYTE				Manufacturer;
-	UBYTE				Version;
-	UBYTE				Encoding;
-	UBYTE				BitsPerPixel;
-	UWORD				X;
-	UWORD				Y;
-	UWORD				Width;
-	UWORD				Height;
-	UWORD				HorizRes;
-	UWORD				VertRes;
-	UBYTE				EGAPalette[48];
-	UBYTE				Reserved;
-	UBYTE				NumColorPlanes;
-	UWORD				BytesPerLine;
-	UWORD				PaletteType;
-	UBYTE				Padding[58];
+	std::uint8_t				Manufacturer;
+	std::uint8_t				Version;
+	std::uint8_t				Encoding;
+	std::uint8_t				BitsPerPixel;
+	std::uint16_t				X;
+	std::uint16_t				Y;
+	std::uint16_t				Width;
+	std::uint16_t				Height;
+	std::uint16_t				HorizRes;
+	std::uint16_t				VertRes;
+	std::uint8_t				EGAPalette[48];
+	std::uint8_t				Reserved;
+	std::uint8_t				NumColorPlanes;
+	std::uint16_t				BytesPerLine;
+	std::uint16_t				PaletteType;
+	std::uint8_t				Padding[58];
 };
 
-SLONG	write_pcx(CBYTE* fname,UBYTE *src,UBYTE *pal)
+std::int32_t	write_pcx(char* fname,std::uint8_t *src,std::uint8_t *pal)
 {
-	UBYTE					pixel,
+	std::uint8_t					pixel,
 							palette[769],
 							*ptr,buf[1024];
-	SLONG					c0,
+	std::int32_t					c0,
 							count,
 							x,y;
 	MFFileHandle			f_handle;
@@ -642,7 +642,7 @@ SLONG	write_pcx(CBYTE* fname,UBYTE *src,UBYTE *pal)
 	if(f_handle!=FILE_CREATION_ERROR)
 	{
 		// Create & write out header.
-		memset((UBYTE*)&the_header,0,sizeof(the_header));
+		memset((std::uint8_t*)&the_header,0,sizeof(the_header));
 		the_header.Manufacturer		=	10;
 		the_header.Version			=	5;
 		the_header.Encoding			=	1;
@@ -655,7 +655,7 @@ SLONG	write_pcx(CBYTE* fname,UBYTE *src,UBYTE *pal)
 		the_header.VertRes			=	WorkScreenHeight;
 		the_header.NumColorPlanes	=	1;
 		the_header.BytesPerLine		=	WorkScreenPixelWidth;
-		FileWrite(f_handle,(UBYTE*)&the_header,sizeof(the_header));
+		FileWrite(f_handle,(std::uint8_t*)&the_header,sizeof(the_header));
 
 		// Compress image & write the sucker out.
 		for(y=0;y<WorkScreenHeight;y++,src+=WorkScreenPixelWidth)
@@ -694,7 +694,7 @@ SLONG	write_pcx(CBYTE* fname,UBYTE *src,UBYTE *pal)
 					x++;
 				}
 			}
-			FileWrite(f_handle,(UBYTE*)buf,c0);
+			FileWrite(f_handle,(std::uint8_t*)buf,c0);
 		}
 
 		// Sort out the palette & write it.
@@ -719,11 +719,11 @@ SLONG	write_pcx(CBYTE* fname,UBYTE *src,UBYTE *pal)
 
 #undef	ShowWorkScreen
 
-void	editor_show_work_screen(ULONG flags)
+void	editor_show_work_screen(std::uint32_t flags)
 {
-	UBYTE		temp_bit[32][32],
+	std::uint8_t		temp_bit[32][32],
 				*cursor_ptr;
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				mouse_x,
 				mouse_y;
 
@@ -731,7 +731,7 @@ void	editor_show_work_screen(ULONG flags)
 	ShowWorkScreen(flags);
 	if(editor_status&EDITOR_RECORD)
 	{
-		SLONG		x,y,w,h;
+		std::int32_t		x,y,w,h;
 
 
 		x	=	WorkWindowRect.Left;
@@ -779,11 +779,11 @@ void	editor_show_work_screen(ULONG flags)
 
 #undef	ShowWorkWindow
 
-void	editor_show_work_window(ULONG flags)
+void	editor_show_work_window(std::uint32_t flags)
 {
-	UBYTE		temp_bit[32][32],
+	std::uint8_t		temp_bit[32][32],
 				*cursor_ptr;
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				mouse_x,
 				mouse_y;
 
@@ -791,7 +791,7 @@ void	editor_show_work_window(ULONG flags)
 	ShowWorkWindow(flags);
 	if(editor_status&EDITOR_RECORD)
 	{
-		SLONG		x,y,w,h;
+		std::int32_t		x,y,w,h;
 
 
 		x	=	WorkWindowRect.Left;
@@ -837,10 +837,10 @@ void	editor_show_work_window(ULONG flags)
 
 //---------------------------------------------------------------
 /*
-void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
+void	test_draw(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
 {
-	ULONG					flag_and,flag_or;
-	SLONG					az,
+	std::uint32_t					flag_and,flag_or;
+	std::int32_t					az,
 							c0,
 							ep,
 							flags[1560],
@@ -914,7 +914,7 @@ void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameEle
 
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		p0=p_f4->Points[0]-sp;
 		p1=p_f4->Points[1]-sp;
@@ -975,7 +975,7 @@ void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameEle
 
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		p0=p_f3->Points[0]-sp;
 		p1=p_f3->Points[1]-sp;
@@ -1033,11 +1033,11 @@ void	test_draw(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameEle
 
 //---------------------------------------------------------------
 
-void	test_draw_all_get_sizes(SWORD multi_prim,struct KeyFrame *the_frame,SLONG x,SLONG y,SLONG z,SLONG tween,struct Matrix33 *rot_mat,SLONG *width,SLONG *height,SLONG *mid_x,SLONG *mid_y)
+void	test_draw_all_get_sizes(std::int16_t multi_prim,struct KeyFrame *the_frame,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct Matrix33 *rot_mat,std::int32_t *width,std::int32_t *height,std::int32_t *mid_x,std::int32_t *mid_y)
 {
-	UWORD					prim;
-	ULONG					flag_and,flag_or;
-	SLONG					az,
+	std::uint16_t					prim;
+	std::uint32_t					flag_and,flag_or;
+	std::int32_t					az,
 							c0,c1,c2,
 							count			=	0,
 							ep,

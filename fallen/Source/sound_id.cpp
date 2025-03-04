@@ -6,7 +6,7 @@
 #include "MFStdLib.h"
 
 #ifndef PSX
-CBYTE* sound_list[] = {
+char* sound_list[] = {
     "NULL.wav",
     "f_WIND1.wav",
     "f_WIND3.wav",

@@ -98,7 +98,7 @@ void SHADOW_do();
 // Returns true if the given point is in shadow.
 //
 
-SLONG SHADOW_in(SLONG x, SLONG y, SLONG z);
+std::int32_t SHADOW_in(std::int32_t x, std::int32_t y, std::int32_t z);
 
 
 

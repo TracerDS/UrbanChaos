@@ -12,7 +12,7 @@
 //
 #include "libsn.h"
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
@@ -25,19 +25,19 @@
 
 
 //#include "math.h"
-extern CBYTE	texture_style_names[200][21];
+extern char	texture_style_names[200][21];
 extern void	fix_style_names();
-SLONG load_a_multi_prim(CBYTE* name);
+std::int32_t load_a_multi_prim(char* name);
 void create_kline_bottle();
 
 //
 // This has been ripped from prpitab.cpp in the editor source directory
 //
-UWORD local_next_prim_point;
-UWORD local_next_prim_face4;
-UWORD local_next_prim_face3;
-UWORD local_next_prim_object;
-UWORD local_next_prim_multi_object;
+std::uint16_t local_next_prim_point;
+std::uint16_t local_next_prim_face4;
+std::uint16_t local_next_prim_face3;
+std::uint16_t local_next_prim_object;
+std::uint16_t local_next_prim_multi_object;
 
 
 void record_prim_status()
@@ -69,20 +69,20 @@ void revert_to_prim_status()
 //
 
 //******************************************************************************************
-volatile UBYTE	AltFlag,
+volatile std::uint8_t	AltFlag,
 				ControlFlag,
 				ShiftFlag;
-volatile UBYTE	Keys[256],
+volatile std::uint8_t	Keys[256],
 				LastKey;
 
 SVector_F AENG_dx_prim_points[10];
 
 /*
-void DebugText(CBYTE* error, ...)
+void DebugText(char* error, ...)
 {
 }
 
-void MSG_add(CBYTE* fmt, ...)
+void MSG_add(char* fmt, ...)
 {
 }
 */
@@ -95,10 +95,10 @@ void NET_init()
 //******************************************************************************************
 
 
-SLONG find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+std::int32_t find_colour(std::uint8_t *the_palette,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	SLONG	found	=	-1;
-	SLONG	dist	=	0x7fffffff,
+	std::int32_t	found	=	-1;
+	std::int32_t	dist	=	0x7fffffff,
 			c0,
 			dist2,
 			tr,
@@ -135,9 +135,9 @@ SLONG find_colour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 }
 
 
-void change_extension(CBYTE	*name,CBYTE* add,CBYTE* new_name)
+void change_extension(char	*name,char* add,char* new_name)
 {
-	SLONG	c0=0;
+	std::int32_t	c0=0;
 	while(name[c0])
 	{
 		new_name[c0]=name[c0];
@@ -158,32 +158,32 @@ void change_extension(CBYTE	*name,CBYTE* add,CBYTE* new_name)
 	new_name[c0+4]=0;
 }
 
-void load_texture_styles(UBYTE flag)
+void load_texture_styles(std::uint8_t flag)
 {
-	UWORD	temp,temp2;
-	SLONG	save_type=1;
+	std::uint16_t	temp,temp2;
+	std::int32_t	save_type=1;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 
 	handle=FileOpen("data/style.tma");
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&save_type,4);
+		FileRead(handle,(std::uint8_t*)&save_type,4);
 		if(save_type>1)
 		{
 
-			FileRead(handle,(UBYTE*)&temp,2);
-			FileRead(handle,(UBYTE*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
+			FileRead(handle,(std::uint8_t*)&temp,2);
+			FileRead(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
 
-			FileRead(handle,(UBYTE*)&temp,2);
-			FileRead(handle,(UBYTE*)&temp2,2);
-			FileRead(handle,(UBYTE*)&textures_xy[0][0],sizeof(struct TXTY)*temp*temp2);
+			FileRead(handle,(std::uint8_t*)&temp,2);
+			FileRead(handle,(std::uint8_t*)&temp2,2);
+			FileRead(handle,(std::uint8_t*)&textures_xy[0][0],sizeof(struct TXTY)*temp*temp2);
 
-			FileRead(handle,(UBYTE*)&temp,2);
-			FileRead(handle,(UBYTE*)&temp2,2);
+			FileRead(handle,(std::uint8_t*)&temp,2);
+			FileRead(handle,(std::uint8_t*)&temp2,2);
 			if(flag)
 			{
 #ifdef	EDITOR
-				FileRead(handle,(UBYTE*)&texture_style_names[0][0],temp*temp2);
+				FileRead(handle,(std::uint8_t*)&texture_style_names[0][0],temp*temp2);
 				fix_style_names();
 #endif
 			}
@@ -191,14 +191,14 @@ void load_texture_styles(UBYTE flag)
 				FileSeek(handle,SEEK_MODE_CURRENT,temp*temp2);
 			if(save_type>2)
 			{
-				FileRead(handle,(UBYTE*)&temp,2);
-				FileRead(handle,(UBYTE*)&temp2,2);
+				FileRead(handle,(std::uint8_t*)&temp,2);
+				FileRead(handle,(std::uint8_t*)&temp2,2);
 				LogText(" read flags x %d z %d\n",temp,temp2);
-				FileRead(handle,(UBYTE*)&textures_flags[0][0],sizeof(UBYTE)*temp*temp2);
+				FileRead(handle,(std::uint8_t*)&textures_flags[0][0],sizeof(std::uint8_t)*temp*temp2);
 			}
 			else
 			{
-				SLONG	x,z;
+				std::int32_t	x,z;
 				for(x=0;x<200;x++)
 				{
 					for(z=0;z<8;z++)
@@ -213,36 +213,36 @@ void load_texture_styles(UBYTE flag)
 
 }
 
-void load_game_map(CBYTE* name)
+void load_game_map(char* name)
 {
-	UWORD	temp;
-	SLONG	save_type=1;
-	SLONG	x,z;
-	SLONG	c0;
+	std::uint16_t	temp;
+	std::int32_t	save_type=1;
+	std::int32_t	x,z;
+	std::int32_t	c0;
 	MapElement	me;
 	Thing	th;
 	struct	MapThing	*t_mthing;
 
-	UWORD	count1,count2,count3,count4;
+	std::uint16_t	count1,count2,count3,count4;
 
 
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	handle=FileOpen(name);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&save_type,4);
-		FileRead(handle,(UBYTE*)&PAP_2HI(0,0),sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
+		FileRead(handle,(std::uint8_t*)&save_type,4);
+		FileRead(handle,(std::uint8_t*)&PAP_2HI(0,0),sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
 
 		//
 		// All this ob nonsense are the obkjects on the map (like lamposts)
 		//
-		FileRead(handle,(UBYTE*)&OB_ob_upto,sizeof(OB_ob_upto));
-		FileRead(handle,(UBYTE*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
+		FileRead(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
+		FileRead(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
 
 		//
 		// notice that strangely they have their very own mapwho
 		//
-		FileRead(handle,(UBYTE*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
+		FileRead(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
 
 		//
 		// Clear the mapwho data in the low-res map.
@@ -256,7 +256,7 @@ void load_game_map(CBYTE* name)
 
 
 
-void load_super_map(SLONG,SLONG st);
+void load_super_map(std::int32_t,std::int32_t st);
 		load_super_map(handle,save_type);
 
 
@@ -266,7 +266,7 @@ void load_super_map(SLONG,SLONG st);
 
 
 /*
-void add_point(SLONG x,SLONG y,SLONG z)
+void add_point(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	prim_points[next_prim_point].X=x;
 	prim_points[next_prim_point].Y=y;
@@ -277,7 +277,7 @@ void add_point(SLONG x,SLONG y,SLONG z)
 #define	CHEIGHT2	160
 void build_car_prim()
 {
-	SLONG sp[5];
+	std::int32_t sp[5];
 
 	sp[0]=next_prim_point;
 
@@ -292,30 +292,30 @@ void build_car_prim()
 }
 */
 
-SLONG load_all_prims(CBYTE	*name)
+std::int32_t load_all_prims(char	*name)
 {
-	SLONG			c0,point;
+	std::int32_t			c0,point;
 	MFFileHandle	handle;
-	CBYTE			file_name[64];
-	UWORD	dummy[100];
-	UWORD	check_it;
+	char			file_name[64];
+	std::uint16_t	dummy[100];
+	std::uint16_t	check_it;
 
 	
 	sprintf(file_name,"data/%s",name);
 	handle	=	FileOpen(file_name);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&next_prim_point,sizeof(UWORD));
-		FileRead(handle,(UBYTE*)&next_prim_face4,sizeof(UWORD));
-		FileRead(handle,(UBYTE*)&next_prim_face3,sizeof(UWORD));
-		FileRead(handle,(UBYTE*)&next_prim_object,sizeof(UWORD));
+		FileRead(handle,(std::uint8_t*)&next_prim_point,sizeof(std::uint16_t));
+		FileRead(handle,(std::uint8_t*)&next_prim_face4,sizeof(std::uint16_t));
+		FileRead(handle,(std::uint8_t*)&next_prim_face3,sizeof(std::uint16_t));
+		FileRead(handle,(std::uint8_t*)&next_prim_object,sizeof(std::uint16_t));
 
-		FileRead(handle,(UBYTE*)dummy,sizeof(UWORD)*10);
+		FileRead(handle,(std::uint8_t*)dummy,sizeof(std::uint16_t)*10);
 
-		FileRead(handle,(UBYTE*)prim_points,sizeof(struct PrimPoint)*next_prim_point);
-		FileRead(handle,(UBYTE*)prim_faces4,sizeof(struct PrimFace4)*next_prim_face4);
-		FileRead(handle,(UBYTE*)prim_faces3,sizeof(struct PrimFace3)*next_prim_face3);
-		FileRead(handle,(UBYTE*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
+		FileRead(handle,(std::uint8_t*)prim_points,sizeof(struct PrimPoint)*next_prim_point);
+		FileRead(handle,(std::uint8_t*)prim_faces4,sizeof(struct PrimFace4)*next_prim_face4);
+		FileRead(handle,(std::uint8_t*)prim_faces3,sizeof(struct PrimFace3)*next_prim_face3);
+		FileRead(handle,(std::uint8_t*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
 		FileClose(handle);
 #ifdef	EDITOR
 extern void	record_prim_status();
@@ -329,15 +329,15 @@ extern void	record_prim_status();
 //---------------------------------------------------------
 
 //---------------------------------------------------------------
-SLONG key_frame_count,current_element;
-SLONG x_centre,y_centre,z_centre;
+std::int32_t key_frame_count,current_element;
+std::int32_t x_centre,y_centre,z_centre;
 
 
-extern CBYTE	*body_part_names[];
+extern char	*body_part_names[];
 
 void set_default_people_types(struct	KeyFrameChunk *the_chunk)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 
 	for(c0=0;c0<20;c0++)
 	{
@@ -354,8 +354,8 @@ void set_default_people_types(struct	KeyFrameChunk *the_chunk)
 
 void make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *matrix)
 {
-	ULONG	encode;
-	SLONG	u,v,w;
+	std::uint32_t	encode;
+	std::int32_t	u,v,w;
 /*
 	LogText(" compress>>6 %x %x %x \n",matrix->M[0][0]>>6,matrix->M[0][1]>>6,matrix->M[0][2]>>6);
 	LogText(" compress>>6<<? %x %x %x \n",(((matrix->M[0][0]>>6))<<20),(((matrix->M[0][1]>>6))<<10),(((matrix->M[0][2]>>6))<<0));
@@ -384,38 +384,38 @@ void load_multi_vue(struct	KeyFrameChunk *the_chunk)
 }
 
 
-void load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE* vue_name)
+void load_key_frame_chunks(KeyFrameChunk *the_chunk,char* vue_name)
 {
 }
 
 
-void read_a_prim(SLONG prim,MFFileHandle	handle)
+void read_a_prim(std::int32_t prim,MFFileHandle	handle)
 {
-	SLONG	c0;
-	SLONG	sf3,ef3,sf4,ef4,sp,ep;
-	SLONG	dp;
+	std::int32_t	c0;
+	std::int32_t	sf3,ef3,sf4,ef4,sp,ep;
+	std::int32_t	dp;
 
 
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&prim_objects[next_prim_object].ObjectName,sizeof(prim_objects[0].ObjectName));
+		FileRead(handle,(std::uint8_t*)&prim_objects[next_prim_object].ObjectName,sizeof(prim_objects[0].ObjectName));
 
 		LogText(" name %s becomes prim %d\n",prim_objects[next_prim_object].ObjectName,next_prim_object);
 
-		FileRead(handle,(UBYTE*)&sp,sizeof(sp));
-		FileRead(handle,(UBYTE*)&ep,sizeof(ep));
+		FileRead(handle,(std::uint8_t*)&sp,sizeof(sp));
+		FileRead(handle,(std::uint8_t*)&ep,sizeof(ep));
 
 		LogText(" no points %d \n",ep-sp);
 //		for(c0=sp;c0<ep;c0++)
-		FileRead(handle,(UBYTE*)&prim_points[next_prim_point],sizeof(struct PrimPoint)*(ep-sp));
+		FileRead(handle,(std::uint8_t*)&prim_points[next_prim_point],sizeof(struct PrimPoint)*(ep-sp));
 		
 
 		dp=next_prim_point-sp;// was 10 but is now 50 so need to add 40 to all point indexs
 
-		FileRead(handle,(UBYTE*)&sf3,sizeof(sf3));
-		FileRead(handle,(UBYTE*)&ef3,sizeof(ef3));
+		FileRead(handle,(std::uint8_t*)&sf3,sizeof(sf3));
+		FileRead(handle,(std::uint8_t*)&ef3,sizeof(ef3));
 		LogText(" no face3 %d \n",ef3-sf3);
-		FileRead(handle,(UBYTE*)&prim_faces3[next_prim_face3],sizeof(struct PrimFace3)*(ef3-sf3));
+		FileRead(handle,(std::uint8_t*)&prim_faces3[next_prim_face3],sizeof(struct PrimFace3)*(ef3-sf3));
 		for(c0=sf3;c0<ef3;c0++)
 		{
 			prim_faces3[next_prim_face3+c0-sf3].Points[0]+=dp;
@@ -424,10 +424,10 @@ void read_a_prim(SLONG prim,MFFileHandle	handle)
 		}
 
 
-		FileRead(handle,(UBYTE*)&sf4,sizeof(sf4));
-		FileRead(handle,(UBYTE*)&ef4,sizeof(ef4));
+		FileRead(handle,(std::uint8_t*)&sf4,sizeof(sf4));
+		FileRead(handle,(std::uint8_t*)&ef4,sizeof(ef4));
 		LogText(" no face4 %d \n",ef4-sf4);
-		FileRead(handle,(UBYTE*)&prim_faces4[next_prim_face4],sizeof(struct PrimFace4)*(ef4-sf4));
+		FileRead(handle,(std::uint8_t*)&prim_faces4[next_prim_face4],sizeof(struct PrimFace4)*(ef4-sf4));
 		for(c0=sf4;c0<ef4;c0++)
 		{
 			prim_faces4[next_prim_face4+c0-sf4].Points[0]+=dp;
@@ -455,13 +455,13 @@ void read_a_prim(SLONG prim,MFFileHandle	handle)
 
 //extern struct	PrimMultiObject	prim_multi_objects[];
 
-SLONG load_a_multi_prim(CBYTE* name)
+std::int32_t load_a_multi_prim(char* name)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	MFFileHandle	handle;
-	SLONG			save_type=0;
-	SLONG			so,eo;
-	CBYTE			ext_name[80];
+	std::int32_t			save_type=0;
+	std::int32_t			so,eo;
+	char			ext_name[80];
 
 	change_extension(name,"moj",ext_name);
 //	sprintf(ext_name,"data/%s",ext_name);
@@ -469,10 +469,10 @@ SLONG load_a_multi_prim(CBYTE* name)
 	if(handle!=FILE_OPEN_ERROR)
 	{
 		
-		FileRead(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
-		FileRead(handle,(UBYTE*)&so,sizeof(so));
-		FileRead(handle,(UBYTE*)&eo,sizeof(eo));
+		FileRead(handle,(std::uint8_t*)&so,sizeof(so));
+		FileRead(handle,(std::uint8_t*)&eo,sizeof(eo));
 
 		prim_multi_objects[next_prim_multi_object].StartObject=next_prim_object;
 		prim_multi_objects[next_prim_multi_object].EndObject=next_prim_object+(eo-so);
@@ -491,9 +491,9 @@ SLONG load_a_multi_prim(CBYTE* name)
 
 
 
-SLONG find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,UWORD prim)
+std::int32_t find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,std::uint16_t prim)
 {
-	SLONG	c0,sf,ef,point;
+	std::int32_t	c0,sf,ef,point;
 	sf=prim_objects[prim].StartFace4;
 	ef=prim_objects[prim].EndFace4;
 
@@ -515,10 +515,10 @@ SLONG find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPo
 	return(-1);
 }
 
-extern void	add_point(SLONG x,SLONG y,SLONG z);
-extern struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
-extern SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4);
-extern void save_prim_asc(UWORD prim,UWORD version);
+extern void	add_point(std::int32_t x,std::int32_t y,std::int32_t z);
+extern struct	PrimFace4*	create_a_quad(std::uint16_t p1,std::uint16_t p0,std::uint16_t p3,std::uint16_t p2,std::int16_t	texture_style,std::int16_t texture_piece);
+extern std::int32_t	build_prim_object(std::int32_t sp,std::int32_t sf3,std::int32_t sf4);
+extern void save_prim_asc(std::uint16_t prim,std::uint16_t version);
 
 void create_kline_bottle()
 {
@@ -531,9 +531,9 @@ void create_kline_bottle()
 	return; //switch it off for now
 
 /*
-	SLONG	sp[10000],count=0,inner_count=0;
-	SLONG	c0,c1;
-	SLONG	sf3,sf4,stp;
+	std::int32_t	sp[10000],count=0,inner_count=0;
+	std::int32_t	c0,c1;
+	std::int32_t	sf3,sf4,stp;
 
 	stp=next_prim_point;
 	sf3=next_prim_face3;
@@ -558,7 +558,7 @@ void create_kline_bottle()
 			  z = sin(u/2.0)*sin(v)+cos(u/2.0)*sin(2.0*v);
 
 
-			add_point((SLONG)(x*200.0),(SLONG)(y*200.0),(SLONG)(z*200.0));
+			add_point((std::int32_t)(x*200.0),(std::int32_t)(y*200.0),(std::int32_t)(z*200.0));
 		}
 	}
 
@@ -578,7 +578,7 @@ void create_kline_bottle()
 	*/
 }
 
-void load_palette(CBYTE* palette)
+void load_palette(char* palette)
 {
 }
 
@@ -592,26 +592,26 @@ void load_palette(CBYTE* palette)
 
 // 
 
-extern void	write_a_prim(SLONG prim,MFFileHandle	handle);
+extern void	write_a_prim(std::int32_t prim,MFFileHandle	handle);
 
-SLONG save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
+std::int32_t save_insert_a_multi_prim(MFFileHandle	handle,std::int32_t multi)
 {
-	SLONG			c0,point;
-	CBYTE			file_name[64];
-	SLONG			save_type=0;
-	SLONG			so,eo;
-	CBYTE			ext_name[80];
+	std::int32_t			c0,point;
+	char			file_name[64];
+	std::int32_t			save_type=0;
+	std::int32_t			so,eo;
+	char			ext_name[80];
 #ifdef	EDITOR
 	if(handle!=FILE_OPEN_ERROR)
 	{
 		
-		FileWrite(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
 		so=prim_multi_objects[multi].StartObject;
 		eo=prim_multi_objects[multi].EndObject;
 
-		FileWrite(handle,(UBYTE*)&so,sizeof(so));
-		FileWrite(handle,(UBYTE*)&eo,sizeof(eo));
+		FileWrite(handle,(std::uint8_t*)&so,sizeof(so));
+		FileWrite(handle,(std::uint8_t*)&eo,sizeof(eo));
 
 		for(c0=so;c0<eo;c0++)
 			write_a_prim(c0,handle);
@@ -623,59 +623,59 @@ SLONG save_insert_a_multi_prim(MFFileHandle	handle,SLONG multi)
 	
 }
 
-SLONG save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
+std::int32_t save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
 {
-	SLONG	save_type=0;
-	SLONG	temp;
+	std::int32_t	save_type=0;
+	std::int32_t	temp;
 #ifdef	EDITOR
 
-	FileWrite(handle,(UBYTE*)&save_type,sizeof(save_type));
+	FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
-	FileWrite(handle,(UBYTE*)&game_chunk->ElementCount,sizeof(game_chunk->ElementCount));
-	FileWrite(handle,(UBYTE*)&game_chunk->MaxElements,sizeof(game_chunk->MaxElements));
-	FileWrite(handle,(UBYTE*)&game_chunk->MaxKeyFrames,sizeof(game_chunk->MaxKeyFrames));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->ElementCount,sizeof(game_chunk->ElementCount));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->MaxElements,sizeof(game_chunk->MaxElements));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->MaxKeyFrames,sizeof(game_chunk->MaxKeyFrames));
 
 
 	//
 	// save the people types
 	//
 	temp=MAX_PEOPLE_TYPES;
-	FileWrite(handle,(UBYTE*)&temp,sizeof(temp));
-	FileWrite(handle,(UBYTE*)&game_chunk->PeopleTypes[0],sizeof(struct BodyDef)*temp);
+	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->PeopleTypes[0],sizeof(struct BodyDef)*temp);
 
 	//
 	// save the keyframe linked lists
 	//
-	temp=(SLONG)&game_chunk->AnimKeyFrames[0];
-	FileWrite(handle,(UBYTE*)&temp,sizeof(temp));
-	FileWrite(handle,(UBYTE*)&game_chunk->AnimKeyFrames[0],sizeof(struct GameKeyFrame)*game_chunk->MaxKeyFrames);
+	temp=(std::int32_t)&game_chunk->AnimKeyFrames[0];
+	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->AnimKeyFrames[0],sizeof(struct GameKeyFrame)*game_chunk->MaxKeyFrames);
 
 	//
 	// save the anim elements
 	//
-	temp=(SLONG)&game_chunk->TheElements[0];
-	FileWrite(handle,(UBYTE*)&temp,sizeof(temp));
-	FileWrite(handle,(UBYTE*)&game_chunk->TheElements[0],sizeof(struct GameKeyFrameElement)*game_chunk->MaxElements);
+	temp=(std::int32_t)&game_chunk->TheElements[0];
+	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->TheElements[0],sizeof(struct GameKeyFrameElement)*game_chunk->MaxElements);
 
 	//
 	// save the animlist
 	//
 	temp=200;
-	FileWrite(handle,(UBYTE*)&temp,sizeof(temp));
-	FileWrite(handle,(UBYTE*)&game_chunk->AnimList[0],sizeof(struct GameKeyFrame)*temp);
+	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+	FileWrite(handle,(std::uint8_t*)&game_chunk->AnimList[0],sizeof(struct GameKeyFrame)*temp);
 #endif
 	return(1);
 
 }
 
-SLONG save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
+std::int32_t save_anim_system(struct GameKeyFrameChunk *game_chunk,char	*name)
 {
-	SLONG			c0,point;
+	std::int32_t			c0,point;
 	MFFileHandle	handle;
-	CBYTE			file_name[64];
-	SLONG			save_type=0;
-	SLONG			so,eo;
-	CBYTE			ext_name[80];
+	char			file_name[64];
+	std::int32_t			save_type=0;
+	std::int32_t			so,eo;
+	char			ext_name[80];
 #ifdef	EDITOR
 
 	change_extension(name,"all",ext_name);
@@ -683,7 +683,7 @@ SLONG save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
 	if(handle!=FILE_OPEN_ERROR)
 	{
 		
-		FileWrite(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
 		save_insert_a_multi_prim(handle,game_chunk->MultiObject[0]);
 		save_insert_game_chunk(handle,game_chunk);
@@ -696,88 +696,88 @@ SLONG save_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
 	
 }
 
-SLONG load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
+std::int32_t load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_chunk)
 {
-	SLONG	save_type=0,c0;
-	SLONG	temp;
-	ULONG	addr1,addr2,addr3;
-	SLONG	a_off,ae_off;
-	SLONG	af_off;
+	std::int32_t	save_type=0,c0;
+	std::int32_t	temp;
+	std::uint32_t	addr1,addr2,addr3;
+	std::int32_t	a_off,ae_off;
+	std::int32_t	af_off;
 
-	FileRead(handle,(UBYTE*)&save_type,sizeof(save_type));
+	FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
-	FileRead(handle,(UBYTE*)&game_chunk->ElementCount,sizeof(game_chunk->ElementCount));
-	FileRead(handle,(UBYTE*)&game_chunk->MaxElements,sizeof(game_chunk->MaxElements));
-	FileRead(handle,(UBYTE*)&game_chunk->MaxKeyFrames,sizeof(game_chunk->MaxKeyFrames));
+	FileRead(handle,(std::uint8_t*)&game_chunk->ElementCount,sizeof(game_chunk->ElementCount));
+	FileRead(handle,(std::uint8_t*)&game_chunk->MaxElements,sizeof(game_chunk->MaxElements));
+	FileRead(handle,(std::uint8_t*)&game_chunk->MaxKeyFrames,sizeof(game_chunk->MaxKeyFrames));
 
 
 	//
 	// Load the people types
 	//
-	FileRead(handle,(UBYTE*)&temp,sizeof(temp));
-	FileRead(handle,(UBYTE*)&game_chunk->PeopleTypes[0],sizeof(struct BodyDef)*temp);
+	FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
+	FileRead(handle,(std::uint8_t*)&game_chunk->PeopleTypes[0],sizeof(struct BodyDef)*temp);
 
 	//
 	// Load the keyframe linked lists
 	//
-	FileRead(handle,(UBYTE*)&addr1,sizeof(addr1));
-	FileRead(handle,(UBYTE*)&game_chunk->AnimKeyFrames[0],sizeof(struct GameKeyFrame)*game_chunk->MaxKeyFrames);
+	FileRead(handle,(std::uint8_t*)&addr1,sizeof(addr1));
+	FileRead(handle,(std::uint8_t*)&game_chunk->AnimKeyFrames[0],sizeof(struct GameKeyFrame)*game_chunk->MaxKeyFrames);
 
 	//
 	// Load the anim elements
 	//
-	FileRead(handle,(UBYTE*)&addr2,sizeof(addr2));
-	FileRead(handle,(UBYTE*)&game_chunk->TheElements[0],sizeof(struct GameKeyFrameElement)*game_chunk->MaxElements);
+	FileRead(handle,(std::uint8_t*)&addr2,sizeof(addr2));
+	FileRead(handle,(std::uint8_t*)&game_chunk->TheElements[0],sizeof(struct GameKeyFrameElement)*game_chunk->MaxElements);
 
 
 	//
 	// Load the animlist
 	//
-	FileRead(handle,(UBYTE*)&temp,sizeof(temp));
-	FileRead(handle,(UBYTE*)&game_chunk->AnimList[0],sizeof(struct GameKeyFrame)*temp);
+	FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
+	FileRead(handle,(std::uint8_t*)&game_chunk->AnimList[0],sizeof(struct GameKeyFrame)*temp);
 
 	if(save_type>=1)
 	{
-		SLONG	temp_fight;
+		std::int32_t	temp_fight;
 
 
-		FileRead(handle,(UBYTE*)&addr3,sizeof(addr3));
+		FileRead(handle,(std::uint8_t*)&addr3,sizeof(addr3));
 
-		FileRead(handle,(UBYTE*)&temp_fight,sizeof(temp_fight));
+		FileRead(handle,(std::uint8_t*)&temp_fight,sizeof(temp_fight));
 
 		game_chunk->MaxFightCols=temp_fight;
 
-		FileRead(handle,(UBYTE*)&game_chunk->FightCols[0],sizeof(struct GameFightCol)*temp_fight);
+		FileRead(handle,(std::uint8_t*)&game_chunk->FightCols[0],sizeof(struct GameFightCol)*temp_fight);
 	}
 
 	LogText("PSX1 game chunk  max animkeyframes %d max theelements %d max animlist %d\n",game_chunk->MaxKeyFrames,game_chunk->MaxElements,temp);
 
 	// was at 100 now at 10, a_off =-90 so we take 90 off each stored address
 
-	a_off=((ULONG)&game_chunk->AnimKeyFrames[0])-addr1;
-	ae_off=((ULONG)&game_chunk->TheElements[0])-addr2;
-	af_off=((ULONG)&game_chunk->FightCols[0])-addr3;
+	a_off=((std::uint32_t)&game_chunk->AnimKeyFrames[0])-addr1;
+	ae_off=((std::uint32_t)&game_chunk->TheElements[0])-addr2;
+	af_off=((std::uint32_t)&game_chunk->FightCols[0])-addr3;
 	for(c0=0;c0<game_chunk->MaxKeyFrames;c0++)
 	{
-		ULONG	a;
+		std::uint32_t	a;
 
-		a=(ULONG)game_chunk->AnimKeyFrames[c0].NextFrame;
+		a=(std::uint32_t)game_chunk->AnimKeyFrames[c0].NextFrame;
 		a+=a_off;
 		if(game_chunk->AnimKeyFrames[c0].NextFrame)
 			game_chunk->AnimKeyFrames[c0].NextFrame=(struct GameKeyFrame*)a;
 
-		a=(ULONG)game_chunk->AnimKeyFrames[c0].PrevFrame;
+		a=(std::uint32_t)game_chunk->AnimKeyFrames[c0].PrevFrame;
 		a+=a_off;
 		if(game_chunk->AnimKeyFrames[c0].PrevFrame)
 			game_chunk->AnimKeyFrames[c0].PrevFrame=(struct GameKeyFrame*)a;
 
 //		game_chunk->AnimKeyFrames[c0].Fight=0;
 
-		a=(ULONG)game_chunk->AnimKeyFrames[c0].FirstElement;
+		a=(std::uint32_t)game_chunk->AnimKeyFrames[c0].FirstElement;
 		a+=ae_off;
 		game_chunk->AnimKeyFrames[c0].FirstElement=(struct GameKeyFrameElement*)a;
 
-		a=(ULONG)game_chunk->AnimKeyFrames[c0].Fight;
+		a=(std::uint32_t)game_chunk->AnimKeyFrames[c0].Fight;
 		a+=af_off;
 
 		if(game_chunk->AnimKeyFrames[c0].Fight)
@@ -790,7 +790,7 @@ SLONG load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_
 
 			while(p_fight->Next)
 			{
-				a=(ULONG)p_fight->Next;
+				a=(std::uint32_t)p_fight->Next;
 				a+=af_off;
 				p_fight->Next=(struct GameFightCol*)a;
 				p_fight=p_fight->Next;
@@ -799,12 +799,12 @@ SLONG load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_
 	}
 
 	
-	a_off=((ULONG)&game_chunk->AnimKeyFrames[0])-addr1;
+	a_off=((std::uint32_t)&game_chunk->AnimKeyFrames[0])-addr1;
 	for(c0=0;c0<temp;c0++)
 	{
-		ULONG	a;
+		std::uint32_t	a;
 
-		a=(ULONG)game_chunk->AnimList[c0];
+		a=(std::uint32_t)game_chunk->AnimList[c0];
 		a+=a_off;
 		game_chunk->AnimList[c0]=(struct GameKeyFrame*)a;
 	}
@@ -815,20 +815,20 @@ SLONG load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *game_
 
 }
 
-SLONG load_insert_a_multi_prim(MFFileHandle	handle)
+std::int32_t load_insert_a_multi_prim(MFFileHandle	handle)
 {
-	SLONG			c0;
-	SLONG			save_type=0;
-	SLONG			so,eo;
-	CBYTE			ext_name[80];
+	std::int32_t			c0;
+	std::int32_t			save_type=0;
+	std::int32_t			so,eo;
+	char			ext_name[80];
 
 	if(handle!=FILE_OPEN_ERROR)
 	{
 		
-		FileRead(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
-		FileRead(handle,(UBYTE*)&so,sizeof(so));
-		FileRead(handle,(UBYTE*)&eo,sizeof(eo));
+		FileRead(handle,(std::uint8_t*)&so,sizeof(so));
+		FileRead(handle,(std::uint8_t*)&eo,sizeof(eo));
 
 		prim_multi_objects[next_prim_multi_object].StartObject=next_prim_object;
 		prim_multi_objects[next_prim_multi_object].EndObject=next_prim_object+(eo-so);
@@ -843,21 +843,21 @@ SLONG load_insert_a_multi_prim(MFFileHandle	handle)
 		return(0);
 }
 
-SLONG load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name)
+std::int32_t load_anim_system(struct GameKeyFrameChunk *game_chunk,char	*name)
 {
-	SLONG			c0,point;
+	std::int32_t			c0,point;
 	MFFileHandle	handle;
-	CBYTE			file_name[64];
-	SLONG			save_type=0;
-	SLONG			so,eo;
-	CBYTE			ext_name[80];
+	char			file_name[64];
+	std::int32_t			save_type=0;
+	std::int32_t			so,eo;
+	char			ext_name[80];
 
 	change_extension(name,"all",ext_name);
 	handle	=	FileOpen(ext_name);
 	if(handle!=FILE_OPEN_ERROR)
 	{
 		
-		FileRead(handle,(UBYTE*)&save_type,sizeof(save_type));
+		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
 
 		game_chunk->MultiObject[0]=load_insert_a_multi_prim(handle);
 		load_insert_game_chunk(handle,game_chunk);

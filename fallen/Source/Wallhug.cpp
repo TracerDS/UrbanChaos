@@ -30,15 +30,15 @@ wallhug_waypoint wallhug_dirn_steps[4] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
 
 //----------------------------------------------------------------------------
 
-static SLONG dx, dy, bresval;
-static ULONG y_dirn, x_dirn;
+static std::int32_t dx, dy, bresval;
+static std::uint32_t y_dirn, x_dirn;
 static bool x_longer;
 
-ULONG wallhug_current_count;
-UBYTE wallhug_last_hugstart;
-UBYTE wallhug_last_handed;
-UBYTE wallhug_last_dirn;
-ULONG wallhug_last_hug_count;
+std::uint32_t wallhug_current_count;
+std::uint8_t wallhug_last_hugstart;
+std::uint8_t wallhug_last_handed;
+std::uint8_t wallhug_last_dirn;
+std::uint32_t wallhug_last_hug_count;
 bool wallhug_looking_for_last = false;
 
 //----------------------------------------------------------------------------
@@ -47,10 +47,10 @@ bool wallhug_looking_for_last = false;
 static void bresenham_start(wallhug_waypoint start,
 							wallhug_waypoint end)
 {
-	SLONG xdiff, ydiff;
+	std::int32_t xdiff, ydiff;
 
-	xdiff = (ULONG)end.x; xdiff -= (ULONG)start.x;
-	ydiff = (ULONG)end.y; ydiff -= (ULONG)start.y;
+	xdiff = (std::uint32_t)end.x; xdiff -= (std::uint32_t)start.x;
+	ydiff = (std::uint32_t)end.y; ydiff -= (std::uint32_t)start.y;
 
 	if (abs(xdiff) > abs(ydiff)) x_longer = true;
 	else						 x_longer = false;
@@ -81,7 +81,7 @@ static void bresenham_start(wallhug_waypoint start,
 //----------------------------------------------------------------------------
 // return the direction for the next step of the current bresenham draw
 
-static ULONG bresenham()
+static std::uint32_t bresenham()
 {
 	if (bresval >= dx)
 	{
@@ -132,7 +132,7 @@ inline void wallhug_hugstep(wallhug_info *hugger)
 		// define the side your hand sticks out
 
 		{
-			ULONG hugside = WALLHUG_ADDMOD4(hugger->dirn, hugger->handed);
+			std::uint32_t hugside = WALLHUG_ADDMOD4(hugger->dirn, hugger->handed);
 
 			// if there isn't, then you should turn towards your hugside
 
@@ -260,7 +260,7 @@ inline void wallhug_hugstep(wallhug_info *hugger)
 static bool line_of_sight(wallhug_waypoint start, wallhug_waypoint end)
 {
 	wallhug_waypoint current = start;
-	ULONG dirn;
+	std::uint32_t dirn;
 
 	bresenham_start(start, end);
 
@@ -303,7 +303,7 @@ inline static bool huggers_met_again(wallhug_info *huggers)
 
 inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger)
 {
-	ULONG c1;
+	std::uint32_t c1;
 
 	if (successful_hugger->path.length + path->length + 2 > WALLHUG_MAX_PTS) return 0;
 
@@ -322,11 +322,11 @@ inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successfu
 
 //----------------------------------------------------------------------------
 					
-static bool line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
+static bool line_of_sight_cleanup(wallhug_path *path, std::uint32_t first_waypoint)
 {
 	bool deleted_waypoint, done_anything_at_all = false;
 	wallhug_waypoint start;
-	ULONG finalised, walker;
+	std::uint32_t finalised, walker;
 
 
 	do
@@ -341,7 +341,7 @@ static bool line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
 
 		for (deleted_waypoint = false; walker < path->length;)
 		{
-			ULONG lookahead;
+			std::uint32_t lookahead;
 
 			for (lookahead = MAX_LOOKAHEAD; lookahead > 0; lookahead--)
 			{
@@ -374,12 +374,12 @@ static bool line_of_sight_cleanup(wallhug_path *path, ULONG first_waypoint)
 //----------------------------------------------------------------------------
 // removes redundant waypoints from an already calculated path
 
-ULONG wallhug_cleanup(wallhug_path *path, ULONG retval)
+std::uint32_t wallhug_cleanup(wallhug_path *path, std::uint32_t retval)
 {
 	wallhug_waypoint start;
-	ULONG finalised, walker, lookahead_done;
-	ULONG count = 10;
-	ULONG changed_waypoint = 0;
+	std::uint32_t finalised, walker, lookahead_done;
+	std::uint32_t count = 10;
+	std::uint32_t changed_waypoint = 0;
 
 	// keep iterating the following until no further waypoints deleted.
 
@@ -401,7 +401,7 @@ ULONG wallhug_cleanup(wallhug_path *path, ULONG retval)
 	// waypoint, replace the waypoint with the new path.
 
 	{
-		ULONG c1, c2;
+		std::uint32_t c1, c2;
 		wallhug_path new_path;
 
 		for (c1 = 0; c1 + 1 < path->length; c1++)
@@ -441,15 +441,15 @@ ULONG wallhug_cleanup(wallhug_path *path, ULONG retval)
 
 			// move the remaining waypoints in the path out of the way
 
-			memmove((UBYTE*)path->waypoints + c1 + new_path.length,
-					(UBYTE*)path->waypoints + c1 + 2,
+			memmove((std::uint8_t*)path->waypoints + c1 + new_path.length,
+					(std::uint8_t*)path->waypoints + c1 + 2,
 					(path->length - c1 - 2) * sizeof(wallhug_waypoint));
 
 
 			// and copy in the new waypoints
 
-			memcpy((UBYTE*)path->waypoints + c1,
-				   (UBYTE*)new_path.waypoints,
+			memcpy((std::uint8_t*)path->waypoints + c1,
+				   (std::uint8_t*)new_path.waypoints,
 				   new_path.length * sizeof(wallhug_waypoint));
 
 			path->length = new_path.length + path->length - 2;
@@ -469,9 +469,9 @@ ULONG wallhug_cleanup(wallhug_path *path, ULONG retval)
 //----------------------------------------------------------------------------
 // returns the number of steps taken
 
-ULONG wallhug_tricky(wallhug_path *path)
+std::uint32_t wallhug_tricky(wallhug_path *path)
 {
-	ULONG retval;
+	std::uint32_t retval;
 
 	// first get a simple answer. even if the path fails, we want to optimise
 	// the path, because we'll return a path that gets you close.
@@ -484,10 +484,10 @@ ULONG wallhug_tricky(wallhug_path *path)
 //----------------------------------------------------------------------------
 // carries on the path from current
 
-ULONG wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, ULONG max_count)
+std::uint32_t wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, std::uint32_t max_count)
 {
 	wallhug_waypoint start = current;
-	ULONG dirn;
+	std::uint32_t dirn;
 
 #if DEBUG == 1
 	if (path->end.x >= WALLHUG_WIDTH || path->end.y >= WALLHUG_HEIGHT)
@@ -628,7 +628,7 @@ fail_hugging_and_return:
 //----------------------------------------------------------------------------
 // returns the number of steps taken
 
-ULONG wallhug_trivial(wallhug_path *path)
+std::uint32_t wallhug_trivial(wallhug_path *path)
 {
 	path->length = 0; // initialise path.
 

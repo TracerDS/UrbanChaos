@@ -9,9 +9,9 @@
 
 
 
-extern SLONG	calc_height_at(SLONG x,SLONG z);
-extern SLONG	person_normal_animate(Thing *p_person);
-extern void	change_velocity_to(Thing *p_person,SWORD velocity);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
+extern std::int32_t	person_normal_animate(Thing *p_person);
+extern void	change_velocity_to(Thing *p_person,std::int16_t velocity);
 extern void	person_normal_move(Thing *p_person);
 extern void	fn_cop_fight(Thing *p_person);
 
@@ -138,8 +138,8 @@ void fn_cop_normal(Thing *t_thing)
 {
 	#if 0
 
-	SWORD			angle_diff;
-	SLONG			distance,
+	std::int16_t			angle_diff;
+	std::int32_t			distance,
 					dx,dy,dz;
 	DrawTween		*t_draw;
 	GameCoord		dest_position,
@@ -257,8 +257,8 @@ void fn_cop_fight(Thing *p_person)
 {
 /*
 	Thing	*p_target;
-	SLONG	dist;
-	SLONG	end;
+	std::int32_t	dist;
+	std::int32_t	end;
 
 	p_target=TO_THING(p_person->Genus.Person->Target);
 

@@ -91,14 +91,14 @@
 // Functions
 //
 
-extern void	apply_button_input(struct Thing *p_thing,SLONG input);
+extern void	apply_button_input(struct Thing *p_thing,std::int32_t input);
 extern void	process_hardware_level_input_for_player(Thing *p_thing);
 extern void	init_user_interface();
-extern SLONG	continue_action(Thing *p_person);
-extern SLONG	continue_moveing(Thing *p_person);
-extern SLONG	continue_firing(Thing *p_person);
-extern SLONG	person_get_in_car(Thing *p_person);	// Returns true if it finds a car and set the person's InCar field
-extern SLONG	person_get_in_specific_car(Thing *p_person, Thing *p_vehicle);
+extern std::int32_t	continue_action(Thing *p_person);
+extern std::int32_t	continue_moveing(Thing *p_person);
+extern std::int32_t	continue_firing(Thing *p_person);
+extern std::int32_t	person_get_in_car(Thing *p_person);	// Returns true if it finds a car and set the person's InCar field
+extern std::int32_t	person_get_in_specific_car(Thing *p_person, Thing *p_vehicle);
 
 
 
@@ -130,9 +130,9 @@ extern SLONG	person_get_in_specific_car(Thing *p_person, Thing *p_vehicle);
 
 #define INPUT_TYPE_ALL (INPUT_TYPE_KEY|INPUT_TYPE_JOY)
 
-extern ULONG	get_hardware_input(UWORD type);
+extern std::uint32_t	get_hardware_input(std::uint16_t type);
 // Type can only be INPUT_TYPE_GONEDOWN
-extern ULONG	get_last_input (UWORD type);
+extern std::uint32_t	get_last_input (std::uint16_t type);
 // Allow the last input state to autorepeat, despite GONEDOWN.
 extern void allow_input_autorepeat ( void );
 
@@ -193,9 +193,9 @@ void INTERFAC_SetUpJoyPadButtons ( int iMode );
 #endif //#ifdef TARGET_DC
 
 
-extern UBYTE	joypad_button_use[16];
+extern std::uint8_t	joypad_button_use[16];
 #ifndef TARGET_DC
-extern UBYTE	keybrd_button_use[16];
+extern std::uint8_t	keybrd_button_use[16];
 #endif
 
 #define	JOYPAD_BUTTON_KICK       0

@@ -65,15 +65,15 @@ GenusFunctions PYRO_functions[PYRO_RANGE] =
 // Zeros out the pyros in the 'the_game' structure.
 //
 
-SBYTE global_spang_count=0;
+std::int8_t global_spang_count=0;
 
 void init_pyros()
 {
-	memset((UBYTE*)PYROS, 0, sizeof(Pyro) * MAX_PYROS);
+	memset((std::uint8_t*)PYROS, 0, sizeof(Pyro) * MAX_PYROS);
 
 #ifndef PSX
 extern RadPoint PYRO_defaultpoints2[32];
-	memset((UBYTE*)PYRO_defaultpoints2,0,sizeof(RadPoint) * 32);
+	memset((std::uint8_t*)PYRO_defaultpoints2,0,sizeof(RadPoint) * 32);
 #endif
 
 	global_spang_count=0;
@@ -84,16 +84,16 @@ extern RadPoint PYRO_defaultpoints2[32];
 // Creates a new pyro of the given type.
 //
 
-Thing *alloc_pyro(UBYTE type)
+Thing *alloc_pyro(std::uint8_t type)
 {		 
 
-	SLONG i;
+	std::int32_t i;
 
 	Thing    *p_thing;
 	Pyro  *p_pyro;
 
 	THING_INDEX t_index;
-	SLONG       a_index;
+	std::int32_t       a_index;
 
 	ASSERT(WITHIN(type, 1, PYRO_RANGE - 1));
 
@@ -175,7 +175,7 @@ void free_pyro(Thing *p_thing)
 	case PYRO_IMMOLATE:
 		{
 #ifndef PSX
-			UBYTE i,r;
+			std::uint8_t i,r;
 			if (pyro->Dummy==2) r=5; else r=2;
 			for (i=0;i<r;i++)
 				RIBBON_free(pyro->radii[i]);
@@ -204,7 +204,7 @@ void free_pyro(Thing *p_thing)
 }
 
 
-Thing *PYRO_create(GameCoord pos, UBYTE type)
+Thing *PYRO_create(GameCoord pos, std::uint8_t type)
 {
 	Thing *p_thing = alloc_pyro(type);
 
@@ -248,9 +248,9 @@ Pyro *PYRO_get_pyro(struct Thing *pyro_thing)
 
 #define MAX_COL_WITH 16
 
-void PYRO_blast_radius(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG strength) {
+void PYRO_blast_radius(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, std::int32_t strength) {
 
-	SLONG collide_types,col_with_upto,i;
+	std::int32_t collide_types,col_with_upto,i;
 	THING_INDEX col_with[MAX_COL_WITH];
 	Thing *col_thing;
 
@@ -306,11 +306,11 @@ void PYRO_blast_radius(SLONG x, SLONG y, SLONG z, SLONG radius, SLONG strength) 
 #define MAX_COL_WITH 16
 THING_INDEX col_with[MAX_COL_WITH];
 
-SLONG MergeSoundFX(Thing *thing, Pyro *pyro) {
-	SLONG       col_with_upto;
-	SLONG		collide_types = (1 << CLASS_PYRO);
+std::int32_t MergeSoundFX(Thing *thing, Pyro *pyro) {
+	std::int32_t       col_with_upto;
+	std::int32_t		collide_types = (1 << CLASS_PYRO);
 	Thing		*col_thing;
-	SLONG		i, sample, mode;
+	std::int32_t		i, sample, mode;
 
 	col_with_upto = THING_find_sphere(
 					    thing->WorldPos.X >> 8,
@@ -360,9 +360,9 @@ SLONG MergeSoundFX(Thing *thing, Pyro *pyro) {
 }
 
 
-static void	normalise_val256(SLONG *vx,SLONG *vy,SLONG *vz)
+static void	normalise_val256(std::int32_t *vx,std::int32_t *vy,std::int32_t *vz)
 {
-	SLONG	len;
+	std::int32_t	len;
 
 //was	if ((abs(*vx)>512)&&(abs(*vy)>512)&&(abs(*vz)>512)) 
 	if ((abs(*vx)>32768)&&(abs(*vy)>32768)&&(abs(*vz)>32768)) 
@@ -469,7 +469,7 @@ StateFunction PYRO_state_function[] =
 void PYRO_fn_init(Thing *thing)
 {
 	Pyro *pyro = PYRO_get_pyro(thing);
-	UBYTE i;
+	std::uint8_t i;
 
 	pyro->counter=0;
 	pyro->radius=0;
@@ -608,7 +608,7 @@ void PYRO_fn_init(Thing *thing)
 
 //		pyro->target.X>>=2; pyro->target.Y>>=2; pyro->target.Z>>=2;
 
-/*		SLONG tst=	(pyro->target.X*pyro->target.X)+
+/*		std::int32_t tst=	(pyro->target.X*pyro->target.X)+
 					(pyro->target.Y*pyro->target.Y)+
 					(pyro->target.Z*pyro->target.Z);
 
@@ -633,10 +633,10 @@ void PYRO_fn_init(Thing *thing)
 void PYRO_fn_init_ex(Thing *thing)
 {
 	Pyrex *pyro = (Pyrex*)PYRO_get_pyro(thing);
-	UBYTE i,j;
-	SLONG height,radius;
+	std::uint8_t i,j;
+	std::int32_t height,radius;
 	RadPoint *pt;
-	SLONG cx,cz;
+	std::int32_t cx,cz;
 
 	// if this is the first time an explosion is created, then set up
 	// global precalc stuff for the hemisphere
@@ -653,8 +653,8 @@ void PYRO_fn_init_ex(Thing *thing)
 			// generate ring x,y
 	
 			for (j=0;j<8;j++) {
-				pt->x=(radius*((SLONG)SIN(j*256)))/256;
-				pt->z=(radius*((SLONG)COS(j*256)))/256;
+				pt->x=(radius*((std::int32_t)SIN(j*256)))/256;
+				pt->z=(radius*((std::int32_t)COS(j*256)))/256;
 				pt->y=height;
 				pt++;
 			}
@@ -688,9 +688,9 @@ void PYRO_fn_init_ex(Thing *thing)
 void PYRO_fn_normal(Thing *thing)
 {
 	GameCoord new_pos;
-	SLONG mag, rpos, altitude;
-	UBYTE i;
-	CBYTE msg[300];
+	std::int32_t mag, rpos, altitude;
+	std::uint8_t i;
+	char msg[300];
 
 	Pyro *pyro = PYRO_get_pyro(thing);
 
@@ -701,7 +701,7 @@ void PYRO_fn_normal(Thing *thing)
 		if (pyro->counter<254) {
 			GameCoord posn;
 			Thing *new_pyro;
-			SLONG angle;
+			std::int32_t angle;
 
 			pyro->counter+=16;
 			posn=pyro->target;
@@ -735,7 +735,7 @@ void PYRO_fn_normal(Thing *thing)
 			MFX_play_thing(99,S_FIRE,MFX_LOOPED|MFX_QUEUED,thing); //mikeD sort of 3d sound
 
 		if (pyro->dlight) {
-			SWORD max=pyro->Dummy;
+			std::int16_t max=pyro->Dummy;
 			if (max>0x7f)
 				max+=(Random()&0x3f)-0x1f;
 			else
@@ -754,8 +754,8 @@ void PYRO_fn_normal(Thing *thing)
 			move_thing_on_map(thing, &new_pos);
 
 			if (pyro->victim->Class==CLASS_BAT) {
-				UBYTE p,q,r;
-				SLONG px,py,pz;
+				std::uint8_t p,q,r;
+				std::int32_t px,py,pz;
 #ifndef PSX
 				r=pyro->radius>>6;
 				r=(r<5)?5-r:1;
@@ -786,8 +786,8 @@ void PYRO_fn_normal(Thing *thing)
 			}
 
 			if (pyro->victim->Class==CLASS_PERSON) {
-				UBYTE p,q,r;
-				SLONG px,py,pz;
+				std::uint8_t p,q,r;
+				std::int32_t px,py,pz;
 #ifndef PSX
 				r=pyro->radius>>6;
 				r=(r<5)?5-r:1;
@@ -896,7 +896,7 @@ void PYRO_fn_normal(Thing *thing)
 			pyro->radius+=9;
 
 			if (pyro->dlight) {
-				SLONG rgb;
+				std::int32_t rgb;
 				
 				rgb=pyro->counter<<2;
 				if (rgb>512) rgb=512;
@@ -945,7 +945,7 @@ void PYRO_fn_normal(Thing *thing)
 	case PYRO_IRONICWATERFALL: // it's extra ironic now it does chimney smoke... :P
 		if (pyro->thing->Flags&FLAGS_IN_VIEW)
 		{
-			SLONG px,py,pz;
+			std::int32_t px,py,pz;
 			px=pyro->thing->WorldPos.X>>8;
 			py=pyro->thing->WorldPos.Y>>8;
 			pz=pyro->thing->WorldPos.Z>>8;
@@ -1000,7 +1000,7 @@ void PYRO_fn_normal(Thing *thing)
 	case PYRO_FLICKER:
 		{
 			GameCoord pos;
-			SLONG dx,dz,nx,nz,cr,cosa,sina;
+			std::int32_t dx,dz,nx,nz,cr,cosa,sina;
 
 			pyro->counter++;
 			if (pyro->Dummy&1)
@@ -1073,7 +1073,7 @@ void PYRO_fn_normal(Thing *thing)
 #endif
 		if (!pyro->counter)
 		{
-			SLONG x,y,z;
+			std::int32_t x,y,z;
 			for (i=0;i<8;i++)
 			{
 				x=SIN(i<<8); z=COS(i<<8);
@@ -1094,8 +1094,8 @@ void PYRO_fn_normal(Thing *thing)
 			}
 			for (i=0;i<8;i++)
 			{
-				UBYTE col = pyro->counter>>3;
-				UBYTE col2= Random()%(1+(col>>1));
+				std::uint8_t col = pyro->counter>>3;
+				std::uint8_t col2= Random()%(1+(col>>1));
 				NIGHT_dlight_colour(pyro->radii[i],col,col2,0);
 			}
 		}
@@ -1148,10 +1148,10 @@ void PYRO_fn_normal(Thing *thing)
 /*			Thing *np = PYRO_create(thing->WorldPos,PYRO_ONESMOKE);
 			if (np) np->Genus.Pyro->target=thing->WorldPos; // original position for poss. light fx?*/
 
-			for (SLONG i=0;i<4;i++)
+			for (std::int32_t i=0;i<4;i++)
 			{
-				UBYTE sz;
-				SLONG dx, dr, dz,x,y,z,b,ox,oz;
+				std::uint8_t sz;
+				std::int32_t dx, dr, dz,x,y,z,b,ox,oz;
 
 				sz=(255-pyro->counter)>>3;
 				dr=rand()&2047;
@@ -1172,7 +1172,7 @@ void PYRO_fn_normal(Thing *thing)
 				y=(PAP_calc_map_height_at(x>>8,z>>8)<<8)+257;
 
 				for (b=0;b<5;b++) {
-					dr=((SLONG)pyro)+b;
+					dr=((std::int32_t)pyro)+b;
 					dr*=31415965;
 					dr+=123456789;
 					dr>>=8;
@@ -1193,7 +1193,7 @@ void PYRO_fn_normal(Thing *thing)
 		{
 			if (pyro->dlight) 
 			{
-				SWORD max=SIN(((UWORD)pyro->counter)<<1)>>11;
+				std::int16_t max=SIN(((std::uint16_t)pyro->counter)<<1)>>11;
 				NIGHT_dlight_colour(pyro->dlight,max,max>>1,max>>3);
 			}
 			pyro->counter+=16;
@@ -1206,7 +1206,7 @@ void PYRO_fn_normal(Thing *thing)
 
 void PYRO_fn_normal_ex(Thing *thing) {
 	Pyrex *pyro = (Pyrex*)PYRO_get_pyro(thing);
-	UBYTE i,dead=0;
+	std::uint8_t i,dead=0;
 
 	for (i=0;i<17;i++) {
 		pyro->points[i].radius+=pyro->points[i].delta;
@@ -1223,7 +1223,7 @@ void PYRO_fn_normal_ex(Thing *thing) {
 
 // --------- interface thingy ---------
 
-void PYRO_construct(GameCoord posn, SLONG types, SLONG scale) {
+void PYRO_construct(GameCoord posn, std::int32_t types, std::int32_t scale) {
 	Thing *thing;
 	if (types & 1) {
 		thing=PYRO_create(posn,PYRO_TWANGER);
@@ -1232,7 +1232,7 @@ void PYRO_construct(GameCoord posn, SLONG types, SLONG scale) {
 	if (types & 2) {
 		thing=PYRO_create(posn,PYRO_EXPLODE2);
 		if (thing) {
-			SLONG cx,cz;
+			std::int32_t cx,cz;
 			thing->Genus.Pyro->scale=scale;
 			
 			// do initial blast gust
@@ -1261,7 +1261,7 @@ void PYRO_construct(GameCoord posn, SLONG types, SLONG scale) {
 	if (types & 32) {
 		thing=PYRO_create(posn,PYRO_NEWDOME);
 		if (thing) {
-			SLONG cx,cz;
+			std::int32_t cx,cz;
 			thing->Genus.Pyro->scale=scale;
 			
 			// do initial blast gust
@@ -1315,7 +1315,7 @@ void PYRO_hitspang(Thing *p_person, Thing *victim) {
 
 }
 
-void PYRO_hitspang(Thing *p_person, SLONG x, SLONG y, SLONG z) {
+void PYRO_hitspang(Thing *p_person, std::int32_t x, std::int32_t y, std::int32_t z) {
 	GameCoord vec;
 	Thing *thing;
 

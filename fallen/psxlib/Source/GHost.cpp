@@ -30,14 +30,14 @@
 volatile bool		ShellActive;
 
 
-volatile UBYTE	AltFlag,
+volatile std::uint8_t	AltFlag,
 				ControlFlag,
 				ShiftFlag;
-volatile UBYTE	Keys[256],
+volatile std::uint8_t	Keys[256],
 				LastKey;
 
-extern SWORD music_current_level;
-UBYTE Wadmenu_PadType;
+extern std::int16_t music_current_level;
+std::uint8_t Wadmenu_PadType;
 
 #define WAD_SEL_LEVEL	0
 #define WAD_SEL_CAN		1
@@ -97,11 +97,11 @@ UBYTE Wadmenu_PadType;
 
 //---------------------------------------------------------------
 
-extern SLONG MFX_music_wave;
-extern SLONG MFX_music_end;
-extern SLONG MFX_music_queued;
-extern SLONG MFX_music_gain;
-extern SLONG MFX_music_q_flag;
+extern std::int32_t MFX_music_wave;
+extern std::int32_t MFX_music_end;
+extern std::int32_t MFX_music_queued;
+extern std::int32_t MFX_music_gain;
+extern std::int32_t MFX_music_q_flag;
 
 
 int sfx_volume=128;
@@ -112,33 +112,33 @@ int pad_config=0;
 int vibra_mode=0;
 
 #ifdef VERSION_ENGLISH
-UBYTE IsEnglish=1;
+std::uint8_t IsEnglish=1;
 #endif
 
 #ifdef VERSION_KOREA
-UBYTE IsEnglish=1;
+std::uint8_t IsEnglish=1;
 #else
 #ifdef VERSION_GERMAN
 #ifndef VERSION_DEMO
-UBYTE IsEnglish=0;
+std::uint8_t IsEnglish=0;
 #endif
 #endif
 #endif
 
 #ifdef VERSION_SPANISH
-UBYTE IsEnglish=0;
+std::uint8_t IsEnglish=0;
 #endif
 
 #ifdef VERSION_ITALIAN
-UBYTE IsEnglish=0;
+std::uint8_t IsEnglish=0;
 #endif
 
 #ifdef VERSION_USA
-UBYTE IsEnglish=1;
+std::uint8_t IsEnglish=1;
 #endif
 
 #ifdef VERSION_JAPAN
-UBYTE IsEnglish=1;
+std::uint8_t IsEnglish=1;
 #endif
 
 
@@ -160,25 +160,25 @@ char wadmenu_filename[32];
 
 char level_done[48];
 
-UBYTE Video_Played;
-UBYTE Eidos_Played;
-UBYTE Wadmenu_Video;
-CBYTE* Wadmenu_CivMess;
-SWORD Wadmenu_Citations;
-SWORD Wadmenu_Current_Con;
-SWORD Wadmenu_Current_Ref;
-SWORD Wadmenu_Current_Sta;
-SWORD Wadmenu_Current_Str;
+std::uint8_t Video_Played;
+std::uint8_t Eidos_Played;
+std::uint8_t Wadmenu_Video;
+char* Wadmenu_CivMess;
+std::int16_t Wadmenu_Citations;
+std::int16_t Wadmenu_Current_Con;
+std::int16_t Wadmenu_Current_Ref;
+std::int16_t Wadmenu_Current_Sta;
+std::int16_t Wadmenu_Current_Str;
 // Par Time and names
-SLONG Wadmenu_MuckyTime;
-CBYTE Wadmenu_MuckyName[12];
+std::int32_t Wadmenu_MuckyTime;
+char Wadmenu_MuckyName[12];
 
 #ifdef VERSION_DEMO
-SLONG demo_mode,demo_timeout;
+std::int32_t demo_mode,demo_timeout;
 #endif
 
 extern void MUSIC_stop(bool fade);
-extern UBYTE MUSIC_play(UWORD wave,UBYTE flags);
+extern std::uint8_t MUSIC_play(std::uint16_t wave,std::uint8_t flags);
 extern ControllerPacket PAD_Input1,PAD_Input2;
 
 PadInfo pad_cfg0={
@@ -320,24 +320,24 @@ PadInfo pad_free;
 
 PadInfo *PAD_Current;
 
-SLONG PSX_msecond_timer;
+std::int32_t PSX_msecond_timer;
 extern MFX_Seek_delay;
 extern MFX_Cd_Position;
 
-extern UWORD music_request_mode;
-extern UWORD music_current_mode;
+extern std::uint16_t music_request_mode;
+extern std::uint16_t music_current_mode;
 
-UBYTE PAD_Type=0;
+std::uint8_t PAD_Type=0;
 
 void Host_VbRoutine()
 {
-//	CBYTE param[8];
+//	char param[8];
 
 	PSX_msecond_timer+=PSX_TIMER_VBLANK;
 
 	if (PadInfoMode(0,InfoModeCurID,0)==7)	// Pad Analogue
 	{
-		SLONG padx,pady;
+		std::int32_t padx,pady;
 
 		padx=JoystickLeftX(&PAD_Input1)-128;
 		pady=JoystickLeftY(&PAD_Input1)-128;
@@ -357,13 +357,13 @@ extern MFX_sound_frame;
 }
 
 //---------------------------------------------------------------
-SLONG InitHardware();
+std::int32_t InitHardware();
 
-extern void	set_next_prim_point(SLONG v);
-extern UWORD	next_prim_point;
-//extern void MFX_Callback_CdRead(UBYTE status,UBYTE *result);
+extern void	set_next_prim_point(std::int32_t v);
+extern std::uint16_t	next_prim_point;
+//extern void MFX_Callback_CdRead(std::uint8_t status,std::uint8_t *result);
 
-bool SetupHost(ULONG flags)
+bool SetupHost(std::uint32_t flags)
 {
 
 #ifdef FS_ISO9660
@@ -401,10 +401,10 @@ void ResetHost()
 char cd_file_buffer[128];
 
 
-void PCReadFile(CBYTE* name,UBYTE *addr,ULONG len)
+void PCReadFile(char* name,std::uint8_t *addr,std::uint32_t len)
 {
 #ifndef FS_ISO9660
-	SLONG	fh;
+	std::int32_t	fh;
 
 	fh=PCopen(name,0,0);
 	if(fh!=-1)
@@ -423,18 +423,18 @@ void PCReadFile(CBYTE* name,UBYTE *addr,ULONG len)
 	}
 	sprintf(cd_file_buffer,"\\%s;1",name);
 	MFX_Seek_delay=INFINITY;
-	if (!CdReadFile(cd_file_buffer,(ULONG*)addr,(len+2047)&0xfffff800))
+	if (!CdReadFile(cd_file_buffer,(std::uint32_t*)addr,(len+2047)&0xfffff800))
 		memset((void*)addr,0,len);
 	CdReadSync(0,cd_file_buffer);
 	MFX_Seek_delay=20;
 #endif
 }
 
-void PSXOverLay(CBYTE* name,ULONG len)
+void PSXOverLay(char* name,std::uint32_t len)
 {
-	UBYTE buf[8];
+	std::uint8_t buf[8];
 	memcpy((void*)buf,(void*)my_heap,8);
-	PCReadFile(name,(UBYTE*)my_heap,len);
+	PCReadFile(name,(std::uint8_t*)my_heap,len);
 	memcpy((void*)my_heap,(void*)buf,8);
 	// Now setup bucket memory to point to directly after the loaded frontend
 	// overlay (doing it here means that every time we load the front-end the
@@ -465,24 +465,24 @@ void Time(MFTime *the_time)
 	the_time->Ticks		=	0;
 }
 
-SLONG GetTickCount()
+std::int32_t GetTickCount()
 {
 	return PSX_msecond_timer;
 }
 
-bool GetInputDevice(UBYTE type,UBYTE sub_type)
+bool GetInputDevice(std::uint8_t type,std::uint8_t sub_type)
 {		 
 	return(1);
 }
 
 static unsigned char align[6]={0,1,0xFF,0xFF,0xFF,0xFF};
 int psx_send=0;
-extern UBYTE psx_motor[2];
+extern std::uint8_t psx_motor[2];
 
 bool ReadInputDevice()
 {
-//	UBYTE motor[2]={0,0};
-	SLONG id;
+//	std::uint8_t motor[2]={0,0};
+	std::int32_t id;
 
 extern int vibra_mode;
 //	PAD_Type = PadInfo
@@ -490,7 +490,7 @@ extern int vibra_mode;
 
 	if (id == 7)
 	{
-		SLONG state = PadGetState(0);
+		std::int32_t state = PadGetState(0);
 
 		if (state == PadStateFindPad) 
 		{
@@ -554,8 +554,8 @@ TIM_IMAGE *ReadTIM(TIM_IMAGE *timing)
 	current_off+=current_tim[current_off]>>2;
 }
 
-SLONG Wadmenu_Levelwon;
-UBYTE Wadmenu_Display=1;
+std::int32_t Wadmenu_Levelwon;
+std::uint8_t Wadmenu_Display=1;
 
 
 void Wadmenu_GetStats()

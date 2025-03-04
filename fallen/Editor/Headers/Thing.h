@@ -32,36 +32,36 @@
 //structs
 struct	MapThing
 {
-	SLONG	X;	
-	SLONG	Y;	
-	SLONG	Z;	
-	UWORD	MapChild;   //mapwho 2 way linked list
-	UWORD	MapParent;
-	UBYTE	Type;
-	UBYTE	SubType;	// Type for lights...
-	ULONG	Flags;
+	std::int32_t	X;	
+	std::int32_t	Y;	
+	std::int32_t	Z;	
+	std::uint16_t	MapChild;   //mapwho 2 way linked list
+	std::uint16_t	MapParent;
+	std::uint8_t	Type;
+	std::uint8_t	SubType;	// Type for lights...
+	std::uint32_t	Flags;
 
 	union
 	{
 		struct
 		{
-			SWORD	IndexOther;		// Brightness for lights...
-			UWORD	Width;
-			UWORD	Height;
-			UWORD	IndexOrig;		// param for lights...
-			UWORD	AngleX;			// (R,G,B) for lights...
-			UWORD	AngleY;
-			UWORD	AngleZ;
-			UWORD	IndexNext;
-			SWORD	LinkSame;
-			SWORD	OnFace;
-			SWORD	State;
-			SWORD	SubState;
-			SLONG	BuildingList;
-			ULONG	EditorFlags,
+			std::int16_t	IndexOther;		// Brightness for lights...
+			std::uint16_t	Width;
+			std::uint16_t	Height;
+			std::uint16_t	IndexOrig;		// param for lights...
+			std::uint16_t	AngleX;			// (R,G,B) for lights...
+			std::uint16_t	AngleY;
+			std::uint16_t	AngleZ;
+			std::uint16_t	IndexNext;
+			std::int16_t	LinkSame;
+			std::int16_t	OnFace;
+			std::int16_t	State;
+			std::int16_t	SubState;
+			std::int32_t	BuildingList;
+			std::uint32_t	EditorFlags,
 					EditorData;
-			ULONG	DummyArea[3];
-			SLONG						TweenStage;
+			std::uint32_t	DummyArea[3];
+			std::int32_t						TweenStage;
 			//struct KeyFrameElement		*AnimElements,
 			//								*NextAnimElements;
 			KeyFrame	*CurrentFrame;
@@ -70,42 +70,42 @@ struct	MapThing
 
 		struct
 		{
-			UWORD		CommandRef;
-			SLONG		Class,
+			std::uint16_t		CommandRef;
+			std::int32_t		Class,
 						Genus;
-			SLONG		Data[6];
+			std::int32_t		Data[6];
 		};
 	};
 };
 
 struct	MapThingPSX
 {
-	SLONG	X;	
-	SLONG	Y;	
-	SLONG	Z;	
-	UWORD	MapChild;   //mapwho 2 way linked list
-	UWORD	MapParent;
-	UBYTE	Type;
-	UBYTE	SubType;	// Type for lights...
-	ULONG	Flags;
+	std::int32_t	X;	
+	std::int32_t	Y;	
+	std::int32_t	Z;	
+	std::uint16_t	MapChild;   //mapwho 2 way linked list
+	std::uint16_t	MapParent;
+	std::uint8_t	Type;
+	std::uint8_t	SubType;	// Type for lights...
+	std::uint32_t	Flags;
 
-			SWORD	IndexOther;		// Brightness for lights...
-			UWORD	Width;
-			UWORD	Height;
-			UWORD	IndexOrig;		// param for lights...
-			UWORD	AngleX;			// (R,G,B) for lights...
-			UWORD	AngleY;
-			UWORD	AngleZ;
-			UWORD	IndexNext;
-			SWORD	LinkSame;
-			SWORD	OnFace;
-			SWORD	State;
-			SWORD	SubState;
-			SLONG	BuildingList;
-			ULONG	EditorFlags,
+			std::int16_t	IndexOther;		// Brightness for lights...
+			std::uint16_t	Width;
+			std::uint16_t	Height;
+			std::uint16_t	IndexOrig;		// param for lights...
+			std::uint16_t	AngleX;			// (R,G,B) for lights...
+			std::uint16_t	AngleY;
+			std::uint16_t	AngleZ;
+			std::uint16_t	IndexNext;
+			std::int16_t	LinkSame;
+			std::int16_t	OnFace;
+			std::int16_t	State;
+			std::int16_t	SubState;
+			std::int32_t	BuildingList;
+			std::uint32_t	EditorFlags,
 					EditorData;
-			ULONG	DummyArea[3];
-			SLONG						TweenStage;
+			std::uint32_t	DummyArea[3];
+			std::int32_t						TweenStage;
 			//struct KeyFrameElement		*AnimElements,
 			//								*NextAnimElements;
 			KeyFrame	*CurrentFrame;
@@ -118,11 +118,11 @@ struct	MapThingPSX
 extern struct	MapThing	map_things[MAX_MAP_THINGS];
 
 //code
-extern UWORD	find_empty_map_thing();
-extern void	delete_thing_from_edit_map(SLONG x,SLONG y,UWORD	thing);
-extern void	add_thing_to_edit_map(SLONG x,SLONG y,UWORD	thing);
-extern SLONG	move_thing_on_cells(UWORD thing,SLONG x,SLONG y,SLONG z);
-extern void	delete_thing(SWORD index);
+extern std::uint16_t	find_empty_map_thing();
+extern void	delete_thing_from_edit_map(std::int32_t x,std::int32_t y,std::uint16_t	thing);
+extern void	add_thing_to_edit_map(std::int32_t x,std::int32_t y,std::uint16_t	thing);
+extern std::int32_t	move_thing_on_cells(std::uint16_t thing,std::int32_t x,std::int32_t y,std::int32_t z);
+extern void	delete_thing(std::int16_t index);
 //---------------------------------------------------------------
 /*
 void			init_things();

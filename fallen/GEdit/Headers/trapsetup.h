@@ -10,7 +10,7 @@
 //---------------------------------------------------------------
 
 void	do_trap_setup(EventPoint *ep);
-CBYTE	*get_trap_message(EventPoint *ep, CBYTE* msg);
+char	*get_trap_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 

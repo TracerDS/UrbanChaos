@@ -18,9 +18,9 @@
 // The result of code generation.
 //
 
-CBYTE* CG_output;
-SLONG CG_num_errors;
-SLONG CG_num_warnings;
+char* CG_output;
+std::int32_t CG_num_errors;
+std::int32_t CG_num_warnings;
 
 //
 // The instructions
@@ -28,15 +28,15 @@ SLONG CG_num_warnings;
 
 #define CG_MAX_INSTRUCTIONS 65536
 
-SLONG CG_instruction[CG_MAX_INSTRUCTIONS];
-SLONG CG_instruction_upto;
+std::int32_t CG_instruction[CG_MAX_INSTRUCTIONS];
+std::int32_t CG_instruction_upto;
 
 
 //
 // The line we are currently generating code for.
 //
 
-SLONG CG_generating_line;
+std::int32_t CG_generating_line;
 
 
 
@@ -47,20 +47,20 @@ SLONG CG_generating_line;
 
 typedef struct
 {
-	CBYTE* name;		// The function name...
-	SLONG  debug_name;	// Index into the debug data.
-	SLONG  num_args;
-	SLONG  arg_upto;
-	SLONG  line;		// The entrypoint of the function.
-	SLONG  endline;		// The last line of the function.
-	SLONG  num_locals;	// How many of the args are actually locals!
+	char* name;		// The function name...
+	std::int32_t  debug_name;	// Index into the debug data.
+	std::int32_t  num_args;
+	std::int32_t  arg_upto;
+	std::int32_t  line;		// The entrypoint of the function.
+	std::int32_t  endline;		// The last line of the function.
+	std::int32_t  num_locals;	// How many of the args are actually locals!
 
 } CG_Func;
 
 #define CG_MAX_FUNCS 4096
 
 CG_Func CG_func[CG_MAX_FUNCS];
-SLONG CG_func_upto;
+std::int32_t CG_func_upto;
 
 
 
@@ -70,14 +70,14 @@ SLONG CG_func_upto;
 
 typedef struct
 {
-	SLONG code;	// Index into the instruction array. Where each line's code is.
+	std::int32_t code;	// Index into the instruction array. Where each line's code is.
  
 } CG_Line;
 
 #define CG_MAX_LINES 16384
 
 CG_Line CG_line[CG_MAX_LINES];
-SLONG CG_line_upto;
+std::int32_t CG_line_upto;
 
 
 //
@@ -91,15 +91,15 @@ SLONG CG_line_upto;
 
 typedef struct
 {
-	SLONG type;
-	SLONG instruction;
+	std::int32_t type;
+	std::int32_t instruction;
  
 } CG_Forward_goto;
 
 #define CG_MAX_FORWARD_GOTOS 4096
 
 CG_Forward_goto CG_forward_goto[CG_MAX_FORWARD_GOTOS];
-SLONG CG_forward_goto_upto;
+std::int32_t CG_forward_goto_upto;
 
 
 //
@@ -108,15 +108,15 @@ SLONG CG_forward_goto_upto;
 
 typedef struct
 {
-	SLONG ifcode;
-	SLONG instruction;	// The instruction containing the forward jump of the IF condition that jumps over the THEN statement code.
+	std::int32_t ifcode;
+	std::int32_t instruction;	// The instruction containing the forward jump of the IF condition that jumps over the THEN statement code.
 
 } CG_If;
 
 #define CG_MAX_IFS_PER_LINE 256
 
 CG_If CG_if[CG_MAX_IFS_PER_LINE];
-SLONG CG_if_upto;
+std::int32_t CG_if_upto;
 
 //
 // Multi-line IF statements.
@@ -127,16 +127,16 @@ SLONG CG_if_upto;
 
 typedef struct
 {
-	ULONG flag;
-	SLONG iffalsejump;
-	SLONG afterthenjump;
+	std::uint32_t flag;
+	std::int32_t iffalsejump;
+	std::int32_t afterthenjump;
 
 } CG_Mif;
 
 #define CG_MAX_MIFS 4096
 
 CG_Mif CG_mif[CG_MAX_MIFS];
-SLONG CG_mif_upto;
+std::int32_t CG_mif_upto;
 
 
 
@@ -149,19 +149,19 @@ SLONG CG_mif_upto;
 
 typedef struct
 {
-	SLONG       type;
+	std::int32_t       type;
 	PARSE_Node *lvalue;		// The lvalue that this FOR-NEXT loop is acting on
-	SLONG       loopto;		// The instruction that corresponding NEXT statements should jump to.
-	SLONG       overstep;	// The instruction which should contain the address of the instruction after the STEP statement.
-	SLONG       forcode;	// The unique code identifying this FOR loop.
-	SLONG       afternext;	// The instruction which should contain the address of the instruction after the NEXT statement.
+	std::int32_t       loopto;		// The instruction that corresponding NEXT statements should jump to.
+	std::int32_t       overstep;	// The instruction which should contain the address of the instruction after the STEP statement.
+	std::int32_t       forcode;	// The unique code identifying this FOR loop.
+	std::int32_t       afternext;	// The instruction which should contain the address of the instruction after the NEXT statement.
 
 } CG_For;
 
 #define CG_MAX_FORS 4096
 
 CG_For CG_for[CG_MAX_FORS];
-SLONG CG_for_upto;
+std::int32_t CG_for_upto;
 
 //
 // The while loops.
@@ -171,44 +171,44 @@ SLONG CG_for_upto;
 
 typedef struct
 {
-	SLONG flag;
-	SLONG iffalsejump;
-	SLONG whilecode;
-	SLONG loopto;
+	std::int32_t flag;
+	std::int32_t iffalsejump;
+	std::int32_t whilecode;
+	std::int32_t loopto;
 
 } CG_While;
 
 #define CG_MAX_WHILES 4096
 
 CG_While CG_while[CG_MAX_WHILES];
-SLONG CG_while_upto;
+std::int32_t CG_while_upto;
 
 //
 // The number of globals used by the program.
 //
 
-SLONG CG_global_upto;
+std::int32_t CG_global_upto;
 
 //
 // The number of field_ids used so far.
 //
 
-SLONG CG_field_id_upto;
+std::int32_t CG_field_id_upto;
 
 
 //
 // The string table.
 //
 
-SLONG CG_data_table_max;
-UBYTE *CG_data_table;
-SLONG CG_data_table_upto;
+std::int32_t CG_data_table_max;
+std::uint8_t *CG_data_table;
+std::int32_t CG_data_table_upto;
 
 //
 // The function we are currently generating code for.
 //
 
-SLONG CG_in_function;
+std::int32_t CG_in_function;
 
 
 //
@@ -217,14 +217,14 @@ SLONG CG_in_function;
 
 typedef struct
 {
-	SLONG instruction;
+	std::int32_t instruction;
 
 } CG_Jump;
 
 #define CG_MAX_JUMPS 16384
 
 CG_Jump CG_jump[CG_MAX_JUMPS];
-SLONG CG_jump_upto;
+std::int32_t CG_jump_upto;
 
 
 //
@@ -233,14 +233,14 @@ SLONG CG_jump_upto;
 
 typedef struct
 {
-	SLONG instruction;
+	std::int32_t instruction;
 
 } CG_Globalref;
 
 #define CG_MAX_GLOBALREFS 16384
 
 CG_Globalref CG_globalref[CG_MAX_GLOBALREFS];
-SLONG CG_globalref_upto;
+std::int32_t CG_globalref_upto;
 
 
 //
@@ -249,14 +249,14 @@ SLONG CG_globalref_upto;
 
 typedef struct
 {
-	SLONG instruction;
+	std::int32_t instruction;
 
 } CG_Fieldref;
 
 #define CG_MAX_FIELDREFS 16384
 
 CG_Fieldref CG_fieldref[CG_MAX_FIELDREFS];
-SLONG CG_fieldref_upto;
+std::int32_t CG_fieldref_upto;
 
 
 //
@@ -265,15 +265,15 @@ SLONG CG_fieldref_upto;
 
 typedef struct
 {
-	SLONG name;				// Index into the debug data array.
-	SLONG instruction;
+	std::int32_t name;				// Index into the debug data array.
+	std::int32_t instruction;
 
 } CG_Undefref;
 
 #define CG_MAX_UNDEFREFS 16384
 
 CG_Undefref CG_undefref[CG_MAX_UNDEFREFS];
-SLONG CG_undefref_upto;
+std::int32_t CG_undefref_upto;
 
 
 
@@ -283,14 +283,14 @@ SLONG CG_undefref_upto;
 
 typedef struct
 {
-	SLONG instruction;
+	std::int32_t instruction;
 
 } CG_Datatableref;
 
 #define CG_MAX_DATATABLEREFS 16384
 
 CG_Datatableref CG_datatableref[CG_MAX_DATATABLEREFS];
-SLONG CG_datatableref_upto;
+std::int32_t CG_datatableref_upto;
 
 
 //
@@ -299,8 +299,8 @@ SLONG CG_datatableref_upto;
 
 #define CG_MAX_DEBUG_DATA 65536
 
-CBYTE CG_debug_data[CG_MAX_DEBUG_DATA];
-SLONG CG_debug_data_upto;
+char CG_debug_data[CG_MAX_DEBUG_DATA];
+std::int32_t CG_debug_data_upto;
 
 
 
@@ -310,9 +310,9 @@ SLONG CG_debug_data_upto;
 // an index to it.
 //
 
-SLONG CG_add_string_to_debug_data(CBYTE* string)
+std::int32_t CG_add_string_to_debug_data(char* string)
 {
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr
+	std::int32_t length = strlen(string) + 1;	// + 1 to include the terminating nullptr
 	
 	if (CG_debug_data_upto + length > CG_MAX_DEBUG_DATA)
 	{
@@ -323,7 +323,7 @@ SLONG CG_add_string_to_debug_data(CBYTE* string)
 		ASSERT(0);
 	}
 
-	SLONG ans = CG_debug_data_upto;
+	std::int32_t ans = CG_debug_data_upto;
 
 	strcpy(CG_debug_data + CG_debug_data_upto, string);
 
@@ -343,19 +343,19 @@ SLONG CG_add_string_to_debug_data(CBYTE* string)
 // into the string table for where it was stored.
 //
 
-SLONG CG_add_string(CBYTE* string)
+std::int32_t CG_add_string(char* string)
 {
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr.
+	std::int32_t length = strlen(string) + 1;	// + 1 to include the terminating nullptr.
 
 	if (CG_data_table_upto + length > CG_data_table_max)
 	{
 		CG_data_table_max *= 2;
-		CG_data_table      = (UBYTE *) realloc(CG_data_table, sizeof(UBYTE) * CG_data_table_max);
+		CG_data_table      = (std::uint8_t *) realloc(CG_data_table, sizeof(std::uint8_t) * CG_data_table_max);
 	}
 
-	SLONG ans = CG_data_table_upto;
+	std::int32_t ans = CG_data_table_upto;
 
-	strcpy(((CBYTE* ) CG_data_table) + CG_data_table_upto, string);
+	strcpy(((char* ) CG_data_table) + CG_data_table_upto, string);
 
 	CG_data_table_upto += length;
 
@@ -369,7 +369,7 @@ SLONG CG_add_string(CBYTE* string)
 // symbol table.
 //
 
-SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
+std::int32_t CG_callback_add_labels_and_variables(PARSE_Node *pn)
 {
 	switch(pn->type)
 	{
@@ -546,7 +546,7 @@ SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
 			//
 
 			{
-				CBYTE export[LEX_MAX_STRING_LENGTH + 2];
+				char export[LEX_MAX_STRING_LENGTH + 2];
 
 				sprintf(export, "->%s", pn->variable);
 
@@ -616,7 +616,7 @@ SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
 				// if it.
 				//
 
-				CBYTE local[LEX_MAX_STRING_LENGTH + 2];
+				char local[LEX_MAX_STRING_LENGTH + 2];
 
 				sprintf(local, "<-%s", pn->variable);
 
@@ -637,7 +637,7 @@ SLONG CG_callback_add_labels_and_variables(PARSE_Node *pn)
 // The code generation callback function.
 //
 
-SLONG CG_callback_generate_code(PARSE_Node *pn)
+std::int32_t CG_callback_generate_code(PARSE_Node *pn)
 {
 	//
 	// Always make sure we have 3 SLONGS worth of instructions spare.
@@ -720,9 +720,9 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			}
 			else
 			{
-				SLONG local = (ST_found_table == ST_TABLE_LOCAL);
-				SLONG quick = (pn->flag & PARSE_NODE_FLAG_EXTRACT);
-				SLONG instruction;
+				std::int32_t local = (ST_found_table == ST_TABLE_LOCAL);
+				std::int32_t quick = (pn->flag & PARSE_NODE_FLAG_EXTRACT);
+				std::int32_t instruction;
 
 				//
 				// Can't be both these types...
@@ -799,7 +799,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < CG_if_upto; i++)
 				{
@@ -833,7 +833,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < CG_if_upto; i++)
 				{
@@ -887,7 +887,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < CG_if_upto; i++)
 				{
@@ -1272,7 +1272,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 				
 				for (i = CG_for_upto - 1; i >= 0; i--)
 				{
@@ -1296,7 +1296,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 		case PARSE_NODE_TYPE_NEXT:
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = CG_for_upto - 1; i >= 0; i--)
 				{
@@ -1394,7 +1394,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 				
 				for (i = CG_for_upto - 1; i >= 0; i--)
 				{
@@ -1485,7 +1485,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = CG_mif_upto - 1; i >= 0; i--)
 				{
@@ -1565,7 +1565,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = CG_mif_upto - 1; i >= 0; i--)
 				{
@@ -1655,7 +1655,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 			
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = CG_while_upto - 1; i >= 0; i--)
 				{
@@ -1689,7 +1689,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = CG_while_upto - 1; i >= 0; i--)
 				{
@@ -1970,8 +1970,8 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 		case PARSE_NODE_TYPE_CLS:
 
 			{
-				SLONG num_args;
-				SLONG func_code;
+				std::int32_t num_args;
+				std::int32_t func_code;
 
 				//
 				// How many arguments do we want and what is the function code?
@@ -2006,7 +2006,7 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 					// Need to push some undefined members onto the stack.
 					//
 
-					SLONG i;
+					std::int32_t i;
 
 					for (i = pn->args; i < num_args; i++)
 					{
@@ -2195,9 +2195,9 @@ SLONG CG_callback_generate_code(PARSE_Node *pn)
 
 
 
-SLONG CG_do(CBYTE* fname, SLONG output)
+std::int32_t CG_do(char* fname, std::int32_t output)
 {
-	SLONG i;
+	std::int32_t i;
 
 	PARSE_Node   *pn;
 	FILE         *handle;
@@ -2208,16 +2208,16 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 	LINK_Function lf;
 	LINK_Field   *ld;
 
-	CBYTE export_string [LEX_MAX_STRING_LENGTH + 2];
-	CBYTE local_string  [LEX_MAX_STRING_LENGTH + 2];
-	CBYTE string_backup [LEX_MAX_STRING_LENGTH + 2];
-	SLONG value_backup;
-	SLONG export;
-	SLONG local;
+	char export_string [LEX_MAX_STRING_LENGTH + 2];
+	char local_string  [LEX_MAX_STRING_LENGTH + 2];
+	char string_backup [LEX_MAX_STRING_LENGTH + 2];
+	std::int32_t value_backup;
+	std::int32_t export;
+	std::int32_t local;
 
 	#ifdef _DEBUG
-	SLONG globals_found;
-	SLONG fields_found;
+	std::int32_t globals_found;
+	std::int32_t fields_found;
 	#endif
 
 	//
@@ -2275,7 +2275,7 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 	//
 
 	CG_data_table_max  = 512;
-	CG_data_table      = (UBYTE *) malloc(sizeof(UBYTE) * CG_data_table_max);
+	CG_data_table      = (std::uint8_t *) malloc(sizeof(std::uint8_t) * CG_data_table_max);
 	CG_data_table_upto = 0;
 
 	//
@@ -2417,7 +2417,7 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 		//
 
 		mh.version                      = ML_VERSION_NUMBER;
-		mh.instructions_memory_in_bytes = CG_instruction_upto * sizeof(SLONG);
+		mh.instructions_memory_in_bytes = CG_instruction_upto * sizeof(std::int32_t);
 		mh.data_table_length_in_bytes   = CG_data_table_upto;
 		mh.num_globals                  = CG_global_upto;
 
@@ -2427,13 +2427,13 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 		// The instructions.
 		//
 
-		if (fwrite(CG_instruction, sizeof(SLONG), CG_instruction_upto, handle) != CG_instruction_upto) goto file_error;
+		if (fwrite(CG_instruction, sizeof(std::int32_t), CG_instruction_upto, handle) != CG_instruction_upto) goto file_error;
 
 		//
 		// The string table.
 		//
 
-		if (fwrite(CG_data_table, sizeof(UBYTE), CG_data_table_upto, handle) != CG_data_table_upto) goto file_error;
+		if (fwrite(CG_data_table, sizeof(std::uint8_t), CG_data_table_upto, handle) != CG_data_table_upto) goto file_error;
 
 		fclose(handle);
 
@@ -2456,9 +2456,9 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 		// Writing out the magic number after each block.
 		//
 
-		SLONG magic = 12345678;
+		std::int32_t magic = 12345678;
 
-		#define CG_WRITE_MAGIC() {if (fwrite(&magic, sizeof(SLONG), 1, handle) != 1) goto file_error;}
+		#define CG_WRITE_MAGIC() {if (fwrite(&magic, sizeof(std::int32_t), 1, handle) != 1) goto file_error;}
 
 		//
 		// The header of the object file.
@@ -2483,8 +2483,8 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 		// Each block of data.
 		//
 
-		if (fwrite(CG_instruction, sizeof(SLONG), CG_instruction_upto, handle) != CG_instruction_upto) goto file_error; CG_WRITE_MAGIC();
-		if (fwrite(CG_data_table,  sizeof(UBYTE), CG_data_table_upto,  handle) != CG_data_table_upto ) goto file_error;	CG_WRITE_MAGIC();
+		if (fwrite(CG_instruction, sizeof(std::int32_t), CG_instruction_upto, handle) != CG_instruction_upto) goto file_error; CG_WRITE_MAGIC();
+		if (fwrite(CG_data_table,  sizeof(std::uint8_t), CG_data_table_upto,  handle) != CG_data_table_upto ) goto file_error;	CG_WRITE_MAGIC();
 
 		//
 		// Write out the globals sorted by their global_id.
@@ -2699,8 +2699,8 @@ SLONG CG_do(CBYTE* fname, SLONG output)
 		// The debug data.
 		//
 
-		if (fwrite(&CG_debug_data_upto, sizeof(SLONG), 1,                  handle) != 1                 ) goto file_error;
-		if (fwrite( CG_debug_data,      sizeof(CBYTE), CG_debug_data_upto, handle) != CG_debug_data_upto) goto file_error;
+		if (fwrite(&CG_debug_data_upto, sizeof(std::int32_t), 1,                  handle) != 1                 ) goto file_error;
+		if (fwrite( CG_debug_data,      sizeof(char), CG_debug_data_upto, handle) != CG_debug_data_upto) goto file_error;
 
 		//
 		// All done.

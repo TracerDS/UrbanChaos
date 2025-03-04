@@ -12,8 +12,8 @@
 
 #include "psxeng.h"
 
-SLONG MAP_Player_x;
-SLONG MAP_Player_y;
+std::int32_t MAP_Player_x;
+std::int32_t MAP_Player_y;
 
 #define MAP_SCREEN_X(sx) (cx+(((sx)>>4))-MAP_Player_x)
 #define MAP_SCREEN_Y(sy) (cy+((((sy)*3)>>6))-MAP_Player_y)
@@ -23,21 +23,21 @@ SLONG MAP_Player_y;
 #define TOPMAP_PULSE_OTZ 2
 #define TOPMAP_WIN_OTZ	3
 								    
-extern CBYTE	*EWAY_get_mess(SLONG index);    
+extern char	*EWAY_get_mess(std::int32_t index);    
 
-inline UBYTE FadeCol(int x,int y)
+inline std::uint8_t FadeCol(int x,int y)
 {
-	SLONG col=288-(SquareRoot0(SQR(288-x)+SQR(120-y))<<1);
+	std::int32_t col=288-(SquareRoot0(SQR(288-x)+SQR(120-y))<<1);
 	SATURATE(col,0,128);
-	return (UBYTE)col;
+	return (std::uint8_t)col;
 }
 
 #ifdef TOPMAP_BACK
 
-void MAP_draw_solid(SLONG page,SLONG x,SLONG y)
+void MAP_draw_solid(std::int32_t page,std::int32_t x,std::int32_t y)
 {
 	POLY_GT4 *p;
-	SLONG rot,u,v,col;
+	std::int32_t rot,u,v,col;
 
 	rot=(page>>10)&3;
 	page=page&0x3ff;
@@ -82,15 +82,15 @@ void MAP_draw_solid(SLONG page,SLONG x,SLONG y)
 	DOPRIM(TOPMAP_MAP_OTZ,p);
 }
 
-extern void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id);
-extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
+extern void draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id);
+extern void	draw_centre_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id,std::int32_t flag);
 
 #define STR_BLOCK	"\x07f"
 
-void MAP_draw_dot(SLONG x,SLONG y,SLONG scale,SLONG angle,SLONG colour)
+void MAP_draw_dot(std::int32_t x,std::int32_t y,std::int32_t scale,std::int32_t angle,std::int32_t colour)
 {
 	POLY_G3 *p;
-	SLONG colr,colg,colb,fade;
+	std::int32_t colr,colg,colb,fade;
 	// Move our point back
 	x+=(rsin(angle<<1)*scale)>>13;
 	y+=(rcos(angle<<1)*scale)>>13;
@@ -119,11 +119,11 @@ void MAP_draw_dot(SLONG x,SLONG y,SLONG scale,SLONG angle,SLONG colour)
 
 typedef struct
 {
-	SLONG life;		// 0 => unused
-	ULONG colour;
-	SLONG wx;
-	SLONG wz;
-	SLONG radius;
+	std::int32_t life;		// 0 => unused
+	std::uint32_t colour;
+	std::int32_t wx;
+	std::int32_t wz;
+	std::int32_t radius;
 
 } MAP_Pulse;
 
@@ -147,11 +147,11 @@ void MAP_pulse_init()
 // Creates a new pulse.
 //
 
-void MAP_pulse_create(SLONG wx, SLONG wz, ULONG colour)
+void MAP_pulse_create(std::int32_t wx, std::int32_t wz, std::uint32_t colour)
 {
-	SLONG i;
-	SLONG best_life  = INFINITY;
-	SLONG best_pulse = INFINITY;
+	std::int32_t i;
+	std::int32_t best_life  = INFINITY;
+	std::int32_t best_pulse = INFINITY;
 
 	for (i = 0; i < MAP_MAX_PULSES; i++)
 	{
@@ -179,9 +179,9 @@ void MAP_pulse_create(SLONG wx, SLONG wz, ULONG colour)
 // Draws an individual pulse
 //
 
-void MAP_pulse_draw(SLONG wx, SLONG wz, SLONG radius, ULONG colour, UBYTE fade)
+void MAP_pulse_draw(std::int32_t wx, std::int32_t wz, std::int32_t radius, std::uint32_t colour, std::uint8_t fade)
 {
-	SLONG x1,y1,x2,y2,u,v;
+	std::int32_t x1,y1,x2,y2,u,v;
 	POLY_FT4 *p;
 
 	x1 = wx - radius;
@@ -230,9 +230,9 @@ void MAP_pulse_draw(SLONG wx, SLONG wz, SLONG radius, ULONG colour, UBYTE fade)
 // Draws all the pulses.
 //
 
-void MAP_pulse_draw_all(SLONG cx,SLONG cy)
+void MAP_pulse_draw_all(std::int32_t cx,std::int32_t cy)
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Pulse *mp;
 
@@ -260,12 +260,12 @@ void MAP_pulse_draw_all(SLONG cx,SLONG cy)
 
 void MAP_process_pulses()
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Pulse *mp;
 
-	static SLONG now;
-	static SLONG last;
+	static std::int32_t now;
+	static std::int32_t last;
 
 	now = GetTickCount();
 
@@ -307,15 +307,15 @@ void MAP_process_pulses()
 // Draws an arrow in the given direction...
 //
 
-void MAP_draw_arrow(SLONG angle, ULONG colour)
+void MAP_draw_arrow(std::int32_t angle, std::uint32_t colour)
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx = (rsin(angle)*150)>>12;
-	SLONG dy = (rcos(angle)*110)>>12;
+	std::int32_t dx = (rsin(angle)*150)>>12;
+	std::int32_t dy = (rcos(angle)*110)>>12;
 
-	SLONG u,v;
+	std::int32_t u,v;
 
 	POLY_FT4 *p;
 
@@ -348,13 +348,13 @@ void MAP_draw_arrow(SLONG angle, ULONG colour)
 /*
 typedef struct
 {
-	UBYTE  used;
-	UBYTE  counter;
-	UWORD  track_thing;
-	UWORD  index;
-	UWORD  pad;
-	SLONG  wx;
-	SLONG  wz;
+	std::uint8_t  used;
+	std::uint8_t  counter;
+	std::uint16_t  track_thing;
+	std::uint16_t  index;
+	std::uint16_t  pad;
+	std::int32_t  wx;
+	std::int32_t  wz;
 
 } MAP_Beacon;
 
@@ -369,7 +369,7 @@ MAP_Beacon MAP_beacon[MAP_MAX_BEACONS];
 
 #define MAP_MAX_BEACON_COLOURS 6
 
-ULONG MAP_beacon_colour[MAP_MAX_BEACON_COLOURS] =
+std::uint32_t MAP_beacon_colour[MAP_MAX_BEACON_COLOURS] =
 {
 	0x7f7f1f,
 	0x7f1f1f,
@@ -393,12 +393,12 @@ void MAP_beacon_init()
 // Creates a beacon
 //
 
-UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
+std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t index, std::uint16_t track_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Beacon *mb;
-extern SLONG EWAY_mess_upto;
+extern std::int32_t EWAY_mess_upto;
 		ASSERT(index>=0 && index<EWAY_mess_upto);
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -427,12 +427,12 @@ extern SLONG EWAY_mess_upto;
 
 void MAP_process_beacons()
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Beacon *mb;
 
-	static SLONG now;
-	static SLONG last;
+	static std::int32_t now;
+	static std::int32_t last;
 
 	now = GAME_TURN * (1000/30);
 
@@ -484,22 +484,22 @@ void MAP_process_beacons()
 
 #ifdef TOPMAP_BACK
 
-void MAP_beacon_draw_all(SLONG cx,SLONG cy)
+void MAP_beacon_draw_all(std::int32_t cx,std::int32_t cy)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG u,v;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t u,v;
 
-	SLONG list = 120;
+	std::int32_t list = 120;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dist;
-	SLONG angle;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dist;
+	std::int32_t angle;
 
-	SLONG colour;
+	std::int32_t colour;
 
 	MAP_Beacon *mb;
 
@@ -553,7 +553,7 @@ void MAP_beacon_draw_all(SLONG cx,SLONG cy)
 }
 #endif
 
-void MAP_beacon_remove(UBYTE beacon)
+void MAP_beacon_remove(std::uint8_t beacon)
 {
 	ASSERT(WITHIN(beacon, 0, MAP_MAX_BEACONS - 1));
 
@@ -561,13 +561,13 @@ void MAP_beacon_remove(UBYTE beacon)
 }
 
 #ifdef TOPMAP_BACK
-extern void PANEL_inv_weapon(SLONG x, SLONG y, SLONG item, UBYTE who, SLONG alpha);
+extern void PANEL_inv_weapon(std::int32_t x, std::int32_t y, std::int32_t item, std::uint8_t who, std::int32_t alpha);
 #define PANEL_ADDWEAPON(item) draw_list[draw_count++]=item
 
 void MAP_draw_weapons(Thing *player)
 {
-	CBYTE draw_list[10];
-	UBYTE draw_count=0;
+	char draw_list[10];
+	std::uint8_t draw_count=0;
 	Thing *p_special;
 	Thing *darci=NET_PERSON(0);
 
@@ -607,15 +607,15 @@ void MAP_draw_weapons(Thing *player)
 
 void MAP_draw()
 {
-	SLONG x,y,i,j;
+	std::int32_t x,y,i,j;
 
-	SLONG minx,miny;
-	SLONG maxx,maxy;
-	SLONG offx,offy,cx,cy;
+	std::int32_t minx,miny;
+	std::int32_t maxx,maxy;
+	std::int32_t offx,offy,cx,cy;
 	DR_AREA *p;
 	RECT r;
-	SLONG index;
-	SLONG scale,colour,red,blue;
+	std::int32_t index;
+	std::int32_t scale,colour,red,blue;
 	Thing *p_thing;
 
 	DrawSync(0);

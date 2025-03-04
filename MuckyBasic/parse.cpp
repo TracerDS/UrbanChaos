@@ -12,7 +12,7 @@
 #define PARSE_MAX_NODES 65536
 
 PARSE_Node PARSE_node[PARSE_MAX_NODES];
-SLONG PARSE_node_upto;
+std::int32_t PARSE_node_upto;
 
 PARSE_Node *PARSE_get_node()
 {
@@ -32,14 +32,14 @@ PARSE_Node *PARSE_get_node()
 #define PARSE_MAX_ERRORS              256
 
 PARSE_Node *PARSE_line[PARSE_MAX_LINES];		// nullptr value means that line was blank.
-SLONG PARSE_line_upto;
-CBYTE PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
-SLONG PARSE_string_table_upto;
-CBYTE* PARSE_error[PARSE_MAX_ERRORS];
-SLONG PARSE_error_upto;
-SLONG PARSE_ifcode;			// This gets incremented every time we parse an IF    statement...
-SLONG PARSE_forcode;			// This gets incremented every time we parse a  FOR   statement...
-SLONG PARSE_whilecode;		// This gets incremented every time we parse a  WHILE statement...
+std::int32_t PARSE_line_upto;
+char PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
+std::int32_t PARSE_string_table_upto;
+char* PARSE_error[PARSE_MAX_ERRORS];
+std::int32_t PARSE_error_upto;
+std::int32_t PARSE_ifcode;			// This gets incremented every time we parse an IF    statement...
+std::int32_t PARSE_forcode;			// This gets incremented every time we parse a  FOR   statement...
+std::int32_t PARSE_whilecode;		// This gets incremented every time we parse a  WHILE statement...
 
 //
 // The error buffer.
@@ -47,15 +47,15 @@ SLONG PARSE_whilecode;		// This gets incremented every time we parse a  WHILE st
 
 #define PARSE_MAX_ERRBUF 32768
 
-CBYTE PARSE_errbuf[PARSE_MAX_ERRBUF];
-SLONG PARSE_errbuf_upto;
+char PARSE_errbuf[PARSE_MAX_ERRBUF];
+std::int32_t PARSE_errbuf_upto;
 
 //
 // Adds the given error. If it has run out of room, it
 // returns false.
 //
 
-SLONG PARSE_add_error(CBYTE* fmt, ...)
+std::int32_t PARSE_add_error(char* fmt, ...)
 {
 	if (PARSE_error_upto >= PARSE_MAX_ERRORS)
 	{
@@ -66,7 +66,7 @@ SLONG PARSE_add_error(CBYTE* fmt, ...)
 	// Work out the real error.
 	//
 
-	CBYTE   error[512];
+	char   error[512];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -77,7 +77,7 @@ SLONG PARSE_add_error(CBYTE* fmt, ...)
 	// Put it into the buffer.
 	//
 
-	SLONG len = strlen(error) + 1;	// + 1 to include terminating nullptr.
+	std::int32_t len = strlen(error) + 1;	// + 1 to include terminating nullptr.
 
 	if (PARSE_errbuf_upto + len > PARSE_MAX_ERRBUF)
 	{
@@ -105,7 +105,7 @@ jmp_buf PARSE_error_jmp;
 // The reason the parser jumped to PARSE_error_jmp;
 //
 
-CBYTE* PARSE_error_type;
+char* PARSE_error_type;
 
 
 
@@ -113,7 +113,7 @@ CBYTE* PARSE_error_type;
 // Throws up an error.
 //
 
-void PARSE_throw(CBYTE* error = "Parse error")
+void PARSE_throw(char* error = "Parse error")
 {
 	PARSE_error_type = error;
 
@@ -129,9 +129,9 @@ void PARSE_throw(CBYTE* error = "Parse error")
 // where it was copied.
 //
 
-CBYTE* PARSE_add_string(CBYTE* string)
+char* PARSE_add_string(char* string)
 {
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr
+	std::int32_t length = strlen(string) + 1;	// + 1 to include the terminating nullptr
 	
 	if (PARSE_string_table_upto + length > PARSE_MAX_STRING_TABLE_SIZE)
 	{
@@ -142,7 +142,7 @@ CBYTE* PARSE_add_string(CBYTE* string)
 		PARSE_throw("No more string constant memory");
 	}
 
-	CBYTE* ans = PARSE_string_table + PARSE_string_table_upto;
+	char* ans = PARSE_string_table + PARSE_string_table_upto;
 
 	strcpy(ans, string);
 
@@ -156,7 +156,7 @@ CBYTE* PARSE_add_string(CBYTE* string)
 // Sets the PARSE_NODE_FLAG_CONDITIONAL flag in the given node.
 //
 
-SLONG PARSE_set_conditional_flag(PARSE_Node *pn)
+std::int32_t PARSE_set_conditional_flag(PARSE_Node *pn)
 {
 	pn->flag |= PARSE_NODE_FLAG_CONDITIONAL;
 
@@ -168,7 +168,7 @@ SLONG PARSE_set_conditional_flag(PARSE_Node *pn)
 // Sets the PARSE_NODE_FLAG_EXPRESSION flag in the given node.
 //
 
-SLONG PARSE_set_expression_flag(PARSE_Node *pn)
+std::int32_t PARSE_set_expression_flag(PARSE_Node *pn)
 {
 	pn->flag |= PARSE_NODE_FLAG_EXPRESSION;
 
@@ -182,7 +182,7 @@ SLONG PARSE_set_expression_flag(PARSE_Node *pn)
 // a BOOLEAN value.
 //
 
-SLONG PARSE_expression_is_boolean(PARSE_Node *exp)
+std::int32_t PARSE_expression_is_boolean(PARSE_Node *exp)
 {
 	switch(exp->type)
 	{
@@ -411,7 +411,7 @@ void PARSE_convert_rvalue_to_argument(PARSE_Node *arg)
 
 
 
-SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
+std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
 {
 	//
 	// Make sure both tree have the same type.
@@ -587,7 +587,7 @@ PARSE_Node *PARSE_var();
 PARSE_Node *PARSE_struct();
 PARSE_Node *PARSE_argument_definition();
 
-SLONG PARSE_expression_list_depth(PARSE_Node *explist);
+std::int32_t PARSE_expression_list_depth(PARSE_Node *explist);
 
 
 
@@ -623,7 +623,7 @@ PARSE_Node *PARSE_function_call()
 	// we know that it's a function.
 	//
 
-	CBYTE name[LEX_MAX_STRING_LENGTH + 32];
+	char name[LEX_MAX_STRING_LENGTH + 32];
 
 	sprintf(name, "()%s", lt.variable);
 
@@ -762,7 +762,7 @@ PARSE_Node *PARSE_primary()
 		case LEX_TOKEN_TYPE_VARIABLE:
 			
 			{
-				CBYTE* varname = PARSE_add_string(lt.variable);
+				char* varname = PARSE_add_string(lt.variable);
 
 				//
 				// This could be a function call.
@@ -1995,7 +1995,7 @@ PARSE_Node *PARSE_expression_list()
 // Returns the depth of an expressionlist.
 //
 
-SLONG PARSE_expression_list_depth(PARSE_Node *explist)
+std::int32_t PARSE_expression_list_depth(PARSE_Node *explist)
 {
 	if (explist->type != PARSE_NODE_TYPE_EXP_LIST)
 	{
@@ -2063,7 +2063,7 @@ PARSE_Node *PARSE_struct()
 			// Build the field name (insert a '.' at the beginning)
 			//
 
-			CBYTE field[LEX_MAX_STRING_LENGTH + 32];
+			char field[LEX_MAX_STRING_LENGTH + 32];
 
 			sprintf(field, ".%s", lt.variable);
 
@@ -2353,8 +2353,8 @@ PARSE_Node *PARSE_statement()
 			{
 				LEX_pop();
 
-				CBYTE  label[32];
-				CBYTE* ch;
+				char  label[32];
+				char* ch;
 
 				itoa(lt.slumber, label, 10);
 
@@ -2388,7 +2388,7 @@ PARSE_Node *PARSE_statement()
 		case LEX_TOKEN_TYPE_VARIABLE:
 
 			{
-				CBYTE* varname = PARSE_add_string(lt.variable);
+				char* varname = PARSE_add_string(lt.variable);
 
 				//
 				// This could be a function call.
@@ -2855,7 +2855,7 @@ PARSE_Node *PARSE_statement()
 				// we know that it's a function.
 				//
 
-				CBYTE name[LEX_MAX_STRING_LENGTH + 32];
+				char name[LEX_MAX_STRING_LENGTH + 32];
 
 				sprintf(name, "()%s", lt.variable);
 
@@ -3318,7 +3318,7 @@ PARSE_Node *PARSE_statement_list()
 	// Should we continue to PARSE another statement?
 	//
 
-	SLONG another_statement = false;
+	std::int32_t another_statement = false;
 
 	lt = LEX_get();
 
@@ -3408,8 +3408,8 @@ PARSE_Node *PARSE_labelled_statement_list()
 
 		ans->type   = PARSE_NODE_TYPE_LABEL;
 
-		CBYTE  label[32];
-		CBYTE* ch;
+		char  label[32];
+		char* ch;
 
 		itoa(lt.slumber, label, 10);
 
@@ -3465,16 +3465,16 @@ PARSE_Node *PARSE_labelled_statement_list()
 //
 
 
-CBYTE* PARSE_program;
-SLONG PARSE_program_upto;
-SLONG PARSE_program_max;
+char* PARSE_program;
+std::int32_t PARSE_program_upto;
+std::int32_t PARSE_program_max;
 
 
 
-void PARSE_do(CBYTE* fname)
+void PARSE_do(char* fname)
 {
-	SLONG       want_to_read;
-	SLONG       bytes_read;
+	std::int32_t       want_to_read;
+	std::int32_t       bytes_read;
 	LEX_Token   lt;
 	PARSE_Node *nop;
 
@@ -3497,9 +3497,9 @@ void PARSE_do(CBYTE* fname)
 		//
 
 		PARSE_program_max = 16;
-		PARSE_program     = (CBYTE* ) malloc(sizeof(CBYTE) * PARSE_program_max);
+		PARSE_program     = (char* ) malloc(sizeof(char) * PARSE_program_max);
 
-		memset(PARSE_program, 0, sizeof(CBYTE) * PARSE_program_max);
+		memset(PARSE_program, 0, sizeof(char) * PARSE_program_max);
 	}
 
 	//
@@ -3531,7 +3531,7 @@ void PARSE_do(CBYTE* fname)
 
 		bytes_read = fread(
 						PARSE_program + PARSE_program_upto,
-						sizeof(CBYTE),
+						sizeof(char),
 						want_to_read,
 						handle);
 
@@ -3544,13 +3544,13 @@ void PARSE_do(CBYTE* fname)
 			//
 
 			PARSE_program_max *= 2;
-			PARSE_program      = (CBYTE* ) realloc(PARSE_program, sizeof(CBYTE) * PARSE_program_max);
+			PARSE_program      = (char* ) realloc(PARSE_program, sizeof(char) * PARSE_program_max);
 
 			//
 			// Zero out newly allocated memory.
 			//
 
-			memset(PARSE_program + (PARSE_program_max / 2), 0, sizeof(CBYTE) * PARSE_program_max / 2);
+			memset(PARSE_program + (PARSE_program_max / 2), 0, sizeof(char) * PARSE_program_max / 2);
 		}
 		else
 		{
@@ -3642,7 +3642,7 @@ void PARSE_do(CBYTE* fname)
 }
 
 
-void PARSE_traverse_do(PARSE_Node *pn, SLONG (*user_function)(PARSE_Node *pn))
+void PARSE_traverse_do(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn))
 {
 	switch(pn->type)
 	{
@@ -3984,7 +3984,7 @@ void PARSE_traverse_do(PARSE_Node *pn, SLONG (*user_function)(PARSE_Node *pn))
 }
 
 
-void PARSE_traverse(PARSE_Node *pn, SLONG (*user_function)(PARSE_Node *pn))
+void PARSE_traverse(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn))
 {
 	//
 	// Store stack info...

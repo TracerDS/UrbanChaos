@@ -32,7 +32,7 @@
 class	Wave
 {
 	private:
-		ULONG				WaveFlags;
+		std::uint32_t				WaveFlags;
 		LPMIXWAVE			MixWave;
 
 	public:
@@ -43,24 +43,24 @@ class	Wave
 							~Wave();
 
 		//	Methods.
-		HRESULT				Init(CBYTE* file_name,HQMIXER the_mixer);
+		HRESULT				Init(char* file_name,HQMIXER the_mixer);
 		HRESULT				Fini(HQMIXER the_mixer);
-		HRESULT				Load(void);
-		HRESULT				Free(void);
+		HRESULT				Load();
+		HRESULT				Free();
 
-		inline	bool		IsValid(void)				{	return	WaveFlags&QS_WAVE_VALID;		}
-		inline	void		ValidOn(void)				{	WaveFlags		|=	QS_WAVE_VALID;		}
-		inline	void		ValidOff(void)				{	WaveFlags		&=	~QS_WAVE_VALID;		}
+		inline	bool		IsValid()				{	return	WaveFlags&QS_WAVE_VALID;		}
+		inline	void		ValidOn()				{	WaveFlags		|=	QS_WAVE_VALID;		}
+		inline	void		ValidOff()				{	WaveFlags		&=	~QS_WAVE_VALID;		}
 
-		inline	bool		IsLoaded(void)				{	return	WaveFlags&QS_WAVE_LOADED;		}
-		inline	void		LoadedOn(void)				{	WaveFlags		|=	QS_WAVE_LOADED;		}
-		inline	void		LoadedOff(void)				{	WaveFlags		&=	~QS_WAVE_LOADED;	}
+		inline	bool		IsLoaded()				{	return	WaveFlags&QS_WAVE_LOADED;		}
+		inline	void		LoadedOn()				{	WaveFlags		|=	QS_WAVE_LOADED;		}
+		inline	void		LoadedOff()				{	WaveFlags		&=	~QS_WAVE_LOADED;	}
 
-		inline	bool		IsStreamed(void)			{	return	WaveFlags&QS_WAVE_STREAMED;	}
-		inline	void		StreamedOn(void)			{	WaveFlags		|=	QS_WAVE_STREAMED;	}
-		inline	void		StreamedOff(void)			{	WaveFlags		&=	~QS_WAVE_STREAMED;	}
+		inline	bool		IsStreamed()			{	return	WaveFlags&QS_WAVE_STREAMED;	}
+		inline	void		StreamedOn()			{	WaveFlags		|=	QS_WAVE_STREAMED;	}
+		inline	void		StreamedOff()			{	WaveFlags		&=	~QS_WAVE_STREAMED;	}
 
-		inline	LPMIXWAVE	GetMixWave(void)			{	return	MixWave;						}
+		inline	LPMIXWAVE	GetMixWave()			{	return	MixWave;						}
 };
 
 //---------------------------------------------------------------
@@ -73,9 +73,9 @@ class	Channel
 {
 	private:
 		int					IChannel;
-		ULONG				ChannelFlags,
+		std::uint32_t				ChannelFlags,
 							ChannelPriority;
-		SLONG				ChannelUserRef,
+		std::int32_t				ChannelUserRef,
 							ChannelWaveID;
 
 	public:
@@ -83,15 +83,15 @@ class	Channel
 							~Channel();
 
 		//	Methods.
-		void				Open(void);
-		void				Close(void);
+		void				Open();
+		void				Close();
 
-		inline SLONG		GetUserRef(void)			{	return	ChannelUserRef;						}
-		inline void			SetUserRef(SLONG ref)		{	ChannelUserRef	=	ref;					}
-		inline SLONG		GetPriority(void)			{	return	ChannelPriority;					}
-		inline void			SetPriority(SLONG pri)		{	ChannelPriority	=	pri;					}
-		inline SLONG		GetWaveID(void)				{	return	ChannelWaveID;						}
-		inline void			SetWaveID(SLONG id)			{	ChannelWaveID	=	id;						}
+		inline std::int32_t		GetUserRef()			{	return	ChannelUserRef;						}
+		inline void			SetUserRef(std::int32_t ref)		{	ChannelUserRef	=	ref;					}
+		inline std::int32_t		GetPriority()			{	return	ChannelPriority;					}
+		inline void			SetPriority(std::int32_t pri)		{	ChannelPriority	=	pri;					}
+		inline std::int32_t		GetWaveID()				{	return	ChannelWaveID;						}
+		inline void			SetWaveID(std::int32_t id)			{	ChannelWaveID	=	id;						}
 };
 
 //---------------------------------------------------------------
@@ -106,7 +106,7 @@ class	Channel
 class	QSManager
 {
 	private:
-		ULONG				ManagerFlags,
+		std::uint32_t				ManagerFlags,
 							WaveCount;
 		Channel				Channels[MAX_CHANNELS];
 		HQMIXER				HQMixer;
@@ -120,29 +120,29 @@ class	QSManager
 							~QSManager();
 
 		// Methods.
-		HRESULT				Init(void);
-		HRESULT				Fini(void);
-		void				ActivateSound(void);
-		void				DeactivateSound(void);
+		HRESULT				Init();
+		HRESULT				Fini();
+		void				ActivateSound();
+		void				DeactivateSound();
 
-		HRESULT				LoadWaves(CBYTE* wave_path,CBYTE* script_name);
-		HRESULT				LoadWave(CBYTE* wave_name);
-		HRESULT				FreeWaves(void);
+		HRESULT				LoadWaves(char* wave_path,char* script_name);
+		HRESULT				LoadWave(char* wave_name);
+		HRESULT				FreeWaves();
 		HRESULT				AddWave(Wave *the_wave);
 		HRESULT				DeleteWave(Wave *the_wave);
 
-		HRESULT				PlayWave(SLONG wave_ref,SLONG wave_id,SLONG play_type,WaveParams *the_params);
-		HRESULT				StopWave(SLONG wave_ref,SLONG wave_id);
+		HRESULT				PlayWave(std::int32_t wave_ref,std::int32_t wave_id,std::int32_t play_type,WaveParams *the_params);
+		HRESULT				StopWave(std::int32_t wave_ref,std::int32_t wave_id);
 
-		inline	bool		IsInitialised(void)			{	return	ManagerFlags&QS_MANAGER_INIT;		}
-		inline	void		InitOn(void)				{	ManagerFlags	|=	QS_MANAGER_INIT;		}
-		inline	void		InitOff(void)				{	ManagerFlags	&=	~QS_MANAGER_INIT;		}
+		inline	bool		IsInitialised()			{	return	ManagerFlags&QS_MANAGER_INIT;		}
+		inline	void		InitOn()				{	ManagerFlags	|=	QS_MANAGER_INIT;		}
+		inline	void		InitOff()				{	ManagerFlags	&=	~QS_MANAGER_INIT;		}
 
-		inline	bool		IsActive(void)				{	return	ManagerFlags&QS_MANAGER_ACTIVE;		}
-		inline	void		ActiveOn(void)				{	ManagerFlags	|=	QS_MANAGER_ACTIVE;		}
-		inline	void		ActiveOff(void)				{	ManagerFlags	&=	~QS_MANAGER_ACTIVE;		}
+		inline	bool		IsActive()				{	return	ManagerFlags&QS_MANAGER_ACTIVE;		}
+		inline	void		ActiveOn()				{	ManagerFlags	|=	QS_MANAGER_ACTIVE;		}
+		inline	void		ActiveOff()				{	ManagerFlags	&=	~QS_MANAGER_ACTIVE;		}
 
-		inline	HQMIXER		GetHQMixer(void)			{	return	HQMixer;							}
+		inline	HQMIXER		GetHQMixer()			{	return	HQMixer;							}
 };
 
 //---------------------------------------------------------------

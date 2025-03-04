@@ -12,10 +12,10 @@
 // neccessarily the same number as that passed to MEM_alloc()
 //
 
-SLONG MEM_bytes_used;
+std::int32_t MEM_bytes_used;
 
 
-void* MEM_alloc(SLONG num_bytes)
+void* MEM_alloc(std::int32_t num_bytes)
 {
 	void* ans;
 
@@ -41,7 +41,7 @@ void MEM_free(void* memory)
 
 
 
-SLONG MEM_block_size(void* memory)
+std::int32_t MEM_block_size(void* memory)
 {
 	ASSERT(memory);
 
@@ -49,7 +49,7 @@ SLONG MEM_block_size(void* memory)
 }
 
 
-SLONG MEM_total_bytes_allocated()
+std::int32_t MEM_total_bytes_allocated()
 {
 	return MEM_bytes_used;
 }

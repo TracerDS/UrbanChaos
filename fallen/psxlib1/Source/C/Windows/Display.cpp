@@ -9,11 +9,11 @@
 
 bool EmulateLoRes		=	false,
 						Got3DFX				=	false;
-UBYTE DisplayActive		=	0,
+std::uint8_t DisplayActive		=	0,
 						DisplayState		=	0,
 						*WorkScreen,
 						WorkScreenDepth;
-SLONG DisplayMode			=	DISPLAY_MODE_NONE,
+std::int32_t DisplayMode			=	DISPLAY_MODE_NONE,
 						WorkScreenHeight,
 						WorkScreenWidth,
 						WorkScreenPixelWidth;
@@ -27,27 +27,27 @@ LPDIRECTDRAWSURFACE lp_DD_BackSurface	=	nullptr,
 						lp_DD_FrontSurface	=	nullptr,
 						lp_DD_WorkSurface	=	nullptr;
 
-volatile UBYTE			MFShellActive		=	0;
+volatile std::uint8_t			MFShellActive		=	0;
 
 
 
-SLONG CreateSurfaces();
-SLONG DestroySurfaces();
+std::int32_t CreateSurfaces();
+std::int32_t DestroySurfaces();
 void RestoreSurfaces();
 HRESULT CALLBACK 		DisplayModesCallback(LPDDSURFACEDESC p_dd_sd, LPVOID ignore);
 
 extern HANDLE			hShellThread;
 extern HWND				hShellWindow;
 extern RECT				ShellRect;
-extern void				SetDrawFunctions(ULONG depth);
+extern void				SetDrawFunctions(std::uint32_t depth);
 
 bool WINAPI EnumDeviceCallback(GUID FAR *lpGUID,LPSTR lpDriverDescription,LPSTR lpDriverName,LPVOID lpContext);
 
 //---------------------------------------------------------------
 
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags)
 {
-	SLONG			result	=	DisplayCreationError;
+	std::int32_t			result	=	DisplayCreationError;
 	HRESULT			dd_result;
 
 
@@ -121,7 +121,7 @@ SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
 
 //---------------------------------------------------------------
 
-SLONG CloseDisplay()
+std::int32_t CloseDisplay()
 {
 	HRESULT			dd_result;
 
@@ -175,9 +175,9 @@ SLONG CloseDisplay()
 
 //---------------------------------------------------------------
 
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth)
 {
-	SLONG			mode	=	DISPLAY_MODE_NONE;
+	std::int32_t			mode	=	DISPLAY_MODE_NONE;
 	HRESULT			dd_result;
 
 
@@ -282,7 +282,7 @@ SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 
 //---------------------------------------------------------------
 
-SLONG CreateSurfaces()
+std::int32_t CreateSurfaces()
 {
 #ifdef	_RELEASE
     DDSCAPS			dd_scaps;
@@ -383,7 +383,7 @@ SLONG CreateSurfaces()
 
 //---------------------------------------------------------------
 
-SLONG DestroySurfaces()
+std::int32_t DestroySurfaces()
 {
 	HRESULT		dd_result;
 
@@ -445,7 +445,7 @@ void ClearDisplay()
 
 //---------------------------------------------------------------
 
-void FadeDisplay(UBYTE mode)
+void FadeDisplay(std::uint8_t mode)
 {
 	switch(mode)
 	{
@@ -472,7 +472,7 @@ void* LockWorkScreen()
 		{
 			case	DD_OK:
 				WorkScreenWidth	=	dd_sd.lPitch;
-				WorkScreen		=	(UBYTE*)dd_sd.lpSurface;
+				WorkScreen		=	(std::uint8_t*)dd_sd.lpSurface;
 				SetWorkWindow();
 				DisplayState	|=	DS_SCREEN_LOCKED;
 				return	dd_sd.lpSurface;
@@ -508,7 +508,7 @@ void UnlockWorkScreen()
 
 //---------------------------------------------------------------
 
-void ShowWorkScreen(ULONG flags)
+void ShowWorkScreen(std::uint32_t flags)
 {
 	HRESULT			dd_result;
 
@@ -646,12 +646,12 @@ void ShowWorkScreen(ULONG flags)
 
 //---------------------------------------------------------------
 
-void ShowWorkWindow(ULONG flags)
+void ShowWorkWindow(std::uint32_t flags)
 {
 	HRESULT			dd_result;
 	RECT			ww_source_rect;
 #ifdef	_DEBUG
-	SLONG			x_scale,
+	std::int32_t			x_scale,
 					y_scale;
 	RECT			ww_dest_rect;
 #endif
@@ -811,7 +811,7 @@ void ShowWorkWindow(ULONG flags)
 
 //---------------------------------------------------------------
 
-void ClearWorkScreen(UBYTE colour)
+void ClearWorkScreen(std::uint8_t colour)
 {
 	DDBLTFX	  	 			dd_bltfx;
 	HRESULT			dd_result;
@@ -872,7 +872,7 @@ void RestoreSurfaces()
 
 HRESULT CALLBACK DisplayModesCallback(LPDDSURFACEDESC p_dd_sd, LPVOID ignore)
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 
 
 	ignore	=	ignore;	// Stop the compiler whinging.
@@ -902,7 +902,7 @@ bool WINAPI EnumDeviceCallback(
 								LPVOID lpContext
 								)
 {
-	CBYTE		*str_ptr	=	lpDriverDescription;
+	char		*str_ptr	=	lpDriverDescription;
 
 
 	lpDriverName	=	lpDriverName;

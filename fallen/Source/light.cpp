@@ -17,18 +17,18 @@ typedef struct
 {
 	GameCoord    pos;
 	LIGHT_Colour colour;
-	UBYTE        range;
-	UBYTE        type;
-	UBYTE        param;
-	UBYTE        counter;
-	UBYTE        next;	// Free list or mapwho list. 0 is the NULL index.
+	std::uint8_t        range;
+	std::uint8_t        type;
+	std::uint8_t        param;
+	std::uint8_t        counter;
+	std::uint8_t        next;	// Free list or mapwho list. 0 is the NULL index.
 
 } LIGHT_Light;
 
 #define LIGHT_MAX_LIGHTS 128
 
 LIGHT_Light LIGHT_light[LIGHT_MAX_LIGHTS];
-UBYTE LIGHT_free;
+std::uint8_t LIGHT_free;
 
 //
 // The light mapwho
@@ -36,7 +36,7 @@ UBYTE LIGHT_free;
 
 typedef struct
 {
-	UBYTE next;
+	std::uint8_t next;
 
 } LIGHT_Square;
 
@@ -56,9 +56,9 @@ LIGHT_Square LIGHT_map[LIGHT_MAP_SIZE][LIGHT_MAP_SIZE];
 //
 
 LIGHT_Colour LIGHT_amb_colour;
-SLONG LIGHT_amb_norm_x;
-SLONG LIGHT_amb_norm_y;
-SLONG LIGHT_amb_norm_z;
+std::int32_t LIGHT_amb_norm_x;
+std::int32_t LIGHT_amb_norm_y;
+std::int32_t LIGHT_amb_norm_z;
 
 //
 // The height field lit by the lights.
@@ -82,7 +82,7 @@ LIGHT_Colour LIGHT_building_point[MAX_PRIM_POINTS];
 typedef struct
 {
 	LIGHT_Colour colour[LIGHT_PER_SLOT];
-	UWORD        next;
+	std::uint16_t        next;
 
 } LIGHT_Slot;
 
@@ -93,7 +93,7 @@ typedef struct
 #endif
 
 LIGHT_Slot LIGHT_slot[LIGHT_MAX_SLOTS];
-UWORD LIGHT_slot_free;
+std::uint16_t LIGHT_slot_free;
 
 //
 // The cache elements.
@@ -103,8 +103,8 @@ typedef struct
 {
 	THING_INDEX me;			// The thing whose lighting this is for.
 	LIGHT_Index light[3];	// The lights shining on this thing.
-	UBYTE       num_lights;
-	UWORD       next;
+	std::uint8_t       num_lights;
+	std::uint16_t       next;
 
 } LIGHT_Cache;
 
@@ -115,7 +115,7 @@ typedef struct
 #endif
 
 LIGHT_Cache LIGHT_cache[LIGHT_MAX_CACHES];
-UBYTE LIGHT_cache_free;
+std::uint8_t LIGHT_cache_free;
 
 
 //
@@ -123,7 +123,7 @@ UBYTE LIGHT_cache_free;
 //
 
 LIGHT_Colour LIGHT_point_colour[LIGHT_MAX_POINTS];
-SLONG LIGHT_point_colour_upto;
+std::int32_t LIGHT_point_colour_upto;
 
 
 
@@ -133,7 +133,7 @@ SLONG LIGHT_point_colour_upto;
 
 void LIGHT_build_free_list()
 {
-	SLONG i;
+	std::int32_t i;
 
 	LIGHT_free = 1;
 
@@ -149,7 +149,7 @@ void LIGHT_build_free_list()
 // Gives and gets lights.
 //
 
-UBYTE LIGHT_get()
+std::uint8_t LIGHT_get()
 {
 	if (LIGHT_free == NULL)
 	{
@@ -157,7 +157,7 @@ UBYTE LIGHT_get()
 	}
 	else
 	{
-		UBYTE ans = LIGHT_free;
+		std::uint8_t ans = LIGHT_free;
 
 		ASSERT(WITHIN(LIGHT_free, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -167,7 +167,7 @@ UBYTE LIGHT_get()
 	}
 }
 
-void LIGHT_give(UBYTE l_index)
+void LIGHT_give(std::uint8_t l_index)
 {
 	ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -182,8 +182,8 @@ void LIGHT_give(UBYTE l_index)
 
 void LIGHT_map_place(LIGHT_Index l_index)
 {
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
 	LIGHT_Light  *ll;
 	LIGHT_Square *ls;
@@ -218,13 +218,13 @@ void LIGHT_map_place(LIGHT_Index l_index)
 
 void LIGHT_map_remove(LIGHT_Index l_index)
 {
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
 	LIGHT_Light  *ll;
 	LIGHT_Square *ls;
-	UBYTE         next;
-	UBYTE        *prev;
+	std::uint8_t         next;
+	std::uint8_t        *prev;
 
 	ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -279,12 +279,12 @@ void LIGHT_map_remove(LIGHT_Index l_index)
 	}
 }
 
-void LIGHT_map_move(UBYTE l_index, GameCoord newpos)
+void LIGHT_map_move(std::uint8_t l_index, GameCoord newpos)
 {
-	SLONG map_x_old;
-	SLONG map_z_old;
-	SLONG map_x_new;
-	SLONG map_z_new;
+	std::int32_t map_x_old;
+	std::int32_t map_z_old;
+	std::int32_t map_x_new;
+	std::int32_t map_z_new;
 
 	LIGHT_Light *ll;
 
@@ -329,8 +329,8 @@ void LIGHT_map_move(UBYTE l_index, GameCoord newpos)
 
 void LIGHT_map_clear()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	for (x = 0; x < LIGHT_MAP_SIZE; x++)
 	for (z = 0; z < LIGHT_MAP_SIZE; z++)
@@ -345,7 +345,7 @@ void LIGHT_map_clear()
 
 void LIGHT_slot_build_free_list()
 {
-	SLONG i;
+	std::int32_t i;
 
 	LIGHT_slot_free = 1;
 
@@ -361,9 +361,9 @@ void LIGHT_slot_build_free_list()
 // Gets an unused slot.
 //
 
-UBYTE LIGHT_slot_get()
+std::uint8_t LIGHT_slot_get()
 {
-	UBYTE ans = LIGHT_slot_free;
+	std::uint8_t ans = LIGHT_slot_free;
 
 	if (ans == NULL)
 	{
@@ -383,7 +383,7 @@ UBYTE LIGHT_slot_get()
 // Gives up a slot.
 //
 
-void LIGHT_slot_give(UBYTE s_index)
+void LIGHT_slot_give(std::uint8_t s_index)
 {
 	ASSERT(WITHIN(s_index, 1, LIGHT_MAX_SLOTS - 1));
 
@@ -398,7 +398,7 @@ void LIGHT_slot_give(UBYTE s_index)
 
 void LIGHT_cache_build_free_list()
 {
-	SLONG i;
+	std::int32_t i;
 
 	LIGHT_cache_free = 1;
 
@@ -414,9 +414,9 @@ void LIGHT_cache_build_free_list()
 // Gets an unused cache entry.
 //
 
-UBYTE LIGHT_cache_get(UBYTE c_index)
+std::uint8_t LIGHT_cache_get(std::uint8_t c_index)
 {
-	UBYTE ans;
+	std::uint8_t ans;
 
 	ans = LIGHT_cache_free;
 
@@ -438,7 +438,7 @@ UBYTE LIGHT_cache_get(UBYTE c_index)
 // Gives back a dead cache entry.
 //
 
-void LIGHT_cache_give(UBYTE c_index)
+void LIGHT_cache_give(std::uint8_t c_index)
 {
 	ASSERT(WITHIN(c_index, 1, LIGHT_MAX_CACHES - 1));
 
@@ -455,9 +455,9 @@ void LIGHT_set_hf(LIGHT_Map *map)
 
 void LIGHT_set_ambient(
 		LIGHT_Colour amb_colour,
-		SLONG        amb_norm_x,
-		SLONG        amb_norm_y,
-		SLONG        amb_norm_z)
+		std::int32_t        amb_norm_x,
+		std::int32_t        amb_norm_y,
+		std::int32_t        amb_norm_z)
 {
 	LIGHT_amb_colour     = amb_colour;
 	LIGHT_amb_norm_x     = amb_norm_x;
@@ -471,21 +471,21 @@ void LIGHT_set_ambient(
 
 void LIGHT_building_up(LIGHT_Index l_index, THING_INDEX t_index)
 {
-	SLONG i;
-	SLONG facet;
-	SLONG point;
+	std::int32_t i;
+	std::int32_t facet;
+	std::int32_t point;
 
-	SLONG dpx;
-	SLONG dpy;
-	SLONG dpz;
+	std::int32_t dpx;
+	std::int32_t dpy;
+	std::int32_t dpz;
 
-	SLONG lposx;
-	SLONG lposy;
-	SLONG lposz;
+	std::int32_t lposx;
+	std::int32_t lposy;
+	std::int32_t lposz;
 
-	SLONG dprod;
-	SLONG dist;
-	SLONG range;
+	std::int32_t dprod;
+	std::int32_t dist;
+	std::int32_t range;
 
 	LIGHT_Light *ll;
 
@@ -571,21 +571,21 @@ void LIGHT_building_up(LIGHT_Index l_index, THING_INDEX t_index)
 
 void LIGHT_building_down(LIGHT_Index l_index, THING_INDEX t_index)
 {
-	SLONG i;
-	SLONG facet;
-	SLONG point;
+	std::int32_t i;
+	std::int32_t facet;
+	std::int32_t point;
 
-	SLONG dpx;
-	SLONG dpy;
-	SLONG dpz;
+	std::int32_t dpx;
+	std::int32_t dpy;
+	std::int32_t dpz;
 
-	SLONG lposx;
-	SLONG lposy;
-	SLONG lposz;
+	std::int32_t lposx;
+	std::int32_t lposy;
+	std::int32_t lposz;
 
-	SLONG dprod;
-	SLONG dist;
-	SLONG range;
+	std::int32_t dprod;
+	std::int32_t dist;
+	std::int32_t range;
 
 	LIGHT_Light *ll;
 
@@ -679,33 +679,33 @@ void LIGHT_hf_light_up(LIGHT_Index l_index)
 	// Shouldn't be using this, apparently.
 	ASSERT ( false );
 #endif
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG building;
-	SLONG storey;
-	SLONG wall;
+	std::int32_t building;
+	std::int32_t storey;
+	std::int32_t wall;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
-	SLONG dist;
-	SLONG range;
-	SLONG brightness;
-	UWORD litkey;
+	std::int32_t dist;
+	std::int32_t range;
+	std::int32_t brightness;
+	std::uint16_t litkey;
 
 	LIGHT_Light   *ll;
 	LIGHT_Colour   col;
@@ -812,33 +812,33 @@ void LIGHT_hf_light_down(LIGHT_Index l_index)
 	// Shouldn't be using this, apparently.
 	ASSERT ( false );
 #endif
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG building;
-	SLONG storey;
-	SLONG wall;
+	std::int32_t building;
+	std::int32_t storey;
+	std::int32_t wall;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
-	SLONG dist;
-	SLONG range;
-	SLONG brightness;
-	UWORD litkey;
+	std::int32_t dist;
+	std::int32_t range;
+	std::int32_t brightness;
+	std::uint16_t litkey;
 
 	LIGHT_Colour   col;
 	LIGHT_Light   *ll;
@@ -941,27 +941,27 @@ void LIGHT_hf_light_down(LIGHT_Index l_index)
 
 void LIGHT_recalc_hf()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG ho;
-	SLONG h1;
-	SLONG h2;
+	std::int32_t ho;
+	std::int32_t h1;
+	std::int32_t h2;
 
-	SLONG a;
-	SLONG ao;
-	SLONG a1;
-	SLONG a2;
+	std::int32_t a;
+	std::int32_t ao;
+	std::int32_t a1;
+	std::int32_t a2;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG ny2;
-	SLONG dprod;
+	std::int32_t ny2;
+	std::int32_t dprod;
 
 	LIGHT_Colour col;
 
@@ -1079,8 +1079,8 @@ void LIGHT_recalc_hf()
 		// The ambient light on all the building objects.
 		//
 
-		SLONG facet;
-		SLONG point;
+		std::int32_t facet;
+		std::int32_t point;
 
 		SVector normal;
 
@@ -1193,7 +1193,7 @@ void LIGHT_recalc_hf()
 
 void LIGHT_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Mark all lights as unused.
@@ -1224,12 +1224,12 @@ void LIGHT_init()
 LIGHT_Index LIGHT_create(
 				GameCoord    where, //fix 8
 				LIGHT_Colour colour,
-				UBYTE        range,
-				UBYTE        type,
-				UBYTE        param)
+				std::uint8_t        range,
+				std::uint8_t        type,
+				std::uint8_t        param)
 {
 
-	UBYTE l_index;
+	std::uint8_t l_index;
 
 	LIGHT_Light *ll;
 
@@ -1340,9 +1340,9 @@ void LIGHT_pos_set(LIGHT_Index l_index, GameCoord newpos)
 
 void LIGHT_process()
 {
-	SLONG i;
-	UBYTE just_on;
-	UBYTE just_off;
+	std::int32_t i;
+	std::uint8_t just_on;
+	std::uint8_t just_off;
 
 	LIGHT_Light *ll;
 
@@ -1382,7 +1382,7 @@ void LIGHT_process()
 				// The top bit of counter is whether the light is on or off.
 				//
 
-				SLONG countdown = ll->counter & 0x7f;
+				std::int32_t countdown = ll->counter & 0x7f;
 
 				if (countdown == 0)
 				{
@@ -1433,25 +1433,25 @@ void LIGHT_process()
 
 THING_INDEX LIGHT_context_t_index;
 LIGHT_Index LIGHT_context_l_index[LIGHT_MAX_PER_PRIM];
-SLONG LIGHT_context_l_num;
-SLONG LIGHT_context_gameturn;
-SLONG LIGHT_context_context;
+std::int32_t LIGHT_context_l_num;
+std::int32_t LIGHT_context_gameturn;
+std::int32_t LIGHT_context_context;
 
-SLONG LIGHT_get_context(THING_INDEX t_index)
+std::int32_t LIGHT_get_context(THING_INDEX t_index)
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG range;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t range;
 
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
-	SLONG context;
+	std::int32_t context;
 
 	LIGHT_Index  next;
 	LIGHT_Light *ll;
@@ -1573,17 +1573,17 @@ SLONG LIGHT_get_context(THING_INDEX t_index)
 }
 
 
-LIGHT_Colour LIGHT_get_point(SLONG x, SLONG y, SLONG z)
+LIGHT_Colour LIGHT_get_point(std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG range;
-	SLONG brightness;
+	std::int32_t dist;
+	std::int32_t range;
+	std::int32_t brightness;
 
 	LIGHT_Light *ll;
 	LIGHT_Colour ans;
@@ -1653,31 +1653,31 @@ LIGHT_Colour LIGHT_get_point(SLONG x, SLONG y, SLONG z)
 
 void LIGHT_prim(THING_INDEX t_index)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG range;
-	SLONG brightness;
+	std::int32_t dist;
+	std::int32_t range;
+	std::int32_t brightness;
 
-	SLONG x1;
-	SLONG x2;
-	SLONG z1;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t x2;
+	std::int32_t z1;
+	std::int32_t z2;
 
-	UBYTE next;
+	std::uint8_t next;
 
-	SLONG prim;
-	SLONG num_points;
+	std::int32_t prim;
+	std::int32_t num_points;
 
-	SLONG matrix[9];
+	std::int32_t matrix[9];
 
 	GameCoord    lp;
 
@@ -1807,37 +1807,37 @@ void LIGHT_prim(THING_INDEX t_index)
 
 void LIGHT_prim_use_normals(THING_INDEX t_index)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG range;
-	SLONG brightness;
+	std::int32_t dist;
+	std::int32_t range;
+	std::int32_t brightness;
 
-	SLONG amb_x;
-	SLONG amb_y;
-	SLONG amb_z;
+	std::int32_t amb_x;
+	std::int32_t amb_y;
+	std::int32_t amb_z;
 
-	SLONG x1;
-	SLONG x2;
-	SLONG z1;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t x2;
+	std::int32_t z1;
+	std::int32_t z2;
 
-	SLONG dprod;
+	std::int32_t dprod;
 
-	UBYTE next;
+	std::uint8_t next;
 
-	SLONG prim;
-	SLONG num_points;
+	std::int32_t prim;
+	std::int32_t num_points;
 
-	SLONG matrix[9];
+	std::int32_t matrix[9];
 
 	GameCoord    lp;
 
@@ -2052,10 +2052,10 @@ void LIGHT_prim_use_normals(THING_INDEX t_index)
 
 #ifdef	EDITOR
 #include	"c:\fallen\editor\headers\scan.h"
-extern void	scan_undo_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+extern void	scan_undo_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra);
 extern void	apply_ambient_to_floor();
 extern void	remove_ambient_from_floor();
-extern void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+extern void	scan_apply_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra);
 #endif
 
 void apply_global_amb_to_map()
@@ -2065,7 +2065,7 @@ void apply_global_amb_to_map()
 	scan_function=scan_undo_ambient;
 	scan_map();	
 	remove_ambient_from_floor();
-extern void	setup_ambient(SLONG dx,SLONG dy,SLONG dz,SLONG bright,SLONG flags);
+extern void	setup_ambient(std::int32_t dx,std::int32_t dy,std::int32_t dz,std::int32_t bright,std::int32_t flags);
 // 	setup_ambient(100,100,-70,1024,2);
  	setup_ambient(90,-100,-90,655,2);
 	scan_function=scan_apply_ambient;

@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG		action_off,
+std::int32_t		action_off,
 			action_on,
 			triggered_by,
 			trigger_radius,
@@ -29,7 +29,7 @@ EventPoint	*current_ep;
 
 void	update_action_combos(HWND parent)
 {
-	SLONG		c0;
+	std::int32_t		c0;
 
 /*obsolete
 	if(trigger_type==TT_NONE || trigger_type==TT_NORMAL)
@@ -91,7 +91,7 @@ void	process_view_wind();
 
 bool	CALLBACK	ts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 	NM_UPDOWN	*lp_ntfy;
@@ -284,7 +284,7 @@ void	do_trigger_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_trigger_message(EventPoint *ep, CBYTE* msg) {
+char	*get_trigger_message(EventPoint *ep, char* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

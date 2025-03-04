@@ -33,7 +33,7 @@ CVECTOR tint_colour[8]={
 //	{255,0,0,0}};
 	{200,150,100,0}};
 
-//extern UWORD	debug_count[10];
+//extern std::uint16_t	debug_count[10];
 
 /*************************************************************
  *
@@ -45,7 +45,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 {
 
 	Chopper *chopper = CHOPPER_get_chopper(p_chopper);
-	SLONG matrix[9], vector[3];
+	std::int32_t matrix[9], vector[3];
 
 
 	vector[0]=(chopper->dx/64)&2047; vector[1]=(-chopper->dz/64)&2047; vector[2]=0;
@@ -71,9 +71,9 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 	else
 	{
 
-		SLONG target_x;
-		SLONG target_y;
-		SLONG target_z;
+		std::int32_t target_x;
+		std::int32_t target_y;
+		std::int32_t target_z;
 
 		//
 		// Look at Darci's body.
@@ -95,8 +95,8 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 		target_y += chopper->target->WorldPos.Y;
 		target_z += chopper->target->WorldPos.Z;
 
-		SLONG dx, dz, dist;
-		SLONG maxspd = chopper->speed<<6;
+		std::int32_t dx, dz, dist;
+		std::int32_t maxspd = chopper->speed<<6;
 
 		if (chopper->spotx > target_x) chopper->spotdx-=(chopper->since_takeoff >> 1);
 		if (chopper->spotz > target_z) chopper->spotdz-=(chopper->since_takeoff >> 1);
@@ -151,7 +151,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 /*
 		if (chopper->light) 
 		{
-			SLONG colour;
+			std::int32_t colour;
 
 			colour=(0x66 * chopper->light)/255;
 			colour+=(colour<<8);
@@ -179,11 +179,11 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 
 }
 
-extern void	calc_floor_col(SLONG x,SLONG z,SLONG *r,SLONG *g,SLONG *b);
+extern void	calc_floor_col(std::int32_t x,std::int32_t z,std::int32_t *r,std::int32_t *g,std::int32_t *b);
 
-ULONG MESH_colour_and;
+std::uint32_t MESH_colour_and;
 extern PSX_POLY_Point *perm_pp_array;
-extern UWORD floor_psx_col[128][128];
+extern std::uint16_t floor_psx_col[128][128];
 #if 1
 extern char *GDisp_Bucket;
 #else
@@ -194,26 +194,26 @@ extern char GDisp_Bucket[];
 // if any of top 16 bits of prim are set then wont clip/fade out
 //
 
-SLONG MESH_draw_poly(
-		SLONG         prim,
+std::int32_t MESH_draw_poly(
+		std::int32_t         prim,
 		MAPCO16	      at_x,
 		MAPCO16       at_y,
 		MAPCO16	      at_z,
-		SLONG         i_yaw,
-		SLONG         i_pitch,
-		SLONG         i_roll,
+		std::int32_t         i_yaw,
+		std::int32_t         i_pitch,
+		std::int32_t         i_roll,
 		LIGHT_Colour *lpc,
-		UBYTE fade)
+		std::uint8_t fade)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-//	SLONG sp;
-//	SLONG ep;
+//	std::int32_t sp;
+//	std::int32_t ep;
 
-	SLONG	sf,ef;
+	std::int32_t	sf,ef;
 
-	SLONG	b0;
+	std::int32_t	b0;
 
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -221,29 +221,29 @@ SLONG MESH_draw_poly(
 
 	PSX_POLY_Point *pp;
 
-	SLONG r,g,b;
-	UBYTE	rt,gt,bt;
+	std::int32_t r,g,b;
+	std::uint8_t	rt,gt,bt;
 
-//	UWORD	col;
+//	std::uint16_t	col;
 
 	MATRIX	matrix;
-	SLONG	z;
+	std::int32_t	z;
 	struct	PrimPoint	*point;
-	SLONG	tflag,flag;
-	UBYTE	*cp;
-//	SLONG	flag_all_and=0xffffffff;
-	UBYTE	u,v;
+	std::int32_t	tflag,flag;
+	std::uint8_t	*cp;
+//	std::int32_t	flag_all_and=0xffffffff;
+	std::uint8_t	u,v;
 
-	SWORD	p0,p1,p2,p3;
+	std::int16_t	p0,p1,p2,p3;
 
-	SLONG	mid_z,sort_z;
+	std::int32_t	mid_z,sort_z;
 
-	SLONG	bodge_z_back=0;
+	std::int32_t	bodge_z_back=0;
 
-	SLONG	ret_z[3];
-	SLONG	sub;
+	std::int32_t	ret_z[3];
+	std::int32_t	sub;
 /*
-	SLONG	sort_offset=0;
+	std::int32_t	sort_offset=0;
 
 	if (prim == 105 ||
 	prim == 101 ||
@@ -272,7 +272,7 @@ SLONG MESH_draw_poly(
 //	if (the_display.CurrentPrim>&GDisp_Bucket[BUCKET_MEM-5120])
 //		return(0);
 	
-extern void	build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m);
+extern void	build_rot_matrix3(std::int32_t yaw,std::int32_t pitch,std::int32_t roll,MATRIX *m);
 
 	build_rot_matrix3(i_yaw,-i_pitch,-i_roll,&matrix);
 
@@ -337,13 +337,13 @@ extern void	build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m);
 	}
 /*
 	{
-		CBYTE	str[6];
-extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+		char	str[6];
+extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
 		sprintf(str,"%d",get_z_sort_near(mid_z));
 
 		FONT2D_DrawString_3d(str,at_x,at_y,at_z,0xffffff,512,0);
-//			CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+//			char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
 	}
 */
@@ -374,13 +374,13 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 		b=r=g=b0;
 	}
 
-//	rt=(UBYTE)((tint_colour[MESH_colour_and].r*(r))>>8);
-//	gt=(UBYTE)((tint_colour[MESH_colour_and].g*(g))>>8);
-//	bt=(UBYTE)((tint_colour[MESH_colour_and].b*(b))>>8);
+//	rt=(std::uint8_t)((tint_colour[MESH_colour_and].r*(r))>>8);
+//	gt=(std::uint8_t)((tint_colour[MESH_colour_and].g*(g))>>8);
+//	bt=(std::uint8_t)((tint_colour[MESH_colour_and].b*(b))>>8);
 
-	rt=(UBYTE)((tint_colour[MESH_colour_and].r*(NIGHT_amb_red))>>8);
-	gt=(UBYTE)((tint_colour[MESH_colour_and].g*(NIGHT_amb_green))>>8);
-	bt=(UBYTE)((tint_colour[MESH_colour_and].b*(NIGHT_amb_blue))>>8);
+	rt=(std::uint8_t)((tint_colour[MESH_colour_and].r*(NIGHT_amb_red))>>8);
+	gt=(std::uint8_t)((tint_colour[MESH_colour_and].g*(NIGHT_amb_green))>>8);
+	bt=(std::uint8_t)((tint_colour[MESH_colour_and].b*(NIGHT_amb_blue))>>8);
 
 	SATURATE(rt,32,255);
 	SATURATE(gt,32,255);
@@ -396,10 +396,10 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 	for (i = sf; i < ef; i++)
 	{
-		SLONG	clip_or,clip_and,tmp;
-		UBYTE	draw_flags;
-		SLONG	ret_z[4];
-		SLONG	ds=0;
+		std::int32_t	clip_or,clip_and,tmp;
+		std::uint8_t	draw_flags;
+		std::int32_t	ret_z[4];
+		std::int32_t	ds=0;
 
 		draw_flags=p_f4->DrawFlags;
 		
@@ -461,7 +461,7 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 					{
 						POLY_FT4	*p;
 
-						SLONG	page,z;
+						std::int32_t	page,z;
 
 						check_prim_ptr((void**)&cp);
 						p=(POLY_FT4 *)cp; //the_display.CurrentPrim;
@@ -568,8 +568,8 @@ next_quad:;
 
 	for (i = sf; i < ef; i++)
 	{
-		SLONG	clip_or,clip_and;
-		UBYTE	draw_flags;
+		std::int32_t	clip_or,clip_and;
+		std::uint8_t	draw_flags;
 
 //		printf(".");
 		draw_flags=p_f3->DrawFlags;
@@ -618,7 +618,7 @@ next_quad:;
 				{
 					POLY_FT3	*p;
 
-					SLONG	page,z;
+					std::int32_t	page,z;
 
 					check_prim_ptr((void**)&cp);
 					p=(POLY_FT3 *)cp; //the_display.CurrentPrim;

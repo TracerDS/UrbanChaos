@@ -14,7 +14,7 @@
 
 //---------------------------------------------------------------
 
-SLONG		treasure_value;
+std::int32_t		treasure_value;
 
 //---------------------------------------------------------------
 
@@ -60,7 +60,7 @@ void	do_treasure_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_treasure_message(EventPoint *ep, CBYTE* msg) {
+char	*get_treasure_message(EventPoint *ep, char* msg) {
 	if ((!ep)||!ep->Data[0])
 		msg[0]=0;
 	else {

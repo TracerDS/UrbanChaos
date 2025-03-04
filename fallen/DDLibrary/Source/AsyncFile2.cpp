@@ -49,7 +49,7 @@ static const int	BytesPerMillisecond = 128 * 1024;
 //
 // initialize
 
-void InitAsyncFile(void)
+void InitAsyncFile()
 {
 	// set up structures
 	memset(File, 0, sizeof(File));
@@ -84,7 +84,7 @@ void InitAsyncFile(void)
 //
 // terminate
 
-void TermAsyncFile(void)
+void TermAsyncFile()
 {
 	// tell thread to die
 	TRACE("MAIN: Telling worker thread to die\n");
@@ -214,7 +214,7 @@ bool LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key)
 	file->hKey = key;
 
 	// set up the read
-	file->buffer = (UBYTE*)buffer;
+	file->buffer = (std::uint8_t*)buffer;
 	file->blen = blen;
 
 	// success
@@ -236,7 +236,7 @@ bool LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key)
 //
 // return key for completed file
 
-void* GetNextCompletedAsyncFile(void)
+void* GetNextCompletedAsyncFile()
 {
 	EnterCriticalSection(&csLock);
 	for (AsyncFile* file = CompleteList.next; file != &CompleteList; file = file->next)

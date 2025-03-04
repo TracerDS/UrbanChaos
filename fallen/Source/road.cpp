@@ -13,7 +13,7 @@
 
 #include "memory.h"
 
-extern SLONG	build_psx;
+extern std::int32_t	build_psx;
 //
 // The width of the roads.
 //
@@ -26,14 +26,14 @@ extern SLONG	build_psx;
 // 
 
 ROAD_Node *ROAD_node;
-SLONG ROAD_node_upto;
+std::int32_t ROAD_node_upto;
 
 //
 // The nodes at the edge of the map.
 //
 
-UBYTE *ROAD_edge;//[ROAD_MAX_EDGES];
-UWORD ROAD_edge_upto;
+std::uint8_t *ROAD_edge;//[ROAD_MAX_EDGES];
+std::uint16_t ROAD_edge_upto;
 
 
 //
@@ -41,9 +41,9 @@ UWORD ROAD_edge_upto;
 //
 
 void ROAD_node_pos(
-		SLONG  node,
-		SLONG *node_x,
-		SLONG *node_z)
+		std::int32_t  node,
+		std::int32_t *node_x,
+		std::int32_t *node_z)
 {
 	ROAD_Node *rn;
 
@@ -57,7 +57,7 @@ void ROAD_node_pos(
 
 // the bendiness of a junction n1 -> n2 -> n3
 
-SLONG ROAD_bend(SLONG n1, SLONG n2, SLONG n3)
+std::int32_t ROAD_bend(std::int32_t n1, std::int32_t n2, std::int32_t n3)
 {
 	ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
 	ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
@@ -67,24 +67,24 @@ SLONG ROAD_bend(SLONG n1, SLONG n2, SLONG n3)
 	ROAD_Node*	rn2 = &ROAD_node[n2];
 	ROAD_Node*	rn3 = &ROAD_node[n3];
 
-	SLONG	x12 = rn2->x - rn1->x;
-	SLONG	z12 = rn2->z - rn1->z;
+	std::int32_t	x12 = rn2->x - rn1->x;
+	std::int32_t	z12 = rn2->z - rn1->z;
 
-	SLONG	x23 = rn3->x - rn2->x;
-	SLONG	z23 = rn3->z - rn2->z;
+	std::int32_t	x23 = rn3->x - rn2->x;
+	std::int32_t	z23 = rn3->z - rn2->z;
 
 	return x12 * z23 - z12 * x23;
 }
 
 // the degree of a road node
 
-SLONG ROAD_node_degree(SLONG node)
+std::int32_t ROAD_node_degree(std::int32_t node)
 {
 	ASSERT(WITHIN(node, 1, ROAD_node_upto - 1));
 
 	ROAD_Node* rn = &ROAD_node[node];
 
-	SLONG	degree = 0;
+	std::int32_t	degree = 0;
 
 	if (rn->c[0])	degree++;
 	if (rn->c[1])	degree++;
@@ -98,7 +98,7 @@ SLONG ROAD_node_degree(SLONG node)
 //
 // return the nearer of rn1 and rn2 in nn, and the distance squared in nnd; wx,wz = WorldPos >> 8
 
-SLONG ROAD_nearest_node(SLONG rn1, SLONG rn2, SLONG wx, SLONG wz, SLONG* nnd)
+std::int32_t ROAD_nearest_node(std::int32_t rn1, std::int32_t rn2, std::int32_t wx, std::int32_t wz, std::int32_t* nnd)
 {
 	ASSERT(WITHIN(rn1, 1, ROAD_node_upto - 1));
 	ASSERT(WITHIN(rn2, 1, ROAD_node_upto - 1));
@@ -106,13 +106,13 @@ SLONG ROAD_nearest_node(SLONG rn1, SLONG rn2, SLONG wx, SLONG wz, SLONG* nnd)
 	ROAD_Node*	prn1 = &ROAD_node[rn1];
 	ROAD_Node*	prn2 = &ROAD_node[rn2];
 
-	SLONG x1 = (prn1->x << 8) + 0x80;
- 	SLONG z1 = (prn1->z << 8) + 0x80;
-	SLONG x2 = (prn2->x << 8) + 0x80;
- 	SLONG z2 = (prn2->z << 8) + 0x80;
+	std::int32_t x1 = (prn1->x << 8) + 0x80;
+ 	std::int32_t z1 = (prn1->z << 8) + 0x80;
+	std::int32_t x2 = (prn2->x << 8) + 0x80;
+ 	std::int32_t z2 = (prn2->z << 8) + 0x80;
 
-	SLONG	d1 = (wx - x1)*(wx - x1) + (wz - z1)*(wz - z1);
-	SLONG	d2 = (wx - x2)*(wx - x2) + (wz - z2)*(wz - z2);
+	std::int32_t	d1 = (wx - x1)*(wx - x1) + (wz - z1)*(wz - z1);
+	std::int32_t	d2 = (wx - x2)*(wx - x2) + (wz - z2)*(wz - z2);
 	
 	if (d1 < d2)
 	{
@@ -132,16 +132,16 @@ SLONG ROAD_nearest_node(SLONG rn1, SLONG rn2, SLONG wx, SLONG wz, SLONG* nnd)
 
 void ROAD_sink()
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 	
-	SLONG dist;
-	SLONG best_dist;
+	std::int32_t dist;
+	std::int32_t best_dist;
 
-	SLONG page;
+	std::int32_t page;
 	
 	PAP_Hi *ph;
 	MapElement *me;
@@ -243,10 +243,10 @@ void ROAD_sink()
 }
 #endif
 
-SLONG ROAD_is_road(SLONG map_x, SLONG map_z)
+std::int32_t ROAD_is_road(std::int32_t map_x, std::int32_t map_z)
 {
 	PAP_Hi *ph;
-	SLONG   num;
+	std::int32_t   num;
 
 	if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(map_z, 0, PAP_SIZE_HI - 1))
@@ -263,7 +263,7 @@ SLONG ROAD_is_road(SLONG map_x, SLONG map_z)
 
 	num = ph->Texture & 0x3ff;
 
-	extern SLONG TEXTURE_set;
+	extern std::int32_t TEXTURE_set;
 #ifdef	PSX
 	if (WITHIN(num, 256, 256+22))
 //	if (WITHIN(num, 256, 306))
@@ -293,10 +293,10 @@ SLONG ROAD_is_road(SLONG map_x, SLONG map_z)
 #endif
 }
 
-SLONG ROAD_is_zebra(SLONG map_x, SLONG map_z)
+std::int32_t ROAD_is_zebra(std::int32_t map_x, std::int32_t map_z)
 {
 	PAP_Hi *ph;
-	SLONG   num;
+	std::int32_t   num;
 
 	if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(map_z, 0, PAP_SIZE_HI - 1))
@@ -324,9 +324,9 @@ SLONG ROAD_is_zebra(SLONG map_x, SLONG map_z)
 // Returns the index of a node at (x,z).  Create one if it has to.
 //
 
-SLONG ROAD_find_node(SLONG x, SLONG z)
+std::int32_t ROAD_find_node(std::int32_t x, std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Look for a node that already exists.
@@ -359,9 +359,9 @@ SLONG ROAD_find_node(SLONG x, SLONG z)
 
 #if !defined(PSX) && !defined(TARGET_DC)
 
-void ROAD_connect(SLONG n1, SLONG n2)
+void ROAD_connect(std::int32_t n1, std::int32_t n2)
 {
-	SLONG i;
+	std::int32_t i;
 
 	ROAD_Node *rn1;
 	ROAD_Node *rn2;
@@ -437,10 +437,10 @@ void ROAD_connect(SLONG n1, SLONG n2)
 // Disconects the two nodes.
 // 
 
-void ROAD_disconnect(SLONG n1, SLONG n2)
+void ROAD_disconnect(std::int32_t n1, std::int32_t n2)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
 	ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
@@ -503,26 +503,26 @@ void ROAD_disconnect(SLONG n1, SLONG n2)
 // This function returns true if it found an intersecting road or false if it didn't.
 // 
 
-SLONG ROAD_intersect(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
+std::int32_t ROAD_intersect(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
 
-		SLONG *in1,
-		SLONG *in2,
-		SLONG *ix,	// Intersection point
-		SLONG *iz)
+		std::int32_t *in1,
+		std::int32_t *in2,
+		std::int32_t *ix,	// Intersection point
+		std::int32_t *iz)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	ROAD_Node *rn;
 	ROAD_Node *rm;
 
-	SLONG minx;
-	SLONG maxx;
+	std::int32_t minx;
+	std::int32_t maxx;
 
-	SLONG minz;
-	SLONG maxz;
+	std::int32_t minz;
+	std::int32_t maxz;
 
 	for (i = 1; i < ROAD_node_upto; i++)
 	{
@@ -654,9 +654,9 @@ SLONG ROAD_intersect(
 // Inserts an extra point in the given road.
 //
 
-void ROAD_split(SLONG n1, SLONG n2, SLONG splitx, SLONG splitz)
+void ROAD_split(std::int32_t n1, std::int32_t n2, std::int32_t splitx, std::int32_t splitz)
 {
-	SLONG sn = ROAD_find_node(splitx, splitz);
+	std::int32_t sn = ROAD_find_node(splitx, splitz);
 
 	if (sn == n1 || sn == n2)
 	{
@@ -682,8 +682,8 @@ void ROAD_split(SLONG n1, SLONG n2, SLONG splitx, SLONG splitz)
 
 	if (rn1->x == rn2->x)
 	{
-		SLONG minz;
-		SLONG maxz;
+		std::int32_t minz;
+		std::int32_t maxz;
 
 		ASSERT(splitx == rn1->x);
 		
@@ -698,8 +698,8 @@ void ROAD_split(SLONG n1, SLONG n2, SLONG splitx, SLONG splitz)
 	{
 		ASSERT(rn1->z == rn2->z);
 
-		SLONG minx;
-		SLONG maxx;
+		std::int32_t minx;
+		std::int32_t maxx;
 
 		ASSERT(splitz == rn1->z);
 		
@@ -732,16 +732,16 @@ void ROAD_split(SLONG n1, SLONG n2, SLONG splitx, SLONG splitz)
 // Adds a new road.
 //
 
-void ROAD_add(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+void ROAD_add(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
-	SLONG n1;
-	SLONG n2;
+	std::int32_t n1;
+	std::int32_t n2;
 
-	SLONG in1;
-	SLONG in2;
+	std::int32_t in1;
+	std::int32_t in2;
 
-	SLONG ix;
-	SLONG iz;
+	std::int32_t ix;
+	std::int32_t iz;
 
 	if (ROAD_node_upto >= ROAD_MAX_NODES - 4)
 	{
@@ -819,13 +819,13 @@ void ROAD_add(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 // Returns true if the given square lies along the middle of a road.
 //
 
-SLONG ROAD_is_middle(SLONG map_x, SLONG map_z)
+std::int32_t ROAD_is_middle(std::int32_t map_x, std::int32_t map_z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	if (!WITHIN(map_x, 2, PAP_SIZE_HI - 3) ||
 		!WITHIN(map_z, 2, PAP_SIZE_HI - 3))
@@ -863,7 +863,7 @@ SLONG ROAD_is_middle(SLONG map_x, SLONG map_z)
 }
 
 
-SLONG ROAD_is_end_of_the_line(SLONG n)
+std::int32_t ROAD_is_end_of_the_line(std::int32_t n)
 {
 	ROAD_Node *rn;
 
@@ -894,16 +894,16 @@ SLONG ROAD_is_end_of_the_line(SLONG n)
 #if !defined(PSX) && !defined(TARGET_DC)
 void ROAD_wander_calc()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG i;
-	SLONG onedge;
+	std::int32_t i;
+	std::int32_t onedge;
 
-	SLONG p1;
-	SLONG p2;
-	SLONG p1valid;
-	SLONG p2valid;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p1valid;
+	std::int32_t p2valid;
 
 	ROAD_Node *rn;
 
@@ -917,7 +917,7 @@ void ROAD_wander_calc()
 
 	ROAD_edge_upto = 0;
 
-	memset(ROAD_edge, 0, sizeof(UBYTE) * ROAD_MAX_EDGES);
+	memset(ROAD_edge, 0, sizeof(std::uint8_t) * ROAD_MAX_EDGES);
 
 	//
 	// Find all roads parallel to the z-axis.
@@ -1057,16 +1057,16 @@ void ROAD_wander_calc()
 #endif
 
 void ROAD_find_me_somewhere_to_appear(
-		SLONG *world_x,		// Current position on calling, new position on return.
-		SLONG *world_z,
-		SLONG *nrn1,		// The new road you are on.
-		SLONG *nrn2,
-		SLONG *nyaw)
+		std::int32_t *world_x,		// Current position on calling, new position on return.
+		std::int32_t *world_z,
+		std::int32_t *nrn1,		// The new road you are on.
+		std::int32_t *nrn2,
+		std::int32_t *nyaw)
 {
-	UBYTE i;
-	UBYTE e;
-	SLONG dx;
-	SLONG dz;
+	std::uint8_t i;
+	std::uint8_t e;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ROAD_Node *rn;
 
@@ -1197,16 +1197,16 @@ void ROAD_debug()
 {
 #if !defined(PSX) && !defined(TARGET_DC)
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG mx;
-	SLONG my;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t my;
+	std::int32_t mz;
 
 	ROAD_Node *rn;
 
@@ -1259,13 +1259,13 @@ void ROAD_debug()
 
 
 
-SLONG ROAD_signed_dist(
-		SLONG n1,
-		SLONG n2,
-		SLONG world_x,
-		SLONG world_z)
+std::int32_t ROAD_signed_dist(
+		std::int32_t n1,
+		std::int32_t n2,
+		std::int32_t world_x,
+		std::int32_t world_z)
 {
-	SLONG dist = 0x10000;	// Very far away... but not unreasonable.
+	std::int32_t dist = 0x10000;	// Very far away... but not unreasonable.
 
 	ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
 	ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
@@ -1275,8 +1275,8 @@ SLONG ROAD_signed_dist(
 
 	if (rn1->x == rn2->x)
 	{
-		SLONG minz = rn1->z;
-		SLONG maxz = rn2->z;
+		std::int32_t minz = rn1->z;
+		std::int32_t maxz = rn2->z;
 
 		if (minz > maxz) {SWAP(minz,maxz);}
 
@@ -1294,8 +1294,8 @@ SLONG ROAD_signed_dist(
 	{
 		ASSERT(rn1->z == rn2->z);
 
-		SLONG minx = rn1->x;
-		SLONG maxx = rn2->x;
+		std::int32_t minx = rn1->x;
+		std::int32_t maxx = rn2->x;
 
 		if (minx > maxx) {SWAP(minx,maxx);}
 
@@ -1316,22 +1316,22 @@ SLONG ROAD_signed_dist(
 
 
 void ROAD_find(
-		SLONG world_x,
-		SLONG world_z,
+		std::int32_t world_x,
+		std::int32_t world_z,
 
-		SLONG *n1,
-		SLONG *n2)
+		std::int32_t *n1,
+		std::int32_t *n2)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	ROAD_Node *rn;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG best_dist = INFINITY;
-	SLONG best_n1   = NULL;
-	SLONG best_n2   = NULL;
+	std::int32_t best_dist = INFINITY;
+	std::int32_t best_n1   = NULL;
+	std::int32_t best_n2   = NULL;
 
 	for (i = 1; i < ROAD_node_upto; i++)
 	{
@@ -1365,16 +1365,16 @@ void ROAD_find(
 
 
 void ROAD_whereto_now(
-		SLONG  n1,
-		SLONG  n2,
-		SLONG *wtn1,
-		SLONG *wtn2)
+		std::int32_t  n1,
+		std::int32_t  n2,
+		std::int32_t *wtn1,
+		std::int32_t *wtn2)
 {
-	SLONG i;
-	SLONG score;
+	std::int32_t i;
+	std::int32_t score;
 
-	SLONG best_node  = NULL;
-	SLONG best_score = 0;
+	std::int32_t best_node  = NULL;
+	std::int32_t best_score = 0;
 
 	ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
 	ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
@@ -1409,13 +1409,13 @@ void ROAD_whereto_now(
 
 
 void ROAD_get_dest(
-		SLONG  n1,
-		SLONG  n2,
-		SLONG *world_x,
-		SLONG *world_z)
+		std::int32_t  n1,
+		std::int32_t  n2,
+		std::int32_t *world_x,
+		std::int32_t *world_z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
 	ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
@@ -1441,22 +1441,22 @@ void ROAD_get_dest(
 // There are 512 textures on the map and 2 bits for each texture.
 // 
 
-UBYTE ROAD_mapsquare_type[512 / 4];
+std::uint8_t ROAD_mapsquare_type[512 / 4];
 
 #if !defined(PSX) && !defined(TARGET_DC)
 
 void ROAD_calc_mapsquare_type()
 {
-	SLONG mx;
-	SLONG mz;
-	SLONG page;
-	SLONG offset;
-	SLONG index;
-	SLONG look;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t page;
+	std::int32_t offset;
+	std::int32_t index;
+	std::int32_t look;
 
 	PAP_Hi *ph;
 
-	UBYTE done[512];
+	std::uint8_t done[512];
 
 	memset(done, 0, sizeof(done));
 
@@ -1524,12 +1524,12 @@ void ROAD_calc_mapsquare_type()
 
 #endif
 
-SLONG ROAD_get_mapsquare_type(SLONG mx, SLONG mz)
+std::int32_t ROAD_get_mapsquare_type(std::int32_t mx, std::int32_t mz)
 {
-	SLONG page;
-	SLONG look;
-	SLONG offset;
-	SLONG index;
+	std::int32_t page;
+	std::int32_t look;
+	std::int32_t offset;
+	std::int32_t index;
 
 	PAP_Hi *ph;
 

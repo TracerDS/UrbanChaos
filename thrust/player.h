@@ -30,22 +30,22 @@ typedef struct
 
 	#define PLAYER_NUM_KEYS 128		// Power of 2 please!
 
-	UBYTE key[PLAYER_NUM_KEYS];
+	std::uint8_t key[PLAYER_NUM_KEYS];
  
 	//
 	// This is the gameturn upto which we know for sure what
 	// the keys pressed down are for this player.
 	//
 
-	SLONG known;
+	std::int32_t known;
 
 } PLAYER_Key;
 
 #define PLAYER_MAX_PLAYERS SHIP_MAX_SHIPS
 
 extern PLAYER_Key PLAYER_key[PLAYER_MAX_PLAYERS];
-extern SLONG      PLAYER_key_start;		// The first valid gameturn
-extern SLONG      PLAYER_key_gameturn;	// The last valid gameturn
+extern std::int32_t      PLAYER_key_start;		// The first valid gameturn
+extern std::int32_t      PLAYER_key_gameturn;	// The last valid gameturn
 
 
 
@@ -57,7 +57,7 @@ typedef struct player_message
 {
 	union
 	{
-		UBYTE type;
+		std::uint8_t type;
 
 		SERVER_Block_new_player  new_player;
 		SERVER_Block_player_left player_left; 
@@ -70,8 +70,8 @@ typedef struct player_message
 #define PLAYER_NUM_MESSAGES PLAYER_NUM_KEYS
 
 extern PLAYER_Message *PLAYER_message[PLAYER_NUM_MESSAGES];
-extern SLONG           PLAYER_message_start;	// The first valid gameturn
-extern SLONG           PLAYER_message_gameturn;	// The last valid gameturn 
+extern std::int32_t           PLAYER_message_start;	// The first valid gameturn
+extern std::int32_t           PLAYER_message_gameturn;	// The last valid gameturn 
 
 
 //
@@ -82,7 +82,7 @@ extern SLONG           PLAYER_message_gameturn;	// The last valid gameturn
 
 typedef struct
 {
-	SLONG           gameturn; // The gameturn when this was the gamestate.
+	std::int32_t           gameturn; // The gameturn when this was the gamestate.
 	GAMESTATE_State gs;
 
 } PLAYER_Gamestate;
@@ -90,8 +90,8 @@ typedef struct
 #define PLAYER_NUM_GAMESTATES 128
 
 extern PLAYER_Gamestate PLAYER_gamestate[PLAYER_NUM_GAMESTATES];
-extern SLONG            PLAYER_gamestate_start;		// The first valid gameturn
-extern SLONG            PLAYER_gamestate_gameturn;	// The last valid gameturn 
+extern std::int32_t            PLAYER_gamestate_start;		// The first valid gameturn
+extern std::int32_t            PLAYER_gamestate_gameturn;	// The last valid gameturn 
 
 
 //
@@ -107,7 +107,7 @@ void PLAYER_init();
 // function so that the player module can store the gamestate.
 //
 
-void PLAYER_new_gameturn(SLONG gameturn);
+void PLAYER_new_gameturn(std::int32_t gameturn);
 
 
 
@@ -122,11 +122,11 @@ void PLAYER_new_gameturn(SLONG gameturn);
 #define PLAYER_CREATE_LOST_CONNECTION 1
 #define PLAYER_CREATE_TIMED_OUT       2
 
-SLONG PLAYER_create_local(
-		CBYTE* name,
-		UBYTE  red,
-		UBYTE  green,
-		UBYTE  blue,
+std::int32_t PLAYER_create_local(
+		char* name,
+		std::uint8_t  red,
+		std::uint8_t  green,
+		std::uint8_t  blue,
 		float  ship_mass  = 1.0F,
 		float  ship_power = 1.0F);
 
@@ -150,7 +150,7 @@ SLONG PLAYER_create_local(
 // server and just looks for local keypresses.
 //
 
-SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages);	// If (*rollback == 0) then no rollback occurred.
+std::int32_t PLAYER_process(std::int32_t *rollback, std::int32_t ignore_server_messages);	// If (*rollback == 0) then no rollback occurred.
 
 
 //
@@ -158,14 +158,14 @@ SLONG PLAYER_process(SLONG *rollback, SLONG ignore_server_messages);	// If (*rol
 // This function looks at the messages in the PLAYER_message[] queue.
 //
 
-void PLAYER_process_messages(SLONG gameturn);
+void PLAYER_process_messages(std::int32_t gameturn);
 
 
 //
 // Puts the keypresses for the given gameturn into the ships of each player.
 //
 
-void PLAYER_press_keys(SLONG gameturn);
+void PLAYER_press_keys(std::int32_t gameturn);
 
 
 

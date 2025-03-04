@@ -10,7 +10,7 @@
 #include	"prim.h"
 
 
-extern void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
+extern void	apply_light_to_map(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright);
 
 
 
@@ -26,9 +26,9 @@ extern void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
 struct	MapThing	map_things[MAX_MAP_THINGS];
 
 
-UWORD	find_empty_map_thing(void)
+std::uint16_t	find_empty_map_thing(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_MAP_THINGS;c0++)
 	{
 		if(map_things[c0].Type==0)
@@ -41,9 +41,9 @@ UWORD	find_empty_map_thing(void)
 	return(0);
 }
 
-UWORD	count_empty_map_things(void)
+std::uint16_t	count_empty_map_things(void)
 {
-	SLONG	c0,count=0;
+	std::int32_t	c0,count=0;
 	for(c0=1;c0<MAX_MAP_THINGS;c0++)
 	{
 		if(map_things[c0].Type==0)
@@ -55,7 +55,7 @@ UWORD	count_empty_map_things(void)
 }
 
 
-void	add_thing_to_edit_map(SLONG x,SLONG z,UWORD	thing)
+void	add_thing_to_edit_map(std::int32_t x,std::int32_t z,std::uint16_t	thing)
 {
 	if(x<0||x>=EDIT_MAP_WIDTH||z<0||z>=EDIT_MAP_DEPTH)
 	{
@@ -78,7 +78,7 @@ void	add_thing_to_edit_map(SLONG x,SLONG z,UWORD	thing)
 	}
 }
 
-void	delete_thing_from_edit_map(SLONG x,SLONG z,UWORD	thing)
+void	delete_thing_from_edit_map(std::int32_t x,std::int32_t z,std::uint16_t	thing)
 {
 	if(x<0||x>=EDIT_MAP_WIDTH||z<0||z>=EDIT_MAP_DEPTH)
 	{
@@ -107,7 +107,7 @@ void	delete_thing_from_edit_map(SLONG x,SLONG z,UWORD	thing)
 
 }
 
-SLONG	move_thing_on_cells(UWORD thing,SLONG x,SLONG y,SLONG z)
+std::int32_t	move_thing_on_cells(std::uint16_t thing,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	if( (x>>ELE_SHIFT) != (map_things[thing].X>>ELE_SHIFT)||	
 		(z>>ELE_SHIFT) != (map_things[thing].Z>>ELE_SHIFT) )
@@ -122,7 +122,7 @@ SLONG	move_thing_on_cells(UWORD thing,SLONG x,SLONG y,SLONG z)
 }
 
 
-void	delete_thing(SWORD index)
+void	delete_thing(std::int16_t index)
 {
 	struct	MapThing	*p_mthing;
 	p_mthing=TO_MTHING(index);

@@ -13,19 +13,19 @@
 
 
 
-extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect);         //prim.c??
+extern std::uint16_t	calc_lights(std::int32_t x,std::int32_t y,std::int32_t z,struct SVector *p_vect);         //prim.c??
 extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,struct  SMatrix31* mat2);
 
 #ifdef	EDITOR
-extern void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3);   //prim_edit.h
-extern void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2);             //prim_edit.h
-extern bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face); //edit.h
-extern bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face); //edit.h
+extern void	do_quad_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2,std::int32_t p3);   //prim_edit.h
+extern void	do_tri_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2);             //prim_edit.h
+extern bool	check_mouse_over_prim_quad(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,std::int32_t face); //edit.h
+extern bool	check_mouse_over_prim_tri(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t face); //edit.h
 extern struct SVector	selected_prim_xyz;
-extern SWORD	SelectFlag;
-extern SWORD	SelectDrawn;
+extern std::int16_t	SelectFlag;
+extern std::int16_t	SelectDrawn;
 #endif
 
 
@@ -37,9 +37,9 @@ extern SWORD	SelectDrawn;
 /*
 void	apply_matrix_to_vect(struct SVector *before,struct Matrix33	*matrix,struct SVector *result)
 {																			
-	SLONG	x,y,z;
-	SLONG	lcosa,lsina;
-	SLONG	lcost,lsint;
+	std::int32_t	x,y,z;
+	std::int32_t	lcosa,lsina;
+	std::int32_t	lcost,lsint;
 
 
 	matrix_transform(&result,matrix, &before);
@@ -51,10 +51,10 @@ void	apply_matrix_to_vect(struct SVector *before,struct Matrix33	*matrix,struct 
 }
 */
 
-void	add_quad_to_bucket(SLONG p0,SLONG p1,SLONG p2,SLONG p3,struct SVector *res,struct SVector *points,UWORD *bright,SLONG *flags,struct	PrimFace4 *p_f4)
+void	add_quad_to_bucket(std::int32_t p0,std::int32_t p1,std::int32_t p2,std::int32_t p3,struct SVector *res,struct SVector *points,std::uint16_t *bright,std::int32_t *flags,struct	PrimFace4 *p_f4)
 {
-	SLONG az;
-	ULONG	flag_and,flag_or;
+	std::int32_t az;
+	std::uint32_t	flag_and,flag_or;
 
 	points=points;
 
@@ -106,10 +106,10 @@ void	add_quad_to_bucket(SLONG p0,SLONG p1,SLONG p2,SLONG p3,struct SVector *res,
 	
 }	
 
-inline void	add_split_quad_to_bucket(SLONG p0,SLONG p1,SLONG p3,SLONG p2,struct SVector *info,struct SVector *res,SLONG *flags)
+inline void	add_split_quad_to_bucket(std::int32_t p0,std::int32_t p1,std::int32_t p3,std::int32_t p2,struct SVector *info,struct SVector *res,std::int32_t *flags)
 {
-	SLONG az;
-	ULONG	flag_and,flag_or;
+	std::int32_t az;
+	std::uint32_t	flag_and,flag_or;
 
 	if(current_bucket_pool>=end_bucket_pool)
 		return;
@@ -140,7 +140,7 @@ inline void	add_split_quad_to_bucket(SLONG p0,SLONG p1,SLONG p3,SLONG p2,struct 
 							info[p0].X,info[p0].Y,
 							info[p1].X,info[p1].Y,
 							info[p2].X,info[p2].Y,
-							info[p3].X,info[p3].Y,(SWORD)0
+							info[p3].X,info[p3].Y,(std::int16_t)0
 				);
 
 		setZ4((struct BucketQuad*)current_bucket_pool,-res[p0].Z,-res[p1].Z,-res[p2].Z,-res[p3].Z);
@@ -187,10 +187,10 @@ inline void	average_svect4(struct SVector *mid,struct SVector *p1,struct SVector
 */
 
 
-ULONG	should_i_split_it(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res)
+std::uint32_t	should_i_split_it(std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,struct SVector *res)
 {
-	SLONG	top,bottom;
-	SLONG	left,right;
+	std::int32_t	top,bottom;
+	std::int32_t	left,right;
 	top    = MIN( MIN( MIN(res[p1].Y,res[p2].Y),res[p3].Y ),res[p4].Y );
 	bottom = MAX( MAX( MAX(res[p1].Y,res[p2].Y),res[p3].Y ),res[p4].Y );
 
@@ -203,9 +203,9 @@ ULONG	should_i_split_it(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res)
 
 	
 }
-ULONG	check_flags(SLONG p1,SLONG p2,SLONG p3,SLONG p0,SLONG *flags)
+std::uint32_t	check_flags(std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p0,std::int32_t *flags)
 {
-	SLONG	flags_or;
+	std::int32_t	flags_or;
 
 	flags_or=flags[p0]|flags[p1]|flags[p2]|flags[p3];
 
@@ -218,12 +218,12 @@ ULONG	check_flags(SLONG p1,SLONG p2,SLONG p3,SLONG p0,SLONG *flags)
 	return(0);
 }
 
-void	split_quad_r(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res,struct SVector *points,UWORD *bright,SLONG *flags,struct	SVector *info,UWORD depth)
+void	split_quad_r(std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,struct SVector *res,struct SVector *points,std::uint16_t *bright,std::int32_t *flags,struct	SVector *info,std::uint16_t depth)
 {
 	struct	SVector	new_points[10],new_res[10],new_info[10];
 //	struct	PrimFace4	new_faces[10];
-	SLONG	new_flags[10];
-//	SWORD	new_bright[10];
+	std::int32_t	new_flags[10];
+//	std::int16_t	new_bright[10];
 
 	new_points[1]=points[p1]; 
 	new_points[2]=points[p2];  
@@ -308,12 +308,12 @@ void	split_quad_r(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res,struct
 }
 
 
-inline void	split_quad(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res,struct SVector *points,UWORD *bright,SLONG *flags,struct	PrimFace4 *p_f4,UWORD depth)
+inline void	split_quad(std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,struct SVector *res,struct SVector *points,std::uint16_t *bright,std::int32_t *flags,struct	PrimFace4 *p_f4,std::uint16_t depth)
 {
 	struct	SVector	new_points[10],new_res[10],new_info[10];
 //	struct	PrimFace4	new_faces[10];
-	SLONG	new_flags[10];
-//	SWORD	new_bright[10];
+	std::int32_t	new_flags[10];
+//	std::int16_t	new_bright[10];
 
 
 	new_points[1]=points[p1]; 
@@ -408,18 +408,18 @@ inline void	split_quad(SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct SVector *res,s
 //	add_quad_to_bucket(p0,p1,p2,p3,res,points,bright,flags,p_f4);
 }
 
-extern UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3);
+extern std::uint16_t	is_it_clockwise(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3);
 
-void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
+void	draw_a_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::uint8_t shade)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	ULONG	flag_and,flag_or;
-	SLONG	c0;
+	std::uint32_t	flag_and,flag_or;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG az;
-	SLONG col=0,cor=0,cob=0,cot=0,total=0;
+	std::int32_t	sp,ep;
+	std::int32_t az;
+	std::int32_t col=0,cor=0,cob=0,cot=0,total=0;
 
 
 	p_obj    =	&prim_objects[prim];
@@ -451,8 +451,8 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 	if(p_obj->EndFace4)
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
-		UWORD	depth;
+		std::int32_t	p0,p1,p2,p3;
+		std::uint16_t	depth;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			goto	exit;
@@ -483,7 +483,7 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 /*
 			if(c0==28334)
 			{
-				CBYTE	str[100];
+				char	str[100];
 				sprintf(str," f0 %x f1 %x f2 %x f3 %x \n",global_flags[p0],global_flags[p1],global_flags[p2],global_flags[p3]);
 				QuickText(10,10,str,255);
 				
@@ -500,7 +500,7 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 				
 				if( (!(flag_and & EF_CLIPFLAGS))&&((flag_or&EF_BEHIND_YOU)==0))
 				{
-					SLONG	wid,height;
+					std::int32_t	wid,height;
 					total++;
 //					az=(global_res[p0].Z+global_res[p1].Z+global_res[p2].Z+global_res[p3].Z)>>2;
 					az=global_res[p0].Z;
@@ -546,7 +546,7 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 					if(p_f4->FaceFlags&FACE_FLAG_ANIMATE)
 					{
 						struct	AnimTmap	*p_a;
-						SLONG	cur;
+						std::int32_t	cur;
 						p_a=&anim_tmaps[p_f4->TexturePage];
 						cur=p_a->Current;
 
@@ -630,7 +630,7 @@ void	draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 	if(p_obj->EndFace3)
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 				goto	exit;
@@ -740,18 +740,18 @@ exit:;
 
 }
 
-void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	PrimMultiAnim *anim_info,struct Matrix33 *rot_mat)
+void	draw_a_rot_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct	PrimMultiAnim *anim_info,struct Matrix33 *rot_mat)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	ULONG	flag_and,flag_or;
+	std::uint32_t	flag_and,flag_or;
 	struct	SVector			temp; //max points per object?
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG az;
+	std::int32_t	sp,ep;
+	std::int32_t az;
 	struct	Matrix33 *mat,*mat_next,mat2,mat_final;
-	SLONG	i,j;
+	std::int32_t	i,j;
 	struct	PrimMultiAnim *anim_info_next;
 	struct	Matrix31	offset;
 
@@ -822,7 +822,7 @@ void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	Pr
 
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			return;
@@ -872,7 +872,7 @@ void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	Pr
 
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			return;
@@ -910,29 +910,29 @@ void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	Pr
 	}
 					
 }
-extern void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
+extern void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween);
 
-void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
+void	draw_anim_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	SLONG	flags[1560];
-	UWORD	bright[1560];
-	ULONG	flag_and,flag_or;
+	std::int32_t	flags[1560];
+	std::uint16_t	bright[1560];
+	std::uint32_t	flag_and,flag_or;
 	struct	SVector			res[1560],temp; //max points per object?
 	struct	SVector			res_shadow[1560],temp_shadow; //max points per object?
-	SLONG	flags_shadow[1560];
-	SLONG	c0;
+	std::int32_t	flags_shadow[1560];
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG az;
+	std::int32_t	sp,ep;
+	std::int32_t az;
 	struct	Matrix33 *mat,*mat_next,mat2,mat_final;
-	SLONG	i,j;
+	std::int32_t	i,j;
 	struct	Matrix31	offset;
 	struct	GameKeyFrame	*the_keyframe1,*the_keyframe2;
-	SLONG	dx,dy,dz;
-	SLONG	shadow=1;
-	SLONG	mapx,mapy,mapz;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	shadow=1;
+	std::int32_t	mapx,mapy,mapz;
 
 	p_obj    =&prim_objects[prim];
 	p_f4     =&prim_faces4[p_obj->StartFace4];
@@ -1002,7 +1002,7 @@ void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			return;
@@ -1070,7 +1070,7 @@ void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			return;
@@ -1178,9 +1178,9 @@ void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct 
 }
 
 
-void	draw_a_multi_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z)
+void	draw_a_multi_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=prim_multi_objects[prim].StartObject;c0<prim_multi_objects[prim].EndObject;c0++)
 	{

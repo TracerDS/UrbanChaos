@@ -3,7 +3,7 @@
 //
 //  PQ_Type	(typedef)
 //	PQ_HEAP_MAX_SIZE
-//  SLONG PQ_better(PQ_Type *a, PQ_Type *b);
+//  std::int32_t PQ_better(PQ_Type *a, PQ_Type *b);
 //
 
 #define PQ_BETTER(x,y) (PQ_better(&PQ_heap[x],&PQ_heap[y]))
@@ -24,7 +24,7 @@
 // We don't use PQ_heap[0] ... PQ_heap_end points at the current last heap element.
 
 static PQ_Type PQ_heap[PQ_HEAP_MAX_SIZE + 1];
-static SLONG   PQ_heap_end;
+static std::int32_t   PQ_heap_end;
 
 //----------------------------------------------------------------------------
 static void PQ_init()
@@ -41,7 +41,7 @@ static PQ_Type PQ_best()
 
 
 //----------------------------------------------------------------------------
-static SLONG   PQ_empty ()
+static std::int32_t   PQ_empty ()
 {
 	return PQ_heap_end == 0;
 }
@@ -50,7 +50,7 @@ static SLONG   PQ_empty ()
 
 static void PQ_add(PQ_Type newh)
 {
-	SLONG	i, best, mum;
+	std::int32_t	i, best, mum;
 	PQ_Type	spare;
 	
 	if (PQ_heap_end < PQ_HEAP_MAX_SIZE)
@@ -101,7 +101,7 @@ static void PQ_add(PQ_Type newh)
 //----------------------------------------------------------------------------
 static void PQ_remove()
 {
-	SLONG i = 1, best;
+	std::int32_t i = 1, best;
 	PQ_Type spare;
 
 	PQ_heap[1] = PQ_heap[PQ_heap_end];

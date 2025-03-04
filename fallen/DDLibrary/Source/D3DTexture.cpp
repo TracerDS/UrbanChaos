@@ -20,7 +20,7 @@
 static D3DTexture*				EmbedSource = nullptr;
 static LPDIRECTDRAWSURFACE4		EmbedSurface = nullptr;
 static LPDIRECT3DTEXTURE2		EmbedTexture = nullptr;
-static UBYTE					EmbedOffset = 0;
+static std::uint8_t					EmbedOffset = 0;
 #endif
 
 
@@ -31,11 +31,11 @@ void* pvFastLoadBuffer = nullptr;
 
 inline void* GetMeAFastLoadBufferAtLeastThisBigPlease ( DWORD dwSize )
 {
-	if ( dwSizeOfFastLoadBuffer < dwSize )
+	if (dwSizeOfFastLoadBuffer < dwSize)
 	{
-		if ( pvFastLoadBuffer != nullptr )
+		if (pvFastLoadBuffer)
 		{
-			VirtualFree ( pvFastLoadBuffer, nullptr, MEM_RELEASE );
+			VirtualFree(pvFastLoadBuffer, 0, MEM_RELEASE);
 		}
 		// Grow slightly more than needed to prevent hammering.
 		dwSizeOfFastLoadBuffer = ( dwSize * 5 / 4 + 1024 );
@@ -50,15 +50,15 @@ inline void* GetMeAFastLoadBufferAtLeastThisBigPlease ( DWORD dwSize )
 	return ( pvFastLoadBuffer );
 }
 
-void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit ( void )
+void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit()
 {
-	if ( pvFastLoadBuffer != nullptr )
-	{
-		TRACE ( "Freeing FastLoad buffer\n" );
-		VirtualFree ( pvFastLoadBuffer, nullptr, MEM_RELEASE );
-		pvFastLoadBuffer = nullptr;
-		dwSizeOfFastLoadBuffer = 0;
-	}
+	if (!pvFastLoadBuffer)
+		return;
+
+	TRACE ( "Freeing FastLoad buffer\n" );
+	VirtualFree ( pvFastLoadBuffer, 0, MEM_RELEASE );
+	pvFastLoadBuffer = nullptr;
+	dwSizeOfFastLoadBuffer = 0;
 }
 
 inline void* FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
@@ -96,7 +96,7 @@ void FreeAllD3DPages ( void )
 
 void D3DTexture::BeginLoading()
 {
-	SLONG first_time = true;
+	std::int32_t first_time = true;
 
 #ifdef TEX_EMBED
 	EmbedSource = nullptr;
@@ -178,7 +178,7 @@ void D3DTexture::GetTexOffsetAndScale ( float *pfUScale, float *pfUOffset, float
 }
 #endif //#ifdef TEX_EMBED
 
-HRESULT	D3DTexture::ChangeTextureTGA(CBYTE* tga_file) {
+HRESULT	D3DTexture::ChangeTextureTGA(char* tga_file) {
 
 	if (Type != D3DTEXTURE_TYPE_UNUSED)
 	{
@@ -194,7 +194,7 @@ HRESULT	D3DTexture::ChangeTextureTGA(CBYTE* tga_file) {
 	return	DDERR_GENERIC;
 }
 
-HRESULT	D3DTexture::LoadTextureTGA(CBYTE* tga_file, ULONG id,bool bCanShrink)
+HRESULT	D3DTexture::LoadTextureTGA(char* tga_file, std::uint32_t id,bool bCanShrink)
 {
 	HRESULT		result;
 
@@ -241,7 +241,7 @@ HRESULT	D3DTexture::LoadTextureTGA(CBYTE* tga_file, ULONG id,bool bCanShrink)
 	return	DD_OK;
 }
 
-HRESULT D3DTexture::CreateUserPage(SLONG texture_size, bool i_want_an_alpha_channel)
+HRESULT D3DTexture::CreateUserPage(std::int32_t texture_size, bool i_want_an_alpha_channel)
 {
 	HRESULT result;
 
@@ -290,14 +290,14 @@ HRESULT D3DTexture::CreateUserPage(SLONG texture_size, bool i_want_an_alpha_chan
 //
 
 void OS_calculate_mask_and_shift(
-		ULONG  bitmask,
-		SLONG *mask,
-		SLONG *shift)
+		std::uint32_t  bitmask,
+		std::int32_t *mask,
+		std::int32_t *shift)
 {
-	SLONG i;
-	SLONG b;
-	SLONG num_bits  =  0;
-	SLONG first_bit = -1;
+	std::int32_t i;
+	std::int32_t b;
+	std::int32_t num_bits  =  0;
+	std::int32_t first_bit = -1;
 
 	for (i = 0, b = 1; i < 32; i++, b <<= 1)
 	{
@@ -333,13 +333,13 @@ void OS_calculate_mask_and_shift(
 	}
 }
 
-HRESULT D3DTexture::Reload_TGA(void)
+HRESULT D3DTexture::Reload_TGA()
 {
 	D3DDeviceInfo *current_device;
 
 	DDModeInfo *mi;
 
-	//SLONG bpp;
+	//std::int32_t bpp;
 
 	DDSURFACEDESC2			dd_sd;
 
@@ -440,8 +440,8 @@ HRESULT D3DTexture::Reload_TGA(void)
 	// Use the best texture format.
 	// 
 
-	SLONG dwMaskR, dwMaskG, dwMaskB, dwMaskA;
-	SLONG dwShiftR, dwShiftG, dwShiftB, dwShiftA;
+	std::int32_t dwMaskR, dwMaskG, dwMaskB, dwMaskA;
+	std::int32_t dwShiftR, dwShiftG, dwShiftB, dwShiftA;
 
 	OS_calculate_mask_and_shift(mi->ddSurfDesc.ddpfPixelFormat.dwRBitMask, &dwMaskR, &dwShiftR );
 	OS_calculate_mask_and_shift(mi->ddSurfDesc.ddpfPixelFormat.dwGBitMask, &dwMaskG, &dwShiftG );
@@ -451,14 +451,14 @@ HRESULT D3DTexture::Reload_TGA(void)
 	{
 		OS_calculate_mask_and_shift(mi->ddSurfDesc.ddpfPixelFormat.dwRGBAlphaBitMask, &dwMaskA, &dwShiftA);
 	}
-	mask_red = (UBYTE)dwMaskR;
-	mask_green = (UBYTE)dwMaskG;
-	mask_blue = (UBYTE)dwMaskB;
-	mask_alpha = (UBYTE)dwMaskA;
-	shift_red = (UBYTE)dwShiftR;
-	shift_green = (UBYTE)dwShiftG;
-	shift_blue = (UBYTE)dwShiftB;
-	shift_alpha = (UBYTE)dwShiftA;
+	mask_red = (std::uint8_t)dwMaskR;
+	mask_green = (std::uint8_t)dwMaskG;
+	mask_blue = (std::uint8_t)dwMaskB;
+	mask_alpha = (std::uint8_t)dwMaskA;
+	shift_red = (std::uint8_t)dwShiftR;
+	shift_green = (std::uint8_t)dwShiftG;
+	shift_blue = (std::uint8_t)dwShiftB;
+	shift_alpha = (std::uint8_t)dwShiftA;
 
 	//
 	// Get rid of the old texture stuff.
@@ -472,7 +472,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 		CreateFonts(&ti,tga);
 
 		//	Change the outline colour to black.
-		SLONG		size	=	(ti.width*ti.height);
+		std::int32_t		size	=	(ti.width*ti.height);
 
 		while(size--)
 		{
@@ -494,7 +494,7 @@ HRESULT D3DTexture::Reload_TGA(void)
 	// WITHOUT AFFECTING BLACK'S ALPHA-CHANNELS. ATF.
 	if (IsFont2())
 	{
-		SLONG	size = (ti.width * ti.height);
+		std::int32_t	size = (ti.width * ti.height);
 
 		while (size--)
 		{
@@ -550,18 +550,18 @@ HRESULT D3DTexture::Reload_TGA(void)
 	//
 
 	{
-		UWORD *wscreenw = (UWORD *) dd_sd.lpSurface;
-		ULONG *wscreenl = (ULONG *) dd_sd.lpSurface;
+		std::uint16_t *wscreenw = (std::uint16_t *) dd_sd.lpSurface;
+		std::uint32_t *wscreenl = (std::uint32_t *) dd_sd.lpSurface;
 
-		SLONG i;
-		SLONG j;
-		ULONG pixel;
+		std::int32_t i;
+		std::int32_t j;
+		std::uint32_t pixel;
 
-		SLONG red;
-		SLONG green;
-		SLONG blue;
+		std::int32_t red;
+		std::int32_t green;
+		std::int32_t blue;
 
-		SLONG bright;
+		std::int32_t bright;
 
 		for (j = 0; j < ti.height; j++)
 		for (i = 0; i < ti.width;  i++)
@@ -693,22 +693,22 @@ HRESULT D3DTexture::Reload_user()
 {
 	D3DDeviceInfo *current_device;
 
-	SLONG       score;
+	std::int32_t       score;
 	DDModeInfo *mi;
-	SLONG       best_score;
+	std::int32_t       best_score;
 	DDModeInfo *best_mi;
 
-	//SLONG bpp;
+	//std::int32_t bpp;
 
-	SLONG try_shift_alpha;
-	SLONG try_shift_red;
-	SLONG try_shift_green;
-	SLONG try_shift_blue;
+	std::int32_t try_shift_alpha;
+	std::int32_t try_shift_red;
+	std::int32_t try_shift_green;
+	std::int32_t try_shift_blue;
 		  
-	SLONG try_mask_alpha;
-	SLONG try_mask_red;
-	SLONG try_mask_green;
-	SLONG try_mask_blue;
+	std::int32_t try_mask_alpha;
+	std::int32_t try_mask_red;
+	std::int32_t try_mask_green;
+	std::int32_t try_mask_blue;
 
 	DDSURFACEDESC2 dd_sd;
 	HRESULT        result;
@@ -815,8 +815,8 @@ HRESULT D3DTexture::Reload_user()
 
 	mi = best_mi;
 
-	SLONG dwMaskR, dwMaskG, dwMaskB, dwMaskA;
-	SLONG dwShiftR, dwShiftG, dwShiftB, dwShiftA;
+	std::int32_t dwMaskR, dwMaskG, dwMaskB, dwMaskA;
+	std::int32_t dwShiftR, dwShiftG, dwShiftB, dwShiftA;
 
 	OS_calculate_mask_and_shift(mi->ddSurfDesc.ddpfPixelFormat.dwRBitMask, &dwMaskR, &dwShiftR );
 	OS_calculate_mask_and_shift(mi->ddSurfDesc.ddpfPixelFormat.dwGBitMask, &dwMaskG, &dwShiftG );
@@ -831,14 +831,14 @@ HRESULT D3DTexture::Reload_user()
 		dwMaskA = 0;
 		dwShiftA = 0;
 	}
-	mask_red = (UBYTE)dwMaskR;
-	mask_green = (UBYTE)dwMaskG;
-	mask_blue = (UBYTE)dwMaskB;
-	mask_alpha = (UBYTE)dwMaskA;
-	shift_red = (UBYTE)dwShiftR;
-	shift_green = (UBYTE)dwShiftG;
-	shift_blue = (UBYTE)dwShiftB;
-	shift_alpha = (UBYTE)dwShiftA;
+	mask_red = (std::uint8_t)dwMaskR;
+	mask_green = (std::uint8_t)dwMaskG;
+	mask_blue = (std::uint8_t)dwMaskB;
+	mask_alpha = (std::uint8_t)dwMaskA;
+	shift_red = (std::uint8_t)dwShiftR;
+	shift_green = (std::uint8_t)dwShiftG;
+	shift_blue = (std::uint8_t)dwShiftB;
+	shift_alpha = (std::uint8_t)dwShiftA;
 
 	//
 	// Get rid of the old texture stuff.
@@ -889,7 +889,7 @@ HRESULT D3DTexture::Reload_user()
 	return	DD_OK;
 }
 
-HRESULT D3DTexture::LockUser(UWORD **bitmap, SLONG *pitch)
+HRESULT D3DTexture::LockUser(std::uint16_t **bitmap, std::int32_t *pitch)
 {
 	DDSURFACEDESC2 dd_sd;
 
@@ -903,7 +903,7 @@ HRESULT D3DTexture::LockUser(UWORD **bitmap, SLONG *pitch)
 	}
 	else
 	{
-		*bitmap = (UWORD *) dd_sd.lpSurface;
+		*bitmap = (std::uint16_t *) dd_sd.lpSurface;
 		*pitch  = dd_sd.lPitch;
 
 		return DD_OK;
@@ -917,7 +917,7 @@ void D3DTexture::UnlockUser()
    	VERIFY(SUCCEEDED(lp_Surface->Unlock(nullptr)));
 }
 
-HRESULT D3DTexture::Reload(void)
+HRESULT D3DTexture::Reload()
 {
 	Font		*current_font,
 				*next_font;
@@ -963,7 +963,7 @@ HRESULT D3DTexture::Reload(void)
 	return ans;
 }
 
-HRESULT	D3DTexture::Destroy(void)
+HRESULT	D3DTexture::Destroy()
 {
 	int a = 0, b = 0, c = 0, d = 0;
 
@@ -1008,7 +1008,7 @@ HRESULT	D3DTexture::Destroy(void)
 
 #define	MATCH_TGA_PIXELS(p1,p2)		((p1)->red==(p2)->red&&(p1)->green==(p2)->green&&(p1)->blue==(p2)->blue)
 
-bool	scan_for_baseline(TGA_Pixel **line_ptr,TGA_Pixel *underline,TGA_Info *info,SLONG *y_ptr)
+bool	scan_for_baseline(TGA_Pixel **line_ptr,TGA_Pixel *underline,TGA_Info *info,std::int32_t *y_ptr)
 {
 	while(*y_ptr<info->height)
 	{
@@ -1028,7 +1028,7 @@ bool	scan_for_baseline(TGA_Pixel **line_ptr,TGA_Pixel *underline,TGA_Info *info,
 
 HRESULT	D3DTexture::CreateFonts(TGA_Info *tga_info,TGA_Pixel *tga_data)
 {
-	SLONG		current_char,
+	std::int32_t		current_char,
 				char_x,char_y,
 				char_height,char_width,
 				tallest_char;
@@ -1131,7 +1131,7 @@ map_font:
 	return	DD_OK;
 }
 
-Font *D3DTexture::GetFont(SLONG id)
+Font *D3DTexture::GetFont(std::int32_t id)
 {
 	Font		*current_font;
 

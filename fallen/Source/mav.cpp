@@ -31,22 +31,22 @@
 //
 
 MAV_Opt *MAV_opt;
-SLONG MAV_opt_upto;
+std::int32_t MAV_opt_upto;
 
 
 //
 // How you can move out of each square.
 //
 
-UWORD *MAV_nav;
-SLONG MAV_nav_pitch = 128;
+std::uint16_t *MAV_nav;
+std::int32_t MAV_nav_pitch = 128;
 
 
 
 
 void MAV_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAV_nav_pitch = 128;
 	MAV_opt_upto  = 0;
@@ -73,9 +73,9 @@ void MAV_init()
 	MAV_opt_upto = 16;
 }
 
-static void StoreMavOpts(SLONG x, SLONG z, UBYTE* opt)
+static void StoreMavOpts(std::int32_t x, std::int32_t z, std::uint8_t* opt)
 {
-	for (SLONG ii = 0; ii < MAV_opt_upto; ii++)
+	for (std::int32_t ii = 0; ii < MAV_opt_upto; ii++)
 	{
 		if ((MAV_opt[ii].opt[0] == opt[0]) &&
 			(MAV_opt[ii].opt[1] == opt[1]) &&
@@ -109,23 +109,23 @@ static void StoreMavOpts(SLONG x, SLONG z, UBYTE* opt)
 // Calculates the MAV_height array.
 //
 #ifndef	PSX
-void MAV_calc_height_array(SLONG ignore_warehouses)
+void MAV_calc_height_array(std::int32_t ignore_warehouses)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG index;
-	SLONG face;
-	SLONG faceheight;
+	std::int32_t index;
+	std::int32_t face;
+	std::int32_t faceheight;
 
-	SLONG height;
-	SLONG walk;
+	std::int32_t height;
+	std::int32_t walk;
 
 	DBuilding *db;
 	PrimFace4 *p_f4;
@@ -163,7 +163,7 @@ void MAV_calc_height_array(SLONG ignore_warehouses)
 			height = PAP_calc_height_at(mx, mz);
 
 			//
-			// Convert to the SBYTE coordinate system in the MAV_height array.
+			// Convert to the std::int8_t coordinate system in the MAV_height array.
 			//
 
 			height /= 0x40;
@@ -272,7 +272,7 @@ void MAV_calc_height_array(SLONG ignore_warehouses)
 					{
 
 						//
-						// Convert to the SBYTE coordinate system in the MAV_height array.
+						// Convert to the std::int8_t coordinate system in the MAV_height array.
 						//
 
 						height /= 0x40;
@@ -321,16 +321,16 @@ void MAV_calc_height_array(SLONG ignore_warehouses)
 //
 #ifndef	PSX
 void MAV_turn_off_square(
-		SLONG x,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -340,13 +340,13 @@ void MAV_turn_off_square(
 		{0, +1}
 	};
 
-	UBYTE opt[4];
+	std::uint8_t opt[4];
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	for (i = 0; i < 4; i++)
 	{
@@ -377,16 +377,16 @@ void MAV_turn_off_square(
 // 
 
 void MAV_turn_off_whole_square(
-		SLONG x,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -396,13 +396,13 @@ void MAV_turn_off_whole_square(
 		{0, +1}
 	};
 
-	UBYTE opt[4];
+	std::uint8_t opt[4];
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	for (i = 0; i < 4; i++)
 	{
@@ -431,16 +431,16 @@ void MAV_turn_off_whole_square(
 // 
 
 void MAV_turn_off_whole_square_car(
-		SLONG x,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -450,13 +450,13 @@ void MAV_turn_off_whole_square_car(
 		{0, +1}
 	};
 
-	UBYTE opt[4];
+	std::uint8_t opt[4];
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	for (i = 0; i < 4; i++)
 	{
@@ -466,7 +466,7 @@ void MAV_turn_off_whole_square_car(
 		if (WITHIN(mx, 0, MAP_WIDTH  - 1) &&
 			WITHIN(mz, 0, MAP_HEIGHT - 1))
 		{
-			UBYTE	caropt = MAV_CAR(mx, mz);
+			std::uint8_t	caropt = MAV_CAR(mx, mz);
 
 			caropt &= ~(1 << i);
 
@@ -479,15 +479,15 @@ void MAV_turn_off_whole_square_car(
 // cut off a facet from the car mav
 //
 
-void MAV_remove_facet_car(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+void MAV_remove_facet_car(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
 	if (x1 == x2)
 	{
 		if (z1 > z2)	SWAP(z1,z2);
 
-		for (SLONG z = z1; z < z2; z++)
+		for (std::int32_t z = z1; z < z2; z++)
 		{
-			UBYTE	caropt;
+			std::uint8_t	caropt;
 
 			if (x1 > 0)
 			{
@@ -508,9 +508,9 @@ void MAV_remove_facet_car(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 		ASSERT(z1 == z2);
 		if (x1 > x2)	SWAP(x1,x2);
 
-		for (SLONG x = x1; x < x2; x++)
+		for (std::int32_t x = x1; x < x2; x++)
 		{
-			UBYTE	caropt;
+			std::uint8_t	caropt;
 
 			if (z1 > 0)
 			{
@@ -534,10 +534,10 @@ void MAV_remove_facet_car(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 // Turns off movement in the given direction from the square.
 //
 
-void MAV_turn_movement_off(UBYTE mx, UBYTE mz, UBYTE dir)
+void MAV_turn_movement_off(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir)
 {
-	SLONG   j;
-	SLONG   mo_index;
+	std::int32_t   j;
+	std::int32_t   mo_index;
 	MAV_Opt mo;
 
 	mo_index = MAV_NAV(mx,mz);
@@ -556,10 +556,10 @@ void MAV_turn_movement_off(UBYTE mx, UBYTE mz, UBYTE dir)
 // Turns on movement in the given direction from the square.
 //
 
-void MAV_turn_movement_on(UBYTE mx, UBYTE mz, UBYTE dir)
+void MAV_turn_movement_on(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir)
 {
-	SLONG   j;
-	SLONG   mo_index;
+	std::int32_t   j;
+	std::int32_t   mo_index;
 	MAV_Opt mo;
 
 	mo_index = MAV_NAV(mx,mz);
@@ -579,46 +579,46 @@ void MAV_turn_movement_on(UBYTE mx, UBYTE mz, UBYTE dir)
 #ifndef TARGET_DC
 void MAV_precalculate()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 	
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG tx;
-	SLONG tz;
+	std::int32_t tx;
+	std::int32_t tz;
 
-	SLONG rx;
-	SLONG rz;
+	std::int32_t rx;
+	std::int32_t rz;
 
-	SLONG dh;
+	std::int32_t dh;
 
-	SLONG useangle;
-	SLONG matrix[4];
-	SLONG ladder;
+	std::int32_t useangle;
+	std::int32_t matrix[4];
+	std::int32_t ladder;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
-	SLONG both_ground;
+	std::int32_t both_ground;
 
 	OB_Info *oi;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -628,7 +628,7 @@ void MAV_precalculate()
 		{0, +1}
 	};
 
-	UBYTE opt[4];
+	std::uint8_t opt[4];
 
 	//
 	// Calculates the MAV_height array including warehouses.
@@ -659,20 +659,20 @@ void MAV_precalculate()
 
 					PrimInfo *pi = get_prim_info(oi->prim);
 
-					SLONG mx = pi->minx + pi->maxx >> 1;
-					SLONG mz = pi->minz + pi->maxz >> 1;
+					std::int32_t mx = pi->minx + pi->maxx >> 1;
+					std::int32_t mz = pi->minz + pi->maxz >> 1;
 
-					SLONG matrix[4];
-					SLONG useangle;
+					std::int32_t matrix[4];
+					std::int32_t useangle;
 
-					SLONG sin_yaw;
-					SLONG cos_yaw;
+					std::int32_t sin_yaw;
+					std::int32_t cos_yaw;
 
-					SLONG rx;
-					SLONG rz;
+					std::int32_t rx;
+					std::int32_t rz;
 
-					SLONG sx;
-					SLONG sz;
+					std::int32_t sx;
+					std::int32_t sz;
 
 					useangle  = -oi->yaw;
 					useangle &=  2047;
@@ -717,7 +717,7 @@ void MAV_precalculate()
 					(z << 8) + 0x80,
 					0x100);
 
-		UBYTE	caropts = 0;	// car opts
+		std::uint8_t	caropts = 0;	// car opts
 
 		for (i = 0; i < 4; i++)
 		{
@@ -827,10 +827,10 @@ void MAV_precalculate()
 							// We can pull ourselves up as long as there isn't a fence in the way.
 							//
 
-							SLONG fx1;
-							SLONG fz1;
-							SLONG fx2;
-							SLONG fz2;
+							std::int32_t fx1;
+							std::int32_t fz1;
+							std::int32_t fx2;
+							std::int32_t fz2;
 
 							fx1 = (x << 8) + 0x80 + (dx << 7) - (dz << 7);
 							fz1 = (z << 8) + 0x80 + (dz << 7) + (dx << 7);
@@ -1072,20 +1072,20 @@ void MAV_precalculate()
 
 					PrimInfo *pi = get_prim_info(oi->prim);
 
-					SLONG mx = pi->minx + pi->maxx >> 1;
-					SLONG mz = pi->minz + pi->maxz >> 1;
+					std::int32_t mx = pi->minx + pi->maxx >> 1;
+					std::int32_t mz = pi->minz + pi->maxz >> 1;
 
-					SLONG matrix[4];
-					SLONG useangle;
+					std::int32_t matrix[4];
+					std::int32_t useangle;
 
-					SLONG sin_yaw;
-					SLONG cos_yaw;
+					std::int32_t sin_yaw;
+					std::int32_t cos_yaw;
 
-					SLONG rx;
-					SLONG rz;
+					std::int32_t rx;
+					std::int32_t rz;
 
-					SLONG sx;
-					SLONG sz;
+					std::int32_t sx;
+					std::int32_t sz;
 
 					useangle  = -oi->yaw;
 					useangle &=  2047;
@@ -1205,16 +1205,16 @@ void MAV_precalculate()
 				// are covered by the skylight.
 				//
 
-				SLONG useangle;
+				std::int32_t useangle;
 
 				useangle  = oi->yaw + 1024;
 				useangle &= 2047;
 
-				SLONG mx = oi->x >> 8;
-				SLONG mz = oi->z >> 8;
+				std::int32_t mx = oi->x >> 8;
+				std::int32_t mz = oi->z >> 8;
 
-				SLONG rx = mx + SIGN(SIN(useangle) >> 14);
-				SLONG rz = mz + SIGN(COS(useangle) >> 14);
+				std::int32_t rx = mx + SIGN(SIN(useangle) >> 14);
+				std::int32_t rz = mz + SIGN(COS(useangle) >> 14);
 
 				WALKABLE_remove_rface(mx,mz);
 				WALKABLE_remove_rface(rx,rz);
@@ -1227,21 +1227,21 @@ void MAV_precalculate()
 				// are covered by it.
 				//
 
-				SLONG i;
-				SLONG j;
-				SLONG useangle;
+				std::int32_t i;
+				std::int32_t j;
+				std::int32_t useangle;
 
 				useangle  = oi->yaw + 1024;
 				useangle &= 2047;
 
-				SLONG mx = oi->x;
-				SLONG mz = oi->z;
+				std::int32_t mx = oi->x;
+				std::int32_t mz = oi->z;
 
-				SLONG rx = SIN(useangle) >> 8;
-				SLONG rz = COS(useangle) >> 8;
+				std::int32_t rx = SIN(useangle) >> 8;
+				std::int32_t rz = COS(useangle) >> 8;
 
-				SLONG sx;
-				SLONG sz;
+				std::int32_t sx;
+				std::int32_t sz;
 
 				for (i = -1; i <= 1; i += 1)
 				for (j = -1; j <= 1; j += 2)
@@ -1267,16 +1267,16 @@ void MAV_precalculate()
 	}
 
 	{
-		extern SLONG PAP_on_slope(SLONG x,SLONG z,SLONG *angle);
+		extern std::int32_t PAP_on_slope(std::int32_t x,std::int32_t z,std::int32_t *angle);
 
 		//
 		// Take all slippy squares out of the mav.
 		//
 
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 
-		SLONG angle;
+		std::int32_t angle;
 
 		for (mx = 0; mx < PAP_SIZE_HI; mx++)
 		for (mz = 0; mz < PAP_SIZE_HI; mz++)
@@ -1302,10 +1302,10 @@ void MAV_precalculate()
 
 	// remove NOGO sqaures from the car map
 	{
-		SLONG	mx;
-		SLONG	mz;
+		std::int32_t	mx;
+		std::int32_t	mz;
 
-		SLONG	angle;
+		std::int32_t	angle;
 
 		for (mx = 0; mx < PAP_SIZE_HI; mx++)
 		for (mz = 0; mz < PAP_SIZE_HI; mz++)
@@ -1417,10 +1417,10 @@ void MAV_precalculate()
 	//
 
 	{
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 
-		SLONG page;
+		std::int32_t page;
 
 		for (mx = 0; mx < PAP_SIZE_HI; mx++)
 		for (mz = 0; mz < PAP_SIZE_HI; mz++)
@@ -1446,37 +1446,37 @@ void MAV_precalculate()
 }
 
 void MAV_draw(
-		SLONG sx1, SLONG sz1,
-		SLONG sx2, SLONG sz2)
+		std::int32_t sx1, std::int32_t sz1,
+		std::int32_t sx2, std::int32_t sz2)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG lx;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t lz;
 
 	MAV_Opt *mo;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -1486,7 +1486,7 @@ void MAV_draw(
 		{0, +1}
 	};
 
-	ULONG colour[8] =
+	std::uint32_t colour[8] =
 	{
 		0x00ff0000,
 		0x0000ff00,
@@ -1600,26 +1600,26 @@ void MAV_draw(
 // is the direction it tried to leave the square in.
 //
 
-SLONG MAV_last_mx;
-SLONG MAV_last_mz;
-SLONG MAV_dmx;
-SLONG MAV_dmz;
+std::int32_t MAV_last_mx;
+std::int32_t MAV_last_mz;
+std::int32_t MAV_dmx;
+std::int32_t MAV_dmz;
 
-SLONG MAV_can_i_walk(
-		UBYTE ax, UBYTE az,
-		UBYTE bx, UBYTE bz)
+std::int32_t MAV_can_i_walk(
+		std::uint8_t ax, std::uint8_t az,
+		std::uint8_t bx, std::uint8_t bz)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG overdist;
+	std::int32_t dist;
+	std::int32_t overdist;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	MAV_Opt *mo;
 
@@ -1717,11 +1717,11 @@ SLONG MAV_can_i_walk(
 
 
 
-UBYTE MAV_start_x;
-UBYTE MAV_start_z;
+std::uint8_t MAV_start_x;
+std::uint8_t MAV_start_z;
 
-UBYTE MAV_dest_x;
-UBYTE MAV_dest_z;
+std::uint8_t MAV_dest_x;
+std::uint8_t MAV_dest_z;
 
 //
 // How much look-ahead we use in the navigation.  MAV_node[0] is the end of
@@ -1731,21 +1731,21 @@ UBYTE MAV_dest_z;
 #define MAV_LOOKAHEAD 32
 
 MAV_Action MAV_node[MAV_LOOKAHEAD];
-SLONG MAV_node_upto;
+std::int32_t MAV_node_upto;
 
 //
-// Each UBYTE is four two squares. There is three bits for action, and one bit
+// Each std::uint8_t is four two squares. There is three bits for action, and one bit
 // to say whether we have been here or not.
 //
 
-UBYTE MAV_flag[MAP_HEIGHT][MAP_WIDTH / 2];
+std::uint8_t MAV_flag[MAP_HEIGHT][MAP_WIDTH / 2];
 
 //
-// Each UBYTE is four squares-worth of the direction
+// Each std::uint8_t is four squares-worth of the direction
 // we have come from.
 //
 
-UBYTE MAV_dir[MAP_HEIGHT][MAP_WIDTH / 4];
+std::uint8_t MAV_dir[MAP_HEIGHT][MAP_WIDTH / 4];
 
 
 
@@ -1753,24 +1753,24 @@ UBYTE MAV_dir[MAP_HEIGHT][MAP_WIDTH / 4];
 // Functions to set bits...
 //
 
-inline void MAV_visited_set(SLONG x, SLONG z)
+inline void MAV_visited_set(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-	SLONG byte = x >> 1;
-	SLONG bit  = 8 << ((x & 0x1) << 2);
+	std::int32_t byte = x >> 1;
+	std::int32_t bit  = 8 << ((x & 0x1) << 2);
 
 	MAV_flag[z][byte] |= bit;
 }
 
-inline SLONG MAV_visited_get(SLONG x, SLONG z)
+inline std::int32_t MAV_visited_get(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-	SLONG byte = x >> 1;
-	SLONG bit  = 8 << ((x & 0x1) << 2);
+	std::int32_t byte = x >> 1;
+	std::int32_t bit  = 8 << ((x & 0x1) << 2);
 
 	return (MAV_flag[z][byte] & bit);
 }
@@ -1779,13 +1779,13 @@ inline SLONG MAV_visited_get(SLONG x, SLONG z)
 // This function also sets the visited flag.
 //
 
-inline void MAV_action_set(SLONG x, SLONG z, SLONG dir)
+inline void MAV_action_set(std::int32_t x, std::int32_t z, std::int32_t dir)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-	SLONG byte  = x >> 1;
-	SLONG shift = (x & 0x1) << 2;
+	std::int32_t byte  = x >> 1;
+	std::int32_t shift = (x & 0x1) << 2;
 
 	dir |= 0x08;	// Set the visited flag too.
 
@@ -1793,36 +1793,36 @@ inline void MAV_action_set(SLONG x, SLONG z, SLONG dir)
 	MAV_flag[z][byte] |=  (dir << shift);
 }
 
-inline SLONG MAV_action_get(SLONG x, SLONG z)
+inline std::int32_t MAV_action_get(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-	SLONG byte  = x >> 1;
-	SLONG shift = (x & 0x1) << 2;
+	std::int32_t byte  = x >> 1;
+	std::int32_t shift = (x & 0x1) << 2;
 
 	return ((MAV_flag[z][byte] >> shift) & 0x7);
 }
 
-inline void MAV_dir_set(SLONG x, SLONG z, SLONG dir)
+inline void MAV_dir_set(std::int32_t x, std::int32_t z, std::int32_t dir)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-	SLONG byte  = x >> 2;
-	SLONG shift = (x & 0x3) << 1;
+	std::int32_t byte  = x >> 2;
+	std::int32_t shift = (x & 0x3) << 1;
 
 	MAV_dir[z][byte] &= ~(0x3 << shift);
 	MAV_dir[z][byte] |=  (dir << shift);
 }
 
-inline SLONG MAV_dir_get(SLONG x, SLONG z)
+inline std::int32_t MAV_dir_get(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-	SLONG byte  = x >> 2;
-	SLONG shift = (x & 0x3) << 1;
+	std::int32_t byte  = x >> 2;
+	std::int32_t shift = (x & 0x3) << 1;
 
 	return ((MAV_dir[z][byte] >> shift) & 0x3);
 }
@@ -1833,13 +1833,13 @@ inline SLONG MAV_dir_get(SLONG x, SLONG z)
 //
 
 void MAV_clear_bbox(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG  z;
-	SLONG  len;
-	SLONG  count;
-	SLONG *zero;
+	std::int32_t  z;
+	std::int32_t  len;
+	std::int32_t  count;
+	std::int32_t *zero;
 
 	//
 	// Round x1 down and x2 up to the nearest 4 byte boundary.
@@ -1855,14 +1855,14 @@ void MAV_clear_bbox(
 	SATURATE(z2, 0, MAP_HEIGHT);
 
 	//
-	// Clear a SLONG at a time.
+	// Clear a std::int32_t at a time.
 	//
 
 	len = x2 - x1 >> 3;
 
 	for (z = z1; z < z2; z++)
 	{
-		zero  = (SLONG *) (&MAV_flag[z][x1 >> 1]);
+		zero  = (std::int32_t *) (&MAV_flag[z][x1 >> 1]);
 		count = len;
 
 		while(count--) {*zero++ = 0;}
@@ -1878,13 +1878,13 @@ void MAV_clear_bbox(
 
 MAV_Action MAV_get_first_action_from_nodelist()
 {
-	SLONG i;
+	std::int32_t i;
 
-	UBYTE ax;
-	UBYTE az;
+	std::uint8_t ax;
+	std::uint8_t az;
 
-	UBYTE bx;
-	UBYTE bz;
+	std::uint8_t bx;
+	std::uint8_t bz;
 
 	MAV_Action ans;
 
@@ -1933,18 +1933,18 @@ MAV_Action MAV_get_first_action_from_nodelist()
 // from the given position back to (start_x,start_z).
 //
 
-void MAV_create_nodelist_from_pos(UBYTE end_x, UBYTE end_z)
+void MAV_create_nodelist_from_pos(std::uint8_t end_x, std::uint8_t end_z)
 {
-	UBYTE x;
-	UBYTE z;
+	std::uint8_t x;
+	std::uint8_t z;
 
-	UBYTE action;
-	UBYTE dir;
+	std::uint8_t action;
+	std::uint8_t dir;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -2012,16 +2012,16 @@ void MAV_create_nodelist_from_pos(UBYTE end_x, UBYTE end_z)
 
 typedef struct
 {
-	UBYTE x;
-	UBYTE z;
-	UBYTE score;	// The lower the score the better...
-	UBYTE length;
+	std::uint8_t x;
+	std::uint8_t z;
+	std::uint8_t score;	// The lower the score the better...
+	std::uint8_t length;
 
 } PQ_Type;
 
 #define PQ_HEAP_MAX_SIZE 256
 
-SLONG PQ_better(PQ_Type *a, PQ_Type *b)
+std::int32_t PQ_better(PQ_Type *a, PQ_Type *b)
 {
 	return a->score < b->score;
 }
@@ -2034,12 +2034,12 @@ SLONG PQ_better(PQ_Type *a, PQ_Type *b)
 // Returns the score associated with the given position.
 //
 
-UBYTE MAV_score_pos(UBYTE x, UBYTE z)
+std::uint8_t MAV_score_pos(std::uint8_t x, std::uint8_t z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
 	//
 	// Just return the distance to the destination.
@@ -2056,26 +2056,26 @@ UBYTE MAV_score_pos(UBYTE x, UBYTE z)
 }
 
 
-UBYTE MAV_do_found_dest;
+std::uint8_t MAV_do_found_dest;
 
 MAV_Action MAV_do(
-			SLONG me_x,
-			SLONG me_z,
-			SLONG dest_x,
-			SLONG dest_z,
-			UBYTE caps)
+			std::int32_t me_x,
+			std::int32_t me_z,
+			std::int32_t dest_x,
+			std::int32_t dest_z,
+			std::uint8_t caps)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	UBYTE opt;
-	UBYTE move_one;
-	UBYTE move_two;
-	UBYTE move_three;
-	UBYTE action;
+	std::uint8_t opt;
+	std::uint8_t move_one;
+	std::uint8_t move_two;
+	std::uint8_t move_three;
+	std::uint8_t action;
 
-	SLONG overflows;
-	SLONG best_score;
+	std::int32_t overflows;
+	std::int32_t best_score;
 	MAV_Action ans;
 
 	MAV_Opt *mo;
@@ -2084,16 +2084,16 @@ MAV_Action MAV_do(
 	PQ_Type best;
 	PQ_Type next;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] = 
 	{
@@ -2400,10 +2400,10 @@ MAV_Action MAV_do(
 
 
 
-SLONG MAV_inside(
-		SLONG x,
-		SLONG y,
-		SLONG z)
+std::int32_t MAV_inside(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
 	x >>= 8;
 	y >>= 6;
@@ -2425,24 +2425,24 @@ SLONG MAV_inside(
 }
 
 
-SLONG MAV_height_los_fail_x;
-SLONG MAV_height_los_fail_y;
-SLONG MAV_height_los_fail_z;
+std::int32_t MAV_height_los_fail_x;
+std::int32_t MAV_height_los_fail_y;
+std::int32_t MAV_height_los_fail_z;
 
-SLONG MAV_height_los_fast(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+std::int32_t MAV_height_los_fast(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG dx = x2 - x1;
-	SLONG dy = y2 - y1;
-	SLONG dz = z2 - z1;
+	std::int32_t dx = x2 - x1;
+	std::int32_t dy = y2 - y1;
+	std::int32_t dz = z2 - z1;
 
-	SLONG dist  = QDIST2(abs(dx),abs(dz));
-	SLONG steps = (dist >> 8) + 1;
+	std::int32_t dist  = QDIST2(abs(dx),abs(dz));
+	std::int32_t steps = (dist >> 8) + 1;
 
-	SLONG x = x1;
-	SLONG y = y1;
-	SLONG z = z1;
+	std::int32_t x = x1;
+	std::int32_t y = y1;
+	std::int32_t z = z1;
 
 	dx /= steps;
 	dy /= steps;
@@ -2467,29 +2467,29 @@ SLONG MAV_height_los_fast(
 	return true;
 }
 
-SLONG MAV_height_los_slow(
-		SLONG ware,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+std::int32_t MAV_height_los_slow(
+		std::int32_t ware,
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG dx = x2 - x1;
-	SLONG dy = y2 - y1;
-	SLONG dz = z2 - z1;
+	std::int32_t dx = x2 - x1;
+	std::int32_t dy = y2 - y1;
+	std::int32_t dz = z2 - z1;
 
-	SLONG dist  = QDIST2(abs(dx),abs(dz));
-	SLONG steps = (dist >> 8) + 1;
+	std::int32_t dist  = QDIST2(abs(dx),abs(dz));
+	std::int32_t steps = (dist >> 8) + 1;
 
 	dx /= steps;
 	dy /= steps;
 	dz /= steps;
 
-	SLONG x = x1 + dx;
-	SLONG y = y1 + dy;
-	SLONG z = z1 + dz;
+	std::int32_t x = x1 + dx;
+	std::int32_t y = y1 + dy;
+	std::int32_t z = z1 + dz;
 
 	while(steps-- > 0)
 	{
-		SLONG inside;
+		std::int32_t inside;
 
 		if (ware)
 		{
@@ -2526,27 +2526,27 @@ SLONG MAV_height_los_slow(
 //
 
 #ifdef UNUSED
-SLONG MAV_find_building_entrance(
-		SLONG  building,
-		SLONG  near_to_x,
-		SLONG  near_to_y,
-		SLONG  near_to_z,
-		SLONG *door_x,
-		SLONG *door_z)
+std::int32_t MAV_find_building_entrance(
+		std::int32_t  building,
+		std::int32_t  near_to_x,
+		std::int32_t  near_to_y,
+		std::int32_t  near_to_z,
+		std::int32_t *door_x,
+		std::int32_t *door_z)
 {
-	SLONG facet;
-	SLONG score;
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	SLONG dx;
-	SLONG dz;
-	SLONG goto_x;
-	SLONG goto_z;
-	SLONG best_x;
-	SLONG best_z;
-	SLONG best_score;
+	std::int32_t facet;
+	std::int32_t score;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t goto_x;
+	std::int32_t goto_z;
+	std::int32_t best_x;
+	std::int32_t best_z;
+	std::int32_t best_score;
 
 	DBuilding *db = &dbuildings[building];
 	DFacet    *df;
@@ -2613,49 +2613,49 @@ SLONG MAV_find_building_entrance(
 
 
 #ifndef	PSX
-void MAV_precalculate_warehouse_nav(UBYTE ware)
+void MAV_precalculate_warehouse_nav(std::uint8_t ware)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG tx;
-	SLONG tz;
+	std::int32_t tx;
+	std::int32_t tz;
 
-	SLONG rx;
-	SLONG rz;
+	std::int32_t rx;
+	std::int32_t rz;
 
-	SLONG dh;
+	std::int32_t dh;
 
-	SLONG useangle;
-	SLONG matrix[4];
-	SLONG ladder;
+	std::int32_t useangle;
+	std::int32_t matrix[4];
+	std::int32_t ladder;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
-	SLONG both_ground;
+	std::int32_t both_ground;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -2665,7 +2665,7 @@ void MAV_precalculate_warehouse_nav(UBYTE ware)
 		{0, +1}
 	};
 
-	UBYTE opt[4];
+	std::uint8_t opt[4];
 
 	WARE_Ware *ww = &WARE_ware[ware];
 
@@ -2673,8 +2673,8 @@ void MAV_precalculate_warehouse_nav(UBYTE ware)
 	// Remember the old MAV_nav array.
 	//
 
-	UWORD *old_mav_nav       = MAV_nav;
-	SLONG  old_mav_nav_pitch = MAV_nav_pitch;
+	std::uint16_t *old_mav_nav       = MAV_nav;
+	std::int32_t  old_mav_nav_pitch = MAV_nav_pitch;
 
 	//
 	// Set the MAV_nav array to point to the warehouse's private array.
@@ -2706,20 +2706,20 @@ void MAV_precalculate_warehouse_nav(UBYTE ware)
 
 				PrimInfo *pi = get_prim_info(oi->prim);
 
-				SLONG mx = pi->minx + pi->maxx >> 1;
-				SLONG mz = pi->minz + pi->maxz >> 1;
+				std::int32_t mx = pi->minx + pi->maxx >> 1;
+				std::int32_t mz = pi->minz + pi->maxz >> 1;
 
-				SLONG matrix[4];
-				SLONG useangle;
+				std::int32_t matrix[4];
+				std::int32_t useangle;
 
-				SLONG sin_yaw;
-				SLONG cos_yaw;
+				std::int32_t sin_yaw;
+				std::int32_t cos_yaw;
 
-				SLONG rx;
-				SLONG rz;
+				std::int32_t rx;
+				std::int32_t rz;
 
-				SLONG sx;
-				SLONG sz;
+				std::int32_t sx;
+				std::int32_t sz;
 
 				useangle  = -oi->yaw;
 				useangle &=  2047;
@@ -3090,20 +3090,20 @@ void MAV_precalculate_warehouse_nav(UBYTE ware)
 
 					PrimInfo *pi = get_prim_info(oi->prim);
 
-					SLONG mx = pi->minx + pi->maxx >> 1;
-					SLONG mz = pi->minz + pi->maxz >> 1;
+					std::int32_t mx = pi->minx + pi->maxx >> 1;
+					std::int32_t mz = pi->minz + pi->maxz >> 1;
 
-					SLONG matrix[4];
-					SLONG useangle;
+					std::int32_t matrix[4];
+					std::int32_t useangle;
 
-					SLONG sin_yaw;
-					SLONG cos_yaw;
+					std::int32_t sin_yaw;
+					std::int32_t cos_yaw;
 
-					SLONG rx;
-					SLONG rz;
+					std::int32_t rx;
+					std::int32_t rz;
 
-					SLONG sx;
-					SLONG sz;
+					std::int32_t sx;
+					std::int32_t sz;
 
 					useangle  = -oi->yaw;
 					useangle &=  2047;
@@ -3233,12 +3233,12 @@ void MAV_precalculate_warehouse_nav(UBYTE ware)
 #endif
 
 
-UBYTE MAV_get_caps(
-		UBYTE x,
-		UBYTE z,
-		UBYTE dir)
+std::uint8_t MAV_get_caps(
+		std::uint8_t x,
+		std::uint8_t z,
+		std::uint8_t dir)
 {
-	UBYTE ans;
+	std::uint8_t ans;
 
 	MAV_Opt *mo;
 
@@ -3259,9 +3259,9 @@ UBYTE MAV_get_caps(
 
 
 
-void MAV_turn_car_movement_on(UBYTE mx, UBYTE mz, UBYTE dir)
+void MAV_turn_car_movement_on(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir)
 {
-	UBYTE mav;
+	std::uint8_t mav;
 
 	ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));
@@ -3272,9 +3272,9 @@ void MAV_turn_car_movement_on(UBYTE mx, UBYTE mz, UBYTE dir)
 	SET_MAV_CAR(mx,mz,mav);
 }
 
-void MAV_turn_car_movement_off(UBYTE mx, UBYTE mz, UBYTE dir)
+void MAV_turn_car_movement_off(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir)
 {
-	UBYTE mav;
+	std::uint8_t mav;
 
 	ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));

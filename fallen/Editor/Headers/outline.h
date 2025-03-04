@@ -11,7 +11,7 @@ typedef struct OUTLINE_Outline OUTLINE_Outline;
 // Creates a new outline.
 //
 
-OUTLINE_Outline *OUTLINE_create(SLONG num_z_squares);
+OUTLINE_Outline *OUTLINE_create(std::int32_t num_z_squares);
 
 //
 // Adds the given line to the outline.  Must be orthogonal. The shape
@@ -21,8 +21,8 @@ OUTLINE_Outline *OUTLINE_create(SLONG num_z_squares);
 
 void OUTLINE_add_line(
 		OUTLINE_Outline *oo,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 //
 // Frees up all the memory used in the given outline.
@@ -35,7 +35,7 @@ void OUTLINE_free(OUTLINE_Outline *oo);
 // Returns true if the two outlines overlap.
 //
 
-SLONG OUTLINE_overlap(
+std::int32_t OUTLINE_overlap(
 		OUTLINE_Outline *oo1,
 		OUTLINE_Outline *oo2);
 
@@ -44,7 +44,7 @@ SLONG OUTLINE_overlap(
 // Returns true if the given line goes through an outline.
 //
 
-SLONG OUTLINE_intersects(
+std::int32_t OUTLINE_intersects(
 		OUTLINE_Outline* oo,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);

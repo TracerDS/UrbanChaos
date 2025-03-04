@@ -12,17 +12,17 @@
 
 struct Plat
 {
-	UBYTE used;
-	UBYTE colour;
-	UBYTE group;
-	UBYTE move;
+	std::uint8_t used;
+	std::uint8_t colour;
+	std::uint8_t group;
+	std::uint8_t move;
 
-	UBYTE state;
-	UBYTE wspeed;		// The speed you want to go at.
-	UBYTE speed;		// The speed you are going at.
-	UBYTE flag;
-	UWORD counter;		// In millisecs...
-	UWORD waypoint;
+	std::uint8_t state;
+	std::uint8_t wspeed;		// The speed you want to go at.
+	std::uint8_t speed;		// The speed you are going at.
+	std::uint8_t flag;
+	std::uint16_t counter;		// In millisecs...
+	std::uint16_t waypoint;
 
 };
 
@@ -31,7 +31,7 @@ struct Plat
 #define	PLAT_MAX_PLATS		(save_table[SAVE_TABLE_PLATS].Maximum)
 
 #define	TO_PLAT(x)		&PLAT_plat[x]
-#define	PLAT_NUMBER(x)	(UWORD)(x-TO_PLAT(0))
+#define	PLAT_NUMBER(x)	(std::uint16_t)(x-TO_PLAT(0))
 
 extern Plat  *PLAT_plat; //[PLAT_MAX_PLATS];
 
@@ -41,7 +41,7 @@ extern Plat  *PLAT_plat; //[PLAT_MAX_PLATS];
 
 typedef struct Plat *PlatPtr;
 
-extern SLONG PLAT_plat_upto;
+extern std::int32_t PLAT_plat_upto;
 
 //
 // Initialises all platform info.
@@ -64,15 +64,15 @@ void PLAT_init();
 #define PLAT_FLAG_LOCK_ROT     (1 << 1)
 #define PLAT_FLAG_BODGE_ROCKET (1 << 2)
 
-UWORD PLAT_create(
-		UBYTE colour,
-		UBYTE group,
-		UBYTE move,
-		UBYTE flag,
-		UBYTE speed,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z);
+std::uint16_t PLAT_create(
+		std::uint8_t colour,
+		std::uint8_t group,
+		std::uint8_t move,
+		std::uint8_t flag,
+		std::uint8_t speed,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z);
 
 
 

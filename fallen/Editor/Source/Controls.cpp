@@ -13,9 +13,9 @@ void Control::DrawControl()
 
 //---------------------------------------------------------------
 
-UWORD Control::TrackControl(MFPoint *down_point)
+std::uint16_t Control::TrackControl(MFPoint *down_point)
 {
-	UBYTE		start_flags,
+	std::uint8_t		start_flags,
 				update;
 	MFPoint		current_point,
 				start_point;
@@ -24,7 +24,7 @@ UWORD Control::TrackControl(MFPoint *down_point)
 	start_flags		=	Flags;
 	start_point.X	=	MouseX;
 	start_point.Y	=	MouseY;
-	Flags			=	(UBYTE)(start_flags|CONTROL_CLICKED);
+	Flags			=	(std::uint8_t)(start_flags|CONTROL_CLICKED);
 	update			=	1;
 	while(SHELL_ACTIVE && LeftButton)
 	{
@@ -35,7 +35,7 @@ UWORD Control::TrackControl(MFPoint *down_point)
 		{
 			if(!(Flags&CONTROL_CLICKED))
 			{
-				Flags	=	(UBYTE)(start_flags|CONTROL_CLICKED);
+				Flags	=	(std::uint8_t)(start_flags|CONTROL_CLICKED);
 				update 	=	1;
 			}
 		}
@@ -43,7 +43,7 @@ UWORD Control::TrackControl(MFPoint *down_point)
 		{
 			if(Flags&CONTROL_CLICKED)
 			{
-				Flags	=	(UBYTE)(start_flags&~(CONTROL_HILITED));
+				Flags	=	(std::uint8_t)(start_flags&~(CONTROL_HILITED));
 				update	=	1;
 			}
 		}
@@ -105,7 +105,7 @@ void	Control::UnHiliteControl()
 
 CButton::CButton(ControlDef *the_def)
 {
-	SLONG		width;
+	std::int32_t		width;
 
 
 	SetLastControl(nullptr);
@@ -127,10 +127,10 @@ CButton::CButton(ControlDef *the_def)
 
 void CButton::DrawControl()
 {
-	ULONG		text_colour;
-	SLONG		text_x,
+	std::uint32_t		text_colour;
+	std::int32_t		text_x,
 				text_y;
-	CBYTE	*ptr;
+	char	*ptr;
 
 	text_x	=	GetLeft()+((GetWidth()>>1)-(QTStringWidth(GetTitle())>>1));
 	text_y	=	GetTop()+((GetHeight()>>1)-(QTStringHeight()>>1));
@@ -160,7 +160,7 @@ void CButton::DrawControl()
 	ptr=GetTitle();
 	if(ptr[0]=='$')
 	{
-		SLONG	sprite;
+		std::int32_t	sprite;
 		sprite=(ptr[1]-'0')*10+(ptr[2]-'0');
 		DrawMonoBSprite(GetLeft()+7,GetTop()+3,INTERFACE_SPRITE(sprite),0);
 	}
@@ -189,8 +189,8 @@ CRadioButton::CRadioButton(ControlDef *the_def)
 
 void CRadioButton::DrawControl()
 {
-	ULONG	text_colour;
-	SLONG	text_x,
+	std::uint32_t	text_colour;
+	std::int32_t	text_x,
 			text_y;
 
 
@@ -243,8 +243,8 @@ CCheckBox::CCheckBox(ControlDef *the_def)
 
 void CCheckBox::DrawControl()
 {
-	ULONG	text_colour;
-	SLONG	text_x,
+	std::uint32_t	text_colour;
+	std::int32_t	text_x,
 			text_y;
 
 
@@ -298,7 +298,7 @@ CStaticText::CStaticText(ControlDef *the_def)
 
 void CStaticText::DrawControl()
 {
-	CBYTE	text[256];
+	char	text[256];
 
 
 	sprintf(text,"%s%s%s",GetTitle(),String1,String2);
@@ -331,9 +331,9 @@ CEditText::CEditText(ControlDef *the_def)
 
 void CEditText::DrawControl()
 {
-	ULONG		text_colour;
-	CBYTE		temp_string[EDIT_TEXT_LENGTH];
-	SLONG		c0,
+	std::uint32_t		text_colour;
+	char		temp_string[EDIT_TEXT_LENGTH];
+	std::int32_t		c0,
 				cursor_x,
 				text_x,
 				text_y;
@@ -398,28 +398,28 @@ void CEditText::DrawControl()
 		if(the_time.MSeconds>500)
 		{
 			DrawVLine(cursor_x,GetTop()+1,GetBottom()-1,LOLITE_COL);
-			SetFlags((UBYTE)(GetFlags()|CONTROL_SHOW_EXTRA));
+			SetFlags((std::uint8_t)(GetFlags()|CONTROL_SHOW_EXTRA));
 		}
 		else
 		{
-			SetFlags((UBYTE)(GetFlags()&~(CONTROL_SHOW_EXTRA)));
+			SetFlags((std::uint8_t)(GetFlags()&~(CONTROL_SHOW_EXTRA)));
 		}
 	}
 }
 
 //---------------------------------------------------------------
 
-extern UBYTE InkeyToAscii[];
-extern UBYTE InkeyToAsciiShift[];
+extern std::uint8_t InkeyToAscii[];
+extern std::uint8_t InkeyToAsciiShift[];
 
-UWORD CEditText::TrackControl(MFPoint *down_point)
+std::uint16_t CEditText::TrackControl(MFPoint *down_point)
 {
-	CBYTE		temp_string[EDIT_TEXT_LENGTH],
+	char		temp_string[EDIT_TEXT_LENGTH],
 				the_char;
-	UBYTE		last_state	=	0;
-	ULONG		count,
+	std::uint8_t		last_state	=	0;
+	std::uint32_t		count,
 				update		=	0;
-	SLONG		text_x;
+	std::int32_t		text_x;
 	MFPoint		current_point,
 				start_point;
 
@@ -588,7 +588,7 @@ UWORD CEditText::TrackControl(MFPoint *down_point)
 			update			=	0;
 		}
 	}
-	SetFlags((UBYTE)(GetFlags()&~(CONTROL_CLICKED)));
+	SetFlags((std::uint8_t)(GetFlags()&~(CONTROL_CLICKED)));
 	DrawControl();
 	ShowWorkWindow(0);
 
@@ -601,7 +601,7 @@ UWORD CEditText::TrackControl(MFPoint *down_point)
 
 CPullDown::CPullDown(ControlDef *the_def)
 {
-	SLONG		item_count	=	0,
+	std::int32_t		item_count	=	0,
 				height,menu_height,width;
 	MenuDef2	*current_menu_def;
 	EdRect		item_rect;
@@ -642,7 +642,7 @@ CPullDown::CPullDown(ControlDef *the_def)
 		while(*(current_menu_def->ItemText) != '!')
 		{
 			item_count++;
-			current_menu_def->ItemID	=	(UBYTE)item_count;
+			current_menu_def->ItemID	=	(std::uint8_t)item_count;
 			if(*(current_menu_def->ItemText) == '^')
 			{
 				current_menu_def->ItemFlags	=	MENU_SEPERATOR;
@@ -674,8 +674,8 @@ CPullDown::CPullDown(ControlDef *the_def)
 
 void CPullDown::DrawControl()
 {
-	ULONG		text_colour;
-	SLONG		draw_x,
+	std::uint32_t		text_colour;
+	std::int32_t		draw_x,
 				draw_y;
 	MenuDef2	*current_menu_def;
 
@@ -741,10 +741,10 @@ void CPullDown::DrawControl()
 
 //---------------------------------------------------------------
 
-UWORD CPullDown::TrackControl(MFPoint *down_point)
+std::uint16_t CPullDown::TrackControl(MFPoint *down_point)
 {
-	UBYTE		menu_id		=	0;
-	SLONG		y_offset	=	0;
+	std::uint8_t		menu_id		=	0;
+	std::int32_t		y_offset	=	0;
 	MenuDef2	*current_menu_def;
 	MFPoint		current_point,
 				last_point,
@@ -817,10 +817,10 @@ UWORD CPullDown::TrackControl(MFPoint *down_point)
 */
 		}
 	}
-	SetFlags((UBYTE)(GetFlags()&~(CONTROL_CLICKED)));
+	SetFlags((std::uint8_t)(GetFlags()&~(CONTROL_CLICKED)));
 
 	if(menu_id)
-		return	(UWORD)((menu_id<<8)|GetID());
+		return	(std::uint16_t)((menu_id<<8)|GetID());
 	else
 		return	0;
 }
@@ -831,7 +831,7 @@ UWORD CPullDown::TrackControl(MFPoint *down_point)
 
 CPopUp::CPopUp(ControlDef *the_def)
 {
-	SLONG		item_count	=	0,
+	std::int32_t		item_count	=	0,
 				height,menu_height,width;
 	MenuDef2	*current_menu_def;
 	EdRect		item_rect;
@@ -890,7 +890,7 @@ CPopUp::CPopUp(ControlDef *the_def)
 		while(*(current_menu_def->ItemText) != '!')
 		{
 			item_count++;
-			current_menu_def->ItemID	=	(UBYTE)item_count;
+			current_menu_def->ItemID	=	(std::uint8_t)item_count;
 			if(*(current_menu_def->ItemText) == '^')
 			{
 				current_menu_def->ItemFlags	|=	MENU_SEPERATOR;
@@ -922,8 +922,8 @@ CPopUp::CPopUp(ControlDef *the_def)
 
 void CPopUp::DrawControl()
 {
-	ULONG		text_colour;
-	SLONG		draw_x,
+	std::uint32_t		text_colour;
+	std::int32_t		draw_x,
 				draw_y;
 	MenuDef2	*current_menu_def;
 
@@ -978,9 +978,9 @@ void CPopUp::DrawControl()
 
 //---------------------------------------------------------------
 
-UWORD CPopUp::TrackControl(MFPoint *down_point)
+std::uint16_t CPopUp::TrackControl(MFPoint *down_point)
 {
-	UBYTE		menu_id	=	0;
+	std::uint8_t		menu_id	=	0;
 	MenuDef2	*current_menu_def;
 	MFPoint		current_point,
 				last_point,
@@ -1053,7 +1053,7 @@ UWORD CPopUp::TrackControl(MFPoint *down_point)
 			last_point	=	current_point;
 		}
 	}
-	SetFlags((UBYTE)(GetFlags()&~(CONTROL_CLICKED)));
+	SetFlags((std::uint8_t)(GetFlags()&~(CONTROL_CLICKED)));
 
 	if(menu_id && TheMenu[menu_id-1].ItemFlags&MENU_CHECK)
 	{
@@ -1062,20 +1062,20 @@ UWORD CPopUp::TrackControl(MFPoint *down_point)
 
 	LeftMouse.ButtonState	=	0;
 
-	return	(UWORD)((menu_id<<8)|GetID());
+	return	(std::uint16_t)((menu_id<<8)|GetID());
 }
 
 //---------------------------------------------------------------
 
-void CPopUp::SetItemState(UWORD item,UBYTE state)
+void CPopUp::SetItemState(std::uint16_t item,std::uint8_t state)
 {
 	switch(state)
 	{
 		case	CTRL_ACTIVE:
-			SetItemFlags(item,(UBYTE)(GetItemFlags(item)&~(MENU_INACTIVE)));
+			SetItemFlags(item,(std::uint8_t)(GetItemFlags(item)&~(MENU_INACTIVE)));
 			break;
 		case	CTRL_INACTIVE:
-			SetItemFlags(item,(UBYTE)(GetItemFlags(item)|MENU_INACTIVE));
+			SetItemFlags(item,(std::uint8_t)(GetItemFlags(item)|MENU_INACTIVE));
 			break;
 	}
 }
@@ -1113,9 +1113,9 @@ CHSlider::CHSlider(ControlDef *the_def)
 
 void	CHSlider::DrawControl()
 {
-	CBYTE		text[16];
-	UBYTE		draw_colour;
-	SLONG		sprite_x,
+	char		text[16];
+	std::uint8_t		draw_colour;
+	std::int32_t		sprite_x,
 				sprite_y,
 				text_x,
 				text_y;
@@ -1195,7 +1195,7 @@ void	CHSlider::HiliteControl(MFPoint *current_point)
 			LeftButtonFlags	|=	CONTROL_HILITED;
 		else if(RightButtonRect.PointInRect(current_point))
 			RightButtonFlags	|=	CONTROL_HILITED;
-		SetFlags((UBYTE)(GetFlags()|CONTROL_HILITED));
+		SetFlags((std::uint8_t)(GetFlags()|CONTROL_HILITED));
 	}
 }
 
@@ -1206,16 +1206,16 @@ void	CHSlider::UnHiliteControl()
 	DragFlags			&=	~(CONTROL_HILITED);
 	LeftButtonFlags		&=	~(CONTROL_HILITED);
 	RightButtonFlags	&=	~(CONTROL_HILITED);
-	SetFlags((UBYTE)(GetFlags()&~(CONTROL_HILITED)));
+	SetFlags((std::uint8_t)(GetFlags()&~(CONTROL_HILITED)));
 }
 
 //---------------------------------------------------------------
 
-UWORD	CHSlider::TrackControl(MFPoint *down_point)
+std::uint16_t	CHSlider::TrackControl(MFPoint *down_point)
 {
-	UBYTE		start_flags,
+	std::uint8_t		start_flags,
 				update;
-	SLONG		drag_x,
+	std::int32_t		drag_x,
 				new_drag_x,
 				start_time;
 	MFPoint		current_point,
@@ -1276,7 +1276,7 @@ UWORD	CHSlider::TrackControl(MFPoint *down_point)
 				{
 					if(!(LeftButtonFlags&CONTROL_CLICKED))
 					{
-						LeftButtonFlags	=	(UBYTE)(start_flags|CONTROL_CLICKED);
+						LeftButtonFlags	=	(std::uint8_t)(start_flags|CONTROL_CLICKED);
 						CurrentValue	-=	ValueStep;
 						in_range(CurrentValue,MinValue,MaxValue);
 						CurrentDrag		-=	DragStep;
@@ -1302,7 +1302,7 @@ UWORD	CHSlider::TrackControl(MFPoint *down_point)
 				{
 					if(LeftButtonFlags&CONTROL_CLICKED)
 					{
-						LeftButtonFlags	=	(UBYTE)(start_flags&~(CONTROL_HILITED));
+						LeftButtonFlags	=	(std::uint8_t)(start_flags&~(CONTROL_HILITED));
 						update			=	1;
 					}
 				}
@@ -1337,7 +1337,7 @@ UWORD	CHSlider::TrackControl(MFPoint *down_point)
 				{
 					if(!(RightButtonFlags&CONTROL_CLICKED))
 					{
-						RightButtonFlags	=	(UBYTE)(start_flags|CONTROL_CLICKED);
+						RightButtonFlags	=	(std::uint8_t)(start_flags|CONTROL_CLICKED);
 						CurrentValue	+=	ValueStep;
 						in_range(CurrentValue,MinValue,MaxValue);
 						CurrentDrag		+=	DragStep;
@@ -1363,7 +1363,7 @@ UWORD	CHSlider::TrackControl(MFPoint *down_point)
 				{
 					if(RightButtonFlags&CONTROL_CLICKED)
 					{
-						RightButtonFlags	=	(UBYTE)(start_flags&~(CONTROL_HILITED));
+						RightButtonFlags	=	(std::uint8_t)(start_flags&~(CONTROL_HILITED));
 						update			=	1;
 					}
 				}
@@ -1429,7 +1429,7 @@ void	CHSlider::SetupDrag()
 
 //---------------------------------------------------------------
 
-void	CHSlider::SetCurrentValue(SLONG value)
+void	CHSlider::SetCurrentValue(std::int32_t value)
 {
 	CurrentValue	=	value;	
 	if(ValueStep)
@@ -1476,8 +1476,8 @@ CVSlider::CVSlider(ControlDef *the_def)
 
 void	CVSlider::DrawControl()
 {
-	UBYTE		draw_colour;
-	SLONG		sprite_x,
+	std::uint8_t		draw_colour;
+	std::int32_t		sprite_x,
 				sprite_y,
 				text_x,
 				text_y;
@@ -1551,7 +1551,7 @@ void	CVSlider::HiliteControl(MFPoint *current_point)
 			TopButtonFlags	|=	CONTROL_HILITED;
 		else if(BottomButtonRect.PointInRect(current_point))
 			BottomButtonFlags	|=	CONTROL_HILITED;
-		SetFlags((UBYTE)(GetFlags()|CONTROL_HILITED));
+		SetFlags((std::uint8_t)(GetFlags()|CONTROL_HILITED));
 	}
 }
 
@@ -1562,16 +1562,16 @@ void	CVSlider::UnHiliteControl()
 	DragFlags			&=	~(CONTROL_HILITED);
 	TopButtonFlags		&=	~(CONTROL_HILITED);
 	BottomButtonFlags	&=	~(CONTROL_HILITED);
-	SetFlags((UBYTE)(GetFlags()&~(CONTROL_HILITED)));
+	SetFlags((std::uint8_t)(GetFlags()&~(CONTROL_HILITED)));
 }
 
 //---------------------------------------------------------------
 
-UWORD	CVSlider::TrackControl(MFPoint *down_point)
+std::uint16_t	CVSlider::TrackControl(MFPoint *down_point)
 {
-	UBYTE		start_flags,
+	std::uint8_t		start_flags,
 				update;
-	SLONG		drag_y,
+	std::int32_t		drag_y,
 				new_drag_y,
 				start_time;
 	MFPoint		current_point,
@@ -1632,7 +1632,7 @@ UWORD	CVSlider::TrackControl(MFPoint *down_point)
 				{
 					if(!(TopButtonFlags&CONTROL_CLICKED))
 					{
-						TopButtonFlags	=	(UBYTE)(start_flags|CONTROL_CLICKED);
+						TopButtonFlags	=	(std::uint8_t)(start_flags|CONTROL_CLICKED);
 						CurrentValue	-=	ValueStep;
 						in_range(CurrentValue,MinValue,MaxValue);
 						CurrentDrag		-=	DragStep;
@@ -1658,7 +1658,7 @@ UWORD	CVSlider::TrackControl(MFPoint *down_point)
 				{
 					if(TopButtonFlags&CONTROL_CLICKED)
 					{
-						TopButtonFlags	=	(UBYTE)(start_flags&~(CONTROL_HILITED));
+						TopButtonFlags	=	(std::uint8_t)(start_flags&~(CONTROL_HILITED));
 						update			=	1;
 					}
 				}
@@ -1693,7 +1693,7 @@ UWORD	CVSlider::TrackControl(MFPoint *down_point)
 				{
 					if(!(BottomButtonFlags&CONTROL_CLICKED))
 					{
-						BottomButtonFlags	=	(UBYTE)(start_flags|CONTROL_CLICKED);
+						BottomButtonFlags	=	(std::uint8_t)(start_flags|CONTROL_CLICKED);
 						CurrentValue	+=	ValueStep;
 						in_range(CurrentValue,MinValue,MaxValue);
 						CurrentDrag		+=	DragStep;
@@ -1719,7 +1719,7 @@ UWORD	CVSlider::TrackControl(MFPoint *down_point)
 				{
 					if(BottomButtonFlags&CONTROL_CLICKED)
 					{
-						BottomButtonFlags	=	(UBYTE)(start_flags&~(CONTROL_HILITED));
+						BottomButtonFlags	=	(std::uint8_t)(start_flags&~(CONTROL_HILITED));
 						update			=	1;
 					}
 				}
@@ -1787,7 +1787,7 @@ void	CVSlider::SetupDrag()
 
 //---------------------------------------------------------------
 
-void	CVSlider::SetCurrentValue(SLONG value)
+void	CVSlider::SetCurrentValue(std::int32_t value)
 {
 	CurrentValue	=	value;	
 	if(ValueStep)

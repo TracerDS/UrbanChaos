@@ -11,9 +11,9 @@
 
 #include	"..\Editor\Headers\Thing.h"
 
-ULONG move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing);
+std::uint32_t move_thing(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,struct MapThing *p_thing);
 
-SLONG calc_height_at(SLONG x,SLONG z);
+std::int32_t calc_height_at(std::int32_t x,std::int32_t z);
 
 extern Thing			*darci_thing;
 

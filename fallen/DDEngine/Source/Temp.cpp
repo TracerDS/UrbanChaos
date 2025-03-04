@@ -33,7 +33,7 @@ struct	DXMaterial
 
 };
 
-extern SLONG                material_count;
+extern std::int32_t                material_count;
 extern DXMaterial			dx_materials[200];
 extern SVECTOR_F			dx_prim_points[RMAX_PRIM_POINTS];
 
@@ -52,10 +52,10 @@ void matrix_mult33(struct Matrix33* result,struct Matrix33* mat1,struct  Matrix3
 	result->M[2][2] = ((mat1->M[2][0]*mat2->M[0][2])+(mat1->M[2][1]*mat2->M[1][2])+(mat1->M[2][2]*mat2->M[2][2]))>>15;
 }
 
-void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3) 
+void rotate_obj(std::int16_t xangle,std::int16_t yangle,std::int16_t zangle, Matrix33 *r3) 
 {
-	SLONG	sinx, cosx, siny, cosy, sinz, cosz;
- 	SLONG	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
+	std::int32_t	sinx, cosx, siny, cosy, sinz, cosz;
+ 	std::int32_t	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
 
 	sinx = SIN(xangle & (2048-1)) >>1;  	// 15's
 	cosx = COS(xangle & (2048-1)) >>1;
@@ -92,10 +92,10 @@ void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3)
 
 struct	QuickMap
 {
-	SWORD	Prim;
-	SWORD	Texture;
-	SWORD	Bright;
-	SWORD	Thing;
+	std::int16_t	Prim;
+	std::int16_t	Texture;
+	std::int16_t	Bright;
+	std::int16_t	Thing;
 };
 
 
@@ -106,18 +106,18 @@ struct	TinyXZ	*radius_ptr[MAX_RADIUS+2];
 
 void	build_radius_info()
 {
-	SBYTE	*grid;
-	SLONG	dx,dz;
+	std::int8_t	*grid;
+	std::int32_t	dx,dz;
 	struct	TinyXZ	*ptr_rad;
-	SLONG	actual_radius,radius,radius_offset,old_radius=0;
-	SLONG	angle;
-	SLONG	sum_count=0;
-	SLONG	count=0;
+	std::int32_t	actual_radius,radius,radius_offset,old_radius=0;
+	std::int32_t	angle;
+	std::int32_t	sum_count=0;
+	std::int32_t	count=0;
 
 	ptr_rad=radius_pool;
 
 
-	grid=(SBYTE*)MemAlloc((MAX_RADIUS+1)*(MAX_RADIUS+1)*4);
+	grid=(std::int8_t*)MemAlloc((MAX_RADIUS+1)*(MAX_RADIUS+1)*4);
 	if(grid)
 	{
 
@@ -181,7 +181,7 @@ DXMaterial	dx_materials[200]=
 void	setup_anim_stuff()
 {
 #ifdef	EDITOR
-extern SLONG	key_frame_count,current_element;
+extern std::int32_t	key_frame_count,current_element;
 	current_element	=	0;
 	key_frame_count	=	0;
 #endif
@@ -206,16 +206,16 @@ void	reset_anim_stuff()
 
 void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 {
-	CBYTE			anim_name[ANIM_NAME_SIZE];
-	SLONG			anim_flags,
+	char			anim_name[ANIM_NAME_SIZE];
+	std::int32_t			anim_flags,
 					c0,
 					frame_count,
 					frame_id,
 					tween_step;
 	KeyFrame		*the_frame;
-	SWORD			chunk_id;
-	SWORD			fixed=0;
-	CBYTE			version=0;
+	std::int16_t			chunk_id;
+	std::int16_t			fixed=0;
+	char			version=0;
 
 	
 	FileRead(file_handle,&version,1);
@@ -248,7 +248,7 @@ void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 		if(version>1)
 		{
 			struct	FightCol	*fcol,*fcol_prev=0;
-			SLONG	count,c0;
+			std::int32_t	count,c0;
 
 			FileRead(file_handle,&count,sizeof(count));
 //			LogText(" fight count load = %d \n",count);
@@ -287,7 +287,7 @@ Anim	*current_anim;
 
 void	create_anim(Anim **the_list)
 {
-	CBYTE		text[32];
+	char		text[32];
 	Anim		*next_anim,
 				*the_anim;
 
@@ -320,29 +320,29 @@ void	create_anim(Anim **the_list)
 }
 
 //---------------------------------------------------------------
-void	load_body_part_info(MFFileHandle file_handle,SLONG version,KeyFrameChunk *the_chunk)
+void	load_body_part_info(MFFileHandle file_handle,std::int32_t version,KeyFrameChunk *the_chunk)
 {
-	SLONG	c0,c1;
-	SLONG	no_people,no_body_bits,string_len;
+	std::int32_t	c0,c1;
+	std::int32_t	no_people,no_body_bits,string_len;
 
-	FileRead(file_handle,&no_people,sizeof(SLONG));
+	FileRead(file_handle,&no_people,sizeof(std::int32_t));
 
-	FileRead(file_handle,&no_body_bits,sizeof(SLONG));
+	FileRead(file_handle,&no_body_bits,sizeof(std::int32_t));
 
-	FileRead(file_handle,&string_len,sizeof(SLONG));
+	FileRead(file_handle,&string_len,sizeof(std::int32_t));
 
 	for(c0=0;c0<no_people;c0++)
 	{
 		FileRead(file_handle,the_chunk->PeopleNames[c0],string_len);
 		for(c1=0;c1<no_body_bits;c1++)
-			FileRead(file_handle,&the_chunk->PeopleTypes[c0].BodyPart[c1],sizeof(UBYTE));
+			FileRead(file_handle,&the_chunk->PeopleTypes[c0].BodyPart[c1],sizeof(std::uint8_t));
 	}
 }
 
 void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list)
 {
 //#ifdef	EDITOR
-	SLONG			anim_count,version,
+	std::int32_t			anim_count,version,
 					c0;
 	MFFileHandle	file_handle;
 
@@ -374,11 +374,11 @@ void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list)
 
 
 //---------------------------------------------------------------
-SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z)
+std::int32_t	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,std::int32_t l_x,std::int32_t l_y,std::int32_t l_z)
 {
-	SLONG	dx,dy,dz;
-	SLONG	alt=0;
-	SLONG	m,c;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	alt=0;
+	std::int32_t	m,c;
 
 //	dx=l_x-input->X;
 //	dy=l_y-input->Y;
@@ -388,7 +388,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 	dy=128;
 	dz=128;
 
-extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
 	alt=calc_height_at(input->X,input->Z);
 
 	if(dx)
@@ -445,7 +445,7 @@ extern SLONG	calc_height_at(SLONG x,SLONG z);
 	return(0);
 }
 
-SLONG	points_clockwise(SLONG p0,SLONG p1,SLONG p2)
+std::int32_t	points_clockwise(std::int32_t p0,std::int32_t p1,std::int32_t p2)
 {
 	float res;
 	float	vx,vy,wx,wy,z;
@@ -464,24 +464,24 @@ SLONG	points_clockwise(SLONG p0,SLONG p1,SLONG p2)
 
 }
 
-SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SLONG x,SLONG y,SLONG z)
+std::int32_t	e_draw_a_facet_at(std::uint16_t building_object, std::uint16_t f_building, std::uint16_t facet, std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	ULONG	flag_and,flag_or;
-	SLONG	c0;
+	std::uint32_t	flag_and,flag_or;
+	std::int32_t	c0;
 	struct	BuildingFacet	*p_facet;
 	struct  FBuilding       *p_building;
-	SLONG	sp,ep;
-	SLONG	az;
-	SLONG	col=0,cor=0,cob=0,cot=0,total=0;
-	SLONG	best_z=9999999;
-	SLONG	min_z=9999999,max_z=-9999999;
-	SLONG	first_face=1;
+	std::int32_t	sp,ep;
+	std::int32_t	az;
+	std::int32_t	col=0,cor=0,cob=0,cot=0,total=0;
+	std::int32_t	best_z=9999999;
+	std::int32_t	min_z=9999999,max_z=-9999999;
+	std::int32_t	first_face=1;
 
-	SLONG	facet_flags;
-	SLONG	offset_z=0;
-	SLONG	list;
+	std::int32_t	facet_flags;
+	std::int32_t	offset_z=0;
+	std::int32_t	list;
 
 	float			average_z,
 					f_x,f_y,f_z,
@@ -499,7 +499,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 	p_facet     = &building_facets[facet];
 	facet_flags =  p_facet->FacetFlags;
 
-	UBYTE point_order[4] = {0, 1, 3, 2};
+	std::uint8_t point_order[4] = {0, 1, 3, 2};
 	
 	/*
 
@@ -508,9 +508,9 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 	// 
 
 	{
-		SLONG i;
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t i;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		for (i = p_facet->StartPoint; i < p_facet->EndPoint; i++)
 		{
@@ -537,9 +537,9 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 
 		if (p_f4->FaceFlags & FACE_FLAG_WALKABLE)
 		{
-			SLONG i;
-			SLONG p1;
-			SLONG p2;
+			std::int32_t i;
+			std::int32_t p1;
+			std::int32_t p2;
 
 			for (i = 0; i < 4; i++)
 			{
@@ -657,7 +657,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 	if(p_facet->EndFace4)
 	for(c0=p_facet->StartFace4;c0<p_facet->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(BUCKETS_FULL)
 			goto	exit;
@@ -785,14 +785,14 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 
 				if (Keys[KB_Y])
 				{
-					SLONG point[4];
+					std::int32_t point[4];
 
 					point[0] = p0;
 					point[1] = p1;
 					point[2] = p2;
 					point[3] = p3;
 
-					CRINKLE_do(0, 1.0, &vertex_pool[current_vertex], point, list, (SLONG) average_z);
+					CRINKLE_do(0, 1.0, &vertex_pool[current_vertex], point, list, (std::int32_t) average_z);
 				}
 				else
 				{
@@ -809,7 +809,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 													dx_global_res[p3].Z
 												)	*	256.0f;
 
-					add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,list,(SLONG)average_z);
+					add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,list,(std::int32_t)average_z);
 
 					if(p_f4->DrawFlags&POLY_FLAG_DOUBLESIDED)
 					{
@@ -820,7 +820,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 						the_quad->P[2]			=	current_vertex-4;
 						the_quad->P[3]			=	current_vertex-3;
 
-						add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,list,(SLONG)average_z);
+						add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,list,(std::int32_t)average_z);
 					}
 				}
 			}
@@ -832,7 +832,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 	if(p_facet->EndFace3)
 	for(c0=p_facet->StartFace3;c0<p_facet->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(BUCKETS_FULL)
 			goto	exit;
@@ -942,7 +942,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 											dx_global_res[p2].Z
 										)	*	341.33f;
 
-			add_bucket(&the_tri->BucketHeader,BUCKET_TRI,list,(SLONG)average_z);
+			add_bucket(&the_tri->BucketHeader,BUCKET_TRI,list,(std::int32_t)average_z);
 
 			if(p_f3->DrawFlags&POLY_FLAG_DOUBLESIDED)
 			{
@@ -952,7 +952,7 @@ SLONG	e_draw_a_facet_at(UWORD building_object, UWORD f_building, UWORD facet, SL
 				the_tri->P[1]			=	current_vertex-1;
 				the_tri->P[2]			=	current_vertex-3;
 
-				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,list,(SLONG)average_z);
+				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,list,(std::int32_t)average_z);
 			}
 		}
 		p_f3++;
@@ -964,10 +964,10 @@ exit:;
 
 //---------------------------------------------------------------
 
-void	e_draw_a_building_at(UWORD building_o, UWORD building_f,SLONG x,SLONG y,SLONG z)
+void	e_draw_a_building_at(std::uint16_t building_o, std::uint16_t building_f,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG	index;
-	SLONG	best_z=-999999,az;
+	std::int32_t	index;
+	std::int32_t	best_z=-999999,az;
 
 
 	index	=	building_objects[building_o].FacetHead;
@@ -982,16 +982,16 @@ void	e_draw_a_building_at(UWORD building_o, UWORD building_f,SLONG x,SLONG y,SLO
 
 //---------------------------------------------------------------
 
-void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
+void	e_draw_a_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::uint8_t shade)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	ULONG	flag_and,flag_or;
-	SLONG	c0;
+	std::uint32_t	flag_and,flag_or;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG az;
-	SLONG col=0,cor=0,cob=0,cot=0,total=0;
+	std::int32_t	sp,ep;
+	std::int32_t az;
+	std::int32_t col=0,cor=0,cob=0,cot=0,total=0;
 
 	float			average_z,
 					f_x,f_y,f_z,
@@ -1027,7 +1027,7 @@ void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 	if(p_obj->EndFace4)
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(BUCKETS_FULL)
 			goto	exit;
@@ -1126,7 +1126,7 @@ void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 												dx_global_res[p3].Z
 											)	*	256.0f;
 
-				add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,p_f4->TexturePage,(SLONG)average_z);
+				add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,p_f4->TexturePage,(std::int32_t)average_z);
 
 				if(p_f4->DrawFlags&POLY_FLAG_DOUBLESIDED)
 				{
@@ -1137,7 +1137,7 @@ void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 					the_quad->P[2]			=	current_vertex-4;
 					the_quad->P[3]			=	current_vertex-3;
 
-					add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,p_f4->TexturePage,(SLONG)average_z);
+					add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,p_f4->TexturePage,(std::int32_t)average_z);
 				}
 			}
 		}
@@ -1148,7 +1148,7 @@ void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 	if(p_obj->EndFace3)
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(BUCKETS_FULL)
 			goto	exit;
@@ -1235,7 +1235,7 @@ void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 												dx_global_res[p2].Z
 											)	*	341.33f;
 
-				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,p_f3->TexturePage,(SLONG)average_z);
+				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,p_f3->TexturePage,(std::int32_t)average_z);
 
 				if(p_f3->DrawFlags&POLY_FLAG_DOUBLESIDED)
 				{
@@ -1245,7 +1245,7 @@ void	e_draw_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,UBYTE shade)
 					the_tri->P[1]			=	current_vertex-1;
 					the_tri->P[2]			=	current_vertex-3;
 
-					add_bucket(&the_tri->BucketHeader,BUCKET_TRI,p_f3->TexturePage,(SLONG)average_z);
+					add_bucket(&the_tri->BucketHeader,BUCKET_TRI,p_f3->TexturePage,(std::int32_t)average_z);
 				}
 			}
 		}
@@ -1256,12 +1256,12 @@ exit:;
 
 //---------------------------------------------------------------
 
-//void	e_draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,ULONG shadow);
-void	e_draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,ULONG shadow,SWORD dx,SWORD dy,SWORD dz);
+//void	e_draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,std::uint32_t shadow);
+void	e_draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,std::uint32_t shadow,std::int16_t dx,std::int16_t dy,std::int16_t dz);
 /*
-void	e_draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle)
+void	e_draw_test_bloke(std::int32_t x,std::int32_t y,std::int32_t z,std::uint8_t anim,std::int32_t angle)
 {
-	SLONG				c0,c1;
+	std::int32_t				c0,c1;
 	struct Matrix33		r_matrix;
 	struct	MapThing	*p_mthing;
 
@@ -1291,7 +1291,7 @@ extern KeyFrameChunk 	test_chunk;
 		{
 			if(c1==1)
 			{
-extern UBYTE	store_pos;
+extern std::uint8_t	store_pos;
 				store_pos	=	1;
 			}
 			e_draw_prim_tween	(
@@ -1308,15 +1308,15 @@ extern UBYTE	store_pos;
 */
 //---------------------------------------------------------------
 
-void	e_draw_figure(Thing *p_thing,DrawTween *draw_info,SLONG x,SLONG y,SLONG z)
+void	e_draw_figure(Thing *p_thing,DrawTween *draw_info,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG			c0,c1;
+	std::int32_t			c0,c1;
 	Matrix33		r_matrix;
 	GameKeyFrameElement		*anim_elements,
 						*next_anim_elements;
 
-	SLONG	dx=0,dy=0,dz=0;
-	SLONG	x1,y1,z1,x2,y2,z2;
+	std::int32_t	dx=0,dy=0,dz=0;
+	std::int32_t	x1,y1,z1,x2,y2,z2;
 
 	//
 	// Find the lighting context for this thing.  The e_draw_prim_tween() function
@@ -1367,13 +1367,13 @@ void	e_draw_figure(Thing *p_thing,DrawTween *draw_info,SLONG x,SLONG y,SLONG z)
 
 	if(anim_elements && next_anim_elements)
 	{
-		SLONG			ele_count,start_object;
+		std::int32_t			ele_count,start_object;
 
 		ele_count=draw_info->TheChunk->ElementCount;
 		start_object=prim_multi_objects[draw_info->TheChunk->MultiObject[0]].StartObject;
 		for(c1=0;c1<test_chunk.ElementCount;c1++)
 		{
-			SLONG	object_offset;
+			std::int32_t	object_offset;
 			//
 			// for each vue frame we need an object to draw
 			//
@@ -1403,25 +1403,25 @@ void	e_draw_figure(Thing *p_thing,DrawTween *draw_info,SLONG x,SLONG y,SLONG z)
 /*
 struct	SVECTOR
 {
-	SLONG	X,Y,Z;
+	std::int32_t	X,Y,Z;
 };
 */
 
 #define MAX_COLOURS 256
 
-ULONG d3d_colour  [MAX_COLOURS];
-ULONG d3d_specular[MAX_COLOURS];
+std::uint32_t d3d_colour  [MAX_COLOURS];
+std::uint32_t d3d_specular[MAX_COLOURS];
 
-void	e_draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,ULONG shadow,SWORD off_dx,SWORD off_dy,SWORD off_dz)
+void	e_draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,std::uint32_t shadow,std::int16_t off_dx,std::int16_t off_dy,std::int16_t off_dz)
 {
 	float			average_z,
 					bright[MAX_POINTS*3],
 					r,g,b,
 //					shade,
 					*rgb;
-	ULONG			flag_and,flag_or;
-	SLONG           p_index;
-	SLONG			az,
+	std::uint32_t			flag_and,flag_or;
+	std::int32_t           p_index;
+	std::int32_t			az,
 					c0,
 					dx,dy,dz,
 					flags[MAX_POINTS],
@@ -1447,11 +1447,11 @@ void	e_draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct Gam
 					temp_f,
 					temp_f_shadow;
 	GameCoord		pos;
-	SLONG			shade;
+	std::int32_t			shade;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
 
 //	LogText(" draw prim tween %d \n",prim);
@@ -1502,7 +1502,7 @@ void matrix_mult33(struct Matrix33* result,struct Matrix33* mat1,struct  Matrix3
 			);
 
 void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
-SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z);
+std::int32_t	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,std::int32_t l_x,std::int32_t l_y,std::int32_t l_z);
 	for(c0=sp;c0<ep;c0++)
 	{
 		matrix_transform((struct Matrix31*)&temp,&mat_final, (struct Matrix31*)&prim_points[c0]);
@@ -1544,7 +1544,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(BUCKETS_FULL)
 			goto	exit;
@@ -1608,7 +1608,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 												res_shadow[p3].Z
 											)	*	256.0f;
 
-				add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,COLOUR_LIST_1,(SLONG)average_z);
+				add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,COLOUR_LIST_1,(std::int32_t)average_z);
 			}
 		}
 
@@ -1671,7 +1671,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 				}
 				else
 				{
-					SLONG	r,g,b;
+					std::int32_t	r,g,b;
 					list	=	COLOUR_LIST_1;
 
 					//
@@ -1719,9 +1719,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 		/*
 					shade = p_f4->Bright[0] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f4->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f4->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f4->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f4->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f4->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f4->Col].B * shade);
 
 
 
@@ -1738,9 +1738,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 					shade = p_f4->Bright[1] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f4->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f4->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f4->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f4->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f4->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f4->Col].B * shade);
 
 					red   *= (d3d_colour[p1] >>  0) & 0xff;
 					green *= (d3d_colour[p1] >>  8) & 0xff;
@@ -1754,9 +1754,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 					shade = p_f4->Bright[2] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f4->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f4->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f4->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f4->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f4->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f4->Col].B * shade);
 
 					red   *= (d3d_colour[p2] >>  0) & 0xff;
 					green *= (d3d_colour[p2] >>  8) & 0xff;
@@ -1770,9 +1770,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 					shade = p_f4->Bright[3] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f4->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f4->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f4->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f4->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f4->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f4->Col].B * shade);
 
 					red   *= (d3d_colour[p3] >>  0) & 0xff;
 					green *= (d3d_colour[p3] >>  8) & 0xff;
@@ -1825,7 +1825,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 												dx_global_res[p3].Z
 											)	*	256.0f;
 
-				add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,list,(SLONG)average_z);
+				add_bucket(&the_quad->BucketHeader,BUCKET_QUAD,list,(std::int32_t)average_z);
 			}
 		}
 		p_f4++;
@@ -1833,7 +1833,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(BUCKETS_FULL)
 			goto	exit;
@@ -1889,7 +1889,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 												res_shadow[p2].Z
 											)	*	341.33f;
 
-				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,COLOUR_LIST_1,(SLONG)average_z);
+				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,COLOUR_LIST_1,(std::int32_t)average_z);
 			}
 		}
 
@@ -1945,7 +1945,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 				}
 				else
 				{
-					SLONG	r,g,b;
+					std::int32_t	r,g,b;
 					r    = ENGINE_palette[p_f3->Col].red;
 					g    = ENGINE_palette[p_f3->Col].green;
 					b    = ENGINE_palette[p_f3->Col].blue;
@@ -1983,9 +1983,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 	/*
 					shade = p_f3->Bright[0] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f3->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f3->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f3->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f3->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f3->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f3->Col].B * shade);
 
 
 					red   *= (d3d_colour[p0] >>  0) & 0xff;
@@ -2004,9 +2004,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 					shade = p_f3->Bright[0] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f3->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f3->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f3->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f3->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f3->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f3->Col].B * shade);
 
 					red   *= (d3d_colour[p0] >>  0) & 0xff;
 					green *= (d3d_colour[p0] >>  8) & 0xff;
@@ -2024,9 +2024,9 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 					shade = p_f3->Bright[0] * SHADE_MUL * 256;
 
-					red   = (SLONG) (dx_materials[p_f3->Col].R * shade);
-					green = (SLONG) (dx_materials[p_f3->Col].G * shade);
-					blue  = (SLONG) (dx_materials[p_f3->Col].B * shade);
+					red   = (std::int32_t) (dx_materials[p_f3->Col].R * shade);
+					green = (std::int32_t) (dx_materials[p_f3->Col].G * shade);
+					blue  = (std::int32_t) (dx_materials[p_f3->Col].B * shade);
 
 					red   *= (d3d_colour[p0] >>  0) & 0xff;
 					green *= (d3d_colour[p0] >>  8) & 0xff;
@@ -2072,7 +2072,7 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 												dx_global_res[p2].Z
 											)	*	341.33f;
 
-				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,list,(SLONG)average_z);
+				add_bucket(&the_tri->BucketHeader,BUCKET_TRI,list,(std::int32_t)average_z);
 			}
 		}
 		p_f3++;
@@ -2082,16 +2082,16 @@ exit:;
 
 
 
-void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void	e_draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 
 	SVECTOR_F		temp;
 	D3DTLVERTEX		*the_vertex;
 	BucketLine		*the_line;
-	ULONG	f1,f2;
+	std::uint32_t	f1,f2;
 
-	SLONG flag_and;
-	SLONG flag_or;
+	std::int32_t flag_and;
+	std::int32_t flag_or;
 
 #ifndef	_DEBUG
 //	return;
@@ -2156,12 +2156,12 @@ void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 }
 
 
-void	e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void	e_draw_3d_line_dir(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
-	SLONG	dist;
-	SLONG	nx,ny,nz;
-	SLONG	vx,vy,vz;
-	SLONG   c0;
+	std::int32_t	dist;
+	std::int32_t	nx,ny,nz;
+	std::int32_t	vx,vy,vz;
+	std::int32_t   c0;
 
 #ifndef	_DEBUG
 	return;
@@ -2171,7 +2171,7 @@ void	e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 	vz=z2-z1;
 	nx=vz;
 	nz=-vx;
-	dist=(SLONG)sqrt((float) (nx*nx+nz*nz));
+	dist=(std::int32_t)sqrt((float) (nx*nx+nz*nz));
 
 	if(dist==0)
 	{
@@ -2196,15 +2196,15 @@ void	e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 
 
 
-void	e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void	e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
 
 	SVECTOR_F		temp;
 	D3DTLVERTEX		*the_vertex;
 	BucketLine		*the_line;
-	SLONG	flag_and,flag_or;
+	std::int32_t	flag_and,flag_or;
 
-	ULONG colour;
+	std::uint32_t colour;
 
 #ifndef	_DEBUG
 	return;
@@ -2262,13 +2262,13 @@ void	e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLON
 }
 
 
-void	e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void	e_draw_3d_line_col(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
 
 	SVECTOR_F		temp;
 	D3DTLVERTEX		*the_vertex;
 	BucketLine		*the_line;
-	SLONG	flag_and,flag_or;
+	std::int32_t	flag_and,flag_or;
 
 #ifndef	_DEBUG
 	return;
@@ -2333,7 +2333,7 @@ void	e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SL
 
 }
 
-void	e_draw_3d_mapwho(SLONG x1,SLONG z1)
+void	e_draw_3d_mapwho(std::int32_t x1,std::int32_t z1)
 {
 	x1<<=ELE_SHIFT;
 	z1<<=ELE_SHIFT;
@@ -2350,7 +2350,7 @@ void	e_draw_3d_mapwho(SLONG x1,SLONG z1)
 }
 
 
-void	e_draw_3d_mapwho_y(SLONG x1,SLONG y1,SLONG z1)
+void	e_draw_3d_mapwho_y(std::int32_t x1,std::int32_t y1,std::int32_t z1)
 {
 	x1<<=ELE_SHIFT;
 	z1<<=ELE_SHIFT;
@@ -2366,11 +2366,11 @@ void	e_draw_3d_mapwho_y(SLONG x1,SLONG y1,SLONG z1)
 
 }
 
-void	e_draw_actual_col_vect(UWORD	col_vect)
+void	e_draw_actual_col_vect(std::uint16_t	col_vect)
 {
 	struct	SVECTOR	points[2];
 	struct	SVECTOR	res[2];
-	SLONG	flags[2];
+	std::int32_t	flags[2];
 
 #ifdef NDEBUG
 	return;
@@ -2387,7 +2387,7 @@ void	e_draw_actual_col_vect(UWORD	col_vect)
 		e_draw_3d_line_dir(points[0].X,points[0].Y,points[0].Z,points[1].X,points[1].Y,points[1].Z);
 
 }
-void	e_draw_col_vects(UWORD	col_vect_link)
+void	e_draw_col_vects(std::uint16_t	col_vect_link)
 {
 #ifdef NDEBUG
 	return;

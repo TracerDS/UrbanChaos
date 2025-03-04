@@ -15,7 +15,7 @@
 // Messages drawn straight to the screen.
 //
 
-//void MSG_add(CBYTE* message, ...);
+//void MSG_add(char* message, ...);
 
 //
 // This function returns the height of the floor at (x,z).
@@ -24,7 +24,7 @@
 // we'd have to include everything!
 //
 
-SLONG calc_height_at(SLONG x, SLONG z);
+std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
 
 typedef struct
@@ -43,24 +43,24 @@ typedef struct
 #endif
 
 MIST_Point MIST_point[MIST_MAX_POINTS];
-SLONG MIST_point_upto;
+std::int32_t MIST_point_upto;
 
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE detail;
-	UWORD p_index;
-	SLONG height;
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::uint8_t type;
+	std::uint8_t detail;
+	std::uint16_t p_index;
+	std::int32_t height;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
 } MIST_Mist;
 
 #define MIST_MAX_MIST 8
 
 MIST_Mist MIST_mist[MIST_MAX_MIST];
-SLONG MIST_mist_upto;
+std::int32_t MIST_mist_upto;
 
 
 
@@ -76,13 +76,13 @@ void MIST_init()
 }
 
 void MIST_create(
-		SLONG detail,			// The number of quads-per-row on the quad patch.
-		SLONG height,			// Above the ground.
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::int32_t detail,			// The number of quads-per-row on the quad patch.
+		std::int32_t height,			// Above the ground.
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
-	static SLONG type_cycle = 0;
+	std::int32_t i;
+	static std::int32_t type_cycle = 0;
 
 #ifdef	PSX
 	return;
@@ -133,40 +133,40 @@ void MIST_create(
 
 
 void MIST_gust(
-		SLONG gx1, SLONG gz1,
-		SLONG gx2, SLONG gz2)
+		std::int32_t gx1, std::int32_t gz1,
+		std::int32_t gx2, std::int32_t gz2)
 {
 #ifndef	PSX
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG sizex;
-	SLONG sizez;
+	std::int32_t sizex;
+	std::int32_t sizez;
 
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG wx;
-	SLONG wz;
+	std::int32_t wx;
+	std::int32_t wz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dgx;
-	SLONG dgz;
+	std::int32_t dgx;
+	std::int32_t dgz;
 
-	SLONG dist;
-	SLONG push;
-	SLONG dprod;
-	SLONG strength;
+	std::int32_t dist;
+	std::int32_t push;
+	std::int32_t dprod;
+	std::int32_t strength;
 
-	SLONG p_index;
+	std::int32_t p_index;
 
 	float ddu;
 	float ddv;
@@ -336,7 +336,7 @@ void MIST_gust(
 
 void MIST_process()
 {
-	SLONG i;
+	std::int32_t i;
 #ifndef	PSX
 	MIST_Point *mp;
 
@@ -357,12 +357,12 @@ void MIST_process()
 }
 
 
-SLONG MIST_get_upto;
-SLONG MIST_get_dx;
-SLONG MIST_get_dz;
+std::int32_t MIST_get_upto;
+std::int32_t MIST_get_dx;
+std::int32_t MIST_get_dz;
 float MIST_get_du;
 float MIST_get_dv;
-SLONG MIST_get_turn;
+std::int32_t MIST_get_turn;
 float MIST_get_base_u;
 float MIST_get_base_v;
 float MIST_off_u_odd;
@@ -380,7 +380,7 @@ void MIST_get_start()
 }
 
 #ifndef	PSX
-SLONG MIST_get_detail()
+std::int32_t MIST_get_detail()
 {
 	float radius;
 	float yaw_odd;
@@ -449,10 +449,10 @@ SLONG MIST_get_detail()
 		return mm->detail;
 	}
 }
-void MIST_get_point(SLONG px, SLONG pz,
-		SLONG *x,
-		SLONG *y,
-		SLONG *z)
+void MIST_get_point(std::int32_t px, std::int32_t pz,
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z)
 {
 	MIST_Mist *mm = MIST_get_mist;
 
@@ -465,11 +465,11 @@ void MIST_get_point(SLONG px, SLONG pz,
 	*y = /*PAP_calc_height_at(*x,*z) +*/ mm->height;
 }
 
-void MIST_get_texture(SLONG px, SLONG pz,
+void MIST_get_texture(std::int32_t px, std::int32_t pz,
 		float *u,
 		float *v)
 {
-	SLONG p_index;
+	std::int32_t p_index;
 
 	MIST_Point *mp;
 	MIST_Mist  *mm = MIST_get_mist;

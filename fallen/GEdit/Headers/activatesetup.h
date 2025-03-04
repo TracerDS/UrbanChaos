@@ -10,7 +10,7 @@
 //---------------------------------------------------------------
 
 void	do_activate_setup(EventPoint *ep);
-CBYTE	*get_activate_message(EventPoint *ep, CBYTE* msg);
+char	*get_activate_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 

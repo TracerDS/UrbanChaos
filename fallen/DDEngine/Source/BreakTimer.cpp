@@ -10,27 +10,27 @@
 
 // Windows timer access functions
 
-static inline ULONG GetFineTimerFreq()
+static inline std::uint32_t GetFineTimerFreq()
 {
 	LARGE_INTEGER	freq;
 
 	QueryPerformanceFrequency(&freq);
 
-	return ULONG(freq.u.LowPart);
+	return std::uint32_t(freq.u.LowPart);
 }
 
-static inline ULONG GetFineTimerValue()
+static inline std::uint32_t GetFineTimerValue()
 {
 	LARGE_INTEGER	time;
 
 	QueryPerformanceCounter(&time);
 
-	return ULONG(time.u.LowPart);
+	return std::uint32_t(time.u.LowPart);
 }
 
 // basic timing
 
-static ULONG	stopwatch_start;
+static std::uint32_t	stopwatch_start;
 
 void StartStopwatch()
 {
@@ -39,7 +39,7 @@ void StartStopwatch()
 
 float StopStopwatch()
 {
-	ULONG	time = GetFineTimerValue() - stopwatch_start;
+	std::uint32_t	time = GetFineTimerValue() - stopwatch_start;
 
 	float	secs = float(time) / float(GetFineTimerFreq());
 
@@ -52,20 +52,20 @@ const size_t MAX_BREAK = 64;
 
 static size_t	next_break;
 static size_t	max_break;
-static ULONG	time_base;
+static std::uint32_t	time_base;
 static bool		enabled = false;
 
-static ULONG	total_dfacets;
+static std::uint32_t	total_dfacets;
 
 struct BreakPoint
 {
 	const char*	name;		// name of breakpoint
-	ULONG		time;		// last measured breaktime
+	std::uint32_t		time;		// last measured breaktime
 	float		min_sec;	// minimum seconds since last breakpoint
 	float		max_sec;	// maximum seconds since last breakpoint
 	float		tot_sec;	// total seconds measured between this and last breakpoint
 	float		tot_secsq;	// total seconds measured between this and last breakpoint, squared
-	ULONG		tot_cnt;	// total number of measurements
+	std::uint32_t		tot_cnt;	// total number of measurements
 }	breakpoint[MAX_BREAK + 1];
 
 // BreakStart
@@ -102,7 +102,7 @@ void BreakTime(const char* name)
 	}
 }
 
-void BreakFacets(ULONG dfacets)
+void BreakFacets(std::uint32_t dfacets)
 {
 	total_dfacets += dfacets;
 }
@@ -120,7 +120,7 @@ void BreakFrame()
 		// get break times
 		for (size_t ii = 1; ii <= next_break; ii++)
 		{
-			ULONG	dtime = breakpoint[ii].time - breakpoint[ii-1].time;
+			std::uint32_t	dtime = breakpoint[ii].time - breakpoint[ii-1].time;
 			float	dsec = float(dtime) / float(time_base);
 
 			if (dsec < breakpoint[ii].min_sec)	breakpoint[ii].min_sec = dsec;
@@ -131,7 +131,7 @@ void BreakFrame()
 		}
 
 		// get frame time
-		ULONG	dtime = breakpoint[next_break].time - breakpoint[0].time;
+		std::uint32_t	dtime = breakpoint[next_break].time - breakpoint[0].time;
 		float	dsec = float(dtime) / float(time_base);
 
 		if (dsec < breakpoint[0].min_sec)	breakpoint[0].min_sec = dsec;
@@ -165,10 +165,10 @@ void BreakEnd(const char* filename)
 		float	variance = eXsq - eX*eX;	// var = E[X^2] - E[X]^2
 		float	stddev = float(sqrt(variance));
 
-		ULONG	min = ULONG(floor(breakpoint[0].min_sec * 1000000 + 0.5));
-		ULONG	max = ULONG(floor(breakpoint[0].max_sec * 1000000 + 0.5));
-		ULONG	av  = ULONG(floor(eX * 1000000 + 0.5));
-		ULONG	sd  = ULONG(floor(stddev * 1000000 + 0.5));
+		std::uint32_t	min = std::uint32_t(floor(breakpoint[0].min_sec * 1000000 + 0.5));
+		std::uint32_t	max = std::uint32_t(floor(breakpoint[0].max_sec * 1000000 + 0.5));
+		std::uint32_t	av  = std::uint32_t(floor(eX * 1000000 + 0.5));
+		std::uint32_t	sd  = std::uint32_t(floor(stddev * 1000000 + 0.5));
 
 		if (0)
 		{
@@ -183,12 +183,12 @@ void BreakEnd(const char* filename)
 			float	variance = eXsq - eX*eX;	// var = E[X^2] - E[X]^2
 			float	stddev = float(sqrt(variance));
 
-			ULONG	min = ULONG(floor(breakpoint[ii].min_sec * 1000000 + 0.5));
-			ULONG	max = ULONG(floor(breakpoint[ii].max_sec * 1000000 + 0.5));
-			ULONG	av  = ULONG(floor(eX * 1000000 + 0.5));
-			ULONG	sd  = ULONG(floor(stddev * 1000000 + 0.5));
-//			ULONG	apc = ULONG(floor(breakpoint[ii].tot_sec * 100 / breakpoint[0].tot_sec + 0.5));
-			ULONG	apc = ULONG(floor(eX * 1000000 / 333 + 0.5));
+			std::uint32_t	min = std::uint32_t(floor(breakpoint[ii].min_sec * 1000000 + 0.5));
+			std::uint32_t	max = std::uint32_t(floor(breakpoint[ii].max_sec * 1000000 + 0.5));
+			std::uint32_t	av  = std::uint32_t(floor(eX * 1000000 + 0.5));
+			std::uint32_t	sd  = std::uint32_t(floor(stddev * 1000000 + 0.5));
+//			std::uint32_t	apc = std::uint32_t(floor(breakpoint[ii].tot_sec * 100 / breakpoint[0].tot_sec + 0.5));
+			std::uint32_t	apc = std::uint32_t(floor(eX * 1000000 / 333 + 0.5));
 
 			if (0)
 			{

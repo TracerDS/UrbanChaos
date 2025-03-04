@@ -262,9 +262,9 @@
 // FUNCS
 //
 
-CBYTE* XLAT_str(SLONG string_id, CBYTE* xlat_dest=0);
-CBYTE* XLAT_str_ptr(SLONG string_id);
-void XLAT_load(CBYTE* fn);
+char* XLAT_str(std::int32_t string_id, char* xlat_dest=0);
+char* XLAT_str_ptr(std::int32_t string_id);
+void XLAT_load(char* fn);
 void XLAT_init();
 
 #endif

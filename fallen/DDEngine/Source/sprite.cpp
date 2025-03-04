@@ -12,10 +12,10 @@ void SPRITE_draw_tex_distorted(
 		float world_y,
 		float world_z,
 		float world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		SLONG sort,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::int32_t sort,
 		SPRITE_draw_tex_distorted_params *pParams)
 {
 #define GET_FROM_PARAMS(argname) float argname = pParams->argname
@@ -39,12 +39,12 @@ void SPRITE_draw_tex_distorted(
 		float world_y,
 		float world_z,
 		float world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
 		float	u,float v,float w,float h,
 		float   wx1, float wy1, float wx2, float wy2, float wx3, float wy3, float wx4, float wy4,
-		SLONG sort)
+		std::int32_t sort)
 {
 #endif //#else //#ifdef TARGET_DC
 
@@ -150,10 +150,10 @@ void SPRITE_draw(
 		float world_y,
 		float world_z,
 		float world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		SLONG sort)
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::int32_t sort)
 {
 	float screen_size;
 
@@ -253,11 +253,11 @@ void SPRITE_draw_tex(
 		float world_y,
 		float world_z,
 		float world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
 		float	u,float v,float w,float h,
-		SLONG sort)
+		std::int32_t sort)
 {
 	float screen_size;
 

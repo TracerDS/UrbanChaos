@@ -53,13 +53,13 @@ extern struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
 
 typedef struct
 {
-	SLONG minx;
-	SLONG miny;
-	SLONG minz;
+	std::int32_t minx;
+	std::int32_t miny;
+	std::int32_t minz;
 
-	SLONG maxx;
-	SLONG maxy;
-	SLONG maxz;
+	std::int32_t maxx;
+	std::int32_t maxy;
+	std::int32_t maxz;
 
 } AnimPrimBbox;
 
@@ -74,40 +74,40 @@ extern AnimPrimBbox anim_prim_bbox[MAX_ANIM_CHUNKS];
 // Functions
 //
 
-extern SLONG find_grab_face(
-				SLONG  x,
-				SLONG  y,
-				SLONG  z,
-				SLONG  radius,
-				SLONG  dy,
-				SLONG  angle,
-				SLONG *grab_x,
-				SLONG *grab_y,
-				SLONG *grab_z,
-				SLONG *grab_angle,
-				SLONG ignore_faces_from_this_building,
-				SLONG trench,
-				SLONG *type,
+extern std::int32_t find_grab_face(
+				std::int32_t  x,
+				std::int32_t  y,
+				std::int32_t  z,
+				std::int32_t  radius,
+				std::int32_t  dy,
+				std::int32_t  angle,
+				std::int32_t *grab_x,
+				std::int32_t *grab_y,
+				std::int32_t *grab_z,
+				std::int32_t *grab_angle,
+				std::int32_t ignore_faces_from_this_building,
+				std::int32_t trench,
+				std::int32_t *type,
 				Thing *p_person);
 
 
 #if !defined(PSX) && !defined(TARGET_DC)
-extern SLONG find_grab_face_in_sewers(
-				SLONG  x,
-				SLONG  y,
-				SLONG  z,
-				SLONG  radius,
-				SLONG  dy,
-				SLONG  angle,
-				SLONG *grab_x,
-				SLONG *grab_y,
-				SLONG *grab_z,
-				SLONG *grab_angle);
+extern std::int32_t find_grab_face_in_sewers(
+				std::int32_t  x,
+				std::int32_t  y,
+				std::int32_t  z,
+				std::int32_t  radius,
+				std::int32_t  dy,
+				std::int32_t  angle,
+				std::int32_t *grab_x,
+				std::int32_t *grab_y,
+				std::int32_t *grab_z,
+				std::int32_t *grab_angle);
 #endif
 
-extern void	calc_sub_objects_position(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
-extern void	calc_sub_objects_position_keys(Thing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2);
-extern void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z);
+extern void	calc_sub_objects_position(Thing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z);
+extern void	calc_sub_objects_position_keys(Thing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z,struct GameKeyFrame *frame1,struct GameKeyFrame *frame2);
+extern void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFrame *next_frame,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z);
 
 
 //
@@ -115,7 +115,7 @@ extern void	calc_sub_objects_position_global(GameKeyFrame *cur_frame,GameKeyFram
 // The length goes from 1 to CABLE_ALONG_MAX (defined in building.h)
 //
 
-SLONG find_cable_y_along(struct DFacet *p_facet, SLONG along); // 0 <= along <= CABLE_MAX_ALONG
+std::int32_t find_cable_y_along(struct DFacet *p_facet, std::int32_t along); // 0 <= along <= CABLE_MAX_ALONG
 
 
 #endif

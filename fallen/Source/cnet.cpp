@@ -6,20 +6,20 @@
 #include "..\psxlib\headers\net.h"
 #endif
 
-UBYTE CNET_network_game;
-UBYTE CNET_i_am_host;
+std::uint8_t CNET_network_game;
+std::uint8_t CNET_i_am_host;
 
-UBYTE CNET_player_id=0;
-UBYTE CNET_num_players=1;
+std::uint8_t CNET_player_id=0;
+std::uint8_t CNET_num_players=1;
 
 #ifndef	PSX
 #ifndef TARGET_DC
 
-void CNET_display_error(CBYTE* error)
+void CNET_display_error(char* error)
 {
-	SLONG i;
+	std::int32_t i;
 
-	UBYTE e[18];
+	std::uint8_t e[18];
 
 
 	(e[1]) = 10;
@@ -48,25 +48,25 @@ void CNET_display_error(CBYTE* error)
 
 
 
-UBYTE CNET_connected;
+std::uint8_t CNET_connected;
 
-SLONG CNET_configure()
+std::int32_t CNET_configure()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG y;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG word1;
-	SLONG word2;
+	std::int32_t word1;
+	std::int32_t word2;
 
-	SLONG num_connections;
-	SLONG num_sessions;
-	SLONG num_players;
+	std::int32_t num_connections;
+	std::int32_t num_sessions;
+	std::int32_t num_players;
 
 	NET_Message mess;
 
-	CBYTE* my_name;
+	char* my_name;
 
 	#define NUM_WORDS 8
 	#define NUM_NAMES 16
@@ -76,7 +76,7 @@ SLONG CNET_configure()
 #endif
 #endif
 
-	CBYTE* word[NUM_WORDS] =
+	char* word[NUM_WORDS] =
 	{
 		"City",
 		"Fallen",
@@ -88,7 +88,7 @@ SLONG CNET_configure()
 		"Siren"
 	};
 
-	CBYTE* name[NUM_NAMES] =
+	char* name[NUM_NAMES] =
 	{
 		"Dipsy",
 		"La La",
@@ -108,7 +108,7 @@ SLONG CNET_configure()
 		"Miranda"
 	};
 
-	CBYTE session_name[NET_NAME_LENGTH];
+	char session_name[NET_NAME_LENGTH];
 
 	//
 	// Choose a name...

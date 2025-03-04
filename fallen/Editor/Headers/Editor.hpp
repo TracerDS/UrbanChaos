@@ -51,9 +51,9 @@
 #define	EDITOR_NORMAL		(1<<0)
 #define	EDITOR_RECORD		(1<<1)
 
-extern UBYTE				editor_status;
+extern std::uint8_t				editor_status;
 
-UBYTE						editor_loop();
+std::uint8_t						editor_loop();
 
 #define	ShowWorkScreen(f)	editor_show_work_screen(f)
 #define	ShowWorkWindow(f)	editor_show_work_window(f)
@@ -67,8 +67,8 @@ UBYTE						editor_loop();
 #define	FREE_UNSHARED_TEXTURES	(1<<1)
 #define	FREE_ALL_TEXTURES		(3)
 
-extern void	load_game_textures(UBYTE flags);
-extern void	free_game_textures(UBYTE flags);
+extern void	load_game_textures(std::uint8_t flags);
+extern void	free_game_textures(std::uint8_t flags);
 
 
 #endif

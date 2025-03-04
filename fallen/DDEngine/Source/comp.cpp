@@ -15,16 +15,16 @@
 
 struct COMP_Pan
 {
-	UBYTE num;
-	UBYTE pan;
+	std::uint8_t num;
+	std::uint8_t pan;
 };
 
 struct COMP_Update
 {
-	UBYTE     x;
-	UBYTE     y;
-	UBYTE     num;
-	UBYTE     last;	// true => there are no more update structures.
+	std::uint8_t     x;
+	std::uint8_t     y;
+	std::uint8_t     num;
+	std::uint8_t     last;	// true => there are no more update structures.
 	IC_Packet ip[];
 };
 
@@ -53,12 +53,12 @@ TGA_Pixel COMP_tga_colour(float x, float y)
 	ASSERT(false);
 	return ans;
 #else
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
 
-	px = SLONG(float(COMP_tga_info.width)  * x);
-	py = SLONG(float(COMP_tga_info.height) * y);
+	px = std::int32_t(float(COMP_tga_info.width)  * x);
+	py = std::int32_t(float(COMP_tga_info.height) * y);
 
 	SATURATE(px, 0, COMP_tga_info.width  - 1);
 	SATURATE(py, 0, COMP_tga_info.height - 1);
@@ -72,7 +72,7 @@ TGA_Pixel COMP_tga_colour(float x, float y)
 
 
 
-SLONG COMP_load(CBYTE* filename, COMP_Frame *cf)
+std::int32_t COMP_load(char* filename, COMP_Frame *cf)
 {
 #ifdef TARGET_DC
 	// This has been spoofed to save memory -
@@ -81,15 +81,15 @@ SLONG COMP_load(CBYTE* filename, COMP_Frame *cf)
 	return true;
 #else
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
 	TGA_Pixel tp;
 
@@ -154,28 +154,28 @@ SLONG COMP_load(CBYTE* filename, COMP_Frame *cf)
 // clamp to be inside the frame.
 //
 
-SLONG COMP_square_error(
+std::int32_t COMP_square_error(
 		COMP_Frame* f1,
-		SLONG       sx1,
-		SLONG       sy1,
+		std::int32_t       sx1,
+		std::int32_t       sy1,
 		COMP_Frame* f2,
-		SLONG       sx2,
-		SLONG       sy2,
-		SLONG       size)
+		std::int32_t       sx2,
+		std::int32_t       sy2,
+		std::int32_t       size)
 {
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG x1;
-	SLONG y1;
+	std::int32_t x1;
+	std::int32_t y1;
 
-	SLONG x2;
-	SLONG y2;
+	std::int32_t x2;
+	std::int32_t y2;
 
 	TGA_Pixel *tp1;
 	TGA_Pixel *tp2;
 
-	SLONG error = 0;
+	std::int32_t error = 0;
 
 	for (dx = 0; dx < size; dx++)
 	for (dy = 0; dy < size; dy++)
@@ -209,21 +209,21 @@ SLONG COMP_square_error(
 
 void COMP_square_copy(
 		COMP_Frame* f1,
-		SLONG       sx1,
-		SLONG       sy1,
+		std::int32_t       sx1,
+		std::int32_t       sy1,
 		COMP_Frame* f2,
-		SLONG       sx2,
-		SLONG       sy2,
-		SLONG       size)
+		std::int32_t       sx2,
+		std::int32_t       sy2,
+		std::int32_t       size)
 {
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG x1;
-	SLONG y1;
+	std::int32_t x1;
+	std::int32_t y1;
 
-	SLONG x2;
-	SLONG y2;
+	std::int32_t x2;
+	std::int32_t y2;
 
 	TGA_Pixel *tp1;
 	TGA_Pixel *tp2;
@@ -259,8 +259,8 @@ void COMP_square_copy(
 
 struct
 {
-	SLONG size;
-	UBYTE data[COMP_MAX_DATA];
+	std::int32_t size;
+	std::uint8_t data[COMP_MAX_DATA];
 
 } COMP_data;
 
@@ -268,40 +268,40 @@ COMP_Frame COMP_frame;
 
 COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sx;
-	SLONG sy;
+	std::int32_t sx;
+	std::int32_t sy;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG sx1;
-	SLONG sy1;
+	std::int32_t sx1;
+	std::int32_t sy1;
 
-	SLONG sx2;
-	SLONG sy2;
+	std::int32_t sx2;
+	std::int32_t sy2;
 
-	SLONG error;
+	std::int32_t error;
 
-	SLONG best_error;
-	SLONG best_dx;
-	SLONG best_dy;
-	SLONG best_pan;
+	std::int32_t best_error;
+	std::int32_t best_dx;
+	std::int32_t best_dy;
+	std::int32_t best_pan;
 
-	UBYTE pan[COMP_SNUM * COMP_SNUM];
-	SLONG pan_upto = 0;
-	SLONG pan_index;
+	std::uint8_t pan[COMP_SNUM * COMP_SNUM];
+	std::int32_t pan_upto = 0;
+	std::int32_t pan_index;
 
-	UBYTE diff[COMP_SIZE * COMP_SIZE / 16];
-	SLONG diff_upto = 0;
+	std::uint8_t diff[COMP_SIZE * COMP_SIZE / 16];
+	std::int32_t diff_upto = 0;
 
 	COMP_Pan    *cp;
 	COMP_Update *cu;
 	IC_Packet   *ip;
 
-	SLONG cu_valid;
-	SLONG cu_num;
+	std::int32_t cu_valid;
+	std::int32_t cu_num;
 
 	//
 	// Work out the best pan values to get from frame one to frame two.
@@ -556,8 +556,8 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans)
 		cu->last = true;
 	}
 
-	UBYTE *data_start = COMP_data.data;
-	UBYTE *data_end   = (UBYTE *) ip;
+	std::uint8_t *data_start = COMP_data.data;
+	std::uint8_t *data_end   = (std::uint8_t *) ip;
 
 	COMP_data.size = data_end - data_start;
 
@@ -575,11 +575,11 @@ void COMP_decomp(
 		COMP_Delta *delta,
 		COMP_Frame *result)
 {
-	SLONG i;
-	SLONG sx;
-	SLONG sy;
-	SLONG dx;
-	SLONG dy;
+	std::int32_t i;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t dx;
+	std::int32_t dy;
 
 	COMP_Pan    *cp;
 	COMP_Update *cu;

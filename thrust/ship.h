@@ -35,14 +35,14 @@
 
 typedef struct
 {
-	UWORD flag;
-	UBYTE tb;		// The tractor beam if (flag & SHIP_FLAG_TRACTOR_BEAM)
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
-	UWORD padding;
-	CBYTE name[32];
-	SLONG active;	// The gameturn when this ship becomes active.
+	std::uint16_t flag;
+	std::uint8_t tb;		// The tractor beam if (flag & SHIP_FLAG_TRACTOR_BEAM)
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
+	std::uint16_t padding;
+	char name[32];
+	std::int32_t active;	// The gameturn when this ship becomes active.
 	float x;
 	float y;
 	float angle;
@@ -75,17 +75,17 @@ SHIP_Ship *SHIP_create(
 				float  y,
 				float  mass  = 1.0F,
 				float  power = 1.0F,
-				UBYTE  red   = 255,
-				UBYTE  green = 255,
-				UBYTE  blue  = 100,
-				CBYTE* name  = "Player");
+				std::uint8_t  red   = 255,
+				std::uint8_t  green = 255,
+				std::uint8_t  blue  = 100,
+				char* name  = "Player");
 
 //
 // Flags all the ship's that come alive on
 // the given gameturn as being alive.
 //
 
-void SHIP_flag_active(SLONG gameturn);
+void SHIP_flag_active(std::int32_t gameturn);
 
 
 //

@@ -30,8 +30,8 @@ PrimInfo *prim_info;//[256];//MAX_PRIM_OBJECTS];
 
 #if !defined(PSX) && !defined(TARGET_DC)
 struct SVector			global_res[15560]; //max points per object?
-SLONG global_flags[15560];
-UWORD global_bright[15560];
+std::int32_t global_flags[15560];
+std::uint16_t global_bright[15560];
 #endif
 
 extern struct KeyFrameChunk 	*test_chunk;
@@ -43,13 +43,13 @@ extern struct KeyFrameChunk 	*test_chunk;
 #define	USED_FACE4	(1<<2)
 
 #ifndef PSX
-CBYTE prim_names[MAX_PRIM_OBJECTS][32];
+char prim_names[MAX_PRIM_OBJECTS][32];
 #endif
 
 #ifndef PSX
-void delete_prim_points_block(SLONG start,SLONG count)
+void delete_prim_points_block(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=start+count;c0<next_prim_point;c0++)
 	{
@@ -58,9 +58,9 @@ void delete_prim_points_block(SLONG start,SLONG count)
 	next_prim_point-=count;
 }
 
-void delete_prim_faces3_block(SLONG start,SLONG count)
+void delete_prim_faces3_block(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=start+count;c0<next_prim_face3;c0++)
 	{
@@ -69,9 +69,9 @@ void delete_prim_faces3_block(SLONG start,SLONG count)
 	next_prim_face3-=count;
 }
 
-void delete_prim_faces4_block(SLONG start,SLONG count)
+void delete_prim_faces4_block(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=start+count;c0<next_prim_face4;c0++)
 	{
@@ -84,9 +84,9 @@ void delete_prim_faces4_block(SLONG start,SLONG count)
 // adjusts all the point references in the face structures
 // because we have deleted a block of points
 //
-void fix_faces_for_del_points(SLONG start,SLONG count)
+void fix_faces_for_del_points(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	for(c0=1;c0<next_prim_face3;c0++)
 	{
 		for(c1=0;c1<3;c1++)
@@ -109,9 +109,9 @@ void fix_faces_for_del_points(SLONG start,SLONG count)
 	}
 }
 
-void fix_objects_for_del_points(SLONG start,SLONG count)
+void fix_objects_for_del_points(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	for(c0=1;c0<next_prim_object;c0++)
 	{
 		if(prim_objects[c0].StartPoint>start)
@@ -122,9 +122,9 @@ void fix_objects_for_del_points(SLONG start,SLONG count)
 	}
 }
 
-void fix_objects_for_del_faces3(SLONG start,SLONG count)
+void fix_objects_for_del_faces3(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	for(c0=1;c0<next_prim_object;c0++)
 	{
 		if(prim_objects[c0].StartFace3>start)
@@ -135,9 +135,9 @@ void fix_objects_for_del_faces3(SLONG start,SLONG count)
 	}
 }
 
-void fix_objects_for_del_faces4(SLONG start,SLONG count)
+void fix_objects_for_del_faces4(std::int32_t start,std::int32_t count)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	for(c0=1;c0<next_prim_object;c0++)
 	{
 		if(prim_objects[c0].StartFace4>start)
@@ -151,14 +151,14 @@ void fix_objects_for_del_faces4(SLONG start,SLONG count)
 void compress_prims()
 {
 #if !defined(PSX) && !defined(TARGET_DC)
-	SLONG	c0,c1;
-	SLONG	sp,ep,sf,ef;
-	UBYTE	*pf;
-	SLONG	count;
+	std::int32_t	c0,c1;
+	std::int32_t	sp,ep,sf,ef;
+	std::uint8_t	*pf;
+	std::int32_t	count;
 
 	struct	PrimObject	*p_obj;
 
-	pf=(UBYTE*)&global_bright[0];
+	pf=(std::uint8_t*)&global_bright[0];
 
 	memset(pf,0,15560*2);
 
@@ -250,13 +250,13 @@ void compress_prims()
 
 void clear_prims()
 {
-	SLONG c0;
+	std::int32_t c0;
 	//
 	// Mark all the prim objects as unloaded.
 	//
 
-	memset((UBYTE*)&prim_objects[0],       0, sizeof(PrimObject)      * MAX_PRIM_OBJECTS);
-	memset((UBYTE*)&prim_multi_objects[0], 0, sizeof(PrimMultiObject) * MAX_PRIM_MOBJECTS);
+	memset((std::uint8_t*)&prim_objects[0],       0, sizeof(PrimObject)      * MAX_PRIM_OBJECTS);
+	memset((std::uint8_t*)&prim_multi_objects[0], 0, sizeof(PrimMultiObject) * MAX_PRIM_MOBJECTS);
 
 	for(c0=0;c0<MAX_ANIM_CHUNKS;c0++)
 		anim_chunk[c0].MultiObject[0]=0;
@@ -269,12 +269,12 @@ void clear_prims()
 }
 
 // Smooth lighting on a prim
-SLONG sum_shared_brightness_prim(SWORD shared_point,struct PrimObject *p_obj)
+std::int32_t sum_shared_brightness_prim(std::int16_t shared_point,struct PrimObject *p_obj)
 {
-	SLONG	c0,point;
-	SLONG	face;
-	SLONG	bright=0;
-	SLONG count=0;
+	std::int32_t	c0,point;
+	std::int32_t	face;
+	std::int32_t	bright=0;
+	std::int32_t count=0;
 
 	for(face=p_obj->StartFace3;face<p_obj->EndFace3;face++)
 		for(point=0;point<3;point++)
@@ -302,10 +302,10 @@ SLONG sum_shared_brightness_prim(SWORD shared_point,struct PrimObject *p_obj)
 		return(0);
 }
 
-void set_shared_brightness_prim(SWORD shared_point,SWORD bright,struct PrimObject *p_obj)
+void set_shared_brightness_prim(std::int16_t shared_point,std::int16_t bright,struct PrimObject *p_obj)
 {
-	SLONG	c0,point;
-	SLONG	face;
+	std::int32_t	c0,point;
+	std::int32_t	face;
 
 	for(face=p_obj->StartFace3;face<p_obj->EndFace3;face++)
 		for(point=0;point<3;point++)
@@ -329,12 +329,12 @@ void set_shared_brightness_prim(SWORD shared_point,SWORD bright,struct PrimObjec
 
 
 
-void smooth_a_prim(SLONG prim)
+void smooth_a_prim(std::int32_t prim)
 {
-	SLONG	face;
-	SLONG	bright;
+	std::int32_t	face;
+	std::int32_t	bright;
 	struct	PrimObject	*p_obj;
-	SLONG	point;
+	std::int32_t	point;
 
 	p_obj    =	&prim_objects[prim];
 
@@ -374,11 +374,11 @@ void smooth_a_prim(SLONG prim)
  *
  */
 
-SLONG copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing)
+std::int32_t copy_prim_to_end(std::uint16_t prim,std::uint16_t direct,std::int16_t thing)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
+	std::int32_t	sp,ep;
 
 	p_obj    =&prim_objects[prim];
 
@@ -441,9 +441,9 @@ SLONG copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing)
 	return(end_prim_object+1);
 }
 
-void delete_prim_points(SLONG start,SLONG end)
+void delete_prim_points(std::int32_t start,std::int32_t end)
 {
-	SLONG	c0,offset;
+	std::int32_t	c0,offset;
 	offset=end-start;
 
 	for(c0=end;c0<next_prim_point;c0++)
@@ -473,9 +473,9 @@ void delete_prim_points(SLONG start,SLONG end)
 			prim_faces4[c0].Points[3]-=offset;
 	}
 }
-void delete_prim_faces3(SLONG start,SLONG end)
+void delete_prim_faces3(std::int32_t start,std::int32_t end)
 {
-	SLONG	c0,offset;
+	std::int32_t	c0,offset;
 	offset=end-start;
 
 	for(c0=end;c0<next_prim_point;c0++)
@@ -492,9 +492,9 @@ void delete_prim_faces3(SLONG start,SLONG end)
 	}
 }
 
-void delete_prim_faces4(SLONG start,SLONG end)
+void delete_prim_faces4(std::int32_t start,std::int32_t end)
 {
-	SLONG	c0,offset;
+	std::int32_t	c0,offset;
 	offset=end-start;
 
 	for(c0=end;c0<next_prim_point;c0++)
@@ -511,9 +511,9 @@ void delete_prim_faces4(SLONG start,SLONG end)
 	}
 }
 
-void delete_prim_objects(SLONG start,SLONG end)
+void delete_prim_objects(std::int32_t start,std::int32_t end)
 {
-	SLONG	c0,offset;
+	std::int32_t	c0,offset;
 	offset=end-start;
 
 	for(c0=end;c0<next_prim_point;c0++)
@@ -531,9 +531,9 @@ void delete_last_prim()
 }
 
 
-void delete_a_prim(UWORD prim)
+void delete_a_prim(std::uint16_t prim)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	MSG_add("ERROR: c0 is undefined! Should it be prim?");
 
@@ -553,14 +553,14 @@ void delete_a_prim(UWORD prim)
 //#define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
 
-//void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SWORD bright)
+//void	apply_light_to_map(std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t bright)
 /*
-UWORD calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect)
+std::uint16_t calc_lights(std::int32_t x,std::int32_t y,std::int32_t z,struct SVector *p_vect)
 {
-	SLONG	dx,dy,dz,dist;
-	SLONG	lx,ly,lz;
-	ULONG	c0;
-	SLONG	total=0;
+	std::int32_t	dx,dy,dz,dist;
+	std::int32_t	lx,ly,lz;
+	std::uint32_t	c0;
+	std::int32_t	total=0;
 
 	lx=p_vect->X+x;
 	ly=p_vect->Y+y;
@@ -587,13 +587,13 @@ UWORD calc_lights(SLONG x,SLONG y,SLONG z,struct SVector *p_vect)
 */
 
 #ifndef	PSX
-void calc_normal(SWORD	face,struct SVector *p_normal)
+void calc_normal(std::int16_t	face,struct SVector *p_normal)
 {
-	SLONG	vx,vy,vz,wx,wy,wz;
+	std::int32_t	vx,vy,vz,wx,wy,wz;
 	struct	PrimFace3 *this_face3;
 	struct	PrimFace4 *this_face4;
-	SLONG	nx,ny,nz;
-	SLONG	length;
+	std::int32_t	nx,ny,nz;
+	std::int32_t	length;
 	struct	PrimPoint	*p_op0,*p_op1,*p_op2;
 	/*
 	if(face==-9823)
@@ -667,12 +667,12 @@ void calc_normal(SWORD	face,struct SVector *p_normal)
 
 }
 
-void quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz)
+void quick_normal(std::int16_t	face,std::int32_t *nx,std::int32_t *ny,std::int32_t *nz)
 {
-	SLONG	vx,vy,vz,wx,wy,wz;
+	std::int32_t	vx,vy,vz,wx,wy,wz;
 	struct	PrimFace3 *this_face3;
 	struct	PrimFace4 *this_face4;
-	SLONG	length;
+	std::int32_t	length;
 	struct	PrimPoint	*p_op0,*p_op1,*p_op2;
 	if(face==-9823)
 	{
@@ -713,22 +713,22 @@ void quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz)
 #define	in_shadow(x,y,z,i,j,k)	0
 #define	in_shadowo(x,y,z,i,j,k)	0
 
-UWORD apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense)
+std::uint16_t apply_ambient_light_to_object(std::uint16_t object,std::int32_t lnx,std::int32_t lny,std::int32_t lnz,std::uint16_t intense)
 {
-//	SLONG	length,vx,vy,vz,wx,wy,wz;
+//	std::int32_t	length,vx,vy,vz,wx,wy,wz;
 	struct	MyMapElement*	me;
 	struct	MyObject *mo;
-	SLONG	count,offset=0,fred=0;
+	std::int32_t	count,offset=0,fred=0;
 	struct	PrimFace3 *this_face;
-	SLONG	nx,ny,nz;	
-	SLONG	tmp_shade;
-	UWORD	no_faces;
-	UWORD	start_face,current_face;
-	SLONG	ratio,light,repeat=0;
-	SLONG	object_y;
-	UWORD	next=0;
-	UWORD	no_faces4,start_face4;
-	SLONG	ox,oy,oz;
+	std::int32_t	nx,ny,nz;	
+	std::int32_t	tmp_shade;
+	std::uint16_t	no_faces;
+	std::uint16_t	start_face,current_face;
+	std::int32_t	ratio,light,repeat=0;
+	std::int32_t	object_y;
+	std::uint16_t	next=0;
+	std::uint16_t	no_faces4,start_face4;
+	std::int32_t	ox,oy,oz;
 //	,px,py,pz;
 	struct	PrimFace4 *this_face4;
 //	return(0);
@@ -876,12 +876,12 @@ UWORD apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,U
 #ifndef	PSX
 void calc_prim_info()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG dist;
-	SLONG below;
-	SLONG num_points;
+	std::int32_t dist;
+	std::int32_t below;
+	std::int32_t num_points;
 
 	PrimObject *obj;
 	PrimInfo   *inf;
@@ -1109,22 +1109,22 @@ void calc_prim_info()
 #define MAX_POINTS_PER_PRIM 1
 #endif
 
-UBYTE each_point[MAX_POINTS_PER_PRIM];
+std::uint8_t each_point[MAX_POINTS_PER_PRIM];
 #ifndef	PSX
 // one day
 
 void calc_prim_normals()
 {
-	SLONG   i;
-	SLONG   j;
-	SLONG   k;
-	SLONG   dx;
-	SLONG   dy;
-	SLONG   dz;
-	SLONG   dist;
-	SLONG   num_points;
+	std::int32_t   i;
+	std::int32_t   j;
+	std::int32_t   k;
+	std::int32_t   dx;
+	std::int32_t   dy;
+	std::int32_t   dz;
+	std::int32_t   dist;
+	std::int32_t   num_points;
 	SVector fnormal;
-	SLONG   p_index;
+	std::int32_t   p_index;
 
 	PrimObject *p_obj;
 	PrimFace3  *p_f3;
@@ -1153,7 +1153,7 @@ void calc_prim_normals()
 		// Mark all the points as having zero faces using them.
 		//
 
-		memset(each_point, 0, sizeof(UBYTE) * num_points);
+		memset(each_point, 0, sizeof(std::uint8_t) * num_points);
 
 		//
 		// Work out the normal for each point by going through
@@ -1281,9 +1281,9 @@ void calc_prim_normals()
 		// Normalise the length of each normal to be 256.
 		//
 
-		SLONG old_nx;
-		SLONG old_ny;
-		SLONG old_nz;
+		std::int32_t old_nx;
+		std::int32_t old_ny;
+		std::int32_t old_nz;
 
 		for (j = p_obj->StartPoint; j < p_obj->EndPoint; j++)
 		{
@@ -1319,7 +1319,7 @@ void calc_prim_normals()
 }
 #endif
 
-PrimInfo *get_prim_info(SLONG prim)
+PrimInfo *get_prim_info(std::int32_t prim)
 {
 	ASSERT(WITHIN(prim, 1, 255));
 
@@ -1331,10 +1331,10 @@ PrimInfo *get_prim_info(SLONG prim)
 #ifndef	PSX
 void calc_slide_edges_roof()
 {
-	SLONG	c0;
-	SLONG	c1;
+	std::int32_t	c0;
+	std::int32_t	c1;
 	struct	RoofFace4	*rf1,*rf2;
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 
 	for(c0=1;c0<next_roof_face4;c0++)
 	{
@@ -1345,8 +1345,8 @@ void calc_slide_edges_roof()
 
 	for(c0=1;c0<next_roof_face4;c0++)
 	{
-		SLONG	index;
-		SLONG	x,z;
+		std::int32_t	index;
+		std::int32_t	x,z;
 		//rf1->DrawFlags|=0x78;
 
 		x=(rf1->RX&127)<<8;
@@ -1376,9 +1376,9 @@ void calc_slide_edges_roof()
 		// check with floor alt
 		//
 		{
-			SLONG	pap[4],roof[4];
-			SLONG	d1,d2,c1;
-			SLONG	mx,mz;
+			std::int32_t	pap[4],roof[4];
+			std::int32_t	d1,d2,c1;
+			std::int32_t	mx,mz;
 			mx=(rf1->RX&127)<<8;
 			mz=(rf1->RZ&127)<<8;
 
@@ -1414,7 +1414,7 @@ void calc_slide_edges_roof()
 		for(dz=-1;dz<=1;dz++)
 
 		{
-			SLONG	mx,mz;
+			std::int32_t	mx,mz;
 			mx=((rf1->RX&127)>>2)+dx;
 			mz=((rf1->RZ&127)>>2)+dz;
 
@@ -1425,7 +1425,7 @@ void calc_slide_edges_roof()
 				{
 					if(index<0)
 					{
-						SLONG	d1,d2;
+						std::int32_t	d1,d2;
 
 						rf2=&roof_faces4[-index];
 //						if(rf1!=rf2)
@@ -1434,7 +1434,7 @@ void calc_slide_edges_roof()
 							{
 								if((rf1->RZ&127)==(rf2->RZ&127)+1)
 								{
-									SLONG	d1,d2;
+									std::int32_t	d1,d2;
 									// rf2
 									// rf1
 									d1=(rf1->Y)-(rf2->Y+(rf2->DY[2]<<ROOF_SHIFT));
@@ -1497,62 +1497,62 @@ void calc_slide_edges_roof()
 
 void calc_slide_edges()
 {
-	SLONG i;
-	SLONG j;
-	SLONG p;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t p;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG len;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t len;
 
-	SLONG bx;
-	SLONG by;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t by;
+	std::int32_t bz;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 	
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG ei;
-	SLONG ej;
+	std::int32_t ei;
+	std::int32_t ej;
 
-	SLONG ip1;
-	SLONG ip2;
+	std::int32_t ip1;
+	std::int32_t ip2;
 
-	SLONG jp1;
-	SLONG jp2;
+	std::int32_t jp1;
+	std::int32_t jp2;
 
-	SLONG ip1x;
-	SLONG ip1y;
-	SLONG ip1z;
+	std::int32_t ip1x;
+	std::int32_t ip1y;
+	std::int32_t ip1z;
 
-	SLONG ip2x;
-	SLONG ip2y;
-	SLONG ip2z;
+	std::int32_t ip2x;
+	std::int32_t ip2y;
+	std::int32_t ip2z;
 
-	SLONG jp1x;
-	SLONG jp1y;
-	SLONG jp1z;
+	std::int32_t jp1x;
+	std::int32_t jp1y;
+	std::int32_t jp1z;
 
-	SLONG jp2x;
-	SLONG jp2y;
-	SLONG jp2z;
+	std::int32_t jp2x;
+	std::int32_t jp2y;
+	std::int32_t jp2z;
 
-	SLONG near_height;
-	SLONG pos_face;
+	std::int32_t near_height;
+	std::int32_t pos_face;
 
 	PrimFace4 *f;
 	PrimFace4 *g;
 
-	SLONG index;
+	std::int32_t index;
 
 	//
 	// Set all the slide edge bits.
@@ -1581,7 +1581,7 @@ void calc_slide_edges()
 	// bits along their edges.
 	//
 
-	UBYTE point_order[4] = {0, 1, 3, 2};
+	std::uint8_t point_order[4] = {0, 1, 3, 2};
 
 	for (i = 1; i < next_prim_face4; i++)
 	{
@@ -1881,25 +1881,25 @@ void calc_slide_edges()
 }
 
 void get_rotated_point_world_pos(
-		SLONG  point,				// -1 => A random point.
-		SLONG  prim,
-		SLONG  prim_x,
-		SLONG  prim_y,
-		SLONG  prim_z,
-		SLONG  prim_yaw,
-		SLONG  prim_pitch,
-		SLONG  prim_roll,
-		SLONG *px,
-		SLONG *py,
-		SLONG *pz)
+		std::int32_t  point,				// -1 => A random point.
+		std::int32_t  prim,
+		std::int32_t  prim_x,
+		std::int32_t  prim_y,
+		std::int32_t  prim_z,
+		std::int32_t  prim_yaw,
+		std::int32_t  prim_pitch,
+		std::int32_t  prim_roll,
+		std::int32_t *px,
+		std::int32_t *py,
+		std::int32_t *pz)
 {
-	SLONG matrix[9];
+	std::int32_t matrix[9];
 
 	ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 
 	PrimObject *po = &prim_objects[prim];
 
-	SLONG num_points = po->EndPoint - po->StartPoint;
+	std::int32_t num_points = po->EndPoint - po->StartPoint;
 
 	//
 	// The rotation matrix of the prim.
@@ -1921,9 +1921,9 @@ void get_rotated_point_world_pos(
 		point += po->StartPoint;
 	}
 
-	SLONG x = prim_points[point].X;
-	SLONG y = prim_points[point].Y;
-	SLONG z = prim_points[point].Z;
+	std::int32_t x = prim_points[point].X;
+	std::int32_t y = prim_points[point].Y;
+	std::int32_t z = prim_points[point].Z;
 
 	FMATRIX_MUL_BY_TRANSPOSE(
 		matrix,
@@ -1942,24 +1942,24 @@ void get_rotated_point_world_pos(
 #endif
 
 
-SLONG slide_along_prim(
-		SLONG  prim,
-		SLONG  prim_x,
-		SLONG  prim_y,
-		SLONG  prim_z,
-		SLONG  prim_yaw,
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  radius,
-		SLONG  shrink,
-		SLONG  dont_slide)	// true => Don't move if the vector collides with the prim.
+std::int32_t slide_along_prim(
+		std::int32_t  prim,
+		std::int32_t  prim_x,
+		std::int32_t  prim_y,
+		std::int32_t  prim_z,
+		std::int32_t  prim_yaw,
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  radius,
+		std::int32_t  shrink,
+		std::int32_t  dont_slide)	// true => Don't move if the vector collides with the prim.
 {
-	SLONG old_x2 = *x2;
-	SLONG old_y2 = *y2;
-	SLONG old_z2 = *z2;
+	std::int32_t old_x2 = *x2;
+	std::int32_t old_y2 = *y2;
+	std::int32_t old_z2 = *z2;
 
-	SWORD y_bot;
-	SWORD y_top;
+	std::int16_t y_bot;
+	std::int16_t y_top;
 
 	PrimInfo *pi;
 
@@ -2034,14 +2034,14 @@ SLONG slide_along_prim(
 }
 
 
-UBYTE prim_get_collision_model(SLONG prim)
+std::uint8_t prim_get_collision_model(std::int32_t prim)
 {
 	ASSERT(WITHIN(prim, 0, 255));
 
 	return prim_objects[prim].coltype;
 }
 
-UBYTE prim_get_shadow_type(SLONG prim)
+std::uint8_t prim_get_shadow_type(std::int32_t prim)
 {
 	ASSERT(WITHIN(prim, 0, 255));
 
@@ -2053,7 +2053,7 @@ UBYTE prim_get_shadow_type(SLONG prim)
 void fn_anim_prim_normal(Thing *p_thing)
 {
 	Switch		*the_switch;
-	SLONG	     tween_step;
+	std::int32_t	     tween_step;
 	DrawTween	*draw_info;
 
 	draw_info=p_thing->Draw.Tweened;
@@ -2072,7 +2072,7 @@ void fn_anim_prim_normal(Thing *p_thing)
 	{
 		draw_info->AnimTween-=256;
 
-		SLONG advance_keyframe(DrawTween *draw_info);
+		std::int32_t advance_keyframe(DrawTween *draw_info);
 
 		if (advance_keyframe(draw_info))
 		{
@@ -2128,9 +2128,9 @@ void fn_anim_prim_normal(Thing *p_thing)
 	}
 }
 
-void create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw)
+void create_anim_prim(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t prim, std::int32_t yaw)
 {
- 	SLONG	new_thing;
+ 	std::int32_t	new_thing;
 	Thing	*t_thing;
  	new_thing	=	alloc_primary_thing(CLASS_ANIM_PRIM);
 	if(new_thing)
@@ -2192,7 +2192,7 @@ void create_anim_prim(SLONG x,SLONG y,SLONG z,SLONG prim, SLONG yaw)
 	}
 }
 
-void set_anim_prim_anim(SLONG anim_prim, SLONG anim)
+void set_anim_prim_anim(std::int32_t anim_prim, std::int32_t anim)
 {
 	Thing *t_thing = TO_THING(anim_prim);
 
@@ -2215,7 +2215,7 @@ void set_anim_prim_anim(SLONG anim_prim, SLONG anim)
 
 
 
-SLONG get_anim_prim_type(SLONG anim_prim)
+std::int32_t get_anim_prim_type(std::int32_t anim_prim)
 {
 	switch(anim_prim)
 	{
@@ -2242,28 +2242,28 @@ SLONG get_anim_prim_type(SLONG anim_prim)
 
 THING_INDEX found_aprim[MAX_FIND_ANIM_PRIMS];
 
-SLONG find_anim_prim(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG range,
-		ULONG type_bit_field)
+std::int32_t find_anim_prim(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t range,
+		std::uint32_t type_bit_field)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	THING_INDEX best_thing = NULL;
-	SLONG       best_dist  = range + 1;
+	std::int32_t       best_dist  = range + 1;
 
 	//
 	// Find all anim prims in range.
 	//
 
-	SLONG       num;
+	std::int32_t       num;
 
 	num = THING_find_sphere(
 			x, y, z,
@@ -2301,7 +2301,7 @@ SLONG find_anim_prim(
 	return best_thing;
 }
 
-void toggle_anim_prim_switch_state(SLONG anim_prim_thing_index)
+void toggle_anim_prim_switch_state(std::int32_t anim_prim_thing_index)
 {
 	Thing *t_thing = TO_THING(anim_prim_thing_index);
 
@@ -2330,26 +2330,26 @@ void toggle_anim_prim_switch_state(SLONG anim_prim_thing_index)
 
 #ifndef	PSX
 void expand_anim_prim_bbox(
-		SLONG prim,
+		std::int32_t prim,
 		GameKeyFrameElement *anim_info,
 		
-		SLONG *min_x,
-		SLONG *min_y,
-		SLONG *min_z,
+		std::int32_t *min_x,
+		std::int32_t *min_y,
+		std::int32_t *min_z,
 
-		SLONG *max_x,
-		SLONG *max_y,
-		SLONG *max_z)
+		std::int32_t *max_x,
+		std::int32_t *max_y,
+		std::int32_t *max_z)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float px;
 	float py;
 	float pz;
 
-	SLONG ix;
-	SLONG iy;
-	SLONG iz;
+	std::int32_t ix;
+	std::int32_t iy;
+	std::int32_t iz;
 
 	Matrix33 mat;
 	PrimObject *po;
@@ -2405,9 +2405,9 @@ void expand_anim_prim_bbox(
 		py += oy;
 		pz += oz;
 
-		ix = SLONG(px);
-		iy = SLONG(py);
-		iz = SLONG(pz);
+		ix = std::int32_t(px);
+		iy = std::int32_t(py);
+		iz = std::int32_t(pz);
 
 		if (ix < *min_x) {*min_x = ix;}
 		if (iy < *min_y) {*min_y = iy;}
@@ -2423,11 +2423,11 @@ void expand_anim_prim_bbox(
 
 void find_anim_prim_bboxes()
 {
-	SLONG i;
-	SLONG j;
-	SLONG dist;
-	SLONG ele_count;
-	SLONG start_object;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t dist;
+	std::int32_t ele_count;
+	std::int32_t start_object;
 
 	GameKeyFrameElement *ele;
 	AnimPrimBbox        *pmb;
@@ -2514,16 +2514,16 @@ void mark_prim_objects_as_unloaded()
 	// Easy!
 	//
 
-	memset((UBYTE*)prim_objects, 0, sizeof(PrimObject) * 256);
+	memset((std::uint8_t*)prim_objects, 0, sizeof(PrimObject) * 256);
 }
 
 
 #ifndef	PSX
-void re_center_prim(SLONG prim,SLONG dx,SLONG dy,SLONG dz)
+void re_center_prim(std::int32_t prim,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
- 	SLONG	c0;
+ 	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
+	std::int32_t	sp,ep;
 
 	p_obj    =&prim_objects[prim];
 
@@ -2540,14 +2540,14 @@ void re_center_prim(SLONG prim,SLONG dx,SLONG dy,SLONG dz)
 }
 #endif
 
-SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+std::int32_t does_fence_lie_along_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
 	//
 	// Only orthogonal lines supported!
 	//
 
-	SLONG dx = abs(x2 - x1);
-	SLONG dz = abs(z2 - z1);
+	std::int32_t dx = abs(x2 - x1);
+	std::int32_t dz = abs(z2 - z1);
 
 	if (dx < dz)
 	{
@@ -2558,27 +2558,27 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 		z1 = z2;
 	}
 
-	SLONG mx1 = x1 - 0x80 >> PAP_SHIFT_LO;
-	SLONG mz1 = z1 - 0x80 >> PAP_SHIFT_LO;
-	SLONG mx2 = x2 + 0x80 >> PAP_SHIFT_LO;
-	SLONG mz2 = z2 + 0x80 >> PAP_SHIFT_LO;
+	std::int32_t mx1 = x1 - 0x80 >> PAP_SHIFT_LO;
+	std::int32_t mz1 = z1 - 0x80 >> PAP_SHIFT_LO;
+	std::int32_t mx2 = x2 + 0x80 >> PAP_SHIFT_LO;
+	std::int32_t mz2 = z2 + 0x80 >> PAP_SHIFT_LO;
 
-	SLONG minx;
-	SLONG maxx;
-	SLONG minz;
-	SLONG maxz;
+	std::int32_t minx;
+	std::int32_t maxx;
+	std::int32_t minz;
+	std::int32_t maxz;
 
-	SLONG px1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t pz2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG f_list;
-	SLONG exit;
-	SLONG facet;
+	std::int32_t f_list;
+	std::int32_t exit;
+	std::int32_t facet;
 	
 	DFacet *df;
 
@@ -2667,7 +2667,7 @@ SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 
 void clear_all_wmove_flags()
 {
-	SLONG i;
+	std::int32_t i;
 
 	PrimFace3 *f3;
 	PrimFace4 *f4;

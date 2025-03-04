@@ -10,7 +10,7 @@
 	
 #endif
 
-extern int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+extern int MFMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine);
 
 #define	ERROR_MSG(e,m)		{ if(!e) MFMessage(m,__FILE__,__LINE__); }
 #define	ASSERT(e)			ERROR_MSG(e,"Assert failed");

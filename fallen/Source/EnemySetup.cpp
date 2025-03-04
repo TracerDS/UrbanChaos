@@ -29,7 +29,7 @@
 
 //---------------------------------------------------------------
 
-SLONG enemy_count,
+std::int32_t enemy_count,
 				enemy_constitution,
 				enemy_type,
 				enemy_ai,
@@ -61,12 +61,12 @@ bool adjust;
 
 bool CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 	NM_UPDOWN	*lp_ntfy;
 
-	CBYTE		msg[800];
+	char		msg[800];
 
 
 	switch(message)
@@ -199,7 +199,7 @@ bool CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					if (HIWORD(wParam)==CBN_SELCHANGE) {
 
 						{
-							SLONG ai;
+							std::int32_t ai;
 							bool  enable;
 
 							ai = SendMessage((HWND)lParam,CB_GETCURSEL,0,0);
@@ -264,7 +264,7 @@ bool CALLBACK	es_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			HDC  memdc;
 			LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
 			HBITMAP bmp,obmp;
-			CBYTE pc[255];
+			char pc[255];
 
 			FillRect(item->hDC, &item->rcItem, (HBRUSH) GetStockObject(WHITE_BRUSH));
 			SendMessage(ctl,LB_GETTEXT,item->itemID,(long)pc);
@@ -456,7 +456,7 @@ void do_enemy_setup(EventPoint *the_ep, bool do_adjust)
 
 //---------------------------------------------------------------
 
-CBYTE* get_enemy_message(EventPoint *ep, CBYTE* msg) {
+char* get_enemy_message(EventPoint *ep, char* msg) {
 	if ((!ep)||(!ep->Data[0])) 
 		strcpy(msg,"Unknown");
 	else

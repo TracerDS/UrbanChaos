@@ -6,9 +6,9 @@
 
 #include "MFStdLib.h"
 
-extern CBYTE BRIEFING_mission_filename[_MAX_PATH];
+extern char BRIEFING_mission_filename[_MAX_PATH];
 
-SBYTE BRIEFING_select();
-SBYTE BRIEFING_next_mission(); // 0 = run out of missions
+std::int8_t BRIEFING_select();
+std::int8_t BRIEFING_next_mission(); // 0 = run out of missions
 
 //#define OBEY_SCRIPT

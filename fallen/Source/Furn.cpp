@@ -50,7 +50,7 @@ StateFunction FURN_statefunctions[] =
 
 void init_furniture()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < MAX_FURNITURE; i++)
 	{
@@ -69,7 +69,7 @@ void init_furniture()
 
 Furniture *FURN_alloc_furniture()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < MAX_FURNITURE; i++)
 	{
@@ -124,13 +124,13 @@ void free_furniture(Thing *p_thing)
 
 
 THING_INDEX FURN_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
-		SLONG prim)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
+		std::int32_t prim)
 {
 	DrawMesh   *dm;
 	THING_INDEX ans = nullptr;
@@ -193,11 +193,11 @@ THING_INDEX FURN_create(
 }
 
 THING_INDEX VEHICLE_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG angle,
-		SLONG prim)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t angle,
+		std::int32_t prim)
 {
 	DrawMesh   *dm;
 	THING_INDEX ans = nullptr;
@@ -260,13 +260,13 @@ THING_INDEX VEHICLE_create(
 	return ans;
 }
 
-extern void scan_walk_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLONG x2, SLONG y2, SLONG z2,SLONG face);
+extern void scan_walk_triangle(std::int32_t x0, std::int32_t y0, std::int32_t z0,std::int32_t x1, std::int32_t y1, std::int32_t z1,std::int32_t x2, std::int32_t y2, std::int32_t z2,std::int32_t face);
 
-void add_walkable_quad(THING_INDEX index,SLONG cx,SLONG cy,SLONG cz,SLONG face)
+void add_walkable_quad(THING_INDEX index,std::int32_t cx,std::int32_t cy,std::int32_t cz,std::int32_t face)
 {
-  	SLONG	x[4],y[4],z[4];
-	SLONG	c0,p0;
-	SLONG	new_face;
+  	std::int32_t	x[4],y[4],z[4];
+	std::int32_t	c0,p0;
+	std::int32_t	new_face;
 	struct PrimFace4 *p_f4,*p_new_f4;
 
 	new_face=next_prim_face4;
@@ -303,11 +303,11 @@ void add_walkable_quad(THING_INDEX index,SLONG cx,SLONG cy,SLONG cz,SLONG face)
 	next_prim_face4++;
 }
 
-void place_walkable_faces_for_prim(THING_INDEX index,SLONG prim)
+void place_walkable_faces_for_prim(THING_INDEX index,std::int32_t prim)
 {
-	SLONG	x,y,z;
-	SLONG	c0;
-	SLONG	sf,ef;
+	std::int32_t	x,y,z;
+	std::int32_t	c0;
+	std::int32_t	sf,ef;
 	struct	PrimObject	*p_obj;
 	Thing	*p_thing;
 
@@ -364,30 +364,30 @@ void FURN_add_walkable()
 
 void FURN_push(
 		THING_INDEX thing,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG cx;
-	SLONG cy;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cy;
+	std::int32_t cz;
 
-	SLONG qx;
-	SLONG qy;
-	SLONG qz;
+	std::int32_t qx;
+	std::int32_t qy;
+	std::int32_t qz;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG dyaw;
-	SLONG dpitch;
-	SLONG droll;
+	std::int32_t dyaw;
+	std::int32_t dpitch;
+	std::int32_t droll;
 
-	SLONG matrix[9];
+	std::int32_t matrix[9];
 
 	PrimInfo *inf;
 
@@ -527,10 +527,10 @@ void FURN_push(
 
 void FURN_process_normal(Thing *p_thing)
 {
-	SLONG x1;
-	SLONG x2;
-	SLONG z1;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t x2;
+	std::int32_t z1;
+	std::int32_t z2;
 
 	ASSERT(WITHIN(p_thing, TO_THING(1), TO_THING(MAX_THINGS - 1)));
 
@@ -547,21 +547,21 @@ void FURN_process_normal(Thing *p_thing)
 
 	if (dm->Hm != 255)
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
-		SLONG mx;
-		SLONG mz;	    
+		std::int32_t mx;
+		std::int32_t mz;	    
 
-		SLONG mid_x;
-		SLONG mid_z;
+		std::int32_t mid_x;
+		std::int32_t mid_z;
 
-		SLONG v_list;
-		SLONG i_vect;
+		std::int32_t v_list;
+		std::int32_t i_vect;
 
-		SLONG overndist;
-		SLONG num_slides;
-		SLONG last_slide;
+		std::int32_t overndist;
+		std::int32_t num_slides;
+		std::int32_t last_slide;
 
 		CollisionVect *p_vect;
 
@@ -570,12 +570,12 @@ void FURN_process_normal(Thing *p_thing)
 		//
 		
 		{
-			SLONG mx;
-			SLONG my;
-			SLONG mz;
-			SLONG myaw;
-			SLONG mpitch;
-			SLONG mroll;
+			std::int32_t mx;
+			std::int32_t my;
+			std::int32_t mz;
+			std::int32_t myaw;
+			std::int32_t mpitch;
+			std::int32_t mroll;
 
 			HM_find_mesh_pos(dm->Hm,
 				&mx,
@@ -719,36 +719,36 @@ void FURN_process_moveing(Thing *p_thing)
 
 
 
-SLONG FURN_slide_along(
+std::int32_t FURN_slide_along(
 		THING_INDEX thing,
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  radius,
-		SLONG  dont_slide)
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  radius,
+		std::int32_t  dont_slide)
 {
 	Thing *p_thing = TO_THING(thing);
 
 	ASSERT(WITHIN(p_thing, TO_THING(1), TO_THING(MAX_THINGS - 1)));
 	ASSERT(p_thing->Class == CLASS_FURNITURE||p_thing->Class == CLASS_VEHICLE);
 
-	SLONG tx1, tz1;
-	SLONG tx2, tz2;
+	std::int32_t tx1, tz1;
+	std::int32_t tx2, tz2;
 
-	SLONG rx1, rz1;
-	SLONG rx2, rz2;
+	std::int32_t rx1, rz1;
+	std::int32_t rx2, rz2;
 
-	SLONG y_bot;
-	SLONG y_top;
+	std::int32_t y_bot;
+	std::int32_t y_top;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
-	SLONG minx;
-	SLONG minz;
-	SLONG maxx;
-	SLONG maxz;
+	std::int32_t minx;
+	std::int32_t minz;
+	std::int32_t maxx;
+	std::int32_t maxz;
 
-	SLONG matrix[4];
+	std::int32_t matrix[4];
 
 	PrimInfo *pi;
 	DrawMesh *dm    = p_thing->Draw.Mesh;
@@ -784,7 +784,7 @@ SLONG FURN_slide_along(
 		// We assume that the pitch of the furniture is negligible.
 		//
 
-		SLONG useangle;
+		std::int32_t useangle;
 
 		useangle  = -dm->Angle;
 		useangle &=  2047;
@@ -878,14 +878,14 @@ SLONG FURN_slide_along(
 			// Slide to the nearest point to the edge of the box.
 			//
 
-			SLONG dminx;
-			SLONG dminz;
-			SLONG dmaxx;
-			SLONG dmaxz;
+			std::int32_t dminx;
+			std::int32_t dminz;
+			std::int32_t dmaxx;
+			std::int32_t dmaxz;
 
-			SLONG best;
-			SLONG best_x;
-			SLONG best_z;
+			std::int32_t best;
+			std::int32_t best_x;
+			std::int32_t best_z;
 
 			dminx = rx2 - minx;
 			dmaxx = maxx - rx2;
@@ -949,9 +949,9 @@ SLONG FURN_slide_along(
 
 void FURN_hypermatterise(THING_INDEX thing)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	Thing    *p_thing = TO_THING(thing);
 	DrawMesh *dm      = p_thing->Draw.Mesh;
@@ -979,13 +979,13 @@ void FURN_hypermatterise(THING_INDEX thing)
 		dz = 0;
 	}
 
-	SLONG pointx[5] = {0, 0x5300, 0xa600, 0x10000};
-	SLONG pointy[5] = {0, 0x5300, 0xa600, 0x10000};
-	SLONG pointz[5] = {0, 0x5300, 0xa600, 0x10000};
+	std::int32_t pointx[5] = {0, 0x5300, 0xa600, 0x10000};
+	std::int32_t pointy[5] = {0, 0x5300, 0xa600, 0x10000};
+	std::int32_t pointz[5] = {0, 0x5300, 0xa600, 0x10000};
 
 
 
-	UBYTE hm_index   = HM_create(
+	std::uint8_t hm_index   = HM_create(
 							dm->ObjectId,
 							p_thing->WorldPos.X >> 8,
 							p_thing->WorldPos.Y >> 8,
@@ -1051,9 +1051,9 @@ void FURN_hypermatterise(THING_INDEX thing)
 
 void FURN_turn_into_door(
 		THING_INDEX furniture_thing,
-		UWORD       closed_angle,
-		UWORD		ajar,
-		UBYTE		am_i_locked)
+		std::uint16_t       closed_angle,
+		std::uint16_t		ajar,
+		std::uint8_t		am_i_locked)
 {
 	Thing    *p_thing = TO_THING(furniture_thing);
 	DrawMesh *dm      = p_thing->Draw.Mesh;
@@ -1087,8 +1087,8 @@ void FURN_door(Thing *p_thing)
 	DrawMesh  *dm   = p_thing->Draw.Mesh;
 	Furniture *furn = p_thing->Genus.Furniture;
 
-	SLONG min_angle;
-	SLONG max_angle;
+	std::int32_t min_angle;
+	std::int32_t max_angle;
 
 	dm->Angle += furn->dyaw;
 	dm->Angle &= 2047;
@@ -1096,37 +1096,37 @@ void FURN_door(Thing *p_thing)
 	furn->dyaw -= SIGN(furn->dyaw);
 }
 
-SLONG FURN_avoid(
+std::int32_t FURN_avoid(
 		THING_INDEX thing,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
 	Thing *p_thing = TO_THING(thing);
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG da;
-	SLONG db;
+	std::int32_t da;
+	std::int32_t db;
 
-	SLONG dist;
-	SLONG dist1;
-	SLONG dist2;
+	std::int32_t dist;
+	std::int32_t dist1;
+	std::int32_t dist2;
 
-	SLONG fx;
-	SLONG fz;
+	std::int32_t fx;
+	std::int32_t fz;
 
-	SLONG px1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t pz2;
 
-	SLONG furn_radius;
+	std::int32_t furn_radius;
 
 	PrimInfo *pi = get_prim_info(p_thing->Draw.Mesh->ObjectId);
 
@@ -1189,8 +1189,8 @@ SLONG FURN_avoid(
 	px2 = fx - (-dz);
 	pz2 = fz - (+dx);
 
-	SLONG roomy1 = there_is_a_los(fx, y1, fz, px1, y2, pz1);
-	SLONG roomy2 = there_is_a_los(fx, y1, fz, px2, y2, pz2);
+	std::int32_t roomy1 = there_is_a_los(fx, y1, fz, px1, y2, pz1);
+	std::int32_t roomy2 = there_is_a_los(fx, y1, fz, px2, y2, pz2);
 
 	if (roomy1 ^ roomy2)
 	{

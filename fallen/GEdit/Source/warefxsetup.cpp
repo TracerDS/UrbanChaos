@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	warefx_type;
+std::int32_t	warefx_type;
 
 //---------------------------------------------------------------
 
@@ -33,7 +33,7 @@ SLONG	warefx_type;
 
 bool	CALLBACK	warefx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 
@@ -82,7 +82,7 @@ void	do_warefx_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_warefx_message(EventPoint *ep, CBYTE* msg) {
+char	*get_warefx_message(EventPoint *ep, char* msg) {
 	strcpy(msg,wwarefx_strings[ep->Data[0]]);
 	return msg;
 }

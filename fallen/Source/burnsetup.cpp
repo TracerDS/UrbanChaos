@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG burn_type;
+std::int32_t burn_type;
 
 //---------------------------------------------------------------
 /*
@@ -34,7 +34,7 @@ SLONG burn_type;
 
 bool CALLBACK	burn_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 //	HWND		the_ctrl;
 //	LPTSTR		lbitem_str;
 

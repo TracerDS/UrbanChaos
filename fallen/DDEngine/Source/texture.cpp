@@ -33,15 +33,15 @@ int	TEXTURE_create_clump = 0;
 // for first four texture pages.
 //
 
-CBYTE TEXTURE_shared_dir [_MAX_PATH];
-CBYTE TEXTURE_world_dir  [_MAX_PATH];
-CBYTE TEXTURE_fx_inifile [_MAX_PATH];
-CBYTE TEXTURE_shared_fx_inifile [_MAX_PATH];
-CBYTE TEXTURE_prims_dir  [_MAX_PATH];
-CBYTE TEXTURE_inside_dir [_MAX_PATH];
-CBYTE TEXTURE_people_dir [_MAX_PATH];
-CBYTE TEXTURE_people_dir2[_MAX_PATH];
-SLONG TEXTURE_set;
+char TEXTURE_shared_dir [_MAX_PATH];
+char TEXTURE_world_dir  [_MAX_PATH];
+char TEXTURE_fx_inifile [_MAX_PATH];
+char TEXTURE_shared_fx_inifile [_MAX_PATH];
+char TEXTURE_prims_dir  [_MAX_PATH];
+char TEXTURE_inside_dir [_MAX_PATH];
+char TEXTURE_people_dir [_MAX_PATH];
+char TEXTURE_people_dir2[_MAX_PATH];
+std::int32_t TEXTURE_set;
 
 
 
@@ -49,25 +49,25 @@ SLONG TEXTURE_set;
 // Are we using normal or fiddled pages?
 //
 
-SLONG TEXTURE_fiddled;
+std::int32_t TEXTURE_fiddled;
 
-UWORD *TEXTURE_shadow_bitmap;
-SLONG  TEXTURE_shadow_pitch;		// In bytes!
-SLONG  TEXTURE_shadow_mask_red;
-SLONG  TEXTURE_shadow_mask_green;
-SLONG  TEXTURE_shadow_mask_blue;
-SLONG  TEXTURE_shadow_mask_alpha;
-SLONG  TEXTURE_shadow_shift_red;
-SLONG  TEXTURE_shadow_shift_green;
-SLONG  TEXTURE_shadow_shift_blue;
-SLONG  TEXTURE_shadow_shift_alpha;
+std::uint16_t *TEXTURE_shadow_bitmap;
+std::int32_t  TEXTURE_shadow_pitch;		// In bytes!
+std::int32_t  TEXTURE_shadow_mask_red;
+std::int32_t  TEXTURE_shadow_mask_green;
+std::int32_t  TEXTURE_shadow_mask_blue;
+std::int32_t  TEXTURE_shadow_mask_alpha;
+std::int32_t  TEXTURE_shadow_shift_red;
+std::int32_t  TEXTURE_shadow_shift_green;
+std::int32_t  TEXTURE_shadow_shift_blue;
+std::int32_t  TEXTURE_shadow_shift_alpha;
 
 
 //
 // Hmm...
 //
 
-extern UWORD floor_texture_sizes[];
+extern std::uint16_t floor_texture_sizes[];
 
 #ifdef TARGET_DC
 // Lower numbers so it actually fits.
@@ -88,10 +88,10 @@ extern UWORD floor_texture_sizes[];
 // Texutre pages that don't exist.
 //
 
-UBYTE TEXTURE_dontexist[TEXTURE_MAX_TEXTURES];
+std::uint8_t TEXTURE_dontexist[TEXTURE_MAX_TEXTURES];
 
 // Texture pages that are "needed", i.e. used by the frontend.
-UBYTE TEXTURE_needed[TEXTURE_MAX_TEXTURES];
+std::uint8_t TEXTURE_needed[TEXTURE_MAX_TEXTURES];
 
 //
 // The texture pages.
@@ -110,103 +110,103 @@ CRINKLE_Handle TEXTURE_crinkle[22 * 64];
 // The textures.
 //
 
-SLONG TEXTURE_page_num_standard;
+std::int32_t TEXTURE_page_num_standard;
 
 #ifdef TARGET_DC
-SLONG TEXTURE_page_background_use_instead;
-SLONG TEXTURE_page_background_use_instead2;
+std::int32_t TEXTURE_page_background_use_instead;
+std::int32_t TEXTURE_page_background_use_instead2;
 
-SLONG TEXTURE_page_joypad_a;
-SLONG TEXTURE_page_joypad_b;
-SLONG TEXTURE_page_joypad_c;
-SLONG TEXTURE_page_joypad_x;
-SLONG TEXTURE_page_joypad_y;
-SLONG TEXTURE_page_joypad_z;
-SLONG TEXTURE_page_joypad_l;
-SLONG TEXTURE_page_joypad_r;
-SLONG TEXTURE_page_joypad_pad_l;
-SLONG TEXTURE_page_joypad_pad_r;
-SLONG TEXTURE_page_joypad_pad_d;
-SLONG TEXTURE_page_joypad_pad_u;
+std::int32_t TEXTURE_page_joypad_a;
+std::int32_t TEXTURE_page_joypad_b;
+std::int32_t TEXTURE_page_joypad_c;
+std::int32_t TEXTURE_page_joypad_x;
+std::int32_t TEXTURE_page_joypad_y;
+std::int32_t TEXTURE_page_joypad_z;
+std::int32_t TEXTURE_page_joypad_l;
+std::int32_t TEXTURE_page_joypad_r;
+std::int32_t TEXTURE_page_joypad_pad_l;
+std::int32_t TEXTURE_page_joypad_pad_r;
+std::int32_t TEXTURE_page_joypad_pad_d;
+std::int32_t TEXTURE_page_joypad_pad_u;
 #endif
 
-SLONG TEXTURE_page_snowflake;
-SLONG TEXTURE_page_sparkle;
-SLONG TEXTURE_page_explode2;
-SLONG TEXTURE_page_explode1;
-SLONG TEXTURE_page_bigbang;
-SLONG TEXTURE_page_face1;
-SLONG TEXTURE_page_face2;
-SLONG TEXTURE_page_face3;
-SLONG TEXTURE_page_face4;
-SLONG TEXTURE_page_face5;
-SLONG TEXTURE_page_face6;
-SLONG TEXTURE_page_fog;
-SLONG TEXTURE_page_moon;
-SLONG TEXTURE_page_clouds;
-SLONG TEXTURE_page_water;
-SLONG TEXTURE_page_puddle;
-SLONG TEXTURE_page_drip;
-SLONG TEXTURE_page_shadow;
-SLONG TEXTURE_page_bang;
-SLONG TEXTURE_page_font;
-SLONG TEXTURE_page_logo;
-SLONG TEXTURE_page_sky;
-SLONG TEXTURE_page_flames;
-SLONG TEXTURE_page_smoke;
-SLONG TEXTURE_page_flame2;
-SLONG TEXTURE_page_steam;
-SLONG TEXTURE_page_menuflame;
-SLONG TEXTURE_page_barbwire;
-SLONG TEXTURE_page_font2d;
-SLONG TEXTURE_page_dustwave;
-SLONG TEXTURE_page_flames3;
-SLONG TEXTURE_page_bloodsplat;
-SLONG TEXTURE_page_bloom1;
-SLONG TEXTURE_page_bloom2;
-SLONG TEXTURE_page_hitspang;
-SLONG TEXTURE_page_lensflare;
-SLONG TEXTURE_page_envmap;
-SLONG TEXTURE_page_tyretrack;
-SLONG TEXTURE_page_winmap;
-SLONG TEXTURE_page_leaf;
-SLONG TEXTURE_page_raindrop;
-SLONG TEXTURE_page_footprint;
-SLONG TEXTURE_page_angel;
-SLONG TEXTURE_page_devil;
-SLONG TEXTURE_page_smoker;
-SLONG TEXTURE_page_target;
-SLONG TEXTURE_page_newfont;
-SLONG TEXTURE_page_droplet;
-SLONG TEXTURE_page_press1;
-SLONG TEXTURE_page_press2;
-SLONG TEXTURE_page_ic;
-SLONG TEXTURE_page_ic2;
-SLONG TEXTURE_page_lcdfont;
-SLONG TEXTURE_page_smokecloud;
-SLONG TEXTURE_page_menulogo;
-SLONG TEXTURE_page_polaroid;
-SLONG TEXTURE_page_bigbutton;
-SLONG TEXTURE_page_bigleaf;
-SLONG TEXTURE_page_bigrain;
-SLONG TEXTURE_page_finalglow;
-SLONG TEXTURE_page_tinybutt;
-SLONG TEXTURE_page_tyretrack_alpha;
-SLONG TEXTURE_page_people3;
-SLONG TEXTURE_page_ladder;
-SLONG TEXTURE_page_fadecat;
-SLONG TEXTURE_page_fade_MF;
-SLONG TEXTURE_page_shadowoval;
-SLONG TEXTURE_page_rubbish;
-SLONG TEXTURE_page_lastpanel;
-SLONG TEXTURE_page_lastpanel2;
-SLONG TEXTURE_page_sign;
-SLONG TEXTURE_page_pcflamer;
-SLONG TEXTURE_page_shadowsquare;
-SLONG TEXTURE_page_litebolt;
-SLONG TEXTURE_page_ladshad;
-SLONG TEXTURE_page_meteor;
-SLONG TEXTURE_page_splash;
+std::int32_t TEXTURE_page_snowflake;
+std::int32_t TEXTURE_page_sparkle;
+std::int32_t TEXTURE_page_explode2;
+std::int32_t TEXTURE_page_explode1;
+std::int32_t TEXTURE_page_bigbang;
+std::int32_t TEXTURE_page_face1;
+std::int32_t TEXTURE_page_face2;
+std::int32_t TEXTURE_page_face3;
+std::int32_t TEXTURE_page_face4;
+std::int32_t TEXTURE_page_face5;
+std::int32_t TEXTURE_page_face6;
+std::int32_t TEXTURE_page_fog;
+std::int32_t TEXTURE_page_moon;
+std::int32_t TEXTURE_page_clouds;
+std::int32_t TEXTURE_page_water;
+std::int32_t TEXTURE_page_puddle;
+std::int32_t TEXTURE_page_drip;
+std::int32_t TEXTURE_page_shadow;
+std::int32_t TEXTURE_page_bang;
+std::int32_t TEXTURE_page_font;
+std::int32_t TEXTURE_page_logo;
+std::int32_t TEXTURE_page_sky;
+std::int32_t TEXTURE_page_flames;
+std::int32_t TEXTURE_page_smoke;
+std::int32_t TEXTURE_page_flame2;
+std::int32_t TEXTURE_page_steam;
+std::int32_t TEXTURE_page_menuflame;
+std::int32_t TEXTURE_page_barbwire;
+std::int32_t TEXTURE_page_font2d;
+std::int32_t TEXTURE_page_dustwave;
+std::int32_t TEXTURE_page_flames3;
+std::int32_t TEXTURE_page_bloodsplat;
+std::int32_t TEXTURE_page_bloom1;
+std::int32_t TEXTURE_page_bloom2;
+std::int32_t TEXTURE_page_hitspang;
+std::int32_t TEXTURE_page_lensflare;
+std::int32_t TEXTURE_page_envmap;
+std::int32_t TEXTURE_page_tyretrack;
+std::int32_t TEXTURE_page_winmap;
+std::int32_t TEXTURE_page_leaf;
+std::int32_t TEXTURE_page_raindrop;
+std::int32_t TEXTURE_page_footprint;
+std::int32_t TEXTURE_page_angel;
+std::int32_t TEXTURE_page_devil;
+std::int32_t TEXTURE_page_smoker;
+std::int32_t TEXTURE_page_target;
+std::int32_t TEXTURE_page_newfont;
+std::int32_t TEXTURE_page_droplet;
+std::int32_t TEXTURE_page_press1;
+std::int32_t TEXTURE_page_press2;
+std::int32_t TEXTURE_page_ic;
+std::int32_t TEXTURE_page_ic2;
+std::int32_t TEXTURE_page_lcdfont;
+std::int32_t TEXTURE_page_smokecloud;
+std::int32_t TEXTURE_page_menulogo;
+std::int32_t TEXTURE_page_polaroid;
+std::int32_t TEXTURE_page_bigbutton;
+std::int32_t TEXTURE_page_bigleaf;
+std::int32_t TEXTURE_page_bigrain;
+std::int32_t TEXTURE_page_finalglow;
+std::int32_t TEXTURE_page_tinybutt;
+std::int32_t TEXTURE_page_tyretrack_alpha;
+std::int32_t TEXTURE_page_people3;
+std::int32_t TEXTURE_page_ladder;
+std::int32_t TEXTURE_page_fadecat;
+std::int32_t TEXTURE_page_fade_MF;
+std::int32_t TEXTURE_page_shadowoval;
+std::int32_t TEXTURE_page_rubbish;
+std::int32_t TEXTURE_page_lastpanel;
+std::int32_t TEXTURE_page_lastpanel2;
+std::int32_t TEXTURE_page_sign;
+std::int32_t TEXTURE_page_pcflamer;
+std::int32_t TEXTURE_page_shadowsquare;
+std::int32_t TEXTURE_page_litebolt;
+std::int32_t TEXTURE_page_ladshad;
+std::int32_t TEXTURE_page_meteor;
+std::int32_t TEXTURE_page_splash;
 
 
 
@@ -221,16 +221,16 @@ SLONG TEXTURE_page_splash;
 
 typedef struct
 {
-	UBYTE page;
-	UBYTE pos;	// 0 - 8 or TEXTURE_DC_PACK_POS_WHOLE_PAGE
+	std::uint8_t page;
+	std::uint8_t pos;	// 0 - 8 or TEXTURE_DC_PACK_POS_WHOLE_PAGE
 
 } TEXTURE_DC_Pack;
 
 TEXTURE_DC_Pack TEXTURE_DC_pack[256];
 
-SLONG TEXTURE_DC_pack_page_upto;		// Which page we are packing into
-SLONG TEXTURE_DC_pack_page_pos;			// The position on the pack page that is free (0 - 8)
-SLONG TEXTURE_DC_pack_normal_upto;		// Goes up in increments of 2 so we have a gap after each page.
+std::int32_t TEXTURE_DC_pack_page_upto;		// Which page we are packing into
+std::int32_t TEXTURE_DC_pack_page_pos;			// The position on the pack page that is free (0 - 8)
+std::int32_t TEXTURE_DC_pack_normal_upto;		// Goes up in increments of 2 so we have a gap after each page.
 
 //
 // Where normal textures start from.
@@ -253,11 +253,11 @@ void TEXTURE_DC_pack_init()
 	TEXTURE_DC_pack_normal_upto = TEXTURE_DC_NORMAL_START;
 }
 
-void TEXTURE_DC_pack_load_page(SLONG page)
+void TEXTURE_DC_pack_load_page(std::int32_t page)
 {
-	SLONG i;
-	SLONG actual_page;
-	CBYTE name_res64[64];
+	std::int32_t i;
+	std::int32_t actual_page;
+	char name_res64[64];
 
 	sprintf(name_res64, "%stex%03dhi.tga", TEXTURE_world_dir, page);
 
@@ -336,8 +336,8 @@ void TEXTURE_DC_pack_load_page(SLONG page)
 
 		if (ti.valid)
 		{
-			UWORD *bitmap;
-			SLONG  pitch;
+			std::uint16_t *bitmap;
+			std::int32_t  pitch;
 
 			//
 			// Lock the texture and copy over the data into the texture.
@@ -347,19 +347,19 @@ void TEXTURE_DC_pack_load_page(SLONG page)
 
 			if (bitmap)
 			{
-				SLONG x;
-				SLONG y;
+				std::int32_t x;
+				std::int32_t y;
 
-				SLONG fx;
-				SLONG fy;
+				std::int32_t fx;
+				std::int32_t fy;
 
-				SLONG tx;
-				SLONG ty;
+				std::int32_t tx;
+				std::int32_t ty;
 
-				SLONG base_x;
-				SLONG base_y;
+				std::int32_t base_x;
+				std::int32_t base_y;
 
-				SLONG pixel;
+				std::int32_t pixel;
 
 				//
 				// What is the base (x,y) for this pos?
@@ -579,12 +579,12 @@ void TEXTURE_DC_pack_load_page(SLONG page)
 // The number of textures.
 //
 
-SLONG TEXTURE_num_textures;
+std::int32_t TEXTURE_num_textures;
 
-void TEXTURE_choose_set(SLONG number)
+void TEXTURE_choose_set(std::int32_t number)
 {
-	SLONG i;
-	CBYTE	textures[]="textures";
+	std::int32_t i;
+	char	textures[]="textures";
 
 	if(FileExists("psx.txt"))
 	{
@@ -655,8 +655,8 @@ void TEXTURE_choose_set(SLONG number)
 		//
 
 		{
-			CBYTE world_texture_flags[256];
-			CBYTE shared_texture_flags[256];
+			char world_texture_flags[256];
+			char shared_texture_flags[256];
 
 			sprintf(world_texture_flags,  "%stextype.txt", TEXTURE_world_dir);
 			sprintf(shared_texture_flags, "%stextype.txt", TEXTURE_shared_dir);
@@ -676,7 +676,7 @@ void TEXTURE_choose_set(SLONG number)
 		//
 
 		load_texture_styles(false, number);
-extern void	load_texture_instyles(UBYTE editor, UBYTE world);
+extern void	load_texture_instyles(std::uint8_t editor, std::uint8_t world);
 		load_texture_instyles(false, number);
 		TEXTURE_fix_texture_styles();
 
@@ -695,16 +695,16 @@ extern void	load_texture_instyles(UBYTE editor, UBYTE world);
 
 bool	IndividualTextures = false;
 
-static void TEXTURE_load_page(SLONG page)
+static void TEXTURE_load_page(std::int32_t page)
 {
-	CBYTE name_res32[64];
-	CBYTE name_res64[64];
-	CBYTE name_res128[64];
-	CBYTE name_sex  [64] = "";
-	CBYTE shortname_res32[14];
-	CBYTE shortname_res64[14];
-	CBYTE shortname_res128[14];
-	SLONG fxref;
+	char name_res32[64];
+	char name_res64[64];
+	char name_res128[64];
+	char name_sex  [64] = "";
+	char shortname_res32[14];
+	char shortname_res64[14];
+	char shortname_res128[14];
+	std::int32_t fxref;
 
 	FILE *exists32;
 	FILE *exists64;
@@ -981,7 +981,7 @@ static void TEXTURE_load_page(SLONG page)
 #else
 			if (!DoesTGAExist("", TEXTURE_MAX_TEXTURES + page))
 			{
-				TEXTURE_crinkle[page] = nullptr;
+				TEXTURE_crinkle[page] = 0;
 			}
 			else
 			{
@@ -1001,7 +1001,7 @@ static void TEXTURE_load_page(SLONG page)
 }
 
 
-void TEXTURE_initialise_clumping(CBYTE* fname_level)
+void TEXTURE_initialise_clumping(char* fname_level)
 {
 
 #ifdef TARGET_DC
@@ -1054,28 +1054,28 @@ extern void SetLastClumpfile(char* file, size_t size);	// in GDisplay.cpp, horri
 
 
 
-void TEXTURE_load_needed(CBYTE*	fname_level,
+void TEXTURE_load_needed(char*	fname_level,
 						 int iStartCompletionBar,
 						 int iEndCompletionBar,
 						 int iNumberTexturesProbablyLoaded
 						 )
 {
-	SLONG i,j,k;
-	SLONG x;
-	SLONG z;
+	std::int32_t i,j,k;
+	std::int32_t x;
+	std::int32_t z;
 
 	PrimFace3 *f3;
 	PrimFace4 *f4;
 
-	SLONG page;
+	std::int32_t page;
 	float u[4];
 	float v[4];
 
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 
 	MapElement *me;
 
-extern UBYTE loading_screen_active;	// !
+extern std::uint8_t loading_screen_active;	// !
 
 
 
@@ -1084,7 +1084,7 @@ extern UBYTE loading_screen_active;	// !
 	int iNumTexturesToDoNextChunk = iNumberTexturesProbablyLoaded / HOW_MANY_UPDATES;
 	int iCurChunkVal = iStartCompletionBar;
 
-extern void ATTRACT_loadscreen_draw(SLONG completion);
+extern void ATTRACT_loadscreen_draw(std::int32_t completion);
 
 #define LOADED_THIS_MANY_TEXTURES(numtex)														\
 	iNumTexturesLoaded += numtex;																\
@@ -1264,7 +1264,7 @@ LOADED_THIS_MANY_TEXTURES(5);
 LOADED_THIS_MANY_TEXTURES(5);
 	//TEXTURE_texture[TEXTURE_page_logo      ].LoadTextureTGA(TEXTURE_EXTRA_DIR"logo3.tga", TEXTURE_page_logo);
 	{
-		CBYTE	str[100];
+		char	str[100];
 //		sprintf(str,TEXTURE_EXTRA_DIR"sky%d.tga",Random()&3);
 		sprintf(str, "%ssky.tga",   TEXTURE_world_dir);
 
@@ -1719,8 +1719,8 @@ LOADED_THIS_MANY_TEXTURES(1);
 
 		for(i=1;i<next_dfacet;i++)
 		{
-			SLONG	c0,c1,c2;
-			SLONG	style,dstyle;
+			std::int32_t	c0,c1,c2;
+			std::int32_t	style,dstyle;
 
 				//ASSERT(dfacets[i].FacetType != STOREY_TYPE_OUTSIDE_DOOR);
 			if (dfacets[i].FacetType == STOREY_TYPE_NORMAL ||
@@ -1741,7 +1741,7 @@ LOADED_THIS_MANY_TEXTURES(1);
 
 				for(c0=0;c0<((dfacets[i].Height+3)>>2)*((dfacets[i].FacetFlags&FACET_FLAG_2SIDED)?2:1);c0++)
 				{
-					SLONG	dstyle;
+					std::int32_t	dstyle;
 					dstyle=dstyles[style+c0];
 
 					if(dstyle>0)
@@ -1763,7 +1763,7 @@ LOADED_THIS_MANY_TEXTURES(1);
 					else
 					{
 						struct	DStorey *p_storey;
-						SLONG	pos;
+						std::int32_t	pos;
 
 						p_storey=&dstoreys[-dstyle];
 
@@ -1808,7 +1808,7 @@ LOADED_THIS_MANY_TEXTURES(1);
 			}
 			if (dfacets[i].FacetType == STOREY_TYPE_LADDER)
 			{
-				SLONG	dstyle;
+				std::int32_t	dstyle;
 				dstyle=dstyles[dfacets[i].StyleIndex];
 				if(dstyle>0)
 				for(c1=0;c1<TEXTURE_PIECE_NUMBER;c1++)
@@ -1862,7 +1862,7 @@ LOADED_THIS_MANY_TEXTURES(1);
 		{
 			for(c1=0;c1<16;c1++)
 			{
-				SLONG	page;
+				std::int32_t	page;
 				page=inside_tex[c0][c1]+START_PAGE_FOR_FLOOR*64;
 
 				if (TEXTURE_texture[page].Type == D3DTEXTURE_TYPE_UNUSED)
@@ -1902,9 +1902,9 @@ LOADED_THIS_MANY_TEXTURES(1);
 		POLY_frame_init(false, false);
 
 		{
-			SLONG i;
-			SLONG x;
-			SLONG y;
+			std::int32_t i;
+			std::int32_t x;
+			std::int32_t y;
 
 			for (i = 0; i < POLY_NUM_PAGES; i++)
 			{
@@ -1913,8 +1913,8 @@ LOADED_THIS_MANY_TEXTURES(1);
 								float top,
 								float right,
 								float bottom,
-								SLONG page,
-								ULONG colour = 0xffffffff,
+								std::int32_t page,
+								std::uint32_t colour = 0xffffffff,
 								float u1 = 0.0F,
 								float v1 = 0.0F,
 								float u2 = 1.0F,
@@ -1961,10 +1961,10 @@ extern void AENG_guess_detail_levels();
 
 }
 
-void TEXTURE_load_needed_object(SLONG prim)
+void TEXTURE_load_needed_object(std::int32_t prim)
 {
-	SLONG i;
-	SLONG page;
+	std::int32_t i;
+	std::int32_t page;
 
 	PrimObject *po;
 	PrimFace3  *f3;
@@ -2013,7 +2013,7 @@ void TEXTURE_load_needed_object(SLONG prim)
 
 void TEXTURE_free()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Initialise all the crinkles.
@@ -2045,7 +2045,7 @@ void TEXTURE_free()
 // Destroys all the non-needed (i.e. non-frontend) textures.
 void TEXTURE_free_unneeded ( void )
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Initialise all the crinkles.
@@ -2095,7 +2095,7 @@ extern void FreeAllD3DPages ( void );
 
 #if 0	// not DX6
 
-D3DTEXTUREHANDLE TEXTURE_get_handle(SLONG page)
+D3DTEXTUREHANDLE TEXTURE_get_handle(std::int32_t page)
 {
 	D3DTEXTUREHANDLE ans;
 
@@ -2110,7 +2110,7 @@ D3DTEXTUREHANDLE TEXTURE_get_handle(SLONG page)
 
 
 
-LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page)
+LPDIRECT3DTEXTURE2 TEXTURE_get_handle(std::int32_t page)
 {
 #ifdef TARGET_DC
 	if ( page == TEXTURE_page_background_use_instead )
@@ -2135,15 +2135,15 @@ LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page)
 }
 
 #ifdef TEX_EMBED
-D3DTexture *TEXTURE_get_D3DTexture(SLONG page)
+D3DTexture *TEXTURE_get_D3DTexture(std::int32_t page)
 {
 	return &(TEXTURE_texture[page]);
 }
 #endif
 
 void TEXTURE_get_minitexturebits_uvs(
-		UWORD           texture,
-		SLONG          *page,
+		std::uint16_t           texture,
+		std::int32_t          *page,
 		float          *u0,
 		float          *v0,
 		float          *u1,
@@ -2153,14 +2153,14 @@ void TEXTURE_get_minitexturebits_uvs(
 		float          *u3,
 		float          *v3)
 {
-	SLONG tx;
-	SLONG ty;
-	SLONG tpage;
-	SLONG trot;
-	SLONG tflip;
-	SLONG tsize;
+	std::int32_t tx;
+	std::int32_t ty;
+	std::int32_t tpage;
+	std::int32_t trot;
+	std::int32_t tflip;
+	std::int32_t tsize;
 
-	SLONG num;
+	std::int32_t num;
 
 	#if TEXTURE_ENABLE_DC_PACKING
 
@@ -2296,20 +2296,20 @@ void TEXTURE_get_minitexturebits_uvs(
 }
 
 
-extern UWORD	local_next_prim_face3;
-extern UWORD	local_next_prim_face4;
+extern std::uint16_t	local_next_prim_face3;
+extern std::uint16_t	local_next_prim_face4;
 
 void TEXTURE_fix_texture_styles()
 {
-	SLONG	style,piece;
+	std::int32_t	style,piece;
 
-	SLONG page;
+	std::int32_t page;
 
-	SLONG av_u;
-	SLONG av_v;
+	std::int32_t av_u;
+	std::int32_t av_v;
 
-	SLONG base_u;
-	SLONG base_v;
+	std::int32_t base_u;
+	std::int32_t base_v;
 
 	for(style=0;style<200;style++)
 	{
@@ -2332,23 +2332,23 @@ void TEXTURE_fix_texture_styles()
 
 void TEXTURE_fix_prim_textures()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
 	PrimFace3 *f3;
 	PrimFace4 *f4;
 	struct	AnimTmap	*p_a;
 
-	SLONG page;
+	std::int32_t page;
 
-	SLONG av_u;
-	SLONG av_v;
-	SLONG u;
-	SLONG v;
+	std::int32_t av_u;
+	std::int32_t av_v;
+	std::int32_t u;
+	std::int32_t v;
 
-	SLONG base_u;
-	SLONG base_v;
+	std::int32_t base_u;
+	std::int32_t base_v;
 
 	for (i = 1; i < next_prim_face3; i++)
 	{
@@ -2597,7 +2597,7 @@ void TEXTURE_fix_prim_textures()
 
 
 #ifndef TARGET_DC
-void TEXTURE_set_colour_key(SLONG page)
+void TEXTURE_set_colour_key(std::int32_t page)
 {
 	DDCOLORKEY ck;
 
@@ -2627,7 +2627,7 @@ void TEXTURE_set_colour_key(SLONG page)
 
 
 
-SLONG TEXTURE_shadow_lock()
+std::int32_t TEXTURE_shadow_lock()
 {
 	HRESULT res;
 
@@ -2668,9 +2668,9 @@ void TEXTURE_shadow_update()
 
 
 
-void TEXTURE_set_greyscale(SLONG is_greyscale)
+void TEXTURE_set_greyscale(std::int32_t is_greyscale)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < TEXTURE_MAX_TEXTURES; i++)
 	{
@@ -2681,7 +2681,7 @@ void TEXTURE_set_greyscale(SLONG is_greyscale)
 
 
 
-SLONG TEXTURE_86_lock()
+std::int32_t TEXTURE_86_lock()
 {
 	HRESULT res;
 
@@ -2721,8 +2721,8 @@ void TEXTURE_86_update()
 }
 
 
-void TEXTURE_set_tga(SLONG page, CBYTE* fn) {
-	CBYTE fn2[_MAX_PATH];
+void TEXTURE_set_tga(std::int32_t page, char* fn) {
+	char fn2[_MAX_PATH];
 	MFFileHandle file;
 
 	strcpy(fn2,TEXTURE_EXTRA_DIR);
@@ -2734,70 +2734,70 @@ void TEXTURE_set_tga(SLONG page, CBYTE* fn) {
 	}
 }
 
-SLONG TEXTURE_liney;
-SLONG TEXTURE_av_r;
-SLONG TEXTURE_av_g;
-SLONG TEXTURE_av_b;
+std::int32_t TEXTURE_liney;
+std::int32_t TEXTURE_av_r;
+std::int32_t TEXTURE_av_g;
+std::int32_t TEXTURE_av_b;
 
 #ifndef TARGET_DC
-SLONG TEXTURE_looks_like(SLONG page)
+std::int32_t TEXTURE_looks_like(std::int32_t page)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG px1;
-	SLONG py1;
+	std::int32_t px1;
+	std::int32_t py1;
 
-	SLONG px2;
-	SLONG py2;
+	std::int32_t px2;
+	std::int32_t py2;
 
-	UWORD *bitmap;
-	SLONG  pitch;
+	std::uint16_t *bitmap;
+	std::int32_t  pitch;
 
-	UWORD pixel;
+	std::uint16_t pixel;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG r1;
-	SLONG g1;
-	SLONG b1;
+	std::int32_t r1;
+	std::int32_t g1;
+	std::int32_t b1;
 
-	SLONG r2;
-	SLONG g2;
-	SLONG b2;
+	std::int32_t r2;
+	std::int32_t g2;
+	std::int32_t b2;
 
-	SLONG av_r;
-	SLONG av_g;
-	SLONG av_b;
+	std::int32_t av_r;
+	std::int32_t av_g;
+	std::int32_t av_b;
 
-	SLONG diff_r;
-	SLONG diff_g;
-	SLONG diff_b;
+	std::int32_t diff_r;
+	std::int32_t diff_g;
+	std::int32_t diff_b;
 
-	SLONG dir;
+	std::int32_t dir;
 
-	SLONG diff;
+	std::int32_t diff;
 
-	SLONG pdiff_r;
-	SLONG pdiff_g;
-	SLONG pdiff_b;
+	std::int32_t pdiff_r;
+	std::int32_t pdiff_g;
+	std::int32_t pdiff_b;
 
-	SLONG diff_along;
-	SLONG diff_left;
-	SLONG diff_right;
+	std::int32_t diff_along;
+	std::int32_t diff_left;
+	std::int32_t diff_right;
 
-	SLONG ddiff_l;
-	SLONG ddiff_r;
+	std::int32_t ddiff_l;
+	std::int32_t ddiff_r;
 
-	SLONG lines;
+	std::int32_t lines;
 
 	ASSERT(WITHIN(page, 0, 511));
 
@@ -2850,7 +2850,7 @@ SLONG TEXTURE_looks_like(SLONG page)
 
 		if (av_g > av_r && av_g > av_b)
 		{
-			SLONG rb;
+			std::int32_t rb;
 			
 			rb   = av_r + av_b;
 			rb >>= 1;
@@ -2930,8 +2930,8 @@ SLONG TEXTURE_looks_like(SLONG page)
 
 		static struct
 		{
-			SBYTE dx;
-			SBYTE dy;
+			std::int8_t dx;
+			std::int8_t dy;
 
 		} offset[4] =
 		{
@@ -3161,7 +3161,7 @@ SLONG TEXTURE_looks_like(SLONG page)
 #define	PEOPLE3_F_CHEST		18
 #define	PEOPLE3_F_SHOE		24
 
-UWORD	alt_texture[]=
+std::uint16_t	alt_texture[]=
 {
 /*
 	0,0,0,0,0,0,0,0,  //0

@@ -24,24 +24,24 @@
 
 
 NIGHT_Colour *MESH_draw_guts(
-				SLONG         prim,
+				std::int32_t         prim,
 				MAPCO16	      at_x,
 				MAPCO16       at_y,
 				MAPCO16	      at_z,
 				float         matrix[9],
 				NIGHT_Colour *lpc)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG page;
+	std::int32_t page;
 
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -134,7 +134,7 @@ NIGHT_Colour *MESH_draw_guts(
 				if(p_f4->FaceFlags&FACE_FLAG_ANIMATE)
 				{
 					struct	AnimTmap	*p_a;
-					SLONG	cur;
+					std::int32_t	cur;
 					p_a=&anim_tmaps[p_f4->TexturePage];
 					cur=p_a->Current;
 
@@ -292,13 +292,13 @@ NIGHT_Colour *MESH_draw_guts(
 
 
 NIGHT_Colour *MESH_draw_poly(
-				SLONG         prim,
+				std::int32_t         prim,
 				MAPCO16	      at_x,
 				MAPCO16       at_y,
 				MAPCO16	      at_z,
-				SLONG         i_yaw,
-				SLONG         i_pitch,
-				SLONG         i_roll,
+				std::int32_t         i_yaw,
+				std::int32_t         i_pitch,
+				std::int32_t         i_roll,
 				NIGHT_Colour *lpc)
 {
 	float matrix[9];
@@ -328,13 +328,13 @@ NIGHT_Colour *MESH_draw_poly(
 }
 
 NIGHT_Colour *MESH_draw_poly_inv_matrix(
-				SLONG         prim,
+				std::int32_t         prim,
 				MAPCO16	      at_x,
 				MAPCO16       at_y,
 				MAPCO16	      at_z,
-				SLONG         i_yaw,
-				SLONG         i_pitch,
-				SLONG         i_roll,
+				std::int32_t         i_yaw,
+				std::int32_t         i_pitch,
+				std::int32_t         i_roll,
 				NIGHT_Colour *lpc)
 {
 	float matrix[9];
@@ -366,27 +366,27 @@ NIGHT_Colour *MESH_draw_poly_inv_matrix(
 
 /*
 NIGHT_Colour *MESH_draw_poly(
-				SLONG         prim,
+				std::int32_t         prim,
 				MAPCO16	      at_x,
 				MAPCO16       at_y,
 				MAPCO16	      at_z,
-				SLONG         i_yaw,
-				SLONG         i_pitch,
-				SLONG         i_roll,
+				std::int32_t         i_yaw,
+				std::int32_t         i_pitch,
+				std::int32_t         i_roll,
 				NIGHT_Colour *lpc)
 {
-	SLONG i;
-//	SLONG j;
+	std::int32_t i;
+//	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG page;
+	std::int32_t page;
 
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -497,7 +497,7 @@ NIGHT_Colour *MESH_draw_poly(
 				if(p_f4->FaceFlags&FACE_FLAG_ANIMATE)
 				{
 					struct	AnimTmap	*p_a;
-					SLONG	cur;
+					std::int32_t	cur;
 					p_a=&anim_tmaps[p_f4->TexturePage];
 					cur=p_a->Current;
 
@@ -602,28 +602,28 @@ NIGHT_Colour *MESH_draw_poly(
 
 
 void MESH_draw_morph(
-		SLONG         prim,
-		UBYTE         morph1,
-		UBYTE         morph2,
-		UWORD		  tween,		// 0 - 256         
+		std::int32_t         prim,
+		std::uint8_t         morph1,
+		std::uint8_t         morph2,
+		std::uint16_t		  tween,		// 0 - 256         
 		MAPCO16	      at_x,
 		MAPCO16       at_y,
 		MAPCO16	      at_z,
-		SLONG         i_yaw,
-		SLONG         i_pitch,
-		SLONG         i_roll,
+		std::int32_t         i_yaw,
+		std::int32_t         i_pitch,
+		std::int32_t         i_roll,
 		NIGHT_Colour *lpc)
 {
-	SLONG i;
-//	SLONG j;
+	std::int32_t i;
+//	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
 	float px;
 	float py;
@@ -635,7 +635,7 @@ void MESH_draw_morph(
 
 	float ptween;
 
-	SLONG page;
+	std::int32_t page;
 
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -644,7 +644,7 @@ void MESH_draw_morph(
 	MORPH_Point *mp1 = MORPH_get_points(morph1);
 	MORPH_Point *mp2 = MORPH_get_points(morph2);
 
-	SLONG num_points;
+	std::int32_t num_points;
 
 	POLY_Point *pp;
 //	POLY_Point *ps;
@@ -769,7 +769,7 @@ void MESH_draw_morph(
 				if(p_f4->FaceFlags&FACE_FLAG_ANIMATE)
 				{
 					struct	AnimTmap	*p_a;
-					SLONG	cur;
+					std::int32_t	cur;
 					p_a=&anim_tmaps[p_f4->TexturePage];
 					cur=p_a->Current;
 
@@ -879,29 +879,29 @@ typedef struct
 	float x;
 	float y;
 	float z;
-	SLONG fade;
+	std::int32_t fade;
 
 } MESH_Point;
 
 typedef struct
 {
-	UWORD p[3];
+	std::uint16_t p[3];
 	float u[3];
 	float v[3];
-	UWORD page;
-	UWORD padding;
+	std::uint16_t page;
+	std::uint16_t padding;
 
 } MESH_Face;
 
 typedef struct
 {
-	SLONG calculated;
+	std::int32_t calculated;
 
-	SLONG max_points;
-	SLONG max_faces;
+	std::int32_t max_points;
+	std::int32_t max_faces;
 
-	SLONG num_points;
-	SLONG num_faces;
+	std::int32_t num_points;
+	std::int32_t num_faces;
 
 	MESH_Point *mp;
 	MESH_Face  *mf;
@@ -914,7 +914,7 @@ MESH_Reflection MESH_reflection[MESH_MAX_REFLECTIONS];
 
 void MESH_init_reflections()
 {
-	SLONG i;
+	std::int32_t i;
 	
 	MESH_Reflection *mr;
 
@@ -959,21 +959,21 @@ void MESH_grow_faces(MESH_Reflection *mr)
 // Returns the index of a point with the given position.
 //
 
-SLONG MESH_add_point(
+std::int32_t MESH_add_point(
 		MESH_Reflection *mr,
 		float x,
 		float y,
 		float z,
 		float fade)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dy;
 	float dz;
 	float dist;
 
-	SLONG ans;
+	std::int32_t ans;
 
 	for (i = mr->num_points - 1; i >= 0; i--)
 	{
@@ -1007,7 +1007,7 @@ SLONG MESH_add_point(
 	mr->mp[ans].x    = x;
 	mr->mp[ans].y    = y;
 	mr->mp[ans].z    = z;
-	mr->mp[ans].fade = MIN(255,(SLONG)fade);
+	mr->mp[ans].fade = MIN(255,(std::int32_t)fade);
 
 	mr->num_points += 1;
 
@@ -1020,16 +1020,16 @@ SLONG MESH_add_point(
 
 void MESH_add_face(
 		MESH_Reflection *mr,
-		SLONG p1,
+		std::int32_t p1,
 		float u1,
 		float v1,
-		SLONG p2,
+		std::int32_t p2,
 		float u2,
 		float v2,
-		SLONG p3,
+		std::int32_t p3,
 		float u3,
 		float v3,
-		SLONG page)
+		std::int32_t page)
 {
 	if (mr->num_faces >= mr->max_faces)
 	{
@@ -1067,24 +1067,24 @@ typedef struct
 	float u;
 	float v;
 	float fade;		// 0 - 255 indicating how deep the point is under water.
-	SLONG index;	// Dont worry about this field when calling MESH_add_poly()
+	std::int32_t index;	// Dont worry about this field when calling MESH_add_poly()
 
 } MESH_Add;
 
 #define MESH_MAX_ADD 256
 
 MESH_Add MESH_add[MESH_MAX_ADD];
-SLONG MESH_add_upto;
+std::int32_t MESH_add_upto;
 
-void MESH_add_poly(MESH_Reflection *mr, MESH_Add poly[], SLONG num_points, SLONG page)
+void MESH_add_poly(MESH_Reflection *mr, MESH_Add poly[], std::int32_t num_points, std::int32_t page)
 {
-	SLONG i;
-	SLONG bot;
-	SLONG top;
-	SLONG p1;
-	SLONG p2;
-	SLONG last;
-	SLONG count;
+	std::int32_t i;
+	std::int32_t bot;
+	std::int32_t top;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t last;
+	std::int32_t count;
 
 	float f;
 	float tween;
@@ -1290,15 +1290,15 @@ void MESH_add_poly(MESH_Reflection *mr, MESH_Add poly[], SLONG num_points, SLONG
 // Creates a reflection for the given mesh prim.
 //
 
-void MESH_create_reflection(SLONG prim)
+void MESH_create_reflection(std::int32_t prim)
 {
-	SLONG i;
-	SLONG j;
-	SLONG pt;
-	SLONG page;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t pt;
+	std::int32_t page;
 
-	UBYTE order3[3] = {0, 2, 1};
-	UBYTE order4[4] = {0, 2, 3, 1};
+	std::uint8_t order3[3] = {0, 2, 1};
+	std::uint8_t order4[4] = {0, 2, 3, 1};
 
 	float dy;
 	float fade;
@@ -1440,16 +1440,16 @@ void MESH_create_reflection(SLONG prim)
 
 
 void MESH_draw_reflection(
-		SLONG         prim,
-		SLONG         at_x,
-		SLONG         at_y,
-		SLONG         at_z,
-		SLONG         yaw,
+		std::int32_t         prim,
+		std::int32_t         at_x,
+		std::int32_t         at_y,
+		std::int32_t         at_z,
+		std::int32_t         yaw,
 		NIGHT_Colour *lpc)
 {
-	SLONG i;
-//	SLONG j;
-	SLONG fog;
+	std::int32_t i;
+//	std::int32_t j;
+	std::int32_t fog;
 
 	float px;
 	float py;

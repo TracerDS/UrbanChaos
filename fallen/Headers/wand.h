@@ -20,22 +20,22 @@ void WAND_init();
 
 void WAND_get_next_place(
 		Thing *p_person,
-		SLONG *wand_world_x,
-		SLONG *wand_world_z);
+		std::int32_t *wand_world_x,
+		std::int32_t *wand_world_z);
 
 
 //
 // Returns true if the given square is a good place to wander.
 //
 
-SLONG WAND_square_is_wander(SLONG map_x, SLONG map_z);
+std::int32_t WAND_square_is_wander(std::int32_t map_x, std::int32_t map_z);
 
 
 //
 // Draws a cross over all the wander squares near the given place.
 // 
 
-void WAND_draw(SLONG map_x, SLONG map_z);
+void WAND_draw(std::int32_t map_x, std::int32_t map_z);
 
 
 #endif

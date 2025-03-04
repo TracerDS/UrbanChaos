@@ -6,14 +6,14 @@
 #include	"Command.h"
 
 
-UWORD comlist_map[MAX_COMLISTS],
+std::uint16_t comlist_map[MAX_COMLISTS],
 				conlist_map[MAX_CLISTS],
 				waypoint_map[MAX_WAYPOINTS];
 THING_INDEX thing_map[MAX_THINGS];
 
 void store_player_pos(ThingDef *the_def);
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 //---------------------------------------------------------------
 
 bool load_thing_def(MFFileHandle the_file)
@@ -61,7 +61,7 @@ bool load_comlist_def(MFFileHandle the_file)
 
 //---------------------------------------------------------------
 
-bool load_level(ULONG level)
+bool load_level(std::uint32_t level)
 {
 	return	true;
 }

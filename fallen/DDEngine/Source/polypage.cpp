@@ -35,7 +35,7 @@ extern int AENG_total_polys_drawn;
 #ifndef TARGET_DC
 bool		PolyPage::s_AlphaSort = true;
 #endif
-ULONG		PolyPage::s_ColourMask = 0xFFFFFFFF;
+std::uint32_t		PolyPage::s_ColourMask = 0xFFFFFFFF;
 float		PolyPage::s_XScale = 1.0;
 float		PolyPage::s_YScale = 1.0;
 
@@ -45,7 +45,7 @@ float not_private_smiley_yscale;
 
 // constructor & destructor
 
-PolyPage::PolyPage(ULONG logsize)
+PolyPage::PolyPage(std::uint32_t logsize)
 {
 	m_VertexBuffer = nullptr;
 	m_VertexPtr = nullptr;
@@ -132,7 +132,7 @@ void PolyPage::SetScaling(float xmul, float ymul)
 //
 // allocate some points
 
-PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
+PolyPoint2D* PolyPage::PointAlloc(std::uint32_t num_points)
 {
 
 #if defined(DEBUG) && defined(TEX_EMBED)
@@ -175,7 +175,7 @@ PolyPoint2D* PolyPage::PointAlloc(ULONG num_points)
 
 #if !WE_NEED_POLYBUFFERS_PLEASE_BOB
 // Allocates points for a fan, and adds the correct indices to the list to make a fan.
-PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
+PolyPoint2D* PolyPage::FanAlloc(std::uint32_t num_points)
 {
 
 #if defined(DEBUG) && defined(TEX_EMBED)
@@ -189,7 +189,7 @@ PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
 	if ( iNumNewIndices + m_iNumIndicesUsed > m_iNumIndicesAlloc )
 	{
 		// Grow it.
-		ULONG ulNewSize = iNumNewIndices + m_iNumIndicesUsed;
+		std::uint32_t ulNewSize = iNumNewIndices + m_iNumIndicesUsed;
 		// Plus a quarter to reduce thrashing.
 		ulNewSize += ulNewSize >> 2;
 		// And round up to the nearest 4k chunk.
@@ -208,7 +208,7 @@ PolyPoint2D* PolyPage::FanAlloc(ULONG num_points)
 	WORD iIndex0 = m_VBUsed + 0;
 	WORD iIndex1 = m_VBUsed + 1;
 	WORD iIndex2 = m_VBUsed + 2;
-	for ( ULONG i = 2; i < num_points; i++ )
+	for ( std::uint32_t i = 2; i < num_points; i++ )
 	{
 		m_pwIndexBuffer[m_iNumIndicesUsed+0] = iIndex0;
 		m_pwIndexBuffer[m_iNumIndicesUsed+1] = iIndex1;
@@ -264,18 +264,18 @@ PolyPoly* PolyPage::PolyBufAlloc()
 #endif //#if WE_NEED_POLYBUFFERS_PLEASE_BOB
 
 
-static inline void AlphaPremult(UBYTE* color)
+static inline void AlphaPremult(std::uint8_t* color)
 {
-	color[0] = UBYTE((ULONG(color[0]) * ULONG(color[3])) >> 8);
-	color[1] = UBYTE((ULONG(color[1]) * ULONG(color[3])) >> 8);
-	color[2] = UBYTE((ULONG(color[2]) * ULONG(color[3])) >> 8);
+	color[0] = std::uint8_t((std::uint32_t(color[0]) * std::uint32_t(color[3])) >> 8);
+	color[1] = std::uint8_t((std::uint32_t(color[1]) * std::uint32_t(color[3])) >> 8);
+	color[2] = std::uint8_t((std::uint32_t(color[2]) * std::uint32_t(color[3])) >> 8);
 }
 
-static inline void InvAlphaPremult(UBYTE* color)
+static inline void InvAlphaPremult(std::uint8_t* color)
 {
-	color[0] = UBYTE((ULONG(color[0]) * ULONG(255 - color[3])) >> 8);
-	color[1] = UBYTE((ULONG(color[1]) * ULONG(255 - color[3])) >> 8);
-	color[2] = UBYTE((ULONG(color[2]) * ULONG(255 - color[3])) >> 8);
+	color[0] = std::uint8_t((std::uint32_t(color[0]) * std::uint32_t(255 - color[3])) >> 8);
+	color[1] = std::uint8_t((std::uint32_t(color[1]) * std::uint32_t(255 - color[3])) >> 8);
+	color[2] = std::uint8_t((std::uint32_t(color[2]) * std::uint32_t(255 - color[3])) >> 8);
 }
 
 // AddFan
@@ -294,9 +294,9 @@ static PolyPage* ppLastPolyPageSetup = nullptr;
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 
-void PolyPage::AddFan(POLY_Point** pts, ULONG num_vertices)
+void PolyPage::AddFan(POLY_Point** pts, std::uint32_t num_vertices)
 {
-	ULONG	ii;
+	std::uint32_t	ii;
 
 #ifdef TEX_EMBED
 	PolyPage *ppDrawn = pTheRealPolyPage;
@@ -368,10 +368,10 @@ void PolyPage::AddFan(POLY_Point** pts, ULONG num_vertices)
 //
 // submit a wireframe polygon
 
-void PolyPage::AddWirePoly(POLY_Point** pts, ULONG num_vertices)
+void PolyPage::AddWirePoly(POLY_Point** pts, std::uint32_t num_vertices)
 {
 #if WIREFRAME
-	ULONG	ii;
+	std::uint32_t	ii;
 
 #ifdef TEX_EMBED
 	PolyPage *ppDrawn = pTheRealPolyPage;
@@ -422,7 +422,7 @@ void PolyPage::MassageVertices()
 
 	if (RS.GetEffect())
 	{
-		ULONG			ii;
+		std::uint32_t			ii;
 		D3DTLVERTEX*	vptr = m_VertexBuffer->GetPtr();
 
 		switch (RS.GetEffect())
@@ -430,7 +430,7 @@ void PolyPage::MassageVertices()
 		case RS_AlphaPremult:
 			for (ii = 0; ii < m_VBUsed; ii++)
 			{
-				AlphaPremult((UBYTE*)&vptr[ii].color);
+				AlphaPremult((std::uint8_t*)&vptr[ii].color);
 			}
 			break;
 
@@ -444,7 +444,7 @@ void PolyPage::MassageVertices()
 		case RS_InvAlphaPremult:
 			for (ii = 0; ii < m_VBUsed; ii++)
 			{
-				InvAlphaPremult((UBYTE*)&vptr[ii].color);
+				InvAlphaPremult((std::uint8_t*)&vptr[ii].color);
 			}
 			break;
 
@@ -462,11 +462,11 @@ void PolyPage::MassageVertices()
 //
 // render to card (render state should already be set up)
 
-static UWORD	IxBuffer[65536];
+static std::uint16_t	IxBuffer[65536];
 
 void PolyPage::Render(IDirect3DDevice3* dev)
 {
-	ULONG	ii;
+	std::uint32_t	ii;
 
 	if (!m_VertexBuffer/* || !m_PolyBufUsed*/)	return;
 
@@ -486,11 +486,11 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 	m_VertexPtr = nullptr;
 
 	PolyPoly*	src = m_PolyBuffer;
-	UWORD*		dst = IxBuffer;
+	std::uint16_t*		dst = IxBuffer;
 
 	for (ii = 0; ii < m_PolyBufUsed; ii++)
 	{
-		UWORD	v1 = src->first_vertex;
+		std::uint16_t	v1 = src->first_vertex;
 
 		ASSERT(dst - IxBuffer + 3 < 65536);
 
@@ -498,7 +498,7 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 		if (!(src->num_vertices & 0x8000))
 	#endif
 		{
-			for (ULONG jj = 2; jj < src->num_vertices; jj++)
+			for (std::uint32_t jj = 2; jj < src->num_vertices; jj++)
 			{
 				*dst++ = v1;
 				*dst++ = v1 + jj - 1;
@@ -516,11 +516,11 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 
 	for (ii = 0; ii < m_PolyBufUsed; ii++)
 	{
-		UWORD v1 = src->first_vertex;
+		std::uint16_t v1 = src->first_vertex;
 
 		if (src->num_vertices & 0x8000)
 		{
-			for (ULONG jj = 1; jj < (src->num_vertices & 0x7FFF); jj++)
+			for (std::uint32_t jj = 1; jj < (src->num_vertices & 0x7FFF); jj++)
 			{
 				*dst++ = v1 + jj - 1;
 				*dst++ = v1 + jj;
@@ -542,13 +542,13 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 	if (!Keys[KB_F8])
 	{
 		PolyPoly*	src = m_PolyBuffer;
-		UWORD*		dst = IxBuffer;
+		std::uint16_t*		dst = IxBuffer;
 
 		for (ii = 0; ii < m_PolyBufUsed; ii++)
 		{
-			UWORD	v1 = src->first_vertex;
+			std::uint16_t	v1 = src->first_vertex;
 
-			for (ULONG jj = 2; jj < src->num_vertices; jj++)
+			for (std::uint32_t jj = 2; jj < src->num_vertices; jj++)
 			{
 				*dst++ = v1;
 				*dst++ = v1 + jj - 1;
@@ -602,11 +602,11 @@ void PolyPage::Render(IDirect3DDevice3* dev)
 
 void PolyPage::DrawSinglePoly(PolyPoly* poly, IDirect3DDevice3* dev)
 {
-	UWORD*	dst = IxBuffer;
+	std::uint16_t*	dst = IxBuffer;
 
-	UWORD	v1 = poly->first_vertex;
+	std::uint16_t	v1 = poly->first_vertex;
 
-	for (ULONG jj = 2; jj < poly->num_vertices; jj++)
+	for (std::uint32_t jj = 2; jj < poly->num_vertices; jj++)
 	{
 		*dst++ = v1;
 		*dst++ = v1 + jj - 1;
@@ -725,7 +725,7 @@ void PolyPage::SortBackFirst()
 	}
 
 	// run the merge sort (non-recursive for speed)
-	ULONG	sort_len = 1;	// sort pairs first
+	std::uint32_t	sort_len = 1;	// sort pairs first
 
 	while (sort_len < m_PolyBufUsed)
 	{
@@ -742,7 +742,7 @@ void PolyPage::SortBackFirst()
 	}
 
 #if VERIFY_SORT
-	for (ULONG jj = 0; jj < m_PolyBufUsed - 1; jj++)
+	for (std::uint32_t jj = 0; jj < m_PolyBufUsed - 1; jj++)
 	{
 		ASSERT(m_PolyBuffer[jj] <= m_PolyBuffer[jj+1]);
 	}
@@ -754,12 +754,12 @@ void PolyPage::SortBackFirst()
 // merge a single set (class T must have a < & <= operator, hopefully inline)
 
 template <class T>
-inline static void DoMerge(const T* src, T* dst, ULONG len1, ULONG len2)
+inline static void DoMerge(const T* src, T* dst, std::uint32_t len1, std::uint32_t len2)
 {
-	ULONG	pos1 = 0;
-	ULONG	pos2 = len1;
-	ULONG	wpos = 0;
-	ULONG	end = len1 + len2;
+	std::uint32_t	pos1 = 0;
+	std::uint32_t	pos2 = len1;
+	std::uint32_t	wpos = 0;
+	std::uint32_t	end = len1 + len2;
 
 	for (;;)
 	{
@@ -798,7 +798,7 @@ inline static void DoMerge(const T* src, T* dst, ULONG len1, ULONG len2)
 	ASSERT(pos1 == len1);
 	ASSERT(pos2 == end);
 
-	for (ULONG jj = 0; jj < end - 1; jj++)
+	for (std::uint32_t jj = 0; jj < end - 1; jj++)
 	{
 		ASSERT(dst[jj] <= dst[jj+1]);
 	}
@@ -809,11 +809,11 @@ inline static void DoMerge(const T* src, T* dst, ULONG len1, ULONG len2)
 //
 // merge pairs of size sort_len
 
-void PolyPage::MergeSortIteration(ULONG sort_len)
+void PolyPage::MergeSortIteration(std::uint32_t sort_len)
 {
-	ULONG		ii;
-	ULONG		set_len = sort_len * 2;
-	ULONG		limit = set_len <= m_PolyBufUsed ? m_PolyBufUsed - set_len : 0;	// inclusive
+	std::uint32_t		ii;
+	std::uint32_t		set_len = sort_len * 2;
+	std::uint32_t		limit = set_len <= m_PolyBufUsed ? m_PolyBufUsed - set_len : 0;	// inclusive
 	PolyPoly*	src = m_PolyBuffer;
 	PolyPoly*	dst = m_PolySortBuffer;
 

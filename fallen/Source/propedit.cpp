@@ -13,12 +13,12 @@
 
 //extern HWND			CUTSCENE_edit_wnd;
 
-HMENU CreateMultiChoiceMenu(CBYTE* opts) {
+HMENU CreateMultiChoiceMenu(char* opts) {
 	HMENU menu;
-	CBYTE* pt,*buff;
+	char* pt,*buff;
 	int   i=1;
 
-	buff=(CBYTE*)malloc(strlen(opts)+1);
+	buff=(char*)malloc(strlen(opts)+1);
 	strcpy(buff,opts);
 //	SetWindowText(CUTSCENE_edit_wnd,opts);
 	opts=buff; // now we can play with opts without destroying the original
@@ -54,7 +54,7 @@ void GadgetBase::Repaint() {
 
 PropertyEditor::PropertyEditor(HWND nhWnd) {
 	LVCOLUMN lvc;
-	SLONG mask,style;
+	std::int32_t mask,style;
 
 	hWnd=nhWnd;
 
@@ -89,7 +89,7 @@ PropertyEditor::PropertyEditor(HWND nhWnd) {
 
 //--- property reading/info ---
 
-int PropertyEditor::Type(UWORD index) {
+int PropertyEditor::Type(std::uint16_t index) {
 	LVITEM item;
 	
 	item.iItem=index;
@@ -98,7 +98,7 @@ int PropertyEditor::Type(UWORD index) {
 	return item.lParam;
 }
 
-bool PropertyEditor::Verify(UBYTE type, CBYTE* value) {
+bool PropertyEditor::Verify(std::uint8_t type, char* value) {
     switch(type) {
 	case PROPTYPE_STRING: return (bool)value;
 	case PROPTYPE_INT:
@@ -133,7 +133,7 @@ void PropertyEditor::Clear() {
 }
 
 
-int PropertyEditor::Add(CBYTE* name, CBYTE* value, UBYTE type) {
+int PropertyEditor::Add(char* name, char* value, std::uint8_t type) {
 	LVITEM item;
 
 	item.iItem=property_count;
@@ -150,8 +150,8 @@ int PropertyEditor::Add(CBYTE* name, CBYTE* value, UBYTE type) {
 	ListView_SetItem(hWnd,&item);
 
 	if (type==PROPTYPE_MULTI) { // cunningly stash the options in invisible 3rd column
-		CBYTE* pt, *buff;
-		buff=(CBYTE*)malloc(strlen(value)+1);
+		char* pt, *buff;
+		buff=(char*)malloc(strlen(value)+1);
 		strcpy(buff,value);
 		item.iItem=property_count;
 		item.iSubItem=2;
@@ -167,7 +167,7 @@ int PropertyEditor::Add(CBYTE* name, CBYTE* value, UBYTE type) {
 	return property_count++;
 }
 
-void PropertyEditor::Update(UWORD index, CBYTE* value) {
+void PropertyEditor::Update(std::uint16_t index, char* value) {
 	LVITEM item;
 
 	switch(Type(index)) {
@@ -175,7 +175,7 @@ void PropertyEditor::Update(UWORD index, CBYTE* value) {
 		if (!value) value="off";
 		if ((long)value==1) value="on";
 		if ((long)value==-1) {
-		  CBYTE buff[5];
+		  char buff[5];
 		  item.iItem=index;
 		  item.iSubItem=0;
 		  item.pszText=buff;
@@ -203,7 +203,7 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	NMHDR *nm=(NMHDR*)lParam;
 	NMLVODSTATECHANGE *state=(NMLVODSTATECHANGE*)lParam;
 	NMLVDISPINFO *dispinfo=(NMLVDISPINFO*)lParam;
-	CBYTE* txt;
+	char* txt;
 
 	switch(nm->code) {
 	case LVN_BEGINLABELEDIT:
@@ -219,7 +219,7 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 	case LVN_ENDLABELEDIT:
 		if (callback) callback(this, PECB_EDITMODE, 0, 0);
 		txt=dispinfo->item.pszText;
-		if (Verify((UBYTE)dispinfo->item.lParam,txt))
+		if (Verify((std::uint8_t)dispinfo->item.lParam,txt))
 		    Update(dispinfo->item.iItem,txt);
 		break;
 	case NM_CLICK:
@@ -246,7 +246,7 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 				case PROPTYPE_BOOL:
 					flirble=GetWindowLong(hWnd,GWL_STYLE)&~LVS_EDITLABELS;
 					SetWindowLong(hWnd,GWL_STYLE,flirble);
-					Update(item.iItem,(CBYTE*)-1); // for bools, means toggle :}
+					Update(item.iItem,(char*)-1); // for bools, means toggle :}
 					break;
 				case PROPTYPE_BUTTON:
 					flirble=GetWindowLong(hWnd,GWL_STYLE)&~LVS_EDITLABELS;
@@ -254,12 +254,12 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 					if (callback) callback(this,PECB_BUTTON,item.iItem,0);
 					break;
 				case PROPTYPE_MULTI:
-//					CBYTE buff[_MAX_PATH];
-					CBYTE* buff;
+//					char buff[_MAX_PATH];
+					char* buff;
 					HMENU popup;
 					int	   res;
 
-					buff=(CBYTE*)malloc(10240);
+					buff=(char*)malloc(10240);
 					flirble=GetWindowLong(hWnd,GWL_STYLE)&~LVS_EDITLABELS;
 					SetWindowLong(hWnd,GWL_STYLE,flirble);
 					item.iItem=hti.iItem;
@@ -307,7 +307,7 @@ TreeBrowser::~TreeBrowser() {
 	SetImageList(0,0);
 }
 
-HTREEITEM TreeBrowser::Add(CBYTE* name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img) {
+HTREEITEM TreeBrowser::Add(char* name, HTREEITEM parent, std::uint8_t indent, std::int32_t param, std::int32_t img) {
 	TVINSERTSTRUCT is;
 	HTREEITEM res;
 
@@ -327,11 +327,11 @@ HTREEITEM TreeBrowser::Add(CBYTE* name, HTREEITEM parent, UBYTE indent, SLONG pa
 	return res;
 }
 
-int TreeBrowser::AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld) {
+int TreeBrowser::AddDir(char* path, bool subdirs, HTREEITEM parent, std::uint8_t indent, std::int32_t param, std::int32_t img, std::int32_t imgfld) {
 	HANDLE handle;
 	bool res;
 	WIN32_FIND_DATA data;
-	CBYTE* pt;
+	char* pt;
 	int count=0;
 
     handle = FindFirstFile(path, &data);
@@ -356,7 +356,7 @@ int TreeBrowser::AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE inden
 	res=(handle!=INVALID_HANDLE_VALUE);
 	while (res) {
 		if ((data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)&&(data.cFileName[strlen(data.cFileName)-1]!='.')) {
-			CBYTE path2[_MAX_PATH], wild[_MAX_PATH];
+			char path2[_MAX_PATH], wild[_MAX_PATH];
 			int added;
 
 			strcpy(path2,path);
@@ -380,7 +380,7 @@ int TreeBrowser::AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE inden
 
 //--- set properties ---
 
-void TreeBrowser::SetImageList(HINSTANCE inst, SLONG idx) {
+void TreeBrowser::SetImageList(HINSTANCE inst, std::int32_t idx) {
 
 	if (image_list) {
 		TreeView_SetImageList(hWnd,NULL,TVSIL_NORMAL);
@@ -570,8 +570,8 @@ bool DragServer::Process(UINT message, WPARAM wParam, LPARAM lParam) {
  */
 
 struct TLEntry {
-	CBYTE	title[50];
-	CBYTE	marks[2000];
+	char	title[50];
+	char	marks[2000];
 };
 
 TimeLine::TimeLine(HWND nhWnd, TimeLineRuler *nrule, TimeLineScroll *nscroll) {
@@ -586,7 +586,7 @@ TimeLine::TimeLine(HWND nhWnd, TimeLineRuler *nrule, TimeLineScroll *nscroll) {
 }
 
 TimeLine::~TimeLine() {
-	SLONG c0,ctr=SendMessage(hWnd,LB_GETCOUNT,0,0);
+	std::int32_t c0,ctr=SendMessage(hWnd,LB_GETCOUNT,0,0);
 	for (c0=ctr;c0;) {
 		c0--;
 		Del(c0);
@@ -618,7 +618,7 @@ TimeLine::Measure(LPARAM lParam) {
 	mis->itemHeight=16; mis->itemWidth=GetWidth();
 }
 
-void TimeLine::SetImageList(HINSTANCE inst, SLONG idx) {
+void TimeLine::SetImageList(HINSTANCE inst, std::int32_t idx) {
 	
 	if (image_list) ImageList_Destroy(image_list);
 
@@ -638,13 +638,13 @@ void TimeLine::SetImageList(HINSTANCE inst, SLONG idx) {
 void TimeLine::Draw(LPARAM lParam) {
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 	HBRUSH brs;
-//	CBYTE txt[_MAX_PATH];
+//	char txt[_MAX_PATH];
 	TLEntry *entry=0;
-	CBYTE* txt;
-	SLONG len, c0;
-	SLONG rgb, oldrgb, oldalign, draw_read_head, rgbmod=0;
+	char* txt;
+	std::int32_t len, c0;
+	std::int32_t rgb, oldrgb, oldalign, draw_read_head, rgbmod=0;
 	RECT rc;
-	UBYTE which;
+	std::uint8_t which;
 
 	SendMessage(hWnd,LB_GETTEXT,dis->itemID,(LPARAM)&entry);
 	if (!entry) return;
@@ -738,14 +738,14 @@ char* TimeLine::GetText(int chan, char *buf) {
 	return buf;
 }
 
-TimeLine::Add(CBYTE* str) {
+TimeLine::Add(char* str) {
 	TLEntry* entry = new TLEntry;
 	ZeroMemory(entry,sizeof(TLEntry));
 	strncpy(entry->title,str,50);
 	SendMessage(hWnd,LB_ADDSTRING,0,(LPARAM)entry);
 }
 
-TimeLine::Del(UWORD index) {
+TimeLine::Del(std::uint16_t index) {
 	TLEntry *entry;
 
 	SendMessage(hWnd,LB_GETTEXT,index,(LPARAM)&entry);
@@ -754,10 +754,10 @@ TimeLine::Del(UWORD index) {
 
 }
 
-TimeLine::MarkEntry(UWORD index, UWORD start, UWORD length, UBYTE which) {
+TimeLine::MarkEntry(std::uint16_t index, std::uint16_t start, std::uint16_t length, std::uint8_t which) {
 	TLEntry *entry;
-	SLONG c0;
-	UBYTE v;
+	std::int32_t c0;
+	std::uint8_t v;
 
 	SendMessage(hWnd,LB_GETTEXT,index,(LPARAM)&entry);
 	if ((start>0)&&(entry->marks[start-1])) entry->marks[start-1]|=64;
@@ -813,12 +813,12 @@ TimeLineRuler::TimeLineRuler(HWND nhWnd) {
 
 TimeLineRuler::Draw(LPARAM lParam) {
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-	SLONG rgb;
+	std::int32_t rgb;
 	HBRUSH brs;
 	RECT rc;
-	SLONG c0;
-	SLONG tick=0;
-	SWORD dhead=0, rhead=0;
+	std::int32_t c0;
+	std::int32_t tick=0;
+	std::int16_t dhead=0, rhead=0;
 
 	if (owner) {
 		rhead=owner->GetReadHead();
@@ -842,8 +842,8 @@ TimeLineRuler::Draw(LPARAM lParam) {
 		rc.left=c0; rc.right=c0+16;
 		FillRect(dis->hDC,&rc,brs);
 		if ((tick%20)==1) {
-			SLONG orgb=SetBkColor(dis->hDC,rgb);
-			CBYTE msg[10];
+			std::int32_t orgb=SetBkColor(dis->hDC,rgb);
+			char msg[10];
 			itoa(tick/20,msg,10);
 			TextOut(dis->hDC,rc.left,rc.top,msg,strlen(msg));
 

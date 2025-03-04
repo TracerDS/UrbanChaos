@@ -1,5 +1,4 @@
-#ifndef _ALWAYS_
-#define _ALWAYS_
+#pragma once
 
 //
 // Turn off the warning about [] arrays at the end of structures.
@@ -8,26 +7,18 @@
 #pragma warning( disable : 4200 )
 
 
-typedef signed		long			SLONG;
-typedef unsigned	long			ULONG;
-typedef signed		short	int		SWORD;
-typedef unsigned	short	int		UWORD;
-typedef signed		char   			SBYTE;
-typedef unsigned 	char			UBYTE;
-typedef char			CBYTE;
-
-
 //
 // Standard libraries most often used.
 //
 
-#include <assert.h>
-#include <ctype.h>
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
+#include <cassert>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+#include <cstdarg>
+#include <cstdint>
 
 //
 // Constants.
@@ -47,16 +38,16 @@ typedef char			CBYTE;
 #define MIN3(mnx,mny,mnz)	(((mnx) < (mny)) ? MIN(mnx,mnz) : MIN(mny,mnz))
 #define MIN4(a,b,c,d)		(MIN(MIN(a,b), MIN(c,d)))
 #define MAX4(a,b,c,d)		(MAX(MAX(a,b), MAX(c,d)))
-#define SWAP(x,y)	   		{SLONG   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
-#define SWAP_UB(x,y)   		{UBYTE   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
-#define SWAP_UW(x,y)   		{UWORD   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
+#define SWAP(x,y)	   		{std::int32_t   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
+#define SWAP_UB(x,y)   		{std::uint8_t   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
+#define SWAP_UW(x,y)   		{std::uint16_t   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_FL(x,y)   		{float   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_DB(x,y)   		{double  SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_HF(x,y)   		{Pointhf SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_P3(x,y)		{Point3d SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_VD(x,y)		{void   *SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
-#define SWAP_UWP(x,y)		{UWORD  *SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
-#define SWAP_UBP(x,y)		{UBYTE  *SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
+#define SWAP_UWP(x,y)		{std::uint16_t  *SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
+#define SWAP_UBP(x,y)		{std::uint8_t  *SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define WITHIN(x,a,b)  		((x) >= (a) && (x) <= (b))
 #define SATURATE(x,a,b)		{if ((x) < (a)) (x) = (a); if ((x) > (b)) (x) = (b);}
 #define SIGN(x)		   		(((x)) ? (((x) > 0) ? 1 : -1) : 0)
@@ -73,7 +64,7 @@ typedef char			CBYTE;
 
 #ifndef NDEBUG
 
-void OS_string(CBYTE* fmt, ...);
+void OS_string(const char* fmt, ...);
 
 #define ASSERT(x) {assert(x);}
 #define TRACE	  OS_string
@@ -96,9 +87,9 @@ void OS_string(CBYTE* fmt, ...);
 // Assembler fixed point thingies from T.A.C.
 //
 
-static inline SLONG DIV16(SLONG a, SLONG b)
+static inline std::int32_t DIV16(std::int32_t a, std::int32_t b)
 {
-	SLONG v;
+	std::int32_t v;
 	_asm
 	{
 		mov		edx,a
@@ -114,7 +105,7 @@ static inline SLONG DIV16(SLONG a, SLONG b)
 
 #pragma warning( disable : 4035 )	
 // stop warning of no return value : eax is valid
-static inline SLONG MUL16(SLONG a, SLONG b)
+static inline std::int32_t MUL16(std::int32_t a, std::int32_t b)
 // MSVC++ version, params:ecx,edx, return:eax
 // this is as fast on 486/Pentium as the old version
 // and 2.5* faster on Pentium Pro
@@ -140,7 +131,7 @@ static inline SLONG MUL16(SLONG a, SLONG b)
 #define FPP_DOUBLE   0x20		// 53-bits
 #define FPP_EXTENDED 0x30		// 64-bits
 
-static inline void fpp_set(UWORD precision)
+static inline void fpp_set(std::uint16_t precision)
 {
 	short control;
 
@@ -209,9 +200,9 @@ static inline int ftol(float f)
 // Finds the sign of the cross product x1y2 - x2y1 also from T.A.C.
 //
 
-static inline SBYTE CROSS_PROD_SIGN(SLONG x1, SLONG y1, SLONG x2, SLONG y2)
+static inline std::int8_t CROSS_PROD_SIGN(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2)
 {
-	SBYTE ans;
+	std::int8_t ans;
 
 	__asm
 	{
@@ -245,9 +236,9 @@ static inline SBYTE CROSS_PROD_SIGN(SLONG x1, SLONG y1, SLONG x2, SLONG y2)
 // -1 if there is no bit set.
 //
 
-static inline first_bit(SLONG search)
+static inline first_bit(std::int32_t search)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	__asm
 	{
@@ -266,9 +257,9 @@ static inline first_bit(SLONG search)
 // -1 if there is no bit set.
 //
 
-static inline last_bit(SLONG search)
+static inline last_bit(std::int32_t search)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	__asm
 	{
@@ -293,26 +284,24 @@ static inline last_bit(SLONG search)
 // Globally useful structures.
 //
 
-typedef struct {float x, y, z;} Point3d;
-typedef struct {float x, y;   } Point2d;
-typedef struct {float x, z;   } Pointhf;
-typedef struct {float u, v;   } Pointuv;
+struct Point3d { float x, y, z; };
+struct Point2d { float x, y; };
+struct Pointhf { float x, z; };
+struct Pointuv { float u, v; };
 
-typedef struct
+struct Direction
 {
 	float yaw;
 	float pitch;
 	float roll;
+};
 
-} Direction;
-
-typedef struct
+struct Color
 {
-	UBYTE r;
-	UBYTE g;
-	UBYTE b;
-	
-} Colour;
+	std::uint8_t r;
+	std::uint8_t g;
+	std::uint8_t b;
+};
 
 //
 // Fast approximation to sqrt(x*x + y*y)
@@ -394,12 +383,8 @@ static inline float qdist3(float x, float y, float z)
 
 static inline float frand()
 {
-	SLONG irand = rand();
+	std::int32_t irand = rand();
 	float ans   = float(irand) * (1.0F / float(RAND_MAX));
 
 	return ans;
 }
-
-
-
-#endif

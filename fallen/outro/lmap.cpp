@@ -16,8 +16,8 @@
 
 typedef struct
 {
-	SLONG  res;
-	UBYTE *bitmap;
+	std::int32_t  res;
+	std::uint8_t *bitmap;
 
 } LMAP_Tex;
 
@@ -40,28 +40,28 @@ LMAP_Tex LMAP_tex[LMAP_MAX_TEXES] =
 
 typedef struct lmap_lmap
 {
-	SLONG  res;
-	UBYTE *bitmap;
+	std::int32_t  res;
+	std::uint8_t *bitmap;
 
 } LMAP_Lmap;
 
 
 
 
-LMAP_Lmap *LMAP_create(SLONG resolution)
+LMAP_Lmap *LMAP_create(std::int32_t resolution)
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
 
 	float dx;
 	float dy;
 	float dist;
 	float frac;
 
-	SLONG value;
+	std::int32_t value;
 
-	UBYTE *pixel;
+	std::uint8_t *pixel;
 
 	//
 	// Have we created the texture for this resolution?
@@ -85,7 +85,7 @@ LMAP_Lmap *LMAP_create(SLONG resolution)
 				// We must generate this texture.
 				//
 
-				LMAP_tex[i].bitmap = (UBYTE *) malloc(sizeof(UBYTE) * resolution * resolution);	// It'll always work!
+				LMAP_tex[i].bitmap = (std::uint8_t *) malloc(sizeof(std::uint8_t) * resolution * resolution);	// It'll always work!
 
 				pixel = LMAP_tex[i].bitmap;
 
@@ -139,7 +139,7 @@ LMAP_Lmap *LMAP_create(SLONG resolution)
 	LMAP_Lmap *ans = (LMAP_Lmap *) malloc(sizeof(LMAP_Lmap));
 
 	ans->res    = resolution;
-	ans->bitmap = (UBYTE *) malloc(sizeof(UBYTE) * resolution * resolution);
+	ans->bitmap = (std::uint8_t *) malloc(sizeof(std::uint8_t) * resolution * resolution);
 
 	return ans;
 }
@@ -157,7 +157,7 @@ void LMAP_init(LMAP_Lmap *lmap)
 	// Zero out the bitmap.
 	// 
 
-	memset(lmap->bitmap, 0, sizeof(UBYTE) * lmap->res * lmap->res);
+	memset(lmap->bitmap, 0, sizeof(std::uint8_t) * lmap->res * lmap->res);
 
 	//
 	// Initialise the shadowmapper.
@@ -178,7 +178,7 @@ void LMAP_add_shadow(
 		float      light_matrix[9],
 		float      light_lens)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x;
 	float y;
@@ -193,8 +193,8 @@ void LMAP_add_shadow(
 	float bv;
 	float cprod;
 
-	UBYTE f1;
-	UBYTE f2;
+	std::uint8_t f1;
+	std::uint8_t f2;
 
 	IMP_Vert *iv;
 	IMP_Face *ic;
@@ -345,8 +345,8 @@ void LMAP_add_shadow(
 
 void LMAP_render(LMAP_Lmap *lmap, OS_Texture *ot)
 {
-	UBYTE *shadow;
-	UBYTE *lmaptex;
+	std::uint8_t *shadow;
+	std::uint8_t *lmaptex;
 
 	//
 	// Render the shadow map.
@@ -358,7 +358,7 @@ void LMAP_render(LMAP_Lmap *lmap, OS_Texture *ot)
 	// Find the lightmap texture.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < LMAP_MAX_TEXES; i++)
 	{
@@ -389,10 +389,10 @@ void LMAP_render(LMAP_Lmap *lmap, OS_Texture *ot)
 
 	OS_texture_lock(ot);
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 	
-	SLONG pixel;
+	std::int32_t pixel;
 
 	shadow = lmap->bitmap;
 

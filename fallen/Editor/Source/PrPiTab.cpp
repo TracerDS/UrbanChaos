@@ -26,7 +26,7 @@ void	cross_work_window(void)
 	DrawLineC(0,WorkWindowHeight-1,WorkWindowWidth-1,0,WHITE_COL);
 	
 }
-extern void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+extern void	scan_apply_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra);
 
 //---------------------------------------------------------------
 
@@ -131,14 +131,14 @@ ControlDef	prim_pick_tab_def[]	=
 PrimPickTab	*the_primpicktab;
 void	redraw_all_prims(void);
 
-UWORD	prim_count[256];
-UWORD	prim_diff=0;
+std::uint16_t	prim_count[256];
+std::uint16_t	prim_diff=0;
 //---------------------------------------------------------------
 
 
 /*
-static	SLONG	angle_x=0;
-void	set_user_rotate(SLONG	ax,SLONG	ay,SLONG	az)
+static	std::int32_t	angle_x=0;
+void	set_user_rotate(std::int32_t	ax,std::int32_t	ay,std::int32_t	az)
 {
 	angle_x=ax;
 
@@ -150,7 +150,7 @@ void	set_user_rotate(SLONG	ax,SLONG	ay,SLONG	az)
 
 void	apply_user_rotates(struct PrimPoint *point)
 {
-	SLONG	rx,rz;
+	std::int32_t	rx,rz;
 	rx=point->X*COS(angle_x)-point->Z*SIN(angle_x);
 	rz=point->X*SIN(angle_x)+point->Z*COS(angle_x);
 
@@ -158,8 +158,8 @@ void	apply_user_rotates(struct PrimPoint *point)
 	point->Z=rz>>16;
 }
 */
-SLONG	angle_prim_y=0;
-void	rotate_prim_thing(UWORD thing)
+std::int32_t	angle_prim_y=0;
+void	rotate_prim_thing(std::uint16_t thing)
 {
 	
 //	anglex=map_things[thing].AngleY;
@@ -178,10 +178,10 @@ void	rotate_prim_thing(UWORD thing)
 	map_things[thing].AngleY=angle_prim_y;
 
 	/*
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj,*p_obj_o;
 	struct	PrimPoint	p;
-	SLONG	sp,ep,offset_p;
+	std::int32_t	sp,ep,offset_p;
 
 	p_obj    =&prim_objects[map_things[thing].IndexOther];
 	p_obj_o  =&prim_objects[map_things[thing].IndexOrig];
@@ -254,7 +254,7 @@ PrimPickTab::PrimPickTab(EditorModule *parent)
 
 PrimPickTab::~PrimPickTab()
 {
-	UBYTE	blah	=	1;
+	std::uint8_t	blah	=	1;
 }
 
 //---------------------------------------------------------------
@@ -383,20 +383,20 @@ void	PrimPickTab::DrawTabContent(void)
 
 //---------------------------------------------------------------
 
-void	PrimPickTab::DrawAPrimInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h)
+void	PrimPickTab::DrawAPrimInRect(std::uint32_t prim,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	CBYTE	*text;
-	SLONG	*flags; //[560];
+	char	*text;
+	std::int32_t	*flags; //[560];
 	struct	SVector			*res; //[560]; //max points per object?
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
-	SLONG	width,height,scale,scale_y;
+	std::int32_t	sp,ep;
+	std::int32_t	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
+	std::int32_t	width,height,scale,scale_y;
 	EdRect	rect;
-	SLONG	os;
+	std::int32_t	os;
 
-	flags=(SLONG*)MemAlloc(sizeof(SLONG)*13000);
+	flags=(std::int32_t*)MemAlloc(sizeof(std::int32_t)*13000);
 	if(flags==0)
 		return;
 		
@@ -477,7 +477,7 @@ void	PrimPickTab::DrawAPrimInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h)
 	}
 	else
 	{
-		CBYTE	str[100];
+		char	str[100];
 
 		scale  =(w<<16)/width;
 		scale_y=(h<<16)/height;
@@ -505,20 +505,20 @@ void	PrimPickTab::DrawAPrimInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h)
 	MemFree(flags);
 }
 
-void	PrimPickTab::DrawABuildingInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h)
+void	PrimPickTab::DrawABuildingInRect(std::uint32_t prim,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	CBYTE	*text;
-	SLONG	*flags; //[560];
+	char	*text;
+	std::int32_t	*flags; //[560];
 	struct	SVector			*res; //[560]; //max points per object?
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	BuildingObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
-	SLONG	width,height,scale,scale_y;
+	std::int32_t	sp,ep;
+	std::int32_t	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
+	std::int32_t	width,height,scale,scale_y;
 	EdRect	rect;
-	SLONG	os;
+	std::int32_t	os;
 
-	flags=(SLONG*)MemAlloc(sizeof(SLONG)*3000);
+	flags=(std::int32_t*)MemAlloc(sizeof(std::int32_t)*3000);
 	if(flags==0)
 		return;
 		
@@ -608,9 +608,9 @@ void	PrimPickTab::DrawABuildingInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h
 
 //---------------------------------------------------------------
 
-void	PrimPickTab::DrawAMultiPrimInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h)
+void	PrimPickTab::DrawAMultiPrimInRect(std::uint32_t prim,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG					c0,c1,c2,
+	std::int32_t					c0,c1,c2,
 							num_points,
 							max_x,max_y,
 							min_x,min_y,
@@ -644,7 +644,7 @@ extern struct KeyFrameChunk 	*test_chunk;
 //
 
 	c1	=	0;
-	flags			=	(SLONG*)MemAlloc(sizeof(SLONG)*3000);
+	flags			=	(std::int32_t*)MemAlloc(sizeof(std::int32_t)*3000);
 	ERROR_MSG(flags,"Unable to allocate memory for DrawKeyFrame");
 	rotate_vectors	=	(struct SVector*)MemAlloc(sizeof(struct SVector)*3000);
 	ERROR_MSG(flags,"Unable to allocate memory for DrawKeyFrame");
@@ -757,11 +757,11 @@ extern struct KeyFrameChunk 	*test_chunk;
 //---------------------------------------------------------------
 
 // for both views
-SLONG	PrimPickTab::HiLightObjects(SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	PrimPickTab::HiLightObjects(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,my,mz;
-	SLONG	screen_change=0;
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	mx,my,mz;
+	std::int32_t	screen_change=0;
+	std::int32_t	wwx,wwy,www,wwh;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -796,9 +796,9 @@ SLONG	PrimPickTab::HiLightObjects(SLONG x,SLONG y,SLONG w,SLONG h)
 	return(screen_change);
 }
 
-void	PrimPickTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	PrimPickTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG				wwx,
+	std::int32_t				wwx,
 						wwy,
 						www,
 						wwh;
@@ -847,10 +847,10 @@ void	PrimPickTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 	drawrect.FillRect(CONTENT_COL_BR);
 	drawrect.HiliteRect(HILITE_COL,HILITE_COL);
 	set_camera_plan();
-extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(std::int32_t *minx,std::int32_t *maxx,std::int32_t *minz,std::int32_t *maxz);
 	{
 
-		SLONG	minx,maxx,minz,maxz;
+		std::int32_t	minx,maxx,minz,maxz;
 
 		find_map_clip(&minx,&maxx,&minz,&maxz);
 		edit_info.MinX=minx;
@@ -913,7 +913,7 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 	}
 
 	{
-		CBYTE str[50];
+		char str[50];
 
 		sprintf(str, "Current prim %d", CurrentPrim);
 
@@ -928,8 +928,8 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 
 void	PrimPickTab::DrawPrims(void)
 {
-	SLONG	ox,oy,oz,x,y,prim=1;
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	ox,oy,oz,x,y,prim=1;
+	std::int32_t	wwx,wwy,www,wwh;
 
 
 	SetWorkWindowBounds(ContentLeft()+1,ContentTop()+1,ContentWidth()-1,ContentHeight()-1);
@@ -938,7 +938,7 @@ void	PrimPickTab::DrawPrims(void)
 	PrimRect.HiliteRect(LOLITE_COL,HILITE_COL);
 
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 
 		memset(prim_count,0,512);
 		prim_diff=0;
@@ -962,7 +962,7 @@ void	PrimPickTab::DrawPrims(void)
 		}
 	}
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str," %d..%d     DIFFERENT PRIMS %d",next_prim_point,MAX_PRIM_POINTS,prim_diff);
 		QuickTextC(1,1,str,0);
 	}
@@ -1005,7 +1005,7 @@ void	PrimPickTab::DrawPrims(void)
 			if(prim==CurrentPrim)
 				rect.FillRect(LOLITE_COL);
 
-extern void	drawkeyframeboxgamechunk(UWORD multi_object,EdRect *bounds_rect,struct GameKeyFrame *the_frame,struct Matrix33 *r_matrix,SLONG person_id,struct GameKeyFrameChunk *the_chunk);
+extern void	drawkeyframeboxgamechunk(std::uint16_t multi_object,EdRect *bounds_rect,struct GameKeyFrame *the_frame,struct Matrix33 *r_matrix,std::int32_t person_id,struct GameKeyFrameChunk *the_chunk);
 
 			if(anim_chunk[prim].MultiObject[0])
 				drawkeyframeboxgamechunk(anim_chunk[prim].MultiObject[0],&rect,anim_chunk[prim].AnimList[1],&r_matrix,0,&anim_chunk[prim]);
@@ -1049,7 +1049,7 @@ extern void	drawkeyframeboxgamechunk(UWORD multi_object,EdRect *bounds_rect,stru
 /*	
 	{
 	SetWorkWindowBounds(ContentLeft(),ContentTop(),300,300);
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"CURRENT_PRIM= %d dtv1 %d dtv2 %d x %d y %d z %d",CurrentPrim,DragThingView1,DragThingView2,engine.MousePosX,engine.MousePosY,engine.MousePosZ);
 		DrawBox(20,20,300,10,0);
 		QuickTextC(20+1,20+1,str,255);
@@ -1081,7 +1081,7 @@ void	redraw_all_prims(void)
 
 void	PrimPickTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -1150,7 +1150,7 @@ void	PrimPickTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -1160,7 +1160,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	PrimPickTab::KeyboardInterface(void)
+std::int32_t	PrimPickTab::KeyboardInterface(void)
 {
 	if(Keys[KB_TAB])
 	{
@@ -1206,10 +1206,10 @@ SLONG	PrimPickTab::KeyboardInterface(void)
 
 
 
-void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
+void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz)
 {
-	SLONG	c0;
-	SLONG	mx,my,mz;
+	std::int32_t	c0;
+	std::int32_t	mx,my,mz;
 
 	*px=99999;
 	*py=99999;
@@ -1217,7 +1217,7 @@ void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
 
 	if(drag)
 	{
-		SLONG	sp,ep;
+		std::int32_t	sp,ep;
 		sp=prim_objects[drag].StartPoint;
 		ep=prim_objects[drag].EndPoint;
 
@@ -1233,10 +1233,10 @@ void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
 		}
 	}
 }
-void	find_things_max_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
+void	find_things_max_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz)
 {
-	SLONG	c0;
-	SLONG	mx,my,mz;
+	std::int32_t	c0;
+	std::int32_t	mx,my,mz;
 
 	*px=-99999;
 	*py=-99999;
@@ -1244,7 +1244,7 @@ void	find_things_max_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
 
 	if(drag)
 	{
-		SLONG	sp,ep;
+		std::int32_t	sp,ep;
 		sp=prim_objects[drag].StartPoint;
 		ep=prim_objects[drag].EndPoint;
 
@@ -1261,17 +1261,17 @@ void	find_things_max_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
 	}
 }
 
-void	find_things_min_point_corner(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
+void	find_things_min_point_corner(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz)
 {
-	SLONG	c0;
-	SLONG	mx,my,mz;
-	SLONG	dist,mdist=99999,best=0;
+	std::int32_t	c0;
+	std::int32_t	mx,my,mz;
+	std::int32_t	dist,mdist=99999,best=0;
 
 	*py=99999;
 
 	if(drag)
 	{
-		SLONG	sp,ep;
+		std::int32_t	sp,ep;
 		sp=prim_objects[drag].StartPoint;
 		ep=prim_objects[drag].EndPoint;
 
@@ -1297,17 +1297,17 @@ void	find_things_min_point_corner(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
 	}
 }
 
-void	find_things_max_point_corner(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
+void	find_things_max_point_corner(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz)
 {
-	SLONG	c0;
-	SLONG	mx,my,mz;
-	SLONG	dist,mdist=-99999,best=0;
+	std::int32_t	c0;
+	std::int32_t	mx,my,mz;
+	std::int32_t	dist,mdist=-99999,best=0;
 
 	*py=-99999;
 
 	if(drag)
 	{
-		SLONG	sp,ep;
+		std::int32_t	sp,ep;
 		sp=prim_objects[drag].StartPoint;
 		ep=prim_objects[drag].EndPoint;
 
@@ -1337,17 +1337,17 @@ void	find_things_max_point_corner(SLONG drag,SLONG *px,SLONG *py,SLONG *pz)
 // button 0 is left
 // button 1 is right (for creating a new prim identical to the last
 
-SLONG	PrimPickTab::DragAPrim(UBYTE flags,MFPoint *clicked_point,SLONG button)
+std::int32_t	PrimPickTab::DragAPrim(std::uint8_t flags,MFPoint *clicked_point,std::int32_t button)
 {
-	static	UBYTE col=0;
-	SLONG	screen_change=0;
+	static	std::uint8_t col=0;
+	std::int32_t	screen_change=0;
 	MFPoint		local_point;
-	SLONG	x,y,w,h;
-	SLONG	drag;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	ox,oy,oz;
+	std::int32_t	x,y,w,h;
+	std::int32_t	drag;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	ox,oy,oz;
 
-	SLONG	px=0,py=0,pz=0;
+	std::int32_t	px=0,py=0,pz=0;
 
 	
 
@@ -1393,10 +1393,10 @@ SLONG	PrimPickTab::DragAPrim(UBYTE flags,MFPoint *clicked_point,SLONG button)
 	}
 	*/
 
-extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(std::int32_t *minx,std::int32_t *maxx,std::int32_t *minz,std::int32_t *maxz);
 	{
 
-		SLONG	minx,maxx,minz,maxz;
+		std::int32_t	minx,maxx,minz,maxz;
 
 		find_map_clip(&minx,&maxx,&minz,&maxz);
 		edit_info.MinX=minx;
@@ -1448,7 +1448,7 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 
 	if(drag)
 	{
-		SLONG	index;
+		std::int32_t	index;
 
 		index=map_things[drag].IndexOther;
 		if(GridCorner)
@@ -1486,12 +1486,12 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 
 	if(drag)  //drag in plan view
 	{
-		SLONG	offset_x,offset_y,offset_z;
-		SLONG	in=1;
+		std::int32_t	offset_x,offset_y,offset_z;
+		std::int32_t	in=1;
 
 		if(button)
 		{
-			SLONG	old_thing;
+			std::int32_t	old_thing;
 			old_thing=drag;
 			// right button so create a new identical prim and drag it
 
@@ -1514,7 +1514,7 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 
 		while(SHELL_ACTIVE && ( (button==0) ? LeftButton : RightButton))
 		{
-			SLONG	nx,ny,nz;
+			std::int32_t	nx,ny,nz;
 			in=SetWorldMouse(0);
 
 			nx=map_things[drag].X;
@@ -1523,7 +1523,7 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 
 			if(GridFlag)
 			{
-				SLONG	grid_and;
+				std::int32_t	grid_and;
 				grid_and=~(HALF_ELE_SIZE-1);
 				if(Axis&X_AXIS)
 					nx=((engine.MousePosX+offset_x)&grid_and)-px;
@@ -1598,11 +1598,11 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 	return(screen_change);
 }
 
-SLONG	PrimPickTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	PrimPickTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -1611,9 +1611,9 @@ SLONG	PrimPickTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -1664,11 +1664,11 @@ SLONG	PrimPickTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-extern SLONG	calc_edit_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_edit_height_at(std::int32_t x,std::int32_t z);
 
-SLONG	PrimPickTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	PrimPickTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SWORD	thing;
+	std::int16_t	thing;
 
 
 	// Stop compiler moaning.	
@@ -1697,10 +1697,10 @@ SLONG	PrimPickTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,S
 
 						if(ShiftFlag|| (prim_objects[CurrentPrim].flag & PRIM_FLAG_ON_FLOOR) )
 						{
-							SLONG	px,py,pz,y;
+							std::int32_t	px,py,pz,y;
 							find_things_min_point(CurrentPrim,&px,&py,&pz);
 
-extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z);
 							y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
 							//y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
 
@@ -1712,10 +1712,10 @@ extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 						else
 						if(ShiftFlag|| (prim_objects[CurrentPrim].flag & PRIM_FLAG_JUST_FLOOR) )
 						{
-							SLONG	px,py,pz,y;
+							std::int32_t	px,py,pz,y;
 							find_things_min_point(CurrentPrim,&px,&py,&pz);
 
-extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z);
 							//y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
 							y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
 
@@ -1729,13 +1729,13 @@ extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 						}
 						break;
 					case	PRIM_MODE_ANIM_KEY:
-SLONG	place_anim_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z);
+std::int32_t	place_anim_prim_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
 						if(ShiftFlag)
 						{
-							SLONG	px,py,pz,y;
+							std::int32_t	px,py,pz,y;
 /* HERE HERE HERE */		find_things_min_point(CurrentPrim,&px,&py,&pz);
 
-extern SLONG	find_alt_for_this_pos(SLONG x,SLONG z);
+extern std::int32_t	find_alt_for_this_pos(std::int32_t x,std::int32_t z);
 
 							y=find_alt_for_this_pos(px,pz);
 //							y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
@@ -1773,9 +1773,9 @@ extern SLONG	find_alt_for_this_pos(SLONG x,SLONG z);
 	
 }
 
-UWORD	PrimPickTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	PrimPickTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -1793,7 +1793,7 @@ UWORD	PrimPickTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 			GlobalToLocal(&local_point);
 			if(PrimRect.PointInRect(&local_point))
 			{
-				SLONG	max,
+				std::int32_t	max,
 						x,
 						y,
 
@@ -1824,7 +1824,7 @@ UWORD	PrimPickTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 								RedrawTabContent=1;
 								CurrentPrim=prim;
 								UpdatePrimInfo();
-								extern SLONG HMTAB_current_prim;
+								extern std::int32_t HMTAB_current_prim;
 								HMTAB_current_prim = prim;
 							}
 							else
@@ -1876,11 +1876,11 @@ UWORD	PrimPickTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-SLONG	PrimPickTab::SetWorldMouse(ULONG flag)
+std::int32_t	PrimPickTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 
 
 	wwx=WorkWindowRect.Left;
@@ -1952,9 +1952,9 @@ SLONG	PrimPickTab::SetWorldMouse(ULONG flag)
 
 
 
-void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z)
+void	add_a_background_thing(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	UWORD	map_thing;
+	std::uint16_t	map_thing;
 	struct	MapThing	*p_mthing;
 
 	map_thing=find_empty_map_thing();
@@ -1977,7 +1977,7 @@ void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z)
 
 extern void	clear_map2(void);
 
-void	PrimPickTab::HandleControl(UWORD control_id)
+void	PrimPickTab::HandleControl(std::uint16_t control_id)
 {
 	switch(control_id&0xff)
 	{
@@ -1985,7 +1985,7 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 		case	CTRL_PRIM_APPEND_NEW:
 			{
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 
 				clear_map2();
 //				clear_prims();
@@ -2012,7 +2012,7 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 			if(CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE)
 			{
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 
 				clear_map2();
 //				clear_prims();
@@ -2021,7 +2021,7 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 				fr=new FileRequester("objects\\","*.*","Load A Prim","hello");
 				if(fr->Draw())
 				{
-					SLONG	temp;
+					std::int32_t	temp;
 					
 					strcpy(fname,fr->Path);
 					strcat(fname,fr->FileName);
@@ -2088,11 +2088,11 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 /*
 			{
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 				fr=new FileRequester("data\\","*.asc","Load A Prim","hello");
 				if(fr->Draw())
 				{
-					UWORD	temp;
+					std::uint16_t	temp;
 					strcpy(fname,fr->Path);
 					strcat(fname,fr->FileName);
 					read_asc(fname,640,1);
@@ -2119,7 +2119,7 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 		case	CTRL_PRIM_ERASE_MAP:
 			if(CurrentPrim && CurrentPrim<256&&prim_count[CurrentPrim])
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 
 				for(c0=0;c0<MAX_MAP_THINGS;c0++)
 				{
@@ -2274,7 +2274,7 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 
 			if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE)
 			{
-				SLONG i;
+				std::int32_t i;
 				PrimObject *po;
 
 				//
@@ -2301,7 +2301,7 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 
 			if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE)
 			{
-				SLONG i;
+				std::int32_t i;
 				PrimObject *po;
 
 				//
@@ -2385,19 +2385,19 @@ void	PrimPickTab::HandleControl(UWORD control_id)
 
 			if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE)
 			{
-				SLONG i;
+				std::int32_t i;
 
-				SLONG min_x = +INFINITY;
-				SLONG min_y = +INFINITY;
-				SLONG min_z = +INFINITY;
+				std::int32_t min_x = +INFINITY;
+				std::int32_t min_y = +INFINITY;
+				std::int32_t min_z = +INFINITY;
 
-				SLONG max_x = -INFINITY;
-				SLONG max_y = -INFINITY;
-				SLONG max_z = -INFINITY;
+				std::int32_t max_x = -INFINITY;
+				std::int32_t max_y = -INFINITY;
+				std::int32_t max_z = -INFINITY;
 
-				SLONG mid_x;
-				SLONG mid_y;
-				SLONG mid_z;
+				std::int32_t mid_x;
+				std::int32_t mid_y;
+				std::int32_t mid_z;
 
 				PrimObject *po;
 

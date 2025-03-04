@@ -2,8 +2,7 @@
 // Anti-alaised triangle draw mark 2
 //
 
-#ifndef _AB_
-#define _AB_
+#pragma once
 
 
 //
@@ -11,19 +10,4 @@
 // pixel is drawn additive.
 //
 
-void AB_draw(
-		UBYTE *bitmap,
-		SLONG  xres,	// Power of 2
-		SLONG  yres,	// Power of 2
-		SLONG  num_points,
-		SLONG  px[],	// 8-bit fixed point
-		SLONG  py[]);	// 8-bit fixed point
-
-
-
-
-
-
-
-
-#endif
+void AB_draw(std::uint8_t* bitmap, std::int32_t xres, std::int32_t num_points, std::int32_t px[], std::int32_t py[]);

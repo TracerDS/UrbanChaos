@@ -74,7 +74,7 @@ FONT2D_Letter FONT2D_letter[FONT2D_NUM_LETTERS];
 // This is the order the punctuation characters come in.
 //
 
-CBYTE FONT2D_punct[] =
+char FONT2D_punct[] =
 {
 	"!\"�$%^&*(){}[]<>\\/:;'@#_?-=+.,"
 
@@ -123,12 +123,12 @@ MyArrayType *FONT2D_data;
 // Returns true if it finds pixel data at (x,y)
 // 
 
-SLONG FONT2D_found_data(SLONG x, SLONG y)
+std::int32_t FONT2D_found_data(std::int32_t x, std::int32_t y)
 {
-	SLONG dy;
+	std::int32_t dy;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
 	ASSERT ( FONT2D_data != nullptr );
 
@@ -153,7 +153,7 @@ SLONG FONT2D_found_data(SLONG x, SLONG y)
 
 
 
-void FONT2D_init(SLONG font_id)
+void FONT2D_init(std::int32_t font_id)
 {
 	TGA_Info  ti;
 
@@ -164,7 +164,7 @@ void FONT2D_init(SLONG font_id)
 #endif
 
 
-	CBYTE fname[256];
+	char fname[256];
 
 
 	FONT2D_data = (MyArrayType *)MemAlloc ( sizeof ( TGA_Pixel ) * 256 * 256 );
@@ -183,16 +183,16 @@ void FONT2D_init(SLONG font_id)
 	ASSERT(ti.width  == 256);
 	ASSERT(ti.height == 256);
 
-	SLONG i;
-	SLONG y;
-	SLONG x;
-	SLONG line;
+	std::int32_t i;
+	std::int32_t y;
+	std::int32_t x;
+	std::int32_t line;
 
 	FONT2D_Letter *fl;
 
 	#define FONT2D_NUM_BASELINES 8
 
-	SLONG baseline[FONT2D_NUM_BASELINES] =
+	std::int32_t baseline[FONT2D_NUM_BASELINES] =
 	{
 		17, 37, 57, 77, 97, 117, 137, 157
 	};
@@ -262,9 +262,9 @@ void FONT2D_init(SLONG font_id)
 // Returns the index of the given character
 // 
 
-SLONG FONT2D_GetIndex(CBYTE chr)
+std::int32_t FONT2D_GetIndex(char chr)
 {
-	SLONG letter;
+	std::int32_t letter;
 
 	//
 	// Remap certain characters first
@@ -298,7 +298,7 @@ SLONG FONT2D_GetIndex(CBYTE chr)
 
 		letter = FONT2D_PUNCT_PLING;
 
-		for (CBYTE* ch = FONT2D_punct; *ch && *ch != chr; ch++, letter++);
+		for (char* ch = FONT2D_punct; *ch && *ch != chr; ch++, letter++);
 	}
 
 	if (!WITHIN(letter, 0, FONT2D_NUM_LETTERS - 1))
@@ -311,9 +311,9 @@ SLONG FONT2D_GetIndex(CBYTE chr)
 
 
 
-SLONG FONT2D_GetLetterWidth(CBYTE chr)
+std::int32_t FONT2D_GetLetterWidth(char chr)
 {
-	SLONG letter;
+	std::int32_t letter;
 
 	if ( ( chr == ' ' ) || ( chr == '�' ) )
 	{
@@ -335,17 +335,17 @@ void PANEL_draw_quad(
 		float top,
 		float right,
 		float bottom,
-		SLONG page,
-		ULONG colour = 0xffffffff,
+		std::int32_t page,
+		std::uint32_t colour = 0xffffffff,
 		float u1 = 0.0F,
 		float v1 = 0.0F,
 		float u2 = 1.0F,
 		float v2 = 1.0F);
 
 
-SLONG FONT2D_DrawLetter(CBYTE chr, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
+std::int32_t FONT2D_DrawLetter(char chr, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
-	SLONG letter;
+	std::int32_t letter;
 
 	FONT2D_Letter *fl;
 
@@ -412,12 +412,12 @@ SLONG FONT2D_DrawLetter(CBYTE chr, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLO
 
 
 
-const CBYTE fontlist[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$@*()[]\\/? +-";
+const char fontlist[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$@*()[]\\/? +-";
 
-FONT2D_DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade) {
-	UBYTE ndx=strchr(fontlist,chr)-fontlist;
+FONT2D_DrawLetter(char chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade) {
+	std::uint8_t ndx=strchr(fontlist,chr)-fontlist;
 	float u,v;
-	SLONG fade2;
+	std::int32_t fade2;
 
 	u=(ndx&7); u*=0.125;
 	ndx>>=3; v=ndx; v*=0.125;
@@ -453,15 +453,15 @@ FONT2D_DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, SLONG scale, SLONG pag
 */
 
 
-SLONG FONT2D_rightmost_x;
-SLONG FONT2D_leftmost_x;
+std::int32_t FONT2D_rightmost_x;
+std::int32_t FONT2D_leftmost_x;
 
 
 #define MAKE_FADE_RGB(RGB, FADE)	((RGB & 0x00FFFFFF) | ((255 - FADE) << 24))
 
-void FONT2D_DrawString(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
+void FONT2D_DrawString(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
-	UBYTE i;
+	std::uint8_t i;
 
 	if (!str )
 	{
@@ -498,9 +498,9 @@ void FONT2D_DrawString(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLON
 	}
 }
 
-void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
+void FONT2D_DrawString_NoTrueType(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
-	UBYTE i;
+	std::uint8_t i;
 
 	if (!str )
 	{
@@ -531,7 +531,7 @@ void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG 
 // Idiots. I have to work with idiots.
 // Fine. Fill your memory up with shit then. See if I care.
 
-SLONG FONT2D_DrawStringWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
+std::int32_t FONT2D_DrawStringWrap(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
 	if (!str )
 	{
@@ -547,12 +547,12 @@ SLONG FONT2D_DrawStringWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale,
 	}
 #endif
 
-	SLONG i;
-	SLONG xbase = x;
-	SLONG xlook;
-	SLONG len = strlen(str);
+	std::int32_t i;
+	std::int32_t xbase = x;
+	std::int32_t xlook;
+	std::int32_t len = strlen(str);
 
-	CBYTE* ch;
+	char* ch;
 
 	FONT2D_rightmost_x = x + 8;
 
@@ -602,7 +602,7 @@ SLONG FONT2D_DrawStringWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale,
 #endif
 
 
-SLONG FONT2D_DrawStringWrapTo(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade, SWORD span)
+std::int32_t FONT2D_DrawStringWrapTo(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade, std::int16_t span)
 {
 	if (!str )
 	{
@@ -617,12 +617,12 @@ SLONG FONT2D_DrawStringWrapTo(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scal
 	}
 #endif
 
-	SLONG i;
-	SLONG xbase = x;
-	SLONG xlook;
-	SLONG len = strlen(str);
+	std::int32_t i;
+	std::int32_t xbase = x;
+	std::int32_t xlook;
+	std::int32_t len = strlen(str);
 
-	CBYTE* ch;
+	char* ch;
 
 	FONT2D_rightmost_x = x + 8;
 
@@ -675,7 +675,7 @@ SLONG FONT2D_DrawStringWrapTo(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scal
 }
 
 
-SLONG FONT2D_DrawStringRightJustify(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade, bool bDontDraw )
+std::int32_t FONT2D_DrawStringRightJustify(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade, bool bDontDraw )
 {
 	if (!str )
 	{
@@ -694,14 +694,14 @@ SLONG FONT2D_DrawStringRightJustify(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLON
 	//str = "Jeez, Miles. I'm a damn ROOKIE an' even I gotta laugh at THAT!";
 
 
-	SLONG i;
-	SLONG drawn_upto;
-	SLONG xbase = x - ((scale >> 4) - 7);
-	SLONG xlook;
-	SLONG len = strlen(str);
+	std::int32_t i;
+	std::int32_t drawn_upto;
+	std::int32_t xbase = x - ((scale >> 4) - 7);
+	std::int32_t xlook;
+	std::int32_t len = strlen(str);
 
-	CBYTE* ch;
-	CBYTE  backup;
+	char* ch;
+	char  backup;
 
 	drawn_upto = 0;
 	x          = xbase;
@@ -778,14 +778,14 @@ SLONG FONT2D_DrawStringRightJustify(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLON
 }
 
 
-SLONG FONT2D_DrawStringRightJustifyNoWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
+std::int32_t FONT2D_DrawStringRightJustifyNoWrap(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
 	if (!str )
 	{
 		str = "Null string";
 	}
 
-	CBYTE* ch;
+	char* ch;
 
 	for (ch = str; *ch; ch++)
 	{
@@ -799,16 +799,16 @@ SLONG FONT2D_DrawStringRightJustifyNoWrap(CBYTE*str, SLONG x, SLONG y, ULONG rgb
 
 
 //POLY_PAGE_FONT2D
-void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade) 
+void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y, std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade) 
 {
 	if (!str )
 	{
 		str = "Null string";
 	}
 
-	SLONG screen_size;
-	SLONG len;
-	SLONG str_width,str_height;
+	std::int32_t screen_size;
+	std::int32_t len;
+	std::int32_t str_width,str_height;
 
 	POLY_Point  mid;
 
@@ -822,15 +822,15 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 
 	if (mid.IsValid())
 	{
-		CBYTE* ch;
+		char* ch;
 
 		float x = mid.X;
 		float y = mid.Y;
 
 		float width;
-		SLONG scale = SLONG(mid.Z * 6 * 256);
+		std::int32_t scale = std::int32_t(mid.Z * 6 * 256);
 		
-		SLONG letter;
+		std::int32_t letter;
 
 		//
 		// Work out the length of the string.
@@ -867,7 +867,7 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 			}
 			else
 			{
-				SLONG letter;
+				std::int32_t letter;
 
 				FONT2D_Letter *fl;
 
@@ -905,7 +905,7 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 
 
 		len=strlen(str);
-		screen_size = (SLONG)(POLY_world_length_to_screen(text_size) * mid.Z);
+		screen_size = (std::int32_t)(POLY_world_length_to_screen(text_size) * mid.Z);
 		str_width=(screen_size*len)>>1;
 		str_height=(screen_size)>>1;
 
@@ -920,7 +920,7 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 		}
 		else
 		{
-			FONT2D_DrawString(str, ((ULONG)mid.X)-str_width,((ULONG)mid.Y)-str_height , rgb, screen_size, POLY_PAGE_FONT2D, fade);
+			FONT2D_DrawString(str, ((std::uint32_t)mid.X)-str_width,((std::uint32_t)mid.Y)-str_height , rgb, screen_size, POLY_PAGE_FONT2D, fade);
 
 		}
 
@@ -929,10 +929,10 @@ void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y, ULONG world_z
 }
 
 
-void FONT2D_DrawStringCentred(CBYTE*chr, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade)
+void FONT2D_DrawStringCentred(char*chr, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
-	SLONG length;
-	CBYTE* ch;
+	std::int32_t length;
+	char* ch;
 
 #ifdef TRUETYPE
 	PERHAPS
@@ -981,27 +981,27 @@ void FONT2D_DrawStringCentred(CBYTE*chr, SLONG x, SLONG y, ULONG rgb, SLONG scal
 
 float PANEL_GetNextDepthBodge ( void );
 
-SLONG DST_offset1;
-SLONG DST_offset2;
+std::int32_t DST_offset1;
+std::int32_t DST_offset2;
 
 
 
-void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb, SLONG scale, SLONG page, SLONG fade, bool bUseLastOffset)
+void FONT2D_DrawStrikethrough(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int32_t fade, bool bUseLastOffset)
 {
 	FONT2D_Letter *fl;
 
-	SLONG letter = FONT2D_GetIndex('-');
+	std::int32_t letter = FONT2D_GetIndex('-');
 
 	fl = &FONT2D_letter[letter];
 
-	SLONG offset;
+	std::int32_t offset;
 
 	//
 	// Work out the 'random' offset.
 	//
 
-	SLONG offset1;
-	SLONG offset2;
+	std::int32_t offset1;
+	std::int32_t offset2;
 
 	if ( bUseLastOffset )
 	{
@@ -1010,8 +1010,8 @@ void FONT2D_DrawStrikethrough(SLONG x1, SLONG x2, SLONG y, ULONG rgb, SLONG scal
 	}
 	else
 	{
-		SLONG rx = x1 + x2;
-		SLONG ry = y;
+		std::int32_t rx = x1 + x2;
+		std::int32_t ry = y;
 
 #if 0
 		if (rgb == 0)

@@ -12,17 +12,17 @@
 // The bounding box of the building.
 //
 
-UBYTE STAIR_x1;
-UBYTE STAIR_z1;
-UBYTE STAIR_x2;
-UBYTE STAIR_z2;
+std::uint8_t STAIR_x1;
+std::uint8_t STAIR_z1;
+std::uint8_t STAIR_x2;
+std::uint8_t STAIR_z2;
 
 //
 // The height of the roof of the building, 1 + the height of
 // the highest storey.
 // 
 
-UBYTE STAIR_roof_height;
+std::uint8_t STAIR_roof_height;
 
 //
 // The maximum dimensions of the bounding box.
@@ -45,20 +45,20 @@ UBYTE STAIR_roof_height;
 
 typedef struct
 {
-	UBYTE flag;
-	UBYTE up;	// The storey you go up to   (if (flag & STAIR_FLAG_UP))
-	UBYTE down;	// The storey you go down to (if (flag & STAIR_FLAG_DOWN))
-	UBYTE x1;
-	UBYTE z1;
-	UBYTE x2;
-	UBYTE z2;
+	std::uint8_t flag;
+	std::uint8_t up;	// The storey you go up to   (if (flag & STAIR_FLAG_UP))
+	std::uint8_t down;	// The storey you go down to (if (flag & STAIR_FLAG_DOWN))
+	std::uint8_t x1;
+	std::uint8_t z1;
+	std::uint8_t x2;
+	std::uint8_t z2;
 
 } STAIR_Stair;
 
 #define STAIR_MAX_STAIRS 32
 
 STAIR_Stair STAIR_stair[STAIR_MAX_STAIRS];
-SLONG STAIR_stair_upto;
+std::int32_t STAIR_stair_upto;
 
 //
 // The info for each storey.
@@ -68,33 +68,33 @@ SLONG STAIR_stair_upto;
 
 typedef struct
 {
-	SLONG handle;	// How the storey is identified.
-	UBYTE opp_x1;	// A wall is it good to have a staircase opposite on.
-	UBYTE opp_z1;
-	UBYTE opp_x2;
-	UBYTE opp_z2;
-	UBYTE height;
-	UBYTE stair[STAIR_MAX_PER_STOREY];	// Indices into the STAIR_stair array. 0 => NULL index.
-	UBYTE square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8];
+	std::int32_t handle;	// How the storey is identified.
+	std::uint8_t opp_x1;	// A wall is it good to have a staircase opposite on.
+	std::uint8_t opp_z1;
+	std::uint8_t opp_x2;
+	std::uint8_t opp_z2;
+	std::uint8_t height;
+	std::uint8_t stair[STAIR_MAX_PER_STOREY];	// Indices into the STAIR_stair array. 0 => NULL index.
+	std::uint8_t square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8];
 
 } STAIR_Storey;
 
 #define STAIR_MAX_STOREYS 32
 
 STAIR_Storey STAIR_storey[STAIR_MAX_STOREYS];
-SLONG STAIR_storey_upto;
+std::int32_t STAIR_storey_upto;
 
 //
 // Sets the given square on the given storey.
 //
 
-void STAIR_set_bit(SLONG storey, SLONG x, SLONG z)
+void STAIR_set_bit(std::int32_t storey, std::int32_t x, std::int32_t z)
 {
-	SLONG off_x;
-	SLONG off_z;
+	std::int32_t off_x;
+	std::int32_t off_z;
 
-	SLONG byte;
-	SLONG bit;
+	std::int32_t byte;
+	std::int32_t bit;
 
 	ASSERT(WITHIN(storey, 0, STAIR_storey_upto - 1));
 	ASSERT(WITHIN(x, STAIR_x1, STAIR_x2 - 1));
@@ -112,13 +112,13 @@ void STAIR_set_bit(SLONG storey, SLONG x, SLONG z)
 	STAIR_storey[storey].square[off_z][byte] |= (1 << bit);
 }
 
-UBYTE STAIR_get_bit(SLONG storey, SLONG x, SLONG z)
+std::uint8_t STAIR_get_bit(std::int32_t storey, std::int32_t x, std::int32_t z)
 {
-	SLONG off_x;
-	SLONG off_z;		
+	std::int32_t off_x;
+	std::int32_t off_z;		
 
-	SLONG byte;
-	SLONG bit;
+	std::int32_t byte;
+	std::int32_t bit;
 
 	ASSERT(WITHIN(storey, 0, STAIR_storey_upto - 1));
 	ASSERT(WITHIN(x, STAIR_x1, STAIR_x2 - 1));
@@ -136,13 +136,13 @@ UBYTE STAIR_get_bit(SLONG storey, SLONG x, SLONG z)
 	return STAIR_storey[storey].square[off_z][byte] & (1 << bit);
 }
 
-UBYTE STAIR_get_bit_from_square(UBYTE square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8], SLONG x, SLONG z)
+std::uint8_t STAIR_get_bit_from_square(std::uint8_t square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8], std::int32_t x, std::int32_t z)
 {
-	SLONG off_x;
-	SLONG off_z;
+	std::int32_t off_x;
+	std::int32_t off_z;
 
-	SLONG byte;
-	SLONG bit;
+	std::int32_t byte;
+	std::int32_t bit;
 
 	ASSERT(WITHIN(x, STAIR_x1, STAIR_x2 - 1));
 	ASSERT(WITHIN(z, STAIR_z1, STAIR_z2 - 1));
@@ -176,23 +176,23 @@ UBYTE STAIR_get_bit_from_square(UBYTE square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8]
 
 typedef struct
 {
-	UBYTE next;
-	UBYTE square;
-	UWORD pos;		// 8-bit fixed point.
+	std::uint8_t next;
+	std::uint8_t square;
+	std::uint16_t pos;		// 8-bit fixed point.
 
 } STAIR_Link;
 
 #define STAIR_MAX_LINKS 128
 
 STAIR_Link STAIR_link[STAIR_MAX_LINKS];
-SLONG STAIR_link_upto;
+std::int32_t STAIR_link_upto;
 
 //
 // One linked list per z-row of floor square.
 // 0 is the NULL index
 //
 
-UBYTE STAIR_edge[STAIR_MAX_SIZE];
+std::uint8_t STAIR_edge[STAIR_MAX_SIZE];
 
 //
 // How to access the EDGE list. It is relative to
@@ -205,9 +205,9 @@ UBYTE STAIR_edge[STAIR_MAX_SIZE];
 #define STAIR_EDGE(z) (STAIR_edge[(z) - STAIR_z1])
 #endif
 
-void STAIR_check_edge(SLONG z)
+void STAIR_check_edge(std::int32_t z)
 {
-	SLONG sz;
+	std::int32_t sz;
 
 	ASSERT(WITHIN(z, STAIR_z1, STAIR_z2 - 1));
 
@@ -221,21 +221,21 @@ void STAIR_check_edge(SLONG z)
 // Random numbers for the STAIR module.
 //
 
-ULONG STAIR_rand_seed;
+std::uint32_t STAIR_rand_seed;
 
-inline void STAIR_srand(ULONG seed)
+inline void STAIR_srand(std::uint32_t seed)
 {
 	STAIR_rand_seed = seed;
 }
 
-inline ULONG STAIR_grand()
+inline std::uint32_t STAIR_grand()
 {
 	return STAIR_rand_seed;
 }
 
-inline UWORD STAIR_rand()
+inline std::uint16_t STAIR_rand()
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	STAIR_rand_seed *= 328573;
 	STAIR_rand_seed += 123456789;
@@ -251,9 +251,9 @@ inline UWORD STAIR_rand()
 // Adds the stair to the given storey.
 //
 
-void STAIR_add_to_storey(SLONG storey, SLONG stair)
+void STAIR_add_to_storey(std::int32_t storey, std::int32_t stair)
 {
-	SLONG i;
+	std::int32_t i;
 
 	ASSERT(WITHIN(storey, 0, STAIR_storey_upto - 1));
 	ASSERT(WITHIN(stair,  1, STAIR_stair_upto  - 1));
@@ -301,7 +301,7 @@ void STAIR_init()
 	STAIR_roof_height = 0;
 }
 
-void STAIR_set_bounding_box(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2)
+void STAIR_set_bounding_box(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::uint8_t z2)
 {
 	ASSERT(WITHIN(x1, 0, 255));
 	ASSERT(WITHIN(z1, 0, 255));
@@ -317,9 +317,9 @@ void STAIR_set_bounding_box(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2)
 	ASSERT(WITHIN(STAIR_z2 - STAIR_z1, 0, STAIR_MAX_SIZE));
 }
 
-void STAIR_storey_new(SLONG handle, UBYTE height)
+void STAIR_storey_new(std::int32_t handle, std::uint8_t height)
 {
-	SLONG i;
+	std::int32_t i;
 
 	STAIR_Storey *st;
 
@@ -340,7 +340,7 @@ void STAIR_storey_new(SLONG handle, UBYTE height)
 	// Initialise the new storey.
 	//
 
-	memset ((UBYTE*)st, 0, sizeof(STAIR_Storey));
+	memset ((std::uint8_t*)st, 0, sizeof(STAIR_Storey));
 
 	st->handle = handle;
 	st->height = height;
@@ -372,21 +372,21 @@ void STAIR_storey_new(SLONG handle, UBYTE height)
 	STAIR_storey_upto += 1;
 }
 
-void STAIR_storey_wall(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2, SLONG opposite)
+void STAIR_storey_wall(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::uint8_t z2, std::int32_t opposite)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dxdz;
-	SLONG pos;
-	SLONG square;
+	std::int32_t dxdz;
+	std::int32_t pos;
+	std::int32_t square;
 
-	UBYTE  link_t;
-	UBYTE  next;
-	UBYTE *prev;
+	std::uint8_t  link_t;
+	std::uint8_t  next;
+	std::uint8_t *prev;
 
 	//
 	// Make sure this wall is inside the bounding rectangle of
@@ -543,19 +543,19 @@ void STAIR_storey_wall(UBYTE x1, UBYTE z1, UBYTE x2, UBYTE z2, SLONG opposite)
 	}
 }
 
-SLONG STAIR_storey_finish()
+std::int32_t STAIR_storey_finish()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG x2;
+	std::int32_t x1;
+	std::int32_t x2;
 
-	UBYTE next;
-	UBYTE next1;
-	UBYTE next2;
+	std::uint8_t next;
+	std::uint8_t next1;
+	std::uint8_t next2;
 
 	STAIR_Storey *st;
 
@@ -630,40 +630,40 @@ SLONG STAIR_storey_finish()
 // onto the given square on the given storey.
 // 
 
-SLONG STAIR_is_door(SLONG storey, SLONG x, SLONG z)
+std::int32_t STAIR_is_door(std::int32_t storey, std::int32_t x, std::int32_t z)
 {
 	return 0;
 }
 
 
-void STAIR_calculate(UWORD seed)
+void STAIR_calculate(std::uint16_t seed)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
-	SLONG l;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
+	std::int32_t l;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG x2;
-	SLONG z1;
-	SLONG z2;
-	SLONG score;
+	std::int32_t x1;
+	std::int32_t x2;
+	std::int32_t z1;
+	std::int32_t z2;
+	std::int32_t score;
 
-	SLONG ox;
-	SLONG oz;
-	SLONG outside;
+	std::int32_t ox;
+	std::int32_t oz;
+	std::int32_t outside;
 
-	SLONG best_x1;
-	SLONG best_z1;
-	SLONG best_x2;
-	SLONG best_z2;
-	SLONG best_score;
+	std::int32_t best_x1;
+	std::int32_t best_z1;
+	std::int32_t best_x2;
+	std::int32_t best_z2;
+	std::int32_t best_score;
 
 	STAIR_Storey *st;
 	STAIR_Storey *st_n;
@@ -671,21 +671,21 @@ void STAIR_calculate(UWORD seed)
 	STAIR_Stair *ss;
 	STAIR_Stair *ss_new;
 
-	SLONG dox;
-	SLONG doz;
+	std::int32_t dox;
+	std::int32_t doz;
 
-	SLONG height;
-	SLONG height_n;
+	std::int32_t height;
+	std::int32_t height_n;
 
-	UBYTE square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8];
-	UBYTE go_up;
-	UBYTE go_down;
+	std::uint8_t square[STAIR_MAX_SIZE][STAIR_MAX_SIZE / 8];
+	std::uint8_t go_up;
+	std::uint8_t go_down;
 
 	//
 	// Randomise the order we do the storeys in.
 	//
 
-	UBYTE storey_order1[STAIR_MAX_STOREYS];
+	std::uint8_t storey_order1[STAIR_MAX_STOREYS];
 
 	STAIR_srand(seed);
 
@@ -1194,10 +1194,10 @@ void STAIR_calculate(UWORD seed)
 
 ID_Stair STAIR_id_stair[STAIR_MAX_PER_STOREY];
 
-SLONG STAIR_get(SLONG handle, ID_Stair **stair, SLONG *num_stairs)
+std::int32_t STAIR_get(std::int32_t handle, ID_Stair **stair, std::int32_t *num_stairs)
 {
-	SLONG i;
-	SLONG storey;
+	std::int32_t i;
+	std::int32_t storey;
 
 	STAIR_Storey *st;
 	STAIR_Stair  *ss;

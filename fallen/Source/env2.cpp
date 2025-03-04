@@ -12,14 +12,14 @@
 #include "platutil.h"
 #endif
 
-CBYTE inifile[_MAX_PATH];
-CBYTE strbuf[_MAX_PATH];
+char inifile[_MAX_PATH];
+char strbuf[_MAX_PATH];
 
 
 #ifndef TARGET_DC
 
 
-void ENV_load(CBYTE* fname)
+void ENV_load(char* fname)
 {
 	GetCurrentDirectory(_MAX_PATH, inifile);
 	if (inifile[strlen(inifile) - 1] != '\\')	strcat(inifile, "\\");
@@ -27,7 +27,7 @@ void ENV_load(CBYTE* fname)
 
 	TRACE("Full INI file pathname = %s\n", inifile);
 
-	SLONG local = GetPrivateProfileInt("MuckyFoot", "local", 0, inifile);
+	std::int32_t local = GetPrivateProfileInt("MuckyFoot", "local", 0, inifile);
 
 	if (local)
 	{
@@ -36,27 +36,27 @@ void ENV_load(CBYTE* fname)
 	}
 }
 
-CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section)
+char* ENV_get_value_string(char* name, char* section)
 {
 	GetPrivateProfileString(section, name, "", strbuf, _MAX_PATH, inifile);
 	TRACE("[%s] %s = \"%s\"\n", section, name, strbuf);
 	return strbuf[0] ? strbuf : nullptr;
 }
 
-SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section)
+std::int32_t ENV_get_value_number(char* name, std::int32_t def, char* section)
 {
-	SLONG val = GetPrivateProfileInt(section, name, def, inifile);
+	std::int32_t val = GetPrivateProfileInt(section, name, def, inifile);
 	TRACE("[%s] %s = %d\n", section, name, val);
 	if (stricmp(section, "Secret"))	ENV_set_value_number(name, val, section);	// don't write out "psx" key
 	return val;
 }
 
-void ENV_set_value_string(CBYTE* name, CBYTE* value, CBYTE* section)
+void ENV_set_value_string(char* name, char* value, char* section)
 {
 	WritePrivateProfileString(section, name, value, inifile);
 }
 
-void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section)
+void ENV_set_value_number(char* name, std::int32_t value, char* section)
 {
 	sprintf(strbuf, "%d", value);
 	WritePrivateProfileString(section, name, strbuf, inifile);
@@ -286,7 +286,7 @@ void ENV_init ( void )
 
 
 // Fudged.
-CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section)
+char* ENV_get_value_string(char* name, char* section)
 {
 	// Only one string, the language. This is kludged for the XLAT system,
 	// most things should take language settings from "lang_num".
@@ -310,7 +310,7 @@ CBYTE* ENV_get_value_string(CBYTE* name, CBYTE* section)
 	}
 }
 
-SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section)
+std::int32_t ENV_get_value_number(char* name, std::int32_t def, char* section)
 {
 	int iStringNum = 0;
 	while ( true )
@@ -333,12 +333,12 @@ SLONG ENV_get_value_number(CBYTE* name, SLONG def, CBYTE* section)
 }
 
 // Unused.
-void ENV_set_value_string(CBYTE* name, CBYTE* value, CBYTE* section)
+void ENV_set_value_string(char* name, char* value, char* section)
 {
 	ASSERT ( false );
 }
 
-void ENV_set_value_number(CBYTE* name, SLONG value, CBYTE* section)
+void ENV_set_value_number(char* name, std::int32_t value, char* section)
 {
 	int iStringNum = 0;
 	// MUST be a byte value.

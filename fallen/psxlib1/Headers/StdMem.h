@@ -8,7 +8,7 @@
 
 bool SetupMemory();
 void ResetMemory();
-void* MemAlloc(ULONG size);
+void* MemAlloc(std::uint32_t size);
 void MemFree(void* mem_ptr);
 
 //---------------------------------------------------------------

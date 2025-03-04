@@ -10,13 +10,13 @@
 
 //---------------------------------------------------------------
 
-void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void	DrawBox8(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour)
 {
-	UBYTE		*ptr;
-	ULONG		big_col,
+	std::uint8_t		*ptr;
+	std::uint32_t		big_col,
 				*ptr_big,
 				w2;
-	SLONG		temp_width;
+	std::int32_t		temp_width;
 
 
 	ptr			=	WorkWindow+x+(y*WorkScreenWidth); //have to use window
@@ -28,7 +28,7 @@ void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=temp_width;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			ptr	+=	WorkScreenWidth-temp_width;
 		}
@@ -42,33 +42,33 @@ void	DrawBox8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=x&3;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			w2		=	temp_width-(x&3);
-			ptr_big	=	(ULONG*)ptr;
+			ptr_big	=	(std::uint32_t*)ptr;
 			for(width=w2>>2;width>0;width--)
 			{
 				*ptr_big++	=	big_col;
 			}
-			ptr	=	(UBYTE*)ptr_big;
+			ptr	=	(std::uint8_t*)ptr_big;
 			for(width=w2&3;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			ptr	+=	WorkScreenWidth-temp_width;
 		}
 	}
 }
 
-void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void	DrawBox16(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour)
 {
-	UWORD		*ptr;
-	ULONG		big_col,
+	std::uint16_t		*ptr;
+	std::uint32_t		big_col,
 				*ptr_big,
 				w2;
-	SLONG		temp_width;
+	std::int32_t		temp_width;
 
-	ptr			=	(UWORD*)WorkWindow+x+(y*WorkScreenWidth>>1); //have to use window
+	ptr			=	(std::uint16_t*)WorkWindow+x+(y*WorkScreenWidth>>1); //have to use window
 	temp_width	=	width;
 	if(width<=2)
 	{
@@ -77,7 +77,7 @@ void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=temp_width;width>0;width--)
 			{
-				*ptr++	=	(UWORD)colour;
+				*ptr++	=	(std::uint16_t)colour;
 			}
 			ptr	+=	WorkScreenWidth-temp_width;
 		}
@@ -91,31 +91,31 @@ void	DrawBox16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=x&1;width>0;width--)
 			{
-				*ptr++	=	(UWORD)colour;
+				*ptr++	=	(std::uint16_t)colour;
 			}
 			w2		=	temp_width-(x&1);
-			ptr_big	=	(ULONG*)ptr;
+			ptr_big	=	(std::uint32_t*)ptr;
 			for(width=w2>>1;width>0;width--)
 			{
 				*ptr_big++	=	big_col;
 			}
-			ptr	=	(UWORD*)ptr_big;
+			ptr	=	(std::uint16_t*)ptr_big;
 			for(width=w2&1;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			ptr	+=	(WorkScreenWidth>>1)-temp_width;
 		}
 	}
 }
 
-void	DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void	DrawBox32(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour)
 {
-	ULONG		*ptr;
-	SLONG		temp_width;
+	std::uint32_t		*ptr;
+	std::int32_t		temp_width;
 
 
-	ptr			=	(ULONG*)WorkWindow+x+(y*WorkScreenWidth>>2); //have to use window
+	ptr			=	(std::uint32_t*)WorkWindow+x+(y*WorkScreenWidth>>2); //have to use window
 	temp_width	=	width;
 	{
 		// Thin rectangles.
@@ -132,13 +132,13 @@ void	DrawBox32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void	DrawBoxC8(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour)
 {
-	UBYTE		*ptr;
-	ULONG		big_col,
+	std::uint8_t		*ptr;
+	std::uint32_t		big_col,
 				*ptr_big,
 				w2;
-	SLONG		temp_width;
+	std::int32_t		temp_width;
 
 
 	if(x>=WorkWindowWidth || y>=WorkWindowHeight)
@@ -175,7 +175,7 @@ void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=temp_width;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			ptr	+=	WorkScreenWidth-temp_width;
 		}
@@ -189,31 +189,31 @@ void	DrawBoxC8(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=x&3;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			w2		=	temp_width-(x&3);
-			ptr_big	=	(ULONG*)ptr;
+			ptr_big	=	(std::uint32_t*)ptr;
 			for(width=w2>>2;width>0;width--)
 			{
 				*ptr_big++	=	big_col;
 			}
-			ptr	=	(UBYTE*)ptr_big;
+			ptr	=	(std::uint8_t*)ptr_big;
 			for(width=w2&3;width>0;width--)
 			{
-				*ptr++	=	(UBYTE)colour;
+				*ptr++	=	(std::uint8_t)colour;
 			}
 			ptr	+=	WorkScreenWidth-temp_width;
 		}
 	}
 }
 
-void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void	DrawBoxC16(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour)
 {
-	UWORD		*ptr;
-	ULONG		big_col,
+	std::uint16_t		*ptr;
+	std::uint32_t		big_col,
 				*ptr_big,
 				w2;
-	SLONG		temp_width;
+	std::int32_t		temp_width;
 
 
 	if(x>=WorkWindowWidth || y>=WorkWindowHeight)
@@ -241,7 +241,7 @@ void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 	if(width<=0 || height<=0)
 		return;
 
-	ptr			=	(UWORD*)WorkWindow+x+(y*WorkScreenWidth>>1); //have to use window
+	ptr			=	(std::uint16_t*)WorkWindow+x+(y*WorkScreenWidth>>1); //have to use window
 	temp_width	=	width;
 	if(width<=2)
 	{
@@ -250,7 +250,7 @@ void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=temp_width;width>0;width--)
 			{
-				*ptr++	=	(UWORD)colour;
+				*ptr++	=	(std::uint16_t)colour;
 			}
 			ptr	+=	(WorkScreenWidth>>1)-temp_width;
 		}
@@ -264,28 +264,28 @@ void	DrawBoxC16(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 		{
 			for(width=x&1;width>0;width--)
 			{
-				*ptr++	=	(UWORD)colour;
+				*ptr++	=	(std::uint16_t)colour;
 			}
 			w2		=	temp_width-(x&1);
-			ptr_big	=	(ULONG*)ptr;
+			ptr_big	=	(std::uint32_t*)ptr;
 			for(width=w2>>1;width>0;width--)
 			{
 				*ptr_big++	=	big_col;
 			}
-			ptr	=	(UWORD*)ptr_big;
+			ptr	=	(std::uint16_t*)ptr_big;
 			for(width=w2&1;width>0;width--)
 			{
-				*ptr++	=	(UWORD)colour;
+				*ptr++	=	(std::uint16_t)colour;
 			}
 			ptr	+=	(WorkScreenWidth>>1)-temp_width;
 		}
 	}
 }
 
-void	DrawBoxC32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
+void	DrawBoxC32(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour)
 {
-	ULONG		*ptr;
-	SLONG		temp_width;
+	std::uint32_t		*ptr;
+	std::int32_t		temp_width;
 
 
 	if(x>=WorkWindowWidth || y>=WorkWindowHeight)
@@ -313,7 +313,7 @@ void	DrawBoxC32(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour)
 	if(width<=0 || height<=0)
 		return;
 
-	ptr			=	(ULONG*)WorkWindow+(x)+(y*WorkScreenWidth>>2); //have to use window
+	ptr			=	(std::uint32_t*)WorkWindow+(x)+(y*WorkScreenWidth>>2); //have to use window
 	temp_width	=	width;
 
 	for(;height;height--)

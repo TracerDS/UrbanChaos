@@ -31,17 +31,17 @@
 
 
 
-UWORD Kanji_lookup[256];
+std::uint16_t Kanji_lookup[256];
 
-ULONG Kanji_decode[256];
+std::uint32_t Kanji_decode[256];
 
-UWORD Kanji_x,Kanji_y;
+std::uint16_t Kanji_x,Kanji_y;
 
-SLONG Kanji_next;
+std::int32_t Kanji_next;
 
-SLONG Kanji_GetChar(UWORD kanji)
+std::int32_t Kanji_GetChar(std::uint16_t kanji)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for(i=0;i<255;i++)
 		if (Kanji_lookup[i]==kanji)
@@ -50,16 +50,16 @@ SLONG Kanji_GetChar(UWORD kanji)
 	return -1;
 }
 
-void Kanji_Init(UWORD x,UWORD y)
+void Kanji_Init(std::uint16_t x,std::uint16_t y)
 {
-	SLONG i;
+	std::int32_t i;
 
 	// Build the decode table
 
 	for(i=0;i<256;i++)
 	{
-		SLONG v=0;
-		SLONG j=0;
+		std::int32_t v=0;
+		std::int32_t j=0;
 		for(j=0;j<8;j++)
 			if (i&(1<<(7-j)))
 				v|=0x1<<(j<<2);
@@ -71,21 +71,21 @@ void Kanji_Init(UWORD x,UWORD y)
 	Kanji_y=y;
 }
 
-UBYTE Kanji_char(UWORD kanji)
+std::uint8_t Kanji_char(std::uint16_t kanji)
 {
-	SLONG c=Kanji_GetChar(kanji);
-	UBYTE *p;
+	std::int32_t c=Kanji_GetChar(kanji);
+	std::uint8_t *p;
 	DR_LOAD *p2;
-	SLONG i,j;
+	std::int32_t i,j;
 	RECT r;
 
 	if (c==-1)
 	{
 		c=Kanji_next;
-		p=(UBYTE*)Krom2RawAdd(kanji);
+		p=(std::uint8_t*)Krom2RawAdd(kanji);
 		Kanji_lookup[c]=kanji;
 		Kanji_next=(Kanji_next+1)&0xff;
-		if (p==(UBYTE*)-1)
+		if (p==(std::uint8_t*)-1)
 			return c;
 		r.x=Kanji_x+((c&0xf)<<2);
 		r.y=Kanji_y+(c&0xf0);
@@ -103,11 +103,11 @@ UBYTE Kanji_char(UWORD kanji)
 	return c;
 }
 
-void Kanji_string(SLONG x,SLONG y,UWORD *str,SLONG col,SLONG scale)
+void Kanji_string(std::int32_t x,std::int32_t y,std::uint16_t *str,std::int32_t col,std::int32_t scale)
 {
-	UWORD *p=str;
+	std::uint16_t *p=str;
 	POLY_FT4 *p2;
-	UBYTE chr;
+	std::uint8_t chr;
 
 
 	while(*p)

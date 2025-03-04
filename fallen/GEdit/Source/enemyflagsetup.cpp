@@ -18,10 +18,10 @@
 
 //---------------------------------------------------------------
 
-SLONG			enemyf_flags,
+std::int32_t			enemyf_flags,
 				enemyf_to_change;
 
-extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
+extern char* WaypointExtra(EventPoint *ep, char* msg);
 #define STR_LEN 800
 
 //---------------------------------------------------------------
@@ -40,11 +40,11 @@ extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 bool	CALLBACK	efs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		ep;
-	SLONG		c0	=	0;
+	std::int32_t		ep;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
-	CBYTE		msg[STR_LEN],str[STR_LEN];
+	char		msg[STR_LEN],str[STR_LEN];
 
 
 	switch(message)

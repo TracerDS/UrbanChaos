@@ -28,7 +28,7 @@
 // The current view.
 //
 
-SLONG GI_view;
+std::int32_t GI_view;
 
 
 void GI_init()
@@ -42,7 +42,7 @@ void GI_init()
 }
 
 
-SLONG GI_load_map(CBYTE* name)
+std::int32_t GI_load_map(char* name)
 {
 
 	//
@@ -74,7 +74,7 @@ SLONG GI_load_map(CBYTE* name)
 }
 
 
-void GI_set_view(SLONG view)
+void GI_set_view(std::int32_t view)
 {
 	switch(view)
 	{
@@ -121,12 +121,12 @@ void GI_set_view(SLONG view)
 
 
 void GI_render_view_into_backbuffer(
-		SLONG cam_x,
-		SLONG cam_y,
-		SLONG cam_z,
-		SLONG cam_yaw,
-		SLONG cam_pitch,
-		SLONG cam_roll)
+		std::int32_t cam_x,
+		std::int32_t cam_y,
+		std::int32_t cam_z,
+		std::int32_t cam_yaw,
+		std::int32_t cam_pitch,
+		std::int32_t cam_roll)
 {
 	if (GAME_FLAGS & GF_SEWERS)
 	{
@@ -156,13 +156,13 @@ void GI_render_view_into_backbuffer(
 }
 
 
-SLONG GI_get_pixel_world_pos(
-		SLONG  sx,
-		SLONG  sy,
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z,
-		SLONG inside)
+std::int32_t GI_get_pixel_world_pos(
+		std::int32_t  sx,
+		std::int32_t  sy,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z,
+		std::int32_t inside)
 {
 	return AENG_raytraced_position(
 				 sx,
@@ -174,16 +174,16 @@ SLONG GI_get_pixel_world_pos(
 }
 
 
-ULONG GI_light_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight)
+std::uint32_t GI_light_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight)
 {
-	ULONG ans;
+	std::uint32_t ans;
 
 	ans = AENG_light_draw(
 				sx,
@@ -209,16 +209,16 @@ void GI_fini()
 //	GUY.
 //---------------------------------------------------------------
 
-ULONG GI_waypoint_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight)
+std::uint32_t GI_waypoint_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight)
 {
-	ULONG ans;
+	std::uint32_t ans;
 
 
 	ans = AENG_waypoint_draw(
@@ -235,17 +235,17 @@ ULONG GI_waypoint_draw(
 
 //---------------------------------------------------------------
 
-ULONG GI_rad_trigger_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG rad,
-		ULONG colour,
-		UBYTE highlight)
+std::uint32_t GI_rad_trigger_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t rad,
+		std::uint32_t colour,
+		std::uint8_t highlight)
 {
-	ULONG ans;
+	std::uint32_t ans;
 
 	ans = AENG_rad_trigger_draw(
 				sx,
@@ -263,11 +263,11 @@ ULONG GI_rad_trigger_draw(
 //---------------------------------------------------------------
 
 void GI_groundsquare_draw(
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE polyinit)
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t polyinit)
 {
 	AENG_groundsquare_draw(lx,ly,lz,colour,polyinit);
 }

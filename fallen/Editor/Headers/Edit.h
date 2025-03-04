@@ -48,46 +48,46 @@
 struct	EditInfo
 {
 	EdRect		SelectRect;
-	SWORD		SelectFlag;
-	CBYTE		MapName[30];
-	SLONG		amb_dx,amb_dy,amb_dz,amb_bright,amb_offset,amb_flags;
-	UWORD		GridOn;
-	SLONG		TileFlag,TileScale;
-	SLONG		DX,DY,DZ;
-	SLONG		OX,OY,OZ;
-	UWORD		FlatShade;
-	UWORD		NoHidden;
-	SLONG		MinX,MinZ,MaxX,MaxZ;
-	UWORD		Clipped;
-	UWORD		RoofTex;
-	UWORD		Inside;
-	UWORD		InsideHeight;
-	UWORD		MapID;
-	UWORD		HideMap;
+	std::int16_t		SelectFlag;
+	char		MapName[30];
+	std::int32_t		amb_dx,amb_dy,amb_dz,amb_bright,amb_offset,amb_flags;
+	std::uint16_t		GridOn;
+	std::int32_t		TileFlag,TileScale;
+	std::int32_t		DX,DY,DZ;
+	std::int32_t		OX,OY,OZ;
+	std::uint16_t		FlatShade;
+	std::uint16_t		NoHidden;
+	std::int32_t		MinX,MinZ,MaxX,MaxZ;
+	std::uint16_t		Clipped;
+	std::uint16_t		RoofTex;
+	std::uint16_t		Inside;
+	std::uint16_t		InsideHeight;
+	std::uint16_t		MapID;
+	std::uint16_t		HideMap;
 };
 
 struct	Light
 {
-	SWORD	Intensity;
-	SWORD	R;
+	std::int16_t	Intensity;
+	std::int16_t	R;
 
-	SWORD	G;
-	SWORD	B;
+	std::int16_t	G;
+	std::int16_t	B;
 
-	SLONG	X;
-	SLONG	Y;
-	SLONG	Z;
+	std::int32_t	X;
+	std::int32_t	Y;
+	std::int32_t	Z;
 };
 
 
 
 struct	OldDepthStrip
 {
-	UWORD	MapThingIndex;
-	UWORD	Depth[4];
-	UWORD	ColVectHead;
-	UWORD	Dummy1;
-	UWORD	Dummy2;
+	std::uint16_t	MapThingIndex;
+	std::uint16_t	Depth[4];
+	std::uint16_t	ColVectHead;
+	std::uint16_t	Dummy1;
+	std::uint16_t	Dummy2;
 };
 
 
@@ -107,50 +107,50 @@ struct	OldDepthStrip
 
 struct	CubeBits
 {
-	UBYTE	Prim:3;
-   	UBYTE	Rot:3;
-   	UBYTE	Spare:2;
+	std::uint8_t	Prim:3;
+   	std::uint8_t	Rot:3;
+   	std::uint8_t	Spare:2;
 };
 
 struct	TextureBits
 {
-	ULONG 	X:5;
-	ULONG 	Y:5;
-	ULONG	Page:4;
-	ULONG	Rot:2;
-	ULONG	Flip:2;
-	ULONG	DrawFlags:8;
-	ULONG	Width:3;
-	ULONG	Height:3;
+	std::uint32_t 	X:5;
+	std::uint32_t 	Y:5;
+	std::uint32_t	Page:4;
+	std::uint32_t	Rot:2;
+	std::uint32_t	Flip:2;
+	std::uint32_t	DrawFlags:8;
+	std::uint32_t	Width:3;
+	std::uint32_t	Height:3;
 };
 /*
 struct	MiniTextureBits
 {
-	UWORD 	X:3;
-	UWORD 	Y:3;
-	UWORD	Page:4;
-	UWORD	Rot:2;
-	UWORD	Flip:2;
-	UWORD	Size:2;
+	std::uint16_t 	X:3;
+	std::uint16_t 	Y:3;
+	std::uint16_t	Page:4;
+	std::uint16_t	Rot:2;
+	std::uint16_t	Flip:2;
+	std::uint16_t	Size:2;
 };
 */
 struct	EditMapElement
 {
 	struct	CubeBits	CubeType;
-	UBYTE	CubeFlags;
+	std::uint8_t	CubeFlags;
 	struct	TextureBits	Textures[5];  //can never see 6th face
 };
 			
 struct	EditFace
 {
-	SLONG	MapX;
-	SLONG	MapY;
-	SLONG	MapZ;
-	SLONG	Z;
-	SWORD	Face;
-	UWORD	Flag;
+	std::int32_t	MapX;
+	std::int32_t	MapY;
+	std::int32_t	MapZ;
+	std::int32_t	Z;
+	std::int16_t	Face;
+	std::uint16_t	Flag;
 	struct	EditMapElement	*PEle;
-	SLONG	EditTurn;
+	std::int32_t	EditTurn;
 	struct BucketHead		*Bucket;
 };
 
@@ -160,13 +160,13 @@ struct	EditFace
 // DATA
 **********************************************/
 extern struct SVector	selected_prim_xyz;
-extern UBYTE	texture_sizes[];
+extern std::uint8_t	texture_sizes[];
 
 extern struct	Light	d_lights[];
-extern UWORD	next_d_light;
+extern std::uint16_t	next_d_light;
 
 
-extern ULONG		editor_turn;
+extern std::uint32_t		editor_turn;
 // extern EditFace		edit_face;
 extern EditFace		hilited_face,
 					selected_face;
@@ -175,50 +175,50 @@ extern EditFace		hilited_face,
 //extern struct	EditMapElement	edit_map_eles[65000];
 
 
-extern SWORD	face_selected_list[MAX_EDIT_FACE_LIST];
-extern SWORD	next_face_selected;
+extern std::int16_t	face_selected_list[MAX_EDIT_FACE_LIST];
+extern std::int16_t	next_face_selected;
 
 extern struct	EditInfo	edit_info;	
 
 /*********************************************
 // FUNCTIONS
 **********************************************/
-extern UWORD	is_it_clockwise_xy(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3);
+extern std::uint16_t	is_it_clockwise_xy(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3);
 
 
-extern SLONG	add_a_light(SWORD i,SLONG x,SLONG y,SLONG z);
+extern std::int32_t	add_a_light(std::int16_t i,std::int32_t x,std::int32_t y,std::int32_t z);
 extern void	clear_lights();
 
-extern void	calc_things_screen_box(SLONG	map_thing,EdRect *rect);
-extern SLONG	hilight_map_backgrounds(UWORD type);
-extern SLONG	hilight_map_things(UWORD type);
-extern SLONG	select_map_things(MFPoint *mouse,UWORD type);
-extern SLONG	select_map_backgrounds(MFPoint *mouse,UWORD type);
+extern void	calc_things_screen_box(std::int32_t	map_thing,EdRect *rect);
+extern std::int32_t	hilight_map_backgrounds(std::uint16_t type);
+extern std::int32_t	hilight_map_things(std::uint16_t type);
+extern std::int32_t	select_map_things(MFPoint *mouse,std::uint16_t type);
+extern std::int32_t	select_map_backgrounds(MFPoint *mouse,std::uint16_t type);
 				
 extern void	init_editor();
-extern void	draw_editor_map(ULONG);
-extern UBYTE	check_big_point_triangle(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy);
-extern bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face);
-extern bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face);
+extern void	draw_editor_map(std::uint32_t);
+extern std::uint8_t	check_big_point_triangle(std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy);
+extern bool	check_mouse_over_prim_quad(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,std::int32_t face);
+extern bool	check_mouse_over_prim_tri(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t face);
 extern void	set_quad_buckets_texture(struct	BucketQuad	*p_bucket,struct	TextureBits *texture);
-extern ULONG	editor_user_interface(UBYTE type);
-extern SLONG	place_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern SLONG	load_map(CBYTE	*name);
-extern void	save_map(CBYTE	*name,SLONG quick);
-extern ULONG	engine_keys_scroll();
-extern ULONG	engine_keys_zoom();
-extern ULONG	engine_keys_spin();
-extern void	set_things_faces(SWORD thing);
-extern void	add_face_to_list(SWORD face);
-extern SLONG	face_is_in_list(SWORD face);
+extern std::uint32_t	editor_user_interface(std::uint8_t type);
+extern std::int32_t	place_prim_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
+extern std::int32_t	load_map(char	*name);
+extern void	save_map(char	*name,std::int32_t quick);
+extern std::uint32_t	engine_keys_scroll();
+extern std::uint32_t	engine_keys_zoom();
+extern std::uint32_t	engine_keys_spin();
+extern void	set_things_faces(std::int16_t thing);
+extern void	add_face_to_list(std::int16_t face);
+extern std::int32_t	face_is_in_list(std::int16_t face);
 extern void	gamut_fiddle();
 extern void	clear_map();
-extern void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
-extern void	set_screen_box(SLONG x,SLONG y,SLONG z,EdRect *rect,SLONG w,SLONG h);
+extern void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col);
+extern void	set_screen_box(std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect,std::int32_t w,std::int32_t h);
 extern void	build_radius_info();
 extern void	draw_quick_map();
-extern ULONG	engine_keys_scroll_game();
-extern SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLONG	z2,SLONG	x3,SLONG	y3,SLONG	z3,SLONG	x4,SLONG	y4,SLONG	z4,struct	DepthStrip	*p_map,SLONG b1,SLONG b2,SLONG b3,SLONG b4,UWORD tex);
+extern std::uint32_t	engine_keys_scroll_game();
+extern std::int32_t	add_floor_face_to_bucket(std::int32_t	x1,std::int32_t	y1,std::int32_t	z1,std::int32_t	x2,std::int32_t	y2,std::int32_t	z2,std::int32_t	x3,std::int32_t	y3,std::int32_t	z3,std::int32_t	x4,std::int32_t	y4,std::int32_t	z4,struct	DepthStrip	*p_map,std::int32_t b1,std::int32_t b2,std::int32_t b3,std::int32_t b4,std::uint16_t tex);
 
 
 #endif

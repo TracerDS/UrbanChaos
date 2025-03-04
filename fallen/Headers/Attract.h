@@ -16,7 +16,7 @@ void	level_lost();
 //
 
 void ATTRACT_loadscreen_init();
-void ATTRACT_loadscreen_draw(SLONG completion);	// completion is in 8-bit fixed point from 0 to 256.
+void ATTRACT_loadscreen_draw(std::int32_t completion);	// completion is in 8-bit fixed point from 0 to 256.
 
 
 

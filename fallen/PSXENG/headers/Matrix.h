@@ -14,13 +14,13 @@
 // for the eye along the z-axis.
 //
 
-void MATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll);
+void MATRIX_calc(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll);
 
 //
 // Calculates a vector from yaw and pitch...
 //
 
-void MATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch);
+void MATRIX_vector(std::int32_t vector[3], std::int32_t yaw, std::int32_t pitch);
 
 //
 // Skews the view matrix so that it is correct for 3d clipping.
@@ -33,7 +33,7 @@ void MATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch);
 // The whole matrix is scaled by scale.
 //
 
-void MATRIX_skew(SLONG matrix[9], SLONG skew, SLONG zoom, SLONG scale);
+void MATRIX_skew(std::int32_t matrix[9], std::int32_t skew, std::int32_t zoom, std::int32_t scale);
 
 //
 // Multiplies points x,y,z by matrix m.
@@ -41,7 +41,7 @@ void MATRIX_skew(SLONG matrix[9], SLONG skew, SLONG zoom, SLONG scale);
 
 #define MATRIX_MUL(m,x,y,z) 	   		\
 {										\
-	SLONG xnew, ynew, znew;	   			\
+	std::int32_t xnew, ynew, znew;	   			\
 							   			\
 	xnew  = (x) * (m)[0];		   		\
 	ynew  = (x) * (m)[3];		   		\
@@ -60,7 +60,7 @@ void MATRIX_skew(SLONG matrix[9], SLONG skew, SLONG zoom, SLONG scale);
 
 #define MATRIX24_MUL(m,x,y,z) 	   		\
 {										\
-	SLONG xnew, ynew, znew;	   			\
+	std::int32_t xnew, ynew, znew;	   			\
 							   			\
 	xnew  = ((x) * (m)[0])>>8;	   		\
 	ynew  = ((x) * (m)[3])>>8;	   		\
@@ -79,7 +79,7 @@ void MATRIX_skew(SLONG matrix[9], SLONG skew, SLONG zoom, SLONG scale);
 
 #define MATRIX_MUL_INT(m,x,y,z)	   		\
 {										\
-	SLONG xnew, ynew, znew;	   			\
+	std::int32_t xnew, ynew, znew;	   			\
 							   			\
 	xnew  = (x) * (m)[0];		   		\
 	ynew  = (x) * (m)[3];		   		\
@@ -102,7 +102,7 @@ void MATRIX_skew(SLONG matrix[9], SLONG skew, SLONG zoom, SLONG scale);
 
 #define MATRIX_MUL_BY_TRANSPOSE(m,x,y,z) \
 {										 \
-	SLONG xnew, ynew, znew;	   			 \
+	std::int32_t xnew, ynew, znew;	   			 \
 							   			 \
 	xnew  = (x) * (m)[0];		   		 \
 	ynew  = (x) * (m)[1];		   		 \
@@ -123,7 +123,7 @@ void MATRIX_skew(SLONG matrix[9], SLONG skew, SLONG zoom, SLONG scale);
 // Multiplies two 3x3 together.  A = MN.
 //
 
-void MATRIX_3x3mul(SLONG a[9], SLONG m[9], SLONG n[9]);
+void MATRIX_3x3mul(std::int32_t a[9], std::int32_t m[9], std::int32_t n[9]);
 
 //
 // Transposes the matrix m.
@@ -135,9 +135,9 @@ void MATRIX_3x3mul(SLONG a[9], SLONG m[9], SLONG n[9]);
 // Rotates a matrix about its x,y or z vector.
 //
 
-void MATRIX_rotate_about_its_x(SLONG *matrix, SLONG angle);
-void MATRIX_rotate_about_its_y(SLONG *matrix, SLONG angle);
-void MATRIX_rotate_about_its_z(SLONG *matrix, SLONG angle);
+void MATRIX_rotate_about_its_x(std::int32_t *matrix, std::int32_t angle);
+void MATRIX_rotate_about_its_y(std::int32_t *matrix, std::int32_t angle);
+void MATRIX_rotate_about_its_z(std::int32_t *matrix, std::int32_t angle);
 
 //
 // Convert a matrix into its equivalent yaw, pitch and roll.
@@ -145,13 +145,13 @@ void MATRIX_rotate_about_its_z(SLONG *matrix, SLONG angle);
 
 typedef struct
 {
-	SLONG yaw;
-	SLONG pitch;
-	SLONG roll;
+	std::int32_t yaw;
+	std::int32_t pitch;
+	std::int32_t roll;
 
 } Direction;
 
-Direction MATRIX_find_angles(SLONG matrix[9]);
+Direction MATRIX_find_angles(std::int32_t matrix[9]);
 
 
 #endif

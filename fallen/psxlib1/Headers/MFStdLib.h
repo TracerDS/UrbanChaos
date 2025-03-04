@@ -39,13 +39,13 @@
 
 //---------------------------------------------------------------
 
-typedef unsigned char		UBYTE;
-typedef signed char			SBYTE;
-typedef char				CBYTE;
-typedef unsigned short		UWORD;
-typedef signed short		SWORD;
-typedef unsigned long		ULONG;
-typedef signed long			SLONG;
+typedef unsigned char		std::uint8_t;
+typedef signed char			std::int8_t;
+typedef char				char;
+typedef unsigned short		std::uint16_t;
+typedef signed short		std::int16_t;
+typedef unsigned long		std::uint32_t;
+typedef signed long			std::int32_t;
 typedef unsigned char		bool;
 
 typedef signed long			FIX_8;
@@ -74,13 +74,13 @@ typedef signed long			FIX_30;
 
 typedef struct
 {
-	SLONG		X,
+	std::int32_t		X,
 				Y;
 }MFPoint;
 
 typedef struct
 {
-	SLONG		Left,
+	std::int32_t		Left,
 				Top,
 				Right,
 				Bottom,
@@ -120,21 +120,21 @@ typedef struct
 #define	FLAGS_USE_3D			(1<<1)
 #define	FLAGS_USE_WORKSCREEN	(1<<2)
 
-extern UBYTE				WorkScreenDepth,
+extern std::uint8_t				WorkScreenDepth,
 							*WorkScreen;
-extern SLONG				WorkScreenHeight,
+extern std::int32_t				WorkScreenHeight,
 							WorkScreenPixelWidth,
 							WorkScreenWidth;
 
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
-SLONG CloseDisplay();
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags);
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth);
+std::int32_t CloseDisplay();
 void ClearDisplay();
-void FadeDisplay(UBYTE mode);
+void FadeDisplay(std::uint8_t mode);
 void* LockWorkScreen();
 void UnlockWorkScreen();
-void ShowWorkScreen(ULONG flags);
-void ClearWorkScreen(UBYTE colour);
+void ShowWorkScreen(std::uint32_t flags);
+void ClearWorkScreen(std::uint8_t colour);
 
 //---------------------------------------------------------------
 // Host
@@ -148,25 +148,25 @@ void ClearWorkScreen(UBYTE colour);
 
 struct MFTime
 {
-	SLONG		Hours,
+	std::int32_t		Hours,
 				Minutes,
 				Seconds,
 				MSeconds;
-	SLONG		DayOfWeek,		//	0 - 6;		Sunday		=	0
+	std::int32_t		DayOfWeek,		//	0 - 6;		Sunday		=	0
 				Day,
 				Month,			//	1 - 12;		January		=	1
 				Year;
-	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
+	std::int32_t		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-SLONG main(UWORD argc, CBYTE** argv);
-bool SetupHost(ULONG flags);
+std::int32_t main(std::uint16_t argc, char** argv);
+bool SetupHost(std::uint32_t flags);
 void ResetHost();
-void DebugText(CBYTE* error, ...);
-void TraceText(CBYTE* error, ...);
+void DebugText(char* error, ...);
+void TraceText(char* error, ...);
 bool LibShellActive();
 bool LibShellChanged();
-bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine);
 
 #define	NoError					0
 
@@ -179,8 +179,8 @@ bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 //#define	ERROR_MSG(e,m)		{if(!(e)) {}}
 //#define ASSERT(e)			{if (!(e)) {}}
 
-//void			DebugText(CBYTE* error, ...);
-//void            TraceText(CBYTE* error, ...);
+//void			DebugText(char* error, ...);
+//void            TraceText(char* error, ...);
 #define	DebugText
 #define	TraceText
 #define TRACE
@@ -210,7 +210,7 @@ bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
 
 
 #ifdef PSX
-bool GetInputDevice(UBYTE type,UBYTE sub_type);
+bool GetInputDevice(std::uint8_t type,std::uint8_t sub_type);
 bool ReadInputDevice();
 #endif
 
@@ -230,8 +230,8 @@ bool ReadInputDevice();
 #define	SAMPLE_FREQ_ORIG	8
 
 
-void LoadSampleList(CBYTE* sample_file);
-void PlaySample(SLONG ref,SWORD sample_no,SLONG vol,SLONG pan,SLONG freq,SLONG pri);
+void LoadSampleList(char* sample_file);
+void PlaySample(std::int32_t ref,std::int16_t sample_no,std::int32_t vol,std::int32_t pan,std::int32_t freq,std::int32_t pri);
 
 
 
@@ -255,7 +255,7 @@ void PlaySample(SLONG ref,SWORD sample_no,SLONG vol,SLONG pan,SLONG freq,SLONG p
 
 struct WaveParams
 {
-	ULONG		Flags,
+	std::uint32_t		Flags,
 				LoopStart,
 				LoopEnd,
 				Priority;
@@ -264,14 +264,14 @@ struct WaveParams
 		//	Stereo.
 		struct
 		{
-			SLONG	Pan,
+			std::int32_t	Pan,
 					Volume;
 		}Stereo;
 
 		//	Polar.
 		struct
 		{
-			SLONG	Azimuth,
+			std::int32_t	Azimuth,
 					Elevation,
 					Range;
 		}Polar;
@@ -279,18 +279,18 @@ struct WaveParams
 		//	Cartesian.
 		struct
 		{
-			SLONG	Scale,
+			std::int32_t	Scale,
 					X,
 					Y,
 					Z;
 		}Cartesian;
 	}Mode;
 };
-void LoadWaveList(CBYTE* path,CBYTE* file);
+void LoadWaveList(char* path,char* file);
 void FreeWaveList();
-void PlayWave(SLONG ref,SLONG wave_id,SLONG play_type,WaveParams *the_params);
-void StopWave(SLONG ref,SLONG wave_id);
-void SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale);
+void PlayWave(std::int32_t ref,std::int32_t wave_id,std::int32_t play_type,WaveParams *the_params);
+void StopWave(std::int32_t ref,std::int32_t wave_id);
+void SetListenerPosition(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t scale);
 
 //---------------------------------------------------------------
 // Standard macros.
@@ -317,7 +317,7 @@ void SetListenerPosition(SLONG x,SLONG y,SLONG z,SLONG scale);
 #define PI				(3.14159265F)
 #define WITHIN(x,a,b)	((x) >= (a) && (x) <= (b))
 #define SATURATE(x,a,b)	{if ((x) < (a)) {(x) = (a);} else if ((x) > (b)) {(x) = (b);}}
-#define SWAP(a,b)		{SLONG temp; temp = (a); (a) = (b); (b) = temp;}
+#define SWAP(a,b)		{std::int32_t temp; temp = (a); (a) = (b); (b) = temp;}
 #define SWAP_FL(a,b)	{float temp; temp = (a); (a) = (b); (b) = temp;}
 #define MIN(a,b)		(((a) < (b)) ? (a) : (b))
 #define MAX(a,b)		(((a) > (b)) ? (a) : (b))

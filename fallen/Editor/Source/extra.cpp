@@ -11,12 +11,12 @@
 EXTRA_Thing EXTRA_thing[EXTRA_MAX_THINGS];
 
 
-void EXTRA_create_or_delete(SLONG type, SLONG x, SLONG z)
+void EXTRA_create_or_delete(std::int32_t type, std::int32_t x, std::int32_t z)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	EXTRA_Thing *et;
 

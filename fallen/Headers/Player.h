@@ -24,29 +24,29 @@ typedef struct
 {
 	COMMON(PlayerType)
 
-	ULONG			Input;
-	ULONG			InputDone;
-	UWORD			PlayerID;
-	UBYTE			Stamina;
-	UBYTE			Constitution;
+	std::uint32_t			Input;
+	std::uint32_t			InputDone;
+	std::uint16_t			PlayerID;
+	std::uint8_t			Stamina;
+	std::uint8_t			Constitution;
 
-	ULONG			LastInput;			// The input last gameturn
-	ULONG			ThisInput;			// The input this gameturn
-	ULONG			Pressed;			// The keys pressed  this gameturn
-	ULONG			Released;			// The keys released this gameturn
-	ULONG			DoneSomething;		// Flag so you know when you've pressed left or done a left-punch.
-	SLONG			LastReleased[16];	// The GetTickCount() of when each key was last released
-	UBYTE			DoubleClick[16];	// The double-click count for each key.
+	std::uint32_t			LastInput;			// The input last gameturn
+	std::uint32_t			ThisInput;			// The input this gameturn
+	std::uint32_t			Pressed;			// The keys pressed  this gameturn
+	std::uint32_t			Released;			// The keys released this gameturn
+	std::uint32_t			DoneSomething;		// Flag so you know when you've pressed left or done a left-punch.
+	std::int32_t			LastReleased[16];	// The GetTickCount() of when each key was last released
+	std::uint8_t			DoubleClick[16];	// The double-click count for each key.
 
-	UBYTE			Strength;
-	UBYTE			RedMarks;
-	UBYTE			TrafficViolations;
-	UBYTE			Danger;				// How far from Danger is Darci? 0 => No danger, 1 = Max danger, 3 = min danger
+	std::uint8_t			Strength;
+	std::uint8_t			RedMarks;
+	std::uint8_t			TrafficViolations;
+	std::uint8_t			Danger;				// How far from Danger is Darci? 0 => No danger, 1 = Max danger, 3 = min danger
 	// temporarily marked out from the psx until it gets ported across
-	UBYTE			PopupFade;			// Bringing the pop-up inventory in and out. Part of player cos of splitscreen mode
-	SBYTE			ItemFocus;			// In the inventory, the item you're about to select when you let go
-	UBYTE			ItemCount;			// Number of valid inventory items currently held
-	UBYTE			Skill;
+	std::uint8_t			PopupFade;			// Bringing the pop-up inventory in and out. Part of player cos of splitscreen mode
+	std::int8_t			ItemFocus;			// In the inventory, the item you're about to select when you let go
+	std::uint8_t			ItemCount;			// Number of valid inventory items currently held
+	std::uint8_t			Skill;
 
 	struct Thing	*CameraThing,
 					*PlayerPerson;
@@ -60,9 +60,9 @@ typedef Player*		PlayerPtr;
 extern GenusFunctions		player_functions[];
 
 void init_players();
-Thing *alloc_player(UBYTE type);
+Thing *alloc_player(std::uint8_t type);
 void free_player(Thing *player_thing);
-Thing *create_player(UBYTE type,SLONG x,SLONG y,SLONG z,SLONG id);
+Thing *create_player(std::uint8_t type,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t id);
 
 //---------------------------------------------------------------
 
@@ -70,7 +70,7 @@ Thing *create_player(UBYTE type,SLONG x,SLONG y,SLONG z,SLONG id);
 // Call when the player gains or looses a red mark.
 //
 
-void PLAYER_redmark(SLONG playerid, SLONG dredmarks);
+void PLAYER_redmark(std::int32_t playerid, std::int32_t dredmarks);
 
 
 #endif

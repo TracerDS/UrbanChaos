@@ -14,7 +14,7 @@
 
 //---------------------------------------------------------------
 
-SLONG waypoint_delay;
+std::int32_t waypoint_delay;
 
 //---------------------------------------------------------------
 
@@ -60,7 +60,7 @@ void do_waypoint_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE* get_waypoint_message(EventPoint *ep, CBYTE* msg) {
+char* get_waypoint_message(EventPoint *ep, char* msg) {
 	float f;
 
 	if ((!ep)||!ep->Data[0])

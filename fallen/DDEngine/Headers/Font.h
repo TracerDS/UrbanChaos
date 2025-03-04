@@ -26,13 +26,13 @@
 //
 
 void FONT_buffer_add(
-		SLONG  x,
-		SLONG  y,
-		UBYTE  red,
-		UBYTE  green,
-		UBYTE  blue,
-		UBYTE  shadowed_or_not,
-		CBYTE* fmt, ...);
+		std::int32_t  x,
+		std::int32_t  y,
+		std::uint8_t  red,
+		std::uint8_t  green,
+		std::uint8_t  blue,
+		std::uint8_t  shadowed_or_not,
+		char* fmt, ...);
 
 //
 // Draws all the buffered up sentences and clears the buffered list.
@@ -54,7 +54,7 @@ void FONT_buffer_draw();
 // Returns the length of the string in pixels.
 //
 
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...);
+std::int32_t FONT_draw(std::int32_t x, std::int32_t y, char* fmt, ...);
 
 
 //
@@ -62,26 +62,26 @@ SLONG FONT_draw(SLONG x, SLONG y, CBYTE* fmt, ...);
 // Returns the length of the string in pixels.
 //
 
-SLONG FONT_draw_coloured_text(
-		SLONG x,
-		SLONG y,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		CBYTE* fmt, ...);
+std::int32_t FONT_draw_coloured_text(
+		std::int32_t x,
+		std::int32_t y,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		char* fmt, ...);
 
 //
 // Draws the char in the given colour- or does nothing if that character is not
 // in the font. Returns the width of the char in pixels.
 //
 
-SLONG FONT_draw_coloured_char(
-		SLONG x,
-		SLONG y,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		CBYTE ch);
+std::int32_t FONT_draw_coloured_char(
+		std::int32_t x,
+		std::int32_t y,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		char ch);
 
 //
 // Draws the message so that it fits in a reasonably rectangular box shape.
@@ -89,12 +89,12 @@ SLONG FONT_draw_coloured_char(
 //
 
 void FONT_draw_speech_bubble_text(
-		SLONG x,
-		SLONG y,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		CBYTE* fmt, ...);
+		std::int32_t x,
+		std::int32_t y,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		char* fmt, ...);
 
 
 

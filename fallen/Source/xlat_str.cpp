@@ -15,7 +15,7 @@
 #define	FILE_OPEN_ERROR	(-1)
 #define FILE_READ_ERROR (-1)
 #include "psxeng.h"
-extern void	ZeroMemory(void* mem_ptr,ULONG size);
+extern void	ZeroMemory(void* mem_ptr,std::uint32_t size);
 
 #endif
 
@@ -35,21 +35,21 @@ extern void	ZeroMemory(void* mem_ptr,ULONG size);
 //
 
 // translated text gets stuffed here
-CBYTE xlat_buffer[_MAX_PATH + 100];
+char xlat_buffer[_MAX_PATH + 100];
 
 // current translation set is loaded into here
-CBYTE xlat_set[MAX_STRING_SPACE];
+char xlat_set[MAX_STRING_SPACE];
 
 // pointer table
-CBYTE* xlat_ptr[MAX_STRINGS];
+char* xlat_ptr[MAX_STRINGS];
 
-CBYTE* xlat_upto=0;
+char* xlat_upto=0;
 
 //----------------------------------------------------------------------------
 // MBCS TWEAKS
 //
 
-UBYTE previous_byte;
+std::uint8_t previous_byte;
 
 #ifdef JAPANESE
 #define LEADBYTE(c)		( (previous_byte=c)>>7 )
@@ -65,7 +65,7 @@ inline void		mbcs_reset() {
 }
 
 // inc char (_not_ byte) in a MBCS string
-inline CBYTE*	mbcs_inc_char(CBYTE* &c) {
+inline char*	mbcs_inc_char(char* &c) {
 #ifdef JAPANESE
 	c+=((*c)&128)?2:1;
 #else
@@ -86,7 +86,7 @@ char pcCharCache[MYFILEREAD_CACHE_SIZE];
 int iCharCacheLen = 0;
 int iCharCacheSize = 0;
 MFFileHandle cached_file_handle = (void* )0xdeadbeef;
-SLONG CachedFileRead(MFFileHandle file_handle,char *buffer)
+std::int32_t CachedFileRead(MFFileHandle file_handle,char *buffer)
 {
 	ASSERT ( file_handle != (void* )0xdeadbeef );
 
@@ -132,9 +132,9 @@ void CacheFileReadFlush ( void )
 
 /* this method works but is obviously slow
 
-inline CBYTE*	mbcs_dec_char(CBYTE* &c, CBYTE* base) {
+inline char*	mbcs_dec_char(char* &c, char* base) {
 #ifdef JAPANESE
-	CBYTE* last=base;
+	char* last=base;
 	
 	while (base<c)
 	{
@@ -155,7 +155,7 @@ inline CBYTE*	mbcs_dec_char(CBYTE* &c, CBYTE* base) {
 // this method should be faster in most cases. worst-case, it's only as slow as the previous
 // one.
 
-inline CBYTE* mbcs_prev_char(CBYTE* c, CBYTE* base)
+inline char* mbcs_prev_char(char* c, char* base)
 {
 #ifndef JAPANESE
 	return c-1;
@@ -195,7 +195,7 @@ inline CBYTE* mbcs_prev_char(CBYTE* c, CBYTE* base)
 }
 
 
-inline CBYTE*	mbcs_dec_char(CBYTE* &c, CBYTE* base) {
+inline char*	mbcs_dec_char(char* &c, char* base) {
 #ifndef JAPANESE
 	return --c;
 #else
@@ -207,8 +207,8 @@ inline CBYTE*	mbcs_dec_char(CBYTE* &c, CBYTE* base) {
 // some standard library funcs in mbcs-eze.
 // windows has some of these already, but the PSX doesn't, so...
 
-CBYTE*			mbcs_strchr(CBYTE* str, CBYTE c) {
-	CBYTE* scan=str, *end=str+strlen(str);
+char*			mbcs_strchr(char* str, char c) {
+	char* scan=str, *end=str+strlen(str);
 	while (scan<end) {
 		if (*scan==c) return scan;
 		mbcs_inc_char(scan);
@@ -216,8 +216,8 @@ CBYTE*			mbcs_strchr(CBYTE* str, CBYTE c) {
 	return 0;
 }
 
-void mbcs_strncpy(CBYTE* dst, CBYTE* src, CBYTE n) {
-	CBYTE* scan=src, *end=src+strlen(src);
+void mbcs_strncpy(char* dst, char* src, char n) {
+	char* scan=src, *end=src+strlen(src);
 	while (n&&(scan<end)) 
 	{
 		if (LEADBYTE(*scan))
@@ -229,7 +229,7 @@ void mbcs_strncpy(CBYTE* dst, CBYTE* src, CBYTE n) {
 	}
 }
 
-CBYTE* mbcs_strspnp(CBYTE* str, CBYTE* badlist) {
+char* mbcs_strspnp(char* str, char* badlist) {
 	while (*str&&mbcs_strchr(badlist,*str)) mbcs_inc_char(str);
 	return str;
 }
@@ -238,12 +238,12 @@ CBYTE* mbcs_strspnp(CBYTE* str, CBYTE* badlist) {
 // FUNCS
 //
 
-CBYTE* XLAT_remap(UBYTE remap_id) {
+char* XLAT_remap(std::uint8_t remap_id) {
 	return xlat_ptr[REMAP_OFFSET+remap_id];
 }
 
-CBYTE* XLAT_str_ptr(SLONG string_id) {
-	CBYTE* xlated=xlat_ptr[string_id];
+char* XLAT_str_ptr(std::int32_t string_id) {
+	char* xlated=xlat_ptr[string_id];
 	if ((xlat_upto==xlat_set)||(!xlat_upto)||!xlated) {
 		#ifdef TARGET_DC
 		ASSERT ( false );
@@ -253,10 +253,10 @@ CBYTE* XLAT_str_ptr(SLONG string_id) {
 	return xlated;
 }
 
-CBYTE* XLAT_str(SLONG string_id, CBYTE* xlat_dest) {
-	CBYTE* xlated=xlat_ptr[string_id];
-	CBYTE* ptr, *ptr2, *buff;
-	UWORD ofs;
+char* XLAT_str(std::int32_t string_id, char* xlat_dest) {
+	char* xlated=xlat_ptr[string_id];
+	char* ptr, *ptr2, *buff;
+	std::uint16_t ofs;
 
 	if (!xlat_dest) xlat_dest=xlat_buffer;
 
@@ -289,10 +289,10 @@ CBYTE* XLAT_str(SLONG string_id, CBYTE* xlat_dest) {
 
 
 
-CBYTE* XLAT_load_string(MFFileHandle &file, CBYTE* txt) {
-	CBYTE* ptr=txt, *temp;
-	UWORD emergency_bail_out_for_martins_machine=2000;
-	UBYTE leadbyte=1;
+char* XLAT_load_string(MFFileHandle &file, char* txt) {
+	char* ptr=txt, *temp;
+	std::uint16_t emergency_bail_out_for_martins_machine=2000;
+	std::uint8_t leadbyte=1;
 
 	mbcs_reset();
 
@@ -321,10 +321,10 @@ CBYTE* XLAT_load_string(MFFileHandle &file, CBYTE* txt) {
 	return txt;
 }
 
-void XLAT_compress_tokens(CBYTE* txt) {
-	CBYTE* test, *scan, *ptr=txt;
-	CBYTE buff[10];
-	UWORD skip;
+void XLAT_compress_tokens(char* txt) {
+	char* test, *scan, *ptr=txt;
+	char buff[10];
+	std::uint16_t skip;
 	while (scan=mbcs_strchr(txt,'|')) {
 		test=scan;
 		test=mbcs_strspnp(mbcs_inc_char(test),"0123456789");
@@ -344,11 +344,11 @@ void XLAT_compress_tokens(CBYTE* txt) {
 	}
 }
 
-void XLAT_load(CBYTE* fn) {
+void XLAT_load(char* fn) {
 	MFFileHandle handle;
-	CBYTE* txt;
-	UWORD id=0;
-	UWORD emergency_bail_out_for_martins_machine=2000;
+	char* txt;
+	std::uint16_t id=0;
+	std::uint16_t emergency_bail_out_for_martins_machine=2000;
 
 #ifdef JAPANESE
 	fn="text\\lang_japanese.txt";
@@ -388,7 +388,7 @@ void XLAT_load(CBYTE* fn) {
 	TRACE("Language data: %s\n",XLAT_str_ptr(X_THIS_LANGUAGE_IS));
 }
 
-void XLAT_poke(SLONG offset, CBYTE* str) {
+void XLAT_poke(std::int32_t offset, char* str) {
   strcpy(xlat_upto,str);
   xlat_ptr[offset]=xlat_upto;
   xlat_upto+=strlen(str)+1;

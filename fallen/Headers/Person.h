@@ -106,139 +106,139 @@ typedef struct
 {
 	COMMON(PersonType)
 
-	UBYTE	Action;
-	UBYTE	SubAction;
-	UBYTE	Ammo;
-	UBYTE	PlayerID;		//4
+	std::uint8_t	Action;
+	std::uint8_t	SubAction;
+	std::uint8_t	Ammo;
+	std::uint8_t	PlayerID;		//4
 
-	SWORD	Health;
-	UWORD	Timer1;			//8
+	std::int16_t	Health;
+	std::uint16_t	Timer1;			//8
 
 	THING_INDEX	Target;
 	THING_INDEX	InWay;		//12
 
 	THING_INDEX	InCar;				// Either a van/car or a bike depending on whether PERSON_FLAG_DRIVING or PERSON_FLAG_BIKING is set
-	UWORD	NavIndex;		//16
+	std::uint16_t	NavIndex;		//16
 
 	THING_INDEX	SpecialList;		// A linked list of special_things that the person is carrying.
 	THING_INDEX SpecialUse;			// The special Darci is using at the moment. nullptr => Nothing or pistol
 	THING_INDEX SpecialDraw;		// While drawing an item- this is the special that you are getting out.
-	UBYTE	pcom_colour;
-	UBYTE   pcom_group;		//20
+	std::uint8_t	pcom_colour;
+	std::uint8_t   pcom_group;		//20
 
 
 	MAV_Action	MA;			//24	//do we need this?
 
-	SWORD	NavX,NavZ;		//28
+	std::int16_t	NavX,NavZ;		//28
 
-	ULONG   sewerbits;		//32
+	std::uint32_t   sewerbits;		//32
 
-	UBYTE	Power;			
-	UBYTE	GTimer;
-	UBYTE	Mode;
-	UBYTE	GotoSpeed;		//36
+	std::uint8_t	Power;			
+	std::uint8_t	GTimer;
+	std::uint8_t	Mode;
+	std::uint8_t	GotoSpeed;		//36
 
-	UWORD	HomeX;
-	UWORD	HomeZ;			//40
+	std::uint16_t	HomeX;
+	std::uint16_t	HomeZ;			//40
 
-	UWORD	GotoX;
-	UWORD	GotoZ;			//44
+	std::uint16_t	GotoX;
+	std::uint16_t	GotoZ;			//44
 
-	UWORD	muckyfootprint;			// Footprint status
-	SWORD	Hold;			//48	// The index of the coke can, head or barrel you are holding.
+	std::uint16_t	muckyfootprint;			// Footprint status
+	std::int16_t	Hold;			//48	// The index of the coke can, head or barrel you are holding.
 
-	UWORD	UnderAttack;			// 0 => You are not under attack.
-	SBYTE	Shove;					// Shove's a circling person one way or the other.
-	UBYTE	Balloon;		//52	// The index of the balloon attached to this person's left hand...
+	std::uint16_t	UnderAttack;			// 0 => You are not under attack.
+	std::int8_t	Shove;					// Shove's a circling person one way or the other.
+	std::uint8_t	Balloon;		//52	// The index of the balloon attached to this person's left hand...
 
-	UWORD	OnFacet;
-	UBYTE	BurnIndex;				// 1-based index to the pyro which is immolating the person
-	SBYTE	CombatNode;		//56	// index into fight_tree,  your position in the web of available moves/combos
+	std::uint16_t	OnFacet;
+	std::uint8_t	BurnIndex;				// 1-based index to the pyro which is immolating the person
+	std::int8_t	CombatNode;		//56	// index into fight_tree,  your position in the web of available moves/combos
 
 	// Inventory (total of 4xSLONG)
 /*
-	UBYTE	RightHandSlot;
-	UBYTE	LeftHandSlot;
+	std::uint8_t	RightHandSlot;
+	std::uint8_t	LeftHandSlot;
 
-	UBYTE	ArmourSlot;
-	UBYTE	BackpackSlots[5];
-	UWORD	AmmoBullets;		// for any gun
+	std::uint8_t	ArmourSlot;
+	std::uint8_t	BackpackSlots[5];
+	std::uint16_t	AmmoBullets;		// for any gun
 
-	UWORD	AmmoRockets;		
-	UWORD	AmmoGrenades;		
+	std::uint16_t	AmmoRockets;		
+	std::uint16_t	AmmoGrenades;		
 
-	UWORD	AmmoFuel;			// chainsaws, flamethrowers, etc
+	std::uint16_t	AmmoFuel;			// chainsaws, flamethrowers, etc
 */
 
 	//
 	// High-level AI
 	//
 
-	UBYTE   pcom_bent;
-	UBYTE	pcom_ai;
-	UBYTE	pcom_ai_state;
-	UBYTE	pcom_ai_substate;	//60
+	std::uint8_t   pcom_bent;
+	std::uint8_t	pcom_ai;
+	std::uint8_t	pcom_ai_state;
+	std::uint8_t	pcom_ai_substate;	//60
 
-	UWORD	pcom_ai_counter;
-	UWORD	pcom_ai_arg;		//64
+	std::uint16_t	pcom_ai_counter;
+	std::uint16_t	pcom_ai_arg;		//64
 
-	UWORD   pcom_ai_other;				// Another variable you might need- the client for a bodyguard.
-	UBYTE   pcom_ai_excar_state;
-	UBYTE   pcom_ai_excar_substate; //68
+	std::uint16_t   pcom_ai_other;				// Another variable you might need- the client for a bodyguard.
+	std::uint8_t   pcom_ai_excar_state;
+	std::uint8_t   pcom_ai_excar_substate; //68
 
-	UWORD	pcom_ai_excar_arg;
-	UBYTE   pcom_move;
-	UBYTE	pcom_move_state;		//72
+	std::uint16_t	pcom_ai_excar_arg;
+	std::uint8_t   pcom_move;
+	std::uint8_t	pcom_move_state;		//72
 
-	UBYTE	pcom_move_substate;
-	UBYTE	pcom_move_flag;
-	UWORD	pcom_move_counter;		//76
+	std::uint8_t	pcom_move_substate;
+	std::uint8_t	pcom_move_flag;
+	std::uint16_t	pcom_move_counter;		//76
 
-	UWORD	pcom_move_arg;
-	UWORD   pcom_move_follow;		//80 // The waypoint that creates person to follow for PCOM_MOVE_FOLLOW
+	std::uint16_t	pcom_move_arg;
+	std::uint16_t   pcom_move_follow;		//80 // The waypoint that creates person to follow for PCOM_MOVE_FOLLOW
 
 	MAV_Action pcom_move_ma;		//84
 /*
 	#define PCOM_MESS_TYPE_SAY		1
 	#define PCOM_MESS_TYPE_THOUGHT	2
 
-	CBYTE  *pcom_mess;			// What this person is thinking or saying.
+	char  *pcom_mess;			// What this person is thinking or saying.
 
-	UWORD   pcom_mess_timer;
-	UWORD	pcom_mess_type;
+	std::uint16_t   pcom_mess_timer;
+	std::uint16_t	pcom_mess_type;
 */
-	UBYTE	AnimType;
-	UBYTE	InsideRoom;
-	UWORD	InsideIndex;			//88
+	std::uint8_t	AnimType;
+	std::uint8_t	InsideRoom;
+	std::uint16_t	InsideIndex;			//88
 
-	UWORD	pcom_ai_memory;			// Remembering someone important in your life- someone to kill or flee from.
-	UBYTE	HomeYaw;
-	UBYTE	Stamina;				//92
+	std::uint16_t	pcom_ai_memory;			// Remembering someone important in your life- someone to kill or flee from.
+	std::uint8_t	HomeYaw;
+	std::uint8_t	Stamina;				//92
 
-	UBYTE	AttackAngle;
-	UBYTE	Escape;
-	UBYTE	Ware;							// The warehouse this person is in.
-	UBYTE   FightRating;			//96	// bit field
-	SWORD	TargetX;
-	SWORD	TargetZ;				//100
+	std::uint8_t	AttackAngle;
+	std::uint8_t	Escape;
+	std::uint8_t	Ware;							// The warehouse this person is in.
+	std::uint8_t   FightRating;			//96	// bit field
+	std::int16_t	TargetX;
+	std::int16_t	TargetZ;				//100
 
-	SWORD	Agression;
-	UBYTE	ammo_packs_pistol;
-	UBYTE	GangAttack;				//104
+	std::int16_t	Agression;
+	std::uint8_t	ammo_packs_pistol;
+	std::uint8_t	GangAttack;				//104
 
-//	UWORD	MorePadding;
-	UBYTE	ammo_packs_shotgun;
-	UBYTE	ammo_packs_ak47;
-	UBYTE	drop;					// What this person drops when they die
-	UBYTE	pcom_zone;				// For guards this is the zone they patrol or where they are restricted to
+//	std::uint16_t	MorePadding;
+	std::uint8_t	ammo_packs_shotgun;
+	std::uint8_t	ammo_packs_ak47;
+	std::uint8_t	drop;					// What this person drops when they die
+	std::uint8_t	pcom_zone;				// For guards this is the zone they patrol or where they are restricted to
 
-	UBYTE	pcom_lookat_what;		// PCOM_LOOKAT_*
-	UBYTE	pcom_lookat_counter;	// How long before we stop looking at the interesting thing
-	UWORD	pcom_lookat_index;		// The index of what you are looking at
+	std::uint8_t	pcom_lookat_what;		// PCOM_LOOKAT_*
+	std::uint8_t	pcom_lookat_counter;	// How long before we stop looking at the interesting thing
+	std::uint16_t	pcom_lookat_index;		// The index of what you are looking at
 
-	UWORD	Passenger;				// A linked list for passengers in a vehicle.
-	UBYTE	Flags2;
-	UBYTE	SlideOdd;				// A counter for how many consecutive gameturns this person has slid along something that isn't a wall or fence.
+	std::uint16_t	Passenger;				// A linked list for passengers in a vehicle.
+	std::uint8_t	Flags2;
+	std::uint8_t	SlideOdd;				// A counter for how many consecutive gameturns this person has slid along something that isn't a wall or fence.
 
 // using BUILD_PSX means that it'll be commented out both on the PSX, *AND* when Mike builds 
 // PSX nads on his PC.
@@ -274,20 +274,20 @@ typedef struct
 typedef Person *PersonPtr;
 
 //---------------------------------------------------------------
-extern SWORD	health[];
+extern std::int16_t	health[];
 
 extern GenusFunctions		people_functions[];
 extern StateFunction		generic_people_functions[];
 
 void init_persons();
-Thing *alloc_person(UBYTE type, UBYTE random_number);
+Thing *alloc_person(std::uint8_t type, std::uint8_t random_number);
 void free_person(Thing *person_thing);
 THING_INDEX create_person(
-				SLONG type,
-				SLONG random_number,
-				SLONG x,
-				SLONG y,
-				SLONG z);
+				std::int32_t type,
+				std::int32_t random_number,
+				std::int32_t x,
+				std::int32_t y,
+				std::int32_t z);
 
 
 //
@@ -310,7 +310,7 @@ THING_INDEX create_person(
 #define PERSON_MODE_SPRINT	4
 #define PERSON_MODE_NUMBER	5
 
-extern CBYTE* PERSON_mode_name[PERSON_MODE_NUMBER];
+extern char* PERSON_mode_name[PERSON_MODE_NUMBER];
 
 //
 // Person speeds to set_person_goto_xz
@@ -324,42 +324,42 @@ extern CBYTE* PERSON_mode_name[PERSON_MODE_NUMBER];
 #define PERSON_SPEED_CRAWL	6
 
 
-void set_anim(Thing *p_person,SLONG anim);
-void tween_to_anim(Thing *p_person,SLONG anim);
-void queue_anim(Thing *p_person,SLONG anim);
+void set_anim(Thing *p_person,std::int32_t anim);
+void tween_to_anim(Thing *p_person,std::int32_t anim);
+void queue_anim(Thing *p_person,std::int32_t anim);
 void set_person_draw_gun(Thing *p_person);
-void set_person_shoot(Thing *p_person,UWORD shoot_target);
+void set_person_shoot(Thing *p_person,std::uint16_t shoot_target);
 void set_person_gun_away(Thing *p_person);
-void set_person_flip(Thing *p_person,SLONG dir);
+void set_person_flip(Thing *p_person,std::int32_t dir);
 void set_person_idle(Thing *p_person);
-SLONG set_person_punch(Thing *p_person);	// Automatically slashes if you have a knife out
-SLONG set_person_kick(Thing *p_person);
+std::int32_t set_person_punch(Thing *p_person);	// Automatically slashes if you have a knife out
+std::int32_t set_person_kick(Thing *p_person);
 void set_person_standing_jump(Thing *p_person);
 void set_person_running_jump(Thing *p_person);
 void set_person_pulling_up(Thing	*p_thing);
-void set_person_drop_down(Thing	*p_person,SLONG flag);
-void set_person_climb_ladder(Thing *p_person,UWORD storey);
-void set_thing_velocity(Thing *t_thing,SLONG vel);
+void set_person_drop_down(Thing	*p_person,std::int32_t flag);
+void set_person_climb_ladder(Thing *p_person,std::uint16_t storey);
+void set_thing_velocity(Thing *t_thing,std::int32_t vel);
 void set_person_running(Thing *p_person);
 void set_person_walking(Thing *p_person);
 void set_person_step_left(Thing *p_person);
 void set_person_step_right(Thing *p_person);
-void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, SLONG door);
+void set_person_enter_vehicle(Thing *p_person,Thing *p_vehicle, std::int32_t door);
 void set_person_exit_vehicle(Thing *p_person);
 void set_person_mount_bike(Thing *p_person, Thing *p_bike);
 void set_person_dismount_bike(Thing *p_person);
 void set_person_grappling_hook_pickup(Thing *p_person);
 void set_person_grappling_hook_release(Thing *p_person);
 void set_person_can_pickup(Thing *p_person);					// Bends down to pickup a coke can or a head
-void set_person_can_release(Thing *p_person, SLONG power);	// Throws a coke can or a head. power = 0 - 256
+void set_person_can_release(Thing *p_person, std::int32_t power);	// Throws a coke can or a head. power = 0 - 256
 void set_person_special_pickup(Thing *p_person);				// Bends down to pick up a special
 void set_person_barrel_pickup(Thing *p_person);
-void set_person_recoil(Thing *p_person,SLONG anim,UBYTE flags);
-void set_person_goto_xz(Thing *p_person, SLONG x, SLONG z, SLONG speed);	// No mavigation- just walks there.
+void set_person_recoil(Thing *p_person,std::int32_t anim,std::uint8_t flags);
+void set_person_goto_xz(Thing *p_person, std::int32_t x, std::int32_t z, std::int32_t speed);	// No mavigation- just walks there.
 void set_person_circle(Thing *p_person, Thing *p_target);	// Makes the person circle around someone.
 void general_process_person(Thing *p_person);
-void set_person_dead_normal(Thing *p_thing,Thing *p_aggressor,SLONG death_type,SLONG anim);
-SLONG set_person_land_on_fence(Thing *p_person,SLONG wall,SLONG set_pos,SLONG while_walking=0);
+void set_person_dead_normal(Thing *p_thing,Thing *p_aggressor,std::int32_t death_type,std::int32_t anim);
+std::int32_t set_person_land_on_fence(Thing *p_person,std::int32_t wall,std::int32_t set_pos,std::int32_t while_walking=0);
 
 //
 // Makes a person start/stop floating...
@@ -374,25 +374,25 @@ void set_person_float_down(Thing *p_person);	// Only call when someone is alread
 // All the state does is wait for the animation to finish and then go idle.
 //
 
-void set_person_do_a_simple_anim(Thing *p_person, SLONG anim);
+void set_person_do_a_simple_anim(Thing *p_person, std::int32_t anim);
 
 //
 // The person only draws the special if she has a special of that type.
 //
 
-void set_person_draw_item(Thing *p_person, SLONG special_type);
+void set_person_draw_item(Thing *p_person, std::int32_t special_type);
 void set_person_item_away(Thing *p_person);
 void set_person_standing_jump_forwards(Thing *p_person);
 void set_person_standing_jump_backwards(Thing *p_person);
 void set_person_walk_backwards(Thing *p_person);
-void set_person_traverse(Thing	*p_person,SLONG right);
-void set_person_fight_step(Thing *p_person,SLONG dir);
+void set_person_traverse(Thing	*p_person,std::int32_t right);
+void set_person_fight_step(Thing *p_person,std::int32_t dir);
 void set_person_block(Thing *p_person);
 void set_person_croutch(Thing *p_person);
 void set_person_crawling(Thing *p_person);
 void set_person_idle_croutch(Thing *p_person);
 void set_person_idle_uncroutch(Thing *p_person);
-void set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags);
+void set_person_ko_recoil(Thing *p_person,std::int32_t anim,std::uint8_t flags);
 
 //
 // Once a person is knocked out and lying on the ground.
@@ -402,7 +402,7 @@ void set_person_ko_recoil(Thing *p_person,SLONG anim,UBYTE flags);
 #define PERSON_ON_HIS_BACK		1
 #define PERSON_ON_HIS_SOMETHING 2
 
-SLONG person_is_lying_on_what(Thing *p_person);
+std::int32_t person_is_lying_on_what(Thing *p_person);
 
 //
 // Makes a person sit down on a bench!
@@ -416,7 +416,7 @@ void set_person_sit_down(Thing *p_person);
 // Door is the side of the car to get into.
 //
 
-void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, SLONG door);
+void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door);
 
 
 //
@@ -453,9 +453,9 @@ void turn_towards_thing(Thing *p_person, Thing *p_target);
 void set_person_dead(
 		Thing *p_thing,
 		Thing *p_aggressor,
-		SLONG  death_type,
-		SLONG  behind,
-		SLONG  height);
+		std::int32_t  death_type,
+		std::int32_t  behind,
+		std::int32_t  height);
 
 //
 // Makes a person immediately lie down on the ground injured.
@@ -473,16 +473,16 @@ void set_person_injured(Thing *p_person);
 
 void knock_person_down(
 		Thing *p_person,
-		SLONG  hitpoints,
-		SLONG  origin_x,
-		SLONG  origin_z,
+		std::int32_t  hitpoints,
+		std::int32_t  origin_x,
+		std::int32_t  origin_z,
 		Thing *p_aggressor);	// or nullptr if you don't know who's responsible
 
 //
 // Makes 'a' look at 'b'
 //
 
-SLONG set_face_thing(Thing *p_person_a,Thing *p_person_b);
+std::int32_t set_face_thing(Thing *p_person_a,Thing *p_person_b);
 
 //
 // Makes the person look at the given place.
@@ -490,8 +490,8 @@ SLONG set_face_thing(Thing *p_person_a,Thing *p_person_b);
 
 void set_face_pos(
 		Thing *p_person,
-		SLONG  world_x,
-		SLONG  world_z);
+		std::int32_t  world_x,
+		std::int32_t  world_z);
 
 //
 // Returns what a person is standing on...
@@ -506,23 +506,23 @@ void set_face_pos(
 #define PERSON_ON_METAL   6
 #define PERSON_ON_SEWATER 7
 
-SLONG person_is_on(Thing *p_person);
+std::int32_t person_is_on(Thing *p_person);
 
 
 //
 // Obvious really. Take into account distance, FOV and LOS.
 //
 
-SLONG can_i_see_player(Thing *p_person);
-SLONG can_a_see_b     (Thing *p_person_a, Thing *p_thing_b,SLONG range=0,SLONG no_los=0);	// 'b' needn't be a person
-SLONG can_i_see_place (Thing *p_person, SLONG x, SLONG y, SLONG z);
+std::int32_t can_i_see_player(Thing *p_person);
+std::int32_t can_a_see_b     (Thing *p_person_a, Thing *p_thing_b,std::int32_t range=0,std::int32_t no_los=0);	// 'b' needn't be a person
+std::int32_t can_i_see_place (Thing *p_person, std::int32_t x, std::int32_t y, std::int32_t z);
 
 
 //
 // Relative angle of the target from the person.
 //
 
-SLONG get_dangle(Thing *p_person, Thing *p_target);
+std::int32_t get_dangle(Thing *p_person, Thing *p_target);
 
 
 //
@@ -530,11 +530,11 @@ SLONG get_dangle(Thing *p_person, Thing *p_target);
 // on the distance to the target.
 //
 
-SLONG calc_dist_benefit_to_gun(SLONG dist);
+std::int32_t calc_dist_benefit_to_gun(std::int32_t dist);
 
 
 // (JCL) return scale value for engine
-SLONG person_get_scale(Thing *t);
+std::int32_t person_get_scale(Thing *t);
 
 
 //---------------------------------------------------------------

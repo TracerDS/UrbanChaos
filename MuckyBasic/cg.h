@@ -15,15 +15,15 @@
 // code generation phase.
 //
 
-extern CBYTE* CG_output;
-extern SLONG  CG_num_errors;
-extern SLONG  CG_num_warnings;
+extern char* CG_output;
+extern std::int32_t  CG_num_errors;
+extern std::int32_t  CG_num_warnings;
 
 #define CG_OUTPUT_EXECUTABLE  (1 << 0)
 #define CG_OUTPUT_OBJECT_FILE (1 << 1)
 #define CG_OUTPUT_DEBUG_INFO  (1 << 2)
 
-SLONG CG_do(CBYTE* fname, SLONG output = CG_OUTPUT_EXECUTABLE);
+std::int32_t CG_do(char* fname, std::int32_t output = CG_OUTPUT_EXECUTABLE);
 
 
 

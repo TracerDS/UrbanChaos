@@ -10,7 +10,7 @@
 // Allocates an area of memory.
 //
 
-void* MEM_alloc(SLONG num_bytes);
+void* MEM_alloc(std::int32_t num_bytes);
 
 
 //
@@ -24,7 +24,7 @@ void MEM_free(void* memory);
 // Returns the length in bytes of the given block.
 //
 
-SLONG MEM_block_size(void* memory);
+std::int32_t MEM_block_size(void* memory);
 
 
 
@@ -32,7 +32,7 @@ SLONG MEM_block_size(void* memory);
 // Returns the total amount of memory allocated in bytes.
 //
 
-SLONG MEM_total_bytes_allocated();
+std::int32_t MEM_total_bytes_allocated();
 
 
 

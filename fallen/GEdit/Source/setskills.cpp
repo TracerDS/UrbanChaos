@@ -13,7 +13,7 @@
 #include	"GEdit.h"
 
 
-UBYTE skills_list[255];
+std::uint8_t skills_list[255];
 
 #define	INIT_COMBO_BOX(i,s,d)		the_ctrl	=	GetDlgItem(hWnd,i);								\
 									c0			=	2;												\
@@ -37,10 +37,10 @@ UBYTE skills_list[255];
 
 bool	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
-	SLONG		sel;
+	std::int32_t		sel;
 
 	
 	switch(message)
@@ -86,7 +86,7 @@ bool	CALLBACK	skills_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 
 
-void SetSkills(UBYTE skills[254]) {
+void SetSkills(std::uint8_t skills[254]) {
 	int res;
 
 	memcpy(skills_list,skills,sizeof(skills_list));

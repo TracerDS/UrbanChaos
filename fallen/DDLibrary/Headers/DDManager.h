@@ -47,12 +47,12 @@ class	DDDriverManager;
 
 //---------------------------------------------------------------
 
-SLONG			FlagsToBitDepth(SLONG flags);
-ULONG			FlagsToMask(SLONG flags);
-SLONG			BitDepthToFlags(SLONG bpp);
+std::int32_t			FlagsToBitDepth(std::int32_t flags);
+std::uint32_t			FlagsToMask(std::int32_t flags);
+std::int32_t			BitDepthToFlags(std::int32_t bpp);
 bool			IsPalettized(LPDDPIXELFORMAT lp_dd_pf);
 bool			GetDesktopMode(DDDriverInfo	*the_driver,LPGUID D3D_guid,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
-bool			GetFullscreenMode(DDDriverInfo *the_driver,GUID *D3D_guid,SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
+bool			GetFullscreenMode(DDDriverInfo *the_driver,GUID *D3D_guid,std::int32_t w,std::int32_t h,std::int32_t bpp,std::int32_t refresh,DDModeInfo **the_mode,D3DDeviceInfo **the_device);
 DDDriverInfo	*ValidateDriver(GUID *DD_guid);
 D3DDeviceInfo	*ValidateDevice(DDDriverInfo *the_driver,GUID *D3D_guid,DDModeInfo *the_filter=nullptr);
 DDModeInfo		*ValidateMode(DDDriverInfo	*the_driver,DWORD w,DWORD h,DWORD bpp,DWORD refresh,D3DDeviceInfo *the_filter=nullptr);
@@ -72,13 +72,13 @@ class	DDModeInfo
 						DDModeInfo(const DDSURFACEDESC & ddDesc);
 						~DDModeInfo();
 
-		SLONG			GetWidth();
-		SLONG			GetHeight();
-		SLONG			GetBPP();
-		HRESULT			GetMode(SLONG *w,SLONG *h,SLONG *bpp,SLONG *refresh);
+		std::int32_t			GetWidth();
+		std::int32_t			GetHeight();
+		std::int32_t			GetBPP();
+		HRESULT			GetMode(std::int32_t *w,std::int32_t *h,std::int32_t *bpp,std::int32_t *refresh);
 		bool			ModeSupported(D3DDeviceInfo *the_device);
-		bool			Match(SLONG w,SLONG h,SLONG bpp);
-		bool			Match(SLONG bpp);
+		bool			Match(std::int32_t w,std::int32_t h,std::int32_t bpp);
+		bool			Match(std::int32_t bpp);
 };
 
 //---------------------------------------------------------------
@@ -88,7 +88,7 @@ class	D3DDeviceInfo
 	private:
 	protected:
 	public:
-		ULONG           D3DFlags;					// Flags
+		std::uint32_t           D3DFlags;					// Flags
 
 		// D3D Info
 		GUID			guid;						// GUID
@@ -98,7 +98,7 @@ class	D3DDeviceInfo
 		D3DDEVICEDESC	d3dHelDesc;					// HEL info
 
 		// Texture Formats
-		ULONG			FormatCount;				// Count of Texture Formats
+		std::uint32_t			FormatCount;				// Count of Texture Formats
 		DDModeInfo		*FormatList,				// List of Texture Formats.
 						*FormatListEnd;
 
@@ -144,9 +144,9 @@ class	D3DDeviceInfo
 		void				FindOpaqueTexFmt();
 		void				FindAlphaTexFmt();
 
-		DDModeInfo			*FindFormat(SLONG bpp,DDModeInfo **next_best_format,DDModeInfo *start=nullptr);
+		DDModeInfo			*FindFormat(std::int32_t bpp,DDModeInfo **next_best_format,DDModeInfo *start=nullptr);
 
-		inline	SLONG		CountFormats()			{	return	FormatCount;					}
+		inline	std::int32_t		CountFormats()			{	return	FormatCount;					}
 		inline	bool		FormatsLoaded()			{	return	((D3DFlags&D3D_DEVICE_F_LOADED) ? true : false);	}
 		inline	void		TurnFormatsLoadedOn()	{	D3DFlags	|=	D3D_DEVICE_F_LOADED;	}
 		inline	void		TurnFormatsLoadedOff()	{	D3DFlags	&=	~D3D_DEVICE_F_LOADED;	}
@@ -184,7 +184,7 @@ class	DDDriverInfo
 	private:
 	protected:
 	public:
-		ULONG			DriverFlags;					// D3D Driver flags
+		std::uint32_t			DriverFlags;					// D3D Driver flags
 
 		// Driver info.
 		GUID            guid,                           // guid, if any
@@ -195,12 +195,12 @@ class	DDDriverInfo
 		DDCAPS          ddHelCaps;                      // Emulation caps
 
 		// Mode Info
-		ULONG			ModeCount;						// Count of Modes.
+		std::uint32_t			ModeCount;						// Count of Modes.
 		DDModeInfo		*ModeList,						// List of Modes.
 						*ModeListEnd;
 
 		// D3D Info
-		ULONG			DeviceCount;					// Count of D3D devices.
+		std::uint32_t			DeviceCount;					// Count of D3D devices.
 		D3DDeviceInfo	*DeviceList,					// List of D3D Devices.
 						*DeviceListEnd;
 
@@ -237,9 +237,9 @@ class	DDDriverInfo
 
 		HRESULT				AddMode(DDModeInfo *the_mode);
 		HRESULT				DeleteMode(DDModeInfo *the_mode);
-		DDModeInfo			*FindMode(SLONG w,SLONG h,SLONG bpp,SLONG refresh,DDModeInfo **next_best=nullptr,DDModeInfo *start_mode=nullptr);
+		DDModeInfo			*FindMode(std::int32_t w,std::int32_t h,std::int32_t bpp,std::int32_t refresh,DDModeInfo **next_best=nullptr,DDModeInfo *start_mode=nullptr);
 
-		inline	SLONG		CountModes()			{	return ModeCount;						}
+		inline	std::int32_t		CountModes()			{	return ModeCount;						}
 		inline	bool		ModesLoaded()			{	return ((DriverFlags&DD_DRIVER_M_LOADED) ? true : false);	}
 		inline	void		TurnModesLoadedOn()		{	DriverFlags		|=	DD_DRIVER_M_LOADED;	}
 		inline	void		TurnModesLoadedOff()	{	DriverFlags		&=	~DD_DRIVER_M_LOADED;}
@@ -254,9 +254,9 @@ class	DDDriverInfo
 		HRESULT				DeleteDevice(D3DDeviceInfo *the_device);
 		D3DDeviceInfo		*FindDevice(GUID *the_guid, D3DDeviceInfo **next_best,D3DDeviceInfo *start_device=nullptr);
 		D3DDeviceInfo		*FindDeviceSupportsMode(GUID *the_guid,DDModeInfo *the_mode,D3DDeviceInfo **next_best_device,D3DDeviceInfo *start_device=nullptr);
-		DDModeInfo			*FindModeSupportsDevice(SLONG w, SLONG h, SLONG bpp,SLONG refresh,D3DDeviceInfo *the_device,DDModeInfo **next_best,DDModeInfo *start_device=nullptr);
+		DDModeInfo			*FindModeSupportsDevice(std::int32_t w, std::int32_t h, std::int32_t bpp,std::int32_t refresh,D3DDeviceInfo *the_device,DDModeInfo **next_best,DDModeInfo *start_device=nullptr);
 
-		inline	SLONG		CountDevices()			{	return DeviceCount;						}
+		inline	std::int32_t		CountDevices()			{	return DeviceCount;						}
 		inline	bool		DevicesLoaded()			{	return ((DriverFlags&DD_DRIVER_D_LOADED) ? true : false);	}
 		inline	void		TurnDevicesLoadedOn()	{	DriverFlags		|=	DD_DRIVER_D_LOADED;	}
 		inline	void		TurnDevicesLoadedOff()	{	DriverFlags		&=	~DD_DRIVER_D_LOADED;}
@@ -270,7 +270,7 @@ class	DDDriverManager
 	private:
 	protected:
 	public:
-		ULONG				ManagerFlags,				// Global flags
+		std::uint32_t				ManagerFlags,				// Global flags
 							DriverCount;				// Count of DD Drivers
 		DDDriverInfo		*DriverList,				// List of DD Device Drivers.
 							*DriverListEnd;

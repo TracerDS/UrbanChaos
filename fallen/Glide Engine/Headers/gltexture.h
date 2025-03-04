@@ -24,17 +24,17 @@ void TEXTURE_load();
 // The number of standard texture pages.
 //
 
-extern SLONG TEXTURE_page_num_standard;
+extern std::int32_t TEXTURE_page_num_standard;
 
-extern SLONG TEXTURE_page_fog;		// The fog texture page.
-extern SLONG TEXTURE_page_moon;		// The moon texture page.
-extern SLONG TEXTURE_page_clouds;	// The clouds texture page.
-extern SLONG TEXTURE_page_water;	// The water texture page.
-extern SLONG TEXTURE_page_puddle;	// The puddle texture page.
-extern SLONG TEXTURE_page_shadow;	// The shadow texture page.
-extern SLONG TEXTURE_page_detail;	// PRIVATE!
+extern std::int32_t TEXTURE_page_fog;		// The fog texture page.
+extern std::int32_t TEXTURE_page_moon;		// The moon texture page.
+extern std::int32_t TEXTURE_page_clouds;	// The clouds texture page.
+extern std::int32_t TEXTURE_page_water;	// The water texture page.
+extern std::int32_t TEXTURE_page_puddle;	// The puddle texture page.
+extern std::int32_t TEXTURE_page_shadow;	// The shadow texture page.
+extern std::int32_t TEXTURE_page_detail;	// PRIVATE!
 
-extern SLONG TEXTURE_num_textures;	// The total number of pages.
+extern std::int32_t TEXTURE_num_textures;	// The total number of pages.
 
 
 //
@@ -42,7 +42,7 @@ extern SLONG TEXTURE_num_textures;	// The total number of pages.
 // is (TEXTURE_SHADOW_SIZE x TEXTURE_SHADOW_SIZE)
 //
 
-void TEXTURE_download_shadow_page(UBYTE *data);
+void TEXTURE_download_shadow_page(std::uint8_t *data);
 
 //
 // Puts the render-states into a known state so that set_page will work.
@@ -59,7 +59,7 @@ void TEXTURE_init_states();
 #define TEXTURE_MULTI_TRILINEAR	1
 #define TEXTURE_MULTI_DETAIL	2
 
-void TEXTURE_set_page(SLONG page, SLONG multi);
+void TEXTURE_set_page(std::int32_t page, std::int32_t multi);
 
 
 //
@@ -67,8 +67,8 @@ void TEXTURE_set_page(SLONG page, SLONG multi);
 //
 
 void TEXTURE_get_minitexturebits_uvs(
-		UWORD			texture,
-		SLONG          *page,
+		std::uint16_t			texture,
+		std::int32_t          *page,
 		float          *u0,
 		float          *v0,
 		float          *u1,
@@ -90,10 +90,10 @@ void TEXTURE_fix_prim_textures();
 // returns the page.
 //
 
-SLONG TEXTURE_get_fiddled_position(
-		SLONG  square_u,
-		SLONG  square_v,
-		SLONG  page,
+std::int32_t TEXTURE_get_fiddled_position(
+		std::int32_t  square_u,
+		std::int32_t  square_v,
+		std::int32_t  page,
 		float *u,
 		float *v);
 

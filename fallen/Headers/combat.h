@@ -35,28 +35,28 @@
 
 struct ComboHistory
 {
-	UWORD		Owner;
-	SBYTE		Power[MAX_MOVES];
-	SBYTE		Moves[MAX_MOVES];
-	UWORD		Times[MAX_MOVES];
-	UBYTE		Result[MAX_MOVES];
-	UWORD		LastUsed;
-	UBYTE		Index;
-	UBYTE		Count;
+	std::uint16_t		Owner;
+	std::int8_t		Power[MAX_MOVES];
+	std::int8_t		Moves[MAX_MOVES];
+	std::uint16_t		Times[MAX_MOVES];
+	std::uint8_t		Result[MAX_MOVES];
+	std::uint16_t		LastUsed;
+	std::uint8_t		Index;
+	std::uint8_t		Count;
 
 };
 
 
 struct BlockingHistory
 {
-	UWORD	Owner;				//who this blocking history is for
-	UBYTE	Attack[MAX_MOVES];  // attack move performed
-	UBYTE	Flags[MAX_MOVES];   // did it hit, did I block it
-	UWORD	Times[MAX_MOVES];   // at what time did it occur
-	UWORD	Perp[MAX_MOVES];    // who perpetrated the attack
-	UWORD	LastUsed;           // when was this whoile structure used 
-	UBYTE	Index;
-	UBYTE	Count;
+	std::uint16_t	Owner;				//who this blocking history is for
+	std::uint8_t	Attack[MAX_MOVES];  // attack move performed
+	std::uint8_t	Flags[MAX_MOVES];   // did it hit, did I block it
+	std::uint16_t	Times[MAX_MOVES];   // at what time did it occur
+	std::uint16_t	Perp[MAX_MOVES];    // who perpetrated the attack
+	std::uint16_t	LastUsed;           // when was this whoile structure used 
+	std::uint8_t	Index;
+	std::uint8_t	Count;
 	
 };
 
@@ -65,12 +65,12 @@ struct BlockingHistory
 // This structure has slots for angles that enemies are attacking from
 struct GangAttack
 {
-	UWORD	Owner;					//who this gang attack is for
-	UWORD	Perp[8];          // who is attacking in each of the eight compass points
+	std::uint16_t	Owner;					//who this gang attack is for
+	std::uint16_t	Perp[8];          // who is attacking in each of the eight compass points
 
-	UWORD	LastUsed;           // when was this whole structure used 
-	UBYTE	Index;
-	UBYTE	Count;
+	std::uint16_t	LastUsed;           // when was this whole structure used 
+	std::uint8_t	Index;
+	std::uint8_t	Count;
 };
 
 //
@@ -84,10 +84,10 @@ extern struct GangAttack gang_attacks[MAX_HISTORY];
 // Functions
 //
 
-extern SLONG	get_combat_type_for_node(UBYTE current_node);
-extern SLONG	get_anim_and_node_for_action(UBYTE current_node,UBYTE action,UWORD *new_anim);
-extern SLONG	apply_violence(Thing *p_thing);
-extern SLONG	apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thing *p_aggressor,struct GameFightCol *fight);
+extern std::int32_t	get_combat_type_for_node(std::uint8_t current_node);
+extern std::int32_t	get_anim_and_node_for_action(std::uint8_t current_node,std::uint8_t action,std::uint16_t *new_anim);
+extern std::int32_t	apply_violence(Thing *p_thing);
+extern std::int32_t	apply_hit_to_person(Thing *p_thing,std::int32_t angle,std::int32_t type,std::int32_t damage,Thing *p_aggressor,struct GameFightCol *fight);
 
 
 //
@@ -107,29 +107,29 @@ extern SLONG	apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG dam
 
 #define	FIND_DIR_DONT_TURN	(1<<10)
 
-SLONG find_attack_stance(
+std::int32_t find_attack_stance(
 		Thing     *p_person,
-		SLONG      attack_direction,
-		SLONG      attack_distance, // Desired distance from a person to attack them. 8-bits per mapsquare.
+		std::int32_t      attack_direction,
+		std::int32_t      attack_distance, // Desired distance from a person to attack them. 8-bits per mapsquare.
 		Thing    **stance_target,
 		GameCoord *stance_position,	// 16-bits per mapsquare position at the desired distance.
-		SLONG     *stance_angle);
+		std::int32_t     *stance_angle);
 
 //
 // Turns so you are facing someone in the given direction.
 //
 
-SLONG turn_to_target(
+std::int32_t turn_to_target(
 		Thing *p_person,
-		SLONG  find_dir);
+		std::int32_t  find_dir);
 
 //
 // Looks for someone in front of you to punch, turns and positions yourself
 // to punch them and then does the punch- the same except you kick.
 //
 
-SLONG turn_to_target_and_punch(Thing *p_person);
-SLONG turn_to_target_and_kick (Thing *p_person);
+std::int32_t turn_to_target_and_punch(Thing *p_person);
+std::int32_t turn_to_target_and_kick (Thing *p_person);
 
 
 //
@@ -140,8 +140,8 @@ SLONG turn_to_target_and_kick (Thing *p_person);
 
 #define FIND_BEST_USE_DEFAULT	(1 << 0)
 
-SLONG find_best_punch(Thing *p_person, ULONG flag);
-SLONG find_best_kick (Thing *p_person, ULONG flag);
+std::int32_t find_best_punch(Thing *p_person, std::uint32_t flag);
+std::int32_t find_best_kick (Thing *p_person, std::uint32_t flag);
 
 
 

@@ -15,7 +15,7 @@
 // value
 // 
 
-extern ULONG MESH_colour_and;
+extern std::uint32_t MESH_colour_and;
 
 //
 // Call once at the start of the whole game. Calculates the
@@ -31,35 +31,35 @@ void MESH_init();
 //
 
 NIGHT_Colour *MESH_draw_poly(
-				SLONG         prim,
-				SLONG	      at_x,
-				SLONG         at_y,
-				SLONG	      at_z,
-				SLONG         i_yaw,
-				SLONG         i_pitch,
-				SLONG         i_roll,
+				std::int32_t         prim,
+				std::int32_t	      at_x,
+				std::int32_t         at_y,
+				std::int32_t	      at_z,
+				std::int32_t         i_yaw,
+				std::int32_t         i_pitch,
+				std::int32_t         i_roll,
 				NIGHT_Colour *lpc,
-				UBYTE         fade,
-				SLONG         crumple = 0);
+				std::uint8_t         fade,
+				std::int32_t         crumple = 0);
 
 //
 // Sets car crumple parameters before a call to MESH_draw_poly(..., -1)
 //
 
-void MESH_set_crumple(UBYTE* assignments, UBYTE* crumples);
+void MESH_set_crumple(std::uint8_t* assignments, std::uint8_t* crumples);
 
 //
 // Draws an environment map over this given prim.
 //
 
 void MESH_draw_envmap(
-		SLONG prim,
-		SLONG at_x,
-		SLONG at_y,
-		SLONG at_z,
-		SLONG i_yaw,
-		SLONG i_pitch,
-		SLONG i_roll);
+		std::int32_t prim,
+		std::int32_t at_x,
+		std::int32_t at_y,
+		std::int32_t at_z,
+		std::int32_t i_yaw,
+		std::int32_t i_pitch,
+		std::int32_t i_roll);
 
 
 //
@@ -68,13 +68,13 @@ void MESH_draw_envmap(
 //
 
 NIGHT_Colour *MESH_draw_poly_inv_matrix(
-				SLONG         prim,
-				SLONG	      at_x,
-				SLONG       at_y,
-				SLONG	      at_z,
-				SLONG         i_yaw,
-				SLONG         i_pitch,
-				SLONG         i_roll,
+				std::int32_t         prim,
+				std::int32_t	      at_x,
+				std::int32_t       at_y,
+				std::int32_t	      at_z,
+				std::int32_t         i_yaw,
+				std::int32_t         i_pitch,
+				std::int32_t         i_roll,
 				NIGHT_Colour *lpc);
 
 //
@@ -90,11 +90,11 @@ void MESH_init_reflections();
 //
 
 void MESH_draw_reflection(
-		SLONG         prim,
-		SLONG         at_x,
-		SLONG         at_y,
-		SLONG         at_z,
-		SLONG         at_yaw,
+		std::int32_t         prim,
+		std::int32_t         at_x,
+		std::int32_t         at_y,
+		std::int32_t         at_z,
+		std::int32_t         at_yaw,
 		NIGHT_Colour *lpc);
 
 
@@ -104,16 +104,16 @@ void MESH_draw_reflection(
 //
 
 void MESH_draw_morph(
-		SLONG         prim,
-		UBYTE         morph1,
-		UBYTE         morph2,
-		UWORD		  tween,		// 0 - 256         
-		SLONG	      at_x,
-		SLONG       at_y,
-		SLONG	      at_z,
-		SLONG         i_yaw,
-		SLONG         i_pitch,
-		SLONG         i_roll,
+		std::int32_t         prim,
+		std::uint8_t         morph1,
+		std::uint8_t         morph2,
+		std::uint16_t		  tween,		// 0 - 256         
+		std::int32_t	      at_x,
+		std::int32_t       at_y,
+		std::int32_t	      at_z,
+		std::int32_t         i_yaw,
+		std::int32_t         i_pitch,
+		std::int32_t         i_roll,
 		NIGHT_Colour *lpc);
 
 

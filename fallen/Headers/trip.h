@@ -19,21 +19,21 @@
 
 typedef struct
 {
-	UBYTE along;
-	UBYTE wait;
-	UWORD counter;
-	SWORD y;
-	UWORD x1;	// If this equals TRIP_X1_DEACTIVATED then the tripwire isn't drawn or processed
-	UWORD z1;
-	UWORD x2;
-	UWORD z2;
+	std::uint8_t along;
+	std::uint8_t wait;
+	std::uint16_t counter;
+	std::int16_t y;
+	std::uint16_t x1;	// If this equals TRIP_X1_DEACTIVATED then the tripwire isn't drawn or processed
+	std::uint16_t z1;
+	std::uint16_t x2;
+	std::uint16_t z2;
 
 } TRIP_Wire;
 
 #define TRIP_MAX_WIRES 32
 
 extern TRIP_Wire *TRIP_wire;//[TRIP_MAX_WIRES];
-extern SLONG     TRIP_wire_upto;
+extern std::int32_t     TRIP_wire_upto;
 
 
 //
@@ -51,12 +51,12 @@ void TRIP_init();
 // the index of that tripwire.
 //
 
-UBYTE TRIP_create(
-		SLONG y,
-		SLONG x1,
-		SLONG z1,
-		SLONG x2,
-		SLONG z2);
+std::uint8_t TRIP_create(
+		std::int32_t y,
+		std::int32_t x1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t z2);
 
 //
 // Processes the trip-wires.
@@ -69,14 +69,14 @@ void TRIP_process();
 // Returns true if the given tripwire is activated.
 //
 
-SLONG TRIP_activated(UBYTE tripwire);
+std::int32_t TRIP_activated(std::uint8_t tripwire);
 
 
 //
 // Deactivates the given tripwire: stops it being drawn and processed.
 //
 
-void TRIP_deactivate(UBYTE tripwire);
+void TRIP_deactivate(std::uint8_t tripwire);
 
 
 //
@@ -85,14 +85,14 @@ void TRIP_deactivate(UBYTE tripwire);
 
 typedef struct
 {
-	SLONG y;
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	UWORD counter;
-	UBYTE along;	// How far along the beam is stopped due to someone being in the way.
-	UBYTE padding;
+	std::int32_t y;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::uint16_t counter;
+	std::uint8_t along;	// How far along the beam is stopped due to someone being in the way.
+	std::uint8_t padding;
 
 } TRIP_Info;
 

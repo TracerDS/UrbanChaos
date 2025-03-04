@@ -17,7 +17,7 @@ PC doesn't have DIDeviceInfo's any more
 
 class FFManager {
 	private:
-	  SLONG  ForceFeedback;
+	  std::int32_t  ForceFeedback;
 	  LPDIRECTINPUTEFFECT testeffect;
 	  DIDeviceInfo* DeviceInfo;
 	  LPDIRECTINPUTDEVICE2	lpdiInputDevice;			// DI Device.

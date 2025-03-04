@@ -24,13 +24,13 @@
 #define	CONSOLE_WIDTH	50
 
 struct ConsoleText {
-	CBYTE Text[CONSOLE_WIDTH];
-	SLONG Age;
+	char Text[CONSOLE_WIDTH];
+	std::int32_t Age;
 };
 
 //static Font3D *font=0;
 static ConsoleText Data[CONSOLE_LINES];
-static CBYTE status_text[_MAX_PATH];
+static char status_text[_MAX_PATH];
 
 //
 // The messages at specific place on the screen.
@@ -38,10 +38,10 @@ static CBYTE status_text[_MAX_PATH];
 
 typedef struct
 {
-	SLONG delay;					// (delay == 0) => Don't display message.
-	SLONG x;
-	SLONG y;
-	CBYTE mess[CONSOLE_WIDTH];
+	std::int32_t delay;					// (delay == 0) => Don't display message.
+	std::int32_t x;
+	std::int32_t y;
+	char mess[CONSOLE_WIDTH];
 
 } CONSOLE_Mess;
 
@@ -52,7 +52,7 @@ CONSOLE_Mess CONSOLE_mess[CONSOLE_MAX_MESSES];
 
 
 
-void CONSOLE_font(CBYTE* fontpath, float scale) {
+void CONSOLE_font(char* fontpath, float scale) {
 //	if (font) delete font;
 //	font = new Font3D(fontpath,scale);
 }
@@ -62,9 +62,9 @@ void CONSOLE_font(CBYTE* fontpath, float scale) {
 // Returns true if there is no text to write to the screen.
 //
 
-SLONG CONSOLE_no_text()
+std::int32_t CONSOLE_no_text()
 {
-	SLONG i;
+	std::int32_t i;
 
 	CONSOLE_Mess *cm;
 /*
@@ -95,8 +95,8 @@ SLONG CONSOLE_no_text()
 	return true;
 }
 
-static SLONG last_tick;
-static SLONG this_tick;
+static std::int32_t last_tick;
+static std::int32_t this_tick;
 
 void CONSOLE_draw() {
 
@@ -104,7 +104,7 @@ void CONSOLE_draw() {
 #ifndef TARGET_DC
 
 
-	SLONG i;
+	std::int32_t i;
 
 	CONSOLE_Mess *cm;
 
@@ -148,7 +148,7 @@ void CONSOLE_draw() {
 /*
 	if (GAME_STATE & GS_PLAYBACK)
 	{
-void	draw_a_3d_menu(Font3D &font, SLONG	menu);
+void	draw_a_3d_menu(Font3D &font, std::int32_t	menu);
 
 		draw_a_3d_menu((*font),1);
 	}
@@ -213,20 +213,20 @@ void	draw_a_3d_menu(Font3D &font, SLONG	menu);
 
 }
 
-void CONSOLE_text(CBYTE* text, SLONG delay)
+void CONSOLE_text(char* text, std::int32_t delay)
 {
 	PANEL_new_text(nullptr, delay, text);
 
 	return;
 
 
-	SLONG i;
-	CBYTE* ch;
-	CBYTE* ch1;
-	CBYTE* ch2;
-	CBYTE* pipe;
+	std::int32_t i;
+	char* ch;
+	char* ch1;
+	char* ch2;
+	char* pipe;
 
-	CBYTE temp[1024];
+	char temp[1024];
 
 	//
 	// Early out on nullptr strings or strings with just spaces in them.
@@ -351,7 +351,7 @@ void CONSOLE_text(CBYTE* text, SLONG delay)
 
 
 void CONSOLE_scroll() {
-	UBYTE i;
+	std::uint8_t i;
 
 	while (Data[0].Text[0]&&!Data[0].Age) {
 
@@ -372,12 +372,12 @@ void CONSOLE_clear() {
 
 
 void CONSOLE_text_at(
-		SLONG  x,
-		SLONG  y,
-		SLONG  delay,
-		CBYTE* fmt, ...)
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  delay,
+		char* fmt, ...)
 {
-	SLONG i;
+	std::int32_t i;
 
 	CONSOLE_Mess *cm;
 
@@ -385,7 +385,7 @@ void CONSOLE_text_at(
 	// Work out the real message.
 	//
 
-	CBYTE   message[FONT_MAX_LENGTH];
+	char   message[FONT_MAX_LENGTH];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -396,7 +396,7 @@ void CONSOLE_text_at(
 	// Convert to uppercase.
 	//
 
-	for (CBYTE* ch = message; *ch; *ch++ = toupper(*ch));
+	for (char* ch = message; *ch; *ch++ = toupper(*ch));
 
 	//
 	// Look for an message at the same place.
@@ -447,9 +447,9 @@ void CONSOLE_text_at(
 	}
 }
 
-void CONSOLE_status(CBYTE* msg) {
+void CONSOLE_status(char* msg) {
 	strcpy(status_text,msg);
-	for (CBYTE* ch = status_text; *ch; *ch++ = toupper(*ch));
+	for (char* ch = status_text; *ch; *ch++ = toupper(*ch));
 }
 
 #if 0
@@ -623,7 +623,7 @@ static int Recv(SOCKET s, char* buf, int dlen, int flags)
 	return SOCKET_ERROR;
 }
 
-extern void parse_console(CBYTE* str);
+extern void parse_console(char* str);
 
 static void ReadMessage(SOCKET s)
 {

@@ -609,8 +609,8 @@ D3DTLVERTEX *tlvertParticles;
 WORD *wParticleIndices;
 
 
-extern SLONG FONT2D_GetIndex(CBYTE chr);
-extern SLONG FONT2D_GetLetterWidth(CBYTE chr);
+extern std::int32_t FONT2D_GetIndex(char chr);
+extern std::int32_t FONT2D_GetLetterWidth(char chr);
 
 extern FONT2D_Letter FONT2D_letter[];
 
@@ -747,7 +747,7 @@ extern bool AreAnyDevicesConnected ( void );
 
 
 		// Put at bottom left.
-		SLONG iXSize, iYSize;
+		std::int32_t iXSize, iYSize;
 		
 		int iX = 32;
 		int iY = 480-32-20;
@@ -823,7 +823,7 @@ void DreamCastCredits ( void )
 		handle = FileOpen ( "Text\\Credits_fr.txt" );
 	}
 	ASSERT ( handle != FILE_OPEN_ERROR );
-	SLONG dwCreditsSize = FileSize ( handle );
+	std::int32_t dwCreditsSize = FileSize ( handle );
 	ASSERT ( dwCreditsSize > 0 );
 	dwCreditsSize += 32;
 	dwCreditsSize *= sizeof ( char );
@@ -886,7 +886,7 @@ void DreamCastCredits ( void )
 	the_display.lp_D3D_Device->SetTextureStageState ( 1, D3DTSS_COLOROP,   D3DTOP_DISABLE );
 	the_display.lp_D3D_Device->SetTextureStageState ( 1, D3DTSS_ALPHAOP,   D3DTOP_DISABLE );
 
-extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
+extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(std::int32_t page);
 #if 0
 	LPDIRECT3DTEXTURE2 ptexFontTex = TEXTURE_get_handle ( TEXTURE_page_lcdfont );
 #else

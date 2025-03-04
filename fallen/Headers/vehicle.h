@@ -21,8 +21,8 @@
 
 typedef struct	
 {
-	UWORD	Compression;
-	UWORD	Length;
+	std::uint16_t	Compression;
+	std::uint16_t	Length;
 } Suspension;
 
 // DButtons bits
@@ -42,54 +42,54 @@ typedef struct
 	DrawTween	Draw;
 
 	Suspension	Spring[4];		// spring data
-	SLONG		DY[4];			// DY for each car point
+	std::int32_t		DY[4];			// DY for each car point
 
-	SLONG		Angle;
-	SLONG		Tilt;
-	SLONG		Roll;
+	std::int32_t		Angle;
+	std::int32_t		Tilt;
+	std::int32_t		Roll;
 
-	SBYTE		Steering;		// -64 to +64 or -1 to +1
-	UBYTE		IsAnalog;		// specifies range of steering
-	UBYTE		DControl;		// digital control input
-	UBYTE		GrabAction;		// set if we've grabbed the action key
+	std::int8_t		Steering;		// -64 to +64 or -1 to +1
+	std::uint8_t		IsAnalog;		// specifies range of steering
+	std::uint8_t		DControl;		// digital control input
+	std::uint8_t		GrabAction;		// set if we've grabbed the action key
 
-	SWORD		Wheel;			// steering wheel position
-	UWORD		Allocated;		// 0 if not allocated
+	std::int16_t		Wheel;			// steering wheel position
+	std::uint16_t		Allocated;		// 0 if not allocated
 
-	UWORD		Flags;
-	UWORD		Driver;
+	std::uint16_t		Flags;
+	std::uint16_t		Driver;
 
-	UWORD		Passenger;		// A linked list of passengers in this vehicle.
-	UWORD		Type;
+	std::uint16_t		Passenger;		// A linked list of passengers in this vehicle.
+	std::uint16_t		Type;
 
-	UBYTE		still;			// How long has the car been at zero velocity for?
-	UBYTE		dlight;			// dynamic light thingy
-	UBYTE		key;			// key to unlock, or SPECIAL_NONE
-	UBYTE		Brakelight;		// brakelight state
+	std::uint8_t		still;			// How long has the car been at zero velocity for?
+	std::uint8_t		dlight;			// dynamic light thingy
+	std::uint8_t		key;			// key to unlock, or SPECIAL_NONE
+	std::uint8_t		Brakelight;		// brakelight state
 
-	UBYTE		damage[6];		// damage counts
-	SWORD		Spin;
+	std::uint8_t		damage[6];		// damage counts
+	std::int16_t		Spin;
 
-	SLONG		VelX;			// X velocity
-	SLONG		VelY;			// Y velocity
-	SLONG		VelZ;			// Z velocity
-	SLONG		VelR;			// rotational velocity
+	std::int32_t		VelX;			// X velocity
+	std::int32_t		VelY;			// Y velocity
+	std::int32_t		VelZ;			// Z velocity
+	std::int32_t		VelR;			// rotational velocity
 
-	SWORD		WheelAngle;		// wheel angle
-	UBYTE		Siren;			// siren on/off?
-	UBYTE		LastSoundState;	// for comparison with the current one
+	std::int16_t		WheelAngle;		// wheel angle
+	std::uint8_t		Siren;			// siren on/off?
+	std::uint8_t		LastSoundState;	// for comparison with the current one
 
-	SBYTE		Dir;			// +2 = driving forwards, +1 = driving forwards but braking, -1,-2 same for backwards, 0 = stopped
-	UBYTE		Skid;			// skidding? 0 = no, 1 - SKID_START-1 = maybe; >=SKID_START = yes
-	UBYTE		Stable;			// stable?
-	UBYTE		Smokin;			// smoking?
+	std::int8_t		Dir;			// +2 = driving forwards, +1 = driving forwards but braking, -1,-2 same for backwards, 0 = stopped
+	std::uint8_t		Skid;			// skidding? 0 = no, 1 - SKID_START-1 = maybe; >=SKID_START = yes
+	std::uint8_t		Stable;			// stable?
+	std::uint8_t		Smokin;			// smoking?
 
-	UBYTE		Scrapin;		// scraping metal against a wall?
-	UBYTE		OnRoadFlags;	// flag for each wheel - is it on the road?
-	SWORD		Health;			// How close the car is to blowing up... (Starts at 200 like people)
+	std::uint8_t		Scrapin;		// scraping metal against a wall?
+	std::uint8_t		OnRoadFlags;	// flag for each wheel - is it on the road?
+	std::int16_t		Health;			// How close the car is to blowing up... (Starts at 200 like people)
 
 //#ifndef PSX
-	SLONG	oldX[4],oldZ[4];
+	std::int32_t	oldX[4],oldZ[4];
 //#endif
 
 
@@ -120,22 +120,22 @@ void init_vehicles();
 #define VEH_TYPE_NUMBER		9
 
 THING_INDEX VEH_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
-		SLONG type,
-		UBYTE key,		// The special needed to unlock the car or SPECIAL_NONE if you don't need a key
-		UBYTE colour);	// The tint colour of the car.
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
+		std::int32_t type,
+		std::uint8_t key,		// The special needed to unlock the car or SPECIAL_NONE if you don't need a key
+		std::uint8_t colour);	// The tint colour of the car.
 
 
 //
 // The main prim used for the body of the given type of vehicle.
 //
 
-UWORD get_vehicle_body_prim(SLONG type);
+std::uint16_t get_vehicle_body_prim(std::int32_t type);
 
 
 //
@@ -143,7 +143,7 @@ UWORD get_vehicle_body_prim(SLONG type);
 // This is returned in large 16-bits per mapsquare coordinates.
 //
 
-SLONG get_vehicle_body_offset(SLONG type);
+std::int32_t get_vehicle_body_offset(std::int32_t type);
 
 
 //
@@ -156,12 +156,12 @@ SLONG get_vehicle_body_offset(SLONG type);
 // THIS FUNCTION WORKS FOR ALL BIKES AS WELL AS CARS!
 // 
 
-SLONG VEH_find_runover_things(Thing *p_vehicle, UWORD thing_index[], SLONG max_number, SLONG dangle);
+std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle);
 
 
 // hit a person with a car
 
-extern SLONG GetRunoverHP(Thing* p_car, Thing* p_person, SLONG min_hp);
+extern std::int32_t GetRunoverHP(Thing* p_car, Thing* p_person, std::int32_t min_hp);
 
 //
 // This collide function will be useful elsewhere.
@@ -172,37 +172,37 @@ extern SLONG GetRunoverHP(Thing* p_car, Thing* p_person, SLONG min_hp);
 
 typedef struct
 {
-	UWORD type;
-	UWORD ob_index;	// If this collision came from an OB this is its OB_index and position.
+	std::uint16_t type;
+	std::uint16_t ob_index;	// If this collision came from an OB this is its OB_index and position.
 	Thing* veh;		// if this collision came from a vehicle or a Balrog, this is a pointer to it
-	UWORD mid_x;
-	UWORD mid_y;
-	UWORD mid_z;
-	UWORD height;
-	SWORD min_x;
-	SWORD max_x;
-	SWORD min_z;
-	SWORD max_z;
-	UWORD radius_or_yaw;
+	std::uint16_t mid_x;
+	std::uint16_t mid_y;
+	std::uint16_t mid_z;
+	std::uint16_t height;
+	std::int16_t min_x;
+	std::int16_t max_x;
+	std::int16_t min_z;
+	std::int16_t max_z;
+	std::uint16_t radius_or_yaw;
 
 } VEH_Col;
 
 #define VEH_MAX_COL 8
 
 extern VEH_Col VEH_col[VEH_MAX_COL];
-extern SLONG   VEH_col_upto;
+extern std::int32_t   VEH_col_upto;
 
 //
 // Finds all the things that will be collided with by VEH_collide_line().
 //
 
 void VEH_collide_find_things(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG radius,
-		SLONG ignore_thing_index,
-		SLONG ignore_prims = false);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t radius,
+		std::int32_t ignore_thing_index,
+		std::int32_t ignore_prims = false);
 
 //
 // Returns the position where one enter/exists a vehicle.
@@ -210,9 +210,9 @@ void VEH_collide_find_things(
 
 void VEH_find_door(
 		Thing *p_vehicle,
-		SLONG  i_am_a_passenger,
-		SLONG *x,
-		SLONG *z);
+		std::int32_t  i_am_a_passenger,
+		std::int32_t *x,
+		std::int32_t *z);
 
 
 
@@ -232,7 +232,7 @@ void VEH_init_vehinfo();
 // get vertex -> zone assignment map
 //
 
-UBYTE* VEH_get_assignments(ULONG prim);
+std::uint8_t* VEH_get_assignments(std::uint32_t prim);
 
 //
 // reinit after teleport
@@ -248,10 +248,10 @@ void reinit_vehicle(Thing* p_thing);
 
 void vehicle_wheel_pos_init(Thing *p_vehicle);
 void vehicle_wheel_pos_get(
-		SLONG  which,
-		SLONG *wx,
-		SLONG *wy,
-		SLONG *wz);
+		std::int32_t  which,
+		std::int32_t *wx,
+		std::int32_t *wy,
+		std::int32_t *wz);
 
 
 

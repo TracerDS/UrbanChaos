@@ -30,8 +30,8 @@ OS_Texture *WIRE_ot_dot;
 
 
 
-SLONG WIRE_last;
-SLONG WIRE_now;
+std::int32_t WIRE_last;
+std::int32_t WIRE_now;
 
 
 //
@@ -63,9 +63,9 @@ WIRE_Point WIRE_point[WIRE_NUM_POINTS];
 #define WIRE_MODE_BRIGHT_TEXTURE	2
 #define WIRE_MODE_TEXTURE_NONE		3
 
-SLONG WIRE_current_mesh;
-SLONG WIRE_current_mode;
-SLONG WIRE_current_countdown;
+std::int32_t WIRE_current_mesh;
+std::int32_t WIRE_current_mode;
+std::int32_t WIRE_current_countdown;
 
 
 
@@ -78,7 +78,7 @@ SLONG WIRE_current_countdown;
 
 void WIRE_plane_init(IMP_Mesh *im)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < WIRE_NUM_POINTS; i++)	
 	{
@@ -90,7 +90,7 @@ void WIRE_plane_init(IMP_Mesh *im)
 
 void WIRE_plane_rotate(IMP_Mesh *im, float angle)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float matrix[9];
 
@@ -120,7 +120,7 @@ void WIRE_plane_rotate(IMP_Mesh *im, float angle)
 
 void WIRE_plane_process()
 {
-	SLONG i;
+	std::int32_t i;
 
 
 	WIRE_now = OS_ticks();
@@ -168,10 +168,10 @@ void WIRE_plane_process()
 
 void WIRE_plane_draw()
 {
-	SLONG i;
-	SLONG px;
-	SLONG pz;
-	SLONG index;
+	std::int32_t i;
+	std::int32_t px;
+	std::int32_t pz;
+	std::int32_t index;
 	
 	OS_Buffer  *ob = OS_buffer_new();
 	OS_Vert    *ov;
@@ -194,7 +194,7 @@ void WIRE_plane_draw()
 		ov = &wp->ov;
 	
 		ov->trans    = i;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->u1       = 0.0F;
 		ov->v1       = 0.0F;
 		ov->u2       = 0.0F;
@@ -209,10 +209,10 @@ void WIRE_plane_draw()
 
 	struct
 	{
-		UBYTE p1;
-		UBYTE p2;
-		UBYTE p3;
-		UBYTE p4;
+		std::uint8_t p1;
+		std::uint8_t p2;
+		std::uint8_t p3;
+		std::uint8_t p4;
 
 	} face[5] =
 	{
@@ -246,9 +246,9 @@ void WIRE_plane_draw()
 
 void WIRE_init()
 {
-	SLONG i;
+	std::int32_t i;
 
-	static SLONG done;
+	static std::int32_t done;
 
 	if (!done)
 	{
@@ -314,7 +314,7 @@ void WIRE_draw()
 {
 	IMP_Mesh *im = &WIRE_mesh[WIRE_current_mesh];
 
-	SLONG mode_over;
+	std::int32_t mode_over;
 
 	if (OS_ticks() < 7000)
 	{
@@ -461,8 +461,8 @@ void WIRE_draw()
 		case WIRE_MODE_TEXTURE_NONE:
 
 			{
-				SLONG bright;
-				ULONG colour;
+				std::int32_t bright;
+				std::uint32_t colour;
 
 				if (WIRE_current_countdown == 0)
 				{

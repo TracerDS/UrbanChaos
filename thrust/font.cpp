@@ -63,7 +63,7 @@ FONT_Letter FONT_letter[FONT_NUM_LETTERS];
 // This is the order the punctuation characters come in.
 //
 
-CBYTE FONT_punct[] =
+char FONT_punct[] =
 {
 	"!\"�$%^&*(){}[]<>\\/:;'@#~?-=+.,"
 };
@@ -83,7 +83,7 @@ TGA_Pixel FONT_data[256][256];
 // The format of the text.
 //
 
-ULONG FONT_flag;
+std::uint32_t FONT_flag;
 float FONT_bbox_x1;
 float FONT_bbox_y1;
 float FONT_bbox_x2;
@@ -92,7 +92,7 @@ float FONT_bbox_y2;
 
 
 void FONT_format(
-		ULONG flag,
+		std::uint32_t flag,
 		float bbox_x1,
 		float bbox_y1,
 		float bbox_x2,
@@ -111,12 +111,12 @@ void FONT_format(
 // Returns true if it finds pixel data at (x,y)
 // 
 
-SLONG FONT_found_data(SLONG x, SLONG y)
+std::int32_t FONT_found_data(std::int32_t x, std::int32_t y)
 {
-	SLONG dy;
+	std::int32_t dy;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
 	ASSERT(WITHIN(x, 0, 255));
 
@@ -141,10 +141,10 @@ SLONG FONT_found_data(SLONG x, SLONG y)
 
 void FONT_init()
 {
-	SLONG i;
-	SLONG y;
-	SLONG x;
-	SLONG line;
+	std::int32_t i;
+	std::int32_t y;
+	std::int32_t x;
+	std::int32_t line;
 
 	FONT_Letter *fl;
 
@@ -176,7 +176,7 @@ void FONT_init()
 
 	#define FONT_NUM_BASELINES 8
 
-	SLONG baseline[FONT_NUM_BASELINES] =
+	std::int32_t baseline[FONT_NUM_BASELINES] =
 	{
 		17, 42, 67, 90, 113, 134, 160
 	};
@@ -240,9 +240,9 @@ void FONT_init()
 // Returns the index of the given character
 // 
 
-SLONG FONT_get_index(CBYTE chr)
+std::int32_t FONT_get_index(char chr)
 {
-	SLONG letter;
+	std::int32_t letter;
 
 	//
 	// Find our letter index.
@@ -270,7 +270,7 @@ SLONG FONT_get_index(CBYTE chr)
 
 		letter = FONT_PUNCT_PLING;
 
-		for (CBYTE* ch = FONT_punct; *ch && *ch != chr; ch++, letter++);
+		for (char* ch = FONT_punct; *ch && *ch != chr; ch++, letter++);
 	}
 
 	if (!WITHIN(letter, 0, FONT_NUM_LETTERS - 1))
@@ -282,7 +282,7 @@ SLONG FONT_get_index(CBYTE chr)
 }
 
 
-SLONG FONT_char_is_valid(CBYTE ch)
+std::int32_t FONT_char_is_valid(char ch)
 {
 	if (FONT_get_index(ch) == FONT_PUNCT_QMARK && ch != '?')
 	{
@@ -296,9 +296,9 @@ SLONG FONT_char_is_valid(CBYTE ch)
 
 
 
-float FONT_get_letter_width(CBYTE chr)
+float FONT_get_letter_width(char chr)
 {
-	SLONG letter;
+	std::int32_t letter;
 
 	if (chr == ' ')
 	{
@@ -316,13 +316,13 @@ float FONT_get_letter_width(CBYTE chr)
 
 float FONT_draw_letter(
 		OS_Buffer *ob,
-		CBYTE      chr,
+		char      chr,
 		float      x,
 		float      y,
-		ULONG      colour = 0xffffffff,
+		std::uint32_t      colour = 0xffffffff,
 		float      scale  = 1.0F)
 {
-	SLONG letter;
+	std::int32_t letter;
 	float width;
 
 	FONT_Letter *fl;
@@ -366,11 +366,11 @@ float FONT_draw_letter(
 // Returns the width of the given string.
 //
 
-float FONT_get_width(CBYTE* str, float scale)
+float FONT_get_width(char* str, float scale)
 {
 	float ans = 0.0F;
 
-	for (CBYTE* ch = str; *ch; ch++)
+	for (char* ch = str; *ch; ch++)
 	{
 		ans += FONT_get_letter_width(*ch) * scale;
 	}
@@ -382,7 +382,7 @@ float FONT_get_width(CBYTE* str, float scale)
 
 
 void FONT_format(
-		SLONG flag = FONT_FLAG_JUSTIFY_LEFT,
+		std::int32_t flag = FONT_FLAG_JUSTIFY_LEFT,
 		float bbox_x1 = 0.0F, float bbox_y1 = 0.0F,
 		float bbox_x2 = 1.0F, float bbox_y2 = 1.0F)
 {
@@ -395,9 +395,9 @@ void FONT_format(
 
 
 
-void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cursor, CBYTE* fmt, ...)
+void FONT_draw(float start_x, float start_y, std::uint32_t colour, float scale, std::int32_t cursor, char* fmt, ...)
 {
-	CBYTE   message[4096];
+	char   message[4096];
 	va_list	ap;
 
 	if (!fmt )
@@ -443,7 +443,7 @@ void FONT_draw(float start_x, float start_y, ULONG colour, float scale, SLONG cu
 		x -= FONT_get_width(message, scale);
 	}
 
-	CBYTE* ch = message;
+	char* ch = message;
 
 	while(*ch)
 	{

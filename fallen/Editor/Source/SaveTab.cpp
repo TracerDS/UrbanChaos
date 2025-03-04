@@ -20,7 +20,7 @@
 
 SaveTab::SaveTab()
 {
-	CBYTE		lev_name[32];
+	char		lev_name[32];
 
 
 	CurrentLevel	=	0;
@@ -55,10 +55,10 @@ void	SaveTab::DrawTabContent(void)
 
 //---------------------------------------------------------------
 
-UWORD	SaveTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	SaveTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	CBYTE		lev_name[32];
-	UWORD		select_pos;
+	char		lev_name[32];
+	std::uint16_t		select_pos;
 	MFPoint		local_point;
 
 	
@@ -102,8 +102,8 @@ UWORD	SaveTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 void	SaveTab::HandleTab(MFPoint *current_point)
 {
-	UBYTE		update	=	0;
-	UWORD		select_pos;
+	std::uint8_t		update	=	0;
+	std::uint16_t		select_pos;
 	MFPoint		local_point;
 	static bool	cleanup	=	false;
 
@@ -141,7 +141,7 @@ void	SaveTab::HandleTab(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-void	SaveTab::HandleControl(UWORD control_id)
+void	SaveTab::HandleControl(std::uint16_t control_id)
 {
 
 }
@@ -150,9 +150,9 @@ void	SaveTab::HandleControl(UWORD control_id)
 
 void	SaveTab::DrawLevelBox(void)
 {
-	CBYTE		lev_name[32];
-	UWORD		select_pos;
-	SLONG		c0,c1,
+	char		lev_name[32];
+	std::uint16_t		select_pos;
+	std::int32_t		c0,c1,
 				level_count		=	0,
 				x_offset,
 				y_offset,
@@ -212,9 +212,9 @@ void	SaveTab::DrawLevelBox(void)
 
 //---------------------------------------------------------------
 
-UWORD	SaveTab::LevelHilitePos(MFPoint *current_point)
+std::uint16_t	SaveTab::LevelHilitePos(MFPoint *current_point)
 {
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				level_count	=	0,
 				x_offset,
 				y_offset,
@@ -258,8 +258,8 @@ UWORD	SaveTab::LevelHilitePos(MFPoint *current_point)
 
 void	SaveTab::MapLevels(void)
 {
-	CBYTE		level_name[256];
-	ULONG		c0;
+	char		level_name[256];
+	std::uint32_t		c0;
 
 
 	ZeroMemory(LevelsMap,sizeof(LevelsMap));
@@ -273,19 +273,19 @@ void	SaveTab::MapLevels(void)
 
 //---------------------------------------------------------------
 
-UWORD	comlist_mapping_table[MAX_EDIT_COMLISTS],
+std::uint16_t	comlist_mapping_table[MAX_EDIT_COMLISTS],
 		conlist_mapping_table[MAX_EDIT_CLISTS],
 		thing_mapping_table[MAX_MAP_THINGS],
 		waypoint_mapping_table[MAX_EDIT_WAYPOINTS];
 
 void	SaveTab::LoadLevel(void)
 {
-	CBYTE				level_name[256];
-	UBYTE				version;
-	UWORD				ed_thing,
+	char				level_name[256];
+	std::uint8_t				version;
+	std::uint16_t				ed_thing,
 						new_thing,
 						new_waypoint;
-	ULONG				c0,c1,
+	std::uint32_t				c0,c1,
 						clist_count,
 						thing_count,
 						waypoint_count;
@@ -511,7 +511,7 @@ void	SaveTab::LoadLevel(void)
 							break;
 						case	CON_THING_NEAR_PLAYER:
 							the_condition->Data1	=	thing_mapping_table[the_condition->Data1];
-							the_condition->Data2	=	(UWORD)65536;
+							the_condition->Data2	=	(std::uint16_t)65536;
 							break;
 						case	CON_GROUP_NEAR_PLAYER:
 							break;
@@ -520,7 +520,7 @@ void	SaveTab::LoadLevel(void)
 						case	CON_THING_NEAR_THING:
 							the_condition->Data1	=	thing_mapping_table[the_condition->Data1];
 							the_condition->Data2	=	thing_mapping_table[the_condition->Data2];
-							the_condition->Data3	=	(UWORD)65536;
+							the_condition->Data3	=	(std::uint16_t)65536;
 							break;
 						case	CON_GROUP_NEAR_THING:
 							break;
@@ -708,11 +708,11 @@ void	SaveTab::LoadLevel(void)
 
 void	SaveTab::SaveLevel(void)
 {
-	CBYTE				level_name[256];
-	UBYTE				version	=	LEVEL_VERSION;
-	UWORD				map_table[MAX_EDIT_WAYPOINTS];
-	ULONG				thing_count		=	0;
-	SLONG				c0;
+	char				level_name[256];
+	std::uint8_t				version	=	LEVEL_VERSION;
+	std::uint16_t				map_table[MAX_EDIT_WAYPOINTS];
+	std::uint32_t				thing_count		=	0;
+	std::int32_t				c0;
 	CommandDef			current_command;
 	CommandListDef		current_comlist;
 	ConditionDef		current_condition;

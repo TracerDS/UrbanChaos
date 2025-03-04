@@ -94,8 +94,8 @@ void PerspMatrix(float matrix[9]) {
 //
 
 Font3D::Font3D(char *path, float scale) {
-	UBYTE i;
-	CBYTE fn[400], chr[2];
+	std::uint8_t i;
+	char fn[400], chr[2];
 
 	memset(data,0,sizeof(data));
 	nextchar=0;
@@ -122,7 +122,7 @@ Font3D::~Font3D() {
 //
 
 void Font3D::ClearLetters() {
-	UBYTE i;
+	std::uint8_t i;
 
 	for (i=0;i<100;i++) {
 	  if (data[i].pts)   delete [] data[i].pts;
@@ -140,14 +140,14 @@ void Font3D::ClearLetters() {
 void Font3D::AddLetter(char *fn) {
 	FILE     *handle;
 	float     x,y,z;
-	SLONG	  d;
-	SLONG     match;
+	std::int32_t	  d;
+	std::int32_t     match;
 	FontData *currchar;
 	FontVec  *vec  = 0;
 	FontFace *face = 0;
-	SLONG	  m, p1, p2, p3, t1, t2 ,t3;
-	SLONG	  edge_a, edge_b, edge_c;
-	CBYTE	  line[6000];
+	std::int32_t	  m, p1, p2, p3, t1, t2 ,t3;
+	std::int32_t	  edge_a, edge_b, edge_c;
+	char	  line[6000];
 	float     minx,miny,minz,maxx,maxy,maxz,ctrx,ctry,ctrz;
 
 	minx=miny=minz= 999999;
@@ -231,8 +231,8 @@ void Font3D::AddLetter(char *fn) {
 // Get the width of a character
 //
 
-ULONG Font3D::LetterWidth(CBYTE chr) {
-	SLONG ndx;
+std::uint32_t Font3D::LetterWidth(char chr) {
+	std::int32_t ndx;
 	FontData *currchar;
 
 	if (chr==' ') return 10;
@@ -246,8 +246,8 @@ ULONG Font3D::LetterWidth(CBYTE chr) {
 //
 
 
-void Font3D::DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, float yaw, float roll, float pitch, float scale) {
-	SLONG ndx;
+void Font3D::DrawLetter(char chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb, float yaw, float roll, float pitch, float scale) {
+	std::int32_t ndx;
 	FontData *currchar;
 	FontVec  *pt;
 	FontFace *face;
@@ -410,12 +410,12 @@ void Font3D::DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb, float yaw, float
 	
 }
 
-void Font3D::DrawString(CBYTE* str, ULONG ctrx, ULONG y, ULONG rgb, float scale, CBYTE wibble, UWORD zoom) {
+void Font3D::DrawString(char* str, std::uint32_t ctrx, std::uint32_t y, std::uint32_t rgb, float scale, char wibble, std::uint16_t zoom) {
 	static float rotate=0;
 	float thisone;
 	float sep, x, f, zoomctr;
-	UWORD i;
-	CBYTE* c;
+	std::uint16_t i;
+	char* c;
 
 	//sep=11.5*scale;
 

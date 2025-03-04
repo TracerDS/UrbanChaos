@@ -17,8 +17,8 @@
 
 //---------------------------------------------------------------
 
-extern CBYTE	*class_text[];
-extern CBYTE	*genus_text[][10];
+extern char	*class_text[];
+extern char	*genus_text[][10];
 
 //---------------------------------------------------------------
 
@@ -157,12 +157,12 @@ void	GameEditor::DrawContent()
 
 //---------------------------------------------------------------
 
-extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
 
-void	GameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
+void	GameEditor::HandleContentClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		new_thing;
-	SLONG		mappos;
+	std::uint16_t		new_thing;
+	std::int32_t		mappos;
 
 
 	switch(flags)
@@ -313,9 +313,9 @@ void	GameEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-void	GameEditor::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
+void	GameEditor::HandleControlClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 
 
 	if(CurrentModeTab())
@@ -378,8 +378,8 @@ void	GameEditor::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
 void	GameEditor::HandleModule()
 {
 	bool			flash	=	false;
-	ULONG			update	=	0;
-   	SLONG			dx		=	0,
+	std::uint32_t			update	=	0;
+   	std::int32_t			dx		=	0,
 					dy		=	0,
 					dz		=	0;
 	MFPoint			mouse_point;
@@ -445,7 +445,7 @@ void	GameEditor::HandleModule()
 
 void	GameEditor::HandleThingDrag()
 {
-	SLONG		new_x,
+	std::int32_t		new_x,
 				new_y,
 				new_z,
 				x_diff,
@@ -507,9 +507,9 @@ void	GameEditor::HandleThingDrag()
 
 //---------------------------------------------------------------
 
-UWORD	GameEditor::EngineKeys()
+std::uint16_t	GameEditor::EngineKeys()
 {
-	UBYTE			change	=	0;
+	std::uint8_t			change	=	0;
 	EngineStuff		temp_engine;
 
 	
@@ -542,9 +542,9 @@ MenuDef2	block_popup[]	=
 
 void	GameEditor::DoBlockPopup(MFPoint *clicked_point)
 {
-	UWORD			new_wp;
-	ULONG			control_id;
-	SLONG			mappos;
+	std::uint16_t			new_wp;
+	std::uint32_t			control_id;
+	std::int32_t			mappos;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
 
@@ -592,8 +592,8 @@ MenuDef2	thing_popup[]	=
 
 void	GameEditor::DoThingPopup(MFPoint *clicked_point)
 {
-	ULONG			control_id;
-	SLONG			thing_x,
+	std::uint32_t			control_id;
+	std::int32_t			thing_x,
 					thing_y,
 					thing_z;
 	CPopUp			*the_control	=	0;
@@ -646,7 +646,7 @@ void	GameEditor::DoThingPopup(MFPoint *clicked_point)
 
 void	GameEditor::HandleWaypointDrag()
 {
-	SLONG			new_x,
+	std::int32_t			new_x,
 					new_y,
 					new_z,
 					x_diff,
@@ -723,9 +723,9 @@ MenuDef2	way_popup[]	=
 
 void	GameEditor::DoWaypointPopup(MFPoint *clicked_point)
 {
-	UWORD			new_wp;
-	ULONG			control_id;
-	SLONG			c0,mappos;
+	std::uint16_t			new_wp;
+	std::uint32_t			control_id;
+	std::int32_t			c0,mappos;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
 
@@ -773,8 +773,8 @@ void	GameEditor::DoWaypointPopup(MFPoint *clicked_point)
 
 void	GameEditor::HandleSizeDrag()
 {
-	SWORD			switch_ref;
-	SLONG			new_rad,
+	std::int16_t			switch_ref;
+	std::int32_t			new_rad,
 					x_diff,
 					y_diff;
 	EngineStuff		temp_engine;
@@ -827,13 +827,13 @@ void	GameEditor::HandleSizeDrag()
 #define	MAX_RADIUS	(24)
 extern TinyXZ	radius_pool[MAX_RADIUS*4*MAX_RADIUS*2];
 extern TinyXZ	*radius_ptr[MAX_RADIUS+2];
-SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z);
+std::int32_t	draw_a_facet_at(std::uint16_t	facet,std::int32_t x,std::int32_t y,std::int32_t z);
 
 void	GameEditor::GameEdEngine()
 {
-	ULONG		buffer_flags[MAX_RADIUS*(MAX_RADIUS+1)*4],
+	std::uint32_t		buffer_flags[MAX_RADIUS*(MAX_RADIUS+1)*4],
 				*ptr_flag;
-	SLONG		c0,
+	std::int32_t		c0,
 				cdx,cdz,
 				clip_flags,
 				dx,dz,
@@ -907,7 +907,7 @@ void	GameEditor::GameEdEngine()
 	}
 
 
-	memset((UBYTE*)buffer_flags,0,MAX_RADIUS*(MAX_RADIUS+1)*4*4);
+	memset((std::uint8_t*)buffer_flags,0,MAX_RADIUS*(MAX_RADIUS+1)*4*4);
 	ptr		=	&buffer_points[MAX_RADIUS+MAX_RADIUS*MAX_RADIUS*2];
 
 	point.X	=	(mx<<ELE_SHIFT);
@@ -966,8 +966,8 @@ void	GameEditor::GameEdEngine()
 					case	MAP_THING_TYPE_BUILDING:
 						if(ThingMode->GetThingFlags()&(1<<CLASS_BUILDING))
 						{
-							UWORD		facet_index;
-							SLONG		az,best_z;
+							std::uint16_t		facet_index;
+							std::int32_t		az,best_z;
 
 
 							facet_index	=	building_objects[p_mthing->IndexOther].FacetHead;
@@ -1058,8 +1058,8 @@ void	GameEditor::GameEdEngine()
 
 				if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED))
 				{
-					UBYTE			tx,ty,tsize,page;
-					SLONG			az;
+					std::uint8_t			tx,ty,tsize,page;
+					std::int32_t			az;
 					DepthStrip		*p_map;
 
 
@@ -1136,17 +1136,17 @@ exit:;
 
 //---------------------------------------------------------------
 
-SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
+std::int32_t	GameEditor::DrawFacet(std::uint16_t facet_index,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	ULONG			flag_and,flag_or;
-	SLONG			az;
-	SLONG			col=0,
+	std::uint32_t			flag_and,flag_or;
+	std::int32_t			az;
+	std::int32_t			col=0,
 					cor=0,
 					cob=0,
 					cot=0,
 					total=0;
-	SLONG			first_face=1;
-	SLONG			best_z		=	9999999,
+	std::int32_t			first_face=1;
+	std::int32_t			best_z		=	9999999,
 					min_z		=	9999999,
 					max_z		=	9999999,
 					c0,
@@ -1204,7 +1204,7 @@ SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
 	if(p_facet->EndFace4)
 	for(c0=p_facet->StartFace4;c0<p_facet->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			goto	exit;
@@ -1232,7 +1232,7 @@ SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
 
 			setCol4	(
 						(struct BucketQuad*)current_bucket_pool,
-						((UBYTE)p_f4->Col2)
+						((std::uint8_t)p_f4->Col2)
 					);
 
 			setXY4	(
@@ -1252,7 +1252,7 @@ SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
 						p_f4->UV[1][0],p_f4->UV[1][1],
 						p_f4->UV[2][0],p_f4->UV[2][1],
 						p_f4->UV[3][0],p_f4->UV[3][1],
-						(UBYTE)p_f4->TexturePage
+						(std::uint8_t)p_f4->TexturePage
 						);
 			}
 			setZ4((struct BucketQuad*)current_bucket_pool,global_res[p0].Z,global_res[p1].Z,global_res[p2].Z,global_res[p3].Z);
@@ -1290,7 +1290,7 @@ SLONG	GameEditor::DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z)
 	if(p_facet->EndFace3)
 	for(c0=p_facet->StartFace3;c0<p_facet->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 				goto	exit;
@@ -1369,7 +1369,7 @@ exit:;
 void	GameEditor::ScanEngine()
 {
 	void				*bucket;
-	ULONG				c0,
+	std::uint32_t				c0,
 						offset_x,
 						offset_y;
 	BucketHead			*p;
@@ -1507,13 +1507,13 @@ void	GameEditor::ScanEngine()
 
 //---------------------------------------------------------------
 
-extern SLONG	view_mode;
-void	draw_quad_bucket(struct BucketQuad *p_b,SLONG z);
+extern std::int32_t	view_mode;
+void	draw_quad_bucket(struct BucketQuad *p_b,std::int32_t z);
 
 void	GameEditor::RenderEngine()
 {
 	void				*bucket;
-	ULONG				c0,
+	std::uint32_t				c0,
 						draw_colour,
 						offset_x,
 						offset_y;
@@ -1804,7 +1804,7 @@ void	GameEditor::RenderEngine()
 
 //---------------------------------------------------------------
 
-void	GameEditor::MapText(SLONG x,SLONG y,CBYTE* the_str,ULONG col)
+void	GameEditor::MapText(std::int32_t x,std::int32_t y,char* the_str,std::uint32_t col)
 {
 	QuickTextC(x-1,y,the_str,0);
 	QuickTextC(x+1,y,the_str,0);
@@ -1815,9 +1815,9 @@ void	GameEditor::MapText(SLONG x,SLONG y,CBYTE* the_str,ULONG col)
 
 //---------------------------------------------------------------
 
-void	GameEditor::MapThingInfo(SLONG x,SLONG y,BucketMapThing *the_map_thing)
+void	GameEditor::MapThingInfo(std::int32_t x,std::int32_t y,BucketMapThing *the_map_thing)
 {
-	CBYTE		info_text[256];
+	char		info_text[256];
 	EdRect		info_rect;
 
 
@@ -1842,9 +1842,9 @@ void	GameEditor::MapThingInfo(SLONG x,SLONG y,BucketMapThing *the_map_thing)
 
 //---------------------------------------------------------------
 
-void	GameEditor::MapWaypointInfo(SLONG x,SLONG y,BucketWaypoint *the_waypoint)
+void	GameEditor::MapWaypointInfo(std::int32_t x,std::int32_t y,BucketWaypoint *the_waypoint)
 {
-	CBYTE		info_text[256];
+	char		info_text[256];
 	EdRect		info_rect;
 
 
@@ -1869,10 +1869,10 @@ void	GameEditor::MapWaypointInfo(SLONG x,SLONG y,BucketWaypoint *the_waypoint)
 
 //---------------------------------------------------------------
 
-void	GameEditor::MapSphereInfo(SLONG x,SLONG y,BucketSphereArea *the_sphere)
+void	GameEditor::MapSphereInfo(std::int32_t x,std::int32_t y,BucketSphereArea *the_sphere)
 {
 	float		radius;
-	CBYTE		info_text[256];
+	char		info_text[256];
 	EdRect		info_rect;
 
 

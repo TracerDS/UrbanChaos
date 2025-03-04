@@ -44,8 +44,8 @@ class	GameEditor		:	public	EditorModule
 	private:
 
 		bool			FlashState;
-		UBYTE			SelectMode;
-		SLONG			CurrentThing,
+		std::uint8_t			SelectMode;
+		std::int32_t			CurrentThing,
 						FlashCount;
 		EdItem			BackupItem,
 						HilitedItem,
@@ -69,11 +69,11 @@ class	GameEditor		:	public	EditorModule
 		void			DestroyTabs();
 
 		void			DrawContent();
-		void			HandleContentClick(UBYTE flags,MFPoint *clicked_point);
-		void			HandleControlClick(UBYTE flags,MFPoint *clicked_point);
+		void			HandleContentClick(std::uint8_t flags,MFPoint *clicked_point);
+		void			HandleControlClick(std::uint8_t flags,MFPoint *clicked_point);
 		void			HandleModule();
 		void			HandleThingDrag();
-		UWORD			EngineKeys();
+		std::uint16_t			EngineKeys();
 		void			DoThingPopup(MFPoint *clicked_point);
 		void			DoBlockPopup(MFPoint *clicked_point);
 		void			HandleWaypointDrag();
@@ -81,17 +81,17 @@ class	GameEditor		:	public	EditorModule
 		void			HandleSizeDrag();
 
 		void			GameEdEngine();
-		SLONG			DrawFacet(UWORD facet_index,SLONG x,SLONG y,SLONG z);
+		std::int32_t			DrawFacet(std::uint16_t facet_index,std::int32_t x,std::int32_t y,std::int32_t z);
 		void			ScanEngine();
 		void			RenderEngine();
-		void			MapText(SLONG x,SLONG y,CBYTE* the_str,ULONG col);
-		void			MapThingInfo(SLONG x,SLONG y,BucketMapThing *the_map_thing);
-		void			MapWaypointInfo(SLONG x,SLONG y,BucketWaypoint *the_waypoint);
-		void			MapSphereInfo(SLONG x,SLONG y,BucketSphereArea *the_sphere);
+		void			MapText(std::int32_t x,std::int32_t y,char* the_str,std::uint32_t col);
+		void			MapThingInfo(std::int32_t x,std::int32_t y,BucketMapThing *the_map_thing);
+		void			MapWaypointInfo(std::int32_t x,std::int32_t y,BucketWaypoint *the_waypoint);
+		void			MapSphereInfo(std::int32_t x,std::int32_t y,BucketSphereArea *the_sphere);
 
 		void			ClearTabMode();
 
-		inline void		SetSelectMode(UBYTE mode)	{	SetLocalEscape();SelectMode=mode;BackupItem=SelectedItem;SelectedItem=HilitedItem;	}
+		inline void		SetSelectMode(std::uint8_t mode)	{	SetLocalEscape();SelectMode=mode;BackupItem=SelectedItem;SelectedItem=HilitedItem;	}
 		inline void		ClearSelectMode()		{	ClearTabMode();ClearLocalEscape();SelectMode=0;SelectedItem=BackupItem;	}
 };
 
@@ -99,9 +99,9 @@ class	GameEditor		:	public	EditorModule
 
 struct	GameEdDefaults
 {
-	SLONG		Left,
+	std::int32_t		Left,
 				Top;
-	SLONG		Height,
+	std::int32_t		Height,
 				Width;
 };
 

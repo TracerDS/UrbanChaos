@@ -11,7 +11,7 @@
 
 void MF_load_textures(IMP_Mesh *im)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Mat *it;
 
@@ -68,7 +68,7 @@ void MF_rotate_mesh(
 		float     pos_y,
 		float     pos_z)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float matrix[9];
 
@@ -137,7 +137,7 @@ void MF_rotate_mesh(
 		float     pos_z,
 		float     matrix[9])
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// In the sverts...
@@ -188,7 +188,7 @@ void MF_rotate_mesh(
 
 void MF_transform_points(IMP_Mesh *im)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Vert *iv;
 
@@ -208,7 +208,7 @@ void MF_transform_points(IMP_Mesh *im)
 
 void MF_invert_zeds(IMP_Mesh *im)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Vert *iv;
 
@@ -227,17 +227,17 @@ void MF_ambient(
 		float     light_dx,
 		float     light_dy,
 		float     light_dz,
-		SLONG     light_r,
-		SLONG     light_g,
-		SLONG     light_b,
-		SLONG     amb_r,
-		SLONG     amb_g,
-		SLONG     amb_b)
+		std::int32_t     light_r,
+		std::int32_t     light_g,
+		std::int32_t     light_b,
+		std::int32_t     amb_r,
+		std::int32_t     amb_g,
+		std::int32_t     amb_b)
 {
-	SLONG i;
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t i;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 	float dprod;
 
 	IMP_Svert *is;
@@ -265,7 +265,7 @@ void MF_ambient(
 
 		if (dprod < 0.0F)
 		{
-			SLONG ibright = ftol(-dprod * 256.0F);
+			std::int32_t ibright = ftol(-dprod * 256.0F);
 
 			r += ibright * light_r >> 8;
 			g += ibright * light_g >> 8;
@@ -290,7 +290,7 @@ void MF_diffuse_spotlight(
 		float     light_matrix[9],
 		float     light_lens)		// The bigger the lens the smaller the spotlight.
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x;
 	float y;
@@ -372,7 +372,7 @@ void MF_diffuse_spotlight(
 
 		if (dprod < 0)
 		{
-			SLONG bright = ftol(dprod * -255.0F);
+			std::int32_t bright = ftol(dprod * -255.0F);
 
 			ASSERT(WITHIN(bright, 0, 255));
 
@@ -413,7 +413,7 @@ void MF_specular_spotlight(
 		float     light_matrix[9],
 		float     light_lens)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x;
 	float y;
@@ -603,9 +603,9 @@ void MF_specular_spotlight(
 
 OS_Vert MF_vert[MF_MAX_SVERTS];
 
-void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw)
+void MF_add_triangles_normal(IMP_Mesh *im, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -624,7 +624,7 @@ void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->u;
@@ -678,9 +678,9 @@ void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw)
 
 
 
-void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw, ULONG colour)
+void MF_add_triangles_normal_colour(IMP_Mesh *im, std::uint32_t draw, std::uint32_t colour)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -699,7 +699,7 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw, ULONG colour)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->u;
@@ -754,9 +754,9 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw, ULONG colour)
 
 
 
-void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
+void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -778,7 +778,7 @@ void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 		iv = &im->vert [is->vert];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = iv->lu;
@@ -819,10 +819,10 @@ void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 		draw);
 }
 
-void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
+void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw)
 {
-	SLONG i;
-	SLONG pass;
+	std::int32_t i;
+	std::int32_t pass;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -852,7 +852,7 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 				iv = &im->vert [is->vert];
 
 				ov->trans    = is->vert;
-				ov->index    = nullptr;
+				ov->index    = 0;
 				ov->colour   = is->colour;
 				ov->specular = 0x00000000;
 				ov->u1       = iv->lu;
@@ -872,7 +872,7 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 				ov = &MF_vert  [i];
 				is = &im->svert[i];
 
-				ov->index = nullptr;
+				ov->index = 0;
 				ov->u2    = is->u - is->du;
 				ov->v2    = is->v - is->dv;
 			}
@@ -945,9 +945,9 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 }
 
 
-void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
+void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -970,7 +970,7 @@ void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = is->colour;
 		ov->specular = 0x000000;
 		ov->u1       = is->lu;
@@ -1020,9 +1020,9 @@ void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
 }
 
 
-void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
+void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -1044,7 +1044,7 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 		iv = &im->vert [is->vert];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->lu;
@@ -1109,10 +1109,10 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 
 
 /*
-void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw)
+void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw)
 {
-	SLONG i;
-	SLONG pass;
+	std::int32_t i;
+	std::int32_t pass;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -1214,9 +1214,9 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG dr
 
 */
 
-void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, ULONG draw)
+void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -1238,7 +1238,7 @@ void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS
 		iv = &im->vert [is->vert];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->lu;
@@ -1281,9 +1281,9 @@ void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS
 
 
 
-void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, ULONG colour, float width, ULONG draw)
+void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, std::uint32_t colour, float width, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	OS_Trans *ot1;
 	OS_Trans *ot2;
@@ -1315,9 +1315,9 @@ void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, ULONG colour, float width, U
 
 
 
-void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, SLONG pass, ULONG draw)
+void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, std::int32_t pass, std::uint32_t draw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -1345,7 +1345,7 @@ void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, SLONG pass, ULONG draw)
 			iv = &im->vert [is->vert];
 
 			ov->trans    = is->vert;
-			ov->index    = nullptr;
+			ov->index    = 0;
 			ov->colour   = is->colour;
 			ov->specular = 0x00000000;
 			ov->u1       = is->u + is->du;
@@ -1369,7 +1369,7 @@ void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, SLONG pass, ULONG draw)
 			iv = &im->vert [is->vert];
 
 			ov->trans    = is->vert;
-			ov->index    = nullptr;
+			ov->index    = 0;
 			ov->colour   = is->colour;
 			ov->specular = 0x00000000;
 			ov->u1       = is->u - is->du;
@@ -1434,8 +1434,8 @@ void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, SLONG pass, ULONG draw)
 
 void MF_add_triangles_texture_after_bumpmap(IMP_Mesh *im)
 {
-	SLONG i;
-	ULONG draw;
+	std::int32_t i;
+	std::uint32_t draw;
 
 	IMP_Svert *is;
 	OS_Vert   *ov;
@@ -1454,7 +1454,7 @@ void MF_add_triangles_texture_after_bumpmap(IMP_Mesh *im)
 		ov = &MF_vert  [i];
 
 		ov->trans    = is->vert;
-		ov->index    = nullptr;
+		ov->index    = 0;
 		ov->colour   = is->colour;
 		ov->specular = 0x00000000;
 		ov->u1       = is->u;

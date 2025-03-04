@@ -45,13 +45,13 @@ typedef struct
 	// 'top' is precalculated by NS_precalculate()
 	//
 
-	UBYTE bot;		// bot == 0 => A hole into infinity...
-	UBYTE top;
+	std::uint8_t bot;		// bot == 0 => A hole into infinity...
+	std::uint8_t top;
 
-	UBYTE water;	// The height of the water or 0 if there is no water.
+	std::uint8_t water;	// The height of the water or 0 if there is no water.
 					// No water allowed on rock.
 
-	UBYTE packed;	// 5:3 FLAGS : TYPE
+	std::uint8_t packed;	// 5:3 FLAGS : TYPE
 
 } NS_Hi;
 
@@ -65,15 +65,15 @@ extern NS_Hi NS_hi[PAP_SIZE_HI][PAP_SIZE_HI];
 
 typedef struct
 {
-	UBYTE u[4];
-	UBYTE v[4];
+	std::uint8_t u[4];
+	std::uint8_t v[4];
 
 }  NS_Texture;
 
 #define NS_MAX_TEXTURES 256
 
 extern NS_Texture NS_texture[NS_MAX_TEXTURES];
-extern SLONG      NS_texture_upto;
+extern std::int32_t      NS_texture_upto;
 
 //
 // The page of a face is an index into this array. It leads to different
@@ -88,8 +88,8 @@ extern SLONG      NS_texture_upto;
 
 typedef struct
 {
-	UBYTE du;
-	UBYTE dv;
+	std::uint8_t du;
+	std::uint8_t dv;
 
 } NS_Page;
 
@@ -101,7 +101,7 @@ typedef struct
 
 typedef struct
 {
-	UWORD page;
+	std::uint16_t page;
 
 } NS_Page;
 
@@ -122,57 +122,57 @@ extern NS_Page NS_page[NS_PAGE_NUMBER];
 
 typedef struct
 {
-	UBYTE x;
-	UBYTE z;
-	SBYTE dx;		// Vector from where the water is coming from.
-	SBYTE dz;
-	UBYTE top;
-	UBYTE bot;
-	UBYTE counter;
-	UBYTE next;
+	std::uint8_t x;
+	std::uint8_t z;
+	std::int8_t dx;		// Vector from where the water is coming from.
+	std::int8_t dz;
+	std::uint8_t top;
+	std::uint8_t bot;
+	std::uint8_t counter;
+	std::uint8_t next;
 
 } NS_Fall;
 
 #define NS_MAX_FALLS 32
 
 extern NS_Fall NS_fall[NS_MAX_FALLS];
-extern UBYTE   NS_fall_free;
+extern std::uint8_t   NS_fall_free;
 
 typedef struct
 {
-	UBYTE x;		// (x << 3, z << 3) relative to the lo-res mapsquare.
-	UBYTE z;
-	UBYTE y;		// In eighth map-squares from 32 squares below ground...
-	UBYTE bright;	// No coloured lighting...
+	std::uint8_t x;		// (x << 3, z << 3) relative to the lo-res mapsquare.
+	std::uint8_t z;
+	std::uint8_t y;		// In eighth map-squares from 32 squares below ground...
+	std::uint8_t bright;	// No coloured lighting...
 
 } NS_Point;
 
 typedef struct
 {
-	UBYTE p[4];
-	UBYTE page;		// Rock/stone/brick...
-	UBYTE texture;
+	std::uint8_t p[4];
+	std::uint8_t page;		// Rock/stone/brick...
+	std::uint8_t texture;
 
 } NS_Face;
 
 typedef struct
 {
-	UBYTE  next;
-	UBYTE  used;
-	UBYTE  map_x;
-	UBYTE  map_z;
-	UBYTE *memory;
-	UWORD  num_points;
-	UWORD  num_faces;	// Face memory starts immediately after point memory.
-	UBYTE  fall;		// Any waterfalls that happen to be in this square.
-	UBYTE  padding;
+	std::uint8_t  next;
+	std::uint8_t  used;
+	std::uint8_t  map_x;
+	std::uint8_t  map_z;
+	std::uint8_t *memory;
+	std::uint16_t  num_points;
+	std::uint16_t  num_faces;	// Face memory starts immediately after point memory.
+	std::uint8_t  fall;		// Any waterfalls that happen to be in this square.
+	std::uint8_t  padding;
 
 } NS_Cache;
 
 #define NS_MAX_CACHES 128
 
 extern NS_Cache NS_cache[NS_MAX_CACHES];
-extern UBYTE    NS_cache_free;
+extern std::uint8_t    NS_cache_free;
 
 //
 // The things in the sewers.
@@ -186,28 +186,28 @@ extern UBYTE    NS_cache_free;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE next;
+	std::uint8_t type;
+	std::uint8_t next;
 
 	union
 	{
 		struct
 		{
-			UBYTE prim;
-			UBYTE yaw;
-			UBYTE x;		// (x<<3,z<<3) relative to the lo-res mapsquare it is in
-			UBYTE z;
-			UBYTE y;
+			std::uint8_t prim;
+			std::uint8_t yaw;
+			std::uint8_t x;		// (x<<3,z<<3) relative to the lo-res mapsquare it is in
+			std::uint8_t z;
+			std::uint8_t y;
 
 		} prim;
 
 		struct
 		{
-			UBYTE x1;		// (x,z) are in hi-res mapsquare coordinates.
-			UBYTE z1;
-			UBYTE x2;
-			UBYTE z2;
-			UBYTE height;
+			std::uint8_t x1;		// (x,z) are in hi-res mapsquare coordinates.
+			std::uint8_t z1;
+			std::uint8_t x2;
+			std::uint8_t z2;
+			std::uint8_t height;
 
 		} ladder;
 	};
@@ -217,7 +217,7 @@ typedef struct
 #define NS_MAX_STS 64
 
 extern NS_St NS_st[NS_MAX_STS];
-extern UBYTE NS_st_free;
+extern std::uint8_t NS_st_free;
 
 //
 // Each lo-res mapsquare.
@@ -225,17 +225,17 @@ extern UBYTE NS_st_free;
 
 typedef struct
 {
-	UBYTE cache;
-	UBYTE st;			// Linked list of sewer things above this mapsquare.
+	std::uint8_t cache;
+	std::uint8_t st;			// Linked list of sewer things above this mapsquare.
 
 	//
 	// The position of the light for this lo-res mapsquare. If y == 0 then
 	// there is no light on this mapsquare.
 	//
 
-	UBYTE light_x;		// (x << 3, z << 3) relative to the lo-res mapsquare.
-	UBYTE light_z;		// 0 => No light.
-	UBYTE light_y;		// In eighth map-squares from 32 squares below ground.
+	std::uint8_t light_x;		// (x << 3, z << 3) relative to the lo-res mapsquare.
+	std::uint8_t light_z;		// 0 => No light.
+	std::uint8_t light_y;		// In eighth map-squares from 32 squares below ground.
 
 } NS_Lo;
 
@@ -267,7 +267,7 @@ void NS_precalculate();
 // coordinates. The (x,z)s are given in clockwise order.
 //
 
-void NS_add_ladder(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG height);
+void NS_add_ladder(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t height);
 
 //
 // Adds a prim to the map. It might not go exactly where you want! The
@@ -276,18 +276,18 @@ void NS_add_ladder(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG height);
 //
 
 void NS_add_prim(
-		SLONG prim,
-		SLONG yaw,
-		SLONG x,
-		SLONG y,
-		SLONG z);
+		std::int32_t prim,
+		std::int32_t yaw,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z);
 
 //
 // When the sewer map is complete.
 //
 
-void NS_save(CBYTE* fname);
-void NS_load(CBYTE* fname);
+void NS_save(char* fname);
+void NS_load(char* fname);
 
 
 
@@ -301,14 +301,14 @@ void NS_load(CBYTE* fname);
 // Returns the height of the sewer (8-bits per mapsquare)
 //
 	
-SLONG NS_calc_height_at(SLONG x, SLONG z);
+std::int32_t NS_calc_height_at(std::int32_t x, std::int32_t z);
 
 //
 // Returns either the height of the sewer or the height of the
 // water above the sewer (if there is water at (x,z)).
 //
 
-SLONG NS_calc_splash_height_at(SLONG x, SLONG z);
+std::int32_t NS_calc_splash_height_at(std::int32_t x, std::int32_t z);
 
 //
 // Makes the movement vector slide around the sewer system.
@@ -316,26 +316,26 @@ SLONG NS_calc_splash_height_at(SLONG x, SLONG z);
 //
 
 void NS_slide_along(
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  radius);	// radius is only fixed-point 8!
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  radius);	// radius is only fixed-point 8!
 
 
 //
 // Returns true if the given point is inside.
 //
 
-SLONG NS_inside(SLONG x, SLONG y, SLONG z);
+std::int32_t NS_inside(std::int32_t x, std::int32_t y, std::int32_t z);
 
 
 
-extern SLONG NS_los_fail_x;
-extern SLONG NS_los_fail_y;
-extern SLONG NS_los_fail_z;
+extern std::int32_t NS_los_fail_x;
+extern std::int32_t NS_los_fail_y;
+extern std::int32_t NS_los_fail_z;
 
-SLONG NS_there_is_a_los(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2);
+std::int32_t NS_there_is_a_los(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 
 
@@ -357,8 +357,8 @@ void NS_cache_init();
 // Destroy the given cache entry.
 //
 
-SLONG NS_cache_create (UBYTE mx, UBYTE mz);
-void NS_cache_destroy(UBYTE cache);
+std::int32_t NS_cache_create (std::uint8_t mx, std::uint8_t mz);
+void NS_cache_destroy(std::uint8_t cache);
 
 
 //

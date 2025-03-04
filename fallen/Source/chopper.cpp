@@ -47,7 +47,7 @@ GenusFunctions CHOPPER_functions[CHOPPER_NUMB] =
 #ifndef PSX
 void init_choppers()
 {
-	memset((UBYTE*)CHOPPERS, 0, sizeof(Chopper) * MAX_CHOPPERS);
+	memset((std::uint8_t*)CHOPPERS, 0, sizeof(Chopper) * MAX_CHOPPERS);
 
 	CHOPPER_COUNT = 0;
 }
@@ -57,17 +57,17 @@ void init_choppers()
 //
 #endif
 
-Thing *alloc_chopper(UBYTE type)
+Thing *alloc_chopper(std::uint8_t type)
 {		 
 
-	SLONG i;
+	std::int32_t i;
 
 	Thing    *p_thing;
 	Chopper  *p_chopper;
 	DrawMesh *dm;
 
 	THING_INDEX t_index;
-	SLONG       a_index;
+	std::int32_t       a_index;
 
 	ASSERT(WITHIN(type, 1, CHOPPER_NUMB - 1));
 
@@ -185,7 +185,7 @@ void free_chopper(Thing *p_thing)
 }
 #endif
 
-Thing *CHOPPER_create(GameCoord pos, UBYTE type)
+Thing *CHOPPER_create(GameCoord pos, std::uint8_t type)
 {
 	Thing *p_thing = alloc_chopper(type);
 
@@ -241,7 +241,7 @@ DrawMesh *CHOPPER_get_drawmesh(struct Thing *chopper_thing)
  *
  */
 
-SLONG CHOPPER_altitude(Thing *thing) {
+std::int32_t CHOPPER_altitude(Thing *thing) {
 //	return thing->WorldPos.Y-(250<<8);
 //	return (thing->WorldPos.Y-(250<<8))-(PAP_calc_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
 //	return (thing->WorldPos.Y-(250<<8))-(PAP_calc_map_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
@@ -251,10 +251,10 @@ SLONG CHOPPER_altitude(Thing *thing) {
 void CHOPPER_home(Thing *thing, GameCoord new_pos) {
 	Chopper *chopper = CHOPPER_get_chopper(thing);
 	DrawMesh *dm = CHOPPER_get_drawmesh(thing);
-	SLONG dx,dz,angle,dangle;
-//	CBYTE msg[300];
-	UBYTE accel;
-	UWORD speed;
+	std::int32_t dx,dz,angle,dangle;
+//	char msg[300];
+	std::uint8_t accel;
+	std::uint16_t speed;
 
 	dx = new_pos.X - thing->WorldPos.X;
 	dz = new_pos.Z - thing->WorldPos.Z;
@@ -328,10 +328,10 @@ void CHOPPER_home(Thing *thing, GameCoord new_pos) {
 	//
 
 	{
-		SLONG dist;
-		SLONG mid_x = thing->WorldPos.X >> 8;
-		SLONG mid_y = thing->WorldPos.Y >> 8;
-		SLONG mid_z = thing->WorldPos.Z >> 8;
+		std::int32_t dist;
+		std::int32_t mid_x = thing->WorldPos.X >> 8;
+		std::int32_t mid_y = thing->WorldPos.Y >> 8;
+		std::int32_t mid_z = thing->WorldPos.Z >> 8;
 
 //		mid_y -= 0x80;
 		mid_y -= 0xff;
@@ -360,8 +360,8 @@ void CHOPPER_limit(Chopper *chopper) {
   if (chopper->dz<-chopper->speed) chopper->dz=-chopper->speed;*/
 }
 
-void CHOPPER_damp(Chopper *chopper, UBYTE factor) {
-  UBYTE i;
+void CHOPPER_damp(Chopper *chopper, std::uint8_t factor) {
+  std::uint8_t i;
 /*
   for (i=0;i<factor;i++) {
 	  if (chopper->dx>32) chopper->dx-=31;
@@ -381,8 +381,8 @@ void CHOPPER_damp(Chopper *chopper, UBYTE factor) {
 
 }
 
-UBYTE CHOPPER_radius_broken(GameCoord pnt, GameCoord ctr, SLONG radius) {
-	SLONG dist,dx,dz;
+std::uint8_t CHOPPER_radius_broken(GameCoord pnt, GameCoord ctr, std::int32_t radius) {
+	std::int32_t dist,dx,dz;
 
 	dx = (pnt.X-ctr.X)>>8;
 	dz = (pnt.Z-ctr.Z)>>8;
@@ -392,8 +392,8 @@ UBYTE CHOPPER_radius_broken(GameCoord pnt, GameCoord ctr, SLONG radius) {
 
 void CHOPPER_predict_altitude(Thing *thing, Chopper *chopper) 
 {
-  SLONG tx,tz,dx,dz,altitude,gnd;
-  SLONG dist;
+  std::int32_t tx,tz,dx,dz,altitude,gnd;
+  std::int32_t dist;
 
   if ((chopper->dx==0)&&(chopper->dz==0)) return;
 
@@ -498,8 +498,8 @@ void CHOPPER_fn_init(Thing *thing)
 void CHOPPER_fn_normal(Thing *thing)
 {
 	GameCoord new_pos;
-	SLONG mag, rpos, altitude;
-	CBYTE msg[300];
+	std::int32_t mag, rpos, altitude;
+	char msg[300];
 
 // blatant ects hack
 	Thing *darci = NET_PERSON(0);
@@ -679,7 +679,7 @@ void CHOPPER_fn_normal(Thing *thing)
 
 		// Safety thing -- always ramp over buildings:
 		if (altitude<(100<<8)) {
-			SLONG alt_wanted;
+			std::int32_t alt_wanted;
 
 			alt_wanted=(750<<8)+(PAP_calc_map_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
 
@@ -706,7 +706,7 @@ void CHOPPER_fn_normal(Thing *thing)
 
 	case CHOPPER_substate_patrolling:
 		GameCoord targ;
-		SLONG rot;
+		std::int32_t rot;
 
 		chopper->patrol++;
 		// rot=chopper->patrol>>2;
@@ -751,7 +751,7 @@ void CHOPPER_fn_normal(Thing *thing)
  *
  */
 
-void CHOPPER_init_state(Thing *chopper_thing, UBYTE new_state) {
+void CHOPPER_init_state(Thing *chopper_thing, std::uint8_t new_state) {
 	Chopper *chopper = CHOPPER_get_chopper(chopper_thing);
 	
 	TRACE("Chopper: ");

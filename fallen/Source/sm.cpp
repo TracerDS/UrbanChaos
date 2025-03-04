@@ -19,21 +19,21 @@
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;	// 8-bit fixed point
-	SLONG dy;
-	SLONG dz;
-	SLONG radius;
-	SLONG mass;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;	// 8-bit fixed point
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t radius;
+	std::int32_t mass;
 
 } SM_Sphere;
 
 #define SM_MAX_SPHERES 1024
 
 SM_Sphere SM_sphere[SM_MAX_SPHERES];
-SLONG SM_sphere_upto;
+std::int32_t SM_sphere_upto;
 
 
 //
@@ -42,16 +42,16 @@ SLONG SM_sphere_upto;
 
 typedef struct
 {
-	UWORD sphere1;
-	UWORD sphere2;
-	SLONG dist;		// Distance squared...
+	std::uint16_t sphere1;
+	std::uint16_t sphere2;
+	std::int32_t dist;		// Distance squared...
 
 } SM_Link;
 
 #define SM_MAX_LINKS 1024
 
 SM_Link SM_link[SM_MAX_LINKS];
-SLONG SM_link_upto;
+std::int32_t SM_link_upto;
 
 
 //
@@ -60,20 +60,20 @@ SLONG SM_link_upto;
 
 typedef struct
 {
-	UWORD sphere_index;
-	UWORD sphere_num;
-	UWORD link_index;
-	UWORD link_num;
-	SLONG jellyness;
-	SLONG resolution;
-	SLONG density;
+	std::uint16_t sphere_index;
+	std::uint16_t sphere_num;
+	std::uint16_t link_index;
+	std::uint16_t link_num;
+	std::int32_t jellyness;
+	std::int32_t resolution;
+	std::int32_t density;
 
 } SM_Object;
 
 #define SM_MAX_OBJECTS 16
 
 SM_Object SM_object[SM_MAX_OBJECTS];
-SLONG SM_object_upto;
+std::int32_t SM_object_upto;
 
 
 
@@ -102,48 +102,48 @@ void SM_init()
 #define SM_CUBE_JELLYNESS_MAX 0x00400
 
 void SM_create_cube(
-		SLONG cx1, SLONG cy1, SLONG cz1,
-		SLONG cx2, SLONG cy2, SLONG cz2,
-		SLONG amount_resolution,	// 0 - 256
-		SLONG amount_density,		// 0 - 256
-		SLONG amount_jellyness)		// 0 - 256
+		std::int32_t cx1, std::int32_t cy1, std::int32_t cz1,
+		std::int32_t cx2, std::int32_t cy2, std::int32_t cz2,
+		std::int32_t amount_resolution,	// 0 - 256
+		std::int32_t amount_density,		// 0 - 256
+		std::int32_t amount_jellyness)		// 0 - 256
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG i2;
-	SLONG j2;
-	SLONG k2;
+	std::int32_t i2;
+	std::int32_t j2;
+	std::int32_t k2;
 
-	SLONG di;
-	SLONG dj;
-	SLONG dk;
+	std::int32_t di;
+	std::int32_t dj;
+	std::int32_t dk;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
 
-	SLONG sx2;
-	SLONG sy2;
-	SLONG sz2;
+	std::int32_t sx2;
+	std::int32_t sy2;
+	std::int32_t sz2;
 
-	SLONG dsx;
-	SLONG dsy;
-	SLONG dsz;
+	std::int32_t dsx;
+	std::int32_t dsy;
+	std::int32_t dsz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG index1;
-	SLONG index2;
+	std::int32_t index1;
+	std::int32_t index2;
 
-	SLONG radius;
-	SLONG volume;
-	SLONG mass;
+	std::int32_t radius;
+	std::int32_t volume;
+	std::int32_t mass;
 
 	SM_Object *so;
 	SM_Sphere *ss;
@@ -165,9 +165,9 @@ void SM_create_cube(
 	// The values we use to create the object.
 	//
 
-	SLONG resolution = SM_CUBE_RES_MIN       + (amount_resolution * (SM_CUBE_RES_MAX       - SM_CUBE_RES_MIN      ) >> 8);
-	SLONG density    = SM_CUBE_DENSITY_MIN   + (amount_density    * (SM_CUBE_DENSITY_MAX   - SM_CUBE_DENSITY_MIN  ) >> 8);
-	SLONG jellyness  = SM_CUBE_JELLYNESS_MIN + (amount_jellyness  * (SM_CUBE_JELLYNESS_MAX - SM_CUBE_JELLYNESS_MIN) >> 8);
+	std::int32_t resolution = SM_CUBE_RES_MIN       + (amount_resolution * (SM_CUBE_RES_MAX       - SM_CUBE_RES_MIN      ) >> 8);
+	std::int32_t density    = SM_CUBE_DENSITY_MIN   + (amount_density    * (SM_CUBE_DENSITY_MAX   - SM_CUBE_DENSITY_MIN  ) >> 8);
+	std::int32_t jellyness  = SM_CUBE_JELLYNESS_MIN + (amount_jellyness  * (SM_CUBE_JELLYNESS_MAX - SM_CUBE_JELLYNESS_MIN) >> 8);
 
 	resolution = amount_resolution;
 	density    = amount_density;
@@ -297,21 +297,21 @@ void SM_create_cube(
 
 void SM_process()
 {
-	SLONG i;
-	SLONG j;
-	SLONG height;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t height;
 
-	SLONG ax;
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;
+	std::int32_t ay;
+	std::int32_t az;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG ddist;
-	SLONG force;
-	SLONG accel;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t ddist;
+	std::int32_t force;
+	std::int32_t accel;
 
 	SM_Object *so;
 	SM_Sphere *ss;
@@ -441,7 +441,7 @@ void SM_process()
 // Getting the spheres.
 //
 
-SLONG SM_get_upto;
+std::int32_t SM_get_upto;
 SM_Info SM_get_info;
 
 void SM_get_start()
@@ -450,7 +450,7 @@ void SM_get_start()
 
 	if (ControlFlag)
 	{
-		SLONG i;
+		std::int32_t i;
 
 		SM_Link *sl;
 

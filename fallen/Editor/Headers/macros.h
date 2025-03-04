@@ -3,9 +3,9 @@
 #include	"math.h"
 //#define	GetTickCount()	0
 #ifdef	__MSC_VER
-#define	sqrl(x)		(Root((SLONG)x))
+#define	sqrl(x)		(Root((std::int32_t)x))
 #else
-#define	sqrl(x)		(SLONG)(sqrt((float)x))
+#define	sqrl(x)		(std::int32_t)(sqrt((float)x))
 #endif
 
 #define COL_TO_RGB565(col)	(((PALETTE[(col)*3]>>3)<<11)|((PALETTE[(col)*3+1]>>2)<<5)|(PALETTE[(col)*3+2]>>3))
@@ -31,18 +31,18 @@
 #define	DATA_MAP(x,z)		game_map->PolyIndex[((x)>>8)+(((z)>>8)*MAX_GAME_MAP_WIDTH)]
 #define	DATA_BMAP(x,z)		game_map->PolyBackIndex[((x)>>10)+(((z)>>10)*BACK_MAP_WIDTH)]
 #define	CLIP256(x)		(x>255?255:x)
-inline	SLONG	QLEN(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
+inline	std::int32_t	QLEN(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2)
 {
-	SLONG temp_dx;
-	SLONG temp_dz;
+	std::int32_t temp_dx;
+	std::int32_t temp_dz;
 	temp_dx=abs(x2-x1);
 	temp_dz=abs(z2-z1);
 	return(QDIST2(temp_dx,temp_dz));
 }
-inline	SLONG TLEN(SLONG x1,SLONG z1,SLONG x2,SLONG z2)
+inline	std::int32_t TLEN(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2)
 {
-	SLONG temp_dx;
-	SLONG temp_dz;
+	std::int32_t temp_dx;
+	std::int32_t temp_dz;
 	temp_dx=abs(x2-x1);
 	temp_dz=abs(z2-z1);
 	return(sqrl(SDIST2(temp_dx,temp_dz)));

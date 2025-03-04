@@ -17,7 +17,7 @@
 
 int waypoint_colour,
 						waypoint_group;
-UBYTE button_colours[WAY_COLOURS][3]	=	{
+std::uint8_t button_colours[WAY_COLOURS][3]	=	{
 																{	0,		0,		0	},
 																{	255,	255,	255	},
 																{	255,	0,		0	},

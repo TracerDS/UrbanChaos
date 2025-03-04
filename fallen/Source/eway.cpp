@@ -58,19 +58,19 @@
 #endif
 
 
-extern SLONG person_ok_for_conversation(Thing *p_person);
-extern ULONG	timer_bored; // I don't care I'm making the game better not the code!
+extern std::int32_t person_ok_for_conversation(Thing *p_person);
+extern std::uint32_t	timer_bored; // I don't care I'm making the game better not the code!
 //
 // The conditions that are part of boolean operations.
 //
-extern SLONG save_psx;
-SLONG EWAY_cond_upto;
+extern std::int32_t save_psx;
+std::int32_t EWAY_cond_upto;
 
 EWAY_Cond *EWAY_cond;//[EWAY_MAX_CONDS];
 EWAY_Way *EWAY_way; //[EWAY_MAX_WAYS];
 EWAY_Edef *EWAY_edef; //[EWAY_MAX_EDEFS];
-CBYTE* *EWAY_mess; //[EWAY_MAX_MESSES];
-CBYTE* EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
+char* *EWAY_mess; //[EWAY_MAX_MESSES];
+char* EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
 
 
 
@@ -117,14 +117,14 @@ extern char PANEL_wide_text[];
 #endif
 
 
-SLONG EWAY_way_upto;
+std::int32_t EWAY_way_upto;
 
 //
 // The definitions of people we create.
 //
 
 
-SLONG EWAY_edef_upto;
+std::int32_t EWAY_edef_upto;
 
 
 //
@@ -136,110 +136,110 @@ EWAY_Way *EWAY_magic_radius_flag;
 // The messages.
 //
 
-SLONG EWAY_mess_buffer_upto;
-SLONG EWAY_mess_upto;
+std::int32_t EWAY_mess_buffer_upto;
+std::int32_t EWAY_mess_upto;
 
 //
 // The time.
 // 
 
-SLONG EWAY_time_accurate;	 // 1600 ticks per second
-SLONG EWAY_time;			 // 100  ticks per second
-SLONG EWAY_tick;			 // The amount of time since the last process waypoints: (100 ticks per sec.)
-SLONG EWAY_count_up;		 // The visible count-up timer...
-UBYTE EWAY_count_up_visible; // Onscreen at the moment.
+std::int32_t EWAY_time_accurate;	 // 1600 ticks per second
+std::int32_t EWAY_time;			 // 100  ticks per second
+std::int32_t EWAY_tick;			 // The amount of time since the last process waypoints: (100 ticks per sec.)
+std::int32_t EWAY_count_up;		 // The visible count-up timer...
+std::uint8_t EWAY_count_up_visible; // Onscreen at the moment.
 
 //
 // The penalties incurred for the count-up timer.
 // 
 
-UBYTE EWAY_count_up_add_penalties;
-SWORD EWAY_count_up_num_penalties;
-UWORD EWAY_count_up_penalty_timer;
+std::uint8_t EWAY_count_up_add_penalties;
+std::int16_t EWAY_count_up_num_penalties;
+std::uint16_t EWAY_count_up_penalty_timer;
 
-SLONG EWAY_cam_jumped=0;
+std::int32_t EWAY_cam_jumped=0;
 
 //
 // The timers are indexed by the bottom byte of the arg of COUNTDOWN conditions.
 //
 
-UWORD *EWAY_timer;
+std::uint16_t *EWAY_timer;
 
 //
 // The counters.
 //
 
-UBYTE *EWAY_counter;
+std::uint8_t *EWAY_counter;
 
 //
 // The fake wandering people messages.
 //
 
-UWORD EWAY_fake_wander_text_normal_index;
-UWORD EWAY_fake_wander_text_normal_number;
-UWORD EWAY_fake_wander_text_guilty_index;
-UWORD EWAY_fake_wander_text_guilty_number;
-UWORD EWAY_fake_wander_text_annoyed_index;
-UWORD EWAY_fake_wander_text_annoyed_number;
+std::uint16_t EWAY_fake_wander_text_normal_index;
+std::uint16_t EWAY_fake_wander_text_normal_number;
+std::uint16_t EWAY_fake_wander_text_guilty_index;
+std::uint16_t EWAY_fake_wander_text_guilty_number;
+std::uint16_t EWAY_fake_wander_text_annoyed_index;
+std::uint16_t EWAY_fake_wander_text_annoyed_number;
 
 //
 // The tutorial string.
 //
 
-CBYTE* EWAY_tutorial_string;
-SLONG EWAY_tutorial_counter;
+char* EWAY_tutorial_string;
+std::int32_t EWAY_tutorial_counter;
 
 //
 // How the waypoint system knows when Darci pulls off a particular
 // combat move.
 //
 
-UBYTE EWAY_darci_move;
+std::uint8_t EWAY_darci_move;
 
 //
 // If non-nullptr then this is the person who say any message!
 //
 
-UWORD EWAY_used_thing;	
+std::uint16_t EWAY_used_thing;	
 
 //
 // The cut-scene camera.
 //
 
-SLONG EWAY_cam_active;
-SLONG EWAY_cam_goinactive;
-SLONG EWAY_cam_x;		// Big coordinates...
-SLONG EWAY_cam_y;
-SLONG EWAY_cam_z;
-SLONG EWAY_cam_dx;
-SLONG EWAY_cam_dy;
-SLONG EWAY_cam_dz;
-SLONG EWAY_cam_yaw;
-SLONG EWAY_cam_pitch;
-SLONG EWAY_cam_want_yaw;
-SLONG EWAY_cam_want_pitch;
-SLONG EWAY_cam_waypoint;
-SLONG EWAY_cam_target;
-SLONG EWAY_cam_delay;
-SLONG EWAY_cam_speed;
-SLONG EWAY_cam_freeze;	// Stop the player moving.
-SLONG EWAY_cam_cant_interrupt;
-UWORD EWAY_cam_thing;
-SLONG EWAY_cam_targx;
-SLONG EWAY_cam_targy;
-SLONG EWAY_cam_targz;
-SLONG EWAY_cam_lens;	// 16-bit fixed point
-SLONG EWAY_cam_warehouse;
-SLONG EWAY_cam_lock;
-SLONG EWAY_cam_last_yaw;
-SLONG EWAY_cam_last_x;
-SLONG EWAY_cam_last_y;
-SLONG EWAY_cam_last_z;
-SLONG EWAY_cam_skip;
-SLONG EWAY_cam_last_dyaw;
+std::int32_t EWAY_cam_active;
+std::int32_t EWAY_cam_goinactive;
+std::int32_t EWAY_cam_x;		// Big coordinates...
+std::int32_t EWAY_cam_y;
+std::int32_t EWAY_cam_z;
+std::int32_t EWAY_cam_dx;
+std::int32_t EWAY_cam_dy;
+std::int32_t EWAY_cam_dz;
+std::int32_t EWAY_cam_yaw;
+std::int32_t EWAY_cam_pitch;
+std::int32_t EWAY_cam_want_yaw;
+std::int32_t EWAY_cam_want_pitch;
+std::int32_t EWAY_cam_waypoint;
+std::int32_t EWAY_cam_target;
+std::int32_t EWAY_cam_delay;
+std::int32_t EWAY_cam_speed;
+std::int32_t EWAY_cam_freeze;	// Stop the player moving.
+std::int32_t EWAY_cam_cant_interrupt;
+std::uint16_t EWAY_cam_thing;
+std::int32_t EWAY_cam_targx;
+std::int32_t EWAY_cam_targy;
+std::int32_t EWAY_cam_targz;
+std::int32_t EWAY_cam_lens;	// 16-bit fixed point
+std::int32_t EWAY_cam_warehouse;
+std::int32_t EWAY_cam_lock;
+std::int32_t EWAY_cam_last_yaw;
+std::int32_t EWAY_cam_last_x;
+std::int32_t EWAY_cam_last_y;
+std::int32_t EWAY_cam_last_z;
+std::int32_t EWAY_cam_skip;
+std::int32_t EWAY_cam_last_dyaw;
 
-UBYTE GAME_cut_scene = 0;
-CBYTE EWAY_message[128];
+std::uint8_t GAME_cut_scene = 0;
+char EWAY_message[128];
 
 //
 // A conversation.
@@ -248,23 +248,23 @@ CBYTE EWAY_message[128];
 #define EWAY_CONV_TALK_A 0
 #define EWAY_CONV_TALK_B 1
 
-UBYTE EWAY_conv_active;		// Bool. Is there a conversation going on?
-UWORD EWAY_conv_waypoint;		// The waypoint that set the conversation going.
+std::uint8_t EWAY_conv_active;		// Bool. Is there a conversation going on?
+std::uint16_t EWAY_conv_waypoint;		// The waypoint that set the conversation going.
 THING_INDEX EWAY_conv_person_a;
 THING_INDEX EWAY_conv_person_b;
-UWORD EWAY_conv_str;			// Index into the EWAY_mess_buffer
-UWORD EWAY_conv_str_count;	// 0 for first line etc
-SLONG EWAY_conv_timer;		// How long until the next person talks.
-SLONG EWAY_conv_skip;			// How long until the user is allowed to skip the conversation.
-SLONG EWAY_conv_ambient;		// true => Don't control the camera or go into widescreen mode.
-SLONG EWAY_conv_talk=0;
+std::uint16_t EWAY_conv_str;			// Index into the EWAY_mess_buffer
+std::uint16_t EWAY_conv_str_count;	// 0 for first line etc
+std::int32_t EWAY_conv_timer;		// How long until the next person talks.
+std::int32_t EWAY_conv_skip;			// How long until the user is allowed to skip the conversation.
+std::int32_t EWAY_conv_ambient;		// true => Don't control the camera or go into widescreen mode.
+std::int32_t EWAY_conv_talk=0;
 
 #ifndef	PSX
-extern CBYTE ELEV_fname_level[_MAX_PATH];
+extern char ELEV_fname_level[_MAX_PATH];
 
-void get_level_word(CBYTE* str)
+void get_level_word(char* str)
 {
-	SLONG	c0=0,c1=0;
+	std::int32_t	c0=0,c1=0;
 
 
 	
@@ -283,13 +283,13 @@ void get_level_word(CBYTE* str)
 
 }
 
-SLONG playing_combat_tutorial()
+std::int32_t playing_combat_tutorial()
 {
 #ifdef VERSION_DEMO
 //	return 0;	
 #endif
 
- 	SLONG	c0=0,c1=0;
+ 	std::int32_t	c0=0,c1=0;
 //	if(save_psx)
 //		return(0);
 	
@@ -324,9 +324,9 @@ SLONG playing_combat_tutorial()
 
 }
 
-SLONG playing_level(const CBYTE* name)
+std::int32_t playing_level(const char* name)
 {
- 	SLONG	c0=0,c1=0;
+ 	std::int32_t	c0=0,c1=0;
 #ifdef VERSION_DEMO
 //	return 0;	
 #endif
@@ -362,7 +362,7 @@ SLONG playing_level(const CBYTE* name)
 
 }
 
-CBYTE* crap_levels[]=
+char* crap_levels[]=
 {
 	"FTutor1.ucm",
 	"Assault1.ucm",
@@ -379,11 +379,11 @@ CBYTE* crap_levels[]=
 
 
 };
-SLONG playing_real_mission()
+std::int32_t playing_real_mission()
 {
 
 
- 	SLONG	c0=0,c1=0;
+ 	std::int32_t	c0=0,c1=0;
 	
 	while(ELEV_fname_level[c0]!='\\' && c0<101)
 	{
@@ -406,14 +406,14 @@ SLONG playing_real_mission()
 
 }
 #else
-SLONG playing_combat_tutorial()
+std::int32_t playing_combat_tutorial()
 {
 	return (wad_level==1);
 }
 
-UBYTE PSX_real[]={0,0,0,0,1,0,0,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
+std::uint8_t PSX_real[]={0,0,0,0,1,0,0,1,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
 
-SLONG playing_real_mission()
+std::int32_t playing_real_mission()
 {
 	return PSX_real[wad_level-1];
 }
@@ -423,7 +423,7 @@ Thing *talk_thing;
 //
 // Play the wav for the current mission with waypoint number waypoint
 //
-void EWAY_talk(ULONG	waypoint)
+void EWAY_talk(std::uint32_t	waypoint)
 {
 
 ANNOYINGSCRIBBLECHECK;
@@ -431,8 +431,8 @@ ANNOYINGSCRIBBLECHECK;
 #ifndef	PSX
 	if(save_psx)
 		return;
-	CBYTE	str[100];
-	CBYTE	level[100];
+	char	str[100];
+	char	level[100];
 
 	//
 	// generate a filename for the wav,  filename is    missionname_waypointnumber.wav
@@ -472,7 +472,7 @@ ANNOYINGSCRIBBLECHECK;
 
 }
 
-void check_eway_talk(SLONG stop)
+void check_eway_talk(std::int32_t stop)
 {
 	if(!MFX_QUICK_still_playing())
 		talk_thing=0;
@@ -491,7 +491,7 @@ void check_eway_talk(SLONG stop)
 //
 // Play a conversation wav  (these have conversation sub parts in the files as a tag of A,B,C,D etc
 //
-void EWAY_talk_conv(ULONG	waypoint,SLONG conversation)
+void EWAY_talk_conv(std::uint32_t	waypoint,std::int32_t conversation)
 {
 
 ANNOYINGSCRIBBLECHECK;
@@ -500,8 +500,8 @@ ANNOYINGSCRIBBLECHECK;
 #ifndef	PSX
 	if(save_psx)
 		return;
-	CBYTE	str[100];
-	CBYTE	level[100];
+	char	str[100];
+	char	level[100];
 
 	//
 	// generate a filename for the wav, filename is    missionname_waypointnumber_SUBPART.wav   S
@@ -544,11 +544,11 @@ ANNOYINGSCRIBBLECHECK;
 //#define	ASSERT(x) if(!(x)){asm("break 0");}
 #endif
 
-CBYTE* EWAY_get_mess(SLONG index)
+char* EWAY_get_mess(std::int32_t index)
 {
 	ASSERT(index<EWAY_mess_upto);
 	ASSERT(EWAY_mess[index]>=&EWAY_mess_buffer[0] && EWAY_mess[index]<&EWAY_mess_buffer[EWAY_mess_buffer_upto]);
-	ASSERT(EWAY_mess[index]!=(CBYTE*)0x3c003c00);
+	ASSERT(EWAY_mess[index]!=(char*)0x3c003c00);
 	ASSERT(index>=0);
 	return(EWAY_mess[index]);
 }
@@ -565,7 +565,7 @@ ANNOYINGSCRIBBLECHECK;
 	// 
 	talk_thing=0;
 
-	memset((UBYTE*)EWAY_way, 0, sizeof(EWAY_Way)*EWAY_MAX_WAYS);
+	memset((std::uint8_t*)EWAY_way, 0, sizeof(EWAY_Way)*EWAY_MAX_WAYS);
 
 	EWAY_way_upto = 1;
 
@@ -573,7 +573,7 @@ ANNOYINGSCRIBBLECHECK;
 	// Clear the people definitions.
 	//
 
-	memset((UBYTE *)EWAY_edef, 0, sizeof(EWAY_Edef)*EWAY_MAX_EDEFS);
+	memset((std::uint8_t *)EWAY_edef, 0, sizeof(EWAY_Edef)*EWAY_MAX_EDEFS);
 
 	EWAY_edef_upto = 1;
 
@@ -584,13 +584,13 @@ ANNOYINGSCRIBBLECHECK;
 	EWAY_mess_buffer_upto = 0; //EWAY_mess_buffer;
 	EWAY_mess_upto        = 0;
 
-	memset((UBYTE*)EWAY_mess, 0, sizeof(CBYTE* )*EWAY_MAX_MESSES);
+	memset((std::uint8_t*)EWAY_mess, 0, sizeof(char* )*EWAY_MAX_MESSES);
 
 	//
 	// Clear the conditions.
 	//
 
-	memset((UBYTE*)EWAY_cond, 0, sizeof(EWAY_Cond)*EWAY_MAX_CONDS);
+	memset((std::uint8_t*)EWAY_cond, 0, sizeof(EWAY_Cond)*EWAY_MAX_CONDS);
 
 	EWAY_cond_upto = 1;
 
@@ -598,7 +598,7 @@ ANNOYINGSCRIBBLECHECK;
 	// Clear the timers.
 	//
 
-	memset((UBYTE *)EWAY_timer, 0, sizeof(UWORD)*EWAY_MAX_TIMERS);
+	memset((std::uint8_t *)EWAY_timer, 0, sizeof(std::uint16_t)*EWAY_MAX_TIMERS);
 
 	//
 	// Clear camera and conversation stuff.
@@ -611,7 +611,7 @@ ANNOYINGSCRIBBLECHECK;
 	// Clear the counters.
 	//
 
-	memset(EWAY_counter, 0, sizeof(UBYTE) * EWAY_MAX_COUNTERS);
+	memset(EWAY_counter, 0, sizeof(std::uint8_t) * EWAY_MAX_COUNTERS);
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -624,15 +624,15 @@ ANNOYINGSCRIBBLECHECK;
 // Create a player.
 //
 
-UWORD EWAY_create_player(
-		UBYTE subtype,
-		UBYTE yaw,
-		SLONG has,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z)
+std::uint16_t EWAY_create_player(
+		std::uint8_t subtype,
+		std::uint8_t yaw,
+		std::int32_t has,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z)
 {
-	UWORD p_index;
+	std::uint16_t p_index;
 
 	//
 	// Make sure we haven't got too many players.
@@ -737,28 +737,28 @@ UWORD EWAY_create_player(
 // Creates an enemy.
 // 
 
-UWORD EWAY_create_enemy(
-		UBYTE subtype,
-		UBYTE yaw,
-		UBYTE colour,
-		UBYTE group,
-		UBYTE pcom_ai,
-		UBYTE pcom_bent,
-		UBYTE pcom_move,
-		UBYTE drop,
-		UBYTE zone,
-		SLONG skill,
-		UWORD follow,
-		UWORD other,
-		SLONG has,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG random)
+std::uint16_t EWAY_create_enemy(
+		std::uint8_t subtype,
+		std::uint8_t yaw,
+		std::uint8_t colour,
+		std::uint8_t group,
+		std::uint8_t pcom_ai,
+		std::uint8_t pcom_bent,
+		std::uint8_t pcom_move,
+		std::uint8_t drop,
+		std::uint8_t zone,
+		std::int32_t skill,
+		std::uint16_t follow,
+		std::uint16_t other,
+		std::int32_t has,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t random)
 {
 	THING_INDEX p_index;
 	Thing      *p_person;
-	ULONG	f1=0,f2=0;
+	std::uint32_t	f1=0,f2=0;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -799,14 +799,14 @@ ANNOYINGSCRIBBLECHECK;
 	return p_index;
 }
 
-UWORD EWAY_create_animal(
-		UBYTE subtype,
-		UBYTE yaw,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z)
+std::uint16_t EWAY_create_animal(
+		std::uint8_t subtype,
+		std::uint8_t yaw,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z)
 {
-	UWORD p_index;
+	std::uint16_t p_index;
 
 	switch(subtype)
 	{
@@ -861,21 +861,21 @@ UWORD EWAY_create_animal(
 // Creates an item of the given subtype.
 //
 
-UWORD EWAY_create_item(
-		UBYTE subtype,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
+std::uint16_t EWAY_create_item(
+		std::uint8_t subtype,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
 		EWAY_Way *ew)
 {
-	SLONG way_index;
-	Thing	*p_thing;
+	std::int32_t way_index;
+	Thing* p_thing;
 
 ANNOYINGSCRIBBLECHECK;
 
-	if (!ew )
+	if (!ew)
 	{
-		way_index = nullptr;
+		way_index = 0;
 	}
 	else
 	{
@@ -892,7 +892,7 @@ ANNOYINGSCRIBBLECHECK;
 		// Don't create specials under ground...
 		//
 		
-		SLONG ground = PAP_calc_map_height_at(world_x, world_z);
+		std::int32_t ground = PAP_calc_map_height_at(world_x, world_z);
 
 		if (world_y < ground + 0x40 && world_y > ground - 0xc0)
 
@@ -915,7 +915,7 @@ ANNOYINGSCRIBBLECHECK;
 	if(p_thing)
 	if(ew->ed.arg1&EWAY_ARG_ITEM_STASHED_IN_PRIM)
 	{
-		SLONG	ob_index;
+		std::int32_t	ob_index;
 		OB_Info *oi;
 		oi=OB_find_index(world_x,world_y,world_z,2048,false);
 		if(oi)
@@ -939,17 +939,17 @@ ANNOYINGSCRIBBLECHECK;
 // Creates a vehicle of the given subtype.
 //
 
-UWORD EWAY_create_vehicle(
-		UBYTE subtype,
-		UBYTE key,
-		UWORD arg,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG yaw)
+std::uint16_t EWAY_create_vehicle(
+		std::uint8_t subtype,
+		std::uint8_t key,
+		std::uint16_t arg,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t yaw)
 {
-	Thing      *p_thing = nullptr;
-	THING_INDEX p_index = nullptr;
+	Thing* p_thing = nullptr;
+	THING_INDEX p_index = 0;
 //	ASSERT(0);
 
 ANNOYINGSCRIBBLECHECK;
@@ -1168,12 +1168,12 @@ ANNOYINGSCRIBBLECHECK;
 // Converts a condition definition into a EWAY_Cond.
 //
 
-SLONG ob_x;
-SLONG ob_y;
-SLONG ob_z;
-SLONG ob_yaw;
-SLONG ob_prim;
-SLONG ob_index;
+std::int32_t ob_x;
+std::int32_t ob_y;
+std::int32_t ob_z;
+std::int32_t ob_yaw;
+std::int32_t ob_prim;
+std::int32_t ob_index;
 
 EWAY_Cond EWAY_create_cond(
 			EWAY_Way     *ew,
@@ -1195,15 +1195,15 @@ EWAY_Cond EWAY_create_cond(
 		case EWAY_COND_TRIPWIRE:
 
 			{
-				SLONG x1;
-				SLONG y1;
-				SLONG z1;
+				std::int32_t x1;
+				std::int32_t y1;
+				std::int32_t z1;
 
-				SLONG x2;
-				SLONG y2;
-				SLONG z2;
+				std::int32_t x2;
+				std::int32_t y2;
+				std::int32_t z2;
 
-				SLONG vector[3];
+				std::int32_t vector[3];
 
 				PrimInfo *pi;
 
@@ -1276,7 +1276,7 @@ EWAY_Cond EWAY_create_cond(
 				}
 				else
 				{
-					ans.arg1 = nullptr;
+					ans.arg1 = 0;
 				}
 			}
 
@@ -1317,14 +1317,14 @@ EWAY_Cond EWAY_create_cond(
 			//
 
 			{
-				SWORD best_dist  = 0x7800;
-				UWORD best_index = nullptr;
-				UWORD best_x;
-				UWORD best_z;
-				SWORD dx;
-				SWORD dy;
-				SWORD dz;
-				SWORD dist;
+				std::int16_t best_dist  = 0x7800;
+				std::uint16_t best_index = 0;
+				std::uint16_t best_x;
+				std::uint16_t best_z;
+				std::int16_t dx;
+				std::int16_t dy;
+				std::int16_t dz;
+				std::int16_t dist;
 
 				OB_Info *oi = OB_find(
 								ew->x >> PAP_SHIFT_LO,
@@ -1394,7 +1394,7 @@ EWAY_Cond EWAY_create_cond(
 
 		case EWAY_COND_PRIM_ACTIVATED:
 
-			ans.arg1 = nullptr;
+			ans.arg1 = 0;
 
 			if (OB_find_type(
 					ew->x,
@@ -1424,20 +1424,20 @@ EWAY_Cond EWAY_create_cond(
 #ifndef PSX
 #ifndef TARGET_DC
 void EWAY_create(
-		SLONG identifier,	// A unique number that names the waypoint- same as arg for DEPENDENT conditions.
-		SLONG colour,
-		SLONG group,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG yaw,
+		std::int32_t identifier,	// A unique number that names the waypoint- same as arg for DEPENDENT conditions.
+		std::int32_t colour,
+		std::int32_t group,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t yaw,
 		EWAY_Conddef *ecd,
 		EWAY_Do      *ed,
 		EWAY_Stay    *es,
 		EWAY_Edef    *ee,
-		SLONG         unreferenced,
-		SLONG         kludge_index,
-		UWORD	magic_index)
+		std::int32_t         unreferenced,
+		std::int32_t         kludge_index,
+		std::uint16_t	magic_index)
 {
 	EWAY_Way *ew;
 
@@ -1493,8 +1493,8 @@ ANNOYINGSCRIBBLECHECK;
 		//  the thing in arg)
 		//
 
-		ew->ed.arg1 = nullptr;
-		ew->ed.arg2 = nullptr;
+		ew->ed.arg1 = 0;
+		ew->ed.arg2 = 0;
 	}
 
 	//
@@ -1644,11 +1644,11 @@ ANNOYINGSCRIBBLECHECK;
 
 #ifndef PSX
 #ifndef TARGET_DC
-SLONG EWAY_set_message(
-		UBYTE  number,
-		CBYTE* message)
+std::int32_t EWAY_set_message(
+		std::uint8_t  number,
+		char* message)
 {
-	SLONG len = strlen(message) + 1;
+	std::int32_t len = strlen(message) + 1;
 
 	if (!WITHIN(number, 0, EWAY_MAX_MESSES - 1))
 	{
@@ -1708,9 +1708,9 @@ SLONG EWAY_set_message(
 // Returns the index of the waypoint with the given identifier.
 //
 
-SLONG EWAY_find_id(SLONG id)
+std::int32_t EWAY_find_id(std::int32_t id)
 {
-	SLONG i;
+	std::int32_t i;
 
 	EWAY_Way *ew;
 
@@ -1724,7 +1724,7 @@ SLONG EWAY_find_id(SLONG id)
 		}
 	}
 
-	return nullptr;
+	return 0;
 }
 #endif
 #endif
@@ -1734,9 +1734,9 @@ SLONG EWAY_find_id(SLONG id)
 
 void EWAY_fix_cond(EWAY_Cond *ec)
 {
-	SLONG id;
-	SLONG id1;
-	SLONG id2;
+	std::int32_t id;
+	std::int32_t id1;
+	std::int32_t id2;
 
 	if (ec->type == EWAY_COND_DEPENDENT           ||
 		ec->type == EWAY_COND_PERSON_DEAD         ||
@@ -1802,9 +1802,9 @@ void EWAY_fix_cond(EWAY_Cond *ec)
 #ifndef TARGET_DC
 void EWAY_fix_do(EWAY_Do *ed, EWAY_Way *ew)
 {
-	SLONG id;
-	SLONG id1;
-	SLONG id2;
+	std::int32_t id;
+	std::int32_t id1;
+	std::int32_t id2;
 
 	if (ed->type == EWAY_DO_CHANGE_ENEMY     ||
 		ed->type == EWAY_DO_KILL_WAYPOINT    ||
@@ -1849,7 +1849,7 @@ void EWAY_fix_do(EWAY_Do *ed, EWAY_Way *ew)
 				// Can't track these... its a location.
 				//
 
-				ed->arg2 = nullptr;
+				ed->arg2 = 0;
 			}
 		}
 	}
@@ -1898,19 +1898,19 @@ void EWAY_fix_edef(EWAY_Edef *ee)
 
 #ifndef PSX
 #ifndef TARGET_DC
-SLONG EWAY_load_message_file(CBYTE* fname, UWORD *index, UWORD *number)
+std::int32_t EWAY_load_message_file(char* fname, std::uint16_t *index, std::uint16_t *number)
 {
 	FILE *handle = MF_Fopen(fname, "rb");
 
 	if (handle)
 	{
-		CBYTE  line   [512];
-		CBYTE  message[512];
-		CBYTE* ch;
-		CBYTE* start;
+		char  line   [512];
+		char  message[512];
+		char* ch;
+		char* start;
 
-		SLONG match;
-		SLONG upto;
+		std::int32_t match;
+		std::int32_t upto;
 
 	   *index  = EWAY_mess_upto;
 	   *number = 0;
@@ -1954,17 +1954,17 @@ SLONG EWAY_load_message_file(CBYTE* fname, UWORD *index, UWORD *number)
 
 
 
-void EWAY_load_fake_wander_text(CBYTE* fname)
+void EWAY_load_fake_wander_text(char* fname)
 {
 #ifndef PSX
-	CBYTE name_buffer[_MAX_PATH];
-	CBYTE	str[100];
+	char name_buffer[_MAX_PATH];
+	char	str[100];
 
-	EWAY_fake_wander_text_normal_index	 = nullptr;
+	EWAY_fake_wander_text_normal_index	 = 0;
 	EWAY_fake_wander_text_normal_number	 = 0;
-	EWAY_fake_wander_text_guilty_index	 = nullptr;
+	EWAY_fake_wander_text_guilty_index	 = 0;
 	EWAY_fake_wander_text_guilty_number	 = 0;
-	EWAY_fake_wander_text_annoyed_index	 = nullptr;
+	EWAY_fake_wander_text_annoyed_index	 = 0;
 	EWAY_fake_wander_text_annoyed_number = 0;
 
 	XLAT_str(X_THIS_LANGUAGE_IS,name_buffer);
@@ -2088,20 +2088,20 @@ void EWAY_load_fake_wander_text(CBYTE* fname)
 #endif
 
 
-CBYTE* EWAY_get_fake_wander_message(SLONG type)
+char* EWAY_get_fake_wander_message(std::int32_t type)
 {
 #ifdef TARGET_DC
 	// We only have normal text on DC (not sure why not).
-	UWORD index  = EWAY_fake_wander_text_normal_index;
-	UWORD number = EWAY_fake_wander_text_normal_number;
+	std::uint16_t index  = EWAY_fake_wander_text_normal_index;
+	std::uint16_t number = EWAY_fake_wander_text_normal_number;
 
 #else //#ifdef TARGET_DC
 
 
-	UWORD index;
-	UWORD number;
+	std::uint16_t index;
+	std::uint16_t number;
 #ifndef PSX
-	static SBYTE this_is_english = -1;
+	static std::int8_t this_is_english = -1;
 
 	if (this_is_english<0)
 	{
@@ -2110,7 +2110,7 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type)
 
 	if (!this_is_english) type=EWAY_FAKE_MESSAGE_NORMAL;
 #else
-	extern UBYTE IsEnglish;
+	extern std::uint8_t IsEnglish;
 
 	if (!IsEnglish)
 		type=EWAY_FAKE_MESSAGE_NORMAL;
@@ -2148,7 +2148,7 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type)
 	}
 	else
 	{
-		SLONG which = Random() % number;
+		std::int32_t which = Random() % number;
 
 		ASSERT(WITHIN(which + index, 0, EWAY_mess_upto - 1));
 
@@ -2167,11 +2167,11 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type)
 #ifndef TARGET_DC
 void EWAY_created_last_waypoint()
 {
-	SLONG i;
-	SLONG id;
-	SLONG points;
-	SLONG total_points;
-	SLONG num_guilty_people;
+	std::int32_t i;
+	std::int32_t id;
+	std::int32_t points;
+	std::int32_t total_points;
+	std::int32_t num_guilty_people;
 
 	EWAY_Way  *ew;
 	EWAY_Cond *ec;
@@ -2204,13 +2204,13 @@ void EWAY_created_last_waypoint()
 			// Look for the nearest CREATE_* waypoint and attach to it.
 			//
 
-			SLONG j;
-			SLONG dx;
-			SLONG dy;
-			SLONG dz;
-			SLONG dist;
-			SLONG best_dist = 0x300;
-			SLONG best_way  = nullptr;
+			std::int32_t j;
+			std::int32_t dx;
+			std::int32_t dy;
+			std::int32_t dz;
+			std::int32_t dist;
+			std::int32_t best_dist = 0x300;
+			std::int32_t best_way  = 0;
 
 			EWAY_Way *ew_near;
 
@@ -2346,7 +2346,7 @@ void EWAY_created_last_waypoint()
 		// original CRIME_RATE is allocated to guilty people.
 		//
 		
-		SLONG for_guilty = num_guilty_people * 4;	
+		std::int32_t for_guilty = num_guilty_people * 4;	
 		
 		SATURATE(for_guilty, 0, CRIME_RATE >> 1);
 
@@ -2421,26 +2421,26 @@ void EWAY_created_last_waypoint()
 #endif
 
 /*
-SLONG global_write=0;
-SLONG global_write1=0;
-SLONG global_write2=0;
-SLONG global_write3=0;
-SLONG global_write4=0;
-SLONG global_write5=0;
-SLONG global_write6=0;
-SLONG global_write7=0;
-SLONG global_write8=0;
-SLONG global_write9=0;
-SLONG global_write10=0;
-SLONG global_write11=0;
-SLONG global_write12=0;
+std::int32_t global_write=0;
+std::int32_t global_write1=0;
+std::int32_t global_write2=0;
+std::int32_t global_write3=0;
+std::int32_t global_write4=0;
+std::int32_t global_write5=0;
+std::int32_t global_write6=0;
+std::int32_t global_write7=0;
+std::int32_t global_write8=0;
+std::int32_t global_write9=0;
+std::int32_t global_write10=0;
+std::int32_t global_write11=0;
+std::int32_t global_write12=0;
 */
 
 
 
-SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = false)
+std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t EWAY_sub_condition_of_a_boolean = false)
 {
-	SLONG ans = false;
+	std::int32_t ans = false;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -2462,11 +2462,11 @@ ANNOYINGSCRIBBLECHECK;
 				if (darci)
 				{
 					{
-						SLONG dx = abs(ew->x - (darci->WorldPos.X >> 8));
-						SLONG dy = abs(ew->y - (darci->WorldPos.Y >> 8));
-						SLONG dz = abs(ew->z - (darci->WorldPos.Z >> 8));
+						std::int32_t dx = abs(ew->x - (darci->WorldPos.X >> 8));
+						std::int32_t dy = abs(ew->y - (darci->WorldPos.Y >> 8));
+						std::int32_t dz = abs(ew->z - (darci->WorldPos.Z >> 8));
 
-						SLONG dist = QDIST3(dx,dy,dz);
+						std::int32_t dist = QDIST3(dx,dy,dz);
 
 						ans = (dist < ec->arg1);
 					}
@@ -2551,8 +2551,8 @@ ANNOYINGSCRIBBLECHECK;
 		case EWAY_COND_COUNTDOWN_SEE:
 
 			{
-				SLONG depend = ec->arg1;
-				SLONG timer  = ec->arg2;
+				std::int32_t depend = ec->arg1;
+				std::int32_t timer  = ec->arg2;
 
 				ASSERT(depend == 0 || WITHIN(depend, 1, EWAY_way_upto - 1));
 
@@ -2631,8 +2631,8 @@ ANNOYINGSCRIBBLECHECK;
 			ans = false; // By default.
 
 			{
-				SLONG waypoint;
-				SLONG index;
+				std::int32_t waypoint;
+				std::int32_t index;
 
 				Thing    *p_thing;
 				EWAY_Way *ew_dead;
@@ -2642,7 +2642,7 @@ ANNOYINGSCRIBBLECHECK;
 				if (waypoint == 0)
 				{
 #ifndef PSX
-					CBYTE mess[128];
+					char mess[128];
 
 					sprintf(mess, "Waypoint %d: cond person dead has nullptr dependency", ew->id);
 
@@ -2716,7 +2716,7 @@ ANNOYINGSCRIBBLECHECK;
 						default:
 							{
 #ifndef PSX
-								CBYTE mess[128];
+								char mess[128];
 
 								sprintf(mess, "Waypoint %d: cond person dead dependent on odd waypoint", ew->id);
 
@@ -2737,13 +2737,13 @@ ANNOYINGSCRIBBLECHECK;
 			{
 				Thing *p_person;
 
-				SLONG dx;
-				SLONG dy;
-				SLONG dz;
-				SLONG dist;
-				SLONG waypoint;
-				SLONG index;
-				SLONG radius;
+				std::int32_t dx;
+				std::int32_t dy;
+				std::int32_t dz;
+				std::int32_t dist;
+				std::int32_t waypoint;
+				std::int32_t index;
+				std::int32_t radius;
 
 				waypoint = ec->arg1;
 				radius   = ec->arg2 * 64;	// Radius in quarter map-squares.
@@ -2805,14 +2805,14 @@ ANNOYINGSCRIBBLECHECK;
 
 				if (darci)
 				{
-					SLONG dx = ec->arg1;
-					SLONG dz = ec->arg2;
+					std::int32_t dx = ec->arg1;
+					std::int32_t dz = ec->arg2;
 
-					SLONG minx = ew->x - dx;
-					SLONG minz = ew->z - dz;
-					SLONG maxx = ew->x + dx;
-					SLONG maxz = ew->z + dz;
-					SLONG maxy = ew->y;
+					std::int32_t minx = ew->x - dx;
+					std::int32_t minz = ew->z - dz;
+					std::int32_t maxx = ew->x + dx;
+					std::int32_t maxz = ew->z + dz;
+					std::int32_t maxy = ew->y;
 
 					if (darci->WorldPos.Y < maxy)
 					{
@@ -2832,11 +2832,11 @@ ANNOYINGSCRIBBLECHECK;
 			ans = false; // by default...
 
 			{
-				SLONG i_a = ec->arg1;
-				SLONG i_b = ec->arg2;
+				std::int32_t i_a = ec->arg1;
+				std::int32_t i_b = ec->arg2;
 
-				SLONG person_a = EWAY_get_person(i_a);
-				SLONG person_b = EWAY_get_person(i_b);
+				std::int32_t person_a = EWAY_get_person(i_a);
+				std::int32_t person_b = EWAY_get_person(i_b);
 
 				if (person_a &&
 					person_b)
@@ -2861,9 +2861,9 @@ ANNOYINGSCRIBBLECHECK;
 			ans = false;
 
 			{
-				SLONG i;
-				SLONG found_at_least_one_person;
-				SLONG	eway_max=EWAY_way_upto;
+				std::int32_t i;
+				std::int32_t found_at_least_one_person;
+				std::int32_t	eway_max=EWAY_way_upto;
 
 				EWAY_Way *ew2;
 
@@ -2887,7 +2887,7 @@ ANNOYINGSCRIBBLECHECK;
 						{
 							if (ew2->ed.arg1)
 							{
-								extern SLONG is_person_dead(Thing *p_person);
+								extern std::int32_t is_person_dead(Thing *p_person);
 
 								if (!is_person_dead(TO_THING(ew2->ed.arg1)))
 								{	
@@ -2921,7 +2921,7 @@ ANNOYINGSCRIBBLECHECK;
 			ans = false;
 
 			{
-				SLONG i_person = EWAY_get_person(ec->arg1);
+				std::int32_t i_person = EWAY_get_person(ec->arg1);
 
 				if (i_person)
 				{
@@ -3009,11 +3009,11 @@ ANNOYINGSCRIBBLECHECK;
 
 				if (darci)
 				{
-					SLONG dx = abs(ew->x - (darci->WorldPos.X >> 8));
-					SLONG dy = abs(ew->y - (darci->WorldPos.Y >> 8));
-					SLONG dz = abs(ew->z - (darci->WorldPos.Z >> 8));
+					std::int32_t dx = abs(ew->x - (darci->WorldPos.X >> 8));
+					std::int32_t dy = abs(ew->y - (darci->WorldPos.Y >> 8));
+					std::int32_t dz = abs(ew->z - (darci->WorldPos.Z >> 8));
 
-					SLONG dist = QDIST3(dx,dy,dz);
+					std::int32_t dist = QDIST3(dx,dy,dz);
 
 					if (dist < ec->arg1) EWAY_magic_radius_flag = ew;
 				}
@@ -3096,7 +3096,7 @@ ANNOYINGSCRIBBLECHECK;
 					EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_ENEMY ||
 					EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_PLAYER);
 
-				UWORD index = EWAY_way[ec->arg1].ed.arg1;
+				std::uint16_t index = EWAY_way[ec->arg1].ed.arg1;
 
 				if (index)
 				{
@@ -3116,21 +3116,21 @@ ANNOYINGSCRIBBLECHECK;
 				ans=false;
 			else
 #else
-extern UBYTE	is_semtex;
+extern std::uint8_t	is_semtex;
 			if((ew-EWAY_way)==124 && is_semtex)		 //miked remove wetback part for PC/Dreamcast
 				ans=false;
 			else
 
 #endif
 			{
-				SLONG x1;
-				SLONG z1;
+				std::int32_t x1;
+				std::int32_t z1;
 
-				SLONG x2;
-				SLONG z2;
+				std::int32_t x2;
+				std::int32_t z2;
 				
-				SLONG dx = ec->arg1;
-				SLONG dz = ec->arg2;
+				std::int32_t dx = ec->arg1;
+				std::int32_t dz = ec->arg2;
 
 				Thing *darci = NET_PERSON(0);
 
@@ -3161,8 +3161,8 @@ extern UBYTE	is_semtex;
 			ans = false; // By default.
 
 			{
-				SLONG waypoint;
-				SLONG index;
+				std::int32_t waypoint;
+				std::int32_t index;
 
 				Thing    *p_thing;
 				EWAY_Way *ew_dead;
@@ -3172,7 +3172,7 @@ extern UBYTE	is_semtex;
 				if (waypoint == 0)
 				{
 #ifndef PSX
-					CBYTE mess[128];
+					char mess[128];
 
 					sprintf(mess, "Waypoint %d: cond person dead has nullptr dependency", ew->id);
 
@@ -3217,7 +3217,7 @@ extern UBYTE	is_semtex;
 
 							{
 							#ifndef PSX
-								CBYTE mess[128];
+								char mess[128];
 
 								sprintf(mess, "Waypoint %d: killed not arrested dependent on odd waypoint", ew->id);
 
@@ -3243,7 +3243,7 @@ extern UBYTE	is_semtex;
 			{
 				ans = false;
 
-				UWORD person = EWAY_get_person(ec->arg1);
+				std::uint16_t person = EWAY_get_person(ec->arg1);
 
 				if (person)
 				{
@@ -3263,8 +3263,8 @@ extern UBYTE	is_semtex;
 			ans = false;
 
 			{
-				UWORD person;
-				UWORD vehicle;
+				std::uint16_t person;
+				std::uint16_t vehicle;
 
 				person = EWAY_get_person(ec->arg1);
 
@@ -3306,7 +3306,7 @@ extern UBYTE	is_semtex;
 			ans = false;
 
 			{
-				UWORD thing = EWAY_get_person(ec->arg1);
+				std::uint16_t thing = EWAY_get_person(ec->arg1);
 
 				if (!thing )
 				{
@@ -3321,19 +3321,19 @@ extern UBYTE	is_semtex;
 				else
 				{
 					Thing *p_thing = TO_THING(thing);
-					SLONG  radius  = ec->arg2 * 64;	// Radius in quarter map-squares.
+					std::int32_t  radius  = ec->arg2 * 64;	// Radius in quarter map-squares.
 
-					SLONG dx = abs((p_thing->WorldPos.X >> 8) - ew->x);
-					SLONG dy = abs((p_thing->WorldPos.Y >> 8) - ew->y);
-					SLONG dz = abs((p_thing->WorldPos.Z >> 8) - ew->z);
+					std::int32_t dx = abs((p_thing->WorldPos.X >> 8) - ew->x);
+					std::int32_t dy = abs((p_thing->WorldPos.Y >> 8) - ew->y);
+					std::int32_t dz = abs((p_thing->WorldPos.Z >> 8) - ew->z);
 
-					SLONG dist = QDIST3(dx,dy,dz);
+					std::int32_t dist = QDIST3(dx,dy,dz);
 
 					if (dist < radius)
 					{
-						SLONG dangle;
-						SLONG angle;
-						SLONG speed;
+						std::int32_t dangle;
+						std::int32_t angle;
+						std::int32_t speed;
 
 						//
 						// Do the angles match up?
@@ -3442,10 +3442,10 @@ extern UBYTE	is_semtex;
 
 					#define EWAY_MAX_SAME 8
 
-					SLONG i;
-					UWORD same[EWAY_MAX_SAME];
-					SLONG same_upto = 0;
-					SLONG which;
+					std::int32_t i;
+					std::uint16_t same[EWAY_MAX_SAME];
+					std::int32_t same_upto = 0;
+					std::int32_t which;
 
 					for (i = 1; i < EWAY_way_upto; i++)
 					{
@@ -3654,7 +3654,7 @@ ANNOYINGSCRIBBLECHECK;
 
 					if (ew->ed.arg2)
 					{
-						SLONG who = EWAY_get_person(ew->ed.arg2);
+						std::int32_t who = EWAY_get_person(ew->ed.arg2);
 
 						if (who)
 						{
@@ -3727,11 +3727,10 @@ ANNOYINGSCRIBBLECHECK;
 		// Make sure each person in the conversation is okay...
 		//
 
-		UWORD person1 = EWAY_get_person(ew->ed.arg1);
-		UWORD person2 = EWAY_get_person(ew->ed.arg2);
+		std::uint16_t person1 = EWAY_get_person(ew->ed.arg1);
+		std::uint16_t person2 = EWAY_get_person(ew->ed.arg2);
 
-		if (person1 == nullptr ||
-			person2 == nullptr)
+		if (!person1 || !person2)
 		{
 			ans = false;
 		}
@@ -3751,13 +3750,13 @@ ANNOYINGSCRIBBLECHECK;
 				// If there isn't a line of sight between the two people...
 				//
 
-				SLONG x1 = (p_person1->WorldPos.X >> 8);
-				SLONG y1 = (p_person1->WorldPos.Y >> 8) + 0xa0;
-				SLONG z1 = (p_person1->WorldPos.Z >> 8);
+				std::int32_t x1 = (p_person1->WorldPos.X >> 8);
+				std::int32_t y1 = (p_person1->WorldPos.Y >> 8) + 0xa0;
+				std::int32_t z1 = (p_person1->WorldPos.Z >> 8);
 
-				SLONG x2 = (p_person2->WorldPos.X >> 8);
-				SLONG y2 = (p_person2->WorldPos.Y >> 8) + 0xa0;
-				SLONG z2 = (p_person2->WorldPos.Z >> 8);
+				std::int32_t x2 = (p_person2->WorldPos.X >> 8);
+				std::int32_t y2 = (p_person2->WorldPos.Y >> 8) + 0xa0;
+				std::int32_t z2 = (p_person2->WorldPos.Z >> 8);
 
 				if (!there_is_a_los(
 						x1, y1, z1,
@@ -3789,9 +3788,9 @@ ANNOYINGSCRIBBLECHECK;
 // Sets off a new cut-scene camera starting from the given waypoint.
 //
 
-void EWAY_create_camera(SLONG waypoint)
+void EWAY_create_camera(std::int32_t waypoint)
 {
-	SLONG i;
+	std::int32_t i;
 
 
 ANNOYINGSCRIBBLECHECK;
@@ -3818,7 +3817,7 @@ ANNOYINGSCRIBBLECHECK;
 	EWAY_cam_delay          = ew->ed.arg2 * 10;
 	EWAY_cam_waypoint       = waypoint;
 	EWAY_cam_freeze         = !!(ew->ed.subtype & EWAY_SUBTYPE_CAMERA_LOCK_PLAYER);
-	EWAY_cam_thing          = nullptr;
+	EWAY_cam_thing          = 0;
 	EWAY_cam_lens           = 0x28000;
 	EWAY_cam_lock           = !!(ew->ed.subtype & EWAY_SUBTYPE_CAMERA_LOCK_DIRECTION);
 	EWAY_cam_cant_interrupt = !!(ew->ed.subtype & EWAY_SUBTYPE_CAMERA_CANT_INTERRUPT);
@@ -3861,21 +3860,21 @@ ANNOYINGSCRIBBLECHECK;
 
 void EWAY_process_camera()
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG next;
-	SLONG speed;
-	SLONG wspeed;
+	std::int32_t dist;
+	std::int32_t next;
+	std::int32_t speed;
+	std::int32_t wspeed;
 
-	SLONG target_stationary = false;
+	std::int32_t target_stationary = false;
 
-	SLONG look_x;
-	SLONG look_y;
-	SLONG look_z;
-	SLONG look_yaw = 0;
+	std::int32_t look_x;
+	std::int32_t look_y;
+	std::int32_t look_z;
+	std::int32_t look_yaw = 0;
 
 	EWAY_Way *ew_go;
 	EWAY_Way *ew_look;
@@ -3883,7 +3882,7 @@ void EWAY_process_camera()
 
 ANNOYINGSCRIBBLECHECK;
 
-	EWAY_cam_warehouse = nullptr;
+	EWAY_cam_warehouse = 0;
 
 	if (!EWAY_cam_active)
 	{
@@ -4028,7 +4027,7 @@ ANNOYINGSCRIBBLECHECK;
 				//
 
 				{
-					UWORD look_index = THING_find_nearest(
+					std::uint16_t look_index = THING_find_nearest(
 											ew_look->x,
 											ew_look->y,
 											ew_look->z,
@@ -4350,7 +4349,7 @@ ANNOYINGSCRIBBLECHECK;
 	dy = look_y - (EWAY_cam_y >> 8) >> 1;
 	dz = look_z - (EWAY_cam_z >> 8) >> 1;
 
-	SLONG dxz = QDIST2(abs(dx),abs(dz));
+	std::int32_t dxz = QDIST2(abs(dx),abs(dz));
 
 	//
 	// Look at the right part of the thing.
@@ -4365,8 +4364,8 @@ ANNOYINGSCRIBBLECHECK;
 	EWAY_cam_want_yaw   <<= 8;
 	EWAY_cam_want_pitch <<= 8;
 
-	SLONG dyaw   = EWAY_cam_want_yaw   - EWAY_cam_yaw;
-	SLONG dpitch = EWAY_cam_want_pitch - EWAY_cam_pitch;
+	std::int32_t dyaw   = EWAY_cam_want_yaw   - EWAY_cam_yaw;
+	std::int32_t dpitch = EWAY_cam_want_pitch - EWAY_cam_pitch;
 
 	dyaw   &= (2048 << 8) - 1;
 	dpitch &= (2048 << 8) - 1;
@@ -4401,9 +4400,9 @@ ANNOYINGSCRIBBLECHECK;
 		// The yaw is interpolated.
 		//
 
-		SLONG along;
-		SLONG whole_dist;
-		SLONG along_dist;
+		std::int32_t along;
+		std::int32_t whole_dist;
+		std::int32_t along_dist;
 
 		dx = (EWAY_cam_x >> 8) - (EWAY_cam_last_x >> 8);
 		dz = (EWAY_cam_y >> 8) - (EWAY_cam_last_y >> 8);
@@ -4448,7 +4447,7 @@ ANNOYINGSCRIBBLECHECK;
 	}
 	else
 	{
-		SLONG max_dangle = 200 << 8;
+		std::int32_t max_dangle = 200 << 8;
 
 		if (target_stationary)
 		{
@@ -4521,8 +4520,8 @@ ANNOYINGSCRIBBLECHECK;
 	extern THING_INDEX PANEL_wide_top_person;
 	extern THING_INDEX PANEL_wide_bot_person;
 
-	PANEL_wide_top_person = nullptr;
-	PANEL_wide_bot_person = nullptr;
+	PANEL_wide_top_person = 0;
+	PANEL_wide_bot_person = 0;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4534,8 +4533,8 @@ ANNOYINGSCRIBBLECHECK;
 
 void EWAY_process_conversation()
 {
-	CBYTE* ch;
-	CBYTE* str;
+	char* ch;
+	char* str;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4724,12 +4723,12 @@ ANNOYINGSCRIBBLECHECK;
 
 void EWAY_process_emit_steam(EWAY_Way *ew)
 {
-	SLONG tick;
+	std::int32_t tick;
 
-	SLONG speed;
-	SLONG steps;
-	SLONG range;
-	SLONG choreography;
+	std::int32_t speed;
+	std::int32_t steps;
+	std::int32_t range;
+	std::int32_t choreography;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4747,9 +4746,9 @@ ANNOYINGSCRIBBLECHECK;
 
 	if (choreography & (1 << tick))
 	{
-		SLONG dx;
-		SLONG dy;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dy;
+		std::int32_t dz;
 
 		switch(ew->ed.subtype)
 		{
@@ -4809,7 +4808,7 @@ ANNOYINGSCRIBBLECHECK;
 
 void EWAY_set_active(EWAY_Way *ew)
 {
-	SLONG has;
+	std::int32_t has;
 
 ANNOYINGSCRIBBLECHECK;
 
@@ -4877,9 +4876,9 @@ ANNOYINGSCRIBBLECHECK;
 
 			extern void find_nice_place_near_person(
 							Thing *p_person,
-							SLONG *nice_x,	// 8-bits per mapsquare
-							SLONG *nice_y,
-							SLONG *nice_z);
+							std::int32_t *nice_x,	// 8-bits per mapsquare
+							std::int32_t *nice_y,
+							std::int32_t *nice_z);
 
 
 			if ((ew->ed.arg1&EWAY_ARG_ITEM_FOLLOW_PERSON)&&
@@ -4896,15 +4895,15 @@ ANNOYINGSCRIBBLECHECK;
 
 				if (ew->ec.arg1)
 				{
-					SLONG person = EWAY_get_person(ew->ec.arg1);
+					std::int32_t person = EWAY_get_person(ew->ec.arg1);
 
 					ASSERT(person);
 
 					if (person)
 					{
-						SLONG item_x;
-						SLONG item_y;
-						SLONG item_z;
+						std::int32_t item_x;
+						std::int32_t item_y;
+						std::int32_t item_z;
 
 						Thing *p_bloke = TO_THING(person);
 
@@ -5050,7 +5049,7 @@ ANNOYINGSCRIBBLECHECK;
 			}
 			else
 			{
-				SLONG time = ew->ed.subtype;
+				std::int32_t time = ew->ed.subtype;
 
 				if (time)
 				{
@@ -5131,7 +5130,7 @@ ANNOYINGSCRIBBLECHECK;
 
 							if (ew->ed.arg2)
 							{
-								SLONG who = EWAY_get_person(ew->ed.arg2);
+								std::int32_t who = EWAY_get_person(ew->ed.arg2);
 
 								if (who)
 								{
@@ -5176,7 +5175,7 @@ ANNOYINGSCRIBBLECHECK;
 									// Spot them driving the wrong way round Driving Bronze
 									// These magic numbers are the messages for "1/2/3 laps complete".
 
-									SLONG yaw_car;
+									std::int32_t yaw_car;
 									if ( NET_PERSON(0)->Genus.Person->Flags & FLAG_PERSON_DRIVING )
 									{
 										Thing *p_vehicle = TO_THING(NET_PERSON(0)->Genus.Person->InCar);
@@ -5305,8 +5304,7 @@ ANNOYINGSCRIBBLECHECK;
 			// 
 
 			{
-				CBYTE* str;
-				UWORD  track_thing = nullptr;
+				char* str;
 
 				if (!WITHIN(ew->ed.arg1, 0, EWAY_MAX_MESSES - 1))
 				{
@@ -5317,7 +5315,7 @@ ANNOYINGSCRIBBLECHECK;
 					str = EWAY_mess[ew->ed.arg1];
 				}
 
-				track_thing = EWAY_get_person(ew->ed.arg2);
+				std::uint16_t track_thing = EWAY_get_person(ew->ed.arg2);
 
 				if(ew->ed.arg2 && track_thing==0)
 				{
@@ -5345,7 +5343,7 @@ ANNOYINGSCRIBBLECHECK;
 
 //
 
-//				CBYTE msg[300];
+//				char msg[300];
 //				strcpy(msg,"if it was finished yet, beacon \"");
 //				if (EWAY_mess[ew->ed.arg])
 //					strcat(msg,EWAY_mess[ew->ed.arg]);
@@ -5355,7 +5353,7 @@ ANNOYINGSCRIBBLECHECK;
 //				CONSOLE_text(msg,4000);
 //
 
-//void	set_beacon(SLONG bx,SLONG by,SLONG bz);
+//void	set_beacon(std::int32_t bx,std::int32_t by,std::int32_t bz);
 //				set_beacon(ew->x,ew->y,ew->z);
 
 			}
@@ -5417,7 +5415,7 @@ extern void	set_stats();
 			{
 				EWAY_Edef *ee = &EWAY_edef[ew->index];
 
-				SLONG change = EWAY_get_person(ew->ed.arg1);
+				std::int32_t change = EWAY_get_person(ew->ed.arg1);
 
 				if (!change )
 				{
@@ -5452,7 +5450,7 @@ extern void	set_stats();
 
 		case EWAY_DO_CHANGE_ENEMY_FLG:
 			{
-				SLONG change = EWAY_get_person(ew->ed.arg1);
+				std::int32_t change = EWAY_get_person(ew->ed.arg1);
 
 				if (!change )
 				{
@@ -5577,7 +5575,7 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 						// As if this person has never been created.
 						// 
 
-						ewk->ed.arg1 = nullptr;
+						ewk->ed.arg1 = 0;
 					}
 				}
 				else
@@ -5593,13 +5591,13 @@ extern void PCOM_set_person_ai_normal(Thing *p_person);
 							// Make the vehicle blow up!
 							// 
 
-							extern void VEH_reduce_health(Thing *p_car, Thing *p_person, SLONG damage);
+							extern void VEH_reduce_health(Thing *p_car, Thing *p_person, std::int32_t damage);
 
 							VEH_reduce_health(
 								p_vehicle,
 								nullptr,
 								1050);
-extern UBYTE	hit_player;
+extern std::uint8_t	hit_player;
 							hit_player=1;
 							create_shockwave(
 								p_vehicle->WorldPos.X >> 8,
@@ -5616,7 +5614,7 @@ extern UBYTE	hit_player;
 							// As if this vehicle has never been created.
 							// 
 
-							ewk->ed.arg1 = nullptr;
+							ewk->ed.arg1 = 0;
 
 						}
 					}
@@ -5628,7 +5626,7 @@ extern UBYTE	hit_player;
 					{
 						MAP_beacon_remove(ewk->ed.subtype);
 
-						ewk->ed.subtype = nullptr;
+						ewk->ed.subtype = 0;
 					}
 				}
 				else
@@ -5646,7 +5644,7 @@ extern UBYTE	hit_player;
 				else
 				if (ewk->ed.type == EWAY_DO_MAKE_PERSON_PEE)
 				{
-					SLONG person = EWAY_get_person(ewk->ed.arg1);
+					std::int32_t person = EWAY_get_person(ewk->ed.arg1);
 
 					if (person)
 					{
@@ -5693,10 +5691,10 @@ extern UBYTE	hit_player;
 		case EWAY_DO_OBJECTIVE:
 
 			{
-				UWORD mess    = ew->ed.arg1;
-				SLONG percent = ew->ed.arg2 * CRIME_RATE_SCORE_MUL >> 8;
+				std::uint16_t mess    = ew->ed.arg1;
+				std::int32_t percent = ew->ed.arg2 * CRIME_RATE_SCORE_MUL >> 8;
 
-				CBYTE* str;
+				char* str;
 
 				if (!WITHIN(mess, 0, EWAY_MAX_MESSES - 1))
 				{
@@ -5735,7 +5733,7 @@ extern UBYTE	hit_player;
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 1; i < EWAY_way_upto; i++)
 				{
@@ -5767,7 +5765,7 @@ extern UBYTE	hit_player;
 			//
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 1; i < EWAY_way_upto; i++)
 				{
@@ -5796,8 +5794,8 @@ extern UBYTE	hit_player;
 		case EWAY_DO_AMBIENT_CONV:
 
 			{
-				UWORD person_a = EWAY_get_person(ew->ed.arg1);
-				UWORD person_b = EWAY_get_person(ew->ed.arg2);
+				std::uint16_t person_a = EWAY_get_person(ew->ed.arg1);
+				std::uint16_t person_b = EWAY_get_person(ew->ed.arg2);
 
 				if (person_a &&
 					person_b)
@@ -5968,7 +5966,7 @@ extern UBYTE	hit_player;
 
 				// -- PLACE AUTOSAVE CODE HERE --
 #ifndef	PSX
-extern SLONG	SAVE_ingame(CBYTE* fname);
+extern std::int32_t	SAVE_ingame(char* fname);
 				SAVE_ingame("");
 				CONSOLE_text("GAME AUTOSAVED");
 #endif
@@ -6050,7 +6048,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 		case EWAY_DO_GROUP_RESET:
 	
 			{
-				SLONG i;
+				std::int32_t i;
 
 				EWAY_Way *ewr;
 
@@ -6104,7 +6102,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 
 			if (ew->ed.subtype == 0)
 			{
-				UBYTE i;
+				std::uint8_t i;
 
 				for (i = 0; i < EWAY_MAX_COUNTERS; i++)
 				{
@@ -6123,15 +6121,15 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 		case EWAY_DO_CREATE_MIST:
 #ifndef PSX
 			{
-				static SLONG last_detail = 17;
-				static SLONG last_height = 84;
+				static std::int32_t last_detail = 17;
+				static std::int32_t last_height = 84;
 
 				#define MIST_SIZE 0x800
 
-				SLONG x1 = (ew->x) - MIST_SIZE;
-				SLONG z1 = (ew->z) - MIST_SIZE;
-				SLONG x2 = (ew->x) + MIST_SIZE;
-				SLONG z2 = (ew->z) + MIST_SIZE;
+				std::int32_t x1 = (ew->x) - MIST_SIZE;
+				std::int32_t z1 = (ew->z) - MIST_SIZE;
+				std::int32_t x2 = (ew->x) + MIST_SIZE;
+				std::int32_t z2 = (ew->z) + MIST_SIZE;
 
 				MIST_create(
 					last_detail,
@@ -6147,7 +6145,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 		case EWAY_DO_STALL_CAR:
 
 			{
-				UWORD veh = EWAY_get_person(ew->ed.arg1);
+				std::uint16_t veh = EWAY_get_person(ew->ed.arg1);
 
 				if (veh)
 				{
@@ -6185,7 +6183,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 		case EWAY_DO_MOVE_THING:
 
 			{
-				UWORD i_thing = EWAY_get_person(ew->ed.arg1);
+				std::uint16_t i_thing = EWAY_get_person(ew->ed.arg1);
 
 				if (i_thing)
 				{
@@ -6231,7 +6229,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 		case EWAY_DO_MAKE_PERSON_PEE:
 
 			{
-				SLONG person = EWAY_get_person(ew->ed.arg1);
+				std::int32_t person = EWAY_get_person(ew->ed.arg1);
 
 				if (person)
 				{
@@ -6255,7 +6253,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 
 		case EWAY_DO_WAREFX:
 			{
-				SLONG ware=WARE_which_contains(ew->x>>8,ew->z>>8);
+				std::int32_t ware=WARE_which_contains(ew->x>>8,ew->z>>8);
 				if (ware)
 					WARE_ware[ware].ambience=ew->ed.arg1;
 				else
@@ -6265,7 +6263,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 /*
 		case EWAY_DO_WAREFX:
 			{
-				SLONG ware=WARE_which_contains(ew->x>>8,ew->z>>8);
+				std::int32_t ware=WARE_which_contains(ew->x>>8,ew->z>>8);
 				if (ware)
 					WARE_ware[ware].ambience=ew->ed.arg1;
 				else
@@ -6299,7 +6297,7 @@ extern SLONG	SAVE_ingame(CBYTE* fname);
 			// 
 
 			{
-				UBYTE i;
+				std::uint8_t i;
 
 				for (i = 0; i < EWAY_MAX_TIMERS; i++)
 				{
@@ -6398,7 +6396,7 @@ ANNOYINGSCRIBBLECHECK;
 		// Work out how long the count up took and put it into counter 3.
 		//
 
-		SLONG secs = (EWAY_count_up + (EWAY_count_up_num_penalties * 500)) / 1000;
+		std::int32_t secs = (EWAY_count_up + (EWAY_count_up_num_penalties * 500)) / 1000;
 
 		if (secs > 255)
 		{
@@ -6421,7 +6419,7 @@ ANNOYINGSCRIBBLECHECK;
 }
 
 
-SLONG EWAY_stop_player_moving()
+std::int32_t EWAY_stop_player_moving()
 {
 	return (EWAY_cam_active && EWAY_cam_freeze)||GAME_cut_scene;
 }
@@ -6451,7 +6449,7 @@ void EWAY_process_penalties()
 		// Start showing all the penalty points.
 		//
 
-		CBYTE str[64];
+		char str[64];
 
 		if (EWAY_count_up_num_penalties == 0)
 		{
@@ -6509,14 +6507,14 @@ void EWAY_process_penalties()
 
 #ifndef	PSX
 #ifndef TARGET_DC
-extern SWORD	people_types[50];
+extern std::int16_t	people_types[50];
 
 void count_people_types()
 {		 
 	return;
 
 	EWAY_Way *ew;
-	SLONG	i;
+	std::int32_t	i;
 
 	for (i = 1; i < EWAY_way_upto; i++)
 	{
@@ -6533,16 +6531,16 @@ void count_people_types()
 
 void EWAY_process()
 {
-	SLONG i;
-	SLONG on;
-	SLONG timer;
+	std::int32_t i;
+	std::int32_t on;
+	std::int32_t timer;
 
 ANNOYINGSCRIBBLECHECK;
 
 
 	EWAY_Way *ew;
-	SLONG	offset,step;//,start,end;
-	SLONG	eway_max=EWAY_way_upto;
+	std::int32_t	offset,step;//,start,end;
+	std::int32_t	eway_max=EWAY_way_upto;
 
 
 #ifdef PSX	
@@ -6667,7 +6665,7 @@ ANNOYINGSCRIBBLECHECK;
 					EWAY_count_up_visible = true;
 
 					{
-						SLONG secs = EWAY_count_up / 1000;
+						std::int32_t secs = EWAY_count_up / 1000;
 
 						if (secs > 255)
 						{
@@ -6814,10 +6812,10 @@ ANNOYINGSCRIBBLECHECK;
 
 
 void EWAY_get_position(
-		SLONG  waypoint,
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z)
+		std::int32_t  waypoint,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z)
 {
 	ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
@@ -6826,9 +6824,9 @@ void EWAY_get_position(
    *world_z = EWAY_way[waypoint].z;
 }
 
-UWORD EWAY_get_angle(SLONG waypoint)
+std::uint16_t EWAY_get_angle(std::int32_t waypoint)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
@@ -6837,13 +6835,13 @@ UWORD EWAY_get_angle(SLONG waypoint)
 	return ans;
 }
 
-UWORD EWAY_get_person(SLONG waypoint)
+std::uint16_t EWAY_get_person(std::int32_t waypoint)
 {
-	UWORD ans;
+	std::uint16_t ans;
 	
 	if (!waypoint )
 	{
-		return nullptr;
+		return 0;
 	}
 
 	ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
@@ -6861,7 +6859,7 @@ UWORD EWAY_get_person(SLONG waypoint)
 	}
 	else
 	{
-		ans = nullptr;
+		ans = 0;
 	}
 
 	return ans;
@@ -6869,14 +6867,14 @@ UWORD EWAY_get_person(SLONG waypoint)
 
 
 
-SLONG EWAY_find_waypoint(
-		SLONG index,
-		SLONG whatdo,	// or EWAY_DONT_CARE
-		SLONG colour,	// or EWAY_DONT_CARE
-		SLONG group,	// or EWAY_DONT_CARE
-		UBYTE only_active)
+std::int32_t EWAY_find_waypoint(
+		std::int32_t index,
+		std::int32_t whatdo,	// or EWAY_DONT_CARE
+		std::int32_t colour,	// or EWAY_DONT_CARE
+		std::int32_t group,	// or EWAY_DONT_CARE
+		std::uint8_t only_active)
 {
-	SLONG i;
+	std::int32_t i;
 
 	EWAY_Way *ew;
 
@@ -6912,21 +6910,21 @@ SLONG EWAY_find_waypoint(
 	return EWAY_NO_MATCH;
 }
 
-SLONG EWAY_find_waypoint_rand(
-		SLONG not_this_index,
-		SLONG colour,
-		SLONG group,
-		UBYTE only_active)
+std::int32_t EWAY_find_waypoint_rand(
+		std::int32_t not_this_index,
+		std::int32_t colour,
+		std::int32_t group,
+		std::uint8_t only_active)
 {
-	SLONG i;
-	SLONG ans;
+	std::int32_t i;
+	std::int32_t ans;
 
 	EWAY_Way *ew;
 
 	#define EWAY_FIND_RAND_MAX 32
 
-	UWORD choice[EWAY_FIND_RAND_MAX];
-	SLONG choice_upto = 0;
+	std::uint16_t choice[EWAY_FIND_RAND_MAX];
+	std::int32_t choice_upto = 0;
 
 	//
 	// Find all the suitable waypoints.
@@ -6981,22 +6979,22 @@ SLONG EWAY_find_waypoint_rand(
 
 
 
-SLONG EWAY_find_nearest_waypoint(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG colour,	// or EWAY_DONT_CARE
-		SLONG group)	// or EWAY_DONT_CARE
+std::int32_t EWAY_find_nearest_waypoint(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t colour,	// or EWAY_DONT_CARE
+		std::int32_t group)	// or EWAY_DONT_CARE
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG best_dist     = INFINITY;
-	SLONG best_waypoint = EWAY_NO_MATCH;
+	std::int32_t best_dist     = INFINITY;
+	std::int32_t best_waypoint = EWAY_NO_MATCH;
 
 	EWAY_Way *ew;
 
@@ -7033,14 +7031,14 @@ SLONG EWAY_find_nearest_waypoint(
 }
 
 
-SLONG EWAY_grab_camera(
-		SLONG *cam_x,
-		SLONG *cam_y,
-		SLONG *cam_z,
-		SLONG *cam_yaw,
-		SLONG *cam_pitch,
-		SLONG *cam_roll,
-		SLONG *cam_lens)
+std::int32_t EWAY_grab_camera(
+		std::int32_t *cam_x,
+		std::int32_t *cam_y,
+		std::int32_t *cam_z,
+		std::int32_t *cam_yaw,
+		std::int32_t *cam_pitch,
+		std::int32_t *cam_roll,
+		std::int32_t *cam_lens)
 {
 	if (EWAY_cam_active)
 	{
@@ -7050,7 +7048,7 @@ SLONG EWAY_grab_camera(
 		// player control.
 		//
 
-		extern SLONG analogue;
+		extern std::int32_t analogue;
 
 #ifndef PSX
 		if (analogue && !EWAY_stop_player_moving())
@@ -7075,30 +7073,24 @@ SLONG EWAY_grab_camera(
 	return EWAY_cam_active;
 }
 
-UBYTE EWAY_camera_warehouse()
+std::uint8_t EWAY_camera_warehouse()
 {
-	if (EWAY_cam_active)
-	{
-		if (EWAY_conv_active)
-		{
-			if (EWAY_conv_person_a)
-			{
-				ASSERT(TO_THING(EWAY_conv_person_a)->Class == CLASS_PERSON);
+	if (!EWAY_cam_active)
+		return 0;
 
-				return TO_THING(EWAY_conv_person_a)->Genus.Person->Ware;
-			}
-		}
-		else
-		{
-			return EWAY_cam_warehouse;
-		}
-	}
+	if (!EWAY_conv_active)
+		return EWAY_cam_warehouse;
 
-	return nullptr;
+	if (!EWAY_conv_person_a)
+		return 0;
+
+	ASSERT(TO_THING(EWAY_conv_person_a)->Class == CLASS_PERSON);
+
+	return TO_THING(EWAY_conv_person_a)->Genus.Person->Ware;
 }
 
 
-void EWAY_item_pickedup(SLONG waypoint)
+void EWAY_item_pickedup(std::int32_t waypoint)
 {
 	EWAY_Way *ew;
 
@@ -7112,7 +7104,7 @@ void EWAY_item_pickedup(SLONG waypoint)
 }
 
 
-SLONG EWAY_get_delay(SLONG waypoint, SLONG default_delay)
+std::int32_t EWAY_get_delay(std::int32_t waypoint, std::int32_t default_delay)
 {
 	EWAY_Way *ew;
 
@@ -7137,7 +7129,7 @@ SLONG EWAY_get_delay(SLONG waypoint, SLONG default_delay)
 	}
 }
 
-SLONG EWAY_is_active(SLONG waypoint)
+std::int32_t EWAY_is_active(std::int32_t waypoint)
 {
 	EWAY_Way *ew;
 
@@ -7156,10 +7148,10 @@ SLONG EWAY_is_active(SLONG waypoint)
 }
 
 
-SLONG EWAY_used_person(UWORD t_index)
+std::int32_t EWAY_used_person(std::uint16_t t_index)
 {
-	UWORD i;
-	SLONG ans = false;
+	std::uint16_t i;
+	std::int32_t ans = false;
 	
 	EWAY_Way *ew;
 
@@ -7200,7 +7192,7 @@ SLONG EWAY_used_person(UWORD t_index)
 
 					EWAY_set_active(ew);
 
-					EWAY_used_thing = nullptr;
+					EWAY_used_thing = 0;
 
 					//
 					// Don't mark this person as useable any more.
@@ -7223,9 +7215,9 @@ SLONG EWAY_used_person(UWORD t_index)
 }
 
 
-UBYTE EWAY_get_warehouse(SLONG waypoint)
+std::uint8_t EWAY_get_warehouse(std::int32_t waypoint)
 {
-	UBYTE ans;
+	std::uint8_t ans;
 
 	ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
@@ -7239,8 +7231,8 @@ UBYTE EWAY_get_warehouse(SLONG waypoint)
 #ifndef TARGET_DC
 void EWAY_work_out_which_ones_are_in_warehouses()
 {
-	SLONG i;
-	SLONG id;
+	std::int32_t i;
+	std::int32_t id;
 
 	EWAY_Way  *ew;
 
@@ -7255,7 +7247,7 @@ void EWAY_work_out_which_ones_are_in_warehouses()
 
 		if (PAP_2HI(ew->x >> 8, ew->z >> 8).Flags & PAP_FLAG_HIDDEN)
 		{
-			SLONG ware_top;
+			std::int32_t ware_top;
 
 			ware_top = PAP_calc_map_height_at(
 						ew->x,
@@ -7276,13 +7268,13 @@ void EWAY_work_out_which_ones_are_in_warehouses()
 
 void EWAY_cam_get_position_for_angle(
 			Thing *p_thing,
-			SLONG  angle,
-			SLONG *vx,
-			SLONG *vy,
-			SLONG *vz)
+			std::int32_t  angle,
+			std::int32_t *vx,
+			std::int32_t *vy,
+			std::int32_t *vz)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ASSERT(WITHIN(angle, 0, EWAY_CAM_VIEW_ANGLES - 1));
 
@@ -7305,36 +7297,36 @@ void EWAY_cam_get_position_for_angle(
 
 void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG cam_dist;
+	std::int32_t cam_dist;
 
-	SLONG best_angle;
-	SLONG best_score;
+	std::int32_t best_angle;
+	std::int32_t best_score;
 	
-	SLONG side1;
-	SLONG side2;
+	std::int32_t side1;
+	std::int32_t side2;
 
-	SLONG angle1;
-	SLONG angle2;
-	SLONG dangle;
+	std::int32_t angle1;
+	std::int32_t angle2;
+	std::int32_t dangle;
 
 	#define EWAY_CONVERSE_ANGLES 16	// Power of 2 please.
 
-	UBYTE score[EWAY_CONVERSE_ANGLES];
+	std::uint8_t score[EWAY_CONVERSE_ANGLES];
 
 	EWAY_cam_thing      = THING_NUMBER(p_thing);
-	EWAY_cam_waypoint   = nullptr;
+	EWAY_cam_waypoint   = 0;
 	EWAY_cam_lens       = 0x28000;
 	EWAY_cam_freeze     = true;
 	EWAY_cam_lock       = false;
@@ -7573,8 +7565,8 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 	}
 	else
 	{
-		SLONG	division = 2048 / EWAY_CONVERSE_ANGLES;
-		SLONG	angle = best_angle * division;
+		std::int32_t	division = 2048 / EWAY_CONVERSE_ANGLES;
+		std::int32_t	angle = best_angle * division;
 
 		// modulate it randomly
 		angle += (Random() & (division - 1)) - (division / 2);
@@ -7584,7 +7576,7 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 		dz = COS(angle) * cam_dist >> 8;
 
 		// find a vector 0 to 50% from speaker to listener
-		SLONG	rnd = Random() & 127;
+		std::int32_t	rnd = Random() & 127;
 
 		x = ((p_listener->WorldPos.X >> 8) - (p_thing->WorldPos.X >> 8)) * rnd;
 		y = ((p_listener->WorldPos.Y >> 8) - (p_thing->WorldPos.Y >> 8)) * rnd;
@@ -7616,16 +7608,16 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener)
 
 #ifdef MATTS_BUGGY_VERSION
 
-void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, UBYTE cam_flags) {
-	SLONG thing_yaw, yaw;
-	SLONG dx,dy,dz;
-	SLONG cx,cy,cz;
+void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, std::uint8_t cam_flags) {
+	std::int32_t thing_yaw, yaw;
+	std::int32_t dx,dy,dz;
+	std::int32_t cx,cy,cz;
 	GameCoord targ;
-	static UBYTE lineside=0;
-	static UWORD tick = 0;
+	static std::uint8_t lineside=0;
+	static std::uint16_t tick = 0;
 	static Thing *p_last1=0;
 	static Thing *p_last2=0;
-	static UBYTE lastflags=0;
+	static std::uint8_t lastflags=0;
 
 	// debug force:
 	//cam_flags=32|3|16;
@@ -7755,28 +7747,28 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, UBYTE cam_flags) {
 #ifndef TARGET_DC
 void EWAY_cam_look_at(Thing *p_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG cx;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cz;
 
-	SLONG dprod;
+	std::int32_t dprod;
 
-	SLONG vx;
-	SLONG vy;
-	SLONG vz;
-	SLONG score;
+	std::int32_t vx;
+	std::int32_t vy;
+	std::int32_t vz;
+	std::int32_t score;
 
-	SLONG best_angle;
-	SLONG best_score;
+	std::int32_t best_angle;
+	std::int32_t best_score;
 
-	UWORD thing_yaw;
-	UWORD angle;
+	std::uint16_t thing_yaw;
+	std::uint16_t angle;
 
-	SLONG view[EWAY_CAM_VIEW_ANGLES];
+	std::int32_t view[EWAY_CAM_VIEW_ANGLES];
 
 	//
 	// What direction is the thing facing in?
@@ -7844,7 +7836,7 @@ void EWAY_cam_look_at(Thing *p_thing)
 
 	best_score = 0;
 
-	ULONG seed = p_thing->WorldPos.X ^ p_thing->WorldPos.Z;
+	std::uint32_t seed = p_thing->WorldPos.X ^ p_thing->WorldPos.Z;
 
 	for (i = 0; i < EWAY_CAM_VIEW_ANGLES; i++)
 	{
@@ -7903,7 +7895,7 @@ void EWAY_cam_look_at(Thing *p_thing)
 
 	EWAY_cam_active   = true;
 	EWAY_cam_thing    = THING_NUMBER(p_thing);
-	EWAY_cam_waypoint = nullptr;
+	EWAY_cam_waypoint = 0;
 	EWAY_cam_freeze   = true;
 
 	EWAY_cam_x <<= 8;
@@ -7929,9 +7921,9 @@ void EWAY_cam_relinquish()
 }
 
 
-SLONG EWAY_find_or_create_waypoint_that_created_person(Thing *p_person)
+std::int32_t EWAY_find_or_create_waypoint_that_created_person(Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
 	EWAY_Way *ew;
 
@@ -7958,7 +7950,7 @@ SLONG EWAY_find_or_create_waypoint_that_created_person(Thing *p_person)
 }
 
 
-SLONG EWAY_conversation_happening(
+std::int32_t EWAY_conversation_happening(
 		THING_INDEX *person_a,
 		THING_INDEX *person_b)
 {
@@ -7975,9 +7967,9 @@ SLONG EWAY_conversation_happening(
 	}
 }
 
-void EWAY_prim_activated(SLONG ob_index)
+void EWAY_prim_activated(std::int32_t ob_index)
 {
-	SLONG i;
+	std::int32_t i;
 
 	EWAY_Way *ew;
 
@@ -7996,9 +7988,9 @@ void EWAY_prim_activated(SLONG ob_index)
 }
 
 
-void EWAY_deduct_time_penalty(SLONG time_to_deduct_in_hundreths_of_a_second)
+void EWAY_deduct_time_penalty(std::int32_t time_to_deduct_in_hundreths_of_a_second)
 {
-	SLONG i;
+	std::int32_t i;
 
 	EWAY_Way *ew;
 
@@ -8008,8 +8000,8 @@ void EWAY_deduct_time_penalty(SLONG time_to_deduct_in_hundreths_of_a_second)
 
 		if (ew->ec.type == EWAY_COND_COUNTDOWN_SEE)
 		{
-			SLONG depend = ew->ec.arg1;
-			SLONG timer  = ew->ec.arg2;
+			std::int32_t depend = ew->ec.arg1;
+			std::int32_t timer  = ew->ec.arg2;
 
 			ASSERT(depend == 0 || WITHIN(depend, 1, EWAY_way_upto - 1));
 
@@ -8033,7 +8025,7 @@ void flag_undeletable_people()
 {
 	EWAY_Way *ew;
 	EWAY_Cond *ec;
-	SLONG	i;
+	std::int32_t	i;
 
 	for (i = 1; i < eway_max; i++)
 	{
@@ -8053,7 +8045,7 @@ void flag_undeletable_people()
 		{
 			case EWAY_COND_HALF_DEAD:
 			case EWAY_COND_IS_MURDERER:
-				SLONG i_person = EWAY_get_person(ec->arg1);
+				std::int32_t i_person = EWAY_get_person(ec->arg1);
 
 			case EWAY_COND_PERSON_USED:
 				if (ec->arg1)
@@ -8103,7 +8095,7 @@ void flag_undeletable_people()
 						EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_ENEMY ||
 						EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_PLAYER);
 
-					UWORD index = EWAY_way[ec->arg1].ed.arg1;
+					std::uint16_t index = EWAY_way[ec->arg1].ed.arg1;
 
 					if (index)
 					{
@@ -8117,8 +8109,8 @@ void flag_undeletable_people()
 
 			case EWAY_COND_KILLED_NOT_ARRESTED:
 			{
-				SLONG waypoint;
-				SLONG index;
+				std::int32_t waypoint;
+				std::int32_t index;
 
 				Thing    *p_thing;
 				EWAY_Way *ew_dead;
@@ -8128,7 +8120,7 @@ void flag_undeletable_people()
 				if (waypoint == 0)
 				{
 #ifndef PSX
-					CBYTE mess[128];
+					char mess[128];
 
 					sprintf(mess, "Waypoint %d: cond person dead has nullptr dependency", ew->id);
 
@@ -8173,7 +8165,7 @@ void flag_undeletable_people()
 
 							{
 							#ifndef PSX
-								CBYTE mess[128];
+								char mess[128];
 
 								sprintf(mess, "Waypoint %d: killed not arrested dependent on odd waypoint", ew->id);
 

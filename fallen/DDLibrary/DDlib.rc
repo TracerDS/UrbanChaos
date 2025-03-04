@@ -697,7 +697,7 @@ BEGIN
                     WS_EX_STATICEDGE
     GROUPBOX        "Waypoint Info",IDC_WAYPOINT_GROUP,145,305,192,130
     LTEXT           "Group:",IDC_STATIC,150,406,22,8
-    LTEXT           "Colour:",IDC_STATIC,150,380,23,8
+    LTEXT           "Color:",IDC_STATIC,150,380,23,8
     COMBOBOX        IDC_COMBO1,155,330,90,160,CBS_DROPDOWNLIST | WS_VSCROLL | 
                     WS_TABSTOP
     LTEXT           "Waypoint Type:",IDC_STATIC,150,320,51,8
@@ -1107,7 +1107,7 @@ BEGIN
                     WS_TABSTOP
     COMBOBOX        IDC_COMBO1,57,7,80,111,CBS_DROPDOWNLIST | 
                     CBS_OWNERDRAWFIXED | WS_VSCROLL | WS_TABSTOP
-    RTEXT           "Colour:",IDC_STATIC,7,7,42,12,SS_CENTERIMAGE
+    RTEXT           "Color:",IDC_STATIC,7,7,42,12,SS_CENTERIMAGE
     RTEXT           "Group:",IDC_STATIC,144,7,29,12,SS_CENTERIMAGE
     LTEXT           "Height:",IDC_STATIC,25,27,24,8
     EDITTEXT        IDC_EDIT1,57,27,69,12,ES_AUTOHSCROLL
@@ -1437,8 +1437,8 @@ BEGIN
     LISTBOX         IDC_LIST1,49,67,103,54,LBS_OWNERDRAWFIXED | 
                     LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
                     WS_TABSTOP
-    RTEXT           "Colour 1:",IDC_STATIC,7,127,28,8
-    RTEXT           "Colour 2:",IDC_STATIC,7,147,28,8
+    RTEXT           "Color 1:",IDC_STATIC,7,127,28,8
+    RTEXT           "Color 2:",IDC_STATIC,7,147,28,8
     CONTROL         "",IDC_BUTTON1,"Button",BS_OWNERDRAW | WS_TABSTOP,49,127,
                     34,14
     CONTROL         "",IDC_BUTTON2,"Button",BS_OWNERDRAW | WS_TABSTOP,49,147,
@@ -2155,7 +2155,7 @@ BEGIN
             VALUE "FileDescription", "Fallen\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "Fallen\0"
-            VALUE "LegalCopyright", "Copyright © 1999\0"
+            VALUE "LegalCopyright", "Copyright ï¿½ 1999\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "Fallen.exe\0"
             VALUE "PrivateBuild", "\0"

@@ -19,9 +19,9 @@ void CONE_create(
 		float dz,
 		float length,
 		float radius,
-		ULONG colour_start,
-		ULONG colour_end,
-		SLONG detail);		//  A value between 0 and 256
+		std::uint32_t colour_start,
+		std::uint32_t colour_end,
+		std::int32_t detail);		//  A value between 0 and 256
 
 
 //
@@ -38,7 +38,7 @@ typedef struct
 
 void CONE_clip(
 		CONE_Poly p[],
-		SLONG     num_points);
+		std::int32_t     num_points);
 
 
 //

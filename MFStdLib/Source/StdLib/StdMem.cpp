@@ -19,8 +19,8 @@ struct HeapDebugInfo
 {
 	HeapDebugInfo	*pPrev;
 	HeapDebugInfo	*pNext;
-	ULONG			ulSize;		// The size of this alloc.
-	ULONG			ulSeqNum;	// The malloc number.
+	std::uint32_t			ulSize;		// The size of this alloc.
+	std::uint32_t			ulSeqNum;	// The malloc number.
 };
 
 #define MAX_NUM_DELNEW_TRACES 2000
@@ -30,19 +30,19 @@ int iNumNewDelTraces = 0;
 struct newdeltrace
 {
 	void* pvAddr;
-	ULONG ulsize;
-	ULONG ulSequenceNumber;
+	std::uint32_t ulsize;
+	std::uint32_t ulSequenceNumber;
 } ndtList[MAX_NUM_DELNEW_TRACES];
 
 
 
 HeapDebugInfo *pFirst = nullptr;
-ULONG ulCurrentSequenceNumber = 0;
+std::uint32_t ulCurrentSequenceNumber = 0;
 
 // Set this to 1 in a debugger to dump the info.
 volatile bool bDumpDebug = false;
 // Set this to an ID you want to track in the debugger.
-volatile ULONG ulSpotted = -1;
+volatile std::uint32_t ulSpotted = -1;
 
 
 void DumpDebug ( void )
@@ -107,7 +107,7 @@ void ResetMemory()
 
 //---------------------------------------------------------------
 
-void* MemAlloc(ULONG size)
+void* MemAlloc(std::uint32_t size)
 {
 #ifdef HEAP_DEBUGGING_PLEASE_BOB
 	if ( bDumpDebug )
@@ -118,7 +118,7 @@ void* MemAlloc(ULONG size)
 	// Set up ulSpotted in a debugger to track interesting items.
 	ASSERT ( ulSpotted != ulCurrentSequenceNumber );
 
-	ULONG ulOriginalSize = size;
+	std::uint32_t ulOriginalSize = size;
 	size += sizeof ( HeapDebugInfo );
 #endif
 	size	=	(size+3)&0xfffffffc;
@@ -144,7 +144,7 @@ void* MemAlloc(ULONG size)
 	return ptr;
 }
 
-void* MemReAlloc(void* ptr, ULONG size)
+void* MemReAlloc(void* ptr, std::uint32_t size)
 {
 	size = (size + 3) & 0xfffffffc;
 	ptr = (void*)HeapReAlloc(MFHeap, HEAP_ZERO_MEMORY, ptr, size);
@@ -192,7 +192,7 @@ void MemFree(void* mem_ptr)
 //---------------------------------------------------------------
 
 /*
-void MemClear(void* mem_ptr,ULONG size)
+void MemClear(void* mem_ptr,std::uint32_t size)
 {
 }
 */
@@ -225,7 +225,7 @@ void MFnewTrace ( void* pvAddr, size_t size )
 	ASSERT ( iNumNewDelTraces < MAX_NUM_DELNEW_TRACES - 1 );
 
 	ndtList[iNumNewDelTraces].pvAddr = pvAddr;
-	ndtList[iNumNewDelTraces].ulsize = (ULONG)size;
+	ndtList[iNumNewDelTraces].ulsize = (std::uint32_t)size;
 	ndtList[iNumNewDelTraces].ulSequenceNumber = ulCurrentSequenceNumber++;
 	iNumNewDelTraces++;
 }

@@ -27,9 +27,9 @@ void DCOS_buffer_add_sprite(
 		float u1 = 0.0F, float v1 = 0.0F,
 		float u2 = 1.0F, float v2 = 1.0F,
 		float z  = 0.0F,
-		ULONG colour   = 0x00ffffff,
-		ULONG specular = 0x00000000,
-		ULONG fade     = 0);
+		std::uint32_t colour   = 0x00ffffff,
+		std::uint32_t specular = 0x00000000,
+		std::uint32_t fade     = 0);
 
 
 //
@@ -39,7 +39,7 @@ void DCOS_buffer_add_sprite(
 #define DCOS_DRAW_NORMAL 0
 #define DCOS_DRAW_ADD    1
 
-void DCOS_buffer_draw(OS_Buffer *ob, D3DTexture *texture, ULONG draw = DCOS_DRAW_NORMAL);
+void DCOS_buffer_draw(OS_Buffer *ob, D3DTexture *texture, std::uint32_t draw = DCOS_DRAW_NORMAL);
 
 
 

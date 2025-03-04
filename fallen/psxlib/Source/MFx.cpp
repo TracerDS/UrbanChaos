@@ -43,80 +43,80 @@ extern char *PANEL_wide_cont;
 extern char PANEL_wide_text[];
 
 typedef struct {
-	SWORD	waypoint;
-	UBYTE	conversation;
-	UBYTE	conv_off;
-	UBYTE	channel;
-	UBYTE   pack;
-	SWORD	length;
-	SWORD	offset;
+	std::int16_t	waypoint;
+	std::uint8_t	conversation;
+	std::uint8_t	conv_off;
+	std::uint8_t	channel;
+	std::uint8_t   pack;
+	std::int16_t	length;
+	std::int16_t	offset;
 } AudioOffset;
 
 
-SLONG MFX_Speech_files;
-SLONG MFX_Cd_Position;
-SLONG MFX_Seek_delay=0;
-SLONG MFX_music_stop=0;
-SLONG MFX_sound_frame;
+std::int32_t MFX_Speech_files;
+std::int32_t MFX_Cd_Position;
+std::int32_t MFX_Seek_delay=0;
+std::int32_t MFX_music_stop=0;
+std::int32_t MFX_sound_frame;
 
 AudioOffset Audio_data[128];
 CdlFILE MFX_Speech_Start;
-SLONG MFX_Speech_End;
+std::int32_t MFX_Speech_End;
 #if 1
 extern char *GDisp_Bucket;
 #else
 extern char GDisp_Bucket[];
 #endif
-SLONG MFX_Conv_playing=0;
+std::int32_t MFX_Conv_playing=0;
 
-extern SWORD music_current_level;
-extern UBYTE music_current_mode;
-SLONG MFX_music_end;
-SLONG MFX_music_queued;
-SLONG MFX_music_gain;
-SLONG MFX_music_q_flag;
-SLONG MFX_music_pending;
-SLONG MFX_music_world;
+extern std::int16_t music_current_level;
+extern std::uint8_t music_current_mode;
+std::int32_t MFX_music_end;
+std::int32_t MFX_music_queued;
+std::int32_t MFX_music_gain;
+std::int32_t MFX_music_q_flag;
+std::int32_t MFX_music_pending;
+std::int32_t MFX_music_world;
 
 typedef struct {
 	GameCoord *position;
 	GameCoord poshold;
-	UWORD	  channel_id;
-	UBYTE	  channel;
-	UBYTE	  in_use;
-	ULONG	  wave;
-	ULONG	  end_frame;
-	ULONG	  flags;
+	std::uint16_t	  channel_id;
+	std::uint8_t	  channel;
+	std::uint8_t	  in_use;
+	std::uint32_t	  wave;
+	std::uint32_t	  end_frame;
+	std::uint32_t	  flags;
 	SpuVoiceAttr voice;
 } MFX_Sound;
 
 typedef struct {
 	GameCoord position;
 	SVECTOR	  orientation;
-	SLONG	  environment;
+	std::int32_t	  environment;
 } MFX_Listener;
 
 typedef struct {
-	SLONG	  address;
-	SLONG	  length;
+	std::int32_t	  address;
+	std::int32_t	  length;
 } MFX_Wave;
 
 MFX_Sound MFX_channel[MFX_MAX_CHANNELS];
 MFX_Listener MFX_listener;
 MFX_Wave MFX_wave[MFX_MAX_WAVES];
 
-SLONG MFX_WavesLoaded;
-SLONG MFX_WaveFree;
-SLONG MFX_music_wave;
-SLONG MFX_music_int;
+std::int32_t MFX_WavesLoaded;
+std::int32_t MFX_WaveFree;
+std::int32_t MFX_music_wave;
+std::int32_t MFX_music_int;
 
-SLONG MFX_OnKey,MFX_OffKey;
+std::int32_t MFX_OnKey,MFX_OffKey;
 
 void MFX_Conv_stop();
 
 //----- transport functions -----
 
-inline ULONG MFX_FindPSXChannel(ULONG channel_id,ULONG wave,ULONG flags) 
+inline std::uint32_t MFX_FindPSXChannel(std::uint32_t channel_id,std::uint32_t wave,std::uint32_t flags) 
 {
 	int i=MFX_MAX_CHANNELS,c0;
 	channel_id&=0xffff;
@@ -137,7 +137,7 @@ inline ULONG MFX_FindPSXChannel(ULONG channel_id,ULONG wave,ULONG flags)
 	return c0;
 }
 
-inline ULONG MFX_SearchPSXChannel(ULONG channel_id,ULONG wave) 
+inline std::uint32_t MFX_SearchPSXChannel(std::uint32_t channel_id,std::uint32_t wave) 
 {
 	int i=MFX_MAX_CHANNELS,c0;
 	channel_id&=0xffff;
@@ -160,7 +160,7 @@ inline ULONG MFX_SearchPSXChannel(ULONG channel_id,ULONG wave)
 	return 0xffff;
 }
 
-void MFX_StartWave(MFX_Sound *channel,ULONG wave,ULONG flags)
+void MFX_StartWave(MFX_Sound *channel,std::uint32_t wave,std::uint32_t flags)
 {
 	if (MFX_wave[wave].length)
 	{
@@ -192,7 +192,7 @@ void MFX_StartWave(MFX_Sound *channel,ULONG wave,ULONG flags)
 	*/
 }
 
-void MFX_StopWave(MFX_Sound *channel,ULONG wave)
+void MFX_StopWave(MFX_Sound *channel,std::uint32_t wave)
 {
 	// Check we are playing the wave we expected
 	if (channel->wave!=wave)
@@ -202,9 +202,9 @@ void MFX_StopWave(MFX_Sound *channel,ULONG wave)
 	MFX_OffKey|=1<<channel->channel;
 }
 
-void MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z)
+void MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
+	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
 		return;
 //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
@@ -217,9 +217,9 @@ void MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, S
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
 }
 
-void MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position)
+void MFX_play_pos(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, GameCoord* position)
 {
-	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
+	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
 		return;
 //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
@@ -228,9 +228,9 @@ void MFX_play_pos(UWORD channel_id, ULONG wave, ULONG flags, GameCoord* position
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
 }
 
-void MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
+void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing* p)
 {
-	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
+	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
 		return;
 
@@ -244,32 +244,32 @@ void MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
 	// Bodge in a check to see if we're playing a search or slide sound.
 
 //	if (flags & (MFX_FLAG_SLIDER|MFX_FLAG_SEARCHER)) //just store it all the time, the instructions wont be in the cache so a read and a write is probably no worse than reading the extra instructions
-		MFX_channel[psx_channel].poshold.X=(SLONG)p;
+		MFX_channel[psx_channel].poshold.X=(std::int32_t)p;
 
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
 }
 
-void MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
+void MFX_play_ambient(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
 {
-	UWORD	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
+	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
 	if (psx_channel==0xffff)
 		return;
 	MFX_channel[psx_channel].channel_id=channel_id&0xffff;
 //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
 	if (flags & MFX_FLAG_SEARCHER)
 	{
-		MFX_channel[psx_channel].poshold.X=(SLONG)NET_PERSON(0);
+		MFX_channel[psx_channel].poshold.X=(std::int32_t)NET_PERSON(0);
 	}
 	MFX_StartWave(&MFX_channel[psx_channel],wave,flags|MFX_FLAG_AMBIENT);
 }
 
-void MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags)
+void MFX_play_stereo(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
 {
 }
 
-void MFX_stop(SLONG channel_id, ULONG wave)
+void MFX_stop(std::int32_t channel_id, std::uint32_t wave)
 {
-	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
+	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
 		return;
 
@@ -295,7 +295,7 @@ void MFX_stop_attached(Thing *p)
 
 //----- audio processing functions -----
 
-void MFX_SetPitch(MFX_Sound *channel,ULONG wave, SLONG pitchbend)
+void MFX_SetPitch(MFX_Sound *channel,std::uint32_t wave, std::int32_t pitchbend)
 {
 	if (channel->wave!=wave)
 		return;
@@ -303,31 +303,31 @@ void MFX_SetPitch(MFX_Sound *channel,ULONG wave, SLONG pitchbend)
 	channel->voice.mask|=SPU_VOICE_PITCH;
 }
 
-void MFX_SetWave(MFX_Sound *channel,ULONG wave, SLONG new_wave)
+void MFX_SetWave(MFX_Sound *channel,std::uint32_t wave, std::int32_t new_wave)
 {
 	if (channel->wave!=wave)
 		return;
 }
 
-void MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend)
+void MFX_set_pitch(std::uint16_t channel_id, std::uint32_t wave, std::int32_t pitchbend)
 {
-	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
+	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
 		return;
 	MFX_SetPitch(&MFX_channel[psx_channel],wave,pitchbend);
 }
 
-void MFX_set_wave(UWORD channel_id, ULONG wave, ULONG new_wave)
+void MFX_set_wave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t new_wave)
 {
-	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
+	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
 		return;
 	MFX_SetWave(&MFX_channel[psx_channel],wave,new_wave);
 }
 
-void MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z)
+void MFX_set_xyz(std::uint16_t channel_id, std::uint32_t wave, std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
+	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
 		return;
 	MFX_channel[channel_id].poshold.X=x;
@@ -336,9 +336,9 @@ void MFX_set_xyz(UWORD channel_id, ULONG wave, SLONG x, SLONG y, SLONG z)
 	MFX_channel[channel_id].position=&MFX_channel[channel_id].poshold;
 }
 
-void MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position)
+void MFX_set_pos(std::uint16_t channel_id, std::uint32_t wave, GameCoord* position)
 {
-	UWORD	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
+	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
 	if (psx_channel==0xffff)
 		return;
 	MFX_channel[channel_id].position=position;
@@ -346,7 +346,7 @@ void MFX_set_pos(UWORD channel_id, ULONG wave, GameCoord* position)
 
 //----- listener & environment -----
 
-void MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch)
+void MFX_set_listener(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t heading, std::int32_t roll, std::int32_t pitch)
 {
 	MFX_listener.position.X=x;
 	MFX_listener.position.Y=y;
@@ -356,20 +356,20 @@ void MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLON
 	MFX_listener.orientation.vz=roll;
 }
 
-void MFX_set_environment(SLONG env_type)
+void MFX_set_environment(std::int32_t env_type)
 {
 	MFX_listener.environment=env_type;
 }
 
 //----- sound library functions -----
 
-extern CBYTE* sound_list[];
+extern char* sound_list[];
 
-void MFX_load_wave_list(CBYTE* path,CBYTE* script_file)
+void MFX_load_wave_list(char* path,char* script_file)
 {
 }
 #if 0
-void MFX_load_wave_file(CBYTE* wave_file)
+void MFX_load_wave_file(char* wave_file)
 {
 	int wave=MFX_WavesLoaded++;
 	int size,handle;
@@ -408,7 +408,7 @@ void MFX_load_wave_file(CBYTE* wave_file)
 }
 #endif
 
-void MFX_load_wave_list(CBYTE* names[]=0)				// load list from array
+void MFX_load_wave_list(char* names[]=0)				// load list from array
 {
 #if 0
 	char **ptr;
@@ -432,17 +432,17 @@ void MFX_load_wave_list(CBYTE* names[]=0)				// load list from array
 #ifdef	MIKE
 //	return;
 #endif
-	SLONG *buffer=(SLONG*)MemAlloc(530*1024);
-	SLONG *p=buffer;
-	SLONG i;
+	std::int32_t *buffer=(std::int32_t*)MemAlloc(530*1024);
+	std::int32_t *p=buffer;
+	std::int32_t i;
 
 
 	ASSERT(buffer!=0);
 
 #ifndef VERSION_DEMO
-	PCReadFile("DATA\\PSXSOUND.VAG",(UBYTE*)buffer,512*1025);
+	PCReadFile("DATA\\PSXSOUND.VAG",(std::uint8_t*)buffer,512*1025);
 #else
-	PCReadFile("URBAN\\PSXSOUND.VAG",(UBYTE*)buffer,512*1025);
+	PCReadFile("URBAN\\PSXSOUND.VAG",(std::uint8_t*)buffer,512*1025);
 #endif
 	MFX_WavesLoaded=*p++;
 	MFX_WaveFree=0x1010;
@@ -451,8 +451,8 @@ void MFX_load_wave_list(CBYTE* names[]=0)				// load list from array
 
 	for(i=0;i<MFX_WavesLoaded;i++)
 	{
-		MFX_wave[i].address=MFX_WaveFree+(SLONG)*p++;
-		MFX_wave[i].length=(MFX_WaveFree+(SLONG)*p)-MFX_wave[i].address;
+		MFX_wave[i].address=MFX_WaveFree+(std::int32_t)*p++;
+		MFX_wave[i].length=(MFX_WaveFree+(std::int32_t)*p)-MFX_wave[i].address;
 		if ((MFX_wave[i].length==0)&&(i>0))
 			MFX_wave[i].length=MFX_wave[i-1].length;
 	}
@@ -475,7 +475,7 @@ void MFX_free_wave_list()
 
 //----- Callback with one function only -----
 /*
-void MFX_Callback_CdRead(UBYTE status,UBYTE *result)
+void MFX_Callback_CdRead(std::uint8_t status,std::uint8_t *result)
 {
 	CdlLOC buffer[8];
 
@@ -494,7 +494,7 @@ extern int music_volume;
 extern int sound_mode;
 extern int speech_volume;
 
-inline SLONG MFX_Volume(SLONG invol)
+inline std::int32_t MFX_Volume(std::int32_t invol)
 {
 	return (invol*sfx_volume)>>8;
 }
@@ -528,7 +528,7 @@ void MFX_render()
 				// Process any non-ambient sounds
 				VECTOR v;
 				VECTOR lv;
-				SLONG flags,dist;
+				std::int32_t flags,dist;
 
 				GameCoord *p=ch->position;
 				v.vx=p->X>>10;
@@ -626,7 +626,7 @@ void MFX_render()
 
 	if (!MFX_Seek_delay)
 	{
-		CdControl(CdlGetlocL,0,(UBYTE*)&sector);
+		CdControl(CdlGetlocL,0,(std::uint8_t*)&sector);
 		MFX_Cd_Position=CdPosToInt(&sector);
 	} else
 	{
@@ -641,7 +641,7 @@ void MFX_render()
 	if (MFX_Conv_playing&&!MFX_Seek_delay)
 	{
 		CdlLOC	sector;
-		SLONG pos;
+		std::int32_t pos;
 #ifndef	MIKE
 
 		if ((MFX_Cd_Position>MFX_Speech_End)&&(MFX_Cd_Position<MFX_music_int))
@@ -748,15 +748,15 @@ void MFX_init()
 
 CdlFILTER MFX_filter;
 
-UBYTE MFX_music[]={0,1,2,3,4,1,4,3,5,6,7,0,0,6,4};
+std::uint8_t MFX_music[]={0,1,2,3,4,1,4,3,5,6,7,0,0,6,4};
 
-extern UBYTE MUSIC_bodge_code;
+extern std::uint8_t MUSIC_bodge_code;
 
-UBYTE MUSIC_play(UWORD wave,UBYTE flags)
+std::uint8_t MUSIC_play(std::uint16_t wave,std::uint8_t flags)
 {
 #ifndef MIKE
-	CBYTE param[8];
-	SLONG wv;
+	char param[8];
+	std::int32_t wv;
 
 	// Dont even think of stopping the speech when it's going.
 
@@ -797,8 +797,8 @@ UBYTE MUSIC_play(UWORD wave,UBYTE flags)
 		MFX_music_queued=-1;
 		MFX_music_end=MFX_music_int+(MFX_Music_len[MFX_music_world][MFX_filter.chan]<<3);
 
-		CdControlF(CdlSetfilter,(UBYTE*)&MFX_filter);
-		CdControlF(CdlReadS,(UBYTE*)&MFX_audio_start.pos);
+		CdControlF(CdlSetfilter,(std::uint8_t*)&MFX_filter);
+		CdControlF(CdlReadS,(std::uint8_t*)&MFX_audio_start.pos);
 		MFX_Seek_delay=10;
 	} 
 	else
@@ -821,7 +821,7 @@ UBYTE MUSIC_play(UWORD wave,UBYTE flags)
 void MUSIC_stop(bool fade)
 {
 #ifndef MIKE
-	CBYTE param[8];
+	char param[8];
 
 	if (fade)
 	{
@@ -840,12 +840,12 @@ void MUSIC_stop(bool fade)
 #endif
 }
 
-UWORD MUSIC_wave()
+std::uint16_t MUSIC_wave()
 {
 	return MFX_music_wave;
 }
 
-void MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain) 
+void MFX_set_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain) 
 {
 	return;
 }
@@ -856,7 +856,7 @@ void MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain)
 #define MUSIC_DAN	0x84
 #define MUSIC_FIN	0x88
 
-UBYTE MFX_music_worlds[]={MUSIC_COM,MUSIC_PHY,MUSIC_DRI,MUSIC_COM,1,
+std::uint8_t MFX_music_worlds[]={MUSIC_COM,MUSIC_PHY,MUSIC_DRI,MUSIC_COM,1,
 						  MUSIC_DRI,MUSIC_COM,7,MUSIC_DRI,6,
 						  7,6,1,1,3,
 						  6,6,6,8,8,
@@ -864,12 +864,12 @@ UBYTE MFX_music_worlds[]={MUSIC_COM,MUSIC_PHY,MUSIC_DRI,MUSIC_COM,1,
 						  9,4,5,2,5,
 						  0,9,MUSIC_FIN,6};
 
-void MUSIC_init_level(SLONG world)
+void MUSIC_init_level(std::int32_t world)
 {
 #ifndef MIKE
-	CBYTE str[32];
+	char str[32];
 
-	SLONG new_world=world;
+	std::int32_t new_world=world;
 
 	// Cludge for martin
 #ifndef VERSION_DEMO
@@ -907,7 +907,7 @@ void MUSIC_init_level(SLONG world)
 #endif
 }
 
-void MFX_Init_Speech(SLONG level)
+void MFX_Init_Speech(std::int32_t level)
 {
 	char str[32];
 #ifndef	MIKE
@@ -918,7 +918,7 @@ void MFX_Init_Speech(SLONG level)
 #endif
 	PCReadFile(str,(unsigned char*)&GDisp_Bucket[BUCKET_MEM-2048],2048);
 
-	MFX_Speech_files=*(SLONG*)&GDisp_Bucket[BUCKET_MEM-2048];
+	MFX_Speech_files=*(std::int32_t*)&GDisp_Bucket[BUCKET_MEM-2048];
 	memcpy((void*)Audio_data,(void*)&GDisp_Bucket[BUCKET_MEM-2044],MFX_Speech_files*sizeof(AudioOffset));
 
 #ifndef VERSION_DEMO
@@ -928,17 +928,17 @@ void MFX_Init_Speech(SLONG level)
 #endif
 	CdSearchFile(&MFX_Speech_Start,str);
 	str[0]=CdlModeRT|CdlModeSF|CdlModeSize1;
-	CdControlB(CdlSetmode,(UBYTE*)str,0);
+	CdControlB(CdlSetmode,(std::uint8_t*)str,0);
 #endif
 	MFX_Conv_playing=0;
 	MFX_Mute(0);
 //	CdReadyCallback(MFX_Callback_CdRead);
 }
 
-AudioOffset *MFX_Find_Speech(SLONG waypoint,SLONG conv,SLONG conv_off)
+AudioOffset *MFX_Find_Speech(std::int32_t waypoint,std::int32_t conv,std::int32_t conv_off)
 {
-	SLONG found=-1;
-	SLONG i;
+	std::int32_t found=-1;
+	std::int32_t i;
 
 	for(i=0;(i<MFX_Speech_files)&&(found==-1);i++)
 	{
@@ -956,7 +956,7 @@ AudioOffset *MFX_Find_Speech(SLONG waypoint,SLONG conv,SLONG conv_off)
 	}
 }
 
-void MFX_Mute(SLONG mute)
+void MFX_Mute(std::int32_t mute)
 {
 	SpuSetMute(mute?SPU_ON:SPU_OFF);
 }
@@ -1006,12 +1006,12 @@ void MFX_Conv_wait()
 	}
 }
 
-SLONG MFX_Conv_play(SLONG waypoint,SLONG conv,SLONG conv_off)
+std::int32_t MFX_Conv_play(std::int32_t waypoint,std::int32_t conv,std::int32_t conv_off)
 {
 #ifndef	MIKE
 	AudioOffset *voice=MFX_Find_Speech(waypoint,conv,conv_off);
 
-	SLONG pos;
+	std::int32_t pos;
 	static CdlLOC sector;
 
 	// We should never be calling a sound without any audio track, but since we may
@@ -1035,7 +1035,7 @@ SLONG MFX_Conv_play(SLONG waypoint,SLONG conv,SLONG conv_off)
 	MFX_Speech_End=pos+((voice->length-1)<<4)+9;
 #endif
 
-	CdControlF(CdlSetfilter,(UBYTE*)&MFX_filter);
+	CdControlF(CdlSetfilter,(std::uint8_t*)&MFX_filter);
 	CdControlF(CdlReadS,(char*)&sector);
 	MFX_Seek_delay=10;
 
@@ -1045,7 +1045,7 @@ SLONG MFX_Conv_play(SLONG waypoint,SLONG conv,SLONG conv_off)
 #endif
 }					   
 #if 0
-SLONG MFX_QUICK_still_playing()
+std::int32_t MFX_QUICK_still_playing()
 {
 	return();
 }

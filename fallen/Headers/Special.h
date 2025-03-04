@@ -61,9 +61,9 @@
 
 typedef struct
 {
-	CBYTE* name;	// Why not eh?
-	UBYTE  prim;
-	UBYTE  group;
+	char* name;	// Why not eh?
+	std::uint8_t  prim;
+	std::uint8_t  group;
 
 } SPECIAL_Info;
 
@@ -83,9 +83,9 @@ typedef struct
 	THING_INDEX	NextSpecial,
 				OwnerThing;
 
-	UWORD ammo;		// The amount of ammo this thing has or the countdown to going off for an activated mine.
+	std::uint16_t ammo;		// The amount of ammo this thing has or the countdown to going off for an activated mine.
 
-	UWORD waypoint;	// The index of the waypoint that created this special- or nullptr
+	std::uint16_t waypoint;	// The index of the waypoint that created this special- or nullptr
 					// if it wasn't created by a waypoint.
 
 					// For an activate MINE in SPECIAL_SUBSTATE_IS_DIRT, this is the index of the DIRT_dirt
@@ -95,13 +95,13 @@ typedef struct
 	// These are for the thermodroids.
 	// 
 
-//	UBYTE home_x;
-//	UBYTE home_z;
-//	UBYTE goto_x;
-//	UBYTE goto_z;
+//	std::uint8_t home_x;
+//	std::uint8_t home_z;
+//	std::uint8_t goto_x;
+//	std::uint8_t goto_z;
 
-	UWORD counter;
-	UWORD timer;	// The countdown timer for grenades. 16*20 ticks per second.
+	std::uint16_t counter;
+	std::uint16_t timer;	// The countdown timer for grenades. 16*20 ticks per second.
 
 } Special;
 
@@ -118,12 +118,12 @@ void init_specials();
 //
 
 Thing *alloc_special(
-		UBYTE type,
-		UBYTE substate,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		UWORD waypoint);
+		std::uint8_t type,
+		std::uint8_t substate,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::uint16_t waypoint);
 
 
 //
@@ -138,14 +138,14 @@ void special_drop(Thing *p_special, Thing *p_person);
 // nullptr if the person isn't carrying a special of that type.
 //
 
-Thing *person_has_special(Thing *p_person, SLONG special_type);
+Thing *person_has_special(Thing *p_person, std::int32_t special_type);
 
 
 //
 // Giving a person specials.  person_get_item() removes the special from the map and does everything...
 //
 
-SLONG should_person_get_item(Thing *p_person, Thing *p_special); // Ignores distance to the special- consider only if that person already has a special like that and whether she can carry it.
+std::int32_t should_person_get_item(Thing *p_person, Thing *p_special); // Ignores distance to the special- consider only if that person already has a special like that and whether she can carry it.
 void person_get_item       (Thing *p_person, Thing *p_special);
 
 

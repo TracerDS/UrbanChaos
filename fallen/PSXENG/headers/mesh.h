@@ -15,25 +15,25 @@
 extern void CHOPPER_draw_chopper(Thing *p_chopper);
 
 
-SLONG MESH_draw_poly(
-		SLONG         prim,
+std::int32_t MESH_draw_poly(
+		std::int32_t         prim,
 		MAPCO16	      at_x,
 		MAPCO16       at_y,
 		MAPCO16	      at_z,
-		SLONG         i_yaw,
-		SLONG         i_pitch,
-		SLONG         i_roll,
+		std::int32_t         i_yaw,
+		std::int32_t         i_pitch,
+		std::int32_t         i_roll,
 		LIGHT_Colour *lpc,
-		UBYTE fade);
+		std::uint8_t fade);
 /*
 void MESH_draw_poly(
-		SLONG         prim,
+		std::int32_t         prim,
 		MAPCO16	      at_x,
 		MAPCO16       at_y,
 		MAPCO16	      at_z,
-		SLONG         i_yaw,
-		SLONG         i_pitch,
-		SLONG         i_roll
+		std::int32_t         i_yaw,
+		std::int32_t         i_pitch,
+		std::int32_t         i_roll
 		);
 */
 

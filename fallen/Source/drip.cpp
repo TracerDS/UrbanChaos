@@ -10,23 +10,23 @@
 
 typedef struct
 {
-	UWORD x;
-	SWORD y;
-	UWORD z;
-	UBYTE size;
-	UBYTE fade;	// 0 => No drip.
-	UBYTE flags;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
+	std::uint8_t size;
+	std::uint8_t fade;	// 0 => No drip.
+	std::uint8_t flags;
 	
 } DRIP_Drip;
 
 #define DRIP_MAX_DRIPS 1024
 
 DRIP_Drip DRIP_drip[DRIP_MAX_DRIPS];
-SLONG DRIP_last;
+std::int32_t DRIP_last;
 
 void DRIP_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < DRIP_MAX_DRIPS; i++)
 	{
@@ -41,10 +41,10 @@ void DRIP_init()
 #define DRIP_DSIZE 4
 
 void DRIP_create(
-		UWORD x,
-		SWORD y,
-		UWORD z,
-		UBYTE flags)
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z,
+		std::uint8_t flags)
 {
 	DRIP_last += 1;
 	DRIP_last &= DRIP_MAX_DRIPS - 1;
@@ -59,13 +59,13 @@ void DRIP_create(
 
 #ifndef TARGET_DC
 void DRIP_create_if_in_puddle(
-		UWORD x,
-		SWORD y,
-		UWORD z)
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z)
 {
-	SLONG mx = x >> 8;
-	SLONG mz = z >> 8;
-	SLONG my;
+	std::int32_t mx = x >> 8;
+	std::int32_t mz = z >> 8;
+	std::int32_t my;
 
 	if (WITHIN(mx, 0, MAP_WIDTH  - 1) &&
 		WITHIN(mz, 0, MAP_HEIGHT - 1))
@@ -104,9 +104,9 @@ void DRIP_create_if_in_puddle(
 
 void DRIP_process()
 {
-	SLONG i;
-	SLONG fade;
-	SLONG size;
+	std::int32_t i;
+	std::int32_t fade;
+	std::int32_t size;
 
 	DRIP_Drip *dd;
 
@@ -133,7 +133,7 @@ void DRIP_process()
 	}
 }
 
-SLONG DRIP_get_upto;
+std::int32_t DRIP_get_upto;
 
 void DRIP_get_start()
 {

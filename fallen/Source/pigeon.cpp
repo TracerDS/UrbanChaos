@@ -59,7 +59,7 @@ void PIGEON_init_land (Thing *pigeon);
 // where along goes from 0 - 256.
 // 
 
-void PIGEON_find_pos_along_vect(SLONG vect, SLONG along, SLONG *x, SLONG *y, SLONG *z)
+void PIGEON_find_pos_along_vect(std::int32_t vect, std::int32_t along, std::int32_t *x, std::int32_t *y, std::int32_t *z)
 {
 	CollisionVect *cv;
 
@@ -80,38 +80,38 @@ void PIGEON_find_pos_along_vect(SLONG vect, SLONG along, SLONG *x, SLONG *y, SLO
 // if there is no suitable colvect nearby.
 //
 
-UWORD PIGEON_find_perch(Thing *pigeon, UWORD ignore_this_vect)
+std::uint16_t PIGEON_find_perch(Thing *pigeon, std::uint16_t ignore_this_vect)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
 	ASSERT ( false );
 #endif
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG nx1;
-	SLONG nz1;
-	SLONG nx2;
-	SLONG nz2;
+	std::int32_t nx1;
+	std::int32_t nz1;
+	std::int32_t nx2;
+	std::int32_t nz2;
 
-	SLONG len;
-	SLONG dist1;
-	SLONG dist2;
+	std::int32_t len;
+	std::int32_t dist1;
+	std::int32_t dist2;
 
-	SLONG list;
-	SLONG vect;
+	std::int32_t list;
+	std::int32_t vect;
 
-	SLONG score;
+	std::int32_t score;
 
-	SLONG best_vect;
-	SLONG best_score;
+	std::int32_t best_vect;
+	std::int32_t best_score;
 
 	CollisionVectLink *cvl;
 	CollisionVect     *cv;
@@ -250,10 +250,10 @@ void PIGEON_init_wait(Thing *pigeon)
 
 void PIGEON_init_walk(Thing *pigeon)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG angle;
+	std::int32_t angle;
 
 	Animal   *animal = ANIMAL_get_animal  (pigeon);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(pigeon);
@@ -306,22 +306,22 @@ void PIGEON_init_peck(Thing *pigeon)
 
 void PIGEON_init_fly(Thing *pigeon, Thing *from)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dist;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG angle;
-	UWORD ignore_vect;
+	std::int32_t angle;
+	std::uint16_t ignore_vect;
 
 	//
 	// Find a perch.
 	//
 
-	UWORD vect;
+	std::uint16_t vect;
 
 	Animal   *animal = ANIMAL_get_animal  (pigeon);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(pigeon);
@@ -385,9 +385,9 @@ void PIGEON_init_fly(Thing *pigeon, Thing *from)
 
 void PIGEON_init_flee(Thing *pigeon, Thing *from)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG angle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t angle;
 
 	Animal   *animal = ANIMAL_get_animal  (pigeon);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(pigeon);
@@ -428,10 +428,10 @@ void PIGEON_init_flee(Thing *pigeon, Thing *from)
 
 void PIGEON_init_perch(Thing *pigeon)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG angle;
+	std::int32_t angle;
 
 	Animal   *animal = ANIMAL_get_animal  (pigeon);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(pigeon);
@@ -563,8 +563,8 @@ void PIGEON_process_peck(Thing *pigeon)
 
 void PIGEON_process_walk(Thing *pigeon)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	Animal   *animal = ANIMAL_get_animal  (pigeon);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(pigeon);
@@ -609,8 +609,8 @@ void PIGEON_process_walk(Thing *pigeon)
 
 void PIGEON_process_flee(Thing *pigeon)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	Animal   *animal = ANIMAL_get_animal  (pigeon);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(pigeon);
@@ -659,22 +659,22 @@ void PIGEON_process_flee(Thing *pigeon)
 
 void PIGEON_process_fly(Thing *pigeon)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG yangle;
-	SLONG angle;
-	SLONG dangle;
-	SLONG speed;
-	SLONG dist;
+	std::int32_t yangle;
+	std::int32_t angle;
+	std::int32_t dangle;
+	std::int32_t speed;
+	std::int32_t dist;
 
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG vel_x;
-	SLONG vel_z;
+	std::int32_t vel_x;
+	std::int32_t vel_z;
 
 	GameCoord new_pos;
 
@@ -804,9 +804,9 @@ void PIGEON_process_fly(Thing *pigeon)
 
 void PIGEON_process_perch(Thing *pigeon)
 {
-	UBYTE doing;
-	UBYTE howlong;
-	UBYTE oldalong;
+	std::uint8_t doing;
+	std::uint8_t howlong;
+	std::uint8_t oldalong;
 
 	Animal *animal = ANIMAL_get_animal(pigeon);
 
@@ -891,9 +891,9 @@ void PIGEON_process_perch(Thing *pigeon)
 	// Move the pigeon.
 	//
 
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
 	PIGEON_find_pos_along_vect(
 		animal->other_index,
@@ -948,7 +948,7 @@ void PIGEON_fn_init(Thing *pigeon)
 
 void PIGEON_fn_normal(Thing *pigeon)
 {
-	SLONG i;
+	std::int32_t i;
 
 	Thing  *p_scary;
 	Animal *scary_animal;
@@ -989,7 +989,7 @@ void PIGEON_fn_normal(Thing *pigeon)
 	#define PIGEON_MAX_SCARY 32
 
 	THING_INDEX scary[PIGEON_MAX_SCARY];
-	SLONG       scary_upto;
+	std::int32_t       scary_upto;
 
 	//
 	// How far to look for something scary.

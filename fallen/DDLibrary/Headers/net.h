@@ -14,8 +14,8 @@
 // 
 // ========================================================
 
-void NET_init(void);
-void NET_kill(void);
+void NET_init();
+void NET_kill();
 
 
 //
@@ -40,14 +40,14 @@ void NET_kill(void);
 // Returns the name of the given connection.
 //
 
-SLONG  NET_get_connection_number(void);
-CBYTE* NET_get_connection_name  (SLONG connection);
+std::int32_t  NET_get_connection_number();
+char* NET_get_connection_name  (std::int32_t connection);
 
 //
 // Establishes a connection. Returns true on success.
 //
 
-SLONG NET_connection_make(SLONG connection);
+std::int32_t NET_connection_make(std::int32_t connection);
 
 
 // ========================================================
@@ -61,7 +61,7 @@ SLONG NET_connection_make(SLONG connection);
 // on failure.
 //		 
 
-SLONG NET_create_session(CBYTE* name, SLONG max_players, CBYTE* my_player_name);
+std::int32_t NET_create_session(char* name, std::int32_t max_players, char* my_player_name);
 
 //
 // Returns the number of sessions available.
@@ -73,24 +73,24 @@ SLONG NET_create_session(CBYTE* name, SLONG max_players, CBYTE* my_player_name);
 
 typedef struct
 {
-	CBYTE name[NET_NAME_LENGTH];
+	char name[NET_NAME_LENGTH];
 
 } NET_Sinfo;
 
-SLONG      NET_get_session_number(void);
-NET_Sinfo  NET_get_session_info  (SLONG session);
+std::int32_t      NET_get_session_number();
+NET_Sinfo  NET_get_session_info  (std::int32_t session);
 
 //
 // Joins the given session. Returns false on failure.
 //
 
-SLONG NET_join_session(SLONG session, CBYTE* my_player_name);
+std::int32_t NET_join_session(std::int32_t session, char* my_player_name);
 
 //
 // Leaves the session.
 //
 
-void NET_leave_session(void);
+void NET_leave_session();
 
 //
 // Starts the game. It sends out a START_GAME system message
@@ -102,7 +102,7 @@ void NET_leave_session(void);
 // message because you won't get one. Returns NET_PLAYER_NONE on failure.
 //
 
-UBYTE NET_start_game(void);
+std::uint8_t NET_start_game();
 
 // ========================================================
 //
@@ -116,8 +116,8 @@ UBYTE NET_start_game(void);
 // is not a player_id, just the n'th player in the session.
 //
 
-SLONG  NET_get_num_players(void);
-CBYTE* NET_get_player_name(SLONG player);
+std::int32_t  NET_get_num_players();
+char* NET_get_player_name(std::int32_t player);
 
 
 // ========================================================
@@ -138,15 +138,15 @@ CBYTE* NET_get_player_name(SLONG player);
 //
 
 void NET_message_send(
-		UBYTE  player_id,
+		std::uint8_t  player_id,
 		void  *data,
-		UWORD  num_bytes);
+		std::uint16_t  num_bytes);
 
 //
 // Returns true if there is a message in the queue.
 //
 
-SLONG NET_message_waiting(void);
+std::int32_t NET_message_waiting();
 
 //
 // Gets the next message in the queue.
@@ -159,24 +159,24 @@ SLONG NET_message_waiting(void);
 
 typedef struct
 {
-	UBYTE player_id;
-	UBYTE shit1;
-	UWORD shit2;
+	std::uint8_t player_id;
+	std::uint8_t shit1;
+	std::uint16_t shit2;
 
 	union
 	{
 		struct	// For system messages, when player == NET_PLAYER_SYSTEM
 		{
-			UBYTE sysmess;
-			UBYTE player_id;	// For the START_GAME system message.
-			UBYTE shite;
+			std::uint8_t sysmess;
+			std::uint8_t player_id;	// For the START_GAME system message.
+			std::uint8_t shite;
 			
 		} system;
 
 		struct	// For all other messages.
 		{
-			UWORD num_bytes;
-			UWORD more_shit;
+			std::uint16_t num_bytes;
+			std::uint16_t more_shit;
 			void* data;
 			
 		} player;

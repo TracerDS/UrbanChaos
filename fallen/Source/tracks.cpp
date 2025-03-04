@@ -29,16 +29,16 @@
 
 
 Track *tracks;//[TRACK_BUFFER_LENGTH];
-UWORD track_head,track_tail,track_eob; //stopped them being pointers by MikeD
+std::uint16_t track_head,track_tail,track_eob; //stopped them being pointers by MikeD
 
-void TRACKS_InitOnce(SWORD size) 
+void TRACKS_InitOnce(std::int16_t size) 
 {
 	track_eob=size; //&tracks[TRACK_BUFFER_LENGTH]; // yes, intentionally one past the end of the buffer
 	track_head=track_tail=0;//tracks;
-	memset((UBYTE*)tracks,0,sizeof(Track)*size);
+	memset((std::uint8_t*)tracks,0,sizeof(Track)*size);
 }
 
-void TRACKS_Reset(SWORD size) 
+void TRACKS_Reset(std::int16_t size) 
 {
 	while (track_tail!=track_head) 
 	{
@@ -50,7 +50,7 @@ void TRACKS_Reset(SWORD size)
     TRACKS_InitOnce(size);
 }
 
-inline void RShift8(SLONG &x, SLONG &y, SLONG &z) {
+inline void RShift8(std::int32_t &x, std::int32_t &y, std::int32_t &z) {
   x>>=8; y>>=8; z>>=8;
 }
 
@@ -70,9 +70,9 @@ void TRACKS_Draw() {
 }
 */
 // Figure out the offsets given the width
-void TRACKS_CalcDiffs(Track &track, UBYTE width) {
-/*  SLONG x,z,sf;
-  ULONG ux,uz,f;
+void TRACKS_CalcDiffs(Track &track, std::uint8_t width) {
+/*  std::int32_t x,z,sf;
+  std::uint32_t ux,uz,f;
 
 //  x=(track.dz)*256; z=-(track.dx)*256;
   x=(track.dz); z=-(track.dx);
@@ -88,7 +88,7 @@ void TRACKS_CalcDiffs(Track &track, UBYTE width) {
   TRACE("result: x: %d   z: %d\n",x,z);
   track.sx=x; track.sz=z;*/
 
-  SLONG x,z,f;
+  std::int32_t x,z,f;
 
 	x=(track.dz); z=-(track.dx);
   f=Root((x*x)+(z*z));
@@ -102,7 +102,7 @@ void TRACKS_CalcDiffs(Track &track, UBYTE width) {
 
 
 // Add a track unit supplying exact parameters one by one
-void TRACKS_AddQuad(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG page, SLONG colour, UBYTE width, UBYTE flip, UBYTE flags) {
+void TRACKS_AddQuad(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t page, std::int32_t colour, std::uint8_t width, std::uint8_t flip, std::uint8_t flags) {
 	Track track;
 //	THING_INDEX t_index;
 	Thing *thing;
@@ -154,11 +154,11 @@ void TRACKS_AddTrack(Track &track)
 }
 
 // Add a track unit "intelligently" supplying coordinates and a type of track
-UWORD TRACKS_Add(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, UBYTE type, UWORD last) {
-	UBYTE age=last>>8;
-	UBYTE lastkind=last&0xff;
-	SLONG code,kind,page,colour;
-	CBYTE msg[20];
+std::uint16_t TRACKS_Add(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::uint8_t type, std::uint16_t last) {
+	std::uint8_t age=last>>8;
+	std::uint8_t lastkind=last&0xff;
+	std::int32_t code,kind,page,colour;
+	char msg[20];
 	
 	switch (type) {
 	case TRACK_TYPE_TYRE_SKID:
@@ -271,7 +271,7 @@ UWORD TRACKS_Add(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, UBYTE 
 
 
 
-SLONG TRACKS_GroundAtXZ(SLONG X, SLONG Z) {
+std::int32_t TRACKS_GroundAtXZ(std::int32_t X, std::int32_t Z) {
 	//
 	// Standing in a puddle?
 	// 
@@ -284,13 +284,13 @@ SLONG TRACKS_GroundAtXZ(SLONG X, SLONG Z) {
 	// Check for special floor textures...
 	//
 
-	SLONG mx = X >> 16;
-	SLONG mz = Z >> 16;
+	std::int32_t mx = X >> 16;
+	std::int32_t mz = Z >> 16;
 
 	if (WITHIN(mx, 0, MAP_WIDTH  - 1) &&
 		WITHIN(mz, 0, MAP_HEIGHT - 1))
 	{
-		SLONG page = PAP_2HI(mx,mz).Texture & 0x3ff;
+		std::int32_t page = PAP_2HI(mx,mz).Texture & 0x3ff;
 
 		if (page == 65 ||
 			page == 66 ||
@@ -321,9 +321,9 @@ void TRACKS_Bleed(Thing *bleeder) {
 		return; 
 //#endif
 
-	UBYTE sz=1+(rand()&0x1f);
-	UBYTE u=(Random()&1)?SUB_OBJECT_LEFT_FOOT:SUB_OBJECT_RIGHT_FOOT;
-	SLONG dx, dr, dz,x,y,z;
+	std::uint8_t sz=1+(rand()&0x1f);
+	std::uint8_t u=(Random()&1)?SUB_OBJECT_LEFT_FOOT:SUB_OBJECT_RIGHT_FOOT;
+	std::int32_t dx, dr, dz,x,y,z;
 	dr=rand()&2047;
 	dx=((SIN(dr)>>8)*sz)>>8;
 	dz=((COS(dr)>>8)*sz)>>8;
@@ -352,8 +352,8 @@ void TRACKS_Bloodpool(Thing *bleeder) {
 	 return; 
 //#endif
 
-	UBYTE sz=80+(rand()&0x1f);
-	SLONG dx, dr, dz,x,y,z;
+	std::uint8_t sz=80+(rand()&0x1f);
+	std::int32_t dx, dr, dz,x,y,z;
 	dr=rand()&2047;
 	dx=((SIN(dr)>>8)*sz)>>8;
 	dz=((COS(dr)>>8)*sz)>>8;

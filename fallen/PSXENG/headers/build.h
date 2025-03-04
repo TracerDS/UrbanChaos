@@ -16,7 +16,7 @@ void BUILD_draw(Thing *building);
 //
 // bodge for now
 //
-void BUILD_draw_facet(Thing *p_thing,UWORD facet);
+void BUILD_draw_facet(Thing *p_thing,std::uint16_t facet);
 
 //
 // Draws a building you are inside.

@@ -10,8 +10,8 @@
 bool					DeviceFound		=	false,
 						GotD3D2			=	false,
 						HasHardware		=	false;
-ULONG					RequestFlags	=	0;
-SLONG					DeviceBitDepth;
+std::uint32_t					RequestFlags	=	0;
+std::int32_t					DeviceBitDepth;
 D3DDEVICEDESC			d3d_DeviceDesc;
 GUID					GUIDDevice;
 IDirect3DDevice2		*lp_D3D_Device;
@@ -80,7 +80,7 @@ void	ResetD3D2()
 
 //---------------------------------------------------------------
 
-bool	ChooseD3DDevice(ULONG flags)
+bool	ChooseD3DDevice(std::uint32_t flags)
 {
     DDSURFACEDESC	dd_sd; 
     HRESULT			dd_result; 

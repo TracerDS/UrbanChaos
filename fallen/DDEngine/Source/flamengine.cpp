@@ -24,7 +24,7 @@ extern D3DTexture TEXTURE_texture[];
 // blagged from texture86 stuff
 //
 
-SLONG TEXTURE_flame_lock()
+std::int32_t TEXTURE_flame_lock()
 {
 	HRESULT res;
 
@@ -82,15 +82,15 @@ int FlameRand(int max) {
 Flamengine::Flamengine(char *fname) {
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	//int c,d,p,q,v;
-	//UBYTE *pt;
-	UWORD ver;
+	//std::uint8_t *pt;
+	std::uint16_t ver;
 
 //	handle=FileOpen("data\\testfire.pal");
 	handle=FileOpen(fname);
 
 	if(handle!=FILE_OPEN_ERROR)	{
-		FileRead(handle,(UBYTE*)&ver,sizeof(ver));
-//		FileRead(handle,(UBYTE*)&params,sizeof(params));
+		FileRead(handle,(std::uint8_t*)&ver,sizeof(ver));
+//		FileRead(handle,(std::uint8_t*)&params,sizeof(params));
 		// crappy version
 		ReadHeader(handle);
 		ReadParts(handle);
@@ -114,44 +114,44 @@ Flamengine::~Flamengine() {
 }
 
 void Flamengine::ReadHeader(MFFileHandle handle) {
-	UBYTE skip;
+	std::uint8_t skip;
 
-	FileRead(handle,(UBYTE*)&params.blur,1);
-	FileRead(handle,(UBYTE*)&params.dark,1);
-	FileRead(handle,(UBYTE*)&params.convec,1);
-	FileRead(handle,(UBYTE*)&params.palette,768);
+	FileRead(handle,(std::uint8_t*)&params.blur,1);
+	FileRead(handle,(std::uint8_t*)&params.dark,1);
+	FileRead(handle,(std::uint8_t*)&params.convec,1);
+	FileRead(handle,(std::uint8_t*)&params.palette,768);
 
-	FileRead(handle,(UBYTE*)&skip,1);
+	FileRead(handle,(std::uint8_t*)&skip,1);
 
-	FileRead(handle,(UBYTE*)&params.free,2);
-	FileRead(handle,(UBYTE*)&params.posn,2);
+	FileRead(handle,(std::uint8_t*)&params.free,2);
+	FileRead(handle,(std::uint8_t*)&params.posn,2);
 }
 
 void Flamengine::ReadParts(MFFileHandle handle) {
 	int i;
 	FlameParticle *pp;
-	SLONG skip;
+	std::int32_t skip;
 
     for (i=2000,pp=params.particles;i;i--,pp++) {
-	  FileRead(handle,(UBYTE*)&pp->pos.loc.x,1);
-	  FileRead(handle,(UBYTE*)&pp->pos.loc.y,1);
-	  FileRead(handle,(UBYTE*)&pp->jx,1);
-	  FileRead(handle,(UBYTE*)&pp->jy,1);
-	  FileRead(handle,(UBYTE*)&pp->ex,1);
-	  FileRead(handle,(UBYTE*)&pp->ey,1);
-	  FileRead(handle,(UBYTE*)&pp->life,1);
+	  FileRead(handle,(std::uint8_t*)&pp->pos.loc.x,1);
+	  FileRead(handle,(std::uint8_t*)&pp->pos.loc.y,1);
+	  FileRead(handle,(std::uint8_t*)&pp->jx,1);
+	  FileRead(handle,(std::uint8_t*)&pp->jy,1);
+	  FileRead(handle,(std::uint8_t*)&pp->ex,1);
+	  FileRead(handle,(std::uint8_t*)&pp->ey,1);
+	  FileRead(handle,(std::uint8_t*)&pp->life,1);
 
-   	  FileRead(handle,(UBYTE*)&skip,1);
+   	  FileRead(handle,(std::uint8_t*)&skip,1);
 
-	  FileRead(handle,(UBYTE*)&pp->pulse,2);
-	  FileRead(handle,(UBYTE*)&pp->prate,1);
-	  FileRead(handle,(UBYTE*)&pp->pmode,1);
-	  FileRead(handle,(UBYTE*)&pp->wmode,1);
+	  FileRead(handle,(std::uint8_t*)&pp->pulse,2);
+	  FileRead(handle,(std::uint8_t*)&pp->prate,1);
+	  FileRead(handle,(std::uint8_t*)&pp->pmode,1);
+	  FileRead(handle,(std::uint8_t*)&pp->wmode,1);
 
-   	  FileRead(handle,(UBYTE*)&skip,3);
+   	  FileRead(handle,(std::uint8_t*)&skip,3);
 
-	  FileRead(handle,(UBYTE*)&pp->pstart,4);
-	  FileRead(handle,(UBYTE*)&pp->pend,4);
+	  FileRead(handle,(std::uint8_t*)&pp->pstart,4);
+	  FileRead(handle,(std::uint8_t*)&pp->pend,4);
 	}
 }
 
@@ -188,9 +188,9 @@ void Flamengine::Run() {
 
 void Flamengine::AddParticles() {
 	int i;
-	//UWORD x,y;
-	SWORD si;
-	UBYTE *pt;
+	//std::uint16_t x,y;
+	std::int16_t si;
+	std::uint8_t *pt;
 	FlameXY pos;
 	FlameParticle *pp;
 
@@ -209,28 +209,28 @@ void Flamengine::AddParticles() {
 			if (pp->jy) pos.loc.y+=FlameRand(pp->jy)-(pp->jy>>1);
 			pt=data;
 			pt+=pos.ofs;
-			*pt=(UBYTE)pp->pulse;
+			*pt=(std::uint8_t)pp->pulse;
 			switch (pp->pmode) {
 			case 0: // Ramp up
 				pp->pulse+=pp->prate;
-				if ((ULONG)pp->pulse>=pp->pend) pp->pulse=(SWORD)pp->pstart;
+				if ((std::uint32_t)pp->pulse>=pp->pend) pp->pulse=(std::int16_t)pp->pstart;
 				break;
 			case 1: // Ramp down
 				pp->pulse-=pp->prate;
-				if ((ULONG)pp->pulse<=pp->pstart) pp->pulse=(SWORD)pp->pend;
+				if ((std::uint32_t)pp->pulse<=pp->pstart) pp->pulse=(std::int16_t)pp->pend;
 				break;
 			case 2: // Cycle (up phase)
 				si=pp->pulse+pp->prate;
-				if (si>(SWORD)pp->pend) {
-					si=(SWORD)pp->pend;
+				if (si>(std::int16_t)pp->pend) {
+					si=(std::int16_t)pp->pend;
 					pp->pmode=3;
 				}
 				pp->pulse=si;
 				break;
 			case 3: // Cycle (down phase)
 				si=pp->pulse-pp->prate;
-				if (si<(SWORD)pp->pstart) {
-					si=(SWORD)pp->pstart;
+				if (si<(std::int16_t)pp->pstart) {
+					si=(std::int16_t)pp->pstart;
 					pp->pmode=2;
 				}
 				pp->pulse=si;
@@ -325,7 +325,7 @@ void Flamengine::AddParticles() {
 
 void Flamengine::Darkening() {
 	int x,y,i=0;
-	UBYTE *pt,*dpt;
+	std::uint8_t *pt,*dpt;
 
 	dpt=pt=data;
 	pt+=256;
@@ -344,7 +344,7 @@ void Flamengine::Darkening() {
 //
 
 void Flamengine::ConvectionBlur() {
-	UBYTE *pt1,*pt2,*pt3,*pt4,*pt,*wpt;
+	std::uint8_t *pt1,*pt2,*pt3,*pt4,*pt,*wpt;
 	int x,y,i;
 
 	wpt=work;
@@ -396,10 +396,10 @@ void Flamengine::ConvectionBlur() {
 //
 /*
 void Flamengine::ConvectionBlur2() {
-	UBYTE *pt1,*pt2,*pt3,*pt4,*pt,*wpt,*ptx;
-	SLONG x,y,i;
-	static SLONG offset = 0;
-	SLONG blah,scale;
+	std::uint8_t *pt1,*pt2,*pt3,*pt4,*pt,*wpt,*ptx;
+	std::int32_t x,y,i;
+	static std::int32_t offset = 0;
+	std::int32_t blah,scale;
 
 	wpt=work;
 	pt=data;
@@ -447,16 +447,16 @@ void Flamengine::ConvectionBlur2() {
 //
 
 struct DarkZones {
-	SLONG offset, offtime, midpnt, width;
+	std::int32_t offset, offtime, midpnt, width;
 };
 
 #define ZONES 3
 
 void Flamengine::ConvectionBlur2() {
-	UBYTE *pt1,*pt2,*pt3,*pt4,*pt,*wpt;
-	SLONG x,y,i,j,dif;
+	std::uint8_t *pt1,*pt2,*pt3,*pt4,*pt,*wpt;
+	std::int32_t x,y,i,j,dif;
 	static DarkZones zones[ZONES];
-	SLONG difs[256];
+	std::int32_t difs[256];
 
 	wpt=work;
 	pt=data;
@@ -486,7 +486,7 @@ void Flamengine::ConvectionBlur2() {
 //		dif=abs(x-zones[j].offset)-abs(zones[j].offtime-zones[j].midpnt);
 		dif=abs(x-zones[j].offset)-abs(zones[j].midpnt-zones[j].offtime);
 		if (dif<0) dif=0;
-		difs[x]+=(SLONG)(dif*0.2f);
+		difs[x]+=(std::int32_t)(dif*0.2f);
 	  }
 	}
 	for (y=1;y<254;y++) {
@@ -499,7 +499,7 @@ void Flamengine::ConvectionBlur2() {
 //		  if (params.dark&&i) i--;
 		  i-=difs[x];
 		  if (i<0) i=0;
-		  *wpt=(UBYTE)i;
+		  *wpt=(std::uint8_t)i;
 
 		  pt++; pt1++; pt2++; pt3++; pt4++; wpt++;
 		}
@@ -516,12 +516,12 @@ void Flamengine::ConvectionBlur2() {
 void Flamengine::UpdateTexture() {
 
   if (TEXTURE_flame_lock()) {
-	 SLONG  x;
-	 SLONG  y;
-     UWORD *image;
-	 UWORD  pixel;
-	 UBYTE *pt,*pt2;
-     UBYTE red, green, blue;
+	 std::int32_t  x;
+	 std::int32_t  y;
+     std::uint16_t *image;
+	 std::uint16_t  pixel;
+	 std::uint8_t *pt,*pt2;
+     std::uint8_t red, green, blue;
 
 
 	 // This version scales down for a 64x64 d3d texture
@@ -633,7 +633,7 @@ void Flamengine::Blit() {
 
 }
 
-void Flamengine::BlitHalf(CBYTE side) {
+void Flamengine::BlitHalf(char side) {
     POLY_Point			pp[4],
 						*quad[4];
 

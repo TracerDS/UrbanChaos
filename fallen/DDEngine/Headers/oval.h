@@ -15,13 +15,13 @@
 #define OVAL_TYPE_SQUARE	1
 
 void OVAL_add(
-		SLONG x,	// 8 bits per mapsquare
-		SLONG y,
-		SLONG z,
-		SLONG size,
+		std::int32_t x,	// 8 bits per mapsquare
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t size,
 		float elongate = 1.0F,
 		float angle    = 0.0F,
-		SLONG type     = OVAL_TYPE_OVAL);
+		std::int32_t type     = OVAL_TYPE_OVAL);
 
 
 

@@ -19,10 +19,10 @@ void DRIP_init();
 //
 
 void DRIP_create(
-		UWORD x,
-		SWORD y,
-		UWORD z,
-		UBYTE flags);
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z,
+		std::uint8_t flags);
 
 //
 // Creates a new drip at (x,y,z) only if (x,y,z)
@@ -30,9 +30,9 @@ void DRIP_create(
 //
 
 void DRIP_create_if_in_puddle(
-		UWORD x,
-		SWORD y,
-		UWORD z);
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z);
 
 //
 // Makes all the drips get bigger and fade out.
@@ -47,12 +47,12 @@ void DRIP_process();
 
 typedef struct
 {
-	UWORD x;
-	SWORD y;
-	UWORD z;
-	UBYTE size;
-	UBYTE fade; // 255 => opaque, 0 => transparent.
-	UBYTE flags;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
+	std::uint8_t size;
+	std::uint8_t fade; // 255 => opaque, 0 => transparent.
+	std::uint8_t flags;
 	
 } DRIP_Info;
 

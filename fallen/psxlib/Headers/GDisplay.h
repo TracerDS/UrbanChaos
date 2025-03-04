@@ -20,13 +20,13 @@
 
 //---------------------------------------------------------------
 
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG CloseDisplay();
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags);
+std::int32_t CloseDisplay();
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth);
 void ShellPaused();
 void ShellPauseOn();
 void ShellPauseOff();
-void DumpBackToTGA(CBYTE* tga_name);
+void DumpBackToTGA(char* tga_name);
 void DumpBackToRaw();	
 
 
@@ -48,8 +48,8 @@ void DumpBackToRaw();
 #define PANEL_OTZ	(OTSIZE-1)
 #define FLARE_OTZ	(OTSIZE-2)
 
-extern UWORD	psx_tpages[22];
-extern UWORD	psx_tpages_clut[16];
+extern std::uint16_t	psx_tpages[22];
+extern std::uint16_t	psx_tpages_clut[16];
 
 #define	SCREEN_WIDTH	512
 #define	SCREEN_HEIGHT	250
@@ -66,8 +66,8 @@ extern UWORD	psx_tpages_clut[16];
 typedef struct {		
 	DRAWENV		Draw;			/* drawing environment */
 	DISPENV		Disp;			/* display environment */
-	ULONG		*ot;			/* ordering table */
-	UBYTE		*PrimMem;		/* Bucket Memory Try using one lot. */ //[BUCKET_MEM];
+	std::uint32_t		*ot;			/* ordering table */
+	std::uint8_t		*PrimMem;		/* Bucket Memory Try using one lot. */ //[BUCKET_MEM];
 } DB;
 
 
@@ -75,26 +75,26 @@ typedef struct {
 typedef struct
 {
 
-		UBYTE					*CurrentPrim;
+		std::uint8_t					*CurrentPrim;
 		DB						DisplayBuffers[2];		/* packet double buffer */
 		DB						*CurrentDisplayBuffer;
 
 
-		ULONG					BackColour,
+		std::uint32_t					BackColour,
 								PaletteSize;
 	    RECT					DisplayRect;				// Current surface rectangle.
 
-		SLONG					screen_width;
-		SLONG                   screen_height;
-		SLONG                   screen_pitch;
-		ULONG					Max_Used;				/* Maximum bucket memory used */
+		std::int32_t					screen_width;
+		std::int32_t                   screen_height;
+		std::int32_t                   screen_pitch;
+		std::uint32_t					Max_Used;				/* Maximum bucket memory used */
 
 
 }Display;
 
 //---------------------------------------------------------------
 
-extern SLONG			DisplayWidth,
+extern std::int32_t			DisplayWidth,
 						DisplayHeight,
 						DisplayBPP;
 extern Display			the_display;

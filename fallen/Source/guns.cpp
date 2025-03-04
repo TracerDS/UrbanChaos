@@ -5,15 +5,15 @@
 #include	"wmove.h"
 #include	"animate.h"
 
-extern SLONG	is_person_dead(Thing *p_person);
+extern std::int32_t	is_person_dead(Thing *p_person);
 
 #define	GUN_RANGE_BLOCKS	13
 
 #define	GUN_ANGLE_RANGE		64
 
-extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern std::int32_t	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
-SLONG get_gun_aim_stats(Thing *p_person,SLONG *range,SLONG *spread)
+std::int32_t get_gun_aim_stats(Thing *p_person,std::int32_t *range,std::int32_t *spread)
 {
 	if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
@@ -81,13 +81,13 @@ SLONG get_gun_aim_stats(Thing *p_person,SLONG *range,SLONG *spread)
 //
 // range is ideal range of weapon (can be used upto twice ideal range) 
 //
-SLONG calc_target_score(Thing *p_person,Thing *p_target,SLONG range,SLONG spread)
+std::int32_t calc_target_score(Thing *p_person,Thing *p_target,std::int32_t range,std::int32_t spread)
 {
-	SLONG	dx,dy,dz,dist;
-	SLONG	angle;
-	SLONG	angle_diff;
-	SLONG	score;
-	SLONG	adx,ady,adz;
+	std::int32_t	dx,dy,dz,dist;
+	std::int32_t	angle;
+	std::int32_t	angle_diff;
+	std::int32_t	score;
+	std::int32_t	adx,ady,adz;
 
 
 	dx=p_person->WorldPos.X-p_target->WorldPos.X>>8;
@@ -146,8 +146,8 @@ THING_INDEX find_target(Thing *p_person)
 {
 	THING_INDEX	current_thing,best=0;
 	Thing	*t_thing;
-	SLONG	score,best_score=-1;
-	SLONG	range,spread;
+	std::int32_t	score,best_score=-1;
+	std::int32_t	range,spread;
 
 
 	if(get_gun_aim_stats(p_person,&range,&spread)==0)
@@ -207,17 +207,17 @@ THING_INDEX find_target(Thing *p_person)
 
 #define MAX_NEW_TARGET_DANGLE (2048 / 7)
 
-extern SLONG	look_pitch;
+extern std::int32_t	look_pitch;
 
-SLONG calc_target_score_new(Thing *darci, Thing *p_target)
+std::int32_t calc_target_score_new(Thing *darci, Thing *p_target)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG angle;
-	SLONG dangle;
-	SLONG score;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t dangle;
+	std::int32_t score;
 
 	ASSERT(darci->Genus.Person->PlayerID);
 
@@ -379,7 +379,7 @@ SLONG calc_target_score_new(Thing *darci, Thing *p_target)
 //	if(p_target->Class==CLASS_PERSON)
 	if(darci->Genus.Person->PlayerID && (darci->Genus.Person->Flags2&FLAG2_PERSON_LOOK))
 	{
-		SLONG	angle,dangle;
+		std::int32_t	angle,dangle;
 		//
 		// player is in first person look round mode, so take global look_pitch into account
 		//
@@ -524,7 +524,7 @@ SLONG calc_target_score_new(Thing *darci, Thing *p_target)
 			return(0);
 		}
 
-		extern SLONG BARREL_is_stacked(Thing *p_barrel);
+		extern std::int32_t BARREL_is_stacked(Thing *p_barrel);
 
 		if (BARREL_is_stacked(p_target))
 		{
@@ -555,7 +555,7 @@ SLONG calc_target_score_new(Thing *darci, Thing *p_target)
 
 			if (f4->FaceFlags & FACE_FLAG_WMOVE)
 			{
-				SLONG wmove_index = f4->ThingIndex;
+				std::int32_t wmove_index = f4->ThingIndex;
 
 				WMOVE_Face *wf;
 
@@ -594,14 +594,14 @@ SLONG calc_target_score_new(Thing *darci, Thing *p_target)
 
 THING_INDEX find_target_new(Thing *p_person)
 {
-	SLONG i;
-	SLONG range;
-	SLONG spread;
-	SLONG num_found;
-	SLONG enemy;
-	SLONG score;
-	SLONG best_score  = 0;
-	SLONG best_target = nullptr;
+	std::int32_t i;
+	std::int32_t range;
+	std::int32_t spread;
+	std::int32_t num_found;
+	std::int32_t enemy;
+	std::int32_t score;
+	std::int32_t best_score  = 0;
+	std::int32_t best_target = 0;
 
 	Thing *p_found;
 	Thing *p_enemy;
@@ -612,7 +612,7 @@ THING_INDEX find_target_new(Thing *p_person)
 		// This person hasn't got a gun out.. so no target.
 		// 
 
-		return nullptr;
+		return 0;
 	}
 
 	if (p_person->Genus.Person->PlayerID)
@@ -640,8 +640,8 @@ THING_INDEX find_target_new(Thing *p_person)
 
 				/*
 				{
-					CBYTE	str[100];
-extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+					char	str[100];
+extern void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 					
 					sprintf(str," %d ",score);
 					FONT2D_DrawString_3d(str,p_found->WorldPos.X>>8,(p_found->WorldPos.Y>>8)+256,p_found->WorldPos.Z>>8,0xffffff,32,0);
@@ -707,7 +707,7 @@ extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG w
 			// A person is shooting without having anyone they want to kill!
 			//
 
-			return nullptr;
+			return 0;
 		}
 	}
 }
@@ -718,12 +718,12 @@ extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG w
 
 
 #ifndef PSX
-SLONG calc_snipe_target_score(Thing *p_person,Thing *p_target)
+std::int32_t calc_snipe_target_score(Thing *p_person,Thing *p_target)
 {
-	SLONG	dx,dy,dz,dist;
-	SLONG	angle;
-	SLONG	angle_diff;
-	SLONG	score;
+	std::int32_t	dx,dy,dz,dist;
+	std::int32_t	angle;
+	std::int32_t	angle_diff;
+	std::int32_t	score;
 
 	dx=p_person->WorldPos.X-p_target->WorldPos.X>>8;
 	if(abs(dx) >19*256)
@@ -767,7 +767,7 @@ THING_INDEX find_snipe_target(Thing *p_person)
 {
 	THING_INDEX	current_thing,best=0;
 	Thing	*t_thing;
-	SLONG	score,best_score=-1;
+	std::int32_t	score,best_score=-1;
 
 	current_thing	=	PRIMARY_USED;
 

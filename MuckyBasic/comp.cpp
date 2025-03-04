@@ -7,9 +7,9 @@
 
 #define COMP_MAX_PROGRAM (512 * 1024)		// Huge buffer!
 
-CBYTE COMP_program[COMP_MAX_PROGRAM];
+char COMP_program[COMP_MAX_PROGRAM];
 
-SLONG COMP_do(CBYTE* fname_input, CBYTE* fname_output)
+std::int32_t COMP_do(char* fname_input, char* fname_output)
 {
 	//
 	// Load program.
@@ -30,9 +30,9 @@ SLONG COMP_do(CBYTE* fname_input, CBYTE* fname_output)
 	// Load in the source.
 	//
 
-	SLONG bytes_read;
+	std::int32_t bytes_read;
 
-	bytes_read = fread(COMP_program, sizeof(CBYTE), COMP_MAX_PROGRAM, handle);
+	bytes_read = fread(COMP_program, sizeof(char), COMP_MAX_PROGRAM, handle);
 
 	if (bytes_read == 0)
 	{

@@ -30,7 +30,7 @@ IA3dGeom     *a3dgeom = nullptr;
 A3DManager	the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D);
 
 
-void Decode(SLONG hr) {
+void Decode(std::int32_t hr) {
 	TRACE("A3D Error: ");
 	switch(hr) {
 	case A3DERROR_FAILED_FILE_OPEN:
@@ -70,12 +70,12 @@ void Decode(SLONG hr) {
 	TRACE("\n");
 }
 
-void ErrChk(SLONG hr) {
+void ErrChk(std::int32_t hr) {
 	if (hr==S_OK) return;
 	Decode(hr);
 }
 
-bool Failed(SLONG hr) {
+bool Failed(std::int32_t hr) {
 	if (hr==S_OK) false;
 	Decode(hr);
 	return true;
@@ -173,8 +173,8 @@ HRESULT A3dRegister(void)
  *
  */
 
-void A3DManager::Init(SLONG features) {
-	SLONG hr;
+void A3DManager::Init(std::int32_t features) {
+	std::int32_t hr;
 
 #ifndef A3D_SOUND
 	return;
@@ -265,7 +265,7 @@ void A3DManager::Init(SLONG features) {
 	a3droot->Clear(); // off we go...
 }
 
-A3DManager::A3DManager(SLONG features) {
+A3DManager::A3DManager(std::int32_t features) {
 	a3droot=nullptr;
 	a3dlis=nullptr;
 	a3dgeom=nullptr;
@@ -281,7 +281,7 @@ void A3DCleanUp(void) {
 
 void A3DManager::Fini(void) {
 
-	SLONG i;
+	std::int32_t i;
 
 	//--- free material library
 
@@ -317,7 +317,7 @@ A3DManager::~A3DManager() {
 // Channel Play
 //
 
-A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, UBYTE flags) {
+A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, std::uint8_t flags) {
 	if (!Channel) {
 //		TRACE("Creating\n");
 		Channel = new A3DSource(Original);
@@ -376,7 +376,7 @@ A3DBase* A3DManager::ValidWave(A3DBase* item) {
 }
 
 
-void A3DManager::BindMaterial(SLONG material) {
+void A3DManager::BindMaterial(std::int32_t material) {
 	a3dgeom->BindMaterial(mat_lib[material]);
 }
 
@@ -386,7 +386,7 @@ void A3DManager::BindMaterial(SLONG material) {
  *
  */
 
-A3DSource::A3DSource(CBYTE* fn) {
+A3DSource::A3DSource(char* fn) {
 	A3DBase *data=nullptr;
 
 	if (fn) {
@@ -412,7 +412,7 @@ void A3DSource::SetupParams() {
 }
 
 void A3DSource::DupeConstruct(A3DBase *original) {
-	SLONG hr;
+	std::int32_t hr;
 	the_a3d_manager.srclist += this;
 	rendermode=0;
 	autofree=0;
@@ -451,7 +451,7 @@ A3DSource::~A3DSource() {
  *
  */
 
-void A3DSource::SetMute(UBYTE mute) {
+void A3DSource::SetMute(std::uint8_t mute) {
 /*	if (mute)
 		rendermode|=A3D_MUTE;
 	else
@@ -460,7 +460,7 @@ void A3DSource::SetMute(UBYTE mute) {
 	*/
 }
 
-void A3DSource::Set3D(UBYTE is3d) {
+void A3DSource::Set3D(std::uint8_t is3d) {
 	// despite what the API docs say, this doesn't seem to actually exist yet. hm.
 	/*
 	if (is3d)
@@ -472,7 +472,7 @@ void A3DSource::Set3D(UBYTE is3d) {
 }
 
 void A3DSource::DoChange(A3DBase *original) {
-	SLONG hr;
+	std::int32_t hr;
 
 	FreeWave();
 	cloned_from=original;
@@ -492,7 +492,7 @@ void A3DSource::Change(A3DBase *original) {
 	DoChange(original);
 }
 
-void A3DSource::Queue(A3DBase *original, SLONG x, SLONG y, SLONG z, SLONG flags) {
+void A3DSource::Queue(A3DBase *original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {
 	if (queuepos==MAX_QUEUE_LENGTH) return;
 	queue[queuepos].original=original;
 	queue[queuepos].x=x;
@@ -502,8 +502,8 @@ void A3DSource::Queue(A3DBase *original, SLONG x, SLONG y, SLONG z, SLONG flags)
 	queuepos++;
 }
 
-UBYTE A3DSource::CBEnded() {
-/*	UBYTE i;
+std::uint8_t A3DSource::CBEnded() {
+/*	std::uint8_t i;
 
 	if (queuepos) {
 		DoChange(queue[0].original);
@@ -527,7 +527,7 @@ UBYTE A3DSource::CBEnded() {
  *
  */
 
-void A3DSource::Play(UBYTE looped) {
+void A3DSource::Play(std::uint8_t looped) {
 	if (a3dsrc) {
 		if (looped)
 			ErrChk(a3dsrc->Play(A3D_LOOPED));
@@ -557,7 +557,7 @@ void A3DSource::Rewind() {
  *
  */
 
-A3DData::A3DData(CBYTE* fn, UBYTE ntype) {
+A3DData::A3DData(char* fn, std::uint8_t ntype) {
 	HRESULT hr;
 
 	the_a3d_manager.datalist += this;
@@ -629,14 +629,14 @@ void A3DList::Del(A3DBase *item) {
 	count--;
 };
 
-A3DBase *A3DList::Index(SLONG index) {
+A3DBase *A3DList::Index(std::int32_t index) {
 	A3DBase *walk=list;
 
 	while ((--index)&&walk) walk=walk->next;
 	return walk;
 };
 
-A3DBase *A3DList::Find(CBYTE* want) {
+A3DBase *A3DList::Find(char* want) {
 	A3DBase *walk=list;
 
 	while (walk&&stricmp(want,walk->GetTitle())) walk=walk->next;
@@ -658,9 +658,9 @@ void A3DBase::FreeWave() {
 }
 
 
-ULONG A3DBase::GetLengthSamples() {
+std::uint32_t A3DBase::GetLengthSamples() {
 	WAVEFORMATEX format;
-	ULONG size;
+	std::uint32_t size;
 
 	if (a3dsrc) {
 		if (!length_samples) {
@@ -674,7 +674,7 @@ ULONG A3DBase::GetLengthSamples() {
 
 float A3DBase::GetLengthSeconds() {
 	WAVEFORMATEX format;
-	SLONG size;
+	std::int32_t size;
 
 	if (a3dsrc) {
 		if (length_seconds==0) {
@@ -687,8 +687,8 @@ float A3DBase::GetLengthSeconds() {
 }
 
 
-bool A3DBase::HasEnded(UBYTE early_out) {
-	ULONG t,c;
+bool A3DBase::HasEnded(std::uint8_t early_out) {
+	std::uint32_t t,c;
 
 	if (a3dsrc) {
 		
@@ -729,9 +729,9 @@ IA3d4		*a3droot;
 IA3dGeom     *a3dgeom = nullptr;
 A3DManager	the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D);
 
-void Decode(SLONG hr) {}
-void ErrChk(SLONG hr) {}
-bool Failed(SLONG hr) { return true; }
+void Decode(std::int32_t hr) {}
+void ErrChk(std::int32_t hr) {}
+bool Failed(std::int32_t hr) { return true; }
 void A3D_Check_Init(void) {}
 static void RegDBSetKeyValue(
 	char *szKey,		/* in, key string */
@@ -740,42 +740,42 @@ static void RegDBSetKeyValue(
 {}
 
 HRESULT A3dRegister(void) { return 0; }
-void A3DManager::Init(SLONG features) {}
-A3DManager::A3DManager(SLONG features) {}
+void A3DManager::Init(std::int32_t features) {}
+A3DManager::A3DManager(std::int32_t features) {}
 void A3DCleanUp(void) {}
 void A3DManager::Fini(void) {}
 A3DManager::~A3DManager() {}
-A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, UBYTE flags) { return nullptr; }
+A3DSource* A3DManager::Play(A3DData *Original, A3DSource* Channel, std::uint8_t flags) { return nullptr; }
 bool A3DManager::Valid(A3DBase* item) { return true; }
 A3DSource* A3DManager::ValidChannel(A3DBase* item) { return nullptr; }
 A3DBase* A3DManager::ValidWave(A3DBase* item) { return nullptr; }
-void A3DManager::BindMaterial(SLONG material) {}
-A3DSource::A3DSource(CBYTE* fn) {}
+void A3DManager::BindMaterial(std::int32_t material) {}
+A3DSource::A3DSource(char* fn) {}
 A3DSource::A3DSource(A3DBase *original) {}
 void A3DSource::SetupParams() {}
 void A3DSource::DupeConstruct(A3DBase *original) {}
 A3DSource::~A3DSource() {}
-void A3DSource::SetMute(UBYTE mute) {}
-void A3DSource::Set3D(UBYTE is3d) {}
+void A3DSource::SetMute(std::uint8_t mute) {}
+void A3DSource::Set3D(std::uint8_t is3d) {}
 void A3DSource::DoChange(A3DBase *original) {}
 void A3DSource::Change(A3DBase *original) {}
-void A3DSource::Queue(A3DBase *original, SLONG x, SLONG y, SLONG z, SLONG flags) {}
-UBYTE A3DSource::CBEnded() { return 0; }
-void A3DSource::Play(UBYTE looped) {}
+void A3DSource::Queue(A3DBase *original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {}
+std::uint8_t A3DSource::CBEnded() { return 0; }
+void A3DSource::Play(std::uint8_t looped) {}
 void A3DSource::Stop() {}
 void A3DSource::Rewind() {}
-A3DData::A3DData(CBYTE* fn, UBYTE ntype) {}
+A3DData::A3DData(char* fn, std::uint8_t ntype) {}
 A3DData::~A3DData() {}
 A3DList::~A3DList() {}
 void A3DList::Clear() {}
 void A3DList::Add(A3DBase *item) {}
 void A3DList::Del(A3DBase *item) {}
-A3DBase *A3DList::Index(SLONG index) { return nullptr; }
-A3DBase *A3DList::Find(CBYTE* want) { return nullptr; }
+A3DBase *A3DList::Index(std::int32_t index) { return nullptr; }
+A3DBase *A3DList::Find(char* want) { return nullptr; }
 void A3DBase::FreeWave() {}
-ULONG A3DBase::GetLengthSamples() { return 0; }
+std::uint32_t A3DBase::GetLengthSamples() { return 0; }
 float A3DBase::GetLengthSeconds() { return 0.0f; }
-bool A3DBase::HasEnded(UBYTE early_out) { return true; }
+bool A3DBase::HasEnded(std::uint8_t early_out) { return true; }
 
 
 #endif //#else //#ifndef TARGET_DC

@@ -61,28 +61,28 @@
 #define PFLAGS_BUBBLE	PFLAG_BOUYANT|PFLAG_EXPAND
 
 struct Particle {
-	SLONG	x,y,z;
-	SLONG	colour, flags, life;
-	UWORD	page, sprite;
-	UBYTE	padding, priority;
-	SBYTE	fade, resize;
-	SWORD	dx,dy,dz;
-	UWORD	prev, next;
-	UWORD	size;
+	std::int32_t	x,y,z;
+	std::int32_t	colour, flags, life;
+	std::uint16_t	page, sprite;
+	std::uint8_t	padding, priority;
+	std::int8_t	fade, resize;
+	std::int16_t	dx,dy,dz;
+	std::uint16_t	prev, next;
+	std::uint16_t	size;
 };
 
 
 void PARTICLE_Run();
 void PARTICLE_Draw();
 void PARTICLE_Reset();
-UWORD PARTICLE_AddParticle(Particle &p);
-UWORD PARTICLE_Add(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, UWORD page, UWORD sprite, SLONG colour, SLONG flags, SLONG life, UBYTE size, UBYTE priority, SBYTE fade, SBYTE resize);
+std::uint16_t PARTICLE_AddParticle(Particle &p);
+std::uint16_t PARTICLE_Add(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::uint16_t page, std::uint16_t sprite, std::int32_t colour, std::int32_t flags, std::int32_t life, std::uint8_t size, std::uint8_t priority, std::int8_t fade, std::int8_t resize);
 	
 // Some of the more commonly-used effects:
-UWORD PARTICLE_Exhaust(SLONG x, SLONG y, SLONG z,UBYTE density, UBYTE disperse);
-UWORD PARTICLE_Exhaust2(Thing *object, UBYTE density, UBYTE disperse);
-UWORD PARTICLE_Steam(SLONG x, SLONG y, SLONG z, UBYTE axis, SLONG vel, SLONG range, UBYTE time);
-UWORD PARTICLE_SGrenade(Thing *object, UBYTE time);
+std::uint16_t PARTICLE_Exhaust(std::int32_t x, std::int32_t y, std::int32_t z,std::uint8_t density, std::uint8_t disperse);
+std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_t disperse);
+std::uint16_t PARTICLE_Steam(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t axis, std::int32_t vel, std::int32_t range, std::uint8_t time);
+std::uint16_t PARTICLE_SGrenade(Thing *object, std::uint8_t time);
 
 #endif
 

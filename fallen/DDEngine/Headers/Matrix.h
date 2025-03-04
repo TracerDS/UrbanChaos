@@ -60,7 +60,7 @@ void MATRIX_skew(float matrix[9], float skew, float zoom, float scale);
 
 #define MATRIX_MUL_INT(m,x,y,z)	   		\
 {										\
-	SLONG xnew, ynew, znew;	   			\
+	std::int32_t xnew, ynew, znew;	   			\
 							   			\
 	xnew  = (x) * (m)[0];		   		\
 	ynew  = (x) * (m)[3];		   		\

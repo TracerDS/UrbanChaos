@@ -8,10 +8,10 @@
 
 //*************************************MOUSE STUFF ****************
 
-volatile UBYTE		LeftButton		=	0,
+volatile std::uint8_t		LeftButton		=	0,
 					MiddleButton	=	0,
 					RightButton		=	0;
-volatile SLONG		MouseX,
+volatile std::int32_t		MouseX,
 					MouseY;
 volatile LastMouse	LeftMouse		=	{	0,0,0,{	0,0	}	},
 					MiddleMouse		=	{	0,0,0,{	0,0	}	},
@@ -22,32 +22,32 @@ volatile MFPoint	MousePoint		=	{	0,0				};
 static void	_interrupt _loadds far MouseInterrupt(int max, int mickey_x, int mickey_y);
 struct mouse_info
 {
-	SLONG	XMoveRatio;
-	SLONG	YMoveRatio;
-	SLONG	XSpriteOffset;
-	SLONG	YSpriteOffset;
-	UBYTE	Sprite[32*32];
+	std::int32_t	XMoveRatio;
+	std::int32_t	YMoveRatio;
+	std::int32_t	XSpriteOffset;
+	std::int32_t	YSpriteOffset;
+	std::uint8_t	Sprite[32*32];
 };
 
 struct mouse_buffer
 {
-	UBYTE	Valid;
-	SLONG	Width;
-	SLONG	Height;
-	ULONG	Offset;
-	UBYTE	Buffer[32*32];
+	std::uint8_t	Valid;
+	std::int32_t	Width;
+	std::int32_t	Height;
+	std::uint32_t	Offset;
+	std::uint8_t	Buffer[32*32];
 	
-	SLONG	X;
-	SLONG	Y;
-	SLONG	XOffset;
-	SLONG	YOffset;
+	std::int32_t	X;
+	std::int32_t	Y;
+	std::int32_t	XOffset;
+	std::int32_t	YOffset;
 };
 
 static mouse_setup=0;
 static struct	mouse_buffer	mbuffer;
 static struct	mouse_info		minfo;
-static volatile	SWORD		mouse_mickey_x = 0;
-static volatile	SWORD		mouse_mickey_y = 0;
+static volatile	std::int16_t		mouse_mickey_x = 0;
+static volatile	std::int16_t		mouse_mickey_y = 0;
 static mouse_int_setup=0;
 
 
@@ -72,13 +72,13 @@ static void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 {
 	#pragma aux MouseInterrupt parm [EAX] [ESI] [EDI]
 	
-	static	SWORD	old_mx = 0;	// Old mickey counts
-	static	SWORD	old_my = 0;
-	static	SLONG	old_rx = 0; // Remainder from move ratio divisions
-	static	SLONG	old_ry = 0;
-	SLONG			dx, dy;
-	SWORD			mickey_x, mickey_y;	// Got to move ESI/EDI into SWORD vars to make use of 16bit wrap
-	UWORD			vesa_page;
+	static	std::int16_t	old_mx = 0;	// Old mickey counts
+	static	std::int16_t	old_my = 0;
+	static	std::int32_t	old_rx = 0; // Remainder from move ratio divisions
+	static	std::int32_t	old_ry = 0;
+	std::int32_t			dx, dy;
+	std::int16_t			mickey_x, mickey_y;	// Got to move ESI/EDI into std::int16_t vars to make use of 16bit wrap
+	std::uint16_t			vesa_page;
 
 	if (!mouse_setup)	// Remember may just be suspended!
 	{
@@ -145,15 +145,15 @@ static void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 	if (redraw_active)
 	{
 		// Remember new position
-		mouse_mickey_x = (SWORD)mx;
-		mouse_mickey_y = (SWORD)my;
+		mouse_mickey_x = (std::int16_t)mx;
+		mouse_mickey_y = (std::int16_t)my;
 		return;
 	}
 */
 
 	// Process movement
-	mickey_x = (SWORD)mx;
-	mickey_y = (SWORD)my;
+	mickey_x = (std::int16_t)mx;
+	mickey_y = (std::int16_t)my;
 	old_mx = mouse_mickey_x;
 	old_my = mouse_mickey_y;
 	mouse_mickey_x = mickey_x;
@@ -195,7 +195,7 @@ static void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 		}
 	}
 	clip_mouse();
-//	adjust_point((SLONG *)&lbDisplay.MMouseX, (SLONG *)&lbDisplay.MMouseY);
+//	adjust_point((std::int32_t *)&lbDisplay.MMouseX, (std::int32_t *)&lbDisplay.MMouseY);
 /*
 	if (!lbScreenDirectAccessActive)
 	{
@@ -213,7 +213,7 @@ static void	_interrupt _loadds far MouseInterrupt(int event, int mx, int my)
 
 
 
-SLONG SetupMouse()
+std::int32_t SetupMouse()
 {
 	struct 	SREGS 	sregs ;
 	union 	REGS 	inregs;
@@ -255,7 +255,7 @@ SLONG SetupMouse()
 	return (1);
 }
 
-SLONG ResetMouse()
+std::int32_t ResetMouse()
 {
 	union 	REGS 	inregs;
 	union 	REGS 	outregs;

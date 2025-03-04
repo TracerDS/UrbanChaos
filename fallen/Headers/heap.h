@@ -13,8 +13,8 @@
 //
 
 void  HEAP_init();
-void* HEAP_get(SLONG num_bytes);
-void  HEAP_give(void* , SLONG num_bytes);
+void* HEAP_get(std::int32_t num_bytes);
+void  HEAP_give(void* , std::int32_t num_bytes);
 
 
 //
@@ -23,7 +23,7 @@ void  HEAP_give(void* , SLONG num_bytes);
 
 #define HEAP_PAD_SIZE (1024 * 4)
 
-extern UBYTE HEAP_pad[HEAP_PAD_SIZE];
+extern std::uint8_t HEAP_pad[HEAP_PAD_SIZE];
 
 
 

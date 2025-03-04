@@ -19,7 +19,7 @@ void* FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize );
 
 struct	Char
 {
-	SLONG		X,
+	std::int32_t		X,
 				Y,
 				Height,
 				Width;
@@ -27,7 +27,7 @@ struct	Char
 
 struct	Font
 {
-	SLONG			StartLine;
+	std::int32_t			StartLine;
 	Char			CharSet[96];
 	Font			*NextFont;
 };
@@ -52,22 +52,22 @@ class	D3DTexture
 {
 	public:
 
-		CBYTE					texture_name[256];
-		ULONG					ID;		// texture ID for FileClump
+		char					texture_name[256];
+		std::uint32_t					ID;		// texture ID for FileClump
 		// Allow the texture to be shrunk or replaced with junk for faster loading.
 		bool					bCanShrink;
-		SLONG					TextureFlags;
+		std::int32_t					TextureFlags;
 		Font					*FontList;
 		LPDIRECT3DTEXTURE2		lp_Texture;
 		LPDIRECTDRAWSURFACE4	lp_Surface;
-		HRESULT					Reload_TGA (void);
-		HRESULT					Reload_user(void);
+		HRESULT					Reload_TGA ();
+		HRESULT					Reload_user();
 		bool					GreyScale;
 		bool					UserWantsAlpha;	// The user page needs an alpha-channel.
 #ifdef TEX_EMBED
 		//char *name;			// Texture file name.
-		UBYTE bPagePos;			// Position in page.
-		UBYTE bPageType;		// One of D3DPAGE_xxx
+		std::uint8_t bPagePos;			// Position in page.
+		std::uint8_t bPageType;		// One of D3DPAGE_xxx
 		WORD wPageNum;			// The D3Dpage this is in.
 #endif
 
@@ -99,33 +99,33 @@ class	D3DTexture
 		// The format used.
 		// 
 
-		SLONG mask_red=0;
-		SLONG mask_green=0;
-		SLONG mask_blue = 0;
-		SLONG mask_alpha = 0;
+		std::int32_t mask_red=0;
+		std::int32_t mask_green=0;
+		std::int32_t mask_blue = 0;
+		std::int32_t mask_alpha = 0;
 
-		SLONG shift_red = 0;
-		SLONG shift_green = 0;
-		SLONG shift_blue = 0;
-		SLONG shift_alpha = 0;
+		std::int32_t shift_red = 0;
+		std::int32_t shift_green = 0;
+		std::int32_t shift_blue = 0;
+		std::int32_t shift_alpha = 0;
 
-		SLONG		Type;
-		SLONG       size;			// The size in pixels of the texture page.
-		SLONG       ContainsAlpha;
+		std::int32_t		Type;
+		std::int32_t       size;			// The size in pixels of the texture page.
+		std::int32_t       ContainsAlpha;
 
-		HRESULT		LoadTextureTGA(CBYTE* tga_file,ULONG texid,bool bCanShrink=true);
+		HRESULT		LoadTextureTGA(char* tga_file,std::uint32_t texid,bool bCanShrink=true);
 
-		HRESULT		ChangeTextureTGA(CBYTE* tga_file);
+		HRESULT		ChangeTextureTGA(char* tga_file);
 
-		HRESULT		CreateUserPage(SLONG size, bool i_want_an_alpha_channel);	// Power of two between 32 and 256 inclusive
-		HRESULT     LockUser      (UWORD **bitmap, SLONG *pitch);				// Returns the texture page on success. The pitch is in bytes!
-		void        UnlockUser	  (void);
+		HRESULT		CreateUserPage(std::int32_t size, bool i_want_an_alpha_channel);	// Power of two between 32 and 256 inclusive
+		HRESULT     LockUser      (std::uint16_t **bitmap, std::int32_t *pitch);				// Returns the texture page on success. The pitch is in bytes!
+		void        UnlockUser	  ();
 
-		HRESULT		Reload(void);
-		HRESULT		Destroy(void);
+		HRESULT		Reload();
+		HRESULT		Destroy();
 
 		HRESULT		CreateFonts(TGA_Info *tga_info,TGA_Pixel *tga_data);
-		Font		*GetFont(SLONG id);
+		Font		*GetFont(std::int32_t id);
 
 		// resets texture page for loading
 		static void	BeginLoading();
@@ -138,12 +138,12 @@ class	D3DTexture
 		void set_greyscale(bool is_greyscale);
 
 		LPDIRECT3DTEXTURE2		GetD3DTexture()			{ return lp_Texture; }
-		LPDIRECTDRAWSURFACE4	GetSurface(void)		{ return lp_Surface; }
+		LPDIRECTDRAWSURFACE4	GetSurface()		{ return lp_Surface; }
 #ifdef TEX_EMBED
 		void					GetTexOffsetAndScale ( float *pfUScale, float *pfUOffset, float *pfVScale, float *pfVOffset );
 #endif
 
-		HRESULT					SetColorKey(SLONG flags,LPDDCOLORKEY key)	{
+		HRESULT					SetColorKey(std::int32_t flags,LPDDCOLORKEY key)	{
 																					if (lp_Surface)
 																					{
 																						return	lp_Surface->SetColorKey(flags,key);
@@ -154,13 +154,13 @@ class	D3DTexture
 																					}
 																				}
 
-		inline	bool		IsFont(void)				{	return	TextureFlags&D3D_TEXTURE_FONT;	}
-		inline	void		FontOn(void)				{	TextureFlags	|=	D3D_TEXTURE_FONT;	}
-		inline	void		FontOff(void)				{	TextureFlags	&=	~D3D_TEXTURE_FONT;	}
+		inline	bool		IsFont()				{	return	TextureFlags&D3D_TEXTURE_FONT;	}
+		inline	void		FontOn()				{	TextureFlags	|=	D3D_TEXTURE_FONT;	}
+		inline	void		FontOff()				{	TextureFlags	&=	~D3D_TEXTURE_FONT;	}
 
-		inline	bool		IsFont2(void)				{	return	TextureFlags&D3D_TEXTURE_FONT2;	}
-		inline	void		Font2On(void)				{	TextureFlags	|=	D3D_TEXTURE_FONT2;	}
-		inline	void		Font2Off(void)				{	TextureFlags	&=	~D3D_TEXTURE_FONT2;	}
+		inline	bool		IsFont2()				{	return	TextureFlags&D3D_TEXTURE_FONT2;	}
+		inline	void		Font2On()				{	TextureFlags	|=	D3D_TEXTURE_FONT2;	}
+		inline	void		Font2Off()				{	TextureFlags	&=	~D3D_TEXTURE_FONT2;	}
 };
 
 
@@ -168,8 +168,8 @@ class	D3DTexture
 class D3DPage
 {
 public:
-	UBYTE		bPageType;			// One of D3DPAGE_xxx
-	UBYTE		bNumTextures;		// Number of textures in page.
+	std::uint8_t		bPageType;			// One of D3DPAGE_xxx
+	std::uint8_t		bNumTextures;		// Number of textures in page.
 	char		*pcDirectory;		// The page's directory. THIS IS STATIC - don't free it.
 	char		*pcFilename;		// The page's filename. THIS IS STATIC - don't free it.
 	char		**ppcTextureList;	// A pointer to an array of pointers to strings of the texture names :-)

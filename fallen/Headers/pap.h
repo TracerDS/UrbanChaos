@@ -68,11 +68,11 @@ struct Thing;
 
 typedef struct
 {
-	UWORD MapWho;
-	SWORD Walkable;     // +ve normal prim_face4, -ve is special roof quad
-	UWORD ColVectHead;  //don't need this, it could be -ve mapwho
-	SBYTE water;		// The height of any water in this mapsquare.
-	UBYTE Flag;
+	std::uint16_t MapWho;
+	std::int16_t Walkable;     // +ve normal prim_face4, -ve is special roof quad
+	std::uint16_t ColVectHead;  //don't need this, it could be -ve mapwho
+	std::int8_t water;		// The height of any water in this mapsquare.
+	std::uint8_t Flag;
 
 } PAP_Lo;
 
@@ -85,10 +85,10 @@ typedef struct
 
 typedef struct
 {
-	UWORD Texture; //3 spare bits here
-	UWORD Flags;   // full but some sewer stuff that could go perhaps
-	SBYTE Alt;
-	SBYTE Height;//padding; // better find something to do with this 16K
+	std::uint16_t Texture; //3 spare bits here
+	std::uint16_t Flags;   // full but some sewer stuff that could go perhaps
+	std::int8_t Alt;
+	std::int8_t Height;//padding; // better find something to do with this 16K
 
 } PAP_Hi;
 
@@ -105,7 +105,7 @@ extern MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 
 
 //
-// The shifts needed to get a UWORD coordinate to a
+// The shifts needed to get a std::uint16_t coordinate to a
 // mapsquare coordinate for the hi and lo res maps.
 //
 
@@ -117,8 +117,8 @@ extern MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 // Returns true if the mapsquare coordinate is on each map.
 //
 
-SLONG PAP_on_map_lo(SLONG x, SLONG z);
-SLONG PAP_on_map_hi(SLONG x, SLONG z);
+std::int32_t PAP_on_map_lo(std::int32_t x, std::int32_t z);
+std::int32_t PAP_on_map_hi(std::int32_t x, std::int32_t z);
 
 
 //
@@ -146,8 +146,8 @@ SLONG PAP_on_map_hi(SLONG x, SLONG z);
 //#define PAP_on_map_hi(x,z) ((WITHIN((x), 0, PAP_SIZE_HI -1) && WITHIN((z), 0, PAP_SIZE_HI -1))?true:false)
 //#define PAP_on_map_lo(x,z) ((WITHIN((x), 0, PAP_SIZE_LO -1) && WITHIN((z), 0, PAP_SIZE_LO -1))?true:false)
 
-void PAP_assert_if_off_map_lo(SLONG x, SLONG z);
-void PAP_assert_if_off_map_hi(SLONG x, SLONG z);
+void PAP_assert_if_off_map_lo(std::int32_t x, std::int32_t z);
+void PAP_assert_if_off_map_hi(std::int32_t x, std::int32_t z);
 
 #define PAP_2LO(x,z) (PAP_assert_if_off_map_lo((x),(z)), PAP_lo[(x)][(z)])
 #define PAP_2HI(x,z) (PAP_assert_if_off_map_hi((x),(z)), PAP_hi[(x)][(z)])
@@ -163,10 +163,10 @@ void PAP_assert_if_off_map_hi(SLONG x, SLONG z);
 // Returns the height of the map including buildings.
 //
 
-SLONG PAP_calc_height_at_point(SLONG map_x, SLONG map_z);
-SLONG PAP_calc_height_at      (SLONG x, SLONG z);
-SLONG PAP_calc_height_at_thing(Thing	*p_thing,SLONG x, SLONG z);
-SLONG PAP_calc_map_height_at  (SLONG x, SLONG z);
+std::int32_t PAP_calc_height_at_point(std::int32_t map_x, std::int32_t map_z);
+std::int32_t PAP_calc_height_at      (std::int32_t x, std::int32_t z);
+std::int32_t PAP_calc_height_at_thing(Thing	*p_thing,std::int32_t x, std::int32_t z);
+std::int32_t PAP_calc_map_height_at  (std::int32_t x, std::int32_t z);
 
 
 //
@@ -174,8 +174,8 @@ SLONG PAP_calc_map_height_at  (SLONG x, SLONG z);
 // Looks around (x,z) for the highest point and returns that point.
 //
 
-SLONG PAP_calc_height_noroads (SLONG x, SLONG z);
-SLONG PAP_calc_map_height_near(SLONG x, SLONG z);
+std::int32_t PAP_calc_height_noroads (std::int32_t x, std::int32_t z);
+std::int32_t PAP_calc_map_height_near(std::int32_t x, std::int32_t z);
 
 
 void PAP_clear();
@@ -184,9 +184,9 @@ void PAP_clear();
 // Returns true if the given region of map is not on a hill.
 //
 
-SLONG PAP_is_flattish(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+std::int32_t PAP_is_flattish(
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 #endif
 

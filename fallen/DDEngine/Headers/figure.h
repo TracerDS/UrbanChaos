@@ -13,7 +13,7 @@
 
 void FIGURE_draw(Thing *person);
 
-extern SLONG	FIGURE_alpha;
+extern std::int32_t	FIGURE_alpha;
 
 
 //
@@ -22,12 +22,12 @@ extern SLONG	FIGURE_alpha;
 // on screen!
 //
 
-extern SLONG FIGURE_reflect_x1;
-extern SLONG FIGURE_reflect_y1;
-extern SLONG FIGURE_reflect_x2;
-extern SLONG FIGURE_reflect_y2;
+extern std::int32_t FIGURE_reflect_x1;
+extern std::int32_t FIGURE_reflect_y1;
+extern std::int32_t FIGURE_reflect_x2;
+extern std::int32_t FIGURE_reflect_y2;
 
-void FIGURE_draw_reflection(Thing *person, SLONG height);
+void FIGURE_draw_reflection(Thing *person, std::int32_t height);
 
 
 //

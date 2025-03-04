@@ -35,7 +35,7 @@ void DCLL_init(void);
 // Loads a sound from a file.
 //
 
-DCLL_Sound *DCLL_load_sound(CBYTE* fname);
+DCLL_Sound *DCLL_load_sound(char* fname);
 
 
 //
@@ -53,14 +53,14 @@ void DCLL_set_volume(DCLL_Sound *ds, float volume);
 #define DCLL_FLAG_INTERRUPT (1 << 0)
 #define DCLL_FLAG_LOOP      (1 << 1)
 
-void DCLL_2d_play_sound(DCLL_Sound *ds, SLONG flag = 0);
+void DCLL_2d_play_sound(DCLL_Sound *ds, std::int32_t flag = 0);
 
 
 //
 // Plays a 3D sound.
 //
 
-void DCLL_3d_play_sound(DCLL_Sound *ds, float x, float y, float z, SLONG flag = 0);
+void DCLL_3d_play_sound(DCLL_Sound *ds, float x, float y, float z, std::int32_t flag = 0);
 
 
 //
@@ -108,10 +108,10 @@ void DCLL_fini(void);
 void DCLL_stream_set_volume_range(float max_vol);	// 0.0F to 1.0F
 
 
-SLONG DCLL_stream_play(CBYTE* fname, SLONG loop = false);	// Play the file streaming off CD. Looping samples have a lower priority. Returns false if it doesn't issue the play.
+std::int32_t DCLL_stream_play(char* fname, std::int32_t loop = false);	// Play the file streaming off CD. Looping samples have a lower priority. Returns false if it doesn't issue the play.
 void  DCLL_stream_wait(void);								// Wait until the streaming file has finished playing
 void  DCLL_stream_stop(void);								// Stop the streaming sound.
-SLONG DCLL_stream_is_playing(void);							// Returns true if the streaming sound is still playing.
+std::int32_t DCLL_stream_is_playing(void);							// Returns true if the streaming sound is still playing.
 void  DCLL_stream_volume(float volume);						// 0.0F <= volume <= 1.0F
 
 
@@ -121,7 +121,7 @@ void  DCLL_stream_volume(float volume);						// 0.0F <= volume <= 1.0F
 //
 // ========================================================
 
-void DCLL_memstream_load  (CBYTE* fname);					// Loads the file.
+void DCLL_memstream_load  (char* fname);					// Loads the file.
 void DCLL_memstream_volume(float volume);					// 0.0F <= volume <= 1.0F
 void DCLL_memstream_play  (void);							// Loops and plays the file
 void DCLL_memstream_stop  (void);							// Stops playing the file

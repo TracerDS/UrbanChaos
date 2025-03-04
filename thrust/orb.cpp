@@ -32,7 +32,7 @@ void ORB_init()
 
 ORB_Orb *ORB_create(float x, float y, float radius)
 {
-	SLONG i;
+	std::int32_t i;
 
 	ORB_Orb *oo;
 
@@ -131,7 +131,7 @@ void ORB_process_one(ORB_Orb *oo)
 
 void ORB_process_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	ORB_Orb *oo;
 
@@ -149,7 +149,7 @@ void ORB_process_all()
 
 void ORB_draw_all(float mid_x, float mid_y, float zoom)
 {
-	SLONG i;
+	std::int32_t i;
 
 	ORB_Orb   *oo;
 	OS_Buffer *ob;

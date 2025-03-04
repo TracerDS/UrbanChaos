@@ -27,13 +27,13 @@ GenusFunctions ANIMAL_functions[ANIMAL_NUMBER] =
 };
 /*
 struct AnimalBody {
-	SBYTE	start;
-	SBYTE	size;
+	std::int8_t	start;
+	std::int8_t	size;
 //	float	x[10],y[10],z[10];
 };
 */
 
-typedef void (*RegisterFn)();
+using RegisterFn = void (*)();
 
 //
 // Globals
@@ -41,19 +41,19 @@ typedef void (*RegisterFn)();
 
 //struct GameKeyFrameChunk animal_anim_chunk[16];
 //struct AnimalBody animal_bodies[16];
-//SBYTE animal_anim_chunk[16];
+//std::int8_t animal_anim_chunk[16];
 
 
-extern struct GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
+extern GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
 
 
-//SLONG body_counter, current_type;
+//std::int32_t body_counter, current_type;
 
 //
 // Prototypes
 //
 
-SLONG load_anim_system(struct GameKeyFrameChunk *game_chunk,CBYTE	*name,SLONG peep=0);
+std::int32_t load_anim_system(GameKeyFrameChunk* game_chunk, char* name, std::int32_t peep = 0);
 
 
 //--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ GameKeyFrameChunk *ANIMAL_register(char *filename) {
 // Registers a given animal
 //
 /*
-void init_body_parts(SLONG animaltype, RegisterFn fn) {
+void init_body_parts(std::int32_t animaltype, RegisterFn fn) {
 	current_type=animaltype;
 	animal_bodies[animaltype].start=body_counter;
 	animal_bodies[animaltype].size=0;
@@ -99,7 +99,7 @@ void init_body_parts(SLONG animaltype, RegisterFn fn) {
 
 void init_animals()
 {
-	memset((UBYTE*)ANIMALS, 0, sizeof(ANIMALS));
+	memset((std::uint8_t*)ANIMALS, 0, sizeof(ANIMALS));
 
 	ANIMAL_COUNT = 0;
 //	body_counter=0;
@@ -117,8 +117,8 @@ void init_animals()
 // Sets up the drawtween for a specific bodypart
 //
 
-DrawTween *alloc_tween(SLONG type, SLONG part) {
-	SLONG chunk;
+DrawTween *alloc_tween(std::int32_t type, std::int32_t part) {
+	std::int32_t chunk;
 	DrawTween *dt;
 
 	ASSERT(0); //better add an extra game_chunk if your going to put animals in
@@ -164,17 +164,17 @@ DrawTween *alloc_tween(SLONG type, SLONG part) {
 // Creates a new animal of the given type.
 //
 
-Thing *alloc_animal(UBYTE type)
+Thing *alloc_animal(std::uint8_t type)
 {		 
 
-	SLONG i;
+	std::int32_t i;
 
 	Thing    *p_thing;
 	Animal   *p_animal;
 	DrawTween *dt;
 
 	THING_INDEX t_index;
-	SLONG       a_index;
+	std::int32_t       a_index;
 
 	ASSERT(WITHIN(type, 1, ANIMAL_NUMBER - 1));
 	ASSERT(0);
@@ -260,7 +260,7 @@ Thing *alloc_animal(UBYTE type)
 }
 
 void free_animal(Thing *p_thing) {
-	SLONG i;
+	std::int32_t i;
 	Animal *animal = ANIMAL_get_animal(p_thing);
 	ASSERT(0);
 	return;
@@ -285,7 +285,7 @@ void free_animal(Thing *p_thing) {
 }
 
 
-Thing *ANIMAL_create(GameCoord pos, UBYTE type)
+Thing *ANIMAL_create(GameCoord pos, std::uint8_t type)
 {
 	Thing *p_thing = alloc_animal(type);
 	return(0);
@@ -310,8 +310,8 @@ Thing *ANIMAL_create(GameCoord pos, UBYTE type)
 //  do animation
 //
 
-UBYTE ANIMAL_animatetween(DrawTween *draw_info) {
-	SLONG tween_step;
+std::uint8_t ANIMAL_animatetween(DrawTween *draw_info) {
+	std::int32_t tween_step;
 	ASSERT(0);
 
 //	tween_step=256/(draw_info->CurrentFrame->TweenStep+1);
@@ -325,15 +325,15 @@ UBYTE ANIMAL_animatetween(DrawTween *draw_info) {
 	if(draw_info->AnimTween>256) {
 		draw_info->AnimTween-=256;
 
-SLONG advance_keyframe(DrawTween *draw_info);
+std::int32_t advance_keyframe(DrawTween *draw_info);
 
 		return advance_keyframe(draw_info); // 1 = anim over
 	}
 	return 0;
 }
 
-UBYTE ANIMAL_animate(Thing *animal) {
-	UBYTE	     i,j=0;
+std::uint8_t ANIMAL_animate(Thing *animal) {
+	std::uint8_t	     i,j=0;
 	ASSERT(0);
 //	for (i=0;i<animal_bodies[animal->Genus.Animal->AnimalType].size;i++)
 //		j|=ANIMAL_animatetween(animal->Genus.Animal->dts[i]);
@@ -347,10 +347,10 @@ UBYTE ANIMAL_animate(Thing *animal) {
 // Change the animation
 //
 
-void ANIMAL_set_anim(Thing *thing, SLONG anim) {
+void ANIMAL_set_anim(Thing *thing, std::int32_t anim) {
 	Animal *animal = ANIMAL_get_animal(thing);
-	UBYTE i;
-	SLONG chunk;
+	std::uint8_t i;
+	std::int32_t chunk;
 	DrawTween *dt;
 	ASSERT(0);
 	return;
@@ -396,26 +396,26 @@ DrawTween *ANIMAL_get_drawtween(Animal *animal) {
 }
 */
 /*
-SLONG ANIMAL_body_size(Animal *animal) {
+std::int32_t ANIMAL_body_size(Animal *animal) {
 	return animal_bodies[animal->AnimalType].size;
 }
 */
 
 
 /*
-extern void FIGURE_rotate_obj(SLONG xangle,SLONG yangle,SLONG zangle, Matrix33 *r3) ;
-extern void FIGURE_draw_prim_tween(SLONG prim, SLONG x, SLONG y, SLONG z, SLONG tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat,
-		SLONG off_dx, SLONG off_dy, SLONG off_dz, ULONG colour, ULONG specular);
+extern void FIGURE_rotate_obj(std::int32_t xangle,std::int32_t yangle,std::int32_t zangle, Matrix33 *r3) ;
+extern void FIGURE_draw_prim_tween(std::int32_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat,
+		std::int32_t off_dx, std::int32_t off_dy, std::int32_t off_dz, std::uint32_t colour, std::uint32_t specular);
 -> jcl <- don't use FIGURE_draw_prim_tween() here - it's changed...
 void ANIM_obj_draw_diddled(Thing *p_thing,DrawTween *dt,float xd,float yd,float zd)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG i;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t i;
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	Matrix33 r_matrix;
 	float matrix[9];
@@ -490,10 +490,10 @@ void ANIM_obj_draw_diddled(Thing *p_thing,DrawTween *dt,float xd,float yd,float 
 	// Draw each body part.
 	//
 
-//	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+//	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[0]].StartObject;
@@ -540,7 +540,7 @@ struct PrimMultiObject	prim_multi_objects[MAX_PRIM_MOBJECTS];
 
 /*
 GameCoord GetChunkCentre(GameKeyFrameChunk *chunk) {
-	SLONG i,j,k,counter;
+	std::int32_t i,j,k,counter;
 	GameCoord ctr = {0,0,0};
 	PrimMultiObject *pmo;
 	PrimObject *po;
@@ -574,7 +574,7 @@ GameCoord GetChunkCentre(GameKeyFrameChunk *chunk) {
 }
 
 SetChunkCentre(GameKeyFrameChunk *chunk, GameCoord centre) {
-	SLONG i,j,k;
+	std::int32_t i,j,k;
 	PrimMultiObject *pmo;
 	PrimObject *po;
 	GameKeyFrameElement	*element; 

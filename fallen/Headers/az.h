@@ -25,16 +25,16 @@ void AZ_init();
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE x1;
-	UBYTE z1;
-	UBYTE x2;
-	UBYTE z2;
+	std::uint8_t type;
+	std::uint8_t x1;
+	std::uint8_t z1;
+	std::uint8_t x2;
+	std::uint8_t z2;
 	
 } AZ_Line;
 
 extern AZ_Line AZ_line[];
-extern SLONG   AZ_line_upto;
+extern std::int32_t   AZ_line_upto;
 
 void AZ_create_lines();
 

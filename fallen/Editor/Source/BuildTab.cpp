@@ -85,7 +85,7 @@ void	cross_work_window()
 #define	BUILD_MODE_EDIT_STOREY		4
 
 
-CBYTE	*storey_name[]=
+char	*storey_name[]=
 {
 	"ZERO",
 	"NORMAL",
@@ -171,27 +171,27 @@ BuildTab *the_build;
 // true => the inside stuff is valid.
 //
 
-SLONG inside_building;
-SLONG inside_storey;
-SLONG inside_valid;
-SLONG inside_failure;
+std::int32_t inside_building;
+std::int32_t inside_storey;
+std::int32_t inside_valid;
+std::int32_t inside_failure;
 
 
 #define MAX_SEED_BACKUPS 16
 
-SLONG seed_inside[MAX_SEED_BACKUPS];
-SLONG seed_stairs[MAX_SEED_BACKUPS];
+std::int32_t seed_inside[MAX_SEED_BACKUPS];
+std::int32_t seed_stairs[MAX_SEED_BACKUPS];
 
-SLONG seed_inside_upto;
-SLONG seed_stairs_upto;
+std::int32_t seed_inside_upto;
+std::int32_t seed_stairs_upto;
 
 
 class	BuildingBlock
 {
-	SLONG	WallCount;
-	SLONG	StoreyCount;
-	SLONG	X;
-	SLONG	Z;
+	std::int32_t	WallCount;
+	std::int32_t	StoreyCount;
+	std::int32_t	X;
+	std::int32_t	Z;
 	struct	FWall	*PWall;
 	struct	FStorey	*PStorey;
 	struct	FBuilding	PBuilding;
@@ -200,12 +200,12 @@ class	BuildingBlock
 	public:
 								BuildingBlock();
 								~BuildingBlock();
-	void						Cut(SLONG building);
-	void						Paste(SLONG x,SLONG z,SLONG flags);
-	void						Allocate(SLONG building);
-	void						Free(SLONG clear_textures);
-	inline	SLONG				GetX()	{return(X);}
-	inline	SLONG				GetZ()	{return(Z);}
+	void						Cut(std::int32_t building);
+	void						Paste(std::int32_t x,std::int32_t z,std::int32_t flags);
+	void						Allocate(std::int32_t building);
+	void						Free(std::int32_t clear_textures);
+	inline	std::int32_t				GetX()	{return(X);}
+	inline	std::int32_t				GetZ()	{return(Z);}
 };
 
 
@@ -223,38 +223,38 @@ BuildingBlock::~BuildingBlock()
 		Free(0);
 }
 
-void	BuildingBlock::Free(SLONG clear_textures)
+void	BuildingBlock::Free(std::int32_t clear_textures)
 {
 	if(PWall)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 		if(clear_textures)
 		for(c0=1;c0<WallCount;c0++)
 		{
 			if(PWall[c0].Textures&&PWall[c0].Tcount)
 			{
-				MemFree((UBYTE*)PWall[c0].Textures);
+				MemFree((std::uint8_t*)PWall[c0].Textures);
 			}
 
 			if(PWall[c0].Textures2&&PWall[c0].Tcount2)
 			{
-				MemFree((UBYTE*)PWall[c0].Textures2);
+				MemFree((std::uint8_t*)PWall[c0].Textures2);
 			}
 
 		}
-		MemFree((UBYTE*)PWall);
+		MemFree((std::uint8_t*)PWall);
 	}
 	if(PStorey)
-		MemFree((UBYTE*)PStorey);
+		MemFree((std::uint8_t*)PStorey);
 
 	WallCount=0;
 	StoreyCount=0;
 }
 
-void	BuildingBlock::Allocate(SLONG building)
+void	BuildingBlock::Allocate(std::int32_t building)
 {
-	SLONG	wall,storey;
-	SLONG	nwall=1,nstorey=1;
+	std::int32_t	wall,storey;
+	std::int32_t	nwall=1,nstorey=1;
 	Free(1);
 
 	storey=building_list[building].StoreyHead;
@@ -279,10 +279,10 @@ void	BuildingBlock::Allocate(SLONG building)
 
 }
 
-void	BuildingBlock::Cut(SLONG building)
+void	BuildingBlock::Cut(std::int32_t building)
 {
-	SLONG	wall,storey;
-	SLONG	nwall=1,nstorey=1;
+	std::int32_t	wall,storey;
+	std::int32_t	nwall=1,nstorey=1;
 	Allocate(building);
 
 	storey=building_list[building].StoreyHead;
@@ -317,7 +317,7 @@ void	BuildingBlock::Cut(SLONG building)
 			if(wall_list[wall].Textures&&wall_list[wall].Tcount)
 			{
 
-				PWall[nwall].Textures=(UBYTE*)MemAlloc(wall_list[wall].Tcount);
+				PWall[nwall].Textures=(std::uint8_t*)MemAlloc(wall_list[wall].Tcount);
 				if(PWall[nwall].Textures)
 					memcpy(PWall[nwall].Textures,wall_list[wall].Textures,wall_list[wall].Tcount);
 			}
@@ -329,7 +329,7 @@ void	BuildingBlock::Cut(SLONG building)
 			}
 			if(wall_list[wall].Textures2 && wall_list[wall].Tcount2 && wall_list[wall].Tcount2<64)
 			{
-				PWall[nwall].Textures2=(UBYTE*)MemAlloc(wall_list[wall].Tcount2);
+				PWall[nwall].Textures2=(std::uint8_t*)MemAlloc(wall_list[wall].Tcount2);
 				if(PWall[nwall].Textures2)
 					memcpy(PWall[nwall].Textures2,wall_list[wall].Textures2,wall_list[wall].Tcount2);
 
@@ -352,10 +352,10 @@ void	BuildingBlock::Cut(SLONG building)
 
 }
 
-void	BuildingBlock::Paste(SLONG x,SLONG z,SLONG flags)
+void	BuildingBlock::Paste(std::int32_t x,std::int32_t z,std::int32_t flags)
 {
-	SLONG	storey,wall,nstorey,nwall,nbuilding;
-	SLONG	dx,dz;
+	std::int32_t	storey,wall,nstorey,nwall,nbuilding;
+	std::int32_t	dx,dz;
 
 	dx=x-PStorey[1].DX;
 	dz=z-PStorey[1].DZ;
@@ -364,14 +364,14 @@ void	BuildingBlock::Paste(SLONG x,SLONG z,SLONG flags)
 		nbuilding=get_new_building();
 		if(nbuilding)
 		{
-			SLONG	prev_nstorey=0;
+			std::int32_t	prev_nstorey=0;
 
 			building_list[nbuilding]=PBuilding;
 
 			storey=1;
 			while(storey)
 			{
-				SLONG	prev_nwall=0;
+				std::int32_t	prev_nwall=0;
 
 				nstorey=get_new_storey();
 
@@ -412,7 +412,7 @@ void	BuildingBlock::Paste(SLONG x,SLONG z,SLONG flags)
 					if(PWall[wall].Textures && PWall[wall].Tcount)
 					{
 
-						wall_list[nwall].Textures=(UBYTE*)MemAlloc(wall_list[nwall].Tcount);
+						wall_list[nwall].Textures=(std::uint8_t*)MemAlloc(wall_list[nwall].Tcount);
 						if(wall_list[nwall].Textures)
 							memcpy(wall_list[nwall].Textures,PWall[wall].Textures,wall_list[nwall].Tcount);
 					}
@@ -426,7 +426,7 @@ void	BuildingBlock::Paste(SLONG x,SLONG z,SLONG flags)
 					if(PWall[wall].Textures2 && PWall[wall].Tcount2)
 					{
 
-						wall_list[nwall].Textures2=(UBYTE*)MemAlloc(wall_list[nwall].Tcount2);
+						wall_list[nwall].Textures2=(std::uint8_t*)MemAlloc(wall_list[nwall].Tcount2);
 						if(wall_list[nwall].Textures2)
 							memcpy(wall_list[nwall].Textures2,PWall[wall].Textures2,wall_list[nwall].Tcount2);
 					}
@@ -471,10 +471,10 @@ MapBlock::~MapBlock()
 
 void	MapBlock::Free()
 {
-	MemFree((UBYTE*)Ptr);
+	MemFree((std::uint8_t*)Ptr);
 }
 
-void	MapBlock::Allocate(SLONG w,SLONG h)
+void	MapBlock::Allocate(std::int32_t w,std::int32_t h)
 {
 	if(Ptr)
 		Free();
@@ -482,9 +482,9 @@ void	MapBlock::Allocate(SLONG w,SLONG h)
 	Ptr=(struct DepthStrip*)MemAlloc(w*h*sizeof(struct DepthStrip));
 }
 
-void	MapBlock::Cut(SLONG x,SLONG z,SLONG w,SLONG d,SLONG mode)
+void	MapBlock::Cut(std::int32_t x,std::int32_t z,std::int32_t w,std::int32_t d,std::int32_t mode)
 {
-	SLONG	mx,mz;
+	std::int32_t	mx,mz;
 	struct	DepthStrip	*ptr;
 	if(Ptr)
 		Free();
@@ -515,9 +515,9 @@ void	MapBlock::Cut(SLONG x,SLONG z,SLONG w,SLONG d,SLONG mode)
 	}
 }
 
-void	MapBlock::Paste(SLONG x,SLONG z,SLONG flags,SLONG mode)
+void	MapBlock::Paste(std::int32_t x,std::int32_t z,std::int32_t flags,std::int32_t mode)
 {
-	SLONG	mx,mz;
+	std::int32_t	mx,mz;
 	struct	DepthStrip	*ptr;
 	if(Ptr==0)
 		return;
@@ -546,10 +546,10 @@ void	MapBlock::Paste(SLONG x,SLONG z,SLONG flags,SLONG mode)
 	}
 }
 
-void	MapBlock::Rotate(SLONG dir)
+void	MapBlock::Rotate(std::int32_t dir)
 {
-	SLONG	dx,dz;
-	SLONG	temp;
+	std::int32_t	dx,dz;
+	std::int32_t	temp;
 	struct	DepthStrip	*ptr,*ptr_new;
 	if(Ptr==0)
 		return;
@@ -561,7 +561,7 @@ void	MapBlock::Rotate(SLONG dir)
 	for(dz=0;dz<Depth;dz++)
 	for(dx=0;dx<Width;dx++)
 	{
-		SLONG	new_dx,new_dz;
+		std::int32_t	new_dx,new_dz;
 		struct	MiniTextureBits	*tex;
 
 		tex=(struct	MiniTextureBits*)(&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
@@ -571,7 +571,7 @@ void	MapBlock::Rotate(SLONG dir)
 		ptr_new[new_dx+new_dz*Depth]=*ptr;
 		tex=(struct	MiniTextureBits*)(&ptr_new[new_dx+new_dz*Depth].Texture);
 		tex->Rot--;
-		ptr_new[new_dx+new_dz*Depth].Texture=*(UWORD*)tex;
+		ptr_new[new_dx+new_dz*Depth].Texture=*(std::uint16_t*)tex;
 
 		ptr++;
 	}
@@ -586,9 +586,9 @@ void	MapBlock::Rotate(SLONG dir)
 
 
 
-SWORD	get_new_window()
+std::int16_t	get_new_window()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_WINDOWS;c0++)
 	{
 		if(window_list[c0].WindowFlags==0)
@@ -599,9 +599,9 @@ SWORD	get_new_window()
 	return(0);
 }
 
-SWORD	get_new_wall()
+std::int16_t	get_new_wall()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_WALLS;c0++)
 	{
 		if(wall_list[c0].WallFlags==0)
@@ -615,7 +615,7 @@ SWORD	get_new_wall()
 	return(0);
 }
 
-void	free_wall(SWORD wall)
+void	free_wall(std::int16_t wall)
 {
 	if(wall_list[wall].Tcount&&wall_list[wall].Textures)
 	{
@@ -631,14 +631,14 @@ void	free_wall(SWORD wall)
 
 void	delete_all()
 {
-	memset((UBYTE*)wall_list,0,sizeof(struct FWall)*MAX_WALLS);
-	memset((UBYTE*)storey_list,0,sizeof(struct FStorey)*MAX_STOREYS);
-	memset((UBYTE*)building_list,0,sizeof(struct FBuilding)*MAX_BUILDINGS);
+	memset((std::uint8_t*)wall_list,0,sizeof(struct FWall)*MAX_WALLS);
+	memset((std::uint8_t*)storey_list,0,sizeof(struct FStorey)*MAX_STOREYS);
+	memset((std::uint8_t*)building_list,0,sizeof(struct FBuilding)*MAX_BUILDINGS);
 }
 
-SWORD	get_new_storey()
+std::int16_t	get_new_storey()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_STOREYS;c0++)
 	{
 		if(storey_list[c0].StoreyFlags==0)
@@ -653,16 +653,16 @@ SWORD	get_new_storey()
 	return(0);
 }
 
-void	free_storey(SWORD storey)
+void	free_storey(std::int16_t storey)
 {
 	storey_list[storey].StoreyFlags=0;
 	storey_list[storey].WallHead=0;
 	storey_list[storey].Next=0;
 }
 
-SWORD	get_new_building()
+std::int16_t	get_new_building()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_BUILDINGS;c0++)
 	{
 		if(building_list[c0].BuildingFlags==0)
@@ -677,7 +677,7 @@ SWORD	get_new_building()
 
 void	clear_build_stuff()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_BUILDINGS;c0++)
 	{
 		building_list[c0].BuildingFlags=0;
@@ -735,7 +735,7 @@ BuildTab::~BuildTab()
 
 void	BuildTab::ResetBuildTab()
 {
-	SLONG	c0,storey;
+	std::int32_t	c0,storey;
 
 	Mode=BUILD_MODE_WAIT;
 	EditStorey=0;
@@ -812,7 +812,7 @@ void	BuildTab::DrawTabContent()
 //---------------------------------------------------------------
 extern void	hilight_col_info();
 
-void	BuildTab::AddHeightOffset(SLONG *x,SLONG *y)
+void	BuildTab::AddHeightOffset(std::int32_t *x,std::int32_t *y)
 {
 	if(Texture&(6))
 		return;
@@ -825,7 +825,7 @@ void	BuildTab::AddHeightOffset(SLONG *x,SLONG *y)
 }
 
 
-SLONG	BuildTab::GetHeightColour(SLONG	storey)
+std::int32_t	BuildTab::GetHeightColour(std::int32_t	storey)
 {
 	if(Texture==2)
 		return(WHITE_COL);
@@ -840,12 +840,12 @@ SLONG	BuildTab::GetHeightColour(SLONG	storey)
 	
 }
 
-void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
+void	BuildTab::HighlightVertexes(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,mz,rect_size;
+	std::int32_t	mx,mz,rect_size;
 	EdRect	rect;
-	SLONG	roof_flag=0;
-	SLONG	building;
+	std::int32_t	roof_flag=0;
+	std::int32_t	building;
 
 	mx=ViewX>>ELE_SHIFT;
 	mz=ViewZ>>ELE_SHIFT;
@@ -858,11 +858,11 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 		for(building=1;building<MAX_BUILDINGS;building++)
 		{
 
-			SLONG	x1,y1,z1,x2,y2,z2,index;
+			std::int32_t	x1,y1,z1,x2,y2,z2,index;
 			MFPoint		mouse_point;
-			SLONG	storey_index,wall;
-			CBYTE	str[100];
-			SLONG	ploty=20,c0;
+			std::int32_t	storey_index,wall;
+			char	str[100];
+			std::int32_t	ploty=20,c0;
 
 			storey_index=building_list[building].StoreyHead;
 
@@ -884,7 +884,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 					case	STOREY_TYPE_FIRE_ESCAPE:
 
 						{
-							CBYTE	str[20];
+							char	str[20];
 
 //							x1=((x1>>ELE_SHIFT)-mx)*ViewSize+(w>>1);
 //							z1=((z1>>ELE_SHIFT)-mz)*ViewSize+(h>>1);
@@ -904,7 +904,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 					case	STOREY_TYPE_LADDER:
 						{
 							{
-								SLONG	px,pz,qx,qz,wall,tempy,c0;
+								std::int32_t	px,pz,qx,qz,wall,tempy,c0;
 								// draw ladder
 
 								px=x1;
@@ -926,7 +926,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 								CurrentY=tempy;
 
 							}
-							CBYTE	str[20];
+							char	str[20];
 
 //							x1=((x1>>ELE_SHIFT)-mx)*ViewSize+(w>>1);
 //							z1=((z1>>ELE_SHIFT)-mz)*ViewSize+(h>>1);
@@ -974,7 +974,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 							CurrentY=0;
 							for(c0=0;c0<storey_list[storey_index].DY/64;c0++)
 							{
-								SLONG	px,pz;
+								std::int32_t	px,pz;
 
 								px=storey_list[storey_index].DX;
 								pz=storey_list[storey_index].DZ;
@@ -1012,7 +1012,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 								CurrentY=0;
 								for(c0=0;c0<wall_list[wall].DY/64;c0++)
 								{
-									SLONG	px,pz;
+									std::int32_t	px,pz;
 
 									px=wall_list[wall].DX;
 									pz=wall_list[wall].DZ;
@@ -1044,7 +1044,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 
 						if(storey_list[storey_index].StoreyFlags&(FLAG_STOREY_TILED_ROOF|FLAG_STOREY_FLAT_TILED_ROOF))						
 						{
-							SLONG	tx,tz;
+							std::int32_t	tx,tz;
 
 							tx=((((x1+100)-(ViewX))*ViewSize)/ELE_SIZE)+(WorkWindowRect.Width>>1);
 							tz=((((z1+100)-(ViewZ))*ViewSize)/ELE_SIZE)+(WorkWindowRect.Height>>1);
@@ -1057,7 +1057,7 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 						}
 						if(storey_list[storey_index].StoreyType==STOREY_TYPE_SKYLIGHT)
 						{
-							SLONG	tx,tz;
+							std::int32_t	tx,tz;
 
 							tx=((((x1+100)-(ViewX))*ViewSize)/ELE_SIZE)+(WorkWindowRect.Width>>1);
 							tz=((((z1+100)-(ViewZ))*ViewSize)/ELE_SIZE)+(WorkWindowRect.Height>>1);
@@ -1118,14 +1118,14 @@ void	BuildTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 
 
 
-SLONG	BuildTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG w,SLONG h,MFPoint	*mouse_point,SLONG flags)
+std::int32_t	BuildTab::ClickInVertexStoreyList(std::int32_t building,std::int32_t storey_index,std::int32_t w,std::int32_t h,MFPoint	*mouse_point,std::int32_t flags)
 {
-	SLONG	roof_flag=0;
+	std::int32_t	roof_flag=0;
 	EdRect	rect;
-	SLONG	mx,mz,rect_size;
-	SLONG	x1,y1,z1,x2,y2,z2,index;
+	std::int32_t	mx,mz,rect_size;
+	std::int32_t	x1,y1,z1,x2,y2,z2,index;
 
-	SLONG	ret_building=0,ret_storey,ret_wall,wall;
+	std::int32_t	ret_building=0,ret_storey,ret_wall,wall;
 
 	mx=ViewX>>ELE_SHIFT;
 	mz=ViewZ>>ELE_SHIFT;
@@ -1141,7 +1141,7 @@ SLONG	BuildTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG 
 		{
 			case	STOREY_TYPE_FIRE_ESCAPE:
 				{
-					CBYTE	str[20];
+					char	str[20];
 
 					x1=((((x1)-(ViewX))*ViewSize)/ELE_SIZE)+(w>>1);
 					z1=((((z1)-(ViewZ))*ViewSize)/ELE_SIZE)+(h>>1);
@@ -1171,7 +1171,7 @@ SLONG	BuildTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG 
 				break;
 			case	STOREY_TYPE_LADDER:
 				{
-					CBYTE	str[20];
+					char	str[20];
 
 					x1=((((x1)-(ViewX))*ViewSize)/ELE_SIZE)+(w>>1);
 					z1=((((z1)-(ViewZ))*ViewSize)/ELE_SIZE)+(h>>1);
@@ -1386,7 +1386,7 @@ SLONG	BuildTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG 
 		else
 		{
 /*
-			SLONG	temp_index;
+			std::int32_t	temp_index;
 
 			temp_index=storey_list[storey_index].Roof;
 			if(temp_index)
@@ -1421,11 +1421,11 @@ SLONG	BuildTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG 
 	
 }
 
-SLONG	BuildTab::ClickInVertex(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_point,SLONG flags)
+std::int32_t	BuildTab::ClickInVertex(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,MFPoint	*mouse_point,std::int32_t flags)
 {
-	SLONG	storey_index,found;
-	SLONG	building;
-	SLONG	found_one=0;
+	std::int32_t	storey_index,found;
+	std::int32_t	building;
+	std::int32_t	found_one=0;
 
 
 	//if(EditBuilding)
@@ -1454,9 +1454,9 @@ SLONG	BuildTab::ClickInVertex(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 	return(found_one);
 }
 
-SLONG	BuildTab::DrawWindow(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG dx,SLONG dz)
+std::int32_t	BuildTab::DrawWindow(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t dx,std::int32_t dz)
 {
-	SLONG	pdx,pdz;
+	std::int32_t	pdx,pdz;
 
 	pdx=dz;
 	pdz=-dx;
@@ -1472,10 +1472,10 @@ SLONG	BuildTab::DrawWindow(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG dx,SLONG dz
 	return(0);
 }
 
-SLONG 	BuildTab::DrawWall(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG index,SLONG storey)
+std::int32_t 	BuildTab::DrawWall(std::int32_t px,std::int32_t pz,std::int32_t x1,std::int32_t z1,std::int32_t index,std::int32_t storey)
 {
-	SLONG	wcount,wwidth,wwidth_perc,wallwidth,wallwidth_perc,dx,dz,dist;
-	SLONG	prev_x,prev_z;
+	std::int32_t	wcount,wwidth,wwidth_perc,wallwidth,wallwidth_perc,dx,dz,dist;
+	std::int32_t	prev_x,prev_z;
 
 	dx=abs(px-x1);
 	dz=abs(pz-z1);
@@ -1551,7 +1551,7 @@ SLONG 	BuildTab::DrawWall(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG index,SLONG 
 }
 
 
-void	BuildTab::DrawContentLine(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG col)
+void	BuildTab::DrawContentLine(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t col)
 {
 /*
 	x1=((x1>>ELE_SHIFT)-(ViewX>>ELE_SHIFT))*ViewSize+(WorkWindowRect.Width>>1);
@@ -1576,9 +1576,9 @@ void	BuildTab::DrawContentLine(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG col)
 
 }
 
-void	BuildTab::DrawContentLineY(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	BuildTab::DrawContentLineY(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
-	SLONG	temp;
+	std::int32_t	temp;
 /*
 	x1=((x1>>ELE_SHIFT)-(ViewX>>ELE_SHIFT))*ViewSize+(WorkWindowRect.Width>>1);
 	y1=((y1>>ELE_SHIFT)-(ViewZ>>ELE_SHIFT))*ViewSize+(WorkWindowRect.Height>>1);
@@ -1603,7 +1603,7 @@ void	BuildTab::DrawContentLineY(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLO
 	DrawLineC(x1,z1,x2,z2,col);
 
 }
-void	BuildTab::DrawContentRect(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG col)
+void	BuildTab::DrawContentRect(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t col)
 {
 	DrawContentLine(x1,z1,x2,z1,col);
 	DrawContentLine(x2,z1,x2,z2,col);
@@ -1611,9 +1611,9 @@ void	BuildTab::DrawContentRect(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG col)
 	DrawContentLine(x1,z2,x1,z1,col);
 }
 
-SLONG	find_nearest_point(SLONG x,SLONG z,SLONG index,SLONG *rx,SLONG *rz)
+std::int32_t	find_nearest_point(std::int32_t x,std::int32_t z,std::int32_t index,std::int32_t *rx,std::int32_t *rz)
 {
-	SLONG	best,best_dist=0x7fffffff,dx,dz,dist;
+	std::int32_t	best,best_dist=0x7fffffff,dx,dz,dist;
 
 	dx=(storey_list[index].DX-x);
 	dz=(storey_list[index].DZ-z);
@@ -1648,15 +1648,15 @@ SLONG	find_nearest_point(SLONG x,SLONG z,SLONG index,SLONG *rx,SLONG *rz)
 	return(1);
 }
 
-void	BuildTab::DrawRoofFaces(SLONG roof,SLONG storey)
+void	BuildTab::DrawRoofFaces(std::int32_t roof,std::int32_t storey)
 {
-	SLONG wall,index;
-	SLONG	rx,rz;
+	std::int32_t wall,index;
+	std::int32_t	rx,rz;
 
 	wall=storey_list[storey].WallHead;
 	while(wall)
 	{
-		SLONG	x1,z1;
+		std::int32_t	x1,z1;
 
 		x1=wall_list[wall].DX;
 		z1=wall_list[wall].DZ;
@@ -1675,11 +1675,11 @@ void	BuildTab::DrawRoofFaces(SLONG roof,SLONG storey)
 }
 
 
-void	BuildTab::DrawFloorFaces(SLONG floor_head)
+void	BuildTab::DrawFloorFaces(std::int32_t floor_head)
 {
-	SLONG 	wall,index;
-	SLONG	rx,rz;
-	SLONG	building;
+	std::int32_t 	wall,index;
+	std::int32_t	rx,rz;
+	std::int32_t	building;
 
 	CurrentY=0;
 
@@ -1690,7 +1690,7 @@ void	BuildTab::DrawFloorFaces(SLONG floor_head)
 			wall=storey_list[building_list[building].StoreyHead].WallHead;
 			while(wall)
 			{
-				SLONG	x1,z1;
+				std::int32_t	x1,z1;
 
 				x1=wall_list[wall].DX;
 				z1=wall_list[wall].DZ;
@@ -1708,11 +1708,11 @@ void	BuildTab::DrawFloorFaces(SLONG floor_head)
 	}
 }
 
-void	BuildTab::DrawFloorTextures(SLONG x,SLONG y,SLONG w,SLONG h)
+void	BuildTab::DrawFloorTextures(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,my,mz;
-	SLONG dx,dy,dz,width,height,count_across,count_high;
-	UWORD	texture;
+	std::int32_t	mx,my,mz;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
+	std::uint16_t	texture;
 
 	mx=ViewX>>ELE_SHIFT;
 	my=ViewY;
@@ -1727,7 +1727,7 @@ void	BuildTab::DrawFloorTextures(SLONG x,SLONG y,SLONG w,SLONG h)
 	for(dx=-count_across;dx<=count_across;dx++)
 	for(dz=-count_high;dz<=count_high;dz++)
 	{
-		SLONG	x1,y1,x2,y2;
+		std::int32_t	x1,y1,x2,y2;
 
 		x1=(w>>1)+(dx)*(width);
 		x2=(w>>1)+(dx)*(width)+width;
@@ -1758,7 +1758,7 @@ void	BuildTab::DrawFloorTextures(SLONG x,SLONG y,SLONG w,SLONG h)
 	for(dx=-count_across;dx<=count_across;dx++)
 	for(dz=-count_high;dz<=count_high;dz++)
 	{
-		SLONG ox,oz,y;
+		std::int32_t ox,oz,y;
 
 		y=edit_map[mx+dx][mz+dz].Y;
 		for(ox=-1;ox<=1;ox++)
@@ -1777,10 +1777,10 @@ done:;
 
 }
 
-void	BuildTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
+void	BuildTab::DrawFloorLabels(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,my,mz;
-	SLONG dx,dy,dz,width,height,count_across,count_high;
+	std::int32_t	mx,my,mz;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
 	mx=ViewX>>ELE_SHIFT;
 	my=ViewY;
 	mz=ViewZ>>ELE_SHIFT;
@@ -1793,8 +1793,8 @@ void	BuildTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
 	for(dx=-count_across;dx<=count_across;dx++)
 	for(dz=-count_high;dz<=count_high;dz++)
 	{
-		SLONG	x1,y1,x2,y2,alt,salt;
-		CBYTE	str[100];
+		std::int32_t	x1,y1,x2,y2,alt,salt;
+		char	str[100];
 
 		x1=(w>>1)+(dx)*(width);
 		y1=(h>>1)+dz*(width);
@@ -1834,7 +1834,7 @@ void	BuildTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
 	render_view(0);
 }
 
-void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE* str)
+void	draw_status_line(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,char* str)
 {
 	EdRect	rect;
 	rect.SetRect(x,y,w,h);
@@ -1847,7 +1847,7 @@ void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE* str)
 // Returns true if the given storey can have an inside generated for it.
 //
 
-SLONG is_storey_habitable(SLONG storey)
+std::int32_t is_storey_habitable(std::int32_t storey)
 {
 	ASSERT(WITHIN(storey, 1, MAX_STOREYS - 1));
 
@@ -1866,10 +1866,10 @@ SLONG is_storey_habitable(SLONG storey)
 }
 
 
-SLONG	identical_storey(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG storey)
+std::int32_t	identical_storey(std::int32_t px,std::int32_t pz,std::int32_t x1,std::int32_t z1,std::int32_t storey)
 {
 	storey=storey_list[storey].Next;
-	SLONG	sx,sz,nx,nz,index;
+	std::int32_t	sx,sz,nx,nz,index;
 
 	while(storey)
 	{
@@ -1900,20 +1900,20 @@ SLONG	identical_storey(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG storey)
 	return(0);
 }
 
-void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	BuildTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 	EdRect	drawrect;
 
-	SLONG dx,dy,dz,width,height,count_across,count_high;
-	SLONG	c0,c1;
-	SLONG	mx,my,mz;
-	SLONG	index;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
+	std::int32_t	c0,c1;
+	std::int32_t	mx,my,mz;
+	std::int32_t	index;
 	struct	EditMapElement	*p_ele;
-	SLONG	roof_flag=0;
-	SLONG	building;
-	CBYTE	str[100];
-	SLONG   storey_height;
+	std::int32_t	roof_flag=0;
+	std::int32_t	building;
+	char	str[100];
+	std::int32_t   storey_height;
 
 
 //	my=((CVSlider*)GetControlPtr(CTRL_BUILD_V_SLIDE_LEVEL))->GetCurrentValue();
@@ -2103,24 +2103,24 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 	
 	if(0)
 	{
-		SLONG i;
-		SLONG j;
+		std::int32_t i;
+		std::int32_t j;
 
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
-		SLONG angle;
-		SLONG angle1;
-		SLONG angle2;
-		SLONG x1;
-		SLONG x2;
-		SLONG z1;
-		SLONG z2;
-		SLONG	y1,y2;
+		std::int32_t angle;
+		std::int32_t angle1;
+		std::int32_t angle2;
+		std::int32_t x1;
+		std::int32_t x2;
+		std::int32_t z1;
+		std::int32_t z2;
+		std::int32_t	y1,y2;
 
 		EXTRA_Thing *et;
 
-		SLONG old_current_y;
+		std::int32_t old_current_y;
 
 		old_current_y = CurrentY;
 		CurrentY      = 0;
@@ -2238,10 +2238,10 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 
 
-		SLONG	i,tx,tz,x1,y1,z1,x2,y2,z2,index,px,py,pz,fx,fy,fz, dx, dz, doorx1, doorx2, doorz1, doorz2;
+		std::int32_t	i,tx,tz,x1,y1,z1,x2,y2,z2,index,px,py,pz,fx,fy,fz, dx, dz, doorx1, doorx2, doorz1, doorz2;
 		MFPoint		mouse_point;
-		SLONG	storey_index;
-		CBYTE	ploty=30;
+		std::int32_t	storey_index;
+		char	ploty=30;
 
 
 		storey_index=building_list[building].StoreyHead;
@@ -2249,7 +2249,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 		
 		while(storey_index)
 		{
-			UBYTE	drawn_normal=0;
+			std::uint8_t	drawn_normal=0;
 
 //			if(storey_index==337 || storey_index==24)
 			{
@@ -2291,8 +2291,8 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 				if(roof_flag&&storey_list[storey_index].StoreyType==STOREY_TYPE_ROOF_QUAD&&index)
 				{
-					SLONG	x[4],z[4];
-					SLONG	wall,c0;
+					std::int32_t	x[4],z[4];
+					std::int32_t	wall,c0;
 
 					x[0]=x1;
 					z[0]=z1;
@@ -2356,7 +2356,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 									DrawWall(px,pz,x1,z1,index,storey_index);
 
 									{
-										SLONG	x1,y1,x2,y2;
+										std::int32_t	x1,y1,x2,y2;
 										x1=px;
 										y1=pz;
 										x1=((((x1)-(ViewX))*ViewSize)/ELE_SIZE)+(WorkWindowRect.Width>>1);
@@ -2514,7 +2514,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 			else
 			{
 				/*
-				SLONG	temp_index;
+				std::int32_t	temp_index;
 				temp_index=storey_list[storey_index].Roof;
 				if(temp_index)
 				{
@@ -2544,7 +2544,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 	#define EDGE_COLOUR RED_COL
 
-	for (SLONG i = 0; i < 128; i++)
+	for (std::int32_t i = 0; i < 128; i++)
 	{
 		DrawContentLine(i << 8,   0 << 8, i - 1 << 8,  -1 << 8, EDGE_COLOUR);
 		DrawContentLine(i << 8, 128 << 8, i + 1 << 8, 129 << 8, EDGE_COLOUR);
@@ -2598,7 +2598,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 /*
 	{
 
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str," build %d storey %d wall %d edity %d",EditBuilding,EditStorey,EditWall,EditY);
   		QuickTextC(20,20,str,0);  
 	}
@@ -2630,7 +2630,7 @@ void	BuildTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 void	BuildTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -2638,7 +2638,7 @@ void	BuildTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -2648,7 +2648,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	BuildTab::KeyboardInterface()
+std::int32_t	BuildTab::KeyboardInterface()
 {
 	if(Keys[KB_TAB])
 	{
@@ -2699,14 +2699,14 @@ SLONG	BuildTab::KeyboardInterface()
 		// Where is the mouse in the world?
 		//
 
-		SLONG x;
-		SLONG y;
-		SLONG w;
-		SLONG h;
+		std::int32_t x;
+		std::int32_t y;
+		std::int32_t w;
+		std::int32_t h;
 
-		SLONG mx;
-		SLONG my;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t my;
+		std::int32_t mz;
 
 		MFPoint mouse_point;
 
@@ -2744,11 +2744,11 @@ SLONG	BuildTab::KeyboardInterface()
 
 
 
-SLONG	BuildTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	BuildTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -2757,9 +2757,9 @@ SLONG	BuildTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -2810,11 +2810,11 @@ SLONG	BuildTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-SLONG	BuildTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y,SLONG	w,SLONG	h,MFPoint	*clicked_point)
+std::int32_t	BuildTab::CalcMapCoord(std::int32_t	*mapx,std::int32_t	*mapy,std::int32_t	*mapz,std::int32_t	x,std::int32_t	y,std::int32_t	w,std::int32_t	h,MFPoint	*clicked_point)
 {
-	SLONG	width,count_across,count_high;
-	SLONG	mx,my,mz;
-	SLONG	dx,dy,dz;
+	std::int32_t	width,count_across,count_high;
+	std::int32_t	mx,my,mz;
+	std::int32_t	dx,dy,dz;
 /*
 	my=(engine.Y>>8)>>ELE_SHIFT;
 	mx=(engine.X>>8)>>ELE_SHIFT;
@@ -2866,20 +2866,20 @@ SLONG	BuildTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y
 	return(1);
 }
 
-extern void	insert_cube(SWORD x,SWORD y,SWORD z);
-extern void	remove_cube(SLONG x,SLONG y,SLONG z);
+extern void	insert_cube(std::int16_t x,std::int16_t y,std::int16_t z);
+extern void	remove_cube(std::int32_t x,std::int32_t y,std::int32_t z);
 
 
 
-SLONG	BuildTab::MouseInContent()
+std::int32_t	BuildTab::MouseInContent()
 {
 
 
 
 	if(Mode==BUILD_MODE_CONT_STOREY)
 	{
-		SLONG	x,y,w,h;
-		SLONG	wwx,wwy,www,wwh;
+		std::int32_t	x,y,w,h;
+		std::int32_t	wwx,wwy,www,wwh;
 
 		wwx=WorkWindowRect.Left;
 		wwy=WorkWindowRect.Top;
@@ -2905,13 +2905,13 @@ SLONG	BuildTab::MouseInContent()
 	
 }
 
-SLONG	BuildTab::DragPaint(UBYTE flags)
+std::int32_t	BuildTab::DragPaint(std::uint8_t flags)
 {
 /*
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col;
-	SLONG	screen_change=0;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col;
+	std::int32_t	screen_change=0;
 	MFPoint		mouse_point;
 
 	wwx=WorkWindowRect.Left;
@@ -2929,7 +2929,7 @@ SLONG	BuildTab::DragPaint(UBYTE flags)
 
 		while(SHELL_ACTIVE && LeftButton)
 		{
-			SLONG	mx,my,mz,index;
+			std::int32_t	mx,my,mz,index;
 
 			mouse_point.X	=	MouseX;
 			mouse_point.Y	=	MouseY;
@@ -2958,13 +2958,13 @@ SLONG	BuildTab::DragPaint(UBYTE flags)
 
 }
 
-SLONG	BuildTab::DragMark(UBYTE flags)
+std::int32_t	BuildTab::DragMark(std::uint8_t flags)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col = 0;
-	SLONG	screen_change=0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col = 0;
+	std::int32_t	screen_change=0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -3017,9 +3017,9 @@ SLONG	BuildTab::DragMark(UBYTE flags)
 
 }
 
-void	move_insides(SLONG inside,SLONG dx,SLONG dy,SLONG dz)
+void	move_insides(std::int32_t inside,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
-	SLONG c0;
+	std::int32_t c0;
   	for(c0=0;c0<MAX_STAIRS_PER_FLOOR;c0++)
 	{
 		if(room_ids[inside].StairFlags[c0])
@@ -3040,9 +3040,9 @@ void	move_insides(SLONG inside,SLONG dx,SLONG dy,SLONG dz)
 
 }
 
-void	move_storey(SLONG storey,SLONG dx,SLONG dy,SLONG dz)
+void	move_storey(std::int32_t storey,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
-	SLONG	wall;
+	std::int32_t	wall;
 	while(storey)
 	{
 		//LogText(" move storey %d \n",storey);
@@ -3071,9 +3071,9 @@ void	move_storey(SLONG storey,SLONG dx,SLONG dy,SLONG dz)
 
 }
 
-void	move_building(SLONG building,SLONG dx,SLONG dy,SLONG dz)
+void	move_building(std::int32_t building,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
-	SLONG	storey,wall;
+	std::int32_t	storey,wall;
 
 	if(building_list[building].BuildingFlags)
 	{
@@ -3082,11 +3082,11 @@ void	move_building(SLONG building,SLONG dx,SLONG dy,SLONG dz)
 	}
 }
 
-extern SLONG	get_new_inside_id();
+extern std::int32_t	get_new_inside_id();
 
-SLONG	copy_insides(SLONG insideid)
+std::int32_t	copy_insides(std::int32_t insideid)
 {
-	SLONG new_room;
+	std::int32_t new_room;
 
 	new_room =	get_new_inside_id();
 	if(new_room)
@@ -3095,10 +3095,10 @@ SLONG	copy_insides(SLONG insideid)
 
 
 }
-SLONG	duplicate_storey_list(SLONG storey,SLONG bh)
+std::int32_t	duplicate_storey_list(std::int32_t storey,std::int32_t bh)
 {
-	SLONG	new_storey,prev_storey,first_storey=0;
-	SLONG	wall,prev_wall,new_wall;
+	std::int32_t	new_storey,prev_storey,first_storey=0;
+	std::int32_t	wall,prev_wall,new_wall;
 
 	prev_storey=0;
 
@@ -3150,7 +3150,7 @@ SLONG	duplicate_storey_list(SLONG storey,SLONG bh)
 /*
 		if(storey_list[storey].Roof)
 		{
-			SLONG	new_roof;
+			std::int32_t	new_roof;
 			new_roof=duplicate_storey_list(storey_list[storey].Roof,bh);
 			storey_list[new_storey].Roof=new_roof;
 			storey_list[new_roof].Prev=new_storey;
@@ -3163,10 +3163,10 @@ SLONG	duplicate_storey_list(SLONG storey,SLONG bh)
 	return(first_storey);
 }
 
-SLONG	duplicate_building(SLONG building)
+std::int32_t	duplicate_building(std::int32_t building)
 {
-	SLONG	storey,wall;
-	SLONG	new_building,new_storey;
+	std::int32_t	storey,wall;
+	std::int32_t	new_building,new_storey;
 
 	new_building=get_new_building();
 	building_list[new_building]=building_list[building];
@@ -3178,12 +3178,12 @@ SLONG	duplicate_building(SLONG building)
 
 }
 
-SLONG	BuildTab::DragBuilding(UBYTE flags,UBYTE type)
+std::int32_t	BuildTab::DragBuilding(std::uint8_t flags,std::uint8_t type)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col=0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col=0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -3209,7 +3209,7 @@ SLONG	BuildTab::DragBuilding(UBYTE flags,UBYTE type)
 
 	while(SHELL_ACTIVE && (flags==LEFT_CLICK&&LeftButton)||(flags==RIGHT_CLICK && RightButton))
 	{
-		SLONG	dx,dz;
+		std::int32_t	dx,dz;
 
 		mouse_point.X	=	MouseX;
 		mouse_point.Y	=	MouseY;
@@ -3249,9 +3249,9 @@ SLONG	BuildTab::DragBuilding(UBYTE flags,UBYTE type)
 //
 // moves all vertices above map co-ord map_x,map_z to mx,mz
 //
-void	move_all_vertices(SLONG map_x,SLONG map_z,SLONG mx,SLONG mz)
+void	move_all_vertices(std::int32_t map_x,std::int32_t map_z,std::int32_t mx,std::int32_t mz)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_STOREYS;c0++)
 	{
 //		if(storey_list[c0].StoreyFlags)
@@ -3281,15 +3281,15 @@ void	move_all_vertices(SLONG map_x,SLONG map_z,SLONG mx,SLONG mz)
 }
 
 
-SLONG	BuildTab::DragVertex(UBYTE flags)
+std::int32_t	BuildTab::DragVertex(std::uint8_t flags)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col = 0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col = 0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
-	SLONG	mouse_screen_y=0;
+	std::int32_t	mouse_screen_y=0;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -3330,7 +3330,7 @@ SLONG	BuildTab::DragVertex(UBYTE flags)
 
 		if(ShiftFlag)
 		{
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 
 			if(EditWall)
 			{
@@ -3350,7 +3350,7 @@ SLONG	BuildTab::DragVertex(UBYTE flags)
 		else
 		if(Keys[KB_A])
 		{
-			SLONG	map_x,map_z;
+			std::int32_t	map_x,map_z;
 
 			if(EditWall)
 			{
@@ -3392,10 +3392,10 @@ SLONG	BuildTab::DragVertex(UBYTE flags)
 
 }
 
-SLONG	find_previous_wall(SLONG edit_storey,SLONG wall)
+std::int32_t	find_previous_wall(std::int32_t edit_storey,std::int32_t wall)
 {
-	SLONG	index;
-	SLONG	prev=0;
+	std::int32_t	index;
+	std::int32_t	prev=0;
 	index=storey_list[edit_storey].WallHead;
 	while(index)
 	{
@@ -3410,7 +3410,7 @@ SLONG	find_previous_wall(SLONG edit_storey,SLONG wall)
 
 void	BuildTab::DeleteVertex()
 {
-	SLONG	prev;
+	std::int32_t	prev;
 	if(EditWall)
 	{
 		prev=find_previous_wall(EditStorey,EditWall);
@@ -3429,7 +3429,7 @@ void	BuildTab::DeleteVertex()
 	}
 	else
 	{			   
-		SLONG	next;
+		std::int32_t	next;
 		next=storey_list[EditStorey].WallHead;
 		if(next)
 		{
@@ -3444,12 +3444,12 @@ void	BuildTab::DeleteVertex()
 
 
 
-SLONG	BuildTab::ClickNearWall(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_point)
+std::int32_t	BuildTab::ClickNearWall(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,MFPoint	*mouse_point)
 {
-	SLONG	mx,mz,rect_size;
+	std::int32_t	mx,mz,rect_size;
 	EdRect	rect;
-	SLONG	best_building,best_storey=0,best_wall=0,best_dist=0x7fffffff,dist;
-	SLONG	roof_flag=0,building;
+	std::int32_t	best_building,best_storey=0,best_wall=0,best_dist=0x7fffffff,dist;
+	std::int32_t	roof_flag=0,building;
 
 	mx=ViewX>>ELE_SHIFT;
 	mz=ViewZ>>ELE_SHIFT;
@@ -3461,8 +3461,8 @@ SLONG	BuildTab::ClickNearWall(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 		if(building_list[building].BuildingFlags&1)
 		{
 
-			SLONG	x1,y1,z1,x2,y2,z2,px,py,pz,index;
-			SLONG	storey_index;
+			std::int32_t	x1,y1,z1,x2,y2,z2,px,py,pz,index;
+			std::int32_t	storey_index;
 
 			storey_index=building_list[building].StoreyHead;
 
@@ -3521,7 +3521,7 @@ SLONG	BuildTab::ClickNearWall(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 				else
 				{
 					/*
-					SLONG	temp_index;
+					std::int32_t	temp_index;
 					temp_index=storey_list[storey_index].Roof;
 					if(temp_index)
 					{
@@ -3571,14 +3571,14 @@ MenuDef2	wall_popup[]	=
 };
 
 
-SLONG	BuildTab::WallOptions()
+std::int32_t	BuildTab::WallOptions()
 {
-	UBYTE			flags;
-	ULONG			c0,
+	std::uint8_t			flags;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
-	UBYTE			old_flags;
+	std::uint8_t			old_flags;
 
 	local_point.X	=	MouseX;
 	local_point.Y	=	MouseY;
@@ -3713,10 +3713,10 @@ MenuDef2	roof_popup[]	=
 
 
 
-SLONG	BuildTab::RoofOptions()
+std::int32_t	BuildTab::RoofOptions()
 {
-	ULONG			flags=0;
-	ULONG			c0,
+	std::uint32_t			flags=0;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
@@ -3795,14 +3795,14 @@ MenuDef2	fence_popup[]	=
 
 
 
-SLONG	BuildTab::FenceOptions()
+std::int32_t	BuildTab::FenceOptions()
 {
-	ULONG			flags=0;
-	ULONG			c0,
+	std::uint32_t			flags=0;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
-	CBYTE			str[100];
+	char			str[100];
 
 	local_point.X	=	MouseX;
 	local_point.Y	=	MouseY;
@@ -4004,9 +4004,9 @@ SLONG	BuildTab::FenceOptions()
 }
 
 
-SLONG	count_wall_size(UWORD storey)
+std::int32_t	count_wall_size(std::uint16_t storey)
 {
-	SLONG	count,index;
+	std::int32_t	count,index;
 	index=storey_list[storey].WallHead;
 	count=0;
 
@@ -4021,9 +4021,9 @@ SLONG	count_wall_size(UWORD storey)
 	
 }
 
-SLONG	find_n_from_end(SLONG n,UWORD storey)
+std::int32_t	find_n_from_end(std::int32_t n,std::uint16_t storey)
 {
-	SLONG	count,index;
+	std::int32_t	count,index;
 
 	count=count_wall_size(storey);
 //	LogText(" find n %d from end count %d \n",n,count);
@@ -4047,9 +4047,9 @@ SLONG	find_n_from_end(SLONG n,UWORD storey)
 	
 }
 
-void	show_storey(UWORD index)
+void	show_storey(std::uint16_t index)
 {
-	SLONG	count=0;
+	std::int32_t	count=0;
 	LogText("[%d,%d] ->",storey_list[index].DX,storey_list[index].DZ);
 	index=storey_list[index].WallHead;
 	while(index&&count++<10)
@@ -4062,12 +4062,12 @@ void	show_storey(UWORD index)
 }	
 
 
-void	flip_storey(UWORD storey)
+void	flip_storey(std::uint16_t storey)
 {
-	SLONG 	c0,index,end_index,end_index_next;
-	SLONG	size,prev=0;
-	SLONG	end_x,end_z;
-	SLONG	new_storey;
+	std::int32_t 	c0,index,end_index,end_index_next;
+	std::int32_t	size,prev=0;
+	std::int32_t	end_x,end_z;
+	std::int32_t	new_storey;
 
 	index=find_n_from_end(0,storey);
 
@@ -4128,10 +4128,10 @@ void	flip_storey(UWORD storey)
 }
 
 
-void	BuildTab::CheckStoreyIntegrity(UWORD storey)
+void	BuildTab::CheckStoreyIntegrity(std::uint16_t storey)
 {
-	SLONG	x1,z1,x2,z2,x3,z3;
-	SLONG	wall;
+	std::int32_t	x1,z1,x2,z2,x3,z3;
+	std::int32_t	wall;
 
 
 	if(storey_list[storey].WallHead&&wall_list[storey_list[storey].WallHead].Next)
@@ -4162,13 +4162,13 @@ void	BuildTab::CheckStoreyIntegrity(UWORD storey)
 }
 
 
-SLONG	BuildTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	BuildTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SWORD	thing;
-	SLONG	index;
-	SWORD	bright;
-	SLONG	mx,my,mz;
-	SLONG	ret;
+	std::int16_t	thing;
+	std::int32_t	index;
+	std::int16_t	bright;
+	std::int32_t	mx,my,mz;
+	std::int32_t	ret;
 	switch(Mode)
 	{
 		case	BUILD_MODE_WAIT:
@@ -4195,7 +4195,7 @@ SLONG	BuildTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 									case	STOREY_TYPE_LADDER:
 											if(EditWall<0)
 											{
-												SLONG	size=4;
+												std::int32_t	size=4;
 												if(ShiftFlag)
 													size=1;
 												
@@ -4277,7 +4277,7 @@ SLONG	BuildTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 									case	STOREY_TYPE_LADDER:
 											if(EditWall<0)
 											{
-												SLONG	size=4;
+												std::int32_t	size=4;
 												if(ShiftFlag)
 													size=1;
 												
@@ -4314,7 +4314,7 @@ SLONG	BuildTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 								}
 								if(EditWall>0)
 								{
-									SLONG	temp_next;
+									std::int32_t	temp_next;
 									temp_next=wall_list[EditWall].Next;
 									index=get_new_wall();
 									wall_list[index].StoreyHead=EditStorey;
@@ -4463,9 +4463,9 @@ SLONG	BuildTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 	
 }
 
-UWORD	BuildTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	BuildTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -4517,9 +4517,9 @@ UWORD	BuildTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-SLONG  BuildTab::DoZoom()
+std::int32_t  BuildTab::DoZoom()
 {
-	SLONG	update=0;
+	std::int32_t	update=0;
 	if(Keys[KB_I])
 	{
 		ViewSize++;
@@ -4539,10 +4539,10 @@ SLONG  BuildTab::DoZoom()
 	
 }
 
-SLONG  BuildTab::DoKeys()
+std::int32_t  BuildTab::DoKeys()
 {
-	SLONG	update=0;
-	SLONG	scroll_step;
+	std::int32_t	update=0;
+	std::int32_t	scroll_step;
 
 	scroll_step=110/(ViewSize+39);
 	if(scroll_step<1)
@@ -4605,13 +4605,13 @@ SLONG  BuildTab::DoKeys()
 
 }
 
-SLONG	BuildTab::SetWorldMouse(ULONG flag)
+std::int32_t	BuildTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
 	SVector		point,out;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	temp;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	temp;
 
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
@@ -4647,9 +4647,9 @@ SLONG	BuildTab::SetWorldMouse(ULONG flag)
 
 }
 
-void	free_walls(SLONG wall)
+void	free_walls(std::int32_t wall)
 {
-	SLONG	next;
+	std::int32_t	next;
 	while(wall)
 	{
 		next=wall_list[wall].Next;
@@ -4665,14 +4665,14 @@ void	free_walls(SLONG wall)
 //
 
 void get_storey_bbox(
-		SLONG  storey,
-		SLONG *x1,
-		SLONG *z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t  storey,
+		std::int32_t *x1,
+		std::int32_t *z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG next;
-	SLONG wall;
+	std::int32_t next;
+	std::int32_t wall;
 
    *x1 = storey_list[storey].DX;
    *z1 = storey_list[storey].DZ;
@@ -4697,7 +4697,7 @@ void get_storey_bbox(
 
 
 // the thing that points to this storey needs to remove its own link
-void	delete_storey_list(SWORD storey)
+void	delete_storey_list(std::int16_t storey)
 {
 	while(storey)
 	{
@@ -4719,9 +4719,9 @@ void	delete_storey_list(SWORD storey)
 	}
 }
 
-void	delete_building(UWORD building)
+void	delete_building(std::uint16_t building)
 {
-	SLONG	storey,wall;
+	std::int32_t	storey,wall;
 
 	storey=building_list[building].StoreyHead;
 	if(storey)
@@ -4737,15 +4737,15 @@ void	delete_building(UWORD building)
 // the storey is not circular.  Non-circular storeys are not defined.
 //
 
-OUTLINE_Outline *get_storey_outline(SLONG storey)
+OUTLINE_Outline *get_storey_outline(std::int32_t storey)
 {
 	OUTLINE_Outline *oo;
 
-	SLONG wall;
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t wall;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 	if (!is_storey_circular(storey))
 	{
@@ -4779,7 +4779,7 @@ OUTLINE_Outline *get_storey_outline(SLONG storey)
 	return oo;
 }
 
-SLONG	do_storeys_overlap(SLONG s1,SLONG s2)
+std::int32_t	do_storeys_overlap(std::int32_t s1,std::int32_t s2)
 {
 	OUTLINE_Outline *oos;
 	OUTLINE_Outline *ool;
@@ -4801,10 +4801,10 @@ SLONG	do_storeys_overlap(SLONG s1,SLONG s2)
 	}
 }
 
-SLONG	set_storey_height(SLONG building,SLONG storey ,SLONG height)
+std::int32_t	set_storey_height(std::int32_t building,std::int32_t storey ,std::int32_t height)
 {
-	SLONG link;
-	SLONG y,offset_dy;
+	std::int32_t link;
+	std::int32_t y,offset_dy;
 	
 	OUTLINE_Outline *oos;
 	OUTLINE_Outline *ool;
@@ -4866,11 +4866,11 @@ SLONG	set_storey_height(SLONG building,SLONG storey ,SLONG height)
 						// 
 
 						{
-							SLONG x1;
-							SLONG z1;
-							SLONG x2;
-							SLONG z2;
-							SLONG wall;
+							std::int32_t x1;
+							std::int32_t z1;
+							std::int32_t x2;
+							std::int32_t z2;
+							std::int32_t wall;
 
 							wall = storey_list[link].WallHead;
 
@@ -4921,29 +4921,29 @@ SLONG	set_storey_height(SLONG building,SLONG storey ,SLONG height)
 
 
 
-void	load_textures_from_map(CBYTE	*name)
+void	load_textures_from_map(char	*name)
 {
-	UWORD	temp_end_prim_point;
-	UWORD	temp_end_prim_face4;
-	UWORD	temp_end_prim_face3;
-	UWORD	temp_end_prim_object;
+	std::uint16_t	temp_end_prim_point;
+	std::uint16_t	temp_end_prim_face4;
+	std::uint16_t	temp_end_prim_face3;
+	std::uint16_t	temp_end_prim_object;
 
-	UWORD	no_prim_point;
-	UWORD	no_prim_face4;
-	UWORD	no_prim_face3;
-	UWORD	no_prim_object;
-	SLONG	save_type=1;
-	UWORD	temp[4];
-	SLONG	c0;
-	SLONG	size=0;
+	std::uint16_t	no_prim_point;
+	std::uint16_t	no_prim_face4;
+	std::uint16_t	no_prim_face3;
+	std::uint16_t	no_prim_object;
+	std::int32_t	save_type=1;
+	std::uint16_t	temp[4];
+	std::int32_t	c0;
+	std::int32_t	size=0;
 	struct	TinyStrip
 	{
-		UWORD	MapThingIndex;
-	//	UWORD	Depth[EDIT_MAP_DEPTH];
-		UWORD	ColVectHead;
-	//	UWORD	Dummy1;
-		UWORD	Texture;
-		SWORD	Bright;
+		std::uint16_t	MapThingIndex;
+	//	std::uint16_t	Depth[EDIT_MAP_DEPTH];
+		std::uint16_t	ColVectHead;
+	//	std::uint16_t	Dummy1;
+		std::uint16_t	Texture;
+		std::int16_t	Bright;
 	}tinyfloor;
 
 
@@ -4952,10 +4952,10 @@ void	load_textures_from_map(CBYTE	*name)
 	handle=FileOpen(name);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		SLONG	dx,dz;
+		std::int32_t	dx,dz;
 
 		LogText(" load map %s \n",name);
-		FileRead(handle,(UBYTE*)&save_type,4);
+		FileRead(handle,(std::uint8_t*)&save_type,4);
 
 		if(save_type<=8)
 		{
@@ -4963,7 +4963,7 @@ void	load_textures_from_map(CBYTE	*name)
 			{
 				for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
 				{
-					size+=FileRead(handle,(UBYTE*)&tinyfloor,sizeof(struct TinyStrip));
+					size+=FileRead(handle,(std::uint8_t*)&tinyfloor,sizeof(struct TinyStrip));
 					edit_map[dx][dz].MapThingIndex=tinyfloor.MapThingIndex;
 					edit_map[dx][dz].ColVectHead=tinyfloor.ColVectHead;
 					edit_map[dx][dz].Texture=tinyfloor.Texture;
@@ -4973,15 +4973,15 @@ void	load_textures_from_map(CBYTE	*name)
 		}
 		else
 		{
-			size+=FileRead(handle,(UBYTE*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+			size+=FileRead(handle,(std::uint8_t*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 		}
 		FileClose(handle);
 	}
 }
 
-void	offset_buildings(SLONG x,SLONG y,SLONG z);
+void	offset_buildings(std::int32_t x,std::int32_t y,std::int32_t z);
 
-void	BuildTab::HandleControl(UWORD control_id)
+void	BuildTab::HandleControl(std::uint16_t control_id)
 {
 	switch(control_id&0xff)
 	{
@@ -5008,13 +5008,13 @@ void	BuildTab::HandleControl(UWORD control_id)
 				Axis|=Z_AXIS;
 			break;
 		case	CTRL_BUILD_CREATE_BUILDING:
-				SLONG	y;
+				std::int32_t	y;
 				create_building_prim(EditBuilding,&y);
 			break;
 		case	CTRL_BUILD_NEW_BUILDING:
 			if(Mode==BUILD_MODE_WAIT||Mode==0)
 			{
-				UWORD	building,storey;
+				std::uint16_t	building,storey;
 				building=get_new_building();
 				if(building)
 				{
@@ -5051,7 +5051,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 		case	CTRL_NEW_FENCE:
 			if(Mode==BUILD_MODE_WAIT||Mode==0)
 			{
-				UWORD	building,storey;
+				std::uint16_t	building,storey;
 				building=get_new_building();
 				if(building)
 				{
@@ -5089,7 +5089,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 					set_storey_height(EditBuilding, EditStorey, 0);
 
 
-					SLONG	storey,prev,index;
+					std::int32_t	storey,prev,index;
 					storey=EditStorey;
 					storey_list[storey].StoreyFlags=0;
 					EditStorey=storey_list[storey].Next;
@@ -5192,7 +5192,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 					{
 						
 
-						UWORD	storey;
+						std::uint16_t	storey;
 						storey=get_new_storey();
 						if(storey)
 						{
@@ -5218,7 +5218,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 							{
 								if(storey_list[EditStorey].Next)
 								{
-									SLONG	next;
+									std::int32_t	next;
 									next=storey_list[EditStorey].Next;
 									storey_list[storey].Next=next;
 									storey_list[next].Prev=storey;
@@ -5246,7 +5246,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			{
 				
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 				fr=new FileRequester("data\\","*.map","Load A MAP","temp.map");
 				if(fr->Draw())
 				{
@@ -5294,7 +5294,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			break;
 		case	CTRL_DEL_ALL:
 				{
-					SLONG	res;
+					std::int32_t	res;
 					Alert			*quit_alert;
 
 					quit_alert		=	new	Alert;
@@ -5360,8 +5360,8 @@ void	BuildTab::HandleControl(UWORD control_id)
 				else
 				{
 
-					SWORD	storey,wall,index,prev=0;
-					SLONG	storey_height;
+					std::int16_t	storey,wall,index,prev=0;
+					std::int32_t	storey_height;
 
 					storey_height=storey_list[EditStorey].Height;
 					storey=get_new_storey();
@@ -5413,7 +5413,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 						LogText(" original wallhead %d copy wallhead=%d \n",storey_list[EditStorey].WallHead,storey_list[storey].WallHead);
 						if(storey_list[EditStorey].Next)
 						{
-							SLONG	next;
+							std::int32_t	next;
 							next=storey_list[EditStorey].Next;
 							storey_list[storey].Next=next;
 							storey_list[next].Prev=storey;
@@ -5464,7 +5464,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			if(Mode==BUILD_MODE_WAIT)
 				if(EditBuilding)
 				{
-					SLONG	storey;
+					std::int32_t	storey;
 					storey=get_new_storey();
 					if(storey)
 					{
@@ -5508,7 +5508,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			if(Mode==BUILD_MODE_WAIT)
 				if(EditBuilding)
 				{
-					SLONG	storey;
+					std::int32_t	storey;
 					storey=get_new_storey();
 					if(storey&&EditStorey&&EditBuilding)
 					{
@@ -5525,7 +5525,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 						{
 								if(storey_list[EditStorey].Next)
 								{
-									SLONG	next;
+									std::int32_t	next;
 									next=storey_list[EditStorey].Next;
 									storey_list[storey].Next=next;
 									storey_list[next].Prev=storey;
@@ -5560,7 +5560,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 				{
 
 						
-					SLONG	storey;
+					std::int32_t	storey;
 					storey=get_new_storey();
 					if(storey)
 					{
@@ -5598,7 +5598,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 				{
 
 						
-					UWORD	storey;
+					std::uint16_t	storey;
 					storey=get_new_storey();
 					if(storey)
 					{
@@ -5647,7 +5647,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 					{
 						
 
-						UWORD	storey;
+						std::uint16_t	storey;
 						storey=get_new_storey();
 						if(storey)
 						{
@@ -5661,7 +5661,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 							{
 								if(storey_list[EditStorey].Next)
 								{
-									SLONG	next;
+									std::int32_t	next;
 									next=storey_list[EditStorey].Next;
 									storey_list[storey].Next=next;
 									storey_list[next].Prev=storey;
@@ -5692,7 +5692,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 				if(EditBuilding&&building_list[EditBuilding].StoreyHead)
 				{
 
-					UWORD	storey;
+					std::uint16_t	storey;
 					storey=get_new_storey();
 					if(storey)
 					{
@@ -5802,7 +5802,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
 				WITHIN(EditStorey, 1, MAX_STOREYS - 1))
 			{
-				SLONG i_storey;
+				std::int32_t i_storey;
 
 				i_storey = storey_list[EditStorey].Next;
 
@@ -5822,7 +5822,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
 				WITHIN(EditStorey, 1, MAX_STOREYS - 1))
 			{
-				SLONG i_storey;
+				std::int32_t i_storey;
 
 				i_storey = storey_list[EditStorey].Prev;
 
@@ -5937,7 +5937,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 		case	CTRL_DEFINE_FLOOR_POINTS:
 			if(FloorHead)
 			{
-				SLONG	index;
+				std::int32_t	index;
 				index=storey_list[FloorHead].WallHead;
 				while(index)
 				{
@@ -5950,7 +5950,7 @@ void	BuildTab::HandleControl(UWORD control_id)
 			}
 			else
 			{
-					SLONG	storey,wall;
+					std::int32_t	storey,wall;
 					storey=get_new_storey();
 					if(storey)
 					{

@@ -23,7 +23,7 @@
 // The camera.
 //
 
-SLONG CAM_type;
+std::int32_t CAM_type;
 float CAM_x;
 float CAM_y;
 float CAM_z;

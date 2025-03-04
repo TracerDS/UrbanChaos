@@ -41,39 +41,39 @@ enum HeightType
 //---------------------------------------------------------------
 // Maps textures to soundfx
 #ifndef PSX
-UBYTE *SOUND_FXMapping;//[1024];
-//UWORD *SOUND_FXGroups;//[128][2]; // "128 groups should be enough for anybody"(TM)
+std::uint8_t *SOUND_FXMapping;//[1024];
+//std::uint16_t *SOUND_FXGroups;//[128][2]; // "128 groups should be enough for anybody"(TM)
 SOUNDFXG *SOUND_FXGroups;//[128][2]; // because its a 2d array we need to fudge the system into thingink its 2d still using typedef
 #else
 /*
-UBYTE SOUND_FXMapping[512];
-UWORD SOUND_FXGroups[8][2];	// "8 should be more than enough for the PSX"
+std::uint8_t SOUND_FXMapping[512];
+std::uint16_t SOUND_FXGroups[8][2];	// "8 should be more than enough for the PSX"
 */
 #endif
 
 //---------------------------------------------------------------
 /*
-extern SLONG	CAM_cur_x,
+extern std::int32_t	CAM_cur_x,
 				CAM_cur_y,
 				CAM_cur_z,
 				CAM_cur_yaw;
 */
 //---------------------------------------------------------------
 
-SLONG creature_time	=	400,
+std::int32_t creature_time	=	400,
 		siren_time		=	300,
 		in_sewer_time   =	0,
 		thunder_time	=	0;
 
-SLONG music_id		=	0;
-SWORD world_type=WORLD_TYPE_CITY_POP;
+std::int32_t music_id		=	0;
+std::int16_t world_type=WORLD_TYPE_CITY_POP;
 
 void SewerSoundProcess();
 
-static SLONG wind_id=0, tick_tock=0;
+static std::int32_t wind_id=0, tick_tock=0;
 
 
-static SLONG indoors_id=0, outdoors_id=0, rain_id=0, rain_id2=0, thunder_id=0, indoors_vol=0, outdoors_vol=255, weather_vol=255, music_vol=255, next_music=0;
+static std::int32_t indoors_id=0, outdoors_id=0, rain_id=0, rain_id2=0, thunder_id=0, indoors_vol=0, outdoors_vol=255, weather_vol=255, music_vol=255, next_music=0;
 
 #ifndef PSX
 void init_ambient()
@@ -93,15 +93,15 @@ void init_ambient()
 //
 // play an ambient sound at a random 3D position
 
-void PlayAmbient3D(SLONG channel, SLONG wave_id, SLONG flags, HeightType height = PlayerHeight)
+void PlayAmbient3D(std::int32_t channel, std::int32_t wave_id, std::int32_t flags, HeightType height = PlayerHeight)
 {
 	Thing*	p_player = NET_PERSON(PLAYER_ID);
 
-	SLONG	angle = Random() & 2047;
+	std::int32_t	angle = Random() & 2047;
 
-	SLONG	x = p_player->WorldPos.X + (COS(angle) << 4);
-	SLONG	y = p_player->WorldPos.Y;
-	SLONG	z = p_player->WorldPos.Z + (SIN(angle) << 4);
+	std::int32_t	x = p_player->WorldPos.X + (COS(angle) << 4);
+	std::int32_t	y = p_player->WorldPos.Y;
+	std::int32_t	z = p_player->WorldPos.Z + (SIN(angle) << 4);
 
 	if (height == OnGround)		y = 0;
 	else if (height == InAir)	y += (512 + (Random() & 1023)) << 8;
@@ -153,7 +153,7 @@ void SND_BeginAmbient()
 void new_outdoors_effects()
 {
 #ifndef PSX
-	SLONG	c0,dx,dy,dz,wave_id;
+	std::int32_t	c0,dx,dy,dz,wave_id;
 
 	// make "siren" effects
 	// these are infrequent effects e.g. airplanes, sirens etc.
@@ -210,8 +210,8 @@ void new_outdoors_effects()
 		}
 	}
 
-	static SLONG	jungle_sounds[] = { S_BIRDCALL, S_COCKATOO_START, S_COCKATOO_END, S_CRICKET, S_BIRD_END };
-	static SLONG	snow_sounds[] = { S_CROW, S_AMB_WOLF1, S_CROW, S_AMB_WOLF2 };
+	static std::int32_t	jungle_sounds[] = { S_BIRDCALL, S_COCKATOO_START, S_COCKATOO_END, S_CRICKET, S_BIRD_END };
+	static std::int32_t	snow_sounds[] = { S_CROW, S_AMB_WOLF1, S_CROW, S_AMB_WOLF2 };
 	
 	// play birdsong/junglesong randomly and frequently
 	if ((wtype == Estate) || (wtype == Jungle) || (wtype == Snow))
@@ -232,7 +232,7 @@ void new_outdoors_effects()
 	}
 
 	//	Chuck in some cats, dogs, breaking glass
-	static SLONG	city_animals[] = { S_DOG_START, S_DOG_START + 1, S_DOG_END,
+	static std::int32_t	city_animals[] = { S_DOG_START, S_DOG_START + 1, S_DOG_END,
 										S_CAT_START, S_CAT_START + 1, S_CAT_START + 2, S_CAT_END};
 	if (wtype == BusyCity)
 	{
@@ -250,7 +250,7 @@ void new_outdoors_effects()
 	{
 		if ((Random() & 0x1FC0) == 0x1FC0)
 		{
-			SLONG	volume = (NET_PERSON(PLAYER_ID)->WorldPos.X - 0x400000) >> 14;
+			std::int32_t	volume = (NET_PERSON(PLAYER_ID)->WorldPos.X - 0x400000) >> 14;
 			MFX_play_ambient(AMBIENT_EFFECT_REF, S_FOGHORN, 0);
 			MFX_set_gain(AMBIENT_EFFECT_REF, S_FOGHORN, volume);
 		}
@@ -285,12 +285,12 @@ void process_weather()
 	return;
 #else
 
-	SLONG x=NET_PERSON(PLAYER_ID)->WorldPos.X,
+	std::int32_t x=NET_PERSON(PLAYER_ID)->WorldPos.X,
 		  y=NET_PERSON(PLAYER_ID)->WorldPos.Y,
 		  z=NET_PERSON(PLAYER_ID)->WorldPos.Z;
 
 	// these map GEDIT settings to sound headers
-	static SLONG indoors_waves[]={ S_AMB_POLICE1, S_AMB_POSHEETA, S_AMB_OFFICE1, S_TUNE_CLUB_START };
+	static std::int32_t indoors_waves[]={ S_AMB_POLICE1, S_AMB_POSHEETA, S_AMB_OFFICE1, S_TUNE_CLUB_START };
 
 
 	// handle death sounds - in process_weather(), yeah right!
@@ -307,20 +307,20 @@ void process_weather()
 
 	// do rain and wind
 	Thing*	p_player = NET_PERSON(PLAYER_ID);
-	static UBYTE was_in_or_out = 0; // 0 is unknown, 1 is in, 2 is out
+	static std::uint8_t was_in_or_out = 0; // 0 is unknown, 1 is in, 2 is out
 
 
 	if (!p_player->Genus.Person->Ware)
 	{
-		SLONG	ground = PAP_calc_map_height_at(x >> 8, z >> 8);
+		std::int32_t	ground = PAP_calc_map_height_at(x >> 8, z >> 8);
 
 		if (ground==-32767) 
 			ground=p_player->WorldPos.Y;
 		else
 			ground<<=8;
 
-		SLONG	above_ground = (y - ground) >> 8;
-		SLONG	abs_height = y >> 8;
+		std::int32_t	above_ground = (y - ground) >> 8;
+		std::int32_t	abs_height = y >> 8;
 
 		if (was_in_or_out!=2)
 		{
@@ -331,11 +331,11 @@ void process_weather()
 
 //		TRACE("ABOVE %X ABS %X\n", above_ground, abs_height);
 
-		SLONG	rain_gain = 255 - (above_ground >> 4);
+		std::int32_t	rain_gain = 255 - (above_ground >> 4);
 		if (rain_gain < 0)			rain_gain = 0;
 		else if (rain_gain > 255)	rain_gain = 255;
 
-		SLONG	wind_gain = abs_height >> 4;
+		std::int32_t	wind_gain = abs_height >> 4;
 		if (wind_gain < 0)			wind_gain = 0;
 		else if (wind_gain > 255)	wind_gain = 255;
 
@@ -354,7 +354,7 @@ void process_weather()
 			MFX_set_gain(WEATHER_REF,S_AMBIENCE_END,rain_gain);
 		}
 
-		SLONG	wind_wave = -1;
+		std::int32_t	wind_wave = -1;
 
 		if (GAME_TURN - tick_tock >= 25 )
 		{
@@ -383,7 +383,7 @@ void process_weather()
 	}
 	else
 	{
-		SLONG amb;
+		std::int32_t amb;
 
 		if (was_in_or_out!=1)
 		{
@@ -437,14 +437,14 @@ void SOUND_reset() {
 //						Version independent
 //---------------------------------------------------------------
 /*
-inline SLONG SOUND_Range(SLONG start, SLONG end) {
-	SLONG diff=(end-start)+1;
+inline std::int32_t SOUND_Range(std::int32_t start, std::int32_t end) {
+	std::int32_t diff=(end-start)+1;
 
 	return start+(rand()%diff);
 }
 */
 
-UBYTE SOUND_Gender(Thing *p_thing) {
+std::uint8_t SOUND_Gender(Thing *p_thing) {
 	switch(p_thing->Genus.Person->PersonType) {
 	case PERSON_DARCI:
 	case PERSON_SLAG_TART:
@@ -472,7 +472,7 @@ UBYTE SOUND_Gender(Thing *p_thing) {
 }
 
 void SOUND_Curious(Thing *p_thing) {
-	SWORD snd_a, snd_b;
+	std::int16_t snd_a, snd_b;
 
 	if (!IsEnglish) return;
 
@@ -497,7 +497,7 @@ void SOUND_Curious(Thing *p_thing) {
 }
 
 void DieSound(Thing *p_thing) {
-	SWORD hit_a, hit_b;
+	std::int16_t hit_a, hit_b;
 	switch(p_thing->Genus.Person->PersonType) {
 	case PERSON_DARCI:
 		hit_a=S_DARCI_HIT_START;
@@ -519,7 +519,7 @@ void DieSound(Thing *p_thing) {
 }
 
 void PainSound(Thing *p_thing) {
-	SWORD hit_a, hit_b;
+	std::int16_t hit_a, hit_b;
 
 	switch(p_thing->Genus.Person->PersonType) {
 	case PERSON_DARCI:
@@ -578,7 +578,7 @@ void PainSound(Thing *p_thing) {
 }
 
 void EffortSound(Thing *p_thing) {
-	SWORD snd_a, snd_b;
+	std::int16_t snd_a, snd_b;
     switch (p_thing->Genus.Person->PersonType) {
 	case PERSON_DARCI:
 		snd_a=S_DARCI_EFFORT_START;
@@ -607,7 +607,7 @@ void MinorEffortSound(Thing *p_thing) {
 }
 
 void ScreamFallSound(Thing *p_thing) {
-	SWORD snd_a, snd_b;
+	std::int16_t snd_a, snd_b;
     switch (p_thing->Genus.Person->PersonType) {
 	case PERSON_DARCI:
 		snd_a=S_DARCI_SCREAM_FALL_START;
@@ -626,7 +626,7 @@ void ScreamFallSound(Thing *p_thing) {
 }
 
 void StopScreamFallSound(Thing *p_thing) {
-	SWORD snd_a, snd_b, snd;
+	std::int16_t snd_a, snd_b, snd;
     switch (p_thing->Genus.Person->PersonType) {
 	case PERSON_DARCI:
 		snd_a=S_DARCI_SCREAM_FALL_START;
@@ -646,13 +646,13 @@ void StopScreamFallSound(Thing *p_thing) {
 }
 
 
-void SOUND_InitFXGroups(CBYTE* fn) {
+void SOUND_InitFXGroups(char* fn) {
 #ifndef PSX
 #ifndef TARGET_DC
-  CBYTE* buff = new char[32768];
-  CBYTE* pt,*split;
-  CBYTE name[128],value[128];
-  CBYTE index=0;
+  char* buff = new char[32768];
+  char* pt,*split;
+  char name[128],value[128];
+  char index=0;
   GetPrivateProfileSection("Groups",buff,32767,fn);
   pt=buff;
   while (*pt) {
@@ -687,15 +687,15 @@ void SOUND_InitFXGroups(CBYTE* fn) {
 }
 
 /*
-SLONG play_quick_wave_old(WaveParams *wave,SLONG sample,SLONG id,SLONG mode)
+std::int32_t play_quick_wave_old(WaveParams *wave,std::int32_t sample,std::int32_t id,std::int32_t mode)
 {
 	return play_quick_wave_xyz(wave->Mode.Cartesian.X,wave->Mode.Cartesian.Y,wave->Mode.Cartesian.Z,sample,id,mode);
 }
 */
 #ifndef PSX
-SLONG play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range, UBYTE flags)
+std::int32_t play_ambient_wave(std::int32_t sample,std::int32_t id,std::int32_t mode,std::int32_t range, std::uint8_t flags)
 {
-	SLONG x,y,z,dx,dy,dz,ang;
+	std::int32_t x,y,z,dx,dy,dz,ang;
 
 	if (flags&1) ang=896+(Random()&0xff); else ang=1024;
 //	ang+=CAM_cur_yaw;
@@ -718,7 +718,7 @@ SLONG play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range, UBYTE flag
 }
 #endif
 
-void play_glue_wave(UWORD type, UWORD id, SLONG x, SLONG y, SLONG z) {
+void play_glue_wave(std::uint16_t type, std::uint16_t id, std::int32_t x, std::int32_t y, std::int32_t z) {
 	switch(type) {
 	case 0:
 //		play_quick_wave_xyz(x,y,z,id,0,0);
@@ -732,8 +732,8 @@ void play_glue_wave(UWORD type, UWORD id, SLONG x, SLONG y, SLONG z) {
 
 }
 
-void play_music(UWORD id, UBYTE track) {
-	SLONG flags;
+void play_music(std::uint16_t id, std::uint8_t track) {
+	std::int32_t flags;
 	music_id=AMBIENT_EFFECT_REF+2;
 //	flags=(looped) ? MFX_LOOPED : 0;
 	flags=MFX_SHORT_QUEUE|MFX_QUEUED|MFX_EARLY_OUT;
@@ -753,19 +753,19 @@ void NewFreeWaveList() {
 #endif
 }
 
-void NewLoadWaveFile(CBYTE* name) {
+void NewLoadWaveFile(char* name) {
 #ifdef USE_A3D
 	A3DLoadWaveFile(name);
 #else
-extern void	LoadWave(CBYTE* wave_name);
+extern void	LoadWave(char* wave_name);
 
 	LoadWave(name);
 #endif
 }
 
-void NewLoadWaveList(CBYTE* names[]) {
-  SLONG i;
-  CBYTE buff[_MAX_PATH];
+void NewLoadWaveList(char* names[]) {
+  std::int32_t i;
+  char buff[_MAX_PATH];
 #ifndef PSX
   if (names==0) names=sound_list;
 
@@ -791,7 +791,7 @@ void NewLoadWaveList(CBYTE* names[]) {
 
 // THE SEWERS ARE DEAD, LONG LIVE THE SEWERS
 
-//inline SLONG SewerHeight(NS_Hi *nh) { return (nh->bot << 5) + (-32 * 0x100); }
+//inline std::int32_t SewerHeight(NS_Hi *nh) { return (nh->bot << 5) + (-32 * 0x100); }
 
 //#define SEWER_SOUND_MAX	20
 
@@ -799,9 +799,9 @@ void NewLoadWaveList(CBYTE* names[]) {
 
 void SOUND_SewerPrecalc() {
 /*	NS_Hi *ns;
-	SBYTE temp_map[PAP_SIZE_HI][PAP_SIZE_HI];
-	SLONG x,y,sx,sy;
-	SLONG h,item,ctr,debugctr,debug2;
+	std::int8_t temp_map[PAP_SIZE_HI][PAP_SIZE_HI];
+	std::int32_t x,y,sx,sy;
+	std::int32_t h,item,ctr,debugctr,debug2;
 
 	for (item=0;item<10;item++) 
 		SewerSounds[item].X=SewerSounds[item].Y=SewerSounds[item].Z=0;
@@ -869,8 +869,8 @@ void SOUND_SewerPrecalc() {
 
 
 void SewerSoundProcess() {
-/*	static SLONG id = 0;
-	SLONG i,d,w,d2,dx,dz;
+/*	static std::int32_t id = 0;
+	std::int32_t i,d,w,d2,dx,dz;
 
 	w=-1; d=-1;
 	for (i=0;i<10;i++)

@@ -59,11 +59,11 @@ typedef struct
 	float Y;	// 2D points...
 	float Z;	//             
 
-	ULONG clip;
+	std::uint32_t clip;
 
 	float u;
 	float v;
-	ULONG colour;	// SSRRGGBB SS is specular lighting.
+	std::uint32_t colour;	// SSRRGGBB SS is specular lighting.
 	
 } POLY_Point;
 
@@ -96,7 +96,7 @@ void POLY_transform_using_local_rotation(
 // to POLY_camera_set.  radius = world_radius / view_dist.
 //
 
-SLONG POLY_sphere_visible(
+std::int32_t POLY_sphere_visible(
 		float world_x,
 		float world_y,
 		float world_z,
@@ -110,10 +110,10 @@ SLONG POLY_sphere_visible(
 #define POLY_SHADOW_SIZE 8192
 
 extern POLY_Point POLY_buffer[POLY_BUFFER_SIZE];
-extern SLONG      POLY_buffer_upto;
+extern std::int32_t      POLY_buffer_upto;
 
 extern POLY_Point POLY_shadow[POLY_BUFFER_SIZE];
-extern SLONG      POLY_shadow_upto;
+extern std::int32_t      POLY_shadow_upto;
 
 //
 // The fade-out range of the points.
@@ -131,13 +131,13 @@ static void inline POLY_fadeout_point(POLY_Point *pp)
 {
 	if (pp->z > POLY_FADEOUT_START)
 	{
-		SLONG multi;
-		SLONG red;
-		SLONG green;
-		SLONG blue;
-		SLONG alpha;
+		std::int32_t multi;
+		std::int32_t red;
+		std::int32_t green;
+		std::int32_t blue;
+		std::int32_t alpha;
 
-		multi = 256 - SLONG((pp->z - POLY_FADEOUT_START) * (256.0F / (POLY_FADEOUT_END - POLY_FADEOUT_START)));
+		multi = 256 - std::int32_t((pp->z - POLY_FADEOUT_START) * (256.0F / (POLY_FADEOUT_END - POLY_FADEOUT_START)));
 
 		if (multi < 0)
 		{
@@ -188,14 +188,14 @@ void POLY_fadeout_buffer();
 // The page argument is one of the TEXTURE module's pages.
 // 
 
-SLONG POLY_valid_triangle(POLY_Point *p[3]);
-SLONG POLY_valid_quad    (POLY_Point *p[4]);
-SLONG POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
-void POLY_add_triangle  (POLY_Point *p[3], SLONG page, SLONG shall_i_backface_cull);
-void POLY_add_quad      (POLY_Point *p[4], SLONG page, SLONG shall_i_backface_cull);
-void POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG sort_to_front);
-void POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, ULONG colour);
+std::int32_t POLY_valid_triangle(POLY_Point *p[3]);
+std::int32_t POLY_valid_quad    (POLY_Point *p[4]);
+std::int32_t POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
+void POLY_add_triangle  (POLY_Point *p[3], std::int32_t page, std::int32_t shall_i_backface_cull);
+void POLY_add_quad      (POLY_Point *p[4], std::int32_t page, std::int32_t shall_i_backface_cull);
+void POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t sort_to_front);
+void POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, std::uint32_t colour);
 void POLY_clip_line_box (float sx1, float sy1, float sx2, float sy2);
-void POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, ULONG colour);
+void POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, std::uint32_t colour);
 
 #endif

@@ -39,9 +39,9 @@ LL_Sound *LL_sound[LL_MAX_SOUNDS];
 
 
 
-LL_Texture *LL_create_texture(CBYTE* fname)
+LL_Texture *LL_create_texture(char* fname)
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Create the OS texture.
@@ -115,7 +115,7 @@ void LL_free_texture(LL_Texture *lt)
 	// Get rid of the reference in the LL_texture[] array.
 	//
 	
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < LL_MAX_TEXTURES; i++)
 	{
@@ -136,9 +136,9 @@ void LL_free_texture(LL_Texture *lt)
 
 
 
-LL_Sound *LL_create_sound(CBYTE* fname)
+LL_Sound *LL_create_sound(char* fname)
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Create the OS sound.
@@ -210,7 +210,7 @@ void LL_free_sound(LL_Sound *ls)
 	// Get rid of the reference in the LL_sound[] array.
 	//
 	
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < LL_MAX_SOUNDS; i++)
 	{
@@ -232,11 +232,11 @@ void LL_free_sound(LL_Sound *ls)
 
 
 LL_Buffer *LL_create_buffer(
-				SLONG  type,
+				std::int32_t  type,
 				void  *vert,
-				SLONG  num_verts,
-				UWORD *index,
-				SLONG  num_indices)
+				std::int32_t  num_verts,
+				std::uint16_t *index,
+				std::int32_t  num_indices)
 {
 	ASSERT(
 		type == LL_BUFFER_TYPE_TLV ||
@@ -293,9 +293,9 @@ OS_Vert LL_vert[OS_MAX_TRANS];
 void LL_draw_buffer(
 		LL_Buffer  *lb,
 		LL_Texture *lt,		// nullptr => Draw untextured
-		ULONG       rs)		// The LL_RS_* renderstates ORed together.
+		std::uint32_t       rs)		// The LL_RS_* renderstates ORed together.
 {
-	SLONG i;
+	std::int32_t i;
 
 	OS_Buffer *ob;
 	OS_Trans  *ot;
@@ -386,11 +386,11 @@ void LL_draw_buffer(
 
 
 
-void LL_cls(ULONG colour, float z)
+void LL_cls(std::uint32_t colour, float z)
 {
-	SLONG r = (colour >> 16) & 0xff;
-	SLONG g = (colour >>  8) & 0xff;
-	SLONG b = (colour >>  0) & 0xff;
+	std::int32_t r = (colour >> 16) & 0xff;
+	std::int32_t g = (colour >>  8) & 0xff;
+	std::int32_t b = (colour >>  0) & 0xff;
 
 	ASSERT(WITHIN(z, 0.0F, 1.0F));
 

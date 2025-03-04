@@ -3,7 +3,7 @@
 
 #include	<MFHeader.h>
 
-extern UBYTE	*CharTable[];
+extern std::uint8_t	*CharTable[];
 
 #define	DRAW_CHAR		for(c0=char_height;c0;c0--,string_dest+=WorkScreenWidth)	\
 						{															\
@@ -11,7 +11,7 @@ extern UBYTE	*CharTable[];
 							{														\
 								if(*(the_char_def++))									\
 								{													\
-									*(string_dest+c1)	=	(UBYTE)colour;			\
+									*(string_dest+c1)	=	(std::uint8_t)colour;			\
 								}													\
 							}														\
 						}
@@ -22,7 +22,7 @@ extern UBYTE	*CharTable[];
 							{														\
 								if(*(the_char_def++))									\
 								{													\
-									*(string_dest+c1)	=	(UWORD)colour;			\
+									*(string_dest+c1)	=	(std::uint16_t)colour;			\
 								}													\
 							}														\
 						}
@@ -33,20 +33,20 @@ extern UBYTE	*CharTable[];
 							{														\
 								if(*(the_char_def++))									\
 								{													\
-									*(string_dest+c1)	=	(ULONG)colour;			\
+									*(string_dest+c1)	=	(std::uint32_t)colour;			\
 								}													\
 							}														\
 						}
 
 //---------------------------------------------------------------
 
-void QuickText8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
+void QuickText8(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour)
 {
-	UBYTE		*the_char_def,
+	std::uint8_t		*the_char_def,
 				*string_dest;
-	ULONG		char_height,
+	std::uint32_t		char_height,
 				char_width;
-	ULONG		c0,c1;
+	std::uint32_t		c0,c1;
 	
 	
 	while(*the_string)
@@ -61,13 +61,13 @@ void QuickText8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 	}
 }
 
-void QuickText16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
+void QuickText16(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour)
 {
-	UBYTE		*the_char_def;
-	UWORD		*string_dest;
-	ULONG		char_height,
+	std::uint8_t		*the_char_def;
+	std::uint16_t		*string_dest;
+	std::uint32_t		char_height,
 				char_width;
-	ULONG		c0,c1;
+	std::uint32_t		c0,c1;
 	
 	
 	while(*the_string)
@@ -75,20 +75,20 @@ void QuickText16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 		the_char_def	=	CharTable[*(the_string++)];
 		char_width		=	*(the_char_def++);
 		char_height		=	*(the_char_def++);
-		string_dest		=	(UWORD*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>1);
+		string_dest		=	(std::uint16_t*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>1);
 
 		DRAW_CHAR16
 		x			+=	char_width+1;
 	}
 }
 
-void QuickText32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
+void QuickText32(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour)
 {
-	UBYTE		*the_char_def;
-	ULONG		*string_dest;
-	ULONG		char_height,
+	std::uint8_t		*the_char_def;
+	std::uint32_t		*string_dest;
+	std::uint32_t		char_height,
 				char_width;
-	ULONG		c0,c1;
+	std::uint32_t		c0,c1;
 	
 	
 	while(*the_string)
@@ -96,7 +96,7 @@ void QuickText32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 		the_char_def	=	CharTable[*(the_string++)];
 		char_width		=	*(the_char_def++);
 		char_height		=	*(the_char_def++);
-		string_dest		=	(ULONG*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>2);
+		string_dest		=	(std::uint32_t*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>2);
 
 		DRAW_CHAR32
 		x			+=	char_width+1;
@@ -105,12 +105,12 @@ void QuickText32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 
 //---------------------------------------------------------------
 
-void QuickTextC8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
+void QuickTextC8(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour)
 {
-	UBYTE		*string_dest,
+	std::uint8_t		*string_dest,
 				*the_char_def,
 				*the_pixel;
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				char_draw_height,
 				char_draw_width,
 				char_height,
@@ -188,7 +188,7 @@ void QuickTextC8(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 				{
 					if(*(the_pixel++))
 					{
-						*(string_dest+c1)	=	(UBYTE)colour;
+						*(string_dest+c1)	=	(std::uint8_t)colour;
 					}
 				}
 			}
@@ -204,12 +204,12 @@ done_char:
 	}
 }
 
-void QuickTextC16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
+void QuickTextC16(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour)
 {
-	UWORD		*string_dest;
-	UBYTE		*the_char_def,
+	std::uint16_t		*string_dest;
+	std::uint8_t		*the_char_def,
 				*the_pixel;
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				char_draw_height,
 				char_draw_width,
 				char_height,
@@ -276,7 +276,7 @@ void QuickTextC16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 			clip	=	1;
 		}
 
-		string_dest	=	(UWORD*)WorkWindow+x+((char_y+char_v_offset)*WorkScreenWidth>>1);
+		string_dest	=	(std::uint16_t*)WorkWindow+x+((char_y+char_v_offset)*WorkScreenWidth>>1);
 
 		if(clip)
 		{
@@ -287,7 +287,7 @@ void QuickTextC16(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 				{
 					if(*(the_pixel++))
 					{
-						*(string_dest+c1)	=	(UWORD)colour;
+						*(string_dest+c1)	=	(std::uint16_t)colour;
 					}
 				}
 			}
@@ -303,12 +303,12 @@ done_char:
 	}
 }
 
-void QuickTextC32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
+void QuickTextC32(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour)
 {
-	ULONG		*string_dest;
-	UBYTE		*the_char_def,
+	std::uint32_t		*string_dest;
+	std::uint8_t		*the_char_def,
 				*the_pixel;
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				char_draw_height,
 				char_draw_width,
 				char_height,
@@ -375,7 +375,7 @@ void QuickTextC32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 			clip	=	1;
 		}
 
-		string_dest	=	(ULONG*)WorkWindow+x+((char_y+char_v_offset)*WorkScreenWidth>>2);
+		string_dest	=	(std::uint32_t*)WorkWindow+x+((char_y+char_v_offset)*WorkScreenWidth>>2);
 
 		if(clip)
 		{
@@ -386,7 +386,7 @@ void QuickTextC32(SLONG x,SLONG y,CBYTE* the_string,ULONG colour)
 				{
 					if(*(the_pixel++))
 					{
-						*(string_dest+c1)	=	(UWORD)colour;
+						*(string_dest+c1)	=	(std::uint16_t)colour;
 					}
 				}
 			}
@@ -404,13 +404,13 @@ done_char:
 
 //---------------------------------------------------------------
 
-void QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickChar8(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour)
 {
-	UBYTE		*the_char_def,
+	std::uint8_t		*the_char_def,
 				*string_dest;
-	ULONG		char_height,
+	std::uint32_t		char_height,
 				char_width;
-	ULONG		c0,c1;
+	std::uint32_t		c0,c1;
 	
 	
 	the_char_def	=	CharTable[the_char];
@@ -420,40 +420,40 @@ void QuickChar8(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 	DRAW_CHAR
 }
 
-void QuickChar16(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickChar16(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour)
 {
-	UBYTE		*the_char_def;
-	UWORD		*string_dest;
-	ULONG		char_height,
+	std::uint8_t		*the_char_def;
+	std::uint16_t		*string_dest;
+	std::uint32_t		char_height,
 				char_width;
-	ULONG		c0,c1;
+	std::uint32_t		c0,c1;
 	
 	
 	the_char_def	=	CharTable[the_char];
 	char_width		=	*(the_char_def++);
 	char_height		=	*(the_char_def++);
-	string_dest		=	(UWORD*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>1);
+	string_dest		=	(std::uint16_t*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>1);
 	DRAW_CHAR16
 }
 
-void QuickChar32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickChar32(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour)
 {
-	UBYTE		*the_char_def;
-	ULONG		*string_dest;
-	ULONG		char_height,
+	std::uint8_t		*the_char_def;
+	std::uint32_t		*string_dest;
+	std::uint32_t		char_height,
 				char_width;
-	ULONG		c0,c1;
+	std::uint32_t		c0,c1;
 	
 	
 	the_char_def	=	CharTable[the_char];
 	char_width		=	*(the_char_def++);
 	char_height		=	*(the_char_def++);
-	string_dest		=	(ULONG*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>2);
+	string_dest		=	(std::uint32_t*)WorkWindow+x+((y+*(the_char_def++))*WorkScreenWidth>>2);
 	DRAW_CHAR32
 }
 //---------------------------------------------------------------
 
-void QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
+void QuickCharC8_16_32(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour)
 {
 	if(x>=WorkWindowWidth || y>=WorkWindowHeight)
 		return;
@@ -466,9 +466,9 @@ void QuickCharC8_16_32(SLONG x,SLONG y,CBYTE the_char,ULONG colour)
 
 //---------------------------------------------------------------
 
-SLONG QTStringWidth(CBYTE* the_string)
+std::int32_t QTStringWidth(char* the_string)
 {
-	SLONG		width	=	0;
+	std::int32_t		width	=	0;
 	
 	
 	while(*the_string)

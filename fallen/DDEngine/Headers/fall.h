@@ -18,7 +18,7 @@ void FALL_init();
 // Creates a new waterfall. nullptr => Couldn't create one.
 //
 
-UBYTE FALL_create(
+std::uint8_t FALL_create(
 		float x1, float z1, float u, float v,
 		float x2, float z2, float u, float v,
 		float dx,

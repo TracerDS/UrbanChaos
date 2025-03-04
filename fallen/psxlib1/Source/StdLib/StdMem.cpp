@@ -35,7 +35,7 @@ void ResetMemory()
 
 //---------------------------------------------------------------
 
-void* MemAlloc(ULONG size)
+void* MemAlloc(std::uint32_t size)
 {
 	size	=	(size+3)&0xfffffffc;
 	return (void*)HeapAlloc(MFHeap,HEAP_ZERO_MEMORY,size);
@@ -51,7 +51,7 @@ void MemFree(void* mem_ptr)
 //---------------------------------------------------------------
 
 /*
-void MemClear(void* mem_ptr,ULONG size)
+void MemClear(void* mem_ptr,std::uint32_t size)
 {
 }
 */

@@ -287,7 +287,7 @@ static void OpenMenu(HWND hWnd, Menu* menu)
 	HDC			hdc = GetDC(hWnd);
 	HFONT		hOldFont = (HFONT)SelectObject(hdc, hMenuFont);
 	MenuItem*	item = pMenu->Item;
-	ULONG		y = pMenu->TopBorder;
+	std::uint32_t		y = pMenu->TopBorder;
 
 	while (item)
 	{

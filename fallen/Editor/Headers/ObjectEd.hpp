@@ -20,15 +20,15 @@ class	ObjectEditor	:	public	EditorModule
 		void			SetupModule();
 		void			CreateObjectTabs();
 		void			DestroyObjectTabs();
-		void			HandleControlClick(UBYTE flags,MFPoint *clicked_point);
+		void			HandleControlClick(std::uint8_t flags,MFPoint *clicked_point);
 		void			HandleModule();
 };
 
 struct	ObjectEdDefaults
 {
-	SLONG		Left,
+	std::int32_t		Left,
 				Top;
-	SLONG		Height,
+	std::int32_t		Height,
 				Width;
 };
 

@@ -20,7 +20,7 @@
 // Star: 125, 70, 100
 //
 
-void SKY_init(CBYTE* star_file);
+void SKY_init(char* star_file);
 
 
 
@@ -58,7 +58,7 @@ void SKY_draw_poly_moon(
 // Returns false if the moon was off-screen.
 //
 
-SLONG SKY_draw_moon_reflection(
+std::int32_t SKY_draw_moon_reflection(
 		float  world_camera_x,
 		float  world_camera_y,
 		float  world_camera_z,
@@ -81,8 +81,8 @@ void SKY_draw_poly_sky(
 		float world_camera_z,
 		float world_camera_yaw,
 		float max_dist,
-		ULONG bot_colour,
-		ULONG top_colour);
+		std::uint32_t bot_colour,
+		std::uint32_t top_colour);
 
 
 #endif

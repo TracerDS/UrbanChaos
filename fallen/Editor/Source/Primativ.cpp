@@ -8,12 +8,12 @@
 //****************************************************************************
 
 
-void	EdRect::SetRect(SLONG left,SLONG top,SLONG width,SLONG height)
+void	EdRect::SetRect(std::int32_t left,std::int32_t top,std::int32_t width,std::int32_t height)
 {
 	Top		=	top;
 	Left	=	left;
-	Bottom	=	(SLONG)top+(height-1);
-	Right	=	(SLONG)left+(width-1);
+	Bottom	=	(std::int32_t)top+(height-1);
+	Right	=	(std::int32_t)left+(width-1);
 	Width	=	width;
 	Height	=	height;
 }
@@ -33,17 +33,17 @@ void	EdRect::NormalRect(void)
 
 //****************************************************************************
 
-void	EdRect::MoveRect(SLONG left,SLONG top)
+void	EdRect::MoveRect(std::int32_t left,std::int32_t top)
 {
 	Top		=	top;
 	Left	=	left;
-	Bottom	=	(SLONG)top+(Height-1);
-	Right	=	(SLONG)left+(Width-1);
+	Bottom	=	(std::int32_t)top+(Height-1);
+	Right	=	(std::int32_t)left+(Width-1);
 }
 
 //****************************************************************************
 
-void	EdRect::OffsetRect(SLONG dx,SLONG dy)
+void	EdRect::OffsetRect(std::int32_t dx,std::int32_t dy)
 {
 	Top		+=	dy;
 	Left	+=	dx;
@@ -53,7 +53,7 @@ void	EdRect::OffsetRect(SLONG dx,SLONG dy)
 
 //****************************************************************************
 
-void	EdRect::ShrinkRect(SLONG dx,SLONG dy)
+void	EdRect::ShrinkRect(std::int32_t dx,std::int32_t dy)
 {
 	Top		+=	dy;
 	Left	+=	dx;
@@ -65,7 +65,7 @@ void	EdRect::ShrinkRect(SLONG dx,SLONG dy)
 
 //****************************************************************************
 
-void	EdRect::OutlineRect(ULONG colour)
+void	EdRect::OutlineRect(std::uint32_t colour)
 {
 	DrawVLineC(Right,Top,Bottom,colour);
 	DrawHLineC(Left,Right,Bottom,colour);
@@ -75,15 +75,15 @@ void	EdRect::OutlineRect(ULONG colour)
 
 //****************************************************************************
 
-void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
+void	draw_h_xord_line(std::int32_t x1,std::int32_t x2,std::int32_t y1)
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 	switch (WorkScreenDepth)
 	{
 		case 1:
 		{
 			
-			UBYTE		*the_line;
+			std::uint8_t		*the_line;
 			if(y1>=0 && y1<WorkWindowHeight)
 			{
 				if(x1 < 0)
@@ -93,7 +93,7 @@ void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
 
 				the_line	=	WorkWindow+x1+(y1*WorkScreenWidth);
 				for(c0=x1;c0<x2;c0+=2,the_line+=2)
-					*the_line	=	(UBYTE)(*(the_line)^0xaa);
+					*the_line	=	(std::uint8_t)(*(the_line)^0xaa);
 			}
 		}
 
@@ -101,7 +101,7 @@ void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
 		case 2:
 		{
 			
-			UWORD		*the_line;
+			std::uint16_t		*the_line;
 			if(y1>=0 && y1<WorkWindowHeight)
 			{
 				if(x1 < 0)
@@ -109,9 +109,9 @@ void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
 				if(x2 >= WorkWindowWidth)
 					x2	=	WorkWindowWidth-1;
 
-				the_line	=	(UWORD*)WorkWindow+x1+(y1*WorkScreenWidth>>1);
+				the_line	=	(std::uint16_t*)WorkWindow+x1+(y1*WorkScreenWidth>>1);
 				for(c0=x1;c0<x2;c0+=2,the_line+=2)
-					*the_line	=	(UWORD)(*(the_line)^0xaaaa);
+					*the_line	=	(std::uint16_t)(*(the_line)^0xaaaa);
 			}
 		}
 
@@ -119,7 +119,7 @@ void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
 		case 4:
 		{
 			
-			ULONG		*the_line;
+			std::uint32_t		*the_line;
 			if(y1>=0 && y1<WorkWindowHeight)
 			{
 				if(x1 < 0)
@@ -127,9 +127,9 @@ void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
 				if(x2 >= WorkWindowWidth)
 					x2	=	WorkWindowWidth-1;
 
-				the_line	=	(ULONG*)WorkWindow+x1+(y1*WorkScreenWidth>>2);
+				the_line	=	(std::uint32_t*)WorkWindow+x1+(y1*WorkScreenWidth>>2);
 				for(c0=x1;c0<x2;c0+=2,the_line+=2)
-					*the_line	=	(ULONG)(*(the_line)^0xaaaaaa);
+					*the_line	=	(std::uint32_t)(*(the_line)^0xaaaaaa);
 			}
 		}
 
@@ -138,16 +138,16 @@ void	draw_h_xord_line(SLONG x1,SLONG x2,SLONG y1)
 
 }
 
-void	draw_v_xord_line(SLONG x1,SLONG y1,SLONG y2)
+void	draw_v_xord_line(std::int32_t x1,std::int32_t y1,std::int32_t y2)
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 
 	switch (WorkScreenDepth)
 	{
 		case 1:
 		{
 			
-			UBYTE		*the_line;
+			std::uint8_t		*the_line;
 
 			if(x1>=0 && x1<WorkWindowWidth)
 			{
@@ -158,14 +158,14 @@ void	draw_v_xord_line(SLONG x1,SLONG y1,SLONG y2)
 
 				the_line	=	WorkWindow+x1+(y1*WorkScreenWidth);
 				for(c0=y1;c0<y2;c0+=2,the_line+=(WorkScreenWidth<<1))
-					*the_line	=	(UBYTE)(*(the_line)^0xaa);
+					*the_line	=	(std::uint8_t)(*(the_line)^0xaa);
 			}
 			break;
 		}
 		case 2:
 		{
 			
-			UWORD		*the_line;
+			std::uint16_t		*the_line;
 
 			if(x1>=0 && x1<WorkWindowWidth)
 			{
@@ -174,16 +174,16 @@ void	draw_v_xord_line(SLONG x1,SLONG y1,SLONG y2)
 				if(y2 >= WorkWindowHeight)
 					y2	=	WorkWindowHeight-1;
 
-				the_line	=	(UWORD*)WorkWindow+x1+(y1*WorkScreenWidth>>1);
+				the_line	=	(std::uint16_t*)WorkWindow+x1+(y1*WorkScreenWidth>>1);
 				for(c0=y1;c0<y2;c0+=2,the_line+=(WorkScreenWidth))
-					*the_line	=	(UWORD)(*(the_line)^0xaaaa);
+					*the_line	=	(std::uint16_t)(*(the_line)^0xaaaa);
 			}
 			break;
 		}
 		case 4:
 		{
 			
-			ULONG		*the_line;
+			std::uint32_t		*the_line;
 
 			if(x1>=0 && x1<WorkWindowWidth)
 			{
@@ -192,9 +192,9 @@ void	draw_v_xord_line(SLONG x1,SLONG y1,SLONG y2)
 				if(y2 >= WorkWindowHeight)
 					y2	=	WorkWindowHeight-1;
 
-				the_line	=	(ULONG*)WorkWindow+x1+(y1*WorkScreenWidth>>2);
+				the_line	=	(std::uint32_t*)WorkWindow+x1+(y1*WorkScreenWidth>>2);
 				for(c0=y1;c0<y2;c0+=2,the_line+=(WorkScreenWidth>>1))
-					*the_line	=	(ULONG)(*(the_line)^0xaaaaaa);
+					*the_line	=	(std::uint32_t)(*(the_line)^0xaaaaaa);
 			}
 			break;
 		}
@@ -211,7 +211,7 @@ void	EdRect::OutlineInvertedRect(void)
 
 //****************************************************************************
 
-void	EdRect::HiliteRect(ULONG hilite,ULONG lolite)
+void	EdRect::HiliteRect(std::uint32_t hilite,std::uint32_t lolite)
 {
 	DrawVLineC(Right,Top,Bottom,lolite);
 	DrawHLineC(Left,Right,Bottom,lolite);
@@ -221,7 +221,7 @@ void	EdRect::HiliteRect(ULONG hilite,ULONG lolite)
 
 //****************************************************************************
 
-void	EdRect::FillRect(ULONG colour)
+void	EdRect::FillRect(std::uint32_t colour)
 {
 	DrawBoxC(Left,Top,Width,Height,colour);
 }
@@ -229,7 +229,7 @@ void	EdRect::FillRect(ULONG colour)
 
 //****************************************************************************
 
-void	EdRect::IndentRect(ULONG hilite,ULONG lolite)
+void	EdRect::IndentRect(std::uint32_t hilite,std::uint32_t lolite)
 {
 	DrawVLineC(Right,Top,Bottom,lolite);
 	DrawHLineC(Left,Right,Bottom,lolite);
@@ -260,7 +260,7 @@ bool	EdRect::PointInRect(MFPoint *the_point)
 
 bool	EdRect::IntersectRect(EdRect *the_rect)
 {
-	SLONG	flags=0;
+	std::int32_t	flags=0;
 	MFPoint	p;
 
 	if(the_rect->Right<this->Left)

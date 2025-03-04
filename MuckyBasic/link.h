@@ -14,81 +14,81 @@
 
 typedef struct
 {
-	UWORD index;	// This is the number of the global.
-	UBYTE export;	// true => This global is exported
-	UBYTE local;	// true => This global is local to the file.
-	SLONG name;		// Index into the debug data
+	std::uint16_t index;	// This is the number of the global.
+	std::uint8_t export;	// true => This global is exported
+	std::uint8_t local;	// true => This global is local to the file.
+	std::int32_t name;		// Index into the debug data
 
 } LINK_Global;
 
 typedef struct
 {
-	SLONG name;
-	SLONG export;		// true => this function is exported.
-	SLONG line_start;	// The first and last line of the function body
-	SLONG line_end;
-	SLONG num_args;		// The number of arguments to the function
+	std::int32_t name;
+	std::int32_t export;		// true => this function is exported.
+	std::int32_t line_start;	// The first and last line of the function body
+	std::int32_t line_end;
+	std::int32_t num_args;		// The number of arguments to the function
 
 } LINK_Function;
 
 typedef struct
 {
-	SLONG instruction;	// The first instruction generated for this line of code.
+	std::int32_t instruction;	// The first instruction generated for this line of code.
 
 } LINK_Line;
 
 typedef struct
 {
-	SLONG instruction;	// Index into instruction memory (SLONG *..) that contains a jump address.
+	std::int32_t instruction;	// Index into instruction memory (std::int32_t *..) that contains a jump address.
 
 } LINK_Jump;
 
 typedef struct
 {
-	SLONG index;		// This is the number of the field.
-	SLONG name;			// Index into the debug data.
+	std::int32_t index;		// This is the number of the field.
+	std::int32_t name;			// Index into the debug data.
 
 } LINK_Field;
 
 typedef struct
 {
-	SLONG instruction;	// Index into instruction memory that contains a global index.
+	std::int32_t instruction;	// Index into instruction memory that contains a global index.
 
 } LINK_Globalref;
 
 typedef struct
 {
-	SLONG name;			// Index into debug data for the name of the undefined function.
-	SLONG instruction;	// Index into instruction memory that should contain the GOSUB jump to the function.
+	std::int32_t name;			// Index into debug data for the name of the undefined function.
+	std::int32_t instruction;	// Index into instruction memory that should contain the GOSUB jump to the function.
 
 } LINK_Undefref;
 
 typedef struct
 {
-	SLONG instruction;	// Index into the instruction memory for which field.
+	std::int32_t instruction;	// Index into the instruction memory for which field.
 
 } LINK_Fieldref;
 
 typedef struct
 {
-	SLONG instruction;
+	std::int32_t instruction;
 
 } LINK_Datatableref;
 
 typedef struct
 {
-	SLONG version;
-	SLONG num_instructions;		// Each instruction is a SLONG
-	SLONG data_table_length_in_bytes;
-	SLONG num_globals;
-	SLONG num_functions;
-	SLONG num_lines;
-	SLONG num_jumps;
-	SLONG num_fields;
-	SLONG num_global_refs;
-	SLONG num_undef_refs;
-	SLONG num_field_refs;
-	SLONG num_data_table_refs;
+	std::int32_t version;
+	std::int32_t num_instructions;		// Each instruction is a std::int32_t
+	std::int32_t data_table_length_in_bytes;
+	std::int32_t num_globals;
+	std::int32_t num_functions;
+	std::int32_t num_lines;
+	std::int32_t num_jumps;
+	std::int32_t num_fields;
+	std::int32_t num_global_refs;
+	std::int32_t num_undef_refs;
+	std::int32_t num_field_refs;
+	std::int32_t num_data_table_refs;
 	
 } LINK_Header;
 
@@ -102,20 +102,20 @@ typedef struct
 //
 // LINK_Header    lh
 //
-// SLONG             Instructions           [lh.num_instructions          ]  Followed by MAGIC SLONG(12345678)
-// CBYTE             Data table             [lh.data_table_length_in_bytes]	 Followed by MAGIC SLONG(12345678)
-// LINK_Global       Globals                [lh.num_globals               ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Function     Functions              [lh.num_functions             ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Line         Lines                  [lh.num_lines                 ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Jump         Jumps                  [lh.num_jumps                 ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Field        Fields                 [lh.num_fields                ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Globalref    Gobal refs             [lh.num_global_refs           ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Undefref     Undefined function refs[lh.num_undefined_funcion_refs]	 Followed by MAGIC SLONG(12345678)
-// LINK_Fieldref     Field refs             [lh.num_field_refs            ]	 Followed by MAGIC SLONG(12345678)
-// LINK_Datatableref Data table refs        [lh.num_data_table_refs       ]	 Followed by MAGIC SLONG(12345678)
+// std::int32_t             Instructions           [lh.num_instructions          ]  Followed by MAGIC std::int32_t(12345678)
+// char             Data table             [lh.data_table_length_in_bytes]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Global       Globals                [lh.num_globals               ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Function     Functions              [lh.num_functions             ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Line         Lines                  [lh.num_lines                 ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Jump         Jumps                  [lh.num_jumps                 ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Field        Fields                 [lh.num_fields                ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Globalref    Gobal refs             [lh.num_global_refs           ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Undefref     Undefined function refs[lh.num_undefined_funcion_refs]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Fieldref     Field refs             [lh.num_field_refs            ]	 Followed by MAGIC std::int32_t(12345678)
+// LINK_Datatableref Data table refs        [lh.num_data_table_refs       ]	 Followed by MAGIC std::int32_t(12345678)
 //
-// SLONG          debug_data_length_in_bytes
-// CBYTE          debug data[debug_data_length_in_bytes]
+// std::int32_t          debug_data_length_in_bytes
+// char          debug data[debug_data_length_in_bytes]
 //
 
 
@@ -131,7 +131,7 @@ typedef struct
 // Links all the object files into an executable. Returns false on failure.
 //
 
-SLONG LINK_do(CBYTE* object_fname[], SLONG num_object_files, CBYTE* exec_fname);
+std::int32_t LINK_do(char* object_fname[], std::int32_t num_object_files, char* exec_fname);
 
 
 

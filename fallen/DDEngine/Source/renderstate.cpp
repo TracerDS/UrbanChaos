@@ -238,7 +238,7 @@ void RenderState::InitScene(DWORD fog_colour)
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGCOLOR, fog_colour);
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLEMODE, D3DFOG_LINEAR);
 
-	extern SLONG	CurDrawDistance;
+	extern std::int32_t	CurDrawDistance;
 	float fFogDist = CurDrawDistance * (60.0f / (22.f * 256.0f));
 	float fFogDistNear = fFogDist * 0.7f;
 	REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGTABLESTART, FloatAsDword(fFogDistNear));

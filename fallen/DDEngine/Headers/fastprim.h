@@ -19,8 +19,8 @@ void FASTPRIM_init();
 // Draws a prim fastly. Return true if it did it okay.
 //
 
-SLONG FASTPRIM_draw(
-		SLONG prim,
+std::int32_t FASTPRIM_draw(
+		std::int32_t prim,
 		float x,
 		float y,
 		float z,

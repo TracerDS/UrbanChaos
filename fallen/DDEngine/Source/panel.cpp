@@ -108,7 +108,7 @@ void PANEL_ResetDepthBodge ( void )
 
 
 
-UBYTE		PANEL_scanner_poo=0;
+std::uint8_t		PANEL_scanner_poo=0;
 
 
 void PANEL_draw_quad(
@@ -116,8 +116,8 @@ void PANEL_draw_quad(
 		float top,
 		float right,
 		float bottom,
-		SLONG page,
-		ULONG colour,
+		std::int32_t page,
+		std::uint32_t colour,
 		float u1,
 		float v1,
 		float u2,
@@ -198,7 +198,7 @@ void PANEL_crap_text ( int x, int y, char *string )
 
 
 
-void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
+void PANEL_draw_face(std::int32_t x,std::int32_t y,std::int32_t face,std::int32_t size)
 {
 	float left;
 	float right;
@@ -223,7 +223,7 @@ void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size)
 
 #if 0
 // No longer used!
-void PANEL_draw_angelic_status(SLONG x, SLONG y, SLONG size, SLONG am_i_an_angel)
+void PANEL_draw_angelic_status(std::int32_t x, std::int32_t y, std::int32_t size, std::int32_t am_i_an_angel)
 {
 	float left;
 	float right;
@@ -235,7 +235,7 @@ void PANEL_draw_angelic_status(SLONG x, SLONG y, SLONG size, SLONG am_i_an_angel
 	right  = left + (float) size;
 	bottom = top  + (float) size;
 
-	SLONG page;
+	std::int32_t page;
 
 	page = (am_i_an_angel) ? POLY_PAGE_ANGEL : POLY_PAGE_DEVIL;
 
@@ -247,7 +247,7 @@ void PANEL_draw_angelic_status(SLONG x, SLONG y, SLONG size, SLONG am_i_an_angel
 		page);
 }
 
-void PANEL_draw_press_button(SLONG x, SLONG y, SLONG size, SLONG frame)
+void PANEL_draw_press_button(std::int32_t x, std::int32_t y, std::int32_t size, std::int32_t frame)
 {
 	float left;
 	float right;
@@ -259,7 +259,7 @@ void PANEL_draw_press_button(SLONG x, SLONG y, SLONG size, SLONG frame)
 	right  = left + (float) size;
 	bottom = top  + (float) size;
 
-	SLONG page;
+	std::int32_t page;
 
 	page = (frame & 1) ? POLY_PAGE_PRESS1 : POLY_PAGE_PRESS2;
 
@@ -272,7 +272,7 @@ void PANEL_draw_press_button(SLONG x, SLONG y, SLONG size, SLONG frame)
 }
 #endif
 
-void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage)
+void	PANEL_draw_health_bar(std::int32_t x,std::int32_t y,std::int32_t percentage)
 {
 	AENG_draw_rect(x,y,HEALTH_BAR_WIDTH,HEALTH_BAR_HEIGHT,0x000000,2,POLY_PAGE_COLOUR);
 
@@ -301,9 +301,9 @@ void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage)
 #define PANEL_SEG_L	(16.0F)
 #define PANEL_SEG_W ( 4.0F)
 
-void PANEL_draw_number(float x, float y, UBYTE digit)	// 0 <= digit <= 9... Not ASCII!
+void PANEL_draw_number(float x, float y, std::uint8_t digit)	// 0 <= digit <= 9... Not ASCII!
 {
-	UBYTE number[10] =
+	std::uint8_t number[10] =
 	{
 		B0|B1|B2|B4|B5|B6,
 		B2|B5,
@@ -319,8 +319,8 @@ void PANEL_draw_number(float x, float y, UBYTE digit)	// 0 <= digit <= 9... Not 
 
 	struct
 	{
-		UBYTE d1;
-		UBYTE d2;
+		std::uint8_t d1;
+		std::uint8_t d2;
 		float dx;
 		float dy;
 
@@ -344,8 +344,8 @@ void PANEL_draw_number(float x, float y, UBYTE digit)	// 0 <= digit <= 9... Not 
 	float dx;
 	float dy;
 
-	SLONG b;
-	ULONG colour;
+	std::int32_t b;
+	std::uint32_t colour;
 
 	POLY_Point  pp[4];
 	POLY_Point *quad[4];
@@ -444,17 +444,17 @@ typedef struct
 #define PANEL_MAX_STORES 8
 
 PANEL_Store PANEL_store[PANEL_MAX_STORES];
-SLONG       PANEL_store_upto; 
+std::int32_t       PANEL_store_upto; 
 
 #endif
 
 /*
 void PANEL_draw_timer_do(float time, float x, float y)
 {
-	CBYTE  countdown[32];
-	CBYTE* ch;
+	char  countdown[32];
+	char* ch;
 
-	SLONG mins = 0;
+	std::int32_t mins = 0;
 
 	ASSERT(time < 1000.0F);
 
@@ -512,7 +512,7 @@ void PANEL_draw_timer_do(float time, float x, float y)
 void PANEL_draw_buffered()
 {
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < PANEL_store_upto; i++)
 	{
@@ -529,9 +529,9 @@ void PANEL_draw_buffered()
 		float x    = PANEL_store[i].x;
 		float y    = PANEL_store[i].y;
 
-		CBYTE  countdown[32];
+		char  countdown[32];
 
-		SLONG mins = 0;
+		std::int32_t mins = 0;
 
 		ASSERT(time < 1000.0F);
 
@@ -541,12 +541,12 @@ void PANEL_draw_buffered()
 			time -= 60.0F;
 		}
 
-		sprintf(countdown, "%02d:%02d", mins, SLONG(time));
+		sprintf(countdown, "%02d:%02d", mins, std::int32_t(time));
 
 		if ((time<30)&&!mins)
 		{
-			static UWORD pulse=0;
-			SLONG colour;
+			static std::uint16_t pulse=0;
+			std::int32_t colour;
 			pulse+=(TICK_RATIO*80)>>TICK_SHIFT;
 			colour=(SIN(pulse&2047)>>9)+128;
 			colour=colour|(colour<<8);
@@ -565,15 +565,15 @@ void PANEL_draw_buffered()
 #endif
 
 #ifdef TARGET_DC
-SLONG slPANEL_draw_timer_time = -1;
-void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
+std::int32_t slPANEL_draw_timer_time = -1;
+void PANEL_draw_timer(std::int32_t time, std::int32_t x, std::int32_t y)
 {
 	slPANEL_draw_timer_time = time;
 }
 
 #else 
 
-void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
+void PANEL_draw_timer(std::int32_t time, std::int32_t x, std::int32_t y)
 {
 	if (WITHIN(PANEL_store_upto, 0, PANEL_MAX_STORES - 1))
 	{
@@ -587,9 +587,9 @@ void PANEL_draw_timer(SLONG time, SLONG x, SLONG y)
 #endif
 
 
-extern void POLY_add_rect(POLY_Point *p1, SLONG width,SLONG height,  SLONG page, UBYTE sort_to_front);
+extern void POLY_add_rect(POLY_Point *p1, std::int32_t width,std::int32_t height,  std::int32_t page, std::uint8_t sort_to_front);
 
-void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG radius=60)
+void PANEL_draw_local_health(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t percentage,std::int32_t radius=60)
 {
 	POLY_Point p1;
 
@@ -712,15 +712,15 @@ void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG r
 	
 }
 
-void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
+void PANEL_draw_gun_sight(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t accuracy,std::int32_t scale)
 {
-	SLONG	angle,cangle;
-	SLONG	c0;
-	SLONG	dx1,dy1,dx2,dy2;
+	std::int32_t	angle,cangle;
+	std::int32_t	c0;
+	std::int32_t	dx1,dy1,dx2,dy2;
 	POLY_Point p1,p2,pstart;
-	SLONG	r_in,r_out;
-	ULONG	col;
-	SLONG	sat_acc;
+	std::int32_t	r_in,r_out;
+	std::uint32_t	col;
+	std::int32_t	sat_acc;
 
 #define	RADIUS_OUT	164
 #define	RADIUS_IN	84
@@ -777,7 +777,7 @@ void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
 
 		if(p1.IsValid() && p2.IsValid())
 		{
-			SLONG width;
+			std::int32_t width;
 			width=(30*scale)>>8;
 			POLY_add_line(&p1, &p2, (float)width, 0.0F, POLY_PAGE_COLOUR_ALPHA, 0);
 //			POLY_add_line(&p1, &p2, 20.0F, 0.0F, POLY_PAGE_COLOUR_ALPHA, 0);
@@ -832,7 +832,7 @@ void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
 
 		if(p1.IsValid() && p2.IsValid())
 		{
-			SLONG	width;
+			std::int32_t	width;
 
 			width=(5*scale)>>8;
 			POLY_add_line(&p1, &p2, (float)width, (float)width,POLY_PAGE_COLOUR_ALPHA, 0);
@@ -851,7 +851,7 @@ void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale)
 #define	COMPASS_MID_Y		40.0f
 #define	COMPASS_RAD			40.0f
 
-void PANEL_draw_compass_angle(float dx,float dy,ULONG	col)
+void PANEL_draw_compass_angle(float dx,float dy,std::uint32_t	col)
 {
 	float	x=0,y=1.0;
 	POLY_Point p1;
@@ -933,7 +933,7 @@ void PANEL_draw_compass_north()
 }
 
 
-void PANEL_draw_compass_to(SLONG dx,SLONG dy)
+void PANEL_draw_compass_to(std::int32_t dx,std::int32_t dy)
 {
 	float	fdx,fdy;
 	float	dist;
@@ -1020,7 +1020,7 @@ typedef struct
 	float v1;
 	float u2;
 	float v2;
-	SLONG page;
+	std::int32_t page;
 	
 } PANEL_Ic;
 
@@ -1106,7 +1106,7 @@ PANEL_Ic PANEL_ic[PANEL_IC_NUMBER] =
 #define PANEL_PAGE_ALPHA_END 3
 #define PANEL_PAGE_NUMBER    4
 
-UWORD PANEL_page[4][PANEL_PAGE_NUMBER] =
+std::uint16_t PANEL_page[4][PANEL_PAGE_NUMBER] =
 {
 	{
 		POLY_PAGE_IC_NORMAL,
@@ -1126,11 +1126,11 @@ UWORD PANEL_page[4][PANEL_PAGE_NUMBER] =
 
 
 void PANEL_funky_quad(
-		SLONG which,
-		SLONG x,
-		SLONG y,
-		SLONG panel_page,
-		ULONG colour,
+		std::int32_t which,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t panel_page,
+		std::uint32_t colour,
 		float width  = -1.0F,
 		float height = -1.0F)
 {
@@ -1139,7 +1139,7 @@ void PANEL_funky_quad(
 	float right;
 	float bottom;
 
-	SLONG page;
+	std::int32_t page;
 
 	ASSERT(WITHIN(which,      0, PANEL_IC_NUMBER   - 1));
 	ASSERT(WITHIN(panel_page, 0, PANEL_PAGE_NUMBER - 1));
@@ -1247,7 +1247,7 @@ void PANEL_funky_quad(
 // The global base of the funky panel (useful for splitscreen mode)
 //
 
-SLONG PANEL_funky_ybase;
+std::int32_t PANEL_funky_ybase;
 
 //
 // Where to draw bits of the panel.
@@ -1302,17 +1302,17 @@ typedef struct
 {
 	float x;	// Normalised from  0 to 1
 	float y;	// Normalised from -1 to 1
-	ULONG colour;
+	std::uint32_t colour;
 
 } PANEL_Beat;
 
 #define PANEL_NUM_BEATS 32
 
 PANEL_Beat PANEL_beat[2][PANEL_NUM_BEATS];
-SLONG      PANEL_beat_head[2];
-ULONG      PANEL_beat_tick[2];
-SLONG      PANEL_beat_last_ammo[2];
-SLONG      PANEL_beat_last_specialtype[2];
+std::int32_t      PANEL_beat_head[2];
+std::uint32_t      PANEL_beat_tick[2];
+std::int32_t      PANEL_beat_last_ammo[2];
+std::int32_t      PANEL_beat_last_specialtype[2];
 float      PANEL_beat_x[2];
 
 
@@ -1324,16 +1324,16 @@ float      PANEL_beat_x[2];
 // stamina left... i.e. heart beating amazingly fast.
 //
 
-void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
+void PANEL_do_heartbeat(std::int32_t which, float stamina, std::int32_t death)
 {
-	SLONG i;
-	SLONG b1;
-	SLONG b2;
+	std::int32_t i;
+	std::int32_t b1;
+	std::int32_t b2;
 
 	float amp;
 	float phase;
 
-	ULONG beat_colour;
+	std::uint32_t beat_colour;
 
 	POLY_Point  pp  [4];
 	POLY_Point *quad[4];
@@ -1341,11 +1341,11 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 	PANEL_Beat *pb1;
 	PANEL_Beat *pb2;
 
-	SLONG r;
-	SLONG g;
-	SLONG c1;
-	SLONG c2;
-	SLONG mul;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t c1;
+	std::int32_t c2;
+	std::int32_t mul;
 
 	//
 	// How fast the ticker sweeps across the display.
@@ -1360,7 +1360,7 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 	float amp1 = 0.6F + stamina * 0.3F;
 	float amp2 = 0.3F + stamina * 0.5F;
 
-	ULONG now = GetTickCount();
+	std::uint32_t now = GetTickCount();
 
 	//
 	// Process the heatbeat 20 times a second. But no more than 4 times a
@@ -1383,7 +1383,7 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 	else
 	if (stamina < 0.75F)
 	{
-		r = SLONG((stamina - 0.5F) * 255.0F / 0.25F);
+		r = std::int32_t((stamina - 0.5F) * 255.0F / 0.25F);
 
 		SATURATE(r, 0, 255);
 
@@ -1391,7 +1391,7 @@ void PANEL_do_heartbeat(SLONG which, float stamina, SLONG death)
 	}
 	else
 	{
-		g = 255 - SLONG((stamina - 0.75f) * 255.0F / 0.25F);
+		g = 255 - std::int32_t((stamina - 0.75f) * 255.0F / 0.25F);
 
 		SATURATE(g, 0, 255);
 
@@ -1596,9 +1596,9 @@ typedef struct
 {
 	float width;
 	float height;
-	SLONG size_group;
-	SLONG page_group;
-	SLONG page_one;
+	std::int32_t size_group;
+	std::int32_t page_group;
+	std::int32_t page_one;
 
 } PANEL_Ammo;
 
@@ -1645,8 +1645,8 @@ PANEL_Ammo PANEL_ammo[PANEL_AMMO_NUMBER] =
 
 typedef struct
 {
-	UWORD used;
-	UWORD type;
+	std::uint16_t used;
+	std::uint16_t type;
 	float x;
 	float y;
 	float angle;
@@ -1658,8 +1658,8 @@ typedef struct
 #define PANEL_MAX_TOSSES 8
 
 PANEL_Toss PANEL_toss[PANEL_MAX_TOSSES];
-SLONG      PANEL_toss_last;
-ULONG      PANEL_toss_tick;
+std::int32_t      PANEL_toss_last;
+std::uint32_t      PANEL_toss_tick;
 
 
 //
@@ -1668,7 +1668,7 @@ ULONG      PANEL_toss_tick;
 
 static inline float frand()
 {
-	SLONG irand = rand();
+	std::int32_t irand = rand();
 	float ans   = float(irand) * (1.0F / float(RAND_MAX));
 
 	return ans;
@@ -1679,7 +1679,7 @@ static inline float frand()
 //
 
 void PANEL_new_toss(
-		SLONG type,
+		std::int32_t type,
 		float sx,
 		float sy)
 {
@@ -1709,14 +1709,14 @@ void PANEL_new_toss(
 
 void PANEL_do_tosses()
 {
-	SLONG i;
+	std::int32_t i;
 
 	POLY_Point  pp  [4];
 	POLY_Point *quad[4];
 
 	PANEL_Toss *pt;
 
-	ULONG now = GetTickCount();
+	std::uint32_t now = GetTickCount();
 
 	//
 	// Process 20 times a second but no more than 4 times a frame.
@@ -1794,7 +1794,7 @@ void PANEL_do_tosses()
 		float bx;
 		float by;
 
-		SLONG page;
+		std::int32_t page;
 
 		PANEL_Ammo *pa;
 
@@ -1841,7 +1841,7 @@ void PANEL_do_tosses()
 		}
 	}
 }
-extern UBYTE	estate;
+extern std::uint8_t	estate;
 
 //
 // Draws a face at (x,y). The face is given by the Thing. nullptr => Radio message.
@@ -1854,10 +1854,10 @@ void PANEL_new_face(
 		Thing *who,
 		float  x,
 		float  y,
-		SLONG  size)
+		std::int32_t  size)
 {
-	SLONG face;
-	SLONG page;
+	std::int32_t face;
+	std::int32_t page;
 	float u;
 	float v;
 	float width;
@@ -1893,9 +1893,9 @@ void PANEL_new_face(
 
 	typedef struct
 	{
-		UBYTE page;
-		UBYTE u;
-		UBYTE v;
+		std::uint8_t page;
+		std::uint8_t u;
+		std::uint8_t v;
 
 	} PANEL_Face;
 	
@@ -2149,18 +2149,18 @@ void PANEL_new_face(
 typedef struct
 {
 	Thing *who;			// Who is saying the message. nullptr => computer message
-	CBYTE  text[PANEL_TEXT_MAX_LENGTH+2];
-	SLONG  delay;		// 0 => unused.
-	SLONG  turns;		// The number of turns this message has been alive for.
+	char  text[PANEL_TEXT_MAX_LENGTH+2];
+	std::int32_t  delay;		// 0 => unused.
+	std::int32_t  turns;		// The number of turns this message has been alive for.
 
 } PANEL_Text;
 
 #define PANEL_MAX_TEXTS 8	// Power of 2 please!
 
 PANEL_Text PANEL_text[PANEL_MAX_TEXTS];
-SLONG      PANEL_text_head;	// Always acces PANEL_text[PANEL_text_head & (PANEL_MAX_TEXTS - 1)]
-SLONG      PANEL_text_tail;	// Always acces PANEL_text[PANEL_text_tail & (PANEL_MAX_TEXTS - 1)]
-ULONG      PANEL_text_tick;
+std::int32_t      PANEL_text_head;	// Always acces PANEL_text[PANEL_text_head & (PANEL_MAX_TEXTS - 1)]
+std::int32_t      PANEL_text_tail;	// Always acces PANEL_text[PANEL_text_tail & (PANEL_MAX_TEXTS - 1)]
+std::uint32_t      PANEL_text_tick;
 
 
 void PANEL_new_text_init()
@@ -2174,9 +2174,9 @@ void PANEL_new_text_init()
 
 
 
-void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
+void PANEL_new_text(Thing *who, std::int32_t delay, char* fmt, ...)
 {
-	CBYTE* ch;
+	char* ch;
 
 	PANEL_Text *pt;
 
@@ -2205,7 +2205,7 @@ void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 	// Work out the real message.
 	//
 
-	CBYTE   message[1024];
+	char   message[1024];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -2241,7 +2241,7 @@ void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 	// Do we already have this message?
 	// 
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < PANEL_MAX_TEXTS; i++)
 	{
@@ -2290,11 +2290,11 @@ void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...)
 
 void PANEL_new_text_process()
 {
-	SLONG i;
+	std::int32_t i;
 
 	PANEL_Text *pt;
 
-	ULONG now = GetTickCount();
+	std::uint32_t now = GetTickCount();
 
 	//
 	// Process 20 times a second but no more than 4 times a frame.
@@ -2336,10 +2336,10 @@ void PANEL_new_text_process()
 #ifdef PSX
 void PANEL_new_text_draw()
 {
-	SLONG i;
-	SLONG ybase;
-	SLONG y = PANEL_IC_MESY;
-	SLONG height;
+	std::int32_t i;
+	std::int32_t ybase;
+	std::int32_t y = PANEL_IC_MESY;
+	std::int32_t height;
 
 	PANEL_Text *pt;
 
@@ -2435,10 +2435,10 @@ void PANEL_new_text_draw()
 // 
 
 
-CBYTE PANEL_help_message[256];
-SLONG PANEL_help_timer;
+char PANEL_help_message[256];
+std::int32_t PANEL_help_timer;
 
-void PANEL_new_help_message(CBYTE* fmt, ...)
+void PANEL_new_help_message(char* fmt, ...)
 {
 	//
 	// Work out the real message.
@@ -2471,7 +2471,7 @@ void PANEL_help_message_do()
 		// Draw the help text in a speech bubble at the top of the screen.
 		//
 
-		SLONG height;
+		std::int32_t height;
 	
 		#define PANEL_IC_HELPX 10
 		#define PANEL_IC_HELPY 10
@@ -2521,8 +2521,8 @@ void PANEL_help_message_do()
 
 THING_INDEX PANEL_wide_top_person;
 THING_INDEX PANEL_wide_bot_person;
-SLONG       PANEL_wide_top_is_talking;	// true/false for who is talking now
-CBYTE       PANEL_wide_text[256];
+std::int32_t       PANEL_wide_top_is_talking;	// true/false for who is talking now
+char       PANEL_wide_text[256];
 
 void PANEL_new_widescreen()
 {
@@ -2578,7 +2578,7 @@ void PANEL_new_widescreen()
 	// Steal new_text messages!
 	// 
 
-	SLONG i;
+	std::int32_t i;
 
 	PANEL_Text *pt;
 
@@ -2662,7 +2662,7 @@ void PANEL_new_widescreen()
 			// This keeps the first line out of the 32-pixel "danger zone" that may not be
 			// shown on crap TV.
 
-			SLONG iYpos = FONT2D_DrawStringRightJustify(
+			std::int32_t iYpos = FONT2D_DrawStringRightJustify(
 				PANEL_wide_text,
 				DisplayWidth  - 80,
 				0,
@@ -2695,7 +2695,7 @@ void PANEL_new_widescreen()
 
 #define PANEL_MAX_BEACON_COLOURS 12
 
-ULONG PANEL_beacon_colour[PANEL_MAX_BEACON_COLOURS] =
+std::uint32_t PANEL_beacon_colour[PANEL_MAX_BEACON_COLOURS] =
 {
 	0xffff00,
 	0xccff00,
@@ -2721,7 +2721,7 @@ ULONG PANEL_beacon_colour[PANEL_MAX_BEACON_COLOURS] =
 
 void PANEL_draw_beacons()
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dz;
@@ -2743,11 +2743,11 @@ void PANEL_draw_beacons()
 
 	MAP_Beacon *mb;
 
-	ULONG colour;
+	std::uint32_t colour;
 
 	Thing *darci = NET_PERSON(0);
 
-	SLONG best_beacon = nullptr;
+	std::int32_t best_beacon = nullptr;
 	float best_score  = float(INFINITY);
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -2766,7 +2766,7 @@ void PANEL_draw_beacons()
 			mb->wx = p_track->WorldPos.X >> 8;
 			mb->wz = p_track->WorldPos.Z >> 8;
 
-			extern SLONG is_person_dead(Thing *p_person);
+			extern std::int32_t is_person_dead(Thing *p_person);
 
 			if (p_track->Class == CLASS_PERSON && p_track->State == STATE_DEAD)
 			{
@@ -2889,7 +2889,7 @@ void PANEL_draw_beacons()
 
 		mb = &MAP_beacon[best_beacon];
 
-		extern CBYTE* EWAY_get_mess(SLONG index);
+		extern char* EWAY_get_mess(std::int32_t index);
 
 		FONT2D_DrawString(
 			EWAY_get_mess(mb->index),
@@ -2915,7 +2915,7 @@ void PANEL_draw_beacons()
 #define PANEL_WHO_ROPER 1
 
 #ifdef PSX
-void PANEL_new_funky_do(SLONG which, SLONG where)
+void PANEL_new_funky_do(std::int32_t which, std::int32_t where)
 {
 	if (EWAY_stop_player_moving())
 	{
@@ -2935,21 +2935,21 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 		PANEL_wide_text[0]        = '\000';
 	}
 
-	SLONG i;
+	std::int32_t i;
 
-	ULONG health_colour;
-	SLONG which_gun;
-	SLONG which_ammo;
-	SLONG which_dx = 0;
-	SLONG which_dy = 0;
-	SLONG clip_which  = 0;
-	SLONG clip_number = 0;
+	std::uint32_t health_colour;
+	std::int32_t which_gun;
+	std::int32_t which_ammo;
+	std::int32_t which_dx = 0;
+	std::int32_t which_dy = 0;
+	std::int32_t clip_which  = 0;
+	std::int32_t clip_number = 0;
 
-	SLONG who;			// One of PANEL_WHO_*
-	SLONG health;		// From 0 to 256
-	SLONG stamina;		// From 0 to 256
-	SLONG specialtype;	// The gun in use or nullptr if not using a special,
-	SLONG ammo;			// The amount of ammo used by the gun
+	std::int32_t who;			// One of PANEL_WHO_*
+	std::int32_t health;		// From 0 to 256
+	std::int32_t stamina;		// From 0 to 256
+	std::int32_t specialtype;	// The gun in use or nullptr if not using a special,
+	std::int32_t ammo;			// The amount of ammo used by the gun
 
 	ASSERT(WITHIN(which, 0, 1));
 
@@ -3009,9 +3009,9 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 	//
 
 	{
-		SLONG r = 0;
-		SLONG g = 0;
-		SLONG b = 0;
+		std::int32_t r = 0;
+		std::int32_t g = 0;
+		std::int32_t b = 0;
 
 		if (health > 133)
 		{
@@ -3072,8 +3072,8 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 				// Alert! The player is holding a primed grenade!
 				//
 
-				ULONG colour;
-				SLONG secsleft;
+				std::uint32_t colour;
+				std::int32_t secsleft;
 				
 				
 				secsleft = p_special->Genus.Special->timer / (16 * 20) + 1;
@@ -3196,8 +3196,8 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 	}
 	else
 	{
-		SLONG ax = PANEL_IC_AX;
-		SLONG ay = PANEL_IC_AY;
+		std::int32_t ax = PANEL_IC_AX;
+		std::int32_t ay = PANEL_IC_AY;
 
 		ASSERT(WITHIN(which_ammo, 0, PANEL_AMMO_NUMBER - 1));
 
@@ -3266,11 +3266,11 @@ void PANEL_new_funky_do(SLONG which, SLONG where)
 			0xffffffff);
 
 		{
-			CBYTE text[16];
+			char text[16];
 
 			sprintf(text, "x%d", clip_number);
 
-extern void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb, SLONG scale, SLONG page, SWORD fade);
+extern void FONT2D_DrawString_NoTrueType(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade);
 
 			FONT2D_DrawString_NoTrueType(
 				text,
@@ -3322,7 +3322,7 @@ extern void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb,
 	//
 
 	{
-		ULONG danger_colour;
+		std::uint32_t danger_colour;
 
 		switch(player->Genus.Player->Danger)
 		{
@@ -3353,7 +3353,7 @@ extern void FONT2D_DrawString_NoTrueType(CBYTE*str, SLONG x, SLONG y, ULONG rgb,
 
 	if (GAME_FLAGS & GF_SHOW_CRIMERATE)
 	{
-		CBYTE crimerate[128];
+		char crimerate[128];
 
 		sprintf(crimerate, "%d%% ", CRIME_RATE);
 
@@ -3482,7 +3482,7 @@ void	PANEL_finish()
 //
 // ========================================================
 
-SLONG PANEL_fadeout_time; // 0 => No fadeout currently active.
+std::int32_t PANEL_fadeout_time; // 0 => No fadeout currently active.
 
 
 void PANEL_fadeout_init()
@@ -3522,7 +3522,7 @@ void PANEL_fadeout_draw()
 		float ydu =  (float)sin(angle) * zoom;
 		float ydv =  (float)cos(angle) * zoom;
 	
-		SLONG colour;
+		std::int32_t colour;
 
 		colour = 0xffffffff;
 
@@ -3585,7 +3585,7 @@ void PANEL_fadeout_draw()
 
 		if (GetTickCount() > (unsigned)PANEL_fadeout_time + 768)
 		{
-			SLONG bright;
+			std::int32_t bright;
 
 			//
 			// Fadeout the colour.
@@ -3626,7 +3626,7 @@ void PANEL_fadeout_draw()
 	}
 }
 
-SLONG PANEL_fadeout_finished()
+std::int32_t PANEL_fadeout_finished()
 {
 	if (PANEL_fadeout_time)
 	{
@@ -3663,7 +3663,7 @@ SLONG PANEL_fadeout_finished()
 
 typedef struct
 {
-	SLONG page;
+	std::int32_t page;
 	float u1;
 	float v1;
 	float u2;
@@ -3769,7 +3769,7 @@ PANEL_Lsprite PANEL_lsprite[PANEL_LSPRITE_NUMBER] =
 // Draws an arrow.
 //
 
-void PANEL_last_arrow(float x, float y, float angle, float size, ULONG colour, UBYTE is_dot=0)
+void PANEL_last_arrow(float x, float y, float angle, float size, std::uint32_t colour, std::uint8_t is_dot=0)
 {
 	PANEL_Lsprite *pls;
 	if (is_dot) 
@@ -3883,19 +3883,19 @@ void PANEL_last_bubble(float x1, float y1, float x2, float y2)
 	SET_PP(14, x2 - 8.0F, y2 - 8.0F, pls->u2 - (8.0F / 256.0F), pls->v2 - (8.0F / 256.0F));
 	SET_PP(15, x1 + 8.0F, y2 - 8.0F, pls->u1 + (8.0F / 256.0F), pls->v2 - (8.0F / 256.0F));
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	POLY_Point *quad[4];
 
 	struct
 	{
-		UBYTE p1;
-		UBYTE p2;
-		UBYTE p3;
-		UBYTE p4;
+		std::uint8_t p1;
+		std::uint8_t p2;
+		std::uint8_t p3;
+		std::uint8_t p4;
 
 	} blah[9] =
 	{
@@ -3923,11 +3923,11 @@ void PANEL_last_bubble(float x1, float y1, float x2, float y2)
 
 
 
-SLONG PANEL_sign_which;
-SLONG PANEL_sign_flip;
-SLONG PANEL_sign_time;
+std::int32_t PANEL_sign_which;
+std::int32_t PANEL_sign_flip;
+std::int32_t PANEL_sign_time;
 
-void PANEL_flash_sign(SLONG sign, SLONG flip)
+void PANEL_flash_sign(std::int32_t sign, std::int32_t flip)
 {
 	PANEL_sign_time  = GetTickCount();
 	PANEL_sign_flip  = flip;
@@ -3936,10 +3936,10 @@ void PANEL_flash_sign(SLONG sign, SLONG flip)
 
 
 
-CBYTE PANEL_info_message[512];
-ULONG PANEL_info_time;
+char PANEL_info_message[512];
+std::uint32_t PANEL_info_time;
 
-void PANEL_new_info_message(CBYTE* fmt, ...)
+void PANEL_new_info_message(char* fmt, ...)
 {
 	va_list	ap;
 
@@ -3952,25 +3952,25 @@ void PANEL_new_info_message(CBYTE* fmt, ...)
 
 
 
-void PANEL_darken_screen(SLONG x)
+void PANEL_darken_screen(std::int32_t x)
 {
 	PANEL_draw_quad(640.0F - float(x), 0.0F, 640.0F, 480.0F, POLY_PAGE_ALPHA_OVERLAY, 0x88000000);
 }
 
 // this sucks!
-inline SLONG BodgePageIntoAddAlpha(SLONG oldpage)
+inline std::int32_t BodgePageIntoAddAlpha(std::int32_t oldpage)
 {
 	if (oldpage==POLY_PAGE_LASTPANEL_ALPHA) return POLY_PAGE_LASTPANEL_ADDALPHA;
 	return POLY_PAGE_LASTPANEL2_ADDALPHA;
 }
 // this sucks too!
-inline SLONG BodgePageIntoAdd(SLONG oldpage)
+inline std::int32_t BodgePageIntoAdd(std::int32_t oldpage)
 {
 	if (oldpage==POLY_PAGE_LASTPANEL_ALPHA) return POLY_PAGE_LASTPANEL_ADD;
 	return POLY_PAGE_LASTPANEL2_ADD;
 }
 // this sucks as well!
-inline SLONG BodgePageIntoSub(SLONG oldpage)
+inline std::int32_t BodgePageIntoSub(std::int32_t oldpage)
 {
 	if (oldpage==POLY_PAGE_LASTPANEL_ALPHA) return POLY_PAGE_LASTPANEL_SUB;
 	return POLY_PAGE_LASTPANEL2_SUB;
@@ -3983,8 +3983,8 @@ inline SLONG BodgePageIntoSub(SLONG oldpage)
  *
  */
 
-void PANEL_inv_weapon(SLONG x, SLONG y, SLONG item, UBYTE who, SLONG rgb, UBYTE sel) {
-/*	SLONG which_gun, which_dx=0;
+void PANEL_inv_weapon(std::int32_t x, std::int32_t y, std::int32_t item, std::uint8_t who, std::int32_t rgb, std::uint8_t sel) {
+/*	std::int32_t which_gun, which_dx=0;
 
 	//
 	// Which gun shall we draw.
@@ -4042,7 +4042,7 @@ void PANEL_inv_weapon(SLONG x, SLONG y, SLONG item, UBYTE who, SLONG rgb, UBYTE 
 		0x00ffffff|alpha);
 	*/
 
-	SLONG sprite = -1, faded;
+	std::int32_t sprite = -1, faded;
 
 	switch(item)
 	{
@@ -4158,15 +4158,15 @@ void PANEL_inv_weapon(SLONG x, SLONG y, SLONG item, UBYTE who, SLONG rgb, UBYTE 
 #define ITEM_SEPERATION (150)
 
 void PANEL_inventory(Thing *darci, Thing *player) {
-	SLONG rgb,rgb2;
-	CBYTE draw_list[10];
-	UBYTE draw_count=0;
+	std::int32_t rgb,rgb2;
+	char draw_list[10];
+	std::uint8_t draw_count=0;
 	Thing *p_special = nullptr;
-	SLONG x,c0;
-	UBYTE current_item = 0;
-	SLONG sel;
+	std::int32_t x,c0;
+	std::uint8_t current_item = 0;
+	std::int32_t sel;
 
-	UWORD CONTROLS_inv_fade = player->Genus.Player->PopupFade;
+	std::uint16_t CONTROLS_inv_fade = player->Genus.Player->PopupFade;
 
 	if (!CONTROLS_inv_fade) return;
 	if (darci->Genus.Person->Flags & FLAG_PERSON_DRIVING) return;
@@ -4174,7 +4174,7 @@ void PANEL_inventory(Thing *darci, Thing *player) {
 
 
 // Bad Dog! Obsolete code.
-//extern SLONG EWAY_cam_active;
+//extern std::int32_t EWAY_cam_active;
 	//if (EWAY_cam_active) return;
 
 	if ( EWAY_stop_player_moving() )
@@ -4183,13 +4183,13 @@ void PANEL_inventory(Thing *darci, Thing *player) {
 	}
 
 
-/*	rgb=((SLONG)(CONTROLS_inv_fade-1))<<24;
-	rgb2=((SLONG)(CONTROLS_inv_fade-1)>>1)<<24;
+/*	rgb=((std::int32_t)(CONTROLS_inv_fade-1))<<24;
+	rgb2=((std::int32_t)(CONTROLS_inv_fade-1)>>1)<<24;
 	DRAW2D_Box_Page(0, 20, 640, 80, rgb2|0xAFA583, POLY_PAGE_ALPHA_OVERLAY, 128);
 	DRAW2D_Box_Page(0,20,CONTROLS_inv_fade*3,21,rgb|0xFFFFFF,POLY_PAGE_ALPHA_OVERLAY,128);
 	DRAW2D_Box_Page(640-(CONTROLS_inv_fade*3),79,640,80,rgb|0xFFFFFF,POLY_PAGE_ALPHA_OVERLAY,128);
 
-	CBYTE stat_up[10];
+	char stat_up[10];
 	sprintf(stat_up,"%s: %d",XLAT_str(X_STR),player->Genus.Player->Strength);
 	FONT2D_DrawString(stat_up,0,1,0xffffff,256,POLY_PAGE_FONT2D,rgb);
 	sprintf(stat_up,"%s: %d",XLAT_str(X_CON),player->Genus.Player->Constitution);
@@ -4330,7 +4330,7 @@ void PANEL_last()
 
 #ifdef TARGET_DC
 		// We have to keep stuff away from the edges by 32 pixels. Waaa.
-		SLONG height = FONT2D_DrawStringWrapTo(
+		std::int32_t height = FONT2D_DrawStringWrapTo(
 						EWAY_tutorial_string,
 						32,
 						32,
@@ -4362,7 +4362,7 @@ void PANEL_last()
 		#define PANEL_TUT_X 16
 		#define PANEL_TUT_Y 16
 
-		SLONG height = FONT2D_DrawStringWrap(
+		std::int32_t height = FONT2D_DrawStringWrap(
 							EWAY_tutorial_string,
 							PANEL_TUT_X,
 							PANEL_TUT_Y,
@@ -4399,8 +4399,8 @@ void PANEL_last()
 	}
 	else
 	{
-		PANEL_wide_top_person     = nullptr;
-		PANEL_wide_bot_person     = nullptr;
+		PANEL_wide_top_person     = 0;
+		PANEL_wide_bot_person     = 0;
 		PANEL_wide_top_is_talking = false;
 		PANEL_wide_text[0]        = '\000';
 	}
@@ -4475,8 +4475,8 @@ void PANEL_last()
 	// The weapon/ammo box.
 	//
 
-	SLONG sprite = -1;
-	CBYTE text[64];
+	std::int32_t sprite = -1;
+	char text[64];
 
 	text[0] = '\000';
 
@@ -4565,7 +4565,7 @@ void PANEL_last()
 					//
 					if (p_special->SubState == SPECIAL_SUBSTATE_ACTIVATED)
 					{
-						SLONG secsleft;
+						std::int32_t secsleft;
 						
 						
 						secsleft = p_special->Genus.Special->timer / (16 * 20) + 1;
@@ -4575,7 +4575,7 @@ void PANEL_last()
 						// This gets done later, over the grenade icon.
 						iGrenadeCountdown = secsleft;
 #else
-						ULONG colour, colours[]={0xff3300,0xff8800,0x88ff00,0x888888};
+						std::uint32_t colour, colours[]={0xff3300,0xff8800,0x88ff00,0x888888};
 						if (secsleft<1) 
 							colour=*colours;
 						else
@@ -4718,7 +4718,7 @@ void PANEL_last()
 	if ( iGrenadeCountdown >= 0 )
 	{
 		// Draw the countdown over the grenade.
-		ULONG colour = 0xff3300;
+		std::uint32_t colour = 0xff3300;
 		if ( iGrenadeCountdown <= 4 )
 		{
 			static int iFlash = 0;
@@ -4775,13 +4775,13 @@ void PANEL_last()
 	//
 	if (GAME_FLAGS & GF_SHOW_CRIMERATE)
 	{
-		CBYTE crimerate[64];
+		char crimerate[64];
 		sprintf(crimerate, "%d%%", CRIME_RATE);
 
 		if (CRIME_RATE>=95)
 		{
-			static UWORD pulse=0;
-			SLONG colour;
+			static std::uint16_t pulse=0;
+			std::int32_t colour;
 			pulse+=(TICK_RATIO*80)>>TICK_SHIFT;
 			colour=(SIN(pulse&2047)>>9)+128;
 			colour=colour|(colour<<8);
@@ -4800,12 +4800,12 @@ void PANEL_last()
 
 	#ifndef TARGET_DC
 	{
-		CBYTE timing[256];
+		char timing[256];
 		float	strip;
-		SLONG	c;
+		std::int32_t	c;
 
 #ifdef	STRIP_STATS
-extern ULONG	strip_stats[];
+extern std::uint32_t	strip_stats[];
 		if(strip_stats[0])
 			strip=(float)strip_stats[1]/(float)strip_stats[0];
 
@@ -4832,7 +4832,7 @@ extern ULONG	strip_stats[];
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		float angle;
 
@@ -4864,7 +4864,7 @@ extern ULONG	strip_stats[];
 
 		static float blah1 = ( -43 * 2.0F * PI / 360.0F);
 		static float blah2 = (-227 * 2.0F * PI / 360.0F);
-		UBYTE is_in_car = darci->Genus.Person->InCar ? 1 : 0;
+		std::uint8_t is_in_car = darci->Genus.Person->InCar ? 1 : 0;
 		float car_offset = is_in_car ? 130.0F : 0.0F;
 
 		Thing *the_car=is_in_car? TO_THING(darci->Genus.Person->InCar) : 0;
@@ -4979,12 +4979,12 @@ extern ULONG	strip_stats[];
 	//
 
 	{
-		UBYTE i, stamina = darci->Genus.Person->Stamina / 25;
-		//SLONG x = 107;
-		//SLONG y = 480 - 36;
-		SLONG x = m_iPanelXPos + 107;
-		SLONG y = m_iPanelYPos - 36;
-		SLONG rgb[] = { 0x00FF0000, 0x00C04000, 0x00808000, 0x0040C000, 0x0000ff00 };
+		std::uint8_t i, stamina = darci->Genus.Person->Stamina / 25;
+		//std::int32_t x = 107;
+		//std::int32_t y = 480 - 36;
+		std::int32_t x = m_iPanelXPos + 107;
+		std::int32_t y = m_iPanelYPos - 36;
+		std::int32_t rgb[] = { 0x00FF0000, 0x00C04000, 0x00808000, 0x0040C000, 0x0000ff00 };
 	
 		SATURATE(stamina,0,5);
 
@@ -5009,7 +5009,7 @@ extern ULONG	strip_stats[];
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		float dx;
 		float dz;
@@ -5027,9 +5027,9 @@ extern ULONG	strip_stats[];
 
 		MAP_Beacon *mb;
 
-		ULONG colour;
+		std::uint32_t colour;
 
-		SLONG best_beacon = nullptr;
+		std::int32_t best_beacon{ 0 };
 		float best_score  = float(INFINITY);
 
 		for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -5050,7 +5050,7 @@ extern ULONG	strip_stats[];
 				mb->wx = p_track->WorldPos.X >> 8;
 				mb->wz = p_track->WorldPos.Z >> 8;
 
-				extern SLONG is_person_dead(Thing *p_person);
+				extern std::int32_t is_person_dead(Thing *p_person);
 
 				if (p_track->Class == CLASS_PERSON)
 				{
@@ -5122,7 +5122,7 @@ extern ULONG	strip_stats[];
 			else
 			*/
 			{
-				UBYTE is_dot=0;
+				std::uint8_t is_dot=0;
 
 				if (PANEL_scanner_poo)
 					dangle = atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F);
@@ -5152,7 +5152,7 @@ extern ULONG	strip_stats[];
 					float size = (mb->pad&&!is_dot) ? 9.0F : 6.0F;
 
 
-					SLONG alive = GetTickCount() - mb->ticks;
+					std::int32_t alive = GetTickCount() - mb->ticks;
 
 					if (alive < 4096)
 					{
@@ -5166,9 +5166,9 @@ extern ULONG	strip_stats[];
 
 						/*
 
-						SLONG r = (colour >> 16) & 0xff;
-						SLONG g = (colour >>  8) & 0xff;
-						SLONG b = (colour >>  0) & 0xff;
+						std::int32_t r = (colour >> 16) & 0xff;
+						std::int32_t g = (colour >>  8) & 0xff;
+						std::int32_t b = (colour >>  0) & 0xff;
 
 						r = r * alive >> 8;
 						g = g * alive >> 8;
@@ -5194,16 +5194,16 @@ extern ULONG	strip_stats[];
 
 		if (PANEL_info_time > GetTickCount() - 2000)
 		{
-			SLONG x_right;
+			std::int32_t x_right;
 
-			SLONG colour_main;
-			SLONG colour_shad;
+			std::int32_t colour_main;
+			std::int32_t colour_shad;
 
 //			if (!WITHIN(PANEL_info_time, GetTickCount() - 1100, GetTickCount() - 900))
 
 
-			SLONG now   = GetTickCount();
-			SLONG onfor = now - PANEL_info_time;
+			std::int32_t now   = GetTickCount();
+			std::int32_t onfor = now - PANEL_info_time;
 
 			if (onfor < 255)
 			{
@@ -5258,7 +5258,7 @@ extern ULONG	strip_stats[];
 
 				mb = &MAP_beacon[best_beacon];
 
-				extern CBYTE* EWAY_get_mess(SLONG index);
+				extern char* EWAY_get_mess(std::int32_t index);
 
 				FONT2D_DrawString(
 					EWAY_get_mess(mb->index),
@@ -5284,7 +5284,7 @@ extern ULONG	strip_stats[];
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		float x;
 		float y;
@@ -5294,12 +5294,12 @@ extern ULONG	strip_stats[];
 		float dangle;
 		float size;
 		float flash = fabs(sin(float(GAME_TURN) * 0.2F));
-		SLONG display;
-		ULONG colour;
+		std::int32_t display;
+		std::uint32_t colour;
 
 		PANEL_Lsprite *pls = &PANEL_lsprite[PANEL_LSPRITE_DOT];
 
-		SLONG num_found = THING_find_sphere(
+		std::int32_t num_found = THING_find_sphere(
 							darci->WorldPos.X >> 8,
 							darci->WorldPos.Y >> 8,
 							darci->WorldPos.Z >> 8,
@@ -5403,14 +5403,14 @@ extern ULONG	strip_stats[];
 		#define PLT_X 214
 		#define PLT_Y 360
 
-		SLONG i;
-		SLONG ybase;
-		SLONG y = m_iPanelYPos - ( 480 - PLT_Y );
+		std::int32_t i;
+		std::int32_t ybase;
+		std::int32_t y = m_iPanelYPos - ( 480 - PLT_Y );
 		// Left edge.
-		SLONG x1 = ( m_iPanelXPos < 260 ) ? ( m_iPanelXPos + PLT_X ) : ( 32 );
+		std::int32_t x1 = ( m_iPanelXPos < 260 ) ? ( m_iPanelXPos + PLT_X ) : ( 32 );
 		// Right edge.
-		SLONG x2 = ( m_iPanelXPos < 260 ) ? ( 640 - 32 ) : ( m_iPanelXPos - 16 );
-		SLONG height;
+		std::int32_t x2 = ( m_iPanelXPos < 260 ) ? ( 640 - 32 ) : ( m_iPanelXPos - 16 );
+		std::int32_t height;
 
 		PANEL_Text *pt;
 
@@ -5515,9 +5515,9 @@ extern ULONG	strip_stats[];
 	{
 		float time = slPANEL_draw_timer_time * ( 1.0f / 100.0f );
 
-		CBYTE countdown[8];
+		char countdown[8];
 
-		SLONG mins = 0;
+		std::int32_t mins = 0;
 
 		ASSERT(time < 1000.0F);
 
@@ -5527,12 +5527,12 @@ extern ULONG	strip_stats[];
 			time -= 60.0F;
 		}
 
-		sprintf(countdown, "%02d:%02d", mins, SLONG(time));
+		sprintf(countdown, "%02d:%02d", mins, std::int32_t(time));
 
 		if ((time<30)&&!mins)
 		{
-			static UWORD pulse=0;
-			SLONG colour;
+			static std::uint16_t pulse=0;
+			std::int32_t colour;
 			pulse+=(TICK_RATIO*80)>>TICK_SHIFT;
 			colour=(SIN(pulse&2047)>>9)+128;
 			colour=colour|(colour<<8);
@@ -5552,7 +5552,7 @@ extern ULONG	strip_stats[];
 	// Draw the signs.
 	//
 
-	SLONG dtime = GetTickCount() - PANEL_sign_time;
+	std::int32_t dtime = GetTickCount() - PANEL_sign_time;
 
 	if (dtime < 3000)
 	{
@@ -5643,7 +5643,7 @@ extern ULONG	strip_stats[];
 
 				if ((darci->Genus.Person->Timer1 & 0xfff) < 3000 || percent == 1.0F)
 				{
-					CBYTE* text;
+					char* text;
 
 					if (percent == 1.0F)
 					{
@@ -5667,7 +5667,7 @@ extern ULONG	strip_stats[];
 
 #ifdef TARGET_DC
 	extern bool g_bShowDarcisPositionOnScreen;
-		CBYTE text[64];
+		char text[64];
 		if ( g_bShowDarcisPositionOnScreen )
 		{
 			sprintf(text, "Darci is at (%d,%d)", NET_PERSON(0)->WorldPos.X >> 16, NET_PERSON(0)->WorldPos.Z >> 16);
@@ -5684,7 +5684,7 @@ extern ULONG	strip_stats[];
 	extern bool m_bTweakFramerates;
 	extern int m_iDCFramerateMin;
 	extern int m_iDCFramerateMax;
-	extern SLONG CurDrawDistance;
+	extern std::int32_t CurDrawDistance;
 		if ( m_bTweakFramerates )
 		{
 			sprintf(text, "Lo %i, hi %i, draw %f", m_iDCFramerateMin, m_iDCFramerateMax, (float)CurDrawDistance / 256.0f );
@@ -5793,10 +5793,10 @@ extern DWORD m_dwSizeOfQueue;
 
 	#ifndef TARGET_DC
 
-	extern SLONG FARFACET_num_squares_drawn;
+	extern std::int32_t FARFACET_num_squares_drawn;
 
 	{
-		CBYTE text[64];
+		char text[64];
 
 		sprintf(text, "FARFACET squares drawn: %d", FARFACET_num_squares_drawn);
 
@@ -5823,10 +5823,10 @@ extern DWORD m_dwSizeOfQueue;
 	}
 
 
-	extern UBYTE just_asked_for_mode_now;
-	extern UBYTE just_asked_for_mode_number;
+	extern std::uint8_t just_asked_for_mode_now;
+	extern std::uint8_t just_asked_for_mode_number;
 	extern float music_volume;
-	extern SLONG MUSIC_is_playing();
+	extern std::int32_t MUSIC_is_playing();
 
 
 	#ifdef _DEBUG
@@ -5834,7 +5834,7 @@ extern DWORD m_dwSizeOfQueue;
 	{
 		just_asked_for_mode_now = false;
 
-		CBYTE text[64];
+		char text[64];
 
 		sprintf(text, "music mode %d vol %f %s", just_asked_for_mode_number, music_volume, (MUSIC_is_playing()) ? "Playing" : "Silence");
 
@@ -5853,8 +5853,8 @@ extern DWORD m_dwSizeOfQueue;
 
 
 #ifndef TARGET_DC
-	static SLONG i_know = 0;
-	static SLONG the_answer = 0;
+	static std::int32_t i_know = 0;
+	static std::int32_t the_answer = 0;
 
 	if (!i_know)
 	{
@@ -5871,8 +5871,8 @@ extern DWORD m_dwSizeOfQueue;
 
 #ifndef TARGET_DC
 	{
-		static ULONG timestamp_colour = 0;
-		static CBYTE version_number[128];
+		static std::uint32_t timestamp_colour = 0;
+		static char version_number[128];
 
 		if (Keys[KB_V])
 		{
@@ -5883,12 +5883,12 @@ extern DWORD m_dwSizeOfQueue;
 		{
 			if (!version_number[0])
 			{
-				CBYTE ts[256];
+				char ts[256];
 				float vn;
 
 				sprintf(ts, __DATE__);
 
-				CBYTE* month[12] =
+				char* month[12] =
 				{
 					"Jan",
 					"Feb",
@@ -5904,7 +5904,7 @@ extern DWORD m_dwSizeOfQueue;
 					"Dec"
 				};
 
-				SLONG i;
+				std::int32_t i;
 
 				vn = 0.0F;
 
@@ -5918,11 +5918,11 @@ extern DWORD m_dwSizeOfQueue;
 					}
 				}
 
-				SLONG day = atoi(ts + 4);
+				std::int32_t day = atoi(ts + 4);
 
 				vn += day * 0.03F;
 
-				SLONG year = atoi(ts + 7);
+				std::int32_t year = atoi(ts + 7);
 
 				vn += (year - 1999) * 12;
 
@@ -5958,14 +5958,14 @@ extern DWORD m_dwSizeOfQueue;
 
 #ifdef TARGET_DC
 	// Just for non-final builds.
-	static CBYTE version_number[64] = "";
+	static char version_number[64] = "";
 
 	if ( version_number[0] == '\0' )
 	{
-		CBYTE ts[40] = __DATE__;
+		char ts[40] = __DATE__;
 		float vn;
 
-		CBYTE* month[12] =
+		char* month[12] =
 		{
 			"Jan",
 			"Feb",
@@ -5981,7 +5981,7 @@ extern DWORD m_dwSizeOfQueue;
 			"Dec"
 		};
 
-		SLONG i;
+		std::int32_t i;
 
 		vn = 0.0F;
 
@@ -5995,11 +5995,11 @@ extern DWORD m_dwSizeOfQueue;
 			}
 		}
 
-		SLONG day = atoi(ts + 4);
+		std::int32_t day = atoi(ts + 4);
 
 		vn += day * 0.03F;
 
-		SLONG year = atoi(ts + 7);
+		std::int32_t year = atoi(ts + 7);
 
 		vn += (year - 1999) * 12;
 
@@ -6048,7 +6048,7 @@ static VMU_Screen vmuscreenTemp;
 
 // The byte patterns of numbers.
 #define FROM_BINARY(a,b,c,d,e) ( (a<<4) | (b<<3) | (c<<2) | (d<<1) | (e<<0) )
-UBYTE bNumberPattern[11][7] =
+std::uint8_t bNumberPattern[11][7] =
 {
 	{	// 0
 		FROM_BINARY ( 0,1,1,1,0 ),
@@ -6151,23 +6151,23 @@ UBYTE bNumberPattern[11][7] =
 	},
 };
 
-void Panel_Draw_VMU_Character ( int iCharacter, UBYTE *pbScanline, int iXpos )
+void Panel_Draw_VMU_Character ( int iCharacter, std::uint8_t *pbScanline, int iXpos )
 {
 	// Can't do anything too close to the left edge.
 	ASSERT ( iXpos < ( 48 - 16 ) );
 	// Go to correct X pos (right-hand byte).
 	pbScanline += 5 - ( iXpos >> 3 );
 
-	UBYTE *pbSrc = bNumberPattern[iCharacter];
+	std::uint8_t *pbSrc = bNumberPattern[iCharacter];
 	int iShift = iXpos & 0x7;
 
 	for ( int i = 0; i < 7; i++ )
 	{
-		UWORD uwSrc = (UWORD)*pbSrc++;
+		std::uint16_t uwSrc = (std::uint16_t)*pbSrc++;
 		uwSrc <<= iShift;
 
-		*(pbScanline-0) |= (UBYTE)( uwSrc & 0xff );
-		*(pbScanline-1) |= (UBYTE)( uwSrc >> 8 );
+		*(pbScanline-0) |= (std::uint8_t)( uwSrc & 0xff );
+		*(pbScanline-1) |= (std::uint8_t)( uwSrc >> 8 );
 
 		pbScanline += 6;
 	}
@@ -6304,8 +6304,8 @@ extern VMU_Screen *pvmuscreenAmmo;
 			else
 			{
 				// We have some ammo, but don't actually have the weapon yet. Grey it out.
-				UBYTE *pbScreen = vmuscreenTemp.bData + 6 * WEAPON_BAR_SCANLINE_SIZE * i;
-				UBYTE bMask = 0x55;
+				std::uint8_t *pbScreen = vmuscreenTemp.bData + 6 * WEAPON_BAR_SCANLINE_SIZE * i;
+				std::uint8_t bMask = 0x55;
 				for ( int j = 0; j < WEAPON_BAR_SCANLINE_SIZE; j++ )
 				{
 					*pbScreen++ &= bMask;
@@ -6327,7 +6327,7 @@ extern VMU_Screen *pvmuscreenAmmo;
 #define WEAPON_AMMO_TENS  6
 #define WEAPON_AMMO_UNIT  0
 
-		UBYTE *pbScreen = vmuscreenTemp.bData + 6 * WEAPON_BAR_SCANLINE_SIZE * i;
+		std::uint8_t *pbScreen = vmuscreenTemp.bData + 6 * WEAPON_BAR_SCANLINE_SIZE * i;
 		if ( iMags[i] > 0 )
 		{
 			// Draw mag number.
@@ -6369,7 +6369,7 @@ extern VMU_Screen *pvmuscreenAmmo;
 
 #ifndef TARGET_DC
 
-void PANEL_draw_completion_bar(SLONG completion)
+void PANEL_draw_completion_bar(std::int32_t completion)
 {
 	#define START_R 50
 	#define START_G 59
@@ -6379,19 +6379,19 @@ void PANEL_draw_completion_bar(SLONG completion)
 	#define END_G 216
 	#define END_B 208
 
-	SLONG along;
+	std::int32_t along;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
 #ifndef TARGET_DC
 	POLY_frame_init(false,false);
 #endif
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG colour;
+	std::int32_t colour;
 
 	for (i = 0; i < (completion >> 3); i += 1)
 	{

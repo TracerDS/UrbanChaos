@@ -9,8 +9,8 @@
 
 void init_draw_tweens()
 {
-	SLONG	c0;
-	memset((UBYTE*)DRAW_TWEENS,0,sizeof(DrawTween)*MAX_DRAW_TWEENS);
+	std::int32_t	c0;
+	memset((std::uint8_t*)DRAW_TWEENS,0,sizeof(DrawTween)*MAX_DRAW_TWEENS);
 	DRAW_TWEEN_COUNT	=	0;
 	for(c0=0;c0<MAX_DRAW_TWEENS;c0++)
 	{
@@ -21,9 +21,9 @@ void init_draw_tweens()
 
 //---------------------------------------------------------------
 
-DrawTween *alloc_draw_tween(SLONG type)
+DrawTween *alloc_draw_tween(std::int32_t type)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	DrawTween		*new_draw=0;
 
 
@@ -41,7 +41,7 @@ DrawTween *alloc_draw_tween(SLONG type)
 #ifdef DEBUG
 			// Dump some info out, so I can set up levels correctly.
 			static int iLowestCount = 100000;
-SLONG count_draw_tween ( void );
+std::int32_t count_draw_tween ( void );
 			int iCount = count_draw_tween();
 			if ( iLowestCount > iCount )
 			{
@@ -58,10 +58,10 @@ SLONG count_draw_tween ( void );
 	return(0);
 }
 
-SLONG count_draw_tween()
+std::int32_t count_draw_tween()
 {
-	SLONG			c0;
-	SLONG	count=0;
+	std::int32_t			c0;
+	std::int32_t	count=0;
 
 
 	// Run through the camera array & find an unused one.
@@ -81,7 +81,7 @@ void free_draw_tween(DrawTween *draw_tween)
 {
 	// Set the camera type to none & free the thing.
 //	draw_tween->LDrawType	=	DT_NONE;
-	memset((UBYTE*)draw_tween,0,sizeof(DrawTween));
+	memset((std::uint8_t*)draw_tween,0,sizeof(DrawTween));
 	draw_tween->Flags|=DT_FLAG_UNUSED;
 
 
@@ -99,7 +99,7 @@ void free_draw_tween(DrawTween *draw_tween)
 #ifndef PSX
 void init_draw_meshes()
 {
-	SLONG i;
+	std::int32_t i;
 
 
 	//
@@ -118,7 +118,7 @@ void init_draw_meshes()
 
 DrawMesh *alloc_draw_mesh()
 {
-	SLONG i;
+	std::int32_t i;
 
 	DrawMesh *ans;
 
@@ -139,7 +139,7 @@ DrawMesh *alloc_draw_mesh()
 			//
 
 			ans->Angle = 0;
-			ans->Cache = nullptr;
+			ans->Cache = 0;
 			ans->Hm    = 255;	// 255 means no Hm.
 
 			return ans;

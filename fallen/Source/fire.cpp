@@ -14,24 +14,24 @@
 
 typedef struct
 {
-	SBYTE dx;
-	SBYTE dz;
-	UBYTE die;
-	UBYTE counter;
-	UBYTE height;
-	UBYTE next;
-	UBYTE points;
-	UBYTE shit;
+	std::int8_t dx;
+	std::int8_t dz;
+	std::uint8_t die;
+	std::uint8_t counter;
+	std::uint8_t height;
+	std::uint8_t next;
+	std::uint8_t points;
+	std::uint8_t shit;
 
-	UBYTE angle [FIRE_MAX_FLAME_POINTS];
-	UBYTE offset[FIRE_MAX_FLAME_POINTS];
+	std::uint8_t angle [FIRE_MAX_FLAME_POINTS];
+	std::uint8_t offset[FIRE_MAX_FLAME_POINTS];
 
 } FIRE_Flame;
 
 #define FIRE_MAX_FLAMES 256
 
 FIRE_Flame FIRE_flame[FIRE_MAX_FLAMES];
-SLONG FIRE_flame_free;
+std::int32_t FIRE_flame_free;
 
 //
 // Fire is a linked list of flames.
@@ -39,25 +39,25 @@ SLONG FIRE_flame_free;
 
 typedef struct
 {
-	UBYTE num;		// The number of flames this fire has, 0 => the fire is unused.
-	UBYTE next;		// The flames.
-	UBYTE size;
-	UBYTE shrink;
-	UWORD x;
-	SWORD y;
-	UWORD z;
+	std::uint8_t num;		// The number of flames this fire has, 0 => the fire is unused.
+	std::uint8_t next;		// The flames.
+	std::uint8_t size;
+	std::uint8_t shrink;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
 	
 } FIRE_Fire;
 
 #define FIRE_MAX_FIRE 8
 
 FIRE_Fire FIRE_fire[FIRE_MAX_FIRE];
-SLONG FIRE_fire_last;
+std::int32_t FIRE_fire_last;
 
 
 void FIRE_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Initialise the linked list of flames.
@@ -89,7 +89,7 @@ void FIRE_init()
 // Returns how many flames a fire of the given size should have.
 //
 
-UBYTE FIRE_num_flames_for_size(UBYTE size)
+std::uint8_t FIRE_num_flames_for_size(std::uint8_t size)
 {
 	return size >> 2;
 }
@@ -101,12 +101,12 @@ UBYTE FIRE_num_flames_for_size(UBYTE size)
 
 void FIRE_add_flame(FIRE_Fire *ff)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	UBYTE flame;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::uint8_t flame;
 
 	ASSERT(WITHIN(ff, &FIRE_fire[0], &FIRE_fire[FIRE_MAX_FIRE - 1]));
 
@@ -157,13 +157,13 @@ void FIRE_add_flame(FIRE_Fire *ff)
 
 
 void FIRE_create(
-		UWORD x,
-		SWORD y,
-		UWORD z,
-		UBYTE size,
-		UBYTE life)
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z,
+		std::uint8_t size,
+		std::uint8_t life)
 {
-	SLONG i;
+	std::int32_t i;
 
 	FIRE_Fire *ff;
 
@@ -214,11 +214,11 @@ void FIRE_create(
 
 void FIRE_process()
 {
-	SLONG  i;
-	SLONG  j;
-	UBYTE  flame;
-	UBYTE  next;
-	UBYTE *prev;
+	std::int32_t  i;
+	std::int32_t  j;
+	std::uint8_t  flame;
+	std::uint8_t  next;
+	std::uint8_t *prev;
 
 	FIRE_Fire  *ff;
 	FIRE_Flame *fl;
@@ -302,7 +302,7 @@ void FIRE_process()
 
 			if ((GAME_TURN & 0x3) == 0)
 			{
-				SLONG size;
+				std::int32_t size;
 				
 				size  = ff->size;
 				size -= ff->shrink;
@@ -326,18 +326,18 @@ void FIRE_process()
 
 #define FIRE_MAX_POINTS 16
 
-UBYTE FIRE_get_z;
-UBYTE FIRE_get_xmin;
-UBYTE FIRE_get_xmax;
-UBYTE FIRE_get_fire_upto;
-UBYTE FIRE_get_flame;
+std::uint8_t FIRE_get_z;
+std::uint8_t FIRE_get_xmin;
+std::uint8_t FIRE_get_xmax;
+std::uint8_t FIRE_get_fire_upto;
+std::uint8_t FIRE_get_flame;
 FIRE_Info FIRE_get_info;
 FIRE_Point FIRE_get_point[FIRE_MAX_POINTS];
 
-void FIRE_get_start(UBYTE z, UBYTE xmin, UBYTE xmax)
+void FIRE_get_start(std::uint8_t z, std::uint8_t xmin, std::uint8_t xmax)
 {
 	FIRE_get_fire_upto = 0;
-	FIRE_get_flame     = nullptr;
+	FIRE_get_flame     = 0;
 	FIRE_get_z         = z;
 	FIRE_get_xmin      = xmin;
 	FIRE_get_xmax      = xmax;

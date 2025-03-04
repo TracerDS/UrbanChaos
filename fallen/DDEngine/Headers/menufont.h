@@ -22,24 +22,24 @@
 #define MENUFONT_SUPER_YCTR	(512)
 #define MENUFONT_SHAKE		(1024)
 
-void	MENUFONT_Load(CBYTE* fn, SLONG page, CBYTE* fontlist);
-void	MENUFONT_Page(SLONG page);
-void	MENUFONT_Draw(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags, SWORD max=-1);
-void	MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags);
+void	MENUFONT_Load(char* fn, std::int32_t page, char* fontlist);
+void	MENUFONT_Page(std::int32_t page);
+void	MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint16_t flags, std::int16_t max=-1);
+void	MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint16_t flags);
 void	MENUFONT_Free();
-void	MENUFONT_Dimensions(CBYTE* fn, SLONG &x, SLONG &y, SWORD max=-1, SWORD scale=256);
-SLONG	MENUFONT_CharFit(CBYTE* fn, SLONG x, UWORD scale=256);
-SLONG	MENUFONT_CharWidth(CBYTE fn, UWORD scale=256);
+void	MENUFONT_Dimensions(char* fn, std::int32_t &x, std::int32_t &y, std::int16_t max=-1, std::int16_t scale=256);
+std::int32_t	MENUFONT_CharFit(char* fn, std::int32_t x, std::uint16_t scale=256);
+std::int32_t	MENUFONT_CharWidth(char fn, std::uint16_t scale=256);
 #ifdef TARGET_DC
-void MENUFONT_Draw_Selection_Box(SWORD x, SWORD y, UWORD scale, CBYTE* msg, SLONG rgb, UWORD flags, SWORD max=-1);
+void MENUFONT_Draw_Selection_Box(std::int16_t x, std::int16_t y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint16_t flags, std::int16_t max=-1);
 #endif
 
 
 
 struct CharData {
 	float x,y,ox,oy;	 // fractional texture coordinates. live with it.
-	UBYTE width, height; 
-	UBYTE xofs, yofs;    // offsets, hm.
+	std::uint8_t width, height; 
+	std::uint8_t xofs, yofs;    // offsets, hm.
 };
 
 
@@ -70,13 +70,13 @@ void MENUFONT_fadein_init();
 // line.
 //
 
-void MENUFONT_fadein_line(SLONG x);	// x is in 8-bit fixed point
+void MENUFONT_fadein_line(std::int32_t x);	// x is in 8-bit fixed point
 
 //
 // Draws centred text where a fade 255 is opaque and 0 is transparent.
 //
 
-void MENUFONT_fadein_draw(SLONG x, SLONG y, UBYTE fade, CBYTE* msg);
+void MENUFONT_fadein_draw(std::int32_t x, std::int32_t y, std::uint8_t fade, char* msg);
 
 
 

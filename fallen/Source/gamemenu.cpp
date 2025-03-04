@@ -22,7 +22,7 @@
 // Externs
 //
 
-extern void	process_things_tick(SLONG frame_rate_independant);
+extern void	process_things_tick(std::int32_t frame_rate_independant);
 
 
 
@@ -37,29 +37,29 @@ extern void	process_things_tick(SLONG frame_rate_independant);
 #define GAMEMENU_MENU_TYPE_SURE     4
 #define GAMEMENU_MENU_TYPE_NUMBER   5
 
-SLONG GAMEMENU_menu_type;
-SLONG GAMEMENU_menu_selection;
+std::int32_t GAMEMENU_menu_type;
+std::int32_t GAMEMENU_menu_selection;
 
 
 //
 // The darken the background fadein.
 //
 
-SLONG GAMEMENU_background;
+std::int32_t GAMEMENU_background;
 
 
 //
 // The text fadein x position (in 8-bit fixed point)
 //
 
-SLONG GAMEMENU_fadein_x;
+std::int32_t GAMEMENU_fadein_x;
 
 
 //
 // The game slowdown.
 //
 
-SLONG GAMEMENU_slowdown;
+std::int32_t GAMEMENU_slowdown;
 
 
 
@@ -67,7 +67,7 @@ SLONG GAMEMENU_slowdown;
 // Wait some time before declaring a level won or lost.
 //
 
-SLONG GAMEMENU_wait;
+std::int32_t GAMEMENU_wait;
 
 
 
@@ -75,7 +75,7 @@ SLONG GAMEMENU_wait;
 // The reason you lost the level.
 //
 
-CBYTE* GAMEMENU_level_lost_reason;
+char* GAMEMENU_level_lost_reason;
 
 
 
@@ -91,13 +91,13 @@ bool bDontShowThePauseScreen = false;
 
 typedef struct
 {
-	UBYTE word[8];	// word[0] is the title, the rest are the menus.
+	std::uint8_t word[8];	// word[0] is the title, the rest are the menus.
  
 } GAMEMENU_Menu;
 
 GAMEMENU_Menu GAMEMENU_menu[GAMEMENU_MENU_TYPE_NUMBER] =
 {
-	{nullptr},
+	{0},
 	{X_GAME_PAUSED, X_RESUME_LEVEL, X_RESTART_LEVEL, X_ABANDON_GAME},
 	{X_LEVEL_COMPLETE},
 	{X_LEVEL_LOST, X_RESTART_LEVEL,  X_ABANDON_GAME},
@@ -110,7 +110,7 @@ GAMEMENU_Menu GAMEMENU_menu[GAMEMENU_MENU_TYPE_NUMBER] =
 // Initialises a new menu.
 //
 
-void GAMEMENU_initialise(SLONG menu)
+void GAMEMENU_initialise(std::int32_t menu)
 {
 	if (GAMEMENU_menu_type == GAMEMENU_MENU_TYPE_NONE || menu == GAMEMENU_MENU_TYPE_NONE)
 	{
@@ -154,20 +154,20 @@ void GAMEMENU_init()
 
 
 
-SLONG GAMEMENU_process()
+std::int32_t GAMEMENU_process()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// The number of milliseconds since the last call to GAMEMENU_process.
 	//
 
-	SLONG millisecs;
+	std::int32_t millisecs;
 
 	#ifndef PSX
 
-	static SLONG tick_last = 0;
-	static SLONG tick_now = 0;
+	static std::int32_t tick_last = 0;
+	static std::int32_t tick_now = 0;
 	
 	tick_now  = GetTickCount();
 
@@ -188,7 +188,7 @@ SLONG GAMEMENU_process()
 
 
 #ifdef TARGET_DC
-	ULONG input;
+	std::uint32_t input;
 	if (GAMEMENU_menu_type != GAMEMENU_MENU_TYPE_NONE)
 	{
 		// There is a menu up, so poll using the "menu" mappings.
@@ -285,8 +285,8 @@ extern DIJOYSTATE the_state;
 		// Make sure that we're not in widescreen!
 		//
 
-		extern SLONG EWAY_cam_freeze;
-		extern UBYTE GAME_cut_scene;
+		extern std::int32_t EWAY_cam_freeze;
+		extern std::uint8_t GAME_cut_scene;
 
 		EWAY_cam_freeze = false;
 		GAME_cut_scene  = false;
@@ -392,7 +392,7 @@ extern DIDeviceInfo *primary_device;
 				{
 					for (i = 1; i <= 7; i++)
 					{
-						if ( GAMEMENU_menu[GAMEMENU_menu_type].word[i] != nullptr )
+						if ( GAMEMENU_menu[GAMEMENU_menu_type].word[i] )
 						{
 							GAMEMENU_menu_selection = i;
 						}
@@ -412,7 +412,7 @@ extern DIDeviceInfo *primary_device;
 
 				GAMEMENU_menu_selection += 1;
 
-				if ( ( GAMEMENU_menu_selection > 7 ) || ( GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection] == nullptr ) )
+				if ( ( GAMEMENU_menu_selection > 7 ) || (!GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection]) )
 				{
 					GAMEMENU_menu_selection = 1;
 				}
@@ -451,7 +451,7 @@ extern DIDeviceInfo *primary_device;
 
 				switch(GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection])
 				{
-					case nullptr:
+					case 0:
 						return GAMEMENU_DO_NEXT_LEVEL;
 
 					case X_RESUME_LEVEL:
@@ -499,19 +499,19 @@ extern DIDeviceInfo *primary_device;
 
 
 
-SLONG GAMEMENU_is_paused()
+std::int32_t GAMEMENU_is_paused()
 {
 	return GAMEMENU_slowdown == 0;
 }
 
 
-SLONG GAMEMENU_slowdown_mul()
+std::int32_t GAMEMENU_slowdown_mul()
 {
 	return GAMEMENU_slowdown >> 8;
 }
 
 
-void GAMEMENU_set_level_lost_reason(CBYTE* reason)
+void GAMEMENU_set_level_lost_reason(char* reason)
 {
 	GAMEMENU_level_lost_reason = reason;
 }
@@ -525,7 +525,7 @@ void GAMEMENU_set_level_lost_reason(CBYTE* reason)
 
 void GAMEMENU_draw()
 {
-	SLONG i;
+	std::int32_t i;
 
 	if (GAMEMENU_menu_type== GAMEMENU_MENU_TYPE_NONE)
 	{
@@ -601,7 +601,7 @@ extern DIDeviceInfo *primary_device;
 extern bool AreAnyDevicesConnected ( void );
 		if ( primary_device == nullptr )
 		{
-			UBYTE bMyFade = 255;
+			std::uint8_t bMyFade = 255;
 			if ( ( iFlash & 0x10 ) == 0 )
 			{
 				bMyFade = 128;

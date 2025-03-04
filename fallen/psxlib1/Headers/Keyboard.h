@@ -129,10 +129,10 @@
 #define	KB_PPOINT		0x53
 
 
-extern volatile UBYTE	AltFlag,
+extern volatile std::uint8_t	AltFlag,
 				ControlFlag,
 				ShiftFlag;
-extern volatile UBYTE	Keys[256],
+extern volatile std::uint8_t	Keys[256],
 				LastKey;
 
 

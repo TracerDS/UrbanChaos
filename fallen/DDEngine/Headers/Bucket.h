@@ -40,34 +40,34 @@
 struct	BucketHead
 {
 	BucketHead			*NextBucket;
-	ULONG				BucketType;
+	std::uint32_t				BucketType;
 };
 
 struct	BucketQuad
 {
 	BucketHead			BucketHeader;
-	UWORD				P[4];
+	std::uint16_t				P[4];
 };
 
 struct	BucketTri
 {
 	BucketHead			BucketHeader;
-	UWORD				P[4];
+	std::uint16_t				P[4];
 };
 
 struct	BucketLine
 {
 	BucketHead			BucketHeader;
-	UWORD				P[2];
+	std::uint16_t				P[2];
 };
 
 struct	BucketPoint
 {
 	BucketHead			BucketHeader;
-	UWORD				P[2];
+	std::uint16_t				P[2];
 };
 
-extern UBYTE			e_bucket_pool[BUCKET_POOL_SIZE],
+extern std::uint8_t			e_bucket_pool[BUCKET_POOL_SIZE],
 						*e_buckets,
 						*e_end_buckets;
 extern BucketHead		*bucket_lists[MAX_LISTS][MAX_BUCKETS+1];
@@ -82,7 +82,7 @@ inline void	reset_buckets()
 
 //---------------------------------------------------------------
 
-inline	SLONG	check_vertex(D3DTLVERTEX	*v)
+inline	std::int32_t	check_vertex(D3DTLVERTEX	*v)
 {
 	if(v->sz<0.0 || v->sz>1.0 || v->rhw<0.0 || v->rhw>1.0)
 		return(1);
@@ -92,16 +92,16 @@ inline	SLONG	check_vertex(D3DTLVERTEX	*v)
 }
 extern D3DTLVERTEX			vertex_pool[];
 
-inline void	add_bucket(BucketHead *header,UBYTE bucket_type,SLONG list_index,SLONG z)
+inline void	add_bucket(BucketHead *header,std::uint8_t bucket_type,std::int32_t list_index,std::int32_t z)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	BucketQuad	*the_quad;
 	BucketTri	*the_tri;
 	BucketLine	*the_line;
 	D3DTLVERTEX		*vertex;
 
 /*
-	SLONG		index;
+	std::int32_t		index;
 
 
 	if(z>0)
@@ -125,7 +125,7 @@ inline void	add_bucket(BucketHead *header,UBYTE bucket_type,SLONG list_index,SLO
 				the_quad=(struct BucketQuad*)header;
 				for(c0=0;c0<4;c0++)
 				{
-					SLONG	p0;
+					std::int32_t	p0;
 					vertex=&vertex_pool[the_quad->P[c0]];
 
 					if(check_vertex(vertex))
@@ -139,7 +139,7 @@ inline void	add_bucket(BucketHead *header,UBYTE bucket_type,SLONG list_index,SLO
 				the_tri=(struct BucketTri*)header;
 				for(c0=0;c0<3;c0++)
 				{
-					SLONG	p0;
+					std::int32_t	p0;
 					vertex=&vertex_pool[the_tri->P[c0]];
 
 					if(check_vertex(vertex))
@@ -152,7 +152,7 @@ inline void	add_bucket(BucketHead *header,UBYTE bucket_type,SLONG list_index,SLO
 				the_line	=	(BucketLine*)header;
 				for(c0=0;c0<2;c0++)
 				{
-					SLONG	p0;
+					std::int32_t	p0;
 					vertex=&vertex_pool[the_line->P[c0]];
 
 					if(check_vertex(vertex))

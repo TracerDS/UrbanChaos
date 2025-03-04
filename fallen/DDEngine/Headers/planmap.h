@@ -11,7 +11,7 @@
 // Draws the plan view of the city.
 // 
 
-void plan_view_shot(SLONG wx,SLONG wz,SLONG pixelw,SLONG sx,SLONG sy,SLONG w,SLONG h,UBYTE *mem);
+void plan_view_shot(std::int32_t wx,std::int32_t wz,std::int32_t pixelw,std::int32_t sx,std::int32_t sy,std::int32_t w,std::int32_t h,std::uint8_t *mem);
 
 
 //
@@ -22,11 +22,11 @@ void plan_view_shot(SLONG wx,SLONG wz,SLONG pixelw,SLONG sx,SLONG sy,SLONG w,SLO
 #define BEACON_FLAG_POINTY (1 << 1)	// This is a player- takes direction from 'dir'
 
 void map_beacon_draw(
-		SLONG x,
-		SLONG z,
-		ULONG col,
-		ULONG flags,
-		UWORD dir);
+		std::int32_t x,
+		std::int32_t z,
+		std::uint32_t col,
+		std::uint32_t flags,
+		std::uint16_t dir);
 
 
 

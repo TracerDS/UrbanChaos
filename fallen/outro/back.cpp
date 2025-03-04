@@ -19,7 +19,7 @@ OS_Texture *BACK_ot_line;
 
 void BACK_init()
 {
-	static SLONG done;
+	static std::int32_t done;
 
 	if (done)
 	{
@@ -39,7 +39,7 @@ void BACK_init()
 
 void BACK_draw()
 {
-	ULONG colour;
+	std::uint32_t colour;
 
 	OS_Buffer *ob;
 
@@ -48,7 +48,7 @@ void BACK_draw()
 	OS_Texture *ot1;
 	OS_Texture *ot2;
 
-	SLONG now = OS_ticks();
+	std::int32_t now = OS_ticks();
 
 	if (now < 2048)
 	{

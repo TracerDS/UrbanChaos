@@ -23,8 +23,8 @@
 extern int				waypoint_colour,
 						waypoint_group;
 extern volatile	bool	ShellActive;
-extern CBYTE			*GEDIT_engine_name;
-extern UBYTE			button_colours[][3];
+extern char			*GEDIT_engine_name;
+extern std::uint8_t			button_colours[][3];
 extern HCURSOR			GEDIT_arrow;
 extern HICON			GEDIT_app_icon;
 extern HINSTANCE		GEDIT_hinstance;
@@ -36,7 +36,7 @@ extern HWND				GEDIT_client_wnd,
 extern WNDCLASSEX		GEDIT_class_engine;
 
 //void		GI_init();
-//SLONG		GI_load_map(CBYTE* name);
+//std::int32_t		GI_load_map(char* name);
 
 //---------------------------------------------------------------
 
@@ -82,7 +82,7 @@ LRESULT CALLBACK	engine_proc	(
 									LPARAM lParam
 								)
 {
-	SLONG			colour;
+	std::int32_t			colour;
 	EventPoint		*new_event;
 	HDC				hdc;
 	HRESULT			result;
@@ -156,7 +156,7 @@ LRESULT CALLBACK	engine_proc	(
 					new_event->X		=	mouse_world_x;
 					new_event->Y		=	mouse_world_y;
 					new_event->Z		=	mouse_world_z;
-					new_event->Colour	=	waypoint_colour;
+					new_event->Color	=	waypoint_colour;
 					new_event->Group	=	waypoint_group;
 				}
 			}
@@ -217,7 +217,7 @@ void	fini_ewind()
 
 bool	open_map(MDICREATESTRUCT *mdi_create)
 {
-	CBYTE		w_name[_MAX_PATH];
+	char		w_name[_MAX_PATH];
 	DWORD		style;
 	RECT		engine_rect;
 
@@ -268,8 +268,8 @@ bool	open_map(MDICREATESTRUCT *mdi_create)
 
 void	process_ewind()
 {
-	ULONG			colour;
-	SLONG			df,dl,dy,dp,dd,
+	std::uint32_t			colour;
+	std::int32_t			df,dl,dy,dp,dd,
 					dist,dx,dz;
 	EventPoint		*current_epoint;
 	POINT			mouse;
@@ -351,9 +351,9 @@ void	process_ewind()
 			if(dist < (20 << 8))
 			{
 				//	Draw it.
-				colour	=	(button_colours[current_epoint->Colour][0]<<16)	|
-							(button_colours[current_epoint->Colour][1]<<8)	|
-							(button_colours[current_epoint->Colour][2]);
+				colour	=	(button_colours[current_epoint->Color][0]<<16)	|
+							(button_colours[current_epoint->Color][1]<<8)	|
+							(button_colours[current_epoint->Color][2]);
 
 				GI_waypoint_draw	(
 										mouse.x,

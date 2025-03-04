@@ -14,7 +14,7 @@
 #include "inside2.h"
 #include "memory.h"
 
-extern UWORD	calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room);
+extern std::uint16_t	calc_inside_for_xyz(std::int32_t x,std::int32_t y,std::int32_t z,std::uint16_t *room);
 
 HINSTANCE LEDIT_hinstance;
 
@@ -40,10 +40,10 @@ HWND LEDIT_handle_bpyellow;
 HWND LEDIT_handle_bpblue;
 HWND LEDIT_handle_bpred;
 
-CBYTE* LEDIT_name_frame  = "Urban Chaos lighting editor";
-CBYTE* LEDIT_name_engine = "Engine view";
-CBYTE* LEDIT_name_light  = "Light info";
-CBYTE* LEDIT_name_colour = "Colour box";
+char* LEDIT_name_frame  = "Urban Chaos lighting editor";
+char* LEDIT_name_engine = "Engine view";
+char* LEDIT_name_light  = "Light info";
+char* LEDIT_name_colour = "Color box";
 
 HMENU LEDIT_main_menu;
 HACCEL LEDIT_accel;
@@ -62,22 +62,22 @@ HICON LEDIT_icon;
 // The colour the brightness trackbar is offset from.
 // 
 
-SLONG LEDIT_bright_base_red;
-SLONG LEDIT_bright_base_green;
-SLONG LEDIT_bright_base_blue;
+std::int32_t LEDIT_bright_base_red;
+std::int32_t LEDIT_bright_base_green;
+std::int32_t LEDIT_bright_base_blue;
 
 //
 // The current map.
 // 
 
-CBYTE LEDIT_map_name[_MAX_PATH];
-SLONG LEDIT_map_valid;		// true => A map is loaded.
+char LEDIT_map_name[_MAX_PATH];
+std::int32_t LEDIT_map_valid;		// true => A map is loaded.
 
 //
 // The program default directory.
 //
 
-CBYTE LEDIT_default_dir[_MAX_PATH];
+char LEDIT_default_dir[_MAX_PATH];
 
 //
 // The mousewheel message.
@@ -89,7 +89,7 @@ UINT LEDIT_wm_mousewheel;
 // Whats going on at the moment?
 //
 
-SLONG LEDIT_mode;
+std::int32_t LEDIT_mode;
 
 #define LEDIT_MODE_NOTHING		0
 #define LEDIT_MODE_PLACE_LIGHT	1
@@ -98,36 +98,36 @@ SLONG LEDIT_mode;
 #define LEDIT_MODE_SET_LAMPOST	4
 #define LEDIT_MODE_SET_SKY		5
 
-UBYTE LEDIT_insides;
+std::uint8_t LEDIT_insides;
 
 //
 // The light we are editing.
 // The last light we placed down.
 //
 
-SLONG LEDIT_edit_light;
-SLONG LEDIT_edit_dragging;	// Dragging the edit light.
-SLONG LEDIT_edit_dragged;
-SLONG LEDIT_edit_drag_dx;
-SLONG LEDIT_edit_drag_dy;
-SLONG LEDIT_edit_drag_dz;
+std::int32_t LEDIT_edit_light;
+std::int32_t LEDIT_edit_dragging;	// Dragging the edit light.
+std::int32_t LEDIT_edit_dragged;
+std::int32_t LEDIT_edit_drag_dx;
+std::int32_t LEDIT_edit_drag_dy;
+std::int32_t LEDIT_edit_drag_dz;
 
 //
 // The last light we placed down.
 // 
 
-SLONG LEDIT_last_placed;
+std::int32_t LEDIT_last_placed;
 
 //
 // The mouse in the world.
 //
 
-SLONG LEDIT_mouse_valid;
-SLONG LEDIT_mouse_over;
-SLONG LEDIT_mouse_world_x;
-SLONG LEDIT_mouse_world_y;
-SLONG LEDIT_mouse_world_z;
-SLONG LEDIT_mouse_light;
+std::int32_t LEDIT_mouse_valid;
+std::int32_t LEDIT_mouse_over;
+std::int32_t LEDIT_mouse_world_x;
+std::int32_t LEDIT_mouse_world_y;
+std::int32_t LEDIT_mouse_world_z;
+std::int32_t LEDIT_mouse_light;
 
 //
 // Our file access structures.
@@ -136,29 +136,29 @@ SLONG LEDIT_mouse_light;
 OPENFILENAME LEDIT_ofn_map;
 OPENFILENAME LEDIT_ofn_light;
 
-CBYTE LEDIT_ofn_default_dir_map  [_MAX_PATH];
-CBYTE LEDIT_ofn_default_dir_light[_MAX_PATH];
+char LEDIT_ofn_default_dir_map  [_MAX_PATH];
+char LEDIT_ofn_default_dir_light[_MAX_PATH];
 
-CBYTE LEDIT_ofn_file_map  [_MAX_PATH];
-CBYTE LEDIT_ofn_file_light[_MAX_PATH];
+char LEDIT_ofn_file_map  [_MAX_PATH];
+char LEDIT_ofn_file_light[_MAX_PATH];
 
 
 //
 // The camera.
 //
 
-SLONG LEDIT_cam_x;
-SLONG LEDIT_cam_y;
-SLONG LEDIT_cam_z;
-SLONG LEDIT_cam_yaw;
-SLONG LEDIT_cam_pitch;
-SLONG LEDIT_cam_focus_x;
-SLONG LEDIT_cam_focus_z;
-SLONG LEDIT_cam_focus_dist;
+std::int32_t LEDIT_cam_x;
+std::int32_t LEDIT_cam_y;
+std::int32_t LEDIT_cam_z;
+std::int32_t LEDIT_cam_yaw;
+std::int32_t LEDIT_cam_pitch;
+std::int32_t LEDIT_cam_focus_x;
+std::int32_t LEDIT_cam_focus_z;
+std::int32_t LEDIT_cam_focus_dist;
 
-SLONG LEDIT_cam_matrix [9];
-SLONG LEDIT_cam_forward[3];	// The movement vector forward
-SLONG LEDIT_cam_left   [3]; // The movement vector left
+std::int32_t LEDIT_cam_matrix [9];
+std::int32_t LEDIT_cam_forward[3];	// The movement vector forward
+std::int32_t LEDIT_cam_left   [3]; // The movement vector left
 
 //
 // The ID of the child controls.
@@ -195,7 +195,7 @@ void LEDIT_change_colour(COLORREF cr);
 
 void LEDIT_set_state_look()
 {
-	SLONG enable_flag;
+	std::int32_t enable_flag;
 
 	//
 	// Uncheck all menu items.
@@ -516,13 +516,13 @@ void LEDIT_lighting_load()
 
 void LEDIT_sync_colours()
 {
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG signed_red;
-	SLONG signed_green;
-	SLONG signed_blue;
-	SLONG range;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t signed_red;
+	std::int32_t signed_green;
+	std::int32_t signed_blue;
+	std::int32_t range;
 
 	switch(LEDIT_mode)
 	{
@@ -653,7 +653,7 @@ void LEDIT_undo()
 
 		if (!ED_light[LEDIT_last_placed].used)
 		{
-			LEDIT_last_placed = nullptr;
+			LEDIT_last_placed = 0;
 		}
 	}
 
@@ -683,20 +683,20 @@ void LEDIT_collide_window_rect(
 		RECT *rect,
 		HWND  ignore_window)
 {
-	SLONG i;
+	std::int32_t i;
 
 	HWND hwnd;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG best_dx;
-	SLONG best_dy;
-	SLONG best_dist;
+	std::int32_t best_dx;
+	std::int32_t best_dy;
+	std::int32_t best_dist;
 
 	#define MAX_COLRECTS 8
 
 	RECT  colrect[MAX_COLRECTS];
-	SLONG colrect_upto = 0;
+	std::int32_t colrect_upto = 0;
 
 	for (i = 0; i < 2; i++)
 	{
@@ -831,20 +831,20 @@ void LEDIT_collide_window_rect(
 //
 
 void LEDIT_get_light_signed(
-		SLONG *red,
-		SLONG *green,
-		SLONG *blue,
-		SLONG *range)
+		std::int32_t *red,
+		std::int32_t *green,
+		std::int32_t *blue,
+		std::int32_t *range)
 {
-	SLONG pos_red;
-	SLONG pos_green;
-	SLONG pos_blue;
-	SLONG pos_range;
+	std::int32_t pos_red;
+	std::int32_t pos_green;
+	std::int32_t pos_blue;
+	std::int32_t pos_range;
 
-	SLONG signed_red;
-	SLONG signed_green;
-	SLONG signed_blue;
-	SLONG signed_range;
+	std::int32_t signed_red;
+	std::int32_t signed_green;
+	std::int32_t signed_blue;
+	std::int32_t signed_range;
 
 	pos_red   = SendMessage(LEDIT_handle_red,   TBM_GETPOS, 0, 0);
 	pos_green = SendMessage(LEDIT_handle_green, TBM_GETPOS, 0, 0);
@@ -875,20 +875,20 @@ void LEDIT_get_light_signed(
 }
 
 void LEDIT_get_light_unsigned(
-		SLONG *red,
-		SLONG *green,
-		SLONG *blue,
-		SLONG *range)
+		std::int32_t *red,
+		std::int32_t *green,
+		std::int32_t *blue,
+		std::int32_t *range)
 {
-	SLONG pos_red;
-	SLONG pos_green;
-	SLONG pos_blue;
-	SLONG pos_range;
+	std::int32_t pos_red;
+	std::int32_t pos_green;
+	std::int32_t pos_blue;
+	std::int32_t pos_range;
 
-	SLONG unsigned_red;
-	SLONG unsigned_green;
-	SLONG unsigned_blue;
-	SLONG unsigned_range;
+	std::int32_t unsigned_red;
+	std::int32_t unsigned_green;
+	std::int32_t unsigned_blue;
+	std::int32_t unsigned_range;
 
 	pos_red   = SendMessage(LEDIT_handle_red,   TBM_GETPOS, 0, 0);
 	pos_green = SendMessage(LEDIT_handle_green, TBM_GETPOS, 0, 0);
@@ -915,17 +915,17 @@ void LEDIT_get_light_unsigned(
 // new data into the right thing.
 //
 
-void LEDIT_edited_light(SLONG make_undoable)
+void LEDIT_edited_light(std::int32_t make_undoable)
 {
-	SLONG signed_red;
-	SLONG signed_green;
-	SLONG signed_blue;
-	SLONG signed_range;
+	std::int32_t signed_red;
+	std::int32_t signed_green;
+	std::int32_t signed_blue;
+	std::int32_t signed_range;
 
-	SLONG unsigned_red;
-	SLONG unsigned_green;
-	SLONG unsigned_blue;
-	SLONG unsigned_range;
+	std::int32_t unsigned_red;
+	std::int32_t unsigned_green;
+	std::int32_t unsigned_blue;
+	std::int32_t unsigned_range;
 
 	LEDIT_get_light_signed(
 		&signed_red,
@@ -1023,7 +1023,7 @@ void LEDIT_edited_light(SLONG make_undoable)
 // Changes the colour of the colour box in the light window.
 //
 
-SLONG LEDIT_dont_normalise_brightness_bar;	// Set to true while dragging the brightness trackbar
+std::int32_t LEDIT_dont_normalise_brightness_bar;	// Set to true while dragging the brightness trackbar
 
 void LEDIT_change_colour(COLORREF cr)
 {
@@ -1145,7 +1145,7 @@ void LEDIT_request_exit()
 // Loads a new map.
 //
 
-void LEDIT_load_map(CBYTE* name)
+void LEDIT_load_map(char* name)
 {
 	if (ED_undo_undo_valid())
 	{
@@ -1193,7 +1193,7 @@ void LEDIT_load_map(CBYTE* name)
 
 	LEDIT_map_valid   = GI_load_map(name);
 	LEDIT_mode        = LEDIT_MODE_PLACE_LIGHT;
-	LEDIT_last_placed = nullptr;
+	LEDIT_last_placed = 0;
 
 	if (LEDIT_map_valid)
 	{
@@ -1260,23 +1260,23 @@ void LEDIT_load_map(CBYTE* name)
 
 void LEDIT_process()
 {
-	SLONG i;
+	std::int32_t i;
 	
-	SLONG df;
-	SLONG dl;
-	SLONG dy;
-	SLONG dp;
-	SLONG dd;
+	std::int32_t df;
+	std::int32_t dl;
+	std::int32_t dy;
+	std::int32_t dp;
+	std::int32_t dd;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	static int turn = 0;
 
 	turn += 1;
 
-	UBYTE highlight;
+	std::uint8_t highlight;
 
 	ED_Light *el;
 
@@ -1398,7 +1398,7 @@ void LEDIT_process()
 		if (LEDIT_insides)
 		{
 			ED_Light *el=0;
-			SLONG ei;
+			std::int32_t ei;
 			ei= (LEDIT_mode == LEDIT_MODE_PLACE_LIGHT) ? LEDIT_last_placed : LEDIT_edit_light;
 			if (ei) el = &ED_light[ei]; //else TRACE("no ei\n");
 			if (el) INDOORS_INDEX = calc_inside_for_xyz(el->x,el->y,el->z,&INDOORS_ROOM); //else TRACE("no el\n");
@@ -1452,7 +1452,7 @@ void LEDIT_process()
 					// Draw the bugger!
 					//
 
-					ULONG over = GI_light_draw(
+					std::uint32_t over = GI_light_draw(
 									mouse.x,
 									mouse.y,
 									el->x,
@@ -1477,11 +1477,11 @@ void LEDIT_process()
 
 	if (LEDIT_mouse_valid && LEDIT_mode == LEDIT_MODE_PLACE_LIGHT)
 	{
-		SLONG red;
-		SLONG green;
-		SLONG blue;
-		SLONG range;
-		ULONG colour;
+		std::int32_t red;
+		std::int32_t green;
+		std::int32_t blue;
+		std::int32_t range;
+		std::uint32_t colour;
 
 		LEDIT_get_light_signed(
 			&red,
@@ -1546,11 +1546,11 @@ LRESULT CALLBACK LEDIT_callback_frame(
 					WPARAM param_w,
 					LPARAM param_l)
 {
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG range;
-	SLONG scancode;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t range;
+	std::int32_t scancode;
 
 	if (message_type == LEDIT_wm_mousewheel || message_type == WM_MOUSEWHEEL)
 	{
@@ -1559,8 +1559,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 		// light we are editing.
 		//
 
-		if (LEDIT_mode       == LEDIT_MODE_EDIT_LIGHT &&
-			LEDIT_edit_light != nullptr)
+		if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT && LEDIT_edit_light)
 		{	
 			ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
 
@@ -1579,8 +1578,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
 			LEDIT_make_undoable();
 		}
 		else
-		if (LEDIT_mode        == LEDIT_MODE_PLACE_LIGHT &&
-			LEDIT_last_placed != nullptr)
+		if (LEDIT_mode == LEDIT_MODE_PLACE_LIGHT && LEDIT_last_placed)
 		{
 			//
 			// Move the light we last placed to the new position.
@@ -1656,14 +1654,14 @@ LRESULT CALLBACK LEDIT_callback_frame(
 				case ID_EDIT_DELETE_ARSE:
 
 					if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
-						LEDIT_edit_light != nullptr)
+						LEDIT_edit_light)
 					{
 						//
 						// Delete the light we are editing.
 						// 
 
 						ED_delete(LEDIT_edit_light);
-						LEDIT_edit_light = nullptr;
+						LEDIT_edit_light = 0;
 						LEDIT_make_undoable();
 						LEDIT_set_state_look();
 					}
@@ -1678,13 +1676,13 @@ LRESULT CALLBACK LEDIT_callback_frame(
 
 				case ID_EDIT_PLACELIGHT:
 					LEDIT_mode        = LEDIT_MODE_PLACE_LIGHT;
-					LEDIT_last_placed = nullptr;
+					LEDIT_last_placed = 0;
 					LEDIT_set_state_look();
 					break;
 
 				case ID_EDIT_EDITLIGHTS:
 					LEDIT_mode          = LEDIT_MODE_EDIT_LIGHT;
-					LEDIT_edit_light    = nullptr;
+					LEDIT_edit_light    = 0;
 					LEDIT_edit_dragging = false;
 					LEDIT_edit_dragged  = false;
 					LEDIT_set_state_look();
@@ -1879,14 +1877,14 @@ LRESULT CALLBACK LEDIT_callback_engine(
 	RECT        dest;
 	RECT		src;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG range;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t range;
 
-	SLONG world_x;
-	SLONG world_y;
-	SLONG world_z;
+	std::int32_t world_x;
+	std::int32_t world_y;
+	std::int32_t world_z;
 
 	ED_Light *el;
 
@@ -2022,8 +2020,8 @@ LRESULT CALLBACK LEDIT_callback_engine(
 
 		case WM_MOUSEMOVE:
 
-			if (LEDIT_mode       == LEDIT_MODE_EDIT_LIGHT &&
-				LEDIT_edit_light != nullptr                  &&
+			if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
+				LEDIT_edit_light &&
 				LEDIT_edit_dragging)
 			{
 				ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
@@ -2045,8 +2043,8 @@ LRESULT CALLBACK LEDIT_callback_engine(
 
 		case WM_LBUTTONUP:
 
-			if (LEDIT_mode       == LEDIT_MODE_EDIT_LIGHT &&
-				LEDIT_edit_light != nullptr                  &&
+			if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
+				LEDIT_edit_light &&
 				LEDIT_edit_dragging)
 			{
 				//
@@ -2105,10 +2103,10 @@ LRESULT CALLBACK LEDIT_callback_light(
 {
 	COLORREF cr;
 	HBRUSH   brush;
-	SLONG    red;
-	SLONG    green;
-	SLONG    blue;
-	SLONG    delta;
+	std::int32_t    red;
+	std::int32_t    green;
+	std::int32_t    blue;
+	std::int32_t    delta;
 
 	switch(message_type)
 	{
@@ -2286,10 +2284,10 @@ LRESULT CALLBACK LEDIT_callback_colour(
 					WPARAM param_w,
 					LPARAM param_l)
 {
-	SLONG red;
-	SLONG green;
-	SLONG blue;
-	SLONG range;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
+	std::int32_t range;
 
 	static CHOOSECOLOR cc;
 	static COLORREF    cr[16] =
@@ -2860,7 +2858,7 @@ void LEDIT_do()
 	LEDIT_ofn_map.nFileOffset       = 0;
 	LEDIT_ofn_map.nFileExtension    = 0;
 	LEDIT_ofn_map.lpstrDefExt       = "iam";
-	LEDIT_ofn_map.lCustData         = nullptr;
+	LEDIT_ofn_map.lCustData         = 0;
 	LEDIT_ofn_map.lpfnHook          = nullptr;
 	LEDIT_ofn_map.lpTemplateName    = nullptr;
 
@@ -2881,7 +2879,7 @@ void LEDIT_do()
 	LEDIT_ofn_light.nFileOffset       = 0;
 	LEDIT_ofn_light.nFileExtension    = 0;
 	LEDIT_ofn_light.lpstrDefExt       = "lgt";
-	LEDIT_ofn_light.lCustData         = nullptr;
+	LEDIT_ofn_light.lCustData         = 0;
 	LEDIT_ofn_light.lpfnHook          = nullptr;
 	LEDIT_ofn_light.lpTemplateName    = nullptr;
 
@@ -2898,7 +2896,7 @@ void LEDIT_do()
 
 		while(1)
 		{
-			if (!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
+			if (!PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE))
 			{
 				//
 				// No messages pending- send a user message so we can

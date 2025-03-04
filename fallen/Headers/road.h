@@ -13,17 +13,17 @@
 
 typedef struct
 {
-	UBYTE	x;
-	UBYTE	z;
+	std::uint8_t	x;
+	std::uint8_t	z;
 
-	UBYTE	c[4];	// Other nodes connected to this one.
+	std::uint8_t	c[4];	// Other nodes connected to this one.
 
 } ROAD_Node;
 
 #define ROAD_MAX_NODES 256
 
 extern ROAD_Node *ROAD_node;
-extern SLONG      ROAD_node_upto;
+extern std::int32_t      ROAD_node_upto;
 
 //
 // The indices of nodes that lead off (or onto) the map.
@@ -31,8 +31,8 @@ extern SLONG      ROAD_node_upto;
 
 #define ROAD_MAX_EDGES 8
 
-extern UBYTE *ROAD_edge;//[ROAD_MAX_EDGES];
-extern UWORD ROAD_edge_upto;
+extern std::uint8_t *ROAD_edge;//[ROAD_MAX_EDGES];
+extern std::uint16_t ROAD_edge_upto;
 
 //
 // The distance from the middle of the road that you want to drive along.
@@ -55,8 +55,8 @@ void ROAD_sink();
 // Returns true if the given square is on a zebra crossing.
 // 
 
-SLONG ROAD_is_road (SLONG map_x, SLONG map_z);
-SLONG ROAD_is_zebra(SLONG map_x, SLONG map_z);
+std::int32_t ROAD_is_road (std::int32_t map_x, std::int32_t map_z);
+std::int32_t ROAD_is_zebra(std::int32_t map_x, std::int32_t map_z);
 
 
 //
@@ -76,7 +76,7 @@ void ROAD_calc_mapsquare_type();
 #define ROAD_TYPE_DIRT     2
 #define ROAD_TYPE_SLIPPERY 3
 
-SLONG ROAD_get_mapsquare_type(SLONG map_x, SLONG map_z);
+std::int32_t ROAD_get_mapsquare_type(std::int32_t map_x, std::int32_t map_z);
 
 //
 // Calculates the nodes of the vehicle wandering system.
@@ -90,26 +90,26 @@ void ROAD_wander_calc();
 //
 
 void ROAD_find(
-		SLONG world_x,
-		SLONG world_z,
+		std::int32_t world_x,
+		std::int32_t world_z,
 
-		SLONG *n1,
-		SLONG *n2);
+		std::int32_t *n1,
+		std::int32_t *n2);
 
 //
 // Returns the position of the given node.
 //
 
 void ROAD_node_pos(
-		SLONG  node,
-		SLONG *world_x,
-		SLONG *world_z);
+		std::int32_t  node,
+		std::int32_t *world_x,
+		std::int32_t *world_z);
 
 //
 // Returns the degree (number of connections) to a given node
 //
 
-SLONG ROAD_node_degree(SLONG node);
+std::int32_t ROAD_node_degree(std::int32_t node);
 
 //
 // Returns the nearer of rn1 and rn2, and the distance squared
@@ -120,40 +120,40 @@ SLONG ROAD_node_degree(SLONG node);
 #define AT_JUNCTION		(JN_RADIUS_IN * JN_RADIUS_IN)		// square of distance from car to junction to count as being at / on the junction
 #define NEAR_JUNCTION	(JN_RADIUS_OUT * JN_RADIUS_OUT)		// square of distance from car to junction to count as approaching the junction
 
-SLONG ROAD_nearest_node(SLONG rn1, SLONG rn2, SLONG wx, SLONG wz, SLONG* nnd);
+std::int32_t ROAD_nearest_node(std::int32_t rn1, std::int32_t rn2, std::int32_t wx, std::int32_t wz, std::int32_t* nnd);
 
 //
 // Returns another road to drive down after reaching node n2.
 //
 
 void ROAD_whereto_now(
-		SLONG  n1,
-		SLONG  n2,
-		SLONG *wtn1,
-		SLONG *wtn2);
+		std::int32_t  n1,
+		std::int32_t  n2,
+		std::int32_t *wtn1,
+		std::int32_t *wtn2);
 
 //
 // Returns the destination for a length of road.
 // 
 
 void ROAD_get_dest(
-		SLONG  n1,
-		SLONG  n2,
-		SLONG *world_x,
-		SLONG *world_z);
+		std::int32_t  n1,
+		std::int32_t  n2,
+		std::int32_t *world_x,
+		std::int32_t *world_z);
 
 //
 // Returns true if the given node is the end of the line! i.e. it
 // leads you off the edge of the map.
 //
 
-SLONG ROAD_is_end_of_the_line(SLONG n);
+std::int32_t ROAD_is_end_of_the_line(std::int32_t n);
 
 //
 // Returns <0 for a left-hand bend, >0 for a right-hand bend and 0 for no bend (or a u-turn)
 //
 
-SLONG ROAD_bend(SLONG n1, SLONG n2, SLONG n3);
+std::int32_t ROAD_bend(std::int32_t n1, std::int32_t n2, std::int32_t n3);
 
 //
 // If you've driven off the map and you want to reappear in a new place
@@ -162,22 +162,22 @@ SLONG ROAD_bend(SLONG n1, SLONG n2, SLONG n3);
 //
 
 void ROAD_find_me_somewhere_to_appear(
-		SLONG *world_x,		// Current position on calling, new position on return.
-		SLONG *world_z,
-		SLONG *nrn1,		// The new road you are on.
-		SLONG *nrn2,
-		SLONG *ryaw);		// The new yaw you should be at.
+		std::int32_t *world_x,		// Current position on calling, new position on return.
+		std::int32_t *world_z,
+		std::int32_t *nrn1,		// The new road you are on.
+		std::int32_t *nrn2,
+		std::int32_t *ryaw);		// The new yaw you should be at.
 
 //
 // Signed distance from the middle of road.  A negative distance
 // means that you are on the wrong side of the road.
 //
 
-SLONG ROAD_signed_dist(
-		SLONG n1,	// Going from
-		SLONG n2,	// Going to
-		SLONG world_x,
-		SLONG world_z);
+std::int32_t ROAD_signed_dist(
+		std::int32_t n1,	// Going from
+		std::int32_t n2,	// Going to
+		std::int32_t world_x,
+		std::int32_t world_z);
 
 //
 // Draws a debug display of the road system.

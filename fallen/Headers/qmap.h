@@ -22,20 +22,20 @@
 void QMAP_init();
 
 void QMAP_add_road(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 void QMAP_add_cube(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2,
-		SLONG height);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2,
+		std::int32_t height);
 
 void QMAP_add_prim(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG prim,
-		SLONG yaw);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t prim,
+		std::int32_t yaw);
 
 
 // ========================================================
@@ -49,16 +49,16 @@ void QMAP_add_prim(
 // Coordinates are in 8-bit fixed point.  i.e. from 0 << 8 to QMAP_SIZE << 8
 //
 
-SLONG QMAP_calc_height_at(SLONG x, SLONG z);
+std::int32_t QMAP_calc_height_at(std::int32_t x, std::int32_t z);
 
 //
 // Returns the block coordinates of the given cube.
 //
 
 void QMAP_get_cube_coords(
-		UWORD cube,
-		SLONG *x1, SLONG *y1, SLONG *z1,
-		SLONG *x2, SLONG *y2, SLONG *z2);
+		std::uint16_t cube,
+		std::int32_t *x1, std::int32_t *y1, std::int32_t *z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2);
 
 
 
@@ -74,8 +74,8 @@ void QMAP_get_cube_coords(
 
 #define QMAP_MAX_TEXTURES 4096
 
-extern UWORD QMAP_texture[QMAP_MAX_TEXTURES];
-extern SLONG QMAP_texture_upto;
+extern std::uint16_t QMAP_texture[QMAP_MAX_TEXTURES];
+extern std::int32_t QMAP_texture_upto;
 
 #define QMAP_STYLE_USED	  (1 << 0)
 #define QMAP_STYLE_WRAP_X (1 << 1)
@@ -83,17 +83,17 @@ extern SLONG QMAP_texture_upto;
 
 typedef struct
 {
-	UBYTE size_x;
-	UBYTE size_y;
-	UWORD flag;
-	UWORD index;	// Index into the QMAP_texture array.
+	std::uint8_t size_x;
+	std::uint8_t size_y;
+	std::uint16_t flag;
+	std::uint16_t index;	// Index into the QMAP_texture array.
 
 } QMAP_Style;
 
 #define QMAP_MAX_STYLES 256
 
 extern QMAP_Style QMAP_style[QMAP_MAX_STYLES];
-extern SLONG      QMAP_style_upto;
+extern std::int32_t      QMAP_style_upto;
 
 //
 // The roads.
@@ -101,17 +101,17 @@ extern SLONG      QMAP_style_upto;
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE size_x;
-	UBYTE size_z;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t size_x;
+	std::uint8_t size_z;
 
 } QMAP_Road;
 
 #define QMAP_MAX_ROADS 1024
 
 extern QMAP_Road QMAP_road[QMAP_MAX_ROADS];
-extern SLONG     QMAP_road_upto;
+extern std::int32_t     QMAP_road_upto;
 
 //
 // The cubes.
@@ -119,20 +119,20 @@ extern SLONG     QMAP_road_upto;
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE size_x;
-	UBYTE size_y;
-	UBYTE size_z;
-	UBYTE flag;
-	UWORD style[5];
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t size_x;
+	std::uint8_t size_y;
+	std::uint8_t size_z;
+	std::uint8_t flag;
+	std::uint16_t style[5];
 
 } QMAP_Cube;
 
 #define QMAP_MAX_CUBES 1024
 
 extern QMAP_Cube QMAP_cube[QMAP_MAX_CUBES];
-extern SLONG     QMAP_cube_upto;
+extern std::int32_t     QMAP_cube_upto;
 
 //
 // The ground textures.
@@ -140,18 +140,18 @@ extern SLONG     QMAP_cube_upto;
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE size_x;
-	UBYTE size_z;
-	UWORD style;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t size_x;
+	std::uint8_t size_z;
+	std::uint16_t style;
 
 } QMAP_Gtex;
 
 #define QMAP_MAX_GTEXES 4096
 
 extern QMAP_Gtex QMAP_gtex[QMAP_MAX_GTEXES];
-extern SLONG     QMAP_gtex_upto;
+extern std::int32_t     QMAP_gtex_upto;
 
 //
 // The cables.
@@ -159,21 +159,21 @@ extern SLONG     QMAP_gtex_upto;
 
 typedef struct
 {
-	UWORD x1;
-	UWORD z1;
-	UWORD x2;
-	UWORD z2;
-	UBYTE y1;
-	UBYTE y2;
-	UBYTE flag;
-	UBYTE along;
+	std::uint16_t x1;
+	std::uint16_t z1;
+	std::uint16_t x2;
+	std::uint16_t z2;
+	std::uint8_t y1;
+	std::uint8_t y2;
+	std::uint8_t flag;
+	std::uint8_t along;
 
 } QMAP_Cable;
 
 #define QMAP_MAX_CABLES 512
 
 extern QMAP_Cable QMAP_cable[QMAP_MAX_CABLES];
-extern SLONG      QMAP_cable_upto;
+extern std::int32_t      QMAP_cable_upto;
 
 //
 // The heights used by the height maps.
@@ -181,8 +181,8 @@ extern SLONG      QMAP_cable_upto;
 
 #define QMAP_MAX_HEIGHTS 8192
 
-extern SBYTE QMAP_height[QMAP_MAX_HEIGHTS];
-extern SLONG QMAP_height_upto;
+extern std::int8_t QMAP_height[QMAP_MAX_HEIGHTS];
+extern std::int32_t QMAP_height_upto;
 
 //
 // The heightmaps.
@@ -190,10 +190,10 @@ extern SLONG QMAP_height_upto;
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE size_x;
-	UBYTE size_z;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t size_x;
+	std::uint8_t size_z;
 
 	//
 	// If the top bit is set then the height map is at a 
@@ -204,14 +204,14 @@ typedef struct
 	// top bit zero: height is an index into the QMAP_height array.
 	//
 
-	UWORD height;
+	std::uint16_t height;
 
 } QMAP_Hmap;
 
 #define QMAP_MAX_HMAPS 64
 
 extern QMAP_Hmap QMAP_hmap[QMAP_MAX_HMAPS];
-extern SLONG     QMAP_hmap_upto;
+extern std::int32_t     QMAP_hmap_upto;
 
 //
 // Fences/walls...
@@ -223,19 +223,19 @@ extern SLONG     QMAP_hmap_upto;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE y;		// Above the ground.
-	UWORD x1;
-	UWORD z1;
-	UBYTE size_x;
-	UBYTE size_z;
+	std::uint8_t type;
+	std::uint8_t y;		// Above the ground.
+	std::uint16_t x1;
+	std::uint16_t z1;
+	std::uint8_t size_x;
+	std::uint8_t size_z;
 
 } QMAP_Fence;
 
 #define QMAP_MAX_FENCES 1024
 
 extern QMAP_Fence QMAP_fence[QMAP_MAX_FENCES];
-extern SLONG      QMAP_fence_upto;
+extern std::int32_t      QMAP_fence_upto;
 
 //
 // Static lights / anti-lights.  Some lights
@@ -244,20 +244,20 @@ extern SLONG      QMAP_fence_upto;
 
 typedef struct
 {
-	UBYTE x;
-	UBYTE y;
-	UBYTE z;
-	SBYTE red;
-	SBYTE green;
-	SBYTE blue;
-	UBYTE range;
+	std::uint8_t x;
+	std::uint8_t y;
+	std::uint8_t z;
+	std::int8_t red;
+	std::int8_t green;
+	std::int8_t blue;
+	std::uint8_t range;
 
 } QMAP_Light;
 
 #define QMAP_MAX_LIGHTS 2048
 
 extern QMAP_Light QMAP_light[QMAP_MAX_LIGHTS];
-extern SLONG      QMAP_light_upto;
+extern std::int32_t      QMAP_light_upto;
 
 //
 // The prims.
@@ -265,18 +265,18 @@ extern SLONG      QMAP_light_upto;
 
 typedef struct
 {
-	UBYTE x;
-	UBYTE y;
-	UBYTE z;
-	UBYTE yaw;
-	UBYTE prim;
+	std::uint8_t x;
+	std::uint8_t y;
+	std::uint8_t z;
+	std::uint8_t yaw;
+	std::uint8_t prim;
 
 } QMAP_Prim;
 
 #define QMAP_MAX_PRIMS 16384
 
 extern QMAP_Prim QMAP_prim[QMAP_MAX_PRIMS];
-extern SLONG     QMAP_prim_upto;
+extern std::int32_t     QMAP_prim_upto;
 
 
 //
@@ -291,8 +291,8 @@ extern SLONG     QMAP_prim_upto;
 
 #define QMAP_MAX_ALL 32768
 
-extern UWORD QMAP_all[QMAP_MAX_ALL];
-extern SLONG QMAP_all_upto;
+extern std::uint16_t QMAP_all[QMAP_MAX_ALL];
+extern std::int32_t QMAP_all_upto;
 
 //
 // The map.
@@ -300,18 +300,18 @@ extern SLONG QMAP_all_upto;
 
 typedef struct
 {
-	UWORD index_all;
-	UWORD index_prim;
+	std::uint16_t index_all;
+	std::uint16_t index_prim;
 
-	UBYTE num_roads;		// We don't need a UBYTE for each of these.
-	UBYTE num_cubes;
-	UBYTE num_gtexes;
-	UBYTE num_cables;
-	UBYTE num_hmaps;
-	UBYTE num_fences;
-	UBYTE num_lights;
+	std::uint8_t num_roads;		// We don't need a std::uint8_t for each of these.
+	std::uint8_t num_cubes;
+	std::uint8_t num_gtexes;
+	std::uint8_t num_cables;
+	std::uint8_t num_hmaps;
+	std::uint8_t num_fences;
+	std::uint8_t num_lights;
 
-	UBYTE num_prims;
+	std::uint8_t num_prims;
 	
 } QMAP_Map;
 
@@ -360,23 +360,23 @@ extern QMAP_Map QMAP_map[QMAP_MAPSIZE][QMAP_MAPSIZE];
 
 typedef struct
 {
-	UWORD x;			// Relative to the mapsquare the point is in (8-bit fixed point)
-	SWORD y;
-	UWORD z;
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
-	UBYTE trans;		// Last last GAMETURN this point was transformed.
-	UBYTE normal;
-	UBYTE padding;
-	UWORD next;
+	std::uint16_t x;			// Relative to the mapsquare the point is in (8-bit fixed point)
+	std::int16_t y;
+	std::uint16_t z;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
+	std::uint8_t trans;		// Last last GAMETURN this point was transformed.
+	std::uint8_t normal;
+	std::uint8_t padding;
+	std::uint16_t next;
 
 } QMAP_Point;
 
 #define QMAP_MAX_POINTS 2048
 
 extern QMAP_Point QMAP_point[QMAP_MAX_POINTS];
-extern UWORD      QMAP_point_free;
+extern std::uint16_t      QMAP_point_free;
 
 //
 // The faces
@@ -387,14 +387,14 @@ extern UWORD      QMAP_point_free;
 
 typedef struct
 {
-	UWORD point[4];
-	UWORD texture;
-	UWORD flag;
-	UWORD next;
+	std::uint16_t point[4];
+	std::uint16_t texture;
+	std::uint16_t flag;
+	std::uint16_t next;
 
 	#ifdef EDITOR
-	UWORD cube;
-	UWORD edge;
+	std::uint16_t cube;
+	std::uint16_t edge;
 	#endif
 
 } QMAP_Face;
@@ -402,7 +402,7 @@ typedef struct
 #define QMAP_MAX_FACES 2048
 
 extern QMAP_Face QMAP_face[QMAP_MAX_FACES];
-extern UWORD     QMAP_face_free;
+extern std::uint16_t     QMAP_face_free;
 
 //
 // Each height-field square and height-field point.
@@ -410,12 +410,12 @@ extern UWORD     QMAP_face_free;
 
 typedef struct
 {
-	UWORD texture;
-	UWORD flag;
-	SBYTE height;
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint16_t texture;
+	std::uint16_t flag;
+	std::int8_t height;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 	
 } QMAP_Hsquare;
 
@@ -431,16 +431,16 @@ typedef struct
 	//
 	
 	QMAP_Hsquare hf[33][33];
-	UBYTE        map_x;
-	UBYTE        map_z;
-	UBYTE        trans;
+	std::uint8_t        map_x;
+	std::uint8_t        map_z;
+	std::uint8_t        trans;
 
 	//
 	// The points and faces created from the cubes, fences and walls.
 	//
 
-	UWORD next_point;
-	UWORD next_face;
+	std::uint16_t next_point;
+	std::uint16_t next_face;
 
 } QMAP_Draw;
 
@@ -454,7 +454,7 @@ void QMAP_draw_init();
 // Fills in the QMAP_Draw structure for the given mapsquare.
 //
 
-void QMAP_create(QMAP_Draw *fill_me_in, SLONG map_x, SLONG map_z);
+void QMAP_create(QMAP_Draw *fill_me_in, std::int32_t map_x, std::int32_t map_z);
 
 //
 // Frees all the points and faces from the given QMAP_Draw structure.

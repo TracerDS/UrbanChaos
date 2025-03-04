@@ -19,7 +19,7 @@ void ResetMemory()
 
 //---------------------------------------------------------------
 
-void* MemAlloc(ULONG size)
+void* MemAlloc(std::uint32_t size)
 {
 	size	=	(size+3)&0xfffffffc;
 	return (void*)malloc(size);

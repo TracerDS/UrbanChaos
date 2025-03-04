@@ -12,22 +12,22 @@
 struct EditWaypoint
 {
 	bool		Used;
-	UWORD		Next,
+	std::uint16_t		Next,
 				Prev;
-	SLONG		X,Y,Z;
+	std::int32_t		X,Y,Z;
 };
 
-extern ULONG				ed_waypoint_count;
+extern std::uint32_t				ed_waypoint_count;
 extern EditWaypoint		edit_waypoints[MAX_EDIT_WAYPOINTS];
 
 //---------------------------------------------------------------
 
 void	init_ed_waypoints();
-UWORD	alloc_ed_waypoint();
-void	free_ed_waypoint(UWORD wp_index);
-void	link_next_waypoint(UWORD link_wp,UWORD next_wp);
-void	link_prev_waypoint(UWORD link_wp,UWORD prev_wp);
-void	pack_waypoints(UWORD *map_table);
+std::uint16_t	alloc_ed_waypoint();
+void	free_ed_waypoint(std::uint16_t wp_index);
+void	link_next_waypoint(std::uint16_t link_wp,std::uint16_t next_wp);
+void	link_prev_waypoint(std::uint16_t link_wp,std::uint16_t prev_wp);
+void	pack_waypoints(std::uint16_t *map_table);
 
 //---------------------------------------------------------------
 

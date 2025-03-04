@@ -24,19 +24,19 @@ extern bool allow_debug_keys;
 
 typedef struct
 {
-	SLONG timer;
-	CBYTE message[MSG_MAX_LENGTH];
+	std::int32_t timer;
+	char message[MSG_MAX_LENGTH];
 
 } MSG_Message;
 
 MSG_Message MSG_message[MSG_MAX_MESSAGES];
-SLONG	current_message=0;
-SLONG	message_count=0;
-SLONG	draw_message_offset=0;
+std::int32_t	current_message=0;
+std::int32_t	message_count=0;
+std::int32_t	draw_message_offset=0;
 
 void MSG_clear()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < MSG_MAX_MESSAGES; i++)
 	{
@@ -50,11 +50,11 @@ void MSG_clear()
 
 #define MSG_TIMER 128
 
-void MSG_add(CBYTE* fmt, ...)
+void MSG_add(char* fmt, ...)
 {
-	//SLONG i;
-	SLONG oldest   = 0;
-	SLONG oldtimer = INFINITY;
+	//std::int32_t i;
+	std::int32_t oldest   = 0;
+	std::int32_t oldtimer = INFINITY;
 
 	if (!allow_debug_keys) return;
 
@@ -62,7 +62,7 @@ void MSG_add(CBYTE* fmt, ...)
 	// Work out the real message.
 	//
 
-	CBYTE   message[512];
+	char   message[512];
 	va_list	ap;
 //	return;
 
@@ -117,17 +117,17 @@ void MSG_add(CBYTE* fmt, ...)
 
 void MSG_draw()
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
 
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
-	SLONG	pos;
+	std::int32_t	pos;
 	static int draw_flag=0;
-	SLONG	size=1;
+	std::int32_t	size=1;
 	//
 	// Go through the messages and draw them.
 	//

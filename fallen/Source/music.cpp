@@ -13,17 +13,17 @@
 #include "psxeng.h"
 #endif
 
-UWORD music_current_wave=0;
+std::uint16_t music_current_wave=0;
 #ifndef PSX
-UWORD music_max_gain=128<<8;
+std::uint16_t music_max_gain=128<<8;
 #else
-UBYTE music_max_gain=127;
+std::uint8_t music_max_gain=127;
 #endif
 /*
-UBYTE music_current_gain=0;
-UBYTE music_fademode=0;
-UBYTE music_queue_flags;
-UWORD music_queue_wave;
+std::uint8_t music_current_gain=0;
+std::uint8_t music_fademode=0;
+std::uint8_t music_queue_flags;
+std::uint16_t music_queue_wave;
 
 #define MUSIC_IDLE			0
 #define MUSIC_FADING_IN		1
@@ -34,7 +34,7 @@ UWORD music_queue_wave;
 
 // play or queue a piece according to flags
 // return value is a MUSIC_WAS flag
-UBYTE MUSIC_play(UWORD wave, UBYTE flags) {
+std::uint8_t MUSIC_play(std::uint16_t wave, std::uint8_t flags) {
 	if ((wave!=music_current_wave)&&(flags&MUSIC_FLAG_OVERRIDE)) MUSIC_stop(0);
 	//TRACE("%d MUSIC_play w%d f%d\n",GAME_TURN,wave,flags);
 	if ((flags&LOOSE_TRANSITION)==LOOSE_TRANSITION) {
@@ -44,8 +44,8 @@ UBYTE MUSIC_play(UWORD wave, UBYTE flags) {
 		//TRACE("%d FADED\n",GAME_TURN);
 		return MUSIC_WAS_FADED;
 	} else {
-		SLONG mfxflags;
-		UBYTE res;
+		std::int32_t mfxflags;
+		std::uint8_t res;
 		mfxflags=MFX_SHORT_QUEUE|MFX_NEVER_OVERLAP;
 		mfxflags|=(flags&MUSIC_FLAG_LOOPED)?MFX_LOOPED:MFX_EARLY_OUT;
 		mfxflags|=(flags&MUSIC_FLAG_QUEUED)?MFX_QUEUED:0;
@@ -87,7 +87,7 @@ void MUSIC_stop(bool fade) {
 
 
 // find out the currently playing wave
-UWORD MUSIC_wave() {
+std::uint16_t MUSIC_wave() {
 	return MFX_get_wave(MUSIC_REF);
 }
 
@@ -124,30 +124,30 @@ void MUSIC_process() {
  */
 
 
-UBYTE music_current_mode  = 0;
-UBYTE music_request_mode  = 0;
+std::uint8_t music_current_mode  = 0;
+std::uint8_t music_request_mode  = 0;
 #ifndef PSX
-SLONG music_current_level = 0;
+std::int32_t music_current_level = 0;
 #else
-SWORD music_current_level __attribute__((section(".rdata")))=0;
+std::int16_t music_current_level __attribute__((section(".rdata")))=0;
 #endif
-UBYTE music_mode_override = 0;
+std::uint8_t music_mode_override = 0;
 
-UBYTE MUSIC_bodge_code=0;
-
-
+std::uint8_t MUSIC_bodge_code=0;
 
 
-UBYTE just_asked_for_mode_now;
-UBYTE just_asked_for_mode_number;
 
-SLONG last_MFX_QUICK_play_id;
-SLONG last_MFX_QUICK_mode;
+
+std::uint8_t just_asked_for_mode_now;
+std::uint8_t just_asked_for_mode_number;
+
+std::int32_t last_MFX_QUICK_play_id;
+std::int32_t last_MFX_QUICK_mode;
 
 // ---- assorted 'system level' utilities ----
 float music_volume;
 
-void MUSIC_play_the_mode(UBYTE mode)
+void MUSIC_play_the_mode(std::uint8_t mode)
 {
 	just_asked_for_mode_now    = true;
 	just_asked_for_mode_number = mode;
@@ -157,7 +157,7 @@ void MUSIC_play_the_mode(UBYTE mode)
 	// for the PC, do an MFX_play with a random constant within the appropriate range to mode
 	// for the PSX, queue up the appropriate track if it's not playing already
 
-	static SLONG lookup_table[14][3] = { 
+	static std::int32_t lookup_table[14][3] = { 
 		{ S_TUNE_DRIVING_START, S_TUNE_DRIVING,			S_TUNE_DRIVING2 },
 		{ 0,					S_TUNE_SPRINT,			S_TUNE_SPRINT2	},
 		{ 0,					S_TUNE_CRAWL,			S_TUNE_CRAWL	},
@@ -199,7 +199,7 @@ void MUSIC_play_the_mode(UBYTE mode)
 }
 
 
-void MUSIC_set_the_volume(SLONG vol)
+void MUSIC_set_the_volume(std::int32_t vol)
 {
 	if (vol>music_max_gain) 
 		vol=music_max_gain;
@@ -239,7 +239,7 @@ void MUSIC_reset()
 
 // ---- called by the outside world to sync up music ----
 
-void MUSIC_mode(UBYTE mode) 
+void MUSIC_mode(std::uint8_t mode) 
 {
 	if (music_mode_override>mode) mode=music_mode_override; else music_mode_override=0; // hah!
 	if ((mode>music_current_mode)||!mode)
@@ -249,7 +249,7 @@ void MUSIC_mode(UBYTE mode)
 
 // ---- called by the outside world to keep it all running ----
 
-extern SLONG REAL_TICK_RATIO;
+extern std::int32_t REAL_TICK_RATIO;
 
 void MUSIC_mode_process()
 {
@@ -288,7 +288,7 @@ void MUSIC_mode_process()
 		{
 			if (NET_PERSON(0)->Genus.Person->Ware)
 			{
-				SLONG amb = WARE_ware[NET_PERSON(0)->Genus.Person->Ware].ambience;
+				std::int32_t amb = WARE_ware[NET_PERSON(0)->Genus.Person->Ware].ambience;
 			
 				if (amb)
 				{
@@ -309,7 +309,7 @@ void MUSIC_mode_process()
 	}
 #else
 
-extern SLONG MFX_Conv_playing;
+extern std::int32_t MFX_Conv_playing;
 
 	if (music_current_mode == 1)
 	{
@@ -349,7 +349,7 @@ extern SLONG MFX_Conv_playing;
 }
 
 // this is the 'max' gain, fade in/out will go from/to 0 from/to this value
-void MUSIC_gain(UBYTE gain) 
+void MUSIC_gain(std::uint8_t gain) 
 {
 	music_max_gain=gain;
 	music_max_gain<<=8;
@@ -359,9 +359,9 @@ void MUSIC_gain(UBYTE gain)
 }
 
 
-SLONG MUSIC_is_playing()
+std::int32_t MUSIC_is_playing()
 {
-	SLONG MFX_QUICK_play_id = last_MFX_QUICK_play_id;
+	std::int32_t MFX_QUICK_play_id = last_MFX_QUICK_play_id;
 	
 	if (MFX_QUICK_play_id == last_MFX_QUICK_play_id && MFX_QUICK_still_playing())
 	{

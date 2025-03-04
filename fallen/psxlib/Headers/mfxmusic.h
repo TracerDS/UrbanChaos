@@ -2,7 +2,7 @@
 // This file is created automatically by MkSpeech
 // Do not edit by hand.
 
-SLONG MFX_Music_len[10][8]={
+std::int32_t MFX_Music_len[10][8]={
 {1147,483,634,715,1600,1325,774,873},
 {1126,708,257,899,515,486,774,873},
 {1084,1250,1312,1125,1375,305,774,873},

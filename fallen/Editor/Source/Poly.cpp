@@ -10,61 +10,61 @@
 
 //assume anti clockwise
 
-UWORD	*tmaps[50];
-UBYTE	*pals[50];
+std::uint16_t	*tmaps[50];
+std::uint8_t	*pals[50];
 
-//UBYTE	tmap[256*256];
-//UBYTE	tmap2[256*256];
-UBYTE	fade_tables[256*65];
-UBYTE	brightness[256];
-UBYTE	mix_map[256*256];
+//std::uint8_t	tmap[256*256];
+//std::uint8_t	tmap2[256*256];
+std::uint8_t	fade_tables[256*65];
+std::uint8_t	brightness[256];
+std::uint8_t	mix_map[256*256];
 
-SLONG	div_table[65536];   //65536/x
-UWORD	yc_to_555[8][256*64];
-ULONG	yc_to_888[65536];
-UWORD	pal_to_16[256];
-UWORD	filter_is[64];
-UBYTE	filter_age[64];
+std::int32_t	div_table[65536];   //65536/x
+std::uint16_t	yc_to_555[8][256*64];
+std::uint32_t	yc_to_888[65536];
+std::uint16_t	pal_to_16[256];
+std::uint16_t	filter_is[64];
+std::uint8_t	filter_age[64];
 
-// WORD/UWORD
+// WORD/std::uint16_t
 #define	QDIV(x,d)	(d<0? ((-x*div_table[-d])>>16) : ((x*div_table[d])>>16) )
 #define	QDIV64(x,d)	(d<0? ((-MUL64(x,div_table[-d]))) : ((MUL64(x,div_table[d]))) )
 
 //#define	DEBUG_SPAN	1
 #define	Z_SORT	1
 
-static	SLONG	ASMstep_tx,ASMstep_ty,ASMstep_shade;
-static	SLONG	ASMtx,ASMty,ASMshade;
-static	UWORD	*ASMtext_page;
-static	UWORD	*ASMpal_address;
-static	UWORD	*ASMfade_page;
-static	SLONG	ASMCol;
+static	std::int32_t	ASMstep_tx,ASMstep_ty,ASMstep_shade;
+static	std::int32_t	ASMtx,ASMty,ASMshade;
+static	std::uint16_t	*ASMtext_page;
+static	std::uint16_t	*ASMpal_address;
+static	std::uint16_t	*ASMfade_page;
+static	std::int32_t	ASMCol;
 struct	PolyInfo	poly_info;
 
 
 struct	PolyParameters
 {
-	SLONG	Y;
-	SLONG	LeftX;
-	SLONG	RightX;
-	SLONG	LeftShade;
-	SLONG	LeftTextX;
-	SLONG	LeftTextY;
-	SLONG	StepShade;
-	SLONG	StepTextX;
-	SLONG	StepTextY;
+	std::int32_t	Y;
+	std::int32_t	LeftX;
+	std::int32_t	RightX;
+	std::int32_t	LeftShade;
+	std::int32_t	LeftTextX;
+	std::int32_t	LeftTextY;
+	std::int32_t	StepShade;
+	std::int32_t	StepTextX;
+	std::int32_t	StepTextY;
 };
 
 struct	FloatPolyParameters
 {
-	SLONG	Y;
-	SLONG	LeftX;
-	SLONG	RightX;
-	SLONG	LeftShade;
+	std::int32_t	Y;
+	std::int32_t	LeftX;
+	std::int32_t	RightX;
+	std::int32_t	LeftShade;
 
 	float	FLeftTextX;
 	float	FLeftTextY;
-	SLONG	StepShade;
+	std::int32_t	StepShade;
 	float	FStepTextX;
 	float	FStepTextY;
 	float	Q;
@@ -74,19 +74,19 @@ struct	FloatPolyParameters
 
 struct	Boint
 {
-	SLONG	RightX;
-	SLONG	LeftX;
-	SLONG	LeftTX;
-	SLONG	LeftTY;
-	SLONG	LeftShade;
-	SLONG	LeftZ;
-	SLONG	RightZ;
-	SLONG	RightTX;
-	SLONG	RightTY;
-	SLONG	RightShade;
+	std::int32_t	RightX;
+	std::int32_t	LeftX;
+	std::int32_t	LeftTX;
+	std::int32_t	LeftTY;
+	std::int32_t	LeftShade;
+	std::int32_t	LeftZ;
+	std::int32_t	RightZ;
+	std::int32_t	RightTX;
+	std::int32_t	RightTY;
+	std::int32_t	RightShade;
 	struct	Boint  *PNext;
-	SLONG	DrawFlags;
-//	SLONG	Y;
+	std::int32_t	DrawFlags;
+//	std::int32_t	Y;
 };
 
 struct	Boint	*z_spans[1000];
@@ -96,13 +96,13 @@ struct	Boint	*z_spans[1000];
 #define	MAX_BOINT	20000
 
 struct	Boint	boint_pool[MAX_BOINT];
-UWORD	next_boint=1;
+std::uint16_t	next_boint=1;
 struct	Boint	*current_boint=&boint_pool[0];
 
-SLONG	debug_y=200;
-SLONG	count_find=0,count_insert=0,count_chop_lhs=0,count_chop_rhs=0;
+std::int32_t	debug_y=200;
+std::int32_t	count_find=0,count_insert=0,count_chop_lhs=0,count_chop_rhs=0;
 
-inline ULONG	span_overlaps(struct	Boint	*new_span,struct	Boint	*old_span)
+inline std::uint32_t	span_overlaps(struct	Boint	*new_span,struct	Boint	*old_span)
 {
 //	if(new_span->LeftX==old_span->LeftX&&new_span->RightX==old_span->RightX)
 //		return(2);
@@ -113,7 +113,7 @@ inline ULONG	span_overlaps(struct	Boint	*new_span,struct	Boint	*old_span)
 	else
 		return(1);
 /*
-	SLONG	hw1,hw2,mx1,mx2;
+	std::int32_t	hw1,hw2,mx1,mx2;
 	hw1=(new_span->RightX-new_span->LeftX)>>1;
 	hw2=(old_span->RightX-old_span->LeftX)>>1;
 
@@ -122,7 +122,7 @@ inline ULONG	span_overlaps(struct	Boint	*new_span,struct	Boint	*old_span)
 */
 }
 
-inline SLONG	spans_might_intersect(struct	Boint	*new_span,struct	Boint	*old_span)
+inline std::int32_t	spans_might_intersect(struct	Boint	*new_span,struct	Boint	*old_span)
 {
 /*
 	if(new_span->LeftZ<old_span->RightZ)
@@ -142,10 +142,10 @@ inline SLONG	spans_might_intersect(struct	Boint	*new_span,struct	Boint	*old_span
 }
 
 
-inline	SLONG	calc_intersection(struct	Boint	*new_span,struct	Boint	*old_span)
+inline	std::int32_t	calc_intersection(struct	Boint	*new_span,struct	Boint	*old_span)
 {
-	SLONG	r,s;
-	SLONG	div;
+	std::int32_t	r,s;
+	std::int32_t	div;
 
 	r=(new_span->LeftZ-old_span->LeftZ)*(old_span->RightX-old_span->LeftX)-(new_span->LeftX-old_span->LeftX)*(old_span->RightZ-old_span->LeftZ);
 	div=( (new_span->RightX-new_span->LeftX)*(old_span->RightZ-old_span->LeftZ)-(new_span->RightZ-new_span->LeftZ)*(old_span->RightX-old_span->LeftX) );
@@ -164,16 +164,16 @@ inline	SLONG	calc_intersection(struct	Boint	*new_span,struct	Boint	*old_span)
 		return(-1);
 }
 
-inline void	clip_lhs_span(struct	Boint	*chopee,SLONG x)
+inline void	clip_lhs_span(struct	Boint	*chopee,std::int32_t x)
 {
-	SLONG	ratio;
+	std::int32_t	ratio;
 	count_chop_lhs++;
 //	if(debug_y==chopee->Y)
 //		LogText(" Clip LHS Span x %d %d new X %d \n",chopee->LeftX,chopee->RightX,x);
 	ratio=((x-chopee->LeftX)<<16)/ (chopee->RightX-chopee->LeftX);
 #ifdef	DEBUG_SPAN
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				if(chopee->LeftX<x)
 					for(c0=chopee->LeftX;c0<x;c0++)
 						if(c0&1)
@@ -194,9 +194,9 @@ inline void	clip_lhs_span(struct	Boint	*chopee,SLONG x)
 	chopee->LeftX=	x;
 }
 	
-inline void	clip_rhs_span(struct	Boint	*chopee,SLONG x)
+inline void	clip_rhs_span(struct	Boint	*chopee,std::int32_t x)
 {
-	SLONG	ratio;
+	std::int32_t	ratio;
 	count_chop_rhs++;
  //	if(debug_y==chopee->Y)
  //		LogText(" Clip RHS Span x %d %d new X %d \n",chopee->LeftX,chopee->RightX,x);
@@ -204,7 +204,7 @@ inline void	clip_rhs_span(struct	Boint	*chopee,SLONG x)
 	ratio=((x-chopee->LeftX)<<16)/ (chopee->RightX-chopee->LeftX);
 #ifdef	DEBUG_SPAN
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				if(x<chopee->RightX)
 					for(c0=x;c0<chopee->RightX;c0++)
 						if(c0&1)
@@ -233,7 +233,7 @@ void	do_nowt(void)
 
 	
 
-ULONG	check_spans2(struct	Boint	**head)
+std::uint32_t	check_spans2(struct	Boint	**head)
 {
 /*
 	struct	Boint	*p=*head;
@@ -319,7 +319,7 @@ inline void	sort_add_span(struct	Boint	*span,struct	Boint	**head,struct	Boint	*p
 
 
 
-inline ULONG chop_span(struct	Boint	**head,struct	Boint	*prev,struct	Boint	*chopee,struct	Boint	*choper,UBYTE chop_new)
+inline std::uint32_t chop_span(struct	Boint	**head,struct	Boint	*prev,struct	Boint	*chopee,struct	Boint	*choper,std::uint8_t chop_new)
 {
 	if(choper->RightX>=chopee->RightX)
 	{
@@ -331,7 +331,7 @@ inline ULONG chop_span(struct	Boint	**head,struct	Boint	*prev,struct	Boint	*chop
 //				LogText(" remove chopee completely %d \n",chop_new);
 #ifdef	DEBUG_SPAN
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				if(chopee->LeftX<chopee->RightX)
 					for(c0=chopee->LeftX;c0<chopee->RightX;c0++)
 						DrawPixelC(c0,chopee->Y,1);
@@ -372,7 +372,7 @@ inline ULONG chop_span(struct	Boint	**head,struct	Boint	*prev,struct	Boint	*chop
 			// remove all of choper from middle of chopee, splitting chopee into 2
 #ifdef	DEBUG_SPAN
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				if(choper->LeftX<choper->RightX)
 					for(c0=choper->LeftX;c0<choper->RightX;c0++)
 						DrawPixelC(c0,choper->Y,2);
@@ -438,10 +438,10 @@ inline ULONG chop_span(struct	Boint	**head,struct	Boint	*prev,struct	Boint	*chop
 	return(0);
 }
 
-ULONG	span_exists(struct	Boint	*span,struct	Boint	**head)
+std::uint32_t	span_exists(struct	Boint	*span,struct	Boint	**head)
 {
 	struct	Boint	*p;
-	SLONG	count;
+	std::int32_t	count;
 	p=*head;
 	count=0;
 	while(p&&count++<100)
@@ -457,7 +457,7 @@ ULONG	span_exists(struct	Boint	*span,struct	Boint	**head)
 	
 }
 
-void	show_line(struct	Boint	**head,CBYTE* str)
+void	show_line(struct	Boint	**head,char* str)
 {
 	struct	Boint	*p;
 	p=*head;
@@ -474,7 +474,7 @@ void	show_line(struct	Boint	**head,CBYTE* str)
 void	insert_span(struct	Boint	*span,struct	Boint	**head)
 {
 	struct	Boint	*p,*prev=0;
-	SLONG	count;
+	std::int32_t	count;
 	struct	Boint	*insert_here=0;
 
 	span->PNext=0;
@@ -527,13 +527,13 @@ void	insert_span(struct	Boint	*span,struct	Boint	**head)
 
 		if(span_overlaps(span,p))
 		{
-			SLONG	done=0,type;
+			std::int32_t	done=0,type;
 			//new span overlaps this one, the result will be either new one will lose a piece
 			//or old one loses a piece, loseing a piece may come from the middle results in a boint split into 2
 			if((type=spans_might_intersect(span,p))==0)
 			{
 /*
-				SLONG	t;
+				std::int32_t	t;
 				if( (t=calc_intersection(span,p))!=-1)
 				{
 					//it intersects 0<t<1<<6   along the length of span
@@ -627,27 +627,27 @@ exit:;
 
 
 
-SLONG	FileSaveAt(CBYTE* name,UBYTE *ptr,ULONG size)
+std::int32_t	FileSaveAt(char* name,std::uint8_t *ptr,std::uint32_t size)
 {
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	handle=FileCreate(name,1);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)ptr,size);
+		FileWrite(handle,(std::uint8_t*)ptr,size);
 		FileClose(handle);
 		return(0);
 	}
 	return(-1);
 }
 
-extern UBYTE					palette[768];
+extern std::uint8_t					palette[768];
 
 void	make_555_table(void)
 {
-	UBYTE	pal_no;
-	SLONG	col,bright;
-	SLONG	r,g,b;
-	UBYTE	*pal;
+	std::uint8_t	pal_no;
+	std::int32_t	col,bright;
+	std::int32_t	r,g,b;
+	std::uint8_t	*pal;
 //	pal=palette;
 
 	for(pal_no=0;pal_no<8;pal_no++)
@@ -692,10 +692,10 @@ void	make_555_table(void)
 
 void	draw_fader(void)
 {
-	UWORD	*ptr,*ptr2;
-	SLONG	x,y;
+	std::uint16_t	*ptr,*ptr2;
+	std::int32_t	x,y;
 
-	ptr=(UWORD*)WorkScreen;
+	ptr=(std::uint16_t*)WorkScreen;
 	for(x=0;x<256;x++)
 	for(y=0;y<64;y++)
 	{
@@ -705,7 +705,7 @@ void	draw_fader(void)
 
 void	init_poly_system(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 //	memset(boint_pool,0,sizeof(struct Boint)*(MAX_BOINT-1));
 	for(c0=1;c0<1<<16;c0++)
 	{
@@ -726,11 +726,11 @@ void	init_tmap(void)
 */
 }
 
-extern SLONG	find_colour(UBYTE *pal,SLONG r,SLONG g,SLONG b);
+extern std::int32_t	find_colour(std::uint8_t *pal,std::int32_t r,std::int32_t g,std::int32_t b);
 /*
-SLONG	find_colour(UBYTE *pal,SLONG r,SLONG g,SLONG b)
+std::int32_t	find_colour(std::uint8_t *pal,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	SLONG	found=-1,dist=0x7fffffff,c0,dist2,tr,tg,tb;
+	std::int32_t	found=-1,dist=0x7fffffff,c0,dist2,tr,tg,tb;
 	for(c0=0;c0<256;c0++)
 	{
 		tr=*pal++;
@@ -753,10 +753,10 @@ SLONG	find_colour(UBYTE *pal,SLONG r,SLONG g,SLONG b)
 	return(found);
 }
 */
-void	make_mix_map(UBYTE *pal)
+void	make_mix_map(std::uint8_t *pal)
 {
-	SLONG	col1,col2,r,g,b,r1,g1,b1;
-	UBYTE	*p1,*p2;
+	std::int32_t	col1,col2,r,g,b,r1,g1,b1;
+	std::uint8_t	*p1,*p2;
 
 
 	if(FileExists("data/mix.dat"))
@@ -793,10 +793,10 @@ void	make_mix_map(UBYTE *pal)
 	}
 }
 
-void	make_fade_table(UBYTE *pal)
+void	make_fade_table(std::uint8_t *pal)
 {
-	SLONG	col,bright,r,g,b,temp_bright;
-	UBYTE	*p;
+	std::int32_t	col,bright,r,g,b,temp_bright;
+	std::uint8_t	*p;
 	if(FileExists("data/fade.dat"))
 	{
 		FileLoadAt("data/fade.dat",fade_tables);
@@ -838,10 +838,10 @@ void	make_fade_table(UBYTE *pal)
 	}
 }
 
-UWORD	is_it_clockwise(const struct	MfEnginePoint	*point1,const struct	MfEnginePoint *point2,const struct	MfEnginePoint *point3)
+std::uint16_t	is_it_clockwise(const struct	MfEnginePoint	*point1,const struct	MfEnginePoint *point2,const struct	MfEnginePoint *point3)
 {
-	SLONG	z;
-	SLONG	vx,vy,wx,wy;
+	std::int32_t	z;
+	std::int32_t	vx,vy,wx,wy;
 	
 	vx=point2->X-point1->X;
 	wx=point3->X-point2->X;
@@ -865,12 +865,12 @@ UWORD	is_it_clockwise(const struct	MfEnginePoint	*point1,const struct	MfEnginePo
 //		ASMtx=start_text_x;
 
 #ifdef	_MSC_VER
-void	RENDER_SETUP(UBYTE *,SLONG,SLONG,SLONG,SLONG)
+void	RENDER_SETUP(std::uint8_t *,std::int32_t,std::int32_t,std::int32_t,std::int32_t)
 {
 	
 }
 #else
-void	RENDER_SETUP(UBYTE *,SLONG,SLONG,SLONG,SLONG);
+void	RENDER_SETUP(std::uint8_t *,std::int32_t,std::int32_t,std::int32_t,std::int32_t);
 #pragma aux RENDER_SETUP =\
 				"	rol	eax,16"\
 				"	rol	ebx,16"\
@@ -910,7 +910,7 @@ void	RENDER_SETUP2(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_GT(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_GT(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1013,7 +1013,7 @@ void	RENDER_GO_COL(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_G(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade)
+void	RENDER_MSC_G(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1059,7 +1059,7 @@ lp:
 	}
 }
 
-void	RENDER_MSC_G16(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade)
+void	RENDER_MSC_G16(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1106,7 +1106,7 @@ lp:
 }
 
 #else
-SLONG	RENDER_GO_G(void);
+std::int32_t	RENDER_GO_G(void);
 #pragma aux RENDER_GO_G =\
 			    "	lp:"\
 				"	add	eax,ASMstep_shade"\
@@ -1123,7 +1123,7 @@ SLONG	RENDER_GO_G(void);
 
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_50F(UBYTE *param_ptr_screen,SLONG param_width)
+void	RENDER_MSC_50F(std::uint8_t *param_ptr_screen,std::int32_t param_width)
 {
 	
 	__asm
@@ -1151,7 +1151,7 @@ lp:
 	}
 }
 #else
-SLONG	RENDER_GO_50F(void);
+std::int32_t	RENDER_GO_50F(void);
 #pragma aux RENDER_GO_50F =\
 			    "	lp:"\
 				"	inc edi"\
@@ -1164,7 +1164,7 @@ SLONG	RENDER_GO_50F(void);
 
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_F(UBYTE *param_ptr_screen,SLONG param_width)
+void	RENDER_MSC_F(std::uint8_t *param_ptr_screen,std::int32_t param_width)
 {
 	
 	__asm
@@ -1189,7 +1189,7 @@ lp:
 
 	}
 }
-void	RENDER_MSC_F16(UBYTE *param_ptr_screen,SLONG param_width)
+void	RENDER_MSC_F16(std::uint8_t *param_ptr_screen,std::int32_t param_width)
 {
 	
 	__asm
@@ -1215,7 +1215,7 @@ lp:
 	}
 }
 #else
-SLONG	RENDER_GO_F(void);
+std::int32_t	RENDER_GO_F(void);
 #pragma aux RENDER_GO_F =\
 			    "	lp:"\
 				"	inc edi"\
@@ -1228,7 +1228,7 @@ SLONG	RENDER_GO_F(void);
 
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_T16(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_T16(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1292,7 +1292,7 @@ lp:
 
 	}
 }
-SLONG	RENDER_GO_T16(void)
+std::int32_t	RENDER_GO_T16(void)
 {
 	return	0;
 }
@@ -1300,7 +1300,7 @@ SLONG	RENDER_GO_T16(void)
 
 #ifdef	_MSC_VER
 
-void	RENDER_MSC_GT16(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_GT16(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1362,7 +1362,7 @@ lp:
 	}
 }
 
-void	RENDER_MSC_TGT16(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_TGT16(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1426,12 +1426,12 @@ lp:
 	}
 }
 
-SLONG	RENDER_GO_GT16(void)
+std::int32_t	RENDER_GO_GT16(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_GT16(void);
+std::int32_t	RENDER_GO_GT16(void);
 #pragma aux RENDER_GO_GT16 =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1455,12 +1455,12 @@ SLONG	RENDER_GO_GT16(void);
 #endif
 
 #ifdef	_MSC_VER
-SLONG	RENDER_GO_GT32(void)
+std::int32_t	RENDER_GO_GT32(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_GT32(void);
+std::int32_t	RENDER_GO_GT32(void);
 #pragma aux RENDER_GO_GT32 =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1485,12 +1485,12 @@ SLONG	RENDER_GO_GT32(void);
 #endif
 
 #ifdef	_MSC_VER
-SLONG	RENDER_GO_TGT(void)
+std::int32_t	RENDER_GO_TGT(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_TGT(void);
+std::int32_t	RENDER_GO_TGT(void);
 #pragma aux RENDER_GO_TGT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1515,12 +1515,12 @@ SLONG	RENDER_GO_TGT(void);
 #endif
 
 #ifdef	_MSC_VER
-SLONG	RENDER_GO_TT(void)
+std::int32_t	RENDER_GO_TT(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_TT(void);
+std::int32_t	RENDER_GO_TT(void);
 #pragma aux RENDER_GO_TT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1542,7 +1542,7 @@ SLONG	RENDER_GO_TT(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_50GT(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_50GT(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1604,12 +1604,12 @@ lp:
 
 	}
 }
-SLONG	RENDER_GO_50GT(void)
+std::int32_t	RENDER_GO_50GT(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_50GT(void);
+std::int32_t	RENDER_GO_50GT(void);
 #pragma aux RENDER_GO_50GT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1634,7 +1634,7 @@ SLONG	RENDER_GO_50GT(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_50T(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_50T(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1694,12 +1694,12 @@ lp:
 
 	}
 }
-SLONG	RENDER_GO_50T(void)
+std::int32_t	RENDER_GO_50T(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_50T(void);
+std::int32_t	RENDER_GO_50T(void);
 #pragma aux RENDER_GO_50T =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1722,12 +1722,12 @@ SLONG	RENDER_GO_50T(void);
 #endif
 
 #ifdef	_MSC_VER
-SLONG	RENDER_GO_50MGT(void)
+std::int32_t	RENDER_GO_50MGT(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_50MGT(void);
+std::int32_t	RENDER_GO_50MGT(void);
 #pragma aux RENDER_GO_50MGT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1755,7 +1755,7 @@ SLONG	RENDER_GO_50MGT(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_MGT(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_MGT(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1819,7 +1819,7 @@ skip:
 	}
 }
 
-void	RENDER_MSC_MGT16(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_shade,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_MGT16(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_shade,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1897,7 +1897,7 @@ skip:
 }
 
 #else
-SLONG	RENDER_GO_MGT(void);
+std::int32_t	RENDER_GO_MGT(void);
 #pragma aux RENDER_GO_MGT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -1923,7 +1923,7 @@ SLONG	RENDER_GO_MGT(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_MT(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_MT(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -1985,7 +1985,7 @@ skip:
 	}
 }
 
-void	RENDER_MSC_MT16(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_MT16(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -2055,7 +2055,7 @@ skip:
 	}
 }
 #else
-SLONG	RENDER_GO_MT(void);
+std::int32_t	RENDER_GO_MT(void);
 #pragma aux RENDER_GO_MT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -2079,7 +2079,7 @@ SLONG	RENDER_GO_MT(void);
 #endif
 
 #ifdef	_MSC_VER
-void	RENDER_MSC_T(UBYTE *param_ptr_screen,SLONG param_width,SLONG param_step_texx,SLONG param_step_texy)
+void	RENDER_MSC_T(std::uint8_t *param_ptr_screen,std::int32_t param_width,std::int32_t param_step_texx,std::int32_t param_step_texy)
 {
 	//	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
 	__asm
@@ -2139,12 +2139,12 @@ lp:
 
 	}
 }
-SLONG	RENDER_GO_T(void)
+std::int32_t	RENDER_GO_T(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_T(void);
+std::int32_t	RENDER_GO_T(void);
 #pragma aux RENDER_GO_T =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -2166,12 +2166,12 @@ SLONG	RENDER_GO_T(void);
 #endif
 
 #ifdef	_MSC_VER
-SLONG	RENDER_GO_AMT(void)
+std::int32_t	RENDER_GO_AMT(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_AMT(void);
+std::int32_t	RENDER_GO_AMT(void);
 #pragma aux RENDER_GO_AMT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -2197,12 +2197,12 @@ SLONG	RENDER_GO_AMT(void);
 #endif
 
 #ifdef	_MSC_VER
-SLONG	RENDER_GO_AT(void)
+std::int32_t	RENDER_GO_AT(void)
 {
 	return	0;
 }
 #else
-SLONG	RENDER_GO_AT(void);
+std::int32_t	RENDER_GO_AT(void);
 #pragma aux RENDER_GO_AT =\
 				"	push	ebp"\
 				"	mov	ebp,ASMtext_page"\
@@ -2226,8 +2226,8 @@ SLONG	RENDER_GO_AT(void);
 #endif
 
 
-//inline	void	SCAN_LINE_GT(const SLONG y,SLONG lx,SLONG rx,SLONG s1,SLONG shade_step,SLONG tx1,SLONG textx_step,SLONG ty1,SLONG texty_step)
-//const SLONG y,SLONG lx,SLONG rx,SLONG s1,SLONG shade_step,SLONG tx1,SLONG textx_step,SLONG ty1,SLONG texty_step)
+//inline	void	SCAN_LINE_GT(const std::int32_t y,std::int32_t lx,std::int32_t rx,std::int32_t s1,std::int32_t shade_step,std::int32_t tx1,std::int32_t textx_step,std::int32_t ty1,std::int32_t texty_step)
+//const std::int32_t y,std::int32_t lx,std::int32_t rx,std::int32_t s1,std::int32_t shade_step,std::int32_t tx1,std::int32_t textx_step,std::int32_t ty1,std::int32_t texty_step)
 #define	POLY_TEXT_SHIFT	7
 
 
@@ -2235,8 +2235,8 @@ SLONG	RENDER_GO_AT(void);
 
 void	PSCAN_LINE_GT(struct	FloatPolyParameters *poly)
 {
-	UBYTE	*ptr;
-	SLONG	width;
+	std::uint8_t	*ptr;
+	std::int32_t	width;
 	struct	FloatPolyParameters 	lpoly;
 
 	lpoly.Y        =poly->Y;        	     
@@ -2280,12 +2280,12 @@ void	PSCAN_LINE_GT(struct	FloatPolyParameters *poly)
 
 	if(width)
 	{  //"C" version
-		UBYTE	col;
+		std::uint8_t	col;
 		while(width)
 		{
-			SLONG	tx,ty;
-			tx=(SLONG)(lpoly.FLeftTextX/lpoly.Q);
-			ty=(SLONG)(lpoly.FLeftTextY/lpoly.Q);
+			std::int32_t	tx,ty;
+			tx=(std::int32_t)(lpoly.FLeftTextX/lpoly.Q);
+			ty=(std::int32_t)(lpoly.FLeftTextY/lpoly.Q);
 			if(tx<0||tx>255||ty<0||ty>255)
 				tx=ty=0;
 
@@ -2305,13 +2305,13 @@ void	PSCAN_LINE_GT(struct	FloatPolyParameters *poly)
 
 void	SCAN_LINE_GT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 /*
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str," %d -> %d ",poly->LeftX>>16,poly->RightX>>16);
 		QuickTextC(poly->LeftX>>16,(poly->Y-280)*10,str,1);
 	}
@@ -2371,8 +2371,8 @@ void	SCAN_LINE_GT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_TGT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2422,8 +2422,8 @@ void	SCAN_LINE_TGT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_50GT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2477,8 +2477,8 @@ void	SCAN_LINE_50GT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_50MGT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2528,8 +2528,8 @@ void	SCAN_LINE_50MGT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_MGT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2583,8 +2583,8 @@ void	SCAN_LINE_MGT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_MT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2636,8 +2636,8 @@ void	SCAN_LINE_MT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_T(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2688,8 +2688,8 @@ void	SCAN_LINE_T(struct	PolyParameters *poly)
 
 void	SCAN_LINE_50T(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2740,8 +2740,8 @@ void	SCAN_LINE_50T(struct	PolyParameters *poly)
 
 void	SCAN_LINE_AT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2788,8 +2788,8 @@ void	SCAN_LINE_AT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_AMT(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2838,8 +2838,8 @@ void	SCAN_LINE_AMT(struct	PolyParameters *poly)
 
 void	SCAN_LINE_G(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2881,8 +2881,8 @@ void	SCAN_LINE_G(struct	PolyParameters *poly)
 
 void	SCAN_LINE_AG(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2925,8 +2925,8 @@ void	SCAN_LINE_AG(struct	PolyParameters *poly)
 
 void	SCAN_LINE_50G(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -2971,8 +2971,8 @@ void	SCAN_LINE_50G(struct	PolyParameters *poly)
 
 void	SCAN_LINE_F(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
@@ -3011,10 +3011,10 @@ void	SCAN_LINE_F(struct	PolyParameters *poly)
 
 void	SCAN_LINE_50F(struct	PolyParameters *poly)
 {
-	UBYTE	*ptr_screen;
-	SLONG	width;
+	std::uint8_t	*ptr_screen;
+	std::int32_t	width;
 	struct	PolyParameters lpoly;
-	SLONG	col;
+	std::int32_t	col;
 
 	lpoly.LeftX    =poly->LeftX>>16;		 //CLIP
 //	lpoly.RightX   =(poly->RightX+(1<<15))>>16;	     //CLIP
@@ -3061,11 +3061,11 @@ void	SCAN_LINE_NULL(struct	PolyParameters *poly)
 /*
 void	SCAN_LINE_GT(struct	PolyParameter *p)
 {
-	UBYTE	*ptr,col,col2;
-	SLONG	p,shade;
-	UBYTE	*ptr_text;
-	SLONG	start_text_x,textx;
-	SLONG	start_text_y,texty;
+	std::uint8_t	*ptr,col,col2;
+	std::int32_t	p,shade;
+	std::uint8_t	*ptr_text;
+	std::int32_t	start_text_x,textx;
+	std::int32_t	start_text_y,texty;
 	
 
 	if(rx<0)
@@ -3114,7 +3114,7 @@ void	SCAN_LINE_GT(struct	PolyParameter *p)
 #ifdef	KEYBOARD
 //	if(!KeyOn[KB_H])
 	{  //"C" version
-		UBYTE	*optr;
+		std::uint8_t	*optr;
 		optr=ptr;
 		while(p)
 		{
@@ -3156,10 +3156,10 @@ void	SCAN_LINE_GT(struct	PolyParameter *p)
 
 
 #define	DITHER_WIDTH	256
-void	build_dither_tmap(SLONG	tx,SLONG ty,UBYTE *dest)
+void	build_dither_tmap(std::int32_t	tx,std::int32_t ty,std::uint8_t *dest)
 {
-	UBYTE	*ptr_s,*ptr_d;
-	SLONG	x,y;
+	std::uint8_t	*ptr_s,*ptr_d;
+	std::int32_t	x,y;
 /*
 //
 // no longer 8 but compatible
@@ -3196,10 +3196,10 @@ void	build_dither_tmap(SLONG	tx,SLONG ty,UBYTE *dest)
 }
 
 
-SLONG	find_and_use_block(SLONG *dx,SLONG *dy,SLONG id)
+std::int32_t	find_and_use_block(std::int32_t *dx,std::int32_t *dy,std::int32_t id)
 {
-	SLONG	best=-1,best_age=2;
-	SLONG	c0;
+	std::int32_t	best=-1,best_age=2;
+	std::int32_t	c0;
 	for(c0=0;c0<16;c0++)
 	{
 		if(filter_is[c0]==0xffff)
@@ -3228,17 +3228,17 @@ early_out:;
 	return(0);
 }
 
-static	SLONG   local_edit_turn=-1;
-inline SLONG	filter_poly_tmap(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,SLONG *dx,SLONG *dy)
+static	std::int32_t   local_edit_turn=-1;
+inline std::int32_t	filter_poly_tmap(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,std::int32_t *dx,std::int32_t *dy)
 {
-	SLONG	tx,ty,use_x,use_y;
-	SLONG	id;
+	std::int32_t	tx,ty,use_x,use_y;
+	std::int32_t	id;
 /*
 //	LogText("FILTER POLY3 \n");
 
 	if(local_edit_turn==-1)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 //	LogText("CLEAR LIST\n");
 		for(c0=0;c0<16;c0++)
 		{
@@ -3249,7 +3249,7 @@ inline SLONG	filter_poly_tmap(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,
 	}
 	if(editor_turn!=local_edit_turn)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 // 		LogText("FILTERED TMAPS TRI\n");
 // 		LogText("---=----------\n");
 		local_edit_turn=editor_turn;
@@ -3286,10 +3286,10 @@ inline SLONG	filter_poly_tmap(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,
 	return(1);
 }
 
-inline SLONG	filter_poly_tmap4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,struct	MfEnginePoint	*p4,SLONG *dx,SLONG *dy)
+inline std::int32_t	filter_poly_tmap4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,struct	MfEnginePoint	*p4,std::int32_t *dx,std::int32_t *dy)
 {
-	SLONG	tx,ty,use_x,use_y;
-	SLONG	id;
+	std::int32_t	tx,ty,use_x,use_y;
+	std::int32_t	id;
 
 /*
 
@@ -3297,7 +3297,7 @@ inline SLONG	filter_poly_tmap4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2
 
 	if(local_edit_turn==-1)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 // 		LogText("CLEAR TMAPS\n");
 // 		LogText("---=----------\n");
 		for(c0=0;c0<16;c0++)
@@ -3311,7 +3311,7 @@ inline SLONG	filter_poly_tmap4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2
 	}
 	if(editor_turn!=local_edit_turn)
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 // 		LogText("FILTERED TMAPS\n");
 // 		LogText("---=----------\n");
 		local_edit_turn=editor_turn;
@@ -3351,11 +3351,11 @@ inline SLONG	filter_poly_tmap4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2
 }
 
 
-inline SLONG	allready_filtered(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,SLONG *dx,SLONG *dy)
+inline std::int32_t	allready_filtered(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,std::int32_t *dx,std::int32_t *dy)
 {
-	SLONG	c0;
-	SLONG	tx,ty;
-	SLONG	id;
+	std::int32_t	c0;
+	std::int32_t	tx,ty;
+	std::int32_t	id;
 
 /*
 
@@ -3387,12 +3387,12 @@ inline SLONG	allready_filtered(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2
 	return(0);
 }
 
-inline SLONG	allready_filtered4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,struct	MfEnginePoint *p4,SLONG *dx,SLONG *dy)
+inline std::int32_t	allready_filtered4(struct	MfEnginePoint	*p1,struct	MfEnginePoint *p2,struct	MfEnginePoint *p3,struct	MfEnginePoint *p4,std::int32_t *dx,std::int32_t *dy)
 {
 /*
-	SLONG	c0;
-	SLONG	tx,ty;
-	SLONG	id;
+	std::int32_t	c0;
+	std::int32_t	tx,ty;
+	std::int32_t	id;
 
 	tx=(p1->TX+p2->TX+p3->TX+p4->TX)>>2;
 	ty=(p1->TY+p2->TY+p3->TY+p4->TY)>>2;
@@ -3503,7 +3503,7 @@ struct	FPointer p_functions[]=
 
 #define	PSWAP(x,y) {struct MfEnginePoint *t; t=x ; x=y ; y=t; }
 
-inline void	bodge_textures(SLONG *dtx,SLONG *dty)
+inline void	bodge_textures(std::int32_t *dtx,std::int32_t *dty)
 {
 	if(*dtx>1<<16)
 		*dtx-=1<<15;
@@ -3520,10 +3520,10 @@ inline void	bodge_textures(SLONG *dtx,SLONG *dty)
 
 
 //p1 is top p2 is p1->p2 is left hand side  p1->p3 is right hand side
-void	calc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,SLONG dy_lhs,SLONG dy_rhs,struct PolyParameters *poly)
+void	calc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,std::int32_t dy_lhs,std::int32_t dy_rhs,struct PolyParameters *poly)
 {
-	SLONG  length,ratio;
-	SLONG	dtx,dty;
+	std::int32_t  length,ratio;
+	std::int32_t	dtx,dty;
 
 	if(dy_lhs==dy_rhs)
 	{
@@ -3544,7 +3544,7 @@ void	calc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct
 	else
 	if(dy_lhs<dy_rhs)
 	{
-		SLONG	mid_shade,mid_textx,mid_texty,mid_x;
+		std::int32_t	mid_shade,mid_textx,mid_texty,mid_x;
 
 		ratio=(dy_rhs<<16)/dy_lhs;
 
@@ -3570,7 +3570,7 @@ void	calc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct
 	else
 	if(dy_lhs>dy_rhs)
 	{
-		SLONG	mid_shade,mid_textx,mid_texty,mid_x;
+		std::int32_t	mid_shade,mid_textx,mid_texty,mid_x;
 
 		ratio=(dy_lhs<<16)/dy_rhs;
 
@@ -3599,9 +3599,9 @@ void	calc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct
 #define	can_texture_be_filtered4(a,b,c,d)		0
 
 /*
-SLONG	can_texture_be_filtered(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3)
+std::int32_t	can_texture_be_filtered(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3)
 {
-	SLONG	id1,id2,id3;
+	std::int32_t	id1,id2,id3;
 	if(Keys[KB_0])
 		return(0);
 		
@@ -3616,9 +3616,9 @@ SLONG	can_texture_be_filtered(struct MfEnginePoint *p1,struct MfEnginePoint *p2,
 		return(0);
 
 }
-SLONG	can_texture_be_filtered4(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,struct MfEnginePoint *p4)
+std::int32_t	can_texture_be_filtered4(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,struct MfEnginePoint *p4)
 {
-	SLONG	id1,id2,id3,id4;
+	std::int32_t	id1,id2,id3,id4;
 	if(Keys[KB_0])
 		return(0);
 		
@@ -3636,9 +3636,9 @@ SLONG	can_texture_be_filtered4(struct MfEnginePoint *p1,struct MfEnginePoint *p2
 }
 */
 
-ULONG	calc_texture_offset(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3)
+std::uint32_t	calc_texture_offset(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3)
 {
-	SLONG	tx,ty;
+	std::int32_t	tx,ty;
 	tx=p1->TX;
 	ty=p1->TY;
 
@@ -3658,9 +3658,9 @@ ULONG	calc_texture_offset(struct MfEnginePoint *p1,struct MfEnginePoint *p2,stru
 	return(tx+(ty<<8));
 
 }
-ULONG	calc_texture_offset4(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,struct MfEnginePoint *p4)
+std::uint32_t	calc_texture_offset4(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,struct MfEnginePoint *p4)
 {
-	SLONG	tx,ty;
+	std::int32_t	tx,ty;
 	tx=p1->TX;
 	ty=p1->TY;
 
@@ -3690,16 +3690,16 @@ ULONG	calc_texture_offset4(struct MfEnginePoint *p1,struct MfEnginePoint *p2,str
 
 void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1)
 {
-	SLONG	dx_lhs,dy_lhs,dx_rhs,dy_rhs,dx2,dy2;
+	std::int32_t	dx_lhs,dy_lhs,dx_rhs,dy_rhs,dx2,dy2;
 
 //shades	
-	SLONG	ds_lhs,ds_2;
-	SLONG	dtx_lhs,dtx_2;
-	SLONG	dty_lhs,dty_2;
-	SLONG	flat_top=0;
+	std::int32_t	ds_lhs,ds_2;
+	std::int32_t	dtx_lhs,dtx_2;
+	std::int32_t	dty_lhs,dty_2;
+	std::int32_t	flat_top=0;
 #ifdef	FILTERING_ON
-	SLONG	f_dx=0,f_dy=0;
-	SLONG	filtered=0,can_filter=0;
+	std::int32_t	f_dx=0,f_dy=0;
+	std::int32_t	filtered=0,can_filter=0;
 #endif
 	struct	PolyParameters	poly;
 	struct	FPointer	raster_fill;	
@@ -3754,8 +3754,8 @@ void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePo
 		dy_lhs=(p2->Y-p1->Y);
 		if(dy_lhs==0) //flat top with p2,p1
 		{
-			SLONG	dtx,dty;
-			SLONG	dist;
+			std::int32_t	dtx,dty;
+			std::int32_t	dist;
 			flat_top=1;
 
 			dty_lhs=0; //((p2->TY-p1->TY)<<16)/dy_lhs;
@@ -3788,8 +3788,8 @@ void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePo
 		dy_rhs=(p3->Y-p1->Y);
 		if(dy_rhs==0)  //flat top with p3,p1
 		{
-			SLONG	dtx,dty;
-			SLONG	dist;
+			std::int32_t	dtx,dty;
+			std::int32_t	dist;
 
 			dx_rhs=0;
 
@@ -3834,7 +3834,7 @@ void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePo
 
 				if(dy_lhs==0)
 				{
-					SLONG	dtx,dty,dist;
+					std::int32_t	dtx,dty,dist;
 					dist=p1->X-p2->X;
 					if(dist)
 					{
@@ -3868,7 +3868,7 @@ void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePo
 
 		if(dy_lhs<dy_rhs)   //LHS runs out before RHS
 		{
-			SLONG	temp_dx;
+			std::int32_t	temp_dx;
 
 			dy2=dy_rhs-dy_lhs;  //how far left to go
 			if(dy2==0)
@@ -3892,15 +3892,15 @@ void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePo
 	}
 #ifdef	DEBUG_POLY
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"stx %d sty %d tdx %d tdy %d",stx,sty,dtx_lhs,dty_lhs);
 		QuickText((p2->X+p1->X+p3->X)/3,380,str,1);
 	}
 #endif
 //now scan the edges and render between edges
 	{
-		SLONG	count;
-//		CBYTE	str[100];
+		std::int32_t	count;
+//		char	str[100];
 
 		poly.RightX=poly.LeftX;
 
@@ -4069,9 +4069,9 @@ clip_out:;
 
 
 //p1 is top p2 is p1->p2 is left hand side  p1->p3 is right hand side
-void	pcalc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,SLONG dy_lhs,SLONG dy_rhs,struct FloatPolyParameters *poly)
+void	pcalc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,std::int32_t dy_lhs,std::int32_t dy_rhs,struct FloatPolyParameters *poly)
 {
-	SLONG  length,ratio;
+	std::int32_t  length,ratio;
 	float	dtx,dty,dq,q1,q2,q3;
 	q1=1.0/(float)p1->Z3d;
 	q2=1.0/(float)p2->Z3d;
@@ -4095,7 +4095,7 @@ void	pcalc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struc
 	else
 	if(dy_lhs<dy_rhs)
 	{
-		SLONG	mid_shade,mid_x;
+		std::int32_t	mid_shade,mid_x;
 		float	mid_q,ratiof,mid_textx,mid_texty;
 
 
@@ -4131,8 +4131,8 @@ void	pcalc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struc
 	else
 	if(dy_lhs>dy_rhs)
 	{
-		SLONG	mid_shade,mid_x;
-//		SLONG	mid_z;
+		std::int32_t	mid_shade,mid_x;
+//		std::int32_t	mid_z;
 		float	mid_textx,mid_texty;
 		float	mid_q,ratiof;
 
@@ -4167,19 +4167,19 @@ void	pcalc_steps_for_tri(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struc
 
 void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1)
 {
-	SLONG	dx_lhs,dy_lhs,dx_rhs,dy_rhs,dx2,dy2;
+	std::int32_t	dx_lhs,dy_lhs,dx_rhs,dy_rhs,dx2,dy2;
 	
 //shades	
-	SLONG	ds_lhs,ds_2;
+	std::int32_t	ds_lhs,ds_2;
 	float	dtx_lhs,dty_lhs;
 	float	dtx_2,dty_2;
 
 	float	q_lhs,dq_lhs,dq2,q1,q2,q3;
 
-	SLONG	flat_top=0;
-	SLONG	f_dx=0,f_dy=0;
+	std::int32_t	flat_top=0;
+	std::int32_t	f_dx=0,f_dy=0;
 #ifdef	FILTERING_ON
-	SLONG	filtered=0,can_filter=0;
+	std::int32_t	filtered=0,can_filter=0;
 #endif
 	struct	FloatPolyParameters	poly;
 //	struct	FPointer	raster_fill;	
@@ -4239,7 +4239,7 @@ void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEngineP
 		if(dy_lhs==0) //flat top with p2,p1
 		{
 			float	dtx,dty;
-			SLONG	dist;
+			std::int32_t	dist;
 			flat_top=1;
 
 			dty_lhs=0; //((p2->TY-p1->TY)<<16)/dy_lhs;
@@ -4272,7 +4272,7 @@ void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEngineP
 		if(dy_rhs==0)  //flat top with p3,p1
 		{
 			float	dtx,dty;
-			SLONG	dist;
+			std::int32_t	dist;
 
 			dx_rhs=0;
 
@@ -4316,7 +4316,7 @@ void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEngineP
 
 				if(dy_lhs==0)
 				{
-					SLONG	dist;
+					std::int32_t	dist;
 					float	dtx,dty;
 					dist=p1->X-p2->X;
 					if(dist)
@@ -4352,7 +4352,7 @@ void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEngineP
 
 		if(dy_lhs<dy_rhs)   //LHS runs out before RHS
 		{
-			SLONG	temp_dx;
+			std::int32_t	temp_dx;
 			float	dtx,dty;
 
 			dy2=dy_rhs-dy_lhs;  //how far left to go
@@ -4382,8 +4382,8 @@ void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEngineP
 	}
 //now scan the edges and render between edges
 	{
-		SLONG	count;
-//		CBYTE	str[100];
+		std::int32_t	count;
+//		char	str[100];
 
 		poly.RightX=poly.LeftX;
 
@@ -4556,9 +4556,9 @@ clip_out:;
 //		p1->Shade=128;
 }
 
-void	rotate_a_point(struct	MfEnginePoint *p1,SLONG cx,SLONG cy,SLONG a)
+void	rotate_a_point(struct	MfEnginePoint *p1,std::int32_t cx,std::int32_t cy,std::int32_t a)
 {
-	SLONG	dx,dy;
+	std::int32_t	dx,dy;
 
 	dx=p1->X-cx;
 	dy=p1->Y-cy;
@@ -4576,12 +4576,12 @@ void	rotate_a_point(struct	MfEnginePoint *p1,SLONG cx,SLONG cy,SLONG a)
 struct	Boint span_info[1024];
 
 
-void	(*render_span)(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+void	(*render_span)(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags);
 
-void	render_span8(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags)
+void	render_span8(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags)
 {
-	SLONG	width;
-	SLONG	step_shade,step_tx,step_ty;
+	std::int32_t	width;
+	std::int32_t	step_shade,step_tx,step_ty;
 
 	width=p_b->RightX-p_b->LeftX;
 	if(width<=0)
@@ -4734,10 +4734,10 @@ void	render_span8(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags)
 //	*(ptr_screen+(width)-1)=255;
 }
 
-void	render_span16(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags)
+void	render_span16(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags)
 {
-	SLONG	width;
-	SLONG	step_shade,step_tx,step_ty;
+	std::int32_t	width;
+	std::int32_t	step_shade,step_tx,step_ty;
 
 	width=p_b->RightX-p_b->LeftX;
 
@@ -4834,10 +4834,10 @@ void	render_span16(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags)
 	}
 }
 
-void	render_span32(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags)
+void	render_span32(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags)
 {
-	SLONG	width;
-	SLONG	step_shade,step_tx,step_ty;
+	std::int32_t	width;
+	std::int32_t	step_shade,step_tx,step_ty;
 
 	width=p_b->RightX-p_b->LeftX;
 	if(width<=0)
@@ -4933,8 +4933,8 @@ inline void	pers_average_points(struct MfEnginePoint *mid,struct MfEnginePoint *
 
 	mid->X=(p1->X+p2->X)>>1;
 	mid->Y=(p1->Y+p2->Y)>>1;
-	mid->TX=(SLONG)(as/aq);
-	mid->TY=(SLONG)(at/aq);
+	mid->TX=(std::int32_t)(as/aq);
+	mid->TY=(std::int32_t)(at/aq);
 	mid->Shade=(p1->Shade+p2->Shade)>>1;
 	mid->Z3d=(p1->Z3d+p2->Z3d)>>1;
 }
@@ -4962,8 +4962,8 @@ inline void	pers_average_points4(struct MfEnginePoint *mid,struct MfEnginePoint 
 
 	mid->X=(p1->X+p2->X+p3->X+p4->X)>>2;
 	mid->Y=(p1->Y+p2->Y+p3->Y+p4->Y)>>2;
-	mid->TX=(SLONG)(as/aq);
-	mid->TY=(SLONG)(at/aq);
+	mid->TX=(std::int32_t)(as/aq);
+	mid->TY=(std::int32_t)(at/aq);
 	mid->Shade=(p1->Shade+p2->Shade+p3->Shade+p4->Shade)>>2;
 	mid->Z3d=(p1->Z3d+p2->Z3d+p3->Z3d+p4->Z3d)>>2;
 }
@@ -4980,14 +4980,14 @@ inline void	average_points4(struct MfEnginePoint *mid,struct MfEnginePoint *p1,s
 //scan from p1 to p2 filling in the span info
 inline void	scan_a_line_noz(struct	MfEnginePoint *p1,struct MfEnginePoint *p2)
 {
-	SLONG	dx,dy,cx,cy;
-	SLONG	tx,ty,dtx,dty;
-	SLONG	shade,d_shade;
-	SLONG	side=0;
+	std::int32_t	dx,dy,cx,cy;
+	std::int32_t	tx,ty,dtx,dty;
+	std::int32_t	shade,d_shade;
+	std::int32_t	side=0;
 	struct Boint *ptr_side;
 	{
 /*
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"(%d,%d)",p1->X,p1->Y);
 		QuickTextC(p1->X,p1->Y,str,0);
 		QuickTextC(p1->X+1,p1->Y+1,str,255);
@@ -5045,7 +5045,7 @@ inline void	scan_a_line_noz(struct	MfEnginePoint *p1,struct MfEnginePoint *p2)
 
 		if(cy<0)
 		{
-			SLONG	over=-cy;
+			std::int32_t	over=-cy;
 
 			cx   += dx*over;
 			tx   += dtx*over;
@@ -5122,14 +5122,14 @@ inline void	scan_a_line_noz(struct	MfEnginePoint *p1,struct MfEnginePoint *p2)
 
 void	my_quad_noz(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3,struct MfEnginePoint *p4)
 {
-	SLONG	top,bottom;
-	SLONG	left,right;
+	std::int32_t	top,bottom;
+	std::int32_t	left,right;
 	struct	Boint	*p_span;
-	UBYTE	*ptr_screen;
+	std::uint8_t	*ptr_screen;
 
 #ifdef	FILTERING_ON
-	SLONG	f_dx=0,f_dy=0;
-	SLONG	filtered=0,can_filter=0;
+	std::int32_t	f_dx=0,f_dy=0;
+	std::int32_t	filtered=0,can_filter=0;
 #endif
 		
 	top    = MIN( MIN( MIN(p1->Y,p2->Y),p3->Y ),p4->Y );
@@ -5207,7 +5207,7 @@ void	my_quad_noz(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEngi
 
 	p_span=&span_info[top];
 //	ptr_screen=WorkWindow+p_b->LeftX+(WorkScreenWidth*y);
-	ptr_screen=WorkWindow+top*WorkScreenWidth; //(UBYTE*)((ULONG)WorkWindow+(ULONG)top(ULONG)*WorkScreenWidth);
+	ptr_screen=WorkWindow+top*WorkScreenWidth; //(std::uint8_t*)((std::uint32_t)WorkWindow+(std::uint32_t)top(std::uint32_t)*WorkScreenWidth);
 	for(;top<bottom;top++)
 	{
 		render_span(p_span,ptr_screen,poly_info.DrawFlags);
@@ -5237,14 +5237,14 @@ void	my_quad_noz(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEngi
 
 void	my_trig_noz(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p3)
 {
-	SLONG	top,bottom;
-	SLONG	left,right;
+	std::int32_t	top,bottom;
+	std::int32_t	left,right;
 	struct	Boint	*p_span;
-	UBYTE	*ptr_screen;
+	std::uint8_t	*ptr_screen;
 
 #ifdef	FILTERING_ON
-	SLONG	f_dx=0,f_dy=0;
-	SLONG	filtered=0,can_filter=0;
+	std::int32_t	f_dx=0,f_dy=0;
+	std::int32_t	filtered=0,can_filter=0;
 #endif
 		
 	top    =  MIN( MIN(p1->Y,p2->Y),p3->Y );
@@ -5301,7 +5301,7 @@ void	my_trig_noz(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEngi
 
 	p_span=&span_info[top];
 //	ptr_screen=WorkWindow+p_b->LeftX+(WorkScreenWidth*y);
-	ptr_screen=WorkWindow+top*WorkScreenWidth; //(UBYTE*)((ULONG)WorkWindow+(ULONG)top(ULONG)*WorkScreenWidth);
+	ptr_screen=WorkWindow+top*WorkScreenWidth; //(std::uint8_t*)((std::uint32_t)WorkWindow+(std::uint32_t)top(std::uint32_t)*WorkScreenWidth);
 	for(;top<bottom;top++)
 	{
 		render_span(p_span,ptr_screen,poly_info.DrawFlags);
@@ -5327,13 +5327,13 @@ void	my_trig_noz(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEngi
 }
 
 
-ULONG	poly_def;
+std::uint32_t	poly_def;
 //scan from p1 to p2 filling in the span info
-inline void	scan_a_line(struct	Boint *p_b,SLONG top,struct	MfEnginePoint *p1,struct MfEnginePoint *p2)
+inline void	scan_a_line(struct	Boint *p_b,std::int32_t top,struct	MfEnginePoint *p1,struct MfEnginePoint *p2)
 {
-	SLONG	dx,dy,cx,cy,dz,cz;
-	SLONG	tx,ty,dtx,dty;
-	SLONG	shade,d_shade;
+	std::int32_t	dx,dy,cx,cy,dz,cz;
+	std::int32_t	tx,ty,dtx,dty;
+	std::int32_t	shade,d_shade;
 	struct Boint *ptr_side;
 
 	dz=p2->Z3d-p1->Z3d;
@@ -5379,7 +5379,7 @@ inline void	scan_a_line(struct	Boint *p_b,SLONG top,struct	MfEnginePoint *p1,str
 
 		if(cy>=WorkWindowHeight)
 		{
-			SLONG	over=cy-(WorkWindowHeight-1);
+			std::int32_t	over=cy-(WorkWindowHeight-1);
 
 			cz   += dz*over;
 			cx   += dx*over;
@@ -5435,7 +5435,7 @@ inline void	scan_a_line(struct	Boint *p_b,SLONG top,struct	MfEnginePoint *p1,str
 
 		if(cy<0)
 		{
-			SLONG	over=-cy;
+			std::int32_t	over=-cy;
 
 			cz   += dz*over;
 			cx   += dx*over;
@@ -5490,14 +5490,14 @@ inline void	scan_a_line(struct	Boint *p_b,SLONG top,struct	MfEnginePoint *p1,str
 #undef	FILTERING_ON
 void	my_quad(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePoint *p4,struct MfEnginePoint *p3)
 {
-	SLONG	top,bottom;
-	SLONG	left,right;
+	std::int32_t	top,bottom;
+	std::int32_t	left,right;
 	struct	Boint	*p_span;
-	UBYTE	*ptr_screen;
+	std::uint8_t	*ptr_screen;
 
 #ifdef	FILTERING_ON
-	SLONG	f_dx=0,f_dy=0;
-	SLONG	filtered=0,can_filter=0;
+	std::int32_t	f_dx=0,f_dy=0;
+	std::int32_t	filtered=0,can_filter=0;
 #endif
 	ASMCol=poly_info.Col;
 	if(!is_it_clockwise(p1,p2,p3))
@@ -5526,7 +5526,7 @@ void	my_quad(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePo
 	if(ASMtext_page==0)
 		return;
 
-	poly_def=(ULONG)p1*(ULONG)p2*(ULONG)p3;
+	poly_def=(std::uint32_t)p1*(std::uint32_t)p2*(std::uint32_t)p3;
 /*-----------**
 ** FILTERING **
 **-----------*/
@@ -5588,18 +5588,18 @@ void	my_quad(struct MfEnginePoint *p1,struct MfEnginePoint *p2,struct MfEnginePo
 }
 
 
-void	draw_a_single_span(UBYTE *p_screen,struct	Boint	p_b)
+void	draw_a_single_span(std::uint8_t *p_screen,struct	Boint	p_b)
 {
 	
 }
 void	draw_all_spans(void)
 {
-	SLONG	c0;
-	SLONG	count;
+	std::int32_t	c0;
+	std::int32_t	count;
 	struct	Boint	**b,*p_c;
-	UBYTE	*p_screen;
-	ULONG	dont_draw=0,dump=0;
-	SLONG	y=0;
+	std::uint8_t	*p_screen;
+	std::uint32_t	dont_draw=0,dump=0;
+	std::int32_t	y=0;
 	if(Keys[KB_A])
 		dont_draw=1;
 	if(Keys[KB_D])
@@ -5622,7 +5622,7 @@ void	draw_all_spans(void)
 			}
 		if(dump)
 		{
-			CBYTE	str[100];
+			char	str[100];
 			sprintf(str," DUMP SCREEN y %d ",y);
 			show_line(b,str);
 		}
@@ -5638,7 +5638,7 @@ void	draw_all_spans(void)
 	}
 	current_boint=&boint_pool[0];
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"Z BUFFERED %d cfind %d cin %d clhs %d crhs %d",next_boint,count_find,count_insert,count_chop_lhs,count_chop_rhs);
 		QuickTextC(10,50,str,255);
 		
@@ -5784,8 +5784,8 @@ void	test_poly(void)
 #define	DITHER_WIDTH	256
 void	double_work_window(void)
 {
-	UBYTE	*ptr_s,*ptr_d;
-	SLONG	x=0,y=0;
+	std::uint8_t	*ptr_s,*ptr_d;
+	std::int32_t	x=0,y=0;
 	ptr_s=WorkWindow;
 	ptr_d=WorkWindow;
 	if(Keys[KB_D])

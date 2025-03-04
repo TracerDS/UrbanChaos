@@ -9,7 +9,7 @@ struct Thing;
 
 typedef struct	
 {
-	UBYTE			State;
+	std::uint8_t			State;
 	void			(*StateFn)(Thing*);
 }StateFunction;
 
@@ -17,15 +17,15 @@ typedef struct
 
 typedef struct 
 {
-	UBYTE			Genus;
+	std::uint8_t			Genus;
 	StateFunction	*StateFunctions;
 }GenusFunctions;
 
 //---------------------------------------------------------------
 
-extern void	set_state_function(Thing *t_thing,UBYTE state);
-extern void	set_generic_person_state_function(Thing *t_thing,UBYTE state);
-extern void	set_generic_person_just_function(Thing *t_thing,UBYTE state);
+extern void	set_state_function(Thing *t_thing,std::uint8_t state);
+extern void	set_generic_person_state_function(Thing *t_thing,std::uint8_t state);
+extern void	set_generic_person_just_function(Thing *t_thing,std::uint8_t state);
 
 //---------------------------------------------------------------
 

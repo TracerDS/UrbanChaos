@@ -15,8 +15,8 @@
 
 //---------------------------------------------------------------
 
-static SLONG	which_waypoint;
-static SLONG	extend_time;
+static std::int32_t	which_waypoint;
+static std::int32_t	extend_time;
 
 //---------------------------------------------------------------
 
@@ -35,7 +35,7 @@ static SLONG	extend_time;
 
 bool CALLBACK	extend_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

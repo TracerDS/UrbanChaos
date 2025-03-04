@@ -8,7 +8,7 @@
 
 MFFileHandle log_handle	=	NULL;
 
-bool SetupHost(ULONG flags)
+bool SetupHost(std::uint32_t flags)
 {
 	if(!SetupMemory())
 		return	false;
@@ -37,9 +37,9 @@ void ResetHost()
 
 //---------------------------------------------------------------
 
-void LogText(CBYTE* error, ...)
+void LogText(char* error, ...)
 {
-	CBYTE 			buf[512];
+	char 			buf[512];
 	va_list 		argptr;
 
 	if(log_handle)
@@ -54,7 +54,7 @@ void LogText(CBYTE* error, ...)
 
 //---------------------------------------------------------------
 
-int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
+int MFMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine)
 {
 	LogText("Mucky Foot Message\n    %s\nIn   : %s\n%sLine : %u",pMessage,pFile,dwLine);
 

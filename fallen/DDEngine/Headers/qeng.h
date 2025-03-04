@@ -20,7 +20,7 @@ void QENG_init();
 // Debug messages drawn to the screen.
 //
 
-void MSG_add(CBYTE* message, ...);
+void MSG_add(char* message, ...);
 
 
 //
@@ -47,14 +47,14 @@ void QENG_clear_screen();
 // mouse is over the line.
 //
 
-extern SLONG QENG_mouse_over;
+extern std::int32_t QENG_mouse_over;
 extern float QENG_mouse_pos_x;	// Position in the world
 extern float QENG_mouse_pos_y;
 extern float QENG_mouse_pos_z;
 
 void QENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
 		bool sort_to_front);
 
 //

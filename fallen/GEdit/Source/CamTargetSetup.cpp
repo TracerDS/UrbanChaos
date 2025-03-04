@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG		target_type,target_move,target_speed,target_delay,camera_zoom,camera_rotate;
+std::int32_t		target_type,target_move,target_speed,target_delay,camera_zoom,camera_rotate;
 
 //---------------------------------------------------------------
 
@@ -25,7 +25,7 @@ bool	CALLBACK	camts_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 
 
 	switch(message)
@@ -107,7 +107,7 @@ void	do_camtarget_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_camtarget_message(EventPoint *ep, CBYTE* msg) {
+char	*get_camtarget_message(EventPoint *ep, char* msg) {
   if ((!ep)||(!ep->Data[0])||(!ep->Data[1]))
 	  strcpy(msg,"Unknown");
   else

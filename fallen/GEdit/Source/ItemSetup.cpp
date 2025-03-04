@@ -18,7 +18,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	item_count,item_type,item_flags;//,item_container;
+std::int32_t	item_count,item_type,item_flags;//,item_container;
 
 //---------------------------------------------------------------
 
@@ -35,7 +35,7 @@ SLONG	item_count,item_type,item_flags;//,item_container;
 
 bool	CALLBACK	is_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 
@@ -138,7 +138,7 @@ void	do_item_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_item_message(EventPoint *ep, CBYTE* msg) {
+char	*get_item_message(EventPoint *ep, char* msg) {
 	if ((!ep)||!ep->Data[0]) 
 		strcpy(msg,"Unknown");
 	else {

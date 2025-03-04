@@ -23,14 +23,14 @@
 #define	WIF_EDIT	1
 #define	WIF_PASS	2
 
-extern UBYTE InkeyToAscii[];
-extern UBYTE InkeyToAsciiShift[];
+extern std::uint8_t InkeyToAscii[];
+extern std::uint8_t InkeyToAsciiShift[];
 
-static SLONG WidgetTick;
-static SLONG EatenKey;
+static std::int32_t WidgetTick;
+static std::int32_t EatenKey;
 
 struct ListEntry {
-	CBYTE		*text;
+	char		*text;
 	ListEntry	*next,*prev;
 };
 
@@ -70,7 +70,7 @@ struct ListEntry {
 void BUTTON_Free(Widget *widget);
 void BUTTON_Draw(Widget *widget);
 void BUTTON_Push(Widget *widget);
-bool BUTTON_HitTest(Widget *widget, SLONG x, SLONG y);
+bool BUTTON_HitTest(Widget *widget, std::int32_t x, std::int32_t y);
 
 void STATIC_Init(Widget *widget); 
 
@@ -81,20 +81,20 @@ void RADIO_Push (Widget *widget);
 void INPUT_Init (Widget *widget); 
 void INPUT_Free (Widget *widget);
 void INPUT_Draw (Widget *widget);
-bool INPUT_Char (Widget *widget, CBYTE key);
-SLONG INPUT_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
+bool INPUT_Char (Widget *widget, char key);
+std::int32_t INPUT_Data (Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2);
 
 void LISTS_Free (Widget *widget);
 void LISTS_Draw (Widget *widget);
-bool LISTS_Char (Widget *widget, CBYTE key);
-SLONG LISTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
+bool LISTS_Char (Widget *widget, char key);
+std::int32_t LISTS_Data (Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2);
 void LISTS_Push (Widget *widget);
 
 void TEXTS_Init (Widget *widget); 
 void TEXTS_Free (Widget *widget);
 void TEXTS_Draw (Widget *widget);
-bool TEXTS_Char (Widget *widget, CBYTE key);
-SLONG TEXTS_Data (Widget *widget, SLONG code, SLONG data1, SLONG data2);
+bool TEXTS_Char (Widget *widget, char key);
+std::int32_t TEXTS_Data (Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2);
 
 void GLYPH_Draw (Widget *widget);
 
@@ -126,7 +126,7 @@ Methods SHADE_Methods  = { 0,           BUTTON_Free, SHADE_Draw,  0, 0,	0,			0 }
 #define _WS_FAIL	S_MENU_END-1
 #define _WS_BLIP	S_MENU_START+3
 
-void WIDGET_snd(SLONG snd) {
+void WIDGET_snd(std::int32_t snd) {
 	switch(snd) {
 	case WS_MOVE:		snd=_WS_MOVE;		break;
 	case WS_FADEOUT:	snd=_WS_FADEOUT;	break;
@@ -139,15 +139,15 @@ void WIDGET_snd(SLONG snd) {
 	MFX_play_ambient(0,snd,MFX_REPLACE);
 }
 
-inline SLONG	ShiftAlpha(ULONG rgba, SBYTE shift) {
+inline std::int32_t	ShiftAlpha(std::uint32_t rgba, std::int8_t shift) {
 	return (rgba&0xffffff)|((rgba>>shift)&0xFF000000);
 }
 
-inline SLONG	AlterAlpha(ULONG rgba, ULONG alpha) {
+inline std::int32_t	AlterAlpha(std::uint32_t rgba, std::uint32_t alpha) {
 	return (rgba&0xffffff)|((alpha&0xff)<<24);
 }
 
-void WIDGET_Rect(SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG rgb, UBYTE inverse=0, UBYTE flags=RECT_LEFT|RECT_RIGHT|RECT_BOTTOM|RECT_TOP) {
+void WIDGET_Rect(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::uint32_t rgb, std::uint8_t inverse=0, std::uint8_t flags=RECT_LEFT|RECT_RIGHT|RECT_BOTTOM|RECT_TOP) {
 
 	if (flags&RECT_TOP) {
 		DRAW2D_Box(x+3,y,ox-3,y+3,rgb,inverse);
@@ -168,7 +168,7 @@ void WIDGET_Rect(SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG rgb, UBYTE inverse=
 
 
 
-/*	SLONG dx,dy,sx,sy,lx,ly,dummy;
+/*	std::int32_t dx,dy,sx,sy,lx,ly,dummy;
 	dx=ox-x; dy=oy-y;
 	MENUFONT_Dimensions("_",sx,sy); sx-=1; sy-=1; // borders
 	dy-=sy;
@@ -210,10 +210,10 @@ void BUTTON_Free(Widget *widget) {
 }
 
 void BUTTON_Draw(Widget *widget) {
-	SLONG flags=0, localctr=widget->form->age*8;
-	ULONG rgb=widget->form->textcolour;
+	std::int32_t flags=0, localctr=widget->form->age*8;
+	std::uint32_t rgb=widget->form->textcolour;
 	WidgetPoint wp = WIDGET_Centre(widget);
-	UBYTE shift = widget->data[0];
+	std::uint8_t shift = widget->data[0];
 
 	if (!widget->caption) return;
 
@@ -237,7 +237,7 @@ void BUTTON_Draw(Widget *widget) {
 		}
 	}
 
-	MENUFONT_Draw(wp.x,wp.y,256>>shift,(CBYTE*)widget->caption,rgb,flags);
+	MENUFONT_Draw(wp.x,wp.y,256>>shift,(char*)widget->caption,rgb,flags);
 }
 
 void BUTTON_Push(Widget *widget) {
@@ -245,7 +245,7 @@ void BUTTON_Push(Widget *widget) {
 	if (widget->form->proc) widget->form->proc(widget->form,widget,WBN_PUSH);
 }
 
-bool BUTTON_HitTest(Widget *widget, SLONG x, SLONG y) {
+bool BUTTON_HitTest(Widget *widget, std::int32_t x, std::int32_t y) {
 	WidgetPoint pt;
 
     pt = FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
@@ -264,10 +264,10 @@ void STATIC_Init(Widget *widget) {
 // --  check boxes & radio buttons --
 
 void CHECK_Draw(Widget *widget) {
-	SLONG flags=0;
-	ULONG rgb=widget->form->textcolour;
+	std::int32_t flags=0;
+	std::uint32_t rgb=widget->form->textcolour;
 	WidgetPoint pt,wp = WIDGET_Centre(widget);
-	CBYTE check[2] = {0,0};
+	char check[2] = {0,0};
 
 	MENUFONT_Dimensions("�",pt.x,pt.y);
 
@@ -282,7 +282,7 @@ void CHECK_Draw(Widget *widget) {
 	else
 		check[0] = (widget->data[0] ? '�' : '�');
 	MENUFONT_Draw(widget->x+widget->form->x,wp.y,256,check,rgb,flags|MENUFONT_SUPER_YCTR);
-	MENUFONT_Draw(wp.x,wp.y,256,(CBYTE*)widget->caption,rgb,flags);
+	MENUFONT_Draw(wp.x,wp.y,256,(char*)widget->caption,rgb,flags);
 }
 
 void CHECK_Push(Widget *widget) {
@@ -311,24 +311,24 @@ void INPUT_Init(Widget *widget) {
 
 void INPUT_Draw (Widget *widget) {
 	WidgetPoint pt,pt2;
-	SLONG flags=0, len, xd, yd, w;
-	ULONG rgb=widget->form->textcolour;
-	CBYTE* str=0;
+	std::int32_t flags=0, len, xd, yd, w;
+	std::uint32_t rgb=widget->form->textcolour;
+	char* str=0;
 
 	pt=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
 	pt2=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->ox,widget->oy));
 
 /*	//debug
 	if (widget->data[1])
-		MENUFONT_Draw(widget->form->x+10,widget->form->oy-40,128,(CBYTE*)widget->data[0],widget->form->textcolour,0);*/
+		MENUFONT_Draw(widget->form->x+10,widget->form->oy-40,128,(char*)widget->data[0],widget->form->textcolour,0);*/
 
 	if (widget->data[1]&WIF_EDIT) {
-		SLONG dummy,caret=0;
+		std::int32_t dummy,caret=0;
 		if (widget->data[0]) {
-			str=(CBYTE*)(widget->data[0]+widget->data[3]);
+			str=(char*)(widget->data[0]+widget->data[3]);
 			len=strlen(str);
 			if (widget->data[1] & WIF_PASS) {
-				str=(CBYTE*)MemAlloc(len+1);
+				str=(char*)MemAlloc(len+1);
 				memset(str,'?',len);
 				*(str+len)=0;
 			}
@@ -343,7 +343,7 @@ void INPUT_Draw (Widget *widget) {
 		str=widget->caption;
 		len=strlen(str);
 		if (widget->data[1] & WIF_PASS) {
-			str=(CBYTE*)MemAlloc(len+1);
+			str=(char*)MemAlloc(len+1);
 			memset(str,'?',len);
 			*(str+len)=0;
 		}
@@ -371,27 +371,27 @@ void INPUT_caretchk(Widget *widget) {
 			widget->data[3]-=5;
 		if (widget->data[3]<0) widget->data[3]=0;
 	} else {
-		ULONG ctr=MENUFONT_CharFit((CBYTE*)(widget->data[0]+widget->data[3]),(widget->ox-widget->x)-6);
-		if (ctr<strlen((CBYTE*)(widget->data[0]+widget->data[3])))
+		std::uint32_t ctr=MENUFONT_CharFit((char*)(widget->data[0]+widget->data[3]),(widget->ox-widget->x)-6);
+		if (ctr<strlen((char*)(widget->data[0]+widget->data[3])))
 			while (widget->data[2]-widget->data[3]>ctr) widget->data[3]++;
 	}
 }
 
-bool INPUT_Char (Widget *widget, CBYTE key) {
+bool INPUT_Char (Widget *widget, char key) {
 	if (widget->state&WIDGET_STATE_DISABLED) return 0;
 	if (key==13) { // tested seperately -- only key that works in -both- modes
 		widget->data[1]^=WIF_EDIT;
 		if (widget->data[1] & WIF_EDIT) {
-			SLONG sz=strlen(widget->caption)+1;
+			std::int32_t sz=strlen(widget->caption)+1;
 			if (sz<256) sz=256;
-			widget->data[0]=(SLONG)MemAlloc(sz);
-			strcpy((CBYTE*)widget->data[0],widget->caption);
+			widget->data[0]=(std::int32_t)MemAlloc(sz);
+			strcpy((char*)widget->data[0],widget->caption);
 			widget->data[2]=strlen(widget->caption);
 		} else {
 			MemFree(widget->caption);
-			widget->caption=(CBYTE*)MemAlloc(strlen((CBYTE*)widget->data[0])+1);
-			strcpy(widget->caption,(CBYTE*)widget->data[0]);
-			MemFree((CBYTE*)widget->data[0]);
+			widget->caption=(char*)MemAlloc(strlen((char*)widget->data[0])+1);
+			strcpy(widget->caption,(char*)widget->data[0]);
+			MemFree((char*)widget->data[0]);
 			widget->data[0]=0;
 			if (widget->form->proc) widget->form->proc(widget->form,widget,WIN_ENTER);
 		}
@@ -405,7 +405,7 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 		} else WIDGET_snd(WS_FAIL);
 		break;
 	case 9:
-		if ((unsigned)(widget->data[2])<strlen((CBYTE*)widget->data[0])) {
+		if ((unsigned)(widget->data[2])<strlen((char*)widget->data[0])) {
 			widget->data[2]++;
 			WIDGET_snd(WS_MOVE);
 		} else WIDGET_snd(WS_FAIL);
@@ -415,19 +415,19 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 		WIDGET_snd(WS_MOVE);
 		break;
 	case 4:
-		widget->data[2]=strlen((CBYTE*)widget->data[0]);
+		widget->data[2]=strlen((char*)widget->data[0]);
 		WIDGET_snd(WS_MOVE);
 		break;
 	case 27:
-		MemFree((CBYTE*)widget->data[0]);
+		MemFree((char*)widget->data[0]);
 		widget->data[1]&=~WIF_EDIT;
 		widget->data[0]=0;
 		WIDGET_snd(WS_FAIL);
 		break;
 	case 127:
 		{
-			CBYTE* str=(CBYTE*)widget->data[0];
-			SLONG len=strlen(str);
+			char* str=(char*)widget->data[0];
+			std::int32_t len=strlen(str);
 			if (widget->data[2]<1) { WIDGET_snd(WS_FAIL); break; }
 			WIDGET_snd(WS_MOVE);
 			memmove(str+widget->data[2]-1,str+widget->data[2],(len+1)-widget->data[2]);
@@ -437,8 +437,8 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 		break;
 	case 5:
 		{
-			CBYTE* str=(CBYTE*)widget->data[0];
-			SLONG len=strlen(str);
+			char* str=(char*)widget->data[0];
+			std::int32_t len=strlen(str);
 			if (widget->data[2]>=len) { WIDGET_snd(WS_FAIL); break; }
 			WIDGET_snd(WS_MOVE);
 			memmove(str+widget->data[2],str+widget->data[2]+1,(len+1)-widget->data[2]);
@@ -449,8 +449,8 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 //		if ( ((key>='A')&&(key<='Z')) || ((key>='a')&&(key<='z')) || ((key>='0')&&(key<='9')) || (key==' '))
 		if ( MENUFONT_CharWidth(key) )
 		{
-			CBYTE* str=(CBYTE*)widget->data[0];
-			SLONG len;
+			char* str=(char*)widget->data[0];
+			std::int32_t len;
 			len=strlen(str);
 			if (len<255)
 			{
@@ -470,15 +470,15 @@ bool INPUT_Char (Widget *widget, CBYTE key) {
 	return widget->data[1] & WIF_EDIT;
 }
 
-SLONG INPUT_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
+std::int32_t INPUT_Data(Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2) {
 	ListEntry *item, *item2;
 
 	switch(code) {
 	case WIM_SETSTRING:
 		if (widget->data[1] & WIF_EDIT)
-			strcpy((CBYTE*)widget->data[0],(CBYTE*)data2);
+			strcpy((char*)widget->data[0],(char*)data2);
 		else
-			strcpy(widget->caption,(CBYTE*)data2);
+			strcpy(widget->caption,(char*)data2);
 		break;
 	case WIM_SETMODE:
 		if (data1) widget->data[1]|=WIF_PASS; else widget->data[1]&=~WIF_PASS;
@@ -488,14 +488,14 @@ SLONG INPUT_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 }
 
 void INPUT_Free(Widget *widget) {
-	if (widget->data[0]) MemFree((CBYTE*)widget->data[0]);
+	if (widget->data[0]) MemFree((char*)widget->data[0]);
 	WIDGET_Free(widget);
 }
 
 // --  text scrolly boxes --
 
 void TEXTS_Init(Widget *widget) {
-	SLONG xs, ys;
+	std::int32_t xs, ys;
 
 	MENUFONT_Dimensions("M",xs,ys); ys>>=1;
 	widget->data[3]=(widget->oy-widget->y)/ys;
@@ -505,7 +505,7 @@ void TEXTS_Free(Widget *widget) {
 	ListEntry *item;
 	while (widget->data[0]) {
 		item=(ListEntry*)widget->data[0];
-		widget->data[0]=(SLONG)item->next;
+		widget->data[0]=(std::int32_t)item->next;
 		MemFree(item);
 	}
 	WIDGET_Free(widget);
@@ -514,11 +514,11 @@ void TEXTS_Free(Widget *widget) {
 void TEXTS_Draw (Widget *widget) {
 	WidgetPoint pt,pt2,pt3, ctr=WIDGET_Centre(widget);
 	ListEntry *item, *item2;
-	SLONG flags,y,ys,yctr=0;
-	UBYTE shift = widget->state&WIDGET_STATE_FOCUS ? 0 : 1;
-	ULONG rgb, localctr=widget->form->age*6;
-	SLONG subctr;
-	SWORD alpha, offset;
+	std::int32_t flags,y,ys,yctr=0;
+	std::uint8_t shift = widget->state&WIDGET_STATE_FOCUS ? 0 : 1;
+	std::uint32_t rgb, localctr=widget->form->age*6;
+	std::int32_t subctr;
+	std::int16_t alpha, offset;
 
 	pt =FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
 	pt2=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->ox,widget->oy));
@@ -584,20 +584,20 @@ void TEXTS_Draw (Widget *widget) {
 	if (widget->data[1]<widget->data[2]-widget->data[3]) MENUFONT_Draw(pt3.x-12,pt3.y-9+(ys>>1),256,"}",rgb,0);
 }
 
-SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
+std::int32_t TEXTS_Data(Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2) {
 	ListEntry *item, *item2;
 
 	switch(code) {
 	case WTM_ADDSTRING:
 		item2=(ListEntry*)MemAlloc(sizeof(ListEntry));
 		memset(item2,0,sizeof(ListEntry));
-		item2->text=(CBYTE*)MemAlloc(strlen((CBYTE*)data2)+1);
-		strcpy(item2->text,(CBYTE*)data2);
+		item2->text=(char*)MemAlloc(strlen((char*)data2)+1);
+		strcpy(item2->text,(char*)data2);
 
 		item=(ListEntry*)widget->data[0];
 		if (item) while (item->next) item=item->next;
 		if (!item) {
-			widget->data[0]=(SLONG)item2;
+			widget->data[0]=(std::int32_t)item2;
 		} else {
 			item->next=item2;
 			item2->prev=item;
@@ -607,10 +607,10 @@ SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 	case WTM_ADDBLOCK:
 		// wrap string, pass back via WTM_ADDSTRING
 		{
-			ULONG chrs, temp;
-			CBYTE* str, *walk;
-			CBYTE tmp[_MAX_PATH];
-			str=(CBYTE*)data2;
+			std::uint32_t chrs, temp;
+			char* str, *walk;
+			char tmp[_MAX_PATH];
+			str=(char*)data2;
 			walk=str;
 			while(*walk) { // temporary thingy?
 				if ((*walk==10)||(*walk==13)) *walk=32;
@@ -619,7 +619,7 @@ SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 			while (str) {
 				chrs=MENUFONT_CharFit(str,(widget->ox-widget->x)-6,128);
 				if (chrs==strlen(str)) {
-					TEXTS_Data(widget,WTM_ADDSTRING,0,(SLONG)str);
+					TEXTS_Data(widget,WTM_ADDSTRING,0,(std::int32_t)str);
 					break;
 				}
 				temp=chrs;
@@ -630,10 +630,10 @@ SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 				if (!chrs) {
 					strncpy(tmp,str,temp);
 					str+=temp;
-					TEXTS_Data(widget,WTM_ADDSTRING,0,(SLONG)tmp);
+					TEXTS_Data(widget,WTM_ADDSTRING,0,(std::int32_t)tmp);
 				} else {
 					strncpy(tmp,str,chrs);
-					TEXTS_Data(widget,WTM_ADDSTRING,0,(SLONG)tmp);
+					TEXTS_Data(widget,WTM_ADDSTRING,0,(std::int32_t)tmp);
 					str+=chrs+1;
 				}
 			}
@@ -643,7 +643,7 @@ SLONG TEXTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
 	return 0;
 }
 
-bool TEXTS_Char (Widget *widget, CBYTE key) {
+bool TEXTS_Char (Widget *widget, char key) {
 	ListEntry *item;
 
 	if (widget->state&WIDGET_STATE_DISABLED) return 0;
@@ -687,7 +687,7 @@ void LISTS_Free(Widget *widget) {
 	ListEntry *item;
 	while (widget->data[0]) {
 		item=(ListEntry*)widget->data[0];
-		widget->data[0]=(SLONG)item->next;
+		widget->data[0]=(std::int32_t)item->next;
 		MemFree(item);
 	}
 	WIDGET_Free(widget);
@@ -696,11 +696,11 @@ void LISTS_Free(Widget *widget) {
 void LISTS_Draw (Widget *widget) {
 	WidgetPoint pt,pt2,pt3, ctr=WIDGET_Centre(widget);
 	ListEntry *item, *item2;
-	SLONG flags,y,ys;
-	UBYTE shift = widget->state&WIDGET_STATE_FOCUS ? 1 : 2;
-	UBYTE szshift = widget->state&WIDGET_STATE_SHRINKTEXT ? 1 : 0;
-	ULONG rgb, localctr=widget->form->age*6;
-	SWORD alpha, offset;
+	std::int32_t flags,y,ys;
+	std::uint8_t shift = widget->state&WIDGET_STATE_FOCUS ? 1 : 2;
+	std::uint8_t szshift = widget->state&WIDGET_STATE_SHRINKTEXT ? 1 : 0;
+	std::uint32_t rgb, localctr=widget->form->age*6;
+	std::int16_t alpha, offset;
 
 	pt =FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
 	pt2=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->ox,widget->oy));
@@ -754,20 +754,20 @@ void LISTS_Draw (Widget *widget) {
 	if (item) MENUFONT_Draw(pt3.x-12,pt3.y-9+(ys>>1),256,"}",rgb,0);
 }
 
-SLONG LISTS_Data(Widget *widget, SLONG code, SLONG data1, SLONG data2) {
+std::int32_t LISTS_Data(Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2) {
 	ListEntry *item, *item2;
 
 	switch(code) {
 	case WLM_ADDSTRING:
 		item2=(ListEntry*)MemAlloc(sizeof(ListEntry));
 		memset(item2,0,sizeof(ListEntry));
-		item2->text=(CBYTE*)MemAlloc(strlen((CBYTE*)data2)+1);
-		strcpy(item2->text,(CBYTE*)data2);
+		item2->text=(char*)MemAlloc(strlen((char*)data2)+1);
+		strcpy(item2->text,(char*)data2);
 
 		item=(ListEntry*)widget->data[0];
 		if (item) while (item->next) item=item->next;
 		if (!item) {
-			widget->data[0]=widget->data[2]=(SLONG)item2;
+			widget->data[0]=widget->data[2]=(std::int32_t)item2;
 		} else {
 			item->next=item2;
 			item2->prev=item;
@@ -781,7 +781,7 @@ void LISTS_caretchk(Widget *widget) {
   if (widget->data[4]<widget->data[3])
 	  widget->data[3]=widget->data[4];
   else {
-	  SLONG dx,dy,rows = (widget->oy-widget->y)-6;
+	  std::int32_t dx,dy,rows = (widget->oy-widget->y)-6;
 	  MENUFONT_Dimensions("M",dx,dy); if (widget->state&WIDGET_STATE_SHRINKTEXT) dy>>=1;
 	  rows/=dy;
 	  while (widget->data[4]>=widget->data[3]+rows) widget->data[3]++;
@@ -793,7 +793,7 @@ void LISTS_Push(Widget *widget) {
 			if (widget->form->proc) widget->form->proc(widget->form,widget,WLN_ENTER);
 }
 
-bool LISTS_Char (Widget *widget, CBYTE key) {
+bool LISTS_Char (Widget *widget, char key) {
 	ListEntry *item;
 
 	if (widget->state&WIDGET_STATE_DISABLED) return 0;
@@ -811,14 +811,14 @@ bool LISTS_Char (Widget *widget, CBYTE key) {
 	switch(key) {
 	case 11:
 		if (item->prev) {
-			widget->data[2]=(SLONG)item->prev;
+			widget->data[2]=(std::int32_t)item->prev;
 			widget->data[4]--;
 			WIDGET_snd(WS_BLIP);
 		} else WIDGET_snd(WS_FAIL);
 		break;
 	case 10:
 		if (item->next) {
-			widget->data[2]=(SLONG)item->next;
+			widget->data[2]=(std::int32_t)item->next;
 			widget->data[4]++;
 			WIDGET_snd(WS_BLIP);
 		} else WIDGET_snd(WS_FAIL);
@@ -833,7 +833,7 @@ bool LISTS_Char (Widget *widget, CBYTE key) {
 			item=item->next;
 			widget->data[4]++;
 		}
-		widget->data[2]=(SLONG)item;
+		widget->data[2]=(std::int32_t)item;
 		WIDGET_snd(WS_BLIP);
 		break;
 	default:
@@ -849,7 +849,7 @@ bool LISTS_Char (Widget *widget, CBYTE key) {
 void GLYPH_Draw (Widget *widget) {
   WidgetPoint pt,pt2;
   float x,y,ox,oy;
-  SLONG rgb;
+  std::int32_t rgb;
 
   pt =FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
   pt2=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->ox,widget->oy));
@@ -866,7 +866,7 @@ void GLYPH_Draw (Widget *widget) {
 void SHADE_Draw (Widget *widget) {
   WidgetPoint pt,pt2;
   float x,y,ox,oy;
-  SLONG rgb,a;
+  std::int32_t rgb,a;
 
   pt =FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->x,widget->y));
   pt2=FORM_To_Screen(widget->form,TO_WIDGETPNT(widget->ox,widget->oy));
@@ -884,14 +884,14 @@ void SHADE_Draw (Widget *widget) {
 // Section The Fifth:  Generic Widget Stuff
 //
 
-Widget* WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG oy, CBYTE* caption) {
+Widget* WIDGET_Create(Methods *widget_class, std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, char* caption) {
 	Widget *widget;
 
 	widget = (Widget*) MemAlloc(sizeof(Widget));
 	memset(widget,0,sizeof(Widget));
 	widget->x=x; widget->y=y; widget->ox=ox; widget->oy=oy;
 	if (caption) {
-		widget->caption=(CBYTE*)MemAlloc(strlen(caption)+1);
+		widget->caption=(char*)MemAlloc(strlen(caption)+1);
 		strcpy(widget->caption,caption);
 	}
 	widget->methods=widget_class;
@@ -902,15 +902,15 @@ Widget* WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG o
 
 void WIDGET_menu(Form *form, ...) {
 	va_list marker;
-	UBYTE	count,i;
-	SLONG	ox=(form->ox-form->x);
-	SLONG	oy=(form->oy-form->y);
-	SLONG	xofs,yofs, pos;
-	CBYTE*	txt;
+	std::uint8_t	count,i;
+	std::int32_t	ox=(form->ox-form->x);
+	std::int32_t	oy=(form->oy-form->y);
+	std::int32_t	xofs,yofs, pos;
+	char*	txt;
 
 	va_start(marker, form);
 		count=0;
-		while (va_arg(marker,CBYTE*)) count++;
+		while (va_arg(marker,char*)) count++;
 	va_end(marker);
 	
 	yofs=oy/count;
@@ -919,7 +919,7 @@ void WIDGET_menu(Form *form, ...) {
 //		pos=yofs>>1;
 	pos=0;
 		for(i=0;i<count;i++) {
-			txt=va_arg(marker,CBYTE*);
+			txt=va_arg(marker,char*);
 			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,0,pos, ox,pos+40,txt))->tag=i+1;
 			pos+=yofs;
 		}
@@ -932,7 +932,7 @@ void WIDGET_menu(Form *form, ...) {
 // Section The Sixth:  Generic Form Stuff
 //
 
-Form*	FORM_Create(CBYTE* caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG textcolour) {
+Form*	FORM_Create(char* caption, FORM_Proc proc, std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::uint32_t textcolour) {
 	Form *form;
 
 	form = (Form*) MemAlloc(sizeof(Form));
@@ -991,7 +991,7 @@ void FORM_DelWidget(Widget *widget) {
 	
 }
 
-inline bool	FORM_KeyProc(SLONG key) {
+inline bool	FORM_KeyProc(std::int32_t key) {
 	if (Keys[key]) {
 		Keys[key]=0;
 		EatenKey=1;
@@ -1000,8 +1000,8 @@ inline bool	FORM_KeyProc(SLONG key) {
 	return 0;
 }
 
-SLONG FORM_Process(Form* form) {
-	CBYTE key;
+std::int32_t FORM_Process(Form* form) {
+	char key;
 	Widget *lastfocus;
 	static int lastx = 0,lasty = 0;
 	static int input = 0, lastinput = 0;
@@ -1036,7 +1036,7 @@ SLONG FORM_Process(Form* form) {
 		key=0;
 
 //#define	INPUT_TYPE_JOY	(1<<1)
-//extern ULONG get_hardware_input(UWORD type);
+//extern std::uint32_t get_hardware_input(std::uint16_t type);
 
 	lastinput=input;
 
@@ -1078,7 +1078,7 @@ SLONG FORM_Process(Form* form) {
 	} else {
 #ifndef PSX
 			POINT pt;
-			SLONG res;
+			std::int32_t res;
 			GetCursorPos(&pt);
 extern volatile HWND	hDDLibWindow;
 			if(!the_display.IsFullScreen()) ScreenToClient(hDDLibWindow,&pt);
@@ -1120,9 +1120,9 @@ void FORM_Draw(Form *form) {
 	Widget *walk;
 
 /*	if (form->caption) {
-		SLONG dx,dy;
+		std::int32_t dx,dy;
 		MENUFONT_Dimensions(form->caption,dx,dy); dx+=16;
-		MENUFONT_Draw(form->x+8,form->y+10,256,(CBYTE*)form->caption,ShiftAlpha(form->textcolour,1),0);
+		MENUFONT_Draw(form->x+8,form->y+10,256,(char*)form->caption,ShiftAlpha(form->textcolour,1),0);
 		WIDGET_Rect(form->x,form->y,form->x+dx,form->y+23,ShiftAlpha(form->textcolour,2),form->inverse,RECT_TOP|RECT_RIGHT);
 		WIDGET_Rect(form->x+3,form->y+20,form->ox,form->oy,ShiftAlpha(form->textcolour,2),form->inverse,RECT_TOP|RECT_RIGHT);
 		WIDGET_Rect(form->x,form->y,form->ox,form->oy,ShiftAlpha(form->textcolour,2),form->inverse,RECT_LEFT|RECT_BOTTOM);
@@ -1138,7 +1138,7 @@ void FORM_Draw(Form *form) {
 	form->proc(form,0,WFN_PAINT);
 }
 
-Widget*	FORM_Focus(Form *form, Widget *widget, SBYTE direction) {
+Widget*	FORM_Focus(Form *form, Widget *widget, std::int8_t direction) {
 	if (form->focus) WIDGET_SetState(form->focus,0,WIDGET_STATE_FOCUS);
 	if (!widget) widget=form->focus;
 	form->focus=widget;

@@ -10,7 +10,7 @@
 // The scratch pad.
 //
 
-UBYTE HEAP_pad[HEAP_PAD_SIZE];
+std::uint8_t HEAP_pad[HEAP_PAD_SIZE];
 
 
 //
@@ -25,7 +25,7 @@ UBYTE HEAP_pad[HEAP_PAD_SIZE];
 #define HEAP_SIZE (1024 * 128)
 #endif
 
-UBYTE HEAP_heap[HEAP_SIZE];
+std::uint8_t HEAP_heap[HEAP_SIZE];
 
 //
 // The free list is sorted by size.
@@ -33,9 +33,9 @@ UBYTE HEAP_heap[HEAP_SIZE];
 
 typedef struct heap_free
 {
-	UBYTE            *start;
-	UBYTE            *end;
-	SLONG             size;
+	std::uint8_t            *start;
+	std::uint8_t            *end;
+	std::int32_t             size;
 	struct heap_free *next;
 
 } HEAP_Free;
@@ -77,8 +77,8 @@ void HEAP_init()
 
 	HEAP_free = (HEAP_Free *) HEAP_heap;
 
-	HEAP_free->start = (UBYTE *) &HEAP_heap[0];
-	HEAP_free->end   = (UBYTE *) &HEAP_heap[HEAP_SIZE];
+	HEAP_free->start = (std::uint8_t *) &HEAP_heap[0];
+	HEAP_free->end   = (std::uint8_t *) &HEAP_heap[HEAP_SIZE];
 	HEAP_free->size  = HEAP_SIZE;
 	HEAP_free->next  = nullptr;
 
@@ -165,7 +165,7 @@ void HEAP_add_to_free(HEAP_Free *bit)
 			goto start_again_with_a_bigger_bit;
 		}
 
-//		ASSERT((ULONG(next->next) & 0xff000000) == 0);
+//		ASSERT((std::uint32_t(next->next) & 0xff000000) == 0);
 
 		prev = &next->next;
 		next =  next->next;
@@ -191,7 +191,7 @@ void HEAP_add_to_free(HEAP_Free *bit)
 			// This is where we insert our 'bit'.
 			//
 
-//			ASSERT((ULONG(next) & 0xff000000) == 0);
+//			ASSERT((std::uint32_t(next) & 0xff000000) == 0);
 
 		   *prev      = bit;
 		    bit->next = next;
@@ -212,7 +212,7 @@ void HEAP_add_to_free(HEAP_Free *bit)
 
 
 
-void* HEAP_get(SLONG size)
+void* HEAP_get(std::int32_t size)
 {
 	void      *ans;
 	HEAP_Free  bit;
@@ -238,7 +238,7 @@ void* HEAP_get(SLONG size)
 	size +=  (HEAP_QUANTISE - 1);
 	size &= ~(HEAP_QUANTISE - 1);
 
-	ASSERT(WITHIN((UBYTE *) HEAP_free, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
+	ASSERT(WITHIN((std::uint8_t *) HEAP_free, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
 
 	//
 	// Always take memory from the biggest block.
@@ -323,7 +323,7 @@ void* HEAP_get(SLONG size)
 }
 
 
-SLONG HEAP_max_free()
+std::int32_t HEAP_max_free()
 {
 	if(HEAP_free)
 	{
@@ -340,7 +340,7 @@ SLONG HEAP_max_free()
 // Gives back an unused block of memory.
 //
 
-void HEAP_give(void* mem, SLONG num_bytes)
+void HEAP_give(void* mem, std::int32_t num_bytes)
 {
 	HEAP_Free *onheap = (HEAP_Free *) mem;
 
@@ -355,16 +355,16 @@ void HEAP_give(void* mem, SLONG num_bytes)
 	num_bytes +=  (HEAP_QUANTISE - 1);
 	num_bytes &= ~(HEAP_QUANTISE - 1);
 
-	ASSERT(WITHIN((UBYTE *) onheap, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
+	ASSERT(WITHIN((std::uint8_t *) onheap, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
 
 	//
 	// Add the header.
 	//
 
-//	ASSERT((((ULONG)mem) & 0xff000000) == 0);
+//	ASSERT((((std::uint32_t)mem) & 0xff000000) == 0);
 	ASSERT(num_bytes <= HEAP_SIZE);
 
-	onheap->start = (UBYTE *) mem;
+	onheap->start = (std::uint8_t *) mem;
 	onheap->end   = onheap->start + num_bytes;
 	onheap->size  = num_bytes;
 	onheap->next  = nullptr;

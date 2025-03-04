@@ -7,9 +7,9 @@
 
 
 NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
-SLONG        NGAMUT_zmin;
-SLONG        NGAMUT_zmax;
-SLONG        NGAMUT_xmin;
+std::int32_t        NGAMUT_zmin;
+std::int32_t        NGAMUT_zmax;
+std::int32_t        NGAMUT_xmin;
 
 //
 // Initialises the gamut.
@@ -17,7 +17,7 @@ SLONG        NGAMUT_xmin;
 
 void NGAMUT_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// This could be the first time we have called NGAMUT_init.
@@ -39,7 +39,7 @@ void NGAMUT_init()
 // Pushes out the gamut so it includes the given square.
 //
 
-inline void NGAMUT_add_square(SLONG x, SLONG z)
+inline void NGAMUT_add_square(std::int32_t x, std::int32_t z)
 {
 	if (!WITHIN(z, 0, NGAMUT_SIZE - 2))
 	{
@@ -76,13 +76,13 @@ inline void NGAMUT_add_square(SLONG x, SLONG z)
 void NGAMUT_add_line(float p1x, float p1z, float p2x, float p2z)
 {
 	float x;
-	SLONG z;
+	std::int32_t z;
 
-	SLONG m1x;
-	SLONG m1z;
+	std::int32_t m1x;
+	std::int32_t m1z;
 	
-	SLONG m2x;
-	SLONG m2z;
+	std::int32_t m2x;
+	std::int32_t m2z;
 
 	float xfrac;
 	float zfrac;
@@ -105,13 +105,13 @@ void NGAMUT_add_line(float p1x, float p1z, float p2x, float p2z)
 	// Add the end points of the line.
 	//
 
-	m1x = SLONG(p1x);
-	m1z = SLONG(p1z);
+	m1x = std::int32_t(p1x);
+	m1z = std::int32_t(p1z);
 
 	NGAMUT_add_square(m1x, m1z);
 
-	m2x = SLONG(p2x);
-	m2z = SLONG(p2z);
+	m2x = std::int32_t(p2x);
+	m2z = std::int32_t(p2z);
 
 	NGAMUT_add_square(m2x, m2z);
 
@@ -144,8 +144,8 @@ void NGAMUT_add_line(float p1x, float p1z, float p2x, float p2z)
 
 		while(z <= m2z)
 		{
-			NGAMUT_add_square(SLONG(x), SLONG(z    ));
-			NGAMUT_add_square(SLONG(x), SLONG(z - 1));
+			NGAMUT_add_square(std::int32_t(x), std::int32_t(z    ));
+			NGAMUT_add_square(std::int32_t(x), std::int32_t(z - 1));
 
 			x += dxdz;
 			z += 1;
@@ -156,20 +156,20 @@ void NGAMUT_add_line(float p1x, float p1z, float p2x, float p2z)
 
 void NGAMUT_view_square(float mid_x, float mid_z, float radius)
 {
-	SLONG i;
-	SLONG z;
+	std::int32_t i;
+	std::int32_t z;
 
-	SLONG zmin;
-	SLONG zmax;
+	std::int32_t zmin;
+	std::int32_t zmax;
 
-	SLONG xmin;
-	SLONG xmax;
+	std::int32_t xmin;
+	std::int32_t xmax;
 
-	zmin = SLONG(mid_z - radius);
-	zmax = SLONG(mid_z + radius);
+	zmin = std::int32_t(mid_z - radius);
+	zmax = std::int32_t(mid_z + radius);
 
-	xmin = SLONG(mid_x - radius);
-	xmax = SLONG(mid_x + radius);
+	xmin = std::int32_t(mid_x - radius);
+	xmax = std::int32_t(mid_x + radius);
 
 	SATURATE(zmin, 0, NGAMUT_SIZE - 1);
 	SATURATE(zmax, 0, NGAMUT_SIZE - 1);
@@ -205,12 +205,12 @@ void NGAMUT_view_square(float mid_x, float mid_z, float radius)
 
 
 NGAMUT_Gamut NGAMUT_point_gamut[NGAMUT_SIZE];
-SLONG        NGAMUT_point_zmin;
-SLONG        NGAMUT_point_zmax;
+std::int32_t        NGAMUT_point_zmin;
+std::int32_t        NGAMUT_point_zmax;
 
 void NGAMUT_calculate_point_gamut()
 {
-	SLONG i;
+	std::int32_t i;
 
 	NGAMUT_point_zmin = NGAMUT_zmin;
 	NGAMUT_point_zmax = NGAMUT_zmax + 1;
@@ -228,8 +228,8 @@ void NGAMUT_calculate_point_gamut()
 }
 
 NGAMUT_Gamut NGAMUT_out_gamut[NGAMUT_SIZE];
-SLONG        NGAMUT_out_zmin;
-SLONG        NGAMUT_out_zmax;
+std::int32_t        NGAMUT_out_zmin;
+std::int32_t        NGAMUT_out_zmax;
 
 #ifndef MIN3
 #define MIN3(a,b,c) (MIN(MIN(a,b),c))
@@ -241,14 +241,14 @@ SLONG        NGAMUT_out_zmax;
 
 void NGAMUT_calculate_out_gamut()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG z1;
-	SLONG z2;
-	SLONG z3;
+	std::int32_t z1;
+	std::int32_t z2;
+	std::int32_t z3;
 
-	SLONG xmin;
-	SLONG xmax;
+	std::int32_t xmin;
+	std::int32_t xmax;
 
 	NGAMUT_out_zmin = NGAMUT_zmin - 1;
 	NGAMUT_out_zmax = NGAMUT_zmax + 1;
@@ -279,21 +279,21 @@ void NGAMUT_calculate_out_gamut()
 }
 
 NGAMUT_Gamut NGAMUT_lo_gamut[NGAMUT_SIZE_LO];
-SLONG        NGAMUT_lo_zmin;
-SLONG        NGAMUT_lo_zmax;
+std::int32_t        NGAMUT_lo_zmin;
+std::int32_t        NGAMUT_lo_zmax;
 
 void NGAMUT_calculate_lo_gamut()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG z;
+	std::int32_t z;
 	
-	SLONG xmin;
-	SLONG xmax;
+	std::int32_t xmin;
+	std::int32_t xmax;
 
-	SLONG out_xmin;
-	SLONG out_xmax;
+	std::int32_t out_xmin;
+	std::int32_t out_xmax;
 
 	NGAMUT_lo_zmin = (NGAMUT_point_zmin - 1) / (NGAMUT_SIZE / NGAMUT_SIZE_LO);
 	NGAMUT_lo_zmax = (NGAMUT_point_zmax + 1) / (NGAMUT_SIZE / NGAMUT_SIZE_LO);

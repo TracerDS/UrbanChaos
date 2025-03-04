@@ -11,7 +11,7 @@
 #include "fileclump.h"
 
 
-typedef UWORD CRINKLE_Handle;
+typedef std::uint16_t CRINKLE_Handle;
 
 
 //
@@ -26,7 +26,7 @@ void CRINKLE_init();
 // CRINKLE_NULL if it could not load the crinkle.
 //
 
-CRINKLE_Handle CRINKLE_load(CBYTE* sex_filename);
+CRINKLE_Handle CRINKLE_load(char* sex_filename);
 CRINKLE_Handle CRINKLE_read_bin(FileClump* tclump, int id);
 
 void CRINKLE_write_bin(FileClump* tclump, CRINKLE_Handle hnd, int id);
@@ -53,10 +53,10 @@ void CRINKLE_skew(float aspect, float lens);
 
 void CRINKLE_do(
 		CRINKLE_Handle crinkle,
-		SLONG          page,
+		std::int32_t          page,
 		float          amount,
 		POLY_Point    *pp[4],
-		SLONG          flip);
+		std::int32_t          flip);
 
 
 //
@@ -67,7 +67,7 @@ void CRINKLE_project(
 		CRINKLE_Handle crinkle,
 		float          amount,
 		SVector_F      poly[4],
-		SLONG          flip);
+		std::int32_t          flip);
 
 
 

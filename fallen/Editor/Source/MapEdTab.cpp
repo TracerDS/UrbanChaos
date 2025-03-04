@@ -117,15 +117,15 @@ extern void	hilight_col_info(void);
 
 
 
-void	MapEdTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	MapEdTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 	EdRect	drawrect;
 
-	SLONG dx,dy,dz,width,height,count_across,count_high;
-	SLONG	c0,c1;
-	SLONG	mx,my,mz;
-	SLONG	index;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
+	std::int32_t	c0,c1;
+	std::int32_t	mx,my,mz;
+	std::int32_t	index;
 	struct	EditMapElement	*p_ele;
 
 #ifdef	POO
@@ -196,7 +196,7 @@ void	MapEdTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 		case	MAPED_MODE_MARK:
 			{
 				static	col=0;
-				SLONG	x1,y1,x2,y2;
+				std::int32_t	x1,y1,x2,y2;
 				col++;
 
 				x1=(w>>1)+(X1-mx)*(width+1)-1;
@@ -211,7 +211,7 @@ void	MapEdTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 			break;
 		case	MAPED_MODE_PASTE:
 				MFPoint		mouse_point;
-				SLONG	screen_mapx,screen_mapy,screen_mapz;
+				std::int32_t	screen_mapx,screen_mapy,screen_mapz;
 				mouse_point.X	=	MouseX;
 				mouse_point.Y	=	MouseY;
 				Parent->GlobalToLocal(&mouse_point);
@@ -278,7 +278,7 @@ void	MapEdTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 void	MapEdTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -286,7 +286,7 @@ void	MapEdTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -296,7 +296,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	MapEdTab::KeyboardInterface(void)
+std::int32_t	MapEdTab::KeyboardInterface(void)
 {
 	if(Keys[KB_TAB])
 	{
@@ -379,11 +379,11 @@ SLONG	MapEdTab::KeyboardInterface(void)
 
 
 
-SLONG	MapEdTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	MapEdTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -392,9 +392,9 @@ SLONG	MapEdTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -445,11 +445,11 @@ SLONG	MapEdTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-SLONG	MapEdTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y,SLONG	w,SLONG	h,MFPoint	*clicked_point)
+std::int32_t	MapEdTab::CalcMapCoord(std::int32_t	*mapx,std::int32_t	*mapy,std::int32_t	*mapz,std::int32_t	x,std::int32_t	y,std::int32_t	w,std::int32_t	h,MFPoint	*clicked_point)
 {
-	SLONG	width,count_across,count_high;
-	SLONG	mx,my,mz;
-	SLONG	dx,dy;
+	std::int32_t	width,count_across,count_high;
+	std::int32_t	mx,my,mz;
+	std::int32_t	dx,dy;
 
 	my=(engine.Y>>8)>>ELE_SHIFT;
 	mx=(engine.X>>8)>>ELE_SHIFT;
@@ -476,17 +476,17 @@ SLONG	MapEdTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y
 	return(1);
 }
 
-extern void	insert_cube(SWORD x,SWORD y,SWORD z);
-extern void	remove_cube(SLONG x,SLONG y,SLONG z);
+extern void	insert_cube(std::int16_t x,std::int16_t y,std::int16_t z);
+extern void	remove_cube(std::int32_t x,std::int32_t y,std::int32_t z);
 
 
 
-SLONG	MapEdTab::MouseInContent(void)
+std::int32_t	MapEdTab::MouseInContent(void)
 {
 	if(Mode==FLOOR_PASTE_BRUSH)
 	{
-		SLONG	x,y,w,h;
-		SLONG	wwx,wwy,www,wwh;
+		std::int32_t	x,y,w,h;
+		std::int32_t	wwx,wwy,www,wwh;
 
 		wwx=WorkWindowRect.Left;
 		wwy=WorkWindowRect.Top;
@@ -513,13 +513,13 @@ SLONG	MapEdTab::MouseInContent(void)
 	
 }
 
-SLONG	MapEdTab::DragPaint(UBYTE flags)
+std::int32_t	MapEdTab::DragPaint(std::uint8_t flags)
 {
 /*
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col;
-	SLONG	screen_change=0;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col;
+	std::int32_t	screen_change=0;
 	MFPoint		mouse_point;
 
 	wwx=WorkWindowRect.Left;
@@ -537,7 +537,7 @@ SLONG	MapEdTab::DragPaint(UBYTE flags)
 
 		while(LeftButton)
 		{
-			SLONG	mx,my,mz,index;
+			std::int32_t	mx,my,mz,index;
 
 			mouse_point.X	=	MouseX;
 			mouse_point.Y	=	MouseY;
@@ -567,13 +567,13 @@ SLONG	MapEdTab::DragPaint(UBYTE flags)
 
 }
 
-SLONG	MapEdTab::DragMark(UBYTE flags)
+std::int32_t	MapEdTab::DragMark(std::uint8_t flags)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col = 0;
-	SLONG	screen_change=0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col = 0;
+	std::int32_t	screen_change=0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -626,7 +626,7 @@ SLONG	MapEdTab::DragMark(UBYTE flags)
 
 }
 
-void	MapEdTab::ChangeMapAltitude(SLONG mx,SLONG mz,SLONG step,UBYTE offset_flag)
+void	MapEdTab::ChangeMapAltitude(std::int32_t mx,std::int32_t mz,std::int32_t step,std::uint8_t offset_flag)
 {
 	//if the co_ord is within a cut rectangle then raise/lower whole rectangle
 	if(Mode==FLOOR_HOLD_BRUSH)
@@ -634,7 +634,7 @@ void	MapEdTab::ChangeMapAltitude(SLONG mx,SLONG mz,SLONG step,UBYTE offset_flag)
 		if(mx>CutMapBlock.GetX()&&mx<CutMapBlock.GetX()+CutMapBlock.GetWidth()&&
 			mz>CutMapBlock.GetZ()&&mz<CutMapBlock.GetZ()+CutMapBlock.GetDepth())
 		{
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 			for(dx=CutMapBlock.GetX();dx<CutMapBlock.GetX()+CutMapBlock.GetWidth();dx++)
 			for(dz=CutMapBlock.GetZ();dz<CutMapBlock.GetZ()+CutMapBlock.GetDepth();dz++)
 			{
@@ -688,14 +688,14 @@ void	MapEdTab::ChangeMapAltitude(SLONG mx,SLONG mz,SLONG step,UBYTE offset_flag)
 
 }
 
-SLONG	MapEdTab::FlattenArea(void)
+std::int32_t	MapEdTab::FlattenArea(void)
 {
 	if(Mode==FLOOR_HOLD_BRUSH)
 	{
 //		if(mx>CutMapBlock.GetX()&&mx<CutMapBlock.GetX()+CutMapBlock.GetWidth()&&
 //			mz>CutMapBlock.GetZ()&&mz<CutMapBlock.GetZ()+CutMapBlock.GetDepth())
 		{
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 			for(dx=CutMapBlock.GetX();dx<CutMapBlock.GetX()+CutMapBlock.GetWidth();dx++)
 			for(dz=CutMapBlock.GetZ();dz<CutMapBlock.GetZ()+CutMapBlock.GetDepth();dz++)
 			{
@@ -718,19 +718,19 @@ SLONG	MapEdTab::FlattenArea(void)
 	return(0);
 
 }
-SLONG	MapEdTab::SmoothArea(void)
+std::int32_t	MapEdTab::SmoothArea(void)
 {
 	if(Mode==FLOOR_HOLD_BRUSH)
 	{
 //		if(mx>CutMapBlock.GetX()&&mx<CutMapBlock.GetX()+CutMapBlock.GetWidth()&&
 //			mz>CutMapBlock.GetZ()&&mz<CutMapBlock.GetZ()+CutMapBlock.GetDepth())
 		{
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 			for(dx=CutMapBlock.GetX();dx<CutMapBlock.GetX()+CutMapBlock.GetWidth();dx++)
 			for(dz=CutMapBlock.GetZ();dz<CutMapBlock.GetZ()+CutMapBlock.GetDepth();dz++)
 			{
-				SLONG	total=0;
-				SLONG	mdx,mdz;
+				std::int32_t	total=0;
+				std::int32_t	mdx,mdz;
 				for(mdx=-1;mdx<=1;mdx++)
 				for(mdz=-1;mdz<=1;mdz++)
 				{
@@ -775,15 +775,15 @@ SLONG	MapEdTab::SmoothArea(void)
 
 }
 
-SLONG	MapEdTab::SlopeArea(void)
+std::int32_t	MapEdTab::SlopeArea(void)
 {
 	if(Mode==FLOOR_HOLD_BRUSH)
 	{
 		if(CutMapBlock.GetDepth()>1&&CutMapBlock.GetWidth()>1)
 		{
-			SLONG	dx,dz;
-			SLONG	yl1,yl2,dly;
-			SLONG	yr1,yr2,dry;
+			std::int32_t	dx,dz;
+			std::int32_t	yl1,yl2,dly;
+			std::int32_t	yr1,yr2,dry;
 
 			if(RoofTop)
 			{
@@ -868,8 +868,8 @@ SLONG	MapEdTab::SlopeArea(void)
 			for(dx=CutMapBlock.GetX();dx<CutMapBlock.GetX()+CutMapBlock.GetWidth();dx++)
 			for(dz=CutMapBlock.GetZ();dz<CutMapBlock.GetZ()+CutMapBlock.GetDepth();dz++)
 			{
-				SLONG	total=0;
-				SLONG	mdx,mdz;
+				std::int32_t	total=0;
+				std::int32_t	mdx,mdz;
 				for(mdx=-1;mdx<=1;mdx++)
 				for(mdz=-1;mdz<=1;mdz++)
 					total+=edit_map[dx+mdx][dz+mdz].Y;
@@ -891,11 +891,11 @@ SLONG	MapEdTab::SlopeArea(void)
 
 }
 
-void	MapEdTab::DragAltitude(SLONG mx,SLONG mz)
+void	MapEdTab::DragAltitude(std::int32_t mx,std::int32_t mz)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	alt1,starty;
-	SLONG	prev_alt;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	alt1,starty;
+	std::int32_t	prev_alt;
 	alt1=MouseY;
 
 	if(RoofTop)
@@ -918,8 +918,8 @@ void	MapEdTab::DragAltitude(SLONG mx,SLONG mz)
 
 	while(SHELL_ACTIVE && LeftButton)
 	{
-		SLONG	alt;
-		SLONG	req_alt,dy;
+		std::int32_t	alt;
+		std::int32_t	req_alt,dy;
 		alt=(MouseY-alt1)>>1;
 
 		req_alt=alt+starty;
@@ -945,12 +945,12 @@ void	MapEdTab::DragAltitude(SLONG mx,SLONG mz)
 
 }
 
-SLONG	MapEdTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	MapEdTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SWORD	thing;
-	SWORD	bright;
-	SLONG	mx,my,mz;
-	SLONG	step=1;
+	std::int16_t	thing;
+	std::int16_t	bright;
+	std::int32_t	mx,my,mz;
+	std::int32_t	step=1;
 
 
 	switch(Mode)
@@ -1066,7 +1066,7 @@ SLONG	MapEdTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 				case	LEFT_CLICK:
 					{
 					
-						SLONG	mx,my,mz,dx,dz,index;
+						std::int32_t	mx,my,mz,dx,dz,index;
 
 						CalcMapCoord(&mx,&my,&mz,x,y,w,h,clicked_point);
 		//map to screen
@@ -1128,9 +1128,9 @@ SLONG	MapEdTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 }
 
 
-UWORD	MapEdTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	MapEdTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -1180,14 +1180,14 @@ UWORD	MapEdTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 	return	0;
 }
 
-void	MapEdTab::CutFloorBrush(MFPoint *current_point,SLONG button)
+void	MapEdTab::CutFloorBrush(MFPoint *current_point,std::int32_t button)
 {
 
 	MFPoint		point1,point2;
-	SLONG		con_top,con_left;
-	SLONG		x,y,w,h;
-	SLONG		mx1,my1,mz1;
-	SLONG		mx2,my2,mz2;
+	std::int32_t		con_top,con_left;
+	std::int32_t		x,y,w,h;
+	std::int32_t		mx1,my1,mz1;
+	std::int32_t		mx2,my2,mz2;
 
 	x=Parent->ContentLeft();
 	y=Parent->ContentTop();
@@ -1222,7 +1222,7 @@ void	MapEdTab::CutFloorBrush(MFPoint *current_point,SLONG button)
 		ShowWorkWindow(0);
 	}
 	{
-		SLONG	mw,mh;
+		std::int32_t	mw,mh;
 		mw=mx2-mx1;
 		if(mw<0)
 		{
@@ -1253,13 +1253,13 @@ void	MapEdTab::CutFloorBrush(MFPoint *current_point,SLONG button)
 
 //---------------------------------------------------------------
 
-SLONG	MapEdTab::SetWorldMouse(ULONG flag)
+std::int32_t	MapEdTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
 	SVector		point,out;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	temp;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	temp;
 
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
@@ -1295,10 +1295,10 @@ SLONG	MapEdTab::SetWorldMouse(ULONG flag)
 
 }
 
-SLONG	calc_edit_height_at(SLONG x,SLONG z)
+std::int32_t	calc_edit_height_at(std::int32_t x,std::int32_t z)
 {
 	DepthStrip *me;
-	SLONG	new_y,h0,h1,h2,h3;
+	std::int32_t	new_y,h0,h1,h2,h3;
 
 	if(x<0||z<0||x>EDIT_MAP_WIDTH<<8||z>EDIT_MAP_WIDTH<<8)
 		return(0);
@@ -1337,17 +1337,17 @@ SLONG	calc_edit_height_at(SLONG x,SLONG z)
 }
 
 
-extern void set_map_height(SLONG x,SLONG z,SLONG y);
+extern void set_map_height(std::int32_t x,std::int32_t z,std::int32_t y);
 
 
 void	fix_furn_height(void)
 {	
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<MAX_MAP_THINGS;c0++)
 	{
 		if(map_things[c0].Type==MAP_THING_TYPE_PRIM)
 		{
-			SLONG	y;
+			std::int32_t	y;
 
 			y=calc_edit_height_at(map_things[c0].X,map_things[c0].Z);
 			
@@ -1357,16 +1357,16 @@ void	fix_furn_height(void)
 	}
 }
 
-void	set_all_map_height(SLONG x,SLONG z,SLONG y)
+void	set_all_map_height(std::int32_t x,std::int32_t z,std::int32_t y)
 {
-		edit_map[x][z].Y=(SBYTE)y;
+		edit_map[x][z].Y=(std::int8_t)y;
 }
 
 
 
 void	wibble_map(void)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
 	for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
 	{
@@ -1377,7 +1377,7 @@ void	wibble_map(void)
 
 void	flatten_map(void)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
 	for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
 	{
@@ -1388,7 +1388,7 @@ void	flatten_map(void)
 
 
 
-void	MapEdTab::HandleControl(UWORD control_id)
+void	MapEdTab::HandleControl(std::uint16_t control_id)
 {
 	switch(control_id&0xff)
 	{

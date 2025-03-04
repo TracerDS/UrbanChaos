@@ -10,7 +10,7 @@
 // Loads the given MuckyBASIC program into memory and runs it!
 //
 
-void VM_run(CBYTE* fname);
+void VM_run(char* fname);
 
 
 

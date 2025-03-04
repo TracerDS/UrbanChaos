@@ -21,27 +21,27 @@
 
 
 void MESH_draw_poly(
-		SLONG         prim,
+		std::int32_t         prim,
 		MAPCO16	      at_x,
 		MAPCO16       at_y,
 		MAPCO16	      at_z,
-		SLONG         i_yaw,
-		SLONG         i_pitch,
-		SLONG         i_roll,
+		std::int32_t         i_yaw,
+		std::int32_t         i_pitch,
+		std::int32_t         i_roll,
 		LIGHT_Colour *lpc)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG page;
+	std::int32_t page;
 
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;

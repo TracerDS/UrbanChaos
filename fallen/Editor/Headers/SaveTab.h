@@ -10,8 +10,8 @@ class	SaveTab	:	public	ModeTab
 {
 	private:
 		bool			SaveState;
-		ULONG			LevelsMap[32];
-		SLONG			CurrentLevel,
+		std::uint32_t			LevelsMap[32];
+		std::int32_t			CurrentLevel,
 						HilitedLevel;
 
 	public:
@@ -20,12 +20,12 @@ class	SaveTab	:	public	ModeTab
 						~SaveTab();
 
 		void			DrawTabContent();
-		UWORD			HandleTabClick(UBYTE flags,MFPoint *clicked_point);
+		std::uint16_t			HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
 		void			HandleTab(MFPoint *current_point);
-		void			HandleControl(UWORD control_id);
+		void			HandleControl(std::uint16_t control_id);
 
 		void			DrawLevelBox();
-		UWORD			LevelHilitePos(MFPoint *current_point);
+		std::uint16_t			LevelHilitePos(MFPoint *current_point);
 		void			MapLevels();
 
 		void			LoadLevel();
@@ -34,8 +34,8 @@ class	SaveTab	:	public	ModeTab
 		inline void		SetSaveState(bool state)		{	SaveState=state;		}
 		inline bool		GetSaveState()				{	return SaveState;		}
 
-		inline void		SetMapBit(UBYTE bit)			{	LevelsMap[bit>>5]	|=	(1<<(bit&0x1f));	}
-		inline bool		GetMapBit(UBYTE bit)			{	if(LevelsMap[bit>>5]&(1<<(bit&0x1f)))return true;else return false;	}
+		inline void		SetMapBit(std::uint8_t bit)			{	LevelsMap[bit>>5]	|=	(1<<(bit&0x1f));	}
+		inline bool		GetMapBit(std::uint8_t bit)			{	if(LevelsMap[bit>>5]&(1<<(bit&0x1f)))return true;else return false;	}
 };
 
 //---------------------------------------------------------------

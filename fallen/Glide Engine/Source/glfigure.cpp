@@ -10,10 +10,10 @@
 #include "c:\fallen\headers\fmatrix.h"
 #include "c:\fallen\headers\interact.h"
 
-void FIGURE_rotate_obj(SLONG xangle,SLONG yangle,SLONG zangle, Matrix33 *r3) 
+void FIGURE_rotate_obj(std::int32_t xangle,std::int32_t yangle,std::int32_t zangle, Matrix33 *r3) 
 {
-	SLONG	sinx, cosx, siny, cosy, sinz, cosz;
- 	SLONG	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
+	std::int32_t	sinx, cosx, siny, cosy, sinz, cosz;
+ 	std::int32_t	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
 
 	sinx = SIN(xangle & (2048-1)) >>1;  	// 15's
 	cosx = COS(xangle & (2048-1)) >>1;
@@ -50,39 +50,39 @@ void FIGURE_rotate_obj(SLONG xangle,SLONG yangle,SLONG zangle, Matrix33 *r3)
 
 
 void FIGURE_draw_prim_tween(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
-		SLONG backwards)	// true => The faces are drawn in the wrong order.
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::int32_t backwards)	// true => The faces are drawn in the wrong order.
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG page;
-	ULONG colour;
-	ULONG red;
-	ULONG green;
-	ULONG blue;
-	ULONG r;
-	ULONG g;
-	ULONG b;
-	ULONG face_colour;
+	std::int32_t page;
+	std::uint32_t colour;
+	std::uint32_t red;
+	std::uint32_t green;
+	std::uint32_t blue;
+	std::uint32_t r;
+	std::uint32_t g;
+	std::uint32_t b;
+	std::uint32_t face_colour;
 
 	Matrix31  offset;
 	Matrix33  mat2;
@@ -362,9 +362,9 @@ void FIGURE_draw_prim_tween(
 
 void FIGURE_draw(Thing *p_thing)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	Matrix33 r_matrix;
 
@@ -398,8 +398,8 @@ void FIGURE_draw(Thing *p_thing)
 
 	if (dt->Locked)
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -448,10 +448,10 @@ void FIGURE_draw(Thing *p_thing)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[0]].StartObject;
@@ -477,11 +477,11 @@ void FIGURE_draw(Thing *p_thing)
 
 
 
-void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
+void FIGURE_draw_reflection(Thing *p_thing, std::int32_t height)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	Matrix33 r_matrix;
 
@@ -515,8 +515,8 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 
 	if (dt->Locked)
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -561,9 +561,9 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 		dt->Roll,
 	   &r_matrix);
 
-	SLONG posx = p_thing->WorldPos.X >> 8;
-	SLONG posy = p_thing->WorldPos.Y >> 8;
-	SLONG posz = p_thing->WorldPos.Z >> 8;
+	std::int32_t posx = p_thing->WorldPos.X >> 8;
+	std::int32_t posy = p_thing->WorldPos.Y >> 8;
+	std::int32_t posz = p_thing->WorldPos.Z >> 8;
 
 	//
 	// Reflect about y = height.
@@ -580,10 +580,10 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[0]].StartObject;

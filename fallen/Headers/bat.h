@@ -19,22 +19,22 @@
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE health;
-	UBYTE state;
-	UBYTE substate;
-	UBYTE home_x;
-	UBYTE home_z;
-	UWORD target;
-	UWORD timer;
-	UWORD flag;
-	SWORD want_x;
-	SWORD want_y;
-	SWORD want_z;
-	UWORD glow;	// How much bane glows...
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::uint8_t type;
+	std::uint8_t health;
+	std::uint8_t state;
+	std::uint8_t substate;
+	std::uint8_t home_x;
+	std::uint8_t home_z;
+	std::uint16_t target;
+	std::uint16_t timer;
+	std::uint16_t flag;
+	std::int16_t want_x;
+	std::int16_t want_y;
+	std::int16_t want_z;
+	std::uint16_t glow;	// How much bane glows...
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 } Bat;
 
@@ -57,10 +57,10 @@ void BAT_init();
 //
 
 THING_INDEX BAT_create(
-				SLONG type,		// BAT_TYPE_*
-				SLONG x,
-				SLONG z,
-				UWORD yaw);
+				std::int32_t type,		// BAT_TYPE_*
+				std::int32_t x,
+				std::int32_t z,
+				std::uint16_t yaw);
 
 
 //
@@ -70,7 +70,7 @@ THING_INDEX BAT_create(
 void BAT_apply_hit(
 		Thing *p_me,
 		Thing *p_aggressor,
-		SLONG  damage);
+		std::int32_t  damage);
 
 
 #endif

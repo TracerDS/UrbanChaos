@@ -15,6 +15,6 @@
 // Returns true if you should exit the game loop...
 //
 
-SLONG PAUSE_handler();
+std::int32_t PAUSE_handler();
 
 #endif

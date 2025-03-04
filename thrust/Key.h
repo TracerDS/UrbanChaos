@@ -10,9 +10,9 @@
 // Every key has a byte flag to say whether it is on or off.
 //
 
-extern UBYTE KEY_on[256];
-extern UBYTE KEY_inkey;	// The ASCII value of the last key pressed.
-extern UBYTE KEY_shift;
+extern std::uint8_t KEY_on[256];
+extern std::uint8_t KEY_inkey;	// The ASCII value of the last key pressed.
+extern std::uint8_t KEY_shift;
 
 //
 // KEY shift can have the following bits set.

@@ -28,11 +28,11 @@ extern void POLY_set_local_rotation_none();
 
 #ifdef SUPERFACET_PERFORMANCE
 FILE *SUPERFACET_handle;
-SLONG SUPERFACET_total_freed;
-SLONG SUPERFACET_total_converted;
-SLONG SUPERFACET_total_already_cached;
-SLONG SUPERFACET_total_drawn;
-SLONG SUPERFACET_num_gameturns;
+std::int32_t SUPERFACET_total_freed;
+std::int32_t SUPERFACET_total_converted;
+std::int32_t SUPERFACET_total_already_cached;
+std::int32_t SUPERFACET_total_drawn;
+std::int32_t SUPERFACET_num_gameturns;
 #endif
 
 
@@ -51,24 +51,24 @@ SLONG SUPERFACET_num_gameturns;
 // The verts....
 //
 
-SLONG SUPERFACET_max_lverts;
+std::int32_t SUPERFACET_max_lverts;
 
 #define SUPERFACET_MAX_LVERTS (SUPERFACET_max_lverts)
 
-UBYTE      *SUPERFACET_lvert_buffer;
+std::uint8_t      *SUPERFACET_lvert_buffer;
 D3DLVERTEX *SUPERFACET_lvert;
-SLONG       SUPERFACET_lvert_upto;
+std::int32_t       SUPERFACET_lvert_upto;
 
 //
 // The indices....
 //
 
-SLONG SUPERFACET_max_indices;
+std::int32_t SUPERFACET_max_indices;
 
 #define SUPERFACET_MAX_INDICES (SUPERFACET_max_indices)
 
-UWORD *SUPERFACET_index;
-SLONG  SUPERFACET_index_upto;
+std::uint16_t *SUPERFACET_index;
+std::int32_t  SUPERFACET_index_upto;
 
 
 //
@@ -77,8 +77,8 @@ SLONG  SUPERFACET_index_upto;
 // we free data the end of the range is moved on forwards.
 //
 
-SLONG SUPERFACET_free_range_start;
-SLONG SUPERFACET_free_range_end;
+std::int32_t SUPERFACET_free_range_start;
+std::int32_t SUPERFACET_free_range_end;
 
 
 
@@ -94,15 +94,15 @@ bool m_bShowDebuggingInfo = false;
 
 typedef struct
 {
-	UBYTE flag;		// true => this call is in use.
-	UBYTE dir;		// The direction of the facet...
-	UWORD quads;	// The number of quads this call draws.
-	UWORD lvert;
-	UWORD lvertcount;
-	UWORD index;
-	UWORD indexcount;
-	UWORD index2;						// For the 2-pass textures...
-	UWORD crinkle;						// The PolyPage or SUPERCRINKLE for this call...
+	std::uint8_t flag;		// true => this call is in use.
+	std::uint8_t dir;		// The direction of the facet...
+	std::uint16_t quads;	// The number of quads this call draws.
+	std::uint16_t lvert;
+	std::uint16_t lvertcount;
+	std::uint16_t index;
+	std::uint16_t indexcount;
+	std::uint16_t index2;						// For the 2-pass textures...
+	std::uint16_t crinkle;						// The PolyPage or SUPERCRINKLE for this call...
 
 	LPDIRECT3DTEXTURE2 texture;
 	LPDIRECT3DTEXTURE2 texture_2pass;	// For the 2-pass textures...
@@ -112,21 +112,21 @@ typedef struct
 #define SUPERFACET_MAX_CALLS 2048
 
 SUPERFACET_Call SUPERFACET_call[SUPERFACET_MAX_CALLS];
-SLONG           SUPERFACET_call_upto;
+std::int32_t           SUPERFACET_call_upto;
 
 
 //
 // Incides into the calllist array.
 //
 
-SLONG SUPERFACET_max_facets;
+std::int32_t SUPERFACET_max_facets;
 
 #define SUPERFACET_MAX_FACETS SUPERFACET_max_facets
 
 typedef struct
 {
-	UWORD call;	// Index into the SUPERFACET_call[] array
-	UWORD num;
+	std::uint16_t call;	// Index into the SUPERFACET_call[] array
+	std::uint16_t num;
 
 } SUPERFACET_Facet;
 
@@ -141,9 +141,9 @@ SUPERFACET_Facet *SUPERFACET_facet;
 
 #define SUPERFACET_QUEUE_SIZE 512	// Power of 2 please...
 
-UWORD SUPERFACET_queue[SUPERFACET_QUEUE_SIZE];
-SLONG SUPERFACET_queue_start;
-SLONG SUPERFACET_queue_end;
+std::uint16_t SUPERFACET_queue[SUPERFACET_QUEUE_SIZE];
+std::int32_t SUPERFACET_queue_start;
+std::int32_t SUPERFACET_queue_end;
 
 
 
@@ -152,7 +152,7 @@ SLONG SUPERFACET_queue_end;
 // A 32-byte aligned matrix.
 //
 
-UBYTE      SUPERFACET_matrix_buffer[sizeof(D3DMATRIX) + 32];
+std::uint8_t      SUPERFACET_matrix_buffer[sizeof(D3DMATRIX) + 32];
 D3DMATRIX *SUPERFACET_matrix;
 
 
@@ -171,9 +171,9 @@ float SUPERFACET_direction_matrix[4][9];
 // From facet.cpp
 //
 
-extern ULONG facet_rand ();
-extern void  set_facet_seed(SLONG seed);
-extern SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLONG count,SLONG flipx=0);
+extern std::uint32_t facet_rand ();
+extern void  set_facet_seed(std::int32_t seed);
+extern std::int32_t texture_quad(POLY_Point *quad[4],std::int32_t texture_style,std::int32_t pos,std::int32_t count,std::int32_t flipx=0);
 
 
 
@@ -186,8 +186,8 @@ extern SLONG texture_quad(POLY_Point *quad[4],SLONG texture_style,SLONG pos,SLON
 
 void SUPERFACET_free_end_of_queue()
 {
-	SLONG i;
-	SLONG facet;
+	std::int32_t i;
+	std::int32_t facet;
 	
 	SUPERFACET_Facet *sf;
 	SUPERFACET_Call  *sc;
@@ -276,9 +276,9 @@ void SUPERFACET_free_end_of_queue()
 // coordinates in the quad.
 //
 
-LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(SLONG page, POLY_Point *quad[4])
+LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(std::int32_t page, POLY_Point *quad[4])
 {
-	SLONG i;
+	std::int32_t i;
 
 	ASSERT(WITHIN(page, 0, 511));	// Special subset of pages just for facets...
 
@@ -318,7 +318,7 @@ NIGHT_Colour *SUPERFACET_colour_base;
 // of the facet.
 //
 
-extern SWORD FacetRows [100];
+extern std::int16_t FacetRows [100];
 extern float FacetDiffY[128];
 
 void SUPERFACET_make_facet_points(
@@ -328,13 +328,13 @@ void SUPERFACET_make_facet_points(
 		float dx,
 		float dz,
 		float block_height, 
-		SLONG height,
+		std::int32_t height,
 		NIGHT_Colour *col,
-		SLONG foundation,
-		SLONG count,
-		SLONG hug)
+		std::int32_t foundation,
+		std::int32_t count,
+		std::int32_t hug)
 {	
-	SLONG hf = 0;
+	std::int32_t hf = 0;
 
 	POLY_buffer_upto = 0;	// or else FacetDiffY is accessed wrongly
 
@@ -348,7 +348,7 @@ void SUPERFACET_make_facet_points(
 
 		FacetRows[hf] = POLY_buffer_upto;
 
-		for (SLONG c0 = count; c0 > 0; c0--)
+		for (std::int32_t c0 = count; c0 > 0; c0--)
 		{
 			float ty;
 
@@ -358,7 +358,7 @@ void SUPERFACET_make_facet_points(
 
 			if (hug)
 			{
-				ty  = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty  = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 				ty += y;
 			}
 			else
@@ -368,7 +368,7 @@ void SUPERFACET_make_facet_points(
 			}
 			else
 			{
-				ty = float(PAP_2HI(SLONG(x) >> 8, SLONG(z) >> 8).Alt << 3);
+				ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
 
 				FacetDiffY[POLY_buffer_upto - 1] = ( ( y - ty ) * ( 1.0f / 256.0f ) ) + 1.0f;
 			}
@@ -405,16 +405,16 @@ void SUPERFACET_make_facet_points(
 
 int m_iFacetDirection;
 
-void SUPERFACET_create_points(SLONG facet)
+void SUPERFACET_create_points(std::int32_t facet)
 {
-	SLONG i;
-	SLONG j;
-	SLONG dx;
-	SLONG dz;
-	SLONG hf;
-	SLONG height;
-	SLONG count;
-	SLONG foundation;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t hf;
+	std::int32_t height;
+	std::int32_t count;
+	std::int32_t foundation;
 
 	float sx;
 	float sy;
@@ -514,24 +514,24 @@ void SUPERFACET_create_points(SLONG facet)
 
 
 void SUPERFACET_fill_facet_points(
-		SLONG count,
-		ULONG base_row,
-		SLONG foundation,
-		SLONG style_index,
+		std::int32_t count,
+		std::uint32_t base_row,
+		std::int32_t foundation,
+		std::int32_t style_index,
 		float block_height,
 		SUPERFACET_Call *sc)
 {
-	SLONG i;
-	SLONG j;
-	SLONG page;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t page;
 	float vheight = float(block_height) * ( 1.0f / 256.0f );
 
 	POLY_Point        *quad[4];
 	LPDIRECT3DTEXTURE2 texture;
 	D3DLVERTEX        *lv;
 
-	SLONG	row1 = FacetRows[base_row];
-	SLONG	row2 = FacetRows[base_row+1];
+	std::int32_t	row1 = FacetRows[base_row];
+	std::int32_t	row2 = FacetRows[base_row+1];
 
 	ASSERT(row2 - row1 == count);
 
@@ -829,18 +829,18 @@ void SUPERFACET_fill_facet_points(
 // Builds the 'call'th call structure for the given facet.
 //
 
-void SUPERFACET_build_call(SLONG facet, SLONG call)
+void SUPERFACET_build_call(std::int32_t facet, std::int32_t call)
 {
-	SLONG i;
-	SLONG j;
-	SLONG dx;
-	SLONG dz;
-	SLONG hf;
-	SLONG height;
-	SLONG count;
-	SLONG foundation;
-	SLONG style_index;
-	SLONG style_index_step;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t hf;
+	std::int32_t height;
+	std::int32_t count;
+	std::int32_t foundation;
+	std::int32_t style_index;
+	std::int32_t style_index_step;
 
 	float block_height;
 
@@ -976,18 +976,18 @@ void SUPERFACET_build_call(SLONG facet, SLONG call)
 // Create a call for each new texture page.
 //
 
-void SUPERFACET_create_calls(SLONG facet, SLONG direction)
+void SUPERFACET_create_calls(std::int32_t facet, std::int32_t direction)
 {
-	SLONG i;
-	SLONG j;
-	SLONG dx;
-	SLONG dz;
-	SLONG hf;
-	SLONG page;
-	SLONG count;
-	SLONG height;
-	SLONG style_index;
-	SLONG style_index_step;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t hf;
+	std::int32_t page;
+	std::int32_t count;
+	std::int32_t height;
+	std::int32_t style_index;
+	std::int32_t style_index_step;
 
 	LPDIRECT3DTEXTURE2 texture;
 	DFacet            *df;
@@ -1168,12 +1168,12 @@ void SUPERFACET_create_calls(SLONG facet, SLONG direction)
 
 
 
-void SUPERFACET_convert_facet(SLONG facet)
+void SUPERFACET_convert_facet(std::int32_t facet)
 {
-	SLONG i;
-	SLONG room;
-	SLONG memory;
-	SLONG direction;
+	std::int32_t i;
+	std::int32_t room;
+	std::int32_t memory;
+	std::int32_t direction;
 
 	DFacet           *df;
 	SUPERFACET_Facet *sf;
@@ -1322,7 +1322,7 @@ void SUPERFACET_convert_facet(SLONG facet)
 
 	NIGHT_dfcache_destroy(df->Dfcache);
 
-	df->Dfcache = nullptr;
+	df->Dfcache = 0;
 
 	//
 	// Add to the queue of facets.
@@ -1381,9 +1381,9 @@ void SUPERFACET_init()
 	// Allocate memory.
 	//
 
-	SUPERFACET_lvert_buffer = (UBYTE            *) MemAlloc(sizeof(D3DLVERTEX)       * SUPERFACET_MAX_LVERTS + 32);
+	SUPERFACET_lvert_buffer = (std::uint8_t            *) MemAlloc(sizeof(D3DLVERTEX)       * SUPERFACET_MAX_LVERTS + 32);
 	ASSERT ( SUPERFACET_lvert_buffer != nullptr );
-	SUPERFACET_index        = (UWORD            *) MemAlloc(sizeof(UWORD)            * SUPERFACET_MAX_INDICES    );
+	SUPERFACET_index        = (std::uint16_t            *) MemAlloc(sizeof(std::uint16_t)            * SUPERFACET_MAX_INDICES    );
 	ASSERT ( SUPERFACET_index != nullptr );
 	SUPERFACET_facet        = (SUPERFACET_Facet *) MemAlloc(sizeof(SUPERFACET_Facet) * SUPERFACET_MAX_FACETS     );
 	ASSERT ( SUPERFACET_facet != nullptr );
@@ -1393,7 +1393,7 @@ void SUPERFACET_init()
 	//
 
 	memset(SUPERFACET_lvert_buffer, 0, sizeof(D3DLVERTEX) * SUPERFACET_MAX_LVERTS + 32);
-	memset(SUPERFACET_index,        0, sizeof(UWORD)      * SUPERFACET_MAX_INDICES    );
+	memset(SUPERFACET_index,        0, sizeof(std::uint16_t)      * SUPERFACET_MAX_INDICES    );
 	memset(SUPERFACET_call,         0, sizeof(SUPERFACET_call));
 	memset(SUPERFACET_facet,        0, sizeof(SUPERFACET_Facet) * SUPERFACET_MAX_FACETS);
 	memset(SUPERFACET_queue,        0, sizeof(SUPERFACET_queue));
@@ -1404,7 +1404,7 @@ void SUPERFACET_init()
 	SUPERFACET_free_range_start = 0;
 	SUPERFACET_free_range_end   = SUPERFACET_MAX_LVERTS;
 
-	SUPERFACET_lvert = (D3DLVERTEX *) ((SLONG(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
+	SUPERFACET_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
 
 	SUPERFACET_lvert_upto  = 0;
 	SUPERFACET_index_upto  = 0;
@@ -1412,13 +1412,13 @@ void SUPERFACET_init()
 	SUPERFACET_queue_start = 0;
 	SUPERFACET_queue_end   = 0;
 
-	SUPERFACET_matrix = (D3DMATRIX *) ((SLONG(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
+	SUPERFACET_matrix = (D3DMATRIX *) ((std::int32_t(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
 
 	//
 	// Build the direction matrices.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < 4; i++)
 	{
@@ -1439,7 +1439,7 @@ void SUPERFACET_init()
 	// Now go through and find 'common' facets.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	DFacet *df;
 
@@ -1479,10 +1479,10 @@ void SUPERFACET_init()
 
 
 
-void SUPERFACET_redo_lighting(SLONG facet)
+void SUPERFACET_redo_lighting(std::int32_t facet)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	DFacet           *df;
 	SUPERFACET_Call  *sc;
@@ -1562,7 +1562,7 @@ extern DIJOYSTATE the_state;
 		// And clear all the facets, so they can be remade in the right colours.
 
 		memset(SUPERFACET_lvert_buffer, 0, sizeof(D3DLVERTEX) * SUPERFACET_MAX_LVERTS + 32);
-		memset(SUPERFACET_index,        0, sizeof(UWORD)      * SUPERFACET_MAX_INDICES    );
+		memset(SUPERFACET_index,        0, sizeof(std::uint16_t)      * SUPERFACET_MAX_INDICES    );
 		memset(SUPERFACET_call,         0, sizeof(SUPERFACET_call));
 		memset(SUPERFACET_facet,        0, sizeof(SUPERFACET_Facet) * SUPERFACET_MAX_FACETS);
 		memset(SUPERFACET_queue,        0, sizeof(SUPERFACET_queue));
@@ -1573,7 +1573,7 @@ extern DIJOYSTATE the_state;
 		SUPERFACET_free_range_start = 0;
 		SUPERFACET_free_range_end   = SUPERFACET_MAX_LVERTS;
 
-		SUPERFACET_lvert = (D3DLVERTEX *) ((SLONG(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
+		SUPERFACET_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
 
 		SUPERFACET_lvert_upto  = 0;
 		SUPERFACET_index_upto  = 0;
@@ -1581,7 +1581,7 @@ extern DIJOYSTATE the_state;
 		SUPERFACET_queue_start = 0;
 		SUPERFACET_queue_end   = 0;
 
-		SUPERFACET_matrix = (D3DMATRIX *) ((SLONG(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
+		SUPERFACET_matrix = (D3DMATRIX *) ((std::int32_t(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
 
 	}
 #endif
@@ -1625,15 +1625,15 @@ extern DIJOYSTATE the_state;
 
 #define SUPERFACET_MAX_2PASS_INDICES (6 * 256)	// 256 lit windows per facet maximum...
 
-UWORD SUPERFACET_2pass_index[SUPERFACET_MAX_2PASS_INDICES];
-SLONG SUPERFACET_2pass_index_upto;
+std::uint16_t SUPERFACET_2pass_index[SUPERFACET_MAX_2PASS_INDICES];
+std::int32_t SUPERFACET_2pass_index_upto;
 #endif
 
 
-SLONG SUPERFACET_draw(SLONG facet)
+std::int32_t SUPERFACET_draw(std::int32_t facet)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	SUPERFACET_Facet *sf;
 	SUPERFACET_Call  *sc;
@@ -1767,10 +1767,10 @@ SLONG SUPERFACET_draw(SLONG facet)
 			// Doesn't work yet.
 			ASSERT ( false );
 
-			ULONG colour  [4];
-			ULONG specular[4];
+			std::uint32_t colour  [4];
+			std::uint32_t specular[4];
 
-			SLONG index[4];
+			std::int32_t index[4];
 
 			for (j = 0; j < sc->indexcount; j += 6)
 			{
@@ -1817,16 +1817,16 @@ SLONG SUPERFACET_draw(SLONG facet)
 					SUPERFACET_direction_matrix[sc->dir][2] = -SUPERFACET_direction_matrix[sc->dir][2];
 
 
-					static UBYTE order[4] = {2,0,3,1};
+					static std::uint8_t order[4] = {2,0,3,1};
 
 
 					/*
 					if ((GAME_TURN & 0x1f) == 0)
 					{
-						SLONG a;
-						SLONG b;
+						std::int32_t a;
+						std::int32_t b;
 
-						SLONG twizzle;
+						std::int32_t twizzle;
 
 						for (twizzle = 0; twizzle < 5; twizzle++)
 						{
@@ -1863,16 +1863,16 @@ SLONG SUPERFACET_draw(SLONG facet)
 						world_z,
 						SUPERFACET_direction_matrix[sc->dir]);
 
-					static UBYTE order[4] = {0,2,1,3};
+					static std::uint8_t order[4] = {0,2,1,3};
 					
 					/*
 
 					if ((GAME_TURN & 0x1f) == 0)
 					{
-						SLONG a;
-						SLONG b;
+						std::int32_t a;
+						std::int32_t b;
 
-						SLONG twizzle;
+						std::int32_t twizzle;
 
 						for (twizzle = 0; twizzle < 5; twizzle++)
 						{
@@ -2053,10 +2053,10 @@ SLONG SUPERFACET_draw(SLONG facet)
 			// Draw each quad separately...
 			//
 
-			ULONG colour  [4];
-			ULONG specular[4];
+			std::uint32_t colour  [4];
+			std::uint32_t specular[4];
 
-			SLONG index[4];
+			std::int32_t index[4];
 
 			for (j = 0; j < sc->indexcount; j += 5)
 			{
@@ -2103,16 +2103,16 @@ SLONG SUPERFACET_draw(SLONG facet)
 					SUPERFACET_direction_matrix[sc->dir][2] = -SUPERFACET_direction_matrix[sc->dir][2];
 
 
-					static UBYTE order[4] = {2,0,3,1};
+					static std::uint8_t order[4] = {2,0,3,1};
 
 
 					/*
 					if ((GAME_TURN & 0x1f) == 0)
 					{
-						SLONG a;
-						SLONG b;
+						std::int32_t a;
+						std::int32_t b;
 
-						SLONG twizzle;
+						std::int32_t twizzle;
 
 						for (twizzle = 0; twizzle < 5; twizzle++)
 						{
@@ -2149,16 +2149,16 @@ SLONG SUPERFACET_draw(SLONG facet)
 						world_z,
 						SUPERFACET_direction_matrix[sc->dir]);
 
-					static UBYTE order[4] = {0,2,1,3};
+					static std::uint8_t order[4] = {0,2,1,3};
 					
 					/*
 
 					if ((GAME_TURN & 0x1f) == 0)
 					{
-						SLONG a;
-						SLONG b;
+						std::int32_t a;
+						std::int32_t b;
 
-						SLONG twizzle;
+						std::int32_t twizzle;
 
 						for (twizzle = 0; twizzle < 5; twizzle++)
 						{

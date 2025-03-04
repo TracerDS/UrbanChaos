@@ -16,11 +16,11 @@
 // Returns true if the building is valid to enter.
 //
 
-SLONG ENTER_valid(SLONG dbuilding)
+std::int32_t ENTER_valid(std::int32_t dbuilding)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	DBuilding *db;
 	DFacet    *df;
@@ -63,22 +63,22 @@ SLONG ENTER_valid(SLONG dbuilding)
 // building has a bounding box of (0,0)-(1,1)
 //
 
-void ENTER_building_box(SLONG dbuilding, SLONG *bx1, SLONG *bz1, SLONG *bx2, SLONG *bz2)
+void ENTER_building_box(std::int32_t dbuilding, std::int32_t *bx1, std::int32_t *bz1, std::int32_t *bx2, std::int32_t *bz2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 	DBuilding *db;
 	DFacet    *df;
 
-	SLONG height;
+	std::int32_t height;
 
 	//
 	// Initialise the bounding box.
@@ -141,25 +141,25 @@ void ENTER_building_box(SLONG dbuilding, SLONG *bx1, SLONG *bz1, SLONG *bx2, SLO
 
 ENTER_Okay ENTER_can_i(THING_INDEX me)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG facet;
-	SLONG f_list;
-	SLONG exit;
+	std::int32_t facet;
+	std::int32_t f_list;
+	std::int32_t exit;
 
 	DFacet *df;
 
@@ -286,7 +286,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 }
 
 
-SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z)
+std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t *map_x, std::uint8_t *map_z)
 {
 	//
 	// We can do this in a really bad way!  Move forward and turn around.
@@ -300,21 +300,21 @@ SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z)
 
 
 void ENTER_get_extents(
-		SLONG  dbuilding,
-		SLONG *height_ground_floor,
-		SLONG *height_of_top_storey)
+		std::int32_t  dbuilding,
+		std::int32_t *height_ground_floor,
+		std::int32_t *height_of_top_storey)
 {
 	ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
 	DFacet    *df;
 	DBuilding *db = &dbuildings[dbuilding];
 
-	SLONG i;
-	SLONG top;
-	SLONG bot;
+	std::int32_t i;
+	std::int32_t top;
+	std::int32_t bot;
 
-	SLONG max = -INFINITY;
-	SLONG min = +INFINITY;
+	std::int32_t max = -INFINITY;
+	std::int32_t min = +INFINITY;
 
 	for (i = db->StartFacet; i < db->EndFacet; i++)
 	{
@@ -353,12 +353,12 @@ void ENTER_get_extents(
 
 
 
-SLONG ENTER_num_blocks(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+std::int32_t ENTER_num_blocks(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
-	SLONG dx = abs(x2 - x1);
-	SLONG dz = abs(z2 - z1);
+	std::int32_t dx = abs(x2 - x1);
+	std::int32_t dz = abs(z2 - z1);
 
-	SLONG num_blocks;
+	std::int32_t num_blocks;
 
 	//
 	// Wall are always orthogonal nowadays.
@@ -371,7 +371,7 @@ SLONG ENTER_num_blocks(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 	return num_blocks;
 }
 
-SLONG ENTER_get_type(SLONG id, SLONG block)
+std::int32_t ENTER_get_type(std::int32_t id, std::int32_t block)
 {
 	//
 	// Maybe we should be a bit cleverer than this!
@@ -386,23 +386,23 @@ SLONG ENTER_get_type(SLONG id, SLONG block)
 // Returns false if it couldn't put the stairs in.
 //
 
-SLONG ENTER_setup_stairs(SLONG dbuilding)
+std::int32_t ENTER_setup_stairs(std::int32_t dbuilding)
 {
-	SLONG i;
-	SLONG y;
+	std::int32_t i;
+	std::int32_t y;
 
-	SLONG bx1;
-	SLONG bz1;
-	SLONG bx2;
-	SLONG bz2;
+	std::int32_t bx1;
+	std::int32_t bz1;
+	std::int32_t bx2;
+	std::int32_t bz2;
 
-	SLONG bot;
-	SLONG top;
+	std::int32_t bot;
+	std::int32_t top;
 	
-	SLONG storey_bot;
-	SLONG storey_top;
+	std::int32_t storey_bot;
+	std::int32_t storey_top;
 
-	SLONG storey;
+	std::int32_t storey;
 
 	ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
@@ -496,26 +496,26 @@ SLONG ENTER_setup_stairs(SLONG dbuilding)
 }
 
 
-SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_best_layout)
+std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8_t furnished, std::uint8_t find_best_layout)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	SLONG num_blocks;
-	SLONG building_bot;
-	SLONG building_top;
-	SLONG storey_bot;
-	SLONG storey_top;
-	SLONG id_storey_type;
-	SLONG result;
-	SLONG ground_floor;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t num_blocks;
+	std::int32_t building_bot;
+	std::int32_t building_top;
+	std::int32_t storey_bot;
+	std::int32_t storey_top;
+	std::int32_t id_storey_type;
+	std::int32_t result;
+	std::int32_t ground_floor;
 
 	ID_Stair  *stair;
-	SLONG      num_stairs;
-	SLONG      stairs_ok;
+	std::int32_t      num_stairs;
+	std::int32_t      stairs_ok;
 
 	ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
@@ -743,14 +743,14 @@ SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_bes
 // Returns true if the building is valid to enter.
 //
 
-SLONG ENTER_valid(SLONG dbuilding)
+std::int32_t ENTER_valid(std::int32_t dbuilding)
 {
 	return false;
 }
 
 
 
-void ENTER_building_box(SLONG dbuilding, SLONG *bx1, SLONG *bz1, SLONG *bx2, SLONG *bz2)
+void ENTER_building_box(std::int32_t dbuilding, std::int32_t *bx1, std::int32_t *bz1, std::int32_t *bx2, std::int32_t *bz2)
 {
 
    *bx1 = 0;
@@ -769,7 +769,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me)
 }
 
 
-SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z)
+std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t *map_x, std::uint8_t *map_z)
 {
 
 	return false;
@@ -778,9 +778,9 @@ SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z)
 
 
 void ENTER_get_extents(
-		SLONG  dbuilding,
-		SLONG *height_ground_floor,
-		SLONG *height_of_top_storey)
+		std::int32_t  dbuilding,
+		std::int32_t *height_ground_floor,
+		std::int32_t *height_of_top_storey)
 {
 
 	*height_ground_floor  = 0; //min;
@@ -791,26 +791,26 @@ void ENTER_get_extents(
 
 
 
-SLONG ENTER_num_blocks(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+std::int32_t ENTER_num_blocks(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
 	return 0;
 }
 
-SLONG ENTER_get_type(SLONG id, SLONG block)
+std::int32_t ENTER_get_type(std::int32_t id, std::int32_t block)
 {
 	return 0;
 }
 
 
 
-SLONG ENTER_setup_stairs(SLONG dbuilding)
+std::int32_t ENTER_setup_stairs(std::int32_t dbuilding)
 {
 
 	return false;
 }
 
 
-SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_best_layout)
+std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8_t furnished, std::uint8_t find_best_layout)
 {
 	return false;
 }

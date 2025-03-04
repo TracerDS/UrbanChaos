@@ -20,20 +20,20 @@
 
 #include	"ctrller.h"
 
-//SLONG	highest=0;
-extern ULONG	available_bucket_ram();
+//std::int32_t	highest=0;
+extern std::uint32_t	available_bucket_ram();
 
 extern ControllerPacket PAD_Input1,PAD_Input2;
 
 //void FIGURE_draw(Thing *p_thing);
 
-extern UWORD floor_psx_col[128][128];
+extern std::uint16_t floor_psx_col[128][128];
 extern PSX_POLY_Point *perm_pp_array;
 
 int ware_flag;
 extern void	check_prim_ptr_ni(void* *x);
 
-//extern UWORD	debug_count[10];
+//extern std::uint16_t	debug_count[10];
 
 #define	RED(col)	(((col) >> 8) & 0xfc)
 #define	GREEN(col)	(((col) >> 2) & 0xf8)
@@ -41,14 +41,14 @@ extern void	check_prim_ptr_ni(void* *x);
 
 #define	MAX_STEAM	100
 						   
-extern SLONG	steam_seed;
+extern std::int32_t	steam_seed;
 extern void	fuck_z(PSX_POLY_Point *pp);
 
-extern SLONG	get_steam_rand(void**);
+extern std::int32_t	get_steam_rand(void**);
 #define	MAT_SHIFT	(6)
 #define	MAT_SHIFTD	(8-MAT_SHIFT)
 
-void build_peep_rot_matrix(SLONG yaw,SLONG roll,MATRIX *m)
+void build_peep_rot_matrix(std::int32_t yaw,std::int32_t roll,MATRIX *m)
 {
 	SVECTOR r;
 
@@ -75,12 +75,12 @@ void build_peep_rot_matrix(SLONG yaw,SLONG roll,MATRIX *m)
 //	m->t[2]=0;
 }
 
-void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
+void draw_steam(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod)
 {
 #ifndef PSX
-	SLONG	c0;
-	SLONG	u,v;
-	SLONG	trans;
+	std::int32_t	c0;
+	std::int32_t	u,v;
+	std::int32_t	trans;
 	//
 	// waft gently up from x,y,z
 	//
@@ -91,7 +91,7 @@ void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
 
 	for(c0=0;c0<lod;c0++)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 
 		/*
 		if(c0&1)
@@ -156,13 +156,13 @@ void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod)
 #endif
 }
 
-void calc_floor_col(SLONG x,SLONG z,SLONG *r,SLONG *g,SLONG *b)
+void calc_floor_col(std::int32_t x,std::int32_t z,std::int32_t *r,std::int32_t *g,std::int32_t *b)
 {
-	SLONG	in;
-	SLONG	in1_r,in2_r,in3_r,in0_r;
-	SLONG	in1_g,in2_g,in3_g,in0_g;
-	SLONG	in1_b,in2_b,in3_b,in0_b;
-	SLONG	dx,dz,mx,mz,lum;
+	std::int32_t	in;
+	std::int32_t	in1_r,in2_r,in3_r,in0_r;
+	std::int32_t	in1_g,in2_g,in3_g,in0_g;
+	std::int32_t	in1_b,in2_b,in3_b,in0_b;
+	std::int32_t	dx,dz,mx,mz,lum;
 
 
 	mx=(x>>8)&0x7f;
@@ -222,9 +222,9 @@ void calc_floor_col(SLONG x,SLONG z,SLONG *r,SLONG *g,SLONG *b)
 		*b=0;
 }
 
-void build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween,SLONG shift)
+void build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween,std::int32_t shift)
 {
-	SLONG	v,w;
+	std::int32_t	v,w;
 
 	v=((cmat1->M[0]&CMAT0_MASK)<<2)>>22;
 	w=((cmat2->M[0]&CMAT0_MASK)<<2)>>22;
@@ -281,47 +281,47 @@ void build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33
 }
 
 //#define	BACK_CULL_MAGIC	3
-SLONG FIGURE_draw_prim_tween(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+std::int32_t FIGURE_draw_prim_tween(
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		MATRIX *rot_mat,
-		SLONG off_dx,			   
-		SLONG off_dy,
-		SLONG off_dz,
-		SLONG backwards,SLONG wx,SLONG wy,SLONG wz,
-		SLONG	red,SLONG green,SLONG blue,
-		SLONG sort_offset,SLONG scale
+		std::int32_t off_dx,			   
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::int32_t backwards,std::int32_t wx,std::int32_t wy,std::int32_t wz,
+		std::int32_t	red,std::int32_t green,std::int32_t blue,
+		std::int32_t sort_offset,std::int32_t scale
 
 		)	// true => The faces are drawn in the wrong order.
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
-	SLONG sf,ef;
+	std::int32_t sp;
+	std::int32_t ep;
+	std::int32_t sf,ef;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	ULONG col;
-//	ULONG red;
-//	ULONG green;
-//	ULONG blue;
+	std::uint32_t col;
+//	std::uint32_t red;
+//	std::uint32_t green;
+//	std::uint32_t blue;
 	
-	UWORD r;
-	UWORD g;
-	UWORD b;
-	ULONG face_colour;
-	ULONG	flags;  
-	SLONG	b0;
+	std::uint16_t r;
+	std::uint16_t g;
+	std::uint16_t b;
+	std::uint32_t face_colour;
+	std::uint32_t	flags;  
+	std::int32_t	b0;
 
 	Matrix31  offset;
 //	Matrix33  mat2;
@@ -343,15 +343,15 @@ SLONG FIGURE_draw_prim_tween(
 	PSX_POLY_Point *quad[4];
 	struct	PrimPoint	*point;
 
-	SLONG	flag;
+	std::int32_t	flag;
 	SVECTOR	input;
 	VECTOR	output;
 
-	SLONG	tflag;
-	UBYTE	*cp;
-	UBYTE	u,v;
-	SLONG	clip;
-	SLONG	ret_z[3];
+	std::int32_t	tflag;
+	std::uint8_t	*cp;
+	std::uint8_t	u,v;
+	std::int32_t	clip;
+	std::int32_t	ret_z[3];
 	POLY_FT3	*p;
 
 	pp=perm_pp_array;
@@ -450,8 +450,8 @@ SLONG FIGURE_draw_prim_tween(
 	p_f4 = &prim_faces4[sf];
 	for (i = sf; i < ef; i++)
 	{
-		SLONG	clip_or,clip_and;
-		UBYTE	draw_flags;
+		std::int32_t	clip_or,clip_and;
+		std::uint8_t	draw_flags;
 		draw_flags=p_f4->DrawFlags;
 
 		p0 = p_f4->Points[0];
@@ -512,7 +512,7 @@ SLONG FIGURE_draw_prim_tween(
 
 						POLY_FT4	*p;
 
-						SLONG	page;
+						std::int32_t	page;
 
 									   
 						check_prim_ptr((void**)&cp);
@@ -604,9 +604,9 @@ SLONG FIGURE_draw_prim_tween(
 //	if(0)
 	for (i = sf; i < ef; i++)
 	{
- 		SLONG	clip_or,clip_and;
-		ULONG	flag,poo;
-//		UBYTE	draw_flags;
+ 		std::int32_t	clip_or,clip_and;
+		std::uint32_t	flag,poo;
+//		std::uint8_t	draw_flags;
 
 #ifdef	BACK_CULL_MAGIC
 		if(!(p_f3->DrawFlags&POLY_FLAG_TILED) | (i&3)==(GAME_TURN&3))  //back face cull magic
@@ -655,8 +655,8 @@ SLONG FIGURE_draw_prim_tween(
 				{
 					{
 
-						SLONG	page,tpage,clut;
-						ULONG	uv;
+						std::int32_t	page,tpage,clut;
+						std::uint32_t	uv;
 
 						check_prim_ptr((void**)&p);
 
@@ -670,23 +670,23 @@ SLONG FIGURE_draw_prim_tween(
 						//
 						// texture UV's
 						//
-						uv=*((ULONG*)&p_f3->UV[1][0]);
-						((ULONG *)p)[3]=((*((UWORD*)&p_f3->UV[0][0]))<<0)|(clut<<16);
-						((ULONG *)p)[5]=((uv&0xffff0000)>>16)|((tpage<<16));
-						((ULONG *)p)[7]=((uv&0xffff))>>0;
+						uv=*((std::uint32_t*)&p_f3->UV[1][0]);
+						((std::uint32_t *)p)[3]=((*((std::uint16_t*)&p_f3->UV[0][0]))<<0)|(clut<<16);
+						((std::uint32_t *)p)[5]=((uv&0xffff0000)>>16)|((tpage<<16));
+						((std::uint32_t *)p)[7]=((uv&0xffff))>>0;
 
 						//
 						// screen x,y's
 						//
-						((ULONG *)p)[2]=pp[0].SYSX;
-						((ULONG *)p)[4]=pp[1].SYSX;
-						((ULONG *)p)[6]=pp[2].SYSX;
+						((std::uint32_t *)p)[2]=pp[0].SYSX;
+						((std::uint32_t *)p)[4]=pp[1].SYSX;
+						((std::uint32_t *)p)[6]=pp[2].SYSX;
 
 						//
 						// RGB0
 						//
 
-						((ULONG *)p)[1]=(0x24<<24)|(blue<<16)|(green<<8)|(red);
+						((std::uint32_t *)p)[1]=(0x24<<24)|(blue<<16)|(green<<8)|(red);
 						setRGB0(p,red,green,blue);
 
 
@@ -717,10 +717,10 @@ SLONG FIGURE_draw_prim_tween(
 		}
 		p_f3++;
 	}
-//	cp=(UBYTE*)p;
+//	cp=(std::uint8_t*)p;
 
 	check_prim_ptr((void**)&p);
-	the_display.CurrentPrim=(UBYTE*)p;
+	the_display.CurrentPrim=(std::uint8_t*)p;
 //	ASSERT(the_display.CurrentPrim< &the_display.CurrentDisplayBuffer->PrimMem[BUCKET_MEM]);
 
 	gte_SetRotMatrix(&PSX_view_matrix);
@@ -745,7 +745,7 @@ MATRIX light_mat={{{2364,2364,2364},
 #define	MAT_SHIFT	(3)
 void build_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1)
 {
-	SLONG	v,w;
+	std::int32_t	v,w;
 
 	v=((cmat1->M[0]&CMAT0_MASK)<<2)>>22;
 
@@ -792,7 +792,7 @@ void build_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1)
 
 }
 
-void POLY_build_tween_matrix(GameKeyFrameElement *anim_info,GameKeyFrameElement *anim_info_next,SLONG tween,MATRIX *rot_mat,MATRIX *output)
+void POLY_build_tween_matrix(GameKeyFrameElement *anim_info,GameKeyFrameElement *anim_info_next,std::int32_t tween,MATRIX *rot_mat,MATRIX *output)
 {
 	MATRIX	 tween_matrix;
 
@@ -809,7 +809,7 @@ void POLY_build_tween_matrix(GameKeyFrameElement *anim_info,GameKeyFrameElement 
 //	gte_SetRotMatrix(&PSX_view_matrix);
 }
 
-void POLY_build_no_tween_matrix(GameKeyFrameElement *anim_info,GameKeyFrameElement *anim_info_next,SLONG tween,MATRIX *rot_mat,MATRIX *output)
+void POLY_build_no_tween_matrix(GameKeyFrameElement *anim_info,GameKeyFrameElement *anim_info_next,std::int32_t tween,MATRIX *rot_mat,MATRIX *output)
 {
 	MATRIX	 tween_matrix;
 
@@ -839,40 +839,40 @@ void set_light_matrix( MATRIX *comb_matrix_local)
 
 
 
-extern UWORD	darci_normal_count;
-extern UWORD	*darci_normal;
+extern std::uint16_t	darci_normal_count;
+extern std::uint16_t	*darci_normal;
 
 void FIGURE_draw_prim_tween_lit(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		MATRIX *rot_mat,
-		SLONG off_dx,			   
-		SLONG off_dy,
-		SLONG off_dz,
-		SLONG lit,SLONG wx,SLONG wy,SLONG wz,
-		SLONG	red,SLONG green,SLONG blue,
-		SLONG sort_offset,
-		SLONG	skill
+		std::int32_t off_dx,			   
+		std::int32_t off_dy,
+		std::int32_t off_dz,
+		std::int32_t lit,std::int32_t wx,std::int32_t wy,std::int32_t wz,
+		std::int32_t	red,std::int32_t green,std::int32_t blue,
+		std::int32_t sort_offset,
+		std::int32_t	skill
 //		MATRIX	*comb_matrix_local
 
 		)	// true => The faces are drawn in the wrong order.
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sf,ef;
-	SLONG b0;
+	std::int32_t sf,ef;
+	std::int32_t b0;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	ULONG	uv;
+	std::uint32_t	uv;
 
 	CVECTOR cv;
 	
@@ -886,8 +886,8 @@ void FIGURE_draw_prim_tween_lit(
 	SVECTOR	input;
 	VECTOR	output;
 
-	UBYTE	*cp;
-	SLONG	clip;
+	std::uint8_t	*cp;
+	std::int32_t	clip;
 	
 	MATRIX	comb_matrix_local;
 
@@ -896,9 +896,9 @@ void FIGURE_draw_prim_tween_lit(
 
 	SVECTOR sv0,sv1,sv2,sv3;
 	CVECTOR co0,co1,co2,co3;
-	UBYTE	do_tween=1;
-	SLONG	ret_z[3];
-	SLONG	page;
+	std::uint8_t	do_tween=1;
+	std::int32_t	ret_z[3];
+	std::int32_t	page;
 
 	ASSERT(skill<3);
 
@@ -964,7 +964,7 @@ void FIGURE_draw_prim_tween_lit(
 	//
 
 	{
-		ULONG	flag;
+		std::uint32_t	flag;
 		SVECTOR	input;
 		VECTOR	output;
 	//	MATRIX	view_trans;
@@ -1029,7 +1029,7 @@ void FIGURE_draw_prim_tween_lit(
 	
 	for (i = sf; i < ef; i++)
 	{
-		UBYTE	draw_flags;
+		std::uint8_t	draw_flags;
 
 		draw_flags=p_f4->DrawFlags;
 
@@ -1079,7 +1079,7 @@ void FIGURE_draw_prim_tween_lit(
 		if ((draw_flags & POLY_FLAG_DOUBLESIDED) || b0<0)
 
 		{
-			ULONG	clip;
+			std::uint32_t	clip;
 
 			//
 			// only do 4th point if not backface culled
@@ -1102,7 +1102,7 @@ void FIGURE_draw_prim_tween_lit(
 			{
 				if(lit)
 				{
-					UWORD	norm;
+					std::uint16_t	norm;
 					norm=darci_normal[p0];
 
 //					ASSERT(p0<darci_normal_count);
@@ -1148,16 +1148,16 @@ void FIGURE_draw_prim_tween_lit(
 					ret_z[0]>>=2;
 					if(ret_z[0]>550)
 					{
-						SLONG	sub;
+						std::int32_t	sub;
 						sub=ret_z[0]-550;
 //						sub<<=2;
 						co0.r=MAX(red-sub,32);
 						co0.g=MAX(green-sub,32);
 						co0.b=MAX(blue-sub,32);
 					}
-					*(ULONG*)&co1=*(ULONG*)&co0;
-					*(ULONG*)&co2=*(ULONG*)&co0;
-					*(ULONG*)&co3=*(ULONG*)&co0;
+					*(std::uint32_t*)&co1=*(std::uint32_t*)&co0;
+					*(std::uint32_t*)&co2=*(std::uint32_t*)&co0;
+					*(std::uint32_t*)&co3=*(std::uint32_t*)&co0;
 					
 				}
 
@@ -1176,7 +1176,7 @@ void FIGURE_draw_prim_tween_lit(
 
 					if(skill>0 && (p_f4->FaceFlags&FACE_FLAG_THUG_JACKET))
 					{
-						SLONG	dx,dy=0;
+						std::int32_t	dx,dy=0;
 //					page=199;
 //						page+=skill;
 
@@ -1213,15 +1213,15 @@ void FIGURE_draw_prim_tween_lit(
 					}
 
 
-					((ULONG *)p)[1]=*((ULONG*)&co0);
-					((ULONG *)p)[4]=*((ULONG*)&co1);
-					((ULONG *)p)[7]=*((ULONG*)&co2);
-					((ULONG *)p)[10]=*((ULONG*)&co3);
+					((std::uint32_t *)p)[1]=*((std::uint32_t*)&co0);
+					((std::uint32_t *)p)[4]=*((std::uint32_t*)&co1);
+					((std::uint32_t *)p)[7]=*((std::uint32_t*)&co2);
+					((std::uint32_t *)p)[10]=*((std::uint32_t*)&co3);
 
-					((ULONG *)p)[2]=pp[0].SYSX;
-					((ULONG *)p)[5]=pp[1].SYSX;
-					((ULONG *)p)[8]=pp[2].SYSX;
-					((ULONG *)p)[11]=pp[3].SYSX;
+					((std::uint32_t *)p)[2]=pp[0].SYSX;
+					((std::uint32_t *)p)[5]=pp[1].SYSX;
+					((std::uint32_t *)p)[8]=pp[2].SYSX;
+					((std::uint32_t *)p)[11]=pp[3].SYSX;
 
 
 
@@ -1231,15 +1231,15 @@ void FIGURE_draw_prim_tween_lit(
 					p->clut=getPSXClut(page);
 
 
-//					uv=*((ULONG*)&p_f4->UV[0][0]);
+//					uv=*((std::uint32_t*)&p_f4->UV[0][0]);
 
-//					((ULONG *)p)[3]=((uv&0xffff)>>0)|((getPSXClut(page)<<16));
-//					((ULONG *)p)[6]=((uv&0xffff0000)>>16)|((getPSXTPage(page)<<16));
+//					((std::uint32_t *)p)[3]=((uv&0xffff)>>0)|((getPSXClut(page)<<16));
+//					((std::uint32_t *)p)[6]=((uv&0xffff0000)>>16)|((getPSXTPage(page)<<16));
 
-//					uv=*((ULONG*)&p_f4->UV[2][0]);
+//					uv=*((std::uint32_t*)&p_f4->UV[2][0]);
 
-//					((ULONG *)p)[12]=((uv&0xffff))>>0;
-//					((ULONG *)p)[9]=((uv&0xffff0000))>>16;
+//					((std::uint32_t *)p)[12]=((uv&0xffff))>>0;
+//					((std::uint32_t *)p)[9]=((uv&0xffff0000))>>16;
 
 /*
 					setUV4(p,p_f4->UV[0][0],p_f4->UV[0][1],
@@ -1299,8 +1299,8 @@ void FIGURE_draw_prim_tween_lit(
 	p_f3 = &prim_faces3[sf];
 	for (i = sf; i < ef; i++)
 	{
-		ULONG	poo;
-		ULONG	clip;
+		std::uint32_t	poo;
+		std::uint32_t	clip;
 
 		p0 = p_f3->Points[0];
 		p1 = p_f3->Points[2];
@@ -1354,7 +1354,7 @@ void FIGURE_draw_prim_tween_lit(
 		if((clip&(0x82008200))==0)
 		if((pp[0].Flag&(1<<31))==0)
 		{
-			UBYTE	trans=0;
+			std::uint8_t	trans=0;
 			if ((MF_NormalClip(pp[0].SYSX,pp[1].SYSX,pp[2].SYSX))<0)
 			{
 				POLY_GT3 *p;
@@ -1366,7 +1366,7 @@ void FIGURE_draw_prim_tween_lit(
 
 				if(lit)
 				{
-					UWORD	norm;
+					std::uint16_t	norm;
 					ASSERT(p0<darci_normal_count);
 					ASSERT(p1<darci_normal_count);
 					ASSERT(p2<darci_normal_count);
@@ -1389,10 +1389,10 @@ void FIGURE_draw_prim_tween_lit(
 
 						/* CPU 39 ticks */
 						ret_z[0]=sort_offset+(MAX3(ret_z[0],ret_z[1],ret_z[2])>>2);
-						((ULONG *)p)[2]=pp[0].SYSX;
-						((ULONG *)p)[5]=pp[1].SYSX;
-						((ULONG *)p)[8]=pp[2].SYSX;
-						uv=*((ULONG*)&p_f3->UV[1][0]);
+						((std::uint32_t *)p)[2]=pp[0].SYSX;
+						((std::uint32_t *)p)[5]=pp[1].SYSX;
+						((std::uint32_t *)p)[8]=pp[2].SYSX;
+						uv=*((std::uint32_t*)&p_f3->UV[1][0]);
 //						return_value=ret_z[0];
 						ret_z[0]=get_z_sort(ret_z[0]);
 
@@ -1408,7 +1408,7 @@ void FIGURE_draw_prim_tween_lit(
 					co0.b=blue;
 					if((ret_z[0]>>2)>550)
 					{
-						SLONG	sub;
+						std::int32_t	sub;
 						sub=(ret_z[0]>>2)-550;
 //						sub<<=2;
 						co0.r=MAX(red-sub,32);
@@ -1418,13 +1418,13 @@ void FIGURE_draw_prim_tween_lit(
 					}
 					
 
-					*(ULONG*)&co1=*(ULONG*)&co0;
-					*(ULONG*)&co2=*(ULONG*)&co0;
+					*(std::uint32_t*)&co1=*(std::uint32_t*)&co0;
+					*(std::uint32_t*)&co2=*(std::uint32_t*)&co0;
 
-					((ULONG *)p)[2]=pp[0].SYSX;
-					((ULONG *)p)[5]=pp[1].SYSX;
-					((ULONG *)p)[8]=pp[2].SYSX;
-					uv=*((ULONG*)&p_f3->UV[1][0]);
+					((std::uint32_t *)p)[2]=pp[0].SYSX;
+					((std::uint32_t *)p)[5]=pp[1].SYSX;
+					((std::uint32_t *)p)[8]=pp[2].SYSX;
+					uv=*((std::uint32_t*)&p_f3->UV[1][0]);
 //					return_value=ret_z[0]>>2;
 					ret_z[0]=get_z_sort(ret_z[0]>>2);
 					
@@ -1446,16 +1446,16 @@ void FIGURE_draw_prim_tween_lit(
 				// build the POLY_GT3 using long memory reads/writes
 				//
 
-				((ULONG *)p)[1]=*((ULONG*)&co0);
-				((ULONG *)p)[4]=*((ULONG*)&co1);
-				((ULONG *)p)[7]=*((ULONG*)&co2);
+				((std::uint32_t *)p)[1]=*((std::uint32_t*)&co0);
+				((std::uint32_t *)p)[4]=*((std::uint32_t*)&co1);
+				((std::uint32_t *)p)[7]=*((std::uint32_t*)&co2);
 
 				setPolyGT3(p);
 
 				page=p_f3->TexturePage;
 				if(skill>0  && (p_f3->FaceFlags&FACE_FLAG_THUG_JACKET))
 				{
-					SLONG	dx,dy=0;
+					std::int32_t	dx,dy=0;
 					
 //					page=199;
 					page+=skill;
@@ -1477,9 +1477,9 @@ void FIGURE_draw_prim_tween_lit(
 				}
 				else
 				{
-					((ULONG *)p)[3]=((*((UWORD*)&p_f3->UV[0][0]))<<0)|(getPSXClut(page)<<16);
-					((ULONG *)p)[6]=((uv&0xffff0000)>>16)|((getPSXTPage(page)<<16));
-					((ULONG *)p)[9]=((uv&0xffff))>>0;
+					((std::uint32_t *)p)[3]=((*((std::uint16_t*)&p_f3->UV[0][0]))<<0)|(getPSXClut(page)<<16);
+					((std::uint32_t *)p)[6]=((uv&0xffff0000)>>16)|((getPSXTPage(page)<<16));
+					((std::uint32_t *)p)[9]=((uv&0xffff))>>0;
 				}
 
 
@@ -1521,7 +1521,7 @@ void FIGURE_draw_prim_tween_lit(
 	}
 
 	check_prim_ptr((void**)&cp);
-	the_display.CurrentPrim=(UBYTE*)cp;
+	the_display.CurrentPrim=(std::uint8_t*)cp;
 	PopMatrix();
 
 //	gte_SetRotMatrix(&PSX_view_matrix);
@@ -1534,11 +1534,11 @@ void FIGURE_draw_prim_tween_lit(
 //	return(return_value);
 }
 
-SWORD mid_peep_z;
-UBYTE draw_order[20];
+std::int16_t mid_peep_z;
+std::uint8_t draw_order[20];
 
-SWORD store_z[20];
-SBYTE part_offset[20]=
+std::int16_t store_z[20];
+std::int8_t part_offset[20]=
 {
 	1,//"pelvis",
 	0,//"lfemur",
@@ -1561,23 +1561,23 @@ SBYTE part_offset[20]=
 };
 
 
-SLONG pers_off=0;
+std::int32_t pers_off=0;
 /*
-void precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae1,GameKeyFrameElement *ae2,SLONG tween,MATRIX *r_matrix,SLONG z_bodge,SLONG ele_count)
+void precalc_z(Thing *p_thing,std::int32_t wx,std::int32_t wy,std::int32_t wz,GameKeyFrameElement *ae1,GameKeyFrameElement *ae2,std::int32_t tween,MATRIX *r_matrix,std::int32_t z_bodge,std::int32_t ele_count)
 {
 	struct GameKeyFrameElement *anim_info;
 	struct GameKeyFrameElement *anim_info_next;
 	SVECTOR	input;
 	VECTOR	output;
-	SLONG	mx,my,mz,i,j;
-	ULONG	flag,p;
+	std::int32_t	mx,my,mz,i,j;
+	std::uint32_t	flag,p;
 //	PSX_POLY_Point point,point2;
-	SLONG	mid_z,first=1;
+	std::int32_t	mid_z,first=1;
 
-	SBYTE	next[16];
-	SBYTE	val[16];
-	UBYTE	head;
-	UWORD	index;
+	std::int8_t	next[16];
+	std::int8_t	val[16];
+	std::uint8_t	head;
+	std::uint16_t	index;
 
 	if (PadKeyIsPressed(&PAD_Input2,PAD_LU))
 	{
@@ -1614,7 +1614,7 @@ void precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae
 
 	for (i = 0; i < ele_count; i++)
 	{
-		SWORD	my_val,prev,temp;
+		std::int16_t	my_val,prev,temp;
 		anim_info=&ae1[i];
 		anim_info_next=&ae2[i];
 
@@ -1682,7 +1682,7 @@ void precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae
 		if(!((point.Flag|point2.Flag)&(1<<31)))
 		{
 			LINE_G2	*p;
-			SLONG	page,z;
+			std::int32_t	page,z;
 
 			p=(LINE_G2 *)the_display.CurrentPrim;
 
@@ -1722,7 +1722,7 @@ void precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae
 
 	
 	{
-		UWORD	count=0;
+		std::uint16_t	count=0;
 		while(index)
 		{
 			store_z[index-1]=mid_peep_z;
@@ -1741,11 +1741,11 @@ void precalc_z(Thing *p_thing,SLONG wx,SLONG wy,SLONG wz,GameKeyFrameElement *ae
 void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 {
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG	wx=0,wy=0,wz=0;
-	SLONG	red,green,blue;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t	wx=0,wy=0,wz=0;
+	std::int32_t	red,green,blue;
 
 	MATRIX r_matrix;
 
@@ -1805,10 +1805,10 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-//	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+//	std::int32_t object_offset;
 
 	if ((p_thing->Class == CLASS_PERSON)&&(p_thing->Genus.Person->Ware))
 		ware_flag=1;
@@ -1822,8 +1822,8 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 	// calc colour for whole obj
 	//
 	{
-		SLONG	dx,dy,dz;
-		SLONG	px,py,pz;
+		std::int32_t	dx,dy,dz;
+		std::int32_t	px,py,pz;
 		px=(p_thing->WorldPos.X>>8)+wx;
 		py=(p_thing->WorldPos.Y>>8)+wy;
 		pz=(p_thing->WorldPos.Z>>8)+wz;
@@ -1858,8 +1858,8 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 
 	for (i = 0; i < ele_count; i++)
 	{
-//		SLONG	personid;
-		SLONG	index;
+//		std::int32_t	personid;
+		std::int32_t	index;
 //		personid=dt->PersonID;
 		index=i;//draw_order[ele_count-1-i];
 
@@ -1891,11 +1891,11 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt)
 //
 // If you are the other side of a fence to the camera, then sort yourself away from the fence
 //
-extern SLONG AENG_cam_yaw;
-extern UBYTE WARE_get_caps(UBYTE ware,UBYTE x,UBYTE z,UBYTE dir);
+extern std::int32_t AENG_cam_yaw;
+extern std::uint8_t WARE_get_caps(std::uint8_t ware,std::uint8_t x,std::uint8_t z,std::uint8_t dir);
 
 
-inline UBYTE peep_get_caps(UWORD ware,UBYTE x,UBYTE z,UBYTE dir)
+inline std::uint8_t peep_get_caps(std::uint16_t ware,std::uint8_t x,std::uint8_t z,std::uint8_t dir)
 {
 /*
 	if(ware)
@@ -1909,11 +1909,11 @@ inline UBYTE peep_get_caps(UWORD ware,UBYTE x,UBYTE z,UBYTE dir)
 	}
 }
 
-SLONG get_sort_z_bodge(SLONG px,SLONG pz,Thing *p_thing)
+std::int32_t get_sort_z_bodge(std::int32_t px,std::int32_t pz,Thing *p_thing)
 {
-	SLONG	dx,dz;
-	UBYTE	cap;
-	UWORD	ware;
+	std::int32_t	dx,dz;
+	std::uint8_t	cap;
+	std::uint16_t	ware;
 
 	dx=px-POLY_cam_x;
 	dz=pz-POLY_cam_z;
@@ -1934,7 +1934,7 @@ SLONG get_sort_z_bodge(SLONG px,SLONG pz,Thing *p_thing)
 		(p_thing->SubState==SUB_STATE_TRAVERSE_RIGHT)||
 		(p_thing->State==STATE_CLIMB_LADDER))
 	{
-		SLONG	dangle;
+		std::int32_t	dangle;
 		dangle = abs(((-AENG_cam_yaw)&2047)-p_thing->Draw.Tweened->Angle);
 
 		if(dangle>512 && dangle<1024+512)
@@ -2025,15 +2025,15 @@ extern char GDisp_Bucket[];
 #endif
 
 
-CBYTE str2[8];
+char str2[8];
 
 
 inline void FIGURE_draw(Thing *p_thing)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG	wx,wy,wz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t	wx,wy,wz;
 
 	MATRIX r_matrix;
 
@@ -2041,9 +2041,9 @@ inline void FIGURE_draw(Thing *p_thing)
 	GameKeyFrameElement *ae2;
 
 	DrawTween *dt = p_thing->Draw.Tweened;
-	SLONG	red,green,blue;
-	SLONG	sort_z_offset;
-	SLONG	directional_light;
+	std::int32_t	red,green,blue;
+	std::int32_t	sort_z_offset;
+	std::int32_t	directional_light;
 
 /*	
 	if (p_thing->Draw.Tweened->CurrentAnim == ANIM_SIT_DOWN   ||
@@ -2092,8 +2092,8 @@ inline void FIGURE_draw(Thing *p_thing)
 
 	if (dt->Locked)
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -2114,7 +2114,7 @@ inline void FIGURE_draw(Thing *p_thing)
 		dz = 0;
 	}
 	{
-		SLONG	index1,index2;
+		std::int32_t	index1,index2;
 		//
 		// stuff added for more compression of anims
 		//
@@ -2178,7 +2178,7 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	//
 	{
 		PSX_POLY_Point *pp=perm_pp_array;
-		SLONG	px,py,pz;
+		std::int32_t	px,py,pz;
 		px=(p_thing->WorldPos.X>>8)+wx;
 		py=(p_thing->WorldPos.Y>>8)+wy;
 		pz=(p_thing->WorldPos.Z>>8)+wz;
@@ -2195,8 +2195,8 @@ extern struct	PrimPoint	*anim_mids; //[256];
 		{
 			MATRIX temp_matrix;
 			{
-				SLONG	dx,dy,dz;
-				SLONG	px,py,pz;
+				std::int32_t	dx,dy,dz;
+				std::int32_t	px,py,pz;
 				px=(p_thing->WorldPos.X>>8)+wx;
 				py=(p_thing->WorldPos.Y>>8)+wy;
 				pz=(p_thing->WorldPos.Z>>8)+wz;
@@ -2262,10 +2262,10 @@ extern struct	PrimPoint	*anim_mids; //[256];
 	//
 	// Draw each body part.
 	//
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[dt->MeshID]].StartObject;
@@ -2280,20 +2280,20 @@ extern struct	PrimPoint	*anim_mids; //[256];
 //#endif
 /*
 	{
-		CBYTE	str2[6];
-extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+		char	str2[6];
+extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
 		sprintf(str2,"%d",sort_z_offset);
 
 		FONT2D_DrawString_3d(str2,(p_thing->WorldPos.X >> 8),(p_thing->WorldPos.Y >> 8)+128,(p_thing->WorldPos.Z >> 8),0xffffff,512,0);
-//			CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+//			char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
 	}
 */
 
 
 	{
-		SLONG	skill=0;
+		std::int32_t	skill=0;
 		skill=(GET_SKILL(p_thing));
 
 		if(skill>5)
@@ -2316,9 +2316,9 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 		for (i = 0; i < ele_count; i++)
 		{
-			SLONG	personid;
-			SLONG	index;
-			SLONG	id;
+			std::int32_t	personid;
+			std::int32_t	index;
+			std::int32_t	id;
 			personid=dt->PersonID;
 	//		if(directional_light)
 				index=i;//draw_order[14-i];
@@ -2400,15 +2400,15 @@ extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_
 
 #define	MAX_FIG	16
 
-UWORD fig_count=0;
-ULONG fig_dist[MAX_FIG];
+std::uint16_t fig_count=0;
+std::uint32_t fig_dist[MAX_FIG];
 Thing *fig_thing[MAX_FIG];	
 
 void sort_figure_queue()
 {
-	SLONG	flip=1;
-	SLONG	c0;
-	ULONG	*pdist,temp1;
+	std::int32_t	flip=1;
+	std::int32_t	c0;
+	std::uint32_t	*pdist,temp1;
 	Thing	**pfthing,*temp2;
 	while(flip)
 	{
@@ -2438,7 +2438,7 @@ void sort_figure_queue()
 
 extern DrawTween	dead_tween;
 
-void FIGURE_draw_queued(Thing *p_thing,SLONG dist)
+void FIGURE_draw_queued(Thing *p_thing,std::int32_t dist)
 {
 	ASSERT(p_thing->Draw.Tweened!=&dead_tween);
 
@@ -2456,17 +2456,17 @@ void FIGURE_draw_queued(Thing *p_thing,SLONG dist)
 	fig_thing[fig_count]=p_thing;
 	fig_count++;
 }
-extern UBYTE	remove_dead_people;
+extern std::uint8_t	remove_dead_people;
 
-extern SLONG	my_draw_dist;
+extern std::int32_t	my_draw_dist;
 
 void DoFigureDraw()
 {
 	PSX_POLY_Point	holdpp[4];
 	perm_pp_array=holdpp;
 
-	SLONG	c0;
-//	SLONG	b1,b2;
+	std::int32_t	c0;
+//	std::int32_t	b1,b2;
 
 	sort_figure_queue();
 
@@ -2499,11 +2499,11 @@ void DoFigureDraw()
 
 
 #ifndef PSX
-void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
+void FIGURE_draw_reflection(Thing *p_thing, std::int32_t height)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	MATRIX r_matrix;
 
@@ -2543,8 +2543,8 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 
 	if (dt->Locked)
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -2595,9 +2595,9 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 		build_rot_matrix(dt->Angle,dt->Tilt,&r_matrix);
 	}
 
-	SLONG posx = p_thing->WorldPos.X >> 8;
-	SLONG posy = p_thing->WorldPos.Y >> 8;
-	SLONG posz = p_thing->WorldPos.Z >> 8;
+	std::int32_t posx = p_thing->WorldPos.X >> 8;
+	std::int32_t posy = p_thing->WorldPos.Y >> 8;
+	std::int32_t posz = p_thing->WorldPos.Z >> 8;
 
 	//
 	// Reflect about y = height.
@@ -2615,10 +2615,10 @@ void FIGURE_draw_reflection(Thing *p_thing, SLONG height)
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[dt->MeshID]].StartObject;

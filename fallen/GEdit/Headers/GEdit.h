@@ -43,10 +43,10 @@ extern HWND			GEDIT_client_wnd,
 					GEDIT_workspace_wnd;
 
 int  			gedit();
-void			controls_to_ep(EventPoint *ep,ULONG flags);
-void			ep_to_controls(EventPoint *ep,ULONG flags);
-void			ep_to_controls2(EventPoint *ep, SWORD tabpage=-1, HWND wnd=0);
-void			controls_to_ep2(EventPoint *ep, SWORD tabpage=-1, HWND wnd=0);
+void			controls_to_ep(EventPoint *ep,std::uint32_t flags);
+void			ep_to_controls(EventPoint *ep,std::uint32_t flags);
+void			ep_to_controls2(EventPoint *ep, std::int16_t tabpage=-1, HWND wnd=0);
+void			controls_to_ep2(EventPoint *ep, std::int16_t tabpage=-1, HWND wnd=0);
 void			menu_no_workspace();
 void			menu_has_workspace();
 void			menu_workspace_changed();

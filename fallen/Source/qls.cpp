@@ -57,9 +57,9 @@ void QLS_save()
 	// Save out the version number.
 	//
 
-	SLONG version = 1;
+	std::int32_t version = 1;
 
-	if (fwrite(&version, sizeof(SLONG), 1, handle) != 1) goto file_error;
+	if (fwrite(&version, sizeof(std::int32_t), 1, handle) != 1) goto file_error;
 
 	//
 	// Save out the the_game structure.
@@ -92,7 +92,7 @@ void QLS_save()
 
 
 
-SLONG QLS_load()
+std::int32_t QLS_load()
 {
 }
 

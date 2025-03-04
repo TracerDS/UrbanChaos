@@ -32,7 +32,7 @@
 
 
 
-extern UBYTE	cheat;
+extern std::uint8_t	cheat;
 
 #undef  BLOCK_SIZE
 #define BLOCK_SIZE (1 << 6)
@@ -42,35 +42,35 @@ struct CollisionVectLink	col_vects_links[MAX_COL_VECT_LINK]; //40K
 struct CollisionVect		col_vects[MAX_COL_VECT];            //300K
 #endif
 
-void highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z);
-void add_debug_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour);
-void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type); //people.cpp
+void highlight_quad(std::int32_t face,std::int32_t face_x,std::int32_t face_y,std::int32_t face_z);
+void add_debug_line(std::int32_t x1,std::int32_t my_y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t colour);
+void sweep_feet(Thing *p_person,Thing *p_aggressor,std::int32_t  death_type); //people.cpp
 
-SLONG collide_with_circle(SLONG cx,SLONG cz,SLONG cradius,SLONG *x2,SLONG *z2);
-SLONG get_fence_hole(struct DFacet *p_facet);
-SLONG get_fence_hole_next(struct DFacet *p_facet,SLONG along);
+std::int32_t collide_with_circle(std::int32_t cx,std::int32_t cz,std::int32_t cradius,std::int32_t *x2,std::int32_t *z2);
+std::int32_t get_fence_hole(struct DFacet *p_facet);
+std::int32_t get_fence_hole_next(struct DFacet *p_facet,std::int32_t along);
 
 extern bool allow_debug_keys;
 
-inline SLONG slide_around_box_lowstack(SLONG box_mid_x,SLONG box_mid_z,SLONG box_min_x,SLONG box_min_z,	SLONG box_max_x,SLONG box_max_z,SLONG box_yaw,SLONG radius,SLONG  x1,SLONG  z1,SLONG *x2,SLONG *z2);
+inline std::int32_t slide_around_box_lowstack(std::int32_t box_mid_x,std::int32_t box_mid_z,std::int32_t box_min_x,std::int32_t box_min_z,	std::int32_t box_max_x,std::int32_t box_max_z,std::int32_t box_yaw,std::int32_t radius,std::int32_t  x1,std::int32_t  z1,std::int32_t *x2,std::int32_t *z2);
 
 //
 // These are defined in person.cpp- I couldn't bear a complete rebuild.
 //
 
-SLONG get_fence_bottom(SLONG x, SLONG z, SLONG col);
-SLONG get_fence_top   (SLONG x, SLONG z, SLONG col);
+std::int32_t get_fence_bottom(std::int32_t x, std::int32_t z, std::int32_t col);
+std::int32_t get_fence_top   (std::int32_t x, std::int32_t z, std::int32_t col);
 
 
 
-UWORD next_col_vect=1;
-UWORD next_col_vect_link=1;
+std::uint16_t next_col_vect=1;
+std::uint16_t next_col_vect_link=1;
 
 #ifdef	PSX
-7SLONG MUL64(SLONG i,SLONG j)
+7SLONG MUL64(std::int32_t i,std::int32_t j)
 {
-	SLONG	res;
-	SLONG	work;
+	std::int32_t	res;
+	std::int32_t	work;
 //	asm( " add %0,%1,%2 " : "=r"(k) : "r"(i) ,"r"(j) );
 //	asm( " add %0,%1,$0 " : "=r"(k) : "r"(i) );
 
@@ -98,17 +98,17 @@ UWORD next_col_vect_link=1;
 //#ifdef	EDITOR
 struct WalkLink	walk_links[MAX_WALK_POOL];	//120K
 
-UWORD next_walk_link=1;
+std::uint16_t next_walk_link=1;
 //#endif
 
-//extern SLONG	do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG cell_dx,SLONG cell_dz,SLONG	scale_move);
-//extern SLONG	do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLONG cell_dz);
-//extern SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b);
-//extern void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z);
+//extern std::int32_t	do_move_collide(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t dx,std::int32_t dy,std::int32_t dz,std::int32_t cell_dx,std::int32_t cell_dz,std::int32_t	scale_move);
+//extern std::int32_t	do_move_collide_circle(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t len,std::int32_t cell_dx,std::int32_t cell_dz);
+//extern std::int32_t dist_to_line(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b);
+//extern void nearest_point_on_line(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z);
 
-extern void	e_draw_3d_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-extern void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
-extern void	e_draw_3d_mapwho_y(SLONG x1,SLONG my_y1,SLONG z1);
+extern void	e_draw_3d_line(std::int32_t x1,std::int32_t my_y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+extern void	e_draw_3d_mapwho(std::int32_t x1,std::int32_t z1);
+extern void	e_draw_3d_mapwho_y(std::int32_t x1,std::int32_t my_y1,std::int32_t z1);
 
 
 /**************************************************************
@@ -120,13 +120,13 @@ extern void	e_draw_3d_mapwho_y(SLONG x1,SLONG my_y1,SLONG z1);
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS( a, b )	(((SLONG) ((ULONG) a ^ (ULONG) b)) >= 0 )
+#define SAME_SIGNS( a, b )	(((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0 )
 
 //
 // Lines that share a point count as intersecting.
 //
 #ifdef	UNUSED
-SLONG lines_intersect(SLONG x1,SLONG  my_y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y3,SLONG x4,SLONG  y4,SLONG *x,SLONG  *y)
+std::int32_t lines_intersect(std::int32_t x1,std::int32_t  my_y1,std::int32_t x2,std::int32_t  y2,std::int32_t x3,std::int32_t  y3,std::int32_t x4,std::int32_t  y4,std::int32_t *x,std::int32_t  *y)
 {
     long a1, a2, b1, b2, c1, c2; 
     long r1, r2, r3, r4;         
@@ -173,9 +173,9 @@ SLONG lines_intersect(SLONG x1,SLONG  my_y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y
 }
 #endif
 
-UBYTE two4_line_intersection(SLONG x1,SLONG my_y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4)
+std::uint8_t two4_line_intersection(std::int32_t x1,std::int32_t my_y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3,std::int32_t x4,std::int32_t y4)
 {
-	SLONG	ax,bx,cx,ay,by,cy,d,e,f; //,offset;
+	std::int32_t	ax,bx,cx,ay,by,cy,d,e,f; //,offset;
 	short	x1lo,x1hi; //,x3lo,x3hi;
 	short	y1lo,y1hi; //,y3lo,y3hi;
 
@@ -184,23 +184,23 @@ UBYTE two4_line_intersection(SLONG x1,SLONG my_y1,SLONG x2,SLONG y2,SLONG x3,SLO
 
 	if(ax<0)
 	{
-		x1lo=(SWORD)x2;
-		x1hi=(SWORD)x1;
+		x1lo=(std::int16_t)x2;
+		x1hi=(std::int16_t)x1;
 	}
 	else
 	{
-		x1hi=(SWORD)x2;
-		x1lo=(SWORD)x1;
+		x1hi=(std::int16_t)x2;
+		x1lo=(std::int16_t)x1;
 	}
  
 	if(bx>0)
 	{
-		if(x1hi < (SWORD)x4 || (SWORD)x3 < x1lo)
+		if(x1hi < (std::int16_t)x4 || (std::int16_t)x3 < x1lo)
 			return(0);
 	}
 	else
 	{
-			if(x1hi < (SWORD)x3 || (SWORD)x4 < x1lo)
+			if(x1hi < (std::int16_t)x3 || (std::int16_t)x4 < x1lo)
 				return(0);
 	}
 
@@ -209,23 +209,23 @@ UBYTE two4_line_intersection(SLONG x1,SLONG my_y1,SLONG x2,SLONG y2,SLONG x3,SLO
 
 	if(ay<0)
 	{
-		y1lo=(SWORD)y2;
-		y1hi=(SWORD)my_y1;
+		y1lo=(std::int16_t)y2;
+		y1hi=(std::int16_t)my_y1;
 	}
 	else
 	{
-		y1hi=(SWORD)y2;
-		y1lo=(SWORD)my_y1;
+		y1hi=(std::int16_t)y2;
+		y1lo=(std::int16_t)my_y1;
 	}
 
 	if(by>0)
 	{
-		if(y1hi<(SWORD)y4 || (SWORD)y3<y1lo)
+		if(y1hi<(std::int16_t)y4 || (std::int16_t)y3<y1lo)
 			return(0);
 	}
 	else
 	{
-		if(y1hi<(SWORD)y3 || (SWORD)y4<y1lo)
+		if(y1hi<(std::int16_t)y3 || (std::int16_t)y4<y1lo)
 			return(0);
 	}
 
@@ -268,12 +268,12 @@ void clear_all_col_info()
 {
 #ifdef	DOG_POO
 #ifdef	EDITOR
-	SLONG	dx,dy,dz;	
+	std::int32_t	dx,dy,dz;	
 	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
 	for(dy=0;dy<EDIT_MAP_HEIGHT;dy++)
 		edit_map[dx][dy].ColVectHead=0;
-	memset((UBYTE *)col_vects,0,sizeof(struct CollisionVect)*MAX_COL_VECT);
-	memset((UBYTE *)col_vects_links,0,sizeof(struct CollisionVectLink)*MAX_COL_VECT_LINK);
+	memset((std::uint8_t *)col_vects,0,sizeof(struct CollisionVect)*MAX_COL_VECT);
+	memset((std::uint8_t *)col_vects_links,0,sizeof(struct CollisionVectLink)*MAX_COL_VECT_LINK);
 	next_col_vect=1;
 	next_col_vect_link=1;
 #endif
@@ -283,22 +283,22 @@ void clear_all_col_info()
 
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG get_height_along_vect(SLONG ax,SLONG az,struct CollisionVect *p_vect)
+std::int32_t get_height_along_vect(std::int32_t ax,std::int32_t az,struct CollisionVect *p_vect)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG my_y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t my_y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
 
-	SLONG along,y;
+	std::int32_t along,y;
 
 
 
@@ -349,21 +349,21 @@ SLONG get_height_along_vect(SLONG ax,SLONG az,struct CollisionVect *p_vect)
 	return y;
 }
 
-SLONG get_height_along_facet(SLONG ax,SLONG az,struct DFacet *p_facet)
+std::int32_t get_height_along_facet(std::int32_t ax,std::int32_t az,struct DFacet *p_facet)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG my_y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t my_y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG along,y;
+	std::int32_t along,y;
 
 	//
 	// A quick early-out...
@@ -415,7 +415,7 @@ SLONG get_height_along_facet(SLONG ax,SLONG az,struct DFacet *p_facet)
 #endif
 #endif
 #ifdef	DOG_POO
-ULONG add_collision_to_single_cell(UWORD	index,SLONG x,SLONG z)
+std::uint32_t add_collision_to_single_cell(std::uint16_t	index,std::int32_t x,std::int32_t z)
 {
 	if(x<0||z<0||x>=MAP_WIDTH||z>=MAP_HEIGHT)
 		return(0);
@@ -440,10 +440,10 @@ ULONG add_collision_to_single_cell(UWORD	index,SLONG x,SLONG z)
 // Returns true if it actually removed something.
 //
 
-ULONG remove_collision_from_single_cell(UWORD index, SLONG x, SLONG z)
+std::uint32_t remove_collision_from_single_cell(std::uint16_t index, std::int32_t x, std::int32_t z)
 {
-	UWORD *prev;
-	UWORD  next;
+	std::uint16_t *prev;
+	std::uint16_t  next;
 
 	if(x<0||z<0||x>=MAP_WIDTH||z>=MAP_HEIGHT)
 	{
@@ -475,9 +475,9 @@ ULONG remove_collision_from_single_cell(UWORD index, SLONG x, SLONG z)
 
 
 
-ULONG similar_col_vect(UWORD index)
+std::uint32_t similar_col_vect(std::uint16_t index)
 {
-	ULONG	c0;
+	std::uint32_t	c0;
 	for(c0=1;c0<next_col_vect;c0++)
 	{
 		if(col_vects[c0].X[0]==col_vects[index].X[0] &&
@@ -498,12 +498,12 @@ ULONG similar_col_vect(UWORD index)
 }
 
 
-SLONG insert_collision_vect(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim_type,UBYTE prim_extra,SWORD face)
+std::int32_t insert_collision_vect(std::int32_t x1,std::int32_t my_y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::uint8_t prim_type,std::uint8_t prim_extra,std::int16_t face)
 {
-	SLONG	step_x,step_y,temp_x,temp_z;
-	SLONG	length;
+	std::int32_t	step_x,step_y,temp_x,temp_z;
+	std::int32_t	length;
 
-	SLONG	step_z;
+	std::int32_t	step_z;
 
 	step_x=x2-x1;
 	step_y=y2-my_y1;
@@ -525,8 +525,8 @@ SLONG insert_collision_vect(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLON
 	col_vects[next_col_vect].Y[0]=my_y1;
 	col_vects[next_col_vect].Y[1]=y2;
 
-	col_vects[next_col_vect].Z[0]=(SWORD)z1;
-	col_vects[next_col_vect].Z[1]=(SWORD)z2;
+	col_vects[next_col_vect].Z[0]=(std::int16_t)z1;
+	col_vects[next_col_vect].Z[1]=(std::int16_t)z2;
 
 	col_vects[next_col_vect].Face=face;
 	col_vects[next_col_vect].PrimType=prim_type;
@@ -557,27 +557,27 @@ SLONG insert_collision_vect(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLON
 	return(next_col_vect-1);
 }
 
-void remove_collision_vect(UWORD vect)
+void remove_collision_vect(std::uint16_t vect)
 {
-	SLONG x1;
-	SLONG my_y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t my_y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG step_x;
-	SLONG step_y;
-	SLONG step_z;
+	std::int32_t step_x;
+	std::int32_t step_y;
+	std::int32_t step_z;
 
-	SLONG temp_x;
-	SLONG temp_z;
+	std::int32_t temp_x;
+	std::int32_t temp_z;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG length;
+	std::int32_t length;
 
 	ASSERT(WITHIN(vect, 1, next_col_vect - 1));
 
@@ -634,9 +634,9 @@ void remove_collision_vect(UWORD vect)
 #define	TSHIFT	8
 #ifndef	PSX
 #ifndef TARGET_DC
-UBYTE check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+std::uint8_t check_big_point_triangle_col(std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
 {
-	SLONG	s,t,top,bot,res;
+	std::int32_t	s,t,top,bot,res;
 	top=(y-uy)*(wx-ux)+(ux-x)*(wy-uy);
 	bot=(vy-uy)*(wx-ux)-(vx-ux)*(wy-uy);
 
@@ -674,10 +674,10 @@ UBYTE check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SL
 
 #ifndef PSX
 #ifndef TARGET_DC
-SLONG point_in_quad_old(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
+std::int32_t point_in_quad_old(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face)
 {
-	SLONG x1,my_y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4;
-	SLONG ret;
+	std::int32_t x1,my_y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4;
+	std::int32_t ret;
 
 	x1=x+prim_points[prim_faces4[face].Points[0]].X;
 	my_y1=y+prim_points[prim_faces4[face].Points[0]].Y;
@@ -706,7 +706,7 @@ SLONG point_in_quad_old(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 	else
 		return(check_big_point_triangle_col(px-x2,pz-z2,x2-x2,z2-z2,x4-x2,z4-z2,x3-x2,z3-z2));
 
-//	SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+//	std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
 
 	
 }
@@ -722,20 +722,20 @@ SLONG point_in_quad_old(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 //
 
 
-SLONG dprod;
-SLONG cprod;
+std::int32_t dprod;
+std::int32_t cprod;
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b)
+std::int32_t dist_to_line(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b)
 {
-	SLONG dx, dz;
-	SLONG da, db;
-	SLONG m;
-//	SLONG n;
+	std::int32_t dx, dz;
+	std::int32_t da, db;
+	std::int32_t m;
+//	std::int32_t n;
 
-	SLONG dist;
+	std::int32_t dist;
 
-//	SLONG along;
+//	std::int32_t along;
 
 
 
@@ -832,18 +832,18 @@ SLONG dist_to_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b)
 // Returns which side of the colvect you are on.
 //
 
-SLONG which_side(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b)
+std::int32_t which_side(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG da;
-	SLONG db;
+	std::int32_t da;
+	std::int32_t db;
 
-	SLONG cprod;
+	std::int32_t cprod;
 
 	dx = x2 - x1;
 	dz = z2 - z1;
@@ -857,19 +857,19 @@ SLONG which_side(
 }
 	
 
-SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect)
+std::int32_t calc_along_vect(std::int32_t ax,std::int32_t az,struct DFacet *p_vect)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t z2;
 
 
-	SLONG along;
+	std::int32_t along;
 
 	x1=p_vect->x[0] << 8;
 	z1=p_vect->z[0] << 8;
@@ -923,24 +923,24 @@ SLONG calc_along_vect(SLONG ax,SLONG az,struct DFacet *p_vect)
 // normal is always the normal of the line
 //
 void signed_dist_to_line_with_normal(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b,
-		SLONG *dist,
-		SLONG *vec_x,
-		SLONG *vec_z,
-		SLONG *on)
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b,
+		std::int32_t *dist,
+		std::int32_t *vec_x,
+		std::int32_t *vec_z,
+		std::int32_t *on)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG da;
-	SLONG db;
+	std::int32_t da;
+	std::int32_t db;
 
-	SLONG len;
+	std::int32_t len;
 
-//	SLONG dprod;
-//	SLONG cprod;
+//	std::int32_t dprod;
+//	std::int32_t cprod;
 
 	dx = x2 - x1;
 	dz = z2 - z1;
@@ -1035,24 +1035,24 @@ void signed_dist_to_line_with_normal(
 #ifndef TARGET_DC
 
 void signed_dist_to_line_with_normal_mark(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b,
-		SLONG *dist,
-		SLONG *vec_x,
-		SLONG *vec_z,
-		SLONG *on)
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b,
+		std::int32_t *dist,
+		std::int32_t *vec_x,
+		std::int32_t *vec_z,
+		std::int32_t *on)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG da;
-	SLONG db;
+	std::int32_t da;
+	std::int32_t db;
 
-	SLONG len;
+	std::int32_t len;
 
-//	SLONG dprod;
-//	SLONG cprod;
+//	std::int32_t dprod;
+//	std::int32_t cprod;
 
 	dx = x2 - x1;
 	dz = z2 - z1;
@@ -1149,15 +1149,15 @@ void signed_dist_to_line_with_normal_mark(
 
 
 
-void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z)
+void nearest_point_on_line(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z)
 {
-	SLONG dx, dz;
-	SLONG da, db;
-//	SLONG dprod;
-//	SLONG cprod;
-//	SLONG m, n;
+	std::int32_t dx, dz;
+	std::int32_t da, db;
+//	std::int32_t dprod;
+//	std::int32_t cprod;
+//	std::int32_t m, n;
 
-	SLONG along;
+	std::int32_t along;
 
 
 
@@ -1238,19 +1238,19 @@ void nearest_point_on_line(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SL
 	return;
 }
 
-SLONG global_on=0;
+std::int32_t global_on=0;
 
-SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z)
+std::int32_t nearest_point_on_line_and_dist(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z)
 {
-	SLONG dx, dz;
-	SLONG da, db;
-//	SLONG dprod;
-//	SLONG cprod;
-	SLONG m;
-//	SLONG n;
+	std::int32_t dx, dz;
+	std::int32_t da, db;
+//	std::int32_t dprod;
+//	std::int32_t cprod;
+	std::int32_t m;
+//	std::int32_t n;
 
-	SLONG along;
-	SLONG	dist;
+	std::int32_t along;
+	std::int32_t	dist;
 
 
 
@@ -1346,17 +1346,17 @@ SLONG nearest_point_on_line_and_dist(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SL
 	return(dist);
 }
 
-SLONG nearest_point_on_line_and_dist_calc_y(	SLONG x1, SLONG my_y1,SLONG z1,	SLONG x2, SLONG y2,SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_y,SLONG *ret_z)
+std::int32_t nearest_point_on_line_and_dist_calc_y(	std::int32_t x1, std::int32_t my_y1,std::int32_t z1,	std::int32_t x2, std::int32_t y2,std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_y,std::int32_t *ret_z)
 {
-	SLONG dx, dz,dy;
-	SLONG da, db;
-//	SLONG dprod;
-//	SLONG cprod;
-	SLONG m;
-//	SLONG n;
+	std::int32_t dx, dz,dy;
+	std::int32_t da, db;
+//	std::int32_t dprod;
+//	std::int32_t cprod;
+	std::int32_t m;
+//	std::int32_t n;
 
-	SLONG along;
-	SLONG	dist;
+	std::int32_t along;
+	std::int32_t	dist;
 
 
 
@@ -1453,15 +1453,15 @@ SLONG nearest_point_on_line_and_dist_calc_y(	SLONG x1, SLONG my_y1,SLONG z1,	SLO
 	return(dist);
 }
 
-SLONG distance_to_line(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b)
+std::int32_t distance_to_line(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b)
 {
-	SLONG nearest_x;
-	SLONG nearest_z;
+	std::int32_t nearest_x;
+	std::int32_t nearest_z;
 
-	SLONG dist = nearest_point_on_line_and_dist(
+	std::int32_t dist = nearest_point_on_line_and_dist(
 					x1, z1,
 					x2, z2,
 					a, b,
@@ -1472,17 +1472,17 @@ SLONG distance_to_line(
 }
 
 
-SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SLONG z2,	SLONG a,  SLONG b,SLONG *ret_x,SLONG *ret_z,SLONG *ret_along)
+std::int32_t nearest_point_on_line_and_dist_and_along(	std::int32_t x1, std::int32_t z1,	std::int32_t x2, std::int32_t z2,	std::int32_t a,  std::int32_t b,std::int32_t *ret_x,std::int32_t *ret_z,std::int32_t *ret_along)
 {
-	SLONG dx, dz;
-	SLONG da, db;
-//	SLONG dprod;
-//	SLONG cprod;
-	SLONG m;
-//	SLONG n;
+	std::int32_t dx, dz;
+	std::int32_t da, db;
+//	std::int32_t dprod;
+//	std::int32_t cprod;
+	std::int32_t m;
+//	std::int32_t n;
 
-	SLONG along;
-	SLONG	dist;
+	std::int32_t along;
+	std::int32_t	dist;
 
 
 
@@ -1583,11 +1583,11 @@ SLONG nearest_point_on_line_and_dist_and_along(	SLONG x1, SLONG z1,	SLONG x2, SL
 }
 
 /*
-SLONG get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
+std::int32_t get_height_on_plane_quad_f(std::int32_t x,std::int32_t z,std::uint16_t face)
 {
 	struct	PrimFace4 *this_face4;
-	SLONG	obj_x,obj_z,obj_y;
-	SLONG	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::int32_t	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 
 	this_face4=&prim_faces4[face];
 
@@ -1610,11 +1610,11 @@ SLONG get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
 	return(get_height_on_plane_tri(x,z,ux,uy,uz,vx,vy,vz,wx,wy,wz));
 }
 
-SLONG get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
+std::int32_t get_height_on_plane_tri_f(std::int32_t x,std::int32_t z,std::uint16_t face)
 {
 	struct	PrimFace3 *this_face3;
-	SLONG	obj_x,obj_z,obj_y;
-	SLONG	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::int32_t	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 
 	this_face3=&prim_faces3[face];
 
@@ -1639,16 +1639,16 @@ SLONG get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
 */
 
 /*
-SLONG get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
+std::int32_t get_height_on_face_quad64(std::int32_t x, std::int32_t z, std::uint16_t face)
 {
-	SLONG 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 	struct	PrimFace4 *this_face4;
-	SLONG	obj_x,obj_z,obj_y;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
-	SLONG	top, bot;
-	SLONG	alpha, beta;
-	SLONG	y;
+	std::int32_t	top, bot;
+	std::int32_t	alpha, beta;
+	std::int32_t	y;
 
 	this_face4=&prim_faces4[face];
 
@@ -1716,14 +1716,14 @@ SLONG get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
 }
 */
 
-SLONG calc_height_at(SLONG x,SLONG z)
+std::int32_t calc_height_at(std::int32_t x,std::int32_t z)
 {
 	return 0;
 
 	/*
 
 	MapElement *me;
-	SLONG	new_y,h0,h1,h2,h3;
+	std::int32_t	new_y,h0,h1,h2,h3;
 
 //	if(x<0||x>=(EDIT_MAP_WIDTH<<ELE_SHIFT)||z<0||z>=(EDIT_MAP_DEPTH<<ELE_SHIFT))
 //		return(0);
@@ -1791,7 +1791,7 @@ SLONG calc_height_at(SLONG x,SLONG z)
 //
 
 
-SLONG collision_storey(SLONG type)
+std::int32_t collision_storey(std::int32_t type)
 {
 	switch(type)
 	{
@@ -1814,11 +1814,11 @@ SLONG collision_storey(SLONG type)
 	}
 }
 #ifdef	DOG_POO
-SLONG do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG cell_dx,SLONG cell_dz,SLONG	scale_move)
+std::int32_t do_move_collide(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t dx,std::int32_t dy,std::int32_t dz,std::int32_t cell_dx,std::int32_t cell_dz,std::int32_t	scale_move)
 {
-	SLONG	vect;
+	std::int32_t	vect;
 	struct	CollisionVect	*p_vect;
-	SLONG	mx,mz;
+	std::int32_t	mx,mz;
 
 	y+=50; //middle of body?
 
@@ -1833,7 +1833,7 @@ SLONG do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG c
 		dz*=scale_move;
 		while(vect)
 		{
-			SLONG	actual_vect;
+			std::int32_t	actual_vect;
 			actual_vect=col_vects_links[vect].VectIndex;
 			p_vect=&col_vects[actual_vect];
 			LogText(" does (%d,%d->%d,%d) .. (%d,%d->%d,%d) intersect \n",x,z,x+dx,z+dz,p_vect->X[0],p_vect->Z[0],p_vect->X[1],p_vect->Z[1]);
@@ -1866,11 +1866,11 @@ SLONG do_move_collide(SLONG x,SLONG y,SLONG z,SLONG dx,SLONG dy,SLONG dz,SLONG c
 		return(-1);
 }
 
-SLONG do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLONG cell_dz)
+std::int32_t do_move_collide_circle(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t len,std::int32_t cell_dx,std::int32_t cell_dz)
 {
-	SLONG	vect;
+	std::int32_t	vect;
 	struct	CollisionVect	*p_vect;
-	SLONG	mx,mz;
+	std::int32_t	mx,mz;
 
 	mx=((x)>>ELE_SHIFT)+cell_dx;
 	mz=((z)>>ELE_SHIFT)+cell_dz;
@@ -1881,7 +1881,7 @@ SLONG do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLO
 		vect=MAP2(mx,mz).ColVectHead;
 		while(vect)
 		{
-			SLONG	actual_vect;
+			std::int32_t	actual_vect;
 			actual_vect=col_vects_links[vect].VectIndex;
 			p_vect=&col_vects[actual_vect];
 			//e_draw_3d_line(p_vect->X[0],0,p_vect->Z[0],p_vect->X[1],0,p_vect->Z[1]);
@@ -1903,13 +1903,13 @@ SLONG do_move_collide_circle(SLONG x,SLONG y,SLONG z,SLONG len,SLONG cell_dx,SLO
 // new_dist away from col vect, 
 //
 
-SLONG get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG *ret_z,SLONG new_dist)
+std::int32_t get_point_dist_from_col_vect(std::int32_t vect,std::int32_t x,std::int32_t z,std::int32_t *ret_x,std::int32_t *ret_z,std::int32_t new_dist)
 {
 	struct	CollisionVect	*p_vect;
-	SLONG	near_x,near_z;
-	SLONG	dx,dz;
-	SLONG	dist;
-	SLONG	angle=0;
+	std::int32_t	near_x,near_z;
+	std::int32_t	dx,dz;
+	std::int32_t	dist;
+	std::int32_t	angle=0;
 
 	p_vect=&col_vects[vect];
 
@@ -1964,12 +1964,12 @@ SLONG get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG
 // check to see if movement vector intersects a col vect
 //
 
-SLONG check_vect_vect(MAPCO16 m_dx,MAPCO16 m_dy,MAPCO16 m_dz,Thing *p_thing,SLONG scale)
+std::int32_t check_vect_vect(MAPCO16 m_dx,MAPCO16 m_dy,MAPCO16 m_dz,Thing *p_thing,std::int32_t scale)
 {
-	SLONG	cell_dx,cell_dz;
-	ULONG	col;
-//	SLONG	len;
-	SLONG	wx,wy,wz;
+	std::int32_t	cell_dx,cell_dz;
+	std::uint32_t	col;
+//	std::int32_t	len;
+	std::int32_t	wx,wy,wz;
 
 
 	calc_sub_objects_position(p_thing,p_thing->Draw.Tweened->AnimTween,SUB_OBJECT_LEFT_FOOT,&wx,&wy,&wz);
@@ -2019,12 +2019,12 @@ SLONG check_vect_vect(MAPCO16 m_dx,MAPCO16 m_dy,MAPCO16 m_dz,Thing *p_thing,SLON
 	return(col);
 }
 
-SLONG check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius)
+std::int32_t check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t radius)
 {
-	SLONG	x,y,z;
-	SLONG	dx,dz;
-	SLONG	cell_radius;
-	ULONG	col;
+	std::int32_t	x,y,z;
+	std::int32_t	dx,dz;
+	std::int32_t	cell_radius;
+	std::uint32_t	col;
 
 
 
@@ -2044,20 +2044,20 @@ SLONG check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG ra
 }
 #endif
 
-extern SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face);
-extern void	e_draw_3d_line(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
+extern std::int32_t	is_thing_on_this_quad(std::int32_t x,std::int32_t z,std::int32_t face);
+extern void	e_draw_3d_line(std::int32_t x1,std::int32_t my_y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
 
 
-void highlight_face(SLONG face)
+void highlight_face(std::int32_t face)
 {
 #ifndef	PSX
 #ifndef TARGET_DC
 	return;
 	if(face>0)
 	{
-		SLONG	face_x,face_y,face_z;
-//		SLONG	wall,storey,building;
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	face_x,face_y,face_z;
+//		std::int32_t	wall,storey,building;
+		std::int32_t	p0,p1,p2,p3;
 /*
 		wall=prim_faces4[face].ThingIndex;
 		if(wall<0)
@@ -2072,7 +2072,7 @@ void highlight_face(SLONG face)
 			}
 			else
 			{
-				SLONG  thing;
+				std::int32_t  thing;
 				Thing *p_thing;
 
 				thing   = building_list[building].ThingIndex;
@@ -2121,15 +2121,15 @@ void highlight_face(SLONG face)
 #endif
 #endif
 }
-void highlight_rface(SLONG rface)
+void highlight_rface(std::int32_t rface)
 {
 #ifndef TARGET_DC
 
 	return;
 	if(rface>0)
 	{
-		SLONG	x,y,z;
-//		SLONG	wall,storey,building;
+		std::int32_t	x,y,z;
+//		std::int32_t	wall,storey,building;
 
 		x=(roof_faces4[rface].RX&127)<<8;
 		y=roof_faces4[rface].Y;
@@ -2146,14 +2146,14 @@ void highlight_rface(SLONG rface)
 }
 
 
-void highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z)
+void highlight_quad(std::int32_t face,std::int32_t face_x,std::int32_t face_y,std::int32_t face_z)
 {
 #ifndef TARGET_DC
 	return;
 
 	if(face>0)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 
 		p0=prim_faces4[face].Points[0];
@@ -2181,7 +2181,7 @@ void highlight_quad(SLONG face,SLONG face_x,SLONG face_y,SLONG face_z)
 #endif
 }
 
-SLONG vect_intersect_wall(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+std::int32_t vect_intersect_wall(std::int32_t x1,std::int32_t my_y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 	// go through col vects this vect might intersect
 
@@ -2191,11 +2191,11 @@ SLONG vect_intersect_wall(SLONG x1,SLONG my_y1,SLONG z1,SLONG x2,SLONG y2,SLONG 
 
 /*
 #define	PERSON_RADIUS	(50)
-SLONG check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale)
+std::int32_t check_vect(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t scale)
 {
-	SLONG	cell_dx,cell_dz;
-	ULONG	col;
-	SLONG	len;
+	std::int32_t	cell_dx,cell_dz;
+	std::uint32_t	col;
+	std::int32_t	len;
 
 	len=QDIST2(abs(m_dx),abs(m_dz));
 	LogText(" movement dist %d \n",len);
@@ -2231,12 +2231,12 @@ SLONG check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale)
 	return(col);
 }
 
-SLONG check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius)
+std::int32_t check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t radius)
 {
-	SLONG	x,y,z;
-	SLONG	dx,dz;
-	SLONG	cell_radius;
-	ULONG	col;
+	std::int32_t	x,y,z;
+	std::int32_t	dx,dz;
+	std::int32_t	cell_radius;
+	std::uint32_t	col;
 
 
 
@@ -2256,20 +2256,20 @@ SLONG check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG ra
 }
 */
 
-extern void	set_tween_for_dy(Thing *p_person,SLONG dy);
+extern void	set_tween_for_dy(Thing *p_person,std::int32_t dy);
 
-SLONG find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this_building,Thing *p_person,SLONG neg_dy,SLONG pos_dy,SLONG *ret_y)
+std::int32_t find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, std::int32_t ignore_faces_of_this_building,Thing *p_person,std::int32_t neg_dy,std::int32_t pos_dy,std::int32_t *ret_y)
 {
-	SLONG	mx,mz;
-	SLONG	index;
-	SLONG	check_face;
-	SLONG	new_y,dy;
+	std::int32_t	mx,mz;
+	std::int32_t	index;
+	std::int32_t	check_face;
+	std::int32_t	new_y,dy;
 
-	SLONG mx1 = (x - 0x200) >> PAP_SHIFT_LO;
-	SLONG mz1 = (z - 0x200) >> PAP_SHIFT_LO;
+	std::int32_t mx1 = (x - 0x200) >> PAP_SHIFT_LO;
+	std::int32_t mz1 = (z - 0x200) >> PAP_SHIFT_LO;
 
-	SLONG mx2 = (x + 0x200) >> PAP_SHIFT_LO;
-	SLONG mz2 = (z + 0x200) >> PAP_SHIFT_LO;
+	std::int32_t mx2 = (x + 0x200) >> PAP_SHIFT_LO;
+	std::int32_t mz2 = (z + 0x200) >> PAP_SHIFT_LO;
 
 	SATURATE(mx1, 0, PAP_SIZE_LO - 1);
 	SATURATE(mz1, 0, PAP_SIZE_LO - 1);
@@ -2310,7 +2310,7 @@ SLONG find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this
 
 		while(index)
 		{
-			SLONG	offset_y;
+			std::int32_t	offset_y;
 			check_face = index; //walk_links[index].Face;
 
 //			if (check_face > 0)
@@ -2352,7 +2352,7 @@ SLONG find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this
 
 						if(ControlFlag&&allow_debug_keys)
 						{
-							CBYTE	str[100];
+							char	str[100];
 							sprintf(str," land on walkable dy %d >%d  <%d \n",dy,neg_dy,pos_dy);
 							CONSOLE_text(str,10000);
 						}
@@ -2397,21 +2397,21 @@ SLONG find_face_near_y(MAPCO16 x,MAPCO16 y,MAPCO16 z, SLONG ignore_faces_of_this
 }
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG find_alt_for_this_pos(SLONG  x,SLONG  z)
+std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z)
 {
-	SLONG mx;
-	SLONG mz;
-//	SLONG dy;
-	SLONG facey;
-	SLONG index;
-	SLONG groundy;
-	SLONG	count;
+	std::int32_t mx;
+	std::int32_t mz;
+//	std::int32_t dy;
+	std::int32_t facey;
+	std::int32_t index;
+	std::int32_t groundy;
+	std::int32_t	count;
 
-	SLONG mx1 = x - 0x200 >> PAP_SHIFT_LO;
-	SLONG mz1 = z - 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
 
-	SLONG mx2 = x + 0x200 >> PAP_SHIFT_LO;
-	SLONG mz2 = z + 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
+	std::int32_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
 
 	SATURATE(mx1, 0, PAP_SIZE_LO - 1);
 	SATURATE(mz1, 0, PAP_SIZE_LO - 1);
@@ -2487,9 +2487,9 @@ SLONG find_alt_for_this_pos(SLONG  x,SLONG  z)
 }
 #endif
 #endif
-void correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *angle,SLONG scale)
+void correct_pos_for_ladder(struct DFacet *p_facet,std::int32_t *px,std::int32_t *pz,std::int32_t *angle,std::int32_t scale)
 {
-	SLONG	x1,z1,x2,z2,dx,dz;
+	std::int32_t	x1,z1,x2,z2,dx,dz;
 
 	x1=p_facet->x[0] << 8;
 	z1=p_facet->z[0] << 8;
@@ -2517,9 +2517,9 @@ void correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *an
 }
 
 
-SLONG ok_to_mount_ladder(struct Thing *p_thing,struct DFacet *p_facet)
+std::int32_t ok_to_mount_ladder(struct Thing *p_thing,struct DFacet *p_facet)
 {
-	SLONG	dx,dz,px,pz,angle;
+	std::int32_t	dx,dz,px,pz,angle;
 
 	correct_pos_for_ladder(p_facet,&px,&pz,&angle,256);
 
@@ -2536,9 +2536,9 @@ SLONG ok_to_mount_ladder(struct Thing *p_thing,struct DFacet *p_facet)
 	}
 }
 
-SLONG mount_ladder(Thing *p_thing,SLONG facet)
+std::int32_t mount_ladder(Thing *p_thing,std::int32_t facet)
 {
-//	SWORD	storey,wall;
+//	std::int16_t	storey,wall;
 
 	
 	if(ok_to_mount_ladder(p_thing,&dfacets[facet]))
@@ -2556,12 +2556,12 @@ SLONG mount_ladder(Thing *p_thing,SLONG facet)
 	return false;
 }
 
-extern void	locked_anim_change_end_type(Thing *p_person,UWORD locked_object,UWORD anim,SLONG type);
+extern void	locked_anim_change_end_type(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t type);
 
-SLONG set_person_climb_down_onto_ladder(Thing *p_person,SLONG colvect)
+std::int32_t set_person_climb_down_onto_ladder(Thing *p_person,std::int32_t colvect)
 {
-	SLONG	x,z,dx,dz,angle;
-	SLONG	dist=64;
+	std::int32_t	x,z,dx,dz,angle;
+	std::int32_t	dist=64;
 	GameCoord	new_position;
 
 	if(p_person->Genus.Person->PersonType==PERSON_ROPER)
@@ -2616,35 +2616,35 @@ SLONG set_person_climb_down_onto_ladder(Thing *p_person,SLONG colvect)
 // Looks for a ladder col-vect.
 //
 
-SLONG find_nearby_ladder_colvect_radius(
-		SLONG mid_x,
-		SLONG mid_z,
-		SLONG radius)
+std::int32_t find_nearby_ladder_colvect_radius(
+		std::int32_t mid_x,
+		std::int32_t mid_z,
+		std::int32_t radius)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG minx;
-	SLONG minz;
+	std::int32_t minx;
+	std::int32_t minz;
 
-	SLONG maxx;
-	SLONG maxz;
+	std::int32_t maxx;
+	std::int32_t maxz;
 
-//	SLONG storey;
-//	SLONG wall;
+//	std::int32_t storey;
+//	std::int32_t wall;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
-	SLONG best_dist = INFINITY;
-	SLONG best_vect = nullptr;
+	std::int32_t best_dist = INFINITY;
+	std::int32_t best_vect = 0;
 
-	struct	DFacet *p_vect;
+	DFacet* p_vect;
 
 	minx = mid_x - radius >> PAP_SHIFT_LO;
 	minz = mid_z - radius >> PAP_SHIFT_LO;
@@ -2658,7 +2658,7 @@ SLONG find_nearby_ladder_colvect_radius(
 		if (WITHIN(mx, 0, PAP_SIZE_LO  - 1) &&
 			WITHIN(mz, 0, PAP_SIZE_LO - 1))
 		{
-			SLONG	exit=0;
+			std::int32_t	exit=0;
 			v_list = PAP_2LO(mx,mz).ColVectHead;
 
 			if(v_list)
@@ -2699,12 +2699,12 @@ SLONG find_nearby_ladder_colvect_radius(
 // Looks for a nearby ladder col-vect.
 //
 
-SLONG find_nearby_ladder_colvect(Thing *p_thing)
+std::int32_t find_nearby_ladder_colvect(Thing *p_thing)
 {
-	SLONG mid_x;
-	SLONG mid_z;
+	std::int32_t mid_x;
+	std::int32_t mid_z;
 
-	SLONG ladder;
+	std::int32_t ladder;
 
 	#define LADDER_NEARBY_RADIUS 100
 
@@ -2720,9 +2720,9 @@ SLONG find_nearby_ladder_colvect(Thing *p_thing)
 
 
 
-void set_feet_to_y(Thing *p_person,SLONG new_y)
+void set_feet_to_y(Thing *p_person,std::int32_t new_y)
 {
-	SLONG	x,y,z;
+	std::int32_t	x,y,z;
 	calc_sub_objects_position(p_person,p_person->Draw.Tweened->AnimTween,SUB_OBJECT_LEFT_FOOT,&x,&y,&z);
 	MSG_add(" set feet to y %d, foot y %d \n",new_y,y);
 
@@ -2731,15 +2731,15 @@ void set_feet_to_y(Thing *p_person,SLONG new_y)
 	p_person->WorldPos.Y=(new_y)<<8; //+4 ?
 }
 
-extern void person_splash(Thing *p_person, SLONG limb); // limb == -1 => splash on center not at limb.
+extern void person_splash(Thing *p_person, std::int32_t limb); // limb == -1 => splash on center not at limb.
 
 
-SLONG height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface)
+std::int32_t height_above_anything(Thing *p_person,std::int32_t body_part,std::int16_t *onface)
 {
-	SLONG	on_face;
-	SLONG	fx,fy,fz,new_y;
+	std::int32_t	on_face;
+	std::int32_t	fx,fy,fz,new_y;
 
-//	SLONG ignore_building;
+//	std::int32_t ignore_building;
 	
 	*onface = 0;
 
@@ -2791,12 +2791,12 @@ SLONG height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface)
 //
 // For a person in 3d space, find either a face to stand on, or the floor to stand on, and setup height/onface ... 
 //
-SLONG plant_feet(Thing *p_person)
+std::int32_t plant_feet(Thing *p_person)
 {
-	SLONG	on_face;
-	SLONG	fx,fy,fz,new_y;
+	std::int32_t	on_face;
+	std::int32_t	fx,fy,fz,new_y;
 
-//	SLONG ignore_building;
+//	std::int32_t ignore_building;
 	
 	//
 	// Make a splash...
@@ -2920,7 +2920,7 @@ SLONG plant_feet(Thing *p_person)
 }
 
 
-SLONG get_person_radius(SLONG type)
+std::int32_t get_person_radius(std::int32_t type)
 {
 	switch(type)
 	{
@@ -2933,7 +2933,7 @@ SLONG get_person_radius(SLONG type)
 	return(50); // an average person
 }
 
-SLONG get_person_radius2(SLONG type)
+std::int32_t get_person_radius2(std::int32_t type)
 {
 	switch(type)
 	{
@@ -2953,13 +2953,13 @@ SLONG get_person_radius2(SLONG type)
 // Obsolete nowadays...
 //
 
-SLONG bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
+std::int32_t bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 {
-	SLONG	x,y,z;
-	SLONG	dx,dz;
-	SLONG	cell_radius;
-	ULONG	col;
-	SLONG	my_radius;
+	std::int32_t	x,y,z;
+	std::int32_t	dx,dz;
+	std::int32_t	cell_radius;
+	std::uint32_t	col;
+	std::int32_t	my_radius;
 	THING_INDEX	index;
 
 
@@ -2978,9 +2978,9 @@ SLONG bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 		index = MAP2((x>>ELE_SHIFT)+dx,(z>>ELE_SHIFT)+dz).MapWho;
 		while(index)
 		{
-			SLONG	dist,ddx,ddy,ddz;
+			std::int32_t	dist,ddx,ddy,ddz;
 			Thing	*p_bumped;
-			SLONG	bump_radius;
+			std::int32_t	bump_radius;
 
 			p_bumped=TO_THING(index);
 			switch(p_bumped->Class)
@@ -2996,7 +2996,7 @@ SLONG bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 
 					if(dist<(bump_radius+my_radius))
 					{
-						SLONG	dist2;
+						std::int32_t	dist2;
 						//
 						// are radia intersect so check if we are moving nearer or further from collision
 						//
@@ -3027,7 +3027,7 @@ SLONG bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 
 */
 
-SLONG get_fence_height(SLONG h)
+std::int32_t get_fence_height(std::int32_t h)
 {
 	if(h==2)
 		return(85);
@@ -3043,11 +3043,11 @@ SLONG get_fence_height(SLONG h)
 #ifndef TARGET_DC
 
 // side_required     0 is the other side or 1 is this side
-void step_back_along_vect(SLONG x1,SLONG z1,SLONG *x2,SLONG *z2,SLONG vx1,SLONG vz1,SLONG vx2,SLONG vz2,SLONG side_required)
+void step_back_along_vect(std::int32_t x1,std::int32_t z1,std::int32_t *x2,std::int32_t *z2,std::int32_t vx1,std::int32_t vz1,std::int32_t vx2,std::int32_t vz2,std::int32_t side_required)
 {
-//	SLONG	mx,mz,prev_mx,prev_mz;
-	SLONG	dx,dz;
-	SLONG	side;
+//	std::int32_t	mx,mz,prev_mx,prev_mz;
+	std::int32_t	dx,dz;
+	std::int32_t	side;
 
 	dx=*x2-x1;
 	dz=*z2-z1;
@@ -3073,7 +3073,7 @@ void step_back_along_vect(SLONG x1,SLONG z1,SLONG *x2,SLONG *z2,SLONG vx1,SLONG 
 		}
 		else
 		{
-			SLONG	norm_x,norm_z,dist,on;
+			std::int32_t	norm_x,norm_z,dist,on;
 			//
 			// now on the right side
 			//
@@ -3114,7 +3114,7 @@ void step_back_along_vect(SLONG x1,SLONG z1,SLONG *x2,SLONG *z2,SLONG vx1,SLONG 
 #define MAX_ALREADY 8
 #endif
 
-UWORD already[MAX_ALREADY];
+std::uint16_t already[MAX_ALREADY];
 
 
 
@@ -3125,91 +3125,91 @@ UWORD already[MAX_ALREADY];
 // that col-vect.
 //
 
-UWORD max_facet_find=0;
+std::uint16_t max_facet_find=0;
 
-SLONG last_slide_colvect;
-SLONG last_slide_dist;
-SLONG actual_sliding;
-SLONG slide_door;
-SLONG slide_ladder;
-SLONG slide_into_warehouse;		// nullptr if you have not gone into a warehouse or the index of the warehouse if you have.
-SLONG slide_outof_warehouse;
+std::int32_t last_slide_colvect;
+std::int32_t last_slide_dist;
+std::int32_t actual_sliding;
+std::int32_t slide_door;
+std::int32_t slide_ladder;
+std::int32_t slide_into_warehouse;		// nullptr if you have not gone into a warehouse or the index of the warehouse if you have.
+std::int32_t slide_outof_warehouse;
 
 /*
 
 /*
 
 #ifdef PSX
-	SLONG old_start_x;
-	SLONG old_start_y;
-	SLONG old_start_z;
+	std::int32_t old_start_x;
+	std::int32_t old_start_y;
+	std::int32_t old_start_z;
 
-	SLONG old_end_x;
-	SLONG old_end_y;
-	SLONG old_end_z;
+	std::int32_t old_end_x;
+	std::int32_t old_end_y;
+	std::int32_t old_end_z;
 #endif
 
-SLONG slide_along_old(
-		SLONG  x1, SLONG  my_y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  extra_wall_height,
-		SLONG  radius)
+std::int32_t slide_along_old(
+		std::int32_t  x1, std::int32_t  my_y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  extra_wall_height,
+		std::int32_t  radius)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SWORD minx;
-	SWORD minz;
-	SWORD maxx;
-	SWORD maxz;
+	std::int16_t minx;
+	std::int16_t minz;
+	std::int16_t maxx;
+	std::int16_t maxz;
 
-//	SLONG cprod;
-//	SLONG dprod;
+//	std::int32_t cprod;
+//	std::int32_t dprod;
 
-	SLONG y_top;
-	SLONG y_bot;
+	std::int32_t y_top;
+	std::int32_t y_bot;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-//	SLONG vx;
-//	SLONG vz;
+//	std::int32_t vx;
+//	std::int32_t vz;
 
-//	SLONG sx;
-//	SLONG sz;
+//	std::int32_t sx;
+//	std::int32_t sz;
 
-	SLONG dist;
-	SLONG ndist;
-	SLONG norm_x;
-	SLONG norm_z;
-	SLONG on;
+	std::int32_t dist;
+	std::int32_t ndist;
+	std::int32_t norm_x;
+	std::int32_t norm_z;
+	std::int32_t on;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
-	SLONG overndist;
-	UWORD num_slides;
-	UWORD last_slide;
+	std::int32_t overndist;
+	std::uint16_t num_slides;
+	std::uint16_t last_slide;
 
 //	CollisionVect *p_vect;
 	DFacet *p_vect;
-//	SLONG ans = 0;
-	SLONG	same_again=0;
-	UBYTE already_upto=0;
+//	std::int32_t ans = 0;
+	std::int32_t	same_again=0;
+	std::uint8_t already_upto=0;
 
-	UBYTE slid_along_fence = false;
-	UWORD fence_colvect    = 0;
+	std::uint8_t slid_along_fence = false;
+	std::uint16_t fence_colvect    = 0;
 
 #ifndef PSX
- 	SLONG old_start_x = x1;
-	SLONG old_start_y = my_y1;
-	SLONG old_start_z = z1;
+ 	std::int32_t old_start_x = x1;
+	std::int32_t old_start_y = my_y1;
+	std::int32_t old_start_z = z1;
 
-	SLONG old_end_x = *x2;
-	SLONG old_end_y = *y2;
-	SLONG old_end_z = *z2;
+	std::int32_t old_end_x = *x2;
+	std::int32_t old_end_y = *y2;
+	std::int32_t old_end_z = *z2;
 #else
  	old_start_x = x1;
 	old_start_y = my_y1;
@@ -3272,11 +3272,11 @@ SLONG slide_along_old(
 	for (mx = minx; mx <= maxx; mx++)
 	for (mz = minz; mz <= maxz; mz++)
 	{
-		UWORD	fence=0;
+		std::uint16_t	fence=0;
 		if (WITHIN(mx, 0, PAP_SIZE_LO  - 1) &&
 			WITHIN(mz, 0, PAP_SIZE_LO - 1))
 		{
-			SLONG	exit=0;
+			std::int32_t	exit=0;
 			//
 			// Check all the colvects on this square.
 			//
@@ -3337,7 +3337,7 @@ SLONG slide_along_old(
 				//
 				
 				{
-					SLONG vect_y;
+					std::int32_t vect_y;
 
 					{
 						if (p_vect->FacetType == STOREY_TYPE_FENCE_FLAT ||
@@ -3351,7 +3351,7 @@ SLONG slide_along_old(
 						}
 						else
 						{
-							SLONG	height;
+							std::int32_t	height;
 
 							height=(p_vect->Height*p_vect->BlockHeight)<<2;
 							fence=0;
@@ -3379,8 +3379,8 @@ SLONG slide_along_old(
 
 				if (WITHIN(my_y1, y_bot, y_top)) // Mike! I know this was you -> ||WITHIN(my_y1+60,y_bot,y_top)||WITHIN(my_y1-60,y_bot,y_top))
 				{
-					SLONG	side;
-					UWORD	start_index=0,end_index=1;
+					std::int32_t	side;
+					std::uint16_t	start_index=0,end_index=1;
 
 //					MSG_add("WITHIN slide along my_y1 %d between  %d->%d \n",my_y1,y_bot,y_top);
 					//
@@ -3409,7 +3409,7 @@ SLONG slide_along_old(
 					// or have passed from one side of the wall to the other
 					// for normal buildings it allows you to pass from inside the building to the outside
 					{
-						SLONG	slide=0;
+						std::int32_t	slide=0;
 
 						if(!on)
 						{
@@ -3617,7 +3617,7 @@ SLONG slide_along_old(
 								}
 								else
 								{
-//									SLONG	dx,dz;
+//									std::int32_t	dx,dz;
 									//
 									// you started out on the correct side, so you have tried to go from one side to the other
 									// so you must slide
@@ -3776,7 +3776,7 @@ SLONG slide_along_old(
 								}
 								else
 								{
-//									SLONG	dx,dz;
+//									std::int32_t	dx,dz;
 
 									//
 									// Make sure that dist is sensible...
@@ -3928,50 +3928,50 @@ SLONG slide_along_old(
 }
 */
 
-UBYTE slid_along_fence=0;
-UWORD fence_colvect=0;
-//SLONG	slide_nogo;
+std::uint8_t slid_along_fence=0;
+std::uint16_t fence_colvect=0;
+//std::int32_t	slide_nogo;
 
-SLONG slide_along(
-		SLONG  x1, SLONG  my_y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  extra_wall_height,
-		SLONG  radius,
-		ULONG  flags)
+std::int32_t slide_along(
+		std::int32_t  x1, std::int32_t  my_y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  extra_wall_height,
+		std::int32_t  radius,
+		std::uint32_t  flags)
 {
-//	SLONG i;
+//	std::int32_t i;
 
-	SWORD minx;
-	SWORD minz;
-	SWORD maxx;
-	SWORD maxz;
+	std::int16_t minx;
+	std::int16_t minz;
+	std::int16_t maxx;
+	std::int16_t maxz;
 
-	SWORD y_top;
-	SWORD y_bot;
+	std::int16_t y_top;
+	std::int16_t y_bot;
 
-	SWORD mx;
-	SWORD mz;
+	std::int16_t mx;
+	std::int16_t mz;
 
-	SLONG fx1;
-	SLONG fz1;
-	SLONG fx2;
-	SLONG fz2;
+	std::int32_t fx1;
+	std::int32_t fz1;
+	std::int32_t fx2;
+	std::int32_t fz2;
 
-	SLONG dx;
-	SLONG dz;
-//	SLONG push;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+//	std::int32_t push;
+	std::int32_t dist;
 
-	SWORD f_list;
-	SWORD i_facet;
+	std::int16_t f_list;
+	std::int16_t i_facet;
 
-//	SLONG overndist;
-	UWORD last_slide;
+//	std::int32_t overndist;
+	std::uint16_t last_slide;
 
 	DFacet *df;
-	UBYTE   exit;
-	UBYTE	fence=0;
-	UBYTE	reverse;
+	std::uint8_t   exit;
+	std::uint8_t	fence=0;
+	std::uint8_t	reverse;
 
 	slid_along_fence=0;
 	fence_colvect=0;
@@ -3980,7 +3980,7 @@ SLONG slide_along(
 //		return(0);
 
 
-	extern UBYTE just_started_falling_off_backwards;
+	extern std::uint8_t just_started_falling_off_backwards;
 
 	if (just_started_falling_off_backwards)
 	{
@@ -3996,7 +3996,7 @@ SLONG slide_along(
 	//
 
 	last_slide            = 0;
-	last_slide_colvect    = nullptr;
+	last_slide_colvect    = 0;
 	slide_door            = 0;
 	slide_ladder          = 0;
 	actual_sliding        = false;
@@ -4037,14 +4037,14 @@ SLONG slide_along(
 			/*
 			if (PAP_2HI(x1 >> 16, z1 >> 16).Flags & PAP_FLAG_NOGO)
 			{
-				SLONG tx;
-				SLONG tz;
-				SLONG score;
-				SLONG best_score = INFINITY;
-				SLONG best_x = *x2;
-				SLONG best_z = *z2;
-				SLONG here  = PAP_calc_map_height_at(x1 >> 8, z1 >> 8);
-				SLONG there;
+				std::int32_t tx;
+				std::int32_t tz;
+				std::int32_t score;
+				std::int32_t best_score = INFINITY;
+				std::int32_t best_x = *x2;
+				std::int32_t best_z = *z2;
+				std::int32_t here  = PAP_calc_map_height_at(x1 >> 8, z1 >> 8);
+				std::int32_t there;
 
 				//
 				// Emergency! This person is on a no-go square! Find somewhere
@@ -4111,7 +4111,7 @@ SLONG slide_along(
 	#else
 
 	{
-		UBYTE collide = 0;
+		std::uint8_t collide = 0;
 
 		#define NOGO_COLLIDE_XS (1 << 0)
 		#define NOGO_COLLIDE_XL (1 << 1)
@@ -4373,7 +4373,7 @@ SLONG slide_along(
 			// Shall we ignore this facet?
 			//
 
-			SLONG ignore_this_facet = false;
+			std::int32_t ignore_this_facet = false;
 
 			if (just_started_falling_off_backwards)
 			{
@@ -4413,11 +4413,11 @@ SLONG slide_along(
 #ifdef	UNUSED_WIRECUTTERS
 				if(fence&& (flags&SLIDE_ALONG_FLAG_CRAWL))
 				{
-					SLONG	along;
+					std::int32_t	along;
 					along=get_fence_hole(df);
 					while(along)
 					{
-						SLONG	mx,mz;
+						std::int32_t	mx,mz;
 						mx=(((fx2-fx1)*along)>>8)+fx1;
 						mz=(((fz2-fz1)*along)>>8)+fz1;
 
@@ -4758,67 +4758,67 @@ skip_collide:;
 #ifndef	PSX
 #ifndef TARGET_DC
 
-SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
-			SLONG  x2, SLONG  y2, SLONG  z2,SLONG  radius)
+std::int32_t cross_door(std::int32_t  x1, std::int32_t  my_y1, std::int32_t  z1,
+			std::int32_t  x2, std::int32_t  y2, std::int32_t  z2,std::int32_t  radius)
 {
-	SLONG i;
+	std::int32_t i;
 
-//	SLONG dx;
-//	SLONG dz;
+//	std::int32_t dx;
+//	std::int32_t dz;
 
-	SLONG minx;
-	SLONG minz;
-	SLONG maxx;
-	SLONG maxz;
+	std::int32_t minx;
+	std::int32_t minz;
+	std::int32_t maxx;
+	std::int32_t maxz;
 
-//	SLONG cprod;
-//	SLONG dprod;
+//	std::int32_t cprod;
+//	std::int32_t dprod;
 
-	SLONG y_top;
-	SLONG y_bot;
+	std::int32_t y_top;
+	std::int32_t y_bot;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-//	SLONG vx;
-//	SLONG vz;
+//	std::int32_t vx;
+//	std::int32_t vz;
 
-//	SLONG sx;
-//	SLONG sz;
+//	std::int32_t sx;
+//	std::int32_t sz;
 
-	SLONG dist;
-//	SLONG ndist;
-	SLONG norm_x;
-	SLONG norm_z;
-	SLONG on;
+	std::int32_t dist;
+//	std::int32_t ndist;
+	std::int32_t norm_x;
+	std::int32_t norm_z;
+	std::int32_t on;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
-//	SLONG overndist;
-	SLONG num_slides;
-	SLONG last_slide;
+//	std::int32_t overndist;
+	std::int32_t num_slides;
+	std::int32_t last_slide;
 
-//	SLONG old_start_x = x1;
-//	SLONG old_start_y = my_y1;
-//	SLONG old_start_z = z1;
+//	std::int32_t old_start_x = x1;
+//	std::int32_t old_start_y = my_y1;
+//	std::int32_t old_start_z = z1;
 
-//	SLONG old_end_x = x2;
-//	SLONG old_end_y = y2;
-//	SLONG old_end_z = z2;
+//	std::int32_t old_end_x = x2;
+//	std::int32_t old_end_y = y2;
+//	std::int32_t old_end_z = z2;
 
 //	CollisionVect *p_vect;
 	DFacet *p_vect;
-//	SLONG ans = 0;
-//	SLONG	same_again=0;
+//	std::int32_t ans = 0;
+//	std::int32_t	same_again=0;
 	//
 	// Remember colvect we have already done, and dont do them twice.
 	//
 
 //	#define MAX_ALREADY 8
 
-//	UWORD already[MAX_ALREADY];
-	SLONG already_upto = 0;
+//	std::uint16_t already[MAX_ALREADY];
+	std::int32_t already_upto = 0;
 
 
 	//
@@ -4852,18 +4852,18 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 
 	num_slides         = 0;
 	last_slide         = 0;
-	last_slide_colvect = nullptr;
+	last_slide_colvect = 0;
 	slide_door         = 0;
 	actual_sliding     = false;
 
 	for (mx = minx; mx <= maxx; mx++)
 	for (mz = minz; mz <= maxz; mz++)
 	{
-		SLONG	fence=0;
+		std::int32_t	fence=0;
 		if (WITHIN(mx, 0, PAP_SIZE_LO  - 1) &&
 			WITHIN(mz, 0, PAP_SIZE_LO - 1))
 		{
-			SLONG	exit=0;
+			std::int32_t	exit=0;
 			//
 			// Check all the colvects on this square.
 			//
@@ -4919,14 +4919,14 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 					//
 					
 					{
-						SLONG vect_y;
+						std::int32_t vect_y;
 
 						{
 							//
 							// its a door type facet
 							//
 							{
-								SLONG	height;
+								std::int32_t	height;
 
 								height=(p_vect->Height*p_vect->BlockHeight)<<2;
 								fence=0;
@@ -4952,8 +4952,8 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 
 					if (WITHIN(my_y1, y_bot, y_top)) // Mike! I know this was you -> ||WITHIN(my_y1+60,y_bot,y_top)||WITHIN(my_y1-60,y_bot,y_top))
 					{
-						SLONG	side;
-						SLONG	start_index=0,end_index=1;
+						std::int32_t	side;
+						std::int32_t	start_index=0,end_index=1;
 
 						//
 						// How far is (*x2,*z2) from the col-vect?
@@ -4977,7 +4977,7 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 						// or have passed from one side of the wall to the other
 						// for normal buildings it allows you to pass from inside the building to the outside
 						{
-//							SLONG	slide=0;
+//							std::int32_t	slide=0;
 
 							if(!on)
 							{
@@ -5040,14 +5040,14 @@ SLONG cross_door(SLONG  x1, SLONG  my_y1, SLONG  z1,
 #endif
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG bump_person(Thing *p_person,THING_INDEX index,SLONG x1,SLONG my_y1,SLONG z1,SLONG *x2,SLONG *y2,SLONG *z2)
+std::int32_t bump_person(Thing *p_person,THING_INDEX index,std::int32_t x1,std::int32_t my_y1,std::int32_t z1,std::int32_t *x2,std::int32_t *y2,std::int32_t *z2)
 {
-	SLONG	bump_radius,my_radius;
+	std::int32_t	bump_radius,my_radius;
 	Thing	*p_bumped;
 
-	SLONG	ddx,ddy,ddz,dist;
+	std::int32_t	ddx,ddy,ddz,dist;
 
-	SLONG	ex,ey,ez;
+	std::int32_t	ex,ey,ez;
 
 	ex=*x2>>8;
 	ey=*y2>>8;
@@ -5074,8 +5074,8 @@ SLONG bump_person(Thing *p_person,THING_INDEX index,SLONG x1,SLONG my_y1,SLONG z
 
 	if(dist<(bump_radius+my_radius)&&ddy<150)
 	{
-		SLONG	dist2;
-		SLONG	odx,odz;
+		std::int32_t	dist2;
+		std::int32_t	odx,odz;
 		//
 		// are radia intersect so check if we are moving nearer or further from collision
 		//
@@ -5087,9 +5087,9 @@ SLONG bump_person(Thing *p_person,THING_INDEX index,SLONG x1,SLONG my_y1,SLONG z
 
 		if(dist<dist2)
 		{	
-//			SLONG	tdx,tdz;
-			SLONG	angle;
-//			SLONG	radius=bump_radius+my_radius;
+//			std::int32_t	tdx,tdz;
+			std::int32_t	angle;
+//			std::int32_t	radius=bump_radius+my_radius;
 
 
 			angle=Arctan(-ddx,ddz)+1024;  //oh no mystery arctan function
@@ -5142,33 +5142,33 @@ SLONG bump_person(Thing *p_person,THING_INDEX index,SLONG x1,SLONG my_y1,SLONG z
 //
 
 void slide_along_edges(
-		SLONG face4,
-		SLONG  x1, SLONG  z1,
-		SLONG *x2, SLONG *z2)
+		std::int32_t face4,
+		std::int32_t  x1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *z2)
 {
-	SLONG i;
-	SLONG p1;
-	SLONG p2;
+	std::int32_t i;
+	std::int32_t p1;
+	std::int32_t p2;
 
-	SLONG ex1, ez1;
-	SLONG ex2, ez2;
+	std::int32_t ex1, ez1;
+	std::int32_t ex2, ez2;
 
-	SLONG dex;
-	SLONG dez;
+	std::int32_t dex;
+	std::int32_t dez;
 
-	SLONG elen;
+	std::int32_t elen;
 
-	SLONG vecx;
-	SLONG vecz;
-
-
-
-	SLONG ox;
-	SLONG oz;
+	std::int32_t vecx;
+	std::int32_t vecz;
 
 
 
-	UBYTE point_order[4] = {0, 1, 3, 2};
+	std::int32_t ox;
+	std::int32_t oz;
+
+
+
+	std::uint8_t point_order[4] = {0, 1, 3, 2};
 
 	ASSERT(WITHIN(face4, 1, next_prim_face4));
 
@@ -5239,19 +5239,19 @@ void slide_along_edges(
 
 
 void slide_along_redges(
-		SLONG face4,
-		SLONG  x1, SLONG  z1,
-		SLONG *x2, SLONG *z2)
+		std::int32_t face4,
+		std::int32_t  x1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *z2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 	
-	SLONG height1;
-	SLONG height2;
+	std::int32_t height1;
+	std::int32_t height2;
 	
-	SLONG hard_edge;
+	std::int32_t hard_edge;
 
 	RoofFace4 *f4;
 
@@ -5290,8 +5290,8 @@ void slide_along_redges(
 		{
 			const struct
 			{
-				SBYTE dx;
-				SBYTE dz;
+				std::int8_t dx;
+				std::int8_t dz;
 
 			} dir[4] =
 			{
@@ -5369,7 +5369,7 @@ void slide_along_redges(
 
 /*
 
-UBYTE roofdxdz[4][2]=
+std::uint8_t roofdxdz[4][2]=
 {
 	{0,0},
 	{1,0},
@@ -5378,7 +5378,7 @@ UBYTE roofdxdz[4][2]=
 };
 
 
-SBYTE roof_dx[]=
+std::int8_t roof_dx[]=
 {
 	0,//n
 	1, //e
@@ -5386,7 +5386,7 @@ SBYTE roof_dx[]=
 	-1, //w
 };
 
-SBYTE roof_dz[]=
+std::int8_t roof_dz[]=
 {
 	-1,//n
 	0, //e
@@ -5395,28 +5395,28 @@ SBYTE roof_dz[]=
 };
 
 void slide_along_redges(
-		SLONG face4,
-		SLONG  x1, SLONG  z1,
-		SLONG *x2, SLONG *z2)
+		std::int32_t face4,
+		std::int32_t  x1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *z2)
 {
-	SLONG i;
-	SLONG p1;
-	SLONG p2;
+	std::int32_t i;
+	std::int32_t p1;
+	std::int32_t p2;
 
-	SLONG ex1, ez1;
-	SLONG ex2, ez2;
+	std::int32_t ex1, ez1;
+	std::int32_t ex2, ez2;
 
-	SLONG dex;
-	SLONG dez;
+	std::int32_t dex;
+	std::int32_t dez;
 
-	SLONG elen;
+	std::int32_t elen;
 
-	SLONG vecx;
-	SLONG vecz;
+	std::int32_t vecx;
+	std::int32_t vecz;
 
-	SLONG ox;
-	SLONG oz;
-	SLONG	height1;
+	std::int32_t ox;
+	std::int32_t oz;
+	std::int32_t	height1;
 
 	RoofFace4 *f4;// = &roof_faces4[face4];
 
@@ -5446,8 +5446,8 @@ void slide_along_redges(
 
 	for (i = 0; i < 4; i++)
 	{
-		SLONG hard_edge;
-		SLONG	height2;
+		std::int32_t hard_edge;
+		std::int32_t	height2;
 
 		if(f4)
 		{
@@ -5515,7 +5515,7 @@ void slide_along_redges(
 
 */
 
-ULONG move_thing_quick(SLONG dx,SLONG dy,SLONG dz,Thing *p_thing)
+std::uint32_t move_thing_quick(std::int32_t dx,std::int32_t dy,std::int32_t dz,Thing *p_thing)
 {
 	GameCoord new_position;
 
@@ -5533,27 +5533,27 @@ ULONG move_thing_quick(SLONG dx,SLONG dy,SLONG dz,Thing *p_thing)
 // a collision occurred.
 //
 
-SLONG collide_against_objects(
+std::int32_t collide_against_objects(
 		Thing *p_thing,
-		SLONG  radius,
-		SLONG  x1, SLONG  my_y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2)
+		std::int32_t  radius,
+		std::int32_t  x1, std::int32_t  my_y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2)
 {
 	OB_Info *oi;
 
-	SLONG old_x2;
-	SLONG old_y2;
-	SLONG old_z2;
+	std::int32_t old_x2;
+	std::int32_t old_y2;
+	std::int32_t old_z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG y_top;
+	std::int32_t y_top;
 
-	SLONG xmin, zmin;
-	SLONG xmax, zmax;
+	std::int32_t xmin, zmin;
+	std::int32_t xmax, zmax;
 
-	SLONG ans;
+	std::int32_t ans;
 
 	PrimInfo *pi;
 
@@ -5575,7 +5575,7 @@ SLONG collide_against_objects(
 	// If this person is standing on a prim, don't collide with that prim!
 	//
 
-	SLONG ignore_prim = nullptr;
+	std::int32_t ignore_prim = 0;
 
 	if (p_thing->OnFace>0)
 	{
@@ -5658,7 +5658,7 @@ SLONG collide_against_objects(
 											oi->prim == 95  ||
 											oi->prim == 102)
 										{
-											SLONG dangle = oi->yaw - p_thing->Draw.Tweened->Angle;
+											std::int32_t dangle = oi->yaw - p_thing->Draw.Tweened->Angle;
 
 											dangle &= 2047;
 
@@ -5686,8 +5686,8 @@ SLONG collide_against_objects(
 									// This is not a player: turn to avoid the prim.
 									//
 
-									SLONG angle;
-									SLONG dangle;
+									std::int32_t angle;
+									std::int32_t dangle;
 
 									angle  = p_thing->Draw.Tweened->Angle;
 									dangle = OB_avoid(
@@ -5780,18 +5780,18 @@ SLONG collide_against_objects(
 												// Are we facing the thing?
 												//
 
-												SLONG dx = oi->x - (p_thing->WorldPos.X >> 8);
-												SLONG dz = oi->z - (p_thing->WorldPos.Z >> 8);
+												std::int32_t dx = oi->x - (p_thing->WorldPos.X >> 8);
+												std::int32_t dz = oi->z - (p_thing->WorldPos.Z >> 8);
 
-												SLONG lx = SIN(p_thing->Draw.Tweened->Angle) >> 8;
-												SLONG lz = COS(p_thing->Draw.Tweened->Angle) >> 8;
+												std::int32_t lx = SIN(p_thing->Draw.Tweened->Angle) >> 8;
+												std::int32_t lz = COS(p_thing->Draw.Tweened->Angle) >> 8;
 
-												SLONG len = QDIST2(abs(dx),abs(dz)) + 1;
+												std::int32_t len = QDIST2(abs(dx),abs(dz)) + 1;
 
 												dx = dx * 256 / len;
 												dz = dz * 256 / len;
 
-												SLONG dprod = lx*dx + dz*lz >> 8;
+												std::int32_t dprod = lx*dx + dz*lz >> 8;
 
 												if (dprod > 200)
 												{
@@ -5829,9 +5829,9 @@ SLONG collide_against_objects(
 //
 
 #ifdef	ANIM_PRIM
-SLONG should_i_collide_against_this_anim_prim(Thing *p_aprim)
+std::int32_t should_i_collide_against_this_anim_prim(Thing *p_aprim)
 {
-	SLONG collide_or_not = false;
+	std::int32_t collide_or_not = false;
 
 	switch(get_anim_prim_type(p_aprim->Index))
 	{
@@ -5880,20 +5880,20 @@ SLONG should_i_collide_against_this_anim_prim(Thing *p_aprim)
 
 THING_INDEX col_with_things[MAX_COL_WITH];
 
-SLONG collide_against_things(
+std::int32_t collide_against_things(
 		Thing *p_thing,
-		SLONG  radius,
-		SLONG  x1, SLONG  my_y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2)
+		std::int32_t  radius,
+		std::int32_t  x1, std::int32_t  my_y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2)
 {
-	UBYTE i;
-	UBYTE col_with_upto;
-//	UBYTE collide_or_not;
+	std::uint8_t i;
+	std::uint8_t col_with_upto;
+//	std::uint8_t collide_or_not;
 	Thing *col_thing;
-	ULONG collide_types;
-	SLONG ans;
+	std::uint32_t collide_types;
+	std::int32_t ans;
 
-	SLONG on;
+	std::int32_t on;
 
 	ans = false;
 
@@ -5966,8 +5966,8 @@ SLONG collide_against_things(
 				{
 					if(p_thing->SubState==SUB_STATE_RUNNING_SKID_STOP)
 					{
-						SLONG	tx2,tz2;
-						SLONG	radius;
+						std::int32_t	tx2,tz2;
+						std::int32_t	radius;
 
 						if(p_thing->Genus.Person->PlayerID)
 							radius=66<<8;
@@ -5976,7 +5976,7 @@ SLONG collide_against_things(
 #ifndef PSX
 /*
 						{
-							SLONG	cx,cz,cy,r,ang,x1,z1,x2,z2;
+							std::int32_t	cx,cz,cy,r,ang,x1,z1,x2,z2;
 							cx=col_thing->WorldPos.X>>8;
 							cy=col_thing->WorldPos.Y>>8;
 							cz=col_thing->WorldPos.Z>>8;
@@ -6092,7 +6092,7 @@ SLONG collide_against_things(
 			case CLASS_VEHICLE:
 
 				{
-					SLONG prim;
+					std::int32_t prim;
 
 					if(p_thing->Genus.Person->InCar==THING_NUMBER(col_thing))
 					{
@@ -6154,8 +6154,8 @@ SLONG collide_against_things(
 										// Turn to avoid the prim.
 										//
 
-										SLONG angle;
-										SLONG dangle;
+										std::int32_t angle;
+										std::int32_t dangle;
 
 										angle  = p_thing->Draw.Tweened->Angle;
 										dangle = OB_avoid(
@@ -6191,8 +6191,8 @@ SLONG collide_against_things(
 				//if (collide_or_not)
 				if(should_i_collide_against_this_anim_prim(col_thing))
 				{
-					SLONG old_x2 = *x2;
-					SLONG old_z2 = *z2;
+					std::int32_t old_x2 = *x2;
+					std::int32_t old_z2 = *z2;
 
 				   *x2 >>= 8;
 				   *z2 >>= 8;
@@ -6248,8 +6248,8 @@ SLONG collide_against_things(
 						}
 						else
 						{
-							SLONG	dist2;
-							SLONG	odx,ody,odz;
+							std::int32_t	dist2;
+							std::int32_t	odx,ody,odz;
 
 							{
 								odx=abs((p_thing->WorldPos.X>>8)-(col_thing->WorldPos.X>>8));
@@ -6268,8 +6268,8 @@ SLONG collide_against_things(
 
 										extern void PCOM_set_person_ai_flee_place(
 															Thing *p_person,
-															SLONG  scary_x,
-															SLONG  scary_z);
+															std::int32_t  scary_x,
+															std::int32_t  scary_z);
 
 										PCOM_set_person_ai_flee_place(
 											p_thing,
@@ -6282,9 +6282,9 @@ SLONG collide_against_things(
 
 								if (dist2 < 100)
 								{
-									SLONG fx;
-									SLONG fy;
-									SLONG fz;
+									std::int32_t fx;
+									std::int32_t fy;
+									std::int32_t fz;
 
 									calc_sub_objects_position(
 										p_thing,
@@ -6314,7 +6314,7 @@ SLONG collide_against_things(
 			case CLASS_BIKE:
 				
 				{
-					SLONG dy = col_thing->WorldPos.Y - my_y1 >> 8;
+					std::int32_t dy = col_thing->WorldPos.Y - my_y1 >> 8;
 					
 					if (abs(dy) < 0x100)
 					{
@@ -6336,12 +6336,12 @@ SLONG collide_against_things(
 
 				if (col_thing->Genus.Bat->type == BAT_TYPE_BALROG)
 				{
-					SLONG dy = col_thing->WorldPos.Y - my_y1 >> 8;
+					std::int32_t dy = col_thing->WorldPos.Y - my_y1 >> 8;
 
 					if (abs(dy) < 0x180)
 					{
-						SLONG dx = abs(col_thing->WorldPos.X - x1 >> 8);
-						SLONG dz = abs(col_thing->WorldPos.Z - z1 >> 8);
+						std::int32_t dx = abs(col_thing->WorldPos.X - x1 >> 8);
+						std::int32_t dz = abs(col_thing->WorldPos.Z - z1 >> 8);
 
 						if (QDIST2(dx,dz) < 0x100)
 						{
@@ -6372,12 +6372,12 @@ SLONG collide_against_things(
 
 void drop_on_heads(Thing *p_thing)
 {
-	UBYTE i;
-	UBYTE col_with_upto;
-	UBYTE collide_or_not;
+	std::uint8_t i;
+	std::uint8_t col_with_upto;
+	std::uint8_t collide_or_not;
 	Thing *col_thing;
-	ULONG collide_types;
-	SLONG	fx,fy,fz,hx,hy,hz;
+	std::uint32_t collide_types;
+	std::int32_t	fx,fy,fz,hx,hy,hz;
 
 	//
 	// Which things do we collide with?
@@ -6412,7 +6412,7 @@ void drop_on_heads(Thing *p_thing)
 
 	for (i = 0; i < col_with_upto; i++)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 		col_thing = TO_THING(col_with_things[i]);
 
 		ASSERT(col_thing->Class==CLASS_PERSON);
@@ -6430,7 +6430,7 @@ void drop_on_heads(Thing *p_thing)
 		//
 		// calc position of head
 		//
-extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern std::int32_t	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
 		if (col_thing != p_thing)
 		{
@@ -6455,7 +6455,7 @@ extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
 
 					if(QDIST2(dx,dz)<100)
 					{
-						SLONG	miny,maxy;
+						std::int32_t	miny,maxy;
 
 						miny=hy-(MAX(abs(p_thing->DY>>8),100)+10);
 						maxy=hy+MAX(abs(p_thing->DY>>9),100);
@@ -6488,9 +6488,9 @@ extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
 								// behind and high
 								//
 
-								extern SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind);
+								extern std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_behind);
 
-								SLONG behind = (Random() & 0x1);
+								std::int32_t behind = (Random() & 0x1);
 
 								if (!is_there_room_behind_person(col_thing, behind))
 								{
@@ -6511,25 +6511,25 @@ extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
 #define	FALL_OFF_FLAG_FIRE_ESCAPE (1 << 1)
 #define FALL_OFF_FLAG_DONT_GRAB   (1 << 2)
 
-SLONG x1, my_y1, z1;
-SLONG x2, y2, z2;
+std::int32_t x1, my_y1, z1;
+std::int32_t x2, y2, z2;
 
-ULONG move_thing(
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
+std::uint32_t move_thing(
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
 		Thing *p_thing)
 {
-	SLONG col;
-	SLONG radius;
-	SLONG new_y;
-	SLONG new_face;
-	SLONG slid_odd;
-//	SLONG ignore_building = nullptr;
-	SLONG fall_off_flag = 0;
+	std::int32_t col;
+	std::int32_t radius;
+	std::int32_t new_y;
+	std::int32_t new_face;
+	std::int32_t slid_odd;
+//	std::int32_t ignore_building = nullptr;
+	std::int32_t fall_off_flag = 0;
 
-	extern SLONG yomp_speed;
-	extern SLONG sprint_speed;
+	extern std::int32_t yomp_speed;
+	extern std::int32_t sprint_speed;
 /*
 	if(p_thing->Genus.Person->PlayerID)
 	{
@@ -6601,7 +6601,7 @@ ULONG move_thing(
 	{
 		if(p_thing->Genus.Person->PlayerID)
 		{
-extern void	set_player_visited(UBYTE x,UBYTE z);
+extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
 			set_player_visited(x2>>16,z2>>16);
 
 		}
@@ -6684,7 +6684,7 @@ extern void	set_player_visited(UBYTE x,UBYTE z);
 		}
 
 		{
-			SLONG saflag = 0;
+			std::int32_t saflag = 0;
 #ifdef	UNUSED_WIRECUTTERS
 			if (p_thing->SubState               == SUB_STATE_CRAWLING) {saflag |= SLIDE_ALONG_FLAG_CRAWL;}
 #endif
@@ -6712,8 +6712,8 @@ extern void	set_player_visited(UBYTE x,UBYTE z);
 //		if((PAP_2HI(x2>>16,z2>>16).Height<<3)>y2)
 //			ASSERT(0);
 
-void slide_along_edges(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
-void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
+void slide_along_edges(std::int32_t face4,std::int32_t  x1, std::int32_t  z1,std::int32_t *x2, std::int32_t *z2);
+void slide_along_edgesr(std::int32_t face4,std::int32_t  x1, std::int32_t  z1,std::int32_t *x2, std::int32_t *z2);
 
 
 		//
@@ -6792,7 +6792,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 
 					if (prim_faces4[p_thing->OnFace].FaceFlags & FACE_FLAG_PRIM)
 					{
-						SLONG ob_index = -prim_faces4[p_thing->OnFace].ThingIndex;
+						std::int32_t ob_index = -prim_faces4[p_thing->OnFace].ThingIndex;
 
 						ASSERT(WITHIN(ob_index, 1, OB_ob_upto - 1));
 
@@ -6864,8 +6864,8 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 	}
 	else
 	{
-		UWORD	person_inside=0,look_for_face=0;
-		SLONG	cd=0;
+		std::uint16_t	person_inside=0,look_for_face=0;
+		std::int32_t	cd=0;
 
 		//
 		// Collision if you are not on a face.
@@ -6911,7 +6911,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 
 		*/
 		{
-			SLONG ox2,oy2,oz2;
+			std::int32_t ox2,oy2,oz2;
 
 			ox2=x2;
 			oy2=y2;
@@ -6919,7 +6919,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 
 			{
 
-				SLONG saflag = 0;
+				std::int32_t saflag = 0;
 #ifdef	UNUSED_WIRECUTTERS
 				if (p_thing->SubState               == SUB_STATE_CRAWLING) {saflag |= SLIDE_ALONG_FLAG_CRAWL;}
 #endif
@@ -6987,9 +6987,9 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 
 				if(actual_sliding)
 				{
-					SLONG	dx,dy,dz;
-					SLONG	ax,ay,az;
-					SLONG	len,r;
+					std::int32_t	dx,dy,dz;
+					std::int32_t	ax,ay,az;
+					std::int32_t	len,r;
 
 					dx=(ox2-x1)>>8;
 					dy=(oy2-my_y1)>>8;
@@ -7227,7 +7227,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 		MSG_add(" fall off \n");
 
 		{
-			SLONG flag = PERSON_DROP_DOWN_KEEP_VEL;
+			std::int32_t flag = PERSON_DROP_DOWN_KEEP_VEL;
 
 			if (fall_off_flag & FALL_OFF_FLAG_DONT_GRAB)
 			{
@@ -7256,7 +7256,7 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 		// If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
 		//
 
-		SLONG ground = PAP_calc_map_height_at(
+		std::int32_t ground = PAP_calc_map_height_at(
 							p_thing->WorldPos.X >> 8,
 							p_thing->WorldPos.Z >> 8) << 8;
 
@@ -7287,10 +7287,10 @@ void slide_along_edgesr(SLONG face4,SLONG  x1, SLONG  z1,SLONG *x2, SLONG *z2);
 // Set when check_vector_against_mapsquare() returns true.
 // 
 
-SLONG los_failure_x;
-SLONG los_failure_y;
-SLONG los_failure_z;
-SLONG los_failure_dfacet;
+std::int32_t los_failure_x;
+std::int32_t los_failure_y;
+std::int32_t los_failure_z;
+std::int32_t los_failure_dfacet;
 
 
 //
@@ -7299,8 +7299,8 @@ SLONG los_failure_dfacet;
 // Be sure to call this function each time you change vectors.
 //
 
-SLONG los_done[4];
-SLONG los_wptr;
+std::int32_t los_done[4];
+std::int32_t los_wptr;
 
 void start_checking_against_a_new_vector()
 {
@@ -7318,35 +7318,35 @@ void start_checking_against_a_new_vector()
 
 struct
 {
-	SLONG x1;
-	SLONG my_y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t my_y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
 } save_stack;
 
-SLONG check_vector_against_mapsquare(
-			SLONG map_x,
-			SLONG map_z,
-			SLONG los_flags)
+std::int32_t check_vector_against_mapsquare(
+			std::int32_t map_x,
+			std::int32_t map_z,
+			std::int32_t los_flags)
 {
-	SLONG ix;
-	SLONG iy;
-	SLONG iz;
-	SLONG along;
-	SLONG f_list;
-	SLONG i_dfacet;
-	SLONG exit;
+	std::int32_t ix;
+	std::int32_t iy;
+	std::int32_t iz;
+	std::int32_t along;
+	std::int32_t f_list;
+	std::int32_t i_dfacet;
+	std::int32_t exit;
 
-	SLONG xmin;
-	SLONG xmax;
-	SLONG ymin;
-	SLONG ymax;
-	SLONG zmin;
-	SLONG zmax;
+	std::int32_t xmin;
+	std::int32_t xmax;
+	std::int32_t ymin;
+	std::int32_t ymax;
+	std::int32_t zmin;
+	std::int32_t zmax;
 
 	DFacet *df;
 	PAP_Lo *pl;
@@ -7355,10 +7355,10 @@ SLONG check_vector_against_mapsquare(
 
 	if (ControlFlag)
 	{	
-		SLONG mx1 = map_x + 0 << PAP_SHIFT_LO;
-		SLONG mz1 = map_z + 0 << PAP_SHIFT_LO;
-		SLONG mx2 = map_x + 1 << PAP_SHIFT_LO;
-		SLONG mz2 = map_z + 1 << PAP_SHIFT_LO;
+		std::int32_t mx1 = map_x + 0 << PAP_SHIFT_LO;
+		std::int32_t mz1 = map_z + 0 << PAP_SHIFT_LO;
+		std::int32_t mx2 = map_x + 1 << PAP_SHIFT_LO;
+		std::int32_t mz2 = map_z + 1 << PAP_SHIFT_LO;
 
 		AENG_world_line(
 			mx1, 0, mz1, 16, 0xffffffff,
@@ -7403,9 +7403,9 @@ SLONG check_vector_against_mapsquare(
 		return false;
 	}
 
-	SLONG dlx = save_stack.x2 - save_stack.x1;
-	SLONG dly = save_stack.y2 - save_stack.my_y1;
-	SLONG dlz = save_stack.z2 - save_stack.z1;
+	std::int32_t dlx = save_stack.x2 - save_stack.x1;
+	std::int32_t dly = save_stack.y2 - save_stack.my_y1;
+	std::int32_t dlz = save_stack.z2 - save_stack.z1;
 
 	exit = false;
 
@@ -7607,15 +7607,15 @@ SLONG check_vector_against_mapsquare(
 // Returns true if the given ray intersects any object on the mapsquare.
 //
 
-SLONG check_vector_against_mapsquare_objects(
-			SLONG map_x,
-			SLONG map_z,
-			SLONG include_cars)
+std::int32_t check_vector_against_mapsquare_objects(
+			std::int32_t map_x,
+			std::int32_t map_z,
+			std::int32_t include_cars)
 {
-	SLONG y;
-	SLONG dx;
-	SLONG dz;
-	SLONG along;
+	std::int32_t y;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t along;
 
 	{
 		OB_Info  *oi;
@@ -7672,7 +7672,7 @@ SLONG check_vector_against_mapsquare_objects(
 	//
 
 	{
-		SLONG  t_index;
+		std::int32_t  t_index;
 		Thing *p_thing;
 
 		t_index = PAP_2LO(map_x,map_z).MapWho;
@@ -7741,21 +7741,21 @@ SLONG check_vector_against_mapsquare_objects(
 // 'local' variables for there_is_a_los...
 //
 
-SLONG los_v_x;
-SLONG los_v_y;
-SLONG los_v_z;
+std::int32_t los_v_x;
+std::int32_t los_v_y;
+std::int32_t los_v_z;
 
-SLONG los_v_dx;
-SLONG los_v_dy;
-SLONG los_v_dz;
+std::int32_t los_v_dx;
+std::int32_t los_v_dy;
+std::int32_t los_v_dz;
 
-SLONG los_v_mx;
-SLONG los_v_mz;
+std::int32_t los_v_mx;
+std::int32_t los_v_mz;
 
-SLONG los_v_end_mx;
-SLONG los_v_end_mz;
+std::int32_t los_v_end_mx;
+std::int32_t los_v_end_mz;
 
-SLONG there_is_a_los_things(Thing *p_person_a,Thing *p_person_b,SLONG los_flags)
+std::int32_t there_is_a_los_things(Thing *p_person_a,Thing *p_person_b,std::int32_t los_flags)
 {
 	return(there_is_a_los(
 						(p_person_a->WorldPos.X >> 8),
@@ -7767,18 +7767,18 @@ SLONG there_is_a_los_things(Thing *p_person_a,Thing *p_person_b,SLONG los_flags)
 						los_flags));
 }
 
-SLONG there_is_a_los(
-				SLONG x1, SLONG my_y1, SLONG z1,
-				SLONG x2, SLONG y2, SLONG z2,
-				SLONG los_flags)
+std::int32_t there_is_a_los(
+				std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
+				std::int32_t x2, std::int32_t y2, std::int32_t z2,
+				std::int32_t los_flags)
 {
-	SLONG frac;
+	std::int32_t frac;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
 	#ifndef NDEBUG
-	SLONG count = 0;
+	std::int32_t count = 0;
 	#endif
 
 	save_stack.x1 = x1;
@@ -7793,7 +7793,7 @@ SLONG there_is_a_los(
 	los_v_dy = y2 - my_y1;
 	los_v_dz = z2 - z1;
 
-	los_failure_dfacet = nullptr;	// might help
+	los_failure_dfacet = 0;	// might help
 
 	if (abs(los_v_dx) + abs(los_v_dz) < 16)
 	{
@@ -7810,12 +7810,12 @@ SLONG there_is_a_los(
 
 	if (!(los_flags & LOS_FLAG_IGNORE_UNDERGROUND_CHECK))
 	{
-		SLONG i;
-		SLONG dist  = QDIST3(abs(los_v_dx),abs(los_v_dy),abs(los_v_dz));
-		SLONG steps = (dist >> 9) + 1;
-		SLONG cdx   = los_v_dx / steps;
-		SLONG cdy   = los_v_dy / steps;
-		SLONG cdz   = los_v_dz / steps;
+		std::int32_t i;
+		std::int32_t dist  = QDIST3(abs(los_v_dx),abs(los_v_dy),abs(los_v_dz));
+		std::int32_t steps = (dist >> 9) + 1;
+		std::int32_t cdx   = los_v_dx / steps;
+		std::int32_t cdy   = los_v_dy / steps;
+		std::int32_t cdz   = los_v_dz / steps;
 		
 		los_v_x = x1 + cdx;
 		los_v_y = my_y1 + cdy;
@@ -7828,7 +7828,7 @@ SLONG there_is_a_los(
 				los_failure_x      = los_v_x;
 				los_failure_y      = los_v_y;
 				los_failure_z      = los_v_z;
-				los_failure_dfacet = nullptr;
+				los_failure_dfacet = 0;
 
 				return false;
 			}
@@ -8085,47 +8085,47 @@ SLONG there_is_a_los(
 	}
 }
 
-UBYTE last_mav_square_x;
-UBYTE last_mav_square_z;
-SBYTE last_mav_dx;
-SBYTE last_mav_dz;
+std::uint8_t last_mav_square_x;
+std::uint8_t last_mav_square_z;
+std::int8_t last_mav_dx;
+std::int8_t last_mav_dz;
 
 
-SLONG there_is_a_los_mav(
-				SLONG x1, SLONG my_y1, SLONG z1,
-				SLONG x2, SLONG y2, SLONG z2)
+std::int32_t there_is_a_los_mav(
+				std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
+				std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG end_mx;
-	SLONG end_mz;
+	std::int32_t end_mx;
+	std::int32_t end_mz;
 
-	SLONG sdx;
-	SLONG sdz;
+	std::int32_t sdx;
+	std::int32_t sdz;
 
-	SLONG frac;
+	std::int32_t frac;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
 	MAV_Opt *mo;
 
 	#ifndef NDEBUG
-	SLONG count = 0;
+	std::int32_t count = 0;
 	#endif
 
 	dx = x2 - x1;
 	dz = z2 - z1;
 
-	SLONG adx = abs(dx);
-	SLONG adz = abs(dz);
+	std::int32_t adx = abs(dx);
+	std::int32_t adz = abs(dz);
 
 	//
 	// Clear old info.
@@ -8211,7 +8211,7 @@ SLONG there_is_a_los_mav(
 
 			if ((z >> PAP_SHIFT_HI) != mz)
 			{
-				SLONG direction;
+				std::int32_t direction;
 
 				//
 				// Step up/down in z through another mapsquare.
@@ -8232,8 +8232,8 @@ SLONG there_is_a_los_mav(
 
 				if(!(mo->opt[direction] & MAV_CAPS_GOTO)) 
 				{
-					SLONG	x1,z1,x2,z2;
-//					SLONG	y;
+					std::int32_t	x1,z1,x2,z2;
+//					std::int32_t	y;
 					x1=mx;
 					x2=mx+(dx>0)?1:-1;
 					if(direction==MAV_DIR_ZL)
@@ -8270,8 +8270,8 @@ SLONG there_is_a_los_mav(
 				}
 				if(!(mo->opt[MAV_DIR_XL] & MAV_CAPS_GOTO)) 
 				{
-					SLONG	x1,z1,x2,z2;
-//					SLONG	y;
+					std::int32_t	x1,z1,x2,z2;
+//					std::int32_t	y;
 					x1=mx+1;
 					x2=mx+1;
 					z1=mz; //>>PAP_SHIFT_HI;
@@ -8293,8 +8293,8 @@ SLONG there_is_a_los_mav(
 				}
 				if(!(mo->opt[MAV_DIR_XS] & MAV_CAPS_GOTO)) 
 				{
-					SLONG	x1,z1,x2,z2;
-//					SLONG	y;
+					std::int32_t	x1,z1,x2,z2;
+//					std::int32_t	y;
 					x1=mx;
 					x2=mx;
 					z1=mz;//>>PAP_SHIFT_HI;
@@ -8369,7 +8369,7 @@ SLONG there_is_a_los_mav(
 
 			if ((x >> PAP_SHIFT_HI) != mx)
 			{
-				SLONG	direction;
+				std::int32_t	direction;
 				//
 				// Step up/down in z through another mapsquare.
 				//
@@ -8392,8 +8392,8 @@ SLONG there_is_a_los_mav(
 
 				if(!(mo->opt[direction] & MAV_CAPS_GOTO)) 
 				{
-					SLONG	x1,z1,x2,z2;
-//					SLONG	y;
+					std::int32_t	x1,z1,x2,z2;
+//					std::int32_t	y;
 					if(direction=MAV_DIR_XL)
 					{
 						x1=mx+1;
@@ -8434,8 +8434,8 @@ SLONG there_is_a_los_mav(
 				}
 				if(!(mo->opt[MAV_DIR_ZL] & MAV_CAPS_GOTO)) 
 				{
-					SLONG	x1,z1,x2,z2;
-//					SLONG y;
+					std::int32_t	x1,z1,x2,z2;
+//					std::int32_t y;
 
 					x1=mx;
 					x2=mx+1;
@@ -8458,8 +8458,8 @@ SLONG there_is_a_los_mav(
 				}
 				if(!(mo->opt[MAV_DIR_ZS] & MAV_CAPS_GOTO)) 
 				{
-					SLONG	x1,z1,x2,z2;
-//					SLONG	y;
+					std::int32_t	x1,z1,x2,z2;
+//					std::int32_t	y;
 
 					x1=mx;
 					x2=mx+1;
@@ -8482,39 +8482,39 @@ SLONG there_is_a_los_mav(
 //
 // cut-and-pasted in true Mucky Foot style!
 
-SLONG there_is_a_los_car(
-				SLONG x1, SLONG my_y1, SLONG z1,
-				SLONG x2, SLONG y2, SLONG z2)
+std::int32_t there_is_a_los_car(
+				std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
+				std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG end_mx;
-	SLONG end_mz;
+	std::int32_t end_mx;
+	std::int32_t end_mz;
 
-	SLONG sdx;
-	SLONG sdz;
+	std::int32_t sdx;
+	std::int32_t sdz;
 
-	SLONG frac;
+	std::int32_t frac;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
 	#ifndef NDEBUG
-	SLONG count = 0;
+	std::int32_t count = 0;
 	#endif
 
 	dx = x2 - x1;
 	dz = z2 - z1;
 
-	SLONG adx = abs(dx);
-	SLONG adz = abs(dz);
+	std::int32_t adx = abs(dx);
+	std::int32_t adz = abs(dz);
 
 	//
 	// Clear old info.
@@ -8595,7 +8595,7 @@ SLONG there_is_a_los_car(
 
 			if ((z >> PAP_SHIFT_HI) != mz)
 			{
-				SLONG direction;
+				std::int32_t direction;
 
 				//
 				// Step up/down in z through another mapsquare.
@@ -8723,7 +8723,7 @@ SLONG there_is_a_los_car(
 
 			if ((x >> PAP_SHIFT_HI) != mx)
 			{
-				SLONG	direction;
+				std::int32_t	direction;
 				//
 				// Step up/down in z through another mapsquare.
 				//
@@ -8806,52 +8806,52 @@ SLONG there_is_a_los_car(
 /*
 
 
-SLONG there_is_a_los(
-				SLONG x1, SLONG my_y1, SLONG z1,
-				SLONG x2, SLONG y2, SLONG z2)
+std::int32_t there_is_a_los(
+				std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
+				std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG last_mx;
-	SLONG last_mz;
+	std::int32_t last_mx;
+	std::int32_t last_mz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dlx;
-	SLONG dly;
-	SLONG dlz;
+	std::int32_t dlx;
+	std::int32_t dly;
+	std::int32_t dlz;
 
-	SLONG sdlx;
-	SLONG sdlz;
+	std::int32_t sdlx;
+	std::int32_t sdlz;
 
-	SLONG y_bot;
-	SLONG y_top;
+	std::int32_t y_bot;
+	std::int32_t y_top;
 
-	SLONG len;
-	SLONG overlen;
-	SLONG frac;
+	std::int32_t len;
+	std::int32_t overlen;
+	std::int32_t frac;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
-	SLONG last[2] = {0,0};
+	std::int32_t last[2] = {0,0};
 
 	struct	DFacet *p_facet;
 
-	SLONG ix;
-	SLONG iy;
-	SLONG iz;
+	std::int32_t ix;
+	std::int32_t iy;
+	std::int32_t iz;
 
-	SLONG along;
+	std::int32_t along;
 
 	los_failure_x = x1;
 	los_failure_y = my_y1;
@@ -8887,7 +8887,7 @@ SLONG there_is_a_los(
 			break;
 		}
 
-		SLONG exit = 0;
+		std::int32_t exit = 0;
 
 		last_mx = mx;
 		last_mz = mz;
@@ -8931,7 +8931,7 @@ SLONG there_is_a_los(
 
 				if (collision_storey(p_facet->FacetType))
 				{
-					SLONG vect_y;
+					std::int32_t vect_y;
 
 					//
 					// Is the 'y' component in range?
@@ -9066,60 +9066,60 @@ SLONG there_is_a_los(
 */
 
 #ifdef	DOG_POO
-SLONG collide_box(
-		SLONG midx,
-		SLONG midy,
-		SLONG midz,
-		SLONG minx, SLONG minz,
-		SLONG maxx, SLONG maxz,
-		SLONG yaw)
+std::int32_t collide_box(
+		std::int32_t midx,
+		std::int32_t midy,
+		std::int32_t midz,
+		std::int32_t minx, std::int32_t minz,
+		std::int32_t maxx, std::int32_t maxz,
+		std::int32_t yaw)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG x1, x2;
-	SLONG z1, z2;
+	std::int32_t x1, x2;
+	std::int32_t z1, z2;
 
-	SLONG useangle;
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t useangle;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
-	SLONG matrix[4];
+	std::int32_t matrix[4];
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
 	CollisionVect *p_vect;
 
-	SLONG tx1;
-	SLONG tz1;
-	SLONG tx2;
-	SLONG tz2;
+	std::int32_t tx1;
+	std::int32_t tz1;
+	std::int32_t tx2;
+	std::int32_t tz2;
 
-	SLONG rx1;
-	SLONG rz1;
-	SLONG rx2;
-	SLONG rz2;
+	std::int32_t rx1;
+	std::int32_t rz1;
+	std::int32_t rx2;
+	std::int32_t rz2;
 
-//	SLONG dx;
-//	SLONG dy;
-//	SLONG dz;
+//	std::int32_t dx;
+//	std::int32_t dy;
+//	std::int32_t dz;
 
-	SLONG vx;
-	SLONG vz;
-	SLONG px;
-	SLONG pz;
+	std::int32_t vx;
+	std::int32_t vz;
+	std::int32_t px;
+	std::int32_t pz;
 
-//	SLONG cprod;
-	SLONG side;
+//	std::int32_t cprod;
+	std::int32_t side;
 
-	SLONG y_bot;
-	SLONG y_top;
+	std::int32_t y_bot;
+	std::int32_t y_top;
 
-	UBYTE flag1;
-	UBYTE flag2;
-	UBYTE flag_and;
-//	UBYTE flag_or;
+	std::uint8_t flag1;
+	std::uint8_t flag2;
+	std::uint8_t flag_and;
+//	std::uint8_t flag_or;
 
 	//
 	// The rotation matrix 
@@ -9323,20 +9323,20 @@ SLONG collide_box(
 	return false;
 }
 #endif
-SLONG slide_around_circle(
-		SLONG cx,
-		SLONG cz,
-		SLONG cradius,
+std::int32_t slide_around_circle(
+		std::int32_t cx,
+		std::int32_t cz,
+		std::int32_t cradius,
 
-		SLONG  x1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
 	dx = *x2 - cx;
 	dz = *z2 - cz;
@@ -9377,18 +9377,18 @@ SLONG slide_around_circle(
 
 	return false;
 }
-SLONG collide_with_circle(
-		SLONG cx,
-		SLONG cz,
-		SLONG cradius,
+std::int32_t collide_with_circle(
+		std::int32_t cx,
+		std::int32_t cz,
+		std::int32_t cradius,
 
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
 	dx = *x2 - cx;
 	dz = *z2 - cz;
@@ -9405,15 +9405,15 @@ SLONG collide_with_circle(
 }
 
 
-SLONG in_my_fov(
-		SLONG me_x,  SLONG me_z,
-		SLONG him_x, SLONG him_z,
-		SLONG lookx,
-		SLONG lookz)
+std::int32_t in_my_fov(
+		std::int32_t me_x,  std::int32_t me_z,
+		std::int32_t him_x, std::int32_t him_z,
+		std::int32_t lookx,
+		std::int32_t lookz)
 {
-	SLONG dx    = him_x - me_x;
-	SLONG dz    = him_z - me_z;
-	SLONG dprod = dx*lookx + dz*lookz;
+	std::int32_t dx    = him_x - me_x;
+	std::int32_t dz    = him_z - me_z;
+	std::int32_t dprod = dx*lookx + dz*lookz;
 
 	if (dprod > 0)
 	{
@@ -9439,27 +9439,27 @@ THING_INDEX nearby[MAX_NEARBY_PEOPLE];
 
 THING_INDEX find_nearby_person(
 				THING_INDEX me,
-				UWORD       person_type_bits,
-				SLONG       max_range)
+				std::uint16_t       person_type_bits,
+				std::int32_t       max_range)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG look_x;
-	SLONG look_z;
+	std::int32_t look_x;
+	std::int32_t look_z;
 
-	SLONG       best_dist;
+	std::int32_t       best_dist;
 	THING_INDEX best_thing;
 
 	Thing *p_me = TO_THING(me);
 	Thing *p_near;
 
-	SLONG       nearby_upto;
+	std::int32_t       nearby_upto;
 
 	nearby_upto = THING_find_sphere(
 					    p_me->WorldPos.X >> 8,
@@ -9547,32 +9547,32 @@ THING_INDEX find_nearby_person(
 }
 #endif
 /*
-SLONG find_intersected_colvect(
-			SLONG x1, SLONG z1,
-			SLONG x2, SLONG z2,
-			SLONG y)
+std::int32_t find_intersected_colvect(
+			std::int32_t x1, std::int32_t z1,
+			std::int32_t x2, std::int32_t z2,
+			std::int32_t y)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG y_bot;
-	SLONG y_top;
+	std::int32_t y_bot;
+	std::int32_t y_top;
 	
-	SLONG index;
-	SLONG score;
-	SLONG best_ans;
-	SLONG best_score;
+	std::int32_t index;
+	std::int32_t score;
+	std::int32_t best_ans;
+	std::int32_t best_score;
 
-	SLONG v_list;
-	SLONG i_vect;
+	std::int32_t v_list;
+	std::int32_t i_vect;
 
 	CollisionVect *p_vect;
 	
-	SLONG mx1 = MIN(x1, x2) - PUSH_OUT_A_BIT >> 8;
-	SLONG mz1 = MIN(z2, z2) - PUSH_OUT_A_BIT >> 8;
+	std::int32_t mx1 = MIN(x1, x2) - PUSH_OUT_A_BIT >> 8;
+	std::int32_t mz1 = MIN(z2, z2) - PUSH_OUT_A_BIT >> 8;
 
-	SLONG mx2 = MAX(x1, x2) + PUSH_OUT_A_BIT >> 8;
-	SLONG mz2 = MAX(z1, z2) + PUSH_OUT_A_BIT >> 8;
+	std::int32_t mx2 = MAX(x1, x2) + PUSH_OUT_A_BIT >> 8;
+	std::int32_t mz2 = MAX(z1, z2) + PUSH_OUT_A_BIT >> 8;
 
 	SATURATE(mx1, 0, MAP_WIDTH  - 1);
 	SATURATE(mz1, 0, MAP_HEIGHT - 1);
@@ -9650,10 +9650,10 @@ SLONG find_intersected_colvect(
 */
 
 
-SLONG calc_map_height_at(SLONG x, SLONG z)
+std::int32_t calc_map_height_at(std::int32_t x, std::int32_t z)
 {
-	SLONG mx = x >> 8;
-	SLONG mz = z >> 8;
+	std::int32_t mx = x >> 8;
+	std::int32_t mz = z >> 8;
 
 	if (!WITHIN(mx, 0, MAP_WIDTH  - 1) ||
 		!WITHIN(mz, 0, MAP_HEIGHT - 1))
@@ -9679,26 +9679,26 @@ SLONG calc_map_height_at(SLONG x, SLONG z)
 //
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG collide_against_sausage(
-		SLONG sx1, SLONG sz1,
-		SLONG sx2, SLONG sz2,
-		SLONG swidth,
+std::int32_t collide_against_sausage(
+		std::int32_t sx1, std::int32_t sz1,
+		std::int32_t sx2, std::int32_t sz2,
+		std::int32_t swidth,
 
-		SLONG vx1, SLONG vz1,
-		SLONG vx2, SLONG vz2,
+		std::int32_t vx1, std::int32_t vz1,
+		std::int32_t vx2, std::int32_t vz2,
 
-		SLONG *slide_x,
-		SLONG *slide_z)
+		std::int32_t *slide_x,
+		std::int32_t *slide_z)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	if (sx1 > sx2) {SWAP(sx1, sx2);}
 	if (sz1 > sz2) {SWAP(sz1, sz2);}
 
-	SLONG dsx = sx2 - sx1;
-	SLONG dsz = sz2 - sz1;
+	std::int32_t dsx = sx2 - sx1;
+	std::int32_t dsz = sz2 - sz1;
 
 	//
 	// This function only works with orthogonal walls.
@@ -9849,27 +9849,27 @@ SLONG collide_against_sausage(
 
 #ifndef	PSX
 #ifndef TARGET_DC
-SLONG slide_around_sausage(
-		SLONG sx1,
-		SLONG sz1,
-		SLONG sx2,
-		SLONG sz2,
-		SLONG sradius,
+std::int32_t slide_around_sausage(
+		std::int32_t sx1,
+		std::int32_t sz1,
+		std::int32_t sx2,
+		std::int32_t sz2,
+		std::int32_t sradius,
 
-		SLONG  x1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG dist;
-	SLONG vec_x;
-	SLONG vec_z;
-	SLONG on;
-	SLONG len;
-	SLONG overlen;
+	std::int32_t dist;
+	std::int32_t vec_x;
+	std::int32_t vec_z;
+	std::int32_t on;
+	std::int32_t len;
+	std::int32_t overlen;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	//
 	// for !on normal is vector from end point to destination
@@ -9925,18 +9925,18 @@ SLONG slide_around_sausage(
 // there should be a collision vect along the join.
 //
 
-SLONG stop_movement_between(
-		SLONG mx1,
-		SLONG mz1,
-		SLONG mx2,
-		SLONG mz2)
+std::int32_t stop_movement_between(
+		std::int32_t mx1,
+		std::int32_t mz1,
+		std::int32_t mx2,
+		std::int32_t mz2)
 {
 /*
-	SLONG midx1 = (mx1 << 8) + 0x80;
-	SLONG midz1 = (mz1 << 8) + 0x80;
+	std::int32_t midx1 = (mx1 << 8) + 0x80;
+	std::int32_t midz1 = (mz1 << 8) + 0x80;
 
-	SLONG midx2 = (mx2 << 8) + 0x80;
-	SLONG midz2 = (mz2 << 8) + 0x80;
+	std::int32_t midx2 = (mx2 << 8) + 0x80;
+	std::int32_t midz2 = (mz2 << 8) + 0x80;
 
 	ASSERT(WITHIN(mx1, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(mz1, 0, PAP_SIZE_HI - 1));
@@ -9944,13 +9944,13 @@ SLONG stop_movement_between(
 	ASSERT(WITHIN(mx2, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(mz2, 0, PAP_SIZE_HI - 1));
 
-	SLONG height1 = PAP_calc_height_at(midx1, midz1);
-	SLONG height2 = PAP_calc_height_at(midx2, midz2);
+	std::int32_t height1 = PAP_calc_height_at(midx1, midz1);
+	std::int32_t height2 = PAP_calc_height_at(midx2, midz2);
 */
 	PAP_Hi *ph1 = &PAP_2HI(mx1,mz1);
 	PAP_Hi *ph2 = &PAP_2HI(mx2,mz2);
 
-	SLONG normal = true;
+	std::int32_t normal = true;
 
 	if ((ph1->Flags & (PAP_FLAG_WATER | PAP_FLAG_HIDDEN)) ||
 		(ph2->Flags & (PAP_FLAG_WATER | PAP_FLAG_HIDDEN)))
@@ -10007,22 +10007,22 @@ SLONG stop_movement_between(
 #ifndef PSX
 #ifndef TARGET_DC
 void create_just_collision_facet(
-		SLONG x1,
-		SLONG z1,
-		SLONG x2,
-		SLONG z2)
+		std::int32_t x1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t z2)
 {
-	SLONG dx = x2 - x1;
-	SLONG dz = z2 - z1;
+	std::int32_t dx = x2 - x1;
+	std::int32_t dz = z2 - z1;
 
-	SLONG hx1 = x1 + SIGN(dx) + SIGN(dz);
-	SLONG hz1 = z1 + SIGN(dz) - SIGN(dx);
+	std::int32_t hx1 = x1 + SIGN(dx) + SIGN(dz);
+	std::int32_t hz1 = z1 + SIGN(dz) - SIGN(dx);
 	      
-	SLONG hx2 = x2 - SIGN(dx) + SIGN(dz);
-	SLONG hz2 = z2 - SIGN(dz) - SIGN(dx);
+	std::int32_t hx2 = x2 - SIGN(dx) + SIGN(dz);
+	std::int32_t hz2 = z2 - SIGN(dz) - SIGN(dx);
 
-	SLONG my_y1 = PAP_calc_height_at(hx1, hz1);
-	SLONG y2 = PAP_calc_height_at(hx2, hz2);
+	std::int32_t my_y1 = PAP_calc_height_at(hx1, hz1);
+	std::int32_t y2 = PAP_calc_height_at(hx2, hz2);
 
 	if (next_dfacet >= MAX_DFACETS)
 	{
@@ -10033,7 +10033,7 @@ void create_just_collision_facet(
 		return;
 	}
 
-	SLONG dfacet = next_dfacet++;
+	std::int32_t dfacet = next_dfacet++;
 
 	DFacet *df = &dfacets[dfacet];
 	
@@ -10070,17 +10070,17 @@ void create_just_collision_facet(
 
 void insert_collision_facets()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG fx1;
-	SLONG fz1;
+	std::int32_t fx1;
+	std::int32_t fz1;
 
-	SLONG fx2;
-	SLONG fz2;
+	std::int32_t fx2;
+	std::int32_t fz2;
 
-	SLONG fstart;
-	SLONG blocked;
+	std::int32_t fstart;
+	std::int32_t blocked;
 
 	//
 	// Lines of constant x.
@@ -10291,60 +10291,60 @@ void insert_collision_facets()
 //
 // should be locals but stack overflow
 //
-SLONG tried;
-SLONG used_this_go;
-SLONG failed;
+std::int32_t tried;
+std::int32_t used_this_go;
+std::int32_t failed;
 
-SLONG slide_around_box(
-		SLONG box_mid_x,
-		SLONG box_mid_z,
-		SLONG box_min_x,
-		SLONG box_min_z,
-		SLONG box_max_x,
-		SLONG box_max_z,
-		SLONG box_yaw,
-		SLONG radius,
+std::int32_t slide_around_box(
+		std::int32_t box_mid_x,
+		std::int32_t box_mid_z,
+		std::int32_t box_min_x,
+		std::int32_t box_min_z,
+		std::int32_t box_max_x,
+		std::int32_t box_max_z,
+		std::int32_t box_yaw,
+		std::int32_t radius,
 
-		SLONG  x1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG tx1;
-	SLONG tz1;
-	SLONG tx2;
-	SLONG tz2;
+	std::int32_t tx1;
+	std::int32_t tz1;
+	std::int32_t tx2;
+	std::int32_t tz2;
 
-	SLONG rx1;
-	SLONG rz1;
-	SLONG rx2;
-	SLONG rz2;
+	std::int32_t rx1;
+	std::int32_t rz1;
+	std::int32_t rx2;
+	std::int32_t rz2;
 
-	SLONG dminx;
-	SLONG dminz;
-	SLONG dmaxx;
-	SLONG dmaxz;
+	std::int32_t dminx;
+	std::int32_t dminz;
+	std::int32_t dmaxx;
+	std::int32_t dmaxz;
 
-	SLONG minx;
-	SLONG minz;
+	std::int32_t minx;
+	std::int32_t minz;
           
-	SLONG maxx;
-	SLONG maxz;
+	std::int32_t maxx;
+	std::int32_t maxz;
 
-	SLONG best;
-	SLONG best_x;
-	SLONG best_z;
+	std::int32_t best;
+	std::int32_t best_x;
+	std::int32_t best_z;
 
 	tried=0;
 	used_this_go=0;
 	failed=1;
 
 #ifndef PSX
-	SLONG matrix[4];
-	SLONG useangle;
+	std::int32_t matrix[4];
+	std::int32_t useangle;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
 	useangle  = -box_yaw;
 	useangle &=  2047;
@@ -10373,7 +10373,7 @@ SLONG slide_around_box(
 	rx2 = MUL64(tx2, matrix[0]) + MUL64(tz2, matrix[1]);
 	rz2 = MUL64(tx2, matrix[2]) + MUL64(tz2, matrix[3]);
 #else
-	SLONG useangle;
+	std::int32_t useangle;
 
 	useangle  = -box_yaw;
 	useangle &=  2047;
@@ -10508,52 +10508,52 @@ SLONG slide_around_box(
 	return true;
 }
 
-inline SLONG slide_around_box_lowstack(
-		SLONG box_mid_x,
-		SLONG box_mid_z,
-		SLONG box_min_x,
-		SLONG box_min_z,
-		SLONG box_max_x,
-		SLONG box_max_z,
-		SLONG box_yaw,
-		SLONG radius,
+inline std::int32_t slide_around_box_lowstack(
+		std::int32_t box_mid_x,
+		std::int32_t box_mid_z,
+		std::int32_t box_min_x,
+		std::int32_t box_min_z,
+		std::int32_t box_max_x,
+		std::int32_t box_max_z,
+		std::int32_t box_yaw,
+		std::int32_t radius,
 
-		SLONG  x1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG tx1;
-	SLONG tz1;
-	SLONG tx2;
-	SLONG tz2;
+	std::int32_t tx1;
+	std::int32_t tz1;
+	std::int32_t tx2;
+	std::int32_t tz2;
 
-	SLONG rx1;
-	SLONG rz1;
-	SLONG rx2;
-	SLONG rz2;
+	std::int32_t rx1;
+	std::int32_t rz1;
+	std::int32_t rx2;
+	std::int32_t rz2;
 
-	SLONG dminx;
-	SLONG dminz;
-	SLONG dmaxx;
-	SLONG dmaxz;
+	std::int32_t dminx;
+	std::int32_t dminz;
+	std::int32_t dmaxx;
+	std::int32_t dmaxz;
 
-	SLONG minx;
-	SLONG minz;
+	std::int32_t minx;
+	std::int32_t minz;
           
-	SLONG maxx;
-	SLONG maxz;
+	std::int32_t maxx;
+	std::int32_t maxz;
 
-	SLONG best;
-	SLONG best_x;
-	SLONG best_z;
+	std::int32_t best;
+	std::int32_t best_x;
+	std::int32_t best_z;
 
 #ifndef PSX
-	SLONG matrix[4];
-	SLONG useangle;
+	std::int32_t matrix[4];
+	std::int32_t useangle;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
 	useangle  = -box_yaw;
 	useangle &=  2047;
@@ -10582,7 +10582,7 @@ inline SLONG slide_around_box_lowstack(
 	rx2 = MUL64(tx2, matrix[0]) + MUL64(tz2, matrix[1]);
 	rz2 = MUL64(tx2, matrix[2]) + MUL64(tz2, matrix[3]);
 #else
-	SLONG useangle;
+	std::int32_t useangle;
 
 	useangle  = -box_yaw;
 	useangle &=  2047;
@@ -10681,35 +10681,35 @@ inline SLONG slide_around_box_lowstack(
 	return true;
 }
 
-SLONG collide_box_with_line(
-		SLONG midx,
-		SLONG midz,
-		SLONG minx, SLONG minz,
-		SLONG maxx, SLONG maxz,
-		SLONG yaw,
-		SLONG lx1,
-		SLONG lz1,
-		SLONG lx2,
-		SLONG lz2)
+std::int32_t collide_box_with_line(
+		std::int32_t midx,
+		std::int32_t midz,
+		std::int32_t minx, std::int32_t minz,
+		std::int32_t maxx, std::int32_t maxz,
+		std::int32_t yaw,
+		std::int32_t lx1,
+		std::int32_t lz1,
+		std::int32_t lx2,
+		std::int32_t lz2)
 {
-	SLONG tx1;
-	SLONG tz1;
-	SLONG tx2;
-	SLONG tz2;
+	std::int32_t tx1;
+	std::int32_t tz1;
+	std::int32_t tx2;
+	std::int32_t tz2;
 
-	SLONG rx1;
-	SLONG rz1;
-	SLONG rx2;
-	SLONG rz2;
+	std::int32_t rx1;
+	std::int32_t rz1;
+	std::int32_t rx2;
+	std::int32_t rz2;
 
-	SLONG ix;
-	SLONG iz;
+	std::int32_t ix;
+	std::int32_t iz;
 
-	SLONG matrix[4];
-	SLONG useangle;
+	std::int32_t matrix[4];
+	std::int32_t useangle;
 
-	SLONG sin_yaw;
-	SLONG cos_yaw;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
 
 	useangle  = -yaw;
 	useangle &=  2047;
@@ -10743,8 +10743,8 @@ SLONG collide_box_with_line(
 	#define COL_CLIP_ZS (1 << 2)
 	#define COL_CLIP_ZL (1 << 3)
 
-	UBYTE clip1 = 0;
-	UBYTE clip2 = 0;
+	std::uint8_t clip1 = 0;
+	std::uint8_t clip2 = 0;
 
 	if (rx1 < minx) {clip1 |= COL_CLIP_XS;}
 	if (rx1 > maxx) {clip1 |= COL_CLIP_XL;}
@@ -10774,7 +10774,7 @@ SLONG collide_box_with_line(
 		return true;
 	}
 
-	UBYTE clip_and = clip1 & clip2;
+	std::uint8_t clip_and = clip1 & clip2;
 
 	if (clip_and)
 	{
@@ -10789,7 +10789,7 @@ SLONG collide_box_with_line(
 	// We are going to have to arse around.
 	//
 
-	UBYTE clip_xor = clip1 ^ clip2;
+	std::uint8_t clip_xor = clip1 ^ clip2;
 
 	if (clip_xor & COL_CLIP_XS)
 	{
@@ -10840,27 +10840,27 @@ SLONG collide_box_with_line(
 
 
 void create_shockwave(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		SLONG  radius,
-		SLONG  maxdamage,
-		Thing *p_aggressor,ULONG just_people)
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::int32_t  radius,
+		std::int32_t  maxdamage,
+		Thing *p_aggressor,std::uint32_t just_people)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG hitpoints;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t hitpoints;
 
 	#define SHOCKWAVE_FIND 16
 
-	UWORD found[SHOCKWAVE_FIND];
-	SLONG num;
+	std::uint16_t found[SHOCKWAVE_FIND];
+	std::int32_t num;
 
 	Thing *p_found;
-	ULONG	classes;
+	std::uint32_t	classes;
 
 	//
 	// Shake the camera.
@@ -10897,7 +10897,7 @@ void create_shockwave(
 
 		dist = QDIST3(dx,dy,dz);
 
-		extern SLONG is_person_ko(Thing *p_person);
+		extern std::int32_t is_person_ko(Thing *p_person);
 
 		{
 			if (p_found->Class == CLASS_PERSON && !is_person_ko(p_found))
@@ -10992,7 +10992,7 @@ void create_shockwave(
 				extern void VEH_reduce_health(
 								Thing *p_car,
 								Thing *p_person,
-								SLONG  damage);
+								std::int32_t  damage);
 
 				VEH_reduce_health(
 					p_found,
@@ -11043,18 +11043,18 @@ void create_shockwave(
 	//
 	if(!just_people)
 	{
-		UBYTE mx;
-		UBYTE mz;
+		std::uint8_t mx;
+		std::uint8_t mz;
 
-		SWORD mx1;
-		SWORD mz1;
-		SWORD mx2;
-		SWORD mz2;
+		std::int16_t mx1;
+		std::int16_t mz1;
+		std::int16_t mx2;
+		std::int16_t mz2;
 
-		SLONG dx;
-		SLONG dy;
-		SLONG dz;
-		SLONG dist;
+		std::int32_t dx;
+		std::int32_t dy;
+		std::int32_t dz;
+		std::int32_t dist;
 
 		OB_Info *oi;
 
@@ -11117,7 +11117,7 @@ void create_shockwave(
 
 void COLLIDE_find_seethrough_fences()
 {
-	SLONG i;
+	std::int32_t i;
 
 	DFacet *df;
 
@@ -11174,16 +11174,16 @@ void COLLIDE_calc_fastnav_bits()
 	// as not being fastnav squares.
 	//
 
-	SLONG i;
-	SLONG j;
-	SLONG k;
-	SLONG x;
-	SLONG z;
-	SLONG dx;
-	SLONG dz;
-	SLONG mx;
-	SLONG mz;
-	SLONG len;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t len;
 
 	DFacet *df;
 
@@ -11244,7 +11244,7 @@ void COLLIDE_calc_fastnav_bits()
 // Returns true if you can fastnav in the given square.
 //
 
-SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z)
+std::int32_t COLLIDE_can_i_fastnav(std::int32_t x, std::int32_t z)
 {
 	if (!WITHIN(x, 0, PAP_SIZE_HI - 1) ||
 		!WITHIN(z, 0, PAP_SIZE_HI - 1))
@@ -11252,9 +11252,9 @@ SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z)
 		return true;
 	}
 
-	SLONG byte = z >> 3;
-	SLONG bit  = 1 << (z & 0x7);
-	SLONG ans  = COLLIDE_fastnav[x][byte] & bit;
+	std::int32_t byte = z >> 3;
+	std::int32_t bit  = 1 << (z & 0x7);
+	std::int32_t ans  = COLLIDE_fastnav[x][byte] & bit;
 
 	return ans;
 }
@@ -11265,20 +11265,20 @@ SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z)
 #ifndef TARGET_DC
 
 void COLLIDE_debug_fastnav(
-		SLONG world_x,		// 8-bits per mapsquare.
-		SLONG world_z)
+		std::int32_t world_x,		// 8-bits per mapsquare.
+		std::int32_t world_z)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG cx;
-	SLONG cy;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cy;
+	std::int32_t cz;
 
-	SLONG mx1 = world_x - 0x800 >> 8;
-	SLONG mz1 = world_z - 0x800 >> 8;
-	SLONG mx2 = world_x + 0x800 >> 8;
-	SLONG mz2 = world_z + 0x800 >> 8;
+	std::int32_t mx1 = world_x - 0x800 >> 8;
+	std::int32_t mz1 = world_z - 0x800 >> 8;
+	std::int32_t mx2 = world_x + 0x800 >> 8;
+	std::int32_t mz2 = world_z + 0x800 >> 8;
 
 	SATURATE(mx1, 0, PAP_SIZE_HI - 1);
 	SATURATE(mz1, 0, PAP_SIZE_HI - 1);
@@ -11335,49 +11335,49 @@ void COLLIDE_debug_fastnav(
 
 #ifndef TARGET_DC
 void box_box_early_out(
-		SLONG box1_mid_x,
-		SLONG box1_mid_z,
-		SLONG box1_min_x,
-		SLONG box1_min_z,
-		SLONG box1_max_x,
-		SLONG box1_max_z,
-		SLONG box1_yaw,
-		SLONG box2_mid_x,
-		SLONG box2_mid_z,
-		SLONG box2_min_x,
-		SLONG box2_min_z,
-		SLONG box2_max_x,
-		SLONG box2_max_z,
-		SLONG box2_yaw)
+		std::int32_t box1_mid_x,
+		std::int32_t box1_mid_z,
+		std::int32_t box1_min_x,
+		std::int32_t box1_min_z,
+		std::int32_t box1_max_x,
+		std::int32_t box1_max_z,
+		std::int32_t box1_yaw,
+		std::int32_t box2_mid_x,
+		std::int32_t box2_mid_z,
+		std::int32_t box2_min_x,
+		std::int32_t box2_min_z,
+		std::int32_t box2_max_x,
+		std::int32_t box2_max_z,
+		std::int32_t box2_yaw)
 {
 }
 #endif
 
 void box_circle_early_out(
-		SLONG box1_mid_x,
-		SLONG box1_mid_z,
-		SLONG box1_min_x,
-		SLONG box1_min_z,
-		SLONG box1_max_x,
-		SLONG box1_max_z,
-		SLONG box1_yaw,
-		SLONG cx,
-		SLONG cz,
-		SLONG cradius);
+		std::int32_t box1_mid_x,
+		std::int32_t box1_mid_z,
+		std::int32_t box1_min_x,
+		std::int32_t box1_min_z,
+		std::int32_t box1_max_x,
+		std::int32_t box1_max_z,
+		std::int32_t box1_yaw,
+		std::int32_t cx,
+		std::int32_t cz,
+		std::int32_t cradius);
 
 //
 // returns if a fence has a hole and also its along position from 1 to 255  
 //
 
 #ifdef	UNUSED_WIRECUTTERS
-UWORD next_cut_hole=0;
-UBYTE hole_pos[8];
+std::uint16_t next_cut_hole=0;
+std::uint8_t hole_pos[8];
 
-SLONG get_fence_hole(struct DFacet *p_facet)
+std::int32_t get_fence_hole(struct DFacet *p_facet)
 {
-	SLONG	c0;
-	UWORD	flags;
-	SLONG	best=999;
+	std::int32_t	c0;
+	std::uint16_t	flags;
+	std::int32_t	best=999;
 
 	if((flags=p_facet->CutHole)==0)
 		return(0);
@@ -11396,11 +11396,11 @@ SLONG get_fence_hole(struct DFacet *p_facet)
 	return(0);
 }
 
-SLONG get_fence_hole_next(struct DFacet *p_facet,SLONG along)
+std::int32_t get_fence_hole_next(struct DFacet *p_facet,std::int32_t along)
 {
-	SLONG	c0;
-	UWORD	flags;
-	SLONG	best=999;
+	std::int32_t	c0;
+	std::uint16_t	flags;
+	std::int32_t	best=999;
 
 	if((flags=p_facet->CutHole)==0)
 		return(0);
@@ -11421,7 +11421,7 @@ SLONG get_fence_hole_next(struct DFacet *p_facet,SLONG along)
 	return(0);
 }
 
-void set_fence_hole(struct DFacet *p_facet,SLONG pos)
+void set_fence_hole(struct DFacet *p_facet,std::int32_t pos)
 {
 	if(next_cut_hole<8)
 	{

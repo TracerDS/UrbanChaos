@@ -18,10 +18,10 @@
 
 #define	CLIP256(x)		(x>255?255:x)
 
-extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
 
-UBYTE					palette[768];
-ULONG					game_flags;
+std::uint8_t					palette[768];
+std::uint32_t					game_flags;
 
 void	handle_game_control();
 void	handle_character_controls();
@@ -41,8 +41,8 @@ extern void	setup_game();
 #ifdef	POO
 void	game()
 {
-	UWORD					map_chap;
-	SLONG					c0,c1,
+	std::uint16_t					map_chap;
+	std::int32_t					c0,c1,
 							test_x;
 	struct KeyFrameElement	*the_element,
 							*the_next_element;
@@ -219,7 +219,7 @@ void	game()
 			}
 		}
 
-extern SLONG	count;
+extern std::int32_t	count;
 		if(LastKey==KB_R)
 		{
 			game_flags	|=	GAME_RECORD;
@@ -248,7 +248,7 @@ extern SLONG	count;
 				set_game_camera(t_thing);
 //				set_camera();
 				draw_editor_map(1);
-extern void	draw_map_thing(SLONG	map_thing);
+extern void	draw_map_thing(std::int32_t	map_thing);
 				draw_map_thing(map_chap);
 extern void	interface_thing();
 //poo				interface_thing();
@@ -258,7 +258,7 @@ extern void	interface_thing();
 			ShowWorkScreen(DS_WAIT_VBI);
 			if(game_flags&GAME_RECORD)
 			{
-extern void do_record_frame(UBYTE *screen,UBYTE *palette);
+extern void do_record_frame(std::uint8_t *screen,std::uint8_t *palette);
 				if(LockWorkScreen())
 				{
 					do_record_frame(WorkScreen,CurrentPalette);

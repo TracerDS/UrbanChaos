@@ -22,9 +22,9 @@
 typedef struct
 {
 	void       *data;
-	SLONG       key;
-	UWORD       num_bytes;
-	UBYTE       flag;
+	std::int32_t       key;
+	std::uint16_t       num_bytes;
+	std::uint8_t       flag;
 	CACHE_Index next;
 	
 } CACHE_Entry;
@@ -39,7 +39,7 @@ CACHE_Index CACHE_free;
 
 void CACHE_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Build the free list.
@@ -59,9 +59,9 @@ void CACHE_init()
 
 
 CACHE_Index CACHE_create(
-				SLONG key,
+				std::int32_t key,
 				void* data,
-				UWORD num_bytes)
+				std::uint16_t num_bytes)
 {
 	void* heap;
 
@@ -126,7 +126,7 @@ CACHE_Index CACHE_create(
 
 
 
-SLONG CACHE_is_valid(CACHE_Index c_index)
+std::int32_t CACHE_is_valid(CACHE_Index c_index)
 {
 	if (WITHIN(c_index, 1, CACHE_MAX_ENTRIES - 1))
 	{
@@ -187,7 +187,7 @@ void CACHE_invalidate(CACHE_Index c_index)
 
 void CACHE_invalidate_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	CACHE_Entry *ce;
 
@@ -222,7 +222,7 @@ void CACHE_invalidate_all()
 
 void CACHE_flag_clear_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 1; i < CACHE_MAX_ENTRIES; i++)
 	{
@@ -246,7 +246,7 @@ void CACHE_flag_clear(CACHE_Index c_index)
 
 void CACHE_invalidate_unflagged()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 1; i < CACHE_MAX_ENTRIES; i++)
 	{

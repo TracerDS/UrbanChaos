@@ -8,8 +8,8 @@
 
 bool SetupMemory();
 void ResetMemory();
-void* MemAlloc(ULONG size);
-void* MemReAlloc(void* ptr, ULONG size);
+void* MemAlloc(std::uint32_t size);
+void* MemReAlloc(void* ptr, std::uint32_t size);
 void MemFree(void* mem_ptr);
 
 

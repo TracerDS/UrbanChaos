@@ -18,14 +18,14 @@ void build_quick_city();
 // Removes a walkable face from the mapwho.
 //
 
-void attach_walkable_to_map  (SLONG face);
-void remove_walkable_from_map(SLONG face);
+void attach_walkable_to_map  (std::int32_t face);
+void remove_walkable_from_map(std::int32_t face);
 
 //
 // Adds a dfacet to the mapwho.
 //
 
-void add_facet_to_map(SLONG dfacet);
+void add_facet_to_map(std::int32_t dfacet);
 
 
 #endif

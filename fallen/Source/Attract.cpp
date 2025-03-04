@@ -35,7 +35,7 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 
 //---------------------------------------------------------------
 #ifndef PSX
-CBYTE demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine which includes 3D volumetric\n"
+char demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine which includes 3D volumetric\n"
 						"fog, true wall hugging shadows, atomic matter simulation for real-time physical\n"
 						"modelling of dynamic object collisions and so provides the perfect environment \n"
 						"for incredible feats of acrobatic skill and total scenery interaction. \n\n"
@@ -47,27 +47,27 @@ CBYTE demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine whic
 #endif
 //---------------------------------------------------------------
 
-extern SLONG	stat_killed_thug;
-extern SLONG	stat_killed_innocent;
-extern SLONG	stat_arrested_thug;
-extern SLONG	stat_arrested_innocent;
+extern std::int32_t	stat_killed_thug;
+extern std::int32_t	stat_killed_innocent;
+extern std::int32_t	stat_arrested_thug;
+extern std::int32_t	stat_arrested_innocent;
 
 
 #define	MAX_PLAYBACKS	3
 
-CBYTE* playbacks[]	=
+char* playbacks[]	=
 {
 	"Data\\Game.pkt",
 	"Data\\Game2.pkt",
 	"Data\\Game3.pkt"
 };
-SLONG current_playback	=	0;
+std::int32_t current_playback	=	0;
 
-//extern ULONG get_hardware_input(UWORD type);
+//extern std::uint32_t get_hardware_input(std::uint16_t type);
 
-extern CBYTE		*playback_name;
-SLONG go_into_game;
-UBYTE auto_advance = 0;
+extern char		*playback_name;
+std::int32_t go_into_game;
+std::uint8_t auto_advance = 0;
 
 
 //---------------------------------------------------------------
@@ -76,16 +76,16 @@ UBYTE auto_advance = 0;
 // cycles between playing the intro, showing the high score table &
 // showing the 'PRESS START' bits.
 
-void LoadBackImage(UBYTE *image_data);
-void AENG_demo_attract(SLONG x,SLONG y,CBYTE* text);
+void LoadBackImage(std::uint8_t *image_data);
+void AENG_demo_attract(std::int32_t x,std::int32_t y,char* text);
 extern bool		text_fudge;
-extern SLONG	do_start_menu();
+extern std::int32_t	do_start_menu();
 
 #ifndef	PSX
 extern DIJOYSTATE			the_state;
 #endif
 
-SLONG any_button_pressed()
+std::int32_t any_button_pressed()
 {
 #ifndef	PSX
 
@@ -115,13 +115,13 @@ SLONG any_button_pressed()
 void game_attract_mode()
 {
 	float			y;
-	UBYTE			*image_mem	=	nullptr,
+	std::uint8_t			*image_mem	=	nullptr,
 					*image		=	nullptr;
 #ifndef PSX
-	SLONG			height,
+	std::int32_t			height,
 					image_size;
 	MFFileHandle	image_file;
-	SLONG           dont_leave_for_a_while = 25;
+	std::int32_t           dont_leave_for_a_while = 25;
 
 
 	//
@@ -142,7 +142,7 @@ extern void NIGHT_init();
 	} else go_into_game = false;
 /*
 	image_size	=	640*480*3;
-	image_mem	=	(UBYTE*)MemAlloc(image_size);
+	image_mem	=	(std::uint8_t*)MemAlloc(image_size);
 	if(image_mem)
 	{
 		image_file	=	FileOpen("Data\\gamelogo.tga");
@@ -248,8 +248,8 @@ reinit_because_of_language_change:
 	dev->SetTextureStageState(0, D3DTSS_MIPFILTER,		D3DTFP_NONE);
 	dev->SetTextureStageState(0, D3DTSS_ADDRESS,		D3DTADDRESS_WRAP);
 	//dev->SetTexture ( 0, nullptr );
-extern LPDIRECT3DTEXTURE2	TEXTURE_get_handle(SLONG page);
-extern SLONG TEXTURE_page_water;
+extern LPDIRECT3DTEXTURE2	TEXTURE_get_handle(std::int32_t page);
+extern std::int32_t TEXTURE_page_water;
 	dev->SetTexture ( 0, TEXTURE_get_handle(TEXTURE_page_water) );
 	
 	dev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
@@ -383,7 +383,7 @@ extern bool	allow_debug_keys;
 
 //		AENG_demo_attract(0,y,demo_text);
 		{
-			SLONG	res;
+			std::int32_t	res;
 
 #ifdef NEW_FRONTEND	
 			res=FRONTEND_loop();
@@ -509,7 +509,7 @@ extern void FRONTEND_scr_unload_theme ( void );
 
 		if(y<57.0F)
 		{
-			AENG_fade_out((57 - SLONG(y)) * 15);
+			AENG_fade_out((57 - std::int32_t(y)) * 15);
 		}
 
 
@@ -533,7 +533,7 @@ extern void FRONTEND_scr_unload_theme ( void );
 
 
 #ifndef TARGET_DC
-		extern void lock_frame_rate(SLONG fps);
+		extern void lock_frame_rate(std::int32_t fps);
 
 		lock_frame_rate(60); // because 30 is so slow i want to gnaw my own liver out rather than go through the menus
 #endif
@@ -577,11 +577,11 @@ extern void FRONTEND_scr_unload_theme ( void );
 		}
 		else
 		{
-			SLONG c0;
+			std::int32_t c0;
 
 //			ASSERT(0);
 /*
-			c0 = (57 - SLONG(y)) * 17;
+			c0 = (57 - std::int32_t(y)) * 17;
 
 			SATURATE(c0, 0, 255);
 
@@ -591,8 +591,8 @@ extern void FRONTEND_scr_unload_theme ( void );
 			{
 				AENG_clear_screen();
  				LoadBackImage(image_mem); //image_mem not valid
-				AENG_demo_attract(0,(SLONG)y,demo_text);
-				AENG_fade_out((UBYTE)c0);
+				AENG_demo_attract(0,(std::int32_t)y,demo_text);
+				AENG_fade_out((std::uint8_t)c0);
 				AENG_flip();
 			}
 */
@@ -614,14 +614,14 @@ extern void FRONTEND_scr_unload_theme ( void );
 
 //---------------------------------------------------------------
 #ifdef PSX
-extern FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
+extern FONT2D_DrawString(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
 #endif
 
-inline void printf2d(SLONG x, SLONG &y, CBYTE* fmt, ...) {
+inline void printf2d(std::int32_t x, std::int32_t &y, char* fmt, ...) {
 #ifndef PSX
-	CBYTE msg[_MAX_PATH];
+	char msg[_MAX_PATH];
 #else
-	CBYTE msg[128];
+	char msg[128];
 #endif
 	va_list	ap;
 
@@ -641,11 +641,11 @@ inline void printf2d(SLONG x, SLONG &y, CBYTE* fmt, ...) {
 #if 0
 
 // urgh.
-SLONG PrimaryScore, SecondaryScore, BonusScore;
+std::int32_t PrimaryScore, SecondaryScore, BonusScore;
 #define EWAY_FLAG_ACTIVE	(1 << 0)
 #ifndef	PSX
 void ScoresCalc() {
-	SLONG i, pts;
+	std::int32_t i, pts;
 	EWAY_Way *ew;
 
 	PrimaryScore=200;
@@ -673,20 +673,20 @@ void ScoresCalc() {
 #define SCORE_SPACER 20
 #endif
 
-extern SLONG	stat_killed_thug;
-extern SLONG	stat_killed_innocent;
-extern SLONG	stat_arrested_thug;
-extern SLONG	stat_arrested_innocent;
-extern SLONG	stat_count_bonus;
-extern SLONG	stat_start_time,stat_game_time;
+extern std::int32_t	stat_killed_thug;
+extern std::int32_t	stat_killed_innocent;
+extern std::int32_t	stat_arrested_thug;
+extern std::int32_t	stat_arrested_innocent;
+extern std::int32_t	stat_count_bonus;
+extern std::int32_t	stat_start_time,stat_game_time;
 
 void ScoresDraw() 
 {
 #ifndef PSX
 
-	SLONG y=35;
-	SLONG count=0,count_bonus=0,count_bonus_left=0,c0;
-	SLONG	ticks,h,m,s;
+	std::int32_t y=35;
+	std::int32_t count=0,count_bonus=0,count_bonus_left=0,c0;
+	std::int32_t	ticks,h,m,s;
 	ticks=stat_game_time;
 
 	h=ticks/(1000*60*60);
@@ -736,12 +736,12 @@ void ScoresDraw()
 
 
 
-	CBYTE	str[128];
+	char	str[128];
 
 //	POLY_frame_init(false, false);
 
 
-extern SLONG	playing_real_mission();
+extern std::int32_t	playing_real_mission();
 	
 	if(playing_real_mission())
 	{
@@ -809,16 +809,16 @@ extern SLONG	playing_real_mission();
 		FONT2D_DrawString(str	,300+2,380+2,0x000000,256,POLY_PAGE_FONT2D);
 		FONT2D_DrawString(str	,300  ,380  ,0xffffff,256,POLY_PAGE_FONT2D);
 
-		CBYTE code[32];
+		char code[32];
 
 		{
 			typedef struct
 			{
-				CBYTE* level_fname;
-				CBYTE* level_name;
-				SLONG  mins;
-				SLONG  secs;
-				CBYTE* who;
+				char* level_fname;
+				char* level_name;
+				std::int32_t  mins;
+				std::int32_t  secs;
+				char* who;
 			 
 			} Mime;	// A mucky time!
 
@@ -905,11 +905,11 @@ extern SLONG	playing_real_mission();
 			};
 #endif
 
-			CBYTE par[128];
+			char par[128];
 
 			sprintf(par, "No time yet. Email TomF your time!");
 
-			SLONG i = 0;
+			std::int32_t i = 0;
 
 			while(1)
 			{
@@ -920,12 +920,12 @@ extern SLONG	playing_real_mission();
 					break;
 				}
 
-				extern CBYTE ELEV_fname_level[];
+				extern char ELEV_fname_level[];
 
 				if (strstr(ELEV_fname_level, mm->level_fname) && mm->who)
 				{
-					SLONG mucky_time;
-					SLONG their_time;
+					std::int32_t mucky_time;
+					std::int32_t their_time;
 
 					mucky_time = mm->mins * 60 + mm->secs;
 					their_time = (h * 60 + m) * 60 + s;
@@ -940,7 +940,7 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 					}
 					else
 					{
-						SLONG hash;
+						std::int32_t hash;
 						
 						hash  = (i + 1) * (m + 1) * (s + 1) * 3141;
 						hash  = hash % 12345;
@@ -986,9 +986,9 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 
 void level_won()
 {
-	SLONG tick1 = GetTickCount();
-	SLONG tick2;
-	SLONG timet;
+	std::int32_t tick1 = GetTickCount();
+	std::int32_t tick2;
+	std::int32_t timet;
 
 	set_person_idle(NET_PERSON(0));
 
@@ -1008,7 +1008,7 @@ void level_won()
 #ifndef	PSX
 
 
-		ULONG input = get_hardware_input(INPUT_TYPE_JOY); // 1 << 1 => Joystick
+		std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY); // 1 << 1 => Joystick
 
 		if(LastKey==KB_SPACE || LastKey==KB_ESC || (input & (INPUT_MASK_ACTION|INPUT_MASK_START|INPUT_MASK_SELECT|INPUT_MASK_JUMP|INPUT_MASK_KICK|INPUT_MASK_PUNCH)))
 		{
@@ -1026,13 +1026,13 @@ void level_won()
 #ifdef	OLD_CAM
 		{
 
-			SLONG cam_x;
-			SLONG cam_y;
-			SLONG cam_z;
+			std::int32_t cam_x;
+			std::int32_t cam_y;
+			std::int32_t cam_z;
 
-			SLONG cam_yaw;
-			SLONG cam_pitch;
-			SLONG cam_roll;
+			std::int32_t cam_yaw;
+			std::int32_t cam_pitch;
+			std::int32_t cam_roll;
 
 			float radians_yaw;
 			float radians_pitch;
@@ -1068,7 +1068,7 @@ void level_won()
 			AENG_draw_city();
 		}
 */
-		extern SLONG draw_3d;
+		extern std::int32_t draw_3d;
 
 		AENG_draw(draw_3d);
 
@@ -1106,9 +1106,9 @@ void level_won()
 
 void level_lost()
 {
-	SLONG tick1;
-	SLONG tick2;
-	SLONG timet;
+	std::int32_t tick1;
+	std::int32_t tick2;
+	std::int32_t timet;
 
 	CONSOLE_text(" ");
 //	CONSOLE_text(" - G A M E   O V E R -",40000);
@@ -1127,7 +1127,7 @@ void level_lost()
 	{
 #ifndef	PSX
 
-		ULONG input = get_hardware_input(INPUT_TYPE_JOY); // 1 << 1 => Joystick
+		std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY); // 1 << 1 => Joystick
 
 		if(LastKey==KB_SPACE || LastKey==KB_ESC || (input & (INPUT_MASK_ACTION|INPUT_MASK_START|INPUT_MASK_SELECT|INPUT_MASK_JUMP|INPUT_MASK_KICK|INPUT_MASK_PUNCH)))
 		{
@@ -1146,13 +1146,13 @@ void level_lost()
 //		process_things(1);
 #ifdef	OLD_CAM
 		{
-			SLONG cam_x;
-			SLONG cam_y;
-			SLONG cam_z;
+			std::int32_t cam_x;
+			std::int32_t cam_y;
+			std::int32_t cam_z;
 
-			SLONG cam_yaw;
-			SLONG cam_pitch;
-			SLONG cam_roll;
+			std::int32_t cam_yaw;
+			std::int32_t cam_pitch;
+			std::int32_t cam_roll;
 
 			float radians_yaw;
 			float radians_pitch;
@@ -1179,7 +1179,7 @@ void level_lost()
 		}
 #endif
 
-		extern SLONG draw_3d;
+		extern std::int32_t draw_3d;
 
 		AENG_draw(draw_3d);
 //		ANEG_draw_messages();
@@ -1244,7 +1244,7 @@ extern void POLY_ClearAllPages ( void );
 	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
 
 	// Really horrible hack.
-void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *screen);
+void FRONTEND_scr_img_load_into_screenfull(char* name, CompressedBackground *screen);
 	FRONTEND_scr_img_load_into_screenfull ( "e3load.tga", &(the_display.lp_DD_Background) );
 	UnpackBackground ( (BYTE*)( the_display.lp_DD_Background ), the_display.lp_DD_BackSurface );
 	//AENG_flip();
@@ -1282,7 +1282,7 @@ void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *sc
 
 // None of the graphics systems are up at the moment,
 // so just draw straight to the front buffer.
-void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed point from 0 to 256.
+void ATTRACT_loadscreen_draw(std::int32_t completion)	// completion is in 8-bit fixed point from 0 to 256.
 {
 	#define START_R 50
 	#define START_G 59
@@ -1292,15 +1292,15 @@ void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed p
 	#define END_G 216
 	#define END_B 208
 
-	SLONG along;
+	std::int32_t along;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG colour;
+	std::int32_t colour;
 
 	HRESULT hres;
 
@@ -1406,7 +1406,7 @@ void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed p
 
 #else
 
-void ATTRACT_loadscreen_draw(SLONG completion)	// completion is in 8-bit fixed point from 0 to 256.
+void ATTRACT_loadscreen_draw(std::int32_t completion)	// completion is in 8-bit fixed point from 0 to 256.
 {
 #ifndef	PSX
 	ShowBackImage(false);

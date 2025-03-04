@@ -43,10 +43,10 @@
 
 //---------------------------------------------------------------
 // from supermap.cpp
-extern UWORD	calc_inside_for_xyz(SLONG x,SLONG y,SLONG z,UWORD *room);
+extern std::uint16_t	calc_inside_for_xyz(std::int32_t x,std::int32_t y,std::int32_t z,std::uint16_t *room);
 
 // from aeng.cpp
-extern UBYTE AENG_transparent_warehouses;
+extern std::uint8_t AENG_transparent_warehouses;
 
 
 //---------------------------------------------------------------
@@ -57,24 +57,24 @@ void	do_message_setup(EventPoint *the_ep);
 void	do_vehicle_setup(EventPoint *the_ep);
 void	do_bomb_setup(EventPoint *the_ep);
 void	do_burn_setup(EventPoint *the_ep);
-CBYTE	*get_vehicle_message(EventPoint *ep, CBYTE* msg);
+char	*get_vehicle_message(EventPoint *ep, char* msg);
 void	do_vfx_setup(EventPoint *the_ep);
 void	do_sfx_setup(EventPoint *the_ep);
 void	do_wpt_pick(EventPoint *the_ep);
 void	do_barrel_setup(EventPoint *the_ep);
 void	do_spotfx_setup(EventPoint *the_ep);
-CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE* msg);
+char	*get_spotfx_message(EventPoint *ep, char* msg);
 void	do_warefx_setup(EventPoint *the_ep);
-CBYTE	*get_warefx_message(EventPoint *ep, CBYTE* msg);
+char	*get_warefx_message(EventPoint *ep, char* msg);
 void	do_treasure_setup(EventPoint *the_ep);
-CBYTE	*get_treasure_message(EventPoint *ep, CBYTE* msg);
+char	*get_treasure_message(EventPoint *ep, char* msg);
 void	do_bonus_setup(EventPoint *the_ep);
-//CBYTE	*get_bonus_message(EventPoint *ep, CBYTE* msg);
+//char	*get_bonus_message(EventPoint *ep, char* msg);
 void	do_converse_setup(EventPoint *the_ep);
 void	do_counter_setup(EventPoint *the_ep);
-CBYTE	*get_counter_message(EventPoint *ep, CBYTE* msg);
+char	*get_counter_message(EventPoint *ep, char* msg);
 void	do_lite_setup(EventPoint *the_ep);
-CBYTE	*get_lite_message(EventPoint *ep, CBYTE* msg);
+char	*get_lite_message(EventPoint *ep, char* msg);
 void	do_nav_setup(EventPoint *the_ep);
 void	do_anim_pick(EventPoint *the_ep);
 void	do_transfer_pick(EventPoint *the_ep);
@@ -92,7 +92,7 @@ void	do_sign_setup(EventPoint *the_ep);
 
 //---------------------------------------------------------------
 
-CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg);
+char	*get_message_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -104,10 +104,10 @@ CBYTE	*get_message_message(EventPoint *ep, CBYTE* msg);
 
 bool			dragging_ep	=	false,
 				map_valid	=	false;
-UBYTE			link_mode = 0;
+std::uint8_t			link_mode = 0;
 
 //	The camera.
-SLONG			cam_x,
+std::int32_t			cam_x,
 				cam_y,
 				cam_z,
 				cam_yaw,
@@ -121,7 +121,7 @@ SLONG			cam_x,
 				cam_left[3];
 
 //	The mouse.
-SLONG			mouse_valid,
+std::int32_t			mouse_valid,
 				mouse_over,
 				mouse_world_x,
 				mouse_world_y,
@@ -134,13 +134,13 @@ EventPoint		*hilited_ep		=	nullptr,
 
 extern int		waypoint_colour,
 				waypoint_group;
-extern CBYTE	*GEDIT_map_name;
+extern char	*GEDIT_map_name;
 extern bool		map_valid;
-extern CBYTE	map_name[];
-extern UBYTE	button_colours[][3];
-extern UBYTE	edit_mode;
-extern UBYTE	leaping_disabled;
-extern SLONG	prim_num,
+extern char	map_name[];
+extern std::uint8_t	button_colours[][3];
+extern std::uint8_t	edit_mode;
+extern std::uint8_t	leaping_disabled;
+extern std::int32_t	prim_num,
 				prim_height,
 				prim_index,
 				prim_drag,
@@ -149,7 +149,7 @@ extern SLONG	prim_num,
 extern bool		prim_psxmode;
 
 //	The camera.
-extern SLONG	cam_x,
+extern std::int32_t	cam_x,
 				cam_y,
 				cam_z,
 				cam_yaw,
@@ -162,7 +162,7 @@ extern SLONG	cam_x,
 				cam_left[3];
 
 //	The mouse.
-extern SLONG	mouse_valid,
+extern std::int32_t	mouse_valid,
 				mouse_over,
 				mouse_world_x,
 				mouse_world_y,
@@ -179,13 +179,13 @@ extern HWND				GEDIT_client_wnd,
 						GEDIT_way_wnd;
 
 extern void		calc_camera_pos();
-extern UBYTE aeng_draw_cloud_flag;
+extern std::uint8_t aeng_draw_cloud_flag;
 
-SLONG zone_colours[ZF_NUM] = { 0x000000, 0x7f7f7f, 0xff0000, 0x0000ff, 0x00ffff, 0xffff00, 0xff00ff, 0x555555};
+std::int32_t zone_colours[ZF_NUM] = { 0x000000, 0x7f7f7f, 0xff0000, 0x0000ff, 0x00ffff, 0xffff00, 0xff00ff, 0x555555};
 
 //---------------------------------------------------------------
 
-bool TypeHasProperties(SLONG type) {
+bool TypeHasProperties(std::int32_t type) {
 	switch(type) {
 		case WPT_NONE:
 		case WPT_TELEPORT:
@@ -270,7 +270,7 @@ void CleanProperties(EventPoint *ep) {
 	ZeroMemory(ep->Data,10*sizeof(ep->Data[0]));
 }
 
-SLONG OpenProperties(EventPoint *ep) {
+std::int32_t OpenProperties(EventPoint *ep) {
 
 	if (!ep) return 0;
 
@@ -346,11 +346,11 @@ SLONG OpenProperties(EventPoint *ep) {
 			break;
 
 		case WPT_SHOUT:
-			if (ep) ep->Data[0]=(SLONG)InputBox("Shout Code","Enter code to be 'shouted':",(CBYTE*)ep->Data[0]);
+			if (ep) ep->Data[0]=(std::int32_t)InputBox("Shout Code","Enter code to be 'shouted':",(char*)ep->Data[0]);
 			break;
 
 		case WPT_NAV_BEACON:
-//			if (ep) ep->Data[0]=(SLONG)InputBox("Beacon Message","Enter beacon message:",(CBYTE*)ep->Data[0]);
+//			if (ep) ep->Data[0]=(std::int32_t)InputBox("Beacon Message","Enter beacon message:",(char*)ep->Data[0]);
 			do_nav_setup(ep);
 			break;
 
@@ -450,7 +450,7 @@ SLONG OpenProperties(EventPoint *ep) {
 	return 0;
 }
 
-SLONG GetEventY(EventPoint *ep, bool base=0) {
+std::int32_t GetEventY(EventPoint *ep, bool base=0) {
 	if (ep->Flags&WPT_FLAGS_INSIDE) {
 		if (ep->Y)
 			return get_inside_alt(ep->Y);
@@ -465,8 +465,8 @@ SLONG GetEventY(EventPoint *ep, bool base=0) {
 }
 
 
-SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room) {
-	SLONG y,base,floor=0;
+std::int32_t GetNextFloor(EventPoint *ep, std::int8_t dir, std::uint16_t *room) {
+	std::int32_t y,base,floor=0;
 
 	if (ep->Y) { // is already inside
 		y=get_inside_alt(ep->Y);
@@ -498,8 +498,8 @@ SLONG GetNextFloor(EventPoint *ep, SBYTE dir, UWORD *room) {
 }
 
 
-void SetMenuItemText( HMENU menu, SLONG item, CBYTE* str) {
-	SLONG res;
+void SetMenuItemText( HMENU menu, std::int32_t item, char* str) {
+	std::int32_t res;
 
 	res=ModifyMenu(menu,item,MF_STRING|MF_BYCOMMAND,item,str);
 	if (!res) {
@@ -510,7 +510,7 @@ void SetMenuItemText( HMENU menu, SLONG item, CBYTE* str) {
 
 //---------------------------------------------------------------
 
-CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg) {
+char* WaypointTitle(EventPoint *ep, char* msg) {
 	if (!ep->WaypointType)
 		sprintf(msg,"%d",EVENTPOINT_NUMBER(current_mission->EventPoints,ep));
 	else
@@ -518,7 +518,7 @@ CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg) {
 	return msg;
 }
 
-CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg) {
+char* WaypointExtra(EventPoint *ep, char* msg) {
 
 	msg[0]=0;
 	if (ep) {
@@ -596,7 +596,7 @@ CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg) {
 }
 
 void WaypointCaption(EventPoint *ep) {
-  CBYTE msg[300],msga[300],msgb[300];
+  char msg[300],msga[300],msgb[300];
 
   strcpy(msg,"Waypoint ");
   if (!ep) {
@@ -610,17 +610,17 @@ void WaypointCaption(EventPoint *ep) {
 
 //---------------------------------------------------------------
 
-UBYTE GetZone(SLONG x, SLONG y) {
+std::uint8_t GetZone(std::int32_t x, std::int32_t y) {
 	if ((x<0)||(x>128)||(y<0)||(y>128)) return 0;
 	return MissionZones[current_mission-mission_pool][x][y];
 }
 
-UBYTE MatchZone(SLONG x, SLONG y, UBYTE match) {
+std::uint8_t MatchZone(std::int32_t x, std::int32_t y, std::uint8_t match) {
 	if ((x<0)||(x>128)||(y<0)||(y>128)) return 0;
 	return MissionZones[current_mission-mission_pool][x][y] & match;
 }
 
-void SetZone(SLONG x, SLONG y, UBYTE set) {
+void SetZone(std::int32_t x, std::int32_t y, std::uint8_t set) {
 	if ((x<0)||(x>128)||(y<0)||(y>128)) return;
 	MissionZones[current_mission-mission_pool][x][y]=set;
 }
@@ -630,7 +630,7 @@ void SetZone(SLONG x, SLONG y, UBYTE set) {
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
 void UpdateDir(EventPoint *ep) {
-	SLONG dx,dz,dir;
+	std::int32_t dx,dz,dir;
 
 	dx=mouse_world_x-ep->X;
 	dz=ep->Z-mouse_world_z;
@@ -646,8 +646,8 @@ void UpdateDir(EventPoint *ep) {
 	ep->Direction=dir;
 }
 
-UBYTE UpdatePrimDir(SLONG px, SLONG pz) {
-	SLONG dx,dz,dir;
+std::uint8_t UpdatePrimDir(std::int32_t px, std::int32_t pz) {
+	std::int32_t dx,dz,dir;
 
 	dx=mouse_world_x-px;
 	dz=pz-mouse_world_z;
@@ -659,9 +659,9 @@ UBYTE UpdatePrimDir(SLONG px, SLONG pz) {
 	return dir;
 }
 
-SLONG LocatePrim(SLONG current) {
+std::int32_t LocatePrim(std::int32_t current) {
 	OB_Info *oi;
-	SLONG best,dist,bestdist,x,z,mx,mz;
+	std::int32_t best,dist,bestdist,x,z,mx,mz;
 
 	best=-1;
 	bestdist=128*128;
@@ -703,9 +703,9 @@ LRESULT	CALLBACK	map_view_proc	(
 	POINT			client_pos;
 	RECT			dst,
 					src;
-	static UBYTE	dir_setting=0;
-	static UBYTE	zone_state=0;
-	static UBYTE	zone_mask=0;
+	static std::uint8_t	dir_setting=0;
+	static std::uint8_t	zone_state=0;
+	static std::uint8_t	zone_mask=0;
 
 
 	switch(message)
@@ -721,13 +721,13 @@ LRESULT	CALLBACK	map_view_proc	(
 
 		case	WM_LBUTTONDOWN:
 			if (edit_mode==2) {
-				SLONG last;
+				std::int32_t last;
 
 				last=prim_index;
 				prim_index=LocatePrim(prim_index);
 
 				if (prim_index==-1) {
-					UBYTE flag;
+					std::uint8_t flag;
 					if (last!=-1) return 0;
 
 					last=OB_ob_upto;
@@ -763,7 +763,7 @@ LRESULT	CALLBACK	map_view_proc	(
 				return 0;
 			}
 			if (edit_mode==1) {
-				SLONG mask;
+				std::int32_t mask;
 				mask = SendMessage(GetDlgItem(GEDIT_edit_wnd,IDC_COMBO1),CB_GETCURSEL,0,0);
 				zone_mask = 1<<mask;
 				mask=GetZone(mouse_world_x>>8,mouse_world_z>>8) ^ zone_mask;
@@ -808,7 +808,7 @@ LRESULT	CALLBACK	map_view_proc	(
 
 						if ((link_mode==3)&&(selected_ep)) {
 							new_event->AfterTimer=selected_ep->AfterTimer;
-							new_event->Colour=selected_ep->Colour;
+							new_event->Color=selected_ep->Color;
 							new_event->Direction=selected_ep->Direction;
 							new_event->EPRef=selected_ep->EPRef;
 							new_event->EPRefBool=selected_ep->EPRefBool;
@@ -953,7 +953,7 @@ LRESULT	CALLBACK	map_view_proc	(
 		case	WM_CONTEXTMENU:
 			if(hilited_ep)
 			{
-				SLONG check;
+				std::int32_t check;
 				//	Bring up the context menu.
 				mv_menu	=	GetSubMenu(LoadMenu(GEDIT_hinstance,MAKEINTRESOURCE(IDR_GEDIT_POPUPS)),3);
 				
@@ -970,7 +970,7 @@ LRESULT	CALLBACK	map_view_proc	(
 				check = ((hilited_ep->Flags&(WPT_FLAGS_INSIDE|WPT_FLAGS_WARE)) ? MF_UNCHECKED : MF_CHECKED) | MF_BYCOMMAND;
 				CheckMenuItem(mv_menu,ID_EVENTPOINTROOT_NORMAL, check);
 
-				CBYTE magicnum[40];
+				char magicnum[40];
 
 				sprintf(magicnum,"Magic number: %d",hilited_ep->Data[9]);
 
@@ -1003,9 +1003,9 @@ LRESULT	CALLBACK	map_view_proc	(
 				}
 				if (prim_drag) {
 					OB_Info oi;
-					SLONG last;
-					static SLONG drx,dry,drz;
-					UBYTE flag;
+					std::int32_t last;
+					static std::int32_t drx,dry,drz;
+					std::uint8_t flag;
 
 					if (prim_drag==1) {
 						prim_drag++;
@@ -1041,8 +1041,8 @@ LRESULT	CALLBACK	map_view_proc	(
 					drx=mouse_world_x; drz=mouse_world_z; dry=mouse_world_y;
 
 					{
-						static SLONG last_drx;
-						static SLONG last_drz;
+						static std::int32_t last_drx;
+						static std::int32_t last_drz;
 
 						if (ShiftFlag)
 						{
@@ -1104,7 +1104,7 @@ LRESULT	CALLBACK	map_view_proc	(
 				return 0;
 			}
 			if ((edit_mode==1)&&zone_mask) {
-				SLONG temp;
+				std::int32_t temp;
 				temp=GetZone(mouse_world_x>>8,mouse_world_z>>8);
 				temp&=~zone_mask;
 				temp|=zone_state;
@@ -1113,9 +1113,9 @@ LRESULT	CALLBACK	map_view_proc	(
 			if(dir_setting&&selected_ep) UpdateDir(selected_ep);
 			if(dragging_ep && selected_ep)
 			{
-//				SLONG height = selected_ep->Y-PAP_calc_map_height_at(selected_ep->X, selected_ep->Z);
-				SLONG lastY  = GetEventY(selected_ep);
-				SLONG height = lastY-PAP_calc_map_height_at(selected_ep->X, selected_ep->Z);
+//				std::int32_t height = selected_ep->Y-PAP_calc_map_height_at(selected_ep->X, selected_ep->Z);
+				std::int32_t lastY  = GetEventY(selected_ep);
+				std::int32_t height = lastY-PAP_calc_map_height_at(selected_ep->X, selected_ep->Z);
 
 				if (selected_ep->Flags&WPT_FLAGS_INSIDE) {
 					INDOORS_INDEX=calc_inside_for_xyz(mouse_world_x, lastY+128, mouse_world_z,&INDOORS_ROOM);
@@ -1202,7 +1202,7 @@ LRESULT	CALLBACK	map_view_proc	(
 					INDOORS_INDEX=INDOORS_ROOM=0;
 					INDOORS_DBUILDING=0;
 					AENG_transparent_warehouses=0;
-extern void MAV_calc_height_array(SLONG ignore_warehouses);
+extern void MAV_calc_height_array(std::int32_t ignore_warehouses);
 					MAV_calc_height_array(0);
 					break;
 				case	ID_EVENTPOINTROOT_INSIDE:
@@ -1269,7 +1269,7 @@ extern void MAV_calc_height_array(SLONG ignore_warehouses);
 
 					if (hilited_ep)
 					{
-						SLONG i;
+						std::int32_t i;
 
 						EventPoint *ep;
 						EventPoint *lower = nullptr;
@@ -1347,24 +1347,24 @@ bool	init_map_view()
 #define	PITCH_RATE		1
 
 void AENG_world_text(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		UBYTE  red,
-		UBYTE  blue,
-		UBYTE  green,
-		UBYTE  shadowed_or_not,
-		CBYTE* fmt, ...);
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::uint8_t  red,
+		std::uint8_t  blue,
+		std::uint8_t  green,
+		std::uint8_t  shadowed_or_not,
+		char* fmt, ...);
 void AENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front);
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front);
 
 
 void AENG_world_line_alpha(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 	POLY_Point p1;
 	POLY_Point p2;
@@ -1387,7 +1387,7 @@ void AENG_world_line_alpha(
 
 void FONT_buffer_draw();
 
-void world_cube(SLONG cx, SLONG cy, SLONG cz, SLONG ox, SLONG oy, SLONG oz, SLONG colour) {
+void world_cube(std::int32_t cx, std::int32_t cy, std::int32_t cz, std::int32_t ox, std::int32_t oy, std::int32_t oz, std::int32_t colour) {
 	// base
 	AENG_world_line(
 		cx-ox, cy, cz-oz, 8, colour,
@@ -1431,21 +1431,21 @@ void world_cube(SLONG cx, SLONG cy, SLONG cz, SLONG ox, SLONG oy, SLONG oz, SLON
 
 void	process_view_wind()
 {
-	UBYTE			hilite,
+	std::uint8_t			hilite,
 					no_hilite	=	1,
 					on_epoint	=	0;
-	ULONG			colour,
+	std::uint32_t			colour,
 					current_ep;
-	SLONG			df,dl,dy,dp,dd,
+	std::int32_t			df,dl,dy,dp,dd,
 					dist,dx,dz;
 	EventPoint		*ep_ptr,
 					*targ,
 					*ep_base;
 	POINT			mouse;
 	RECT			client_rect;
-	UBYTE			lines_mode, zones_mode;
-	static SLONG	turn	=	0;
-	SLONG			x,z,h;
+	std::uint8_t			lines_mode, zones_mode;
+	static std::int32_t	turn	=	0;
+	std::int32_t			x,z,h;
 
 	lines_mode = SendMessage(GetDlgItem(GEDIT_edit_wnd,IDC_COMBO4),CB_GETCURSEL,0,0);
 	zones_mode = SendMessage(GetDlgItem(GEDIT_edit_wnd,IDC_COMBO1),CB_GETCURSEL,0,0);
@@ -1492,7 +1492,7 @@ void	process_view_wind()
 				if (prim_index!=-1) {
 					prim_num=OB_ob[prim_index].prim;
 				} else {
-					SLONG temp;
+					std::int32_t temp;
 					temp=LocatePrim(-2);
 					if (temp!=-1) prim_num=OB_ob[temp].prim;
 				}
@@ -1556,8 +1556,8 @@ void	process_view_wind()
 			for (x=0;x<128;x++)
 				for (z=0;z<128;z++) {
 //					PAP_Hi here = PAP_2HI(x,z);
-					SLONG y;
-					UBYTE mousein=((x==mouse_world_x>>8)&&(z==mouse_world_z>>8));
+					std::int32_t y;
+					std::uint8_t mousein=((x==mouse_world_x>>8)&&(z==mouse_world_z>>8));
 //					if ((here.Flags & PAP_FLAG_NAUGHTY_SQUARE)||mousein) {
 //					if (IsZoned(x,z)||mousein) {
 					if (MatchZone(x,z,1<<zones_mode)||mousein) {
@@ -1618,9 +1618,9 @@ void	process_view_wind()
 						hilite	=	0;
 
 					//	Draw it.
-					colour	=	(button_colours[ep_ptr->Colour][0]<<16)	|
-								(button_colours[ep_ptr->Colour][1]<<8)	|
-								(button_colours[ep_ptr->Colour][2]);
+					colour	=	(button_colours[ep_ptr->Color][0]<<16)	|
+								(button_colours[ep_ptr->Color][1]<<8)	|
+								(button_colours[ep_ptr->Color][2]);
 
 					on_epoint	=	(unsigned char)GI_waypoint_draw	(
 															mouse.x,
@@ -1632,9 +1632,9 @@ void	process_view_wind()
 															hilite
 														);
 					if (ep_ptr->TriggeredBy==TT_CUBOID) {
-						SLONG cx=ep_ptr->X, cz=ep_ptr->Z, cy=PAP_calc_map_height_at(cx,cz);
-//						SLONG ox=LOWORD(ep_ptr->Radius),oy=ep_ptr->Y-cy,oz=HIWORD(ep_ptr->Radius);
-						SLONG ox=LOWORD(ep_ptr->Radius),oy=GetEventY(ep_ptr)-cy,oz=HIWORD(ep_ptr->Radius);
+						std::int32_t cx=ep_ptr->X, cz=ep_ptr->Z, cy=PAP_calc_map_height_at(cx,cz);
+//						std::int32_t ox=LOWORD(ep_ptr->Radius),oy=ep_ptr->Y-cy,oz=HIWORD(ep_ptr->Radius);
+						std::int32_t ox=LOWORD(ep_ptr->Radius),oy=GetEventY(ep_ptr)-cy,oz=HIWORD(ep_ptr->Radius);
 						POLY_frame_init(false,false);
 						   world_cube(cx,cy,cz,ox,oy,oz,colour);
 						POLY_frame_draw(false,false);
@@ -1661,7 +1661,7 @@ void	process_view_wind()
 											"%d %c",EVENTPOINT_NUMBER(ep_base,ep_ptr),'A' + ep_ptr->Group
 										);
 					else {
-						CBYTE msg[300],msgb[300];
+						char msg[300],msgb[300];
 						WaypointTitle(ep_ptr,msg);
 						if (ep_ptr->WaypointType==WPT_ADJUST_ENEMY)
 						{
@@ -1713,9 +1713,9 @@ void	process_view_wind()
 						 ||((lines_mode==2)&&((ep_ptr==selected_ep)||(ep_ptr==hilited_ep)||(targ==hilited_ep)||(targ==selected_ep)))
 						 ) {
 							if (ep_ptr->EPRef) {
-								SLONG colour2	=	(button_colours[targ->Colour][0]<<16)	|
-													(button_colours[targ->Colour][1]<<8)	|
-													(button_colours[targ->Colour][2]);
+								std::int32_t colour2	=	(button_colours[targ->Color][0]<<16)	|
+													(button_colours[targ->Color][1]<<8)	|
+													(button_colours[targ->Color][2]);
 								if (targ->Used) {
 									POLY_frame_init(false, false);
 									AENG_world_line(
@@ -1739,9 +1739,9 @@ void	process_view_wind()
 						 ||((lines_mode==2)&&((ep_ptr==selected_ep)||(ep_ptr==hilited_ep)||(targ==hilited_ep)||(targ==selected_ep)))
 						 ) {
 							if (ep_ptr->EPRefBool) {
-								SLONG colour2	=	(button_colours[targ->Colour][0]<<16)	|
-													(button_colours[targ->Colour][1]<<8)	|
-													(button_colours[targ->Colour][2]);
+								std::int32_t colour2	=	(button_colours[targ->Color][0]<<16)	|
+													(button_colours[targ->Color][1]<<8)	|
+													(button_colours[targ->Color][2]);
 								if (targ->Used) {
 									POLY_frame_init(false, false);
 									AENG_world_line(
@@ -1771,7 +1771,7 @@ void	process_view_wind()
 						ep_ptr->TriggeredBy  == TT_MOVE_RADIUS_DIR  ||
 						ep_ptr->WaypointType == WPT_MOVE_THING)
 					{
-						SLONG dir, dirx, dirz;
+						std::int32_t dir, dirx, dirz;
 
 						dir=ep_ptr->Direction;
 						dir<<=3;
@@ -1788,7 +1788,7 @@ void	process_view_wind()
 
 					// camera "view" -- faked...
 					if ((ep_ptr->WaypointType==WPT_CREATE_CAMERA)||(ep_ptr->WaypointType==WPT_CAMERA_WAYPOINT)) {
-						SLONG tmp = ep_ptr->Prev;
+						std::int32_t tmp = ep_ptr->Prev;
 						if (tmp) {
 							targ=TO_EVENTPOINT(ep_base,tmp);
 							if ((targ)&&((targ->WaypointType==WPT_CREATE_TARGET)||(targ->WaypointType==WPT_TARGET_WAYPOINT))) {
@@ -1812,9 +1812,9 @@ void	process_view_wind()
 			//	Draw the hilited ep, if any.
 			if(hilited_ep)
 			{
-				colour	=	(button_colours[hilited_ep->Colour][0]<<16)	|
-							(button_colours[hilited_ep->Colour][1]<<8)	|
-							(button_colours[hilited_ep->Colour][2]);
+				colour	=	(button_colours[hilited_ep->Color][0]<<16)	|
+							(button_colours[hilited_ep->Color][1]<<8)	|
+							(button_colours[hilited_ep->Color][2]);
 
 				GI_waypoint_draw	(
 										mouse.x,
@@ -1850,7 +1850,7 @@ void	process_view_wind()
 
 		if(mouse_valid && !hilited_ep)
 		{
-			SLONG draw_y;
+			std::int32_t draw_y;
 
 			colour	=	(button_colours[waypoint_colour][0]<<16)	|
 						(button_colours[waypoint_colour][1]<<8)		|
@@ -1870,8 +1870,8 @@ void	process_view_wind()
 									0
 								);
 			if (edit_mode==2) {
-				SLONG test;
-				CBYTE msg[800];
+				std::int32_t test;
+				char msg[800];
 				msg[0]=0;
 				test=LocatePrim(-2);
 				if (prim_index!=-1) { // we have a selection already
@@ -1897,7 +1897,7 @@ void	process_view_wind()
 									0, msg);
 			}
 			if (link_mode>0) {
-				CBYTE msg[300];
+				char msg[300];
 				switch(link_mode) {
 				case 1:
 					strcpy(msg,"Point to dependency...");

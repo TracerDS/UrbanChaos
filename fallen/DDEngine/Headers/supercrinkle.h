@@ -26,7 +26,7 @@ void SUPERCRINKLE_init();
 // Does this page have a crinkle?
 //
 
-extern UBYTE SUPERCRINKLE_is_crinkled[512];
+extern std::uint8_t SUPERCRINKLE_is_crinkled[512];
 
 #define SUPERCRINKLE_IS_CRINKLED(num) SUPERCRINKLE_is_crinkled[num]
 
@@ -37,7 +37,7 @@ extern UBYTE SUPERCRINKLE_is_crinkled[512];
 // a SUPERCRINKLE.
 //
 
-SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4]);
+std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::uint32_t specular[4]);
 
 
 #else //#if SUPERCRINKLES_ENABLED
@@ -48,7 +48,7 @@ inline void SUPERCRINKLE_init() {}
 
 #define SUPERCRINKLE_IS_CRINKLED(num) false
 
-inline SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4]){ return false; }
+inline std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::uint32_t specular[4]){ return false; }
 
 
 #endif //#else //#if SUPERCRINKLES_ENABLED

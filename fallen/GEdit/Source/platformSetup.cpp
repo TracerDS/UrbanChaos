@@ -18,7 +18,7 @@
 
 //---------------------------------------------------------------
 
-SLONG		platform_speed,platform_flags;
+std::int32_t		platform_speed,platform_flags;
 
 //---------------------------------------------------------------
 
@@ -26,7 +26,7 @@ bool	CALLBACK	plats_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
 //	LPTSTR		lbitem_str;
-//	SLONG		c0	=	0;
+//	std::int32_t		c0	=	0;
 
 
 	switch(message)
@@ -79,7 +79,7 @@ void	do_platform_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 /*
-CBYTE	*get_camera_message(EventPoint *ep, CBYTE* msg) {
+char	*get_camera_message(EventPoint *ep, char* msg) {
   if ((!ep)||(!ep->Data[0])||(!ep->Data[1]))
 	  strcpy(msg,"Unknown");
   else

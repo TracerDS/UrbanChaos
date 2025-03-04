@@ -17,7 +17,7 @@ D3DTexture BACK_ot_mib;
 D3DTexture BACK_ot_line;
 D3DTexture BACK_ot_logo;
 
-SLONG BACK_starttime;
+std::int32_t BACK_starttime;
 
 void BACK_init()
 {
@@ -35,7 +35,7 @@ void BACK_init()
 
 void BACK_draw()
 {
-	ULONG colour;
+	std::uint32_t colour;
 
 	OS_Buffer *ob;
 
@@ -44,7 +44,7 @@ void BACK_draw()
 	D3DTexture *ot1;
 	D3DTexture *ot2;
 
-	SLONG now = GetTickCount() - BACK_starttime;
+	std::int32_t now = GetTickCount() - BACK_starttime;
 
 	if (now < 2048)
 	{
@@ -162,10 +162,10 @@ void BACK_draw()
 	// Draw the UC logo.
 	//
 
-	static SLONG start = 2000;
-	static SLONG fade  = 2100;
-	static SLONG end   = 9000;
-	static SLONG which = 0;
+	static std::int32_t start = 2000;
+	static std::int32_t fade  = 2100;
+	static std::int32_t end   = 9000;
+	static std::int32_t which = 0;
 	static float v1    = 1.0F - 0.00F;
 	static float v2    = 1.0F - 0.22F;
 
@@ -178,8 +178,8 @@ void BACK_draw()
 	else
 	if (OS_ticks() < fade || OS_ticks() > end)
 	{
-		SLONG i;
-		ULONG colour = 0x404040;
+		std::int32_t i;
+		std::uint32_t colour = 0x404040;
 
 		ob = OS_buffer_new();
 

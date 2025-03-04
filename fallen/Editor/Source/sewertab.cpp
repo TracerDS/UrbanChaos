@@ -10,7 +10,7 @@
 #include	"c:\fallen\headers\inside2.h"
 #include	"c:\fallen\headers\memory.h"
 
-extern void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
+extern void	draw_quad_now(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::uint8_t tx,std::uint8_t ty,std::uint8_t page,std::uint8_t flip,std::uint8_t flags);
 
 
 //#pragma	warning	14 9
@@ -32,12 +32,12 @@ void	cross_work_window(void)
 
 struct EnterableBuilding
 {
-	UWORD	GroundStorey;
+	std::uint16_t	GroundStorey;
 };
 
 struct	EnterStorey
 {
-	 UWORD	NextStorey;
+	 std::uint16_t	NextStorey;
 	 
 };
 
@@ -170,21 +170,21 @@ ControlDef	inside_tab_def[]	=
 
 SewerTab *the_build;
 
-extern CBYTE	*storey_name[];
+extern char	*storey_name[];
 
-extern SLONG inside_building;
-extern SLONG inside_storey;
-extern SLONG inside_valid;
-extern SLONG inside_failure;
+extern std::int32_t inside_building;
+extern std::int32_t inside_storey;
+extern std::int32_t inside_valid;
+extern std::int32_t inside_failure;
 
 
 #define MAX_SEED_BACKUPS 16
 
-extern SLONG seed_inside[MAX_SEED_BACKUPS];
-extern SLONG seed_stairs[MAX_SEED_BACKUPS];
+extern std::int32_t seed_inside[MAX_SEED_BACKUPS];
+extern std::int32_t seed_stairs[MAX_SEED_BACKUPS];
 
-extern SLONG seed_inside_upto;
-extern SLONG seed_stairs_upto;
+extern std::int32_t seed_inside_upto;
+extern std::int32_t seed_stairs_upto;
 
 
 //
@@ -198,14 +198,14 @@ extern SLONG seed_stairs_upto;
 #define MAX_SEED_BACKUPS 16
 
 
-extern CBYTE	inside_names[64][20];
+extern char	inside_names[64][20];
 
-CBYTE	end_str[]="!";
+char	end_str[]="!";
 
 
 SewerTab::SewerTab(EditorModule *parent)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	Parent=parent;
 
 	for(c0=0;c0<42;c0++)
@@ -250,7 +250,7 @@ SewerTab::~SewerTab()
 
 void	SewerTab::ResetSewerTab(void)
 {
-	SLONG	c0,storey;
+	std::int32_t	c0,storey;
 
 	Mode=BUILD_MODE_WAIT;
 	EditStorey=0;
@@ -282,7 +282,7 @@ void	SewerTab::Clear(void)
 
 void	SewerTab::DrawTabContent(void)
 {
-	SLONG	pos;
+	std::int32_t	pos;
 	//
 	// Make sure the building type buttons look proper...
 	//
@@ -324,7 +324,7 @@ void	SewerTab::DrawTabContent(void)
 
 		for(pos=0;pos<16;pos++)
 		{
-			SLONG	x,y,page,flip,flags,value;
+			std::int32_t	x,y,page,flip,flags,value;
 //			draw_quad_now(200+pos*38,c0*20+30,16,16,textures_xy[c0+scroll_pos][pos].Tx<<5,textures_xy[c0+scroll_pos][pos].Ty<<5,textures_xy[c0+scroll_pos][pos].Page);
 			value=inside_tex[CurrentFloorType][pos];
 
@@ -348,7 +348,7 @@ void	SewerTab::DrawTabContent(void)
 //---------------------------------------------------------------
 extern void	hilight_col_info(void);
 
-void	SewerTab::AddHeightOffset(SLONG *x,SLONG *y)
+void	SewerTab::AddHeightOffset(std::int32_t *x,std::int32_t *y)
 {
 	if(Texture&(6))
 		return;
@@ -361,7 +361,7 @@ void	SewerTab::AddHeightOffset(SLONG *x,SLONG *y)
 }
 
 
-SLONG	SewerTab::GetHeightColour(SLONG	storey)
+std::int32_t	SewerTab::GetHeightColour(std::int32_t	storey)
 {
 //	if(Texture==2)
 //		return(WHITE_COL);
@@ -376,12 +376,12 @@ SLONG	SewerTab::GetHeightColour(SLONG	storey)
 	
 }
 
-void	SewerTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
+void	SewerTab::HighlightVertexes(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,mz,rect_size;
+	std::int32_t	mx,mz,rect_size;
 	EdRect	rect;
-	SLONG	roof_flag=0;
-	SLONG	building;
+	std::int32_t	roof_flag=0;
+	std::int32_t	building;
 
 	mx=ViewX>>ELE_SHIFT;
 	mz=ViewZ>>ELE_SHIFT;
@@ -393,11 +393,11 @@ void	SewerTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 //		for(building=1;building<MAX_BUILDINGS;building++)
 		{
 
-			SLONG	x1,y1,z1,x2,y2,z2,index;
+			std::int32_t	x1,y1,z1,x2,y2,z2,index;
 			MFPoint		mouse_point;
-			SLONG	storey_index,wall;
-			CBYTE	str[100];
-			SLONG	ploty=20,c0;
+			std::int32_t	storey_index,wall;
+			char	str[100];
+			std::int32_t	ploty=20,c0;
 
 			storey_index=storey_list[OutsideEditStorey].InsideStorey; //building_list[building].StoreyHead;
 
@@ -447,14 +447,14 @@ void	SewerTab::HighlightVertexes(SLONG x,SLONG y,SLONG w,SLONG h)
 
 
 
-SLONG	SewerTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG w,SLONG h,MFPoint	*mouse_point)
+std::int32_t	SewerTab::ClickInVertexStoreyList(std::int32_t building,std::int32_t storey_index,std::int32_t w,std::int32_t h,MFPoint	*mouse_point)
 {
-	SLONG	roof_flag=0;
+	std::int32_t	roof_flag=0;
 	EdRect	rect;
-	SLONG	mx,mz,rect_size;
-	SLONG	x1,y1,z1,x2,y2,z2,index;
+	std::int32_t	mx,mz,rect_size;
+	std::int32_t	x1,y1,z1,x2,y2,z2,index;
 
-	SLONG	ret_building=0,ret_storey,ret_wall,wall;
+	std::int32_t	ret_building=0,ret_storey,ret_wall,wall;
 
 	mx=ViewX>>ELE_SHIFT;
 	mz=ViewZ>>ELE_SHIFT;
@@ -552,20 +552,20 @@ SLONG	SewerTab::ClickInVertexStoreyList(SLONG building,SLONG storey_index,SLONG 
 	
 }
 
-SLONG	SewerTab::ClickInVertex(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_point)
+std::int32_t	SewerTab::ClickInVertex(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,MFPoint	*mouse_point)
 {
-	SLONG	storey_index,found;
-	SLONG	found_one=0;
+	std::int32_t	storey_index,found;
+	std::int32_t	found_one=0;
 
-	SLONG	c0;
+	std::int32_t	c0;
 
 	storey_index=OutsideEditStorey; //storey_list[OutsideEditStorey].StoreyHead;
 
 	if(storey_list[storey_index].InsideIDIndex)
 	{
-		CBYTE	str[10];
-		SLONG	index;
-		SLONG	c0;
+		char	str[10];
+		std::int32_t	index;
+		std::int32_t	c0;
 		EdRect	rect;
 
 		index=storey_list[storey_index].InsideIDIndex;
@@ -574,9 +574,9 @@ SLONG	SewerTab::ClickInVertex(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 			
 			if(room_ids[index].StairFlags[c0])
 			{
-				SLONG	dir;
-				SLONG	dx,dz;
-				SLONG	x1,z1,x2,z2;
+				std::int32_t	dir;
+				std::int32_t	dx,dz;
+				std::int32_t	x1,z1,x2,z2;
 				EdRect	drawrect;
 
 				dir=GET_STAIR_DIR(room_ids[index].StairFlags[c0]);
@@ -659,9 +659,9 @@ SLONG	SewerTab::ClickInVertex(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 	return(found_one);
 }
 
-SLONG	SewerTab::DrawWindow(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG dx,SLONG dz)
+std::int32_t	SewerTab::DrawWindow(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t dx,std::int32_t dz)
 {
-	SLONG	pdx,pdz;
+	std::int32_t	pdx,pdz;
 
 	pdx=dz;
 	pdz=-dx;
@@ -677,10 +677,10 @@ SLONG	SewerTab::DrawWindow(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG dx,SLONG dz
 	return(0);
 }
 
-SLONG 	SewerTab::DrawWall(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG index,SLONG storey)
+std::int32_t 	SewerTab::DrawWall(std::int32_t px,std::int32_t pz,std::int32_t x1,std::int32_t z1,std::int32_t index,std::int32_t storey)
 {
-	SLONG	wcount,wwidth,wwidth_perc,wallwidth,wallwidth_perc,dx,dz,dist;
-	SLONG	prev_x,prev_z;
+	std::int32_t	wcount,wwidth,wwidth_perc,wallwidth,wallwidth_perc,dx,dz,dist;
+	std::int32_t	prev_x,prev_z;
 
 	dx=abs(px-x1);
 	dz=abs(pz-z1);
@@ -747,7 +747,7 @@ SLONG 	SewerTab::DrawWall(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG index,SLONG 
 }
 
 
-void	SewerTab::DrawContentLine(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG col)
+void	SewerTab::DrawContentLine(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t col)
 {
 /*
 	x1=((x1>>ELE_SHIFT)-(ViewX>>ELE_SHIFT))*ViewSize+(WorkWindowRect.Width>>1);
@@ -772,9 +772,9 @@ void	SewerTab::DrawContentLine(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG col)
 
 }
 
-void	SewerTab::DrawContentLineY(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	SewerTab::DrawContentLineY(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
-	SLONG	temp;
+	std::int32_t	temp;
 /*
 	x1=((x1>>ELE_SHIFT)-(ViewX>>ELE_SHIFT))*ViewSize+(WorkWindowRect.Width>>1);
 	y1=((y1>>ELE_SHIFT)-(ViewZ>>ELE_SHIFT))*ViewSize+(WorkWindowRect.Height>>1);
@@ -799,7 +799,7 @@ void	SewerTab::DrawContentLineY(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLO
 	DrawLineC(x1,z1,x2,z2,col);
 
 }
-void	SewerTab::DrawContentRect(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG col)
+void	SewerTab::DrawContentRect(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t col)
 {
 	DrawContentLine(x1,z1,x2,z1,col);
 	DrawContentLine(x2,z1,x2,z2,col);
@@ -807,17 +807,17 @@ void	SewerTab::DrawContentRect(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG col)
 	DrawContentLine(x1,z2,x1,z1,col);
 }
 
-extern SLONG	find_nearest_point(SLONG x,SLONG z,SLONG index,SLONG *rx,SLONG *rz);
+extern std::int32_t	find_nearest_point(std::int32_t x,std::int32_t z,std::int32_t index,std::int32_t *rx,std::int32_t *rz);
 
-void	SewerTab::DrawRoofFaces(SLONG roof,SLONG storey)
+void	SewerTab::DrawRoofFaces(std::int32_t roof,std::int32_t storey)
 {
-	SLONG wall,index;
-	SLONG	rx,rz;
+	std::int32_t wall,index;
+	std::int32_t	rx,rz;
 
 	wall=storey_list[storey].WallHead;
 	while(wall)
 	{
-		SLONG	x1,z1;
+		std::int32_t	x1,z1;
 
 		x1=wall_list[wall].DX;
 		z1=wall_list[wall].DZ;
@@ -836,11 +836,11 @@ void	SewerTab::DrawRoofFaces(SLONG roof,SLONG storey)
 }
 
 
-void	SewerTab::DrawFloorFaces(SLONG floor_head)
+void	SewerTab::DrawFloorFaces(std::int32_t floor_head)
 {
-	SLONG 	wall,index;
-	SLONG	rx,rz;
-	SLONG	building;
+	std::int32_t 	wall,index;
+	std::int32_t	rx,rz;
+	std::int32_t	building;
 
 	CurrentY=0;
 
@@ -851,7 +851,7 @@ void	SewerTab::DrawFloorFaces(SLONG floor_head)
 			wall=storey_list[building_list[building].StoreyHead].WallHead;
 			while(wall)
 			{
-				SLONG	x1,z1;
+				std::int32_t	x1,z1;
 
 				x1=wall_list[wall].DX;
 				z1=wall_list[wall].DZ;
@@ -869,11 +869,11 @@ void	SewerTab::DrawFloorFaces(SLONG floor_head)
 	}
 }
 
-void	SewerTab::DrawFloorTextures(SLONG x,SLONG y,SLONG w,SLONG h)
+void	SewerTab::DrawFloorTextures(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,my,mz;
-	SLONG dx,dy,dz,width,height,count_across,count_high;
-	UWORD	texture;
+	std::int32_t	mx,my,mz;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
+	std::uint16_t	texture;
 
 	mx=ViewX>>ELE_SHIFT;
 	my=ViewY;
@@ -888,7 +888,7 @@ void	SewerTab::DrawFloorTextures(SLONG x,SLONG y,SLONG w,SLONG h)
 	for(dx=-count_across;dx<=count_across;dx++)
 	for(dz=-count_high;dz<=count_high;dz++)
 	{
-		SLONG	x1,y1,x2,y2;
+		std::int32_t	x1,y1,x2,y2;
 
 		x1=(w>>1)+(dx)*(width);
 		x2=(w>>1)+(dx)*(width)+width;
@@ -919,7 +919,7 @@ void	SewerTab::DrawFloorTextures(SLONG x,SLONG y,SLONG w,SLONG h)
 	for(dx=-count_across;dx<=count_across;dx++)
 	for(dz=-count_high;dz<=count_high;dz++)
 	{
-		SLONG ox,oz,y;
+		std::int32_t ox,oz,y;
 
 		y=edit_map[mx+dx][mz+dz].Y;
 		for(ox=-1;ox<=1;ox++)
@@ -938,10 +938,10 @@ done:;
 
 }
 
-void	SewerTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
+void	SewerTab::DrawFloorLabels(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	mx,my,mz;
-	SLONG dx,dy,dz,width,height,count_across,count_high;
+	std::int32_t	mx,my,mz;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
 	mx=ViewX>>ELE_SHIFT;
 	my=ViewY;
 	mz=ViewZ>>ELE_SHIFT;
@@ -954,8 +954,8 @@ void	SewerTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
 	for(dx=-count_across;dx<=count_across;dx++)
 	for(dz=-count_high;dz<=count_high;dz++)
 	{
-		SLONG	x1,y1,x2,y2,alt,salt;
-		CBYTE	str[100];
+		std::int32_t	x1,y1,x2,y2,alt,salt;
+		char	str[100];
 
 		x1=(w>>1)+(dx)*(width);
 		y1=(h>>1)+dz*(width);
@@ -995,24 +995,24 @@ void	SewerTab::DrawFloorLabels(SLONG x,SLONG y,SLONG w,SLONG h)
 	render_view(0);
 }
 
-extern void	draw_status_line(SLONG x,SLONG y,SLONG w,SLONG h,CBYTE* str);
-extern SLONG is_storey_habitable(SLONG storey);
-extern SLONG	identical_storey(SLONG px,SLONG pz,SLONG x1,SLONG z1,SLONG storey);
+extern void	draw_status_line(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,char* str);
+extern std::int32_t is_storey_habitable(std::int32_t storey);
+extern std::int32_t	identical_storey(std::int32_t px,std::int32_t pz,std::int32_t x1,std::int32_t z1,std::int32_t storey);
 
-void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	SewerTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 	EdRect	drawrect;
 
-	SLONG dx,dy,dz,width,height,count_across,count_high;
-	SLONG	c0,c1;
-	SLONG	mx,my,mz;
-	SLONG	index;
+	std::int32_t dx,dy,dz,width,height,count_across,count_high;
+	std::int32_t	c0,c1;
+	std::int32_t	mx,my,mz;
+	std::int32_t	index;
 	struct	EditMapElement	*p_ele;
-	SLONG	roof_flag=0;
-	SLONG	building;
-	CBYTE	str[100];
-	SLONG   storey_height;
+	std::int32_t	roof_flag=0;
+	std::int32_t	building;
+	char	str[100];
+	std::int32_t   storey_height;
 
 
 //	my=((CVSlider*)GetControlPtr(CTRL_BUILD_V_SLIDE_LEVEL))->GetCurrentValue();
@@ -1074,20 +1074,20 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 
 
-		SLONG	i,tx,tz,x1,y1,z1,x2,y2,z2,index,px,py,pz,fx,fy,fz, dx, dz, doorx1, doorx2, doorz1, doorz2;
+		std::int32_t	i,tx,tz,x1,y1,z1,x2,y2,z2,index,px,py,pz,fx,fy,fz, dx, dz, doorx1, doorx2, doorz1, doorz2;
 		MFPoint		mouse_point;
-		SLONG	storey_index;
-		CBYTE	ploty=30;
-		SLONG	pass=1;
+		std::int32_t	storey_index;
+		char	ploty=30;
+		std::int32_t	pass=1;
 
 
 		storey_index=OutsideEditStorey; //storey_list[OutsideEditStorey].StoreyHead;
 
 		if(storey_list[storey_index].InsideIDIndex)
 		{
-			CBYTE	str[10];
-			SLONG	index;
-			SLONG	c0;
+			char	str[10];
+			std::int32_t	index;
+			std::int32_t	c0;
 
 			index=storey_list[storey_index].InsideIDIndex;
 			for(c0=0;c0<16;c0++)
@@ -1120,9 +1120,9 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 				
 				if(room_ids[index].StairFlags[c0])
 				{
-					SLONG	dir;
-					SLONG	dx,dz;
-					SLONG	x2,z2;
+					std::int32_t	dir;
+					std::int32_t	dx,dz;
+					std::int32_t	x2,z2;
 					EdRect	drawrect;
 
 					dir=GET_STAIR_DIR(room_ids[index].StairFlags[c0]);
@@ -1212,7 +1212,7 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 /*
 			if(Mode==BUILD_MODE_PLACE_ROOM)
 			{
-				CBYTE	str[10];
+				char	str[10];
 				mouse_point.X	=	MouseX;
 				mouse_point.Y	=	MouseY;
 				sprintf(str,"%d\n",RoomID);
@@ -1225,7 +1225,7 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 		
 		while(storey_index)
 		{
-			UBYTE	drawn_normal=0;
+			std::uint8_t	drawn_normal=0;
 
 			if(Keys[KB_D])
 			{
@@ -1286,7 +1286,7 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 					DrawWall(px,pz,x1,z1,index,storey_index);
 
 					{
-						SLONG	x1,y1,x2,y2;
+						std::int32_t	x1,y1,x2,y2;
 						x1=px;
 						y1=pz;
 						x1=((((x1)-(ViewX))*ViewSize)/ELE_SIZE)+(WorkWindowRect.Width>>1);
@@ -1349,7 +1349,7 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 	#define EDGE_COLOUR RED_COL
 
-	for (SLONG i = 0; i < 128; i++)
+	for (std::int32_t i = 0; i < 128; i++)
 	{
 		DrawContentLine(i << 8,   0 << 8, i - 1 << 8,  -1 << 8, EDGE_COLOUR);
 		DrawContentLine(i << 8, 128 << 8, i + 1 << 8, 129 << 8, EDGE_COLOUR);
@@ -1388,7 +1388,7 @@ void	SewerTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 void	SewerTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -1396,7 +1396,7 @@ void	SewerTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -1406,7 +1406,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	SewerTab::KeyboardInterface(void)
+std::int32_t	SewerTab::KeyboardInterface(void)
 {
 	if(Keys[KB_TAB])
 	{
@@ -1457,14 +1457,14 @@ SLONG	SewerTab::KeyboardInterface(void)
 		// Where is the mouse in the world?
 		//
 
-		SLONG x;
-		SLONG y;
-		SLONG w;
-		SLONG h;
+		std::int32_t x;
+		std::int32_t y;
+		std::int32_t w;
+		std::int32_t h;
 
-		SLONG mx;
-		SLONG my;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t my;
+		std::int32_t mz;
 
 		MFPoint mouse_point;
 
@@ -1502,11 +1502,11 @@ SLONG	SewerTab::KeyboardInterface(void)
 
 
 
-SLONG	SewerTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	SewerTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -1515,9 +1515,9 @@ SLONG	SewerTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -1568,11 +1568,11 @@ SLONG	SewerTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-SLONG	SewerTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y,SLONG	w,SLONG	h,MFPoint	*clicked_point)
+std::int32_t	SewerTab::CalcMapCoord(std::int32_t	*mapx,std::int32_t	*mapy,std::int32_t	*mapz,std::int32_t	x,std::int32_t	y,std::int32_t	w,std::int32_t	h,MFPoint	*clicked_point)
 {
-	SLONG	width,count_across,count_high;
-	SLONG	mx,my,mz;
-	SLONG	dx,dy,dz;
+	std::int32_t	width,count_across,count_high;
+	std::int32_t	mx,my,mz;
+	std::int32_t	dx,dy,dz;
 /*
 	my=(engine.Y>>8)>>ELE_SHIFT;
 	mx=(engine.X>>8)>>ELE_SHIFT;
@@ -1624,20 +1624,20 @@ SLONG	SewerTab::CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y
 	return(1);
 }
 
-extern void	insert_cube(SWORD x,SWORD y,SWORD z);
-extern void	remove_cube(SLONG x,SLONG y,SLONG z);
+extern void	insert_cube(std::int16_t x,std::int16_t y,std::int16_t z);
+extern void	remove_cube(std::int32_t x,std::int32_t y,std::int32_t z);
 
 
 
-SLONG	SewerTab::MouseInContent(void)
+std::int32_t	SewerTab::MouseInContent(void)
 {
 
 
 
 	if(Mode==BUILD_MODE_CONT_STOREY)
 	{
-		SLONG	x,y,w,h;
-		SLONG	wwx,wwy,www,wwh;
+		std::int32_t	x,y,w,h;
+		std::int32_t	wwx,wwy,www,wwh;
 
 		wwx=WorkWindowRect.Left;
 		wwy=WorkWindowRect.Top;
@@ -1663,13 +1663,13 @@ SLONG	SewerTab::MouseInContent(void)
 	
 }
 
-SLONG	SewerTab::DragPaint(UBYTE flags)
+std::int32_t	SewerTab::DragPaint(std::uint8_t flags)
 {
 /*
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col;
-	SLONG	screen_change=0;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col;
+	std::int32_t	screen_change=0;
 	MFPoint		mouse_point;
 
 	wwx=WorkWindowRect.Left;
@@ -1687,7 +1687,7 @@ SLONG	SewerTab::DragPaint(UBYTE flags)
 
 		while(SHELL_ACTIVE && LeftButton)
 		{
-			SLONG	mx,my,mz,index;
+			std::int32_t	mx,my,mz,index;
 
 			mouse_point.X	=	MouseX;
 			mouse_point.Y	=	MouseY;
@@ -1716,13 +1716,13 @@ SLONG	SewerTab::DragPaint(UBYTE flags)
 
 }
 
-SLONG	SewerTab::DragMark(UBYTE flags)
+std::int32_t	SewerTab::DragMark(std::uint8_t flags)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col = 0;
-	SLONG	screen_change=0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col = 0;
+	std::int32_t	screen_change=0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -1777,12 +1777,12 @@ SLONG	SewerTab::DragMark(UBYTE flags)
 
 
 
-SLONG	SewerTab::DragBuilding(UBYTE flags,UBYTE type)
+std::int32_t	SewerTab::DragBuilding(std::uint8_t flags,std::uint8_t type)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col=0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col=0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -1808,7 +1808,7 @@ SLONG	SewerTab::DragBuilding(UBYTE flags,UBYTE type)
 
 	while(SHELL_ACTIVE && (flags==LEFT_CLICK&&LeftButton)||(flags==RIGHT_CLICK && RightButton))
 	{
-		SLONG	dx,dz;
+		std::int32_t	dx,dz;
 
 		mouse_point.X	=	MouseX;
 		mouse_point.Y	=	MouseY;
@@ -1848,14 +1848,14 @@ SLONG	SewerTab::DragBuilding(UBYTE flags,UBYTE type)
 //
 // moves all vertices above map co-ord map_x,map_z to mx,mz
 //
-extern void	move_all_vertices(SLONG map_x,SLONG map_z,SLONG mx,SLONG mz);
+extern void	move_all_vertices(std::int32_t map_x,std::int32_t map_z,std::int32_t mx,std::int32_t mz);
 
-SLONG	SewerTab::DragVertex(UBYTE flags)
+std::int32_t	SewerTab::DragVertex(std::uint8_t flags)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col = 0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col = 0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -1896,7 +1896,7 @@ SLONG	SewerTab::DragVertex(UBYTE flags)
 
 		if(ShiftFlag)
 		{
-			SLONG	dx,dz;
+			std::int32_t	dx,dz;
 
 			if(EditWall)
 			{
@@ -1916,7 +1916,7 @@ SLONG	SewerTab::DragVertex(UBYTE flags)
 		else
 		if(Keys[KB_A])
 		{
-			SLONG	map_x,map_z;
+			std::int32_t	map_x,map_z;
 
 			if(EditWall)
 			{
@@ -1958,12 +1958,12 @@ SLONG	SewerTab::DragVertex(UBYTE flags)
 
 }
 
-SLONG	SewerTab::DragStairs(UWORD stair,UBYTE flags)
+std::int32_t	SewerTab::DragStairs(std::uint16_t stair,std::uint8_t flags)
 {
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	col = 0;
-	SLONG	mx,my,mz,index;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	col = 0;
+	std::int32_t	mx,my,mz,index;
 
 	MFPoint		mouse_point;
 
@@ -2014,11 +2014,11 @@ SLONG	SewerTab::DragStairs(UWORD stair,UBYTE flags)
 
 }
 
-extern SLONG	find_previous_wall(SLONG edit_storey,SLONG wall);
+extern std::int32_t	find_previous_wall(std::int32_t edit_storey,std::int32_t wall);
 
 void	SewerTab::DeleteVertex(void)
 {
-	SLONG	prev;
+	std::int32_t	prev;
 	if(EditWall)
 	{
 		prev=find_previous_wall(EditStorey,EditWall);
@@ -2037,7 +2037,7 @@ void	SewerTab::DeleteVertex(void)
 	}
 	else
 	{			   
-		SLONG	next;
+		std::int32_t	next;
 		next=storey_list[EditStorey].WallHead;
 		if(next)
 		{
@@ -2052,12 +2052,12 @@ void	SewerTab::DeleteVertex(void)
 
 
 
-SLONG	SewerTab::ClickNearWall(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_point)
+std::int32_t	SewerTab::ClickNearWall(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,MFPoint	*mouse_point)
 {
-	SLONG	mx,mz,rect_size;
+	std::int32_t	mx,mz,rect_size;
 	EdRect	rect;
-	SLONG	best_building,best_storey=0,best_wall=0,best_dist=0x7fffffff,dist;
-	SLONG	roof_flag=0,building;
+	std::int32_t	best_building,best_storey=0,best_wall=0,best_dist=0x7fffffff,dist;
+	std::int32_t	roof_flag=0,building;
 
 	mx=ViewX>>ELE_SHIFT;
 	mz=ViewZ>>ELE_SHIFT;
@@ -2069,8 +2069,8 @@ SLONG	SewerTab::ClickNearWall(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 		if(building_list[building].BuildingFlags&1)
 		{
 
-			SLONG	x1,y1,z1,x2,y2,z2,px,py,pz,index;
-			SLONG	storey_index;
+			std::int32_t	x1,y1,z1,x2,y2,z2,px,py,pz,index;
+			std::int32_t	storey_index;
 
 			storey_index=building_list[building].StoreyHead;
 
@@ -2129,7 +2129,7 @@ SLONG	SewerTab::ClickNearWall(SLONG x,SLONG y,SLONG w,SLONG h,MFPoint	*mouse_poi
 				else
 				{
 					/*
-					SLONG	temp_index;
+					std::int32_t	temp_index;
 					temp_index=storey_list[storey_index].Roof;
 					if(temp_index)
 					{
@@ -2176,14 +2176,14 @@ MenuDef2	wallsew_popup[]	=
 };
 
 
-SLONG	SewerTab::WallOptions(void)
+std::int32_t	SewerTab::WallOptions(void)
 {
-	UBYTE			flags;
-	ULONG			c0,
+	std::uint8_t			flags;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
-	UBYTE			old_flags;
+	std::uint8_t			old_flags;
 
 	local_point.X	=	MouseX;
 	local_point.Y	=	MouseY;
@@ -2301,10 +2301,10 @@ MenuDef2	roofsew_popup[]	=
 
 
 
-SLONG	SewerTab::RoofOptions(void)
+std::int32_t	SewerTab::RoofOptions(void)
 {
-	ULONG			flags=0;
-	ULONG			c0,
+	std::uint32_t			flags=0;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
@@ -2375,14 +2375,14 @@ MenuDef2	fencesew_popup[]	=
 
 
 
-SLONG	SewerTab::FenceOptions(void)
+std::int32_t	SewerTab::FenceOptions(void)
 {
-	ULONG			flags=0;
-	ULONG			c0,
+	std::uint32_t			flags=0;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
-	CBYTE			str[100];
+	char			str[100];
 
 	local_point.X	=	MouseX;
 	local_point.Y	=	MouseY;
@@ -2496,16 +2496,16 @@ SLONG	SewerTab::FenceOptions(void)
 }
 
 
-extern SLONG	count_wall_size(UWORD storey);
-extern SLONG	find_n_from_end(SLONG n,UWORD storey);
-extern void	show_storey(UWORD index);
-extern void	flip_storey(UWORD storey);
+extern std::int32_t	count_wall_size(std::uint16_t storey);
+extern std::int32_t	find_n_from_end(std::int32_t n,std::uint16_t storey);
+extern void	show_storey(std::uint16_t index);
+extern void	flip_storey(std::uint16_t storey);
 
 
-void	SewerTab::CheckStoreyIntegrity(UWORD storey)
+void	SewerTab::CheckStoreyIntegrity(std::uint16_t storey)
 {
-	SLONG	x1,z1,x2,z2,x3,z3;
-	SLONG	wall;
+	std::int32_t	x1,z1,x2,z2,x3,z3;
+	std::int32_t	wall;
 
 
 	if(storey_list[storey].WallHead&&wall_list[storey_list[storey].WallHead].Next)
@@ -2536,7 +2536,7 @@ void	SewerTab::CheckStoreyIntegrity(UWORD storey)
 }
 
 
-SLONG	get_new_inside_id(void)
+std::int32_t	get_new_inside_id(void)
 {
 	if(next_inside>MAX_INSIDE_STOREYS-2)
 		return(0);
@@ -2545,13 +2545,13 @@ SLONG	get_new_inside_id(void)
 
 }
 
-SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SWORD	thing;
-	SLONG	index;
-	SWORD	bright;
-	SLONG	mx,my,mz;
-	SLONG	ret;
+	std::int16_t	thing;
+	std::int32_t	index;
+	std::int16_t	bright;
+	std::int32_t	mx,my,mz;
+	std::int32_t	ret;
 
 	switch(Mode)
 	{
@@ -2583,7 +2583,7 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 									case	STOREY_TYPE_LADDER:
 											if(EditWall<0)
 											{
-												SLONG	size=4;
+												std::int32_t	size=4;
 												if(ShiftFlag)
 													size=1;
 												
@@ -2670,7 +2670,7 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 									case	STOREY_TYPE_LADDER:
 											if(EditWall<0)
 											{
-												SLONG	size=4;
+												std::int32_t	size=4;
 												if(ShiftFlag)
 													size=1;
 												
@@ -2707,7 +2707,7 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 								}
 								if(EditWall>0)
 								{
-									SLONG	temp_next;
+									std::int32_t	temp_next;
 									temp_next=wall_list[EditWall].Next;
 									index=get_new_wall();
 									wall_list[index].StoreyHead=EditStorey;
@@ -2767,7 +2767,7 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 		case	BUILD_MODE_PLACE_STAIRS:
 				switch(flags)
 				{
-					SLONG	inside;
+					std::int32_t	inside;
 					case	LEFT_CLICK:
 						Mode=BUILD_MODE_WAIT;
 
@@ -2794,7 +2794,7 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 
 						if(inside)
 						{
-							SLONG	c0;
+							std::int32_t	c0;
 							for(c0=0;c0<MAX_STAIRS_PER_FLOOR;c0++)
 							{
 								if(room_ids[inside].StairFlags[c0]==0)
@@ -2817,7 +2817,7 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 		case	BUILD_MODE_PLACE_ROOM:
 				switch(flags)
 				{
-					SLONG	inside;
+					std::int32_t	inside;
 					case	LEFT_CLICK:
 						Mode=BUILD_MODE_WAIT;
 
@@ -2954,9 +2954,9 @@ SLONG	SewerTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 	
 }
 
-UWORD	SewerTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	SewerTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -3008,9 +3008,9 @@ UWORD	SewerTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-SLONG  SewerTab::DoZoom(void)
+std::int32_t  SewerTab::DoZoom(void)
 {
-	SLONG	update=0;
+	std::int32_t	update=0;
 	if(Keys[KB_I])
 	{
 		ViewSize++;
@@ -3030,10 +3030,10 @@ SLONG  SewerTab::DoZoom(void)
 	
 }
 
-SLONG  SewerTab::DoKeys(void)
+std::int32_t  SewerTab::DoKeys(void)
 {
-	SLONG	update=0;
-	SLONG	scroll_step;
+	std::int32_t	update=0;
+	std::int32_t	scroll_step;
 
 	scroll_step=110/(ViewSize+39);
 	if(scroll_step<1)
@@ -3097,13 +3097,13 @@ SLONG  SewerTab::DoKeys(void)
 
 }
 
-SLONG	SewerTab::SetWorldMouse(ULONG flag)
+std::int32_t	SewerTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
 	SVector		point,out;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	temp;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	temp;
 
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
@@ -3139,15 +3139,15 @@ SLONG	SewerTab::SetWorldMouse(ULONG flag)
 
 }
 
-extern void	free_walls(SLONG wall);
-extern void	delete_storey_list(SWORD storey);
-extern void	delete_building(UWORD building);
-extern void	set_storey_height(SLONG building,SLONG storey ,SLONG height);
+extern void	free_walls(std::int32_t wall);
+extern void	delete_storey_list(std::int16_t storey);
+extern void	delete_building(std::uint16_t building);
+extern void	set_storey_height(std::int32_t building,std::int32_t storey ,std::int32_t height);
 
 
-void	SewerTab::HandleControl(UWORD control_id)
+void	SewerTab::HandleControl(std::uint16_t control_id)
 {
-	SLONG	id;
+	std::int32_t	id;
 	id=control_id&0xff;
 
 	if(id>=7&&id<7+16)
@@ -3161,13 +3161,13 @@ void	SewerTab::HandleControl(UWORD control_id)
 	{
 
 		case	CTRL_BUILD_CREATE_BUILDING:
-				SLONG	y;
+				std::int32_t	y;
 				create_building_prim(EditBuilding,&y);
 			break;
 		case	CTRL_NEW_FENCE:
 			if(Mode==BUILD_MODE_WAIT||Mode==0)
 			{
-				UWORD	building,storey;
+				std::uint16_t	building,storey;
 				building=get_new_building();
 				if(building)
 				{
@@ -3196,7 +3196,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 			if(Mode==BUILD_MODE_WAIT)
 				if(EditStorey)
 				{
-					SLONG	storey,prev,index;
+					std::int32_t	storey,prev,index;
 					storey=EditStorey;
 					storey_list[storey].StoreyFlags=0;
 					EditStorey=storey_list[storey].Next;
@@ -3264,7 +3264,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 			case	CTRL_BUILD_DEL_STOREY:
 				if(EditStorey)
 				{
-					SLONG	storey,prev,index;
+					std::int32_t	storey,prev,index;
 					storey=EditStorey;
 					storey_list[storey].StoreyFlags=0;
 					EditStorey=storey_list[storey].Next;
@@ -3357,7 +3357,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 					{
 						
 
-						UWORD	storey;
+						std::uint16_t	storey;
 						storey=get_new_storey();
 						if(storey)
 						{
@@ -3409,7 +3409,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 					{
 						
 
-						UWORD	storey;
+						std::uint16_t	storey;
 						storey=get_new_storey();
 						if(storey)
 						{
@@ -3449,7 +3449,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 				{
 
 						
-					SLONG	storey;
+					std::int32_t	storey;
 					storey=get_new_storey();
 					if(storey)
 					{
@@ -3488,7 +3488,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 			if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
 				WITHIN(EditStorey, 1, MAX_STOREYS - 1))
 			{
-				SLONG i_storey;
+				std::int32_t i_storey;
 
 				i_storey = storey_list[EditStorey].Next;
 
@@ -3508,7 +3508,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 			if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
 				WITHIN(EditStorey, 1, MAX_STOREYS - 1))
 			{
-				SLONG i_storey;
+				std::int32_t i_storey;
 
 				i_storey = storey_list[EditStorey].Prev;
 
@@ -3539,7 +3539,7 @@ void	SewerTab::HandleControl(UWORD control_id)
 			CurrentFloorType	=	(control_id>>8)-1;
 			if(OutsideEditStorey)
 			{
-				SLONG	inside,index;
+				std::int32_t	inside,index;
 				index=storey_list[OutsideEditStorey].InsideIDIndex; //building_list[building].StoreyHead;
 				room_ids[index].FloorType=CurrentFloorType;
 
@@ -3562,10 +3562,10 @@ MenuDef2	stair_popup[]	=
 
 //static ControlDef		popup_def	=	{	POPUP_MENU,	0,	""};
 
-void	SewerTab::DoStairPopUp(SLONG stair,MFPoint *clicked_point)
+void	SewerTab::DoStairPopUp(std::int32_t stair,MFPoint *clicked_point)
 {
-	UBYTE			flags;
-	ULONG			c0,
+	std::uint8_t			flags;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;

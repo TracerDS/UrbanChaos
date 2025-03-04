@@ -60,7 +60,7 @@ void mkt_test()
 //---------------------------------------------------------------
 
 #ifdef	PSX
-ULONG old_stack;
+std::uint32_t old_stack;
 
 #ifndef VERSION_DEMO
 void main2()
@@ -84,13 +84,13 @@ void main2()
 #endif
 
 #ifdef VERSION_DEMO
-extern SLONG demo_mode,demo_timeout;
-SLONG hold_stack[16],*tmp_i,*tmp_s;
-SLONG game_timeout;
+extern std::int32_t demo_mode,demo_timeout;
+std::int32_t hold_stack[16],*tmp_i,*tmp_s;
+std::int32_t game_timeout;
 #endif
 
 
-SLONG main(UWORD argc, CBYTE* argv[])
+std::int32_t main(std::uint16_t argc, char* argv[])
 {
 #ifndef VERSION_DEMO
 	main2();
@@ -105,7 +105,7 @@ SLONG main(UWORD argc, CBYTE* argv[])
 	old_stack=GetSp();
 	tmp_i=old_stack;
 	tmp_s=hold_stack;
-	while((SLONG)tmp_i<0x80200000)
+	while((std::int32_t)tmp_i<0x80200000)
 	{
 		*tmp_s++=*tmp_i++;
 	}
@@ -140,7 +140,7 @@ extern void	ReleaseHardware();
 	//printf("End of Demo.\n");
 	tmp_s=hold_stack;
 	tmp_i=old_stack;
-	while((SLONG)tmp_i<0x80200000)
+	while((std::int32_t)tmp_i<0x80200000)
 	{
 		*tmp_i++=*tmp_s++;
 	}
@@ -181,7 +181,7 @@ static HRESULT CALLBACK D3DEnumDevicesCallback(GUID FAR* lpGuid,
 
 extern HINSTANCE hGlobalThisInst;
 
-SLONG main(UWORD argc, TCHAR *argv[])
+std::int32_t main(std::uint16_t argc, TCHAR *argv[])
 {
 #ifdef TARGET_DC
 	// DC doesn't use relative names, only full path names.
@@ -211,7 +211,7 @@ extern void ENV_init ( void );
 
 #if 0
 	{
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i < 100; i++)
 		{

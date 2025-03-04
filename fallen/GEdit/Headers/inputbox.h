@@ -9,6 +9,6 @@
 
 #include "MFStdLib.h"
 
-CBYTE* InputBox(CBYTE* title, CBYTE* prompt, CBYTE* txt);
+char* InputBox(char* title, char* prompt, char* txt);
 
 #endif

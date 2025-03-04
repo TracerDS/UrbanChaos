@@ -14,7 +14,7 @@
 
 //---------------------------------------------------------------
 
-SLONG		counter_value,counter_index;
+std::int32_t		counter_value,counter_index;
 
 //---------------------------------------------------------------
 
@@ -65,7 +65,7 @@ void	do_counter_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_counter_message(EventPoint *ep, CBYTE* msg) {
+char	*get_counter_message(EventPoint *ep, char* msg) {
 	if ((!ep)||!ep->Data[1])
 		msg[0]=0;
 	else {

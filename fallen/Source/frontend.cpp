@@ -54,10 +54,10 @@ extern bool	allow_debug_keys;
 // EXTERNS
 //
 
-extern SLONG FontPage;
-extern UBYTE InkeyToAscii[];
-extern UBYTE InkeyToAsciiShift[];
-extern CBYTE STARTSCR_mission[_MAX_PATH];
+extern std::int32_t FontPage;
+extern std::uint8_t InkeyToAscii[];
+extern std::uint8_t InkeyToAsciiShift[];
+extern char STARTSCR_mission[_MAX_PATH];
 extern DIJOYSTATE			the_state;
 
 extern void	init_joypad_config();
@@ -151,8 +151,8 @@ void FRONTEND_display ( void );
 #define OT_RESET			( 8)
 #define OT_PADMOVE			( 9)
 
-#define	MC_YN				(CBYTE*)( 1)
-#define	MC_SCANNER			(CBYTE*)( 2)
+#define	MC_YN				(char*)( 1)
+#define	MC_SCANNER			(char*)( 2)
 
 
 //----------------------------------------------------------------------------
@@ -160,68 +160,68 @@ void FRONTEND_display ( void );
 //
 
 struct MissionData {
-	SLONG	ObjID, GroupID, ParentID, ParentIsGroup;
-	SLONG	District;
-	SLONG	Type, Flags;
-	CBYTE	fn[255], ttl[255], brief[4096];
+	std::int32_t	ObjID, GroupID, ParentID, ParentIsGroup;
+	std::int32_t	District;
+	std::int32_t	Type, Flags;
+	char	fn[255], ttl[255], brief[4096];
 };
 
 struct RawMenuData {
-	UBYTE	Menu;
-	UBYTE	Type;
-//	CBYTE*	Label;
-	SWORD	Label;
-	CBYTE*	Choices;
-	SLONG	Data;
+	std::uint8_t	Menu;
+	std::uint8_t	Type;
+//	char*	Label;
+	std::int16_t	Label;
+	char*	Choices;
+	std::int32_t	Data;
 };
 
 struct MenuData {
-	UBYTE	Type;
-	UBYTE	LabelID;
-	CBYTE*	Label;
-	CBYTE*	Choices;
-	SLONG	Data;
-	UWORD	X,Y;
+	std::uint8_t	Type;
+	std::uint8_t	LabelID;
+	char*	Label;
+	char*	Choices;
+	std::int32_t	Data;
+	std::uint16_t	X,Y;
 };
 
 struct MenuStack {
-	UBYTE		mode;
-	UBYTE		selected;
-	SWORD		scroll;
-	CBYTE*		title;
+	std::uint8_t		mode;
+	std::uint8_t		selected;
+	std::int16_t		scroll;
+	char*		title;
 };
 
 struct MenuState {
-	UBYTE		items;
-	UBYTE		selected;
-	SWORD		scroll;
+	std::uint8_t		items;
+	std::uint8_t		selected;
+	std::int16_t		scroll;
 	MenuStack	stack[10];
-	UBYTE		stackpos;
-	SBYTE		mode;
-	SWORD		base;
-	CBYTE*		title;
+	std::uint8_t		stackpos;
+	std::int8_t		mode;
+	std::int16_t		base;
+	char*		title;
 };
 
 struct Kibble {
-	SLONG	page;
-	SLONG	x, y;
-	SWORD	dx,dy;
-	SWORD	r, t, p, rd, td, pd;
-	UBYTE	type, size;
-	ULONG	rgb;
+	std::int32_t	page;
+	std::int32_t	x, y;
+	std::int16_t	dx,dy;
+	std::int16_t	r, t, p, rd, td, pd;
+	std::uint8_t	type, size;
+	std::uint32_t	rgb;
 };
 
 struct MissionCache {
-	CBYTE name[255];
-	UBYTE id;
-	UBYTE district;
+	char name[255];
+	std::uint8_t id;
+	std::uint8_t district;
 };
 
 //
 // This is the order we recommend the missions be played in...
 //
 
-CBYTE* suggest_order[] =
+char* suggest_order[] =
 {
 	"testdrive1a.ucm",
 	"FTutor1.ucm",
@@ -272,10 +272,10 @@ CBYTE* suggest_order[] =
 
 #define SCRIPT_MEMORY (20 * 1024)
 
-CBYTE loaded_in_script[SCRIPT_MEMORY];
-CBYTE* loaded_in_script_read_upto;
+char loaded_in_script[SCRIPT_MEMORY];
+char* loaded_in_script_read_upto;
 
-void CacheScriptInMemory(CBYTE* script_fname)
+void CacheScriptInMemory(char* script_fname)
 {
 	//FILE *handle = MF_Fopen(script_fname, "rb");
 	// Er... it's a TEXT FILE
@@ -300,8 +300,8 @@ void FileOpenScript()
 	loaded_in_script_read_upto = loaded_in_script;
 }
 
-CBYTE* LoadStringScript(CBYTE* txt) {
-	CBYTE* ptr=txt;
+char* LoadStringScript(char* txt) {
+	char* ptr=txt;
 
 	ASSERT(loaded_in_script_read_upto);
 
@@ -334,7 +334,7 @@ RawMenuData raw_menu_data[] = {
 	{		FE_MAINMENU,	OT_BUTTON,	X_START,		0,	FE_MAPSCREEN		},
 #ifndef VERSION_DEMO
 	{				  0,	OT_BUTTON,	X_LOAD_GAME,	0,	FE_LOADSCREEN		},
-	{				  0,	OT_BUTTON,	X_SAVE_GAME,	(CBYTE*)1,	FE_SAVESCREEN		},
+	{				  0,	OT_BUTTON,	X_SAVE_GAME,	(char*)1,	FE_SAVESCREEN		},
 #endif
 	{				  0,	OT_BUTTON,	X_OPTIONS,		0,	FE_CONFIG			},
 #if !defined(NDEBUG) && !defined(TARGET_DC)
@@ -443,21 +443,21 @@ RawMenuData raw_menu_data[] = {
 	{				 -1,			0,				    0,	0					},
 };
 
-CBYTE menu_choice_yesno[20];// = { "no\0yes" };
-CBYTE menu_choice_scanner[255];
+char menu_choice_yesno[20];// = { "no\0yes" };
+char menu_choice_scanner[255];
 
-CBYTE* menu_back_names[] = { "title leaves1.tga", "title rain1.tga", 
+char* menu_back_names[] = { "title leaves1.tga", "title rain1.tga", 
 	   					     "title snow1.tga", "title blood1.tga" };
-CBYTE* menu_map_names[]  = { "map leaves darci.tga", "map rain darci.tga", 
+char* menu_map_names[]  = { "map leaves darci.tga", "map rain darci.tga", 
 						     "map snow darci.tga", "map blood darci.tga" };
-CBYTE* menu_brief_names[]= { "briefing leaves darci.tga", "briefing rain darci.tga", 
+char* menu_brief_names[]= { "briefing leaves darci.tga", "briefing rain darci.tga", 
 						     "briefing snow darci.tga", "briefing blood darci.tga" };
-CBYTE* menu_config_names[]= { "config leaves.tga", "config rain.tga", 
+char* menu_config_names[]= { "config leaves.tga", "config rain.tga", 
 						     "config snow.tga", "config blood.tga" };
 
-CBYTE frontend_fonttable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?����������";
+char frontend_fonttable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?����������";
 
-ULONG FRONTEND_leaf_colours[4] =
+std::uint32_t FRONTEND_leaf_colours[4] =
 	{
 		0x665a3a,
 		0x486448,
@@ -471,53 +471,53 @@ ULONG FRONTEND_leaf_colours[4] =
 
 MenuData menu_data[50]; // max menu items...
 MenuState menu_state;
-CBYTE menu_buffer[2048];
+char menu_buffer[2048];
 bool grabbing_key=0;
 bool grabbing_pad=0;
 bool m_bMovingPanel = false;
 Kibble kibble[512];
-UBYTE kibble_off[512];
-SLONG fade_state=0;
-UBYTE fade_mode=1;
-SLONG fade_rgb=0x000000;
-SBYTE menu_mode_queued=0;
-UBYTE menu_theme=1;
-UBYTE menu_thrash=0; // cunningly thrash the stack...
-SWORD districts[40][3]; // x, y, id
-SWORD district_count=0;
-SWORD district_selected=0;
-SWORD district_flash=0;
-UBYTE district_valid[40];
-SWORD mission_count=0;
-SWORD mission_selected=0;
-UBYTE mission_hierarchy[60];
+std::uint8_t kibble_off[512];
+std::int32_t fade_state=0;
+std::uint8_t fade_mode=1;
+std::int32_t fade_rgb=0x000000;
+std::int8_t menu_mode_queued=0;
+std::uint8_t menu_theme=1;
+std::uint8_t menu_thrash=0; // cunningly thrash the stack...
+std::int16_t districts[40][3]; // x, y, id
+std::int16_t district_count=0;
+std::int16_t district_selected=0;
+std::int16_t district_flash=0;
+std::uint8_t district_valid[40];
+std::int16_t mission_count=0;
+std::int16_t mission_selected=0;
+std::uint8_t mission_hierarchy[60];
 MissionCache mission_cache[60];
 #ifdef	NDEBUG	
-UBYTE complete_point=0;
+std::uint8_t complete_point=0;
 #else
-UBYTE complete_point=0;
+std::uint8_t complete_point=0;
 #endif
-UBYTE mission_launch=0;
-UBYTE previous_mission_launch=0;
+std::uint8_t mission_launch=0;
+std::uint8_t previous_mission_launch=0;
 bool cheating=0;
-SLONG MidX=0, MidY;
+std::int32_t MidX=0, MidY;
 float ScaleX, ScaleY; // bwahahaha... and lo! the floats creep in! see the extent of my evil powers! muahahaha!  *cough*  er...
 #ifdef DEBUG
 // Allow saves from init, just so I can test the damn things.
-UBYTE AllowSave=1;
+std::uint8_t AllowSave=1;
 #else
-UBYTE AllowSave=0;
+std::uint8_t AllowSave=0;
 #endif
-SLONG CurrentVidMode=0;
-UBYTE CurrentBitDepth=16;
-UBYTE save_slot;
-UBYTE bonus_this_turn = 0;
-UBYTE bonus_state = 0;
+std::int32_t CurrentVidMode=0;
+std::uint8_t CurrentBitDepth=16;
+std::uint8_t save_slot;
+std::uint8_t bonus_this_turn = 0;
+std::uint8_t bonus_state = 0;
 
-CBYTE the_script_file[MAX_PATH];
+char the_script_file[MAX_PATH];
 #define MISSION_SCRIPT	the_script_file
 
-UBYTE IsEnglish=0;
+std::uint8_t IsEnglish=0;
 
 char *pcSpeechLanguageDir = "talk2\\";
 
@@ -530,7 +530,7 @@ int g_iLevelNumber;
 #endif
 
 // Kludge!
-SLONG GammaIndex;
+std::int32_t GammaIndex;
 
 // That's not a kludge. THIS is a kludge.
 bool m_bGoIntoSaveScreen = false;
@@ -554,7 +554,7 @@ LPDIRECTDRAWSURFACE4 screenfull = nullptr;
 // FUNCTIONS
 //
 
-void FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, UBYTE *image_data)
+void FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, std::uint8_t *image_data)
 {
 	DDSURFACEDESC2 back;
 	DDSURFACEDESC2 mine;
@@ -593,20 +593,20 @@ void FRONTEND_scr_add(LPDIRECTDRAWSURFACE4 *screen, UBYTE *image_data)
 
 	// Copy the image into the surface...
 
-extern void CopyBackground(UBYTE* image_data, IDirectDrawSurface4* surface);
+extern void CopyBackground(std::uint8_t* image_data, IDirectDrawSurface4* surface);
 
 	CopyBackground(image_data, *screen);
 
 	return;
 }
 
-void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, LPDIRECTDRAWSURFACE4 *screen)
+void FRONTEND_scr_img_load_into_screenfull(char* name, LPDIRECTDRAWSURFACE4 *screen)
 {
 	MFFileHandle	image_file;
-	SLONG	height;
-	CBYTE	fname[200];
-	UBYTE*	image;
-	UBYTE  *image_data;
+	std::int32_t	height;
+	char	fname[200];
+	std::uint8_t*	image;
+	std::uint8_t  *image_data;
 
 	//if (screenfull) FRONTEND_scr_del();
 
@@ -614,7 +614,7 @@ void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, LPDIRECTDRAWSURFACE4 *sc
 
 	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
 
-	image_data =	(UBYTE*)MemAlloc(640*480*3);
+	image_data =	(std::uint8_t*)MemAlloc(640*480*3);
 
 	if(image_data)
 	{
@@ -660,12 +660,12 @@ void FRONTEND_scr_unload_theme()
 
 
 void FRONTEND_scr_new_theme(
-		CBYTE* fname_back,
-		CBYTE* fname_map,
-		CBYTE* fname_brief,
-		CBYTE* fname_config)
+		char* fname_back,
+		char* fname_map,
+		char* fname_brief,
+		char* fname_config)
 {
-	SLONG last = 1;
+	std::int32_t last = 1;
 
 	// Stop all music while we load stuff from disk.
 	stop_all_fx_and_music();
@@ -706,8 +706,8 @@ void FRONTEND_restore_screenfull_surfaces()
 		menu_config_names[menu_theme]);
 }
 
-void FRONTEND_ParseMissionData(CBYTE* text, CBYTE version, MissionData *mdata) {
-	UWORD a,n;
+void FRONTEND_ParseMissionData(char* text, char version, MissionData *mdata) {
+	std::uint16_t a,n;
 	switch(version) {
 	case 2:
 		sscanf(text,"%d : %d : %d : %d : %d : %s : *%d : %*d : %[^:] : %*s",
@@ -754,8 +754,8 @@ void FRONTEND_ParseMissionData(CBYTE* text, CBYTE version, MissionData *mdata) {
 	if (*text==13) *text=0;
 }
 
-CBYTE* FRONTEND_LoadString(MFFileHandle &file, CBYTE* txt) {
-	CBYTE* ptr=txt;
+char* FRONTEND_LoadString(MFFileHandle &file, char* txt) {
+	char* ptr=txt;
 
 	*ptr=0;
 	while (1) {
@@ -769,16 +769,16 @@ CBYTE* FRONTEND_LoadString(MFFileHandle &file, CBYTE* txt) {
 	return txt;
 }
 
-void FRONTEND_SaveString(MFFileHandle &file, CBYTE* txt) {
-	CBYTE* ptr=txt;
-	CBYTE crlf[] = { 13, 10};
+void FRONTEND_SaveString(MFFileHandle &file, char* txt) {
+	char* ptr=txt;
+	char crlf[] = { 13, 10};
 
 	FileWrite(file,txt,strlen(txt));
 	FileWrite(file,crlf,2);
 }
 
-SLONG FRONTEND_AlterAlpha(SLONG rgb, SWORD add, SBYTE shift) {
-	SLONG alpha=rgb>>24;
+std::int32_t FRONTEND_AlterAlpha(std::int32_t rgb, std::int16_t add, std::int8_t shift) {
+	std::int32_t alpha=rgb>>24;
 	alpha<<=shift;
 	alpha+=add;
 	if (alpha>0xff) alpha=0xff;
@@ -808,7 +808,7 @@ void FRONTEND_recenter_menu ( void )
 	menu_state.scroll = 0;
 }
 
-ULONG FRONTEND_fix_rgb(ULONG rgb, bool sel)
+std::uint32_t FRONTEND_fix_rgb(std::uint32_t rgb, bool sel)
 {
 	rgb=fade_rgb;
 	if (sel) rgb=FRONTEND_AlterAlpha(rgb,0,1);
@@ -817,16 +817,16 @@ ULONG FRONTEND_fix_rgb(ULONG rgb, bool sel)
 
 //--- drawy stuff ---
 
-#define RandStream(s) ((UWORD)((s = ((s*69069)+1) )>>7))
+#define RandStream(s) ((std::uint16_t)((s = ((s*69069)+1) )>>7))
 
-void FRONTEND_draw_title(SLONG x, SLONG y, SLONG cutx, CBYTE* str, bool wibble, bool r_to_l) {
+void FRONTEND_draw_title(std::int32_t x, std::int32_t y, std::int32_t cutx, char* str, bool wibble, bool r_to_l) {
 #ifdef TARGET_DC
-	SLONG rgb=wibble?0xffffffff:0x70ffffff;
+	std::int32_t rgb=wibble?0xffffffff:0x70ffffff;
 #else
-	SLONG rgb=wibble?(fade_rgb<<1)|0xffffff:fade_rgb|0xffffff;
+	std::int32_t rgb=wibble?(fade_rgb<<1)|0xffffff:fade_rgb|0xffffff;
 #endif
-	SLONG seed=*str;
-	SWORD xo=0, yo=0;
+	std::int32_t seed=*str;
+	std::int16_t xo=0, yo=0;
 
 	for (;*str;str++) {
 		if (!wibble)
@@ -928,7 +928,7 @@ void FRONTEND_show_xition() {
 	}
 }
 
-extern UBYTE* image_mem;
+extern std::uint8_t* image_mem;
 
 void FRONTEND_stop_xition()
 {
@@ -983,12 +983,12 @@ void FRONTEND_stop_xition()
 }
 
 
-void FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = false) {
+void FRONTEND_draw_button(std::int32_t x, std::int32_t y, std::uint8_t which, std::uint8_t flash = false) {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 	float u,v,w,h;
-	UBYTE size=(which<4)?64:32;
-	UBYTE grow;
+	std::uint8_t size=(which<4)?64:32;
+	std::uint8_t grow;
 	
 	if (flash)
 	{
@@ -1032,11 +1032,11 @@ void FRONTEND_draw_button(SLONG x, SLONG y, UBYTE which, UBYTE flash = false) {
 #define KIBBLE_Z 0.5
 
 void FRONTEND_kibble_draw() {
-	UWORD c0;
+	std::uint16_t c0;
 	Kibble*k;
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
-	SLONG matrix[9],x,y,z;
+	std::int32_t matrix[9],x,y,z;
 
 	ASSERT ( kibble != nullptr );
 
@@ -1084,8 +1084,8 @@ void FRONTEND_kibble_draw() {
 
 // Oh yuk this is pants - really could look better.
 void FRONTEND_DrawSlider(MenuData *md) {
-	SLONG y;
-	ULONG rgb=FRONTEND_fix_rgb(fade_rgb,0);
+	std::int32_t y;
+	std::uint32_t rgb=FRONTEND_fix_rgb(fade_rgb,0);
 	y=md->Y+menu_state.base-menu_state.scroll;
 	DRAW2D_Box(320,y-2,610,y+2,rgb,0,192);
 	DRAW2D_Box(337,y-4,341,y+4,rgb,0,192);
@@ -1093,10 +1093,10 @@ void FRONTEND_DrawSlider(MenuData *md) {
 	DRAW2D_Box(337+(md->Data),y-8,341+(md->Data),y+8,rgb,0,192);
 } 
 
-void FRONTEND_DrawMulti(MenuData *md, ULONG rgb) {
-	SLONG x,y,dy,c0;
-	CBYTE* str;
-	//ULONG rgb=FRONTEND_fix_rgb(fade_rgb,0);
+void FRONTEND_DrawMulti(MenuData *md, std::uint32_t rgb) {
+	std::int32_t x,y,dy,c0;
+	char* str;
+	//std::uint32_t rgb=FRONTEND_fix_rgb(fade_rgb,0);
 	dy=md->Y+menu_state.base-menu_state.scroll;
 	str=md->Choices;
 	c0=md->Data&0xff;
@@ -1139,9 +1139,9 @@ void FRONTEND_DrawMulti(MenuData *md, ULONG rgb) {
 }
 
 void FRONTEND_DrawKey(MenuData *md) {
-	SLONG x,y,dy,c0,rgb;
-	CBYTE key;
-	CBYTE str[25];
+	std::int32_t x,y,dy,c0,rgb;
+	char key;
+	char str[25];
 	rgb=FRONTEND_fix_rgb(fade_rgb,(grabbing_key&&((menu_data+menu_state.selected==md)&&((GetTickCount()&0x7ff)<0x3ff))));
 	dy=md->Y+menu_state.base-menu_state.scroll;
 /*	switch (md->Data) {
@@ -1221,8 +1221,8 @@ void FRONTEND_DrawKey(MenuData *md) {
 }
 
 void FRONTEND_DrawPad(MenuData *md) {
-	SLONG x,y,dy,c0,rgb;
-	CBYTE str[20];
+	std::int32_t x,y,dy,c0,rgb;
+	char str[20];
 	rgb=FRONTEND_fix_rgb(fade_rgb,(grabbing_pad&&((menu_data+menu_state.selected==md)&&((GetTickCount()&0x7ff)<0x3ff))));
 	dy=md->Y+menu_state.base-menu_state.scroll;
 	if (md->Data<31) sprintf(str,"%s %d",XLAT_str(X_BUTTON),md->Data); else strcpy(str,"Unused");
@@ -1233,9 +1233,9 @@ void FRONTEND_DrawPad(MenuData *md) {
 
 //--- kibbly stuff ---
 
-void FRONTEND_kibble_init_one(Kibble*k, UBYTE type) {
+void FRONTEND_kibble_init_one(Kibble*k, std::uint8_t type) {
 	
-	SLONG kibble_index = k - kibble;
+	std::int32_t kibble_index = k - kibble;
 
 	ASSERT ( kibble != nullptr );
 
@@ -1301,7 +1301,7 @@ void FRONTEND_kibble_init_one(Kibble*k, UBYTE type) {
 }
 
 void FRONTEND_kibble_init() {
-	UWORD c0, densities[] = { 25, 255, 40, 10 };
+	std::uint16_t c0, densities[] = { 25, 255, 40, 10 };
 	Kibble*k;
 
 	densities[0] = 25;
@@ -1315,7 +1315,7 @@ void FRONTEND_kibble_init() {
 }
 
 void FRONTEND_kibble_flurry() {
-	UWORD n, c0, densities[4];
+	std::uint16_t n, c0, densities[4];
 	Kibble*k;
 
 	ASSERT ( kibble != nullptr );
@@ -1353,11 +1353,11 @@ void FRONTEND_kibble_flurry() {
 }
 
 void FRONTEND_kibble_process() {
-	SLONG c0;
+	std::int32_t c0;
 	Kibble*k;
 
-	static SLONG last = 0;
-	static SLONG now  = 0;
+	static std::int32_t last = 0;
+	static std::int32_t now  = 0;
 
 	ASSERT ( kibble != nullptr );
 
@@ -1402,8 +1402,8 @@ void FRONTEND_kibble_process() {
 	}
 #endif
 
-	SLONG i;
-	SLONG num_on;
+	std::int32_t i;
+	std::int32_t num_on;
 
 	for (i = 0, num_on = 0; i < 512; i++) {if (!kibble_off[i]) {num_on += 1;}}
 
@@ -1434,7 +1434,7 @@ void FRONTEND_kibble_process() {
 			  case 3:
 			  case 131:
 				{
-					SWORD x=k->x>>8, y=k->y>>8;
+					std::int16_t x=k->x>>8, y=k->y>>8;
 					k->dx++;
 					if ((x>320)&&(x<480)) k->dx-=Random()%((k->x-320)>>14);
 					if ((y>240)&&(y<280)) k->dy-=Random()%((k->y-240)>>14);
@@ -1454,14 +1454,14 @@ void FRONTEND_kibble_process() {
 
 //--- filing stuff ---
 
-void FRONTEND_fetch_title_from_id(CBYTE* script, CBYTE* ttl, UBYTE id) {
-	CBYTE* text;
-	SLONG ver;
+void FRONTEND_fetch_title_from_id(char* script, char* ttl, std::uint8_t id) {
+	char* text;
+	std::int32_t ver;
 	MissionData *mdata = MFnew<MissionData>();
 
 	*ttl=0;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	// Default value = no valid mission.
@@ -1502,16 +1502,16 @@ void FRONTEND_fetch_title_from_id(CBYTE* script, CBYTE* ttl, UBYTE id) {
 	}
 }
 
-UBYTE best_found[50][4];
+std::uint8_t best_found[50][4];
 void init_best_found()
 {
 	memset(&best_found[0][0],50*4,0);
 }
 
-bool FRONTEND_save_savegame(CBYTE* mission_name, UBYTE slot) {
-	CBYTE fn[_MAX_PATH];
+bool FRONTEND_save_savegame(char* mission_name, std::uint8_t slot) {
+	char fn[_MAX_PATH];
 	MFFileHandle file;
-	UBYTE version=3;
+	std::uint8_t version=3;
 
 	CreateDirectory("saves",nullptr);
 
@@ -1539,10 +1539,10 @@ bool FRONTEND_save_savegame(CBYTE* mission_name, UBYTE slot) {
 	return true;
 }
 
-bool FRONTEND_load_savegame(UBYTE slot) {
-	CBYTE fn[_MAX_PATH];
+bool FRONTEND_load_savegame(std::uint8_t slot) {
+	char fn[_MAX_PATH];
 	MFFileHandle file;
-	UBYTE version=0;
+	std::uint8_t version=0;
 
 	sprintf(fn,"saves\\slot%d.wag",slot);
 	file=FileOpen(fn);
@@ -1577,14 +1577,14 @@ bool FRONTEND_load_savegame(UBYTE slot) {
 
 void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=false )
 {
-	CBYTE dir[_MAX_PATH],ttl[_MAX_PATH];
+	char dir[_MAX_PATH],ttl[_MAX_PATH];
 	WIN32_FIND_DATA data;
 	HANDLE handle;
 	bool   ok;
-	SLONG	c0;
+	std::int32_t	c0;
 	MenuData *md=menu_data;
-	CBYTE* str=menu_buffer;
-	SLONG x,y,y2=0;
+	char* str=menu_buffer;
+	std::int32_t x,y,y2=0;
 	FILETIME time, high_time={0,0};
 
 	for (c0=1;c0<11;c0++)
@@ -1593,7 +1593,7 @@ void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=
 		//md->Data=0;
 		md->Data=FE_SAVE_CONFIRM;
 		// Not greyed.
-		md->Choices = (CBYTE*)0;
+		md->Choices = (char*)0;
 
 		MFFileHandle file;
 		sprintf(dir,"saves\\slot%d.wag",c0);
@@ -1610,7 +1610,7 @@ void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=
 			if ( bGreyOutEmpties )
 			{
 				// Grey this out then.
-				md->Choices = (CBYTE*)1;
+				md->Choices = (char*)1;
 			}
 		}
 		sprintf(dir,"%d: %s",c0,ttl);
@@ -1631,17 +1631,17 @@ void FRONTEND_find_savegames ( bool bGreyOutEmpties=false, bool bCheckSaveSpace=
 	}
 }
 
-CBYTE*	FRONTEND_MissionFilename(CBYTE* script, UBYTE i) {
+char*	FRONTEND_MissionFilename(char* script, std::uint8_t i) {
 	MFFileHandle file;
-	CBYTE* text, *str=menu_buffer;
-	SLONG ver;
+	char* text, *str=menu_buffer;
+	std::int32_t ver;
 	MissionData *mdata = MFnew<MissionData>();
 	MenuData *md=menu_data;
-	SLONG x,y,y2=0;
+	std::int32_t x,y,y2=0;
 
 	*str=0;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	i++;
@@ -1686,15 +1686,15 @@ CBYTE*	FRONTEND_MissionFilename(CBYTE* script, UBYTE i) {
 	return str;
 }
 
-void FRONTEND_MissionHierarchy(CBYTE* script) {
+void FRONTEND_MissionHierarchy(char* script) {
 	MFFileHandle file;
-	SLONG best_score;
-	CBYTE* text;
-	SLONG ver;
+	std::int32_t best_score;
+	char* text;
+	std::int32_t ver;
 	MissionData *mdata = MFnew<MissionData>();
 	MenuData *md=menu_data;
-	UBYTE i=0, j, flag;
-	UBYTE newtheme;
+	std::uint8_t i=0, j, flag;
+	std::uint8_t newtheme;
 
 	bonus_this_turn = 0;
 
@@ -1744,7 +1744,7 @@ void FRONTEND_MissionHierarchy(CBYTE* script) {
 		FRONTEND_kibble_init();
 	}
 	
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 //	ZeroMemory(mission_hierarchy,sizeof(mission_hierarchy));
@@ -1757,9 +1757,9 @@ void FRONTEND_MissionHierarchy(CBYTE* script) {
 	// it forces fight1, assault1, & testdrive1a (the bronze fighting, driving test and 
 	// assault course) to be complete before allowing police1 to open up
 
-	SLONG fightID = -1, assaultID = -1, testdriveID = -1, policeID = -1, fight2ID = -1, testdrive3ID = -1;
-	SLONG bonusID1 = -1, bonusID2 = -1, bonusID3 = -1;
-	SLONG secretIDbreakout = -1, estateID = -1;
+	std::int32_t fightID = -1, assaultID = -1, testdriveID = -1, policeID = -1, fight2ID = -1, testdrive3ID = -1;
+	std::int32_t bonusID1 = -1, bonusID2 = -1, bonusID3 = -1;
+	std::int32_t secretIDbreakout = -1, estateID = -1;
 
 	FileOpenScript();
 	while (1) {
@@ -1988,7 +1988,7 @@ void FRONTEND_MissionHierarchy(CBYTE* script) {
 					bonus_this_turn = 1;
 				}
 #endif
-				SLONG order = 0;
+				std::int32_t order = 0;
 
 				while(1)
 				{
@@ -2070,7 +2070,7 @@ void FRONTEND_MissionHierarchy(CBYTE* script) {
 	MFdelete(mdata);
 }
 
-CBYTE* brief_wav[]=
+char* brief_wav[]=
 {
 	"none", //0
 	"none", //1
@@ -2110,18 +2110,18 @@ CBYTE* brief_wav[]=
 	""
 
 };
-void FRONTEND_MissionBrief(CBYTE* script, UBYTE i) {
+void FRONTEND_MissionBrief(char* script, std::uint8_t i) {
 	MFFileHandle file;
-	CBYTE* text, *str=menu_buffer;
-	SLONG ver;
+	char* text, *str=menu_buffer;
+	std::int32_t ver;
 	MissionData *mdata = MFnew<MissionData>();
 	MenuData *md=menu_data;
-	SLONG x,y,y2=0;
+	std::int32_t x,y,y2=0;
 
 	*str=0;
 	i++;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	FileOpenScript();
@@ -2166,7 +2166,7 @@ void FRONTEND_MissionBrief(CBYTE* script, UBYTE i) {
 	if ( ( mdata->ObjID ) && ( mdata->ObjID<34 ) &&
 		 ( 0 != strcmp ( brief_wav[mdata->ObjID], "none" ) ) )
 	{
-		CBYTE path[_MAX_PATH];
+		char path[_MAX_PATH];
 		//MFX_QUICK_wait();
 		strcpy(path,GetSpeechPath());
 
@@ -2185,18 +2185,18 @@ void FRONTEND_MissionBrief(CBYTE* script, UBYTE i) {
 }
 
 
-void FRONTEND_MissionList(CBYTE* script, UBYTE district) {
+void FRONTEND_MissionList(char* script, std::uint8_t district) {
 /*	MFFileHandle file;
-	CBYTE* text, *str=menu_buffer;
-	SLONG ver;
+	char* text, *str=menu_buffer;
+	std::int32_t ver;
 	MissionData *mdata = MFnew<MissionData>();
 //	MenuData *md=menu_data;
-//	SLONG x,y,y2=0;
-//	UBYTE i=100;
+//	std::int32_t x,y,y2=0;
+//	std::uint8_t i=100;
 
 	//district--;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 	mission_count=mission_selected=0;
 	file = FileOpen(script);
@@ -2224,8 +2224,8 @@ void FRONTEND_MissionList(CBYTE* script, UBYTE district) {
 	MemFree(text);
 	MFdelete(mdata);
 */
-	UBYTE i=0;
-	CBYTE* str=menu_buffer;
+	std::uint8_t i=0;
+	char* str=menu_buffer;
 
 	mission_count=mission_selected=0;
 
@@ -2278,16 +2278,16 @@ void FRONTEND_MissionList(CBYTE* script, UBYTE district) {
 	*/
 }
 
-void FRONTEND_CacheMissionList(CBYTE* script) {
+void FRONTEND_CacheMissionList(char* script) {
 	MFFileHandle file;
-	CBYTE* text, *str;
-	SLONG ver;
+	char* text, *str;
+	std::int32_t ver;
 	MissionData *mdata = MFnew<MissionData>();
-	UBYTE i=0;
+	std::uint8_t i=0;
 
 	//district--;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 	FileOpenScript();
 	while (1) {
@@ -2315,17 +2315,17 @@ void FRONTEND_CacheMissionList(CBYTE* script) {
 
 }
 
-void FRONTEND_districts(CBYTE* script) {
+void FRONTEND_districts(char* script) {
 	MFFileHandle file;
-	CBYTE* text, *str=menu_buffer;
-	SLONG ver, mapx=0, mapy=0;
+	char* text, *str=menu_buffer;
+	std::int32_t ver, mapx=0, mapy=0;
 	MenuData *md=menu_data;
-	SLONG x,y;
-	UBYTE i=0,ct,index=0;
-	SWORD temp_dist[40][3];
-	UBYTE crap_remap[640][10];
+	std::int32_t x,y;
+	std::uint8_t i=0,ct,index=0;
+	std::int16_t temp_dist[40][3];
+	std::uint8_t crap_remap[640][10];
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	district_count=0;
@@ -2379,15 +2379,15 @@ void FRONTEND_districts(CBYTE* script) {
 
 }
 
-CBYTE*	FRONTEND_gettitle(UBYTE mode, UBYTE selection) {
+char*	FRONTEND_gettitle(std::uint8_t mode, std::uint8_t selection) {
 	RawMenuData *pt=raw_menu_data;
 	while (pt->Menu!=mode) pt++;
 	for (;selection;selection--,pt++);
 	return XLAT_str_ptr(pt->Label);
 }
 
-void FRONTEND_easy(UBYTE mode) {
-	SLONG x,y,y2=0;
+void FRONTEND_easy(std::uint8_t mode) {
+	std::int32_t x,y,y2=0;
 	RawMenuData *pt=raw_menu_data;
 	MenuData *md=menu_data+menu_state.items;
 
@@ -2457,7 +2457,7 @@ void FRONTEND_easy(UBYTE mode) {
 
 // Video
 
-UBYTE LabelToIndex(SLONG label)
+std::uint8_t LabelToIndex(std::int32_t label)
 {
 	switch(label) {
 		case X_STARS:		return 0;
@@ -2479,7 +2479,7 @@ UBYTE LabelToIndex(SLONG label)
 void FRONTEND_restore_video_data()
 {
 	int data[20]; // int for compatability :P
-	UBYTE i,j;
+	std::uint8_t i,j;
 #ifdef TARGET_DC
 	AENG_get_detail_levels( /*data,*/ data+1, /*data+2, data+3,*/ data+4, data+5, data+6, data+7, data+8, /*data+9, data+10,*/ data+11);
 #else
@@ -2615,13 +2615,13 @@ void FRONTEND_store_video_data()
 #ifndef TARGET_DC
 
 void FRONTEND_do_drivers() {
-	SLONG			result, count=0, selected=0;
+	std::int32_t			result, count=0, selected=0;
 	ChangeDDInfo	*change_info;
 	DDDriverInfo	*current_driver=0,
 					*driver_list;
 	GUID			*DD_guid;
 	TCHAR			szBuff[80];
-	CBYTE			*str=menu_buffer, *str_tmp;
+	char			*str=menu_buffer, *str_tmp;
 
 	switch (RealDisplayWidth)
 	{
@@ -2665,7 +2665,7 @@ void FRONTEND_do_drivers() {
 	str+=strlen(str)+1;
 	strcpy(str,"32 bit");
 	str+=strlen(str)+1;
-	menu_data[3].Data=((UBYTE)(CurrentBitDepth==32))|(2<<8);
+	menu_data[3].Data=((std::uint8_t)(CurrentBitDepth==32))|(2<<8);
 	menu_data[3].Choices=str_tmp;
 	str_tmp=str;
 
@@ -2699,9 +2699,9 @@ void FRONTEND_do_drivers() {
 	menu_data[2].Data=selected|(count<<8);
 	menu_data[2].Choices=str_tmp;
 
-/*	UBYTE   c0;
-	UWORD	ct;
-	CBYTE  *str=menu_buffer;
+/*	std::uint8_t   c0;
+	std::uint16_t	ct;
+	char  *str=menu_buffer;
 
 	ct=Get3DProviderList(&prov);
 	menu_data[3].Data=Get3DProvider()|(ct<<8);
@@ -2735,7 +2735,7 @@ void FRONTEND_gamma_update() {
 #endif //#else //#ifndef TARGET_DC
 
 void FRONTEND_do_gamma() {
-	SLONG x,y,y2=0;
+	std::int32_t x,y,y2=0;
 	MenuData keepsafe;
 	MenuData *md=menu_data+menu_state.items-1;
 
@@ -2775,11 +2775,11 @@ void FRONTEND_do_gamma() {
 
 }
 
-void FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
+void FRONTEND_mode(std::int8_t mode, bool bDoTransition=true) {
 	// Reset this now.
 	dwAutoPlayFMVTimeout = timeGetTime() + AUTOPLAY_FMV_DELAY;
 
-	SBYTE last=menu_state.mode;
+	std::int8_t last=menu_state.mode;
 	fade_mode=1;
 	ZeroMemory(menu_data,sizeof(menu_data));
 	menu_state.items=0;
@@ -2924,7 +2924,7 @@ void FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 		break;
 	case FE_CONFIG_AUDIO:
 		{
-		SLONG fx,amb,mus;
+		std::int32_t fx,amb,mus;
 		if ( bDoTransition )
 		{
 			FRONTEND_init_xition();
@@ -3016,11 +3016,11 @@ void FRONTEND_mode(SBYTE mode, bool bDoTransition=true) {
 }
 
 void FRONTEND_draw_districts() {
-	UBYTE i,j,id;
-	SWORD x,y;
-	CBYTE* str;
-	UWORD fade;
-	ULONG rgb;
+	std::uint8_t i,j,id;
+	std::int16_t x,y;
+	char* str;
+	std::uint16_t fade;
+	std::uint32_t rgb;
 
 	if (bonus_this_turn)
 	{
@@ -3048,7 +3048,7 @@ void FRONTEND_draw_districts() {
 	fade = (64 - fade_state) << 2;
 
 	{
-		CBYTE	str2[200];
+		char	str2[200];
 		sprintf(str2,"%s: %03d  %s: %03d  %s: %03d  %s: %03d\n",XLAT_str_ptr(X_CON_INCREASED),the_game.DarciConstitution,XLAT_str_ptr(X_STA_INCREASED),the_game.DarciStamina,XLAT_str_ptr(X_STR_INCREASED),the_game.DarciStrength,XLAT_str_ptr(X_REF_INCREASED),the_game.DarciSkill);
 		int iYpos;
 		if ( eDisplayType == DT_NTSC )
@@ -3067,7 +3067,7 @@ void FRONTEND_draw_districts() {
 	for (i=0;i<district_count;i++) {
 		switch(district_valid[i]) {
 		case 1:
-			FRONTEND_draw_button(districts[i][0],districts[i][1],(UBYTE)(i==district_selected)|4,i==district_flash);
+			FRONTEND_draw_button(districts[i][0],districts[i][1],(std::uint8_t)(i==district_selected)|4,i==district_flash);
 			break;
 		case 2:
 		case 3:
@@ -3078,7 +3078,7 @@ void FRONTEND_draw_districts() {
 		/*
 
 		{
-			CBYTE num[16];
+			char num[16];
 
 			sprintf(num, "%d", i);
 
@@ -3251,11 +3251,11 @@ void FRONTEND_shadowed_text ( char *pcString, int iX, int iY, DWORD dwColour )
 
 void FRONTEND_display()
 {
-	UBYTE i;
-	SLONG rgb, x,x2,y;
+	std::uint8_t i;
+	std::int32_t rgb, x,x2,y;
 	MenuData *md=menu_data;
-	UBYTE whichmap[]={2,0,1,3};
-	UBYTE arrow=0;
+	std::uint8_t whichmap[]={2,0,1,3};
+	std::uint8_t arrow=0;
 
 
 	//DumpTracies();
@@ -3311,9 +3311,9 @@ void FRONTEND_display()
 		y=md->Y+menu_state.base-menu_state.scroll;
 		if ((y>=100)&&(y<=400)) {
 			rgb=FRONTEND_fix_rgb(fade_rgb,i==menu_state.selected);
-			if ((md->Type==OT_BUTTON)&&(md->Choices==(CBYTE*)1)) // 'greyed out'
+			if ((md->Type==OT_BUTTON)&&(md->Choices==(char*)1)) // 'greyed out'
 			{
-				SLONG rgbtemp=rgb&0xff000000;
+				std::int32_t rgbtemp=rgb&0xff000000;
 				//rgb>>=25; //rgb<<=1;
 				rgb=(rgb&0xff)>>1;
 				rgb|=(rgb<<8)|(rgb<<16);
@@ -3410,7 +3410,7 @@ void FRONTEND_display()
 		int iXPos = ENV_get_value_number ( "panel_x", 32 / 4, "" );
 		int iYPos = ENV_get_value_number ( "panel_y", (480 - 32) / 4, "" );
 
-extern void PANEL_draw_quad( float left,float top,float right,float bottom,SLONG page,ULONG colour,
+extern void PANEL_draw_quad( float left,float top,float right,float bottom,std::int32_t page,std::uint32_t colour,
 				float u1,float v1,float u2,float v2);
 
 		PANEL_draw_quad(
@@ -3497,9 +3497,9 @@ void FRONTEND_storedata() {
 	}
 }
 
-bool FRONTEND_ValidMission(SWORD sel) {
-	CBYTE* str=menu_buffer;
-	UBYTE id=*str;
+bool FRONTEND_ValidMission(std::int16_t sel) {
+	char* str=menu_buffer;
+	std::uint8_t id=*str;
 
 	while (sel) {
 		sel--;
@@ -3510,17 +3510,17 @@ bool FRONTEND_ValidMission(SWORD sel) {
 	return (bool)(mission_hierarchy[id]&4);
 }
 
-UBYTE FRONTEND_input() {
-	UBYTE scan, any_button=0;
-	static SLONG last_input=0;
-	static UBYTE last_button=0;
-	static UBYTE first_pad=1;
+std::uint8_t FRONTEND_input() {
+	std::uint8_t scan, any_button=0;
+	static std::int32_t last_input=0;
+	static std::uint8_t last_button=0;
+	static std::uint8_t first_pad=1;
 
-	SLONG input=0;
+	std::int32_t input=0;
 
 	if (grabbing_pad&&!last_input)
 	{
-		UBYTE i,j;
+		std::uint8_t i,j;
 		MenuData *item=menu_data+menu_state.selected;
 		ReadInputDevice();
 		if (Keys[KB_ESC]||(input&INPUT_MASK_CANCEL))
@@ -3628,7 +3628,7 @@ UBYTE FRONTEND_input() {
 
 	if (grabbing_key&&LastKey) {
 		MenuData *item=menu_data+menu_state.selected;
-//		CBYTE key=(Keys[KB_LSHIFT]||Keys[KB_RSHIFT]) ?  InkeyToAsciiShift[LastKey] : InkeyToAscii[LastKey];
+//		char key=(Keys[KB_LSHIFT]||Keys[KB_RSHIFT]) ?  InkeyToAsciiShift[LastKey] : InkeyToAscii[LastKey];
 /*		switch(LastKey){
 		case KB_LEFT: case KB_RIGHT: case KB_UP: case KB_DOWN: case KB_ENTER: case KB_SPACE:
 		case KB_LSHIFT: case KB_RSHIFT: case KB_LALT: case KB_RALT: case KB_LCONTROL: case KB_RCONTROL:
@@ -3641,12 +3641,12 @@ UBYTE FRONTEND_input() {
 			item->Data=key;
 		}*/
 		if (LastKey!=KB_ESC) {
-			UBYTE j;
+			std::uint8_t j;
 			for (j=0;j<menu_state.items;j++)
 				if (menu_data[j].Data==LastKey) menu_data[j].Data=0;
 			item->Data=LastKey;
 
-//			CBYTE moo[20];
+//			char moo[20];
 //			GetKeyNameText(LastKey<<16,moo,20);
 
 		}
@@ -3676,7 +3676,7 @@ UBYTE FRONTEND_input() {
 		MFX_play_stereo(1,S_MENU_CLICK_START,MFX_REPLACE);
 		menu_state.selected=menu_state.items-1;
 		if (menu_state.mode==FE_MAPSCREEN) mission_selected=mission_count-1;
-		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(CBYTE*)1))) 
+		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(char*)1))) 
 			menu_state.selected--;
 	}
 	if (Keys[KB_HOME])
@@ -3685,7 +3685,7 @@ UBYTE FRONTEND_input() {
 		MFX_play_stereo(1,S_MENU_CLICK_START,MFX_REPLACE);
 		menu_state.selected=0;
 		if (menu_state.mode==FE_MAPSCREEN) mission_selected=0;
-		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(CBYTE*)1))) 
+		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(char*)1))) 
 			menu_state.selected++;
 	}
 	if (Keys[KB_UP]||(input&INPUT_MASK_FORWARDS)) {
@@ -3693,7 +3693,7 @@ UBYTE FRONTEND_input() {
 		MFX_play_stereo(1,S_MENU_CLICK_START,MFX_REPLACE);
 		if (menu_state.selected>0) menu_state.selected--;
 			else menu_state.selected=menu_state.items-1;
-		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(CBYTE*)1))) {
+		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(char*)1))) {
 			if (menu_state.selected>0) menu_state.selected--;
 			else menu_state.selected=menu_state.items-1;
 		}
@@ -3704,7 +3704,7 @@ UBYTE FRONTEND_input() {
 		MFX_play_stereo(1,S_MENU_CLICK_START,MFX_REPLACE);
 		if (menu_state.selected<menu_state.items-1) menu_state.selected++;
 			else menu_state.selected=0;
-		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(CBYTE*)1))) {
+		while (((menu_data+menu_state.selected)->Type==OT_LABEL)||(((menu_data+menu_state.selected)->Type==OT_BUTTON)&&((menu_data+menu_state.selected)->Choices==(char*)1))) {
 			if (menu_state.selected<menu_state.items-1) menu_state.selected++;
 			else menu_state.selected--;
 		}
@@ -3755,7 +3755,7 @@ UBYTE FRONTEND_input() {
 				return 0;
 			}
 
-			CBYTE ttl[_MAX_PATH];
+			char ttl[_MAX_PATH];
 			FRONTEND_fetch_title_from_id(MISSION_SCRIPT,ttl,mission_launch);
 			bool bSuccess = FRONTEND_save_savegame(ttl,save_slot);
 
@@ -4073,8 +4073,8 @@ void FRONTEND_init ( bool bGoToTitleScreen )
 
 	// These two are so that when a mission ends with a camera still active, the music
 	// stuff actually works properly. Obscure or what?
-extern UBYTE EWAY_conv_active;
-extern SLONG EWAY_cam_active;
+extern std::uint8_t EWAY_conv_active;
+extern std::int32_t EWAY_cam_active;
 	EWAY_conv_active = false;
 	EWAY_cam_active = false;
 
@@ -4098,7 +4098,7 @@ extern SLONG EWAY_cam_active;
 	// Reset the transition buffer's contents.
 	lpFRONTEND_show_xition_LastBlit = nullptr;
 
-	CBYTE* str, *lang=ENV_get_value_string("language");
+	char* str, *lang=ENV_get_value_string("language");
 
 #ifdef VERSION_FRENCH
 	// Kludge for the DC converter
@@ -4169,7 +4169,7 @@ void MENUFONT_MergeLower();
 		UseBackSurface(screenfull_back);
 	}
 
-	SLONG fx,amb,mus;
+	std::int32_t fx,amb,mus;
 	MFX_get_volumes(&fx,&amb,&mus);
 	MUSIC_gain(mus);
 
@@ -4235,7 +4235,7 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 		// time to update roper/darci doohickeys
 		if (1)//NET_PERSON(0)->Genus.Person->PersonType==PERSON_DARCI) 
 		{
-			SLONG	found;
+			std::int32_t	found;
 			found=NET_PLAYER(0)->Genus.Player->Constitution - the_game.DarciConstitution;
 			ASSERT(found>=0);
 
@@ -4307,13 +4307,13 @@ extern bool g_bPunishMePleaseICheatedOnThisLevel;
 	m_bGoIntoSaveScreen = true;
 }
 
-void FRONTEND_playambient3d(SLONG channel, SLONG wave_id, SLONG flags, UBYTE height = 0)
+void FRONTEND_playambient3d(std::int32_t channel, std::int32_t wave_id, std::int32_t flags, std::uint8_t height = 0)
 {
-	SLONG	angle = Random() & 2047;
+	std::int32_t	angle = Random() & 2047;
 
-	SLONG	x = (COS(angle) << 4);
-	SLONG	y = 0;
-	SLONG	z = (SIN(angle) << 4);
+	std::int32_t	x = (COS(angle) << 4);
+	std::int32_t	y = 0;
+	std::int32_t	z = (SIN(angle) << 4);
 
 	if (height == 1)	y += (512 + (Random() & 1023)) << 8;
 
@@ -4323,8 +4323,8 @@ void FRONTEND_playambient3d(SLONG channel, SLONG wave_id, SLONG flags, UBYTE hei
 
 
 void FRONTEND_sound() {
-	static SLONG siren_time=100;
-	SLONG wave_id;
+	static std::int32_t siren_time=100;
+	std::int32_t wave_id;
 
 	MFX_play_ambient(WEATHER_REF,S_WIND_START,MFX_LOOPED|MFX_QUEUED);
 //	MFX_play_ambient(MUSIC_REF,S_TUNE_DRIVING,MFX_LOOPED);
@@ -4354,7 +4354,7 @@ void FRONTEND_diddle_stats()
 {
 #ifndef	FINAL
 #ifndef TARGET_DC
-	SWORD stat_up = ENV_get_value_number("stat_up",		0, "Secret");
+	std::int16_t stat_up = ENV_get_value_number("stat_up",		0, "Secret");
 	stat_up*=(mission_launch-1);
 
 	the_game.DarciConstitution=stat_up;
@@ -4389,17 +4389,17 @@ void FRONTEND_diddle_music()
 
 }
 
-UBYTE this_level_has_the_balrog;
-UBYTE this_level_has_bane;
-UBYTE is_semtex=0;
+std::uint8_t this_level_has_the_balrog;
+std::uint8_t this_level_has_bane;
+std::uint8_t is_semtex=0;
 
-SBYTE FRONTEND_loop() {
-	SBYTE res;
+std::int8_t FRONTEND_loop() {
+	std::int8_t res;
 
-	static SLONG last = 0;
-	static SLONG now = 0;
+	static std::int32_t last = 0;
+	static std::int32_t now = 0;
 
-	SLONG millisecs;
+	std::int32_t millisecs;
 	
 	now       = GetTickCount();
 
@@ -4415,7 +4415,7 @@ SBYTE FRONTEND_loop() {
 	// How fast should the fade state fade?
 	//
 
-	SLONG fade_speed = (millisecs >> 3);
+	std::int32_t fade_speed = (millisecs >> 3);
 
 	if (fade_speed < 1)
 	{
@@ -4458,7 +4458,7 @@ SBYTE FRONTEND_loop() {
 			}
 			break;
 	}
-	fade_rgb=(((SLONG)fade_state*2)<<24)|0xFFFFFF;
+	fade_rgb=(((std::int32_t)fade_state*2)<<24)|0xFFFFFF;
 
 	{
 		FRONTEND_kibble_process();
@@ -4549,9 +4549,9 @@ extern int g_iCheatNumber;
 
 		struct
 		{
-			CBYTE* mission;
-			SLONG  dontload;
-			SLONG  has_balrog;
+			char* mission;
+			std::int32_t  dontload;
+			std::int32_t  has_balrog;
 
 		} whattoload[] =
 		{
@@ -4599,7 +4599,7 @@ extern int g_iCheatNumber;
 		// What level are we loading?
 		//
 
-		SLONG index_into_the_whattoload_array;
+		std::int32_t index_into_the_whattoload_array;
 
 		previous_mission_launch=mission_launch;
 		strcpy(STARTSCR_mission,"levels\\");
@@ -4608,7 +4608,7 @@ extern int g_iCheatNumber;
 
 		index_into_the_whattoload_array = -1;
 
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; whattoload[i].mission[0] != '!'; i++)
 		{
@@ -4629,7 +4629,7 @@ extern int g_iCheatNumber;
 		ASSERT(WITHIN(index_into_the_whattoload_array, 0, 35));
 
 #ifndef TARGET_DC
-		extern ULONG DONT_load;
+		extern std::uint32_t DONT_load;
 
 		this_level_has_the_balrog = whattoload[index_into_the_whattoload_array].has_balrog;
 		this_level_has_bane       = (index_into_the_whattoload_array == 27);	// Just in the finale...

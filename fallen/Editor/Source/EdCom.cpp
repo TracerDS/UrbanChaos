@@ -10,7 +10,7 @@
 //	Editor condition list stuff.
 //---------------------------------------------------------------
 
-ULONG				ed_clist_count	=	0;
+std::uint32_t				ed_clist_count	=	0;
 EditCondList		edit_clists[MAX_EDIT_CLISTS],
 					*clists,
 					*clists_end,
@@ -36,7 +36,7 @@ void	init_ed_clists()
 
 EditCondList	*alloc_ed_clist()
 {
-	UWORD			c0;
+	std::uint16_t			c0;
 	EditCondList	*the_clist;
 
 
@@ -187,7 +187,7 @@ void	move_condition(EditCondList *the_clist,EditCondition *insert_point,EditCond
 //	Editor condition stuff.
 //---------------------------------------------------------------
 
-ULONG				ed_condition_count	=	0;
+std::uint32_t				ed_condition_count	=	0;
 EditCondition		edit_conditions[MAX_EDIT_CONDITIONS];
 
 //---------------------------------------------------------------
@@ -202,7 +202,7 @@ void	init_ed_conditions()
 
 EditCondition	*alloc_ed_condition()
 {
-	UWORD			c0;
+	std::uint16_t			c0;
 	EditCondition	*the_condition;
 
 
@@ -239,7 +239,7 @@ void			free_ed_condition(EditCondition *the_condition)
 //	Editor command list stuff.
 //---------------------------------------------------------------
 
-ULONG				ed_comlist_count	=	0;
+std::uint32_t				ed_comlist_count	=	0;
 EditComList			edit_comlists[MAX_EDIT_COMLISTS],
 					*comlists,
 					*comlists_end;
@@ -263,7 +263,7 @@ void	init_ed_comlists()
 
 EditComList	*alloc_ed_comlist()
 {
-	UWORD			c0;
+	std::uint16_t			c0;
 	EditComList	*the_comlist;
 
 
@@ -414,7 +414,7 @@ void	move_command(EditComList *the_comlist,EditCommand *insert_point,EditCommand
 //	Editor command stuff.
 //---------------------------------------------------------------
 
-ULONG				ed_command_count	=	0;
+std::uint32_t				ed_command_count	=	0;
 EditCommand			edit_commands[MAX_EDIT_COMMANDS];
 
 //---------------------------------------------------------------
@@ -429,7 +429,7 @@ void	init_ed_commands()
 
 EditCommand	*alloc_ed_command()
 {
-	UWORD			c0;
+	std::uint16_t			c0;
 	EditCommand		*the_command;
 
 

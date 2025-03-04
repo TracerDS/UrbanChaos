@@ -17,25 +17,25 @@
 
 typedef struct
 {
-	UBYTE		*SpriteData;
-	UWORD		SpriteHeight;
-	UWORD		SpriteWidth;
+	std::uint8_t		*SpriteData;
+	std::uint16_t		SpriteHeight;
+	std::uint16_t		SpriteWidth;
 }BSprite;
 
 
-extern void	(*DrawBSprite)(SLONG x,SLONG y,BSprite *the_sprite);
-extern void	(*DrawBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite);
+extern void	(*DrawBSprite)(std::int32_t x,std::int32_t y,BSprite *the_sprite);
+extern void	(*DrawBSpriteC)(std::int32_t x,std::int32_t y,BSprite *the_sprite);
 
-extern void	DrawBSpritePal16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
-extern void	DrawBSpritePal32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePal16(std::int32_t x,std::int32_t y,BSprite *the_sprite,std::uint8_t *pal);
+extern void	DrawBSpritePal32(std::int32_t x,std::int32_t y,BSprite *the_sprite,std::uint8_t *pal);
 
-extern void	(*DrawMonoBSprite)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
-extern void	(*DrawMonoBSpriteC)(SLONG x,SLONG y,BSprite *the_sprite,ULONG colour);
+extern void	(*DrawMonoBSprite)(std::int32_t x,std::int32_t y,BSprite *the_sprite,std::uint32_t colour);
+extern void	(*DrawMonoBSpriteC)(std::int32_t x,std::int32_t y,BSprite *the_sprite,std::uint32_t colour);
 
 
-extern void	DrawBSpritePalC16(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
-extern void	DrawBSpritePalC32(SLONG x,SLONG y,BSprite *the_sprite,UBYTE *pal);
+extern void	DrawBSpritePalC16(std::int32_t x,std::int32_t y,BSprite *the_sprite,std::uint8_t *pal);
+extern void	DrawBSpritePalC32(std::int32_t x,std::int32_t y,BSprite *the_sprite,std::uint8_t *pal);
 
-extern void	SetupBSprites(BSprite *sprite_ref,UBYTE *sprite_data);
+extern void	SetupBSprites(BSprite *sprite_ref,std::uint8_t *sprite_data);
 
 #endif

@@ -7,7 +7,7 @@
 
 #include "MFStdLib.h"
 
-CBYTE STARTSCR_mission[_MAX_PATH] = {0};
+char STARTSCR_mission[_MAX_PATH] = {0};
 
 
 #else
@@ -63,13 +63,13 @@ CBYTE STARTSCR_mission[_MAX_PATH] = {0};
 #define FORCE_FIRST_MISSION (0)
 
 #if defined(USE_PASSWORD)
-CBYTE magic_key[] = MAGIC_ARRAY;
+char magic_key[] = MAGIC_ARRAY;
 #endif
 
-CBYTE STARTSCR_mission[_MAX_PATH] = {0};
-UBYTE STARTSCR_miss_id=0;
-UBYTE STARTSCR_miss_autoadvance=0;
-//CBYTE* STARTSCR_mission=0;
+char STARTSCR_mission[_MAX_PATH] = {0};
+std::uint8_t STARTSCR_miss_id=0;
+std::uint8_t STARTSCR_miss_autoadvance=0;
+//char* STARTSCR_mission=0;
 
 struct StartMenuItemSimple	startmenu_special[]=
 {
@@ -125,10 +125,10 @@ struct StartMenuItemComplex	startmenu2[]=
 };
 
 struct MissionData {
-	SLONG ObjID, GroupID, ParentID, ParentIsGroup;
-	SLONG District;
-	SLONG Type, Flags;
-	CBYTE fn[255], ttl[255];
+	std::int32_t ObjID, GroupID, ParentID, ParentIsGroup;
+	std::int32_t District;
+	std::int32_t Type, Flags;
+	char fn[255], ttl[255];
 };
 
 struct StartMenu	start_menu[]=
@@ -143,11 +143,11 @@ struct StartMenu	start_menu[]=
 
 };
 
-static UBYTE mission_num;
+static std::uint8_t mission_num;
 static CHAR mission_name[_MAX_PATH]; // this is getting kinda skanky now
 
 extern bool  text_fudge;
-extern ULONG text_colour;
+extern std::uint32_t text_colour;
 
 bool show_game = 1;
 
@@ -176,11 +176,11 @@ void STARTSCR_plonk_logo() {
 }
 
 
-void draw_a_menu(SLONG	menu)
+void draw_a_menu(std::int32_t	menu)
 {
-	SLONG	c0;
-	SLONG	y;
-	SLONG	complex;
+	std::int32_t	c0;
+	std::int32_t	y;
+	std::int32_t	complex;
 
 
 	text_fudge  = false;
@@ -191,7 +191,7 @@ void draw_a_menu(SLONG	menu)
 
 	for(c0=0;c0<start_menu[menu].Count;c0++)
 	{
-		CBYTE	*str;
+		char	*str;
 
 		if(c0==start_menu[menu].Current)
 			text_colour = 0x00eeee00;
@@ -206,8 +206,8 @@ void draw_a_menu(SLONG	menu)
 		}
 		else
 		{
-			SLONG	item;
-			CBYTE	*str;
+			std::int32_t	item;
+			char	*str;
 			item=startmenu2[c0+start_menu[menu].StartIndex].Item;
 			draw_text_at(150, y,startmenu2[c0+start_menu[menu].StartIndex].Str,0);
 			
@@ -223,12 +223,12 @@ void draw_a_menu(SLONG	menu)
 #ifndef	PSX
 
 #if 0
-void draw_a_3d_menu(Font3D &font, SLONG	menu) 
+void draw_a_3d_menu(Font3D &font, std::int32_t	menu) 
 {
-	SLONG	c0;
-	SLONG	y;
-	SLONG	complex;
-	UBYTE   isthis;
+	std::int32_t	c0;
+	std::int32_t	y;
+	std::int32_t	complex;
+	std::uint8_t   isthis;
 
 
 	text_fudge  = false;
@@ -239,7 +239,7 @@ void draw_a_3d_menu(Font3D &font, SLONG	menu)
 
 	for(c0=0;c0<start_menu[menu].Count;c0++)
 	{
-		CBYTE	*str;
+		char	*str;
 
 		isthis=(c0==start_menu[menu].Current);
 		if(isthis)
@@ -255,8 +255,8 @@ void draw_a_3d_menu(Font3D &font, SLONG	menu)
 		}
 		else
 		{
-			SLONG	item;
-			CBYTE	*str;
+			std::int32_t	item;
+			char	*str;
 			item=startmenu2[c0+start_menu[menu].StartIndex].Item;
 //			draw_text_at(150, y,startmenu2[c0+start_menu[menu].StartIndex].Str,0);
 			font.DrawString(startmenu2[c0+start_menu[menu].StartIndex].Str,200,y,text_colour,2.0+(isthis*0.5f),isthis);
@@ -272,17 +272,17 @@ void draw_a_3d_menu(Font3D &font, SLONG	menu)
 
 #endif
 
-//void MENUFONT_Draw_floats(float x, float y, UWORD scale, CBYTE* msg, SLONG rgb, UBYTE flags, UBYTE haloscale);
+//void MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint8_t flags, std::uint8_t haloscale);
 
 
-void draw_a_new_menu(SLONG	menu, SLONG localctr) 
+void draw_a_new_menu(std::int32_t	menu, std::int32_t localctr) 
 {
-	SLONG	c0;
-	SLONG	y,rgb;
-	SLONG	complex;
-	UBYTE   isthis;
-	UWORD	flags;
-	SLONG	gap=20;
+	std::int32_t	c0;
+	std::int32_t	y,rgb;
+	std::int32_t	complex;
+	std::uint8_t   isthis;
+	std::uint16_t	flags;
+	std::int32_t	gap=20;
 
 
 	y=255-(gap*start_menu[menu].Count);
@@ -291,7 +291,7 @@ void draw_a_new_menu(SLONG	menu, SLONG localctr)
 
 	for(c0=0;c0<start_menu[menu].Count;c0++)
 	{
-		CBYTE	*str;
+		char	*str;
 
 		isthis=(c0==start_menu[menu].Current);
 		rgb=(localctr<0xff) ? localctr : 0xff;
@@ -329,8 +329,8 @@ void draw_a_new_menu(SLONG	menu, SLONG localctr)
 		}
 		else
 		{
-			SLONG	item;
-			CBYTE	*str;
+			std::int32_t	item;
+			char	*str;
 			item=startmenu2[c0+start_menu[menu].StartIndex].Item;
 //			font.DrawString(startmenu2[c0+start_menu[menu].StartIndex].Str,200,y,text_colour,2.0+(isthis*0.5f),isthis);
 			flags = MENUFONT_RIGHTALIGN | ( isthis ? MENUFONT_SHAKE : 0);
@@ -353,8 +353,8 @@ void draw_a_new_menu(SLONG	menu, SLONG localctr)
 
 #ifndef PSX
 
-CBYTE* LoadAString(MFFileHandle &file, CBYTE* txt) {
-	CBYTE* ptr=txt;
+char* LoadAString(MFFileHandle &file, char* txt) {
+	char* ptr=txt;
 
 	*ptr=0;
 	while (1) {
@@ -368,9 +368,9 @@ CBYTE* LoadAString(MFFileHandle &file, CBYTE* txt) {
 	return txt;
 }
 
-void SaveAString(MFFileHandle &file, CBYTE* txt) {
-	CBYTE* ptr=txt;
-	CBYTE crlf[] = { 13, 10};
+void SaveAString(MFFileHandle &file, char* txt) {
+	char* ptr=txt;
+	char crlf[] = { 13, 10};
 
 	FileWrite(file,txt,strlen(txt));
 	FileWrite(file,crlf,2);
@@ -399,14 +399,14 @@ void LoadFont_LCD() {
 //	MENUFONT_Load("data\\textures\\extras\\font3.tga",POLY_PAGE_NEWFONT_INVERSE,"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz$%&()+-\"?,.;:/#0123456789���_|}{�");
 }
 
-SLONG MainWidgetLoop();
+std::int32_t MainWidgetLoop();
 
-extern SLONG FONT_TICK;
-//extern ULONG get_hardware_input(UWORD type);
+extern std::int32_t FONT_TICK;
+//extern std::uint32_t get_hardware_input(std::uint16_t type);
 //#define	INPUT_TYPE_JOY	(1<<1)
 
 #ifndef TARGET_DC
-SLONG MainE3BodgeLoop() {
+std::int32_t MainE3BodgeLoop() {
 	static int input = 0;
 	static int ticker=0;
 	int lastinput;
@@ -472,9 +472,9 @@ extern int do_only_game_intro();
 #endif //#ifndef TARGET_DC
 
 
-SLONG do_start_menu()
+std::int32_t do_start_menu()
 {
-	SLONG res;
+	std::int32_t res;
 
 #ifdef	PSX
 	return(STARTS_START);
@@ -485,14 +485,14 @@ SLONG do_start_menu()
 //	static  Font3D font("data\\font3d\\urban\\");
 //	static  Font3D font("data\\font3d\\all\\",0.2);
 	static  float i=1;
-	static	SLONG tune_id=0;
-	static	SLONG localctr = 0;
+	static	std::int32_t tune_id=0;
+	static	std::int32_t localctr = 0;
 	static  bool realmenu=0;
 
 	static  bool doneload=0;
 
 	if (!doneload) {
-		CBYTE* lang=ENV_get_value_string("language");
+		char* lang=ENV_get_value_string("language");
 		doneload=1;
 		if (!lang) lang="text\\lang_english.txt";
 		XLAT_load(lang);
@@ -524,12 +524,12 @@ SLONG do_start_menu()
 //	ShowBackImage();
 
 extern void GI_render_view_into_backbuffer(
-		SLONG cam_x,
-		SLONG cam_y,
-		SLONG cam_z,
-		SLONG cam_yaw,
-		SLONG cam_pitch,
-		SLONG cam_roll);
+		std::int32_t cam_x,
+		std::int32_t cam_y,
+		std::int32_t cam_z,
+		std::int32_t cam_yaw,
+		std::int32_t cam_pitch,
+		std::int32_t cam_roll);
 extern void calc_camera_pos();
 
 		if (show_game)
@@ -648,7 +648,7 @@ extern void calc_camera_pos();
 		else
 		if(Keys[KB_RIGHT])
 		{
-			SLONG	item;
+			std::int32_t	item;
 			Keys[KB_RIGHT]=0;
 			item=startmenu2[start_menu[menu].Current+start_menu[menu].StartIndex].Item;
 
@@ -708,33 +708,33 @@ void test_the_widgets() {
 		FORM_AddWidget(form,WIDGET_Create(&INPUT_Methods ,14,190,300,220,"input box 1"));*/
 		FORM_AddWidget(form,WIDGET_Create(&INPUT_Methods ,14,55,300,95,"input box 1"));
 		widget=FORM_AddWidget(form,WIDGET_Create(&LISTS_Methods ,20,100,300,260,"listbox"));
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Test Item");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Another Item");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"A Third Item");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Moo");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Wibble");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Flirble");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Tweet");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"baaa");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"meep");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"arf");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Arooooo");
-		widget->methods->Data(widget,WLM_ADDSTRING,0,(SLONG)"Oink");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Test Item");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Another Item");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"A Third Item");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Moo");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Wibble");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Flirble");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Tweet");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"baaa");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"meep");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"arf");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Arooooo");
+		widget->methods->Data(widget,WLM_ADDSTRING,0,(std::int32_t)"Oink");
 	}
 	FORM_Draw(form);
 	FORM_Process(form);
 }
 
-	CBYTE export_pw[] = EXPORT_PW;
-	CBYTE export_name[] = EXPORT_NAME;
-	CBYTE export_co[] = EXPORT_CO;
+	char export_pw[] = EXPORT_PW;
+	char export_name[] = EXPORT_NAME;
+	char export_co[] = EXPORT_CO;
 
-bool pass_dlg(Form *form, Widget *widget, SLONG message) {
-/*	CBYTE pw[] = {25, 22, 1, 3, 10, 0, 6, 20, 6, 7, 27, 0 };
-	CBYTE match[] = "mandelbrots";*/
-	CBYTE* pt;
-//	CBYTE* str,*pw2;
-	SLONG i;
+bool pass_dlg(Form *form, Widget *widget, std::int32_t message) {
+/*	char pw[] = {25, 22, 1, 3, 10, 0, 6, 20, 6, 7, 27, 0 };
+	char match[] = "mandelbrots";*/
+	char* pt;
+//	char* str,*pw2;
+	std::int32_t i;
 	static bool firstpass=1;
 
 	if (!widget) {
@@ -778,16 +778,16 @@ bool pass_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-bool menu_dlg(Form *form, Widget *widget, SLONG message) {
+bool menu_dlg(Form *form, Widget *widget, std::int32_t message) {
 	if (widget) form->returncode=widget->tag;
 	return 0;
 }
 
-SLONG LoadMissionList(Form *form, CBYTE* script, SLONG district=-1, UBYTE firstonly=FORCE_FIRST_MISSION);
+std::int32_t LoadMissionList(Form *form, char* script, std::int32_t district=-1, std::uint8_t firstonly=FORCE_FIRST_MISSION);
 
-bool game_dlg(Form *form, Widget *widget, SLONG message) {
+bool game_dlg(Form *form, Widget *widget, std::int32_t message) {
 	Widget *wig,*nxt;
-	SLONG dist;
+	std::int32_t dist;
 
 	if (widget) {
 		if (widget->tag) {
@@ -871,9 +871,9 @@ void DrawPolaroid() {
 	POLY_add_quad(quad,POLY_PAGE_POLAROID,false,true);
 }
 
-UWORD save_slot;
+std::uint16_t save_slot;
 
-bool save_dlg(Form *form, Widget *widget, SLONG message) {
+bool save_dlg(Form *form, Widget *widget, std::int32_t message) {
 	if (widget) {
 		switch(widget->tag) {
 		case 1: 
@@ -886,8 +886,8 @@ bool save_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-bool brief_dlg(Form *form, Widget *widget, SLONG message) {
-	ULONG c,t;
+bool brief_dlg(Form *form, Widget *widget, std::int32_t message) {
+	std::uint32_t c,t;
 
 	if (!widget) {
 		if ((message==WFN_CHAR)&&(LastKey==1)) form->returncode=-1;
@@ -906,7 +906,7 @@ bool brief_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-bool load_dlg(Form *form, Widget *widget, SLONG message) {
+bool load_dlg(Form *form, Widget *widget, std::int32_t message) {
 	if (widget) {
 		switch(widget->tag) {
 		case 1: form->returncode=-1; break;
@@ -919,7 +919,7 @@ bool load_dlg(Form *form, Widget *widget, SLONG message) {
 	return 0;
 }
 
-bool esc_dlg(Form *form, Widget *widget, SLONG message) {
+bool esc_dlg(Form *form, Widget *widget, std::int32_t message) {
 	if (!widget) {
 		if ((message==WFN_CHAR)&&(LastKey==1)) form->returncode=-1;
 	}
@@ -928,8 +928,8 @@ bool esc_dlg(Form *form, Widget *widget, SLONG message) {
 
 void SaveQuickGame(Form* form) {
 	Widget* widget;
-	SLONG slot;
-	CBYTE fn[_MAX_PATH];
+	std::int32_t slot;
+	char fn[_MAX_PATH];
 	MFFileHandle file;
 
 /*	widget=form->children;
@@ -952,9 +952,9 @@ void SaveQuickGame(Form* form) {
 }
 
 void LoadQuickGame() {
-	CBYTE fn[_MAX_PATH];
+	char fn[_MAX_PATH];
 	MFFileHandle file;
-	SLONG slot=save_slot+1;
+	std::int32_t slot=save_slot+1;
 
 	sprintf(fn,"saves\\slot%d.wag",slot);
 	file=FileOpen(fn);
@@ -967,7 +967,7 @@ void LoadQuickGame() {
 void TemporaryMissionList(Widget *list) {
 #ifndef PSX
 
-	CBYTE dir[_MAX_PATH];
+	char dir[_MAX_PATH];
 	WIN32_FIND_DATA data;
 	HANDLE handle;
 	bool   ok;
@@ -977,7 +977,7 @@ void TemporaryMissionList(Widget *list) {
 	if (handle!=INVALID_HANDLE_VALUE) {
 		ok=1;
 		while (ok) {
-			list->methods->Data(list,WLM_ADDSTRING,0,(SLONG)data.cFileName);
+			list->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)data.cFileName);
 			ok=FindNextFile(handle,&data);
 		}
 		FindClose(handle);
@@ -988,16 +988,16 @@ void TemporaryMissionList(Widget *list) {
 
 
 /*
-void LoadMissionList(Widget *list, CBYTE* script) {
+void LoadMissionList(Widget *list, char* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
-	CBYTE title[256];
-	SLONG a,b,c,d,e;
-	SLONG ver, mapx, mapy;
+	char* text;
+	char title[256];
+	std::int32_t a,b,c,d,e;
+	std::int32_t ver, mapx, mapy;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	file = FileOpen(script);
@@ -1011,7 +1011,7 @@ void LoadMissionList(Widget *list, CBYTE* script) {
 			  sscanf(text,"%d : %d : %d : %d : %d : %*s : %[^:] : %*s",&a,&b,&c,&d,&e,title);
 			else
 			  sscanf(text,"%d : %d : %d : %d : %d : %*s : %d : %d : %[^:] : %*s",&a,&b,&c,&d,&e,&mapx,&mapy,title);
-			list->methods->Data(list,WLM_ADDSTRING,0,(SLONG)title);
+			list->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)title);
 		}
 	}
 	FileClose(file);
@@ -1023,7 +1023,7 @@ void LoadMissionList(Widget *list, CBYTE* script) {
 }
 */
 
-void ParseMissionData(CBYTE* text, CBYTE version, MissionData *mdata) {
+void ParseMissionData(char* text, char version, MissionData *mdata) {
 	int debug;
 
 	switch(version) {
@@ -1053,13 +1053,13 @@ void ParseMissionData(CBYTE* text, CBYTE version, MissionData *mdata) {
 }
 
 
-void MissionListCallback(CBYTE* script, MISSION_callback cb) {
+void MissionListCallback(char* script, MISSION_callback cb) {
 	MFFileHandle file;
-	CBYTE* text;
-	SLONG ver=0;
+	char* text;
+	std::int32_t ver=0;
 	MissionData *mdata = MFnew<MissionData>();
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	file = FileOpen(script);
@@ -1081,7 +1081,7 @@ void MissionListCallback(CBYTE* script, MISSION_callback cb) {
 
 }
 /*
-void testy2(CBYTE* filename) {
+void testy2(char* filename) {
 	TRACE("returned %s\n",filename);
 }
 
@@ -1089,15 +1089,15 @@ void testy() {
   MissionListCallback(MISSION_SCRIPT,testy2);
 }
 */
-SLONG LoadMissionList(Form *form, CBYTE* script, SLONG district, UBYTE firstonly) {
+std::int32_t LoadMissionList(Form *form, char* script, std::int32_t district, std::uint8_t firstonly) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
-	SLONG i,ver, mapx, mapy, dumpy=100, ct=0;
+	char* text;
+	std::int32_t i,ver, mapx, mapy, dumpy=100, ct=0;
 	MissionData *mdata = MFnew<MissionData>();
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	i=100;
@@ -1113,7 +1113,7 @@ SLONG LoadMissionList(Form *form, CBYTE* script, SLONG district, UBYTE firstonly
 		} else  {
 			ParseMissionData(text,ver,mdata);
 			mapx=mapy=0;
-//			list->methods->Data(list,WLM_ADDSTRING,0,(SLONG)title);
+//			list->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)title);
 
 		// quick uppercase force
 		  for(script=mdata->ttl;*script;script++)
@@ -1153,15 +1153,15 @@ SLONG LoadMissionList(Form *form, CBYTE* script, SLONG district, UBYTE firstonly
 }
 
 
-void LoadDistrictList(Form *form, CBYTE* script) {
+void LoadDistrictList(Form *form, char* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
-	CBYTE title[256];
-	SLONG ver, mapx, mapy, i=0;
+	char* text;
+	char title[256];
+	std::int32_t ver, mapx, mapy, i=0;
 
-	text = (CBYTE*)MemAlloc(2048);
+	text = (char*)MemAlloc(2048);
 	memset(text,0,2048);
 
 	file = FileOpen(script);
@@ -1205,15 +1205,15 @@ void LoadDistrictList(Form *form, CBYTE* script) {
 }
 
 
-void LoadSpecificDistrict(Form *form, CBYTE* script, UWORD district) {
+void LoadSpecificDistrict(Form *form, char* script, std::uint16_t district) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
-	CBYTE title[256];
-	SLONG ver, mapx, mapy, i=0;
+	char* text;
+	char title[256];
+	std::int32_t ver, mapx, mapy, i=0;
 
-	text = (CBYTE*)MemAlloc(2048);
+	text = (char*)MemAlloc(2048);
 	memset(text,0,2048);
 
 	district++; // blah blah
@@ -1264,16 +1264,16 @@ void LoadSpecificDistrict(Form *form, CBYTE* script, UWORD district) {
 }
 
 
-void QuickDistrictList(Form *form, CBYTE* script) {
+void QuickDistrictList(Form *form, char* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
-	SLONG ver=0;
-	UBYTE index=0;
+	char* text;
+	std::int32_t ver=0;
+	std::uint8_t index=0;
 	MissionData *mdata = MFnew<MissionData>();
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	file = FileOpen(script);
@@ -1300,16 +1300,16 @@ void QuickDistrictList(Form *form, CBYTE* script) {
 
 
 
-UBYTE LoadMissionNumFromId(CBYTE* script, UBYTE id) {
+std::uint8_t LoadMissionNumFromId(char* script, std::uint8_t id) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
-	SLONG ver=0;
-	UBYTE index=0;
+	char* text;
+	std::int32_t ver=0;
+	std::uint8_t index=0;
 	MissionData *mdata = MFnew<MissionData>();
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	file = FileOpen(script);
@@ -1335,15 +1335,15 @@ UBYTE LoadMissionNumFromId(CBYTE* script, UBYTE id) {
 #endif
 }
 
-void LoadMissionFilename(CBYTE* script, UBYTE index, CBYTE* fn, UBYTE *id) {
+void LoadMissionFilename(char* script, std::uint8_t index, char* fn, std::uint8_t *id) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text;
+	char* text;
 	MissionData *mdata = MFnew<MissionData>();
-	SLONG ver=0;
+	std::int32_t ver=0;
 
-	text = (CBYTE*)MemAlloc(4096); 
+	text = (char*)MemAlloc(4096); 
 	memset(text,0,4096);
 
 	index++;
@@ -1374,16 +1374,16 @@ void LoadMissionFilename(CBYTE* script, UBYTE index, CBYTE* fn, UBYTE *id) {
 #endif
 }
 
-void LoadNextMissionFilename(UBYTE &current_index, CBYTE* fn, CBYTE* mtitle, CBYTE* script) {
+void LoadNextMissionFilename(std::uint8_t &current_index, char* fn, char* mtitle, char* script) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text, *pt;
-	SLONG ver=0, ndx=0;
+	char* text, *pt;
+	std::int32_t ver=0, ndx=0;
 	MissionData *mdata = MFnew<MissionData>();
 
 
-	text = (CBYTE*)MemAlloc(8192); 
+	text = (char*)MemAlloc(8192); 
 	memset(text,0,8192);
 
 	file = FileOpen(script);
@@ -1423,15 +1423,15 @@ void LoadNextMissionFilename(UBYTE &current_index, CBYTE* fn, CBYTE* mtitle, CBY
 
 
 
-CBYTE*	LoadMissionBriefing(CBYTE* script, UBYTE index) {
+char*	LoadMissionBriefing(char* script, std::uint8_t index) {
 #ifndef PSX
 
 	MFFileHandle file;
-	CBYTE* text, *pt;
-	CBYTE fn[_MAX_PATH],mfn[_MAX_PATH];
-	SLONG a,b,c,d,e,n,ver;
+	char* text, *pt;
+	char fn[_MAX_PATH],mfn[_MAX_PATH];
+	std::int32_t a,b,c,d,e,n,ver;
 
-	text = (CBYTE*)MemAlloc(8192); 
+	text = (char*)MemAlloc(8192); 
 	memset(text,0,8192);
 
 	index++;
@@ -1494,18 +1494,18 @@ CBYTE*	LoadMissionBriefing(CBYTE* script, UBYTE index) {
 void ScanSavedGames(Widget *list) {
 #ifndef PSX
 
-	CBYTE dir[_MAX_PATH],ttl[_MAX_PATH];
+	char dir[_MAX_PATH],ttl[_MAX_PATH];
 	WIN32_FIND_DATA data;
 	HANDLE handle;
 	bool   ok;
-	SLONG	c0;
+	std::int32_t	c0;
 
 /*	strcpy(dir,"saves\\*.wag");
 	handle=FindFirstFile(dir,&data);
 	if (handle!=INVALID_HANDLE_VALUE) {
 		ok=1;
 		while (ok) {
-			list->methods->Data(list,WLM_ADDSTRING,0,(SLONG)data.cFileName);
+			list->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)data.cFileName);
 			ok=FindNextFile(handle,&data);
 		}
 		FindClose(handle);
@@ -1523,7 +1523,7 @@ void ScanSavedGames(Widget *list) {
 			strcpy(ttl,"(empty)");
 		}
 		sprintf(dir,"Slot %d: %s",c0,ttl);
-		list->methods->Data(list,WLM_ADDSTRING,0,(SLONG)dir);
+		list->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)dir);
 	}
 
 #endif
@@ -1600,15 +1600,15 @@ bool TimeoutCheck() {
 
 // --- widgety core stuff ---
 
-SLONG MainWidgetLoop() {
+std::int32_t MainWidgetLoop() {
 	static Form* form=NULL;
 	Widget* widget;
-	SLONG result;
-	CBYTE* txt,*tmp;
+	std::int32_t result;
+	char* txt,*tmp;
 #ifdef USE_PASSWORD
-	static SLONG mode=0;
+	static std::int32_t mode=0;
 #else
-	static SLONG mode=1;
+	static std::int32_t mode=1;
 #endif
 
 	if (!form) {
@@ -1703,7 +1703,7 @@ SLONG MainWidgetLoop() {
 //			FORM_AddWidget(form,WIDGET_Create(&STATIC_Methods,10,60,335,180,mission_name));
 			widget=FORM_AddWidget(form,WIDGET_Create(&TEXTS_Methods ,10,140,335,380,"textbox"));
 			txt=LoadMissionBriefing(MISSION_SCRIPT,mission_num);
-			if (txt) widget->methods->Data(widget,WTM_ADDBLOCK,0,(SLONG)txt);
+			if (txt) widget->methods->Data(widget,WTM_ADDBLOCK,0,(std::int32_t)txt);
 			widget->methods->Char(widget,13);
 //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,195,335,225,"change mission"))->tag=1;
 //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,235,335,255,"start mission"))->tag=2;
@@ -1713,7 +1713,7 @@ SLONG MainWidgetLoop() {
 
 			break;
 		case 20:
-//			mode = 1+(UBYTE)won_the_game;
+//			mode = 1+(std::uint8_t)won_the_game;
 			if (won_the_game&&STARTSCR_mission[0]&&STARTSCR_miss_id) {
 				if (STARTSCR_miss_autoadvance)
 					return STARTS_START;
@@ -1734,10 +1734,10 @@ SLONG MainWidgetLoop() {
 			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,10,400,165,420,"SAVE"))->tag=1;
 			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,165,400,330,420,"CANCEL"))->tag=2;
 /*			for (c0=0;c0<10;c0++) {
-				CBYTE msg[30],ttl[_MAX_PATH];
+				char msg[30],ttl[_MAX_PATH];
 				if (FileExists(
 				sprintf(msg,"Slot %d: %s",c0,ttl);
-				widget->methods->Data(list,WLM_ADDSTRING,0,(SLONG)data.cFileName);
+				widget->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)data.cFileName);
 			}*/
 			break;
 		default:
@@ -1825,16 +1825,16 @@ extern volatile HWND	hDDLibWindow;
 }
 
 
-extern SLONG ELEV_load_user(SLONG mission);
+extern std::int32_t ELEV_load_user(std::int32_t mission);
 
-extern CBYTE	ELEV_fname_level   [];
-extern void	save_whole_game(CBYTE	*gamename);
-extern SLONG	quick_load;
+extern char	ELEV_fname_level   [];
+extern void	save_whole_game(char	*gamename);
+extern std::int32_t	quick_load;
 //MissionListCallback
 void make_all_wads()
 {
-	SLONG	c0;
-	CBYTE	save_wad[100];
+	std::int32_t	c0;
+	char	save_wad[100];
 	quick_load=1;
 	for(c0=0;c0<25;c0++)
 	{

@@ -14,16 +14,16 @@ LIGHT_Colour LIGHT_amb_colour;
 
 void BUILD_draw(Thing *p_thing)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 	
 	LIGHT_Colour pcol;
 
@@ -37,18 +37,18 @@ void BUILD_draw(Thing *p_thing)
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
 
-	SLONG page;
-	SLONG backface_cull;
-	ULONG shadow;
-	ULONG face_colour;
-	ULONG face_specular;
+	std::int32_t page;
+	std::int32_t backface_cull;
+	std::uint32_t shadow;
+	std::uint32_t face_colour;
+	std::uint32_t face_specular;
 
 	float bx = float(p_thing->WorldPos.X >> 8);
 	float by = float(p_thing->WorldPos.Y >> 8);
 	float bz = float(p_thing->WorldPos.Z >> 8);
 
-	SLONG bo_index;
-	SLONG bf_index;
+	std::int32_t bo_index;
+	std::int32_t bf_index;
 
 	BuildingFacet  *bf;
 	BuildingObject *bo;
@@ -69,8 +69,8 @@ void BUILD_draw(Thing *p_thing)
 	// The ambient light colour.
 	//
 
-	ULONG colour;
-	ULONG specular;
+	D3DCOLOR colour;
+	D3DCOLOR specular;
 
 	LIGHT_get_d3d_colour(
 		LIGHT_amb_colour,
@@ -317,17 +317,17 @@ void BUILD_draw_inside()
 
 	Thing *p_thing = TO_THING(INDOORS_THING);
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG page;
+	std::int32_t page;
 	
 	float max_height;
 
@@ -341,15 +341,15 @@ void BUILD_draw_inside()
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
 
-	ULONG amb_colour;
-	ULONG amb_specular;
+	std::uint32_t amb_colour;
+	std::uint32_t amb_specular;
 
 	float bx = float(p_thing->WorldPos.X >> 8);
 	float by = float(p_thing->WorldPos.Y >> 8);
 	float bz = float(p_thing->WorldPos.Z >> 8);
 
-	SLONG bo_index;
-	SLONG bf_index;
+	std::int32_t bo_index;
+	std::int32_t bf_index;
 
 	BuildingFacet  *bf;
 	BuildingObject *bo;
@@ -361,8 +361,8 @@ void BUILD_draw_inside()
 	// The ambient light colour.
 	//
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	LIGHT_get_d3d_colour(
 		LIGHT_amb_colour,

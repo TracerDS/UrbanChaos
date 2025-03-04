@@ -47,12 +47,12 @@
 
 typedef	struct
 {
-	LIGHT_Colour	Colour;
-	SBYTE			AltNotUsedAnyMore;
-	UWORD			FlagsNotUsedAnyMore;
-	UWORD			ColVectHead,
+	LIGHT_Colour	Color;
+	std::int8_t			AltNotUsedAnyMore;
+	std::uint16_t			FlagsNotUsedAnyMore;
+	std::uint16_t			ColVectHead,
 					TextureNotUsedAnyMore;
-	SWORD			Walkable;
+	std::int16_t			Walkable;
 	THING_INDEX		MapWho;
 }MapElement; //14 bytes for pc
 
@@ -60,12 +60,12 @@ typedef	struct
 
 typedef	struct
 {
-	UWORD 	X		:	3;
-	UWORD 	Y		:	3;
-	UWORD	Page	:	4;
-	UWORD	Rot		:	2;
-	UWORD	Flip	:	2;
-	UWORD	Size	:	2;
+	std::uint16_t 	X		:	3;
+	std::uint16_t 	Y		:	3;
+	std::uint16_t	Page	:	4;
+	std::uint16_t	Rot		:	2;
+	std::uint16_t	Flip	:	2;
+	std::uint16_t	Size	:	2;
 
 }CodedTexture;
 
@@ -79,9 +79,9 @@ void	init_map();
 // Functions to give to the light module access to the map.
 //
 
-SLONG        MAP_light_get_height(SLONG x, SLONG z);
-LIGHT_Colour MAP_light_get_light (SLONG x, SLONG z);
-void         MAP_light_set_light (SLONG x, SLONG z, LIGHT_Colour colour);
+std::int32_t        MAP_light_get_height(std::int32_t x, std::int32_t z);
+LIGHT_Colour MAP_light_get_light (std::int32_t x, std::int32_t z);
+void         MAP_light_set_light (std::int32_t x, std::int32_t z, LIGHT_Colour colour);
 
 extern LIGHT_Map MAP_light_map;
 

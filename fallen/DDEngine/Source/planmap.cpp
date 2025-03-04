@@ -15,21 +15,21 @@
 #define	EDGE_RIGHT	(1<<2)
 #define	EDGE_BOTTOM	(1<<3)
 
-extern UBYTE	player_visited[16][128];
+extern std::uint8_t	player_visited[16][128];
 
 
 
-UBYTE	*screenmem;
-SLONG	clip_left,clip_right,clip_top,clip_bot;
+std::uint8_t	*screenmem;
+std::int32_t	clip_left,clip_right,clip_top,clip_bot;
 
 
 
-void	draw_quick_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLONG blue)
+void	draw_quick_rect(std::int32_t csx,std::int32_t csy,std::int32_t pixelw,std::int32_t red,std::int32_t green,std::int32_t blue)
 {
-	SLONG	right,bot;
-	SLONG	dx,dy;
-	UBYTE	*mem;
-	ULONG	mod;
+	std::int32_t	right,bot;
+	std::int32_t	dx,dy;
+	std::uint8_t	*mem;
+	std::uint32_t	mod;
 
 	if(csy>=clip_bot || csx>=clip_right)
 		return;
@@ -71,11 +71,11 @@ void	draw_quick_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLON
 	}
 }
 
-void	draw_shadow_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLONG blue,SLONG shadow,SLONG edge)
+void	draw_shadow_rect(std::int32_t csx,std::int32_t csy,std::int32_t pixelw,std::int32_t red,std::int32_t green,std::int32_t blue,std::int32_t shadow,std::int32_t edge)
 {
-	SLONG	dx,dy,px,py;
-	SLONG	r,g,b;
-	UBYTE	clipped=1;
+	std::int32_t	dx,dy,px,py;
+	std::int32_t	r,g,b;
+	std::uint8_t	clipped=1;
 
 
 
@@ -223,22 +223,22 @@ void	draw_shadow_rect(SLONG csx,SLONG csy,SLONG pixelw,SLONG red,SLONG green,SLO
 
 			}
 
-			 screenmem[px*3+2+py*640*3]=(UBYTE)r;
-			 screenmem[px*3+1+py*640*3]=(UBYTE)g;
-			 screenmem[px*3+0+py*640*3]=(UBYTE)b;
+			 screenmem[px*3+2+py*640*3]=(std::uint8_t)r;
+			 screenmem[px*3+1+py*640*3]=(std::uint8_t)g;
+			 screenmem[px*3+0+py*640*3]=(std::uint8_t)b;
 		}
 	}
 }
 
 
 
-UWORD	screen_x,screen_y,screen_width,screen_height,block_size,screen_mx,screen_mz;
-SLONG	screen_pitch;
+std::uint16_t	screen_x,screen_y,screen_width,screen_height,block_size,screen_mx,screen_mz;
+std::int32_t	screen_pitch;
 
 
-void	get_screen_xy(SLONG *x,SLONG *z)
+void	get_screen_xy(std::int32_t *x,std::int32_t *z)
 {
-	SLONG	rx,rz;
+	std::int32_t	rx,rz;
 
 	rx=(*x);
 	rz=(*z);
@@ -260,12 +260,12 @@ void	get_screen_xy(SLONG *x,SLONG *z)
 
 }
 
-void	map_beacon_draw(SLONG x,SLONG z,ULONG col,ULONG flag,UWORD dir)
+void	map_beacon_draw(std::int32_t x,std::int32_t z,std::uint32_t col,std::uint32_t flag,std::uint16_t dir)
 {
-	UBYTE	radius;
-	SLONG	screen_pitch;
-	SLONG	mx,mz;
-	SLONG	size=3;
+	std::uint8_t	radius;
+	std::int32_t	screen_pitch;
+	std::int32_t	mx,mz;
+	std::int32_t	size=3;
 
 	mx=x>>8;
 	mz=z>>8;
@@ -303,11 +303,11 @@ void	map_beacon_draw(SLONG x,SLONG z,ULONG col,ULONG flag,UWORD dir)
 
 	if (flag & BEACON_FLAG_POINTY)
 	{
-		SLONG dx = -SIN(dir);
-		SLONG dz = -COS(dir);
+		std::int32_t dx = -SIN(dir);
+		std::int32_t dz = -COS(dir);
 
-		SLONG px;
-		SLONG pz;
+		std::int32_t px;
+		std::int32_t pz;
 
 		px = x + (dx >> 14);
 		pz = z + (dz >> 14);
@@ -325,20 +325,20 @@ void	map_beacon_draw(SLONG x,SLONG z,ULONG col,ULONG flag,UWORD dir)
 	}
 }
 
-void plan_view_shot(SLONG wx,SLONG wz,SLONG pixelw,SLONG sx,SLONG sy,SLONG w,SLONG h,UBYTE *mem)
+void plan_view_shot(std::int32_t wx,std::int32_t wz,std::int32_t pixelw,std::int32_t sx,std::int32_t sy,std::int32_t w,std::int32_t h,std::uint8_t *mem)
 {
-	SLONG	minx,maxx,minz,maxz;
-	SLONG	lminx,lmaxx,lminz,lmaxz;
-	SLONG	x,z,csx,csy,c0;
-	SLONG	r,g,b,shadow;
-	SLONG	edge;
-	UBYTE	*m;
+	std::int32_t	minx,maxx,minz,maxz;
+	std::int32_t	lminx,lmaxx,lminz,lmaxz;
+	std::int32_t	x,z,csx,csy,c0;
+	std::int32_t	r,g,b,shadow;
+	std::int32_t	edge;
+	std::uint8_t	*m;
 
 	MFFileHandle	image_file;
-	SLONG	height;
-	UBYTE  *image;
+	std::int32_t	height;
+	std::uint8_t  *image;
 
-extern UBYTE* image_mem;
+extern std::uint8_t* image_mem;
 	memcpy(mem,image_mem,640*480*3);
 	// yay for disk caches :-p
 
@@ -391,7 +391,7 @@ extern UBYTE* image_mem;
 			{
 				if(player_visited[x>>3][z]&(1<<(x&7)))
 				{
-					SLONG	mh;
+					std::int32_t	mh;
 					edge=0;
 
 					mh=PAP_2HI(x,z).Height;

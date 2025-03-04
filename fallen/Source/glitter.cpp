@@ -13,22 +13,22 @@
 
 typedef struct
 {
-	UWORD x;
-	SWORD y;
-	UWORD z;
-	SBYTE dx;
-	SBYTE dy;
-	SBYTE dz;
-	UBYTE next;		// The next spark in the linked list.
-	UBYTE die;
-	UBYTE useless_padding;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
+	std::int8_t dx;
+	std::int8_t dy;
+	std::int8_t dz;
+	std::uint8_t next;		// The next spark in the linked list.
+	std::uint8_t die;
+	std::uint8_t useless_padding;
 
 } GLITTER_Spark;
 
 #define GLITTER_MAX_SPARKS 128
 
 GLITTER_Spark GLITTER_spark[GLITTER_MAX_SPARKS];
-UBYTE GLITTER_spark_free;
+std::uint8_t GLITTER_spark_free;
 
 //
 // The collections of sparks.
@@ -36,21 +36,21 @@ UBYTE GLITTER_spark_free;
 
 typedef struct
 {
-	UBYTE flag;
-	UBYTE spark;	// The linked list of sparks.
-	UBYTE next;		// On this mapwho.
-	UBYTE map_x;
-	UBYTE map_z;
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t flag;
+	std::uint8_t spark;	// The linked list of sparks.
+	std::uint8_t next;		// On this mapwho.
+	std::uint8_t map_x;
+	std::uint8_t map_z;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
 } GLITTER_Glitter;
 
 #define GLITTER_MAX_GLITTER 32
 
 GLITTER_Glitter GLITTER_glitter[GLITTER_MAX_GLITTER];
-SLONG GLITTER_glitter_last;
+std::int32_t GLITTER_glitter_last;
 
 //
 // The glitter mapwho.
@@ -58,12 +58,12 @@ SLONG GLITTER_glitter_last;
 
 #define GLITTER_MAPWHO 128
 
-UBYTE GLITTER_mapwho[GLITTER_MAPWHO];
+std::uint8_t GLITTER_mapwho[GLITTER_MAPWHO];
 
 
 void GLITTER_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Clear the mapwho.
@@ -71,7 +71,7 @@ void GLITTER_init()
 
 	for (i = 0; i < GLITTER_MAPWHO; i++)
 	{
-		GLITTER_mapwho[i] = nullptr;
+		GLITTER_mapwho[i] = 0;
 	}
 
 	//
@@ -101,13 +101,13 @@ void GLITTER_init()
 
 
 
-UBYTE GLITTER_create(
-		UBYTE flag,
-		UBYTE map_x,
-		UBYTE map_z,
-		ULONG colour)
+std::uint8_t GLITTER_create(
+		std::uint8_t flag,
+		std::uint8_t map_x,
+		std::uint8_t map_z,
+		std::uint32_t colour)
 {
-	SLONG i;
+	std::int32_t i;
 
 	GLITTER_Glitter *gg;
 
@@ -117,7 +117,7 @@ UBYTE GLITTER_create(
 		// Off the map.
 		//
 
-		return nullptr;
+		return 0;
 	}
 
 	//
@@ -145,7 +145,7 @@ UBYTE GLITTER_create(
 	// No spare glitter.
 	//
 
-	return nullptr;
+	return 0;
 
   found_unused_glitter:;
 
@@ -161,7 +161,7 @@ UBYTE GLITTER_create(
 	gg->red   = (colour >> 16) & 0xff;
 	gg->green = (colour >>  8) & 0xff;
 	gg->blue  = (colour >>  0) & 0xff;
-	gg->spark =  nullptr;
+	gg->spark =  0;
 
 	//
 	// Add te glitter to the mapwho.
@@ -174,12 +174,12 @@ UBYTE GLITTER_create(
 }
 
 void GLITTER_add(
-		UBYTE glitter,
-		SLONG x,
-		SLONG y,
-		SLONG z)
+		std::uint8_t glitter,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
-	UBYTE spark;
+	std::uint8_t spark;
 
 	if (!glitter )
 	{
@@ -221,9 +221,9 @@ void GLITTER_add(
 	gs->y = y;
 	gs->z = z;
 
-	SLONG dx = (rand() & 0x3f) - 0x1f;
-	SLONG dy = (rand() & 0x3f) - 0x1f;
-	SLONG dz = (rand() & 0x3f) - 0x1f;
+	std::int32_t dx = (rand() & 0x3f) - 0x1f;
+	std::int32_t dy = (rand() & 0x3f) - 0x1f;
+	std::int32_t dz = (rand() & 0x3f) - 0x1f;
 
 	if (gg->flag & GLITTER_FLAG_DXPOS) {dx = +abs(dx);}
 	if (gg->flag & GLITTER_FLAG_DXNEG) {dx = -abs(dx);}
@@ -248,7 +248,7 @@ void GLITTER_add(
 	return;
 }
 
-void GLITTER_destroy(UBYTE glitter)
+void GLITTER_destroy(std::uint8_t glitter)
 {
 	if (!glitter )
 	{
@@ -263,15 +263,15 @@ void GLITTER_destroy(UBYTE glitter)
 
 void GLITTER_process()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	UBYTE  spark;
-	UBYTE  next;
-	UBYTE *prev;
+	std::uint8_t  spark;
+	std::uint8_t  next;
+	std::uint8_t *prev;
 
 	GLITTER_Glitter *gg;
 	GLITTER_Spark   *gs;
@@ -407,14 +407,14 @@ void GLITTER_process()
 }
 
 
-UBYTE GLITTER_get_z;
-UBYTE GLITTER_get_xmin;
-UBYTE GLITTER_get_xmax;
-UBYTE GLITTER_get_glitter;
-UBYTE GLITTER_get_spark;
+std::uint8_t GLITTER_get_z;
+std::uint8_t GLITTER_get_xmin;
+std::uint8_t GLITTER_get_xmax;
+std::uint8_t GLITTER_get_glitter;
+std::uint8_t GLITTER_get_spark;
 GLITTER_Info GLITTER_get_info;
 
-void GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
+void GLITTER_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z)
 {
 	GLITTER_get_z    = z;
 	GLITTER_get_xmin = xmin;
@@ -433,8 +433,8 @@ void GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
 	}
 	else
 	{
-		GLITTER_get_glitter = nullptr;
-		GLITTER_get_spark   = nullptr;
+		GLITTER_get_glitter = 0;
+		GLITTER_get_spark   = 0;
 	}
 }
 
@@ -475,9 +475,9 @@ GLITTER_Info *GLITTER_get_next()
 	GLITTER_get_info.y2 = gs->y + (gs->dy >> 2);
 	GLITTER_get_info.z2 = gs->z + (gs->dz >> 2);
 
-	SLONG red   = (gg->red   * gs->die) / GLITTER_SPARK_LIFE;
-	SLONG green = (gg->green * gs->die) / GLITTER_SPARK_LIFE;
-	SLONG blue  = (gg->blue  * gs->die) / GLITTER_SPARK_LIFE;
+	std::int32_t red   = (gg->red   * gs->die) / GLITTER_SPARK_LIFE;
+	std::int32_t green = (gg->green * gs->die) / GLITTER_SPARK_LIFE;
+	std::int32_t blue  = (gg->blue  * gs->die) / GLITTER_SPARK_LIFE;
 
 	GLITTER_get_info.colour = (red << 16) | (green << 8) | (blue << 0);
 

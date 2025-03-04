@@ -14,11 +14,11 @@
 // for the eye along the z-axis.
 //
 
-void FMATRIX_calc  (SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll);
-void FMATRIX_vector(SLONG matrix[3], SLONG yaw, SLONG pitch);
-void FMATRIX_find_angles(SLONG matrix[9],SLONG *yaw,SLONG *pitch, SLONG *roll);
+void FMATRIX_calc  (std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll);
+void FMATRIX_vector(std::int32_t matrix[3], std::int32_t yaw, std::int32_t pitch);
+void FMATRIX_find_angles(std::int32_t matrix[9],std::int32_t *yaw,std::int32_t *pitch, std::int32_t *roll);
 
-void build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
+void build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween);
 void init_matrix33(struct Matrix33 *mat);
 void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,struct  SMatrix31* mat2);
@@ -27,7 +27,7 @@ void normalise_matrix(struct Matrix33 *mat);
 void normalise_matrix_rows(struct Matrix33 *mat);
 
 #ifdef	PSX
-//void build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
+//void build_tween_matrix_psx(MATRIX *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween);
 #endif
 
 // Multiplies points x,y,z by matrix m.
@@ -35,7 +35,7 @@ void normalise_matrix_rows(struct Matrix33 *mat);
 
 #define FMATRIX_MUL(m,x,y,z) 	   		\
 {										\
-	SLONG xnew, ynew, znew;	   			\
+	std::int32_t xnew, ynew, znew;	   			\
 							   			\
 	xnew  = MUL64((x), (m)[0]);	   		\
 	ynew  = MUL64((x), (m)[3]);	   		\
@@ -58,7 +58,7 @@ void normalise_matrix_rows(struct Matrix33 *mat);
 
 #define FMATRIX_MUL_BY_TRANSPOSE(m,x,y,z)	\
 {											\
-	SLONG xnew, ynew, znew;	   				\
+	std::int32_t xnew, ynew, znew;	   				\
 							   				\
 	xnew  = MUL64((x), (m)[0]);   			\
 	ynew  = MUL64((x), (m)[1]);	   			\
@@ -84,7 +84,7 @@ void normalise_matrix_rows(struct Matrix33 *mat);
 #define FMATRIX_TRANSPOSE(m) {SWAP(m[1], m[3]); SWAP(m[2], m[6]); SWAP(m[5], m[7]);}
 
 
-void FMATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch);
+void FMATRIX_vector(std::int32_t vector[3], std::int32_t yaw, std::int32_t pitch);
 
 
 #endif

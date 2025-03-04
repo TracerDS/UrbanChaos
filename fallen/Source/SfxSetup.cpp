@@ -19,7 +19,7 @@
 
 //---------------------------------------------------------------
 
-SLONG sfx_type,sfx_id;
+std::int32_t sfx_type,sfx_id;
 
 //---------------------------------------------------------------
 
@@ -33,10 +33,10 @@ SLONG sfx_type,sfx_id;
 									}																\
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
-CBYTE* sfxtypes[] = { "Sound FX", "Music", "!" };
+char* sfxtypes[] = { "Sound FX", "Music", "!" };
 
-void FillList(HWND hWnd, SLONG id, bool music) {
-	SLONG i;
+void FillList(HWND hWnd, std::int32_t id, bool music) {
+	std::int32_t i;
 	bool is_music;
 	HWND the_ctrl;
 
@@ -50,12 +50,12 @@ void FillList(HWND hWnd, SLONG id, bool music) {
 	}
 }
 
-SLONG SelectToID(HWND hWnd) {
-	CBYTE pc[_MAX_PATH];
+std::int32_t SelectToID(HWND hWnd) {
+	char pc[_MAX_PATH];
 	HWND the_ctrl=GetDlgItem(hWnd,IDC_LIST1);
-	SLONG sel=SendMessage(the_ctrl,LB_GETCURSEL,0,0);
+	std::int32_t sel=SendMessage(the_ctrl,LB_GETCURSEL,0,0);
 	SendMessage(the_ctrl,LB_GETTEXT,sel,(LPARAM)pc);
-	SLONG i=0;
+	std::int32_t i=0;
 	while (strcmp(sound_list[i],"!")) {
 		if (!strcmp(sound_list[i],pc)) return i;
 		i++;
@@ -64,18 +64,18 @@ SLONG SelectToID(HWND hWnd) {
 	
 }
 
-void IDToSelect(HWND hWnd, SLONG id) {
+void IDToSelect(HWND hWnd, std::int32_t id) {
 	SendMessage(GetDlgItem(hWnd,IDC_LIST1),LB_SELECTSTRING,-1,(LPARAM)sound_list[id]);	
 }
 
 
 bool CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
-	CBYTE		pc[_MAX_PATH],pc2[_MAX_PATH];
-	SLONG		sel;
+	char		pc[_MAX_PATH],pc2[_MAX_PATH];
+	std::int32_t		sel;
 
 	
 	switch(message)
@@ -100,7 +100,7 @@ bool CALLBACK	sfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 					break;
 				case	IDC_BUTTON1:
 					sel = SendMessage(the_ctrl=GetDlgItem(hWnd,IDC_LIST1),LB_GETCURSEL,0,0);
-					SendMessage(the_ctrl,LB_GETTEXT,sel,(SLONG)pc2);
+					SendMessage(the_ctrl,LB_GETTEXT,sel,(std::int32_t)pc2);
 					strcpy(pc,"data\\sfx\\1622\\");
 					strcat(pc,pc2);
 //					PlaySound(pc,0,SND_FILENAME|SND_ASYNC);

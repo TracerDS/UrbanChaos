@@ -11,7 +11,7 @@
 // Compiles the input file to produce the output file.
 //
 
-SLONG COMP_do(CBYTE* fname_input, CBYTE* fname_output);
+std::int32_t COMP_do(char* fname_input, char* fname_output);
 
 
 

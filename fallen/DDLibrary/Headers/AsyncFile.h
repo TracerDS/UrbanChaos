@@ -6,13 +6,13 @@
 //
 // initialize
 
-void	InitAsyncFile(void);
+void	InitAsyncFile();
 
 // TermAsyncFile
 //
 // terminate
 
-void	TermAsyncFile(void);
+void	TermAsyncFile();
 
 // LoadAsyncFile
 //
@@ -24,7 +24,7 @@ bool	LoadAsyncFile(char* filename, void* buffer, DWORD blen, void* key);
 //
 // return key of next completed file, else nullptr
 
-void*	GetNextCompletedAsyncFile(void);
+void*	GetNextCompletedAsyncFile();
 
 // CancelAsyncFile
 //

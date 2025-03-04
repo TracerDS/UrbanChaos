@@ -18,18 +18,18 @@ void MIST_init();
 //
 
 void MIST_create(
-		SLONG detail,			// The number of quads-per-row on the quad patch.
-		SLONG height,			// Above the ground.
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t detail,			// The number of quads-per-row on the quad patch.
+		std::int32_t height,			// Above the ground.
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 //
 // A gust of wind that the fog reacts to.
 //
 
 void MIST_gust(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 
 //
@@ -51,12 +51,12 @@ void MIST_process();
 //
 
 void  MIST_get_start ();
-SLONG MIST_get_detail();	// nullptr => No more layers of mist.
-void  MIST_get_point (SLONG px, SLONG pz,
-		SLONG *x,
-		SLONG *y,
-		SLONG *z);
-void  MIST_get_texture(SLONG px, SLONG pz,
+std::int32_t MIST_get_detail();	// nullptr => No more layers of mist.
+void  MIST_get_point (std::int32_t px, std::int32_t pz,
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z);
+void  MIST_get_texture(std::int32_t px, std::int32_t pz,
 		float *u,
 		float *v);
 

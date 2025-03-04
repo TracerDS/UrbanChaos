@@ -11,24 +11,24 @@
 #include "snipe.h"
 #include "combat.h"
 
-SLONG SNIPE_on;
-SLONG SNIPE_yaw;		// 8-bit fixed point
-SLONG SNIPE_pitch;		// 8-bit fixed point
-SLONG SNIPE_dyaw;
-SLONG SNIPE_dpitch;
-SLONG SNIPE_dlens;
-SLONG SNIPE_cam_x;
-SLONG SNIPE_cam_y;
-SLONG SNIPE_cam_z;
-SLONG SNIPE_cam_yaw;	// 16-bit fixed
-SLONG SNIPE_cam_pitch;	// 16-bit fixed
-SLONG SNIPE_cam_lens;	// 16-bit fixed
+std::int32_t SNIPE_on;
+std::int32_t SNIPE_yaw;		// 8-bit fixed point
+std::int32_t SNIPE_pitch;		// 8-bit fixed point
+std::int32_t SNIPE_dyaw;
+std::int32_t SNIPE_dpitch;
+std::int32_t SNIPE_dlens;
+std::int32_t SNIPE_cam_x;
+std::int32_t SNIPE_cam_y;
+std::int32_t SNIPE_cam_z;
+std::int32_t SNIPE_cam_yaw;	// 16-bit fixed
+std::int32_t SNIPE_cam_pitch;	// 16-bit fixed
+std::int32_t SNIPE_cam_lens;	// 16-bit fixed
 
 #define SNIPE_INITIAL_PITCH (0)
 #define SNIPE_LENS_START    (20 << 16)
 #define SNIPE_LENS_END      (30 << 16)
 
-void SNIPE_mode_on(SLONG x, SLONG y, SLONG z, SLONG initial_yaw)	// yaw from 0 - 2047
+void SNIPE_mode_on(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t initial_yaw)	// yaw from 0 - 2047
 {
 	SNIPE_on    =  true;
 	SNIPE_yaw   =  initial_yaw         << 16;
@@ -53,7 +53,7 @@ void SNIPE_mode_off()
 }
 
 
-void SNIPE_turn(SLONG dir)
+void SNIPE_turn(std::int32_t dir)
 {
 	#define SNIPE_TURN_SPEED_YAW   (0x6000)
 	#define SNIPE_TURN_SPEED_PITCH (0x6000)

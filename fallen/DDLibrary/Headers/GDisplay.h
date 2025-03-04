@@ -33,17 +33,17 @@ extern enumDisplayType eDisplayType;
 
 //---------------------------------------------------------------
 
-extern void	InitBackImage(CBYTE* name);
+extern void	InitBackImage(char* name);
 extern void UseBackSurface(LPDIRECTDRAWSURFACE4 use);
 extern void	ResetBackImage();
 // Set b3DInFrame to false if there is no 3D going on, i.e. blits will work on the DC.
 // Ignored for the PC.
 extern void	ShowBackImage(bool b3DInFrame = true);
 
-SLONG			OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG			CloseDisplay();
-SLONG			SetDisplay(ULONG width,ULONG height,ULONG depth);
-SLONG			ClearDisplay(UBYTE r,UBYTE g,UBYTE b);
+std::int32_t			OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags);
+std::int32_t			CloseDisplay();
+std::int32_t			SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth);
+std::int32_t			ClearDisplay(std::uint8_t r,std::uint8_t g,std::uint8_t b);
 void			ShellPaused();
 void			ShellPauseOn();
 void			ShellPauseOff();
@@ -93,7 +93,7 @@ class	Display
 										DWF_VALID_BACK
 		}Validates;
 
-		volatile SLONG			AttribFlags,				// Attribute flags.
+		volatile std::int32_t			AttribFlags,				// Attribute flags.
 								ValidFlags,					// Validation flags.
 								PauseCount;
 
@@ -125,7 +125,7 @@ class	Display
 		inline	bool			IsValidWork()			{	return	((ValidFlags&DWF_VALID_WORK) ? true : false);				}
 		inline	bool			IsValidViewport()		{	return	((ValidFlags&DWF_VALID_VIEWPORT) ? true : false);			}
 
-		UBYTE *background_image_mem;
+		std::uint8_t *background_image_mem;
 
 #ifdef TARGET_DC
 		bool					bInScene;
@@ -133,7 +133,7 @@ class	Display
 #endif
 
 	public:
-		ULONG					BackColour;
+		std::uint32_t					BackColour;
 		D3DDeviceInfo			*CurrDevice;				// Current Device
 		D3DMATERIALHANDLE		black_handle,
 								white_handle,
@@ -171,25 +171,25 @@ class	Display
 		// Pixel format variables.
 		//
 
-		SLONG					mask_red;
-		SLONG					mask_green;
-		SLONG					mask_blue;
-		SLONG					shift_red;
-		SLONG					shift_green;
-		SLONG					shift_blue;
+		std::int32_t					mask_red;
+		std::int32_t					mask_green;
+		std::int32_t					mask_blue;
+		std::int32_t					shift_red;
+		std::int32_t					shift_green;
+		std::int32_t					shift_blue;
 
 		//
 		// For writing directly to the back-buffer. These
 		// are only valid when the screen is locked.
 		//
 
-		SLONG					screen_width;
-		SLONG                   screen_height;
-		SLONG                   screen_pitch;
-		SLONG                   screen_bbp;
-		UBYTE			       *screen;
+		std::int32_t					screen_width;
+		std::int32_t                   screen_height;
+		std::int32_t                   screen_pitch;
+		std::int32_t                   screen_bbp;
+		std::uint8_t			       *screen;
 
-		volatile ULONG			DisplayFlags;
+		volatile std::uint32_t			DisplayFlags;
 
 								Display();
 								~Display();
@@ -230,7 +230,7 @@ class	Display
 		void					RunFMV();
 		void					RunCutscene(int which, int language=0, bool bAllowButtonsToExit=true );
 
-		HRESULT					ChangeMode(SLONG w,SLONG h,SLONG bpp,SLONG refresh);
+		HRESULT					ChangeMode(std::int32_t w,std::int32_t h,std::int32_t bpp,std::int32_t refresh);
 
 		bool					IsGammaAvailable();
 		void					SetGamma(int black = 0, int white = 256);
@@ -258,7 +258,7 @@ class	Display
 #ifdef TARGET_DC
 		// Sod the user colour background stuff - it's junk.
 		// Something always gets blitted over it anyway.
-		void					SetUserColour(UBYTE red, UBYTE green, UBYTE blue) {}
+		void					SetUserColour(std::uint8_t red, std::uint8_t green, std::uint8_t blue) {}
 
 		inline	HRESULT			SetBlackBackground()	{	return	DD_OK;	}
 		inline	HRESULT			SetWhiteBackground()	{	return	DD_OK;	}
@@ -286,7 +286,7 @@ class	Display
 															}
 #else //#ifdef TARGET_DC
 
-		void					SetUserColour(UBYTE red, UBYTE green, UBYTE blue);
+		void					SetUserColour(std::uint8_t red, std::uint8_t green, std::uint8_t blue);
 
 		inline	HRESULT			SetBlackBackground()	{	BackColour=BK_COL_BLACK;	return	lp_D3D_Viewport->SetBackground(black_handle);	}
 		inline	HRESULT			SetWhiteBackground()	{	BackColour=BK_COL_WHITE;	return	lp_D3D_Viewport->SetBackground(white_handle);	}
@@ -302,7 +302,7 @@ class	Display
 															}
 #endif //#else //#ifdef TARGET_DC
 
-		inline	HRESULT			SetRenderState(D3DRENDERSTATETYPE type,SLONG state)
+		inline	HRESULT			SetRenderState(D3DRENDERSTATETYPE type,std::int32_t state)
 															{
 																return	lp_D3D_Device->SetRenderState(type,state);
 															}
@@ -316,7 +316,7 @@ class	Display
 																return lp_D3D_Device->SetTextureStageState(stage, type, dw);
 															}
 		
-		HRESULT			Flip(LPDIRECTDRAWSURFACE4 alt,SLONG flags);
+		HRESULT			Flip(LPDIRECTDRAWSURFACE4 alt,std::int32_t flags);
 
 		inline	HRESULT			DrawPrimitive(D3DPRIMITIVETYPE p_type,DWORD dwVertexDesc,LPVOID v,DWORD v_count,DWORD flags)
 															{
@@ -364,15 +364,15 @@ class	Display
 		inline DDModeInfo		*GetModeInfo()			{	return	CurrMode;							}
 		inline D3DDeviceInfo	*GetDeviceInfo()		{	return	CurrDevice;							}
 
-		inline ULONG			GetFormattedPixel(UBYTE r, UBYTE g, UBYTE b) {return ((r >> mask_red) << shift_red) | ((g >> mask_green) << shift_green) | ((b >> mask_blue) << shift_blue);}
+		inline std::uint32_t			GetFormattedPixel(std::uint8_t r, std::uint8_t g, std::uint8_t b) {return ((r >> mask_red) << shift_red) | ((g >> mask_green) << shift_green) | ((b >> mask_blue) << shift_blue);}
 
 		//
 		// The screen must be locked for these functions to work!
 		//
 
-		void					PlotPixel         (SLONG x, SLONG y, UBYTE red, UBYTE green, UBYTE blue);
-		void					PlotFormattedPixel(SLONG x, SLONG y, ULONG colour);
-		void                    GetPixel          (SLONG x, SLONG y, UBYTE *red, UBYTE *green, UBYTE *blue);
+		void					PlotPixel         (std::int32_t x, std::int32_t y, std::uint8_t red, std::uint8_t green, std::uint8_t blue);
+		void					PlotFormattedPixel(std::int32_t x, std::int32_t y, std::uint32_t colour);
+		void                    GetPixel          (std::int32_t x, std::int32_t y, std::uint8_t *red, std::uint8_t *green, std::uint8_t *blue);
 
 		//
 		// A background picture... The image must be the same dimensions as the
@@ -380,7 +380,7 @@ class	Display
 		// is alive.
 		//
 
-		void create_background_surface(UBYTE *image_data);	// Must be same dimensions as back buffer!
+		void create_background_surface(std::uint8_t *image_data);	// Must be same dimensions as back buffer!
 		void use_this_background_surface(LPDIRECTDRAWSURFACE4 this_one);
 		void blit_background_surface(bool b3DInFrame = true);
 		void destroy_background_surface();
@@ -392,11 +392,11 @@ class	Display
 #define	DisplayWidth	640
 #define DisplayHeight	480
 
-extern SLONG			RealDisplayWidth;
-extern SLONG			RealDisplayHeight;
-extern SLONG			DisplayBPP;
+extern std::int32_t			RealDisplayWidth;
+extern std::int32_t			RealDisplayHeight;
+extern std::int32_t			DisplayBPP;
 extern Display			the_display;
-extern volatile SLONG	hDDLibStyle,
+extern volatile std::int32_t	hDDLibStyle,
 						hDDLibStyleEx;
 extern volatile	HMENU	hDDLibMenu;
 extern volatile HWND	hDDLibWindow;

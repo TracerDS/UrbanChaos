@@ -14,7 +14,7 @@ Undo::Undo(void)
 }
 
 
-void	Undo::advance_current_undo(UBYTE undo_mode)
+void	Undo::advance_current_undo(std::uint8_t undo_mode)
 {
 	if(!undo_mode)
 	{
@@ -31,7 +31,7 @@ void	Undo::advance_current_undo(UBYTE undo_mode)
 	}
 }
 
-void	Undo::retreat_current_undo(UBYTE undo_mode)
+void	Undo::retreat_current_undo(std::uint8_t undo_mode)
 {
 	if(undo_mode)
 	{
@@ -48,7 +48,7 @@ void	Undo::retreat_current_undo(UBYTE undo_mode)
 	}
 }
 
-void	Undo::MoveTexture(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3,UBYTE u4,UBYTE v4)
+void	Undo::MoveTexture(std::uint8_t undo_mode,std::uint16_t page,std::uint16_t face,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3,std::uint8_t u4,std::uint8_t v4)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -71,9 +71,9 @@ void	Undo::MoveTexture(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,U
 }
 
 
-void	Undo::ApplyPrim4(UBYTE undo_mode,UWORD face,PrimFace4 *the_prim4)
+void	Undo::ApplyPrim4(std::uint8_t undo_mode,std::uint16_t face,PrimFace4 *the_prim4)
 {
-	SLONG				c0;
+	std::int32_t				c0;
 	struct GenericUndo	*p_u;
 
 	
@@ -84,7 +84,7 @@ void	Undo::ApplyPrim4(UBYTE undo_mode,UWORD face,PrimFace4 *the_prim4)
 
 	p_u->Type				=	UNDO_APPLY_PRIM4;
 	p_u->Texture.DrawFlags	=	the_prim4->DrawFlags;
-	p_u->Texture.Colour		=	the_prim4->Col2;
+	p_u->Texture.Color		=	the_prim4->Col2;
 	p_u->Texture.Face		=	face;
 	p_u->Texture.Page		=	the_prim4->TexturePage;
 	for(c0=0;c0<4;c0++)
@@ -95,9 +95,9 @@ void	Undo::ApplyPrim4(UBYTE undo_mode,UWORD face,PrimFace4 *the_prim4)
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::ApplyPrim3(UBYTE undo_mode,UWORD face,PrimFace3 *the_prim3)
+void	Undo::ApplyPrim3(std::uint8_t undo_mode,std::uint16_t face,PrimFace3 *the_prim3)
 {
-	SLONG				c0;
+	std::int32_t				c0;
 	struct GenericUndo	*p_u;
 
 	
@@ -108,7 +108,7 @@ void	Undo::ApplyPrim3(UBYTE undo_mode,UWORD face,PrimFace3 *the_prim3)
 
 	p_u->Type				=	UNDO_APPLY_PRIM3;
 	p_u->Texture.DrawFlags	=	the_prim3->DrawFlags;
-	p_u->Texture.Colour		=	the_prim3->Col2;
+	p_u->Texture.Color		=	the_prim3->Col2;
 	p_u->Texture.Face		=	face;
 	p_u->Texture.Page		=	the_prim3->TexturePage;
 	for(c0=0;c0<3;c0++)
@@ -119,7 +119,7 @@ void	Undo::ApplyPrim3(UBYTE undo_mode,UWORD face,PrimFace3 *the_prim3)
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::ApplyTexturePrim4(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3,UBYTE u4,UBYTE v4)
+void	Undo::ApplyTexturePrim4(std::uint8_t undo_mode,std::uint16_t page,std::uint16_t face,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3,std::uint8_t u4,std::uint8_t v4)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -142,7 +142,7 @@ void	Undo::ApplyTexturePrim4(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYT
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::ApplyTexturePrim3(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3)
+void	Undo::ApplyTexturePrim3(std::uint8_t undo_mode,std::uint16_t page,std::uint16_t face,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -163,7 +163,7 @@ void	Undo::ApplyTexturePrim3(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYT
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::ApplyTextureCube(UBYTE undo_mode,UWORD ele,UWORD face,UWORD text1,UWORD text2)
+void	Undo::ApplyTextureCube(std::uint8_t undo_mode,std::uint16_t ele,std::uint16_t face,std::uint16_t text1,std::uint16_t text2)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -180,7 +180,7 @@ void	Undo::ApplyTextureCube(UBYTE undo_mode,UWORD ele,UWORD face,UWORD text1,UWO
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::PlaceObject(UBYTE undo_mode,UWORD prim,UWORD thing,SLONG x,SLONG y,SLONG z)
+void	Undo::PlaceObject(std::uint8_t undo_mode,std::uint16_t prim,std::uint16_t thing,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -198,7 +198,7 @@ void	Undo::PlaceObject(UBYTE undo_mode,UWORD prim,UWORD thing,SLONG x,SLONG y,SL
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::PlaceCube(UBYTE undo_mode,UWORD prev_cube,UWORD cur_cube,SLONG x,SLONG y,SLONG z)
+void	Undo::PlaceCube(std::uint8_t undo_mode,std::uint16_t prev_cube,std::uint16_t cur_cube,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -216,7 +216,7 @@ void	Undo::PlaceCube(UBYTE undo_mode,UWORD prev_cube,UWORD cur_cube,SLONG x,SLON
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::DelObject(UBYTE undo_mode,UWORD prim,UWORD thing,SLONG x,SLONG y,SLONG z)
+void	Undo::DelObject(std::uint8_t undo_mode,std::uint16_t prim,std::uint16_t thing,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -234,7 +234,7 @@ void	Undo::DelObject(UBYTE undo_mode,UWORD prim,UWORD thing,SLONG x,SLONG y,SLON
 	advance_current_undo(undo_mode);
 }
 
-void	Undo::MoveObject(UBYTE undo_mode,UWORD thing,SLONG dx,SLONG dy,SLONG dz)
+void	Undo::MoveObject(std::uint8_t undo_mode,std::uint16_t thing,std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
 	struct	GenericUndo	*p_u;
 	
@@ -252,10 +252,10 @@ void	Undo::MoveObject(UBYTE undo_mode,UWORD thing,SLONG dx,SLONG dy,SLONG dz)
 }
 
 
-SLONG	Undo::DoUndo(UBYTE undo_mode)
+std::int32_t	Undo::DoUndo(std::uint8_t undo_mode)
 {
 	struct	GenericUndo	*p_u;
-	SLONG	c0,
+	std::int32_t	c0,
 			i;
 
 
@@ -319,7 +319,7 @@ SLONG	Undo::DoUndo(UBYTE undo_mode)
 			break;
 		case	UNDO_APPLY_PRIM4:
 			prim_faces4[p_u->Texture.Face].DrawFlags	=	p_u->Texture.DrawFlags;
-			prim_faces4[p_u->Texture.Face].Col2	=	p_u->Texture.Colour;
+			prim_faces4[p_u->Texture.Face].Col2	=	p_u->Texture.Color;
 			prim_faces4[p_u->Texture.Face].TexturePage	=	p_u->Texture.Page;
 			for(c0=0;c0<4;c0++)
 			{
@@ -329,7 +329,7 @@ SLONG	Undo::DoUndo(UBYTE undo_mode)
 			break;
 		case	UNDO_APPLY_PRIM3:
 			prim_faces3[p_u->Texture.Face].DrawFlags	=	p_u->Texture.DrawFlags;
-			prim_faces3[p_u->Texture.Face].Col2	=	p_u->Texture.Colour;
+			prim_faces3[p_u->Texture.Face].Col2	=	p_u->Texture.Color;
 			prim_faces3[p_u->Texture.Face].TexturePage	=	p_u->Texture.Page;
 			for(c0=0;c0<3;c0++)
 			{

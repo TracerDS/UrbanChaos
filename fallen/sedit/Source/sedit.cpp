@@ -22,8 +22,8 @@ WNDCLASSEX SEDIT_class_engine;
 HWND SEDIT_handle_frame;
 HWND SEDIT_handle_engine;
 
-CBYTE* SEDIT_name_frame  = "Urban Chaos sewer editor";
-CBYTE* SEDIT_name_engine = "Engine window";
+char* SEDIT_name_frame  = "Urban Chaos sewer editor";
+char* SEDIT_name_engine = "Engine window";
 
 HMENU SEDIT_main_menu;
 HACCEL SEDIT_accel;
@@ -40,8 +40,8 @@ HICON SEDIT_icon;
 // The current prim.
 //
 
-SLONG SEDIT_prim_object;
-SLONG SEDIT_prim_yaw;
+std::int32_t SEDIT_prim_object;
+std::int32_t SEDIT_prim_yaw;
 
 //
 // The mousewheel message.
@@ -53,38 +53,38 @@ UINT SEDIT_wm_mousewheel;
 // The current map.
 // 
 
-CBYTE SEDIT_map_name[_MAX_PATH];
-SLONG SEDIT_map_valid;		// true => A map is loaded.
+char SEDIT_map_name[_MAX_PATH];
+std::int32_t SEDIT_map_valid;		// true => A map is loaded.
 
 //
 // The program default directory.
 //
 
-CBYTE SEDIT_default_dir[_MAX_PATH];
+char SEDIT_default_dir[_MAX_PATH];
 
 //
 // Our file access structures.
 //
 
 OPENFILENAME SEDIT_ofn_map;
-CBYTE SEDIT_ofn_default_dir_map[_MAX_PATH];
-CBYTE SEDIT_ofn_file_map       [_MAX_PATH];
+char SEDIT_ofn_default_dir_map[_MAX_PATH];
+char SEDIT_ofn_file_map       [_MAX_PATH];
 
 OPENFILENAME SEDIT_ofn_sewers;
-CBYTE SEDIT_ofn_default_dir_sewers[_MAX_PATH];
-CBYTE SEDIT_ofn_file_sewers       [_MAX_PATH];
+char SEDIT_ofn_default_dir_sewers[_MAX_PATH];
+char SEDIT_ofn_file_sewers       [_MAX_PATH];
 
 //
 // The mouse in the world.
 //
 
-SLONG SEDIT_mouse_valid;
-SLONG SEDIT_mouse_world_x;
-SLONG SEDIT_mouse_world_y;
-SLONG SEDIT_mouse_world_z;
-SLONG SEDIT_mouse_map_x;
-SLONG SEDIT_mouse_map_z;
-SLONG SEDIT_mouse_light;
+std::int32_t SEDIT_mouse_valid;
+std::int32_t SEDIT_mouse_world_x;
+std::int32_t SEDIT_mouse_world_y;
+std::int32_t SEDIT_mouse_world_z;
+std::int32_t SEDIT_mouse_map_x;
+std::int32_t SEDIT_mouse_map_z;
+std::int32_t SEDIT_mouse_light;
 
 //
 // Our current engine view.
@@ -101,8 +101,8 @@ SLONG SEDIT_mouse_light;
 
 #define SEDIT_VIEW_FLAG_SHOW_BUILDINGS	(1 << 0)
 
-SLONG SEDIT_view_flag;
-SLONG SEDIT_view_type;
+std::int32_t SEDIT_view_flag;
+std::int32_t SEDIT_view_type;
 
 //
 // Your current tool.
@@ -119,14 +119,14 @@ SLONG SEDIT_view_type;
 #define SEDIT_TOOL_PLACE_LADDER		9
 #define SEDIT_TOOL_EDIT_LIGHT		10
 
-SLONG SEDIT_tool;
+std::int32_t SEDIT_tool;
 
 //
 // In the engine window we can place down water!
 //
 
-SLONG SEDIT_city_water_place;
-SLONG SEDIT_city_water_place_state;
+std::int32_t SEDIT_city_water_place;
+std::int32_t SEDIT_city_water_place_state;
 
 
 //
@@ -147,43 +147,43 @@ SLONG SEDIT_city_water_place_state;
 #define SEDIT_DOING_DRAG_LIGHT		   11
 #define SEDIT_DOING_PLACE_LADDER	   12
 
-SLONG SEDIT_doing;
+std::int32_t SEDIT_doing;
 
 //
 // For placing ladders.
 // 
 
-SLONG SEDIT_ladder_mid_x;
-SLONG SEDIT_ladder_mid_z;
+std::int32_t SEDIT_ladder_mid_x;
+std::int32_t SEDIT_ladder_mid_z;
 
 //
 // The camera.
 //
 
-SLONG SEDIT_cam_x;
-SLONG SEDIT_cam_y;
-SLONG SEDIT_cam_z;
-SLONG SEDIT_cam_yaw;
-SLONG SEDIT_cam_pitch;
-SLONG SEDIT_cam_focus_x;
-SLONG SEDIT_cam_focus_y;
-SLONG SEDIT_cam_focus_z;
-SLONG SEDIT_cam_focus_dist;
+std::int32_t SEDIT_cam_x;
+std::int32_t SEDIT_cam_y;
+std::int32_t SEDIT_cam_z;
+std::int32_t SEDIT_cam_yaw;
+std::int32_t SEDIT_cam_pitch;
+std::int32_t SEDIT_cam_focus_x;
+std::int32_t SEDIT_cam_focus_y;
+std::int32_t SEDIT_cam_focus_z;
+std::int32_t SEDIT_cam_focus_dist;
 
-SLONG SEDIT_cam_matrix [9];
-SLONG SEDIT_cam_forward[3];	// The movement vector forward
-SLONG SEDIT_cam_left   [3]; // The movement vector left
+std::int32_t SEDIT_cam_matrix [9];
+std::int32_t SEDIT_cam_forward[3];	// The movement vector forward
+std::int32_t SEDIT_cam_left   [3]; // The movement vector left
 
 
 //
 // Changes the windows and menus to reflect the current state.
 // 
 
-CBYTE SEDIT_engine_window_text[256];
+char SEDIT_engine_window_text[256];
 
 void SEDIT_set_state_look()
 {
-	CBYTE* tool_name;
+	char* tool_name;
 
 	switch(SEDIT_tool)
 	{
@@ -440,7 +440,7 @@ void SEDIT_calc_camera_pos()
 // Loads in a map.
 //
 
-void SEDIT_load_map(CBYTE* name)
+void SEDIT_load_map(char* name)
 {
 	//
 	// Change the cursor to a busy bee.
@@ -531,8 +531,8 @@ void SEDIT_load_map(CBYTE* name)
 	// 
 
 	{
-		CBYTE* ch;
-		CBYTE* ci;
+		char* ch;
+		char* ci;
 
 		for (ch = name; *ch; ch++);
 
@@ -703,11 +703,11 @@ void SEDIT_process()
 	POINT mouse;
 	RECT  clientrect;
 
-	SLONG df;
-	SLONG dl;
-	SLONG dy;
-	SLONG dp;
-	SLONG dd;
+	std::int32_t df;
+	std::int32_t dl;
+	std::int32_t dy;
+	std::int32_t dp;
+	std::int32_t dd;
 
 	if (!SEDIT_map_valid)
 	{
@@ -829,7 +829,7 @@ void SEDIT_process()
 	// The y of the focus is more tricky.
 	// 
 
-	SLONG want_focus_y;
+	std::int32_t want_focus_y;
 
 	switch(SEDIT_view_type)
 	{
@@ -862,7 +862,7 @@ void SEDIT_process()
 			break;
 	}
 
-	SLONG dfocus_y;
+	std::int32_t dfocus_y;
 	
 	dfocus_y   = want_focus_y - SEDIT_cam_focus_y;
 	dfocus_y >>= 4;
@@ -994,9 +994,9 @@ LRESULT CALLBACK SEDIT_callback_frame(
 					WPARAM param_w,
 					LPARAM param_l)
 {
-	SLONG dwheel;
-	SLONG dheight;
-	SLONG scancode;
+	std::int32_t dwheel;
+	std::int32_t dheight;
+	std::int32_t scancode;
 
 	if (message_type == SEDIT_wm_mousewheel || message_type == WM_MOUSEWHEEL)
 	{
@@ -1273,13 +1273,13 @@ LRESULT CALLBACK SEDIT_callback_choose_prim(
 					WPARAM param_w,
 					LPARAM param_l)
 {
-	SLONG i;
-	SLONG item;
+	std::int32_t i;
+	std::int32_t item;
 	HWND  list_handle;
 	RECT  rect;
 	POINT mouse;
 
-	static SLONG selection;
+	static std::int32_t selection;
 
 	switch(message_type)
 	{
@@ -1371,7 +1371,7 @@ LRESULT CALLBACK SEDIT_callback_engine(
 	RECT        dest;
 	RECT		src;
 	ES_Hi      *eh;
-	SLONG		ret;
+	std::int32_t		ret;
 
 	switch(message_type)
 	{

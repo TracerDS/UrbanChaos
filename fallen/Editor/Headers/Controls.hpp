@@ -46,26 +46,26 @@
 class MenuDef2
 {
 public:
-	CBYTE		*ItemText;
-	UBYTE		HotKey,
+	char		*ItemText;
+	std::uint8_t		HotKey,
 				ItemFlags,
 				ItemID,
 				MutualExclusiveID;
 	EdRect		ItemRect;
 /*
 #ifdef	_MSC_VER
-				MenuDef2(CBYTE* s)			{	ItemText=s;	}
-				MenuDef2(CBYTE* s,UBYTE k)	{	ItemText=s;HotKey=k;	}
+				MenuDef2(char* s)			{	ItemText=s;	}
+				MenuDef2(char* s,std::uint8_t k)	{	ItemText=s;HotKey=k;	}
 #endif
 */
 };
 
 struct ControlDef
 {
-	UBYTE		ControlType,
+	std::uint8_t		ControlType,
 				HotKey;
-	CBYTE		*Title;
-	SWORD		ControlLeft,
+	char		*Title;
+	std::int16_t		ControlLeft,
 				ControlTop,
 				ControlWidth,
 				ControlHeight;
@@ -76,11 +76,11 @@ struct ControlDef
 class	Control	:	public EdRect
 {
 	private:
-		UBYTE			Flags,
+		std::uint8_t			Flags,
 						ControlID,
 						ControlType,
 						HotKey;
-		CBYTE			*ControlTitle;
+		char			*ControlTitle;
 		Control			*LastControl,
 						*NextControl;
 		ControlDef		*TheDef;
@@ -88,23 +88,23 @@ class	Control	:	public EdRect
 	public:
 								Control()							{	ControlTitle=nullptr;LastControl=nullptr;NextControl=nullptr;	}
 		virtual void			DrawControl();
-		virtual UWORD			TrackControl(MFPoint *down_point);
+		virtual std::uint16_t			TrackControl(MFPoint *down_point);
 		virtual	void			TrackKey();
 		virtual	void			HiliteControl(MFPoint *current_point);
 		virtual	void			UnHiliteControl();
 
 		virtual inline bool		PointInControl(MFPoint *the_point)		{	return PointInRect(the_point);	}
 
-		inline void				SetFlags(UBYTE flags)					{	Flags=flags;					}
-		inline UBYTE			GetFlags()							{	return Flags;					}
-		inline void				SetID(UBYTE id)							{	ControlID=id;					}
-		inline UBYTE			GetID()								{	return ControlID;				}
-		inline void				SetType(UBYTE type)						{	ControlType=type;				}
-		inline UBYTE			GetType()							{	return ControlType;				}
-		inline void				SetTitle(CBYTE* title)					{	ControlTitle=title;				}
-		inline CBYTE			*GetTitle()							{	return ControlTitle;			}
-		inline void				SetHotKey(UBYTE key)					{	HotKey=key;						}
-		inline UBYTE			GetHotKey()							{	return HotKey;					}
+		inline void				SetFlags(std::uint8_t flags)					{	Flags=flags;					}
+		inline std::uint8_t			GetFlags()							{	return Flags;					}
+		inline void				SetID(std::uint8_t id)							{	ControlID=id;					}
+		inline std::uint8_t			GetID()								{	return ControlID;				}
+		inline void				SetType(std::uint8_t type)						{	ControlType=type;				}
+		inline std::uint8_t			GetType()							{	return ControlType;				}
+		inline void				SetTitle(char* title)					{	ControlTitle=title;				}
+		inline char			*GetTitle()							{	return ControlTitle;			}
+		inline void				SetHotKey(std::uint8_t key)					{	HotKey=key;						}
+		inline std::uint8_t			GetHotKey()							{	return HotKey;					}
 
 		inline void				SetLastControl(Control *last_control)	{	LastControl=last_control;		}
 		inline void				SetNextControl(Control *next_control)	{	NextControl=next_control;		}
@@ -137,30 +137,30 @@ class	CCheckBox	:	public Control
 class	CStaticText	:	public Control
 {
 	private:
-		CBYTE			String1[EDIT_TEXT_LENGTH],
+		char			String1[EDIT_TEXT_LENGTH],
 						String2[EDIT_TEXT_LENGTH];
 	public:
 						CStaticText(ControlDef *the_def);
 		void			DrawControl();
-		inline CBYTE	*SetString1(CBYTE* the_string)		{	strncpy(String1,the_string,EDIT_TEXT_LENGTH);String1[EDIT_TEXT_LENGTH-1]=0;return String1;	}
-		inline CBYTE	*SetString2(CBYTE* the_string)		{	strncpy(String2,the_string,EDIT_TEXT_LENGTH);String2[EDIT_TEXT_LENGTH-1]=0;return String2;	}
+		inline char	*SetString1(char* the_string)		{	strncpy(String1,the_string,EDIT_TEXT_LENGTH);String1[EDIT_TEXT_LENGTH-1]=0;return String1;	}
+		inline char	*SetString2(char* the_string)		{	strncpy(String2,the_string,EDIT_TEXT_LENGTH);String2[EDIT_TEXT_LENGTH-1]=0;return String2;	}
 };
 
 class	CEditText	:	public Control
 {
 	private:
-		CBYTE			EditText[EDIT_TEXT_LENGTH];
-		ULONG			SelectEnd,
+		char			EditText[EDIT_TEXT_LENGTH];
+		std::uint32_t			SelectEnd,
 						SelectStart;
-		SLONG			CursorPos,
+		std::int32_t			CursorPos,
 						TextX;
 
 	public:
 						CEditText(ControlDef *the_def);
 		void			DrawControl();
-		UWORD			TrackControl(MFPoint *down_point);
-		inline CBYTE	*GetEditString()				{	return EditText;								}
-		inline CBYTE	*SetEditString(CBYTE* the_string)	{	strcpy(EditText,the_string); return EditText;	}
+		std::uint16_t			TrackControl(MFPoint *down_point);
+		inline char	*GetEditString()				{	return EditText;								}
+		inline char	*SetEditString(char* the_string)	{	strcpy(EditText,the_string); return EditText;	}
 };
 
 class	CPullDown	:	public Control
@@ -172,9 +172,9 @@ class	CPullDown	:	public Control
 	public:
 						CPullDown(ControlDef *the_def);
 		void			DrawControl();
-		UWORD			TrackControl(MFPoint *down_point);
-		inline void		SetItemFlags(UWORD item,UBYTE flags){	TheMenu[item-1].ItemFlags=flags;	}
-		inline UBYTE	GetItemFlags(UWORD item)			{	return	TheMenu[item-1].ItemFlags;	}
+		std::uint16_t			TrackControl(MFPoint *down_point);
+		inline void		SetItemFlags(std::uint16_t item,std::uint8_t flags){	TheMenu[item-1].ItemFlags=flags;	}
+		inline std::uint8_t	GetItemFlags(std::uint16_t item)			{	return	TheMenu[item-1].ItemFlags;	}
 };
 
 class	CPopUp	:	public Control
@@ -186,10 +186,10 @@ class	CPopUp	:	public Control
 	public:
 						CPopUp(ControlDef *the_def);
 		void			DrawControl();
-		UWORD			TrackControl(MFPoint *down_point);
-		void			SetItemState(UWORD item,UBYTE state);
-		inline void		SetItemFlags(UWORD item,UBYTE flags){	TheMenu[item-1].ItemFlags=flags;	}
-		inline UBYTE	GetItemFlags(UWORD item)			{	return	TheMenu[item-1].ItemFlags;	}
+		std::uint16_t			TrackControl(MFPoint *down_point);
+		void			SetItemState(std::uint16_t item,std::uint8_t state);
+		inline void		SetItemFlags(std::uint16_t item,std::uint8_t flags){	TheMenu[item-1].ItemFlags=flags;	}
+		inline std::uint8_t	GetItemFlags(std::uint16_t item)			{	return	TheMenu[item-1].ItemFlags;	}
 };
 
 #define	SLIDER_SIZE		13
@@ -197,14 +197,14 @@ class	CPopUp	:	public Control
 class	CHSlider	:	public	Control
 {
 	private:
-		UBYTE			DragFlags,
+		std::uint8_t			DragFlags,
 						LeftButtonFlags,
 						RightButtonFlags;
-		SLONG			CurrentValue,
+		std::int32_t			CurrentValue,
 						MinValue,
 						MaxValue,
 						ValueStep;
-		SLONG			CurrentDrag,
+		std::int32_t			CurrentDrag,
 						MinDrag,
 						MaxDrag,
 						DragStep;
@@ -220,34 +220,34 @@ class	CHSlider	:	public	Control
 		void			DrawControl();
 		void			HiliteControl(MFPoint *current_point);
 		void			UnHiliteControl();
-		UWORD			TrackControl(MFPoint *down_point);
+		std::uint16_t			TrackControl(MFPoint *down_point);
 		bool			PointInControl(MFPoint *the_point);
 
-		void			SetCurrentValue(SLONG value);
+		void			SetCurrentValue(std::int32_t value);
 		inline void		SetUpdateFunction(void (*the_fn)())		{	update_function=the_fn;					}
-		inline SLONG	GetCurrentValue()				{	return CurrentValue;					}
-		inline void		SetValueRange(SLONG min,SLONG max)	{	MinValue=min;MaxValue=max;SetupDrag();	}
-		inline void		SetValueStep(SLONG value_step)		{	ValueStep=value_step;					}
+		inline std::int32_t	GetCurrentValue()				{	return CurrentValue;					}
+		inline void		SetValueRange(std::int32_t min,std::int32_t max)	{	MinValue=min;MaxValue=max;SetupDrag();	}
+		inline void		SetValueStep(std::int32_t value_step)		{	ValueStep=value_step;					}
 
-		inline void		SetDragFlags(UBYTE flags)			{	DragFlags=flags;					}
-		inline UBYTE	GetDragFlags()					{	return DragFlags;					}
-		inline void		SetLeftButtonFlags(UBYTE flags)		{	LeftButtonFlags=flags;				}
-		inline UBYTE	GetLeftButtonFlags()			{	return LeftButtonFlags;				}
-		inline void		SetRightButtonFlags(UBYTE flags)	{	RightButtonFlags=flags;				}
-		inline UBYTE	GetRightButtonFlags()			{	return RightButtonFlags;			}
+		inline void		SetDragFlags(std::uint8_t flags)			{	DragFlags=flags;					}
+		inline std::uint8_t	GetDragFlags()					{	return DragFlags;					}
+		inline void		SetLeftButtonFlags(std::uint8_t flags)		{	LeftButtonFlags=flags;				}
+		inline std::uint8_t	GetLeftButtonFlags()			{	return LeftButtonFlags;				}
+		inline void		SetRightButtonFlags(std::uint8_t flags)	{	RightButtonFlags=flags;				}
+		inline std::uint8_t	GetRightButtonFlags()			{	return RightButtonFlags;			}
 };
 
 class	CVSlider	:	public	Control
 {
 	private:
-		UBYTE			DragFlags,
+		std::uint8_t			DragFlags,
 						TopButtonFlags,
 						BottomButtonFlags;
-		SLONG			CurrentValue,
+		std::int32_t			CurrentValue,
 						MinValue,
 						MaxValue,
 						ValueStep;
-		SLONG			CurrentDrag,
+		std::int32_t			CurrentDrag,
 						MinDrag,
 						MaxDrag,
 						DragStep;
@@ -263,21 +263,21 @@ class	CVSlider	:	public	Control
 		void			DrawControl();
 		void			HiliteControl(MFPoint *current_point);
 		void			UnHiliteControl();
-		UWORD			TrackControl(MFPoint *down_point);
+		std::uint16_t			TrackControl(MFPoint *down_point);
 		bool			PointInControl(MFPoint *the_point);
 
-		void			SetCurrentValue(SLONG value);
+		void			SetCurrentValue(std::int32_t value);
 		inline void		SetUpdateFunction(void (*the_fn)())		{	update_function=the_fn;					}
-		inline SLONG	GetCurrentValue()				{	return CurrentValue;					}
-		inline void		SetValueRange(SLONG min,SLONG max)	{	MinValue=min;MaxValue=max;SetupDrag();	}
-		inline void		SetValueStep(SLONG value_step)		{	ValueStep=value_step;					}
+		inline std::int32_t	GetCurrentValue()				{	return CurrentValue;					}
+		inline void		SetValueRange(std::int32_t min,std::int32_t max)	{	MinValue=min;MaxValue=max;SetupDrag();	}
+		inline void		SetValueStep(std::int32_t value_step)		{	ValueStep=value_step;					}
 
-		inline void		SetDragFlags(UBYTE flags)			{	DragFlags=flags;					}
-		inline UBYTE	GetDragFlags()					{	return DragFlags;					}
-		inline void		SetTopButtonFlags(UBYTE flags)		{	TopButtonFlags=flags;				}
-		inline UBYTE	GetTopButtonFlags()				{	return TopButtonFlags;				}
-		inline void		SetBottomButtonFlags(UBYTE flags)	{	BottomButtonFlags=flags;			}
-		inline UBYTE	GetBottomButtonFlags()			{	return BottomButtonFlags;			}
+		inline void		SetDragFlags(std::uint8_t flags)			{	DragFlags=flags;					}
+		inline std::uint8_t	GetDragFlags()					{	return DragFlags;					}
+		inline void		SetTopButtonFlags(std::uint8_t flags)		{	TopButtonFlags=flags;				}
+		inline std::uint8_t	GetTopButtonFlags()				{	return TopButtonFlags;				}
+		inline void		SetBottomButtonFlags(std::uint8_t flags)	{	BottomButtonFlags=flags;			}
+		inline std::uint8_t	GetBottomButtonFlags()			{	return BottomButtonFlags;			}
 };
 
 #endif

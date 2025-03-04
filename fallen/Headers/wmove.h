@@ -9,9 +9,9 @@
 
 typedef struct
 {
-	UWORD x;
-	SWORD y;
-	UWORD z;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
 	
 } WMOVE_Point;
 
@@ -19,7 +19,7 @@ typedef struct
 
 typedef struct
 {
-	UWORD face4;	// Index into the prim_faces4[] array for the walkable face.
+	std::uint16_t face4;	// Index into the prim_faces4[] array for the walkable face.
 	
 	//
 	// The position of the walkable face last frame. All WMOVE faces are rectangles.
@@ -28,8 +28,8 @@ typedef struct
 
 	WMOVE_Point last[3];
 
-	UWORD thing;	// The thing that this face is attached to.
-	UWORD number;	// If a thing has more than one face associated with it, this is the number of the face.
+	std::uint16_t thing;	// The thing that this face is attached to.
+	std::uint16_t number;	// If a thing has more than one face associated with it, this is the number of the face.
 
 } WMOVE_Face;
 
@@ -38,7 +38,7 @@ typedef struct
 //#define WMOVE_MAX_FACES 192
 
 extern WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
-extern SLONG       WMOVE_face_upto;
+extern std::int32_t       WMOVE_face_upto;
 
 
 //
@@ -60,7 +60,7 @@ void WMOVE_create(Thing *);
 //
 
 #if 0
-void WMOVE_remove(UBYTE which_class);
+void WMOVE_remove(std::uint8_t which_class);
 #endif
 
 //
@@ -77,14 +77,14 @@ void WMOVE_process();
 //
 
 void WMOVE_relative_pos(
-		UBYTE  wmove_index,	// The WMOVE face stood on.
-		SLONG  last_x,
-		SLONG  last_y,
-		SLONG  last_z,
-		SLONG *now_x,
-		SLONG *now_y,
-		SLONG *now_z,
-		SLONG *now_dangle);
+		std::uint8_t  wmove_index,	// The WMOVE face stood on.
+		std::int32_t  last_x,
+		std::int32_t  last_y,
+		std::int32_t  last_z,
+		std::int32_t *now_x,
+		std::int32_t *now_y,
+		std::int32_t *now_z,
+		std::int32_t *now_dangle);
 
 
 //

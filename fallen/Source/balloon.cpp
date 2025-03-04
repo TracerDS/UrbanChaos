@@ -14,7 +14,7 @@
 // 
 
 BALLOON_Balloon *BALLOON_balloon;//[BALLOON_MAX_BALLOONS];
-SLONG BALLOON_balloon_upto;
+std::int32_t BALLOON_balloon_upto;
 
 //
 // The desired distance between balloon points.
@@ -33,7 +33,7 @@ SLONG BALLOON_balloon_upto;
 
 void BALLOON_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Initialise the balloon array.
@@ -50,14 +50,14 @@ void BALLOON_init()
 //
 
 void BALLOON_get_attached_point(
-		UWORD  thing,
-		SLONG *ax,
-		SLONG *ay,
-		SLONG *az)
+		std::uint16_t  thing,
+		std::int32_t *ax,
+		std::int32_t *ay,
+		std::int32_t *az)
 {
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
 	Thing *p_thing = TO_THING(thing);
 
@@ -96,13 +96,13 @@ void BALLOON_get_attached_point(
 }
 
 
-UBYTE BALLOON_create(UWORD thing, UBYTE type)
+std::uint8_t BALLOON_create(std::uint16_t thing, std::uint8_t type)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG ax;	
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;	
+	std::int32_t ay;
+	std::int32_t az;
 
 	Thing *p_thing = TO_THING(thing);
 
@@ -114,7 +114,7 @@ UBYTE BALLOON_create(UWORD thing, UBYTE type)
 		// No balloons left.
 		//
 
-		return nullptr;
+		return 0;
 	}
 
 	ASSERT(WITHIN(type, 1, BALLOON_TYPE_NUMBER - 1));
@@ -122,7 +122,7 @@ UBYTE BALLOON_create(UWORD thing, UBYTE type)
 	bb = &BALLOON_balloon[BALLOON_balloon_upto];
 
 	bb->type   = type;
-	bb->next   = nullptr;
+	bb->next   = 0;
 	bb->thing  = thing;
 	bb->yaw    = 0;
 	bb->pitch  = 0;
@@ -174,27 +174,27 @@ UBYTE BALLOON_create(UWORD thing, UBYTE type)
 
 void BALLOON_process()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG ax;
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;
+	std::int32_t ay;
+	std::int32_t az;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG ddist;
-	SLONG hyp;
-	SLONG other;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t ddist;
+	std::int32_t hyp;
+	std::int32_t other;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG yaw;
-	SLONG pitch;
+	std::int32_t yaw;
+	std::int32_t pitch;
 
 	BALLOON_Balloon *bb;
 	BALLOON_Balloon *bbo;
@@ -441,7 +441,7 @@ void BALLOON_process()
 }
 
 
-void BALLOON_release(UBYTE balloon)
+void BALLOON_release(std::uint8_t balloon)
 {
 	ASSERT(WITHIN(balloon, 1, BALLOON_MAX_BALLOONS - 1));
 
@@ -460,7 +460,7 @@ void BALLOON_release(UBYTE balloon)
 	switch(p_thing->Class)
 	{
 		case CLASS_PERSON:
-			p_thing->Genus.Person->Balloon = nullptr;
+			p_thing->Genus.Person->Balloon = 0;
 			break;
 
 		default:
@@ -474,26 +474,26 @@ void BALLOON_release(UBYTE balloon)
 
 		bb = &BALLOON_balloon[balloon];
 
-		bb->thing = nullptr;
+		bb->thing = 0;
 		balloon   = bb->next;
 	}
 }
 
 
 
-void BALLOON_find_grab(UWORD thing)
+void BALLOON_find_grab(std::uint16_t thing)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG ax;
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;
+	std::int32_t ay;
+	std::int32_t az;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 	
 	Thing *p_thing = TO_THING(thing);
 
@@ -537,8 +537,7 @@ void BALLOON_find_grab(UWORD thing)
 	{
 		bb = &BALLOON_balloon[i];
 
-		if (bb->type  == BALLOON_TYPE_UNUSED ||
-			bb->thing != nullptr)
+		if (bb->type == BALLOON_TYPE_UNUSED || bb->thing)
 		{
 			continue;
 		}

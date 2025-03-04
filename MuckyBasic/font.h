@@ -18,7 +18,7 @@ void FONT_init();
 // Returns true if the FONT module can draw the ASCII character.
 //
 
-SLONG FONT_char_is_valid(CBYTE ch);
+std::int32_t FONT_char_is_valid(char ch);
 
 
 //
@@ -31,7 +31,7 @@ SLONG FONT_char_is_valid(CBYTE ch);
 #define FONT_FLAG_JUSTIFY_RIGHT  (1 << 2)
 #define FONT_FLAG_DROP_SHADOW    (1 << 3)
 
-void FONT_draw(float start_x, float start_y, ULONG colour, ULONG flag, float scale, SLONG cursor, CBYTE* fmt, ...);
+void FONT_draw(float start_x, float start_y, std::uint32_t colour, std::uint32_t flag, float scale, std::int32_t cursor, char* fmt, ...);
 
 
 #endif

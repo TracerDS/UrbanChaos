@@ -19,11 +19,11 @@
 #define SERVER_CONNECT_TYPE_LAN      0
 #define SERVER_CONNECT_TYPE_INTERNET 1
 
-SLONG SERVER_session_create(
-		CBYTE* name,
-		SLONG  max_players,
-		SLONG  connection_type,
-		CBYTE* internet_address);
+std::int32_t SERVER_session_create(
+		char* name,
+		std::int32_t  max_players,
+		std::int32_t  connection_type,
+		char* internet_address);
 
 //
 // Ends the current session.
@@ -82,7 +82,7 @@ void SERVER_draw();
 //
 
 //
-// Each message start with a SLONG game turn followed by a number of blocks.
+// Each message start with a std::int32_t game turn followed by a number of blocks.
 // The first byte of a block is the block type, and then there follows the
 // block data.
 //
@@ -105,13 +105,13 @@ void SERVER_draw();
 
 typedef struct
 {
-	UBYTE type;			// i.e. SERVER_BLOCK_TYPE_REQUEST_JOIN
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t type;			// i.e. SERVER_BLOCK_TYPE_REQUEST_JOIN
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 	float mass;
 	float power;
-	CBYTE name[32];
+	char name[32];
  
 } SERVER_Block_request_join;
 
@@ -125,15 +125,15 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;			// i.e. SERVER_BLOCK_TYPE_NEW_PLAYER
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
-	CBYTE name[32];
-	UBYTE ship_index;	// Index into the SHIP_ship structure.
-	UBYTE local;		// if true, then this is you!
-	UWORD padding;
-	SLONG active;		// The gameturn when this ship becomes active.
+	std::uint8_t type;			// i.e. SERVER_BLOCK_TYPE_NEW_PLAYER
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
+	char name[32];
+	std::uint8_t ship_index;	// Index into the SHIP_ship structure.
+	std::uint8_t local;		// if true, then this is you!
+	std::uint16_t padding;
+	std::int32_t active;		// The gameturn when this ship becomes active.
 	float x;
 	float y;
 	float mass;
@@ -151,12 +151,12 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;			// SERVER_BLOCK_TYPE_MY_KEYPRESS_LIST
-	UBYTE ship_index;	// Index into the SHIP_ship structure.
-	UBYTE num_keys;
-	UBYTE padding;
+	std::uint8_t type;			// SERVER_BLOCK_TYPE_MY_KEYPRESS_LIST
+	std::uint8_t ship_index;	// Index into the SHIP_ship structure.
+	std::uint8_t num_keys;
+	std::uint8_t padding;
 	float hash;			// So we know if we're in sync.
-	UBYTE key[];		// The array of keys...
+	std::uint8_t key[];		// The array of keys...
 
 } SERVER_Block_my_keypress_list;
 
@@ -168,12 +168,12 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;				// SERVER_BLOCK_TYPE_REMOTE_KEYPRESS_LIST
-	UBYTE ship_index;		// Index into the SHIP_ship structure.
-	UBYTE num_keys;
-	UBYTE padding;
-	SLONG gameturn;			// The turn the first key is for.
-	UBYTE key[];			// The array of keys...
+	std::uint8_t type;				// SERVER_BLOCK_TYPE_REMOTE_KEYPRESS_LIST
+	std::uint8_t ship_index;		// Index into the SHIP_ship structure.
+	std::uint8_t num_keys;
+	std::uint8_t padding;
+	std::int32_t gameturn;			// The turn the first key is for.
+	std::uint8_t key[];			// The array of keys...
 
 
 } SERVER_Block_remote_keypress_list;
@@ -182,15 +182,15 @@ typedef struct
 
 //
 // PING. Use ping as a NOP message to establish a common time with the server.
-// This is the only message where you don't have to send a valid initial SLONG gameturn.
+// This is the only message where you don't have to send a valid initial std::int32_t gameturn.
 //
 
 typedef struct
 {
-	UBYTE type;				// SERVER_BLOCK_TYPE_PING
-	UBYTE padding[3];		
-	SLONG id;				// When the server returns your ping, it will use the same id.
-	SLONG game_process;		// The current high resolution game turn.
+	std::uint8_t type;				// SERVER_BLOCK_TYPE_PING
+	std::uint8_t padding[3];		
+	std::int32_t id;				// When the server returns your ping, it will use the same id.
+	std::int32_t game_process;		// The current high resolution game turn.
 
 } SERVER_Block_ping;
 
@@ -201,10 +201,10 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;				// SERVER_BLOCK_TYPE_GAMESTATE
-	UBYTE padding[3];		
+	std::uint8_t type;				// SERVER_BLOCK_TYPE_GAMESTATE
+	std::uint8_t padding[3];		
 
-	SLONG gameturn;	// The gameturn when this gamestate is for. It may not
+	std::int32_t gameturn;	// The gameturn when this gamestate is for. It may not
 					// be the same as the gameturn when the message is sent.
 
 	GAMESTATE_State gs;
@@ -221,8 +221,8 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;				// SERVER_BLOCK_TYPE_RECEIVED
-	UBYTE padding[3];
+	std::uint8_t type;				// SERVER_BLOCK_TYPE_RECEIVED
+	std::uint8_t padding[3];
 
 } SERVER_Block_received_gamestate;
 
@@ -234,10 +234,10 @@ typedef struct
 
 typedef struct
 {
-	UBYTE type;			// SERVER_BLOCK_TYPE_PLAYER_LEFT
-	UBYTE player_index;	// Index into the PLAYER_player structure.
-	UBYTE padding[2];
-	SLONG game_turn_when_the_player_leaves;
+	std::uint8_t type;			// SERVER_BLOCK_TYPE_PLAYER_LEFT
+	std::uint8_t player_index;	// Index into the PLAYER_player structure.
+	std::uint8_t padding[2];
+	std::int32_t game_turn_when_the_player_leaves;
 
 } SERVER_Block_player_left;
 

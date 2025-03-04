@@ -23,15 +23,15 @@ GameCoord player_pos;
 #ifndef PSX
 void init_players()
 {
-	memset((UBYTE*)PLAYERS,0,sizeof(Player) * MAX_PLAYERS);
+	memset((std::uint8_t*)PLAYERS,0,sizeof(Player) * MAX_PLAYERS);
 	PLAYER_COUNT	=	0;
 }
 #endif
 //---------------------------------------------------------------
 
-Thing *alloc_player(UBYTE type)
+Thing *alloc_player(std::uint8_t type)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	Player			*new_player;
 	Thing			*player_thing	=	NULL;
 
@@ -110,10 +110,10 @@ void free_player(Thing *player_thing)
 //---------------------------------------------------------------
 extern void	set_up_camera(Thing *t_camera,GameCoord *start_pos,Thing *track_thing);
 // Temporary create player.
-Thing *create_player(UBYTE type,MAPCO16 x,MAPCO16 y,MAPCO16 z,SLONG player_id)
+Thing *create_player(std::uint8_t type,MAPCO16 x,MAPCO16 y,MAPCO16 z,std::int32_t player_id)
 {
-	UBYTE		person_type;
-	SLONG       person_index;
+	std::uint8_t		person_type;
+	std::int32_t       person_index;
 	Thing		*person_thing	=	NULL,
 				*player_thing	=	NULL;
 
@@ -169,9 +169,9 @@ Thing *create_player(UBYTE type,MAPCO16 x,MAPCO16 y,MAPCO16 z,SLONG player_id)
 }
 
 /*
-Thing *create_player_car(UBYTE type,SLONG x,SLONG y,SLONG z)
+Thing *create_player_car(std::uint8_t type,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	UBYTE		person_type;
+	std::uint8_t		person_type;
 	Thing		*camera_thing,
 				*car_thing	=	NULL,
 				*player_thing	=	NULL;
@@ -237,12 +237,12 @@ void store_player_pos()
 extern THING_INDEX col_with_things[];
 #define MAX_COL_WITH 16
 
-SLONG should_i_sneak(Thing *p_person)
+std::int32_t should_i_sneak(Thing *p_person)
 {
 
-	SLONG       col_with_upto;
-	SLONG	i;
-	SLONG	found_people=0;
+	std::int32_t       col_with_upto;
+	std::int32_t	i;
+	std::int32_t	found_people=0;
 	Thing	*col_thing;
 
 	col_with_upto = THING_find_sphere(
@@ -306,10 +306,10 @@ SLONG should_i_sneak(Thing *p_person)
 }
 #endif
 
-void PLAYER_redmark(SLONG playerid, SLONG dredmarks)
+void PLAYER_redmark(std::int32_t playerid, std::int32_t dredmarks)
 {
 #ifndef	PSX
-	SLONG  redmarks;
+	std::int32_t  redmarks;
 	Thing *p_player;
 	
 	if (NO_PLAYERS != 1)

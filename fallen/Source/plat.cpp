@@ -20,7 +20,7 @@
 
 
 Plat *PLAT_plat; //[PLAT_MAX_PLATS];
-SLONG PLAT_plat_upto;
+std::int32_t PLAT_plat_upto;
 
 //
 // The different states a plat can be in.
@@ -50,23 +50,23 @@ void PLAT_init()
 
 void PLAT_process(Thing *p_thing)
 {	
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG way_x;
-	SLONG way_y;
-	SLONG way_z;
+	std::int32_t way_x;
+	std::int32_t way_y;
+	std::int32_t way_z;
 
-	SLONG waypoint;
-	SLONG millisecs;
-	SLONG ticks;
+	std::int32_t waypoint;
+	std::int32_t millisecs;
+	std::int32_t ticks;
 
-	SLONG wspeed;
-	SLONG speed;
-	SLONG move;
-	SLONG len;
-	SLONG overlen;
+	std::int32_t wspeed;
+	std::int32_t speed;
+	std::int32_t move;
+	std::int32_t len;
+	std::int32_t overlen;
 	
 	GameCoord newpos;
 
@@ -255,8 +255,8 @@ void PLAT_process(Thing *p_thing)
 				{
 					#define PLAT_MAX_FIND 8
 
-					SLONG       i;
-					SLONG       num;
+					std::int32_t       i;
+					std::int32_t       num;
 					THING_INDEX found[PLAT_MAX_FIND];
 					Thing      *p_person;
 
@@ -271,8 +271,8 @@ void PLAT_process(Thing *p_thing)
 							PLAT_MAX_FIND,
 							THING_FIND_PEOPLE);
 
-					SLONG y_bot = p_thing->WorldPos.Y >> 8;
-					SLONG y_top = p_thing->WorldPos.Y >> 8;
+					std::int32_t y_bot = p_thing->WorldPos.Y >> 8;
+					std::int32_t y_top = p_thing->WorldPos.Y >> 8;
 	
 					y_top += pi->maxy;
 					y_bot += pi->miny;
@@ -294,8 +294,8 @@ void PLAT_process(Thing *p_thing)
 							// moving- not the prim.
 							//
 
-							SLONG x1, y1, z1;
-							SLONG x2, y2, z2;
+							std::int32_t x1, y1, z1;
+							std::int32_t x2, y2, z2;
 
 							x1 = x2 = p_person->WorldPos.X;
 							y1 = y2 = p_person->WorldPos.Y;
@@ -317,7 +317,7 @@ void PLAT_process(Thing *p_thing)
 							{
 
 #ifndef PSX
-								extern SLONG playing_level(const CBYTE* name);  // eway.cpp
+								extern std::int32_t playing_level(const char* name);  // eway.cpp
 								if (playing_level("botanicc.ucm") &&
 #else
 								if ((wad_level==19) &&
@@ -484,32 +484,32 @@ void PLAT_process(Thing *p_thing)
 
 
 
-UWORD PLAT_create(
-		UBYTE colour,
-		UBYTE group,
-		UBYTE move,
-		UBYTE flag,
-		UBYTE speed,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z)
+std::uint16_t PLAT_create(
+		std::uint8_t colour,
+		std::uint8_t group,
+		std::uint8_t move,
+		std::uint8_t flag,
+		std::uint8_t speed,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG x1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG score;
+	std::int32_t score;
 
-	SLONG   best_score;
+	std::int32_t   best_score;
 	OB_Info best_oi;
 
 	OB_Info  *oi;

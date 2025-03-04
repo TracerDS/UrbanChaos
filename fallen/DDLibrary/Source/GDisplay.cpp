@@ -22,12 +22,12 @@
 //
 
 
-SLONG				RealDisplayWidth;
-SLONG				RealDisplayHeight;
-SLONG				DisplayBPP;
+std::int32_t				RealDisplayWidth;
+std::int32_t				RealDisplayHeight;
+std::int32_t				DisplayBPP;
 Display				the_display;
-volatile SLONG		hDDLibStyle		=	nullptr,
-					hDDLibStyleEx	=	nullptr;
+volatile std::int32_t		hDDLibStyle		=	0,
+					hDDLibStyleEx	=	0;
 volatile HWND		hDDLibWindow	=	nullptr;
 volatile HMENU		hDDLibMenu		=	nullptr;
 
@@ -36,7 +36,7 @@ int					VideoRes = -1;				// 0 = 320x240, 1 = 512x384, 2= 640x480, 3 = 800x600, 
 enumDisplayType eDisplayType;
 
 //---------------------------------------------------------------
- UBYTE			*image_mem	=	nullptr,*image		=	nullptr;
+ std::uint8_t			*image_mem	=	nullptr,*image		=	nullptr;
 
 
 #ifdef DEBUG
@@ -72,7 +72,7 @@ HRESULT WINAPI EnumSurfacesCallbackFunc(
 #include "amstream.h"	// DirectShow multimedia stream interfaces
 #include "ddstream.h"	// DirectDraw multimedia stream interfaces
 
-//extern ULONG get_hardware_input(UWORD type);
+//extern std::uint32_t get_hardware_input(std::uint16_t type);
 
 void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMStream, IDirectDrawSurface *back_surface)
 {
@@ -107,7 +107,7 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
 	pMMStream->SetState(STREAMSTATE_RUN);
 
 
-	while (pSample->Update(0, nullptr, nullptr, nullptr) == S_OK)
+	while (pSample->Update(0, nullptr, nullptr, 0) == S_OK)
 	{
 		if (FAILED(pSurface->Blt(
 				nullptr,
@@ -140,7 +140,7 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
 			break;
 		}
 
-		ULONG input = get_hardware_input(INPUT_TYPE_JOY);	// 1 << 1 ==> INPUT_TYPE_JOY
+		std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY);	// 1 << 1 ==> INPUT_TYPE_JOY
 
 		if (input & (INPUT_MASK_JUMP|INPUT_MASK_START|INPUT_MASK_SELECT|INPUT_MASK_KICK|INPUT_MASK_PUNCH|INPUT_MASK_ACTION))
 		{
@@ -217,19 +217,19 @@ void RenderFileToMMStream(const char * szFileName, IMultiMediaStream **ppMMStrea
 	*ppMMStream = pAMStream;
 }
 
-extern CBYTE	DATA_DIR[];
+extern char	DATA_DIR[];
 
-void InitBackImage(CBYTE* name)
+void InitBackImage(char* name)
 {
 	MFFileHandle	image_file;
-	SLONG	height;
-	CBYTE	fname[200];
+	std::int32_t	height;
+	char	fname[200];
 
 	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
 
  	if(image_mem==0)
 	{
-		image_mem	=	(UBYTE*)MemAlloc(640*480*3);
+		image_mem	=	(std::uint8_t*)MemAlloc(640*480*3);
 	}
 
 	if (!image_mem)
@@ -256,7 +256,7 @@ void UseBackSurface(LPDIRECTDRAWSURFACE4 use)
 
 LPDIRECTDRAWSURFACE4 m_lpLastBackground = nullptr;
 
-void ResetBackImage(void)
+void ResetBackImage()
 {
 	the_display.destroy_background_surface();
 	if(image_mem)
@@ -271,7 +271,7 @@ void ShowBackImage(bool b3DInFrame)
     the_display.blit_background_surface(b3DInFrame);
 }
 
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags)
 {
 	HRESULT			result;
 
@@ -312,7 +312,7 @@ extern HINSTANCE	hGlobalThisInst;
 	return result;
 }
 
-SLONG CloseDisplay(void)
+std::int32_t CloseDisplay()
 {
 	the_display.Fini();
 	the_manager.Fini();
@@ -320,7 +320,7 @@ SLONG CloseDisplay(void)
 	return	1;
 }
 
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth)
 {
 	HRESULT		result;
 
@@ -337,7 +337,7 @@ SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 	return	0;
 }
 
-SLONG ClearDisplay(UBYTE r,UBYTE g,UBYTE b)
+std::int32_t ClearDisplay(std::uint8_t r,std::uint8_t g,std::uint8_t b)
 {
 	DDBLTFX		dd_bltfx; 
  
@@ -351,26 +351,26 @@ SLONG ClearDisplay(UBYTE r,UBYTE g,UBYTE b)
 
 struct RGB_565
 {
-	UWORD	R	:	5,
+	std::uint16_t	R	:	5,
 			G	:	6,
 			B	:	5;
 };
 
 struct RGB_555
 {
-	UWORD	R	:	5,
+	std::uint16_t	R	:	5,
 			G	:	5,
 			B	:	5;
 };
 
 
-void LoadBackImage(UBYTE *image_data)
+void LoadBackImage(std::uint8_t *image_data)
 {
 	ASSERT(0);
 
-	UWORD			pixel,
+	std::uint16_t			pixel,
 					*surface_mem;
-	SLONG			try_count,
+	std::int32_t			try_count,
 					height,
 					pitch,
 					width;
@@ -387,7 +387,7 @@ do_the_lock:
 		{
 			case	DD_OK:
 				pitch		=	dd_sd.lPitch>>1;
-				surface_mem	=	(UWORD*)dd_sd.lpSurface;
+				surface_mem	=	(std::uint16_t*)dd_sd.lpSurface;
 				for(height=0;(unsigned)height<dd_sd.dwHeight;height++,surface_mem+=pitch)
 				{
 					for(width=0;(unsigned)width<dd_sd.dwWidth;width++)
@@ -456,7 +456,7 @@ Display::~Display()
 	Fini();
 }
 
-HRESULT	Display::Init(void)
+HRESULT	Display::Init()
 {
 	HRESULT		result;
 	static bool	run_fmv = false;
@@ -524,7 +524,7 @@ cleanup:
 
 //---------------------------------------------------------------
 
-HRESULT	Display::Fini(void)
+HRESULT	Display::Fini()
 {
 	// Cleanup
 	toGDI();
@@ -544,7 +544,7 @@ HRESULT	Display::Fini(void)
 	return	DD_OK;
 }
 
-HRESULT	Display::GenerateDefaults(void)
+HRESULT	Display::GenerateDefaults()
 {
 	D3DDeviceInfo	*new_device;
 	DDDriverInfo	*new_driver;
@@ -610,7 +610,7 @@ HRESULT	Display::GenerateDefaults(void)
 	return	DD_OK;
 }
 
-HRESULT	Display::InitInterfaces(void)
+HRESULT	Display::InitInterfaces()
 {
     GUID			*the_guid;
     HRESULT         result;
@@ -678,7 +678,7 @@ cleanup:
 
 //---------------------------------------------------------------
 
-HRESULT	Display::FiniInterfaces(void)
+HRESULT	Display::FiniInterfaces()
 {
 	// Mark this stage as invalid
 	TurnValidInterfaceOff ();
@@ -708,10 +708,10 @@ HRESULT	Display::FiniInterfaces(void)
 	return DD_OK;
 }
 
-HRESULT	Display::InitWindow(void)
+HRESULT	Display::InitWindow()
 {
 	HRESULT		result;
-	SLONG		flags;
+	std::int32_t		flags;
 
 
 	// Check Initialization
@@ -750,7 +750,7 @@ HRESULT	Display::InitWindow(void)
 	return	DD_OK;
 }
 
-HRESULT	Display::FiniWindow(void)
+HRESULT	Display::FiniWindow()
 {
 	HRESULT		result;
 
@@ -786,7 +786,7 @@ static bool quick_flipper()
 }
 
 
-void PlayQuickMovie(SLONG type, SLONG language_ignored, bool bIgnored)
+void PlayQuickMovie(std::int32_t type, std::int32_t language_ignored, bool bIgnored)
 {
 	DDSURFACEDESC2 back;
 	DDSURFACEDESC2 mine;
@@ -855,9 +855,9 @@ void Display::RunCutscene(int which, int language, bool bAllowButtonsToExit)
 
 //---------------------------------------------------------------
 
-HRESULT	Display::InitFullscreenMode(void)
+HRESULT	Display::InitFullscreenMode()
 {
-	SLONG		flags	=	0,
+	std::int32_t		flags	=	0,
 				style,
 				w,h,bpp,refresh;
 	HRESULT		result;
@@ -1000,7 +1000,7 @@ HRESULT	Display::InitFullscreenMode(void)
 	return	result;
 }
 
-HRESULT	Display::FiniFullscreenMode(void)
+HRESULT	Display::FiniFullscreenMode()
 {
 	TurnValidFullscreenOff ();
 
@@ -1023,14 +1023,14 @@ HRESULT	Display::FiniFullscreenMode(void)
 //
 
 void calculate_mask_and_shift(
-		ULONG  bitmask,
-		SLONG *mask,
-		SLONG *shift)
+		std::uint32_t  bitmask,
+		std::int32_t *mask,
+		std::int32_t *shift)
 {
-	SLONG i;
-	SLONG b;
-	SLONG num_bits  =  0;
-	SLONG first_bit = -1;
+	std::int32_t i;
+	std::int32_t b;
+	std::int32_t num_bits  =  0;
+	std::int32_t first_bit = -1;
 
 	LogText(" bitmask %x \n",bitmask);
 
@@ -1083,7 +1083,7 @@ void calculate_mask_and_shift(
 	}
 }
 
-HRESULT	Display::InitFront(void)
+HRESULT	Display::InitFront()
 {
 	DDSURFACEDESC2	dd_sd;
 	HRESULT			result;
@@ -1183,7 +1183,7 @@ HRESULT	Display::InitFront(void)
 	return DD_OK;
 }
 
-HRESULT	Display::FiniFront(void)
+HRESULT	Display::FiniFront()
 {
 	// Mark as Invalid
 	TurnValidFrontOff();
@@ -1206,9 +1206,9 @@ HRESULT	Display::FiniFront(void)
 	return DD_OK;
 }
 
-HRESULT	Display::InitBack(void)
+HRESULT	Display::InitBack()
 {
-	SLONG			mem_type,
+	std::int32_t			mem_type,
 					w,h;
 	DDSCAPS2		dd_scaps;
 	DDSURFACEDESC2  dd_sd;
@@ -1409,7 +1409,7 @@ HRESULT	Display::InitBack(void)
 	return DD_OK;
 }
 
-HRESULT	Display::FiniBack(void)
+HRESULT	Display::FiniBack()
 {
 	// Mark as invalid
 	TurnValidBackOff();
@@ -1462,7 +1462,7 @@ HRESULT	Display::FiniBack(void)
 	return DD_OK;
 }
 
-HRESULT	Display::InitViewport(void)
+HRESULT	Display::InitViewport()
 {
 	D3DMATERIAL		material;
 	HRESULT			result;
@@ -1587,7 +1587,7 @@ HRESULT	Display::InitViewport(void)
 	return DD_OK;
 }
 
-void Display::SetUserColour(UBYTE red, UBYTE green, UBYTE blue)
+void Display::SetUserColour(std::uint8_t red, std::uint8_t green, std::uint8_t blue)
 {
 	D3DMATERIAL		material;
 	HRESULT			result;
@@ -1599,8 +1599,8 @@ void Display::SetUserColour(UBYTE red, UBYTE green, UBYTE blue)
 	if (lp_D3D_User)
 	{
 		lp_D3D_User->Release();
-		lp_D3D_User	=	nullptr;
-		user_handle =   nullptr;
+		lp_D3D_User = nullptr;
+		user_handle = 0;
 	}
 
 	result = lp_D3D->CreateMaterial(&lp_D3D_User,nullptr);
@@ -1626,7 +1626,7 @@ void Display::SetUserColour(UBYTE red, UBYTE green, UBYTE blue)
 	ASSERT(!FAILED(result));
 }
 
-HRESULT	Display::FiniViewport(void)
+HRESULT	Display::FiniViewport()
 {
 	// Mark as invalid
 	TurnValidViewportOff();
@@ -1638,22 +1638,22 @@ HRESULT	Display::FiniViewport(void)
 	if(lp_D3D_Black)
 	{
 		lp_D3D_Black->Release();
-		lp_D3D_Black	=	nullptr;
-		black_handle    =   nullptr;
+		lp_D3D_Black = nullptr;
+		black_handle = 0;
 	}
 
 	if(lp_D3D_White)
 	{
 		lp_D3D_White->Release();
-		lp_D3D_White	=	nullptr;
-		white_handle    =   nullptr;
+		lp_D3D_White = nullptr;
+		white_handle = 0;
 	}
 
 	if (lp_D3D_User)
 	{
 		lp_D3D_User->Release();
-		lp_D3D_User		=	nullptr;
-		user_handle     =   nullptr;
+		lp_D3D_User = nullptr;
+		user_handle = 0;
 	}
 
 	// Release D3D viewport
@@ -1661,16 +1661,16 @@ HRESULT	Display::FiniViewport(void)
 	{
 		lp_D3D_Device->DeleteViewport(lp_D3D_Viewport);
         lp_D3D_Viewport->Release();
-        lp_D3D_Viewport	=	nullptr;
+        lp_D3D_Viewport	= nullptr;
 	}
 
 	// Success
 	return DD_OK;
 }
 
-HRESULT	Display::UpdateViewport(void)
+HRESULT	Display::UpdateViewport()
 {
-	SLONG			s_w,s_h;
+	std::int32_t			s_w,s_h;
 	HRESULT			result;
     D3DVIEWPORT2	d3d_viewport;
 
@@ -1741,10 +1741,10 @@ HRESULT	Display::UpdateViewport(void)
 }
 
 HRESULT	Display::ChangeMode	(
-								SLONG	w,
-								SLONG	h,
-								SLONG	bpp,
-								SLONG	refresh
+								std::int32_t	w,
+								std::int32_t	h,
+								std::int32_t	bpp,
+								std::int32_t	refresh
 							)
 {
 	HRESULT			result;
@@ -1894,7 +1894,7 @@ HRESULT	Display::ChangeMode	(
     return DD_OK;
 }
 
-HRESULT	Display::Restore(void)
+HRESULT	Display::Restore()
 {
 	HRESULT		result;
 
@@ -1971,12 +1971,12 @@ HRESULT	Display::AddLoadedTexture(D3DTexture *the_texture)
 	return	DD_OK;
 }
 
-void Display::RemoveAllLoadedTextures(void)
+void Display::RemoveAllLoadedTextures()
 {
 	TextureList = nullptr;
 }
 
-HRESULT	Display::FreeLoadedTextures(void)
+HRESULT	Display::FreeLoadedTextures()
 {
 	D3DTexture		*current_texture;
 
@@ -2010,7 +2010,7 @@ void SetLastClumpfile(char* file, size_t size)
 	clumpsize = size;
 }
 
-HRESULT	Display::ReloadTextures(void)
+HRESULT	Display::ReloadTextures()
 {
 	D3DTexture		*current_texture;
 
@@ -2035,7 +2035,7 @@ HRESULT	Display::ReloadTextures(void)
 	return	DD_OK;
 }
 
-HRESULT	Display::toGDI(void)
+HRESULT	Display::toGDI()
 {
 	HRESULT		result;
 	
@@ -2061,18 +2061,18 @@ HRESULT	Display::toGDI(void)
 	return DD_OK;
 }
 
-HRESULT	Display::fromGDI(void)
+HRESULT	Display::fromGDI()
 {
 	// Success
 	return DD_OK;
 }
 
-HRESULT	Display::ShowWorkScreen(void)
+HRESULT	Display::ShowWorkScreen()
 {
 	return	lp_DD_FrontSurface->Blt(&DisplayRect,lp_DD_WorkSurface,nullptr,DDBLT_WAIT,nullptr);
 }
 
-void* Display::screen_lock(void)
+void* Display::screen_lock()
 {
 	if (DisplayFlags & DISPLAY_LOCKED)
 	{
@@ -2097,7 +2097,7 @@ void* Display::screen_lock(void)
 			screen_height = ddsdesc.dwHeight;
 			screen_pitch  = ddsdesc.lPitch;
 			screen_bbp    = ddsdesc.ddpfPixelFormat.dwRGBBitCount;
-			screen        = (UBYTE *) ddsdesc.lpSurface;
+			screen        = (std::uint8_t *) ddsdesc.lpSurface;
 
 			DisplayFlags |= DISPLAY_LOCKED;
 		}
@@ -2112,7 +2112,7 @@ void* Display::screen_lock(void)
 	return screen;
 }
 
-void  Display::screen_unlock(void)
+void  Display::screen_unlock()
 {
 	if (DisplayFlags & DISPLAY_LOCKED)
 	{
@@ -2123,7 +2123,7 @@ void  Display::screen_unlock(void)
 	DisplayFlags &= ~DISPLAY_LOCKED;
 }
 
-void Display::PlotPixel(SLONG x, SLONG y, UBYTE red, UBYTE green, UBYTE blue)
+void Display::PlotPixel(std::int32_t x, std::int32_t y, std::uint8_t red, std::uint8_t green, std::uint8_t blue)
 {
 	if (DisplayFlags & DISPLAY_LOCKED)
 	{
@@ -2132,21 +2132,21 @@ void Display::PlotPixel(SLONG x, SLONG y, UBYTE red, UBYTE green, UBYTE blue)
 		{
 			if (CurrMode->GetBPP() == 16)
 			{
-				UWORD *dest;
+				std::uint16_t *dest;
 
-				UWORD pixel = GetFormattedPixel(red, green, blue);
-				SLONG index = x + x + y * screen_pitch;
+				std::uint16_t pixel = GetFormattedPixel(red, green, blue);
+				std::int32_t index = x + x + y * screen_pitch;
 
-				dest    = (UWORD *) (&(screen[index]));
+				dest    = (std::uint16_t *) (&(screen[index]));
 				dest[0] = pixel;
 			}
 			else
 			{
-				ULONG*	dest;
-				ULONG	pixel = GetFormattedPixel(red, green, blue);
-				SLONG	index = x*4 + y * screen_pitch;
+				std::uint32_t*	dest;
+				std::uint32_t	pixel = GetFormattedPixel(red, green, blue);
+				std::int32_t	index = x*4 + y * screen_pitch;
 
-				dest	= (ULONG*)(screen + index);
+				dest	= (std::uint32_t*)(screen + index);
 				dest[0] = pixel;
 			}
 		}
@@ -2161,7 +2161,7 @@ void Display::PlotPixel(SLONG x, SLONG y, UBYTE red, UBYTE green, UBYTE blue)
 	}
 }
 
-void Display::PlotFormattedPixel(SLONG x, SLONG y, ULONG colour)
+void Display::PlotFormattedPixel(std::int32_t x, std::int32_t y, std::uint32_t colour)
 {
 	if (DisplayFlags & DISPLAY_LOCKED)
 	{
@@ -2170,17 +2170,17 @@ void Display::PlotFormattedPixel(SLONG x, SLONG y, ULONG colour)
 		{
 			if (CurrMode->GetBPP() == 16)
 			{
-				UWORD *dest;
-				SLONG  index = x + x + y * screen_pitch;
+				std::uint16_t *dest;
+				std::int32_t  index = x + x + y * screen_pitch;
 
-				dest    = (UWORD *) (&(screen[index]));
+				dest    = (std::uint16_t *) (&(screen[index]));
 				dest[0] = colour;
 			}
 			else
 			{
-				ULONG* dest;
-				SLONG index = x*4 + y*screen_pitch;
-				dest = (ULONG*)(screen + index);
+				std::uint32_t* dest;
+				std::int32_t index = x*4 + y*screen_pitch;
+				dest = (std::uint32_t*)(screen + index);
 				dest[0] = colour;
 			}
 		}
@@ -2195,11 +2195,11 @@ void Display::PlotFormattedPixel(SLONG x, SLONG y, ULONG colour)
 	}
 }
 
-void Display::GetPixel(SLONG x, SLONG y, UBYTE *red, UBYTE *green, UBYTE *blue)
+void Display::GetPixel(std::int32_t x, std::int32_t y, std::uint8_t *red, std::uint8_t *green, std::uint8_t *blue)
 {
-	SLONG index;
+	std::int32_t index;
 
-	ULONG	colour;
+	std::uint32_t	colour;
 
 	*red   = 0;
 	*green = 0;
@@ -2212,17 +2212,17 @@ void Display::GetPixel(SLONG x, SLONG y, UBYTE *red, UBYTE *green, UBYTE *blue)
 		{
 			if (CurrMode->GetBPP() == 16)
 			{
-				UWORD *dest;
-				SLONG  index = x + x + y * screen_pitch;
+				std::uint16_t *dest;
+				std::int32_t  index = x + x + y * screen_pitch;
 
-				dest   = (UWORD *) (&(screen[index]));
+				dest   = (std::uint16_t *) (&(screen[index]));
 				colour = dest[0];		
 			}
 			else
 			{
-				ULONG *dest;
-				SLONG	index = 4*x + y*screen_pitch;
-				dest = (ULONG*)(screen + index);
+				std::uint32_t *dest;
+				std::int32_t	index = 4*x + y*screen_pitch;
+				dest = (std::uint32_t*)(screen + index);
 				colour = dest[0];
 
 			}
@@ -2272,7 +2272,7 @@ void Display::blit_back_buffer()
 	}
 }
 
-void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
+void CopyBackground32(std::uint8_t* image_data, IDirectDrawSurface4* surface)
 {
 	DDSURFACEDESC2	mine;
 	HRESULT			res;
@@ -2281,23 +2281,23 @@ void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
 	res = surface->Lock(nullptr, &mine, DDLOCK_WAIT, nullptr);
 	if (FAILED(res))	return;
 
-	SLONG  pitch = mine.lPitch >> 2;
-	ULONG *mem   = (ULONG *)mine.lpSurface;
-	SLONG  width;
-	SLONG  height;
+	std::int32_t  pitch = mine.lPitch >> 2;
+	std::uint32_t *mem   = (std::uint32_t *)mine.lpSurface;
+	std::int32_t  width;
+	std::int32_t  height;
 
 	// stretch the image
 
-	SLONG	sdx = 65536 * 640 / mine.dwWidth;
-	SLONG	sdy = 65536 * 480 / mine.dwHeight;
+	std::int32_t	sdx = 65536 * 640 / mine.dwWidth;
+	std::int32_t	sdy = 65536 * 480 / mine.dwHeight;
 
-	SLONG	lsy = -1;
-	SLONG	sy = 0;
-	ULONG*	lmem = nullptr;
+	std::int32_t	lsy = -1;
+	std::int32_t	sy = 0;
+	std::uint32_t*	lmem = nullptr;
 
 	for (height = 0; (unsigned)height < mine.dwHeight; height++)
 	{
-		UBYTE*	src = image_data + 640 * 3 * (sy >> 16);
+		std::uint8_t*	src = image_data + 640 * 3 * (sy >> 16);
 
 		if ((sy >> 16) == lsy)
 		{
@@ -2306,11 +2306,11 @@ void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
 		}
 		else
 		{
-			SLONG	sx = 0;
+			std::int32_t	sx = 0;
 
 			for (width = 0; (unsigned)width < mine.dwWidth; width++)
 			{
-				UBYTE*	pp = src + 3 * (sx >> 16);
+				std::uint8_t*	pp = src + 3 * (sx >> 16);
 
 				mem[width] = the_display.GetFormattedPixel(pp[2], pp[1], pp[0]);
 
@@ -2328,14 +2328,14 @@ void CopyBackground32(UBYTE* image_data, IDirectDrawSurface4* surface)
 	surface->Unlock(nullptr);
 }
 
-void CopyBackground(UBYTE* image_data, IDirectDrawSurface4* surface)
+void CopyBackground(std::uint8_t* image_data, IDirectDrawSurface4* surface)
 {
 	CopyBackground32(image_data, surface);
 }
 
 void PANEL_ResetDepthBodge ( void );
 
-HRESULT Display::Flip(LPDIRECTDRAWSURFACE4 alt,SLONG flags)
+HRESULT Display::Flip(LPDIRECTDRAWSURFACE4 alt,std::int32_t flags)
 {
 	extern void PreFlipTT();
 	PreFlipTT();
@@ -2361,7 +2361,7 @@ void Display::use_this_background_surface(LPDIRECTDRAWSURFACE4 this_one)
 	lp_DD_Background_use_instead = this_one;
 }
 
-void Display::create_background_surface(UBYTE *image_data)
+void Display::create_background_surface(std::uint8_t *image_data)
 {
 	DDSURFACEDESC2 back;
 	DDSURFACEDESC2 mine;

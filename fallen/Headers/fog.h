@@ -21,9 +21,9 @@ void FOG_init();
 //
 
 void FOG_set_focus(
-		SLONG x,
-		SLONG z,
-		SLONG radius);
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t radius);
 
 
 //
@@ -32,8 +32,8 @@ void FOG_set_focus(
 //
 
 void FOG_gust(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 
 //
@@ -56,14 +56,14 @@ void FOG_process();
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE trans;	// Transparency. 0 => more transparent.
-	UWORD size;		// Radius.
-	UWORD yaw;
-	UWORD shit;
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::uint8_t type;
+	std::uint8_t trans;	// Transparency. 0 => more transparent.
+	std::uint16_t size;		// Radius.
+	std::uint16_t yaw;
+	std::uint16_t shit;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
 } FOG_Info;
 

@@ -10,7 +10,7 @@
 #include	"memory.h"
 
 
-SLONG shadow_dist = 32;
+std::int32_t shadow_dist = 32;
 
 #define SHADOW_DIR_X (+147)
 #define SHADOW_DIR_Y (-148)
@@ -19,15 +19,15 @@ SLONG shadow_dist = 32;
 #define SHADOW_DIST shadow_dist;
 
 
-SLONG SHADOW_in(SLONG x1, SLONG y1, SLONG z1)
+std::int32_t SHADOW_in(std::int32_t x1, std::int32_t y1, std::int32_t z1)
 {
 	x1 -= SHADOW_DIR_X >> 5;
 	y1 -= SHADOW_DIR_Y >> 5;
 	z1 -= SHADOW_DIR_Z >> 5;
 
-	SLONG x2 = x1 - SHADOW_DIR_X * SHADOW_DIST;
-	SLONG y2 = y1 - SHADOW_DIR_Y * SHADOW_DIST;
-	SLONG z2 = z1 - SHADOW_DIR_Z * SHADOW_DIST;
+	std::int32_t x2 = x1 - SHADOW_DIR_X * SHADOW_DIST;
+	std::int32_t y2 = y1 - SHADOW_DIR_Y * SHADOW_DIST;
+	std::int32_t z2 = z1 - SHADOW_DIR_Z * SHADOW_DIST;
 
 	return !there_is_a_los(
 				x1, y1, z1,
@@ -38,25 +38,25 @@ SLONG SHADOW_in(SLONG x1, SLONG y1, SLONG z1)
 
 void SHADOW_do()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG height;
+	std::int32_t height;
 
-	SLONG s1;
-	SLONG s2;
-	SLONG s3;
+	std::int32_t s1;
+	std::int32_t s2;
+	std::int32_t s3;
 
-	SLONG which;
+	std::int32_t which;
 
 	RoofFace4 *rf;
 
-	SLONG shadow[8] = 
+	std::int32_t shadow[8] = 
 	{
 		0, 1, 7, 5, 3, 2, 4, 5
 	};
@@ -167,7 +167,7 @@ void SHADOW_do()
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		PrimFace4 *f4;
 
@@ -176,12 +176,12 @@ void SHADOW_do()
 		PrimPoint *p2;
 		PrimPoint *p3;
 
-		SLONG x;
-		SLONG y;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t y;
+		std::int32_t z;
 
-		SLONG shadow_1;
-		SLONG shadow_2;
+		std::int32_t shadow_1;
+		std::int32_t shadow_2;
 
 		for (i = 0; i < number_of_walkable_prim_faces4; i++)
 		{

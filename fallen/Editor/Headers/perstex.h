@@ -23,7 +23,7 @@
 
 #define PERSTEX_PAGENUMBER_QMARK 0
 
-SLONG PERSTEX_get_number(CBYTE* fname);
+std::int32_t PERSTEX_get_number(char* fname);
 
 // ========================================================
 

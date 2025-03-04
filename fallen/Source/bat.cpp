@@ -70,7 +70,7 @@
 
 #ifndef PSX
 
-CBYTE* BAT_state_name[BAT_STATE_NUMBER] =
+char* BAT_state_name[BAT_STATE_NUMBER] =
 {
 	"Idle",
 	"Goto",
@@ -118,13 +118,13 @@ CBYTE* BAT_state_name[BAT_STATE_NUMBER] =
 
 #define BAT_SUMMON_NUM_BODIES 4
 
-UWORD BAT_summon[BAT_SUMMON_NUM_BODIES];
+std::uint16_t BAT_summon[BAT_SUMMON_NUM_BODIES];
 
 void BAT_find_summon_people(Thing *p_thing)
 {
-	SLONG i;
-	SLONG num;
-	SLONG bodies;
+	std::int32_t i;
+	std::int32_t num;
+	std::int32_t bodies;
 
 	//
 	// Look around for the bodies...
@@ -187,9 +187,9 @@ void BAT_find_summon_people(Thing *p_thing)
 
 void BAT_process_bane_sparks(Thing *p_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
-	static UWORD last = 0;
+	static std::uint16_t last = 0;
 
 	last += 16 * TICK_RATIO >> TICK_SHIFT;
 
@@ -274,11 +274,11 @@ void BAT_init()
 #define BAT_ANIM_GENERIC_FLY			(-1)	// An anim that changes depending on the type of bat!
 #define BAT_ANIM_GENERIC_TAKE_HIT		(-2)
 
-void BAT_set_anim(Thing *p_thing, SLONG anim)
+void BAT_set_anim(Thing *p_thing, std::int32_t anim)
 {
 	if (anim < 0)
 	{
-		static UBYTE generic_bat_anim[2][2] =
+		static std::uint8_t generic_bat_anim[2][2] =
 		{
 			{BAT_ANIM_BAT_FLY,      BAT_ANIM_BAT_FLY},
 			{BAT_ANIM_GARGOYLE_FLY, BAT_ANIM_GARGOYLE_TAKE_HIT}
@@ -319,10 +319,10 @@ void BAT_set_anim(Thing *p_thing, SLONG anim)
 // Animates the bat. Returns true if the current anim is over.
 //
 
-SLONG BAT_animate(Thing *p_thing)
+std::int32_t BAT_animate(Thing *p_thing)
 {
-	SLONG ret = false;
-	SLONG tween_step;
+	std::int32_t ret = false;
+	std::int32_t tween_step;
 
 	DrawTween *dt = p_thing->Draw.Tweened;
 
@@ -347,7 +347,7 @@ SLONG BAT_animate(Thing *p_thing)
 
 		dt->FrameIndex++;
 
-		SLONG advance_keyframe(DrawTween *draw_info);
+		std::int32_t advance_keyframe(DrawTween *draw_info);
 
 		ret |= advance_keyframe(dt);
 	}
@@ -360,15 +360,15 @@ SLONG BAT_animate(Thing *p_thing)
 // Makes a bat turn towards his target. Returns the angle difference.
 //
 
-SLONG BAT_turn_to_target(Thing *p_thing)
+std::int32_t BAT_turn_to_target(Thing *p_thing)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
-	SLONG turn;
+	std::int32_t turn;
 
 	Thing *p_target;
 	Bat   *p_bat;
@@ -431,15 +431,15 @@ SLONG BAT_turn_to_target(Thing *p_thing)
 // Makes the bat turn towards a given place. Returns the relative angle.
 //
 
-SLONG BAT_turn_to_place(Thing *p_thing, SLONG world_x, SLONG world_z)
+std::int32_t BAT_turn_to_place(Thing *p_thing, std::int32_t world_x, std::int32_t world_z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
-	SLONG turn;
+	std::int32_t turn;
 
 	Bat *p_bat;
 
@@ -505,15 +505,15 @@ void BAT_emit_fireball(Thing *p_thing)
 
 	Thing *p_target = TO_THING(p_bat->target);
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	dx = p_target->WorldPos.X          - p_thing->WorldPos.X;
 	dy = p_target->WorldPos.Y + 0x3000 - p_thing->WorldPos.Y;
 	dz = p_target->WorldPos.Z          - p_thing->WorldPos.Z;
 
-	SLONG dist = (QDIST3(abs(dx),abs(dy),abs(dz)) >> 8) + 1;
+	std::int32_t dist = (QDIST3(abs(dx),abs(dy),abs(dz)) >> 8) + 1;
 
 	dx = 0x40 * dx / dist;
 	dy = 0x40 * dy / dist;
@@ -554,19 +554,19 @@ void BAT_change_state(Thing *p_thing)
 {
 	ASSERT(p_thing->Class == CLASS_BAT);
 
-	SLONG want_x;
-	SLONG want_y;
-	SLONG want_z;
+	std::int32_t want_x;
+	std::int32_t want_y;
+	std::int32_t want_z;
 
-	SLONG new_state;
-	SLONG old_target;
+	std::int32_t new_state;
+	std::int32_t old_target;
 
 	Bat   *p_bat = p_thing->Genus.Bat;
 	Thing *darci;
 
 	old_target = p_bat->target;
 
-	SLONG dangle = 0;
+	std::int32_t dangle = 0;
 
 	if (p_bat->type == BAT_TYPE_BALROG)
 	{
@@ -574,7 +574,7 @@ void BAT_change_state(Thing *p_thing)
 		{
 			Thing *p_target = TO_THING(p_bat->target);
 
-			extern SLONG is_person_dead(Thing *p_person);
+			extern std::int32_t is_person_dead(Thing *p_person);
 
 			if (p_target->Class == CLASS_PERSON && is_person_dead(p_target))
 			{
@@ -582,7 +582,7 @@ void BAT_change_state(Thing *p_thing)
 				// Assume the Balrog killed this person.
 				//
 
-				extern UBYTE *EWAY_counter;
+				extern std::uint8_t *EWAY_counter;
 
 				if (EWAY_counter[8] < 255)
 				{
@@ -595,17 +595,17 @@ void BAT_change_state(Thing *p_thing)
 		// Look for a target.
 		//
 
-		SLONG i;
+		std::int32_t i;
 
-		SLONG dx;
-		SLONG dy;
-		SLONG dz;
-		SLONG dist;
-		SLONG score;
+		std::int32_t dx;
+		std::int32_t dy;
+		std::int32_t dz;
+		std::int32_t dist;
+		std::int32_t score;
 
-		SLONG best_score = INFINITY;
-		SLONG best_dist  = 0;
-		SLONG best_index = nullptr;
+		std::int32_t best_score = INFINITY;
+		std::int32_t best_dist  = 0;
+		std::int32_t best_index = 0;
 
 		Thing *p_found;
 
@@ -613,7 +613,7 @@ void BAT_change_state(Thing *p_thing)
 		// Find all the people near us.
 		//
 
-		SLONG found_num = THING_find_sphere(
+		std::int32_t found_num = THING_find_sphere(
 							p_thing->WorldPos.X >> 8,
 							p_thing->WorldPos.Y >> 8,
 							p_thing->WorldPos.Z >> 8,
@@ -651,7 +651,7 @@ void BAT_change_state(Thing *p_thing)
 
 			if (p_found->Class == CLASS_PERSON)
 			{
-				extern SLONG is_person_ko(Thing *p_person);
+				extern std::int32_t is_person_ko(Thing *p_person);
 
 				if (is_person_ko(p_found))
 				{
@@ -810,7 +810,7 @@ void BAT_change_state(Thing *p_thing)
 	else
 	if (p_bat->type == BAT_TYPE_BANE)
 	{
-		p_bat->target = nullptr;
+		p_bat->target = 0;
 
 		if (!BAT_summon[0] )
 		{
@@ -843,15 +843,15 @@ void BAT_change_state(Thing *p_thing)
 		}
 		else
 		{
-			p_bat->target = nullptr;
+			p_bat->target = 0;
 		}
 
 		//
 		// What state should be in now?
 		//
 
-		SLONG dx = p_thing->WorldPos.X - ((p_bat->home_x << 16) + 0x8000);
-		SLONG dz = p_thing->WorldPos.Z - ((p_bat->home_z << 16) + 0x8000);
+		std::int32_t dx = p_thing->WorldPos.X - ((p_bat->home_x << 16) + 0x8000);
+		std::int32_t dz = p_thing->WorldPos.Z - ((p_bat->home_z << 16) + 0x8000);
 
 		if (abs(dx) > 0x40000 ||
 			abs(dz) > 0x40000)
@@ -868,7 +868,7 @@ void BAT_change_state(Thing *p_thing)
 
 			if (p_bat->type   == BAT_TYPE_GARGOYLE &&
 				new_state     == BAT_STATE_CIRCLE  &&
-				p_bat->target != nullptr)
+				p_bat->target)
 			{
 				new_state = BAT_STATE_ATTACK;
 			}
@@ -945,8 +945,8 @@ void BAT_change_state(Thing *p_thing)
 		case BAT_STATE_BALROG_WANDER:
 
 			{
-				SLONG want_x;
-				SLONG want_z;
+				std::int32_t want_x;
+				std::int32_t want_z;
 
 				MAV_Action ma;
 
@@ -1070,7 +1070,7 @@ void BAT_change_state(Thing *p_thing)
 			//
 	
 			{
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < BAT_SUMMON_NUM_BODIES; i++)
 				{
@@ -1105,16 +1105,16 @@ void BAT_change_state(Thing *p_thing)
 #define BAT_BALROG_WIDTH (0x3000)
 
 void BAT_balrog_slide_along(
-		SLONG  x1, SLONG  z1,
-		SLONG *x2, SLONG *z2)
+		std::int32_t  x1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *z2)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	ULONG collide;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::uint32_t collide;
 
-	SLONG mx = *x2 >> 16;
-	SLONG mz = *z2 >> 16;
+	std::int32_t mx = *x2 >> 16;
+	std::int32_t mz = *z2 >> 16;
 
 	ASSERT(WITHIN(mx, 1, PAP_SIZE_HI - 2));
 	ASSERT(WITHIN(mz, 1, PAP_SIZE_HI - 2));
@@ -1334,33 +1334,33 @@ void BAT_balrog_slide_along(
 
 void BAT_normal(Thing *p_thing)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG ddx;
-	SLONG ddz;
+	std::int32_t ddx;
+	std::int32_t ddz;
 
-	SLONG want_x;
-	SLONG want_y;
-	SLONG want_z;
+	std::int32_t want_x;
+	std::int32_t want_y;
+	std::int32_t want_z;
 
-	SLONG want_dx;
-	SLONG want_dy;
-	SLONG want_dz;
+	std::int32_t want_dx;
+	std::int32_t want_dy;
+	std::int32_t want_dz;
 
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
-	SLONG goto_x;
-	SLONG goto_y;
-	SLONG goto_z;
+	std::int32_t goto_x;
+	std::int32_t goto_y;
+	std::int32_t goto_z;
 
-	SLONG ground;
+	std::int32_t ground;
 
-	SLONG end;
+	std::int32_t end;
 
 	;;	 ;;											;;
 	;;	 ;;											;;
@@ -1378,7 +1378,7 @@ void BAT_normal(Thing *p_thing)
 								; ; ;;;;;; ;					;; ;; ;
 	GameCoord newpos;				 ;;;;;;;					 ;;;	;
 									   ;
-	SLONG ticks = (BAT_TICKS_PER_SECOND / 20) * TICK_RATIO >> TICK_SHIFT;
+	std::int32_t ticks = (BAT_TICKS_PER_SECOND / 20) * TICK_RATIO >> TICK_SHIFT;
 										   
 	ASSERT(p_thing->Class == CLASS_BAT);  ;;;;;					  ;; ;;
 										  ;;;					  ;;;;
@@ -1777,10 +1777,10 @@ void BAT_normal(Thing *p_thing)
 						// Wake up when the player gets too near.
 						// 
 
-						SLONG dx = abs(darci->WorldPos.X - p_thing->WorldPos.X);
-						SLONG dz = abs(darci->WorldPos.Z - p_thing->WorldPos.Z);
+						std::int32_t dx = abs(darci->WorldPos.X - p_thing->WorldPos.X);
+						std::int32_t dz = abs(darci->WorldPos.Z - p_thing->WorldPos.Z);
 
-						SLONG dist = QDIST2(dx,dz);
+						std::int32_t dist = QDIST2(dx,dz);
 
 						if (dist < 0xa0000)
 						{
@@ -1831,7 +1831,7 @@ void BAT_normal(Thing *p_thing)
 		case BAT_STATE_BALROG_WANDER:
 			
 			{
-				SLONG dangle;
+				std::int32_t dangle;
 
 				//
 				// Turn towards where you are going.
@@ -1923,16 +1923,16 @@ void BAT_normal(Thing *p_thing)
 
 					Thing *p_target = TO_THING(p_bat->target);
 
-					SLONG dangle;
+					std::int32_t dangle;
 
 					//
 					// Turn towards where you are going.
 					//
 
 
-					extern SLONG there_is_a_los_mav(
-									SLONG x1, SLONG y1, SLONG z1,
-									SLONG x2, SLONG y2, SLONG z2);
+					extern std::int32_t there_is_a_los_mav(
+									std::int32_t x1, std::int32_t y1, std::int32_t z1,
+									std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 					if (!there_is_a_los_mav(
 							p_thing ->WorldPos.X          >> 8,
@@ -2145,7 +2145,7 @@ void BAT_normal(Thing *p_thing)
 				{
 					Thing *darci = NET_PERSON(0);
 
-					extern SLONG is_person_dead(Thing *p_person);
+					extern std::int32_t is_person_dead(Thing *p_person);
 
 					if (!is_person_dead(darci))
 					{
@@ -2348,12 +2348,12 @@ void BAT_normal(Thing *p_thing)
 //
 
 THING_INDEX BAT_create(
-				SLONG type,
-				SLONG x,
-				SLONG z,
-				UWORD yaw)
+				std::int32_t type,
+				std::int32_t x,
+				std::int32_t z,
+				std::uint16_t yaw)
 {
-	SLONG i;
+	std::int32_t i;
 
 	Thing     *p_thing;
 	Bat       *p_bat;
@@ -2372,7 +2372,7 @@ THING_INDEX BAT_create(
 		// No more things left!
 		//
 
-		return nullptr;
+		return 0;
 	}
 
 	//
@@ -2393,7 +2393,7 @@ THING_INDEX BAT_create(
 	// No more bat structures.
 	//
 
-	return nullptr;
+	return 0;
 
   found_unused_bat:;
 
@@ -2405,7 +2405,7 @@ THING_INDEX BAT_create(
 
 	if (!dt )
 	{
-		return nullptr;
+		return 0;
 	}
 
 #ifndef PSX
@@ -2415,7 +2415,7 @@ THING_INDEX BAT_create(
 	//
 	if(anim_chunk[type].MultiObject[0]==0)
 	{
-extern SLONG load_anim_prim_object(SLONG prim);
+extern std::int32_t load_anim_prim_object(std::int32_t prim);
 		load_anim_prim_object(type);
 //		ASSERT(0);
 
@@ -2434,7 +2434,7 @@ extern SLONG load_anim_prim_object(SLONG prim);
 
 	p_thing->Genus.Bat = p_bat;
 	p_thing->State     = STATE_NORMAL;
-	p_thing->SubState  = nullptr;
+	p_thing->SubState  = 0;
 	p_thing->StateFn   = BAT_normal;
 	p_thing->Index	   = type;
 
@@ -2469,7 +2469,7 @@ extern SLONG load_anim_prim_object(SLONG prim);
 	p_bat->health   = 100;
 	p_bat->home_x   = x >> 8;
 	p_bat->home_z   = z >> 8;
-	p_bat->target   = nullptr;
+	p_bat->target   = 0;
 	p_bat->timer    = 0;
 	p_bat->flag     = 0;
 
@@ -2528,13 +2528,13 @@ extern SLONG load_anim_prim_object(SLONG prim);
 void BAT_apply_hit(
 		Thing *p_me,
 		Thing *p_aggressor,
-		SLONG  damage)
+		std::int32_t  damage)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
 	ASSERT(p_me->Class == CLASS_BAT);
 
@@ -2551,11 +2551,11 @@ void BAT_apply_hit(
 
 	if (p_aggressor)
 	{
-		SLONG blood_x;
-		SLONG blood_y;
-		SLONG blood_z;
+		std::int32_t blood_x;
+		std::int32_t blood_y;
+		std::int32_t blood_z;
 
-		SLONG towards;
+		std::int32_t towards;
 
 		blood_x = p_me->WorldPos.X;
 		blood_y = p_me->WorldPos.Y;
@@ -2578,7 +2578,7 @@ void BAT_apply_hit(
 		dx >>= 8;
 		dz >>= 8;
 
-		SLONG length;
+		std::int32_t length;
 
 		length = QDIST2(abs(dx),abs(dz)) + 1;
 

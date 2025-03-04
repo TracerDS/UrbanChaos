@@ -12,7 +12,7 @@
 //	Waypoint stuff.
 //---------------------------------------------------------------
 
-ULONG waypoint_count;
+std::uint32_t waypoint_count;
 Waypoint waypoints[MAX_WAYPOINTS];
 
 //---------------------------------------------------------------
@@ -20,14 +20,14 @@ Waypoint waypoints[MAX_WAYPOINTS];
 void init_waypoints()
 {
 	waypoint_count	=	0;
-	memset((UBYTE*)waypoints,0,sizeof(waypoints));
+	memset((std::uint8_t*)waypoints,0,sizeof(waypoints));
 }
 
 //---------------------------------------------------------------
 
-UWORD alloc_waypoint()
+std::uint16_t alloc_waypoint()
 {
-	UWORD		c0;
+	std::uint16_t		c0;
 
 
 	for(c0=1;c0<MAX_WAYPOINTS;c0++)
@@ -47,9 +47,9 @@ UWORD alloc_waypoint()
 
 //---------------------------------------------------------------
 
-void free_waypoint(UWORD wp_index)
+void free_waypoint(std::uint16_t wp_index)
 {
-	UWORD		next_index,
+	std::uint16_t		next_index,
 				prev_index;
 
 
@@ -69,7 +69,7 @@ void free_waypoint(UWORD wp_index)
 //	Condition Stuff.
 //---------------------------------------------------------------
 
-ULONG con_list_count,
+std::uint32_t con_list_count,
 				condition_count;
 Condition conditions[MAX_CONDITIONS];
 ConditionList con_lists[MAX_CLISTS];
@@ -80,7 +80,7 @@ void init_clists()
 {
 	con_list_count	=	0;
 //	ZeroMemory(con_lists,sizeof(con_lists));
-	memset((UBYTE*)con_lists,0,sizeof(con_lists));
+	memset((std::uint8_t*)con_lists,0,sizeof(con_lists));
 
 	init_conditions();
 }
@@ -88,7 +88,7 @@ void init_clists()
 
 ConditionList *alloc_clist()
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 
 
 	for(c0=1;c0<MAX_CLISTS;c0++)
@@ -142,7 +142,7 @@ void init_conditions()
 {
 	condition_count	=	0;
 //	ZeroMemory(conditions,sizeof(conditions));
-	memset((UBYTE*)conditions,0,sizeof(conditions));
+	memset((std::uint8_t*)conditions,0,sizeof(conditions));
 	
 }
 
@@ -150,7 +150,7 @@ void init_conditions()
 
 Condition *alloc_condition()
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 
 
 	for(c0=1;c0<MAX_CONDITIONS;c0++)
@@ -182,7 +182,7 @@ Condition *alloc_condition()
 //	Command Stuff.
 //---------------------------------------------------------------
 
-ULONG com_list_count,
+std::uint32_t com_list_count,
 				command_count;
 Command commands[MAX_COMMANDS];
 CommandList com_lists[MAX_COMLISTS];
@@ -193,7 +193,7 @@ void init_comlists()
 {
 	com_list_count	=	0;
 //	ZeroMemory(com_lists,sizeof(com_lists));
-	memset((UBYTE*)com_lists,0,sizeof(com_lists));
+	memset((std::uint8_t*)com_lists,0,sizeof(com_lists));
 
 	init_commands();
 }
@@ -201,7 +201,7 @@ void init_comlists()
 
 CommandList *alloc_comlist()
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 
 
 	for(c0=1;c0<MAX_COMLISTS;c0++)
@@ -255,14 +255,14 @@ void init_commands()
 {
 	command_count	=	0;
 //	ZeroMemory(commands,sizeof(commands));
-	memset((UBYTE*)commands,0,sizeof(commands));
+	memset((std::uint8_t*)commands,0,sizeof(commands));
 }
 
 //---------------------------------------------------------------
 
 Command *alloc_command()
 {
-	ULONG		c0;
+	std::uint32_t		c0;
 
 
 	for(c0=1;c0<MAX_COMMANDS;c0++)
@@ -296,7 +296,7 @@ Command *alloc_command()
 bool process_condition(Condition *the_condition)
 {
 	bool		result	=	false;
-	SLONG		distance;
+	std::int32_t		distance;
 	GameCoord	*start_coord,*end_coord;
 	Switch		*the_switch;
 
@@ -416,7 +416,7 @@ bool process_condition(Condition *the_condition)
 void process_condition_lists()
 {
 	bool		list_fulfilled;
-	ULONG		c0;
+	std::uint32_t		c0;
 	Condition	*the_condition;
 
 
@@ -471,7 +471,7 @@ void init_person_command_list(Thing *p_person)
 	}
 
 }
-extern void	set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
+extern void	set_person_mav_to_xz(Thing *p_person,std::int32_t x,std::int32_t z);
 
 void advance_person_command(Thing *p_person)
 {
@@ -486,8 +486,8 @@ void advance_person_command(Thing *p_person)
 		case	COM_PATROL_WAYPOINT:
 			if(p_person->Genus.Person->NavIndex)
 			{
-				SLONG	dest_x,dest_z;
-				SLONG	index;
+				std::int32_t	dest_x,dest_z;
+				std::int32_t	index;
 
 				p_person->Genus.Person->NavIndex =	waypoints[p_person->Genus.Person->NavIndex].Next;
 				if(p_person->Genus.Person->NavIndex)

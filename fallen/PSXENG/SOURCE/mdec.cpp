@@ -14,9 +14,9 @@
 
 #if 0
 typedef struct {
-	SWORD frame;
-	UBYTE fast;
-	UBYTE slow;
+	std::int16_t frame;
+	std::uint8_t fast;
+	std::uint8_t slow;
 } MDEC_vibra;
 
 #define VIBRA_NONE(f)		{f,0,0}
@@ -109,8 +109,8 @@ MDEC_vibra vib_endgame[]={
 MDEC_vibra *vibra[]={vib_none,vib_none,vib_intro,vib_none,vib_endgame,vib_none};
 #else
 typedef struct {
-	UBYTE	fast;
-	UBYTE	slow;
+	std::uint8_t	fast;
+	std::uint8_t	slow;
 } VibraData;
 
 VibraData *MDEC_vibra;
@@ -120,14 +120,14 @@ VibraData *MDEC_vibra;
 extern ControllerPacket	PAD_Input1,PAD_Input2;
 
 DECDCTTAB *MDEC_VLCTable;
-ULONG *MDEC_input;
-ULONG *MDEC_slice;
-ULONG *MDEC_output[2];
-ULONG MDEC_width;
+std::uint32_t *MDEC_input;
+std::uint32_t *MDEC_slice;
+std::uint32_t *MDEC_output[2];
+std::uint32_t MDEC_width;
 long MDEC_endframe;
-UBYTE MDEC_frame;
+std::uint8_t MDEC_frame;
 RECT MDEC_rect;
-volatile UBYTE MDEC_done;
+volatile std::uint8_t MDEC_done;
 extern int screen_x;
 extern int screen_y;
 int MDEC_height;
@@ -162,10 +162,10 @@ int MDEC_Init(char *fname,int len)
 	DecDCTReset(0);
 	MDEC_VLCTable=(DECDCTTAB*)MemAlloc(sizeof(DECDCTTAB));
 	DecDCTvlcBuild(*MDEC_VLCTable);
-	MDEC_input=(ULONG*)MemAlloc(24*2048);
-	MDEC_slice=(ULONG*)MemAlloc(320*240);
-	MDEC_output[0]=(ULONG*)MemAlloc(30*256);
-	MDEC_output[1]=(ULONG*)MemAlloc(30*256);
+	MDEC_input=(std::uint32_t*)MemAlloc(24*2048);
+	MDEC_slice=(std::uint32_t*)MemAlloc(320*240);
+	MDEC_output[0]=(std::uint32_t*)MemAlloc(30*256);
+	MDEC_output[1]=(std::uint32_t*)MemAlloc(30*256);
 	MDEC_vibra=(VibraData *)MemAlloc(10240);
 
 	DecDCToutCallback(MDEC_Callback);
@@ -173,7 +173,7 @@ int MDEC_Init(char *fname,int len)
 	filter.chan=0;
 	filter.file=1;
 
-	CdControl(CdlSetfilter,(UBYTE*)&filter,0);
+	CdControl(CdlSetfilter,(std::uint8_t*)&filter,0);
 
 	MDEC_mix.val0=MDEC_mix.val2=127;
 	MDEC_mix.val1=MDEC_mix.val3=0;
@@ -193,7 +193,7 @@ int MDEC_Init(char *fname,int len)
 	strcpy(str,fname);
 	strcpy(strrchr(str,'.'),".PVD");
 
-	PCReadFile(&str[1],(UBYTE*)MDEC_vibra,10240);
+	PCReadFile(&str[1],(std::uint8_t*)MDEC_vibra,10240);
 
 	StSetRing(MDEC_input,24);
 	StSetStream(0,0,0xffffffff,0,0);
@@ -201,8 +201,8 @@ int MDEC_Init(char *fname,int len)
 	MDEC_endframe=len;
 	do
 	{
-		UBYTE param=CdlModeSpeed;
-		while (CdControl(CdlSetloc,(UBYTE*)&file.pos,0)==0);
+		std::uint8_t param=CdlModeSpeed;
+		while (CdControl(CdlSetloc,(std::uint8_t*)&file.pos,0)==0);
 		while (CdControl(CdlSetmode,&param,0)==0);
 		VSync(3);
 	}
@@ -210,23 +210,23 @@ int MDEC_Init(char *fname,int len)
 #endif
 }
 
-SLONG MDEC_CurrentFrame;
+std::int32_t MDEC_CurrentFrame;
 
 
 int MDEC_Render()
 {
 #ifndef VERSION_REVIEW
 	RECT rect;
-	ULONG *addr;
+	std::uint32_t *addr;
 	StHEADER *sector;
-	SLONG decode,b;
-	SLONG pos;
-	SLONG timer=0x80000;
+	std::int32_t decode,b;
+	std::int32_t pos;
+	std::int32_t timer=0x80000;
 
 	// Setup the strip rectangle for one column of display based on the current display buffer's
 	// draw location.
 
-	while((timer)&&(StGetNext(&addr,(ULONG **)&sector)!=0)) timer--;
+	while((timer)&&(StGetNext(&addr,(std::uint32_t **)&sector)!=0)) timer--;
 
 	// Okay if we timeout on this operation then skip the FMV
 
@@ -307,9 +307,9 @@ void MDEC_VideoSet(int width,int height)
 
 }
 
-extern SLONG MFX_Seek_delay;
+extern std::int32_t MFX_Seek_delay;
 
-extern UBYTE psx_motor[];
+extern std::uint8_t psx_motor[];
 
 MDEC_Shock(int frame)
 {
@@ -319,7 +319,7 @@ MDEC_Shock(int frame)
 //	PadSetAct(0x00,&MDEC_vibra[frame],2);
 }
 
-SLONG MDEC_Play(char *fname,int len,int lang)
+std::int32_t MDEC_Play(char *fname,int len,int lang)
 {
 #ifndef VERSION_REVIEW
 extern int vibra_mode;

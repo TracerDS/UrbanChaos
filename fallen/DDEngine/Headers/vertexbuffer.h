@@ -27,8 +27,8 @@ public:
 	~VertexBuffer();
 
 	D3DTLVERTEX*	GetPtr()		{ ASSERT(m_LockedPtr); return m_LockedPtr; }
-	ULONG			GetSize()		{ return 1 << m_LogSize; }
-	ULONG			GetLogSize()	{ return m_LogSize; }
+	std::uint32_t			GetSize()		{ return 1 << m_LogSize; }
+	std::uint32_t			GetLogSize()	{ return m_LogSize; }
 
 private:
 	friend class VertexBufferPool;
@@ -36,12 +36,12 @@ private:
 	VertexBuffer();
 
 	// create the buffer
-	HRESULT			Create(IDirect3D3* d3d, bool force_system, ULONG logsize = 6);
+	HRESULT			Create(IDirect3D3* d3d, bool force_system, std::uint32_t logsize = 6);
 
 	D3DTLVERTEX*	Lock();			// lock the buffer
 	void			Unlock();		// unlock the buffer
 
-	ULONG			m_LogSize;		// log2 of size
+	std::uint32_t			m_LogSize;		// log2 of size
 	D3DTLVERTEX*	m_LockedPtr;	// ptr to memory iff locked
 	VertexBuffer*	m_Prev;			// prev in chain
 	VertexBuffer*	m_Next;			// next in chain
@@ -63,7 +63,7 @@ public:
 
 	void					Create(IDirect3D3* d3d, bool force_system);	// create pool and preallocate some buffers
 
-	VertexBuffer*			GetBuffer(ULONG logsize = 6);				// get a new buffer
+	VertexBuffer*			GetBuffer(std::uint32_t logsize = 6);				// get a new buffer
 	void					ReleaseBuffer(VertexBuffer* buffer);		// release a buffer
 
 	VertexBuffer*			ExpandBuffer(VertexBuffer* buffer);			// expand a buffer
@@ -83,10 +83,10 @@ private:
 	VertexBuffer*	m_FreeList[16];			// free vertex buffers (locked)
 	VertexBuffer*	m_BusyListLRU[16];		// busy vertex buffers, least recent end = head
 	VertexBuffer*	m_BusyListMRU[16];		// busy vertex buffers, most recent end = tail
-	ULONG			m_Count[16];			// total number of buffers
+	std::uint32_t			m_Count[16];			// total number of buffers
 
-	void	CreateBuffer(ULONG logsize);						// create a buffer of the given size
-	void	CheckBuffers(ULONG logsize, bool time_critical);	// check busy buffers
+	void	CreateBuffer(std::uint32_t logsize);						// create a buffer of the given size
+	void	CheckBuffers(std::uint32_t logsize, bool time_critical);	// check busy buffers
 };
 
 extern VertexBufferPool*	TheVPool;

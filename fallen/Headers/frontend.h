@@ -12,7 +12,7 @@
 #include "MFStdLib.h"
 
 void	FRONTEND_init ( bool bGoToTitleScreen = false );
-SBYTE	FRONTEND_loop();
+std::int8_t	FRONTEND_loop();
 void	FRONTEND_level_won();
 void	FRONTEND_level_lost();
 
@@ -22,7 +22,7 @@ void FRONTEND_unload ( void );
 #endif
 
 
-extern UBYTE	IsEnglish;
+extern std::uint8_t	IsEnglish;
 
 
 #endif

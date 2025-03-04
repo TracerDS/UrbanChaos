@@ -27,9 +27,9 @@
 
 void ID_clear_floorplan();
 void ID_set_outline(
-		SLONG x1, SLONG z1, SLONG x2, SLONG z2,
-		SLONG id,
-		SLONG num_blocks);
+		std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2,
+		std::int32_t id,
+		std::int32_t num_blocks);
 
 //
 // The 'get_type' function returns whether there is a door or a window or wall on
@@ -40,7 +40,7 @@ void ID_set_outline(
 #define ID_BLOCK_TYPE_WINDOW	2
 #define ID_BLOCK_TYPE_DOOR		3
 
-void ID_set_get_type_func(SLONG (*get_type)(SLONG id, SLONG block));
+void ID_set_get_type_func(std::int32_t (*get_type)(std::int32_t id, std::int32_t block));
 
 //
 // This function generates the floorplan for the given type of building.
@@ -52,11 +52,11 @@ void ID_set_get_type_func(SLONG (*get_type)(SLONG id, SLONG block));
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE id;
-	UWORD shit;
-	SLONG handle_up;		// The value returned when you go up the stairs.
-	SLONG handle_down;		// The value returned when you go down the stairs.
+	std::uint8_t type;
+	std::uint8_t id;
+	std::uint16_t shit;
+	std::int32_t handle_up;		// The value returned when you go up the stairs.
+	std::int32_t handle_down;		// The value returned when you go down the stairs.
 
 	//
 	// The two squares the stairs take up.  These are ordered
@@ -64,10 +64,10 @@ typedef struct
 	// (x1,z1) to (x2,z2).
 	//
 
-	UBYTE x1;
-	UBYTE z1;
-	UBYTE x2;
-	UBYTE z2;
+	std::uint8_t x1;
+	std::uint8_t z1;
+	std::uint8_t x2;
+	std::uint8_t z2;
 
 } ID_Stair;
 
@@ -85,18 +85,18 @@ typedef struct
 // best one, otherwise it always uses the given seed.  It returns the
 // seed it used.
 //
-// The seed it uses always fits in a UWORD. If the result is negative
+// The seed it uses always fits in a std::uint16_t. If the result is negative
 // then an error occured and it could not generate a floorplan for the
 // building.
 //
 
-SLONG ID_generate_floorplan(
-			SLONG    type, 
+std::int32_t ID_generate_floorplan(
+			std::int32_t    type, 
 			ID_Stair stair[],
-			SLONG num_stairs,
-			UWORD seed,
-			UBYTE find_good_layout,
-			UBYTE furnished);
+			std::int32_t num_stairs,
+			std::uint16_t seed,
+			std::uint8_t find_good_layout,
+			std::uint8_t furnished);
 
 //
 // Inserts collision vectors for the inside walls.
@@ -121,13 +121,13 @@ void ID_remove_inside_things();
 // This is a mapsquare, not a world position.
 //
 
-UBYTE ID_get_mapsquare_room(SLONG x, SLONG z);
+std::uint8_t ID_get_mapsquare_room(std::int32_t x, std::int32_t z);
 
 //
 // Returns the world camera position for the given room.
 //
 
-void ID_get_room_camera(UBYTE room, SLONG *x, SLONG *y, SLONG *z);
+void ID_get_room_camera(std::uint8_t room, std::int32_t *x, std::int32_t *y, std::int32_t *z);
 
 //
 // If (x,z) is a position on a staircase from where you should
@@ -137,30 +137,30 @@ void ID_get_room_camera(UBYTE room, SLONG *x, SLONG *y, SLONG *z);
 // Reutrns -1, 0 or +1 depending on whether you go up, nowhere, or down.
 //
 
-SLONG ID_change_floor(
-		SLONG  x,
-		SLONG  z,
-		SLONG *new_x,
-		SLONG *new_z,
-		SLONG *handle);
+std::int32_t ID_change_floor(
+		std::int32_t  x,
+		std::int32_t  z,
+		std::int32_t *new_x,
+		std::int32_t *new_z,
+		std::int32_t *handle);
 
 //
 // Accessing the inside of the building.
 //
 
 void ID_get_floorplan_bounding_box(
-		SLONG *x1,
-		SLONG *z1,
-		SLONG *x2,
-		SLONG *z2);
+		std::int32_t *x1,
+		std::int32_t *z1,
+		std::int32_t *x2,
+		std::int32_t *z2);
 
 //
 // Returns info about a floor square.
 //
 
-SLONG ID_am_i_completely_outside(SLONG x, SLONG z);
-SLONG ID_should_i_draw_mapsquare(SLONG x, SLONG z);
-SLONG ID_get_mapsquare_texture  (SLONG x, SLONG z,
+std::int32_t ID_am_i_completely_outside(std::int32_t x, std::int32_t z);
+std::int32_t ID_should_i_draw_mapsquare(std::int32_t x, std::int32_t z);
+std::int32_t ID_get_mapsquare_texture  (std::int32_t x, std::int32_t z,
 		float *u0, float *v0,
 		float *u1, float *v1,
 		float *u2, float *v2,
@@ -171,8 +171,8 @@ SLONG ID_get_mapsquare_texture  (SLONG x, SLONG z,
 // and then it can tell you whether or not to draw a mapsquare.
 //
 
-void  ID_this_is_where_i_am(SLONG x, SLONG z);
-SLONG ID_should_i_draw     (SLONG x, SLONG z);	// (x,z) must be in the bounding square of the floorplan.
+void  ID_this_is_where_i_am(std::int32_t x, std::int32_t z);
+std::int32_t ID_should_i_draw     (std::int32_t x, std::int32_t z);	// (x,z) must be in the bounding square of the floorplan.
 
 //
 // Returns index of the first face above a floor square. 0 => nullptr index.
@@ -181,16 +181,16 @@ SLONG ID_should_i_draw     (SLONG x, SLONG z);	// (x,z) must be in the bounding 
 // Returns the next face in the linked list of faces above a floor square.
 //
 
-SLONG ID_get_first_face  (SLONG x, SLONG z);
-SLONG ID_is_face_a_quad  (SLONG face);
-SLONG ID_get_next_face   (SLONG face);
+std::int32_t ID_get_first_face  (std::int32_t x, std::int32_t z);
+std::int32_t ID_is_face_a_quad  (std::int32_t face);
+std::int32_t ID_get_next_face   (std::int32_t face);
 
 //
 // Fills in the texture coordinates of the given face and
 // returns the page.
 //
 
-SLONG ID_get_face_texture(SLONG face,
+std::int32_t ID_get_face_texture(std::int32_t face,
 		float *u0, float *v0,
 		float *u1, float *v1,
 		float *u2, float *v2,
@@ -202,16 +202,16 @@ SLONG ID_get_face_texture(SLONG face,
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	UWORD prim;
-	UWORD yaw;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::uint16_t prim;
+	std::uint16_t yaw;
 
 } ID_Finfo;
 
-SLONG     ID_get_num_furn();
-ID_Finfo *ID_get_furn(SLONG number);	// Starting from zero.
+std::int32_t     ID_get_num_furn();
+ID_Finfo *ID_get_furn(std::int32_t number);	// Starting from zero.
 
 
 
@@ -231,11 +231,11 @@ ID_Finfo *ID_get_furn(SLONG number);	// Starting from zero.
 //
 
 void  ID_clear_indices       ();
-SLONG ID_is_point_a_mapsquare(SLONG face, SLONG point);
-void  ID_get_point_mapsquare (SLONG face, SLONG point, SLONG *x, SLONG *z);	// Map coordinates
-void  ID_get_point_position  (SLONG face, SLONG point, SLONG *x, SLONG *y, SLONG *z); // ELE_SHIFT fixed point.
-UWORD ID_get_point_index     (SLONG face, SLONG point);
-void  ID_set_point_index	 (SLONG face, SLONG point, UWORD index);
+std::int32_t ID_is_point_a_mapsquare(std::int32_t face, std::int32_t point);
+void  ID_get_point_mapsquare (std::int32_t face, std::int32_t point, std::int32_t *x, std::int32_t *z);	// Map coordinates
+void  ID_get_point_position  (std::int32_t face, std::int32_t point, std::int32_t *x, std::int32_t *y, std::int32_t *z); // ELE_SHIFT fixed point.
+std::uint16_t ID_get_point_index     (std::int32_t face, std::int32_t point);
+void  ID_set_point_index	 (std::int32_t face, std::int32_t point, std::uint16_t index);
 
 
 // ########################################################
@@ -251,16 +251,16 @@ void  ID_set_point_index	 (SLONG face, SLONG point, UWORD index);
 // Returns true if the vector collides with the insides.
 //
 
-SLONG ID_collide_3d(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2);
+std::int32_t ID_collide_3d(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 //
 // Returns the height of the floor at (x,z)
 // The coordinate must be inside the building.
 //
 
-SLONG ID_calc_height_at(SLONG x, SLONG z);
+std::int32_t ID_calc_height_at(std::int32_t x, std::int32_t z);
 
 
 //
@@ -269,12 +269,12 @@ SLONG ID_calc_height_at(SLONG x, SLONG z);
 // the vector that will let it 'slide' along the wall.
 //
 
-SLONG ID_collide_2d(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG Z2,
-		SLONG  radius,
-		SLONG *slide_x,
-		SLONG *slide_z);
+std::int32_t ID_collide_2d(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t Z2,
+		std::int32_t  radius,
+		std::int32_t *slide_x,
+		std::int32_t *slide_z);
 
 
 // ########################################################
@@ -291,29 +291,29 @@ SLONG ID_collide_2d(
 
 typedef struct
 {
-	UBYTE door[4];	// 255 => No door along this wall, else the number of
+	std::uint8_t door[4];	// 255 => No door along this wall, else the number of
 					// the block with a door in it.
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 } ID_Wallinfo;
 
 typedef struct
 {
-	SLONG  x;		// A position inside the room.
-	SLONG  z;
-	CBYTE* what;	// A string describing the room.
+	std::int32_t  x;		// A position inside the room.
+	std::int32_t  z;
+	char* what;	// A string describing the room.
 
 } ID_Roominfo;
 
 typedef struct
 {
-	SLONG x1;		// The two squares that contain the staircase.
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;		// The two squares that contain the staircase.
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 } ID_Stairinfo;
 
@@ -327,9 +327,9 @@ void ID_editor_start_get_stairs();
 // info describing the next room, wall or staircase.
 //
 
-SLONG ID_editor_get_room (ID_Roominfo  *ans);
-SLONG ID_editor_get_wall (ID_Wallinfo  *ans);
-SLONG ID_editor_get_stair(ID_Stairinfo *ans);
+std::int32_t ID_editor_get_room (ID_Roominfo  *ans);
+std::int32_t ID_editor_get_wall (ID_Wallinfo  *ans);
+std::int32_t ID_editor_get_stair(ID_Stairinfo *ans);
 
 
 #endif

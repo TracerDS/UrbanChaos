@@ -28,8 +28,8 @@ void MAP_draw();
 // Removes a beacon from the map.
 //
 
-UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, THING_INDEX track_my_position);
-void  MAP_beacon_remove(UBYTE beacon);
+std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t index, THING_INDEX track_my_position);
+void  MAP_beacon_remove(std::uint8_t beacon);
 
 
 //

@@ -148,7 +148,7 @@ I can't shoot an Unarmed Person.
 Crime rate reduced by
 Game Saved
 Crinkles
-Colour Depth
+Color Depth
 You're a good cop, Darci, but you play rough.  You are injuring too many civilians in the course of your duty.
 Congratulations on a successful mission, Darci, however you are responsible for an unacceptable number of civilian casualties.  Consider this your first warning.
 I'm at the end of my patience, Darci.  Our job is to protect the residents of Union City.  Consider this your final warning.  One more mission with too many civilian casualties and I'll have your badge.

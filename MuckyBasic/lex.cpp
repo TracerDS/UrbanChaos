@@ -13,9 +13,9 @@
 // The current line we are on.
 //
 
-CBYTE* LEX_stream_buffer;
-CBYTE* LEX_stream_upto;
-SLONG LEX_stream_line;
+char* LEX_stream_buffer;
+char* LEX_stream_upto;
+std::int32_t LEX_stream_line;
 
 
 
@@ -23,7 +23,7 @@ SLONG LEX_stream_line;
 // We can push upto one token onto the stack!
 //
 
-SLONG LEX_stack_valid;
+std::int32_t LEX_stack_valid;
 LEX_Token LEX_stack;
 
 
@@ -32,7 +32,7 @@ LEX_Token LEX_stack;
 // The last token we read.
 //
 
-SLONG LEX_top_valid;
+std::int32_t LEX_top_valid;
 LEX_Token LEX_top;
 
 
@@ -40,7 +40,7 @@ LEX_Token LEX_top;
 // true if the last token found was a NEWLINE
 //
 
-SLONG LEX_last_token_newline;
+std::int32_t LEX_last_token_newline;
 
 
 
@@ -48,7 +48,7 @@ SLONG LEX_last_token_newline;
 // A buffer for returning string constants in.
 //
 
-CBYTE LEX_string_buffer[LEX_MAX_STRING_LENGTH + 32];
+char LEX_string_buffer[LEX_MAX_STRING_LENGTH + 32];
 
 
 
@@ -58,8 +58,8 @@ CBYTE LEX_string_buffer[LEX_MAX_STRING_LENGTH + 32];
 
 void LEX_find_next_token()
 {
-	SLONG  i;
-	CBYTE* dest;
+	std::int32_t  i;
+	char* dest;
 
 	//
 	// Initailise the answer.
@@ -384,8 +384,8 @@ void LEX_find_next_token()
 		// This is a HEX number.
 		//
 
-		SLONG number     = 0;
-		SLONG num_digits = 0;
+		std::int32_t number     = 0;
+		std::int32_t num_digits = 0;
 
 		LEX_stream_upto += 2;
 
@@ -444,7 +444,7 @@ void LEX_find_next_token()
 	else
 	if (isdigit(*LEX_stream_upto) || *LEX_stream_upto == '.')
 	{
-		SLONG doing_fraction = false;
+		std::int32_t doing_fraction = false;
 
 		double number = 0.0F;
 		double frac   = 0.1F;
@@ -505,7 +505,7 @@ void LEX_find_next_token()
 				else
 				{
 					LEX_top.type   = LEX_TOKEN_TYPE_SLUMBER;
-					LEX_top.slumber = (SLONG) number;
+					LEX_top.slumber = (std::int32_t) number;
 				}
 
 				return;
@@ -555,8 +555,8 @@ void LEX_find_next_token()
 
 		struct
 		{
-			CBYTE* keyword;
-			SLONG  token;
+			char* keyword;
+			std::int32_t  token;
 
 		} keyword[] =
 		{
@@ -734,7 +734,7 @@ void LEX_find_next_token()
 
 
 
-void LEX_start(CBYTE* string)
+void LEX_start(char* string)
 {
 	LEX_stream_buffer = string;
 	LEX_stream_upto   = string;

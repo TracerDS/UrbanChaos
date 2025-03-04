@@ -12,8 +12,8 @@ GamutElement	gamut_ele_pool[MAX_GAMUT_RADIUS*4*MAX_GAMUT_RADIUS],
 
 void	build_gamut_table()
 {
-	SBYTE			*grid;
-	SLONG			actual_radius,
+	std::int8_t			*grid;
+	std::int32_t			actual_radius,
 					angle,
 					count,
 					dx,dz,
@@ -26,7 +26,7 @@ void	build_gamut_table()
 
 	ele_ptr	=	gamut_ele_pool;
 
-	grid	=	(SBYTE*)MemAlloc((MAX_GAMUT_RADIUS+1)*(MAX_GAMUT_RADIUS+1)*4);
+	grid	=	(std::int8_t*)MemAlloc((MAX_GAMUT_RADIUS+1)*(MAX_GAMUT_RADIUS+1)*4);
 	if(grid)
 	{
 		for(radius=(MAX_GAMUT_RADIUS<<2);radius>2;radius--)
@@ -48,9 +48,9 @@ void	build_gamut_table()
 						if(grid[(dx+MAX_GAMUT_RADIUS)+(dz+MAX_GAMUT_RADIUS)*(MAX_GAMUT_RADIUS*2)]!=-1)
 						{
 							grid[(dx+MAX_GAMUT_RADIUS)+(dz+MAX_GAMUT_RADIUS)*(MAX_GAMUT_RADIUS*2)]	=	-1;
-							ele_ptr->DX		=	(SBYTE)dx;
-							ele_ptr->DZ		=	(SBYTE)dz;
-							ele_ptr->Angle	=	(SWORD)angle;
+							ele_ptr->DX		=	(std::int8_t)dx;
+							ele_ptr->DZ		=	(std::int8_t)dz;
+							ele_ptr->Angle	=	(std::int16_t)angle;
 							ele_ptr++;
 						}
 					}
@@ -75,10 +75,10 @@ void	build_gamut_table()
 
 //---------------------------------------------------------------
 
-void	draw_gamut(SLONG x,SLONG y)
+void	draw_gamut(std::int32_t x,std::int32_t y)
 {
-	ULONG			c0;
-	SLONG			scr_x,
+	std::uint32_t			c0;
+	std::int32_t			scr_x,
 					scr_y;
 	GamutElement	*ele_ptr;
 

@@ -70,10 +70,10 @@ enum DisplayModes
 typedef struct
 {
 	bool			Availability;	// Do we have this mode?
-	ULONG			Width,			// Display dimensions.
+	std::uint32_t			Width,			// Display dimensions.
 					Height,
 					Depth;
-	SLONG			DisplayMode;	// Internal host screen mode identifier.
+	std::int32_t			DisplayMode;	// Internal host screen mode identifier.
 #ifdef	_MF_WINDOWS
 	DDSURFACEDESC	DD_ModeDesc;
 #endif
@@ -82,7 +82,7 @@ typedef struct
 extern DisplayModeInfo	DisplayModes[];
 
 
-SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
+std::int32_t DisplayModeAvailable(std::uint32_t width, std::uint32_t height, std::uint32_t depth);
 
 
 //---------------------------------------------------------------
@@ -94,10 +94,10 @@ SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth);
 #define	DS_WAIT_VBI			(1<<0)
 #define	DS_DO_FLIP			(1<<1)
 
-extern UBYTE				DisplayActive,
+extern std::uint8_t				DisplayActive,
 							WorkScreenDepth,
 							*WorkScreen;
-extern SLONG				WorkScreenHeight,
+extern std::int32_t				WorkScreenHeight,
 							WorkScreenPixelWidth,
 							WorkScreenWidth;
 
@@ -106,19 +106,19 @@ extern DDSURFACEDESC		DD_DisplayDesc;
 extern LPDIRECTDRAW			lp_DD;           // Main DirectDraw object
 extern LPDIRECTDRAWSURFACE	lp_DD_FrontSurface,
 							lp_DD_BackSurface;
-extern volatile UBYTE		MFShellActive;
+extern volatile std::uint8_t		MFShellActive;
 #endif
 
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG CloseDisplay();
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags);
+std::int32_t CloseDisplay();
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth);
 void ClearDisplay();
-void FadeDisplay(UBYTE mode);
+void FadeDisplay(std::uint8_t mode);
 void* LockWorkScreen();
 void UnlockWorkScreen();
-void ShowWorkScreen(ULONG flags);
-void ShowWorkWindow(ULONG flags);
-void ClearWorkScreen(UBYTE colour);
+void ShowWorkScreen(std::uint32_t flags);
+void ShowWorkWindow(std::uint32_t flags);
+void ClearWorkScreen(std::uint8_t colour);
 
 
 //---------------------------------------------------------------

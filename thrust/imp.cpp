@@ -11,7 +11,7 @@
 // Returns true if the normals are similar enough.
 //
 
-SLONG IMP_norm_similar(
+std::int32_t IMP_norm_similar(
 		float     nx1,
 		float     ny1,
 		float     nz1,
@@ -64,12 +64,12 @@ void IMP_normalise_vector(
 
 
 
-IMP_Mesh IMP_load(CBYTE* fname, float scale)
+IMP_Mesh IMP_load(char* fname, float scale)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
-	SLONG l;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
+	std::int32_t l;
 
 	float x;
 	float y;
@@ -85,49 +85,49 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 	float sh;
 	float ss;
 
-	SLONG m;
-	SLONG v1;
-	SLONG v2;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
-	SLONG t1;
-	SLONG t2;
-	SLONG t3;
-	SLONG e1;
-	SLONG e2;
-	SLONG e3;
-	SLONG p1o;
-	SLONG p2o;
-	SLONG v1o;
-	SLONG v2o;
+	std::int32_t m;
+	std::int32_t v1;
+	std::int32_t v2;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
+	std::int32_t t1;
+	std::int32_t t2;
+	std::int32_t t3;
+	std::int32_t e1;
+	std::int32_t e2;
+	std::int32_t e3;
+	std::int32_t p1o;
+	std::int32_t p2o;
+	std::int32_t v1o;
+	std::int32_t v2o;
 
-	CBYTE sided[16];
-	CBYTE alpha[16];
-	CBYTE tname[128];
-	CBYTE bname[128];
+	char sided[16];
+	char alpha[16];
+	char tname[128];
+	char bname[128];
 
-	SLONG shared[3];
+	std::int32_t shared[3];
 
-	SLONG group;
-	SLONG match;
+	std::int32_t group;
+	std::int32_t match;
 
 	float pivot_x;
 	float pivot_y;
 	float pivot_z;
-	SLONG pivot_valid = false;
+	std::int32_t pivot_valid = false;
 	
-	SLONG offset_vert;
-	SLONG offset_tvert;
-	SLONG offset_mat;
+	std::int32_t offset_vert;
+	std::int32_t offset_tvert;
+	std::int32_t offset_mat;
 
-	SLONG max_mats;
-	SLONG max_verts;
-	SLONG max_tverts;
-	SLONG max_faces;
-	SLONG max_sverts;
-	SLONG max_quads;
-	SLONG max_edges;
+	std::int32_t max_mats;
+	std::int32_t max_verts;
+	std::int32_t max_tverts;
+	std::int32_t max_faces;
+	std::int32_t max_sverts;
+	std::int32_t max_quads;
+	std::int32_t max_edges;
 
 	Point3d fs_norm[3];
 	Point3d fs_u   [3];
@@ -145,8 +145,8 @@ IMP_Mesh IMP_load(CBYTE* fname, float scale)
 	IMP_Edge  *ie;
 	
 	IMP_Mesh ans;
-	CBYTE    line[256];
-	CBYTE    oname[32];
+	char    line[256];
+	char    oname[32];
 
 	FILE *handle;
 

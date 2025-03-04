@@ -20,8 +20,8 @@
 // How to draw a line in the world.
 //
 
-void e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2, SLONG r, SLONG g, SLONG b);
+void e_draw_3d_line           (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2, std::int32_t r, std::int32_t g, std::int32_t b);
 
 //
 // Fast approximation to vector length in 3d.
@@ -95,14 +95,14 @@ typedef struct
 
 typedef struct
 {
-	UWORD p1;
-	UWORD p2;
-	UBYTE len;	// Index into the length squared array...
-	UBYTE shit;
+	std::uint16_t p1;
+	std::uint16_t p2;
+	std::uint8_t len;	// Index into the length squared array...
+	std::uint8_t shit;
 
 } HM_Edge;
 
-typedef UWORD HM_Index;	// Index into the point[] array or nullptr if there is no point here.
+typedef std::uint16_t HM_Index;	// Index into the point[] array or nullptr if there is no point here.
 
 //
 // Each point of the original prim is given in terms of the
@@ -111,8 +111,8 @@ typedef UWORD HM_Index;	// Index into the point[] array or nullptr if there is n
 
 typedef struct
 {
-	UWORD origin;
-	UWORD p[3];
+	std::uint16_t origin;
+	std::uint16_t p[3];
 	float along[3];
 
 } HM_Mesh;
@@ -129,8 +129,8 @@ typedef struct hm_bump
 	// The point that has entered the other object.
 	// 
 
-	UWORD point;
-	UWORD shit;
+	std::uint16_t point;
+	std::uint16_t shit;
 
 	// 
 	// The other object the point is inside, and the cube
@@ -138,9 +138,9 @@ typedef struct hm_bump
 	//
 
 	HM_Index hm_index;
-	UBYTE    cube_x;
-	UBYTE    cube_y;
-	UBYTE    cube_z;
+	std::uint8_t    cube_x;
+	std::uint8_t    cube_y;
+	std::uint8_t    cube_z;
 
 	//
 	// The point where the point entered the object, relative to
@@ -160,7 +160,7 @@ typedef struct hm_bump
 
 	#define HM_NUM_OPP_POINTS 8
 
-	UWORD  opp_point[HM_NUM_OPP_POINTS];
+	std::uint16_t  opp_point[HM_NUM_OPP_POINTS];
 	float  opp_prop [HM_NUM_OPP_POINTS];
 
 	//
@@ -179,7 +179,7 @@ typedef struct hm_bump
 
 typedef struct
 {
-	ULONG consider;	// 1 bit for each point, on if that point is worth considering...
+	std::uint32_t consider;	// 1 bit for each point, on if that point is worth considering...
 
 	float x1, z1;
 	float x2, z2;
@@ -197,19 +197,19 @@ typedef struct
 
 typedef struct
 {
-	UBYTE     used;
-	UBYTE     shit;
-	UWORD     prim;
-	SLONG     x_res;
-	SLONG     y_res;
-	SLONG     z_res;
-	SLONG     x_res_times_y_res;
-	SLONG     num_indices;
-	SLONG     num_points;
-	SLONG     num_edges;
-	SLONG     num_sizes;
-	SLONG     num_meshes;
-	SLONG     num_cols;
+	std::uint8_t     used;
+	std::uint8_t     shit;
+	std::uint16_t     prim;
+	std::int32_t     x_res;
+	std::int32_t     y_res;
+	std::int32_t     z_res;
+	std::int32_t     x_res_times_y_res;
+	std::int32_t     num_indices;
+	std::int32_t     num_points;
+	std::int32_t     num_edges;
+	std::int32_t     num_sizes;
+	std::int32_t     num_meshes;
+	std::int32_t     num_cols;
 	HM_Index *index;
 	HM_Point *point;
 	HM_Edge  *edge;
@@ -222,10 +222,10 @@ typedef struct
 	// draw the prim. to fit as best as it can inside the hypermatter.
 	//
 
-	SLONG x_index;		// Indices into the point array.
-	SLONG y_index;
-	SLONG z_index;
-	SLONG o_index;
+	std::int32_t x_index;		// Indices into the point array.
+	std::int32_t y_index;
+	std::int32_t z_index;
+	std::int32_t o_index;
 	float o_prim_x;
 	float o_prim_y;
 	float o_prim_z;
@@ -245,16 +245,16 @@ typedef struct
 #define HM_MAX_OBJECTS 8
 
 HM_Object HM_object[HM_MAX_OBJECTS];
-SLONG HM_object_upto;
+std::int32_t HM_object_upto;
 
 
 //
 // Returns the index of the given point.
 // 
 
-inline SLONG HM_index(HM_Object *ho, SLONG x, SLONG y, SLONG z)
+inline std::int32_t HM_index(HM_Object *ho, std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	ASSERT(WITHIN(x, 0, ho->x_res - 1));
 	ASSERT(WITHIN(y, 0, ho->y_res - 1));
@@ -270,7 +270,7 @@ inline SLONG HM_index(HM_Object *ho, SLONG x, SLONG y, SLONG z)
 
 void HM_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < HM_MAX_OBJECTS; i++)
 	{
@@ -282,13 +282,13 @@ void HM_init()
 #define HM_MAX_PRIMGRIDS 64
 
 HM_Primgrid HM_primgrid[HM_MAX_PRIMGRIDS];
-SLONG HM_primgrid_upto;
+std::int32_t HM_primgrid_upto;
 
 
-void HM_load(CBYTE* fname)
+void HM_load(char* fname)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	HM_Header hm_h;
 
@@ -363,9 +363,9 @@ HM_Primgrid HM_default_primgrid =
 };
 
 
-HM_Primgrid *HM_get_primgrid(SLONG prim)
+HM_Primgrid *HM_get_primgrid(std::int32_t prim)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < HM_primgrid_upto; i++)
 	{
@@ -384,17 +384,17 @@ HM_Primgrid *HM_get_primgrid(SLONG prim)
 
 HM_Mesh HM_find_point_inside_cube(
 			HM_Object *ho,
-			SLONG      x,
-			SLONG      y,
-			SLONG      z,
+			std::int32_t      x,
+			std::int32_t      y,
+			std::int32_t      z,
 			float      ppx,
 			float      ppy,
 			float      ppz)
 {
-	SLONG index_o;
-	SLONG index_x;
-	SLONG index_y;
-	SLONG index_z;
+	std::int32_t index_o;
+	std::int32_t index_x;
+	std::int32_t index_y;
+	std::int32_t index_z;
 
 	HM_Point *p_o;
 	HM_Point *p_x;
@@ -471,29 +471,29 @@ HM_Mesh HM_find_point_inside_cube(
 }
 
 
-UBYTE HM_create(
+std::uint8_t HM_create(
 
-		SLONG prim,
+		std::int32_t prim,
 
-		SLONG pos_x,
-		SLONG pos_y,
-		SLONG pos_z,
+		std::int32_t pos_x,
+		std::int32_t pos_y,
+		std::int32_t pos_z,
 
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
 
-		SLONG vel_x,
-		SLONG vel_y,
-		SLONG vel_z,
+		std::int32_t vel_x,
+		std::int32_t vel_y,
+		std::int32_t vel_z,
 
-		SLONG x_res,		// The number of points along the x-axis
-		SLONG y_res,		// The number of points along the y-axis
-		SLONG z_res,		// The number of points along the z-axis
+		std::int32_t x_res,		// The number of points along the x-axis
+		std::int32_t y_res,		// The number of points along the y-axis
+		std::int32_t z_res,		// The number of points along the z-axis
 
-		SLONG x_point[],	// The position of each point along the x-axis, 0 => The bounding box min, 0x10000 => the bb max.
-		SLONG y_point[],
-		SLONG z_point[],
+		std::int32_t x_point[],	// The position of each point along the x-axis, 0 => The bounding box min, 0x10000 => the bb max.
+		std::int32_t y_point[],
+		std::int32_t z_point[],
 
 		float x_dgrav,
 		float y_dgrav,
@@ -508,27 +508,27 @@ UBYTE HM_create(
 		float friction,
 		float damping)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG index;
-	SLONG index1;
-	SLONG index2;
+	std::int32_t index;
+	std::int32_t index1;
+	std::int32_t index2;
 
-	SLONG num_points;
-	SLONG num_edges;
+	std::int32_t num_points;
+	std::int32_t num_edges;
 
-	SLONG edge_upto;
-	SLONG point_upto;
+	std::int32_t edge_upto;
+	std::int32_t point_upto;
 
-	SLONG ans;
+	std::int32_t ans;
 
 	float dpx;
 	float dpy;
@@ -599,10 +599,10 @@ UBYTE HM_create(
 	ASSERT(WITHIN(y_res, 2, HM_MAX_RES));
 	ASSERT(WITHIN(z_res, 2, HM_MAX_RES));
 
-	UBYTE empty[HM_MAX_RES][HM_MAX_RES][HM_MAX_RES];
-	SLONG cubex[HM_MAX_RES];
-	SLONG cubey[HM_MAX_RES];
-	SLONG cubez[HM_MAX_RES];
+	std::uint8_t empty[HM_MAX_RES][HM_MAX_RES][HM_MAX_RES];
+	std::int32_t cubex[HM_MAX_RES];
+	std::int32_t cubey[HM_MAX_RES];
+	std::int32_t cubez[HM_MAX_RES];
 
 	//
 	// Work out the positions of all the unrotated points of
@@ -675,7 +675,7 @@ UBYTE HM_create(
 	// Clear out the indices.
 	//
 
-	memset((UBYTE*)ho->index, 0, ho->num_indices * sizeof(HM_Index));
+	memset((std::uint8_t*)ho->index, 0, ho->num_indices * sizeof(HM_Index));
 
 	//
 	// Go through all the active cubes and mark the points they used as alive.
@@ -997,15 +997,15 @@ UBYTE HM_create(
 	//
 
 	float best_score  = float(INFINITY);
-	SLONG best_origin = -1;
-	SLONG best_x = -1;
-	SLONG best_y = -1;
-	SLONG best_z = -1;
+	std::int32_t best_origin = -1;
+	std::int32_t best_x = -1;
+	std::int32_t best_y = -1;
+	std::int32_t best_z = -1;
 
-	SLONG index_o;
-	SLONG index_x;
-	SLONG index_y;
-	SLONG index_z;
+	std::int32_t index_o;
+	std::int32_t index_x;
+	std::int32_t index_y;
+	std::int32_t index_z;
 
 	float score;
 
@@ -1018,10 +1018,7 @@ UBYTE HM_create(
 		index_y = ho->index[HM_index(ho, x,     y + 1, z    )];
 		index_z = ho->index[HM_index(ho, x,     y,     z + 1)];
 
-		if (index_o != nullptr &&
-			index_x != nullptr &&
-			index_y != nullptr &&
-			index_z != nullptr)
+		if (index_o && index_x && index_y && index_z)
 		{
 			//
 			// Points closer to the centre of gravity and origin of
@@ -1133,7 +1130,7 @@ UBYTE HM_create(
 }
 
 
-void HM_destroy(UBYTE hm_index)
+void HM_destroy(std::uint8_t hm_index)
 {
 	ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
@@ -1162,12 +1159,12 @@ void HM_destroy(UBYTE hm_index)
 
 
 void HM_find_cog(
-		UBYTE  hm_index,
+		std::uint8_t  hm_index,
 		float *x,
 		float *y,
 		float *z)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float ans_x = 0.0F;
 	float ans_y = 0.0F;
@@ -1204,7 +1201,7 @@ void HM_find_cog(
 
 
 
-void HM_colvect_clear(UBYTE hm)
+void HM_colvect_clear(std::uint8_t hm)
 {
 	ASSERT(WITHIN(hm, 0, HM_MAX_OBJECTS - 1));
 
@@ -1212,11 +1209,11 @@ void HM_colvect_clear(UBYTE hm)
 }
 
 void HM_colvect_add(
-		UBYTE hm,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::uint8_t hm,
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dz;
@@ -1281,14 +1278,14 @@ void HM_colvect_add(
 // we'd have to include everything!
 //
 
-SLONG calc_height_at(SLONG x, SLONG z);
+std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
 
 float HM_height_at(float x, float z)
 {
-	SLONG ans = PAP_calc_height_at(
-					SLONG(x),
-					SLONG(z));
+	std::int32_t ans = PAP_calc_height_at(
+					std::int32_t(x),
+					std::int32_t(z));
 
 	return float(ans);
 }
@@ -1300,8 +1297,8 @@ float HM_height_at(float x, float z)
 //
 
 void HM_find_mesh_point(
-		UBYTE  hm_index,
-		SLONG  point,
+		std::uint8_t  hm_index,
+		std::int32_t  point,
 		float *x,
 		float *y,
 		float *z)
@@ -1360,23 +1357,23 @@ void HM_find_mesh_point(
 // an out-of-bounds cube, then it just returns false.
 //
 
-SLONG HM_cube_exists(
+std::int32_t HM_cube_exists(
 		HM_Object *ho,
-		SLONG      x_cube,
-		SLONG      y_cube,
-		SLONG      z_cube)
+		std::int32_t      x_cube,
+		std::int32_t      y_cube,
+		std::int32_t      z_cube)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG index;
+	std::int32_t index;
 
 	if (!WITHIN(x_cube, 0, ho->x_res - 2) ||
 		!WITHIN(y_cube, 0, ho->y_res - 2) ||
@@ -1425,12 +1422,12 @@ SLONG HM_cube_exists(
 // cube.
 //
 
-SLONG HM_is_point_in_cube(
+std::int32_t HM_is_point_in_cube(
 		HM_Object *ho,		// The object the cube is a part of...
 		HM_Point  *p,
-		SLONG      x_cube,
-		SLONG      y_cube,
-		SLONG      z_cube,
+		std::int32_t      x_cube,
+		std::int32_t      y_cube,
+		std::int32_t      z_cube,
 		float     *rel_x,
 		float     *rel_y,
 		float     *rel_z)
@@ -1446,10 +1443,10 @@ SLONG HM_is_point_in_cube(
 	float len;
 	float matrix[9];
 
-	SLONG index_o;
-	SLONG index_x;
-	SLONG index_y;
-	SLONG index_z;
+	std::int32_t index_o;
+	std::int32_t index_x;
+	std::int32_t index_y;
+	std::int32_t index_z;
 
 	ASSERT(WITHIN(x_cube, 0, ho->x_res - 2));
 	ASSERT(WITHIN(y_cube, 0, ho->y_res - 2));
@@ -1564,9 +1561,9 @@ SLONG HM_is_point_in_cube(
 void HM_last_point_in_last_cube(
 		HM_Object *ho,		// The object the cube is a part of...
 		HM_Point  *p,
-		SLONG      x_cube,
-		SLONG      y_cube,
-		SLONG      z_cube,
+		std::int32_t      x_cube,
+		std::int32_t      y_cube,
+		std::int32_t      z_cube,
 		float     *last_rel_x,
 		float     *last_rel_y,
 		float     *last_rel_z)
@@ -1582,10 +1579,10 @@ void HM_last_point_in_last_cube(
 	float len;
 	float matrix[9];
 
-	SLONG index_o;
-	SLONG index_x;
-	SLONG index_y;
-	SLONG index_z;
+	std::int32_t index_o;
+	std::int32_t index_x;
+	std::int32_t index_y;
+	std::int32_t index_z;
 
 	ASSERT(WITHIN(x_cube, 0, ho->x_res - 2));
 	ASSERT(WITHIN(y_cube, 0, ho->y_res - 2));
@@ -1677,8 +1674,8 @@ void HM_last_point_in_last_cube(
 
 void HM_collide_all()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	for (i = 0; i < HM_MAX_OBJECTS; i++)
 	{
@@ -1707,9 +1704,9 @@ void HM_collide_all()
 
 void HM_rel_cube_to_world(
 		HM_Object *ho,		// The object the cube is a part of...
-		SLONG      x_cube,
-		SLONG      y_cube,
-		SLONG      z_cube,
+		std::int32_t      x_cube,
+		std::int32_t      y_cube,
+		std::int32_t      z_cube,
 		float      rel_x,
 		float      rel_y,
 		float      rel_z,
@@ -1729,10 +1726,10 @@ void HM_rel_cube_to_world(
 	HM_Point *hp_y;
 	HM_Point *hp_z;
 
-	SLONG index_o;
-	SLONG index_x;
-	SLONG index_y;
-	SLONG index_z;
+	std::int32_t index_o;
+	std::int32_t index_x;
+	std::int32_t index_y;
+	std::int32_t index_z;
 
 	ASSERT(WITHIN(x_cube, 0, ho->x_res - 2));
 	ASSERT(WITHIN(y_cube, 0, ho->y_res - 2));
@@ -1835,7 +1832,7 @@ void HM_rel_cube_to_world(
 
 void HM_process_bump(HM_Object *ho, HM_Bump *hb)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float out_x;
 	float out_y;
@@ -1937,11 +1934,11 @@ void HM_process_bump(HM_Object *ho, HM_Bump *hb)
 // the bumping point is no longer bumping.
 //
 
-SLONG HM_bump_dead(HM_Object *ho, HM_Bump *hb)
+std::int32_t HM_bump_dead(HM_Object *ho, HM_Bump *hb)
 {
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
 
 	float rel_x;
 	float rel_y;
@@ -2008,25 +2005,25 @@ SLONG HM_bump_dead(HM_Object *ho, HM_Bump *hb)
 	return true;
 }
 
-void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
+void HM_collide(std::uint8_t hm_index1, std::uint8_t hm_index2)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG index;
+	std::int32_t index;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
 
 	float dpx;
 	float dpy;
@@ -2066,8 +2063,8 @@ void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
 	float wantdist;
 	float squaredist;
 
-	SLONG byte;
-	SLONG bit;
+	std::int32_t byte;
+	std::int32_t bit;
 
 	HM_Object *ho1;
 	HM_Object *ho2;
@@ -2078,7 +2075,7 @@ void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
 
 	#define HM_ALREADY_BYTES 16
 
-	UBYTE already_bumped[HM_ALREADY_BYTES];
+	std::uint8_t already_bumped[HM_ALREADY_BYTES];
 
 	ASSERT(WITHIN(hm_index1, 0, HM_MAX_OBJECTS - 1));
 	ASSERT(WITHIN(hm_index2, 0, HM_MAX_OBJECTS - 1));
@@ -2091,7 +2088,7 @@ void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
 	// the cubes of hypermatter object 2.
 	//
 
-	memset((UBYTE*)already_bumped, 0, sizeof(already_bumped));
+	memset((std::uint8_t*)already_bumped, 0, sizeof(already_bumped));
 
 	for (hb = ho1->bump; hb; hb = hb->next)
 	{
@@ -2241,8 +2238,8 @@ void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
 				// Find the HM_NUM_OPP_POINTS points of 'ho2' that are nearest (out_x,out_y,out_z).
 				//
 
-				SLONG opp_num;
-				SLONG opp_point[HM_NUM_OPP_POINTS];
+				std::int32_t opp_num;
+				std::int32_t opp_point[HM_NUM_OPP_POINTS];
 				float opp_dist [HM_NUM_OPP_POINTS];
 
 				dpx = ho2->point[1].x - out_x;
@@ -2361,9 +2358,9 @@ void HM_collide(UBYTE hm_index1, UBYTE hm_index2)
 
 void HM_process()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
 	float ddx;
 	float ddy;
@@ -2602,12 +2599,12 @@ void HM_process()
 				hc = &ho->col[k];
 
 				if (MATHS_seg_intersect(
-						SLONG(hc->x1), SLONG(hc->z1),
-						SLONG(hc->x2), SLONG(hc->z2),
-						SLONG(hp->x),
-						SLONG(hp->z),
-						SLONG(hp->x + hp->dx + hp->dx),
-						SLONG(hp->z + hp->dz + hp->dz)))
+						std::int32_t(hc->x1), std::int32_t(hc->z1),
+						std::int32_t(hc->x2), std::int32_t(hc->z2),
+						std::int32_t(hp->x),
+						std::int32_t(hp->z),
+						std::int32_t(hp->x + hp->dx + hp->dx),
+						std::int32_t(hp->z + hp->dz + hp->dz)))
 				{
 					if (hc->x1 == hc->x2)
 					{
@@ -2675,28 +2672,28 @@ void HM_process()
 
 void HM_draw()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG  index;
-	SLONG nindex;
+	std::int32_t  index;
+	std::int32_t nindex;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
 	float px[4];
 	float py[4];
@@ -2737,10 +2734,10 @@ void HM_draw()
 					HM_find_mesh_point(i, f4->Points[k] - po->StartPoint, &px[k], &py[k], &pz[k]);
 				}
 
-				e_draw_3d_line_col_sorted((SLONG) px[0], (SLONG) py[0], (SLONG) pz[0], (SLONG) px[1], (SLONG) py[1], (SLONG) pz[1], 255, 255, 255);
-				e_draw_3d_line_col_sorted((SLONG) px[1], (SLONG) py[1], (SLONG) pz[1], (SLONG) px[3], (SLONG) py[3], (SLONG) pz[3], 255, 255, 255);
-				e_draw_3d_line_col_sorted((SLONG) px[3], (SLONG) py[3], (SLONG) pz[3], (SLONG) px[2], (SLONG) py[2], (SLONG) pz[2], 255, 255, 255);
-				e_draw_3d_line_col_sorted((SLONG) px[2], (SLONG) py[2], (SLONG) pz[2], (SLONG) px[0], (SLONG) py[0], (SLONG) pz[0], 255, 255, 255);
+				e_draw_3d_line_col_sorted((std::int32_t) px[0], (std::int32_t) py[0], (std::int32_t) pz[0], (std::int32_t) px[1], (std::int32_t) py[1], (std::int32_t) pz[1], 255, 255, 255);
+				e_draw_3d_line_col_sorted((std::int32_t) px[1], (std::int32_t) py[1], (std::int32_t) pz[1], (std::int32_t) px[3], (std::int32_t) py[3], (std::int32_t) pz[3], 255, 255, 255);
+				e_draw_3d_line_col_sorted((std::int32_t) px[3], (std::int32_t) py[3], (std::int32_t) pz[3], (std::int32_t) px[2], (std::int32_t) py[2], (std::int32_t) pz[2], 255, 255, 255);
+				e_draw_3d_line_col_sorted((std::int32_t) px[2], (std::int32_t) py[2], (std::int32_t) pz[2], (std::int32_t) px[0], (std::int32_t) py[0], (std::int32_t) pz[0], 255, 255, 255);
 			}
 		}
 
@@ -2758,9 +2755,9 @@ void HM_draw()
 
 						hp = &ho->point[ho->index[index]];
 
-						x1 = SLONG(hp->x - hp->dx * 0.5F);
-						y1 = SLONG(hp->y - hp->dy * 0.5F);
-						z1 = SLONG(hp->z - hp->dz * 0.5F);
+						x1 = std::int32_t(hp->x - hp->dx * 0.5F);
+						y1 = std::int32_t(hp->y - hp->dy * 0.5F);
+						z1 = std::int32_t(hp->z - hp->dz * 0.5F);
 
 						if (z && (x == 0 || x == ho->x_res - 1 || y == 0 || y == ho->y_res - 1))
 						{
@@ -2782,9 +2779,9 @@ void HM_draw()
 
 								np = &ho->point[ho->index[nindex]];
 
-								x2 = SLONG(np->x - np->dx * 0.5F);
-								y2 = SLONG(np->y - np->dy * 0.5F);
-								z2 = SLONG(np->z - np->dz * 0.5F);
+								x2 = std::int32_t(np->x - np->dx * 0.5F);
+								y2 = std::int32_t(np->y - np->dy * 0.5F);
+								z2 = std::int32_t(np->z - np->dz * 0.5F);
 
 								e_draw_3d_line_col_sorted(
 									x1, y1, z1,
@@ -2813,9 +2810,9 @@ void HM_draw()
 
 								np = &ho->point[ho->index[nindex]];
 
-								x2 = SLONG(np->x - np->dx * 0.5F);
-								y2 = SLONG(np->y - np->dy * 0.5F);
-								z2 = SLONG(np->z - np->dz * 0.5F);
+								x2 = std::int32_t(np->x - np->dx * 0.5F);
+								y2 = std::int32_t(np->y - np->dy * 0.5F);
+								z2 = std::int32_t(np->z - np->dz * 0.5F);
 
 								e_draw_3d_line_col_sorted(
 									x1, y1, z1,
@@ -2844,9 +2841,9 @@ void HM_draw()
 
 								np = &ho->point[ho->index[nindex]];
 
-								x2 = SLONG(np->x - np->dx * 0.5F);
-								y2 = SLONG(np->y - np->dy * 0.5F);
-								z2 = SLONG(np->z - np->dz * 0.5F);
+								x2 = std::int32_t(np->x - np->dx * 0.5F);
+								y2 = std::int32_t(np->y - np->dy * 0.5F);
+								z2 = std::int32_t(np->z - np->dz * 0.5F);
 
 								e_draw_3d_line_col_sorted(
 									x1, y1, z1,
@@ -2865,13 +2862,13 @@ void HM_draw()
 
 
 void HM_find_mesh_pos(
-		UBYTE  hm_index,
-		SLONG *x,
-		SLONG *y,
-		SLONG *z,
-		SLONG *yaw,
-		SLONG *pitch,
-		SLONG *roll)
+		std::uint8_t  hm_index,
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z,
+		std::int32_t *yaw,
+		std::int32_t *pitch,
+		std::int32_t *roll)
 {
 	float len;
 	float overlen;
@@ -2961,9 +2958,9 @@ void HM_find_mesh_pos(
 	rot.pitch *= 2048.0F / (2.0F * PI);
 	rot.roll  *= 2048.0F / (2.0F * PI);
 
-	*yaw   = SLONG(rot.yaw);
-	*pitch = SLONG(rot.pitch);
-	*roll  = SLONG(rot.roll);
+	*yaw   = std::int32_t(rot.yaw);
+	*pitch = std::int32_t(rot.pitch);
+	*roll  = std::int32_t(rot.roll);
 
 	//
 	// Unrotate the origin into prim space.
@@ -2987,16 +2984,16 @@ void HM_find_mesh_pos(
 	ans_y += ho->cog_y;
 	ans_z += ho->cog_z;
 
-	*x = SLONG(hp_o->x - ans_x);
-	*y = SLONG(hp_o->y - ans_y);
-	*z = SLONG(hp_o->z - ans_z);
+	*x = std::int32_t(hp_o->x - ans_x);
+	*y = std::int32_t(hp_o->y - ans_y);
+	*z = std::int32_t(hp_o->z - ans_z);
 }
 
 
 
-SLONG HM_stationary(UBYTE hm_index)
+std::int32_t HM_stationary(std::uint8_t hm_index)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx = 0;
 	float dy = 0;
@@ -3031,7 +3028,7 @@ SLONG HM_stationary(UBYTE hm_index)
 
 
 void HM_shockwave(
-		UBYTE hm_index,
+		std::uint8_t hm_index,
 		float x,
 		float y,
 		float z,
@@ -3042,7 +3039,7 @@ void HM_shockwave(
 
 	HM_Object *ho = &HM_object[hm_index];
 
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dy;

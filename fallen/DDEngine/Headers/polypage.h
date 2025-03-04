@@ -41,8 +41,8 @@ class PolyPage;
 struct PolyPoly
 {
 	float		sort_z;			// z-value to sort on
-	UWORD		first_vertex;	// first vertex #
-	UWORD		num_vertices;	// number of vertices; if top bit set, draw as wireframe
+	std::uint16_t		first_vertex;	// first vertex #
+	std::uint16_t		num_vertices;	// number of vertices; if top bit set, draw as wireframe
 	PolyPage*	page;			// page for polygon (only when in a bucket)
 	PolyPoly*	next;			// next polygon (only when in a bucket)
 };
@@ -62,7 +62,7 @@ inline bool operator>=(const PolyPoly& arg1, const PolyPoly& arg2)	{ return !(ar
 class PolyPage
 {
 public:
-	PolyPage(ULONG logsize = 6);
+	PolyPage(std::uint32_t logsize = 6);
 	~PolyPage();
 
 #ifdef TEX_EMBED
@@ -72,13 +72,13 @@ public:
 													// This is never nullptr, but may point back to this one.
 
 	void				SetTexOffset ( D3DTexture *src );
-	void				SetTexOffset(UBYTE offset);	// 0 for (0,0)-(1,1) else 128 + (0-15) for the subtexture
+	void				SetTexOffset(std::uint8_t offset);	// 0 for (0,0)-(1,1) else 128 + (0-15) for the subtexture
 #endif
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 	// fan submission
-	void				AddFan(POLY_Point** pts, ULONG num_vertices);
-	void				AddWirePoly(POLY_Point** pts, ULONG num_vertices);
+	void				AddFan(POLY_Point** pts, std::uint32_t num_vertices);
+	void				AddWirePoly(POLY_Point** pts, std::uint32_t num_vertices);
 #endif
 
 	// set greenscreen
@@ -128,13 +128,13 @@ public:
 #ifndef TARGET_DC
 	static bool			s_AlphaSort;		// alpha sort enabled flag
 #endif
-	static ULONG		s_ColourMask;		// colour mask for green-screen monitor FX
+	static std::uint32_t		s_ColourMask;		// colour mask for green-screen monitor FX
 	static float		s_XScale;			// X scale for screen vertices
 	static float		s_YScale;			// Y scale for screen vertices
 
 
-	PolyPoint2D*		PointAlloc(ULONG num_points);	// allocate some points - DONT USE.
-	PolyPoint2D*		FanAlloc(ULONG num_points);		// Allocate a fan polygon.
+	PolyPoint2D*		PointAlloc(std::uint32_t num_points);	// allocate some points - DONT USE.
+	PolyPoint2D*		FanAlloc(std::uint32_t num_points);		// Allocate a fan polygon.
 														// You just fill in the data, the indices are handled magically.
 
 
@@ -152,22 +152,22 @@ public:
 	// member variables
 	VertexBuffer*		m_VertexBuffer;		// vertex buffer
 	PolyPoint2D*		m_VertexPtr;		// pointer to vertices in buffer
-	ULONG				m_VBLogSize;		// log2 of buffer size
-	ULONG				m_VBUsed;			// number of vertices used
-	ULONG				GetVBSize()			{ return 1 << m_VBLogSize; }
+	std::uint32_t				m_VBLogSize;		// log2 of buffer size
+	std::uint32_t				m_VBUsed;			// number of vertices used
+	std::uint32_t				GetVBSize()			{ return 1 << m_VBLogSize; }
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 	PolyPoly*			m_PolyBuffer;		// polygon buffer
-	ULONG				m_PolyBufSize;		// size of polygon buffer
-	ULONG				m_PolyBufUsed;		// number of polygons used
+	std::uint32_t				m_PolyBufSize;		// size of polygon buffer
+	std::uint32_t				m_PolyBufUsed;		// number of polygons used
 
 	PolyPoly*			m_PolySortBuffer;	// polygon sort buffer
-	ULONG				m_PolySortBufSize;	// size of polygon sort buffer
+	std::uint32_t				m_PolySortBufSize;	// size of polygon sort buffer
 #else
 	// Index buffer.
 	WORD				*m_pwIndexBuffer;	// The list of indices.
-	ULONG				m_iNumIndicesAlloc;	// How many indices are allocated.
-	ULONG				m_iNumIndicesUsed;	// How many indices are used.
+	std::uint32_t				m_iNumIndicesAlloc;	// How many indices are allocated.
+	std::uint32_t				m_iNumIndicesUsed;	// How many indices are used.
 #endif
 
 
@@ -177,11 +177,11 @@ public:
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 	// SortBackFirst iteration
-	void				MergeSortIteration(ULONG sort_len);
+	void				MergeSortIteration(std::uint32_t sort_len);
 #endif
 
 	// submission helpers
-//	PolyPoint2D*		PointAlloc(ULONG num_points);	// allocate some points
+//	PolyPoint2D*		PointAlloc(std::uint32_t num_points);	// allocate some points
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 	PolyPoly*			PolyBufAlloc();					// allocate a polygon

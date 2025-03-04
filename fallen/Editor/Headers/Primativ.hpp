@@ -11,7 +11,7 @@ class	EdRect
 	private:
 
 	public:
-		SLONG		Top,
+		std::int32_t		Top,
 					Left,
 					Bottom,
 					Right,
@@ -20,26 +20,26 @@ class	EdRect
 		MFPoint		TopLeft,
 					BottomRight;
 
-		void		SetRect(SLONG left,SLONG top,SLONG width,SLONG height);
-		void		MoveRect(SLONG left,SLONG top);
+		void		SetRect(std::int32_t left,std::int32_t top,std::int32_t width,std::int32_t height);
+		void		MoveRect(std::int32_t left,std::int32_t top);
 		void		NormalRect();
-		void		OffsetRect(SLONG dx,SLONG dy);
-		void		ShrinkRect(SLONG dx,SLONG dy);
-		void 		OutlineRect(ULONG colour);
+		void		OffsetRect(std::int32_t dx,std::int32_t dy);
+		void		ShrinkRect(std::int32_t dx,std::int32_t dy);
+		void 		OutlineRect(std::uint32_t colour);
 		void		OutlineInvertedRect();
-		void		HiliteRect(ULONG hilite,ULONG lolite);
-		void		FillRect(ULONG colour);
-		void		IndentRect(ULONG hilite,ULONG lolite);
+		void		HiliteRect(std::uint32_t hilite,std::uint32_t lolite);
+		void		FillRect(std::uint32_t colour);
+		void		IndentRect(std::uint32_t hilite,std::uint32_t lolite);
 
 		bool		PointInRect(MFPoint *the_point);
 		bool		IntersectRect(EdRect *the_rect);
 
-		inline SLONG	GetTop()			{	return Top;			}
-		inline SLONG	GetLeft()			{	return Left;		}
-		inline SLONG	GetBottom()			{	return Bottom;		}
-		inline SLONG	GetRight()			{	return Right;		}
-		inline SLONG	GetWidth()			{	return Width;		}
-		inline SLONG	GetHeight()			{	return Height;		}
+		inline std::int32_t	GetTop()			{	return Top;			}
+		inline std::int32_t	GetLeft()			{	return Left;		}
+		inline std::int32_t	GetBottom()			{	return Bottom;		}
+		inline std::int32_t	GetRight()			{	return Right;		}
+		inline std::int32_t	GetWidth()			{	return Width;		}
+		inline std::int32_t	GetHeight()			{	return Height;		}
 		inline MFPoint	GetTopLeft()		{	return TopLeft;		}
 		inline MFPoint	GetBottomRight()	{	return BottomRight;	}
 };

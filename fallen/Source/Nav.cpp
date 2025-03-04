@@ -14,16 +14,16 @@
 // 
 
 NAV_Waypoint NAV_waypoint[NAV_MAX_WAYPOINTS];
-UWORD NAV_waypoint_free;		// The head of the free list.
+std::uint16_t NAV_waypoint_free;		// The head of the free list.
 
-void NAV_waypoint_check(UWORD index)
+void NAV_waypoint_check(std::uint16_t index)
 {
 	ASSERT(WITHIN(index, 1, NAV_MAX_WAYPOINTS - 1));
 }
 
-UWORD NAV_waypoint_get()
+std::uint16_t NAV_waypoint_get()
 {
-	UWORD ans = NAV_waypoint_free;
+	std::uint16_t ans = NAV_waypoint_free;
 
 	if (ans == NULL)
 	{
@@ -39,15 +39,15 @@ UWORD NAV_waypoint_get()
 	return ans;
 }
 
-void NAV_waypoint_give(UWORD index)
+void NAV_waypoint_give(std::uint16_t index)
 {
 	NAV_WAYPOINT(index)->next = NAV_waypoint_free;
 	NAV_waypoint_free         = index;
 }
 
-void NAV_path_give(UWORD index)
+void NAV_path_give(std::uint16_t index)
 {
-	UWORD next;
+	std::uint16_t next;
 
 	while(index != NULL)
 	{
@@ -64,7 +64,7 @@ void NAV_path_give(UWORD index)
 
 void NAV_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Build the free list of navigation waypoints.
@@ -81,7 +81,7 @@ void NAV_init()
 }
 
 
-SLONG NAV_wall_in_way(SLONG x, SLONG z, SLONG dirn)
+std::int32_t NAV_wall_in_way(std::int32_t x, std::int32_t z, std::int32_t dirn)
 {
 #ifdef TARGET_DC
 	// Shouldn't be using this, apparently.
@@ -89,13 +89,13 @@ SLONG NAV_wall_in_way(SLONG x, SLONG z, SLONG dirn)
 #endif
 
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	static struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} offset[4] =
 	{
@@ -135,19 +135,19 @@ SLONG NAV_wall_in_way(SLONG x, SLONG z, SLONG dirn)
 
 
 
-UWORD NAV_do(UWORD x1, UWORD z1, UWORD x2, UWORD z2, UBYTE flag)
+std::uint16_t NAV_do(std::uint16_t x1, std::uint16_t z1, std::uint16_t x2, std::uint16_t z2, std::uint8_t flag)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sx;
-	SLONG sz;
-	SLONG ex;
-	SLONG ez;
+	std::int32_t sx;
+	std::int32_t sz;
+	std::int32_t ex;
+	std::int32_t ez;
 
-	ULONG  result;
-	UWORD  ans;
-	UWORD  next;
-	UWORD  prev;
+	std::uint32_t  result;
+	std::uint16_t  ans;
+	std::uint16_t  next;
+	std::uint16_t  prev;
 
 	struct wallhug_path wp;
 
@@ -262,12 +262,12 @@ UWORD NAV_do(UWORD x1, UWORD z1, UWORD x2, UWORD z2, UBYTE flag)
 }
 
 #ifndef TARGET_DC
-void NAV_path_draw(UWORD startx, UWORD startz, UWORD path)
+void NAV_path_draw(std::uint16_t startx, std::uint16_t startz, std::uint16_t path)
 {
-	UWORD x1;
-	UWORD z1;
-	UWORD x2;
-	UWORD z2;
+	std::uint16_t x1;
+	std::uint16_t z1;
+	std::uint16_t x2;
+	std::uint16_t z2;
 
 	x1 = startx;
 	z1 = startz;

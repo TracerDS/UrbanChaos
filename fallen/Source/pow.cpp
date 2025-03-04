@@ -17,13 +17,13 @@
 //
 
 POW_Sprite POW_sprite[POW_MAX_SPRITES];
-UBYTE POW_sprite_free;
+std::uint8_t POW_sprite_free;
 
 POW_Pow POW_pow[POW_MAX_POWS];
-UBYTE POW_pow_free;
-UBYTE POW_pow_used;
+std::uint8_t POW_pow_free;
+std::uint8_t POW_pow_used;
 
-UBYTE POW_mapwho[PAP_SIZE_LO];
+std::uint8_t POW_mapwho[PAP_SIZE_LO];
 
 //
 // POW flags. They remember if the've spawned a child yet.
@@ -63,9 +63,9 @@ UBYTE POW_mapwho[PAP_SIZE_LO];
 
 typedef struct
 {
-	UWORD when;	// Spawn this pow with the life of the parent gets lower than this value. NULL => NA
-	UBYTE type;
-	UBYTE flag;
+	std::uint16_t when;	// Spawn this pow with the life of the parent gets lower than this value. NULL => NA
+	std::uint8_t type;
+	std::uint8_t flag;
 
 } POW_Spawn;
 
@@ -90,7 +90,7 @@ typedef struct
 	unsigned int damp       : 2;
 	unsigned int padding    : 6;
 
-	UWORD     life;
+	std::uint16_t     life;
 	POW_Spawn spawn[POW_TYPE_MAX_SPAWN];
 
 } POW_Type;
@@ -282,7 +282,7 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
 
 void POW_init()
 {
-	SLONG i;
+	std::int32_t i;
 void check_pows();
 		check_pows();
 
@@ -309,10 +309,10 @@ void check_pows();
 }
 
 #ifdef	POO
-SLONG count_occurances(SLONG find)
+std::int32_t count_occurances(std::int32_t find)
 {
-	SLONG	sprite;
-	SLONG	count=0;
+	std::int32_t	sprite;
+	std::int32_t	count=0;
 
 	sprite=POW_sprite_free;
 
@@ -329,14 +329,14 @@ SLONG count_occurances(SLONG find)
 
 }
 
-SLONG count_used(SLONG find)
+std::int32_t count_used(std::int32_t find)
 {
-	SLONG	pow,count2,sprite;
+	std::int32_t	pow,count2,sprite;
 	POW_Pow    *pp;
 	POW_Sprite *ps;
 	POW_Type   *pt;
 
-	SLONG	ret=0;
+	std::int32_t	ret=0;
 
 	for (pow = POW_pow_used; pow&& count2++<50; pow = pp->next)
 	{
@@ -346,7 +346,7 @@ SLONG count_used(SLONG find)
 
 		if (pp->sprite)
 		{
-			SLONG	count=0;
+			std::int32_t	count=0;
 			//
 			// Process the pow's sprites.
 			//
@@ -366,7 +366,7 @@ SLONG count_used(SLONG find)
 #endif
 void check_pows()
 {
-	SLONG	sprite;
+	std::int32_t	sprite;
 #ifdef	POO
 	sprite=POW_sprite_free;
 
@@ -387,20 +387,20 @@ void check_pows()
 
 void POW_insert_sprite(
 		POW_Pow *pp,
-		SLONG    x,
-		SLONG    y,
-		SLONG    z,
-		SLONG    dx,	// Not shifted by POW_DELTA_SHIFT...
-		SLONG    dy,
-		SLONG    dz,
-		SLONG    frame_speed,
-		SLONG    damp)
+		std::int32_t    x,
+		std::int32_t    y,
+		std::int32_t    z,
+		std::int32_t    dx,	// Not shifted by POW_DELTA_SHIFT...
+		std::int32_t    dy,
+		std::int32_t    dz,
+		std::int32_t    frame_speed,
+		std::int32_t    damp)
 {
 	//
 	// Get a sprite from the free list.
 	// 
 
-	SLONG       sprite_index;
+	std::int32_t       sprite_index;
 	POW_Sprite *ps;
 	if (POW_sprite_free == NULL)
 	{
@@ -413,7 +413,7 @@ void POW_insert_sprite(
 
 	ASSERT(WITHIN(POW_sprite_free, 1, POW_MAX_SPRITES - 1));
 	{
-		SLONG	sprite;
+		std::int32_t	sprite;
 		sprite=pp->sprite;
 		while(sprite)
 		{
@@ -456,24 +456,24 @@ void POW_insert_sprite(
 // Initialises a new pow.
 //
 
-void POW_new(SLONG type, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz)
+void POW_new(std::int32_t type, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG yaw;
-	SLONG pitch;
+	std::int32_t yaw;
+	std::int32_t pitch;
 
-	SLONG around;
-	SLONG upndown;
-	SLONG ring;
+	std::int32_t around;
+	std::int32_t upndown;
+	std::int32_t ring;
 
-	SLONG dyaw;
-	SLONG dpitch;
+	std::int32_t dyaw;
+	std::int32_t dpitch;
 
-	SLONG pow_index;
-	SLONG framespeed;
+	std::int32_t pow_index;
+	std::int32_t framespeed;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	POW_Type *pt;
 	POW_Pow  *pp;
@@ -627,34 +627,34 @@ void POW_new(SLONG type, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz
 
 void POW_process()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG pow;
-	SLONG yaw;
-	SLONG pitch;
-	SLONG sprite;
-	SLONG vector[3];
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t pow;
+	std::int32_t yaw;
+	std::int32_t pitch;
+	std::int32_t sprite;
+	std::int32_t vector[3];
 
-	UBYTE  next;
-	UBYTE *prev;
+	std::uint8_t  next;
+	std::uint8_t *prev;
 
 	POW_Pow    *pp;
 	POW_Sprite *ps;
 	POW_Type   *pt;
 
-	SLONG ticks;
-	SLONG frame_ticks;
-	SLONG frame_counter;
-	SLONG pow_index;
-	SLONG sprite_index;
+	std::int32_t ticks;
+	std::int32_t frame_ticks;
+	std::int32_t frame_counter;
+	std::int32_t pow_index;
+	std::int32_t sprite_index;
 
-	SLONG	count2=0;
+	std::int32_t	count2=0;
 	
 	ticks = (POW_TICKS_PER_SECOND / 20) * TICK_RATIO >> TICK_SHIFT;
 
@@ -670,7 +670,7 @@ void POW_process()
 
 		if (pp->sprite)
 		{
-			SLONG	count=0;
+			std::int32_t	count=0;
 			//
 			// Process the pow's sprites.
 			//

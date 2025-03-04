@@ -222,8 +222,8 @@
 #define BUCKET_MEM	(80*1024)
 #endif
 #else
-extern SLONG bucket_mem_size;
-extern SLONG total_mem_size;
+extern std::int32_t bucket_mem_size;
+extern std::int32_t total_mem_size;
 #define BUCKET_MEM	(bucket_mem_size)
 #endif
 
@@ -272,10 +272,10 @@ typedef struct
 	struct PadData
 	{
 		int name;
-		UWORD pad_button;
-		SLONG input_mask;
-		UBYTE pad_flags;
-		UBYTE pad_delay;
+		std::uint16_t pad_button;
+		std::int32_t input_mask;
+		std::uint8_t pad_flags;
+		std::uint8_t pad_delay;
 	} data[14];
 } PadInfo;
 
@@ -287,7 +287,7 @@ extern PadInfo *PAD_Current;
 // fiddled with the texture pages.
 // 
 
-void TEXTURE_fix_prim_textures(SLONG flag);
+void TEXTURE_fix_prim_textures(std::int32_t flag);
 
 //
 // Given a texture square coordinate on a page, it returns the
@@ -297,10 +297,10 @@ void TEXTURE_fix_prim_textures(SLONG flag);
 // fiddled position are returned.
 //
 
-SLONG TEXTURE_get_fiddled_position(
-		SLONG  square_u,
-		SLONG  square_v,
-		SLONG  page,
+std::int32_t TEXTURE_get_fiddled_position(
+		std::int32_t  square_u,
+		std::int32_t  square_v,
+		std::int32_t  page,
 		float *u,
 		float *v);
 
@@ -311,39 +311,39 @@ SLONG TEXTURE_get_fiddled_position(
 
 #define abs(x) MyAbs(x)
 
-inline SLONG MyAbs(SLONG a) { return (a<0)?-a:a; };
+inline std::int32_t MyAbs(std::int32_t a) { return (a<0)?-a:a; };
 
-void AENG_set_camera(SLONG world_x,SLONG world_y,SLONG world_z,SLONG yaw,SLONG pitch,SLONG roll);
+void AENG_set_camera(std::int32_t world_x,std::int32_t world_y,std::int32_t world_z,std::int32_t yaw,std::int32_t pitch,std::int32_t roll);
 
-void AENG_set_camera_radians(SLONG world_x,SLONG world_y,SLONG world_z,SLONG yaw,SLONG pitch,SLONG roll);
+void AENG_set_camera_radians(std::int32_t world_x,std::int32_t world_y,std::int32_t world_z,std::int32_t yaw,std::int32_t pitch,std::int32_t roll);
 
 //
 // Draws world lines.
 //
 
-void AENG_world_line(SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2, SLONG sort_to_front);
+void AENG_world_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2, std::int32_t sort_to_front);
 
 //
 // Older engine compatability.
 //
 
-void AENG_e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void AENG_e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void AENG_e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void AENG_e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void AENG_e_draw_3d_mapwho         (SLONG x1,SLONG z1);
-void AENG_e_draw_3d_mapwho_y       (SLONG x1,SLONG y1,SLONG z1);
+void AENG_e_draw_3d_line           (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void AENG_e_draw_3d_line_dir       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void AENG_e_draw_3d_line_col       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void AENG_e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void AENG_e_draw_3d_mapwho         (std::int32_t x1,std::int32_t z1);
+void AENG_e_draw_3d_mapwho_y       (std::int32_t x1,std::int32_t y1,std::int32_t z1);
 void SPRITE_draw_rotated(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		SLONG sort,
-		SLONG rotate,
-		SLONG fade);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t world_size,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::int32_t sort,
+		std::int32_t rotate,
+		std::int32_t fade);
 
 #define e_draw_3d_line            AENG_e_draw_3d_line
 #define	e_draw_3d_line_dir        AENG_e_draw_3d_line_dir
@@ -356,7 +356,7 @@ void SPRITE_draw_rotated(
 // The new engines.
 // 
 
-void AENG_draw       (SLONG info);
+void AENG_draw       (std::int32_t info);
 void AENG_draw_inside();
 
 //
@@ -364,14 +364,14 @@ void AENG_draw_inside();
 // 
 
 void AENG_draw_scanner(
-		SLONG screen_x1,
-		SLONG screen_y1,
-		SLONG screen_x2,
-		SLONG screen_y2,
-		SLONG map_x,
-		SLONG map_z,
-		SLONG map_zoom,		// The number of pixels per mapsquare in fixed-point 8.
-		SLONG map_angle);
+		std::int32_t screen_x1,
+		std::int32_t screen_y1,
+		std::int32_t screen_x2,
+		std::int32_t screen_y2,
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t map_zoom,		// The number of pixels per mapsquare in fixed-point 8.
+		std::int32_t map_angle);
 
 //
 // Draws the messages and the FPS stuff to the screen.
@@ -390,15 +390,15 @@ void AENG_blit();
 // Adds a message to the message system.
 //
 
-//void MSG_add(CBYTE* message, ...);
+//void MSG_add(char* message, ...);
 
 //
 // Drawing stuff straight to the screen...
 //
 
 void AENG_clear_screen();
-SLONG AENG_lock();
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE* text, ...);
+std::int32_t AENG_lock();
+std::int32_t FONT_draw(std::int32_t x, std::int32_t y, char* text, ...);
 void AENG_unlock();
 
 
@@ -408,63 +408,63 @@ void AENG_unlock();
 
 extern void AENG_fini();
 
-extern void CONSOLE_font(CBYTE* fontpath, SLONG scale);
+extern void CONSOLE_font(char* fontpath, std::int32_t scale);
 extern void CONSOLE_draw();
-extern void CONSOLE_text(CBYTE* text, SLONG delay=4000 );	// Delay in milliseconds
+extern void CONSOLE_text(char* text, std::int32_t delay=4000 );	// Delay in milliseconds
 extern void CONSOLE_clear();
 extern void CONSOLE_scroll();
 
-extern void AENG_loadbar(SLONG percent);
-extern void draw_boxout_text(SLONG x,SLONG y,SLONG w,CBYTE* message,SLONG font_id);
+extern void AENG_loadbar(std::int32_t percent);
+extern void draw_boxout_text(std::int32_t x,std::int32_t y,std::int32_t w,char* message,std::int32_t font_id);
 //
 // Messages that appear at specific points on the screen- If you place
 // a message at the same place as an older message, the new message
 // replaces that older one.
 //
 
-extern void CONSOLE_text_at(SLONG  x,SLONG  y,SLONG  delay,CBYTE* fmt, ...);
+extern void CONSOLE_text_at(std::int32_t  x,std::int32_t  y,std::int32_t  delay,char* fmt, ...);
 
-extern void	draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id);
-extern void	draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
+extern void	draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id);
+extern void	draw_centre_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id,std::int32_t flag);
 
-extern void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
-extern void PANEL_draw_timer(SLONG time, SLONG x, SLONG y);
-extern void	PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
-extern void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer);
+extern void	PANEL_draw_health_bar(std::int32_t x,std::int32_t y,std::int32_t percentage);
+extern void PANEL_draw_timer(std::int32_t time, std::int32_t x, std::int32_t y);
+extern void	PANEL_draw_face(std::int32_t x,std::int32_t y,std::int32_t face,std::int32_t size);
+extern void	AENG_draw_col_tri(std::int32_t x0,std::int32_t y0,std::int32_t col0,std::int32_t x1,std::int32_t y1,std::int32_t col1,std::int32_t x2,std::int32_t y2,std::int32_t col2,std::int32_t layer);
 extern void PANEL_draw_buffered();
-extern SLONG SPRITE_draw(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		SLONG sort);
+extern std::int32_t SPRITE_draw(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t world_size,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::int32_t sort);
 
 extern void SPRITE_draw_tex(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
-		UBYTE u,
-		UBYTE v,
-		UBYTE w,				   
-		UBYTE h,
-		SLONG sort);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t world_size,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
+		std::uint8_t u,
+		std::uint8_t v,
+		std::uint8_t w,				   
+		std::uint8_t h,
+		std::int32_t sort);
 
 extern void	PANEL_finish();
 extern void FONT_buffer_draw();
 
 void ShowBackImage();
-void LoadBackImage(CBYTE* name);
-void InitBackImage(CBYTE* name);
+void LoadBackImage(char* name);
+void InitBackImage(char* name);
 void ResetBackImage();
 
-extern void SetDisplayClear(SLONG clear);
+extern void SetDisplayClear(std::int32_t clear);
 
 
 
@@ -474,7 +474,7 @@ extern DB		*old_buffer;
 extern void	*start_of_bucket_ram;
 extern void	*first_used_bucket_ram;
 extern void	*last_used_bucket_ram;
-//extern SLONG	flipped;
+//extern std::int32_t	flipped;
 
 //#define	 OLD_FLIP	1
 /*
@@ -510,8 +510,8 @@ inline void	check_prim_ptr(void* *x)
 */
 
 extern void	*danger_point;
-extern UBYTE	danger_point_type;
-extern volatile	SLONG draw_state __attribute__((section(".rdata")));
+extern std::uint8_t	danger_point_type;
+extern volatile	std::int32_t draw_state __attribute__((section(".rdata")));
 extern void	do_danger(void* *x);
 
 inline void	check_prim_ptr(void* *x)
@@ -535,7 +535,7 @@ inline void	check_prim_ptr(void* *x)
 //
 
 // these are upto 12 blocks away  // z=0 -> 768 (12 blocks * 256 /4)
-inline SLONG get_z_sort_near(SLONG z)
+inline std::int32_t get_z_sort_near(std::int32_t z)
 {
 
 //	ASSERT(z<1000);
@@ -552,7 +552,7 @@ inline SLONG get_z_sort_near(SLONG z)
 
 }
 // upto max dist 18 ish to 25 ish
-inline SLONG get_z_sort(SLONG z)
+inline std::int32_t get_z_sort(std::int32_t z)
 {
 
 	if(z>768)
@@ -570,7 +570,7 @@ inline SLONG get_z_sort(SLONG z)
 
 }
 
-inline SLONG MIN4(SLONG a,SLONG b,SLONG c,SLONG d)
+inline std::int32_t MIN4(std::int32_t a,std::int32_t b,std::int32_t c,std::int32_t d)
 {
 	int min=a;
 	if (b<min)
@@ -583,7 +583,7 @@ inline SLONG MIN4(SLONG a,SLONG b,SLONG c,SLONG d)
 		return min;
 }
 
-inline SLONG MAX4(SLONG a,SLONG b,SLONG c,SLONG d)
+inline std::int32_t MAX4(std::int32_t a,std::int32_t b,std::int32_t c,std::int32_t d)
 {
 	int max=a;
 	if (b>max)
@@ -596,7 +596,7 @@ inline SLONG MAX4(SLONG a,SLONG b,SLONG c,SLONG d)
 		return max;
 }
 
-inline SLONG MAX3(SLONG a,SLONG b,SLONG c)
+inline std::int32_t MAX3(std::int32_t a,std::int32_t b,std::int32_t c)
 {
 	int max=a;
 	if (b>max)
@@ -607,9 +607,9 @@ inline SLONG MAX3(SLONG a,SLONG b,SLONG c)
 		return max;
 }
 
-inline SLONG MF_NormalClip(SLONG a,SLONG b,SLONG c)
+inline std::int32_t MF_NormalClip(std::int32_t a,std::int32_t b,std::int32_t c)
 {
-	SLONG tmp;
+	std::int32_t tmp;
 	gte_NormalClip(a,b,c,&tmp);
 	return tmp;
 }
@@ -647,7 +647,7 @@ inline SLONG MF_NormalClip(SLONG a,SLONG b,SLONG c)
 
 //#define getPSXClut2(page) 	getClut(960+((page&3)<<4),256+((page&0x3f7)>>2))
 
-#define getPSXCol(fade,val,rgb) ( ( (((UWORD)(fade)*(UWORD)(val)) + (128-(UWORD)(fade))*(UWORD)(rgb))) >> 7 )
+#define getPSXCol(fade,val,rgb) ( ( (((std::uint16_t)(fade)*(std::uint16_t)(val)) + (128-(std::uint16_t)(fade))*(std::uint16_t)(rgb))) >> 7 )
 
 #define setPSXRGB0(p,fade,r,g,b) { \
 	p->r0=getPSXCol(fade,r,NIGHT_amb_red);   \
@@ -686,22 +686,22 @@ inline SLONG MF_NormalClip(SLONG a,SLONG b,SLONG c)
 #define HIWORD(l) ((l)>>16)
 
 #define	MAX_PATH	128
-#define	FILE	SLONG
+#define	FILE	std::int32_t
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern SLONG	SpecialOpen(CBYTE* name);
-extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern SLONG	SpecialClose(SLONG handle);
-extern SLONG	SpecialSize(SLONG handle);
+extern std::int32_t	SpecialOpen(char* name);
+extern std::int32_t	SpecialRead(std::int32_t handle,std::uint8_t *ptr,std::int32_t s1);
+extern std::int32_t	SpecialSeek(std::int32_t handle,std::int32_t mode,std::int32_t size);
+extern std::int32_t	SpecialClose(std::int32_t handle);
+extern std::int32_t	SpecialSize(std::int32_t handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
 #define	FileCreate(x,y)	ASSERT(0)
-#define	FileRead(h,a,s) SpecialRead(h,(UBYTE*)a,s)
+#define	FileRead(h,a,s) SpecialRead(h,(std::uint8_t*)a,s)
 #define	FileWrite(h,a,s) ASSERT(0)
 #define	FileSeek(h,m,o) SpecialSeek(h,m,o)
 #define FileSize(h)		SpecialSize(h)
@@ -710,14 +710,14 @@ extern SLONG	SpecialSize(SLONG handle);
 #define	fclose(x)		SpecialClose(x)
 #define	fread(a,s1,s2,h) SpecialRead(h,a,s1*s2)
 
-extern void TEXTURE_choose_set(SLONG number);
-extern void	PCReadFile(CBYTE* name,UBYTE *addr,ULONG len);
+extern void TEXTURE_choose_set(std::int32_t number);
+extern void	PCReadFile(char* name,std::uint8_t *addr,std::uint32_t len);
 extern int vsprintf(char *str,const char *fmt,va_list arg);
-extern void MF_ClearOTag(ULONG *table,SLONG size);
-extern void	PSX_SetShock(UBYTE fast,UBYTE slow);
+extern void MF_ClearOTag(std::uint32_t *table,std::int32_t size);
+extern void	PSX_SetShock(std::uint8_t fast,std::uint8_t slow);
 extern void PANEL_inventory(Thing *darci, Thing *player);
 
-extern UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing);
+extern std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t index, std::uint16_t track_thing);
 
 #define PANEL_WHO_DARCI 0
 #define PANEL_WHO_ROPER 1
@@ -727,9 +727,9 @@ extern UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
 #define BreakFrame()
 #define BreakEnd(x)
 
-extern void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...);
-extern FONT2D_DrawString(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
-extern void FONT2D_DrawStringCentred(CBYTE*chr, ULONG x, ULONG y, ULONG rgb=0xffffff, SLONG scale=256, SLONG page=POLY_PAGE_FONT2D, SWORD fade=0);
+extern void PANEL_new_text(Thing *who, std::int32_t delay, char* fmt, ...);
+extern FONT2D_DrawString(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
+extern void FONT2D_DrawStringCentred(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
 
 extern wad_level;
 
@@ -756,14 +756,14 @@ extern wad_level;
 #define IMAGE_LEVEL_COMPLETE	1
 
 typedef struct {
-	UWORD	page;
-	UBYTE	x,y;
-	UBYTE	w,h;
+	std::uint16_t	page;
+	std::uint8_t	x,y;
+	std::uint8_t	w,h;
 } ImageInfo;
 
-extern UBYTE floor_lum[32][32];
-extern SBYTE lum_off_x;
-extern SBYTE lum_off_z;
+extern std::uint8_t floor_lum[32][32];
+extern std::int8_t lum_off_x;
+extern std::int8_t lum_off_z;
 
 #define LUMI(x,z) floor_lum[(x)-lum_off_x][(z)-lum_off_z]
 #define SQR(x) ((x)*(x))
@@ -771,9 +771,9 @@ extern SBYTE lum_off_z;
 //
 // MIKED, for writing uv's to drawlist structues, with a whole long write at a time
 //
-#define	LONG_set_BBW(p,i,b1,b2,w)	((ULONG*)p)[i]=((w<<16)|(b2<<8)|(b1))
+#define	LONG_set_BBW(p,i,b1,b2,w)	((std::uint32_t*)p)[i]=((w<<16)|(b2<<8)|(b1))
 
-inline UBYTE MAKELUMI(UWORD col,UBYTE lumi)
+inline std::uint8_t MAKELUMI(std::uint16_t col,std::uint8_t lumi)
 {
 	if (lumi==0)
 		return col;
@@ -787,26 +787,26 @@ inline UBYTE MAKELUMI(UWORD col,UBYTE lumi)
 #define SetLumi(x,z,lum) floor_lum[x][z]=(lum)
 
 extern void Wadmenu_gameover(int won);
-extern void PANEL_new_help_message(CBYTE* fmt, ...);
-extern void	PSXOverLay(CBYTE* name,ULONG len);
-extern void MAP_beacon_remove(UBYTE beacon);
+extern void PANEL_new_help_message(char* fmt, ...);
+extern void	PSXOverLay(char* name,std::uint32_t len);
+extern void MAP_beacon_remove(std::uint8_t beacon);
 extern void PANEL_fadeout_init();
 extern void PANEL_fadeout_start();
 extern void PANEL_fadeout_draw();
-extern SLONG PANEL_fadeout_finished();
-extern SLONG GetTickCount();
-extern void POLY2D_TextImage(SLONG image,SLONG x,SLONG y,SLONG col);
+extern std::int32_t PANEL_fadeout_finished();
+extern std::int32_t GetTickCount();
+extern void POLY2D_TextImage(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t col);
 
 #define	MUSIC_FLAG_FADE_IN	1
 #define MUSIC_FLAG_FADE_OUT	2
 #define MUSIC_FLAG_LOOPED	4
 #define MUSIC_FLAG_QUEUED	8
 #define MUSIC_FLAG_OVERRIDE 16
-extern UBYTE MUSIC_play(UWORD wave,UBYTE flags);
+extern std::uint8_t MUSIC_play(std::uint16_t wave,std::uint8_t flags);
 extern void MUSIC_stop(bool fade);
-extern SLONG MFX_Conv_playing;
+extern std::int32_t MFX_Conv_playing;
 extern void MFX_Conv_stop();
-extern void MFX_Mute(SLONG mute);
+extern void MFX_Mute(std::int32_t mute);
 
 #define MFX_FLAG_SLIDER		(1024)
 #define MFX_FLAG_SEARCHER	(512)
@@ -827,8 +827,8 @@ extern void MFX_Mute(SLONG mute);
 
 #define INPUT_MASK_RUN	(INPUT_MASK_MOVE|INPUT_MASK_FORWARDS)
 #define WADMENU_PAD_CANCEL	(PAD_FLT|PAD_FRT|PAD_START|PAD_SEL)
-extern SLONG PANEL_icon_time;
-extern void	GDisp_SetupBucketMem(char *addr,SLONG size);
+extern std::int32_t PANEL_icon_time;
+extern void	GDisp_SetupBucketMem(char *addr,std::int32_t size);
 
 #define COLLIDE_can_i_fastnav(x,z) (!(WITHIN((x), 0, PAP_SIZE_HI - 1) || !WITHIN((z), 0, PAP_SIZE_HI - 1) || (COLLIDE_fastnav[x][(z) >> 3] & (1 << ((z) & 0x7)))))
 

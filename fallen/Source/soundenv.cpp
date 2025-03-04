@@ -13,26 +13,26 @@
 #include "pap.h"
 #include "sound.h"
 
-typedef void (*SOUNDENV_CB_fn)(SLONG,SLONG,SLONG,SLONG);
+typedef void (*SOUNDENV_CB_fn)(std::int32_t,std::int32_t,std::int32_t,std::int32_t);
 
 
 struct AudioGroundQuad {
-	SLONG x,y,ox,oy;
+	std::int32_t x,y,ox,oy;
 };
 
 AudioGroundQuad SOUNDENV_gndquads[64];
 int SOUNDENV_gndctr;
 
 
-//SLONG SOUNDENV_gndlist;
+//std::int32_t SOUNDENV_gndlist;
 
 //------------------------------------------------------------------------
 //   Workingsing stuff
 //------------------------------------------------------------------------
 
 
-bool SOUNDENV_ClearRange(CBYTE map[128][128], SLONG min, SLONG max, SLONG y) {
-  SLONG x;
+bool SOUNDENV_ClearRange(char map[128][128], std::int32_t min, std::int32_t max, std::int32_t y) {
+  std::int32_t x;
   
   for (x=min;x<=max;x++) {
     if (map[x][y]) return 0;
@@ -45,9 +45,9 @@ bool SOUNDENV_ClearRange(CBYTE map[128][128], SLONG min, SLONG max, SLONG y) {
 }
 
 
-void SOUNDENV_Quadify(CBYTE map[128][128], SLONG mx, SLONG my, SLONG mox, SLONG moy, SOUNDENV_CB_fn CBfn) {
+void SOUNDENV_Quadify(char map[128][128], std::int32_t mx, std::int32_t my, std::int32_t mox, std::int32_t moy, SOUNDENV_CB_fn CBfn) {
 
-  SLONG x,y,blx,bly,blox,bloy;
+  std::int32_t x,y,blx,bly,blox,bloy;
 
   for (y=my;y<moy;y++) {
     for (x=mx;x<mox;x++) {
@@ -74,7 +74,7 @@ void SOUNDENV_Quadify(CBYTE map[128][128], SLONG mx, SLONG my, SLONG mox, SLONG 
 //   Interfacing stuff
 //------------------------------------------------------------------------
 
-void cback(SLONG x, SLONG y, SLONG ox, SLONG oy) {
+void cback(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy) {
   SOUNDENV_gndquads[SOUNDENV_gndctr].x=x<<16;
   SOUNDENV_gndquads[SOUNDENV_gndctr].y=y<<16;
   SOUNDENV_gndquads[SOUNDENV_gndctr].ox=(ox+1)<<16;
@@ -83,8 +83,8 @@ void cback(SLONG x, SLONG y, SLONG ox, SLONG oy) {
 }
 
 void SOUNDENV_precalc() {
-  CBYTE tempmap[128][128];
-  SLONG x,y;
+  char tempmap[128][128];
+  std::int32_t x,y;
 /*
   SOUNDENV_gndctr=0;
   for (x=0;x<128;x++)
@@ -95,7 +95,7 @@ void SOUNDENV_precalc() {
   */
 }
 
-extern SLONG	CAM_pos_x,
+extern std::int32_t	CAM_pos_x,
 				CAM_pos_y,
 				CAM_pos_z;
 
@@ -103,7 +103,7 @@ void SOUNDENV_upload() {
 
 #ifdef USE_A3D
 /*
-	SLONG i,cx,cz;
+	std::int32_t i,cx,cz;
 
 	A3DGTag(1); // tag 1 is always going to be the ground.
 //	A3DGMaterial(A3D_MAT_CARPET);

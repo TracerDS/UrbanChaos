@@ -12,16 +12,16 @@
 //
 // The handy buffer
 //
-inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3);
-//SLONG      POLY_buffer_upto;
+inline std::int32_t POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3);
+//std::int32_t      POLY_buffer_upto;
 //POLY_Point POLY_buffer[POLY_BUFFER_SIZE];
 //PSX_POLY_Point PSX_POLY_buffer[POLY_BUFFER_SIZE];
 //POLY_Point POLY_shadow[POLY_SHADOW_SIZE];
-//SLONG      POLY_shadow_upto;
+//std::int32_t      POLY_shadow_upto;
 
 /*
 POLY_Point POLY_shadow[POLY_SHADOW_SIZE];
-SLONG POLY_shadow_upto;
+std::int32_t POLY_shadow_upto;
 */
 
 //
@@ -30,45 +30,45 @@ SLONG POLY_shadow_upto;
 
 typedef struct
 {
-	SLONG        size;
+	std::int32_t        size;
 //	D3DTLVERTEX *vertex;
-	SLONG        vertex_upto;
-	UWORD       *index;
-	SLONG        index_upto;
+	std::int32_t        vertex_upto;
+	std::uint16_t       *index;
+	std::int32_t        index_upto;
 
 } POLY_Page;
 
 //POLY_Page POLY_page[16];
 
-SLONG mylens=420;
+std::int32_t mylens=420;
 
 //
 // Only points further than 1/256'th of the draw range are drawn.
 //
 
-#define POLY_ZCLIP_PLANE ((SLONG)(0.00781250F*65536)) // i.e. 1/128
+#define POLY_ZCLIP_PLANE ((std::int32_t)(0.00781250F*65536)) // i.e. 1/128
 #define POLY_ZCLIP_PLANE_RECIP_FIX0 (128) 
 //
 // The camera and the screen.
 //
 
-SLONG POLY_cam_x;
-SLONG POLY_cam_y;
-SLONG POLY_cam_z;
-SLONG POLY_cam_yaw;
+std::int32_t POLY_cam_x;
+std::int32_t POLY_cam_y;
+std::int32_t POLY_cam_z;
+std::int32_t POLY_cam_yaw;
 
 FIX_16 POLY_cam_aspect;
 FIX_16 POLY_cam_lens;
-SLONG POLY_cam_view_dist;
+std::int32_t POLY_cam_view_dist;
 FIX_16 POLY_cam_over_view_dist;
-SLONG POLY_cam_matrix[9];
+std::int32_t POLY_cam_matrix[9];
 
-SLONG POLY_screen_width;
-SLONG POLY_screen_height;
-SLONG POLY_screen_mid_x;
-SLONG POLY_screen_mid_y;
-SLONG POLY_screen_mul_x_fix0;
-SLONG POLY_screen_mul_y_fix0;
+std::int32_t POLY_screen_width;
+std::int32_t POLY_screen_height;
+std::int32_t POLY_screen_mid_x;
+std::int32_t POLY_screen_mid_y;
+std::int32_t POLY_screen_mul_x_fix0;
+std::int32_t POLY_screen_mul_y_fix0;
 
 MATRIX PSX_view_matrix;
 
@@ -76,7 +76,7 @@ void POLY_init()
 {
 }
 
-void build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m)
+void build_rot_matrix(std::int32_t yaw,std::int32_t pitch,MATRIX *m)
 {
 	SVECTOR r;
 
@@ -103,7 +103,7 @@ void build_rot_matrix(SLONG yaw,SLONG pitch,MATRIX *m)
 //	m->t[2]=0;
 }
 
-void build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m)
+void build_rot_matrix3(std::int32_t yaw,std::int32_t pitch,std::int32_t roll,MATRIX *m)
 {
 	SVECTOR r;
 
@@ -115,19 +115,19 @@ void build_rot_matrix3(SLONG yaw,SLONG pitch,SLONG roll,MATRIX *m)
 }
 
 void POLY_camera_set(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
-		SLONG view_dist,
-		SLONG lens)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
+		std::int32_t view_dist,
+		std::int32_t lens)
 {
 	SVECTOR	angles;
 	MATRIX	temp1,temp2;
-	POLY_screen_width  = SLONG(DisplayWidth);
-	POLY_screen_height = SLONG(DisplayHeight);
+	POLY_screen_width  = std::int32_t(DisplayWidth);
+	POLY_screen_height = std::int32_t(DisplayHeight);
 	POLY_screen_mid_x  = POLY_screen_width  >>1;
 	POLY_screen_mid_y  = POLY_screen_height >>1;
 
@@ -197,22 +197,22 @@ void POLY_camera_set(
 
 #ifndef PSX
 void POLY_camera_set_old(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
-		SLONG view_dist,
-		SLONG lens)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
+		std::int32_t view_dist,
+		std::int32_t lens)
 {
 
 //	yaw  =(yaw+2048)&2047;
 //	pitch=(pitch+2048)&2047;
 //	roll =(roll+2048)&2047;
 
-	POLY_screen_width  = SLONG(DisplayWidth);
-	POLY_screen_height = SLONG(DisplayHeight);
+	POLY_screen_width  = std::int32_t(DisplayWidth);
+	POLY_screen_height = std::int32_t(DisplayHeight);
 	POLY_screen_mid_x  = POLY_screen_width  >>1;
 	POLY_screen_mid_y  = POLY_screen_height >>1;
 
@@ -249,15 +249,15 @@ void POLY_camera_set_old(
 
 #if 0
 void POLY_transform(
-		SLONG       world_x,
-		SLONG       world_y,
-		SLONG       world_z,
+		std::int32_t       world_x,
+		std::int32_t       world_y,
+		std::int32_t       world_z,
 		POLY_Point *pt)
 {
 	SVECTOR	input;
 	VECTOR	output;
-	SLONG	sysx,p,otz;
-	SLONG	flag;
+	std::int32_t	sysx,p,otz;
+	std::int32_t	flag;
 
 	pt->x = world_x;// - POLY_cam_x; //just lighting at the mo
 	pt->y = world_y;// - POLY_cam_y;
@@ -326,9 +326,9 @@ void POLY_transform(
 #endif
 #ifdef WHAT_THE_FUCK_IS_THIS_DOING_HERE
 void POLY_transform_old(
-		SLONG       world_x,
-		SLONG       world_y,
-		SLONG       world_z,
+		std::int32_t       world_x,
+		std::int32_t       world_y,
+		std::int32_t       world_z,
 		POLY_Point *pt)
 {
 	pt->x = world_x - POLY_cam_x;
@@ -397,18 +397,18 @@ void POLY_transform_old(
 // The combined rotation matrix.
 //
 
-SLONG POLY_cam_matrix_comb[9];	 
-SLONG POLY_cam_off_x;
-SLONG POLY_cam_off_y;
-SLONG POLY_cam_off_z;
+std::int32_t POLY_cam_matrix_comb[9];	 
+std::int32_t POLY_cam_off_x;
+std::int32_t POLY_cam_off_y;
+std::int32_t POLY_cam_off_z;
 
 void POLY_set_local_rotation(	 
-		SLONG off_x,
-		SLONG off_y,
-		SLONG off_z,
+		std::int32_t off_x,
+		std::int32_t off_y,
+		std::int32_t off_z,
 		MATRIX *matrix)
 {
-	ULONG	flag;
+	std::uint32_t	flag;
 	SVECTOR	input;
 	VECTOR	output;
 //	MATRIX	view_trans;
@@ -445,15 +445,15 @@ void POLY_set_local_rotation(
 }
 
 void POLY_transform_using_local_rotation(
-		SLONG       local_x,
-		SLONG       local_y,
-		SLONG       local_z,
+		std::int32_t       local_x,
+		std::int32_t       local_y,
+		std::int32_t       local_z,
 		POLY_Point *pt)
 {
-	SLONG	flag;
+	std::int32_t	flag;
 	SVECTOR	input;
 	VECTOR	output;
-	SLONG	sysx,p,otz;
+	std::int32_t	sysx,p,otz;
 
 	input.vx = local_x;
 	input.vy = local_y;
@@ -560,15 +560,15 @@ void POLY_transform_using_local_rotation(
 	*/
 }
 
-SLONG POLY_sphere_visible(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG radius)
+std::int32_t POLY_sphere_visible(
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t radius)
 {
-	SLONG view_x;
-	SLONG view_y;
-	SLONG view_z;
+	std::int32_t view_x;
+	std::int32_t view_y;
+	std::int32_t view_z;
 
 	//
 	// Rotate into viewspace.
@@ -601,7 +601,7 @@ SLONG POLY_sphere_visible(
 
 void POLY_fadeout_buffer()
 {
-	SLONG i;
+	std::int32_t i;
 /*
 	for (i = 0; i < POLY_buffer_upto; i++)
 	{
@@ -612,9 +612,9 @@ void POLY_fadeout_buffer()
 
 
 #if 0
-SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull)
+std::int32_t POLY_valid_trianglep(POLY_Point *pp[3],std::uint16_t back_cull)
 {
-	ULONG flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip;
+	std::uint32_t flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
@@ -635,9 +635,9 @@ SLONG POLY_valid_trianglep(POLY_Point *pp[3],UWORD back_cull)
 	return true;
 }
 
-SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull)
+std::int32_t POLY_valid_quadp(POLY_Point *pp[4],std::uint16_t back_cull)
 {
-	ULONG flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip & pp[3]->clip;
+	std::uint32_t flag_and = pp[0]->clip & pp[1]->clip & pp[2]->clip & pp[3]->clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
@@ -658,9 +658,9 @@ SLONG POLY_valid_quadp(POLY_Point *pp[4],UWORD back_cull)
 	return true;
 }
 
-SLONG POLY_valid_triangle(POLY_Point *pp)
+std::int32_t POLY_valid_triangle(POLY_Point *pp)
 {
-	ULONG flag_and;
+	std::uint32_t flag_and;
 	flag_and = pp[0].clip & pp[1].clip & pp[2].clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
@@ -676,9 +676,9 @@ SLONG POLY_valid_triangle(POLY_Point *pp)
 	return true;
 }
 
-SLONG POLY_valid_quad(POLY_Point *pp)
+std::int32_t POLY_valid_quad(POLY_Point *pp)
 {
-	ULONG flag_and;
+	std::uint32_t flag_and;
 	flag_and = pp[0].clip & pp[1].clip & pp[2].clip & pp[3].clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
@@ -694,9 +694,9 @@ SLONG POLY_valid_quad(POLY_Point *pp)
 	return true;
 }
 
-SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
+std::int32_t POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 {
-	ULONG flag_and = p1->clip & p2->clip;
+	std::uint32_t flag_and = p1->clip & p2->clip;
 
 	if (!(flag_and & POLY_CLIP_TRANSFORMED))
 	{
@@ -710,15 +710,15 @@ SLONG POLY_valid_line(POLY_Point *p1, POLY_Point *p2)
 	return true;
 }
 
-inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3)
+inline std::int32_t POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3)
 {
-	SLONG vx1;
-	SLONG vy1;
+	std::int32_t vx1;
+	std::int32_t vy1;
 
-	SLONG vx2;
-	SLONG vy2;
+	std::int32_t vx2;
+	std::int32_t vy2;
 
-	SLONG cprod;
+	std::int32_t cprod;
 
 	ASSERT((pp1->clip & pp2->clip & pp3->clip) & POLY_CLIP_TRANSFORMED);
 
@@ -733,24 +733,24 @@ inline SLONG POLY_backface_cull(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp
 	return (cprod < 0);
 }
 #endif
-void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front)
+void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, std::int32_t width1, std::int32_t width2,std::int32_t page, std::uint32_t colour, std::int32_t sort_to_front)
 {
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG dx1;
-	SLONG dy1;
+	std::int32_t dx1;
+	std::int32_t dy1;
 
-	SLONG dx2;
-	SLONG dy2;
+	std::int32_t dx2;
+	std::int32_t dy2;
 
-	SLONG sw1;
-	SLONG sw2;
+	std::int32_t sw1;
+	std::int32_t sw2;
 
-	SLONG len;
-//	SLONG overlen;
+	std::int32_t len;
+//	std::int32_t overlen;
 
-	UBYTE u,v;
+	std::uint8_t u,v;
 
 	POLY_FT4	*p;
 
@@ -817,24 +817,24 @@ void POLY_add_line_tex(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLO
 
 }
 
-void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, SLONG width2,SLONG page, ULONG colour, SLONG sort_to_front)
+void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, std::int32_t width1, std::int32_t width2,std::int32_t page, std::uint32_t colour, std::int32_t sort_to_front)
 {
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG dx1;
-	SLONG dy1;
+	std::int32_t dx1;
+	std::int32_t dy1;
 
-	SLONG dx2;
-	SLONG dy2;
+	std::int32_t dx2;
+	std::int32_t dy2;
 
-	SLONG sw1;
-	SLONG sw2;
+	std::int32_t sw1;
+	std::int32_t sw2;
 
-	SLONG len;
-//	SLONG overlen;
+	std::int32_t len;
+//	std::int32_t overlen;
 
-	UBYTE u,v;
+	std::uint8_t u,v;
 
 	POLY_FT4	*p;
 
@@ -905,14 +905,14 @@ void POLY_add_line_tex_uv(PSX_POLY_Point *p1, PSX_POLY_Point *p2, SLONG width1, 
 }
 
 
-void POLY_add_line(POLY_Point *p1, POLY_Point *p2, SLONG width1, SLONG width2, SLONG sort_to_front)
+void POLY_add_line(POLY_Point *p1, POLY_Point *p2, std::int32_t width1, std::int32_t width2, std::int32_t sort_to_front)
 {
 }
 
-void POLY_add_line_2d(SLONG sx1, SLONG sy1, SLONG sx2, SLONG sy2, ULONG colour)
+void POLY_add_line_2d(std::int32_t sx1, std::int32_t sy1, std::int32_t sx2, std::int32_t sy2, std::uint32_t colour)
 {
 }
 
-void POLY_frame_draw(SLONG draw_shadow_page)
+void POLY_frame_draw(std::int32_t draw_shadow_page)
 {
 }

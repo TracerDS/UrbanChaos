@@ -35,14 +35,14 @@
 class	Window	:	public EdRect
 {
 	private:
-		UWORD			ContentColour;
+		std::uint16_t			ContentColour;
 
-		UBYTE			StateFlags,
+		std::uint8_t			StateFlags,
 						Update,
 						*TopLeftPtr;
-		ULONG			Flags;
-		CBYTE			*Title;
-		UWORD			ControlAreaHeight,
+		std::uint32_t			Flags;
+		char			*Title;
+		std::uint16_t			ControlAreaHeight,
 						ControlAreaWidth;
 		EdRect			ContentRect,
 						ControlRect,
@@ -64,35 +64,35 @@ class	Window	:	public EdRect
 	public:
 		virtual inline	~Window()	{}
 
-		void			SetupWindow(CBYTE* title,ULONG flags,SLONG x,SLONG y,SLONG width,SLONG height);
+		void			SetupWindow(char* title,std::uint32_t flags,std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height);
 		void			SetContentDrawArea();
 
-		inline UBYTE	GetStateFlags()					{	return StateFlags;							}
-		inline void		SetStateFlags(UBYTE flags)			{	StateFlags=flags;							}
+		inline std::uint8_t	GetStateFlags()					{	return StateFlags;							}
+		inline void		SetStateFlags(std::uint8_t flags)			{	StateFlags=flags;							}
 
-		inline void		SetContentColour(ULONG the_colour)	{	ContentColour=(UWORD)the_colour;			}
+		inline void		SetContentColour(std::uint32_t the_colour)	{	ContentColour=(std::uint16_t)the_colour;			}
 		inline EdRect	*GetContentRect()				{	return &ContentRect;						}
-		inline SLONG	ContentLeft()					{	return ContentRect.GetLeft();				}
-		inline SLONG	ContentTop()					{	return ContentRect.GetTop();				}
-		inline SLONG	ContentRight()					{	return ContentRect.GetRight();				}
-		inline SLONG	ContentBottom()					{	return ContentRect.GetBottom();				}
-		inline SLONG	ContentWidth()					{	return ContentRect.GetWidth();				}
-		inline SLONG	ContentHeight()					{	return ContentRect.GetHeight();				}
+		inline std::int32_t	ContentLeft()					{	return ContentRect.GetLeft();				}
+		inline std::int32_t	ContentTop()					{	return ContentRect.GetTop();				}
+		inline std::int32_t	ContentRight()					{	return ContentRect.GetRight();				}
+		inline std::int32_t	ContentBottom()					{	return ContentRect.GetBottom();				}
+		inline std::int32_t	ContentWidth()					{	return ContentRect.GetWidth();				}
+		inline std::int32_t	ContentHeight()					{	return ContentRect.GetHeight();				}
 		inline bool		PointInContent(MFPoint *the_point)	{	return ContentRect.PointInRect(the_point);	}
-		void			FillContent(ULONG the_colour);
+		void			FillContent(std::uint32_t the_colour);
 		void			ClearContent();
 
-		inline SLONG	ControlsLeft()					{	return ControlRect.GetLeft();				}
-		inline SLONG	ControlsTop()					{	return ControlRect.GetTop();				}
-		inline SLONG	ControlsWidth()					{	return ControlRect.GetWidth();				}
-		inline SLONG	ControlsHeight()				{	return ControlRect.GetHeight();				}
+		inline std::int32_t	ControlsLeft()					{	return ControlRect.GetLeft();				}
+		inline std::int32_t	ControlsTop()					{	return ControlRect.GetTop();				}
+		inline std::int32_t	ControlsWidth()					{	return ControlRect.GetWidth();				}
+		inline std::int32_t	ControlsHeight()				{	return ControlRect.GetHeight();				}
 		inline bool		PointInControls(MFPoint *the_point)	{	return ControlRect.PointInRect(the_point);	}
-		inline void		SetControlsWidth(UWORD width)		{	ControlAreaWidth=width;SetAreaSizes();		}
-		inline void		SetControlsHeight(UWORD height)		{	ControlAreaHeight=height;SetAreaSizes();	}
+		inline void		SetControlsWidth(std::uint16_t width)		{	ControlAreaWidth=width;SetAreaSizes();		}
+		inline void		SetControlsHeight(std::uint16_t height)		{	ControlAreaHeight=height;SetAreaSizes();	}
 
-		void			ConstrainHeight(SLONG *new_height);
-		void			MoveWindow(SLONG x,SLONG y);
-		void			SizeWindow(SLONG dx,SLONG dy);
+		void			ConstrainHeight(std::int32_t *new_height);
+		void			MoveWindow(std::int32_t x,std::int32_t y);
+		void			SizeWindow(std::int32_t dx,std::int32_t dy);
 
 		inline MFPoint	*GlobalToLocal(MFPoint *the_point)	{	the_point->X-=ContentRect.GetLeft();the_point->Y-=ContentRect.GetTop();return the_point;	}
 		inline MFPoint	*LocalToGlobal(MFPoint *the_point)	{	the_point->X+=ContentRect.GetLeft();the_point->Y+=ContentRect.GetTop();return the_point;	}
@@ -105,10 +105,10 @@ class	Window	:	public EdRect
 		virtual void	DrawContent();
 		virtual void	DrawControls();
 
-		ULONG			WhereInWindow(MFPoint *the_point);
+		std::uint32_t			WhereInWindow(MFPoint *the_point);
 
 		void			BringTabToFront(ModeTab *the_tab);
-		void			BringTabIDToFront(UWORD id);
+		void			BringTabIDToFront(std::uint16_t id);
 		void			ActivateNextTab();
 		void			ActivateLastTab();
 		void			AddTab(ModeTab *the_tab);

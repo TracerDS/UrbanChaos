@@ -27,7 +27,7 @@
 // Compiles the given file. Returns true on success.
 //
 
-SLONG MAIN_compile(CBYTE* input, CBYTE* output)
+std::int32_t MAIN_compile(char* input, char* output)
 {
 	FILE *handle;
 
@@ -39,7 +39,7 @@ SLONG MAIN_compile(CBYTE* input, CBYTE* output)
 		// There are errors!
 		//
 
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i < PARSE_error_upto; i++)
 		{
@@ -80,7 +80,7 @@ void MAIN_main()
 	// Link.
 	//
 
-	CBYTE* link[] =
+	char* link[] =
 	{
 		"MuckyBASIC objects\\test.mbo",
 		"MuckyBASIC objects\\test2.mbo",

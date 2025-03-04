@@ -21,12 +21,12 @@ struct	CameraMan
 
 	COMMON(CameraType)
 
-	SLONG			CameraDX,
+	std::int32_t			CameraDX,
 					CameraDY,
 					CameraDZ;
-	SLONG			PrevDX;
-	SLONG			PrevDY;
-	SLONG			PrevDZ;
+	std::int32_t			PrevDX;
+	std::int32_t			PrevDY;
+	std::int32_t			PrevDZ;
 	void			(*StateFn)(Thing*);	// Things state function.
 	THING_INDEX		FocusThing;
 };
@@ -34,10 +34,10 @@ struct	CameraMan
 //---------------------------------------------------------------
 
 void	init_cameras();
-Thing	*alloc_camera(UBYTE type);
+Thing	*alloc_camera(std::uint8_t type);
 void	free_camera(Thing *camera_thing);
-Thing	*create_camera(UBYTE type,GameCoord *start_pos,Thing *track_thing);
-void	set_camera_type(Thing *c_thing,UBYTE type);
+Thing	*create_camera(std::uint8_t type,GameCoord *start_pos,Thing *track_thing);
+void	set_camera_type(Thing *c_thing,std::uint8_t type);
 void	lock_camera_position(Thing *c_thing,GameCoord *lock_pos,bool snap);
 void	free_camera_position(Thing *c_thing,GameCoord *rel_pos,bool snap);
 void	process_t_camera(Thing *camera_thing);

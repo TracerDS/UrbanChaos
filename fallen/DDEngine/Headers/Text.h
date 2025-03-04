@@ -6,13 +6,13 @@
 
 //---------------------------------------------------------------
 extern bool text_fudge;
-extern ULONG text_colour;
+extern std::uint32_t text_colour;
 
 
-SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count);
-SLONG	text_height(CBYTE* message,SLONG font_id,SLONG *char_count);
-void	draw_text_at(float x,float y,CBYTE* message,SLONG font_id);
-void	draw_centre_text_at(float x,float y,CBYTE* message,SLONG font_id,SLONG flag);
+std::int32_t	text_width(char* message,std::int32_t font_id,std::int32_t *char_count);
+std::int32_t	text_height(char* message,std::int32_t font_id,std::int32_t *char_count);
+void	draw_text_at(float x,float y,char* message,std::int32_t font_id);
+void	draw_centre_text_at(float x,float y,char* message,std::int32_t font_id,std::int32_t flag);
 void	show_text();
 
 //---------------------------------------------------------------

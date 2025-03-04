@@ -17,7 +17,7 @@
 // Returns false on failure.
 //
 
-SLONG PING_do();
+std::int32_t PING_do();
 
 
 

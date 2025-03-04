@@ -15,21 +15,21 @@
 
 struct OUTLINE_Link
 {
-	SLONG x;
-	SLONG type;
+	std::int32_t x;
+	std::int32_t type;
 	OUTLINE_Link* next;
 };
 
 struct OUTLINE_Outline
 {
-	SLONG max_z;
+	std::int32_t max_z;
 	OUTLINE_Link* link[];
 };
 
 
-OUTLINE_Outline* OUTLINE_create(SLONG num_z_squares)
+OUTLINE_Outline* OUTLINE_create(std::int32_t num_z_squares)
 {
-	SLONG num_bytes;
+	std::int32_t num_bytes;
 
 	OUTLINE_Outline* oo;
 	
@@ -56,9 +56,9 @@ OUTLINE_Outline* OUTLINE_create(SLONG num_z_squares)
 // Inserts the link into the correct place in the outline.
 //
 
-void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, SLONG link_z)
+void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, std::int32_t link_z)
 {
-	SLONG here;
+	std::int32_t here;
 
 	OUTLINE_Link  *next;
 	OUTLINE_Link **prev;
@@ -119,12 +119,12 @@ void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, SLONG link_z)
 
 void OUTLINE_add_line(
 		OUTLINE_Outline *oo,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG z;
+	std::int32_t z;
 
-	SLONG type;
+	std::int32_t type;
 
 	ASSERT(x1 == x2 || z1 == z2);
 
@@ -178,7 +178,7 @@ void OUTLINE_add_line(
 
 void OUTLINE_free(OUTLINE_Outline *oo)
 {
-	SLONG z;
+	std::int32_t z;
 
 	OUTLINE_Link *ol;
 	OUTLINE_Link *next;
@@ -209,12 +209,12 @@ void OUTLINE_free(OUTLINE_Outline *oo)
 // Returns true if the two linked lists overlap.
 //
 
-SLONG OUTLINE_overlap(
+std::int32_t OUTLINE_overlap(
 		OUTLINE_Link *ol1,
 		OUTLINE_Link *ol2)
 {
-	SLONG on1 = false;
-	SLONG on2 = false;
+	std::int32_t on1 = false;
+	std::int32_t on2 = false;
 
 	while(1)
 	{
@@ -290,12 +290,12 @@ SLONG OUTLINE_overlap(
 }
 
 
-SLONG OUTLINE_overlap(
+std::int32_t OUTLINE_overlap(
 		OUTLINE_Outline *oo1,
 		OUTLINE_Outline *oo2)
 {
-	SLONG z;
-	SLONG minz = MIN(oo1->max_z, oo2->max_z);
+	std::int32_t z;
+	std::int32_t minz = MIN(oo1->max_z, oo2->max_z);
 
 	for (z = 0; z < minz; z++)
 	{
@@ -314,10 +314,10 @@ SLONG OUTLINE_overlap(
 // Returns true if the given square is in the outline.
 //
 
-SLONG OUTLINE_inside(
+std::int32_t OUTLINE_inside(
 		OUTLINE_Outline *oo,
-		SLONG x,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t z)
 {
 	OUTLINE_Link *ol;
 
@@ -334,7 +334,7 @@ SLONG OUTLINE_inside(
 
 	while(1)
 	{
-		if (!ol == nullptr || ol->next )
+		if (!ol || !ol->next )
 		{
 			return false;
 		}
@@ -353,21 +353,21 @@ SLONG OUTLINE_inside(
 }
 
 
-SLONG OUTLINE_intersects(
+std::int32_t OUTLINE_intersects(
 		OUTLINE_Outline *oo,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
-	SLONG dx;
-	SLONG dz;
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
-	SLONG len;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
+	std::int32_t len;
 
 	ASSERT(x1 == x2 || z1 == z2);
 

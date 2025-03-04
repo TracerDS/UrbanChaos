@@ -108,29 +108,29 @@ typedef struct parse_node PARSE_Node;
 
 typedef struct parse_node
 {
-	UWORD type;
-	UWORD flag;
+	std::uint16_t type;
+	std::uint16_t flag;
 
 	union
 	{
-		SLONG       slumber;
+		std::int32_t       slumber;
 		float       flumber;
-		CBYTE      *string;
-		CBYTE      *label;
-		CBYTE      *variable;
-		SLONG       boolean;
-		CBYTE      *field;		// A string whose first character is '.' to indicate this is a field.
-		SLONG       dimensions;	// For a PUSHARRAYADDRESS or PUSHARRAYVALUE node, this gives the number of dimensions
+		char      *string;
+		char      *label;
+		char      *variable;
+		std::int32_t       boolean;
+		char      *field;		// A string whose first character is '.' to indicate this is a field.
+		std::int32_t       dimensions;	// For a PUSHARRAYADDRESS or PUSHARRAYVALUE node, this gives the number of dimensions
 		PARSE_Node *lvalue;		// A FOR node has the lvalue by which it is recognised in here.
-		CBYTE       character;	// For a CHAR_CONST
+		char       character;	// For a CHAR_CONST
 	};
 
 	union
 	{
-		SLONG forcode;		// A unique, non-zero, random code that pairs up FOR parse nodes with corresponding FAKE_ENDFOR nodes.
-		SLONG ifcode;		// IF nodes have a unique, non-zero random code. This code is used by the 'pretend' node types in PARSE_traverse()...
-		SLONG whilecode;	// Unique, non-zero and random. Matched up while nodes with corresponding FAKE_WHILE_COND nodes.
-		SLONG args;			// The number of arguments in a PARSE_NODE_TYPE_CALL node (depth of child1) or the number of initialisers to a MATRIX or VECTOR
+		std::int32_t forcode;		// A unique, non-zero, random code that pairs up FOR parse nodes with corresponding FAKE_ENDFOR nodes.
+		std::int32_t ifcode;		// IF nodes have a unique, non-zero random code. This code is used by the 'pretend' node types in PARSE_traverse()...
+		std::int32_t whilecode;	// Unique, non-zero and random. Matched up while nodes with corresponding FAKE_WHILE_COND nodes.
+		std::int32_t args;			// The number of arguments in a PARSE_NODE_TYPE_CALL node (depth of child1) or the number of initialisers to a MATRIX or VECTOR
 	};
 	
 	struct parse_node *child1;
@@ -149,13 +149,13 @@ typedef struct parse_node
 //
 
 extern PARSE_Node *PARSE_line[];		// nullptr value means that line was blank.
-extern SLONG       PARSE_line_upto;
-extern SLONG       PARSE_string_table_upto;
-extern CBYTE       PARSE_string_table[];
-extern CBYTE      *PARSE_error[];
-extern SLONG       PARSE_error_upto;
+extern std::int32_t       PARSE_line_upto;
+extern std::int32_t       PARSE_string_table_upto;
+extern char       PARSE_string_table[];
+extern char      *PARSE_error[];
+extern std::int32_t       PARSE_error_upto;
 
-void PARSE_do(CBYTE* fname);
+void PARSE_do(char* fname);
 
 
 
@@ -179,7 +179,7 @@ void PARSE_do(CBYTE* fname);
 // to abort.
 //
 
-void PARSE_traverse(PARSE_Node *pn, SLONG (*user_function)(PARSE_Node *pn));
+void PARSE_traverse(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn));
 
 
 
@@ -188,7 +188,7 @@ void PARSE_traverse(PARSE_Node *pn, SLONG (*user_function)(PARSE_Node *pn));
 // Returns true if the two PARSE trees are the same.
 //
 
-SLONG PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2);
+std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2);
 
 
 

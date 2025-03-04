@@ -21,7 +21,7 @@ struct TextCommand
 	int			x,y;				// origin x,y
 	int			rx;					// right x margin
 	int			scale;				// scale (256 = x1)
-	ULONG		rgb;				// RGB colour
+	std::uint32_t		rgb;				// RGB colour
 	int			command;			// command type
 	int			validity;			// validity
 	bool		in_cache;			// in cache?
@@ -74,7 +74,7 @@ extern void PreFlipTT();
 
 // draw text
 
-extern int DrawTextTT(char* string, int x, int y, int rx, int scale, ULONG rgb, int command, long* width = nullptr);
+extern int DrawTextTT(char* string, int x, int y, int rx, int scale, std::uint32_t rgb, int command, long* width = nullptr);
 
 // get height
 

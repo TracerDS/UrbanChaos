@@ -18,7 +18,7 @@
 
 typedef struct
 {
-	SLONG             gameturn;
+	std::int32_t             gameturn;
 	SERVER_Block_ping ping;
 
 } PING_Message;
@@ -30,32 +30,32 @@ typedef struct
 
 typedef struct
 {
-	SLONG os_ticks_sent;		// The OS_ticks() when we sent the message
-	SLONG os_ticks_recieved;	// The OS_ticks() when we recieved the message
-	SLONG game_process;			// The game_process from the server when he sent the message.
-	SLONG delta;				// The number so that '<game_process on server> = (<local OS_ticks()> / 4) + delta'
+	std::int32_t os_ticks_sent;		// The OS_ticks() when we sent the message
+	std::int32_t os_ticks_recieved;	// The OS_ticks() when we recieved the message
+	std::int32_t game_process;			// The game_process from the server when he sent the message.
+	std::int32_t delta;				// The number so that '<game_process on server> = (<local OS_ticks()> / 4) + delta'
  
 } PING_Sample;
 
 #define PING_MAX_SAMPLES 30
 
 PING_Sample PING_sample[PING_MAX_SAMPLES];
-SLONG PING_sample_upto;
+std::int32_t PING_sample_upto;
 
 
 
-SLONG PING_do()
+std::int32_t PING_do()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sent = 0;
-	SLONG last = 0;
-	SLONG now  = 0;
+	std::int32_t sent = 0;
+	std::int32_t last = 0;
+	std::int32_t now  = 0;
 
-	SLONG ping;
-	SLONG delta;
+	std::int32_t ping;
+	std::int32_t delta;
 
-	SLONG num_bytes;
+	std::int32_t num_bytes;
 	void* data;
 
 	PING_Message ping_message;
@@ -115,7 +115,7 @@ SLONG PING_do()
 		// Recieve messages.
 		//
 
-		SLONG exit_loop = false;
+		std::int32_t exit_loop = false;
 
 		while(!exit_loop)
 		{

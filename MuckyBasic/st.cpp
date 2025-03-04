@@ -14,11 +14,11 @@
 
 typedef struct
 {
-	ULONG hash;
-	SLONG value;
-	SLONG flag;
-	UWORD string;	// Offset into the buffer
-	UWORD next;
+	std::uint32_t hash;
+	std::int32_t value;
+	std::int32_t flag;
+	std::uint16_t string;	// Offset into the buffer
+	std::uint16_t next;
  
 } ST_Symbol;
 
@@ -33,17 +33,17 @@ typedef struct
 	// Where we store strings.
 	//
 
-	CBYTE* buffer;
-	SLONG  buffer_upto;
-	SLONG  buffer_max;
+	char* buffer;
+	std::int32_t  buffer_upto;
+	std::int32_t  buffer_max;
 
 	//
 	// Where we store symbols.
 	//
 
 	ST_Symbol *symbol;
-	SLONG      symbol_upto;
-	SLONG      symbol_max;
+	std::int32_t      symbol_upto;
+	std::int32_t      symbol_max;
 
 	//
 	// A hash table. Each entry is the start of a linked list.
@@ -51,7 +51,7 @@ typedef struct
 
 	#define ST_HASH_SIZE 512
 
-	UWORD hash[ST_HASH_SIZE];
+	std::uint16_t hash[ST_HASH_SIZE];
 
 } ST_Table;
 
@@ -63,12 +63,12 @@ ST_Table ST_table[ST_TABLE_NUMBER];
 // Computes the hash value of a string.
 //
 
-ULONG ST_hash_value(CBYTE* string)
+std::uint32_t ST_hash_value(char* string)
 {
-	ULONG ans = 0;
-	SLONG rot = 0;
+	std::uint32_t ans = 0;
+	std::int32_t rot = 0;
 
-	CBYTE* ch;
+	char* ch;
 
 	for (ch = string; *ch; ch++)
 	{
@@ -84,7 +84,7 @@ ULONG ST_hash_value(CBYTE* string)
 
 void ST_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	ST_Table *st;
 
@@ -104,7 +104,7 @@ void ST_init()
 
 		st->buffer_max  = 8192;
 		st->buffer_upto = 0;
-		st->buffer      = (CBYTE* ) malloc(sizeof(CBYTE) * st->buffer_max);
+		st->buffer      = (char* ) malloc(sizeof(char) * st->buffer_max);
 
 		st->symbol_max  = 1024;
 		st->symbol_upto = 1;	// The 0th element is the nullptr index...
@@ -114,12 +114,12 @@ void ST_init()
 
 
 
-void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
+void ST_add(std::int32_t table, char* string, std::int32_t value, std::int32_t flag)
 {
 	ST_Table  *st;
 	ST_Symbol *ss;
 	
-	SLONG symbol;
+	std::int32_t symbol;
 
 	ASSERT(WITHIN(table, 0, ST_TABLE_NUMBER - 1));
 
@@ -129,7 +129,7 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 	// Compute the hash value.
 	//
 
-	ULONG hash = ST_hash_value(string);
+	std::uint32_t hash = ST_hash_value(string);
 
 	#ifdef _DEBUG
 
@@ -164,14 +164,14 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 	ss->hash   = hash;
 	ss->value  = value;
 	ss->flag   = flag;
-	ss->string = (UWORD) st->buffer_upto;
+	ss->string = (std::uint16_t) st->buffer_upto;
 	ss->next   = nullptr;
 
 	//
 	// Enough room to add the string?
 	//
 
-	SLONG length = strlen(string) + 1;	// + 1 to include the terminating nullptr.
+	std::int32_t length = strlen(string) + 1;	// + 1 to include the terminating nullptr.
 
 	if (st->buffer_upto + length > st->buffer_max)
 	{
@@ -180,7 +180,7 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 		//
 
 		st->buffer_max *= 2;
-		st->buffer      = (CBYTE* ) realloc(st->buffer, sizeof(CBYTE) * st->buffer_max);
+		st->buffer      = (char* ) realloc(st->buffer, sizeof(char) * st->buffer_max);
 	}
 
 	//
@@ -196,7 +196,7 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 	//
 
 	ss->next                                = st->hash[ss->hash & (ST_HASH_SIZE - 1)];
-	st->hash[ss->hash & (ST_HASH_SIZE - 1)] = (UWORD) symbol;
+	st->hash[ss->hash & (ST_HASH_SIZE - 1)] = (std::uint16_t) symbol;
 }
 
 
@@ -207,18 +207,18 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag)
 // if it finds the string.
 //
 
-SLONG ST_found_table;
-SLONG ST_found_value;
-SLONG ST_found_flag;
-CBYTE* ST_found_string;
+std::int32_t ST_found_table;
+std::int32_t ST_found_value;
+std::int32_t ST_found_flag;
+char* ST_found_string;
 ST_Symbol *ST_found_ss;
 
-SLONG ST_find_in_table(SLONG table, CBYTE* string)
+std::int32_t ST_find_in_table(std::int32_t table, char* string)
 {
 	ST_Table  *st;
 	ST_Symbol *ss;
 	
-	SLONG symbol;
+	std::int32_t symbol;
 
 	ASSERT(WITHIN(table, 0, ST_TABLE_NUMBER - 1));
 
@@ -228,7 +228,7 @@ SLONG ST_find_in_table(SLONG table, CBYTE* string)
 	// Compute the hash value.
 	//
 
-	ULONG hash = ST_hash_value(string);
+	std::uint32_t hash = ST_hash_value(string);
 
 	for (symbol = st->hash[hash & (ST_HASH_SIZE - 1)]; symbol; symbol = ss->next)
 	{
@@ -265,9 +265,9 @@ SLONG ST_find_in_table(SLONG table, CBYTE* string)
 
 
 
-SLONG ST_find(CBYTE* string)
+std::int32_t ST_find(char* string)
 {
-	SLONG table;
+	std::int32_t table;
 
 	//
 	// Look in the tables.
@@ -287,9 +287,9 @@ SLONG ST_find(CBYTE* string)
 }
 
 
-void ST_update_flag(CBYTE* string, SLONG new_flag)
+void ST_update_flag(char* string, std::int32_t new_flag)
 {
-	SLONG table;
+	std::int32_t table;
 
 	//
 	// Look in the tables.
@@ -318,8 +318,8 @@ void ST_update_flag(CBYTE* string, SLONG new_flag)
 
 
 
-SLONG ST_find_all_table;
-SLONG ST_find_all_symbol;
+std::int32_t ST_find_all_table;
+std::int32_t ST_find_all_symbol;
 
 
 void ST_find_all_start()
@@ -328,7 +328,7 @@ void ST_find_all_start()
 	ST_find_all_symbol = 1;
 }
 
-SLONG ST_find_all_next()
+std::int32_t ST_find_all_next()
 {
 	ST_Table  *st;
 	ST_Symbol *ss;
@@ -369,7 +369,7 @@ SLONG ST_find_all_next()
 
 
 
-void ST_clear(SLONG table)
+void ST_clear(std::int32_t table)
 {
 	ST_Table  *st;
 
@@ -390,7 +390,7 @@ void ST_clear(SLONG table)
 
 void ST_clear_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < ST_TABLE_NUMBER; i++)
 	{

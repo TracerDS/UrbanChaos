@@ -21,7 +21,7 @@
 #include	"c:\fallen\psxeng\headers\psxeng.h"
 #include	"c:\fallen\headers\game.h"
 
-SLONG DisplayWidth,
+std::int32_t DisplayWidth,
 					DisplayHeight,
 					DisplayBPP;
 Display the_display;
@@ -36,22 +36,22 @@ char GDisp_Bucket[BUCKET_MEM];
 
 ControllerPacket PAD_Input1,PAD_Input2;
 
-ULONG GDisp_OTag[OTSIZE];
-ULONG GDisp_OTag2[OTSIZE];
+std::uint32_t GDisp_OTag[OTSIZE];
+std::uint32_t GDisp_OTag2[OTSIZE];
 
-extern void	PCReadFile(CBYTE* name,UBYTE *addr,ULONG len);
-extern UBYTE Wadmenu_Backdrop[];
+extern void	PCReadFile(char* name,std::uint8_t *addr,std::uint32_t len);
+extern std::uint8_t Wadmenu_Backdrop[];
 
 extern void MFX_init();
-extern void AENG_flip2(ULONG *back_image);
+extern void AENG_flip2(std::uint32_t *back_image);
 
 extern int screen_x;
 extern int screen_y;
 
 //---------------------------------------------------------------
-SLONG InitHardware()
+std::int32_t InitHardware()
 {
-	UBYTE act[2];
+	std::uint8_t act[2];
 #ifndef FS_ISO9660
 	PCinit();
 #endif
@@ -106,25 +106,25 @@ void ReleaseHardware()
 }
 
 
-UWORD psx_tpages[22];
-//UWORD	psx_tpages_clut[16];
+std::uint16_t psx_tpages[22];
+//std::uint16_t	psx_tpages_clut[16];
 
 #define	MAX_PATH	128
-#define	FILE	SLONG
+#define	FILE	std::int32_t
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern SLONG	SpecialOpen(CBYTE* name);
-extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern SLONG	SpecialSize(SLONG handle);
+extern std::int32_t	SpecialOpen(char* name);
+extern std::int32_t	SpecialRead(std::int32_t handle,std::uint8_t *ptr,std::int32_t s1);
+extern std::int32_t	SpecialSeek(std::int32_t handle,std::int32_t mode,std::int32_t size);
+extern std::int32_t	SpecialSize(std::int32_t handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
 #define	FileCreate(x,y)	ASSERT(0)
-#define	FileRead(h,a,s) SpecialRead(h,(UBYTE*)a,s)
+#define	FileRead(h,a,s) SpecialRead(h,(std::uint8_t*)a,s)
 #define	FileWrite(h,a,s) ASSERT(0)
 #define	FileSeek(h,m,o) SpecialSeek(h,m,o)
 #define FileSize(h)		SpecialSize(h)
@@ -135,14 +135,14 @@ extern SLONG	SpecialSize(SLONG handle);
 
 void setup_textures(int world)
 {
-	UBYTE	*addr;
-	CBYTE	name[32];
+	std::uint8_t	*addr;
+	char	name[32];
 	TIM_IMAGE	tim;
-	SLONG	c0;
-	SLONG	id;
+	std::int32_t	c0;
+	std::int32_t	id;
 
 #if 0
-	addr=(UBYTE*)&GDisp_Bucket[BUCKET_MEM-(34*1024)];
+	addr=(std::uint8_t*)&GDisp_Bucket[BUCKET_MEM-(34*1024)];
 
 	for(c0=1;c0<19;c0++)
 	{
@@ -150,7 +150,7 @@ void setup_textures(int world)
 //		printf("%s\n",name);
 
 		PCReadFile(name,addr,32788);
-		if(OpenTIM((ULONG*)addr)==0)
+		if(OpenTIM((std::uint32_t*)addr)==0)
 		{
 			ReadTIM(&tim);
 			{
@@ -171,7 +171,7 @@ void setup_textures(int world)
 	r.w=512;
 	r.h=512;
 
-	addr=(UBYTE*)MemAlloc(524288+196608);
+	addr=(std::uint8_t*)MemAlloc(524288+196608);
 #ifndef VERSION_DEMO
 	if (world==0)
 	{
@@ -187,13 +187,13 @@ void setup_textures(int world)
 #endif
 
 	PCReadFile(name,addr,524288+196608);
-	LoadImage2(&r,(ULONG*)addr);
+	LoadImage2(&r,(std::uint32_t*)addr);
 	DrawSync(0);
 	if (world!=0)
 	{
 		r.x=320;
 		r.w=192;
-		LoadImage(&r,(ULONG*)&addr[524288]);
+		LoadImage(&r,(std::uint32_t*)&addr[524288]);
 		DrawSync(0);
 	}
 	MemFree((void*)addr);
@@ -210,9 +210,9 @@ void setup_textures(int world)
 #endif
 }
 
-void TEXTURE_choose_set(SLONG number)
+void TEXTURE_choose_set(std::int32_t number)
 {
-//extern void	load_texture_styles(UBYTE editor, UBYTE world);
+//extern void	load_texture_styles(std::uint8_t editor, std::uint8_t world);
 //	number=13;
 //	load_texture_styles(false, number);
 	setup_textures(number);
@@ -221,7 +221,7 @@ void TEXTURE_choose_set(SLONG number)
 /*
 void LoadTitle()
 {
-	UBYTE *addr;
+	std::uint8_t *addr;
 	TIM_IMAGE	tim;
 
 	addr=MemAlloc(262168);
@@ -232,7 +232,7 @@ void LoadTitle()
 	}
 	PCReadFile("data\\gamelogo.tim",addr,262168);
 
-	if(OpenTIM((ULONG*)addr)==0)
+	if(OpenTIM((std::uint32_t*)addr)==0)
 	{
 		ReadTIM(&tim);
 		LoadImage(tim.prect,tim.paddr);
@@ -246,7 +246,7 @@ void LoadTitle()
 */
 
 #if 1
-void GDisp_SetupBucketMem(char *addr,SLONG size)
+void GDisp_SetupBucketMem(char *addr,std::int32_t size)
 {
 	// Clear the ordering tables (we dont want stray polygons in an area of memory that
 	// is no longer valid.
@@ -265,7 +265,7 @@ void GDisp_SetupBucketMem(char *addr,SLONG size)
 }   
 #endif
 		  
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags)
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags)
 {
 	/* initialize environment for double buffer 
 	 *	buffer #0:	(0,  0)-(320,240) (320x240)
@@ -329,7 +329,7 @@ extern void AENG_flip_init();
 	return(0);
 }
 
-void SetDisplayClear(SLONG clear)
+void SetDisplayClear(std::int32_t clear)
 {
 	the_display.DisplayBuffers[0].Draw.isbg=clear;
 	the_display.DisplayBuffers[1].Draw.isbg=clear;
@@ -354,13 +354,13 @@ void SetDisplayFade()
 
 //---------------------------------------------------------------
 
-SLONG CloseDisplay()
+std::int32_t CloseDisplay()
 {
 }
 
 //---------------------------------------------------------------
 
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth)
 {
 }
 
@@ -368,21 +368,21 @@ SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 void ShowBackImage()
 {
 }
-void LoadBackImage(CBYTE* name)
+void LoadBackImage(char* name)
 {
 }
-void InitBackImage(CBYTE* name)
+void InitBackImage(char* name)
 {
 }
 void ResetBackImage()
 {
 }
 
-UBYTE psx_motor[2];
+std::uint8_t psx_motor[2];
 extern int vibra_mode;
 extern int psx_send;
 
-void PSX_SetShock(UBYTE fast,UBYTE slow)
+void PSX_SetShock(std::uint8_t fast,std::uint8_t slow)
 {
 
 	if (vibra_mode && !(GAME_STATE &(GS_LEVEL_LOST|GS_LEVEL_WON)))

@@ -28,54 +28,54 @@
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE owner;
-	UBYTE flag;
-	UBYTE counter;
+	std::uint8_t type;
+	std::uint8_t owner;
+	std::uint8_t flag;
+	std::uint8_t counter;
 
 	union
 	{
 		struct	
 		{
-			UBYTE state;	// For pigeons only....
-			UBYTE morph1;
-			UBYTE morph2;
-			UBYTE tween;
+			std::uint8_t state;	// For pigeons only....
+			std::uint8_t morph1;
+			std::uint8_t morph2;
+			std::uint8_t tween;
 		}Pidgeon;
 		struct
 		{
-			UWORD	col;
-			UWORD	fade;	// Adding this shouldn't affect the struct size as Pidgeon is already larger...
+			std::uint16_t	col;
+			std::uint16_t	fade;	// Adding this shouldn't affect the struct size as Pidgeon is already larger...
 		}Leaf;
 
 		struct
 		{
-			UWORD prim;	// Which prim to use as the prim object.
+			std::uint16_t prim;	// Which prim to use as the prim object.
 
 		} Head;
 
 		struct
 		{
-			UWORD timer;	// How long before we explode?
+			std::uint16_t timer;	// How long before we explode?
 
 		} ThingWithTime;
 	}UU;
 
-	SWORD dyaw;
-	SWORD dpitch;
-	SWORD droll;
+	std::int16_t dyaw;
+	std::int16_t dpitch;
+	std::int16_t droll;
 
-	SWORD yaw;
-	SWORD pitch;
-	SWORD roll;
+	std::int16_t yaw;
+	std::int16_t pitch;
+	std::int16_t roll;
 
-	SWORD x;
-	SWORD y;
-	SWORD z;
+	std::int16_t x;
+	std::int16_t y;
+	std::int16_t z;
 
-	SWORD dx;
-	SWORD dy;	// dy is now shifted up TICK_SHIFT bits to allow for frame-rate independent gravity ;)
-	SWORD dz;
+	std::int16_t dx;
+	std::int16_t dy;	// dy is now shifted up TICK_SHIFT bits to allow for frame-rate independent gravity ;)
+	std::int16_t dz;
 
 } DIRT_Dirt;
 
@@ -85,13 +85,13 @@ typedef struct
 //
 
 void DIRT_init(
-		SLONG prob_leaf,		// Relative probabilites of each bit of dirt
-		SLONG prob_can,
-		SLONG prob_pigeon,
-		SLONG pigeon_map_x1,	// The bounding box in which only pigeons are made.
-		SLONG pigeon_map_z1,
-		SLONG pigeon_map_x2,
-		SLONG pigeon_map_z2);
+		std::int32_t prob_leaf,		// Relative probabilites of each bit of dirt
+		std::int32_t prob_can,
+		std::int32_t prob_pigeon,
+		std::int32_t pigeon_map_x1,	// The bounding box in which only pigeons are made.
+		std::int32_t pigeon_map_z1,
+		std::int32_t pigeon_map_x2,
+		std::int32_t pigeon_map_z2);
 
 //
 // Sets the area of focus. If a bit of dirt is out of
@@ -100,9 +100,9 @@ void DIRT_init(
 //
 
 void DIRT_set_focus(										 
-		SLONG x,
-		SLONG z,
-		SLONG radius);
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t radius);
 
 //
 // Makes the dirt react to a gust of wind. The gust happens
@@ -111,29 +111,29 @@ void DIRT_set_focus(
 
 void DIRT_gust(
 		Thing *p_thing,		// The thing that caused the gust.
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 
 //
 // Creates a wind blowing through the whole city.
 //
 
 void DIRT_gale(
-		SLONG dx,
-		SLONG dz);
+		std::int32_t dx,
+		std::int32_t dz);
 
 //
 // Creates a bit of water dirt.
 //
 
 void DIRT_new_water(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
-		SLONG dirt_type = DIRT_TYPE_WATER);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t dirt_type = DIRT_TYPE_WATER);
 
 
 //
@@ -148,7 +148,7 @@ void DIRT_process();
 // if it couldn't find a coke can.
 //
 
-SLONG DIRT_get_nearest_can_or_head_dist(SLONG x, SLONG y, SLONG z);
+std::int32_t DIRT_get_nearest_can_or_head_dist(std::int32_t x, std::int32_t y, std::int32_t z);
 
 
 //
@@ -162,7 +162,7 @@ void DIRT_pick_up_can_or_head(Thing *p_person);
 // Releases the given held coke can or head with the given power.
 //
 
-void DIRT_release_can_or_head(Thing *p_person, SLONG power);	// 0 <= power <= 256
+void DIRT_release_can_or_head(Thing *p_person, std::int32_t power);	// 0 <= power <= 256
 
 //
 // Beheads the given person. It takes the velocity from the position of
@@ -176,21 +176,21 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker);
 // to detonation.  The ticks of the time to detonation is 16*20 ticks per second.
 // 
 
-void DIRT_create_grenade(Thing *p_person, SLONG ticks_to_go, SLONG power);
+void DIRT_create_grenade(Thing *p_person, std::int32_t ticks_to_go, std::int32_t power);
 
 //
 // Creates/Destroys a mine.
 //
 
-UWORD DIRT_create_mine (Thing *p_person);
-void DIRT_destroy_mine(UWORD dirt_mine);
+std::uint16_t DIRT_create_mine (Thing *p_person);
+void DIRT_destroy_mine(std::uint16_t dirt_mine);
 
 //
 // This person is trying to shoot a bit of dirt. It returns true if
 // the person shot anything.
 //
 
-SLONG DIRT_shoot(Thing *p_person);
+std::int32_t DIRT_shoot(Thing *p_person);
 
 
 //
@@ -199,14 +199,14 @@ SLONG DIRT_shoot(Thing *p_person);
 //
 
 void DIRT_create_papers(
-		SLONG x,
-		SLONG y,
-		SLONG z);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z);
 
 void DIRT_create_cans(
-		SLONG x,
-		SLONG z,
-		SLONG angle);
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t angle);
 
 
 //
@@ -244,26 +244,26 @@ extern DIRT_Dirt DIRT_dirt[DIRT_MAX_DIRT];
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE held;	// For PRIM types. This prim is being held.
-	UBYTE morph1;
-	UBYTE morph2;
-	UWORD prim;
-	UWORD tween; //used as a colour for leafs
-	UWORD yaw;
-	UWORD pitch;
-	UWORD roll;
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::uint8_t type;
+	std::uint8_t held;	// For PRIM types. This prim is being held.
+	std::uint8_t morph1;
+	std::uint8_t morph2;
+	std::uint16_t prim;
+	std::uint16_t tween; //used as a colour for leafs
+	std::uint16_t yaw;
+	std::uint16_t pitch;
+	std::uint16_t roll;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 	
 } DIRT_Info;
 
-SLONG DIRT_get_info(SLONG which,DIRT_Info *ans);
+std::int32_t DIRT_get_info(std::int32_t which,DIRT_Info *ans);
 
 //
 // Tell the dirt module when a bit of dirt is off-screen.
@@ -271,12 +271,12 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans);
 // to delete.
 //
 
-void DIRT_mark_as_offscreen(SLONG which);
+void DIRT_mark_as_offscreen(std::int32_t which);
 
 #define DIRT_MARK_AS_OFFSCREEN_QUICK(which) {DIRT_dirt[which].flag |= DIRT_FLAG_DELETE_OK;}
 
 
-void DIRT_new_sparks(SLONG px, SLONG py, SLONG pz, UBYTE dir);
+void DIRT_new_sparks(std::int32_t px, std::int32_t py, std::int32_t pz, std::uint8_t dir);
 
 
 #endif

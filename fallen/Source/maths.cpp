@@ -23,10 +23,10 @@ void matrix_mult33(struct Matrix33* result,struct Matrix33* mat1,struct  Matrix3
 	result->M[2][2] = ((mat1->M[2][0]*mat2->M[0][2])+(mat1->M[2][1]*mat2->M[1][2])+(mat1->M[2][2]*mat2->M[2][2]))>>15;
 }
 
-void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3) 
+void rotate_obj(std::int16_t xangle,std::int16_t yangle,std::int16_t zangle, Matrix33 *r3) 
 {
-	SLONG	sinx, cosx, siny, cosy, sinz, cosz;
- 	SLONG	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
+	std::int32_t	sinx, cosx, siny, cosy, sinz, cosz;
+ 	std::int32_t	cxcz,sysz,sxsycz,sxsysz,sysx,cxczsy,sxsz,cxsysz,czsx,cxsy,sycz,cxsz;
 
 	sinx = SIN(xangle & (2048-1)) >>1;  	// 15's
 	cosx = COS(xangle & (2048-1)) >>1;
@@ -64,9 +64,9 @@ void rotate_obj(SWORD xangle,SWORD yangle,SWORD zangle, Matrix33 *r3)
 
 
 #ifndef	PSX
-SLONG MATHS_seg_intersect(
-			SLONG vx1, SLONG vz1, SLONG vx2, SLONG vz2,
-			SLONG wx1, SLONG wz1, SLONG wx2, SLONG wz2)
+std::int32_t MATHS_seg_intersect(
+			std::int32_t vx1, std::int32_t vz1, std::int32_t vx2, std::int32_t vz2,
+			std::int32_t wx1, std::int32_t wz1, std::int32_t wx2, std::int32_t wz2)
 {
 	//
 	// Work out all points relative to (vx1, vx2). This gives three
@@ -98,13 +98,13 @@ SLONG MATHS_seg_intersect(
 	// p.s. We don't have to work out vector c...
 	//
 
-	SLONG ax, az;
-	SLONG bx, bz;
-	SLONG dx, dz;
+	std::int32_t ax, az;
+	std::int32_t bx, bz;
+	std::int32_t dx, dz;
 
-	SLONG acrossb;
-	SLONG dcrossa;
-	SLONG dcrossb;
+	std::int32_t acrossb;
+	std::int32_t dcrossa;
+	std::int32_t dcrossb;
 
 	//
 	// Do a bounding box check in x.

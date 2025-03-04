@@ -7,7 +7,7 @@
 class	Interface
 {
 	private:
-		ULONG			ContentColour,
+		std::uint32_t			ContentColour,
 						ContentColourBr,
 						HiliteColour,
 						LoliteColour,
@@ -21,31 +21,31 @@ class	Interface
 						BlueColour,
 						TextColour,
 						SelectColour;
-		UBYTE				InterfacePalette[768];
-		UBYTE			*interface_sprite_data;
+		std::uint8_t				InterfacePalette[768];
+		std::uint8_t			*interface_sprite_data;
 		BSprite			*interface_sprites;
 
 	public:
 						Interface();
 						~Interface();
 		void			SetupInterfaceDefaults();
-		inline ULONG	GetContentColour()			{	return	ContentColour;			};
-		inline ULONG	GetContentColourBr()		{	return	ContentColourBr;		};
-		inline ULONG	GetHiliteColour()			{	return	HiliteColour;			};
-		inline ULONG	GetWhiteColour()			{	return	WhiteColour;			};
-		inline ULONG	GetGreyColour()				{	return	GreyColour;				};
-		inline ULONG	GetYellowColour()			{	return	YellowColour;			};
-		inline ULONG	GetRedColour()				{	return	RedColour;				};
-		inline ULONG	GetGreenColour()			{	return	GreenColour;			};
-		inline ULONG	GetBlueColour()				{	return	BlueColour;				};
-		inline ULONG	GetLoliteColour()			{	return	LoliteColour;			};
-		inline ULONG	GetActiveColour()			{	return	ActiveColour;			};
-		inline ULONG	GetInactiveColour()			{	return	InactiveColour;			};
-		inline ULONG	GetTextColour()				{	return	TextColour;				};
-		inline ULONG	GetSelectColour()			{	return	SelectColour;			};
-		inline UBYTE	*GetPalette()				{	return	InterfacePalette;		};
-		inline BSprite*	GetInterfaceSprite(UWORD id)	{	return	&interface_sprites[id];	};
-//		inline BSprite*	GetInterfacePointer(UWORD id)	{	return	&interface_pointers[id];};
+		inline std::uint32_t	GetContentColour()			{	return	ContentColour;			};
+		inline std::uint32_t	GetContentColourBr()		{	return	ContentColourBr;		};
+		inline std::uint32_t	GetHiliteColour()			{	return	HiliteColour;			};
+		inline std::uint32_t	GetWhiteColour()			{	return	WhiteColour;			};
+		inline std::uint32_t	GetGreyColour()				{	return	GreyColour;				};
+		inline std::uint32_t	GetYellowColour()			{	return	YellowColour;			};
+		inline std::uint32_t	GetRedColour()				{	return	RedColour;				};
+		inline std::uint32_t	GetGreenColour()			{	return	GreenColour;			};
+		inline std::uint32_t	GetBlueColour()				{	return	BlueColour;				};
+		inline std::uint32_t	GetLoliteColour()			{	return	LoliteColour;			};
+		inline std::uint32_t	GetActiveColour()			{	return	ActiveColour;			};
+		inline std::uint32_t	GetInactiveColour()			{	return	InactiveColour;			};
+		inline std::uint32_t	GetTextColour()				{	return	TextColour;				};
+		inline std::uint32_t	GetSelectColour()			{	return	SelectColour;			};
+		inline std::uint8_t	*GetPalette()				{	return	InterfacePalette;		};
+		inline BSprite*	GetInterfaceSprite(std::uint16_t id)	{	return	&interface_sprites[id];	};
+//		inline BSprite*	GetInterfacePointer(std::uint16_t id)	{	return	&interface_pointers[id];};
 };
 
 

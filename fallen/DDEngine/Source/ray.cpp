@@ -18,20 +18,20 @@ D3DTexture RAY_screen2;
 
 #define RAY_SCREEN_SIZE 256
 
-SLONG RAY_which_screen;
+std::int32_t RAY_which_screen;
 
-UWORD *RAY_screen_bitmap;
-SLONG  RAY_screen_pitch;		// In bytes!
+std::uint16_t *RAY_screen_bitmap;
+std::int32_t  RAY_screen_pitch;		// In bytes!
 
-SLONG RAY_screen_mask_red;
-SLONG RAY_screen_mask_green;
-SLONG RAY_screen_mask_blue;
-SLONG RAY_screen_mask_alpha;
+std::int32_t RAY_screen_mask_red;
+std::int32_t RAY_screen_mask_green;
+std::int32_t RAY_screen_mask_blue;
+std::int32_t RAY_screen_mask_alpha;
 
-SLONG RAY_screen_shift_red;
-SLONG RAY_screen_shift_green;
-SLONG RAY_screen_shift_blue;
-SLONG RAY_screen_shift_alpha;
+std::int32_t RAY_screen_shift_red;
+std::int32_t RAY_screen_shift_green;
+std::int32_t RAY_screen_shift_blue;
+std::int32_t RAY_screen_shift_alpha;
 
 
 #define RAY_LIGHT_X (+0x77B0)
@@ -43,7 +43,7 @@ SLONG RAY_screen_shift_alpha;
 #define LOOKUP_MAX	  65536
 #define LOOKUP_SHIFT  8	
 
-SLONG RAY_sqrt[LOOKUP_MAX];
+std::int32_t RAY_sqrt[LOOKUP_MAX];
 
 
 
@@ -51,14 +51,14 @@ SLONG RAY_sqrt[LOOKUP_MAX];
 
 typedef struct
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG sky_r;
-	SLONG sky_b;
-	SLONG ground_ix;
-	SLONG ground_iz;
-	SLONG ground_distr;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t sky_r;
+	std::int32_t sky_b;
+	std::int32_t ground_ix;
+	std::int32_t ground_iz;
+	std::int32_t ground_distr;
  
 } RAY_Vector;
 
@@ -67,23 +67,23 @@ RAY_Vector RAY_pixel[RAY_SCREEN_SIZE][RAY_SCREEN_SIZE];
 
 void RAY_pixel_calc()
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG sky_r;
-	SLONG sky_b;
+	std::int32_t sky_r;
+	std::int32_t sky_b;
 
-	SLONG ground_ix;
-	SLONG ground_iz;
-	SLONG ground_distr;
+	std::int32_t ground_ix;
+	std::int32_t ground_iz;
+	std::int32_t ground_distr;
 
-	SLONG length;
+	std::int32_t length;
 	float flen;
-	SLONG overlength;
+	std::int32_t overlength;
 
 	for (y = 0; y < RAY_SCREEN_SIZE; y++)
 	for (x = 0; x < RAY_SCREEN_SIZE; x++)
@@ -99,7 +99,7 @@ void RAY_pixel_calc()
 		flen  = 1.0F / sqrt(flen);
 		flen *= 65536.0F;
 
-		overlength = SLONG(flen);
+		overlength = std::int32_t(flen);
 
 		dx = MUL64(dx, overlength);
 		dy = MUL64(dy, overlength);
@@ -145,7 +145,7 @@ void RAY_pixel_calc()
 // Returns the 16:16 square root.
 //
 
-SLONG SQRT64_slow(SLONG x)
+std::int32_t SQRT64_slow(std::int32_t x)
 {
 	float f = float(x);
 	
@@ -153,16 +153,16 @@ SLONG SQRT64_slow(SLONG x)
 	f  = sqrt(f);
 	f *= 65536.0F;
 
-	SLONG ans;
+	std::int32_t ans;
 
-	ans = SLONG(f);
+	ans = std::int32_t(f);
 
 	return ans;
 }
 
-SLONG SQRT64(SLONG x)
+std::int32_t SQRT64(std::int32_t x)
 {
-	SLONG i = x >> LOOKUP_SHIFT;
+	std::int32_t i = x >> LOOKUP_SHIFT;
 
 	ASSERT(WITHIN(i, 0, LOOKUP_MAX - 1));
 
@@ -177,9 +177,9 @@ SLONG SQRT64(SLONG x)
 #define RAY_D3D_SIZE 32
 
 D3DTLVERTEX RAY_d3d_vertex[RAY_D3D_SIZE];
-SLONG       RAY_d3d_vertex_upto;
-UWORD       RAY_d3d_index [RAY_D3D_SIZE];
-SLONG       RAY_d3d_index_upto;
+std::int32_t       RAY_d3d_vertex_upto;
+std::uint16_t       RAY_d3d_index [RAY_D3D_SIZE];
+std::int32_t       RAY_d3d_index_upto;
 
 
 //
@@ -191,40 +191,40 @@ SLONG       RAY_d3d_index_upto;
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG radius;	// Always 1?
-	SLONG dist2;	// Distance from origin squared.
-	SLONG minx;
-	SLONG maxx;
-	SLONG miny;
-	SLONG maxy;
-	SLONG minz;
-	SLONG maxz;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	UBYTE r;
-	UBYTE g;
-	UBYTE b;
-	UBYTE flag;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t radius;	// Always 1?
+	std::int32_t dist2;	// Distance from origin squared.
+	std::int32_t minx;
+	std::int32_t maxx;
+	std::int32_t miny;
+	std::int32_t maxy;
+	std::int32_t minz;
+	std::int32_t maxz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::uint8_t r;
+	std::uint8_t g;
+	std::uint8_t b;
+	std::uint8_t flag;
 
-	SLONG sx;
-	SLONG sy;
+	std::int32_t sx;
+	std::int32_t sy;
 
-	SLONG sxmin;
-	SLONG sxmax;
+	std::int32_t sxmin;
+	std::int32_t sxmax;
 
-	SLONG symin;
-	SLONG symax;
+	std::int32_t symin;
+	std::int32_t symax;
 	
 } RAY_Sphere;
 
 #define RAY_MAX_SPHERES 4
 
 RAY_Sphere RAY_sphere[RAY_MAX_SPHERES];
-SLONG      RAY_sphere_upto = 0;
+std::int32_t      RAY_sphere_upto = 0;
 
 
 
@@ -252,7 +252,7 @@ void RAY_init()
 	// Sqrt precalc.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < LOOKUP_MAX; i++)
 	{
@@ -343,10 +343,10 @@ void RAY_screen_update()
 
 struct
 {
-	SLONG x1;
-	SLONG x2;
-	SLONG y1;
-	SLONG y2;
+	std::int32_t x1;
+	std::int32_t x2;
+	std::int32_t y1;
+	std::int32_t y2;
 
 } offset[3] =
 {
@@ -359,7 +359,7 @@ struct
 
 void RAY_animate()
 {
-	SLONG i;
+	std::int32_t i;
 
 	static animate = 1;
 
@@ -417,7 +417,7 @@ void RAY_animate()
 		rs->sy = 128 - (DIV64(rs->y, rs->z) * 128 >> 16);
 	}
 
-	SLONG a = 0;
+	std::int32_t a = 0;
 
 	if (ShiftFlag) a = 1;
 	if (ControlFlag) a= 2;
@@ -471,26 +471,26 @@ void RAY_animate()
 //
 
 void RAY_intersect2(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG dx, SLONG dy, SLONG dz,
-		ULONG use,
-		UBYTE *r,
-		UBYTE *g,
-		UBYTE *b)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t dx, std::int32_t dy, std::int32_t dz,
+		std::uint32_t use,
+		std::uint8_t *r,
+		std::uint8_t *g,
+		std::uint8_t *b)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG v;
-	SLONG disc;
-	SLONG dist;
+	std::int32_t v;
+	std::int32_t disc;
+	std::int32_t dist;
 
-	SLONG dsx;
-	SLONG dsy;
-	SLONG dsz;
+	std::int32_t dsx;
+	std::int32_t dsy;
+	std::int32_t dsz;
 
-	SLONG ground_ix;
-	SLONG ground_iz;
-	SLONG ground_distr;
+	std::int32_t ground_ix;
+	std::int32_t ground_iz;
+	std::int32_t ground_distr;
 
 	RAY_Sphere *rs;
 
@@ -561,8 +561,8 @@ void RAY_intersect2(
 
 	if (dy > -0x1400)
 	{
-		SLONG sr = ((dy + 0x1400 + 0x200) >>  8) - 1; 
-		SLONG sb = ((dy + 0x1400 + 0x588) >> 10) - 1;
+		std::int32_t sr = ((dy + 0x1400 + 0x200) >>  8) - 1; 
+		std::int32_t sb = ((dy + 0x1400 + 0x588) >> 10) - 1;
 
 		SATURATE(sr, 0, 255);
 		SATURATE(sb, 0, 255);
@@ -577,7 +577,7 @@ void RAY_intersect2(
 		// Intersect the ground plane at (dx/dy) (dz/dy)
 		//
 
-		SLONG overdy = DIV64(0x10000, -dy);
+		std::int32_t overdy = DIV64(0x10000, -dy);
 
 		ground_ix    = MUL64(dx,overdy) << 1;
 		ground_iz    = MUL64(dz,overdy) << 1;
@@ -606,21 +606,21 @@ void RAY_intersect2(
 // Returns true if the given point is in shadow.
 //
 
-SLONG RAY_in_shadow(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG start_sphere)
+std::int32_t RAY_in_shadow(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t start_sphere)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dsx;
-	SLONG dsy;
-	SLONG dsz;
+	std::int32_t dsx;
+	std::int32_t dsy;
+	std::int32_t dsz;
 
-	SLONG v;
-	SLONG disc;
-	SLONG dist2;
+	std::int32_t v;
+	std::int32_t disc;
+	std::int32_t dist2;
 
 	RAY_Sphere *rs;
 
@@ -667,38 +667,38 @@ SLONG RAY_in_shadow(
 // intersection occured.
 //
 
-SLONG RAY_get_colour_from_origin(
-		SLONG dx, SLONG dy, SLONG dz,
-		ULONG use,
-		UBYTE *ray_r,
-		UBYTE *ray_g,
-		UBYTE *ray_b)
+std::int32_t RAY_get_colour_from_origin(
+		std::int32_t dx, std::int32_t dy, std::int32_t dz,
+		std::uint32_t use,
+		std::uint8_t *ray_r,
+		std::uint8_t *ray_g,
+		std::uint8_t *ray_b)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG d;
-	SLONG v;
-	SLONG dist;
-	SLONG disc;
-	SLONG len;
+	std::int32_t d;
+	std::int32_t v;
+	std::int32_t dist;
+	std::int32_t disc;
+	std::int32_t len;
 
 	RAY_Sphere *rs;
 
-	SLONG ix;
-	SLONG iy;
-	SLONG iz;
+	std::int32_t ix;
+	std::int32_t iy;
+	std::int32_t iz;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG dsx;
-	SLONG dsy;
-	SLONG dsz;
+	std::int32_t dsx;
+	std::int32_t dsy;
+	std::int32_t dsz;
 
 	//
 	// Check the spheres.
@@ -764,8 +764,8 @@ SLONG RAY_get_colour_from_origin(
 			// Intersection! But where?
 			//
 
-			SLONG along;
-			SLONG bright;
+			std::int32_t along;
+			std::int32_t bright;
 
 			d = SQRT64(disc);
 			
@@ -826,15 +826,15 @@ SLONG RAY_get_colour_from_origin(
 
 			if (rs->flag & RAY_SPHERE_REFLECTIVE)
 			{
-				UBYTE rr;
-				UBYTE rg;
-				UBYTE rb;
+				std::uint8_t rr;
+				std::uint8_t rg;
+				std::uint8_t rb;
 
-				SLONG rx;
-				SLONG ry;
-				SLONG rz;
+				std::int32_t rx;
+				std::int32_t ry;
+				std::int32_t rz;
 
-				SLONG dprod = MUL64(nx,dx) + MUL64(ny, dy) + MUL64(nz, dz);
+				std::int32_t dprod = MUL64(nx,dx) + MUL64(ny, dy) + MUL64(nz, dz);
 
 				dprod <<= 1;
 
@@ -865,9 +865,9 @@ SLONG RAY_get_colour_from_origin(
 
 typedef struct span
 {
-	ULONG in;
-	ULONG out;
-	SLONG x;
+	std::uint32_t in;
+	std::uint32_t out;
+	std::int32_t x;
 
 	struct span *next;
 
@@ -876,7 +876,7 @@ typedef struct span
 #define MAX_SPANS 8
 
 Span  span[MAX_SPANS];
-SLONG span_upto;
+std::int32_t span_upto;
 
 Span *span_head;
 
@@ -884,30 +884,30 @@ Span *span_head;
 
 void RAY_render_scene()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG span_minx;
-	SLONG span_maxx;
-	SLONG span_width;
+	std::int32_t span_minx;
+	std::int32_t span_maxx;
+	std::int32_t span_width;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG index;
-	UWORD *pixel;
+	std::int32_t index;
+	std::uint16_t *pixel;
 
 	Span *s1;
 	Span *s2;
 
-	UBYTE r;
-	UBYTE g;
-	UBYTE b;
+	std::uint8_t r;
+	std::uint8_t g;
+	std::uint8_t b;
 
-	ULONG in;
+	std::uint32_t in;
 
 	RAY_Sphere *rs;
 	RAY_Vector *rv;
@@ -1076,7 +1076,7 @@ void RAY_render_scene()
 				{
 					while(span_width--)
 					{
-						SLONG distr = rv->ground_distr;
+						std::int32_t distr = rv->ground_distr;
 
 						if (distr == 0)
 						{
@@ -1142,7 +1142,7 @@ void RAY_render_scene()
 						}
 						else
 						{
-							SLONG distr = rv->ground_distr;
+							std::int32_t distr = rv->ground_distr;
 
 							{
 								if (distr && RAY_in_shadow(rv->ground_ix, -0x20000, rv->ground_iz, RAY_sphere_upto - 2))
@@ -1223,7 +1223,7 @@ void RAY_render_scene()
 				}
 				else
 				{
-					SLONG distr = rv->ground_distr;
+					std::int32_t distr = rv->ground_distr;
 
 					if (RAY_in_shadow(rv->ground_ix, -0x20000, rv->ground_iz, RAY_sphere_upto - 1))
 					{
@@ -1382,7 +1382,7 @@ void RAY_render_polys()
 
 void RAY_do()
 {
-	SLONG i;
+	std::int32_t i;
 
 	RAY_init();
 

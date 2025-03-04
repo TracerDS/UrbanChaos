@@ -38,7 +38,7 @@ HINSTANCE OS_last_instance;
 LPSTR OS_command_line;
 int OS_start_show_state;
 
-CBYTE* OS_application_name = "Urban Chaos credits";
+char* OS_application_name = "Urban Chaos credits";
 
 //
 // Our window class.
@@ -56,8 +56,8 @@ HWND OS_window_handle;
 // The DirectX 6 framework library class.
 //
 
-UBYTE OS_frame_is_fullscreen;
-UBYTE OS_frame_is_hardware;
+std::uint8_t OS_frame_is_fullscreen;
+std::uint8_t OS_frame_is_hardware;
 
 struct OS_Framework
 {
@@ -88,9 +88,9 @@ float OS_screen_height;
 // The keys that are held down.
 //
 
-UBYTE KEY_on[256];
-UBYTE KEY_inkey;
-UBYTE KEY_shift;
+std::uint8_t KEY_on[256];
+std::uint8_t KEY_inkey;
+std::uint8_t KEY_shift;
 
 
 // ========================================================
@@ -99,7 +99,7 @@ UBYTE KEY_shift;
 //
 // ========================================================
 
-SLONG OS_midas_ok;
+std::int32_t OS_midas_ok;
 //MIDASmodule           OS_module;
 //MIDASmodulePlayHandle OS_module_handle;
 
@@ -116,13 +116,13 @@ extern IDirectInputDevice2 *OS_joy_input_device2;	// We need this newer interfac
 
 float OS_joy_x;
 float OS_joy_y;
-extern SLONG OS_joy_x_range_min;
-extern SLONG OS_joy_x_range_max;
-extern SLONG OS_joy_y_range_min;
-extern SLONG OS_joy_y_range_max;
-ULONG OS_joy_button;		// The buttons that are currently down
-ULONG OS_joy_button_down;	// The buttons that have just been pressed
-ULONG OS_joy_button_up;		// The buttons that have just been released
+extern std::int32_t OS_joy_x_range_min;
+extern std::int32_t OS_joy_x_range_max;
+extern std::int32_t OS_joy_y_range_min;
+extern std::int32_t OS_joy_y_range_max;
+std::uint32_t OS_joy_button;		// The buttons that are currently down
+std::uint32_t OS_joy_button_down;	// The buttons that have just been pressed
+std::uint32_t OS_joy_button_up;		// The buttons that have just been released
 
 
 //
@@ -342,8 +342,8 @@ void OS_joy_poll()
 			// Axis movment normalised to between -1.0F and +1.0F
 			//
 
-			SLONG dx = OS_joy_x_range_max - OS_joy_x_range_min;
-			SLONG dy = OS_joy_y_range_max - OS_joy_y_range_min;
+			std::int32_t dx = OS_joy_x_range_max - OS_joy_x_range_min;
+			std::int32_t dy = OS_joy_y_range_max - OS_joy_y_range_min;
 
 			OS_joy_x = 0.0F;
 			OS_joy_y = 0.0F;
@@ -355,10 +355,10 @@ void OS_joy_poll()
 			// The buttons.
 			//
 
-			SLONG i;
+			std::int32_t i;
 
-			ULONG last = OS_joy_button;
-			ULONG now  = 0;
+			std::uint32_t last = OS_joy_button;
+			std::uint32_t now  = 0;
 
 			for (i = 0; i < 32; i++)
 			{
@@ -396,19 +396,19 @@ void OS_joy_poll()
 
 typedef struct
 {
-	SLONG valid;
+	std::int32_t valid;
 
 	DDPIXELFORMAT ddpf;
 
-	SLONG mask_r;
-	SLONG mask_g;
-	SLONG mask_b;
-	SLONG mask_a;
+	std::int32_t mask_r;
+	std::int32_t mask_g;
+	std::int32_t mask_b;
+	std::int32_t mask_a;
 
-	SLONG shift_r;
-	SLONG shift_g;
-	SLONG shift_b;
-	SLONG shift_a;
+	std::int32_t shift_r;
+	std::int32_t shift_g;
+	std::int32_t shift_b;
+	std::int32_t shift_a;
 
 } OS_Tformat;
 
@@ -421,10 +421,10 @@ OS_Tformat OS_tformat[OS_TEXTURE_FORMAT_NUMBER];
 
 typedef struct os_texture
 {
-	CBYTE name[_MAX_PATH];
-	UBYTE format;
-	UBYTE inverted;
-	UWORD size;
+	char name[_MAX_PATH];
+	std::uint8_t format;
+	std::uint8_t inverted;
+	std::uint16_t size;
 
 	DDSURFACEDESC2       ddsd;
 	LPDIRECTDRAWSURFACE4 ddsurface;
@@ -446,9 +446,9 @@ OS_Texture *OS_texture_head;
 // Returns the number of bits set in 'mask' with a rather cunning algorithm.
 //
 
-SLONG OS_bit_count(ULONG mask)
+std::int32_t OS_bit_count(std::uint32_t mask)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	for (ans = 0; mask; mask &= mask - 1, ans += 1);
 
@@ -464,7 +464,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 					LPDDPIXELFORMAT lpddpf,
 					LPVOID          context)
 {
-	SLONG format;
+	std::int32_t format;
 
 	OS_Tformat *otf = (OS_Tformat *) malloc(sizeof(OS_Tformat));
 
@@ -491,7 +491,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 		{
 			if (lpddpf->dwFlags & DDPF_ALPHAPIXELS)
 			{
-				SLONG alphabits;
+				std::int32_t alphabits;
 
 				//
 				// Could be 1555 or 4444
@@ -574,15 +574,15 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 //
 
 void OS_calculate_mask_and_shift(
-		ULONG  bitmask,
-		SLONG *mask,
-		SLONG *shift);
+		std::uint32_t  bitmask,
+		std::int32_t *mask,
+		std::int32_t *shift);
 #if 0
 {
-	SLONG i;
-	SLONG b;
-	SLONG num_bits  =  0;
-	SLONG first_bit = -1;
+	std::int32_t i;
+	std::int32_t b;
+	std::int32_t num_bits  =  0;
+	std::int32_t first_bit = -1;
 
 	for (i = 0, b = 1; i < 32; i++, b <<= 1)
 	{
@@ -619,9 +619,9 @@ void OS_calculate_mask_and_shift(
 }
 #endif
 
-OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
+OS_Texture *OS_texture_create(char* fname, std::int32_t invert)
 {
-	SLONG format;
+	std::int32_t format;
 
 	OS_Texture *ot;
 	OS_Tformat *best_otf;
@@ -629,7 +629,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 	TGA_Info   ti;
 	TGA_Pixel *data;
 
-	CBYTE fullpath[_MAX_PATH];
+	char fullpath[_MAX_PATH];
 
 	//
 	// Do we already have this texture?
@@ -808,7 +808,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 										&ot->ddsurface,
 										nullptr);
 
-	CBYTE* err;
+	char* err;
 
 	switch(res)
 	{
@@ -844,8 +844,8 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 	if (invert)
 	{
-		SLONG i;
-		SLONG j;
+		std::int32_t i;
+		std::int32_t j;
 
 		TGA_Pixel *tp;
 
@@ -886,11 +886,11 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 
 	if (format != OS_TEXTURE_FORMAT_8)
 	{
-		SLONG     i;
-		SLONG     j;
-		UWORD     pixel_our;
+		std::int32_t     i;
+		std::int32_t     j;
+		std::uint16_t     pixel_our;
 		TGA_Pixel pixel_tga;
-		UWORD    *wscreen = (UWORD *) ddsd.lpSurface;
+		std::uint16_t    *wscreen = (std::uint16_t *) ddsd.lpSurface;
 
 		//
 		// 16 bits per pixel.
@@ -918,9 +918,9 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 	}
 	else
 	{
-		SLONG  i;
-		SLONG  j;
-		UBYTE *wscreen = (UBYTE *) ddsd.lpSurface;
+		std::int32_t  i;
+		std::int32_t  j;
+		std::uint8_t *wscreen = (std::uint8_t *) ddsd.lpSurface;
 
 		//
 		// 8 bits per pixel.
@@ -964,7 +964,7 @@ OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert)
 }
 
 
-OS_Texture *OS_texture_create(SLONG size, SLONG format)
+OS_Texture *OS_texture_create(std::int32_t size, std::int32_t format)
 {
 	OS_Texture *ot;
 	OS_Tformat *otf;
@@ -1122,11 +1122,11 @@ void OS_texture_finished_creating()
 {
 	/*
 
-	SLONG i;
+	std::int32_t i;
 
 	OS_Texture *ot;
 	OS_Point    op;
-	UWORD       index[3];
+	std::uint16_t       index[3];
 
 	//
 	// Go through all the textures and draw something with them.
@@ -1162,28 +1162,28 @@ void OS_texture_finished_creating()
 }
 
 
-SLONG OS_texture_size(OS_Texture *ot)
+std::int32_t OS_texture_size(OS_Texture *ot)
 {
 	return ot->size;
 }
 
 
 
-SLONG OS_bitmap_format;		// OS_TEXTURE_FORMAT_*
-UWORD *OS_bitmap_uword_screen;	// For 16-bit formats.
-SLONG OS_bitmap_uword_pitch;	// Pitch in UWORDS
-UBYTE *OS_bitmap_ubyte_screen;	// For the grayscale format.
-SLONG OS_bitmap_ubyte_pitch;	// Pitch in UBYTES
-SLONG OS_bitmap_width;
-SLONG OS_bitmap_height;
-SLONG OS_bitmap_mask_r;
-SLONG OS_bitmap_mask_g;
-SLONG OS_bitmap_mask_b;
-SLONG OS_bitmap_mask_a;
-SLONG OS_bitmap_shift_r;
-SLONG OS_bitmap_shift_g;
-SLONG OS_bitmap_shift_b;
-SLONG OS_bitmap_shift_a;
+std::int32_t OS_bitmap_format;		// OS_TEXTURE_FORMAT_*
+std::uint16_t *OS_bitmap_uword_screen;	// For 16-bit formats.
+std::int32_t OS_bitmap_uword_pitch;	// Pitch in UWORDS
+std::uint8_t *OS_bitmap_ubyte_screen;	// For the grayscale format.
+std::int32_t OS_bitmap_ubyte_pitch;	// Pitch in UBYTES
+std::int32_t OS_bitmap_width;
+std::int32_t OS_bitmap_height;
+std::int32_t OS_bitmap_mask_r;
+std::int32_t OS_bitmap_mask_g;
+std::int32_t OS_bitmap_mask_b;
+std::int32_t OS_bitmap_mask_a;
+std::int32_t OS_bitmap_shift_r;
+std::int32_t OS_bitmap_shift_g;
+std::int32_t OS_bitmap_shift_b;
+std::int32_t OS_bitmap_shift_a;
 
 void OS_texture_lock(OS_Texture *ot)
 {
@@ -1214,7 +1214,7 @@ void OS_texture_lock(OS_Texture *ot)
 		// 8-bits per pixel.
 		//
 
-		OS_bitmap_ubyte_screen = (UBYTE *) ddsd.lpSurface;
+		OS_bitmap_ubyte_screen = (std::uint8_t *) ddsd.lpSurface;
 		OS_bitmap_ubyte_pitch  = ddsd.lPitch;
 
 		OS_bitmap_uword_screen = nullptr;
@@ -1225,7 +1225,7 @@ void OS_texture_lock(OS_Texture *ot)
 		OS_bitmap_ubyte_screen = nullptr;
 		OS_bitmap_ubyte_pitch  = 0;
 
-		OS_bitmap_uword_screen = (UWORD *) ddsd.lpSurface;
+		OS_bitmap_uword_screen = (std::uint16_t *) ddsd.lpSurface;
 		OS_bitmap_uword_pitch  = ddsd.lPitch >> 1;
 	}
 
@@ -1332,11 +1332,11 @@ void OS_init_renderstates()
 
 #define OS_METHOD_NUMBER_MUL 2
 
-SLONG OS_pipeline_method_mul;
+std::int32_t OS_pipeline_method_mul;
 
 void OS_pipeline_calculate()
 {
-	ULONG num_passes;
+	DWORD num_passes;
 
 	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
@@ -1421,7 +1421,7 @@ void OS_pipeline_calculate()
 }
 
 
-void OS_change_renderstate_for_type(ULONG draw)
+void OS_change_renderstate_for_type(std::uint32_t draw)
 {
 	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
@@ -1623,13 +1623,13 @@ void OS_undo_renderstate_type_changes()
 //
 // ========================================================
 
-void OS_string(CBYTE* fmt, ...)
+void OS_string(char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[512];
+	char   message[512];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -1640,9 +1640,9 @@ void OS_string(CBYTE* fmt, ...)
 }
 
 
-SLONG OS_game_start_tick_count;
+std::int32_t OS_game_start_tick_count;
 
-SLONG OS_ticks()
+std::int32_t OS_ticks()
 {
 	return GetTickCount() - OS_game_start_tick_count;
 }
@@ -1658,7 +1658,7 @@ void OS_ticks_reset()
 //
 // ========================================================
 
-void OS_mouse_get(SLONG *x, SLONG *y)
+void OS_mouse_get(std::int32_t *x, std::int32_t *y)
 {
 	POINT point;
 
@@ -1668,7 +1668,7 @@ void OS_mouse_get(SLONG *x, SLONG *y)
 	*y = point.y;
 }
 
-void OS_mouse_set(SLONG  x, SLONG  y)
+void OS_mouse_set(std::int32_t  x, std::int32_t  y)
 {
 	SetCursorPos(x, y);
 }
@@ -1682,7 +1682,7 @@ LRESULT CALLBACK OS_message_handler(
 					WPARAM param_w,
 					LPARAM param_l)
 {
-	UBYTE scancode;
+	std::uint8_t scancode;
 
 	switch(message_type)
 	{
@@ -1774,7 +1774,7 @@ LRESULT CALLBACK OS_message_handler(
 #endif
 
 
-SLONG OS_process_messages()
+std::int32_t OS_process_messages()
 {
 	SHELL_ACTIVE;
 
@@ -1798,7 +1798,7 @@ SLONG OS_process_messages()
 
 	while(1)
 	{
-		if (!PeekMessage(&msg, nullptr, nullptr, nullptr, PM_NOREMOVE))
+		if (!PeekMessage(&msg, nullptr, 0, 0, PM_NOREMOVE))
 		{
 			//
 			// No messages pending.
@@ -1839,8 +1839,8 @@ typedef struct
 #define OS_MAX_MODES 16
 
 OS_Mode OS_mode[OS_MAX_MODES];
-SLONG OS_mode_upto;
-SLONG OS_mode_sel;
+std::int32_t OS_mode_upto;
+std::int32_t OS_mode_sel;
 
 //
 // Finds the valid devices from the D3DEnumerated choice and set
@@ -1849,7 +1849,7 @@ SLONG OS_mode_sel;
 
 void OS_mode_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	D3DEnum_DriverInfo *vi;
 	D3DEnum_DeviceInfo *ci;
@@ -1858,8 +1858,8 @@ void OS_mode_init()
 	OS_mode_upto = 0;
 	OS_mode_sel  = 0;
 
-	SLONG lookfor640x480;
-	SLONG lookfor512x384;
+	std::int32_t lookfor640x480;
+	std::int32_t lookfor512x384;
 
 	//
 	// Find all valid modes.
@@ -1989,9 +1989,9 @@ void OS_mode_init()
 // Adds the modes for the current selection to the combo box.
 //
 
-void OS_mydemo_setup_mode_combo(HWND combo_handle, SLONG mode)
+void OS_mydemo_setup_mode_combo(HWND combo_handle, std::int32_t mode)
 {
-	SLONG index;
+	std::int32_t index;
 
 	ASSERT(WITHIN(mode, 0, OS_mode_upto - 1));
 
@@ -2053,10 +2053,10 @@ bool CALLBACK OS_mydemo_proc(
 				WPARAM param_w,
 				LPARAM param_l)
 {
-	SLONG i;
-	SLONG d;
-	SLONG res;
-	SLONG index;
+	std::int32_t i;
+	std::int32_t d;
+	std::int32_t res;
+	std::int32_t index;
 
 	RECT rect;
 
@@ -2564,7 +2564,7 @@ int WINAPI WinMain(
 			// Could not set that mode!
 			//
 
-			CBYTE* err;
+			char* err;
 
 			if (res == D3DFWERR_NOZBUFFER)
 			{
@@ -2710,7 +2710,7 @@ void OS_camera_set(
 }
 
 OS_Trans OS_trans[OS_MAX_TRANS];
-SLONG OS_trans_upto;
+std::int32_t OS_trans_upto;
 
 void OS_transform(
 		float     world_x,
@@ -2779,13 +2779,13 @@ void OS_transform(
 //
 // ========================================================
 
-void OS_clear_screen(UBYTE r, UBYTE g, UBYTE b, float z)
+void OS_clear_screen(std::uint8_t r, std::uint8_t g, std::uint8_t b, float z)
 {
 	CLEAR_VIEWPORT;
 
 	/*
 
-	ULONG colour = (r << 16) | (g << 8) | (b << 0);
+	std::uint32_t colour = (r << 16) | (g << 8) | (b << 0);
 	
 	HRESULT ret = OS_frame.GetViewport()->Clear2(
 								1,
@@ -2818,12 +2818,12 @@ void OS_scene_end()
 
 void OS_fps()
 {
-	SLONG i;
+	std::int32_t i;
 
-	static SLONG fps = 0;
-	static SLONG last_time = 0;
-	static SLONG last_frame_count = 0;
-	static SLONG frame_count = 0;
+	static std::int32_t fps = 0;
+	static std::int32_t last_time = 0;
+	static std::int32_t last_frame_count = 0;
+	static std::int32_t frame_count = 0;
 
 	float x1;
 	float y1;
@@ -2832,7 +2832,7 @@ void OS_fps()
 
 	float tick;
 
-	SLONG now;
+	std::int32_t now;
 
 	now          = OS_ticks();
 	frame_count += 1;
@@ -2907,8 +2907,8 @@ typedef struct
 	float sy;
 	float sz;
 	float rhw;
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 	float tu1;
 	float tv1;
 	float tu2;
@@ -2926,14 +2926,14 @@ typedef struct
 
 typedef struct os_buffer
 {
-	SLONG num_flerts;
-	SLONG num_indices;
+	std::int32_t num_flerts;
+	std::int32_t num_indices;
 
-	SLONG max_flerts;
-	SLONG max_indices;
+	std::int32_t max_flerts;
+	std::int32_t max_indices;
 
 	OS_Flert *flert;
-	UWORD    *index;
+	std::uint16_t    *index;
 
 	OS_Buffer *next;
 
@@ -2965,10 +2965,10 @@ OS_Buffer *OS_buffer_create()
 	ob->num_indices = 1;
 
 	ob->flert = (OS_Flert *) malloc(sizeof(OS_Flert) * ob->max_flerts );
-	ob->index = (UWORD    *) malloc(sizeof(UWORD   ) * ob->max_indices);
+	ob->index = (std::uint16_t    *) malloc(sizeof(std::uint16_t   ) * ob->max_indices);
 
 	memset(ob->flert, 0, sizeof(OS_Flert) * ob->max_flerts );
-	memset(ob->index, 0, sizeof(UWORD   ) * ob->max_indices);
+	memset(ob->index, 0, sizeof(std::uint16_t   ) * ob->max_indices);
 
 	ob->next = nullptr;
 
@@ -3033,7 +3033,7 @@ void OS_buffer_grow_indices(OS_Buffer *ob)
 {
 	ob->max_indices *= 2;
 
-	ob->index = (UWORD *) realloc(ob->index, ob->max_indices * sizeof(UWORD));
+	ob->index = (std::uint16_t *) realloc(ob->index, ob->max_indices * sizeof(std::uint16_t));
 }
 
 void OS_buffer_add_vert(OS_Buffer *ob, OS_Vert *ov)
@@ -3087,7 +3087,7 @@ void OS_buffer_add_triangle(
 		OS_Vert   *ov2,
 		OS_Vert   *ov3)
 {
-	ULONG clip_and =
+	std::uint32_t clip_and =
 			OS_trans[ov1->trans].clip &
 			OS_trans[ov2->trans].clip &
 			OS_trans[ov3->trans].clip;
@@ -3131,7 +3131,7 @@ void OS_buffer_add_triangle(
 	}
 	else
 	{
-		ULONG clip_or =
+		std::uint32_t clip_or =
 				OS_trans[ov1->trans].clip |
 				OS_trans[ov2->trans].clip |
 				OS_trans[ov3->trans].clip;
@@ -3167,11 +3167,11 @@ void OS_buffer_add_sprite(
 		float u1, float v1,
 		float u2, float v2,
 		float z,
-		ULONG colour,
-		ULONG specular,
-		ULONG fade)
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::uint32_t fade)
 {
-	SLONG i;
+	std::int32_t i;
 
 	OS_Flert *of;
 
@@ -3256,12 +3256,12 @@ void OS_buffer_add_sprite_rot(
 		float u1, float v1,
 		float u2, float v2,
 		float z,
-		ULONG colour,
-		ULONG specular,
+		std::uint32_t colour,
+		std::uint32_t specular,
 		float tu1, float tv1,
 		float tu2, float tv2)
 {
-	SLONG i;
+	std::int32_t i;
 
 	OS_Flert *of;
 
@@ -3365,10 +3365,10 @@ void OS_buffer_add_sprite_arbitrary(
 		float u3, float v3,
 		float u4, float v4,
 		float z ,
-		ULONG colour,
-		ULONG specular)
+		std::uint32_t colour,
+		std::uint32_t specular)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x;
 	float y;
@@ -3470,10 +3470,10 @@ void OS_buffer_add_line_3d(
 		float u2, float v2,
 		float z1,
 		float z2,
-		ULONG colour,
-		ULONG specular)
+		std::uint32_t colour,
+		std::uint32_t specular)
 {
-	SLONG i;
+	std::int32_t i;
 
 	OS_Flert *of;
 
@@ -3579,10 +3579,10 @@ void OS_buffer_add_line_2d(
 		float u1, float v1,
 		float u2, float v2,
 		float z,
-		ULONG colour,
-		ULONG specular)
+		std::uint32_t colour,
+		std::uint32_t specular)
 {
-	SLONG i;
+	std::int32_t i;
 
 	OS_Flert *of;
 
@@ -3687,7 +3687,7 @@ void OS_buffer_draw(
 		OS_Buffer  *ob,
 		OS_Texture *ot1,
 		OS_Texture *ot2,
-		ULONG       draw)
+		std::uint32_t       draw)
 {
 	LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
@@ -3742,7 +3742,7 @@ void OS_buffer_draw(
 		// Check that this will be okay.
 		//
 	
-		ULONG num_passes;
+		DWORD num_passes;
 
 		if (d3d->ValidateDevice(&num_passes) != D3D_OK)
 		{
@@ -3808,7 +3808,7 @@ void OS_sound_volume(float vol)
 {
 	if (OS_module && OS_module_handle)
 	{
-		SLONG volume = ftol(vol * 64.0F);
+		std::int32_t volume = ftol(vol * 64.0F);
 
 		SATURATE(volume, 0, 64);
 
@@ -3819,7 +3819,7 @@ void OS_sound_volume(float vol)
 */
 
 
-SLONG sound;
+std::int32_t sound;
 
 void OS_hack()
 {
@@ -3894,8 +3894,8 @@ void OS_hack()
 	// What's the screen res?
 	//
 
-	extern SLONG RealDisplayWidth;
-	extern SLONG RealDisplayHeight;
+	extern std::int32_t RealDisplayWidth;
+	extern std::int32_t RealDisplayHeight;
 
 	OS_screen_width  = float(RealDisplayWidth );
 	OS_screen_height = float(RealDisplayHeight);

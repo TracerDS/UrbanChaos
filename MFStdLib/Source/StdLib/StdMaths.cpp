@@ -12,9 +12,9 @@
 #define	xchg(a,b)			{a^=b;b^=a;a^=b;}
 
 
-SLONG Arctan(SLONG X, SLONG Y)
+std::int32_t Arctan(std::int32_t X, std::int32_t Y)
 {
-	SLONG ax,bx;
+	std::int32_t ax,bx;
 
 	ax = X;
 	if(ax)
@@ -89,14 +89,14 @@ nnyprimary:
 
 //---------------------------------------------------------------
 
-SLONG Root(SLONG square)
+std::int32_t Root(std::int32_t square)
 {
 	return (int)sqrt(square);
 }
 
 //---------------------------------------------------------------
 
-SWORD AtanTable[] =
+std::int16_t AtanTable[] =
 {
 	2048L*0/131072L,
 	2048L*81/131072L,
@@ -359,7 +359,7 @@ SWORD AtanTable[] =
 
 //---------------------------------------------------------------
 
-SLONG SinTable[]=
+std::int32_t SinTable[]=
 {
 	0,	//	    0	0.00	0.000000
 	201,	//	    1	0.18	0.003068
@@ -2923,7 +2923,7 @@ SLONG SinTable[]=
 	65535,	//	 2559	449.82	7.850914
 };
 
-SLONG *CosTable	=	&SinTable[512];
+std::int32_t *CosTable	=	&SinTable[512];
 
 //---------------------------------------------------------------
 
@@ -5494,7 +5494,7 @@ float SinTableF[]	=
 float *CosTableF	=	&SinTableF[512];
 
 //---------------------------------------------------------------
-SLONG Proportions[]	=
+std::int32_t Proportions[]	=
 {
 	11585,
 	11563,

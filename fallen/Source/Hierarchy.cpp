@@ -6,7 +6,7 @@
 
 //**************************************************************************************************
 //JCL - Body Part parent names
-CBYTE* body_part_parent[][2]=
+char* body_part_parent[][2]=
 {
 	{"pelvis"		, ""			},
 	{"lfemur"		, "pelvis"		},
@@ -27,7 +27,7 @@ CBYTE* body_part_parent[][2]=
 
 //**************************************************************************************************
 //! JCL - don't think this can be a permanent thing....
-SLONG body_part_parent_numbers[]=
+std::int32_t body_part_parent_numbers[]=
 {
 	-1,
 	0,
@@ -48,7 +48,7 @@ SLONG body_part_parent_numbers[]=
 
 //**************************************************************************************************
 //! JCL - nor this!!
-SLONG body_part_children[][5] = 
+std::int32_t body_part_children[][5] = 
 {
 	{1, 4, 12, -1, 0},
 	{2, -1, 0, 0, 0},
@@ -70,7 +70,7 @@ SLONG body_part_children[][5] =
 //**************************************************************************************************
 inline void	uncompress_matrix(CMatrix33 *cm, Matrix33 *m)
 {
-	SLONG v;
+	std::int32_t v;
 
 	v=((cm->M[0]&CMAT0_MASK)<<2)>>22;
 	m->M[0][0]=(v<<6);

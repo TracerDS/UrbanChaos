@@ -18,17 +18,17 @@
 // The focus on the map.
 //
 
-SLONG QEDIT_focus_x;
-SLONG QEDIT_focus_y;
-SLONG QEDIT_focus_z;
-SLONG QEDIT_cam_yaw;
-SLONG QEDIT_cam_pitch;
-SLONG QEDIT_cam_roll;
-SLONG QEDIT_cam_zoom;
-SLONG QEDIT_cam_x;
-SLONG QEDIT_cam_y;
-SLONG QEDIT_cam_z;
-SLONG QEDIT_cam_matrix[9];
+std::int32_t QEDIT_focus_x;
+std::int32_t QEDIT_focus_y;
+std::int32_t QEDIT_focus_z;
+std::int32_t QEDIT_cam_yaw;
+std::int32_t QEDIT_cam_pitch;
+std::int32_t QEDIT_cam_roll;
+std::int32_t QEDIT_cam_zoom;
+std::int32_t QEDIT_cam_x;
+std::int32_t QEDIT_cam_y;
+std::int32_t QEDIT_cam_z;
+std::int32_t QEDIT_cam_matrix[9];
 
 
 //
@@ -36,40 +36,40 @@ SLONG QEDIT_cam_matrix[9];
 // 
 
 void QEDIT_draw_wireframe(
-		SLONG world_x,
-		SLONG world_z)
+		std::int32_t world_x,
+		std::int32_t world_z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
+	std::int32_t mx1;
+	std::int32_t mz1;
 
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG bx1;
-	SLONG bz1;
+	std::int32_t bx1;
+	std::int32_t bz1;
 
-	SLONG bx2;
-	SLONG bz2;
+	std::int32_t bx2;
+	std::int32_t bz2;
 
-	SLONG base;
-	SLONG index;
-	SLONG cube;
+	std::int32_t base;
+	std::int32_t index;
+	std::int32_t cube;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
 	QMAP_Map  *qm;
 	QMAP_Cube *qc;
@@ -241,7 +241,7 @@ void QEDIT_draw_wireframe(
 
 QMAP_Draw QEDIT_qmap_draw;
 
-void QEDIT_draw_mapsquare(UBYTE map_x, UBYTE map_z)
+void QEDIT_draw_mapsquare(std::uint8_t map_x, std::uint8_t map_z)
 {
 	QMAP_create(&QEDIT_qmap_draw, map_x, map_z);
 	QENG_draw(&QEDIT_qmap_draw);
@@ -269,8 +269,8 @@ void QEDIT_init()
 
 void QEDIT_control()
 {
-	SLONG len_x;
-	SLONG len_z;
+	std::int32_t len_x;
+	std::int32_t len_z;
 
 	//
 	// The camera matrix.
@@ -340,9 +340,9 @@ void QEDIT_control()
 }
 
 extern bool  text_fudge;
-extern ULONG text_colour;
-extern void  draw_centre_text_at(float x,float y,CBYTE* message,SLONG font_id);
-extern void  draw_text_at(float x,float y,CBYTE* message,SLONG font_id);
+extern std::uint32_t text_colour;
+extern void  draw_centre_text_at(float x,float y,char* message,std::int32_t font_id);
+extern void  draw_text_at(float x,float y,char* message,std::int32_t font_id);
 
 void QEDIT_draw()
 {
@@ -385,7 +385,7 @@ void QEDIT_draw()
 
 void QEDIT_loop()
 {
-	SLONG quit = false;
+	std::int32_t quit = false;
 
 	//
 	// Open the display.

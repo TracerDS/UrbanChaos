@@ -17,59 +17,59 @@
 
 #define	SET_TEXTURE_ROCKS(t)	{t.X=4;t.Y=4;t.Width=2;t.Height=2;t.Page=0;t.DrawFlags=(POLY_FLAG_GOURAD|POLY_FLAG_TEXTURED);}
 
-extern void load_palette(CBYTE* palette);
-extern SLONG	calc_edit_height_at(SLONG x,SLONG z);
-extern SLONG	next_inside; //building.cpp
+extern void load_palette(char* palette);
+extern std::int32_t	calc_edit_height_at(std::int32_t x,std::int32_t z);
+extern std::int32_t	next_inside; //building.cpp
 
-extern SLONG	editor_texture_set;
-extern UWORD	page_count[];
-extern UWORD	moved_from[16*64];
-extern UWORD	moved_to[16*64];
+extern std::int32_t	editor_texture_set;
+extern std::uint16_t	page_count[];
+extern std::uint16_t	moved_from[16*64];
+extern std::uint16_t	moved_to[16*64];
 
-extern UWORD	*psx_remap;//[128];
-extern UWORD	page_remap[];
+extern std::uint16_t	*psx_remap;//[128];
+extern std::uint16_t	page_remap[];
 
 struct	MapBlock2
 {
-	SLONG	X;
-	SLONG	Y;
-	SLONG	Z;
+	std::int32_t	X;
+	std::int32_t	Y;
+	std::int32_t	Z;
 	struct	DepthStrip	*MapPtr;
-	SLONG	AngleX; //wont need this I suspect
-	SLONG	AngleY;
-	SLONG	AngleZ; //wont need this I suspect
+	std::int32_t	AngleX; //wont need this I suspect
+	std::int32_t	AngleY;
+	std::int32_t	AngleZ; //wont need this I suspect
 
-	SLONG	MapWidth;
-	SLONG	MapHeight;
-	SLONG	MapDepth; // (unchangeable?)
+	std::int32_t	MapWidth;
+	std::int32_t	MapHeight;
+	std::int32_t	MapDepth; // (unchangeable?)
 
-	CBYTE	*name;
+	char	*name;
 };
 
-// UBYTE	texture_sizes[]={8,16,32,64,96,128,160,192};
+// std::uint8_t	texture_sizes[]={8,16,32,64,96,128,160,192};
 
-SWORD	face_selected_list[MAX_EDIT_FACE_LIST];
-SWORD	next_face_selected=1;
+std::int16_t	face_selected_list[MAX_EDIT_FACE_LIST];
+std::int16_t	next_face_selected=1;
 
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 
 
 struct	Light	d_lights[MAX_D_LIGHTS];
-UWORD	next_d_light=1;
+std::uint16_t	next_d_light=1;
 
-//extern ULONG		WorkWindowHeight,   //just for now as application does not get these
+//extern std::uint32_t		WorkWindowHeight,   //just for now as application does not get these
 //					WorkWindowWidth; 
-extern void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
-extern void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col);
+extern void	create_bucket_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col);
+extern void	create_bucket_3d_line_whole(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col);
 
 
 //struct	EditMapElement	edit_map_eles[65000];
 
 
 
-SLONG	edit_turn;
+std::int32_t	edit_turn;
 /*
-CBYTE	prim_names[200][13]=
+char	prim_names[200][13]=
 {
 	"testzoo.asc",
 	"testzoo.asc",
@@ -88,9 +88,9 @@ struct	EditInfo	edit_info;
 
 void	swap_maps()
 {
-	CBYTE	name[128];
+	char	name[128];
 
-	SLONG	create=1;
+	std::int32_t	create=1;
 
 	if(ShiftFlag)
 		create=0;
@@ -116,7 +116,7 @@ void	swap_maps()
 
 
 //		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
-SLONG	on_edit_map(SLONG x,SLONG z)
+std::int32_t	on_edit_map(std::int32_t x,std::int32_t z)
 {
 	if(edit_info.Clipped)
 	{
@@ -145,7 +145,7 @@ SLONG	on_edit_map(SLONG x,SLONG z)
 
 void	free_edit_memory()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<MAX_WALLS;c0++)
 	{
 		if(wall_list[c0].Textures&&wall_list[c0].Tcount)
@@ -159,9 +159,9 @@ void	free_edit_memory()
 
 
 
-SLONG	face_is_in_list(SWORD face)
+std::int32_t	face_is_in_list(std::int16_t face)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<next_face_selected;c0++)
 	{
 		if(face_selected_list[c0]==face)
@@ -171,9 +171,9 @@ SLONG	face_is_in_list(SWORD face)
 	
 }
 
-void	add_face_to_list(SWORD face)
+void	add_face_to_list(std::int16_t face)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 
 	for(c0=1;c0<next_face_selected;c0++)
@@ -209,7 +209,7 @@ void	add_face_to_list(SWORD face)
 
 
 
-SLONG	add_a_light(SWORD i,SLONG x,SLONG y,SLONG z)
+std::int32_t	add_a_light(std::int16_t i,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	if(next_d_light<MAX_D_LIGHTS)
 	{
@@ -230,11 +230,11 @@ void	clear_lights()
 
 
 //insert_cube((engine.X>>8)>>ELE_SHIFT,(engine.Y>>8)>>ELE_SHIFT,(engine.Z>>8)>>ELE_SHIFT);
-extern UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense);
+extern std::uint16_t	apply_ambient_light_to_object(std::uint16_t object,std::int32_t lnx,std::int32_t lny,std::int32_t lnz,std::uint16_t intense);
 
-SLONG	place_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z)
+std::int32_t	place_prim_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	UWORD	map_thing;
+	std::uint16_t	map_thing;
 	struct	MapThing	*p_mthing;
 
 	y=0;
@@ -261,9 +261,9 @@ SLONG	place_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z)
 	return(map_thing);
 }
 
-SLONG	place_anim_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z)
+std::int32_t	place_anim_prim_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	UWORD	map_thing;
+	std::uint16_t	map_thing;
 	struct	MapThing	*p_mthing;
 
 	y=0;
@@ -286,10 +286,10 @@ SLONG	place_anim_prim_at(UWORD prim,SLONG x,SLONG y,SLONG z)
 	return(map_thing);
 }
 
-SLONG	is_thing_on_map(SLONG index)
+std::int32_t	is_thing_on_map(std::int32_t index)
 {					
 	struct MapThing *p_thing;
-	SLONG	map;
+	std::int32_t	map;
 
 	p_thing=TO_MTHING(index);
 	map=edit_map[p_thing->X>>ELE_SHIFT][p_thing->Z>>ELE_SHIFT].MapThingIndex;
@@ -302,28 +302,28 @@ SLONG	is_thing_on_map(SLONG index)
 	return(0);
 }
 
-void	build_tims(UWORD	next_texture);
+void	build_tims(std::uint16_t	next_texture);
 
-UWORD	is_road[]=
+std::uint16_t	is_road[]=
 {
 	323,324,325,326,327,328,331,332,333,334,340,341,342,343,348,349,350,351,352,353,354,355,356,0
 };
 
-extern void	move_texture(UWORD from,UWORD to);
-extern UWORD	get_split_bits(UWORD tex);
+extern void	move_texture(std::uint16_t from,std::uint16_t to);
+extern std::uint16_t	get_split_bits(std::uint16_t tex);
 
 
-void	save_game_map(CBYTE* name)
+void	save_game_map(char* name)
 {
-	UWORD	temp1,temp2,temp3,temp;
-	SLONG	save_type=26, ob_size;
-	SLONG	x,y,z;
-	SLONG	c0;
+	std::uint16_t	temp1,temp2,temp3,temp;
+	std::int32_t	save_type=26, ob_size;
+	std::int32_t	x,y,z;
+	std::int32_t	c0;
 	MapElement	me;
 	Thing	th;
 	struct	MapThing	*t_mthing;
-	SLONG	next_texture=64*4;
-	UWORD	*tex_map_psx;
+	std::int32_t	next_texture=64*4;
+	std::uint16_t	*tex_map_psx;
 
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	MFFileHandle	jandle	=	FILE_OPEN_ERROR;
@@ -334,8 +334,8 @@ void	save_game_map(CBYTE* name)
 	// Change the extension of 'name'...
 	//
 
-	CBYTE  gamename[256];
-	CBYTE* ch;
+	char  gamename[256];
+	char* ch;
 
 	strcpy(gamename, name);
 
@@ -351,8 +351,8 @@ void	save_game_map(CBYTE* name)
 	*ch++ = 'm';
 	*ch++ = '\000';
 
-	memset((CBYTE*)moved_from,0,16*64*2);
-	memset((CBYTE*)moved_to,0,16*64*2);
+	memset((char*)moved_from,0,16*64*2);
+	memset((char*)moved_to,0,16*64*2);
 
 
 
@@ -369,15 +369,15 @@ extern void	save_ob_ob(MFFileHandle	handle);
 	{
 		PAP_Hi pap_hi;
 		PAP_Lo pap_lo;
-		SLONG	c0;
+		std::int32_t	c0;
 
-		FileWrite(handle,(UBYTE*)&save_type,4);
+		FileWrite(handle,(std::uint8_t*)&save_type,4);
 
 extern void	add_flat_roof_to_pap();
 		add_flat_roof_to_pap();
 
 		ob_size = sizeof(OB_ob_upto) + (sizeof(OB_Ob)*OB_ob_upto) + (sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
-		FileWrite(handle,(UBYTE*)&ob_size,4);
+		FileWrite(handle,(std::uint8_t*)&ob_size,4);
 
 		memset(&me,0,sizeof(me));
 
@@ -393,7 +393,7 @@ extern void	add_flat_roof_to_pap();
 			next_texture++;
 			c0++;
 		}
-		tex_map_psx=(UWORD*)MemAlloc(128*128*2);
+		tex_map_psx=(std::uint16_t*)MemAlloc(128*128*2);
 
 		for(x=0;x<MAP_WIDTH;x++)
 		for(z=0;z<MAP_HEIGHT;z++)
@@ -402,8 +402,8 @@ extern void	add_flat_roof_to_pap();
 			{
 				if(save_psx)
 				{
-					UWORD	texture;
-					UWORD	split;
+					std::uint16_t	texture;
+					std::uint16_t	split;
 
 					split=get_split_bits(edit_map[x][z].Texture);
 					texture=edit_map[x][z].Texture&0x3ff;
@@ -490,20 +490,20 @@ extern void	add_flat_roof_to_pap();
 			{
 				memset(&pap_hi,0,sizeof(pap_hi));
 			}
-			FileWrite(handle,(UBYTE*)&pap_hi,sizeof(pap_hi));
+			FileWrite(handle,(std::uint8_t*)&pap_hi,sizeof(pap_hi));
 
 		}
 		if(save_psx)
 		{
 
-			ULONG	check;
+			std::uint32_t	check;
 
 			check=128*128*2;
 
-			FileWrite(handle,(UBYTE*)&check,4);
-			FileWrite(handle,(UBYTE*)tex_map_psx,128*128*2);
+			FileWrite(handle,(std::uint8_t*)&check,4);
+			FileWrite(handle,(std::uint8_t*)tex_map_psx,128*128*2);
 			check=666;
-			FileWrite(handle,(UBYTE*)&check,4);
+			FileWrite(handle,(std::uint8_t*)&check,4);
 
 		}
 		MemFree((void*)tex_map_psx);
@@ -523,7 +523,7 @@ extern void	add_flat_roof_to_pap();
 			}
 		}
 
-		FileWrite(handle,(UBYTE*)&temp,sizeof(temp));
+		FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
 		for(c0=0;c0<MAX_MAP_THINGS;c0++)
 		{
 			struct	LoadGameThing	io_thing;
@@ -538,7 +538,7 @@ extern void	add_flat_roof_to_pap();
 					io_thing.Z=t_mthing->Z;
 					io_thing.AngleY=t_mthing->AngleY;
 					io_thing.IndexOther=t_mthing->IndexOther;
-					FileWrite(handle,(UBYTE*)&io_thing,sizeof(struct LoadGameThing));
+					FileWrite(handle,(std::uint8_t*)&io_thing,sizeof(struct LoadGameThing));
 					break;
 			}
 		}
@@ -547,26 +547,26 @@ extern void	add_flat_roof_to_pap();
 		// save all the ob'sa we just made
 		//
 /* //see supermap save_ob_ob
-		FileWrite(handle,(UBYTE*)&OB_ob_upto,sizeof(OB_ob_upto));
-		FileWrite(handle,(UBYTE*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
-		FileWrite(handle,(UBYTE*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
+		FileWrite(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
+		FileWrite(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
+		FileWrite(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
 */
 
 
 
 		extern void	save_super_map(MFFileHandle	handle);
 		save_super_map(handle);
-		FileWrite(handle,(UBYTE*)&editor_texture_set,sizeof(editor_texture_set));
+		FileWrite(handle,(std::uint8_t*)&editor_texture_set,sizeof(editor_texture_set));
 
 
 		{
-			SLONG	si,pi;
+			std::int32_t	si,pi;
 			for(si=0;si<200;si++)
 			{
 				for(pi=0;pi<5;pi++)
 				{
-					SLONG	flip;
-					SLONG	page;
+					std::int32_t	flip;
+					std::int32_t	page;
 
 					page=textures_xy[si][pi].Page*64+(textures_xy[si][pi].Tx)+(textures_xy[si][pi].Ty)*8;
 					if(page>=8*64)
@@ -582,7 +582,7 @@ extern void	add_flat_roof_to_pap();
 					psx_textures_xy[si][pi]|=flip<<14;
 				}
 			}
-			FileWrite(handle,(UBYTE*)psx_textures_xy,2*200*5);
+			FileWrite(handle,(std::uint8_t*)psx_textures_xy,2*200*5);
 		}
 		FileClose(handle);
 	}
@@ -604,13 +604,13 @@ extern void	add_flat_roof_to_pap();
 
 	if(save_psx)
 	{
-void	save_texture_styles_psx(UBYTE world);
+void	save_texture_styles_psx(std::uint8_t world);
 		save_texture_styles_psx(editor_texture_set);
 		build_tims(next_texture);
 	}
 	else
 	{
-//extern void	save_texture_styles(UBYTE world);
+//extern void	save_texture_styles(std::uint8_t world);
 //		save_texture_styles(editor_texture_set);
 	}
 
@@ -624,12 +624,12 @@ void	save_texture_styles_psx(UBYTE world);
 }
 
 
-void	save_tex_remap(CBYTE* name)
+void	save_tex_remap(char* name)
 {
-	CBYTE	name2[128];
-	SLONG	c0;
+	char	name2[128];
+	std::int32_t	c0;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	UWORD	type=1,count=64*8;
+	std::uint16_t	type=1,count=64*8;
 
 	strcpy(name2,name);
 
@@ -645,21 +645,21 @@ void	save_tex_remap(CBYTE* name)
 	handle=FileCreate(name2,1);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)&type,sizeof(type));
-		FileWrite(handle,(UBYTE*)&count,sizeof(count));
+		FileWrite(handle,(std::uint8_t*)&type,sizeof(type));
+		FileWrite(handle,(std::uint8_t*)&count,sizeof(count));
 
-		FileWrite(handle,(UBYTE*)&page_remap,sizeof(UWORD)*count);
+		FileWrite(handle,(std::uint8_t*)&page_remap,sizeof(std::uint16_t)*count);
 	}
 	FileClose(handle);
 	
 }
 
-void	load_tex_remap(CBYTE* name)
+void	load_tex_remap(char* name)
 {
-	CBYTE	name2[128];
-	SLONG	c0;
+	char	name2[128];
+	std::int32_t	c0;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	UWORD	type=0,count=64*8;
+	std::uint16_t	type=0,count=64*8;
 
 	strcpy(name2,name);
 
@@ -677,14 +677,14 @@ void	load_tex_remap(CBYTE* name)
 	handle=FileOpen(name2);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileRead(handle,(UBYTE*)&type,sizeof(type));
-		FileRead(handle,(UBYTE*)&count,sizeof(count));
+		FileRead(handle,(std::uint8_t*)&type,sizeof(type));
+		FileRead(handle,(std::uint8_t*)&count,sizeof(count));
 
-		FileRead(handle,(UBYTE*)&page_remap,sizeof(UWORD)*count);
+		FileRead(handle,(std::uint8_t*)&page_remap,sizeof(std::uint16_t)*count);
 		if(type==0)
 		{
-			SLONG	c0;
-			UWORD	page;
+			std::int32_t	c0;
+			std::uint16_t	page;
 			for(c0=0;c0<count;c0++)
 			{
 				page=page_remap[c0];
@@ -706,23 +706,23 @@ void	load_tex_remap(CBYTE* name)
 	
 }
 
-void	save_map(CBYTE	*name,SLONG quick)
+void	save_map(char	*name,std::int32_t quick)
 {
-	UWORD	temp;
-	SLONG	save_type=27;
-	SLONG	c0;
+	std::uint16_t	temp;
+	std::int32_t	save_type=27;
+	std::int32_t	c0;
 
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 
 
 	if(quick==0)
 	{
-		SLONG	c0;
-		SLONG	hide_roof=0;
+		std::int32_t	c0;
+		std::int32_t	hide_roof=0;
 
-		CBYTE	bakname0[128];
-		CBYTE	bakname1[128];
-		CBYTE	bakname2[128];
+		char	bakname0[128];
+		char	bakname1[128];
+		char	bakname2[128];
 
 		strcpy(bakname0,name);
 		strcpy(bakname1,name);
@@ -754,83 +754,83 @@ void	save_map(CBYTE	*name,SLONG quick)
 	handle=FileCreate(name,1);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)&save_type,4);
-		FileWrite(handle,(UBYTE*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+		FileWrite(handle,(std::uint8_t*)&save_type,4);
+		FileWrite(handle,(std::uint8_t*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 
-		FileWrite(handle,(UBYTE*)tex_map,sizeof(UWORD)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+		FileWrite(handle,(std::uint8_t*)tex_map,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 
-		FileWrite(handle,(UBYTE*)edit_map_roof_height,sizeof(SBYTE)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+		FileWrite(handle,(std::uint8_t*)edit_map_roof_height,sizeof(std::int8_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 		
-		FileWrite(handle,(UBYTE*)&end_prim_point,sizeof(UWORD));
-		FileWrite(handle,(UBYTE*)&end_prim_face4,sizeof(UWORD));
-		FileWrite(handle,(UBYTE*)&end_prim_face3,sizeof(UWORD));
-		FileWrite(handle,(UBYTE*)&end_prim_object,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&end_prim_point,sizeof(std::uint16_t));
+		FileWrite(handle,(std::uint8_t*)&end_prim_face4,sizeof(std::uint16_t));
+		FileWrite(handle,(std::uint8_t*)&end_prim_face3,sizeof(std::uint16_t));
+		FileWrite(handle,(std::uint8_t*)&end_prim_object,sizeof(std::uint16_t));
 
 		temp=MAX_PRIM_POINTS-end_prim_point;
-		FileWrite(handle,(UBYTE*)&temp,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
 
 		temp=MAX_PRIM_FACES4-end_prim_face4;
-		FileWrite(handle,(UBYTE*)&temp,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
 
 		temp=MAX_PRIM_FACES3-end_prim_face3;
-		FileWrite(handle,(UBYTE*)&temp,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
 
 		temp=MAX_PRIM_OBJECTS-end_prim_object;
-		FileWrite(handle,(UBYTE*)&temp,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
 
-		FileWrite(handle,(UBYTE*)&prim_points[end_prim_point] ,sizeof(struct PrimPoint) *(MAX_PRIM_POINTS - end_prim_point));
-		FileWrite(handle,(UBYTE*)&prim_faces4[end_prim_face4] ,sizeof(struct PrimFace4) *(MAX_PRIM_FACES4 - end_prim_face4 ));
-		FileWrite(handle,(UBYTE*)&prim_faces3[end_prim_face3] ,sizeof(struct PrimFace3) *(MAX_PRIM_FACES3 - end_prim_face3 ));
-		FileWrite(handle,(UBYTE*)&prim_objects[end_prim_object],sizeof(struct PrimObject)*(MAX_PRIM_OBJECTS- end_prim_object));
-		FileWrite(handle,(UBYTE*)&background_prim,sizeof(UWORD));
+		FileWrite(handle,(std::uint8_t*)&prim_points[end_prim_point] ,sizeof(struct PrimPoint) *(MAX_PRIM_POINTS - end_prim_point));
+		FileWrite(handle,(std::uint8_t*)&prim_faces4[end_prim_face4] ,sizeof(struct PrimFace4) *(MAX_PRIM_FACES4 - end_prim_face4 ));
+		FileWrite(handle,(std::uint8_t*)&prim_faces3[end_prim_face3] ,sizeof(struct PrimFace3) *(MAX_PRIM_FACES3 - end_prim_face3 ));
+		FileWrite(handle,(std::uint8_t*)&prim_objects[end_prim_object],sizeof(struct PrimObject)*(MAX_PRIM_OBJECTS- end_prim_object));
+		FileWrite(handle,(std::uint8_t*)&background_prim,sizeof(std::uint16_t));
 
 
 
 // Moved to the end for versions 26+
-//		FileWrite(handle,(UBYTE*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-		FileWrite(handle,(UBYTE*)&edit_info.amb_dx,4*5);
-		FileWrite(handle,(UBYTE*)&next_col_info,2);
-		FileWrite(handle,(UBYTE*)col_info,sizeof(struct ColInfo)*next_col_info);
+//		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
+		FileWrite(handle,(std::uint8_t*)&edit_info.amb_dx,4*5);
+		FileWrite(handle,(std::uint8_t*)&next_col_info,2);
+		FileWrite(handle,(std::uint8_t*)col_info,sizeof(struct ColInfo)*next_col_info);
 
 
 		temp=MAX_WINDOWS;
-		FileWrite(handle,(UBYTE*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
 		temp=MAX_WALLS;
-		FileWrite(handle,(UBYTE*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
 		temp=MAX_STOREYS;
-		FileWrite(handle,(UBYTE*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
 		temp=MAX_BUILDINGS;
-		FileWrite(handle,(UBYTE*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
 
-		FileWrite(handle,(UBYTE*)window_list,sizeof(struct FWindow)*MAX_WINDOWS);
+		FileWrite(handle,(std::uint8_t*)window_list,sizeof(struct FWindow)*MAX_WINDOWS);
 		for(c0=0;c0<MAX_WALLS;c0++)
 		{
-			FileWrite(handle,(UBYTE*)&wall_list[c0],sizeof(struct FWall)*1);
+			FileWrite(handle,(std::uint8_t*)&wall_list[c0],sizeof(struct FWall)*1);
 			if(wall_list[c0].Tcount&&wall_list[c0].Textures)
 			{
-				FileWrite(handle,(UBYTE*)wall_list[c0].Textures,wall_list[c0].Tcount);
+				FileWrite(handle,(std::uint8_t*)wall_list[c0].Textures,wall_list[c0].Tcount);
 			}
 			if(wall_list[c0].Tcount2&&wall_list[c0].Textures2)
 			{
-				FileWrite(handle,(UBYTE*)wall_list[c0].Textures2,wall_list[c0].Tcount2);
+				FileWrite(handle,(std::uint8_t*)wall_list[c0].Textures2,wall_list[c0].Tcount2);
 			}
 		}
 
-		FileWrite(handle,(UBYTE*)&storey_list[0],sizeof(struct FStorey)*MAX_STOREYS);
-		FileWrite(handle,(UBYTE*)building_list,sizeof(struct FBuilding)*MAX_BUILDINGS);
+		FileWrite(handle,(std::uint8_t*)&storey_list[0],sizeof(struct FStorey)*MAX_STOREYS);
+		FileWrite(handle,(std::uint8_t*)building_list,sizeof(struct FBuilding)*MAX_BUILDINGS);
 
 
 		temp=next_inside;
-		FileWrite(handle,(UBYTE*)&temp,sizeof(temp));
-		FileWrite(handle,(UBYTE*)&room_ids[0],sizeof(struct RoomID)*temp);
+		FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+		FileWrite(handle,(std::uint8_t*)&room_ids[0],sizeof(struct RoomID)*temp);
 
 
 
-		FileWrite(handle,(UBYTE*)EXTRA_thing,sizeof(EXTRA_thing));
+		FileWrite(handle,(std::uint8_t*)EXTRA_thing,sizeof(EXTRA_thing));
 
-		FileWrite(handle,(UBYTE*)&editor_texture_set,sizeof(editor_texture_set));
+		FileWrite(handle,(std::uint8_t*)&editor_texture_set,sizeof(editor_texture_set));
 
-		FileWrite(handle,(UBYTE*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
+		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
 
 		FileClose(handle);
 	}
@@ -844,9 +844,9 @@ void	save_map(CBYTE	*name,SLONG quick)
 	}
 }
 
-void	set_things_faces(SWORD thing)
+void	set_things_faces(std::int16_t thing)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
 
 	p_obj    =	&prim_objects[map_things[thing].IndexOther];
@@ -862,7 +862,7 @@ void	set_things_faces(SWORD thing)
 
 void	clear_map()
 {
-	SLONG	x,z;
+	std::int32_t	x,z;
 	background_prim=0;
 
 	next_prim_point=1;
@@ -883,23 +883,23 @@ void	clear_map()
 //	next_col_vect=1;
 //	next_col_vect_link=1;
 
-	memset((UBYTE*)&edit_map[0][0],0,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_HEIGHT);
-//	memset((UBYTE*)&edit_map_eles[0],0,sizeof(EditMapElement)*65000);
-	memset((UBYTE*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
+	memset((std::uint8_t*)&edit_map[0][0],0,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_HEIGHT);
+//	memset((std::uint8_t*)&edit_map_eles[0],0,sizeof(EditMapElement)*65000);
+	memset((std::uint8_t*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
 
-	memset((UBYTE*)wall_list,0,sizeof(struct FWall)*MAX_WALLS);
-	memset((UBYTE*)storey_list,0,sizeof(struct FStorey)*MAX_STOREYS);
-	memset((UBYTE*)building_list,0,sizeof(struct FBuilding)*MAX_BUILDINGS);
+	memset((std::uint8_t*)wall_list,0,sizeof(struct FWall)*MAX_WALLS);
+	memset((std::uint8_t*)storey_list,0,sizeof(struct FStorey)*MAX_STOREYS);
+	memset((std::uint8_t*)building_list,0,sizeof(struct FBuilding)*MAX_BUILDINGS);
 
 
 
 }
 
 
-SLONG	fix_storey(SLONG	storey,SLONG	building,UBYTE magnify)
+std::int32_t	fix_storey(std::int32_t	storey,std::int32_t	building,std::uint8_t magnify)
 {
-	SLONG	roof,wall;
-	SLONG	some_walls=0;
+	std::int32_t	roof,wall;
+	std::int32_t	some_walls=0;
 	while(storey)
 	{
 		storey_list[storey].BuildingHead=building;
@@ -960,10 +960,10 @@ SLONG	fix_storey(SLONG	storey,SLONG	building,UBYTE magnify)
 }
 
 
-void	fix_buildings(UBYTE	magnify)
+void	fix_buildings(std::uint8_t	magnify)
 {
-	SLONG	c0;	
-	SLONG	roof,storey,wall;
+	std::int32_t	c0;	
+	std::int32_t	roof,storey,wall;
 
 	for(c0=1;c0<MAX_STOREYS;c0++)
 	{
@@ -979,7 +979,7 @@ void	fix_buildings(UBYTE	magnify)
 			storey=building_list[c0].StoreyHead;
 			if(storey)
 			{
-				SLONG	walls;
+				std::int32_t	walls;
 				walls=fix_storey(storey,c0,magnify);
 				if(walls==0)
 				{
@@ -999,13 +999,13 @@ void	fix_buildings(UBYTE	magnify)
 }
 
 
-void	save_texture_styles(UBYTE world)
+void	save_texture_styles(std::uint8_t world)
 {
-	UWORD	temp,temp2;
-	SLONG	save_type=5;
+	std::uint16_t	temp,temp2;
+	std::int32_t	save_type=5;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 
-	CBYTE fname[MAX_PATH];
+	char fname[MAX_PATH];
 
 	sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
 //	sprintf(fname, "u:\\urbanchao\\textures\\world%d\\style.tma", world);
@@ -1014,28 +1014,28 @@ void	save_texture_styles(UBYTE world)
 
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)&save_type,4);
+		FileWrite(handle,(std::uint8_t*)&save_type,4);
 		temp=9;		//how many texture_pages
 
-//		FileWrite(handle,(UBYTE*)&temp,2);
-//		FileWrite(handle,(UBYTE*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
+//		FileWrite(handle,(std::uint8_t*)&temp,2);
+//		FileWrite(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
 		temp=200;
 		temp2=5;
-		FileWrite(handle,(UBYTE*)&temp,2);
-		FileWrite(handle,(UBYTE*)&temp2,2);
-		FileWrite(handle,(UBYTE*)&textures_xy[0][0],sizeof(struct TXTY)*temp*temp2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp2,2);
+		FileWrite(handle,(std::uint8_t*)&textures_xy[0][0],sizeof(struct TXTY)*temp*temp2);
 		temp=200;
 		temp2=21;
-		FileWrite(handle,(UBYTE*)&temp,2);
-		FileWrite(handle,(UBYTE*)&temp2,2);
-		FileWrite(handle,(UBYTE*)&texture_style_names[0][0],temp*temp2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp2,2);
+		FileWrite(handle,(std::uint8_t*)&texture_style_names[0][0],temp*temp2);
 		if(save_type>2)
 		{
 			temp=200;
 			temp2=5;
-			FileWrite(handle,(UBYTE*)&temp,2);
-			FileWrite(handle,(UBYTE*)&temp2,2);
-			FileWrite(handle,(UBYTE*)&textures_flags[0][0],sizeof(UBYTE)*temp*temp2);
+			FileWrite(handle,(std::uint8_t*)&temp,2);
+			FileWrite(handle,(std::uint8_t*)&temp2,2);
+			FileWrite(handle,(std::uint8_t*)&textures_flags[0][0],sizeof(std::uint8_t)*temp*temp2);
 		}
 
 		FileClose(handle);
@@ -1043,14 +1043,14 @@ void	save_texture_styles(UBYTE world)
 
 }
 
-void	save_texture_styles_psx(UBYTE world)
+void	save_texture_styles_psx(std::uint8_t world)
 {
-	UWORD	temp,temp2;
-	SLONG	save_type=5;
+	std::uint16_t	temp,temp2;
+	std::int32_t	save_type=5;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 
-	CBYTE fname[MAX_PATH];
-	SLONG	si,pi;
+	char fname[MAX_PATH];
+	std::int32_t	si,pi;
 	struct	TXTY	temp_t[200][5];
 
 	
@@ -1058,7 +1058,7 @@ void	save_texture_styles_psx(UBYTE world)
 	{
 		for(pi=0;pi<5;pi++)
 		{
-			SLONG	page;
+			std::int32_t	page;
 
 			page=textures_xy[si][pi].Page*64+(textures_xy[si][pi].Tx)+(textures_xy[si][pi].Ty)*8;
 			if(page>=8*64)
@@ -1084,26 +1084,26 @@ void	save_texture_styles_psx(UBYTE world)
 
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)&save_type,4);
+		FileWrite(handle,(std::uint8_t*)&save_type,4);
 		temp=9;		//how many texture_pages
 
 		temp=200;
 		temp2=5;
-		FileWrite(handle,(UBYTE*)&temp,2);
-		FileWrite(handle,(UBYTE*)&temp2,2);
-		FileWrite(handle,(UBYTE*)&temp_t[0][0],sizeof(struct TXTY)*temp*temp2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp2,2);
+		FileWrite(handle,(std::uint8_t*)&temp_t[0][0],sizeof(struct TXTY)*temp*temp2);
 		temp=200;
 		temp2=21;
-		FileWrite(handle,(UBYTE*)&temp,2);
-		FileWrite(handle,(UBYTE*)&temp2,2);
-		FileWrite(handle,(UBYTE*)&texture_style_names[0][0],temp*temp2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp2,2);
+		FileWrite(handle,(std::uint8_t*)&texture_style_names[0][0],temp*temp2);
 		if(save_type>2)
 		{
 			temp=200;
 			temp2=5;
-			FileWrite(handle,(UBYTE*)&temp,2);
-			FileWrite(handle,(UBYTE*)&temp2,2);
-			FileWrite(handle,(UBYTE*)&temp_t[0][0],sizeof(UBYTE)*temp*temp2);
+			FileWrite(handle,(std::uint8_t*)&temp,2);
+			FileWrite(handle,(std::uint8_t*)&temp2,2);
+			FileWrite(handle,(std::uint8_t*)&temp_t[0][0],sizeof(std::uint8_t)*temp*temp2);
 		}
 
 		FileClose(handle);
@@ -1112,7 +1112,7 @@ void	save_texture_styles_psx(UBYTE world)
 
 void	fix_style_names()
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	for(c0=0;c0<200;c0++)
 	{
 		for(c1=0;c1<21;c1++)
@@ -1149,7 +1149,7 @@ void	fix_style_names()
 
 void	reset_floor_flags()
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
 	{
 		for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
@@ -1161,12 +1161,12 @@ void	reset_floor_flags()
 }
 
 
-CBYTE	strips[128][128];
+char	strips[128][128];
 
-void	get_a_strip(ULONG	minsize,ULONG maxsize,UBYTE	dir)
+void	get_a_strip(std::uint32_t	minsize,std::uint32_t maxsize,std::uint8_t	dir)
 {
-	SLONG	dx,dz,x,z;
-	UWORD	tex,texs;
+	std::int32_t	dx,dz,x,z;
+	std::uint16_t	tex,texs;
 	dx=0;
 	for(x=0;x<EDIT_MAP_WIDTH;x++)
 	{
@@ -1204,12 +1204,12 @@ void	do_strips()
 
 void	process_map()
 {
-	SLONG	dx,dz,x,z;
-	SLONG	count,find;
-	UWORD	textures[64],tc[130],tcz[130];
-	SLONG	maxcount=0;
-	UWORD	tex,texs;
-	CBYTE	str[256];
+	std::int32_t	dx,dz,x,z;
+	std::int32_t	count,find;
+	std::uint16_t	textures[64],tc[130],tcz[130];
+	std::int32_t	maxcount=0;
+	std::uint16_t	tex,texs;
+	char	str[256];
 	memset(tc,0,128);
 	for(x=0;x<EDIT_MAP_WIDTH;x+=8)
 	{
@@ -1221,7 +1221,7 @@ void	process_map()
 			{
 				for(dz=0;dz<8;dz++)
 				{
-					UWORD	tex;
+					std::uint16_t	tex;
 					tex=edit_map[x+dx][z+dz].Texture&1023;
 					find=0;
 					while(find<count)
@@ -1300,7 +1300,7 @@ void	process_map()
 		}
 	}
 
-	ULONG	tx,tz;
+	std::uint32_t	tx,tz;
 	for(x=1;x<=128;x++)
 	{
 		tx+=x*tc[x];
@@ -1320,31 +1320,31 @@ void	process_map()
 
 }
 
-SLONG	load_map(CBYTE	*name)
+std::int32_t	load_map(char	*name)
 {
-	UWORD	temp_end_prim_point;
-	UWORD	temp_end_prim_face4;
-	UWORD	temp_end_prim_face3;
-	UWORD	temp_end_prim_object;
+	std::uint16_t	temp_end_prim_point;
+	std::uint16_t	temp_end_prim_face4;
+	std::uint16_t	temp_end_prim_face3;
+	std::uint16_t	temp_end_prim_object;
 
-	UWORD	no_prim_point;
-	UWORD	no_prim_face4;
-	UWORD	no_prim_face3;
-	UWORD	no_prim_object;
-	SLONG	save_type=1;
-	UWORD	temp[4];
-	SLONG	c0;
-	SLONG	size=0;
-	SLONG	x,z;
-	SLONG	load_ok=0;
+	std::uint16_t	no_prim_point;
+	std::uint16_t	no_prim_face4;
+	std::uint16_t	no_prim_face3;
+	std::uint16_t	no_prim_object;
+	std::int32_t	save_type=1;
+	std::uint16_t	temp[4];
+	std::int32_t	c0;
+	std::int32_t	size=0;
+	std::int32_t	x,z;
+	std::int32_t	load_ok=0;
 	struct	TinyStrip
 	{
-		UWORD	MapThingIndex;
-	//	UWORD	Depth[EDIT_MAP_DEPTH];
-		UWORD	ColVectHead;
-	//	UWORD	Dummy1;
-		UWORD	Texture;
-		SWORD	Bright;
+		std::uint16_t	MapThingIndex;
+	//	std::uint16_t	Depth[EDIT_MAP_DEPTH];
+		std::uint16_t	ColVectHead;
+	//	std::uint16_t	Dummy1;
+		std::uint16_t	Texture;
+		std::int16_t	Bright;
 	}tinyfloor;
 
 
@@ -1353,17 +1353,17 @@ SLONG	load_map(CBYTE	*name)
 //	load_game_map();
 //	return;
 
-	SLONG old_texture_set = editor_texture_set;
+	std::int32_t old_texture_set = editor_texture_set;
 
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 	handle=FileOpen(name);
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		SLONG	dx,dz;
+		std::int32_t	dx,dz;
 		PAP_clear();
 
 		LogText(" load map %s \n",name);
-		FileRead(handle,(UBYTE*)&save_type,4);
+		FileRead(handle,(std::uint8_t*)&save_type,4);
 
 		if(save_type<=8)
 		{
@@ -1371,7 +1371,7 @@ SLONG	load_map(CBYTE	*name)
 			{
 				for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
 				{
-					size+=FileRead(handle,(UBYTE*)&tinyfloor,sizeof(struct TinyStrip));
+					size+=FileRead(handle,(std::uint8_t*)&tinyfloor,sizeof(struct TinyStrip));
 					edit_map[dx][dz].MapThingIndex=tinyfloor.MapThingIndex;
 					edit_map[dx][dz].ColVectHead=tinyfloor.ColVectHead;
 					edit_map[dx][dz].Texture=tinyfloor.Texture;
@@ -1381,18 +1381,18 @@ SLONG	load_map(CBYTE	*name)
 		}
 		else
 		{
-			size+=FileRead(handle,(UBYTE*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+			size+=FileRead(handle,(std::uint8_t*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 		}
 
 
 
 		if(save_type>19)
 		{
-			FileRead(handle,(UBYTE*)tex_map,sizeof(UWORD)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+			FileRead(handle,(std::uint8_t*)tex_map,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 		}
 		else
 		{
-			memset((UBYTE*)tex_map,0,sizeof(UWORD)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+			memset((std::uint8_t*)tex_map,0,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 
 		}
 
@@ -1409,11 +1409,11 @@ SLONG	load_map(CBYTE	*name)
 
 		if(save_type>18)
 		{
-			FileRead(handle,(UBYTE*)edit_map_roof_height,sizeof(SBYTE)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+			FileRead(handle,(std::uint8_t*)edit_map_roof_height,sizeof(std::int8_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 		}
 		else
 		{
-			memset((UBYTE*)&edit_map_roof_height[0][0],0,sizeof(SBYTE)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+			memset((std::uint8_t*)&edit_map_roof_height[0][0],0,sizeof(std::int8_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 		}
 
 
@@ -1437,15 +1437,15 @@ SLONG	load_map(CBYTE	*name)
 
 		LogText(" after map %d \n",size);
 
-		size+=FileRead(handle,(UBYTE*)&temp_end_prim_point,sizeof(UWORD));
-		size+=FileRead(handle,(UBYTE*)&temp_end_prim_face4,sizeof(UWORD));
-		size+=FileRead(handle,(UBYTE*)&temp_end_prim_face3,sizeof(UWORD));
-		size+=FileRead(handle,(UBYTE*)&temp_end_prim_object,sizeof(UWORD));
+		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_point,sizeof(std::uint16_t));
+		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_face4,sizeof(std::uint16_t));
+		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_face3,sizeof(std::uint16_t));
+		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_object,sizeof(std::uint16_t));
 
-		size+=FileRead(handle,(UBYTE*)&no_prim_point ,sizeof(UWORD));
-		size+=FileRead(handle,(UBYTE*)&no_prim_face4 ,sizeof(UWORD));
-		size+=FileRead(handle,(UBYTE*)&no_prim_face3 ,sizeof(UWORD));
-		size+=FileRead(handle,(UBYTE*)&no_prim_object,sizeof(UWORD));
+		size+=FileRead(handle,(std::uint8_t*)&no_prim_point ,sizeof(std::uint16_t));
+		size+=FileRead(handle,(std::uint8_t*)&no_prim_face4 ,sizeof(std::uint16_t));
+		size+=FileRead(handle,(std::uint8_t*)&no_prim_face3 ,sizeof(std::uint16_t));
+		size+=FileRead(handle,(std::uint8_t*)&no_prim_object,sizeof(std::uint16_t));
 
 		end_prim_point =MAX_PRIM_POINTS -no_prim_point;
 		end_prim_face4 =MAX_PRIM_FACES4 -no_prim_face4;
@@ -1454,32 +1454,32 @@ SLONG	load_map(CBYTE	*name)
 
 		if(save_type<24)
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			struct	OldPrimPoint	pp;
 			for(c0=0;c0<no_prim_point;c0++)
 			{
-				size+=FileRead(handle,(UBYTE*)&pp ,sizeof(struct OldPrimPoint) );
+				size+=FileRead(handle,(std::uint8_t*)&pp ,sizeof(struct OldPrimPoint) );
 
-				prim_points[end_prim_point+c0].X=(SWORD)pp.X;
-				prim_points[end_prim_point+c0].Y=(SWORD)pp.Y;
-				prim_points[end_prim_point+c0].Z=(SWORD)pp.Z;
+				prim_points[end_prim_point+c0].X=(std::int16_t)pp.X;
+				prim_points[end_prim_point+c0].Y=(std::int16_t)pp.Y;
+				prim_points[end_prim_point+c0].Z=(std::int16_t)pp.Z;
 			}
 
 		}
 		else
 		{
-			size+=FileRead(handle,(UBYTE*)&prim_points[end_prim_point ] ,sizeof(struct PrimPoint) *(no_prim_point));
+			size+=FileRead(handle,(std::uint8_t*)&prim_points[end_prim_point ] ,sizeof(struct PrimPoint) *(no_prim_point));
 		}
 		LogText(" after prim points %d \n",size);
-		size+=FileRead(handle,(UBYTE*)&prim_faces4[end_prim_face4 ] ,sizeof(struct PrimFace4) *(no_prim_face4 ));
+		size+=FileRead(handle,(std::uint8_t*)&prim_faces4[end_prim_face4 ] ,sizeof(struct PrimFace4) *(no_prim_face4 ));
 		LogText(" after prim face4 %d \n",size);
-		size+=FileRead(handle,(UBYTE*)&prim_faces3[end_prim_face3 ] ,sizeof(struct PrimFace3) *(no_prim_face3 ));
+		size+=FileRead(handle,(std::uint8_t*)&prim_faces3[end_prim_face3 ] ,sizeof(struct PrimFace3) *(no_prim_face3 ));
 		LogText(" after prim face3 %d \n",size);
 
 
 		if(save_type<27)
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			struct	PrimObjectOld oldprim;
 			for(c0=0;c0<no_prim_object;c0++)
 			{
@@ -1502,7 +1502,7 @@ SLONG	load_map(CBYTE	*name)
 		else
 		{
 
-			size+=FileRead(handle,(UBYTE*)&prim_objects[end_prim_object],sizeof(struct PrimObject)*(no_prim_object));
+			size+=FileRead(handle,(std::uint8_t*)&prim_objects[end_prim_object],sizeof(struct PrimObject)*(no_prim_object));
 			LogText(" after prim objects %d \n",size);
 		}
 
@@ -1536,11 +1536,11 @@ SLONG	load_map(CBYTE	*name)
 			prim_objects[c0].EndFace4  +=-temp_end_prim_face4+end_prim_face4;
 		}
 
-		size+=FileRead(handle,(UBYTE*)&background_prim,sizeof(UWORD));
+		size+=FileRead(handle,(std::uint8_t*)&background_prim,sizeof(std::uint16_t));
 		background_prim=0;
 
 		if (save_type<26) {
-			size+=FileRead(handle,(UBYTE*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
+			size+=FileRead(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
 
 			for(c0=1;c0<MAX_MAP_THINGS;c0++)
 			{
@@ -1562,17 +1562,17 @@ SLONG	load_map(CBYTE	*name)
 		}
 
 
-			size+=FileRead(handle,(UBYTE*)&edit_info.amb_dx,4*5);
-			size+=FileRead(handle,(UBYTE*)&next_col_info,2);
-			size+=FileRead(handle,(UBYTE*)col_info,sizeof(struct ColInfo)*next_col_info);
+			size+=FileRead(handle,(std::uint8_t*)&edit_info.amb_dx,4*5);
+			size+=FileRead(handle,(std::uint8_t*)&next_col_info,2);
+			size+=FileRead(handle,(std::uint8_t*)col_info,sizeof(struct ColInfo)*next_col_info);
 		LogText(" after col_info %d \n",size);
 
-		size+=FileRead(handle,(UBYTE*)&temp[0],2);
-		size+=FileRead(handle,(UBYTE*)&temp[1],2);
-		size+=FileRead(handle,(UBYTE*)&temp[2],2);
-		size+=FileRead(handle,(UBYTE*)&temp[3],2);
+		size+=FileRead(handle,(std::uint8_t*)&temp[0],2);
+		size+=FileRead(handle,(std::uint8_t*)&temp[1],2);
+		size+=FileRead(handle,(std::uint8_t*)&temp[2],2);
+		size+=FileRead(handle,(std::uint8_t*)&temp[3],2);
 
-		size+=FileRead(handle,(UBYTE*)window_list,sizeof(struct FWindow)*temp[0]);
+		size+=FileRead(handle,(std::uint8_t*)window_list,sizeof(struct FWindow)*temp[0]);
 		LogText(" after windows %d \n",size);
 
 		for(c0=0;c0<MAX_WALLS;c0++)
@@ -1596,24 +1596,24 @@ SLONG	load_map(CBYTE	*name)
 		{
 			for(c0=0;c0<MAX_WALLS;c0++)
 			{
-				size+=FileRead(handle,(UBYTE*)&wall_list[c0],sizeof(struct FWall)*1);
+				size+=FileRead(handle,(std::uint8_t*)&wall_list[c0],sizeof(struct FWall)*1);
 				if(wall_list[c0].Tcount&&wall_list[c0].Textures)
 				{
 
-					wall_list[c0].Textures=(UBYTE*)MemAlloc(wall_list[c0].Tcount);
+					wall_list[c0].Textures=(std::uint8_t*)MemAlloc(wall_list[c0].Tcount);
 					ASSERT(wall_list[c0].Textures);
 
-					size+=FileRead(handle,(UBYTE*)wall_list[c0].Textures,wall_list[c0].Tcount);
+					size+=FileRead(handle,(std::uint8_t*)wall_list[c0].Textures,wall_list[c0].Tcount);
 				}
 				if(save_type>21)
 				{
 					if(wall_list[c0].Tcount2&&wall_list[c0].Textures2)
 					{
 
-						wall_list[c0].Textures2=(UBYTE*)MemAlloc(wall_list[c0].Tcount2);
+						wall_list[c0].Textures2=(std::uint8_t*)MemAlloc(wall_list[c0].Tcount2);
 						ASSERT(wall_list[c0].Textures2);
 
-						size+=FileRead(handle,(UBYTE*)wall_list[c0].Textures2,wall_list[c0].Tcount2);
+						size+=FileRead(handle,(std::uint8_t*)wall_list[c0].Textures2,wall_list[c0].Tcount2);
 					}
 				}
 				else
@@ -1623,7 +1623,7 @@ SLONG	load_map(CBYTE	*name)
 
 				}
 			}
-			size+=FileRead(handle,(UBYTE*)storey_list,sizeof(struct FStorey)*temp[2]);
+			size+=FileRead(handle,(std::uint8_t*)storey_list,sizeof(struct FStorey)*temp[2]);
 			LogText(" after storeys %d \n",size);
 			if(save_type<21)
 			{
@@ -1645,9 +1645,9 @@ SLONG	load_map(CBYTE	*name)
 		{
 
 
-			size+=FileRead(handle,(UBYTE*)wall_list,sizeof(struct FWall)*temp[1]);
+			size+=FileRead(handle,(std::uint8_t*)wall_list,sizeof(struct FWall)*temp[1]);
 			LogText(" after walls %d \n",size);
-			size+=FileRead(handle,(UBYTE*)storey_list,sizeof(struct FStorey)*temp[2]);
+			size+=FileRead(handle,(std::uint8_t*)storey_list,sizeof(struct FStorey)*temp[2]);
 			LogText(" after storeys %d \n",size);
 
 
@@ -1661,18 +1661,18 @@ SLONG	load_map(CBYTE	*name)
 
 		}
 
-		size+=FileRead(handle,(UBYTE*)building_list,sizeof(struct FBuilding)*temp[3]);
+		size+=FileRead(handle,(std::uint8_t*)building_list,sizeof(struct FBuilding)*temp[3]);
 		//LogText(" after buildings %d \n",size);
 
 
 		if(save_type>22)
 		{
-			UWORD	temp;
-			SLONG	c0,stair;
+			std::uint16_t	temp;
+			std::int32_t	c0,stair;
 
-			FileRead(handle,(UBYTE*)&temp,sizeof(temp));
+			FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
 			next_inside=temp;
-			FileRead(handle,(UBYTE*)&room_ids[0],sizeof(struct RoomID)*temp);
+			FileRead(handle,(std::uint8_t*)&room_ids[0],sizeof(struct RoomID)*temp);
 			for(c0=1;c0<next_inside;c0++)
 			{
 				for(stair=0;stair<MAX_STAIRS_PER_FLOOR;stair++)
@@ -1705,7 +1705,7 @@ SLONG	load_map(CBYTE	*name)
 			{
 				if(storey_list[c0].StoreyFlags)
 				{
-					SLONG	wall;
+					std::int32_t	wall;
 
 					if(storey_list[c0].StoreyType==STOREY_TYPE_CABLE)
 					{
@@ -1738,7 +1738,7 @@ SLONG	load_map(CBYTE	*name)
 			fix_buildings(0); // make sure next/prev tally by resetting the prev field 
 		if(save_type==12)
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			for(c0=0;c0<MAX_STOREYS;c0++)
 			{
 				if(storey_list[c0].StoreyType==STOREY_TYPE_LADDER)
@@ -1749,7 +1749,7 @@ SLONG	load_map(CBYTE	*name)
 		}
 		if(save_type<17)
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			for(c0=0;c0<MAX_WALLS;c0++)
 			{
 				wall_list[c0].Textures=0;
@@ -1759,12 +1759,12 @@ SLONG	load_map(CBYTE	*name)
 
 		if (save_type >= 14)
 		{
-			FileRead(handle,(UBYTE*)EXTRA_thing,sizeof(EXTRA_thing));
+			FileRead(handle,(std::uint8_t*)EXTRA_thing,sizeof(EXTRA_thing));
 		}
 
 		if (save_type >= 21)
 		{
-			FileRead(handle,(UBYTE*)&editor_texture_set,sizeof(editor_texture_set));
+			FileRead(handle,(std::uint8_t*)&editor_texture_set,sizeof(editor_texture_set));
 		}
 		else
 		{
@@ -1775,10 +1775,10 @@ SLONG	load_map(CBYTE	*name)
 		// check the storey link list of this building all actually belong to this building
 		// this is to fix bug of duplicate faces caused by screwy building link list
 		{
-			SLONG	c0;
+			std::int32_t	c0;
 			for(c0=1;c0<MAX_BUILDINGS;c0++)
 			{
-				SLONG	storey;
+				std::int32_t	storey;
 				if(building_list[c0].StoreyHead)
 				{
 					storey=building_list[c0].StoreyHead;
@@ -1800,7 +1800,7 @@ SLONG	load_map(CBYTE	*name)
 
 
 		if (save_type >= 26) {
-			size+=FileRead(handle,(UBYTE*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
+			size+=FileRead(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
 
 			for(c0=1;c0<MAX_MAP_THINGS;c0++)
 			{
@@ -1827,7 +1827,7 @@ SLONG	load_map(CBYTE	*name)
 		load_tex_remap(name);
 
 		{
-			SLONG	index;
+			std::int32_t	index;
 			struct	MapThing	*p_thing;
 			index=background_prim;
 			while(index)
@@ -1855,7 +1855,7 @@ SLONG	load_map(CBYTE	*name)
 	}
 
 	{
-		SLONG	index,count=0;
+		std::int32_t	index,count=0;
 		LogText(" *************************************\n");
 		index=edit_map[48][45].MapThingIndex;
 		LogText(" on map cell [48][45] = index %d \n",index);
@@ -1871,7 +1871,7 @@ SLONG	load_map(CBYTE	*name)
 
 }
 
-void	setup_ambient(SLONG dx,SLONG dy,SLONG dz,SLONG bright,SLONG flags)
+void	setup_ambient(std::int32_t dx,std::int32_t dy,std::int32_t dz,std::int32_t bright,std::int32_t flags)
 {
 	edit_info.amb_dx=dx;
 	edit_info.amb_dz=dz;
@@ -1882,10 +1882,10 @@ void	setup_ambient(SLONG dx,SLONG dy,SLONG dz,SLONG bright,SLONG flags)
 
 
 
-UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3)
+std::uint16_t	is_it_clockwise(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3)
 {
-	SLONG	z;
-	SLONG	vx,vy,wx,wy;
+	std::int32_t	z;
+	std::int32_t	vx,vy,wx,wy;
 	
 	vx=res[p2].X-res[p1].X;
 	wx=res[p3].X-res[p2].X;
@@ -1902,20 +1902,20 @@ UWORD	is_it_clockwise(struct SVector *res,SLONG p1,SLONG p2,SLONG p3)
 
 void	set_quad_buckets_texture(struct	BucketQuad	*p_bucket,struct	TextureBits *texture)
 {
-	UBYTE	sx,sy,w,h;
+	std::uint8_t	sx,sy,w,h;
 
 	sx=texture->X<<3;
 	sy=texture->Y<<3;
 	w=texture_sizes[texture->Width];
 	h=texture_sizes[texture->Height];
-	setUV4(p_bucket,sx,sy,sx+w-1,sy,sx,sy+h-1,sx+w-1,sy+h-1,(SWORD)texture->Page);
+	setUV4(p_bucket,sx,sy,sx+w-1,sy,sx,sy+h-1,sx+w-1,sy+h-1,(std::int16_t)texture->Page);
 }
 
 
-inline	void	insert_bucket_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD col)
+inline	void	insert_bucket_vect(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int16_t col)
 {
-	SLONG	flag_and,flag_or;
-	SLONG	az;
+	std::int32_t	flag_and,flag_or;
+	std::int32_t	az;
 	struct BucketVect	*p_bucket;
 
 	if(current_bucket_pool>=end_bucket_pool)
@@ -1933,10 +1933,10 @@ inline	void	insert_bucket_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLON
 
 }
 
-UWORD	is_it_clockwise_xy(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3)
+std::uint16_t	is_it_clockwise_xy(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3)
 {
-	SLONG	z;
-	SLONG	vx,vy,wx,wy;
+	std::int32_t	z;
+	std::int32_t	vx,vy,wx,wy;
 	
 	vx=x2-x1; //point2->X-point1->X;
 	wx=x3-x2; //point3->X-point2->X;
@@ -1950,10 +1950,10 @@ UWORD	is_it_clockwise_xy(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3)
 		return	0;
 }
 
-inline	struct BucketQuad *insert_quad(SLONG	*flags,struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,struct TextureBits t)
+inline	struct BucketQuad *insert_quad(std::int32_t	*flags,struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,struct TextureBits t)
 {
-	SLONG	flag_and,flag_or;
-	SLONG	az;
+	std::int32_t	flag_and,flag_or;
+	std::int32_t	az;
 	struct	BucketQuad	*p_bucket;
 
 	if(current_bucket_pool>=end_bucket_pool)
@@ -1990,9 +1990,9 @@ inline	struct BucketQuad *insert_quad(SLONG	*flags,struct SVector *res,SLONG p1,
 		return(0);
 }
 
-inline	struct BucketTri *insert_tri(SLONG	*flags,struct SVector *res,SLONG p1,SLONG p2,SLONG p3)
+inline	struct BucketTri *insert_tri(std::int32_t	*flags,struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3)
 {
-	SLONG	flag_and,flag_or;
+	std::int32_t	flag_and,flag_or;
 	struct	BucketTri	*p_bucket;
 
 	if(current_bucket_pool>=end_bucket_pool)
@@ -2018,9 +2018,9 @@ inline	struct BucketTri *insert_tri(SLONG	*flags,struct SVector *res,SLONG p1,SL
 }
 
 #define	TSHIFT	8
-UBYTE	check_big_point_triangle(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+std::uint8_t	check_big_point_triangle(std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
 {
-	SLONG	s,t,top,bot,res;
+	std::int32_t	s,t,top,bot,res;
 
 	GlobalXYToLocal(&x,&y);
 	top	=	(y-uy)*(wx-ux)+(ux-x)*(wy-uy);
@@ -2060,9 +2060,9 @@ UBYTE	check_big_point_triangle(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG 
 //
 // p2   p3
 
-bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG face)
+bool	check_mouse_over_prim_quad(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,std::int32_t face)
 {
-	SLONG	az;
+	std::int32_t	az;
 
 
 	az	=	(res[p1].Z+res[p2].Z+res[p3].Z+res[p4].Z)>>2;
@@ -2087,7 +2087,7 @@ bool	check_mouse_over_prim_quad(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,S
 	return	false;
 }
 
-bool	check_mouse_over_floor_quad(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3, SLONG x4,SLONG y4,SLONG face,SLONG az)
+bool	check_mouse_over_floor_quad(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3, std::int32_t x4,std::int32_t y4,std::int32_t face,std::int32_t az)
 {
 	if	(
 			check_big_point_triangle(MouseX,MouseY,x1,y1,x2,y2,x3,y3)	||
@@ -2112,9 +2112,9 @@ bool	check_mouse_over_floor_quad(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SL
 
 
 
-bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG face)
+bool	check_mouse_over_prim_tri(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t face)
 {
-	SLONG	az;
+	std::int32_t	az;
 
 
 	az	=	(res[p1].Z+res[p2].Z+res[p3].Z)/3;
@@ -2136,9 +2136,9 @@ bool	check_mouse_over_prim_tri(struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SL
 	return	false;
 }
 
-void	check_mouse_quad(struct EditMapElement *p_ele,struct SVector *res,SLONG p1,SLONG p2,SLONG p3,SLONG p4,SLONG wx,SLONG wy,SLONG wz,SLONG face)
+void	check_mouse_quad(struct EditMapElement *p_ele,struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,std::int32_t wx,std::int32_t wy,std::int32_t wz,std::int32_t face)
 {
-	SLONG	az;
+	std::int32_t	az;
 	static	count;
 	if(hilited_face.EditTurn!=editor_turn)
 	{
@@ -2178,7 +2178,7 @@ void	check_mouse_quad(struct EditMapElement *p_ele,struct SVector *res,SLONG p1,
 
 struct	DisplayTypes
 {
-	SLONG	Width,Height,Depth;
+	std::int32_t	Width,Height,Depth;
 
 };
 
@@ -2199,10 +2199,10 @@ struct DisplayTypes display_types[]=
 void	gamut_fiddle()
 {
 
-	UBYTE	temp_pal[768];
-	SLONG	c0,temp;
-	static	SLONG	gamut=0;
-	UBYTE	*pal;
+	std::uint8_t	temp_pal[768];
+	std::int32_t	c0,temp;
+	static	std::int32_t	gamut=0;
+	std::uint8_t	*pal;
 	
 	if((pal=PALETTE)==0)
 		return;
@@ -2228,11 +2228,11 @@ void	gamut_fiddle()
 	}
 }
 
-ULONG	engine_keys_scroll_game()
+std::uint32_t	engine_keys_scroll_game()
 {
-   	SLONG	dx=0,dy=0,dz=0;
-	ULONG	change=0;
-	SLONG	scale;
+   	std::int32_t	dx=0,dy=0,dz=0;
+	std::uint32_t	change=0;
+	std::int32_t	scale;
 
 	if(ShiftFlag)
 	{
@@ -2333,9 +2333,9 @@ ULONG	engine_keys_scroll_game()
 	
 }
 
-SLONG	calc_step_size()
+std::int32_t	calc_step_size()
 {
-	SLONG	scale;
+	std::int32_t	scale;
  	scale=3000-(engine.Scale+1000);
 
 	if(scale<1)
@@ -2346,10 +2346,10 @@ SLONG	calc_step_size()
 
 }
 
-ULONG	engine_keys_scroll()
+std::uint32_t	engine_keys_scroll()
 {
-	SLONG	update=0;
-	SLONG	step_size;
+	std::int32_t	update=0;
+	std::int32_t	step_size;
 
 	step_size=calc_step_size();
 
@@ -2423,10 +2423,10 @@ ULONG	engine_keys_scroll()
 	return(update);
 }
 
-ULONG	engine_keys_scroll_plan()
+std::uint32_t	engine_keys_scroll_plan()
 {
-	SLONG	update=0;
-	SLONG	step_size=256<<8;
+	std::int32_t	update=0;
+	std::int32_t	step_size=256<<8;
 //	step_size=calc_step_size();
 
 	if(ShiftFlag)
@@ -2477,9 +2477,9 @@ ULONG	engine_keys_scroll_plan()
 	return(update);
 }
 
-ULONG	engine_keys_spin()
+std::uint32_t	engine_keys_spin()
 {
-	SLONG	update=0;
+	std::int32_t	update=0;
 	gamut_fiddle();
 	if(Keys[KB_DEL])
 	{
@@ -2531,7 +2531,7 @@ ULONG	engine_keys_spin()
 	return(update);
 }
 
-ULONG	engine_keys_zoom()
+std::uint32_t	engine_keys_zoom()
 {
 	if(Keys[KB_I])
 	{
@@ -2548,13 +2548,13 @@ ULONG	engine_keys_zoom()
 	return(0);
 }
 
-ULONG	editor_user_interface(UBYTE type)
+std::uint32_t	editor_user_interface(std::uint8_t type)
 {
-	ULONG	update	=	0;
-	static	ULONG	res=1;
-	static	UWORD	current_texture_l=0;
-	static	UWORD	current_texture_r=0;
-	CBYTE	str[100];
+	std::uint32_t	update	=	0;
+	static	std::uint32_t	res=1;
+	static	std::uint16_t	current_texture_l=0;
+	static	std::uint16_t	current_texture_r=0;
+	char	str[100];
 /*	
 	if(Keys[KB_R]&&!ControlFlag)
 	{
@@ -2592,12 +2592,12 @@ loop:
 	return	update;
 }
 
-void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
 	struct	SVector	p1,p2;
 	struct	SVector	res1,res2;
-	SLONG	temp;
-	SLONG	f1,f2;
+	std::int32_t	temp;
+	std::int32_t	f1,f2;
 
 
 	temp=engine.ClipFlag;
@@ -2618,7 +2618,7 @@ void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG co
 	engine.ClipFlag=temp;
 }
 
-void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE* str,UBYTE col)
+void	draw_3d_text(std::int32_t x1,std::int32_t y1,std::int32_t z1,char* str,std::uint8_t col)
 {
 	struct	SVector	p1;
 	struct	SVector	res1,res2;
@@ -2631,13 +2631,13 @@ void	draw_3d_text(SLONG x1,SLONG y1,SLONG z1,CBYTE* str,UBYTE col)
 	QuickTextC(res1.X,res1.Y,str,col);
 }
 
-void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	create_bucket_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
 	struct	SVector	points;
 	struct	SVector	res;
-	SLONG	sx,sy,sz;
-	SLONG	c0;
-	SLONG	prx,pry,prz;
+	std::int32_t	sx,sy,sz;
+	std::int32_t	c0;
+	std::int32_t	prx,pry,prz;
 	sx=x2-x1;
 	sy=y2-y1;
 	sz=z2-z1;
@@ -2667,12 +2667,12 @@ void	create_bucket_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2
 }
 
 
-void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	create_bucket_3d_line_whole(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
 	struct	SVector	point[2];
 	struct	SVector	res[2];
-	//SLONG	sx,sy,sz,c0;
-	ULONG	f1,f2;
+	//std::int32_t	sx,sy,sz,c0;
+	std::uint32_t	f1,f2;
 	point[0].X=x1;
 	point[0].Y=y1;
 	point[0].Z=z1;
@@ -2692,11 +2692,11 @@ void	create_bucket_3d_line_whole(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SL
 void	draw_grid2()
 {
 	
-	SLONG	x,y;
-	SLONG	left,right,top,bottom;
-	SLONG	col=LOLITE_COL;
-	SLONG	z;
-	SLONG	numb=32;
+	std::int32_t	x,y;
+	std::int32_t	left,right,top,bottom;
+	std::int32_t	col=LOLITE_COL;
+	std::int32_t	z;
+	std::int32_t	numb=32;
 /*
 	z=(engine.Z>>8)+5000;
   	left=((engine.X>>8)-numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
@@ -2731,7 +2731,7 @@ void	draw_grid2()
 
 void	draw_cube_hilight()
 {
-	SLONG	x,y,z;
+	std::int32_t	x,y,z;
 
 	x=(engine.X>>8);
 	y=(engine.Y>>8);
@@ -2758,8 +2758,8 @@ void	draw_editor_grid()
 {
 	struct	SVector	points[8];
 	struct	SVector	res[8];
-	SLONG	c0;
-	SLONG	x,y,z;
+	std::int32_t	c0;
+	std::int32_t	x,y,z;
 	if(edit_info.GridOn)
 	{
 		draw_grid2();
@@ -2916,11 +2916,11 @@ void	draw_editor_grid()
 #endif
 }
 
-void	set_screen_box(SLONG x,SLONG y,SLONG z, EdRect *rect,SLONG w,SLONG h)
+void	set_screen_box(std::int32_t x,std::int32_t y,std::int32_t z, EdRect *rect,std::int32_t w,std::int32_t h)
 {
 
 	struct	SVector	p,res;
-	SLONG	temp;
+	std::int32_t	temp;
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
 	p.X=x;
@@ -2931,7 +2931,7 @@ void	set_screen_box(SLONG x,SLONG y,SLONG z, EdRect *rect,SLONG w,SLONG h)
 	engine.ClipFlag=temp;
 }
 
-void	calc_things_screen_box(SLONG	map_thing,EdRect *rect)
+void	calc_things_screen_box(std::int32_t	map_thing,EdRect *rect)
 {
 	struct	MapThing	*p_mthing;
 
@@ -2959,15 +2959,15 @@ void	calc_things_screen_box(SLONG	map_thing,EdRect *rect)
 	}
 }
 
-SLONG	hilight_map_things(UWORD type)
+std::int32_t	hilight_map_things(std::uint16_t type)
 {
-	SLONG	dx,dy,dz;
-	SLONG	mx,my,mz;
-	UWORD	index;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	mx,my,mz;
+	std::uint16_t	index;
 	EdRect	prim_rect;
 	struct	MapThing	*p_mthing;
-	static	UBYTE col=250;
-	SLONG	screen_change=0;
+	static	std::uint8_t col=250;
+	std::int32_t	screen_change=0;
 	col++;
 	if(col==0)
 		col=250;
@@ -2992,7 +2992,7 @@ SLONG	hilight_map_things(UWORD type)
 					calc_things_screen_box(index,&prim_rect);
 					prim_rect.OutlineRect(col);
 					{
-						CBYTE	str[100];
+						char	str[100];
 						sprintf(str,"%d",map_things[index].IndexOther);
 						QuickTextC(prim_rect.GetLeft()+1,prim_rect.GetTop(),str,0);
 						QuickTextC(prim_rect.GetLeft(),prim_rect.GetTop(),str,255);
@@ -3006,13 +3006,13 @@ SLONG	hilight_map_things(UWORD type)
 	return(screen_change);
 }
 
-SLONG	hilight_map_backgrounds(UWORD type)
+std::int32_t	hilight_map_backgrounds(std::uint16_t type)
 {
 	EdRect	prim_rect;
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
-	SLONG	screen_change=0;
-	static	UBYTE col=250;
+	std::int32_t	screen_change=0;
+	static	std::uint8_t col=250;
 	col++;
 	if(col==0)
 		col=250;
@@ -3030,11 +3030,11 @@ SLONG	hilight_map_backgrounds(UWORD type)
 	return(screen_change);
 }
 
-SLONG	select_map_backgrounds(MFPoint *mouse,UWORD type)
+std::int32_t	select_map_backgrounds(MFPoint *mouse,std::uint16_t type)
 {
 	EdRect	prim_rect;
-	SWORD	index;
-	static	UBYTE col=250;
+	std::int16_t	index;
+	static	std::uint8_t col=250;
 	struct	MapThing	*p_thing;
 
 	col++;
@@ -3054,15 +3054,15 @@ SLONG	select_map_backgrounds(MFPoint *mouse,UWORD type)
 }
 
 
-SLONG	select_map_things(MFPoint *mouse,UWORD type)
+std::int32_t	select_map_things(MFPoint *mouse,std::uint16_t type)
 {
-	SLONG	dx,dy,dz;
-	SLONG	mx,my,mz;
-	UWORD	index;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	mx,my,mz;
+	std::uint16_t	index;
 	EdRect	prim_rect;
 	struct	MapThing	*p_mthing;
-	static	UBYTE col=0;
-	SLONG	screen_change=0;
+	static	std::uint8_t col=0;
+	std::int32_t	screen_change=0;
 	col++;
 	
 	mx=(engine.X>>8)>>ELE_SHIFT;
@@ -3095,11 +3095,11 @@ SLONG	select_map_things(MFPoint *mouse,UWORD type)
 
 
 extern struct KeyFrameChunk 	*test_chunk;
-extern void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
+extern void	draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
 
-void	draw_map_thing(SLONG	map_thing)
+void	draw_map_thing(std::int32_t	map_thing)
 {
-	SLONG				c0,c1;
+	std::int32_t				c0,c1;
 	struct Matrix33		r_matrix;
 	struct MapThing		*p_mthing;
 	struct	GameKeyFrameChunk *the_chunk;
@@ -3109,7 +3109,7 @@ void	draw_map_thing(SLONG	map_thing)
 	switch(p_mthing->Type)
 	{
 		case	MAP_THING_TYPE_ANIM_PRIM:
-extern void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
+extern void	draw_anim_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
 			//			break;
 			rotate_obj	(
 							p_mthing->AngleX,
@@ -3147,13 +3147,13 @@ extern void	draw_anim_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,
 			if((prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
 			{
 
-				SLONG	px,py,pz,y;
+				std::int32_t	px,py,pz,y;
 
-extern void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
+extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz);
 
 				find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
-extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+extern std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z);
 				y=find_alt_for_this_pos(p_mthing->X,p_mthing->Z);
 //				y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
 				y-=py;
@@ -3163,9 +3163,9 @@ extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 			if(prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR) 
 			{
 
-				SLONG	px,py,pz,y;
+				std::int32_t	px,py,pz,y;
 
-extern void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
+extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz);
 
 				find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
@@ -3202,7 +3202,7 @@ extern void	find_things_min_point(SLONG drag,SLONG *px,SLONG *py,SLONG *pz);
 				{
 /*					if(c1==1)
 					{
-extern UBYTE	store_pos;
+extern std::uint8_t	store_pos;
 						store_pos	=	1;
 					}
 */
@@ -3227,14 +3227,14 @@ extern UBYTE	store_pos;
 	}
 }
 
-extern SLONG	play_x,play_y,play_z;
+extern std::int32_t	play_x,play_y,play_z;
 
 
-void	scan_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG *mid_x,SLONG *mid_y,SLONG *mid_z)
+void	scan_a_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t *mid_x,std::int32_t *mid_y,std::int32_t *mid_z)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
+	std::int32_t	sp,ep;
 
 
 	p_obj    =	&prim_objects[prim];
@@ -3262,13 +3262,13 @@ void	scan_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG *mid_x,SLONG *mid_y
 	}
 }
 
-void	scan_a_prim_at_dist(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG mid_x,SLONG mid_y,SLONG mid_z,SLONG *dist)
+void	scan_a_prim_at_dist(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t mid_x,std::int32_t mid_y,std::int32_t mid_z,std::int32_t *dist)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG 	dx,dy,dz;
-	SLONG	c_dist;
+	std::int32_t	sp,ep;
+	std::int32_t 	dx,dy,dz;
+	std::int32_t	c_dist;
 
 	*dist=-999999;
 	p_obj    =	&prim_objects[prim];
@@ -3295,10 +3295,10 @@ void	scan_a_prim_at_dist(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG mid_x,SLONG mi
 
 void	zoom_map_onto_screen()
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
-	SLONG	mid_x=0,mid_y=0,mid_z=0,mx,my,mz,count=0;
-	SLONG	dist,b_dist=-999999;
+	std::int32_t	mid_x=0,mid_y=0,mid_z=0,mx,my,mz,count=0;
+	std::int32_t	dist,b_dist=-999999;
 
 	index=background_prim;
 	while(index)
@@ -3342,7 +3342,7 @@ void	zoom_map_onto_screen()
 
 void	draw_linked_background()
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 	index=background_prim;
 	while(index)
@@ -3361,9 +3361,9 @@ void	draw_linked_background()
 //
 //   3   4
 
-SLONG	add_floor_tri_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLONG	z2,SLONG	x3,SLONG	y3,SLONG	z3,struct	DepthStrip	*p_map,SLONG s1,SLONG s2,SLONG s3,SLONG shadow_flag,SLONG tx1,SLONG ty1,SLONG tx2,SLONG ty2,SLONG tx3,SLONG ty3,SLONG page)
+std::int32_t	add_floor_tri_to_bucket(std::int32_t	x1,std::int32_t	y1,std::int32_t	z1,std::int32_t	x2,std::int32_t	y2,std::int32_t	z2,std::int32_t	x3,std::int32_t	y3,std::int32_t	z3,struct	DepthStrip	*p_map,std::int32_t s1,std::int32_t s2,std::int32_t s3,std::int32_t shadow_flag,std::int32_t tx1,std::int32_t ty1,std::int32_t tx2,std::int32_t ty2,std::int32_t tx3,std::int32_t ty3,std::int32_t page)
 {
-	SLONG	az;
+	std::int32_t	az;
 	if(current_bucket_pool > end_bucket_pool)
 		return(0);
 	az=z1;
@@ -3411,13 +3411,13 @@ SLONG	add_floor_tri_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLONG
 
 #define	SET_TX_TY(x1,y1,x2,y2,x3,y3,x4,y4) tx1=x1;ty1=y1;tx2=x2;ty2=y2;tx3=x3;ty3=y3;tx4=x4;ty4=y4;
 
-SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLONG	z2,SLONG	x3,SLONG	y3,SLONG	z3,SLONG	x4,SLONG	y4,SLONG	z4,struct	DepthStrip	*p_map,SLONG s1,SLONG s2,SLONG s3,SLONG s4,UWORD tex)
+std::int32_t	add_floor_face_to_bucket(std::int32_t	x1,std::int32_t	y1,std::int32_t	z1,std::int32_t	x2,std::int32_t	y2,std::int32_t	z2,std::int32_t	x3,std::int32_t	y3,std::int32_t	z3,std::int32_t	x4,std::int32_t	y4,std::int32_t	z4,struct	DepthStrip	*p_map,std::int32_t s1,std::int32_t s2,std::int32_t s3,std::int32_t s4,std::uint16_t tex)
 {
-	SLONG	az;
-	UBYTE	tx,ty,tsize,page;
-	SLONG	shadow;
-	SLONG	ret=0;
-	UBYTE	tx1,ty1,tx2,ty2,tx3,ty3,tx4,ty4;
+	std::int32_t	az;
+	std::uint8_t	tx,ty,tsize,page;
+	std::int32_t	shadow;
+	std::int32_t	ret=0;
+	std::uint8_t	tx1,ty1,tx2,ty2,tx3,ty3,tx4,ty4;
 
 	az=z1;
 
@@ -3432,7 +3432,7 @@ SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLON
 	if(p_map->Walkable==-1)
 	{
 		struct	AnimTmap	*p_a;
-		SLONG	cur;
+		std::int32_t	cur;
 
 		p_a=&anim_tmaps[p_map->Texture];
 		cur=p_a->Current;
@@ -3568,7 +3568,7 @@ SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLON
 #define SWAP_ROW() 					\
 {									\
 	struct SVector *temp_ptr_sv;	\
-	ULONG *temp_ptr_flag;			\
+	std::uint32_t *temp_ptr_flag;			\
 	temp_ptr_sv=prev_row_ptr;		\
 	prev_row_ptr=row_ptr;			\
 	row_ptr=temp_ptr_sv;			\
@@ -3581,16 +3581,16 @@ SLONG	add_floor_face_to_bucket(SLONG	x1,SLONG	y1,SLONG	z1,SLONG	x2,SLONG	y2,SLON
 #define	DRAW_WIDTH	24
 void	draw_map_floor()
 {
-	SLONG	dx,dz;
-	SLONG	mx,my,mz;
+	std::int32_t	dx,dz;
+	std::int32_t	mx,my,mz;
 	struct	SVector	point,row[2][66];
-	ULONG	row_flags[2][66];
+	std::uint32_t	row_flags[2][66];
 	struct	SVector	*row_ptr;
-	ULONG	*row_flag_ptr;
+	std::uint32_t	*row_flag_ptr;
 	struct	SVector	*prev_row_ptr;
-	ULONG	*prev_row_flag_ptr;
-	SLONG	row_count;
-	UWORD	texture;
+	std::uint32_t	*prev_row_flag_ptr;
+	std::int32_t	row_count;
+	std::uint16_t	texture;
 
 //	LogText(" ddraw mmaap floorr  \n");
 
@@ -3624,8 +3624,8 @@ void	draw_map_floor()
 //		dz=(-DRAW_WIDTH)+1;
 		for(row_count=0,dx=-DRAW_WIDTH;dx<DRAW_WIDTH;dx++,row_count++)
 		{
-			SLONG	flag_and,flag_or;
-			SLONG	index;
+			std::int32_t	flag_and,flag_or;
+			std::int32_t	index;
 			if(row_count==0)
 			{
 				point.X=(dx*ELE_SIZE)+(mx<<ELE_SHIFT);
@@ -3654,9 +3654,9 @@ void	draw_map_floor()
 
 					if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED))
 					{
-						SLONG	x1,x2,x3,x4;
-						SLONG	y1,y2,y3,y4;
-						SLONG	z1;
+						std::int32_t	x1,x2,x3,x4;
+						std::int32_t	y1,y2,y3,y4;
+						std::int32_t	z1;
 
 
 						x2=prev_row_ptr[row_count-1].X;
@@ -3705,13 +3705,13 @@ void	draw_map_floor()
 	
 }
 
-void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz)
+void	find_map_clip(std::int32_t *minx,std::int32_t *maxx,std::int32_t *minz,std::int32_t *maxz)
 {
-	SLONG	dx,dy,dz;
-	SLONG	mx,my,mz;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	mx,my,mz;
 
-	SLONG	min_x=9999999,max_x=-9999999;
-	SLONG	min_z=9999999,max_z=-9999999;
+	std::int32_t	min_x=9999999,max_x=-9999999;
+	std::int32_t	min_z=9999999,max_z=-9999999;
 
 	mx=(engine.X>>8)>>ELE_SHIFT;
 	my=(engine.Y>>8)>>ELE_SHIFT;
@@ -3720,8 +3720,8 @@ void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz)
 	for(dz=-32;dz<32;dz++)
 	{
 		struct	SVector	point,res;
-		SLONG	x,z;
-		ULONG	flags;
+		std::int32_t	x,z;
+		std::uint32_t	flags;
 
 		x=dx*ELE_SIZE+(mx<<ELE_SHIFT);
 		z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
@@ -3756,8 +3756,8 @@ void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz)
 	for(dx=-32;dx<32;dx++)
 	{
 		struct	SVector	point,res;
-		SLONG	x,z;
-		ULONG	flags;
+		std::int32_t	x,z;
+		std::uint32_t	flags;
 
 		x=dx*ELE_SIZE+(mx<<ELE_SHIFT);
 		z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
@@ -3813,12 +3813,12 @@ void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz)
 	*maxz=max_z;
 }
 
-void	draw_editor_map(ULONG flags)
+void	draw_editor_map(std::uint32_t flags)
 {
-	SLONG	dx,dy,dz;
-	SLONG	mx,my,mz;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	mx,my,mz;
 	struct	EditMapElement	*p_ele;
-	UWORD	index;
+	std::uint16_t	index;
 
 	animate_texture_maps();
 //	LogText(" draw editor \n");
@@ -3898,8 +3898,8 @@ void	draw_editor_map(ULONG flags)
 //		draw_editor_grid();
 //	draw_cube_hilight();		
 	{
-		SLONG	x,y,z;
-		CBYTE	str[100];
+		std::int32_t	x,y,z;
+		char	str[100];
 
 		x=(engine.X>>8)>>ELE_SHIFT;
 		y=(engine.Y>>8)>>ELE_SHIFT;
@@ -4551,18 +4551,18 @@ struct	TinyXZ	*radius_ptr[MAX_RADIUS+2];
 
 void	build_radius_info()
 {
-	SBYTE	*grid;
-	SLONG	dx,dz;
+	std::int8_t	*grid;
+	std::int32_t	dx,dz;
 	struct	TinyXZ	*ptr_rad;
-	SLONG	actual_radius,radius,radius_offset,old_radius=0;
-	SLONG	angle;
-	SLONG	sum_count=0;
-	SLONG	count=0;
+	std::int32_t	actual_radius,radius,radius_offset,old_radius=0;
+	std::int32_t	angle;
+	std::int32_t	sum_count=0;
+	std::int32_t	count=0;
 
 	ptr_rad=radius_pool;
 
 
-	grid=(SBYTE*)MemAlloc((MAX_RADIUS+1)*(MAX_RADIUS+1)*4);
+	grid=(std::int8_t*)MemAlloc((MAX_RADIUS+1)*(MAX_RADIUS+1)*4);
 	if(grid)
 	{
 
@@ -4620,7 +4620,7 @@ void	build_radius_info()
 
 void	init_editor()
 {
-	SLONG	x,z;
+	std::int32_t	x,z;
 
 
 	load_palette("data\\tex01.pal");
@@ -4646,7 +4646,7 @@ extern void	init_map();
 		}
 	}
 */
-	memset((UBYTE*)tex_map,0,sizeof(UWORD)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+	memset((std::uint8_t*)tex_map,0,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
 
 	engine.X=(((EDIT_MAP_WIDTH<<(ELE_SHIFT-1))+0*HALF_ELE_SIZE)<<8);
 	engine.Y=(((1<<ELE_SHIFT)+0*HALF_ELE_SIZE)<<8);
@@ -4695,18 +4695,18 @@ extern TinyXZ	*radius_ptr[MAX_RADIUS+2];
 
 void	draw_quick_map()
 {
-	SLONG	radius;
-	SLONG	dx,dz,cdx,cdz;
+	std::int32_t	radius;
+	std::int32_t	dx,dz,cdx,cdz;
 	struct	SVector point,ret_point;
 	struct	TinyXZ	*ptr_rad;
-	SLONG	clip_flags;
+	std::int32_t	clip_flags;
 
 	struct	SVector		buffer_points[MAX_RADIUS*(MAX_RADIUS+1)*4];
-	ULONG	buffer_flags[MAX_RADIUS*(MAX_RADIUS+1)*4];
-	ULONG	*ptr_flag;
+	std::uint32_t	buffer_flags[MAX_RADIUS*(MAX_RADIUS+1)*4];
+	std::uint32_t	*ptr_flag;
 	struct	SVector		*ptr;
-	SLONG	mx,my,mz;
-	UWORD	texture;
+	std::int32_t	mx,my,mz;
+	std::uint16_t	texture;
 
 	mx=(engine.X>>8)>>ELE_SHIFT;
 	my=(engine.Y>>8)>>ELE_SHIFT;
@@ -4716,7 +4716,7 @@ void	draw_quick_map()
 
 
 
-	memset((UBYTE*)buffer_flags,0,MAX_RADIUS*(MAX_RADIUS+1)*4*4);
+	memset((std::uint8_t*)buffer_flags,0,MAX_RADIUS*(MAX_RADIUS+1)*4*4);
 
 	ptr=&buffer_points[MAX_RADIUS+MAX_RADIUS*MAX_RADIUS*2];
 
@@ -4732,7 +4732,7 @@ void	draw_quick_map()
 		ptr_rad=radius_ptr[radius];
 		while(ptr_rad<radius_ptr[radius-1])
 		{
-			//SLONG	mx,mz;
+			//std::int32_t	mx,mz;
 			cdx=ptr_rad->Dx;
 			cdz=ptr_rad->Dz;
 
@@ -4768,8 +4768,8 @@ void	draw_quick_map()
 	for(dz=0;dz<MAX_RADIUS*2;dz++)
 	for(dx=0;dx<MAX_RADIUS*2;dx++)
 	{
-		SLONG	flag_and,flag_or;
-		SLONG	index;
+		std::int32_t	flag_and,flag_or;
+		std::int32_t	index;
 
 //		if(dx+mx-MAX_RADIUS-1>=0&&dx+mx-MAX_RADIUS<EDIT_MAP_WIDTH&&dz+mz-MAX_RADIUS-1>=0&&dz+mz-MAX_RADIUS<EDIT_MAP_DEPTH)
 
@@ -4795,9 +4795,9 @@ void	draw_quick_map()
 		//		if(*ptr_flag&&*(ptr_flag+1)&&*(ptr_flag+MAX_RADIUS*2)&&*(ptr_flag+1+MAX_RADIUS*2))
 				if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED))
 				{
-						SLONG	x1,x2,x3,x4;
-						SLONG	y1,y2,y3,y4;
-						SLONG	z1;
+						std::int32_t	x1,x2,x3,x4;
+						std::int32_t	y1,y2,y3,y4;
+						std::int32_t	z1;
 						x2=buffer_points[dx+dz*MAX_RADIUS*2].X;
 						x1=buffer_points[dx+dz*MAX_RADIUS*2+1].X;
 						x4=buffer_points[dx+(dz+1)*MAX_RADIUS*2].X;

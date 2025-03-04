@@ -9,10 +9,10 @@
 
 struct	AWindowIcon
 {
-	void	(*Function)(UWORD id);
-	UBYTE	Flag;
-	UWORD	ImageOn;
-	SWORD	ImageOff;
+	void	(*Function)(std::uint16_t id);
+	std::uint8_t	Flag;
+	std::uint16_t	ImageOn;
+	std::int16_t	ImageOff;
 };
 
 class	WinBarIcon	:	public  EdRect
@@ -22,7 +22,7 @@ class	WinBarIcon	:	public  EdRect
 	public:
 	inline				WinBarIcon()   {}
 	void				DrawIcons();
-	void				HandleIconClick(UBYTE flags,MFPoint *clicked_point);
+	void				HandleIconClick(std::uint8_t flags,MFPoint *clicked_point);
 	void				InitIcons(struct AWindowIcon *p_icons);
 };
 

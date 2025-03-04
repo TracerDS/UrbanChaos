@@ -27,14 +27,14 @@ void GAMEMENU_init();
 #define GAMEMENU_DO_CHOOSE_NEW_MISSION 2
 #define GAMEMENU_DO_NEXT_LEVEL         3
 
-SLONG GAMEMENU_process();
+std::int32_t GAMEMENU_process();
 
 
 //
 // Returns true if the game is paused.
 //
 
-SLONG GAMEMENU_is_paused();
+std::int32_t GAMEMENU_is_paused();
 
 
 //
@@ -43,7 +43,7 @@ SLONG GAMEMENU_is_paused();
 // processed at all.
 //
 
-SLONG GAMEMENU_slowdown_mul();
+std::int32_t GAMEMENU_slowdown_mul();
 
 
 
@@ -51,7 +51,7 @@ SLONG GAMEMENU_slowdown_mul();
 // When you lose the level, this is the message that will be displayed.
 //
 
-void GAMEMENU_set_level_lost_reason(CBYTE* reason);
+void GAMEMENU_set_level_lost_reason(char* reason);
 
 
 //

@@ -15,15 +15,15 @@
 //D3DTexture		font_page;
 
 extern D3DTexture TEXTURE_texture[];
-extern SLONG      TEXTURE_page_font;
+extern std::int32_t      TEXTURE_page_font;
 
 #define font_page (TEXTURE_texture[TEXTURE_page_font])
 
 //---------------------------------------------------------------
 
-SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
+std::int32_t	text_width(char* message,std::int32_t font_id,std::int32_t *char_count)
 {
-	SLONG				count	=	0,
+	std::int32_t				count	=	0,
 						width	=	0;
 	Char				*the_char;
 	Font				*the_font;
@@ -59,9 +59,9 @@ SLONG	text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
 
 //---------------------------------------------------------------
 
-SLONG	text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
+std::int32_t	text_height(char* message,std::int32_t font_id,std::int32_t *char_count)
 {
-	SLONG				count	=	0,
+	std::int32_t				count	=	0,
 						height	=	0;
 	Char				*the_char;
 	Font				*the_font;
@@ -96,13 +96,13 @@ SLONG	text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
 #define	TEXT_BOT		430
 
 bool		text_fudge	=	false;
-ULONG       text_colour;
+std::uint32_t       text_colour;
 
-void	draw_text_at(float x, float y,CBYTE* message,SLONG font_id)
+void	draw_text_at(float x, float y,char* message,std::int32_t font_id)
 {
 	float				offset_x,
 						offset_y;
-	SLONG				b_colour,
+	std::int32_t				b_colour,
 						t_colour;
 	Char				*the_char;
 	Font				*the_font;
@@ -145,12 +145,12 @@ void	draw_text_at(float x, float y,CBYTE* message,SLONG font_id)
 						{
 							if(offset_y<TEXT_TOP)
 							{
-								t_colour	=	(((SLONG)offset_y-TEXT_TOP)*20)+255;
+								t_colour	=	(((std::int32_t)offset_y-TEXT_TOP)*20)+255;
 								if(t_colour<0)
 									t_colour	=	0;
 								t_colour	*=	0x00010101; //(t_colour<<24)|0x00ffffff;
 
-								b_colour	=	((((SLONG)offset_y+the_char->Height)-TEXT_TOP)*20)+255;
+								b_colour	=	((((std::int32_t)offset_y+the_char->Height)-TEXT_TOP)*20)+255;
 								if(b_colour>255)
 									b_colour	=	255;
 								else if(b_colour<0)
@@ -159,12 +159,12 @@ void	draw_text_at(float x, float y,CBYTE* message,SLONG font_id)
 							}
 							else if((offset_y+the_char->Height)>TEXT_BOT)
 							{
-								b_colour	=	((TEXT_BOT-((SLONG)offset_y+the_char->Height))*20)+255;
+								b_colour	=	((TEXT_BOT-((std::int32_t)offset_y+the_char->Height))*20)+255;
 								if(b_colour<0)
 									b_colour	=	0;
 								b_colour	*=	0x00010101; //(b_colour<<24)|0x00ffffff;
 
-								t_colour	=	((TEXT_BOT-(SLONG)offset_y)*20)+255;
+								t_colour	=	((TEXT_BOT-(std::int32_t)offset_y)*20)+255;
 								if(t_colour>255)
 									t_colour	=	255;
 								else if(t_colour<0)
@@ -228,10 +228,10 @@ void	draw_text_at(float x, float y,CBYTE* message,SLONG font_id)
 
 //---------------------------------------------------------------
 
-void	draw_centre_text_at(float x, float y,CBYTE* message,SLONG font_id,SLONG flag)
+void	draw_centre_text_at(float x, float y,char* message,std::int32_t font_id,std::int32_t flag)
 {
-	CBYTE				temp;
-	SLONG				char_count	=	0;
+	char				temp;
+	std::int32_t				char_count	=	0;
 	float				height;
 	float				width;
 
@@ -246,7 +246,7 @@ void	draw_centre_text_at(float x, float y,CBYTE* message,SLONG font_id,SLONG fla
 		*(message+char_count)	=	0;
 
 //		LogText(" draw text message >%s< width %d \n",message,width);
-		draw_text_at((640-((SLONG)width))>>1,y,message,font_id);
+		draw_text_at((640-((std::int32_t)width))>>1,y,message,font_id);
 		if(!flag)
 			break;
 

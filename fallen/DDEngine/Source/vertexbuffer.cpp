@@ -70,7 +70,7 @@ VertexBuffer::~VertexBuffer()
 //
 // create the vertex buffer
 
-HRESULT VertexBuffer::Create(IDirect3D3* d3d, bool force_system, ULONG logsize)
+HRESULT VertexBuffer::Create(IDirect3D3* d3d, bool force_system, std::uint32_t logsize)
 {
 	ASSERT(!m_LockedPtr);
 	ASSERT(d3d);
@@ -236,7 +236,7 @@ void VertexBufferPool::Create(IDirect3D3* d3d, bool force_system)
 //
 // try to create a new VertexBuffer and put it on the free list
 
-void VertexBufferPool::CreateBuffer(ULONG logsize)
+void VertexBufferPool::CreateBuffer(std::uint32_t logsize)
 {
 	ASSERT(logsize < 16);
 
@@ -268,7 +268,7 @@ void VertexBufferPool::CreateBuffer(ULONG logsize)
 //
 // try to lock the buffers in the busy list
 
-void VertexBufferPool::CheckBuffers(ULONG logsize, bool time_critical)
+void VertexBufferPool::CheckBuffers(std::uint32_t logsize, bool time_critical)
 {
 	VertexBuffer* list = m_BusyListLRU[logsize];
 
@@ -299,7 +299,7 @@ void VertexBufferPool::CheckBuffers(ULONG logsize, bool time_critical)
 //
 // get a buffer with the given size
 
-VertexBuffer* VertexBufferPool::GetBuffer(ULONG logsize)
+VertexBuffer* VertexBufferPool::GetBuffer(std::uint32_t logsize)
 {
 	ASSERT(logsize < 16);
 

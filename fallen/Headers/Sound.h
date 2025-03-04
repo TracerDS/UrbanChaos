@@ -20,28 +20,28 @@
 #define	WORLD_TYPE_SNOW			4
 #define	WORLD_TYPE_DESERT		5
 
-extern SWORD	world_type;
+extern std::int16_t	world_type;
 
 //---------------------------------------------------------------
 /*
-void play_quicker_wave(SLONG sample);
-void play_quick_wave(Thing *p_thing,SLONG sample,SLONG mode);
-SLONG play_quick_wave_xyz(SLONG x,SLONG y,SLONG z,SLONG sample,SLONG id,SLONG mode);
-SLONG play_quick_wave_old(WaveParams *wave,SLONG sample,SLONG id,SLONG mode);
-SLONG play_ambient_wave(SLONG sample,SLONG id,SLONG mode,SLONG range=256, UBYTE flags=0);
-SLONG play_object_wave(SLONG channel, Thing *p_thing,SLONG sample,SLONG mode);
-void wave_move(SLONG channel, SLONG x, SLONG y, SLONG z);
-SLONG SOUND_query_current_wave(SLONG id);
-bool SOUND_query_looped(SLONG id);*/
-void play_glue_wave(UWORD type, UWORD id, SLONG x=0, SLONG y=0, SLONG z=0);
+void play_quicker_wave(std::int32_t sample);
+void play_quick_wave(Thing *p_thing,std::int32_t sample,std::int32_t mode);
+std::int32_t play_quick_wave_xyz(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t sample,std::int32_t id,std::int32_t mode);
+std::int32_t play_quick_wave_old(WaveParams *wave,std::int32_t sample,std::int32_t id,std::int32_t mode);
+std::int32_t play_ambient_wave(std::int32_t sample,std::int32_t id,std::int32_t mode,std::int32_t range=256, std::uint8_t flags=0);
+std::int32_t play_object_wave(std::int32_t channel, Thing *p_thing,std::int32_t sample,std::int32_t mode);
+void wave_move(std::int32_t channel, std::int32_t x, std::int32_t y, std::int32_t z);
+std::int32_t SOUND_query_current_wave(std::int32_t id);
+bool SOUND_query_looped(std::int32_t id);*/
+void play_glue_wave(std::uint16_t type, std::uint16_t id, std::int32_t x=0, std::int32_t y=0, std::int32_t z=0);
 void process_ambient_effects();
 void process_weather();
 
-//void	NewLoadWaveList(CBYTE* names[]=0);
+//void	NewLoadWaveList(char* names[]=0);
 
 void SOUND_reset();
 void SOUND_SewerPrecalc();
-void SOUND_InitFXGroups(CBYTE* fn);
+void SOUND_InitFXGroups(char* fn);
 
 void PainSound(Thing *p_thing);
 void EffortSound(Thing *p_thing);
@@ -49,10 +49,10 @@ void MinorEffortSound(Thing *p_thing);
 void ScreamFallSound(Thing *p_thing);
 void StopScreamFallSound(Thing *p_thing);
 void SOUND_Curious(Thing *p_thing);
-UBYTE SOUND_Gender(Thing *p_thing);
+std::uint8_t SOUND_Gender(Thing *p_thing);
 
 
-//SLONG	SOUND_Range(SLONG start, SLONG end);
+//std::int32_t	SOUND_Range(std::int32_t start, std::int32_t end);
 
 #ifndef PSX
 
@@ -60,11 +60,11 @@ UBYTE SOUND_Gender(Thing *p_thing);
 extern bool dodgy_psx_mode;
 #endif
 
-inline SLONG SOUND_Range(SLONG start, SLONG end) {
+inline std::int32_t SOUND_Range(std::int32_t start, std::int32_t end) {
 #ifdef DODGYPSXIFY
 	if (dodgy_psx_mode) return start;
 #endif
-	SLONG diff=(end-start)+1;
+	std::int32_t diff=(end-start)+1;
 	return start+(rand()%diff);
 }
 
@@ -75,13 +75,13 @@ inline SLONG SOUND_Range(SLONG start, SLONG end) {
 
 #ifndef PSX
 
-typedef UWORD	SOUNDFXG[2];
+typedef std::uint16_t	SOUNDFXG[2];
 
-extern UBYTE *SOUND_FXMapping;//[1024]; // blahblah
+extern std::uint8_t *SOUND_FXMapping;//[1024]; // blahblah
 extern SOUNDFXG *SOUND_FXGroups;//[128][2]; // blahblah
 #else
-extern UBYTE SOUND_FXMapping[512]; // blahblah
-extern UWORD SOUND_FXGroups[8][2]; // blahblah
+extern std::uint8_t SOUND_FXMapping[512]; // blahblah
+extern std::uint16_t SOUND_FXGroups[8][2]; // blahblah
 #endif
 
 //---------------------------------------------------------------
@@ -101,7 +101,7 @@ extern UWORD SOUND_FXGroups[8][2]; // blahblah
 
 #ifdef USE_A3D
 
-//extern void	A3DLoadWaveList(CBYTE* path,CBYTE* file);
+//extern void	A3DLoadWaveList(char* path,char* file);
 //extern void	A3DFreeWaveList();
 //extern void A3DRender();
 extern void A3D_Check_Init();

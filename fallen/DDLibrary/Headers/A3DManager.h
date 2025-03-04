@@ -15,15 +15,15 @@
 
 #ifndef	MF_STD_LIB_H
 
-typedef	unsigned char		UBYTE;
-typedef signed char			SBYTE;
-typedef char				CBYTE;
-typedef unsigned short		UWORD;
-typedef signed short		SWORD;
-typedef unsigned long		ULONG;
-typedef signed long			SLONG;
+typedef	unsigned char		std::uint8_t;
+typedef signed char			std::int8_t;
+typedef char				char;
+typedef unsigned short		std::uint16_t;
+typedef signed short		std::int16_t;
+typedef unsigned long		std::uint32_t;
+typedef signed long			std::int32_t;
 
-void            TraceText(CBYTE* error, ...);
+void            TraceText(char* error, ...);
 #define TRACE				TraceText
 
 #endif
@@ -67,21 +67,21 @@ void A3D_Check_Init();
 class A3DList {
 private:
 	A3DBase *list, *tail;
-	SLONG	 count;
+	std::int32_t	 count;
 public:
 	A3DList()									{ count=0; list=tail=nullptr; }
 	~A3DList();
 	void Add(A3DBase *item);
 	void Del(A3DBase *item);
 	void Clear();
-	A3DBase *Index(SLONG index);
-	A3DBase *Find(CBYTE* want);
-	inline SLONG Count()						{ return count; }
+	A3DBase *Index(std::int32_t index);
+	A3DBase *Find(char* want);
+	inline std::int32_t Count()						{ return count; }
 	inline A3DBase *Head()						{ return list; }
 	inline A3DBase *Tail()						{ return tail; }
 	inline operator+=(A3DBase *item)			{ Add(item); return ( nullptr ); };
 	inline operator-=(A3DBase *item)			{ Del(item); return ( nullptr ); };
-	inline A3DBase* operator[](SLONG index)		{ return Index(index);	};
+	inline A3DBase* operator[](std::int32_t index)		{ return Index(index);	};
 };
 
 
@@ -103,9 +103,9 @@ public:
 	A3DList		  srclist,datalist;
 	
 	// construct, destruct
-	A3DManager(SLONG features=0);
+	A3DManager(std::int32_t features=0);
 	~A3DManager();
-	void Init(SLONG features);
+	void Init(std::int32_t features);
 	void Fini();
 
 	// listener
@@ -113,7 +113,7 @@ public:
 	inline void ListenRot(float head, float roll, float pitch)	{	if (a3dlis) a3dlis->SetOrientationAngles3f(head,pitch,roll);	};
 
 	// channel play
-	A3DSource* Play(A3DData *Original, A3DSource* Channel=nullptr, UBYTE Looped=0);
+	A3DSource* Play(A3DData *Original, A3DSource* Channel=nullptr, std::uint8_t Looped=0);
 
 	// channel check
 	bool Valid(A3DBase* item);
@@ -121,7 +121,7 @@ public:
 	A3DBase	  *ValidWave(A3DBase* item);
 
 	// geom related
-	void BindMaterial(SLONG material);
+	void BindMaterial(std::int32_t material);
 
 	// misc
 	inline void Render()										{ 	a3droot->Flush(); a3droot->Clear();						};
@@ -139,13 +139,13 @@ public:
 class A3DBase {
 protected:
 	IA3dSource	*a3dsrc;
-	CBYTE		 title[_MAX_PATH];
+	char		 title[_MAX_PATH];
 	float		 length_seconds;
-	ULONG		 length_samples;
-	ULONG		 last_time;
+	std::uint32_t		 length_samples;
+	std::uint32_t		 last_time;
 public:
 	// blah blah
-	CBYTE		owner, type;
+	char		owner, type;
 	// linked list pointers
 	A3DBase  	*last, *next;
 
@@ -157,10 +157,10 @@ public:
 
 	// queries
 	inline IA3dSource	*GetSource()							{	return a3dsrc;											};
-	inline CBYTE		*GetTitle()								{	return title;											};
-	ULONG				 GetLengthSamples();
+	inline char		*GetTitle()								{	return title;											};
+	std::uint32_t				 GetLengthSamples();
 	float				 GetLengthSeconds();
-	bool				 HasEnded(UBYTE early_out);
+	bool				 HasEnded(std::uint8_t early_out);
 //	bool				 HasEnded() 							{   float f; a3dsrc->GetWaveTime(&f); return (f>GetLengthSeconds()); };
 
 
@@ -173,7 +173,7 @@ public:
 class A3DData : public A3DBase {
 public:
 	// construct, destruct
-	A3DData(CBYTE* fn=0, UBYTE ntype=A3DSOURCE_TYPEDEFAULT);	// constructor: load filename, or no data
+	A3DData(char* fn=0, std::uint8_t ntype=A3DSOURCE_TYPEDEFAULT);	// constructor: load filename, or no data
 	virtual ~A3DData();
 };
 
@@ -183,56 +183,56 @@ public:
 
 struct QueueItem {
 	A3DBase	*original;
-	SLONG	 x,y,z;
-	SLONG	 flags;
+	std::int32_t	 x,y,z;
+	std::int32_t	 flags;
 };
 
 class A3DSource : public A3DBase {
 private:
-	ULONG		 rendermode;
-	UBYTE		 queuepos;
+	std::uint32_t		 rendermode;
+	std::uint8_t		 queuepos;
 	QueueItem	 queue[MAX_QUEUE_LENGTH];
 	void DupeConstruct(A3DBase *original);		// duplicate existing source
 	void DoChange(A3DBase *original);
 	void SetupParams();
 public:
 	bool		autofree;
-	ULONG		Flags;
-	SLONG		User;							// random user-defined var
+	std::uint32_t		Flags;
+	std::int32_t		User;							// random user-defined var
 	A3DBase		*cloned_from;
 
 	// construct, destruct
-	A3DSource(CBYTE* fn=0);						// constructor: load filename, or no data
+	A3DSource(char* fn=0);						// constructor: load filename, or no data
 	A3DSource(A3DBase *original);				// constructor: duplicate existing source
 	virtual ~A3DSource();
 
 	// configuration
 	inline void SetPriority(float priority)						{	if (a3dsrc) a3dsrc->SetPriority(priority);							};
-	void SetMute(UBYTE mute);
-	void Set3D(UBYTE is3d);
-	inline void SetGain(UBYTE vol) 								{	if (a3dsrc) a3dsrc->SetGain(((float)vol)/255.0f);					};
+	void SetMute(std::uint8_t mute);
+	void Set3D(std::uint8_t is3d);
+	inline void SetGain(std::uint8_t vol) 								{	if (a3dsrc) a3dsrc->SetGain(((float)vol)/255.0f);					};
 	void Change(A3DBase *original);		// reset to a new source file (& flush queue)
-	void Queue(A3DBase *original, SLONG x, SLONG y, SLONG z, SLONG flags);// queue for a new source at end of current
+	void Queue(A3DBase *original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags);// queue for a new source at end of current
 	inline void QueueFlush()									{   queuepos=0;															};
 
 	// callback
-	UBYTE CBEnded();
+	std::uint8_t CBEnded();
 
 
 	// 3D
 	inline void SetPositionf(float x, float y, float z)			{	if (a3dsrc) a3dsrc->SetPosition3f(x,y,z);							};
-	inline void SetPositionl(SLONG x, SLONG y, SLONG z)			{	if (a3dsrc) a3dsrc->SetPosition3f((float)x,(float)y,(float)z);		};
+	inline void SetPositionl(std::int32_t x, std::int32_t y, std::int32_t z)			{	if (a3dsrc) a3dsrc->SetPosition3f((float)x,(float)y,(float)z);		};
 	inline void SetRotationf(float h, float r, float p)			{	if (a3dsrc) a3dsrc->SetOrientationAngles3f(h,r,p);						};
-	inline void SetRotationl(SLONG h, SLONG r, SLONG p)			{	if (a3dsrc) a3dsrc->SetOrientationAngles3f((float)h,(float)r,(float)p);	};
+	inline void SetRotationl(std::int32_t h, std::int32_t r, std::int32_t p)			{	if (a3dsrc) a3dsrc->SetOrientationAngles3f((float)h,(float)r,(float)p);	};
 	inline void SetVelocityf(float x, float y, float z)			{	if (a3dsrc) a3dsrc->SetVelocity3f(x,y,z);							};
-	inline void SetVelocityl(SLONG x, SLONG y, SLONG z)			{	if (a3dsrc) a3dsrc->SetVelocity3f((float)x,(float)y,(float)z);		};
+	inline void SetVelocityl(std::int32_t x, std::int32_t y, std::int32_t z)			{	if (a3dsrc) a3dsrc->SetVelocity3f((float)x,(float)y,(float)z);		};
 
 	// audio properties
 	inline void SetPitchf(float pitchbend)						{	if (a3dsrc) a3dsrc->SetPitch(pitchbend); };
 	inline void SetGainf(float gain)							{   if (a3dsrc) a3dsrc->SetGain(gain);		 };
 
 	// transport controls
-	void Play(UBYTE looped);
+	void Play(std::uint8_t looped);
 	void Stop();
 	void Rewind();
 	inline void Pause()												{ 	if (a3dsrc) a3dsrc->Stop();								};

@@ -14,10 +14,10 @@
 
 //---------------------------------------------------------------
 
-CBYTE* nav_text;
-SLONG nav_person;
+char* nav_text;
+std::int32_t nav_person;
 
-extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
+extern char* WaypointExtra(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -25,12 +25,12 @@ extern CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
 
 bool CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG len;
+	std::int32_t len;
 	EventPoint	*ep_ptr, *ep_base=current_mission->EventPoints;
-	CBYTE		msg[STR_LEN],str[STR_LEN];
+	char		msg[STR_LEN],str[STR_LEN];
 	HWND		the_ctrl, the_ctrl2;
-	SLONG		ep;
-	SLONG		c0	=	0;
+	std::int32_t		ep;
+	std::int32_t		c0	=	0;
 
 	switch(message)
 	{
@@ -88,7 +88,7 @@ bool CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							0,0
 						)+1;
 			if (nav_text) free(nav_text);
-			nav_text =	(CBYTE*)malloc(len);
+			nav_text =	(char*)malloc(len);
 			ZeroMemory(nav_text,len);
 			
 			SendMessage	(
@@ -123,11 +123,11 @@ bool CALLBACK	nav_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 void do_nav_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
-	nav_text		=	(CBYTE*)the_ep->Data[0];
+	nav_text		=	(char*)the_ep->Data[0];
 	nav_person  	=	the_ep->Data[1];
 	if(!nav_text)
 	{
-		nav_text	=	(CBYTE*)malloc(STR_LEN);
+		nav_text	=	(char*)malloc(STR_LEN);
 		ZeroMemory(nav_text,STR_LEN);
 		SetEPTextID(the_ep);
 	}
@@ -141,17 +141,17 @@ void do_nav_setup(EventPoint *the_ep)
 				);
 
 	//	Get the data.
-	the_ep->Data[0]		=	(SLONG)nav_text;	//	
+	the_ep->Data[0]		=	(std::int32_t)nav_text;	//	
 	the_ep->Data[1]		=	nav_person;
 }
 
 //---------------------------------------------------------------
 
 /*
-CBYTE* get_message_message(EventPoint *ep, CBYTE* msg) {
+char* get_message_message(EventPoint *ep, char* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
-		strcpy(msg,(CBYTE*)ep->Data[0]);
+		strcpy(msg,(char*)ep->Data[0]);
 	return msg;
 }
 */

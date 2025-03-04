@@ -69,7 +69,7 @@
 // EXTERNAL REFERENCES
 //
 
-extern SLONG	hardware_input_continue();
+extern std::int32_t	hardware_input_continue();
 inline void	screen_flip()
 {
 
@@ -81,7 +81,7 @@ extern void	DoFigureDraw();
 	DoFigureDraw();
 
 #ifndef FS_ISO9660
-extern void	AENG_screen_shot(SLONG width);
+extern void	AENG_screen_shot(std::int32_t width);
 			if (Keys[KB_S])
 			{
 				AENG_screen_shot(320);
@@ -96,8 +96,8 @@ extern void	AENG_screen_shot(SLONG width);
 
 	AENG_flip();
 }
-extern void	lock_frame_rate(SLONG fps);
-extern SLONG	person_normal_animate(Thing *p_person);
+extern void	lock_frame_rate(std::int32_t fps);
+extern std::int32_t	person_normal_animate(Thing *p_person);
 
 
 typedef Thing* ThingPtr;
@@ -107,12 +107,12 @@ typedef Thing* ThingPtr;
 // GLOBALS
 //
 
-CBYTE* text_disp=0;
-UBYTE PLAYCUTS_fade_level=255;
+char* text_disp=0;
+std::uint8_t PLAYCUTS_fade_level=255;
 bool PLAYCUTS_slomo=0;
 bool PLAYCUTS_playing=0;
-UBYTE PLAYCUTS_slomo_ctr=0;
-UBYTE no_more_packets=0;
+std::uint8_t PLAYCUTS_slomo_ctr=0;
+std::uint8_t no_more_packets=0;
 
 
 //----------------------------------------------------------------------------
@@ -120,31 +120,31 @@ UBYTE no_more_packets=0;
 //
 
 #ifndef PSX
-CBYTE PLAYCUTS_text_data[MAX_CUTSCENE_TEXT];
-CBYTE* PLAYCUTS_text_ptr=PLAYCUTS_text_data;
+char PLAYCUTS_text_data[MAX_CUTSCENE_TEXT];
+char* PLAYCUTS_text_ptr=PLAYCUTS_text_data;
 CPData PLAYCUTS_cutscenes[MAX_CUTSCENES];
 CPPacket PLAYCUTS_packets[MAX_CUTSCENE_PACKETS];
 CPChannel PLAYCUTS_tracks[MAX_CUTSCENE_TRACKS];
 #else
-CBYTE* PLAYCUTS_text_data;
+char* PLAYCUTS_text_data;
 CPData *PLAYCUTS_cutscenes;
 CPPacket *PLAYCUTS_packets;
 CPChannel *PLAYCUTS_tracks;
 #endif
-UWORD PLAYCUTS_cutscene_ctr=0;
-UWORD PLAYCUTS_packet_ctr=0;
-UWORD PLAYCUTS_track_ctr=0;
-UWORD PLAYCUTS_text_ctr=0;
+std::uint16_t PLAYCUTS_cutscene_ctr=0;
+std::uint16_t PLAYCUTS_packet_ctr=0;
+std::uint16_t PLAYCUTS_track_ctr=0;
+std::uint16_t PLAYCUTS_text_ctr=0;
 
 //----------------------------------------------------------------------------
 // MISC USEFUL FUNCTIONS
 //
 
-inline SLONG LERPValue(SLONG a, SLONG b, SLONG m) {
+inline std::int32_t LERPValue(std::int32_t a, std::int32_t b, std::int32_t m) {
 	return a+(((b-a)*m)>>LERP_SHIFT);
 }
 
-inline int  LERPAngle(SLONG a, SLONG b, SLONG m) {
+inline int  LERPAngle(std::int32_t a, std::int32_t b, std::int32_t m) {
 	if ((a-b)>1024) b+=2048;
 	if ((b-a)>1024) a+=2048;
 	return LERPValue(a,b,m);
@@ -165,10 +165,10 @@ void PLAYCUTS_Read_Packet(MFFileHandle handle, CPPacket *packet) {
 	switch(packet->type) {
 	case PT_TEXT:
 		if (packet->pos.X) {
-			SLONG l;
+			std::int32_t l;
 			FileRead(handle,&l,sizeof(l));
 			FileRead(handle,PLAYCUTS_text_ptr,l);
-			packet->pos.X=(SLONG)PLAYCUTS_text_ptr;
+			packet->pos.X=(std::int32_t)PLAYCUTS_text_ptr;
 			PLAYCUTS_text_ptr+=l;
 			*PLAYCUTS_text_ptr=0; PLAYCUTS_text_ptr++;
 			PLAYCUTS_text_ctr+=(l+1);
@@ -179,7 +179,7 @@ void PLAYCUTS_Read_Packet(MFFileHandle handle, CPPacket *packet) {
 }
 
 void PLAYCUTS_Read_Channel(MFFileHandle handle, CPChannel *channel) {
-	SLONG packnum;
+	std::int32_t packnum;
 
 	FileRead(handle, channel, sizeof(CPChannel));
 //	channel->packets = new CPPacket[channel->packetcount];
@@ -192,7 +192,7 @@ void PLAYCUTS_Read_Channel(MFFileHandle handle, CPChannel *channel) {
 }
 
 CPData* PLAYCUTS_Read(MFFileHandle handle) {
-	UBYTE channum;
+	std::uint8_t channum;
 	CPData* cutscene;
 
 //	cutscene = new CPData;
@@ -236,9 +236,9 @@ void PLAYCUTS_Reset() {
 
 // finds the packet that matches a cell
 
-CPPacket *PLAYCUTS_Get_Packet(CPChannel* chan, SLONG cell) {
+CPPacket *PLAYCUTS_Get_Packet(CPChannel* chan, std::int32_t cell) {
 	CPPacket* pkt=chan->packets;
-	SLONG ctr=1;
+	std::int32_t ctr=1;
 	if ((cell<0)||(cell>2000)) return 0;
 	while (pkt&&(pkt->start!=cell)) {
 		pkt++;
@@ -250,8 +250,8 @@ CPPacket *PLAYCUTS_Get_Packet(CPChannel* chan, SLONG cell) {
 
 // finds the packets to the left and right of a cell
 
-bool PLAYCUTS_find_surrounding_packets(CPChannel *chan, SLONG cell, SLONG* left, SLONG* right) {
-	SLONG leftmax=-1, rightmin=2001, packctr=0;
+bool PLAYCUTS_find_surrounding_packets(CPChannel *chan, std::int32_t cell, std::int32_t* left, std::int32_t* right) {
+	std::int32_t leftmax=-1, rightmin=2001, packctr=0;
 	CPPacket *pack;
 	*left=-1; *right=2001;
 	pack=chan->packets;
@@ -270,8 +270,8 @@ bool PLAYCUTS_find_surrounding_packets(CPChannel *chan, SLONG cell, SLONG* left,
 // PLAYING THE DAMN THINGS
 //
 
-void LERPAnim(CPChannel *chan, Thing *person, SLONG cell, SLONG sub_ctr) {
-	SLONG left,right,lastpos,pos,dist, a, mult, smoothmult, smoothin, smoothout;
+void LERPAnim(CPChannel *chan, Thing *person, std::int32_t cell, std::int32_t sub_ctr) {
+	std::int32_t left,right,lastpos,pos,dist, a, mult, smoothmult, smoothin, smoothout;
 	int x,y,z;
 	CPPacket *pktA, *pktB;
 	GameCoord posn;
@@ -369,8 +369,8 @@ void LERPAnim(CPChannel *chan, Thing *person, SLONG cell, SLONG sub_ctr) {
 
 }
 
-void LERPCamera(CPChannel *chan, SLONG cell, SLONG sub_ctr) {
-	SLONG x,y,z,p,a, left, right, dist, pos, mult, smoothin, smoothout, smoothmult,lens;
+void LERPCamera(CPChannel *chan, std::int32_t cell, std::int32_t sub_ctr) {
+	std::int32_t x,y,z,p,a, left, right, dist, pos, mult, smoothin, smoothout, smoothmult,lens;
 	CPPacket *pktA,*pktB;
 
 	if (!PLAYCUTS_find_surrounding_packets(chan, cell,&left,&right)) {
@@ -460,10 +460,10 @@ void LERPCamera(CPChannel *chan, SLONG cell, SLONG sub_ctr) {
 
 // update an individual actor
 
-void PLAYCUTS_Update(CPChannel *chan, Thing *thing, SLONG read_head, SLONG sub_ctr) {
+void PLAYCUTS_Update(CPChannel *chan, Thing *thing, std::int32_t read_head, std::int32_t sub_ctr) {
 	CPPacket  *pkt;
 	int index,lens;
-	SLONG l,r;
+	std::int32_t l,r;
 
 	pkt=PLAYCUTS_Get_Packet(chan,read_head);
 	if (!pkt) {
@@ -513,7 +513,7 @@ void PLAYCUTS_Update(CPChannel *chan, Thing *thing, SLONG read_head, SLONG sub_c
 
 		case PT_TEXT:
 			if (pkt->pos.X) 
-				text_disp=(CBYTE*)pkt->pos.X;
+				text_disp=(char*)pkt->pos.X;
 			else
 				text_disp=0;
 			break;
@@ -523,9 +523,9 @@ void PLAYCUTS_Update(CPChannel *chan, Thing *thing, SLONG read_head, SLONG sub_c
 // main loop
 
 void PLAYCUTS_Play(CPData *cutscene) {
-	UBYTE env_frame_rate = 20;
-	SLONG read_head=0, sub_ctr=0;
-	UBYTE channum;
+	std::uint8_t env_frame_rate = 20;
+	std::int32_t read_head=0, sub_ctr=0;
+	std::uint8_t channum;
 	ThingPtr *cs_things;
 	Thing* darci=NET_PERSON(0);
 	CPChannel *chan;

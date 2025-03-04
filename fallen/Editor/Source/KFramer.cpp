@@ -14,20 +14,20 @@
 #include	"KFDef2.c"
 
 
-extern SLONG					key_frame_count;
+extern std::int32_t					key_frame_count;
 extern struct KeyFrameChunk 	test_chunk2;
 
 extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 
 // Used by fudgy centering bit.
-extern SLONG		x_centre,
+extern std::int32_t		x_centre,
 					y_centre,
 					z_centre;
 
 static KeyFrameEditor2		*the_editor;
 
-void	test_draw_all_get_sizes(SWORD multi_prim,struct KeyFrame *the_frame,SLONG x,SLONG y,SLONG z,SLONG tween,struct Matrix33 *rot_mat,SLONG *width,SLONG *height,SLONG *mid_x,SLONG *mid_y);
+void	test_draw_all_get_sizes(std::int16_t multi_prim,struct KeyFrame *the_frame,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct Matrix33 *rot_mat,std::int32_t *width,std::int32_t *height,std::int32_t *mid_x,std::int32_t *mid_y);
 void	update_key_frames(void);
 
 //---------------------------------------------------------------
@@ -102,11 +102,11 @@ void	KeyFrameEditor2::DrawContent(void)
 
 //---------------------------------------------------------------
 
-void	KeyFrameEditor2::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
+void	KeyFrameEditor2::HandleContentClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	ULONG		cleanup,
+	std::uint32_t		cleanup,
 				update;
-	SLONG		c0,
+	std::int32_t		c0,
 				first_frame,
 				selected_frame,
 				x_diff,
@@ -204,7 +204,7 @@ void	KeyFrameEditor2::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-void	KeyFrameEditor2::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
+void	KeyFrameEditor2::HandleControlClick(std::uint8_t flags,MFPoint *clicked_point)
 {
 }
 
@@ -212,9 +212,9 @@ void	KeyFrameEditor2::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
 
 void	KeyFrameEditor2::HandleModule(void)
 {
-	UBYTE			update		=	0;
+	std::uint8_t			update		=	0;
 	MFPoint			mouse_point;
-	static UBYTE	cleanup_content	=	0;
+	static std::uint8_t	cleanup_content	=	0;
 	static MFPoint	last_point;
 
 
@@ -273,9 +273,9 @@ void	KeyFrameEditor2::HandleModule(void)
 
 //---------------------------------------------------------------
 
-void	KeyFrameEditor2::HandleKeyFramesControl(ULONG control_id)
+void	KeyFrameEditor2::HandleKeyFramesControl(std::uint32_t control_id)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	FileRequester	*fr;
 
 
@@ -314,7 +314,7 @@ void	KeyFrameEditor2::HandleKeyFramesControl(ULONG control_id)
 
 				// Fudgy bit for centering.
 				{
-SLONG				c1,
+std::int32_t				c1,
 					sp,ep;
 struct PrimObject	*p_obj;
 
@@ -356,7 +356,7 @@ struct PrimObject	*p_obj;
 
 void	KeyFrameEditor2::DrawKeyFrames(void)
 {
-	SLONG				c0,
+	std::int32_t				c0,
 						first_frame;
 	EdRect				draw_rect,
 						frame_rect;
@@ -367,7 +367,7 @@ void	KeyFrameEditor2::DrawKeyFrames(void)
 	if(test_chunk2.MultiObject)
 	{
 		KeyFramesRect.FillRect(ACTIVE_COL);
-		rotate_obj((SWORD)AnimAngleX,(SWORD)AnimAngleY,0,&r_matrix);
+		rotate_obj((std::int16_t)AnimAngleX,(std::int16_t)AnimAngleY,0,&r_matrix);
 		first_frame	=	((CHSlider*)KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
 
 		for(c0=0;c0<KEY_FRAME_COUNT;c0++)
@@ -397,9 +397,9 @@ void	KeyFrameEditor2::DrawKeyFrames(void)
 
 //---------------------------------------------------------------
 
-void	KeyFrameEditor2::DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix)
+void	KeyFrameEditor2::DrawKeyFrame(std::uint16_t multi_object,EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix)
 {
-	SLONG					c0,c1,c2,
+	std::int32_t					c0,c1,c2,
 							scale,
 							scale_y,
 							temp_scale,
@@ -413,7 +413,7 @@ void	KeyFrameEditor2::DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct
 	EdRect					outline_rect;
 	struct KeyFrameElement	*the_element;
 	struct SVector			*rotate_vectors;
-	SLONG					mid_x=0,mid_y=0;
+	std::int32_t					mid_x=0,mid_y=0;
 
 
 	// Stop the compiler moaning.
@@ -423,7 +423,7 @@ void	KeyFrameEditor2::DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct
 		return;
 
 	c1	=	0;
-	flags			=	(SLONG*)MemAlloc(sizeof(SLONG)*3000);
+	flags			=	(std::int32_t*)MemAlloc(sizeof(std::int32_t)*3000);
 	ERROR_MSG(flags,"Unable to allocate memory for DrawKeyFrame");
 	rotate_vectors	=	(struct SVector*)MemAlloc(sizeof(struct SVector)*3000);
 	ERROR_MSG(flags,"Unable to allocate memory for DrawKeyFrame");
@@ -486,7 +486,7 @@ void	KeyFrameEditor2::DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct
 	for(c2=0,c0=prim_multi_objects[test_chunk2.MultiObject].StartObject;c0<prim_multi_objects[test_chunk2.MultiObject].EndObject;c0++)
 	{
 		the_element			=	&the_frame->FirstElement[c2++];
-   		test_draw((SWORD)c0,0,0,0,0,the_element,the_element,r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
+   		test_draw((std::int16_t)c0,0,0,0,0,the_element,the_element,r_matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 	}
 	render_view(0);
 	outline_rect.OutlineRect(0);

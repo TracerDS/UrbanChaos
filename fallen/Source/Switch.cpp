@@ -18,15 +18,15 @@ StateFunction switch_functions[]	=
 
 void init_switches()
 {
-	memset((UBYTE*)SWITCHES,0,sizeof(SWITCHES));
+	memset((std::uint8_t*)SWITCHES,0,sizeof(SWITCHES));
 	SWITCH_COUNT	=	0;
 }
 
 //---------------------------------------------------------------
 
-Thing *alloc_switch(UBYTE type)
+Thing *alloc_switch(std::uint8_t type)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	Switch			*new_switch;
 	Thing			*switch_thing	=	NULL;
 
@@ -74,7 +74,7 @@ THING_INDEX create_switch()
 	THING_INDEX		thing_number	=	0;
 
 
-	s_thing			=	alloc_switch((UBYTE)the_def->Genus);
+	s_thing			=	alloc_switch((std::uint8_t)the_def->Genus);
 	if(s_thing)
 	{
 		s_thing->WorldPos.X	=	the_def->X<<8;
@@ -83,7 +83,7 @@ THING_INDEX create_switch()
 
 		the_switch			=	s_thing->Genus.Switch;
 		the_switch->Radius	=	the_def->Data[0]*the_def->Data[0];
-		the_switch->Scanee	=	(UWORD)the_def->Data[1];
+		the_switch->Scanee	=	(std::uint16_t)the_def->Data[1];
 
 		thing_number	=	THING_NUMBER(s_thing);
 	}
@@ -97,7 +97,7 @@ THING_INDEX create_switch()
 
 void process_switch_sphere(Thing *s_thing,GameCoord *scanee_coord)
 {
-	SLONG		distance;
+	std::int32_t		distance;
 	Switch		*the_switch;
 
 
@@ -143,7 +143,7 @@ void fn_switch_class(Thing *s_thing)
 {
 	/*
 
-	ULONG		distance;
+	std::uint32_t		distance;
 	Switch		*the_switch;
 	Thing		*nearest_thing;
 

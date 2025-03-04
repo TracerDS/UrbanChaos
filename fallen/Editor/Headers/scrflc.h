@@ -5,74 +5,74 @@
 
 struct	FLCFileHeader
 {
-	ULONG								Size;
-	UWORD								Magic;
-	UWORD								NumberOfFrames;
-	UWORD								Width;
-	UWORD								Height;
-	UWORD								Depth;
-	UWORD								Flags;
-	ULONG								Speed;
-	UWORD								Reserved_0;
-	ULONG								Created;
-	ULONG								Creator;
-	ULONG								Updated;
-	ULONG								Updater;
-	UWORD								AspectX;
-	UWORD								AspectY;
-	UBYTE								Reserved_1[38];
-	ULONG								OFrame1;
-	ULONG								OFrame2;
-	UBYTE								Reserved_2[40];
+	std::uint32_t								Size;
+	std::uint16_t								Magic;
+	std::uint16_t								NumberOfFrames;
+	std::uint16_t								Width;
+	std::uint16_t								Height;
+	std::uint16_t								Depth;
+	std::uint16_t								Flags;
+	std::uint32_t								Speed;
+	std::uint16_t								Reserved_0;
+	std::uint32_t								Created;
+	std::uint32_t								Creator;
+	std::uint32_t								Updated;
+	std::uint32_t								Updater;
+	std::uint16_t								AspectX;
+	std::uint16_t								AspectY;
+	std::uint8_t								Reserved_1[38];
+	std::uint32_t								OFrame1;
+	std::uint32_t								OFrame2;
+	std::uint8_t								Reserved_2[40];
 };
 
 //**************************************|************************************
 
 struct	FLCPrefixChunk
 {
-	ULONG								Size;
-	UWORD								Type;
+	std::uint32_t								Size;
+	std::uint16_t								Type;
 };
 
 //**************************************|************************************
 
 struct	FLCFrameChunk
 {
-	ULONG								Size;
-	UWORD								Type;
-	UWORD								Chunks;
-	UBYTE								Reserved_0[8];
+	std::uint32_t								Size;
+	std::uint16_t								Type;
+	std::uint16_t								Chunks;
+	std::uint8_t								Reserved_0[8];
 };
 
 //**************************************|************************************
 
 struct	FLCFrameDataChunk
 {
-	ULONG								Size;
-	UWORD								Type;
+	std::uint32_t								Size;
+	std::uint16_t								Type;
 };
 
 //**************************************|************************************
 
 struct	FLCPostageStamp
 {
-	ULONG								Size;
-	UWORD								Type;
-	UWORD								Height;
-	UWORD								Width;
-	UWORD								XLate;
+	std::uint32_t								Size;
+	std::uint16_t								Type;
+	std::uint16_t								Height;
+	std::uint16_t								Width;
+	std::uint16_t								XLate;
 };
 
 //**************************************|************************************
 
 union	MultiPointer
 {
-	UBYTE								*UByte;
-	UWORD								*UWord;
-	ULONG								*ULong;
-	SBYTE								*SByte;
-	SWORD								*SWord;
-	SLONG								*SLong;
+	std::uint8_t								*UByte;
+	std::uint16_t								*UWord;
+	std::uint32_t								*ULong;
+	std::int8_t								*SByte;
+	std::int16_t								*SWord;
+	std::int32_t								*SLong;
 	struct	FLCFileHeader				*FLCFileHeader;
 	struct	FLCPrefixChunk				*FLCPrefixChunk;
 	struct	FLCFrameChunk				*FLCFrameChunk;
@@ -84,18 +84,18 @@ union	MultiPointer
 
 struct	Animation
 {
-	SLONG								PlaybackMode;
-	UBYTE								*LastFrame;
-	UBYTE								*NextFrameBuffer;
+	std::int32_t								PlaybackMode;
+	std::uint8_t								*LastFrame;
+	std::uint8_t								*NextFrameBuffer;
 	union	MultiPointer				NextFrameBufferPointer;
 	MFFileHandle						PlayFileHandle;
 	MFFileHandle						RecordFileHandle;
-	SWORD								Xpos;
-	SWORD								Ypos;
-	UBYTE								Palette[256 * 3];
-	SLONG								FrameNumber;
-	SLONG								FrameSizeMaximum;
-	SLONG								Active;
+	std::int16_t								Xpos;
+	std::int16_t								Ypos;
+	std::uint8_t								Palette[256 * 3];
+	std::int32_t								FrameNumber;
+	std::int32_t								FrameSizeMaximum;
+	std::int32_t								Active;
 	struct	FLCFileHeader				FLCFileHeader;
 	struct	FLCPrefixChunk				FLCPrefixChunk;
 	struct	FLCFrameChunk				FLCFrameChunk;
@@ -121,32 +121,32 @@ struct	Animation
 #define		PLAYBACK_MODE_PLAY			(1 << 1)
 
 //**************************************|************************************
-extern SLONG	anim_stop();
-extern SLONG	anim_record();
+extern std::int32_t	anim_stop();
+extern std::int32_t	anim_record();
 
-extern SLONG	anim_open(SBYTE *file_name, SWORD xpos, SWORD ypos, SWORD width, SWORD height, SBYTE *postage_stamp, SLONG	playback );
-extern SLONG	anim_close(SLONG playback);
-extern SLONG	anim_make_next_frame(UBYTE *WScreen, UBYTE *palette );
-extern SLONG	anim_make_FLI_PSTAMP();
-extern SLONG	anim_make_FLI_COLOUR256(UBYTE *palette);
-extern SLONG	anim_make_FLI_COLOUR(UBYTE *palette);
-extern SLONG	anim_make_FLI_SS2(UBYTE *wscreen, UBYTE *last_screen);
-extern SLONG	anim_make_FLI_LC(UBYTE *wscreen, UBYTE *last_screen);
-extern SLONG	anim_make_FLI_BLACK(UBYTE *wscreen );
-extern SLONG	anim_make_FLI_BRUN(UBYTE *wscreen );
-extern SLONG	anim_make_FLI_COPY(UBYTE *wscreen );
-extern SLONG	anim_write_data(UBYTE *data, SLONG size);
-extern SLONG	anim_store_data(UBYTE *data, SLONG size);
-extern SLONG	anim_show_next_frame();
-extern SLONG	anim_show_FLI_PSTAMP();
-extern SLONG	anim_show_FLI_COLOUR256();
-extern SLONG	anim_show_FLI_COLOUR();
-extern SLONG	anim_show_FLI_SS2();
-extern SLONG	anim_show_FLI_LC();
-extern SLONG	anim_show_FLI_BLACK();
-extern SLONG	anim_show_FLI_BRUN();
-extern SLONG	anim_show_FLI_COPY();
-extern SLONG	anim_read_data(UBYTE *data, SLONG size);
+extern std::int32_t	anim_open(std::int8_t *file_name, std::int16_t xpos, std::int16_t ypos, std::int16_t width, std::int16_t height, std::int8_t *postage_stamp, std::int32_t	playback );
+extern std::int32_t	anim_close(std::int32_t playback);
+extern std::int32_t	anim_make_next_frame(std::uint8_t *WScreen, std::uint8_t *palette );
+extern std::int32_t	anim_make_FLI_PSTAMP();
+extern std::int32_t	anim_make_FLI_COLOUR256(std::uint8_t *palette);
+extern std::int32_t	anim_make_FLI_COLOUR(std::uint8_t *palette);
+extern std::int32_t	anim_make_FLI_SS2(std::uint8_t *wscreen, std::uint8_t *last_screen);
+extern std::int32_t	anim_make_FLI_LC(std::uint8_t *wscreen, std::uint8_t *last_screen);
+extern std::int32_t	anim_make_FLI_BLACK(std::uint8_t *wscreen );
+extern std::int32_t	anim_make_FLI_BRUN(std::uint8_t *wscreen );
+extern std::int32_t	anim_make_FLI_COPY(std::uint8_t *wscreen );
+extern std::int32_t	anim_write_data(std::uint8_t *data, std::int32_t size);
+extern std::int32_t	anim_store_data(std::uint8_t *data, std::int32_t size);
+extern std::int32_t	anim_show_next_frame();
+extern std::int32_t	anim_show_FLI_PSTAMP();
+extern std::int32_t	anim_show_FLI_COLOUR256();
+extern std::int32_t	anim_show_FLI_COLOUR();
+extern std::int32_t	anim_show_FLI_SS2();
+extern std::int32_t	anim_show_FLI_LC();
+extern std::int32_t	anim_show_FLI_BLACK();
+extern std::int32_t	anim_show_FLI_BRUN();
+extern std::int32_t	anim_show_FLI_COPY();
+extern std::int32_t	anim_read_data(std::uint8_t *data, std::int32_t size);
 
 //**************************************|************************************
 #endif

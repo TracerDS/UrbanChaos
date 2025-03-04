@@ -23,7 +23,7 @@
 #include "target.h"
 #endif
 
-extern CBYTE	*EWAY_get_mess(SLONG index);
+extern char	*EWAY_get_mess(std::int32_t index);
 
 
 
@@ -76,7 +76,7 @@ float MAP_scale_y = 0.03F * 1.33F;
 // Returns a shade of grey depending on its virtual screen position.
 //
 
-ULONG MAP_fadeout_colour(
+std::uint32_t MAP_fadeout_colour(
 		float sx,
 		float sy)
 {
@@ -84,14 +84,14 @@ ULONG MAP_fadeout_colour(
 	float dy = (sy - MAP_screen_y) * (1.0F / 0.48F);
 	float dist;
 	float fmul;
-	SLONG imul;
-	ULONG colour;
+	std::int32_t imul;
+	std::uint32_t colour;
 
 	dist  = dx*dx + dy*dy;
 	dist *= dist;
 	fmul  = 1.0F - dist;
 
-	imul = SLONG(fmul * 255.0F);
+	imul = std::int32_t(fmul * 255.0F);
 
 	if (imul < 0)
 	{
@@ -110,19 +110,19 @@ ULONG MAP_fadeout_colour(
 //
 
 void MAP_draw_prim(
-		SLONG prim,
+		std::int32_t prim,
 		float cx,
 		float cy,
 		float yaw,
 		float scale)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG p0;
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
-	SLONG page;
+	std::int32_t p0;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
+	std::int32_t page;
 
 	float x;
 	float y;
@@ -315,7 +315,7 @@ void MAP_draw_prim(
 //
 
 void MAP_sprite(
-		SLONG page,
+		std::int32_t page,
 		float x,
 		float y,
 		float size_x,
@@ -328,7 +328,7 @@ void MAP_sprite(
 		float v2,
 		float u3,
 		float v3,
-		UBYTE shadow)
+		std::uint8_t shadow)
 {
 	float x1 = x;
 	float y1 = y;
@@ -338,10 +338,10 @@ void MAP_sprite(
 	POLY_Point  pp  [4];
 	POLY_Point *quad[4];
 
-	ULONG colour0 = MAP_fadeout_colour(x1,y1);
-	ULONG colour1 = MAP_fadeout_colour(x2,y1);
-	ULONG colour2 = MAP_fadeout_colour(x1,y2);
-	ULONG colour3 = MAP_fadeout_colour(x2,y2);
+	std::uint32_t colour0 = MAP_fadeout_colour(x1,y1);
+	std::uint32_t colour1 = MAP_fadeout_colour(x2,y1);
+	std::uint32_t colour2 = MAP_fadeout_colour(x1,y2);
+	std::uint32_t colour3 = MAP_fadeout_colour(x2,y2);
 	
 	//
 	// Convert from virtual to real screen coords.
@@ -395,7 +395,7 @@ void MAP_sprite(
 
 	if (shadow)
 	{
-		SLONG i; 
+		std::int32_t i; 
 
 		POLY_Point  ps [4];
 		POLY_Point *tri[3];
@@ -560,7 +560,7 @@ void MAP_draw_line(
 		float y1,
 		float x2,
 		float y2,
-		ULONG colour)
+		std::uint32_t colour)
 {	
 	POLY_Point  pp  [4];
 	POLY_Point *quad[4];
@@ -568,8 +568,8 @@ void MAP_draw_line(
 	float dx = fabs(x2 - x1);
 	float dy = fabs(y2 - y1);
 
-	SLONG colour0 = MAP_fadeout_colour(x1,y1) & colour;
-	SLONG colour1 = MAP_fadeout_colour(x2,y2) & colour;
+	std::int32_t colour0 = MAP_fadeout_colour(x1,y1) & colour;
+	std::int32_t colour1 = MAP_fadeout_colour(x2,y2) & colour;
 	
 	if (!(colour0 | colour1))
 	{
@@ -664,9 +664,9 @@ void MAP_draw_dot(
 		float y,
 		float size,
 		float angle,
-		ULONG colour)
+		std::uint32_t colour)
 {
-	SLONG mul;
+	std::int32_t mul;
 
 	float dx = size * -(float)sin(angle);
 	float dy = size * -(float)cos(angle) * 1.33F;
@@ -677,10 +677,10 @@ void MAP_draw_dot(
 	mul = MAP_fadeout_colour(x,y) & 0xff;
 
 	{
-		SLONG a;
-		SLONG r;
-		SLONG g;
-		SLONG b;
+		std::int32_t a;
+		std::int32_t r;
+		std::int32_t g;
+		std::int32_t b;
 
 		a = (colour >> 24) & 0xff;
 		r = (colour >> 16) & 0xff;
@@ -752,8 +752,8 @@ void MAP_draw_dot(
 
 typedef struct
 {
-	SLONG life;		// 0 => unused
-	ULONG colour;
+	std::int32_t life;		// 0 => unused
+	std::uint32_t colour;
 	float wx;
 	float wz;
 	float radius;
@@ -780,11 +780,11 @@ void MAP_pulse_init()
 // Creates a new pulse.
 //
 
-void MAP_pulse_create(float wx, float wz, ULONG colour)
+void MAP_pulse_create(float wx, float wz, std::uint32_t colour)
 {
-	SLONG i;
-	SLONG best_life  = INFINITY;
-	SLONG best_pulse = INFINITY;
+	std::int32_t i;
+	std::int32_t best_life  = INFINITY;
+	std::int32_t best_pulse = INFINITY;
 
 	for (i = 0; i < MAP_MAX_PULSES; i++)
 	{
@@ -816,7 +816,7 @@ void MAP_pulse_create(float wx, float wz, ULONG colour)
 // Draws an individual pulse
 //
 
-void MAP_pulse_draw(float wx, float wz, float radius, ULONG colour, UBYTE fade)
+void MAP_pulse_draw(float wx, float wz, float radius, std::uint32_t colour, std::uint8_t fade)
 {
 	float x;
 	float y;
@@ -917,7 +917,7 @@ void MAP_pulse_draw(float wx, float wz, float radius, ULONG colour, UBYTE fade)
 
 void MAP_pulse_draw_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Pulse *mp;
 
@@ -948,12 +948,12 @@ void MAP_pulse_draw_all()
 
 void MAP_process_pulses()
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Pulse *mp;
 
-	static SLONG now = 0;
-	static SLONG last = 0;
+	static std::int32_t now = 0;
+	static std::int32_t last = 0;
 
 	now = GetTickCount();
 
@@ -998,7 +998,7 @@ void MAP_process_pulses()
 // Draws an arrow in the given direction...
 //
 
-void MAP_draw_arrow(float angle, ULONG colour)
+void MAP_draw_arrow(float angle, std::uint32_t colour)
 {
 	float x;
 	float y;
@@ -1065,9 +1065,9 @@ void MAP_draw_arrow(float angle, ULONG colour)
 
 void MAP_draw_3d_arrow(
 		float angle,
-		ULONG colour)
+		std::uint32_t colour)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float vx;
 	float vy;
@@ -1154,7 +1154,7 @@ void MAP_draw_3d_arrow(
 
 #define MAP_MAX_BEACON_COLOURS 6
 
-ULONG MAP_beacon_colour[MAP_MAX_BEACON_COLOURS] =
+std::uint32_t MAP_beacon_colour[MAP_MAX_BEACON_COLOURS] =
 {
 	0xffff00,
 	0xff0000,
@@ -1178,13 +1178,13 @@ void MAP_beacon_init()
 // Creates a beacon
 //
 
-UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
+std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t index, std::uint16_t track_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Beacon *mb;
 
-	extern SLONG	EWAY_mess_upto;
+	extern std::int32_t	EWAY_mess_upto;
 	ASSERT(index>=0 && index<EWAY_mess_upto);
 
 	for (i = 1; i < MAP_MAX_BEACONS; i++)
@@ -1214,12 +1214,12 @@ UBYTE MAP_beacon_create(SLONG x, SLONG z, SLONG index, UWORD track_thing)
 
 void MAP_process_beacons()
 {
-	SLONG i;
+	std::int32_t i;
 
 	MAP_Beacon *mb;
 
-	static SLONG now = 0;
-	static SLONG last = 0;
+	static std::int32_t now = 0;
+	static std::int32_t last = 0;
 
 	now = GetTickCount();
 
@@ -1274,7 +1274,7 @@ void MAP_process_beacons()
 
 void MAP_beacon_draw_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x;
 	float y;
@@ -1286,7 +1286,7 @@ void MAP_beacon_draw_all()
 	float dist;
 	float angle;
 
-	SLONG colour;
+	std::int32_t colour;
 
 	MAP_Beacon *mb;
 
@@ -1329,7 +1329,7 @@ void MAP_beacon_draw_all()
 
 			float radius = 0.03F;// + sin(GetTickCount() * 0.005F) * 0.01F;
 
-			SLONG colour;
+			std::int32_t colour;
 
 			POLY_Point  pp  [4];
 			POLY_Point *quad[4];
@@ -1397,8 +1397,8 @@ void MAP_beacon_draw_all()
 			// 
 
 			MENUFONT_Draw(
-				SLONG(0.3F * MAP_screen_size_x),
-				SLONG(list * MAP_screen_size_y),
+				std::int32_t(0.3F * MAP_screen_size_x),
+				std::int32_t(list * MAP_screen_size_y),
 				128,
 				EWAY_get_mess(mb->index),
 				MAP_beacon_colour[i % MAP_MAX_BEACON_COLOURS] | 0xff000000,
@@ -1413,7 +1413,7 @@ void MAP_beacon_draw_all()
 #endif //#ifndef TARGET_DC
 
 
-void MAP_beacon_remove(UBYTE beacon)
+void MAP_beacon_remove(std::uint8_t beacon)
 {
 	ASSERT(WITHIN(beacon, 0, MAP_MAX_BEACONS - 1));
 
@@ -1431,7 +1431,7 @@ void MAP_draw_weapons(Thing *p_person)
 
 	float yaw = GetTickCount() * 0.004F;
 
-	SLONG index;
+	std::int32_t index;
 
 	Thing *p_special;
 
@@ -1491,28 +1491,28 @@ void MAP_draw()
 	float x2;
 	float y2;
 
-	SLONG mx;
-	SLONG mz;
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG i;
-	SLONG page;
-	ULONG colour;
-	SLONG blue;
-	SLONG red;
-	UBYTE opt;
+	std::int32_t i;
+	std::int32_t page;
+	std::uint32_t colour;
+	std::int32_t blue;
+	std::int32_t red;
+	std::uint8_t opt;
 
 	float scale;
 	float fx1;
 	float fz1;
 	float fx2;
 	float fz2;
-	CBYTE str[10];
+	char str[10];
 
-	SLONG index;
+	std::int32_t index;
 
 	Thing *darci = NET_PERSON(0);
 	Thing *p_thing;
@@ -1554,10 +1554,10 @@ void MAP_draw()
 	fx2 = MAP_WORLD_X(1.0F);
 	fz2 = MAP_WORLD_Z(1.0F);
 
-	mx1 = SLONG(fx1);
-	mz1 = SLONG(fz1);
-	mx2 = SLONG(fx2);
-	mz2 = SLONG(fz2);
+	mx1 = std::int32_t(fx1);
+	mz1 = std::int32_t(fz1);
+	mx2 = std::int32_t(fx2);
+	mz2 = std::int32_t(fz2);
 
 	SATURATE(mx1, 1, PAP_SIZE_HI - 2);
 	SATURATE(mz1, 1, PAP_SIZE_HI - 2);
@@ -1815,7 +1815,7 @@ void MAP_process()
 
 void MAP_draw_onscreen_beacons()
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x;
 	float y;
@@ -1827,7 +1827,7 @@ void MAP_draw_onscreen_beacons()
 	float dist;
 	float angle;
 
-	SLONG colour;
+	std::int32_t colour;
 
 	MAP_Beacon *mb;
 

@@ -6,7 +6,7 @@
 #ifndef	PSX
 
 #ifdef	__WINDOWS_386__
-SLONG MUL64(SLONG, SLONG);
+std::int32_t MUL64(std::int32_t, std::int32_t);
 #pragma aux MUL64 =\
 				"	imul	ebx				"\
 				"	mov		ax,dx			"\
@@ -27,10 +27,10 @@ SLONG MUL64(SLONG, SLONG);
 
 #else
 
-inline SLONG	DIV64(SLONG a,SLONG b)
+inline std::int32_t	DIV64(std::int32_t a,std::int32_t b)
 {
 /* 64bit divide */        
-	SLONG		ret_v;
+	std::int32_t		ret_v;
 	__asm
 	{                       
 		 mov	edx,a
@@ -44,10 +44,10 @@ inline SLONG	DIV64(SLONG a,SLONG b)
 	return(ret_v);
 }
 
-inline SLONG	MUL64(SLONG a,SLONG b)
+inline std::int32_t	MUL64(std::int32_t a,std::int32_t b)
 {
 /* 64bit multiply */        
-	SLONG		ret_v;
+	std::int32_t		ret_v;
 	__asm
 	{                       
 		 mov	eax,a       
@@ -63,16 +63,16 @@ inline SLONG	MUL64(SLONG a,SLONG b)
 
 // psx bit
 
-inline	SLONG	DIV64(SLONG a,SLONG b)
+inline	std::int32_t	DIV64(std::int32_t a,std::int32_t b)
 {
 	long long	ina;
-	SLONG	out;
+	std::int32_t	out;
 	ina=a;
 	ina<<=16;
-	return((SLONG)(ina/b));
+	return((std::int32_t)(ina/b));
 }
 /*
-inline SLONG	DIV64(SLONG a,SLONG b)
+inline std::int32_t	DIV64(std::int32_t a,std::int32_t b)
 {
 	return(a/b);
 }
@@ -82,11 +82,11 @@ inline SLONG	DIV64(SLONG a,SLONG b)
 //
 // was an inline but fucks up for some reason, so has been made into a function in collide.cpp
 //
-extern SLONG MUL64(SLONG i,SLONG j);
+extern std::int32_t MUL64(std::int32_t i,std::int32_t j);
 
 
 /*
-inline SLONG	MUL64(SLONG a,SLONG b)
+inline std::int32_t	MUL64(std::int32_t a,std::int32_t b)
 {
 	return(a*b);
 }
@@ -97,14 +97,14 @@ inline SLONG	MUL64(SLONG a,SLONG b)
 
 #else //#if !defined (TARGET_DC)
 
-inline SLONG	MUL64(SLONG a,SLONG b);
+inline std::int32_t	MUL64(std::int32_t a,std::int32_t b);
 
 // Dreamcast versions. Might be inlined later, just C for now.
 // Also very approximate - DC compiler doesn't like long long, so trash the accuracy.
-inline	SLONG	DIV64(SLONG a,SLONG b)
+inline	std::int32_t	DIV64(std::int32_t a,std::int32_t b)
 {
 	// return ( ( a << 16 )  / b );
-	SLONG slResult;
+	std::int32_t slResult;
 
 	if ( a < 0x8000 )
 	{
@@ -127,7 +127,7 @@ inline	SLONG	DIV64(SLONG a,SLONG b)
 	}
 
 #ifdef DEBUG
-	SLONG slTemp = MUL64 ( slResult, b );
+	std::int32_t slTemp = MUL64 ( slResult, b );
 	slTemp -= a;
 	ASSERT ( ( slTemp > -200 ) && ( slTemp < 200 ) );
 #endif
@@ -136,7 +136,7 @@ inline	SLONG	DIV64(SLONG a,SLONG b)
 
 }
 
-inline SLONG	MUL64(SLONG a,SLONG b)
+inline std::int32_t	MUL64(std::int32_t a,std::int32_t b)
 {
 	// Typically used for multiplying two 16.16 values in the range 0.0-1.0 together.
 	// return ( ( a * b ) >> 16 );

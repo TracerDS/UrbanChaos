@@ -16,8 +16,8 @@
 #define SLAP_MAX_BITMAP_SIZE 256
 
 void SLAP_init(
-		UBYTE *bitmap,
-		SLONG  bitmap_size);	// Power of 2 max of SLAP_MAX_BITMAP_SIZE
+		std::uint8_t *bitmap,
+		std::int32_t  bitmap_size);	// Power of 2 max of SLAP_MAX_BITMAP_SIZE
 
 
 //
@@ -25,8 +25,8 @@ void SLAP_init(
 //
 
 void SLAP_add_edge(
-		SLONG x1, SLONG y1,
-		SLONG x2, SLONG y2);
+		std::int32_t x1, std::int32_t y1,
+		std::int32_t x2, std::int32_t y2);
 
 
 //

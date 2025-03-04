@@ -20,29 +20,29 @@
 
 struct	EnginePoint //redesign this
 {
-	SLONG	X;			// these
-	SLONG	Y;			// elements
-	SLONG	TMapX;		// fixed
-	SLONG	TMapY;		// by
-	SLONG	Shade;		// trig function
-	SLONG	X3d;
-	SLONG	Y3d;
-	SLONG	Z3d;
-	SLONG	DistSqr;
-	UWORD	padw;
-	UBYTE	Flags;
-	UBYTE	padb;
+	std::int32_t	X;			// these
+	std::int32_t	Y;			// elements
+	std::int32_t	TMapX;		// fixed
+	std::int32_t	TMapY;		// by
+	std::int32_t	Shade;		// trig function
+	std::int32_t	X3d;
+	std::int32_t	Y3d;
+	std::int32_t	Z3d;
+	std::int32_t	DistSqr;
+	std::uint16_t	padw;
+	std::uint8_t	Flags;
+	std::uint8_t	padb;
 };
 
 struct	MfEnginePoint //redesign this
 {
-	SLONG	X;			// these
-	SLONG	Y;			// elements
-	SLONG	Z3d;
-	UBYTE	TX;		// fixed
-	UBYTE	TY;		// by
-	UBYTE	Shade;		// trig function
-	UBYTE	padw;
+	std::int32_t	X;			// these
+	std::int32_t	Y;			// elements
+	std::int32_t	Z3d;
+	std::uint8_t	TX;		// fixed
+	std::uint8_t	TY;		// by
+	std::uint8_t	Shade;		// trig function
+	std::uint8_t	padw;
 };
 
 struct	MFDXEnginePoint
@@ -52,48 +52,48 @@ struct	MFDXEnginePoint
 				ScrZ,
 				U,
 				V;
-	D3DCOLOR	Colour;
+	D3DCOLOR	Color;
 };
 
 struct	PolyInfo
 {
-	UWORD	*PTexture;
-	UWORD	Col;
-	UWORD	DrawFlags;
-	UBYTE	Page;
+	std::uint16_t	*PTexture;
+	std::uint16_t	Col;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	Page;
 };
 
 
 //DATA
 
-extern SLONG	div_table[65536];
-extern UWORD	*tmaps[];
-extern UBYTE	*pals[];
-extern UBYTE	tmap[];
-extern UBYTE	tmap2[];
-extern UBYTE	fade_tables[256*65];
-extern UBYTE	mix_map[256*256];
-extern UWORD	pal_to_16[256];
+extern std::int32_t	div_table[65536];
+extern std::uint16_t	*tmaps[];
+extern std::uint8_t	*pals[];
+extern std::uint8_t	tmap[];
+extern std::uint8_t	tmap2[];
+extern std::uint8_t	fade_tables[256*65];
+extern std::uint8_t	mix_map[256*256];
+extern std::uint16_t	pal_to_16[256];
 extern struct	PolyInfo	poly_info;
 
 // FUNCTIONS
 
-extern UWORD	is_it_clockwise(const struct	EnginePoint	*point1,const struct	EnginePoint *point2,const struct	EnginePoint *point3);
+extern std::uint16_t	is_it_clockwise(const struct	EnginePoint	*point1,const struct	EnginePoint *point2,const struct	EnginePoint *point3);
 extern void	my_trig(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
 extern void	my_trigp(struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
 //extern void	my_trig(struct EnginePoint *p3,struct EnginePoint *p2,struct EnginePoint *p1);
 extern void	init_tmap();
-extern void	make_fade_table(UBYTE *pal);
-extern void	make_mix_map(UBYTE *pal);
+extern void	make_fade_table(std::uint8_t *pal);
+extern void	make_mix_map(std::uint8_t *pal);
 extern void	double_work_window();
 extern void	init_poly_system();
 extern void	my_quad(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2,struct MfEnginePoint *p1);
 
-extern void	render_span8(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
-extern void	render_span16(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
-extern void	render_span32(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+extern void	render_span8(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags);
+extern void	render_span16(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags);
+extern void	render_span32(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags);
 
-extern void	(*render_span)(struct	Boint *p_b,UBYTE	*ptr_screen,SLONG draw_flags);
+extern void	(*render_span)(struct	Boint *p_b,std::uint8_t	*ptr_screen,std::int32_t draw_flags);
 
 
 extern void	draw_all_spans();

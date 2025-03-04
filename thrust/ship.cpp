@@ -41,7 +41,7 @@ void SHIP_init()
 
 SHIP_Ship *SHIP_create(float x, float y, float mass, float power)
 {
-	SLONG i;
+	std::int32_t i;
 
 	SHIP_Ship *ss;
 
@@ -72,9 +72,9 @@ SHIP_Ship *SHIP_create(float x, float y, float mass, float power)
 }
 
 
-void SHIP_flag_active(SLONG gameturn)
+void SHIP_flag_active(std::int32_t gameturn)
 {
-	SLONG i;
+	std::int32_t i;
 
 	SHIP_Ship *ss;
 
@@ -112,19 +112,19 @@ void SHIP_process_one(SHIP_Ship *ss)
 	{
 		union
 		{
-			ULONG a;
+			std::uint32_t a;
 			float b;
 		} u1;
 
 		union
 		{
-			ULONG a;
+			std::uint32_t a;
 			float b;
 		} u2;
 
 		union
 		{
-			ULONG a;
+			std::uint32_t a;
 			float b;
 		} u3;
 
@@ -394,7 +394,7 @@ void SHIP_process_one(SHIP_Ship *ss)
 
 void SHIP_process_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	SHIP_Ship *ss;
 
@@ -415,8 +415,8 @@ void SHIP_process_all()
 
 void SHIP_draw_all(float mid_x, float mid_y, float zoom)
 {
-	SLONG i;
-	ULONG colour;
+	std::int32_t i;
+	std::uint32_t colour;
 
 	SHIP_Ship *ss;
 	OS_Buffer *ob;

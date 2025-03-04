@@ -20,7 +20,7 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
 // Draws a reflection of the person about the plane, y = height.
 //
 
-void FIGURE_draw_reflection(Thing *person, SLONG height);
+void FIGURE_draw_reflection(Thing *person, std::int32_t height);
 
 
 #endif

@@ -17,14 +17,14 @@
 
 //---------------------------------------------------------------
 
-CBYTE* filename;
+char* filename;
 
 //---------------------------------------------------------------
 
 bool	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 
 
 	switch(message)
@@ -64,9 +64,9 @@ bool	CALLBACK	mapexit_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 
 void	do_mapexit_setup(EventPoint *the_ep)
 {
-	filename = (CBYTE*)the_ep->Data[0];
+	filename = (char*)the_ep->Data[0];
 	if(!filename) {
-		filename = (CBYTE*)malloc(_MAX_PATH);
+		filename = (char*)malloc(_MAX_PATH);
 		ZeroMemory(filename,_MAX_PATH);
 	}
 	DialogBox	(
@@ -75,15 +75,15 @@ void	do_mapexit_setup(EventPoint *the_ep)
 					GEDIT_view_wnd,
 					(DLGPROC)mapexit_proc
 				);
-	the_ep->Data[0] = (SLONG) filename;
+	the_ep->Data[0] = (std::int32_t) filename;
 }
 
 //---------------------------------------------------------------
 
-CBYTE	*get_mapexit_message(EventPoint *ep, CBYTE* msg) {
+char	*get_mapexit_message(EventPoint *ep, char* msg) {
   if ((!ep)||(!ep->Data[0]))
 	  strcpy(msg,"Unknown");
   else
-	  strcpy(msg,(CBYTE*)ep->Data[0]);
+	  strcpy(msg,(char*)ep->Data[0]);
   return msg;
 }

@@ -24,11 +24,11 @@ void NAV_init();
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE flag;
-	UBYTE length;	// The number of waypoints after this one.
-	UWORD next;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t flag;
+	std::uint8_t length;	// The number of waypoints after this one.
+	std::uint16_t next;
 
 } NAV_Waypoint;
 
@@ -41,7 +41,7 @@ extern NAV_Waypoint NAV_waypoint[NAV_MAX_WAYPOINTS];
 //
 
 #ifndef NDEBUG
-void NAV_waypoint_check(UWORD index);
+void NAV_waypoint_check(std::uint16_t index);
 #define NAV_WAYPOINT(index) (NAV_waypoint_check(index), &NAV_waypoint[index])
 #else
 #define NAV_WAYPOINT(index) (&NAV_waypoint[index])
@@ -55,28 +55,28 @@ void NAV_waypoint_check(UWORD index);
 
 #define NAV_FLAG_PULLUP	(1 << 0)	// This person can do pull-ups.
 
-UWORD NAV_do(UWORD x1, UWORD z1, UWORD x2, UWORD z2, UBYTE flag);
+std::uint16_t NAV_do(std::uint16_t x1, std::uint16_t z1, std::uint16_t x2, std::uint16_t z2, std::uint8_t flag);
 
 
 //
 // Gives back a waypoint.
 //
 
-void NAV_waypoint_give(UWORD index);
+void NAV_waypoint_give(std::uint16_t index);
 
 
 //
 // Gives back the whole nav path.
 //
 
-void NAV_path_give(UWORD index);
+void NAV_path_give(std::uint16_t index);
 
 
 //
 // Draws a navigation path.
 //
 
-void NAV_path_draw(UWORD startx, UWORD startz, UWORD path);
+void NAV_path_draw(std::uint16_t startx, std::uint16_t startz, std::uint16_t path);
 
 
 

@@ -17,7 +17,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	spotfx_type,spotfx_scale;
+std::int32_t	spotfx_type,spotfx_scale;
 
 //---------------------------------------------------------------
 
@@ -33,7 +33,7 @@ SLONG	spotfx_type,spotfx_scale;
 
 bool	CALLBACK	spotfx_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 
@@ -91,7 +91,7 @@ void	do_spotfx_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_spotfx_message(EventPoint *ep, CBYTE* msg) {
+char	*get_spotfx_message(EventPoint *ep, char* msg) {
 	strcpy(msg,wspotfx_strings[ep->Data[0]]);
 	return msg;
 }

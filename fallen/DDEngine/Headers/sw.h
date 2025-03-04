@@ -13,7 +13,7 @@
 #define SW_MAX_WIDTH  640
 #define SW_MAX_HEIGHT 480
 
-extern ULONG *SW_buffer;
+extern std::uint32_t *SW_buffer;
 
 #ifndef TARGET_DC
 
@@ -30,8 +30,8 @@ void SW_reload_textures();
 //
 
 void SW_init(
-		SLONG width,
-		SLONG height);
+		std::int32_t width,
+		std::int32_t height);
 
 
 //
@@ -44,7 +44,7 @@ void SW_init(
 #define SW_PAGE_ALPHA    3
 #define SW_PAGE_ADDITIVE 4
 
-void SW_set_page(SLONG page, SLONG type);
+void SW_set_page(std::int32_t page, std::int32_t type);
 
 
 
@@ -55,11 +55,11 @@ void SW_set_page(SLONG page, SLONG type);
 //
 
 void SW_add_triangle(
-		SLONG x1, SLONG y1, SLONG z1, SLONG r1, SLONG g1, SLONG b1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG z2, SLONG r2, SLONG g2, SLONG b2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG z3, SLONG r3, SLONG g3, SLONG b3, SLONG u3, SLONG v3,
-		SLONG page,
-		SLONG alpha = 255);	// Only for certain pages...
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t r1, std::int32_t g1, std::int32_t b1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r2, std::int32_t g2, std::int32_t b2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t r3, std::int32_t g3, std::int32_t b3, std::int32_t u3, std::int32_t v3,
+		std::int32_t page,
+		std::int32_t alpha = 255);	// Only for certain pages...
 
 //
 // Copies the SW_buffer onto the back buffer.

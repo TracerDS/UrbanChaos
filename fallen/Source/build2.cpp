@@ -9,9 +9,9 @@
 #endif
 
 #ifndef	PSX
-void calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2)
+void calc_ladder_ends(std::int32_t *x1,std::int32_t *z1,std::int32_t *x2,std::int32_t *z2)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 
 	dx=*x2-*x1;
 	dz=*z2-*z1;
@@ -36,9 +36,9 @@ void calc_ladder_ends(SLONG *x1,SLONG *z1,SLONG *x2,SLONG *z2)
 //
 // find an available block of links
 //
-SLONG find_empty_facet_block(SLONG count)
+std::int32_t find_empty_facet_block(std::int32_t count)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 
 	//
 	// Is there space at the end?
@@ -60,7 +60,7 @@ SLONG find_empty_facet_block(SLONG count)
 		{
 			if(facet_links[c0]==0)
 			{
-				SLONG	empty=1;
+				std::int32_t	empty=1;
 				for(c1=c0+1;(c1<next_facet_link) && (empty<count) ;c1++)
 				{
 					if(facet_links[c1])
@@ -78,24 +78,24 @@ SLONG find_empty_facet_block(SLONG count)
 //
 // facet index is the block to insert a gap before
 //
-SLONG garbage_collection()
+std::int32_t garbage_collection()
 {
-	SLONG	index,next=1;
-	SWORD	*mem;
-	SLONG	x,z;
-	SLONG	ret=0;
-	UWORD	per_map[150],c0,saved=0;
+	std::int32_t	index,next=1;
+	std::int16_t	*mem;
+	std::int32_t	x,z;
+	std::int32_t	ret=0;
+	std::uint16_t	per_map[150],c0,saved=0;
 
 	memset(per_map,0,300);
 
-	mem=(SWORD*)MemAlloc(MAX_FACET_LINK*sizeof(SWORD));
+	mem=(std::int16_t*)MemAlloc(MAX_FACET_LINK*sizeof(std::int16_t));
 	ASSERT(mem);
 //	DebugText(" garbage collect nfl %d\n",next_facet_link);	
 
 	for(x=0;x<PAP_SIZE_LO;x++)
 	for(z=0;z<PAP_SIZE_LO;z++)
 	{
-		SLONG	count;
+		std::int32_t	count;
 		if(index=PAP_2LO(x,z).ColVectHead)
 		{
 
@@ -103,7 +103,7 @@ SLONG garbage_collection()
 #ifdef	SAVE_A_FEW_MORE_BYTES
 			for(c0=1;c0<next;c0++)
 			{
-				SLONG	match=0;
+				std::int32_t	match=0;
 
 				count=0;
 				while(mem[c0+match]==facet_links[index+match] && (c0+match)<next)
@@ -144,7 +144,7 @@ repeated_duplicate:;
 	{
 		DebugText(" FACET_PER MAP (%d) ==%d \n",c0,per_map[c0]);
 	}
-	memcpy((UBYTE*)&facet_links[0],(UBYTE*) mem,next*sizeof(UWORD));
+	memcpy((std::uint8_t*)&facet_links[0],(std::uint8_t*) mem,next*sizeof(std::uint16_t));
 	next_facet_link=next;
 
 	DebugText(" after nfl=%d +saved=%d\n",next_facet_link,next_facet_link+saved);
@@ -156,7 +156,7 @@ repeated_duplicate:;
 			ASSERT(facet_links[PAP_2LO(x,z).ColVectHead]!=0);
 	}
 
-	MemFree((UBYTE*)mem);
+	MemFree((std::uint8_t*)mem);
 	
 	return(0);
 }
@@ -165,10 +165,10 @@ repeated_duplicate:;
 // create an extra facet for a block.
 //
 
-SLONG create_extra_facet(SLONG facet,SLONG findex)
+std::int32_t create_extra_facet(std::int32_t facet,std::int32_t findex)
 {
-	SLONG	pos,count=1;
-	SLONG	garbage=0;
+	std::int32_t	pos,count=1;
+	std::int32_t	garbage=0;
 
 	//
 	// count number of facets on this facetlink (-ve is end flag)
@@ -188,7 +188,7 @@ try_again:;
 	pos=find_empty_facet_block(count+1);
 	if(pos)
 	{
-		SLONG	pos_copy;
+		std::int32_t	pos_copy;
 		pos_copy=pos+1;
 		//
 		// copy to new place, and erase old place
@@ -218,10 +218,10 @@ try_again:;
 }
 #endif
 #ifndef PSX
-void link_facet_to_mapwho(SLONG mx,SLONG mz,SLONG facet)
+void link_facet_to_mapwho(std::int32_t mx,std::int32_t mz,std::int32_t facet)
 {
-	SLONG	index;
-	SLONG	pos;
+	std::int32_t	index;
+	std::int32_t	pos;
 
 //	ASSERT(facet!=17);
 //	if(facet==2456)
@@ -287,10 +287,10 @@ void link_facet_to_mapwho(SLONG mx,SLONG mz,SLONG facet)
 	}
 }
 
-void add_facet_to_map(SLONG facet)
+void add_facet_to_map(std::int32_t facet)
 {
-	SLONG	x1,z1,x2,z2,dx,dz;
-	SLONG	count;
+	std::int32_t	x1,z1,x2,z2,dx,dz;
+	std::int32_t	count;
 	struct	DFacet	*p_f;
 
 	p_f=&dfacets[facet];
@@ -318,7 +318,7 @@ void add_facet_to_map(SLONG facet)
 	{
 		case	STOREY_TYPE_LADDER:
 			{
-				SLONG	y,extra_height;
+				std::int32_t	y,extra_height;
 
 				calc_ladder_ends(&x1,&z1,&x2,&z2);	
 			}
@@ -328,29 +328,29 @@ void add_facet_to_map(SLONG facet)
 
 
 	{
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 
-		SLONG end_mx;
-		SLONG end_mz;
+		std::int32_t end_mx;
+		std::int32_t end_mz;
 
-		SLONG frac;
+		std::int32_t frac;
 
-		SLONG xfrac;
-		SLONG zfrac;
+		std::int32_t xfrac;
+		std::int32_t zfrac;
 
 		#ifndef NDEBUG
-		SLONG count = 0;
+		std::int32_t count = 0;
 		#endif
 
 		dx = x2 - x1;
 		dz = z2 - z1;
 
-		SLONG adx = abs(dx);
-		SLONG adz = abs(dz);
+		std::int32_t adx = abs(dx);
+		std::int32_t adz = abs(dz);
 
 
 
@@ -582,7 +582,7 @@ void add_facet_to_map(SLONG facet)
 	*/
 }
 
-void process_facet(SLONG facet)
+void process_facet(std::int32_t facet)
 {
 	if(dfacets[facet].FacetType!=STOREY_TYPE_INSIDE)
 		if(dfacets[facet].FacetType!=STOREY_TYPE_OINSIDE)
@@ -590,9 +590,9 @@ void process_facet(SLONG facet)
 				add_facet_to_map(facet);
 }
 
-void process_building(SLONG build)
+void process_building(std::int32_t build)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	DBuilding *p_build;
 
 	p_build=&dbuildings[build];
@@ -622,7 +622,7 @@ void process_building(SLONG build)
 
 void clear_colvects()
 {
-	SLONG	x,z;
+	std::int32_t	x,z;
 
 	for(x=0;x<PAP_SIZE_LO;x++)
 	for(z=0;z<PAP_SIZE_LO;z++)
@@ -634,18 +634,18 @@ void clear_colvects()
 }
 void clear_facet_links()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<MAX_FACET_LINK;c0++)
 	{
 		facet_links[c0]=0;
 	}
 }
 #endif
-void attach_walkable_to_map(SLONG face)
+void attach_walkable_to_map(std::int32_t face)
 {
 
-	SLONG	x=0,z=0;
-	SLONG	c0;
+	std::int32_t	x=0,z=0;
+	std::int32_t	c0;
 
 	if(face>0)
 	{
@@ -677,14 +677,14 @@ void attach_walkable_to_map(SLONG face)
 }
 
 
-void remove_walkable_from_map(SLONG face)
+void remove_walkable_from_map(std::int32_t face)
 {
-	SLONG	x=0,z=0;
-	SLONG	c0;
+	std::int32_t	x=0,z=0;
+	std::int32_t	c0;
 
-	SWORD *prev;
-	SWORD  next;
-	SWORD count=50;
+	std::int16_t *prev;
+	std::int16_t  next;
+	std::int16_t count=50;
 
 	for(c0=0;c0<4;c0++)
 	{
@@ -745,12 +745,12 @@ NOGO flag is not used anymore
 
 void set_nogo_pap_flags()
 {
-	SLONG	x,z;
+	std::int32_t	x,z;
 
 	for(x=0;x<PAP_SIZE_HI;x++)
 	for(z=0;z<PAP_SIZE_HI;z++)
 	{
-		SLONG	min,max,h;
+		std::int32_t	min,max,h;
 
 		h=PAP_hi[(x)&(PAP_SIZE_HI-1)][(z)&(PAP_SIZE_HI-1)].Alt;
 		min=h;
@@ -777,7 +777,7 @@ static void mark_naughty_facets();
 
 void build_quick_city()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	clear_colvects();
 	clear_facet_links();
@@ -798,12 +798,12 @@ void build_quick_city()
 
 
 	{
-		SLONG	x,z;
+		std::int32_t	x,z;
 		for(x=0;x<PAP_SIZE_LO;x++)
 		for(z=0;z<PAP_SIZE_LO;z++)
 		{
-			SLONG	index,count=0;
-			SLONG	exit=0;
+			std::int32_t	index,count=0;
+			std::int32_t	exit=0;
 
 			index=PAP_2LO(x,z).ColVectHead;
 			while(!exit)
@@ -821,7 +821,7 @@ void build_quick_city()
 
 	for(c0=1;c0<next_dwalkable;c0++)
 	{
-		SLONG	face;
+		std::int32_t	face;
 		ASSERT(dwalkables[c0].StartFace4<=next_roof_face4);
 		ASSERT(dwalkables[c0].EndFace4<=next_roof_face4);
 
@@ -856,9 +856,9 @@ static int compare_facets(const DFacet* pf1, const DFacet* pf2);
 #ifndef	PSX
 static void mark_naughty_facets()
 {
-	SLONG	ii;
-	SLONG	jj;
-	SLONG	cnt;
+	std::int32_t	ii;
+	std::int32_t	jj;
+	std::int32_t	cnt;
 
 	// mark all the facets as live
 	for (ii = 0; ii < next_dfacet; ii++)
@@ -924,7 +924,7 @@ static void mark_naughty_facets()
 	TRACE("Removed %d invisible facets\n", cnt);
 }
 
-extern void MAV_remove_facet_car(SLONG x1, SLONG z1, SLONG x2, SLONG z2);
+extern void MAV_remove_facet_car(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2);
 
 void BUILD_car_facets()
 {
@@ -980,11 +980,11 @@ static bool facet_is_solid(const DFacet* pf)
 static int compare_facets(const DFacet* pf1, const DFacet* pf2)
 {
 	// are the facets parallel?
-	SLONG	dx1 = pf1->x[1] - pf1->x[0];
-	SLONG	dz1 = pf1->z[1] - pf1->z[0];
+	std::int32_t	dx1 = pf1->x[1] - pf1->x[0];
+	std::int32_t	dz1 = pf1->z[1] - pf1->z[0];
 
-	SLONG	dx2 = pf2->x[1] - pf2->x[0];
-	SLONG	dz2 = pf2->z[1] - pf2->z[0];
+	std::int32_t	dx2 = pf2->x[1] - pf2->x[0];
+	std::int32_t	dz2 = pf2->z[1] - pf2->z[0];
 
 	if (dx1 * dz2 != dx2 * dz1)			return 0;
 
@@ -1004,15 +1004,15 @@ static int compare_facets(const DFacet* pf1, const DFacet* pf2)
 		// giving zi * dx = z1 * dx - x1 * dz (nice and symettrical)
 		// so we need (pf1->z[0] * dx1 - pf1->x[0] * dz1) / dx1 = (pf2->z[0] * dx2 - pf2->x[0] * dz2) / dx2
 		// but we can multiply through by dx1 and dx2 so we can work in integers
-		SLONG lhs = (pf1->z[0] * dx1 - pf1->x[0] * dz1) * dx2;
-		SLONG rhs = (pf2->z[0] * dx2 - pf2->x[0] * dz2) * dx1;
+		std::int32_t lhs = (pf1->z[0] * dx1 - pf1->x[0] * dz1) * dx2;
+		std::int32_t rhs = (pf2->z[0] * dx2 - pf2->x[0] * dz2) * dx1;
 
 		if (lhs != rhs)					return 0;
 	}
 
 	// extract start and end points which can be compared
-	SLONG	s1,e1;
-	SLONG	s2,e2;
+	std::int32_t	s1,e1;
+	std::int32_t	s2,e2;
 	if (abs(dx1) > abs(dz1))
 	{
 		s1 = pf1->x[0];		e1 = pf1->x[1];
@@ -1033,17 +1033,17 @@ static int compare_facets(const DFacet* pf1, const DFacet* pf2)
 	if (rc)				return rc;
 
 	// are the facets facing the same way?
-	SLONG	sgn1 = s1 - e1;
-	SLONG	sgn2 = s2 - e2;
+	std::int32_t	sgn1 = s1 - e1;
+	std::int32_t	sgn2 = s2 - e2;
 	bool	sameway = ((sgn1 ^ sgn2) >= 0);	// true iff (s1 - e1) and (s2 - e2) have same sign
 
 	// get y at bottom of start and end, and heights
-	SLONG	ys1 = pf1->Y[0];
-	SLONG	ye1 = pf1->Y[1];
-	SLONG	ys2 = pf2->Y[0];
-	SLONG	ye2 = pf2->Y[1];
-	SLONG	h1 = (pf1->Height / 4) * pf1->BlockHeight * 16;
-	SLONG	h2 = (pf2->Height / 4) * pf2->BlockHeight * 16;
+	std::int32_t	ys1 = pf1->Y[0];
+	std::int32_t	ye1 = pf1->Y[1];
+	std::int32_t	ys2 = pf2->Y[0];
+	std::int32_t	ye2 = pf2->Y[1];
+	std::int32_t	h1 = (pf1->Height / 4) * pf1->BlockHeight * 16;
+	std::int32_t	h2 = (pf2->Height / 4) * pf2->BlockHeight * 16;
 
 	// put start and end in order
 	if (s1 > e1)

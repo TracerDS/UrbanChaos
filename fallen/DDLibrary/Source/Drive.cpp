@@ -16,7 +16,7 @@ static bool	SpeechCD;				// speech on CD?
 //
 // exit on failure
 
-static void Exit(void)
+static void Exit()
 {
 #ifndef TARGET_DC
 	MessageBox(nullptr, "Cannot locate Urban Chaos CD-ROM", nullptr, MB_ICONERROR);
@@ -34,7 +34,7 @@ static void Exit(void)
 #ifdef TARGET_DC
 
 
-void LocateCDROM(void)
+void LocateCDROM()
 {
 	// Er... I know where it is on the DreamCast :-)
 #ifdef FILE_PC
@@ -52,7 +52,7 @@ void LocateCDROM(void)
 #else //#ifdef TARGET_DC
 
 
-void LocateCDROM(void)
+void LocateCDROM()
 {
 	TexturesCD = ENV_get_value_number("textures", 1, "LocalInstall") ? false : true;
 	SFX_CD = ENV_get_value_number("sfx", 1, "LocalInstall") ? false : true;
@@ -110,8 +110,8 @@ void LocateCDROM(void)
 
 static inline char* GetPath(bool on_cd)	{ return on_cd ? Path : ".\\"; }
 
-char* GetCDPath(void)		{ return Path; }
-char* GetTexturePath(void)	{ return GetPath(TexturesCD); }
-char* GetSFXPath(void)		{ return GetPath(SFX_CD); }
-char* GetMoviesPath(void)	{ return GetPath(MoviesCD); }
-char* GetSpeechPath(void)	{ return GetPath(SpeechCD); }
+char* GetCDPath()		{ return Path; }
+char* GetTexturePath()	{ return GetPath(TexturesCD); }
+char* GetSFXPath()		{ return GetPath(SFX_CD); }
+char* GetMoviesPath()	{ return GetPath(MoviesCD); }
+char* GetSpeechPath()	{ return GetPath(SpeechCD); }

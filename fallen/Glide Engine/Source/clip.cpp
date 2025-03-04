@@ -12,8 +12,8 @@
 
 #define CLIP_BUFFER_SIZE 4096
 
-UBYTE CLIP_buffer[CLIP_BUFFER_SIZE];
-UBYTE *CLIP_buffer_upto = CLIP_buffer;
+std::uint8_t CLIP_buffer[CLIP_BUFFER_SIZE];
+std::uint8_t *CLIP_buffer_upto = CLIP_buffer;
 
 
 //
@@ -21,7 +21,7 @@ UBYTE *CLIP_buffer_upto = CLIP_buffer;
 // given size.
 //
 
-inline void* CLIP_malloc(ULONG size)
+inline void* CLIP_malloc(std::uint32_t size)
 {
 	void* ans;
 
@@ -42,16 +42,16 @@ inline void* CLIP_malloc(ULONG size)
 
 void CLIP_do(
 		void* **polygon,
-		SLONG  *polygon_num_points,
-		SLONG   sizeof_polygon_point,
+		std::int32_t  *polygon_num_points,
+		std::int32_t   sizeof_polygon_point,
 		void  (*interpolate)(void* new_point, void* point1, void* point2, float amount_along_from_1_to_2),
 		float (*signed_distance_from_edge)(void* point))
 {
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG i_p1;
-	SLONG i_p2;
+	std::int32_t i_p1;
+	std::int32_t i_p2;
 
 	void* p1;
 	void* p2;
@@ -63,7 +63,7 @@ void CLIP_do(
 	//
 
 	void* *output = (void* *) CLIP_malloc(2 * sizeof(void* ) * *polygon_num_points);
-	SLONG  output_upto = 0;
+	std::int32_t  output_upto = 0;
 
 	//
 	// Work out the signed distance of each point from the edge.

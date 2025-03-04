@@ -21,43 +21,43 @@
 class	LightTab	:	public	ModeTab
 {
 	private:
-		SLONG				Axis;
-		SLONG				GridFlag;
-		UBYTE				AxisMode;
+		std::int32_t				Axis;
+		std::int32_t				GridFlag;
+		std::uint8_t				AxisMode;
 		EdRect				View1;
 		EdRect				View2;
 		EdRect				View3;
-		UBYTE				RedrawTabContent;
-		UBYTE				Shadow;
-		UWORD				CurrentLight;
+		std::uint8_t				RedrawTabContent;
+		std::uint8_t				Shadow;
+		std::uint16_t				CurrentLight;
 	public:
 							LightTab(EditorModule *parent);
 							~LightTab();
 		void				DrawTabContent();
 		void				HandleTab(MFPoint *current_point);
-		UWORD				HandleTabClick(UBYTE flags,MFPoint *clicked_point);
-		void				HandleControl(UWORD control_id);
-		void				DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				SetWorldMouse(ULONG flag);
-		SLONG				KeyboardInterface();
-		SWORD				CreateLightThing(SLONG x,SLONG y,SLONG z,SLONG bright);
-		void				DeleteLightThing(SWORD thing);
-		SLONG				DragALight(UBYTE flags,MFPoint *clicked_point,UWORD copy);
-		SLONG				DragEngine(UBYTE flags,MFPoint *clicked_point);
+		std::uint16_t				HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
+		void				HandleControl(std::uint16_t control_id);
+		void				DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				SetWorldMouse(std::uint32_t flag);
+		std::int32_t				KeyboardInterface();
+		std::int16_t				CreateLightThing(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright);
+		void				DeleteLightThing(std::int16_t thing);
+		std::int32_t				DragALight(std::uint8_t flags,MFPoint *clicked_point,std::uint16_t copy);
+		std::int32_t				DragEngine(std::uint8_t flags,MFPoint *clicked_point);
 		void				SetAmbientAngle();
 		void				RecalcAllLights();
 		void				SmoothGroup();
 		Undo				MyUndo;
-		UBYTE				RedrawModuleContent;
-		UWORD				Mode;
-		SLONG				ClickOnLight(MFPoint *clicked_point);
+		std::uint8_t				RedrawModuleContent;
+		std::uint16_t				Mode;
+		std::int32_t				ClickOnLight(MFPoint *clicked_point);
 		EditorModule		*Parent;
 };
 
 
-extern void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z);
-extern void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright);
+extern void	add_a_background_thing(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
+extern void	apply_light_to_map(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright);
 
 #endif
 

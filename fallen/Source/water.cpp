@@ -20,12 +20,12 @@
 
 typedef struct
 {
-	UBYTE x;		// 1-bit fixed point!
-	SBYTE y;
-	UBYTE z;		// 1-bit fixed point!
-	SBYTE ddyaw;
-	SWORD dyaw;		// Over and above the normal uv rotation.
-	UWORD index;
+	std::uint8_t x;		// 1-bit fixed point!
+	std::int8_t y;
+	std::uint8_t z;		// 1-bit fixed point!
+	std::int8_t ddyaw;
+	std::int16_t dyaw;		// Over and above the normal uv rotation.
+	std::uint16_t index;
 
 } WATER_Point;
 
@@ -36,7 +36,7 @@ typedef struct
 #endif
 
 WATER_Point WATER_point[WATER_MAX_POINTS];
-SLONG WATER_point_upto;
+std::int32_t WATER_point_upto;
 
 
 //
@@ -45,15 +45,15 @@ SLONG WATER_point_upto;
 
 typedef struct
 {
-	UWORD p_index[4];
-	UWORD next;
+	std::uint16_t p_index[4];
+	std::uint16_t next;
 
 } WATER_Face;
 
 #define WATER_MAX_FACES 512
 
 WATER_Face WATER_face[WATER_MAX_FACES];
-SLONG WATER_face_upto;
+std::int32_t WATER_face_upto;
 
 
 //
@@ -62,7 +62,7 @@ SLONG WATER_face_upto;
 
 typedef struct
 {
-	UWORD next;
+	std::uint16_t next;
 
 } WATER_Map;
 
@@ -73,7 +73,7 @@ WATER_Map WATER_map[WATER_SIZE][WATER_SIZE];
 // The game turn for the water module.
 //
 
-SLONG WATER_turn;
+std::int32_t WATER_turn;
 
 
 //
@@ -96,8 +96,8 @@ WATER_Wibble WATER_wibble[WATER_NUM_TYPES];
 
 void WATER_init()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	for (x = 0; x < WATER_SIZE; x++)
 	for (z = 0; z < WATER_SIZE; z++)
@@ -117,10 +117,10 @@ void WATER_init()
 
 #define WATER_NO_MORE_POINTS 0xffff
 
-UWORD WATER_get_point(UBYTE x, SBYTE y, UBYTE z)
+std::uint16_t WATER_get_point(std::uint8_t x, std::int8_t y, std::uint8_t z)
 {
-	SLONG i;
-	UWORD ans;
+	std::int32_t i;
+	std::uint16_t ans;
 
 	WATER_Point *wp;
 
@@ -173,9 +173,9 @@ UWORD WATER_get_point(UBYTE x, SBYTE y, UBYTE z)
 //
 
 void WATER_add_face(
-		SLONG map_x,
-		SLONG map_z,
-		UWORD p_index[4])
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::uint16_t p_index[4])
 {
 	WATER_Map  *wm;
 	WATER_Face *wf;
@@ -226,23 +226,23 @@ void WATER_add_face(
 
 
 
-void WATER_add(SLONG map_x, SLONG map_z, SLONG height)
+void WATER_add(std::int32_t map_x, std::int32_t map_z, std::int32_t height)
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG fx;
-	SLONG fz;
-	SLONG px;
-	SLONG pz;
-	SLONG index;
+	std::int32_t fx;
+	std::int32_t fz;
+	std::int32_t px;
+	std::int32_t pz;
+	std::int32_t index;
 
-	UWORD p_index[9];
-	UWORD f_point[4];
-	UBYTE wcx;
-	UBYTE wcz;
+	std::uint16_t p_index[9];
+	std::uint16_t f_point[4];
+	std::uint8_t wcx;
+	std::uint8_t wcz;
 
 	ASSERT(WITHIN(map_x, 0, WATER_SIZE - 1));
 	ASSERT(WITHIN(map_z, 0, WATER_SIZE - 1));
@@ -329,34 +329,34 @@ void WATER_add(SLONG map_x, SLONG map_z, SLONG height)
 
 
 
-void WATER_gush(SLONG gx1, SLONG gz1, SLONG gx2, SLONG gz2)
+void WATER_gush(std::int32_t gx1, std::int32_t gz1, std::int32_t gx2, std::int32_t gz2)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dgx;
-	SLONG dgz;
+	std::int32_t dgx;
+	std::int32_t dgz;
 
-	SLONG strength;
-	SLONG push;
-	SLONG dist;
+	std::int32_t strength;
+	std::int32_t push;
+	std::int32_t dist;
 
-	SLONG dyaw;
-	SLONG ddyaw;
+	std::int32_t dyaw;
+	std::int32_t ddyaw;
 
-	SLONG wx;
-	SLONG wz;
+	std::int32_t wx;
+	std::int32_t wz;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 
-	UWORD next;
+	std::uint16_t next;
 
 	WATER_Face  *wf;
 	WATER_Point *wp;
@@ -364,8 +364,8 @@ void WATER_gush(SLONG gx1, SLONG gz1, SLONG gx2, SLONG gz2)
 
 	#define WATER_MAX_DONE 16
 
-	UWORD done[WATER_MAX_DONE];
-	SLONG done_upto;
+	std::uint16_t done[WATER_MAX_DONE];
+	std::int32_t done_upto;
 
 	//
 	// What water square is the gush in?
@@ -541,10 +541,10 @@ void WATER_gush(SLONG gx1, SLONG gz1, SLONG gx2, SLONG gz2)
 
 void WATER_process()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dy;
-	SLONG ddy;
+	std::int32_t dy;
+	std::int32_t ddy;
 
 	float yaw_dy;
 	float yaw_uv;
@@ -586,7 +586,7 @@ void WATER_process()
 
 void WATER_point_index_clear_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < WATER_point_upto; i++)
 	{
@@ -594,9 +594,9 @@ void WATER_point_index_clear_all()
 	}
 }
 
-UWORD WATER_point_index_get(UWORD p_index)
+std::uint16_t WATER_point_index_get(std::uint16_t p_index)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	ASSERT(WITHIN(p_index, 0, WATER_point_upto - 1));
 
@@ -605,7 +605,7 @@ UWORD WATER_point_index_get(UWORD p_index)
 	return ans;
 }
 
-void WATER_point_index_set(UWORD p_index, UWORD index)
+void WATER_point_index_set(std::uint16_t p_index, std::uint16_t index)
 {
 	ASSERT(WITHIN(p_index, 0, WATER_point_upto - 1));
 
@@ -613,9 +613,9 @@ void WATER_point_index_set(UWORD p_index, UWORD index)
 }
 
 
-UWORD WATER_get_first_face(SLONG x, SLONG z)
+std::uint16_t WATER_get_first_face(std::int32_t x, std::int32_t z)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	ASSERT(WITHIN(x, 0, WATER_SIZE - 1));
 	ASSERT(WITHIN(z, 0, WATER_SIZE - 1));
@@ -625,9 +625,9 @@ UWORD WATER_get_first_face(SLONG x, SLONG z)
 	return ans;
 }
 
-UWORD WATER_get_next_face (UWORD f_index)
+std::uint16_t WATER_get_next_face (std::uint16_t f_index)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	ASSERT(WITHIN(f_index, 0, WATER_face_upto - 1));
 
@@ -636,7 +636,7 @@ UWORD WATER_get_next_face (UWORD f_index)
 	return ans;
 }
 
-void WATER_get_face_points(UWORD f_index, UWORD p_index[4])
+void WATER_get_face_points(std::uint16_t f_index, std::uint16_t p_index[4])
 {
 	ASSERT(WITHIN(f_index, 0, WATER_face_upto - 1));
 
@@ -646,10 +646,10 @@ void WATER_get_face_points(UWORD f_index, UWORD p_index[4])
 	p_index[3] = WATER_face[f_index].p_index[3];
 }
 
-void WATER_get_point_pos(UWORD p_index, float *x, float *y, float *z)
+void WATER_get_point_pos(std::uint16_t p_index, float *x, float *y, float *z)
 {
-	SLONG height;
-	SLONG type;
+	std::int32_t height;
+	std::int32_t type;
 
 	WATER_Point *wp;
 
@@ -679,9 +679,9 @@ void WATER_get_point_pos(UWORD p_index, float *x, float *y, float *z)
 	*y += WATER_wibble[type].dy;
 }
 
-void WATER_get_point_uvs(UWORD p_index, float *u, float *v, ULONG *colour)
+void WATER_get_point_uvs(std::uint16_t p_index, float *u, float *v, std::uint32_t *colour)
 {
-	SLONG type;
+	std::int32_t type;
 
 	WATER_Point *wp;
 
@@ -733,7 +733,7 @@ void WATER_get_point_uvs(UWORD p_index, float *u, float *v, ULONG *colour)
 	//
 
 	*colour  = 0xffbfbfbf;
-	*colour += 0x00010101 * abs(SLONG(WATER_wibble[type].dy * 4.0F));
+	*colour += 0x00010101 * abs(std::int32_t(WATER_wibble[type].dy * 4.0F));
 }
 
 

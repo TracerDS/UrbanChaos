@@ -29,28 +29,28 @@
 
 typedef struct
 {
-	UWORD x1;
-	UWORD z1;
-	UWORD x2;
-	UWORD z2;
-	SWORD y;
-	UBYTE type;
-	UBYTE rotate_uvs;
-	UBYTE map_x;
-	UBYTE next;
-	UBYTE y1;
-	UBYTE y2;
-	UBYTE g1;
-	UBYTE g2;
-	UBYTE s1;
-	UBYTE s2;
+	std::uint16_t x1;
+	std::uint16_t z1;
+	std::uint16_t x2;
+	std::uint16_t z2;
+	std::int16_t y;
+	std::uint8_t type;
+	std::uint8_t rotate_uvs;
+	std::uint8_t map_x;
+	std::uint8_t next;
+	std::uint8_t y1;
+	std::uint8_t y2;
+	std::uint8_t g1;
+	std::uint8_t g2;
+	std::uint8_t s1;
+	std::uint8_t s2;
 
 } PUDDLE_Puddle;
 
 #define PUDDLE_MAX_PUDDLES 256
 
 PUDDLE_Puddle PUDDLE_puddle[PUDDLE_MAX_PUDDLES];
-SLONG PUDDLE_puddle_upto;
+std::int32_t PUDDLE_puddle_upto;
 
 //
 // The puddle mapwho system.
@@ -58,7 +58,7 @@ SLONG PUDDLE_puddle_upto;
 
 #define PUDDLE_MAPWHO_SIZE 128
 
-UBYTE PUDDLE_mapwho[PUDDLE_MAPWHO_SIZE];
+std::uint8_t PUDDLE_mapwho[PUDDLE_MAPWHO_SIZE];
 
 
 //
@@ -67,10 +67,10 @@ UBYTE PUDDLE_mapwho[PUDDLE_MAPWHO_SIZE];
 
 typedef struct
 {
-	SLONG u1;
-	SLONG v1;
-	SLONG u2;
-	SLONG v2;
+	std::int32_t u1;
+	std::int32_t v1;
+	std::int32_t u2;
+	std::int32_t v2;
 
 } PUDDLE_Texture;
 
@@ -86,7 +86,7 @@ PUDDLE_Texture PUDDLE_texture[PUDDLE_TYPE_NUMBER] =
 
 void PUDDLE_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Clear the puddles and the puddle mapwho.
@@ -102,8 +102,8 @@ void PUDDLE_init()
 	//
 
 	{
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
 		MapElement *me;
 
@@ -118,23 +118,23 @@ void PUDDLE_init()
 
 
 void PUDDLE_create_do(
-		UWORD x1,
-		UWORD z1,
-		UWORD x2,
-		UWORD z2,
-		SWORD y,
-		UBYTE type,
-		UBYTE rotate_uvs)
+		std::uint16_t x1,
+		std::uint16_t z1,
+		std::uint16_t x2,
+		std::uint16_t z2,
+		std::int16_t y,
+		std::uint8_t type,
+		std::uint8_t rotate_uvs)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	PUDDLE_Puddle *pp;
-	UBYTE          next;
-	UBYTE         *prev;
+	std::uint8_t          next;
+	std::uint8_t         *prev;
 
-	UBYTE map_x = x1 + x2 >> 9;
-	UBYTE map_z = z1 + z2 >> 9;
+	std::uint8_t map_x = x1 + x2 >> 9;
+	std::uint8_t map_z = z1 + z2 >> 9;
 
 	if (!WITHIN(map_z, 0, PUDDLE_MAPWHO_SIZE - 1))
 	{
@@ -207,10 +207,10 @@ void PUDDLE_create_do(
 	//
 
 	{
-		SLONG mx1;
-		SLONG mz1;
-		SLONG mx2;
-		SLONG mz2;
+		std::int32_t mx1;
+		std::int32_t mz1;
+		std::int32_t mx2;
+		std::int32_t mz2;
 
 		#define PUDDLE_EXTEND_REFLECTION 128
 
@@ -244,14 +244,14 @@ void PUDDLE_create_do(
 }
 
 void PUDDLE_create(
-		UWORD x,
-		SWORD y,
-		UWORD z)
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z)
 {
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 	#define PUDDLE_WHOLE_SIZE 0x140
 
@@ -277,36 +277,36 @@ void PUDDLE_create(
 
 void PUDDLE_precalculate()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG cx;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cz;
 
-	SLONG type;
+	std::int32_t type;
 
-	SLONG vec1x;
-	SLONG vec1z;
-	SLONG vec2x;
-	SLONG vec2z;
+	std::int32_t vec1x;
+	std::int32_t vec1z;
+	std::int32_t vec2x;
+	std::int32_t vec2z;
 
-	SLONG midx;
-	SLONG midz;
-	SLONG size;
-	SLONG px1, px2;
-	SLONG pz1, pz2;
-	SLONG py;
+	std::int32_t midx;
+	std::int32_t midz;
+	std::int32_t size;
+	std::int32_t px1, px2;
+	std::int32_t pz1, pz2;
+	std::int32_t py;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 	} order[4] =
 	{
@@ -620,12 +620,12 @@ void PUDDLE_precalculate()
 
 struct
 {
-	UBYTE y1;
-	UBYTE y2;
-	UBYTE g1;
-	UBYTE g2;
-	UBYTE s1;
-	UBYTE s2;
+	std::uint8_t y1;
+	std::uint8_t y2;
+	std::uint8_t g1;
+	std::uint8_t g2;
+	std::uint8_t s1;
+	std::uint8_t s2;
 
 } PUDDLE_ripple[PUDDLE_NUM_RIPPLES] =
 {
@@ -637,17 +637,17 @@ struct
 
 
 
-SLONG PUDDLE_in(
-		SLONG x,
-		SLONG z)
+std::int32_t PUDDLE_in(
+		std::int32_t x,
+		std::int32_t z)
 {
-	SLONG lz;
-	SLONG pz;
+	std::int32_t lz;
+	std::int32_t pz;
 
-	SLONG px1, px2;
-	SLONG pz1, pz2;
+	std::int32_t px1, px2;
+	std::int32_t pz1, pz2;
 
-	UBYTE next;
+	std::uint8_t next;
 
 	PUDDLE_Puddle *pp;
 
@@ -655,8 +655,8 @@ SLONG PUDDLE_in(
 	// Only bother looking if this is in a reflective place.
 	//
 
-	SLONG mx = x >> 8;
-	SLONG mz = z >> 8;
+	std::int32_t mx = x >> 8;
+	std::int32_t mz = z >> 8;
 
 	if (!WITHIN(mx, 0, MAP_WIDTH  - 1) ||
 		!WITHIN(mz, 0, MAP_HEIGHT - 1))
@@ -712,23 +712,23 @@ SLONG PUDDLE_in(
 
 
 void PUDDLE_splash(
-		SLONG x,
-		SLONG y,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
-	SLONG mx;
-	SLONG mz;
-	SLONG lz;
-	SLONG pz;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t lz;
+	std::int32_t pz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG ripple;
+	std::int32_t dist;
+	std::int32_t ripple;
 
-	UBYTE next;
+	std::uint8_t next;
 
 	PUDDLE_Puddle *pp;
 
@@ -773,8 +773,8 @@ void PUDDLE_splash(
 
 					if (WITHIN(dy, -PUDDLE_SPLASH_Y_RANGE, +PUDDLE_SPLASH_Y_RANGE))
 					{
-						SLONG px1, px2;
-						SLONG pz1, pz2;
+						std::int32_t px1, px2;
+						std::int32_t pz1, pz2;
 
 						px1 = pp->x1;
 						pz1 = pp->z1;
@@ -809,9 +809,9 @@ void PUDDLE_splash(
 
 void PUDDLE_process()
 {
-	SLONG i;
-	SLONG s1;
-	SLONG s2;
+	std::int32_t i;
+	std::int32_t s1;
+	std::int32_t s2;
 
 	PUDDLE_Puddle *pp;
 
@@ -835,13 +835,13 @@ void PUDDLE_process()
 
 
 
-UBYTE PUDDLE_get_upto;
-UBYTE PUDDLE_get_z;
-UBYTE PUDDLE_get_x_min;
-UBYTE PUDDLE_get_x_max;
+std::uint8_t PUDDLE_get_upto;
+std::uint8_t PUDDLE_get_z;
+std::uint8_t PUDDLE_get_x_min;
+std::uint8_t PUDDLE_get_x_max;
 PUDDLE_Info PUDDLE_get_info;
 
-void PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max)
+void PUDDLE_get_start(std::uint8_t z_map, std::uint8_t x_map_min, std::uint8_t x_map_max)
 {
 	PUDDLE_get_z     = z_map;
 	PUDDLE_get_x_min = x_map_min - 1;

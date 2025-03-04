@@ -41,7 +41,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 {
 
 	Chopper *chopper = CHOPPER_get_chopper(p_chopper);
-	SLONG matrix[9], vector[3];
+	std::int32_t matrix[9], vector[3];
 
 
 	vector[0]=(chopper->dx/64)&2047; vector[1]=(-chopper->dz/64)&2047; vector[2]=0;
@@ -64,9 +64,9 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 
 	} else {
 
-		SLONG target_x;
-		SLONG target_y;
-		SLONG target_z;
+		std::int32_t target_x;
+		std::int32_t target_y;
+		std::int32_t target_z;
 
 		//
 		// Look at Darci's body.
@@ -88,8 +88,8 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 		target_y += chopper->target->WorldPos.Y;
 		target_z += chopper->target->WorldPos.Z;
 
-		SLONG dx, dz, dist;
-		SLONG maxspd = chopper->speed<<6;
+		std::int32_t dx, dz, dist;
+		std::int32_t maxspd = chopper->speed<<6;
 
 		if (chopper->spotx > target_x) chopper->spotdx-=(chopper->since_takeoff >> 1);
 		if (chopper->spotz > target_z) chopper->spotdz-=(chopper->since_takeoff >> 1);
@@ -142,7 +142,7 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 
 
 		if (chopper->light) {
-			SLONG colour;
+			std::int32_t colour;
 
 			colour=(0x66 * chopper->light)/255;
 			colour+=(colour<<8);
@@ -181,12 +181,12 @@ void CHOPPER_draw_chopper(Thing *p_chopper)
 void TRACKS_DrawTrack(Thing *p_thing) 
 {
 	Track *walk=p_thing->Genus.Track;
-	SLONG x,y,z,id,diff;
+	std::int32_t x,y,z,id,diff;
 	POLY_Point  pp[4];
 	POLY_Point *quad[4];
-	UBYTE fade;
-	SLONG wpx,wpy,wpz;
-	SWORD sx,sz;
+	std::uint8_t fade;
+	std::int32_t wpx,wpy,wpz;
+	std::int16_t sx,sz;
 
 	POLY_flush_local_rot();
 
@@ -276,13 +276,13 @@ void TRACKS_DrawTrack(Thing *p_thing)
  */
 
 extern Particle		particles[PSYSTEM_MAX_PARTICLES];
-extern SLONG		next_free, next_used;
+extern std::int32_t		next_free, next_used;
 
 
 void PARTICLE_Draw() 
 {
-	SLONG ctr;
-	UBYTE ndx;
+	std::int32_t ctr;
+	std::uint8_t ndx;
 	Particle *p;
 	float u,v,w,h,sz;
 
@@ -333,14 +333,14 @@ void PARTICLE_Draw()
  */
 
 
-extern UBYTE fire_pal[768];
+extern std::uint8_t fire_pal[768];
 
-SLONG	pyro_seed;
+std::int32_t	pyro_seed;
 
-void	draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset);
-void	draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base,UBYTE rand=1);
+void	draw_flames(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod,std::int32_t offset);
+void	draw_flame_element(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t c0,std::uint8_t base,std::uint8_t rand=1);
 
-void    POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG page, UBYTE sort_to_front);
+void    POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front);
 
 
 
@@ -455,11 +455,11 @@ void Pyros_EndOfFrameMarker ( void )
 //   Pyro Utility Belt
 //
 
-inline SLONG lerp_long(SLONG a, SLONG b, UBYTE pos) {
+inline std::int32_t lerp_long(std::int32_t a, std::int32_t b, std::uint8_t pos) {
 	return ((a*(256-pos))>>8)+((b*pos)>>8);
 }
 
-GameCoord lerp_vector(GameCoord a, GameCoord b, UBYTE pos) {
+GameCoord lerp_vector(GameCoord a, GameCoord b, std::uint8_t pos) {
   GameCoord result;
 
   result.X = lerp_long(a.X,b.X,pos);
@@ -470,7 +470,7 @@ GameCoord lerp_vector(GameCoord a, GameCoord b, UBYTE pos) {
 
 }
 
-SLONG	get_pyro_rand()
+std::int32_t	get_pyro_rand()
 {
 	pyro_seed*=31415965;
 	pyro_seed+=123456789;
@@ -483,11 +483,11 @@ void SPRITE_draw_tex2(
 		float world_y,
 		float world_z,
 		float world_size,
-		ULONG colour,
-		ULONG specular,
-		SLONG page,
+		std::uint32_t colour,
+		std::uint32_t specular,
+		std::int32_t page,
 		float	u,float v,float w,float h,
-		SLONG sort)
+		std::int32_t sort)
 {
 	float screen_size;
 
@@ -584,15 +584,15 @@ void SPRITE_draw_tex2(
 
 
 
-void	draw_flame_element2(SLONG x,SLONG y,SLONG z,SLONG c0)
+void	draw_flame_element2(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t c0)
 {
-	SLONG	trans;
-	SLONG   page;
+	std::int32_t	trans;
+	std::int32_t   page;
 	float   scale;
 	float   u,v,w,h;
-	UBYTE*  palptr;
-	SLONG   palndx;
-	SLONG	dx,dy,dz;
+	std::uint8_t*  palptr;
+	std::int32_t   palndx;
+	std::int32_t	dx,dy,dz;
 
 	pyro_seed=54321678+c0;
 
@@ -674,8 +674,8 @@ void PYRO_draw_armageddon(Pyro *pyro);
 /*
 void	check_pyro(Pyro *pyro)
 {
-	static	UBYTE remember[1000];
-	SLONG	index;
+	static	std::uint8_t remember[1000];
+	std::int32_t	index;
 
 	index=PYRO_NUMBER(pyro);
 
@@ -693,8 +693,8 @@ void	check_pyro(Pyro *pyro)
 */
 void PYRO_draw_pyro(Thing *p_pyro) {
 	Pyro *pyro = PYRO_get_pyro(p_pyro);
-	SLONG fx,fy,fz;
-	SLONG i,j;
+	std::int32_t fx,fy,fz;
+	std::int32_t i,j;
 	GameCoord pos;
 	float dir[8][2] = { { 0.0f, 1.0f}, { 0.7f, 0.7f}, { 1.0f, 0.0f}, { 0.7f,-0.7f}, { 0.0f,-1.0f}, {-0.7f,-0.7f}, {-1.0f, 0.0f}, {-0.7f, 0.7f} };
 	float uvs[8][2] = { { 0.5f, 1.0f}, { 0.85f, 0.85f}, { 1.0f, 0.5f}, { 0.85f, 0.15f}, { 0.5f, 0.0f}, { 0.15f, 0.15f}, { 0.0f, 0.5f}, { 0.15f, 0.85f} };
@@ -724,7 +724,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 	case PYRO_FIREPOOL:
 		if (pyro->thing->Flags&FLAGS_IN_VIEW)
 		{
-			SLONG radsqr,dx,dz,distsqr,radius,id;
+			std::int32_t radsqr,dx,dz,distsqr,radius,id;
 			GameCoord ctr,edge;
 			POLY_Point  pp[3];
 			POLY_Point *tri[3];
@@ -847,7 +847,7 @@ extern int AENG_detail_skyline;
 			// Throttle
 			iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave ( iNumFlames );
 			// And draw.
-			draw_flames(fx>>8,fy/256,fz>>8,iNumFlames,(SLONG)p_pyro);
+			draw_flames(fx>>8,fy/256,fz>>8,iNumFlames,(std::int32_t)p_pyro);
 
 			if(AENG_detail_skyline)
 			if (!(Random()&7))
@@ -867,21 +867,21 @@ extern int AENG_detail_skyline;
 
 
 
-			UBYTE i, radius;
+			std::uint8_t i, radius;
 #if 0
-			UBYTE steps=1+(pyro->counter>>4);
+			std::uint8_t steps=1+(pyro->counter>>4);
 #else
 			// Throttle
 			int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave ( ( 1+(pyro->counter>>4) ) * 2 );
-			UBYTE steps = iNumFlames >> 1;
+			std::uint8_t steps = iNumFlames >> 1;
 			if ( steps < 3 )
 			{
 				steps = 3;
 			}
 
 #endif
-			UWORD angle=0, step=2048/steps;
-			SLONG px, py, pz;
+			std::uint16_t angle=0, step=2048/steps;
+			std::int32_t px, py, pz;
 
 			for (i=0;i<steps;i++)
 			{
@@ -917,7 +917,7 @@ extern int AENG_detail_skyline;
 						 PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FIRE|PFLAG_FADE,
 						 300,70,1,1,2);*/
 
-/*			draw_flames(fx>>8,fy/256,fz>>8,40,(SLONG)p_pyro);
+/*			draw_flames(fx>>8,fy/256,fz>>8,40,(std::int32_t)p_pyro);
 			if (!(Random()&3))
 			PARTICLE_Add(fx+((Random()&0x9ff)-0x4ff),
 						 fy+((Random()&0x9ff)-0x4ff),
@@ -980,11 +980,11 @@ extern int AENG_detail_skyline;
 			if (!(pyro->victim->Flags&FLAGS_IN_VIEW)) break;
 			if ((pyro->Flags&PYRO_FLAGS_FLICKER)||(pyro->Flags&PYRO_FLAGS_BONFIRE)) {
 				PrimObject*	p_obj;
-				ULONG sp;
-				ULONG ep;
-				SLONG px,py,pz;
+				std::uint32_t sp;
+				std::uint32_t ep;
+				std::int32_t px,py,pz;
 				POLY_Point*	pp;
-				SLONG matrix[9];
+				std::int32_t matrix[9];
 				GameCoord bob;
 				switch(pyro->victim->DrawType) {
 				case DT_MESH:
@@ -1060,8 +1060,8 @@ extern int AENG_detail_skyline;
 				case DT_ROT_MULTI:
 					if (pyro->Flags & PYRO_FLAGS_FLICKER)
 					{
-						SLONG px,py,pz;
-						UBYTE i,r,p;
+						std::int32_t px,py,pz;
+						std::uint8_t i,r,p;
 
 						if (pyro->Dummy==2) r=5; else r=1; //r=1 was r=2 MikeD Aug 2000
 						r=2;
@@ -1105,10 +1105,10 @@ extern int AENG_detail_skyline;
 			}
 /*			if (pyro->Flags&PYRO_FLAGS_FACES) {
 				PrimObject*	p_obj;
-				SLONG sp;
-				SLONG ep;
+				std::int32_t sp;
+				std::int32_t ep;
 				POLY_Point*	pp;
-				SLONG matrix[9];
+				std::int32_t matrix[9];
 
 				switch (pyro->victim->DrawType) {
 				case DT_MESH:
@@ -1142,8 +1142,8 @@ extern int AENG_detail_skyline;
 					break;
 				case DT_ROT_MULTI:
 					{
-					SLONG px,py,pz;
-					UBYTE i,r,p;
+					std::int32_t px,py,pz;
+					std::uint8_t i,r,p;
 
 					if (pyro->padding==2) r=5; else r=2;
 					for (i=0;i<r;i++) {
@@ -1230,7 +1230,7 @@ extern int AENG_detail_skyline;
 	case PYRO_TWANGER:
 		PYRO_draw_twanger(pyro);
 		{
-		  SLONG str;
+		  std::int32_t str;
 		  if (pyro->counter<30) {
 		    str=pyro->counter*5;
 		  } else {
@@ -1254,12 +1254,12 @@ extern int AENG_detail_skyline;
 		// temp behaviour: draw a sprite
 //		BLOOM_flare_draw(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,0x75);
 		{
-		//	SLONG col=(255-pyro->counter)<<24;
+		//	std::int32_t col=(255-pyro->counter)<<24;
 		//col|=0x007f7f7f;
 		//SPRITE_draw_tex(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,50,col,0xff000000,POLY_PAGE_FLAMES, 0.0,0.0,1.0,1.0, SPRITE_SORT_NORMAL);
 		//PYRO_draw_blob(pyro);
 		
-			SLONG x,y,z,d,h,i;
+			std::int32_t x,y,z,d,h,i;
 
 			if (pyro->counter<10)
 			{
@@ -1371,7 +1371,7 @@ extern int AENG_detail_skyline;
 #ifdef PSX
 		{
 		  POLY_Point pt1,pt2;
-		  SLONG x,y,z;
+		  std::int32_t x,y,z;
 
 //		  POLY_transform(x+pyro->target.X,y+pyro->target.Y,z+pyro->target.Z,&pt1);
 
@@ -1438,9 +1438,9 @@ extern RadPoint PYRO_defaultpoints[16];
 void PYRO_draw_explosion(Pyrex *pyro) {
 	POLY_Point  pp[3];
 	POLY_Point *tri[3];
-	UBYTE i,j;
-	SLONG ok,spec;
-	SLONG cx,cy,cz;
+	std::uint8_t i,j;
+	std::int32_t ok,spec;
+	std::int32_t cx,cy,cz;
 	RadPoint points[17];
 
 	tri[0] = &pp[0];
@@ -1561,9 +1561,9 @@ void PYRO_draw_explosion(Pyrex *pyro) {
 void PYRO_draw_dustwave(Pyro *pyro) {
 	POLY_Point  pp[3],mid;
 	POLY_Point *tri[3] = { &pp[0], &pp[1], &pp[2] };
-	SLONG cx,cy,cz,ok,fade;
-	UBYTE sections, pass, sector, next;
-	SLONG dxs[DUSTWAVE_SECTORS],dys[DUSTWAVE_SECTORS], dists[4], heights[4];
+	std::int32_t cx,cy,cz,ok,fade;
+	std::uint8_t sections, pass, sector, next;
+	std::int32_t dxs[DUSTWAVE_SECTORS],dys[DUSTWAVE_SECTORS], dists[4], heights[4];
 	float thisscale, nextscale;
 
 	// we'll need these to add on to relative coords
@@ -1668,7 +1668,7 @@ void PYRO_draw_dustwave(Pyro *pyro) {
 	// add some shock:
 //	for(sector=0;sector<DUSTWAVE_SECTORS;sector++)
 	{
-		static UBYTE shock_sector=0;
+		static std::uint8_t shock_sector=0;
 		DIRT_gust(pyro->thing,
 			cx+((dists[2]*dxs[shock_sector])/256),
 			cz+((dists[2]*dys[shock_sector])/256),
@@ -1688,9 +1688,9 @@ void PYRO_draw_dustwave(Pyro *pyro) {
 void PYRO_draw_dustwave(Pyro *pyro) {
 	POLY_Point  pp[3],mid;
 	POLY_Point *tri[3] = { &pp[0], &pp[1], &pp[2] };
-	SLONG cx,cy,cz,ok,fade;
-	UBYTE sections, pass, sector, next;
-	SLONG dxs[DUSTWAVE_SECTORS],dys[DUSTWAVE_SECTORS], dists[4], heights[4];
+	std::int32_t cx,cy,cz,ok,fade;
+	std::uint8_t sections, pass, sector, next;
+	std::int32_t dxs[DUSTWAVE_SECTORS],dys[DUSTWAVE_SECTORS], dists[4], heights[4];
 	float thisscale, nextscale;
 
 	// we'll need these to add on to relative coords
@@ -1834,7 +1834,7 @@ void PYRO_draw_dustwave(Pyro *pyro) {
 	// add some shock:
 //	for(sector=0;sector<DUSTWAVE_SECTORS;sector++)
 	{
-		static UBYTE shock_sector=0;
+		static std::uint8_t shock_sector=0;
 		DIRT_gust(pyro->thing,
 			cx+((dists[2]*dxs[shock_sector])/256),
 			cz+((dists[2]*dys[shock_sector])/256),
@@ -1859,11 +1859,11 @@ void PYRO_draw_explosion2(Pyro *pyro) {
 
 	POLY_Point  pp[3];
 	POLY_Point *tri[3];
-	UBYTE i,j,k,b;
-	SLONG ok,spec,fade[4];
-	SLONG cx,cy,cz;
+	std::uint8_t i,j,k,b;
+	std::int32_t ok,spec,fade[4];
+	std::int32_t cx,cy,cz;
 	RadPoint points[33];
-	SLONG sc_radius;
+	std::int32_t sc_radius;
 	float subscale; // deal with it -- tex coords :P
 
 //	subscale=(TEXSCALE2*((256-pyro->counter)>>8));
@@ -1875,7 +1875,7 @@ void PYRO_draw_explosion2(Pyro *pyro) {
 
 	// -- called only once, to init --
 	if (!PYRO_defaultpoints2[0].flags) {
-		SLONG height,radius;
+		std::int32_t height,radius;
 		RadPoint *pt;
 
 		PYRO_defaultpoints2[0].flags=1;
@@ -1888,8 +1888,8 @@ void PYRO_draw_explosion2(Pyro *pyro) {
 			// generate ring x,y
 	
 			for (j=0;j<8;j++) {
-				pt->x=(radius*((SLONG)SIN(j*256)))/256;
-				pt->z=(radius*((SLONG)COS(j*256)))/256;
+				pt->x=(radius*((std::int32_t)SIN(j*256)))/256;
+				pt->z=(radius*((std::int32_t)COS(j*256)))/256;
 				pt->y=height;
 				pt++;
 			}
@@ -2066,15 +2066,15 @@ void PYRO_draw_newdome(Pyro *pyro) {
 
 	POLY_Point  pp[3];
 	POLY_Point *tri[3];
-	UBYTE i,j,k,b;
-	SLONG ok,spec,fade[4];
-	SLONG cx,cy,cz;
+	std::uint8_t i,j,k,b;
+	std::int32_t ok,spec,fade[4];
+	std::int32_t cx,cy,cz;
 	RadPoint points[33];
-	SLONG sc_radius;
+	std::int32_t sc_radius;
 	float subscale; // deal with it -- tex coords :P
 	float u,v;
-	UBYTE iu,iv;
-	ULONG store_seed;
+	std::uint8_t iu,iv;
+	std::uint32_t store_seed;
 
 //	subscale=(TEXSCALE2*((256-pyro->counter)>>8));
 //	subscale=(256-pyro->counter);
@@ -2085,7 +2085,7 @@ void PYRO_draw_newdome(Pyro *pyro) {
 
 	// -- called only once, to init --
 	if (!PYRO_defaultpoints2[0].flags) {
-		SLONG height,radius;
+		std::int32_t height,radius;
 		RadPoint *pt;
 
 		PYRO_defaultpoints2[0].flags=1;
@@ -2099,8 +2099,8 @@ void PYRO_draw_newdome(Pyro *pyro) {
 			// generate ring x,y
 	
 			for (j=0;j<8;j++) {
-				pt->x=(radius*((SLONG)SIN(j*256)))/256;
-				pt->z=(radius*((SLONG)COS(j*256)))/256;
+				pt->x=(radius*((std::int32_t)SIN(j*256)))/256;
+				pt->z=(radius*((std::int32_t)COS(j*256)))/256;
 				pt->y=height;
 				pt++;
 			}
@@ -2109,7 +2109,7 @@ void PYRO_draw_newdome(Pyro *pyro) {
 	// --
 
 	store_seed=GetSeed();
-	SetSeed((ULONG)pyro);
+	SetSeed((std::uint32_t)pyro);
 
 
 	tri[0] = &pp[0];
@@ -2275,9 +2275,9 @@ void PYRO_draw_newdome(Pyro *pyro) {
 
 
 void PYRO_alpha_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 	POLY_Point p1;
 	POLY_Point p2;
@@ -2298,10 +2298,10 @@ void PYRO_alpha_line(
 }
 
 void PYRO_draw_twanger(Pyro *pyro) {
-	SLONG cx,cy,cz,c;
-	SLONG dx,dy,dz,tx,ty;
-	SLONG col1,col2,dir,ang;
-	UBYTE i;
+	std::int32_t cx,cy,cz,c;
+	std::int32_t dx,dy,dz,tx,ty;
+	std::int32_t col1,col2,dir,ang;
+	std::uint8_t i;
 
 	cx=pyro->thing->WorldPos.X>>8;
 	cy=pyro->thing->WorldPos.Y>>8;
@@ -2352,8 +2352,8 @@ void PYRO_draw_twanger(Pyro *pyro) {
 }
 
 
-void PYRO_draw_streambit(Pyro *pyro,SLONG cx, SLONG cy, SLONG cz, SLONG c, UBYTE i) {
-	SLONG x,y,z,dx,dy,dir;
+void PYRO_draw_streambit(Pyro *pyro,std::int32_t cx, std::int32_t cy, std::int32_t cz, std::int32_t c, std::uint8_t i) {
+	std::int32_t x,y,z,dx,dy,dir;
 
 	// get dir index
 	dir=(pyro->radii[i+4]>>8)*16;
@@ -2369,8 +2369,8 @@ void PYRO_draw_streambit(Pyro *pyro,SLONG cx, SLONG cy, SLONG cz, SLONG c, UBYTE
 }
 
 void PYRO_draw_streamer(Pyro *pyro) {
-	UBYTE i;
-	SLONG cx,cy,cz;
+	std::uint8_t i;
+	std::int32_t cx,cy,cz;
 
 	cx=pyro->thing->WorldPos.X;
 	cy=pyro->thing->WorldPos.Y;
@@ -2398,7 +2398,7 @@ void PYRO_draw_armageddon(Pyro *pyro)
 {
 	Thing *thing;
 	GameCoord pos;
-	SWORD i,j;
+	std::int16_t i,j;
 
 	if (GAMEMENU_is_paused()) return;
 
@@ -2429,8 +2429,8 @@ void PYRO_draw_armageddon(Pyro *pyro)
 		}
 	}*/
 
-	SLONG and_1;
-	SLONG and_2;
+	std::int32_t and_1;
+	std::int32_t and_2;
 
 	{
 #ifdef TARGET_DC
@@ -2455,7 +2455,7 @@ void PYRO_draw_armageddon(Pyro *pyro)
 	}
 	if (!(Random()&and_2))
 	{
-		SLONG flags = PFLAG_SPRITEANI | PFLAG_SPRITELOOP  | PFLAG_EXPLODE_ON_IMPACT | PFLAG_LEAVE_TRAIL;
+		std::int32_t flags = PFLAG_SPRITEANI | PFLAG_SPRITELOOP  | PFLAG_EXPLODE_ON_IMPACT | PFLAG_LEAVE_TRAIL;
 		if (Random()&1) flags|=PFLAG_GRAVITY ;
 		pos=pyro->thing->WorldPos;
 		pos.X+=((Random()&0xff00)-0x7f00)<<3;
@@ -2498,7 +2498,7 @@ extern void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt);
 
 void ANIMAL_draw(Thing *p_thing) 
 {
-	UBYTE i;
+	std::uint8_t i;
 	Animal *animal=ANIMAL_get_animal(p_thing);
 //	DrawTween *dt=ANIMAL_get_drawtween(animal);
 
@@ -2536,8 +2536,8 @@ void ANIMAL_draw(Thing *p_thing)
 void RIBBON_draw_ribbon(Ribbon *ribbon) {
 	POLY_Point  pp[3];
 	POLY_Point *tri[3] = { &pp[0], &pp[1], &pp[2] };
-	UBYTE i,p,ctr;
-	SLONG id,spread;
+	std::uint8_t i,p,ctr;
+	std::int32_t id,spread;
 	float vo,vs; // floats and what's more you'll damn well like 'em cos i said so
 
 //	TRACE("(rib: %d %d %d\n",ribbon->Head,ribbon->Tail,ribbon->Size);
@@ -2558,7 +2558,7 @@ void RIBBON_draw_ribbon(Ribbon *ribbon) {
 			if (id>255) id=255;
 			pp[p].colour=(id<<24)|ribbon->RGB;
 		} else {
-			pp[p].colour=(((SLONG)ribbon->FadePoint)<<24)|ribbon->RGB;
+			pp[p].colour=(((std::int32_t)ribbon->FadePoint)<<24)|ribbon->RGB;
 		}
 		pp[p].specular=0xFF000000;
 		if (i&1) {
@@ -2594,13 +2594,13 @@ void RIBBON_draw_ribbon(Ribbon *ribbon) {
 // dx,dy,dz its direction normal, scaled so 0 -> 0, 1 -> 256, or 0,0,0 for an omni light
 // col is an 0x00RRGGBB colour value. Brightness does count.
 
-extern SLONG AENG_cam_vec[3];
+extern std::int32_t AENG_cam_vec[3];
 
 /*
-void BLOOM_draw_floats(float x, float y, float z, float dx, float dy, float dz, SLONG col) {
+void BLOOM_draw_floats(float x, float y, float z, float dx, float dy, float dz, std::int32_t col) {
 	float dot;
 	float cx,cy,cz;
-	SLONG sz, rgba, scale;
+	std::int32_t sz, rgba, scale;
 	POLY_Point  pt1,pt2;
 
 	cx=AENG_cam_vec[0]; cx/=65536.0;
@@ -2646,17 +2646,17 @@ void SPRITE_draw_rotated(
 		float world_y,
 		float world_z,
 		float world_size,
-		ULONG colour,
-		SLONG page,
-		SLONG sort,
-		SLONG rotate)
+		std::uint32_t colour,
+		std::int32_t page,
+		std::int32_t sort,
+		std::int32_t rotate)
 {
 	float screen_size;
 
 	POLY_Point  mid;
 	POLY_Point  pp[4];
 	POLY_Point *quad[4];
-	SLONG opp,adj,xofs,yofs,angle;
+	std::int32_t opp,adj,xofs,yofs,angle;
 
 	POLY_transform(
 		world_x,
@@ -2773,9 +2773,9 @@ void SPRITE_draw_rotated(
 	}
 }
 
-extern SLONG AENG_cur_fc_cam;
+extern std::int32_t AENG_cur_fc_cam;
 
-const UBYTE flare_table[7][3] =
+const std::uint8_t flare_table[7][3] =
 {
 	{ 132 , 92  , 80	},
 	{ 135 , 114 , 79	},
@@ -2788,13 +2788,13 @@ const UBYTE flare_table[7][3] =
 };
 
 
-void BLOOM_flare_draw(SLONG x, SLONG y, SLONG z, SLONG str) {
+void BLOOM_flare_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t str) {
 	POLY_Point  pt1,pt2,pt3,pt4;
-	SLONG dx,dy,fx,fy,cx,cy;
-	SLONG i,sz,j;
-	SLONG scale;
+	std::int32_t dx,dy,fx,fy,cx,cy;
+	std::int32_t i,sz,j;
+	std::int32_t scale;
 	POLY_Point *quad[4];
-	SLONG fc_x, fc_y, fc_z, dummy;
+	std::int32_t fc_x, fc_y, fc_z, dummy;
 
 	if (!EWAY_grab_camera(
 		&fc_x, &fc_y, &fc_z,
@@ -2840,11 +2840,11 @@ void BLOOM_flare_draw(SLONG x, SLONG y, SLONG z, SLONG str) {
 	//
 
 	{
-		SLONG dx = abs(x - (fc_x >> 8));
-		SLONG dy = abs(y - (fc_y >> 8));
-		SLONG dz = abs(z - (fc_z >> 8));
+		std::int32_t dx = abs(x - (fc_x >> 8));
+		std::int32_t dy = abs(y - (fc_y >> 8));
+		std::int32_t dz = abs(z - (fc_z >> 8));
 
-		SLONG dist = QDIST3(dx,dy,dz);
+		std::int32_t dist = QDIST3(dx,dy,dz);
 		
 		// scale = 256 - (dist * 256 / (16 * 256)); // surely that's nonsense mark?
 		scale = 256 - (dist / 16);
@@ -2881,7 +2881,7 @@ void BLOOM_flare_draw(SLONG x, SLONG y, SLONG z, SLONG str) {
 		pt4.X=fx+sz; pt4.Y=fy+sz;
 		pt1.specular=pt2.specular=pt3.specular=pt4.specular=0;
 
-		SLONG r,g,b;
+		std::int32_t r,g,b;
 
 		r=flare_table[(i>>2)+3][0];
 		g=flare_table[(i>>2)+3][1];
@@ -2912,13 +2912,13 @@ void BLOOM_flare_draw(SLONG x, SLONG y, SLONG z, SLONG str) {
 	
 }
 
-void BLOOM_draw(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG col, UBYTE opts) {
-	SLONG a,b,c,dot;
-	SLONG rgba,sz;
+void BLOOM_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t col, std::uint8_t opts) {
+	std::int32_t a,b,c,dot;
+	std::int32_t rgba,sz;
 //	POLY_Point  pp[4],pt1,pt2;
 	POLY_Point  pt1,pt2;
 //	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
-	SLONG fc_x, fc_y, fc_z, dummy;
+	std::int32_t fc_x, fc_y, fc_z, dummy;
 
 	POLY_flush_local_rot();
 
@@ -2932,7 +2932,7 @@ void BLOOM_draw(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG c
 	}
 
 	// check LOS against wall
-	SLONG	losy = (opts & BLOOM_RAISE_LOS) ? y + 16 : y;
+	std::int32_t	losy = (opts & BLOOM_RAISE_LOS) ? y + 16 : y;
 	if (!there_is_a_los(x,losy,z,
 						fc_x>>8,fc_y>>8,fc_z>>8,
 						LOS_FLAG_IGNORE_PRIMS)) return;
@@ -2998,7 +2998,7 @@ void BLOOM_draw(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG c
 
 
 void DRAWXTRA_Special(Thing *p_thing) {
-	SLONG dx,dz,c0, flags=0;
+	std::int32_t dx,dz,c0, flags=0;
 
 	switch(p_thing->Genus.Special->SpecialType) {
 
@@ -3047,11 +3047,11 @@ void DRAWXTRA_Special(Thing *p_thing) {
  *
  */
 
-void DRAW2D_Box(SLONG x, SLONG y, SLONG ox, SLONG oy, SLONG rgb, UBYTE flag, UBYTE depth) {
+void DRAW2D_Box(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t rgb, std::uint8_t flag, std::uint8_t depth) {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
-//	SLONG page = flag ? POLY_PAGE_SUBTRACTIVE : POLY_PAGE_ALPHA;
-	SLONG page = flag ? POLY_PAGE_SUBTRACTIVEALPHA : POLY_PAGE_ADDITIVEALPHA;
+//	std::int32_t page = flag ? POLY_PAGE_SUBTRACTIVE : POLY_PAGE_ALPHA;
+	std::int32_t page = flag ? POLY_PAGE_SUBTRACTIVEALPHA : POLY_PAGE_ADDITIVEALPHA;
 	float fdepth=(float)depth;
 
 	pp[0].colour=rgb; pp[0].specular=0;
@@ -3068,7 +3068,7 @@ void DRAW2D_Box(SLONG x, SLONG y, SLONG ox, SLONG oy, SLONG rgb, UBYTE flag, UBY
 
 }
 
-void DRAW2D_Box_Page(SLONG x, SLONG y, SLONG ox, SLONG oy, SLONG rgb, SLONG page, UBYTE depth) {
+void DRAW2D_Box_Page(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t rgb, std::int32_t page, std::uint8_t depth) {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 	float fdepth=(float)depth;
@@ -3087,10 +3087,10 @@ void DRAW2D_Box_Page(SLONG x, SLONG y, SLONG ox, SLONG oy, SLONG rgb, SLONG page
 
 }
 
-void DRAW2D_Tri(SLONG x, SLONG y, SLONG ox, SLONG oy, SLONG tx, SLONG ty, SLONG rgb, UBYTE flag) {
+void DRAW2D_Tri(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t tx, std::int32_t ty, std::int32_t rgb, std::uint8_t flag) {
 	POLY_Point  pp[3];
 	POLY_Point *tri[3] = { &pp[0], &pp[1], &pp[2] };
-	SLONG page = flag ? POLY_PAGE_SUBTRACTIVEALPHA : POLY_PAGE_ADDITIVEALPHA;
+	std::int32_t page = flag ? POLY_PAGE_SUBTRACTIVEALPHA : POLY_PAGE_ADDITIVEALPHA;
 
 	pp[0].colour=rgb; pp[0].specular=0;
 	pp[0].Z=0.5f;
@@ -3104,7 +3104,7 @@ void DRAW2D_Tri(SLONG x, SLONG y, SLONG ox, SLONG oy, SLONG tx, SLONG ty, SLONG 
 	POLY_add_triangle(tri,page,false,true);
 }
 
-void DRAW2D_Sprite(SLONG x, SLONG y, SLONG ox, SLONG oy, float u, float v, float ou, float ov, SLONG page, SLONG rgb) {
+void DRAW2D_Sprite(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, float u, float v, float ou, float ov, std::int32_t page, std::int32_t rgb) {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4] = { &pp[0], &pp[1], &pp[2], &pp[3] };
 
@@ -3132,11 +3132,11 @@ void DRAW2D_Sprite(SLONG x, SLONG y, SLONG ox, SLONG oy, float u, float v, float
 
 void DRAWXTRA_MIB_destruct(Thing *p_thing)
 {
-	UBYTE i;
-	SLONG ctr=p_thing->Genus.Person->Timer1;
+	std::uint8_t i;
+	std::int32_t ctr=p_thing->Genus.Person->Timer1;
 	GameCoord posn;
 	Thing *thing;
-	SLONG j;
+	std::int32_t j;
 
 	p_thing->WorldPos.Y+=SIN(ctr>>2)>>7;
 
@@ -3175,7 +3175,7 @@ void DRAWXTRA_MIB_destruct(Thing *p_thing)
 		// A dynamic light lightning-bolt flash that only lasts one frame.
 		//
 
-		UBYTE dlight;
+		std::uint8_t dlight;
 
 		dlight = NIGHT_dlight_create(
 					(posn.X >> 8),
@@ -3218,7 +3218,7 @@ void DRAWXTRA_MIB_destruct(Thing *p_thing)
 		SPARK_Pinfo p1;
 		SPARK_Pinfo p2;
 
-		UBYTE limbs[] = { SUB_OBJECT_LEFT_HAND, SUB_OBJECT_RIGHT_HAND, SUB_OBJECT_LEFT_FOOT, SUB_OBJECT_RIGHT_FOOT };
+		std::uint8_t limbs[] = { SUB_OBJECT_LEFT_HAND, SUB_OBJECT_RIGHT_HAND, SUB_OBJECT_LEFT_FOOT, SUB_OBJECT_RIGHT_FOOT };
 		
 		p1.type   = SPARK_TYPE_GROUND;
 		p1.flag   = 0;
@@ -3274,9 +3274,9 @@ void DRAWXTRA_MIB_destruct(Thing *p_thing)
  */
 
 
-void DRAWXTRA_final_glow(SLONG x, SLONG y, SLONG z, UBYTE fade)
+void DRAWXTRA_final_glow(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t fade)
 {
-	static SLONG rotation = 0;
+	static std::int32_t rotation = 0;
 
 	POLY_Point mid;
 
@@ -3313,10 +3313,10 @@ void DRAWXTRA_final_glow(SLONG x, SLONG y, SLONG z, UBYTE fade)
 	// Draw overlays rotated sprites.
 	//
 
-	SLONG i;
-	SLONG j;
-	SLONG angle;
-	SLONG colour;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t angle;
+	std::int32_t colour;
 
 	float dx;
 	float dy;

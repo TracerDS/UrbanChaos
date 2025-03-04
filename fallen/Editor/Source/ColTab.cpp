@@ -55,7 +55,7 @@ ControlDef	col_tab_def[]	=
 ColTab	*the_coltab;
 	
 struct	ColInfo	col_info[MAX_COL_INFO];
-UWORD	next_col_info=1;
+std::uint16_t	next_col_info=1;
 
 void	redraw_col_tab();
 //---------------------------------------------------------------
@@ -87,9 +87,9 @@ void	ColTab::Clear()
 //	clear_all_col_info();
 }
 
-void	delete_col_info(SWORD index)
+void	delete_col_info(std::int16_t index)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=index;c0<next_col_info-1;c0++)
 	{
 		col_info[c0]=col_info[c0+1];
@@ -99,7 +99,7 @@ void	delete_col_info(SWORD index)
 
 void	ColTab::Recalc()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	ColInfo	*p_col;
 	//clear_all_col_info();
 
@@ -158,9 +158,9 @@ void	redraw_col_tab()
 //---------------------------------------------------------------
 extern void	hilight_col_info();
 
-void	ColTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	ColTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 	EdRect	drawrect;
 
 	RedrawModuleContent=0;
@@ -207,7 +207,7 @@ void	ColTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 void	ColTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -234,7 +234,7 @@ void	ColTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -244,7 +244,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	ColTab::KeyboardInterface()
+std::int32_t	ColTab::KeyboardInterface()
 {
 	if(Keys[KB_TAB])
 	{
@@ -289,9 +289,9 @@ SLONG	ColTab::KeyboardInterface()
 
 
 
-inline	SLONG normalise_xyz(SLONG *x,SLONG *y,SLONG *z)
+inline	std::int32_t normalise_xyz(std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
-	SLONG	dist;
+	std::int32_t	dist;
 
 	dist=(*x)*(*x)+(*y)*(*y)+(*z)*(*z);
 	dist=sqrl(dist);
@@ -306,7 +306,7 @@ inline	SLONG normalise_xyz(SLONG *x,SLONG *y,SLONG *z)
 	return(dist);
 }
 
-UWORD	CreateColBezier(SLONG x,SLONG y,SLONG z)
+std::uint16_t	CreateColBezier(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	col_info[next_col_info].Type=COL_TYPE_BEZIER;
 	col_info[next_col_info].Bezier.X[0]=x;
@@ -326,7 +326,7 @@ UWORD	CreateColBezier(SLONG x,SLONG y,SLONG z)
 	return(next_col_info-1);
 }
 
-UWORD	CreateColPlane(SLONG x,SLONG y,SLONG z)
+std::uint16_t	CreateColPlane(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	col_info[next_col_info].Type=COL_TYPE_PLANE;
 	col_info[next_col_info].Plane.Left=x;
@@ -341,13 +341,13 @@ UWORD	CreateColPlane(SLONG x,SLONG y,SLONG z)
 
 #define	SHIFT_BEZ	(10)
 #define	BEZ_ONE		(1<<SHIFT_BEZ)
-void	draw_bezier(SLONG x0,SLONG z0,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,SLONG z3)
+void	draw_bezier(std::int32_t x0,std::int32_t z0,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t x3,std::int32_t z3)
 {
-	SLONG	t=0;
-	SLONG	bx,bz;
-	SLONG	px,pz;
+	std::int32_t	t=0;
+	std::int32_t	bx,bz;
+	std::int32_t	px,pz;
 
-	SLONG	ox,oz;
+	std::int32_t	ox,oz;
 
 	ox=x0;
 	oz=z0;
@@ -388,12 +388,12 @@ void	draw_bezier(SLONG x0,SLONG z0,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,
 }
 
 /*
-void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG col)
+void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
 {
 	struct	SVector	point[2];
 	struct	SVector	res[2];
-	SLONG	sx,sy,sz,c0;
-	ULONG	f1,f2;
+	std::int32_t	sx,sy,sz,c0;
+	std::uint32_t	f1,f2;
 	point[0].X=x1;
 	point[0].Y=y1;
 	point[0].Z=z1;
@@ -408,10 +408,10 @@ void	draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG co
 		DrawLineC(res[0].X,res[0].Y,res[1].X,res[1].Y,col);
 }
 */
-void	draw_a_col_info(UWORD index)
+void	draw_a_col_info(std::uint16_t index)
 {
 	struct	ColInfo	*p_col;
-	SLONG	col=WHITE_COL;
+	std::int32_t	col=WHITE_COL;
 	EdRect	rect;
 	p_col=&col_info[index];
 	switch(p_col->Type)
@@ -424,7 +424,7 @@ void	draw_a_col_info(UWORD index)
 				break;
 
 		case	COL_TYPE_BEZIER:
-			SLONG	mid_y,temp;
+			std::int32_t	mid_y,temp;
 				temp=engine.ClipFlag;
 				engine.ClipFlag=0;
 
@@ -450,7 +450,7 @@ void	draw_a_col_info(UWORD index)
 
 void	hilight_col_info()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<next_col_info;c0++)
 	{
 		draw_a_col_info(c0);
@@ -458,13 +458,13 @@ void	hilight_col_info()
 }
 
 
-static void	create_box_from_vect(EdRect *rect,SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+static void	create_box_from_vect(EdRect *rect,std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 	struct	SVector	point[2];
 	struct	SVector	res[2];
-	SLONG	sx,sy,sz,c0;
-	ULONG	f1,f2;
-	SLONG	temp;
+	std::int32_t	sx,sy,sz,c0;
+	std::uint32_t	f1,f2;
+	std::int32_t	temp;
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
 
@@ -486,13 +486,13 @@ static void	create_box_from_vect(EdRect *rect,SLONG x1,SLONG y1,SLONG z1,SLONG x
 	engine.ClipFlag=temp;
 }
 
-static void	create_box_from_point(EdRect *rect,SLONG x1,SLONG y1,SLONG z1)
+static void	create_box_from_point(EdRect *rect,std::int32_t x1,std::int32_t y1,std::int32_t z1)
 {
 	struct	SVector	point[1];
 	struct	SVector	res[1];
-	SLONG	sx,sy,sz,c0;
-	ULONG	f1,f2;
-	SLONG	temp;
+	std::int32_t	sx,sy,sz,c0;
+	std::uint32_t	f1,f2;
+	std::int32_t	temp;
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
 	point[0].X=x1;
@@ -508,7 +508,7 @@ static void	create_box_from_point(EdRect *rect,SLONG x1,SLONG y1,SLONG z1)
 }
 
 	
-SLONG	select_this_col_info(SLONG index,MFPoint *mouse)
+std::int32_t	select_this_col_info(std::int32_t index,MFPoint *mouse)
 {
 	struct	ColInfo	*p_col;
 	EdRect	rect;
@@ -576,10 +576,10 @@ SLONG	select_this_col_info(SLONG index,MFPoint *mouse)
 	return(0);
 }
 
-SLONG	select_col_info(MFPoint *mouse,SLONG *ret)
+std::int32_t	select_col_info(MFPoint *mouse,std::int32_t *ret)
 {
-	static	UBYTE col=0;
-	SLONG	c0;
+	static	std::uint8_t col=0;
+	std::int32_t	c0;
 	col++;
 
 	for(c0=1;c0<next_col_info;c0++)
@@ -591,16 +591,16 @@ SLONG	select_col_info(MFPoint *mouse,SLONG *ret)
 	return(0);
 }
 
-SLONG	ColTab::DragACol(UBYTE flags,MFPoint *clicked_point,UWORD copy)
+std::int32_t	ColTab::DragACol(std::uint8_t flags,MFPoint *clicked_point,std::uint16_t copy)
 {
-	SLONG	side;
-	SLONG	drag=0,drag_type;
-	SLONG	x,y,w,h;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	window=0;
-	SLONG	col;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	side;
+	std::int32_t	drag=0,drag_type;
+	std::int32_t	x,y,w,h;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	window=0;
+	std::int32_t	col;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 	if(engine.ClipFlag)
 	{
 		LogText(" in dragacol with clipy\n");
@@ -648,7 +648,7 @@ SLONG	ColTab::DragACol(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 		while(LeftButton)
 		{
-			SLONG	nx,ny,nz;
+			std::int32_t	nx,ny,nz;
 			last_world_mouse=SetWorldMouse(0);
 
 			if(last_world_mouse)
@@ -710,7 +710,7 @@ SLONG	ColTab::DragACol(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 								}
 								else
 								{
-									SLONG	dx,dz;
+									std::int32_t	dx,dz;
 									dx=p_col->Bezier.X[side-1]-engine.MousePosX;
 									dz=p_col->Bezier.Z[side-1]-engine.MousePosZ;
 									p_col->Bezier.X[0]-=dx;
@@ -758,11 +758,11 @@ SLONG	ColTab::DragACol(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 }
 
-SLONG	ColTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	ColTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -771,9 +771,9 @@ SLONG	ColTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -824,10 +824,10 @@ SLONG	ColTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-SLONG	ColTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	ColTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SWORD	thing;
-	SWORD	bright;
+	std::int16_t	thing;
+	std::int16_t	bright;
 	switch(flags)
 	{
 		case	NO_CLICK:
@@ -872,9 +872,9 @@ SLONG	ColTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG 
 	
 }
 
-UWORD	ColTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	ColTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -926,13 +926,13 @@ UWORD	ColTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-SLONG	ColTab::SetWorldMouse(ULONG flag)
+std::int32_t	ColTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
 	SVector		point,out;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	temp;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	temp;
 
 	temp=engine.ClipFlag;
 	engine.ClipFlag=0;
@@ -982,7 +982,7 @@ SLONG	ColTab::SetWorldMouse(ULONG flag)
 }
 
 
-void	ColTab::HandleControl(UWORD control_id)
+void	ColTab::HandleControl(std::uint16_t control_id)
 {
 	switch(control_id&0xff)
 	{

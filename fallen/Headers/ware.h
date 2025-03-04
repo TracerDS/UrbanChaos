@@ -27,33 +27,33 @@ typedef struct
 {
 	struct
 	{
-		UBYTE out_x;
-		UBYTE out_z;
-		UBYTE in_x;
-		UBYTE in_z;
+		std::uint8_t out_x;
+		std::uint8_t out_z;
+		std::uint8_t in_x;
+		std::uint8_t in_z;
 
 	}     door[WARE_MAX_DOORS];	// Upto four doors.
-	UBYTE door_upto;
+	std::uint8_t door_upto;
 
-	UBYTE minx;
-	UBYTE minz;
-	UBYTE maxx;	// Inclusive
-	UBYTE maxz;	// Inclusive
+	std::uint8_t minx;
+	std::uint8_t minz;
+	std::uint8_t maxx;	// Inclusive
+	std::uint8_t maxz;	// Inclusive
 
-	UBYTE nav_pitch;		// The pitch of the WARE_mav array
-	UWORD nav;				// Index into the WARE_mav array for this warehouse's MAVigation data.
-	UWORD building;			// This building this warehouse is for.
-	UWORD height;			// Index into the WARE_height array for this warehouse's MAV_height data
-	UWORD rooftex;			// Index into the WARE_rooftex array for the roof-top textures of the warehouse
-	UBYTE ambience;			// Sets the ambience sound to play while inside the warehouse
-	UBYTE padding;			// Upto 32 bytes?
+	std::uint8_t nav_pitch;		// The pitch of the WARE_mav array
+	std::uint16_t nav;				// Index into the WARE_mav array for this warehouse's MAVigation data.
+	std::uint16_t building;			// This building this warehouse is for.
+	std::uint16_t height;			// Index into the WARE_height array for this warehouse's MAV_height data
+	std::uint16_t rooftex;			// Index into the WARE_rooftex array for the roof-top textures of the warehouse
+	std::uint8_t ambience;			// Sets the ambience sound to play while inside the warehouse
+	std::uint8_t padding;			// Upto 32 bytes?
 
 } WARE_Ware;
 
 #define WARE_MAX_WARES 32
 
 extern WARE_Ware *WARE_ware;//[WARE_MAX_WARES];
-extern UWORD     WARE_ware_upto;
+extern std::uint16_t     WARE_ware_upto;
 
 
 //
@@ -63,8 +63,8 @@ extern UWORD     WARE_ware_upto;
 
 #define WARE_MAX_NAVS 4096
 
-extern UWORD *WARE_nav;//[WARE_MAX_NAVS];
-extern UWORD  WARE_nav_upto;
+extern std::uint16_t *WARE_nav;//[WARE_MAX_NAVS];
+extern std::uint16_t  WARE_nav_upto;
 
 
 //
@@ -73,8 +73,8 @@ extern UWORD  WARE_nav_upto;
 
 #define WARE_MAX_HEIGHTS 8192
 
-extern SBYTE *WARE_height;//[WARE_MAX_HEIGHTS];
-extern UWORD  WARE_height_upto;
+extern std::int8_t *WARE_height;//[WARE_MAX_HEIGHTS];
+extern std::uint16_t  WARE_height_upto;
 
 //
 // The rooftop textures
@@ -82,8 +82,8 @@ extern UWORD  WARE_height_upto;
 
 #define WARE_MAX_ROOFTEXES 4096
 
-extern UWORD *WARE_rooftex;//[WARE_MAX_ROOFTEXES];
-extern UWORD  WARE_rooftex_upto;
+extern std::uint16_t *WARE_rooftex;//[WARE_MAX_ROOFTEXES];
+extern std::uint16_t  WARE_rooftex_upto;
 
 
 
@@ -92,7 +92,7 @@ extern UWORD  WARE_rooftex_upto;
 // nullptr if we are not.
 //
 
-extern UBYTE WARE_in;
+extern std::uint8_t WARE_in;
 
 //
 // Goes through the map looking for warehouses. When it finds one it creates a new
@@ -111,37 +111,37 @@ void WARE_init();
 // cases when this function will get it wrong... but it isn't often!
 // 
 
-SLONG WARE_in_floorplan(UBYTE ware, UBYTE x, UBYTE z);
+std::int32_t WARE_in_floorplan(std::uint8_t ware, std::uint8_t x, std::uint8_t z);
 
 //
 // Returns which warehouse contains the given mapsqure or nullptr if no warehouse does.
 //
 
-SLONG WARE_which_contains(UBYTE x, UBYTE z);
+std::int32_t WARE_which_contains(std::uint8_t x, std::uint8_t z);
 
 //
 // Returns whether the given (x,y,z) is 'underground' inside the warehouse. i.e. if
 // it inside a crate. If returns true if the point is outside the warehouse aswell.
 //
 
-SLONG WARE_inside(UBYTE ware, SLONG x, SLONG y, SLONG z);
+std::int32_t WARE_inside(std::uint8_t ware, std::int32_t x, std::int32_t y, std::int32_t z);
 
 
 //
 // Returns the caps for going from the square in the given direction.
 //
 
-UBYTE WARE_get_caps(
-		UBYTE ware,
-		UBYTE x,
-		UBYTE z,
-		UBYTE dir);
+std::uint8_t WARE_get_caps(
+		std::uint8_t ware,
+		std::uint8_t x,
+		std::uint8_t z,
+		std::uint8_t dir);
 
 //
 // Returns the height at the given location inside a warehouse.
 //
 
-SLONG WARE_calc_height_at(UBYTE ware, SLONG x, SLONG z);
+std::int32_t WARE_calc_height_at(std::uint8_t ware, std::int32_t x, std::int32_t z);
 
 
 
@@ -150,7 +150,7 @@ SLONG WARE_calc_height_at(UBYTE ware, SLONG x, SLONG z);
 // all the cached lighting.
 //
 
-void WARE_enter(SLONG building);
+void WARE_enter(std::int32_t building);
 void WARE_exit ();
 
 
@@ -160,9 +160,9 @@ void WARE_exit ();
 // Does a mavigation for a person to exit the warehouse.
 //
 
-MAV_Action WARE_mav_enter (Thing *p_person, UBYTE ware, UBYTE caps);
-MAV_Action WARE_mav_inside(Thing *p_person, UBYTE dest_x, UBYTE dest_z, UBYTE caps);
-MAV_Action WARE_mav_exit  (Thing *p_person, UBYTE caps);
+MAV_Action WARE_mav_enter (Thing *p_person, std::uint8_t ware, std::uint8_t caps);
+MAV_Action WARE_mav_inside(Thing *p_person, std::uint8_t dest_x, std::uint8_t dest_z, std::uint8_t caps);
+MAV_Action WARE_mav_exit  (Thing *p_person, std::uint8_t caps);
 
 
 

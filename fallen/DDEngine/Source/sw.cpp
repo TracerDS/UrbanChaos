@@ -38,16 +38,16 @@ extern D3DTexture TEXTURE_texture[];
 // Our back-buffer.
 //
 
-ULONG *SW_buffer;
+std::uint32_t *SW_buffer;
 #ifdef TARGET_DC
 // Spoof that sucker!
-ULONG  SW_buffer_memory[1];
+std::uint32_t  SW_buffer_memory[1];
 #else
-ULONG  SW_buffer_memory[SW_MAX_WIDTH * SW_MAX_HEIGHT + 2];	// + 2 to ensure quadword alignment.
+std::uint32_t  SW_buffer_memory[SW_MAX_WIDTH * SW_MAX_HEIGHT + 2];	// + 2 to ensure quadword alignment.
 #endif
-SLONG  SW_buffer_width;
-SLONG  SW_buffer_height;
-SLONG  SW_buffer_pitch;	// In ULONGs
+std::int32_t  SW_buffer_width;
+std::int32_t  SW_buffer_height;
+std::int32_t  SW_buffer_pitch;	// In ULONGs
 
 #define SW_PIXEL(x,y) (SW_buffer + (x) + (y) * SW_buffer_pitch)
 
@@ -56,8 +56,8 @@ SLONG  SW_buffer_pitch;	// In ULONGs
 // The lines we are rendering to for widescreen.
 //
 
-SLONG SW_render_top;
-SLONG SW_render_bot;
+std::int32_t SW_render_top;
+std::int32_t SW_render_bot;
 
 
 //
@@ -66,11 +66,11 @@ SLONG SW_render_bot;
 
 typedef struct
 {
-	CBYTE      name[256];
-	SLONG      size;
+	char      name[256];
+	std::int32_t      size;
 	TGA_Pixel *data;
-	UBYTE      blurred;
-	UBYTE      halved;
+	std::uint8_t      blurred;
+	std::uint8_t      halved;
 
 } SW_Texture;
 
@@ -87,14 +87,14 @@ SW_Texture SW_texture[SW_MAX_TEXTURES];
 // How we draw each texture page.
 //
 
-UBYTE SW_page[SW_MAX_TEXTURES];
+std::uint8_t SW_page[SW_MAX_TEXTURES];
 
 
 //
 // For alpha pages, this is the z-sort they are forced to have.
 //
 
-UWORD SW_bucket[SW_MAX_TEXTURES];
+std::uint16_t SW_bucket[SW_MAX_TEXTURES];
 
 
 //
@@ -103,12 +103,12 @@ UWORD SW_bucket[SW_MAX_TEXTURES];
 
 typedef struct sw_masked
 {
-	SLONG x1, y1, z1, r1, g1, b1, u1, v1;
-	SLONG x2, y2, z2, r2, g2, b2, u2, v2;
-	SLONG x3, y3, z3, r3, g3, b3, u3, v3;
+	std::int32_t x1, y1, z1, r1, g1, b1, u1, v1;
+	std::int32_t x2, y2, z2, r2, g2, b2, u2, v2;
+	std::int32_t x3, y3, z3, r3, g3, b3, u3, v3;
 
 	TGA_Pixel *tga;
-	SLONG      tga_size;
+	std::int32_t      tga_size;
 
 	struct sw_masked *next;
 
@@ -121,7 +121,7 @@ typedef struct sw_masked
 #endif
 
 SW_Masked SW_masked[SW_MAX_MASKED];
-SLONG     SW_masked_upto;
+std::int32_t     SW_masked_upto;
 
 
 //
@@ -147,15 +147,15 @@ SW_Masked *SW_masked_bucket[SW_MAX_BUCKETS];
 
 typedef struct sw_alpha
 {
-	SLONG x1, y1, u1, v1;
-	SLONG x2, y2, u2, v2;
-	SLONG x3, y3, u3, v3;
+	std::int32_t x1, y1, u1, v1;
+	std::int32_t x2, y2, u2, v2;
+	std::int32_t x3, y3, u3, v3;
 	
-	SLONG wz, wa, wr, wg, wb;
+	std::int32_t wz, wa, wr, wg, wb;
 
 	TGA_Pixel *tga;
-	UWORD      tga_size;
-	UWORD      mode;
+	std::uint16_t      tga_size;
+	std::uint16_t      mode;
 
 	sw_alpha *next;
 
@@ -168,7 +168,7 @@ typedef struct sw_alpha
 #endif
 
 SW_Alpha SW_alpha[SW_MAX_ALPHAS];
-SLONG    SW_alpha_upto;
+std::int32_t    SW_alpha_upto;
 
 //
 // The sprite buckets.
@@ -184,7 +184,7 @@ SW_Alpha **SW_alpha_bucket_end[SW_MAX_BUCKETS]; // The address of the last point
 
 
 
-void SW_set_page(SLONG page, SLONG type)
+void SW_set_page(std::int32_t page, std::int32_t type)
 {
 	if (!WITHIN(page, 0, SW_MAX_TEXTURES - 1))
 	{
@@ -204,30 +204,30 @@ void SW_set_page(SLONG page, SLONG type)
 
 typedef struct sw_span
 {
-	UWORD x1;	// 0-bit fixed point
-	UWORD x2;	// 0-bit fixed point
+	std::uint16_t x1;	// 0-bit fixed point
+	std::uint16_t x2;	// 0-bit fixed point
 
-	SLONG z;	// 16-bit fixed point and between 0.0F and 1.0F
-	SLONG dz;	// 16-bit fixed point and between 0.0F and 1.0F
+	std::int32_t z;	// 16-bit fixed point and between 0.0F and 1.0F
+	std::int32_t dz;	// 16-bit fixed point and between 0.0F and 1.0F
 
-	SLONG r;	// 16-bit fixed point.
-	SLONG dr;	// 16-bit fixed point.
+	std::int32_t r;	// 16-bit fixed point.
+	std::int32_t dr;	// 16-bit fixed point.
 
-	SLONG g;	// 16-bit fixed point.
-	SLONG dg;	// 16-bit fixed point.
+	std::int32_t g;	// 16-bit fixed point.
+	std::int32_t dg;	// 16-bit fixed point.
 
-	SLONG b;	// 16-bit fixed point.
-	SLONG db;	// 16-bit fixed point.
+	std::int32_t b;	// 16-bit fixed point.
+	std::int32_t db;	// 16-bit fixed point.
 
-	SLONG u;	// 16-bit fixed point.
-	SLONG du;	// 16-bit fixed point.
+	std::int32_t u;	// 16-bit fixed point.
+	std::int32_t du;	// 16-bit fixed point.
 
-	SLONG v;	// 16-bit fixed point.
-	SLONG dv;	// 16-bit fixed point.
+	std::int32_t v;	// 16-bit fixed point.
+	std::int32_t dv;	// 16-bit fixed point.
 
 	TGA_Pixel *tga;
-	UWORD      tga_size;
-	UWORD      a;	// a is for alpha
+	std::uint16_t      tga_size;
+	std::uint16_t      a;	// a is for alpha
 
 	struct sw_span *next;
 
@@ -246,7 +246,7 @@ typedef struct sw_span
 #endif
 
 SW_Span SW_span[SW_MAX_SPANS];
-SLONG   SW_span_upto;
+std::int32_t   SW_span_upto;
 
 
 
@@ -273,9 +273,9 @@ SW_Span *SW_line[SW_MAX_HEIGHT];
 //
 // ========================================================
 
-static inline SLONG DIV16(SLONG a, SLONG b)
+static inline std::int32_t DIV16(std::int32_t a, std::int32_t b)
 {
-	SLONG v;
+	std::int32_t v;
 	_asm
 	{
 		mov		edx,a
@@ -291,7 +291,7 @@ static inline SLONG DIV16(SLONG a, SLONG b)
 
 #pragma warning( disable : 4035 )	
 // stop warning of no return value : eax is valid
-static inline SLONG MUL16(SLONG a, SLONG b)
+static inline std::int32_t MUL16(std::int32_t a, std::int32_t b)
 // MSVC++ version, params:ecx,edx, return:eax
 // this is as fast on 486/Pentium as the old version
 // and 2.5* faster on Pentium Pro
@@ -316,9 +316,9 @@ static inline SLONG MUL16(SLONG a, SLONG b)
 
 // Dreamcast versions. Might be inlined later, just C for now.
 // Also very approximate - DC compiler doesn't like long long, so trash the accuracy.
-static inline SLONG DIV16(SLONG a, SLONG b)
+static inline std::int32_t DIV16(std::int32_t a, std::int32_t b)
 {
-	SLONG ta, tb;
+	std::int32_t ta, tb;
 	int iShift;
 
 	// return ( ( a << 16 )  / b );
@@ -341,7 +341,7 @@ static inline SLONG DIV16(SLONG a, SLONG b)
 
 }
 
-static inline SLONG MUL16(SLONG a, SLONG b)
+static inline std::int32_t MUL16(std::int32_t a, std::int32_t b)
 {
 	// return ( ( a * b ) >> 16 );
 
@@ -390,8 +390,8 @@ static inline SLONG MUL16(SLONG a, SLONG b)
 #define ALWAYS_HOW_MANY_RECIPS_MINUS 1024
 #define ALWAYS_HOW_MANY_RECIPS       32768
 
-extern SLONG ALWAYS_recipminus[ALWAYS_HOW_MANY_RECIPS_MINUS];
-extern SLONG ALWAYS_recip     [ALWAYS_HOW_MANY_RECIPS];
+extern std::int32_t ALWAYS_recipminus[ALWAYS_HOW_MANY_RECIPS_MINUS];
+extern std::int32_t ALWAYS_recip     [ALWAYS_HOW_MANY_RECIPS];
 
 //
 // These reciprocals are such that recippt[x] = DIV16(0x10000, x), as such
@@ -405,13 +405,13 @@ extern SLONG ALWAYS_recip     [ALWAYS_HOW_MANY_RECIPS];
 #define ALWAYS_HOW_MANY_RECIPPT 65536
 #endif
 
-extern SLONG ALWAYS_recippt[ALWAYS_HOW_MANY_RECIPPT];
+extern std::int32_t ALWAYS_recippt[ALWAYS_HOW_MANY_RECIPPT];
 
 
 #ifndef NDEBUG
 
-SLONG ALWAYS_recip_slow  (SLONG x, CBYTE* file, SLONG line);
-SLONG ALWAYS_recippt_slow(SLONG x, CBYTE* file, SLONG line);
+std::int32_t ALWAYS_recip_slow  (std::int32_t x, char* file, std::int32_t line);
+std::int32_t ALWAYS_recippt_slow(std::int32_t x, char* file, std::int32_t line);
 
 #define RECIPPT(x)	(ALWAYS_recippt_slow(x, __FILE__, __LINE__))
 #define RECIP(x)	(ALWAYS_recip_slow  (x, __FILE__, __LINE__))
@@ -427,15 +427,15 @@ SLONG ALWAYS_recippt_slow(SLONG x, CBYTE* file, SLONG line);
 
 // These two should be kept next to eachother compiler!
 
-SLONG ALWAYS_recipminus[ALWAYS_HOW_MANY_RECIPS_MINUS];
-SLONG ALWAYS_recip     [ALWAYS_HOW_MANY_RECIPS];
-SLONG ALWAYS_recippt   [ALWAYS_HOW_MANY_RECIPPT];
+std::int32_t ALWAYS_recipminus[ALWAYS_HOW_MANY_RECIPS_MINUS];
+std::int32_t ALWAYS_recip     [ALWAYS_HOW_MANY_RECIPS];
+std::int32_t ALWAYS_recippt   [ALWAYS_HOW_MANY_RECIPPT];
 
 
 
 void ALWAYS_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 
 	// Calculate the reciprocals...
@@ -466,7 +466,7 @@ void ALWAYS_init()
 
 #ifndef NDEBUG
 
-SLONG ALWAYS_recip_slow(SLONG x, CBYTE* file, SLONG line)
+std::int32_t ALWAYS_recip_slow(std::int32_t x, char* file, std::int32_t line)
 {
 	if (x <= -ALWAYS_HOW_MANY_RECIPS_MINUS ||
 		x >=  ALWAYS_HOW_MANY_RECIPS)
@@ -479,7 +479,7 @@ SLONG ALWAYS_recip_slow(SLONG x, CBYTE* file, SLONG line)
 	return ALWAYS_recip[x];
 }
 
-SLONG ALWAYS_recippt_slow(SLONG x, CBYTE* file, SLONG line)
+std::int32_t ALWAYS_recippt_slow(std::int32_t x, char* file, std::int32_t line)
 {
 	if (x <  0 ||
 		x >= ALWAYS_HOW_MANY_RECIPPT)
@@ -512,10 +512,10 @@ SLONG ALWAYS_recippt_slow(SLONG x, CBYTE* file, SLONG line)
 
 
 void SW_init(
-		SLONG width,
-		SLONG height)
+		std::int32_t width,
+		std::int32_t height)
 {
-	SLONG i;
+	std::int32_t i;
 
 	ASSERT(WITHIN(width,  16, SW_MAX_WIDTH ));
 	ASSERT(WITHIN(height, 16, SW_MAX_HEIGHT));
@@ -573,9 +573,9 @@ void SW_init(
 // new spans from the arrays.
 //
 
-void SW_insert_span(SW_Span *ss, SLONG line)
+void SW_insert_span(SW_Span *ss, std::int32_t line)
 {
-	SLONG pixels;
+	std::int32_t pixels;
 
 	SW_Span  *ss_next;
 	SW_Span **ss_prev;
@@ -620,8 +620,8 @@ void SW_insert_span(SW_Span *ss, SLONG line)
 			// Some very rough z-sort values!
 			//
 
-			SLONG ss_sort      = ss->z;
-			SLONG ss_next_sort = ss_next->z;
+			std::int32_t ss_sort      = ss->z;
+			std::int32_t ss_next_sort = ss_next->z;
 
 			if (ss_sort < ss_next_sort)
 			{
@@ -935,35 +935,35 @@ void SW_insert_span(SW_Span *ss, SLONG line)
 #define SW_MODE_ALPHA_NOZ	 3
 #define SW_MODE_ADDITIVE_NOZ 4
 
-void SW_draw_span_reference(SW_Span *ss, SLONG line, SLONG mode)
+void SW_draw_span_reference(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {
-	SLONG i;
-	SLONG x;
+	std::int32_t i;
+	std::int32_t x;
 
-	ULONG *dest;
-	ULONG  pixel;
-	SLONG  a;
-	SLONG  r;
-	SLONG  g;
-	SLONG  b;
-	SLONG  R;
-	SLONG  G;
-	SLONG  B;
-	SLONG  pr;
-	SLONG  pg;
-	SLONG  pb;
-	SLONG  pa;
-	SLONG  u;
-	SLONG  v;
-	SLONG  U;
-	SLONG  V;
-	SLONG  oa;
-	SLONG  or;
-	SLONG  og;
-	SLONG  ob;
-	SLONG  br;
-	SLONG  bg;
-	SLONG  bb;
+	std::uint32_t *dest;
+	std::uint32_t  pixel;
+	std::int32_t  a;
+	std::int32_t  r;
+	std::int32_t  g;
+	std::int32_t  b;
+	std::int32_t  R;
+	std::int32_t  G;
+	std::int32_t  B;
+	std::int32_t  pr;
+	std::int32_t  pg;
+	std::int32_t  pb;
+	std::int32_t  pa;
+	std::int32_t  u;
+	std::int32_t  v;
+	std::int32_t  U;
+	std::int32_t  V;
+	std::int32_t  oa;
+	std::int32_t  or;
+	std::int32_t  og;
+	std::int32_t  ob;
+	std::int32_t  br;
+	std::int32_t  bg;
+	std::int32_t  bb;
 
 	switch(mode)
 	{
@@ -1187,7 +1187,7 @@ void SW_draw_span_reference(SW_Span *ss, SLONG line, SLONG mode)
 #define ALPHA_BLEND 3
 
 
-inline void SW_draw_span_masked(SW_Span *ss, SLONG line, SLONG mode)
+inline void SW_draw_span_masked(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {
 	#undef  ALPHA_MODE
 	#define ALPHA_MODE ALPHA_TEST
@@ -1195,7 +1195,7 @@ inline void SW_draw_span_masked(SW_Span *ss, SLONG line, SLONG mode)
 	#include "tom.cpp"
 }
 
-inline void SW_draw_span_alpha(SW_Span *ss, SLONG line, SLONG mode)
+inline void SW_draw_span_alpha(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {
 	#undef  ALPHA_MODE
 	#define ALPHA_MODE ALPHA_BLEND
@@ -1204,7 +1204,7 @@ inline void SW_draw_span_alpha(SW_Span *ss, SLONG line, SLONG mode)
 }
 
 
-inline void SW_draw_span_additive(SW_Span *ss, SLONG line, SLONG mode)
+inline void SW_draw_span_additive(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {
 	#undef  ALPHA_MODE
 	#define ALPHA_MODE ALPHA_ADD
@@ -1212,7 +1212,7 @@ inline void SW_draw_span_additive(SW_Span *ss, SLONG line, SLONG mode)
 	#include "tom.cpp"
 }
 
-void SW_draw_span(SW_Span *ss, SLONG line, SLONG mode)
+void SW_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {
 	switch(mode)
 	{
@@ -1251,7 +1251,7 @@ void SW_draw_span(SW_Span *ss, SLONG line, SLONG mode)
 
 
 // Cheezily wrapped for now.
-void SW_draw_span(SW_Span *ss, SLONG line, SLONG mode)
+void SW_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {
 	SW_draw_span_reference(ss, line, mode);
 }
@@ -1264,11 +1264,11 @@ void SW_draw_span(SW_Span *ss, SLONG line, SLONG mode)
 
 
 void SW_add_masked_triangle(
-		SLONG x1, SLONG y1, SLONG z1, SLONG r1, SLONG g1, SLONG b1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG z2, SLONG r2, SLONG g2, SLONG b2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG z3, SLONG r3, SLONG g3, SLONG b3, SLONG u3, SLONG v3,
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t r1, std::int32_t g1, std::int32_t b1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r2, std::int32_t g2, std::int32_t b2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t r3, std::int32_t g3, std::int32_t b3, std::int32_t u3, std::int32_t v3,
 		TGA_Pixel *tga,
-		SLONG      tga_size)
+		std::int32_t      tga_size)
 {
 	//
 	// The zsort value of the triangle.
@@ -1278,7 +1278,7 @@ void SW_add_masked_triangle(
 	z2 -= 4;
 	z3 -= 4;
 
-	SLONG zsort = z1 + z2 + z2 + z3 >> 4;
+	std::int32_t zsort = z1 + z2 + z2 + z3 >> 4;
 
 	SATURATE(zsort, 0, SW_MAX_BUCKETS - 1);
 
@@ -1305,19 +1305,19 @@ void SW_add_masked_triangle(
 }
 
 void SW_add_alpha_sprite(
-		SLONG x1, SLONG y1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG u3, SLONG v3,
-		SLONG wz, SLONG wa, SLONG wr, SLONG wg, SLONG wb,	// For the whole triangle.
+		std::int32_t x1, std::int32_t y1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t u3, std::int32_t v3,
+		std::int32_t wz, std::int32_t wa, std::int32_t wr, std::int32_t wg, std::int32_t wb,	// For the whole triangle.
 		TGA_Pixel *tga,
-		SLONG      tga_size,
-		SLONG      mode)
+		std::int32_t      tga_size,
+		std::int32_t      mode)
 {
 	//
 	// The zsort value of the triangle.
 	//
 
-	SLONG zsort = wz >> 2;
+	std::int32_t zsort = wz >> 2;
 
 	SATURATE(zsort, 0, SW_MAX_BUCKETS - 1);
 
@@ -1359,11 +1359,11 @@ void SW_add_alpha_sprite(
 // Clips the span and then draws the bits that survive.
 //
 
-void SW_clip_and_draw_span(SW_Span *ss, SLONG line, SLONG mode)
+void SW_clip_and_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode)
 {	
-	SLONG ss_sort;
-	SLONG ss_next_sort;
-	SLONG pixels;
+	std::int32_t ss_sort;
+	std::int32_t ss_next_sort;
+	std::int32_t pixels;
 
 	SW_Span *ss_next;
 
@@ -1563,15 +1563,15 @@ void SW_clip_and_draw_span(SW_Span *ss, SLONG line, SLONG mode)
 // Swizzles a texture.
 //
 
-void SW_swizzle(TGA_Pixel *tga, SLONG size)
+void SW_swizzle(TGA_Pixel *tga, std::int32_t size)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 	
-	SLONG index_normal;
-	SLONG index_swizzle;
+	std::int32_t index_normal;
+	std::int32_t index_swizzle;
 
 	TGA_Pixel *buffer;
 
@@ -1624,26 +1624,26 @@ void SW_swizzle(TGA_Pixel *tga, SLONG size)
 
 
 
-void SW_blur(TGA_Pixel *tga, SLONG size)
+void SW_blur(TGA_Pixel *tga, std::int32_t size)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
-	SLONG a;
-	SLONG dist;
-	SLONG samples;
-	SLONG index;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
+	std::int32_t a;
+	std::int32_t dist;
+	std::int32_t samples;
+	std::int32_t index;
 	
 	TGA_Pixel *buffer;
 
@@ -1680,7 +1680,7 @@ void SW_blur(TGA_Pixel *tga, SLONG size)
 			if (WITHIN(px, 0, size - 1) &&
 				WITHIN(py, 0, size - 1))
 			{
-				static SLONG mul[3] =
+				static std::int32_t mul[3] =
 				{
 					664,
 					260,
@@ -1723,28 +1723,28 @@ void SW_blur(TGA_Pixel *tga, SLONG size)
 }
 
 
-void SW_halfsize(TGA_Pixel *tga, SLONG size)
+void SW_halfsize(TGA_Pixel *tga, std::int32_t size)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
-	SLONG a;
-	SLONG dist;
-	SLONG samples;
-	SLONG index;
-	SLONG index1;
-	SLONG index2;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
+	std::int32_t a;
+	std::int32_t dist;
+	std::int32_t samples;
+	std::int32_t index;
+	std::int32_t index1;
+	std::int32_t index2;
 	
 	TGA_Pixel *buffer;
 
@@ -1808,15 +1808,15 @@ void SW_halfsize(TGA_Pixel *tga, SLONG size)
 
 
 
-SLONG mulshift;
+std::int32_t mulshift;
 
 
 void SW_reload_textures()
 {
-	SLONG    i;
-	SLONG    j;
-	SLONG    flat_page_hack;
-	SLONG    tt_index;
+	std::int32_t    i;
+	std::int32_t    j;
+	std::int32_t    flat_page_hack;
+	std::int32_t    tt_index;
 	TGA_Info ti;
 
 	SW_Texture *st;
@@ -1825,7 +1825,7 @@ void SW_reload_textures()
 	// Is this the last level?
 	//
 
-	extern SLONG playing_level(const CBYTE* name);
+	extern std::int32_t playing_level(const char* name);
 
 	if (playing_level("Finale1.ucm"))
 	{
@@ -1840,7 +1840,7 @@ void SW_reload_textures()
 	// Load from clumps where required.
 	//
 
-	extern void TEXTURE_initialise_clumping(CBYTE* fname_level);
+	extern void TEXTURE_initialise_clumping(char* fname_level);
 
 	TEXTURE_initialise_clumping(ELEV_fname_level);
 
@@ -2154,8 +2154,8 @@ void SW_reload_textures()
 
 					if (tt_index == TEXTURE_page_font2d || tt_index == TEXTURE_page_lastpanel || tt_index == TEXTURE_page_lastpanel2)
 					{
-						extern SLONG RealDisplayWidth;
-						extern SLONG RealDisplayHeight;
+						extern std::int32_t RealDisplayWidth;
+						extern std::int32_t RealDisplayHeight;
 
 						if (RealDisplayWidth  < 640 ||
 							RealDisplayHeight < 480)
@@ -2197,33 +2197,33 @@ void SW_reload_textures()
 
 void SW_render_spans_tom()
 {
-	SLONG i;
-	SLONG x;
+	std::int32_t i;
+	std::int32_t x;
 
-	ULONG *dest, addr, *tex;
-	ULONG  pixel;
-	SLONG  r, rd;
-	SLONG  g, gd;
-	SLONG  b, bd;
-	SLONG  R;
-	SLONG  G;
-	SLONG  B;
-	SLONG  pr;
-	SLONG  pg;
-	SLONG  pb;
-	SLONG  u, ud, tempu;
-	SLONG  v, vd, tempv;
-	SLONG  U;
-	SLONG  V;
-	ULONG	wrap, wrap1, wrap2;
+	std::uint32_t *dest, addr, *tex;
+	std::uint32_t  pixel;
+	std::int32_t  r, rd;
+	std::int32_t  g, gd;
+	std::int32_t  b, bd;
+	std::int32_t  R;
+	std::int32_t  G;
+	std::int32_t  B;
+	std::int32_t  pr;
+	std::int32_t  pg;
+	std::int32_t  pb;
+	std::int32_t  u, ud, tempu;
+	std::int32_t  v, vd, tempv;
+	std::int32_t  U;
+	std::int32_t  V;
+	std::uint32_t	wrap, wrap1, wrap2;
 	int tempx1,tempx2;
 
 	SW_Span *ss;
 
 
-	ULONG *last_dest;
+	std::uint32_t *last_dest;
 	_int64 mmt1, mmt2, mmt3, mmt4, umask, vmask, wrapmask, uinc, vinc, notumask, notvmask, alpha_test_value, alpha_mask;
-	ULONG utemp, vtemp;
+	std::uint32_t utemp, vtemp;
 
 	umask = 0x5555ffff5555ffff;
 	vmask = 0xaaaaffffaaaaffff;
@@ -2286,7 +2286,7 @@ void SW_render_spans_tom()
 				v = ss->v;
 				ud = ss->du;
 				vd = ss->dv;
-				tex = (ULONG *)(ss->tga);
+				tex = (std::uint32_t *)(ss->tga);
 
 				// Remember this is for DWORDS - assembler doesn't automagically scale.
 #if SWIZZLE
@@ -3227,13 +3227,13 @@ finished:
 
 void SW_render_spans_eddie()
 {
-	SLONG i;
-	SLONG x;
+	std::int32_t i;
+	std::int32_t x;
 
-	ULONG  pixel;
-	SLONG  pr;
-	SLONG  pg;
-	SLONG  pb;
+	std::uint32_t  pixel;
+	std::int32_t  pr;
+	std::int32_t  pg;
+	std::int32_t  pb;
 
 	SW_Span *ss;
 
@@ -3241,18 +3241,18 @@ void SW_render_spans_eddie()
 	{
 		for (ss = SW_line[i]; ss; ss = ss->next)
 		{
-			ULONG	count = ss->x2 - ss->x1;
+			std::uint32_t	count = ss->x2 - ss->x1;
 
 			if (!count)	continue;
 
-			ULONG	gr = ((ss->g >> 8) << 16) | ((ss->r >> 8) & 0xFFFF);
-			ULONG	zb = (ss->b >> 8) & 0xFFFF;
+			std::uint32_t	gr = ((ss->g >> 8) << 16) | ((ss->r >> 8) & 0xFFFF);
+			std::uint32_t	zb = (ss->b >> 8) & 0xFFFF;
 
-			ULONG	dgdr = ((ss->dg >> 8) << 16) | ((ss->dr >> 8) & 0xFFFF);
-			ULONG	dzdb = (ss->db >> 8) & 0xFFFF;
+			std::uint32_t	dgdr = ((ss->dg >> 8) << 16) | ((ss->dr >> 8) & 0xFFFF);
+			std::uint32_t	dzdb = (ss->db >> 8) & 0xFFFF;
 
-			ULONG*	dest = SW_buffer/*_screen*/ + ss->x1 + i * SW_buffer_pitch;
-			ULONG*	src = (ULONG*)ss->tga;
+			std::uint32_t*	dest = SW_buffer/*_screen*/ + ss->x1 + i * SW_buffer_pitch;
+			std::uint32_t*	src = (std::uint32_t*)ss->tga;
 
 			if (ss->tga_size == 64)
 			{
@@ -3262,10 +3262,10 @@ void SW_render_spans_eddie()
 #define UMSK	((0xFFFFFFFFu >> (32 - SHIFT)) << 2)
 #define VMSK	(UMSK << SHIFT)
 
-				ULONG	u = ss->u << (16 - SHIFT);
-				ULONG	v = ss->v << (16 - SHIFT);
-				ULONG	du = ss->du << (16 - SHIFT);
-				ULONG	dv = ss->dv << (16 - SHIFT);
+				std::uint32_t	u = ss->u << (16 - SHIFT);
+				std::uint32_t	v = ss->v << (16 - SHIFT);
+				std::uint32_t	du = ss->du << (16 - SHIFT);
+				std::uint32_t	dv = ss->dv << (16 - SHIFT);
 
 				__asm
 				{
@@ -3355,10 +3355,10 @@ myloop64:
 #define UMSK	((0xFFFFFFFFu >> (32 - SHIFT)) << 2)
 #define VMSK	(UMSK << SHIFT)
 
-				ULONG	u = ss->u << (16 - SHIFT);
-				ULONG	v = ss->v << (16 - SHIFT);
-				ULONG	du = ss->du << (16 - SHIFT);
-				ULONG	dv = ss->dv << (16 - SHIFT);
+				std::uint32_t	u = ss->u << (16 - SHIFT);
+				std::uint32_t	v = ss->v << (16 - SHIFT);
+				std::uint32_t	du = ss->du << (16 - SHIFT);
+				std::uint32_t	dv = ss->dv << (16 - SHIFT);
 
 				// the code below is identical to the code above
 
@@ -3439,23 +3439,23 @@ myloop32:
 			}
 			else
 			{
-				ULONG	width = 0;
-				ULONG	tgawidth = ss->tga_size;
+				std::uint32_t	width = 0;
+				std::uint32_t	tgawidth = ss->tga_size;
 				while (tgawidth > 1)
 				{
 					width++;
 					tgawidth >>= 1;
 				}
 
-				ULONG	shift1 = 30 - width;
-				ULONG	shift2 = 30 - 2 * width;
-				ULONG	mask1 = (0xFFFFFFFFu >> (32 - width)) << 2;
-				ULONG	mask2 = mask1 << width;
+				std::uint32_t	shift1 = 30 - width;
+				std::uint32_t	shift2 = 30 - 2 * width;
+				std::uint32_t	mask1 = (0xFFFFFFFFu >> (32 - width)) << 2;
+				std::uint32_t	mask2 = mask1 << width;
 
-				ULONG	u = ss->u << (16 - width);
-				ULONG	v = ss->v << (16 - width);
-				ULONG	du = ss->du << (16 - width);
-				ULONG	dv = ss->dv << (16 - width);
+				std::uint32_t	u = ss->u << (16 - width);
+				std::uint32_t	v = ss->v << (16 - width);
+				std::uint32_t	du = ss->du << (16 - width);
+				std::uint32_t	dv = ss->dv << (16 - width);
 
 				// the code below has differences:
 				// (1) doesn't use ecx to keep [count]
@@ -3594,11 +3594,11 @@ void SW_render_spans()
 
 
 void SW_add_triangle(
-		SLONG x1, SLONG y1, SLONG z1, SLONG r1, SLONG g1, SLONG b1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG z2, SLONG r2, SLONG g2, SLONG b2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG z3, SLONG r3, SLONG g3, SLONG b3, SLONG u3, SLONG v3,
-		SLONG page,
-		SLONG alpha)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t r1, std::int32_t g1, std::int32_t b1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r2, std::int32_t g2, std::int32_t b2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t r3, std::int32_t g3, std::int32_t b3, std::int32_t u3, std::int32_t v3,
+		std::int32_t page,
+		std::int32_t alpha)
 {
 	if (!WITHIN(page, 0, SW_MAX_TEXTURES - 1))
 	{
@@ -3622,13 +3622,13 @@ void SW_add_triangle(
 		return;
 	}
 
-	extern SLONG GAMEMENU_background;
+	extern std::int32_t GAMEMENU_background;
 
 	if (GAMEMENU_background > 640 - 512)
 	{
 		if (page != POLY_PAGE_NEWFONT_INVERSE)
 		{
-			SLONG mul;
+			std::int32_t mul;
 			
 			mul   = GAMEMENU_background - (640 - 512);
 			mul >>= mulshift;
@@ -3651,7 +3651,7 @@ void SW_add_triangle(
 	}
 
 	TGA_Pixel *tga      = st->data;
-	SLONG      tga_size = st->size;
+	std::int32_t      tga_size = st->size;
 
 	if (tga_size != 256)
 	{
@@ -3743,7 +3743,7 @@ void SW_add_triangle(
 			//
 
 			{
-				SLONG mode;
+				std::int32_t mode;
 		
 				mode = SW_MODE_ALPHA;
 
@@ -3774,7 +3774,7 @@ void SW_add_triangle(
 			//
 
 			{
-				SLONG mode;
+				std::int32_t mode;
 		
 				mode = SW_MODE_ADDITIVE;
 
@@ -3802,22 +3802,22 @@ void SW_add_triangle(
 			break;
 	}
 
-	SLONG  xa, xb, za, zb, ra, rb, ga, gb, ba, bb, ua, ub, va, vb;
-	SLONG  dax, dbx, daz, dbz, dar, dbr, dag, dbg, dab, dbb, dau, dbu, dav, dbv;
-	SLONG  xmid, zmid, rmid, gmid, bmid, umid, vmid;
-	SLONG  dz, dr, dg, db, du, dv;
-	SLONG  z, r, g, b, u, v;
-	SLONG  U,V;
-	SLONG  xl, xr;
-	SLONG  w;
-	SLONG  x, y;
-	SLONG  i, j;
-	SLONG  shade;
-	ULONG *dest;
-	UBYTE  colour;
+	std::int32_t  xa, xb, za, zb, ra, rb, ga, gb, ba, bb, ua, ub, va, vb;
+	std::int32_t  dax, dbx, daz, dbz, dar, dbr, dag, dbg, dab, dbb, dau, dbu, dav, dbv;
+	std::int32_t  xmid, zmid, rmid, gmid, bmid, umid, vmid;
+	std::int32_t  dz, dr, dg, db, du, dv;
+	std::int32_t  z, r, g, b, u, v;
+	std::int32_t  U,V;
+	std::int32_t  xl, xr;
+	std::int32_t  w;
+	std::int32_t  x, y;
+	std::int32_t  i, j;
+	std::int32_t  shade;
+	std::uint32_t *dest;
+	std::uint8_t  colour;
 
-	SLONG  recip_y3y1;
-	SLONG  recip_y2y1;
+	std::int32_t  recip_y3y1;
+	std::int32_t  recip_y2y1;
 
 	SW_Span *ss;
 
@@ -4028,7 +4028,7 @@ void SW_add_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -4114,7 +4114,7 @@ void SW_add_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -4273,7 +4273,7 @@ void SW_add_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -4375,7 +4375,7 @@ void SW_add_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -4442,28 +4442,28 @@ void SW_add_triangle(
 
 
 void SW_draw_masked_triangle(
-		SLONG x1, SLONG y1, SLONG z1, SLONG r1, SLONG g1, SLONG b1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG z2, SLONG r2, SLONG g2, SLONG b2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG z3, SLONG r3, SLONG g3, SLONG b3, SLONG u3, SLONG v3,
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t r1, std::int32_t g1, std::int32_t b1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r2, std::int32_t g2, std::int32_t b2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t r3, std::int32_t g3, std::int32_t b3, std::int32_t u3, std::int32_t v3,
 		TGA_Pixel *tga,
-		SLONG      tga_size)
+		std::int32_t      tga_size)
 {
-	SLONG  xa, xb, za, zb, ra, rb, ga, gb, ba, bb, ua, ub, va, vb;
-	SLONG  dax, dbx, daz, dbz, dar, dbr, dag, dbg, dab, dbb, dau, dbu, dav, dbv;
-	SLONG  xmid, zmid, rmid, gmid, bmid, umid, vmid;
-	SLONG  dz, dr, dg, db, du, dv;
-	SLONG  z, r, g, b, u, v;
-	SLONG  U,V;
-	SLONG  xl, xr;
-	SLONG  w;
-	SLONG  x, y;
-	SLONG  i, j;
-	SLONG  shade;
-	ULONG *dest;
-	UBYTE  colour;
+	std::int32_t  xa, xb, za, zb, ra, rb, ga, gb, ba, bb, ua, ub, va, vb;
+	std::int32_t  dax, dbx, daz, dbz, dar, dbr, dag, dbg, dab, dbb, dau, dbu, dav, dbv;
+	std::int32_t  xmid, zmid, rmid, gmid, bmid, umid, vmid;
+	std::int32_t  dz, dr, dg, db, du, dv;
+	std::int32_t  z, r, g, b, u, v;
+	std::int32_t  U,V;
+	std::int32_t  xl, xr;
+	std::int32_t  w;
+	std::int32_t  x, y;
+	std::int32_t  i, j;
+	std::int32_t  shade;
+	std::uint32_t *dest;
+	std::uint8_t  colour;
 
-	SLONG  recip_y3y1;
-	SLONG  recip_y2y1;
+	std::int32_t  recip_y3y1;
+	std::int32_t  recip_y2y1;
 
 	SW_Span *ss;
 
@@ -4668,7 +4668,7 @@ void SW_draw_masked_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -4754,7 +4754,7 @@ void SW_draw_masked_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -4911,7 +4911,7 @@ void SW_draw_masked_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -5013,7 +5013,7 @@ void SW_draw_masked_triangle(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -5080,30 +5080,30 @@ void SW_draw_masked_triangle(
 
 
 void SW_draw_alpha_sprite(
-		SLONG x1, SLONG y1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG u3, SLONG v3,
-		SLONG wz, SLONG wa, SLONG wr, SLONG wg, SLONG wb,
-		SLONG mode,
+		std::int32_t x1, std::int32_t y1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t u3, std::int32_t v3,
+		std::int32_t wz, std::int32_t wa, std::int32_t wr, std::int32_t wg, std::int32_t wb,
+		std::int32_t mode,
 		TGA_Pixel *tga,
-		SLONG      tga_size)
+		std::int32_t      tga_size)
 {
-	SLONG  xa, xb, ua, ub, va, vb;
-	SLONG  dax, dbx, dau, dbu, dav, dbv;
-	SLONG  xmid, umid, vmid;
-	SLONG  du, dv;
-	SLONG  u, v;
-	SLONG  U,V;
-	SLONG  xl, xr;
-	SLONG  w;
-	SLONG  x, y;
-	SLONG  i, j;
-	SLONG  shade;
-	ULONG *dest;
-	UBYTE  colour;
+	std::int32_t  xa, xb, ua, ub, va, vb;
+	std::int32_t  dax, dbx, dau, dbu, dav, dbv;
+	std::int32_t  xmid, umid, vmid;
+	std::int32_t  du, dv;
+	std::int32_t  u, v;
+	std::int32_t  U,V;
+	std::int32_t  xl, xr;
+	std::int32_t  w;
+	std::int32_t  x, y;
+	std::int32_t  i, j;
+	std::int32_t  shade;
+	std::uint32_t *dest;
+	std::uint8_t  colour;
 
-	SLONG  recip_y3y1;
-	SLONG  recip_y2y1;
+	std::int32_t  recip_y3y1;
+	std::int32_t  recip_y2y1;
 
 	SW_Span *ss;
 
@@ -5271,7 +5271,7 @@ void SW_draw_alpha_sprite(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -5354,7 +5354,7 @@ void SW_draw_alpha_sprite(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -5478,7 +5478,7 @@ void SW_draw_alpha_sprite(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -5565,7 +5565,7 @@ void SW_draw_alpha_sprite(
 
 				if (xl < 0)
 				{
-					SLONG dxl;
+					std::int32_t dxl;
 
 					dxl = 0 - xl;
 
@@ -5636,10 +5636,10 @@ void SW_draw_alpha_sprite(
 // Returns the number of processor ticks since the processor was reset / 65536
 //
 
-ULONG SW_rdtsc()
+std::uint32_t SW_rdtsc()
 {
-	ULONG hi;
-	ULONG lo;
+	std::uint32_t hi;
+	std::uint32_t lo;
 
 	_asm
 	{
@@ -5648,7 +5648,7 @@ ULONG SW_rdtsc()
 		mov		lo, eax
 	}
 
-	ULONG ans;
+	std::uint32_t ans;
 
 	ans  = lo >> 16;
 	ans |= hi << 16;
@@ -5658,7 +5658,7 @@ ULONG SW_rdtsc()
 
 #else //#if !defined(TARGET_DC)
 
-ULONG SW_rdtsc()
+std::uint32_t SW_rdtsc()
 {
 	return 1;
 }
@@ -5666,12 +5666,12 @@ ULONG SW_rdtsc()
 #endif //#else //#if !defined(TARGET_DC)
 
 
-SLONG SW_tick1;
-SLONG SW_tick2;
+std::int32_t SW_tick1;
+std::int32_t SW_tick2;
 
 void SW_render()
 {
-	extern SLONG EWAY_stop_player_moving();
+	extern std::int32_t EWAY_stop_player_moving();
 
 	if (EWAY_stop_player_moving())
 	{
@@ -5694,8 +5694,8 @@ void SW_render()
 	// Now render the buckets!
 	//
 
-	SLONG i;
-	SLONG mode;
+	std::int32_t i;
+	std::int32_t mode;
 
 	SW_Masked *sm;
 	SW_Alpha  *sa;
@@ -5740,10 +5740,10 @@ void SW_render()
 
 
 void SW_test_triangle(
-		SLONG x1, SLONG y1, SLONG z1, SLONG s1, SLONG u1, SLONG v1,
-		SLONG x2, SLONG y2, SLONG z2, SLONG s2, SLONG u2, SLONG v2,
-		SLONG x3, SLONG y3, SLONG z3, SLONG s3, SLONG u3, SLONG v3,
-		SLONG page)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t s1, std::int32_t u1, std::int32_t v1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t s2, std::int32_t u2, std::int32_t v2,
+		std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t s3, std::int32_t u3, std::int32_t v3,
+		std::int32_t page)
 {
 	if (!WITHIN(page, 0, SW_MAX_TEXTURES - 1))
 	{
@@ -5768,7 +5768,7 @@ void SW_test_triangle(
 	}
 
 	TGA_Pixel *tga      = st->data;
-	SLONG      tga_size = st->size;
+	std::int32_t      tga_size = st->size;
 
 	if (tga_size != 256)
 	{
@@ -5814,23 +5814,23 @@ void SW_test_triangle(
 	//
 
 	{
-		SLONG  xa, xb, za, zb, sa, sb, ua, ub, va, vb;
-		SLONG  dax, dbx, daz, dbz, das, dbs, dau, dbu, dav, dbv;
-		SLONG  xmid, zmid, smid, umid, vmid;
-		SLONG  dz, ds, du, dv;
-		SLONG  z, s, u, v;
-		SLONG  U,V;
-		SLONG  xl, xr;
-		SLONG  w;
-		SLONG  x, y;
-		SLONG  i, j;
-		SLONG  r,g,b;
-		SLONG  shade;
-		ULONG *dest;
-		UBYTE  colour;
+		std::int32_t  xa, xb, za, zb, sa, sb, ua, ub, va, vb;
+		std::int32_t  dax, dbx, daz, dbz, das, dbs, dau, dbu, dav, dbv;
+		std::int32_t  xmid, zmid, smid, umid, vmid;
+		std::int32_t  dz, ds, du, dv;
+		std::int32_t  z, s, u, v;
+		std::int32_t  U,V;
+		std::int32_t  xl, xr;
+		std::int32_t  w;
+		std::int32_t  x, y;
+		std::int32_t  i, j;
+		std::int32_t  r,g,b;
+		std::int32_t  shade;
+		std::uint32_t *dest;
+		std::uint8_t  colour;
 
-		SLONG  recip_y3y1;
-		SLONG  recip_y2y1;
+		std::int32_t  recip_y3y1;
+		std::int32_t  recip_y2y1;
 
 		// Sort the points so that y1 <= y2 <= y3
 
@@ -6000,7 +6000,7 @@ void SW_test_triangle(
 
 					if (xl < 0)
 					{
-						SLONG dxl;
+						std::int32_t dxl;
 
 						dxl = 0 - xl;
 
@@ -6077,7 +6077,7 @@ void SW_test_triangle(
 
 					if (xl < 0)
 					{
-						SLONG dxl;
+						std::int32_t dxl;
 
 						dxl = 0 - xl;
 
@@ -6209,7 +6209,7 @@ void SW_test_triangle(
 
 					if (xl < 0)
 					{
-						SLONG dxl;
+						std::int32_t dxl;
 
 						dxl = 0 - xl;
 
@@ -6296,7 +6296,7 @@ void SW_test_triangle(
 
 					if (xl < 0)
 					{
-						SLONG dxl;
+						std::int32_t dxl;
 
 						dxl = 0 - xl;
 
@@ -6363,11 +6363,11 @@ void SW_test_triangle(
 
 void SW_copy_to_bb()
 {
-	SLONG  x;
-	SLONG  y;
-	ULONG *source;
-	ULONG *dest_l;
-	UWORD *dest_w;
+	std::int32_t  x;
+	std::int32_t  y;
+	std::uint32_t *source;
+	std::uint32_t *dest_l;
+	std::uint16_t *dest_w;
 
 	//
 	// Render the scene anc copy over the back buffer.
@@ -6377,8 +6377,8 @@ void SW_copy_to_bb()
 
 	if (the_display.screen)
 	{
-		SLONG width  = MIN(the_display.screen_width,  SW_buffer_width);
-		SLONG height = MIN(the_display.screen_height, SW_buffer_height);
+		std::int32_t width  = MIN(the_display.screen_width,  SW_buffer_width);
+		std::int32_t height = MIN(the_display.screen_height, SW_buffer_height);
 
 		if (the_display.screen_bbp == 32)
 		{
@@ -6386,7 +6386,7 @@ void SW_copy_to_bb()
 			// This should be easy!
 			//
 
-			SW_buffer       = (ULONG *) the_display.screen;
+			SW_buffer       = (std::uint32_t *) the_display.screen;
 			SW_buffer_pitch = the_display.screen_pitch >> 2;
 
 			SW_render();
@@ -6396,7 +6396,7 @@ void SW_copy_to_bb()
 			for (y = 0; y < height; y++)
 			{
 				source = SW_PIXEL(0,y);
-				dest_l = (ULONG *) (the_display.screen + y * the_display.screen_pitch);
+				dest_l = (std::uint32_t *) (the_display.screen + y * the_display.screen_pitch);
 
 				memcpy(dest_l, source, 4 * width);
 			}
@@ -6408,14 +6408,14 @@ void SW_copy_to_bb()
 		{
 			SW_buffer = SW_buffer_memory;
 
-			memset(SW_buffer_memory, 0, SW_buffer_width * SW_buffer_height * sizeof(ULONG));
+			memset(SW_buffer_memory, 0, SW_buffer_width * SW_buffer_height * sizeof(std::uint32_t));
 
 			SW_render();
 
 			for (y = 0; y < height; y++)
 			{
 				source = SW_PIXEL(0,y);
-				dest_w = (UWORD *) (the_display.screen + y * the_display.screen_pitch);
+				dest_w = (std::uint16_t *) (the_display.screen + y * the_display.screen_pitch);
 
 				for (x = 0; x < width; x++)
 				{

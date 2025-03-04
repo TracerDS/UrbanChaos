@@ -11,15 +11,15 @@
 
 typedef struct
 {
-	UBYTE  used;
-	UBYTE  counter;
-	UWORD  track_thing;
-	UWORD	index;
-	UWORD	pad;
-//	CBYTE* str;
-	SLONG  wx;
-	SLONG  wz;
-	ULONG  ticks;	// The GetTickCount when we created the beacon. LAZY!
+	std::uint8_t  used;
+	std::uint8_t  counter;
+	std::uint16_t  track_thing;
+	std::uint16_t	index;
+	std::uint16_t	pad;
+//	char* str;
+	std::int32_t  wx;
+	std::int32_t  wz;
+	std::uint32_t  ticks;	// The GetTickCount when we created the beacon. LAZY!
 
 } MAP_Beacon;
 
@@ -27,19 +27,19 @@ typedef struct
 extern MAP_Beacon *MAP_beacon; //[MAP_MAX_BEACONS];
 
 
-typedef	UWORD  PSX_TEX[5];
+typedef	std::uint16_t  PSX_TEX[5];
 
 extern PSX_TEX *psx_textures_xy; //[PAP_SIZE_LO][PAP_SIZE_LO];
 
-extern SWORD	*facet_links; //[MAX_FACET_LINK];
+extern std::int16_t	*facet_links; //[MAX_FACET_LINK];
 
 extern struct DBuilding	*dbuildings;//[MAX_DBUILDINGS];
 extern struct DFacet		*dfacets;   //[MAX_DFACETS	 ];
 extern struct	DWalkable	*dwalkables;//[MAX_DWALKABLES];
-extern SWORD				*dstyles;   //[MAX_DSTYLES	 ];
+extern std::int16_t				*dstyles;   //[MAX_DSTYLES	 ];
 extern struct	DStorey		*dstoreys;  //[MAX_DSTOREYS];
 
-extern UBYTE	*paint_mem; //[MAX_PAINTMEM];
+extern std::uint8_t	*paint_mem; //[MAX_PAINTMEM];
 
 //
 // from inside2
@@ -47,8 +47,8 @@ extern UBYTE	*paint_mem; //[MAX_PAINTMEM];
 
 extern struct	InsideStorey	*inside_storeys;//[MAX_INSIDE_RECT];
 extern struct	Staircase		*inside_stairs;//[MAX_INSIDE_STAIRS];
-extern UBYTE	*inside_block;//[MAX_INSIDE_MEM];
-extern UBYTE	inside_tex[64][16];
+extern std::uint8_t	*inside_block;//[MAX_INSIDE_MEM];
+extern std::uint8_t	inside_tex[64][16];
 
 
 //
@@ -77,7 +77,7 @@ extern void	init_memory();
 
 
 #define	MAX_ROOF_FACE4	10000
-extern UWORD	next_roof_face4;
+extern std::uint16_t	next_roof_face4;
 extern struct	RoofFace4	*roof_faces4;
 
 
@@ -92,8 +92,8 @@ void  MEMORY_quick_init();
 
 void  MEMORY_quick_save();
 
-SLONG MEMORY_quick_load_available();
-SLONG MEMORY_quick_load          ();
+std::int32_t MEMORY_quick_load_available();
+std::int32_t MEMORY_quick_load          ();
 
 #endif
 

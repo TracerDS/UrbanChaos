@@ -2,34 +2,34 @@
 
 
 {
-	SLONG i;
-	SLONG x;
+	std::int32_t i;
+	std::int32_t x;
 
-	ULONG *dest, addr, *tex;
-	ULONG  pixel;
-	SLONG  a;
-	SLONG  r, rd;
-	SLONG  g, gd;
-	SLONG  b, bd;
-	SLONG  R;
-	SLONG  G;
-	SLONG  B;
-	SLONG  pr;
-	SLONG  pg;
-	SLONG  pb;
-	SLONG  u, ud, tempu;
-	SLONG  v, vd, tempv;
-	SLONG  U;
-	SLONG  V;
-	ULONG	wrap, wrap1, wrap2;
+	std::uint32_t *dest, addr, *tex;
+	std::uint32_t  pixel;
+	std::int32_t  a;
+	std::int32_t  r, rd;
+	std::int32_t  g, gd;
+	std::int32_t  b, bd;
+	std::int32_t  R;
+	std::int32_t  G;
+	std::int32_t  B;
+	std::int32_t  pr;
+	std::int32_t  pg;
+	std::int32_t  pb;
+	std::int32_t  u, ud, tempu;
+	std::int32_t  v, vd, tempv;
+	std::int32_t  U;
+	std::int32_t  V;
+	std::uint32_t	wrap, wrap1, wrap2;
 	int tempx1,tempx2;
 
 	i = line;
 
 
-	ULONG *last_dest;
+	std::uint32_t *last_dest;
 	_int64 mmt1, mmt2, mmt3, mmt4, umask, vmask, wrapmask, uinc, vinc, notumask, notvmask, alpha_test_value, alpha_mask;
-	ULONG utemp, vtemp;
+	std::uint32_t utemp, vtemp;
 
 	umask = 0x5555ffff5555ffff;
 	vmask = 0xaaaaffffaaaaffff;
@@ -88,7 +88,7 @@
 				v = ss->v;
 				ud = ss->du;
 				vd = ss->dv;
-				tex = (ULONG *)(ss->tga);
+				tex = (std::uint32_t *)(ss->tga);
 
 				// Remember this is for DWORDS - assembler doesn't automagically scale.
 #if SWIZZLE

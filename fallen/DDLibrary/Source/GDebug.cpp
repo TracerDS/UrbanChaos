@@ -9,7 +9,7 @@ HANDLE		LogFile;
 
 //---------------------------------------------------------------
 
-HANDLE	InitDebugLog(void)
+HANDLE	InitDebugLog()
 {
 	LogFile	=	CreateFile	(
 								"DebugLog.txt",
@@ -29,7 +29,7 @@ HANDLE	InitDebugLog(void)
 
 //---------------------------------------------------------------
 
-void	FiniDebugLog(void)
+void	FiniDebugLog()
 {
 	if(LogFile)
 	CloseHandle(LogFile);
@@ -37,10 +37,10 @@ void	FiniDebugLog(void)
 
 //---------------------------------------------------------------
 
-void	DebugText(CBYTE* error, ...)
+void	DebugText(char* error, ...)
 {
-	CBYTE 			buf[512];
-	SLONG			bytes_written;
+	char 			buf[512];
+	std::int32_t			bytes_written;
 	va_list 		argptr;
 
 	if(LogFile)

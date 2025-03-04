@@ -55,7 +55,7 @@ DisplayModeInfo DisplayModes[]	=
 
 extern bool		EmulateLoRes;
 
-SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth)
+std::int32_t DisplayModeAvailable(std::uint32_t width, std::uint32_t height, std::uint32_t depth)
 {
 #ifdef	_DEBUG
 	// Shut the compiler up.
@@ -64,8 +64,8 @@ SLONG DisplayModeAvailable(ULONG width, ULONG height, ULONG depth)
 	depth	=	depth;
 	return	true;
 #else
-	ULONG		c0;
-	SLONG		result	=	DISPLAY_MODE_NONE;
+	std::uint32_t		c0;
+	std::int32_t		result	=	DISPLAY_MODE_NONE;
 
 
 	EmulateLoRes	=	false;

@@ -64,11 +64,11 @@
 
 struct Thing
 {
-	UBYTE			Class,
+	std::uint8_t			Class,
 					State,
 					OldState,
 					SubState;
-	ULONG			Flags;
+	std::uint32_t			Flags;
 	THING_INDEX		Child,
 					Parent,
 					LinkChild,
@@ -105,50 +105,50 @@ struct Thing
 		BatPtr			 Bat;
 
 	}Genus;
-	UBYTE			DrawType;
-	UBYTE			Lead; //42
+	std::uint8_t			DrawType;
+	std::uint8_t			Lead; //42
 
 	// TEMP STUFF.
-	SWORD			Velocity;					// 
-	SWORD			DeltaVelocity;
+	std::int16_t			Velocity;					// 
+	std::int16_t			DeltaVelocity;
 
-	SWORD			RequiredVelocity;
-	SWORD			DY;
+	std::int16_t			RequiredVelocity;
+	std::int16_t			DY;
 
-	UWORD			Index;
-	SWORD			OnFace;
+	std::uint16_t			Index;
+	std::int16_t			OnFace;
 
-	UWORD			NextLink;//BuildingList;	// For a building thing...
-	UWORD			DogPoo1; //Timer1;
+	std::uint16_t			NextLink;//BuildingList;	// For a building thing...
+	std::uint16_t			DogPoo1; //Timer1;
 
 	THING_INDEX		DogPoo2; //SwitchThing;	//	Temporary for building unlock switches.
 };
 
 typedef struct Thing Thing;
 
-extern UWORD	*thing_class_head;
+extern std::uint16_t	*thing_class_head;
 
 //---------------------------------------------------------------
 
 void init_things();
-THING_INDEX alloc_primary_thing(UWORD thing_class);
+THING_INDEX alloc_primary_thing(std::uint16_t thing_class);
 void free_primary_thing(THING_INDEX thing);
-THING_INDEX alloc_secondary_thing(UWORD secondary_thing);
+THING_INDEX alloc_secondary_thing(std::uint16_t secondary_thing);
 void free_secondary_thing(THING_INDEX thing);
 void add_thing_to_map(Thing *t_thing);
 void remove_thing_from_map(Thing *t_thing);
 void move_thing_on_map(Thing *t_thing,GameCoord *new_position);
-void process_things(SLONG f_r_i);
+void process_things(std::int32_t f_r_i);
 
 void log_primary_used_list();
 void log_primary_unused_list();
 
-Thing *alloc_thing(SBYTE classification);
+Thing *alloc_thing(std::int8_t classification);
 void free_thing(Thing *t_thing);
 
-Thing *nearest_class(Thing *the_thing,ULONG class_mask,ULONG *closest);
+Thing *nearest_class(Thing *the_thing,std::uint32_t class_mask,std::uint32_t *closest);
 
-inline void		set_thing_pos(Thing *t,SLONG x,SLONG y,SLONG z)	\
+inline void		set_thing_pos(Thing *t,std::int32_t x,std::int32_t y,std::int32_t z)	\
 												{
 													t->WorldPos.X=x;t->WorldPos.Y=y;t->WorldPos.Z=z;
 												}
@@ -158,7 +158,7 @@ inline void		set_thing_pos(Thing *t,SLONG x,SLONG y,SLONG z)	\
 // This is in 8-bits per mapsquares and approximate.
 //
 
-SLONG THING_dist_between(Thing *p_thing_a, Thing *p_thing_b);
+std::int32_t THING_dist_between(Thing *p_thing_a, Thing *p_thing_b);
 
 
 //
@@ -192,32 +192,32 @@ extern THING_INDEX THING_array[THING_ARRAY_SIZE];
 #define THING_FIND_LIVING	  ((1 << CLASS_PERSON) | (1 << CLASS_ANIMAL))
 #define THING_FIND_MOVING	  ((1 << CLASS_PERSON) | (1 << CLASS_ANIMAL) | (1 << CLASS_PROJECTILE))
 
-SLONG THING_find_sphere(
-		SLONG        centre_x,	// 50 << 8
-		SLONG        centre_y,	//  0
-		SLONG        centre_z,	// 50 << 8
-		SLONG        radius,
+std::int32_t THING_find_sphere(
+		std::int32_t        centre_x,	// 50 << 8
+		std::int32_t        centre_y,	//  0
+		std::int32_t        centre_z,	// 50 << 8
+		std::int32_t        radius,
 		THING_INDEX *array,
-		SLONG        array_size,
-		ULONG        classes);
+		std::int32_t        array_size,
+		std::uint32_t        classes);
 
-SLONG THING_find_box(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2,
+std::int32_t THING_find_box(
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2,
 		THING_INDEX *array,
-		SLONG        array_size,
-		ULONG        classes);
+		std::int32_t        array_size,
+		std::uint32_t        classes);
 
 //
 // Finds the nearest thing of the given class. Returns nullptr on failure.
 //
 
-SLONG THING_find_nearest(
-		SLONG centre_x,
-		SLONG centre_y,
-		SLONG centre_z,
-		SLONG radius,
-		ULONG classes);
+std::int32_t THING_find_nearest(
+		std::int32_t centre_x,
+		std::int32_t centre_y,
+		std::int32_t centre_z,
+		std::int32_t radius,
+		std::uint32_t classes);
 
 
 //---------------------------------------------------------------

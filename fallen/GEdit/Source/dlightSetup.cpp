@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
+std::int32_t	lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
 
 //---------------------------------------------------------------
 
@@ -31,11 +31,11 @@ SLONG	lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-static void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
-	CBYTE i,j;
-	SLONG		c0			=	1;
+static void InitSteps(HWND hWnd,char steps,std::int32_t mask) {
+	char i,j;
+	std::int32_t		c0			=	1;
 	HWND		the_ctrl	=	GetDlgItem(hWnd,IDC_LIST1);
-	CBYTE		lbitem_str[300];
+	char		lbitem_str[300];
 	SendMessage(the_ctrl,LB_RESETCONTENT,0,0);
 	for (i=0;i<steps;i++) {
 		j=i+1;
@@ -45,11 +45,11 @@ static void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 	}
 }
 
-static CBYTE* blank_string[] = { "!" };
+static char* blank_string[] = { "!" };
 
 bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 	NM_UPDOWN	*lp_ntfy;
@@ -119,11 +119,11 @@ bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 			{
 				HWND ctl = GetDlgItem(hWnd,wParam);
 				LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
-//				CBYTE pc[255];
+//				char pc[255];
 				HBRUSH brs;
 				HPEN pen;
 				HPEN open;
-				SLONG rgb;
+				std::int32_t rgb;
 				bool pushed;
 				RECT rc;
 
@@ -190,7 +190,7 @@ bool	CALLBACK	lite_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 				case	IDC_BUTTON2:
 				{
 					CHOOSECOLOR choosecol;
-					SLONG		*rgb;
+					std::int32_t		*rgb;
 					rgb=(LOWORD(wParam)==IDC_BUTTON1) ? &lite_rgbA : &lite_rgbB;
 					choosecol.lStructSize=sizeof(choosecol);
 					choosecol.hwndOwner=hWnd;
@@ -257,7 +257,7 @@ void	do_lite_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_lite_message(EventPoint *ep, CBYTE* msg) {
+char	*get_lite_message(EventPoint *ep, char* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

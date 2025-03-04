@@ -15,44 +15,44 @@
 //
 
 void SHAPE_semisphere(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,	// Gives the direction of the semi-sphere (256 long)
-		SLONG dy,
-		SLONG dz,
-		SLONG radius,
-		SLONG page,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,	// Gives the direction of the semi-sphere (256 long)
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t radius,
+		std::int32_t page,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue);
 
 void SHAPE_semisphere_textured(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,	// Gives the direction of the semi-sphere (256 long)
-		SLONG dy,
-		SLONG dz,
-		SLONG radius,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,	// Gives the direction of the semi-sphere (256 long)
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t radius,
 		float u_mid,
 		float v_mid,
 		float uv_radius,
-		SLONG page,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue);
+		std::int32_t page,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue);
 
 //
 // Draws a sphere.
 //
 
 void SHAPE_sphere(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG radius,
-		ULONG colour);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t radius,
+		std::uint32_t colour);
 
 
 //
@@ -62,11 +62,11 @@ void SHAPE_sphere(
 #define SHAPE_MAX_SPARKY_POINTS 8
 
 void SHAPE_sparky_line(
-		SLONG num_points,
-		SLONG px[],
-		SLONG py[],
-		SLONG pz[],
-		ULONG colour,
+		std::int32_t num_points,
+		std::int32_t px[],
+		std::int32_t py[],
+		std::int32_t pz[],
+		std::uint32_t colour,
 		float width);
 
 
@@ -75,41 +75,41 @@ void SHAPE_sparky_line(
 //
 
 void SHAPE_glitter(
-		SLONG x1,
-		SLONG y1,
-		SLONG z1,
-		SLONG x2,
-		SLONG y2,
-		SLONG z2,
-		ULONG colour);
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t y2,
+		std::int32_t z2,
+		std::uint32_t colour);
 
 //
 // Draws a trip-wire.
 // 
 
 void SHAPE_tripwire(
-		SLONG x1,
-		SLONG y1,
-		SLONG z1,
-		SLONG x2,
-		SLONG y2,
-		SLONG z2,
-		SLONG width,
-		ULONG colour,
-		UWORD counter,		// A frame animation counter.
-		UBYTE along);		// How far along the line the tripwire goes.
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t y2,
+		std::int32_t z2,
+		std::int32_t width,
+		std::uint32_t colour,
+		std::uint16_t counter,		// A frame animation counter.
+		std::uint8_t along);		// How far along the line the tripwire goes.
 
 //
 // Draws a waterfall.
 //
 
 void SHAPE_waterfall(
-		SLONG map_x,
-		SLONG map_z,
-		SLONG map_dx,
-		SLONG map_dz,
-		SLONG top,
-		SLONG bot);
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t map_dx,
+		std::int32_t map_dz,
+		std::int32_t top,
+		std::int32_t bot);
 
 
 //
@@ -117,13 +117,13 @@ void SHAPE_waterfall(
 //
 
 void SHAPE_droplet(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
-		ULONG colour);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
+		std::uint32_t colour);
 
 //
 // Draws a shadow for the given prim.

@@ -79,11 +79,11 @@
 
 typedef struct eway_conddef
 {
-	UBYTE type;		// EWAY_COND_*
-	UBYTE negate;	// true => negate the output of this condition.
+	std::uint8_t type;		// EWAY_COND_*
+	std::uint8_t negate;	// true => negate the output of this condition.
 	
-	UWORD arg1;
-	UWORD arg2;
+	std::uint16_t arg1;
+	std::uint16_t arg2;
 
 	//
 	// For boolean conditions only.
@@ -100,44 +100,44 @@ typedef struct eway_conddef
 
 typedef struct
 {
-	UWORD type;
-	UWORD arg;
+	std::uint16_t type;
+	std::uint16_t arg;
 	
 } EWAY_Stay;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE negate;
-	UWORD arg1;
-	UWORD arg2;
+	std::uint8_t type;
+	std::uint8_t negate;
+	std::uint16_t arg1;
+	std::uint16_t arg2;
 
 } EWAY_Cond;
 
 typedef struct
 {
-	UBYTE  type;
-	UBYTE  subtype;
-	UWORD  arg1;
-	UWORD  arg2;
+	std::uint8_t  type;
+	std::uint8_t  subtype;
+	std::uint16_t  arg1;
+	std::uint16_t  arg2;
 
 } EWAY_Do;
 
 
 typedef struct
 {
-	UWORD id;
-	UBYTE colour;
-	UBYTE group;
-	UBYTE flag;
-	UBYTE yaw;
-	UWORD timer;		// For going inactive.
-	UWORD x;
-	SWORD y;
-	UWORD z;
+	std::uint16_t id;
+	std::uint8_t colour;
+	std::uint8_t group;
+	std::uint8_t flag;
+	std::uint8_t yaw;
+	std::uint16_t timer;		// For going inactive.
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
 
-	UBYTE index;
-	UBYTE ware;				// which warehouse the waypoint is in (or nullptr if the waypoint isn't
+	std::uint8_t index;
+	std::uint8_t ware;				// which warehouse the waypoint is in (or nullptr if the waypoint isn't
 							// inside a warehouse.  Set when you call EWAY_work_out_which_ones_are_in_warehouses()
 	EWAY_Cond ec;
 	EWAY_Stay es;
@@ -264,16 +264,16 @@ typedef struct
 
 typedef struct
 {
-	UBYTE pcom_ai;
-	UBYTE pcom_move;
-	UBYTE pcom_has;	// look in pcom.h for the PCOM_HAS #defines
-	UBYTE drop;		// The SPECIAL_* type that this person drops when he dies.
-	UBYTE pcom_bent;
-	UBYTE ai_skill;
-	UBYTE zone;
-	UBYTE padding;
-	UWORD follow;	// For PCOM_MOVE_FOLLOW- who they should follow.
-	UWORD ai_other;	// For bodyguards and assasins, this is the ID of the waypoint that creates the
+	std::uint8_t pcom_ai;
+	std::uint8_t pcom_move;
+	std::uint8_t pcom_has;	// look in pcom.h for the PCOM_HAS #defines
+	std::uint8_t drop;		// The SPECIAL_* type that this person drops when he dies.
+	std::uint8_t pcom_bent;
+	std::uint8_t ai_skill;
+	std::uint8_t zone;
+	std::uint8_t padding;
+	std::uint16_t follow;	// For PCOM_MOVE_FOLLOW- who they should follow.
+	std::uint16_t ai_other;	// For bodyguards and assasins, this is the ID of the waypoint that creates the
 					// person you are to protect/kill.  For fight test dummies it is a bitfield for
 					// what makes that person die.
 
@@ -283,16 +283,16 @@ typedef struct
 extern EWAY_Cond	*EWAY_cond;//[EWAY_MAX_CONDS];
 extern EWAY_Way	*EWAY_way; //[EWAY_MAX_WAYS];
 extern EWAY_Edef	*EWAY_edef; //[EWAY_MAX_EDEFS];
-extern UWORD		*EWAY_timer;//[EWAY_MAX_TIMERS];
-extern CBYTE		**EWAY_mess; //[EWAY_MAX_MESSES];
-extern CBYTE		*EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
+extern std::uint16_t		*EWAY_timer;//[EWAY_MAX_TIMERS];
+extern char		**EWAY_mess; //[EWAY_MAX_MESSES];
+extern char		*EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
 
-extern SLONG   EWAY_cond_upto;
-extern SLONG   EWAY_way_upto;
-extern SLONG   EWAY_edef_upto;
-extern SLONG	EWAY_mess_buffer_upto;
-extern SLONG	EWAY_mess_upto;
-extern SLONG	EWAY_timer_upto;
+extern std::int32_t   EWAY_cond_upto;
+extern std::int32_t   EWAY_way_upto;
+extern std::int32_t   EWAY_edef_upto;
+extern std::int32_t	EWAY_mess_buffer_upto;
+extern std::int32_t	EWAY_mess_upto;
+extern std::int32_t	EWAY_timer_upto;
 
 //
 // The number of counters we have.
@@ -311,28 +311,28 @@ void EWAY_init();
 //
 
 void EWAY_create(
-		SLONG identifier,				// A unique number that names the waypoint- same as arg for DEPENDENT conditions.
-		SLONG colour,
-		SLONG group,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG yaw,
+		std::int32_t identifier,				// A unique number that names the waypoint- same as arg for DEPENDENT conditions.
+		std::int32_t colour,
+		std::int32_t group,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t yaw,
 		EWAY_Conddef *ecd,
 		EWAY_Do      *ed,
 		EWAY_Stay    *es,
 		EWAY_Edef    *ee,				// Used only for waypoints that create enemies.
-		SLONG         unreferenced,		// true => This waypoint is not referred to from any other one.
-		SLONG         kludge_index,		// For EWAY_DO_CONVERSATION ... the message number.
-		UWORD magic_index);				// For EWAY_DO_CONVERSATION ... the sample identification
+		std::int32_t         unreferenced,		// true => This waypoint is not referred to from any other one.
+		std::int32_t         kludge_index,		// For EWAY_DO_CONVERSATION ... the message number.
+		std::uint16_t magic_index);				// For EWAY_DO_CONVERSATION ... the sample identification
 
 //
 // Defines the given message.
 //
 
-SLONG EWAY_set_message(
-		UBYTE  number,
-		CBYTE* message);
+std::int32_t EWAY_set_message(
+		std::uint8_t  number,
+		char* message);
 
 //
 // Call this function once you've created all the waypoints. It remaps
@@ -360,14 +360,14 @@ void EWAY_process();
 // wants the player so stop being able to move.
 //
 
-SLONG EWAY_stop_player_moving();
+std::int32_t EWAY_stop_player_moving();
 
 //
 // Informs the EWAY module that an item created by the given waypoint															
 // has been picked up by the player.
 //
 
-void EWAY_item_pickedup(SLONG waypoint);
+void EWAY_item_pickedup(std::int32_t waypoint);
 
 
 //
@@ -375,10 +375,10 @@ void EWAY_item_pickedup(SLONG waypoint);
 // 
 
 void EWAY_get_position(
-		SLONG  waypoint,
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z);
+		std::int32_t  waypoint,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z);
 
 //
 // Returns the delay associated with the waypoint. If that waypoint
@@ -387,7 +387,7 @@ void EWAY_get_position(
 // Values are in milliseconds.
 //
 
-SLONG EWAY_get_delay(SLONG waypoint, SLONG default_delay);
+std::int32_t EWAY_get_delay(std::int32_t waypoint, std::int32_t default_delay);
 
 //
 // Returns the angle associated with the given waypoint.
@@ -395,9 +395,9 @@ SLONG EWAY_get_delay(SLONG waypoint, SLONG default_delay);
 // Returns the warehouse the waypoint is in or nullptr if the waypoint isn't in a warehouse.
 //
 
-UWORD EWAY_get_angle    (SLONG waypoint);
-UWORD EWAY_get_person   (SLONG waypoint);
-UBYTE EWAY_get_warehouse(SLONG waypoint);
+std::uint16_t EWAY_get_angle    (std::int32_t waypoint);
+std::uint16_t EWAY_get_person   (std::int32_t waypoint);
+std::uint8_t EWAY_get_warehouse(std::int32_t waypoint);
 
 
 //
@@ -415,12 +415,12 @@ UBYTE EWAY_get_warehouse(SLONG waypoint);
 #define EWAY_NO_MATCH	(-1)
 #define EWAY_FIND_FIRST (0xffff)
 
-SLONG EWAY_find_waypoint(
-		SLONG index,
-		SLONG whatdo,	// od EWAY_DONT_CARE
-		SLONG colour,	// or EWAY_DONT_CARE
-		SLONG group,	// or EWAY_DONT_CARE
-		UBYTE only_active);
+std::int32_t EWAY_find_waypoint(
+		std::int32_t index,
+		std::int32_t whatdo,	// od EWAY_DONT_CARE
+		std::int32_t colour,	// or EWAY_DONT_CARE
+		std::int32_t group,	// or EWAY_DONT_CARE
+		std::uint8_t only_active);
 
 
 //
@@ -428,11 +428,11 @@ SLONG EWAY_find_waypoint(
 // It won't return the given wapoint index.
 //
 
-SLONG EWAY_find_waypoint_rand(
-		SLONG not_this_index,
-		SLONG colour,	// or EWAY_DONT_CARE
-		SLONG group,	// or EWAY_DONT_CARE
-		UBYTE only_active);
+std::int32_t EWAY_find_waypoint_rand(
+		std::int32_t not_this_index,
+		std::int32_t colour,	// or EWAY_DONT_CARE
+		std::int32_t group,	// or EWAY_DONT_CARE
+		std::uint8_t only_active);
 
 //
 // Finds the nearest waypoint of the given (group/colour)
@@ -442,40 +442,40 @@ SLONG EWAY_find_waypoint_rand(
 // of the given group/colour
 // 
 
-SLONG EWAY_find_nearest_waypoint(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG colour,	// or EWAY_DONT_CARE
-		SLONG group);	// or EWAY_DONT_CARE
+std::int32_t EWAY_find_nearest_waypoint(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t colour,	// or EWAY_DONT_CARE
+		std::int32_t group);	// or EWAY_DONT_CARE
 
 //
 // Returns true if the EWAY module wants to capture the camera.
 // It so, then it gives the camera aswell.
 // 
 
-SLONG EWAY_grab_camera(
-		SLONG *cam_x,
-		SLONG *cam_y,
-		SLONG *cam_z,
-		SLONG *cam_yaw,
-		SLONG *cam_pitch,
-		SLONG *cam_roll,
-		SLONG *cam_lens);	// lens in 16-bit fixed point
+std::int32_t EWAY_grab_camera(
+		std::int32_t *cam_x,
+		std::int32_t *cam_y,
+		std::int32_t *cam_z,
+		std::int32_t *cam_yaw,
+		std::int32_t *cam_pitch,
+		std::int32_t *cam_roll,
+		std::int32_t *cam_lens);	// lens in 16-bit fixed point
 
 //
 // Returns the index of the warehouse the EWAY_camera should be inside
 // or nullptr if the camera is outside.
 //
 
-UBYTE EWAY_camera_warehouse();
+std::uint8_t EWAY_camera_warehouse();
 
 
 //
 // Returns whether or not the given waypoint is active or not.
 //
 
-SLONG EWAY_is_active(SLONG waypoint);
+std::int32_t EWAY_is_active(std::int32_t waypoint);
 
 
 //
@@ -484,7 +484,7 @@ SLONG EWAY_is_active(SLONG waypoint);
 // the IS_PERSON_USED waypoint is now going to trigger off a message.
 //
 
-SLONG EWAY_used_person(UWORD t_index);
+std::int32_t EWAY_used_person(std::uint16_t t_index);
 
 
 //
@@ -492,7 +492,7 @@ SLONG EWAY_used_person(UWORD t_index);
 // who is speaking to eachother too.
 //
 
-SLONG EWAY_conversation_happening(
+std::int32_t EWAY_conversation_happening(
 		THING_INDEX *person_a,
 		THING_INDEX *person_b);
 
@@ -502,7 +502,7 @@ SLONG EWAY_conversation_happening(
 // or a valve.
 //
 
-void EWAY_prim_activated(SLONG ob_index);
+void EWAY_prim_activated(std::int32_t ob_index);
 
 
 //
@@ -510,7 +510,7 @@ void EWAY_prim_activated(SLONG ob_index);
 // active visible countdown timers.
 //
 
-void EWAY_deduct_time_penalty(SLONG time_to_deduct_in_hundreths_of_a_second);
+void EWAY_deduct_time_penalty(std::int32_t time_to_deduct_in_hundreths_of_a_second);
 
 
 // ========================================================
@@ -526,7 +526,7 @@ void EWAY_deduct_time_penalty(SLONG time_to_deduct_in_hundreths_of_a_second);
 #define EWAY_DARCI_MOVE_PUNCH (1 << 0)
 #define EWAY_DARCI_MOVE_KICK  (1 << 1)
 
-extern UBYTE EWAY_darci_move;
+extern std::uint8_t EWAY_darci_move;
 
 
 
@@ -541,7 +541,7 @@ extern UBYTE EWAY_darci_move;
 // as you want to!
 //
 
-void EWAY_load_fake_wander_text(CBYTE* fname);
+void EWAY_load_fake_wander_text(char* fname);
 
 //
 // Returns one of the random texts loaded in.
@@ -551,7 +551,7 @@ void EWAY_load_fake_wander_text(CBYTE* fname);
 #define EWAY_FAKE_MESSAGE_ANNOYED 1
 #define EWAY_FAKE_MESSAGE_GUILTY  2
 
-CBYTE* EWAY_get_fake_wander_message(SLONG type);
+char* EWAY_get_fake_wander_message(std::int32_t type);
 
 // ========================================================
 //
@@ -565,8 +565,8 @@ CBYTE* EWAY_get_fake_wander_message(SLONG type);
 // must set it back to nullptr yourself.
 //
 
-extern CBYTE* EWAY_tutorial_string;
-extern SLONG  EWAY_tutorial_counter;	// Set to 0 when EWAY_tutorial_string is set... so you can tell how long its been when the message triggered.
+extern char* EWAY_tutorial_string;
+extern std::int32_t  EWAY_tutorial_counter;	// Set to 0 when EWAY_tutorial_string is set... so you can tell how long its been when the message triggered.
 
 
 
@@ -604,7 +604,7 @@ void EWAY_cam_relinquish();
 // isn't one, makes one up!
 //
 
-SLONG EWAY_find_or_create_waypoint_that_created_person(Thing *p_person);
+std::int32_t EWAY_find_or_create_waypoint_that_created_person(Thing *p_person);
 
 
 #endif

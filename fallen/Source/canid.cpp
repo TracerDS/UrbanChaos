@@ -101,20 +101,20 @@ void CANID_register() {
 //  straight-home towards a target
 //
 
-void CANID_Homing(Thing *canid, SLONG dest_x, SLONG dest_z, int wibble) {
-    SLONG dx, dz;
+void CANID_Homing(Thing *canid, std::int32_t dest_x, std::int32_t dest_z, int wibble) {
+    std::int32_t dx, dz;
 	Animal *animal = ANIMAL_get_animal(canid);
 //	DrawTween *dt = ANIMAL_get_drawtween(animal);
 	DrawTween *dt = canid->Draw.Tweened;
 	GameCoord new_pos;
-	SLONG angle,dangle,i;
-	UBYTE spd;
+	std::int32_t angle,dangle,i;
+	std::uint8_t spd;
 
 /*	
-		SLONG px = dest_x>>8;
-		SLONG py = canid->WorldPos.Y >> 8;
+		std::int32_t px = dest_x>>8;
+		std::int32_t py = canid->WorldPos.Y >> 8;
 		py += 0x10;
-		SLONG pz = dest_z>>8;
+		std::int32_t pz = dest_z>>8;
     DIRT_new_water(px, py, pz,     -1, 28,  0);
 */
 
@@ -197,7 +197,7 @@ int CANID_6sense(Thing *canid) {
 
 
 	THING_INDEX sense[CANID_MAX_SENSE];
-	SLONG       sense_upto;
+	std::int32_t       sense_upto;
 	Thing	   *p_sense;
 	Animal     *sense_animal;
 	int			i;
@@ -237,7 +237,7 @@ int CANID_6sense(Thing *canid) {
 }
 
 int CANID_can_see(Thing *canid, Thing *target) {
-	SLONG angle, dx, dz;
+	std::int32_t angle, dx, dz;
 //	DrawTween *dt = ANIMAL_get_drawtween(ANIMAL_get_animal(canid)); // returns head -- perfect
 	DrawTween *dt = canid->Draw.Tweened;
 
@@ -279,7 +279,7 @@ int CANID_LOS(Thing *canid) {
 
 
 	THING_INDEX sense[CANID_MAX_SENSE];
-	SLONG       sense_upto;
+	std::int32_t       sense_upto;
 	Thing	   *p_sense;
 	Animal     *sense_animal;
 	int			i;
@@ -463,7 +463,7 @@ void CANID_process_sleep(Thing *canid)
 
 void CANID_process_bark(Thing *canid) {
 	Animal *animal = ANIMAL_get_animal(canid);
-	SLONG dx,dz;
+	std::int32_t dx,dz;
 
 	dx=animal->target->WorldPos.X-canid->WorldPos.X;
 	dz=animal->target->WorldPos.Z-canid->WorldPos.Z;
@@ -481,7 +481,7 @@ void CANID_process_bark(Thing *canid) {
 void CANID_process_prowl(Thing *canid)
 {
 	Animal *animal = ANIMAL_get_animal(canid);
-	SLONG dx,dz;
+	std::int32_t dx,dz;
 
     if (!CANID_6sense(canid)) CANID_LOS(canid);
 
@@ -509,7 +509,7 @@ void CANID_process_prowl(Thing *canid)
 void CANID_process_chase(Thing *canid)
 {
 	Animal *animal = ANIMAL_get_animal(canid);
-	SLONG dx,dz;
+	std::int32_t dx,dz;
 
     if (!CANID_6sense(canid)) CANID_LOS(canid);
 
@@ -573,8 +573,8 @@ void CANID_process_peck(Thing *canid)
 
 void CANID_process_walk(Thing *canid)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	Animal   *animal = ANIMAL_get_animal  (canid);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(canid);
@@ -619,8 +619,8 @@ void CANID_process_walk(Thing *canid)
 
 void CANID_process_flee(Thing *canid)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	Animal   *animal = ANIMAL_get_animal  (canid);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(canid);
@@ -669,22 +669,22 @@ void CANID_process_flee(Thing *canid)
 
 void CANID_process_fly(Thing *canid)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG yangle;
-	SLONG angle;
-	SLONG dangle;
-	SLONG speed;
-	SLONG dist;
+	std::int32_t yangle;
+	std::int32_t angle;
+	std::int32_t dangle;
+	std::int32_t speed;
+	std::int32_t dist;
 
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG vel_x;
-	SLONG vel_z;
+	std::int32_t vel_x;
+	std::int32_t vel_z;
 
 	GameCoord new_pos;
 
@@ -814,9 +814,9 @@ void CANID_process_fly(Thing *canid)
 
 void CANID_process_perch(Thing *canid)
 {
-	UBYTE doing;
-	UBYTE howlong;
-	UBYTE oldalong;
+	std::uint8_t doing;
+	std::uint8_t howlong;
+	std::uint8_t oldalong;
 
 	Animal *animal = ANIMAL_get_animal(canid);
 
@@ -901,9 +901,9 @@ void CANID_process_perch(Thing *canid)
 	// Move the canid.
 	//
 
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
 	CANID_find_pos_along_vect(
 		animal->other_index,
@@ -958,15 +958,15 @@ void CANID_fn_init(Thing *canid)
 
 void CANID_fn_normal(Thing *canid)
 {
-	SLONG i;
+	std::int32_t i;
 
 
 	Animal *animal = ANIMAL_get_animal(canid);
 /*	
-	SLONG px = canid->WorldPos.X >> 8;
-	SLONG py = canid->WorldPos.Y >> 8;
+	std::int32_t px = canid->WorldPos.X >> 8;
+	std::int32_t py = canid->WorldPos.Y >> 8;
 	py += 0x20;
-	SLONG pz = canid->WorldPos.Z >> 8;
+	std::int32_t pz = canid->WorldPos.Z >> 8;
     DIRT_new_water(px, py, pz,     -1, 28,  0);
 /
 
@@ -1007,7 +1007,7 @@ void CANID_fn_normal(Thing *canid)
 	#define CANID_MAX_SCARY 32
 
 	THING_INDEX scary[CANID_MAX_SCARY];
-	SLONG       scary_upto;
+	std::int32_t       scary_upto;
 
 	//
 	// How far to look for something scary.
@@ -1061,10 +1061,10 @@ void CANID_fn_normal(Thing *canid)
 	// debuuuuuuug
 
 /*
-		SLONG px = canid->WorldPos.X >> 8;
-		SLONG py = canid->WorldPos.Y >> 8;
+		std::int32_t px = canid->WorldPos.X >> 8;
+		std::int32_t py = canid->WorldPos.Y >> 8;
 		py += 0x10;
-		SLONG pz = canid->WorldPos.Z >> 8;
+		std::int32_t pz = canid->WorldPos.Z >> 8;
 
 			DIRT_new_water(px + 2, py, pz,     -1, 28,  0);
 			DIRT_new_water(px    , py, pz + 2,  0, 29, -1);
@@ -1073,7 +1073,7 @@ void CANID_fn_normal(Thing *canid)
 */
 
 /*
-void CANID_find_pos_along_vect(SLONG vect, SLONG along, SLONG *x, SLONG *y, SLONG *z)
+void CANID_find_pos_along_vect(std::int32_t vect, std::int32_t along, std::int32_t *x, std::int32_t *y, std::int32_t *z)
 {
 	CollisionVect *cv;
 
@@ -1096,34 +1096,34 @@ void CANID_find_pos_along_vect(SLONG vect, SLONG along, SLONG *x, SLONG *y, SLON
 // if there is no suitable colvect nearby.
 //
 
-UWORD CANID_find_perch(Thing *canid, UWORD ignore_this_vect)
+std::uint16_t CANID_find_perch(Thing *canid, std::uint16_t ignore_this_vect)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG nx1;
-	SLONG nz1;
-	SLONG nx2;
-	SLONG nz2;
+	std::int32_t nx1;
+	std::int32_t nz1;
+	std::int32_t nx2;
+	std::int32_t nz2;
 
-	SLONG len;
-	SLONG dist1;
-	SLONG dist2;
+	std::int32_t len;
+	std::int32_t dist1;
+	std::int32_t dist2;
 
-	SLONG list;
-	SLONG vect;
+	std::int32_t list;
+	std::int32_t vect;
 
-	SLONG score;
+	std::int32_t score;
 
-	SLONG best_vect;
-	SLONG best_score;
+	std::int32_t best_vect;
+	std::int32_t best_score;
 
 	CollisionVectLink *cvl;
 	CollisionVect     *cv;
@@ -1241,10 +1241,10 @@ UWORD CANID_find_perch(Thing *canid, UWORD ignore_this_vect)
 /*
 void CANID_init_walk(Thing *canid)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG angle;
+	std::int32_t angle;
 
 	Animal   *animal = ANIMAL_get_animal  (canid);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(canid);
@@ -1297,22 +1297,22 @@ void CANID_init_peck(Thing *canid)
 
 void CANID_init_fly(Thing *canid, Thing *from)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dist;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG angle;
-	UWORD ignore_vect;
+	std::int32_t angle;
+	std::uint16_t ignore_vect;
 
 	//
 	// Find a perch.
 	//
 
-	UWORD vect;
+	std::uint16_t vect;
 
 	Animal   *animal = ANIMAL_get_animal  (canid);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(canid);
@@ -1378,9 +1378,9 @@ void CANID_init_fly(Thing *canid, Thing *from)
 /*
 void CANID_init_flee(Thing *canid, Thing *from)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG angle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t angle;
 
 	Animal   *animal = ANIMAL_get_animal  (canid);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(canid);
@@ -1424,10 +1424,10 @@ void CANID_init_flee(Thing *canid, Thing *from)
 
 void CANID_init_perch(Thing *canid)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG angle;
+	std::int32_t angle;
 
 	Animal   *animal = ANIMAL_get_animal  (canid);
 	DrawMesh *dm     = ANIMAL_get_drawmesh(canid);

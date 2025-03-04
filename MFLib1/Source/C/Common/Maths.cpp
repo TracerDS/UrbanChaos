@@ -13,9 +13,9 @@
 #define	xchg(a,b)			{a^=b;b^=a;a^=b;}
 
 
-SLONG	Arctan(SLONG X,SLONG Y)
+std::int32_t	Arctan(std::int32_t X,std::int32_t Y)
 {
-	register SLONG		ax,bx;
+	register std::int32_t		ax,bx;
 
 	ax = X;
 	if(ax)
@@ -93,7 +93,7 @@ nnyprimary:
 
 #ifndef TARGET_DC
 
-UWORD	ini_table[]	=
+std::uint16_t	ini_table[]	=
 {
 	1,		2,		2,		4,
 	5,		8,		11,		16,
@@ -106,7 +106,7 @@ UWORD	ini_table[]	=
 };
 
 #ifdef _MSC_VER
-SLONG	Root(SLONG square)
+std::int32_t	Root(std::int32_t square)
 {
 	__asm
 	{
@@ -134,7 +134,7 @@ done_it:
 #else //#ifndef TARGET_DC
 
 // Just use the standard rout for the moment - it uses a fast path anyway.
-SLONG Root ( SLONG square )
+std::int32_t Root ( std::int32_t square )
 {
 	return ( (int) sqrtf ( (float)square ) );
 }

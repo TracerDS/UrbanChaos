@@ -11,8 +11,8 @@
 //#define	DEMO 		1
 //#define	DX_TEST		1
 
-UBYTE				editor_status;
-ULONG				editor_turn,
+std::uint8_t				editor_status;
+std::uint32_t				editor_turn,
 					update;
 ControlSet			module_set;
 EditorModule		*CurrentModule,
@@ -28,7 +28,7 @@ LevelEditor			*level_editor;
 // The current texture set.
 //
 
-SLONG editor_texture_set = 1;
+std::int32_t editor_texture_set = 1;
 
 
 void	update_modules();
@@ -45,7 +45,7 @@ ControlDef	module_def[]	=
 
 //---------------------------------------------------------------
 
-void	handle_front_module(ULONG clicked_area,MFPoint *clicked_point)
+void	handle_front_module(std::uint32_t clicked_area,MFPoint *clicked_point)
 {
 	switch(clicked_area)
 	{
@@ -79,7 +79,7 @@ void	handle_front_module(ULONG clicked_area,MFPoint *clicked_point)
 }
 
 //---------------------------------------------------------------
-SLONG	should_module_exist(EditorModule *m)
+std::int32_t	should_module_exist(EditorModule *m)
 {
 	if(m==CurrentModule)
 		return(1);
@@ -259,8 +259,8 @@ MFPoint		last_mouse;
 
 void	editor()
 {
-	UWORD			clicked;
-	ULONG			clicked_area;
+	std::uint16_t			clicked;
+	std::uint32_t			clicked_area;
 	Alert			*quit_alert;
 	EditorModule	*clicked_module;
 	MFPoint			mouse_point;
@@ -284,7 +284,7 @@ void	editor()
 		}
 		if (Keys[KB_PPOINT])
 		{
-			SLONG old_texture_set = editor_texture_set;
+			std::int32_t old_texture_set = editor_texture_set;
 
 			if (!ShiftFlag)
 			{
@@ -315,9 +315,9 @@ void	editor()
 #ifdef	I_AM_A_LOON
 				#define MAX_TICKS 16
 
-				static SLONG tick_key [MAX_TICKS];
-				static SLONG tick_time[MAX_TICKS];
-				static SLONG tick_upto;
+				static std::int32_t tick_key [MAX_TICKS];
+				static std::int32_t tick_time[MAX_TICKS];
+				static std::int32_t tick_upto;
 
 				ASSERT(WITHIN(tick_upto, 0, MAX_TICKS - 1));
 
@@ -346,18 +346,18 @@ void	editor()
 					tick_key[(tick_upto - 1) & (MAX_TICKS - 1)] == tick_key[(tick_upto - 4) & (MAX_TICKS - 1)] &&
 					tick_key[(tick_upto - 1) & (MAX_TICKS - 1)] == tick_key[(tick_upto - 5) & (MAX_TICKS - 1)])
 				{
-					SLONG t1 = tick_time[(tick_upto - 1) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 2) & (MAX_TICKS - 1)];
-					SLONG t2 = tick_time[(tick_upto - 2) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 3) & (MAX_TICKS - 1)];
-					SLONG t3 = tick_time[(tick_upto - 3) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 4) & (MAX_TICKS - 1)];
-					SLONG t4 = tick_time[(tick_upto - 4) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 5) & (MAX_TICKS - 1)];
+					std::int32_t t1 = tick_time[(tick_upto - 1) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 2) & (MAX_TICKS - 1)];
+					std::int32_t t2 = tick_time[(tick_upto - 2) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 3) & (MAX_TICKS - 1)];
+					std::int32_t t3 = tick_time[(tick_upto - 3) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 4) & (MAX_TICKS - 1)];
+					std::int32_t t4 = tick_time[(tick_upto - 4) & (MAX_TICKS - 1)] - tick_time[(tick_upto - 5) & (MAX_TICKS - 1)];
 
 					if (t1 > 0 && t2 > 0 && t3 > 0 && t4 > 0)
 					{
-						SLONG same1 = (t1 << 8) / t2;
-						SLONG same2 = (t3 << 8) / t4;
-						SLONG quaver;
-						SLONG crotchet;
-						SLONG same;
+						std::int32_t same1 = (t1 << 8) / t2;
+						std::int32_t same2 = (t3 << 8) / t4;
+						std::int32_t quaver;
+						std::int32_t crotchet;
+						std::int32_t same;
 
 						if (WITHIN(same1, 200, 320) &&
 							WITHIN(same2, 200, 320))
@@ -552,10 +552,10 @@ void	editor()
 //---------------------------------------------------------------
 
 
-UBYTE	editor_loop()
+std::uint8_t	editor_loop()
 {
 	GameTexture		*the_texture;
-	SLONG	i;
+	std::int32_t	i;
 
 	the_display.MenuOff();
 
@@ -570,7 +570,7 @@ UBYTE	editor_loop()
 	for(i=0;i<15;i++)
 	{
 		the_texture	= &game_textures[i];
-		the_texture->TexturePtr	=	(UWORD*)MemAlloc(TEXTURE_PAGE_SIZE);
+		the_texture->TexturePtr	=	(std::uint16_t*)MemAlloc(TEXTURE_PAGE_SIZE);
 	}
 	free_game_textures(FREE_SHARED_TEXTURES);
 

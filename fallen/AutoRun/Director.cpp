@@ -5,7 +5,7 @@
 #include "AutoRun.h"
 
 static TCHAR*	ReadString(FILE* fd);
-static ULONG	ReadNumber(FILE* fd);
+static std::uint32_t	ReadNumber(FILE* fd);
 static COLORREF	ReadRGB(FILE* fd);
 
 // Menu
@@ -102,11 +102,11 @@ Director::Director(FILE* fd)
 	strcpy(AppName, ReadString(fd));
 	strcpy(ExeName, ReadString(fd));
 
-	ULONG	menus = ReadNumber(fd);
+	std::uint32_t	menus = ReadNumber(fd);
 
 	Menu*	last = nullptr;
 
-	for (ULONG ii = 0; ii < menus; ii++)
+	for (std::uint32_t ii = 0; ii < menus; ii++)
 	{
 		Menu*	menu = new Menu(fd);
 
@@ -270,9 +270,9 @@ static TCHAR* ReadString(FILE* fd)
 //
 // read a number
 
-static ULONG ReadNumber(FILE* fd)
+static std::uint32_t ReadNumber(FILE* fd)
 {
-	return ULONG(atoi(ReadString(fd)));
+	return std::uint32_t(atoi(ReadString(fd)));
 }
 
 // ReadRGB

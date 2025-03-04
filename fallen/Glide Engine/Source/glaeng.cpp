@@ -76,7 +76,7 @@ SVECTOR_F AENG_dx_prim_points[MAX_PRIM_POINTS];
 
 void AENG_create_dx_prim_points()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < MAX_PRIM_POINTS; i++)
 	{
@@ -92,12 +92,12 @@ void AENG_create_dx_prim_points()
 //
 
 void AENG_set_camera(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll)
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll)
 {
 	float radians_yaw   = float(yaw  ) * (2.0F * PI / 2048.0F);
 	float radians_pitch = float(pitch) * (2.0F * PI / 2048.0F);
@@ -113,9 +113,9 @@ void AENG_set_camera(
 }
 
 void AENG_set_camera_radians(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
 		float yaw,
 		float pitch,
 		float roll)
@@ -144,9 +144,9 @@ void AENG_set_camera_radians(
 //
 
 void AENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 	POLY_Point p1;
 	POLY_Point p2;
@@ -167,12 +167,12 @@ void AENG_world_line(
 // Older engine compatability.
 //
 
-void AENG_e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2) {}
-void AENG_e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2) {}
-void AENG_e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b) {}
-void AENG_e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b) {}
-void AENG_e_draw_3d_mapwho         (SLONG x1,SLONG z1) {}
-void AENG_e_draw_3d_mapwho_y       (SLONG x1,SLONG y1,SLONG z1) {}
+void AENG_e_draw_3d_line           (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2) {}
+void AENG_e_draw_3d_line_dir       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2) {}
+void AENG_e_draw_3d_line_col       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b) {}
+void AENG_e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b) {}
+void AENG_e_draw_3d_mapwho         (std::int32_t x1,std::int32_t z1) {}
+void AENG_e_draw_3d_mapwho_y       (std::int32_t x1,std::int32_t y1,std::int32_t z1) {}
 
 
 
@@ -292,16 +292,16 @@ POLY_Point AENG_lower[MAP_WIDTH][MAP_HEIGHT];
 
 void AENG_draw()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 	
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG page;
-	SLONG shadow;
+	std::int32_t page;
+	std::int32_t shadow;
 
 	float world_x;
 	float world_y;
@@ -370,7 +370,7 @@ void AENG_draw()
 
 				if (pp->clip & POLY_CLIP_TRANSFORMED)
 				{
-					pp->colour = LIGHT_get_glide_colour(me->Colour);
+					pp->colour = LIGHT_get_glide_colour(me->Color);
 					
 					POLY_fadeout_point(pp);
 				}
@@ -390,7 +390,7 @@ void AENG_draw()
 
 				if (ppl->clip & POLY_CLIP_TRANSFORMED)
 				{
-					ppl->colour = LIGHT_get_glide_colour(me->Colour);
+					ppl->colour = LIGHT_get_glide_colour(me->Color);
 
 					POLY_fadeout_point(ppl);
 				}
@@ -406,11 +406,11 @@ void AENG_draw()
 
 	{
 		Thing *darci = NET_PERSON(0);
-		UBYTE *bitmap;
-		UBYTE  u_res;
-		UBYTE  v_res;
+		std::uint8_t *bitmap;
+		std::uint8_t  u_res;
+		std::uint8_t  v_res;
 
-		bitmap = (UBYTE *) AENG_aa_buffer;
+		bitmap = (std::uint8_t *) AENG_aa_buffer;
 		u_res  = AENG_AA_BUF_SIZE;
 		v_res  = AENG_AA_BUF_SIZE;
 
@@ -431,10 +431,10 @@ void AENG_draw()
 
 		if (TEXTURE_shadow_lock())
 		{
-			SLONG  x;
-			SLONG  y;
-			UWORD *line;
-			UBYTE *buf = (UBYTE *) AENG_aa_buffer;
+			std::int32_t  x;
+			std::int32_t  y;
+			std::uint16_t *line;
+			std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
 
 			for (y = 0; y < AENG_AA_BUF_SIZE; y++)
 			{
@@ -472,35 +472,35 @@ void AENG_draw()
 		// Map this poly onto the mapsquares surrounding darci.
 		//
 
-		SLONG i;
+		std::int32_t i;
 
-		SLONG mx;
-		SLONG mz;
-		SLONG dx;
-		SLONG dz;
+		std::int32_t mx;
+		std::int32_t mz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 		MapElement *me[4];
 
 		SVECTOR_F  poly[4];
 		SMAP_Link *projected;
 
-		SLONG v_list;
-		SLONG i_vect;
+		std::int32_t v_list;
+		std::int32_t i_vect;
 
 		CollisionVect *p_vect;
 
-		SLONG w_list;
-		SLONG w_face;
+		std::int32_t w_list;
+		std::int32_t w_face;
 
 		PrimFace4 *p_f4;
 		PrimPoint *pp;
 
-		SLONG wall;
-		SLONG storey;
-		SLONG building;
-		SLONG thing;
-		SLONG face_height;
-		UBYTE face_order[4] = {0,1,3,2};
+		std::int32_t wall;
+		std::int32_t storey;
+		std::int32_t building;
+		std::int32_t thing;
+		std::int32_t face_height;
+		std::uint8_t face_order[4] = {0,1,3,2};
 
 		Thing *p_fthing;
 
@@ -510,8 +510,8 @@ void AENG_draw()
 
 		#define AENG_MAX_DONE 8
 
-		SLONG done[AENG_MAX_DONE];
-		SLONG done_upto = 0;
+		std::int32_t done[AENG_MAX_DONE];
+		std::int32_t done_upto = 0;
 
 		for (dx = -1; dx <= 1; dx++)
 		for (dz = -1; dz <= 1; dz++)
@@ -805,13 +805,13 @@ void AENG_draw()
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
-		UWORD puddle_x;
-		SWORD puddle_y;
-		UWORD puddle_z;
-		UWORD puddle_radius;
-		UWORD puddle_angle;
+		std::uint16_t puddle_x;
+		std::int16_t puddle_y;
+		std::uint16_t puddle_z;
+		std::uint16_t puddle_radius;
+		std::uint16_t puddle_angle;
 
 		float mid_x;
 		float mid_y;
@@ -1042,13 +1042,13 @@ void AENG_draw()
 
 				struct
 				{
-					SLONG dpx1;
-					SLONG dpz1;
-					SLONG dpx2;
-					SLONG dpz2;
+					std::int32_t dpx1;
+					std::int32_t dpz1;
+					std::int32_t dpx2;
+					std::int32_t dpz2;
 
-					SLONG dsx;
-					SLONG dsz;
+					std::int32_t dsx;
+					std::int32_t dsz;
 
 				} curb[4] = 
 				{
@@ -1202,12 +1202,12 @@ void AENG_draw()
 			//
 
 			{
-				SLONG building;
-				SLONG storey;
-				SLONG wall;
+				std::int32_t building;
+				std::int32_t storey;
+				std::int32_t wall;
 
-				SLONG v_list;
-				SLONG i_vect;
+				std::int32_t v_list;
+				std::int32_t i_vect;
 
 				CollisionVect *p_vect;
 
@@ -1230,7 +1230,7 @@ void AENG_draw()
 					}
 					else
 					{
-						if (building_list[building].LastDrawn != UWORD(GAME_TURN))
+						if (building_list[building].LastDrawn != std::uint16_t(GAME_TURN))
 						{
 							//
 							// We haven't already drawn this building.
@@ -1245,7 +1245,7 @@ void AENG_draw()
 							// Mark this building as drawn.
 							//
 
-							building_list[building].LastDrawn = UWORD(GAME_TURN);
+							building_list[building].LastDrawn = std::uint16_t(GAME_TURN);
 						}
 					}
 
@@ -1257,9 +1257,9 @@ void AENG_draw()
 
 					{
 						void AENG_world_line(
-								SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-								SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-								SLONG sort_to_front);
+								std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+								std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+								std::int32_t sort_to_front);
 
 						AENG_world_line(
 							p_vect->X[0], p_vect->Y[0], p_vect->Z[0], 32, 0x00ff0000,
@@ -1299,7 +1299,7 @@ void AENG_draw()
 	#define LEAF_SIZE       (20.0F+(float)(i&15))
 
 	{
-		SLONG j,falling;
+		std::int32_t j,falling;
 
 		DIRT_Info di;
 
@@ -1313,7 +1313,7 @@ void AENG_draw()
 		POLY_Point  pp[3];
 		POLY_Point *tri[3];
 
-		ULONG leaf_colour_choice[4] =
+		std::uint32_t leaf_colour_choice[4] =
 		{
 			0x332d1d,
 			0x243224,
@@ -1321,9 +1321,9 @@ void AENG_draw()
 			0x332f07
 		};
 
-		ULONG flag[4];
-		ULONG leaf_colour;
-		ULONG leaf_specular;
+		std::uint32_t flag[4];
+		std::uint32_t leaf_colour;
+		std::uint32_t leaf_specular;
 
 		tri[0] = &pp[0];
 		tri[1] = &pp[1];
@@ -1473,18 +1473,18 @@ void AENG_draw()
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
-		SLONG sx;
-		SLONG sz;
+		std::int32_t sx;
+		std::int32_t sz;
 
-		SLONG px;
-		SLONG pz;
-		SLONG detail;
+		std::int32_t px;
+		std::int32_t pz;
+		std::int32_t detail;
 
-		SLONG wx;
-		SLONG wy;
-		SLONG wz;
+		std::int32_t wx;
+		std::int32_t wy;
+		std::int32_t wz;
 
 		POLY_Point *pp;
 		POLY_Point *quad[4];
@@ -1565,14 +1565,14 @@ void AENG_draw_sewer()
 // 
 
 void AENG_draw_scanner(
-		SLONG screen_x1,
-		SLONG screen_y1,
-		SLONG screen_x2,
-		SLONG screen_y2,
-		SLONG map_x,
-		SLONG map_z,
-		SLONG map_zoom,		// The number of pixels per mapsquare in fixed-point 8.
-		SLONG map_angle)
+		std::int32_t screen_x1,
+		std::int32_t screen_y1,
+		std::int32_t screen_x2,
+		std::int32_t screen_y2,
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t map_zoom,		// The number of pixels per mapsquare in fixed-point 8.
+		std::int32_t map_angle)
 {
 }
 
@@ -1597,7 +1597,7 @@ void AENG_blit() {grBufferSwap(0);grDepthMask(FXTRUE);grBufferClear(0x00000000, 
 // Adds a message to the message system.
 //
 
-void MSG_add(CBYTE* message, ...)
+void MSG_add(char* message, ...)
 {
 }
 
@@ -1606,8 +1606,8 @@ void MSG_add(CBYTE* message, ...)
 //
 
 void AENG_clear_screen() {}
-SLONG AENG_lock()         {return 0;}
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE* text, ...) {return 0;}
+std::int32_t AENG_lock()         {return 0;}
+std::int32_t FONT_draw(std::int32_t x, std::int32_t y, char* text, ...) {return 0;}
 void AENG_unlock() {}
 
 

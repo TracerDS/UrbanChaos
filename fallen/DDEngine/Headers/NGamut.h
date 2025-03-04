@@ -19,15 +19,15 @@
 
 typedef struct
 {
-	SLONG xmin;
-	SLONG xmax;
+	std::int32_t xmin;
+	std::int32_t xmax;
 
 } NGAMUT_Gamut;
 
 extern NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
-extern SLONG        NGAMUT_xmin;
-extern SLONG        NGAMUT_zmin;
-extern SLONG        NGAMUT_zmax;
+extern std::int32_t        NGAMUT_xmin;
+extern std::int32_t        NGAMUT_zmin;
+extern std::int32_t        NGAMUT_zmax;
 
 //
 // Function to work out a gamut.
@@ -57,8 +57,8 @@ void NGAMUT_view_square(float mid_x, float mid_z, float radius);
 //
 
 extern NGAMUT_Gamut NGAMUT_point_gamut[NGAMUT_SIZE];
-extern SLONG        NGAMUT_point_zmin;
-extern SLONG        NGAMUT_point_zmax;
+extern std::int32_t        NGAMUT_point_zmin;
+extern std::int32_t        NGAMUT_point_zmax;
 
 void NGAMUT_calculate_point_gamut();
 
@@ -67,8 +67,8 @@ void NGAMUT_calculate_point_gamut();
 //
 
 extern NGAMUT_Gamut NGAMUT_out_gamut[NGAMUT_SIZE];
-extern SLONG        NGAMUT_out_zmin;
-extern SLONG        NGAMUT_out_zmax;
+extern std::int32_t        NGAMUT_out_zmin;
+extern std::int32_t        NGAMUT_out_zmax;
 
 void NGAMUT_calculate_out_gamut();
 
@@ -79,8 +79,8 @@ void NGAMUT_calculate_out_gamut();
 //
 
 extern NGAMUT_Gamut NGAMUT_lo_gamut[NGAMUT_SIZE_LO];
-extern SLONG        NGAMUT_lo_zmin;
-extern SLONG        NGAMUT_lo_zmax;
+extern std::int32_t        NGAMUT_lo_zmin;
+extern std::int32_t        NGAMUT_lo_zmax;
 
 void NGAMUT_calculate_lo_gamut();
 

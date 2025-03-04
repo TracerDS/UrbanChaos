@@ -9,15 +9,15 @@
 
 void init_projectiles()
 {
-	memset((UBYTE*)PROJECTILES,0,sizeof(PROJECTILES));
+	memset((std::uint8_t*)PROJECTILES,0,sizeof(PROJECTILES));
 	PROJECTILE_COUNT	=	0;
 }
 
 //---------------------------------------------------------------
 
-Thing *alloc_projectile(UBYTE type)
+Thing *alloc_projectile(std::uint8_t type)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	Projectile		*new_proj;
 	Thing			*proj_thing	=	NULL;
 

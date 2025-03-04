@@ -6,7 +6,7 @@
 #define CACHE_H
 
 
-typedef UBYTE CACHE_Index;
+typedef std::uint8_t CACHE_Index;
 
 
 //
@@ -22,15 +22,15 @@ void CACHE_init();
 //
 
 CACHE_Index CACHE_create(
-				SLONG key,
+				std::int32_t key,
 				void* data,
-				UWORD num_bytes);
+				std::uint16_t num_bytes);
 
 //
 // Returns true if the given CACHE_Index contains valid info.
 //
 
-SLONG CACHE_is_valid(CACHE_Index c_index);
+std::int32_t CACHE_is_valid(CACHE_Index c_index);
 
 //
 // Returns the data associated with the cache_index.
@@ -38,9 +38,9 @@ SLONG CACHE_is_valid(CACHE_Index c_index);
 
 typedef struct
 {
-	SLONG key;
+	std::int32_t key;
 	void* data;
-	SLONG num_bytes;
+	std::int32_t num_bytes;
 
 } CACHE_Info;
 

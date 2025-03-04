@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG bomb_type,bomb_size,bomb_fx;
+std::int32_t bomb_type,bomb_size,bomb_fx;
 
 //---------------------------------------------------------------
 
@@ -34,7 +34,7 @@ SLONG bomb_type,bomb_size,bomb_fx;
 
 bool CALLBACK	bomb_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

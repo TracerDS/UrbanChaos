@@ -13,10 +13,10 @@
 
 bool	CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam);
 
-SLONG				ticklist_bitmask(HWND hWnd, SLONG id);
+std::int32_t				ticklist_bitmask(HWND hWnd, std::int32_t id);
 
-void				ticklist_init(HWND hWnd, SLONG id, CBYTE* pc[], SLONG bitmask);
-void				ticklist_close(HWND hWnd, SLONG id);
+void				ticklist_init(HWND hWnd, std::int32_t id, char* pc[], std::int32_t bitmask);
+void				ticklist_close(HWND hWnd, std::int32_t id);
 
 bool				ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam);
 bool				ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam);
@@ -25,7 +25,7 @@ bool				ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam);
 /*
 #define	TICKLIST_INIT(i,s,bitmask)									\
 	{																\
-	SLONG		c0			=	1;									\
+	std::int32_t		c0			=	1;									\
 	HWND		the_ctrl	=	GetDlgItem(hWnd,i);					\
 	LPTSTR		lbitem_str	=	s[0];								\
 	while(*lbitem_str!='!')											\

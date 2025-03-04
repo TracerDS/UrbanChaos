@@ -30,9 +30,9 @@ void SMAP_init(
 		float  light_dx,	// The light vector doesn't have to be normalised
 		float  light_dy,
 		float  light_dz,
-		UBYTE *bitmap,
-		UBYTE  res_u,
-		UBYTE  res_v);
+		std::uint8_t *bitmap,
+		std::uint8_t  res_u,
+		std::uint8_t  res_v);
 
 //
 // Add world space points. Each point is given an index that is used
@@ -41,7 +41,7 @@ void SMAP_init(
 // 0, then they go up by one each time.
 //
 
-SLONG SMAP_point_add(
+std::int32_t SMAP_point_add(
 		float world_x,
 		float world_y,
 		float world_z);
@@ -53,9 +53,9 @@ void SMAP_point_finished();
 //
 
 void SMAP_tri_add(
-		SLONG p1,
-		SLONG p2,
-		SLONG p3);
+		std::int32_t p1,
+		std::int32_t p2,
+		std::int32_t p3);
 
 //
 // After you have called SMAP_point_finished(), you can get the shadow maps
@@ -140,9 +140,9 @@ float SMAP_v_map_mul_slong;
 // The bitmap.
 // 
 
-UBYTE *SMAP_bitmap;
-SLONG  SMAP_res_u;
-SLONG  SMAP_res_v;
+std::uint8_t *SMAP_bitmap;
+std::int32_t  SMAP_res_u;
+std::int32_t  SMAP_res_v;
 
 
 //
@@ -159,15 +159,15 @@ typedef struct
 	float world_y;
 	float world_z;
 
-	SLONG u;	// Coordinates on the bitmap in fixed-point 16.
-	SLONG v;
+	std::int32_t u;	// Coordinates on the bitmap in fixed-point 16.
+	std::int32_t v;
 
 } SMAP_Point;
 
 #define SMAP_MAX_POINTS 2048
 
 SMAP_Point SMAP_point[SMAP_MAX_POINTS];
-SLONG      SMAP_point_upto;
+std::int32_t      SMAP_point_upto;
 
 
 //
@@ -195,9 +195,9 @@ void SMAP_init(
 		float  light_dx,
 		float  light_dy,
 		float  light_dz,
-		UBYTE *bitmap,
-		UBYTE  res_u,
-		UBYTE  res_v)
+		std::uint8_t *bitmap,
+		std::uint8_t  res_u,
+		std::uint8_t  res_v)
 {
 	float len;
 	float overlen;
@@ -278,7 +278,7 @@ void SMAP_init(
 }
 
 
-SLONG SMAP_point_add(
+std::int32_t SMAP_point_add(
 		float world_x,
 		float world_y,
 		float world_z)
@@ -316,7 +316,7 @@ SLONG SMAP_point_add(
 
 void SMAP_point_finished()
 {
-	SLONG i;
+	std::int32_t i;
 
 	SMAP_Point *sp;
 
@@ -353,8 +353,8 @@ void SMAP_point_finished()
 		along_bu = 65536.0F + (sp->along_u - SMAP_u_min) * SMAP_u_map_mul_slong;
 		along_bv = 65536.0F + (sp->along_v - SMAP_v_min) * SMAP_v_map_mul_slong;
 
-		sp->u = SLONG(along_bu);
-		sp->v = SLONG(along_bv);
+		sp->u = std::int32_t(along_bu);
+		sp->v = std::int32_t(along_bv);
 
 		ASSERT(WITHIN(sp->u, 0, SMAP_res_u << 16));
 		ASSERT(WITHIN(sp->v, 0, SMAP_res_v << 16));
@@ -362,15 +362,15 @@ void SMAP_point_finished()
 }
 
 void SMAP_tri_add(
-		SLONG p1,
-		SLONG p2,
-		SLONG p3)
+		std::int32_t p1,
+		std::int32_t p2,
+		std::int32_t p3)
 {
-	SLONG du1;
-	SLONG dv1;
+	std::int32_t du1;
+	std::int32_t dv1;
 
-	SLONG du2;
-	SLONG dv2;
+	std::int32_t du2;
+	std::int32_t dv2;
 
 	ASSERT(WITHIN(p1, 0, SMAP_point_upto - 1));
 	ASSERT(WITHIN(p2, 0, SMAP_point_upto - 1));
@@ -423,8 +423,8 @@ void SMAP_tri_add(
 //
 
 void SMAP_add_prim_triangles(
-		SLONG prim,
-		SLONG index)
+		std::int32_t prim,
+		std::int32_t index)
 {
 	PrimFace4  *p_f4;
 	PrimFace3  *p_f3;
@@ -432,7 +432,7 @@ void SMAP_add_prim_triangles(
 
 	p_obj = &prim_objects[prim];
 
-	SLONG i;
+	std::int32_t i;
 
 	index -= p_obj->StartPoint;
 
@@ -466,24 +466,24 @@ void SMAP_add_prim_triangles(
 // Adds a prims points to the shadow mapper and returns the index of the points.
 //
 
-SLONG SMAP_prim_points(
-		SLONG prim,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll)
+std::int32_t SMAP_prim_points(
+		std::int32_t prim,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll)
 {
-	SLONG i;
+	std::int32_t i;
 	float px;
 	float py;
 	float pz;
 	float ox = float(world_x);
 	float oy = float(world_y);
 	float oz = float(world_z);
-	SLONG base = -1;
-	SLONG index;
+	std::int32_t base = -1;
+	std::int32_t index;
 	float matrix[9];
 
 	PrimObject *p_obj = &prim_objects[prim];
@@ -536,17 +536,17 @@ SLONG SMAP_prim_points(
 
 void SMAP_bike(
 		Thing *p_bike, 
-		UBYTE *bitmap,	// 0 => transparent 255 => opaque
-		UBYTE  u_res,
-		UBYTE  v_res,
-		SLONG  light_dx, // This vector need not be normalised
-		SLONG  light_dy,
-		SLONG  light_dz)
+		std::uint8_t *bitmap,	// 0 => transparent 255 => opaque
+		std::uint8_t  u_res,
+		std::uint8_t  v_res,
+		std::int32_t  light_dx, // This vector need not be normalised
+		std::int32_t  light_dy,
+		std::int32_t  light_dz)
 {
-	SLONG i_frame;
-	SLONG i_steer;
-	SLONG i_fwheel;
-	SLONG i_bwheel;
+	std::int32_t i_frame;
+	std::int32_t i_steer;
+	std::int32_t i_fwheel;
+	std::int32_t i_bwheel;
 
 	BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
 
@@ -650,25 +650,25 @@ void SMAP_bike(
 // added to the shadow mapper.
 //
 
-UWORD SMAP_add_tweened_points(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG tween,
+std::uint16_t SMAP_add_tweened_points(
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t tween,
 		struct GameKeyFrameElement *anim_info,
 		struct GameKeyFrameElement *anim_info_next,
 		struct Matrix33 *rot_mat,
-		SLONG off_dx,
-		SLONG off_dy,
-		SLONG off_dz,
+		std::int32_t off_dx,
+		std::int32_t off_dy,
+		std::int32_t off_dz,
 		Thing *p_thing)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG sp;
-	SLONG ep;
+	std::int32_t sp;
+	std::int32_t ep;
 
 	Matrix31  offset;
 	Matrix33  mat2;
@@ -676,7 +676,7 @@ UWORD SMAP_add_tweened_points(
 	Matrix33 *mat;
 	Matrix33 *mat_next;
 
-	UWORD ans;
+	std::uint16_t ans;
 
 	SVector temp;
 
@@ -699,7 +699,7 @@ UWORD SMAP_add_tweened_points(
 
 	matrix_transformZMY((struct Matrix31*)&temp,rot_mat, &offset);
 
-	SLONG	character_scale  = person_get_scale(p_thing);
+	std::int32_t	character_scale  = person_get_scale(p_thing);
 
 	temp.X = (temp.X * character_scale) / 256;
 	temp.Y = (temp.Y * character_scale) / 256;
@@ -788,21 +788,21 @@ UWORD SMAP_add_tweened_points(
 
 void SMAP_person(
 		Thing     *p_thing, 
-		UBYTE     *bitmap,	// 0 => transparent 255 => opaque
-		UBYTE      u_res,
-		UBYTE      v_res,
-		SLONG      light_dx, 
-		SLONG      light_dy,
-		SLONG      light_dz)
+		std::uint8_t     *bitmap,	// 0 => transparent 255 => opaque
+		std::uint8_t      u_res,
+		std::uint8_t      v_res,
+		std::int32_t      light_dx, 
+		std::int32_t      light_dy,
+		std::int32_t      light_dz)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG i_frame;
-	SLONG i_steer;
-	SLONG i_fwheel;
-	SLONG i_bwheel;
+	std::int32_t i_frame;
+	std::int32_t i_steer;
+	std::int32_t i_fwheel;
+	std::int32_t i_bwheel;
 
 	Matrix33 r_matrix;
 
@@ -828,8 +828,8 @@ void SMAP_person(
 
 	if (dt->Locked)
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		//
 		// Taken from temp.cpp
@@ -868,9 +868,9 @@ void SMAP_person(
 	//
 
 	void FIGURE_rotate_obj(
-			SLONG xangle,
-			SLONG yangle,
-			SLONG zangle,
+			std::int32_t xangle,
+			std::int32_t yangle,
+			std::int32_t zangle,
 			Matrix33 *r3);
 
 	FIGURE_rotate_obj(
@@ -895,10 +895,10 @@ void SMAP_person(
 	// Draw each body part.
 	//
 
-	SLONG i;
-	SLONG ele_count;
-	SLONG start_object;
-	SLONG object_offset;
+	std::int32_t i;
+	std::int32_t ele_count;
+	std::int32_t start_object;
+	std::int32_t object_offset;
 
 	ele_count    = dt->TheChunk->ElementCount;
 	start_object = prim_multi_objects[dt->TheChunk->MultiObject[0]].StartObject;
@@ -909,7 +909,7 @@ void SMAP_person(
 
 	#define SMAP_MAX_PARTS 20
 
-	SLONG indices[SMAP_MAX_PARTS];
+	std::int32_t indices[SMAP_MAX_PARTS];
 
 	for (i = 0; i < ele_count; i++)
 	{
@@ -995,7 +995,7 @@ void SMAP_person(
 	// Add all the triangles to the shadow mapper.
 	//
 
-	SLONG index = 0;
+	std::int32_t index = 0;
 
 	for (i = 0; i < ele_count; i++)
 	{
@@ -1050,14 +1050,14 @@ void SMAP_person(
 #define SMAP_MAX_LINKS 16
 
 SMAP_Link SMAP_link[SMAP_MAX_LINKS];
-SLONG     SMAP_link_upto;
+std::int32_t     SMAP_link_upto;
 
 //
 // Returns true if the poly is the wrong side of the
 // shadow map... i.e. nearer to the light.
 //
 
-SLONG SMAP_wrong_side(SMAP_Link *sl)
+std::int32_t SMAP_wrong_side(SMAP_Link *sl)
 {
 	float order = 0.0F;
 	float overorder;
@@ -1120,11 +1120,11 @@ void SMAP_convert_uvs(SMAP_Link *sl)
 
 
 
-SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], SLONG num_points)
+SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], std::int32_t num_points)
 {
-	SLONG i;
-	ULONG clip_and;
-	ULONG clip_or;
+	std::int32_t i;
+	std::uint32_t clip_and;
+	std::uint32_t clip_or;
 
 	float along;
 

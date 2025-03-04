@@ -25,8 +25,8 @@ struct COMP_Frame
 
 struct COMP_Delta
 {
-	SLONG size;
-	UBYTE data[];
+	std::int32_t size;
+	std::uint8_t data[];
 };
 
 //
@@ -36,7 +36,7 @@ struct COMP_Delta
 #define COMP_TGA_MAX_WIDTH  640
 #define COMP_TGA_MAX_HEIGHT	480
 
-SLONG COMP_load(CBYTE* filename, COMP_Frame* cf);
+std::int32_t COMP_load(char* filename, COMP_Frame* cf);
 
 //
 // Calculates a structure that maps one frame onto the next.

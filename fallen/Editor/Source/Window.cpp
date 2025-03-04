@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-void Window::SetupWindow(CBYTE* title,ULONG flags,SLONG x,SLONG y,SLONG width,SLONG height)
+void Window::SetupWindow(char* title,std::uint32_t flags,std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height)
 {
 	Flags			=	flags;
 	StateFlags		=	0;
@@ -19,7 +19,7 @@ void Window::SetupWindow(CBYTE* title,ULONG flags,SLONG x,SLONG y,SLONG width,SL
 	{
 		Title	=	title;
 	}
-	ConstrainHeight((SLONG*)&height);
+	ConstrainHeight((std::int32_t*)&height);
 	SetRect(x,y,width,height);
 	ControlAreaHeight	=	0;
 	ControlAreaWidth	=	0;
@@ -40,7 +40,7 @@ void Window::SetContentDrawArea(void)
 
 //---------------------------------------------------------------
 
-void Window::FillContent(ULONG the_colour)
+void Window::FillContent(std::uint32_t the_colour)
 {
 	EdRect	fill_rect;
 
@@ -62,7 +62,7 @@ void Window::ClearContent(void)
 
 void Window::DrawWindowFrame(void)
 {
-	SLONG		title_left,
+	std::int32_t		title_left,
 				title_right,
 				title_top,
 				title_height,
@@ -171,7 +171,7 @@ void Window::DrawContent(void)
 
 //---------------------------------------------------------------
 
-void Window::MoveWindow(SLONG x,SLONG y)
+void Window::MoveWindow(std::int32_t x,std::int32_t y)
 {
 	MoveRect(x,y);
 	SetAreaSizes();
@@ -179,9 +179,9 @@ void Window::MoveWindow(SLONG x,SLONG y)
 
 //---------------------------------------------------------------
 
-void Window::SizeWindow(SLONG dx,SLONG dy)
+void Window::SizeWindow(std::int32_t dx,std::int32_t dy)
 {
-	SLONG		height;
+	std::int32_t		height;
 
 	height	=	GetHeight()+dy;
 	ConstrainHeight(&height);
@@ -191,7 +191,7 @@ void Window::SizeWindow(SLONG dx,SLONG dy)
 
 //---------------------------------------------------------------
 
-ULONG Window::WhereInWindow(MFPoint *the_point)
+std::uint32_t Window::WhereInWindow(MFPoint *the_point)
 {
 	ModeTab		*clicked_tab	=	0,
 				*current_tab;
@@ -266,7 +266,7 @@ ULONG Window::WhereInWindow(MFPoint *the_point)
 
 //---------------------------------------------------------------
 
-void Window::ConstrainHeight(SLONG *new_height)
+void Window::ConstrainHeight(std::int32_t *new_height)
 {
 	if(*new_height<8)
 		*new_height	=	8;
@@ -294,7 +294,7 @@ void Window::ConstrainHeight(SLONG *new_height)
 void Window::SetAreaSizes(void)
 {
 	ModeTab		*current_tab;
-	SLONG	content_offset=3;
+	std::int32_t	content_offset=3;
 
 
 	if(Flags&HAS_TITLE)
@@ -438,7 +438,7 @@ void Window::BringTabToFront(ModeTab *the_tab)
 
 //---------------------------------------------------------------
 
-void Window::BringTabIDToFront(UWORD id)
+void Window::BringTabIDToFront(std::uint16_t id)
 {
 	ModeTab		*current_tab;
 

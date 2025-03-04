@@ -20,9 +20,9 @@
 
 typedef struct
 {
-	SLONG       dbuilding;	// The dbuilding index.
-	UBYTE       map_x;
-	UBYTE       map_z;
+	std::int32_t       dbuilding;	// The dbuilding index.
+	std::uint8_t       map_x;
+	std::uint8_t       map_z;
 
 } ENTER_Okay;
 
@@ -35,7 +35,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me);
 // outside the building.
 //
 
-SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z);
+std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t *map_x, std::uint8_t *map_z);
 
 
 //
@@ -45,9 +45,9 @@ SLONG ENTER_leave(THING_INDEX me, UBYTE *map_x, UBYTE *map_z);
 //
 
 void ENTER_get_extents(
-		SLONG  dbuilding,
-		SLONG *height_ground_floor,
-		SLONG *height_of_top_storey);
+		std::int32_t  dbuilding,
+		std::int32_t *height_ground_floor,
+		std::int32_t *height_of_top_storey);
 
 
 //
@@ -60,7 +60,7 @@ void ENTER_get_extents(
 // seed the ID module actually used into the dbuilding.SeedInside field.
 //
 
-SLONG ENTER_setup(SLONG dbuilding, SLONG height, UBYTE furnished, UBYTE find_best_layout);
+std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8_t furnished, std::uint8_t find_best_layout);
 
 
 

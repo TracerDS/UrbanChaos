@@ -213,28 +213,28 @@ void	cmat_to_fmat(CMatrix33 *cm, FloatMatrix *fm)
 //***************************************************************************************************
 void	fmat_to_mat(FloatMatrix *fm, Matrix33 *m)
 {
-	m->M[0][0] = SLONG(fm->M[0][0] * 32768.f);
-	m->M[0][1] = SLONG(fm->M[0][1] * 32768.f);
-	m->M[0][2] = SLONG(fm->M[0][2] * 32768.f);
+	m->M[0][0] = std::int32_t(fm->M[0][0] * 32768.f);
+	m->M[0][1] = std::int32_t(fm->M[0][1] * 32768.f);
+	m->M[0][2] = std::int32_t(fm->M[0][2] * 32768.f);
 
-	m->M[1][0] = SLONG(fm->M[1][0] * 32768.f);
-	m->M[1][1] = SLONG(fm->M[1][1] * 32768.f);
-	m->M[1][2] = SLONG(fm->M[1][2] * 32768.f);
+	m->M[1][0] = std::int32_t(fm->M[1][0] * 32768.f);
+	m->M[1][1] = std::int32_t(fm->M[1][1] * 32768.f);
+	m->M[1][2] = std::int32_t(fm->M[1][2] * 32768.f);
 
-	m->M[2][0] = SLONG(fm->M[2][0] * 32768.f);
-	m->M[2][1] = SLONG(fm->M[2][1] * 32768.f);
-	m->M[2][2] = SLONG(fm->M[2][2] * 32768.f);
+	m->M[2][0] = std::int32_t(fm->M[2][0] * 32768.f);
+	m->M[2][1] = std::int32_t(fm->M[2][1] * 32768.f);
+	m->M[2][2] = std::int32_t(fm->M[2][2] * 32768.f);
 }
 
 
 //***************************************************************************************************
 //***************************************************************************************************
 
-void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
+void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween);
 
 // external stuff
 
-void	CQuaternion::BuildTween(struct Matrix33 *dest,struct CMatrix33 *m1,struct CMatrix33 *m2,SLONG tween)
+void	CQuaternion::BuildTween(struct Matrix33 *dest,struct CMatrix33 *m1,struct CMatrix33 *m2,std::int32_t tween)
 {
 	// 1st attempt - (slow)
 	//	* construct the quaternions from the compressed integer matrices

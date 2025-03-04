@@ -10,17 +10,17 @@
 #define WADPART_MAXPARTICLES	96
 
 typedef struct {
-	SLONG vx,vy;
+	std::int32_t vx,vy;
 } PVECTOR;
 
 typedef struct {
-	UBYTE	used;			// Is this particle used
-	UBYTE	type;			// Type of particle
-	UWORD	life;			// Life time of particle (in frames)
-	SLONG	value;			// String ID, Texture Page or Texture ID
-	SLONG	scale;			// Scale (*256)
-	SLONG	colour;			// Colour of particle
-	SLONG	flags;			// Flags (including render flags for type)
+	std::uint8_t	used;			// Is this particle used
+	std::uint8_t	type;			// Type of particle
+	std::uint16_t	life;			// Life time of particle (in frames)
+	std::int32_t	value;			// String ID, Texture Page or Texture ID
+	std::int32_t	scale;			// Scale (*256)
+	std::int32_t	colour;			// Color of particle
+	std::int32_t	flags;			// Flags (including render flags for type)
 	PVECTOR velocity;		// Speed of particle movement (*256)
 	PVECTOR location;		// Location of particle (*256)
 } W_Particle;
@@ -62,17 +62,17 @@ typedef struct {
 extern W_Particle Wadpart_Particle[WADPART_MAXPARTICLES];
 
 extern void Wadpart_Init();
-extern SLONG Wadpart_Sync();
-extern void Wadpart_AddTextParticle(SLONG text,SLONG colour,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags);
-extern void Wadpart_AddStringParticle(char *text,SLONG colour,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags);
-extern void Wadpart_AddImageParticle(SLONG image,SLONG colour,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags);
-extern void Wadpart_AddCharExplode(SLONG text,SLONG colour,SLONG x,SLONG y,SLONG life,SLONG flags);
-extern void Wadpart_AddRainParticle(SLONG image,SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG scale,SLONG life,SLONG flags);
+extern std::int32_t Wadpart_Sync();
+extern void Wadpart_AddTextParticle(std::int32_t text,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags);
+extern void Wadpart_AddStringParticle(char *text,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags);
+extern void Wadpart_AddImageParticle(std::int32_t image,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags);
+extern void Wadpart_AddCharExplode(std::int32_t text,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t life,std::int32_t flags);
+extern void Wadpart_AddRainParticle(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t vx,std::int32_t vy,std::int32_t scale,std::int32_t life,std::int32_t flags);
 extern void Wadpart_Render();
-extern void Wadpart_AddLeafParticle(SLONG image,SLONG colour,SLONG x,SLONG y,SLONG scale,SLONG flags);
-extern void Wadpart_AddBloodParticle(SLONG x,SLONG y,SLONG vx,SLONG vy,SLONG scale,SLONG flags);
-extern void Wadpart_AddBoardParticle(SLONG image,SLONG x,SLONG y,SLONG dx,SLONG dy,SLONG life,SLONG flags);
-extern void Wadpart_AddRectParticle(SLONG x,SLONG y,SLONG w,SLONG h,SLONG colour,SLONG flags);
+extern void Wadpart_AddLeafParticle(std::int32_t image,std::int32_t colour,std::int32_t x,std::int32_t y,std::int32_t scale,std::int32_t flags);
+extern void Wadpart_AddBloodParticle(std::int32_t x,std::int32_t y,std::int32_t vx,std::int32_t vy,std::int32_t scale,std::int32_t flags);
+extern void Wadpart_AddBoardParticle(std::int32_t image,std::int32_t x,std::int32_t y,std::int32_t dx,std::int32_t dy,std::int32_t life,std::int32_t flags);
+extern void Wadpart_AddRectParticle(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t colour,std::int32_t flags);
 
 
 #endif

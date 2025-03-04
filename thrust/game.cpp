@@ -24,9 +24,9 @@
 // The gameturn, process counter and proess time.
 // 
 
-SLONG GAME_turn;
-SLONG GAME_process;
-SLONG GAME_tick;
+std::int32_t GAME_turn;
+std::int32_t GAME_process;
+std::int32_t GAME_tick;
 
 
 
@@ -61,24 +61,24 @@ typedef struct game_menu GAME_Menu;
 
 typedef struct
 {
-	CBYTE     *name;	// "!" means the end of the item array.
+	char     *name;	// "!" means the end of the item array.
 	GAME_Menu *child;
-	SLONG      action;
-	CBYTE      text[GAME_MENU_TEXT_SIZE];
-	SLONG      value;
-	SLONG      min_value;
-	SLONG      max_value;
-	SLONG      num_choices;
-	SLONG      cur_choice;
-	CBYTE    **choice;
+	std::int32_t      action;
+	char      text[GAME_MENU_TEXT_SIZE];
+	std::int32_t      value;
+	std::int32_t      min_value;
+	std::int32_t      max_value;
+	std::int32_t      num_choices;
+	std::int32_t      cur_choice;
+	char    **choice;
 
 } GAME_Item;
 
 typedef struct game_menu
 {
-	CBYTE     *title;
+	char     *title;
 	GAME_Menu *parent;	// This is where you go when you press escape.
-	SLONG      selection;
+	std::int32_t      selection;
 	GAME_Item  item[];
 
 } GAME_Menu;
@@ -224,21 +224,21 @@ GAME_Menu GAME_menu_player =
 #define GAME_START_MENU_SERVER 1
 #define GAME_START_MENU_PLAYER 2
 
-SLONG GAME_start_menu()
+std::int32_t GAME_start_menu()
 {
-	SLONG i;
-	SLONG j;
-	SLONG colour;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t colour;
 
 	float y;
 
 	GAME_Menu *gm        = &GAME_menu_top;
 	GAME_Item *gi        =  nullptr;
-	CBYTE     *error     =  nullptr;
-	CBYTE     *text      =  nullptr;
-	SLONG      cursor    =  0;
-	SLONG      choose    =  false;
-	CBYTE     *ch;
+	char     *error     =  nullptr;
+	char     *text      =  nullptr;
+	std::int32_t      cursor    =  0;
+	std::int32_t      choose    =  false;
+	char     *ch;
 
 	while(1)
 	{
@@ -680,10 +680,10 @@ SLONG GAME_start_menu()
 										#define GAME_MAX_SESSION_CHOICES       256
 										#define GAME_MAX_SESSION_CHOICE_BUFFER 8192
 
-										static CBYTE* session_choice       [GAME_MAX_SESSION_CHOICES      ];
-										static CBYTE  session_choice_buffer[GAME_MAX_SESSION_CHOICE_BUFFER];
+										static char* session_choice       [GAME_MAX_SESSION_CHOICES      ];
+										static char  session_choice_buffer[GAME_MAX_SESSION_CHOICE_BUFFER];
 
-										CBYTE* session_choice_buffer_upto = session_choice_buffer;
+										char* session_choice_buffer_upto = session_choice_buffer;
 
 										memset(session_choice_buffer, 0, sizeof(session_choice_buffer));
 
@@ -691,7 +691,7 @@ SLONG GAME_start_menu()
 										// Find all the games in progress.
 										//
 
-										SLONG sessions = NET_session_get_number();
+										std::int32_t sessions = NET_session_get_number();
 
 										if (sessions == 0)
 										{
@@ -866,7 +866,7 @@ SLONG GAME_start_menu()
 
 
 
-void GAME_init_level(SLONG level)
+void GAME_init_level(std::int32_t level)
 {
 	//
 	// Make sure we are in single precision floating point.
@@ -919,7 +919,7 @@ void GAME_init_level(SLONG level)
 	LAND_calc_normals();
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i < 12; i += 4)
 		{
@@ -937,11 +937,11 @@ void GAME_init_level(SLONG level)
 #define GAME_DO_PLAYER_LEFT_SESSION    0
 #define GAME_DO_PLAYER_LOST_CONNECTION 1
 
-SLONG GAME_do_player()
+std::int32_t GAME_do_player()
 {
-	SLONG i;
-	SLONG rollback               = 0;
-	SLONG ignore_server_messages = false;
+	std::int32_t i;
+	std::int32_t rollback               = 0;
+	std::int32_t ignore_server_messages = false;
 
 	GAME_init_level(0);
 
@@ -1188,7 +1188,7 @@ void GAME_do_player_old()
 	*/
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i < 12; i++)
 		{

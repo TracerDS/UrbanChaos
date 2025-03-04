@@ -7,17 +7,17 @@
 #ifdef	_MF_WINDOWS
 typedef HANDLE		MFFileHandle;
 #else
-typedef SLONG		MFFileHandle;
+typedef std::int32_t		MFFileHandle;
 #endif
 
 #define	FILE_OPEN_ERROR			((MFFileHandle)FileOpenError)
 #define	FILE_CLOSE_ERROR		((MFFileHandle)FileCloseError)
 #define	FILE_CREATION_ERROR		((MFFileHandle)FileCreationError)
-#define	FILE_SIZE_ERROR			((SLONG)FileSizeError)
-#define	FILE_READ_ERROR			((SLONG)FileReadError)
-#define	FILE_WRITE_ERROR		((SLONG)FileWriteError)
-#define	FILE_SEEK_ERROR			((SLONG)FileSeekError)
-#define	FILE_LOAD_AT_ERROR		((SLONG)FileLoadAtError)
+#define	FILE_SIZE_ERROR			((std::int32_t)FileSizeError)
+#define	FILE_READ_ERROR			((std::int32_t)FileReadError)
+#define	FILE_WRITE_ERROR		((std::int32_t)FileWriteError)
+#define	FILE_SEEK_ERROR			((std::int32_t)FileSeekError)
+#define	FILE_LOAD_AT_ERROR		((std::int32_t)FileLoadAtError)
 
 enum SeekModes
 {
@@ -26,16 +26,16 @@ enum SeekModes
 	SEEK_MODE_END
 };
 
-bool FileExists(CBYTE* file_name);
-MFFileHandle FileOpen(CBYTE* file_name);
+bool FileExists(char* file_name);
+MFFileHandle FileOpen(char* file_name);
 void FileClose(MFFileHandle file_handle);
-MFFileHandle FileCreate(CBYTE* file_name,bool overwrite);
-void FileDelete(CBYTE* file_name);
-SLONG FileSize(MFFileHandle file_handle);
-SLONG FileRead(MFFileHandle file_handle,void* buffer,ULONG size);
-SLONG FileWrite(MFFileHandle file_handle,void* buffer,ULONG size);
-SLONG FileSeek(MFFileHandle file_handle,enum SeekModes mode,SLONG offset);
-SLONG FileLoadAt(CBYTE* file_name,void* buffer);
+MFFileHandle FileCreate(char* file_name,bool overwrite);
+void FileDelete(char* file_name);
+std::int32_t FileSize(MFFileHandle file_handle);
+std::int32_t FileRead(MFFileHandle file_handle,void* buffer,std::uint32_t size);
+std::int32_t FileWrite(MFFileHandle file_handle,void* buffer,std::uint32_t size);
+std::int32_t FileSeek(MFFileHandle file_handle,enum SeekModes mode,std::int32_t offset);
+std::int32_t FileLoadAt(char* file_name,void* buffer);
 
 
 #endif

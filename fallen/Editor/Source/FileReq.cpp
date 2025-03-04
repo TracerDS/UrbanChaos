@@ -6,7 +6,7 @@
 
 //---------------------------------------------------------------
 
-UBYTE InkeyToAscii[]=
+std::uint8_t InkeyToAscii[]=
 {
 	/*   0 - 9   */		0,		0,		'1',	'2',	'3',	'4',	'5',	'6',	'7',	'8',
 	/*  10 - 19  */		'9',	'0',	'-',	'=',	'\b',	'\t',	'q',	'w',	'e',	'r',
@@ -23,7 +23,7 @@ UBYTE InkeyToAscii[]=
 	/* 120 - 127 */		0,		0,		0,		0,		0,		0,		0,		0
 };
 
-UBYTE InkeyToAsciiShift[]=
+std::uint8_t InkeyToAsciiShift[]=
 {
 	/*   0 - 9   */		0,		0,		'!',	'"',	'�',	'$',	'%',	'^',	'&',	'*',
 	/*  10 - 19  */		'(',	')',	'_',	'+',	'\b',	'\t',	'Q',	'W',	'E',	'R',
@@ -48,12 +48,12 @@ ControlDef	controls[]	=
 
 };
 
-CBYTE	a_cunning_plan=0;
+char	a_cunning_plan=0;
 
-FileRequester::FileRequester(CBYTE	*path,CBYTE* extension,CBYTE* title,CBYTE* fname)
+FileRequester::FileRequester(char	*path,char* extension,char* title,char* fname)
 {
-	SLONG	c0;
-	SLONG	x=100,y=100;
+	std::int32_t	c0;
+	std::int32_t	x=100,y=100;
 	EdRect	ctrl_rect;
 
 	Path=path;
@@ -78,9 +78,9 @@ FileRequester::FileRequester(CBYTE	*path,CBYTE* extension,CBYTE* title,CBYTE* fn
 */
 }
 
-UBYTE	edit_and_draw_text(EdRect	*rect,CBYTE* str)
+std::uint8_t	edit_and_draw_text(EdRect	*rect,char* str)
 {
-	CBYTE	str2[100];
+	char	str2[100];
 	static	count=0;
 	count++;
 
@@ -118,10 +118,10 @@ UBYTE	edit_and_draw_text(EdRect	*rect,CBYTE* str)
 	return(1);
 }
 
-UBYTE	do_button(EdRect	*rect,CBYTE* str,MFPoint *local_point,UBYTE centered)
+std::uint8_t	do_button(EdRect	*rect,char* str,MFPoint *local_point,std::uint8_t centered)
 {
-	SLONG	w;
-	SLONG	ret=0;
+	std::int32_t	w;
+	std::int32_t	ret=0;
 	w=QTStringWidth(str);
 
 	rect->FillRect(CONTENT_COL);
@@ -145,12 +145,12 @@ UBYTE	do_button(EdRect	*rect,CBYTE* str,MFPoint *local_point,UBYTE centered)
 }
 
 
-SLONG	FileRequester::Draw()
+std::int32_t	FileRequester::Draw()
 {
-	CBYTE  curr_directory[_MAX_PATH];
-	CBYTE	filter[100];
+	char  curr_directory[_MAX_PATH];
+	char	filter[100];
 	OPENFILENAME ofn;
-	SLONG	save=0,ret=0,c0;
+	std::int32_t	save=0,ret=0,c0;
 
 	GetCurrentDirectory(_MAX_PATH, curr_directory);
 
@@ -204,7 +204,7 @@ SLONG	FileRequester::Draw()
 	{
 		if(FileName[c0]=='\\')
 		{
-			SLONG	c1=0;
+			std::int32_t	c1=0;
 
 			while(FileName[c0+c1])
 				FileName[c1++]=FileName[c0+c1+1];
@@ -216,16 +216,16 @@ SLONG	FileRequester::Draw()
 
 
 #ifdef	_MF_WINDOWS_DOG_POO
-	SLONG	c0;
+	std::int32_t	c0;
 //	struct	TbFileFind	file;
 	WIN32_FIND_DATA		FileData;
 	HANDLE	Handle;
 	MFPoint local_point;
-	SLONG	exit=0;
-	UBYTE	edit_text_flag=0;
-	SLONG	skip=0;
-	CBYTE	search_path[100];
-	SLONG	temp_button_state;
+	std::int32_t	exit=0;
+	std::uint8_t	edit_text_flag=0;
+	std::int32_t	skip=0;
+	char	search_path[100];
+	std::int32_t	temp_button_state;
 
 //just draw this once
 	SetWorkWindowBounds(100+1,100+1,GetWidth(),GetHeight());
@@ -289,7 +289,7 @@ SLONG	FileRequester::Draw()
 			strcat(search_path,WildCard);
 /*
 			{
-				SLONG	fcount;
+				std::int32_t	fcount;
 
 				fcount=1;
 				Handle = FindFirstFile(search_path, &FileData);
@@ -322,8 +322,8 @@ SLONG	FileRequester::Draw()
 			if(Handle != INVALID_HANDLE_VALUE)
 			for(c0=0;c0<25;c0++)
 			{
-				SLONG	box_col,text_col=0;
-				SLONG	inrect=0;
+				std::int32_t	box_col,text_col=0;
+				std::int32_t	inrect=0;
 
 				box_col=WHITE_COL;
 

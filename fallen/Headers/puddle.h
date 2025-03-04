@@ -19,9 +19,9 @@ void PUDDLE_init();
 //
 
 void PUDDLE_create(
-		UWORD x,
-		SWORD y,
-		UWORD z);
+		std::uint16_t x,
+		std::int16_t y,
+		std::uint16_t z);
 
 //
 // Puts down puddle on the edges of buildings and curbs.
@@ -32,21 +32,21 @@ void PUDDLE_precalculate();
 
 //
 // Looks for a puddle under (x,y,z) and splashes it if it find one.
-// (x>>8,z>>8) are mapsquare (UBYTE) coordinates.
+// (x>>8,z>>8) are mapsquare (std::uint8_t) coordinates.
 //
 
 void PUDDLE_splash(
-		SLONG x,
-		SLONG y,
-		SLONG z);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z);
 
 //
 // Returns true if the given point is in a puddle.
 //
 
-SLONG PUDDLE_in(
-		SLONG x,
-		SLONG z);
+std::int32_t PUDDLE_in(
+		std::int32_t x,
+		std::int32_t z);
 
 //
 // Calms down splashes.
@@ -61,29 +61,29 @@ void PUDDLE_process();
 
 typedef struct
 {
-	SLONG x1;
-	SLONG z1;
-	SLONG u1;		// 0 to 256
-	SLONG v1;		// 0 to 256
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t u1;		// 0 to 256
+	std::int32_t v1;		// 0 to 256
 
-	SLONG x2;
-	SLONG z2;
-	SLONG u2;
-	SLONG v2;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t u2;
+	std::int32_t v2;
 
-	SLONG y;
+	std::int32_t y;
 
-	UBYTE puddle_y1;
-	UBYTE puddle_y2;
-	UBYTE puddle_g1;
-	UBYTE puddle_g2;
-	UBYTE puddle_s1;
-	UBYTE puddle_s2;
-	UWORD rotate_uvs;	// Rotate the uvs relative to the xzs
+	std::uint8_t puddle_y1;
+	std::uint8_t puddle_y2;
+	std::uint8_t puddle_g1;
+	std::uint8_t puddle_g2;
+	std::uint8_t puddle_s1;
+	std::uint8_t puddle_s2;
+	std::uint16_t rotate_uvs;	// Rotate the uvs relative to the xzs
 	
 } PUDDLE_Info;
 
-void PUDDLE_get_start(UBYTE z_map, UBYTE x_map_min, UBYTE x_map_max);
+void PUDDLE_get_start(std::uint8_t z_map, std::uint8_t x_map_min, std::uint8_t x_map_max);
 PUDDLE_Info *PUDDLE_get_next();
 
 

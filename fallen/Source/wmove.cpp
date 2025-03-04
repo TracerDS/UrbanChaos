@@ -12,10 +12,10 @@
 //#include "prim.h"
 
 extern bool allow_debug_keys;
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 
 WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
-SLONG WMOVE_face_upto;
+std::int32_t WMOVE_face_upto;
 
 #ifndef PSX
 void WMOVE_init()
@@ -30,7 +30,7 @@ void WMOVE_init()
 // Returns how many wmove faces a given thing needs.
 //
 
-SLONG WMOVE_get_num_faces(Thing *p_thing)
+std::int32_t WMOVE_get_num_faces(Thing *p_thing)
 {
 	switch(p_thing->Class)
 	{
@@ -75,42 +75,42 @@ SLONG WMOVE_get_num_faces(Thing *p_thing)
 // It only works for certain kinds of things.
 //
 
-SLONG WMOVE_matrix[9];
-UWORD WMOVE_matrix_thing;
-UWORD WMOVE_matrix_turn;
+std::int32_t WMOVE_matrix[9];
+std::uint16_t WMOVE_matrix_thing;
+std::uint16_t WMOVE_matrix_turn;
 
 void WMOVE_get_pos(
 		Thing      *p_thing,
 		WMOVE_Point pos[3],
-		SLONG       number)
+		std::int32_t       number)
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;
-	SLONG dz;
-	SLONG xo;
-	SLONG zo;
-	SLONG xa;
-	SLONG za;
-	SLONG xb;
-	SLONG zb;
-	SLONG txo;
-	SLONG tzo;
-	SLONG txa;
-	SLONG tza;
-	SLONG txb;
-	SLONG tzb;
-	SLONG prim;
-	SLONG useangle;
-	SLONG sin_yaw;
-	SLONG cos_yaw;
-	SLONG matrix[4];
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t xo;
+	std::int32_t zo;
+	std::int32_t xa;
+	std::int32_t za;
+	std::int32_t xb;
+	std::int32_t zb;
+	std::int32_t txo;
+	std::int32_t tzo;
+	std::int32_t txa;
+	std::int32_t tza;
+	std::int32_t txb;
+	std::int32_t tzb;
+	std::int32_t prim;
+	std::int32_t useangle;
+	std::int32_t sin_yaw;
+	std::int32_t cos_yaw;
+	std::int32_t matrix[4];
 
 	PrimInfo *pi;
 
-	UWORD get_vehicle_body_prim(SLONG type);
+	std::uint16_t get_vehicle_body_prim(std::int32_t type);
 
 	switch(p_thing->Class)
 	{
@@ -157,7 +157,7 @@ void WMOVE_get_pos(
 			{
 				typedef struct
 				{
-					UBYTE p[3];
+					std::uint8_t p[3];
 
 				} WMOVE_Tri;
 				
@@ -250,8 +250,8 @@ void WMOVE_get_pos(
 				// the prim to use.
 				//
 
-				SLONG offy = get_vehicle_body_offset(p_thing->Genus.Vehicle->Type);
-				SLONG prim = get_vehicle_body_prim  (p_thing->Genus.Vehicle->Type);
+				std::int32_t offy = get_vehicle_body_offset(p_thing->Genus.Vehicle->Type);
+				std::int32_t prim = get_vehicle_body_prim  (p_thing->Genus.Vehicle->Type);
 
 				PrimObject *po = &prim_objects[prim];
 
@@ -379,19 +379,19 @@ void WMOVE_get_pos(
 
 void WMOVE_create(Thing *p_thing)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dax;
-	SLONG day;
-	SLONG daz;
+	std::int32_t dax;
+	std::int32_t day;
+	std::int32_t daz;
 
-	SLONG dbx = 0;	// check your warnings, guys!
-	SLONG dby = 0;
-	SLONG dbz = 0;
+	std::int32_t dbx = 0;	// check your warnings, guys!
+	std::int32_t dby = 0;
+	std::int32_t dbz = 0;
 
-	SLONG face4;
-	SLONG wmove;
-	SLONG number;
+	std::int32_t face4;
+	std::int32_t wmove;
+	std::int32_t number;
 
 	PrimPoint  *pp;
 	PrimFace4  *f4;
@@ -541,9 +541,9 @@ void WMOVE_create(Thing *p_thing)
 };
 
 #if	0
-void WMOVE_remove(UBYTE which_class)
+void WMOVE_remove(std::uint8_t which_class)
 {
-	SLONG i;
+	std::int32_t i;
 
 	WMOVE_Face *wf;
 	Thing      *p_thing;
@@ -566,7 +566,7 @@ void WMOVE_remove(UBYTE which_class)
 			// Copy over this face.
 			// 
 
-			memmove((UBYTE*)wf, (UBYTE *)(wf + 1), (WMOVE_face_upto - i - 1) * sizeof(WMOVE_Face));
+			memmove((std::uint8_t*)wf, (std::uint8_t *)(wf + 1), (WMOVE_face_upto - i - 1) * sizeof(WMOVE_Face));
 
 			//
 			// Do the same face number again because it will have changed.
@@ -582,17 +582,17 @@ void WMOVE_remove(UBYTE which_class)
 
 void WMOVE_process()
 {
-	SLONG i;
+	std::int32_t i;
 
 	WMOVE_Point now[3];
 
-	SLONG dax;
-	SLONG day;
-	SLONG daz;
+	std::int32_t dax;
+	std::int32_t day;
+	std::int32_t daz;
 
-	SLONG dbx;
-	SLONG dby;
-	SLONG dbz;
+	std::int32_t dbx;
+	std::int32_t dby;
+	std::int32_t dbz;
 
 	WMOVE_Face *wf;
 	PrimFace4  *f4;
@@ -724,43 +724,43 @@ void WMOVE_process()
 
 
 void WMOVE_relative_pos(
-		UBYTE  wmove_index,	// The WMOVE face stood on.
-		SLONG  last_x,
-		SLONG  last_y,
-		SLONG  last_z,
-		SLONG *now_x,
-		SLONG *now_y,
-		SLONG *now_z,
-		SLONG *now_dangle)
+		std::uint8_t  wmove_index,	// The WMOVE face stood on.
+		std::int32_t  last_x,
+		std::int32_t  last_y,
+		std::int32_t  last_z,
+		std::int32_t *now_x,
+		std::int32_t *now_y,
+		std::int32_t *now_z,
+		std::int32_t *now_dangle)
 {
-	SLONG xo;
-	SLONG yo;
-	SLONG zo;
+	std::int32_t xo;
+	std::int32_t yo;
+	std::int32_t zo;
 
-	SLONG dax;
-	SLONG day;
-	SLONG daz;
+	std::int32_t dax;
+	std::int32_t day;
+	std::int32_t daz;
 
-	SLONG dbx;
-	SLONG dby;
-	SLONG dbz;
+	std::int32_t dbx;
+	std::int32_t dby;
+	std::int32_t dbz;
 
-	SLONG along_a;
-	SLONG along_b;
+	std::int32_t along_a;
+	std::int32_t along_b;
 
-	SLONG alen;
-	SLONG blen;
+	std::int32_t alen;
+	std::int32_t blen;
 
-	SLONG rx;
-	SLONG rz;
+	std::int32_t rx;
+	std::int32_t rz;
 
-	SLONG dy;
-	SLONG wy;
+	std::int32_t dy;
+	std::int32_t wy;
 
-	SLONG angle_old;
-	SLONG angle_new;
+	std::int32_t angle_old;
+	std::int32_t angle_new;
 
-	SLONG dangle;
+	std::int32_t dangle;
 
 	WMOVE_Face *wf;
 	PrimFace4  *f4;
@@ -841,9 +841,9 @@ void WMOVE_relative_pos(
 	rx = (last_x >> 8) - xo;
 	rz = (last_z >> 8) - zo;
 
-	SLONG acrossb = dax*dbz - daz*dbx + 1;
-	SLONG rcrossa = rx *daz - rz *dax;
-	SLONG rcrossb = rx *dbz - rz *dbx;
+	std::int32_t acrossb = dax*dbz - daz*dbx + 1;
+	std::int32_t rcrossa = rx *daz - rz *dax;
+	std::int32_t rcrossb = rx *dbz - rz *dbx;
 
 	along_a = (( rcrossb << 13) + (1 << 12)) / acrossb;
 	along_b = ((-rcrossa << 13) + (1 << 12)) / acrossb;
@@ -913,7 +913,7 @@ void WMOVE_relative_pos(
 #ifndef TARGET_DC
 void WMOVE_draw()
 {
-	SLONG i;
+	std::int32_t i;
 
 	WMOVE_Face *wf;
 	PrimFace4  *f4;
@@ -922,7 +922,7 @@ void WMOVE_draw()
 	PrimPoint  *pp2;
 	PrimPoint  *pp3;
 	
-	ULONG colour;
+	std::uint32_t colour;
 	
 	if ((!allow_debug_keys)||!ControlFlag)
 	{

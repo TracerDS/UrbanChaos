@@ -13,26 +13,26 @@
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE flag;
-	UBYTE dist;
-	SBYTE dx;
-	SBYTE dy;
-	SBYTE dz;
+	std::uint8_t type;
+	std::uint8_t flag;
+	std::uint8_t dist;
+	std::int8_t dx;
+	std::int8_t dy;
+	std::int8_t dz;
 
 	union
 	{
 		struct
 		{
-			UWORD x;
-			UWORD y;
-			UWORD z;
+			std::uint16_t x;
+			std::uint16_t y;
+			std::uint16_t z;
 		}Pos;
 
 		struct
 		{
-			UWORD person;
-			UWORD limb;
+			std::uint16_t person;
+			std::uint16_t limb;
 		}Peep;
 	};
 	
@@ -40,14 +40,14 @@ typedef struct
 
 typedef struct
 {
-	UBYTE used;
-	UBYTE die;
-	UBYTE num_points;
-	UBYTE next;
-	UBYTE map_z;
-	UBYTE map_x;
-	UBYTE glitter;
-	UBYTE useless_padding;
+	std::uint8_t used;
+	std::uint8_t die;
+	std::uint8_t num_points;
+	std::uint8_t next;
+	std::uint8_t map_z;
+	std::uint8_t map_x;
+	std::uint8_t glitter;
+	std::uint8_t useless_padding;
 
 	SPARK_Point point[4];
 	
@@ -56,18 +56,18 @@ typedef struct
 #define SPARK_MAX_SPARKS 32
 
 SPARK_Spark SPARK_spark[SPARK_MAX_SPARKS];
-SLONG SPARK_spark_last;
+std::int32_t SPARK_spark_last;
 
 //
 // The spark mapwho.
 //
 
-UBYTE SPARK_mapwho[MAP_HEIGHT];
+std::uint8_t SPARK_mapwho[MAP_HEIGHT];
 
 
 void SPARK_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Mark all the sparks as unused.
@@ -111,9 +111,9 @@ void SPARK_point_set_velocity(SPARK_Point *sp)
 	}
 	else
 	{
-		SLONG dx = (rand() & 0xff) - 0x1f;
-		SLONG dy = (rand() & 0xff) - 0x1f;
-		SLONG dz = (rand() & 0xff) - 0x1f;
+		std::int32_t dx = (rand() & 0xff) - 0x1f;
+		std::int32_t dy = (rand() & 0xff) - 0x1f;
+		std::int32_t dz = (rand() & 0xff) - 0x1f;
 
 		if (sp->flag & SPARK_FLAG_FAST)
 		{
@@ -150,9 +150,9 @@ void SPARK_point_set_velocity(SPARK_Point *sp)
 
 void SPARK_point_pos(
 		SPARK_Point *sp,
-		SLONG       *px,
-		SLONG       *py,
-		SLONG       *pz)
+		std::int32_t       *px,
+		std::int32_t       *py,
+		std::int32_t       *pz)
 {
 	CollisionVect *p_vect;
 
@@ -192,39 +192,39 @@ void SPARK_point_pos(
 //
 
 void SPARK_new_point(
-		SLONG mid_x,
-		SLONG mid_y,
-		SLONG mid_z,
-		SLONG radius,
+		std::int32_t mid_x,
+		std::int32_t mid_y,
+		std::int32_t mid_z,
+		std::int32_t radius,
 		SPARK_Point *sp)
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Initialise with a circular spark going into the air somewhere.
 	//
 
-	SLONG best_x     = mid_x + (rand() & 0x3f) - 0x1f;
-	SLONG best_y     = mid_y + (rand() & 0x3f) - 0x1f;
-	SLONG best_z     = mid_z + (rand() & 0x3f) - 0x1f;
-	SLONG best_flag  = SPARK_FLAG_FAST | SPARK_FLAG_DART_ABOUT;
-	SLONG best_type  = SPARK_TYPE_CIRCULAR;
-	SLONG best_dist  = radius;
-	SLONG best_score = radius;
+	std::int32_t best_x     = mid_x + (rand() & 0x3f) - 0x1f;
+	std::int32_t best_y     = mid_y + (rand() & 0x3f) - 0x1f;
+	std::int32_t best_z     = mid_z + (rand() & 0x3f) - 0x1f;
+	std::int32_t best_flag  = SPARK_FLAG_FAST | SPARK_FLAG_DART_ABOUT;
+	std::int32_t best_type  = SPARK_TYPE_CIRCULAR;
+	std::int32_t best_dist  = radius;
+	std::int32_t best_score = radius;
 
 	//
 	// Look for points on the ground...
 	//
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dist;
-	SLONG score;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dist;
+	std::int32_t score;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	for (i = 0; i < 4; i++)
 	{
@@ -261,19 +261,19 @@ void SPARK_new_point(
 	// Look for somewhere on a colvect.
 	//
 
-	SLONG mx = mid_x >> 8;
-	SLONG mz = mid_z >> 8;
+	std::int32_t mx = mid_x >> 8;
+	std::int32_t mz = mid_z >> 8;
 
 	if (WITHIN(mx, 0, MAP_WIDTH  - 1) &&
 		WITHIN(mz, 0, MAP_HEIGHT - 1))
 	{
-		SLONG y_top;
-		SLONG y_bot;
+		std::int32_t y_top;
+		std::int32_t y_bot;
 
-		SLONG clamp;
+		std::int32_t clamp;
 
-		SLONG v_list;
-		SLONG i_vect;
+		std::int32_t v_list;
+		std::int32_t i_vect;
 
 		CollisionVect *p_vect;
 
@@ -359,15 +359,15 @@ void SPARK_new_point(
 
 void SPARK_create_auxillary(
 		SPARK_Spark *ss,
-		UBYTE        point_2,
-		UBYTE        point_3)
+		std::uint8_t        point_2,
+		std::uint8_t        point_3)
 {
-	SLONG px1;
-	SLONG py1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG py2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t py1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t py2;
+	std::int32_t pz2;
 
 	SPARK_point_pos(&ss->point[0], &px1, &py1, &pz1);
 	SPARK_point_pos(&ss->point[1], &px2, &py2, &pz2);
@@ -376,20 +376,20 @@ void SPARK_create_auxillary(
 	// Create a couple of other smaller tendrils.
 	//
 
-	SLONG dx = px2 - px1;
-	SLONG dy = py2 - py1;
-	SLONG dz = pz2 - pz1;
+	std::int32_t dx = px2 - px1;
+	std::int32_t dy = py2 - py1;
+	std::int32_t dz = pz2 - pz1;
 
-	SLONG dist = abs(dx) + abs(dy) + abs(dz);
+	std::int32_t dist = abs(dx) + abs(dy) + abs(dz);
 
 	if (dist < 32)
 	{
 		dist = 32;
 	}
 
-	SLONG mid_x;
-	SLONG mid_y;
-	SLONG mid_z;
+	std::int32_t mid_x;
+	std::int32_t mid_y;
+	std::int32_t mid_z;
 
 	if (point_2)
 	{
@@ -425,9 +425,9 @@ void SPARK_create_auxillary(
 void SPARK_create(
 		SPARK_Pinfo *p1,
 		SPARK_Pinfo *p2,
-		UBYTE        max_life)
+		std::uint8_t        max_life)
 {
-	SLONG i;
+	std::int32_t i;
 
 	SPARK_Spark *ss;
 
@@ -513,18 +513,18 @@ void SPARK_create(
 	// Where shall we locate this spark?
 	//
 
-	SLONG px1;
-	SLONG py1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG py2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t py1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t py2;
+	std::int32_t pz2;
 
 	SPARK_point_pos(&ss->point[0], &px1, &py1, &pz1);
 	SPARK_point_pos(&ss->point[1], &px2, &py2, &pz2);
 
-	SLONG mx = px1 >> 8;
-	SLONG mz = pz1 >> 8;
+	std::int32_t mx = px1 >> 8;
+	std::int32_t mz = pz1 >> 8;
 
 	if (WITHIN(mz, 0, MAP_HEIGHT - 1))
 	{
@@ -548,11 +548,11 @@ void SPARK_create(
 
 void SPARK_process()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	UBYTE point_2;
-	UBYTE point_3;
+	std::uint8_t point_2;
+	std::uint8_t point_3;
 
 	SPARK_Spark *ss;
 	SPARK_Point *sp;
@@ -581,8 +581,8 @@ void SPARK_process()
 			// Take this spark out of the linked list.
 			//
 
-			UBYTE  next;
-			UBYTE *prev;
+			std::uint8_t  next;
+			std::uint8_t *prev;
 
 			prev = &SPARK_mapwho[ss->map_z];
 			next =  SPARK_mapwho[ss->map_z];
@@ -667,9 +667,9 @@ void SPARK_process()
 			//
 
 			{
-				SLONG px;
-				SLONG py;
-				SLONG pz;
+				std::int32_t px;
+				std::int32_t py;
+				std::int32_t pz;
 
 				j  = rand() % (ss->num_points - 1);
 				j += 1;
@@ -692,15 +692,15 @@ void SPARK_process()
 }
 
 void SPARK_find_midpoint(
-		SLONG  x1, SLONG  y1, SLONG z1,
-		SLONG  x2, SLONG  y2, SLONG z2,
-		SLONG *mx, SLONG *my, SLONG *mz)
+		std::int32_t  x1, std::int32_t  y1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t  y2, std::int32_t z2,
+		std::int32_t *mx, std::int32_t *my, std::int32_t *mz)
 {
-	SLONG dx = x2 - x1 >> 1;
-	SLONG dy = y2 - y1 >> 1;
-	SLONG dz = z2 - z1 >> 1;
+	std::int32_t dx = x2 - x1 >> 1;
+	std::int32_t dy = y2 - y1 >> 1;
+	std::int32_t dz = z2 - z1 >> 1;
 
-	SLONG dist = abs(dx) + abs(dy) + abs(dz);
+	std::int32_t dist = abs(dx) + abs(dy) + abs(dz);
 
 	if (dist < 4) {dist = 4;}
 
@@ -721,8 +721,8 @@ void SPARK_find_midpoint(
 
 void SPARK_build_spark(
 		SPARK_Info *si,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
 	si->x[0] = x1;
 	si->y[0] = y1;
@@ -754,20 +754,20 @@ void SPARK_build_spark(
 
 
 
-UBYTE SPARK_get_z;
-UBYTE SPARK_get_xmin;
-UBYTE SPARK_get_xmax;
-UBYTE SPARK_get_spark;
-UBYTE SPARK_get_point;
+std::uint8_t SPARK_get_z;
+std::uint8_t SPARK_get_xmin;
+std::uint8_t SPARK_get_xmax;
+std::uint8_t SPARK_get_spark;
+std::uint8_t SPARK_get_point;
 SPARK_Info SPARK_get_info;
-SLONG SPARK_get_x1;
-SLONG SPARK_get_y1;
-SLONG SPARK_get_z1;
-SLONG SPARK_get_x2;
-SLONG SPARK_get_y2;
-SLONG SPARK_get_z2;
+std::int32_t SPARK_get_x1;
+std::int32_t SPARK_get_y1;
+std::int32_t SPARK_get_z1;
+std::int32_t SPARK_get_x2;
+std::int32_t SPARK_get_y2;
+std::int32_t SPARK_get_z2;
 
-void SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
+void SPARK_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z)
 {
 	SPARK_get_xmin       = xmin;
 	SPARK_get_xmax       = xmax;
@@ -828,8 +828,8 @@ SPARK_Info *SPARK_get_next()
 	SPARK_Point *sp2;
 	SPARK_Point *sp;
 
-	SLONG x1, y1, z1;
-	SLONG x2, y2, z2;
+	std::int32_t x1, y1, z1;
+	std::int32_t x2, y2, z2;
 
 	if (SPARK_get_point == 1)
 	{
@@ -912,43 +912,43 @@ SPARK_Info *SPARK_get_next()
 
 
 void SPARK_in_sphere(
-		SLONG mid_x,
-		SLONG mid_y,
-		SLONG mid_z,
-		SLONG radius,
-		UBYTE max_life,
-		UBYTE max_create)
+		std::int32_t mid_x,
+		std::int32_t mid_y,
+		std::int32_t mid_z,
+		std::int32_t radius,
+		std::uint8_t max_life,
+		std::uint8_t max_create)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG num;
+	std::int32_t num;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG along;
+	std::int32_t along;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG gx;
-	SLONG gy;
-	SLONG gz;
+	std::int32_t gx;
+	std::int32_t gy;
+	std::int32_t gz;
 
 	THING_INDEX t_index;
 
@@ -969,7 +969,7 @@ void SPARK_in_sphere(
 		SPARK_Pinfo p2;
 		
 	}     choice[SPARK_MAX_CHOICES];
-	SLONG choice_upto = 0;
+	std::int32_t choice_upto = 0;
 
 	SPARK_Pinfo *sp1;
 	SPARK_Pinfo *sp2;
@@ -980,8 +980,8 @@ void SPARK_in_sphere(
 
 	#define SPARK_MAX_DONE 64
 
-	UWORD done[SPARK_MAX_DONE];
-	SLONG done_upto = 0;
+	std::uint16_t done[SPARK_MAX_DONE];
+	std::int32_t done_upto = 0;
 
 	//
 	// The mapsquares to search.
@@ -1072,7 +1072,7 @@ void SPARK_in_sphere(
 					}
 					else
 					{
-						SLONG overwrite = rand() % SPARK_MAX_CHOICES;
+						std::int32_t overwrite = rand() % SPARK_MAX_CHOICES;
 
 						sp1 = &choice[overwrite].p1;
 						sp2 = &choice[overwrite].p2;
@@ -1101,8 +1101,8 @@ void SPARK_in_sphere(
 		// Any colvects?
 		//
 
-		SLONG v_list;
-		SLONG i_vect;
+		std::int32_t v_list;
+		std::int32_t i_vect;
 
 		CollisionVect *p_vect;
 
@@ -1200,7 +1200,7 @@ void SPARK_in_sphere(
 							}
 							else
 							{
-								SLONG overwrite = rand() % SPARK_MAX_CHOICES;
+								std::int32_t overwrite = rand() % SPARK_MAX_CHOICES;
 
 								sp1 = &choice[overwrite].p1;
 								sp2 = &choice[overwrite].p2;
@@ -1234,7 +1234,7 @@ void SPARK_in_sphere(
 	// Create the sparks!
 	//
 
-	SLONG choose;
+	std::int32_t choose;
 
 	while(max_create && choice_upto)
 	{
@@ -1256,15 +1256,15 @@ void SPARK_in_sphere(
 #ifndef	PSX
 void SPARK_show_electric_fences()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG bottom;
+	std::int32_t bottom;
 
-	SLONG along;
+	std::int32_t along;
 
 	DFacet *df;
 
@@ -1292,7 +1292,7 @@ void SPARK_show_electric_fences()
 				SPARK_Pinfo p1;
 				SPARK_Pinfo p2;
 
-				extern SLONG get_fence_bottom(SLONG x, SLONG z, SLONG col);
+				extern std::int32_t get_fence_bottom(std::int32_t x, std::int32_t z, std::int32_t col);
 
 				p1.type   = SPARK_TYPE_POINT;
 				p1.flag   = 0;

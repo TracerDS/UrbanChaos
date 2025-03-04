@@ -5,7 +5,7 @@
 
 //---------------------------------------------------------------
 
-CBYTE	*class_text[]	=	
+char	*class_text[]	=	
 {
 	"None",
 	"Player",
@@ -21,7 +21,7 @@ CBYTE	*class_text[]	=
 
 //---------------------------------------------------------------
 
-CBYTE	*genus_text[][10]	=
+char	*genus_text[][10]	=
 {
 	{	"None"										},
 	{	"None",	"Darci",	"Roper"					},
@@ -40,7 +40,7 @@ CBYTE	*genus_text[][10]	=
 
 //---------------------------------------------------------------
 
-CBYTE	*condition_text[]	=
+char	*condition_text[]	=
 {
 	"NONE",
 	"THING_DEAD",
@@ -61,7 +61,7 @@ CBYTE	*condition_text[]	=
 
 //---------------------------------------------------------------
 
-CBYTE	*command_text[]	=
+char	*command_text[]	=
 {
 	"NONE",
 	"ATTACK_PLAYER",
@@ -81,7 +81,7 @@ CBYTE	*command_text[]	=
 
 //---------------------------------------------------------------
 
-CBYTE	*s_command_text[]	=
+char	*s_command_text[]	=
 {
 	"ALWAYS",
 	"UNTIL_TRIGGER",

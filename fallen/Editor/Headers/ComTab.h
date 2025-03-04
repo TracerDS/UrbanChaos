@@ -16,9 +16,9 @@
 class	CommandTab	:	public	ModeTab
 {
 	private:
-		UWORD			DataField,
+		std::uint16_t			DataField,
 						TabMode;
-		SLONG			TabData;
+		std::int32_t			TabData;
 		EditCommand		*DataCommand;
 		EditComList		*CurrentComList;
 
@@ -27,26 +27,26 @@ class	CommandTab	:	public	ModeTab
 						~CommandTab();
 
 		void			DrawTabContent();
-		void			UpdateTab(UBYTE update_level);
-		UWORD			HandleTabClick(UBYTE flags,MFPoint *clicked_point);
+		void			UpdateTab(std::uint8_t update_level);
+		std::uint16_t			HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
 		void			HandleTab(MFPoint *current_point);
-		void			HandleControl(UWORD control_id);
+		void			HandleControl(std::uint16_t control_id);
 		void			DoComListPopup(MFPoint *clicked_point,EditComList *the_comlist);
-		void			DoCommandPopup(MFPoint *clicked_point,UWORD select_pos);
-		void			CommonCommandOptions(ULONG id,EditCommand *the_command);
+		void			DoCommandPopup(MFPoint *clicked_point,std::uint16_t select_pos);
+		void			CommonCommandOptions(std::uint32_t id,EditCommand *the_command);
 		EditCondList	*CommandTab::SelectConditionList();
 
 		void			DrawListsBox();
 		void			DrawCurrentList();
 
-		UWORD			ListsHilitePos(MFPoint *current_point);
-		EditComList		*HilitetedList(UWORD select_pos);
-		UWORD			CurrentListHilitePos(MFPoint *current_point);
-		EditCommand		*HilitetedCommand(UWORD select_pos);
+		std::uint16_t			ListsHilitePos(MFPoint *current_point);
+		EditComList		*HilitetedList(std::uint16_t select_pos);
+		std::uint16_t			CurrentListHilitePos(MFPoint *current_point);
+		EditCommand		*HilitetedCommand(std::uint16_t select_pos);
 
-		inline UWORD	GetTabMode()				{	return	TabMode;		}
-		inline void		SetTabMode(UWORD mode)			{	TabMode=mode;			}
-		inline void		SetTabData(SLONG data)			{	TabData=data;			}
+		inline std::uint16_t	GetTabMode()				{	return	TabMode;		}
+		inline void		SetTabMode(std::uint16_t mode)			{	TabMode=mode;			}
+		inline void		SetTabData(std::int32_t data)			{	TabData=data;			}
 };
 
 //---------------------------------------------------------------

@@ -92,18 +92,18 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 
 #endif
 
-extern SLONG	am_i_a_thug(Thing *p_person);
-extern void	drop_current_gun(Thing *p_person,SLONG change_anim);
-extern SLONG	analogue;
+extern std::int32_t	am_i_a_thug(Thing *p_person);
+extern void	drop_current_gun(Thing *p_person,std::int32_t change_anim);
+extern std::int32_t	analogue;
 
 #ifndef TARGET_DC
-SLONG NIGHT_specular_enable = false;
+std::int32_t NIGHT_specular_enable = false;
 #endif
 
-SLONG draw_3d;
-extern SLONG	mouse_input;
+std::int32_t draw_3d;
+extern std::int32_t	mouse_input;
 
-//CBYTE	tab_map_name[200];
+//char	tab_map_name[200];
 
 #define AMB_NUM_CHOICES 3
 
@@ -115,14 +115,14 @@ LIGHT_Colour amb_choice[AMB_NUM_CHOICES] =
 };
 
 LIGHT_Colour amb_colour;
-SLONG amb_choice_cur;
+std::int32_t amb_choice_cur;
 
-UWORD controls;
+std::uint16_t controls;
 
 
 // this allows darci to go undetected
-UBYTE stealth_debug = 0;
-SWORD CONTROLS_inventory_mode = 0;
+std::uint8_t stealth_debug = 0;
+std::int16_t CONTROLS_inventory_mode = 0;
 
 
 bool dodgy_psx_mode=0;
@@ -130,7 +130,7 @@ bool dodgy_psx_mode=0;
 #ifndef EDITOR
 //---------------------------------------------------------------
 
-UBYTE InkeyToAscii[]=
+std::uint8_t InkeyToAscii[]=
 {
 	/*   0 - 9   */		0,		0,		'1',	'2',	'3',	'4',	'5',	'6',	'7',	'8',
 	/*  10 - 19  */		'9',	'0',	'-',	'=',	'\b',	'\t',	'q',	'w',	'e',	'r',
@@ -147,7 +147,7 @@ UBYTE InkeyToAscii[]=
 	/* 120 - 127 */		0,		0,		0,		0,		0,		0,		0,		0
 };
 
-UBYTE InkeyToAsciiShift[]=
+std::uint8_t InkeyToAsciiShift[]=
 {
 	/*   0 - 9   */		0,		0,		'!',	'"',	'�',	'$',	'%',	'^',	'&',	'*',
 	/*  10 - 19  */		'(',	')',	'_',	'+',	'\b',	'\t',	'Q',	'W',	'E',	'R',
@@ -171,11 +171,11 @@ UBYTE InkeyToAsciiShift[]=
 
 #ifndef PSX
 
-CBYTE* cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", nullptr};
+char* cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose","s","l","restart","ambient","analogue","world","fade","roper", "darci", "crinkles","bangunsnotgames", "boo", nullptr};
 
-EWAY_Way* eway_find(SLONG id)
+EWAY_Way* eway_find(std::int32_t id)
 {
-	SLONG i;
+	std::int32_t i;
 
 	EWAY_Way *ew;
 
@@ -190,8 +190,8 @@ EWAY_Way* eway_find(SLONG id)
 
 EWAY_Way* eway_find_near(GameCoord pos)
 {
-	ULONG i, d=512, d2;
-	SLONG dx,dy,dz, r=-1;
+	std::uint32_t i, d=512, d2;
+	std::int32_t dx,dy,dz, r=-1;
 	EWAY_Way *ew;
 
 	pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
@@ -236,10 +236,10 @@ bool allow_debug_keys=0;
 
 bool dkeys_have_been_used;
 
-void parse_console(CBYTE* str) {
-  CBYTE cmd[20];
-  CBYTE* ptr=str, *pt2=cmd;
-  UWORD i;
+void parse_console(char* str) {
+  char cmd[20];
+  char* ptr=str, *pt2=cmd;
+  std::uint16_t i;
   Thing	*darci=NET_PERSON(0);
 
   // special stuff to do with the commands themselves
@@ -270,7 +270,7 @@ void parse_console(CBYTE* str) {
 				set_person_idle(NET_PERSON(0));
 				move_thing_on_map(NET_PERSON(0), &stored_pos);
 				FC_force_camera_behind(0);
-				SLONG plant_feet(Thing *p_person);
+				std::int32_t plant_feet(Thing *p_person);
 				plant_feet(NET_PERSON(0));
 				NET_PERSON(0)->Genus.Person->Flags&=~(FLAG_PERSON_KO|FLAG_PERSON_HELPLESS);
 				CONSOLE_text("restored.",5000);
@@ -283,7 +283,7 @@ void parse_console(CBYTE* str) {
 					set_person_idle(NET_PERSON(0));
 					move_thing_on_map(NET_PERSON(0), &pos);
 					FC_force_camera_behind(0);
-					SLONG plant_feet(Thing *p_person);
+					std::int32_t plant_feet(Thing *p_person);
 					plant_feet(NET_PERSON(0));
 					NET_PERSON(0)->Genus.Person->Flags&=~(FLAG_PERSON_KO|FLAG_PERSON_HELPLESS);
 					CONSOLE_text("z-z-zap.",5000);
@@ -388,8 +388,8 @@ void reload_level();
 				// ingame ambient editor
 				//
 				{
-					CBYTE	str[100];
-					SLONG r,g,b;
+					char	str[100];
+					std::int32_t r,g,b;
 					sscanf(ptr,"%d %d %d",&r,&g,&b);
 					CONSOLE_text(ptr);
 					sprintf(str," red %d green %d blue %d \n",r,g,b);
@@ -417,7 +417,7 @@ void reload_level();
 				MFX_load_wave_list();
 				break;
 			case 20:
-extern UWORD	fade_black;
+extern std::uint16_t	fade_black;
 				i=atoi(ptr);
 				if(i==0)
 					fade_black=1;
@@ -488,15 +488,15 @@ TGA_Pixel tga[480 ][640 ];
 
 void tga_dump()
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
 
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
-	CBYTE fname[32];
+	char fname[32];
 
 	FILE *handle;
 
@@ -565,39 +565,39 @@ void tga_dump()
 
 void plan_view_shot()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx;
-	SLONG dy;
+	std::int32_t dx;
+	std::int32_t dy;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG px1;
-	SLONG py1;
+	std::int32_t px1;
+	std::int32_t py1;
 
-	SLONG px2;
-	SLONG py2;
+	std::int32_t px2;
+	std::int32_t py2;
 
-	SLONG mx;
-	SLONG my;
-	SLONG mz;
-	SLONG height;
+	std::int32_t mx;
+	std::int32_t my;
+	std::int32_t mz;
+	std::int32_t height;
 
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
-	SLONG shadow;
+	std::int32_t shadow;
 
 	RoofFace4 *rf;
 	DFacet    *df;
 
-	UBYTE shad[8][9] =
+	std::uint8_t shad[8][9] =
 	{
 		{4,4,4,4,4,4,4,4,4},
 
@@ -770,8 +770,8 @@ void plan_view_shot()
 	// Waypoints.
 	//
 	
-	UBYTE dot_do;
-	UBYTE dot_size;
+	std::uint8_t dot_do;
+	std::uint8_t dot_size;
 	
 	EWAY_Way *ew;
 
@@ -880,7 +880,7 @@ void plan_view_shot()
 
 		if (dot_do)
 		{
-			SLONG alpha;
+			std::int32_t alpha;
 
 			mx = ew->x * 3 >> 8;
 			my = ew->z * 3 >> 8;
@@ -904,13 +904,13 @@ void plan_view_shot()
 		}
 	}
 
-	extern CBYTE ELEV_fname_level[];
-	extern CBYTE ELEV_fname_map  [];
+	extern char ELEV_fname_level[];
+	extern char ELEV_fname_map  [];
 
 	{
-		CBYTE  fname[256];
-		CBYTE* mapname;
-		CBYTE* ch;
+		char  fname[256];
+		char* mapname;
+		char* ch;
 
 
 		if (ELEV_fname_level[0])
@@ -981,11 +981,11 @@ void plan_view_shot()
 
 
 
-SLONG yomp_speed=40;
-SLONG sprint_speed=70;
+std::int32_t yomp_speed=40;
+std::int32_t sprint_speed=70;
 
-extern UBYTE aeng_draw_cloud_flag;
-SLONG can_i_draw_this_special(Thing *p_special)
+extern std::uint8_t aeng_draw_cloud_flag;
+std::int32_t can_i_draw_this_special(Thing *p_special)
 {
 	if (SPECIAL_info[p_special->Genus.Special->SpecialType].group == SPECIAL_GROUP_ONEHANDED_WEAPON ||
 		SPECIAL_info[p_special->Genus.Special->SpecialType].group == SPECIAL_GROUP_TWOHANDED_WEAPON ||
@@ -1001,17 +1001,17 @@ SLONG can_i_draw_this_special(Thing *p_special)
 }
 
 
-void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count) 
+void CONTROLS_set_inventory(Thing *darci, Thing *player,std::int32_t count) 
 {
 	Thing *p_special = nullptr;
-//	SBYTE count;
+//	std::int8_t count;
 
 
 	if (darci->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
 	{
 		// Put away your gun.
 //		set_person_gun_away(darci);
-		darci->Genus.Person->SpecialUse = nullptr;
+		darci->Genus.Person->SpecialUse = 0;
 		darci->Draw.Tweened->PersonID&=  ~0xe0;
 		darci->Genus.Person->Flags&=~FLAG_PERSON_GUN_OUT;
 	}
@@ -1055,7 +1055,7 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player,SLONG count)
 	}
 	else
 	{
-		darci->Genus.Person->SpecialUse = nullptr;
+		darci->Genus.Person->SpecialUse = 0;
 		darci->Draw.Tweened->PersonID   = 0;
 
 		//
@@ -1081,7 +1081,7 @@ Form *test_form;
 Widget *widget_text;
 Widget *widget_ok;
 
-bool form_proc(Form *form, Widget *widget, SLONG message)
+bool form_proc(Form *form, Widget *widget, std::int32_t message)
 {
 	if (widget && widget->methods == &BUTTON_Methods && message == WBN_PUSH)
 	{
@@ -1098,10 +1098,10 @@ bool form_proc(Form *form, Widget *widget, SLONG message)
 
 #define INVENTORY_FADE_SPEED	(32)
 
-SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
-	SBYTE count=1; // 0 is fist
+std::int8_t CONTROLS_get_selected_item(Thing *darci, Thing *player) {
+	std::int8_t count=1; // 0 is fist
 	Thing *p_special = nullptr;
-	SBYTE current_item = 0;
+	std::int8_t current_item = 0;
 
 	if (darci->Genus.Person->SpecialList)
 	{
@@ -1146,11 +1146,11 @@ SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 #define	BAT_SCORE		2
 #define	GRENADE_SCORE	1
 
-SBYTE CONTROLS_get_best_item(Thing *darci, Thing *player) 
+std::int8_t CONTROLS_get_best_item(Thing *darci, Thing *player) 
 {
-	SBYTE count=1; // 0 is fist
+	std::int8_t count=1; // 0 is fist
 	Thing *p_special = nullptr;
-	SBYTE current_item = 0,current_score=0;
+	std::int8_t current_item = 0,current_score=0;
 
 	if (darci->Genus.Person->SpecialList)
 	{
@@ -1236,9 +1236,9 @@ SBYTE CONTROLS_get_best_item(Thing *darci, Thing *player)
 //
 // does the panel fade in, and if no item is focus it finds if you have a current weapon and sets that as focus
 //
-SLONG CONTROLS_new_inventory(Thing *darci, Thing *player) 
+std::int32_t CONTROLS_new_inventory(Thing *darci, Thing *player) 
 {
-	UWORD temp = player->Genus.Player->PopupFade;
+	std::uint16_t temp = player->Genus.Player->PopupFade;
 	if (!temp) 
 		player->Genus.Player->ItemFocus=-1;
 
@@ -1276,7 +1276,7 @@ SLONG CONTROLS_new_inventory(Thing *darci, Thing *player)
 
 //void	CONTROLS_set_inventory(Thing *darci, Thing *player);
 
-void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir,SLONG pull_it_out_ooooerrr) 
+void CONTROLS_rot_inventory(Thing *darci, Thing *player, std::int8_t dir,std::int32_t pull_it_out_ooooerrr) 
 {
 	player->Genus.Player->ItemFocus+=dir;
 	if (player->Genus.Player->ItemFocus==-1) 
@@ -1292,7 +1292,7 @@ void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir,SLONG pull_it
 /*
 void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	Thing *p_special = nullptr;
-	SBYTE count;
+	std::int8_t count;
 
 
 	if (darci->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
@@ -1367,16 +1367,16 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 //
 // PC VERSION
 //
-extern UWORD	count_gang(Thing *p_target);
+extern std::uint16_t	count_gang(Thing *p_target);
 
 // new cleaner version
 void context_music()
 {
-	UBYTE	mode = 0;
+	std::uint8_t	mode = 0;
 	Thing	*darci;
-	static	SLONG danger=0;
+	static	std::int32_t danger=0;
 	static enum Waves danger_lookup[] = { S_NULL, S_TUNE_DANGER_RED, S_NULL, S_TUNE_DANGER_GREEN };
-	UBYTE	new_danger;
+	std::uint8_t	new_danger;
 	
 	if (!NET_PLAYER(PLAYER_ID))
 	{
@@ -1452,13 +1452,13 @@ void context_music()
 
 void context_music()
 {
-	SLONG	music=0;
+	std::int32_t	music=0;
 	Thing	*darci;
-	static	UBYTE danger_music=0,drive=0;
-	UBYTE	new_danger_music;
-	SLONG	wave;
+	static	std::uint8_t danger_music=0,drive=0;
+	std::uint8_t	new_danger_music;
+	std::int32_t	wave;
 
-	UBYTE	mode = 0;
+	std::uint8_t	mode = 0;
 
 	new_danger_music=NET_PLAYER(PLAYER_ID)->Genus.Player->Danger;
 
@@ -1548,7 +1548,7 @@ void context_music()
 
 	if(darci->Genus.Person->Mode==PERSON_MODE_SPRINT)
 	{
-/*		SLONG	wave;
+/*		std::int32_t	wave;
 		wave=MUSIC_wave();
 		if(wave==S_TUNE_SPRINT || wave==S_TUNE_SPRINT+1)
 		{
@@ -1653,7 +1653,7 @@ void context_music()
 */
 /*	{
 
-		SLONG	wave;
+		std::int32_t	wave;
 
 		wave=MUSIC_wave();
 		switch(wave)
@@ -1671,12 +1671,12 @@ void context_music()
 
 void set_danger_level()
 {
-	SLONG num_found;
-	SLONG	i,j;
+	std::int32_t num_found;
+	std::int32_t	i,j;
 
-	SLONG dist;
-	SLONG best_dist   = INFINITY;
-	SLONG best_person = nullptr;
+	std::int32_t dist;
+	std::int32_t best_dist   = INFINITY;
+	std::int32_t best_person = 0;
 
 	Thing *p_found;
 
@@ -1740,9 +1740,9 @@ void set_danger_level()
 					if(am_i_a_thug(p_found))
 					{
 
-						SLONG dx = abs(p_found->WorldPos.X - p_person->WorldPos.X >> 8);
-						SLONG dy = abs(p_found->WorldPos.Y - p_person->WorldPos.Y >> 8);
-						SLONG dz = abs(p_found->WorldPos.Z - p_person->WorldPos.Z >> 8);
+						std::int32_t dx = abs(p_found->WorldPos.X - p_person->WorldPos.X >> 8);
+						std::int32_t dy = abs(p_found->WorldPos.Y - p_person->WorldPos.Y >> 8);
+						std::int32_t dz = abs(p_found->WorldPos.Z - p_person->WorldPos.Z >> 8);
 
 						//
 						// Nasty person.
@@ -1784,10 +1784,10 @@ void set_danger_level()
 #ifndef PSX
 void process_controls()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
 
 	Thing *darci = NET_PERSON(0);
 
@@ -1831,8 +1831,8 @@ void process_controls()
 		// Find an MIB...
 		//
 
-		SLONG  list;
-		SLONG  num_mibs = 0;
+		std::int32_t  list;
+		std::int32_t  num_mibs = 0;
 		Thing *p_thing;
 
 		for (list = thing_class_head[CLASS_PERSON]; list; list = p_thing->NextLink)
@@ -1870,7 +1870,7 @@ void process_controls()
 	{
 		Keys[KB_D] = 0;
 
-		SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind);
+		std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_behind);
 
 		if (is_there_room_behind_person(darci, false))
 		{
@@ -1889,8 +1889,8 @@ void process_controls()
 	#if THIS_IS_A_LOS_TEST
 
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 
 		x1 = (darci->WorldPos.X >> 8);
 		y1 = (darci->WorldPos.Y >> 8) + 0x60;
@@ -1903,7 +1903,7 @@ void process_controls()
 		x2 -= SIN(darci->Draw.Tweened->Angle) >> 6;
 		z2 -= COS(darci->Draw.Tweened->Angle) >> 6;
 
-		SLONG colour;
+		std::int32_t colour;
 
 		if (there_is_a_los(
 				x1, y1, z1,
@@ -1938,7 +1938,7 @@ void process_controls()
 		{
 			Keys[KB_B] = 0;
 
-			extern UWORD last_fudge_camera;
+			extern std::uint16_t last_fudge_camera;
 
 			for (i = 0; i < EWAY_way_upto; i++)
 			{
@@ -1964,9 +1964,9 @@ void process_controls()
 		{
 			Keys[KB_M] = 0;
 
-			extern UWORD last_fudge_message;
+			extern std::uint16_t last_fudge_message;
 
-			SLONG old_flag;
+			std::int32_t old_flag;
 
 			for (i = 0; i < EWAY_way_upto; i++)
 			{
@@ -2041,7 +2041,7 @@ void process_controls()
 #ifndef TARGET_DC
 	if (allow_debug_keys)
 	{
-		static	SLONG index_cam=0;
+		static	std::int32_t index_cam=0;
 		Thing	*p_thing;
 
 
@@ -2105,7 +2105,7 @@ void process_controls()
 			}
 		}
 #ifndef	NDEBUG
-		SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind);
+		std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_behind);
 
 		if (Keys[KB_U])
 		{
@@ -2175,7 +2175,7 @@ void process_controls()
 		/*
 
 		{
-			SLONG	index;
+			std::int32_t	index;
 			index=BAT_create(
 				BAT_TYPE_GARGOYLE,
 				darci->WorldPos.X >> 8,
@@ -2194,9 +2194,9 @@ void process_controls()
 
 	if ((GAME_TURN & 0xffff) == 0)
 	{		
-		SLONG look = ROAD_get_mapsquare_type(darci->WorldPos.X >> 16, darci->WorldPos.Z >> 16);
+		std::int32_t look = ROAD_get_mapsquare_type(darci->WorldPos.X >> 16, darci->WorldPos.Z >> 16);
 
-		CBYTE* look_names[] =
+		char* look_names[] =
 		{
 			"stone",
 			"grass",
@@ -2247,7 +2247,7 @@ void process_controls()
 
 	*/
 /*
-SLONG is_person_crouching(Thing *p_person);
+std::int32_t is_person_crouching(Thing *p_person);
 
 	if (is_person_crouching(darci))
 	{
@@ -2296,12 +2296,12 @@ SLONG is_person_crouching(Thing *p_person);
 	
 	
 	static bool  is_inputing=0;
-	extern UBYTE InkeyToAscii[];
-	extern UBYTE InkeyToAsciiShift[];
-	extern void CONSOLE_status(CBYTE* msg);
+	extern std::uint8_t InkeyToAscii[];
+	extern std::uint8_t InkeyToAsciiShift[];
+	extern void CONSOLE_status(char* msg);
 
 	if (is_inputing) {
-		static CBYTE input_text[MAX_PATH]="] ";
+		static char input_text[MAX_PATH]="] ";
 
 		if ((Keys[KB_ESC])||(Keys[KB_ENTER])) {
 			if (Keys[KB_ENTER]) parse_console(input_text+2); // +2 to skip the "] "
@@ -2315,8 +2315,8 @@ SLONG is_person_crouching(Thing *p_person);
 			POLY_frame_init(false, false);
 
 			if (LastKey) {
-				UWORD len=strlen(input_text);
-				CBYTE key;
+				std::uint16_t len=strlen(input_text);
+				char key;
 			    key= (Keys[KB_LSHIFT]||Keys[KB_RSHIFT]) ?  InkeyToAsciiShift[LastKey] : InkeyToAscii[LastKey] ;
 				if (key==8) {
 					if (len>2) input_text[len-1]=0;
@@ -2348,7 +2348,7 @@ SLONG is_person_crouching(Thing *p_person);
 	//
 
 	extern Form *form_leave_map;
-	extern SLONG can_darci_change_weapon(Thing *p_person);
+	extern std::int32_t can_darci_change_weapon(Thing *p_person);
 
 	if ((!(GAME_FLAGS & GF_PAUSED) && !form_leave_map) && can_darci_change_weapon(darci))
 	{
@@ -2458,7 +2458,7 @@ SLONG is_person_crouching(Thing *p_person);
 	{
 		Keys[KB_F12]=0;
 
-extern UBYTE	cheat;
+extern std::uint8_t	cheat;
 
 		if(cheat)
 		{
@@ -2488,8 +2488,8 @@ extern UBYTE	cheat;
 
 	if(Keys[KB_F3])
 	{
-void save_whole_game(CBYTE	*gamename);
-void load_whole_game(CBYTE	*gamename);
+void save_whole_game(char	*gamename);
+void load_whole_game(char	*gamename);
 
 		Keys[KB_F3]=0;
 		if(ShiftFlag)
@@ -2609,7 +2609,7 @@ void set_person_idle(Thing *p_person);
 
 	if(Keys[KB_P])
 	{
-void save_whole_game(CBYTE	*gamename);
+void save_whole_game(char	*gamename);
 		save_whole_game("save.me");
 
 	}
@@ -2618,7 +2618,7 @@ void save_whole_game(CBYTE	*gamename);
 
 	if(Keys[KB_1])
 	{
-extern UBYTE	anim_type[];
+extern std::uint8_t	anim_type[];
 										   
 		darci->Genus.Person->PersonType =  PERSON_DARCI;
 		darci->Genus.Person->AnimType =  ANIM_TYPE_DARCI;
@@ -2631,7 +2631,7 @@ extern UBYTE	anim_type[];
 
 
 //darci->Genus.Person->Flags&=~FLAG_PERSON_OTHERHAND;
-void FC_look_at(SLONG cam, UWORD thing_index);
+void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
 		
 		
 		FC_look_at(0,THING_NUMBER(darci));
@@ -2661,7 +2661,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 	*/
 
-	static UBYTE playing=0;
+	static std::uint8_t playing=0;
 
 /*	if (playing&&(Keys[KB_3]||Keys[KB_4]||Keys[KB_5])) {
 		MFX_stop(THING_NUMBER(darci),MFX_WAVE_ALL);
@@ -2754,8 +2754,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 	{		
 		if (Keys[KB_J])
 		{
-			SLONG mx = darci->WorldPos.X >> 16;
-			SLONG mz = darci->WorldPos.Z >> 16;
+			std::int32_t mx = darci->WorldPos.X >> 16;
+			std::int32_t mz = darci->WorldPos.Z >> 16;
 
 			MAV_draw(
 				mx - 5, mz - 5,
@@ -2764,8 +2764,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 		if (Keys[KB_I])
 		{
-			SLONG mx = darci->WorldPos.X >> 16;
-			SLONG mz = darci->WorldPos.Z >> 16;
+			std::int32_t mx = darci->WorldPos.X >> 16;
+			std::int32_t mz = darci->WorldPos.Z >> 16;
 
 			WAND_draw(mx,mz);
 		}
@@ -2787,7 +2787,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 	if (HOOK_get_state() == HOOK_STATE_SPINNING)
 	{
-		static SLONG spin_speed = 0;
+		static std::int32_t spin_speed = 0;
 
 		if (ControlFlag) {spin_speed += 15;}
 
@@ -2795,9 +2795,9 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 		SATURATE(spin_speed, 64, 154);
 
-		SLONG px;
-		SLONG py;
-		SLONG pz;
+		std::int32_t px;
+		std::int32_t py;
+		std::int32_t pz;
 
 		calc_sub_objects_position(
 			darci,
@@ -2846,10 +2846,10 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 	if(Keys[KB_E])
 	{
-		SLONG y;
-		SLONG index;
+		std::int32_t y;
+		std::int32_t index;
 
-		static UBYTE type = 0;
+		static std::uint8_t type = 0;
 
 		Keys[KB_E] = 0;
 
@@ -2872,7 +2872,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 	{
 		Keys[KB_B] = 0;
 
-			extern SLONG NIGHT_specular_enable;
+			extern std::int32_t NIGHT_specular_enable;
 			NIGHT_specular_enable ^= true;
 	}
 
@@ -2942,9 +2942,9 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 	if(Keys[KB_W])
 	{
-		SLONG px = darci->WorldPos.X >> 8;
-		SLONG py = darci->WorldPos.Y >> 8;
-		SLONG pz = darci->WorldPos.Z >> 8;
+		std::int32_t px = darci->WorldPos.X >> 8;
+		std::int32_t py = darci->WorldPos.Y >> 8;
+		std::int32_t pz = darci->WorldPos.Z >> 8;
 
 		px += 0x80;
 		py += 0x10;
@@ -2966,12 +2966,12 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		}
 	}
 
-	static UBYTE hm_1 = 255;
-	static UBYTE hm_2 = 255;
+	static std::uint8_t hm_1 = 255;
+	static std::uint8_t hm_2 = 255;
 
 	/*
 	{
-		SLONG process;
+		std::int32_t process;
 
 		//
 		// How many times to process?
@@ -2981,7 +2981,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 		process = AT_TWENTY * TICK_RATIO >> TICK_SHIFT;
 
-		for (SLONG i = 0; i < process; i++)
+		for (std::int32_t i = 0; i < process; i++)
 		{
 			HM_process();
 			SM_process();
@@ -2999,8 +2999,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 	#if WE_WANNA_TEST_THE_LOS_STUFF
 
 	{
-		SLONG x1, y1, z1;
-		SLONG x2, y2, z2;
+		std::int32_t x1, y1, z1;
+		std::int32_t x2, y2, z2;
 #ifdef	OLD_CAM
 		CAM_get_pos(&x1, &y1, &z1);
 #endif
@@ -3055,12 +3055,12 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		// Is darci ready to go upstairs?
 		//
 
-		SLONG dfloor;
-		SLONG new_floor;
+		std::int32_t dfloor;
+		std::int32_t new_floor;
 
-		SLONG new_x;
-		SLONG new_z;
-		SLONG new_storey;
+		std::int32_t new_x;
+		std::int32_t new_z;
+		std::int32_t new_storey;
 
 		dfloor = ID_change_floor(
 					darci->WorldPos.X >> 8,
@@ -3116,12 +3116,12 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 	#if WE_WANT_WIND
 	{
-		static SLONG wind_counter = 100;
-		static SLONG wind_updown  = 0;
-		static SLONG wind_speed = 0;
-		static SLONG wind_max = 0;
-		static SLONG wind_sign_dx = 0;
-		static SLONG wind_sign_dz = 0;
+		static std::int32_t wind_counter = 100;
+		static std::int32_t wind_updown  = 0;
+		static std::int32_t wind_speed = 0;
+		static std::int32_t wind_max = 0;
+		static std::int32_t wind_sign_dx = 0;
+		static std::int32_t wind_sign_dz = 0;
 
 		switch(wind_updown)
 		{
@@ -3178,8 +3178,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 				wind_speed   = 0;
 		}
 
-		SLONG wind_dx = (wind_speed >> 3) * wind_sign_dx;
-		SLONG wind_dz = (wind_speed >> 4) * wind_sign_dz;
+		std::int32_t wind_dx = (wind_speed >> 3) * wind_sign_dx;
+		std::int32_t wind_dz = (wind_speed >> 4) * wind_sign_dz;
 
 		DIRT_gale(
 			wind_dx,
@@ -3188,8 +3188,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 #ifdef WE_WANT_SOME_BOLLOCKS_OLD_WIND_SOUND_FX_THATS_BEEN_OBSOLETE_FOR_OVER_A_YEAR
 		if (wind_speed > 32)
 		{
-			SLONG			wind_wave;
-			static SLONG	wind_ref=0;
+			std::int32_t			wind_wave;
+			static std::int32_t	wind_ref=0;
 /*			WaveParams		wind;
 
 			wind_wave					=	((Random()*(S_WIND_END-S_WIND_START))>>16)+S_WIND_START;
@@ -3220,8 +3220,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 		// Wind...
 		//
 		
-		static SLONG wind_dx = 0;
-		static SLONG wind_dz = 0;
+		static std::int32_t wind_dx = 0;
+		static std::int32_t wind_dz = 0;
 
 		if (Keys[KB_LBRACE]) {Keys[KB_LBRACE] = 0; wind_dx -= 2; wind_dz -= 1;}
 		if (Keys[KB_RBRACE]) {Keys[KB_RBRACE] = 0; wind_dx += 2; wind_dz += 1;}
@@ -3230,7 +3230,7 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 			wind_dx,
 			wind_dz);
 
-		SLONG eow = abs(wind_dx) + abs(wind_dz);
+		std::int32_t eow = abs(wind_dx) + abs(wind_dz);
 
 		if (eow > 3)
 		{
@@ -3264,8 +3264,8 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 	if (world_type==WORLD_TYPE_SNOW)
 	{
 
-		static SLONG wind_speed = 0;
-		static SLONG wind_counter=0;
+		static std::int32_t wind_speed = 0;
+		static std::int32_t wind_counter=0;
 
 //		if (--wind_counter<0)
 		{
@@ -3276,15 +3276,15 @@ void FC_look_at(SLONG cam, UWORD thing_index);
 
 			wind_speed=0x2f+(Random()&0x3f);
 
-			SLONG wind_dx = (wind_speed >> 3) ;
-			SLONG wind_dz = (wind_speed >> 4) ;
+			std::int32_t wind_dx = (wind_speed >> 3) ;
+			std::int32_t wind_dz = (wind_speed >> 4) ;
 			
 			wind_counter=(Random()&0x3f);
 
 /*			DIRT_gale(
 				wind_dx,
 				wind_dz);*/
-void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz);
+void DIRT_gale_height(std::int32_t dx,std::int32_t dy,std::int32_t dz);
 
 			DIRT_gale_height(
 				wind_dx,
@@ -3303,13 +3303,13 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz);
 
 	if (Keys[KB_P4])
 	{
-		static SLONG startx = 0;
-		static SLONG startz = 0;
-		static SLONG startvalid = 0;
+		static std::int32_t startx = 0;
+		static std::int32_t startz = 0;
+		static std::int32_t startvalid = 0;
 
-		static SLONG endx = 0;
-		static SLONG endz = 0;
-		static SLONG endvalid = 0;
+		static std::int32_t endx = 0;
+		static std::int32_t endz = 0;
+		static std::int32_t endvalid = 0;
 
 		Keys[KB_P4] = 0;
 
@@ -3345,13 +3345,13 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz);
 
 	// pyrotest
 	{
-	static SLONG ribbon_id=-1;
-	static UBYTE which_pyro=0;
-	static SLONG line=0;
+	static std::int32_t ribbon_id=-1;
+	static std::uint8_t which_pyro=0;
+	static std::int32_t line=0;
 	GameCoord posn;
 
 	if (Keys[KB_P7]) {
-		CBYTE* names[] = { "flicker", "ribbon", "explosion", "sparklies", "bonfire", "immolate", "testrib", "firewall", "new sploje", "new dome", "whoomph" };
+		char* names[] = { "flicker", "ribbon", "explosion", "sparklies", "bonfire", "immolate", "testrib", "firewall", "new sploje", "new dome", "whoomph" };
 		Keys[KB_P7]=0;
 		which_pyro++;
 		if (which_pyro==(sizeof(names)>>2)) which_pyro=0;
@@ -3359,7 +3359,7 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz);
 	}
 
 	if (Keys[KB_P5]) {
-		static UBYTE line = 0;
+		static std::uint8_t line = 0;
 		static GameCoord oldposn = {0,0,0};
 		Thing *pyro;
 
@@ -3471,7 +3471,7 @@ extern void PYRO_fn_init(Thing *thing);
 		static int ribbon_tick=0;
 		ribbon_tick++;
 		if (ribbon_tick&1) {
-			SLONG dx,dz,ang;
+			std::int32_t dx,dz,ang;
 			ang=(-darci->Draw.Tweened->Angle)&2047;
 			dx=COS(ang)/8;
 			dz=SIN(ang)/8;
@@ -3533,9 +3533,9 @@ extern void PYRO_fn_init(Thing *thing);
 		// Set the camera angles depending on the mouse.
 		//
 
-		SLONG yaw;
-		SLONG pitch;
-		SLONG roll;
+		std::int32_t yaw;
+		std::int32_t pitch;
+		std::int32_t roll;
 
 		yaw   = MouseX - (DisplayWidth  / 2) << 3;
 		pitch = MouseY - (DisplayHeight / 2) << 3;
@@ -3546,7 +3546,7 @@ extern void PYRO_fn_init(Thing *thing);
 			pitch,
 			roll);
 
-		SLONG zoom = CAM_get_zoom();
+		std::int32_t zoom = CAM_get_zoom();
 
 		#define CAM_DZOOM 0x10
 
@@ -3615,7 +3615,7 @@ extern void PYRO_fn_init(Thing *thing);
 	*/
 
 	{
-		static UBYTE dlight = nullptr;
+		static std::uint8_t dlight = 0;
 
 		if (Keys[KB_L])
 		{
@@ -3625,7 +3625,7 @@ extern void PYRO_fn_init(Thing *thing);
 			{
 				NIGHT_dlight_destroy(dlight);
 
-				dlight = nullptr;
+				dlight = 0;
 			}
 			else
 			{
@@ -3680,7 +3680,7 @@ extern void PYRO_fn_init(Thing *thing);
 	}
 	if (Keys[KB_P3])
 	{
-		static UBYTE line = 0;
+		static std::uint8_t line = 0;
 		static GameCoord oldposn={0,0,0};
 		Thing *pyro;
 		GameCoord posn;
@@ -3708,7 +3708,7 @@ extern void PYRO_fn_init(Thing *thing);
 		}
 
 	}
-	static UBYTE smokin=0;
+	static std::uint8_t smokin=0;
 #ifndef	PSX
 /*	if (Keys[KB_FORESLASH]) {
 
@@ -3733,7 +3733,7 @@ extern void PYRO_fn_init(Thing *thing);
 
 	/*
 	
-	static SWORD steamypos = 0;
+	static std::int16_t steamypos = 0;
 	if (Keys[KB_POINT]) {
 		Keys[KB_POINT]=0;
 		if (ShiftFlag)
@@ -3786,10 +3786,10 @@ extern void PYRO_fn_init(Thing *thing);
 
 
 
-	static SLONG nav_x = 0;
-	static SLONG nav_z = 0;
+	static std::int32_t nav_x = 0;
+	static std::int32_t nav_z = 0;
 
-	static SLONG      ma_valid = 0;
+	static std::int32_t      ma_valid = 0;
 	static MAV_Action ma = {0,0,0,0};
 #ifndef	PSX	
 #ifndef TARGET_DC
@@ -3798,13 +3798,13 @@ extern void PYRO_fn_init(Thing *thing);
  
 		if (ma_valid)
 		{
-			SLONG x1 = darci->WorldPos.X >> 8;
-			SLONG y1 = darci->WorldPos.Y >> 8;
-			SLONG z1 = darci->WorldPos.Z >> 8;
+			std::int32_t x1 = darci->WorldPos.X >> 8;
+			std::int32_t y1 = darci->WorldPos.Y >> 8;
+			std::int32_t z1 = darci->WorldPos.Z >> 8;
 
-			SLONG x2 = (ma.dest_x << 8) + 0x80;
-			SLONG y2 = MAVHEIGHT(ma.dest_x,ma.dest_z)<<6;//LAV_height[ma.dest_x][ma.dest_z] << 6;
-			SLONG z2 = (ma.dest_z << 8) + 0x80;
+			std::int32_t x2 = (ma.dest_x << 8) + 0x80;
+			std::int32_t y2 = MAVHEIGHT(ma.dest_x,ma.dest_z)<<6;//LAV_height[ma.dest_x][ma.dest_z] << 6;
+			std::int32_t z2 = (ma.dest_z << 8) + 0x80;
 
 			AENG_world_line(
 				x1, y1, z1, 32, 0x00ffff00,
@@ -3835,7 +3835,7 @@ extern void PYRO_fn_init(Thing *thing);
 		static int skill=0;
 		if(Keys[KB_A])
 		{
-			UWORD	index;
+			std::uint16_t	index;
 			Keys[KB_A]=0;
 
 			//
@@ -3860,7 +3860,7 @@ extern void PYRO_fn_init(Thing *thing);
 				darci->WorldPos.Z-(128<<8)+((Random()&0xff)<<11),
 				0,				0);
 
-extern void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang);
+extern void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, std::int32_t alert_gang);
 			PCOM_set_person_ai_kill_person(TO_THING(index),NET_PERSON(0),0);
 
 			skill += 2;
@@ -3875,7 +3875,7 @@ extern void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLO
 			// pretends it created Darci!
 			//
 
-			SLONG waypoint = EWAY_find_or_create_waypoint_that_created_person(darci);
+			std::int32_t waypoint = EWAY_find_or_create_waypoint_that_created_person(darci);
 
 			PCOM_create_person(
 				PERSON_HOSTAGE,
@@ -3931,7 +3931,7 @@ extern void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLO
 		{
 			Keys[KB_X] = 0;
 			
-void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
+void set_person_mav_to_xz(Thing *p_person,std::int32_t x,std::int32_t z);
 			set_person_mav_to_xz(darci,nav_x<<8,nav_z<<8);
 			
 			ma_valid = true;
@@ -3955,13 +3955,13 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 				// Look for a good square in the sewers near Darci.
 				//
 
-				SLONG i;
-				SLONG dx;
-				SLONG dz;
-				SLONG mx = darci->WorldPos.X >> 16;
-				SLONG mz = darci->WorldPos.Z >> 16;
-				SLONG sx;
-				SLONG sz;
+				std::int32_t i;
+				std::int32_t dx;
+				std::int32_t dz;
+				std::int32_t mx = darci->WorldPos.X >> 16;
+				std::int32_t mz = darci->WorldPos.Z >> 16;
+				std::int32_t sx;
+				std::int32_t sz;
 
 				before_enter_pos = darci->WorldPos;
 
@@ -4026,9 +4026,9 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 		{
 			Keys[KB_F] = 0;
 
-			SLONG px;
-			SLONG py;
-			SLONG pz;
+			std::int32_t px;
+			std::int32_t py;
+			std::int32_t pz;
 
 			calc_sub_objects_position(
 				darci,
@@ -4067,7 +4067,7 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 			Keys[KB_T] = 0;
 
 #ifndef	PSX
-			UBYTE cloth = CLOTH_create(
+			std::uint8_t cloth = CLOTH_create(
 								CLOTH_TYPE_FLAG,
 								(darci->WorldPos.X >> 8) + 0x80,
 								(darci->WorldPos.Y >> 8) + 0x80,
@@ -4127,15 +4127,15 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 		{
 			Keys[KB_M] = 0;
 
-			static SLONG last_detail = 17;
-			static SLONG last_height = 84;
+			static std::int32_t last_detail = 17;
+			static std::int32_t last_height = 84;
 
 			#define MIST_SIZE 0x800
 
-			SLONG x1 = (darci->WorldPos.X>>8) - MIST_SIZE;
-			SLONG z1 = (darci->WorldPos.Z>>8) - MIST_SIZE;
-			SLONG x2 = (darci->WorldPos.X>>8) + MIST_SIZE;
-			SLONG z2 = (darci->WorldPos.Z>>8) + MIST_SIZE;
+			std::int32_t x1 = (darci->WorldPos.X>>8) - MIST_SIZE;
+			std::int32_t z1 = (darci->WorldPos.Z>>8) - MIST_SIZE;
+			std::int32_t x2 = (darci->WorldPos.X>>8) + MIST_SIZE;
+			std::int32_t z2 = (darci->WorldPos.Z>>8) + MIST_SIZE;
 
 			MIST_create(
 				last_detail,
@@ -4150,15 +4150,15 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 		{
 			Keys[KB_M] = 0;
 
-			static SLONG last_detail = 17;
-			static SLONG last_height = 84;
+			static std::int32_t last_detail = 17;
+			static std::int32_t last_height = 84;
 
 			#define MIST_SIZE 0x800
 
-			SLONG x1 = (darci->WorldPos.X>>8) - MIST_SIZE;
-			SLONG z1 = (darci->WorldPos.Z>>8) - MIST_SIZE;
-			SLONG x2 = (darci->WorldPos.X>>8) + MIST_SIZE;
-			SLONG z2 = (darci->WorldPos.Z>>8) + MIST_SIZE;
+			std::int32_t x1 = (darci->WorldPos.X>>8) - MIST_SIZE;
+			std::int32_t z1 = (darci->WorldPos.Z>>8) - MIST_SIZE;
+			std::int32_t x2 = (darci->WorldPos.X>>8) + MIST_SIZE;
+			std::int32_t z2 = (darci->WorldPos.Z>>8) + MIST_SIZE;
 
 			MIST_create(
 				last_detail,
@@ -4268,7 +4268,7 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 			{
 				HM_Primgrid *hpg = HM_get_primgrid(6);
 
-				UBYTE hm = HM_create(
+				std::uint8_t hm = HM_create(
 								6,
 
 								(darci->WorldPos.X>>8),
@@ -4345,8 +4345,8 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 					// Ground level of the building.
 					//
 
-					SLONG top;
-					SLONG bot;
+					std::int32_t top;
+					std::int32_t bot;
 
 					ENTER_get_extents(
 						eo.dbuilding,
@@ -4367,10 +4367,10 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 							// Move darci to inside the building.
 							//
 
-							SLONG x1;
-							SLONG z1;
-							SLONG x2;
-							SLONG z2;
+							std::int32_t x1;
+							std::int32_t z1;
+							std::int32_t x2;
+							std::int32_t z2;
 
 							GameCoord pos;
 
@@ -4481,32 +4481,32 @@ void set_person_mav_to_xz(Thing *p_person,SLONG x,SLONG z);
 		*/
 
 		/*
-extern SLONG	FC_cam_dist;
-extern SLONG	FC_cam_height;
+extern std::int32_t	FC_cam_dist;
+extern std::int32_t	FC_cam_height;
 		if(Keys[KB_7])
 		{
-			CBYTE	str[50];
+			char	str[50];
 			sprintf(str,"cam_dist %d cam_height %d",FC_cam_dist,FC_cam_height>>8);
 			CONSOLE_text(str,500);
 			FC_cam_dist-=16;
 		}
 		if(Keys[KB_8])
 		{
-			CBYTE	str[50];
+			char	str[50];
 			sprintf(str,"cam_dist %d cam_height %d",FC_cam_dist,FC_cam_height>>8);
 			CONSOLE_text(str,500);
 			FC_cam_dist+=16;
 		}
 		if(Keys[KB_9])
 		{
-			CBYTE	str[50];
+			char	str[50];
 			sprintf(str,"cam_dist %d cam_height %d",FC_cam_dist,FC_cam_height>>8);
 			CONSOLE_text(str,500);
 			FC_cam_height-=0x1000;
 		}
 		if(Keys[KB_0])
 		{
-			CBYTE	str[50];
+			char	str[50];
 			sprintf(str,"cam_dist %d cam_height %d",FC_cam_dist,FC_cam_height>>8);
 			CONSOLE_text(str,500);
 			FC_cam_height+=0x1000;
@@ -4548,9 +4548,9 @@ extern SLONG	FC_cam_height;
 			// Create a mine at the mouse.
 			//
 
-			SLONG world_x;
-			SLONG world_y;
-			SLONG world_z;
+			std::int32_t world_x;
+			std::int32_t world_y;
+			std::int32_t world_z;
 
 			AENG_raytraced_position(
 				MouseX,
@@ -4570,7 +4570,7 @@ extern SLONG	FC_cam_height;
 					world_x,
 					world_y,
 					world_z,
-					nullptr);
+					0);
 			}
 		}
 #endif //#ifndef TARGET_DC
@@ -4610,8 +4610,8 @@ extern SLONG	FC_cam_height;
 				nullptr);
 			*/
 
-			SLONG	wx,wy,wz,dx,dz;
-			SLONG	angle;
+			std::int32_t	wx,wy,wz,dx,dz;
+			std::int32_t	angle;
 
 			wx=darci->WorldPos.X>>8;
 			wy=darci->WorldPos.Y>>8;
@@ -4657,10 +4657,10 @@ extern SLONG	FC_cam_height;
 
 			/*
 			{
-				SLONG	c0,index1,index2,index3;
+				std::int32_t	c0,index1,index2,index3;
 				for(c0=0;c0<4;c0++)
 				{
-					SLONG	index;
+					std::int32_t	index;
 					index=PCOM_create_person(1,0,0,PCOM_AI_FIGHT_TEST,0,c0*5,PCOM_MOVE_STILL,0,PCOM_BENT_FIGHT_BACK,0,(wx+(c0+2)*300)<<8,wy<<8,wz<<8,0);
 				}
 
@@ -4686,9 +4686,9 @@ extern SLONG	FC_cam_height;
 			// Create a bike at the mouse.
 			//
 
-			SLONG world_x;
-			SLONG world_y;
-			SLONG world_z;
+			std::int32_t world_x;
+			std::int32_t world_y;
+			std::int32_t world_z;
 
 			AENG_raytraced_position(
 				MouseX,
@@ -4715,9 +4715,9 @@ extern SLONG	FC_cam_height;
 		{
 			Keys[KB_G] = 0;
 
-			SLONG world_x;
-			SLONG world_y;
-			SLONG world_z;
+			std::int32_t world_x;
+			std::int32_t world_y;
+			std::int32_t world_z;
 
 			//
 			// Teleport Darci to where the mouse is.
@@ -4731,8 +4731,8 @@ extern SLONG	FC_cam_height;
 			float	hity = float(MouseY) * float(DisplayHeight) / float(client.bottom - client.top);
 
 			AENG_raytraced_position(
-				SLONG(hitx + 0.5f),
-				SLONG(hity + 0.5f),
+				std::int32_t(hitx + 0.5f),
+				std::int32_t(hity + 0.5f),
 //				MouseX,
 //				MouseY,
 			   &world_x,
@@ -4753,7 +4753,7 @@ extern SLONG	FC_cam_height;
 				set_person_idle(darci);
 				move_thing_on_map(darci, &teleport);
 
-				SLONG plant_feet(Thing *p_person);
+				std::int32_t plant_feet(Thing *p_person);
 				plant_feet(darci);
 				darci->Genus.Person->Flags&=~(FLAG_PERSON_KO|FLAG_PERSON_HELPLESS);
 
@@ -4783,9 +4783,9 @@ extern SLONG	FC_cam_height;
 			{
 				if (darci->State == STATE_IDLE)
 				{
-					SLONG head_x;
-					SLONG head_y;
-					SLONG head_z;
+					std::int32_t head_x;
+					std::int32_t head_y;
+					std::int32_t head_z;
 
 					//
 					// Where is Darci's head?
@@ -4827,9 +4827,9 @@ extern SLONG	FC_cam_height;
 		{	
 			Keys[KB_R] = 0;		 
 
-			SLONG world_x;
-			SLONG world_y;
-			SLONG world_z;
+			std::int32_t world_x;
+			std::int32_t world_y;
+			std::int32_t world_z;
 
 			//
 			// Place a barrel where the mouse is.
@@ -4900,7 +4900,7 @@ extern SLONG	FC_cam_height;
 }
 
 #else
-SLONG PSX_inv_open;
+std::int32_t PSX_inv_open;
 int PSX_inv_focus;
 int PSX_inv_count;
 int PSX_inv_select;
@@ -4909,10 +4909,10 @@ int PSX_inv_timer=0;
 
 #define INVENTORY_FADE_SPEED	(16)
 
-SBYTE CONTROLS_get_selected_item(Thing *darci, Thing *player) {
-	SBYTE count=1; // 0 is fist
+std::int8_t CONTROLS_get_selected_item(Thing *darci, Thing *player) {
+	std::int8_t count=1; // 0 is fist
 	Thing *p_special = nullptr;
-	SBYTE current_item = 0;
+	std::int8_t current_item = 0;
 
 	if (darci->Genus.Person->SpecialList)
 	{
@@ -4965,7 +4965,7 @@ void CONTROLS_new_inventory(Thing *darci, Thing *player)
 */
 }
 
-void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir) 
+void CONTROLS_rot_inventory(Thing *darci, Thing *player, std::int8_t dir) 
 {
 	PSX_inv_timer=3;
 	PSX_inv_focus+=dir;
@@ -4977,7 +4977,7 @@ void CONTROLS_rot_inventory(Thing *darci, Thing *player, SBYTE dir)
 /*
 void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 	Thing *p_special = nullptr;
-	SBYTE count;
+	std::int8_t count;
 
 
 	if (darci->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
@@ -5052,9 +5052,9 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 
 void process_controls()
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
 
 	GameCoord position;
 	Thing	 *t_thing;

@@ -3,17 +3,17 @@
 #define	AENG_PANEL_HPP
 
 
-extern UBYTE	PANEL_scanner_poo; // sets whether you want a poo scanner or not
+extern std::uint8_t	PANEL_scanner_poo; // sets whether you want a poo scanner or not
 
 extern void	PANEL_start();
-extern void	PANEL_draw_gun_sight(SLONG x,SLONG y,SLONG z,SLONG radius,SLONG scale);
-extern void	PANEL_draw_timer(SLONG time_in_hundreths, SLONG x, SLONG y);
+extern void	PANEL_draw_gun_sight(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t radius,std::int32_t scale);
+extern void	PANEL_draw_timer(std::int32_t time_in_hundreths, std::int32_t x, std::int32_t y);
 extern void	PANEL_draw_buffered();	// Actually draws the timers....
-extern void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
+extern void	PANEL_draw_health_bar(std::int32_t x,std::int32_t y,std::int32_t percentage);
 #if 0
 // Never used!
-extern void	PANEL_draw_angelic_status(SLONG x, SLONG y, SLONG size, SLONG am_i_an_angel);
-extern void	PANEL_draw_press_button(SLONG x, SLONG y, SLONG size, SLONG frame);	// Even/odd frame
+extern void	PANEL_draw_angelic_status(std::int32_t x, std::int32_t y, std::int32_t size, std::int32_t am_i_an_angel);
+extern void	PANEL_draw_press_button(std::int32_t x, std::int32_t y, std::int32_t size, std::int32_t frame);	// Even/odd frame
 #endif
 extern void	PANEL_finish();
 extern void	PANEL_inventory(Thing *darci, Thing *player);
@@ -36,14 +36,14 @@ void PANEL_new_text_init();
 // The new funky messages-from-people system.
 //
 
-void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...);
+void PANEL_new_text(Thing *who, std::int32_t delay, char* fmt, ...);
 
 
 //
 // Help system messages.
 //
 
-void PANEL_new_help_message(CBYTE* fmt, ...);
+void PANEL_new_help_message(char* fmt, ...);
 
 
 
@@ -52,7 +52,7 @@ void PANEL_new_help_message(CBYTE* fmt, ...);
 // normally goes.
 //
 
-void PANEL_new_info_message(CBYTE* fmt, ...);
+void PANEL_new_info_message(char* fmt, ...);
 
 
 //
@@ -67,14 +67,14 @@ void PANEL_new_info_message(CBYTE* fmt, ...);
 #define PANEL_SIGN_FLIP_LEFT_AND_RIGHT (1 << 0)
 #define PANEL_SIGN_FLIP_TOP_AND_BOTTOM (1 << 1)
 
-void PANEL_flash_sign(SLONG which, SLONG flip);
+void PANEL_flash_sign(std::int32_t which, std::int32_t flip);
 
 
 //
 // Darkens the screen where x goes from 0 to 640.
 //
 
-void PANEL_darken_screen(SLONG x);
+void PANEL_darken_screen(std::int32_t x);
 
 
 //
@@ -84,7 +84,7 @@ void PANEL_darken_screen(SLONG x);
 void  PANEL_fadeout_init    ();
 void  PANEL_fadeout_start   ();	// Only starts if the fadeout is not already going...
 void  PANEL_fadeout_draw    ();
-SLONG PANEL_fadeout_finished();
+std::int32_t PANEL_fadeout_finished();
 
 
 
@@ -101,7 +101,7 @@ void PANEL_last();
 // Where  completion goes from 0 to 256
 //
 
-void PANEL_draw_completion_bar(SLONG completion);
+void PANEL_draw_completion_bar(std::int32_t completion);
 
 
 
@@ -127,8 +127,8 @@ void PANEL_draw_quad(
 				float top,
 				float right,
 				float bottom,
-				SLONG page,
-				ULONG colour = 0xffffffff,
+				std::int32_t page,
+				std::uint32_t colour = 0xffffffff,
 				float u1 = 0.0F,
 				float v1 = 0.0F,
 				float u2 = 1.0F,

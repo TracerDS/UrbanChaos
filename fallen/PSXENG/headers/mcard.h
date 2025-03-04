@@ -74,14 +74,14 @@
 
 extern void MCARD_Init();
 extern void MCARD_Final();
-extern SLONG MCARD_Scan();
-extern SLONG MCARD_Status();
-extern SLONG MCARD_Format();
-extern SLONG MCARD_ReadFile(char *fname,UBYTE *addr,SLONG len);
-extern SLONG MCARD_WriteFile(char *fname,UBYTE *addr,SLONG len);
-extern SLONG MCARD_FindFile(char *fname);
-extern SLONG MCARD_CreateFile(char *fname,SLONG blocks);
-extern SLONG MCARD_FindSpace(SLONG blocks);
+extern std::int32_t MCARD_Scan();
+extern std::int32_t MCARD_Status();
+extern std::int32_t MCARD_Format();
+extern std::int32_t MCARD_ReadFile(char *fname,std::uint8_t *addr,std::int32_t len);
+extern std::int32_t MCARD_WriteFile(char *fname,std::uint8_t *addr,std::int32_t len);
+extern std::int32_t MCARD_FindFile(char *fname);
+extern std::int32_t MCARD_CreateFile(char *fname,std::int32_t blocks);
+extern std::int32_t MCARD_FindSpace(std::int32_t blocks);
 
 #define MCARD_STATUS(x) ((x)&0x8f)
 

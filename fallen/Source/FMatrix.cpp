@@ -3,10 +3,10 @@
 
 #define ULTRA_DEBUG		0
 
-void FMATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
+void FMATRIX_calc(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll)
 {
-	SLONG cy, cp, cr;
-	SLONG sy, sp, sr;
+	std::int32_t cy, cp, cr;
+	std::int32_t sy, sp, sr;
 
 	if (pitch && roll)
 	{
@@ -131,10 +131,10 @@ void FMATRIX_calc(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
 }
 
 
-void FMATRIX_vector(SLONG vector[3], SLONG yaw, SLONG pitch)
+void FMATRIX_vector(std::int32_t vector[3], std::int32_t yaw, std::int32_t pitch)
 {
-	SLONG cy, cp;
-	SLONG sy, sp;
+	std::int32_t cy, cp;
+	std::int32_t sy, sp;
 
 	sy = SIN(yaw   & 2047);
 	sp = SIN(pitch & 2047);
@@ -202,11 +202,11 @@ void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans,stru
 
 void normalise_matrix(struct Matrix33 *mat)
 {
-	SLONG c0;
+	std::int32_t c0;
 
 	for(c0=0;c0<3;c0++)
 	{
-		SLONG size;
+		std::int32_t size;
 		size =(mat->M[0][c0]*mat->M[0][c0]);
 		size+=(mat->M[1][c0]*mat->M[1][c0]);
 		size+=(mat->M[2][c0]*mat->M[2][c0]);
@@ -222,11 +222,11 @@ void normalise_matrix(struct Matrix33 *mat)
 // JCL - use *this* one to normalise a linearly interpolated rotation matrix...
 void normalise_matrix_rows(struct Matrix33 *mat)
 {
-	SLONG c0;
+	std::int32_t c0;
 
 	for(c0=0;c0<3;c0++)
 	{
-		SLONG size;
+		std::int32_t size;
 		size =(mat->M[c0][0]*mat->M[c0][0]);
 		size+=(mat->M[c0][1]*mat->M[c0][1]);
 		size+=(mat->M[c0][2]*mat->M[c0][2]);
@@ -246,9 +246,9 @@ void normalise_matrix_rows(struct Matrix33 *mat)
 
 
 
-void build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween)
+void build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween)
 {
-	SLONG	v,w;
+	std::int32_t	v,w;
 
 	v=((cmat1->M[0]&CMAT0_MASK)<<2)>>22;
 	w=((cmat2->M[0]&CMAT0_MASK)<<2)>>22;
@@ -306,12 +306,12 @@ void build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMat
 #ifdef	PSX
 #endif
 
-void FMATRIX_find_angles(SLONG *matrix,SLONG *yaw,SLONG *pitch, SLONG *roll)
+void FMATRIX_find_angles(std::int32_t *matrix,std::int32_t *yaw,std::int32_t *pitch, std::int32_t *roll)
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG xz;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t xz;
 
 
 	//
@@ -354,9 +354,9 @@ void FMATRIX_find_angles(SLONG *matrix,SLONG *yaw,SLONG *pitch, SLONG *roll)
 	//        sin(roll) = matrix[1] / -cos(pitch)
 	//
 	
-	SLONG cos_roll;
-	SLONG sin_roll;
-	SLONG cos_pitch;
+	std::int32_t cos_roll;
+	std::int32_t sin_roll;
+	std::int32_t cos_pitch;
 
 	*pitch=(*pitch+2048)&2047;
 	cos_pitch = COS(*pitch);
@@ -367,7 +367,7 @@ void FMATRIX_find_angles(SLONG *matrix,SLONG *yaw,SLONG *pitch, SLONG *roll)
 	}
 	else
 	{
-		SLONG	temp_pitch;
+		std::int32_t	temp_pitch;
 		if(cos_pitch<0)
 		{
 			temp_pitch=-((-cos_pitch)>>2);

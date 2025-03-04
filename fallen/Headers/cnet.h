@@ -10,12 +10,12 @@
 // The configuring loop.  
 //
 
-extern UBYTE CNET_network_game;
-extern UBYTE CNET_i_am_host;
-extern UBYTE CNET_num_players;
-extern UBYTE CNET_player_id;
+extern std::uint8_t CNET_network_game;
+extern std::uint8_t CNET_i_am_host;
+extern std::uint8_t CNET_num_players;
+extern std::uint8_t CNET_player_id;
 
-SLONG CNET_configure();
+std::int32_t CNET_configure();
 
 
 

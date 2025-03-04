@@ -9,7 +9,7 @@
 
 //---------------------------------------------------------------
 
-extern SLONG			cam_x,
+extern std::int32_t			cam_x,
 						cam_y,
 						cam_z,
 						cam_yaw,
@@ -23,7 +23,7 @@ extern SLONG			cam_x,
 						cam_left[3];
 
 //	The mouse.
-extern SLONG			mouse_valid,
+extern std::int32_t			mouse_valid,
 						mouse_over,
 						mouse_world_x,
 						mouse_world_y,
@@ -34,9 +34,9 @@ extern EventPoint		*hilited_ep,
 						*selected_ep,
 						*link_start_ep;
 
-extern UBYTE			link_mode;
+extern std::uint8_t			link_mode;
 
-extern SLONG			zone_colours[ZF_NUM];
+extern std::int32_t			zone_colours[ZF_NUM];
 
 //---------------------------------------------------------------
 
@@ -47,14 +47,14 @@ void	process_view_wind();
 //---------------------------------------------------------------
 
 void   WaypointCaption(EventPoint *ep);
-CBYTE* WaypointTitle(EventPoint *ep, CBYTE* msg);
-CBYTE* WaypointExtra(EventPoint *ep, CBYTE* msg);
+char* WaypointTitle(EventPoint *ep, char* msg);
+char* WaypointExtra(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
-bool TypeHasProperties(SLONG type);
+bool TypeHasProperties(std::int32_t type);
 bool HasProperties(EventPoint *ep);
-SLONG OpenProperties(EventPoint *ep);
+std::int32_t OpenProperties(EventPoint *ep);
 void CleanProperties(EventPoint *ep);
 
 

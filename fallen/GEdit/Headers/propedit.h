@@ -39,7 +39,7 @@ typedef bool (*TreeBrowserCB)(TreeBrowser *tb, int reason, int index, HTREEITEM 
 
 typedef bool (*TimeLineCB)(TimeLine *tb, int reason, int index, int subline, int cell);
 
-typedef bool (*PropEditCB)(PropertyEditor *tb, int reason, int index, CBYTE* value);
+typedef bool (*PropEditCB)(PropertyEditor *tb, int reason, int index, char* value);
 
 class GadgetBase {
 public:
@@ -55,11 +55,11 @@ public:
     PropertyEditor(HWND nhWnd);
 
 	void Clear();
-	int  Add(CBYTE* name, CBYTE* value, UBYTE type);
+	int  Add(char* name, char* value, std::uint8_t type);
 	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
-	int  Type(UWORD index);
-	void Update(UWORD index, CBYTE* value);
-	bool Verify(UBYTE type, CBYTE* value);
+	int  Type(std::uint16_t index);
+	void Update(std::uint16_t index, char* value);
+	bool Verify(std::uint8_t type, char* value);
 	void SetCallback(PropEditCB cb);
 };
 
@@ -75,10 +75,10 @@ public:
 	TVITEM			drag_item;
 	TreeBrowser(HWND nhWnd);
 	~TreeBrowser();
-	HTREEITEM Add(CBYTE* name, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img);
-	int  AddDir(CBYTE* path, bool subdirs, HTREEITEM parent, UBYTE indent, SLONG param, SLONG img, SLONG imgfld);
+	HTREEITEM Add(char* name, HTREEITEM parent, std::uint8_t indent, std::int32_t param, std::int32_t img);
+	int  AddDir(char* path, bool subdirs, HTREEITEM parent, std::uint8_t indent, std::int32_t param, std::int32_t img, std::int32_t imgfld);
 	bool Process(HWND parent, WPARAM wParam, LPARAM lParam);
-	void SetImageList(HINSTANCE inst, SLONG idx);
+	void SetImageList(HINSTANCE inst, std::int32_t idx);
 	void SetDraggable(DragServer *ndrag);
 	void SetCallback(TreeBrowserCB cb);
 	int  GetSelection();
@@ -116,12 +116,12 @@ public:
 	~TimeLine();
 	int GetWidth();
 	void Measure(LPARAM lParam);
-	void Add(CBYTE* str);
-	void Del(UWORD index);
-	void MarkEntry(UWORD index, UWORD start, UWORD length, UBYTE which);
+	void Add(char* str);
+	void Del(std::uint16_t index);
+	void MarkEntry(std::uint16_t index, std::uint16_t start, std::uint16_t length, std::uint8_t which);
 	void  Draw(LPARAM lParam);
 	bool  Process(HWND parent, WPARAM wParam, LPARAM lParam);
-	void  SetImageList(HINSTANCE inst, SLONG idx);
+	void  SetImageList(HINSTANCE inst, std::int32_t idx);
 	void  SetReadHead(int newpos);
 	int   GetReadHead() { return read_head; };
 	void  SetScrollPos(int newpos);

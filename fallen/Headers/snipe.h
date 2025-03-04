@@ -10,20 +10,20 @@
 // The snipe camera.
 //
 
-extern SLONG SNIPE_on;			// true => Snipe mode is active
-extern SLONG SNIPE_cam_x;
-extern SLONG SNIPE_cam_y;
-extern SLONG SNIPE_cam_z;
-extern SLONG SNIPE_cam_yaw;		// 16-bit fixed
-extern SLONG SNIPE_cam_pitch;	// 16-bit fixed
-extern SLONG SNIPE_cam_lens;	// 16-bit fixed
+extern std::int32_t SNIPE_on;			// true => Snipe mode is active
+extern std::int32_t SNIPE_cam_x;
+extern std::int32_t SNIPE_cam_y;
+extern std::int32_t SNIPE_cam_z;
+extern std::int32_t SNIPE_cam_yaw;		// 16-bit fixed
+extern std::int32_t SNIPE_cam_pitch;	// 16-bit fixed
+extern std::int32_t SNIPE_cam_lens;	// 16-bit fixed
 
 
 //
 // Turns on/off snipe mode.
 //
 
-void SNIPE_mode_on (SLONG x, SLONG y, SLONG z, SLONG initial_yaw);	// yaw from 0 - 2047
+void SNIPE_mode_on (std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t initial_yaw);	// yaw from 0 - 2047
 void SNIPE_mode_off();
 
 //
@@ -35,7 +35,7 @@ void SNIPE_mode_off();
 #define SNIPE_TURN_UP    (1 << 2)
 #define SNIPE_TURN_DOWN  (1 << 3)
 
-void SNIPE_turn(SLONG turn);
+void SNIPE_turn(std::int32_t turn);
 
 //
 // Processes the snipe-view

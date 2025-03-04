@@ -6,6 +6,6 @@
 
 #include "myheap.h"
 
-UBYTE my_heap[40*1024];
+std::uint8_t my_heap[40*1024];
 
 

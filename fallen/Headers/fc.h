@@ -19,44 +19,44 @@ typedef struct
 	//
 
 	Thing *focus;			// nullptr => Camera is not used.
-	SLONG  focus_x;
-	SLONG  focus_y;
-	SLONG  focus_z;
-	SLONG  focus_yaw;
-	UBYTE  focus_in_warehouse;
+	std::int32_t  focus_x;
+	std::int32_t  focus_y;
+	std::int32_t  focus_z;
+	std::int32_t  focus_yaw;
+	std::uint8_t  focus_in_warehouse;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG want_x;
-	SLONG want_y;
-	SLONG want_z;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG yaw;
-	SLONG pitch;
-	SLONG roll;
-	SLONG want_yaw;
-	SLONG want_pitch;
-	SLONG want_roll;
-	SLONG lens;
-	SLONG toonear;
-	SLONG rotate;
-	SLONG nobehind;
-	SLONG lookabove;
-	UBYTE shake;
-	SLONG cam_dist;
-	SLONG cam_height;
-	SLONG toonear_dist;
-	SLONG toonear_x;
-	SLONG toonear_y;
-	SLONG toonear_z;
-	SLONG toonear_yaw;
-	SLONG toonear_pitch;
-	SLONG toonear_roll;
-	SLONG toonear_focus_yaw;
-	SLONG smooth_transition;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t want_x;
+	std::int32_t want_y;
+	std::int32_t want_z;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t yaw;
+	std::int32_t pitch;
+	std::int32_t roll;
+	std::int32_t want_yaw;
+	std::int32_t want_pitch;
+	std::int32_t want_roll;
+	std::int32_t lens;
+	std::int32_t toonear;
+	std::int32_t rotate;
+	std::int32_t nobehind;
+	std::int32_t lookabove;
+	std::uint8_t shake;
+	std::int32_t cam_dist;
+	std::int32_t cam_height;
+	std::int32_t toonear_dist;
+	std::int32_t toonear_x;
+	std::int32_t toonear_y;
+	std::int32_t toonear_z;
+	std::int32_t toonear_yaw;
+	std::int32_t toonear_pitch;
+	std::int32_t toonear_roll;
+	std::int32_t toonear_focus_yaw;
+	std::int32_t smooth_transition;
 
 } FC_Cam;
 
@@ -76,17 +76,17 @@ void FC_init();
 // Sets up the camera.
 //
 
-void FC_look_at(SLONG cam, UWORD thing_index);
-void FC_move_to(SLONG cam, SLONG world_x, SLONG world_y, SLONG world_z);	// 8-bits per mapsquare.
-void FC_change_camera_type(SLONG cam,SLONG cam_type);
+void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
+void FC_move_to(std::int32_t cam, std::int32_t world_x, std::int32_t world_y, std::int32_t world_z);	// 8-bits per mapsquare.
+void FC_change_camera_type(std::int32_t cam,std::int32_t cam_type);
 
 
 //
 // Rotation about the focus thing.
 // 
 
-void FC_rotate_left (SLONG cam);
-void FC_rotate_right(SLONG cam);
+void FC_rotate_left (std::int32_t cam);
+void FC_rotate_right(std::int32_t cam);
 void FC_kill_player_cam(Thing *p_thing);
 
 
@@ -101,7 +101,7 @@ void FC_process();
 // A fast LOS reject. Can the camera see this person?
 //
 
-SLONG FC_can_see_person(SLONG cam, Thing *p_person);
+std::int32_t FC_can_see_person(std::int32_t cam, Thing *p_person);
 
 
 //
@@ -109,14 +109,14 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person);
 // at the given pitch.
 //
 
-void FC_position_for_lookaround(SLONG cam, SLONG pitch);
+void FC_position_for_lookaround(std::int32_t cam, std::int32_t pitch);
 
 
 //
 // Forces the camera to behind the player.
 //
 
-void FC_force_camera_behind(SLONG cam);
+void FC_force_camera_behind(std::int32_t cam);
 
 
 //
@@ -124,7 +124,7 @@ void FC_force_camera_behind(SLONG cam);
 // Make sure you have already call FC_look_at()
 //
 
-void FC_setup_initial_camera(SLONG cam);
+void FC_setup_initial_camera(std::int32_t cam);
 
 
 //
@@ -132,7 +132,7 @@ void FC_setup_initial_camera(SLONG cam);
 // any nearby cameras should start to shake.
 //
 
-void FC_explosion(SLONG x, SLONG y, SLONG z, SLONG force);	// 0 <= force <= 400 ish
+void FC_explosion(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t force);	// 0 <= force <= 400 ish
 
 
 #endif

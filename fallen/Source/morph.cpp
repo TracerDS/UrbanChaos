@@ -10,7 +10,7 @@
 // The filenames of the sex files describing each morph.
 //
 
-CBYTE* MORPH_filename[MORPH_NUMBER] =
+char* MORPH_filename[MORPH_NUMBER] =
 {
 	"morph\\bird01.asc",
 	"morph\\bird03.asc"
@@ -23,13 +23,13 @@ CBYTE* MORPH_filename[MORPH_NUMBER] =
 #define MORPH_MAX_POINTS 1024
 
 MORPH_Point MORPH_point[MORPH_MAX_POINTS];
-SLONG MORPH_point_upto;
+std::int32_t MORPH_point_upto;
 
 
 typedef struct
 {
-	UWORD num_points;
-	UWORD index;
+	std::uint16_t num_points;
+	std::uint16_t index;
 	
 } MORPH_Morph;
 
@@ -42,19 +42,19 @@ MORPH_Morph MORPH_morph[MORPH_NUMBER];
 
 void MORPH_load()
 {
-	SLONG i;
-	SLONG d;
+	std::int32_t i;
+	std::int32_t d;
 	float x;
 	float y;
 	float z;
-	SLONG match;
+	std::int32_t match;
 
 	MORPH_Morph *mm;
 
 	FILE *handle;
 
-	CBYTE  line[256];
-	CBYTE* ch;
+	char  line[256];
+	char* ch;
 
 	//
 	// Get rid of old point info.
@@ -97,9 +97,9 @@ void MORPH_load()
 					y *= 2.56F;
 					z *= 2.56F;
 
-					MORPH_point[MORPH_point_upto].x = SWORD(x);
-					MORPH_point[MORPH_point_upto].y = SWORD(y);
-					MORPH_point[MORPH_point_upto].z = SWORD(z);
+					MORPH_point[MORPH_point_upto].x = std::int16_t(x);
+					MORPH_point[MORPH_point_upto].y = std::int16_t(y);
+					MORPH_point[MORPH_point_upto].z = std::int16_t(z);
 
 					MORPH_point_upto += 1;
 					mm->num_points   += 1;
@@ -125,9 +125,9 @@ void MORPH_load()
 					y *= 2.56F;
 					z *= 2.56F;
 
-					MORPH_point[MORPH_point_upto].x = SWORD(x);
-					MORPH_point[MORPH_point_upto].y = SWORD(y);
-					MORPH_point[MORPH_point_upto].z = SWORD(z);
+					MORPH_point[MORPH_point_upto].x = std::int16_t(x);
+					MORPH_point[MORPH_point_upto].y = std::int16_t(y);
+					MORPH_point[MORPH_point_upto].z = std::int16_t(z);
 
 					MORPH_point_upto += 1;
 					mm->num_points   += 1;
@@ -140,7 +140,7 @@ void MORPH_load()
 }
 
 
-MORPH_Point *MORPH_get_points(SLONG morph)
+MORPH_Point *MORPH_get_points(std::int32_t morph)
 {
 	MORPH_Morph *mm;
 	ASSERT(WITHIN(morph, 0, MORPH_NUMBER - 1));
@@ -148,7 +148,7 @@ MORPH_Point *MORPH_get_points(SLONG morph)
 	return &MORPH_point[mm->index];
 }
 
-SLONG MORPH_get_num_points(SLONG morph)
+std::int32_t MORPH_get_num_points(std::int32_t morph)
 {
 	MORPH_Morph *mm;
 	ASSERT(WITHIN(morph, 0, MORPH_NUMBER - 1));

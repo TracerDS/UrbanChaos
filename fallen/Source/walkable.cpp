@@ -4,7 +4,7 @@
 #include	"memory.h"
 #include	"mav.h"
 
-extern void	highlight_rface(SLONG rface);
+extern void	highlight_rface(std::int32_t rface);
 //
 // code to do with walkable faces
 //
@@ -14,7 +14,7 @@ extern void	highlight_rface(SLONG rface);
 //
 
 
-SLONG clock(const SLONG dx,const SLONG dz,const SLONG dx1,const SLONG dz1)
+std::int32_t clock(const std::int32_t dx,const std::int32_t dz,const std::int32_t dx1,const std::int32_t dz1)
 {
 	if((dx*dz1-dz*dx1)<=0)
 		return(0);
@@ -22,11 +22,11 @@ SLONG clock(const SLONG dx,const SLONG dz,const SLONG dx1,const SLONG dz1)
 		return(1);
 }
 
-SLONG point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
+std::int32_t point_in_quad(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face)
 {
-	SLONG	c0;
-	SWORD	vx[4],vz[4];
-	SLONG	mx=0,mz=0;
+	std::int32_t	c0;
+	std::int16_t	vx[4],vz[4];
+	std::int32_t	mx=0,mz=0;
 
 	ASSERT(face>=0);
 
@@ -75,20 +75,20 @@ SLONG point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 // returns true if on face
 //   *height always trys to have the height
 
-SLONG gh_vx[4],gh_vy[4],gh_vz[4];//out of stack space (on PSX) so words
-SLONG get_height_on_face_quad64_at(SLONG rx, SLONG rz, SWORD face,SLONG *height)
+std::int32_t gh_vx[4],gh_vy[4],gh_vz[4];//out of stack space (on PSX) so words
+std::int32_t get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz, std::int16_t face,std::int32_t *height)
 {
-//	SLONG 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+//	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 	struct	PrimFace4 *this_face4;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
-	SLONG	top, bot;
-	SLONG	alpha, beta;
-	SLONG	x,y,z;
+	std::int32_t	top, bot;
+	std::int32_t	alpha, beta;
+	std::int32_t	x,y,z;
 
-	SLONG   mx=0,my=0,mz=0; 
-	UWORD	c0;
-	SLONG	on_face=1;
+	std::int32_t   mx=0,my=0,mz=0; 
+	std::uint16_t	c0;
+	std::int32_t	on_face=1;
 	ASSERT(face>=0);
 
 	this_face4=&prim_faces4[face];
@@ -312,7 +312,7 @@ SLONG get_height_on_face_quad64_at(SLONG rx, SLONG rz, SWORD face,SLONG *height)
 // returns 0 or 1 (on face false/true) new_y is alt on face
 //
 /*
-SLONG calc_height_on_face(SLONG x,SLONG z,SLONG face,SLONG *new_y)
+std::int32_t calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face,std::int32_t *new_y)
 {
 
 	if (face > 0)
@@ -326,7 +326,7 @@ SLONG calc_height_on_face(SLONG x,SLONG z,SLONG face,SLONG *new_y)
 */
 
 
-SLONG is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
+std::int32_t is_thing_on_this_quad(std::int32_t x,std::int32_t z,std::int32_t face)
 {
 	if(face<0)
 	{
@@ -364,17 +364,17 @@ SLONG is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
 	}
 }
 
-SLONG calc_height_on_rface(SLONG x, SLONG z,SWORD	face,SLONG *ret_y)
+std::int32_t calc_height_on_rface(std::int32_t x, std::int32_t z,std::int16_t	face,std::int32_t *ret_y)
 {
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
-	SLONG h3;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
+	std::int32_t h3;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
-	SLONG answer;
+	std::int32_t answer;
 
 	struct	RoofFace4 *rf;
 
@@ -463,29 +463,29 @@ SLONG calc_height_on_rface(SLONG x, SLONG z,SWORD	face,SLONG *ret_y)
 // Finds a face to be stood on (checks height is not out of range)
 //
 
-SLONG find_face_for_this_pos(
-			SLONG  x,
-			SLONG  y,
-			SLONG  z,
-			SLONG *ret_y,
-			SLONG  ignore_building,
-			UBYTE	ignore_height_flag)
+std::int32_t find_face_for_this_pos(
+			std::int32_t  x,
+			std::int32_t  y,
+			std::int32_t  z,
+			std::int32_t *ret_y,
+			std::int32_t  ignore_building,
+			std::uint8_t	ignore_height_flag)
 {
-	UBYTE mx;
-	UBYTE mz;
-	SWORD dy;
-	SLONG facey;
-	SWORD index;
-	SWORD groundy;
-	SWORD best_face  = NULL;
-	SWORD best_dy    = 0x7fff;
-	SWORD best_facey = 0;
+	std::uint8_t mx;
+	std::uint8_t mz;
+	std::int16_t dy;
+	std::int32_t facey;
+	std::int16_t index;
+	std::int16_t groundy;
+	std::int16_t best_face  = NULL;
+	std::int16_t best_dy    = 0x7fff;
+	std::int16_t best_facey = 0;
 
-	SWORD mx1 = x - 0x200 >> PAP_SHIFT_LO;
-	SWORD mz1 = z - 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
 
-	SWORD mx2 = x + 0x200 >> PAP_SHIFT_LO;
-	SWORD mz2 = z + 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
 
 	SATURATE(mx1, 0, PAP_SIZE_LO - 1);
 	SATURATE(mz1, 0, PAP_SIZE_LO - 1);
@@ -624,20 +624,20 @@ SLONG find_face_for_this_pos(
 
 }
 
-SLONG find_height_for_this_pos(	SLONG  x,SLONG  z,	SLONG *ret_face)
+std::int32_t find_height_for_this_pos(	std::int32_t  x,std::int32_t  z,	std::int32_t *ret_face)
 {
-	UBYTE mx;
-	UBYTE mz;
-	SLONG dy;
-	SLONG facey;
-	SWORD index;
-	SLONG groundy;
+	std::uint8_t mx;
+	std::uint8_t mz;
+	std::int32_t dy;
+	std::int32_t facey;
+	std::int16_t index;
+	std::int32_t groundy;
 
-	SWORD mx1 = x - 0x200 >> PAP_SHIFT_LO;
-	SWORD mz1 = z - 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
 
-	SWORD mx2 = x + 0x200 >> PAP_SHIFT_LO;
-	SWORD mz2 = z + 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
+	std::int16_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
 
 	SATURATE(mx1, 0, PAP_SIZE_LO - 1);
 	SATURATE(mz1, 0, PAP_SIZE_LO - 1);
@@ -712,15 +712,15 @@ SLONG find_height_for_this_pos(	SLONG  x,SLONG  z,	SLONG *ret_face)
 
 }
 
-SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
+std::int32_t RFACE_on_slope(std::int32_t face,std::int32_t x,std::int32_t z,std::int32_t *angle)
 {
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
-	SLONG h3;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
+	std::int32_t h3;
 
-	SLONG xfrac;
-	SLONG zfrac;
+	std::int32_t xfrac;
+	std::int32_t zfrac;
 
 
 	struct	RoofFace4 *rf;
@@ -777,10 +777,10 @@ SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
 		{
 			if (xfrac + (256-zfrac) < 0x100)
 			{
-				SLONG	vx,vy,vz;
-				SLONG	wx,wy,wz;
-				SLONG	rx,ry,rz;
-				SLONG	len;
+				std::int32_t	vx,vy,vz;
+				std::int32_t	wx,wy,wz;
+				std::int32_t	rx,ry,rz;
+				std::int32_t	len;
 
 				vx=256;
 				vy=h3-h1;
@@ -810,10 +810,10 @@ SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
 			}
 			else
 			{
-				SLONG	vx,vy,vz;
-				SLONG	wx,wy,wz;
-				SLONG	rx,ry,rz;
-				SLONG	len;
+				std::int32_t	vx,vy,vz;
+				std::int32_t	wx,wy,wz;
+				std::int32_t	rx,ry,rz;
+				std::int32_t	len;
 
 				vx=-256;
 				vy=h0-h2;
@@ -846,10 +846,10 @@ SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
 
 			if (xfrac + zfrac < 0x100)
 			{
-				SLONG	vx,vy,vz;
-				SLONG	wx,wy,wz;
-				SLONG	rx,ry,rz;
-				SLONG	len;
+				std::int32_t	vx,vy,vz;
+				std::int32_t	wx,wy,wz;
+				std::int32_t	rx,ry,rz;
+				std::int32_t	len;
 
 				vx=256;
 				vy=h2-h0;
@@ -879,10 +879,10 @@ SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
 			}
 			else
 			{
-				SLONG	vx,vy,vz;
-				SLONG	wx,wy,wz;
-				SLONG	rx,ry,rz;
-				SLONG	len;
+				std::int32_t	vx,vy,vz;
+				std::int32_t	wx,wy,wz;
+				std::int32_t	rx,ry,rz;
+				std::int32_t	len;
 
 				vx=-256;
 				vy=h1-h3;
@@ -914,10 +914,10 @@ SLONG RFACE_on_slope(SLONG face,SLONG x,SLONG z,SLONG *angle)
 }
 
 #ifndef	PSX
-void WALKABLE_remove_rface(UBYTE map_x, UBYTE map_z)
+void WALKABLE_remove_rface(std::uint8_t map_x, std::uint8_t map_z)
 {
-	SWORD  next;
-	SWORD *prev;
+	std::int16_t  next;
+	std::int16_t *prev;
 
 	PAP_Lo    *pl;
 	RoofFace4 *rf;

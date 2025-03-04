@@ -18,7 +18,7 @@
 //
 
 DIKE_Dike DIKE_dike[DIKE_MAX_DIKES];
-SLONG DIKE_dike_upto;
+std::int32_t DIKE_dike_upto;
 
 
 //
@@ -45,7 +45,7 @@ void DIKE_init()
 // 8 bit fixed point. 256 => maximum grip. 0 => no grip.
 //
 
-SLONG DIKE_get_grip(SLONG x, SLONG z)
+std::int32_t DIKE_get_grip(std::int32_t x, std::int32_t z)
 {
 	if (ROAD_is_road(x >> 8, z >> 8))
 	{
@@ -61,9 +61,9 @@ SLONG DIKE_get_grip(SLONG x, SLONG z)
 
 
 DIKE_Dike *DIKE_create(
-			SLONG x,
-			SLONG z,
-			SLONG yaw)
+			std::int32_t x,
+			std::int32_t z,
+			std::int32_t yaw)
 {
 	DIKE_Dike *dd;
 
@@ -78,7 +78,7 @@ DIKE_Dike *DIKE_create(
 	// The direction vector of the bike.
 	//
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	FMATRIX_vector(
 		vector,
@@ -107,40 +107,40 @@ DIKE_Dike *DIKE_create(
 
 void DIKE_process(DIKE_Dike *dd)
 {
-	SLONG fx;
-	SLONG fy;
-	SLONG fz;
+	std::int32_t fx;
+	std::int32_t fy;
+	std::int32_t fz;
 
-	SLONG grip;
+	std::int32_t grip;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dprod;
+	std::int32_t dprod;
 
-	SLONG dist;
-	SLONG ddist;
-	SLONG overdist;
+	std::int32_t dist;
+	std::int32_t ddist;
+	std::int32_t overdist;
 
-	SLONG radx;
-	SLONG radz;
+	std::int32_t radx;
+	std::int32_t radz;
 
-	SLONG steer[3];
-	SLONG vector[3];
+	std::int32_t steer[3];
+	std::int32_t vector[3];
 
-	SLONG sx;
-	SLONG sy;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t sz;
 
-	SLONG dsx;
-	SLONG dsy;
-	SLONG dsz;
+	std::int32_t dsx;
+	std::int32_t dsy;
+	std::int32_t dsz;
 
-	SLONG sdist;
-	SLONG oversdist;
+	std::int32_t sdist;
+	std::int32_t oversdist;
 
-	SLONG ground;
+	std::int32_t ground;
 
 	//
 	// User input
@@ -381,7 +381,7 @@ void DIKE_process(DIKE_Dike *dd)
 	// The angle of the dike.
 	//
 
-	SLONG dxdz = QDIST2(abs(dx),abs(dz));
+	std::int32_t dxdz = QDIST2(abs(dx),abs(dz));
 
 	if (dxdz < 0x10)
 	{
@@ -401,7 +401,7 @@ void DIKE_process(DIKE_Dike *dd)
 
 void DIKE_draw(DIKE_Dike *dd)
 {
-	SLONG steer[3];
+	std::int32_t steer[3];
 
 	AENG_world_line(
 		dd->fx >> 8,

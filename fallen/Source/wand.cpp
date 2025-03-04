@@ -12,14 +12,14 @@
 #ifndef PSX
 void WAND_init()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	PAP_Hi  *ph;
 	OB_Info *oi;
@@ -125,7 +125,7 @@ void WAND_init()
 #endif
 
 
-SLONG WAND_square_is_wander(SLONG mx, SLONG mz)
+std::int32_t WAND_square_is_wander(std::int32_t mx, std::int32_t mz)
 {
 	if ((PAP_2HI(mx,mz).Flags & PAP_FLAG_WANDER) &&
 		(PAP_2HI(mx,mz).Flags & PAP_FLAG_HIDDEN)==0)
@@ -142,7 +142,7 @@ SLONG WAND_square_is_wander(SLONG mx, SLONG mz)
 // Returns true if the person wants to wander on this square.
 //
 
-SLONG WAND_square_for_person(Thing *p_person, SLONG mx, SLONG mz)
+std::int32_t WAND_square_for_person(Thing *p_person, std::int32_t mx, std::int32_t mz)
 {
 	if (p_person->Class == CLASS_BAT)
 	{
@@ -154,7 +154,7 @@ SLONG WAND_square_for_person(Thing *p_person, SLONG mx, SLONG mz)
 
 		if (p_person->Genus.Person->pcom_zone)
 		{
-			extern UBYTE PCOM_get_zone_for_position(SLONG x, SLONG z);
+			extern std::uint8_t PCOM_get_zone_for_position(std::int32_t x, std::int32_t z);
 
 			return PCOM_get_zone_for_position(mx << 8, mz << 8) & p_person->Genus.Person->pcom_zone;
 		}
@@ -169,29 +169,29 @@ SLONG WAND_square_for_person(Thing *p_person, SLONG mx, SLONG mz)
 
 void WAND_get_next_place(
 		Thing *p_person,
-		SLONG *wand_world_x,
-		SLONG *wand_world_z)
+		std::int32_t *wand_world_x,
+		std::int32_t *wand_world_z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dprod;
-	SLONG score;
+	std::int32_t dprod;
+	std::int32_t score;
 
-	SLONG mid_x;
-	SLONG mid_z;
+	std::int32_t mid_x;
+	std::int32_t mid_z;
 
-	SLONG off_x;
-	SLONG off_z;
+	std::int32_t off_x;
+	std::int32_t off_z;
 
-	SLONG best_x;
-	SLONG best_z;
-	SLONG best_score;
+	std::int32_t best_x;
+	std::int32_t best_z;
+	std::int32_t best_score;
 
 	mid_x = p_person->WorldPos.X >> 16;
 	mid_z = p_person->WorldPos.Z >> 16;
@@ -201,8 +201,8 @@ void WAND_get_next_place(
 
 	const struct
 	{
-		SBYTE dx;
-		SBYTE dz;
+		std::int8_t dx;
+		std::int8_t dz;
 
 	} look[WAND_MAX_LOOKS] = 
 	{
@@ -213,7 +213,7 @@ void WAND_get_next_place(
 		{0, -WAND_MAX_MOVE}
 	};
 
-	SBYTE offset[4] = {-1, 0, 0, +1};
+	std::int8_t offset[4] = {-1, 0, 0, +1};
 
 	//
 	// Carry on walking in the same direction by default.
@@ -315,19 +315,19 @@ void WAND_get_next_place(
 
 #ifndef PSX
 #ifndef TARGET_DC
-void WAND_draw(SLONG map_x, SLONG map_z)
+void WAND_draw(std::int32_t map_x, std::int32_t map_z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	SLONG y;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t y;
 
 	for (dx = -10; dx <= 10; dx++)
 	for (dz = -10; dz <= 10; dz++)
@@ -366,11 +366,11 @@ void WAND_draw(SLONG map_x, SLONG map_z)
 
 #define	SEARCH_SIZE	1
 
-SLONG WAND_find_good_start_point(SLONG *mapx,SLONG *mapz)
+std::int32_t WAND_find_good_start_point(std::int32_t *mapx,std::int32_t *mapz)
 {
 	Thing	*p_person;
-	SLONG	dx,dz,x,z,minx,maxx,minz,maxz;
-	SLONG	angle;
+	std::int32_t	dx,dz,x,z,minx,maxx,minz,maxz;
+	std::int32_t	angle;
 
 	p_person=NET_PERSON(0);
 	angle=p_person->Draw.Tweened->Angle;
@@ -410,10 +410,10 @@ SLONG WAND_find_good_start_point(SLONG *mapx,SLONG *mapz)
 	return(0);
 }
 #define	SEARCH_SIZE2	2
-SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz)
+std::int32_t WAND_find_good_start_point_near(std::int32_t *mapx,std::int32_t *mapz)
 {
-	SLONG	dx,dz,x,z,minx,maxx,minz,maxz;
-	SLONG	angle;
+	std::int32_t	dx,dz,x,z,minx,maxx,minz,maxz;
+	std::int32_t	angle;
 
 
 	x=*mapx;
@@ -442,13 +442,13 @@ SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz)
 
 	return(0);
 }
-SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG* yaw, SLONG anywhere)
+std::int32_t WAND_find_good_start_point_for_car(std::int32_t* posx, std::int32_t* posz, std::int32_t* yaw, std::int32_t anywhere)
 {
 	Thing*	p_person = NET_PERSON(0);
-	SLONG	x,z;
+	std::int32_t	x,z;
 
 	// get a random heading
-	SLONG	heading = (Random() >> 9) & 1;
+	std::int32_t	heading = (Random() >> 9) & 1;
 
 	if (anywhere)
 	{
@@ -458,11 +458,11 @@ SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG* yaw, S
 	else
 	{
 		// get a random angle - not just ahead of the player
-		SLONG	angle = Random() & 2047;
+		std::int32_t	angle = Random() & 2047;
 
 		// get the position at this angle and (DRAW_DIST) away
-		SLONG	dx = (SIN(angle) * DRAW_DIST) >> 8;
-		SLONG	dz = (COS(angle) * DRAW_DIST) >> 8;
+		std::int32_t	dx = (SIN(angle) * DRAW_DIST) >> 8;
+		std::int32_t	dz = (COS(angle) * DRAW_DIST) >> 8;
 
 		x = (p_person->WorldPos.X >> 8) + dx;
 		z = (p_person->WorldPos.Z >> 8) + dz;
@@ -472,15 +472,15 @@ SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG* yaw, S
 	}
 
 	// find the nearest bit of road
-	SLONG	rn1;
-	SLONG	rn2;
+	std::int32_t	rn1;
+	std::int32_t	rn2;
 
 	ROAD_find(x, z, &rn1, &rn2);
 
 	// get the nearest point on the road, and select
 	// a side of the road
-	SLONG	x1,z1;
-	SLONG	x2,z2;
+	std::int32_t	x1,z1;
+	std::int32_t	x2,z2;
 
 	ROAD_node_pos(rn1, &x1, &z1);
 	ROAD_node_pos(rn2, &x2, &z2);
@@ -551,8 +551,8 @@ SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG* yaw, S
 	// check it hasn't moved right near to Darci
 	if (!anywhere)
 	{
-		SLONG	dx = (p_person->WorldPos.X >> 8) - x;
-		SLONG	dz = (p_person->WorldPos.Z >> 8) - z;
+		std::int32_t	dx = (p_person->WorldPos.X >> 8) - x;
+		std::int32_t	dz = (p_person->WorldPos.Z >> 8) - z;
 
 		if (QDIST2(dx,dz) < (DRAW_DIST << 8))
 		{

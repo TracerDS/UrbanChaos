@@ -17,10 +17,10 @@
 
 //---------------------------------------------------------------
 
-CBYTE		*bonus_text;
-SLONG		 bonus_pts;
-SLONG		 bonus_type;
-SLONG		 bonus_gender; // for translators
+char		*bonus_text;
+std::int32_t		 bonus_pts;
+std::int32_t		 bonus_type;
+std::int32_t		 bonus_gender; // for translators
 
 //---------------------------------------------------------------
 
@@ -46,9 +46,9 @@ TCHAR	*bstrings[]	=
 
 bool	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG len;
+	std::int32_t len;
 	HWND		the_ctrl;
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	LPTSTR		lbitem_str;
 
 	switch(message)
@@ -102,7 +102,7 @@ bool	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 							0,0
 						)+1;
 			if (bonus_text) free(bonus_text);
-			bonus_text =	(CBYTE*)malloc(len);
+			bonus_text =	(char*)malloc(len);
 			ZeroMemory(bonus_text,len);
 			
 			SendMessage	(
@@ -127,13 +127,13 @@ bool	CALLBACK	bonus_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 void	do_bonus_setup(EventPoint *the_ep)
 {
 	//	Set the dialog.
-	bonus_text	=	(CBYTE*)the_ep->Data[0];
+	bonus_text	=	(char*)the_ep->Data[0];
 	bonus_pts	=	the_ep->Data[1];
 	bonus_type 	=	the_ep->Data[2];
 	bonus_gender=	the_ep->Data[3];
 	if(!bonus_text)
 	{
-		bonus_text	=	(CBYTE*)malloc(_MAX_PATH);
+		bonus_text	=	(char*)malloc(_MAX_PATH);
 		ZeroMemory(bonus_text,_MAX_PATH);
 		strcpy(bonus_text,"Secondary objective complete. 200 points.");
 		bonus_pts=200;
@@ -150,7 +150,7 @@ void	do_bonus_setup(EventPoint *the_ep)
 				);
 
 	//	Get the data.
-	the_ep->Data[0]		=	(SLONG)bonus_text;
+	the_ep->Data[0]		=	(std::int32_t)bonus_text;
 	the_ep->Data[1]		=	bonus_pts;
 	the_ep->Data[2]		=	bonus_type;
 	the_ep->Data[3]		=	bonus_gender;
@@ -159,9 +159,9 @@ void	do_bonus_setup(EventPoint *the_ep)
 //---------------------------------------------------------------
 
 
-CBYTE	*get_bonus_message(EventPoint *ep, CBYTE* msg) {
+char	*get_bonus_message(EventPoint *ep, char* msg) {
 	msg[0]=0;
 	if (ep&&ep->Data[0])
-		strcpy(msg,(CBYTE*)ep->Data[0]);
+		strcpy(msg,(char*)ep->Data[0]);
 	return msg;
 }

@@ -5,14 +5,14 @@
 
 
 #define MAX_LENGTH_OF_BASE_PATH 64
-CBYTE cBasePath[MAX_LENGTH_OF_BASE_PATH+1];
+char cBasePath[MAX_LENGTH_OF_BASE_PATH+1];
 
 //---------------------------------------------------------------
 
 #define MAX_LENGTH_OF_FULL_NAME (MAX_LENGTH_OF_BASE_PATH+16)
-CBYTE cTempFilename[MAX_LENGTH_OF_FULL_NAME+1];
+char cTempFilename[MAX_LENGTH_OF_FULL_NAME+1];
 
-CBYTE* MakeFullPathName ( CBYTE* cFilename )
+char* MakeFullPathName ( char* cFilename )
 {
 	strcpy ( cTempFilename, cBasePath );
 	ASSERT ( strlen (cFilename) < ( MAX_LENGTH_OF_FULL_NAME - MAX_LENGTH_OF_BASE_PATH ) );
@@ -23,7 +23,7 @@ CBYTE* MakeFullPathName ( CBYTE* cFilename )
 
 //---------------------------------------------------------------
 
-bool	FileExists(CBYTE* file_name)
+bool	FileExists(char* file_name)
 {
 	file_name = MakeFullPathName ( file_name );
 
@@ -35,7 +35,7 @@ bool	FileExists(CBYTE* file_name)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileOpen(CBYTE* file_name)
+MFFileHandle	FileOpen(char* file_name)
 {
 	MFFileHandle	result	=	FILE_OPEN_ERROR;
 
@@ -67,7 +67,7 @@ void	FileClose(MFFileHandle file_handle)
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileCreate(CBYTE* file_name,bool overwrite)
+MFFileHandle	FileCreate(char* file_name,bool overwrite)
 {
 	DWORD			creation_mode;
 	MFFileHandle	result;
@@ -99,7 +99,7 @@ MFFileHandle	FileCreate(CBYTE* file_name,bool overwrite)
 
 //---------------------------------------------------------------
 
-void	FileDelete(CBYTE* file_name)
+void	FileDelete(char* file_name)
 {
 	file_name = MakeFullPathName ( file_name );
 	DeleteFile(file_name);
@@ -107,7 +107,7 @@ void	FileDelete(CBYTE* file_name)
 
 //---------------------------------------------------------------
 
-SLONG	FileSize(MFFileHandle file_handle)
+std::int32_t	FileSize(MFFileHandle file_handle)
 {
 	DWORD	result;
 
@@ -116,14 +116,14 @@ SLONG	FileSize(MFFileHandle file_handle)
 	if(result==0xffffffff)
 		return	FILE_SIZE_ERROR;
 	else
-		return	(SLONG)result;
+		return	(std::int32_t)result;
 }
 
 //---------------------------------------------------------------
 
-SLONG	FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
+std::int32_t	FileRead(MFFileHandle file_handle,void* buffer,std::uint32_t size)
 {
-	SLONG	bytes_read;
+	std::int32_t	bytes_read;
 
 
 	if(ReadFile(file_handle,buffer,size,(LPDWORD)&bytes_read,nullptr)==false)
@@ -134,9 +134,9 @@ SLONG	FileRead(MFFileHandle file_handle,void* buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG	FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
+std::int32_t	FileWrite(MFFileHandle file_handle,void* buffer,std::uint32_t size)
 {
-	SLONG	bytes_written;
+	std::int32_t	bytes_written;
 
 
 	if(WriteFile(file_handle,buffer,size,(LPDWORD)&bytes_written,nullptr)==false)
@@ -147,7 +147,7 @@ SLONG	FileWrite(MFFileHandle file_handle,void* buffer,ULONG size)
 
 //---------------------------------------------------------------
 
-SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
+std::int32_t	FileSeek(MFFileHandle file_handle,const int mode,std::int32_t offset)
 {
 	DWORD		method;
 
@@ -172,9 +172,9 @@ SLONG	FileSeek(MFFileHandle file_handle,const int mode,SLONG offset)
 
 //---------------------------------------------------------------
 
-SLONG	FileLoadAt(CBYTE* file_name,void* buffer)
+std::int32_t	FileLoadAt(char* file_name,void* buffer)
 {
-	SLONG			size;
+	std::int32_t			size;
 	MFFileHandle	handle;
 
 	file_name = MakeFullPathName ( file_name );
@@ -198,7 +198,7 @@ SLONG	FileLoadAt(CBYTE* file_name,void* buffer)
 
 //---------------------------------------------------------------
 
-void			FileSetBasePath(CBYTE* path_name)
+void			FileSetBasePath(char* path_name)
 {
 	ASSERT ( strlen ( path_name ) < MAX_LENGTH_OF_BASE_PATH );
 	strncpy ( cBasePath, path_name, MAX_LENGTH_OF_BASE_PATH );

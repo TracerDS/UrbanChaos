@@ -12,26 +12,26 @@
 #include "MFStdLib.h"
 #include "psxeng.h"
 
-void PANEL_draw_quad(SLONG left,SLONG top,SLONG width,SLONG height,SLONG page,ULONG colour,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2);
-void PANEL_funky_quad(SLONG which,SLONG x,SLONG y,ULONG colour);
+void PANEL_draw_quad(std::int32_t left,std::int32_t top,std::int32_t width,std::int32_t height,std::int32_t page,std::uint32_t colour,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2);
+void PANEL_funky_quad(std::int32_t which,std::int32_t x,std::int32_t y,std::uint32_t colour);
 void PANEL_new_funky();
 void PANEL_inventory(Thing *darci) ;
-void PANEL_new_text(Thing *who, SLONG delay, CBYTE* fmt, ...);
+void PANEL_new_text(Thing *who, std::int32_t delay, char* fmt, ...);
 void PANEL_new_text_process();
-void PANEL_new_help_message(CBYTE* fmt, ...);
+void PANEL_new_help_message(char* fmt, ...);
 void PANEL_new_text_draw();
 void PANEL_draw_beacons();
 void PANEL_new_widescreen();
 void PANEL_render_thugs();
-void PANEL_DrawSign(SLONG x,SLONG y,SLONG type);
-void PANEL_flash_sign(SLONG sign, SLONG flip);
-void PANEL_new_info_message(CBYTE* fmt, ...);
-void PANEL_new_face(Thing *who,SLONG x,SLONG y);
-void PANEL_draw_search(SLONG timer);
-void PANEL_draw_eog(SLONG win);
+void PANEL_DrawSign(std::int32_t x,std::int32_t y,std::int32_t type);
+void PANEL_flash_sign(std::int32_t sign, std::int32_t flip);
+void PANEL_new_info_message(char* fmt, ...);
+void PANEL_new_face(Thing *who,std::int32_t x,std::int32_t y);
+void PANEL_draw_search(std::int32_t timer);
+void PANEL_draw_eog(std::int32_t win);
 void PANEL_new_text_init();
 void PANEL_new_widescreen_init();
-void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG radius = 60);
+void PANEL_draw_local_health(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t percentage,std::int32_t radius = 60);
 
 
 #define PANEL_SIGN_WHICH_UTURN                0

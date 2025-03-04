@@ -9,9 +9,9 @@
 
 //---------------------------------------------------------------
 
-void	DrawCircle(SLONG x,SLONG y,SLONG radius,ULONG colour)
+void	DrawCircle(std::int32_t x,std::int32_t y,std::int32_t radius,std::uint32_t colour)
 {
-	SLONG		angle		=	0,
+	std::int32_t		angle		=	0,
 				angle_step	=	(2048/DRAW_STEPS),
 				c0,
 				x1,y1,
@@ -33,9 +33,9 @@ void	DrawCircle(SLONG x,SLONG y,SLONG radius,ULONG colour)
 
 //---------------------------------------------------------------
 
-void	DrawCircleC(SLONG x,SLONG y,SLONG radius,ULONG colour)
+void	DrawCircleC(std::int32_t x,std::int32_t y,std::int32_t radius,std::uint32_t colour)
 {
-	SLONG		angle		=	0,
+	std::int32_t		angle		=	0,
 				angle_step	=	(2048/DRAW_STEPS),
 				c0,
 				x1,y1,

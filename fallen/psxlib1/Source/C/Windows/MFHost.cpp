@@ -16,14 +16,14 @@ MFFileHandle log_handle		=	NULL;
 WNDCLASS wnd_class;
 RECT ShellRect;
 
-static UWORD	argc;
+static std::uint16_t	argc;
 static LPTSTR	argv[MAX_PATH];
 
 LRESULT CALLBACK		WndProc(HWND hwnd,UINT iMsg,WPARAM wParam,LPARAM lParam);
-ULONG ShellThread(ULONG arg);
-SLONG CreateShellWindow();
+std::uint32_t ShellThread(std::uint32_t arg);
+std::int32_t CreateShellWindow();
 
-extern UBYTE					DisplayState;
+extern std::uint8_t					DisplayState;
 
 //---------------------------------------------------------------
 
@@ -65,7 +65,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance,LPSTR szCmdLine
 
 //---------------------------------------------------------------
 
-bool SetupHost(ULONG flags)
+bool SetupHost(std::uint32_t flags)
 {
 	DWORD			id;
 
@@ -248,9 +248,9 @@ extern LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
 //---------------------------------------------------------------
 
-ULONG ShellThread(ULONG arg)
+std::uint32_t ShellThread(std::uint32_t arg)
 {
-	SLONG		result;
+	std::int32_t		result;
 	MSG			msg;
 
 
@@ -294,7 +294,7 @@ ULONG ShellThread(ULONG arg)
 
 //---------------------------------------------------------------
 
-SLONG CreateShellWindow()
+std::int32_t CreateShellWindow()
 {
 	hShellWindow	=	CreateWindowEx	(
 											0,
@@ -335,9 +335,9 @@ SLONG CreateShellWindow()
 
 //---------------------------------------------------------------
 
-void LogText(CBYTE* error, ...)
+void LogText(char* error, ...)
 {
-	CBYTE 			buf[512];
+	char 			buf[512];
 	va_list 		argptr;
 
 	if(log_handle)
@@ -353,11 +353,11 @@ void LogText(CBYTE* error, ...)
 //---------------------------------------------------------------
 extern HWND					hShellWindow;
 
-int MFMessage(const char *pMessage, const char *pFile, ULONG dwLine)
+int MFMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine)
 {
 	char buff1[512];
 	char buff2[512];
-	ULONG	flag; 
+	std::uint32_t	flag; 
 
 
 	LogText("Mucky Foot Message\n    %s\nIn   : %s\nLine : %u",pMessage,pFile,dwLine);

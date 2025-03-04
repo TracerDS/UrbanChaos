@@ -43,8 +43,8 @@
 
 struct	WSElement
 {
-	UBYTE			ElementType;
-	UWORD			EventPointRef,
+	std::uint8_t			ElementType;
+	std::uint16_t			EventPointRef,
 					MapRef,
 					MissionRef;
 	HTREEITEM		TreeItem;
@@ -77,9 +77,9 @@ bool	init_wptlist(HWND parent);
 void	fini_wptlist();
 void	reset_wptlist();
 void	fill_wptlist(Mission *mish);
-HTREEITEM	ws_root_waypoint(CBYTE* msg, SLONG type, LPARAM param);
+HTREEITEM	ws_root_waypoint(char* msg, std::int32_t type, LPARAM param);
 void	ws_add_waypoint(EventPoint *ep);
-void	ws_set_waypoint(EventPoint *ep, CBYTE ndx);
+void	ws_set_waypoint(EventPoint *ep, char ndx);
 void	ws_sel_waypoint(EventPoint *ep);
 void	ws_del_waypoint(EventPoint *ep);
 

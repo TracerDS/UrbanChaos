@@ -1,5 +1,6 @@
-#ifndef	PRIM_H
-#define	PRIM_H			1
+#pragma once
+
+#include <cstdint>
 
 //DEFINES
 
@@ -18,8 +19,8 @@
 //
 // face savetype for primpoint size change
 //
-#define 	PRIM_START_SAVE_TYPE	5793
-#define	PRIM_END_SAVE_TYPE		5800
+#define PRIM_START_SAVE_TYPE 5793
+#define PRIM_END_SAVE_TYPE 5800
 
 //
 // roof face flags
@@ -230,8 +231,6 @@
 // The "Fun Stuff" day (14th Jan 1999)
 //
 
-
-
 //
 // Returns the collision model to use for each prim.
 //
@@ -241,7 +240,7 @@
 #define PRIM_COLLIDE_CYLINDER	2	// As a cylinder
 #define PRIM_COLLIDE_SMALLBOX	3	// A bounding box smaller than the prim
 
-UBYTE prim_get_collision_model(SLONG prim);
+std::uint8_t prim_get_collision_model(std::int32_t prim);
 
 //
 // The type of shadow to draw under the prim.
@@ -253,7 +252,7 @@ UBYTE prim_get_collision_model(SLONG prim);
 #define PRIM_SHADOW_FOURLEGS	3
 #define PRIM_SHADOW_FULLBOX		4
 
-UBYTE prim_get_shadow_type(SLONG prim);
+std::uint8_t prim_get_shadow_type(std::int32_t prim);
 
 //
 // Prim flags.
@@ -286,32 +285,32 @@ UBYTE prim_get_shadow_type(SLONG prim);
 // STRUCTS
 struct 	CMatrix33
 {
-	SLONG	M[3];
+	std::int32_t	M[3];
 };
 
 struct 	Matrix33
 {
-	SLONG	M[3][3];
+	std::int32_t	M[3][3];
 };
 
 struct 	Matrix31
 {
-	SLONG	M[3];
+	std::int32_t	M[3];
 };
 
 struct 	SMatrix31
 {
-	SWORD	M[3];
+	std::int16_t	M[3];
 };
 
 struct	OldPrimPoint
 {
-	SLONG	X,Y,Z;
+	std::int32_t	X,Y,Z;
 };
 
 struct	PrimPoint
 {
-	SWORD	X,Y,Z;
+	std::int16_t	X,Y,Z;
 };
 
 
@@ -319,13 +318,13 @@ struct	PrimPoint
 #define	ROOF_SHIFT	3
 struct	RoofFace4
 {
-//	UWORD	TexturePage; //could use the texture on the floor
-	SWORD	Y;
-	SBYTE	DY[3];
-	UBYTE	DrawFlags;
-	UBYTE	RX;
-	UBYTE	RZ;
-	SWORD	Next; //link list of walkables off floor 
+//	std::uint16_t	TexturePage; //could use the texture on the floor
+	std::int16_t	Y;
+	std::int8_t	DY[3];
+	std::uint8_t	DrawFlags;
+	std::uint8_t	RX;
+	std::uint8_t	RZ;
+	std::int16_t	Next; //link list of walkables off floor 
 
 };
 
@@ -334,91 +333,91 @@ struct	RoofFace4
 
 struct	PrimFace4
 {
-	SWORD	TexturePage;
-	UBYTE	AltPal;
-	UBYTE	DrawFlags;
-	UWORD	Points[4];
-	UBYTE	UV[4][2];
-	SWORD	ThingIndex;
-	UWORD	FaceFlags;
+	std::int16_t	TexturePage;
+	std::uint8_t	AltPal;
+	std::uint8_t	DrawFlags;
+	std::uint16_t	Points[4];
+	std::uint8_t	UV[4][2];
+	std::int16_t	ThingIndex;
+	std::uint16_t	FaceFlags;
 };
 
 struct	PrimFace3
 {
-	SWORD	TexturePage;
-	UBYTE	AltPal;
-	UBYTE	DrawFlags;
-	UWORD	Points[3];
-	UBYTE	UV[3][2];
-	SWORD	ThingIndex;
-	UWORD	FaceFlags;
+	std::int16_t	TexturePage;
+	std::uint8_t	AltPal;
+	std::uint8_t	DrawFlags;
+	std::uint16_t	Points[3];
+	std::uint8_t	UV[3][2];
+	std::int16_t	ThingIndex;
+	std::uint16_t	FaceFlags;
 };
 
 #else
 #define	WALKABLE	Col2
 struct	PrimFace3
 {
-	UBYTE	TexturePage;
-	UBYTE	DrawFlags;
-	UWORD	Points[3];
-	UBYTE	UV[3][2];
-	SWORD	Bright[3]; //make into byte
-	SWORD	ThingIndex;
-	UWORD	Col2;
-	UWORD	FaceFlags;
-	UBYTE	Type;      // move after bright
-	SBYTE	ID;        // delete 
+	std::uint8_t	TexturePage;
+	std::uint8_t	DrawFlags;
+	std::uint16_t	Points[3];
+	std::uint8_t	UV[3][2];
+	std::int16_t	Bright[3]; //make into byte
+	std::int16_t	ThingIndex;
+	std::uint16_t	Col2;
+	std::uint16_t	FaceFlags;
+	std::uint8_t	Type;      // move after bright
+	std::int8_t	ID;        // delete 
 };
 
 struct	PrimFace4
 {
-	UBYTE	TexturePage;
-	UBYTE	DrawFlags;
-	UWORD	Points[4];
-	UBYTE	UV[4][2];
+	std::uint8_t	TexturePage;
+	std::uint8_t	DrawFlags;
+	std::uint16_t	Points[4];
+	std::uint8_t	UV[4][2];
 
 	union
 	{
-		SWORD	    Bright[4];	// Used for people.
+		std::int16_t	    Bright[4];	// Used for people.
 
 		struct	// We cant use a LIGHT_Col because of circluar #include problems :-(
 		{
-			UBYTE red;
-			UBYTE green;
-			UBYTE blue;
+			std::uint8_t red;
+			std::uint8_t green;
+			std::uint8_t blue;
 
 		} col;		// Used for building faces...
 	};
 
 
-	SWORD	ThingIndex;
-	SWORD	Col2;
-	UWORD	FaceFlags;
-	UBYTE	Type;      // move after bright
-	SBYTE	ID;
+	std::int16_t	ThingIndex;
+	std::int16_t	Col2;
+	std::uint16_t	FaceFlags;
+	std::uint8_t	Type;      // move after bright
+	std::int8_t	ID;
 };
 #endif
 
 struct	PrimFace4PSX
 {
-	SWORD	TexturePage;
-	UBYTE	AltPal;
-	UBYTE	DrawFlags;
-	UWORD	Points[4];
-	UBYTE	UV[4][2];
-	SWORD	ThingIndex;
-	UWORD	FaceFlags;
+	std::int16_t	TexturePage;
+	std::uint8_t	AltPal;
+	std::uint8_t	DrawFlags;
+	std::uint16_t	Points[4];
+	std::uint8_t	UV[4][2];
+	std::int16_t	ThingIndex;
+	std::uint16_t	FaceFlags;
 };
 
 struct	PrimFace3PSX
 {
-	SWORD	TexturePage;
-	UBYTE	AltPal;
-	UBYTE	DrawFlags;
-	UWORD	Points[3];
-	UBYTE	UV[3][2];
-	SWORD	ThingIndex;
-	UWORD	FaceFlags;
+	std::int16_t	TexturePage;
+	std::uint8_t	AltPal;
+	std::uint8_t	DrawFlags;
+	std::uint16_t	Points[3];
+	std::uint8_t	UV[3][2];
+	std::int16_t	ThingIndex;
+	std::uint16_t	FaceFlags;
 };
 
 
@@ -426,17 +425,17 @@ struct	PrimFace3PSX
 
 struct	PrimObject
 {
-	UWORD	StartPoint;
-	UWORD	EndPoint;
-	UWORD	StartFace4;
-	UWORD	EndFace4;
-	SWORD	StartFace3;
-	SWORD	EndFace3;
+	std::uint16_t	StartPoint;
+	std::uint16_t	EndPoint;
+	std::uint16_t	StartFace4;
+	std::uint16_t	EndFace4;
+	std::int16_t	StartFace3;
+	std::int16_t	EndFace3;
 
-	UBYTE   coltype;
-	UBYTE   damage;		// How this prim gets damaged
-	UBYTE   shadowtype;
-	UBYTE   flag;
+	std::uint8_t   coltype;
+	std::uint8_t   damage;		// How this prim gets damaged
+	std::uint8_t   shadowtype;
+	std::uint8_t   flag;
 };
 
 
@@ -456,14 +455,14 @@ struct	PrimObject
 // not also used by the high-quality one.
 struct PrimObjectMaterial
 {
-	UWORD	wTexturePage;				// The texture page, maybe with some flags in the top few bits.
-	UWORD	wNumListIndices;			// How many list indices there are.
-	UWORD	wNumStripIndices;			// How many interrupted strip indices there are.
-	UWORD	wNumVertices;				// Number of vertices used.
+	std::uint16_t	wTexturePage;				// The texture page, maybe with some flags in the top few bits.
+	std::uint16_t	wNumListIndices;			// How many list indices there are.
+	std::uint16_t	wNumStripIndices;			// How many interrupted strip indices there are.
+	std::uint16_t	wNumVertices;				// Number of vertices used.
 	// For the low-quality models.
-	UWORD	wNumLoListIndices;			// How many list indices there are.
-	UWORD	wNumLoStripIndices;			// How many interrupted strip indices there are.
-	UWORD	wNumLoVertices;				// Number of vertices used.
+	std::uint16_t	wNumLoListIndices;			// How many list indices there are.
+	std::uint16_t	wNumLoStripIndices;			// How many interrupted strip indices there are.
+	std::uint16_t	wNumLoVertices;				// Number of vertices used.
 };
 
 // My version of an object - an addition to the one above.
@@ -474,15 +473,15 @@ struct PrimObjectMaterial
 
 struct	TomsPrimObject
 {
-	UWORD	wFlags;						// D3DOBJECT_FLAG_*** flags.
-	UWORD	wNumMaterials;				// Number of materials.
-	UWORD	wTotalSizeOfObj;			// Number of vertices used by object.
-	UBYTE	bLRUQueueNumber;			// Position in the LRU queue.
-	UBYTE	bPadding;
+	std::uint16_t	wFlags;						// D3DOBJECT_FLAG_*** flags.
+	std::uint16_t	wNumMaterials;				// Number of materials.
+	std::uint16_t	wTotalSizeOfObj;			// Number of vertices used by object.
+	std::uint8_t	bLRUQueueNumber;			// Position in the LRU queue.
+	std::uint8_t	bPadding;
 	PrimObjectMaterial	*pMaterials;	// Pointer to the materials. Can MemFree this.
 	void	*pD3DVertices;				// Pointer to the D3DVERTEX list. DONT MEMFREE THIS
-	UWORD	*pwListIndices;				// Pointer to the indices in list form. Can MemFree this.
-	UWORD	*pwStripIndices;			// Pointer to the indices in interrupted strip form. DONT MEMFREE THIS
+	std::uint16_t	*pwListIndices;				// Pointer to the indices in list form. Can MemFree this.
+	std::uint16_t	*pwStripIndices;			// Pointer to the indices in interrupted strip form. DONT MEMFREE THIS
 	float	fBoundingSphereRadius;		// Guess!
 };
 #endif
@@ -491,52 +490,52 @@ struct	TomsPrimObject
 
 struct	PrimObjectOld
 {
-	CBYTE	ObjectName[32];
-	UWORD	StartPoint;
-	UWORD	EndPoint;
-	UWORD	StartFace4;
-	UWORD	EndFace4;
-	SWORD	StartFace3;
-	SWORD	EndFace3;
+	char	ObjectName[32];
+	std::uint16_t	StartPoint;
+	std::uint16_t	EndPoint;
+	std::uint16_t	StartFace4;
+	std::uint16_t	EndFace4;
+	std::int16_t	StartFace3;
+	std::int16_t	EndFace3;
 
-	UBYTE   coltype;
-	UBYTE   damage;		// How this prim gets damaged
-	UBYTE   shadowtype;
-	UBYTE   flag;
+	std::uint8_t   coltype;
+	std::uint8_t   damage;		// How this prim gets damaged
+	std::uint8_t   shadowtype;
+	std::uint8_t   flag;
 
-	UWORD	Dummy[4];
+	std::uint16_t	Dummy[4];
 };
 
 struct	PrimMultiObject
 {
-	UWORD	StartObject;
-	UWORD	EndObject;
-	SWORD	Tween;
-	SWORD	Frame;
+	std::uint16_t	StartObject;
+	std::uint16_t	EndObject;
+	std::int16_t	Tween;
+	std::int16_t	Frame;
 };
 
 
 //data
-extern CBYTE	prim_names[2000][32];
+extern char	prim_names[2000][32];
 extern struct	SVector			global_res[]; //max points per object?
-extern SLONG	global_flags[];
-extern UWORD	global_bright[];
+extern std::int32_t	global_flags[];
+extern std::uint16_t	global_bright[];
 
-extern UWORD	background_prim;
+extern std::uint16_t	background_prim;
 
 // FUNCTIONS
 
-//extern void	draw_a_rot_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct	PrimMultiAnim *anim_info);
+//extern void	draw_a_rot_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct	PrimMultiAnim *anim_info);
 extern void	test_poly();
 
-extern SLONG	load_all_prims(CBYTE	*name);
-extern SLONG	save_all_prims(CBYTE	*name);
+extern std::int32_t	load_all_prims(char	*name);
+extern std::int32_t	save_all_prims(char	*name);
 
-extern SLONG	copy_prim_to_end(UWORD prim,UWORD direct,SWORD thing);
-extern void	delete_a_prim(UWORD prim);
+extern std::int32_t	copy_prim_to_end(std::uint16_t prim,std::uint16_t direct,std::int16_t thing);
+extern void	delete_a_prim(std::uint16_t prim);
 extern void	delete_last_prim();
-extern void	calc_normal(SWORD	face,struct SVector *p_normal);
-extern UWORD	apply_ambient_light_to_object(UWORD object,SLONG lnx,SLONG lny,SLONG lnz,UWORD intense);
+extern void	calc_normal(std::int16_t	face,struct SVector *p_normal);
+extern std::uint16_t	apply_ambient_light_to_object(std::uint16_t object,std::int32_t lnx,std::int32_t lny,std::int32_t lnz,std::uint16_t intense);
 
 
 //
@@ -583,23 +582,23 @@ void revert_to_prim_status();
 
 typedef struct
 {
-	SLONG minx;		// The bounding rectangle of the prim.
-	SLONG miny;
-	SLONG minz;
+	std::int32_t minx;		// The bounding rectangle of the prim.
+	std::int32_t miny;
+	std::int32_t minz;
 
-	SLONG maxx;
-	SLONG maxy;
-	SLONG maxz;
+	std::int32_t maxx;
+	std::int32_t maxy;
+	std::int32_t maxz;
 
-	SLONG cogx;		// The centre of gravity of the prim.
-	SLONG cogy;
-	SLONG cogz;
+	std::int32_t cogx;		// The centre of gravity of the prim.
+	std::int32_t cogy;
+	std::int32_t cogz;
 
-	SLONG radius;	// The bounding sphere about the origin.
+	std::int32_t radius;	// The bounding sphere about the origin.
 
 } PrimInfo;
 
-PrimInfo *get_prim_info(SLONG prim);
+PrimInfo *get_prim_info(std::int32_t prim);
 
 
 //
@@ -614,41 +613,41 @@ void compress_prims();
 //
 
 void get_rotated_point_world_pos(
-		SLONG  point,				// -1 => A random point.
-		SLONG  prim,
-		SLONG  prim_x,
-		SLONG  prim_y,
-		SLONG  prim_z,
-		SLONG  prim_yaw,
-		SLONG  prim_pitch,
-		SLONG  prim_roll,
-		SLONG *px,
-		SLONG *py,
-		SLONG *pz);
+		std::int32_t  point,				// -1 => A random point.
+		std::int32_t  prim,
+		std::int32_t  prim_x,
+		std::int32_t  prim_y,
+		std::int32_t  prim_z,
+		std::int32_t  prim_yaw,
+		std::int32_t  prim_pitch,
+		std::int32_t  prim_roll,
+		std::int32_t *px,
+		std::int32_t *py,
+		std::int32_t *pz);
 
 //
 // Collides the a movement vector with the bounding-box of the given prim.
 // Returns true if a collision occured.
 //
 
-SLONG slide_along_prim(
-		SLONG  prim,
-		SLONG  prim_x,
-		SLONG  prim_y,
-		SLONG  prim_z,
-		SLONG  prim_yaw,
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  radius,
-		SLONG  shrink,	// Makes the bounding box of the prim much shorter and smaller.
-		SLONG  dont_slide);	// true => Don't move if the vector collides with the prim.
+std::int32_t slide_along_prim(
+		std::int32_t  prim,
+		std::int32_t  prim_x,
+		std::int32_t  prim_y,
+		std::int32_t  prim_z,
+		std::int32_t  prim_yaw,
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  radius,
+		std::int32_t  shrink,	// Makes the bounding box of the prim much shorter and smaller.
+		std::int32_t  dont_slide);	// true => Don't move if the vector collides with the prim.
 
 //
 // Sets the animation used by the given anim_prim. Anims start
 // from 1... anim 0 is not used.
 // 
 
-void set_anim_prim_anim(SLONG anim_prim_thing_index, SLONG anim);
+void set_anim_prim_anim(std::int32_t anim_prim_thing_index, std::int32_t anim);
 
 
 //
@@ -659,7 +658,7 @@ void set_anim_prim_anim(SLONG anim_prim_thing_index, SLONG anim);
 #define ANIM_PRIM_TYPE_DOOR		1
 #define ANIM_PRIM_TYPE_SWITCH	2
 
-SLONG get_anim_prim_type(SLONG anim_prim);
+std::int32_t get_anim_prim_type(std::int32_t anim_prim);
 
 
 //
@@ -667,18 +666,18 @@ SLONG get_anim_prim_type(SLONG anim_prim);
 // one of the given types within the maximum range.
 //
 
-SLONG find_anim_prim(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG range,
-		ULONG type_bit_field);	// i.e (1 << ANIM_PRIM_TYPE_DOOR) | (1 << ANIM_PRIM_TYPE_NORMAL)
+std::int32_t find_anim_prim(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t range,
+		std::uint32_t type_bit_field);	// i.e (1 << ANIM_PRIM_TYPE_DOOR) | (1 << ANIM_PRIM_TYPE_NORMAL)
 
 //
 // Toggles the state of the given switch prim.
 //
 
-void toggle_anim_prim_switch_state(SLONG anim_prim_thing_index);
+void toggle_anim_prim_switch_state(std::int32_t anim_prim_thing_index);
 
 //
 // Find the bounding box of each anim-prim. The positions and rotations
@@ -711,13 +710,4 @@ void clear_all_wmove_flags();
 // The line must lie completely within the fence.
 //
 
-SLONG does_fence_lie_along_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2);
-
-
-
-#endif
-
-
-
-
-
+std::int32_t does_fence_lie_along_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2);

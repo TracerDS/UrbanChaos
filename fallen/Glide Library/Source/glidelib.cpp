@@ -13,20 +13,20 @@
 #pragma comment(lib, "glide3x.lib")
 
 
-SLONG DisplayWidth    = 640;
-SLONG DisplayHeight   = 480;
-SLONG volatile MouseX = 320;
-SLONG volatile MouseY = 240;
+std::int32_t DisplayWidth    = 640;
+std::int32_t DisplayHeight   = 480;
+std::int32_t volatile MouseX = 320;
+std::int32_t volatile MouseY = 240;
 
 
-volatile UBYTE	AltFlag,
+volatile std::uint8_t	AltFlag,
 				ControlFlag,
 				ShiftFlag;
-volatile UBYTE	Keys[256],
+volatile std::uint8_t	Keys[256],
 				LastKey;
 
 
-SLONG OpenDisplay (ULONG width, ULONG height, ULONG bpp, ULONG flags)
+std::int32_t OpenDisplay (std::uint32_t width, std::uint32_t height, std::uint32_t bpp, std::uint32_t flags)
 {
 	const char *hardware;
 
@@ -63,7 +63,7 @@ SLONG OpenDisplay (ULONG width, ULONG height, ULONG bpp, ULONG flags)
 	return 0;
 }
 
-SLONG CloseDisplay()
+std::int32_t CloseDisplay()
 {
 	grGlideShutdown();
 
@@ -74,7 +74,7 @@ void DebugText(char *, ...)
 {
 }
 
-bool SetupHost(ULONG flags)
+bool SetupHost(std::uint32_t flags)
 {
 	return true;
 }
@@ -83,28 +83,28 @@ void ResetHost()
 {
 }
 
-bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
+bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine)
 {
 	return false;
 }
 
-void LoadBackImage(UBYTE *input)
+void LoadBackImage(std::uint8_t *input)
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
-	UBYTE *output;
+	std::uint8_t *output;
 	void  *image;
 
 	//
 	// Convert to RGB 565
 	//
 
-	output = (UBYTE *) malloc(640 * 480 * 4);
+	output = (std::uint8_t *) malloc(640 * 480 * 4);
 	image  = output;
 
 	for (y = 0; y < 480; y++)
@@ -152,8 +152,8 @@ LRESULT CALLBACK OS_message_handler(
 					WPARAM param_w,
 					LPARAM param_l)
 {
-	UBYTE scancode;
-	SLONG newki;
+	std::uint8_t scancode;
+	std::int32_t newki;
 
 	switch(message_type)
 	{
@@ -240,7 +240,7 @@ HINSTANCE hGlobalThisInst;
 
 volatile HWND		hDDLibWindow	=	nullptr;
 
-static UWORD	argc;
+static std::uint16_t	argc;
 static LPTSTR	argv[MAX_PATH];
 
 int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int iWinMode)

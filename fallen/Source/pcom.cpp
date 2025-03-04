@@ -29,7 +29,7 @@
 #endif
 
 #include "memory.h"
-extern UBYTE stealth_debug;
+extern std::uint8_t stealth_debug;
 #ifndef PSX
 extern bool allow_debug_keys;
 #endif
@@ -42,9 +42,9 @@ extern bool allow_debug_keys;
 // local prototypes
 //
 
-extern UBYTE	combo_display;
-void push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle);
-SLONG remove_from_gang_attack(Thing *p_person,Thing *p_target);
+extern std::uint8_t	combo_display;
+void push_into_attack_group_at_angle(Thing *p_person,std::int32_t gang,std::int32_t reqd_angle);
+std::int32_t remove_from_gang_attack(Thing *p_person,Thing *p_target);
 void PCOM_set_person_ai_flee_person(Thing *p_person,Thing *p_scary);
 
 void DriveCar(Thing* p_person);
@@ -55,30 +55,30 @@ void ParkBike(Thing* p_person);
 //
 // externs
 //
-extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
-extern SLONG	am_i_a_thug(Thing *p_person);
-extern SLONG	person_normal_animate(Thing *p_person);
-extern SLONG dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
+extern std::int32_t	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern std::int32_t	am_i_a_thug(Thing *p_person);
+extern std::int32_t	person_normal_animate(Thing *p_person);
+extern std::int32_t dist_to_target_pelvis(Thing *p_person_a,Thing *p_person_b);
 extern void set_person_recircle(Thing *p_person);
 extern void	FC_kill_player_cam(Thing *p_thing);
-extern UBYTE	GAME_cut_scene;
-extern SLONG	is_person_dead(Thing *p_person);
-extern SLONG	is_person_ko(Thing *p_person);
-extern SLONG person_has_gun_out(Thing *p_person);
-extern SLONG	is_person_guilty(Thing *p_person);
+extern std::uint8_t	GAME_cut_scene;
+extern std::int32_t	is_person_dead(Thing *p_person);
+extern std::int32_t	is_person_ko(Thing *p_person);
+extern std::int32_t person_has_gun_out(Thing *p_person);
+extern std::int32_t	is_person_guilty(Thing *p_person);
 
-extern UBYTE	vehicle_random[];
+extern std::uint8_t	vehicle_random[];
 
-extern SLONG there_is_a_los_mav(	// From collide.cpp
-				SLONG x1, SLONG y1, SLONG z1,
-				SLONG x2, SLONG y2, SLONG z2);
+extern std::int32_t there_is_a_los_mav(	// From collide.cpp
+				std::int32_t x1, std::int32_t y1, std::int32_t z1,
+				std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 
 
 
 
 #ifndef PSX
-CBYTE* PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] = 
+char* PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] = 
 {
 	"Player",
 	"Normal",
@@ -110,7 +110,7 @@ CBYTE* PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] =
 	"Get item"
 };
 
-CBYTE* PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
+char* PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
 {
 	"None",
 	"Suprised",
@@ -143,7 +143,7 @@ CBYTE* PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
 	"Waiting"
 };
 
-CBYTE* PCOM_ai_name[PCOM_AI_NUMBER] =
+char* PCOM_ai_name[PCOM_AI_NUMBER] =
 {
 	"player",
 	"civillian",
@@ -169,7 +169,7 @@ CBYTE* PCOM_ai_name[PCOM_AI_NUMBER] =
 	"Shoot dead"
 };
 
-CBYTE* PCOM_bent_name[PCOM_BENT_NUMBER] =
+char* PCOM_bent_name[PCOM_BENT_NUMBER] =
 {
 	"Lazy ",
 	"Diligent ",
@@ -181,7 +181,7 @@ CBYTE* PCOM_bent_name[PCOM_BENT_NUMBER] =
 	"Player-kill"
 };
 
-CBYTE* PCOM_move_name[PCOM_MOVE_NUMBER] =
+char* PCOM_move_name[PCOM_MOVE_NUMBER] =
 {
 	"NULL",
 	"Still",
@@ -230,7 +230,7 @@ CBYTE* PCOM_move_name[PCOM_MOVE_NUMBER] =
 #define PCOM_MOVE_SPEED_SPRINT	PERSON_SPEED_SPRINT
 
 #ifndef PSX
-CBYTE* PCOM_move_state_name[] =
+char* PCOM_move_state_name[] =
 {
 	"Player",
 	"Still",
@@ -313,12 +313,12 @@ CBYTE* PCOM_move_state_name[] =
 #define PCOM_MAX_GANG_PEOPLE 64
 
 THING_INDEX PCOM_gang_person[PCOM_MAX_GANG_PEOPLE];
-SLONG PCOM_gang_person_upto;
+std::int32_t PCOM_gang_person_upto;
 
 typedef struct
 {
-	UBYTE index;
-	UBYTE number;
+	std::uint8_t index;
+	std::uint8_t number;
 
 } PCOM_Gang;
 
@@ -333,8 +333,8 @@ PCOM_Gang PCOM_gang[PCOM_MAX_GANGS];
 
 #define PCOM_MAX_FIND 16
 
-UWORD PCOM_found[PCOM_MAX_FIND];
-SLONG PCOM_found_num;
+std::uint16_t PCOM_found[PCOM_MAX_FIND];
+std::int32_t PCOM_found_num;
 
 
 //
@@ -342,7 +342,7 @@ SLONG PCOM_found_num;
 //
 
 void PCOM_set_person_ai_homesick(Thing *p_person);
-SLONG person_holding_2handed(Thing *p_person);
+std::int32_t person_holding_2handed(Thing *p_person);
 
 
 
@@ -361,9 +361,9 @@ void PCOM_init()
 }
 
 
-void PCOM_add_gang_member(THING_INDEX person, UBYTE group)
+void PCOM_add_gang_member(THING_INDEX person, std::uint8_t group)
 {
-	SLONG i;
+	std::int32_t i;
 	PCOM_Gang *pg;
 
 	ASSERT(WITHIN(group, 0, PCOM_MAX_GANGS - 1));
@@ -435,7 +435,7 @@ void PCOM_add_gang_member(THING_INDEX person, UBYTE group)
 // Returns true if a fake wandering person should attack Darci.
 //
 
-SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
+std::int32_t PCOM_should_fake_person_attack_darci(Thing *p_person)
 {
 	Thing *darci = NET_PERSON(0);
 
@@ -475,7 +475,7 @@ SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
 						PCOM_MAX_FIND,
 						1 << CLASS_PERSON);
 
-	SLONG  i;
+	std::int32_t  i;
 	Thing *p_found;
 
 	for (i = 0; i < PCOM_found_num ; i++)
@@ -513,7 +513,7 @@ SLONG PCOM_should_fake_person_attack_darci(Thing *p_person)
 // not really PCOM_  becasue used by players elsewhere
 //
 
-SLONG get_rate_of_fire(Thing *p_person)
+std::int32_t get_rate_of_fire(Thing *p_person)
 {
 	Thing *p_special;
 
@@ -590,7 +590,7 @@ SLONG get_rate_of_fire(Thing *p_person)
 //		   @	@@@	@  @  @@@  @@ @	  @@  @	 @ @
 
 
-SLONG person_has_gun_or_grenade_out(Thing *p_person)
+std::int32_t person_has_gun_or_grenade_out(Thing *p_person)
 {
 	if (p_person->Genus.Person->Flags&FLAG_PERSON_GUN_OUT)
 	{
@@ -631,9 +631,9 @@ SLONG person_has_gun_or_grenade_out(Thing *p_person)
 // Returns the amount of time given in tenth's of a second.
 //
 
-inline SLONG PCOM_get_duration(SLONG tenths)
+inline std::int32_t PCOM_get_duration(std::int32_t tenths)
 {
-	SLONG ans;
+	std::int32_t ans;
 	
 	ans = tenths * (PCOM_TICKS_PER_SEC / 10);
 
@@ -643,9 +643,9 @@ inline SLONG PCOM_get_duration(SLONG tenths)
 //
 // approximate
 //
-inline SLONG PCOM_get_duration100(SLONG hun)
+inline std::int32_t PCOM_get_duration100(std::int32_t hun)
 {
-	SLONG ans;
+	std::int32_t ans;
 	
 	ans = hun * (PCOM_TICKS_PER_SEC / 100);
 
@@ -657,9 +657,9 @@ inline SLONG PCOM_get_duration100(SLONG hun)
 // in tenths of a second.
 //
 
-SLONG PCOM_get_random_duration(SLONG min, SLONG max)
+std::int32_t PCOM_get_random_duration(std::int32_t min, std::int32_t max)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	if (max <= min)
 	{
@@ -683,9 +683,9 @@ SLONG PCOM_get_random_duration(SLONG min, SLONG max)
 // Returns the angle for the given MAV_DIR
 //
 
-UWORD PCOM_get_angle_for_dir(SLONG dir)
+std::uint16_t PCOM_get_angle_for_dir(std::int32_t dir)
 {
-	static UWORD dir_to_angle[4]=
+	static std::uint16_t dir_to_angle[4]=
 	{
 		512,
 		512+1024,
@@ -693,7 +693,7 @@ UWORD PCOM_get_angle_for_dir(SLONG dir)
 		1024
 	};
 
-	SLONG angle;
+	std::int32_t angle;
 
 	ASSERT(WITHIN(dir, 0, 3));
 
@@ -706,12 +706,12 @@ UWORD PCOM_get_angle_for_dir(SLONG dir)
 // Returns a small vector in the given MAV_DIR
 //
 
-void PCOM_get_dx_dz_for_dir(SLONG dir, SLONG *dx, SLONG *dz)
+void PCOM_get_dx_dz_for_dir(std::int32_t dir, std::int32_t *dx, std::int32_t *dz)
 {
-	SLONG ans_x;
-	SLONG ans_z;
+	std::int32_t ans_x;
+	std::int32_t ans_z;
 
-	SLONG angle = PCOM_get_angle_for_dir(dir);
+	std::int32_t angle = PCOM_get_angle_for_dir(dir);
 
 	ans_x = COS(angle) >> 11;
 	ans_z = SIN(angle) >> 11;
@@ -724,11 +724,11 @@ void PCOM_get_dx_dz_for_dir(SLONG dir, SLONG *dx, SLONG *dz)
 // Returns the distance between two people- includes y spacing.
 //
 
-SLONG PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b)
+std::int32_t PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b)
 {
-	SLONG ax;
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;
+	std::int32_t ay;
+	std::int32_t az;
 
 	if (p_person_a->Class == CLASS_PERSON)
 	{
@@ -752,9 +752,9 @@ SLONG PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b)
 	ay += p_person_a->WorldPos.Y >> 8;
 	az += p_person_a->WorldPos.Z >> 8;
 	
-	SLONG bx;
-	SLONG by;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t by;
+	std::int32_t bz;
 
 	if (p_person_b->Class == CLASS_PERSON)
 	{
@@ -777,11 +777,11 @@ SLONG PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b)
 	by += p_person_b->WorldPos.Y >> 8;
 	bz += p_person_b->WorldPos.Z >> 8;
 
-	SLONG dx = abs(ax - bx);
-	SLONG dy = abs(ay - by);
-	SLONG dz = abs(az - bz);
+	std::int32_t dx = abs(ax - bx);
+	std::int32_t dy = abs(ay - by);
+	std::int32_t dz = abs(az - bz);
 
-	SLONG dist = QDIST2(dx,dz);
+	std::int32_t dist = QDIST2(dx,dz);
 
 	if (dy >= 0x80) 
 	{
@@ -800,15 +800,15 @@ SLONG PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b)
 // Returns how far a person is from home.
 //
 
-SLONG PCOM_get_dist_from_home(Thing *p_person)
+std::int32_t PCOM_get_dist_from_home(Thing *p_person)
 {
-	SLONG home_x = (p_person->Genus.Person->HomeX << 0);// + 0x80;
-	SLONG home_z = (p_person->Genus.Person->HomeZ << 0);// + 0x80;
+	std::int32_t home_x = (p_person->Genus.Person->HomeX << 0);// + 0x80;
+	std::int32_t home_z = (p_person->Genus.Person->HomeZ << 0);// + 0x80;
 
-	SLONG dx = abs((p_person->WorldPos.X >> 8) - home_x);
-	SLONG dz = abs((p_person->WorldPos.Z >> 8) - home_z);
+	std::int32_t dx = abs((p_person->WorldPos.X >> 8) - home_x);
+	std::int32_t dz = abs((p_person->WorldPos.Z >> 8) - home_z);
 
-	SLONG dist = QDIST2(dx,dz);
+	std::int32_t dist = QDIST2(dx,dz);
 
 	return dist;
 }
@@ -818,7 +818,7 @@ SLONG PCOM_get_dist_from_home(Thing *p_person)
 // Returns true if you can try to do a fastnav to the given person.
 //	
 
-SLONG PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
+std::int32_t PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
 {
 	if (p_target->Class == CLASS_PERSON)
 	{
@@ -830,9 +830,9 @@ SLONG PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
 			return false;
 		}
 
-		SLONG dx = abs(p_target->WorldPos.X - p_person->WorldPos.X);
-		SLONG dy = abs(p_target->WorldPos.Y - p_person->WorldPos.Y);
-		SLONG dz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z);
+		std::int32_t dx = abs(p_target->WorldPos.X - p_person->WorldPos.X);
+		std::int32_t dy = abs(p_target->WorldPos.Y - p_person->WorldPos.Y);
+		std::int32_t dz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z);
 
 		if (dx < 0x30000 && dz < 0x30000 && dy < 0x10000)
 		{
@@ -844,19 +844,19 @@ SLONG PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target)
 }
 
 //
-// Gives the UBYTE mapsquare position you navigate to, to
+// Gives the std::uint8_t mapsquare position you navigate to, to
 // go to the given person.
 //
 
 void PCOM_get_person_navsquare(
 		Thing *p_person,
-		SLONG *map_dest_x,
-		SLONG *map_dest_z)
+		std::int32_t *map_dest_x,
+		std::int32_t *map_dest_z)
 {
 	ASSERT(p_person->Class == CLASS_PERSON);
 
-	SLONG ans_x = p_person->WorldPos.X;
-	SLONG ans_z = p_person->WorldPos.Z;
+	std::int32_t ans_x = p_person->WorldPos.X;
+	std::int32_t ans_z = p_person->WorldPos.Z;
 
 	if (p_person->State == STATE_CLIMB_LADDER ||
 		p_person->State == STATE_CLIMBING     ||
@@ -881,8 +881,8 @@ void PCOM_get_person_navsquare(
 		// Navigate to the square in front of the person.
 		//
 
-		SLONG dx = SIN(p_person->Draw.Tweened->Angle);
-		SLONG dz = COS(p_person->Draw.Tweened->Angle);
+		std::int32_t dx = SIN(p_person->Draw.Tweened->Angle);
+		std::int32_t dz = COS(p_person->Draw.Tweened->Angle);
 
 		ans_x -= dx;
 		ans_z -= dz;
@@ -900,9 +900,9 @@ void PCOM_get_person_navsquare(
 	else
 	if (is_person_ko(p_person))
 	{
-		SLONG pelvis_x;
-		SLONG pelvis_y;
-		SLONG pelvis_z;
+		std::int32_t pelvis_x;
+		std::int32_t pelvis_y;
+		std::int32_t pelvis_z;
 
 		//
 		// Go to the pelvis position.
@@ -933,29 +933,29 @@ void PCOM_get_person_navsquare(
 }
 
 //
-// Gives the UBYTE mapsquare position you navigate to be
+// Gives the std::uint8_t mapsquare position you navigate to be
 // get to the door of the given vehicle.
 // 
 
 void PCOM_get_vehicle_navsquare(
 		Thing *p_vehicle,
-		SLONG *map_dest_x,
-		SLONG *map_dest_z,
-		SLONG  i_am_a_passenger,
+		std::int32_t *map_dest_x,
+		std::int32_t *map_dest_z,
+		std::int32_t  i_am_a_passenger,
 		Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG ix1;
-	SLONG iz1;
-	SLONG dist1;
+	std::int32_t ix1;
+	std::int32_t iz1;
+	std::int32_t dist1;
 
-	SLONG ix2;
-	SLONG iz2;
-	SLONG dist2;
+	std::int32_t ix2;
+	std::int32_t iz2;
+	std::int32_t dist2;
 
-	extern void get_car_enter_xz(Thing *p_vehicle,SLONG door, SLONG *cx,SLONG *cz);
+	extern void get_car_enter_xz(Thing *p_vehicle,std::int32_t door, std::int32_t *cx,std::int32_t *cz);
 
 	//
 	// Go to the nearest door.
@@ -1017,20 +1017,20 @@ void PCOM_get_vehicle_navsquare(
 // the person isn't moved.
 //
 
-SLONG PCOM_position_person_to_sit_on_prim(
+std::int32_t PCOM_position_person_to_sit_on_prim(
 		Thing *p_person,
-		SLONG  prim,
-		SLONG  prim_x,
-		SLONG  prim_y,
-		SLONG  prim_z,
-		SLONG  prim_yaw,
-		SLONG  dont_teleport)
+		std::int32_t  prim,
+		std::int32_t  prim_x,
+		std::int32_t  prim_y,
+		std::int32_t  prim_z,
+		std::int32_t  prim_yaw,
+		std::int32_t  dont_teleport)
 {
 	ASSERT(p_person->Class == CLASS_PERSON);
 
-	SLONG dx;
-	SLONG dz;
-	SLONG away;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t away;
 
 	PrimInfo *pi = get_prim_info(prim);
 
@@ -1076,11 +1076,11 @@ SLONG PCOM_position_person_to_sit_on_prim(
 
 void PCOM_get_flee_from_pos(
 		Thing *p_person,
-		SLONG *from_x,
-		SLONG *from_z)
+		std::int32_t *from_x,
+		std::int32_t *from_z)
 {
-	SLONG ans_x;
-	SLONG ans_z;
+	std::int32_t ans_x;
+	std::int32_t ans_z;
 
 	switch(p_person->Genus.Person->pcom_ai_state)
 	{
@@ -1109,12 +1109,12 @@ void PCOM_get_flee_from_pos(
 
 void PCOM_get_person_dest(
 		Thing *p_person,
-		SLONG *dest_x,
-		SLONG *dest_z)
+		std::int32_t *dest_x,
+		std::int32_t *dest_z)
 {
-	SLONG ans_x;
-	SLONG ans_y;
-	SLONG ans_z;
+	std::int32_t ans_x;
+	std::int32_t ans_y;
+	std::int32_t ans_z;
 
 	Thing *p_thing;
 
@@ -1248,16 +1248,16 @@ void PCOM_get_person_dest(
 
 void PCOM_get_mav_action_pos(
 		Thing     *p_person,
-		SLONG     *dest_x,
-		SLONG     *dest_z)
+		std::int32_t     *dest_x,
+		std::int32_t     *dest_z)
 {
 	ASSERT(p_person->Genus.Person->pcom_move_substate != PCOM_MOVE_SUBSTATE_LOSMAV);
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG ans_x = (p_person->Genus.Person->pcom_move_ma.dest_x << 8) + 0x80;
-	SLONG ans_z = (p_person->Genus.Person->pcom_move_ma.dest_z << 8) + 0x80;
+	std::int32_t ans_x = (p_person->Genus.Person->pcom_move_ma.dest_x << 8) + 0x80;
+	std::int32_t ans_z = (p_person->Genus.Person->pcom_move_ma.dest_z << 8) + 0x80;
 
 	if (p_person->Genus.Person->pcom_move_ma.action != MAV_ACTION_GOTO)
 	{
@@ -1283,7 +1283,7 @@ void PCOM_get_mav_action_pos(
 // Returns true if the person is carrying any sort of gun.
 //
 
-SLONG PCOM_person_has_any_sort_of_gun(Thing *p_person)
+std::int32_t PCOM_person_has_any_sort_of_gun(Thing *p_person)
 {
 	if (p_person->Flags & FLAGS_HAS_GUN)
 	{
@@ -1311,7 +1311,7 @@ SLONG PCOM_person_has_any_sort_of_gun(Thing *p_person)
 // Returns true if the person has gun and ammo to use with it.
 //
 
-SLONG PCOM_person_has_any_sort_of_h2h(Thing *p_person)
+std::int32_t PCOM_person_has_any_sort_of_h2h(Thing *p_person)
 {
 	if(person_has_special(p_person, SPECIAL_KNIFE))
 	{
@@ -1328,7 +1328,7 @@ SLONG PCOM_person_has_any_sort_of_h2h(Thing *p_person)
 	}
 }
 
-SLONG PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person)
+std::int32_t PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person)
 {
 	Thing *p_special;
 
@@ -1366,10 +1366,10 @@ SLONG PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person)
 // near the car.
 //
 
-SLONG PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle)
+std::int32_t PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle)
 {
-	SLONG  i;
-	SLONG  num_found;
+	std::int32_t  i;
+	std::int32_t  num_found;
 	Thing *p_found;
 
 	num_found = THING_find_sphere(
@@ -1401,7 +1401,7 @@ SLONG PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle)
 }
 
 
-SLONG PCOM_person_doing_nothing_important(Thing *p_person)
+std::int32_t PCOM_person_doing_nothing_important(Thing *p_person)
 {
 	if(p_person->State==STATE_DYING||p_person->State==STATE_DEAD||p_person->State==STATE_CARRY)
 		return(false);
@@ -1495,7 +1495,7 @@ SLONG PCOM_person_doing_nothing_important(Thing *p_person)
 // Returns true if the person has any kind of gun in his hand- ready to shoot.
 //
 
-SLONG PCOM_person_has_gun_in_hand(Thing *p_person)
+std::int32_t PCOM_person_has_gun_in_hand(Thing *p_person)
 {
 	if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
 		p_person->Genus.Person->PersonType == PERSON_MIB2 ||
@@ -1543,12 +1543,12 @@ SLONG PCOM_person_has_gun_in_hand(Thing *p_person)
 // Returns true if the target has a gun pointed at you!
 //
 
-SLONG PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter)
+std::int32_t PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter)
 {
 	if(can_a_see_b(p_shooter,p_person))
 	if (PCOM_person_has_gun_in_hand(p_shooter))
 	{
-		SLONG dangle = get_dangle(p_shooter, p_person);
+		std::int32_t dangle = get_dangle(p_shooter, p_person);
 
 		#define PCOM_SHOOTME_DANGLE 256
 
@@ -1567,15 +1567,15 @@ SLONG PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter)
 // Returns the distance of the person from the point.
 // 
 
-SLONG PCOM_person_dist_from(
+std::int32_t PCOM_person_dist_from(
 		Thing *p_person,
-		SLONG  world_x,
-		SLONG  world_z)
+		std::int32_t  world_x,
+		std::int32_t  world_z)
 {
-	SLONG dx = abs((p_person->WorldPos.X >> 8) - world_x);
-	SLONG dz = abs((p_person->WorldPos.Z >> 8) - world_z);
+	std::int32_t dx = abs((p_person->WorldPos.X >> 8) - world_x);
+	std::int32_t dz = abs((p_person->WorldPos.Z >> 8) - world_z);
 
-	SLONG dist = QDIST2(dx,dz);
+	std::int32_t dist = QDIST2(dx,dz);
 
 	return dist;
 }
@@ -1586,37 +1586,37 @@ SLONG PCOM_person_dist_from(
 // hiding.  Returns NULL if it couldn't find anywhere.
 //
 
-SLONG PCOM_find_hiding_place(
+std::int32_t PCOM_find_hiding_place(
 		Thing *p_person,
-		SLONG *hide_x,
-		SLONG *hide_z)
+		std::int32_t *hide_x,
+		std::int32_t *hide_z)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG score;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t score;
 
-	SLONG ndx;
-	SLONG ndz;
-	SLONG ndist;
+	std::int32_t ndx;
+	std::int32_t ndz;
+	std::int32_t ndist;
 
-	SLONG mid_x = p_person->WorldPos.X >> 16;
-	SLONG mid_z = p_person->WorldPos.Z >> 16;
+	std::int32_t mid_x = p_person->WorldPos.X >> 16;
+	std::int32_t mid_z = p_person->WorldPos.Z >> 16;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG best_x     =  0;
-	SLONG best_z     =  0;
-	SLONG best_score = -INFINITY;
+	std::int32_t best_x     =  0;
+	std::int32_t best_z     =  0;
+	std::int32_t best_score = -INFINITY;
 
-	SLONG x1 = (p_person->WorldPos.X >> 8);
-	SLONG y1 = (p_person->WorldPos.Y >> 8) + 0x60;
-	SLONG z1 = (p_person->WorldPos.Z >> 8);
+	std::int32_t x1 = (p_person->WorldPos.X >> 8);
+	std::int32_t y1 = (p_person->WorldPos.Y >> 8) + 0x60;
+	std::int32_t z1 = (p_person->WorldPos.Z >> 8);
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
 	MAV_Action ma;
 
@@ -1712,10 +1712,10 @@ SLONG PCOM_find_hiding_place(
 	return (best_score > -INFINITY);
 }
 
-SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
+std::int32_t PCOM_player_is_doing_something_naughty(Thing *darci)
 {
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
 	//
 	// She isn't allowed to be fighting anyone.
@@ -1743,8 +1743,8 @@ SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
 
 	if (darci->Genus.Person->Action == ACTION_CLIMBING)
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 		//
 		// Is Darci climbing into somewhere naughty?
@@ -1776,11 +1776,11 @@ SLONG PCOM_player_is_doing_something_naughty(Thing *darci)
 // his fight (if they can see him).
 //
 
-void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang = true); // These two functions call eachother!
+void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, std::int32_t alert_gang = true); // These two functions call eachother!
 
 void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target)
 {
-	SLONG i;
+	std::int32_t i;
 
 	PCOM_Gang *pg;
 	Thing     *p_gang;
@@ -1797,8 +1797,8 @@ void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target)
 		if(p_gang->Class==CLASS_PERSON)
 		if (p_gang != p_person)
 		{
-			SLONG dx = p_gang->WorldPos.X - p_target->WorldPos.X ;
-			SLONG dz = p_gang - p_target;
+			std::int32_t dx = p_gang->WorldPos.X - p_target->WorldPos.X ;
+			std::int32_t dz = p_gang - p_target;
 			
 
 			if (!(p_gang->Genus.Person->Flags & FLAG_PERSON_HELPLESS))
@@ -1832,11 +1832,11 @@ void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target)
 		}
 	}
 }
-SLONG am_i_a_thug(Thing *p_person);
+std::int32_t am_i_a_thug(Thing *p_person);
 
 void PCOM_alert_my_gang_to_flee(Thing *p_person, Thing *p_target)
 {
-	SLONG i;
+	std::int32_t i;
 
 	PCOM_Gang *pg;
 	Thing     *p_gang;
@@ -1897,16 +1897,16 @@ void PCOM_set_person_move_still(Thing *p_person)
 	p_person->Genus.Person->pcom_move_counter = 0;
 }
 
-void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z, SLONG speed)
+void PCOM_set_person_move_mav_to_xz(Thing *p_person, std::int32_t dest_x, std::int32_t dest_z, std::int32_t speed)
 {
-	SLONG caps;
+	std::int32_t caps;
 
-	SLONG goal_x;
-	SLONG goal_z;
+	std::int32_t goal_x;
+	std::int32_t goal_z;
 
-	SLONG start_x;
-	SLONG start_y;
-	SLONG start_z;
+	std::int32_t start_x;
+	std::int32_t start_y;
+	std::int32_t start_z;
 
 	/*
 
@@ -1978,9 +1978,9 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z,
 		}
 	}
 
-	UWORD nav_into_ware   = NULL;
-	UBYTE nav_outof_ware  = false;
-	UBYTE nav_inside_ware = false;
+	std::uint16_t nav_into_ware   = NULL;
+	std::uint8_t nav_outof_ware  = false;
+	std::uint8_t nav_inside_ware = false;
 
 	//
 	// If you are scared and in a warehouse- always run to the exit.
@@ -2089,14 +2089,14 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, SLONG dest_x, SLONG dest_z,
 }
 
 
-void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG speed)
+void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, std::int32_t speed)
 {
-	SLONG goal_x;
-	SLONG goal_z;
+	std::int32_t goal_x;
+	std::int32_t goal_z;
 
-	SLONG start_x;
-	SLONG start_y;
-	SLONG start_z;
+	std::int32_t start_x;
+	std::int32_t start_y;
+	std::int32_t start_z;
 
 	calc_sub_objects_position(
 		p_person,
@@ -2112,14 +2112,14 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG s
 	start_x >>= 8;
 	start_z >>= 8;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
-	UBYTE nav_outof_ware  = false;
-	UBYTE nav_inside_ware = false;
-	SLONG nav_into_ware   = NULL;
+	std::uint8_t nav_outof_ware  = false;
+	std::uint8_t nav_inside_ware = false;
+	std::int32_t nav_into_ware   = NULL;
 
-	UBYTE caps = (p_person->Genus.Person->pcom_bent & PCOM_BENT_RESTRICTED) ? MAV_CAPS_GOTO : MAV_CAPS_DARCI;
+	std::uint8_t caps = (p_person->Genus.Person->pcom_bent & PCOM_BENT_RESTRICTED) ? MAV_CAPS_GOTO : MAV_CAPS_DARCI;
 
 	//
 	// Remember what we are doing.
@@ -2306,18 +2306,18 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, SLONG s
 }
 
 
-void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, SLONG waypoint, SLONG speed)
+void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, std::int32_t waypoint, std::int32_t speed)
 {
-	SLONG goal_x;
-	SLONG goal_z;
+	std::int32_t goal_x;
+	std::int32_t goal_z;
 
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG start_x;
-	SLONG start_y;
-	SLONG start_z;
+	std::int32_t start_x;
+	std::int32_t start_y;
+	std::int32_t start_z;
 
 	calc_sub_objects_position(
 		p_person,
@@ -2333,11 +2333,11 @@ void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, SLONG waypoint, SLONG
 	start_x >>= 8;
 	start_z >>= 8;
 
-	UBYTE caps            = (p_person->Genus.Person->pcom_bent & PCOM_BENT_RESTRICTED) ? MAV_CAPS_GOTO : MAV_CAPS_DARCI;
-	UBYTE eware           = EWAY_get_warehouse(waypoint);
-	UBYTE nav_outof_ware  = false;
-	UBYTE nav_inside_ware = false;
-	SLONG nav_into_ware   = NULL;
+	std::uint8_t caps            = (p_person->Genus.Person->pcom_bent & PCOM_BENT_RESTRICTED) ? MAV_CAPS_GOTO : MAV_CAPS_DARCI;
+	std::uint8_t eware           = EWAY_get_warehouse(waypoint);
+	std::uint8_t nav_outof_ware  = false;
+	std::uint8_t nav_inside_ware = false;
+	std::int32_t nav_into_ware   = NULL;
 
 	//
 	// We can only go to mapsquares.
@@ -2465,23 +2465,23 @@ void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, SLONG waypoint, SLONG
 
 void PCOM_set_person_move_runaway(
 		Thing *p_person,
-		SLONG  from_x,
-		SLONG  from_z)
+		std::int32_t  from_x,
+		std::int32_t  from_z)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG goal_x;
-	SLONG goal_z;
+	std::int32_t goal_x;
+	std::int32_t goal_z;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
-	SLONG dist_me;
-	SLONG dist_from;
+	std::int32_t dist_me;
+	std::int32_t dist_from;
 
-	SLONG tries = 0;
+	std::int32_t tries = 0;
 
 	while(1)
 	{
@@ -2587,12 +2587,12 @@ void PCOM_set_person_move_runaway(
 
 void PCOM_set_person_substate_goto_or_3pturn(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dest_x;
-	SLONG dest_z;
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
 	Thing *p_vehicle;
 
@@ -2646,12 +2646,12 @@ void PCOM_set_person_substate_goto_or_3pturn(Thing *p_person)
 
 void PCOM_set_person_substate_goto(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dest_x;
-	SLONG dest_z;
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
 	Thing *p_vehicle;
 
@@ -2690,7 +2690,7 @@ void PCOM_set_person_substate_goto(Thing *p_person)
 	p_person->Genus.Person->pcom_move_substate = PCOM_MOVE_SUBSTATE_GOTO;
 }
 
-void PCOM_set_person_move_driveto(Thing *p_person, SLONG waypoint)
+void PCOM_set_person_move_driveto(Thing *p_person, std::int32_t waypoint)
 {
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
@@ -2709,7 +2709,7 @@ void PCOM_set_person_move_driveto(Thing *p_person, SLONG waypoint)
 	PCOM_set_person_substate_goto_or_3pturn(p_person);
 }
 
-void PCOM_set_person_move_park_car(Thing *p_person, SLONG waypoint)
+void PCOM_set_person_move_park_car(Thing *p_person, std::int32_t waypoint)
 {
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
@@ -2723,7 +2723,7 @@ void PCOM_set_person_move_park_car(Thing *p_person, SLONG waypoint)
 	p_person->Genus.Person->pcom_move_counter  = 0;
 }
 
-void PCOM_set_person_move_drive_down(Thing *p_person, SLONG n1, SLONG n2)
+void PCOM_set_person_move_drive_down(Thing *p_person, std::int32_t n1, std::int32_t n2)
 {
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
@@ -2784,7 +2784,7 @@ void PCOM_set_person_move_park_car_on_road(Thing *p_person)
 
 #ifdef BIKE
 
-void PCOM_set_person_move_biketo(Thing *p_person, SLONG waypoint)
+void PCOM_set_person_move_biketo(Thing *p_person, std::int32_t waypoint)
 {
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
@@ -2798,7 +2798,7 @@ void PCOM_set_person_move_biketo(Thing *p_person, SLONG waypoint)
 	p_person->Genus.Person->pcom_move_counter  = 0;
 }
 
-void PCOM_set_person_move_park_bike(Thing *p_person, SLONG waypoint)
+void PCOM_set_person_move_park_bike(Thing *p_person, std::int32_t waypoint)
 {
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
@@ -2812,7 +2812,7 @@ void PCOM_set_person_move_park_bike(Thing *p_person, SLONG waypoint)
 	p_person->Genus.Person->pcom_move_counter  = 0;
 }
 
-void PCOM_set_person_move_bike_down(Thing *p_person, SLONG n1, SLONG n2)
+void PCOM_set_person_move_bike_down(Thing *p_person, std::int32_t n1, std::int32_t n2)
 {
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
@@ -2858,9 +2858,9 @@ void PCOM_set_person_move_goto_thing_slide(Thing *p_person, Thing *p_target)
 
 void PCOM_renav(Thing *p_person)
 {
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
 	Thing *p_target;
 
@@ -2919,10 +2919,10 @@ void PCOM_renav(Thing *p_person)
 // Returns true if a person has finished navigating.
 // 
 
-SLONG PCOM_finished_nav(Thing *p_person)
+std::int32_t PCOM_finished_nav(Thing *p_person)
 {
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
 	if (p_person->State == STATE_IDLE)
 	{
@@ -2954,7 +2954,7 @@ SLONG PCOM_finished_nav(Thing *p_person)
 	dest_x |= 0x80;
 	dest_z |= 0x80;
 
-	SLONG dist = PCOM_person_dist_from(
+	std::int32_t dist = PCOM_person_dist_from(
 					p_person,
 					dest_x,
 					dest_z);
@@ -3008,7 +3008,7 @@ void PCOM_set_person_move_pause(Thing *p_person)
 // Sets the person doing an animation.
 // 
 
-void PCOM_set_person_move_animation(Thing *p_person, SLONG anim)
+void PCOM_set_person_move_animation(Thing *p_person, std::int32_t anim)
 {
 	set_person_do_a_simple_anim(p_person, anim);
 
@@ -3080,12 +3080,12 @@ void PCOM_set_person_move_pickup_special(Thing *p_person, Thing *p_special)
 // Makes the person do an arrest!
 //
 
-UWORD find_arrestee    (Thing *p_person);
-void set_person_arrest(Thing *p_person, SLONG who_to_arrest);
+std::uint16_t find_arrestee    (Thing *p_person);
+void set_person_arrest(Thing *p_person, std::int32_t who_to_arrest);
 
 void PCOM_set_person_move_arrest(Thing *p_person)
 {
-	UWORD index;
+	std::uint16_t index;
 
 	index = PCOM_person_wants_to_kill(p_person);
 
@@ -3147,7 +3147,7 @@ void PCOM_set_person_move_draw_gun(Thing *p_person)
 	p_person->Genus.Person->pcom_move_substate = PCOM_MOVE_SUBSTATE_GUNOUT;
 	p_person->Genus.Person->pcom_move_counter  = 0;
 }
-void PCOM_set_person_move_draw_h2h(Thing *p_person,SLONG special)
+void PCOM_set_person_move_draw_h2h(Thing *p_person,std::int32_t special)
 {
 	Thing *p_special;
 
@@ -3202,14 +3202,14 @@ void PCOM_set_person_move_shoot(Thing *p_person)
 // do cardinal points first then 
 //
 
-UBYTE gang_angle_priority[]={0,2,6,4,1,7,3,5};
-extern SLONG	get_gangattack(Thing *p_person);
+std::uint8_t gang_angle_priority[]={0,2,6,4,1,7,3,5};
+extern std::int32_t	get_gangattack(Thing *p_person);
 
 
 void check_players_gang(Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0,count=0;
+	std::int32_t	gang;
+	std::int32_t	c0,count=0;
 	Thing	*p_person;
 
 	gang=p_target->Genus.Person->GangAttack;
@@ -3241,10 +3241,10 @@ void check_players_gang(Thing *p_target)
 	}
 }
 
-UWORD count_gang(Thing *p_target)
+std::uint16_t count_gang(Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0,count=0;
+	std::int32_t	gang;
+	std::int32_t	c0,count=0;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3265,12 +3265,12 @@ UWORD count_gang(Thing *p_target)
 	return(count);
 }
 
-extern SLONG dist_to_target(Thing *p_person_a,Thing *p_person_b);
+extern std::int32_t dist_to_target(Thing *p_person_a,Thing *p_person_b);
 
-UWORD get_any_gang_member(Thing *p_target)
+std::uint16_t get_any_gang_member(Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0,count=0,ret;
+	std::int32_t	gang;
+	std::int32_t	c0,count=0,ret;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3293,11 +3293,11 @@ UWORD get_any_gang_member(Thing *p_target)
 	return(0);
 }
 
-UWORD get_nearest_gang_member(Thing *p_target)
+std::uint16_t get_nearest_gang_member(Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0,count=0,ret;
-	SLONG	bdist=99999999,best_targ=0,dist;
+	std::int32_t	gang;
+	std::int32_t	c0,count=0,ret;
+	std::int32_t	bdist=99999999,best_targ=0,dist;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3319,10 +3319,10 @@ UWORD get_nearest_gang_member(Thing *p_target)
 	return(best_targ);
 }
 
-UWORD find_target_from_gang(Thing *p_target)
+std::uint16_t find_target_from_gang(Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0,perp;
+	std::int32_t	gang;
+	std::int32_t	c0,perp;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3343,11 +3343,11 @@ UWORD find_target_from_gang(Thing *p_target)
 	return(0);
 }
 
-SLONG remove_from_gang_attack(Thing *p_person,Thing *p_target)
+std::int32_t remove_from_gang_attack(Thing *p_person,Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0;
-	SLONG	removed=0;
+	std::int32_t	gang;
+	std::int32_t	c0;
+	std::int32_t	removed=0;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3370,8 +3370,8 @@ SLONG remove_from_gang_attack(Thing *p_person,Thing *p_target)
 
 void scare_gang_attack(Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0;
+	std::int32_t	gang;
+	std::int32_t	c0;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3392,10 +3392,10 @@ void scare_gang_attack(Thing *p_target)
 
 void reset_gang_attack(Thing *p_target)
 {
-	UWORD	perps[4];
+	std::uint16_t	perps[4];
 	Thing	*p_person;
-	UWORD	gang;
-	SLONG	c0;
+	std::uint16_t	gang;
+	std::int32_t	c0;
 
 	gang=p_target->Genus.Person->GangAttack;
 	if(gang==0)
@@ -3410,7 +3410,7 @@ void reset_gang_attack(Thing *p_target)
 	
 	for(c0=0;c0<4;c0++)
 	{
-		SLONG	dx,dz,reqd_angle;
+		std::int32_t	dx,dz,reqd_angle;
 
 		if(perps[c0])
 		{
@@ -3429,7 +3429,7 @@ void reset_gang_attack(Thing *p_target)
 			reqd_angle  &= 2047;
 			reqd_angle >>= 9;
 
-			push_into_attack_group_at_angle(p_person,(SLONG)gang,reqd_angle);
+			push_into_attack_group_at_angle(p_person,(std::int32_t)gang,reqd_angle);
 
 		}
 	}
@@ -3438,11 +3438,11 @@ void reset_gang_attack(Thing *p_target)
 }
 void process_gang_attack(Thing *p_person,Thing *p_target)
 {
-	SLONG	gang;
-	SLONG	c0;
-	SLONG	left,right,lleft,rright;
-	SLONG	me;
-	SLONG	attack_count=0;
+	std::int32_t	gang;
+	std::int32_t	c0;
+	std::int32_t	left,right,lleft,rright;
+	std::int32_t	me;
+	std::int32_t	attack_count=0;
 
 	me=THING_NUMBER(p_person);
 
@@ -3455,7 +3455,7 @@ void process_gang_attack(Thing *p_person,Thing *p_target)
 		//
 		for(c0=0;c0<4;c0++)
 		{
-			SLONG	perp;
+			std::int32_t	perp;
 			perp=gang_attacks[gang].Perp[c0];
 			if(perp && perp!=me)
 			{
@@ -3530,9 +3530,9 @@ void process_gang_attack(Thing *p_person,Thing *p_target)
 */
 }
 
-void push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle)
+void push_into_attack_group_at_angle(Thing *p_person,std::int32_t gang,std::int32_t reqd_angle)
 {
-	SLONG	c0=4;
+	std::int32_t	c0=4;
 	Thing	*p_copy;
 
 	MSG_add("try push in  at %d    [%d %d %d %d %d %d %d %d] \n",reqd_angle,gang_attacks[gang].Perp[0],gang_attacks[gang].Perp[1],gang_attacks[gang].Perp[2],gang_attacks[gang].Perp[3],gang_attacks[gang].Perp[4],gang_attacks[gang].Perp[5],gang_attacks[gang].Perp[6],gang_attacks[gang].Perp[7]);
@@ -3601,13 +3601,13 @@ void push_into_attack_group_at_angle(Thing *p_person,SLONG gang,SLONG reqd_angle
 
 void PCOM_new_gang_attack(Thing *p_person, Thing *p_target)
 {
-	SLONG gang;
-	SLONG c0;
+	std::int32_t gang;
+	std::int32_t c0;
 
-	SLONG reqd_angle;
-	SLONG dx;
-	SLONG dz;
-	SLONG angle;
+	std::int32_t reqd_angle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t angle;
 
 	dx = p_target->WorldPos.X - p_person->WorldPos.X >> 8;
 	dz = p_target->WorldPos.Z - p_person->WorldPos.Z >> 8;
@@ -3707,7 +3707,7 @@ void PCOM_set_person_move_circle(Thing *p_person, Thing *p_target)
 // Makes a person get in a car.
 //
 
-void PCOM_set_person_move_getincar(Thing *p_person, Thing *p_vehicle, SLONG am_i_a_passenger, SLONG door)
+void PCOM_set_person_move_getincar(Thing *p_person, Thing *p_vehicle, std::int32_t am_i_a_passenger, std::int32_t door)
 {
 	ASSERT(door == 0 || door == 1);
 
@@ -3832,7 +3832,7 @@ void PCOM_set_person_ai_arrest(Thing *p_person, Thing *p_target)
 
 
 
-void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG alert_gang)
+void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, std::int32_t alert_gang)
 {
 
 	if(p_person->Genus.Person->PersonType==PERSON_CIV)
@@ -3929,8 +3929,8 @@ void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, SLONG aler
 
 void PCOM_set_person_ai_homesick(Thing *p_person)
 {
-	SLONG home_x = (p_person->Genus.Person->HomeX << 0);// + 0x80;
-	SLONG home_z = (p_person->Genus.Person->HomeZ << 0);// + 0x80;
+	std::int32_t home_x = (p_person->Genus.Person->HomeX << 0);// + 0x80;
+	std::int32_t home_z = (p_person->Genus.Person->HomeZ << 0);// + 0x80;
 
 	if (p_person->Genus.Person->Target)
 	{
@@ -3950,7 +3950,7 @@ void PCOM_set_person_ai_homesick(Thing *p_person)
 }
 
 
-void PCOM_set_person_ai_leavecar(Thing *p_person, SLONG excar_state, SLONG excar_substate, SLONG excar_arg)
+void PCOM_set_person_ai_leavecar(Thing *p_person, std::int32_t excar_state, std::int32_t excar_substate, std::int32_t excar_arg)
 {
 	Thing *p_vehicle;
 
@@ -4005,8 +4005,8 @@ void PCOM_set_person_ai_leavecar(Thing *p_person, SLONG excar_state, SLONG excar
 
 void PCOM_set_person_ai_investigate(
 		Thing *p_person,
-		SLONG  odd_x,
-		SLONG  odd_z)
+		std::int32_t  odd_x,
+		std::int32_t  odd_z)
 {
 	if ((p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS))
 		return;
@@ -4049,8 +4049,8 @@ void PCOM_set_person_ai_investigate(
 //
 void PCOM_set_person_ai_flee_place(
 		Thing *p_person,
-		SLONG  scary_x,	// The place where the scary thing is.
-		SLONG  scary_z)
+		std::int32_t  scary_x,	// The place where the scary thing is.
+		std::int32_t  scary_z)
 {
 	if ((p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS))
 		return;
@@ -4245,9 +4245,9 @@ void PCOM_set_person_ai_navtokill_shoot(Thing *p_person, Thing *p_target)
 	p_person->Genus.Person->Target           = THING_NUMBER(p_target);
 }
 
-SLONG PCOM_target_sprinting_towards_me(Thing *p_person, Thing *p_target)
+std::int32_t PCOM_target_sprinting_towards_me(Thing *p_person, Thing *p_target)
 {
-	SLONG dangle = get_dangle(p_target, p_person);
+	std::int32_t dangle = get_dangle(p_target, p_person);
 
 	if (p_target->Genus.Person->Mode == PERSON_MODE_SPRINT)
 	{
@@ -4373,11 +4373,11 @@ void PCOM_set_person_ai_follow(Thing *p_person, Thing *p_target)
 		if (p_person->Genus.Person->pcom_ai == PCOM_AI_BODYGUARD ||
 			p_person->Genus.Person->pcom_ai == PCOM_AI_CIV)
 		{
-			SLONG dx = p_person->WorldPos.X - p_target->WorldPos.X >> 8;
-			SLONG dy = p_person->WorldPos.Y - p_target->WorldPos.Y >> 8;
-			SLONG dz = p_person->WorldPos.Z - p_target->WorldPos.Z >> 8;
+			std::int32_t dx = p_person->WorldPos.X - p_target->WorldPos.X >> 8;
+			std::int32_t dy = p_person->WorldPos.Y - p_target->WorldPos.Y >> 8;
+			std::int32_t dz = p_person->WorldPos.Z - p_target->WorldPos.Z >> 8;
 
-			SLONG dist = abs(dx) + abs(dz) + abs(dy + dy);
+			std::int32_t dist = abs(dx) + abs(dz) + abs(dy + dy);
 
 			if (dist > 0x600)
 			{
@@ -4402,9 +4402,9 @@ void PCOM_set_person_ai_follow(Thing *p_person, Thing *p_target)
 	p_person->Genus.Person->pcom_ai_counter  = 0;
 }
 
-void PCOM_set_person_ai_findcar(Thing *p_person, UWORD car)
+void PCOM_set_person_ai_findcar(Thing *p_person, std::uint16_t car)
 {
-	SLONG speed;
+	std::int32_t speed;
 
 	Thing *p_car;
 
@@ -4415,12 +4415,12 @@ void PCOM_set_person_ai_findcar(Thing *p_person, UWORD car)
 
 	if (car == NULL)
 	{
-		SLONG i;
-		SLONG dx;
-		SLONG dz;
-		SLONG num;
-		SLONG dist;
-		SLONG best_dist = INFINITY;
+		std::int32_t i;
+		std::int32_t dx;
+		std::int32_t dz;
+		std::int32_t num;
+		std::int32_t dist;
+		std::int32_t best_dist = INFINITY;
 
 		//
 		// Look for a nearby car we can use.
@@ -4516,8 +4516,8 @@ void PCOM_set_person_ai_findcar(Thing *p_person, UWORD car)
 
 void PCOM_set_person_ai_findbike(Thing *p_person)
 {
-	SLONG bike;
-	SLONG speed;
+	std::int32_t bike;
+	std::int32_t speed;
 
 	if (p_person->Genus.Person->Target)
 	{
@@ -4596,7 +4596,7 @@ void PCOM_set_person_ai_findbike(Thing *p_person)
 
 void PCOM_set_person_ai_bdeactivate(Thing *p_person, Thing *p_bomb)
 {
-	SLONG speed;
+	std::int32_t speed;
 
 	p_person->Genus.Person->pcom_ai_state    = PCOM_AI_STATE_BDEACTIVATE;
 	p_person->Genus.Person->pcom_ai_arg      = THING_NUMBER(p_bomb);
@@ -4676,7 +4676,7 @@ void PCOM_set_person_ai_warm_hands(Thing *p_person)
 
 void PCOM_set_person_ai_hands_up(Thing *p_person, Thing *p_cop)
 {
-	UWORD anim;
+	std::uint16_t anim;
 
 	//
 	// Face the person you are being aimed at by
@@ -4703,9 +4703,9 @@ void PCOM_set_person_ai_hands_up(Thing *p_person, Thing *p_cop)
 
 }
 
-void PCOM_set_person_ai_talk_to(Thing *p_person, Thing *p_person_talked_at, UBYTE talk_substate, UBYTE stay_looking_at_eachother)
+void PCOM_set_person_ai_talk_to(Thing *p_person, Thing *p_person_talked_at, std::uint8_t talk_substate, std::uint8_t stay_looking_at_eachother)
 {
-	UWORD anim;
+	std::uint16_t anim;
 
 	if (p_person->Genus.Person->Target)
 	{
@@ -4757,7 +4757,7 @@ void PCOM_set_person_ai_talk_to(Thing *p_person, Thing *p_person_talked_at, UBYT
 
 void PCOM_set_person_ai_hitch(Thing *p_person, Thing *p_vehicle)
 {
-	SLONG speed;
+	std::int32_t speed;
 
 	if (p_person->Genus.Person->Target)
 	{
@@ -4879,13 +4879,13 @@ void PCOM_set_person_ai_taunt(Thing *p_person, Thing *p_target)
 #define PCOM_SUMMON_NUM_BODIES 4
 #endif
 
-UWORD PCOM_summon[PCOM_SUMMON_NUM_BODIES];
+std::uint16_t PCOM_summon[PCOM_SUMMON_NUM_BODIES];
 
 void PCOM_set_person_ai_summon(Thing *p_person)
 {
-	SLONG i;
-	SLONG num;
-	SLONG bodies;
+	std::int32_t i;
+	std::int32_t num;
+	std::int32_t bodies;
 
 	//
 	// Look around for the bodies...
@@ -4968,7 +4968,7 @@ bool PersonIsMIB(Thing* p_person);
 
 Thing *PCOM_is_there_an_item_i_should_get(Thing *p_person)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	if (PersonIsMIB(p_person))
 	{
@@ -5046,7 +5046,7 @@ Thing *PCOM_is_there_an_item_i_should_get(Thing *p_person)
 	return NULL;
 }
 
-void PCOM_set_person_ai_getitem(Thing *p_person, Thing *p_special, SLONG move_speed, SLONG excar_state, SLONG excar_arg)
+void PCOM_set_person_ai_getitem(Thing *p_person, Thing *p_special, std::int32_t move_speed, std::int32_t excar_state, std::int32_t excar_arg)
 {
 	p_person->Genus.Person->pcom_ai_state          = PCOM_AI_STATE_GETITEM;
 	p_person->Genus.Person->pcom_ai_substate       = PCOM_AI_SUBSTATE_NONE;
@@ -5156,7 +5156,7 @@ void PCOM_process_getitem(Thing *p_person)
 
 void PCOM_process_summon(Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
 	switch(p_person->Genus.Person->pcom_ai_substate)
 	{
@@ -5179,7 +5179,7 @@ void PCOM_process_summon(Thing *p_person)
 						SPARK_Pinfo p1;
 						SPARK_Pinfo p2;
 						
-						static UBYTE limb[4] =
+						static std::uint8_t limb[4] =
 						{
 							SUB_OBJECT_LEFT_HAND,
 							SUB_OBJECT_RIGHT_HAND,
@@ -5223,7 +5223,7 @@ void PCOM_process_summon(Thing *p_person)
 						SPARK_Pinfo p1;
 						SPARK_Pinfo p2;
 						
-						static UBYTE limb[4] =
+						static std::uint8_t limb[4] =
 						{
 							SUB_OBJECT_LEFT_HAND,
 							SUB_OBJECT_RIGHT_HAND,
@@ -5261,8 +5261,8 @@ void PCOM_process_summon(Thing *p_person)
 			{
 				Thing *darci = NET_PERSON(0);
 
-				SLONG dx;
-				SLONG dz;
+				std::int32_t dx;
+				std::int32_t dz;
 
 				dx = abs(darci->WorldPos.X - p_person->WorldPos.X);
 				dz = abs(darci->WorldPos.Z - p_person->WorldPos.Z);
@@ -5341,25 +5341,25 @@ void PCOM_process_summon(Thing *p_person)
 
 
 THING_INDEX PCOM_create_person(
-				SLONG  type,
-				SLONG  colour,
-				SLONG  group,
-				SLONG  ai,
-				SLONG  ai_other,
-				SLONG  ai_skill,
-				SLONG  move,
-				SLONG  move_follow,
-				SLONG  bent,
-				SLONG  pcom_has,
-				SLONG  drop,
-				SLONG  pcom_zone,
-				SLONG  world_x,
-				SLONG  world_y,
-				SLONG  world_z,
-				SLONG  yaw,
-				SLONG  random,
-				ULONG	flag1,
-				ULONG	flag2)
+				std::int32_t  type,
+				std::int32_t  colour,
+				std::int32_t  group,
+				std::int32_t  ai,
+				std::int32_t  ai_other,
+				std::int32_t  ai_skill,
+				std::int32_t  move,
+				std::int32_t  move_follow,
+				std::int32_t  bent,
+				std::int32_t  pcom_has,
+				std::int32_t  drop,
+				std::int32_t  pcom_zone,
+				std::int32_t  world_x,
+				std::int32_t  world_y,
+				std::int32_t  world_z,
+				std::int32_t  yaw,
+				std::int32_t  random,
+				std::uint32_t	flag1,
+				std::uint32_t	flag2)
 {
 	if (pcom_has & (PCOM_HAS_SHOTGUN | PCOM_HAS_KNIFE | PCOM_HAS_BASEBALLBAT))
 	{
@@ -5580,13 +5580,13 @@ THING_INDEX PCOM_create_person(
 }
 
 THING_INDEX PCOM_create_player(
-				SLONG  type,
-				SLONG  pcom_has,
-				SLONG  world_x,
-				SLONG  world_y,
-				SLONG  world_z,
-				SLONG  id,
-				SLONG  yaw)
+				std::int32_t  type,
+				std::int32_t  pcom_has,
+				std::int32_t  world_x,
+				std::int32_t  world_y,
+				std::int32_t  world_z,
+				std::int32_t  id,
+				std::int32_t  yaw)
 {
 	Thing *p_person = create_player(
 							type,
@@ -5596,7 +5596,7 @@ THING_INDEX PCOM_create_player(
 							id);
 
 #ifndef PSX
-	extern SLONG playing_level(const CBYTE* name);
+	extern std::int32_t playing_level(const char* name);
 
 	if (playing_level("skymiss2.ucm"))
 #else
@@ -5653,14 +5653,14 @@ THING_INDEX PCOM_create_player(
 
 void PCOM_change_person_attributes(
 		Thing *p_person,
-		SLONG  colour,
-		SLONG  group,
-		SLONG  ai,
-		SLONG  ai_other,
-		SLONG  move,
-		SLONG  move_follow,
-		SLONG  bent,
-		SLONG  yaw)
+		std::int32_t  colour,
+		std::int32_t  group,
+		std::int32_t  ai,
+		std::int32_t  ai_other,
+		std::int32_t  move,
+		std::int32_t  move_follow,
+		std::int32_t  bent,
+		std::int32_t  yaw)
 {
 	if (is_person_dead(p_person))
 	{
@@ -5685,7 +5685,7 @@ void PCOM_change_person_attributes(
 
 	if(p_person->Genus.Person->pcom_move == PCOM_MOVE_HANDS_UP)
 	{
-void drop_current_gun(Thing *p_person,SLONG change_anim);
+void drop_current_gun(Thing *p_person,std::int32_t change_anim);
 
 		drop_current_gun(p_person,0);
 	}
@@ -5714,12 +5714,12 @@ void drop_current_gun(Thing *p_person,SLONG change_anim);
 // Returns the zone flags for the place a person is.
 //
 
-UBYTE PCOM_get_zone_for_position(Thing *p_person)
+std::uint8_t PCOM_get_zone_for_position(Thing *p_person)
 {
-	UBYTE zone;
+	std::uint8_t zone;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
 	PAP_Hi *ph;
 	
@@ -5741,9 +5741,9 @@ UBYTE PCOM_get_zone_for_position(Thing *p_person)
 	return zone;
 }
 
-UBYTE PCOM_get_zone_for_position(SLONG x, SLONG z)
+std::uint8_t PCOM_get_zone_for_position(std::int32_t x, std::int32_t z)
 {
-	UBYTE zone;
+	std::uint8_t zone;
 
 	PAP_Hi *ph;
 
@@ -5810,14 +5810,14 @@ Thing *PCOM_can_i_see_person_to_attack(Thing *p_person)
 
 Thing *PCOM_can_i_see_person_to_bully(Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG score;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t score;
 
-	SLONG  best_score = INFINITY;
+	std::int32_t  best_score = INFINITY;
 	Thing *best_thing = NULL;
 
 	Thing *p_found;
@@ -5941,7 +5941,7 @@ Thing *PCOM_can_i_see_person_to_bully(Thing *p_person)
 #define	MAX_ARREST_ME	5
 #endif
 Thing *arrest_me[MAX_ARREST_ME];
-UWORD next_arrest=0;
+std::uint16_t next_arrest=0;
 
 void init_arrest()
 {
@@ -5951,7 +5951,7 @@ void init_arrest()
 
 void do_arrests()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<next_arrest;c0++)
 	{
 		PCOM_call_cop_to_arrest_me(arrest_me[c0],0);
@@ -5960,12 +5960,12 @@ void do_arrests()
 	next_arrest=0;
 }
 
-SLONG PCOM_call_cop_to_arrest_me(Thing *p_person,SLONG store_it)
+std::int32_t PCOM_call_cop_to_arrest_me(Thing *p_person,std::int32_t store_it)
 {
-	SLONG i;
+	std::int32_t i;
 
 	Thing *p_found;
-	SLONG	found_cop=0;
+	std::int32_t	found_cop=0;
 
 #ifdef DEBUG
 	if(p_person->Genus.Person->PersonType==PERSON_DARCI)
@@ -6096,15 +6096,15 @@ SLONG PCOM_call_cop_to_arrest_me(Thing *p_person,SLONG store_it)
 /*
 Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG score;
-	SLONG ignore_los = false;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t score;
+	std::int32_t ignore_los = false;
 
-	SLONG  best_score = INFINITY;
+	std::int32_t  best_score = INFINITY;
 	Thing *best_thing = NULL;
 
 	Thing *p_found;
@@ -6256,7 +6256,7 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
 
 Thing *PCOM_can_i_see_person_to_taunt(Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < NO_PLAYERS; i++)
 	{
@@ -6283,9 +6283,9 @@ Thing *PCOM_can_i_see_person_to_taunt(Thing *p_person)
 // Returns the next waypoint for a person to patrol.
 //
 
-SLONG PCOM_get_next_patrol_waypoint(Thing *p_person)
+std::int32_t PCOM_get_next_patrol_waypoint(Thing *p_person)
 {
-	SLONG waypoint;
+	std::int32_t waypoint;
 
 	if (p_person->Genus.Person->pcom_move == PCOM_MOVE_PATROL)
 	{
@@ -6375,13 +6375,13 @@ void PCOM_process_driving_still(Thing *p_person)
 
 void PCOM_process_driving_patrol(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG waypoint;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t waypoint;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
 	Thing *p_vehicle;
 
@@ -6529,18 +6529,18 @@ void PCOM_process_driving_patrol(Thing *p_person)
 
 void PCOM_process_driving_wander(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
-	SLONG n1;
-	SLONG n2;
+	std::int32_t n1;
+	std::int32_t n2;
 
-	SLONG wtn1;
-	SLONG wtn2;
+	std::int32_t wtn1;
+	std::int32_t wtn2;
 
 	Thing *p_vehicle;
 
@@ -6557,15 +6557,15 @@ void PCOM_process_driving_wander(Thing *p_person)
 			p_person->Genus.Person->sewerbits++;
 			if (p_person->Genus.Person->sewerbits > 50)
 			{
-				SLONG	dx,dz;
+				std::int32_t	dx,dz;
 				Thing	*p_darci=NET_PERSON(0);
 				dx=abs((p_person->WorldPos.X-p_darci->WorldPos.X)>>8);
 				dz=abs((p_person->WorldPos.Z-p_darci->WorldPos.Z)>>8);
 				if(QDIST2(dx,dz) >= (DRAW_DIST<<8))
 				{
-					SLONG	x,z,yaw;
+					std::int32_t	x,z,yaw;
 
-extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG* yaw, SLONG anywhere);
+extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t* posx, std::int32_t* posz, std::int32_t* yaw, std::int32_t anywhere);
 
 					if (WAND_find_good_start_point_for_car(&x, &z, &yaw, 0))
 					{
@@ -6616,11 +6616,11 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 				if (!WITHIN(p_vehicle->WorldPos.X, 0, PAP_SIZE_HI << 16) ||
 					!WITHIN(p_vehicle->WorldPos.Z, 0, PAP_SIZE_HI << 16))
 				{
-					SLONG world_x = p_vehicle->WorldPos.X >> 8;
-					SLONG world_z = p_vehicle->WorldPos.Z >> 8;
-					SLONG nrn1;
-					SLONG nrn2;
-					SLONG nyaw;
+					std::int32_t world_x = p_vehicle->WorldPos.X >> 8;
+					std::int32_t world_z = p_vehicle->WorldPos.Z >> 8;
+					std::int32_t nrn1;
+					std::int32_t nrn2;
+					std::int32_t nyaw;
 
 					//
 					// Find another node on the road.
@@ -6819,8 +6819,8 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 
 void PCOM_process_patrol(Thing *p_person)
 {
-	SLONG waittime;
-	SLONG waypoint;
+	std::int32_t waittime;
+	std::int32_t waypoint;
 
 	switch(p_person->Genus.Person->pcom_move_state)
 	{
@@ -6848,9 +6848,9 @@ void PCOM_process_patrol(Thing *p_person)
 			}
 			else
 			{
-				SLONG way_x;
-				SLONG way_y;
-				SLONG way_z;
+				std::int32_t way_x;
+				std::int32_t way_y;
+				std::int32_t way_z;
 
 				//
 				// Too near to this waypoint?
@@ -6862,11 +6862,11 @@ void PCOM_process_patrol(Thing *p_person)
 				   &way_y,
 				   &way_z);
 
-				SLONG dx = abs(way_x - (p_person->WorldPos.X >> 8));
-				SLONG dy = abs(way_y - (p_person->WorldPos.Y >> 8));
-				SLONG dz = abs(way_z - (p_person->WorldPos.Z >> 8));
+				std::int32_t dx = abs(way_x - (p_person->WorldPos.X >> 8));
+				std::int32_t dy = abs(way_y - (p_person->WorldPos.Y >> 8));
+				std::int32_t dz = abs(way_z - (p_person->WorldPos.Z >> 8));
 
-				SLONG dist = QDIST3(dx,dy,dz);
+				std::int32_t dist = QDIST3(dx,dy,dz);
 
 				if (dist < 0x100)
 				{
@@ -6915,9 +6915,9 @@ void PCOM_process_patrol(Thing *p_person)
 
 				if (EWAY_get_delay(waypoint, 0) == 10 * 1000)
 				{
-					SLONG way_x;
-					SLONG way_y;
-					SLONG way_z;
+					std::int32_t way_x;
+					std::int32_t way_y;
+					std::int32_t way_z;
 
 					//
 					// The position of the waypoint we are going to stay at.
@@ -7004,9 +7004,9 @@ void PCOM_process_patrol(Thing *p_person)
 	}
 }
 
-SLONG should_person_regen(Thing *p_person)
+std::int32_t should_person_regen(Thing *p_person)
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 	Thing	*p_darci=NET_PERSON(0);
 	dx=abs((p_person->WorldPos.X-p_darci->WorldPos.X)>>8);
 	dz=abs((p_person->WorldPos.Z-p_darci->WorldPos.Z)>>8);
@@ -7022,14 +7022,14 @@ SLONG should_person_regen(Thing *p_person)
 
 }
 
-extern ULONG	timer_bored;
+extern std::uint32_t	timer_bored;
 
-SLONG PCOM_do_regen(Thing *p_person)
+std::int32_t PCOM_do_regen(Thing *p_person)
 {
-	SLONG wand_x;
-	SLONG wand_z;
+	std::int32_t wand_x;
+	std::int32_t wand_z;
 
-	SLONG	nx,nz;
+	std::int32_t	nx,nz;
 
 	if(NET_PERSON(0)->Genus.Person->Ware || EWAY_stop_player_moving())
 	{
@@ -7046,7 +7046,7 @@ SLONG PCOM_do_regen(Thing *p_person)
 		remove_from_gang_attack(p_person, p_target);
 	}
 
-extern SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
+extern std::int32_t	WAND_find_good_start_point(std::int32_t *mapx,std::int32_t *mapz);
 	if(WAND_find_good_start_point(&nx,&nz))
 	{
 		GameCoord new_position;
@@ -7165,8 +7165,8 @@ extern SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
 
 void PCOM_process_wander(Thing *p_person)
 {
-	SLONG wand_x;
-	SLONG wand_z;
+	std::int32_t wand_x;
+	std::int32_t wand_z;
 
 	if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
 	{
@@ -7215,13 +7215,13 @@ void PCOM_process_wander(Thing *p_person)
 
 					if(should_person_regen(p_person)) //for test puposes
 					{
-						SLONG	nx,nz;
+						std::int32_t	nx,nz;
 						p_person->Genus.Person->InsideRoom=240;
 
 						if(PCOM_do_regen(p_person))
 							return;
 /*
-extern SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
+extern std::int32_t	WAND_find_good_start_point(std::int32_t *mapx,std::int32_t *mapz);
 						if(WAND_find_good_start_point(&nx,&nz))
 						{
 							GameCoord new_position;
@@ -7348,7 +7348,7 @@ extern SLONG	WAND_find_good_start_point(SLONG *mapx,SLONG *mapz);
 void PCOM_process_killing(Thing *p_person)
 {
 	Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
-	SLONG	quick_kick=0;
+	std::int32_t	quick_kick=0;
 
 	if (p_person->State == STATE_JUMPING)
 	{
@@ -7453,7 +7453,7 @@ void PCOM_process_killing(Thing *p_person)
 
 	if (PTIME(p_person) & 0x1)
 	{
-		SLONG too_far;
+		std::int32_t too_far;
 
 		if (!is_person_ko(p_target))
 		{
@@ -7645,8 +7645,8 @@ void PCOM_process_fleeing(Thing *p_person)
 				//
 
 				{
-					SLONG danger_x;
-					SLONG danger_z;
+					std::int32_t danger_x;
+					std::int32_t danger_z;
 
 					PCOM_get_flee_from_pos(
 						p_person,
@@ -7685,8 +7685,8 @@ void PCOM_process_fleeing(Thing *p_person)
 
 			if (PCOM_finished_nav(p_person) || p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_STILL)
 			{
-				SLONG danger_x;
-				SLONG danger_z;
+				std::int32_t danger_x;
+				std::int32_t danger_z;
 
 				PCOM_get_flee_from_pos(
 					p_person,
@@ -7704,8 +7704,8 @@ void PCOM_process_fleeing(Thing *p_person)
 //			if ((GAME_TURN & 0xf) == 0)
 			if ((PTIME(p_person) & 0xf) == 0)
 			{
-				SLONG danger_x;
-				SLONG danger_z;
+				std::int32_t danger_x;
+				std::int32_t danger_z;
 
 				PCOM_get_flee_from_pos(
 					p_person,
@@ -7716,12 +7716,12 @@ void PCOM_process_fleeing(Thing *p_person)
 				// Are we far enough from what we are scared of?
 				//
 
-				SLONG dx = danger_x - (p_person->WorldPos.X >> 8);
-				SLONG dz = danger_z - (p_person->WorldPos.Z >> 8);
+				std::int32_t dx = danger_x - (p_person->WorldPos.X >> 8);
+				std::int32_t dz = danger_z - (p_person->WorldPos.Z >> 8);
 
-				SLONG dist = abs(dx) + abs(dz);
+				std::int32_t dist = abs(dx) + abs(dz);
 
-				SLONG want_dist = 0x100 * 15;
+				std::int32_t want_dist = 0x100 * 15;
 
 				if (p_person->Genus.Person->pcom_ai_counter >= PCOM_get_duration(300))
 				{
@@ -7767,16 +7767,16 @@ void PCOM_process_fleeing(Thing *p_person)
 
 void PCOM_process_investigating(Thing *p_person)
 {
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG before;
-	SLONG after;
+	std::int32_t before;
+	std::int32_t after;
 
-	SLONG hide_x;
-	SLONG hide_z;
+	std::int32_t hide_x;
+	std::int32_t hide_z;
 
-	SLONG sound_x;
-	SLONG sound_z;
+	std::int32_t sound_x;
+	std::int32_t sound_z;
 
 	//
 	// The position of the sound we are investigating.
@@ -7806,7 +7806,7 @@ void PCOM_process_investigating(Thing *p_person)
 				// there is no point walking over there.
 				//
 
-				SLONG sound_y = PAP_calc_map_height_at(sound_x, sound_z) + 0x60;
+				std::int32_t sound_y = PAP_calc_map_height_at(sound_x, sound_z) + 0x60;
 
 				if (there_is_a_los(
 						p_person->WorldPos.X          >> 8,
@@ -7995,9 +7995,9 @@ void PCOM_process_investigating(Thing *p_person)
 // The speed the person wants to follow the target at.
 //
 
-SLONG PCOM_follow_speed(Thing *p_person, Thing *p_target)
+std::int32_t PCOM_follow_speed(Thing *p_person, Thing *p_target)
 {
-	SLONG wantspeed;
+	std::int32_t wantspeed;
 
 	if (p_target->Genus.Person->PlayerID)
 	{
@@ -8042,8 +8042,8 @@ SLONG PCOM_follow_speed(Thing *p_person, Thing *p_target)
 
 void PCOM_process_following(Thing *p_person)
 {
-	SLONG dist;
-	SLONG wantspeed;
+	std::int32_t dist;
+	std::int32_t wantspeed;
 
 	//
 	// Who are we following?
@@ -8101,7 +8101,7 @@ void PCOM_process_following(Thing *p_person)
 //		if ((GAME_TURN & 0x3) == 0)
 		if ((PTIME(p_person) & 0x3) == 0)
 		{
-			SLONG wantdist = 0xa0;
+			std::int32_t wantdist = 0xa0;
 
 			//
 			// If our target is moving we want to be really close!
@@ -8201,8 +8201,8 @@ void PCOM_process_following(Thing *p_person)
 			// speed- i.e. walk or sneak.  Only take (dx,dz) into account though...
 			//
 
-			SLONG dx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
-			SLONG dz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
+			std::int32_t dx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
+			std::int32_t dz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
 
 			dist = QDIST2(dx,dz);
 
@@ -8274,12 +8274,12 @@ void PCOM_process_following(Thing *p_person)
 
 		if (p_person->State == STATE_GOTOING)
 		{
-			SLONG dx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
-			SLONG dz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
+			std::int32_t dx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
+			std::int32_t dz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
 
-			SLONG dist = QDIST2(dx,dz);
+			std::int32_t dist = QDIST2(dx,dz);
 
-			SLONG wantdist;
+			std::int32_t wantdist;
 
 			//
 			// If our target is moving we want to be really close!
@@ -8321,8 +8321,8 @@ void PCOM_process_following(Thing *p_person)
 void PCOM_find_mib_appear_pos(
 		Thing *p_mib,
 		Thing *p_target,
-		SLONG *appear_x,
-		SLONG *appear_z)
+		std::int32_t *appear_x,
+		std::int32_t *appear_z)
 {
 	
 }
@@ -8334,9 +8334,9 @@ void draw_view_line(Thing *p_person,Thing *p_target)
 #ifdef PSX
 	return;
 #else
-	SLONG	x1,y1,z1,x2,y2,z2;
-	SLONG	dx,dy,dz;
-	SLONG	len,step,count;
+	std::int32_t	x1,y1,z1,x2,y2,z2;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	len,step,count;
 
 
 
@@ -8392,9 +8392,9 @@ void draw_view_line(Thing *p_person,Thing *p_target)
 
 void PCOM_process_navtokill(Thing *p_person)
 {
-	SLONG dist;
-	SLONG hit_distance;
-	SLONG	special;
+	std::int32_t dist;
+	std::int32_t hit_distance;
+	std::int32_t	special;
 	
 	Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
@@ -8592,7 +8592,7 @@ void PCOM_process_navtokill(Thing *p_person)
 
 				if (PCOM_person_has_any_sort_of_gun_with_ammo(p_person) && !is_person_ko(p_target))
 				{
-					SLONG check_look;
+					std::int32_t check_look;
 
 					//
 					// I have a gun so only go into fight mode at the last second
@@ -8726,13 +8726,13 @@ void PCOM_process_navtokill(Thing *p_person)
 
 					if (abs(p_person->WorldPos.Y - p_target->WorldPos.Y) < 0x7000)
 					{
-						SLONG x1;
-						SLONG y1;
-						SLONG z1;
+						std::int32_t x1;
+						std::int32_t y1;
+						std::int32_t z1;
 
-						SLONG x2;
-						SLONG y2;
-						SLONG z2;
+						std::int32_t x2;
+						std::int32_t y2;
+						std::int32_t z2;
 
 						//
 						// Start killing the target, only if there is a los between him and me.
@@ -8883,7 +8883,7 @@ void PCOM_process_navtokill(Thing *p_person)
 					// How quickly we shoot.
 					//
 
-					SLONG shoot_time;
+					std::int32_t shoot_time;
 					
 					shoot_time  = PCOM_get_duration   (get_rate_of_fire(p_person));
 //
@@ -9133,7 +9133,7 @@ void PCOM_process_navtokill(Thing *p_person)
 
 void PCOM_process_findcar(Thing *p_person)
 {
-	SLONG door;
+	std::int32_t door;
 
 	Thing *p_vehicle = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
@@ -9171,7 +9171,7 @@ void PCOM_process_findcar(Thing *p_person)
 					p_person->Genus.Person->pcom_ai_counter += 1;
 				}
 
-				extern SLONG in_right_place_for_car(Thing *p_person, Thing *p_vehicle, SLONG *door);
+				extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door);
 	
 				door = 0;
 
@@ -9251,9 +9251,9 @@ void PCOM_process_findcar(Thing *p_person)
 
 void PCOM_process_findbike(Thing *p_person)
 {
-	SLONG  dx;
-	SLONG  dz;
-	SLONG  dist;
+	std::int32_t  dx;
+	std::int32_t  dz;
+	std::int32_t  dist;
 	Thing *p_bike;
 
 	switch(p_person->Genus.Person->pcom_ai_substate)
@@ -9357,7 +9357,7 @@ void PCOM_process_hands_up(Thing *p_person)
 
 void PCOM_process_hitch(Thing *p_person)
 {
-	SLONG door;
+	std::int32_t door;
 
 	switch(p_person->Genus.Person->pcom_ai_substate)
 	{
@@ -9382,7 +9382,7 @@ void PCOM_process_hitch(Thing *p_person)
 					p_person->Genus.Person->pcom_ai_counter += 1;
 				}
 
-				extern SLONG in_right_place_for_car(Thing *p_person, Thing *p_vehicle, SLONG *door);
+				extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door);
 
 				if (p_person->Genus.Person->pcom_ai_counter > 20 || in_right_place_for_car(p_person, p_vehicle, &door))
 				{
@@ -9416,7 +9416,7 @@ void PCOM_process_hitch(Thing *p_person)
 			
 			if (p_person->Genus.Person->pcom_move == PCOM_MOVE_FOLLOW)
 			{
-				SLONG  i_target = EWAY_get_person(p_person->Genus.Person->pcom_move_follow);
+				std::int32_t  i_target = EWAY_get_person(p_person->Genus.Person->pcom_move_follow);
 				Thing *p_target = TO_THING(i_target);
 
 				ASSERT(p_target->Class == CLASS_PERSON);
@@ -9949,7 +9949,7 @@ void PCOM_process_snipe(Thing *p_person)
 					// How quickly we shoot.
 					//
 
-					SLONG shoot_time;
+					std::int32_t shoot_time;
 					
 					shoot_time  = PCOM_get_duration   (get_rate_of_fire(p_person));
 					shoot_time -= PCOM_get_duration100(GET_SKILL(p_person)<<2);
@@ -10031,7 +10031,7 @@ void PCOM_process_snipe(Thing *p_person)
 
 void PCOM_process_warm_hands(Thing *p_person)
 {
-	SLONG  i_fire;
+	std::int32_t  i_fire;
 	Thing *p_fire;
 
 	switch(p_person->Genus.Person->pcom_ai_substate)
@@ -10126,7 +10126,7 @@ void PCOM_process_warm_hands(Thing *p_person)
 }
 
 
-SLONG person_drawn_recently(Thing *p_person)
+std::int32_t person_drawn_recently(Thing *p_person)
 {
 	return p_person->Flags & FLAGS_IN_VIEW;
 }
@@ -10151,9 +10151,9 @@ void PCOM_teleport_home(Thing *p_person)
 
 void PCOM_process_normal(Thing *p_person)
 {
-	UWORD  i_target;
+	std::uint16_t  i_target;
 	Thing *p_target;
-	SLONG	dist;
+	std::int32_t	dist;
 
 	switch(p_person->Genus.Person->pcom_move)
 	{
@@ -10246,7 +10246,7 @@ void PCOM_process_normal(Thing *p_person)
 							p_person->Genus.Person->pcom_move == PCOM_MOVE_HANDS_UP ||
 							p_person->Genus.Person->pcom_move == PCOM_MOVE_TIED_UP)
 						{
-							UWORD anim;
+							std::uint16_t anim;
 
 							if (p_person->Genus.Person->pcom_move == PCOM_MOVE_DANCE)
 							{
@@ -10254,7 +10254,7 @@ void PCOM_process_normal(Thing *p_person)
 								// Start dancing!
 								//
 
-								static UWORD dance_anim[4] =
+								static std::uint16_t dance_anim[4] =
 								{
 									ANIM_DANCE_BOOGIE,
 									ANIM_DANCE_WOOGIE,
@@ -10302,22 +10302,22 @@ void PCOM_process_normal(Thing *p_person)
 
 								#define PCOM_MAX_BENCH_WALK 0x200
 
-								SLONG mx;
-								SLONG mz;
-								SLONG mx1;
-								SLONG mz1;
-								SLONG mx2;
-								SLONG mz2;
-								SLONG dx;
-								SLONG dy;
-								SLONG dz;
-								SLONG dist;
-								SLONG best_x;
-								SLONG best_y;
-								SLONG best_z;
-								SLONG best_yaw;
-								SLONG best_prim = NULL;
-								SLONG best_dist = PCOM_MAX_BENCH_WALK;
+								std::int32_t mx;
+								std::int32_t mz;
+								std::int32_t mx1;
+								std::int32_t mz1;
+								std::int32_t mx2;
+								std::int32_t mz2;
+								std::int32_t dx;
+								std::int32_t dy;
+								std::int32_t dz;
+								std::int32_t dist;
+								std::int32_t best_x;
+								std::int32_t best_y;
+								std::int32_t best_z;
+								std::int32_t best_yaw;
+								std::int32_t best_prim = NULL;
+								std::int32_t best_dist = PCOM_MAX_BENCH_WALK;
 
 								OB_Info *oi;
 
@@ -10512,13 +10512,13 @@ void PCOM_process_normal(Thing *p_person)
 // Looks for an active bomb that the person can see.
 //
 
-UWORD PCOM_find_bomb(Thing *p_person)
+std::uint16_t PCOM_find_bomb(Thing *p_person)
 {
-	SLONG i;
-	SLONG score;
+	std::int32_t i;
+	std::int32_t score;
 
-	SLONG best_thing;
-	SLONG best_score;
+	std::int32_t best_thing;
+	std::int32_t best_score;
 
 	Thing *p_found;
 
@@ -10678,8 +10678,8 @@ void PCOM_process_default(Thing *p_person)
 void PCOM_alert_nearby_mib_to_attack(Thing *p_person)
 {
 	{
-		SLONG  i;
-		SLONG  num_found;
+		std::int32_t  i;
+		std::int32_t  num_found;
 		Thing *p_found;
 
 		//
@@ -10725,13 +10725,13 @@ void PCOM_alert_nearby_mib_to_attack(Thing *p_person)
 
 Thing *PCOM_find_bodyguard_victim(Thing *p_bodyguard, Thing *p_client)
 {
-	SLONG  i;
-	SLONG  dx;
-	SLONG  dy;
-	SLONG  dz;
-	SLONG  dist;
-	SLONG  num_found;
-	SLONG  best_score  = INFINITY;
+	std::int32_t  i;
+	std::int32_t  dx;
+	std::int32_t  dy;
+	std::int32_t  dz;
+	std::int32_t  dist;
+	std::int32_t  num_found;
+	std::int32_t  best_score  = INFINITY;
 	Thing *best_victim = NULL;
 	Thing *p_found;
 
@@ -10804,17 +10804,17 @@ Thing *PCOM_find_bodyguard_victim(Thing *p_bodyguard, Thing *p_client)
 
 void PCOM_process_state_change(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG home_x;
-	SLONG home_z;
+	std::int32_t home_x;
+	std::int32_t home_z;
 
-	SLONG bomb;
+	std::int32_t bomb;
 
 	Thing *p_target;
-	SLONG  i_target;
+	std::int32_t  i_target;
 
 	//
 	// Nobody has their gun out by default...
@@ -10974,7 +10974,7 @@ void PCOM_process_state_change(Thing *p_person)
 //			if ((GAME_TURN & 0x3) == 0)
 			if ((PTIME(p_person) & 0x3) == 0)
 			{
-				SLONG look = false;
+				std::int32_t look = false;
 
 				if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NORMAL     ||
 					p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_WARM_HANDS ||
@@ -11146,7 +11146,7 @@ void PCOM_process_state_change(Thing *p_person)
 			PCOM_process_default(p_person);
 
 			{
-				SLONG look = false;
+				std::int32_t look = false;
 
 				if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_INVESTIGATING)
 				{
@@ -11212,7 +11212,7 @@ void PCOM_process_state_change(Thing *p_person)
 		case PCOM_AI_BODYGUARD:
 
 			{			
-				UWORD  i_client = EWAY_get_person(p_person->Genus.Person->pcom_ai_other);
+				std::uint16_t  i_client = EWAY_get_person(p_person->Genus.Person->pcom_ai_other);
 				Thing *p_client = NULL;
 
 				if (i_client)
@@ -11224,11 +11224,11 @@ void PCOM_process_state_change(Thing *p_person)
 
 				if (p_client && p_client->Genus.Person->PlayerID)
 				{
-					SLONG dx = abs(p_client->WorldPos.X - p_person->WorldPos.X);
-					SLONG dy = abs(p_client->WorldPos.Y - p_person->WorldPos.Y);
-					SLONG dz = abs(p_client->WorldPos.Z - p_person->WorldPos.Z);
+					std::int32_t dx = abs(p_client->WorldPos.X - p_person->WorldPos.X);
+					std::int32_t dy = abs(p_client->WorldPos.Y - p_person->WorldPos.Y);
+					std::int32_t dz = abs(p_client->WorldPos.Z - p_person->WorldPos.Z);
 
-					SLONG dist = QDIST3(dx,dy,dz);
+					std::int32_t dist = QDIST3(dx,dy,dz);
 
 					if (dist > 20 * 0x10000)
 					{
@@ -11564,7 +11564,7 @@ void PCOM_process_state_change(Thing *p_person)
 
 			if (GAME_TURN < 32)
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				for(c0=0;c0<100;c0++)
 				{
 					if(p_person->StateFn)
@@ -11612,17 +11612,17 @@ void PCOM_process_state_change(Thing *p_person)
 				// Look for someone of the given colour to kill!
 				//
 
-				UWORD list;
+				std::uint16_t list;
 
-				SLONG  dist;
-				SLONG  best_dist   = INFINITY;
+				std::int32_t  dist;
+				std::int32_t  best_dist   = INFINITY;
 				Thing *best_target = NULL;
 				Thing *p_found;
 
 				list = thing_class_head[CLASS_PERSON];
 
-				SLONG hate_colour;
-				SLONG hate_example;
+				std::int32_t hate_colour;
+				std::int32_t hate_example;
 
 				hate_example = EWAY_get_person(p_person->Genus.Person->pcom_ai_other);
 
@@ -11759,7 +11759,7 @@ void PCOM_process_state_change(Thing *p_person)
 				p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_WARM_HANDS ||
 				p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FOLLOW)
 			{
-				SLONG i;
+				std::int32_t i;
 
 				Thing *p_found;
 
@@ -11817,34 +11817,34 @@ Thing *PCOM_runover_scary_person;
 
 // no messing here, -ve dangle means turning LEFT as most people would imagine it would
 
-SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
+std::int32_t PCOM_find_runover_thing(Thing *p_person, std::int32_t dangle)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 
-	SLONG cx;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG what;
-	SLONG dist;
-	SLONG cprod;
-	SLONG angle;
+	std::int32_t what;
+	std::int32_t dist;
+	std::int32_t cprod;
+	std::int32_t angle;
 
 	#define PCOM_RUNOVER_FIND 8
 
-	UWORD	found[PCOM_RUNOVER_FIND];
-	SLONG	num;
-	SLONG	velocity;
+	std::uint16_t	found[PCOM_RUNOVER_FIND];
+	std::int32_t	num;
+	std::int32_t	velocity;
 
 	Thing*		p_vehicle;
 	Vehicle*	veh;
@@ -11890,14 +11890,14 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 	// get some info
 	//
 
-	SLONG	wx = p_vehicle->WorldPos.X >> 8;
-	SLONG	wz = p_vehicle->WorldPos.Z >> 8;
+	std::int32_t	wx = p_vehicle->WorldPos.X >> 8;
+	std::int32_t	wz = p_vehicle->WorldPos.Z >> 8;
 
-	SLONG	onroad = ROAD_is_road(wx >> 8, wz >> 8);
+	std::int32_t	onroad = ROAD_is_road(wx >> 8, wz >> 8);
 
 	// find nearest road
-	SLONG	rn1;
-	SLONG	rn2;
+	std::int32_t	rn1;
+	std::int32_t	rn2;
 
 	if ((p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_DRIVE_DOWN) ||
 		(p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_PARK_CAR_ON_ROAD))
@@ -11911,16 +11911,16 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 	}
 
 	// get side
-	SLONG	rd = ROAD_signed_dist(rn1, rn2, wx, wz);
+	std::int32_t	rd = ROAD_signed_dist(rn1, rn2, wx, wz);
 
 	// find nearest node
-	SLONG	nn;
-	SLONG	nnd;
+	std::int32_t	nn;
+	std::int32_t	nnd;
 
 	nn = ROAD_nearest_node(rn1, rn2, wx, wz, &nnd);
 
 #if 0
-	SLONG	col;
+	std::int32_t	col;
 	if (nnd < AT_JUNCTION)			col = 0xFF0000;
 	else if (nnd < NEAR_JUNCTION)	col = 0xFFFF00;
 	else							col = 0x00FF00;
@@ -11934,11 +11934,11 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 	what = 0;
 
 	// if we're near a junction, add objects
-	SLONG	orig_num = num;
+	std::int32_t	orig_num = num;
 
 	if (nnd < NEAR_JUNCTION)
 	{
-		SLONG	jx,jz;
+		std::int32_t	jx,jz;
 
  		ROAD_node_pos(nn, &jx, &jz);
 
@@ -11981,8 +11981,8 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 		// if it's on a junction, check dot product
 		if (num >= orig_num)
 		{
-			SLONG	vx = (p_found->WorldPos.X - p_person->WorldPos.X) >> 8;
-			SLONG	vz = (p_found->WorldPos.Z - p_person->WorldPos.Z) >> 8;
+			std::int32_t	vx = (p_found->WorldPos.X - p_person->WorldPos.X) >> 8;
+			std::int32_t	vz = (p_found->WorldPos.Z - p_person->WorldPos.Z) >> 8;
 
 			if (vx * dx + vz * dz < 0)	continue;	// behind you!
 		}
@@ -11996,14 +11996,14 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 			if (!ROAD_is_road(p_found->WorldPos.X >> 16, p_found->WorldPos.Z >> 16))	continue;
 
 			// find which road the thing is on
-			SLONG	trn1;
-			SLONG	trn2;
+			std::int32_t	trn1;
+			std::int32_t	trn2;
 
 			ROAD_find(p_found->WorldPos.X >> 8, p_found->WorldPos.Z >> 8, &trn1, &trn2);
 
 			// find nearest node
-			SLONG	tnn;
-			SLONG	tnnd;
+			std::int32_t	tnn;
+			std::int32_t	tnnd;
 
 			tnn = ROAD_nearest_node(trn1, trn2, p_found->WorldPos.X >> 8, p_found->WorldPos.Z >> 8, &tnnd);
 
@@ -12057,7 +12057,7 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 				if (((rn1 == trn1) && (rn2 == trn2)) ||
 					((rn1 == trn2) && (rn2 == trn1)))
 				{
-					SLONG	trd = ROAD_signed_dist(rn1, rn2, p_found->WorldPos.X >> 8, p_found->WorldPos.Z >> 8);
+					std::int32_t	trd = ROAD_signed_dist(rn1, rn2, p_found->WorldPos.X >> 8, p_found->WorldPos.Z >> 8);
 
 					if (abs(trd - rd) > 0xC0)	continue;
 				}
@@ -12076,8 +12076,8 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 						(p_found->Genus.Person->SpecialUse))
 					{
 						// person has a gun out
-						SLONG angle  = calc_angle(dx,dz);
-						SLONG dangle = p_found->Draw.Tweened->Angle - angle;
+						std::int32_t angle  = calc_angle(dx,dz);
+						std::int32_t dangle = p_found->Draw.Tweened->Angle - angle;
 
 						if (abs(dangle) < 256)
 						{
@@ -12128,13 +12128,13 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 				{
 					v_found = p_found->Genus.Vehicle;
 
-					SLONG vel = Root((v_found->VelX >> 4) * (v_found->VelX >> 4) + (v_found->VelZ >> 4) * (v_found->VelZ >> 4)) >> 4;
+					std::int32_t vel = Root((v_found->VelX >> 4) * (v_found->VelX >> 4) + (v_found->VelZ >> 4) * (v_found->VelZ >> 4)) >> 4;
 
 					//
 					// Do we stop for a car in front of us or do we try and drive around?
 					//
 
-					SLONG avoid = false;
+					std::int32_t avoid = false;
 
 					// avoid parked (driverless) cars and dead cars
 					if (!v_found->Driver)														avoid = true;
@@ -12206,22 +12206,22 @@ SLONG PCOM_find_runover_thing(Thing *p_person, SLONG dangle)
 
 void PCOM_process_movement(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG what;
-	SLONG dest_x;
-	SLONG dest_z;
-	SLONG goal_x;
-	SLONG goal_z;
-	SLONG ladder;
-	SLONG wangle;
-	SLONG dangle;
-	SLONG wspeed;
-	SLONG dspeed;
-	SLONG dlane;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t what;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
+	std::int32_t goal_x;
+	std::int32_t goal_z;
+	std::int32_t ladder;
+	std::int32_t wangle;
+	std::int32_t dangle;
+	std::int32_t wspeed;
+	std::int32_t dspeed;
+	std::int32_t dlane;
 
-	SLONG renav = false;
+	std::int32_t renav = false;
 
 	Thing *p_vehicle;
 	Thing *p_target;
@@ -12233,8 +12233,8 @@ void PCOM_process_movement(Thing *p_person)
 
 	#endif
 
-	SLONG steer;
-	SLONG accel;
+	std::int32_t steer;
+	std::int32_t accel;
 
 	//
 	// Low-level movement.
@@ -12872,7 +12872,7 @@ void PCOM_process_person(Thing *p_person)
 			{
 				p_person->Genus.Person->pcom_move_counter = 0;
 
-				UWORD pnear;
+				std::uint16_t pnear;
 
 				//
 				// Is Darci near someone dancing?
@@ -12971,7 +12971,7 @@ void PCOM_process_person(Thing *p_person)
 					newpos.Z = (p_person->Genus.Person->HomeZ << 16) + 0x8000;
 					newpos.Y = PAP_calc_map_height_at(newpos.X >> 8, newpos.Z >> 8);
 
-					extern SLONG plant_feet(Thing *p_person);	// in collide.cpp
+					extern std::int32_t plant_feet(Thing *p_person);	// in collide.cpp
 
 					plant_feet(p_person);
 
@@ -13043,15 +13043,15 @@ void PCOM_process_person(Thing *p_person)
 
 struct Noise
 {
-	UWORD	Type;
-	UWORD	Person;
-	SWORD	X,Y,Z;
+	std::uint16_t	Type;
+	std::uint16_t	Person;
+	std::int16_t	X,Y,Z;
 };
 
 
 #define	MAX_NOISE	4
 
-SWORD noise_count=0;
+std::int16_t noise_count=0;
 
 struct Noise noises[MAX_NOISE+1];
 
@@ -13062,7 +13062,7 @@ void init_noises()
 
 void process_noises()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<noise_count;c0++)
 	{
 		 PCOM_oscillate_tympanum(
@@ -13077,17 +13077,17 @@ void process_noises()
 
 
 void PCOM_oscillate_tympanum(
-		SLONG  type,
+		std::int32_t  type,
 		Thing *p_person,	// The person who caused the sound.
-		SLONG  sound_x,		// The position of the sound.
-		SLONG  sound_y,
-		SLONG  sound_z,
-		UBYTE  store_it)
+		std::int32_t  sound_x,		// The position of the sound.
+		std::int32_t  sound_y,
+		std::int32_t  sound_z,
+		std::uint8_t  store_it)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG       found_upto;
-	SLONG		radius;
+	std::int32_t       found_upto;
+	std::int32_t		radius;
 
 	Thing *p_found;
 
@@ -13108,9 +13108,9 @@ void PCOM_oscillate_tympanum(
 		p_noise=&noises[noise_count];
 		p_noise->Type=type;
 		p_noise->Person = p_person ? (THING_NUMBER(p_person)) : 0;
-		p_noise->X=(SWORD)sound_x;
-		p_noise->Y=(SWORD)sound_y;
-		p_noise->Z=(SWORD)sound_z;
+		p_noise->X=(std::int16_t)sound_x;
+		p_noise->Y=(std::int16_t)sound_y;
+		p_noise->Z=(std::int16_t)sound_z;
 		noise_count++;
 		return;
 	}
@@ -13513,7 +13513,7 @@ void PCOM_youre_being_grappled(
 	
 }
 
-SLONG on_same_side(Thing *p_victim,Thing *p_attacker)
+std::int32_t on_same_side(Thing *p_victim,Thing *p_attacker)
 {
 	if(p_victim->Genus.Person->PersonType==PERSON_ROPER||p_victim->Genus.Person->PersonType==PERSON_DARCI||p_victim->Genus.Person->PersonType==PERSON_COP)
 	{
@@ -13531,7 +13531,7 @@ SLONG on_same_side(Thing *p_victim,Thing *p_attacker)
 // Returns true if the player hit the cop on purpose.
 // 
 
-SLONG PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
+std::int32_t PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci)
 {
 	if (p_darci->Genus.Person->Flags & FLAG_PERSON_FELON)
 	{
@@ -13616,7 +13616,7 @@ void PCOM_attack_happened(
 
 		return;
 	}
-extern SLONG	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+extern std::int32_t	people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 	if(!people_allowed_to_hit_each_other(p_victim,p_attacker))
 	{
 		//
@@ -13953,7 +13953,7 @@ flee:
 	return;
 }
 
-SLONG PCOM_jumping_navigating_person_continue_moving(Thing *p_person)
+std::int32_t PCOM_jumping_navigating_person_continue_moving(Thing *p_person)
 {
 	if (p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_GOTO_XZ	     ||
 		p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_GOTO_WAYPOINT ||
@@ -13965,18 +13965,18 @@ SLONG PCOM_jumping_navigating_person_continue_moving(Thing *p_person)
 
 		if (p_person->Genus.Person->pcom_move_ma.action != MAV_ACTION_JUMPPULL2)
 		{
-			SLONG goal_x;
-			SLONG goal_z;
+			std::int32_t goal_x;
+			std::int32_t goal_z;
 
 			PCOM_get_mav_action_pos(
 				p_person,
 			   &goal_x,
 			   &goal_z);
 
-			SLONG dx = goal_x - (p_person->WorldPos.X >> 8);
-			SLONG dz = goal_z - (p_person->WorldPos.Z >> 8);
+			std::int32_t dx = goal_x - (p_person->WorldPos.X >> 8);
+			std::int32_t dz = goal_z - (p_person->WorldPos.Z >> 8);
 
-			SLONG dist = abs(dx) + abs(dz);
+			std::int32_t dist = abs(dx) + abs(dz);
 
 			if (dist < 0x100)
 			{
@@ -14019,14 +14019,14 @@ void PCOM_knockdown_happened(Thing *p_person)
 
 
 #ifndef PSX
-CBYTE PCOM_debug_string[256];
+char PCOM_debug_string[256];
 #endif
 
-CBYTE* PCOM_person_state_debug(Thing *p_person)
+char* PCOM_person_state_debug(Thing *p_person)
 {
 #ifndef PSX
-	SLONG i;
-	CBYTE bent[256];
+	std::int32_t i;
+	char bent[256];
 
 	if (p_person->Genus.Person->PlayerID)
 	{
@@ -14084,12 +14084,12 @@ CBYTE* PCOM_person_state_debug(Thing *p_person)
 
 	return PCOM_debug_string;
 #else
-	return (CBYTE*)0;
+	return (char*)0;
 #endif
 }
 
 
-SLONG PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop)
+std::int32_t PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop)
 {
 	if (p_cop == NET_PERSON(0) && stealth_debug)
 	{
@@ -14190,11 +14190,11 @@ SLONG PCOM_cop_aiming_at_you(Thing *p_person,Thing *p_cop)
 void PCOM_make_people_talk_to_eachother(
 		Thing *p_person_a,
 		Thing *p_person_b,
-		UBYTE  is_a_asking_a_question,
-		UBYTE  stay_looking_at_eachother,
-		UBYTE  make_the_person_talked_at_listen)
+		std::uint8_t  is_a_asking_a_question,
+		std::uint8_t  stay_looking_at_eachother,
+		std::uint8_t  make_the_person_talked_at_listen)
 {
-	SLONG substate;
+	std::int32_t substate;
 
 	if (is_a_asking_a_question)
 	{
@@ -14229,7 +14229,7 @@ void PCOM_stop_people_talking_to_eachother(
 }
 
 
-SLONG PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
+std::int32_t PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b)
 {
 	ASSERT(p_person_a->Class == CLASS_PERSON);
 	ASSERT(p_person_b->Class == CLASS_PERSON);
@@ -14329,8 +14329,8 @@ THING_INDEX PCOM_person_wants_to_kill(Thing *p_person)
 
 void ParkCar(Thing* p_person)
 {
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
 	//
 	// If you're going to do some driving- then you have to be in a car!
@@ -14387,17 +14387,17 @@ void ParkCar(Thing* p_person)
 
 void DriveCar(Thing* p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG dest_x;
-	SLONG dest_z;
-	SLONG wangle;
-	SLONG dangle;
-	SLONG dlane;
-	SLONG dspeed;
-	SLONG wspeed;
-	SLONG what;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
+	std::int32_t wangle;
+	std::int32_t dangle;
+	std::int32_t dlane;
+	std::int32_t dspeed;
+	std::int32_t wspeed;
+	std::int32_t what;
 
 	ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
@@ -14486,14 +14486,14 @@ void DriveCar(Thing* p_person)
 			// middle of our lane.
 			//
 
-			SLONG rx1;
-			SLONG rz1;
+			std::int32_t rx1;
+			std::int32_t rz1;
 
-			SLONG rx2;
-			SLONG rz2;
+			std::int32_t rx2;
+			std::int32_t rz2;
 
-			SLONG rdest_x;
-			SLONG rdest_z;
+			std::int32_t rdest_x;
+			std::int32_t rdest_z;
 			
 			ROAD_node_pos(
 				p_person->Genus.Person->pcom_move_arg >> 8,
@@ -14513,8 +14513,8 @@ void DriveCar(Thing* p_person)
 			   &rdest_x,
 			   &rdest_z);
 
-			SLONG drx = SIGN(rx2 - rx1) << 8;
-			SLONG drz = SIGN(rz2 - rz1) << 8;
+			std::int32_t drx = SIGN(rx2 - rx1) << 8;
+			std::int32_t drz = SIGN(rz2 - rz1) << 8;
 
 			rdest_x += drx;
 			rdest_z += drz;
@@ -14690,7 +14690,7 @@ void DriveCar(Thing* p_person)
 
 	if (p_person->Genus.Person->pcom_move_flag & (PCOM_MOVE_FLAG_AVOID_LEFT | PCOM_MOVE_FLAG_AVOID_RIGHT))
 	{
-		SLONG avoid_time;
+		std::int32_t avoid_time;
 
 		if (p_vehicle->Velocity > 700)
 		{
@@ -14731,13 +14731,13 @@ void DriveCar(Thing* p_person)
 
 void ParkBike(Thing* p_person)
 {
-	SLONG wangle;
-	SLONG dangle;
+	std::int32_t wangle;
+	std::int32_t dangle;
 
 	BIKE_Control bc;
 
-	SLONG steer;
-	SLONG accel;
+	std::int32_t steer;
+	std::int32_t accel;
 
 	//
 	// Make sure we're on a bike.
@@ -14797,22 +14797,22 @@ void ParkBike(Thing* p_person)
 
 void DriveBike(Thing* p_person)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG what;
-	SLONG dest_x;
-	SLONG dest_z;
-	SLONG wangle;
-	SLONG dangle;
-	SLONG wspeed;
-	SLONG dspeed;
-	SLONG dlane;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t what;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
+	std::int32_t wangle;
+	std::int32_t dangle;
+	std::int32_t wspeed;
+	std::int32_t dspeed;
+	std::int32_t dlane;
 
 	BIKE_Control bc;
 
-	SLONG steer;
-	SLONG accel;
+	std::int32_t steer;
+	std::int32_t accel;
 
 	//
 	// Make sure we are on a bike
@@ -14866,11 +14866,11 @@ void DriveBike(Thing* p_person)
 			// middle of our lane.
 			//
 
-			SLONG rx1;
-			SLONG rz1;
+			std::int32_t rx1;
+			std::int32_t rz1;
 
-			SLONG rx2;
-			SLONG rz2;
+			std::int32_t rx2;
+			std::int32_t rz2;
 			
 			ROAD_node_pos(
 				p_person->Genus.Person->pcom_move_arg >> 8,
@@ -14908,8 +14908,8 @@ void DriveBike(Thing* p_person)
 			   &dest_x,
 			   &dest_z);
 
-			SLONG drx = SIGN(rx2 - rx1) << 8;
-			SLONG drz = SIGN(rz2 - rz1) << 8;
+			std::int32_t drx = SIGN(rx2 - rx1) << 8;
+			std::int32_t drz = SIGN(rz2 - rz1) << 8;
 
 			dest_x += drz + drx;
 			dest_z -= drx - drz;
@@ -15052,7 +15052,7 @@ void DriveBike(Thing* p_person)
 #endif
 
 
-SLONG PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person)
+std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person)
 {
 	if (!p_person->Genus.Person->PlayerID)
 	{

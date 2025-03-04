@@ -38,7 +38,7 @@
 
 // If bActuallyGetOne is false, then just the current types are set up, no device is actually grabbed.
 void	ClearPrimaryDevice ( void );
-bool	GetInputDevice ( UBYTE type, UBYTE sub_type, bool bActuallyGetOne = true );
+bool	GetInputDevice ( std::uint8_t type, std::uint8_t sub_type, bool bActuallyGetOne = true );
 bool	ReadInputDevice();
 
 
@@ -198,21 +198,21 @@ class	DIDeviceInfo
 	private:
 	protected:
 	public:
-		CBYTE				Instance[MAX_PATH],			// Device instance name.
+		char				Instance[MAX_PATH],			// Device instance name.
 							Product[MAX_PATH];			// Device product name.
-		UBYTE				DeviceType,					// Device type, e.g. Joystick
+		std::uint8_t				DeviceType,					// Device type, e.g. Joystick
 							DeviceSubType;				// Device sub type. e.g. Traditional, Gamepad etc.
-		UBYTE				NumButtons;					// Number of buttons on this device.
-		UBYTE				NumAxis;					// Number of axis on this device.
+		std::uint8_t				NumButtons;					// Number of buttons on this device.
+		std::uint8_t				NumAxis;					// Number of axis on this device.
 
-		UBYTE				PortNumber;					// Port number, if known.
+		std::uint8_t				PortNumber;					// Port number, if known.
 
 #if ENABLE_REMAPPING
-		UBYTE				AxisMappings[2];			// Mapping from DI stuff to my standardised ones.
-		UBYTE				ButtonMappings[32];			// A mapping from DI stuff to my standardised input mapping.
+		std::uint8_t				AxisMappings[2];			// Mapping from DI stuff to my standardised ones.
+		std::uint8_t				ButtonMappings[32];			// A mapping from DI stuff to my standardised input mapping.
 #endif
 
-		ULONG				DeviceFlags;				// DI Device flags
+		std::uint32_t				DeviceFlags;				// DI Device flags
 
 		GUID				guidInstance;
 
@@ -241,7 +241,7 @@ class	DIDeviceInfo
 		inline	void		NeedsPollOn()			{	DeviceFlags		|=	DI_DEVICE_NEEDS_POLL;	}
 		inline	void		NeedsPollOff()			{	DeviceFlags		&=	~DI_DEVICE_NEEDS_POLL;	}
 
-		bool				GetThisDevice ( UBYTE type );
+		bool				GetThisDevice ( std::uint8_t type );
 		bool				DIEnumDeviceObjectsProc ( LPCDIDEVICEOBJECTINSTANCE pDIDOI );
 
 
@@ -254,7 +254,7 @@ class	DIDriverManager
 	private:
 	protected:
 	public:
-		ULONG				ManagerFlags,				// Global flags
+		std::uint32_t				ManagerFlags,				// Global flags
 							DeviceCount;				// Count of DI Devices.
 
 		bool				bVMUScreenUpdatesEnabled;
@@ -275,9 +275,9 @@ class	DIDriverManager
 		HRESULT				DestroyDevice(DIDeviceInfo *the_device);
 
 		HRESULT				AddDevice(DIDeviceInfo *the_driver);
-		DIDeviceInfo		*FindDevice(UBYTE type,UBYTE sub_type,DIDeviceInfo **next_best,DIDeviceInfo *start_device=nullptr);
+		DIDeviceInfo		*FindDevice(std::uint8_t type,std::uint8_t sub_type,DIDeviceInfo **next_best,DIDeviceInfo *start_device=nullptr);
 
-		DIDeviceInfo		*FindFirstWithButtonPressed ( UBYTE type, UBYTE sub_type );
+		DIDeviceInfo		*FindFirstWithButtonPressed ( std::uint8_t type, std::uint8_t sub_type );
 
 		int					ScanForVMUs ( void );
 

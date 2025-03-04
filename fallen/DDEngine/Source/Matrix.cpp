@@ -66,7 +66,7 @@ void MATRIX_calc(float matrix[9], float yaw, float pitch, float roll)
 //
 // i'll do this later / miked
 //
-void MATRIX_calc_int(SLONG matrix[9], SLONG yaw, SLONG pitch, SLONG roll)
+void MATRIX_calc_int(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll)
 {
 	float cy, cp, cr;
 	float sy, sp, sr;

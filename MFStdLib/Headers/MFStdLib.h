@@ -2,19 +2,20 @@
 // MFStdLib.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	MF_STD_LIB_H
-#define	MF_STD_LIB_H
+#pragma once
+
 
 //---------------------------------------------------------------
 
 // Standard 'C' includes.
 #if !defined(TARGET_DC)
-#include	<time.h>
+#	include <ctime>
 #endif
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<stdarg.h>
-#include	<string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstdarg>
+#include <cstring>
+#include <cstdint>
 
 // Library defines.
 #define	_MF_WINDOWS
@@ -48,39 +49,27 @@
 
 //---------------------------------------------------------------
 
-typedef unsigned char		UBYTE;
-typedef signed char			SBYTE;
-typedef char				CBYTE;
-typedef unsigned short		UWORD;
-typedef signed short		SWORD;
-typedef unsigned long		ULONG;
-typedef signed long			SLONG;
+struct MFPoint {
+	std::int32_t X, Y;
+};
 
-
-typedef struct
-{
-	SLONG		X,
-				Y;
-}MFPoint;
-
-typedef struct
-{
-	SLONG		Left,
-				Top,
-				Right,
-				Bottom,
-				Width,
-				Height;
-}MFRect;
+struct MFRect {
+	std::int32_t Left;
+	std::int32_t Top;
+	std::int32_t Right;
+	std::int32_t Bottom;
+	std::int32_t Width;
+	std::int32_t Height;
+};
 
 //---------------------------------------------------------------
 // MF Standard includes.
 
-#include	"StdFile.h"
-#include	"StdKeybd.h"
-#include	"StdMaths.h"
-#include	"StdMem.h"
-#include	"StdMouse.h"
+#include "StdFile.h"
+#include "StdKeybd.h"
+#include "StdMaths.h"
+#include "StdMem.h"
+#include "StdMouse.h"
 
 //---------------------------------------------------------------
 // Display
@@ -89,24 +78,24 @@ typedef struct
 #define	FLAGS_USE_3D			(1<<1)
 #define	FLAGS_USE_WORKSCREEN	(1<<2)
 
-extern UBYTE				WorkScreenDepth,
+extern std::uint8_t				WorkScreenDepth,
 							*WorkScreen;
-extern SLONG				WorkScreenHeight,
+extern std::int32_t				WorkScreenHeight,
 							WorkScreenPixelWidth,
 							WorkScreenWidth;
-extern SLONG				DisplayWidth,
+extern std::int32_t				DisplayWidth,
 							DisplayHeight,
 							DisplayBPP;
 
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth, ULONG flags);
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth);
-SLONG CloseDisplay();
-SLONG ClearDisplay(UBYTE r,UBYTE g,UBYTE b);
-void FadeDisplay(UBYTE mode);
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags);
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth);
+std::int32_t CloseDisplay();
+std::int32_t ClearDisplay(std::uint8_t r,std::uint8_t g,std::uint8_t b);
+void FadeDisplay(std::uint8_t mode);
 void* LockWorkScreen();
 void UnlockWorkScreen();
-void ShowWorkScreen(ULONG flags);
-void ClearWorkScreen(UBYTE colour);
+void ShowWorkScreen(std::uint32_t flags);
+void ClearWorkScreen(std::uint8_t colour);
 
 //---------------------------------------------------------------
 // Host
@@ -120,32 +109,32 @@ void ClearWorkScreen(UBYTE colour);
 
 struct MFTime
 {
-	SLONG		Hours,
+	std::int32_t		Hours,
 				Minutes,
 				Seconds,
 				MSeconds;
-	SLONG		DayOfWeek,		//	0 - 6;		Sunday		=	0
+	std::int32_t		DayOfWeek,		//	0 - 6;		Sunday		=	0
 				Day,
 				Month,			//	1 - 12;		January		=	1
 				Year;
-	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
+	std::int32_t		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-SLONG main(UWORD argc, TCHAR** argv);
-bool SetupHost(ULONG flags);
+std::int32_t main(std::uint16_t argc, TCHAR** argv);
+bool SetupHost(std::uint32_t flags);
 void ResetHost();
-//void            TraceText(CBYTE* error, ...);
+//void            TraceText(char* error, ...);
 void TraceText(char *error, ...);
 bool LibShellActive();
 bool LibShellChanged();
-bool LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine);
+bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine);
 
 #define	NoError					0
 
 
 #ifndef NDEBUG
 
-void DebugText(CBYTE* error, ...);
+void DebugText(char* error, ...);
 #define TRACE				TraceText
 #define	LogText				DebugText
 #define	MFMessage			LibShellMessage
@@ -177,7 +166,7 @@ void DebugText(CBYTE* error, ...);
 
 
 #if 0
-bool GetInputDevice(UBYTE type,UBYTE sub_type);
+bool GetInputDevice(std::uint8_t type,std::uint8_t sub_type);
 bool ReadInputDevice();
 #endif
 
@@ -206,7 +195,7 @@ bool ReadInputDevice();
 #define PI				(3.14159265F)
 #define WITHIN(x,a,b)	((x) >= (a) && (x) <= (b))
 #define SATURATE(x,a,b)	{if ((x) < (a)) {(x) = (a);} else if ((x) > (b)) {(x) = (b);}}
-#define SWAP(a,b)		{SLONG temp; temp = (a); (a) = (b); (b) = temp;}
+#define SWAP(a,b)		{std::int32_t temp; temp = (a); (a) = (b); (b) = temp;}
 #define SWAP_FL(a,b)	{float temp; temp = (a); (a) = (b); (b) = temp;}
 #define MIN(a,b)		(((a) < (b)) ? (a) : (b))
 #define MAX(a,b)		(((a) > (b)) ? (a) : (b))
@@ -222,8 +211,3 @@ bool ReadInputDevice();
 
 #define	SDIST3(x,y,z)	(((x)*(x))+((y)*(y))+((z)*(z)))
 #define	SDIST2(x,y)		(((x)*(x))+((y)*(y)))
-
-
-
-#endif
-

@@ -11,7 +11,7 @@
 #include "psxeng.h"
 #include "mcard.h"
 
-SLONG MCARD_status;
+std::int32_t MCARD_status;
 
 DIRENTRY MCARD_file;
 
@@ -26,7 +26,7 @@ void MCARD_Final()
 //	MemCardStop();
 }
 
-SLONG MCARD_Scan()
+std::int32_t MCARD_Scan()
 {
 	MCARD_status=MemCardAccept(0x00);
 	if (MCARD_status==0)
@@ -35,9 +35,9 @@ SLONG MCARD_Scan()
 	return MCARD_status=MCARD_SCANNING;
 }
 
-SLONG MCARD_Status()
+std::int32_t MCARD_Status()
 {
-	SLONG cmd,result;
+	std::int32_t cmd,result;
 
 	switch(MemCardSync(1,&cmd,&result))
 	{
@@ -71,7 +71,7 @@ SLONG MCARD_Status()
 	return 0;
 }
 
-SLONG MCARD_Format()
+std::int32_t MCARD_Format()
 {
 	MCARD_status=MCARD_Scan();
 	while(MCARD_status==MCARD_SCANNING)
@@ -84,14 +84,14 @@ SLONG MCARD_Format()
 	return MCARD_status;
 }
 
-SLONG MCARD_ReadFile(char *fname,UBYTE *addr,SLONG len)
+std::int32_t MCARD_ReadFile(char *fname,std::uint8_t *addr,std::int32_t len)
 {					  
 	MCARD_status=MCARD_Scan();
 	while(MCARD_status==MCARD_SCANNING)
 		MCARD_status=MCARD_Status();
 	if (MCARD_status==MCARD_OKAY)
 	{
-		if (MemCardReadFile(0x00,fname,(ULONG*)addr,0,len)+MCARD_READ_OFFSET)
+		if (MemCardReadFile(0x00,fname,(std::uint32_t*)addr,0,len)+MCARD_READ_OFFSET)
 			return MCARD_status=MCARD_READING;
 	}
 	else
@@ -100,17 +100,17 @@ SLONG MCARD_ReadFile(char *fname,UBYTE *addr,SLONG len)
 	return MCARD_status=MCARD_READ_ERROR;
 }
 
-SLONG MCARD_WriteFile(char *fname,UBYTE *addr,SLONG len)
+std::int32_t MCARD_WriteFile(char *fname,std::uint8_t *addr,std::int32_t len)
 {
-	if (MemCardWriteFile(0x00,fname,(ULONG*)addr,0,len)+MCARD_WRITE_OFFSET)
+	if (MemCardWriteFile(0x00,fname,(std::uint32_t*)addr,0,len)+MCARD_WRITE_OFFSET)
 		return MCARD_status=MCARD_WRITING;
 
 	return MCARD_status=MCARD_WRITE_ERROR;
 }
 
-SLONG MCARD_FindFile(char *fname)
+std::int32_t MCARD_FindFile(char *fname)
 {
-	SLONG files;
+	std::int32_t files;
 
 	MCARD_status=MemCardGetDirentry(0x00,fname,&MCARD_file,&files,0,1)+MCARD_FIND_OFFSET;
 
@@ -123,7 +123,7 @@ SLONG MCARD_FindFile(char *fname)
 		return MCARD_status=MCARD_FIND_OKAY;
 }
 
-SLONG MCARD_CreateFile(char *fname,SLONG blocks)
+std::int32_t MCARD_CreateFile(char *fname,std::int32_t blocks)
 {
 	MCARD_status=MCARD_Scan();
 	while (MCARD_status==MCARD_SCANNING)
@@ -139,10 +139,10 @@ SLONG MCARD_CreateFile(char *fname,SLONG blocks)
 
 struct DIRENTRY MCARD_dir[15];
 
-SLONG MCARD_FindSpace(SLONG blocks)
+std::int32_t MCARD_FindSpace(std::int32_t blocks)
 {
-	SLONG files,size;
-	SLONG i;
+	std::int32_t files,size;
+	std::int32_t i;
 
 	MCARD_status=MemCardGetDirentry(0x00,"*",MCARD_dir,&files,0,15);
 

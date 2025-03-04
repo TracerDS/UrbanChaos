@@ -7,10 +7,10 @@
 #include	"..\headers\music.h"
 #include	"..\headers\game.h"
 
-extern void MFX_QUICK_stop(void);
+extern void MFX_QUICK_stop();
 
-SLONG app_inactive;
-SLONG restore_surfaces;
+std::int32_t app_inactive;
+std::int32_t restore_surfaces;
 
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK MouseProc(int code, WPARAM wParam, LPARAM lParam);
@@ -18,7 +18,7 @@ LRESULT CALLBACK MouseProc(int code, WPARAM wParam, LPARAM lParam);
 LRESULT	CALLBACK	DDLibShellProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int				result;
-	SLONG			w,h,bpp,refresh;
+	std::int32_t			w,h,bpp,refresh;
 	ChangeDDInfo	change_info;
 	GUID			*D3D_guid,
 					*DD_guid;

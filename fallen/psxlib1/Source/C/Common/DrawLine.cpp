@@ -8,10 +8,10 @@
 //---------------------------------------------------------------
 // Standard Bresenham algorithm.
 
-void DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLine8(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::uint32_t colour)
 {
-	UBYTE	*line_dest;
-	SLONG	ax,ay,
+	std::uint8_t	*line_dest;
+	std::int32_t	ax,ay,
 			d,
 			dx,dy,
 			modulo,
@@ -39,7 +39,7 @@ void DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 		d	=	ay-(ax>>1);
 		while(1)
 		{
-			*line_dest	=	(UBYTE)colour;
+			*line_dest	=	(std::uint8_t)colour;
 			if(x==x2)
 				return;
 			if(d>=0)
@@ -57,7 +57,7 @@ void DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 		d	=	ax-(ay>>1);
 		while(1)
 		{
-			*line_dest	=	(UBYTE)colour;
+			*line_dest	=	(std::uint8_t)colour;
 			if(y==y2)
 				return;
 			if(d>=0)
@@ -72,10 +72,10 @@ void DrawLine8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 	}
 }
 
-void DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLine16(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::uint32_t colour)
 {
-	UWORD	*line_dest;
-	SLONG	ax,ay,
+	std::uint16_t	*line_dest;
+	std::int32_t	ax,ay,
 			d,
 			dx,dy,
 			modulo,
@@ -97,13 +97,13 @@ void DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 
 	x			=	x1;
 	y			=	y1;
-	line_dest	=	(UWORD*)WorkWindow+x+(y*WorkScreenWidth>>1);
+	line_dest	=	(std::uint16_t*)WorkWindow+x+(y*WorkScreenWidth>>1);
 	if(ax>ay)
 	{
 		d	=	ay-(ax>>1);
 		while(1)
 		{
-			*line_dest	=	(UWORD)colour;
+			*line_dest	=	(std::uint16_t)colour;
 			if(x==x2)
 				return;
 			if(d>=0)
@@ -121,7 +121,7 @@ void DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 		d	=	ax-(ay>>1);
 		while(1)
 		{
-			*line_dest	=	(UWORD)colour;
+			*line_dest	=	(std::uint16_t)colour;
 			if(y==y2)
 				return;
 			if(d>=0)
@@ -136,10 +136,10 @@ void DrawLine16(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 	}
 }
 
-void DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLine32(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::uint32_t colour)
 {
-	ULONG	*line_dest;
-	SLONG	ax,ay,
+	std::uint32_t	*line_dest;
+	std::int32_t	ax,ay,
 			d,
 			dx,dy,
 			modulo,
@@ -161,13 +161,13 @@ void DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 
 	x			=	x1;
 	y			=	y1;
-	line_dest	=	(ULONG*)WorkWindow+x+(y*WorkScreenWidth>>2);
+	line_dest	=	(std::uint32_t*)WorkWindow+x+(y*WorkScreenWidth>>2);
 	if(ax>ay)
 	{
 		d	=	ay-(ax>>1);
 		while(1)
 		{
-			*line_dest	=	(ULONG)colour;
+			*line_dest	=	(std::uint32_t)colour;
 			if(x==x2)
 				return;
 			if(d>=0)
@@ -185,7 +185,7 @@ void DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 		d	=	ax-(ay>>1);
 		while(1)
 		{
-			*line_dest	=	(ULONG)colour;
+			*line_dest	=	(std::uint32_t)colour;
 			if(y==y2)
 				return;
 			if(d>=0)
@@ -204,9 +204,9 @@ void DrawLine32(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 // Standard Bresenham algorithm.
 // Bloody slow at clipping tho'
 
-void DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
+void DrawLineC8(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::uint32_t colour)
 {
-	SLONG	ax,ay,
+	std::int32_t	ax,ay,
 			d,
 			dx,dy,
 			sx,sy,
@@ -264,10 +264,10 @@ void DrawLineC8(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour)
 
 //---------------------------------------------------------------
 
-void DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLine8(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour)
 {
-	UBYTE	*line_dest;
-	ULONG	count;
+	std::uint8_t	*line_dest;
+	std::uint32_t	count;
 
 
 	if(x1>x2)
@@ -278,52 +278,52 @@ void DrawHLine8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 	count		=	(x2-x1)+1;
 	while(count--)
 	{
-		*(line_dest++)	=	(UBYTE)colour;
+		*(line_dest++)	=	(std::uint8_t)colour;
 	}
 }
 
-void DrawHLine16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLine16(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour)
 {
-	UWORD	*line_dest;
-	ULONG	count;
+	std::uint16_t	*line_dest;
+	std::uint32_t	count;
 
 
 	if(x1>x2)
 	{
 		swap(x1,x2);
 	}
-	line_dest	=	(UWORD*)WorkWindow+x1+(y*WorkScreenWidth>>1);
+	line_dest	=	(std::uint16_t*)WorkWindow+x1+(y*WorkScreenWidth>>1);
 	count		=	(x2-x1)+1;
 	while(count--)
 	{
-		*(line_dest++)	=	(UWORD)colour;
+		*(line_dest++)	=	(std::uint16_t)colour;
 	}
 }
 
-void DrawHLine32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLine32(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour)
 {
-	ULONG	*line_dest;
-	ULONG	count;
+	std::uint32_t	*line_dest;
+	std::uint32_t	count;
 
 
 	if(x1>x2)
 	{
 		swap(x1,x2);
 	}
-	line_dest	=	(ULONG*)WorkWindow+x1+(y*WorkScreenWidth>>2);
+	line_dest	=	(std::uint32_t*)WorkWindow+x1+(y*WorkScreenWidth>>2);
 	count		=	(x2-x1)+1;
 	while(count--)
 	{
-		*(line_dest++)	=	(ULONG)colour;
+		*(line_dest++)	=	(std::uint32_t)colour;
 	}
 }
 
 //---------------------------------------------------------------
 
-void DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLineC8(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour)
 {
-	UBYTE	*line_dest;
-	ULONG	count;
+	std::uint8_t	*line_dest;
+	std::uint32_t	count;
 
 
 	if(y>=0 && y<WorkWindowHeight)
@@ -342,16 +342,16 @@ void DrawHLineC8(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 			count		=	(x2-x1)+1;
 			while(count--)
 			{
-				*(line_dest++)	=	(UBYTE)colour;
+				*(line_dest++)	=	(std::uint8_t)colour;
 			}
 		}
 	}
 }
 
-void DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLineC16(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour)
 {
-	UWORD	*line_dest;
-	ULONG	count;
+	std::uint16_t	*line_dest;
+	std::uint32_t	count;
 
 
 	if(y>=0 && y<WorkWindowHeight)
@@ -366,20 +366,20 @@ void DrawHLineC16(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 				x1		=	0;
 			if(x2>=WorkWindowWidth)
 				x2		=	WorkWindowWidth-1;
-			line_dest	=	(UWORD*)WorkWindow+x1+(y*WorkScreenWidth>>1);
+			line_dest	=	(std::uint16_t*)WorkWindow+x1+(y*WorkScreenWidth>>1);
 			count		=	(x2-x1)+1;
 			while(count--)
 			{
-				*(line_dest++)	=	(UWORD)colour;
+				*(line_dest++)	=	(std::uint16_t)colour;
 			}
 		}
 	}
 }
 
-void DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
+void DrawHLineC32(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour)
 {
-	ULONG	*line_dest;
-	ULONG	count;
+	std::uint32_t	*line_dest;
+	std::uint32_t	count;
 
 
 	if(y>=0 && y<WorkWindowHeight)
@@ -394,11 +394,11 @@ void DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 				x1		=	0;
 			if(x2>=WorkWindowWidth)
 				x2		=	WorkWindowWidth-1;
-			line_dest	=	(ULONG*)WorkWindow+x1+(y*WorkScreenWidth>>2);
+			line_dest	=	(std::uint32_t*)WorkWindow+x1+(y*WorkScreenWidth>>2);
 			count		=	(x2-x1)+1;
 			while(count--)
 			{
-				*(line_dest++)	=	(ULONG)colour;
+				*(line_dest++)	=	(std::uint32_t)colour;
 			}
 		}
 	}
@@ -406,10 +406,10 @@ void DrawHLineC32(SLONG x1,SLONG x2,SLONG y,ULONG colour)
 
 //---------------------------------------------------------------
 
-void DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLine8(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour)
 {
-	UBYTE	*line_dest;
-	ULONG	count,
+	std::uint8_t	*line_dest;
+	std::uint32_t	count,
 			modulo;
 	
 	
@@ -422,15 +422,15 @@ void DrawVLine8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	modulo		=	WorkScreenWidth;
 	while(count--)
 	{
-		*line_dest	=	(UBYTE)colour;
+		*line_dest	=	(std::uint8_t)colour;
 		line_dest	+=	modulo;
 	}
 }
 
-void DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLine16(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour)
 {
-	UWORD	*line_dest;
-	ULONG	count,
+	std::uint16_t	*line_dest;
+	std::uint32_t	count,
 			modulo;
 	
 	
@@ -438,20 +438,20 @@ void DrawVLine16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	{
 		swap(y1,y2);
 	}
-	line_dest	=	(UWORD*)WorkWindow+x+(y1*WorkScreenWidth>>1);
+	line_dest	=	(std::uint16_t*)WorkWindow+x+(y1*WorkScreenWidth>>1);
 	count		=	(y2-y1)+1;
 	modulo		=	WorkScreenWidth>>1;
 	while(count--)
 	{
-		*line_dest	=	(UWORD)colour;
+		*line_dest	=	(std::uint16_t)colour;
 		line_dest	+=	modulo;
 	}
 }
 
-void DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLine32(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour)
 {
-	ULONG	*line_dest;
-	ULONG	count,
+	std::uint32_t	*line_dest;
+	std::uint32_t	count,
 			modulo;
 	
 	
@@ -459,12 +459,12 @@ void DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 	{
 		swap(y1,y2);
 	}
-	line_dest	=	(ULONG*)WorkWindow+x+(y1*WorkScreenWidth>>2);
+	line_dest	=	(std::uint32_t*)WorkWindow+x+(y1*WorkScreenWidth>>2);
 	count		=	(y2-y1)+1;
 	modulo		=	WorkScreenWidth>>2;
 	while(count--)
 	{
-		*line_dest	=	(ULONG)colour;
+		*line_dest	=	(std::uint32_t)colour;
 		line_dest	+=	modulo;
 	}
 }
@@ -472,10 +472,10 @@ void DrawVLine32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 
 //---------------------------------------------------------------
 
-void DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLineC8(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour)
 {
-	UBYTE	*line_dest;
-	ULONG	count;
+	std::uint8_t	*line_dest;
+	std::uint32_t	count;
 
 	
 	if(x>=0 && x<WorkWindowWidth)
@@ -494,17 +494,17 @@ void DrawVLineC8(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 			count		=	(y2-y1)+1;
 			while(count--)
 			{
-				*line_dest	=	(UBYTE)colour;
+				*line_dest	=	(std::uint8_t)colour;
 				line_dest	+=	WorkScreenWidth;
 			}
 		}
 	}	
 }
 
-void DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLineC16(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour)
 {
-	UWORD	*line_dest;
-	ULONG	count;
+	std::uint16_t	*line_dest;
+	std::uint32_t	count;
 
 	
 	if(x>=0 && x<WorkWindowWidth)
@@ -519,21 +519,21 @@ void DrawVLineC16(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 				y1		=	0;
 			if(y2>=WorkWindowHeight)
 				y2		=	WorkWindowHeight-1;
-			line_dest	=	(UWORD*)WorkWindow+x+(y1*WorkScreenWidth>>1);
+			line_dest	=	(std::uint16_t*)WorkWindow+x+(y1*WorkScreenWidth>>1);
 			count		=	(y2-y1)+1;
 			while(count--)
 			{
-				*line_dest	=	(UWORD)colour;
+				*line_dest	=	(std::uint16_t)colour;
 				line_dest	+=	WorkScreenWidth>>1;
 			}
 		}
 	}	
 }
 
-void DrawVLineC32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
+void DrawVLineC32(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour)
 {
-	ULONG	*line_dest;
-	ULONG	count;
+	std::uint32_t	*line_dest;
+	std::uint32_t	count;
 
 	
 	if(x>=0 && x<WorkWindowWidth)
@@ -548,11 +548,11 @@ void DrawVLineC32(SLONG x,SLONG y1,SLONG y2,ULONG colour)
 				y1		=	0;
 			if(y2>=WorkWindowHeight)
 				y2		=	WorkWindowHeight-1;
-			line_dest	=	(ULONG*)WorkWindow+x+(y1*WorkScreenWidth>>2);
+			line_dest	=	(std::uint32_t*)WorkWindow+x+(y1*WorkScreenWidth>>2);
 			count		=	(y2-y1)+1;
 			while(count--)
 			{
-				*line_dest	=	(ULONG)colour;
+				*line_dest	=	(std::uint32_t)colour;
 				line_dest	+=	WorkScreenWidth>>2;
 			}
 		}

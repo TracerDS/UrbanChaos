@@ -13,7 +13,7 @@
 
 typedef struct
 {
-	UWORD facet;	// nullptr => Unused.
+	std::uint16_t facet;	// nullptr => Unused.
 
 } DOOR_Door;
 
@@ -27,8 +27,8 @@ extern DOOR_Door *DOOR_door;//[DOOR_MAX_DOORS];
 // Opens\shuts a door near to the given position.
 //
 
-void DOOR_open(SLONG world_x, SLONG world_z);
-void DOOR_shut(SLONG world_x, SLONG world_z);
+void DOOR_open(std::int32_t world_x, std::int32_t world_z);
+void DOOR_shut(std::int32_t world_x, std::int32_t world_z);
 
 
 

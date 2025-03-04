@@ -13,7 +13,7 @@
 // Hmm...
 //
 
-extern UWORD floor_texture_sizes[];
+extern std::uint16_t floor_texture_sizes[];
 
 
 #define TEXTURE_MAX_TEXTURES 1024
@@ -39,38 +39,38 @@ extern UWORD floor_texture_sizes[];
 
 typedef struct
 {
-	ULONG type;
+	std::uint32_t type;
 
 	GrTexInfo textinfo;
 
-	ULONG address_tmu0;
-	ULONG address_tmu1;
+	std::uint32_t address_tmu0;
+	std::uint32_t address_tmu1;
 
 } TEXTURE_Texture;
 
 TEXTURE_Texture TEXTURE_texture[TEXTURE_MAX_TEXTURES];
 
-SLONG TEXTURE_page_num_standard;
+std::int32_t TEXTURE_page_num_standard;
 
-SLONG TEXTURE_page_fog;
-SLONG TEXTURE_page_moon;
-SLONG TEXTURE_page_clouds;
-SLONG TEXTURE_page_water;
-SLONG TEXTURE_page_puddle;
-SLONG TEXTURE_page_shadow;
-SLONG TEXTURE_page_detail;
+std::int32_t TEXTURE_page_fog;
+std::int32_t TEXTURE_page_moon;
+std::int32_t TEXTURE_page_clouds;
+std::int32_t TEXTURE_page_water;
+std::int32_t TEXTURE_page_puddle;
+std::int32_t TEXTURE_page_shadow;
+std::int32_t TEXTURE_page_detail;
 
 //
 // The number of textures loaded.
 //
 
-SLONG TEXTURE_num_textures;
+std::int32_t TEXTURE_num_textures;
 
 
 
 void TEXTURE_get_minitexturebits_uvs(
-		UWORD           texture,
-		SLONG          *page,
+		std::uint16_t           texture,
+		std::int32_t          *page,
 		float          *u0,
 		float          *v0,
 		float          *u1,
@@ -80,14 +80,14 @@ void TEXTURE_get_minitexturebits_uvs(
 		float          *u3,
 		float          *v3)
 {
-	SLONG tx;
-	SLONG ty;
-	SLONG tpage;
-	SLONG trot;
-	SLONG tflip;
-	SLONG tsize;
+	std::int32_t tx;
+	std::int32_t ty;
+	std::int32_t tpage;
+	std::int32_t trot;
+	std::int32_t tflip;
+	std::int32_t tsize;
 
-	SLONG num;
+	std::int32_t num;
 
 	static const float base_u = 0.0F;
 	static const float base_v = 0.0F;
@@ -163,14 +163,14 @@ void TEXTURE_get_minitexturebits_uvs(
 	}
 }
 
-SLONG TEXTURE_get_fiddled_position(
-		SLONG  square_u,
-		SLONG  square_v,
-		SLONG  page,
+std::int32_t TEXTURE_get_fiddled_position(
+		std::int32_t  square_u,
+		std::int32_t  square_v,
+		std::int32_t  page,
 		float *u,
 		float *v)
 {
-	SLONG num;
+	std::int32_t num;
 
 	{
 		num = square_u + square_v * TEXTURE_NORM_SQUARES + page * (TEXTURE_NORM_SQUARES * TEXTURE_NORM_SQUARES);
@@ -190,16 +190,16 @@ SLONG TEXTURE_get_fiddled_position(
 
 void TEXTURE_load()
 {
-	SLONG i;
+	std::int32_t i;
 
 	Gu3dfInfo fileinfo;
 
-	ULONG texture_mem_required;
+	std::uint32_t texture_mem_required;
 
-	ULONG address_tmu0 = grTexMinAddress(GR_TMU0);
-	ULONG address_tmu1 = grTexMinAddress(GR_TMU1);
+	std::uint32_t address_tmu0 = grTexMinAddress(GR_TMU0);
+	std::uint32_t address_tmu1 = grTexMinAddress(GR_TMU1);
 
-	CBYTE name_3df[32];
+	char name_3df[32];
 
 	TEXTURE_Texture *tt;
 
@@ -311,7 +311,7 @@ void TEXTURE_load()
 	TEXTURE_page_puddle = TEXTURE_NUM_FIDDLED + 4;
 	TEXTURE_page_detail = TEXTURE_NUM_FIDDLED + 5;
 
-	CBYTE* extra_name[TEXTURE_NUM_EXTRA] =
+	char* extra_name[TEXTURE_NUM_EXTRA] =
 	{
 		"3dfx\\fog.3df",
 		"3dfx\\moon.3df",
@@ -321,7 +321,7 @@ void TEXTURE_load()
 		"3dfx\\detail.3df"
 	};
 
-	ULONG  extra_type[TEXTURE_NUM_EXTRA] =
+	std::uint32_t  extra_type[TEXTURE_NUM_EXTRA] =
 	{
 		TEXTURE_TYPE_ADDITIVE_NOZWRITE,
 		TEXTURE_TYPE_ALPHABLEND_NOZWRITE,
@@ -409,11 +409,11 @@ void TEXTURE_load()
 #define TEXTURE_STATE_DETAIL			1
 #define TEXTURE_STATE_ADDITIVE_NOZWRITE	2
 
-SLONG TEXTURE_current_page_tmu0 = -1;
-SLONG TEXTURE_current_page_tmu1 = -1;
-SLONG TEXTURE_current_state     = -1;
+std::int32_t TEXTURE_current_page_tmu0 = -1;
+std::int32_t TEXTURE_current_page_tmu1 = -1;
+std::int32_t TEXTURE_current_state     = -1;
 
-void TEXTURE_set_page(SLONG page, SLONG multi)
+void TEXTURE_set_page(std::int32_t page, std::int32_t multi)
 {
 	TEXTURE_Texture *tt;
 
@@ -425,11 +425,11 @@ void TEXTURE_set_page(SLONG page, SLONG multi)
 	// What state should we be in and which pages should we be using.
 	//
 
-	SLONG state;
-	SLONG page_tmu0;
-	SLONG page_tmu1;
-	ULONG evenodd_tmu0;
-	ULONG evenodd_tmu1;
+	std::int32_t state;
+	std::int32_t page_tmu0;
+	std::int32_t page_tmu1;
+	std::uint32_t evenodd_tmu0;
+	std::uint32_t evenodd_tmu1;
 
 	switch(tt->type)
 	{
@@ -627,19 +627,19 @@ void TEXTURE_init_states()
 
 void TEXTURE_fix_prim_textures()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	PrimFace3 *f3;
 	PrimFace4 *f4;
 
-	SLONG page;
+	std::int32_t page;
 
-	SLONG av_u;
-	SLONG av_v;
+	std::int32_t av_u;
+	std::int32_t av_v;
 
-	SLONG base_u;
-	SLONG base_v;
+	std::int32_t base_u;
+	std::int32_t base_v;
 
 	for (i = 1; i < next_prim_face3; i++)
 	{

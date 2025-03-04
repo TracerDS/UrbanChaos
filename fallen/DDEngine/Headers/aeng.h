@@ -10,7 +10,7 @@
 //
 
 #define	KERB_HEIGHT	32.0F
-#define	KERB_HEIGHTI	((SLONG)(KERB_HEIGHT))
+#define	KERB_HEIGHTI	((std::int32_t)(KERB_HEIGHT))
 
 
 
@@ -40,7 +40,7 @@ void AENG_init();
 // different from the new one, then all the textures are released.
 //
 
-void TEXTURE_choose_set(SLONG number);
+void TEXTURE_choose_set(std::int32_t number);
 
 
 //
@@ -50,7 +50,7 @@ void TEXTURE_choose_set(SLONG number);
 // iStartCompletionBar = where it is now.
 // iEndCompletionBar = where it needs to get to.
 // iNumberTexturesProbablyLoaded = roughly how many textures will be loaded.
-void TEXTURE_load_needed(CBYTE*	fname_level,
+void TEXTURE_load_needed(char*	fname_level,
 						 int iStartCompletionBar = 0,
 						 int iEndCompletionBar = 0,
 						 int iNumberTexturesProbablyLoaded = 0
@@ -60,7 +60,7 @@ void TEXTURE_load_needed(CBYTE*	fname_level,
 // Loads the textures needed for the given prim object.
 //
 
-void TEXTURE_load_needed_object(SLONG prim_object);
+void TEXTURE_load_needed_object(std::int32_t prim_object);
 
 
 //
@@ -97,10 +97,10 @@ void TEXTURE_fix_prim_textures ();
 // fiddled position are returned.
 //
 
-SLONG TEXTURE_get_fiddled_position(
-		SLONG  square_u,
-		SLONG  square_v,
-		SLONG  page,
+std::int32_t TEXTURE_get_fiddled_position(
+		std::int32_t  square_u,
+		std::int32_t  square_v,
+		std::int32_t  page,
 		float *u,
 		float *v);
 
@@ -110,17 +110,17 @@ SLONG TEXTURE_get_fiddled_position(
 //
 
 void AENG_set_camera(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll);
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll);
 
 void AENG_set_camera_radians(
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z,
 		float yaw,
 		float pitch,
 		float roll);
@@ -129,8 +129,8 @@ void AENG_set_camera_radians(
 // Get/set draw distance
 //
 
-void  AENG_set_draw_distance(SLONG dist);
-SLONG AENG_get_draw_distance();
+void  AENG_set_draw_distance(std::int32_t dist);
+std::int32_t AENG_get_draw_distance();
 
 //
 // Draws world lines.
@@ -138,15 +138,15 @@ SLONG AENG_get_draw_distance();
 
 // Just for debugging please!
 void AENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front);
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front);
 
 // For lines that aren't debug.
 void AENG_world_line_nondebug (
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front);
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front);
 
 
 //
@@ -155,25 +155,25 @@ void AENG_world_line_nondebug (
 //
 
 void AENG_world_line_infinite(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front);
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front);
 
-void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG z2,SLONG col2,SLONG layer);
+void	AENG_draw_col_tri(std::int32_t x0,std::int32_t y0,std::int32_t col0,std::int32_t x1,std::int32_t y1,std::int32_t col1,std::int32_t x2,std::int32_t z2,std::int32_t col2,std::int32_t layer);
 
 
 //
 // Older engine compatability.
 //
 
-void AENG_e_draw_3d_line           (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void AENG_e_draw_3d_line_dir       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-void AENG_e_draw_3d_line_col       (SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void AENG_e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-void AENG_e_draw_3d_mapwho         (SLONG x1,SLONG z1);
-void AENG_e_draw_3d_mapwho_y       (SLONG x1,SLONG y1,SLONG z1);
+void AENG_e_draw_3d_line           (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void AENG_e_draw_3d_line_dir       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+void AENG_e_draw_3d_line_col       (std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void AENG_e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+void AENG_e_draw_3d_mapwho         (std::int32_t x1,std::int32_t z1);
+void AENG_e_draw_3d_mapwho_y       (std::int32_t x1,std::int32_t y1,std::int32_t z1);
 
-void AENG_draw_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG page);
+void AENG_draw_rect(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t col,std::int32_t layer,std::int32_t page);
 
 #define e_draw_3d_line            AENG_e_draw_3d_line
 #define	e_draw_3d_line_dir        AENG_e_draw_3d_line_dir
@@ -187,7 +187,7 @@ void AENG_draw_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG 
 //
 
 void AENG_set_sky_nighttime();
-void AENG_set_sky_daytime  (ULONG bottom_colour, ULONG top_colour);
+void AENG_set_sky_daytime  (std::uint32_t bottom_colour, std::uint32_t top_colour);
 
 //
 // The new engines- you don't have to call these- just call
@@ -205,7 +205,7 @@ void AENG_draw_ns    ();
 // 3d glasses. Make sure that the textures are all greyscale.
 // 
 
-void AENG_draw(SLONG draw_3d);
+void AENG_draw(std::int32_t draw_3d);
 
 //
 // Clear the viewport (moved to just after flip for concurrency)
@@ -218,17 +218,17 @@ void AENG_clear_viewport();
 // 
 
 void AENG_draw_scanner(
-		SLONG screen_x1,
-		SLONG screen_y1,
-		SLONG screen_x2,
-		SLONG screen_y2,
-		SLONG map_x,
-		SLONG map_z,
-		SLONG map_zoom,		// The number of pixels per mapsquare in fixed-point 8.
-		SLONG map_angle);
+		std::int32_t screen_x1,
+		std::int32_t screen_y1,
+		std::int32_t screen_x2,
+		std::int32_t screen_y2,
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t map_zoom,		// The number of pixels per mapsquare in fixed-point 8.
+		std::int32_t map_angle);
 
 
-void AENG_draw_power(SLONG x,SLONG y,SLONG w,SLONG h,SLONG val,SLONG max);
+void AENG_draw_power(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t val,std::int32_t max);
 
 //
 // Draws the messages and the FPS stuff to the screen.
@@ -242,8 +242,8 @@ void AENG_draw_messages();
 // Fades out to the mucky foot logo.
 //
 
-void AENG_fade_in (UBYTE amount);
-void AENG_fade_out(UBYTE amount);
+void AENG_fade_in (std::uint8_t amount);
+void AENG_fade_out(std::uint8_t amount);
 
 
 //
@@ -257,7 +257,7 @@ void AENG_blit();
 // Adds a message to the message system.
 //
 
-void MSG_add(CBYTE* message, ...);
+void MSG_add(char* message, ...);
 //#define MSG_add
 
 //
@@ -265,8 +265,8 @@ void MSG_add(CBYTE* message, ...);
 //
 
 void  AENG_clear_screen();
-SLONG AENG_lock();
-SLONG FONT_draw(SLONG x, SLONG y, CBYTE* text, ...);
+std::int32_t AENG_lock();
+std::int32_t FONT_draw(std::int32_t x, std::int32_t y, char* text, ...);
 void  AENG_unlock();
 
 
@@ -289,13 +289,13 @@ void AENG_fini();
 // happened!
 //
 
-SLONG AENG_raytraced_position(
-		SLONG  sx,
-		SLONG  sy,
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z,
-		SLONG  indoors=0);
+std::int32_t AENG_raytraced_position(
+		std::int32_t  sx,
+		std::int32_t  sy,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z,
+		std::int32_t  indoors=0);
 
 //
 // Returns the position of the point above (wx,wz) in
@@ -304,10 +304,10 @@ SLONG AENG_raytraced_position(
 //
 
 void AENG_raytraced_y_position(
-		SLONG  sy,
-		SLONG  wx,
-		SLONG  wz,
-		SLONG *world_y);
+		std::int32_t  sy,
+		std::int32_t  wx,
+		std::int32_t  wz,
+		std::int32_t *world_y);
 		
 
 //
@@ -318,14 +318,14 @@ void AENG_raytraced_y_position(
 #define AENG_MOUSE_OVER_LIGHT_BOT (1 << 0)
 #define AENG_MOUSE_OVER_LIGHT_TOP (1 << 1)
 
-ULONG AENG_light_draw(
-		SLONG sx,
-		SLONG sy,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight);	// How much to expand the light ball by...
+std::uint32_t AENG_light_draw(
+		std::int32_t sx,
+		std::int32_t sy,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight);	// How much to expand the light ball by...
 
 
 //
@@ -333,21 +333,21 @@ ULONG AENG_light_draw(
 //
 
 void AENG_draw_sewer_editor(
-		SLONG  cam_x,
-		SLONG  cam_y,
-		SLONG  cam_z,
-		SLONG  cam_yaw,
-		SLONG  cam_pitch,
-		SLONG  cam_roll,
-		SLONG  mouse_x,
-		SLONG  mouse_y,
-		SLONG *mouse_over_valid,
-		SLONG *mouse_over_x,
-		SLONG *mouse_over_y,
-		SLONG *mouse_over_z,
-		SLONG  draw_prim_at_mouse,
-		SLONG  prim_object,
-		SLONG  prim_yaw);
+		std::int32_t  cam_x,
+		std::int32_t  cam_y,
+		std::int32_t  cam_z,
+		std::int32_t  cam_yaw,
+		std::int32_t  cam_pitch,
+		std::int32_t  cam_roll,
+		std::int32_t  mouse_x,
+		std::int32_t  mouse_y,
+		std::int32_t *mouse_over_valid,
+		std::int32_t *mouse_over_x,
+		std::int32_t *mouse_over_y,
+		std::int32_t *mouse_over_z,
+		std::int32_t  draw_prim_at_mouse,
+		std::int32_t  prim_object,
+		std::int32_t  prim_yaw);
 
 
 //
@@ -356,14 +356,14 @@ void AENG_draw_sewer_editor(
 //
 
 void AENG_world_text(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		UBYTE  red,
-		UBYTE  blue,
-		UBYTE  green,
-		UBYTE  shadowed_or_not,
-		CBYTE* fmt, ...);
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::uint8_t  red,
+		std::uint8_t  blue,
+		std::uint8_t  green,
+		std::uint8_t  shadowed_or_not,
+		char* fmt, ...);
 
 
 
@@ -373,35 +373,35 @@ void AENG_world_text(
 
 #define AENG_MOUSE_OVER_WAYPOINT	(1 << 0)
 
-ULONG AENG_waypoint_draw(
-		SLONG mx,
-		SLONG my,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight);
+std::uint32_t AENG_waypoint_draw(
+		std::int32_t mx,
+		std::int32_t my,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight);
 
-ULONG AENG_rad_trigger_draw(
-		SLONG mx,
-		SLONG my,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG rad,
-		ULONG colour,
-		UBYTE highlight);
+std::uint32_t AENG_rad_trigger_draw(
+		std::int32_t mx,
+		std::int32_t my,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t rad,
+		std::uint32_t colour,
+		std::uint8_t highlight);
 
 //---------------------------------------------------------------
 //	CANIS.
 //---------------------------------------------------------------
 
 void AENG_groundsquare_draw(
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE polyinit);
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t polyinit);
 
 //---------------------------------------------------------------
 
@@ -416,8 +416,8 @@ void AENG_groundsquare_draw(
 //
 // panel stuff
 //
-extern void	PANEL_draw_health_bar(SLONG x,SLONG y,SLONG percentage);
-extern void	PANEL_draw_timer(SLONG time_in_hundreths, SLONG x, SLONG y);
+extern void	PANEL_draw_health_bar(std::int32_t x,std::int32_t y,std::int32_t percentage);
+extern void	PANEL_draw_timer(std::int32_t time_in_hundreths, std::int32_t x, std::int32_t y);
 extern void	PANEL_draw_buffered();	// Actually draws the timers....
 extern void	PANEL_finish();
 

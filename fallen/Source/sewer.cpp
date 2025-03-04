@@ -32,7 +32,7 @@
 #define SEWER_TYPE_WALL_PLL		18
 
 
-UBYTE SEWER_square[SEWER_SIZE][SEWER_SIZE];
+std::uint8_t SEWER_square[SEWER_SIZE][SEWER_SIZE];
 
 
 //
@@ -48,10 +48,10 @@ UBYTE SEWER_square[SEWER_SIZE][SEWER_SIZE];
 
 void SEWER_init()
 {
-	memset((UBYTE*)SEWER_square, SEWER_TYPE_OFF, sizeof(SEWER_square));
+	memset((std::uint8_t*)SEWER_square, SEWER_TYPE_OFF, sizeof(SEWER_square));
 }
 
-void SEWER_square_on(SLONG x, SLONG z)
+void SEWER_square_on(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, SEWER_SIZE - 1));
 	ASSERT(WITHIN(z, 0, SEWER_SIZE - 1));
@@ -59,7 +59,7 @@ void SEWER_square_on(SLONG x, SLONG z)
 	SEWER_square[x][z] = SEWER_TYPE_ON;
 }
 
-void SEWER_ladder_on(SLONG x, SLONG z, SLONG edge)
+void SEWER_ladder_on(std::int32_t x, std::int32_t z, std::int32_t edge)
 {
 	ASSERT(WITHIN(x,    0, SEWER_SIZE - 1));
 	ASSERT(WITHIN(z,    0, SEWER_SIZE - 1));
@@ -68,7 +68,7 @@ void SEWER_ladder_on(SLONG x, SLONG z, SLONG edge)
 	SEWER_square[x][z] = SEWER_TYPE_LADDER_XS + edge;
 }
 
-void SEWER_pillar_on(SLONG x, SLONG z)
+void SEWER_pillar_on(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, SEWER_SIZE - 1));
 	ASSERT(WITHIN(z, 0, SEWER_SIZE - 1));
@@ -78,18 +78,18 @@ void SEWER_pillar_on(SLONG x, SLONG z)
 
 void SEWER_precalc()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	UBYTE on;
+	std::uint8_t on;
 
 	for (x = 0; x < SEWER_SIZE; x++)
 	for (z = 0; z < SEWER_SIZE; z++)
@@ -186,7 +186,7 @@ void SEWER_precalc()
 	}
 }
 
-void SEWER_save(CBYTE* filename)
+void SEWER_save(char* filename)
 {
 #ifndef	PSX
 	FILE *handle = MF_Fopen(filename, "wb");
@@ -213,7 +213,7 @@ void SEWER_save(CBYTE* filename)
 #endif
 }
 
-void SEWER_load(CBYTE* filename)
+void SEWER_load(char* filename)
 {
 #ifndef	PSX
 	FILE *handle = MF_Fopen(filename, "rb");
@@ -250,7 +250,7 @@ void SEWER_load(CBYTE* filename)
 
 
 
-SLONG SEWER_can_i_enter(UBYTE x, UBYTE z)
+std::int32_t SEWER_can_i_enter(std::uint8_t x, std::uint8_t z)
 {
 	if (WITHIN(x, 0, SEWER_SIZE - 1) &&
 		WITHIN(z, 0, SEWER_SIZE - 1))
@@ -267,26 +267,26 @@ SLONG SEWER_can_i_enter(UBYTE x, UBYTE z)
 
 
 
-SLONG SEWER_colvect_old_next_col_vect;
-SLONG SEWER_colvect_old_next_col_vect_link;
-SLONG SEWER_colvect_stuff_valid;
+std::int32_t SEWER_colvect_old_next_col_vect;
+std::int32_t SEWER_colvect_old_next_col_vect_link;
+std::int32_t SEWER_colvect_stuff_valid;
 
 
 void SEWER_colvects_insert()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG started;
-	SLONG need;
-	SLONG walkable1;
-	SLONG walkable2;
-	SLONG swap;
+	std::int32_t started;
+	std::int32_t need;
+	std::int32_t walkable1;
+	std::int32_t walkable2;
+	std::int32_t swap;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 	//
 	// The old colvect values.
@@ -435,7 +435,7 @@ void SEWER_colvects_insert()
 
 void SEWER_colvects_remove()
 {
-	SLONG i;
+	std::int32_t i;
 
 	ASSERT(SEWER_colvect_stuff_valid);
 
@@ -455,7 +455,7 @@ void SEWER_colvects_remove()
 
 
 
-SLONG SEWER_calc_height_at(SLONG x, SLONG z)
+std::int32_t SEWER_calc_height_at(std::int32_t x, std::int32_t z)
 {
 	return -SEWER_DEPTH;
 }
@@ -480,7 +480,7 @@ SLONG SEWER_calc_height_at(SLONG x, SLONG z)
 #define SEWER_CURVE_STEPS		4
 #define SEWER_CURVE_STEPS_SHIFT	2
 
-UBYTE SEWER_curve[SEWER_CURVE_STEPS + 1] =	// i.e. a curve
+std::uint8_t SEWER_curve[SEWER_CURVE_STEPS + 1] =	// i.e. a curve
 {
 	0,
 	181,
@@ -494,7 +494,7 @@ UBYTE SEWER_curve[SEWER_CURVE_STEPS + 1] =	// i.e. a curve
 #define SEWER_CURVE_STEPS		8
 #define SEWER_CURVE_STEPS_SHIFT	3
 
-UBYTE SEWER_curve[SEWER_CURVE_STEPS + 1] =	// i.e. a curve
+std::uint8_t SEWER_curve[SEWER_CURVE_STEPS + 1] =	// i.e. a curve
 {
 	0,
 	98,
@@ -535,42 +535,42 @@ SEWER_Face SEWER_face;
 #define SEWER_INT_B		7
 #define SEWER_INT_NUM	8
 
-SLONG SEWER_fi[SEWER_INT_NUM][2];
-SLONG SEWER_fd[SEWER_INT_NUM][2];
+std::int32_t SEWER_fi[SEWER_INT_NUM][2];
+std::int32_t SEWER_fd[SEWER_INT_NUM][2];
 
-SLONG SEWER_norm1_x;
-SLONG SEWER_norm1_y;
-SLONG SEWER_norm1_z;
+std::int32_t SEWER_norm1_x;
+std::int32_t SEWER_norm1_y;
+std::int32_t SEWER_norm1_z;
 
-SLONG SEWER_norm2_x;
-SLONG SEWER_norm2_y;
-SLONG SEWER_norm2_z;
+std::int32_t SEWER_norm2_x;
+std::int32_t SEWER_norm2_y;
+std::int32_t SEWER_norm2_z;
 
-SLONG SEWER_created;
+std::int32_t SEWER_created;
 
 void SEWER_set_control_points(
-		SLONG x[4],
-		SLONG y[4],
-		SLONG z[4],
-		SLONG u[4],
-		SLONG v[4],
-		SLONG r[4],
-		SLONG g[4],
-		SLONG b[4],
-		SLONG page,
-		SLONG n1x,
-		SLONG n1y,
-		SLONG n1z,
-		SLONG n2x,
-		SLONG n2y,
-		SLONG n2z)
+		std::int32_t x[4],
+		std::int32_t y[4],
+		std::int32_t z[4],
+		std::int32_t u[4],
+		std::int32_t v[4],
+		std::int32_t r[4],
+		std::int32_t g[4],
+		std::int32_t b[4],
+		std::int32_t page,
+		std::int32_t n1x,
+		std::int32_t n1y,
+		std::int32_t n1z,
+		std::int32_t n2x,
+		std::int32_t n2y,
+		std::int32_t n2z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG p0;
-	SLONG p1;
+	std::int32_t p0;
+	std::int32_t p1;
 
-	SLONG len;
+	std::int32_t len;
 
 	//
 	// Create the interpolants.
@@ -626,12 +626,12 @@ void SEWER_set_control_points(
 
 void SEWER_create_face()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG r[4];
-	SLONG g[4];
-	SLONG b[4];
+	std::int32_t r[4];
+	std::int32_t g[4];
+	std::int32_t b[4];
 
 	SEWER_face.x[0] = SEWER_fi[SEWER_INT_X][0];
 	SEWER_face.x[1] = SEWER_fi[SEWER_INT_X][1];
@@ -736,39 +736,39 @@ void SEWER_create_face()
 #define SEWER_SUPER_B	7
 #define SEWER_SUPER_NUM	8
 
-SLONG SEWER_si[SEWER_SUPER_NUM][2];
-SLONG SEWER_sd[SEWER_SUPER_NUM][2];
-SLONG SEWER_norm_xz_len;
-SLONG SEWER_norm_y;
-SLONG SEWER_norm3_x;
-SLONG SEWER_norm3_y;
-SLONG SEWER_norm3_z;
-SLONG SEWER_corner_dx;
-SLONG SEWER_corner_dy;
-SLONG SEWER_corner_dz;
-SLONG SEWER_super_page;
-SLONG SEWER_super_done;
-SLONG SEWER_turn_corner;
+std::int32_t SEWER_si[SEWER_SUPER_NUM][2];
+std::int32_t SEWER_sd[SEWER_SUPER_NUM][2];
+std::int32_t SEWER_norm_xz_len;
+std::int32_t SEWER_norm_y;
+std::int32_t SEWER_norm3_x;
+std::int32_t SEWER_norm3_y;
+std::int32_t SEWER_norm3_z;
+std::int32_t SEWER_corner_dx;
+std::int32_t SEWER_corner_dy;
+std::int32_t SEWER_corner_dz;
+std::int32_t SEWER_super_page;
+std::int32_t SEWER_super_done;
+std::int32_t SEWER_turn_corner;
 
 void SEWER_super_curve(
-		SLONG x[4],
-		SLONG y[4],
-		SLONG z[4],
-		SLONG u[4],
-		SLONG v[4],
-		SLONG r[4],
-		SLONG g[4],
-		SLONG b[4],
-		SLONG page,
-		SLONG nxzlen,
-		SLONG ny,
-		SLONG n3x,
-		SLONG n3y,
-		SLONG n3z)
+		std::int32_t x[4],
+		std::int32_t y[4],
+		std::int32_t z[4],
+		std::int32_t u[4],
+		std::int32_t v[4],
+		std::int32_t r[4],
+		std::int32_t g[4],
+		std::int32_t b[4],
+		std::int32_t page,
+		std::int32_t nxzlen,
+		std::int32_t ny,
+		std::int32_t n3x,
+		std::int32_t n3y,
+		std::int32_t n3z)
 {
-	SLONG i;
-	SLONG p0;
-	SLONG p1;
+	std::int32_t i;
+	std::int32_t p0;
+	std::int32_t p1;
 
 	//
 	// Create the interpolants.
@@ -829,24 +829,24 @@ void SEWER_super_curve(
 //
 
 void SEWER_super_curve_corner(
-		SLONG x[5],
-		SLONG y[5],
-		SLONG z[5],
-		SLONG u[4],
-		SLONG v[4],
-		SLONG r[4],
-		SLONG g[4],
-		SLONG b[4],
-		SLONG page,
-		SLONG nxzlen,
-		SLONG ny,
-		SLONG n3x,
-		SLONG n3y,
-		SLONG n3z)
+		std::int32_t x[5],
+		std::int32_t y[5],
+		std::int32_t z[5],
+		std::int32_t u[4],
+		std::int32_t v[4],
+		std::int32_t r[4],
+		std::int32_t g[4],
+		std::int32_t b[4],
+		std::int32_t page,
+		std::int32_t nxzlen,
+		std::int32_t ny,
+		std::int32_t n3x,
+		std::int32_t n3y,
+		std::int32_t n3z)
 {
-	SLONG i;
-	SLONG p0;
-	SLONG p1;
+	std::int32_t i;
+	std::int32_t p0;
+	std::int32_t p1;
 
 	//
 	// Create the interpolants.
@@ -920,17 +920,17 @@ void SEWER_super_curve_corner(
 
 void SEWER_super_set()	// Dont call more than SEWER_CURVE_STEPS times for each call to SEWER_super_curve*()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG val[SEWER_SUPER_NUM][4];
+	std::int32_t val[SEWER_SUPER_NUM][4];
 
-	SLONG nx1;
-	SLONG ny1;
-	SLONG nz1;
-	SLONG nx2;
-	SLONG ny2;
-	SLONG nz2;
-	SLONG page;
+	std::int32_t nx1;
+	std::int32_t ny1;
+	std::int32_t nz1;
+	std::int32_t nx2;
+	std::int32_t ny2;
+	std::int32_t nz2;
+	std::int32_t page;
 
 	//
 	// Interpolate the values.
@@ -964,8 +964,8 @@ void SEWER_super_set()	// Dont call more than SEWER_CURVE_STEPS times for each c
 	// Work out the normals.
 	//
 
-	SLONG len1;
-	SLONG len2;
+	std::int32_t len1;
+	std::int32_t len2;
 
 	ny1 = SEWER_norm_y;
 	ny2 = SEWER_norm_y;
@@ -1042,19 +1042,19 @@ void SEWER_super_set()	// Dont call more than SEWER_CURVE_STEPS times for each c
 #define SEWER_COLOUR_FLOOR (0x00bbccdd)
 #define SEWER_COLOUR_ROOF  (0x00080808)
 
-UBYTE SEWER_get_type;
-SLONG SEWER_get_x;
-SLONG SEWER_get_z;
-SLONG SEWER_got_floor;
-SLONG SEWER_got_wall;
-SLONG SEWER_got_wall1_count;
-SLONG SEWER_got_wall2_count;
-SLONG SEWER_got_pillar;
-SLONG SEWER_got_pillar_count;
-SLONG SEWER_got_pillar_wall_count;
-SLONG SEWER_got_water_count;
+std::uint8_t SEWER_get_type;
+std::int32_t SEWER_get_x;
+std::int32_t SEWER_get_z;
+std::int32_t SEWER_got_floor;
+std::int32_t SEWER_got_wall;
+std::int32_t SEWER_got_wall1_count;
+std::int32_t SEWER_got_wall2_count;
+std::int32_t SEWER_got_pillar;
+std::int32_t SEWER_got_pillar_count;
+std::int32_t SEWER_got_pillar_wall_count;
+std::int32_t SEWER_got_water_count;
 
-void SEWER_get_start(SLONG x, SLONG z)
+void SEWER_get_start(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, SEWER_SIZE - 1));
 	ASSERT(WITHIN(z, 0, SEWER_SIZE - 1));
@@ -1145,14 +1145,14 @@ SEWER_Face *SEWER_get_next()
 		if (SEWER_got_wall1_count == 0 &&
 			SEWER_got_wall2_count == 0)
 		{
-			SLONG x[5];
-			SLONG y[5];
-			SLONG z[5];
-			SLONG u[4];
-			SLONG v[4];
-			SLONG r[4];
-			SLONG g[4];
-			SLONG b[4];
+			std::int32_t x[5];
+			std::int32_t y[5];
+			std::int32_t z[5];
+			std::int32_t u[4];
+			std::int32_t v[4];
+			std::int32_t r[4];
+			std::int32_t g[4];
+			std::int32_t b[4];
 
 			//
 			// These are common to all wall types.
@@ -1565,22 +1565,22 @@ SEWER_Face *SEWER_get_next()
 			}
 			else
 			{
-				SLONG x[5];
-				SLONG y[5];
-				SLONG z[5];
-				SLONG u[4];
-				SLONG v[4];
-				SLONG r[4];
-				SLONG g[4];
-				SLONG b[4];
-				SLONG xm;
-				SLONG zm;
-				SLONG curve_x1;
-				SLONG curve_y1;
-				SLONG curve_z1;
-				SLONG curve_x2;
-				SLONG curve_y2;
-				SLONG curve_z2;
+				std::int32_t x[5];
+				std::int32_t y[5];
+				std::int32_t z[5];
+				std::int32_t u[4];
+				std::int32_t v[4];
+				std::int32_t r[4];
+				std::int32_t g[4];
+				std::int32_t b[4];
+				std::int32_t xm;
+				std::int32_t zm;
+				std::int32_t curve_x1;
+				std::int32_t curve_y1;
+				std::int32_t curve_z1;
+				std::int32_t curve_x2;
+				std::int32_t curve_y2;
+				std::int32_t curve_z2;
 
 				//
 				// These are common to all the walls.

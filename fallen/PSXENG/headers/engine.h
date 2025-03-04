@@ -21,7 +21,7 @@
 #include	"c:\fallen\psxeng\headers\mesh.h"
 
 
-extern SLONG AENG_cam_vec[3];
+extern std::int32_t AENG_cam_vec[3];
 
 
 #endif

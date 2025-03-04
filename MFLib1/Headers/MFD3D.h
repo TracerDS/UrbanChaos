@@ -17,7 +17,7 @@ extern LPDIRECT3D2			lp_D3D_2;
 
 void SetupD3D2();
 void ResetD3D2();
-bool ChooseD3DDevice(ULONG flags);
+bool ChooseD3DDevice(std::uint32_t flags);
 
 //----------------------------------------------------------------------
 

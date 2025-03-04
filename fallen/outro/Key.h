@@ -2,17 +2,17 @@
 // Keyboard handling.
 //
 
-#ifndef _KEY_
-#define _KEY_
+#pragma once
 
+#include <cstdint>
 
 //
 // Every key has a byte flag to say whether it is on or off.
 //
 
-extern UBYTE KEY_on[256];
-extern UBYTE KEY_inkey;
-extern UBYTE KEY_shift;
+extern std::uint8_t KEY_on[256];
+extern std::uint8_t KEY_inkey;
+extern std::uint8_t KEY_shift;
 
 //
 // KEY shift can have the following bits set.
@@ -128,6 +128,3 @@ extern UBYTE KEY_shift;
 #define KEY_P2			0x050
 #define KEY_P3			0x051
 #define KEY_P0			0x052
-
-
-#endif

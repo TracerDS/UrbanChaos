@@ -21,39 +21,39 @@
 
 typedef struct 
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dyaw;
-	SLONG dpitch;
-	SLONG droll;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dyaw;
+	std::int32_t dpitch;
+	std::int32_t droll;
 
 	//
 	// temp stuff for cars...
 
 	//
-	SWORD	Wheel; //steering wheel position
-	SWORD	RAngle;
-	SWORD	OverSteer;
-	SWORD	DeltaOverSteer;
-	SWORD	Compression[4]; // suspension extension *4
-	SWORD	SpringDY[4];
-	UWORD	Flags;
-	UWORD	Driver;
+	std::int16_t	Wheel; //steering wheel position
+	std::int16_t	RAngle;
+	std::int16_t	OverSteer;
+	std::int16_t	DeltaOverSteer;
+	std::int16_t	Compression[4]; // suspension extension *4
+	std::int16_t	SpringDY[4];
+	std::uint16_t	Flags;
+	std::uint16_t	Driver;
 
 	//
 	// Command system stuff.
 	//
 
-	UWORD	Command;
-	UWORD	Waypoint;
+	std::uint16_t	Command;
+	std::uint16_t	Waypoint;
 
 	//
 	// Temp stuff for doors...
 	//
 
-	UWORD	closed_angle;
-	UWORD   ajar;
+	std::uint16_t	closed_angle;
+	std::uint16_t   ajar;
 }Furniture;
 
 typedef	Furniture* FurniturePtr;
@@ -82,20 +82,20 @@ Furniture *FURN_alloc_furniture();
 //
 
 THING_INDEX FURN_create(
-				SLONG x,
-				SLONG y,
-				SLONG z,
-				SLONG yaw,
-				SLONG pitch,
-				SLONG roll,
-				SLONG prim);
+				std::int32_t x,
+				std::int32_t y,
+				std::int32_t z,
+				std::int32_t yaw,
+				std::int32_t pitch,
+				std::int32_t roll,
+				std::int32_t prim);
 
 THING_INDEX VEHICLE_create(
-				SLONG x,
-				SLONG y,
-				SLONG z,
-				SLONG angle,
-				SLONG prim);
+				std::int32_t x,
+				std::int32_t y,
+				std::int32_t z,
+				std::int32_t angle,
+				std::int32_t prim);
 
 //
 // Turns a normal furniture thing into a door.
@@ -103,9 +103,9 @@ THING_INDEX VEHICLE_create(
 
 void FURN_turn_into_door(
 		THING_INDEX furniture_thing,
-		UWORD       closed_angle,
-		UWORD		ajar,
-		UBYTE		am_i_locked);
+		std::uint16_t       closed_angle,
+		std::uint16_t		ajar,
+		std::uint8_t		am_i_locked);
 
 
 
@@ -120,12 +120,12 @@ void FURN_turn_into_door(
 // It assumes that the pitch of the furniture is zero!!!
 //
 
-SLONG FURN_slide_along(
+std::int32_t FURN_slide_along(
 		THING_INDEX thing,
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  radius,
-		SLONG  dont_slide);
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  radius,
+		std::int32_t  dont_slide);
 
 //
 // Checks a movement vector against a piece of furniture and
@@ -133,10 +133,10 @@ SLONG FURN_slide_along(
 // the furniture. (Either +1 or -1).
 //
 
-SLONG FURN_avoid(
+std::int32_t FURN_avoid(
 		THING_INDEX thing,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2);
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 //
 // Starts modelling the furniture with hypermatter.
@@ -151,8 +151,8 @@ void FURN_hypermatterise(THING_INDEX thing);
 
 void FURN_push(
 		THING_INDEX thing,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2);
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 
 //

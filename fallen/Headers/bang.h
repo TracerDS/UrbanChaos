@@ -25,10 +25,10 @@ void BANG_process();
 #define BANG_BIG	0
 
 void BANG_create(
-	SLONG type,
-	SLONG x,
-	SLONG y,
-	SLONG z);
+	std::int32_t type,
+	std::int32_t x,
+	std::int32_t y,
+	std::int32_t z);
 
 //
 // Drawing the bangs requires a semi-sphere primitive in the engine 
@@ -38,21 +38,21 @@ void BANG_create(
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;	// Gives the direction of the semi-sphere normalised to 256
-	SLONG dy;
-	SLONG dz;
-	SLONG radius;
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
-	UBYTE frame;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;	// Gives the direction of the semi-sphere normalised to 256
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t radius;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
+	std::uint8_t frame;
 	
 } BANG_Info;
 
-void       BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
+void       BANG_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z);
 BANG_Info *BANG_get_next();	// nullptr => No more bangs.
 
 

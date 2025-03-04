@@ -10,8 +10,8 @@
 // Return false on failure.
 // 
 
-SLONG SAVE_ingame(CBYTE* fname);
-SLONG LOAD_ingame(CBYTE* fname);
+std::int32_t SAVE_ingame(char* fname);
+std::int32_t LOAD_ingame(char* fname);
 
 
 

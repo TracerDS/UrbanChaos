@@ -18,7 +18,7 @@ ControlDef	buttons[]	=
 
 //---------------------------------------------------------------
 
-Alert::Alert(CBYTE* text1,CBYTE* text2)
+Alert::Alert(char* text1,char* text2)
 {
 	SetRect	(
 				(WorkScreenPixelWidth-BOX_WIDTH)>>1,
@@ -52,11 +52,11 @@ Alert::~Alert()
 
 //---------------------------------------------------------------
 
-bool	Alert::HandleAlert(CBYTE* text1,CBYTE* text2)
+bool	Alert::HandleAlert(char* text1,char* text2)
 {
-	UBYTE		control_id,
+	std::uint8_t		control_id,
 				update	=	1;
-	SLONG		temp_x,
+	std::int32_t		temp_x,
 				temp_y,
 				temp_height,
 				temp_width,
@@ -115,7 +115,7 @@ bool	Alert::HandleAlert(CBYTE* text1,CBYTE* text2)
 			mouse_point.X			=	LeftMouse.MouseX;
 			mouse_point.Y			=	LeftMouse.MouseY;
 			LeftMouse.ButtonState	=	0;
-			control_id				=	(UBYTE)AlertSet.HandleControlSetClick(LEFT_CLICK,&mouse_point);
+			control_id				=	(std::uint8_t)AlertSet.HandleControlSetClick(LEFT_CLICK,&mouse_point);
 			if(control_id==1)
 				return	true;
 			else if(control_id==2)
@@ -123,7 +123,7 @@ bool	Alert::HandleAlert(CBYTE* text1,CBYTE* text2)
 		}
 		else if(LastKey)
 		{
-			control_id				=	(UBYTE)AlertSet.HandleControlSetKey(LastKey);
+			control_id				=	(std::uint8_t)AlertSet.HandleControlSetKey(LastKey);
 			if(control_id)
 			{
 				LastKey	=	0;

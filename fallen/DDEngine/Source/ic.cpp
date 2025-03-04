@@ -11,13 +11,13 @@
 // Converts 24-bit RGB into 5:6:5
 //
 
-ULONG IC_convert(UBYTE r, UBYTE g, UBYTE b)
+std::uint32_t IC_convert(std::uint8_t r, std::uint8_t g, std::uint8_t b)
 {
-	SLONG nr = r;
-	SLONG ng = g;
-	SLONG nb = b;
+	std::int32_t nr = r;
+	std::int32_t ng = g;
+	std::int32_t nb = b;
 	
-	ULONG ans;
+	std::uint32_t ans;
 
 	nr = (nr + 4) >> 3;
 	ng = (ng + 2) >> 2;
@@ -35,46 +35,46 @@ ULONG IC_convert(UBYTE r, UBYTE g, UBYTE b)
 
 IC_Packet IC_pack(
 			TGA_Pixel *tga, 
-			SLONG      tga_width,
-			SLONG      tga_height,
-			SLONG      px,
-			SLONG      py)
+			std::int32_t      tga_width,
+			std::int32_t      tga_height,
+			std::int32_t      px,
+			std::int32_t      py)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
-	SLONG l;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
+	std::int32_t l;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG x1;
-	SLONG y1;
+	std::int32_t x1;
+	std::int32_t y1;
 
-	SLONG x2;
-	SLONG y2;
+	std::int32_t x2;
+	std::int32_t y2;
 
-	SLONG r1,g1,b1;
-	SLONG r2,g2,b2;
+	std::int32_t r1,g1,b1;
+	std::int32_t r2,g2,b2;
 
-	SLONG dr;
-	SLONG dg;
-	SLONG db;
+	std::int32_t dr;
+	std::int32_t dg;
+	std::int32_t db;
 
-	SLONG r[4];
-	SLONG g[4];
-	SLONG b[4];
+	std::int32_t r[4];
+	std::int32_t g[4];
+	std::int32_t b[4];
 
 	TGA_Pixel *tp;
 	TGA_Pixel *tp1;
 	TGA_Pixel *tp2;
 
-	SLONG     error;
-	ULONG     bit;
-	SLONG     dist;
-	SLONG     best_dist;
-	SLONG     best_bit;
-	SLONG     best_error = INFINITY;
+	std::int32_t     error;
+	std::uint32_t     bit;
+	std::int32_t     dist;
+	std::int32_t     best_dist;
+	std::int32_t     best_bit;
+	std::int32_t     best_error = INFINITY;
 	IC_Packet best_ans;
 
 	//
@@ -210,17 +210,17 @@ IC_Packet IC_pack(
 void IC_unpack(
 			IC_Packet  ip,
 			TGA_Pixel *tga, 
-			SLONG      tga_width,
-			SLONG      tga_height,
-			SLONG      px,
-			SLONG      py)
+			std::int32_t      tga_width,
+			std::int32_t      tga_height,
+			std::int32_t      px,
+			std::int32_t      py)
 {
-	SLONG i;
-	SLONG bit;
+	std::int32_t i;
+	std::int32_t bit;
 
-	SLONG r[4];
-	SLONG g[4];
-	SLONG b[4];
+	std::int32_t r[4];
+	std::int32_t g[4];
+	std::int32_t b[4];
 
 	TGA_Pixel *tp;
 	
@@ -232,9 +232,9 @@ void IC_unpack(
 	g[3] = (((ip.colour2 >>  5) & 0x3f) << 2) + 2;
 	b[3] = (((ip.colour2      ) & 0x1f) << 3) + 4;
 
-	SLONG dr = (r[3] - r[0]) * 85 >> 8;
-	SLONG dg = (g[3] - g[0]) * 85 >> 8;
-	SLONG db = (b[3] - b[0]) * 85 >> 8;
+	std::int32_t dr = (r[3] - r[0]) * 85 >> 8;
+	std::int32_t dg = (g[3] - g[0]) * 85 >> 8;
+	std::int32_t db = (b[3] - b[0]) * 85 >> 8;
 
 	r[1] = r[0] + dr;
 	g[1] = g[0] + dg;
@@ -277,8 +277,8 @@ TGA_Pixel test[256 * 256];
 
 void IC_test()
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
 	TGA_Info  ti;
 	IC_Packet ip;

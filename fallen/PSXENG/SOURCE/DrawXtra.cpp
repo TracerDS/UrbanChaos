@@ -25,26 +25,26 @@
 
 extern PSX_POLY_Point *perm_pp_array;
 
-SLONG steam_seed;
+std::int32_t steam_seed;
 
-SLONG get_steam_rand()
+std::int32_t get_steam_rand()
 {
 	steam_seed*=31415965;
 	steam_seed+=123456789;
 	return(steam_seed>>8);
 }
 
-void draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
+void draw_flames(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod,std::int32_t offset)
 {
-	SLONG	c0;
-	SLONG	trans;
-	SLONG   page;
-	SLONG	scale;
+	std::int32_t	c0;
+	std::int32_t	trans;
+	std::int32_t   page;
+	std::int32_t	scale;
 //	float   scale;
 //	float   u,v,w,h;
-	UWORD	u,v;//,w,h;
-//	UBYTE*  palptr;
-//	SLONG   palndx;
+	std::uint16_t	u,v;//,w,h;
+//	std::uint8_t*  palptr;
+//	std::int32_t   palndx;
 //	float   wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4;
 	//
 	// waft gently up from x,y,z
@@ -54,7 +54,7 @@ void draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 
 	for(c0=0;c0<lod*3;c0+=1)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 
 //		w=h=32;
 		u=v=0;
@@ -135,17 +135,17 @@ void draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod,SLONG offset)
 }
 
 #if 0
-void draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base)
+void draw_flame_element(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t c0,std::uint8_t base)
 {
-//	SLONG	c0;
-	SLONG	trans;
-	SLONG   page;
-	SLONG   scale;
-	UBYTE   u,v,w,h;
-//	UBYTE*  palptr;
-//	SLONG   palndx;
+//	std::int32_t	c0;
+	std::int32_t	trans;
+	std::int32_t   page;
+	std::int32_t   scale;
+	std::uint8_t   u,v,w,h;
+//	std::uint8_t*  palptr;
+//	std::int32_t   palndx;
 //	float   wx1,wy1,wx2,wy2,wx3,wy3,wx4,wy4;
-	SLONG	dx,dy,dz;
+	std::int32_t	dx,dy,dz;
 	//
 	// waft gently up from x,y,z
 	//
@@ -226,13 +226,13 @@ void draw_flame_element(SLONG x,SLONG y,SLONG z,SLONG c0,UBYTE base)
 void TRACKS_DrawTrack(Thing *p_thing) 
 {
 	Track			*walk=p_thing->Genus.Track;
-	SLONG			x,y,z,id,diff;
+	std::int32_t			x,y,z,id,diff;
 	PSX_POLY_Point  *pp=perm_pp_array;
 	POLY_FT4		*p;
-//	UBYTE			fade;
-	UBYTE			u,v;
-	SLONG			wpx,wpy,wpz;
-	SWORD			sx,sz;
+//	std::uint8_t			fade;
+	std::uint8_t			u,v;
+	std::int32_t			wpx,wpy,wpz;
+	std::int16_t			sx,sz;
 
 
 /*
@@ -322,7 +322,7 @@ void TRACKS_DrawTrack(Thing *p_thing)
 	}
 }
 /*
-const UBYTE flare_table[7][3] =
+const std::uint8_t flare_table[7][3] =
 {
 	{ 132>>1,92>>1,80>>1 	},
 	{ 135>>1,114>>1,79>>1	},
@@ -334,10 +334,10 @@ const UBYTE flare_table[7][3] =
 
 };
 
-void BLOOM_flare_draw(SLONG x, SLONG y, SLONG z, SLONG str) {
+void BLOOM_flare_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t str) {
 	PSX_POLY_Point  *pp=perm_pp_array;
-	SLONG dx,dy,fx,fy,cx,cy;
-	SLONG i,sz,j;
+	std::int32_t dx,dy,fx,fy,cx,cy;
+	std::int32_t i,sz,j;
 	POLY_FT4 *p;
 
 //	if (!there_is_a_los(x,y,z,POLY_cam_x>>8,POLY_cam_y>>8,POLY_cam_z>>8)) return;
@@ -379,15 +379,15 @@ void BLOOM_flare_draw(SLONG x, SLONG y, SLONG z, SLONG str) {
 		DOPRIM(FLARE_OTZ,p);
 		p++;
 	  }
-    the_display.CurrentPrim=(UBYTE*)p;
+    the_display.CurrentPrim=(std::uint8_t*)p;
 }
 */
 
 
-void BLOOM_draw(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG col, UBYTE opts) 
+void BLOOM_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t col, std::uint8_t opts) 
 {
-	SLONG a,b,c,dot;
-	SLONG rgba,sz;
+	std::int32_t a,b,c,dot;
+	std::int32_t rgba,sz;
 
 	PSX_POLY_Point  *pp=perm_pp_array;
 
@@ -455,15 +455,15 @@ void BLOOM_draw(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG c
 }
 
 extern Particle		particles[PSYSTEM_MAX_PARTICLES];
-extern SLONG		next_free, next_used;
+extern std::int32_t		next_free, next_used;
 
 void PARTICLE_Draw() 
 {
-	SLONG ctr,col;
-	UBYTE ndx;
+	std::int32_t ctr,col;
+	std::uint8_t ndx;
 	Particle *p;
-	UBYTE u,v,w,h;
-	SLONG	size;
+	std::uint8_t u,v,w,h;
+	std::int32_t	size;
 
 	for (p=&particles[next_used];p!=&particles[0];p=&particles[p->prev])
 	{
@@ -513,7 +513,7 @@ void PARTICLE_Draw()
 }
 
 void DRAWXTRA_Special(Thing *p_thing) {
-	SLONG dx,dz,c0;
+	std::int32_t dx,dz,c0;
 	
 	switch(p_thing->Genus.Special->SpecialType) {
 
@@ -558,11 +558,11 @@ void PYRO_draw_armageddon(Pyro *pyro);
 
 void PYRO_draw_pyro(Thing *p_pyro) {
 	Pyro *pyro = PYRO_get_pyro(p_pyro);
-	SLONG fx,fy,fz;
-	SLONG i,j;
+	std::int32_t fx,fy,fz;
+	std::int32_t i,j;
 	GameCoord pos;
     PSX_POLY_Point *pp=perm_pp_array;
-    SLONG	x,y,z;
+    std::int32_t	x,y,z;
 
 
 //	float dir[8][2] = { { 0.0f, 1.0f}, { 0.7f, 0.7f}, { 1.0f, 0.0f}, { 0.7f,-0.7f}, { 0.0f,-1.0f}, {-0.7f,-0.7f}, {-1.0f, 0.0f}, {-0.7f, 0.7f} };
@@ -582,7 +582,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 	case PYRO_FIREPOOL:
 		break;
 	case PYRO_BONFIRE:
-		draw_flames(fx>>8,fy>>8,fz>>8,10,(SLONG)p_pyro);
+		draw_flames(fx>>8,fy>>8,fz>>8,10,(std::int32_t)p_pyro);
 		break;
 
 	case PYRO_IMMOLATE:
@@ -599,7 +599,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 				if (pyro->Flags&PYRO_FLAGS_STATIC) 
 				{
 					pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
-					draw_flames(pos.X,pos.Y,pos.Z,4,(SLONG)p_pyro);
+					draw_flames(pos.X,pos.Y,pos.Z,4,(std::int32_t)p_pyro);
 				} 
 				else 
 				{
@@ -617,7 +617,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 				if (pyro->Flags&PYRO_FLAGS_STATIC) 
 				{
 					pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
-					draw_flames(pos.X,pos.Y,pos.Z,4,(SLONG)p_pyro);
+					draw_flames(pos.X,pos.Y,pos.Z,4,(std::int32_t)p_pyro);
 				} 
 				else 
 				{
@@ -631,7 +631,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 
 		if (pyro->victim) 
 		{
-			SLONG scale=0,y_off=0;
+			std::int32_t scale=0,y_off=0;
 
 			switch(pyro->victim->DrawType)
 			{
@@ -643,8 +643,8 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 			case	DT_ROT_MULTI:
 				if (pyro->Flags & PYRO_FLAGS_FLICKER)
 				{
-					SLONG px,py,pz,dx,dz;
-					UBYTE i,r,p;
+					std::int32_t px,py,pz,dx,dz;
+					std::uint8_t i,r,p;
 					
 					dx = -(SIN(pyro->victim->Draw.Tweened->Angle) * pyro->victim->Velocity) >> 9;
 					dz = -(COS(pyro->victim->Draw.Tweened->Angle) * pyro->victim->Velocity) >> 9;
@@ -684,7 +684,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 				pos = pyro->victim->WorldPos;
 				pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
 
-				draw_flames(pos.X,pos.Y,pos.Z,4,(SLONG)p_pyro);
+				draw_flames(pos.X,pos.Y,pos.Z,4,(std::int32_t)p_pyro);
 				break;
 			}
 		}
@@ -705,7 +705,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 	case PYRO_TWANGER:
 //		PYRO_draw_twanger(pyro);
 /*		{
-		  SLONG str;
+		  std::int32_t str;
 		  if (pyro->counter<30) {
 		    str=pyro->counter*5;
 		  } else {
@@ -728,7 +728,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 		// temp behaviour: draw a sprite
 //		BLOOM_flare_draw(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,0x75);
 //		{
-		//	SLONG col=(255-pyro->counter)<<24;
+		//	std::int32_t col=(255-pyro->counter)<<24;
 		//col|=0x007f7f7f;
 		//SPRITE_draw_tex(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,50,col,0xff000000,POLY_PAGE_FLAMES, 0.0,0.0,1.0,1.0, SPRITE_SORT_NORMAL);
 //		PYRO_draw_blob(pyro);
@@ -740,12 +740,12 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 		// temp behaviour: draw a sprite
 //		BLOOM_flare_draw(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,0x75);
 		{
-		//	SLONG col=(255-pyro->counter)<<24;
+		//	std::int32_t col=(255-pyro->counter)<<24;
 		//col|=0x007f7f7f;
 		//SPRITE_draw_tex(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,50,col,0xff000000,POLY_PAGE_FLAMES, 0.0,0.0,1.0,1.0, SPRITE_SORT_NORMAL);
 		//PYRO_draw_blob(pyro);
 		
-			SLONG x,y,z,d,h,i;
+			std::int32_t x,y,z,d,h,i;
 
 			if (pyro->counter<10) 
 			{
@@ -859,7 +859,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 			  gte_RotTransPers(&pp[1].World,&pp[1].SYSX,&pp[1].P,&pp[1].Flag,&pp[1].Z);
 
 			  {
-				  SLONG	index=pyro->counter;
+				  std::int32_t	index=pyro->counter;
 				  pp[0].World.vx=(index&2)*8;
 				  pp[1].World.vx=((index&2)*8)+15;
 				  pp[0].World.vy=(index&1)*16;
@@ -893,41 +893,41 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 #define SHAPE_MAX_SPARKY_POINTS 8
 
 void SHAPE_sparky_line(
-		SLONG num_points,
-		SLONG px[],
-		SLONG py[],
-		SLONG pz[],
-		ULONG colour,
-		SLONG width)
+		std::int32_t num_points,
+		std::int32_t px[],
+		std::int32_t py[],
+		std::int32_t pz[],
+		std::uint32_t colour,
+		std::int32_t width)
 {
 	ASSERT(WITHIN(num_points, 2, SHAPE_MAX_SPARKY_POINTS));
 
-	SLONG i;
+	std::int32_t i;
 
 	PSX_POLY_Point *pp=perm_pp_array;
 	POLY_FT4 *p;
-	UBYTE u,v;
+	std::uint8_t u,v;
 
 /*
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG len;
-	SLONG overlen;
-	SLONG size;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t len;
+	std::int32_t overlen;
+	std::int32_t size;
 
-	SLONG pnx;
-	SLONG pny;
-	SLONG n1_valid;
-	SLONG n2_valid;
+	std::int32_t pnx;
+	std::int32_t pny;
+	std::int32_t n1_valid;
+	std::int32_t n2_valid;
 
 	POLY_Point pp1;
 	POLY_Point pp2;	
 
-	SLONG nx[SHAPE_MAX_SPARKY_POINTS];
-	SLONG ny[SHAPE_MAX_SPARKY_POINTS];
+	std::int32_t nx[SHAPE_MAX_SPARKY_POINTS];
+	std::int32_t ny[SHAPE_MAX_SPARKY_POINTS];
 
 	PSX_POLY_Point *pp=perm_pp_array;
 
@@ -980,13 +980,13 @@ void SHAPE_sparky_line(
 void PYRO_draw_dustwave(Pyro *pyro) 
 {
 	PSX_POLY_Point  *pp=perm_pp_array;
-	SLONG cx,cy,cz,fade,z;
-	UBYTE sections, pass, sector, next;
-	SLONG dxs[DUSTWAVE_SECTORS],dys[DUSTWAVE_SECTORS], dists[4], heights[4];
+	std::int32_t cx,cy,cz,fade,z;
+	std::uint8_t sections, pass, sector, next;
+	std::int32_t dxs[DUSTWAVE_SECTORS],dys[DUSTWAVE_SECTORS], dists[4], heights[4];
 	POLY_FT4 *p;
-//	SLONG thisscale,nextscale;
+//	std::int32_t thisscale,nextscale;
 
-	UBYTE u,v;
+	std::uint8_t u,v;
 
 	u=getPSXU(POLY_PAGE_DUSTWAVE);
 	v=getPSXV(POLY_PAGE_DUSTWAVE);
@@ -1091,7 +1091,7 @@ void PYRO_draw_dustwave(Pyro *pyro)
 	// add some shock:
 //	for(sector=0;sector<DUSTWAVE_SECTORS;sector++)
 	{
-		static UBYTE shock_sector=0;
+		static std::uint8_t shock_sector=0;
 		DIRT_gust(pyro->thing,
 			cx+POLY_cam_x+((dists[2]*dxs[shock_sector])>>8),
 			cz+POLY_cam_z+((dists[2]*dys[shock_sector])>>8),
@@ -1115,11 +1115,11 @@ void PYRO_draw_dustwave(Pyro *pyro)
 
 void DRAWXTRA_MIB_destruct(Thing *p_thing)
 {
-	UBYTE i;
-	SLONG ctr=p_thing->Genus.Person->Timer1;
+	std::uint8_t i;
+	std::int32_t ctr=p_thing->Genus.Person->Timer1;
 	GameCoord posn;
 	Thing *thing;
-	SLONG j;
+	std::int32_t j;
 
 	p_thing->WorldPos.Y+=SIN(ctr>>2)>>7;
 
@@ -1158,7 +1158,7 @@ void DRAWXTRA_MIB_destruct(Thing *p_thing)
 		// A dynamic light lightning-bolt flash that only lasts one frame.
 		//
 
-		UBYTE dlight;
+		std::uint8_t dlight;
 
 		dlight = NIGHT_dlight_create(
 					(posn.X >> 8),
@@ -1201,7 +1201,7 @@ void DRAWXTRA_MIB_destruct(Thing *p_thing)
 		SPARK_Pinfo p1;
 		SPARK_Pinfo p2;
 
-		UBYTE limbs[] = { SUB_OBJECT_LEFT_HAND, SUB_OBJECT_RIGHT_HAND, SUB_OBJECT_LEFT_FOOT, SUB_OBJECT_RIGHT_FOOT };
+		std::uint8_t limbs[] = { SUB_OBJECT_LEFT_HAND, SUB_OBJECT_RIGHT_HAND, SUB_OBJECT_LEFT_FOOT, SUB_OBJECT_RIGHT_FOOT };
 		
 		p1.type   = SPARK_TYPE_GROUND;
 		p1.flag   = 0;
@@ -1248,9 +1248,9 @@ void DRAWXTRA_MIB_destruct(Thing *p_thing)
  */
 
 
-void DRAWXTRA_final_glow(SLONG x, SLONG y, SLONG z, UBYTE fade)
+void DRAWXTRA_final_glow(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t fade)
 {
-	static SLONG rotation;
+	static std::int32_t rotation;
 
 	POLY_Point mid;
 
@@ -1263,7 +1263,7 @@ void PYRO_draw_armageddon(Pyro *pyro)
 {
 	Thing *thing;
 	GameCoord pos;
-	SWORD i,j;
+	std::int16_t i,j;
 
 	move_thing_on_map(pyro->thing,&NET_PERSON(0)->WorldPos);
 
@@ -1294,7 +1294,7 @@ void PYRO_draw_armageddon(Pyro *pyro)
 
 	if (!(Random()&2))
 	{
-		SLONG pow_type;
+		std::int32_t pow_type;
 		pos=pyro->thing->WorldPos;
 		pos.X+=((Random()&0xff00)-0x7f00)<<3;
 		pos.Z+=((Random()&0xff00)-0x7f00)<<3;
@@ -1308,7 +1308,7 @@ void PYRO_draw_armageddon(Pyro *pyro)
 
 	if (!(Random()&3))
 	{
-		SLONG flags = PFLAG_EXPLODE_ON_IMPACT | PFLAG_LEAVE_TRAIL;
+		std::int32_t flags = PFLAG_EXPLODE_ON_IMPACT | PFLAG_LEAVE_TRAIL;
 		if (Random()&1) flags|=PFLAG_GRAVITY ;
 		pos=pyro->thing->WorldPos;
 		pos.X+=((Random()&0xff00)-0x7f00)<<3;

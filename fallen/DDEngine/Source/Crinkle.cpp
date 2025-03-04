@@ -55,7 +55,7 @@ typedef struct
 	float vec1;		// From point 0 to point 1
 	float vec2;		// From point 0 to point 2
 	float vec3;		// 0-1 cross 0-2
-	UBYTE c[4];		// How much of each points corner's colour this point takes.
+	std::uint8_t c[4];		// How much of each points corner's colour this point takes.
 
 } CRINKLE_Point;
 
@@ -66,7 +66,7 @@ typedef struct
 #endif
 
 CRINKLE_Point CRINKLE_point[CRINKLE_MAX_POINTS];
-SLONG         CRINKLE_point_upto;
+std::int32_t         CRINKLE_point_upto;
 
 //
 // The faces.
@@ -74,7 +74,7 @@ SLONG         CRINKLE_point_upto;
 
 typedef struct
 {
-	UWORD point[3];	// Index in the CRINKLE_point array
+	std::uint16_t point[3];	// Index in the CRINKLE_point array
 
 } CRINKLE_Face;
 
@@ -85,7 +85,7 @@ typedef struct
 #endif
 
 CRINKLE_Face CRINKLE_face[CRINKLE_MAX_FACES];
-SLONG        CRINKLE_face_upto;
+std::int32_t        CRINKLE_face_upto;
 
 //
 // The crinkles.
@@ -93,8 +93,8 @@ SLONG        CRINKLE_face_upto;
 
 typedef struct
 {
-	SLONG num_points;
-	SLONG num_faces;
+	std::int32_t num_points;
+	std::int32_t num_faces;
 
 	CRINKLE_Point *point;
 	CRINKLE_Face  *face;
@@ -108,7 +108,7 @@ typedef struct
 #endif
 
 CRINKLE_Crinkle CRINKLE_crinkle[CRINKLE_MAX_CRINKLES];
-SLONG           CRINKLE_crinkle_upto;
+std::int32_t           CRINKLE_crinkle_upto;
 
 
 
@@ -127,12 +127,12 @@ void CRINKLE_init()
 
 #define CRINKLE_MAX_LINE 256
 
-CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
+CRINKLE_Handle CRINKLE_load(char* asc_filename)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG o;
-	SLONG f;
+	std::int32_t o;
+	std::int32_t f;
 
 	float x;
 	float y;
@@ -145,18 +145,18 @@ CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
 	float size;
 	float oversize;
 
-	SLONG a;
-	SLONG b;
-	SLONG c;
+	std::int32_t a;
+	std::int32_t b;
+	std::int32_t c;
 
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG match;
-	SLONG index;
+	std::int32_t match;
+	std::int32_t index;
 
-	CBYTE line[CRINKLE_MAX_LINE];
+	char line[CRINKLE_MAX_LINE];
 
 	CRINKLE_Handle   ans;
 	CRINKLE_Crinkle *cc;
@@ -167,11 +167,11 @@ CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
 	// Open the file.
 	//
 
-	return nullptr;
+	return 0;
 
 
 #if DISABLE_CRINKLES
-	return nullptr;
+	return 0;
 #endif
 
 	handle = MF_Fopen(asc_filename, "rb");
@@ -180,7 +180,7 @@ CRINKLE_Handle CRINKLE_load(CBYTE* asc_filename)
 	{
 		TRACE("Could not open crinkle file \"%s\"\n", asc_filename);
 
-		return nullptr;
+		return 0;
 	}
 	else
 	{
@@ -368,10 +368,11 @@ CRINKLE_Handle CRINKLE_read_bin(FileClump* tclump, int id)
 
 	// read data
 
-	UBYTE*	buffer = tclump->Read(id);
-	if (!buffer)	return nullptr;
+	std::uint8_t* buffer = tclump->Read(id);
+	if (!buffer)
+		return 0;
 
-	UBYTE*	bptr = buffer;
+	std::uint8_t* bptr = buffer;
 
 	ASSERT(WITHIN(CRINKLE_crinkle_upto, 1, CRINKLE_MAX_CRINKLES - 1));
 
@@ -421,9 +422,9 @@ void CRINKLE_write_bin(FileClump* tclump, CRINKLE_Handle hnd, int id)
 
 	int	size = sizeof(CRINKLE_Crinkle) + cc->num_points * sizeof(CRINKLE_Point) + cc->num_faces * sizeof(CRINKLE_Face);
 
-	UBYTE*	buffer = new UBYTE[size];
+	std::uint8_t*	buffer = new std::uint8_t[size];
 	ASSERT(buffer);
-	UBYTE*	bptr = buffer;
+	std::uint8_t*	bptr = buffer;
 
 	memcpy(bptr, cc, sizeof(*cc));
 	bptr += sizeof(*cc);
@@ -492,12 +493,12 @@ void CRINKLE_light(float dx, float dy, float dz)
 
 void CRINKLE_do(
 		CRINKLE_Handle crinkle,
-		SLONG          page,
+		std::int32_t          page,
 		float          extrude,
 		POLY_Point    *pp[4],
-		SLONG          flip)
+		std::int32_t          flip)
 {
-	SLONG i;
+	std::int32_t i;
 
 	CRINKLE_Crinkle *cc;
 
@@ -573,10 +574,10 @@ void CRINKLE_do(
 		overlen = -overlen;
 	}
 
-	SLONG pr[4];
-	SLONG pg[4];
-	SLONG pb[4];
-	SLONG pa[4];
+	std::int32_t pr[4];
+	std::int32_t pg[4];
+	std::int32_t pb[4];
+	std::int32_t pa[4];
 
 	for (i = 0; i < 4; i++)
 	{
@@ -615,10 +616,10 @@ void CRINKLE_do(
 	float u;
 	float v;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
-	SLONG a;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
+	std::int32_t a;
 
 	CRINKLE_Point *cp;
 	POLY_Point    *pt;
@@ -730,20 +731,20 @@ void CRINKLE_do(
 
 				float dprod   = nx*CRINKLE_light_x + ny*CRINKLE_light_y + nz*CRINKLE_light_z;
 				float dbright = dprod * extrude;
-				SLONG drgb    = dbright * 64.0F;
+				std::int32_t drgb    = dbright * 64.0F;
 
 				//
 				// Backup the old lighting.
 				//
 					
-				ULONG c0 = tri[0]->colour;
-				ULONG c1 = tri[1]->colour;
-				ULONG c2 = tri[2]->colour;
+				std::uint32_t c0 = tri[0]->colour;
+				std::uint32_t c1 = tri[1]->colour;
+				std::uint32_t c2 = tri[2]->colour;
 
-				SLONG r;
-				SLONG g;
-				SLONG b;
-				SLONG a;
+				std::int32_t r;
+				std::int32_t g;
+				std::int32_t b;
+				std::int32_t a;
 
 				//
 				// Each colour in turn...
@@ -824,9 +825,9 @@ void CRINKLE_project(
 		CRINKLE_Handle crinkle,
 		float          extrude,
 		SVector_F      pp[4],
-		SLONG          flip)
+		std::int32_t          flip)
 {
-	SLONG i;
+	std::int32_t i;
 
 	CRINKLE_Crinkle *cc;
 
@@ -897,10 +898,10 @@ void CRINKLE_project(
 	float u;
 	float v;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
-	SLONG a;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
+	std::int32_t a;
 
 	CRINKLE_Point *cp;
 	POLY_Point    *pt;

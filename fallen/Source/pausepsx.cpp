@@ -33,10 +33,10 @@
 #endif
 
 extern ControllerPacket	PAD_Input1,PAD_Input2;
-extern UBYTE	psx_motor[];
+extern std::uint8_t	psx_motor[];
 
 #ifdef VERSION_USA
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -50,7 +50,7 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_JAPAN
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -64,7 +64,7 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_FRENCH
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Reprendre niveau",
 	"Recommencer niveau",
@@ -82,7 +82,7 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 // Gore enablable or not, so it might be German or French, so both versions are getting
 // setup to ignore this section if VERSION_KOREA is defined.
 #if !defined(VERSION_KOREA)&&!defined(VERSION_FRENCH)&&!defined(VERSION_DEMO)
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Level wiederaufnehmen",
 	"Level neu starten",
@@ -97,7 +97,7 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_SPANISH
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Reanudar nivel",
 	"Reiniciar nivel",
@@ -111,7 +111,7 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_ITALIAN
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Riprendi livello",
 	"Ricomincia livello",
@@ -125,7 +125,7 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 #ifdef VERSION_KOREA
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -141,14 +141,14 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #ifdef VERSION_ENGLISH
 
 #ifndef VERSION_DEMO
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
 	"Abandon Game"
 };
 #else
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Abandon Game"
@@ -162,20 +162,20 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 #define CTRL_NOTSUPP "Controller Not Supported"
 #endif
 
-extern void DRAW2D_Box_Page(SLONG x,SLONG y,SLONG ox,SLONG oy,SLONG rgb);
+extern void DRAW2D_Box_Page(std::int32_t x,std::int32_t y,std::int32_t ox,std::int32_t oy,std::int32_t rgb);
 extern void PANEL_draw_stats(Thing *who);
-extern SLONG Wadmenu_MuckyTime;
+extern std::int32_t Wadmenu_MuckyTime;
 
-SLONG PAUSE_handler() {
-	SLONG i,text_colour,input=0,temp;
-	static SLONG lastinput=0;
-	static SLONG selected=0;
-	static SLONG delay=10;
+std::int32_t PAUSE_handler() {
+	std::int32_t i,text_colour,input=0,temp;
+	static std::int32_t lastinput=0;
+	static std::int32_t selected=0;
+	static std::int32_t delay=10;
 #ifdef VERSION_DEMO
 extern demo_timeout;
-	static SLONG demo_timer=20*demo_timeout;
+	static std::int32_t demo_timer=20*demo_timeout;
 #endif
-	SLONG ans = false;
+	std::int32_t ans = false;
 
 	if (Keys[KB_ESC])
 	{
@@ -252,7 +252,7 @@ extern demo_timeout;
 			break;
 #ifndef VERSION_DEMO
 		case PAUSE_MENU_RESTART:
-			//extern SLONG draw_3d;
+			//extern std::int32_t draw_3d;
 			//draw_3d ^= 1;
 			GAME_FLAGS &= ~GF_PAUSED;
 			GAME_STATE  =  GS_REPLAY;
@@ -294,10 +294,10 @@ extern demo_timeout;
 	demo_timer--;
 #endif
 
-	SLONG offset;
-	SLONG text_size;
+	std::int32_t offset;
+	std::int32_t text_size;
 
-extern UBYTE PAD_Type;
+extern std::uint8_t PAD_Type;
 
 	switch(PAD_Type)
 	{

@@ -14,7 +14,7 @@ struct MenuItem
 	TCHAR		Document[MAX_PATH];			// document/executable for command
 	TCHAR		Directory[MAX_PATH];		// directory for command
 
-	ULONG		Spacing;					// number of extra lines after menu item
+	std::uint32_t		Spacing;					// number of extra lines after menu item
 	MenuItem*	Next;						// next item in menu
 	RECT		Area;						// area of menu item in window
 };
@@ -28,13 +28,13 @@ struct Menu
 	TCHAR		Name[MAX_PATH];				// name of menu
 	TCHAR		Bitmap[MAX_PATH];			// name of bitmap for menu
 	TCHAR		FontName[MAX_PATH];			// font name for menu text
-	ULONG		FontSize;					// font size (pixels)
-	ULONG		FontWeight;					// font weight
+	std::uint32_t		FontSize;					// font size (pixels)
+	std::uint32_t		FontWeight;					// font weight
 	COLORREF	ColourNormal;				// normal colour (0x00BBGGRR)
 	COLORREF	ColourSelected;				// selected colour (0x00BBGGRR)
-	ULONG		LeftBorder;					// x of left border (pixels)
-	ULONG		TopBorder;					// y of top border (pixels)
-	ULONG		LineSpacing;				// spacing between lines (pixels)
+	std::uint32_t		LeftBorder;					// x of left border (pixels)
+	std::uint32_t		TopBorder;					// y of top border (pixels)
+	std::uint32_t		LineSpacing;				// spacing between lines (pixels)
 	MenuItem*	Item;						// first item in menu
 	Menu*		Next;						// next menu in list
 

@@ -20,23 +20,23 @@
 // pvt globals...
 
 Particle particles[PSYSTEM_MAX_PARTICLES];
-SLONG next_free, next_used, particle_count;
+std::int32_t next_free, next_used, particle_count;
 
 // nick this bit
 
 #ifdef	psx
-//UBYTE fire_pal[768];
+//std::uint8_t fire_pal[768];
 #else
-extern UBYTE fire_pal[768];
+extern std::uint8_t fire_pal[768];
 #endif
 
-static SLONG prev_tick;
+static std::int32_t prev_tick;
 static bool first_pass;
 
 void PARTICLE_Reset() {
-	SLONG c0;
+	std::int32_t c0;
 
-	memset((UBYTE*)particles,0,sizeof(particles));
+	memset((std::uint8_t*)particles,0,sizeof(particles));
 	particle_count=0;
 
 	for (c0=0;c0<PSYSTEM_MAX_PARTICLES;c0++) {
@@ -52,23 +52,23 @@ void PARTICLE_Reset() {
 }
 
 void PARTICLE_Run() {
-	SLONG ctr, tx,ty,tz;
+	std::int32_t ctr, tx,ty,tz;
 	Particle *p;
-	SLONG	trans;
-	UBYTE*  palptr;
-	SLONG   palndx;
-	UBYTE isWare;
+	std::int32_t	trans;
+	std::uint8_t*  palptr;
+	std::int32_t   palndx;
+	std::uint8_t isWare;
 
 	
 	isWare=(FC_cam->focus->Class == CLASS_PERSON && FC_cam->focus->Genus.Person->Ware);
 
 
 	// let's try something cunning with tick_shift ...
-	// I'm sure this shouldn't SLONG
-	//SLONG local_ratio, local_shift;
-	ULONG local_ratio, local_shift;
+	// I'm sure this shouldn't std::int32_t
+	//std::int32_t local_ratio, local_shift;
+	std::uint32_t local_ratio, local_shift;
 #ifndef PSX
-	SLONG cur_tick, tick_diff;
+	std::int32_t cur_tick, tick_diff;
 
 	cur_tick=GetTickCount();
 	tick_diff=cur_tick-prev_tick;
@@ -126,7 +126,7 @@ void PARTICLE_Run() {
 				}
 
 				if (p->flags & PFLAG_DRIFT) {
-	/*				static SLONG tick=0;
+	/*				static std::int32_t tick=0;
 					tick+=8;
 				  p->dx+=abs(SIN((p->y+tick)&2047))/2048;
 				  p->dz+=abs(SIN((p->y+tick)&2047))/2048;
@@ -143,9 +143,9 @@ void PARTICLE_Run() {
 				}*/
 
 				if ((p->flags & PFLAG_FADE2)&&(p->life&1)) {
-					// I'm sure this shouldn't a SLONG
-					//SLONG diff=0x01000000*((p->fade*local_ratio)>>local_shift);
-					ULONG diff=0x01000000*((p->fade*local_ratio)>>local_shift);
+					// I'm sure this shouldn't a std::int32_t
+					//std::int32_t diff=0x01000000*((p->fade*local_ratio)>>local_shift);
+					std::uint32_t diff=0x01000000*((p->fade*local_ratio)>>local_shift);
 					if (p->flags & PFLAG_INVALPHA) {
 						if ((p->colour&0xFF000000)<0xFF000000-diff)
 						  p->colour+=diff;
@@ -160,9 +160,9 @@ void PARTICLE_Run() {
 				}
 
 				if (p->flags & PFLAG_FADE) {
-					// I'm sure this shouldn't a SLONG
-					//SLONG diff=0x01000000*((p->fade*local_ratio)>>local_shift);
-					ULONG diff=0x01000000*((p->fade*local_ratio)>>local_shift);
+					// I'm sure this shouldn't a std::int32_t
+					//std::int32_t diff=0x01000000*((p->fade*local_ratio)>>local_shift);
+					std::uint32_t diff=0x01000000*((p->fade*local_ratio)>>local_shift);
 					if (p->flags & PFLAG_INVALPHA) {
 						if ((p->colour&0xFF000000)<0xFF000000-diff)
 						  p->colour+=diff;
@@ -186,7 +186,7 @@ void PARTICLE_Run() {
 	#endif
 
 				if (p->flags & PFLAG_BOUNCE) {
-					SLONG tmpy=PAP_calc_map_height_at(tx>>8,tz>>8)<<8;
+					std::int32_t tmpy=PAP_calc_map_height_at(tx>>8,tz>>8)<<8;
 					if (ty<tmpy) { 
 						ty-=tmpy;
 						ty=tmpy-ty;
@@ -274,7 +274,7 @@ void PARTICLE_Run() {
 				}
 				
 				if (p->flags & PFLAG_RESIZE) {
-					SLONG temp=p->size;
+					std::int32_t temp=p->size;
 					
 					temp+=(p->resize*local_ratio)>>local_shift;
 					if (temp<1) { temp=1; p->life=1; } // clear 0-size or less particles
@@ -282,7 +282,7 @@ void PARTICLE_Run() {
 					p->size=temp;
 				}
 				if (p->flags & PFLAG_RESIZE2) {
-					SLONG temp=p->size;
+					std::int32_t temp=p->size;
 					
 					temp+=(p->resize*local_ratio)>>local_shift;
 					if (temp<1) p->life=1; 
@@ -294,10 +294,10 @@ void PARTICLE_Run() {
 				{
 					if (GAME_TURN & 0x1)
 					{	
-						SLONG i;
+						std::int32_t i;
 
-						UWORD hurt[8];
-						SLONG num;
+						std::uint16_t hurt[8];
+						std::int32_t num;
 
 						THING_INDEX i_hurt;
 						
@@ -314,7 +314,7 @@ void PARTICLE_Run() {
 						{
 							Thing *p_hurt = TO_THING(hurt[i]);
 
-							extern SLONG is_person_dead(Thing *p_person);
+							extern std::int32_t is_person_dead(Thing *p_person);
 
 							if (is_person_dead(p_hurt))
 							{
@@ -324,18 +324,18 @@ void PARTICLE_Run() {
 							}
 							else
 							{
-								SLONG dx = abs(p->x - p_hurt->WorldPos.X >> 8);
-								SLONG dz = abs(p->z - p_hurt->WorldPos.Z >> 8);
+								std::int32_t dx = abs(p->x - p_hurt->WorldPos.X >> 8);
+								std::int32_t dz = abs(p->z - p_hurt->WorldPos.Z >> 8);
 
-								SLONG dist = QDIST2(dx,dz);
+								std::int32_t dist = QDIST2(dx,dz);
 
 								if (abs(dist) < 0x40)
 								{
-									SLONG junkx;
-									SLONG junkz;
+									std::int32_t junkx;
+									std::int32_t junkz;
 
-									SLONG ytop;
-									SLONG ybot;
+									std::int32_t ytop;
+									std::int32_t ybot;
 
 									calc_sub_objects_position(
 										p_hurt,
@@ -406,12 +406,12 @@ void PARTICLE_Run() {
 //			else
 				p->life-=2;
 #else
-				SLONG temp=local_ratio>>local_shift;
+				std::int32_t temp=local_ratio>>local_shift;
 //			TRACE("old life: %d   subtracting: %d\n",p->life,temp);
 			p->life-=local_ratio>>local_shift;
 #endif
 			if (p->life<=0) {
-				SWORD idx = p-particles, temp = p->prev;
+				std::int16_t idx = p-particles, temp = p->prev;
 				p->priority=0;
 				particle_count--;
 
@@ -438,13 +438,13 @@ void PARTICLE_Run() {
 }
 
 
-UWORD PARTICLE_AddParticle(Particle &p) {
-//	UBYTE priority=0;
-//	UWORD ctr=0;
-	UWORD new_particle;
+std::uint16_t PARTICLE_AddParticle(Particle &p) {
+//	std::uint8_t priority=0;
+//	std::uint16_t ctr=0;
+	std::uint16_t new_particle;
 
 
-extern SLONG GAMEMENU_menu_type;
+extern std::int32_t GAMEMENU_menu_type;
 	if (GAMEMENU_menu_type != 0/*GAMEMENU_MENU_TYPE_NONE*/)
 	{
 		// Some sort of pause mode is up - don't make any more particles.
@@ -493,14 +493,14 @@ extern SLONG GAMEMENU_menu_type;
 	particles[new_particle].prev=next_used;
 	next_used = new_particle;
 
-/*	CBYTE msg[10];
+/*	char msg[10];
 	itoa(particle_count,msg,10);
 	CONSOLE_text(msg,1000);*/
 
 	return ++particle_count;
 }
 
-UWORD PARTICLE_Add(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, UWORD page, UWORD sprite, SLONG colour, SLONG flags, SLONG life, UBYTE size, UBYTE priority, SBYTE fade, SBYTE resize) {
+std::uint16_t PARTICLE_Add(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::uint16_t page, std::uint16_t sprite, std::int32_t colour, std::int32_t flags, std::int32_t life, std::uint8_t size, std::uint8_t priority, std::int8_t fade, std::int8_t resize) {
 	Particle p;
 	p.x=x; p.y=y; p.z=z;
 	p.dx=dx; p.dy=dy; p.dz=dz;
@@ -516,9 +516,9 @@ UWORD PARTICLE_Add(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, UWOR
 // Shortcuts to some of the more commonly-used effects:
 //
 #ifndef	PSX
-UWORD PARTICLE_Exhaust(SLONG x, SLONG y, SLONG z,UBYTE density,UBYTE disperse) {
-	UBYTE i;
-	UWORD res;
+std::uint16_t PARTICLE_Exhaust(std::int32_t x, std::int32_t y, std::int32_t z,std::uint8_t density,std::uint8_t disperse) {
+	std::uint8_t i;
+	std::uint16_t res;
 	Particle p;
 
 	res=1;
@@ -537,20 +537,20 @@ UWORD PARTICLE_Exhaust(SLONG x, SLONG y, SLONG z,UBYTE density,UBYTE disperse) {
 	return res;
 }
 
-UWORD PARTICLE_Exhaust2(Thing *object, UBYTE density, UBYTE disperse) 
+std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_t disperse) 
 {
-	UBYTE i;
-	UWORD res;
+	std::uint8_t i;
+	std::uint16_t res;
 	Particle p;
-	SLONG x,y,z,dx,dy,dz,ox,oy,oz;
+	std::int32_t x,y,z,dx,dy,dz,ox,oy,oz;
 //	float matrix[9], vector[3];
-	SLONG matrix[9], vector[3];
+	std::int32_t matrix[9], vector[3];
 /*	float yaw;
 	float pitch;
 	float roll;
 	*/
-//	SLONG matrix[9], vector[3], yaw, pitch, roll;
-	SLONG vel;
+//	std::int32_t matrix[9], vector[3], yaw, pitch, roll;
+	std::int32_t vel;
 	
 	vel=1024-(object->Velocity*128);
 	switch (object->DrawType) {
@@ -630,11 +630,11 @@ UWORD PARTICLE_Exhaust2(Thing *object, UBYTE density, UBYTE disperse)
 	return res;
 }
 
-UWORD PARTICLE_Steam(SLONG x, SLONG y, SLONG z, UBYTE axis, SLONG vel, SLONG range, UBYTE time) {
+std::uint16_t PARTICLE_Steam(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t axis, std::int32_t vel, std::int32_t range, std::uint8_t time) {
 	Particle p;
-	UBYTE i,dir;
-	SLONG res=1;
-	SLONG dx,dy,dz,rx,ry,rz;
+	std::uint8_t i,dir;
+	std::int32_t res=1;
+	std::int32_t dx,dy,dz,rx,ry,rz;
 
 	switch(axis) {
 	case 0:
@@ -669,10 +669,10 @@ UWORD PARTICLE_Steam(SLONG x, SLONG y, SLONG z, UBYTE axis, SLONG vel, SLONG ran
 }
 
 
-UWORD PARTICLE_SGrenade(Thing *object, UBYTE time) {
+std::uint16_t PARTICLE_SGrenade(Thing *object, std::uint8_t time) {
 	Particle p;
-	UBYTE i;
-	SLONG res=1;
+	std::uint8_t i;
+	std::int32_t res=1;
 
 	p.page=POLY_PAGE_SMOKECLOUD2; p.sprite=2+((rand()&3)<<2);
 	p.colour=0x7FFFFFFF; p.flags=PFLAGS_SMOKE|PFLAG_DRIFT|PFLAG_SPRITEANI|PFLAG_SPRITELOOP;

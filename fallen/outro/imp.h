@@ -31,12 +31,12 @@ typedef struct
 	float b;
 	float shininess;
 	float shinstr;
-	UBYTE alpha;		// IMP_ALPHA_*
-	UBYTE sided;		// IMP_SIDED_*
-	UBYTE has_texture;	// There is a texture
-	UBYTE has_bumpmap;	// There is a bumpmap
-	CBYTE tname[32];	// The texture filename or "none"
-	CBYTE bname[32];	// The bumpmap filename or "none"
+	std::uint8_t alpha;		// IMP_ALPHA_*
+	std::uint8_t sided;		// IMP_SIDED_*
+	std::uint8_t has_texture;	// There is a texture
+	std::uint8_t has_bumpmap;	// There is a bumpmap
+	char tname[32];	// The texture filename or "none"
+	char bname[32];	// The bumpmap filename or "none"
 
 	//
 	// Put extra stuff in here if you want...
@@ -94,8 +94,8 @@ typedef struct
 	float dydv;
 	float dzdv;
 
-	UWORD vert;	// Index into the vertex array for position.
-	UWORD mat;	// The material of the faces that use this shared vertex.
+	std::uint16_t vert;	// Index into the vertex array for position.
+	std::uint16_t mat;	// The material of the faces that use this shared vertex.
 
 	//
 	// Add extra fields here if you want.
@@ -105,8 +105,8 @@ typedef struct
 	// Lighting.
 	//
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	float lu;
 	float lv;
@@ -129,12 +129,12 @@ typedef struct
 
 typedef struct
 {
-	UWORD v[3];		// Index into the vertex array.
-	UWORD t[3];		// index into the texture vertex array.
-	UWORD s[3];		// Index into the shared vertex array.
-	UBYTE mat;		// Index info the material array
-	UBYTE flag;
-	ULONG group;
+	std::uint16_t v[3];		// Index into the vertex array.
+	std::uint16_t t[3];		// index into the texture vertex array.
+	std::uint16_t s[3];		// Index into the shared vertex array.
+	std::uint8_t mat;		// Index info the material array
+	std::uint8_t flag;
+	std::uint32_t group;
 
 	float nx;
 	float ny;
@@ -156,7 +156,7 @@ typedef struct
 
 typedef struct
 {
-	UWORD v[4];
+	std::uint16_t v[4];
  
 } IMP_Quad;
 
@@ -168,10 +168,10 @@ typedef struct
 
 typedef struct
 {
-	UWORD v1;
-	UWORD v2;
-	UWORD f1;
-	UWORD f2;	// 0xffff => The edge belongs to only one face.
+	std::uint16_t v1;
+	std::uint16_t v2;
+	std::uint16_t f1;
+	std::uint16_t f2;	// 0xffff => The edge belongs to only one face.
 
 } IMP_Edge;
 
@@ -182,8 +182,8 @@ typedef struct
 
 typedef struct
 {
-	UWORD v1;
-	UWORD v2;
+	std::uint16_t v1;
+	std::uint16_t v2;
 
 } IMP_Line;
 
@@ -191,16 +191,16 @@ typedef struct
 
 typedef struct
 {
-	SLONG      valid;
-	CBYTE      name[32];
-	SLONG      num_mats;
-	SLONG      num_verts;
-	SLONG      num_tverts;
-	SLONG      num_faces;
-	SLONG      num_sverts;
-	SLONG      num_quads;
-	SLONG      num_edges;
-	SLONG      num_lines;
+	std::int32_t      valid;
+	char      name[32];
+	std::int32_t      num_mats;
+	std::int32_t      num_verts;
+	std::int32_t      num_tverts;
+	std::int32_t      num_faces;
+	std::int32_t      num_sverts;
+	std::int32_t      num_quads;
+	std::int32_t      num_edges;
+	std::int32_t      num_lines;
 	IMP_Mat   *mat;
 	IMP_Vert  *vert;
 	IMP_Tvert *tvert;
@@ -231,7 +231,7 @@ typedef struct
 
 } IMP_Mesh;
 
-IMP_Mesh IMP_load(CBYTE* fname, float scale = 1.0F);
+IMP_Mesh IMP_load(char* fname, float scale = 1.0F);
 
 
 //
@@ -247,8 +247,8 @@ void IMP_free(IMP_Mesh *im);
 // Loads and saves a binary version of the mesh.
 //
 
-SLONG IMP_binary_save(CBYTE* fname, IMP_Mesh *im);	// Returns false on failure.
-IMP_Mesh IMP_binary_load(CBYTE* fname);
+std::int32_t IMP_binary_save(char* fname, IMP_Mesh *im);	// Returns false on failure.
+IMP_Mesh IMP_binary_load(char* fname);
 
 
 #endif

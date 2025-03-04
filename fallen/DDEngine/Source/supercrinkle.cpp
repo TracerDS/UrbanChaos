@@ -25,22 +25,22 @@
 //D3DLVERTEX  SUPERCRINKLE_lvert_buffer[SUPERCRINKLE_MAX_LVERTS + 1];
 D3DLVERTEX *SUPERCRINKLE_lvert_buffer = nullptr;
 D3DLVERTEX *SUPERCRINKLE_lvert;
-SLONG       SUPERCRINKLE_lvert_upto;
+std::int32_t       SUPERCRINKLE_lvert_upto;
 
 //
-// Colour interpolations for each lvert.
+// Color interpolations for each lvert.
 //
 
 typedef struct
 {
-	UBYTE i[4];
+	std::uint8_t i[4];
 
 } SUPERCRINKLE_Colour;
 
 #define SUPERCRINKLE_MAX_COLOURS SUPERCRINKLE_MAX_LVERTS
 
 SUPERCRINKLE_Colour SUPERCRINKLE_colour[SUPERCRINKLE_MAX_COLOURS];
-SLONG               SUPERCRINKLE_colour_upto;
+std::int32_t               SUPERCRINKLE_colour_upto;
 
 
 //
@@ -49,9 +49,9 @@ SLONG               SUPERCRINKLE_colour_upto;
 
 #define SUPERCRINKLE_MAX_INDICES (SUPERCRINKLE_MAX_LVERTS * 2)
 
-UWORD  SUPERCRINKLE_index_buffer[SUPERCRINKLE_MAX_INDICES + 16];
-UWORD *SUPERCRINKLE_index;
-SLONG  SUPERCRINKLE_index_upto;
+std::uint16_t  SUPERCRINKLE_index_buffer[SUPERCRINKLE_MAX_INDICES + 16];
+std::uint16_t *SUPERCRINKLE_index;
+std::int32_t  SUPERCRINKLE_index_upto;
 
 
 
@@ -59,7 +59,7 @@ SLONG  SUPERCRINKLE_index_upto;
 // Whether each page is crinkled or not.
 //
 
-UBYTE SUPERCRINKLE_is_crinkled[512];
+std::uint8_t SUPERCRINKLE_is_crinkled[512];
 
 
 
@@ -77,13 +77,13 @@ UBYTE SUPERCRINKLE_is_crinkled[512];
 
 typedef struct
 {
-	UWORD lvert;			// Index into the D3DLVERTEX array.
-	UWORD num_lverts;		// Number of lverts used by this crinkle.
+	std::uint16_t lvert;			// Index into the D3DLVERTEX array.
+	std::uint16_t num_lverts;		// Number of lverts used by this crinkle.
 	
-	UWORD index;			// DrawIndexedPrimitive indices into the vert array
-	UWORD num_indices;		// for this crinkle.
+	std::uint16_t index;			// DrawIndexedPrimitive indices into the vert array
+	std::uint16_t num_indices;		// for this crinkle.
 
-	ULONG hash;				// The colours in this crinkle.
+	std::uint32_t hash;				// The colours in this crinkle.
 
 } SUPERCRINKLE_Crinkle;
 
@@ -99,8 +99,8 @@ SUPERCRINKLE_Crinkle SUPERCRINKLE_crinkle[SUPERCRINKLE_MAX_CRINKLES];
 
 typedef struct
 {
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 } SUPERCRINKLE_Precalc;
 
@@ -113,7 +113,7 @@ typedef struct
 
 typedef struct supercrinkle_cache
 {
-	ULONG hash;
+	std::uint32_t hash;
 
 	struct supercrinkle_cache *next;
 
@@ -133,21 +133,21 @@ typedef struct supercrinkle_cache
 
 union
 {
-	UBYTE              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 64];
+	std::uint8_t              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 64];
 	SUPERCRINKLE_Cache cache;
 
 } SUPERCRINKLE_cache64[SUPERCRINKLE_MAX_CACHE64];
 
 union
 {
-	UBYTE              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 128];
+	std::uint8_t              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 128];
 	SUPERCRINKLE_Cache cache;
 
 } SUPERCRINKLE_cache128[SUPERCRINKLE_MAX_CACHE128];
 
 union
 {
-	UBYTE              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 384];
+	std::uint8_t              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 384];
 	SUPERCRINKLE_Cache cache;
 
 } SUPERCRINKLE_cache384[SUPERCRINKLE_MAX_CACHE384];
@@ -178,9 +178,9 @@ SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table384[SUPERCRINKLE_HASH_SIZE];
 // The hash function.
 //
 
-ULONG SUPERCRINKLE_hash_function(SLONG crinkle, ULONG colour[4], ULONG specular[4])
+std::uint32_t SUPERCRINKLE_hash_function(std::int32_t crinkle, std::uint32_t colour[4], std::uint32_t specular[4])
 {
-	ULONG ans;
+	std::uint32_t ans;
 	
 	ans  = crinkle;
 
@@ -205,7 +205,7 @@ ULONG SUPERCRINKLE_hash_function(SLONG crinkle, ULONG colour[4], ULONG specular[
 // Loads the given SUPERCRINKLE from the .SEX file.
 //
 
-void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
+void SUPERCRINKLE_load(std::int32_t crinkle, char* fname)
 {
 	//
 	// Temporary buffer for holding points and faces.
@@ -221,22 +221,22 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 		float ny;
 		float nz;
 
-		UBYTE i[4];		// The colour interpolations for this point.
+		std::uint8_t i[4];		// The colour interpolations for this point.
 
-		UBYTE light;	// How much darker/brigher this point should be than normal... 128 => Same as before.
-		UBYTE padding;
-		UWORD duplicate;
+		std::uint8_t light;	// How much darker/brigher this point should be than normal... 128 => Same as before.
+		std::uint8_t padding;
+		std::uint16_t duplicate;
 
 	} SUPERCRINKLE_Point;
 
 	#define SUPERCRINKLE_MAX_POINTS 1536
 
 	SUPERCRINKLE_Point point[SUPERCRINKLE_MAX_POINTS];
-	SLONG              point_upto;
+	std::int32_t              point_upto;
 
 	typedef struct
 	{
-		UWORD p[3];
+		std::uint16_t p[3];
 
 		float nx;
 		float ny;
@@ -247,14 +247,14 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 	#define SUPERCRINKLE_MAX_FACES 512
 
 	SUPERCRINKLE_Face face[SUPERCRINKLE_MAX_FACES];
-	SLONG             face_upto;
+	std::int32_t             face_upto;
 
 
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG o;
-	SLONG f;
+	std::int32_t o;
+	std::int32_t f;
 
 	float x;
 	float y;
@@ -280,18 +280,18 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 	float length;
 	float overlength;
 
-	SLONG a;
-	SLONG b;
-	SLONG c;
+	std::int32_t a;
+	std::int32_t b;
+	std::int32_t c;
 
-	SLONG p1;
-	SLONG p2;
-	SLONG p3;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t p3;
 
-	SLONG match;
-	SLONG index;
+	std::int32_t match;
+	std::int32_t index;
 
-	CBYTE line[512];
+	char line[512];
 
 	SUPERCRINKLE_Crinkle *sc;
 	SUPERCRINKLE_Face    *sf;
@@ -525,10 +525,10 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 
 		ASSERT(WITHIN(v[0] + v[1] + v[2] + v[3], 0.9F, 1.1F));
 
-		sp->i[0] = (UBYTE)(v[0] * 128.0F);
-		sp->i[1] = (UBYTE)(v[1] * 128.0F);
-		sp->i[2] = (UBYTE)(v[2] * 128.0F);
-		sp->i[3] = (UBYTE)(v[3] * 128.0F);
+		sp->i[0] = (std::uint8_t)(v[0] * 128.0F);
+		sp->i[1] = (std::uint8_t)(v[1] * 128.0F);
+		sp->i[2] = (std::uint8_t)(v[2] * 128.0F);
+		sp->i[3] = (std::uint8_t)(v[3] * 128.0F);
 	}
 	
 	//
@@ -621,8 +621,8 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 		//
 
 		sp->light  = 128;
-		sp->light += SLONG(sp->nx * 64.0F);
-		sp->light += SLONG(sp->ny * 64.0F);
+		sp->light += std::int32_t(sp->nx * 64.0F);
+		sp->light += std::int32_t(sp->ny * 64.0F);
 	}
 
 	//
@@ -706,8 +706,8 @@ void SUPERCRINKLE_load(SLONG crinkle, CBYTE* fname)
 
 void SUPERCRINKLE_init()
 {
-	SLONG i;
-	CBYTE fname[512];
+	std::int32_t i;
+	char fname[512];
 
 	PolyPage *pp;
 
@@ -733,8 +733,8 @@ void SUPERCRINKLE_init()
 	memset(SUPERCRINKLE_hash_table128, 0, sizeof(SUPERCRINKLE_hash_table128));
 	memset(SUPERCRINKLE_hash_table384, 0, sizeof(SUPERCRINKLE_hash_table384));
 
-	SUPERCRINKLE_lvert = (D3DLVERTEX *) ((SLONG(SUPERCRINKLE_lvert_buffer) + 31) & ~0x1f);
-	SUPERCRINKLE_index = (UWORD      *) ((SLONG(SUPERCRINKLE_index_buffer) + 31) & ~0x1f);
+	SUPERCRINKLE_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERCRINKLE_lvert_buffer) + 31) & ~0x1f);
+	SUPERCRINKLE_index = (std::uint16_t      *) ((std::int32_t(SUPERCRINKLE_index_buffer) + 31) & ~0x1f);
 
 	SUPERCRINKLE_lvert_upto  = 0;
 	SUPERCRINKLE_index_upto  = 0;
@@ -766,8 +766,8 @@ void SUPERCRINKLE_init()
 			// This poly page is used.
 			//
 
-			extern CBYTE TEXTURE_world_dir[];
-			extern CBYTE TEXTURE_shared_dir[];
+			extern char TEXTURE_world_dir[];
+			extern char TEXTURE_shared_dir[];
 
 			if (i < 256)
 			{
@@ -790,21 +790,21 @@ void SUPERCRINKLE_init()
 // Relights the given crinkle.
 //
 
-void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
+void SUPERCRINKLE_relight(std::int32_t crinkle, std::uint32_t colour[4], std::uint32_t specular[4])
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	ULONG index;
-	ULONG hash;
+	std::uint32_t index;
+	std::uint32_t hash;
 
-	SLONG cr;
-	SLONG cg;
-	SLONG cb;
+	std::int32_t cr;
+	std::int32_t cg;
+	std::int32_t cb;
 
-	SLONG sr;
-	SLONG sg;
-	SLONG sb;
+	std::int32_t sr;
+	std::int32_t sg;
+	std::int32_t sb;
 
 	SUPERCRINKLE_Crinkle *sc;
 	SUPERCRINKLE_Cache   *sh;
@@ -837,7 +837,7 @@ void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
 
 	SUPERCRINKLE_Cache **hash_table;
 	SUPERCRINKLE_Cache **free_list;
-	SLONG                cache_table_size;
+	std::int32_t                cache_table_size;
 
 	     if (sc->num_lverts <= 64 ) {hash_table = SUPERCRINKLE_hash_table64 ; free_list = &SUPERCRINKLE_free64;  cache_table_size = SUPERCRINKLE_MAX_CACHE64; }
 	else if (sc->num_lverts <= 128) {hash_table = SUPERCRINKLE_hash_table128; free_list = &SUPERCRINKLE_free128; cache_table_size = SUPERCRINKLE_MAX_CACHE128;}
@@ -885,7 +885,7 @@ void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
 		// We must free up a structure. Pick a random one.
 		//
 
-		ULONG free = rand() % (cache_table_size - 1);
+		std::uint32_t free = rand() % (cache_table_size - 1);
 
 			 if (sc->num_lverts <= 64 ) {sh = &SUPERCRINKLE_cache64 [free].cache;}
 		else if (sc->num_lverts <= 128) {sh = &SUPERCRINKLE_cache128[free].cache;}
@@ -1033,11 +1033,11 @@ void SUPERCRINKLE_relight(SLONG crinkle, ULONG colour[4], ULONG specular[4])
 // A 32-byte aligned matrix.
 //
 
-UBYTE      SUPERCRINKLE_matrix_buffer[sizeof(D3DMATRIX) + 32];
+std::uint8_t      SUPERCRINKLE_matrix_buffer[sizeof(D3DMATRIX) + 32];
 D3DMATRIX *SUPERCRINKLE_matrix;
 
 
-SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4])
+std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::uint32_t specular[4])
 {
 	PolyPage             *pp;
 	SUPERCRINKLE_Crinkle *sc;
@@ -1058,7 +1058,7 @@ SLONG SUPERCRINKLE_draw(SLONG page, ULONG colour[4], ULONG specular[4])
 	// Setup the matrix.
 	//
 
-	SUPERCRINKLE_matrix = (D3DMATRIX *) ((SLONG(SUPERCRINKLE_matrix_buffer) + 31) & ~0x1f);
+	SUPERCRINKLE_matrix = (D3DMATRIX *) ((std::int32_t(SUPERCRINKLE_matrix_buffer) + 31) & ~0x1f);
 
 	pp = &POLY_Page[page];
 	sc = &SUPERCRINKLE_crinkle[page];

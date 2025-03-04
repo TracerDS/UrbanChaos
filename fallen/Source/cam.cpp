@@ -30,40 +30,40 @@
 // The camera.
 //
 
-SLONG CAM_mode;
-SLONG CAM_zoom;
-SLONG CAM_lens;	// Not used by the camera module - merely a hint to the engine.
-SLONG CAM_pos_x;	// 16-bits per mapsquare
-SLONG CAM_pos_y;
-SLONG CAM_pos_z;
-SLONG CAM_vel_x;
-SLONG CAM_vel_y;
-SLONG CAM_vel_z;
-SLONG CAM_want_valid;
-SLONG CAM_want_different;
-SLONG CAM_want_dx;		// The camera desired offset from the focus thing.
-SLONG CAM_want_dy;
-SLONG CAM_want_dz;
-SLONG CAM_want_angle;	// The current angle used to calc (want_dx,want_dy,want_dz)
-SLONG CAM_yaw;
-SLONG CAM_pitch;
-SLONG CAM_roll;
+std::int32_t CAM_mode;
+std::int32_t CAM_zoom;
+std::int32_t CAM_lens;	// Not used by the camera module - merely a hint to the engine.
+std::int32_t CAM_pos_x;	// 16-bits per mapsquare
+std::int32_t CAM_pos_y;
+std::int32_t CAM_pos_z;
+std::int32_t CAM_vel_x;
+std::int32_t CAM_vel_y;
+std::int32_t CAM_vel_z;
+std::int32_t CAM_want_valid;
+std::int32_t CAM_want_different;
+std::int32_t CAM_want_dx;		// The camera desired offset from the focus thing.
+std::int32_t CAM_want_dy;
+std::int32_t CAM_want_dz;
+std::int32_t CAM_want_angle;	// The current angle used to calc (want_dx,want_dy,want_dz)
+std::int32_t CAM_yaw;
+std::int32_t CAM_pitch;
+std::int32_t CAM_roll;
 float CAM_radians_yaw;
 float CAM_radians_pitch;
 float CAM_radians_roll;
 Thing *CAM_focus;
-SLONG CAM_focus_yaw;
-SLONG CAM_focus_x;
-SLONG CAM_focus_y;
-SLONG CAM_focus_z;
-SLONG CAM_collide;
-SLONG CAM_dyaw;	// For first person...
-SLONG CAM_dpitch;
-SLONG CAM_rotate;
-SLONG CAM_rotate_dist;
-SLONG CAM_shake;
-SLONG CAM_behind_up;
-SLONG CAM_type;
+std::int32_t CAM_focus_yaw;
+std::int32_t CAM_focus_x;
+std::int32_t CAM_focus_y;
+std::int32_t CAM_focus_z;
+std::int32_t CAM_collide;
+std::int32_t CAM_dyaw;	// For first person...
+std::int32_t CAM_dpitch;
+std::int32_t CAM_rotate;
+std::int32_t CAM_rotate_dist;
+std::int32_t CAM_shake;
+std::int32_t CAM_behind_up;
+std::int32_t CAM_type;
 
 //
 // When the camera looks at a thing, it looks at a point
@@ -88,14 +88,14 @@ void CAM_set_focus    (Thing *focus)
 	CAM_want_valid = false;
 	CAM_want_different = false;
 }
-void CAM_set_mode     (SLONG  mode)      {CAM_mode      = mode;  CAM_want_valid = false; CAM_want_different = false;}
-void CAM_set_zoom     (SLONG  zoom)      {CAM_zoom      = zoom;  CAM_want_valid = false; CAM_want_different = false;}
-void CAM_set_behind_up(SLONG  behind_up) {CAM_behind_up = behind_up;}
-void CAM_set_collision(SLONG  col)       {CAM_collide   = col;}
+void CAM_set_mode     (std::int32_t  mode)      {CAM_mode      = mode;  CAM_want_valid = false; CAM_want_different = false;}
+void CAM_set_zoom     (std::int32_t  zoom)      {CAM_zoom      = zoom;  CAM_want_valid = false; CAM_want_different = false;}
+void CAM_set_behind_up(std::int32_t  behind_up) {CAM_behind_up = behind_up;}
+void CAM_set_collision(std::int32_t  col)       {CAM_collide   = col;}
 void CAM_set_pos(
-		SLONG world_x, 
-		SLONG world_y, 
-		SLONG world_z)
+		std::int32_t world_x, 
+		std::int32_t world_y, 
+		std::int32_t world_z)
 {
 	CAM_pos_x = world_x << 8;
 	CAM_pos_y = world_y << 8;
@@ -103,9 +103,9 @@ void CAM_set_pos(
 }
 
 void CAM_set_angle(
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll)
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll)
 {
 	//if (CAM_mode == CAM_MODE_FIRST_PERSON ||
 	//	CAM_mode == CAM_MODE_THIRD_PERSON)
@@ -120,13 +120,13 @@ void CAM_set_angle(
 	}
 }
 
-void CAM_set_dangle(SLONG  dyaw, SLONG  dpitch)
+void CAM_set_dangle(std::int32_t  dyaw, std::int32_t  dpitch)
 {
 	CAM_dpitch = dpitch;
 	CAM_dyaw   = dyaw;
 }
  
-void CAM_get_dangle(SLONG *dyaw, SLONG *dpitch)
+void CAM_get_dangle(std::int32_t *dyaw, std::int32_t *dpitch)
 {
 	*dyaw   = CAM_dyaw;
 	*dpitch = CAM_dpitch;
@@ -143,7 +143,7 @@ float CAM_get_ryaw()
 }
 
 
-void CAM_set_type(SLONG type)
+void CAM_set_type(std::int32_t type)
 {
 	switch(type)
 	{
@@ -204,7 +204,7 @@ void CAM_set_type(SLONG type)
 	CAM_type = type;
 }
 
-SLONG CAM_get_type()
+std::int32_t CAM_get_type()
 {
 	return CAM_type;
 }
@@ -213,7 +213,7 @@ SLONG CAM_get_type()
 
 
 
-void CAM_set_shake(UBYTE amount)
+void CAM_set_shake(std::uint8_t amount)
 {
 	CAM_shake = amount;
 }
@@ -263,11 +263,11 @@ void CAM_work_out_focus_pos()
 {
 	void calc_sub_objects_position(
 			Thing *p_mthing,
-			SLONG  tween,
-			UWORD  object,
-			SLONG *x,
-			SLONG *y,
-			SLONG *z);
+			std::int32_t  tween,
+			std::uint16_t  object,
+			std::int32_t *x,
+			std::int32_t *y,
+			std::int32_t *z);
 
 	switch(CAM_focus->Class)
 	{
@@ -381,12 +381,12 @@ void CAM_work_out_focus_pos()
 // The distance of the camera from the focus.
 //
 
-SLONG CAM_dist_from_focus_xz()
+std::int32_t CAM_dist_from_focus_xz()
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
 	dx = CAM_focus_x - CAM_pos_x;
 	dz = CAM_focus_z - CAM_pos_z;
@@ -402,10 +402,10 @@ SLONG CAM_dist_from_focus_xz()
 // If swoop then the camera gradually turns to look at the thing.
 //
 
-void CAM_look_at_thing(SLONG swoop)
+void CAM_look_at_thing(std::int32_t swoop)
 {
-	SLONG dpitch;
-	SLONG want_pitch;
+	std::int32_t dpitch;
+	std::int32_t want_pitch;
 
 	float dradians_yaw;
 	float dradians_pitch;
@@ -413,9 +413,9 @@ void CAM_look_at_thing(SLONG swoop)
 	float want_radians_yaw;
 	float want_radians_pitch;
 
-	SLONG dx = CAM_focus_x - CAM_pos_x >> 8;
-	SLONG dy = CAM_focus_y - CAM_pos_y >> 8;
-	SLONG dz = CAM_focus_z - CAM_pos_z >> 8;
+	std::int32_t dx = CAM_focus_x - CAM_pos_x >> 8;
+	std::int32_t dy = CAM_focus_y - CAM_pos_y >> 8;
+	std::int32_t dz = CAM_focus_z - CAM_pos_z >> 8;
 
 	//
 	// When Darci is throwing the grappling hook, look at
@@ -448,7 +448,7 @@ void CAM_look_at_thing(SLONG swoop)
 	else
 	{
 #ifndef PSX
-		SLONG state = HOOK_get_state();
+		std::int32_t state = HOOK_get_state();
 
 		if (state == HOOK_STATE_SPINNING)
 		{
@@ -467,12 +467,12 @@ void CAM_look_at_thing(SLONG swoop)
 				hook_focus_y == CAM_focus_y &&
 				hook_focus_z == CAM_focus_z)
 			{
-				SLONG hook_x;
-				SLONG hook_y;
-				SLONG hook_z;
-				SLONG hook_yaw;
-				SLONG hook_pitch;
-				SLONG hook_roll;
+				std::int32_t hook_x;
+				std::int32_t hook_y;
+				std::int32_t hook_z;
+				std::int32_t hook_yaw;
+				std::int32_t hook_pitch;
+				std::int32_t hook_roll;
 
 				HOOK_pos_grapple(
 					&hook_x,
@@ -490,7 +490,7 @@ void CAM_look_at_thing(SLONG swoop)
 #endif
 	}
 
-	SLONG dxz = QDIST2(abs(dx),abs(dz));
+	std::int32_t dxz = QDIST2(abs(dx),abs(dz));
 
 	//
 	// Look at the right part of the thing.
@@ -562,18 +562,18 @@ void CAM_look_at_thing(SLONG swoop)
 //
 
 void CAM_move_towards(
-		SLONG dest_x,
-		SLONG dest_y,
-		SLONG dest_z)
+		std::int32_t dest_x,
+		std::int32_t dest_y,
+		std::int32_t dest_z)
 {
-	SLONG x1, x2;
-	SLONG y1, y2;
-	SLONG z1, z2;
+	std::int32_t x1, x2;
+	std::int32_t y1, y2;
+	std::int32_t z1, z2;
 
-	SLONG dx   = dest_x - CAM_pos_x;
-	SLONG dy   = dest_y - CAM_pos_y;
-	SLONG dz   = dest_z - CAM_pos_z;
-	SLONG dist = QDIST3(abs(dx),abs(dy),abs(dz));
+	std::int32_t dx   = dest_x - CAM_pos_x;
+	std::int32_t dy   = dest_y - CAM_pos_y;
+	std::int32_t dz   = dest_z - CAM_pos_z;
+	std::int32_t dist = QDIST3(abs(dx),abs(dy),abs(dz));
 
 	#define CAM_MIN_DELTA (0x4000)
 
@@ -646,9 +646,9 @@ void CAM_process_third_person();
 
 void CAM_process_crappy()
 {
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
 //	if (Keys[KB_5]) {Keys[KB_5] = 0; CAM_want_valid = false; CAM_want_different = true;}
 
@@ -659,35 +659,35 @@ void CAM_process_crappy()
 		// at the focus thing from.
 		//
 	
-		SLONG i;
+		std::int32_t i;
 
-		SLONG best_score;
-		SLONG best_angle;
-		SLONG best_dx;
-		SLONG best_dy;
-		SLONG best_dz;
+		std::int32_t best_score;
+		std::int32_t best_angle;
+		std::int32_t best_dx;
+		std::int32_t best_dy;
+		std::int32_t best_dz;
 
-		SLONG dx;
-		SLONG dy;
-		SLONG dz;
-		SLONG angle;
-		SLONG score;
-		SLONG dist;
-		SLONG dist_score;
-		SLONG dangle;
-		SLONG dangle_score;
+		std::int32_t dx;
+		std::int32_t dy;
+		std::int32_t dz;
+		std::int32_t angle;
+		std::int32_t score;
+		std::int32_t dist;
+		std::int32_t dist_score;
+		std::int32_t dangle;
+		std::int32_t dangle_score;
 
-		SLONG fx = CAM_focus_x >> 8;
-		SLONG fy = CAM_focus_y >> 8;
-		SLONG fz = CAM_focus_z >> 8;
+		std::int32_t fx = CAM_focus_x >> 8;
+		std::int32_t fy = CAM_focus_y >> 8;
+		std::int32_t fz = CAM_focus_z >> 8;
 
-		SLONG x1;
-		SLONG y1;
-		SLONG z1;
+		std::int32_t x1;
+		std::int32_t y1;
+		std::int32_t z1;
 
-		SLONG x2;
-		SLONG y2;
-		SLONG z2;
+		std::int32_t x2;
+		std::int32_t y2;
+		std::int32_t z2;
 
 		best_score = -INFINITY;
 
@@ -695,11 +695,11 @@ void CAM_process_crappy()
 
 		struct
 		{
-			SLONG los;
-			SLONG dist;	// 8-bit proportion of CAM_zoom
-			SLONG dx;
-			SLONG dy;
-			SLONG dz;
+			std::int32_t los;
+			std::int32_t dist;	// 8-bit proportion of CAM_zoom
+			std::int32_t dx;
+			std::int32_t dy;
+			std::int32_t dz;
 
 		} los_check[CAM_CHECK_ANGLES];
 
@@ -920,8 +920,8 @@ void CAM_process_crappy()
 		CAM_want_valid = true;
 	}
 
-	static SLONG focus_x = 0;
-	static SLONG focus_z = 0;
+	static std::int32_t focus_x = 0;
+	static std::int32_t focus_z = 0;
 
 	if (focus_x != CAM_focus->WorldPos.X ||
 		focus_z != CAM_focus->WorldPos.Z)
@@ -966,15 +966,15 @@ void CAM_process_crappy()
 // The game-state sensitive los function used by the camera.
 //
 
-SLONG CAM_los_fail_x;
-SLONG CAM_los_fail_y;
-SLONG CAM_los_fail_z;
+std::int32_t CAM_los_fail_x;
+std::int32_t CAM_los_fail_y;
+std::int32_t CAM_los_fail_z;
 
-SLONG CAM_los(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+std::int32_t CAM_los(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	if(INDOORS_INDEX)
 	{
@@ -1010,50 +1010,50 @@ SLONG CAM_los(
 
 void CAM_process_normal()
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG x1, x2, x3;
-	SLONG y1, y2, y3;
-	SLONG z1, z2, z3;
+	std::int32_t x1, x2, x3;
+	std::int32_t y1, y2, y3;
+	std::int32_t z1, z2, z3;
 
-	SLONG old_x2;
-	SLONG old_y2;
-	SLONG old_z2;
+	std::int32_t old_x2;
+	std::int32_t old_y2;
+	std::int32_t old_z2;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG rx;
-	SLONG rz;
+	std::int32_t rx;
+	std::int32_t rz;
 
-	SLONG mdx;
-	SLONG mdy;
-	SLONG mdz;
+	std::int32_t mdx;
+	std::int32_t mdy;
+	std::int32_t mdz;
 
-	SLONG dist;
-	SLONG ddist;
+	std::int32_t dist;
+	std::int32_t ddist;
 
-	SLONG lookx;
-	SLONG lookz;
+	std::int32_t lookx;
+	std::int32_t lookz;
 
-	SLONG xforce;
-	SLONG yforce;
-	SLONG zforce;
+	std::int32_t xforce;
+	std::int32_t yforce;
+	std::int32_t zforce;
 	
-	SLONG want_height;
-	SLONG want_dist_min;
-	SLONG want_dist_max;
+	std::int32_t want_height;
+	std::int32_t want_dist_min;
+	std::int32_t want_dist_max;
 	
-	SLONG behind;
-	SLONG hit;
+	std::int32_t behind;
+	std::int32_t hit;
 	
-	SLONG focus_moving;
+	std::int32_t focus_moving;
 
-	static SLONG focus_x = 0;
-	static SLONG focus_z = 0;
+	static std::int32_t focus_x = 0;
+	static std::int32_t focus_z = 0;
 
 	if (focus_x != CAM_focus_x ||
 		focus_z != CAM_focus_z)
@@ -1136,7 +1136,7 @@ void CAM_process_normal()
 		}
 		else
 		{
-			SLONG move_in;
+			std::int32_t move_in;
 
 			//
 			// How much closer do we move into the character?
@@ -1282,7 +1282,7 @@ void CAM_process_normal()
 
 			if (!hit)
 			{
-				SLONG cprod = mdx*lookz - mdz*lookx >> 8;
+				std::int32_t cprod = mdx*lookz - mdz*lookx >> 8;
 
 				cprod *= 3;	// WAS 2!
 
@@ -1357,9 +1357,9 @@ void CAM_process_normal()
 			yforce = 0;
 			zforce = 0;
 
-			SLONG ax;
-			SLONG ay;
-			SLONG az;
+			std::int32_t ax;
+			std::int32_t ay;
+			std::int32_t az;
 
 			ax = CAM_focus_x - CAM_pos_x >> 11;
 			ay = CAM_focus_y - CAM_pos_y >> 11;
@@ -1367,7 +1367,7 @@ void CAM_process_normal()
 #ifndef PSX
 			if (GAME_FLAGS & GF_SEWERS)
 			{
-				for (SLONG i = 0; i < 8; i++)
+				for (std::int32_t i = 0; i < 8; i++)
 				{
 					if (NS_inside(x, y, z))
 					{
@@ -1395,7 +1395,7 @@ void CAM_process_normal()
 			else
 #endif
 			{
-				for (SLONG i = 0; i < 8; i++)
+				for (std::int32_t i = 0; i < 8; i++)
 				{
 					if (MAV_inside(x, y, z))
 					{
@@ -1468,10 +1468,10 @@ void CAM_process_normal()
 		if ((CAM_los(x1,y1,z1, x2,y2,z2) &&
 			 CAM_los(x3,y3,z3, x2,y2,z2)))
 		{
-			SLONG dx;
-			SLONG dz;
-			SLONG ddist;
-			SLONG rot_dist;
+			std::int32_t dx;
+			std::int32_t dz;
+			std::int32_t ddist;
+			std::int32_t rot_dist;
 
 			CAM_pos_x += rx * abs(CAM_rotate) << 1;
 			CAM_pos_z += rz * abs(CAM_rotate) << 1;
@@ -1503,7 +1503,7 @@ void CAM_process_normal()
 	// Damp the camera movement.
 	//
 
-	SLONG damp_mul;
+	std::int32_t damp_mul;
 
 	damp_mul = 64 * TICK_RATIO >> TICK_SHIFT;
 
@@ -1574,11 +1574,11 @@ void CAM_process_stationary()
 
 void CAM_process_behind()
 {
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG along;
+	std::int32_t along;
 
 	//
 	// We want to be at a point behind our focus thing.
@@ -1615,11 +1615,11 @@ void CAM_process_behind()
 
 void CAM_process_shoot_normal()
 {
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG along;
+	std::int32_t along;
 
 	//
 	// We want to be at a point behind our focus thing.
@@ -1664,11 +1664,11 @@ void CAM_process_shoot_normal()
 
 void CAM_process_fight_normal()
 {
-	SLONG dest_x;
-	SLONG dest_y;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_y;
+	std::int32_t dest_z;
 
-	SLONG along;
+	std::int32_t along;
 
 	//
 	// We want to be at a point behind our focus thing.
@@ -1713,14 +1713,14 @@ void CAM_process_fight_normal()
 	CAM_look_at_thing(true);
 }
 
-SLONG CAM_div_move = 8;
-SLONG CAM_div_turn = 4;
+std::int32_t CAM_div_move = 8;
+std::int32_t CAM_div_turn = 4;
 
 void CAM_process_first_person()
 {
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
 	if (CAM_focus->Class == CLASS_PERSON)
 	{
@@ -1747,27 +1747,27 @@ void CAM_process_first_person()
 		pz = CAM_focus_z;
 	}
 
-	SLONG want_x = px;
-	SLONG want_y = py;
-	SLONG want_z = pz;
+	std::int32_t want_x = px;
+	std::int32_t want_y = py;
+	std::int32_t want_z = pz;
 
-	SLONG want_yaw   = (CAM_dyaw + CAM_focus_yaw + 1024) & 2047;
-	SLONG want_pitch = (CAM_dpitch)                      & 2047;
+	std::int32_t want_yaw   = (CAM_dyaw + CAM_focus_yaw + 1024) & 2047;
+	std::int32_t want_pitch = (CAM_dpitch)                      & 2047;
 
-	SLONG dx = want_x - CAM_pos_x;
-	SLONG dy = want_y - CAM_pos_y;
-	SLONG dz = want_z - CAM_pos_z;
+	std::int32_t dx = want_x - CAM_pos_x;
+	std::int32_t dy = want_y - CAM_pos_y;
+	std::int32_t dz = want_z - CAM_pos_z;
 
 	CAM_pos_x += dx / CAM_div_move;
 	CAM_pos_y += dy / CAM_div_move;
 	CAM_pos_z += dz / CAM_div_move;
 
-	SLONG dist = abs(dx) + abs(dy) + abs(dz);
+	std::int32_t dist = abs(dx) + abs(dy) + abs(dz);
 
 	if (dist < 0x4000)
 	{
-		SLONG dyaw   = want_yaw   - CAM_yaw;
-		SLONG dpitch = want_pitch - CAM_pitch;
+		std::int32_t dyaw   = want_yaw   - CAM_yaw;
+		std::int32_t dpitch = want_pitch - CAM_pitch;
 
 		if (dyaw >  1024) {dyaw -= 2048;}
 		if (dyaw < -1024) {dyaw += 2048;}
@@ -1817,11 +1817,11 @@ void CAM_process_first_person()
 
 void CAM_process_third_person()
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG matrix[9];
+	std::int32_t matrix[9];
 
 	//
 	// Position yourself to look at the focus thing given
@@ -1864,11 +1864,11 @@ void CAM_process()
 	// Is the camera too far from the focus thing?
 	//
 
-	SLONG dx = CAM_focus_x - CAM_pos_x;
-	SLONG dy = CAM_focus_y - CAM_pos_y;
-	SLONG dz = CAM_focus_z - CAM_pos_z;
+	std::int32_t dx = CAM_focus_x - CAM_pos_x;
+	std::int32_t dy = CAM_focus_y - CAM_pos_y;
+	std::int32_t dz = CAM_focus_z - CAM_pos_z;
 
-	SLONG dist = QDIST3(abs(dx),abs(dy),abs(dz));
+	std::int32_t dist = QDIST3(abs(dx),abs(dy),abs(dz));
 
 	if (dist > 0x10000 * 32)
 	{
@@ -1971,21 +1971,21 @@ void CAM_rotate_right()
 }
 
 
-SLONG CAM_get_mode() {return CAM_mode;}
-SLONG CAM_get_zoom() {return CAM_zoom;}
+std::int32_t CAM_get_mode() {return CAM_mode;}
+std::int32_t CAM_get_zoom() {return CAM_zoom;}
 
 void CAM_get(
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z,
-		SLONG *yaw,
-		SLONG *pitch,
-		SLONG *roll,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z,
+		std::int32_t *yaw,
+		std::int32_t *pitch,
+		std::int32_t *roll,
 		float *radians_yaw,
 		float *radians_pitch,
 		float *radians_roll)
 {
-	SLONG lens;
+	std::int32_t lens;
 
 	if (EWAY_grab_camera(
 			world_x,
@@ -2030,15 +2030,15 @@ void CAM_get(
 }
 
 void CAM_get_psx(
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z,
-		SLONG *yaw,
-		SLONG *pitch,
-		SLONG *roll,
-		SLONG *radians_yaw,
-		SLONG *radians_pitch,
-		SLONG *radians_roll)
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z,
+		std::int32_t *yaw,
+		std::int32_t *pitch,
+		std::int32_t *roll,
+		std::int32_t *radians_yaw,
+		std::int32_t *radians_pitch,
+		std::int32_t *radians_roll)
 {
 	*world_x       = CAM_pos_x >> 8;
 	*world_y       = CAM_pos_y >> 8;
@@ -2046,9 +2046,9 @@ void CAM_get_psx(
 	*yaw           = CAM_yaw;
 	*pitch         = CAM_pitch;
 	*roll          = CAM_roll;
-	*radians_yaw   = (SLONG)(CAM_radians_yaw*65536);
-	*radians_pitch = (SLONG)(CAM_radians_pitch*65536);
-	*radians_roll  = (SLONG)(CAM_radians_roll*65536);
+	*radians_yaw   = (std::int32_t)(CAM_radians_yaw*65536);
+	*radians_pitch = (std::int32_t)(CAM_radians_pitch*65536);
+	*radians_roll  = (std::int32_t)(CAM_radians_roll*65536);
 
 	if (CAM_shake)
 	{
@@ -2063,9 +2063,9 @@ void CAM_get_psx(
 }
 
 void CAM_get_pos(
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z)
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z)
 {
 	*world_x = CAM_pos_x >> 8;
 	*world_y = CAM_pos_y >> 8;
@@ -2073,11 +2073,11 @@ void CAM_get_pos(
 }
 
 void CAM_get_dpos(
-		SLONG *dpos_x,
-		SLONG *dpos_y,
-		SLONG *dpos_z,
-		SLONG *yaw,
-		SLONG *pitch)
+		std::int32_t *dpos_x,
+		std::int32_t *dpos_y,
+		std::int32_t *dpos_z,
+		std::int32_t *yaw,
+		std::int32_t *pitch)
 {
 	*dpos_x = CAM_pos_x - CAM_focus_x >> 8;
 	*dpos_y = CAM_pos_y - CAM_focus_y >> 8;
@@ -2087,11 +2087,11 @@ void CAM_get_dpos(
 }
 
 void CAM_set_dpos(
-		SLONG dpos_x,
-		SLONG dpos_y,
-		SLONG dpos_z,
-		SLONG yaw,
-		SLONG pitch)
+		std::int32_t dpos_x,
+		std::int32_t dpos_y,
+		std::int32_t dpos_z,
+		std::int32_t yaw,
+		std::int32_t pitch)
 {
 	CAM_pos_x = (dpos_x << 8) + CAM_focus_x;
 	CAM_pos_y = (dpos_y << 8) + CAM_focus_y;
@@ -2111,11 +2111,11 @@ void CAM_set_dpos(
 
 void CAM_set_to_leave_sewers_position(Thing *darci)
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 	
 	//
 	// Which way is Darci facing?

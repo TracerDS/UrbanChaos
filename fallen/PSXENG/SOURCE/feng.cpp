@@ -13,7 +13,7 @@
 
 #include "game.h"
 
-SBYTE f_width[104]={
+std::int8_t f_width[104]={
 	5,2,7,7,7,10,9,5,
 	3,3,5,6,3,4,3,3,
 	7,5,7,7,8,7,7,6,
@@ -31,13 +31,13 @@ SBYTE f_width[104]={
 
 //char text_table[]="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?^�@_";
 
-void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
+void draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id)
 {
 	SPRT *p;
 	DR_TPAGE *tp;
-	UBYTE* m=(UBYTE*)message;
-	SLONG x0=x,y0=y;
-	SLONG c;
+	std::uint8_t* m=(std::uint8_t*)message;
+	std::int32_t x0=x,y0=y;
+	std::int32_t c;
 
 	ALLOCPRIM(tp,DR_TPAGE);
 	p=(SPRT*)the_display.CurrentPrim;
@@ -89,10 +89,10 @@ void draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 	}
 	DOPRIM(PANEL_OTZ,tp);
 	check_prim_ptr((void**)&p);
-	the_display.CurrentPrim=(UBYTE*)p;
+	the_display.CurrentPrim=(std::uint8_t*)p;
 }
 
-SLONG text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
+std::int32_t text_width(char* message,std::int32_t font_id,std::int32_t *char_count)
 {
 	char *p=message;
 	int width=0;
@@ -107,19 +107,19 @@ SLONG text_width(CBYTE* message,SLONG font_id,SLONG *char_count)
 	return(width);
 }
 
-SLONG text_height(CBYTE* message,SLONG font_id,SLONG *char_count)
+std::int32_t text_height(char* message,std::int32_t font_id,std::int32_t *char_count)
 {
 	*char_count=0;//strlen(message);
 	return(12);
 }
 
-void draw_centre_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id,SLONG flag)
+void draw_centre_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id,std::int32_t flag)
 {
-	SLONG c;
+	std::int32_t c;
 	draw_text_at(x-(text_width(message,font_id,&c)/2),y-(text_height(message,font_id,&c)/2),message,font_id);
 }
 
-void AENG_flip2(ULONG *back_image)
+void AENG_flip2(std::uint32_t *back_image)
 {
 	DB	*old_buffer;
 
@@ -149,8 +149,8 @@ void AENG_flip2(ULONG *back_image)
 
 void AENG_flip()
 {
-	static	SLONG	prev_sync;
-	SLONG	temp;
+	static	std::int32_t	prev_sync;
+	std::int32_t	temp;
 	DB	*old_buffer;
 //	DrawSync(0);		/* wait for hardware to finish drawing */
 		

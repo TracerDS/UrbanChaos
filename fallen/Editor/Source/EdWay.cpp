@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-ULONG				ed_waypoint_count	=	0;
+std::uint32_t				ed_waypoint_count	=	0;
 EditWaypoint		edit_waypoints[MAX_EDIT_WAYPOINTS];
 
 //---------------------------------------------------------------
@@ -20,9 +20,9 @@ void	init_ed_waypoints()
 
 //---------------------------------------------------------------
 
-UWORD	alloc_ed_waypoint()
+std::uint16_t	alloc_ed_waypoint()
 {
-	UWORD		c0;
+	std::uint16_t		c0;
 
 
 	for(c0=1;c0<MAX_EDIT_WAYPOINTS;c0++)
@@ -42,9 +42,9 @@ UWORD	alloc_ed_waypoint()
 
 //---------------------------------------------------------------
 
-void	free_ed_waypoint(UWORD wp_index)
+void	free_ed_waypoint(std::uint16_t wp_index)
 {
-	UWORD		next_index,
+	std::uint16_t		next_index,
 				prev_index;
 
 
@@ -63,7 +63,7 @@ void	free_ed_waypoint(UWORD wp_index)
 
 //---------------------------------------------------------------
 
-void	link_next_waypoint(UWORD link_wp,UWORD next_wp)
+void	link_next_waypoint(std::uint16_t link_wp,std::uint16_t next_wp)
 {
 	edit_waypoints[link_wp].Prev	=	edit_waypoints[next_wp].Prev;
 	if(edit_waypoints[next_wp].Prev)
@@ -76,7 +76,7 @@ void	link_next_waypoint(UWORD link_wp,UWORD next_wp)
 
 //---------------------------------------------------------------
 
-void	link_prev_waypoint(UWORD link_wp,UWORD prev_wp)
+void	link_prev_waypoint(std::uint16_t link_wp,std::uint16_t prev_wp)
 {
 	edit_waypoints[link_wp].Next	=	edit_waypoints[prev_wp].Next;
 	if(edit_waypoints[prev_wp].Next)
@@ -89,11 +89,11 @@ void	link_prev_waypoint(UWORD link_wp,UWORD prev_wp)
 
 //---------------------------------------------------------------
 
-void	pack_waypoints(UWORD *map_table)
+void	pack_waypoints(std::uint16_t *map_table)
 {
-	UWORD			c0,
+	std::uint16_t			c0,
 					temp_index;
-	ULONG			count	=	0;
+	std::uint32_t			count	=	0;
 	EditWaypoint	*temp_waypoints;
 
 

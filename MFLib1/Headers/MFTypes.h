@@ -9,10 +9,10 @@
 typedef	unsigned long		bool;
 #endif
 
-typedef	unsigned char		UBYTE;
-typedef signed char			SBYTE;
-typedef char				CBYTE;
-typedef unsigned short		UWORD;
-typedef signed short		SWORD;
-typedef unsigned long		ULONG;
-typedef signed long			SLONG;
+typedef	unsigned char		std::uint8_t;
+typedef signed char			std::int8_t;
+typedef char				char;
+typedef unsigned short		std::uint16_t;
+typedef signed short		std::int16_t;
+typedef unsigned long		std::uint32_t;
+typedef signed long			std::int32_t;

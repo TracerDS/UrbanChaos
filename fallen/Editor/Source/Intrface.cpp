@@ -27,10 +27,10 @@ Interface::~Interface()
 
 void Interface::SetupInterfaceDefaults(void)
 {
-	SLONG			blue,
+	std::int32_t			blue,
 					green,
 					red;
-	SLONG			file_size;
+	std::int32_t			file_size;
 	MFFileHandle	file_handle;
 
 
@@ -40,7 +40,7 @@ void Interface::SetupInterfaceDefaults(void)
 
 #ifdef	_DEBUG
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 		for(c0=0;c0<256*3;c0++)
 		{
 			LogText(" pal c0 %d \n",c0);
@@ -60,13 +60,13 @@ void Interface::SetupInterfaceDefaults(void)
 	HiliteColour	=	FindColour(InterfacePalette,115+30,128+30,156+30);
 	LoliteColour	=	FindColour(InterfacePalette,115-20,128-20,156-20);
 	SelectColour	=	FindColour(InterfacePalette,115+10,128+10,156+10);
-	ActiveColour	=	FindColour((UBYTE*)InterfacePalette,130,130,130);
-	WhiteColour		=	FindColour((UBYTE*)InterfacePalette,255,255,255);
-	GreyColour		=	FindColour((UBYTE*)InterfacePalette,128,128,128);
-	YellowColour	=	FindColour((UBYTE*)InterfacePalette,255,255,0);
-	RedColour		=	FindColour((UBYTE*)InterfacePalette,255,0,0);
-	GreenColour		=	FindColour((UBYTE*)InterfacePalette,0,255,0);
-	BlueColour		=	FindColour((UBYTE*)InterfacePalette,0,0,255);
+	ActiveColour	=	FindColour((std::uint8_t*)InterfacePalette,130,130,130);
+	WhiteColour		=	FindColour((std::uint8_t*)InterfacePalette,255,255,255);
+	GreyColour		=	FindColour((std::uint8_t*)InterfacePalette,128,128,128);
+	YellowColour	=	FindColour((std::uint8_t*)InterfacePalette,255,255,0);
+	RedColour		=	FindColour((std::uint8_t*)InterfacePalette,255,0,0);
+	GreenColour		=	FindColour((std::uint8_t*)InterfacePalette,0,255,0);
+	BlueColour		=	FindColour((std::uint8_t*)InterfacePalette,0,0,255);
 
 	InactiveColour	=	ContentColour;
 
@@ -88,7 +88,7 @@ void Interface::SetupInterfaceDefaults(void)
 	if(file_handle!=FILE_OPEN_ERROR)
 	{
 		file_size	=	FileSize(file_handle);
-		interface_sprite_data	=	(UBYTE*)MemAlloc(file_size);
+		interface_sprite_data	=	(std::uint8_t*)MemAlloc(file_size);
 		if(interface_sprite_data)
 		{
 			FileRead(file_handle,interface_sprite_data,file_size);

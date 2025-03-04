@@ -18,8 +18,8 @@
 #include "DIManager.h"
 #endif
 
-extern UBYTE	GAME_cut_scene;
-extern SLONG	analogue;
+extern std::uint8_t	GAME_cut_scene;
+extern std::int32_t	analogue;
 
 #ifdef	MIKE
 #define	VERSION_NTSC
@@ -44,15 +44,15 @@ extern SLONG	analogue;
 FC_Cam FC_cam[FC_MAX_CAMS];
 
 
-extern SLONG person_has_gun_out(Thing *p_person);
+extern std::int32_t person_has_gun_out(Thing *p_person);
 
-SLONG FC_alter_for_pos(FC_Cam *fc,SLONG *dheight,SLONG *ddist)
+std::int32_t FC_alter_for_pos(FC_Cam *fc,std::int32_t *dheight,std::int32_t *ddist)
 {
-	SLONG	dx,dz;
-	UBYTE	cap;
-	SLONG	px,pz;
-	SLONG	height1,height2;
-	SLONG	p=0;
+	std::int32_t	dx,dz;
+	std::uint8_t	cap;
+	std::int32_t	px,pz;
+	std::int32_t	height1,height2;
+	std::int32_t	p=0;
 
 extern float POLY_cam_x;
 extern float POLY_cam_z;
@@ -101,8 +101,8 @@ extern float POLY_cam_z;
 
 
 
-	dx=px-(SLONG)POLY_cam_x;
-	dz=pz-(SLONG)POLY_cam_z;
+	dx=px-(std::int32_t)POLY_cam_x;
+	dz=pz-(std::int32_t)POLY_cam_z;
 
 	height1=MAVHEIGHT(px>>8,pz>>8)<<6;
 	height2=height1;
@@ -181,7 +181,7 @@ extern float POLY_cam_z;
 
 void FC_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	memset(FC_cam, 0, sizeof(FC_Cam) * FC_MAX_CAMS);
 
@@ -208,7 +208,7 @@ void FC_init()
 // Camera type defines 1 of 4 distances and heights.
 //
 
-void FC_change_camera_type(SLONG cam, SLONG cam_type)
+void FC_change_camera_type(std::int32_t cam, std::int32_t cam_type)
 {
 	switch(cam_type)
 	{
@@ -245,7 +245,7 @@ void FC_change_camera_type(SLONG cam, SLONG cam_type)
 // and move up to be able to see the focus.
 //
 
-SLONG FC_must_move_up_and_around(SLONG cam)
+std::int32_t FC_must_move_up_and_around(std::int32_t cam)
 {
 	return false;
 }
@@ -257,7 +257,7 @@ SLONG FC_must_move_up_and_around(SLONG cam)
 // Camera setup.
 //
 
-void FC_look_at(SLONG cam, UWORD thing_index)
+void FC_look_at(std::int32_t cam, std::uint16_t thing_index)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
@@ -268,7 +268,7 @@ void FC_look_at(SLONG cam, UWORD thing_index)
 
 }
 
-void FC_move_to(SLONG cam, SLONG world_x, SLONG world_y, SLONG world_z)
+void FC_move_to(std::int32_t cam, std::int32_t world_x, std::int32_t world_y, std::int32_t world_z)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
@@ -292,12 +292,12 @@ void FC_move_to(SLONG cam, SLONG world_x, SLONG world_y, SLONG world_z)
 // or the focus above the ground.
 // 
 
-SLONG FC_focus_above(FC_Cam *fc)
+std::int32_t FC_focus_above(FC_Cam *fc)
 {
-	SLONG ground;
-	SLONG focus;
-	SLONG above;
-	SLONG lower=0;
+	std::int32_t ground;
+	std::int32_t focus;
+	std::int32_t above;
+	std::int32_t lower=0;
 
 
 
@@ -388,7 +388,7 @@ SLONG FC_focus_above(FC_Cam *fc)
 #define	CAM_AT_WORLD_POS	2
 #define	CAM_AT_FEET			3
 
-SLONG FC_get_person_body_part_target(Thing *p_thing)
+std::int32_t FC_get_person_body_part_target(Thing *p_thing)
 {
 	switch(p_thing->Genus.Person->Action)
 	{
@@ -429,12 +429,12 @@ SLONG FC_get_person_body_part_target(Thing *p_thing)
 
 void FC_calc_focus(FC_Cam *fc)
 {
-	SLONG	body_part=0;
+	std::int32_t	body_part=0;
 	//
 	// By default...
 	//
 
-	fc->focus_in_warehouse = nullptr;
+	fc->focus_in_warehouse = 0;
 
 	//
 	// Focus yaw.
@@ -448,7 +448,7 @@ void FC_calc_focus(FC_Cam *fc)
 			{
 				Thing *p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
 
-				SLONG yaw_car;
+				std::int32_t yaw_car;
 				
 				yaw_car  = p_vehicle->Genus.Vehicle->Angle;
 #ifndef	VERSION_NTSC
@@ -464,9 +464,9 @@ void FC_calc_focus(FC_Cam *fc)
 
 				/*
 
-				SLONG yaw_car;
-				SLONG yaw_cam;
-				SLONG dyaw;
+				std::int32_t yaw_car;
+				std::int32_t yaw_cam;
+				std::int32_t dyaw;
 
 				yaw_car = TO_THING(fc->focus->Genus.Person->InCar)->Genus.Vehicle->Angle;
 				yaw_cam = fc->yaw >> 8;
@@ -483,7 +483,7 @@ void FC_calc_focus(FC_Cam *fc)
 			}
 			else
 			{
-				SLONG	dyaw;
+				std::int32_t	dyaw;
 				fc->focus_yaw = fc->focus->Draw.Tweened->Angle;
 
 //				fc->focus_yaw>>=7;
@@ -542,10 +542,10 @@ void FC_calc_focus(FC_Cam *fc)
 					// Look from the side!
 					//
 
-					SLONG a1;
-					SLONG a2;
+					std::int32_t a1;
+					std::int32_t a2;
 
-					SLONG dangle;
+					std::int32_t dangle;
 
 					a1 = fc->focus_yaw;
 					a2 = fc->yaw >> 8;
@@ -576,9 +576,9 @@ void FC_calc_focus(FC_Cam *fc)
 		case CLASS_VEHICLE:
 
 			{
-				SLONG yaw_car;
-				SLONG yaw_cam;
-				SLONG dyaw;
+				std::int32_t yaw_car;
+				std::int32_t yaw_cam;
+				std::int32_t dyaw;
 
 				yaw_car = fc->focus->Genus.Vehicle->Angle;
 				yaw_cam = fc->yaw >> 8;
@@ -605,11 +605,11 @@ void FC_calc_focus(FC_Cam *fc)
 
 	void calc_sub_objects_position(
 			Thing *p_mthing,
-			SLONG  tween,
-			UWORD  object,
-			SLONG *x,
-			SLONG *y,
-			SLONG *z);
+			std::int32_t  tween,
+			std::uint16_t  object,
+			std::int32_t *x,
+			std::int32_t *y,
+			std::int32_t *z);
 
 	switch(fc->focus->Class)
 	{
@@ -643,13 +643,13 @@ void FC_calc_focus(FC_Cam *fc)
 
 				case	CAM_AT_FEET:
 					{
-						SLONG lfx;
-						SLONG lfy;
-						SLONG lfz;
+						std::int32_t lfx;
+						std::int32_t lfy;
+						std::int32_t lfz;
 
-						SLONG rfx;
-						SLONG rfy;
-						SLONG rfz;
+						std::int32_t rfx;
+						std::int32_t rfy;
+						std::int32_t rfz;
 
 						//
 						// Focus on the average y of the two feet.
@@ -702,8 +702,8 @@ void FC_calc_focus(FC_Cam *fc)
 
 	if(fc->focus->SubState == SUB_STATE_HUG_WALL_LOOK_L)
 	{
-		SLONG	angle,dx,dz;
-		SLONG	velocity;
+		std::int32_t	angle,dx,dz;
+		std::int32_t	velocity;
 		angle=fc->focus->Draw.Tweened->Angle-512;
 		velocity=fc->focus->Genus.Person->InsideRoom;
 		
@@ -716,8 +716,8 @@ void FC_calc_focus(FC_Cam *fc)
 	}
 	if(fc->focus->SubState == SUB_STATE_HUG_WALL_LOOK_R)
 	{
-		SLONG	angle,dx,dz;
-		SLONG	velocity;
+		std::int32_t	angle,dx,dz;
+		std::int32_t	velocity;
 		angle=fc->focus->Draw.Tweened->Angle+512;
 		velocity=fc->focus->Genus.Person->InsideRoom;
 		angle&=2047;
@@ -732,14 +732,14 @@ void FC_calc_focus(FC_Cam *fc)
 
 void FC_look_at_focus(FC_Cam *fc)
 {
-	SLONG dx = fc->focus_x                 - fc->want_x >> 8;
-	SLONG dy = fc->focus_y + fc->lookabove - fc->want_y >> 8;
-	SLONG dz = fc->focus_z                 - fc->want_z >> 8;
+	std::int32_t dx = fc->focus_x                 - fc->want_x >> 8;
+	std::int32_t dy = fc->focus_y + fc->lookabove - fc->want_y >> 8;
+	std::int32_t dz = fc->focus_z                 - fc->want_z >> 8;
 
 	if (fc->toonear && fc->toonear_dist != 0x90000)	// 0x90000 => 1st person mode ! :)
 	{
-		SLONG dangle;
-		SLONG angle;
+		std::int32_t dangle;
+		std::int32_t angle;
 
 		dangle = fc->focus_yaw - fc->toonear_focus_yaw;
 
@@ -756,7 +756,7 @@ void FC_look_at_focus(FC_Cam *fc)
 		dz -= COS(angle) >> 8;
 	}
 
-	SLONG dxz = QDIST2(abs(dx),abs(dz));
+	std::int32_t dxz = QDIST2(abs(dx),abs(dz));
 
 	//
 	// Look at the right part of the thing.
@@ -785,15 +785,15 @@ void FC_look_at_focus(FC_Cam *fc)
 
 
 
-void FC_force_camera_behind(SLONG cam)
+void FC_force_camera_behind(std::int32_t cam)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
 	FC_Cam *fc = &FC_cam[cam];	
 
-	SLONG gox;
-	SLONG goy;
-	SLONG goz;
+	std::int32_t gox;
+	std::int32_t goy;
+	std::int32_t goz;
 
 	//
 	// Work out where the focus is.
@@ -829,16 +829,16 @@ void FC_force_camera_behind(SLONG cam)
 		// Where to go in an emergency!
 		//
 
-		SLONG abort_x = MAV_height_los_fail_x << 8;
-		SLONG abort_y = MAV_height_los_fail_y << 8;
-		SLONG abort_z = MAV_height_los_fail_z << 8;
+		std::int32_t abort_x = MAV_height_los_fail_x << 8;
+		std::int32_t abort_y = MAV_height_los_fail_y << 8;
+		std::int32_t abort_z = MAV_height_los_fail_z << 8;
 
 		//
 		// Try around a bit...
 		//
 
-		SLONG i;
-		SLONG dangle;
+		std::int32_t i;
+		std::int32_t dangle;
 
 		for (i = 0; i < 4; i++)
 		{
@@ -880,8 +880,8 @@ void FC_force_camera_behind(SLONG cam)
 
 		goy -= 0x6000;
 
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 		dx = abs(gox - fc->focus_x);
 		dz = abs(goz - fc->focus_z);
@@ -906,14 +906,14 @@ void FC_force_camera_behind(SLONG cam)
 
 
 
-void FC_setup_initial_camera(SLONG cam)
+void FC_setup_initial_camera(std::int32_t cam)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
 	FC_Cam *fc = &FC_cam[cam];	
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	FC_calc_focus(fc);
 
@@ -963,20 +963,20 @@ void FC_setup_initial_camera(SLONG cam)
 #define FC_ROTATE_DIR_LEFT  0
 #define FC_ROTATE_DIR_RIGHT 1
 
-SLONG FC_allowed_to_rotate(FC_Cam *fc, SLONG rotate_dir)
+std::int32_t FC_allowed_to_rotate(FC_Cam *fc, std::int32_t rotate_dir)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG my;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t my;
+	std::int32_t mz;
 		  
-	SLONG cx;
-	SLONG cy;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cy;
+	std::int32_t cz;
 
 	//
 	// Where will the camera end up?
@@ -1044,7 +1044,7 @@ SLONG FC_allowed_to_rotate(FC_Cam *fc, SLONG rotate_dir)
 
 
 
-void FC_rotate_left(SLONG cam)
+void FC_rotate_left(std::int32_t cam)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
@@ -1056,7 +1056,7 @@ void FC_rotate_left(SLONG cam)
 	}
 }
 
-void FC_rotate_right(SLONG cam)
+void FC_rotate_right(std::int32_t cam)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
@@ -1069,18 +1069,18 @@ void FC_rotate_right(SLONG cam)
 }
 
 
-void FC_setup_camera_for_warehouse(SLONG cam)
+void FC_setup_camera_for_warehouse(std::int32_t cam)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
 	FC_Cam *fc = &FC_cam[cam];	
 
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG best_dist =  INFINITY;
-	SLONG best_door = -1;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t best_dist =  INFINITY;
+	std::int32_t best_door = -1;
 
 	WARE_Ware *ww;
 
@@ -1139,26 +1139,26 @@ void FC_setup_camera_for_warehouse(SLONG cam)
 
 void FC_process()
 {
-	SLONG i;
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG cam;
-	SLONG dist;
-	SLONG ddist;
-	SLONG xforce;
-	SLONG yforce;
-	SLONG zforce;
-	SLONG shift;
-	SLONG behind_x;
-	SLONG behind_y;
-	SLONG behind_z;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t cam;
+	std::int32_t dist;
+	std::int32_t ddist;
+	std::int32_t xforce;
+	std::int32_t yforce;
+	std::int32_t zforce;
+	std::int32_t shift;
+	std::int32_t behind_x;
+	std::int32_t behind_y;
+	std::int32_t behind_z;
 
-	UBYTE used_to_be_in_warehouse;
-	SLONG	offset_dist,offset_height;
+	std::uint8_t used_to_be_in_warehouse;
+	std::int32_t	offset_dist,offset_height;
 	
 	FC_Cam *fc;
 
@@ -1192,7 +1192,7 @@ void FC_process()
 		if (used_to_be_in_warehouse != fc->focus_in_warehouse)
 		{
 //#ifdef	PSX
-extern SLONG	EWAY_cam_jumped;
+extern std::int32_t	EWAY_cam_jumped;
 				EWAY_cam_jumped=10;
 //#endif
 			if (fc->focus_in_warehouse)
@@ -1272,10 +1272,10 @@ extern SLONG	EWAY_cam_jumped;
 				// If the dangle is too great then cancel toonear.
 				//
 
-				SLONG cdx    =  fc->focus_x - fc->want_x >> 8;
-				SLONG cdz    =  fc->focus_z - fc->want_z >> 8;
-				SLONG cangle = -Arctan(cdx,cdz) & 2047;
-				SLONG dangle;
+				std::int32_t cdx    =  fc->focus_x - fc->want_x >> 8;
+				std::int32_t cdz    =  fc->focus_z - fc->want_z >> 8;
+				std::int32_t cangle = -Arctan(cdx,cdz) & 2047;
+				std::int32_t dangle;
 
 				dangle = fc->toonear_focus_yaw - cangle;
 
@@ -1361,7 +1361,7 @@ extern SLONG	EWAY_cam_jumped;
 							//
 
 							{
-								SLONG roof = MAVHEIGHT(x>>8,z>>8) << 6;
+								std::int32_t roof = MAVHEIGHT(x>>8,z>>8) << 6;
 
 								if (y > roof - 0x100)
 								{
@@ -1396,7 +1396,7 @@ extern SLONG	EWAY_cam_jumped;
 					// Push away from fences.
 					//
 
-					UBYTE push;
+					std::uint8_t push;
 
 					#define FC_PUSH_XS (1 << 0)
 					#define FC_PUSH_XL (1 << 1)
@@ -1417,7 +1417,7 @@ extern SLONG	EWAY_cam_jumped;
 
 					if (!MAV_inside(x, y, z))
 					{
-						SLONG ground = PAP_calc_map_height_at(x,z);
+						std::int32_t ground = PAP_calc_map_height_at(x,z);
 
 						if (y <= ground + 0x240)
 						{
@@ -1645,7 +1645,7 @@ extern SLONG	EWAY_cam_jumped;
 			else
 			*/
 			{
-				SLONG goto_y = fc->focus_y + FC_focus_above(fc) + offset_height;
+				std::int32_t goto_y = fc->focus_y + FC_focus_above(fc) + offset_height;
 
 				if (GAME_FLAGS & GF_NO_FLOOR)
 				{
@@ -1836,9 +1836,9 @@ extern SLONG	EWAY_cam_jumped;
 //			fc->want_yaw<<=8+6;
 
 		}
-		SLONG dyaw   = fc->want_yaw   - fc->yaw;
-		SLONG dpitch = fc->want_pitch - fc->pitch;
-		SLONG droll  = fc->want_roll  - fc->roll;
+		std::int32_t dyaw   = fc->want_yaw   - fc->yaw;
+		std::int32_t dpitch = fc->want_pitch - fc->pitch;
+		std::int32_t droll  = fc->want_roll  - fc->roll;
 
 		dyaw   &= (2048 << 8) - 1;
 		dpitch &= (2048 << 8) - 1;
@@ -1912,9 +1912,9 @@ extern SLONG	EWAY_cam_jumped;
 
 		if (fc->shake)
 		{
-			SLONG shake_x = (rand() % fc->shake) - (fc->shake >> 1);
-			SLONG shake_y = (rand() % fc->shake) - (fc->shake >> 1);
-			SLONG shake_z = (rand() % fc->shake) - (fc->shake >> 1);
+			std::int32_t shake_x = (rand() % fc->shake) - (fc->shake >> 1);
+			std::int32_t shake_y = (rand() % fc->shake) - (fc->shake >> 1);
+			std::int32_t shake_z = (rand() % fc->shake) - (fc->shake >> 1);
 
 			fc->x += shake_x << 7;
 			fc->y += shake_y << 7;
@@ -1927,21 +1927,21 @@ extern SLONG	EWAY_cam_jumped;
 }
 
 
-SLONG FC_can_see_point(
-		SLONG cam,
-		SLONG x,
-		SLONG y,
-		SLONG z)
+std::int32_t FC_can_see_point(
+		std::int32_t cam,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
 	FC_Cam *fc = &FC_cam[cam];	
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx = (fc->x >> 8) - x >> 3;
-	SLONG dy = (fc->y >> 8) - y >> 3;
-	SLONG dz = (fc->z >> 8) - z >> 3;
+	std::int32_t dx = (fc->x >> 8) - x >> 3;
+	std::int32_t dy = (fc->y >> 8) - y >> 3;
+	std::int32_t dz = (fc->z >> 8) - z >> 3;
 
 	for (i = 0; i < 5; i++)
 	{
@@ -1958,20 +1958,20 @@ SLONG FC_can_see_point(
 
 
 #ifndef	PSX
-SLONG FC_can_see_person(SLONG cam, Thing *p_person)
+std::int32_t FC_can_see_person(std::int32_t cam, Thing *p_person)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
 	FC_Cam *fc = &FC_cam[cam];	
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG old_fc_x = fc->x;
-	SLONG old_fc_y = fc->y;
-	SLONG old_fc_z = fc->z;
-	SLONG junk;
+	std::int32_t old_fc_x = fc->x;
+	std::int32_t old_fc_y = fc->y;
+	std::int32_t old_fc_z = fc->z;
+	std::int32_t junk;
 
 	if (p_person->State == STATE_CLIMB_LADDER ||
 		p_person->State == STATE_DANGLING     ||
@@ -1997,11 +1997,11 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person)
 	// Always see people who are close
 	//
 
-	SLONG dx = abs(p_person->WorldPos.X - fc->x);
-	SLONG dy = abs(p_person->WorldPos.Y - fc->y);
-	SLONG dz = abs(p_person->WorldPos.Z - fc->z);
+	std::int32_t dx = abs(p_person->WorldPos.X - fc->x);
+	std::int32_t dy = abs(p_person->WorldPos.Y - fc->y);
+	std::int32_t dz = abs(p_person->WorldPos.Z - fc->z);
 
-	SLONG dist = abs(dx) + abs(dy) + abs(dz);
+	std::int32_t dist = abs(dx) + abs(dy) + abs(dz);
 
 	if (dist < 0x58000)
 	{
@@ -2055,12 +2055,12 @@ SLONG FC_can_see_person(SLONG cam, Thing *p_person)
 }
 #endif
 
-void FC_position_for_lookaround(SLONG cam, SLONG pitch)
+void FC_position_for_lookaround(std::int32_t cam, std::int32_t pitch)
 {
 	ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
 	FC_Cam *fc = &FC_cam[cam];	
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	FMATRIX_vector(
 		vector,
@@ -2082,15 +2082,15 @@ void FC_position_for_lookaround(SLONG cam, SLONG pitch)
 }
 
 
-void FC_explosion(SLONG x, SLONG y, SLONG z, SLONG force)
+void FC_explosion(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t force)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG shake;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t shake;
 
 	FC_Cam *fc;
 
@@ -2126,7 +2126,7 @@ void FC_explosion(SLONG x, SLONG y, SLONG z, SLONG force)
 	}
 }
 
-extern void	set_slow_motion(UWORD motion);
+extern void	set_slow_motion(std::uint16_t motion);
 
 void FC_kill_player_cam(Thing *p_thing)
 {

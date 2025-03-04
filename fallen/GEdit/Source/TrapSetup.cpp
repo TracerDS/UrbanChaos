@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG			trap_type, trap_speed, trap_steps, trap_mask, trap_axis, trap_range;
+std::int32_t			trap_type, trap_speed, trap_steps, trap_mask, trap_axis, trap_range;
 
 //---------------------------------------------------------------
 
@@ -31,11 +31,11 @@ SLONG			trap_type, trap_speed, trap_steps, trap_mask, trap_axis, trap_range;
 									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
 
 
-void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
-	CBYTE i,j;
-	SLONG		c0			=	1;
+void InitSteps(HWND hWnd,char steps,std::int32_t mask) {
+	char i,j;
+	std::int32_t		c0			=	1;
 	HWND		the_ctrl	=	GetDlgItem(hWnd,IDC_LIST1);
-	CBYTE		lbitem_str[300];
+	char		lbitem_str[300];
 	SendMessage(the_ctrl,LB_RESETCONTENT,0,0);
 	for (i=0;i<steps;i++) {
 		j=i+1;
@@ -45,11 +45,11 @@ void InitSteps(HWND hWnd,CBYTE steps,SLONG mask) {
 	}
 }
 
-CBYTE* blank_string[] = { "!" };
+char* blank_string[] = { "!" };
 
 bool	CALLBACK	traps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 	NM_UPDOWN	*lp_ntfy;
@@ -183,7 +183,7 @@ void	do_trap_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE	*get_trap_message(EventPoint *ep, CBYTE* msg) {
+char	*get_trap_message(EventPoint *ep, char* msg) {
 	if (!ep)
 		strcpy(msg,"Unknown");
 	else

@@ -25,11 +25,11 @@ void SM_init();
 #define SM_CUBE_TYPE_NUMBER		3
 
 void SM_create_cube(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2,
-		SLONG amount_resolution,	// 0 - 256
-		SLONG amount_density,		// 0 - 256
-		SLONG amount_jellyness);	// 0 - 256
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2,
+		std::int32_t amount_resolution,	// 0 - 256
+		std::int32_t amount_density,		// 0 - 256
+		std::int32_t amount_jellyness);	// 0 - 256
 
 
 //
@@ -45,11 +45,11 @@ void SM_process();
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG radius;
-	ULONG colour;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t radius;
+	std::uint32_t colour;
 	
 } SM_Info;
 

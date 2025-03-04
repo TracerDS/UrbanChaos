@@ -56,34 +56,34 @@ typedef	long				FSLONG;
 
 struct	EngineStuff
 {
-	SLONG	CosY,SinY,CosX,SinX,CosZ,SinZ;
-	SLONG	CosDY,SinDY;
-	SLONG	X,Y,Z;
-	SLONG	Scale;
-	SLONG	VW;
-	SLONG	VH;
-	SLONG	VW2;
-	SLONG	VH2;
-	SLONG	AngleX;
-	SLONG	AngleY;
-	SLONG	AngleZ;
-	SLONG	AngleDY;
-	ULONG	ShowDebug;
-	ULONG	ExtraInfo;
-	ULONG	BucketSize;
-	SLONG	MousePosX;
-	SLONG	MousePosY;
-	SLONG	MousePosZ;
-	SLONG	DX;
-	SLONG	DY;
-	SLONG	DZ;
-	SLONG	ClipZ;
-	SLONG	ClipMaxY;
-	SLONG	ClipMinY;
-	SLONG	ClipMaxX;
-	SLONG	ClipMinX;
-	SLONG	ClipFlag;
-	SLONG	TrueY;
+	std::int32_t	CosY,SinY,CosX,SinX,CosZ,SinZ;
+	std::int32_t	CosDY,SinDY;
+	std::int32_t	X,Y,Z;
+	std::int32_t	Scale;
+	std::int32_t	VW;
+	std::int32_t	VH;
+	std::int32_t	VW2;
+	std::int32_t	VH2;
+	std::int32_t	AngleX;
+	std::int32_t	AngleY;
+	std::int32_t	AngleZ;
+	std::int32_t	AngleDY;
+	std::uint32_t	ShowDebug;
+	std::uint32_t	ExtraInfo;
+	std::uint32_t	BucketSize;
+	std::int32_t	MousePosX;
+	std::int32_t	MousePosY;
+	std::int32_t	MousePosZ;
+	std::int32_t	DX;
+	std::int32_t	DY;
+	std::int32_t	DZ;
+	std::int32_t	ClipZ;
+	std::int32_t	ClipMaxY;
+	std::int32_t	ClipMinY;
+	std::int32_t	ClipMaxX;
+	std::int32_t	ClipMinX;
+	std::int32_t	ClipFlag;
+	std::int32_t	TrueY;
 };
 
 
@@ -100,8 +100,8 @@ struct	EngineStuff
 
 struct	EdItem
 {
-	UBYTE		ItemType;
-	SLONG		ItemRef;
+	std::uint8_t		ItemType;
+	std::int32_t		ItemRef;
 };
 
 //---------------------------------------------------------------
@@ -114,65 +114,65 @@ struct	BucketHead
 struct	BucketGeneric
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
 };
 
 
 struct	BucketQuad
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	UBYTE	TextPage;
-	UBYTE	Col;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::uint8_t	TextPage;
+	std::uint8_t	Col;
 	struct	MfEnginePoint	P[4];
-	SLONG	DebugInfo;
-	SLONG	DebugFlags;
+	std::int32_t	DebugInfo;
+	std::int32_t	DebugFlags;
 	EdItem	EditRef;
 };
 
 struct	BucketTri
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	UBYTE	TextPage;
-	UBYTE	Col;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::uint8_t	TextPage;
+	std::uint8_t	Col;
 	struct	MfEnginePoint	P[3];
-	SLONG	DebugInfo;
-	SLONG	DebugFlags;
+	std::int32_t	DebugInfo;
+	std::int32_t	DebugFlags;
 	EdItem	EditRef;
 };
 
 struct	BucketVect
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
 	struct	MfEnginePoint	P[2];
-	UWORD	Col;
-	SLONG	DebugInfo;
+	std::uint16_t	Col;
+	std::int32_t	DebugInfo;
 };
 
 struct	BucketRect
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
 	struct	MfEnginePoint	P[1];
-	SLONG	Width;
-	SLONG	Height;
-	UBYTE	Col;
+	std::int32_t	Width;
+	std::int32_t	Height;
+	std::uint8_t	Col;
 };
 
 // Game Editor stuff.
 struct	BucketMapThing
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	SLONG	BaseX,BaseY,
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::int32_t	BaseX,BaseY,
 			X,Y;
 	EdItem	EditRef;
 };
@@ -180,9 +180,9 @@ struct	BucketMapThing
 struct	BucketWaypoint
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	SLONG	BaseX,BaseY,
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::int32_t	BaseX,BaseY,
 			X,Y;
 	EdItem	EditRef;
 };
@@ -190,18 +190,18 @@ struct	BucketWaypoint
 struct	BucketLine
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	SLONG	X1,Y1,
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::int32_t	X1,Y1,
 			X2,Y2;
 };
 
 struct	BucketSphereArea
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	SLONG	X,Y,Radius;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::int32_t	X,Y,Radius;
 	bool	ShowSizeHook;
 	EdItem	EditRef;
 };
@@ -209,9 +209,9 @@ struct	BucketSphereArea
 struct	BucketRectArea
 {
 	void	*BucketPtr;
-	UWORD	DrawFlags;
-	UBYTE	BucketType;
-	SLONG	X,Y,Z;
+	std::uint16_t	DrawFlags;
+	std::uint8_t	BucketType;
+	std::int32_t	X,Y,Z;
 	bool	ShowSizeHook;
 	EdItem	EditRef;
 };
@@ -221,20 +221,20 @@ struct	BucketRectArea
 struct	BucketDXQuad
 {
 	void				*BucketPtr;
-	UWORD				DrawFlags;
-	UBYTE				BucketType;
+	std::uint16_t				DrawFlags;
+	std::uint8_t				BucketType;
 	MFDXEnginePoint		P[4];
-	UBYTE				TexturePage;
+	std::uint8_t				TexturePage;
 };
 typedef	BucketDXQuad		BucketDXQuad;
 
 struct	BucketDXTri
 {
 	void				*BucketPtr;
-	UWORD				DrawFlags;
-	UBYTE				BucketType;
+	std::uint16_t				DrawFlags;
+	std::uint8_t				BucketType;
 	MFDXEnginePoint		P[3];
-	UBYTE				TexturePage;
+	std::uint8_t				TexturePage;
 };
 typedef	BucketDXTri			BucketDXTri;
 
@@ -244,13 +244,13 @@ typedef	BucketDXTri			BucketDXTri;
 //*********************************************************
 
 //DATA
-extern SLONG	poly_count;
+extern std::int32_t	poly_count;
 
-extern UBYTE	bucket_pool[MAX_BUCKET_POOL];
-extern UWORD	select_colour;
+extern std::uint8_t	bucket_pool[MAX_BUCKET_POOL];
+extern std::uint16_t	select_colour;
 extern struct	BucketHead	bucket_heads[MAX_BUCKETS];
-extern UBYTE	*current_bucket_pool;
-extern UBYTE	*end_bucket_pool;
+extern std::uint8_t	*current_bucket_pool;
+extern std::uint8_t	*end_bucket_pool;
 
 //FUNCTIONS
 extern struct	EngineStuff	engine;
@@ -261,18 +261,18 @@ extern void	set_camera();
 extern void	set_camera_plan();
 extern void	set_camera_front();
 extern void	set_camera_side();
-extern void	set_camera_angledy(SWORD angle);
+extern void	set_camera_angledy(std::int16_t angle);
 extern void	clear_camera_angledy();
 
 extern void	init_camera();
-extern void	render_view(UBYTE highlight);
+extern void	render_view(std::uint8_t highlight);
 extern void	init_engine();
-extern void	add_bucket(void* p_bucket,SLONG z);
-extern ULONG (*rotate_point_gte)(struct	SVector *v,struct SVector *r);
-extern ULONG	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r);
-extern ULONG	rotate_point_gte_normal(struct	SVector *v,struct SVector *r);
-extern void	calc_world_pos_plan(SLONG x,SLONG y);
-extern void	calc_world_pos_front(SLONG x,SLONG y);
+extern void	add_bucket(void* p_bucket,std::int32_t z);
+extern std::uint32_t (*rotate_point_gte)(struct	SVector *v,struct SVector *r);
+extern std::uint32_t	rotate_point_gte_perspective(struct	SVector *v,struct SVector *r);
+extern std::uint32_t	rotate_point_gte_normal(struct	SVector *v,struct SVector *r);
+extern void	calc_world_pos_plan(std::int32_t x,std::int32_t y);
+extern void	calc_world_pos_front(std::int32_t x,std::int32_t y);
 
 extern void	animate_texture_maps();
 
@@ -281,34 +281,34 @@ extern void	animate_texture_maps();
 // 				MACROS
 //*********************************************************
 
-#define	setZ4(p,z1,z2,z3,z4)   					(p)->P[0].Z3d  =(SWORD)(z1);(p)->P[1].Z3d  =(SWORD)(z2);(p)->P[2].Z3d   =(SWORD)(z3);(p)->P[3].Z3d  =(SWORD)(z4)
-#define	setXY4(p,x1,y1,x2,y2,x3,y3,x4,y4)   	(p)->P[0].X    =(SWORD)(x1);(p)->P[1].X    =(SWORD)(x2);(p)->P[2].X     =(SWORD)(x3);(p)->P[3].X    =(SWORD)(x4);(p)->P[0].Y =(SWORD)(y1);(p)->P[1].Y =(SWORD)(y2);(p)->P[2].Y =(SWORD)(y3);(p)->P[3].Y =(SWORD)(y4)
+#define	setZ4(p,z1,z2,z3,z4)   					(p)->P[0].Z3d  =(std::int16_t)(z1);(p)->P[1].Z3d  =(std::int16_t)(z2);(p)->P[2].Z3d   =(std::int16_t)(z3);(p)->P[3].Z3d  =(std::int16_t)(z4)
+#define	setXY4(p,x1,y1,x2,y2,x3,y3,x4,y4)   	(p)->P[0].X    =(std::int16_t)(x1);(p)->P[1].X    =(std::int16_t)(x2);(p)->P[2].X     =(std::int16_t)(x3);(p)->P[3].X    =(std::int16_t)(x4);(p)->P[0].Y =(std::int16_t)(y1);(p)->P[1].Y =(std::int16_t)(y2);(p)->P[2].Y =(std::int16_t)(y3);(p)->P[3].Y =(std::int16_t)(y4)
 #define	setUV4NA(p,x1,y1,x2,y2,x3,y3,x4,y4,page)                                \
-													(p)->P[0].TX   =(SWORD)(x1);\
-													(p)->P[1].TX   =(SWORD)(x2);\
-													(p)->P[2].TX    =(SWORD)(x3);\
-													(p)->P[3].TX   =(SWORD)(x4);\
-													(p)->P[0].TY=(SWORD)(y1);\
-													(p)->P[1].TY=(SWORD)(y2);\
-													(p)->P[2].TY=(SWORD)(y3);\
-													(p)->P[3].TY=(SWORD)(y4);\
-													(p)->TextPage=(SWORD)(page);
+													(p)->P[0].TX   =(std::int16_t)(x1);\
+													(p)->P[1].TX   =(std::int16_t)(x2);\
+													(p)->P[2].TX    =(std::int16_t)(x3);\
+													(p)->P[3].TX   =(std::int16_t)(x4);\
+													(p)->P[0].TY=(std::int16_t)(y1);\
+													(p)->P[1].TY=(std::int16_t)(y2);\
+													(p)->P[2].TY=(std::int16_t)(y3);\
+													(p)->P[3].TY=(std::int16_t)(y4);\
+													(p)->TextPage=(std::int16_t)(page);
 
 #define	setUV4(p,x1,y1,x2,y2,x3,y3,x4,y4,page)	if(page>=0)\
 												{\
-													(p)->P[0].TX   =(SWORD)(x1);\
-													(p)->P[1].TX   =(SWORD)(x2);\
-													(p)->P[2].TX    =(SWORD)(x3);\
-													(p)->P[3].TX   =(SWORD)(x4);\
-													(p)->P[0].TY=(SWORD)(y1);\
-													(p)->P[1].TY=(SWORD)(y2);\
-													(p)->P[2].TY=(SWORD)(y3);\
-													(p)->P[3].TY=(SWORD)(y4);\
-													(p)->TextPage=(SWORD)(page);\
+													(p)->P[0].TX   =(std::int16_t)(x1);\
+													(p)->P[1].TX   =(std::int16_t)(x2);\
+													(p)->P[2].TX    =(std::int16_t)(x3);\
+													(p)->P[3].TX   =(std::int16_t)(x4);\
+													(p)->P[0].TY=(std::int16_t)(y1);\
+													(p)->P[1].TY=(std::int16_t)(y2);\
+													(p)->P[2].TY=(std::int16_t)(y3);\
+													(p)->P[3].TY=(std::int16_t)(y4);\
+													(p)->TextPage=(std::int16_t)(page);\
 												}\
 												else\
 												{\
-													SLONG	temp_unique;\
+													std::int32_t	temp_unique;\
 													temp_unique=anim_tmaps[-(page)].Current;\
 													(p)->P[0].TX   =anim_tmaps[-(page)].UV[temp_unique][0][0];\
 													(p)->P[1].TX   =anim_tmaps[-(page)].UV[temp_unique][1][0];\
@@ -321,22 +321,22 @@ extern void	animate_texture_maps();
 													(p)->TextPage  =anim_tmaps[-(page)].Page[temp_unique];\
 												}\
 
-#define	setShade4(p,s1,s2,s3,s4)				(p)->P[0].Shade=(SWORD)(s1);(p)->P[1].Shade=(SWORD)(s2);(p)->P[2].Shade=(SWORD)(s3);(p)->P[3].Shade=(SWORD)(s4)
+#define	setShade4(p,s1,s2,s3,s4)				(p)->P[0].Shade=(std::int16_t)(s1);(p)->P[1].Shade=(std::int16_t)(s2);(p)->P[2].Shade=(std::int16_t)(s3);(p)->P[3].Shade=(std::int16_t)(s4)
 
-#define	setZ3(p,z1,z2,z3)   					(p)->P[0].Z3d  =(SWORD)(z1);(p)->P[1].Z3d  =(SWORD)(z2);(p)->P[2].Z3d   =(SWORD)(z3)
-#define	setXY3(p,x1,y1,x2,y2,x3,y3)				(p)->P[0].X    =(SWORD)(x1);(p)->P[1].X    =(SWORD)(x2);(p)->P[2].X     =(SWORD)(x3);(p)->P[0].Y =(SWORD)(y1);(p)->P[1].Y =(SWORD)(y2);(p)->P[2].Y =(SWORD)(y3)
-#define	setUV3(p,x1,y1,x2,y2,x3,y3,page)		(p)->P[0].TX   =(SWORD)(x1);(p)->P[1].TX   =(SWORD)(x2);(p)->P[2].TX    =(SWORD)(x3);(p)->P[0].TY=(SWORD)(y1);(p)->P[1].TY=(SWORD)(y2);(p)->P[2].TY=(SWORD)(y3);(p)->TextPage=(SWORD)(page)
-#define	setShade3(p,s1,s2,s3)					(p)->P[0].Shade=(SWORD)(s1);(p)->P[1].Shade=(SWORD)(s2);(p)->P[2].Shade=(SWORD)(s3)
+#define	setZ3(p,z1,z2,z3)   					(p)->P[0].Z3d  =(std::int16_t)(z1);(p)->P[1].Z3d  =(std::int16_t)(z2);(p)->P[2].Z3d   =(std::int16_t)(z3)
+#define	setXY3(p,x1,y1,x2,y2,x3,y3)				(p)->P[0].X    =(std::int16_t)(x1);(p)->P[1].X    =(std::int16_t)(x2);(p)->P[2].X     =(std::int16_t)(x3);(p)->P[0].Y =(std::int16_t)(y1);(p)->P[1].Y =(std::int16_t)(y2);(p)->P[2].Y =(std::int16_t)(y3)
+#define	setUV3(p,x1,y1,x2,y2,x3,y3,page)		(p)->P[0].TX   =(std::int16_t)(x1);(p)->P[1].TX   =(std::int16_t)(x2);(p)->P[2].TX    =(std::int16_t)(x3);(p)->P[0].TY=(std::int16_t)(y1);(p)->P[1].TY=(std::int16_t)(y2);(p)->P[2].TY=(std::int16_t)(y3);(p)->TextPage=(std::int16_t)(page)
+#define	setShade3(p,s1,s2,s3)					(p)->P[0].Shade=(std::int16_t)(s1);(p)->P[1].Shade=(std::int16_t)(s2);(p)->P[2].Shade=(std::int16_t)(s3)
 
-#define	setXY2(p,x1,y1,x2,y2)					(p)->P[0].X    =(SWORD)(x1);(p)->P[1].X    =(SWORD)(x2);(p)->P[0].Y =(SWORD)(y1);(p)->P[1].Y =(SWORD)(y2)
-#define	setUV2(p,x1,y1,x2,y2)					(p)->P[0].TX   =(SWORD)(x1);(p)->P[1].TX   =(SWORD)(x2);(p)->P[0].TY=(SWORD)(y1);(p)->P[1].TY=(SWORD)(y2)
-#define	setShade2(p,s1,s2)						(p)->P[0].Shade=(SWORD)(s1);(p)->P[1].Shade=(SWORD)(s2)
+#define	setXY2(p,x1,y1,x2,y2)					(p)->P[0].X    =(std::int16_t)(x1);(p)->P[1].X    =(std::int16_t)(x2);(p)->P[0].Y =(std::int16_t)(y1);(p)->P[1].Y =(std::int16_t)(y2)
+#define	setUV2(p,x1,y1,x2,y2)					(p)->P[0].TX   =(std::int16_t)(x1);(p)->P[1].TX   =(std::int16_t)(x2);(p)->P[0].TY=(std::int16_t)(y1);(p)->P[1].TY=(std::int16_t)(y2)
+#define	setShade2(p,s1,s2)						(p)->P[0].Shade=(std::int16_t)(s1);(p)->P[1].Shade=(std::int16_t)(s2)
 											
-#define	setXY1(p,x1,y1)							(p)->P[0].X    =(SWORD)(x1);(p)->P[0].Y =(SWORD)(y1)
+#define	setXY1(p,x1,y1)							(p)->P[0].X    =(std::int16_t)(x1);(p)->P[0].Y =(std::int16_t)(y1)
 
-#define	setCol4(p,col)							(p)->Col=(SWORD)(col)
-#define	setCol3(p,col)							(p)->Col=(SWORD)(col)
-#define	setCol2(p,col)							(p)->Col=(SWORD)(col)
+#define	setCol4(p,col)							(p)->Col=(std::int16_t)(col)
+#define	setCol3(p,col)							(p)->Col=(std::int16_t)(col)
+#define	setCol2(p,col)							(p)->Col=(std::int16_t)(col)
 
 #define	setPoly50MGT4(p)			((struct BucketQuad*)p)->BucketType=BT_QUAD;((struct BucketQuad*)p)->DrawFlags=(POLY_FLAG_SEMI_TRANS|POLY_FLAG_MASKED|POLY_FLAG_GOURAD|POLY_FLAG_TEXTURED)
 #define	setPoly50MGT3(p)			((struct BucketTri*) p)->BucketType=BT_TRI ;((struct BucketTri*) p)->DrawFlags=(POLY_FLAG_SEMI_TRANS|POLY_FLAG_MASKED|POLY_FLAG_GOURAD|POLY_FLAG_TEXTURED)

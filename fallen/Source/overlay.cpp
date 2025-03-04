@@ -29,7 +29,7 @@
 #define	VERSION_NTSC	1
 #endif
 
-extern void	add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+extern void	add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 
 
 //
@@ -54,13 +54,13 @@ void OVERLAY_draw_damage_values();
 #ifdef	DAMAGE_TEXT
 struct DamageValue
 {
-	UBYTE	Type;
-	CBYTE	*text_ptr;
-	SWORD	Age;
-	SWORD	Value;
-	SWORD	X;
-	SWORD	Y;
-	SWORD	Z;
+	std::uint8_t	Type;
+	char	*text_ptr;
+	std::int16_t	Age;
+	std::int16_t	Value;
+	std::int16_t	X;
+	std::int16_t	Y;
+	std::int16_t	Z;
 
 };
 
@@ -68,16 +68,16 @@ struct DamageValue
 #define	MAX_DAMAGE_VALUES	16
 
 struct DamageValue	damage_values[MAX_DAMAGE_VALUES];
-SLONG damage_value_upto=1;
+std::int32_t damage_value_upto=1;
 #endif
 
 
 struct TrackEnemy
 {
 	Thing	*PThing;
-	SWORD	State;
-	SWORD	Timer;
-	SWORD	Face;
+	std::int16_t	State;
+	std::int16_t	Timer;
+	std::int16_t	Face;
 };
 
 #define	MAX_TRACK	4
@@ -89,14 +89,14 @@ struct TrackEnemy
 #define	MAX_BEACON	5
 struct Beacon
 {
-	UWORD	X;
-	UWORD	Z;
-	UWORD	Type;
-	UWORD	OTHER;
+	std::uint16_t	X;
+	std::uint16_t	Z;
+	std::uint16_t	Type;
+	std::uint16_t	OTHER;
 };
 
 struct Beacon	beacons[MAX_BEACON];
-UWORD beacon_upto=1;
+std::uint16_t beacon_upto=1;
 */
 
 
@@ -119,7 +119,7 @@ struct TrackEnemy	panel_enemy[MAX_TRACK];
 #define	HELP_USE_BIKE		3
 
 #ifndef TARGET_DC
-CBYTE* help_text[]=
+char* help_text[]=
 {
 	"Jump up to grab cables",
 	"Press action to pickup items",
@@ -128,14 +128,14 @@ CBYTE* help_text[]=
 	""
 };
 
-UWORD help_xlat[] = { X_GRAB_CABLE, X_PICK_UP, X_ENTER_VEHICLE, X_USE_BIKE };
+std::uint16_t help_xlat[] = { X_GRAB_CABLE, X_PICK_UP, X_ENTER_VEHICLE, X_USE_BIKE };
 #endif
 
 #ifndef PSX
 #ifndef TARGET_DC
-SLONG should_i_add_message(SLONG type)
+std::int32_t should_i_add_message(std::int32_t type)
 {
-	static SLONG last_message[4]={0,0,0,0};	// The gameturn when the last message was added.
+	static std::int32_t last_message[4]={0,0,0,0};	// The gameturn when the last message was added.
 
 	ASSERT(WITHIN(type, 0, 3));
 
@@ -152,9 +152,9 @@ SLONG should_i_add_message(SLONG type)
 	}
 }
 
-void arrow_object(Thing *p_special,SLONG dir,SLONG type)
+void arrow_object(Thing *p_special,std::int32_t dir,std::int32_t type)
 {
-	SLONG	x,y,z;
+	std::int32_t	x,y,z;
 
 	if (!should_i_add_message(type))
 	{
@@ -186,7 +186,7 @@ void arrow_object(Thing *p_special,SLONG dir,SLONG type)
 	*/
 }
 
-void arrow_pos(SLONG x,SLONG y,SLONG z,SLONG dir,SLONG type)
+void arrow_pos(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t dir,std::int32_t type)
 {
 	y+=((GAME_TURN+x)<<3)&63;
 
@@ -217,13 +217,13 @@ void arrow_pos(SLONG x,SLONG y,SLONG z,SLONG dir,SLONG type)
 
 void Time(struct MFTime *the_time);
 
-void show_help_text(SLONG index)
+void show_help_text(std::int32_t index)
 {
 	/*
 #ifndef	PSX
-	static	ULONG	last_message=0;
+	static	std::uint32_t	last_message=0;
 	struct MFTime 	the_time;
-	ULONG	time_now;
+	std::uint32_t	time_now;
 
 	Time(&the_time);
 	time_now=the_time.Ticks;
@@ -244,12 +244,12 @@ void show_help_text(SLONG index)
 #ifdef	UNUSED
 void highlight_cable_grab()
 {
-	SLONG	index;
-	SLONG	x,z;
+	std::int32_t	index;
+	std::int32_t	x,z;
 	Thing	*p_person;
-	SLONG	exit=0;
-	SWORD f_list;
-	SWORD i_facet;
+	std::int32_t	exit=0;
+	std::int16_t f_list;
+	std::int16_t i_facet;
 
 
 	p_person=NET_PERSON(0);
@@ -273,7 +273,7 @@ void highlight_cable_grab()
 	while(!exit)
 	{
 
-		SLONG	fdx,fdy,fdz,sdx,sdz,len,step;
+		std::int32_t	fdx,fdy,fdz,sdx,sdz,len,step;
 		DFacet *df;
 
 		i_facet = facet_links[f_list++];
@@ -306,12 +306,12 @@ void highlight_cable_grab()
 
 		if (df->FacetType == STOREY_TYPE_CABLE)
 		{
-			SLONG	along;
+			std::int32_t	along;
 			for(along=0;along<(1<<12);along+=step)
 			{
-				SLONG	wx,wz;
-				SLONG	dx,dz;
-				SLONG	my;
+				std::int32_t	wx,wz;
+				std::int32_t	dx,dz;
+				std::int32_t	my;
 
 
 				wx=sdx>>8;
@@ -322,12 +322,12 @@ void highlight_cable_grab()
 
 				if(QDIST2(dx,dz)<512)
 				{
-					CBYTE	str[100];
-					SLONG	dy;
+					char	str[100];
+					std::int32_t	dy;
 					
 					my=find_cable_y_along(df,along);
 
-//extern FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+//extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
 //					sprintf(str,"%d",((MAVHEIGHT(wx>>8,wz>>8)<<6)-my));
 //					FONT2D_DrawString_3d(str,wx,50+(MAVHEIGHT(wx>>8,wz>>8)<<6),wz,0xff0000,60,0);
@@ -350,30 +350,30 @@ void highlight_cable_grab()
 
 
 
-SLONG help_system()
+std::int32_t help_system()
 {
 	Thing	*p_person;
-	ULONG collide_types;
-	UWORD	found[HELP_MAX_COL];
+	std::uint32_t collide_types;
+	std::uint16_t	found[HELP_MAX_COL];
 
-	SLONG i;
-	SLONG num;
-	SLONG prim;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t i;
+	std::int32_t num;
+	std::int32_t prim;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	Thing        *p_found;
 	VEH_Col      *vc;
 	PrimInfo     *pi;
 	AnimPrimBbox *apb;
 
-	SLONG	x,y,z;
+	std::int32_t	x,y,z;
 
-	SLONG	nearest_car=0,nearest_car_d=0;
+	std::int32_t	nearest_car=0,nearest_car_d=0;
 
 	#ifdef BIKE
-	SLONG	nearest_bike=0,nearest_bike_d=0;
+	std::int32_t	nearest_bike=0,nearest_bike_d=0;
 	#endif
 
 	p_person=NET_PERSON(0);
@@ -429,11 +429,11 @@ SLONG help_system()
 
 					if (dist <= 512)
 					{
-						SLONG cx,cz,dy;
+						std::int32_t cx,cz,dy;
 
 						show_help_text(HELP_USE_CAR);
 
-						extern void	get_car_enter_xz(Thing *p_vehicle,SLONG *cx,SLONG *cz);
+						extern void	get_car_enter_xz(Thing *p_vehicle,std::int32_t *cx,std::int32_t *cz);
 
 						get_car_enter_xz(p_found,&cx,&cz);
 						 
@@ -476,7 +476,7 @@ SLONG help_system()
 
 					if (dist <= 512)
 					{
-						SLONG	cx,cz;
+						std::int32_t	cx,cz;
 						show_help_text(HELP_USE_BIKE);
 						 
 						arrow_object(p_found,1,HELP_USE_BIKE);
@@ -540,8 +540,8 @@ void track_enemy(Thing *p_thing)
 {
 	#ifdef OLD_POO
 
-	SLONG	c0;
-	SLONG	unused=-1;
+	std::int32_t	c0;
+	std::int32_t	unused=-1;
 
 	for(c0=0;c0<MAX_TRACK;c0++)
 	{
@@ -559,7 +559,7 @@ void track_enemy(Thing *p_thing)
 	}
 	if(unused>=0)
 	{
-		SLONG	face;
+		std::int32_t	face;
 		switch(p_thing->Genus.Person->PersonType)
 		{				
 			case	0:
@@ -599,13 +599,13 @@ void track_enemy(Thing *p_thing)
 }
 
 struct TrackEnemy	panel_gun_sight[MAX_TRACK];
-UWORD track_count=0;
+std::uint16_t track_count=0;
 
 
-void track_gun_sight(Thing *p_thing,SLONG accuracy)
+void track_gun_sight(Thing *p_thing,std::int32_t accuracy)
 {
-	SLONG	c0;
-	SLONG	unused=-1;
+	std::int32_t	c0;
+	std::int32_t	unused=-1;
 	for(c0=0;c0<track_count;c0++)
 	{
 		if(panel_gun_sight[c0].PThing==p_thing)
@@ -639,7 +639,7 @@ void track_gun_sight(Thing *p_thing,SLONG accuracy)
 	}
 	if(unused>=0)
 	{
-		SLONG	face;
+		std::int32_t	face;
 		panel_gun_sight[unused].PThing=p_thing;
 		panel_gun_sight[unused].State=STATE_TRACKING;
 		panel_gun_sight[unused].Timer=15000; //5 seconds
@@ -653,12 +653,12 @@ void track_gun_sight(Thing *p_thing,SLONG accuracy)
 #ifndef TARGET_DC
 void OVERLAY_draw_tracked_enemies()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<MAX_TRACK;c0++)
 	{
 		if(panel_enemy[c0].State==STATE_TRACKING)
 		{
-			SLONG	h;
+			std::int32_t	h;
 
 /* draw face */
 
@@ -666,7 +666,7 @@ void OVERLAY_draw_tracked_enemies()
 			h=panel_enemy[c0].PThing->Genus.Person->Health;
 			if(h<0)
 				h=0;
-void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
+void PANEL_draw_face(std::int32_t x,std::int32_t y,std::int32_t face,std::int32_t size);
 #ifndef PSX
 			PANEL_draw_face(c0*150+5,450-14,panel_enemy[c0].Face,32);
 			PANEL_draw_health_bar(40+c0*150,450,h>>1);
@@ -692,8 +692,8 @@ void PANEL_draw_face(SLONG x,SLONG y,SLONG face,SLONG size);
 
 void OVERLAY_draw_gun_sights()
 {
-	SLONG	c0;
-	SLONG	hx,hy,hz;
+	std::int32_t	c0;
+	std::int32_t	hx,hy,hz;
 	Thing	*p_thing;
 
 	// Dodgy internals issue :-)
@@ -721,7 +721,7 @@ void OVERLAY_draw_gun_sights()
 			case	CLASS_BAT:
 
 				{
-					SLONG scale;
+					std::int32_t scale;
 
 					if (p_thing->Genus.Bat->type == BAT_TYPE_BALROG)
 					{
@@ -750,14 +750,14 @@ void OVERLAY_draw_gun_sights()
 	track_count=0;
 
 	// draw a grenade aim target
-extern SLONG person_holding_special(Thing* p_person, UBYTE special);	// I am so naughty.  I blame Mark.
+extern std::int32_t person_holding_special(Thing* p_person, std::uint8_t special);	// I am so naughty.  I blame Mark.
 
 	Thing*	p_player = NET_PERSON(0);
 
 	if (person_holding_special(p_player, SPECIAL_GRENADE))
 	{
 /*
-		SLONG	angle = p_player->Draw.Tweened->Angle;
+		std::int32_t	angle = p_player->Draw.Tweened->Angle;
 
 		// now make the angle more conformant with normality
 		angle = 1536 - angle;
@@ -766,8 +766,8 @@ extern SLONG person_holding_special(Thing* p_person, UBYTE special);	// I am so 
 		angle &= 2047;
 
 		// fortunately the grenade is now frame-rate independant (thanks to me, hurrah!)
-		SLONG	addx = COS(angle) * 2150 / 65536;
-		SLONG	addz = SIN(angle) * 2150 / 65536;
+		std::int32_t	addx = COS(angle) * 2150 / 65536;
+		std::int32_t	addz = SIN(angle) * 2150 / 65536;
 
 		PANEL_draw_gun_sight((p_player->WorldPos.X >> 8) + addx, (p_player->WorldPos.Y >> 8) + 128, (p_player->WorldPos.Z >> 8) + addz, 1000, 200);
 */
@@ -787,7 +787,7 @@ void show_grenade_path(Thing *p_person);
 #ifndef PSX
 void OVERLAY_draw_health()
 {
-	SLONG	ph;
+	std::int32_t	ph;
 	ph=NET_PERSON(0)->Genus.Person->Health;
 	if(ph<0)
 		ph=0;
@@ -798,7 +798,7 @@ void OVERLAY_draw_health()
 
 void OVERLAY_draw_stamina()
 {
-	SLONG	ph;
+	std::int32_t	ph;
 	ph=NET_PERSON(0)->Genus.Person->Stamina;
 	if(ph<0)
 		ph=0;
@@ -808,7 +808,7 @@ void OVERLAY_draw_stamina()
 }
 #endif
 
-extern void PANEL_draw_local_health(SLONG mx,SLONG my,SLONG mz,SLONG percentage,SLONG radius=60);
+extern void PANEL_draw_local_health(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t percentage,std::int32_t radius=60);
 
 void OVERLAY_draw_enemy_health()
 {
@@ -839,7 +839,7 @@ void OVERLAY_draw_enemy_health()
 				case	CLASS_PERSON:
 
 					{
-						SLONG percent;
+						std::int32_t percent;
 
 						extern bool PersonIsMIB(Thing *p_person);
 
@@ -864,13 +864,13 @@ void OVERLAY_draw_enemy_health()
 	}
 }
 #ifdef	PSX
-CBYTE punch[3];
-CBYTE kick[3];
+char punch[3];
+char kick[3];
 
 void init_punch_kick()
 {
 #ifdef	VERSION_NTSC
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<14;c0++)
 	{
 		if (PAD_Current->data[c0].input_mask>0)
@@ -941,21 +941,21 @@ void init_punch_kick()
 }
 #endif
 
-static SWORD	timer_prev=0;
+static std::int16_t	timer_prev=0;
 
 #undef	MIKE
 void OVERLAY_handle()
 {
 	Thing *darci = NET_PERSON(0);
 	Thing *player = NET_PLAYER(0);
-	SLONG	panel=1;
+	std::int32_t	panel=1;
 
 	//TRACE ( "OHi" );
 
 #ifdef FINAL
-	CBYTE str[8];
+	char str[8];
 #else
-	CBYTE str[32];
+	char str[32];
 #endif
 
 	/*
@@ -1043,7 +1043,7 @@ void OVERLAY_handle()
 
 //	if((GAME_TURN&15)==0)
 
-	extern UBYTE draw_map_screen;
+	extern std::uint8_t draw_map_screen;
 /*
 	if (!draw_map_screen)
 	{
@@ -1053,8 +1053,8 @@ void OVERLAY_handle()
 
 #ifdef	MIKE
 	{
-		CBYTE	str[100];
-		SLONG	count,cbl=0,c0;
+		char	str[100];
+		std::int32_t	count,cbl=0,c0;
 
 	for(c0=0;c0<MAX_THINGS;c0++)
 	{
@@ -1073,11 +1073,11 @@ void OVERLAY_handle()
 	}
 
 
-extern UBYTE	global_person;
-SLONG count_draw_tween();
+extern std::uint8_t	global_person;
+std::int32_t count_draw_tween();
 		count=count_draw_tween();
 
-extern SLONG	globdx,globdz;
+extern std::int32_t	globdx,globdz;
 
 //		sprintf(str," people used %d dt left%d (%d,%d)",global_person,count,globdx,globdz);
 		sprintf(str,"specials %d",cbl);
@@ -1098,11 +1098,11 @@ extern SLONG	globdx,globdz;
 
 #ifdef	PSX
 
-extern UBYTE	combo_display;
+extern std::uint8_t	combo_display;
 #ifdef	VERSION_NTSC
 	if(combo_display||timer_prev)
 	{
-		static	SWORD	timer=0;
+		static	std::int16_t	timer=0;
 
 
 		timer+=TICK_TOCK;
@@ -1150,8 +1150,8 @@ extern UBYTE	combo_display;
 	{
 		// Waste not Want no, why have we got 50 bytes.
 
-//		CBYTE	str[50];
-		SLONG	crime;
+//		char	str[50];
+		std::int32_t	crime;
 /*
 		if(!EWAY_stop_player_moving())
 		if(CRIME_RATE_MAX)
@@ -1172,11 +1172,11 @@ extern UBYTE	combo_display;
 #ifndef PSX
 				/*
 
-				SLONG percent = darci->Genus.Person->Timer1 >> 8;
+				std::int32_t percent = darci->Genus.Person->Timer1 >> 8;
 
 				SATURATE(percent, 0, 100);
 
-//				CBYTE	str[50];
+//				char	str[50];
 				sprintf(str,"%d%%", percent);
 
 				if ((darci->Genus.Person->Timer1 & 0xfff) < 3000 || percent == 100)
@@ -1199,7 +1199,7 @@ extern UBYTE	combo_display;
 
 				*/
 #else
-extern void PANEL_draw_search(SLONG timer);
+extern void PANEL_draw_search(std::int32_t timer);
 
 				PANEL_draw_search(darci->Genus.Person->Timer1);
 #endif
@@ -1216,29 +1216,29 @@ extern void PANEL_draw_search(SLONG timer);
 				// I have found the offending code, Holmes!
 				// Now we must teach these heathen a lesson in coding manners.
 				// I shall fetch the larger of my beating sticks.
-extern UBYTE	cheat;
+extern std::uint8_t	cheat;
 
 
 #ifndef TARGET_DC
 	if(cheat==2)
 	{
-		CBYTE	str[50];
-		ULONG	in;
+		char	str[50];
+		std::uint32_t	in;
 
-extern SLONG	tick_tock_unclipped;
+extern std::int32_t	tick_tock_unclipped;
 		if(tick_tock_unclipped==0)
 			tick_tock_unclipped=1;
 
 #ifndef PSX
-		extern SLONG SW_tick1;
-		extern SLONG SW_tick2;
+		extern std::int32_t SW_tick1;
+		extern std::int32_t SW_tick2;
 #endif
-		extern ULONG	debug_input;
+		extern std::uint32_t	debug_input;
 		in=debug_input;
 
-		extern SLONG	geom;
-		extern SLONG	EWAY_cam_jumped;
-		extern SLONG	look_pitch;
+		extern std::int32_t	geom;
+		extern std::int32_t	EWAY_cam_jumped;
+		extern std::int32_t	look_pitch;
 
 //		sprintf(str,"(%d,%d,%d) fps %d up %d down %d left %d right %d geom %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1,in&INPUT_MASK_FORWARDS,in&INPUT_MASK_BACKWARDS,in&INPUT_MASK_LEFT,in&INPUT_MASK_RIGHT,geom);
 #ifndef PSX
@@ -1339,7 +1339,7 @@ extern SLONG	tick_tock_unclipped;
 	//
 
 	{
-		CBYTE str[58];
+		char str[58];
 
 		sprintf(str, "%d", NET_PERSON(0)->Draw.Tweened->Roll);
 
@@ -1369,7 +1369,7 @@ extern SLONG	tick_tock_unclipped;
 
 
 /*
-void set_beacon(SLONG bx,SLONG by,SLONG bz)
+void set_beacon(std::int32_t bx,std::int32_t by,std::int32_t bz)
 {
 	
 	if(beacon_upto<(MAX_BEACON-1))
@@ -1382,7 +1382,7 @@ void set_beacon(SLONG bx,SLONG by,SLONG bz)
 }
 
 
-ULONG col_type[]=
+std::uint32_t col_type[]=
 {
 	0xff0000,
 	0xff0000,
@@ -1404,7 +1404,7 @@ void overlay_beacons()
 {
 #ifndef PSX
 /*
-	SLONG	c0;
+	std::int32_t	c0;
 	Thing			*t_thing;
 	THING_INDEX		current_thing;
 
@@ -1436,10 +1436,10 @@ void overlay_beacons()
 }
 
 #ifdef	DAMAGE_TEXT
-SLONG get_damage_index()
+std::int32_t get_damage_index()
 {
-	SLONG	oldest=-1,oldest_age=-1;
-	SLONG	c0;
+	std::int32_t	oldest=-1,oldest_age=-1;
+	std::int32_t	c0;
 
 	if(damage_value_upto<MAX_DAMAGE_VALUES)
 	{
@@ -1461,7 +1461,7 @@ SLONG get_damage_index()
 	return(oldest);
 }
 
-void free_damage_index(SLONG index)
+void free_damage_index(std::int32_t index)
 {
 	if(index==damage_value_upto-1)
 		damage_value_upto--;
@@ -1469,10 +1469,10 @@ void free_damage_index(SLONG index)
 	damage_values[index].Age=-1;
 }
 #endif
-void add_damage_value(SWORD x,SWORD y,SWORD z,SLONG value)
+void add_damage_value(std::int16_t x,std::int16_t y,std::int16_t z,std::int32_t value)
 {
 #ifdef	DAMAGE_TEXT
-	SLONG	index;
+	std::int32_t	index;
 
 	index=get_damage_index();
 	if(index)
@@ -1492,10 +1492,10 @@ void add_damage_value(SWORD x,SWORD y,SWORD z,SLONG value)
 	
 }
 
-void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text)
+void add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text)
 {
 #ifdef	DAMAGE_TEXT
-	SLONG	index;
+	std::int32_t	index;
 
 	index=get_damage_index();
 	if(index)
@@ -1515,10 +1515,10 @@ void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text)
 #endif	
 }
 
-void add_damage_value_thing(Thing *p_thing,SLONG value)
+void add_damage_value_thing(Thing *p_thing,std::int32_t value)
 {
 #ifdef	DAMAGE_TEXT
-	SLONG	dx,dy,dz;
+	std::int32_t	dx,dy,dz;
 
 	calc_sub_objects_position(p_thing,p_thing->Draw.Tweened->AnimTween,SUB_OBJECT_HEAD,&dx,&dy,&dz);
 	dx+=p_thing->WorldPos.X>>8;
@@ -1533,8 +1533,8 @@ void add_damage_value_thing(Thing *p_thing,SLONG value)
 #ifdef	DAMAGE_TEXT
 void OVERLAY_draw_damage_values()
 {
-	SLONG	c0;
-	CBYTE	str[10];
+	std::int32_t	c0;
+	char	str[10];
 
 	for(c0=1;c0<damage_value_upto;c0++)
 	{
@@ -1542,12 +1542,12 @@ void OVERLAY_draw_damage_values()
 		{
 			damage_values[c0].Age++;
 
-extern void FONT2D_DrawString_3d(CBYTE*str, ULONG world_x, ULONG world_y,ULONG world_z, ULONG rgb, SLONG text_size, SWORD fade);
+extern void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
 		
 			{
-				UWORD	fade;
-				ULONG	col;
+				std::uint16_t	fade;
+				std::uint32_t	col;
 				fade=damage_values[c0].Age;
 
 				if(damage_values[c0].Value<10)
@@ -1603,9 +1603,9 @@ void init_overlay()
 //	beacon_upto=1;
 #ifdef	DAMAGE_TEXT
 	damage_value_upto=1;
-	memset((UBYTE*)damage_values,0,sizeof(struct DamageValue)*MAX_DAMAGE_VALUES);
+	memset((std::uint8_t*)damage_values,0,sizeof(struct DamageValue)*MAX_DAMAGE_VALUES);
 #endif
-//	memset((UBYTE*)beacons,0,sizeof(struct	Beacon)*MAX_BEACON);
-	memset((UBYTE*)panel_enemy,0,sizeof(struct	TrackEnemy)*MAX_TRACK);
+//	memset((std::uint8_t*)beacons,0,sizeof(struct	Beacon)*MAX_BEACON);
+	memset((std::uint8_t*)panel_enemy,0,sizeof(struct	TrackEnemy)*MAX_TRACK);
 
 }

@@ -12,7 +12,7 @@
 // 
 
 ED_Light ED_light[ED_MAX_LIGHTS];
-SLONG    ED_light_free;
+std::int32_t    ED_light_free;
 
 
 
@@ -24,18 +24,18 @@ SLONG    ED_light_free;
 typedef struct
 {
 	ED_Light     ed_light[ED_MAX_LIGHTS];
-	SLONG        ed_light_free;
-	ULONG        night_flag;
-	ULONG        night_amb_d3d_colour;
-	ULONG        night_amb_d3d_specular;
-	SLONG        night_amb_red;
-	SLONG        night_amb_green;
-	SLONG        night_amb_blue;
-	SBYTE        night_lampost_red;
-	SBYTE        night_lampost_green;
-	SBYTE        night_lampost_blue;
-	UBYTE        padding;
-	SLONG        night_lampost_radius;
+	std::int32_t        ed_light_free;
+	std::uint32_t        night_flag;
+	std::uint32_t        night_amb_d3d_colour;
+	std::uint32_t        night_amb_d3d_specular;
+	std::int32_t        night_amb_red;
+	std::int32_t        night_amb_green;
+	std::int32_t        night_amb_blue;
+	std::int8_t        night_lampost_red;
+	std::int8_t        night_lampost_green;
+	std::int8_t        night_lampost_blue;
+	std::uint8_t        padding;
+	std::int32_t        night_lampost_radius;
 	NIGHT_Colour night_sky_colour;
 
 } ED_Undo;
@@ -43,15 +43,15 @@ typedef struct
 #define ED_MAX_UNDO 64
 
 ED_Undo ED_undo[ED_MAX_UNDO];
-SLONG   ED_undo_top;	// A circular system: Access these values MOD ED_MAX_UNDO
-SLONG   ED_undo_bot;
-SLONG   ED_undo_stage;
+std::int32_t   ED_undo_top;	// A circular system: Access these values MOD ED_MAX_UNDO
+std::int32_t   ED_undo_bot;
+std::int32_t   ED_undo_stage;
 
 
 
 void ED_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Clear all lights.
@@ -65,7 +65,7 @@ void ED_init()
 		ED_light[i].used = false;
 	}
 
-	ED_light[ED_MAX_LIGHTS - 1].next = nullptr;
+	ED_light[ED_MAX_LIGHTS - 1].next = 0;
 
 	//
 	// Initialise game lighting too.
@@ -85,22 +85,22 @@ void ED_init()
 }
 
 
-SLONG ED_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG range,
-		SLONG red,
-		SLONG green,
-		SLONG blue)
+std::int32_t ED_create(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t range,
+		std::int32_t red,
+		std::int32_t green,
+		std::int32_t blue)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	ED_Light *el;
 
 	if (!ED_light_free )
 	{
-		return nullptr;
+		return 0;
 	}
 
 	//
@@ -155,10 +155,10 @@ SLONG ED_create(
 
 
 void ED_light_move(
-		SLONG light,
-		SLONG x,
-		SLONG y,
-		SLONG z)
+		std::int32_t light,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
 	ED_Light *el;
 
@@ -209,11 +209,11 @@ void ED_light_move(
 
 
 void ED_light_change(
-		SLONG light,
-		SLONG range,
-		SLONG red,
-		SLONG green,
-		SLONG blue)
+		std::int32_t light,
+		std::int32_t range,
+		std::int32_t red,
+		std::int32_t green,
+		std::int32_t blue)
 {
 	ED_Light *el;
 
@@ -267,9 +267,9 @@ void ED_light_change(
 
 
 void ED_amb_get(
-		SLONG *red,
-		SLONG *green,
-		SLONG *blue)
+		std::int32_t *red,
+		std::int32_t *green,
+		std::int32_t *blue)
 {
 	//
 	// This is insider information!
@@ -281,9 +281,9 @@ void ED_amb_get(
 }
 
 void ED_amb_set(
-		SLONG red,
-		SLONG green,
-		SLONG blue)
+		std::int32_t red,
+		std::int32_t green,
+		std::int32_t blue)
 {
 	NIGHT_ambient(
 		red,
@@ -301,12 +301,12 @@ void ED_amb_set(
 }
 
 
-SLONG ED_lampost_on_get()
+std::int32_t ED_lampost_on_get()
 {
 	return NIGHT_flag & NIGHT_FLAG_LIGHTS_UNDER_LAMPOSTS;
 }
 
-void ED_lampost_on_set(SLONG b)
+void ED_lampost_on_set(std::int32_t b)
 {
 	if (b)
 	{
@@ -326,12 +326,12 @@ void ED_lampost_on_set(SLONG b)
 	NIGHT_generate_walkable_lighting();
 }
 
-SLONG ED_night_get()
+std::int32_t ED_night_get()
 {
 	return !(NIGHT_flag & NIGHT_FLAG_DAYTIME);
 }
 
-void ED_night_set(SLONG b)
+void ED_night_set(std::int32_t b)
 {
 	if (!b)
 	{
@@ -343,13 +343,13 @@ void ED_night_set(SLONG b)
 	}
 }
 
-SLONG ED_darken_bottoms_on_get()
+std::int32_t ED_darken_bottoms_on_get()
 {
 	return (NIGHT_flag & NIGHT_FLAG_DARKEN_BUILDING_POINTS);
 	
 }
 
-void ED_darken_bottoms_on_set(SLONG b)
+void ED_darken_bottoms_on_set(std::int32_t b)
 {
 	if (b)
 	{
@@ -371,10 +371,10 @@ void ED_darken_bottoms_on_set(SLONG b)
 
 
 void ED_lampost_get(
-		SLONG *range,
-		SLONG *red,
-		SLONG *green,
-		SLONG *blue)
+		std::int32_t *range,
+		std::int32_t *red,
+		std::int32_t *green,
+		std::int32_t *blue)
 {
 	*range = NIGHT_lampost_radius;
 	*red   = NIGHT_lampost_red;
@@ -383,10 +383,10 @@ void ED_lampost_get(
 }
 
 void ED_lampost_set(
-		SLONG range,
-		SLONG red,
-		SLONG green,
-		SLONG blue)
+		std::int32_t range,
+		std::int32_t red,
+		std::int32_t green,
+		std::int32_t blue)
 {
 	NIGHT_lampost_radius = range;
 	NIGHT_lampost_red    = red;
@@ -407,9 +407,9 @@ void ED_lampost_set(
 //
 
 void ED_sky_get(
-		SLONG *red,
-		SLONG *green,
-		SLONG *blue)
+		std::int32_t *red,
+		std::int32_t *green,
+		std::int32_t *blue)
 {
 	*red   = NIGHT_sky_colour.red;
 	*green = NIGHT_sky_colour.green;
@@ -417,9 +417,9 @@ void ED_sky_get(
 }
 
 void ED_sky_set(
-		SLONG red,
-		SLONG green,
-		SLONG blue)
+		std::int32_t red,
+		std::int32_t green,
+		std::int32_t blue)
 {
 	NIGHT_sky_colour.red   = red;
 	NIGHT_sky_colour.green = green;
@@ -457,7 +457,7 @@ void ED_undo_create(ED_Undo *eu)
 
 void ED_undo_restore(ED_Undo *eu)
 {
-	SLONG i;
+	std::int32_t i;
 
 	memcpy(ED_light, eu->ed_light, sizeof(ED_light));
 
@@ -558,12 +558,12 @@ void ED_undo_redo()
 	ED_undo_restore(&ED_undo[ED_undo_stage & (ED_MAX_UNDO - 1)]);
 }
 
-SLONG ED_undo_undo_valid()
+std::int32_t ED_undo_undo_valid()
 {
 	return ED_undo_stage > ED_undo_bot;
 }
 
-SLONG ED_undo_redo_valid()
+std::int32_t ED_undo_redo_valid()
 {
 	return ED_undo_stage < ED_undo_top;
 }
@@ -576,16 +576,16 @@ ED_Undo ED_loadsave;
 
 typedef struct
 {
-	SLONG sizeof_ed_light;
-	SLONG ed_max_lights;
-	SLONG sizeof_night_colour;
+	std::int32_t sizeof_ed_light;
+	std::int32_t ed_max_lights;
+	std::int32_t sizeof_night_colour;
 
 } ED_Header;
 
-SLONG ED_load(CBYTE* name)
+std::int32_t ED_load(char* name)
 {
-	SLONG i,data_left;
-	UBYTE version = 0;
+	std::int32_t i,data_left;
+	std::uint8_t version = 0;
 
 	ED_Header eh;
 
@@ -702,10 +702,10 @@ SLONG ED_load(CBYTE* name)
 	return false;
 }
 
-SLONG ED_save(CBYTE* name)
+std::int32_t ED_save(char* name)
 {
-	SLONG version = 1;
-	SLONG c0;
+	std::int32_t version = 1;
+	std::int32_t c0;
 
 	ED_Header eh;
 
@@ -770,7 +770,7 @@ SLONG ED_save(CBYTE* name)
 }
 
 
-void ED_delete(SLONG light)
+void ED_delete(std::int32_t light)
 {
 	ASSERT(WITHIN(light, 0, ED_MAX_LIGHTS - 1));
 
@@ -815,7 +815,7 @@ void ED_delete(SLONG light)
 
 void ED_delete_all()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Clear all lights.
@@ -829,7 +829,7 @@ void ED_delete_all()
 		ED_light[i].used = false;
 	}
 
-	ED_light[ED_MAX_LIGHTS - 1].next = nullptr;
+	ED_light[ED_MAX_LIGHTS - 1].next = 0;
 
 	//
 	// Remove all static lights.

@@ -11,8 +11,8 @@
 
 typedef	struct
 {
-	UWORD		*TexturePtr;
-	UBYTE		*PalPtr;
+	std::uint16_t		*TexturePtr;
+	std::uint8_t		*PalPtr;
 
 }GameTexture;
 
@@ -32,7 +32,7 @@ typedef	struct
 
 typedef	struct
 {
-	SLONG	U[4],
+	std::int32_t	U[4],
 			V[4];
 }EdTexture;
 

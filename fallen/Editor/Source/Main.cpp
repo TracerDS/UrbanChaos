@@ -14,7 +14,7 @@
 
 extern void	game(void);
 
-extern SLONG editor_texture_set;
+extern std::int32_t editor_texture_set;
 
 
 //---------------------------------------------------------------
@@ -22,14 +22,14 @@ extern SLONG editor_texture_set;
 GameTexture	game_textures[NUM_GAME_TEXTURES];
 
 
-UWORD	page_lookup[64*8];
+std::uint16_t	page_lookup[64*8];
 
 //---------------------------------------------------------------
-SLONG	load_rect_into_page(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE* name)
+std::int32_t	load_rect_into_page(std::uint16_t *ptr,std::int32_t xpos,std::int32_t ypos,std::int32_t w,std::int32_t h,char* name)
 {
-	SLONG	x,y;
+	std::int32_t	x,y;
 	TGA_Pixel	*tga;
-	UWORD	col;
+	std::uint16_t	col;
 	TGA_Info	ret;
 
 	tga=(TGA_Pixel*)MemAlloc( 4 * 256 * 256 );
@@ -46,7 +46,7 @@ SLONG	load_rect_into_page(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE
 	for(y=0;y<h;y++)
 	for(x=0;x<w;x++)
 	{
-		SLONG	px,py;
+		std::int32_t	px,py;
 		px=x*ret.width/w;
 		py=y*ret.height/h;
 		col = the_display.GetFormattedPixel(tga[px+py*ret.height].red,tga[px+py*ret.height].green,tga[px+py*ret.height].blue);
@@ -56,11 +56,11 @@ SLONG	load_rect_into_page(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE
 	MemFree((void*)tga);
 	return(1);
 }
-void	load_splitup_texture_page(UWORD *ptr,CBYTE* path,UWORD page)
+void	load_splitup_texture_page(std::uint16_t *ptr,char* path,std::uint16_t page)
 {
-	SLONG	x,y;
-	CBYTE	name[256];
-	SLONG	index=0;
+	std::int32_t	x,y;
+	char	name[256];
+	std::int32_t	index=0;
 
 
 	for(y=0;y<256;y+=32)
@@ -79,13 +79,13 @@ void	load_splitup_texture_page(UWORD *ptr,CBYTE* path,UWORD page)
 	
 }
 
-extern TGA_Info TGA_load_remap(const CBYTE* file,const CBYTE* pname,SLONG max_width,SLONG max_height,TGA_Pixel *data);
+extern TGA_Info TGA_load_remap(const char* file,const char* pname,std::int32_t max_width,std::int32_t max_height,TGA_Pixel *data);
 
-SLONG	load_rect_into_page_remap(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h,CBYTE* name,CBYTE* pname)
+std::int32_t	load_rect_into_page_remap(std::uint16_t *ptr,std::int32_t xpos,std::int32_t ypos,std::int32_t w,std::int32_t h,char* name,char* pname)
 {
-	SLONG	x,y;
+	std::int32_t	x,y;
 	TGA_Pixel	*tga;
-	UWORD	col;
+	std::uint16_t	col;
 	TGA_Info	ret;
 
 	tga=(TGA_Pixel*)MemAlloc( 4 * 256 * 256 );
@@ -98,7 +98,7 @@ SLONG	load_rect_into_page_remap(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h
 	for(y=0;y<h;y++)
 	for(x=0;x<w;x++)
 	{
-		SLONG	px,py;
+		std::int32_t	px,py;
 		px=x*ret.width/w;
 		py=y*ret.height/h;
 		col = the_display.GetFormattedPixel(tga[px+py*ret.height].red,tga[px+py*ret.height].green,tga[px+py*ret.height].blue);
@@ -109,12 +109,12 @@ SLONG	load_rect_into_page_remap(UWORD *ptr,SLONG xpos,SLONG ypos,SLONG w,SLONG h
 	return(1);
 }
 
-void	load_splitup_texture_page_remap(UWORD *ptr,CBYTE* path,UWORD page)
+void	load_splitup_texture_page_remap(std::uint16_t *ptr,char* path,std::uint16_t page)
 {
-	SLONG	x,y;
-	CBYTE	name[256];
-	CBYTE	pname[256];
-	SLONG	index=0;
+	std::int32_t	x,y;
+	char	name[256];
+	char	pname[256];
+	std::int32_t	index=0;
 
 
 	for(y=0;y<256;y+=32)
@@ -139,18 +139,18 @@ void	load_splitup_texture_page_remap(UWORD *ptr,CBYTE* path,UWORD page)
 	
 }
 
-extern void	load_game_textures_psx(UBYTE flags);
-void	load_game_textures(UBYTE flags)
+extern void	load_game_textures_psx(std::uint8_t flags);
+void	load_game_textures(std::uint8_t flags)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	GameTexture		*the_texture;
-	CBYTE	dir[128];
-	UWORD	page;
-	SLONG	i,j,count_pal=0;
+	char	dir[128];
+	std::uint16_t	page;
+	std::int32_t	i,j,count_pal=0;
 #ifdef	NO_SERVER
-	CBYTE	textures[]="server\\textures";
+	char	textures[]="server\\textures";
 #else
-	CBYTE	textures[]="u:\\urbanchaos\\textures";
+	char	textures[]="u:\\urbanchaos\\textures";
 #endif
 
 	if(FileExists("psx.txt"))
@@ -230,12 +230,12 @@ void	load_game_textures(UBYTE flags)
 
 		}
 		the_texture	= &game_textures[i];
-		the_texture->TexturePtr	=	(UWORD*)MemAlloc(TEXTURE_PAGE_SIZE);
+		the_texture->TexturePtr	=	(std::uint16_t*)MemAlloc(TEXTURE_PAGE_SIZE);
 		if(the_texture->TexturePtr==0)
 			ASSERT(0);
 //		ASSERT(i!=16);
 
-		memset((UBYTE*)the_texture->TexturePtr,0,256*256*2);
+		memset((std::uint8_t*)the_texture->TexturePtr,0,256*256*2);
 /*
 		if(i==14)
 		{
@@ -251,7 +251,7 @@ void	load_game_textures(UBYTE flags)
 		load_splitup_texture_page(the_texture->TexturePtr,dir,page);
 //		if(i!=14)
 		{
-			the_texture->PalPtr	=	(UBYTE*)MemAlloc(256*3);
+			the_texture->PalPtr	=	(std::uint8_t*)MemAlloc(256*3);
 			tmaps[i]	=	the_texture->TexturePtr;
 		}
 
@@ -277,24 +277,24 @@ void	load_game_textures(UBYTE flags)
 	// Load the textures styles.
 	//
 
-void	load_texture_instyles(UBYTE editor, UBYTE world);
+void	load_texture_instyles(std::uint8_t editor, std::uint8_t world);
 	load_texture_instyles(true, editor_texture_set);
 	load_texture_styles(true, editor_texture_set);
 	load_game_textures_psx(flags);
 }
 
-void	load_game_textures_psx(UBYTE flags)
+void	load_game_textures_psx(std::uint8_t flags)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	GameTexture		*the_texture;
-	CBYTE	dir[128];
-	UWORD	page;
-	SLONG	i,j,count_pal=0;
+	char	dir[128];
+	std::uint16_t	page;
+	std::int32_t	i,j,count_pal=0;
 
 #ifdef	NO_SERVER
-	CBYTE	textures[]="server\\gary64";
+	char	textures[]="server\\gary64";
 #else
-	CBYTE	textures[]="u:\\urbanchaos\\gary64";
+	char	textures[]="u:\\urbanchaos\\gary64";
 #endif
 
 
@@ -355,7 +355,7 @@ void	load_game_textures_psx(UBYTE flags)
 
 		}
 		the_texture	= &game_textures[i+25];
-		the_texture->TexturePtr	=	(UWORD*)MemAlloc(TEXTURE_PAGE_SIZE);
+		the_texture->TexturePtr	=	(std::uint16_t*)MemAlloc(TEXTURE_PAGE_SIZE);
 		if(the_texture->TexturePtr==0)
 		{
 			MessageBox(
@@ -365,11 +365,11 @@ void	load_game_textures_psx(UBYTE flags)
 			ASSERT(0);
 		}
 
-		memset((UBYTE*)the_texture->TexturePtr,0,256*256*2);
+		memset((std::uint8_t*)the_texture->TexturePtr,0,256*256*2);
 
 
 		load_splitup_texture_page_remap(the_texture->TexturePtr,dir,page);
-		the_texture->PalPtr	=	(UBYTE*)MemAlloc(256*3);
+		the_texture->PalPtr	=	(std::uint8_t*)MemAlloc(256*3);
 		tmaps[i+25]	=	the_texture->TexturePtr;
 		
 
@@ -400,15 +400,15 @@ void	load_game_textures_psx(UBYTE flags)
 /*
 void	load_game_textures(void)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	ULONG			count=0;
-	ULONG			count_pal=0;
+	std::uint32_t			count=0;
+	std::uint32_t			count_pal=0;
 	GameTexture		*the_texture;
 	TGA_Pixel			*temp_page;
 
-	CBYTE fname[256];
+	char fname[256];
 
 	temp_page=(TGA_Pixel*)MemAlloc( 4 * 256 * 256 );
 	if(temp_page)
@@ -434,15 +434,15 @@ void	load_game_textures(void)
 
 			the_texture	= &game_textures[i];
 
-			the_texture->TexturePtr	=	(UWORD*)MemAlloc(TEXTURE_PAGE_SIZE);
+			the_texture->TexturePtr	=	(std::uint16_t*)MemAlloc(TEXTURE_PAGE_SIZE);
 			if(the_texture->TexturePtr)
 			{
-				SLONG	x,y;
+				std::int32_t	x,y;
 				TGA_load(fname,256,256,(TGA_Pixel*)temp_page);
 				for(y=0;y<256;y++)
 				for(x=0;x<256;x++)
 				{
-					UWORD	col,r,g,b;
+					std::uint16_t	col,r,g,b;
 					r=temp_page[x+y*256].red;
 					g=temp_page[x+y*256].green;
 					b=temp_page[x+y*256].blue;
@@ -455,7 +455,7 @@ void	load_game_textures(void)
 				count++;
 			}
 
-			the_texture->PalPtr	=	(UBYTE*)MemAlloc(256*3);
+			the_texture->PalPtr	=	(std::uint8_t*)MemAlloc(256*3);
 
 			if(the_texture->PalPtr)
 			{
@@ -480,9 +480,9 @@ void	load_game_textures(void)
 */
 //---------------------------------------------------------------
 
-void	free_game_textures(UBYTE flags)
+void	free_game_textures(std::uint8_t flags)
 {
-	SLONG i;
+	std::int32_t i;
 
 	GameTexture		*the_texture;
 

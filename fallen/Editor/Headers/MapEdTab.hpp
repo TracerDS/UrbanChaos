@@ -18,47 +18,47 @@
 class	MapEdTab	:	public	ModeTab
 {
 	private:
-		SLONG				Axis;
-		SLONG				GridFlag;
-		UBYTE				AxisMode;
+		std::int32_t				Axis;
+		std::int32_t				GridFlag;
+		std::uint8_t				AxisMode;
 		EdRect				View1;
 		EdRect				View2;
 		EdRect				View3;
-		UBYTE				RedrawTabContent;
-		UWORD				CurrentCol;
-		SLONG				X1,Y1,Z1,X2,Y2,Z2;
+		std::uint8_t				RedrawTabContent;
+		std::uint16_t				CurrentCol;
+		std::int32_t				X1,Y1,Z1,X2,Y2,Z2;
 	public:
 							MapEdTab(EditorModule *parent);
 							~MapEdTab();
 		void				DrawTabContent();
 		void				HandleTab(MFPoint *current_point);
-		UWORD				HandleTabClick(UBYTE flags,MFPoint *clicked_point);
-		void				HandleControl(UWORD control_id);
-		void				DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				SetWorldMouse(ULONG flag);
-		SLONG				KeyboardInterface();
-		SLONG				DragEngine(UBYTE flags,MFPoint *clicked_point);
-		SLONG				CalcMapCoord(SLONG	*mapx,SLONG	*mapy,SLONG	*mapz,SLONG	x,SLONG	y,SLONG	w,SLONG	h,MFPoint	*clicked_point);
-		SLONG				DragPaint(UBYTE flags);
-		SLONG				DragMark(UBYTE flags);
-		void				CutFloorBrush(MFPoint *current_point,SLONG button);
-		SLONG				MouseInContent();
-		void				DragAltitude(SLONG mx,SLONG mz);
-		SLONG				FlattenArea();
-		SLONG				SmoothArea();
-		SLONG				SlopeArea();
-		void				ChangeMapAltitude(SLONG mx,SLONG mz,SLONG step,UBYTE offset_flag);
+		std::uint16_t				HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
+		void				HandleControl(std::uint16_t control_id);
+		void				DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				SetWorldMouse(std::uint32_t flag);
+		std::int32_t				KeyboardInterface();
+		std::int32_t				DragEngine(std::uint8_t flags,MFPoint *clicked_point);
+		std::int32_t				CalcMapCoord(std::int32_t	*mapx,std::int32_t	*mapy,std::int32_t	*mapz,std::int32_t	x,std::int32_t	y,std::int32_t	w,std::int32_t	h,MFPoint	*clicked_point);
+		std::int32_t				DragPaint(std::uint8_t flags);
+		std::int32_t				DragMark(std::uint8_t flags);
+		void				CutFloorBrush(MFPoint *current_point,std::int32_t button);
+		std::int32_t				MouseInContent();
+		void				DragAltitude(std::int32_t mx,std::int32_t mz);
+		std::int32_t				FlattenArea();
+		std::int32_t				SmoothArea();
+		std::int32_t				SlopeArea();
+		void				ChangeMapAltitude(std::int32_t mx,std::int32_t mz,std::int32_t step,std::uint8_t offset_flag);
 //		Undo				MyUndo;
-		UBYTE				RedrawModuleContent;
+		std::uint8_t				RedrawModuleContent;
 		void				Clear();
-		UWORD				Mode;
-		UWORD				SubMode;
+		std::uint16_t				Mode;
+		std::uint16_t				SubMode;
 		EditorModule		*Parent;
 		BuildTab			*BuildMode;
 		MapBlock			CutMapBlock;
-		SLONG				RoofTop;
-		SLONG				Texture;
+		std::int32_t				RoofTop;
+		std::int32_t				Texture;
 };
 
 

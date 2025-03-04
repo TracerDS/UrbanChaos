@@ -12,21 +12,21 @@
 // Multiplies the two colours together.
 //
 
-ULONG SHAPE_colour_mult(ULONG c1, ULONG c2)
+std::uint32_t SHAPE_colour_mult(std::uint32_t c1, std::uint32_t c2)
 {
-	SLONG r1;
-	SLONG g1;
-	SLONG b1;
+	std::int32_t r1;
+	std::int32_t g1;
+	std::int32_t b1;
 
-	SLONG r2;
-	SLONG g2;
-	SLONG b2;
+	std::int32_t r2;
+	std::int32_t g2;
+	std::int32_t b2;
 
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	ULONG ans;
+	std::uint32_t ans;
 
 	r1 = (c1 >> 16) & 0xff;
 	g1 = (c1 >>  8) & 0xff;
@@ -49,53 +49,53 @@ ULONG SHAPE_colour_mult(ULONG c1, ULONG c2)
 
 
 void SHAPE_semisphere(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,	// Gives the and direction of the semi-sphere.
-		SLONG dy,
-		SLONG dz,
-		SLONG radius,
-		SLONG page,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,	// Gives the and direction of the semi-sphere.
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t radius,
+		std::int32_t page,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG ax;
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;
+	std::int32_t ay;
+	std::int32_t az;
 
-	SLONG bx;
-	SLONG by;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t by;
+	std::int32_t bz;
 
-	SLONG ox;
-	SLONG oy;
-	SLONG oz;
+	std::int32_t ox;
+	std::int32_t oy;
+	std::int32_t oz;
 
-	SLONG c_num;
-	SLONG c_points;
-	SLONG c_red;
-	SLONG c_green;
-	SLONG c_blue;
-	ULONG c_colour;
+	std::int32_t c_num;
+	std::int32_t c_points;
+	std::int32_t c_red;
+	std::int32_t c_green;
+	std::int32_t c_blue;
+	std::uint32_t c_colour;
 
-	SLONG angle;
-	SLONG width;
-	SLONG height;
-	SLONG elevation;
-	SLONG along_a;
-	SLONG along_b;
+	std::int32_t angle;
+	std::int32_t width;
+	std::int32_t height;
+	std::int32_t elevation;
+	std::int32_t along_a;
+	std::int32_t along_b;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	POLY_Point *pp;
 
@@ -322,58 +322,58 @@ void SHAPE_semisphere(
 
 
 void SHAPE_semisphere_textured(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,	// Gives the and direction of the semi-sphere.
-		SLONG dy,
-		SLONG dz,
-		SLONG radius,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,	// Gives the and direction of the semi-sphere.
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t radius,
 		float u_mid,
 		float v_mid,
 		float uv_radius,
-		SLONG page,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue)
+		std::int32_t page,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG ax;
-	SLONG ay;
-	SLONG az;
+	std::int32_t ax;
+	std::int32_t ay;
+	std::int32_t az;
 
-	SLONG bx;
-	SLONG by;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t by;
+	std::int32_t bz;
 
-	SLONG ox;
-	SLONG oy;
-	SLONG oz;
+	std::int32_t ox;
+	std::int32_t oy;
+	std::int32_t oz;
 
-	SLONG c_num;
-	SLONG c_points;
-	SLONG c_red;
-	SLONG c_green;
-	SLONG c_blue;
-	ULONG c_colour;
+	std::int32_t c_num;
+	std::int32_t c_points;
+	std::int32_t c_red;
+	std::int32_t c_green;
+	std::int32_t c_blue;
+	std::uint32_t c_colour;
 	float f_angle;
 	float uv_width;
 
-	SLONG angle;
-	SLONG width;
-	SLONG height;
-	SLONG elevation;
-	SLONG along_a;
-	SLONG along_b;
+	std::int32_t angle;
+	std::int32_t width;
+	std::int32_t height;
+	std::int32_t elevation;
+	std::int32_t along_a;
+	std::int32_t along_b;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	POLY_Point *pp;
 
@@ -606,25 +606,25 @@ void SHAPE_semisphere_textured(
 
 
 void SHAPE_sphere(
-		SLONG ix,
-		SLONG iy,
-		SLONG iz,
-		SLONG iradius,
-		ULONG colour)
+		std::int32_t ix,
+		std::int32_t iy,
+		std::int32_t iz,
+		std::int32_t iradius,
+		std::uint32_t colour)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
-	SLONG index1;
-	SLONG index2;
-	SLONG index3;
-	SLONG index4;
+	std::int32_t index1;
+	std::int32_t index2;
+	std::int32_t index3;
+	std::int32_t index4;
 
-	SLONG line1;
-	SLONG line2;
+	std::int32_t line1;
+	std::int32_t line2;
 
 	float px;
 	float py;
@@ -712,9 +712,9 @@ void SHAPE_sphere(
 
 			NIGHT_get_d3d_colour(
 				NIGHT_ambient_at_point(
-					SLONG(vector[0] * 256.0F),
-					SLONG(vector[1] * 256.0F),
-					SLONG(vector[2] * 256.0F)),
+					std::int32_t(vector[0] * 256.0F),
+					std::int32_t(vector[1] * 256.0F),
+					std::int32_t(vector[2] * 256.0F)),
 			   &pp->colour,
 			   &pp->specular);
 
@@ -800,19 +800,19 @@ void SHAPE_sphere(
 
 
 void SHAPE_sparky_line(
-		SLONG num_points,
-		SLONG px[],
-		SLONG py[],
-		SLONG pz[],
-		ULONG colour,
+		std::int32_t num_points,
+		std::int32_t px[],
+		std::int32_t py[],
+		std::int32_t pz[],
+		std::uint32_t colour,
 		float width)
 {
 	ASSERT(WITHIN(num_points, 2, SHAPE_MAX_SPARKY_POINTS));
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG p1;
-	SLONG p2;
+	std::int32_t p1;
+	std::int32_t p2;
 
 	float dx;
 	float dy;
@@ -822,8 +822,8 @@ void SHAPE_sparky_line(
 
 	float pnx;
 	float pny;
-	SLONG n1_valid;
-	SLONG n2_valid;
+	std::int32_t n1_valid;
+	std::int32_t n2_valid;
 
 	POLY_Point pp1;
 	POLY_Point pp2;	
@@ -1027,13 +1027,13 @@ void SHAPE_sparky_line(
 }
 
 void SHAPE_glitter(
-		SLONG x1,
-		SLONG y1,
-		SLONG z1,
-		SLONG x2,
-		SLONG y2,
-		SLONG z2,
-		ULONG colour)
+		std::int32_t x1,
+		std::int32_t y1,
+		std::int32_t z1,
+		std::int32_t x2,
+		std::int32_t y2,
+		std::int32_t z2,
+		std::uint32_t colour)
 {
 	float dpx;
 	float dpy;
@@ -1140,7 +1140,7 @@ void SHAPE_glitter(
 //
 
 void SHAPE_tripwire_uvs(
-		UWORD  counter,
+		std::uint16_t  counter,
 		float *u1,
 		float *v1,
 		float *u2,
@@ -1172,16 +1172,16 @@ void SHAPE_tripwire_uvs(
 }
 
 void SHAPE_tripwire(
-		SLONG ix1,
-		SLONG iy1,
-		SLONG iz1,
-		SLONG ix2,
-		SLONG iy2,
-		SLONG iz2,
-		SLONG width,
-		ULONG colour,
-		UWORD counter,
-		UBYTE along)
+		std::int32_t ix1,
+		std::int32_t iy1,
+		std::int32_t iz1,
+		std::int32_t ix2,
+		std::int32_t iy2,
+		std::int32_t iz2,
+		std::int32_t width,
+		std::uint32_t colour,
+		std::uint16_t counter,
+		std::uint8_t along)
 {
 	float x1 = float(ix1);
 	float y1 = float(iy1);
@@ -1325,25 +1325,25 @@ void SHAPE_tripwire(
 
 
 void SHAPE_waterfall(
-		SLONG map_x,
-		SLONG map_z,
-		SLONG dx,
-		SLONG dz,
-		SLONG top,
-		SLONG bot)
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t dx,
+		std::int32_t dz,
+		std::int32_t top,
+		std::int32_t bot)
 {
-	SLONG i;
-	SLONG y;
-	ULONG colour;
+	std::int32_t i;
+	std::int32_t y;
+	std::uint32_t colour;
 
-	SLONG mid_x = (map_x << 8) + 0x80;
-	SLONG mid_z = (map_z << 8) + 0x80;
+	std::int32_t mid_x = (map_x << 8) + 0x80;
+	std::int32_t mid_z = (map_z << 8) + 0x80;
 
-	SLONG px1 = mid_x + (dx << 7) + (-dz << 7);
-	SLONG pz1 = mid_z + (dz << 7) + (+dx << 7);
+	std::int32_t px1 = mid_x + (dx << 7) + (-dz << 7);
+	std::int32_t pz1 = mid_z + (dz << 7) + (+dx << 7);
 
-	SLONG px2 = mid_x + (dx << 7) + (+dz << 7);
-	SLONG pz2 = mid_z + (dz << 7) + (-dx << 7);
+	std::int32_t px2 = mid_x + (dx << 7) + (+dz << 7);
+	std::int32_t pz2 = mid_z + (dz << 7) + (-dx << 7);
 
 	POLY_Point  pp  [6];
 	POLY_Point *quad[4];
@@ -1413,13 +1413,13 @@ void SHAPE_waterfall(
 
 
 void SHAPE_droplet(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
-		ULONG colour)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
+		std::uint32_t colour)
 {
 	float dpx;
 	float dpy;
@@ -1530,7 +1530,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 	float py = float(oi->y);
 	float pz = float(oi->z);
 
-	SLONG i;
+	std::int32_t i;
 
 	PrimInfo *pi;
 
@@ -1551,7 +1551,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 
 	} world[4];
 
-	UBYTE order[3];
+	std::uint8_t order[3];
 
 	POLY_Point *pp_upto;
 

@@ -21,7 +21,7 @@
 #define OS_CARRY_ON	 0
 #define OS_QUIT_GAME 1
 
-SLONG OS_process_messages();
+std::int32_t OS_process_messages();
 
 //
 // Outputs a debug string.
@@ -30,11 +30,11 @@ SLONG OS_process_messages();
 // Returns the Mhz of the current processor.
 //
 
-void OS_string       (CBYTE* fmt, ...);
+void OS_string       (char* fmt, ...);
 void OS_reset_ticks  ();
-SLONG OS_ticks        ();
+std::int32_t OS_ticks        ();
 void OS_ticks_reset  ();
-SLONG OS_processor_mhz();
+std::int32_t OS_processor_mhz();
 
 
 // ========================================================
@@ -59,8 +59,8 @@ typedef struct os_texture OS_Texture;
 #define OS_TEXTURE_FORMAT_8		 3		// Grayscale
 #define OS_TEXTURE_FORMAT_NUMBER 4
 
-OS_Texture *OS_texture_create(CBYTE* fname, SLONG invert = false);
-OS_Texture *OS_texture_create(SLONG size,   SLONG format);
+OS_Texture *OS_texture_create(char* fname, std::int32_t invert = false);
+OS_Texture *OS_texture_create(std::int32_t size,   std::int32_t format);
 
 //
 // Call this function once you have loaded all textures.  It ensures that
@@ -74,7 +74,7 @@ void OS_texture_finished_creating();
 // Returns the size of the texture.
 //
 
-SLONG OS_texture_size(OS_Texture *ot);
+std::int32_t OS_texture_size(OS_Texture *ot);
 
 //
 // To updating a texture yourself, lock the texture and write
@@ -101,21 +101,21 @@ void OS_texture_unlock(OS_Texture *ot);
 // Include alpha only if the original texture had alpha.
 //
 
-extern SLONG  OS_bitmap_format;			// OS_TEXTURE_FORMAT_*
-extern UWORD *OS_bitmap_uword_screen;	// For 16-bit formats.
-extern SLONG  OS_bitmap_uword_pitch;	// Pitch in UWORDS
-extern UBYTE *OS_bitmap_ubyte_screen;	// For the grayscale format.
-extern SLONG  OS_bitmap_ubyte_pitch;	// Pitch in UBYTES
-extern SLONG  OS_bitmap_width;
-extern SLONG  OS_bitmap_height;
-extern SLONG  OS_bitmap_mask_r;
-extern SLONG  OS_bitmap_mask_g;
-extern SLONG  OS_bitmap_mask_b;
-extern SLONG  OS_bitmap_mask_a;
-extern SLONG  OS_bitmap_shift_r;
-extern SLONG  OS_bitmap_shift_g;
-extern SLONG  OS_bitmap_shift_b;
-extern SLONG  OS_bitmap_shift_a;
+extern std::int32_t  OS_bitmap_format;			// OS_TEXTURE_FORMAT_*
+extern std::uint16_t *OS_bitmap_uword_screen;	// For 16-bit formats.
+extern std::int32_t  OS_bitmap_uword_pitch;	// Pitch in UWORDS
+extern std::uint8_t *OS_bitmap_ubyte_screen;	// For the grayscale format.
+extern std::int32_t  OS_bitmap_ubyte_pitch;	// Pitch in UBYTES
+extern std::int32_t  OS_bitmap_width;
+extern std::int32_t  OS_bitmap_height;
+extern std::int32_t  OS_bitmap_mask_r;
+extern std::int32_t  OS_bitmap_mask_g;
+extern std::int32_t  OS_bitmap_mask_b;
+extern std::int32_t  OS_bitmap_mask_a;
+extern std::int32_t  OS_bitmap_shift_r;
+extern std::int32_t  OS_bitmap_shift_g;
+extern std::int32_t  OS_bitmap_shift_b;
+extern std::int32_t  OS_bitmap_shift_a;
 
 //
 // Writes a pixel to a 16-bit bitmap.
@@ -193,14 +193,14 @@ typedef struct
 	float Y;
 	float Z;
 
-	ULONG clip;
+	std::uint32_t clip;
 
 } OS_Trans;
 
 #define OS_MAX_TRANS 8192
 
 extern OS_Trans OS_trans[OS_MAX_TRANS];
-extern SLONG    OS_trans_upto;
+extern std::int32_t    OS_trans_upto;
 
 //
 // Transforming points.
@@ -223,14 +223,14 @@ typedef struct os_buffer OS_Buffer;
 
 typedef struct
 {
-	UWORD trans;	// Index into the OS_trans array for the transformed point.
-	UWORD index;	// Before you add any OS_Verts to a buffer make sure they all have this field set to nullptr
+	std::uint16_t trans;	// Index into the OS_trans array for the transformed point.
+	std::uint16_t index;	// Before you add any OS_Verts to a buffer make sure they all have this field set to nullptr
 	float u1;
 	float v1;
 	float u2;		// For multitexturing.
 	float v2;
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 } OS_Vert;
 
@@ -269,9 +269,9 @@ void OS_buffer_add_sprite(
 		float u1 = 0.0F, float v1 = 0.0F,
 		float u2 = 1.0F, float v2 = 1.0F,
 		float z  = 0.0F,
-		ULONG colour   = 0x00ffffff,
-		ULONG specular = 0x00000000,
-		ULONG fade     = 0);
+		std::uint32_t colour   = 0x00ffffff,
+		std::uint32_t specular = 0x00000000,
+		std::uint32_t fade     = 0);
 
 //
 // Adds a rotated 2D sprite to the buffer.
@@ -286,8 +286,8 @@ void OS_buffer_add_sprite_rot(
 		float u1 = 0.0F, float v1 = 0.0F,
 		float u2 = 1.0F, float v2 = 1.0F,
 		float z  = 0.0F,
-		ULONG colour   = 0x00ffffff,
-		ULONG specular = 0x00000000,
+		std::uint32_t colour   = 0x00ffffff,
+		std::uint32_t specular = 0x00000000,
 		float tu1 = 0.0F, float tv1 = 0.0F,	// For the second pass...
 		float tu2 = 1.0F, float tv2 = 1.0F);
 
@@ -314,8 +314,8 @@ void OS_buffer_add_sprite_arbitrary(
 		float u3 = 0.0F, float v3 = 1.0F,
 		float u4 = 1.0F, float v4 = 1.0F,
 		float z  = 0.0F,
-		ULONG colour   = 0x00ffffff,
-		ULONG specular = 0x00000000);
+		std::uint32_t colour   = 0x00ffffff,
+		std::uint32_t specular = 0x00000000);
 
 
 //
@@ -332,8 +332,8 @@ void OS_buffer_add_line_2d(
 		float u1 = 0.0F, float v1 = 0.0F,
 		float u2 = 1.0F, float v2 = 1.0F,
 		float z  = 0.0F,
-		ULONG colour   = 0x00ffffff,
-		ULONG specular = 0x00000000);
+		std::uint32_t colour   = 0x00ffffff,
+		std::uint32_t specular = 0x00000000);
 
 void OS_buffer_add_line_3d(
 		OS_Buffer *ob,
@@ -346,8 +346,8 @@ void OS_buffer_add_line_3d(
 		float u2 = 1.0F, float v2 = 1.0F,
 		float z1 = 0.0F,
 		float z2 = 0.0F,
-		ULONG colour   = 0x00ffffff,
-		ULONG specular = 0x00000000);
+		std::uint32_t colour   = 0x00ffffff,
+		std::uint32_t specular = 0x00000000);
 
 
 
@@ -380,7 +380,7 @@ void OS_buffer_draw(
 		OS_Buffer  *ob,
 		OS_Texture *ot1,		// nullptr => No texture mapping
 		OS_Texture *ot2  = nullptr,
-		ULONG       draw = OS_DRAW_NORMAL);
+		std::uint32_t       draw = OS_DRAW_NORMAL);
 
 
 // ========================================================
@@ -404,9 +404,9 @@ void OS_scene_end  ();
 //
 
 void OS_clear_screen(
-		UBYTE r = 0,
-		UBYTE g = 0,
-		UBYTE b = 0,
+		std::uint8_t r = 0,
+		std::uint8_t g = 0,
+		std::uint8_t b = 0,
 		float z = 1.0F);
 
 //
@@ -428,8 +428,8 @@ void OS_show();
 //
 // ========================================================
 
-void OS_mouse_get(SLONG *x, SLONG *y);
-void OS_mouse_set(SLONG  x, SLONG  y);
+void OS_mouse_get(std::int32_t *x, std::int32_t *y);
+void OS_mouse_set(std::int32_t  x, std::int32_t  y);
 
 // ========================================================
 //
@@ -451,7 +451,7 @@ typedef struct os_sound OS_Sound;
 #define OS_SOUND_TYPE_2D     1
 #define OS_SOUND_TYPE_3D     2
 
-OS_Sound *OS_sound_create(CBYTE* fname, SLONG type);
+OS_Sound *OS_sound_create(char* fname, std::int32_t type);
 
 
 //
@@ -462,7 +462,7 @@ OS_Sound *OS_sound_create(CBYTE* fname, SLONG type);
 #define OS_SOUND_FLAG_INTERRUPT (1 << 0)	// If this sample is already playing- it will start again.
 #define OS_SOUND_FLAG_LOOP		(1 << 1)	// Continue playing until OS_sound_stop() is called.
 
-void OS_sound_play(OS_Sound *sound, SLONG flag);
+void OS_sound_play(OS_Sound *sound, std::int32_t flag);
 void OS_sound_stop(OS_Sound *sound);
 
 
@@ -518,9 +518,9 @@ void OS_sound_listener_set(
 
 extern float OS_joy_x;				// -1.0F to +1.0F
 extern float OS_joy_y;				// -1.0F to +1.0F
-extern ULONG OS_joy_button;			// The buttons that are currently down
-extern ULONG OS_joy_button_down;	// The buttons that have just been pressed
-extern ULONG OS_joy_button_up;		// The buttons that have just been released
+extern std::uint32_t OS_joy_button;			// The buttons that are currently down
+extern std::uint32_t OS_joy_button_down;	// The buttons that have just been pressed
+extern std::uint32_t OS_joy_button_up;		// The buttons that have just been released
 
 
 #endif

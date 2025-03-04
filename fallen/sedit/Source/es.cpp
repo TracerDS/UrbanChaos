@@ -28,8 +28,8 @@ ES_Thing ES_thing[ES_MAX_THINGS];
 // Water in the city.
 //
 
-UBYTE ES_city_water_on   [PAP_SIZE_HI][PAP_SIZE_HI];
-SBYTE ES_city_water_level[PAP_SIZE_LO][PAP_SIZE_LO];
+std::uint8_t ES_city_water_on   [PAP_SIZE_HI][PAP_SIZE_HI];
+std::int8_t ES_city_water_level[PAP_SIZE_LO][PAP_SIZE_LO];
 
 
 //
@@ -41,27 +41,27 @@ typedef struct
 	ES_Hi    es_hi              [PAP_SIZE_HI][PAP_SIZE_HI];
 	ES_Lo    es_lo              [PAP_SIZE_LO][PAP_SIZE_LO];
 	ES_Thing es_thing           [ES_MAX_THINGS];
-	UBYTE    es_city_water_on   [PAP_SIZE_HI][PAP_SIZE_HI];
-	SBYTE    es_city_water_level[PAP_SIZE_LO][PAP_SIZE_LO];
+	std::uint8_t    es_city_water_on   [PAP_SIZE_HI][PAP_SIZE_HI];
+	std::int8_t    es_city_water_level[PAP_SIZE_LO][PAP_SIZE_LO];
 
 } ES_Undo;
 
 #define ES_MAX_UNDO 64
 
 ES_Undo ES_undo[ES_MAX_UNDO];
-SLONG ES_undo_top;	// A circular system: Access these values MOD ES_MAX_UNDO
-SLONG ES_undo_bot;
-SLONG ES_undo_stage;
+std::int32_t ES_undo_top;	// A circular system: Access these values MOD ES_MAX_UNDO
+std::int32_t ES_undo_bot;
+std::int32_t ES_undo_stage;
 
 
 
 
 void ES_init()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	ES_Hi *eh;
 	ES_Lo *el;
@@ -134,19 +134,19 @@ void ES_init()
 
 
 void ES_change_height(
-		SLONG map_x,
-		SLONG map_z,
-		SLONG dheight)
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t dheight)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG nx;
-	SLONG nz;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG height;
-	SLONG match;
-	SLONG count;
+	std::int32_t height;
+	std::int32_t match;
+	std::int32_t count;
 
 	ES_Hi *eh;
 
@@ -161,8 +161,8 @@ void ES_change_height(
 
 	typedef struct
 	{
-		UBYTE x;
-		UBYTE z;
+		std::uint8_t x;
+		std::uint8_t z;
 		
 	} Queue;
 
@@ -170,8 +170,8 @@ void ES_change_height(
 
 	Queue queue[QUEUE_SIZE];
 
-	SLONG queue_start = 0;	// Access MOD QUEUE_SIZE
-	SLONG queue_end   = 0;
+	std::int32_t queue_start = 0;	// Access MOD QUEUE_SIZE
+	std::int32_t queue_end   = 0;
 
 	Queue *qs;
 	Queue *qe;
@@ -259,10 +259,10 @@ void ES_change_height(
 
 void ES_city_water_build()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	OB_Info *oi;
 
@@ -289,7 +289,7 @@ void ES_city_water_build()
 	// Get the water level from the bottom of a prim 13 Ob.
 	// 
 
-	SLONG water_level = 0;
+	std::int32_t water_level = 0;
 
 	for (i = 1; i < OB_ob_upto; i++)
 	{
@@ -360,24 +360,24 @@ void ES_city_water_build()
 
 void ES_build_sewers()
 {
-	SLONG i ;
+	std::int32_t i ;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG f_list;
-	SLONG facet;
-	SLONG exit;
-	SLONG num_links;
-	SLONG num_facets;
-	SLONG last_top;
-	SLONG this_top;
-	SLONG this_top_count;
-	SLONG bottom;
-	SLONG dx;
-	SLONG dz;
-	SLONG mx;
-	SLONG mz;
+	std::int32_t f_list;
+	std::int32_t facet;
+	std::int32_t exit;
+	std::int32_t num_links;
+	std::int32_t num_facets;
+	std::int32_t last_top;
+	std::int32_t this_top;
+	std::int32_t this_top_count;
+	std::int32_t bottom;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	ES_Hi *eh;
 	NS_Hi *nh;
@@ -389,8 +389,8 @@ void ES_build_sewers()
 
 	PAP_Lo *pl;
 
-	SLONG nh_type;
-	SLONG nh_flag;
+	std::int32_t nh_type;
+	std::int32_t nh_flag;
 
 	//
 	// Initialise the NS map.
@@ -821,12 +821,12 @@ void ES_undo_redo()
 	ES_undo_restore(&ES_undo[ES_undo_stage & (ES_MAX_UNDO - 1)]);
 }
 
-SLONG ES_undo_undo_valid()
+std::int32_t ES_undo_undo_valid()
 {
 	return ES_undo_stage > ES_undo_bot;
 }
 
-SLONG ES_undo_redo_valid()
+std::int32_t ES_undo_redo_valid()
 {
 	return ES_undo_stage < ES_undo_top;
 }
@@ -845,13 +845,13 @@ ES_Undo ES_loadsave;
 
 typedef struct
 {
-	SLONG version;
-	SLONG sizeof_es_undo;
+	std::int32_t version;
+	std::int32_t sizeof_es_undo;
 
 } ES_Header;
 
 
-SLONG ES_save(CBYTE* filename)
+std::int32_t ES_save(char* filename)
 {
 	ES_Header ed;
 
@@ -901,7 +901,7 @@ SLONG ES_save(CBYTE* filename)
 	return false;
 }
 
-SLONG ES_load(CBYTE* filename)
+std::int32_t ES_load(char* filename)
 {
 	ES_Header ed;
 
@@ -972,21 +972,21 @@ SLONG ES_load(CBYTE* filename)
 
 
 void ES_draw_editor(
-		SLONG  cam_x,
-		SLONG  cam_y,
-		SLONG  cam_z,
-		SLONG  cam_yaw,
-		SLONG  cam_pitch,
-		SLONG  cam_roll,
-		SLONG  mouse_x,
-		SLONG  mouse_y,
-		SLONG *mouse_over_valid,
-		SLONG *mouse_over_x,
-		SLONG *mouse_over_y,
-		SLONG *mouse_over_z,
-		SLONG  draw_prim_at_mouse,
-		SLONG  prim_object,
-		SLONG  prim_yaw)
+		std::int32_t  cam_x,
+		std::int32_t  cam_y,
+		std::int32_t  cam_z,
+		std::int32_t  cam_yaw,
+		std::int32_t  cam_pitch,
+		std::int32_t  cam_roll,
+		std::int32_t  mouse_x,
+		std::int32_t  mouse_y,
+		std::int32_t *mouse_over_valid,
+		std::int32_t *mouse_over_x,
+		std::int32_t *mouse_over_y,
+		std::int32_t *mouse_over_z,
+		std::int32_t  draw_prim_at_mouse,
+		std::int32_t  prim_object,
+		std::int32_t  prim_yaw)
 {
 	if (!WITHIN(mouse_x, 0, 640) ||
 		!WITHIN(mouse_y, 0, 480))
@@ -1021,10 +1021,10 @@ void ES_draw_editor(
 }
 
 
-void ES_light_move(SLONG x, SLONG z)
+void ES_light_move(std::int32_t x, std::int32_t z)
 {
-	SLONG lo_map_x = x >> PAP_SHIFT_LO;
-	SLONG lo_map_z = z >> PAP_SHIFT_LO;
+	std::int32_t lo_map_x = x >> PAP_SHIFT_LO;
+	std::int32_t lo_map_z = z >> PAP_SHIFT_LO;
 
 	if (WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1) &&
 		WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1))
@@ -1033,8 +1033,8 @@ void ES_light_move(SLONG x, SLONG z)
 		// Move the light.
 		//
 
-		SLONG mx = x - (lo_map_x << PAP_SHIFT_LO) >> 3;
-		SLONG mz = z - (lo_map_z << PAP_SHIFT_LO) >> 3;
+		std::int32_t mx = x - (lo_map_x << PAP_SHIFT_LO) >> 3;
+		std::int32_t mz = z - (lo_map_z << PAP_SHIFT_LO) >> 3;
 
 		ES_lo[lo_map_x][lo_map_z].light_x = mx;
 		ES_lo[lo_map_x][lo_map_z].light_z = mz;
@@ -1043,7 +1043,7 @@ void ES_light_move(SLONG x, SLONG z)
 		// Make sure the light isn't underground.
 		//
 
-		SLONG height = ES_hi[x >> PAP_SHIFT_HI][z >> PAP_SHIFT_HI].height;
+		std::int32_t height = ES_hi[x >> PAP_SHIFT_HI][z >> PAP_SHIFT_HI].height;
 
 		if (ES_lo[lo_map_x][lo_map_z].light_y < height + 4)
 		{
@@ -1052,10 +1052,10 @@ void ES_light_move(SLONG x, SLONG z)
 	}
 }
 
-void ES_light_dheight(SLONG x, SLONG z, SLONG dheight)
+void ES_light_dheight(std::int32_t x, std::int32_t z, std::int32_t dheight)
 {
-	SLONG lo_map_x = x >> PAP_SHIFT_LO;
-	SLONG lo_map_z = z >> PAP_SHIFT_LO;
+	std::int32_t lo_map_x = x >> PAP_SHIFT_LO;
+	std::int32_t lo_map_z = z >> PAP_SHIFT_LO;
 
 	if (WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1) &&
 		WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1))
@@ -1064,7 +1064,7 @@ void ES_light_dheight(SLONG x, SLONG z, SLONG dheight)
 		// Raise/lower the light.
 		//
 
-		SLONG lheight;
+		std::int32_t lheight;
 		
 		lheight  = ES_lo[lo_map_x][lo_map_z].light_y;
 		lheight += dheight;
@@ -1077,7 +1077,7 @@ void ES_light_dheight(SLONG x, SLONG z, SLONG dheight)
 		// Make sure the light isn't underground.
 		//
 
-		SLONG height = ES_hi[x >> PAP_SHIFT_HI][z >> PAP_SHIFT_HI].height;
+		std::int32_t height = ES_hi[x >> PAP_SHIFT_HI][z >> PAP_SHIFT_HI].height;
 
 		if (ES_lo[lo_map_x][lo_map_z].light_y < height + 4)
 		{
@@ -1086,10 +1086,10 @@ void ES_light_dheight(SLONG x, SLONG z, SLONG dheight)
 	}
 }
 
-void ES_light_delete(SLONG x, SLONG z)
+void ES_light_delete(std::int32_t x, std::int32_t z)
 {
-	SLONG lo_map_x = x >> PAP_SHIFT_LO;
-	SLONG lo_map_z = z >> PAP_SHIFT_LO;
+	std::int32_t lo_map_x = x >> PAP_SHIFT_LO;
+	std::int32_t lo_map_z = z >> PAP_SHIFT_LO;
 
 	if (WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1) &&
 		WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1))
@@ -1111,26 +1111,26 @@ void ES_light_delete(SLONG x, SLONG z)
 // ========================================================
 
 void ES_ladder_create(
-		SLONG ax,
-		SLONG az,
-		SLONG bx,
-		SLONG bz)
+		std::int32_t ax,
+		std::int32_t az,
+		std::int32_t bx,
+		std::int32_t bz)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG map_x = ax >> PAP_SHIFT_HI;
-	SLONG map_z = az >> PAP_SHIFT_HI;
+	std::int32_t map_x = ax >> PAP_SHIFT_HI;
+	std::int32_t map_z = az >> PAP_SHIFT_HI;
 
 	ES_Thing *et;
 
@@ -1226,8 +1226,8 @@ void ES_ladder_create(
 
 			if (ES_hi[map_x][map_z].flag & ES_FLAG_ENTRANCE)
 			{
-				SLONG floor  = PAP_calc_height_at((ax << 8) + 0x80, (ax << 8) + 0x80);
-				SLONG bottom = (ES_hi[map_x][map_z].height << 5) + -32 * 0x100;
+				std::int32_t floor  = PAP_calc_height_at((ax << 8) + 0x80, (ax << 8) + 0x80);
+				std::int32_t bottom = (ES_hi[map_x][map_z].height << 5) + -32 * 0x100;
 
 				//
 				// Reach to the ground.
@@ -1246,18 +1246,18 @@ void ES_ladder_create(
 }
 
 void ES_ladder_dheight(
-		SLONG x,
-		SLONG z,
-		SLONG dheight)
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t dheight)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG best_thing = 0;
-	SLONG best_dist  = INFINITY;
+	std::int32_t best_thing = 0;
+	std::int32_t best_dist  = INFINITY;
 
 	ES_Thing *et;
 
@@ -1293,7 +1293,7 @@ void ES_ladder_dheight(
 		// Work out the new height.
 		//
 
-		SLONG height;
+		std::int32_t height;
 		
 		height  = et->height;
 		height += dheight;
@@ -1307,17 +1307,17 @@ void ES_ladder_dheight(
 }
 
 void ES_ladder_delete(
-		SLONG x,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG best_thing = 0;
-	SLONG best_dist  = INFINITY;
+	std::int32_t best_thing = 0;
+	std::int32_t best_dist  = INFINITY;
 
 	x >>= PAP_SHIFT_HI;
 	z >>= PAP_SHIFT_HI;
@@ -1365,24 +1365,24 @@ void ES_ladder_delete(
 //
 // ========================================================
 
-void ES_sewer_water_dheight(SLONG x, SLONG z, SLONG dheight)
+void ES_sewer_water_dheight(std::int32_t x, std::int32_t z, std::int32_t dheight)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG count;
-	SLONG match;
-	SLONG height;
+	std::int32_t count;
+	std::int32_t match;
+	std::int32_t height;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
 	ES_Hi *eh;
 
-	SLONG map_x = x >> PAP_SHIFT_HI;
-	SLONG map_z = z >> PAP_SHIFT_HI;
+	std::int32_t map_x = x >> PAP_SHIFT_HI;
+	std::int32_t map_z = z >> PAP_SHIFT_HI;
 
 	ASSERT(WITHIN(map_x, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(map_z, 0, PAP_SIZE_HI - 1));
@@ -1408,8 +1408,8 @@ void ES_sewer_water_dheight(SLONG x, SLONG z, SLONG dheight)
 
 	typedef struct
 	{
-		UBYTE x;
-		UBYTE z;
+		std::uint8_t x;
+		std::uint8_t z;
 		
 	} Queue;
 
@@ -1417,8 +1417,8 @@ void ES_sewer_water_dheight(SLONG x, SLONG z, SLONG dheight)
 
 	Queue queue[QUEUE_SIZE];
 
-	SLONG queue_start = 0;	// Access MOD QUEUE_SIZE
-	SLONG queue_end   = 0;
+	std::int32_t queue_start = 0;	// Access MOD QUEUE_SIZE
+	std::int32_t queue_end   = 0;
 
 	Queue *qs;
 	Queue *qe;
@@ -1505,10 +1505,10 @@ void ES_sewer_water_dheight(SLONG x, SLONG z, SLONG dheight)
 // Set/get the city water 'on' status of the city water at (x,z)
 //
 
-SLONG ES_city_water_get(SLONG x, SLONG z)
+std::int32_t ES_city_water_get(std::int32_t x, std::int32_t z)
 {
-	SLONG map_x = x >> PAP_SHIFT_HI;
-	SLONG map_z = z >> PAP_SHIFT_HI;
+	std::int32_t map_x = x >> PAP_SHIFT_HI;
+	std::int32_t map_z = z >> PAP_SHIFT_HI;
 
 	ASSERT(WITHIN(map_x, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(map_z, 0, PAP_SIZE_HI - 1));
@@ -1523,13 +1523,13 @@ SLONG ES_city_water_get(SLONG x, SLONG z)
 	}
 }
 
-void ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
+void ES_city_water_set(std::int32_t x, std::int32_t z, std::int32_t on_or_not)
 {
-	SLONG ground;
-	SLONG wlevel;
+	std::int32_t ground;
+	std::int32_t wlevel;
 
-	SLONG map_x = x >> PAP_SHIFT_HI;
-	SLONG map_z = z >> PAP_SHIFT_HI;
+	std::int32_t map_x = x >> PAP_SHIFT_HI;
+	std::int32_t map_z = z >> PAP_SHIFT_HI;
 
 	ASSERT(WITHIN(map_x, 0, PAP_SIZE_HI - 1));
 	ASSERT(WITHIN(map_z, 0, PAP_SIZE_HI - 1));
@@ -1544,8 +1544,8 @@ void ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
 			// Make sure the water level here is not underground.
 			//
 
-			SLONG lo_map_x = x >> PAP_SHIFT_LO;
-			SLONG lo_map_z = z >> PAP_SHIFT_LO;
+			std::int32_t lo_map_x = x >> PAP_SHIFT_LO;
+			std::int32_t lo_map_z = z >> PAP_SHIFT_LO;
 
 			ground = PAP_calc_height_at(x,z);
 			wlevel = ES_city_water_level[lo_map_x][lo_map_z] << PAP_ALT_SHIFT;
@@ -1582,20 +1582,20 @@ void ES_city_water_set(SLONG x, SLONG z, SLONG on_or_not)
 }
 
 
-void ES_city_water_dlevel(SLONG x, SLONG z, SLONG dlevel)
+void ES_city_water_dlevel(std::int32_t x, std::int32_t z, std::int32_t dlevel)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG ground;
-	SLONG maxg;
-	SLONG level;
+	std::int32_t ground;
+	std::int32_t maxg;
+	std::int32_t level;
 
-	SLONG lo_map_x = x >> PAP_SHIFT_LO;
-	SLONG lo_map_z = z >> PAP_SHIFT_LO;
+	std::int32_t lo_map_x = x >> PAP_SHIFT_LO;
+	std::int32_t lo_map_z = z >> PAP_SHIFT_LO;
 
 	ASSERT(WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1));
 	ASSERT(WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1));
@@ -1681,16 +1681,16 @@ void ES_city_water_dlevel(SLONG x, SLONG z, SLONG dlevel)
 // ========================================================
 
 void ES_prim_create(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw)
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG map_x = x >> PAP_SHIFT_HI;
-	SLONG map_z = z >> PAP_SHIFT_HI;
+	std::int32_t map_x = x >> PAP_SHIFT_HI;
+	std::int32_t map_z = z >> PAP_SHIFT_HI;
 
 	ES_Thing *et;
 
@@ -1730,18 +1730,18 @@ void ES_prim_create(
 }
 
 void ES_prim_delete(
-		SLONG x,
-		SLONG y,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG best_thing = 0;
-	SLONG best_dist  = INFINITY;
+	std::int32_t best_thing = 0;
+	std::int32_t best_dist  = INFINITY;
 
 	x >>= PAP_SHIFT_HI;
 	z >>= PAP_SHIFT_HI;
@@ -1785,19 +1785,19 @@ void ES_prim_delete(
 
 
 void ES_prim_dheight(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dheight)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dheight)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG best_thing = 0;
-	SLONG best_dist  = INFINITY;
+	std::int32_t best_thing = 0;
+	std::int32_t best_dist  = INFINITY;
 
 	x >>= PAP_SHIFT_HI;
 	z >>= PAP_SHIFT_HI;

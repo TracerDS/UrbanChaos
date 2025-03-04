@@ -11,14 +11,14 @@
 #define	FADE_IN			1<<0
 #define	FADE_OUT		1<<1
 
-extern UBYTE					CurrentPalette[256*3];
+extern std::uint8_t					CurrentPalette[256*3];
 
 void InitPalettes();
-SLONG CreatePalettes();
+std::int32_t CreatePalettes();
 void DestroyPalettes();
 void RestorePalettes();
-void SetPalette(UBYTE *the_palette);
-SLONG FindColour(UBYTE *pal,SLONG r,SLONG g,SLONG b);
+void SetPalette(std::uint8_t *the_palette);
+std::int32_t FindColour(std::uint8_t *pal,std::int32_t r,std::int32_t g,std::int32_t b);
 
 
 #endif

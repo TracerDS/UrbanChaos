@@ -13,7 +13,7 @@
 // The names of the system fields.
 //
 
-CBYTE* SYSVAR_field[SYSVAR_FIELD_NUMBER] =
+char* SYSVAR_field[SYSVAR_FIELD_NUMBER] =
 {
 	".x",
 	".y",
@@ -27,7 +27,7 @@ CBYTE* SYSVAR_field[SYSVAR_FIELD_NUMBER] =
 
 void SYSVAR_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < SYSVAR_FIELD_NUMBER; i++)
 	{

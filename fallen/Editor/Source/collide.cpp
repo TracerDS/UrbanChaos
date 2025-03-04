@@ -5,18 +5,18 @@
 #pragma warning( disable : 4244 )
 
 
-extern SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face);
+extern std::int32_t	point_in_quad(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face);
 
 struct	
 {
-	SLONG Left;
-	SLONG Right;
-	SLONG Top;
-	SLONG Bottom;
-	SLONG Depth;
-	SLONG Near;
-	SLONG Far;
-	SLONG Flag;
+	std::int32_t Left;
+	std::int32_t Right;
+	std::int32_t Top;
+	std::int32_t Bottom;
+	std::int32_t Depth;
+	std::int32_t Near;
+	std::int32_t Far;
+	std::int32_t Flag;
 }col_data;
 
 
@@ -27,12 +27,12 @@ struct
 #define	TSHIFT	8
 
 #ifdef	_MSC_VER
-SBYTE	SGN_CROSS64(SLONG ax8, SLONG ay8, SLONG bx8, SLONG by8)
+std::int8_t	SGN_CROSS64(std::int32_t ax8, std::int32_t ay8, std::int32_t bx8, std::int32_t by8)
 {
 	return	0;	
 }
 #else
-SBYTE	SGN_CROSS64(SLONG ax8, SLONG ay8, SLONG bx8, SLONG by8);
+std::int8_t	SGN_CROSS64(std::int32_t ax8, std::int32_t ay8, std::int32_t bx8, std::int32_t by8);
 #pragma	aux	SGN_CROSS64 = 											\
 																	\
 "		imul	edx		" 	/* edx:eax = axby					*/	\
@@ -61,7 +61,7 @@ SBYTE	SGN_CROSS64(SLONG ax8, SLONG ay8, SLONG bx8, SLONG by8);
 #define BENDS_RIGHTXY64(ax8,ay8,bx8,by8,cx8,cy8)	((SGNCROSS((ax8),(ay8),(bx8),(by8),(cx8),(cy8))) > 0)
 
 
-UBYTE	check_big_point_triangle64(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+std::uint8_t	check_big_point_triangle64(std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
 {
 	if (BENDS_RIGHTXY64(ux,uy, vx,vy, x,y) &&
 		BENDS_RIGHTXY64(vx,vy, wx,wy, x,y) &&
@@ -70,9 +70,9 @@ UBYTE	check_big_point_triangle64(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLON
 	return 0;
 }
 
-UBYTE	check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+std::uint8_t	check_big_point_triangle_col(std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
 {
-	SLONG	s,t,top,bot,res;
+	std::int32_t	s,t,top,bot,res;
 	top=(y-uy)*(wx-ux)+(ux-x)*(wy-uy);
 	bot=(vy-uy)*(wx-ux)-(vx-ux)*(wy-uy);
 
@@ -107,7 +107,7 @@ UBYTE	check_big_point_triangle_col(SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SL
 }
 
 #ifdef	__WINDOWS_386__
-SLONG DIV64(SLONG, SLONG);
+std::int32_t DIV64(std::int32_t, std::int32_t);
 #pragma aux DIV64 =\
 				"	mov		eax,edx			"\
 				"	shl		eax,16			"\
@@ -117,7 +117,7 @@ SLONG DIV64(SLONG, SLONG);
 				modify[eax ebx edx]		     \
 				value[eax]
 
-SLONG MUL64(SLONG, SLONG);
+std::int32_t MUL64(std::int32_t, std::int32_t);
 #pragma aux MUL64 =\
 				"	imul	ebx				"\
 				"	mov		ax,dx			"\
@@ -127,13 +127,13 @@ SLONG MUL64(SLONG, SLONG);
 				value[eax]
 #endif
 
-SLONG	get_height_on_plane_tri(SLONG x,SLONG z,SLONG ux,SLONG uy,SLONG uz,SLONG vx,SLONG vy,SLONG vz,SLONG wx,SLONG wy,SLONG wz)
+std::int32_t	get_height_on_plane_tri(std::int32_t x,std::int32_t z,std::int32_t ux,std::int32_t uy,std::int32_t uz,std::int32_t vx,std::int32_t vy,std::int32_t vz,std::int32_t wx,std::int32_t wy,std::int32_t wz)
 {
 
-	SLONG	y;
-	SLONG	s,t,top,bot,res;
-	SLONG	obj_x,obj_z,obj_y;
-	UBYTE	flag=0;
+	std::int32_t	y;
+	std::int32_t	s,t,top,bot,res;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::uint8_t	flag=0;
 	
 	top=(z-uz)*(wx-ux)+(ux-x)*(wz-uz);
 	bot=(vz-uz)*(wx-ux)-(vx-ux)*(wz-uz);
@@ -170,11 +170,11 @@ SLONG	get_height_on_plane_tri(SLONG x,SLONG z,SLONG ux,SLONG uy,SLONG uz,SLONG v
 }
 
 
-SLONG	get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
+std::int32_t	get_height_on_plane_quad_f(std::int32_t x,std::int32_t z,std::uint16_t face)
 {
 	struct	PrimFace4 *this_face4;
-	SLONG	obj_x,obj_z,obj_y;
-	SLONG	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::int32_t	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 
 	this_face4=&prim_faces4[face];
 
@@ -197,11 +197,11 @@ SLONG	get_height_on_plane_quad_f(SLONG x,SLONG z,UWORD face)
 	return(get_height_on_plane_tri(x,z,ux,uy,uz,vx,vy,vz,wx,wy,wz));
 }
 
-SLONG	get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
+std::int32_t	get_height_on_plane_tri_f(std::int32_t x,std::int32_t z,std::uint16_t face)
 {
 	struct	PrimFace3 *this_face3;
-	SLONG	obj_x,obj_z,obj_y;
-	SLONG	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::int32_t	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 
 	this_face3=&prim_faces3[face];
 
@@ -224,15 +224,15 @@ SLONG	get_height_on_plane_tri_f(SLONG x,SLONG z,UWORD face)
 	return(get_height_on_plane_tri(x,z,ux,uy,uz,vx,vy,vz,wx,wy,wz));
 }
 
-SLONG	get_height_on_face_quad64_at(SLONG x, SLONG z,SLONG obj_x,SLONG obj_y,SLONG obj_z, UWORD face)
+std::int32_t	get_height_on_face_quad64_at(std::int32_t x, std::int32_t z,std::int32_t obj_x,std::int32_t obj_y,std::int32_t obj_z, std::uint16_t face)
 {
-	SLONG 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 	struct	PrimFace4 *this_face4;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
-	SLONG	top, bot;
-	SLONG	alpha, beta;
-	SLONG	y;
+	std::int32_t	top, bot;
+	std::int32_t	alpha, beta;
+	std::int32_t	y;
 
 	this_face4=&prim_faces4[face];
 
@@ -296,16 +296,16 @@ SLONG	get_height_on_face_quad64_at(SLONG x, SLONG z,SLONG obj_x,SLONG obj_y,SLON
 }
 
 
-SLONG	get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
+std::int32_t	get_height_on_face_quad64(std::int32_t x, std::int32_t z, std::uint16_t face)
 {
-	SLONG 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
 	struct	PrimFace4 *this_face4;
-	SLONG	obj_x,obj_z,obj_y;
-	SLONG	ax,ay,az,bx,by,bz;
+	std::int32_t	obj_x,obj_z,obj_y;
+	std::int32_t	ax,ay,az,bx,by,bz;
 
-	SLONG	top, bot;
-	SLONG	alpha, beta;
-	SLONG	y;
+	std::int32_t	top, bot;
+	std::int32_t	alpha, beta;
+	std::int32_t	y;
 
 	this_face4=&prim_faces4[face];
 
@@ -382,13 +382,13 @@ SLONG	get_height_on_face_quad64(SLONG x, SLONG z, UWORD face)
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS( a, b )	(((SLONG) ((ULONG) a ^ (ULONG) b)) >= 0 )
+#define SAME_SIGNS( a, b )	(((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0 )
 
 //
 // Lines that share a point count as intersecting.
 //
 
-SLONG lines_intersect(SLONG x1,SLONG  y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y3,SLONG x4,SLONG  y4,SLONG *x,SLONG  *y)
+std::int32_t lines_intersect(std::int32_t x1,std::int32_t  y1,std::int32_t x2,std::int32_t  y2,std::int32_t x3,std::int32_t  y3,std::int32_t x4,std::int32_t  y4,std::int32_t *x,std::int32_t  *y)
 {
     long a1, a2, b1, b2, c1, c2; 
     long r1, r2, r3, r4;         
@@ -435,9 +435,9 @@ SLONG lines_intersect(SLONG x1,SLONG  y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y3,S
 }
 
 
-UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4)
+std::uint8_t	two4_line_intersection(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3,std::int32_t x4,std::int32_t y4)
 {
-	SLONG	ax,bx,cx,ay,by,cy,d,e,f; //,offset;
+	std::int32_t	ax,bx,cx,ay,by,cy,d,e,f; //,offset;
 	short	x1lo,x1hi; //,x3lo,x3hi;
 	short	y1lo,y1hi; //,y3lo,y3hi;
 
@@ -446,23 +446,23 @@ UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG 
 
 	if(ax<0)
 	{
-		x1lo=(SWORD)x2;
-		x1hi=(SWORD)x1;
+		x1lo=(std::int16_t)x2;
+		x1hi=(std::int16_t)x1;
 	}
 	else
 	{
-		x1hi=(SWORD)x2;
-		x1lo=(SWORD)x1;
+		x1hi=(std::int16_t)x2;
+		x1lo=(std::int16_t)x1;
 	}
  
 	if(bx>0)
 	{
-		if(x1hi < (SWORD)x4 || (SWORD)x3 < x1lo)
+		if(x1hi < (std::int16_t)x4 || (std::int16_t)x3 < x1lo)
 			return(0);
 	}
 	else
 	{
-			if(x1hi < (SWORD)x3 || (SWORD)x4 < x1lo)
+			if(x1hi < (std::int16_t)x3 || (std::int16_t)x4 < x1lo)
 				return(0);
 	}
 
@@ -471,23 +471,23 @@ UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG 
 
 	if(ay<0)
 	{
-		y1lo=(SWORD)y2;
-		y1hi=(SWORD)y1;
+		y1lo=(std::int16_t)y2;
+		y1hi=(std::int16_t)y1;
 	}
 	else
 	{
-		y1hi=(SWORD)y2;
-		y1lo=(SWORD)y1;
+		y1hi=(std::int16_t)y2;
+		y1lo=(std::int16_t)y1;
 	}
 
 	if(by>0)
 	{
-		if(y1hi<(SWORD)y4 || (SWORD)y3<y1lo)
+		if(y1hi<(std::int16_t)y4 || (std::int16_t)y3<y1lo)
 			return(0);
 	}
 	else
 	{
-		if(y1hi<(SWORD)y3 || (SWORD)y4<y1lo)
+		if(y1hi<(std::int16_t)y3 || (std::int16_t)y4<y1lo)
 			return(0);
 	}
 
@@ -525,13 +525,13 @@ UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG 
 	return(2);
 
 }
-//SLONG	play_x,play_y,play_z;
+//std::int32_t	play_x,play_y,play_z;
 
 
 
 
 
-void	insert_rect(struct SVECTOR *point,SLONG width,SLONG height)
+void	insert_rect(struct SVECTOR *point,std::int32_t width,std::int32_t height)
 {
 	struct	BucketRect	*p_bucket;
 
@@ -553,10 +553,10 @@ void	insert_rect(struct SVECTOR *point,SLONG width,SLONG height)
 
 
 
-SLONG	calc_height_at(SLONG x,SLONG z)
+std::int32_t	calc_height_at(std::int32_t x,std::int32_t z)
 {
 	struct	DepthStrip *me;
-	SLONG	new_y,h0,h1,h2,h3;
+	std::int32_t	new_y,h0,h1,h2,h3;
 
 	if(x<0||x>=(EDIT_MAP_WIDTH<<ELE_SHIFT)||z<0||z>=(EDIT_MAP_DEPTH<<ELE_SHIFT))
 		return(0);
@@ -599,8 +599,8 @@ void	process_camera(struct MapThing *p_thing)
 {
 	static	r_camera_dist=2000,r_camera_angle_x=1200,camera_angle_y=0;
 	static	r_camera_angle_dx=0,r_camera_angle_dy=0;
-	SLONG	dx,dy,dz,rx,ry,rz;
-	SLONG	ang_x,ang_y;
+	std::int32_t	dx,dy,dz,rx,ry,rz;
+	std::int32_t	ang_x,ang_y;
 // camera wants to point at player who is at play_x,play_y,play_z
 
 //for now use engine.X,engine.Y,engine.Z as current camera pos
@@ -609,7 +609,7 @@ void	process_camera(struct MapThing *p_thing)
 
 	//r_camera_angle_y=engine.AngleY>>8;
 	{
-		SLONG	dy;
+		std::int32_t	dy;
 		dy=p_thing->AngleY-camera_angle_y;
 		if(dy>1024)
 			dy=-(2048-dy);
@@ -682,13 +682,13 @@ void	process_camera(struct MapThing *p_thing)
 
 }
 
-SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face)
+std::int32_t	calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face)
 {
-	SLONG	face_x,face_y,face_z;
-	SLONG   wall;
-	SLONG   storey;
-	SLONG	building;
-	SLONG   thing;
+	std::int32_t	face_x,face_y,face_z;
+	std::int32_t   wall;
+	std::int32_t   storey;
+	std::int32_t	building;
+	std::int32_t   thing;
 	Thing  *p_thing;
 
 	if(face>0)
@@ -709,7 +709,7 @@ SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face)
 
 //			if(point_in_quad(x,z,face_x,face_y,face_z,face))
 			{
-				SLONG	new_y;
+				std::int32_t	new_y;
 				new_y=get_height_on_face_quad64_at(x,z,face_x,face_y,face_z,face);
 				if(new_y!=1000000)
 				{
@@ -734,8 +734,8 @@ void calc_things_height(struct MapThing *p_thing)
 			p_thing->Y = calc_height_on_face(p_thing->X, p_thing->Y, p_thing->OnFace);
 			
 			/*
-			SLONG	face_x,face_y,face_z;
-			SLONG	building;
+			std::int32_t	face_x,face_y,face_z;
+			std::int32_t	building;
 			building=prim_faces4[p_thing->OnFace].ThingIndex;
 			if(building<0)
 			{
@@ -747,7 +747,7 @@ void calc_things_height(struct MapThing *p_thing)
 
 				if(point_in_quad(p_thing->X,p_thing->Z,face_x,face_y,face_z,p_thing->OnFace))
 				{
-					SLONG	new_y;
+					std::int32_t	new_y;
 					new_y=get_height_on_face_quad64_at(p_thing->X,p_thing->Z,face_x,face_y,face_z,p_thing->OnFace);
 					if(new_y!=1000000)
 					{
@@ -777,7 +777,7 @@ void calc_things_height(struct MapThing *p_thing)
 void	init_thing()
 {
 }
-ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz)
+std::uint32_t	move_thing(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz)
 {
 	return(0);
 }
@@ -786,21 +786,21 @@ ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz)
 
 
 
-static	UWORD	done_list[116],done_count=0;
+static	std::uint16_t	done_list[116],done_count=0;
 
-void	add_to_done_list(UWORD p1,UWORD p2)
+void	add_to_done_list(std::uint16_t p1,std::uint16_t p2)
 {
 	if(done_count>100)
 		return;
-	done_list[done_count]=(UWORD)(p1 | (p2<<4));
+	done_list[done_count]=(std::uint16_t)(p1 | (p2<<4));
 	done_count++;
 }
 
-UWORD	is_it_done(UWORD p1,UWORD p2)
+std::uint16_t	is_it_done(std::uint16_t p1,std::uint16_t p2)
 {
-	UWORD	flip1,flip2,c0;
-	flip2 = (UWORD)(p1 | (p2<<4));
-	flip1 = (UWORD)(p2 | (p1<<4));
+	std::uint16_t	flip1,flip2,c0;
+	flip2 = (std::uint16_t)(p1 | (p2<<4));
+	flip1 = (std::uint16_t)(p2 | (p1<<4));
 	for(c0=0;c0<done_count;c0++)
 	{
 		if(done_list[c0]==flip1 ||done_list[c0]==flip2)
@@ -810,11 +810,11 @@ UWORD	is_it_done(UWORD p1,UWORD p2)
 }
 
 
-void	insert_col_for_quad(struct EditMapElement *p_ele,struct SVECTOR *points,SLONG p1,SLONG p2,SLONG p3,SLONG p4)
+void	insert_col_for_quad(struct EditMapElement *p_ele,struct SVECTOR *points,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4)
 {
-	SLONG	c1,c2;
-	ULONG	indi[4];
-	SLONG	az;
+	std::int32_t	c1,c2;
+	std::uint32_t	indi[4];
+	std::int32_t	az;
 	indi[0]=p1;
 	indi[1]=p2;
 	indi[2]=p3;
@@ -833,11 +833,11 @@ void	insert_col_for_quad(struct EditMapElement *p_ele,struct SVECTOR *points,SLO
 			if(points[indi[c1]].Z==points[indi[c2]].Z)
 			{
 				if(points[indi[c1]].X!=points[indi[c2]].X||points[indi[c1]].Y!=points[indi[c2]].Y)
-				if(!is_it_done((UWORD)indi[c1],(UWORD)indi[c2]) )
+				if(!is_it_done((std::uint16_t)indi[c1],(std::uint16_t)indi[c2]) )
 				{
-//					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((UBYTE*)&(p_ele->CubeType)),0);
-					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,az,points[indi[c2]].X,points[indi[c2]].Y,az,*((UBYTE*)&(p_ele->CubeType)),0,0);
-					add_to_done_list((UWORD)indi[c1],(UWORD)indi[c2]);
+//					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((std::uint8_t*)&(p_ele->CubeType)),0);
+					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,az,points[indi[c2]].X,points[indi[c2]].Y,az,*((std::uint8_t*)&(p_ele->CubeType)),0,0);
+					add_to_done_list((std::uint16_t)indi[c1],(std::uint16_t)indi[c2]);
 				}
 			}
 		}
@@ -856,7 +856,7 @@ void	insert_col_for_quad(struct EditMapElement *p_ele,struct SVECTOR *points,SLO
 				if(points[indi[c1]].Y!=points[indi[c2]].Y)
 				if(!is_it_done(indi[c1],indi[c2]) )
 				{
-					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((UBYTE*)&(p_ele->CubeType)),0);
+					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((std::uint8_t*)&(p_ele->CubeType)),0);
 					add_to_done_list(indi[c1],indi[c2]);
 				}
 			}
@@ -866,10 +866,10 @@ void	insert_col_for_quad(struct EditMapElement *p_ele,struct SVECTOR *points,SLO
 
 }
 
-void	insert_col_for_tri(struct EditMapElement *p_ele,struct SVECTOR *points,SLONG p1,SLONG p2,SLONG p3)
+void	insert_col_for_tri(struct EditMapElement *p_ele,struct SVECTOR *points,std::int32_t p1,std::int32_t p2,std::int32_t p3)
 {
-	SLONG	c1,c2;
-	ULONG	indi[4];
+	std::int32_t	c1,c2;
+	std::uint32_t	indi[4];
 	indi[0]=p1;
 	indi[1]=p2;
 	indi[2]=p3;
@@ -884,9 +884,9 @@ void	insert_col_for_tri(struct EditMapElement *p_ele,struct SVECTOR *points,SLON
 			if(points[indi[c1]].Z==points[indi[c2]].Z)
 			{
 				if(points[indi[c1]].Y!=points[indi[c2]].Y)
-				if(!is_it_done((UWORD)indi[c1],(UWORD)indi[c2]) )
+				if(!is_it_done((std::uint16_t)indi[c1],(std::uint16_t)indi[c2]) )
 				{
-					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((UBYTE*)&(p_ele->CubeType)),0,0);
+					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((std::uint8_t*)&(p_ele->CubeType)),0,0);
 					add_to_done_list(indi[c1],indi[c2]);
 				}
 			}
@@ -895,10 +895,10 @@ void	insert_col_for_tri(struct EditMapElement *p_ele,struct SVECTOR *points,SLON
 
 }
 
-inline	void	rotate_local_points(SLONG angle,struct	SVECTOR	*point,SLONG x,SLONG y,SLONG z)
+inline	void	rotate_local_points(std::int32_t angle,struct	SVECTOR	*point,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG	cosa,sina;
-	SLONG	rx,rz;
+	std::int32_t	cosa,sina;
+	std::int32_t	rx,rz;
 	point->X-=x;	
 //	point->Y-=y;	
 	point->Z-=z;	
@@ -914,7 +914,7 @@ inline	void	rotate_local_points(SLONG angle,struct	SVECTOR	*point,SLONG x,SLONG 
 	y=y;
 }
 
-static	UBYTE	rotate_table[6][4]=
+static	std::uint8_t	rotate_table[6][4]=
 {
 	{CUBE_FLAG_FRONT,CUBE_FLAG_LEFT,0,CUBE_FLAG_RIGHT},
 	{CUBE_FLAG_TOP,CUBE_FLAG_TOP,CUBE_FLAG_TOP,CUBE_FLAG_TOP},
@@ -925,7 +925,7 @@ static	UBYTE	rotate_table[6][4]=
 };
 
 
-void	col_for_cube_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_ele)
+void	col_for_cube_ele_at(std::int32_t	x,std::int32_t y,std::int32_t z,struct EditMapElement *p_ele)
 {
 	struct	SVECTOR	points[8];
 
@@ -998,11 +998,11 @@ void	col_for_cube_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_ele)
 //  |			 |		   |
 //	9---8----7----6	 	   |
 //		   19	18	 17	   16
-void	col_for_steps_lr_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_ele)
+void	col_for_steps_lr_ele_at(std::int32_t	x,std::int32_t y,std::int32_t z,struct EditMapElement *p_ele)
 {
 	struct	SVECTOR	points[20];
-	SLONG	c0;
-	SLONG	rot;
+	std::int32_t	c0;
+	std::int32_t	rot;
 
 	points[0].X=x-HALF_ELE_SIZE;
 	points[0].Y=y-HALF_ELE_SIZE;
@@ -1146,7 +1146,7 @@ void	col_for_steps_lr_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_el
 	}
 }
 
-void	col_for_ledge1_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_ele)
+void	col_for_ledge1_ele_at(std::int32_t	x,std::int32_t y,std::int32_t z,struct EditMapElement *p_ele)
 {
 	struct	SVECTOR	points[8];
 
@@ -1219,11 +1219,11 @@ void	col_for_ledge1_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_ele)
 //	|	   \   \
 //	2	5	1---4
 
-void	col_for_slope_lr_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_ele)
+void	col_for_slope_lr_ele_at(std::int32_t	x,std::int32_t y,std::int32_t z,struct EditMapElement *p_ele)
 {
 	struct	SVECTOR	points[8];
-	SLONG	c0;
-	SLONG	rot;
+	std::int32_t	c0;
+	std::int32_t	rot;
 
 	points[0].X=x-HALF_ELE_SIZE;
 	points[0].Y=y-HALF_ELE_SIZE;
@@ -1291,10 +1291,10 @@ void	col_for_slope_lr_ele_at(SLONG	x,SLONG y,SLONG z,struct EditMapElement *p_el
 //general poly collision
 // need to be able to set collision with the XY plane at some point along the Z axis
 
-ULONG	intersect_vector_xy(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG clip_z,SLONG *res_x,SLONG *res_y)
+std::uint32_t	intersect_vector_xy(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t clip_z,std::int32_t *res_x,std::int32_t *res_y)
 {
-	SLONG ratio;
-	SLONG	vx,vy,vz;
+	std::int32_t ratio;
+	std::int32_t	vx,vy,vz;
 
 	vx=x1-x2;
 	vy=y1-y2;
@@ -1315,7 +1315,7 @@ ULONG	intersect_vector_xy(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,
 	return(1);
 }
 
-SLONG	is_point_in_clip(SLONG x,SLONG y,SLONG z)
+std::int32_t	is_point_in_clip(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	if(!col_data.Flag)
 		return(1);
@@ -1329,15 +1329,15 @@ SLONG	is_point_in_clip(SLONG x,SLONG y,SLONG z)
 	
 }
 
-void	clip_a_prim_at(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG clip_z)
+void	clip_a_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t clip_z)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimObject	*p_obj;
-	SLONG	point;
+	std::int32_t	point;
 
-	SLONG	c_x[12],c_y[12],clip_count=0;
+	std::int32_t	c_x[12],c_y[12],clip_count=0;
 
 	p_obj    =&prim_objects[prim];
 	p_f4     =&prim_faces4[p_obj->StartFace4];
@@ -1436,7 +1436,7 @@ skip_face3:;
 	}
 }
 
-inline	SLONG	is_point_in_clip_bez(SLONG x,SLONG y,SLONG z)
+inline	std::int32_t	is_point_in_clip_bez(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 //	LogText(" try y %d   bez top %d bez bot %d \n",y,col_data.Top,col_data.Bottom);
 	if(x>col_data.Left&&x<col_data.Right&&
@@ -1449,10 +1449,10 @@ inline	SLONG	is_point_in_clip_bez(SLONG x,SLONG y,SLONG z)
 }
 
 
-SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
+std::int32_t	point_in_quad(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face)
 {
-	SLONG x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4;
-	SLONG ret;
+	std::int32_t x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4;
+	std::int32_t ret;
 
 	x1=x+prim_points[prim_faces4[face].Points[0]].X;
 	y1=y+prim_points[prim_faces4[face].Points[0]].Y;
@@ -1477,14 +1477,14 @@ SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 	else
 		return(check_big_point_triangle_col(px-x2,pz-z2,x2-x2,z2-z2,x4-x2,z4-z2,x3-x2,z3-z2));
 
-//	SLONG x,SLONG y,SLONG ux,SLONG uy,SLONG vx,SLONG vy,SLONG wx,SLONG wy)
+//	std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
 
 	
 }
 
-SLONG	point_in_tri(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
+std::int32_t	point_in_tri(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face)
 {
-	SLONG x1,y1,z1,x2,y2,z2,x3,y3,z3;
+	std::int32_t x1,y1,z1,x2,y2,z2,x3,y3,z3;
 
 	x1=x+prim_points[prim_faces3[face].Points[0]].X;
 	y1=y+prim_points[prim_faces3[face].Points[0]].Y;
@@ -1501,10 +1501,10 @@ SLONG	point_in_tri(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face)
 	return(check_big_point_triangle_col(px-x1,pz-z1,x1-x1,z1-z1,x2-x1,z2-z1,x3-x1,z3-z1));
 }
 
-void	apply_vect_to_face_square(SLONG x,SLONG y,SLONG z,SWORD face)
+void	apply_vect_to_face_square(std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face)
 {
-	SLONG	c0;
-	SLONG	x3,y3,z3,x4,y4,z4;
+	std::int32_t	c0;
+	std::int32_t	x3,y3,z3,x4,y4,z4;
 
 	if(face>0)
 	{
@@ -1524,7 +1524,7 @@ void	apply_vect_to_face_square(SLONG x,SLONG y,SLONG z,SWORD face)
 	}
 }
 
-void	box_vect_point(SLONG x,SLONG y,SLONG z)
+void	box_vect_point(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	insert_collision_vect(x-7,y,z-7,x+7,y,z-7,0,0,0);
 	insert_collision_vect(x+7,y,z-7,x+7,y,z+7,0,0,0);
@@ -1532,22 +1532,22 @@ void	box_vect_point(SLONG x,SLONG y,SLONG z)
 	insert_collision_vect(x-7,y,z+7,x-7,y,z-7,0,0,0);
 }
 
-void	cross_vect_point(SLONG x,SLONG y,SLONG z)
+void	cross_vect_point(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	insert_collision_vect(x-7,y,z-7,x+7,y,z+7,0,0,0);
 	insert_collision_vect(x+7,y,z-7,x-7,y,z+7,0,0,0);
 }
 
-void	tri_vect_point(SLONG x,SLONG y,SLONG z)
+void	tri_vect_point(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	insert_collision_vect(x,y,z+5,x+5,y,z-5,0,0,0);
 	insert_collision_vect(x+5,y,z-5,x-5,y,z-5,0,0,0);
 	insert_collision_vect(x-5,y,z-5,x,y,z+5,0,0,0);
 }
 
-SLONG	get_height_on_edge(SLONG px,SLONG pz,SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+std::int32_t	get_height_on_edge(std::int32_t px,std::int32_t pz,std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
-	SLONG	dx,dy,dz;
+	std::int32_t	dx,dy,dz;
 
 	px-=x1;
 	pz-=z1;
@@ -1568,9 +1568,9 @@ SLONG	get_height_on_edge(SLONG px,SLONG pz,SLONG x1,SLONG y1,SLONG z1,SLONG x2,S
 	return(((dy*pz)/dz)+y1);
 }
 
-void	highlight_point_on_face(SLONG fx,SLONG fy,SLONG fz,SLONG x,SLONG z,SWORD face)
+void	highlight_point_on_face(std::int32_t fx,std::int32_t fy,std::int32_t fz,std::int32_t x,std::int32_t z,std::int16_t face)
 {
-	SLONG	y;
+	std::int32_t	y;
 	if(face>0)
 	{
 		y=fy+prim_points[prim_faces4[face].Points[0]].Y;
@@ -1580,17 +1580,17 @@ void	highlight_point_on_face(SLONG fx,SLONG fy,SLONG fz,SLONG x,SLONG z,SWORD fa
 	}
 }
 
-extern void	quick_normal(SWORD	face,SLONG *nx,SLONG *ny,SLONG *nz);
+extern void	quick_normal(std::int16_t	face,std::int32_t *nx,std::int32_t *ny,std::int32_t *nz);
 
-void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void	apply_vect_to_face(std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face,std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
-	SLONG	x3,y3,z3,x4,y4,z4;
-	SLONG	xc[6],yc[6],zc[6],found=0;
-	SLONG	i,index[]={0,1,3,2,0};
-	SLONG	index3[]={0,1,2,0};
-	SLONG	found_pass1;
-	SLONG	nx,ny,nz;
-	SLONG	flip_flag=0;
+	std::int32_t	x3,y3,z3,x4,y4,z4;
+	std::int32_t	xc[6],yc[6],zc[6],found=0;
+	std::int32_t	i,index[]={0,1,3,2,0};
+	std::int32_t	index3[]={0,1,2,0};
+	std::int32_t	found_pass1;
+	std::int32_t	nx,ny,nz;
+	std::int32_t	flip_flag=0;
 
 //	LogText(" apply vect to face  (%d,%d,%d)->(%d,%d,%d) face %d\n",x1,y1,z1,x2,y2,z2,face);
 	quick_normal(face,&nx,&ny,&nz);
@@ -1659,7 +1659,7 @@ void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLO
 		found_pass1=found;
 		for (i=0;i<4;i++ )
 		{
-			SLONG	p1,p2;
+			std::int32_t	p1,p2;
 			p1=index[i];
 			p2=index[i+1];
 			x3=x+prim_points[prim_faces4[face].Points[p1]].X;
@@ -1675,7 +1675,7 @@ void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLO
 
 			if(two4_line_intersection(x1-x1,z1-z1,x2-x1,z2-z1,x3-x1,z3-z1,x4-x1,z4-z1))
 			{
-				SLONG	rx,rz;
+				std::int32_t	rx,rz;
 //				if(face==9102)
 //					rx=0;
 //				LogText(" vects intersect found %d\n",found);
@@ -1759,7 +1759,7 @@ void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLO
 		found_pass1=found;
 		for (i=0;i<3;i++ )
 		{
-			SLONG	p1,p2;
+			std::int32_t	p1,p2;
 			p1=index3[i];
 			p2=index3[i+1];
 			x3=x+prim_points[prim_faces3[-face].Points[p1]].X;
@@ -1773,7 +1773,7 @@ void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLO
 
 			if(two4_line_intersection(x1,z1,x2,z2,x3,z3,x4,z4))
 			{
-				SLONG	rx,rz;
+				std::int32_t	rx,rz;
 				lines_intersect(x1-x1,z1-z1,x2-x1,z2-z1,x3-x1,z3-z1,x4-x1,z4-z1,&rx,&rz);
 				xc[found]=rx+x1;
 				zc[found]=rz+z1;
@@ -1813,14 +1813,14 @@ void	apply_vect_to_face(SLONG x,SLONG y,SLONG z,SWORD face,SLONG x1,SLONG y1,SLO
 
 #define	SHIFT_BEZ	(10)
 #define	BEZ_ONE		(1<<SHIFT_BEZ)
-void	clip_face_bez(SLONG x,SLONG y,SLONG z,SWORD face,struct ColInfo *p_col)
+void	clip_face_bez(std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face,struct ColInfo *p_col)
 {
-	SLONG	t=0;
-	SLONG	bx,bz;
-	SLONG 	px,pz;
+	std::int32_t	t=0;
+	std::int32_t	bx,bz;
+	std::int32_t 	px,pz;
 
-	SLONG	ox,oz;
-	SLONG	x0,z0,x1,z1,x2,z2,x3,z3;
+	std::int32_t	ox,oz;
+	std::int32_t	x0,z0,x1,z1,x2,z2,x3,z3;
 
 	static	struct	ColInfo	*old_p_col;
 
@@ -1870,15 +1870,15 @@ void	clip_face_bez(SLONG x,SLONG y,SLONG z,SWORD face,struct ColInfo *p_col)
 
 }
 
-void	clip_a_prim_with_bezier(UWORD	prim,SLONG x,SLONG y,SLONG z,struct ColInfo *p_col)
+void	clip_a_prim_with_bezier(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,struct ColInfo *p_col)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimObject	*p_obj;
-	SLONG	point;
+	std::int32_t	point;
 	
-	SLONG	c_x[12],c_y[12],clip_count=0;
+	std::int32_t	c_x[12],c_y[12],clip_count=0;
 
 	p_obj    =&prim_objects[prim];
 	p_f4     =&prim_faces4[p_obj->StartFace4];
@@ -1924,7 +1924,7 @@ skip_face3:;
 	}
 }
 
-SLONG	is_point_in_clip_box(SLONG x,SLONG y,SLONG z,struct ColInfo *p_col)
+std::int32_t	is_point_in_clip_box(std::int32_t x,std::int32_t y,std::int32_t z,struct ColInfo *p_col)
 {
 
 	if(x>p_col->Plane.Left&&x<p_col->Plane.Right&&
@@ -1936,13 +1936,13 @@ SLONG	is_point_in_clip_box(SLONG x,SLONG y,SLONG z,struct ColInfo *p_col)
 
 }
 
-void	clip_a_prim_with_box(UWORD	prim,SLONG x,SLONG y,SLONG z,struct ColInfo *p_col)
+void	clip_a_prim_with_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,struct ColInfo *p_col)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	point;
+	std::int32_t	point;
 	
 
 	p_obj    =&prim_objects[prim];
@@ -1958,7 +1958,7 @@ void	clip_a_prim_with_box(UWORD	prim,SLONG x,SLONG y,SLONG z,struct ColInfo *p_c
 			if(is_point_in_clip_box(x+prim_points[p_f4->Points[point]].X,y+prim_points[p_f4->Points[point]].Y,z+prim_points[p_f4->Points[point]].Z,p_col))
 			{
 				
-					SLONG	bx,by,bz,sx,sy,sz,length,c1;
+					std::int32_t	bx,by,bz,sx,sy,sz,length,c1;
 //				LogText("Quad %d is in bounding box\n",c0);
 
 					sx=p_col->Plane.Right-p_col->Plane.Left;
@@ -2009,7 +2009,7 @@ skip_face4:;
 			{
 //				LogText("Tri %d is in bounding box\n",c0);
 				{
-					SLONG	bx,by,bz,sx,sy,sz,length,c1;
+					std::int32_t	bx,by,bz,sx,sy,sz,length,c1;
 
 					sx=p_col->Plane.Right-p_col->Plane.Left;
 					sy=0;
@@ -2054,7 +2054,7 @@ skip_face3:;
 
 
 
-void	col_for_map_thing(SLONG	map_thing)
+void	col_for_map_thing(std::int32_t	map_thing)
 {
 	struct	MapThing	*p_mthing;
 
@@ -2075,7 +2075,7 @@ void	col_for_map_thing(SLONG	map_thing)
 
 void	col_for_backgrounds(struct ColInfo *p_col)
 {
-	SWORD	index;
+	std::int16_t	index;
 	struct	MapThing	*p_thing;
 	index=background_prim;
 //	LogText(" col for backs, type %d \n",p_col->Type);
@@ -2102,12 +2102,12 @@ void	col_for_backgrounds(struct ColInfo *p_col)
 
 void	calc_bounding_box_for_bezier(struct ColInfo *p_col)
 {
-	SLONG	t=0;
-	SLONG	bx,bz;
+	std::int32_t	t=0;
+	std::int32_t	bx,bz;
 
-	SLONG	ox,oz;
-	SLONG	x0,z0,x1,z1,x2,z2,x3,z3;
-	SLONG	min_x=9999999,min_z=9999999,max_x=-9999999,max_z=-9999999;
+	std::int32_t	ox,oz;
+	std::int32_t	x0,z0,x1,z1,x2,z2,x3,z3;
+	std::int32_t	min_x=9999999,min_z=9999999,max_x=-9999999,max_z=-9999999;
 	ox=p_col->Bezier.X[0];
 	oz=p_col->Bezier.Z[0];
 
@@ -2191,9 +2191,9 @@ void	calc_bounding_box_for_bezier(struct ColInfo *p_col)
 
 void	calc_collision_info(struct ColInfo *p_col)
 {
-	SLONG	dx,dy,dz;	
+	std::int32_t	dx,dy,dz;	
 	struct	DepthStrip	*p_depth;
-	UWORD	index;
+	std::uint16_t	index;
 	struct	EditMapElement	*p_ele;
 
 	switch(p_col->Type)

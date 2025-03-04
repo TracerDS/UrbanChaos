@@ -10,51 +10,51 @@
 
 typedef struct
 {
-	SLONG		X,
+	std::int32_t		X,
 				Y,
 				Z;
 }GameCoord;
 
 struct SVector
 {
-	SLONG	X,Y,Z;
+	std::int32_t	X,Y,Z;
 };
 
 struct SmallSVector
 {
-	SWORD	X,Y,Z;
+	std::int16_t	X,Y,Z;
 };
 
 #ifndef	PSX
 struct SVECTOR
 {
-	SLONG	X,Y,Z;
+	std::int32_t	X,Y,Z;
 };
 
 #endif
 
 struct TinyXZ
 {
-	SBYTE	Dx,Dz;
-	SWORD	Angle;
+	std::int8_t	Dx,Dz;
+	std::int16_t	Angle;
 };
 
 struct MiniTextureBits
 {
-	UWORD 	X:3;
-	UWORD 	Y:3;
-	UWORD	Page:4;
-	UWORD	Rot:2;
-	UWORD	Flip:2;
-	UWORD	Size:2;
+	std::uint16_t 	X:3;
+	std::uint16_t 	Y:3;
+	std::uint16_t	Page:4;
+	std::uint16_t	Rot:2;
+	std::uint16_t	Flip:2;
+	std::uint16_t	Size:2;
 };
 
 typedef struct
 {
-	UBYTE action;
-	UBYTE dir;
-	UBYTE dest_x;
-	UBYTE dest_z;
+	std::uint8_t action;
+	std::uint8_t dir;
+	std::uint8_t dest_x;
+	std::uint8_t dest_z;
 	
 } MAV_Action;
 
@@ -64,19 +64,19 @@ typedef struct
 struct Thing;			//	Prototype the 'Thing' structure.
 struct CommandList;		//	Prototype 'CommandList' structure.
 
-#define	COMMON(TYPE)	UBYTE			TYPE;			\
-						UBYTE			padding;		\
+#define	COMMON(TYPE)	std::uint8_t			TYPE;			\
+						std::uint8_t			padding;		\
 						THING_INDEX		Thing;			\
-						ULONG			Flags;			
+						std::uint32_t			Flags;			
 
 /*
-#define	COMMON(TYPE)	UBYTE			TYPE,			\
+#define	COMMON(TYPE)	std::uint8_t			TYPE,			\
 										State;			\
-						UWORD			CommandRef,		\
+						std::uint16_t			CommandRef,		\
 										Command;		\
-						SWORD			Velocity;		\
-						ULONG			Flags;			\
-						SLONG			Timer;			\
+						std::int16_t			Velocity;		\
+						std::uint32_t			Flags;			\
+						std::int32_t			Timer;			\
 						CommandList		*ComList;		\
 						THING_INDEX		Thing,padding;
 */

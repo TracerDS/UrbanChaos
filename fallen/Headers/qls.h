@@ -34,7 +34,7 @@ void QLS_save();
 // have to restart the level.
 //
 
-SLONG QLS_load();
+std::int32_t QLS_load();
 
 
 

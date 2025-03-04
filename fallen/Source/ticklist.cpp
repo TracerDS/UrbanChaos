@@ -48,8 +48,8 @@
 #define OBM_OLD_RESTORE     32755
 
 
-void ticklist_init(HWND hWnd, SLONG id, CBYTE* pc[], SLONG bitmask) {
-	SLONG		c0			=	1;									
+void ticklist_init(HWND hWnd, std::int32_t id, char* pc[], std::int32_t bitmask) {
+	std::int32_t		c0			=	1;									
 	HWND		the_ctrl	=	GetDlgItem(hWnd,id);					
 	LPTSTR		lbitem_str	=	pc[0];								
 	while(*lbitem_str!='!')											
@@ -64,7 +64,7 @@ void ticklist_init(HWND hWnd, SLONG id, CBYTE* pc[], SLONG bitmask) {
 
 }
 
-void ticklist_close(HWND hWnd, SLONG id) {
+void ticklist_close(HWND hWnd, std::int32_t id) {
 	HWND	the_ctrl =				GetDlgItem(hWnd,id);
 	WNDPROC previous = (WNDPROC)	GetWindowLong(the_ctrl, GWL_USERDATA);
 	SetWindowLong(the_ctrl,GWL_WNDPROC,(long)previous);
@@ -76,7 +76,7 @@ bool CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) 
 	switch(message) {
 	case WM_CHAR:
 		if (wParam==32) {
-			SLONG res,item;
+			std::int32_t res,item;
 			RECT rc;
 			item=SendMessage(hWnd,LB_GETCURSEL,0,0);
 			res=1-SendMessage(hWnd,LB_GETITEMDATA,item,0);
@@ -89,7 +89,7 @@ bool CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) 
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONDBLCLK:
 		if (LOWORD(lParam)<16) {
-			SLONG res,item;
+			std::int32_t res,item;
 			RECT rc;
 			res=SendMessage(hWnd,LB_ITEMFROMPOINT,0,lParam);
 			item=LOWORD(res);
@@ -106,10 +106,10 @@ bool CALLBACK	ticklist_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam) 
 }
 
 
-SLONG ticklist_bitmask(HWND hWnd, SLONG id) {
+std::int32_t ticklist_bitmask(HWND hWnd, std::int32_t id) {
 	HWND ctl = GetDlgItem(hWnd,id);
-	UBYTE i,ctr;
-	SLONG mask=0;
+	std::uint8_t i,ctr;
+	std::int32_t mask=0;
 
 	ctr=SendMessage(ctl,LB_GETCOUNT,0,0);
 	for (i=0;i<ctr;i++) {
@@ -135,7 +135,7 @@ bool ticklist_draw(HWND hWnd, WPARAM wParam, LPARAM lParam)
 	HDC  memdc;
 	LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
 	HBITMAP bmp,obmp;
-	CBYTE pc[255];
+	char pc[255];
 
 	FillRect(item->hDC, &item->rcItem, (HBRUSH) GetStockObject(WHITE_BRUSH));
 	SendMessage(ctl,LB_GETTEXT,item->itemID,(long)pc);

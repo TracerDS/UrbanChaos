@@ -62,9 +62,9 @@ void OVAL_get_uv(
 // to the POLY stuff.
 //
 
-void OVAL_project_onto_mapsquare(UBYTE map_x, UBYTE map_z, SLONG page)
+void OVAL_project_onto_mapsquare(std::uint8_t map_x, std::uint8_t map_z, std::int32_t page)
 {
-	SLONG i;
+	std::int32_t i;
 
 	PAP_Hi *ph = &PAP_2HI(map_x,map_z);
 
@@ -168,7 +168,7 @@ void OVAL_project_onto_mapsquare(UBYTE map_x, UBYTE map_z, SLONG page)
 	// Convert the darkness into a colour.
 	//
 
-	SLONG colour;
+	std::int32_t colour;
 	
 	colour  = ftol(dark * 128.0F);
 	colour |= colour << 8;
@@ -235,27 +235,27 @@ void OVAL_project_onto_mapsquare(UBYTE map_x, UBYTE map_z, SLONG page)
 
 
 void OVAL_add(
-		SLONG x,	// 8 bits per mapsquare
-		SLONG y,
-		SLONG z,
-		SLONG size,
+		std::int32_t x,	// 8 bits per mapsquare
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t size,
 		float elongate,
 		float angle,
-		SLONG type)
+		std::int32_t type)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
 	//
 	// Work out roughly the bounding box we need to project the oval into/
 	//
 
-	SLONG msize = ftol(float(size) * elongate + 8.0F);
+	std::int32_t msize = ftol(float(size) * elongate + 8.0F);
 
 	mx1 = x - msize >> PAP_SHIFT_HI;
 	mz1 = z - msize >> PAP_SHIFT_HI;
@@ -286,7 +286,7 @@ void OVAL_add(
 	// Which page are we using?
 	//
 
-	SLONG page;
+	std::int32_t page;
 
 	switch(type)
 	{

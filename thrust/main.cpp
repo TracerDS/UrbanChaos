@@ -195,11 +195,11 @@ Ship 523 = (0.000000,-10.111063) 0.000000 = -10.1110630,-1054750998,-1054750998
 	/*
 
 	void SHIP_process_one(SHIP_Ship *ss);
-	void GAME_init_level(SLONG level);
+	void GAME_init_level(std::int32_t level);
 
 	srand(0);
 
-	SLONG i;
+	std::int32_t i;
 
 	global_a =  -0.112613F;
 	global_b = -10.157440F;
@@ -237,7 +237,7 @@ Ship 523 = (0.000000,-10.111063) 0.000000 = -10.1110630,-1054750998,-1054750998
 
 	#endif
 
-	SLONG size = sizeof(GAMESTATE_State);
+	std::int32_t size = sizeof(GAMESTATE_State);
 
 	NET_init();
 	FONT_init();
@@ -277,7 +277,7 @@ void MAIN_main_old()
 	*/
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i < 12; i++)
 		{
@@ -343,7 +343,7 @@ void MAIN_main_old()
 
 	LAND_calc_normals();
 
-	SLONG last_process = OS_ticks();
+	std::int32_t last_process = OS_ticks();
 
 	while(1)
 	{

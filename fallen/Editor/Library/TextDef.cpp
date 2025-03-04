@@ -13,17 +13,17 @@
 
 //---------------------------------------------------------------
 
-static UBYTE	Null[]=
+static std::uint8_t	Null[]=
 {
 	0,0,0,
 };
 
-static UBYTE	Space[]	=
+static std::uint8_t	Space[]	=
 {
 	4,0,0,
 };
 
-static UBYTE	Excl[]	=
+static std::uint8_t	Excl[]	=
 {
 	1,7,1,
 	1,
@@ -35,7 +35,7 @@ static UBYTE	Excl[]	=
 	1,
 };
 
-static UBYTE	Dollar[]	=
+static std::uint8_t	Dollar[]	=
 {
 	5,9,0,
 	0,0,1,0,0,
@@ -49,7 +49,7 @@ static UBYTE	Dollar[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	Percent[]	=
+static std::uint8_t	Percent[]	=
 {
 	8,7,1,
 	0,1,1,1,1,1,1,1,
@@ -61,7 +61,7 @@ static UBYTE	Percent[]	=
 	0,1,0,0,0,1,1,0,
 };
 
-static UBYTE	And[]	=
+static std::uint8_t	And[]	=
 {
 	7,8,0,
 	0,0,1,1,0,0,0,
@@ -74,14 +74,14 @@ static UBYTE	And[]	=
 	0,1,1,0,0,0,1,
 };
 
-static UBYTE	Quotes[]	=
+static std::uint8_t	Quotes[]	=
 {
 	3,2,1,
 	1,0,1,
 	1,0,1,
 };
 
-static UBYTE	Astrisk[]	=
+static std::uint8_t	Astrisk[]	=
 {
 	5,5,1,
 	0,1,0,1,0,
@@ -91,7 +91,7 @@ static UBYTE	Astrisk[]	=
 	0,1,0,1,0,
 };
 
-static UBYTE	BrackO[]	=
+static std::uint8_t	BrackO[]	=
 {
 	3,9,0,
 	0,0,1,
@@ -105,7 +105,7 @@ static UBYTE	BrackO[]	=
 	0,0,1,
 };
 
-static UBYTE	BrackC[]	=
+static std::uint8_t	BrackC[]	=
 {
 	3,9,0,
 	1,0,0,
@@ -119,7 +119,7 @@ static UBYTE	BrackC[]	=
 	1,0,0,
 };
 
-static UBYTE	Plus[]	=
+static std::uint8_t	Plus[]	=
 {
 	5,5,2,
 	0,0,1,0,0,
@@ -129,7 +129,7 @@ static UBYTE	Plus[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	Comma[]	=
+static std::uint8_t	Comma[]	=
 {
 	2,4,6,
 	1,1,
@@ -138,20 +138,20 @@ static UBYTE	Comma[]	=
 	1,0,
 };
 
-static UBYTE	Minus[]	=
+static std::uint8_t	Minus[]	=
 {
 	5,1,4,
 	1,1,1,1,1
 };
 
-static UBYTE	Stop[]	=
+static std::uint8_t	Stop[]	=
 {
 	2,2,6,
 	1,1,
 	1,1,	
 };
 
-static UBYTE	Zero[]	=
+static std::uint8_t	Zero[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -163,7 +163,7 @@ static UBYTE	Zero[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	One[]	=
+static std::uint8_t	One[]	=
 {
 	2,7,1,
 	0,1,
@@ -175,7 +175,7 @@ static UBYTE	One[]	=
 	0,1,
 };
 
-static UBYTE	Two[]	=
+static std::uint8_t	Two[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -187,7 +187,7 @@ static UBYTE	Two[]	=
 	1,1,1,1,1,
 };
 
-static UBYTE	Three[]	=
+static std::uint8_t	Three[]	=
 {
 	5,7,1,
 	1,1,1,1,1,
@@ -199,7 +199,7 @@ static UBYTE	Three[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	Four[]	=
+static std::uint8_t	Four[]	=
 {
 	5,7,1,
 	0,0,0,1,0,
@@ -211,7 +211,7 @@ static UBYTE	Four[]	=
 	0,0,0,1,0,
 };
 
-static UBYTE	Five[]	=
+static std::uint8_t	Five[]	=
 {
 	5,7,1,
 	1,1,1,1,1,
@@ -223,7 +223,7 @@ static UBYTE	Five[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	Six[]	=
+static std::uint8_t	Six[]	=
 {
 	5,7,1,
 	0,0,1,1,0,
@@ -235,7 +235,7 @@ static UBYTE	Six[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	Seven[]	=
+static std::uint8_t	Seven[]	=
 {
 	5,7,1,
 	1,1,1,1,1,
@@ -247,7 +247,7 @@ static UBYTE	Seven[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	Eight[]	=
+static std::uint8_t	Eight[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -259,7 +259,7 @@ static UBYTE	Eight[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	Nine[]	=
+static std::uint8_t	Nine[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -271,7 +271,7 @@ static UBYTE	Nine[]	=
 	0,1,1,0,0,
 };
 
-static	UBYTE	Colon[]	=
+static	std::uint8_t	Colon[]	=
 {
 	2,3,4,
 	0,1,
@@ -279,7 +279,7 @@ static	UBYTE	Colon[]	=
 	0,1,
 };
 
-static UBYTE	QMark[]	=
+static std::uint8_t	QMark[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -291,7 +291,7 @@ static UBYTE	QMark[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	At[]	=
+static std::uint8_t	At[]	=
 {
 	7,8,1,
 	0,0,1,1,1,0,0,
@@ -304,7 +304,7 @@ static UBYTE	At[]	=
 	0,0,1,1,1,0,0,
 };
 
-static UBYTE	A[]	=
+static std::uint8_t	A[]	=
 {
 	5,7,1,
 	0,0,1,0,0,
@@ -316,7 +316,7 @@ static UBYTE	A[]	=
 	1,0,0,0,1
 };
 
-static UBYTE	B[]	=
+static std::uint8_t	B[]	=
 {
 	5,7,1,
 	1,1,1,1,0,
@@ -328,7 +328,7 @@ static UBYTE	B[]	=
 	1,1,1,1,0,
 };
 
-static UBYTE	C[]	=
+static std::uint8_t	C[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -340,7 +340,7 @@ static UBYTE	C[]	=
 	0,1,1,1,0
 };
 
-static UBYTE	D[]	=
+static std::uint8_t	D[]	=
 {
 	5,7,1,
 	1,1,1,0,0,
@@ -352,7 +352,7 @@ static UBYTE	D[]	=
 	1,1,1,0,0,	
 };
 
-static UBYTE	E[]	=
+static std::uint8_t	E[]	=
 {
 	4,7,1,
 	1,1,1,1,
@@ -364,7 +364,7 @@ static UBYTE	E[]	=
 	1,1,1,1,	
 };
 
-static UBYTE	F[]	=
+static std::uint8_t	F[]	=
 {
 	4,7,1,
 	1,1,1,1,
@@ -376,7 +376,7 @@ static UBYTE	F[]	=
 	1,0,0,0,
 };
 
-static UBYTE	G[]	=
+static std::uint8_t	G[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -388,7 +388,7 @@ static UBYTE	G[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	H[]	=
+static std::uint8_t	H[]	=
 {
 	5,7,1,
 	1,0,0,0,1,
@@ -400,7 +400,7 @@ static UBYTE	H[]	=
 	1,0,0,0,1,
 };
 
-static UBYTE	I[]	=
+static std::uint8_t	I[]	=
 {
 	1,7,1,
 	1,
@@ -412,7 +412,7 @@ static UBYTE	I[]	=
 	1,
 };
 
-static UBYTE	J[]	=
+static std::uint8_t	J[]	=
 {
 	5,7,1,
 	0,0,0,0,1,
@@ -424,7 +424,7 @@ static UBYTE	J[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	K[]	=
+static std::uint8_t	K[]	=
 {
 	5,7,1,
 	1,0,0,0,1,
@@ -436,7 +436,7 @@ static UBYTE	K[]	=
 	1,0,0,0,1,
 };
 
-static UBYTE	L[]	=
+static std::uint8_t	L[]	=
 {
 	4,7,1,
 	1,0,0,0,
@@ -448,7 +448,7 @@ static UBYTE	L[]	=
 	1,1,1,1,
 };
 
-static UBYTE	M[]	=
+static std::uint8_t	M[]	=
 {
 	7,7,1,
 	1,0,0,0,0,0,1,
@@ -460,7 +460,7 @@ static UBYTE	M[]	=
 	1,0,0,0,0,0,1,
 };
 
-static UBYTE	N[]	=
+static std::uint8_t	N[]	=
 {
 	5,7,1,
 	1,1,0,0,1,
@@ -472,7 +472,7 @@ static UBYTE	N[]	=
 	1,0,0,0,1,
 };
 
-static UBYTE	O[]	=
+static std::uint8_t	O[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -484,7 +484,7 @@ static UBYTE	O[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	P[]	=
+static std::uint8_t	P[]	=
 {
 	5,7,1,
 	1,1,1,1,0,
@@ -496,7 +496,7 @@ static UBYTE	P[]	=
 	1,0,0,0,0,
 };
 
-static UBYTE	Q[]	=
+static std::uint8_t	Q[]	=
 {
 	5,8,1,
 	0,1,1,1,0,
@@ -509,7 +509,7 @@ static UBYTE	Q[]	=
 	0,0,0,1,0,
 };
 
-static UBYTE	R[]	=
+static std::uint8_t	R[]	=
 {
 	5,7,1,
 	1,1,1,1,0,
@@ -521,7 +521,7 @@ static UBYTE	R[]	=
 	1,0,0,0,1,
 };
 
-static UBYTE	S[]	=
+static std::uint8_t	S[]	=
 {
 	5,7,1,
 	0,1,1,1,0,
@@ -533,7 +533,7 @@ static UBYTE	S[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	T[]	=
+static std::uint8_t	T[]	=
 {
 	5,7,1,
 	1,1,1,1,1,
@@ -545,7 +545,7 @@ static UBYTE	T[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	U[]	=
+static std::uint8_t	U[]	=
 {
 	5,7,1,
 	1,0,0,0,1,
@@ -557,7 +557,7 @@ static UBYTE	U[]	=
 	0,1,1,1,0,
 };
 
-static UBYTE	V[]	=
+static std::uint8_t	V[]	=
 {
 	5,7,1,
 	1,0,0,0,1,
@@ -569,7 +569,7 @@ static UBYTE	V[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	W[]	=
+static std::uint8_t	W[]	=
 {
 	7,7,1,
 	1,0,0,0,0,0,1,
@@ -581,7 +581,7 @@ static UBYTE	W[]	=
 	0,0,1,0,1,0,0,
 };
 
-static UBYTE	X[]	=
+static std::uint8_t	X[]	=
 {
 	5,7,1,
 	1,0,0,0,1,
@@ -593,7 +593,7 @@ static UBYTE	X[]	=
 	1,0,0,0,1,
 };
 
-static UBYTE	Y[]	=
+static std::uint8_t	Y[]	=
 {
 	5,7,1,
 	1,0,0,0,1,
@@ -605,7 +605,7 @@ static UBYTE	Y[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	Z[]	=
+static std::uint8_t	Z[]	=
 {
 	4,7,1,
 	1,1,1,1,
@@ -617,13 +617,13 @@ static UBYTE	Z[]	=
 	1,1,1,1,
 };
 
-static UBYTE	Under[]	=
+static std::uint8_t	Under[]	=
 {
 	6,1,7,
 	1,1,1,1,1
 };
 
-static UBYTE	_a[]	=
+static std::uint8_t	_a[]	=
 {
 	4,5,3,
 	0,1,1,0,
@@ -633,7 +633,7 @@ static UBYTE	_a[]	=
 	0,1,1,1,
 };
 
-static UBYTE	_b[]	=
+static std::uint8_t	_b[]	=
 {
 	4,7,1,
 	1,0,0,0,
@@ -645,7 +645,7 @@ static UBYTE	_b[]	=
 	1,1,1,0,
 };
 
-static UBYTE	_c[]	=
+static std::uint8_t	_c[]	=
 {
 	4,5,3,
 	0,1,1,0,
@@ -655,7 +655,7 @@ static UBYTE	_c[]	=
 	0,1,1,0,
 };
 
-static UBYTE	_d[]	=
+static std::uint8_t	_d[]	=
 {
 	4,7,1,
 	0,0,0,1,
@@ -667,7 +667,7 @@ static UBYTE	_d[]	=
 	0,1,1,1,
 };
 
-static UBYTE	_e[]	=
+static std::uint8_t	_e[]	=
 {
 	4,5,3,
 	0,1,1,0,
@@ -677,7 +677,7 @@ static UBYTE	_e[]	=
 	0,1,1,0,
 };
 
-static UBYTE	_f[]	=
+static std::uint8_t	_f[]	=
 {
 	4,7,1,
 	0,0,1,1,
@@ -689,7 +689,7 @@ static UBYTE	_f[]	=
 	0,1,0,0,
 };
 
-static UBYTE	_g[]	=
+static std::uint8_t	_g[]	=
 {
 	4,7,3,
 	0,1,1,1,
@@ -701,7 +701,7 @@ static UBYTE	_g[]	=
 	0,1,1,0,
 };
 
-static UBYTE	_h[]	=
+static std::uint8_t	_h[]	=
 {
 	4,7,1,
 	1,0,0,0,
@@ -713,7 +713,7 @@ static UBYTE	_h[]	=
 	1,0,0,1,
 };
 
-static UBYTE	_i[]	=
+static std::uint8_t	_i[]	=
 {
 	2,7,1,
 	0,1,
@@ -725,7 +725,7 @@ static UBYTE	_i[]	=
 	0,1,
 };
 
-static UBYTE	_j[]	=
+static std::uint8_t	_j[]	=
 {
 	3,9,1,
 	0,0,1,
@@ -739,7 +739,7 @@ static UBYTE	_j[]	=
 	1,1,0,
 };
 
-static UBYTE	_k[]	=
+static std::uint8_t	_k[]	=
 {
 	4,7,1,
 	1,0,0,0,
@@ -751,7 +751,7 @@ static UBYTE	_k[]	=
 	1,0,0,1,
 };
 
-static UBYTE	_l[]	=
+static std::uint8_t	_l[]	=
 {
 	2,7,1,
 	1,1,
@@ -763,7 +763,7 @@ static UBYTE	_l[]	=
 	0,1,
 };
 
-static UBYTE	_m[]	=
+static std::uint8_t	_m[]	=
 {
 	7,5,3,
 	1,1,1,0,1,1,0,
@@ -773,7 +773,7 @@ static UBYTE	_m[]	=
 	1,0,0,1,0,0,1,
 };
 
-static UBYTE	_n[]	=
+static std::uint8_t	_n[]	=
 {
 	4,5,3,
 	1,1,1,0,
@@ -783,7 +783,7 @@ static UBYTE	_n[]	=
 	1,0,0,1,
 };
 
-static UBYTE	_o[]	=
+static std::uint8_t	_o[]	=
 {
 	4,5,3,
 	0,1,1,0,
@@ -793,7 +793,7 @@ static UBYTE	_o[]	=
 	0,1,1,0,
 };
 
-static UBYTE	_p[]	=
+static std::uint8_t	_p[]	=
 {
 	4,7,3,
 	1,1,1,0,
@@ -805,7 +805,7 @@ static UBYTE	_p[]	=
 	1,0,0,0,
 };
 
-static UBYTE	_q[]	=
+static std::uint8_t	_q[]	=
 {
 	4,7,3,
 	0,1,1,1,
@@ -817,7 +817,7 @@ static UBYTE	_q[]	=
 	0,0,0,1,
 };
 
-static UBYTE	_r[]	=
+static std::uint8_t	_r[]	=
 {
 	4,5,3,
 	1,0,1,1,
@@ -827,7 +827,7 @@ static UBYTE	_r[]	=
 	1,0,0,0,
 };
 
-static UBYTE	_s[]	=
+static std::uint8_t	_s[]	=
 {
 	4,5,3,
 	0,1,1,1,
@@ -837,7 +837,7 @@ static UBYTE	_s[]	=
 	1,1,1,0,
 };
 
-static UBYTE	_t[]	=
+static std::uint8_t	_t[]	=
 {
 	3,7,1,
 	0,1,0,
@@ -849,7 +849,7 @@ static UBYTE	_t[]	=
 	0,0,1,
 };
 
-static UBYTE	_u[]	=
+static std::uint8_t	_u[]	=
 {
 	4,5,3,
 	1,0,0,1,
@@ -859,7 +859,7 @@ static UBYTE	_u[]	=
 	0,1,1,1,
 };
 
-static UBYTE	_v[]	=
+static std::uint8_t	_v[]	=
 {
 	5,5,3,
 	1,0,0,0,1,
@@ -869,7 +869,7 @@ static UBYTE	_v[]	=
 	0,0,1,0,0,
 };
 
-static UBYTE	_w[]	=
+static std::uint8_t	_w[]	=
 {
 	7,5,3,
 	1,0,0,0,0,0,1,
@@ -879,7 +879,7 @@ static UBYTE	_w[]	=
 	0,0,1,0,1,0,0,
 };
 
-static UBYTE	_x[]	=
+static std::uint8_t	_x[]	=
 {
 	5,5,3,
 	1,0,0,0,1,
@@ -889,7 +889,7 @@ static UBYTE	_x[]	=
 	1,0,0,0,1,
 };
 
-static UBYTE	_y[]	=
+static std::uint8_t	_y[]	=
 {
 	4,7,3,
 	1,0,0,1,
@@ -901,7 +901,7 @@ static UBYTE	_y[]	=
 	0,1,1,0,
 };
 
-static UBYTE	_z[]	=
+static std::uint8_t	_z[]	=
 {
 	4,5,3,
 	1,1,1,1,
@@ -913,7 +913,7 @@ static UBYTE	_z[]	=
 
 //---------------------------------------------------------------
 
-UBYTE	*CharTable[]	=
+std::uint8_t	*CharTable[]	=
 {
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,
 	Null,	Null,	Null,	Null,	Null,	Null,	Null,	Null,

@@ -23,7 +23,7 @@
 #include "mfx.h"
 #include "sound_id.h"
 
-extern void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour);
+extern void	add_debug_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t colour);
 
 //
 // The radius a each wheel and how far apart they are
@@ -46,7 +46,7 @@ extern void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2
 
 
 BIKE_Bike *BIKE_bike; //[BIKE_MAX_BIKES];
-SLONG BIKE_bike_upto;
+std::int32_t BIKE_bike_upto;
 
 
 #ifndef PSX
@@ -62,10 +62,10 @@ void BIKE_init()
 // The answer is given in 8-bit fixed point. 256 == 100% friction.
 //
 
-SLONG BIKE_get_ground_friction(SLONG x, SLONG z)
+std::int32_t BIKE_get_ground_friction(std::int32_t x, std::int32_t z)
 {
-	SLONG mx = x >> 8;
-	SLONG mz = z >> 8;
+	std::int32_t mx = x >> 8;
+	std::int32_t mz = z >> 8;
 
 	switch(ROAD_get_mapsquare_type(mx,mz))
 	{
@@ -99,14 +99,14 @@ SLONG BIKE_get_ground_friction(SLONG x, SLONG z)
 // one another.  The steering vector should be normalised to 16-bit fixed point.
 //
 
-SLONG BIKE_steering_push(
-		SLONG bx,
-		SLONG bz,
-		SLONG fx,
-		SLONG fz,
-		SLONG sx,		// Steering y-vector is assumed to be 0 and (x,z) should be normalised to 0x10000
-		SLONG sz,
-		SLONG clen)
+std::int32_t BIKE_steering_push(
+		std::int32_t bx,
+		std::int32_t bz,
+		std::int32_t fx,
+		std::int32_t fz,
+		std::int32_t sx,		// Steering y-vector is assumed to be 0 and (x,z) should be normalised to 0x10000
+		std::int32_t sz,
+		std::int32_t clen)
 {
 	//															   | This is a vector we construct, p
 	//															   |
@@ -149,40 +149,40 @@ SLONG BIKE_steering_push(
 	// Make our vectors.
 	//
 
-	SLONG ax = fx - bx;
-	SLONG az = fz - bz;
+	std::int32_t ax = fx - bx;
+	std::int32_t az = fz - bz;
 
 	//
 	// The normalised version of a
 	//
 
-	SLONG alen = QDIST2(abs(ax),abs(az)) + 1;
+	std::int32_t alen = QDIST2(abs(ax),abs(az)) + 1;
 
-	SLONG nax = DIV64(ax, alen);
-	SLONG naz = DIV64(az, alen);
+	std::int32_t nax = DIV64(ax, alen);
+	std::int32_t naz = DIV64(az, alen);
 
 	//
 	// The vector p
 	// 
 
-	SLONG npx = -naz;
-	SLONG npz = +nax;
+	std::int32_t npx = -naz;
+	std::int32_t npz = +nax;
 
 	//
 	// The vector s sbould be normalised already.
 	//
 
-	SLONG adots = MUL64(nax,sx) + MUL64(naz,sz);
-	SLONG pdots = MUL64(npx,sx) + MUL64(npz,sz);
+	std::int32_t adots = MUL64(nax,sx) + MUL64(naz,sz);
+	std::int32_t pdots = MUL64(npx,sx) + MUL64(npz,sz);
 
 	//
 	// After solving the pythag formula for x we get the quadratic
 	// Ax2 + Bx + C = 0 where A, B and C is...
 	//
 
-	SLONG A = MUL64(adots,adots) + MUL64(pdots,pdots);
-	SLONG B = 2 * MUL64(adots,alen);
-	SLONG C = MUL64(alen,alen) - MUL64(clen,clen);
+	std::int32_t A = MUL64(adots,adots) + MUL64(pdots,pdots);
+	std::int32_t B = 2 * MUL64(adots,alen);
+	std::int32_t C = MUL64(alen,alen) - MUL64(clen,clen);
 
 	if (abs(A) < 0x20)
 	{
@@ -197,13 +197,13 @@ SLONG BIKE_steering_push(
 	// Now plug these values into the formula.
 	//
 
-	SLONG b2m4ac = MUL64(B,B) - 4 * MUL64(A,C);
+	std::int32_t b2m4ac = MUL64(B,B) - 4 * MUL64(A,C);
 
 	//
 	// We don't want any complex numbers!
 	//
 
-	SLONG plusorminus;
+	std::int32_t plusorminus;
 
 	if (b2m4ac <= 0)
 	{
@@ -214,10 +214,10 @@ SLONG BIKE_steering_push(
 		plusorminus = Root(b2m4ac) << 8;
 	}
 
-	SLONG x1 = -B + plusorminus;
-	SLONG x2 = -B - plusorminus;
+	std::int32_t x1 = -B + plusorminus;
+	std::int32_t x2 = -B - plusorminus;
 
-	SLONG x;
+	std::int32_t x;
 
 	if (abs(x1) < abs(x2))
 	{
@@ -246,22 +246,22 @@ SLONG BIKE_steering_push(
 
 #define BIKE_GRAVITY (-0xc0)
 
-SLONG BIKE_process_suspension(
-		SLONG  sus_x,
-		SLONG  sus_z,
-		SLONG *frame_y,
-		SLONG *frame_dy,
-		SLONG *wheel_y,
-		SLONG *wheel_dy)
+std::int32_t BIKE_process_suspension(
+		std::int32_t  sus_x,
+		std::int32_t  sus_z,
+		std::int32_t *frame_y,
+		std::int32_t *frame_dy,
+		std::int32_t *wheel_y,
+		std::int32_t *wheel_dy)
 {
-	SLONG onground = false;
+	std::int32_t onground = false;
 
-	SLONG ground = PAP_calc_map_height_at(sus_x >> 8, sus_z >> 8) << 8;
+	std::int32_t ground = PAP_calc_map_height_at(sus_x >> 8, sus_z >> 8) << 8;
 	
-	SLONG fy  = *frame_y;
-	SLONG fdy = *frame_dy;
-	SLONG wy  = *wheel_y;
-	SLONG wdy = *wheel_dy;
+	std::int32_t fy  = *frame_y;
+	std::int32_t fdy = *frame_dy;
+	std::int32_t wy  = *wheel_y;
+	std::int32_t wdy = *wheel_dy;
 
 	//
 	// Add gravity.
@@ -274,8 +274,8 @@ SLONG BIKE_process_suspension(
 	// How long is the suspension spring?
 	//
 
-	SLONG sdist  = fy - wy;
-	SLONG sddist = (BIKE_WHEEL_SUS << 8) - sdist;
+	std::int32_t sdist  = fy - wy;
+	std::int32_t sddist = (BIKE_WHEEL_SUS << 8) - sdist;
 
 	//
 	// The force of the suspension.
@@ -291,7 +291,7 @@ SLONG BIKE_process_suspension(
 	fy += fdy;
 	wy += wdy;
 
-	SLONG ddy = fdy - wdy;
+	std::int32_t ddy = fdy - wdy;
 
 	wdy += ddy / 128;	// Was 64
 	fdy -= ddy / 128;	// Was 64
@@ -366,33 +366,33 @@ void BIKE_collide_init(Thing *p_bike)
 // buildings and fences.  Returns the number of collisions that occurred.
 //
 
-SLONG BIKE_collide_sphere(
-		SLONG *sphere_x,
-		SLONG *sphere_y,
-		SLONG *sphere_z)
+std::int32_t BIKE_collide_sphere(
+		std::int32_t *sphere_x,
+		std::int32_t *sphere_y,
+		std::int32_t *sphere_z)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG sin_angle;
-	SLONG cos_angle;
-	SLONG matrix[4];
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t sin_angle;
+	std::int32_t cos_angle;
+	std::int32_t matrix[4];
 
-	SLONG collided = 0;
+	std::int32_t collided = 0;
 
-	SLONG map_x = *sphere_x >> 16;
-	SLONG map_z = *sphere_z >> 16;
+	std::int32_t map_x = *sphere_x >> 16;
+	std::int32_t map_z = *sphere_z >> 16;
 
-	SLONG sx = *sphere_x;
-	SLONG sy = *sphere_y;
-	SLONG sz = *sphere_z;
+	std::int32_t sx = *sphere_x;
+	std::int32_t sy = *sphere_y;
+	std::int32_t sz = *sphere_z;
 
-	SLONG lx;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t lz;
 
-	SLONG maxup = (sy >> 8) + 0x50 >> 6;
+	std::int32_t maxup = (sy >> 8) + 0x50 >> 6;
 
 	VEH_Col *vc;
 
@@ -632,31 +632,31 @@ SLONG BIKE_collide_sphere(
 
 void BIKE_process_normal(Thing *p_bike)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dxdz;
-	SLONG vector[3];
-	SLONG steer [3];
-	SLONG friction;
-	SLONG dprod;
-	SLONG cprod;
-	SLONG radx;
-	SLONG radz;
-	SLONG dist;
-	SLONG ddist;
-	SLONG along;
-	SLONG front_old_x;
-	SLONG front_old_z;
-	SLONG steer_angle;
-	SLONG ax;
-	SLONG az;
-	SLONG bx;
-	SLONG bz;
-	SLONG old_back_x;
-	SLONG old_back_z;
-	UBYTE go_again = 1;
-	UBYTE surface;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dxdz;
+	std::int32_t vector[3];
+	std::int32_t steer [3];
+	std::int32_t friction;
+	std::int32_t dprod;
+	std::int32_t cprod;
+	std::int32_t radx;
+	std::int32_t radz;
+	std::int32_t dist;
+	std::int32_t ddist;
+	std::int32_t along;
+	std::int32_t front_old_x;
+	std::int32_t front_old_z;
+	std::int32_t steer_angle;
+	std::int32_t ax;
+	std::int32_t az;
+	std::int32_t bx;
+	std::int32_t bz;
+	std::int32_t old_back_x;
+	std::int32_t old_back_z;
+	std::uint8_t go_again = 1;
+	std::uint8_t surface;
 
 	BIKE_Bike *bb = p_bike->Genus.Bike;
 
@@ -668,7 +668,7 @@ void BIKE_process_normal(Thing *p_bike)
 	}
 	else
 	{
-//extern void	MFX_set_pitch(UWORD channel_id, UWORD wave, SLONG pitchbend);
+//extern void	MFX_set_pitch(std::uint16_t channel_id, std::uint16_t wave, std::int32_t pitchbend);
 
 		if ((bb->flag & BIKE_FLAG_ONGROUND_BACK))
 		{
@@ -681,7 +681,7 @@ void BIKE_process_normal(Thing *p_bike)
 
 		if (bb->flag & BIKE_FLAG_ONGROUND_BACK)
 		{
-			SLONG rspeed;
+			std::int32_t rspeed;
 
 			rspeed  = QDIST2(abs(bb->back_dx), abs(bb->back_dz));
 			surface = ROAD_get_mapsquare_type(
@@ -706,8 +706,8 @@ again:;
 			bb->dirt = 10;
 		}
 
-		SLONG i;
-		SLONG rgb;
+		std::int32_t i;
+		std::int32_t rgb;
 		
 		rgb   = i << 4;
 		rgb <<= 24;
@@ -799,7 +799,7 @@ again:;
 	old_back_z = bb->back_z;
 
 	{
-		SLONG	tx,tz,dist;
+		std::int32_t	tx,tz,dist;
 		tx=bb->back_dx*TICK_RATIO>>TICK_SHIFT;
 		tz=bb->back_dz*TICK_RATIO>>TICK_SHIFT;
 
@@ -822,7 +822,7 @@ again:;
 	// ribbon was used for rear light glow but it looked crap.
 	// now it's going to try and thicken out the exhaust...
 	if (bb->ribbon) {
-		SLONG matrix[9];
+		std::int32_t matrix[9];
 		FMATRIX_calc(matrix, p_bike->Genus.Bike->yaw, -p_bike->Genus.Bike->pitch & 2047, BIKE_get_roll(p_bike));
 		FMATRIX_TRANSPOSE(matrix);
 		vector[2]=20; vector[1]=30; vector[0]=0;
@@ -949,7 +949,7 @@ again:;
 	along = ddist * (256 - friction) >> 12;
 
 	{
-		SLONG	tx,tz;
+		std::int32_t	tx,tz;
 		tx=dx * along / ((dist >> 4) + 1);
 		tz=dz * along / ((dist >> 4) + 1);
 
@@ -964,10 +964,10 @@ again:;
 	// Make sure the front wheel doesn't go through a wall.
 	//
 
-	SLONG before_col_x = bb->front_x;
-	SLONG before_col_z = bb->front_z;
+	std::int32_t before_col_x = bb->front_x;
+	std::int32_t before_col_z = bb->front_z;
 
-	SLONG col = BIKE_collide_sphere(
+	std::int32_t col = BIKE_collide_sphere(
 					&bb->front_x,
 					&bb->front_y,
 					&bb->front_z);
@@ -1048,7 +1048,7 @@ again:;
 				BIKE_WHEEL_APART << 8);
 
 	{
-		SLONG	tx,tz;
+		std::int32_t	tx,tz;
 		tx=MUL64(along, steer[0]);
 		tz=MUL64(along, steer[2]);
 
@@ -1065,17 +1065,17 @@ again:;
 
 	if (col)
 	{
-		SLONG alongx1;
-		SLONG alongz1;
-		SLONG alongx2;
-		SLONG alongz2;
+		std::int32_t alongx1;
+		std::int32_t alongz1;
+		std::int32_t alongx2;
+		std::int32_t alongz2;
 
 		//
 		// Is the front wheel skewered through a fence?
 		//
 
-		SLONG map_dx = (bb->front_x >> 8) - (bb->back_x >> 8);
-		SLONG map_dz = (bb->front_z >> 8) - (bb->back_z >> 8);
+		std::int32_t map_dx = (bb->front_x >> 8) - (bb->back_x >> 8);
+		std::int32_t map_dz = (bb->front_z >> 8) - (bb->back_z >> 8);
 
 		if (abs(map_dx) > abs(map_dz))
 		{	
@@ -1277,7 +1277,7 @@ again:;
 	//
 
 	{
-		SLONG col_person = THING_find_nearest(
+		std::int32_t col_person = THING_find_nearest(
 								newpos.X >> 8,
 								newpos.Y >> 8,
 								newpos.Z >> 8,
@@ -1311,7 +1311,7 @@ again:;
 		dx = abs(bb->front_x - front_old_x >> 8);
 		dz = abs(bb->front_z - front_old_z >> 8);
 
-		SLONG rspeed;
+		std::int32_t rspeed;
 		
 		rspeed  = QDIST2(dx,dz);
 		rspeed += rspeed << 1;
@@ -1355,7 +1355,7 @@ again:;
 		case BIKE_MODE_DISMOUNTING:
 
 			{
-				SLONG tween_step;
+				std::int32_t tween_step;
 
 				DrawTween *dt = p_bike->Draw.Tweened;
 
@@ -1389,7 +1389,7 @@ again:;
 						MFX_play_thing(THING_NUMBER(p_bike),S_BIKE_IDLE,MFX_REPLACE|MFX_LOOPED|MFX_MOVING,p_bike);
 					}
 
-					SLONG advance_keyframe(DrawTween *draw_info);
+					std::int32_t advance_keyframe(DrawTween *draw_info);
 
 					if (advance_keyframe(dt))
 					{
@@ -1513,15 +1513,15 @@ again:;
 
 #ifndef PSX
 
-UWORD BIKE_create(
-		SLONG x,
-		SLONG z,
-		SLONG yaw)
+std::uint16_t BIKE_create(
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t yaw)
 {
 	Thing     *p_thing;
 	DrawMesh  *dm;
 	BIKE_Bike *bb;
-	SLONG      vector[3];
+	std::int32_t      vector[3];
 	DrawTween *dt;
 
 	//
@@ -1648,10 +1648,10 @@ BIKE_Control BIKE_control_get(Thing *p_bike)
 
 void BIKE_control_set(Thing *p_bike, BIKE_Control bc)
 {
-	SLONG speed  = BIKE_get_speed(p_bike);
-	SLONG tspeed = 32 - abs(speed);
+	std::int32_t speed  = BIKE_get_speed(p_bike);
+	std::int32_t tspeed = 32 - abs(speed);
 
-	SLONG	accel,steer;
+	std::int32_t	accel,steer;
 
 	SATURATE(tspeed, 7, 25);
 
@@ -1695,9 +1695,9 @@ void BIKE_control_set(Thing *p_bike, BIKE_Control bc)
 
 
 
-SLONG BIKE_person_can_mount(Thing *p_person)
+std::int32_t BIKE_person_can_mount(Thing *p_person)
 {
-	SLONG ans = THING_find_nearest(
+	std::int32_t ans = THING_find_nearest(
 					p_person->WorldPos.X >> 8,
 					p_person->WorldPos.Y >> 8,
 					p_person->WorldPos.Z >> 8,
@@ -1710,9 +1710,9 @@ SLONG BIKE_person_can_mount(Thing *p_person)
 
 BIKE_Drawinfo BIKE_get_drawinfo(Thing *p_bike)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
 	ASSERT(p_bike->Class == CLASS_BIKE);
 
@@ -1761,12 +1761,12 @@ BIKE_Drawinfo BIKE_get_drawinfo(Thing *p_bike)
 }
 
 
-SLONG BIKE_get_roll(Thing *p_bike)
+std::int32_t BIKE_get_roll(Thing *p_bike)
 {
 	ASSERT(p_bike->Class == CLASS_BIKE);
 
-	SLONG roll;
-//	SLONG	speed;
+	std::int32_t roll;
+//	std::int32_t	speed;
 
 //	speed=BIKE_get_speed(p_bike);
 
@@ -1782,13 +1782,13 @@ SLONG BIKE_get_roll(Thing *p_bike)
 	return roll;
 }
 
-SLONG BIKE_get_speed(Thing *p_bike)
+std::int32_t BIKE_get_speed(Thing *p_bike)
 {
 	ASSERT(p_bike->Class == CLASS_BIKE);
 
-	SLONG dx;
-	SLONG dz;
-	SLONG speed;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t speed;
 
 	dx = abs(p_bike->Genus.Bike->back_dx) >> 8;
 	dz = abs(p_bike->Genus.Bike->back_dz) >> 8;

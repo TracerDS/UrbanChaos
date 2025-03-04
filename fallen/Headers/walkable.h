@@ -35,10 +35,10 @@
 
 
 
-//extern SLONG	calc_height_on_face(SLONG x,SLONG z,SLONG face,SLONG *new_y);
-extern SLONG	get_height_on_face_quad64_at(SLONG rx, SLONG rz,SWORD face,SLONG *height);
-extern SLONG	find_height_for_this_pos(	SLONG  x,SLONG  z,	SLONG *ret_face);
-extern SLONG	calc_height_on_rface(SLONG x, SLONG z,SWORD	face,SLONG *new_y);
+//extern std::int32_t	calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face,std::int32_t *new_y);
+extern std::int32_t	get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz,std::int16_t face,std::int32_t *height);
+extern std::int32_t	find_height_for_this_pos(	std::int32_t  x,std::int32_t  z,	std::int32_t *ret_face);
+extern std::int32_t	calc_height_on_rface(std::int32_t x, std::int32_t z,std::int16_t	face,std::int32_t *new_y);
 
 
 
@@ -47,7 +47,7 @@ extern SLONG	calc_height_on_rface(SLONG x, SLONG z,SWORD	face,SLONG *new_y);
 // If it finds one it deletes it.
 //
 
-void WALKABLE_remove_rface(UBYTE map_x, UBYTE map_z);
+void WALKABLE_remove_rface(std::uint8_t map_x, std::uint8_t map_z);
 
 
 #endif

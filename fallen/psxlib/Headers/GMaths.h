@@ -12,11 +12,11 @@
 
 //---------------------------------------------------------------
 
-SLONG Arctan(SLONG X,SLONG Y);
-SLONG Root(SLONG square);
+std::int32_t Arctan(std::int32_t X,std::int32_t Y);
+std::int32_t Root(std::int32_t square);
 #ifdef	__WATCOMC__
-extern UWORD	ini_table[];
-SLONG Root(SLONG square);
+extern std::uint16_t	ini_table[];
+std::int32_t Root(std::int32_t square);
 #pragma aux Root =								\
 		"		xor		ebx,ebx					"\
 		"		bsr		eax,ecx					"\
@@ -43,10 +43,10 @@ SLONG Root(SLONG square);
 
 extern float	*CosTableF,
 				SinTableF[];
-extern SWORD	AtanTable[];
-extern SLONG	*CosTable,
+extern std::int16_t	AtanTable[];
+extern std::int32_t	*CosTable,
 				SinTable[];
-extern SLONG	Proportions[];
+extern std::int32_t	Proportions[];
 
 
 //---------------------------------------------------------------
@@ -54,7 +54,7 @@ extern SLONG	Proportions[];
 #define	PROPTABLE_SIZE		256
 #define	PROP(x)				Proportions[(x)+PROPTABLE_SIZE]
 
-static inline SLONG		Hypotenuse(SLONG x,SLONG y)	
+static inline std::int32_t		Hypotenuse(std::int32_t x,std::int32_t y)	
 {											
 	x	=	abs(x);
 	y	=	abs(y);

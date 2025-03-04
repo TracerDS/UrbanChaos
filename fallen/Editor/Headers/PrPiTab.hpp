@@ -38,27 +38,27 @@ extern void	apply_user_rotates(struct PrimPoint *point);
 class	PrimPickTab	:	public	ModeTab
 {
 	private:
-		SLONG				ListPos;
-		SLONG				CurrentPrim;
-		SLONG				DragThingView1;
-		SLONG				DragThingView2;
-		SLONG				DragThingView3;
-		SLONG				Axis;
-		SLONG				GridFlag;
-		SLONG				GridMax;
-		SLONG				GridCorner;
-		UBYTE				AxisMode,
+		std::int32_t				ListPos;
+		std::int32_t				CurrentPrim;
+		std::int32_t				DragThingView1;
+		std::int32_t				DragThingView2;
+		std::int32_t				DragThingView3;
+		std::int32_t				Axis;
+		std::int32_t				GridFlag;
+		std::int32_t				GridMax;
+		std::int32_t				GridCorner;
+		std::uint8_t				AxisMode,
 							PrimTabMode;
 		EdRect				PrimRect,
 							View1,
 							View2,
 							View3;
 		EditorModule		*Parent;
-		UBYTE				RedrawTabContent;
-		void				DrawABuildingInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h);
-		void				DrawAPrimInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h);
-		void				DrawAMultiPrimInRect(ULONG prim,SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				PrimScale,BackScale;
+		std::uint8_t				RedrawTabContent;
+		void				DrawABuildingInRect(std::uint32_t prim,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		void				DrawAPrimInRect(std::uint32_t prim,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		void				DrawAMultiPrimInRect(std::uint32_t prim,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				PrimScale,BackScale;
 	public:
 							PrimPickTab(EditorModule *parent);
 							~PrimPickTab();
@@ -67,27 +67,27 @@ class	PrimPickTab	:	public	ModeTab
 		void				UpdatePrimPickWindow();
 		void				DrawTabContent();
 		void				HandleTab(MFPoint *current_point);
-		UWORD				HandleTabClick(UBYTE flags,MFPoint *clicked_point);
-		void				HandleControl(UWORD control_id);
-		void				DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG				HiLightObjects(SLONG x,SLONG y,SLONG w,SLONG h);
-		inline SLONG		GetCurrentPrim()	                                        {return CurrentPrim;}
-		inline void			SetCurrentPrim(SLONG prim)	                                        {CurrentPrim=prim;}
-		SLONG				SetWorldMouse(ULONG flag);
-		SLONG				DragAPrim(UBYTE flags,MFPoint *clicked_point,SLONG button);
-		SLONG				DragEngine(UBYTE flags,MFPoint *clicked_point);
-		SLONG				KeyboardInterface();
+		std::uint16_t				HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
+		void				HandleControl(std::uint16_t control_id);
+		void				DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t				HiLightObjects(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		inline std::int32_t		GetCurrentPrim()	                                        {return CurrentPrim;}
+		inline void			SetCurrentPrim(std::int32_t prim)	                                        {CurrentPrim=prim;}
+		std::int32_t				SetWorldMouse(std::uint32_t flag);
+		std::int32_t				DragAPrim(std::uint8_t flags,MFPoint *clicked_point,std::int32_t button);
+		std::int32_t				DragEngine(std::uint8_t flags,MFPoint *clicked_point);
+		std::int32_t				KeyboardInterface();
 		Undo				MyUndo;
-		UBYTE				RedrawModuleContent;
-		UBYTE				View2Mode;
+		std::uint8_t				RedrawModuleContent;
+		std::uint8_t				View2Mode;
 
-		inline UBYTE		GetPrimTabMode()		{	return PrimTabMode;	}
-		inline void			SetPrimTabMode(UBYTE mode)		{	PrimTabMode=mode;	}
+		inline std::uint8_t		GetPrimTabMode()		{	return PrimTabMode;	}
+		inline void			SetPrimTabMode(std::uint8_t mode)		{	PrimTabMode=mode;	}
 };
 
 
-extern void	add_a_background_thing(UWORD prim,SLONG x,SLONG y,SLONG z);
+extern void	add_a_background_thing(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
 
 #endif
 

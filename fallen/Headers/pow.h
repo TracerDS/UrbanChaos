@@ -13,17 +13,17 @@
 
 typedef struct
 {
-	UBYTE next;
-	UBYTE frame;			// Which frame of animation it is on...
-	UBYTE frame_speed;		// How fast it moves between frames.
-	UBYTE damp;				// How damped the motion is.
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SWORD dx;
-	SWORD dy;
-	SWORD dz;
-	UWORD frame_counter;	// Countdown to going onto next frame.
+	std::uint8_t next;
+	std::uint8_t frame;			// Which frame of animation it is on...
+	std::uint8_t frame_speed;		// How fast it moves between frames.
+	std::uint8_t damp;				// How damped the motion is.
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int16_t dx;
+	std::int16_t dy;
+	std::int16_t dz;
+	std::uint16_t frame_counter;	// Countdown to going onto next frame.
  
 } POW_Sprite;
 
@@ -41,7 +41,7 @@ typedef struct
 #endif
 
 extern POW_Sprite POW_sprite[POW_MAX_SPRITES];
-extern UBYTE      POW_sprite_free;
+extern std::uint8_t      POW_sprite_free;
 
 
 //
@@ -50,20 +50,20 @@ extern UBYTE      POW_sprite_free;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE next;
-	UBYTE sprite;	// Index into the linked list of sprites for this POW
-	UBYTE mapwho;
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SWORD dx;
-	SWORD dy;
-	SWORD dz;
-	UWORD timer;
-	UBYTE flag;
-	UBYTE time_warp;
-	UWORD padding;
+	std::uint8_t type;
+	std::uint8_t next;
+	std::uint8_t sprite;	// Index into the linked list of sprites for this POW
+	std::uint8_t mapwho;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int16_t dx;
+	std::int16_t dy;
+	std::int16_t dz;
+	std::uint16_t timer;
+	std::uint8_t flag;
+	std::uint8_t time_warp;
+	std::uint16_t padding;
  
 } POW_Pow;
 
@@ -82,15 +82,15 @@ typedef struct
 #endif
 
 extern POW_Pow POW_pow[POW_MAX_POWS];
-extern UBYTE   POW_pow_free;
-extern UBYTE   POW_pow_used;
+extern std::uint8_t   POW_pow_free;
+extern std::uint8_t   POW_pow_used;
 
 
 //
 // The POW 1D mapwho- thats only 32 bytes!
 //
 
-extern UBYTE POW_mapwho[PAP_SIZE_LO];
+extern std::uint8_t POW_mapwho[PAP_SIZE_LO];
 
 
 
@@ -123,16 +123,16 @@ void POW_init();
 // Creates a high-level explosion.
 // 
 
-void POW_new(SLONG type, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz);
+void POW_new(std::int32_t type, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz);
 
 inline void POW_create(
-		SLONG which,
-		SLONG x,	// 16-bits per mapsquare
-		SLONG y,
-		SLONG z,
-		SLONG dx,	// 16-bits per mapsquare
-		SLONG dy,
-		SLONG dz)
+		std::int32_t which,
+		std::int32_t x,	// 16-bits per mapsquare
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,	// 16-bits per mapsquare
+		std::int32_t dy,
+		std::int32_t dz)
 {
 	switch(which)
 	{
@@ -147,13 +147,13 @@ inline void POW_create(
 }
 /*
 void POW_create(
-		SLONG which,
-		SLONG x,		// 16-bits per mapsquare
-		SLONG y,
-		SLONG z,
-		SLONG dx = 0,	// 16-bits per mapsquare
-		SLONG dy = 0,
-		SLONG dz = 0);
+		std::int32_t which,
+		std::int32_t x,		// 16-bits per mapsquare
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx = 0,	// 16-bits per mapsquare
+		std::int32_t dy = 0,
+		std::int32_t dz = 0);
 */
 
 

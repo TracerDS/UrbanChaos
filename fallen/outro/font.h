@@ -18,7 +18,7 @@ void FONT_init();
 // Returns true if the FONT module can draw the ASCII character.
 //
 
-SLONG FONT_char_is_valid(CBYTE ch);
+std::int32_t FONT_char_is_valid(char ch);
 
 
 
@@ -40,14 +40,14 @@ extern float FONT_end_x;
 extern float FONT_end_y;
 
 void FONT_draw(
-		SLONG flag,
+		std::int32_t flag,
 		float start_x,
 		float start_y,
-		ULONG colour,
+		std::uint32_t colour,
 		float scale,		// 1.0F => Normal scale
-		SLONG cursor,		// If cursor is >= 0, then a cursor is drawn after the 'cursor'th character
+		std::int32_t cursor,		// If cursor is >= 0, then a cursor is drawn after the 'cursor'th character
 		float shimmer,		// How much to shimmer. 0.0F => no shimmering, 1.0F => maximum shimmering.
-		CBYTE* fmt, ...);
+		char* fmt, ...);
 
 
 

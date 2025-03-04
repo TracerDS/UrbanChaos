@@ -107,23 +107,23 @@ extern ControllerPacket	PAD_Input1,PAD_Input2;
 #include "..\ddengine\headers\supercrinkle.h"
 
 
-SLONG CAM_cur_x, CAM_cur_y, CAM_cur_z, 
+std::int32_t CAM_cur_x, CAM_cur_y, CAM_cur_z, 
 	  CAM_cur_yaw, CAM_cur_pitch, CAM_cur_roll; // these are set appropriate to whichever cam
 
 #ifdef PSX
-UBYTE continue_waiting,replay_waiting;
-extern SLONG	PSX_eog_timer;
+std::uint8_t continue_waiting,replay_waiting;
+extern std::int32_t	PSX_eog_timer;
 #endif
 
 //
 // The editor.
 //
 
-SLONG save_psx=0; // this was nicked from edit.cpp in the editor...
+std::int32_t save_psx=0; // this was nicked from edit.cpp in the editor...
 
 //bool g_bGoToCreditsPleaseGameHasFinished = false;
 
-extern UBYTE editor_loop();
+extern std::uint8_t editor_loop();
 #ifndef PSX
 extern bool allow_debug_keys;
 #endif
@@ -169,9 +169,9 @@ extern bool allow_debug_keys;
 
 
 Game the_game;
-UBYTE VIOLENCE=VIOLENCE_ALLOWED;
+std::uint8_t VIOLENCE=VIOLENCE_ALLOWED;
 
-extern SLONG go_into_game;	// This is in attract.cpp If it is true when we leave the loop, then attract goes into the game again.
+extern std::int32_t go_into_game;	// This is in attract.cpp If it is true when we leave the loop, then attract goes into the game again.
 
 
 
@@ -239,8 +239,8 @@ extern void	UCA_LookupSetup();
 		// Enumerate connections!
 		//
 
-		SLONG i;
-		SLONG num_connections = NET_get_connection_number();
+		std::int32_t i;
+		std::int32_t num_connections = NET_get_connection_number();
 
 		for (i = 0; i < num_connections; i++)
 		{
@@ -352,7 +352,7 @@ extern VMU_Screen *pvmuscreenWait;
 	AENG_init();
 extern void Wadmenu_Introduction();
 
-extern UBYTE Eidos_Played;
+extern std::uint8_t Eidos_Played;
 	//
 	// Load our sound effects.
 	//
@@ -425,11 +425,11 @@ bool SetupMemory();
 // Playback file stuff....
 //
 
-//extern CBYTE       *playback_name = "Data\\Game.pkt";
-extern CBYTE	*playback_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.pkt";
+//extern char       *playback_name = "Data\\Game.pkt";
+extern char	*playback_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.pkt";
 extern MFFileHandle	playback_file;
 
-extern CBYTE	*verifier_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.tst";
+extern char	*verifier_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.tst";
 extern MFFileHandle	verifier_file;
 
 #endif
@@ -467,23 +467,23 @@ extern DIJOYSTATE			the_state;
 
 #define PAUSE_MENU_SIZE 2
 
-CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"CONTINUE GAME",
 	"EXIT",
 };
 
-UBYTE game_paused_key;
-SBYTE game_paused_highlight;
+std::uint8_t game_paused_key;
+std::int8_t game_paused_highlight;
 
 extern bool  text_fudge;
-extern ULONG text_colour;
+extern std::uint32_t text_colour;
 #ifndef PSX
-extern void  draw_centre_text_at(float x,float y,CBYTE* message,SLONG font_id,SLONG flag);
-extern void  draw_text_at(float x,float y,CBYTE* message,SLONG font_id);
+extern void  draw_centre_text_at(float x,float y,char* message,std::int32_t font_id,std::int32_t flag);
+extern void  draw_text_at(float x,float y,char* message,std::int32_t font_id);
 #else
-extern void  draw_centre_text_at(SLONG x,SLONG y,CBYTE* message,SLONG font_id,SLONG flag);
-extern void  draw_text_at(SLONG x,SLONG y,CBYTE* message,SLONG font_id);
+extern void  draw_centre_text_at(std::int32_t x,std::int32_t y,char* message,std::int32_t font_id,std::int32_t flag);
+extern void  draw_text_at(std::int32_t x,std::int32_t y,char* message,std::int32_t font_id);
 #endif
 
 
@@ -493,7 +493,7 @@ extern void  draw_text_at(SLONG x,SLONG y,CBYTE* message,SLONG font_id);
 #if !defined(PSX) && !defined(TARGET_DC)
 #define NUM_BULLETS 15
 
-CBYTE* bullet_point[NUM_BULLETS] =
+char* bullet_point[NUM_BULLETS] =
 {
 	"A - Punch : B - Kick : C - Jump\n",
 	"Try running over a coke can...\n",
@@ -512,8 +512,8 @@ CBYTE* bullet_point[NUM_BULLETS] =
 	"X is your mode change button.\nChange through RUN, WALK and SNEAK modes\n"
 };
 
-SLONG bullet_upto;
-SLONG bullet_counter;
+std::int32_t bullet_upto;
+std::int32_t bullet_counter;
 
 void process_bullet_points()
 {
@@ -526,7 +526,7 @@ void process_bullet_points()
 		bullet_counter = 250;
 	}
 
-	SLONG bright = bullet_counter * 32;
+	std::int32_t bright = bullet_counter * 32;
 
 	if (bright > 255)
 	{
@@ -545,7 +545,7 @@ void process_bullet_points()
 
 bool game_init()
 {
-	SLONG	ret;
+	std::int32_t	ret;
 
 	//stop_all_fx_and_music();
 
@@ -670,8 +670,8 @@ extern int m_iPanelYPos;
 	extern THING_INDEX PANEL_wide_top_person;
 	extern THING_INDEX PANEL_wide_bot_person;
 
-	PANEL_wide_top_person = nullptr;
-	PANEL_wide_bot_person = nullptr;
+	PANEL_wide_top_person = 0;
+	PANEL_wide_bot_person = 0;
 
 
 	if(GAME_STATE&GS_REPLAY)
@@ -679,8 +679,8 @@ extern int m_iPanelYPos;
 		ATTRACT_loadscreen_init();
 
 #ifndef PSX
-extern CBYTE ELEV_fname_level   [];
-extern SLONG quick_load;
+extern char ELEV_fname_level   [];
+extern std::int32_t quick_load;
 
 		quick_load = true;
 
@@ -693,9 +693,9 @@ extern SLONG quick_load;
 		ret=1;
 
 #else
-extern CBYTE* psx_game_name;
+extern char* psx_game_name;
 extern void	reload_level();
-extern void	load_whole_game(CBYTE	*gamename);
+extern void	load_whole_game(char	*gamename);
 
 		reload_level();
 		ret=1;
@@ -727,16 +727,16 @@ static long trk_list[]={1,2,3,4,5,6,7,8,9,10,11,0};
 
 #ifndef	PSX
 
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 		if(save_psx)
 		if(ret==5||ret==1) //loaded a level
 		{
-			CBYTE	save_wad[100];
+			char	save_wad[100];
 			
-	extern CBYTE ELEV_fname_level[];
+	extern char ELEV_fname_level[];
 			process_things(0);
 
-	extern void	save_whole_game(CBYTE	*gamename);
+	extern void	save_whole_game(char	*gamename);
 
 			change_extension(ELEV_fname_level,"wad",save_wad);
 			save_whole_game(save_wad);
@@ -766,9 +766,9 @@ void init_stats();
 
 #ifndef	PSX
 #ifndef TARGET_DC
-bool game_create_psx(CBYTE* mission_name)
+bool game_create_psx(char* mission_name)
 {
-	SLONG	ret;
+	std::int32_t	ret;
 	DebugText("PSX create psx mission %s\n",mission_name);
 
 	//
@@ -803,7 +803,7 @@ bool game_create_psx(CBYTE* mission_name)
 	srand(1234567);
 	GAME_STATE=GS_PLAY_GAME;
 
-extern SLONG quick_load;
+extern std::int32_t quick_load;
 	quick_load=1;
 
 	//
@@ -831,12 +831,12 @@ extern SLONG quick_load;
 
 		if(ret==5||ret==1) //loaded a level
 		{
-			CBYTE	save_wad[100];
+			char	save_wad[100];
 			
-	extern CBYTE ELEV_fname_level[];
+	extern char ELEV_fname_level[];
 			process_things(0);
 
-	extern void	save_whole_game(CBYTE	*gamename);
+	extern void	save_whole_game(char	*gamename);
 
 			change_extension(mission_name,"wad",save_wad);
 			DebugText("PSX create nad %s\n world %d",save_wad,TEXTURE_SET);
@@ -854,12 +854,12 @@ extern SLONG quick_load;
 
 }
 
-bool make_texture_clumps(CBYTE* mission_name)
+bool make_texture_clumps(char* mission_name)
 {
 #ifdef TARGET_DC
 	ASSERT(false);
 #endif
-	SLONG	ret;
+	std::int32_t	ret;
 	DebugText("Making texture clumps %s\n",mission_name);
 
 	//
@@ -892,7 +892,7 @@ bool make_texture_clumps(CBYTE* mission_name)
 	srand(1234567);
 	GAME_STATE=GS_PLAY_GAME;
 
-extern SLONG quick_load;
+extern std::int32_t quick_load;
 	quick_load=0;
 
 	//
@@ -1042,7 +1042,7 @@ extern void POLY_ClearAllPages ( void );
 
 //---------------------------------------------------------------
 
-//extern ULONG	get_hardware_input(UWORD type);
+//extern std::uint32_t	get_hardware_input(std::uint16_t type);
 
 void game()
 {
@@ -1065,9 +1065,9 @@ void game()
 		else
 		{
 #ifdef TARGET_DC
-			ULONG input = get_hardware_input(INPUT_TYPE_JOY);
+			std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY);
 #else
-			ULONG input = get_hardware_input(INPUT_TYPE_JOY) | get_hardware_input(INPUT_TYPE_KEY);
+			std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY) | get_hardware_input(INPUT_TYPE_KEY);
 #endif
 
 			if (input & (INPUT_MASK_JUMP|INPUT_MASK_START|INPUT_MASK_SELECT|INPUT_MASK_KICK|INPUT_MASK_PUNCH|INPUT_MASK_ACTION))
@@ -1182,9 +1182,9 @@ void game()
 		else
 		{
 #ifdef TARGET_DC
-			ULONG input = get_hardware_input(INPUT_TYPE_JOY);
+			std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY);
 #else
-			ULONG input = get_hardware_input(INPUT_TYPE_JOY) | get_hardware_input(INPUT_TYPE_KEY);
+			std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY) | get_hardware_input(INPUT_TYPE_KEY);
 #endif
 			if (input & (INPUT_MASK_JUMP|INPUT_MASK_START|INPUT_MASK_SELECT|INPUT_MASK_KICK|INPUT_MASK_PUNCH|INPUT_MASK_ACTION))
 			{
@@ -1227,7 +1227,7 @@ void GAME_map_draw_old()
 {
 	Thing *darci = NET_PERSON(0);
 
-	SLONG	x,z,dx,dz,ndx,ndz,angle;
+	std::int32_t	x,z,dx,dz,ndx,ndz,angle;
 
 	POLY_frame_init(false, false);
 	ShowBackImage();
@@ -1269,7 +1269,7 @@ extern void	overlay_beacons();
 
 #ifdef	PSX
 /*
-extern void plan_view_shot(SLONG wx,SLONG wz,SLONG pixelw,SLONG sx,SLONG sy,SLONG w,SLONG h);
+extern void plan_view_shot(std::int32_t wx,std::int32_t wz,std::int32_t pixelw,std::int32_t sx,std::int32_t sy,std::int32_t w,std::int32_t h);
 
 void GAME_map_draw()
 {
@@ -1286,15 +1286,15 @@ void GAME_map_draw()
 
 #ifndef TARGET_DC
 
-UBYTE screen_mem[640*3][480];
+std::uint8_t screen_mem[640*3][480];
 
 void GAME_map_draw()
 {
 	Thing *darci = NET_PERSON(0);
 
-	plan_view_shot(darci->WorldPos.X>>8,darci->WorldPos.Z>>8,1+(MouseY>>4),77,78,401,328,(UBYTE*)screen_mem);
+	plan_view_shot(darci->WorldPos.X>>8,darci->WorldPos.Z>>8,1+(MouseY>>4),77,78,401,328,(std::uint8_t*)screen_mem);
 	overlay_beacons();
-	the_display.create_background_surface((UBYTE*)screen_mem);
+	the_display.create_background_surface((std::uint8_t*)screen_mem);
     the_display.blit_background_surface();
 	the_display.destroy_background_surface();
 
@@ -1305,21 +1305,21 @@ void GAME_map_draw()
 #endif
 
 #ifdef	PSX
-	SLONG tick1;
-	SLONG tick2;
-	SLONG timet;
+	std::int32_t tick1;
+	std::int32_t tick2;
+	std::int32_t timet;
 
-	SLONG cam_x;
-	SLONG cam_y;
-	SLONG cam_z;
+	std::int32_t cam_x;
+	std::int32_t cam_y;
+	std::int32_t cam_z;
 
-	SLONG cam_yaw;
-	SLONG cam_pitch;
-	SLONG cam_roll;
+	std::int32_t cam_yaw;
+	std::int32_t cam_pitch;
+	std::int32_t cam_roll;
 
 #else
 
-bool leave_map_form_proc(Form *form, Widget *widget, SLONG message)
+bool leave_map_form_proc(Form *form, Widget *widget, std::int32_t message)
 {
 	if (widget && widget->methods == &BUTTON_Methods && message == WBN_PUSH)
 	{
@@ -1335,13 +1335,13 @@ bool leave_map_form_proc(Form *form, Widget *widget, SLONG message)
 
 #endif
 
-extern void PANEL_draw_timer_do(SLONG time, SLONG x, SLONG y);
+extern void PANEL_draw_timer_do(std::int32_t time, std::int32_t x, std::int32_t y);
 
-SLONG already_warned_about_leaving_map;
-UBYTE draw_map_screen=0;
-UBYTE single_step=0;
+std::int32_t already_warned_about_leaving_map;
+std::uint8_t draw_map_screen=0;
+std::uint8_t single_step=0;
 Form *form_leave_map = nullptr;
-SLONG form_left_map  = 0;
+std::int32_t form_left_map  = 0;
 
 
 //****************************************************************
@@ -1355,12 +1355,12 @@ SLONG form_left_map  = 0;
 //
 // don't let the game run faster than this framerate by making you sit in a check the clock loop
 //
-void lock_frame_rate(SLONG fps)
+void lock_frame_rate(std::int32_t fps)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
-	static	SLONG tick1 = 0;
-	SLONG tick2;
-	SLONG timet;
+	static	std::int32_t tick1 = 0;
+	std::int32_t tick2;
+	std::int32_t timet;
 
 	while(1)
 	{
@@ -1376,14 +1376,14 @@ void lock_frame_rate(SLONG fps)
 #endif
 }
 
-void demo_timeout(SLONG flag)
+void demo_timeout(std::int32_t flag)
 {
 #if !defined(PSX) && !defined(TARGET_DC)
 #if TIMEOUT_DEMO
 
-	static	SLONG	time_start = 0;
-	static	SLONG	timeout = 0;
-	SLONG	time_now;
+	static	std::int32_t	time_start = 0;
+	static	std::int32_t	timeout = 0;
+	std::int32_t	time_now;
 
 	if(flag)
 	{
@@ -1407,14 +1407,14 @@ void demo_timeout(SLONG flag)
 // Move off the edge of map test and dodgy widget stuff
 //
 #if	0
-void edge_map_warning(SLONG flag)
+void edge_map_warning(std::int32_t flag)
 {
 #ifndef	PSX
 	Widget *widget_text;
 	Widget *widget_yes;
 	Widget *widget_no;
-	SLONG  dx;
-	SLONG  dz;
+	std::int32_t  dx;
+	std::int32_t  dz;
 	Thing *darci = NET_PERSON(0);
 
 	dx = darci->WorldPos.X >> 16;
@@ -1516,7 +1516,7 @@ void edge_map_warning(SLONG flag)
 void do_leave_map_form()
 {
 #ifndef	PSX
-	SLONG ret;
+	std::int32_t ret;
 
 	form_left_map = 15;
 
@@ -1583,7 +1583,7 @@ void do_leave_map_form()
 //
 // psx camera stuff (the PC does it in the engine?)
 //
-SLONG psx_camera()
+std::int32_t psx_camera()
 {
 			//
 			// AENG_draw() understands about cameras now because it has to
@@ -1595,16 +1595,16 @@ SLONG psx_camera()
 			*/
 
 #ifdef	PSX
-	SLONG cx;
-	SLONG cy;
-	SLONG cz;
+	std::int32_t cx;
+	std::int32_t cy;
+	std::int32_t cz;
 
-	SLONG ay;
-	SLONG ap;
-	SLONG ar;
+	std::int32_t ay;
+	std::int32_t ap;
+	std::int32_t ar;
 
-	SLONG lens;
-	SLONG warehouse;
+	std::int32_t lens;
+	std::int32_t warehouse;
 
 	if (EWAY_grab_camera(
 			&cx,
@@ -1667,7 +1667,7 @@ extern void	DoFigureDraw();
 	DoFigureDraw();
 
 #ifndef FS_ISO9660
-extern void	AENG_screen_shot(SLONG width);
+extern void	AENG_screen_shot(std::int32_t width);
 			if (Keys[KB_S])
 			{
 				AENG_screen_shot(320);
@@ -1719,7 +1719,7 @@ extern void	AENG_screen_shot(SLONG width);
 	// Always flip on the PSX.
 	//
 
-extern UBYTE	psx_motor[];
+extern std::uint8_t	psx_motor[];
 
 	if (GAME_STATE & (GS_LEVEL_WON|GS_LEVEL_LOST))
 	{
@@ -1745,7 +1745,7 @@ void playback_game_keys()
 #ifndef	PSX
 	if(ReadInputDevice())
 	{
-		SLONG i;
+		std::int32_t i;
 
 		for (i = 0; i <= 9; i++)
 		{
@@ -1763,7 +1763,7 @@ void playback_game_keys()
 // For those funny fanny keys the PC likes to use
 //
 
-SLONG special_keys()
+std::int32_t special_keys()
 {
 #ifdef	EDITOR
 	if (ControlFlag && Keys[KB_E])
@@ -1824,9 +1824,9 @@ void handle_sfx()
 //	MUSIC_process();
 	MUSIC_mode_process(); // new version, much better
 
-	SLONG cx,cy,cz,ay,ap,ar,lens;
+	std::int32_t cx,cy,cz,ay,ap,ar,lens;
 
-	SLONG x=NET_PERSON(PLAYER_ID)->WorldPos.X,
+	std::int32_t x=NET_PERSON(PLAYER_ID)->WorldPos.X,
 		  y=NET_PERSON(PLAYER_ID)->WorldPos.Y,
 		  z=NET_PERSON(PLAYER_ID)->WorldPos.Z;
 
@@ -1861,7 +1861,7 @@ void handle_sfx()
 
 	if (wad_level==14)
 	{
-		SLONG ware=NET_PERSON(PLAYER_ID)->Genus.Person->Ware;
+		std::int32_t ware=NET_PERSON(PLAYER_ID)->Genus.Person->Ware;
 		
 		if (ware &&(WARE_ware[ware].ambience==4))
 		{
@@ -1872,7 +1872,7 @@ void handle_sfx()
 	}
 #endif
 
-extern SLONG BARREL_fx_rate;
+extern std::int32_t BARREL_fx_rate;
 	if (BARREL_fx_rate>1) 
 		BARREL_fx_rate-=2;
 	else
@@ -1882,7 +1882,7 @@ extern SLONG BARREL_fx_rate;
 
 
 
-SLONG should_i_process_game()
+std::int32_t should_i_process_game()
 {
 	if (EWAY_tutorial_string)
 	{
@@ -1908,7 +1908,7 @@ SLONG should_i_process_game()
 		return(1);
 #else
 
-extern SLONG PSX_inv_open;
+extern std::int32_t PSX_inv_open;
 
 		if (PSX_inv_open) 
 		{
@@ -1942,7 +1942,7 @@ void draw_debug_lines();
 
 inline void	draw_screen()
 {
-	extern SLONG draw_3d;
+	extern std::int32_t draw_3d;
 	
 #ifndef PSX
 
@@ -1987,7 +1987,7 @@ extern void MAP_draw();
 //****************************************************************
 //					End of cleanup_zone, have a nice day
 //****************************************************************
-SLONG hardware_input_replay()
+std::int32_t hardware_input_replay()
 {
 #ifdef	PSX
 
@@ -2013,7 +2013,7 @@ SLONG hardware_input_replay()
 	return(0);
 }
 
-SLONG hardware_input_continue()
+std::int32_t hardware_input_continue()
 {
 #ifdef	PSX
 	//
@@ -2028,15 +2028,15 @@ SLONG hardware_input_continue()
 #else
 
 
-extern SLONG GAMEMENU_menu_type;
+extern std::int32_t GAMEMENU_menu_type;
 	if ( GAMEMENU_menu_type == 0 /*GAMEMENU_MENU_TYPE_NONE*/ )
 	{
 		// No pause menu up, so wait for a keypress.
 	#ifdef TARGET_DC
-		SLONG input = get_hardware_input ( INPUT_TYPE_JOY | INPUT_TYPE_REMAP_DPAD | INPUT_TYPE_REMAP_BUTTONS | INPUT_TYPE_GONEDOWN );
+		std::int32_t input = get_hardware_input ( INPUT_TYPE_JOY | INPUT_TYPE_REMAP_DPAD | INPUT_TYPE_REMAP_BUTTONS | INPUT_TYPE_GONEDOWN );
 		if ( input & ( INPUT_MASK_DOMENU | INPUT_MASK_CANCEL ) )
 	#else
-		SLONG input = get_hardware_input(INPUT_TYPE_ALL);
+		std::int32_t input = get_hardware_input(INPUT_TYPE_ALL);
 		if(LastKey==KB_SPACE || LastKey==KB_ESC || LastKey == KB_Z || LastKey == KB_X || LastKey == KB_C || LastKey == KB_ENTER || (input & (INPUT_MASK_SELECT|INPUT_MASK_PUNCH|INPUT_MASK_JUMP)))
 	#endif
 		{
@@ -2052,30 +2052,30 @@ extern SLONG GAMEMENU_menu_type;
 }
 
 /*
-UWORD darci_dlight;
+std::uint16_t darci_dlight;
 */
 
 #ifndef PSX
-UWORD last_fudge_message;
-UWORD last_fudge_camera;
-UBYTE the_end;
+std::uint16_t last_fudge_message;
+std::uint16_t last_fudge_camera;
+std::uint8_t the_end;
 #endif
 
 #ifdef PSX
 #ifdef VERSION_DEMO
-extern SLONG game_timeout;
+extern std::int32_t game_timeout;
 #endif
 #endif
 
-UWORD env_frame_rate;
+std::uint16_t env_frame_rate;
 
 
-UBYTE game_loop()
+std::uint8_t game_loop()
 {
 #ifndef	PSX
 #ifndef TARGET_DC
 extern void	save_all_nads();
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 	if(save_psx==2)
 		save_all_nads();
 #endif
@@ -2142,7 +2142,7 @@ round_again:;
 		if (GAME_STATE & GS_PLAYBACK)
 			BreakStart();
 #ifndef	PSX
-		SLONG exit_game_loop = false;
+		std::int32_t exit_game_loop = false;
 	
 		TRACE ( "game_loop init3\n" );
 
@@ -2257,7 +2257,7 @@ extern int g_iCheatNumber;
 				// Exit out of the last mission straight away.
 				//
 
-				extern SLONG playing_level(const CBYTE* name);
+				extern std::int32_t playing_level(const char* name);
 
 				if  (playing_level("Finale1.ucm"))
 				{
@@ -2505,7 +2505,7 @@ extern void	do_packets();
 
 			// pausing and floating text stuff
 
-			SLONG i_want_to_exit = false;
+			std::int32_t i_want_to_exit = false;
 
 #ifdef PSX
 
@@ -2655,7 +2655,7 @@ extern void	do_packets();
 
 
 				// Get the background loaded.
-void FRONTEND_scr_img_load_into_screenfull(CBYTE* name, CompressedBackground *screen);
+void FRONTEND_scr_img_load_into_screenfull(char* name, CompressedBackground *screen);
 				FRONTEND_scr_img_load_into_screenfull ( "title_blood1.tga", &(the_display.lp_DD_Background) );
 extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 				ASSERT ( lpBackgroundCache != nullptr );
@@ -2679,7 +2679,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 			{
 				if (NET_PLAYER(0)->Genus.Player->RedMarks > 1)
 				{
-					CBYTE* mess;
+					char* mess;
 
  					InitBackImage("deadcivs.tga");
 
@@ -2728,7 +2728,7 @@ extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
 						//FONT2D_DrawStringWrap(mess, 10, 300, 0xffffffff);
 						POLY_frame_draw(true, true);
 #else
-extern CBYTE* Wadmenu_CivMess;
+extern char* Wadmenu_CivMess;
 						Wadmenu_CivMess=mess;
 						break;
 #endif
@@ -2848,10 +2848,10 @@ extern void AENG_flip_init();
 // create SMOOTH_TICK_RATIO from TICK_RATIO averaged over 4 frames
 // so the car doesn't jolt so badly
 
-static SLONG	tick_ratios[4];
-static SLONG	wptr;
-static SLONG	number;
-static SLONG	sum;
+static std::int32_t	tick_ratios[4];
+static std::int32_t	wptr;
+static std::int32_t	number;
+static std::int32_t	sum;
 
 void ResetSmoothTicks()
 {
@@ -2860,7 +2860,7 @@ void ResetSmoothTicks()
 	sum = 0;
 }
 
-SLONG SmoothTicks(SLONG raw_ticks)
+std::int32_t SmoothTicks(std::int32_t raw_ticks)
 {
 	if (number < 4)
 	{

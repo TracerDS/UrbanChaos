@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-SLONG player_type, player_equip;
+std::int32_t player_type, player_equip;
 
 //---------------------------------------------------------------
 
@@ -33,7 +33,7 @@ SLONG player_type, player_equip;
 bool CALLBACK	ps_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	HWND		the_ctrl;
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	LPTSTR		lbitem_str;
 	NM_UPDOWN	*lp_ntfy;
 
@@ -92,7 +92,7 @@ void do_player_setup(EventPoint *the_ep)
 
 //---------------------------------------------------------------
 
-CBYTE* get_player_message(EventPoint *ep, CBYTE* msg) {
+char* get_player_message(EventPoint *ep, char* msg) {
 	strcpy(msg,"Unknown");
 	if (ep) {
 		strcpy(msg,wplayer_strings[ep->Data[0]-PT_DARCI]);

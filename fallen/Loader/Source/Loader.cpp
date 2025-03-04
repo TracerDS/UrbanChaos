@@ -52,15 +52,15 @@
 typedef struct {
 	DISPENV		disp;
 	DRAWENV		draw;
-	ULONG		ot[OTSIZE];
-	CBYTE		prim[BUCKETMEM];
-	ULONG		*image;
+	std::uint32_t		ot[OTSIZE];
+	char		prim[BUCKETMEM];
+	std::uint32_t		*image;
 } Display;
 
 Display db[2];
-SLONG CurrentDB;
-CBYTE* prim_ptr;
-CBYTE* mem_ptr=(CBYTE*)0x80160000;
+std::int32_t CurrentDB;
+char* prim_ptr;
+char* mem_ptr=(char*)0x80160000;
 
 #define ALLOCPRIM(p,t) { p=(t*)prim_ptr;prim_ptr+=sizeof(t); }
 #define DOPRIM(o,p) addPrim(&db[CurrentDB].ot[o],p)
@@ -81,7 +81,7 @@ void LOADER_Init()
 
 	SpuInit();
 
-	PadInitDirect((UBYTE*)&PAD_Input1,(UBYTE*)&PAD_Input2);
+	PadInitDirect((std::uint8_t*)&PAD_Input1,(std::uint8_t*)&PAD_Input2);
 	PadStartCom();
 
 	PAD_Input1.data.pad=0xffff;
@@ -131,7 +131,7 @@ void LOADER_SwapDB()
 
 // Sets a background image to use on the pages
 
-void LOADER_BackImage(ULONG *image)
+void LOADER_BackImage(std::uint32_t *image)
 {
 	db[0].image=db[1].image=image;
 	db[0].draw.isbg=db[1].draw.isbg=0;
@@ -149,8 +149,8 @@ char Wadmenu_char_width[]={
 typedef struct {
 	char *name;		// Name of the Item, to display centred at the bottom of the screen when selected
 	char *title;	// Title, to be displayed at the top when selected
-	UBYTE u,v,w,h;	// Texture coordinates for image
-	SWORD x,y,dw,dh;// Position to draw texture at
+	std::uint8_t u,v,w,h;	// Texture coordinates for image
+	std::int16_t x,y,dw,dh;// Position to draw texture at
 	char *fname;	// Name of executable to load
 	char *loading;	// Loading to be displayed once you've selected a level
 	char *select;	// Text to show for X to select.
@@ -168,7 +168,7 @@ LoaderItem loader_item[]={
 
 #define LOADER_ITEMS 3
 
-SLONG draw_char(SLONG x,SLONG y,char c,SLONG colour)
+std::int32_t draw_char(std::int32_t x,std::int32_t y,char c,std::int32_t colour)
 {
 	POLY_FT4 *p;
 	int c0;
@@ -197,7 +197,7 @@ SLONG draw_char(SLONG x,SLONG y,char c,SLONG colour)
 	return 0;
 }
 
-SBYTE f_descend[]={
+std::int8_t f_descend[]={
 	0,0,0,0,0,0,0,0,
 	0,0,0,0,1,0,1,0,
 	0,0,0,0,0,0,0,0,
@@ -228,7 +228,7 @@ SBYTE f_descend[]={
 	0,0,0,0,0,2,0,2
 };
 
-UBYTE wadmenu_f_width[]={
+std::uint8_t wadmenu_f_width[]={
 	5 ,2 ,5 ,11,8 ,12,10,2,
 	5 ,5 ,8 ,8 ,2 ,8, 3 ,5,
 	8 ,3 ,8 ,8 ,8 ,8 ,8 ,8,
@@ -260,10 +260,10 @@ UBYTE wadmenu_f_width[]={
 
 };
 
-SLONG Wadmenu_text_width2(CBYTE* message)
+std::int32_t Wadmenu_text_width2(char* message)
 {
-	CBYTE* p=message;
-	SLONG width=0;
+	char* p=message;
+	std::int32_t width=0;
 
 	while(*p)
 	{
@@ -274,13 +274,13 @@ SLONG Wadmenu_text_width2(CBYTE* message)
 	return width;
 }
 
-void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
+void Wadmenu_draw_text_at(std::int32_t x, std::int32_t y,char* message,std::int32_t font_id)
 {
 	SPRT *p;
 	DR_TPAGE *tp;
-	UBYTE* m=(UBYTE*)message;
-	SLONG x0=x,y0=y;
-	SLONG c;
+	std::uint8_t* m=(std::uint8_t*)message;
+	std::int32_t x0=x,y0=y;
+	std::int32_t c;
 
 	ALLOCPRIM(tp,DR_TPAGE);
 	setDrawTPage(tp,0,1,getTPage(0,0,896,256));
@@ -336,9 +336,9 @@ void Wadmenu_draw_text_at(SLONG x, SLONG y,CBYTE* message,SLONG font_id)
 
 
 
-SLONG draw_string(SLONG x,SLONG y,char *str,SLONG colour)
+std::int32_t draw_string(std::int32_t x,std::int32_t y,char *str,std::int32_t colour)
 {
-	SLONG x0=x;
+	std::int32_t x0=x;
 	char *p=str;
 
 	while(*p)
@@ -347,7 +347,7 @@ SLONG draw_string(SLONG x,SLONG y,char *str,SLONG colour)
 
 int text_width(char *str)
 {
-	SLONG w=0;
+	std::int32_t w=0;
 	char *c=str;
 
 	while(*c)
@@ -356,7 +356,7 @@ int text_width(char *str)
 			w+=16;
 		else
 		{
-			SLONG c0=(int)strchr(Wadmenu_char_table,toupper(*c));
+			std::int32_t c0=(int)strchr(Wadmenu_char_table,toupper(*c));
 			if (c0)
 				w+=Wadmenu_char_width[c0-(int)Wadmenu_char_table];
 		}
@@ -366,7 +366,7 @@ int text_width(char *str)
 }
 
 
-void LOADER_Render(LoaderItem *item,SLONG sel)
+void LOADER_Render(LoaderItem *item,std::int32_t sel)
 {
 	POLY_FT4 *p;
 
@@ -389,9 +389,9 @@ void LOADER_Render(LoaderItem *item,SLONG sel)
 	DOPRIM(0,p);
 }
 
-SLONG LOADER_DispMenu(SLONG selected)
+std::int32_t LOADER_DispMenu(std::int32_t selected)
 {
-	SLONG x,y,i;
+	std::int32_t x,y,i;
 	x=32;
 	y=32;
 
@@ -413,7 +413,7 @@ SLONG LOADER_DispMenu(SLONG selected)
 		
 }
 
-void LoadFile(CBYTE* fname,ULONG *addr,SLONG len)
+void LoadFile(char* fname,std::uint32_t *addr,std::int32_t len)
 {
 #ifdef VERSION_CD
 	char str[80];
@@ -423,7 +423,7 @@ void LoadFile(CBYTE* fname,ULONG *addr,SLONG len)
 	CdReadSync(0,str);
 #else
 	char str[80];
-	SLONG fh;
+	std::int32_t fh;
 	sprintf(str,"c:\\urbancd\\%s",fname);
 	fh=PCopen(str,0,0);
 	PCread(fh,(char*)addr,len);
@@ -436,9 +436,9 @@ void LOADER_GetData()
 	RECT rect={512,0,512,512};
 	TIM_IMAGE tim;
 
-	ULONG *TextureBuffer;
+	std::uint32_t *TextureBuffer;
 
-	MALLOC(TextureBuffer,ULONG,524288);
+	MALLOC(TextureBuffer,std::uint32_t,524288);
 	LoadFile("LEVELS0\\LEVEL00\\TEXTURE0.TEX",TextureBuffer,524288);
 	LoadImage(&rect,TextureBuffer);
 	DrawSync(0);
@@ -453,7 +453,7 @@ typedef struct {
 	void (*pc)();
 } Header;
 
-void LOADER_DoLoad(SLONG sel)
+void LOADER_DoLoad(std::int32_t sel)
 {
 	Header *head=(Header*)0x8000f800;
 	LOADER_SwapDB();
@@ -482,10 +482,10 @@ void LOADER_DoLoad(SLONG sel)
 void LOADER_Process()
 {
 #ifndef AUTO_SELECT
-	static SLONG selected=0;
-	static SLONG awaiting=0;
-	static SLONG timer=250;
-	SLONG items;
+	static std::int32_t selected=0;
+	static std::int32_t awaiting=0;
+	static std::int32_t timer=250;
+	std::int32_t items;
 
 	items=LOADER_DispMenu(selected);
 

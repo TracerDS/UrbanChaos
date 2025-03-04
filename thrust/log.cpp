@@ -20,15 +20,15 @@
 
 typedef struct
 {
-	ULONG colour;
-	CBYTE message[LOG_DISPLAY_MESSAGE_LENGTH];
+	std::uint32_t colour;
+	char message[LOG_DISPLAY_MESSAGE_LENGTH];
 
 } LOG_Display;
 
 #define LOG_MAX_DISPLAY 32	// Power of 2 please!
 
 LOG_Display LOG_display[LOG_MAX_DISPLAY];
-SLONG LOG_display_last;	// The index of the last message.
+std::int32_t LOG_display_last;	// The index of the last message.
 
 
 //
@@ -58,13 +58,13 @@ void LOG_init()
 // Adds a message to the display system.
 //
 
-void LOG_message(ULONG colour, CBYTE* fmt, ...)
+void LOG_message(std::uint32_t colour, char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[512];
+	char   message[512];
 	va_list	ap;
 
 	va_start(ap, fmt);
@@ -86,8 +86,8 @@ void LOG_message(ULONG colour, CBYTE* fmt, ...)
 
 void LOG_draw()
 {
-	SLONG i;
-	SLONG mess;
+	std::int32_t i;
+	std::int32_t mess;
 
 	float y = 0.95F;
 
@@ -107,13 +107,13 @@ void LOG_draw()
 	}
 }
 
-void LOG_file(CBYTE* fmt, ...)
+void LOG_file(char* fmt, ...)
 {
 	//
 	// Work out the real message.
 	//
 
-	CBYTE   message[512];
+	char   message[512];
 	va_list	ap;
 
 	va_start(ap, fmt);

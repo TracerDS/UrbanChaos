@@ -24,8 +24,8 @@
 // The local player number.
 // 
 
-UBYTE NET_i_am_host;
-UBYTE NET_local_player;
+std::uint8_t NET_i_am_host;
+std::uint8_t NET_local_player;
 
 //
 // All the players.
@@ -33,11 +33,11 @@ UBYTE NET_local_player;
 
 typedef struct
 {
-	UBYTE used;
-	UBYTE player_id;
-	UWORD shit;
+	std::uint8_t used;
+	std::uint8_t player_id;
+	std::uint16_t shit;
 	//DPID  dpid;
-	CBYTE name[NET_NAME_LENGTH];
+	char name[NET_NAME_LENGTH];
 	
 } NET_Player;
 
@@ -49,59 +49,59 @@ NET_Player NET_player[NET_MAX_PLAYERS];
 // The buffer into which messages are recieved.
 //
 
-CBYTE NET_buffer[NET_MESSAGE_LENGTH];
+char NET_buffer[NET_MESSAGE_LENGTH];
 
-SLONG net_init_done=0;
+std::int32_t net_init_done=0;
 
-void NET_init(void)
+void NET_init()
 {
 }
 
 
-void NET_kill(void)
+void NET_kill()
 {
 }
 
 
 
-SLONG NET_get_connection_number()
+std::int32_t NET_get_connection_number()
 {
 	return 0;
 }
 
-CBYTE* NET_get_connection_name(SLONG connection)
+char* NET_get_connection_name(std::int32_t connection)
 {
 	return nullptr;
 }
 
 
-SLONG NET_connection_make(SLONG connection)
+std::int32_t NET_connection_make(std::int32_t connection)
 {
 	return false;
 }
 
-SLONG NET_create_session(CBYTE* session_name, SLONG max_players, CBYTE* my_player_name)
+std::int32_t NET_create_session(char* session_name, std::int32_t max_players, char* my_player_name)
 {
 	return false;
 }
 
-SLONG NET_get_session_number()
+std::int32_t NET_get_session_number()
 {
 	return 0;
 }
 
-NET_Sinfo NET_get_session_info(SLONG session)
+NET_Sinfo NET_get_session_info(std::int32_t session)
 {
 	return {};
 }
 
-SLONG NET_join_session(SLONG session, CBYTE* my_player_name)
+std::int32_t NET_join_session(std::int32_t session, char* my_player_name)
 {
 	return false;
 }
 
 
-UBYTE NET_start_game()
+std::uint8_t NET_start_game()
 {
 	return 0;
 }
@@ -112,25 +112,25 @@ void NET_leave_session()
 }
 
 
-SLONG NET_get_num_players()
+std::int32_t NET_get_num_players()
 {
 	return 1;
 }
 
-CBYTE* NET_get_player_name(SLONG player)
+char* NET_get_player_name(std::int32_t player)
 {
 	return "Unknown";
 }
 
 void NET_message_send(
-		UBYTE  player_id,
+		std::uint8_t  player_id,
 		void  *data,
-		UWORD  num_bytes)
+		std::uint16_t  num_bytes)
 {
 }
 
 
-SLONG NET_message_waiting()
+std::int32_t NET_message_waiting()
 {
 	return 0;
 }

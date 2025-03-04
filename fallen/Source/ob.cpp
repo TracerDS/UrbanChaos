@@ -24,7 +24,7 @@
 OB_Ob *OB_ob; //[OB_MAX_OBS];
 OB_workaround *OB_mapwho; //[OB_SIZE][OB_SIZE];
 
-SLONG OB_ob_upto;
+std::int32_t OB_ob_upto;
 
 #define PRIM_OBJ_CHOPPER		74
 #define	PRIM_OBJ_CHOPPER_BLADES	75
@@ -43,17 +43,17 @@ OB_Info OB_return;
 
 typedef struct
 {
-	UWORD life;		// 0 => Unused.
-	UWORD index;
-	UWORD x;
-	UWORD z;
+	std::uint16_t life;		// 0 => Unused.
+	std::uint16_t index;
+	std::uint16_t x;
+	std::uint16_t z;
 
 } OB_Hydrant;
 
 #define OB_MAX_HYDRANTS 4
 
 OB_Hydrant OB_hydrant[OB_MAX_HYDRANTS];
-UBYTE OB_hydrant_last;
+std::uint8_t OB_hydrant_last;
 
 #ifndef PSX
 void OB_init()
@@ -63,13 +63,13 @@ void OB_init()
 
 	OB_ob_upto = 1;
 
-	memset((UBYTE*)OB_mapwho,  0, sizeof(OB_Mapwho ) * OB_SIZE * OB_SIZE);
-	memset((UBYTE*)OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
+	memset((std::uint8_t*)OB_mapwho,  0, sizeof(OB_Mapwho ) * OB_SIZE * OB_SIZE);
+	memset((std::uint8_t*)OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
 }
 #else
 void OB_init()
 {
-	memset((UBYTE*)OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
+	memset((std::uint8_t*)OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
 }
 
 #endif
@@ -78,13 +78,13 @@ void OB_init()
 #ifndef TARGET_DC
 void OB_compress()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	OB_Mapwho *om;
 
 	OB_Ob *comp;
-	SLONG  comp_upto;
+	std::int32_t  comp_upto;
 
 	comp      = (OB_Ob *) MemAlloc(sizeof(OB_Ob) * OB_MAX_OBS);
 	comp_upto = 1;
@@ -119,19 +119,19 @@ void OB_compress()
 #ifndef	PSX
 #ifndef TARGET_DC
 void OB_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG pitch,
-		SLONG roll,
-		SLONG prim,
-		UBYTE flag,
-		UWORD inside,
-		UBYTE room)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t pitch,
+		std::int32_t roll,
+		std::int32_t prim,
+		std::uint8_t flag,
+		std::uint16_t inside,
+		std::uint8_t room)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	mx = x >> 10;
 	mz = z >> 10;
@@ -227,11 +227,11 @@ void OB_create(
 
 void OB_process()
 {
-	SLONG i;
-	SLONG yaw;
-	SLONG dx;
-	SLONG dz;
-	SLONG tick = 16 * TICK_RATIO >> TICK_SHIFT;
+	std::int32_t i;
+	std::int32_t yaw;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t tick = 16 * TICK_RATIO >> TICK_SHIFT;
 
 	OB_Hydrant *oh;
 	OB_Ob      *oo;
@@ -306,12 +306,12 @@ void OB_process()
 
 
 
-OB_Info *OB_find(SLONG x, SLONG z)
+OB_Info *OB_find(std::int32_t x, std::int32_t z)
 {
 	OB_Info *of;
 
-	SLONG num;
-	SLONG index;
+	std::int32_t num;
+	std::int32_t index;
 
 	OB_Mapwho *om;
 	OB_Ob     *oo;
@@ -354,7 +354,7 @@ OB_Info *OB_find(SLONG x, SLONG z)
 			{
 				if (prim_objects[oo->prim].damage & PRIM_DAMAGE_LEAN)
 				{
-					static SBYTE dlean[4] = {25, -16, -28, +15};
+					static std::int8_t dlean[4] = {25, -16, -28, +15};
 
 					//
 					// Make the object lean.
@@ -392,12 +392,12 @@ OB_Info *OB_find(SLONG x, SLONG z)
 	return OB_found;
 }
 #ifndef	PSX
-OB_Info *OB_find_inside(SLONG x, SLONG z,SLONG indoors)
+OB_Info *OB_find_inside(std::int32_t x, std::int32_t z,std::int32_t indoors)
 {
 	OB_Info *of;
 
-	SLONG num;
-	SLONG index;
+	std::int32_t num;
+	std::int32_t index;
 
 	OB_Mapwho *om;
 	OB_Ob     *oo;
@@ -449,35 +449,35 @@ OB_Info *OB_find_inside(SLONG x, SLONG z,SLONG indoors)
 	return OB_found;
 }
 #endif
-SLONG OB_avoid(
-		SLONG ob_x,
-		SLONG ob_y,
-		SLONG ob_z,
-		SLONG ob_yaw,
-		SLONG ob_prim,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+std::int32_t OB_avoid(
+		std::int32_t ob_x,
+		std::int32_t ob_y,
+		std::int32_t ob_z,
+		std::int32_t ob_yaw,
+		std::int32_t ob_prim,
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG da;
-	SLONG db;
+	std::int32_t da;
+	std::int32_t db;
 
-	SLONG dist;
-	SLONG dist1;
-	SLONG dist2;
+	std::int32_t dist;
+	std::int32_t dist1;
+	std::int32_t dist2;
 
-	SLONG px1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t pz2;
 
-	SLONG ob_radius;
+	std::int32_t ob_radius;
 
 	PrimInfo *pi = get_prim_info(ob_prim);
 
@@ -540,13 +540,13 @@ SLONG OB_avoid(
 
 	#if 1
 
-	SLONG roomy1 = !MAV_inside(px1, ob_y + 0x40, pz1);
-	SLONG roomy2 = !MAV_inside(px2, ob_y + 0x40, pz2);
+	std::int32_t roomy1 = !MAV_inside(px1, ob_y + 0x40, pz1);
+	std::int32_t roomy2 = !MAV_inside(px2, ob_y + 0x40, pz2);
 	
 	#else
 
-	SLONG roomy1 = there_is_a_los(ob_x, ob_y + 0x40, ob_z, px1, ob_y + 0x40, pz1, LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG);
-	SLONG roomy2 = there_is_a_los(ob_x, ob_y + 0x40, ob_z, px2, ob_y + 0x40, pz2, LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG);
+	std::int32_t roomy1 = there_is_a_los(ob_x, ob_y + 0x40, ob_z, px1, ob_y + 0x40, pz1, LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG);
+	std::int32_t roomy2 = there_is_a_los(ob_x, ob_y + 0x40, ob_z, px2, ob_y + 0x40, pz2, LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG);
 
 	#endif
 
@@ -687,10 +687,10 @@ void load_general_prims()
 	load_prim_object(PRIM_OBJ_WEAPON_AK47_FLASH);
 }
 
-void set_face_type(SLONG prim,SLONG type)
+void set_face_type(std::int32_t prim,std::int32_t type)
 {
 	PrimObject *po;
-	SLONG	j;
+	std::int32_t	j;
 
 	//
 	// Shrink the selected prims.
@@ -714,8 +714,8 @@ void set_face_type(SLONG prim,SLONG type)
 
 void OB_load_needed_prims()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 #ifdef EDITOR
 	if (is_in_mission_editor) 
@@ -768,7 +768,7 @@ void OB_load_needed_prims()
 	// The specials.
 	//
 
-	SLONG page;
+	std::int32_t page;
 
 	for (i = 1; i < SPECIAL_NUM_TYPES; i++)
 	{
@@ -779,17 +779,17 @@ void OB_load_needed_prims()
 		//
 
 		{
-			SLONG min_x = +INFINITY;
-			SLONG min_y = +INFINITY;
-			SLONG min_z = +INFINITY;
+			std::int32_t min_x = +INFINITY;
+			std::int32_t min_y = +INFINITY;
+			std::int32_t min_z = +INFINITY;
 
-			SLONG max_x = -INFINITY;
-			SLONG max_y = -INFINITY;
-			SLONG max_z = -INFINITY;
+			std::int32_t max_x = -INFINITY;
+			std::int32_t max_y = -INFINITY;
+			std::int32_t max_z = -INFINITY;
 
-			SLONG mid_x;
-			SLONG mid_y;
-			SLONG mid_z;
+			std::int32_t mid_x;
+			std::int32_t mid_y;
+			std::int32_t mid_z;
 
 			PrimObject *po;
 
@@ -835,7 +835,7 @@ void OB_load_needed_prims()
 	load_prim_object(PRIM_OBJ_ITEM_KEY);
 	load_prim_object(117);
 
-	void re_center_prim(SLONG prim,SLONG dx,SLONG dy,SLONG dz);
+	void re_center_prim(std::int32_t prim,std::int32_t dx,std::int32_t dy,std::int32_t dz);
 
 	re_center_prim(27,128,0,-256);
 	re_center_prim(28,128,-72,-256);
@@ -849,14 +849,14 @@ void OB_load_needed_prims()
 
 void envmap_specials()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	//
 	// The specials.
 	//
 
-	SLONG page;
+	std::int32_t page;
 
 	for (i = 1; i < SPECIAL_NUM_TYPES; i++)
 	{
@@ -979,7 +979,7 @@ void envmap_specials()
 
 #ifndef TARGET_DC
 
-SLONG ob_allowed_to_be_walkable(SLONG prim)
+std::int32_t ob_allowed_to_be_walkable(std::int32_t prim)
 {
 	/*
 
@@ -988,7 +988,7 @@ SLONG ob_allowed_to_be_walkable(SLONG prim)
 	// CALLED- IT REMOVES ANY OF THAT FACES PRIM_FACES.
 	//
 
-	extern SLONG playing_level(const CBYTE* name);
+	extern std::int32_t playing_level(const char* name);
 
 	if (playing_level("Finale1.ucm"))
 	{
@@ -1006,7 +1006,7 @@ SLONG ob_allowed_to_be_walkable(SLONG prim)
 	*/
 
 
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 	if(save_psx)
 	{
 		if(prim==21 || prim==22||prim==24)
@@ -1020,23 +1020,23 @@ extern SLONG	save_psx;
 }
 void OB_add_walkable_faces()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	PrimObject *po;
 	PrimPoint  *pp;
 	PrimFace4  *f4;
 	OB_Info    *oi;
 
-	SLONG matrix[9];
+	std::int32_t matrix[9];
 
 	prim_objects[29].flag|=PRIM_FLAG_CONTAINS_WALKABLE_FACES;
 
@@ -1172,8 +1172,8 @@ void OB_add_walkable_faces()
 
 void OB_remove(OB_Info *oi)
 {
-	SLONG lo_map_x = oi->x >> PAP_SHIFT_LO;
-	SLONG lo_map_z = oi->z >> PAP_SHIFT_LO;
+	std::int32_t lo_map_x = oi->x >> PAP_SHIFT_LO;
+	std::int32_t lo_map_z = oi->z >> PAP_SHIFT_LO;
 
 	ASSERT(WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1));
 	ASSERT(WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1));
@@ -1197,7 +1197,7 @@ void OB_remove(OB_Info *oi)
 	// If this face has any prims already on the map- then remove them!
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	PrimFace4 *f4;
 	
@@ -1223,7 +1223,7 @@ void OB_remove(OB_Info *oi)
 
 
 
-SLONG special_object_flag(OB_Info *ob,SLONG flags)
+std::int32_t special_object_flag(OB_Info *ob,std::int32_t flags)
 {
 	if (flags & FIND_OB_TRIPWIRE)
 	{
@@ -1258,38 +1258,38 @@ SLONG special_object_flag(OB_Info *ob,SLONG flags)
 //
 // if prim_flags is >255 then its a special object flag found in a special way :)
 //
-SLONG OB_find_type(
-		SLONG  mid_x,
-		SLONG  mid_y,
-		SLONG  mid_z,
-		SLONG  max_range,
-		ULONG  prim_flags,
-		SLONG *ob_x,
-		SLONG *ob_y,
-		SLONG *ob_z,
-		SLONG *ob_yaw,
-		SLONG *ob_prim,
-		SLONG *ob_index)
+std::int32_t OB_find_type(
+		std::int32_t  mid_x,
+		std::int32_t  mid_y,
+		std::int32_t  mid_z,
+		std::int32_t  max_range,
+		std::uint32_t  prim_flags,
+		std::int32_t *ob_x,
+		std::int32_t *ob_y,
+		std::int32_t *ob_z,
+		std::int32_t *ob_yaw,
+		std::int32_t *ob_prim,
+		std::int32_t *ob_index)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG best_dist = INFINITY;
-	SLONG best_x;
-	SLONG best_y;
-	SLONG best_z;
-	SLONG best_yaw;
-	SLONG best_prim;
-	SLONG best_index;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t best_dist = INFINITY;
+	std::int32_t best_x;
+	std::int32_t best_y;
+	std::int32_t best_z;
+	std::int32_t best_yaw;
+	std::int32_t best_prim;
+	std::int32_t best_index;
 
 	OB_Info *oi;
 
@@ -1350,22 +1350,22 @@ SLONG OB_find_type(
 	}
 }
 
-OB_Info *OB_find_index(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_range, SLONG must_be_searchable)
+OB_Info *OB_find_index(std::int32_t  mid_x,std::int32_t  mid_y,std::int32_t  mid_z,std::int32_t  max_range, std::int32_t must_be_searchable)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG best_dist = INFINITY;
-//	SLONG	best_ob=0;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t best_dist = INFINITY;
+//	std::int32_t	best_ob=0;
 
 	OB_Info *oi,*best_ob=0;
 
@@ -1412,11 +1412,11 @@ OB_Info *OB_find_index(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_range, 
 	return(best_ob);
 }
 
-SLONG OB_find_min_y(SLONG prim)
+std::int32_t OB_find_min_y(std::int32_t prim)
 {
-	SLONG	sp,ep;
-	SLONG	c0;
-	SLONG	min_y=999999;
+	std::int32_t	sp,ep;
+	std::int32_t	c0;
+	std::int32_t	min_y=999999;
 
 	sp=prim_objects[prim].StartPoint;
 	ep=prim_objects[prim].EndPoint;
@@ -1443,12 +1443,12 @@ void OB_height_fiddle_de_dee()
 	// This isn't the flavour of the month with the artists anymore.
 	//
 
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<OB_ob_upto;c0++)
 	{
 		if(OB_ob[c0].flags&OB_FLAG_JUST_FLOOR)
 		{
-			SLONG	min_y,y;
+			std::int32_t	min_y,y;
 			if(PAP_2HI(OB_ob[c0].x>>8,OB_ob[c0].z>>8).Flags&PAP_FLAG_WATER)
 			{
 				y=PAP_2LO(OB_ob[c0].x>>10,OB_ob[c0].z>>10).water;
@@ -1464,8 +1464,8 @@ void OB_height_fiddle_de_dee()
 		else
 		if(OB_ob[c0].flags&OB_FLAG_ON_FLOOR) //|| (prim_objects[c0].flag & PRIM_FLAG_ON_FLOOR) )
 		{
-			SLONG	min_y,y;
-extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
+			std::int32_t	min_y,y;
+extern std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z);
 			y=find_alt_for_this_pos(OB_ob[c0].x,OB_ob[c0].z);
 			min_y=OB_find_min_y(c0);
 			OB_ob[c0].y=y-min_y;
@@ -1478,11 +1478,11 @@ extern SLONG find_alt_for_this_pos(SLONG  x,SLONG  z);
 
 
 void OB_damage(
-		SLONG  index,	// The index of this object,
-		SLONG  from_dx,
-		SLONG  from_dz,
-		SLONG  x,		// The position of this object!
-		SLONG  z,
+		std::int32_t  index,	// The index of this object,
+		std::int32_t  from_dx,
+		std::int32_t  from_dz,
+		std::int32_t  x,		// The position of this object!
+		std::int32_t  z,
 		Thing *p_aggressor)
 {
 	OB_Ob      *oo;
@@ -1514,11 +1514,11 @@ void OB_damage(
 			// Which way should the object lean?
 			//
 
-			SLONG lx = SIN(oo->yaw << 3) >> 10;
-			SLONG lz = COS(oo->yaw << 3) >> 10;
+			std::int32_t lx = SIN(oo->yaw << 3) >> 10;
+			std::int32_t lz = COS(oo->yaw << 3) >> 10;
 
-			SLONG dprod = lx*from_dx + lz*from_dz;
-			SLONG cprod = lx*from_dz - lz*from_dx;
+			std::int32_t dprod = lx*from_dx + lz*from_dz;
+			std::int32_t cprod = lx*from_dz - lz*from_dx;
 
 			oo->flags &= 0x3f;
 
@@ -1534,7 +1534,7 @@ void OB_damage(
 			// Crumple the object.
 			//
 
-			UBYTE crumple;
+			std::uint8_t crumple;
 			
 			crumple  = oo->flags >> 6;
 			crumple += 1;
@@ -1625,8 +1625,8 @@ void OB_damage(
 #ifndef TARGET_DC
 void OB_convert_dustbins_to_barrels()
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	OB_Info *oi;
 
@@ -1662,21 +1662,21 @@ void OB_convert_dustbins_to_barrels()
 
 #endif
 #endif
-SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z)
+std::int32_t OB_inside_prim(std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG mx1 = x - 0x180 >> 10;
-	SLONG mz1 = z - 0x180 >> 10;
-	SLONG mx2 = x + 0x180 >> 10;
-	SLONG mz2 = z + 0x180 >> 10;
+	std::int32_t mx1 = x - 0x180 >> 10;
+	std::int32_t mz1 = z - 0x180 >> 10;
+	std::int32_t mx2 = x + 0x180 >> 10;
+	std::int32_t mz2 = z + 0x180 >> 10;
 
 	OB_Info  *oi;
 	PrimInfo *pi;
@@ -1710,10 +1710,10 @@ SLONG OB_inside_prim(SLONG x, SLONG y, SLONG z)
 
 void OB_make_all_the_switches_be_at_the_proper_height()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
 	OB_Info *oi;
 
@@ -1733,10 +1733,10 @@ void OB_make_all_the_switches_be_at_the_proper_height()
 
 			if (oi->prim == PRIM_OBJ_SWITCH_OFF)
 			{
-				SLONG gx = oi->x + (SIN(oi->yaw) >> 10);
-				SLONG gz = oi->z + (COS(oi->yaw) >> 10);
+				std::int32_t gx = oi->x + (SIN(oi->yaw) >> 10);
+				std::int32_t gz = oi->z + (COS(oi->yaw) >> 10);
 
-				SLONG gy = PAP_calc_map_height_at(gx,gz);
+				std::int32_t gy = PAP_calc_map_height_at(gx,gz);
 
 				OB_ob[oi->index].y = gy + 0x80;
 			}
@@ -1756,7 +1756,7 @@ void OB_make_all_the_switches_be_at_the_proper_height()
 			// All these prims are locked to the map height.
 			//
 
-			static UBYTE prims_to_snap[] =
+			static std::uint8_t prims_to_snap[] =
 			{
 				1,
 				2,

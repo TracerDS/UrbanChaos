@@ -29,8 +29,8 @@
 
 //---------------------------------------------------------------
 
-extern CBYTE	*class_text[];
-extern CBYTE	*genus_text[][10];
+extern char	*class_text[];
+extern char	*genus_text[][10];
 
 //---------------------------------------------------------------
 
@@ -58,7 +58,7 @@ ThingTab::~ThingTab()
 
 void	ThingTab::DrawTabContent(void)
 {
-	SLONG			message_height,
+	std::int32_t			message_height,
 					message_width;
 	EdRect			message_rect;
 
@@ -114,7 +114,7 @@ void	ThingTab::DrawTabContent(void)
 
 //---------------------------------------------------------------
 
-void	ThingTab::UpdateTab(UBYTE update_level)
+void	ThingTab::UpdateTab(std::uint8_t update_level)
 {
 	if(update_level)
 	{
@@ -137,10 +137,10 @@ void	ThingTab::UpdateTab(UBYTE update_level)
 
 //---------------------------------------------------------------
 
-UWORD	ThingTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	ThingTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UBYTE		update	=	UPDATE_NONE;
-	ULONG		control_id	=	0;
+	std::uint8_t		update	=	UPDATE_NONE;
+	std::uint32_t		control_id	=	0;
 	MFPoint		local_point;
 
 
@@ -188,7 +188,7 @@ UWORD	ThingTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 void	ThingTab::HandleTab(MFPoint *current_point)
 {
-	UBYTE		update	=	UPDATE_NONE;
+	std::uint8_t		update	=	UPDATE_NONE;
 	static bool	cleanup	=	false;
 
 	
@@ -221,9 +221,9 @@ void	ThingTab::HandleTab(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-void	ThingTab::HandleControl(UWORD control_id)
+void	ThingTab::HandleControl(std::uint16_t control_id)
 {
-	SLONG		control	=	control_id&0xff;
+	std::int32_t		control	=	control_id&0xff;
 
 
 	if(control)
@@ -251,7 +251,7 @@ void	ThingTab::HandleControl(UWORD control_id)
 
 //---------------------------------------------------------------
 
-void	ThingTab::HandleClassControl(UWORD control_id)
+void	ThingTab::HandleClassControl(std::uint16_t control_id)
 {
 	EditComList		*the_list;
 
@@ -292,7 +292,7 @@ void	ThingTab::HandleClassControl(UWORD control_id)
 						the_list	=	SelectCommandList();
 						if(the_list)
 						{
-							map_things[CurrentThing].Data[0]	=	(SLONG)(the_list-edit_comlists);
+							map_things[CurrentThing].Data[0]	=	(std::int32_t)(the_list-edit_comlists);
 						}
 						break;
 					case	CLASS_SWITCH:
@@ -311,7 +311,7 @@ void	ThingTab::HandleClassControl(UWORD control_id)
 						the_list	=	SelectCommandList();
 						if(the_list)
 						{
-							map_things[CurrentThing].Data[0]	=	(SLONG)(the_list-edit_comlists);
+							map_things[CurrentThing].Data[0]	=	(std::int32_t)(the_list-edit_comlists);
 						}
 						break;
 					case	CLASS_SPECIAL:
@@ -327,7 +327,7 @@ void	ThingTab::HandleClassControl(UWORD control_id)
 
 //---------------------------------------------------------------
 
-void	ThingTab::HandleBuildingControl(UWORD control_id)
+void	ThingTab::HandleBuildingControl(std::uint16_t control_id)
 {
 	MapThing		*t_mthing;
 
@@ -347,7 +347,7 @@ void	ThingTab::HandleBuildingControl(UWORD control_id)
 				break;
 			case	3:
 				TabMode		=	THING_MODE_SELECT_SWITCH;
-				DataPtr		=	(SLONG*)&map_things[CurrentThing].EditorData;
+				DataPtr		=	(std::int32_t*)&map_things[CurrentThing].EditorData;
 				break;
 		}
 	}
@@ -358,9 +358,9 @@ void	ThingTab::HandleBuildingControl(UWORD control_id)
 EditComList	*ThingTab::SelectCommandList(void)
 {
 	bool			exit		=	false;
-	UBYTE			update		=	2;
-	UWORD			select_pos;
-	SLONG			c0;
+	std::uint8_t			update		=	2;
+	std::uint16_t			select_pos;
+	std::int32_t			c0;
 	ControlSet		select_set;
 	EditComList		*current_list,
 					*hilited_list,
@@ -553,7 +553,7 @@ void	ThingTab::UpdateTabInfo(void)
 
 void	ThingTab::UpdateClassInfo(void)
 {
-	CBYTE			text[64];
+	char			text[64];
 	MapThing		*t_mthing;
 
 
@@ -668,7 +668,7 @@ void	ThingTab::UpdateClassInfo(void)
 
 void	ThingTab::UpdateCheckBoxes(void)
 {
-	SLONG		c0;
+	std::int32_t		c0;
 
 
 	for(c0=0;c0<11;c0++)

@@ -10,11 +10,11 @@
 #include	"DDLib.h"
 
 
-UBYTE					CurrentPalette[256*3],
+std::uint8_t					CurrentPalette[256*3],
 						WorkScreenDepth,
 						*WorkScreen,
 						*WorkWindow;
-SLONG					WorkScreenHeight,
+std::int32_t					WorkScreenHeight,
 						WorkScreenWidth,
 						WorkScreenPixelWidth,
 						WorkWindowHeight,
@@ -27,7 +27,7 @@ MFRect					WorkWindowRect;
 
 //---------------------------------------------------------------
 
-void	ShowWorkScreen(ULONG flags)
+void	ShowWorkScreen(std::uint32_t flags)
 {
 	flags	=	flags;
 
@@ -36,7 +36,7 @@ void	ShowWorkScreen(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	*LockWorkScreen(void)
+void	*LockWorkScreen()
 {
 	DDSURFACEDESC2	dd_sd;
 	HRESULT			result;
@@ -57,7 +57,7 @@ void	*LockWorkScreen(void)
 				WorkScreenPixelWidth	=	dd_sd.dwWidth;
 				WorkScreenWidth			=	dd_sd.lPitch;
 				WorkScreenHeight		=	dd_sd.dwHeight;
-				WorkScreen				=	(UBYTE*)dd_sd.lpSurface;
+				WorkScreen				=	(std::uint8_t*)dd_sd.lpSurface;
 				SetWorkWindow();
 				return	dd_sd.lpSurface;
 			case	DDERR_SURFACELOST:
@@ -70,7 +70,7 @@ void	*LockWorkScreen(void)
 
 //---------------------------------------------------------------
 
-void	UnlockWorkScreen(void)
+void	UnlockWorkScreen()
 {
 	HRESULT			result;
 
@@ -88,7 +88,7 @@ void	UnlockWorkScreen(void)
 
 //---------------------------------------------------------------
 
-void	ClearWorkScreen(UBYTE colour)
+void	ClearWorkScreen(std::uint8_t colour)
 {
 	DDBLTFX			dd_bltfx;
 	HRESULT			result;
@@ -114,9 +114,9 @@ void	ClearWorkScreen(UBYTE colour)
 //---------------------------------------------------------------
 
 
-void	ShowWorkWindow(ULONG flags)
+void	ShowWorkWindow(std::uint32_t flags)
 {
-	SLONG			x_scale,
+	std::int32_t			x_scale,
 					y_scale;
 	HRESULT			result;
 	RECT			ww_dest_rect,
@@ -168,7 +168,7 @@ void	ShowWorkWindow(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	SetWorkWindowBounds(SLONG left, SLONG top, SLONG width, SLONG height)
+void	SetWorkWindowBounds(std::int32_t left, std::int32_t top, std::int32_t width, std::int32_t height)
 {
 	if((left+width)>=WorkScreenPixelWidth)
 	{
@@ -213,7 +213,7 @@ MFPoint	*GlobalToLocal(MFPoint *the_point)
 
 //---------------------------------------------------------------
 
-void	GlobalXYToLocal(SLONG *x,SLONG *y)
+void	GlobalXYToLocal(std::int32_t *x,std::int32_t *y)
 {
 	*x	-=	WorkWindowRect.Left;
 	*y	-=	WorkWindowRect.Top;
@@ -221,9 +221,9 @@ void	GlobalXYToLocal(SLONG *x,SLONG *y)
 
 //---------------------------------------------------------------
 
-void	SetPalette(UBYTE *the_palette)
+void	SetPalette(std::uint8_t *the_palette)
 {
-	ULONG			c0;
+	std::uint32_t			c0;
 
 
 	for(c0=0;c0<256;c0++)
@@ -236,9 +236,9 @@ void	SetPalette(UBYTE *the_palette)
 
 //---------------------------------------------------------------
 
-SLONG	FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+std::int32_t	FindColour(std::uint8_t *the_palette,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	SLONG	found	=	-1;
+	std::int32_t	found	=	-1;
 
 	if(r>255)
 		r=255;
@@ -252,7 +252,7 @@ SLONG	FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 		case	1:
 		{
 			
-			SLONG	dist	=	0x7fffffff,
+			std::int32_t	dist	=	0x7fffffff,
 					c0,
 					dist2,
 					tr,

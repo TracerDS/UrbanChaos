@@ -71,12 +71,12 @@ void MF_ambient(
 		float     light_dx,	// The light vector does not need to
 		float     light_dy,	// be normalised...
 		float     light_dz,
-		SLONG     light_r,
-		SLONG     light_g,
-		SLONG     light_b,
-		SLONG     amb_r,
-		SLONG     amb_g,
-		SLONG     amb_b);
+		std::int32_t     light_r,
+		std::int32_t     light_g,
+		std::int32_t     light_b,
+		std::int32_t     amb_r,
+		std::int32_t     amb_g,
+		std::int32_t     amb_b);
 
 
 
@@ -117,7 +117,7 @@ void MF_specular_spotlight(
 // Adds all the faces of the mesh normally...
 // 
 
-void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL);
+void MF_add_triangles_normal(IMP_Mesh *im, std::uint32_t draw = OS_DRAW_NORMAL);
 
 
 //
@@ -125,7 +125,7 @@ void MF_add_triangles_normal(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL);
 // value for all the points.
 // 
 
-void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL, ULONG colour = 0xffffff);
+void MF_add_triangles_normal_colour(IMP_Mesh *im, std::uint32_t draw = OS_DRAW_NORMAL, std::uint32_t colour = 0xffffff);
 
 
 //
@@ -133,8 +133,8 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, ULONG draw = OS_DRAW_NORMAL, U
 // sverts.  Draws using the given texture page.
 //
 
-void MF_add_triangles_light           (IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
-void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_light           (IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
 
 
 //
@@ -142,29 +142,29 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw 
 // the sverts.  The texture (ot) should be a specular spotlight texture.
 //
 
-void MF_add_triangles_specular           (IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
-void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_specular           (IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
 
 
 //
 // Draws the specular shadowed using the diffuse spotlight.
 //
 
-void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, ULONG draw = OS_DRAW_ADD | OS_DRAW_CLAMP | OS_DRAW_TEX_MUL);
+void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP | OS_DRAW_TEX_MUL);
 
 
 //
 // Draws the visible edges of the mesh in wireframe.
 //
 
-void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, ULONG colour, float width = 0.002F, ULONG draw = OS_DRAW_ADD | OS_DRAW_NOZWRITE);
+void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, std::uint32_t colour, float width = 0.002F, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_NOZWRITE);
 
 
 //
 // Bumpmapping with single pass hardware... pass should be 0 or 1.
 //
 
-void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, SLONG pass, ULONG draw = OS_DRAW_NORMAL);
+void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, std::int32_t pass, std::uint32_t draw = OS_DRAW_NORMAL);
 
 //
 // Adds the textures for the mesh. If the material has a bumpmap, then the texture is drawn

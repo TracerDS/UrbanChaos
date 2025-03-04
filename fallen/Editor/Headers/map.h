@@ -20,21 +20,21 @@
 
 struct	DepthStrip
 {
-	UWORD	MapThingIndex;
-//	UWORD	Depth[EDIT_MAP_DEPTH];
-	UWORD	ColVectHead;
-//	UWORD	Dummy1;
-	UWORD	Texture;
-	SWORD	Bright;
-	UBYTE	Flags;
-	SBYTE	Y;
-	SWORD	Walkable;
+	std::uint16_t	MapThingIndex;
+//	std::uint16_t	Depth[EDIT_MAP_DEPTH];
+	std::uint16_t	ColVectHead;
+//	std::uint16_t	Dummy1;
+	std::uint16_t	Texture;
+	std::int16_t	Bright;
+	std::uint8_t	Flags;
+	std::int8_t	Y;
+	std::int16_t	Walkable;
 };
 
 //data
 extern struct	DepthStrip	edit_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];  //2meg
-extern SBYTE	edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
-extern UWORD	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
+extern std::int8_t	edit_map_roof_height[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
+extern std::uint16_t	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
 
 
 //code

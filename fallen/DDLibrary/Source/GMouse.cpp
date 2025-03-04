@@ -8,16 +8,16 @@
 
 
 
-volatile UBYTE		MouseMoved		=	0,
+volatile std::uint8_t		MouseMoved		=	0,
 					LeftButton		=	0,
 					MiddleButton	=	0,
 					RightButton		=	0;
-volatile SLONG		MouseX,
+volatile std::int32_t		MouseX,
 					MouseY;
 
-volatile SLONG		MouseDX,MouseDY;
+volatile std::int32_t		MouseDX,MouseDY;
 
-SLONG	OldMouseX,OldMouseY;
+std::int32_t	OldMouseX,OldMouseY;
 					
 volatile LastMouse	LeftMouse		=	{	0,0,0,{	0,0	}	},
 					MiddleMouse		=	{	0,0,0,{	0,0	}	},
@@ -98,7 +98,7 @@ LRESULT CALLBACK MouseProc(int code, WPARAM wParam, LPARAM lParam)
 }
 
 
-void	RecenterMouse(void)
+void	RecenterMouse()
 {
 	RECT	client_rect;
 	POINT	p;

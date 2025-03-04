@@ -8,49 +8,49 @@
 
 struct	ThingDef
 {
-	UBYTE		Version;
+	std::uint8_t		Version;
 
-	SLONG		Class,
+	std::int32_t		Class,
 				Genus,
 				X,Y,Z;
-	UWORD		CommandRef;
-	SLONG		Data[10];
-	UWORD		EdThingRef;
+	std::uint16_t		CommandRef;
+	std::int32_t		Data[10];
+	std::uint16_t		EdThingRef;
 };
 
 //---------------------------------------------------------------
 
 struct	WaypointDef
 {
-	UBYTE		Version;
+	std::uint8_t		Version;
 
-	UWORD		Next,
+	std::uint16_t		Next,
 				Prev;
-	SLONG		X,Y,Z;
-	UWORD		EdWaypointRef;
+	std::int32_t		X,Y,Z;
+	std::uint16_t		EdWaypointRef;
 };
 
 //---------------------------------------------------------------
 
 struct	ConditionListDef
 {
-	UBYTE		Version;
+	std::uint8_t		Version;
 
-	CBYTE		ListName[32];
-	ULONG		ConditionCount;
-	UWORD		EdConListRef;
+	char		ListName[32];
+	std::uint32_t		ConditionCount;
+	std::uint16_t		EdConListRef;
 };
 
 //---------------------------------------------------------------
 
 struct	ConditionDef
 {
-	UBYTE		Version;
+	std::uint8_t		Version;
 
-	UWORD		Flags,
+	std::uint16_t		Flags,
 				ConditionType,
 				GroupRef;
-	SLONG		Data1,
+	std::int32_t		Data1,
 				Data2,
 				Data3;
 };
@@ -59,23 +59,23 @@ struct	ConditionDef
 
 struct	CommandListDef
 {
-	UBYTE		Version;
+	std::uint8_t		Version;
 
-	CBYTE		ListName[32];
-	ULONG		CommandCount;
-	UWORD		EdComListRef;
+	char		ListName[32];
+	std::uint32_t		CommandCount;
+	std::uint16_t		EdComListRef;
 };
 
 //---------------------------------------------------------------
 
 struct	CommandDef
 {
-	UBYTE		Version;
+	std::uint8_t		Version;
 
-	UWORD		Flags,
+	std::uint16_t		Flags,
 				CommandType,
 				GroupRef;
-	SLONG		Data1,
+	std::int32_t		Data1,
 				Data2,
 				Data3;
 };
@@ -85,27 +85,27 @@ struct	CommandDef
 
 // VERSION 0
 
-//	UBYTE		Version
-//	ULONG		ThingCount
+//	std::uint8_t		Version
+//	std::uint32_t		ThingCount
 //	ThingDef	ThingDefs * ThingCount
 
 
 // VERSION 1
 
-//	UBYTE		Version
-//	ULONG		ThingCount
+//	std::uint8_t		Version
+//	std::uint32_t		ThingCount
 //	ThingDef	ThingDefs * ThingCount
-//	ULONG		WaypointCount
+//	std::uint32_t		WaypointCount
 //	WaypointDef	WaypointDefs * WaypointCount
 
 // VERSION 2
 
-//	UBYTE		Version
-//	ULONG		ThingCount
+//	std::uint8_t		Version
+//	std::uint32_t		ThingCount
 //	ThingDef	ThingDefs * ThingCount
-//	ULONG		WaypointCount
+//	std::uint32_t		WaypointCount
 //	WaypointDef	WaypointDefs * WaypointCount
-//	ULONG		ConditionListCount
+//	std::uint32_t		ConditionListCount
 //	(
 //	ConditionListDef
 //	ConditionDef * ConditionListDef.ConditionCount
@@ -113,17 +113,17 @@ struct	CommandDef
 
 // VERSION 3
 
-//	UBYTE		Version
-//	ULONG		ThingCount
+//	std::uint8_t		Version
+//	std::uint32_t		ThingCount
 //	ThingDef	ThingDefs * ThingCount
-//	ULONG		WaypointCount
+//	std::uint32_t		WaypointCount
 //	WaypointDef	WaypointDefs * WaypointCount
-//	ULONG		ConditionListCount
+//	std::uint32_t		ConditionListCount
 //	(
 //	ConditionListDef
 //	ConditionDef * ConditionListDef.ConditionCount
 //	)	*	ConditionListCount
-//	ULONG		CommandListCount
+//	std::uint32_t		CommandListCount
 //	(
 //	CommandListDef
 //	ConmmandDef * CommandListDef.CommandCount
@@ -131,7 +131,7 @@ struct	CommandDef
 
 //---------------------------------------------------------------
 
-bool	load_level(ULONG level);
+bool	load_level(std::uint32_t level);
 
 //---------------------------------------------------------------
 

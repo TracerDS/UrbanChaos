@@ -6,9 +6,9 @@ class HmTab : public ModeTab
 {
 	private:
 
-		void draw_prim(UWORD prim);
-		void draw_grid(UWORD prim);
-		void draw_cog (UWORD prim);
+		void draw_prim(std::uint16_t prim);
+		void draw_grid(std::uint16_t prim);
+		void draw_cog (std::uint16_t prim);
 
 	public:
 
@@ -21,11 +21,11 @@ class HmTab : public ModeTab
 
 	    void	DrawTabContent          ();
 		void	HandleTab               (MFPoint *current_point);
-		UWORD	HandleTabClick          (UBYTE flags, MFPoint *clicked_point);
-		void	HandleControl           (UWORD control_id);
-		void	DrawModuleContent       (SLONG x,SLONG y,SLONG w,SLONG h);
-		SLONG	HandleModuleContentClick(MFPoint *clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h);
-		UBYTE   RedrawModuleContent;
+		std::uint16_t	HandleTabClick          (std::uint8_t flags, MFPoint *clicked_point);
+		void	HandleControl           (std::uint16_t control_id);
+		void	DrawModuleContent       (std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::int32_t	HandleModuleContentClick(MFPoint *clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h);
+		std::uint8_t   RedrawModuleContent;
 
 		//
 		// Extra stuff...

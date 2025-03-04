@@ -14,8 +14,8 @@
 void	WinBarIcon::DrawIcons()
 {
 	EdRect	box_it;
-	SLONG	c0=0;
-	SLONG	x;
+	std::int32_t	c0=0;
+	std::int32_t	x;
 
 	if(WindowIcons)
 	{
@@ -44,11 +44,11 @@ void	WinBarIcon::DrawIcons()
 		}
 	}
 }
-void	WinBarIcon::HandleIconClick(UBYTE flags,MFPoint *clicked_point)
+void	WinBarIcon::HandleIconClick(std::uint8_t flags,MFPoint *clicked_point)
 {
 	EdRect	box_it;
-	SLONG	c0=0;
-	SLONG	x;
+	std::int32_t	c0=0;
+	std::int32_t	x;
 
 	if(WindowIcons)
 	{

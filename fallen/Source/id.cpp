@@ -27,10 +27,10 @@
 
 typedef struct
 {
-	UWORD x;		// 8-bits per mapsquare.
-	UWORD z;
-	UWORD y;
-	UWORD index;	// A special field. It is NOT the index of the point, but a place where
+	std::uint16_t x;		// 8-bits per mapsquare.
+	std::uint16_t z;
+	std::uint16_t y;
+	std::uint16_t index;	// A special field. It is NOT the index of the point, but a place where
 					// the engine can store a value (the index of the transformed point.)
 
 } ID_Point;
@@ -38,7 +38,7 @@ typedef struct
 #define ID_MAX_POINTS 1024
 
 ID_Point ID_point[ID_MAX_POINTS];
-SLONG ID_point_upto;
+std::int32_t ID_point_upto;
 
 //
 // Faces.
@@ -58,14 +58,14 @@ SLONG ID_point_upto;
 
 typedef struct
 {
-	UWORD point[4];	// Each point is either an index into the point array,
+	std::uint16_t point[4];	// Each point is either an index into the point array,
 					// If the corresponding flag is set, it is and (x,z)
 					// coordinate of the floor point. x is in the LBS, z is
 					// in the MSB.
-	UWORD texture;
-	UWORD flag;
-	UWORD next;
-	UWORD shit;
+	std::uint16_t texture;
+	std::uint16_t flag;
+	std::uint16_t next;
+	std::uint16_t shit;
 
 } ID_Face;
 
@@ -76,7 +76,7 @@ typedef struct
 #endif
 
 ID_Face ID_face[ID_MAX_FACES];
-SLONG ID_face_upto;
+std::int32_t ID_face_upto;
 
 
 //
@@ -106,10 +106,10 @@ SLONG ID_face_upto;
 
 typedef struct
 {
-	UWORD flag;
-	UBYTE room;		// The unique room number to which this floorsquare belongs.
-	UBYTE texid;
-	UWORD next;		// The index into the face array of the first face in the linked list.
+	std::uint16_t flag;
+	std::uint8_t room;		// The unique room number to which this floorsquare belongs.
+	std::uint8_t texid;
+	std::uint16_t next;		// The index into the face array of the first face in the linked list.
 
 } ID_Square;
 
@@ -119,10 +119,10 @@ ID_Square ID_floor[ID_PLAN_SIZE][ID_PLAN_SIZE];
 // The bounding box of the floorplan.
 //
 
-SLONG ID_floor_x1;
-SLONG ID_floor_z1;
-SLONG ID_floor_x2;
-SLONG ID_floor_z2;
+std::int32_t ID_floor_x1;
+std::int32_t ID_floor_z1;
+std::int32_t ID_floor_x2;
+std::int32_t ID_floor_z2;
 
 //
 // How to access the floor squares indirectly, so that
@@ -137,10 +137,10 @@ SLONG ID_floor_z2;
 #define ID_FLOOR(x,z) (&ID_floor[(x) - ID_floor_x1][(z) - ID_floor_z1])
 #endif
 
-ID_Square *ID_floor_slow(SLONG x, SLONG z)
+ID_Square *ID_floor_slow(std::int32_t x, std::int32_t z)
 {
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
 	ASSERT(WITHIN(x, ID_floor_x1, ID_floor_x2));
 	ASSERT(WITHIN(z, ID_floor_z1, ID_floor_z2));
@@ -158,7 +158,7 @@ ID_Square *ID_floor_slow(SLONG x, SLONG z)
 // The number of inside squares... the area of the building.
 //
 
-SLONG ID_floor_area;
+std::int32_t ID_floor_area;
 
 //
 // The walls
@@ -169,26 +169,26 @@ SLONG ID_floor_area;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE door[3];		// For inside walls only. 255 => NULL
+	std::uint8_t type;
+	std::uint8_t door[3];		// For inside walls only. 255 => NULL
 
-	UBYTE x1, z1;
-	UBYTE x2, z2;
-	SLONG id;
-	SLONG num_blocks;
+	std::uint8_t x1, z1;
+	std::uint8_t x2, z2;
+	std::int32_t id;
+	std::int32_t num_blocks;
 	
 } ID_Wall;
 
 #define ID_MAX_WALLS 64
 
 ID_Wall ID_wall[ID_MAX_WALLS];
-SLONG ID_wall_upto;
+std::int32_t ID_wall_upto;
 
 //
 // The 'get_type' function.
 //
 
-SLONG (*ID_get_type)(SLONG id, SLONG block);
+std::int32_t (*ID_get_type)(std::int32_t id, std::int32_t block);
 
 //
 // For working out the inside squares.
@@ -199,23 +199,23 @@ SLONG (*ID_get_type)(SLONG id, SLONG block);
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE next;
-	UWORD pos;	// 8-bit fixed point.
+	std::uint8_t type;
+	std::uint8_t next;
+	std::uint16_t pos;	// 8-bit fixed point.
 
 } ID_Link;
 
 #define ID_MAX_LINKS 128
 
 ID_Link ID_link[ID_MAX_LINKS];
-SLONG ID_link_upto;
+std::int32_t ID_link_upto;
 
 //
 // One linked list per z-row of floor square.
 // 0 is the NULL index
 //
 
-UBYTE ID_edge[ID_PLAN_SIZE];
+std::uint8_t ID_edge[ID_PLAN_SIZE];
 
 //
 // How to access the EDGE list. It is relative to
@@ -228,9 +228,9 @@ UBYTE ID_edge[ID_PLAN_SIZE];
 #define ID_EDGE(z) (ID_edge[(z) - ID_floor_z1])
 #endif
 
-void ID_check_edge(SLONG z)
+void ID_check_edge(std::int32_t z)
 {
-	SLONG sz;
+	std::int32_t sz;
 
 	ASSERT(WITHIN(z, ID_floor_z1, ID_floor_z2));
 
@@ -267,32 +267,32 @@ void ID_check_edge(SLONG z)
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE flag;
+	std::uint8_t type;
+	std::uint8_t flag;
 
-	UWORD cam_x;
-	UWORD cam_z;
+	std::uint16_t cam_x;
+	std::uint16_t cam_z;
 
-	UBYTE num_doors;	// The number of internal doors this room has.
-	UBYTE flat;			// Which flat this room is part of.
+	std::uint8_t num_doors;	// The number of internal doors this room has.
+	std::uint8_t flat;			// Which flat this room is part of.
 
 	//
 	// The bounding box of the room. The are mapsquares
 	// not points so it is inclusive.
 	// 
 
-	UBYTE x1;
-	UBYTE z1;
-	UBYTE x2;
-	UBYTE z2;
+	std::uint8_t x1;
+	std::uint8_t z1;
+	std::uint8_t x2;
+	std::uint8_t z2;
 
 } ID_Room;
 
 #define ID_MAX_ROOMS 32
 
 ID_Room ID_room[ID_MAX_ROOMS];	// Room 0 is unused, it is the NULL room.
-SLONG ID_room_upto;
-SLONG ID_flat_upto;
+std::int32_t ID_room_upto;
+std::int32_t ID_flat_upto;
 
 //
 // The floor textures for each room type.
@@ -300,20 +300,20 @@ SLONG ID_flat_upto;
 
 #define ID_MAX_FLOOR_TEXTURES ID_ROOM_TYPE_NUMBER
 
-UWORD ID_floor_texture[ID_MAX_FLOOR_TEXTURES];
+std::uint16_t ID_floor_texture[ID_MAX_FLOOR_TEXTURES];
 
 //
 // The stairs...
 //
 
 ID_Stair *ID_stair;
-SLONG ID_num_stairs;
+std::int32_t ID_num_stairs;
 
 //
 // The current type of storey 
 //
 
-SLONG ID_storey_type;
+std::int32_t ID_storey_type;
 
 
 //
@@ -322,17 +322,17 @@ SLONG ID_storey_type;
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE prim;
-	UBYTE yaw;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t prim;
+	std::uint8_t yaw;
 
 } ID_Furn;
 
 #define ID_MAX_FURN 128
 
 ID_Furn ID_furn[ID_MAX_FURN];
-SLONG ID_furn_upto;
+std::int32_t ID_furn_upto;
 
 
 
@@ -409,7 +409,7 @@ ID_Texture ID_texture[ID_MAX_TEXTURES] =
 };
 
 //
-// The texture UWORD is a packed (baseu, basev, poly_number)
+// The texture std::uint16_t is a packed (baseu, basev, poly_number)
 // 
 
 #define ID_GET_TEXTURE_UWORD(baseu, basev, poly_number) (((baseu) << 12) | ((basev) << 8) | (poly_number))
@@ -417,12 +417,12 @@ ID_Texture ID_texture[ID_MAX_TEXTURES] =
 #define ID_GET_TEXTURE_BASEV(texture)                   (((texture) >>  8) & 0x0f)
 #define ID_GET_TEXTURE_POLYNUMBER(texture)				(((texture) >> 	0) & 0xff)
 
-UWORD ID_get_texture(SLONG room_type, SLONG texture_type, SLONG poly_number)
+std::uint16_t ID_get_texture(std::int32_t room_type, std::int32_t texture_type, std::int32_t poly_number)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
-	SLONG base_u;
-	SLONG base_v;
+	std::int32_t base_u;
+	std::int32_t base_v;
 
 	switch(room_type)
 	{
@@ -480,8 +480,8 @@ UWORD ID_get_texture(SLONG room_type, SLONG texture_type, SLONG poly_number)
 // Returns the page.
 //
 
-SLONG ID_get_texture_uvs(
-		UWORD texture,
+std::int32_t ID_get_texture_uvs(
+		std::uint16_t texture,
 		float *u0, float *v0,
 		float *u1, float *v1,
 		float *u2, float *v2,
@@ -490,10 +490,10 @@ SLONG ID_get_texture_uvs(
 	float u;
 	float v;
 
-	SLONG base_u;
-	SLONG base_v;
-	SLONG poly_number;
-	SLONG page = 0;
+	std::int32_t base_u;
+	std::int32_t base_v;
+	std::int32_t poly_number;
+	std::int32_t page = 0;
 #ifndef	PSX
 
 	ID_Texture *it;
@@ -531,21 +531,21 @@ SLONG ID_get_texture_uvs(
 // Random numbers for the ID module.
 //
 
-ULONG ID_rand_seed;
+std::uint32_t ID_rand_seed;
 
-inline void ID_srand(ULONG seed)
+inline void ID_srand(std::uint32_t seed)
 {
 	ID_rand_seed = seed;
 }
 
-inline ULONG ID_grand()
+inline std::uint32_t ID_grand()
 {
 	return ID_rand_seed;
 }
 
-inline UWORD ID_rand()
+inline std::uint16_t ID_rand()
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	ID_rand_seed *= 328573;
 	ID_rand_seed += 123456789;
@@ -562,10 +562,10 @@ inline UWORD ID_rand()
 // will fail if the point could be used as packed (x,z).
 //
 
-UWORD ID_get_point_index(UWORD x, UWORD y, UWORD z)
+std::uint16_t ID_get_point_index(std::uint16_t x, std::uint16_t y, std::uint16_t z)
 {
-	SLONG i;
-	UWORD ans;
+	std::int32_t i;
+	std::uint16_t ans;
 
 	//
 	// Make sure that this point could not have been
@@ -610,20 +610,20 @@ UWORD ID_get_point_index(UWORD x, UWORD y, UWORD z)
 //
 
 void ID_add_face_to_square(
-		SLONG mx,
-		SLONG mz,
-		UWORD x[4],
-		UWORD y[4],
-		UWORD z[4],
-		UWORD texture,
-		UBYTE quad)
+		std::int32_t mx,
+		std::int32_t mz,
+		std::uint16_t x[4],
+		std::uint16_t y[4],
+		std::uint16_t z[4],
+		std::uint16_t texture,
+		std::uint8_t quad)
 {
-	SLONG i;
-	SLONG j;
-	SLONG num_points;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t num_points;
 
-	UWORD point[4];
-	UWORD flag;
+	std::uint16_t point[4];
+	std::uint16_t flag;
 
 	ID_Square *is;
 
@@ -717,10 +717,10 @@ void ID_add_face_to_square(
 
 void ID_clear_floorplan()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	//
 	// Mark the whole floor as outside.
@@ -770,7 +770,7 @@ void ID_clear_floorplan()
 	}
 }
 
-void ID_set_outline(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG id, SLONG num_blocks)
+void ID_set_outline(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t id, std::int32_t num_blocks)
 {
 	ASSERT(WITHIN(ID_wall_upto, 0, ID_MAX_WALLS - 1));
 
@@ -811,7 +811,7 @@ void ID_set_outline(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG id, SLONG num_
 	if (z2 > ID_floor_z2) {ID_floor_z2 = z2;}
 }
 
-void ID_set_get_type_func(SLONG (*get_type)(SLONG id, SLONG block))
+void ID_set_get_type_func(std::int32_t (*get_type)(std::int32_t id, std::int32_t block))
 {
 	ID_get_type = get_type;
 }
@@ -823,11 +823,11 @@ void ID_set_get_type_func(SLONG (*get_type)(SLONG id, SLONG block))
 //
 
 
-extern UWORD next_col_vect;
-extern UWORD next_col_vect_link;
+extern std::uint16_t next_col_vect;
+extern std::uint16_t next_col_vect_link;
 
-//void insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim_type,UBYTE prim_extra,SWORD face);
-void remove_collision_vect(UWORD vect);
+//void insert_collision_vect(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::uint8_t prim_type,std::uint8_t prim_extra,std::int16_t face);
+void remove_collision_vect(std::uint16_t vect);
 
 
 //
@@ -837,25 +837,25 @@ void remove_collision_vect(UWORD vect);
 // Removes collision vectros for the walls.
 //
 
-SLONG ID_colvect_old_next_col_vect;
-SLONG ID_colvect_old_next_col_vect_link;
-SLONG ID_colvect_stuff_valid;
+std::int32_t ID_colvect_old_next_col_vect;
+std::int32_t ID_colvect_old_next_col_vect_link;
+std::int32_t ID_colvect_stuff_valid;
 
 void ID_wall_colvects_insert()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 	
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG changed;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t changed;
 
-	SLONG doorway_x;
-	SLONG doorway_z;
+	std::int32_t doorway_x;
+	std::int32_t doorway_z;
 
-	UBYTE wall_height_inside;
-	UBYTE wall_height_outside;
+	std::uint8_t wall_height_inside;
+	std::uint8_t wall_height_outside;
 
 	ID_Wall *iw;
 
@@ -863,12 +863,12 @@ void ID_wall_colvects_insert()
 
 	struct
 	{
-		SLONG x;
-		SLONG z;
-		SLONG dist;
+		std::int32_t x;
+		std::int32_t z;
+		std::int32_t dist;
 
 	}     point[MAX_POINTS];
-	SLONG point_upto;
+	std::int32_t point_upto;
 
 	//
 	// Remember the end of the col_vect and col_vect_link arrays for
@@ -1002,7 +1002,7 @@ void ID_wall_colvects_insert()
 
 void ID_wall_colvects_remove()
 {
-	SLONG i;
+	std::int32_t i;
 
 	ASSERT(ID_colvect_stuff_valid);
 
@@ -1027,35 +1027,35 @@ void ID_wall_colvects_remove()
 // is such that the room lies of the right of the wall.
 //
 
-SLONG ID_is_wall_on_room_perim(
-		SLONG wall,
-		SLONG room,
-		SLONG *x1,
-		SLONG *z1,
-		SLONG *x2,
-		SLONG *z2)
+std::int32_t ID_is_wall_on_room_perim(
+		std::int32_t wall,
+		std::int32_t room,
+		std::int32_t *x1,
+		std::int32_t *z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG wx1;
-	SLONG wz1;
-	SLONG wx2;
-	SLONG wz2;
+	std::int32_t wx1;
+	std::int32_t wz1;
+	std::int32_t wx2;
+	std::int32_t wz2;
 
-	SLONG length;
+	std::int32_t length;
 
-	SLONG found_start;
-	SLONG flip_ends;
+	std::int32_t found_start;
+	std::int32_t flip_ends;
 
 	ID_Wall *iw;
 
@@ -1256,25 +1256,25 @@ SLONG ID_is_wall_on_room_perim(
 //
 
 void ID_create_mapsquare_faces(
-		UBYTE map_x,
-		UBYTE map_z,
-		UWORD cpx[4],
-		UWORD cpz[4],
-		SLONG room_type,
-		SLONG face_type,
-		SLONG generate_top_wall_quad)
+		std::uint8_t map_x,
+		std::uint8_t map_z,
+		std::uint16_t cpx[4],
+		std::uint16_t cpz[4],
+		std::int32_t room_type,
+		std::int32_t face_type,
+		std::int32_t generate_top_wall_quad)
 {
-	SLONG i;
+	std::int32_t i;
 
-	UWORD x[4];
-	UWORD y[4];
-	UWORD z[4];
+	std::uint16_t x[4];
+	std::uint16_t y[4];
+	std::uint16_t z[4];
 
-	UWORD texture;
+	std::uint16_t texture;
 
-	SLONG tu;
-	SLONG tv;
-	SLONG page;
+	std::int32_t tu;
+	std::int32_t tv;
+	std::int32_t page;
 
 	if (generate_top_wall_quad)
 	{
@@ -1301,8 +1301,8 @@ void ID_create_mapsquare_faces(
 	if (face_type == ID_WALL_FACES_FRAME ||
 		face_type == ID_WALL_FACES_OUT_FRAME)
 	{
-		UWORD dpx[4];
-		UWORD dpz[4];
+		std::uint16_t dpx[4];
+		std::uint16_t dpz[4];
 
 		//
 		// Hard-code a simple door-frame.
@@ -1475,35 +1475,35 @@ void ID_create_mapsquare_faces(
 
 typedef struct
 {
-	UBYTE x;
-	UBYTE z;
+	std::uint8_t x;
+	std::uint8_t z;
 
 } ID_Perim;
 
 #define ID_MAX_PERIMS 32
 
 ID_Perim ID_perim[ID_MAX_PERIMS];
-SLONG ID_perim_upto;
+std::int32_t ID_perim_upto;
 
-SLONG ID_calc_room_perim(SLONG room)
+std::int32_t ID_calc_room_perim(std::int32_t room)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sx1, sz1;
-	SLONG sx2, sz2;
+	std::int32_t sx1, sz1;
+	std::int32_t sx2, sz2;
 
-	SLONG tries;
+	std::int32_t tries;
 
 	#define MAX_SEGS 32
 
 	struct
 	{
-		UBYTE x1, z1;
-		UBYTE x2, z2;
+		std::uint8_t x1, z1;
+		std::uint8_t x2, z2;
 
 	} seg[MAX_SEGS];
 
-	SLONG seg_upto = 0;
+	std::int32_t seg_upto = 0;
 
 	//
 	// Find all the lines that lie on the edge of the given room.
@@ -1599,9 +1599,9 @@ SLONG ID_calc_room_perim(SLONG room)
 // Returns true if it can find the perimeter for all the rooms!
 //
 
-SLONG ID_i_can_find_the_room_perims()
+std::int32_t ID_i_can_find_the_room_perims()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 1; i < ID_room_upto; i++)
 	{
@@ -1629,25 +1629,25 @@ SLONG ID_i_can_find_the_room_perims()
 //
 
 void ID_find_segment_wall(
-		SLONG  x1,
-		SLONG  z1,
-		SLONG  x2,
-		SLONG  z2,
-		SLONG *wall,
-		SLONG *bwmul,
-		SLONG *bwadd,
-		SLONG *length)
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t  x2,
+		std::int32_t  z2,
+		std::int32_t *wall,
+		std::int32_t *bwmul,
+		std::int32_t *bwadd,
+		std::int32_t *length)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG wx1;
-	SLONG wz1;
+	std::int32_t wx1;
+	std::int32_t wz1;
 
-	SLONG wx2;
-	SLONG wz2;
+	std::int32_t wx2;
+	std::int32_t wz2;
 
 	ID_Wall *iw;
 
@@ -1791,30 +1791,30 @@ void ID_find_segment_wall(
 // Adds faces for the given wall.
 //
 
-void ID_add_wall_faces(SLONG wall)
+void ID_add_wall_faces(std::int32_t wall)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1, y1, z1;
-	SLONG x2, y2, z2;
+	std::int32_t x1, y1, z1;
+	std::int32_t x2, y2, z2;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	UWORD px[4];
-	UWORD py[4];
-	UWORD pz[4];
-	UWORD texture;
-	UBYTE quad;
+	std::uint16_t px[4];
+	std::uint16_t py[4];
+	std::uint16_t pz[4];
+	std::uint16_t texture;
+	std::uint8_t quad;
 
 	ID_Wall *iw;
 
@@ -1947,53 +1947,53 @@ void ID_add_wall_faces(SLONG wall)
 // Adds faces for the given room.
 //
 
-void ID_add_room_faces(SLONG room)
+void ID_add_room_faces(std::int32_t room)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG vx;
-	SLONG vz;
+	std::int32_t vx;
+	std::int32_t vz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG bw;
-	SLONG wall;
-	SLONG bwmul;
-	SLONG bwadd;
-	SLONG length;
-	SLONG vlen;
-	SLONG result;
+	std::int32_t bw;
+	std::int32_t wall;
+	std::int32_t bwmul;
+	std::int32_t bwadd;
+	std::int32_t length;
+	std::int32_t vlen;
+	std::int32_t result;
 
-	UWORD cpx[4];
-	UWORD cpz[4];
+	std::uint16_t cpx[4];
+	std::uint16_t cpz[4];
 
-	SLONG first_cpx;
-	SLONG first_cpz;
+	std::int32_t first_cpx;
+	std::int32_t first_cpz;
 
-	SLONG last_cpx;
-	SLONG last_cpz;
+	std::int32_t last_cpx;
+	std::int32_t last_cpz;
 
-	SLONG block_type;
-	SLONG wall_faces_type;
+	std::int32_t block_type;
+	std::int32_t wall_faces_type;
 
 	ID_Wall *iw;
 
@@ -2076,12 +2076,12 @@ void ID_add_room_faces(SLONG room)
 		//
 
 		void calc_new_corner_point(
-				SLONG  x1, SLONG z1,
-				SLONG  x2, SLONG z2,
-				SLONG  x3, SLONG z3,
-				SLONG  width,
-				SLONG *res_x,
-				SLONG *res_z);
+				std::int32_t  x1, std::int32_t z1,
+				std::int32_t  x2, std::int32_t z2,
+				std::int32_t  x3, std::int32_t z3,
+				std::int32_t  width,
+				std::int32_t *res_x,
+				std::int32_t *res_z);
 
 		//
 		// Use fixed-point 8 from now on.
@@ -2227,9 +2227,9 @@ void ID_add_room_faces(SLONG room)
 
 void ID_clear_inside_walls()
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
 
 	ID_Square *is;
 
@@ -2266,14 +2266,14 @@ void ID_clear_inside_walls()
 // couldn't find a suitable place.
 //
 
-SLONG ID_get_wall_start(SLONG *x, SLONG *z)
+std::int32_t ID_get_wall_start(std::int32_t *x, std::int32_t *z)
 {
-	SLONG wall;
-	SLONG dx;
-	SLONG dz;
-	SLONG length;
-	SLONG along;
-	SLONG tries;
+	std::int32_t wall;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t length;
+	std::int32_t along;
+	std::int32_t tries;
 
 	//
 	// How many tries do we have to find somewhere suitable?
@@ -2347,16 +2347,16 @@ SLONG ID_get_wall_start(SLONG *x, SLONG *z)
 // Puts in the collision bits for the given wall.
 //
 
-void ID_generate_collision_bits(SLONG wall)
+void ID_generate_collision_bits(std::int32_t wall)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
 	ID_Wall *iw;
 
@@ -2436,21 +2436,21 @@ void ID_generate_collision_bits(SLONG wall)
 // Sets the ON_WALL bits for the given wall.
 //
 
-void ID_generate_on_wall_bits(SLONG wall)
+void ID_generate_on_wall_bits(std::int32_t wall)
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dxdz;
+	std::int32_t dxdz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
 	ID_Wall *iw;
 
@@ -2538,29 +2538,29 @@ void ID_generate_on_wall_bits(SLONG wall)
 
 void ID_find_a_camera_for_each_room()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
-	SLONG n;
-	SLONG choice;
-	SLONG off_x;
-	SLONG off_z;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t n;
+	std::int32_t choice;
+	std::int32_t off_x;
+	std::int32_t off_z;
 
-	SLONG threes;
-	SLONG ones;
+	std::int32_t threes;
+	std::int32_t ones;
 
 	#define MAX_POSS 64
 
 	struct
 	{
-		UWORD n;
-		UWORD x;
-		UWORD z;
+		std::uint16_t n;
+		std::uint16_t x;
+		std::uint16_t z;
 
 	} poss[MAX_POSS];
 
-	SLONG poss_upto;
+	std::int32_t poss_upto;
 	
 	//
 	// Count how many 'three' corners and how many
@@ -2674,13 +2674,13 @@ void ID_find_a_camera_for_each_room()
 	}
 }
 
-SLONG ID_intersects_badly(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+std::int32_t ID_intersects_badly(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
-	SLONG ix;
-	SLONG iz;
-	SLONG dx;
-	SLONG dz;
+	std::int32_t i;
+	std::int32_t ix;
+	std::int32_t iz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ID_Wall *iw;
 
@@ -2750,15 +2750,15 @@ SLONG ID_intersects_badly(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 
 void ID_find_rooms()
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
-	SLONG cx;
-	SLONG cz;
-	SLONG nx;
-	SLONG nz;
-	SLONG dx;
-	SLONG dz;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t cx;
+	std::int32_t cz;
+	std::int32_t nx;
+	std::int32_t nz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ID_Square *is;
 
@@ -2782,14 +2782,14 @@ void ID_find_rooms()
 
 	typedef struct
 	{
-		UBYTE x;
-		UBYTE z;
+		std::uint8_t x;
+		std::uint8_t z;
 
 	} Queue;
 	
 	Queue queue[QUEUE_SIZE];
-	SLONG queue_head;
-	SLONG queue_tail;
+	std::int32_t queue_head;
+	std::int32_t queue_tail;
 
 	#define QUEUE_EMPTY()	(queue_head == queue_tail)
 	#define QUEUE_NEXT(q)	(((q) + 1) & (QUEUE_SIZE - 1))
@@ -2800,10 +2800,10 @@ void ID_find_rooms()
 
 	struct
 	{
-		SBYTE dx;
-		SBYTE dz;
-		UBYTE flag;
-		UBYTE shit;
+		std::int8_t dx;
+		std::int8_t dz;
+		std::uint8_t flag;
+		std::uint8_t shit;
 
 	} udlr[4] =
 	{
@@ -2909,18 +2909,18 @@ void ID_find_rooms()
 
 void ID_generate_room_info()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG width;
-	SLONG height;
-	SLONG room;
+	std::int32_t width;
+	std::int32_t height;
+	std::int32_t room;
 
 	ID_Room   *ir;
 	ID_Square *is;
@@ -3091,15 +3091,15 @@ void ID_generate_room_info()
 
 void ID_find_flats()
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
-	SLONG dx;
-	SLONG dz;
-	SLONG nx;
-	SLONG nz;
-	SLONG neighbour;
-	SLONG changed;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t nx;
+	std::int32_t nz;
+	std::int32_t neighbour;
+	std::int32_t changed;
 
 	ID_Room *ir;
 
@@ -3209,30 +3209,30 @@ void ID_find_flats()
 // Assigns the type of each room in the given flat.
 //
 
-void ID_assign_flat_room_types(SLONG flat)
+void ID_assign_flat_room_types(std::int32_t flat)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG area;
-	SLONG changed;
+	std::int32_t area;
+	std::int32_t changed;
 
-	SLONG biggest;
-	SLONG smallest;
-	SLONG middle;
+	std::int32_t biggest;
+	std::int32_t smallest;
+	std::int32_t middle;
 
-	SLONG num_rooms;
-	SLONG have_loo;
+	std::int32_t num_rooms;
+	std::int32_t have_loo;
 
-	UBYTE type;
+	std::uint8_t type;
 
-	UBYTE size [ID_MAX_ROOMS];
-	UBYTE order[ID_MAX_ROOMS];
+	std::uint8_t size [ID_MAX_ROOMS];
+	std::uint8_t order[ID_MAX_ROOMS];
 
 	ID_Room *ir;
 
@@ -3344,33 +3344,33 @@ void ID_assign_flat_room_types(SLONG flat)
 // in a house.
 //
 
-void ID_assign_room_types(SLONG storey_type)
+void ID_assign_room_types(std::int32_t storey_type)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG corridor;
+	std::int32_t corridor;
 
-	SLONG area;
-	SLONG changed;
+	std::int32_t area;
+	std::int32_t changed;
 
-	SLONG biggest;
-	SLONG smallest;
-	SLONG middle;
+	std::int32_t biggest;
+	std::int32_t smallest;
+	std::int32_t middle;
 
-	SLONG num_rooms;
-	SLONG have_loo;
+	std::int32_t num_rooms;
+	std::int32_t have_loo;
 
-	UBYTE type;
+	std::uint8_t type;
 
-	UBYTE size [ID_MAX_ROOMS];
-	UBYTE order[ID_MAX_ROOMS];
+	std::uint8_t size [ID_MAX_ROOMS];
+	std::uint8_t order[ID_MAX_ROOMS];
 
 	ID_Room *ir;
 
@@ -3641,7 +3641,7 @@ void ID_assign_room_types(SLONG storey_type)
 	}
 	
 	//
-	// Colour in the floor to match the room types.
+	// Color in the floor to match the room types.
 	//
 
 	for (i = 1; i < ID_room_upto; i++)
@@ -3661,62 +3661,62 @@ void ID_assign_room_types(SLONG storey_type)
 // on failure.
 //
 
-SLONG ID_make_connecting_doors(SLONG storey_type)
+std::int32_t ID_make_connecting_doors(std::int32_t storey_type)
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
-	SLONG imx;
-	SLONG imz;
-	SLONG omx;
-	SLONG omz;
-	SLONG dmx;
-	SLONG dmz;
-	SLONG wx1, wx2;
-	SLONG wz1, wz2;
-	SLONG x1, z1;
-	SLONG x2, z2;
-	SLONG dx;
-	SLONG dz;
-	SLONG score;
-	SLONG segment;
-	SLONG length;
-	SLONG roomtype;
-	SLONG best_score;
-	SLONG best_choice;
-	UBYTE type_in;
-	UBYTE type_out;
-	UBYTE room_out;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t imx;
+	std::int32_t imz;
+	std::int32_t omx;
+	std::int32_t omz;
+	std::int32_t dmx;
+	std::int32_t dmz;
+	std::int32_t wx1, wx2;
+	std::int32_t wz1, wz2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t score;
+	std::int32_t segment;
+	std::int32_t length;
+	std::int32_t roomtype;
+	std::int32_t best_score;
+	std::int32_t best_choice;
+	std::uint8_t type_in;
+	std::uint8_t type_out;
+	std::uint8_t room_out;
 
-	SLONG bw;
-	SLONG wall;
-	SLONG bwmul;
-	SLONG bwadd;
-	SLONG seglength;
+	std::int32_t bw;
+	std::int32_t wall;
+	std::int32_t bwmul;
+	std::int32_t bwadd;
+	std::int32_t seglength;
 
 	#define MAX_DOORCHOICES 64
 
 	struct
 	{
-		UBYTE ix, iz;	// The inside-the-room block...
-		UBYTE ox, oz;	// The outside block it leads to...
-		SLONG score;
-		UBYTE seglength;
-		UBYTE wall;
-		UBYTE wall_block;
-		UBYTE room;
+		std::uint8_t ix, iz;	// The inside-the-room block...
+		std::uint8_t ox, oz;	// The outside block it leads to...
+		std::int32_t score;
+		std::uint8_t seglength;
+		std::uint8_t wall;
+		std::uint8_t wall_block;
+		std::uint8_t room;
 
 	} doorchoice[MAX_DOORCHOICES];
 
-	SLONG doorchoice_upto;
+	std::int32_t doorchoice_upto;
 
 	//
 	// Remember which rooms connect to other rooms?
 	// One bit for each (room x room).
 	//
 
-	UBYTE connected[ID_MAX_ROOMS][ID_MAX_ROOMS];
+	std::uint8_t connected[ID_MAX_ROOMS][ID_MAX_ROOMS];
 
 	//
 	// Accessing the connected array.
@@ -3733,7 +3733,7 @@ SLONG ID_make_connecting_doors(SLONG storey_type)
 	// Mark all rooms as unconnected.
 	//
 
-	memset((UBYTE*)connected, 0, sizeof(connected));
+	memset((std::uint8_t*)connected, 0, sizeof(connected));
 
 	//
 	// Go through all the rooms and decide where are door(s) should be.
@@ -4131,7 +4131,7 @@ SLONG ID_make_connecting_doors(SLONG storey_type)
 // dir is an angle from 0 to 2047.
 //
 
-THING_INDEX ID_add_furniture(MAPCO16 x, MAPCO16 y, MAPCO16 z, SLONG dir, SLONG prim)
+THING_INDEX ID_add_furniture(MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t dir, std::int32_t prim)
 {
 	ASSERT(WITHIN(x, ID_floor_x1 << 8, ID_floor_x2 << 8));
 	ASSERT(WITHIN(z, ID_floor_z1 << 8, ID_floor_z2 << 8));
@@ -4202,27 +4202,27 @@ THING_INDEX ID_add_furniture(MAPCO16 x, MAPCO16 y, MAPCO16 z, SLONG dir, SLONG p
 
 void ID_fit_doors()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG dwx;
-	SLONG dwz;
+	std::int32_t dwx;
+	std::int32_t dwz;
 
-	SLONG mid_x;
-	SLONG mid_z;
+	std::int32_t mid_x;
+	std::int32_t mid_z;
 
-	SLONG x1, z1;
-	SLONG x2, z2;
+	std::int32_t x1, z1;
+	std::int32_t x2, z2;
 
-	SLONG rx;
-	SLONG rz;
+	std::int32_t rx;
+	std::int32_t rz;
 
-	SLONG room_in;
-	SLONG room_out;
+	std::int32_t room_in;
+	std::int32_t room_out;
 
-	SLONG door_x;
-	SLONG door_y;
-	SLONG door_z;
+	std::int32_t door_x;
+	std::int32_t door_y;
+	std::int32_t door_z;
 
 	THING_INDEX door_thing;
 
@@ -4230,9 +4230,9 @@ void ID_fit_doors()
 	#define ID_DOOR_INOUT	1
 	#define ID_DOOR_OUTIN	2
 
-	SLONG door;
-	SLONG ajar;	// 0 => Shut, 512 => open
-	SLONG angle;
+	std::int32_t door;
+	std::int32_t ajar;	// 0 => Shut, 512 => open
+	std::int32_t angle;
 	
 	ID_Wall *iw;
 
@@ -4412,18 +4412,18 @@ void ID_fit_doors()
 
 void ID_fit_stairs()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG angle;
+	std::int32_t angle;
 
-	SLONG stairx;
-	SLONG stairy;
-	SLONG stairz;
-	SLONG stairdir;
-	SLONG stairprim;
+	std::int32_t stairx;
+	std::int32_t stairy;
+	std::int32_t stairz;
+	std::int32_t stairdir;
+	std::int32_t stairprim;
 
 	ID_Stair *it;
 
@@ -4499,35 +4499,35 @@ void ID_fit_stairs()
 // Fits a kitchen out. Returns false on failure.
 //
 
-SLONG ID_fit_kitchen(SLONG room)
+std::int32_t ID_fit_kitchen(std::int32_t room)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG length;
+	std::int32_t length;
 
-	SLONG best_x1;
-	SLONG best_z1;
-	SLONG best_x2;
-	SLONG best_z2;
+	std::int32_t best_x1;
+	std::int32_t best_z1;
+	std::int32_t best_x2;
+	std::int32_t best_z2;
 
-	SLONG best_length;
+	std::int32_t best_length;
 
 	//
 	// Find the perimeter of this room.
@@ -4635,75 +4635,75 @@ SLONG ID_fit_kitchen(SLONG room)
 // Returns false on failure.
 //
 
-SLONG ID_fit_loo(SLONG room)
+std::int32_t ID_fit_loo(std::int32_t room)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG score;
+	std::int32_t score;
 
-	SLONG bestx;
-	SLONG bestz;
-	SLONG bestdir;
-	SLONG bestscore;
-	SLONG bestmx1;
-	SLONG bestmz1;
-	SLONG bestmx2;
-	SLONG bestmz2;
+	std::int32_t bestx;
+	std::int32_t bestz;
+	std::int32_t bestdir;
+	std::int32_t bestscore;
+	std::int32_t bestmx1;
+	std::int32_t bestmz1;
+	std::int32_t bestmx2;
+	std::int32_t bestmz2;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG doorx;
-	SLONG doorz;
+	std::int32_t doorx;
+	std::int32_t doorz;
 
-	SLONG best_dist;
-	SLONG best_loox;
-	SLONG best_looz;
-	SLONG best_loocorner;
+	std::int32_t best_dist;
+	std::int32_t best_loox;
+	std::int32_t best_looz;
+	std::int32_t best_loocorner;
 
-	SLONG sink_map_x;
-	SLONG sink_map_z;
-	SLONG sinkx;
-	SLONG sinky;
-	SLONG sinkz;
-	SLONG sink_dir;
+	std::int32_t sink_map_x;
+	std::int32_t sink_map_z;
+	std::int32_t sinkx;
+	std::int32_t sinky;
+	std::int32_t sinkz;
+	std::int32_t sink_dir;
 
-	SLONG loox;
-	SLONG looy;
-	SLONG looz;
-	SLONG loo_dir;
+	std::int32_t loox;
+	std::int32_t looy;
+	std::int32_t looz;
+	std::int32_t loo_dir;
 
-	SLONG showerx;
-	SLONG showery;
-	SLONG showerz;
+	std::int32_t showerx;
+	std::int32_t showery;
+	std::int32_t showerz;
 
-	SLONG bathx;
-	SLONG bathy;
-	SLONG bathz;
-	SLONG bathdir;
+	std::int32_t bathx;
+	std::int32_t bathy;
+	std::int32_t bathz;
+	std::int32_t bathdir;
 
-	SLONG floor_area;
+	std::int32_t floor_area;
 
 	ID_Room *ir;
 
@@ -5093,75 +5093,75 @@ SLONG ID_fit_loo(SLONG room)
 // Returns false on failure.
 //
 
-SLONG ID_fit_lounge(SLONG room)
+std::int32_t ID_fit_lounge(std::int32_t room)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dir;
+	std::int32_t dir;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dmx;
-	SLONG dmz;
+	std::int32_t dmx;
+	std::int32_t dmz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG score;
+	std::int32_t score;
 
-	SLONG bestx;
-	SLONG bestz;
-	SLONG bestdir;
-	SLONG bestscore;
-	SLONG bestmx1;
-	SLONG bestmz1;
-	SLONG bestmx2;
-	SLONG bestmz2;
-	SLONG bestdmx;
-	SLONG bestdmz;
+	std::int32_t bestx;
+	std::int32_t bestz;
+	std::int32_t bestdir;
+	std::int32_t bestscore;
+	std::int32_t bestmx1;
+	std::int32_t bestmz1;
+	std::int32_t bestmx2;
+	std::int32_t bestmz2;
+	std::int32_t bestdmx;
+	std::int32_t bestdmz;
 
-	SLONG coffeemx1;
-	SLONG coffeemz1;
-	SLONG coffeemx2;
-	SLONG coffeemz2;
-	SLONG coffeex;
-	SLONG coffeey;
-	SLONG coffeez;
-  	SLONG coffeedir;
+	std::int32_t coffeemx1;
+	std::int32_t coffeemz1;
+	std::int32_t coffeemx2;
+	std::int32_t coffeemz2;
+	std::int32_t coffeex;
+	std::int32_t coffeey;
+	std::int32_t coffeez;
+  	std::int32_t coffeedir;
 
-	SLONG tvx;
-	SLONG tvy;
-	SLONG tvz;
-	SLONG tvdir;
+	std::int32_t tvx;
+	std::int32_t tvy;
+	std::int32_t tvz;
+	std::int32_t tvdir;
 
-	SLONG sofax;
-	SLONG sofay;
-	SLONG sofaz;
-	SLONG sofadir;
+	std::int32_t sofax;
+	std::int32_t sofay;
+	std::int32_t sofaz;
+	std::int32_t sofadir;
 
-	SLONG bookx;
-	SLONG booky;
-	SLONG bookz;
-	SLONG bookdir;
+	std::int32_t bookx;
+	std::int32_t booky;
+	std::int32_t bookz;
+	std::int32_t bookdir;
 
-	SLONG treex;
-	SLONG treey;
-	SLONG treez;
-	SLONG treedir;
+	std::int32_t treex;
+	std::int32_t treey;
+	std::int32_t treez;
+	std::int32_t treedir;
 
 	ID_Room *ir;
 
@@ -5624,33 +5624,33 @@ SLONG ID_fit_lounge(SLONG room)
 // Puts down radiators. Returns false on failure.
 //
 
-SLONG ID_fit_radiators()
+std::int32_t ID_fit_radiators()
 {
-	SLONG i;
-	SLONG j;
-	SLONG size;
-	SLONG big;
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	SLONG x;
-	SLONG z;
-	SLONG mx;
-	SLONG mz;
-	SLONG dmx;
-	SLONG dmz;
-	SLONG dx;
-	SLONG dz;
-	SLONG radx;
-	SLONG rady;
-	SLONG radz;
-	SLONG raddir;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t size;
+	std::int32_t big;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t dmx;
+	std::int32_t dmz;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t radx;
+	std::int32_t rady;
+	std::int32_t radz;
+	std::int32_t raddir;
 
-	SLONG wall;
-	SLONG bwmul;
-	SLONG bwadd;
-	SLONG length;
+	std::int32_t wall;
+	std::int32_t bwmul;
+	std::int32_t bwadd;
+	std::int32_t length;
 
 	ID_Room *ir;
 
@@ -5813,7 +5813,7 @@ SLONG ID_fit_radiators()
 
 void ID_place_furniture()
 {
-	SLONG i;
+	std::int32_t i;
 
 	ID_Room *ir;
 
@@ -5876,15 +5876,15 @@ void ID_place_furniture()
 // the middle of some stairs.
 //
 
-SLONG ID_goes_through_stairs(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
+std::int32_t ID_goes_through_stairs(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mid_x;
-	SLONG mid_z;
+	std::int32_t mid_x;
+	std::int32_t mid_z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ID_Stair *it;
 
@@ -5952,34 +5952,34 @@ SLONG ID_goes_through_stairs(SLONG x1, SLONG z1, SLONG x2, SLONG z2)
 
 
 
-SLONG ID_generate_inside_walls(SLONG storey_type)
+std::int32_t ID_generate_inside_walls(std::int32_t storey_type)
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
-	SLONG dx;
-	SLONG dz;
-	SLONG cx;
-	SLONG cz;
-	SLONG nx;
-	SLONG nz;
-	SLONG x1, x2;
-	SLONG z1, z2;
-	SLONG a;
-	SLONG b;
-	SLONG num_walls;
-	SLONG wall_start_ok;
-	SLONG wall_starts = 0;
-	SLONG forbid_x    = INFINITY;
-	SLONG forbid_z    = INFINITY;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t cx;
+	std::int32_t cz;
+	std::int32_t nx;
+	std::int32_t nz;
+	std::int32_t x1, x2;
+	std::int32_t z1, z2;
+	std::int32_t a;
+	std::int32_t b;
+	std::int32_t num_walls;
+	std::int32_t wall_start_ok;
+	std::int32_t wall_starts = 0;
+	std::int32_t forbid_x    = INFINITY;
+	std::int32_t forbid_z    = INFINITY;
 
 	ID_Square *is;
 
 	struct
 	{
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 		
 	} dir[4];
 
@@ -6000,11 +6000,11 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 
 	struct
 	{
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
 	}     wall_start[ID_MAX_WALL_STARTS];
-	SLONG wall_start_upto = 0;
+	std::int32_t wall_start_upto = 0;
 
 	//
 	// How many walls shall we put in?
@@ -6028,10 +6028,10 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 		{
 			struct
 			{
-				UBYTE onwall;
-				UBYTE duplicate;
-				UBYTE x;
-				UBYTE z;
+				std::uint8_t onwall;
+				std::uint8_t duplicate;
+				std::uint8_t x;
+				std::uint8_t z;
 
 			} corner[8];
 
@@ -6405,24 +6405,24 @@ SLONG ID_generate_inside_walls(SLONG storey_type)
 // only one other room.
 //
 
-SLONG ID_is_there_a_room_accessible_from_only_one_other_room()
+std::int32_t ID_is_there_a_room_accessible_from_only_one_other_room()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
-	SLONG nx;
-	SLONG nz;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG nextroom;
+	std::int32_t nextroom;
 
 	ID_Room *ir;
 
 	struct
 	{
-		SBYTE dx;
-		SBYTE dz;
+		std::int8_t dx;
+		std::int8_t dz;
 
 	} dir[4] = {{1,0},{-1,0},{0,1},{0,-1}};
 
@@ -6488,23 +6488,23 @@ SLONG ID_is_there_a_room_accessible_from_only_one_other_room()
 	return false;
 }
 
-SLONG ID_score_layout_house_ground()
+std::int32_t ID_score_layout_house_ground()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
-	SLONG nx;
-	SLONG nz;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG width;
-	SLONG height;
-	SLONG ratio;
-	SLONG nextroom;
-	SLONG room;
+	std::int32_t width;
+	std::int32_t height;
+	std::int32_t ratio;
+	std::int32_t nextroom;
+	std::int32_t room;
 
-	SLONG found_corridor;
-	SLONG score;
+	std::int32_t found_corridor;
+	std::int32_t score;
 
 	ID_Room  *ir;
 	ID_Stair *it;
@@ -6599,14 +6599,14 @@ SLONG ID_score_layout_house_ground()
 	return score;
 }
 
-SLONG ID_score_layout_warehouse()
+std::int32_t ID_score_layout_warehouse()
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG size;
-	SLONG biggest;
-	SLONG score;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t size;
+	std::int32_t biggest;
+	std::int32_t score;
 
 	ID_Room *ir;
 
@@ -6657,26 +6657,26 @@ SLONG ID_score_layout_warehouse()
 	return score;
 }
 
-SLONG ID_score_layout_apartement()
+std::int32_t ID_score_layout_apartement()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
-	SLONG nx;
-	SLONG nz;
-	SLONG nroom;
+	std::int32_t nx;
+	std::int32_t nz;
+	std::int32_t nroom;
 
 	ID_Room *ir;
 
-	SLONG score = ID_rand() & 0xff;
+	std::int32_t score = ID_rand() & 0xff;
 
-	UBYTE flat_room[ID_MAX_ROOMS];
+	std::uint8_t flat_room[ID_MAX_ROOMS];
 
 	//
 	// Count the number of rooms in each flat.
@@ -6791,9 +6791,9 @@ SLONG ID_score_layout_apartement()
 }
 
 
-SLONG ID_score_layout(SLONG storey_type)
+std::int32_t ID_score_layout(std::int32_t storey_type)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	switch(storey_type)
 	{
@@ -6829,21 +6829,21 @@ SLONG ID_score_layout(SLONG storey_type)
 
 void ID_calculate_in_squares()
 {
-	SLONG   i;
-	SLONG   j;
-	SLONG	pos;
-	UBYTE   wall_type;
-	SLONG	x;
-	SLONG	z;
-	SLONG   x1, z1;
-	SLONG   x2, z2;
-	SLONG	dx;
-	SLONG	dz;
-	SLONG   dxdz;
-	UBYTE   next;
-	UBYTE   next1;
-	UBYTE   next2;
-	UBYTE  *prev;
+	std::int32_t   i;
+	std::int32_t   j;
+	std::int32_t	pos;
+	std::uint8_t   wall_type;
+	std::int32_t	x;
+	std::int32_t	z;
+	std::int32_t   x1, z1;
+	std::int32_t   x2, z2;
+	std::int32_t	dx;
+	std::int32_t	dz;
+	std::int32_t   dxdz;
+	std::uint8_t   next;
+	std::uint8_t   next1;
+	std::uint8_t   next2;
+	std::uint8_t  *prev;
 
 	ID_Wall *iw;
 
@@ -7062,23 +7062,23 @@ void ID_calculate_in_squares()
 // Returns false on failure.
 //
 
-SLONG ID_calculate_in_points()
+std::int32_t ID_calculate_in_points()
 {
-	SLONG   i;
-	SLONG   j;
-	SLONG	pos;
-	UBYTE   wall_type;
-	SLONG	x;
-	SLONG	z;
-	SLONG   x1, z1;
-	SLONG   x2, z2;
-	SLONG	dx;
-	SLONG	dz;
-	SLONG   dxdz;
-	UBYTE   next;
-	UBYTE   next1;
-	UBYTE   next2;
-	UBYTE  *prev;
+	std::int32_t   i;
+	std::int32_t   j;
+	std::int32_t	pos;
+	std::uint8_t   wall_type;
+	std::int32_t	x;
+	std::int32_t	z;
+	std::int32_t   x1, z1;
+	std::int32_t   x2, z2;
+	std::int32_t	dx;
+	std::int32_t	dz;
+	std::int32_t   dxdz;
+	std::uint8_t   next;
+	std::uint8_t   next1;
+	std::uint8_t   next2;
+	std::uint8_t  *prev;
 
 	ID_Wall *iw;
 
@@ -7319,30 +7319,30 @@ SLONG ID_calculate_in_points()
 	return true;
 }
 
-SLONG ID_generate_floorplan(SLONG storey_type, ID_Stair stair[], SLONG num_stairs, UWORD seed, UBYTE find_good_layout, UBYTE furnished)
+std::int32_t ID_generate_floorplan(std::int32_t storey_type, ID_Stair stair[], std::int32_t num_stairs, std::uint16_t seed, std::uint8_t find_good_layout, std::uint8_t furnished)
 {
-	SLONG   i;
-	SLONG   j;
-	SLONG	pos;
-	UBYTE   wall_type;
-	SLONG	x;
-	SLONG	z;
-	SLONG   x1, z1;
-	SLONG   x2, z2;
-	SLONG	dx;
-	SLONG	dz;
-	SLONG	cx;
-	SLONG	cz;
-	SLONG   dxdz;
-	SLONG   best_score;
-	UWORD   best_seed;
-	UWORD   seed_used;
-	UBYTE   next;
-	UBYTE   next1;
-	UBYTE   next2;
-	UBYTE  *prev;
-	SLONG   num_walls;
-	SLONG   find_best_start;
+	std::int32_t   i;
+	std::int32_t   j;
+	std::int32_t	pos;
+	std::uint8_t   wall_type;
+	std::int32_t	x;
+	std::int32_t	z;
+	std::int32_t   x1, z1;
+	std::int32_t   x2, z2;
+	std::int32_t	dx;
+	std::int32_t	dz;
+	std::int32_t	cx;
+	std::int32_t	cz;
+	std::int32_t   dxdz;
+	std::int32_t   best_score;
+	std::uint16_t   best_seed;
+	std::uint16_t   seed_used;
+	std::uint8_t   next;
+	std::uint8_t   next1;
+	std::uint8_t   next2;
+	std::uint8_t  *prev;
+	std::int32_t   num_walls;
+	std::int32_t   find_best_start;
 
 	ID_Wall  *iw;
 	ID_Stair *is;
@@ -7452,9 +7452,9 @@ SLONG ID_generate_floorplan(SLONG storey_type, ID_Stair stair[], SLONG num_stair
 
 		struct
 		{
-			UWORD seed;
-			UWORD shit;
-			SLONG score;
+			std::uint16_t seed;
+			std::uint16_t shit;
+			std::int32_t score;
 
 		} fit[ID_MAX_FITS];
 
@@ -7464,13 +7464,13 @@ SLONG ID_generate_floorplan(SLONG storey_type, ID_Stair stair[], SLONG num_stair
 		{
 			//
 			// Remember the seed that generates these walls... we only use
-			// seeds that can fit into a UWORD.
+			// seeds that can fit into a std::uint16_t.
 			//
 
 			fit[i].seed = find_best_start;
 
 			//
-			// Use the seed that has been truncated to a UWORD.
+			// Use the seed that has been truncated to a std::uint16_t.
 			//
 
 			ID_srand(fit[i].seed);
@@ -7605,26 +7605,26 @@ SLONG ID_generate_floorplan(SLONG storey_type, ID_Stair stair[], SLONG num_stair
 //
 
 void ID_get_stair_space_position(
-		SLONG  x,
-		SLONG  z,
-		SLONG  sx1,	// The first stair square.
-		SLONG  sz1,
-		SLONG  sx2, // The second stair square.
-		SLONG  sz2,
-		SLONG *stair_x,
-		SLONG *stair_z)
+		std::int32_t  x,
+		std::int32_t  z,
+		std::int32_t  sx1,	// The first stair square.
+		std::int32_t  sz1,
+		std::int32_t  sx2, // The second stair square.
+		std::int32_t  sz2,
+		std::int32_t *stair_x,
+		std::int32_t *stair_z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
-	SLONG tx;
-	SLONG tz;
+	std::int32_t tx;
+	std::int32_t tz;
 
-	SLONG angle;
-	SLONG origin_x;
-	SLONG origin_z;
+	std::int32_t angle;
+	std::int32_t origin_x;
+	std::int32_t origin_z;
 
-	SLONG matrix[4];
+	std::int32_t matrix[4];
 
 	dx = sx2 - sx1;
 	dz = sz2 - sz1;
@@ -7705,10 +7705,10 @@ void ID_get_stair_space_position(
 // Returns the position you teleport up to.
 //
 
-void ID_teleport_up_pos(ID_Stair *it, SLONG *tx, SLONG *tz)
+void ID_teleport_up_pos(ID_Stair *it, std::int32_t *tx, std::int32_t *tz)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ASSERT(WITHIN(it, &ID_stair[0], &ID_stair[ID_num_stairs - 1]));
 
@@ -7726,10 +7726,10 @@ void ID_teleport_up_pos(ID_Stair *it, SLONG *tx, SLONG *tz)
 // Returns the position you teleport down to.
 //
 
-void ID_teleport_down_pos(ID_Stair *it, SLONG *tx, SLONG *tz)
+void ID_teleport_down_pos(ID_Stair *it, std::int32_t *tx, std::int32_t *tz)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
 	ASSERT(WITHIN(it, &ID_stair[0], &ID_stair[ID_num_stairs - 1]));
 
@@ -7743,23 +7743,23 @@ void ID_teleport_down_pos(ID_Stair *it, SLONG *tx, SLONG *tz)
    *tz = (it->z1 << 8) + 0x80;
 }
 
-SLONG ID_change_floor(
-		SLONG  x,
-		SLONG  z,
-		SLONG *new_x,
-		SLONG *new_z,
-		SLONG *handle)
+std::int32_t ID_change_floor(
+		std::int32_t  x,
+		std::int32_t  z,
+		std::int32_t *new_x,
+		std::int32_t *new_z,
+		std::int32_t *handle)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG map_x = x >> 8;
-	SLONG map_z = z >> 8;
+	std::int32_t map_x = x >> 8;
+	std::int32_t map_z = z >> 8;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG quadrant;
-	SLONG ans;
+	std::int32_t quadrant;
+	std::int32_t ans;
 
 	ID_Stair *it;
 
@@ -7878,10 +7878,10 @@ SLONG ID_change_floor(
 
 
 void ID_get_floorplan_bounding_box(
-		SLONG *x1,
-		SLONG *z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t *x1,
+		std::int32_t *z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
 	*x1 = ID_floor_x1;
 	*z1 = ID_floor_z1;
@@ -7889,7 +7889,7 @@ void ID_get_floorplan_bounding_box(
 	*z2 = ID_floor_z2;
 }
 
-SLONG ID_am_i_completely_outside(SLONG x, SLONG z)
+std::int32_t ID_am_i_completely_outside(std::int32_t x, std::int32_t z)
 {
 	ASSERT(WITHIN(x, 0, ID_FLOOR_SIZE - 1));
 	ASSERT(WITHIN(z, 0, ID_FLOOR_SIZE - 1));
@@ -7901,20 +7901,20 @@ SLONG ID_am_i_completely_outside(SLONG x, SLONG z)
 	return !(ID_FLOOR(x,z)->flag & ID_FLOOR_FLAG_INSIDE);
 }
 
-SLONG ID_get_mapsquare_texture(SLONG x, SLONG z,
+std::int32_t ID_get_mapsquare_texture(std::int32_t x, std::int32_t z,
 		float *u0, float *v0,
 		float *u1, float *v1,
 		float *u2, float *v2,
 		float *u3, float *v3)
 {
-	UWORD texture;
-	SLONG page;
+	std::uint16_t texture;
+	std::int32_t page;
 
 	ASSERT(WITHIN(ID_FLOOR(x,z)->texid, 0, ID_MAX_FLOOR_TEXTURES - 1));
 
 	texture = ID_floor_texture[ID_FLOOR(x,z)->texid];
 
-	SLONG i;
+	std::int32_t i;
 	ID_Stair *it;
 
 	for (i = 0; i < ID_num_stairs; i++)
@@ -7930,20 +7930,20 @@ SLONG ID_get_mapsquare_texture(SLONG x, SLONG z,
 	return page;
 }
 
-SLONG ID_should_i_draw_mapsquare(SLONG x, SLONG z)
+std::int32_t ID_should_i_draw_mapsquare(std::int32_t x, std::int32_t z)
 {
 	return !(ID_FLOOR(x,z)->flag & ID_FLOOR_FLAG_STAIR) || Keys[KB_8];
 }
 
 
-void ID_this_is_where_i_am(SLONG x, SLONG z)
+void ID_this_is_where_i_am(std::int32_t x, std::int32_t z)
 {
-	SLONG i;
-	SLONG mx;
-	SLONG mz;
-	SLONG dx;
-	SLONG dz;
-	SLONG room;
+	std::int32_t i;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t room;
 
 	//
 	// Mark all rooms an unseeable.
@@ -8022,9 +8022,9 @@ void ID_this_is_where_i_am(SLONG x, SLONG z)
 	}
 }
 
-SLONG ID_should_i_draw(SLONG x, SLONG z)
+std::int32_t ID_should_i_draw(std::int32_t x, std::int32_t z)
 {
-	SLONG room;
+	std::int32_t room;
 
 	ASSERT(WITHIN(x, ID_floor_x1, ID_floor_x2 - 1));
 	ASSERT(WITHIN(z, ID_floor_z1, ID_floor_z2 - 1));
@@ -8041,9 +8041,9 @@ SLONG ID_should_i_draw(SLONG x, SLONG z)
 // Accessing the faces.
 //
 
-SLONG ID_get_first_face(SLONG x, SLONG z)
+std::int32_t ID_get_first_face(std::int32_t x, std::int32_t z)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	ASSERT(WITHIN(x, ID_floor_x1, ID_floor_x2 - 1));
 	ASSERT(WITHIN(z, ID_floor_z1, ID_floor_z2 - 1));
@@ -8053,9 +8053,9 @@ SLONG ID_get_first_face(SLONG x, SLONG z)
 	return ans;
 }
 
-SLONG ID_is_face_a_quad(SLONG face)
+std::int32_t ID_is_face_a_quad(std::int32_t face)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	ASSERT(WITHIN(face, 1, ID_face_upto - 1));
 
@@ -8064,9 +8064,9 @@ SLONG ID_is_face_a_quad(SLONG face)
 	return ans;
 }
 
-UWORD ID_get_face_texture(SLONG face)
+std::uint16_t ID_get_face_texture(std::int32_t face)
 {
-	UWORD ans;
+	std::uint16_t ans;
 
 	ASSERT(WITHIN(face, 1, ID_face_upto - 1));
 
@@ -8075,9 +8075,9 @@ UWORD ID_get_face_texture(SLONG face)
 	return ans;
 }
 
-SLONG ID_get_next_face(SLONG face)
+std::int32_t ID_get_next_face(std::int32_t face)
 {
-	SLONG ans;
+	std::int32_t ans;
 
 	ASSERT(WITHIN(face, 1, ID_face_upto - 1));
 
@@ -8093,7 +8093,7 @@ SLONG ID_get_next_face(SLONG face)
 
 void ID_clear_indices()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = ID_point_upto - 1; i >= 0; i--)
 	{
@@ -8103,7 +8103,7 @@ void ID_clear_indices()
 	}
 }
 
-SLONG ID_is_point_a_mapsquare(SLONG face, SLONG point)
+std::int32_t ID_is_point_a_mapsquare(std::int32_t face, std::int32_t point)
 {
 	ASSERT(WITHIN(face,  1, ID_face_upto - 1));
 	ASSERT(WITHIN(point, 0, 3 + ((ID_face[face].flag & ID_FACE_FLAG_QUAD) ? 1 : 0)));
@@ -8111,9 +8111,9 @@ SLONG ID_is_point_a_mapsquare(SLONG face, SLONG point)
 	return (ID_face[face].flag & (ID_FACE_FLAG_ONFLOOR0 << point));
 }
 
-void ID_get_point_mapsquare(SLONG face, SLONG point, SLONG *x, SLONG *z)
+void ID_get_point_mapsquare(std::int32_t face, std::int32_t point, std::int32_t *x, std::int32_t *z)
 {
-	SLONG p_index;
+	std::int32_t p_index;
 
 	ASSERT(WITHIN(face,  1, ID_face_upto - 1));
 	ASSERT(WITHIN(point, 0, 3 + ((ID_face[face].flag & ID_FACE_FLAG_QUAD) ? 1 : 0)));
@@ -8126,9 +8126,9 @@ void ID_get_point_mapsquare(SLONG face, SLONG point, SLONG *x, SLONG *z)
 	*z = p_index >> 8;
 }
 
-void ID_get_point_position(SLONG face, SLONG point, SLONG *x, SLONG *y, SLONG *z)
+void ID_get_point_position(std::int32_t face, std::int32_t point, std::int32_t *x, std::int32_t *y, std::int32_t *z)
 {
-	SLONG p_index;
+	std::int32_t p_index;
 
 	ASSERT(WITHIN(face,  1, ID_face_upto - 1));
 	ASSERT(WITHIN(point, 0, 3 + ((ID_face[face].flag & ID_FACE_FLAG_QUAD) ? 1 : 0)));
@@ -8151,10 +8151,10 @@ void ID_get_point_position(SLONG face, SLONG point, SLONG *x, SLONG *y, SLONG *z
 	ASSERT(ELE_SHIFT == 8);
 }
 
-UWORD ID_get_point_index(SLONG face, SLONG point)
+std::uint16_t ID_get_point_index(std::int32_t face, std::int32_t point)
 {
-	SLONG p_index;
-	UWORD ans;
+	std::int32_t p_index;
+	std::uint16_t ans;
 
 	ASSERT(WITHIN(face,  1, ID_face_upto - 1));
 	ASSERT(WITHIN(point, 0, 3 + ((ID_face[face].flag & ID_FACE_FLAG_QUAD) ? 1 : 0)));
@@ -8170,9 +8170,9 @@ UWORD ID_get_point_index(SLONG face, SLONG point)
 	return ans;
 }
 
-void ID_set_point_index(SLONG face, SLONG point, UWORD index)
+void ID_set_point_index(std::int32_t face, std::int32_t point, std::uint16_t index)
 {
-	SLONG p_index;
+	std::int32_t p_index;
 
 	ASSERT(WITHIN(face,  1, ID_face_upto - 1));
 	ASSERT(WITHIN(point, 0, 3 + ((ID_face[face].flag & ID_FACE_FLAG_QUAD) ? 1 : 0)));
@@ -8187,9 +8187,9 @@ void ID_set_point_index(SLONG face, SLONG point, UWORD index)
 }
 
 
-UBYTE ID_get_mapsquare_room(SLONG x, SLONG z)
+std::uint8_t ID_get_mapsquare_room(std::int32_t x, std::int32_t z)
 {
-	UBYTE ans;
+	std::uint8_t ans;
 
 	if (!WITHIN(x, ID_floor_x1, ID_floor_x2 - 1) ||
 		!WITHIN(z, ID_floor_z1, ID_floor_z2 - 1))
@@ -8215,7 +8215,7 @@ UBYTE ID_get_mapsquare_room(SLONG x, SLONG z)
 	return ans;
 }
 
-void ID_get_room_camera(UBYTE room, SLONG *x, SLONG *y, SLONG *z)
+void ID_get_room_camera(std::uint8_t room, std::int32_t *x, std::int32_t *y, std::int32_t *z)
 {
 	ASSERT(WITHIN(room, 1, ID_room_upto - 1));
 
@@ -8228,14 +8228,14 @@ void ID_get_room_camera(UBYTE room, SLONG *x, SLONG *y, SLONG *z)
 
 void ID_remove_inside_things()
 {
-	SLONG i;
+	std::int32_t i;
 
 	Thing *p_thing;
 
 	#define ID_MAX_INSIDE_THINGS 64
 
 	THING_INDEX inside_thing[ID_MAX_INSIDE_THINGS];
-	SLONG       num_inside_things;
+	std::int32_t       num_inside_things;
 
 	num_inside_things = THING_find_box(
 							ID_floor_x1,
@@ -8262,14 +8262,14 @@ void ID_remove_inside_things()
 }
 
 
-SLONG ID_get_face_texture(SLONG face,
+std::int32_t ID_get_face_texture(std::int32_t face,
 		float *u0, float *v0,
 		float *u1, float *v1,
 		float *u2, float *v2,
 		float *u3, float *v3)
 {
-	UWORD texture;
-	SLONG page;
+	std::uint16_t texture;
+	std::int32_t page;
 
 	ASSERT(WITHIN(face, 1, ID_face_upto - 1));
 
@@ -8294,34 +8294,34 @@ SLONG ID_get_face_texture(SLONG face,
 // ########################################################
 
 
-SLONG ID_collide_3d(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2)
+std::int32_t ID_collide_3d(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2)
 {
 	return false;
 }
 
 
-SLONG ID_calc_height_at(SLONG x, SLONG z)
+std::int32_t ID_calc_height_at(std::int32_t x, std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG origin_x;
-	SLONG origin_z;
-	SLONG angle;
+	std::int32_t origin_x;
+	std::int32_t origin_z;
+	std::int32_t angle;
 
-	SLONG tx;
-	SLONG tz;
+	std::int32_t tx;
+	std::int32_t tz;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG ans;
+	std::int32_t ans;
 
-	SLONG matrix[4];
+	std::int32_t matrix[4];
 
 	//
 	// I can't be arsed to write ELE_SHIFT all the time, lets hope
@@ -8330,8 +8330,8 @@ SLONG ID_calc_height_at(SLONG x, SLONG z)
 
 	ASSERT(ELE_SHIFT == 8);
 
-	SLONG x_map = x >> 8;
-	SLONG z_map = z >> 8;
+	std::int32_t x_map = x >> 8;
+	std::int32_t z_map = z >> 8;
 
 	ID_Square *is;
 	ID_Stair  *it;
@@ -8478,33 +8478,33 @@ SLONG ID_calc_height_at(SLONG x, SLONG z)
 
 
 
-SLONG ID_collide_2d(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  radius,
-		SLONG *slide_x,
-		SLONG *slide_z)
+std::int32_t ID_collide_2d(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  radius,
+		std::int32_t *slide_x,
+		std::int32_t *slide_z)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG wx1;
-	SLONG wz1;
-	SLONG wx2;
-	SLONG wz2;
+	std::int32_t wx1;
+	std::int32_t wz1;
+	std::int32_t wx2;
+	std::int32_t wz2;
 
-	SLONG min;
-	SLONG max;
+	std::int32_t min;
+	std::int32_t max;
 
-	SLONG start;
-	SLONG end;
-	SLONG doorway_start;
-	SLONG doorway_end;
+	std::int32_t start;
+	std::int32_t end;
+	std::int32_t doorway_start;
+	std::int32_t doorway_end;
 
-	SLONG collided;
+	std::int32_t collided;
 
 	ID_Wall *iw;
 
@@ -8753,41 +8753,41 @@ SLONG ID_collide_2d(
 
 
 
-SLONG ID_collide_2d_old(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG *slide_x,
-		SLONG *slide_z)
+std::int32_t ID_collide_2d_old(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t *slide_x,
+		std::int32_t *slide_z)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG wx1;
-	SLONG wz1;
-	SLONG wx2;
-	SLONG wz2;
+	std::int32_t wx1;
+	std::int32_t wz1;
+	std::int32_t wx2;
+	std::int32_t wz2;
 
-	SLONG dx1;
-	SLONG dz1;
-	SLONG dx2;
-	SLONG dz2;
+	std::int32_t dx1;
+	std::int32_t dz1;
+	std::int32_t dx2;
+	std::int32_t dz2;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG pushx;
-	SLONG pushz;
+	std::int32_t pushx;
+	std::int32_t pushz;
 
-	SLONG dprod;
-	SLONG length;
-	SLONG collided;
-	SLONG through;
+	std::int32_t dprod;
+	std::int32_t length;
+	std::int32_t collided;
+	std::int32_t through;
 
-	SLONG bot;
-	SLONG top;
+	std::int32_t bot;
+	std::int32_t top;
 
 	ID_Wall *iw;
 
@@ -9076,9 +9076,9 @@ SLONG ID_collide_2d_old(
 
 
 
-SLONG ID_editor_get_room_upto;
-SLONG ID_editor_get_wall_upto;
-SLONG ID_editor_get_stair_upto;
+std::int32_t ID_editor_get_room_upto;
+std::int32_t ID_editor_get_wall_upto;
+std::int32_t ID_editor_get_stair_upto;
 
 void ID_editor_start_get_rooms () {ID_editor_get_room_upto  = 1;}
 void ID_editor_start_get_walls () {ID_editor_get_wall_upto  = 0;}
@@ -9092,11 +9092,11 @@ void ID_editor_start_get_stairs() {ID_editor_get_stair_upto = 0;}
 
 #define ID_MAX_ROOM_NAME 32
 
-CBYTE ID_room_name[ID_MAX_ROOM_NAME];
+char ID_room_name[ID_MAX_ROOM_NAME];
 
-SLONG ID_editor_get_room(ID_Roominfo *ans)
+std::int32_t ID_editor_get_room(ID_Roominfo *ans)
 {
-	SLONG room;
+	std::int32_t room;
 
 	if (ID_editor_get_room_upto >= ID_room_upto)
 	{
@@ -9106,8 +9106,8 @@ SLONG ID_editor_get_room(ID_Roominfo *ans)
 	{
 		ASSERT(WITHIN(ID_editor_get_room_upto, 1, ID_room_upto - 1));
 
-		SLONG x;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t z;
 
 		ID_Room *ir = &ID_room[ID_editor_get_room_upto];
 
@@ -9174,7 +9174,7 @@ SLONG ID_editor_get_room(ID_Roominfo *ans)
 	}
 }
 
-SLONG ID_editor_get_wall(ID_Wallinfo *ans)
+std::int32_t ID_editor_get_wall(ID_Wallinfo *ans)
 {
 	ID_Wall *iw;
 
@@ -9214,7 +9214,7 @@ SLONG ID_editor_get_wall(ID_Wallinfo *ans)
 	}
 }
 
-SLONG ID_editor_get_stair(ID_Stairinfo *ans)
+std::int32_t ID_editor_get_stair(ID_Stairinfo *ans)
 {
 	if (ID_editor_get_stair_upto >= ID_num_stairs)
 	{
@@ -9243,12 +9243,12 @@ SLONG ID_editor_get_stair(ID_Stairinfo *ans)
 
 ID_Finfo ID_get_finfo;
 
-SLONG ID_get_num_furn()
+std::int32_t ID_get_num_furn()
 {
 	return ID_furn_upto;
 }
 
-ID_Finfo *ID_get_furn(SLONG number)
+ID_Finfo *ID_get_furn(std::int32_t number)
 {
 	ASSERT(WITHIN(number, 0, ID_furn_upto - 1));
 
@@ -9266,39 +9266,39 @@ ID_Finfo *ID_get_furn(SLONG number)
 // no need to do psx version of this unused stuff, but lets get it compiling
 //
 
-SLONG ID_calc_height_at(SLONG x, SLONG z)
+std::int32_t ID_calc_height_at(std::int32_t x, std::int32_t z)
 {
 }
 
-SLONG ID_get_num_furn()
+std::int32_t ID_get_num_furn()
 {
 	return	(0);
 }
 
-ID_Finfo *ID_get_furn(SLONG number)
+ID_Finfo *ID_get_furn(std::int32_t number)
 {
 	return(NULL);
 }
 
-SLONG ID_collide_2d(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  radius,
-		SLONG *slide_x,
-		SLONG *slide_z)
+std::int32_t ID_collide_2d(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  radius,
+		std::int32_t *slide_x,
+		std::int32_t *slide_z)
 {
 	return(0);
 }
 
-void ID_this_is_where_i_am(SLONG x, SLONG z)
+void ID_this_is_where_i_am(std::int32_t x, std::int32_t z)
 {
 }
 
 void ID_get_floorplan_bounding_box(
-		SLONG *x1,
-		SLONG *z1,
-		SLONG *x2,
-		SLONG *z2)
+		std::int32_t *x1,
+		std::int32_t *z1,
+		std::int32_t *x2,
+		std::int32_t *z2)
 {
 	*x1=0;
 	*z1=0;

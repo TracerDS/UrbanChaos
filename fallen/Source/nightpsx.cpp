@@ -23,30 +23,30 @@
 // PSX include
 //
 #include "libsn.h"
-extern void			TEXTURE_choose_set(SLONG number);
+extern void			TEXTURE_choose_set(std::int32_t number);
 
 #define	MAX_PATH	128
-#define	FILE	SLONG
+#define	FILE	std::int32_t
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern SLONG	SpecialOpen(CBYTE* name);
-extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern SLONG	SpecialClose(SLONG handle);
+extern std::int32_t	SpecialOpen(char* name);
+extern std::int32_t	SpecialRead(std::int32_t handle,std::uint8_t *ptr,std::int32_t s1);
+extern std::int32_t	SpecialSeek(std::int32_t handle,std::int32_t mode,std::int32_t size);
+extern std::int32_t	SpecialClose(std::int32_t handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
 #define	FileCreate(x,y)	ASSERT(0)
-#define	FileRead(h,a,s) SpecialRead(h,(UBYTE*)a,s)
+#define	FileRead(h,a,s) SpecialRead(h,(std::uint8_t*)a,s)
 #define	FileWrite(h,a,s) ASSERT(0)
 #define	FileSeek(h,m,o) SpecialSeek(h,m,o)
 
 #define	MF_Fopen(x,y)		SpecialOpen(x)
 #define	MF_Fclose(x)		SpecialClose(x)
-#define	fread(a,s1,s2,h) SpecialRead(h,(UBYTE*)a,s1*s2)
+#define	fread(a,s1,s2,h) SpecialRead(h,(std::uint8_t*)a,s1*s2)
 
 
 
@@ -56,20 +56,20 @@ extern SLONG	SpecialClose(SLONG handle);
 /*
 typedef struct
 {
-	SWORD y;
-	UBYTE x;
-	UBYTE z;
-	SBYTE red;
-	SBYTE green;
-	SBYTE blue;
-	UBYTE radius;
+	std::int16_t y;
+	std::uint8_t x;
+	std::uint8_t z;
+	std::int8_t red;
+	std::int8_t green;
+	std::int8_t blue;
+	std::uint8_t radius;
 
 } NIGHT_Slight;
 */
 //#define NIGHT_MAX_SLIGHTS 128
 
 NIGHT_Slight *NIGHT_slight;//[NIGHT_MAX_SLIGHTS];
-SLONG NIGHT_slight_upto;
+std::int32_t NIGHT_slight_upto;
 
 //
 // The mapwho for static lights.
@@ -77,8 +77,8 @@ SLONG NIGHT_slight_upto;
 /*
 typedef struct
 {
-	UBYTE index;
-	UBYTE number;
+	std::uint8_t index;
+	std::uint8_t number;
 
 } NIGHT_Smap;
 */
@@ -86,10 +86,10 @@ typedef struct
 
 NIGHT_Smap_2d *NIGHT_smap;
 
-UWORD floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
-UBYTE floor_lum[32][32];
-SBYTE lum_off_x;
-SBYTE lum_off_z;
+std::uint16_t floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
+std::uint8_t floor_lum[32][32];
+std::int8_t lum_off_x;
+std::int8_t lum_off_z;
 
 //
 // The dynamic lights.
@@ -97,29 +97,29 @@ SBYTE lum_off_z;
 /*
 typedef struct
 {
-	UWORD x;
-	SWORD y;
-	UWORD z;
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
-	UBYTE radius;
-	UBYTE type;
-	UBYTE next;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
+	std::uint8_t radius;
+	std::uint8_t type;
+	std::uint8_t next;
 
 } NIGHT_Dlight;
 */
 #define NIGHT_MAX_DLIGHTS 64
 
 NIGHT_Dlight *NIGHT_dlight;//[NIGHT_MAX_DLIGHTS];
-UBYTE NIGHT_dlight_free;
-UBYTE NIGHT_dlight_used;
+std::uint8_t NIGHT_dlight_free;
+std::uint8_t NIGHT_dlight_used;
 
 //
 // 1D mapwho for dynamic lights.
 //
 
-UBYTE NIGHT_dlight_mapwho[PAP_SIZE_LO];
+std::uint8_t NIGHT_dlight_mapwho[PAP_SIZE_LO];
 
 
 //
@@ -127,17 +127,17 @@ UBYTE NIGHT_dlight_mapwho[PAP_SIZE_LO];
 //
 
 //NIGHT_Square  NIGHT_square[NIGHT_MAX_SQUARES];
-//UBYTE         NIGHT_square_free;
-//SLONG         NIGHT_square_num_used;
-//UBYTE         NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
+//std::uint8_t         NIGHT_square_free;
+//std::int32_t         NIGHT_square_num_used;
+//std::uint8_t         NIGHT_cache[PAP_SIZE_LO][PAP_SIZE_LO];
 
 NIGHT_Dfcache NIGHT_dfcache[NIGHT_MAX_DFCACHES];
 
-ULONG NIGHT_flag;
-UBYTE NIGHT_lampost_radius;
-SBYTE NIGHT_lampost_red;
-SBYTE NIGHT_lampost_green;
-SBYTE NIGHT_lampost_blue;
+std::uint32_t NIGHT_flag;
+std::uint8_t NIGHT_lampost_radius;
+std::int8_t NIGHT_lampost_red;
+std::int8_t NIGHT_lampost_green;
+std::int8_t NIGHT_lampost_blue;
 NIGHT_Colour NIGHT_sky_colour;
 
 
@@ -147,16 +147,16 @@ NIGHT_Colour NIGHT_sky_colour;
 //
 // ========================================================
 
-ULONG NIGHT_amb_d3d_colour;
-ULONG NIGHT_amb_d3d_specular;
-SLONG NIGHT_amb_red;
-SLONG NIGHT_amb_green;
-SLONG NIGHT_amb_blue;
-SLONG NIGHT_amb_norm_x;
-SLONG NIGHT_amb_norm_y;
-SLONG NIGHT_amb_norm_z;
-UBYTE NIGHT_dfcache_free;
-UBYTE NIGHT_dfcache_used;
+std::uint32_t NIGHT_amb_d3d_colour;
+std::uint32_t NIGHT_amb_d3d_specular;
+std::int32_t NIGHT_amb_red;
+std::int32_t NIGHT_amb_green;
+std::int32_t NIGHT_amb_blue;
+std::int32_t NIGHT_amb_norm_x;
+std::int32_t NIGHT_amb_norm_y;
+std::int32_t NIGHT_amb_norm_z;
+std::uint8_t NIGHT_dfcache_free;
+std::uint8_t NIGHT_dfcache_used;
 
 
 //
@@ -164,12 +164,12 @@ UBYTE NIGHT_dfcache_used;
 //
 
 void NIGHT_ambient(
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue,
-		SLONG norm_x,
-		SLONG norm_y,
-		SLONG norm_z)
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue,
+		std::int32_t norm_x,
+		std::int32_t norm_y,
+		std::int32_t norm_z)
 {
 	NIGHT_Colour amb_colour;
 
@@ -204,13 +204,13 @@ void NIGHT_ambient(
 }
 
 NIGHT_Colour NIGHT_ambient_at_point(
-				SLONG norm_x,
-				SLONG norm_y,
-				SLONG norm_z)
+				std::int32_t norm_x,
+				std::int32_t norm_y,
+				std::int32_t norm_z)
 {
 	NIGHT_Colour ans;
 
-	SLONG dprod;
+	std::int32_t dprod;
 
 	dprod =
 		norm_x * NIGHT_amb_norm_x +
@@ -242,13 +242,13 @@ NIGHT_Colour NIGHT_ambient_at_point(
 void NIGHT_slight_compress()
 {
 	
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	NIGHT_Smap *ns;
 
 	NIGHT_Slight *comp;
-	SLONG         comp_upto;
+	std::int32_t         comp_upto;
 
 	comp      = (NIGHT_Slight *) MemAlloc(sizeof(NIGHT_slight));
 	comp_upto = 0;
@@ -281,25 +281,25 @@ void NIGHT_slight_compress()
 #endif
 void NIGHT_slight_init()
 {
-	memset((UBYTE*)NIGHT_smap, 0, sizeof(NIGHT_smap));
+	memset((std::uint8_t*)NIGHT_smap, 0, sizeof(NIGHT_smap));
 
 	NIGHT_slight_upto = 0;
 }
 #ifndef	PSX
-SLONG NIGHT_slight_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		UBYTE radius,
-		SBYTE red,
-		SBYTE green,
-		SBYTE blue)
+std::int32_t NIGHT_slight_create(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::uint8_t radius,
+		std::int8_t red,
+		std::int8_t green,
+		std::int8_t blue)
 {
 	NIGHT_Smap   *ns;
 	NIGHT_Slight *nsl;
 
-	SLONG map_x = x >> PAP_SHIFT_LO;
-	SLONG map_z = z >> PAP_SHIFT_LO;
+	std::int32_t map_x = x >> PAP_SHIFT_LO;
+	std::int32_t map_z = z >> PAP_SHIFT_LO;
 
 	ASSERT(WITHIN(map_x, 0, PAP_SIZE_LO - 1));
 	ASSERT(WITHIN(map_z, 0, PAP_SIZE_LO - 1));
@@ -375,24 +375,24 @@ SLONG NIGHT_slight_create(
 }
 
 void NIGHT_slight_delete(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		UBYTE radius,
-		SBYTE red,
-		SBYTE green,
-		SBYTE blue)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::uint8_t radius,
+		std::int8_t red,
+		std::int8_t green,
+		std::int8_t blue)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG lx;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t lz;
 
 	NIGHT_Smap   *ns;
 	NIGHT_Slight *nsl;
@@ -445,7 +445,7 @@ void NIGHT_slight_delete(
 
 void NIGHT_slight_delete_all()
 {
-	memset((UBYTE*)NIGHT_smap, 0, sizeof(NIGHT_smap));
+	memset((std::uint8_t*)NIGHT_smap, 0, sizeof(NIGHT_smap));
 
 	NIGHT_slight_upto = 0;
 }
@@ -457,16 +457,16 @@ void NIGHT_slight_delete_all()
 
 typedef struct
 {
-	UWORD x;
-	SWORD y;
-	UWORD z;
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
 
 } NIGHT_Llight;
 
 #define NIGHT_MAX_LLIGHTS 16
 
 NIGHT_Llight NIGHT_llight[NIGHT_MAX_LLIGHTS];
-SLONG NIGHT_llight_upto;
+std::int32_t NIGHT_llight_upto;
 
 
 //
@@ -475,71 +475,71 @@ SLONG NIGHT_llight_upto;
 
 typedef struct
 {
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
-	SLONG height;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
+	std::int32_t height;
 
 } NIGHT_Precalc;
 
-void NIGHT_get_lampost(SLONG x,SLONG y,SLONG z,SLONG *r,SLONG *g,SLONG *b);
+void NIGHT_get_lampost(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t *r,std::int32_t *g,std::int32_t *b);
 
 void NIGHT_light_the_map()
 {
-	SLONG lo_map_x;
-	SLONG lo_map_z;
-	SLONG i;
+	std::int32_t lo_map_x;
+	std::int32_t lo_map_z;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG hi_map_x;
-	SLONG hi_map_z;
+	std::int32_t hi_map_x;
+	std::int32_t hi_map_z;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG h0;
-	SLONG h1;
-	SLONG h2;
+	std::int32_t h0;
+	std::int32_t h1;
+	std::int32_t h2;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
-	SLONG lradius;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
+	std::int32_t lradius;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 	
-	SLONG dprod;
-	SLONG bright;
+	std::int32_t dprod;
+	std::int32_t bright;
 
 	NIGHT_Smap   *ns;
 	NIGHT_Slight *nsl;
@@ -555,7 +555,7 @@ void NIGHT_light_the_map()
 	// Random lighting fluctuations over the map...
 	//
 
-	ULONG seed = 0;//hi_map_x + (hi_map_z << 5);
+	std::uint32_t seed = 0;//hi_map_x + (hi_map_z << 5);
 
 	seed *= 328573;
 	seed += 123456789;
@@ -815,7 +815,7 @@ void NIGHT_light_the_map()
 //		green<<=2;
 //		blue<<=2;
 		
-		{	SLONG r,g,b,h0;
+		{	std::int32_t r,g,b,h0;
 			h0 = PAP_calc_height_at_point(x,z);
 
 			NIGHT_get_lampost(x<<8,h0,z<<8,&r,&g,&b);
@@ -965,67 +965,67 @@ void NIGHT_light_the_map()
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 	
 } NIGHT_Point;
 
 #define NIGHT_MAX_POINTS (HEAP_PAD_SIZE / sizeof(NIGHT_Point))
 
 void NIGHT_light_prim(
-		SLONG prim,
-		SLONG prim_x,
-		SLONG prim_y,
-		SLONG prim_z,
-		SLONG prim_yaw,
-		SLONG prim_pitch,
-		SLONG prim_roll,
+		std::int32_t prim,
+		std::int32_t prim_x,
+		std::int32_t prim_y,
+		std::int32_t prim_z,
+		std::int32_t prim_yaw,
+		std::int32_t prim_pitch,
+		std::int32_t prim_roll,
 		NIGHT_Colour *colour)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG xmid;
-	SLONG zmid;
+	std::int32_t xmid;
+	std::int32_t zmid;
 
-	SLONG xmin, xmax;
-	SLONG zmin, zmax;
+	std::int32_t xmin, xmax;
+	std::int32_t zmin, zmax;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG amb_x;
-	SLONG amb_y;
-	SLONG amb_z;
+	std::int32_t amb_x;
+	std::int32_t amb_y;
+	std::int32_t amb_z;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
-	SLONG lradius;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
+	std::int32_t lradius;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG dprod;
-	SLONG bright;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t dprod;
+	std::int32_t bright;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
-	SLONG num_points;
+	std::int32_t num_points;
 
-	SLONG point;
-	SLONG matrix[9];
-	SLONG rotate;
+	std::int32_t point;
+	std::int32_t matrix[9];
+	std::int32_t rotate;
 
 	PrimObject *p_obj  = &prim_objects[prim];
 	PrimInfo   *p_info =  get_prim_info(prim);
@@ -1343,17 +1343,17 @@ void NIGHT_dlight_init()
 {
 }
 
-UBYTE NIGHT_dlight_create(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		UBYTE radius,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue)
+std::uint8_t NIGHT_dlight_create(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::uint8_t radius,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue)
 {
 	NIGHT_Dlight *ndl;
-	UBYTE ans;
+	std::uint8_t ans;
 
 	if (NIGHT_dlight_free==0)
 		return NULL;
@@ -1373,7 +1373,7 @@ UBYTE NIGHT_dlight_create(
 	return NIGHT_dlight_used;
 }
 
-void NIGHT_dlight_move(UBYTE dlight_index, SLONG x, SLONG y, SLONG z)
+void NIGHT_dlight_move(std::uint8_t dlight_index, std::int32_t x, std::int32_t y, std::int32_t z)
 {
 
 	NIGHT_Dlight *ndl;
@@ -1390,7 +1390,7 @@ void NIGHT_dlight_move(UBYTE dlight_index, SLONG x, SLONG y, SLONG z)
 
 }
 
-void NIGHT_dlight_colour(UBYTE dlight_index, UBYTE red, UBYTE green, UBYTE blue)
+void NIGHT_dlight_colour(std::uint8_t dlight_index, std::uint8_t red, std::uint8_t green, std::uint8_t blue)
 {
 	/*
 	NIGHT_Dlight *ndl;
@@ -1407,11 +1407,11 @@ void NIGHT_dlight_colour(UBYTE dlight_index, UBYTE red, UBYTE green, UBYTE blue)
 
 
 
-void NIGHT_dlight_destroy(UBYTE dlight_index)
+void NIGHT_dlight_destroy(std::uint8_t dlight_index)
 {
-	SLONG  map;
-	UBYTE  next;
-	UBYTE *prev;
+	std::int32_t  map;
+	std::uint8_t  next;
+	std::uint8_t *prev;
 
 	NIGHT_Dlight *ndl;
 	if(dlight_index==0)
@@ -1464,8 +1464,8 @@ void NIGHT_dlight_destroy(UBYTE dlight_index)
 	ndl->next         = NIGHT_dlight_free;
 	NIGHT_dlight_free = dlight_index;
 }
-extern SLONG			NGAMUT_zmin;
-extern SLONG			NGAMUT_xmin;
+extern std::int32_t			NGAMUT_zmin;
+extern std::int32_t			NGAMUT_xmin;
 
 void NIGHT_dlight_render()
 {
@@ -1481,9 +1481,9 @@ void NIGHT_dlight_render()
 		//
 		// I don't trust memset to be as efficient as this following code MikeD
 		//
-		SLONG	c0;
-		ULONG	*ptr;
-		ptr=(ULONG*)floor_lum;
+		std::int32_t	c0;
+		std::uint32_t	*ptr;
+		ptr=(std::uint32_t*)floor_lum;
 		for(c0=0;c0<32*8;c0++)
 		{
 			*ptr++=0; // no point optimising the loop as the memory write is the slow thing
@@ -1493,7 +1493,7 @@ void NIGHT_dlight_render()
 
 	for(ndl=&NIGHT_dlight[NIGHT_dlight_used];ndl!=NIGHT_dlight;ndl=&NIGHT_dlight[ndl->next])
 	{
-		SLONG x,z,r,minx,minz,maxx,maxz,x0,z0;
+		std::int32_t x,z,r,minx,minz,maxx,maxz,x0,z0;
 
 		x=ndl->x-(lum_off_x<<8);	// Shift into lum coords
 		z=ndl->z-(lum_off_z<<8);	// Shift into lum coords
@@ -1519,7 +1519,7 @@ void NIGHT_dlight_render()
 		for(x0=minx;x0<=maxx;x0++)
 			for(z0=minz;z0<=maxz;z0++)
 			{
-				SLONG lum=((r-(QDIST2(abs(x-(x0<<8)),abs(z-(z0<<8)))>>0))>>1);//+ndl->red-128;   // so we can have a brightness
+				std::int32_t lum=((r-(QDIST2(abs(x-(x0<<8)),abs(z-(z0<<8)))>>0))>>1);//+ndl->red-128;   // so we can have a brightness
 
 				if(lum>0)
 				{
@@ -1546,7 +1546,7 @@ void NIGHT_dlight_render()
 void NIGHT_cache_init()
 {
 #ifndef PSX
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Build the free list of cache squares.
@@ -1567,11 +1567,11 @@ void NIGHT_cache_init()
 	// Clear the cache entries.
 	//
 
-	memset((UBYTE*)NIGHT_cache, 0, sizeof(NIGHT_cache));
+	memset((std::uint8_t*)NIGHT_cache, 0, sizeof(NIGHT_cache));
 #endif
 }
 
-void NIGHT_cache_create(SLONG lo_map_x, SLONG lo_map_z)
+void NIGHT_cache_create(std::int32_t lo_map_x, std::int32_t lo_map_z)
 {
 	// this used to be fore cached floor lighting, but we now have a word per 
 	// hi-res map cell
@@ -1581,11 +1581,11 @@ void NIGHT_cache_create(SLONG lo_map_x, SLONG lo_map_z)
 void NIGHT_cache_recalc()
 {
 #ifndef PSX
-	SLONG i;
+	std::int32_t i;
 
-	SLONG lo_map_x;
-	SLONG lo_map_z;
-	SLONG ware;
+	std::int32_t lo_map_x;
+	std::int32_t lo_map_z;
+	std::int32_t ware;
 
 	for (i = 1; i < NIGHT_MAX_SQUARES; i++)
 	{
@@ -1603,7 +1603,7 @@ void NIGHT_cache_recalc()
 #endif
 }
 
-void NIGHT_cache_destroy(UBYTE square_index)
+void NIGHT_cache_destroy(std::uint8_t square_index)
 {
 #ifndef PSX
 	NIGHT_Square *nq;
@@ -1657,7 +1657,7 @@ void NIGHT_cache_destroy(UBYTE square_index)
 
 void NIGHT_dfcache_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Build the free list of dfcache squares.
@@ -1687,9 +1687,9 @@ void NIGHT_dfcache_init()
 
 void NIGHT_dfcache_recalc()
 {
-	SLONG dfcache;
-	SLONG next;
-	SLONG dfacet;
+	std::int32_t dfcache;
+	std::int32_t next;
+	std::int32_t dfacet;
 
 	for (dfcache = NIGHT_dfcache_used; dfcache; dfcache = next)
 	{
@@ -1708,56 +1708,56 @@ void NIGHT_dfcache_recalc()
 
 struct
 {
-	UBYTE index;
-	UBYTE padding;
-	UWORD x;
-	UWORD z;
+	std::uint8_t index;
+	std::uint8_t padding;
+	std::uint16_t x;
+	std::uint16_t z;
 
 }     slight[16];
 
 // Moved to reduce stack overhead
 
-SLONG length;
-SLONG height;
-SLONG num_points;
-SLONG num_faces;
-SLONG num_bytes;
-SLONG no_shadows;
+std::int32_t length;
+std::int32_t height;
+std::int32_t num_points;
+std::int32_t num_faces;
+std::int32_t num_bytes;
+std::int32_t no_shadows;
 
 
-UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
+std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG nx;
-	SLONG ny;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t ny;
+	std::int32_t nz;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dsx1;
-	SLONG dsy1;
-	SLONG dsz1;
+	std::int32_t dsx1;
+	std::int32_t dsy1;
+	std::int32_t dsz1;
 
-	SLONG dsx2;
-	SLONG dsy2;
-	SLONG dsz2;
+	std::int32_t dsx2;
+	std::int32_t dsy2;
+	std::int32_t dsz2;
 
-	SLONG dlx;
-	SLONG dly;
-	SLONG dlz;
+	std::int32_t dlx;
+	std::int32_t dly;
+	std::int32_t dlz;
 
 	#ifndef NDEBUG
 	void* min_address;
@@ -1765,25 +1765,25 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 	#endif
 
 	// Moved from here. ^ ^ ^ ^
-	SLONG dprod;
+	std::int32_t dprod;
 
-	SLONG base_red;
-	SLONG base_green;
-	SLONG base_blue;
+	std::int32_t base_red;
+	std::int32_t base_green;
+	std::int32_t base_blue;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
-	SLONG dist;
-	SLONG bright;
+	std::int32_t dist;
+	std::int32_t bright;
 
-	SLONG  shadow_shift;
-	UBYTE *shadow_byte;
-	UBYTE  shadow;
+	std::int32_t  shadow_shift;
+	std::uint8_t *shadow_byte;
+	std::uint8_t  shadow;
 
-	UBYTE dfcache_index;
-	UBYTE darken;
+	std::uint8_t dfcache_index;
+	std::uint8_t darken;
 
 	NIGHT_Dfcache *nd;
 	NIGHT_Colour  *nc;
@@ -1792,7 +1792,7 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 
 	#define NIGHT_MAX_SLIGHTS_PER_FACET 16
 
-	SLONG slight_upto = 0;
+	std::int32_t slight_upto = 0;
 
 	DFacet *df;
 
@@ -1894,7 +1894,7 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 
 	#ifndef NDEBUG
 	min_address = nd->colour;
-	max_address = ((UBYTE *) nd->colour) + (num_bytes - 1);
+	max_address = ((std::uint8_t *) nd->colour) + (num_bytes - 1);
 	#endif
 
 	//
@@ -1951,14 +1951,14 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 	//
 
 	{
-		SLONG mx;
-		SLONG mz;
-		SLONG mx1;
-		SLONG mz1;
-		SLONG mx2;
-		SLONG mz2;
-		SLONG map_x;
-		SLONG map_z;
+		std::int32_t mx;
+		std::int32_t mz;
+		std::int32_t mx1;
+		std::int32_t mz1;
+		std::int32_t mx2;
+		std::int32_t mz2;
+		std::int32_t map_x;
+		std::int32_t map_z;
 
 		mx1 = df->x[0]<<8;
 		mx2 = df->x[1]<<8;
@@ -2128,7 +2128,7 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 		// Just set all the shadow bits to zero.
 		//
 
-		shadow_byte = (UBYTE *) nc;
+		shadow_byte = (std::uint8_t *) nc;
 
 		for (i = nd->shadow_bytes; i > 0; i--)
 		{
@@ -2161,7 +2161,7 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 		lz = df->z[0]<<8;
 
 		shadow_shift = 0;
-		shadow_byte  = (UBYTE *) nc;
+		shadow_byte  = (std::uint8_t *) nc;
 	   *shadow_byte  = 0;
 		
 		for (i = 0; i < height - 1; i++)
@@ -2204,7 +2204,7 @@ UBYTE NIGHT_dfcache_create(UWORD dfacet_index)
 	return dfcache_index;
 }
 
-void NIGHT_dfcache_destroy(UBYTE dfcache_index)
+void NIGHT_dfcache_destroy(std::uint8_t dfcache_index)
 {
 	NIGHT_Dfcache *nd;
 
@@ -2214,8 +2214,8 @@ void NIGHT_dfcache_destroy(UBYTE dfcache_index)
 	// Take out of the used list.
 	//
 
-	UBYTE  next =  NIGHT_dfcache_used;
-	UBYTE *prev = &NIGHT_dfcache_used;
+	std::uint8_t  next =  NIGHT_dfcache_used;
+	std::uint8_t *prev = &NIGHT_dfcache_used;
 
 	while(1)
 	{
@@ -2269,10 +2269,10 @@ void NIGHT_dfcache_destroy(UBYTE dfcache_index)
 //
 // Light at a point.
 //
-NIGHT_Colour NIGHT_get_light_at(SLONG x,SLONG y,SLONG z)
+NIGHT_Colour NIGHT_get_light_at(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	NIGHT_Colour ans;
-	UWORD	col;
+	std::uint16_t	col;
 
 	col=floor_psx_col[x>>8][z>>8];
 
@@ -2284,39 +2284,39 @@ NIGHT_Colour NIGHT_get_light_at(SLONG x,SLONG y,SLONG z)
 	return ans;
 }
 
-void NIGHT_get_lampost(SLONG x,SLONG y,SLONG z,SLONG *r,SLONG *g,SLONG *b)
+void NIGHT_get_lampost(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t *r,std::int32_t *g,std::int32_t *b)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG xmid;
-	SLONG zmid;
+	std::int32_t xmid;
+	std::int32_t zmid;
 
-	SLONG xmin;
-	SLONG zmin;
+	std::int32_t xmin;
+	std::int32_t zmin;
 
-	SLONG xmax;
-	SLONG zmax;
+	std::int32_t xmax;
+	std::int32_t zmax;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
-	SLONG lradius;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
+	std::int32_t lradius;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG bright;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t bright;
 
-	SLONG red=0;
-	SLONG green=0;
-	SLONG blue=0;
+	std::int32_t red=0;
+	std::int32_t green=0;
+	std::int32_t blue=0;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 
 	NIGHT_Colour ans;
@@ -2409,43 +2409,43 @@ void NIGHT_get_lampost(SLONG x,SLONG y,SLONG z,SLONG *r,SLONG *g,SLONG *b)
 
 #ifndef	PSX
 NIGHT_Colour NIGHT_get_light_at(
-				SLONG x,
-				SLONG y,
-				SLONG z)
+				std::int32_t x,
+				std::int32_t y,
+				std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG xmid;
-	SLONG zmid;
+	std::int32_t xmid;
+	std::int32_t zmid;
 
-	SLONG xmin;
-	SLONG zmin;
+	std::int32_t xmin;
+	std::int32_t zmin;
 
-	SLONG xmax;
-	SLONG zmax;
+	std::int32_t xmax;
+	std::int32_t zmax;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
-	SLONG lradius;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
+	std::int32_t lradius;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG bright;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t bright;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	NIGHT_Smap   *ns;
 	NIGHT_Slight *nsl;
@@ -2647,7 +2647,7 @@ void NIGHT_init()
 
 #ifndef NDEBUG
 
-SLONG NIGHT_check_index(SLONG walkable_prim_point_index)
+std::int32_t NIGHT_check_index(std::int32_t walkable_prim_point_index)
 {
 	ASSERT(WITHIN(
 			walkable_prim_point_index,
@@ -2660,47 +2660,47 @@ SLONG NIGHT_check_index(SLONG walkable_prim_point_index)
 #endif
 
 /*
-SLONG NIGHT_first_walkable_prim_point;
+std::int32_t NIGHT_first_walkable_prim_point;
 NIGHT_Colour NIGHT_walkable[NIGHT_MAX_WALKABLE];
 */
 void NIGHT_generate_walkable_lighting()
 {
 	/*
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG map_x;
-	SLONG map_z;
+	std::int32_t map_x;
+	std::int32_t map_z;
 
-	SLONG lradius;
-	SLONG lx;
-	SLONG ly;
-	SLONG lz;
+	std::int32_t lradius;
+	std::int32_t lx;
+	std::int32_t ly;
+	std::int32_t lz;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG dprod;
-	SLONG bright;
+	std::int32_t dist;
+	std::int32_t dprod;
+	std::int32_t bright;
 
-	SLONG amb_amount;
-	SLONG amb_red;
-	SLONG amb_green;
-	SLONG amb_blue;
+	std::int32_t amb_amount;
+	std::int32_t amb_red;
+	std::int32_t amb_green;
+	std::int32_t amb_blue;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
 	PrimPoint    *pp;
 	NIGHT_Smap   *ns;
@@ -2855,15 +2855,15 @@ void NIGHT_destroy_all_cached_info()
 
 
 #ifndef PSX
-SLONG NIGHT_load_ed_file(CBYTE* name)
+std::int32_t NIGHT_load_ed_file(char* name)
 {
 //#ifndef	PSX
-	SLONG i;
+	std::int32_t i;
 
-	SLONG sizeof_ed_light;
-	SLONG ed_max_lights;
-	SLONG sizeof_night_colour;
-	SLONG ed_light_free;
+	std::int32_t sizeof_ed_light;
+	std::int32_t ed_max_lights;
+	std::int32_t sizeof_night_colour;
+	std::int32_t ed_light_free;
 
 	ED_Light el;
 
@@ -2884,9 +2884,9 @@ SLONG NIGHT_load_ed_file(CBYTE* name)
 
 
 
-	if (FileRead(handle,&sizeof_ed_light,     sizeof(SLONG)) != sizeof(SLONG)) goto file_error;
-	if (FileRead(handle,&ed_max_lights,     sizeof(SLONG)) != sizeof(SLONG)) goto file_error;
-	if (FileRead(handle,&sizeof_night_colour,     sizeof(SLONG)) != sizeof(SLONG)) goto file_error;
+	if (FileRead(handle,&sizeof_ed_light,     sizeof(std::int32_t)) != sizeof(std::int32_t)) goto file_error;
+	if (FileRead(handle,&ed_max_lights,     sizeof(std::int32_t)) != sizeof(std::int32_t)) goto file_error;
+	if (FileRead(handle,&sizeof_night_colour,     sizeof(std::int32_t)) != sizeof(std::int32_t)) goto file_error;
 
 
 	if (sizeof_ed_light     != sizeof(ED_Light) ||
@@ -2926,36 +2926,36 @@ SLONG NIGHT_load_ed_file(CBYTE* name)
 	// We can ignore this.
 	// 
 	
-	if (FileRead(handle,&ed_light_free, sizeof(SLONG)) != sizeof(SLONG)) goto file_error;
+	if (FileRead(handle,&ed_light_free, sizeof(std::int32_t)) != sizeof(std::int32_t)) goto file_error;
 
 	//
 	// Other stuff.
 	//
 
-	ULONG        flag;
-	ULONG        amb_d3d_colour;
-	ULONG        amb_d3d_specular;
-	SLONG        amb_red;
-	SLONG        amb_green;
-	SLONG        amb_blue;
-	SBYTE		 lampost_red;
-	SBYTE		 lampost_green;
-	SBYTE		 lampost_blue;
-	UBYTE        padding;
-	SLONG        lampost_radius;
+	std::uint32_t        flag;
+	std::uint32_t        amb_d3d_colour;
+	std::uint32_t        amb_d3d_specular;
+	std::int32_t        amb_red;
+	std::int32_t        amb_green;
+	std::int32_t        amb_blue;
+	std::int8_t		 lampost_red;
+	std::int8_t		 lampost_green;
+	std::int8_t		 lampost_blue;
+	std::uint8_t        padding;
+	std::int32_t        lampost_radius;
 	NIGHT_Colour sky_colour;
 
-	if (FileRead(handle,&flag,             sizeof(ULONG)) !=sizeof(ULONG)) goto file_error;
-	if (FileRead(handle,&amb_d3d_colour,   sizeof(ULONG)) !=sizeof(ULONG))  goto file_error;
-	if (FileRead(handle,&amb_d3d_specular, sizeof(ULONG)) !=sizeof(ULONG) ) goto file_error;
-	if (FileRead(handle,&amb_red,          sizeof(ULONG)) !=sizeof(ULONG) ) goto file_error;
-	if (FileRead(handle,&amb_green,        sizeof(ULONG)) !=sizeof(ULONG)  ) goto file_error;
-	if (FileRead(handle,&amb_blue,         sizeof(ULONG)) !=sizeof(ULONG)  ) goto file_error;
-	if (FileRead(handle,&lampost_red,      sizeof(SBYTE)) !=sizeof(SBYTE)  ) goto file_error;
-	if (FileRead(handle,&lampost_green,    sizeof(SBYTE)) !=sizeof(SBYTE)  ) goto file_error;
-	if (FileRead(handle,&lampost_blue,     sizeof(SBYTE)) !=sizeof(SBYTE)  ) goto file_error;
-	if (FileRead(handle,&padding,          sizeof(UBYTE)) !=sizeof(UBYTE)  ) goto file_error;
-	if (FileRead(handle,&lampost_radius,   sizeof(SLONG)) !=sizeof(SLONG)  ) goto file_error;
+	if (FileRead(handle,&flag,             sizeof(std::uint32_t)) !=sizeof(std::uint32_t)) goto file_error;
+	if (FileRead(handle,&amb_d3d_colour,   sizeof(std::uint32_t)) !=sizeof(std::uint32_t))  goto file_error;
+	if (FileRead(handle,&amb_d3d_specular, sizeof(std::uint32_t)) !=sizeof(std::uint32_t) ) goto file_error;
+	if (FileRead(handle,&amb_red,          sizeof(std::uint32_t)) !=sizeof(std::uint32_t) ) goto file_error;
+	if (FileRead(handle,&amb_green,        sizeof(std::uint32_t)) !=sizeof(std::uint32_t)  ) goto file_error;
+	if (FileRead(handle,&amb_blue,         sizeof(std::uint32_t)) !=sizeof(std::uint32_t)  ) goto file_error;
+	if (FileRead(handle,&lampost_red,      sizeof(std::int8_t)) !=sizeof(std::int8_t)  ) goto file_error;
+	if (FileRead(handle,&lampost_green,    sizeof(std::int8_t)) !=sizeof(std::int8_t)  ) goto file_error;
+	if (FileRead(handle,&lampost_blue,     sizeof(std::int8_t)) !=sizeof(std::int8_t)  ) goto file_error;
+	if (FileRead(handle,&padding,          sizeof(std::uint8_t)) !=sizeof(std::uint8_t)  ) goto file_error;
+	if (FileRead(handle,&lampost_radius,   sizeof(std::int32_t)) !=sizeof(std::int32_t)  ) goto file_error;
 	if (FileRead(handle,&sky_colour,       sizeof(NIGHT_Colour)) !=sizeof(NIGHT_Colour) ) goto file_error;
 
 	NIGHT_ambient(

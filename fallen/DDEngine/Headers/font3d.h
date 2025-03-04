@@ -18,13 +18,13 @@
 // oh well... set up manually then...
 
 #define PI				(3.14159265F)
-typedef	unsigned char		UBYTE;
-typedef signed char			SBYTE;
-typedef char				CBYTE;
-typedef unsigned short		UWORD;
-typedef signed short		SWORD;
-typedef unsigned long		ULONG;
-typedef signed long			SLONG;
+typedef	unsigned char		std::uint8_t;
+typedef signed char			std::int8_t;
+typedef char				char;
+typedef unsigned short		std::uint16_t;
+typedef signed short		std::int16_t;
+typedef unsigned long		std::uint32_t;
+typedef signed long			std::int32_t;
 
 
 struct FontVec {
@@ -39,23 +39,23 @@ struct FontFace {
 };
 
 struct FontData {
-	ULONG     numpts, numfaces;
+	std::uint32_t     numpts, numfaces;
     FontVec  *pts;
 	FontFace *faces;
-	UWORD     width;
+	std::uint16_t     width;
 };
 
 class Font3D {
   private:
     FontData data[100];
-	ULONG    nextchar;
-	ULONG	 LetterWidth(CBYTE chr);
+	std::uint32_t    nextchar;
+	std::uint32_t	 LetterWidth(char chr);
 	float	 fontscale;
   public:
     void ClearLetters();
-	void AddLetter(CBYTE* fn);
-	void DrawLetter(CBYTE chr, ULONG x, ULONG y, ULONG rgb=0xffffff, float yaw=0, float roll=0, float pitch=0, float scale=3.5);
-	void DrawString(CBYTE* str, ULONG x, ULONG y, ULONG rgb=0xffffff, float scale=3.5, CBYTE wibble=0, UWORD zoom=0);
+	void AddLetter(char* fn);
+	void DrawLetter(char chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, float yaw=0, float roll=0, float pitch=0, float scale=3.5);
+	void DrawString(char* str, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, float scale=3.5, char wibble=0, std::uint16_t zoom=0);
 	Font3D(char *path, float scale=1.0);
 	~Font3D();
 };

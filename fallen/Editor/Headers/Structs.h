@@ -12,7 +12,7 @@
 
 typedef	struct
 {
-	SLONG		X,
+	std::int32_t		X,
 				Y,
 				Z;
 }Coord;
@@ -33,7 +33,7 @@ typedef	struct
 
 typedef	struct
 {
-	UBYTE				DrawType;
+	std::uint8_t				DrawType;
 	KeyFrameElement		*AnimElements,
 						*NextAnimElements;
 	union
@@ -46,19 +46,19 @@ typedef	struct
 
 typedef	struct
 {
-	ULONG		DrawType;
+	std::uint32_t		DrawType;
 }Draw;
 
 //---------------------------------------------------------------
 
 typedef	struct
 {
-	SBYTE		Class,
+	std::int8_t		Class,
 				State;
-	ULONG		Flags;
-	SLONG		Child,
+	std::uint32_t		Flags;
+	std::int32_t		Child,
 				Parent;
-	SLONG		LinkChild,
+	std::int32_t		LinkChild,
 				LinkParent;
 
 	Draw		Draw;

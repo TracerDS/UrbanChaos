@@ -15,7 +15,7 @@
 class	KeyFrameEditor2	:	public	EditorModule
 {
 	private:
-		SLONG			AnimAngleX,
+		std::int32_t			AnimAngleX,
 						AnimAngleY,
 						AnimAngleZ,
 						AnimOffsetX,
@@ -31,12 +31,12 @@ class	KeyFrameEditor2	:	public	EditorModule
 						~KeyFrameEditor2();
 		void			SetupModule();
 		void			DrawContent();
-		void			HandleContentClick(UBYTE flags,MFPoint *clicked_point);
-		void			HandleControlClick(UBYTE flags,MFPoint *clicked_point);
+		void			HandleContentClick(std::uint8_t flags,MFPoint *clicked_point);
+		void			HandleControlClick(std::uint8_t flags,MFPoint *clicked_point);
 		void			HandleModule();
-		void			HandleKeyFramesControl(ULONG control_id);
+		void			HandleKeyFramesControl(std::uint32_t control_id);
 		void			DrawKeyFrames();
-		void			DrawKeyFrame(UWORD multi_object,EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix);
+		void			DrawKeyFrame(std::uint16_t multi_object,EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix);
 };
 
 #endif

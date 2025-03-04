@@ -20,25 +20,25 @@
 
 typedef struct
 {
-	UBYTE xmin;
-	UBYTE xmax;
+	std::uint8_t xmin;
+	std::uint8_t xmax;
 
 } NGAMUT_Gamut;
 
 typedef struct
 {
-	UBYTE zmin;
-	UBYTE zmax;
+	std::uint8_t zmin;
+	std::uint8_t zmax;
 
 } NGAMUT_Gamut2;
 
 extern NGAMUT_Gamut2	NGAMUT_gamut2[NGAMUT_SIZE];
 extern NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
-extern SLONG        NGAMUT_zmin;
-extern SLONG        NGAMUT_zmax;
-extern SLONG        NGAMUT_Ymin;
-extern SLONG        NGAMUT_Ymax;
-extern SLONG			NGAMUT_xmin,NGAMUT_xmax;
+extern std::int32_t        NGAMUT_zmin;
+extern std::int32_t        NGAMUT_zmax;
+extern std::int32_t        NGAMUT_Ymin;
+extern std::int32_t        NGAMUT_Ymax;
+extern std::int32_t			NGAMUT_xmin,NGAMUT_xmax;
 
 //
 // Function to work out a gamut.
@@ -50,16 +50,16 @@ extern SLONG			NGAMUT_xmin,NGAMUT_xmax;
 
 void NGAMUT_init    ();
 void NGAMUT_add_line(
-		SLONG px1,
-		SLONG pz1,
-		SLONG px2,
-		SLONG pz2);
+		std::int32_t px1,
+		std::int32_t pz1,
+		std::int32_t px2,
+		std::int32_t pz2);
 
 //
 // Works out a square gamut of the given radius centered at (x,z)
 //
 
-void NGAMUT_view_square(SLONG mid_x, SLONG mid_z, SLONG radius);
+void NGAMUT_view_square(std::int32_t mid_x, std::int32_t mid_z, std::int32_t radius);
 
 
 //
@@ -68,8 +68,8 @@ void NGAMUT_view_square(SLONG mid_x, SLONG mid_z, SLONG radius);
 //
 
 extern NGAMUT_Gamut NGAMUT_point_gamut[NGAMUT_SIZE];
-extern SLONG        NGAMUT_point_zmin;
-extern SLONG        NGAMUT_point_zmax;
+extern std::int32_t        NGAMUT_point_zmin;
+extern std::int32_t        NGAMUT_point_zmax;
 
 void NGAMUT_calculate_point_gamut();
 
@@ -80,8 +80,8 @@ void NGAMUT_calculate_point_gamut();
 //
 
 extern NGAMUT_Gamut NGAMUT_lo_gamut[NGAMUT_SIZE_LO];
-extern SLONG        NGAMUT_lo_zmin;
-extern SLONG        NGAMUT_lo_zmax;
+extern std::int32_t        NGAMUT_lo_zmin;
+extern std::int32_t        NGAMUT_lo_zmax;
 
 void NGAMUT_calculate_lo_gamut();
 

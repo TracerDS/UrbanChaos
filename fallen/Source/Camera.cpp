@@ -6,7 +6,7 @@
 #include	"statedef.h"
 
 extern Camera		test_view;
-void set_camera_angle(Thing *c_thing,SLONG lag);
+void set_camera_angle(Thing *c_thing,std::int32_t lag);
 
 //---------------------------------------------------------------
 
@@ -18,9 +18,9 @@ void init_cameras()
 
 //---------------------------------------------------------------
 
-Thing *alloc_camera(UBYTE type)
+Thing *alloc_camera(std::uint8_t type)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	CameraMan		*new_camera;
 	Thing			*camera_thing	=	nullptr;
 
@@ -56,7 +56,7 @@ void free_camera(Thing *camera_thing)
 
 //---------------------------------------------------------------
 
-Thing *create_camera(UBYTE type,GameCoord *start_pos,Thing *track_thing)
+Thing *create_camera(std::uint8_t type,GameCoord *start_pos,Thing *track_thing)
 {
 	CameraMan		*t_camera;
 	GameCoord		default_pos;
@@ -111,7 +111,7 @@ void set_up_camera(Thing *camera_thing,GameCoord *start_pos,Thing *track_thing)
 
 //---------------------------------------------------------------
 
-void set_camera_type(Thing *c_thing,UBYTE type)
+void set_camera_type(Thing *c_thing,std::uint8_t type)
 {
 	// Set the camera state function.
 	switch(type)
@@ -193,7 +193,7 @@ void free_camera_position(Thing *c_thing,GameCoord *rel_pos,bool snap)
 	set_camera_type(c_thing,CAMERA_TRACKER);
 }
 
-void set_game_camera(SLONG dx,SLONG dy,SLONG dz)
+void set_game_camera(std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
 	CameraMan		*t_camera;
 	Thing			*c_thing;
@@ -213,12 +213,12 @@ void set_game_camera(SLONG dx,SLONG dy,SLONG dz)
 // A thing may required a special camera angle if its inside a building,
 // or if it's on a firescape
 //
-SLONG special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
+std::int32_t special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
 {
-	SLONG wall;
-	SLONG storey;
-	SLONG building;
-	SLONG thing;
+	std::int32_t wall;
+	std::int32_t storey;
+	std::int32_t building;
+	std::int32_t thing;
 
 	Thing *p_fthing;
 
@@ -228,8 +228,8 @@ SLONG special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
 		{
 			if(prim_faces4[p_thing->OnFace].Type==FACE_TYPE_FIRE_ESCAPE)
 			{
-				SLONG	building,storey,wall,face_x,face_y,face_z;
-				SLONG	dx,dz;
+				std::int32_t	building,storey,wall,face_x,face_y,face_z;
+				std::int32_t	dx,dz;
 
 				wall = prim_faces4[p_thing->OnFace].ThingIndex;
 
@@ -286,10 +286,10 @@ SLONG special_camera_angle_required_for_thing(Thing *p_thing,GameCoord *new_pos)
 //
 // tries to point the camera at the player
 //
-void set_camera_angle_for_pos(Thing *c_thing,SLONG lag)
+void set_camera_angle_for_pos(Thing *c_thing,std::int32_t lag)
 {
-	SWORD			angle_diff,angle_to;
-	SLONG	t_dx,t_dy,t_dz;
+	std::int16_t			angle_diff,angle_to;
+	std::int32_t	t_dx,t_dy,t_dz;
 	CameraMan		*t_camera;
 	GameCoord		camera_position,
 					dest_position;
@@ -302,7 +302,7 @@ void set_camera_angle_for_pos(Thing *c_thing,SLONG lag)
 
 	calc_sub_objects_position(track_thing,track_thing->Draw.Tweened->AnimTween,0,&t_dx,&t_dy,&t_dz); //0 is pelvis
 
-	angle_to	=	(SWORD)Arctan	(
+	angle_to	=	(std::int16_t)Arctan	(
 										(((camera_position.X-track_thing->WorldPos.X)>>8)-t_dx),
 										(((camera_position.Z-track_thing->WorldPos.Z)>>8)-t_dz)
 									);
@@ -336,10 +336,10 @@ void set_camera_angle_for_pos(Thing *c_thing,SLONG lag)
 //
 // Tries to point the camera in the direction the player is going
 //
-void set_camera_rangle_for_player_angle(Thing *c_thing,SLONG lag)
+void set_camera_rangle_for_player_angle(Thing *c_thing,std::int32_t lag)
 {
-	SWORD			angle_diff,angle_to;
-	SLONG	t_dx,t_dy,t_dz;
+	std::int16_t			angle_diff,angle_to;
+	std::int32_t	t_dx,t_dy,t_dz;
 	CameraMan		*t_camera;
 	GameCoord		camera_position,
 					dest_position;
@@ -363,7 +363,7 @@ void set_camera_rangle_for_player_angle(Thing *c_thing,SLONG lag)
 
 void process_t_camera(Thing *c_thing)
 {
-	SLONG			distance,
+	std::int32_t			distance,
 					sin,cos,
 					tx		=	0,
 					ty		=	0,
@@ -372,12 +372,12 @@ void process_t_camera(Thing *c_thing)
 	GameCoord		camera_position,
 					dest_position;
 	Thing			*track_thing;
-	SLONG	t_dx,t_dy,t_dz;
-	SLONG	dx,dy,dz;
-	SLONG	car=0;
+	std::int32_t	t_dx,t_dy,t_dz;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	car=0;
 	static	first_person=0;
 
-	CBYTE str[100];
+	char str[100];
 //	LogText(" process camera\n");
 
 
@@ -411,7 +411,7 @@ void process_t_camera(Thing *c_thing)
 		// Indoors, put the camera at a point in the room.
 		//
 
-		UBYTE room = ID_get_mapsquare_room(track_thing->WorldPos.X >> ELE_SHIFT, track_thing->WorldPos.Z >> ELE_SHIFT);
+		std::uint8_t room = ID_get_mapsquare_room(track_thing->WorldPos.X >> ELE_SHIFT, track_thing->WorldPos.Z >> ELE_SHIFT);
 
 		if (room == 0)
 		{
@@ -431,8 +431,8 @@ void process_t_camera(Thing *c_thing)
 	}
 	else
 	{
-		SLONG angle;
-		SLONG tilt;
+		std::int32_t angle;
+		std::int32_t tilt;
 
 		if(USER_INTERFACE==1)
 		{
@@ -573,11 +573,11 @@ void process_t_camera(Thing *c_thing)
 		// Use the mouse to look around.
 		// 
 
-		SLONG dx;
-		SLONG dy;
+		std::int32_t dx;
+		std::int32_t dy;
 		
-		SLONG yaw;
-		SLONG pitch;
+		std::int32_t yaw;
+		std::int32_t pitch;
 
 		dx = (MouseX - the_engine.HalfViewWidth);
 		dy = (MouseY - the_engine.HalfViewHeight);
@@ -665,8 +665,8 @@ void process_t_camera(Thing *c_thing)
 
 void process_f_camera(Thing *c_thing)
 {
-	SWORD			angle_diff,angle_to;
-	SLONG			distance,
+	std::int16_t			angle_diff,angle_to;
+	std::int32_t			distance,
 					sin,cos,
 					tx		=	0,
 					ty		=	0,
@@ -675,7 +675,7 @@ void process_f_camera(Thing *c_thing)
 	GameCoord		camera_position,
 					dest_position;
 	Thing			*track_thing;
-	SLONG	t_dx,t_dy,t_dz;
+	std::int32_t	t_dx,t_dy,t_dz;
 
 
 	t_camera		=	c_thing->Genus.Camera;
@@ -699,7 +699,7 @@ void process_f_camera(Thing *c_thing)
 	tz		=	dest_position.Z-(camera_position.Z>>8);
 
 	// Set the camera angle & tilt.
-	angle_to	=	(SWORD)Arctan	(
+	angle_to	=	(std::int16_t)Arctan	(
 										(camera_position.X>>8)-((track_thing->WorldPos.X>>8)+t_dx),
 										(camera_position.Z>>8)-((track_thing->WorldPos.Z>>8)+t_dz)
 									);
@@ -750,11 +750,11 @@ void process_f_camera(Thing *c_thing)
 
 //---------------------------------------------------------------
 
-SWORD spin_step	=	0;
+std::int16_t spin_step	=	0;
 
 void spin_camera_around_subject(Thing *c_thing)
 {
-	SLONG			distance;
+	std::int32_t			distance;
 	CameraMan		*t_camera;
 
 

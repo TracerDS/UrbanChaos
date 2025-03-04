@@ -11,7 +11,7 @@
 // Messages drawn straight to the screen.
 //
 
-void MSG_add(CBYTE* message, ...);
+void MSG_add(char* message, ...);
 
 //
 // This function returns the height of the floor at (x,z).
@@ -20,20 +20,20 @@ void MSG_add(CBYTE* message, ...);
 // we'd have to include everything!
 //
 
-SLONG calc_height_at(SLONG x, SLONG z);
+std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
 
 
 typedef struct
 {
-	UBYTE type;
-	SBYTE dyaw;
-	SWORD yaw;
-	UWORD size;
-	UWORD shit;
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::uint8_t type;
+	std::int8_t dyaw;
+	std::int16_t yaw;
+	std::uint16_t size;
+	std::uint16_t shit;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
 } FOG_Fog;
 
@@ -49,14 +49,14 @@ FOG_Fog FOG_fog[FOG_MAX_FOG];
 // The current focus.
 //
 
-SLONG FOG_focus_x;
-SLONG FOG_focus_z;
-SLONG FOG_focus_radius;
+std::int32_t FOG_focus_x;
+std::int32_t FOG_focus_z;
+std::int32_t FOG_focus_radius;
 
 
 void FOG_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Mark all the fog as unused.
@@ -72,21 +72,21 @@ void FOG_init()
 // Returns how fast the given fog index should be turning.
 // 
 
-inline SLONG FOG_get_dyaw(SLONG f_index) {return (f_index & 15) - 7;}
+inline std::int32_t FOG_get_dyaw(std::int32_t f_index) {return (f_index & 15) - 7;}
 
 
 //
 // Initialises a new bit of fog on the edge of the current focus
 //
 
-void FOG_create(SLONG f_index)
+void FOG_create(std::int32_t f_index)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG yaw;
-	SLONG radius;
+	std::int32_t yaw;
+	std::int32_t radius;
 
 	ASSERT(WITHIN(f_index, 0, FOG_MAX_FOG - 1));
 
@@ -116,14 +116,14 @@ void FOG_create(SLONG f_index)
 
 
 void FOG_set_focus(
-  		SLONG x,
-		SLONG z,
-		SLONG radius)
+  		std::int32_t x,
+		std::int32_t z,
+		std::int32_t radius)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	FOG_Fog *ff;
 
@@ -177,20 +177,20 @@ void FOG_set_focus(
 
 
 void FOG_gust(
-		SLONG gx1, SLONG gz1,
-		SLONG gx2, SLONG gz2)
+		std::int32_t gx1, std::int32_t gz1,
+		std::int32_t gx2, std::int32_t gz2)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG dgx;
-	SLONG dgz;
-	SLONG dist;
-	SLONG push;
-	SLONG cross;
-	SLONG strength;
-	SLONG dyaw;
-	SLONG ddyaw;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dgx;
+	std::int32_t dgz;
+	std::int32_t dist;
+	std::int32_t push;
+	std::int32_t cross;
+	std::int32_t strength;
+	std::int32_t dyaw;
+	std::int32_t ddyaw;
 
 	FOG_Fog *ff;
 
@@ -289,10 +289,10 @@ void FOG_gust(
 
 void FOG_process()
 {
-	SLONG i;
-	SLONG dyaw;
-	SLONG wantdyaw;
-	SLONG ddyaw;
+	std::int32_t i;
+	std::int32_t dyaw;
+	std::int32_t wantdyaw;
+	std::int32_t ddyaw;
 
 	FOG_Fog *ff;
 
@@ -326,12 +326,12 @@ void FOG_process()
 	}
 }
 
-SLONG FOG_get_upto;
+std::int32_t FOG_get_upto;
 
 void FOG_get_start() {FOG_get_upto = 0;}
 FOG_Info FOG_get_info()
 {
-	SLONG trans;
+	std::int32_t trans;
 
 	FOG_Fog *ff;
 	FOG_Info ans;

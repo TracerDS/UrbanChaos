@@ -28,27 +28,27 @@ void GLITTER_init();
 #define GLITTER_FLAG_USED	 (1 << 6)	// Private...
 #define GLITTER_FLAG_DESTROY (1 << 7)	// Private...
 
-UBYTE GLITTER_create(
-		UBYTE flag,
-		UBYTE map_x,
-		UBYTE map_z,
-		ULONG colour);
+std::uint8_t GLITTER_create(
+		std::uint8_t flag,
+		std::uint8_t map_x,
+		std::uint8_t map_z,
+		std::uint32_t colour);
 
 //
 // Destroys the glitter when all its spark die off.
 //
 
-void  GLITTER_destroy(UBYTE glitter);
+void  GLITTER_destroy(std::uint8_t glitter);
 
 //
 // Adds a sparkle to a glitter.
 //
 
 void GLITTER_add(
-		UBYTE glitter,
-		SLONG x,
-		SLONG y,
-		SLONG z);
+		std::uint8_t glitter,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z);
 
 
 void GLITTER_process();
@@ -62,17 +62,17 @@ void GLITTER_process();
 
 typedef struct
 {
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
-	ULONG colour;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
+	std::uint32_t colour;
 	
 } GLITTER_Info;
 
-void          GLITTER_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
+void          GLITTER_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z);
 GLITTER_Info *GLITTER_get_next();
 
 

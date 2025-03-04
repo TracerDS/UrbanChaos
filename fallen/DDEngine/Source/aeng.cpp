@@ -138,21 +138,21 @@ static void ScribbleCheck ( void )
 
 
 void	AENG_draw_far_facets();
-void AENG_draw_box_around_recessed_door(DFacet *df, SLONG inside_out);
-void AENG_get_rid_of_unused_dfcache_lighting(SLONG splitscreen);
-void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade);
+void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out);
+void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen);
+void	AENG_draw_inside_floor(std::uint16_t inside_index,std::uint16_t inside_room,std::uint8_t fade);
 
-UBYTE	aeng_draw_cloud_flag = 1;
-UWORD	light_inside=0;
-UWORD	fade_black=1;
+std::uint8_t	aeng_draw_cloud_flag = 1;
+std::uint16_t	light_inside=0;
+std::uint16_t	fade_black=1;
 
 #ifndef TARGET_DC
-UBYTE	cloud_data[32][32];
-SLONG	cloud_x,cloud_z;
+std::uint8_t	cloud_data[32][32];
+std::int32_t	cloud_x,cloud_z;
 #endif
 
-extern SLONG FirstPersonMode;
-SLONG	FirstPersonAlpha = 255;
+extern std::int32_t FirstPersonMode;
+std::int32_t	FirstPersonAlpha = 255;
 #define	MAX_FPM_ALPHA	160
 
 
@@ -179,7 +179,7 @@ int AENG_estimate_detail_levels = 1;
 
 
 
-SLONG AENG_cur_fc_cam;
+std::int32_t AENG_cur_fc_cam;
 
 
 #ifndef TARGET_DC
@@ -191,16 +191,16 @@ void	move_clouds()
 	cloud_z+=5;
 }
 
-SLONG	global_b=0;
+std::int32_t	global_b=0;
 
 //
 // calc a cloud shadow value for a world co-ord for reapeated use by prim or person or ...
 //
-void	calc_global_cloud(SLONG x,SLONG y,SLONG z)
+void	calc_global_cloud(std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG	in,r,g,b;
-	SLONG	in1,in2,in3,in0;
-	SLONG	dx,dz,mx,mz;
+	std::int32_t	in,r,g,b;
+	std::int32_t	in1,in2,in3,in0;
+	std::int32_t	dx,dz,mx,mz;
 	if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
 		return;
 	y>>=1;
@@ -247,10 +247,10 @@ void	calc_global_cloud(SLONG x,SLONG y,SLONG z)
 //
 // use pre-calced shadow value
 //
-void	use_global_cloud(ULONG *col)
+void	use_global_cloud(std::uint32_t *col)
 {
-	SLONG	r,g,b;
-	SLONG	in=global_b;
+	std::int32_t	r,g,b;
+	std::int32_t	in=global_b;
 
     if (!aeng_draw_cloud_flag) return;
 
@@ -295,15 +295,15 @@ void	use_global_cloud(ULONG *col)
 
 
 #define	MIN_CLOUD	48
-inline void	apply_cloud(SLONG x,SLONG y,SLONG z,ULONG *col)
+inline void	apply_cloud(std::int32_t x, std::int32_t y, std::int32_t z, D3DCOLOR* col)
 {
 	return;
 
     if (!aeng_draw_cloud_flag) return;
 
-	SLONG	in,r,g,b;
-	SLONG	in1,in2,in3,in0;
-	SLONG	dx,dz,mx,mz;
+	std::int32_t	in,r,g,b;
+	std::int32_t	in1,in2,in3,in0;
+	std::int32_t	dx,dz,mx,mz;
 	if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
 		return;
 	y>>=1;
@@ -410,12 +410,12 @@ void	init_clouds()
 
 // GetShadowPixelMapping
 //
-// returns a UBYTE -> UWORD table for mapping
+// returns a std::uint8_t -> std::uint16_t table for mapping
 // from the shadow buffer to the shadow texture surface
 
-UWORD*	GetShadowPixelMapping()
+std::uint16_t*	GetShadowPixelMapping()
 {
-	static UWORD	mapping[256];
+	static std::uint16_t	mapping[256];
 	static int		mapping_state = -1;
 
 	//
@@ -454,7 +454,7 @@ UWORD*	GetShadowPixelMapping()
 	return mapping;
 }
 
-extern SLONG dfacets_drawn_this_gameturn;
+extern std::int32_t dfacets_drawn_this_gameturn;
 extern bool allow_debug_keys;
 
 //
@@ -469,8 +469,8 @@ extern bool allow_debug_keys;
 
 float AENG_lens = 4.0F;
 
-//static SLONG	NormalDrawDistance = 22<<8;
-SLONG	CurDrawDistance = 22<<8;
+//static std::int32_t	NormalDrawDistance = 22<<8;
+std::int32_t	CurDrawDistance = 22<<8;
 
 //#define AENG_DRAW_DIST ((FC_cam[1].focus) ? 16 : 22)
 #define AENG_DRAW_DIST			(CurDrawDistance>>8)
@@ -479,12 +479,12 @@ SLONG	CurDrawDistance = 22<<8;
 
 #define AENG_LENS		(AENG_lens)
 
-SLONG AENG_get_draw_distance()
+std::int32_t AENG_get_draw_distance()
 {
 	return CurDrawDistance >> 8;
 }
 
-void AENG_set_draw_distance(SLONG dist)
+void AENG_set_draw_distance(std::int32_t dist)
 {
 #if 0
 	NormalDrawDistance = dist;
@@ -506,7 +506,7 @@ float AENG_cam_roll;
 
 float AENG_cam_matrix[9];
 
-SLONG AENG_cam_vec[3];
+std::int32_t AENG_cam_vec[3];
 
 //
 // The floating point prim points.
@@ -516,18 +516,18 @@ SVector_F AENG_dx_prim_points[RMAX_PRIM_POINTS];
 
 struct	StoreLine
 {
-	SLONG	x1,y1,z1,x2,y2,z2;
-	ULONG	col;
+	std::int32_t	x1,y1,z1,x2,y2,z2;
+	std::uint32_t	col;
 };
 
 #define	MAX_LINES	100
 struct	StoreLine	Lines[MAX_LINES];
-SLONG	next_line=0;
+std::int32_t	next_line=0;
 
 
-void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG colour)
+void	add_debug_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t colour)
 {
-	SLONG	line;
+	std::int32_t	line;
 
 	line=next_line%MAX_LINES;
 
@@ -546,7 +546,7 @@ void	add_debug_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG 
 #ifdef DEBUG
 void	draw_debug_lines()
 {
-   SLONG	c0,s,e;
+   std::int32_t	c0,s,e;
    if((!ControlFlag)||(!allow_debug_keys)) return;
 
    s=next_line-MAX_LINES;
@@ -557,7 +557,7 @@ void	draw_debug_lines()
 
    for(c0=s;c0<e;c0++)
    {
-	   SLONG	index;
+	   std::int32_t	index;
 
 	   index=c0%MAX_LINES;
 
@@ -570,7 +570,7 @@ void	draw_debug_lines()
 // The sewer pages.
 //
 
-SLONG AENG_sewer_page[SEWER_PAGE_NUMBER] =
+std::int32_t AENG_sewer_page[SEWER_PAGE_NUMBER] =
 {
 	3,
 	4,
@@ -597,15 +597,15 @@ SLONG AENG_sewer_page[SEWER_PAGE_NUMBER] =
 #define AENG_MAX_MOVIE_DATA (512 * 1024)
 #endif
 
-UBYTE       AENG_movie_data[AENG_MAX_MOVIE_DATA];
-UBYTE      *AENG_movie_upto;
+std::uint8_t       AENG_movie_data[AENG_MAX_MOVIE_DATA];
+std::uint8_t      *AENG_movie_upto;
 COMP_Frame  AENG_frame_one;
 COMP_Frame  AENG_frame_two;
 COMP_Frame *AENG_frame_last = &AENG_frame_one;
 COMP_Frame *AENG_frame_next = &AENG_frame_two;
-SLONG       AENG_frame_count;
-SLONG       AENG_frame_tick;
-SLONG       AENG_frame_number;
+std::int32_t       AENG_frame_count;
+std::int32_t       AENG_frame_tick;
+std::int32_t       AENG_frame_number;
 
 //
 // Initialises the movie stuff.
@@ -613,7 +613,7 @@ SLONG       AENG_frame_number;
 
 void AENG_movie_init()
 {
-	SLONG bytes_read;
+	std::int32_t bytes_read;
 
 	FILE *handle;
 
@@ -628,7 +628,7 @@ void AENG_movie_init()
 		goto file_error;
 	}
 
-	bytes_read = fread(AENG_movie_data, sizeof(UBYTE), AENG_MAX_MOVIE_DATA, handle);
+	bytes_read = fread(AENG_movie_data, sizeof(std::uint8_t), AENG_MAX_MOVIE_DATA, handle);
 	ASSERT ( bytes_read < AENG_MAX_MOVIE_DATA );
 
 	AENG_frame_last   = &AENG_frame_one;
@@ -714,11 +714,11 @@ void AENG_movie_update()
 
 		if (TEXTURE_86_lock())
 		{
-			SLONG x;
-			SLONG y;
+			std::int32_t x;
+			std::int32_t y;
 
-			UWORD *data;
-			UWORD  pixel;
+			std::uint16_t *data;
+			std::uint16_t  pixel;
 
 			TGA_Pixel *tp;
 
@@ -763,8 +763,8 @@ COMP_Frame cf4;
 
 #define MAX_MOVIE_DATA (1024 * 512)
 
-UBYTE  movie_data[MAX_MOVIE_DATA];
-UBYTE *movie_data_upto;
+std::uint8_t  movie_data[MAX_MOVIE_DATA];
+std::uint8_t *movie_data_upto;
 
 */
 
@@ -789,7 +789,7 @@ void AENG_init()
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		COMP_Frame *curr = &cf1;
 		COMP_Frame *last = &cf2;
@@ -797,9 +797,9 @@ void AENG_init()
 
 		COMP_Delta *cd;
 
-		SLONG load_ok;
+		std::int32_t load_ok;
 
-		CBYTE name[256];
+		char name[256];
 
 		movie_data_upto = movie_data;
 
@@ -834,8 +834,8 @@ void AENG_init()
 
 	/*
 
-	SLONG cf1_ok = COMP_load("movie\\frames\\cin1040.tga", &cf1);
-	SLONG cf2_ok = COMP_load("movie\\frames\\cin1041.tga", &cf2);
+	std::int32_t cf1_ok = COMP_load("movie\\frames\\cin1040.tga", &cf1);
+	std::int32_t cf2_ok = COMP_load("movie\\frames\\cin1041.tga", &cf2);
 
 	COMP_Delta *cd = COMP_calc(&cf1, &cf2, &cf3);
 
@@ -873,7 +873,7 @@ void AENG_init()
 
 	*/
 
-	SLONG num_bytes;
+	std::int32_t num_bytes;
 
 	num_bytes = movie_data_upto - movie_data;
 
@@ -881,7 +881,7 @@ void AENG_init()
 
 	if (handle)
 	{
-		fwrite(movie_data, sizeof(UBYTE), num_bytes, handle);
+		fwrite(movie_data, sizeof(std::uint8_t), num_bytes, handle);
 		MF_Fclose(handle);
 	}
 
@@ -904,7 +904,7 @@ void AENG_fini()
 
 void AENG_create_dx_prim_points()
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < MAX_PRIM_POINTS; i++)
 	{
@@ -915,9 +915,9 @@ void AENG_create_dx_prim_points()
 }
 
 void AENG_world_line(
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 
 #ifdef DEBUG
@@ -949,9 +949,9 @@ void AENG_world_line(
 
 
 void AENG_world_line_nondebug (
-		SLONG x1, SLONG y1, SLONG z1, SLONG width1, ULONG colour1, 
-		SLONG x2, SLONG y2, SLONG z2, SLONG width2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1, 
+		std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 
 	POLY_Point p1;
@@ -975,9 +975,9 @@ void AENG_world_line_nondebug (
 
 
 void AENG_world_line_infinite(
-		SLONG ix1, SLONG iy1, SLONG iz1, SLONG iwidth1, ULONG colour1, 
-		SLONG ix2, SLONG iy2, SLONG iz2, SLONG iwidth2, ULONG colour2,
-		SLONG sort_to_front)
+		std::int32_t ix1, std::int32_t iy1, std::int32_t iz1, std::int32_t iwidth1, std::uint32_t colour1, 
+		std::int32_t ix2, std::int32_t iy2, std::int32_t iz2, std::int32_t iwidth2, std::uint32_t colour2,
+		std::int32_t sort_to_front)
 {
 
 #ifdef TARGET_DC
@@ -1035,19 +1035,19 @@ void AENG_world_line_infinite(
 
 	for (f = 0.0F; f < steps; f += 1.0F)
 	{
-		colour1 = (SLONG(r     ) << 16) | (SLONG(g     ) << 8) | (SLONG(b     ) << 0);
-		colour2 = (SLONG(r + dr) << 16) | (SLONG(g + dg) << 8) | (SLONG(b + db) << 0);
+		colour1 = (std::int32_t(r     ) << 16) | (std::int32_t(g     ) << 8) | (std::int32_t(b     ) << 0);
+		colour2 = (std::int32_t(r + dr) << 16) | (std::int32_t(g + dg) << 8) | (std::int32_t(b + db) << 0);
 
 		AENG_world_line(
-			SLONG(x),
-			SLONG(y),
-			SLONG(z),
-			SLONG(w),
+			std::int32_t(x),
+			std::int32_t(y),
+			std::int32_t(z),
+			std::int32_t(w),
 			colour1,
-			SLONG(x + dx),
-			SLONG(y + dy),
-			SLONG(z + dz),
-			SLONG(w + dw),
+			std::int32_t(x + dx),
+			std::int32_t(y + dy),
+			std::int32_t(z + dz),
+			std::int32_t(w + dw),
 			colour2,
 			sort_to_front);
 
@@ -1204,10 +1204,10 @@ void AENG_calc_gamut(
 // This doesn't even do the gamut "properly" - there are only 32x32 squares,
 // so it's much quicker to just find the bounding box. Much easier too.
 // So, only these four are updated:
-SLONG AENG_gamut_lo_xmin;
-SLONG AENG_gamut_lo_xmax;
-SLONG AENG_gamut_lo_zmin;
-SLONG AENG_gamut_lo_zmax;
+std::int32_t AENG_gamut_lo_xmin;
+std::int32_t AENG_gamut_lo_xmax;
+std::int32_t AENG_gamut_lo_zmin;
+std::int32_t AENG_gamut_lo_zmax;
 
 void AENG_calc_gamut_lo_only(
 		float x,
@@ -1542,15 +1542,15 @@ void AENG_calc_gamut_lo_only(
 #endif
 
 #if 1
-	AENG_gamut_lo_xmin = (SLONG)( gamut_lo_xmin );
-	AENG_gamut_lo_xmax = (SLONG)( gamut_lo_xmax );
-	AENG_gamut_lo_zmin = (SLONG)( gamut_lo_zmin );
-	AENG_gamut_lo_zmax = (SLONG)( gamut_lo_zmax );
+	AENG_gamut_lo_xmin = (std::int32_t)( gamut_lo_xmin );
+	AENG_gamut_lo_xmax = (std::int32_t)( gamut_lo_xmax );
+	AENG_gamut_lo_zmin = (std::int32_t)( gamut_lo_zmin );
+	AENG_gamut_lo_zmax = (std::int32_t)( gamut_lo_zmax );
 #else
-	AENG_gamut_lo_xmin = (SLONG)( gamut_lo_xmin * 0.25f );
-	AENG_gamut_lo_xmax = (SLONG)( gamut_lo_xmax * 0.25f );
-	AENG_gamut_lo_zmin = (SLONG)( gamut_lo_zmin * 0.25f );
-	AENG_gamut_lo_zmax = (SLONG)( gamut_lo_zmax * 0.25f );
+	AENG_gamut_lo_xmin = (std::int32_t)( gamut_lo_xmin * 0.25f );
+	AENG_gamut_lo_xmax = (std::int32_t)( gamut_lo_xmax * 0.25f );
+	AENG_gamut_lo_zmin = (std::int32_t)( gamut_lo_zmin * 0.25f );
+	AENG_gamut_lo_zmax = (std::int32_t)( gamut_lo_zmax * 0.25f );
 #endif
 
 	// Just catch the dodgy edge condition.
@@ -1619,9 +1619,9 @@ void AENG_calc_gamut_lo_only(
 
 
 void AENG_set_camera_radians(
-		SLONG wx,
-		SLONG wy,
-		SLONG wz,
+		std::int32_t wx,
+		std::int32_t wy,
+		std::int32_t wz,
 		float y,
 		float p,
 		float r)
@@ -1668,13 +1668,13 @@ void AENG_set_camera_radians(
 
 
 void AENG_set_camera_radians(
-		SLONG wx,
-		SLONG wy,
-		SLONG wz,
+		std::int32_t wx,
+		std::int32_t wy,
+		std::int32_t wz,
 		float y,
 		float p,
 		float r,
-		SLONG splitscreen)
+		std::int32_t splitscreen)
 {
 	AENG_cam_x = float(wx);
 	AENG_cam_y = float(wy);
@@ -1718,12 +1718,12 @@ void AENG_set_camera_radians(
 }
 
 void AENG_set_camera(
-		SLONG wx,
-		SLONG wy,
-		SLONG wz,
-		SLONG y,
-		SLONG p,
-		SLONG r)
+		std::int32_t wx,
+		std::int32_t wy,
+		std::int32_t wz,
+		std::int32_t y,
+		std::int32_t p,
+		std::int32_t r)
 {
 	float radians_yaw   = float(y) * (2.0F * PI / 2048.0F);
 	float radians_pitch = float(p) * (2.0F * PI / 2048.0F);
@@ -1754,18 +1754,18 @@ void AENG_set_camera(
 
 void AENG_do_cached_lighting_old()
 {
-	SLONG i;
-	SLONG x;
-	SLONG z;
-	SLONG	kept=0,new_squares=0;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t	kept=0,new_squares=0;
 
 	NIGHT_Square *nq;
 	
-extern SLONG	HEAP_max_free();
+extern std::int32_t	HEAP_max_free();
 
 	if(HEAP_max_free()<4000 || Keys[KB_Q])
 	{
-		CBYTE	str[100];
+		char	str[100];
 		NIGHT_destroy_all_cached_info();
 
 //		sprintf(str," RECALC LIGHTING FREE = %d",HEAP_max_free());
@@ -1831,12 +1831,12 @@ extern SLONG	HEAP_max_free();
 		//
 
 		{
-			SLONG	x,z,floor_y;
+			std::int32_t	x,z,floor_y;
 			struct	InsideStorey	*p_inside;
-			SLONG	in_width;
-			UBYTE	*in_block;
-			SLONG	min_z,max_z;
-			SLONG	min_x,max_x;
+			std::int32_t	in_width;
+			std::uint8_t	*in_block;
+			std::int32_t	min_z,max_z;
+			std::int32_t	min_x,max_x;
 
 
 
@@ -1924,7 +1924,7 @@ extern SLONG	HEAP_max_free();
 
 void AENG_mark_night_squares_as_deleteme()
 {
-	SLONG i;
+	std::int32_t i;
 
 	NIGHT_Square *nq;
 
@@ -1945,11 +1945,11 @@ void AENG_mark_night_squares_as_deleteme()
 // lighting caching done for them. (In a warehouse or not).
 //
 
-void AENG_ensure_appropriate_caching(SLONG ware)
+void AENG_ensure_appropriate_caching(std::int32_t ware)
 {
-	SLONG x;
-	SLONG z;
-	SLONG ok;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t ok;
 
 	NIGHT_Square *nq;
 
@@ -2002,7 +2002,7 @@ void AENG_ensure_appropriate_caching(SLONG ware)
 
 void AENG_get_rid_of_deleteme_squares()
 {
-	SLONG i;
+	std::int32_t i;
 	
 	NIGHT_Square *nq;
 
@@ -2044,7 +2044,7 @@ float AENG_project_fadeout_z;
 
 void AENG_add_projected_shadow_poly(SMAP_Link *sl)
 {
-	SLONG i;
+	std::int32_t i;
 
 	POLY_Point *pp;
 
@@ -2117,8 +2117,8 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl)
 	float dz;
 	float dist;
 
-	SLONG i;
-	SLONG alpha;
+	std::int32_t i;
+	std::int32_t alpha;
 
 	POLY_Point *pp;
 
@@ -2159,7 +2159,7 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl)
 				}
 				else
 				{
-					alpha = 0xff - SLONG((dist - 64.0F) * (255.0F / 192.0F));
+					alpha = 0xff - std::int32_t((dist - 64.0F) * (255.0F / 192.0F));
 				}
 			}
 
@@ -2211,7 +2211,7 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl)
 
 void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float dx;
 	float dy;
@@ -2255,7 +2255,7 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl)
 
 			if (bright > 0.0F)
 			{
-				SLONG alpha = SLONG(bright);
+				std::int32_t alpha = std::int32_t(bright);
 
 				if (alpha > 255) {alpha = 255;}
 
@@ -2324,7 +2324,7 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl)
 
 void AENG_draw_rain_old(float angle)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float vec1x;
 	float vec1y;
@@ -2405,7 +2405,7 @@ void AENG_draw_rain_old(float angle)
 
 void AENG_draw_rain()
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x1;
 	float y1;
@@ -2418,11 +2418,11 @@ void AENG_draw_rain()
 	float matrix[9];
 
 	float fade;
-	SLONG bright;
-	SLONG r;
-	SLONG g;
-	SLONG b;
-	ULONG colour;
+	std::int32_t bright;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
+	std::uint32_t colour;
 
 	//
 	// The cameras view matrix.
@@ -2482,7 +2482,7 @@ void AENG_draw_rain()
 		z1 = float(rand()) * (1.0F / float(RAND_MAX     )) + 0.1F;
 
 		fade   = 1.0F - z1 * 0.8F;
-		bright = SLONG(fade * 256.0F);
+		bright = std::int32_t(fade * 256.0F);
 
 		colour = (bright << 24) | ((69 << 16) | (74 << 8) | (98 << 0));
 
@@ -2497,15 +2497,15 @@ void AENG_draw_rain()
 		z1 += AENG_cam_z;
 
 #if 1	// shade the rain
-		SLONG	px = SLONG(x1) >> 10;
-		SLONG	pz = SLONG(z1) >> 10;
-		SLONG	dx = (SLONG(x1) >> 8) & 3;
-		SLONG	dz = (SLONG(z1) >> 8) & 3;
+		std::int32_t	px = std::int32_t(x1) >> 10;
+		std::int32_t	pz = std::int32_t(z1) >> 10;
+		std::int32_t	dx = (std::int32_t(x1) >> 8) & 3;
+		std::int32_t	dz = (std::int32_t(z1) >> 8) & 3;
 
 		if ((px < 0) || (px >= PAP_SIZE_LO))	continue;
 		if ((pz < 0) || (pz >= PAP_SIZE_LO))	continue;
 
-		SLONG square = NIGHT_cache[px][pz];
+		std::int32_t square = NIGHT_cache[px][pz];
 
 		if (!square)	continue;
 
@@ -2513,7 +2513,7 @@ void AENG_draw_rain()
 		ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
 
 		NIGHT_Square*	nq = &NIGHT_square[square];
-		ULONG			col,spec;
+		D3DCOLOR col,spec;
 
 		NIGHT_get_d3d_colour(nq->colour[dx + dz * PAP_BLOCKS], &col, &spec);
 
@@ -2521,9 +2521,9 @@ void AENG_draw_rain()
 #endif
 						   
 		SHAPE_droplet(
-			SLONG(x1),
-			SLONG(y1),
-			SLONG(z1),
+			std::int32_t(x1),
+			std::int32_t(y1),
+			std::int32_t(z1),
 			 8,
 		   -64,
 			 8,
@@ -2532,13 +2532,13 @@ void AENG_draw_rain()
 	}
 }
 
-void AENG_draw_drips(UBYTE puddles_only)
+void AENG_draw_drips(std::uint8_t puddles_only)
 {
 	//
 	// Draw the drips.
 	// 
 
-	SLONG i;
+	std::int32_t i;
 
 	float midx;
 	float midy;
@@ -2548,7 +2548,7 @@ void AENG_draw_drips(UBYTE puddles_only)
 	float pz;
 
 	float radius;
-	ULONG colour;
+	std::uint32_t colour;
 
 	DRIP_Info *di;
 
@@ -2631,7 +2631,7 @@ void AENG_draw_bangs()
 	float u_mid;
 	float v_mid;
 #ifdef	DOG_POO
-	SLONG z;
+	std::int32_t z;
 
 	BANG_Info *bi;
 
@@ -2700,12 +2700,12 @@ void AENG_draw_bangs()
 void AENG_draw_cloth()
 {
 #ifdef	DOG_POO
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	UBYTE cloth;
+	std::uint8_t cloth;
 
 	CLOTH_Info *ci;
 
@@ -2723,17 +2723,17 @@ void AENG_draw_cloth()
 
 	float dprod;
 
-	SLONG bright;
-	SLONG r;
-	SLONG g;
-	SLONG b;
+	std::int32_t bright;
+	std::int32_t r;
+	std::int32_t g;
+	std::int32_t b;
 
-	SLONG base_r;
-	SLONG base_g;
-	SLONG base_b;
+	std::int32_t base_r;
+	std::int32_t base_g;
+	std::int32_t base_b;
 
-	SLONG px;
-	SLONG py;
+	std::int32_t px;
+	std::int32_t py;
 
 	POLY_Point *quad[4];
 
@@ -2776,7 +2776,7 @@ void AENG_draw_cloth()
 					    light_z * ci->p[i].nz;
 
 					dprod  = fabs(dprod);
-					bright = SLONG(dprod * 255.0F);
+					bright = std::int32_t(dprod * 255.0F);
 
 					r = bright * base_r >> 8;
 					g = bright * base_g >> 8;
@@ -2819,7 +2819,7 @@ void AENG_draw_cloth()
 
 void AENG_draw_fire()
 {
-	SLONG z;
+	std::int32_t z;
 
 	FIRE_Info  *fi;
 	FIRE_Point *fp;
@@ -2835,7 +2835,7 @@ void AENG_draw_fire()
 
 void AENG_draw_sparks()
 {
-	SLONG z;
+	std::int32_t z;
 
 	SPARK_Info   *si;
 	GLITTER_Info *gi;
@@ -2889,29 +2889,29 @@ void AENG_draw_hook()
 #ifdef TARGET_DC
 	ASSERT ( false );
 #else //#ifdef TARGET_DC
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG yaw;
-	SLONG pitch;
-	SLONG roll;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t yaw;
+	std::int32_t pitch;
+	std::int32_t roll;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG red   = 0x80;
-	SLONG green = 0x20;
-	SLONG blue  = 0x00;
+	std::int32_t red   = 0x80;
+	std::int32_t green = 0x20;
+	std::int32_t blue  = 0x00;
 
-	ULONG colour1;
-	ULONG colour2;
+	std::uint32_t colour1;
+	std::uint32_t colour2;
 
 	HOOK_pos_grapple(
 		&x,
@@ -2976,21 +2976,21 @@ void AENG_draw_hook()
 #endif //#else //#ifdef TARGET_DC
 }
 
-ULONG AENG_colour_mult(ULONG c1, ULONG c2)
+std::uint32_t AENG_colour_mult(std::uint32_t c1, std::uint32_t c2)
 {
-	SLONG r1 = (c1 >> 16) & 0xff;
-	SLONG g1 = (c1 >>  8) & 0xff;
-	SLONG b1 = (c1 >>  0) & 0xff;
+	std::int32_t r1 = (c1 >> 16) & 0xff;
+	std::int32_t g1 = (c1 >>  8) & 0xff;
+	std::int32_t b1 = (c1 >>  0) & 0xff;
 
-	SLONG r2 = (c2 >> 16) & 0xff;
-	SLONG g2 = (c2 >>  8) & 0xff;
-	SLONG b2 = (c2 >>  0) & 0xff;
+	std::int32_t r2 = (c2 >> 16) & 0xff;
+	std::int32_t g2 = (c2 >>  8) & 0xff;
+	std::int32_t b2 = (c2 >>  0) & 0xff;
 
-	SLONG ar = r1 * r2 >> 8;
-	SLONG ag = g1 * g2 >> 8;
-	SLONG ab = b1 * b2 >> 8;
+	std::int32_t ar = r1 * r2 >> 8;
+	std::int32_t ag = g1 * g2 >> 8;
+	std::int32_t ab = b1 * b2 >> 8;
 
-	ULONG ans = (ar << 16) | (ag << 8) | (ab << 0);
+	std::uint32_t ans = (ar << 16) | (ag << 8) | (ab << 0);
 
 	return ans;
 }
@@ -2999,19 +2999,19 @@ ULONG AENG_colour_mult(ULONG c1, ULONG c2)
 // Draws the dirt.
 //
 
-extern UBYTE estate;
+extern std::uint8_t estate;
 
 #define AENG_MAX_DIRT_LVERTS  (64 * 3)
 #define AENG_MAX_DIRT_INDICES (AENG_MAX_DIRT_LVERTS * 4 / 3)
 
 D3DLVERTEX  AENG_dirt_lvert_buffer[AENG_MAX_DIRT_LVERTS + 1];
 D3DLVERTEX *AENG_dirt_lvert;
-SLONG       AENG_dirt_lvert_upto;
+std::int32_t       AENG_dirt_lvert_upto;
 
-UWORD AENG_dirt_index[AENG_MAX_DIRT_INDICES];
-SLONG AENG_dirt_index_upto;
+std::uint16_t AENG_dirt_index[AENG_MAX_DIRT_INDICES];
+std::int32_t AENG_dirt_index_upto;
 
-UBYTE      AENG_dirt_matrix_buffer[sizeof(D3DMATRIX) + 32];
+std::uint8_t      AENG_dirt_matrix_buffer[sizeof(D3DMATRIX) + 32];
 D3DMATRIX *AENG_dirt_matrix;
 
 
@@ -3023,8 +3023,8 @@ struct
 	float v;
 
 }     AENG_dirt_uvlookup[AENG_MAX_DIRT_UVLOOKUP];
-SLONG AENG_dirt_uvlookup_valid;
-SWORD AENG_dirt_uvlookup_world_type;
+std::int32_t AENG_dirt_uvlookup_valid;
+std::int16_t AENG_dirt_uvlookup_world_type;
 
 
 void AENG_draw_dirt()
@@ -3038,7 +3038,7 @@ void AENG_draw_dirt()
 		return;
 	}
 
-	SLONG i;
+	std::int32_t i;
 
 	#define LEAF_PAGE		(POLY_PAGE_LEAF)
 	#define LEAF_CENTRE_U	(0.5F)
@@ -3060,7 +3060,7 @@ void AENG_draw_dirt()
 //#endif
 	#define LEAF_SIZE       (20.0F+(float)(i&15))
 
-	SLONG j;
+	std::int32_t j;
 
 	float fyaw;
 	float fpitch;
@@ -3073,10 +3073,10 @@ void AENG_draw_dirt()
 	SVector_F   temp[4];
 	PolyPage   *pp;
 	D3DLVERTEX *lv;
-	ULONG       rubbish_colour;
+	std::uint32_t       rubbish_colour;
 
 	#ifdef TARGET_DC
-	ULONG leaf_colour_choice_rgb[4] =
+	std::uint32_t leaf_colour_choice_rgb[4] =
 	{
 		0xff332d1d,
 		0xff243224,
@@ -3084,7 +3084,7 @@ void AENG_draw_dirt()
 		0xff332f07
 	};
 
-	ULONG leaf_colour_choice_grey[4] =
+	std::uint32_t leaf_colour_choice_grey[4] =
 	{
 		0xff333333,
 		0xff444444,
@@ -3092,7 +3092,7 @@ void AENG_draw_dirt()
 		0xff383838
 	};
 	#else
-	ULONG leaf_colour_choice_rgb[4] =
+	std::uint32_t leaf_colour_choice_rgb[4] =
 	{
 		0x332d1d,
 		0x243224,
@@ -3100,7 +3100,7 @@ void AENG_draw_dirt()
 		0x332f07
 	};
 
-	ULONG leaf_colour_choice_grey[4] =
+	std::uint32_t leaf_colour_choice_grey[4] =
 	{
 		0x333333,
 		0x444444,
@@ -3175,9 +3175,9 @@ void AENG_draw_dirt()
 		leaf_colour_choice_rgb[i] = AENG_colour_mult(leaf_colour_choice_rgb[i], NIGHT_amb_d3d_colour);
 	}
 
-	ULONG flag[4];
-	ULONG leaf_colour;
-	ULONG leaf_specular;
+	std::uint32_t flag[4];
+	std::uint32_t leaf_colour;
+	std::uint32_t leaf_specular;
 
 	// Cope with some wacky internals.
 	POLY_set_local_rotation_none();
@@ -3190,8 +3190,8 @@ void AENG_draw_dirt()
 	AENG_dirt_lvert_upto = 0;
 	AENG_dirt_index_upto = 0;
 
-	AENG_dirt_lvert  = (D3DLVERTEX *) ((SLONG(AENG_dirt_lvert_buffer) + 31) & ~0x1f);
-	AENG_dirt_matrix = (D3DMATRIX  *) ((SLONG(AENG_dirt_matrix_buffer) + 31) & ~0x1f);
+	AENG_dirt_lvert  = (D3DLVERTEX *) ((std::int32_t(AENG_dirt_lvert_buffer) + 31) & ~0x1f);
+	AENG_dirt_matrix = (D3DMATRIX  *) ((std::int32_t(AENG_dirt_matrix_buffer) + 31) & ~0x1f);
 
 	//
 	// Draw the dirt.
@@ -3682,7 +3682,7 @@ void AENG_draw_dirt()
 
 			case DIRT_TYPE_BRASS:
 
-				extern UBYTE kludge_shrink;
+				extern std::uint8_t kludge_shrink;
 
 				kludge_shrink = true;
 
@@ -3928,7 +3928,7 @@ void AENG_draw_dirt()
 						float ubase;
 						float vbase;
 
-						SLONG colour_and = 0xffffffff;
+						std::int32_t colour_and = 0xffffffff;
 
 						if (i & 32)
 						{
@@ -4143,7 +4143,7 @@ void AENG_draw_dirt()
 
 			case DIRT_INFO_TYPE_PRIM:
 
-				extern UBYTE kludge_shrink;
+				extern std::uint8_t kludge_shrink;
 
 				if (di.held||(di.prim==253))
 				{
@@ -4234,7 +4234,7 @@ void AENG_draw_dirt()
 
 typedef struct aeng_pow
 {
-	SLONG frame;
+	std::int32_t frame;
 	float sx;
 	float sy;
 	float sz;
@@ -4247,7 +4247,7 @@ typedef struct aeng_pow
 #define AENG_MAX_POWS 256
 
 AENG_Pow AENG_pow[AENG_MAX_POWS];
-SLONG    AENG_pow_upto;
+std::int32_t    AENG_pow_upto;
 
 #define AENG_POW_NUM_BUCKETS 1024
 
@@ -4259,9 +4259,9 @@ AENG_Pow *AENG_pow_bucket[AENG_POW_NUM_BUCKETS];
 
 void AENG_draw_pows()
 {
-	SLONG pow;
-	SLONG sprite;
-	SLONG bucket;
+	std::int32_t pow;
+	std::int32_t sprite;
+	std::int32_t bucket;
 
 	AENG_Pow   *ap;
 	POW_Pow    *pp;
@@ -4425,7 +4425,7 @@ void AENG_draw_pows()
 #ifndef TARGET_DC
 void AENG_draw_released_balloons()
 {
-	SLONG i;
+	std::int32_t i;
 
 	BALLOON_Balloon *bb;
 
@@ -4455,7 +4455,7 @@ void AENG_draw_released_balloons()
 #define AENG_AA_PIX_SIZE  4
 #define AENG_AA_BUF_SIZE 32
 
-UBYTE AENG_aa_buffer[AENG_AA_BUF_SIZE][AENG_AA_BUF_SIZE];
+std::uint8_t AENG_aa_buffer[AENG_AA_BUF_SIZE][AENG_AA_BUF_SIZE];
 
 #ifdef TARGET_DC
 // Try to misalign the map rows to try to stop the cache thrashing.
@@ -4487,11 +4487,11 @@ POLY_Point AENG_lower[MAP_WIDTH / 2 + MAP_SIZE_TWEAK*2][MAP_HEIGHT / 2 + MAP_SIZ
 #define AENG_SKY_TYPE_NIGHT	0
 #define AENG_SKY_TYPE_DAY	1
 
-SLONG AENG_torch_on       = false;
-SLONG AENG_shadows_on     = true;
-SLONG AENG_sky_type       = AENG_SKY_TYPE_DAY;
-ULONG AENG_sky_colour_bot = 0x008890ee;
-ULONG AENG_sky_colour_top = 0x006670cc;
+std::int32_t AENG_torch_on       = false;
+std::int32_t AENG_shadows_on     = true;
+std::int32_t AENG_sky_type       = AENG_SKY_TYPE_DAY;
+std::uint32_t AENG_sky_colour_bot = 0x008890ee;
+std::uint32_t AENG_sky_colour_top = 0x006670cc;
 
 
 void AENG_set_sky_nighttime()
@@ -4499,7 +4499,7 @@ void AENG_set_sky_nighttime()
 	AENG_sky_type = AENG_SKY_TYPE_NIGHT;
 }
 
-void AENG_set_sky_daytime(ULONG bottom_colour, ULONG top_colour)
+void AENG_set_sky_daytime(std::uint32_t bottom_colour, std::uint32_t top_colour)
 {
 	AENG_sky_type       = AENG_SKY_TYPE_DAY;
 	AENG_sky_colour_bot = bottom_colour;
@@ -4508,22 +4508,22 @@ void AENG_set_sky_daytime(ULONG bottom_colour, ULONG top_colour)
 
 struct	RRect
 {
-	SLONG	x;
-	SLONG y;
-	SLONG w;
-	SLONG h;
-	SLONG col;
-	SLONG layer;
-	SLONG page;
+	std::int32_t	x;
+	std::int32_t y;
+	std::int32_t w;
+	std::int32_t h;
+	std::int32_t col;
+	std::int32_t layer;
+	std::int32_t page;
 
 };
 
 struct	RRect	rrect[2000];
-SLONG	next_rrect=1;
+std::int32_t	next_rrect=1;
 
 
 
-void	AENG_draw_rectr(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG page)
+void	AENG_draw_rectr(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t col,std::int32_t layer,std::int32_t page)
 {
 	ASSERT(next_rrect<2000);
 	rrect[next_rrect].x=x;
@@ -4537,11 +4537,11 @@ void	AENG_draw_rectr(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG
 
 }
 
-void	AENG_draw_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG page);
+void	AENG_draw_rect(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t col,std::int32_t layer,std::int32_t page);
 void	draw_all_boxes()
 {
-	SLONG x,y,w,h, col,layer,page;
-	SLONG	c0;
+	std::int32_t x,y,w,h, col,layer,page;
+	std::int32_t	c0;
 
 
 
@@ -4559,7 +4559,7 @@ void	draw_all_boxes()
 	}
 	next_rrect=0;
 }
-void	AENG_draw_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG page)
+void	AENG_draw_rect(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t col,std::int32_t layer,std::int32_t page)
 {
 	float	offset=0.0;
 	POLY_Point  pp  [4];
@@ -4623,7 +4623,7 @@ void	AENG_draw_rect(SLONG x,SLONG y,SLONG w,SLONG h,SLONG col,SLONG layer,SLONG 
 
 }
 
-void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1,SLONG x2,SLONG y2,SLONG col2,SLONG layer)
+void	AENG_draw_col_tri(std::int32_t x0,std::int32_t y0,std::int32_t col0,std::int32_t x1,std::int32_t y1,std::int32_t col1,std::int32_t x2,std::int32_t y2,std::int32_t col2,std::int32_t layer)
 {
 	float	offset=0.0;
 	POLY_Point  pp  [4];
@@ -4728,14 +4728,14 @@ void	AENG_draw_col_tri(SLONG x0,SLONG y0,SLONG col0,SLONG x1,SLONG y1,SLONG col1
 }
 
 
-void	show_gamut_lo(SLONG	x,SLONG z)
+void	show_gamut_lo(std::int32_t	x,std::int32_t z)
 {
 	return;
 
 //	AENG_draw_rect(x*8,z*8,8,8,0xff0000,2,POLY_PAGE_COLOUR);
 }
 
-void	show_gamut_hi(SLONG	x,SLONG z)
+void	show_gamut_hi(std::int32_t	x,std::int32_t z)
 {
 	return;
 
@@ -4749,13 +4749,13 @@ void	show_gamut_hi(SLONG	x,SLONG z)
 
 #else
 
-void	show_facet(SLONG facet)
+void	show_facet(std::int32_t facet)
 {
 	return;
 
 	struct	DFacet	*p_facet;
-	SLONG	x1,z1,x2,z2;
-	SLONG	colour=0xffffff;
+	std::int32_t	x1,z1,x2,z2;
+	std::int32_t	colour=0xffffff;
 
 
 	p_facet=&dfacets[facet];
@@ -4802,10 +4802,10 @@ void AENG_draw_people_messages()
 {
 	return;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG  t_index;
+	std::int32_t  t_index;
 	Thing *p_thing;
 
 	for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
@@ -4836,7 +4836,7 @@ void AENG_draw_people_messages()
 									float(p_thing->WorldPos.Z >> 8),
 									256.0F / (AENG_DRAW_DIST * 256.0F)))
 							{
-								CBYTE	str[100];
+								char	str[100];
 //								FIGURE_draw(p_thing);
 
 								sprintf(str,"%d %d",p_thing->State,p_thing->SubState);
@@ -4871,9 +4871,9 @@ void AENG_draw_people_messages()
 // Sets the rotation of the bike wheel prim for the given rotation.
 //
 
-void AENG_set_bike_wheel_rotation(UWORD rot, UBYTE prim)
+void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim)
 {
-	SLONG i;
+	std::int32_t i;
 
 	PrimObject *po;
 	PrimFace4  *f4;
@@ -4890,16 +4890,16 @@ void AENG_set_bike_wheel_rotation(UWORD rot, UBYTE prim)
 #if 0
 	// All the textures are symmetrical, so you can't tell if they rotate.
 	// Optimised!
-	const SLONG du1 = 0xf;
-	const SLONG dv1 = 0;
+	const std::int32_t du1 = 0xf;
+	const std::int32_t dv1 = 0;
 
-	const SLONG du2 = 0xf;
-	const SLONG dv2 = 0;
+	const std::int32_t du2 = 0xf;
+	const std::int32_t dv2 = 0;
 
-	SLONG u;
-	SLONG v;
+	std::int32_t u;
+	std::int32_t v;
 
-	static SLONG order[4] = {2, 1, 3, 0};
+	static std::int32_t order[4] = {2, 1, 3, 0};
 
 	//
 	// The faces we rotate the textures on are faces 6 and 7 for PRIM_OBJ_BIKE_BWHEEL.
@@ -4940,16 +4940,16 @@ void AENG_set_bike_wheel_rotation(UWORD rot, UBYTE prim)
 
 #else
 
-	SLONG du1 = SIN(+rot & 2047) * 15 >> 16;
-	SLONG dv1 = COS(+rot & 2047) * 15 >> 16;
+	std::int32_t du1 = SIN(+rot & 2047) * 15 >> 16;
+	std::int32_t dv1 = COS(+rot & 2047) * 15 >> 16;
 
-	SLONG du2 = SIN(-rot & 2047) * 15 >> 16;
-	SLONG dv2 = COS(-rot & 2047) * 15 >> 16;
+	std::int32_t du2 = SIN(-rot & 2047) * 15 >> 16;
+	std::int32_t dv2 = COS(-rot & 2047) * 15 >> 16;
 
-	SLONG u;
-	SLONG v;
+	std::int32_t u;
+	std::int32_t v;
 
-	static SLONG order[4] = {2, 1, 3, 0};
+	static std::int32_t order[4] = {2, 1, 3, 0};
 
 	//
 	// The faces we rotate the textures on are faces 6 and 7 for PRIM_OBJ_BIKE_BWHEEL.
@@ -5000,23 +5000,23 @@ void AENG_set_bike_wheel_rotation(UWORD rot, UBYTE prim)
 
 void AENG_draw_warehouse_floor_near_door(DFacet *df)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG lx1;
-	SLONG lx2;
+	std::int32_t lx1;
+	std::int32_t lx2;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG mx;
-	SLONG mz;
-	SLONG page;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t page;
 
 	POLY_Point *quad[4];
 	PAP_Hi     *ph;
@@ -5443,7 +5443,7 @@ void AENG_get_detail_levels(int* stars,
 
 
 #ifdef	STRIP_STATS
-ULONG	strip_stats[MAX_FLOOR_TILES_FOR_STRIPS+10];
+std::uint32_t	strip_stats[MAX_FLOOR_TILES_FOR_STRIPS+10];
 #endif
 
 
@@ -5456,32 +5456,32 @@ ULONG	strip_stats[MAX_FLOOR_TILES_FOR_STRIPS+10];
 //
 // draws the floor quicker by grouping adjacent squares with the same texture into one index prim
 //
-UWORD	in_group[64*10];
+std::uint16_t	in_group[64*10];
 
-UWORD	groups[256][9];
-UWORD	group_count[256];
-SLONG	group_stats[256][9]; //how often each member of the group is used
-SLONG	group_break[256][64*10]; // for each group how often the strip is broken by each texture
-SLONG	group_hits[256][64*10]; // for each group how often the strip is broken by each texture
+std::uint16_t	groups[256][9];
+std::uint16_t	group_count[256];
+std::int32_t	group_stats[256][9]; //how often each member of the group is used
+std::int32_t	group_break[256][64*10]; // for each group how often the strip is broken by each texture
+std::int32_t	group_hits[256][64*10]; // for each group how often the strip is broken by each texture
 
-UWORD	page_next[64*10][64*10];
-ULONG	group_upto=1;
+std::uint16_t	page_next[64*10][64*10];
+std::uint32_t	group_upto=1;
 
 
 #define	MAX_PREV	8
 float	how_good()
 {
-	SLONG	x,z;
-	SLONG	page,my_group=0,prev_group[10];
-	SLONG	bucket_group[10],bucket_length[10],bucket=0;
-	SLONG	length=1;
-	SLONG	total_length=0,strip_count=0;
+	std::int32_t	x,z;
+	std::int32_t	page,my_group=0,prev_group[10];
+	std::int32_t	bucket_group[10],bucket_length[10],bucket=0;
+	std::int32_t	length=1;
+	std::int32_t	total_length=0,strip_count=0;
 	float	average_len,prev_average_len=0.0f;
-	SLONG	count;
-	SLONG	quit=0;
-	SLONG	c0;
-	UWORD	strips[128];
-	SLONG	match;
+	std::int32_t	count;
+	std::int32_t	quit=0;
+	std::int32_t	c0;
+	std::uint16_t	strips[128];
+	std::int32_t	match;
 
 	memset(strips,0,128*2);
 
@@ -5597,16 +5597,16 @@ float	how_good()
 
 
 }
-UWORD	frequency[64*10];
+std::uint16_t	frequency[64*10];
 
 float	init_groups2()
 {
-	SLONG	x,z;
-	SLONG	page,p1,p2;
-	SLONG	highest,best;
-	SLONG	g_count=0,g_index=0;
-	SLONG	c1,c2;
-	SLONG	c0;
+	std::int32_t	x,z;
+	std::int32_t	page,p1,p2;
+	std::int32_t	highest,best;
+	std::int32_t	g_count=0,g_index=0;
+	std::int32_t	c1,c2;
+	std::int32_t	c0;
 
 	PAP_Hi *ph;
 /*
@@ -5710,11 +5710,11 @@ float	init_groups2()
 
 		g_count++;
 		{
-			SLONG	group_perc[9];
-			SLONG	ndhighest=0;
-			SLONG	perc;
-			SLONG	current_best_perc=0;
-			SLONG	c2;
+			std::int32_t	group_perc[9];
+			std::int32_t	ndhighest=0;
+			std::int32_t	perc;
+			std::int32_t	current_best_perc=0;
+			std::int32_t	c2;
 
 			page=best;
 
@@ -5722,7 +5722,7 @@ float	init_groups2()
 
 			while(g_count<9)
 			{
-				SLONG	n_of;
+				std::int32_t	n_of;
 
 				//
 				// for all members of the group find the highest probabilty neihbour
@@ -5743,7 +5743,7 @@ float	init_groups2()
 
 							if(perc>ndhighest)
 							{
-								SLONG	abort_store=0;
+								std::int32_t	abort_store=0;
 								//
 								//check if better paired up elsewhere
 								//
@@ -5826,7 +5826,7 @@ float	init_groups2()
 					//
 					for(c2=0;c2<group_count[c1];c2++)
 					{
-						SLONG	group,index;
+						std::int32_t	group,index;
 						groups[c0][group_count[c0]+c2]=groups[c1][c2];
 						in_group[groups[c1][c2]]=c0;
 
@@ -5881,25 +5881,25 @@ float	init_groups2()
 
 struct	FloorStore
 {
-	ULONG	Colour;
-//	ULONG	Specular;        // is this needed?
+	std::uint32_t	Color;
+//	std::uint32_t	Specular;        // is this needed?
 	float	Alt;
-	UWORD	Flags;		    //not really needed
-	UWORD	Texture;	   	//not really needed
-//	SLONG	x,z;
+	std::uint16_t	Flags;		    //not really needed
+	std::uint16_t	Texture;	   	//not really needed
+//	std::int32_t	x,z;
 };
 
 //40*12 =480 bytes per row, need 2 rows
 
-inline	void cache_a_row(SLONG x,SLONG z,struct FloorStore *p2,SLONG endx)
+inline	void cache_a_row(std::int32_t x,std::int32_t z,struct FloorStore *p2,std::int32_t endx)
 {
-	SLONG	px,pz,dx,dz;
-	SLONG	square;
-	SLONG	mapz;
+	std::int32_t	px,pz,dx,dz;
+	std::int32_t	square;
+	std::int32_t	mapz;
 	NIGHT_Square *nq;
 	PAP_Hi *ph;
-	ULONG	spec;
-	SLONG   y;
+	std::uint32_t	spec;
+	std::int32_t   y;
 
 	//
 	// pre fetch the data, to avoid reading it 4 times
@@ -5937,7 +5937,7 @@ inline	void cache_a_row(SLONG x,SLONG z,struct FloorStore *p2,SLONG endx)
 		/*
 
 		{
-			SLONG	cdx,cdz;
+			std::int32_t	cdx,cdz;
 			cdx=abs(AENG_cam_x-(x<<8));
 			cdz=abs(AENG_cam_z-(z<<8));
 			mapz = QDIST2(cdx,cdz);
@@ -5948,7 +5948,7 @@ inline	void cache_a_row(SLONG x,SLONG z,struct FloorStore *p2,SLONG endx)
 
 		NIGHT_get_d3d_colour_and_fade(
 			nq->colour[dx + dz * PAP_BLOCKS],
-		   &p2->Colour,
+		   &p2->Color,
 		   &spec,dist);
 
 		*/
@@ -5956,15 +5956,15 @@ inline	void cache_a_row(SLONG x,SLONG z,struct FloorStore *p2,SLONG endx)
 		{
 			NIGHT_Colour *col = &nq->colour[dx + dz * PAP_BLOCKS];
 
-			SLONG r = col->red   << 2;
-			SLONG g = col->green << 2;
-			SLONG b = col->blue  << 2;
+			std::int32_t r = col->red   << 2;
+			std::int32_t g = col->green << 2;
+			std::int32_t b = col->blue  << 2;
 
 			if (r > 255) {r = 255;}
 			if (g > 255) {g = 255;}
 			if (b > 255) {b = 255;}
 
-			p2->Colour = (r << 16) | (g << 8) | b;
+			p2->Color = (r << 16) | (g << 8) | b;
 		}
 
 		p2->Flags=ph->Flags;
@@ -5982,7 +5982,7 @@ inline	void cache_a_row(SLONG x,SLONG z,struct FloorStore *p2,SLONG endx)
 			// Too close to camera- set the alpha of the colour.
 			//
 
-			p2->Colour |= 0x01000000;
+			p2->Color |= 0x01000000;
 		}
 
 		*/
@@ -6006,7 +6006,7 @@ float	kerb_scalev;
 float	kerb_du;
 float	kerb_dv;
 
-inline	SLONG	add_kerb(float alt1,float alt2,SLONG x,SLONG z,SLONG dx,SLONG dz,D3DLVERTEX	*pv, UWORD *p_indicies,SLONG count,ULONG c1,ULONG c2,SLONG flip)
+inline	std::int32_t	add_kerb(float alt1,float alt2,std::int32_t x,std::int32_t z,std::int32_t dx,std::int32_t dz,D3DLVERTEX	*pv, std::uint16_t *p_indicies,std::int32_t count,std::uint32_t c1,std::uint32_t c2,std::int32_t flip)
 {
 //	pv=&p_verts[current_set][vert_count[current_set]];
 //	p_indicies=&indicies[current_set][index_count[current_set]];
@@ -6105,7 +6105,7 @@ inline	SLONG	add_kerb(float alt1,float alt2,SLONG x,SLONG z,SLONG dx,SLONG dz,D3
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		float dx;
 		float dy;
@@ -6172,7 +6172,7 @@ inline	SLONG	add_kerb(float alt1,float alt2,SLONG x,SLONG z,SLONG dx,SLONG dz,D3
 	}
 	else
 	{
-//		SLONG	count=vert_count[current_set];
+//		std::int32_t	count=vert_count[current_set];
 
 		*p_indicies++=count;
 		*p_indicies++=count+1;
@@ -6185,7 +6185,7 @@ inline	SLONG	add_kerb(float alt1,float alt2,SLONG x,SLONG z,SLONG dx,SLONG dz,D3
 	return true;
 }
 
-inline void	draw_i_prim ( LPDIRECT3DTEXTURE2 page, D3DLVERTEX *verts, UWORD *indicies, SLONG *vert_count, SLONG *index_count, D3DMULTIMATRIX *mm_draw_floor )
+inline void	draw_i_prim ( LPDIRECT3DTEXTURE2 page, D3DLVERTEX *verts, std::uint16_t *indicies, std::int32_t *vert_count, std::int32_t *index_count, D3DMULTIMATRIX *mm_draw_floor )
 {
 	HRESULT res;
 #ifdef	STRIP_STATS
@@ -6235,8 +6235,8 @@ int m_iDrawThingCount = 0;
 
 // Look Mike, when I say "don't put stuff on the stack", I mean
 // DONT PUT STUFF ON THE STACK. And it's "indices" - only two "i"s.
-UBYTE	m_vert_mem_block32[sizeof(D3DLVERTEX)*KERB_VERTS+sizeof(D3DLVERTEX)*MAX_VERTS_FOR_STRIPS*IPRIM_COUNT+32];		  // used to 32 byte align the vertex memory
-UWORD	m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS+1];    //data for verts, on stack or not?
+std::uint8_t	m_vert_mem_block32[sizeof(D3DLVERTEX)*KERB_VERTS+sizeof(D3DLVERTEX)*MAX_VERTS_FOR_STRIPS*IPRIM_COUNT+32];		  // used to 32 byte align the vertex memory
+std::uint16_t	m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS+1];    //data for verts, on stack or not?
 
 
 struct	GroupInfo	
@@ -6254,10 +6254,10 @@ struct	GroupInfo
 
 
 #define	MAX_STEAM	20
-inline	void	general_steam(SLONG x,SLONG z,UWORD texture,SLONG mode)
+inline	void	general_steam(std::int32_t x,std::int32_t z,std::uint16_t texture,std::int32_t mode)
 {
-	static	SLONG	stx[MAX_STEAM],sty[MAX_STEAM],stz[MAX_STEAM],lod[MAX_STEAM];
-	static	SLONG	count_steam=0;
+	static	std::int32_t	stx[MAX_STEAM],sty[MAX_STEAM],stz[MAX_STEAM],lod[MAX_STEAM];
+	static	std::int32_t	count_steam=0;
 
 	if(mode==0)
 	{
@@ -6267,9 +6267,9 @@ inline	void	general_steam(SLONG x,SLONG z,UWORD texture,SLONG mode)
 	else
 	if(mode==2)
 	{
-		for(SLONG c0=0;c0<count_steam;c0++)
+		for(std::int32_t c0=0;c0<count_steam;c0++)
 		{
-extern void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
+extern void draw_steam(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod);
 			draw_steam(stx[c0],sty[c0],stz[c0],lod[c0]);//10+(15-dist)*3);
 
 		}
@@ -6288,16 +6288,16 @@ extern void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
 #endif
 //		if(page==4*64+53) function only called if page is correct
 		{
-			SLONG	dx,dz,dist,sx,sy,sz;
+			std::int32_t	dx,dz,dist,sx,sy,sz;
 
-			dx=abs( (((SLONG)AENG_cam_x)>>8)-(x) );
-			dz=abs( (((SLONG)AENG_cam_z)>>8)-(z) );
+			dx=abs( (((std::int32_t)AENG_cam_x)>>8)-(x) );
+			dz=abs( (((std::int32_t)AENG_cam_z)>>8)-(z) );
 
 			dist=QDIST2(dx,dz);
 
 			if(dist<15)
 			{
-				SLONG	sx,sy,sz;
+				std::int32_t	sx,sy,sz;
 				switch((texture >> 0xa) & 0x3)
 				{
 					case	0:
@@ -6337,19 +6337,19 @@ extern void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
 
 }
 
-void	draw_quick_floor(SLONG warehouse)
+void	draw_quick_floor(std::int32_t warehouse)
 {
 	PAP_Hi *ph;
-//	ULONG	colour,specular;
+//	std::uint32_t	colour,specular;
 
-	SLONG	c0;
-	SLONG	x,z;
+	std::int32_t	c0;
+	std::int32_t	x,z;
 	float	dy,y;
-	UWORD	index;
+	std::uint16_t	index;
 
-	SLONG	page,page2,prev_page=-10000,apage=0;
+	std::int32_t	page,page2,prev_page=-10000,apage=0;
 
-	SLONG	current_set=0;
+	std::int32_t	current_set=0;
 
 	struct	GroupInfo group[IPRIM_COUNT];
 
@@ -6357,33 +6357,33 @@ void	draw_quick_floor(SLONG warehouse)
 	LPDIRECT3DTEXTURE2 tex_handle;
 
 
-	UWORD	kerb_indicies[KERB_INDICIES];
+	std::uint16_t	kerb_indicies[KERB_INDICIES];
 
 
-	UWORD	*p_indicies;
+	std::uint16_t	*p_indicies;
 
 	D3DMATRIX *m_view;
 	D3DLVERTEX	*p_verts[IPRIM_COUNT],*pv,*kerb_verts;
 
-	UBYTE	some_data[sizeof(D3DMATRIX)+32];                                  // used to 32 byte align the funny fanny thing
-	UBYTE	*ptr32;
+	std::uint8_t	some_data[sizeof(D3DMATRIX)+32];                                  // used to 32 byte align the funny fanny thing
+	std::uint8_t	*ptr32;
 
-	SLONG	index_count[IPRIM_COUNT],vert_count[IPRIM_COUNT],age[IPRIM_COUNT],kerb_counti=0,kerb_countv=0;
+	std::int32_t	index_count[IPRIM_COUNT],vert_count[IPRIM_COUNT],age[IPRIM_COUNT],kerb_counti=0,kerb_countv=0;
 
 
-	SLONG	bin_set;
+	std::int32_t	bin_set;
 
 	D3DMULTIMATRIX	mm_draw_floor;
 
 	static int init_stats=1;
 
-	static	SLONG	biggest=0;
+	static	std::int32_t	biggest=0;
 
 	struct	FloorStore	row[MAX_DRAW_WIDTH*2+2];
 	struct	FloorStore	*p1,*p2;
-	SLONG	startx,endx,offsetx;
-	SLONG	no_floor=0;
-	SLONG	is_shadow;	
+	std::int32_t	startx,endx,offsetx;
+	std::int32_t	no_floor=0;
+	std::int32_t	is_shadow;	
 
 
 #ifdef	TEX_EMBED	
@@ -6419,14 +6419,14 @@ void	draw_quick_floor(SLONG warehouse)
 	}
 
 
-	ptr32=(UBYTE *)(((ULONG)(some_data+32))&0xffffffe0);
+	ptr32=(std::uint8_t *)(((std::uint32_t)(some_data+32))&0xffffffe0);
 	m_view=(D3DMATRIX *)ptr32;
 
 	mm_draw_floor.lpd3dMatrices	=m_view;
 	mm_draw_floor.lpvLightDirs	=nullptr;
 	mm_draw_floor.lpLightTable	=nullptr;
 
-	ptr32=(UBYTE *)(((ULONG)(m_vert_mem_block32+32))&0xffffffe0);
+	ptr32=(std::uint8_t *)(((std::uint32_t)(m_vert_mem_block32+32))&0xffffffe0);
 
 	kerb_verts=(D3DLVERTEX *)ptr32;
 	ptr32+=sizeof(D3DLVERTEX)*KERB_VERTS;
@@ -6477,7 +6477,7 @@ void	draw_quick_floor(SLONG warehouse)
 	startx	=	NGAMUT_point_gamut[z].xmin;
 	endx	=	NGAMUT_point_gamut[z].xmax;
 
-	extern SLONG NGAMUT_xmin;
+	extern std::int32_t NGAMUT_xmin;
 
 	offsetx=startx-(NGAMUT_xmin);
 	
@@ -6571,7 +6571,7 @@ void	draw_quick_floor(SLONG warehouse)
 			}
 			else
 			{
-				SLONG	s1,s2;
+				std::int32_t	s1,s2;
 
 				s1=p1->Flags & PAP_FLAG_SINK_SQUARE;
 				s2=(p1+1)->Flags & PAP_FLAG_SINK_SQUARE;
@@ -6587,7 +6587,7 @@ void	draw_quick_floor(SLONG warehouse)
 						draw_i_prim(POLY_Page[0].RS.GetTexture(),kerb_verts,kerb_indicies,&kerb_countv,&kerb_counti,&mm_draw_floor);
 					}
 
-					if (add_kerb((p1+1)->Alt,(p2+1)->Alt,x+1,z,0,1,&kerb_verts[kerb_countv],&kerb_indicies[kerb_counti],kerb_countv,(p1+1)->Colour,(p2+1)->Colour,s1))
+					if (add_kerb((p1+1)->Alt,(p2+1)->Alt,x+1,z,0,1,&kerb_verts[kerb_countv],&kerb_indicies[kerb_counti],kerb_countv,(p1+1)->Color,(p2+1)->Color,s1))
 					{
 						kerb_countv+=4;
 						kerb_counti+=5;
@@ -6609,7 +6609,7 @@ void	draw_quick_floor(SLONG warehouse)
 						draw_i_prim(POLY_Page[0].RS.GetTexture(),kerb_verts,kerb_indicies,&kerb_countv,&kerb_counti,&mm_draw_floor);
 					}
 
-					if (add_kerb((p2)->Alt,(p2+1)->Alt,x,z+1,1,0,&kerb_verts[kerb_countv],&kerb_indicies[kerb_counti],kerb_countv,(p2)->Colour,(p2+1)->Colour,s2))
+					if (add_kerb((p2)->Alt,(p2+1)->Alt,x,z+1,1,0,&kerb_verts[kerb_countv],&kerb_indicies[kerb_counti],kerb_countv,(p2)->Color,(p2+1)->Color,s2))
 					{
 						kerb_countv+=4;
 						kerb_counti+=5;
@@ -6689,7 +6689,7 @@ void	draw_quick_floor(SLONG warehouse)
 			bin_set=-1;
 			if(current_set==-1)
 			{
-				SLONG	oldest=-1;
+				std::int32_t	oldest=-1;
 				//
 				// no group currently supports this new page, so find an empty one, or an old one to bin
 				//
@@ -6725,7 +6725,7 @@ void	draw_quick_floor(SLONG warehouse)
 			}
 			else
 			{
-				SLONG	cv=4,ci=5;
+				std::int32_t	cv=4,ci=5;
 				if(is_shadow)
 				{
 					cv=5;	 // shadow squares require more verts and indicies as quads are drawn as two seperate tri's
@@ -6796,7 +6796,7 @@ void	draw_quick_floor(SLONG warehouse)
 
 			pv->x = x       * 256.0F;
 			pv->z = z       * 256.0F;
-			pv->color=p1->Colour;//0xff808080;//202020;
+			pv->color=p1->Color;//0xff808080;//202020;
 			pv->specular=0xff000000;
 			SET_MM_INDEX(*pv,0);
 			pv++;
@@ -6804,21 +6804,21 @@ void	draw_quick_floor(SLONG warehouse)
 
 			pv->x = (x+1)       * 256.0F;
 			pv->z = z       * 256.0F;
-			pv->color=(p1+1)->Colour;//202020;
+			pv->color=(p1+1)->Color;//202020;
 			pv->specular=0xff000000;
 			SET_MM_INDEX(*pv,0);
 			pv++;
 
 			pv->x = (x+1)       * 256.0F;
 			pv->z = (z+1)       * 256.0F;
-			pv->color=(p2+1)->Colour;//202020;
+			pv->color=(p2+1)->Color;//202020;
 			pv->specular=0xff000000;
 			SET_MM_INDEX(*pv,0);
 			pv++;
 
 			pv->x = x       * 256.0F;
 			pv->z = (z+1)       * 256.0F;
-			pv->color=p2->Colour;//202020;
+			pv->color=p2->Color;//202020;
 			pv->specular=0xff000000;
 			SET_MM_INDEX(*pv,0);
 //			pv++;
@@ -6866,7 +6866,7 @@ void	draw_quick_floor(SLONG warehouse)
 
 #ifdef DEBUG
 #ifdef TARGET_DC
-			// Colour the vertices.
+			// Color the vertices.
 #define BUTTON_IS_PRESSED(value) ((value&0x80)!=0)
 extern DIJOYSTATE the_state;
 			if ( BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER] ) && BUTTON_IS_PRESSED ( the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER] ) )
@@ -6905,7 +6905,7 @@ extern DIJOYSTATE the_state;
 			}
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				float dx;
 				float dy;
@@ -6940,7 +6940,7 @@ extern DIJOYSTATE the_state;
 				}
 				else
 				{
-					ULONG zclip = 0;
+					std::uint32_t zclip = 0;
 					float along[4];
 
 					for (i = 0; i < 4; i++)
@@ -7067,7 +7067,7 @@ extern DIJOYSTATE the_state;
 				//
 
 
-				SLONG	count=vert_count[current_set];
+				std::int32_t	count=vert_count[current_set];
 
 				*p_indicies++=count+3;
 				*p_indicies++=count+0;
@@ -7089,7 +7089,7 @@ extern DIJOYSTATE the_state;
 				// make the indicies as we go along, for 4 vert normal quad
 				//
 
-				SLONG	count=vert_count[current_set];
+				std::int32_t	count=vert_count[current_set];
 
 				*p_indicies++=count+0;
 				*p_indicies++=count+1;
@@ -7221,7 +7221,7 @@ extern DIJOYSTATE			the_state;
 //#endif
 	{
 
-	extern SLONG	tick_tock_unclipped;
+	extern std::int32_t	tick_tock_unclipped;
 		if(tick_tock_unclipped)
 		{
 			int iFramerate = 1000/tick_tock_unclipped;
@@ -7250,7 +7250,7 @@ extern DIJOYSTATE			the_state;
 
 
 
-UBYTE	index_lookup[]={0,1,3,2};
+std::uint8_t	index_lookup[]={0,1,3,2};
 			   
 void AENG_draw_city()
 {
@@ -7266,23 +7266,23 @@ void AENG_draw_city()
 	//DumpTracies();
 
 
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
 	
-	SLONG nx;
-	SLONG nz;
+	std::int32_t nx;
+	std::int32_t nz;
 
-	SLONG page;
-	SLONG shadow;
-	SLONG square;
+	std::int32_t page;
+	std::int32_t shadow;
+	std::int32_t square;
 
 	float world_x;
 	float world_y;
@@ -7305,27 +7305,27 @@ void AENG_draw_city()
 
 	NIGHT_Square *nq;
 
-	SLONG red;
-	SLONG green;
-	SLONG blue;
+	std::int32_t red;
+	std::int32_t green;
+	std::int32_t blue;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG px1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t pz2;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG worked_out_colour;
-	ULONG colour;
-	ULONG specular;
+	std::int32_t worked_out_colour;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	OB_Info *oi;
 
@@ -7338,7 +7338,7 @@ void	draw_all_boxes();
 	draw_all_boxes();
 
 
-extern SLONG	tick_tock_unclipped;
+extern std::int32_t	tick_tock_unclipped;
 	sea_offset+=(tick_tock_unclipped);
 
 
@@ -7487,7 +7487,7 @@ extern SLONG	tick_tock_unclipped;
 			ASSERT(WITHIN(x, 0, MAP_WIDTH  - 1));
 			ASSERT(WITHIN(z, 0, MAP_HEIGHT - 1));
 
-extern UBYTE	player_visited[16][128];
+extern std::uint8_t	player_visited[16][128];
 //			player_visited[x>>3][z]|=1<<(x&7);
 
 			ph = &PAP_2HI(x,z);
@@ -7557,7 +7557,7 @@ extern UBYTE	player_visited[16][128];
 					}
 
 #ifndef TARGET_DC
-					apply_cloud((SLONG)world_x,(SLONG)world_y,(SLONG)world_z,&pp->colour);
+					apply_cloud((std::int32_t)world_x,(std::int32_t)world_y,(std::int32_t)world_z,&pp->colour);
 #endif
 
 
@@ -7656,7 +7656,7 @@ extern UBYTE	player_visited[16][128];
 						POLY_fadeout_point(ppl);
 					}
 #ifndef TARGET_DC
-					apply_cloud((SLONG)world_x,(SLONG)world_y,(SLONG)world_z,&ppl->colour);
+					apply_cloud((std::int32_t)world_x,(std::int32_t)world_y,(std::int32_t)world_z,&ppl->colour);
 #endif
 				}
 			}
@@ -7722,10 +7722,10 @@ extern UBYTE	player_visited[16][128];
 	struct
 	{
 		Thing *p_person;
-		SLONG  dist;
+		std::int32_t  dist;
 
 	}      shadow_person[AENG_NUM_SHADOWS];
-	SLONG  shadow_person_upto = 0;
+	std::int32_t  shadow_person_upto = 0;
 
 
 	if (AENG_detail_shadows)
@@ -7736,8 +7736,8 @@ extern UBYTE	player_visited[16][128];
 		// How many people do we generate shadows for?
 		//
 
-		SLONG  shadow_person_worst_dist = -INFINITY;
-		SLONG  shadow_person_worst_person;
+		std::int32_t  shadow_person_worst_dist = -INFINITY;
+		std::int32_t  shadow_person_worst_person;
 
 		for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
 		{
@@ -7824,8 +7824,8 @@ extern UBYTE	player_visited[16][128];
 		// Draw the people's shadow maps.
 		//
 
-		SLONG offset_x;
-		SLONG offset_y;
+		std::int32_t offset_x;
+		std::int32_t offset_y;
 
 		POLY_flush_local_rot();
 
@@ -7837,7 +7837,7 @@ extern UBYTE	player_visited[16][128];
 
 			SMAP_person(
 				darci,
-				(UBYTE *) AENG_aa_buffer,
+				(std::uint8_t *) AENG_aa_buffer,
 				AENG_AA_BUF_SIZE,
 				AENG_AA_BUF_SIZE,
 				147,
@@ -7860,11 +7860,11 @@ extern UBYTE	player_visited[16][128];
 
 			if (TEXTURE_shadow_lock())
 			{
-				SLONG  x;
-				SLONG  y;
-				UWORD *line;
-				UBYTE *buf = (UBYTE *) AENG_aa_buffer;
-				UWORD*	mapping = GetShadowPixelMapping();
+				std::int32_t  x;
+				std::int32_t  y;
+				std::uint16_t *line;
+				std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
+				std::uint16_t*	mapping = GetShadowPixelMapping();
 
 				for (y = 0; y < AENG_AA_BUF_SIZE; y++)
 				{
@@ -7901,21 +7901,21 @@ extern UBYTE	player_visited[16][128];
 				// Map this poly onto the mapsquares surrounding darci.
 				//
 
-				SLONG i;
+				std::int32_t i;
 
-				SLONG mx;
-				SLONG mz;
-				SLONG dx;
-				SLONG dz;
+				std::int32_t mx;
+				std::int32_t mz;
+				std::int32_t dx;
+				std::int32_t dz;
 
-				SLONG mx1;
-				SLONG mz1;
-				SLONG mx2;
-				SLONG mz2;
-				SLONG exit = false;
+				std::int32_t mx1;
+				std::int32_t mz1;
+				std::int32_t mx2;
+				std::int32_t mz2;
+				std::int32_t exit = false;
 
-				SLONG mx_lo;
-				SLONG mz_lo;
+				std::int32_t mx_lo;
+				std::int32_t mz_lo;
 
 #ifndef TARGET_DC
 				MapElement *me[4];
@@ -7925,23 +7925,23 @@ extern UBYTE	player_visited[16][128];
 				SVector_F  poly[4];
 				SMAP_Link *projected;
 
-				SLONG v_list;
-				SLONG i_vect;
+				std::int32_t v_list;
+				std::int32_t i_vect;
 
 				DFacet *df;
 
-				SLONG w_list;
-				SLONG w_face;
+				std::int32_t w_list;
+				std::int32_t w_face;
 
 				PrimFace4 *p_f4;
 				PrimPoint *pp;
 
-				SLONG wall;
-				SLONG storey;
-				SLONG building;
-				SLONG thing;
-				SLONG face_height;
-				UBYTE face_order[4] = {0,1,3,2};
+				std::int32_t wall;
+				std::int32_t storey;
+				std::int32_t building;
+				std::int32_t thing;
+				std::int32_t face_height;
+				std::uint8_t face_order[4] = {0,1,3,2};
 
 				Thing *p_fthing;
 
@@ -7951,8 +7951,8 @@ extern UBYTE	player_visited[16][128];
 
 				#define AENG_MAX_DONE 8
 
-				SLONG done[AENG_MAX_DONE];
-				SLONG done_upto = 0;
+				std::int32_t done[AENG_MAX_DONE];
+				std::int32_t done_upto = 0;
 
 				for (dx = -1; dx <= 1; dx++)
 				for (dz = -1; dz <= 1; dz++)
@@ -8069,7 +8069,7 @@ extern UBYTE	player_visited[16][128];
 				for (mx_lo = mx1; mx_lo <= mx2; mx_lo++)
 				for (mz_lo = mz1; mz_lo <= mz2; mz_lo++)
 				{
-					SLONG count = 0;
+					std::int32_t count = 0;
 
 					//
 					// Project onto nearby colvects...
@@ -8228,7 +8228,7 @@ extern UBYTE	player_visited[16][128];
 								}
 								else
 								{
-									SLONG	mx,mz;
+									std::int32_t	mx,mz;
 									mx=(rf->RX&127)<<8;
 									mz=(rf->RZ&127)<<8;
 
@@ -8289,14 +8289,14 @@ extern UBYTE	player_visited[16][128];
 
 	struct
 	{
-		SLONG x1;
-		SLONG y1;
-		SLONG x2;
-		SLONG y2;
-		SLONG water_box;
+		std::int32_t x1;
+		std::int32_t y1;
+		std::int32_t x2;
+		std::int32_t y2;
+		std::int32_t water_box;
 
 	}     bbox[AENG_MAX_BBOXES];
-	SLONG bbox_upto = 0;
+	std::int32_t bbox_upto = 0;
 
 	if (AENG_detail_moon_reflection && !(NIGHT_flag & NIGHT_FLAG_DAYTIME) && !(GAME_FLAGS & GF_NO_FLOOR))
 	{
@@ -8325,10 +8325,10 @@ extern UBYTE	player_visited[16][128];
 			// The moon is wibbled with polys now.
 			//
 
-			bbox[0].x1 = MAX((SLONG)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-			bbox[0].y1 = MAX((SLONG)moon_y1, 0);
-			bbox[0].x2 = MIN((SLONG)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
-			bbox[0].y2 = MIN((SLONG)moon_y2, DisplayHeight);
+			bbox[0].x1 = MAX((std::int32_t)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+			bbox[0].y1 = MAX((std::int32_t)moon_y1, 0);
+			bbox[0].x2 = MIN((std::int32_t)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
+			bbox[0].y2 = MIN((std::int32_t)moon_y2, DisplayHeight);
 
 			bbox[0].water_box = false;
 
@@ -8389,7 +8389,7 @@ extern UBYTE	player_visited[16][128];
 
 							if (dx + dz < 0x600)
 							{
-								SLONG reflect_height;
+								std::int32_t reflect_height;
 
 								//
 								// Puddles are always on the floor nowadays...
@@ -8534,7 +8534,7 @@ extern UBYTE	player_visited[16][128];
 
 	if (AENG_detail_puddles && !(GAME_FLAGS & GF_NO_FLOOR))
 	{
-		SLONG i;
+		std::int32_t i;
 
 		PUDDLE_Info *pi;
 	
@@ -8627,9 +8627,9 @@ extern UBYTE	player_visited[16][128];
 						world_z = pz1 + (pz2 - pz1) * drip_along_z;
 
 						DRIP_create(
-							UWORD(world_x),
-							SWORD(world_y),
-							UWORD(world_z),
+							std::uint16_t(world_x),
+							std::int16_t(world_y),
+							std::uint16_t(world_z),
 							1);
 
 						if (rand() & 0x11)
@@ -8645,9 +8645,9 @@ extern UBYTE	player_visited[16][128];
 							//
 
 							PUDDLE_splash(
-								SLONG(world_x),
-								SLONG(world_y),
-								SLONG(world_z));
+								std::int32_t(world_x),
+								std::int32_t(world_y),
+								std::int32_t(world_z));
 						}
 					}
 
@@ -8670,17 +8670,17 @@ extern UBYTE	player_visited[16][128];
 						// Find the bounding box of this puddle quad on screen.
 						//
 
-						SLONG px;
-						SLONG py;
-						SLONG px1 = +INFINITY;
-						SLONG py1 = +INFINITY;
-						SLONG px2 = -INFINITY;
-						SLONG py2 = -INFINITY;
+						std::int32_t px;
+						std::int32_t py;
+						std::int32_t px1 = +INFINITY;
+						std::int32_t py1 = +INFINITY;
+						std::int32_t px2 = -INFINITY;
+						std::int32_t py2 = -INFINITY;
 
 						for (i = 0; i < 4; i++)
 						{
-							px = SLONG(pp[i].X);
-							py = SLONG(pp[i].Y);
+							px = std::int32_t(pp[i].X);
+							py = std::int32_t(pp[i].Y);
 
 							if (px < px1) {px1 = px;}
 							if (py < py1) {py1 = py;}
@@ -8693,10 +8693,10 @@ extern UBYTE	player_visited[16][128];
 						// box of each reflection we have drawn.
 						//
 
-						SLONG ix1;
-						SLONG iy1;
-						SLONG ix2;
-						SLONG iy2;
+						std::int32_t ix1;
+						std::int32_t iy1;
+						std::int32_t ix2;
+						std::int32_t iy2;
 
 						for (i = 0; i < bbox_upto; i++)
 						{
@@ -8753,8 +8753,8 @@ extern UBYTE	player_visited[16][128];
 #ifndef	NEW_FLOOR
 	if (AENG_detail_people_reflection)
 	{
-		SLONG oldcolour  [4];
-		SLONG oldspecular[4];
+		std::int32_t oldcolour  [4];
+		std::int32_t oldspecular[4];
 
 		//
 		// Draw all the floor-reflective squares
@@ -8824,7 +8824,7 @@ extern UBYTE	player_visited[16][128];
 					if (ph->Flags & PAP_FLAG_ANIM_TMAP)
 					{
 						struct	AnimTmap	*p_a;
-						SLONG	cur;
+						std::int32_t	cur;
 						p_a=&anim_tmaps[ph->Texture];
 						cur=p_a->Current;
 
@@ -8884,24 +8884,24 @@ extern UBYTE	player_visited[16][128];
 	//
 
 	{
-		SLONG dmx;
-		SLONG dmz;
+		std::int32_t dmx;
+		std::int32_t dmz;
 
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
-		SLONG px;
-		SLONG py;
-		SLONG pz;
+		std::int32_t px;
+		std::int32_t py;
+		std::int32_t pz;
 
-		SLONG ix;
-		SLONG iz;
+		std::int32_t ix;
+		std::int32_t iz;
 
 		POLY_Point  water_pp[5][5];
 		POLY_Point *quad[4];
 		POLY_Point *pp;
 
-		SLONG user_upto = 1;
+		std::int32_t user_upto = 1;
 
 		for (i = 0, pp = &water_pp[0][0]; i < 25; i++, pp++)
 		{
@@ -9034,7 +9034,7 @@ extern UBYTE	player_visited[16][128];
 
 	LOG_ENTER ( AENG_Draw_Sky )
 
-extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world_camera_z,float world_camera_yaw,float max_dist,ULONG bot_colour,ULONG top_colour);
+extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world_camera_z,float world_camera_yaw,float max_dist,std::uint32_t bot_colour,std::uint32_t top_colour);
 
 #ifdef TARGET_DC
 	// Fade sky textures out a bit.
@@ -9148,7 +9148,7 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 #ifndef	NEW_FLOOR
 	LOG_ENTER ( AENG_Draw_Floors )
 
-	SLONG num_squares_drawn = 0;
+	std::int32_t num_squares_drawn = 0;
 
 	{
 		if(!INDOORS_INDEX||outside)
@@ -9189,7 +9189,7 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 					//
 					if ((ph->Flags & (PAP_FLAG_ROOF_EXISTS)) )
 					{
-						SLONG	c0,light_lookup;
+						std::int32_t	c0,light_lookup;
 						float	y;
 
 						y=MAVHEIGHT(x,z)<<6;//(PAP_hi[x][z].Height<<6);
@@ -9203,7 +9203,7 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 						POLY_transform((x+1)<<8,y, (z+1)<<8, &fake_roof[2]);
 
 
-	extern UWORD	hidden_roof_index[128][128];
+	extern std::uint16_t	hidden_roof_index[128][128];
 
 						light_lookup=hidden_roof_index[x][z];
 
@@ -9211,7 +9211,7 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 
 						for(c0=0;c0<4;c0++)
 						{
-							SLONG	c0_bodge;
+							std::int32_t	c0_bodge;
 							c0_bodge=index_lookup[c0];
 							pp=&fake_roof[c0];
 	//						pp->colour=0x808080;
@@ -9293,7 +9293,7 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 							if (ph->Flags & PAP_FLAG_ANIM_TMAP)
 							{
 								struct	AnimTmap	*p_a;
-								SLONG	cur;
+								std::int32_t	cur;
 								p_a=&anim_tmaps[ph->Texture];
 								cur=p_a->Current;
 
@@ -9339,17 +9339,17 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 #endif
 								if(page==4*64+53)
 								{
-									SLONG	dx,dz,dist;
+									std::int32_t	dx,dz,dist;
 
-									dx=abs( (((SLONG)AENG_cam_x)>>8)-(x) );
-									dz=abs( (((SLONG)AENG_cam_z)>>8)-(z) );
+									dx=abs( (((std::int32_t)AENG_cam_x)>>8)-(x) );
+									dz=abs( (((std::int32_t)AENG_cam_z)>>8)-(z) );
 
 									dist=QDIST2(dx,dz);
 
 									if(dist<15)
 									{
-										SLONG	sx,sy,sz;
-	void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
+										std::int32_t	sx,sy,sz;
+	void draw_steam(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod);
 										switch((ph->Texture >> 0xa) & 0x3)
 										{
 											case	0:
@@ -9635,13 +9635,13 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 
 					static struct
 					{
-						SLONG dpx1;
-						SLONG dpz1;
-						SLONG dpx2;
-						SLONG dpz2;
+						std::int32_t dpx1;
+						std::int32_t dpz1;
+						std::int32_t dpx2;
+						std::int32_t dpz2;
 
-						SLONG dsx;
-						SLONG dsz;
+						std::int32_t dsx;
+						std::int32_t dsz;
 
 					} curb[4] = 
 					{
@@ -9765,7 +9765,7 @@ extern void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,floa
 						}
 
 #ifdef EDITOR
-				UBYTE fade;
+				std::uint8_t fade;
 extern HWND GEDIT_edit_wnd;
 
 				if (GEDIT_edit_wnd)
@@ -9773,7 +9773,7 @@ extern HWND GEDIT_edit_wnd;
 				else
 					fade=0xff;
 #else
-				UBYTE fade=0xff;
+				std::uint8_t fade=0xff;
 
 #endif
 
@@ -9868,10 +9868,10 @@ extern HWND GEDIT_edit_wnd;
 				//
 
 				{
-					SLONG f_list;
-					SLONG facet;
-					SLONG build;
-					SLONG exit = false;
+					std::int32_t f_list;
+					std::int32_t facet;
+					std::int32_t build;
+					std::int32_t exit = false;
 
 					f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -9879,7 +9879,7 @@ extern HWND GEDIT_edit_wnd;
 
 					if (f_list)
 					{
-						SLONG	count=0;
+						std::int32_t	count=0;
 						while(!exit)
 						{
 							struct	DFacet	*p_vect;
@@ -10124,7 +10124,7 @@ extern HWND GEDIT_edit_wnd;
 
 										/*
 										{
-											SLONG roll = bdi.roll;
+											std::int32_t roll = bdi.roll;
 
 											if (roll > 1024)
 											{
@@ -10141,7 +10141,7 @@ extern HWND GEDIT_edit_wnd;
 										{
 											BIKE_Control bc;
 											DrawTween   *dt = p_thing->Draw.Tweened;
-											SLONG	steer;
+											std::int32_t	steer;
 
 											bc = BIKE_control_get(p_bike);
 											steer=bc.steer>>1;
@@ -10154,7 +10154,7 @@ extern HWND GEDIT_edit_wnd;
 
 											if(abs(steer)>21)
 											{
-												SLONG	tween;
+												std::int32_t	tween;
 												if(steer<0)
 												{
 													dt->CurrentFrame    =  global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
@@ -10246,7 +10246,7 @@ extern HWND GEDIT_edit_wnd;
 										}
 										else
 										{
-											SLONG	dx,dy,dz,dist;
+											std::int32_t	dx,dy,dz,dist;
 
 											dx=fabs((p_thing->WorldPos.X >> 8)-AENG_cam_x);
 											dy=fabs((p_thing->WorldPos.Y >> 8)-AENG_cam_y);
@@ -10262,7 +10262,7 @@ extern HWND GEDIT_edit_wnd;
 										}
 									}
 
-									p_thing->Draw.Tweened->Drawn=(UBYTE)SUPERMAP_counter;
+									p_thing->Draw.Tweened->Drawn=(std::uint8_t)SUPERMAP_counter;
 
 									if (ControlFlag&&allow_debug_keys)
 									{
@@ -10300,7 +10300,7 @@ extern HWND GEDIT_edit_wnd;
 
 								if (p_thing->Genus.Person->Balloon)
 								{
-									SLONG balloon;
+									std::int32_t balloon;
 									BALLOON_Balloon *bb;
 
 									//
@@ -10329,9 +10329,9 @@ extern HWND GEDIT_edit_wnd;
 											//
 											DRAWXTRA_MIB_destruct(p_thing);
 /*
-											SLONG px;
-											SLONG py;
-											SLONG pz;
+											std::int32_t px;
+											std::int32_t py;
+											std::int32_t pz;
 
 											calc_sub_objects_position(
 												p_thing,
@@ -10352,9 +10352,9 @@ extern HWND GEDIT_edit_wnd;
 											// (So why didn't you put it there?!)
 
 											{
-												SLONG c0;
-												SLONG dx;
-												SLONG dz;
+												std::int32_t c0;
+												std::int32_t dx;
+												std::int32_t dz;
 
 											  c0=3+(THING_NUMBER(p_thing)&7);
 											  c0=(((GAME_TURN*c0)+(THING_NUMBER(p_thing)*9))<<4)&2047;
@@ -10461,7 +10461,7 @@ extern HWND GEDIT_edit_wnd;
 
 									if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
 									{
-										SLONG matrix[9], vector[3], dx,dy,dz;
+										std::int32_t matrix[9], vector[3], dx,dy,dz;
 //										FMATRIX_calc(matrix, 1024-bdi.steer, bdi.pitch, bdi.roll);
 										FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
 										FMATRIX_TRANSPOSE(matrix);
@@ -10509,7 +10509,7 @@ extern HWND GEDIT_edit_wnd;
 
 								{
 #if 1
-									ULONG car_colours[6] = 
+									std::uint32_t car_colours[6] = 
 									{
 										0xffffff00,
 										0xffff00ff,
@@ -10552,11 +10552,11 @@ extern HWND GEDIT_edit_wnd;
 									// to get into the van.
 									//
 
-									SLONG dx = -SIN(p_thing->Genus.Vehicle->Draw.Angle);
-									SLONG dz = -COS(p_thing->Genus.Vehicle->Draw.Angle);
+									std::int32_t dx = -SIN(p_thing->Genus.Vehicle->Draw.Angle);
+									std::int32_t dz = -COS(p_thing->Genus.Vehicle->Draw.Angle);
 
-									SLONG ix = p_thing->WorldPos.X >> 8;
-									SLONG iz = p_thing->WorldPos.Z >> 8;
+									std::int32_t ix = p_thing->WorldPos.X >> 8;
+									std::int32_t iz = p_thing->WorldPos.Z >> 8;
 
 									ix += dx >> 9;
 									iz += dz >> 9;
@@ -10661,9 +10661,9 @@ extern void	ANIMAL_draw(Thing *p_thing);
 
 								{
 
-									SLONG px;
-									SLONG py;
-									SLONG pz;
+									std::int32_t px;
+									std::int32_t py;
+									std::int32_t pz;
 
 									calc_sub_objects_position(
 										p_thing,
@@ -10769,18 +10769,18 @@ extern void	ANIMAL_draw(Thing *p_thing);
 	if(!INDOORS_INDEX||outside)
 	if (AENG_detail_mist)
 	{
-		SLONG i;
+		std::int32_t i;
 
-		SLONG sx;
-		SLONG sz;
+		std::int32_t sx;
+		std::int32_t sz;
 
-		SLONG px;
-		SLONG pz;
-		SLONG detail;
+		std::int32_t px;
+		std::int32_t pz;
+		std::int32_t detail;
 
-		SLONG wx;
-		SLONG wy;
-		SLONG wz;
+		std::int32_t wx;
+		std::int32_t wy;
+		std::int32_t wz;
 
 		// Internal gubbins.
 		POLY_flush_local_rot();
@@ -10933,8 +10933,8 @@ extern void	ANIMAL_draw(Thing *p_thing);
 	// Drawing the steam.
 	//
 
-//	void draw_steam(SLONG x,SLONG y,SLONG z,SLONG lod);
-//	void draw_flames(SLONG x,SLONG y,SLONG z,SLONG lod);
+//	void draw_steam(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod);
+//	void draw_flames(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t lod);
 
 	//
 	// Pyrotechincs.
@@ -10960,8 +10960,8 @@ extern void	ANIMAL_draw(Thing *p_thing);
 	for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++)
 	{
 		PUDDLE_Info *pi;
-			SLONG	sx,sy,sz;
-			SLONG	dx,dy,dz,dist,lod;
+			std::int32_t	sx,sy,sz;
+			std::int32_t	dx,dy,dz,dist,lod;
 			PUDDLE_get_start(z, NGAMUT_gamut[z].xmin, NGAMUT_gamut[z].xmax);
 
 			while(pi = PUDDLE_get_next())
@@ -10970,10 +10970,10 @@ extern void	ANIMAL_draw(Thing *p_thing);
 				sz = (pi->z1+pi->z2)>>1;
 				sy = pi->y;
 
-				dx=abs( ((SLONG)AENG_cam_x>>0)-sx);
-//				dy=abs( ((SLONG)AENG_cam_y>>0)-SLONG(world_y))*4;
-				dy=abs( ((SLONG)AENG_cam_y>>0)-sy);
-				dz=abs( ((SLONG)AENG_cam_z>>0)-sz);
+				dx=abs( ((std::int32_t)AENG_cam_x>>0)-sx);
+//				dy=abs( ((std::int32_t)AENG_cam_y>>0)-std::int32_t(world_y))*4;
+				dy=abs( ((std::int32_t)AENG_cam_y>>0)-sy);
+				dz=abs( ((std::int32_t)AENG_cam_z>>0)-sz);
 
 				dist=QDIST3(dx,dy,dz);
 
@@ -11006,9 +11006,9 @@ extern void	ANIMAL_draw(Thing *p_thing);
 		float dy;
 		float dz;
 
-		SLONG x;
-		SLONG y;
-		SLONG z;
+		std::int32_t x;
+		std::int32_t y;
+		std::int32_t z;
 
 		calc_sub_objects_position(
 			darci,
@@ -11072,11 +11072,11 @@ extern void	ANIMAL_draw(Thing *p_thing);
 	LOG_ENTER ( AENG_Draw_Tripwires )
 
 	{
-		SLONG map_x1;
-		SLONG map_z1;
+		std::int32_t map_x1;
+		std::int32_t map_z1;
 
-		SLONG map_x2;
-		SLONG map_z2;
+		std::int32_t map_x2;
+		std::int32_t map_z2;
 
 		TRIP_Info *ti;
 
@@ -11339,7 +11339,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
 
 void	AENG_draw_far_facets()
 {
-	SLONG	x,z;
+	std::int32_t	x,z;
 
 	POLY_camera_set(
 		AENG_cam_x,
@@ -11364,7 +11364,7 @@ void	AENG_draw_far_facets()
 
 
 #ifdef DEBUG
-	SLONG	count = 0;
+	std::int32_t	count = 0;
 #endif
 
 		LOG_ENTER ( Skyline_Scan_Map_Square )
@@ -11385,10 +11385,10 @@ void	AENG_draw_far_facets()
 				//
 
 				{
-					SLONG f_list;
-					SLONG facet;
-					SLONG build;
-					SLONG exit = false;
+					std::int32_t f_list;
+					std::int32_t facet;
+					std::int32_t build;
+					std::int32_t exit = false;
 
 					f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -11450,7 +11450,7 @@ void	AENG_draw_far_facets()
 
 
 									show_facet(facet);
-extern void FACET_draw_quick(SLONG facet,UBYTE alpha);
+extern void FACET_draw_quick(std::int32_t facet,std::uint8_t alpha);
 									FACET_draw_quick(facet,0);
 #ifdef DEBUG
 									count++;
@@ -11494,31 +11494,31 @@ extern void FACET_draw_quick(SLONG facet,UBYTE alpha);
 
 void AENG_draw_warehouse()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG px;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t pz;
 
-	SLONG dist;
-	SLONG t_index;
-	SLONG square;
-	SLONG build;
-	SLONG page;
-	SLONG facet;
-	SLONG f_list;
-	SLONG exit;
-	SLONG balloon;
-	SLONG dfcache;
-	SLONG next;
+	std::int32_t dist;
+	std::int32_t t_index;
+	std::int32_t square;
+	std::int32_t build;
+	std::int32_t page;
+	std::int32_t facet;
+	std::int32_t f_list;
+	std::int32_t exit;
+	std::int32_t balloon;
+	std::int32_t dfcache;
+	std::int32_t next;
 
-	ULONG colour;
-	ULONG specular;
+	std::uint32_t colour;
+	std::uint32_t specular;
 
 	float world_x;
 	float world_y;
@@ -11529,7 +11529,7 @@ void AENG_draw_warehouse()
 	//
 
 
-	SLONG old_aeng_draw_cloud_flag = aeng_draw_cloud_flag; false;
+	std::int32_t old_aeng_draw_cloud_flag = aeng_draw_cloud_flag; false;
 
 	aeng_draw_cloud_flag = false;
 
@@ -11668,7 +11668,7 @@ void AENG_draw_warehouse()
 				   &pp->colour,
 				   &pp->specular);
 
-				apply_cloud((SLONG)world_x,(SLONG)world_y,(SLONG)world_z,&pp->colour);
+				apply_cloud((std::int32_t)world_x,(std::int32_t)world_y,(std::int32_t)world_z,&pp->colour);
 
 				POLY_fadeout_point(pp);
 
@@ -11695,12 +11695,12 @@ void AENG_draw_warehouse()
 		struct
 		{
 			Thing *p_person;
-			SLONG  dist;
+			std::int32_t  dist;
 
 		}      shadow_person[AENG_NUM_SHADOWS];
-		SLONG  shadow_person_upto = 0;
-		SLONG  shadow_person_worst_dist = -INFINITY;
-		SLONG  shadow_person_worst_person;
+		std::int32_t  shadow_person_upto = 0;
+		std::int32_t  shadow_person_worst_dist = -INFINITY;
+		std::int32_t  shadow_person_worst_person;
 
 		for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
 		{
@@ -11787,8 +11787,8 @@ void AENG_draw_warehouse()
 		// Draw the people's shadow maps.
 		//
 
-		SLONG offset_x;
-		SLONG offset_y;
+		std::int32_t offset_x;
+		std::int32_t offset_y;
 
 		for (i = 0; i < shadow_person_upto; i++)
 		{
@@ -11798,7 +11798,7 @@ void AENG_draw_warehouse()
 
 			SMAP_person(
 				darci,
-				(UBYTE *) AENG_aa_buffer,
+				(std::uint8_t *) AENG_aa_buffer,
 				AENG_AA_BUF_SIZE,
 				AENG_AA_BUF_SIZE,
 				0,
@@ -11821,11 +11821,11 @@ void AENG_draw_warehouse()
 
 			if (TEXTURE_shadow_lock())
 			{
-				SLONG  x;
-				SLONG  y;
-				UWORD *line;
-				UBYTE *buf = (UBYTE *) AENG_aa_buffer;
-				UWORD*	mapping = GetShadowPixelMapping();
+				std::int32_t  x;
+				std::int32_t  y;
+				std::uint16_t *line;
+				std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
+				std::uint16_t*	mapping = GetShadowPixelMapping();
 
 				for (y = 0; y < AENG_AA_BUF_SIZE; y++)
 				{
@@ -11855,21 +11855,21 @@ void AENG_draw_warehouse()
 				// Map this poly onto the mapsquares surrounding darci.
 				//
 
-				SLONG i;
+				std::int32_t i;
 
-				SLONG mx;
-				SLONG mz;
-				SLONG dx;
-				SLONG dz;
+				std::int32_t mx;
+				std::int32_t mz;
+				std::int32_t dx;
+				std::int32_t dz;
 
-				SLONG mx1;
-				SLONG mz1;
-				SLONG mx2;
-				SLONG mz2;
-				SLONG exit = false;
+				std::int32_t mx1;
+				std::int32_t mz1;
+				std::int32_t mx2;
+				std::int32_t mz2;
+				std::int32_t exit = false;
 
-				SLONG mx_lo;
-				SLONG mz_lo;
+				std::int32_t mx_lo;
+				std::int32_t mz_lo;
 
 #ifndef TARGET_DC
 				MapElement *me[4];
@@ -11879,23 +11879,23 @@ void AENG_draw_warehouse()
 				SVector_F  poly[4];
 				SMAP_Link *projected;
 
-				SLONG v_list;
-				SLONG i_vect;
+				std::int32_t v_list;
+				std::int32_t i_vect;
 
 				DFacet *df;
 
-				SLONG w_list;
-				SLONG w_face;
+				std::int32_t w_list;
+				std::int32_t w_face;
 
 				PrimFace4 *p_f4;
 				PrimPoint *pp;
 
-				SLONG wall;
-				SLONG storey;
-				SLONG building;
-				SLONG thing;
-				SLONG face_height;
-				UBYTE face_order[4] = {0,1,3,2};
+				std::int32_t wall;
+				std::int32_t storey;
+				std::int32_t building;
+				std::int32_t thing;
+				std::int32_t face_height;
+				std::uint8_t face_order[4] = {0,1,3,2};
 
 				Thing *p_fthing;
 
@@ -11905,8 +11905,8 @@ void AENG_draw_warehouse()
 
 				#define AENG_MAX_DONE 8
 
-				SLONG done[AENG_MAX_DONE];
-				SLONG done_upto = 0;
+				std::int32_t done[AENG_MAX_DONE];
+				std::int32_t done_upto = 0;
 
 				for (dx = -1; dx <= 1; dx++)
 				for (dz = -1; dz <= 1; dz++)
@@ -12062,7 +12062,7 @@ void AENG_draw_warehouse()
 							}
 							else
 							{
-								SLONG	mx,mz;
+								std::int32_t	mx,mz;
 
 								mx=(rf->RX&127)<<8;
 								mz=(rf->RZ&127)<<8;
@@ -12227,7 +12227,7 @@ void AENG_draw_warehouse()
 	// Draw the objects and the things.
 	//
 
-	SLONG pos = 0;
+	std::int32_t pos = 0;
 
 	for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
 	{
@@ -12236,7 +12236,7 @@ void AENG_draw_warehouse()
 			/*
 
 			{
-				CBYTE str[20];
+				char str[20];
 
 				sprintf(str, "%d,%d", x, z);
 
@@ -12452,7 +12452,7 @@ void AENG_draw_warehouse()
 							}
 							else
 							{
-								SLONG	dx,dy,dz,dist;
+								std::int32_t	dx,dy,dz,dist;
 
 								dx=fabs((p_thing->WorldPos.X >> 8)-AENG_cam_x);
 								dy=fabs((p_thing->WorldPos.Y >> 8)-AENG_cam_y);
@@ -12616,7 +12616,7 @@ void AENG_draw_warehouse()
 #ifdef EDITOR
 typedef struct
 {
-	UBYTE      height[4];
+	std::uint8_t      height[4];
 	POLY_Point pp[4];
 	
 } AENG_Nswater;
@@ -12626,12 +12626,12 @@ AENG_Nswater AENG_nswater[5][5];
 
 void AENG_draw_ns()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	float base_x;
 	float base_z;
@@ -12640,38 +12640,38 @@ void AENG_draw_ns()
 	float py;
 	float pz;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG dropx;
-	SLONG dropy;
-	SLONG dropz;
+	std::int32_t dropx;
+	std::int32_t dropy;
+	std::int32_t dropz;
 
-	SLONG dropdx;
-	SLONG dropdy;
-	SLONG dropdz;
+	std::int32_t dropdx;
+	std::int32_t dropdy;
+	std::int32_t dropdz;
 
-	SLONG along;
+	std::int32_t along;
 
-	SLONG bx;
-	SLONG bz;
+	std::int32_t bx;
+	std::int32_t bz;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SLONG dsx;
-	SLONG dsz;
+	std::int32_t dsx;
+	std::int32_t dsz;
 
-	SLONG sx;
-	SLONG sz;
+	std::int32_t sx;
+	std::int32_t sz;
 
-	SLONG ix;
-	SLONG iz;
+	std::int32_t ix;
+	std::int32_t iz;
 
-	SLONG page;
+	std::int32_t page;
 
 	NS_Cache   *nc;
 	NS_Point   *np;
@@ -12701,13 +12701,13 @@ void AENG_draw_ns()
 
 	struct
 	{
-		SLONG x1;
-		SLONG y1;
-		SLONG x2;
-		SLONG y2;
+		std::int32_t x1;
+		std::int32_t y1;
+		std::int32_t x2;
+		std::int32_t y2;
 
 	}     bbox[AENG_MAX_BBOXES];
-	SLONG bbox_upto = 0;
+	std::int32_t bbox_upto = 0;
 
 	//
 	// Create the gamut
@@ -12773,12 +12773,12 @@ void AENG_draw_ns()
 		struct
 		{
 			Thing *p_person;
-			SLONG  dist;
+			std::int32_t  dist;
 
 		}      shadow_person[AENG_NUM_SHADOWS];
-		SLONG  shadow_person_upto = 0;
-		SLONG  shadow_person_worst_dist = -INFINITY;
-		SLONG  shadow_person_worst_person;
+		std::int32_t  shadow_person_upto = 0;
+		std::int32_t  shadow_person_worst_dist = -INFINITY;
+		std::int32_t  shadow_person_worst_person;
 
 		for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++)
 		{
@@ -12869,19 +12869,19 @@ void AENG_draw_ns()
 		// Draw the people's shadow maps.
 		//
 
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 		
-		SLONG light_x;
-		SLONG light_y;
-		SLONG light_z;
+		std::int32_t light_x;
+		std::int32_t light_y;
+		std::int32_t light_z;
 
-		SLONG light_dx;
-		SLONG light_dy;
-		SLONG light_dz;
+		std::int32_t light_dx;
+		std::int32_t light_dy;
+		std::int32_t light_dz;
 
-		SLONG offset_x;
-		SLONG offset_y;
+		std::int32_t offset_x;
+		std::int32_t offset_y;
 
 		NS_Lo *nl;
 
@@ -12935,7 +12935,7 @@ void AENG_draw_ns()
 
 			SMAP_person(
 				darci,
-				(UBYTE *) AENG_aa_buffer,
+				(std::uint8_t *) AENG_aa_buffer,
 				AENG_AA_BUF_SIZE,
 				AENG_AA_BUF_SIZE,
 				light_dx,
@@ -12958,11 +12958,11 @@ void AENG_draw_ns()
 
 			if (TEXTURE_shadow_lock())
 			{
-				SLONG  x;
-				SLONG  y;
-				UWORD *line;
-				UBYTE *buf = (UBYTE *) AENG_aa_buffer;
-				UWORD*	mapping = GetShadowPixelMapping();
+				std::int32_t  x;
+				std::int32_t  y;
+				std::uint16_t *line;
+				std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
+				std::uint16_t*	mapping = GetShadowPixelMapping();
 
 				for (y = 0; y < AENG_AA_BUF_SIZE; y++)
 				{
@@ -12996,18 +12996,18 @@ void AENG_draw_ns()
 			//
 
 			{
-				SLONG mx1;
-				SLONG mz1;
+				std::int32_t mx1;
+				std::int32_t mz1;
 
-				SLONG mx2;
-				SLONG mz2;
+				std::int32_t mx2;
+				std::int32_t mz2;
 
-				SLONG px;
-				SLONG py;
-				SLONG pz;
+				std::int32_t px;
+				std::int32_t py;
+				std::int32_t pz;
 
-				SLONG base_x;
-				SLONG base_z;
+				std::int32_t base_x;
+				std::int32_t base_z;
 
 				NS_Hi    *nh;
 				NS_Lo    *nl;
@@ -13017,8 +13017,8 @@ void AENG_draw_ns()
 				NS_Point *np;
 				NS_Face  *nf;
 
-				SLONG face_point;
-				UBYTE face_order[4] = {0,1,3,2};
+				std::int32_t face_point;
+				std::uint8_t face_order[4] = {0,1,3,2};
 
 				SVector_F  poly[4];
 				SMAP_Link *projected;
@@ -13133,8 +13133,8 @@ void AENG_draw_ns()
 								float(p_thing->WorldPos.Z >> 8),
 								256.0F / (AENG_DRAW_DIST * 256.0F)))
 						{
-							SLONG mx = p_thing->WorldPos.X >> 16;
-							SLONG mz = p_thing->WorldPos.Z >> 16;
+							std::int32_t mx = p_thing->WorldPos.X >> 16;
+							std::int32_t mz = p_thing->WorldPos.Z >> 16;
 
 							ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
 							ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));
@@ -13149,7 +13149,7 @@ void AENG_draw_ns()
 								// The height of the reflection.
 								//
 
-								SLONG reflect_height = (nh->water << 5) + (-32 * 0x100);
+								std::int32_t reflect_height = (nh->water << 5) + (-32 * 0x100);
 
 								FIGURE_draw_reflection(p_thing, reflect_height);
 
@@ -13431,9 +13431,9 @@ void AENG_draw_ns()
 			//
 
 			{
-				SLONG top;
-				SLONG bot;
-				SLONG fall;
+				std::int32_t top;
+				std::int32_t bot;
+				std::int32_t fall;
 
 				NS_Fall *nf;
 
@@ -13652,10 +13652,10 @@ void AENG_draw_ns()
 			//
 
 			{
-				SLONG f_list;
-				SLONG facet;
-				SLONG build;
-				SLONG exit = false;
+				std::int32_t f_list;
+				std::int32_t facet;
+				std::int32_t build;
+				std::int32_t exit = false;
 
 				f_list = PAP_2LO(x,z).ColVectHead;
 
@@ -13797,17 +13797,17 @@ void AENG_draw_ns()
 
 
 void AENG_draw_scanner(
-		SLONG screen_x1,
-		SLONG screen_y1,
-		SLONG screen_x2,
-		SLONG screen_y2,
-		SLONG map_x,
-		SLONG map_z,
-		SLONG map_zoom,
-		SLONG map_angle)
+		std::int32_t screen_x1,
+		std::int32_t screen_y1,
+		std::int32_t screen_x2,
+		std::int32_t screen_y2,
+		std::int32_t map_x,
+		std::int32_t map_z,
+		std::int32_t map_zoom,
+		std::int32_t map_angle)
 {
 #ifdef	DOG_POO
-	SLONG i;
+	std::int32_t i;
 
 	AZ_Line *al;
 
@@ -13840,10 +13840,10 @@ void AENG_draw_scanner(
 	float cos_yaw = cos(angle);
 	float matrix[4];
 
-	UBYTE clip1;
-	UBYTE clip2;
-	UBYTE clip_and;
-	UBYTE clip_xor;
+	std::uint8_t clip1;
+	std::uint8_t clip2;
+	std::uint8_t clip_and;
+	std::uint8_t clip_xor;
 
 	matrix[0] =  cos_yaw;
 	matrix[1] =  sin_yaw;
@@ -13870,7 +13870,7 @@ void AENG_draw_scanner(
 	// Add each line in turn.
 	//
 
-	ULONG type_colour[AZ_LINE_TYPE_NUMBER] =
+	std::uint32_t type_colour[AZ_LINE_TYPE_NUMBER] =
 	{
 		0x00d83377,
 		0x00eed811,
@@ -13924,8 +13924,8 @@ void AENG_draw_scanner(
 		THING_INDEX t_index;
 		Thing      *p_thing;
 
-		SLONG dx;
-		SLONG dz;
+		std::int32_t dx;
+		std::int32_t dz;
 
 		for (t_index = the_game.UsedPrimaryThings; t_index; t_index = p_thing->LinkChild)
 		{
@@ -14120,11 +14120,11 @@ void AENG_draw_scanner(
 #endif
 }
 
-void AENG_draw_power(SLONG x,SLONG y,SLONG w,SLONG h,SLONG val,SLONG max)
+void AENG_draw_power(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t val,std::int32_t max)
 {
 	/*
 
-	SLONG	left,right,top,bottom;
+	std::int32_t	left,right,top,bottom;
 	POLY_Point  pp  [4];
 	POLY_Point *quad[4];
 
@@ -14206,7 +14206,7 @@ void AENG_draw_power(SLONG x,SLONG y,SLONG w,SLONG h,SLONG val,SLONG max)
 	*/
 }
 
-UBYTE	record_video=0;
+std::uint8_t	record_video=0;
 
 #if defined(TARGET_DC)
 
@@ -14248,14 +14248,14 @@ extern void	tga_dump();
 
 void AENG_draw_FPS()
 {
-	static	SLONG	fps = 0;			// current FPS
-	static	SLONG	avfps = 0;			// average FPS
-	static	SLONG	last_game_turn = 0;	// game turn when FPS was sampled
+	static	std::int32_t	fps = 0;			// current FPS
+	static	std::int32_t	avfps = 0;			// average FPS
+	static	std::int32_t	last_game_turn = 0;	// game turn when FPS was sampled
 	static	clock_t	last_time = 0;		// time when FPS was sampled
-	static	SLONG	total_frames = 0;
+	static	std::int32_t	total_frames = 0;
 	static	float	total_time = 0;
-	static	SLONG	ups = 0;			// us per frame
-	static	SLONG	avups = 0;
+	static	std::int32_t	ups = 0;			// us per frame
+	static	std::int32_t	avups = 0;
 
 	clock_t	this_time = clock();
 
@@ -14304,7 +14304,7 @@ void AENG_draw_FPS()
 	
 	if (allow_debug_keys)
 	{
-		CBYTE	str[100];
+		char	str[100];
 
 		sprintf(str,"FPS: %d = %d us",fps,ups);
 		FONT2D_DrawString(str,DisplayWidth >> 1, 10,0xffffff,128);
@@ -14322,9 +14322,9 @@ void AENG_draw_messages()
 	// fps stuff.
 	//
 
-	static SLONG   fps = 0;
+	static std::int32_t   fps = 0;
 #if !defined(TARGET_DC)
-	static SLONG   last_game_turn = 0;
+	static std::int32_t   last_game_turn = 0;
 	static clock_t last_time = 0;
 		   clock_t this_time = 0;
 
@@ -14353,16 +14353,16 @@ void AENG_draw_messages()
 
 	#if ARGH
 	
-	static SLONG px[3] = {4 << 16,  8 << 16, 8 << 16};
-	static SLONG py[3] = {4 << 16,  4 << 16, 8 << 16};
+	static std::int32_t px[3] = {4 << 16,  8 << 16, 8 << 16};
+	static std::int32_t py[3] = {4 << 16,  4 << 16, 8 << 16};
 
 	if (LeftButton)
 	{
-		SLONG mx;
-		SLONG my;
+		std::int32_t mx;
+		std::int32_t my;
 
-		SLONG dx;
-		SLONG dy;
+		std::int32_t dx;
+		std::int32_t dy;
 
 		mx = MouseX - AENG_AA_LEFT;
 		my = MouseY - AENG_AA_TOP;
@@ -14373,12 +14373,12 @@ void AENG_draw_messages()
 		mx /= AENG_AA_PIX_SIZE;
 		my /= AENG_AA_PIX_SIZE;
 
-		SLONG i;
+		std::int32_t i;
 
-		SLONG  dist;
-		SLONG  best_dist = INFINITY;
-		SLONG *best_x;
-		SLONG *best_y;
+		std::int32_t  dist;
+		std::int32_t  best_dist = INFINITY;
+		std::int32_t *best_x;
+		std::int32_t *best_y;
 
 		for (i = 0; i < 3; i++)
 		{
@@ -14407,7 +14407,7 @@ void AENG_draw_messages()
 		memset(AENG_aa_buffer, 0, sizeof(AENG_aa_buffer));
 
 		AA_draw(
-			(UBYTE *) AENG_aa_buffer,
+			(std::uint8_t *) AENG_aa_buffer,
 			AENG_AA_BUF_SIZE,
 			AENG_AA_BUF_SIZE,
 			AENG_AA_BUF_SIZE,
@@ -14435,7 +14435,7 @@ void AENG_draw_messages()
 		//
 
 		FONT_draw(DisplayWidth >> 1, 20, "Facets: %d", dfacets_drawn_this_gameturn);
-extern SLONG	damp;
+extern std::int32_t	damp;
 		FONT_draw(20,30, "DAMP: %d", damp);
 		*/
 
@@ -14446,11 +14446,11 @@ extern SLONG	damp;
 		//MSG_draw();
 		#if werrr
 
-		SLONG x;
-		SLONG y;
+		std::int32_t x;
+		std::int32_t y;
 
-		SLONG dx;
-		SLONG dy;
+		std::int32_t dx;
+		std::int32_t dy;
 
 		for (x = 0; x < AENG_AA_BUF_SIZE; x++)
 		for (y = 0; y < AENG_AA_BUF_SIZE; y++)
@@ -14467,7 +14467,7 @@ extern SLONG	damp;
 			}
 		}
 
-		for (SLONG i = 0; i < 3; i++)
+		for (std::int32_t i = 0; i < 3; i++)
 		{
 			x = AENG_AA_LEFT + (px[i] * AENG_AA_PIX_SIZE >> 16);
 			y = AENG_AA_TOP	 + (py[i] * AENG_AA_PIX_SIZE >> 16);
@@ -14485,19 +14485,19 @@ extern SLONG	damp;
 	}
 }
 
-void AENG_fade_out(UBYTE amount)
+void AENG_fade_out(std::uint8_t amount)
 {
-	SLONG logo_fade_top = amount;
-	SLONG back_fade_top = amount;
+	std::int32_t logo_fade_top = amount;
+	std::int32_t back_fade_top = amount;
 
-	ULONG logo_colour_top = (logo_fade_top << 24) | 0x00ffffff;
-	ULONG back_colour_top = (back_fade_top << 24) | 0x00ffffff;
+	std::uint32_t logo_colour_top = (logo_fade_top << 24) | 0x00ffffff;
+	std::uint32_t back_colour_top = (back_fade_top << 24) | 0x00ffffff;
 
-	SLONG logo_fade_bot = amount;
-	SLONG back_fade_bot = amount;
+	std::int32_t logo_fade_bot = amount;
+	std::int32_t back_fade_bot = amount;
 
-	ULONG logo_colour_bot = (logo_fade_bot << 24) | 0x00ffffff;
-	ULONG back_colour_bot = (back_fade_bot << 24) | 0x00ffffff;
+	std::uint32_t logo_colour_bot = (logo_fade_bot << 24) | 0x00ffffff;
+	std::uint32_t back_colour_bot = (back_fade_bot << 24) | 0x00ffffff;
 
 	//
 	// Draw the logo.
@@ -14606,19 +14606,19 @@ void AENG_fade_out(UBYTE amount)
 }
 
 
-void AENG_fade_in(UBYTE amount)
+void AENG_fade_in(std::uint8_t amount)
 {
-	SLONG logo_fade_top = 255 - amount;
-	SLONG back_fade_top = 255 - (amount * amount >> 8);
+	std::int32_t logo_fade_top = 255 - amount;
+	std::int32_t back_fade_top = 255 - (amount * amount >> 8);
 
-	ULONG logo_colour_top = (logo_fade_top << 24);
-	ULONG back_colour_top = (back_fade_top << 24);
+	std::uint32_t logo_colour_top = (logo_fade_top << 24);
+	std::uint32_t back_colour_top = (back_fade_top << 24);
 
-	SLONG logo_fade_bot = 255 - amount;
-	SLONG back_fade_bot = 255 - (amount * amount >> 8);
+	std::int32_t logo_fade_bot = 255 - amount;
+	std::int32_t back_fade_bot = 255 - (amount * amount >> 8);
 
-	ULONG logo_colour_bot = (logo_fade_bot << 24);
-	ULONG back_colour_bot = (back_fade_bot << 24);
+	std::uint32_t logo_colour_bot = (logo_fade_bot << 24);
+	std::uint32_t back_colour_bot = (back_fade_bot << 24);
 
 	//
 	// Draw the logo.
@@ -14752,9 +14752,9 @@ void AENG_clear_screen()
 	TheVPool->ReclaimBuffers();
 }
 
-SLONG AENG_lock()
+std::int32_t AENG_lock()
 {
-	return SLONG(the_display.screen_lock());
+	return std::int32_t(the_display.screen_lock());
 }
 
 void AENG_unlock()
@@ -14774,7 +14774,7 @@ void AENG_blit()
 
 
 #ifndef TARGET_DC
-void AENG_e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void AENG_e_draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 	AENG_world_line(
 		x1,y1,z1,8,0x00ffffff,
@@ -14782,7 +14782,7 @@ void AENG_e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
 		true);
 }
 
-void AENG_e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2)
+void AENG_e_draw_3d_line_dir(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2)
 {
 	AENG_world_line(
 		x1,y1,z1,32,0x00ffffff,
@@ -14790,9 +14790,9 @@ void AENG_e_draw_3d_line_dir(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG 
 		true);
 }
 
-void AENG_e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void AENG_e_draw_3d_line_col(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	ULONG colour;
+	std::uint32_t colour;
 
 	colour  = r << 16;
 	colour |= g << 8;
@@ -14804,9 +14804,9 @@ void AENG_e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG 
 		true);
 }
 
-void AENG_e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b)
+void AENG_e_draw_3d_line_col_sorted(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	ULONG colour;
+	std::uint32_t colour;
 
 	colour  = r << 16;
 	colour |= g << 8;
@@ -14818,7 +14818,7 @@ void AENG_e_draw_3d_line_col_sorted(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2
 		false);
 }
 
-void AENG_e_draw_3d_mapwho(SLONG x1, SLONG z1)
+void AENG_e_draw_3d_mapwho(std::int32_t x1, std::int32_t z1)
 {
 	x1 <<= ELE_SHIFT;
 	z1 <<= ELE_SHIFT;
@@ -14829,7 +14829,7 @@ void AENG_e_draw_3d_mapwho(SLONG x1, SLONG z1)
 	e_draw_3d_line(x1,0,z1+256,x1,0,z1);
 }
 
-void AENG_e_draw_3d_mapwho_y(SLONG x1, SLONG y1, SLONG z1)
+void AENG_e_draw_3d_mapwho_y(std::int32_t x1, std::int32_t y1, std::int32_t z1)
 {
 	x1 <<= ELE_SHIFT;
 	z1 <<= ELE_SHIFT;
@@ -14844,7 +14844,7 @@ void AENG_e_draw_3d_mapwho_y(SLONG x1, SLONG y1, SLONG z1)
 
 //---------------------------------------------------------------
 
-void	AENG_demo_attract(SLONG x,SLONG y,CBYTE* text)
+void	AENG_demo_attract(std::int32_t x,std::int32_t y,char* text)
 {
 	/*
 
@@ -14884,15 +14884,15 @@ void	AENG_demo_attract(SLONG x,SLONG y,CBYTE* text)
 //
 // ========================================================
 
-SLONG AENG_raytraced_position(
-		SLONG  sx,
-		SLONG  sy,
-		SLONG *world_x,
-		SLONG *world_y,
-		SLONG *world_z,
-		SLONG indoors)
+std::int32_t AENG_raytraced_position(
+		std::int32_t  sx,
+		std::int32_t  sy,
+		std::int32_t *world_x,
+		std::int32_t *world_y,
+		std::int32_t *world_z,
+		std::int32_t indoors)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float ax;
 	float ay;
@@ -14906,9 +14906,9 @@ SLONG AENG_raytraced_position(
 	float dz;
 	float len;
 
-	SLONG wx;
-	SLONG wy;
-	SLONG wz;
+	std::int32_t wx;
+	std::int32_t wy;
+	std::int32_t wz;
 
 	float rx = AENG_cam_x;
 	float ry = AENG_cam_y;
@@ -14963,13 +14963,13 @@ SLONG AENG_raytraced_position(
 		// Use the sewer LOS function.
 		//
 
-		SLONG x1 = SLONG(rx);
-		SLONG y1 = SLONG(ry);
-		SLONG z1 = SLONG(rz);
+		std::int32_t x1 = std::int32_t(rx);
+		std::int32_t y1 = std::int32_t(ry);
+		std::int32_t z1 = std::int32_t(rz);
 
-		SLONG x2 = SLONG(rx + dx * (AENG_RAYTRACE_ACCURACY * 16));
-		SLONG y2 = SLONG(ry + dy * (AENG_RAYTRACE_ACCURACY * 16));
-		SLONG z2 = SLONG(rz + dz * (AENG_RAYTRACE_ACCURACY * 16));
+		std::int32_t x2 = std::int32_t(rx + dx * (AENG_RAYTRACE_ACCURACY * 16));
+		std::int32_t y2 = std::int32_t(ry + dy * (AENG_RAYTRACE_ACCURACY * 16));
+		std::int32_t z2 = std::int32_t(rz + dz * (AENG_RAYTRACE_ACCURACY * 16));
 
 		if (NS_there_is_a_los(
 				x1, y1, z1,
@@ -15003,9 +15003,9 @@ SLONG AENG_raytraced_position(
 
 	for (i = 0; i < AENG_RAYTRACE_ACCURACY * (AENG_DRAW_DIST - 1); i++)
 	{
-		wx = (SLONG) rx;
-		wy = (SLONG) ry;
-		wz = (SLONG) rz;
+		wx = (std::int32_t) rx;
+		wy = (std::int32_t) ry;
+		wz = (std::int32_t) rz;
 
 		if (
 			(indoors&&(wy<get_inside_alt(indoors))) ||
@@ -15041,19 +15041,19 @@ SLONG AENG_raytraced_position(
 }
 
 
-ULONG AENG_light_draw(
-		SLONG mx,
-		SLONG my,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight)
+std::uint32_t AENG_light_draw(
+		std::int32_t mx,
+		std::int32_t my,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight)
 {
-	ULONG ans = 0;
+	std::uint32_t ans = 0;
 
-	SLONG h1 = PAP_calc_map_height_at(lx, lz);
-	SLONG h2 = ly;
+	std::int32_t h1 = PAP_calc_map_height_at(lx, lz);
+	std::int32_t h2 = ly;
 
 #ifndef TARGET_DC
 	POLY_frame_init(false, false);
@@ -15091,13 +15091,13 @@ ULONG AENG_light_draw(
 	// Was either over the mouse?
 	//
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dist;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG swidth;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t swidth;
 
 	if (POLY_get_sphere_circle(
 			float(lx),
@@ -15146,26 +15146,26 @@ ULONG AENG_light_draw(
 #ifdef SEWERS
 
 void AENG_draw_sewer_editor(
-		SLONG  cam_x,
-		SLONG  cam_y,
-		SLONG  cam_z,
-		SLONG  cam_yaw,
-		SLONG  cam_pitch,
-		SLONG  cam_roll,
-		SLONG  mouse_x,
-		SLONG  mouse_y,
-		SLONG *mouse_over_valid,
-		SLONG *mouse_over_x,
-		SLONG *mouse_over_y,
-		SLONG *mouse_over_z,
-		SLONG  draw_prim_at_mouse,
-		SLONG  prim_object,
-		SLONG  prim_yaw)
+		std::int32_t  cam_x,
+		std::int32_t  cam_y,
+		std::int32_t  cam_z,
+		std::int32_t  cam_yaw,
+		std::int32_t  cam_pitch,
+		std::int32_t  cam_roll,
+		std::int32_t  mouse_x,
+		std::int32_t  mouse_y,
+		std::int32_t *mouse_over_valid,
+		std::int32_t *mouse_over_x,
+		std::int32_t *mouse_over_y,
+		std::int32_t *mouse_over_z,
+		std::int32_t  draw_prim_at_mouse,
+		std::int32_t  prim_object,
+		std::int32_t  prim_yaw)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	float px;
 	float py;
@@ -15173,8 +15173,8 @@ void AENG_draw_sewer_editor(
 
 	float wy;
 
-	SLONG height;
-	SLONG page;
+	std::int32_t height;
+	std::int32_t page;
 
 	float along_01;
 	float along_02;
@@ -15323,7 +15323,7 @@ void AENG_draw_sewer_editor(
 					*mouse_over_valid = true;
 
 					*mouse_over_x = x * 256 + 0x80;
-					*mouse_over_y = SLONG(py);
+					*mouse_over_y = std::int32_t(py);
 					*mouse_over_z = z * 256 + 0x80;
 				}
 			}
@@ -15384,11 +15384,11 @@ void AENG_draw_sewer_editor(
 
 			if (eh->flag & ES_FLAG_ENTRANCE)
 			{
-				SLONG mx = (x << 8) + 0x80;
-				SLONG mz = (z << 8) + 0x80;
+				std::int32_t mx = (x << 8) + 0x80;
+				std::int32_t mz = (z << 8) + 0x80;
 
-				SLONG colourbot;
-				SLONG colourtop;
+				std::int32_t colourbot;
+				std::int32_t colourtop;
 
 				if (eh->flag & ES_FLAG_NOCURBS)
 				{
@@ -15402,8 +15402,8 @@ void AENG_draw_sewer_editor(
 				}
 
 				AENG_world_line(
-					mx, SLONG(py) + 0x010, mz, 32, colourbot,
-					mx, SLONG(py) + 0x280, mz,  0, colourtop,
+					mx, std::int32_t(py) + 0x010, mz, 32, colourbot,
+					mx, std::int32_t(py) + 0x280, mz,  0, colourtop,
 					false);
 			}
 		}
@@ -15424,9 +15424,9 @@ void AENG_draw_sewer_editor(
 
 			if (el->light_y)
 			{
-				SLONG lx = (x << PAP_SHIFT_LO) + (el->light_x << 3);
-				SLONG ly = (el->light_y << 5) + -32 * 0x100;
-				SLONG lz = (z << PAP_SHIFT_LO) + (el->light_z << 3);
+				std::int32_t lx = (x << PAP_SHIFT_LO) + (el->light_x << 3);
+				std::int32_t ly = (el->light_y << 5) + -32 * 0x100;
+				std::int32_t lz = (z << PAP_SHIFT_LO) + (el->light_z << 3);
 
 				SHAPE_sphere(
 					lx, ly, lz,
@@ -15516,14 +15516,14 @@ void AENG_draw_sewer_editor(
 //
 
 void AENG_world_text(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		UBYTE  red,
-		UBYTE  blue,
-		UBYTE  green,
-		UBYTE  shadowed_or_not,
-		CBYTE* fmt, ...)
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::uint8_t  red,
+		std::uint8_t  blue,
+		std::uint8_t  green,
+		std::uint8_t  shadowed_or_not,
+		char* fmt, ...)
 {
 	POLY_Point pp;
 
@@ -15541,7 +15541,7 @@ void AENG_world_text(
 		// Work out the real message.
 		//
 
-		CBYTE   message[FONT_MAX_LENGTH];
+		char   message[FONT_MAX_LENGTH];
 		va_list	ap;
 
 		va_start(ap, fmt);
@@ -15573,19 +15573,19 @@ void AENG_world_text(
 //	GUY.
 //---------------------------------------------------------------
 
-ULONG AENG_waypoint_draw(
-		SLONG mx,
-		SLONG my,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE highlight)
+std::uint32_t AENG_waypoint_draw(
+		std::int32_t mx,
+		std::int32_t my,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t highlight)
 {
-	ULONG ans = 0;
+	std::uint32_t ans = 0;
 
-//	SLONG h1 = PAP_calc_map_height_at(lx, lz);
-	SLONG h2 = ly;
+//	std::int32_t h1 = PAP_calc_map_height_at(lx, lz);
+	std::int32_t h2 = ly;
 
 	POLY_frame_init(false, false);
 
@@ -15615,13 +15615,13 @@ ULONG AENG_waypoint_draw(
 	// Was it over the mouse?
 	//
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dist;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG swidth;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t swidth;
 
 	if (POLY_get_sphere_circle(
 			float(lx),
@@ -15648,20 +15648,20 @@ ULONG AENG_waypoint_draw(
 
 //---------------------------------------------------------------
 
-ULONG AENG_rad_trigger_draw(
-		SLONG mx,
-		SLONG my,
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG rad,
-		ULONG colour,
-		UBYTE highlight)
+std::uint32_t AENG_rad_trigger_draw(
+		std::int32_t mx,
+		std::int32_t my,
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t rad,
+		std::uint32_t colour,
+		std::uint8_t highlight)
 {
-	ULONG ans = 0;
+	std::uint32_t ans = 0;
 
-	SLONG h1 = PAP_calc_map_height_at(lx, lz);
-	SLONG h2 = ly;
+	std::int32_t h1 = PAP_calc_map_height_at(lx, lz);
+	std::int32_t h2 = ly;
 
 	POLY_frame_init(false, false);
 
@@ -15691,13 +15691,13 @@ ULONG AENG_rad_trigger_draw(
 	// Was it over the mouse?
 	//
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dist;
 
-	SLONG sx;
-	SLONG sy;
-	SLONG swidth;
+	std::int32_t sx;
+	std::int32_t sy;
+	std::int32_t swidth;
 
 	if (POLY_get_sphere_circle(
 			float(lx),
@@ -15729,15 +15729,15 @@ ULONG AENG_rad_trigger_draw(
 
 
 void AENG_groundsquare_draw(
-		SLONG lx,
-		SLONG ly,
-		SLONG lz,
-		ULONG colour,
-		UBYTE polyinit)
+		std::int32_t lx,
+		std::int32_t ly,
+		std::int32_t lz,
+		std::uint32_t colour,
+		std::uint8_t polyinit)
 {
 	POLY_Point  pp[4];
 	POLY_Point *quad[4];
-	SLONG x,y,z,id,diff;
+	std::int32_t x,y,z,id,diff;
 
 	quad[0] = &pp[0];
 	quad[1] = &pp[1];
@@ -15774,7 +15774,7 @@ void AENG_groundsquare_draw(
 
 //---------------------------------------------------------------
 
-UBYTE AENG_transparent_warehouses;
+std::uint8_t AENG_transparent_warehouses;
 
 void AENG_clear_viewport()
 {
@@ -15791,7 +15791,7 @@ void AENG_clear_viewport()
 	{		
 		if (draw_3d)
 		{
-			SLONG white = NIGHT_sky_colour.red + NIGHT_sky_colour.green + NIGHT_sky_colour.blue;
+			std::int32_t white = NIGHT_sky_colour.red + NIGHT_sky_colour.green + NIGHT_sky_colour.blue;
 
 			white /= 3;
 
@@ -15835,10 +15835,10 @@ void AENG_clear_viewport()
 }
 
 
-SLONG AENG_drawing_a_warehouse;
+std::int32_t AENG_drawing_a_warehouse;
 
 
-void AENG_draw(SLONG draw_3d)
+void AENG_draw(std::int32_t draw_3d)
 {
 	/*
 
@@ -15868,8 +15868,8 @@ void AENG_draw(SLONG draw_3d)
 
 	*/
 
-	SLONG i;
-	SLONG warehouse;
+	std::int32_t i;
+	std::int32_t warehouse;
 
 	FC_Cam *fc;
 
@@ -15979,13 +15979,13 @@ void AENG_draw(SLONG draw_3d)
 		// Not splitscreen.  We might have to use the cutscene camera.
 		//
 
-		SLONG old_cam_x     = fc->x;
-		SLONG old_cam_y     = fc->y;
-		SLONG old_cam_z     = fc->z;
-		SLONG old_cam_yaw   = fc->yaw;
-		SLONG old_cam_pitch = fc->pitch;
-		SLONG old_cam_roll  = fc->roll;
-		SLONG old_cam_lens  = fc->lens;
+		std::int32_t old_cam_x     = fc->x;
+		std::int32_t old_cam_y     = fc->y;
+		std::int32_t old_cam_z     = fc->z;
+		std::int32_t old_cam_yaw   = fc->yaw;
+		std::int32_t old_cam_pitch = fc->pitch;
+		std::int32_t old_cam_roll  = fc->roll;
+		std::int32_t old_cam_lens  = fc->lens;
 
 		//
 		// If there is a cut-scene camera...
@@ -16137,9 +16137,9 @@ extern void store_thing_data();
 		if (!ControlFlag)
 		{
 			AENG_set_camera_radians(
-				SLONG(cam_x + cam_matrix[0] * eyes_apart),
-				SLONG(cam_y + cam_matrix[1] * eyes_apart),
-				SLONG(cam_z + cam_matrix[2] * eyes_apart),
+				std::int32_t(cam_x + cam_matrix[0] * eyes_apart),
+				std::int32_t(cam_y + cam_matrix[1] * eyes_apart),
+				std::int32_t(cam_z + cam_matrix[2] * eyes_apart),
 				cam_yaw,
 				cam_pitch,
 				cam_roll);
@@ -16165,9 +16165,9 @@ extern void store_thing_data();
 			//
 
 			AENG_set_camera_radians(
-				SLONG(cam_x - cam_matrix[0] * eyes_apart),
-				SLONG(cam_y - cam_matrix[1] * eyes_apart),
-				SLONG(cam_z - cam_matrix[2] * eyes_apart),
+				std::int32_t(cam_x - cam_matrix[0] * eyes_apart),
+				std::int32_t(cam_y - cam_matrix[1] * eyes_apart),
+				std::int32_t(cam_z - cam_matrix[2] * eyes_apart),
 				cam_yaw,
 				cam_pitch,
 				cam_roll);
@@ -16293,27 +16293,27 @@ void AENG_read_detail_levels()
 // Draws a small inside of the warehouse.
 // 
 
-void AENG_draw_box_around_recessed_door(DFacet *df, SLONG inside_out)
+void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG page;
-	SLONG upto;
+	std::int32_t page;
+	std::int32_t upto;
 
-	ULONG sky_colour;
-	ULONG sky_specular;
+	D3DCOLOR sky_colour;
+	D3DCOLOR sky_specular;
 
-	SLONG col_page;
-	SLONG specular;
+	std::int32_t col_page;
+	std::int32_t specular;
 
 #ifdef TARGET_DC
 	POLY_flush_local_rot();
@@ -16579,10 +16579,10 @@ void AENG_draw_box_around_recessed_door(DFacet *df, SLONG inside_out)
 // Get rid of any unused dfcache lighting.
 //
 
-void AENG_get_rid_of_unused_dfcache_lighting(SLONG splitscreen)	// Splitscreen = true or false
+void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen)	// Splitscreen = true or false
 {
-	SLONG dfcache;
-	SLONG next;
+	std::int32_t dfcache;
+	std::int32_t next;
 
 	NIGHT_Dfcache *ndf;
 
@@ -16631,10 +16631,10 @@ void AENG_get_rid_of_unused_dfcache_lighting(SLONG splitscreen)	// Splitscreen =
 }
 
 
-void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
+void	AENG_draw_inside_floor(std::uint16_t inside_index,std::uint16_t inside_room,std::uint8_t fade)
 {
-	SLONG	x,z;
-	SLONG page;
+	std::int32_t	x,z;
+	std::int32_t page;
 
 	float world_x;
 	float world_y,floor_y,roof_y;
@@ -16651,12 +16651,12 @@ void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 	POLY_Point *quad[4];
 
 	struct	InsideStorey	*p_inside;
-	SLONG	in_width;
-	UBYTE	*in_block;
-	SLONG	min_z,max_z;
-	SLONG	c0;
-	SLONG	floor_type;
-	SLONG	do_light;
+	std::int32_t	in_width;
+	std::uint8_t	*in_block;
+	std::int32_t	min_z,max_z;
+	std::int32_t	c0;
+	std::int32_t	floor_type;
+	std::int32_t	do_light;
 
 	if(inside_index==light_inside)
 		do_light=1;
@@ -16667,7 +16667,7 @@ void	AENG_draw_inside_floor(UWORD inside_index,UWORD inside_room,UBYTE fade)
 	//
 	// draw the internal walls
 	//
-extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
+extern void	draw_insides(std::int32_t indoor_index,std::int32_t room,std::uint8_t fade);
 	draw_insides(inside_index,inside_room,fade);
 
 
@@ -16711,9 +16711,9 @@ extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 
 	for (z = min_z; z < max_z; z++)
 	{
-		SLONG	min_x,max_x;
+		std::int32_t	min_x,max_x;
 		float	face_y;
-		SLONG	col;
+		std::int32_t	col;
 		min_x=MAX(NGAMUT_point_gamut[z].xmin,p_inside->MinX);
 		max_x=MIN(NGAMUT_point_gamut[z].xmax,p_inside->MaxX);
 
@@ -16729,8 +16729,8 @@ extern void	draw_insides(SLONG indoor_index,SLONG room,UBYTE fade);
 
 			if ((PAP_2HI(x,z).Flags & (PAP_FLAG_HIDDEN)))
 			{
-				SLONG	room_id;
-				SLONG	px,pz,dx,dz,square;
+				std::int32_t	room_id;
+				std::int32_t	px,pz,dx,dz,square;
 				NIGHT_Square *nq;
 
 

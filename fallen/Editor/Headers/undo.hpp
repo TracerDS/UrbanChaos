@@ -22,40 +22,40 @@
 
 struct	GenericUndo
 {
-	UBYTE	Type;
+	std::uint8_t	Type;
 	union
 	{
 		struct	
 		{
-			UBYTE	DrawFlags;
-			UBYTE	Colour;
-			UWORD	Face;
-			UWORD	Page;
-			UBYTE	U[4];
-			UBYTE	V[4];
+			std::uint8_t	DrawFlags;
+			std::uint8_t	Color;
+			std::uint16_t	Face;
+			std::uint16_t	Page;
+			std::uint8_t	U[4];
+			std::uint8_t	V[4];
 		}Texture;
 		struct	
 		{
-			UWORD	Thing;
-			UWORD	Prim;
-			SLONG 	X;
-			SLONG	Y;
-			SLONG	Z;
+			std::uint16_t	Thing;
+			std::uint16_t	Prim;
+			std::int32_t 	X;
+			std::int32_t	Y;
+			std::int32_t	Z;
 		}Object;
 		struct	
 		{
-			UWORD	PCube;
-			UWORD	CCube;
-			SLONG 	X;
-			SLONG	Y;
-			SLONG	Z;
+			std::uint16_t	PCube;
+			std::uint16_t	CCube;
+			std::int32_t 	X;
+			std::int32_t	Y;
+			std::int32_t	Z;
 		}Cube;
 		struct	
 		{
-			UWORD	Ele;
-			UWORD	Face;
-			UWORD	Text1;
-			UWORD	Text2;
+			std::uint16_t	Ele;
+			std::uint16_t	Face;
+			std::uint16_t	Text1;
+			std::uint16_t	Text2;
 		}Ele;
 	};
 };
@@ -64,23 +64,23 @@ struct	GenericUndo
 class	Undo
 {
 	private:
-			void		advance_current_undo(UBYTE undo_mode);
-			void		retreat_current_undo(UBYTE undo_mode);
-			SWORD	index;
-			SWORD	index_undo;
+			void		advance_current_undo(std::uint8_t undo_mode);
+			void		retreat_current_undo(std::uint8_t undo_mode);
+			std::int16_t	index;
+			std::int16_t	index_undo;
 	public:
 					Undo();
-			void	ApplyPrim4(UBYTE undo_mode,UWORD face,PrimFace4 *the_prim4);
-			void	ApplyPrim3(UBYTE undo_mode,UWORD face,PrimFace3 *the_prim3);
-			void	ApplyTexturePrim4(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3,UBYTE u4,UBYTE v4);
-			void	ApplyTexturePrim3(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3);
-			void	ApplyTextureCube(UBYTE undo_mode,UWORD ele,UWORD face,UWORD text1,UWORD text2);
-			void	MoveTexture(UBYTE undo_mode,UWORD page,UWORD face,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3,UBYTE u4,UBYTE v4);
-			void	PlaceObject(UBYTE undo_mode,UWORD prim,UWORD thing,SLONG x,SLONG y,SLONG z);
-			void	MoveObject(UBYTE undo_mode,UWORD thing,SLONG dx,SLONG dy,SLONG dz);
-			void	DelObject(UBYTE undo_mode,UWORD prim,UWORD thing,SLONG x,SLONG y,SLONG z);
-			void	PlaceCube(UBYTE undo_mode,UWORD prev_cube,UWORD cur_cube,SLONG x,SLONG y,SLONG z);
-			SLONG	DoUndo(UBYTE undo_mode);
+			void	ApplyPrim4(std::uint8_t undo_mode,std::uint16_t face,PrimFace4 *the_prim4);
+			void	ApplyPrim3(std::uint8_t undo_mode,std::uint16_t face,PrimFace3 *the_prim3);
+			void	ApplyTexturePrim4(std::uint8_t undo_mode,std::uint16_t page,std::uint16_t face,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3,std::uint8_t u4,std::uint8_t v4);
+			void	ApplyTexturePrim3(std::uint8_t undo_mode,std::uint16_t page,std::uint16_t face,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3);
+			void	ApplyTextureCube(std::uint8_t undo_mode,std::uint16_t ele,std::uint16_t face,std::uint16_t text1,std::uint16_t text2);
+			void	MoveTexture(std::uint8_t undo_mode,std::uint16_t page,std::uint16_t face,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3,std::uint8_t u4,std::uint8_t v4);
+			void	PlaceObject(std::uint8_t undo_mode,std::uint16_t prim,std::uint16_t thing,std::int32_t x,std::int32_t y,std::int32_t z);
+			void	MoveObject(std::uint8_t undo_mode,std::uint16_t thing,std::int32_t dx,std::int32_t dy,std::int32_t dz);
+			void	DelObject(std::uint8_t undo_mode,std::uint16_t prim,std::uint16_t thing,std::int32_t x,std::int32_t y,std::int32_t z);
+			void	PlaceCube(std::uint8_t undo_mode,std::uint16_t prev_cube,std::uint16_t cur_cube,std::int32_t x,std::int32_t y,std::int32_t z);
+			std::int32_t	DoUndo(std::uint8_t undo_mode);
 
 			GenericUndo	undo_info[MAX_UNDO];
 			GenericUndo	undo_undo_info[MAX_UNDO];

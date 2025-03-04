@@ -14,32 +14,32 @@
 extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans,struct  Matrix31* mat2);
 
-extern UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4);
-extern SLONG	point_in_quad(SLONG px,SLONG pz,SLONG x,SLONG y,SLONG z,SWORD face);
+extern std::uint8_t	two4_line_intersection(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3,std::int32_t x4,std::int32_t y4);
+extern std::int32_t	point_in_quad(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face);
 extern void	process_camera(struct MapThing *p_thing);
-extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVECTOR *p_vect); //prim.h
+extern std::uint16_t	calc_lights(std::int32_t x,std::int32_t y,std::int32_t z,struct SVECTOR *p_vect); //prim.h
 
 
-void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
+void	draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
 void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list);
 
-UWORD	find_empty_map_thing();
+std::uint16_t	find_empty_map_thing();
 
 extern void	setup_anim_stuff(); //edutils
-extern void	load_key_frame_chunks(KeyFrameChunk *the_chunk,CBYTE* vue_name); //edutils
+extern void	load_key_frame_chunks(KeyFrameChunk *the_chunk,char* vue_name); //edutils
 extern void	load_chunk_texture_info(KeyFrameChunk *the_chunk); //edutils
 extern void	reset_anim_stuff();
 extern void	clear_anim_stuff();
-extern UWORD	find_empty_map_thing();
+extern std::uint16_t	find_empty_map_thing();
 
-extern void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-extern void	e_draw_3d_mapwho(SLONG x1,SLONG z1);
+extern void	e_draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+extern void	e_draw_3d_mapwho(std::int32_t x1,std::int32_t z1);
 
-SLONG					anim_count,
+std::int32_t					anim_count,
 						current_element,
 						key_frame_count,
 						motion;
-SLONG					anim_offset_x,anim_offset_y,
+std::int32_t					anim_offset_x,anim_offset_y,
 						anim_angle_zx,anim_angle_zy;
 Anim					*anim_list,
 						*cop_list,
@@ -64,20 +64,20 @@ struct KeyFrameChunk 	test_chunk,
 						test_chunk3;
 struct KeyFrameElement	*the_elements;
 
-static	SLONG	anim_no=0,max_anim=0;
+static	std::int32_t	anim_no=0,max_anim=0;
 
 
 struct MapThing		*cam_thing;
-UWORD				cam_chap;
+std::uint16_t				cam_chap;
 
 struct	AnimModes
 {
-	UBYTE	FixLimb;
-	UBYTE	StickToFloor;
-	UBYTE	EndStance;
-	UBYTE	StartStance;
-	UBYTE	StartFlags;
-	UBYTE	EndFlags;
+	std::uint8_t	FixLimb;
+	std::uint8_t	StickToFloor;
+	std::uint8_t	EndStance;
+	std::uint8_t	StartStance;
+	std::uint8_t	StartFlags;
+	std::uint8_t	EndFlags;
 };
 
 #define	END_ON_FACE	(1<<0)
@@ -145,7 +145,7 @@ struct	AnimModes anim_modes[]=
 };
 
 
-CBYTE	*id_name[]=
+char	*id_name[]=
 {
 	"none",
 	"FIRST SLOPE",
@@ -156,16 +156,16 @@ CBYTE	*id_name[]=
 	""
 };
 
-SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
+std::int32_t	is_thing_on_this_quad(std::int32_t x,std::int32_t z,std::int32_t face)
 {
-	SLONG ox;
-	SLONG oy;
-	SLONG oz;
+	std::int32_t ox;
+	std::int32_t oy;
+	std::int32_t oz;
 
-	SLONG	wall;
-	SLONG	storey;
-	SLONG	building;
-	SLONG	thing;
+	std::int32_t	wall;
+	std::int32_t	storey;
+	std::int32_t	building;
+	std::int32_t	thing;
 	Thing  *p_thing;
 
 	ASSERT(WITHIN(face, 1, next_prim_face4));
@@ -196,11 +196,11 @@ SLONG	is_thing_on_this_quad(SLONG x,SLONG z,SLONG face)
 #ifdef	DOGPOO
 
 #define	PERSON_RADIUS	(50)
-SLONG	check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing,SLONG scale)
+std::int32_t	check_vect(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,struct MapThing *p_thing,std::int32_t scale)
 {
-	SLONG	cell_dx,cell_dz;
-	ULONG	col;
-	SLONG	len;
+	std::int32_t	cell_dx,cell_dz;
+	std::uint32_t	col;
+	std::int32_t	len;
 
 	len=QDIST2(abs(m_dx),abs(m_dz));
 	LogText(" movement dist %d \n",len);
@@ -237,12 +237,12 @@ SLONG	check_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing,SLONG
 }
 
 
-SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing,SLONG radius)
+std::int32_t	check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,struct MapThing *p_thing,std::int32_t radius)
 {
-	SLONG	x,y,z;
-	SLONG	dx,dz;
-	SLONG	cell_radius;
-	ULONG	col;
+	std::int32_t	x,y,z;
+	std::int32_t	dx,dz;
+	std::int32_t	cell_radius;
+	std::uint32_t	col;
 
 
 
@@ -261,11 +261,11 @@ SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thin
 	return(0);
 }
 
-ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing)
+std::uint32_t	move_thing(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,struct MapThing *p_thing)
 {
-	ULONG	col;
-	SLONG	on_its_quad=0;
-	SLONG	on_connected_quad=0;
+	std::uint32_t	col;
+	std::int32_t	on_its_quad=0;
+	std::int32_t	on_connected_quad=0;
 
 //	if(!Keys[KB_C])
 //		col=0;
@@ -283,11 +283,11 @@ ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,struct MapThing *p_thing)
 		on_its_quad = is_thing_on_this_quad(p_thing->X+m_dx,p_thing->Z+m_dz,p_thing->OnFace);
 		if(!on_its_quad)
 		{
-extern SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG ignore_faces_of-this_building);
+extern std::int32_t	find_face_for_this_pos(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t ignore_faces_of-this_building);
 		on_connected_quad=find_face_for_this_pos(p_thing->X+m_dx,p_thing->Y+m_dy,p_thing->Z+m_dz,0);
 
 /*
-			SLONG	count=0,check_face,offset,index;
+			std::int32_t	count=0,check_face,offset,index;
 
 			index=edit_map[(p_thing->X+m_dx)>>ELE_SHIFT][(p_thing->Z+m_dz)>>ELE_SHIFT].Walkable;
 			while(index&&on_connected_quad==0)
@@ -331,7 +331,7 @@ extern SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG ignore_faces_o
 
 	if(col&&p_thing)
 	{
-		SWORD face;
+		std::int16_t face;
 		//we have hit something 
 		face=col_vects[col].Face;
 //		LogText(" col %d face %d onface %d on its quad %d \n",col,face,p_thing->OnFace,on_its_quad);  //RUD
@@ -411,7 +411,7 @@ do_move:;
 /* poo
 void	place_player_on_nearby_face(struct MapThing p_thing)
 {
-	SLONG	count=0,check_face,offset,index;
+	std::int32_t	count=0,check_face,offset,index;
 
 	index=edit_map[(p_thing->X)>>ELE_SHIFT][(p_thing->Z)>>ELE_SHIFT].Walkable;
 	while(index&&on_connected_quad==0)
@@ -430,11 +430,11 @@ void	place_player_on_nearby_face(struct MapThing p_thing)
 
 void	interface_thing2(struct MapThing *p_thing)
 {
-   	SLONG	dx=0,dy=0,dz=0;
+   	std::int32_t	dx=0,dy=0,dz=0;
 	static	turn;
-	SLONG	col;
+	std::int32_t	col;
 	static	bright=256;
-	static	SLONG light_z=320;
+	static	std::int32_t light_z=320;
 
 	if(ShiftFlag)
 	{
@@ -541,7 +541,7 @@ void	setup_game()
 //	load_chunk_texture_info(&test_chunk);
 	if(darci_list)
 	{
-		SLONG	c0=0;
+		std::int32_t	c0=0;
 		Anim	*curr;
 
 		curr=darci_list;
@@ -560,7 +560,7 @@ void	setup_game()
 	load_chunk_texture_info(&test_chunk2);
 	if(roper_list)
 	{
-		SLONG	c0=0;
+		std::int32_t	c0=0;
 		Anim	*curr;
 
 		curr=roper_list;
@@ -578,7 +578,7 @@ void	setup_game()
 	load_chunk_texture_info(&test_chunk3);
 	if(cop_list)
 	{
-		SLONG	c0=0;
+		std::int32_t	c0=0;
 		Anim	*curr;
 
 		curr=cop_list;
@@ -599,7 +599,7 @@ void	setup_game()
 /*
 	if(anim_list)
 	{
-		SLONG	c0=0;
+		std::int32_t	c0=0;
 		Anim	*curr;
 
 		curr=anim_list;
@@ -680,7 +680,7 @@ struct MapThing *init_test_bloke_system()
  }
 */ 
 
-void	calc_sub_objects_position(struct MapThing *p_mthing,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void	calc_sub_objects_position(struct MapThing *p_mthing,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
 	struct	SVECTOR		temp; //max points per object?
 	struct Matrix33		r_matrix;
@@ -713,7 +713,7 @@ void	calc_sub_objects_position(struct MapThing *p_mthing,SLONG tween,UWORD objec
 
 }
 
-void	calc_sub_objects_position_ele(struct MapThing *p_mthing,KeyFrameElement *current,SLONG tween,UWORD object,SLONG *x,SLONG *y,SLONG *z)
+void	calc_sub_objects_position_ele(struct MapThing *p_mthing,KeyFrameElement *current,std::int32_t tween,std::uint16_t object,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
 	struct	SVECTOR		temp; //max points per object?
 	struct Matrix33		r_matrix;
@@ -746,11 +746,11 @@ void	calc_sub_objects_position_ele(struct MapThing *p_mthing,KeyFrameElement *cu
 void	animate_bloke(struct MapThing *p_thing)
 {
 	struct	KeyFrame *the_keyframe;
-	static	SLONG	prev_fixed,prev_x,prev_y,prev_z;
-	static	SLONG	prev_dx=0,prev_dy=0,prev_dz=0;
-	SLONG	fixed,next_fixed,x,y,z;
-	UBYTE	anim_change=0;
-	UBYTE	add_ten=0;
+	static	std::int32_t	prev_fixed,prev_x,prev_y,prev_z;
+	static	std::int32_t	prev_dx=0,prev_dy=0,prev_dz=0;
+	std::int32_t	fixed,next_fixed,x,y,z;
+	std::uint8_t	anim_change=0;
+	std::uint8_t	add_ten=0;
 
 	if(ControlFlag)
 		add_ten=10;
@@ -861,7 +861,7 @@ void	animate_bloke(struct MapThing *p_thing)
 	}
 	if(queued_frame)
 	{
-		SLONG	x1,y1,z1,x2,y2,z2;
+		std::int32_t	x1,y1,z1,x2,y2,z2;
 		anim_change=1;
 		p_thing->TweenStage	=	0;
 
@@ -931,7 +931,7 @@ void	animate_bloke(struct MapThing *p_thing)
 	/*
 		if(anim_change)
 		{
-			SLONG	tx,ty,tz;
+			std::int32_t	tx,ty,tz;
 
 			prev_dx=0;
 			prev_dy=0;
@@ -975,9 +975,9 @@ void	animate_bloke(struct MapThing *p_thing)
 	prev_z=z;
 }
 
-void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle)
+void	draw_test_bloke(std::int32_t x,std::int32_t y,std::int32_t z,std::uint8_t anim,std::int32_t angle)
 {
-	SLONG				c0,c1;
+	std::int32_t				c0,c1;
 	struct Matrix33		r_matrix;
 	struct	MapThing	*p_mthing;
 
@@ -1002,7 +1002,7 @@ void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle)
 		{
 			if(c1==1)
 			{
-extern UBYTE	store_pos;
+extern std::uint8_t	store_pos;
 				store_pos	=	1;
 			}
 			draw_prim_tween	(
@@ -1019,13 +1019,13 @@ extern UBYTE	store_pos;
 
 
 
-//SLONG	calc_shadow_co_ord((struct Matrix31*)&temp,&temp_shadow,10000,10000,10000);//light co_ord
-extern SLONG	calc_height_at(SLONG x,SLONG z);
-SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z)
+//std::int32_t	calc_shadow_co_ord((struct Matrix31*)&temp,&temp_shadow,10000,10000,10000);//light co_ord
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
+std::int32_t	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,std::int32_t l_x,std::int32_t l_y,std::int32_t l_z)
 {
-	SLONG	dx,dy,dz;
-	SLONG	alt=0;
-	SLONG	m,c;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	alt=0;
+	std::int32_t	m,c;
 
 	dx=l_x-input->X;
 	dy=l_y-input->Y;
@@ -1089,31 +1089,31 @@ SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,
 
 
 
-UBYTE	store_pos	=	0;
+std::uint8_t	store_pos	=	0;
 
 
 
-void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
+void	draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	SLONG	flags[1560];
-	UWORD	bright[1560];
-	ULONG	flag_and,flag_or;
+	std::int32_t	flags[1560];
+	std::uint16_t	bright[1560];
+	std::uint32_t	flag_and,flag_or;
 	struct	SVECTOR			res[1560],temp; //max points per object?
 	struct	SVECTOR			res_shadow[1560],temp_shadow; //max points per object?
-	SLONG	flags_shadow[1560];
-	SLONG	c0;
+	std::int32_t	flags_shadow[1560];
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG az;
+	std::int32_t	sp,ep;
+	std::int32_t az;
 	struct	Matrix33 *mat,*mat_next,mat2,mat_final;
-	SLONG	i,j;
+	std::int32_t	i,j;
 	struct	Matrix31	offset;
 	struct	KeyFrame	*the_keyframe1,*the_keyframe2;
-	SLONG	dx,dy,dz;
-	SLONG	shadow=1;
-	SLONG	mapx,mapy,mapz;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	shadow=1;
+	std::int32_t	mapx,mapy,mapz;
 
 	p_obj    =&prim_objects[prim];
 	p_f4     =&prim_faces4[p_obj->StartFace4];
@@ -1193,7 +1193,7 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 
 	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			return;
@@ -1305,7 +1305,7 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 
 	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			return;
@@ -1414,13 +1414,13 @@ void	draw_prim_tween(UWORD	prim,SLONG x,SLONG y,SLONG z,SLONG tween,struct KeyFr
 
 //---------------------------------------------------------------
 
-SLONG	get_distance(Coord *position1,Coord *position2);
-SLONG	get_approx_distance(Coord *position1,Coord *position2);
-SLONG	get_distance_xz(Coord *position1,Coord *position2);
-SLONG	get_angle_xz(Coord *position1,Coord *position2);
-SLONG	get_angle_yz(Coord *position1,Coord *position2);
+std::int32_t	get_distance(Coord *position1,Coord *position2);
+std::int32_t	get_approx_distance(Coord *position1,Coord *position2);
+std::int32_t	get_distance_xz(Coord *position1,Coord *position2);
+std::int32_t	get_angle_xz(Coord *position1,Coord *position2);
+std::int32_t	get_angle_yz(Coord *position1,Coord *position2);
 
-SLONG		cam_x_offset	=	0,
+std::int32_t		cam_x_offset	=	0,
 			cam_y_offset	=	0,
 			cam_z_offset	=	-50;
 
@@ -1428,7 +1428,7 @@ Coord		thing_position;
 
 void	set_game_camera(struct MapThing *track_thing)
 {
-	SLONG			angle_xz,
+	std::int32_t			angle_xz,
 					angle_yz,
 					cam_distance,
 					cam_x_distance,
@@ -1570,9 +1570,9 @@ void	set_game_camera(struct MapThing *track_thing)
 
 	if(Keys[KB_G])
 	{
-		SLONG	mid_x,mid_y,mid_z;
-extern UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
-extern void	calc_face_midpoint(SWORD face,SLONG *x,SLONG *y,SLONG *z);
+		std::int32_t	mid_x,mid_y,mid_z;
+extern std::uint16_t	make_poly_into_glass_shatter_prim(std::int16_t face,std::int16_t mid_x,std::int16_t mid_y,std::int16_t mid_z);
+extern void	calc_face_midpoint(std::int16_t face,std::int32_t *x,std::int32_t *y,std::int32_t *z);
 		calc_face_midpoint(31989,&mid_x,&mid_y,&mid_z);
 		make_poly_into_glass_shatter_prim(31989,mid_x,mid_y,mid_z);
 		Keys[KB_G]=0;
@@ -1587,16 +1587,16 @@ extern void	calc_face_midpoint(SWORD face,SLONG *x,SLONG *y,SLONG *z);
 
 void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 {
-	CBYTE			anim_name[ANIM_NAME_SIZE];
-	SLONG			anim_flags,
+	char			anim_name[ANIM_NAME_SIZE];
+	std::int32_t			anim_flags,
 					c0,
 					frame_count,
 					frame_id,
 					tween_step;
 	KeyFrame		*the_frame;
-	SWORD			chunk_id;
-	SWORD			fixed=0;
-	CBYTE			version=0;
+	std::int16_t			chunk_id;
+	std::int16_t			fixed=0;
+	char			version=0;
 
 	
 	FileRead(file_handle,&version,1);
@@ -1629,7 +1629,7 @@ void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 		if(version>1)
 		{
 			struct	FightCol	*fcol,*fcol_prev=0;
-			SLONG	count,c0;
+			std::int32_t	count,c0;
 
 			FileRead(file_handle,&count,sizeof(count));
 			LogText(" fight count load = %d \n",count);
@@ -1664,11 +1664,11 @@ void	load_anim(MFFileHandle file_handle,Anim *the_anim,KeyFrameChunk *the_chunk)
 
 void	save_anim(MFFileHandle file_handle,Anim *the_anim)
 {
-	ULONG			anim_flags;
-	SLONG			c0,
+	std::uint32_t			anim_flags;
+	std::int32_t			c0,
 					frame_count;
 	KeyFrame		*frame_list;
-	UBYTE			version=1;
+	std::uint8_t			version=1;
 
 
 	frame_list	=	the_anim->GetFrameList();
@@ -1694,7 +1694,7 @@ void	save_anim(MFFileHandle file_handle,Anim *the_anim)
 
 void	create_anim(Anim **the_list)
 {
-	CBYTE		text[32];
+	char		text[32];
 	Anim		*next_anim,
 				*the_anim;
 
@@ -1730,7 +1730,7 @@ void	create_anim(Anim **the_list)
 
 void	load_all_anims(KeyFrameChunk *the_chunk,Anim **anim_list)
 {
-	SLONG			anim_count,
+	std::int32_t			anim_count,
 					c0;
 	MFFileHandle	file_handle;
 

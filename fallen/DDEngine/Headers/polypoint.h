@@ -31,14 +31,14 @@ public:
 	void	SetUV(float& u, float& v);								// Set u,v
 	void	SetUV2(float u, float v);								// Set u,v
 
-	static ULONG	MakeD3DColour(UBYTE r, UBYTE g, UBYTE b, UBYTE a);		// make D3D colour value
-	static ULONG	ModulateD3DColours(ULONG c1, ULONG c2);					// modulate 2 D3D colour values
+	static std::uint32_t	MakeD3DColour(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a);		// make D3D colour value
+	static std::uint32_t	ModulateD3DColours(std::uint32_t c1, std::uint32_t c2);					// modulate 2 D3D colour values
 
-	void	SetColour(ULONG d3d_col);								// Set colour
-	void	SetColour(UBYTE r, UBYTE g, UBYTE b, UBYTE a = 0xFF);
+	void	SetColour(std::uint32_t d3d_col);								// Set colour
+	void	SetColour(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a = 0xFF);
 
-	void	SetSpecular(ULONG d3d_col);								// Set specular colour
-	void	SetSpecular(UBYTE r, UBYTE g, UBYTE b, UBYTE a = 0xFF);
+	void	SetSpecular(std::uint32_t d3d_col);								// Set specular colour
+	void	SetSpecular(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a = 0xFF);
 
 	/*
 	D3DTLVERTEX	*GetTLVert ( void )
@@ -68,36 +68,36 @@ inline void PolyPoint2D::SetUV2(float u, float v)
 	INT_COPY_FLOAT(tv, v);
 }
 
-inline ULONG PolyPoint2D::MakeD3DColour(UBYTE r, UBYTE g, UBYTE b, UBYTE a)
+inline std::uint32_t PolyPoint2D::MakeD3DColour(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
 {
-	return (ULONG(a) << 24) | (ULONG(r) << 16) | (ULONG(g) << 8) | ULONG(b);
+	return (std::uint32_t(a) << 24) | (std::uint32_t(r) << 16) | (std::uint32_t(g) << 8) | std::uint32_t(b);
 }
 
-inline void PolyPoint2D::SetColour(ULONG d3d_col)
+inline void PolyPoint2D::SetColour(std::uint32_t d3d_col)
 {
 	color = d3d_col;
 }
 
-inline void PolyPoint2D::SetColour(UBYTE r, UBYTE g, UBYTE b, UBYTE a)
+inline void PolyPoint2D::SetColour(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
 {
 	SetColour(MakeD3DColour(r,g,b,a));
 }
 
-inline void PolyPoint2D::SetSpecular(ULONG d3d_col)
+inline void PolyPoint2D::SetSpecular(std::uint32_t d3d_col)
 {
 	specular = d3d_col;
 }
 
-inline void PolyPoint2D::SetSpecular(UBYTE r, UBYTE g, UBYTE b, UBYTE a)
+inline void PolyPoint2D::SetSpecular(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a)
 {
 	SetSpecular(MakeD3DColour(r,g,b,a));
 }
 
 // NOTE: doesn't round properly, doesn't modulate alpha
 
-inline ULONG PolyPoint2D::ModulateD3DColours(ULONG c1, ULONG c2)
+inline std::uint32_t PolyPoint2D::ModulateD3DColours(std::uint32_t c1, std::uint32_t c2)
 {
-	ULONG	res;
+	std::uint32_t	res;
 
 	res = ((c1 & 0xFF) * (c2 & 0xFF)) >> 8;
 	c1 >>= 8;	c2 >>= 8;

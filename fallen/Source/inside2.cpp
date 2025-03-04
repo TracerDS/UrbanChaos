@@ -10,18 +10,18 @@
 
 //struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
 
-UWORD next_inside_storey=1;
-UWORD next_inside_stair=1;
-SLONG next_inside_block=1;
+std::uint16_t next_inside_storey=1;
+std::uint16_t next_inside_stair=1;
+std::int32_t next_inside_block=1;
 
 
 
 
-SLONG find_inside_room(SLONG inside,SLONG x,SLONG z)
+std::int32_t find_inside_room(std::int32_t inside,std::int32_t x,std::int32_t z)
 {
 	
- 	UBYTE	*rooms;
-	SWORD	width;
+ 	std::uint8_t	*rooms;
+	std::int16_t	width;
 
 	if(x>=inside_storeys[inside].MaxX || z>=inside_storeys[inside].MaxZ)
 		return(0);						  
@@ -38,11 +38,11 @@ SLONG find_inside_room(SLONG inside,SLONG x,SLONG z)
 	return(rooms[x+z]&0xf);
 }
 
-SLONG find_inside_flags(SLONG inside,SLONG x,SLONG z)
+std::int32_t find_inside_flags(std::int32_t inside,std::int32_t x,std::int32_t z)
 {
 	
-	UBYTE	*rooms;
-	SWORD	width;
+	std::uint8_t	*rooms;
+	std::int16_t	width;
 
 	if(x>=inside_storeys[inside].MaxX || z>=inside_storeys[inside].MaxZ)
 		return(0);
@@ -59,11 +59,11 @@ SLONG find_inside_flags(SLONG inside,SLONG x,SLONG z)
 	return(rooms[x+z]);
 }
 
-SLONG get_inside_alt(SLONG	inside)
+std::int32_t get_inside_alt(std::int32_t	inside)
 {
 /*
 #ifndef	PSX
-	CBYTE	str[100];
+	char	str[100];
 	sprintf(str," Inside %d alt %d \n",inside,inside_storeys[inside].StoreyY);
 	CONSOLE_text(str);
 #endif
@@ -73,28 +73,28 @@ SLONG get_inside_alt(SLONG	inside)
 
 
 
-UBYTE slide_inside_stair=0;
-extern SLONG	slide_door;
+std::uint8_t slide_inside_stair=0;
+extern std::int32_t	slide_door;
 
 //
 // mark's
 //
-SLONG person_slide_inside(
-		SLONG  inside,
-		SLONG  x1,
-		SLONG  y1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *y2,
-		SLONG *z2)
+std::int32_t person_slide_inside(
+		std::int32_t  inside,
+		std::int32_t  x1,
+		std::int32_t  y1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *y2,
+		std::int32_t *z2)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	SWORD mx = *x2 >> 16;
-	SWORD mz = *z2 >> 16;
-	SLONG	ret_val=0;
+	std::int16_t mx = *x2 >> 16;
+	std::int16_t mz = *z2 >> 16;
+	std::int32_t	ret_val=0;
 
 	slide_door = 0;
 	slide_inside_stair=0;
@@ -103,11 +103,11 @@ SLONG person_slide_inside(
 	// All the room surrounding us.
 	//
 
-	UBYTE id_here = find_inside_flags(inside, mx, mz);
-	UBYTE id_xs	  = find_inside_flags(inside, mx - 1, mz);
-	UBYTE id_xl	  = find_inside_flags(inside, mx + 1, mz);
-	UBYTE id_zs	  = find_inside_flags(inside, mx, mz - 1);
-	UBYTE id_zl	  = find_inside_flags(inside, mx, mz + 1);
+	std::uint8_t id_here = find_inside_flags(inside, mx, mz);
+	std::uint8_t id_xs	  = find_inside_flags(inside, mx - 1, mz);
+	std::uint8_t id_xl	  = find_inside_flags(inside, mx + 1, mz);
+	std::uint8_t id_zs	  = find_inside_flags(inside, mx, mz - 1);
+	std::uint8_t id_zl	  = find_inside_flags(inside, mx, mz + 1);
 
 	if((id_here&0xf)==0)
 	{
@@ -127,7 +127,7 @@ SLONG person_slide_inside(
 	// Work out which wall we must collide with.
 	//
 
-	UBYTE col = 0;
+	std::uint8_t col = 0;
 
 	#define INSIDE_COL_XS (1 << 0)
 	#define INSIDE_COL_XL (1 << 1)
@@ -529,7 +529,7 @@ SLONG person_slide_inside(
 	//
 
 	{
-		UBYTE id_here = find_inside_flags(inside, *x2>>16, *z2>>16);
+		std::uint8_t id_here = find_inside_flags(inside, *x2>>16, *z2>>16);
 		if(id_here&FLAG_INSIDE_STAIR)
 		{
 			slide_inside_stair=id_here&FLAG_INSIDE_STAIR;
@@ -542,16 +542,16 @@ SLONG person_slide_inside(
 
 
 /*
-SLONG find_stair_routes(UWORD inside,UBYTE x,UBYTE z,UWORD *up,UWORD *down)
+std::int32_t find_stair_routes(std::uint16_t inside,std::uint8_t x,std::uint8_t z,std::uint16_t *up,std::uint16_t *down)
 {
-	SLONG	stair;
+	std::int32_t	stair;
 //	ASSERT(0);
 
 	stair=inside_storeys[inside].StairCaseHead;
 	while(stair)
 	{
-		UBYTE	sx,sz;
-		UBYTE	dir;
+		std::uint8_t	sx,sz;
+		std::uint8_t	dir;
 
 		sx=inside_stairs[stair].X;
 		sz=inside_stairs[stair].Z;
@@ -598,19 +598,19 @@ SLONG find_stair_routes(UWORD inside,UBYTE x,UBYTE z,UWORD *up,UWORD *down)
 	return(0);
 }
 */
-UWORD find_stair_in(SLONG mx,SLONG mz,SLONG *rdx,SLONG *rdz,UWORD	inside)
+std::uint16_t find_stair_in(std::int32_t mx,std::int32_t mz,std::int32_t *rdx,std::int32_t *rdz,std::uint16_t	inside)
 {
-	SLONG	dx,dz;
-	SLONG	stair;
-	SLONG	x_ok,z_ok;
+	std::int32_t	dx,dz;
+	std::int32_t	stair;
+	std::int32_t	x_ok,z_ok;
 //	ASSERT(0);
 
 
 	stair=inside_storeys[inside].StairCaseHead;
 	while(stair)
 	{
-		UBYTE	sx,sz;
-		UBYTE	dir;
+		std::uint8_t	sx,sz;
+		std::uint8_t	dir;
 
 		sx=inside_stairs[stair].X;
 		sz=inside_stairs[stair].Z;
@@ -695,15 +695,15 @@ UWORD find_stair_in(SLONG mx,SLONG mz,SLONG *rdx,SLONG *rdz,UWORD	inside)
 
 }
 
-SLONG find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_floor)
+std::int32_t find_stair_y(Thing *p_person,std::int32_t *y1,std::int32_t x,std::int32_t y,std::int32_t z,std::uint16_t *new_floor)
 {
-	SLONG	dx,dz;
-	SLONG	stair;
-	SLONG	off_x,off_z;
-	SLONG	mx,mz;
-	SLONG	s,t;
-	SLONG	new_y;
-	SLONG	can_move=1;
+	std::int32_t	dx,dz;
+	std::int32_t	stair;
+	std::int32_t	off_x,off_z;
+	std::int32_t	mx,mz;
+	std::int32_t	s,t;
+	std::int32_t	new_y;
+	std::int32_t	can_move=1;
 
 	MSG_add(" INDOORS INDEX %d  INDEX NEXT %d \n",INDOORS_INDEX,INDOORS_INDEX_NEXT);
 #ifndef TARGET_DC
@@ -871,9 +871,9 @@ SLONG find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_
 /*
 void stair_teleport_bodge(Thing *p_person)
 {
-	SLONG	x,z;
-	UWORD	up,down;
-	SLONG	found;
+	std::int32_t	x,z;
+	std::uint16_t	up,down;
+	std::int32_t	found;
 
 	x=p_person->WorldPos.X>>16;
 	z=p_person->WorldPos.Z>>16;
@@ -925,25 +925,25 @@ void stair_teleport_bodge(Thing *p_person)
 
 #define INSIDE2_MAX_NAV (32 * 32)
 
-UWORD INSIDE2_mav_nav[INSIDE2_MAX_NAV];
-SLONG INSIDE2_mav_nav_pitch;
-SLONG INSIDE2_mav_nav_inside;	// The inside the mav_nav array is currently storing.
+std::uint16_t INSIDE2_mav_nav[INSIDE2_MAX_NAV];
+std::int32_t INSIDE2_mav_nav_pitch;
+std::int32_t INSIDE2_mav_nav_inside;	// The inside the mav_nav array is currently storing.
 
 //
 // Calculates the mav nav array for the given storey
 //
 
-void INSIDE2_mav_nav_calc(SLONG inside)
+void INSIDE2_mav_nav_calc(std::int32_t inside)
 {
-	UBYTE i;
-	UBYTE mo_index;
-	UBYTE door;
-	UBYTE width;
-	UBYTE height;
-	UBYTE here;
-	UBYTE there;
-	UBYTE x;
-	UBYTE z;
+	std::uint8_t i;
+	std::uint8_t mo_index;
+	std::uint8_t door;
+	std::uint8_t width;
+	std::uint8_t height;
+	std::uint8_t here;
+	std::uint8_t there;
+	std::uint8_t x;
+	std::uint8_t z;
 
 	InsideStorey *is;
 
@@ -1046,8 +1046,8 @@ void INSIDE2_mav_nav_calc(SLONG inside)
 // our INSIDE2_mav_nav array.
 //
 
-UWORD *INSIDE2_backup_mav_nav;
-SLONG INSIDE2_backup_mav_nav_pitch;
+std::uint16_t *INSIDE2_backup_mav_nav;
+std::int32_t INSIDE2_backup_mav_nav_pitch;
 
 void INSIDE2_setup_mav()
 {
@@ -1074,30 +1074,30 @@ void INSIDE2_restore_mav()
 
 struct
 {
-	UBYTE out_x;
-	UBYTE out_z;
+	std::uint8_t out_x;
+	std::uint8_t out_z;
 
-	UBYTE in_x;
-	UBYTE in_z;
+	std::uint8_t in_x;
+	std::uint8_t in_z;
 
-	SWORD y;
+	std::int16_t y;
 
 }     INSIDE2_door[INSIDE2_MAX_DOORS];
-SLONG INSIDE2_door_upto;
-SLONG INSIDE2_door_building;
+std::int32_t INSIDE2_door_upto;
+std::int32_t INSIDE2_door_building;
 
-void INSIDE2_find_doors(SLONG building)
+void INSIDE2_find_doors(std::int32_t building)
 {
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	SLONG mx;
-	SLONG mz;
-	SLONG dx;
-	SLONG dz;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG facet;
+	std::int32_t facet;
 
 	DBuilding *db;
 	DFacet    *df;
@@ -1168,18 +1168,18 @@ void INSIDE2_find_doors(SLONG building)
 
 
 
-MAV_Action INSIDE2_mav_enter(Thing *p_person, SLONG inside, UBYTE caps)
+MAV_Action INSIDE2_mav_enter(Thing *p_person, std::int32_t inside, std::uint8_t caps)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG score;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t score;
 
-	UBYTE best_x;
-	UBYTE best_z;
-	SLONG best_score;
+	std::uint8_t best_x;
+	std::uint8_t best_z;
+	std::int32_t best_score;
 
 	MAV_Action ma;
 
@@ -1234,10 +1234,10 @@ MAV_Action INSIDE2_mav_enter(Thing *p_person, SLONG inside, UBYTE caps)
 	return ma;
 }
 
-MAV_Action INSIDE2_mav_inside(Thing *p_person, SLONG inside, UBYTE x, UBYTE z)
+MAV_Action INSIDE2_mav_inside(Thing *p_person, std::int32_t inside, std::uint8_t x, std::uint8_t z)
 {
-	SLONG start_x;
-	SLONG start_z;
+	std::int32_t start_x;
+	std::int32_t start_z;
 
 	MAV_Action ma;
 
@@ -1267,7 +1267,7 @@ MAV_Action INSIDE2_mav_inside(Thing *p_person, SLONG inside, UBYTE x, UBYTE z)
 	return ma;
 }
 
-MAV_Action INSIDE2_mav_stair(Thing *p_person, SLONG inside, SLONG new_inside)
+MAV_Action INSIDE2_mav_stair(Thing *p_person, std::int32_t inside, std::int32_t new_inside)
 {
 	MAV_Action ma;
 
@@ -1279,7 +1279,7 @@ MAV_Action INSIDE2_mav_stair(Thing *p_person, SLONG inside, SLONG new_inside)
 	return ma;
 }
 
-MAV_Action INSIDE2_mav_exit(Thing *p_person, SLONG inside)
+MAV_Action INSIDE2_mav_exit(Thing *p_person, std::int32_t inside)
 {
 	MAV_Action ma;
 

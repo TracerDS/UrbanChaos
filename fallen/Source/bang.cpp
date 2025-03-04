@@ -18,22 +18,22 @@
 
 typedef struct
 {
-	UBYTE initial_radius;
-	UBYTE initial_grow;
-	UBYTE initial_r;   
-	UBYTE initial_g;
-	UBYTE initial_b;
-	SBYTE dr;	// 4-bit fixed point...
-	SBYTE dg;
-	SBYTE db;
-	UBYTE dgrow;
-	UBYTE die;
+	std::uint8_t initial_radius;
+	std::uint8_t initial_grow;
+	std::uint8_t initial_r;   
+	std::uint8_t initial_g;
+	std::uint8_t initial_b;
+	std::int8_t dr;	// 4-bit fixed point...
+	std::int8_t dg;
+	std::int8_t db;
+	std::uint8_t dgrow;
+	std::uint8_t die;
 
 	struct
 	{
-		UBYTE counter;
-		UBYTE type;
-		UBYTE where;
+		std::uint8_t counter;
+		std::uint8_t type;
+		std::uint8_t where;
 
 	} child[BANG_MAX_CHILDREN];
 	
@@ -123,24 +123,24 @@ BANG_Type BANG_type[BANG_TYPE_NUMBER] =
 
 typedef struct
 {
-	UBYTE type;
-	SBYTE x;	// Relative to the bang whose linked-list the phwoar is in.
-	SBYTE y;
-	SBYTE z;
-	SBYTE dx;	// Normalised to 64
-	SBYTE dy;
-	SBYTE dz;
-	UBYTE radius;
-	UBYTE grow;	// 2-bit fixed point.
-	UBYTE counter;
-	UWORD next;	// The next phwoar.
+	std::uint8_t type;
+	std::int8_t x;	// Relative to the bang whose linked-list the phwoar is in.
+	std::int8_t y;
+	std::int8_t z;
+	std::int8_t dx;	// Normalised to 64
+	std::int8_t dy;
+	std::int8_t dz;
+	std::uint8_t radius;
+	std::uint8_t grow;	// 2-bit fixed point.
+	std::uint8_t counter;
+	std::uint16_t next;	// The next phwoar.
 
 } BANG_Phwoar;
 
 #define BANG_MAX_PHWOARS 4096
 
 BANG_Phwoar BANG_phwoar[BANG_MAX_PHWOARS];
-UBYTE BANG_phwoar_free;
+std::uint8_t BANG_phwoar_free;
 
 //
 // An explosion.
@@ -148,18 +148,18 @@ UBYTE BANG_phwoar_free;
 
 typedef struct
 {
-	UWORD index;	// Linked list into the phwoar array- nullptr => bang is unused.
-	UWORD next;		// Linked list on a mapwho square nullptr terminated.
-	UWORD x;
-	SWORD y;
-	UWORD z;
+	std::uint16_t index;	// Linked list into the phwoar array- nullptr => bang is unused.
+	std::uint16_t next;		// Linked list on a mapwho square nullptr terminated.
+	std::uint16_t x;
+	std::int16_t y;
+	std::uint16_t z;
 	
 } BANG_Bang;
 
 #define BANG_MAX_BANGS 64
 
 BANG_Bang BANG_bang[BANG_MAX_BANGS];
-SLONG BANG_last;
+std::int32_t BANG_last;
 
 //
 // The BANG mapwho.
@@ -167,12 +167,12 @@ SLONG BANG_last;
 
 #define BANG_MAPWHO 128
 
-UWORD BANG_mapwho[BANG_MAPWHO];
+std::uint16_t BANG_mapwho[BANG_MAPWHO];
 
 
 void BANG_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// Initialise the bangs.
@@ -214,13 +214,13 @@ void BANG_init()
 // ignored and the phwoar is placed at (0,0,0)
 //
 
-UWORD BANG_new_phwoar(
-		UBYTE parent,
-		UBYTE type,
-		UBYTE where)
+std::uint16_t BANG_new_phwoar(
+		std::uint8_t parent,
+		std::uint8_t type,
+		std::uint8_t where)
 {
-	UBYTE ph;
-	SLONG dist;
+	std::uint8_t ph;
+	std::int32_t dist;
 
 	BANG_Phwoar *bp;
 	BANG_Phwoar *pp;
@@ -266,15 +266,15 @@ UWORD BANG_new_phwoar(
 		// A random vector.
 		//
 
-		SLONG dx = (rand() & 0x1ff) - 256;
-		SLONG dy = (rand() & 0x1ff) - 256;
-		SLONG dz = (rand() & 0x1ff) - 256;
+		std::int32_t dx = (rand() & 0x1ff) - 256;
+		std::int32_t dy = (rand() & 0x1ff) - 256;
+		std::int32_t dz = (rand() & 0x1ff) - 256;
 
 		//
 		// Make sure this vector is not in the wrong half of the semisphere.
 		//
 
-		SLONG dprod = dx*pp->dx + dy*pp->dy + dz*pp->dz;
+		std::int32_t dprod = dx*pp->dx + dy*pp->dy + dz*pp->dz;
 
 		if (dprod < 0)
 		{
@@ -295,7 +295,7 @@ UWORD BANG_new_phwoar(
 		// How far from the parent?
 		//
 
-		SLONG len;
+		std::int32_t len;
 
 		if (where == BANG_CHILD_WHERE_INSIDE)
 		{
@@ -339,9 +339,9 @@ UWORD BANG_new_phwoar(
 		dy = (dy * len) >> 6;
 		dz = (dz * len) >> 6;
 
-		SLONG px = pp->x + dx;
-		SLONG py = pp->y + dy;
-		SLONG pz = pp->z + dz;
+		std::int32_t px = pp->x + dx;
+		std::int32_t py = pp->y + dy;
+		std::int32_t pz = pp->z + dz;
 
 		SATURATE(px, -127, +127);
 		SATURATE(py, -127, +127);
@@ -365,12 +365,12 @@ UWORD BANG_new_phwoar(
 
 void BANG_process()
 {
-	SLONG  i;
-	SLONG  j;
-	UWORD  ph;
-	UWORD  kid;
-	UWORD  next;
-	UWORD *prev;
+	std::int32_t  i;
+	std::int32_t  j;
+	std::uint16_t  ph;
+	std::uint16_t  kid;
+	std::uint16_t  next;
+	std::uint16_t *prev;
 
 	BANG_Bang   *bb;
 	BANG_Phwoar *bp;
@@ -407,8 +407,8 @@ void BANG_process()
 			// Change the radius 
 			//
 
-			SLONG radius;
-			SLONG grow;
+			std::int32_t radius;
+			std::int32_t grow;
 			
 			radius    = bp->radius;
 			grow      = bp->grow;
@@ -473,7 +473,7 @@ void BANG_process()
 
 			if (bp->counter >= bt->die)
 			{
-				UBYTE this_phwoar = next;
+				std::uint8_t this_phwoar = next;
 
 				//
 				// Kill this phwoar.
@@ -510,7 +510,7 @@ void BANG_process()
 			// Remove the bang from the mapwho.
 			//
 
-			SLONG mapz = bb->z >> 8;
+			std::int32_t mapz = bb->z >> 8;
 
 			if (WITHIN(mapz, 0, BANG_MAPWHO - 1))
 			{
@@ -539,14 +539,14 @@ void BANG_process()
 }
 
 void BANG_create(
-	SLONG type,
-	SLONG x,
-	SLONG y,
-	SLONG z)
+	std::int32_t type,
+	std::int32_t x,
+	std::int32_t y,
+	std::int32_t z)
 {
-	SLONG i;
-	SLONG use;
-	SLONG mapz;
+	std::int32_t i;
+	std::int32_t use;
+	std::int32_t mapz;
 
 	//
 	// Look for an unused bang structure to use.
@@ -608,14 +608,14 @@ void BANG_create(
 
 
 
-UBYTE BANG_get_xmin;
-UBYTE BANG_get_xmax;
-UBYTE BANG_get_z;
-UWORD BANG_get_bang;
-UWORD BANG_get_phwoar;
+std::uint8_t BANG_get_xmin;
+std::uint8_t BANG_get_xmax;
+std::uint8_t BANG_get_z;
+std::uint16_t BANG_get_bang;
+std::uint16_t BANG_get_phwoar;
 BANG_Info BANG_get_info;
 
-void BANG_get_start(UBYTE xmin, UBYTE xmax, UBYTE z)
+void BANG_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z)
 {
 	if (WITHIN(z, 0, BANG_MAPWHO - 1))
 	{
@@ -697,9 +697,9 @@ BANG_Info *BANG_get_next()
 	BANG_get_info.radius = bp->radius << BANG_SIZE_SHIFT;
 	BANG_get_info.frame  = bp->counter;
 
-	SLONG red   = bt->initial_r + bt->dr * bp->counter;
-	SLONG green = bt->initial_g + bt->dg * bp->counter;
-	SLONG blue  = bt->initial_b + bt->db * bp->counter;
+	std::int32_t red   = bt->initial_r + bt->dr * bp->counter;
+	std::int32_t green = bt->initial_g + bt->dg * bp->counter;
+	std::int32_t blue  = bt->initial_b + bt->db * bp->counter;
 
 	if (red   < 0) {red   = 0;}
 	if (green < 0) {green = 0;}

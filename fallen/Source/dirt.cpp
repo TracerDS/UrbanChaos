@@ -37,7 +37,7 @@
 // A good version of arctan.
 //
 
-SLONG calc_angle(SLONG dx, SLONG dz);
+std::int32_t calc_angle(std::int32_t dx, std::int32_t dz);
 
 //
 // Where all the trees are.
@@ -45,23 +45,23 @@ SLONG calc_angle(SLONG dx, SLONG dz);
 
 typedef struct
 {
-	UWORD x;
-	UWORD z;
-	UBYTE inrange;
-	UBYTE padding;
+	std::uint16_t x;
+	std::uint16_t z;
+	std::uint8_t inrange;
+	std::uint8_t padding;
 
 } DIRT_Tree;
 
 #define DIRT_MAX_TREES 64
 
 DIRT_Tree DIRT_tree[DIRT_MAX_TREES];
-SLONG DIRT_tree_upto;
+std::int32_t DIRT_tree_upto;
 
 //
 // Check 1/8th of the dirt each frame.
 //
 
-static UWORD DIRT_check=0;
+static std::uint16_t DIRT_check=0;
 
 
 //
@@ -80,18 +80,18 @@ static UWORD DIRT_check=0;
 // They are in 8-bit fixed point. i.e. they add up to 256.
 //
 
-SLONG DIRT_prob_leaf;
-SLONG DIRT_prob_can;
-SLONG DIRT_prob_pigeon;
+std::int32_t DIRT_prob_leaf;
+std::int32_t DIRT_prob_can;
+std::int32_t DIRT_prob_pigeon;
 
 //
 // The bounding box in which only pigeons are created.
 //
 
-SLONG DIRT_pigeon_map_x1;
-SLONG DIRT_pigeon_map_z1;
-SLONG DIRT_pigeon_map_x2;
-SLONG DIRT_pigeon_map_z2;
+std::int32_t DIRT_pigeon_map_x1;
+std::int32_t DIRT_pigeon_map_z1;
+std::int32_t DIRT_pigeon_map_x2;
+std::int32_t DIRT_pigeon_map_z2;
 
 
 //
@@ -123,10 +123,10 @@ DIRT_Dirt DIRT_dirt[DIRT_MAX_DIRT];
 // The focus.
 //
 
-SLONG DIRT_focus_x;
-SLONG DIRT_focus_z;
-SLONG DIRT_focus_radius;
-SLONG DIRT_focus_first;
+std::int32_t DIRT_focus_x;
+std::int32_t DIRT_focus_z;
+std::int32_t DIRT_focus_radius;
+std::int32_t DIRT_focus_first;
 
 
 //
@@ -134,12 +134,12 @@ SLONG DIRT_focus_first;
 // the type of the new bit of dirt at (x,z).
 // 
 
-SLONG DIRT_get_new_type(SLONG x, SLONG z)
+std::int32_t DIRT_get_new_type(std::int32_t x, std::int32_t z)
 {
-	SLONG choice;
+	std::int32_t choice;
 
-	SLONG mx = x >> PAP_SHIFT_HI;
-	SLONG mz = z >> PAP_SHIFT_HI;
+	std::int32_t mx = x >> PAP_SHIFT_HI;
+	std::int32_t mz = z >> PAP_SHIFT_HI;
 
 	if (WITHIN(mx, DIRT_pigeon_map_x1, DIRT_pigeon_map_x2) &&
 		WITHIN(mz, DIRT_pigeon_map_z1, DIRT_pigeon_map_z2))
@@ -164,16 +164,16 @@ SLONG DIRT_get_new_type(SLONG x, SLONG z)
 
 
 void DIRT_init(
-		SLONG prob_leaf,
-		SLONG prob_can,
-		SLONG prob_pigeon,
-		SLONG pigeon_map_x1,
-		SLONG pigeon_map_z1,
-		SLONG pigeon_map_x2,
-		SLONG pigeon_map_z2)
+		std::int32_t prob_leaf,
+		std::int32_t prob_can,
+		std::int32_t prob_pigeon,
+		std::int32_t pigeon_map_x1,
+		std::int32_t pigeon_map_z1,
+		std::int32_t pigeon_map_x2,
+		std::int32_t pigeon_map_z2)
 {
-	SLONG i;
-	SLONG prob_sum;
+	std::int32_t i;
+	std::int32_t prob_sum;
 
 	DIRT_Dirt *dd;
 
@@ -200,7 +200,7 @@ void DIRT_init(
 
 	for (i = 0; i < DIRT_MAX_DIRT; i++)
 	{
-		memset((UBYTE*)&DIRT_dirt[i],0,sizeof(DIRT_Dirt));
+		memset((std::uint8_t*)&DIRT_dirt[i],0,sizeof(DIRT_Dirt));
 		DIRT_dirt[i].type = DIRT_TYPE_UNUSED;
 	}
 
@@ -241,8 +241,8 @@ void DIRT_init(
 	DIRT_tree_upto = 0;
 	
 	{
-		SLONG mx;
-		SLONG mz;
+		std::int32_t mx;
+		std::int32_t mz;
 
 		OB_Info *oi;
 
@@ -278,7 +278,7 @@ void DIRT_init(
 
 DIRT_Dirt *DIRT_find_useless()
 {
-	SLONG i;
+	std::int32_t i;
 
 	DIRT_Dirt *dd;
 
@@ -323,29 +323,29 @@ DIRT_Dirt *DIRT_find_useless()
 
 
 void DIRT_set_focus(
-		SLONG x,
-		SLONG z,
-		SLONG radius)
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t radius)
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG lx;
-	SLONG lz;
-	SLONG cx;
-	SLONG cz;
-	SLONG nx;
-	SLONG nz;
-	SLONG mx;
-	SLONG mz;
+	std::int32_t lx;
+	std::int32_t lz;
+	std::int32_t cx;
+	std::int32_t cz;
+	std::int32_t nx;
+	std::int32_t nz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG angle;
-	SLONG type;
-	SLONG done;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t type;
+	std::int32_t done;
 
 	DIRT_Dirt  *dd;
 	PAP_Hi     *ph;
@@ -353,8 +353,8 @@ void DIRT_set_focus(
 
 	struct
 	{
-		SBYTE dx;
-		SBYTE dz;
+		std::int8_t dx;
+		std::int8_t dz;
 
 	} order[8] = 
 	{
@@ -500,7 +500,7 @@ void DIRT_set_focus(
 	// Check the dirt for going out of range.
 	//
 
-	SLONG number_to_check;
+	std::int32_t number_to_check;
 
 	if (DIRT_focus_first)
 	{
@@ -744,20 +744,20 @@ void DIRT_pigeon_init_peck(DIRT_Dirt *dd)
 
 void DIRT_pigeon_init_walk(DIRT_Dirt *dd)
 {
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
-	SLONG half_x;
-	SLONG half_z;
+	std::int32_t half_x;
+	std::int32_t half_z;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG len;
-	SLONG count = 0;
+	std::int32_t len;
+	std::int32_t count = 0;
 
 	while(1)
 	{
@@ -862,7 +862,7 @@ void DIRT_pigeon_init_walk(DIRT_Dirt *dd)
 #define DIRT_PIGEON_HOPUP	1
 #define DIRT_PIGEON_HOPDOWN	2
 
-void DIRT_pigeon_init_hop(DIRT_Dirt *dd, UBYTE upordown)
+void DIRT_pigeon_init_hop(DIRT_Dirt *dd, std::uint8_t upordown)
 {
 	ASSERT(dd->UU.Pidgeon.state == DIRT_PIGEON_WALK || dd->UU.Pidgeon.state == DIRT_PIGEON_RUN);
 
@@ -882,22 +882,22 @@ void DIRT_pigeon_init_hop(DIRT_Dirt *dd, UBYTE upordown)
 }
 
 
-void DIRT_pigeon_init_flee(DIRT_Dirt *dd, SLONG scare_x, SLONG scare_z)
+void DIRT_pigeon_init_flee(DIRT_Dirt *dd, std::int32_t scare_x, std::int32_t scare_z)
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG dest_x;
-	SLONG dest_z;
+	std::int32_t dest_x;
+	std::int32_t dest_z;
 
-	SLONG half_x;
-	SLONG half_z;
+	std::int32_t half_x;
+	std::int32_t half_z;
 
-	SLONG len;
-	SLONG overlen;
+	std::int32_t len;
+	std::int32_t overlen;
 
 	//
 	// Start running away. Try running in away from what's scary.
@@ -1017,10 +1017,10 @@ void DIRT_pigeon_process_walkrun(DIRT_Dirt *dd)
 	// Are we about to hop up onto a curb?
 	//
 
-	SLONG mx1 = dd->x                >> 8;
-	SLONG mz1 = dd->z                >> 8;
-	SLONG mx2 = dd->x + (dd->dx * 4) >> 8;
-	SLONG mz2 = dd->z + (dd->dz * 4) >> 8;
+	std::int32_t mx1 = dd->x                >> 8;
+	std::int32_t mz1 = dd->z                >> 8;
+	std::int32_t mx2 = dd->x + (dd->dx * 4) >> 8;
+	std::int32_t mz2 = dd->z + (dd->dz * 4) >> 8;
 
 	ASSERT(WITHIN(mx1, 0, MAP_WIDTH  - 1));
 	ASSERT(WITHIN(mz1, 0, MAP_HEIGHT - 1));
@@ -1065,7 +1065,7 @@ void DIRT_pigeon_process_hop(DIRT_Dirt *dd)
 	// Finished hopping?
 	//
 
-	SLONG height = PAP_calc_height_at(dd->x, dd->z);
+	std::int32_t height = PAP_calc_height_at(dd->x, dd->z);
 
 	if (dd->y <= height)
 	{
@@ -1088,10 +1088,10 @@ void DIRT_pigeon_process_hop(DIRT_Dirt *dd)
 
 void DIRT_pigeon_start_doing_something_new(DIRT_Dirt *dd)
 {
-	SLONG i;
-	SLONG num;
-	SLONG total;
-	SLONG state;
+	std::int32_t i;
+	std::int32_t num;
+	std::int32_t total;
+	std::int32_t state;
 
 	ASSERT(dd->type == DIRT_TYPE_PIGEON);
 
@@ -1100,7 +1100,7 @@ void DIRT_pigeon_start_doing_something_new(DIRT_Dirt *dd)
 	// into each state...
 	//
 
-	UBYTE chance[DIRT_PIGEON_NUM_STATES];
+	std::uint8_t chance[DIRT_PIGEON_NUM_STATES];
 
 	memset(chance, 0, sizeof(chance));
 
@@ -1230,13 +1230,13 @@ void DIRT_pigeon_process(DIRT_Dirt *dd)
 #endif
 
 void DIRT_new_water(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,
-		SLONG dy,
-		SLONG dz,
-		SLONG dirt_type)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t dirt_type)
 {
 	DIRT_Dirt *dd;
 
@@ -1300,7 +1300,7 @@ void DIRT_new_water(
 }
 
 
-void DIRT_new_sparks(SLONG px, SLONG py, SLONG pz, UBYTE dir)
+void DIRT_new_sparks(std::int32_t px, std::int32_t py, std::int32_t pz, std::uint8_t dir)
 {
 	if (GAME_FLAGS & GF_NO_FLOOR)
 	{
@@ -1311,7 +1311,7 @@ void DIRT_new_sparks(SLONG px, SLONG py, SLONG pz, UBYTE dir)
 		return;
 	}
 
-	SLONG dx,dy,dz,i,boost,nodrip;
+	std::int32_t dx,dy,dz,i,boost,nodrip;
 	if (dir&32)
 	{
 		nodrip=1;
@@ -1382,7 +1382,7 @@ void DIRT_spark_shower(DIRT_Dirt *dd)
 		return;
 	}
 
-	UBYTE i;
+	std::uint8_t i;
 	for (i=0;i<5;i++)
 	{
 		if (Random()&1)
@@ -1394,21 +1394,21 @@ void DIRT_spark_shower(DIRT_Dirt *dd)
 
 void DIRT_process()
 {
-	SLONG i;
-	SLONG dy;
-	SLONG newy;
-	SLONG floor;
-	SLONG under;
-	SLONG waftz;
-	SLONG wafty;
-	SLONG waftx;
-	SLONG mx;
-	SLONG mz;
-	SLONG speed;
-	SLONG oldx;
-	SLONG oldy;
-	SLONG oldz;
-	SLONG collided;
+	std::int32_t i;
+	std::int32_t dy;
+	std::int32_t newy;
+	std::int32_t floor;
+	std::int32_t under;
+	std::int32_t waftz;
+	std::int32_t wafty;
+	std::int32_t waftx;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t speed;
+	std::int32_t oldx;
+	std::int32_t oldy;
+	std::int32_t oldz;
+	std::int32_t collided;
 
 	DIRT_Dirt *dd;
 
@@ -1824,9 +1824,9 @@ void DIRT_process()
 				//
 
 				{
-					SLONG px;
-					SLONG py;
-					SLONG pz;
+					std::int32_t px;
+					std::int32_t py;
+					std::int32_t pz;
 
 					Thing *p_person = TO_THING(dd->droll);	// droll => owner
 
@@ -2015,21 +2015,21 @@ void DIRT_process()
 
 void DIRT_gust(
 		Thing *p_thing,
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 	
-	SLONG push;
-	SLONG pushx;
-	SLONG pushy;
-	SLONG pushz;
+	std::int32_t push;
+	std::int32_t pushx;
+	std::int32_t pushy;
+	std::int32_t pushz;
 
-	SLONG dpitch;
-	SLONG droll;
+	std::int32_t dpitch;
+	std::int32_t droll;
 
 	DIRT_Dirt *dd;
 
@@ -2057,13 +2057,13 @@ void DIRT_gust(
 		return;
 	}
 
-	SLONG dgx = x2 - x1;
-	SLONG dgz = z2 - z1;
+	std::int32_t dgx = x2 - x1;
+	std::int32_t dgz = z2 - z1;
 
 	dgx -= dgx / 4;
 	dgz -= dgz / 4;
 
-	SLONG strength;
+	std::int32_t strength;
 
 	//
 	// Strength is radius around point1 in which dirt is effected.
@@ -2249,16 +2249,16 @@ void DIRT_gust(
 
 
 
-SLONG DIRT_get_nearest_can_or_head_dist(SLONG x, SLONG y, SLONG z)
+std::int32_t DIRT_get_nearest_can_or_head_dist(std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
-	SLONG best_dist = INFINITY;
+	std::int32_t dist;
+	std::int32_t best_dist = INFINITY;
 
 	DIRT_Dirt *dd;
 
@@ -2287,18 +2287,18 @@ SLONG DIRT_get_nearest_can_or_head_dist(SLONG x, SLONG y, SLONG z)
 
 void DIRT_pick_up_can_or_head(Thing *p_person)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG dist;
+	std::int32_t dist;
 
-	SLONG best_can  = nullptr;
-	SLONG best_dist = INFINITY;
+	std::int32_t best_can  = 0;
+	std::int32_t best_dist = INFINITY;
 
-	DIRT_Dirt *dd;
+	DIRT_Dirt* dd;
 
 	for (i = 0; i < DIRT_MAX_DIRT; i++)
 	{
@@ -2337,13 +2337,13 @@ void DIRT_pick_up_can_or_head(Thing *p_person)
 	return;
 }
 
-void DIRT_release_can_or_head(Thing *p_person, SLONG power)	// 0 <= power <= 256
+void DIRT_release_can_or_head(Thing *p_person, std::int32_t power)	// 0 <= power <= 256
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	DIRT_Dirt *dd;
 
@@ -2387,7 +2387,7 @@ void DIRT_release_can_or_head(Thing *p_person, SLONG power)	// 0 <= power <= 256
 
 
 
-SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
+std::int32_t DIRT_get_info(std::int32_t which,DIRT_Info *ans)
 {
 	if (GAME_FLAGS & GF_NO_FLOOR)
 	{
@@ -2509,7 +2509,7 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
 			if (ans->tween == 255)
 			{
 				//
-				// Tween is only a UBYTE where it should really be a UWORD.
+				// Tween is only a std::uint8_t where it should really be a std::uint16_t.
 				//
 
 				ans->tween = 256;
@@ -2551,17 +2551,17 @@ SLONG DIRT_get_info(SLONG which,DIRT_Info *ans)
 }
 
 /*
-void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz)
+void DIRT_gale_height(std::int32_t dx,std::int32_t dy,std::int32_t dz)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG pushx;
-	SLONG pushy;
-	SLONG pushz;
+	std::int32_t pushx;
+	std::int32_t pushy;
+	std::int32_t pushz;
 
-	SLONG dyaw;
-	SLONG dpitch;
-	SLONG droll;
+	std::int32_t dyaw;
+	std::int32_t dpitch;
+	std::int32_t droll;
 
 	DIRT_Dirt *dd;
 
@@ -2598,7 +2598,7 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz)
 
 				if (dy!=0xFFFFFF)
 				{
-					SLONG ydiff=abs(dy-dd->y);
+					std::int32_t ydiff=abs(dy-dd->y);
 					SATURATE(ydiff,0,256);
 					ydiff=256-ydiff;
 					pushx=(pushx*ydiff)>>8;
@@ -2676,13 +2676,13 @@ void DIRT_gale_height(SLONG dx,SLONG dy,SLONG dz)
 }
 
 
-void DIRT_gale(SLONG dx,SLONG dz)
+void DIRT_gale(std::int32_t dx,std::int32_t dz)
 {
 	DIRT_gale_height(dx,0xFFFFFF,dz);
 }
 */
 
-void DIRT_mark_as_offscreen(SLONG which)
+void DIRT_mark_as_offscreen(std::int32_t which)
 {
 	DIRT_Dirt *dd;
 
@@ -2704,18 +2704,18 @@ void DIRT_mark_as_offscreen(SLONG which)
 }
 
 
-SLONG DIRT_shoot(Thing *p_person)
+std::int32_t DIRT_shoot(Thing *p_person)
 {
-	SLONG i;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
-	SLONG angle;
-	SLONG dangle;
+	std::int32_t i;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t angle;
+	std::int32_t dangle;
 
-	SLONG score;
-	SLONG best_dirt;
-	SLONG best_score = -INFINITY;
+	std::int32_t score;
+	std::int32_t best_dirt;
+	std::int32_t best_score = -INFINITY;
 
 	DIRT_Dirt *dd;
 
@@ -2826,17 +2826,17 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker)
 {
 	#ifdef BEHEAD
 
-	SLONG i;
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SLONG dx;
-	SLONG dz;
-	SLONG score;
-	SLONG dirt;
+	std::int32_t i;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t score;
+	std::int32_t dirt;
 
-	SLONG best_dirt  = 0;
-	SLONG best_score = 0;
+	std::int32_t best_dirt  = 0;
+	std::int32_t best_score = 0;
 	
 	DIRT_Dirt *dd;
 
@@ -2913,14 +2913,14 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker)
 }
 
 #ifndef PSX
-UWORD DIRT_create_mine(Thing *p_person)
+std::uint16_t DIRT_create_mine(Thing *p_person)
 {
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG power = 128;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t power = 128;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
 	DIRT_Dirt *dd = DIRT_find_useless();
 
@@ -2950,9 +2950,9 @@ UWORD DIRT_create_mine(Thing *p_person)
 	dd->dyaw   = (Random() & 0x3f) - 0x1f;
 	dd->dpitch = 50;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
 	calc_sub_objects_position(
 		p_person,
@@ -2979,7 +2979,7 @@ UWORD DIRT_create_mine(Thing *p_person)
 	return dd - DIRT_dirt;
 }
 
-void DIRT_destroy_mine(UWORD dirt_mine)
+void DIRT_destroy_mine(std::uint16_t dirt_mine)
 {
 	ASSERT(WITHIN(dirt_mine, 0, DIRT_MAX_DIRT - 1));
 
@@ -2988,12 +2988,12 @@ void DIRT_destroy_mine(UWORD dirt_mine)
 #endif
 
 void DIRT_create_papers(
-		SLONG x,
-		SLONG y,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z)
 {
-	SLONG i;
-	SLONG created;
+	std::int32_t i;
+	std::int32_t created;
 
 	DIRT_Dirt *dd;
 
@@ -3042,12 +3042,12 @@ void DIRT_create_papers(
 }
 
 void DIRT_create_cans(
-		SLONG x,
-		SLONG z,
-		SLONG angle)
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t angle)
 {
-	SLONG i;
-	SLONG useangle;
+	std::int32_t i;
+	std::int32_t useangle;
 
 	DIRT_Dirt *dd;
 
@@ -3093,13 +3093,13 @@ void DIRT_create_cans(
 
 #ifndef PSX
 void DIRT_create_brass(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG angle)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t angle)
 {
-	SLONG i;
-	SLONG useangle;
+	std::int32_t i;
+	std::int32_t useangle;
 
 	DIRT_Dirt *dd;
 

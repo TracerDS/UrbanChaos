@@ -4,7 +4,7 @@
 #include	"Quaternion.h"
 #include	"..\headers\fmatrix.h"
 
-void	QUATERNION_BuildTweenInteger(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,SLONG tween);
+void	QUATERNION_BuildTweenInteger(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,std::int32_t tween);
 
 // JCL 22/12/98
 // lots of code shamelessly ripped (and then fixed...) from the Gamasutra Web site.
@@ -212,17 +212,17 @@ void	cmat_to_fmat(CMatrix33 *cm, FloatMatrix *fm)
 //***************************************************************************************************
 void	fmat_to_mat(FloatMatrix *fm, Matrix33 *m)
 {
-	m->M[0][0] = SLONG(fm->M[0][0] * 32768.f);
-	m->M[0][1] = SLONG(fm->M[0][1] * 32768.f);
-	m->M[0][2] = SLONG(fm->M[0][2] * 32768.f);
+	m->M[0][0] = std::int32_t(fm->M[0][0] * 32768.f);
+	m->M[0][1] = std::int32_t(fm->M[0][1] * 32768.f);
+	m->M[0][2] = std::int32_t(fm->M[0][2] * 32768.f);
 
-	m->M[1][0] = SLONG(fm->M[1][0] * 32768.f);
-	m->M[1][1] = SLONG(fm->M[1][1] * 32768.f);
-	m->M[1][2] = SLONG(fm->M[1][2] * 32768.f);
+	m->M[1][0] = std::int32_t(fm->M[1][0] * 32768.f);
+	m->M[1][1] = std::int32_t(fm->M[1][1] * 32768.f);
+	m->M[1][2] = std::int32_t(fm->M[1][2] * 32768.f);
 
-	m->M[2][0] = SLONG(fm->M[2][0] * 32768.f);
-	m->M[2][1] = SLONG(fm->M[2][1] * 32768.f);
-	m->M[2][2] = SLONG(fm->M[2][2] * 32768.f);
+	m->M[2][0] = std::int32_t(fm->M[2][0] * 32768.f);
+	m->M[2][1] = std::int32_t(fm->M[2][1] * 32768.f);
+	m->M[2][2] = std::int32_t(fm->M[2][2] * 32768.f);
 }
 
 
@@ -275,11 +275,11 @@ bool	check_isonormal(FloatMatrix &m)
 	return true;
 }
 
-void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,SLONG tween);
+void	build_tween_matrix(struct Matrix33 *mat,struct CMatrix33 *cmat1,struct CMatrix33 *cmat2,std::int32_t tween);
 
 // external stuff
 
-void	CQuaternion::BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,SLONG tween)
+void	CQuaternion::BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,std::int32_t tween)
 {
 	//	* construct the quaternions from the compressed integer matrices
 	//  * SLERP the quaternions using the tween value
@@ -359,17 +359,17 @@ void	CQuaternion::BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct 
 //***************************************************************************************************
 struct	QuatInt
 {
-	SLONG	x, y, z, w;
+	std::int32_t	x, y, z, w;
 };
 
 //***************************************************************************************************
 void	MatrixToQuatInteger(Matrix33 *m, QuatInt *quat)
 {
-	SLONG	tr, s;
-	SLONG   q[4];
-	SLONG	i, j, k;
+	std::int32_t	tr, s;
+	std::int32_t   q[4];
+	std::int32_t	i, j, k;
 
-	SLONG	 nxt[3] = {1, 2, 0};
+	std::int32_t	 nxt[3] = {1, 2, 0};
 
 	tr = m->M[0][0] + m->M[1][1] + m->M[2][2];
 
@@ -413,7 +413,7 @@ void	MatrixToQuatInteger(Matrix33 *m, QuatInt *quat)
 //***************************************************************************************************
 void	QuatToMatrixInteger(QuatInt *quat, Matrix33 *m)
 {
-	SLONG wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
+	std::int32_t wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
 
 	// calculate coefficients
 	x2 = quat->x + quat->x; y2 = quat->y + quat->y; 
@@ -435,16 +435,16 @@ void	QuatToMatrixInteger(QuatInt *quat, Matrix33 *m)
 //***************************************************************************************************
 //! er.. this should be loaded in....
 
-SWORD	acos_table[1025]; // only half of it!
+std::int16_t	acos_table[1025]; // only half of it!
 bool	acos_table_init = false;
 
 void	BuildACosTable()
 {
-	SLONG c0;
+	std::int32_t c0;
 
 	for (c0 = 0; c0 < 1025; c0 ++)
 	{
-		acos_table[c0] = SLONG(acos(float(c0) / 1025.f) / (2 * 3.1415926) * 2047);
+		acos_table[c0] = std::int32_t(acos(float(c0) / 1025.f) / (2 * 3.1415926) * 2047);
 	}
 
 	acos_table_init = true;
@@ -453,12 +453,12 @@ void	BuildACosTable()
 //***************************************************************************************************
 #define DELTA_INT 1638
 
-void	QuatSlerpInteger(QuatInt *from, QuatInt *to, SLONG tween, QuatInt *res)
+void	QuatSlerpInteger(QuatInt *from, QuatInt *to, std::int32_t tween, QuatInt *res)
 {
-    SLONG	to1[4];
+    std::int32_t	to1[4];
 //    double	omega, cosom, sinom;
-	SLONG	omega, cosom, sinom;
-	SLONG	scale0, scale1;
+	std::int32_t	omega, cosom, sinom;
+	std::int32_t	scale0, scale1;
 
 	//! shouldn't be done here...
 	if (!acos_table_init)
@@ -490,7 +490,7 @@ void	QuatSlerpInteger(QuatInt *from, QuatInt *to, SLONG tween, QuatInt *res)
 	if (((1 << 15) - cosom) > DELTA_INT)
 	{
 		// standard case (slerp)
-//		omega = SLONG((acos(float(cosom) / 32768) / (2 * 3.1415926)) * 2047);
+//		omega = std::int32_t((acos(float(cosom) / 32768) / (2 * 3.1415926)) * 2047);
 
 		ASSERT(cosom >= 0);
 		ASSERT(cosom <= 32768);
@@ -547,9 +547,9 @@ void	cmat_to_mat(CMatrix33 *cm, Matrix33 *m)
 bool	check_isonormal_integer(Matrix33 &m)
 {
 	// check handedness
-	SLONG	x = (m.M[0][1] * m.M[1][2] - m.M[0][2] * m.M[1][1]) >> 15;
-	SLONG	y = (m.M[0][2] * m.M[1][0] - m.M[0][0] * m.M[1][2]) >> 15;
-	SLONG	z = (m.M[0][0] * m.M[1][1] - m.M[0][1] * m.M[1][0]) >> 15;
+	std::int32_t	x = (m.M[0][1] * m.M[1][2] - m.M[0][2] * m.M[1][1]) >> 15;
+	std::int32_t	y = (m.M[0][2] * m.M[1][0] - m.M[0][0] * m.M[1][2]) >> 15;
+	std::int32_t	z = (m.M[0][0] * m.M[1][1] - m.M[0][1] * m.M[1][0]) >> 15;
 
 	if ((abs(x - m.M[2][0]) > 1000) ||
 	    (abs(y - m.M[2][1]) > 1000) ||
@@ -560,7 +560,7 @@ bool	check_isonormal_integer(Matrix33 &m)
 }
 
 //***************************************************************************************************
-void	QUATERNION_BuildTweenInteger(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,SLONG tween)
+void	QUATERNION_BuildTweenInteger(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,std::int32_t tween)
 {
 	//	* construct the quaternions from the compressed integer matrices
 	//  * SLERP the quaternions using the tween value

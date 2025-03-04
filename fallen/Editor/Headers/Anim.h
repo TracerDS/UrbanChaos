@@ -31,44 +31,44 @@
 
 struct	AnimItem
 {
-	UWORD	Start;
-	UWORD	End;
+	std::uint16_t	Start;
+	std::uint16_t	End;
 };
 
 
 struct	PrimMultiAnim
 {
 	struct	Matrix33	Mat;
-	SLONG	DX;
-	SLONG	DY;
-	SLONG	DZ;
-	UWORD	Next;
+	std::int32_t	DX;
+	std::int32_t	DY;
+	std::int32_t	DZ;
+	std::uint16_t	Next;
 };
 
 struct	BodyDef
 {
-	UBYTE	BodyPart[20]; //1..14 is a normal person
+	std::uint8_t	BodyPart[20]; //1..14 is a normal person
 };
 
 //data
 extern struct	AnimItem	anim_item[MAX_CREATURE_TYPES][MAX_ANIMS_PER_CREATURE];
 extern struct	PrimMultiAnim	prim_multi_anims[];	//500K
 
-extern UWORD	next_prim_multi_anim;
+extern std::uint16_t	next_prim_multi_anim;
 
 
 
 
 // FUNCTIONS
 
-extern SBYTE	read_a_multi_vue(SLONG m_object);
+extern std::int8_t	read_a_multi_vue(std::int32_t m_object);
 extern void	animate_and_draw_chap();
 extern void	setup_people_anims();
 extern void	setup_extra_anims();
 extern void	setup_global_anim_array();
 
-extern SLONG	next_game_chunk;
-extern SLONG	next_anim_chunk;
+extern std::int32_t	next_game_chunk;
+extern std::int32_t	next_anim_chunk;
 
 
 
@@ -102,11 +102,11 @@ struct	KeyFrameElement
 {
 	struct	CMatrix33	CMatrix;
 	struct	Matrix33	Matrix;
-	SLONG				OffsetX;
-	SLONG				OffsetY;
-	SLONG				OffsetZ;
-	UWORD				Next;
-	UWORD				Parent;
+	std::int32_t				OffsetX;
+	std::int32_t				OffsetY;
+	std::int32_t				OffsetZ;
+	std::uint16_t				Next;
+	std::uint16_t				Parent;
 };
 
 //************************************************************************************************
@@ -120,32 +120,32 @@ struct	KeyFrameElement
 
 struct	GameKeyFrameElementCompOld
 {
-	SBYTE				m00, m01, m10, m11;
-//	SBYTE				dm02, dm12, dm20, dm21, dm22;
-//	UBYTE				pad1,pad2,pad3;
-	SWORD				OffsetX;
-	SWORD				OffsetY;
-	SWORD				OffsetZ;
-	UWORD				Pad;
+	std::int8_t				m00, m01, m10, m11;
+//	std::int8_t				dm02, dm12, dm20, dm21, dm22;
+//	std::uint8_t				pad1,pad2,pad3;
+	std::int16_t				OffsetX;
+	std::int16_t				OffsetY;
+	std::int16_t				OffsetZ;
+	std::uint16_t				Pad;
 };
 struct	GameKeyFrameElementComp
 {
-	SBYTE				m00, m01, m10, m11;
-//	SBYTE				dm02, dm12, dm20, dm21, dm22;
-//	UBYTE				pad1,pad2,pad3;
-	SBYTE				OffsetX;
-	SBYTE				OffsetY;
-	SBYTE				OffsetZ;
-	UBYTE				Pad;
+	std::int8_t				m00, m01, m10, m11;
+//	std::int8_t				dm02, dm12, dm20, dm21, dm22;
+//	std::uint8_t				pad1,pad2,pad3;
+	std::int8_t				OffsetX;
+	std::int8_t				OffsetY;
+	std::int8_t				OffsetZ;
+	std::uint8_t				Pad;
 };
 
 struct	GameKeyFrameElementBig
 {
 	struct	CMatrix33	CMatrix;
-	SWORD				OffsetX;
-	SWORD				OffsetY;
-	SWORD				OffsetZ;
-	UWORD				Pad;
+	std::int16_t				OffsetX;
+	std::int16_t				OffsetY;
+	std::int16_t				OffsetZ;
+	std::uint16_t				Pad;
 };
 
 
@@ -155,10 +155,10 @@ struct	GameKeyFrameElementBig
 struct	GameKeyFrameElement
 {
 	struct	CMatrix33	CMatrix;
-	SWORD				OffsetX;
-	SWORD				OffsetY;
-	SWORD				OffsetZ;
-	UWORD				Pad;
+	std::int16_t				OffsetX;
+	std::int16_t				OffsetY;
+	std::int16_t				OffsetZ;
+	std::uint16_t				Pad;
 };
 
 //inline	void	GetCMatrix(GameKeyFrameElement *e, CMatrix33 *c)
@@ -179,13 +179,13 @@ inline	void	SetCMatrix(GameKeyFrameElement *e, CMatrix33 *c)
 
 struct	GameKeyFrameElement
 {
-	SBYTE				m00, m01, m10, m11;
-//	SBYTE				dm02, dm12, dm20, dm21, dm22;
-//	UBYTE				pad1,pad2,pad3;
-	SBYTE				OffsetX;
-	SBYTE				OffsetY;
-	SBYTE				OffsetZ;
-	UBYTE				Pad;
+	std::int8_t				m00, m01, m10, m11;
+//	std::int8_t				dm02, dm12, dm20, dm21, dm22;
+//	std::uint8_t				pad1,pad2,pad3;
+	std::int8_t				OffsetX;
+	std::int8_t				OffsetY;
+	std::int8_t				OffsetZ;
+	std::uint8_t				Pad;
 };
 
 void	GetCMatrix(GameKeyFrameElement *e, CMatrix33 *c);
@@ -198,18 +198,18 @@ void	SetCMatrix(GameKeyFrameElement *e, CMatrix33 *c);
 
 struct	GameFightCol
 {
-	UWORD		Dist1;
-	UWORD		Dist2;
+	std::uint16_t		Dist1;
+	std::uint16_t		Dist2;
 
-	UBYTE		Angle;
-	UBYTE		Priority;
-	UBYTE		Damage;
-	UBYTE		Tween;
+	std::uint8_t		Angle;
+	std::uint8_t		Priority;
+	std::uint8_t		Damage;
+	std::uint8_t		Tween;
 
-	UBYTE		AngleHitFrom;
-	UBYTE		Height;
-	UBYTE		Width;
-	UBYTE		Dummy;
+	std::uint8_t		AngleHitFrom;
+	std::uint8_t		Height;
+	std::uint8_t		Width;
+	std::uint8_t		Dummy;
 
 	struct GameFightCol		*Next;
 
@@ -221,9 +221,9 @@ struct	GameFightCol
 //
 struct	GameKeyFrame
 {
-	UBYTE				XYZIndex;
-	UBYTE				TweenStep;
-	SWORD				Flags;
+	std::uint8_t				XYZIndex;
+	std::uint8_t				TweenStep;
+	std::int16_t				Flags;
 	GameKeyFrameElement		*FirstElement;
 	GameKeyFrame		*PrevFrame,*NextFrame;
 	GameFightCol		*Fight;
@@ -232,34 +232,34 @@ struct	GameKeyFrame
 /*
 struct	GameKeyFrameChunk
 {
-	UWORD						MultiObject[10];
-	SLONG						ElementCount;
+	std::uint16_t						MultiObject[10];
+	std::int32_t						ElementCount;
 	struct	BodyDef				PeopleTypes[MAX_PEOPLE_TYPES];
 	struct GameKeyFrame			AnimKeyFrames[20000];
 	struct GameKeyFrame			*AnimList[200];
 	struct GameKeyFrameElement	TheElements[MAX_NUMBER_OF_ELEMENTS];
-	SLONG	MaxKeyFrames;
-	SLONG	MaxElements;
+	std::int32_t	MaxKeyFrames;
+	std::int32_t	MaxElements;
 };
 */
 
 
 struct	FightCol
 {
-	UWORD		Dist1;
-	UWORD		Dist2;
+	std::uint16_t		Dist1;
+	std::uint16_t		Dist2;
 
-	UBYTE		Angle;
-	UBYTE		Priority;
-	UBYTE		Damage;
-	UBYTE		Tween;
+	std::uint8_t		Angle;
+	std::uint8_t		Priority;
+	std::uint8_t		Damage;
+	std::uint8_t		Tween;
 
-	UBYTE		AngleHitFrom;
-	UBYTE		Height;
-	UBYTE		Width;
-	UBYTE		Dummy;
+	std::uint8_t		AngleHitFrom;
+	std::uint8_t		Height;
+	std::uint8_t		Width;
+	std::uint8_t		Dummy;
 
-	ULONG		Dummy2;
+	std::uint32_t		Dummy2;
 
 	struct FightCol		*Next;
 
@@ -268,19 +268,19 @@ struct	FightCol
 
 struct	GameKeyFrameChunk
 {
-	UWORD							MultiObject[10];
-	SLONG							ElementCount;
+	std::uint16_t							MultiObject[10];
+	std::int32_t							ElementCount;
 	struct	BodyDef					*PeopleTypes; //[MAX_PEOPLE_TYPES];
 	struct  GameKeyFrame			*AnimKeyFrames; //[MAX_NUMBER_OF_FRAMES];
 	struct  GameKeyFrame			**AnimList; //[200];
 	struct  GameKeyFrameElement		*TheElements; //[MAX_NUMBER_OF_ELEMENTS];
 	struct	GameFightCol			*FightCols; //[200];
 
-	SWORD	MaxPeopleTypes;
-	SWORD	MaxKeyFrames;
-	SWORD	MaxAnimFrames;
-	SWORD	MaxFightCols;
-	SLONG	MaxElements;
+	std::int16_t	MaxPeopleTypes;
+	std::int16_t	MaxKeyFrames;
+	std::int16_t	MaxAnimFrames;
+	std::int16_t	MaxFightCols;
+	std::int32_t	MaxElements;
 };
 
 
@@ -288,16 +288,16 @@ struct	GameKeyFrameChunk
 
 struct	KeyFrame
 {
-	SWORD				ChunkID;
-	SWORD				Flags;
-	SLONG				FrameID,
+	std::int16_t				ChunkID;
+	std::int16_t				Flags;
+	std::int32_t				FrameID,
 						TweenStep,
 						ElementCount;
 	KeyFrameElement		*FirstElement;
 	KeyFrame			*PrevFrame,
 						*NextFrame;
-	SWORD				Dx,Dy,Dz;
-	SWORD				Fixed;
+	std::int16_t				Dx,Dy,Dz;
+	std::int16_t				Fixed;
 	struct FightCol		*Fight;
 };
 
@@ -305,16 +305,16 @@ struct	KeyFrame
 
 struct	KeyFrameChunk
 {
-	CBYTE				ANMName[64],
+	char				ANMName[64],
 						ASCName[64],
 						VUEName[64];
-	UWORD				MultiObject;
-	UWORD				MultiObjectStart;
-	UWORD				MultiObjectEnd;
-	SLONG				ElementCount;
+	std::uint16_t				MultiObject;
+	std::uint16_t				MultiObjectStart;
+	std::uint16_t				MultiObjectEnd;
+	std::int32_t				ElementCount;
 	struct	BodyDef		PeopleTypes[MAX_PEOPLE_TYPES];
-	CBYTE				PeopleNames[MAX_PEOPLE_TYPES][PEOPLE_NAME_SIZE];
-//	UBYTE				BodyBits[MAX_BODY_PARTS][MAX_BODY_VARIETY]; //10 types of each body part
+	char				PeopleNames[MAX_PEOPLE_TYPES][PEOPLE_NAME_SIZE];
+//	std::uint8_t				BodyBits[MAX_BODY_PARTS][MAX_BODY_VARIETY]; //10 types of each body part
 #ifdef	PSX
 	KeyFrame			KeyFrames[1];
 #else
@@ -322,14 +322,14 @@ struct	KeyFrameChunk
 #endif
 	KeyFrameElement		*FirstElement;
 	KeyFrameElement		*LastElement;
-	SLONG				KeyFrameCount;
+	std::int32_t				KeyFrameCount;
 };
 
 struct	KeyFrameEdDefaults
 {
-	SLONG				Left,
+	std::int32_t				Left,
 						Top;
-	SLONG				Height,
+	std::int32_t				Height,
 						Width;
 //	KeyFrameChunk		KeyFrameChunks[MAX_NUMBER_OF_CHUNKS];
 };
@@ -340,53 +340,53 @@ struct	KeyFrameEdDefaults
 class	Anim
 {
 	private:
-		CBYTE			AnimName[ANIM_NAME_SIZE];
-		ULONG			AnimFlags;
-		SLONG			FrameCount;
+		char			AnimName[ANIM_NAME_SIZE];
+		std::uint32_t			AnimFlags;
+		std::int32_t			FrameCount;
 		Anim			*LastAnim,
 						*NextAnim;
 		KeyFrame		*CurrentFrame,
 						*FrameListEnd,
 						*FrameListStart;
-		UBYTE			TweakSpeed;
+		std::uint8_t			TweakSpeed;
 
 	public:
 							Anim();
 							~Anim();
 		void				AddKeyFrame(KeyFrame *the_frame);
 		void				RemoveKeyFrame(KeyFrame *the_frame);
-		inline void			SetAnimName(CBYTE* string)					{	strcpy(AnimName,string);	}
-		inline CBYTE		*GetAnimName()							{	return AnimName;			}
+		inline void			SetAnimName(char* string)					{	strcpy(AnimName,string);	}
+		inline char		*GetAnimName()							{	return AnimName;			}
 		inline void			SetCurrentFrame(KeyFrame *the_frame)		{	CurrentFrame=the_frame;		}
 		inline KeyFrame		*GetFrameList()							{	return FrameListStart;		}
 		inline void			SetFrameList(KeyFrame *frame_list)			{	FrameListStart=frame_list;	}
 		inline KeyFrame		*GetFrameListEnd()						{	return FrameListEnd;		}
 		inline KeyFrame		*GetFrameListStart()						{	return FrameListStart;		}
 		inline void			SetFrameListEnd(KeyFrame *frame_list_end)	{	FrameListEnd=frame_list_end;}
-		inline SLONG		GetFrameCount()							{	return FrameCount;			}
-		inline void			SetFrameCount(SLONG count)					{	FrameCount=count;			}
-		inline ULONG		GetAnimFlags()							{	return AnimFlags;			}
-		inline void			SetAnimFlags(ULONG flags)					{	AnimFlags=flags;			}
-		void				SetAllTweens(SLONG tween);
+		inline std::int32_t		GetFrameCount()							{	return FrameCount;			}
+		inline void			SetFrameCount(std::int32_t count)					{	FrameCount=count;			}
+		inline std::uint32_t		GetAnimFlags()							{	return AnimFlags;			}
+		inline void			SetAnimFlags(std::uint32_t flags)					{	AnimFlags=flags;			}
+		void				SetAllTweens(std::int32_t tween);
 		void				StartLooping();
 		void				StopLooping();
 		inline void			SetNextAnim(Anim *next)						{	NextAnim=next; 		}
 		inline Anim			*GetNextAnim()							{	return NextAnim;	}
 		inline void			SetLastAnim(Anim *last)						{	LastAnim=last; 		}
 		inline Anim			*GetLastAnim()							{	return LastAnim;	}
-		inline UBYTE		GetTweakSpeed()							{	return TweakSpeed;	}
-		inline void			SetTweakSpeed(UBYTE speed)					{	TweakSpeed=speed;	}
+		inline std::uint8_t		GetTweakSpeed()							{	return TweakSpeed;	}
+		inline void			SetTweakSpeed(std::uint8_t speed)					{	TweakSpeed=speed;	}
 };
 
 class Character
 {
 	private:
-		CBYTE				CharName[32];
-		UWORD				MultiObject;
+		char				CharName[32];
+		std::uint16_t				MultiObject;
 #ifdef TARGET_DC
 		// OI! This needs to be aligned on the DC, but it's probably a 
 		// Good Thing to align it on the PC as well.
-		UWORD				wJunk;
+		std::uint16_t				wJunk;
 #endif
 		Anim				AnimList[50];
 
@@ -395,10 +395,10 @@ class Character
 
 		void				AddAnim(Anim *the_anim);		
 		void				RemoveAnim(Anim *the_anim);
-		inline CBYTE		*GetCharName()				{	return CharName;			}
-		inline void			SetCharName(CBYTE* string)		{	strcpy(CharName,string);	}
-		inline UWORD		GetMultiObject()			{	return MultiObject;			}
-		inline void			SetMultiObject(UWORD multi)		{	MultiObject=multi;			}
+		inline char		*GetCharName()				{	return CharName;			}
+		inline void			SetCharName(char* string)		{	strcpy(CharName,string);	}
+		inline std::uint16_t		GetMultiObject()			{	return MultiObject;			}
+		inline void			SetMultiObject(std::uint16_t multi)		{	MultiObject=multi;			}
 };
 
 

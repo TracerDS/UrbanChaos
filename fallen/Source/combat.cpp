@@ -17,31 +17,31 @@
 #include "DIManager.h"
 #endif
 
-SLONG people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
+std::int32_t people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor);
 
-extern SLONG	set_face_thing(Thing *p_person,Thing *p_target);
-extern void	e_draw_3d_line(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2);
-extern void	e_draw_3d_line_col(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SLONG r,SLONG g,SLONG b);
-SLONG check_combat_hit_with_person(Thing	*p_victim,SLONG x,SLONG y,SLONG z,struct GameFightCol *fight,Thing *p_agressor,SLONG *ret_angle);
-SLONG check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z,struct GameFightCol *fight,Thing *p_agressor,SLONG *ret_angle,SLONG grapple);
+extern std::int32_t	set_face_thing(Thing *p_person,Thing *p_target);
+extern void	e_draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2);
+extern void	e_draw_3d_line_col(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t r,std::int32_t g,std::int32_t b);
+std::int32_t check_combat_hit_with_person(Thing	*p_victim,std::int32_t x,std::int32_t y,std::int32_t z,struct GameFightCol *fight,Thing *p_agressor,std::int32_t *ret_angle);
+std::int32_t check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z,struct GameFightCol *fight,Thing *p_agressor,std::int32_t *ret_angle,std::int32_t grapple);
 extern void	reset_gang_attack(Thing *p_target);
 extern void	scare_gang_attack(Thing *p_target);
-extern SLONG person_has_gun_out(Thing *p_person);
-extern void	drop_current_gun(Thing *p_person,SLONG change_anim);
-extern SLONG	is_person_dead(Thing *p_person);
-extern SLONG	is_person_ko(Thing *p_person);
-extern void	add_damage_value_thing(Thing *p_thing,SLONG value);
-extern SLONG	set_person_kick_near(Thing *p_person,SLONG dist);
-extern SLONG dist_to_target(Thing *p_person_a,Thing *p_person_b);
-extern SLONG	is_person_ko_and_lay_down(Thing *p_person);
+extern std::int32_t person_has_gun_out(Thing *p_person);
+extern void	drop_current_gun(Thing *p_person,std::int32_t change_anim);
+extern std::int32_t	is_person_dead(Thing *p_person);
+extern std::int32_t	is_person_ko(Thing *p_person);
+extern void	add_damage_value_thing(Thing *p_thing,std::int32_t value);
+extern std::int32_t	set_person_kick_near(Thing *p_person,std::int32_t dist);
+extern std::int32_t dist_to_target(Thing *p_person_a,Thing *p_person_b);
+extern std::int32_t	is_person_ko_and_lay_down(Thing *p_person);
 
-extern SLONG	person_on_floor(Thing *p_person);
+extern std::int32_t	person_on_floor(Thing *p_person);
 
-extern SLONG is_there_room_behind_person(Thing *p_person, SLONG hit_from_behind);
+extern std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_behind);
 
 #define	FIGHT_ANGLE_RANGE	(400)
 
-extern SLONG	set_person_stomp(Thing *p_person);
+extern std::int32_t	set_person_stomp(Thing *p_person);
 
 #define STANCE_MAX_FIND 8
 #define STANCE_RADIUS	0x200
@@ -59,16 +59,16 @@ struct GangAttack gang_attacks[MAX_HISTORY];
 //
 struct FightTree
 {
-	UBYTE	Anim;
-	UBYTE	Finish;
-	UBYTE	NextPunch1;
-	UBYTE	NextPunch2;
-	UBYTE	NextKick1;
-	UBYTE	NextKick2;
-	UBYTE	NextJump;
-	UBYTE	NextBlock;
-	UBYTE	Damage;
-	UBYTE	HitType;
+	std::uint8_t	Anim;
+	std::uint8_t	Finish;
+	std::uint8_t	NextPunch1;
+	std::uint8_t	NextPunch2;
+	std::uint8_t	NextKick1;
+	std::uint8_t	NextKick2;
+	std::uint8_t	NextJump;
+	std::uint8_t	NextBlock;
+	std::uint8_t	Damage;
+	std::uint8_t	HitType;
 };
 
 #define	FIGHT_TREE_DAMAGE	8
@@ -76,7 +76,7 @@ struct FightTree
 
 
 //struct	FighTree fight_tree[]=
-SWORD fight_tree[][10]=
+std::int16_t fight_tree[][10]=
 {
 	{0						,0 ,1 ,1 ,6 ,6 ,0 ,0 ,0 ,COMBAT_NONE},
 	{ANIM_PUNCH_COMBO1		,2 ,3 ,0 ,11,11,0 ,0 ,10,COMBAT_PUNCH },  // 1
@@ -115,7 +115,7 @@ SWORD fight_tree[][10]=
 // behind  middle
 // behind lower
 
-UBYTE take_hit[7][2]=
+std::uint8_t take_hit[7][2]=
 {
 	{ANIM_KD_FRONT_LOW,1},
 	{ANIM_HIT_FRONT_MID,0},
@@ -131,9 +131,9 @@ UBYTE take_hit[7][2]=
 //
 // Data Hiding
 //
-SLONG get_anim_and_node_for_action(UBYTE current_node,UBYTE action,UWORD *new_anim)
+std::int32_t get_anim_and_node_for_action(std::uint8_t current_node,std::uint8_t action,std::uint16_t *new_anim)
 {
-	SLONG	new_node;
+	std::int32_t	new_node;
 
 	new_node=fight_tree[current_node][action];
 	*new_anim=fight_tree[new_node][0];
@@ -142,14 +142,14 @@ SLONG get_anim_and_node_for_action(UBYTE current_node,UBYTE action,UWORD *new_an
 }
 
 
-SLONG get_combat_type_for_node(UBYTE current_node)
+std::int32_t get_combat_type_for_node(std::uint8_t current_node)
 {
 	return(fight_tree[current_node][9]);
 }
 
 
 
-SWORD punches[4][5]=
+std::int16_t punches[4][5]=
 {
 	{ANIM_PUNCH_COMBO1,ANIM_PUNCH_COMBO2,ANIM_PUNCH_COMBO3,0,0},
 	{ANIM_PUNCH3,ANIM_PUNCH1,0,0,0},
@@ -157,7 +157,7 @@ SWORD punches[4][5]=
 	{0,0,0,0,0}
 };
 
-SWORD kicks[4][5]=
+std::int16_t kicks[4][5]=
 {
 	{ANIM_KICK_COMBO1,ANIM_KICK_COMBO2,ANIM_KICK_COMBO3,0,0},
 	{ANIM_KICK2,ANIM_KICK_ROUND1,0,0,0},
@@ -168,12 +168,12 @@ SWORD kicks[4][5]=
 
 struct Grapples
 {
-	UWORD	Anim;
-	SWORD	Dist;
-	SWORD	Range;
-	SWORD	Angle;
-	SWORD	DAngle;
-	SWORD	Peep;
+	std::uint16_t	Anim;
+	std::int16_t	Dist;
+	std::int16_t	Range;
+	std::int16_t	Angle;
+	std::int16_t	DAngle;
+	std::int16_t	Peep;
 };
 
 struct Grapples	grapples[]=
@@ -186,7 +186,7 @@ struct Grapples	grapples[]=
 	{0,0,0,0,0},
 };
 
-SWORD grapple[]=
+std::int16_t grapple[]=
 {
 	ANIM_SNAP_KNECK,
 	0
@@ -194,18 +194,18 @@ SWORD grapple[]=
 
 void init_gangattack()
 {
-	memset((UBYTE*)gang_attacks,0,sizeof(GangAttack)*MAX_HISTORY);
+	memset((std::uint8_t*)gang_attacks,0,sizeof(GangAttack)*MAX_HISTORY);
 }
 
-SLONG get_gangattack(Thing *p_person)
+std::int32_t get_gangattack(Thing *p_person)
 {
-	UWORD	c0;
-	SLONG	oldest=0,best=0;
+	std::uint16_t	c0;
+	std::int32_t	oldest=0,best=0;
 	for(c0=1;c0<MAX_HISTORY;c0++)
 	{
-		SLONG	ticks;
+		std::int32_t	ticks;
 
-		ticks=((UWORD)GAME_TURN)-gang_attacks[c0].LastUsed;
+		ticks=((std::uint16_t)GAME_TURN)-gang_attacks[c0].LastUsed;
 
 		if( ticks>oldest)
 		{
@@ -218,7 +218,7 @@ SLONG get_gangattack(Thing *p_person)
 			gang_attacks[c0].Owner=THING_NUMBER(p_person);
 			gang_attacks[c0].Index=0;
 			gang_attacks[c0].Count=0;
-			gang_attacks[c0].LastUsed=(UWORD)GAME_TURN;
+			gang_attacks[c0].LastUsed=(std::uint16_t)GAME_TURN;
 			memset(&gang_attacks[c0].Perp[0],0,16);
 
 			return(c0);
@@ -238,22 +238,22 @@ SLONG get_gangattack(Thing *p_person)
 //		memset(&gang_attacks[best].PerpDiag[0],0,8);
 		gang_attacks[best].Index=0;
 		gang_attacks[best].Count=0;
-		gang_attacks[best].LastUsed=(UWORD)GAME_TURN;
+		gang_attacks[best].LastUsed=(std::uint16_t)GAME_TURN;
 	}
 	ASSERT(best);
 	return(best);
 }
 
 #ifdef	UNUSED
-SLONG get_history(Thing *p_person)
+std::int32_t get_history(Thing *p_person)
 {
-	UWORD	c0;
-	SLONG	oldest=0,best=0;
+	std::uint16_t	c0;
+	std::int32_t	oldest=0,best=0;
 	for(c0=1;c0<MAX_HISTORY;c0++)
 	{
-		SLONG	ticks;
+		std::int32_t	ticks;
 
-		ticks=((UWORD)GAME_TURN)-combo_histories[c0].LastUsed;
+		ticks=((std::uint16_t)GAME_TURN)-combo_histories[c0].LastUsed;
 
 		if( ticks>oldest)
 		{
@@ -284,15 +284,15 @@ SLONG get_history(Thing *p_person)
 	return(best);
 }
 
-SLONG get_block_history(Thing *p_person)
+std::int32_t get_block_history(Thing *p_person)
 {
-	UWORD	c0;
-	SLONG	oldest=0,best=0;
+	std::uint16_t	c0;
+	std::int32_t	oldest=0,best=0;
 	for(c0=1;c0<MAX_HISTORY;c0++)
 	{
-		SLONG	ticks;
+		std::int32_t	ticks;
 
-		ticks=((UWORD)GAME_TURN)-block_histories[c0].LastUsed;
+		ticks=((std::uint16_t)GAME_TURN)-block_histories[c0].LastUsed;
 
 		if( ticks>oldest)
 		{
@@ -326,11 +326,11 @@ SLONG get_block_history(Thing *p_person)
 }
 #endif
 
-SLONG find_possible_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,SLONG z,Thing *p_thing,Thing **p_victim)
+std::int32_t find_possible_combat_target(struct GameFightCol *p_fight,std::int32_t x,std::int32_t y,std::int32_t z,Thing *p_thing,Thing **p_victim)
 {
-	SLONG i;
-	SLONG hit;
-	SLONG angle;
+	std::int32_t i;
+	std::int32_t hit;
+	std::int32_t angle;
 
 	Thing *t_thing;
 
@@ -339,7 +339,7 @@ SLONG find_possible_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,S
 	//
 
 //	THING_INDEX found[16];
-	SLONG       found_upto;
+	std::int32_t       found_upto;
 
 	found_upto = THING_find_sphere(x, y, z, 0x280, found, 16, (1 << CLASS_PERSON));
 
@@ -372,16 +372,16 @@ SLONG find_possible_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,S
 
 	/*
 
-	SLONG	dx,dz;
-	SLONG	index;
+	std::int32_t	dx,dz;
+	std::int32_t	index;
 	Thing	*t_thing;
-	SLONG	hit=0;
-	SLONG	angle;
+	std::int32_t	hit=0;
+	std::int32_t	angle;
 
 	for(dx=-2;dx<3;dx++)
 	for(dz=-2;dz<3;dz++)
 	{
-		SLONG	mx,mz;
+		std::int32_t	mx,mz;
 		mx=(x>>ELE_SHIFT)+dx;
 		mz=(z>>ELE_SHIFT)+dz;
 		index=MAP[MAP_INDEX(mx,mz)].MapWho;
@@ -415,11 +415,11 @@ SLONG find_possible_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,S
 	*/
 }
 
-SLONG find_possible_grapple_target(struct GameFightCol *p_fight,SLONG x,SLONG y,SLONG z,Thing *p_thing,Thing **p_victim,SLONG grapple)
+std::int32_t find_possible_grapple_target(struct GameFightCol *p_fight,std::int32_t x,std::int32_t y,std::int32_t z,Thing *p_thing,Thing **p_victim,std::int32_t grapple)
 {
-	SLONG i;
-	SLONG hit;
-	SLONG angle;
+	std::int32_t i;
+	std::int32_t hit;
+	std::int32_t angle;
 
 	Thing *t_thing;
 
@@ -428,7 +428,7 @@ SLONG find_possible_grapple_target(struct GameFightCol *p_fight,SLONG x,SLONG y,
 	//
 
 //	THING_INDEX found[16];
-	SLONG       found_upto;
+	std::int32_t       found_upto;
 
 	found_upto = THING_find_sphere(x, y, z, 0x280, found, 16, (1 << CLASS_PERSON));
 
@@ -464,17 +464,17 @@ SLONG find_possible_grapple_target(struct GameFightCol *p_fight,SLONG x,SLONG y,
 
 	/*
 
-	SLONG	dx,dz;
-	SLONG	index;
+	std::int32_t	dx,dz;
+	std::int32_t	index;
 	Thing	*t_thing;
-	SLONG	hit=0;
-	SLONG	angle;
+	std::int32_t	hit=0;
+	std::int32_t	angle;
 
 
 	for(dx=-2;dx<3;dx++)
 	for(dz=-2;dz<3;dz++)
 	{
-		SLONG	mx,mz;
+		std::int32_t	mx,mz;
 		mx=(x>>ELE_SHIFT)+dx;
 		mz=(z>>ELE_SHIFT)+dz;
 		index=MAP[MAP_INDEX(mx,mz)].MapWho;
@@ -508,13 +508,13 @@ SLONG find_possible_grapple_target(struct GameFightCol *p_fight,SLONG x,SLONG y,
 	*/
 }
 
-SLONG find_hit_value(Thing *p_person,SLONG anim,Thing **p_victim)
+std::int32_t find_hit_value(Thing *p_person,std::int32_t anim,Thing **p_victim)
 {
 	GameKeyFrame	*current;
 	struct	GameFightCol	*fight_info;
-	SLONG	x,y,z;
-	SLONG	dx,dy,dz;
-	SLONG	hits=0;
+	std::int32_t	x,y,z;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	hits=0;
 
 	current=global_anim_array[p_person->Genus.Person->AnimType][anim];
 
@@ -535,13 +535,13 @@ SLONG find_hit_value(Thing *p_person,SLONG anim,Thing **p_victim)
 	return(hits);
 }
 
-SLONG find_grapple_value(Thing *p_person,SLONG anim,Thing **p_victim,SLONG grapple)
+std::int32_t find_grapple_value(Thing *p_person,std::int32_t anim,Thing **p_victim,std::int32_t grapple)
 {
 	GameKeyFrame	*current;
 	struct	GameFightCol	*fight_info;
-	SLONG	x,y,z;
-	SLONG	dx,dy,dz;
-	SLONG	hits=0;
+	std::int32_t	x,y,z;
+	std::int32_t	dx,dy,dz;
+	std::int32_t	hits=0;
 
 	current=global_anim_array[p_person->Genus.Person->AnimType][anim];
 
@@ -555,10 +555,10 @@ SLONG find_grapple_value(Thing *p_person,SLONG anim,Thing **p_victim,SLONG grapp
 	return(hits);
 }
 
-void set_grapple_pos(Thing *p_person,Thing *p_victim,SLONG dist,SLONG anim,SLONG grapple)
+void set_grapple_pos(Thing *p_person,Thing *p_victim,std::int32_t dist,std::int32_t anim,std::int32_t grapple)
 {
-	SLONG	dx,dy,dz,len;
-	SLONG	angle;
+	std::int32_t	dx,dy,dz,len;
+	std::int32_t	angle;
 
 	GameCoord new_position;
 
@@ -577,9 +577,9 @@ void set_grapple_pos(Thing *p_person,Thing *p_victim,SLONG dist,SLONG anim,SLONG
 }
 
 
-SLONG set_grapple(Thing *p_person,Thing *p_victim,SLONG anim,SLONG grapple)
+std::int32_t set_grapple(Thing *p_person,Thing *p_victim,std::int32_t anim,std::int32_t grapple)
 {
-	UBYTE taunt_prob = 0;
+	std::uint8_t taunt_prob = 0;
 	set_face_thing(p_person,p_victim);
 	set_anim(p_person,anim);
 	p_person->Genus.Person->Target=THING_NUMBER(p_victim);
@@ -648,7 +648,7 @@ SLONG set_grapple(Thing *p_person,Thing *p_victim,SLONG anim,SLONG grapple)
 #ifndef PSX
 	if ((Random()&0xff)<taunt_prob) // not too often or it gets annoying
 	{
-		SLONG sound=0;
+		std::int32_t sound=0;
 
 		switch (p_person->Genus.Person->PersonType)
 		{
@@ -683,13 +683,13 @@ SLONG set_grapple(Thing *p_person,Thing *p_victim,SLONG anim,SLONG grapple)
 	return(0);
 }
 
-SLONG find_best_grapple(Thing *p_person)
+std::int32_t find_best_grapple(Thing *p_person)
 {
-	SLONG	c0=0;
-	SLONG	best=-1,best_hit=0,hit;
+	std::int32_t	c0=0;
+	std::int32_t	best=-1,best_hit=0,hit;
 	Thing	*p_target=0,*best_target=0;
-	SLONG	only_kneck=0;
-	SLONG	iam=1;
+	std::int32_t	only_kneck=0;
+	std::int32_t	iam=1;
 #ifndef	PSX
 	if(p_person->Genus.Person->AnimType==ANIM_TYPE_ROPER)
 	{
@@ -794,12 +794,12 @@ SLONG find_best_grapple(Thing *p_person)
 				// they are too near a wall or a fence, they will go through.
 				//
 
-				extern SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room);
+				extern std::int32_t is_there_room_in_front_of_me(Thing *p_person, std::int32_t how_much_room);
 
 				if (!is_there_room_in_front_of_me(p_person, 150))
 				{
 /*
-					extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+					extern void add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 
 					add_damage_text(
 						p_person->WorldPos.X          >> 8,
@@ -822,26 +822,26 @@ SLONG find_best_grapple(Thing *p_person)
 }
 
 #ifdef	UNUSED
-void set_combo_history(SLONG history,SLONG power,SLONG index)
+void set_combo_history(std::int32_t history,std::int32_t power,std::int32_t index)
 {
-	SLONG	pos;
+	std::int32_t	pos;
 	pos=combo_histories[history].Index;
 
 	combo_histories[history].Power[pos]=power;
 	combo_histories[history].Moves[pos]=index;
-	combo_histories[history].Times[pos]=(UWORD)GAME_TURN;
+	combo_histories[history].Times[pos]=(std::uint16_t)GAME_TURN;
 	combo_histories[history].Index=(++pos)%MAX_MOVES;
 	if(combo_histories[history].Count<MAX_MOVES)
 		combo_histories[history].Count++;
-	combo_histories[history].LastUsed=(UWORD)GAME_TURN;
+	combo_histories[history].LastUsed=(std::uint16_t)GAME_TURN;
 
 
 }
 
-void set_combo_history_result(Thing *p_person,SLONG res)
+void set_combo_history_result(Thing *p_person,std::int32_t res)
 {
-	SLONG	pos;
-	SLONG	history;
+	std::int32_t	pos;
+	std::int32_t	history;
 
 	history=p_person->Genus.Person->ComboHistory;
 
@@ -854,45 +854,45 @@ void set_combo_history_result(Thing *p_person,SLONG res)
 
 }
 
-void set_block_history_result(UBYTE history,SLONG perp,SLONG res,SLONG height)
+void set_block_history_result(std::uint8_t history,std::int32_t perp,std::int32_t res,std::int32_t height)
 {
-	SLONG	pos;
+	std::int32_t	pos;
 	pos=block_histories[history].Index;
 
 	block_histories[history].Attack[pos]=height;
-	block_histories[history].Times[pos]=(UWORD)GAME_TURN;
-	block_histories[history].Perp[pos]=(UWORD)perp;
+	block_histories[history].Times[pos]=(std::uint16_t)GAME_TURN;
+	block_histories[history].Perp[pos]=(std::uint16_t)perp;
 	block_histories[history].Flags[pos]=res;
 	block_histories[history].Index=(++pos)%MAX_MOVES;
 	if(block_histories[history].Count<MAX_MOVES)
 		block_histories[history].Count++;
-	block_histories[history].LastUsed=(UWORD)GAME_TURN;
+	block_histories[history].LastUsed=(std::uint16_t)GAME_TURN;
 
 
 }
 #endif
 /*
-void set_block_history(SLONG history,SLONG attack,SLONG perp)
+void set_block_history(std::int32_t history,std::int32_t attack,std::int32_t perp)
 {
-	SLONG	pos;
+	std::int32_t	pos;
 	pos=block_histories[history].Index;
 
 	block_histories[history].Attack[pos]=attack;
-	block_histories[history].Times[pos]=(UWORD)GAME_TURN;
-	block_histories[history].Perp[pos]=(UWORD)perp;
+	block_histories[history].Times[pos]=(std::uint16_t)GAME_TURN;
+	block_histories[history].Perp[pos]=(std::uint16_t)perp;
 	block_histories[history].Flags[pos]=0;
 	block_histories[history].Index=(++pos)%MAX_MOVES;
 	if(block_histories[history].Count<MAX_MOVES)
 		block_histories[history].Count++;
-	block_histories[history].LastUsed=(UWORD)GAME_TURN;
+	block_histories[history].LastUsed=(std::uint16_t)GAME_TURN;
 
 
 }
 
-void set_block_history_result(Thing *p_person,SLONG attack,SLONG perp,SLONG res,SLONG height)
+void set_block_history_result(Thing *p_person,std::int32_t attack,std::int32_t perp,std::int32_t res,std::int32_t height)
 {
-	SLONG	pos;
-	SLONG	history;
+	std::int32_t	pos;
+	std::int32_t	history;
 
 	history=p_person->Genus.Person->BlockHistory;
 
@@ -919,7 +919,7 @@ void func()
 //	printf("hello");
 }
 
-SLONG find_anim_fight_height(SLONG anim,SLONG person)
+std::int32_t find_anim_fight_height(std::int32_t anim,std::int32_t person)
 {
 	struct GameKeyFrame		*f;
 	
@@ -937,16 +937,16 @@ SLONG find_anim_fight_height(SLONG anim,SLONG person)
 	return(0);
 }
 
-SLONG should_i_block(Thing *p_person,Thing *p_agressor,SLONG anim)
+std::int32_t should_i_block(Thing *p_person,Thing *p_agressor,std::int32_t anim)
 {
-	SLONG	pos;
-	SLONG	history;
-	SLONG	count;
-	SLONG	perp;
-	SLONG	block_prob=(20*256)/100; //20%  <<8
-	SLONG	fheight;
-	SLONG	same=0,other=0;
-	SLONG	can_see=0;
+	std::int32_t	pos;
+	std::int32_t	history;
+	std::int32_t	count;
+	std::int32_t	perp;
+	std::int32_t	block_prob=(20*256)/100; //20%  <<8
+	std::int32_t	fheight;
+	std::int32_t	same=0,other=0;
+	std::int32_t	can_see=0;
 
 	if(p_person->Genus.Person->PlayerID)
 	{
@@ -1029,7 +1029,7 @@ SLONG should_i_block(Thing *p_person,Thing *p_agressor,SLONG anim)
 
 #ifndef	PSX
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"block prob %d    same %d other %d \n",(block_prob*100)>>8,same,other);
 		//CONSOLE_text(str);
 	}
@@ -1046,8 +1046,8 @@ SLONG should_i_block(Thing *p_person,Thing *p_agressor,SLONG anim)
 #ifdef	UNUSED
 void calc_combo_power(Thing *p_person)
 {
-	SLONG	history,pos;
-	SLONG	count,moves=0;
+	std::int32_t	history,pos;
+	std::int32_t	count,moves=0;
 	history=p_person->Genus.Person->ComboHistory;
 	pos=combo_histories[history].Index;
 	pos--;
@@ -1057,7 +1057,7 @@ void calc_combo_power(Thing *p_person)
 		if(pos<0)
 			pos=MAX_MOVES-1;
 
-		if((UWORD)GAME_TURN-combo_histories[history].Times[pos]>70)
+		if((std::uint16_t)GAME_TURN-combo_histories[history].Times[pos]>70)
 			break;
 		if(combo_histories[history].Result[pos]==1)
 		{
@@ -1076,13 +1076,13 @@ void calc_combo_power(Thing *p_person)
 }
 
 
-SLONG find_best_punch(Thing *p_person, ULONG flag)
+std::int32_t find_best_punch(Thing *p_person, std::uint32_t flag)
 {
-	SLONG	c0=0;
-	SLONG	best=-1,best_hit=0,hit;
+	std::int32_t	c0=0;
+	std::int32_t	best=-1,best_hit=0,hit;
 	Thing	*p_target=0,*best_target=0;
-	SLONG	power,best_power;
-	SLONG	history;
+	std::int32_t	power,best_power;
+	std::int32_t	history;
 
 
 	calc_combo_power(p_person);
@@ -1118,7 +1118,7 @@ SLONG find_best_punch(Thing *p_person, ULONG flag)
 
 	if(best>=0)
 	{
-extern SLONG	set_face_thing(Thing *p_person,Thing *p_target);
+extern std::int32_t	set_face_thing(Thing *p_person,Thing *p_target);
 		if(best_target)
 			set_face_thing(p_person,best_target);
 		set_combo_history(history,power,best);
@@ -1139,13 +1139,13 @@ extern SLONG	set_face_thing(Thing *p_person,Thing *p_target);
 	}
 }
 
-SLONG find_best_kick(Thing *p_person, ULONG flag)
+std::int32_t find_best_kick(Thing *p_person, std::uint32_t flag)
 {
-	SLONG	c0=0;
-	SLONG	best=-1,best_hit=-1,hit;
+	std::int32_t	c0=0;
+	std::int32_t	best=-1,best_hit=-1,hit;
 	Thing	*p_target;
-	SLONG	power,best_power=0;
-	SLONG	history;
+	std::int32_t	power,best_power=0;
+	std::int32_t	history;
 
 	calc_combo_power(p_person);
 	power=p_person->Genus.Person->Power;
@@ -1206,10 +1206,10 @@ SLONG find_best_kick(Thing *p_person, ULONG flag)
 #ifndef TARGET_DC
 void show_fight_range(Thing	*p_thing)
 {
-	SLONG	temp_angle,temp_angle2;
-	SLONG	x,z;
+	std::int32_t	temp_angle,temp_angle2;
+	std::int32_t	x,z;
 	struct	GameFightCol	*fight;
-	SLONG	dist;
+	std::int32_t	dist;
 
 	x=p_thing->WorldPos.X>>8;
 	z=p_thing->WorldPos.Z>>8;
@@ -1242,11 +1242,11 @@ void show_fight_range(Thing	*p_thing)
 //
 // using the combat distances
 //
-SLONG check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z,struct GameFightCol *fight,Thing *p_agressor,SLONG *ret_angle)
+std::int32_t check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z,struct GameFightCol *fight,Thing *p_agressor,std::int32_t *ret_angle)
 {
-	SLONG	dist,dx,dy,dz,adx,adz;
-	SLONG	mx,my,mz;
-	SLONG	victim_add_y=0;
+	std::int32_t	dist,dx,dy,dz,adx,adz;
+	std::int32_t	mx,my,mz;
+	std::int32_t	victim_add_y=0;
 
 	if(p_agressor->Draw.Tweened->CurrentAnim==ANIM_FIGHT_STOMP) 
 	{
@@ -1300,10 +1300,10 @@ SLONG check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z
 		// Some special stomp hit code! Find out where the agressors foot is.
 		// 
 
-		SLONG fx;
-		SLONG fy;
-		SLONG fz;
-		SLONG	pass=0;
+		std::int32_t fx;
+		std::int32_t fy;
+		std::int32_t fz;
+		std::int32_t	pass=0;
 
 		calc_sub_objects_position(
 			p_agressor,
@@ -1324,7 +1324,7 @@ SLONG check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z
 
 			if(pass>0)
 			{
-				SLONG	ob=SUB_OBJECT_HEAD;
+				std::int32_t	ob=SUB_OBJECT_HEAD;
 				if(pass==2)
 					ob=SUB_OBJECT_RIGHT_TIBIA;
 
@@ -1370,7 +1370,7 @@ SLONG check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z
 	//
 	if (WITHIN(dist, 0, fight->Dist2 + COMBAT_HIT_DIST_LEEWAY+128))
 	{
-		SLONG	angle,temp_angle;
+		std::int32_t	angle,temp_angle;
 
 		if(fight->Dist1<40)
 		{
@@ -1445,10 +1445,10 @@ SLONG check_combat_hit_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z
 
 }
 
-SLONG check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z,struct GameFightCol *fight,Thing *p_agressor,SLONG *ret_angle,SLONG grapple)
+std::int32_t check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO16 z,struct GameFightCol *fight,Thing *p_agressor,std::int32_t *ret_angle,std::int32_t grapple)
 {
-	SLONG	dist,dx,dy,dz,adx,adz;
-	SLONG	mx,my,mz;
+	std::int32_t	dist,dx,dy,dz,adx,adz;
+	std::int32_t	mx,my,mz;
 	struct	Grapples	*pg;
 
 	pg=&grapples[grapple];
@@ -1476,7 +1476,7 @@ SLONG check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO
 /*
 #ifndef	PSX
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"grapple dist %d  dx %d dz %d\n",dist,dx,dz);
 		CONSOLE_text(str);
 	}
@@ -1487,7 +1487,7 @@ SLONG check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO
 
 	if(abs(dist-pg->Dist)<pg->Range) //if(dist>10 && dist<140) 
 	{
-		SLONG	angle,temp_angle;
+		std::int32_t	angle,temp_angle;
 
 		LogText(" dist ok \n");
 
@@ -1532,7 +1532,7 @@ SLONG check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO
 
 		if(angle<(FIGHT_ANGLE_RANGE>>1)||angle>2048-(FIGHT_ANGLE_RANGE>>1))
 		{
-			SLONG dx,dz;
+			std::int32_t dx,dz;
 			LogText(" angle ok \n");
 			return(1);
 		}
@@ -1556,20 +1556,20 @@ SLONG check_combat_grapple_with_person(Thing	*p_victim,MAPCO16 x,MAPCO16 y,MAPCO
 // Returns true if he is behind me.
 // 
 
-SLONG check_hit_from_behind(Thing *p_me, Thing *p_him)
+std::int32_t check_hit_from_behind(Thing *p_me, Thing *p_him)
 {
-	SLONG mx;
-	SLONG my;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t my;
+	std::int32_t mz;
 
-	SLONG hx;
-	SLONG hy;
-	SLONG hz;
+	std::int32_t hx;
+	std::int32_t hy;
+	std::int32_t hz;
 
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 
-	SLONG dprod;
+	std::int32_t dprod;
 
 	ASSERT(p_me ->Class == CLASS_PERSON);
 	ASSERT(p_him->Class == CLASS_PERSON);
@@ -1615,8 +1615,8 @@ SLONG check_hit_from_behind(Thing *p_me, Thing *p_him)
 	// The vector from me to him.
 	//
 
-	SLONG vx = hx - mx;
-	SLONG vz = hz - mz;
+	std::int32_t vx = hx - mx;
+	std::int32_t vz = hz - mz;
 
 	dprod = dx*vx + dz*vz;
 
@@ -1643,11 +1643,11 @@ SLONG check_hit_from_behind(Thing *p_me, Thing *p_him)
 
 #if 0
 
-SLONG check_hit_from_behind(Thing	*p_victim,struct GameFightCol *fight,Thing *p_agressor,SLONG *ret_angle)
+std::int32_t check_hit_from_behind(Thing	*p_victim,struct GameFightCol *fight,Thing *p_agressor,std::int32_t *ret_angle)
 {
-	SLONG	dist,dx,dy,dz,adx,adz;
-	SLONG	mx,my,mz;
-	SLONG	x,y,z;
+	std::int32_t	dist,dx,dy,dz,adx,adz;
+	std::int32_t	mx,my,mz;
+	std::int32_t	x,y,z;
 
 	calc_sub_objects_position(p_agressor,p_agressor->Draw.Tweened->AnimTween,0,&x,&y,&z);
 
@@ -1675,7 +1675,7 @@ SLONG check_hit_from_behind(Thing	*p_victim,struct GameFightCol *fight,Thing *p_
 
 
 	{
-		SLONG	angle,temp_angle;
+		std::int32_t	angle,temp_angle;
 
 
 		angle=Arctan(-dx,dz);
@@ -1713,7 +1713,7 @@ SLONG check_hit_from_behind(Thing	*p_victim,struct GameFightCol *fight,Thing *p_
 
 		else
 		{
-			SLONG dx,dz;
+			std::int32_t dx,dz;
 			LogText(" angle ok \n");
 			return(1);
 		}
@@ -1732,11 +1732,11 @@ SLONG check_hit_from_behind(Thing	*p_victim,struct GameFightCol *fight,Thing *p_
 // height 0,1,2  (feet, torso head)
 //
 
-void set_person_dead_combat(Thing *p_thing,Thing *p_aggressor,SLONG death_type,SLONG behind,SLONG height)
+void set_person_dead_combat(Thing *p_thing,Thing *p_aggressor,std::int32_t death_type,std::int32_t behind,std::int32_t height)
 {
 	DrawTween  *draw_info;
 	WaveParams  die;
-	UWORD		frame;
+	std::uint16_t		frame;
 	
 	ASSERT(WITHIN(behind, 0, 1));
 	ASSERT(WITHIN(height, 0, 2));
@@ -1810,7 +1810,7 @@ void set_person_dead_combat(Thing *p_thing,Thing *p_aggressor,SLONG death_type,S
 
 */
 
-SLONG is_combo_anim(SLONG anim)
+std::int32_t is_combo_anim(std::int32_t anim)
 {
 	return
 		anim == ANIM_PUNCH_COMBO3  ||
@@ -1822,19 +1822,19 @@ SLONG is_combo_anim(SLONG anim)
 
 
 extern Thing	*talk_thing;
-void check_eway_talk(SLONG stop);
+void check_eway_talk(std::int32_t stop);
 
-SLONG apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thing *p_aggressor,struct GameFightCol *fight)
+std::int32_t apply_hit_to_person(Thing *p_thing,std::int32_t angle,std::int32_t type,std::int32_t damage,Thing *p_aggressor,struct GameFightCol *fight)
 {
-	SLONG		hit_wave;
+	std::int32_t		hit_wave;
 	DrawTween	*draw_info;
 //	WaveParams	hit;
-	SLONG		behind;
-	SLONG		block=0;
-	UBYTE		player_hit=0;
-	UBYTE		skill=1,shot=0,stomped=0,ko=0,ko_ed=0,batted=0,knifed=0;
+	std::int32_t		behind;
+	std::int32_t		block=0;
+	std::uint8_t		player_hit=0;
+	std::uint8_t		skill=1,shot=0,stomped=0,ko=0,ko_ed=0,batted=0,knifed=0;
 	GameCoord	vec;
-	SLONG	nad=0, taunt_prob=15;
+	std::int32_t	nad=0, taunt_prob=15;
 
 	switch(type)
 	{
@@ -1858,8 +1858,8 @@ SLONG apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thi
 
 	if(p_aggressor)
 	{
-		SLONG	node;
-		SLONG	hit_anim,hit;
+		std::int32_t	node;
+		std::int32_t	hit_anim,hit;
 		ASSERT(p_aggressor->Class==CLASS_PERSON);
 
 
@@ -1988,7 +1988,7 @@ SLONG apply_hit_to_person(Thing *p_thing,SLONG angle,SLONG type,SLONG damage,Thi
 
 		if ((Random()&0xff)<taunt_prob) // not too often or it gets annoying
 		{
-			SLONG sound=0;
+			std::int32_t sound=0;
 
 			switch (p_aggressor->Genus.Person->PersonType)
 			{
@@ -2204,7 +2204,7 @@ extern void person_enter_fight_mode(Thing *p_person);
 
 	if(block==0)
 	{
-		SLONG	pain=0;
+		std::int32_t	pain=0;
 		if(p_thing==talk_thing)
 		{
 			PainSound(p_thing);
@@ -2344,7 +2344,7 @@ extern void person_enter_fight_mode(Thing *p_person);
 			// Shock the player dependant on damage
 			if (p_thing->Genus.Person->PlayerID)
 			{
-				SLONG dam=(damage<<4)+96;
+				std::int32_t dam=(damage<<4)+96;
 				if (dam>255) dam=255;
 				PSX_SetShock(1,dam);
 			}
@@ -2428,8 +2428,8 @@ extern void person_enter_fight_mode(Thing *p_person);
 			}
 			else
 			{
-				SLONG	death_type=PERSON_DEATH_TYPE_COMBAT;
-extern SLONG	really_on_floor(Thing *p_person);
+				std::int32_t	death_type=PERSON_DEATH_TYPE_COMBAT;
+extern std::int32_t	really_on_floor(Thing *p_person);
 
 				if(shot)
 				{
@@ -2513,9 +2513,9 @@ extern SLONG	really_on_floor(Thing *p_person);
 //	if((p_thing->Genus.Person->Flags&FLAG_PERSON_KO)==0)
 	if(!ko_ed)
 	{
-		SLONG	anim,flag;
-		SLONG	height;
-		UBYTE	history;
+		std::int32_t	anim,flag;
+		std::int32_t	height;
+		std::uint8_t	history;
 
 		if(fight)
 		{
@@ -2580,7 +2580,7 @@ extern SLONG	really_on_floor(Thing *p_person);
 			{
 				if(height==0)
 				{
-					extern void sweep_feet(Thing *p_person,Thing *p_aggressor,SLONG  death_type);
+					extern void sweep_feet(Thing *p_person,Thing *p_aggressor,std::int32_t  death_type);
 
 					sweep_feet(p_thing,p_aggressor,0);
 				}
@@ -2611,7 +2611,7 @@ extern SLONG	really_on_floor(Thing *p_person);
 	}
 	else
 	{
-		SLONG anim;
+		std::int32_t anim;
 
 		//
 		// Is this person on their front or back?
@@ -2654,11 +2654,11 @@ extern SLONG	really_on_floor(Thing *p_person);
 		return(damage);
 }
 
-extern UBYTE	semtex;
+extern std::uint8_t	semtex;
 
-SLONG people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
+std::int32_t people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
 {
-	ULONG	will_hit=0xffffffff;
+	std::uint32_t	will_hit=0xffffffff;
 
 	if(p_agressor->Genus.Person->PlayerID==0)
 	if(p_agressor->Genus.Person->Target&&p_agressor->Genus.Person->Target==THING_NUMBER(p_victim))
@@ -2671,7 +2671,7 @@ SLONG people_allowed_to_hit_each_other(Thing *p_victim,Thing *p_agressor)
 		{
 			if(p_victim->Genus.Person->PersonType==PERSON_TRAMP)
 			{
-extern UBYTE	estate;
+extern std::uint8_t	estate;
 				if(estate)
 					return(0);
 
@@ -2691,7 +2691,7 @@ extern UBYTE	estate;
 
 	if (p_agressor->Genus.Person->pcom_ai == PCOM_AI_BODYGUARD)
 	{
-		UWORD i_client = EWAY_get_person(p_agressor->Genus.Person->pcom_ai_other);
+		std::uint16_t i_client = EWAY_get_person(p_agressor->Genus.Person->pcom_ai_other);
 
 		if (i_client == THING_NUMBER(p_victim))
 		{
@@ -2761,7 +2761,7 @@ extern UBYTE	estate;
 			if(p_victim->Genus.Person->PersonType==PERSON_TRAMP)
 			{
 
-extern UBYTE	estate;
+extern std::uint8_t	estate;
 				if(estate)
 				{
 					return(0);
@@ -2892,11 +2892,11 @@ extern UBYTE	estate;
 	}
 
 }
-SLONG find_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,SLONG z,Thing *p_thing)
+std::int32_t find_combat_target(struct GameFightCol *p_fight,std::int32_t x,std::int32_t y,std::int32_t z,Thing *p_thing)
 {
-	SLONG i;
-	SLONG hit;
-	SLONG angle;
+	std::int32_t i;
+	std::int32_t hit;
+	std::int32_t angle;
 
 	Thing *t_thing;
 
@@ -2905,7 +2905,7 @@ SLONG find_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,SLONG z,Th
 	//
 
 //	THING_INDEX found[16];
-	SLONG       found_upto;
+	std::int32_t       found_upto;
 
 	found_upto = THING_find_sphere(x, y, z, 0x280, found, 16, (1 << CLASS_PERSON));
 
@@ -2948,16 +2948,16 @@ SLONG find_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,SLONG z,Th
 	/*
 
 
-	SLONG	dx,dz;
-	SLONG	index;
+	std::int32_t	dx,dz;
+	std::int32_t	index;
 	Thing	*t_thing;
-	SLONG	hit=0;
-	SLONG	angle;
+	std::int32_t	hit=0;
+	std::int32_t	angle;
 
 	for(dx=-2;dx<3;dx++)
 	for(dz=-2;dz<3;dz++)
 	{
-		SLONG	mx,mz;
+		std::int32_t	mx,mz;
 		mx=(x>>ELE_SHIFT)+dx;
 		mz=(z>>ELE_SHIFT)+dz;
 		index=MAP[MAP_INDEX(mx,mz)].MapWho;
@@ -2991,12 +2991,12 @@ SLONG find_combat_target(struct GameFightCol *p_fight,SLONG x,SLONG y,SLONG z,Th
 }
 
 
-SLONG apply_violence(Thing *p_thing)
+std::int32_t apply_violence(Thing *p_thing)
 {
 
 	struct	GameFightCol	*fight_info;
-	SLONG	hits=0,count=0;
-	SLONG	x,y,z;
+	std::int32_t	hits=0,count=0;
+	std::int32_t	x,y,z;
 //		show_fight_range(p_thing);
 	calc_sub_objects_position(p_thing,p_thing->Draw.Tweened->AnimTween,0,&x,&y,&z);
 	x+=p_thing->WorldPos.X>>8;
@@ -3022,41 +3022,41 @@ SLONG apply_violence(Thing *p_thing)
 //
 // changed to return if it found someone to hit
 //
-SLONG find_attack_stance(
+std::int32_t find_attack_stance(
 		Thing     *p_person,
-		SLONG      attack_direction,
-		SLONG      attack_distance,
-		SLONG		attack_range,
+		std::int32_t      attack_direction,
+		std::int32_t      attack_distance,
+		std::int32_t		attack_range,
 		Thing    **stance_target,
 		GameCoord *stance_position,
-		SLONG     *stance_angle)
+		std::int32_t     *stance_angle)
 {
-	SLONG  i;
-	SLONG  dx;
-	SLONG  dy;
-	SLONG  dz;
-	SLONG  angle;
-	SLONG  dist;
-	SLONG  dangle;
-	SLONG  wangle;
-	SLONG  px;
-	SLONG  py;
-	SLONG  pz;
-	SLONG  score;
-	SLONG  min_dist;
-	SLONG  max_dist;
+	std::int32_t  i;
+	std::int32_t  dx;
+	std::int32_t  dy;
+	std::int32_t  dz;
+	std::int32_t  angle;
+	std::int32_t  dist;
+	std::int32_t  dangle;
+	std::int32_t  wangle;
+	std::int32_t  px;
+	std::int32_t  py;
+	std::int32_t  pz;
+	std::int32_t  score;
+	std::int32_t  min_dist;
+	std::int32_t  max_dist;
 
 	Thing *p_target;
 
-	SLONG  best_score;
-	SLONG  best_angle;
+	std::int32_t  best_score;
+	std::int32_t  best_angle;
 	Thing *best_target;
-	SLONG  best_dist;
-	SLONG  best_dx;
-	SLONG  best_dz;
-	SLONG  ox,oy,oz;
+	std::int32_t  best_dist;
+	std::int32_t  best_dx;
+	std::int32_t  best_dz;
+	std::int32_t  ox,oy,oz;
 
-	SLONG       found_upto;
+	std::int32_t       found_upto;
 
 	//
 	// Find all nearby people.
@@ -3310,14 +3310,14 @@ SLONG find_attack_stance(
 //
 // returns true if its hitting a human
 //
-SLONG turn_to_target(
+std::int32_t turn_to_target(
 		Thing *p_person,
-		SLONG  find_dir)
+		std::int32_t  find_dir)
 {
 	Thing    *stance_target;
 	GameCoord stance_position;
-	SLONG     stance_angle;
-	SLONG	ret;
+	std::int32_t     stance_angle;
+	std::int32_t	ret;
 	
 	ret=find_attack_stance(
 		p_person,
@@ -3377,12 +3377,12 @@ SLONG turn_to_target(
 	return(-ret);
 }
 
-SLONG turn_to_direction_and_find_target(Thing *p_person,SLONG  find_dir)
+std::int32_t turn_to_direction_and_find_target(Thing *p_person,std::int32_t  find_dir)
 {
 	Thing    *stance_target;
 	GameCoord stance_position;
-	SLONG     stance_angle;
-	SLONG	ret;
+	std::int32_t     stance_angle;
+	std::int32_t	ret;
 	
 	ret=find_attack_stance(
 		p_person,
@@ -3436,10 +3436,10 @@ SLONG turn_to_direction_and_find_target(Thing *p_person,SLONG  find_dir)
 }
 
 
-SLONG turn_to_target_and_punch(Thing *p_person)
+std::int32_t turn_to_target_and_punch(Thing *p_person)
 {
-	SLONG	ret;
-	SLONG	anim;
+	std::int32_t	ret;
+	std::int32_t	anim;
 	//
 	// Turn...
 	//
@@ -3466,10 +3466,10 @@ SLONG turn_to_target_and_punch(Thing *p_person)
 	return(ret);
 }
 
-SLONG turn_to_target_and_kick(Thing *p_person)
+std::int32_t turn_to_target_and_kick(Thing *p_person)
 {
-	SLONG	ret;
-	SLONG	anim;
+	std::int32_t	ret;
+	std::int32_t	anim;
 	Thing	*p_target;
 	//
 	// Turn...
@@ -3490,7 +3490,7 @@ SLONG turn_to_target_and_kick(Thing *p_person)
 	}
 	else
 	{
-		SLONG dist=0;
+		std::int32_t dist=0;
 		if(ret &&  (dist=dist_to_target(p_person,TO_THING(ret)))<120)
 			anim=set_person_kick_near(p_person,dist);
 		else
@@ -3509,18 +3509,18 @@ SLONG turn_to_target_and_kick(Thing *p_person)
 }
 
 
-Thing *is_person_under_attack_low_level(Thing *p_person,SLONG any_state,SLONG radius)
+Thing *is_person_under_attack_low_level(Thing *p_person,std::int32_t any_state,std::int32_t radius)
 {
-	SLONG  i;
-//	UWORD  found[8];
-	SLONG  num;
+	std::int32_t  i;
+//	std::uint16_t  found[8];
+	std::int32_t  num;
 	Thing *p_found;
 
-	SLONG  dx;
-	SLONG  dz;
-	SLONG  dist;
+	std::int32_t  dx;
+	std::int32_t  dz;
+	std::int32_t  dist;
 
-	SLONG  best_dist   = INFINITY;
+	std::int32_t  best_dist   = INFINITY;
 	Thing *best_person = nullptr;
 
 	//

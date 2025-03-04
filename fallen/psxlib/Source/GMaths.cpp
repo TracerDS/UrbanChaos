@@ -16,9 +16,9 @@
 #define Arctan(X,Y) (ratan2((Y),(X))<<1)
 #else
 
-SLONG Arctan(SLONG X,SLONG Y)
+std::int32_t Arctan(std::int32_t X,std::int32_t Y)
 {
-	register SLONG		ax,bx;
+	register std::int32_t		ax,bx;
 
 	ax = X;
 	if(ax)
@@ -93,7 +93,7 @@ nnyprimary:
 #endif
 //---------------------------------------------------------------
 
-UWORD ini_table[]	=
+std::uint16_t ini_table[]	=
 {
 	1,		2,		2,		4,
 	5,		8,		11,		16,
@@ -106,7 +106,7 @@ UWORD ini_table[]	=
 };
 
 #ifdef _MSC_VER
-SLONG Root(SLONG square)
+std::int32_t Root(std::int32_t square)
 {
 	__asm
 	{
@@ -132,7 +132,7 @@ done_it:
 
 //---------------------------------------------------------------
 #ifndef PSX
-SWORD AtanTable[] =
+std::int16_t AtanTable[] =
 {
 	2048L*0/131072L,
 	2048L*81/131072L,
@@ -395,7 +395,7 @@ SWORD AtanTable[] =
 
 //---------------------------------------------------------------
 
-SLONG SinTable[]=
+std::int32_t SinTable[]=
 {
 	0,	//	    0	0.00	0.000000
 	201,	//	    1	0.18	0.003068
@@ -2959,7 +2959,7 @@ SLONG SinTable[]=
 	65535,	//	 2559	449.82	7.850914
 };
 
-SLONG *CosTable	=	&SinTable[512];
+std::int32_t *CosTable	=	&SinTable[512];
 
 //---------------------------------------------------------------
 
@@ -5530,7 +5530,7 @@ float SinTableF[]	=
 float *CosTableF	=	&SinTableF[512];
 
 //---------------------------------------------------------------
-SLONG Proportions[]	=
+std::int32_t Proportions[]	=
 {
 	11585,
 	11563,

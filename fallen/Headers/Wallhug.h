@@ -39,7 +39,7 @@ wallhug_tricky cleans the path up a bit so it looks less foolish.
 
 *****************************************************************************/
 
-SLONG NAV_wall_in_way(SLONG x, SLONG y, SLONG dirn);
+std::int32_t NAV_wall_in_way(std::int32_t x, std::int32_t y, std::int32_t dirn);
 
 #define WALLHUG_MAX_COUNT						20000		// most steps involved in a path ever
 #define WALLHUG_HEIGHT							128
@@ -61,25 +61,25 @@ SLONG NAV_wall_in_way(SLONG x, SLONG y, SLONG dirn);
 
 struct wallhug_waypoint
 {
-	UBYTE x, y;
+	std::uint8_t x, y;
 };
 
 struct wallhug_path
 {
-	UBYTE length, padb;
+	std::uint8_t length, padb;
 	wallhug_waypoint start, end, waypoints[WALLHUG_MAX_PTS];
 };
 
 struct wallhug_info
 {
 	wallhug_path path;
-	ULONG dirn;
-	ULONG handed;		// where -1 means left-handed and 1 right-handed
+	std::uint32_t dirn;
+	std::uint32_t handed;		// where -1 means left-handed and 1 right-handed
 	wallhug_waypoint current, old;
 };
 
-ULONG wallhug_trivial(wallhug_path *path);	// simple wallhug
-ULONG wallhug_tricky (wallhug_path *path);	// more expensive, less silly
+std::uint32_t wallhug_trivial(wallhug_path *path);	// simple wallhug
+std::uint32_t wallhug_tricky (wallhug_path *path);	// more expensive, less silly
 
 // this should be an array for the steps that each direction produces. eg wallhug_dirn_steps[WALLHUG_NORTH] == {0, -1}
 // it's defined here so that you don't have to change wallhug.c
@@ -89,19 +89,19 @@ extern wallhug_waypoint wallhug_dirn_steps[4];
 
 //////////////////////////////////////////////////////////////////////////////
 // extra stuff providing backdoors into parts of the code
-extern ULONG wallhug_current_count;
-ULONG wallhug_cleanup(wallhug_path *path, ULONG retval);
-ULONG wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, ULONG max_count);
+extern std::uint32_t wallhug_current_count;
+std::uint32_t wallhug_cleanup(wallhug_path *path, std::uint32_t retval);
+std::uint32_t wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, std::uint32_t max_count);
 void wallhug_hugstep(wallhug_info *hugger);
 bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger);
 
 
 #define WALLHUG_ADDMOD4(a, b) (((a) + (b)) & 3)
-#define WALLHUG_INVALID_WAYPOINT ((UBYTE)255)
-extern UBYTE wallhug_last_hugstart;
-extern UBYTE wallhug_last_handed;
-extern UBYTE wallhug_last_dirn;
-extern ULONG wallhug_last_hug_count;
+#define WALLHUG_INVALID_WAYPOINT ((std::uint8_t)255)
+extern std::uint8_t wallhug_last_hugstart;
+extern std::uint8_t wallhug_last_handed;
+extern std::uint8_t wallhug_last_dirn;
+extern std::uint32_t wallhug_last_hug_count;
 extern bool wallhug_looking_for_last;
 
 #endif

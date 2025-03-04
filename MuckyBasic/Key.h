@@ -10,9 +10,9 @@
 // Every key has a byte flag to say whether it is on or off.
 //
 
-extern volatile UBYTE KEY_on[256];
-extern volatile SLONG KEY_inkey;	// The ASCII value of the last key pressed.
-extern volatile SLONG KEY_shift;
+extern volatile std::uint8_t KEY_on[256];
+extern volatile std::int32_t KEY_inkey;	// The ASCII value of the last key pressed.
+extern volatile std::int32_t KEY_shift;
 
 //
 // KEY shift can have the following bits set.

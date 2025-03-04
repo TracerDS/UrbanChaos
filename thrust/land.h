@@ -22,7 +22,7 @@ void LAND_init();
 //
 
 void LAND_add_line(float x1, float y1, float x2, float y2);
-void LAND_add_line(SLONG num_points, Point2d p[]);
+void LAND_add_line(std::int32_t num_points, Point2d p[]);
 
 //
 // Calculates the normals for the land. You must call this function before
@@ -38,7 +38,7 @@ void LAND_calc_normals();
 // point in the landscape where the the circle touched and returns true.
 //
 
-SLONG LAND_collide_sphere(
+std::int32_t LAND_collide_sphere(
 		float  x,
 		float  y,
 		float  radius,

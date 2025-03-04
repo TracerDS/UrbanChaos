@@ -32,28 +32,28 @@
 
 struct	InsideStorey
 {
-	UBYTE	MinX;           // bounding rectangle of floor
-	UBYTE	MinZ;
-	UBYTE	MaxX;
-	UBYTE	MaxZ;
-	UWORD	InsideBlock;    // index into inside_block (block of data of size bounding rect) data is room numbers 1..15 top 4 bits reserved
-	UWORD	StairCaseHead;  // link list of stair structures for this floor
-	UWORD	TexType;		// Inside style to use for floor
-	UWORD	FacetStart;     // index into facets that make up this building
-	UWORD	FacetEnd;		// Facet After last used facet for inside the floor
-	SWORD	StoreyY;	    // Y co-ord could come in handy
-	UWORD	Building;
-	UWORD	Dummy[2];
+	std::uint8_t	MinX;           // bounding rectangle of floor
+	std::uint8_t	MinZ;
+	std::uint8_t	MaxX;
+	std::uint8_t	MaxZ;
+	std::uint16_t	InsideBlock;    // index into inside_block (block of data of size bounding rect) data is room numbers 1..15 top 4 bits reserved
+	std::uint16_t	StairCaseHead;  // link list of stair structures for this floor
+	std::uint16_t	TexType;		// Inside style to use for floor
+	std::uint16_t	FacetStart;     // index into facets that make up this building
+	std::uint16_t	FacetEnd;		// Facet After last used facet for inside the floor
+	std::int16_t	StoreyY;	    // Y co-ord could come in handy
+	std::uint16_t	Building;
+	std::uint16_t	Dummy[2];
 };
 
 struct	Staircase
 {
-	UBYTE	X,Z;         // pos of staircase
-	UBYTE	Flags;       // flags for direction + up or down or both
-	UBYTE	ID;          // padding
-	SWORD	NextStairs;  // link to next stair structure
-	SWORD	DownInside;  // link to next insidestorey for going downstairs
-	SWORD	UpInside;  	 // link to next InsideStorey for going upstairs
+	std::uint8_t	X,Z;         // pos of staircase
+	std::uint8_t	Flags;       // flags for direction + up or down or both
+	std::uint8_t	ID;          // padding
+	std::int16_t	NextStairs;  // link to next stair structure
+	std::int16_t	DownInside;  // link to next insidestorey for going downstairs
+	std::int16_t	UpInside;  	 // link to next InsideStorey for going upstairs
 };
 
 
@@ -66,15 +66,15 @@ struct	Staircase
 //Data
 //
 
-extern UBYTE	slide_inside_stair;
+extern std::uint8_t	slide_inside_stair;
 
 
 
 //extern struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
 
-extern UWORD	next_inside_storey;
-extern UWORD	next_inside_stair;
-extern SLONG	next_inside_block;
+extern std::uint16_t	next_inside_storey;
+extern std::uint16_t	next_inside_stair;
+extern std::int32_t	next_inside_block;
 
 
 
@@ -84,12 +84,12 @@ extern SLONG	next_inside_block;
 
 
 
-extern SLONG	get_inside_alt(SLONG	inside);
-extern SLONG find_inside_room(SLONG inside,SLONG x,SLONG z);
-extern SLONG find_inside_flags(SLONG inside,SLONG x,SLONG z);
-extern SLONG	person_slide_inside(SLONG inside,SLONG x1,SLONG y1,SLONG z1,SLONG *x2,SLONG *y2,SLONG *z2);
+extern std::int32_t	get_inside_alt(std::int32_t	inside);
+extern std::int32_t find_inside_room(std::int32_t inside,std::int32_t x,std::int32_t z);
+extern std::int32_t find_inside_flags(std::int32_t inside,std::int32_t x,std::int32_t z);
+extern std::int32_t	person_slide_inside(std::int32_t inside,std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t *x2,std::int32_t *y2,std::int32_t *z2);
 extern void	stair_teleport_bodge(Thing *p_person);
-extern SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWORD *new_floor);
+extern std::int32_t	find_stair_y(Thing *p_person,std::int32_t *y1,std::int32_t x,std::int32_t y,std::int32_t z,std::uint16_t *new_floor);
 
 
 // ========================================================
@@ -100,10 +100,10 @@ extern SLONG	find_stair_y(Thing *p_person,SLONG *y1,SLONG x,SLONG y,SLONG z,UWOR
 
 #if 0
 // Never used!
-MAV_Action INSIDE2_mav_enter (Thing *p_person, SLONG inside, UBYTE caps);		// To enter the building with the given inside
-MAV_Action INSIDE2_mav_inside(Thing *p_person, SLONG inside, UBYTE x, UBYTE z);	// Navigating within a floor
-MAV_Action INSIDE2_mav_stair (Thing *p_person, SLONG inside, SLONG new_inside); // Going up the stairs to another floor
-MAV_Action INSIDE2_mav_exit  (Thing *p_person, SLONG inside);					// Exit the building
+MAV_Action INSIDE2_mav_enter (Thing *p_person, std::int32_t inside, std::uint8_t caps);		// To enter the building with the given inside
+MAV_Action INSIDE2_mav_inside(Thing *p_person, std::int32_t inside, std::uint8_t x, std::uint8_t z);	// Navigating within a floor
+MAV_Action INSIDE2_mav_stair (Thing *p_person, std::int32_t inside, std::int32_t new_inside); // Going up the stairs to another floor
+MAV_Action INSIDE2_mav_exit  (Thing *p_person, std::int32_t inside);					// Exit the building
 #endif
 
 

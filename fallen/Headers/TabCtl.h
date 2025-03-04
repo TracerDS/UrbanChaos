@@ -28,7 +28,7 @@ struct TabInfo {
 	 HWND			hwndTabCtl;
 	 HWND			hwndDisplay;
 	 HINSTANCE		hInstance;
-	 SLONG			tabcount;
+	 std::int32_t			tabcount;
 	 DLGTEMPLATE	**resTabs;
 	 DLGPROC		*ChildProc;
 };
@@ -40,7 +40,7 @@ void TABCTL_del(HWND wnd, DWORD tabctl);
 // Respond to selection change:
 void TABCTL_sel(HWND wnd, DWORD tabctl);
 // Query for which tab is selected:
-SLONG TABCTL_getsel(HWND wnd, DWORD tabctl);
+std::int32_t TABCTL_getsel(HWND wnd, DWORD tabctl);
 // Query for visible tab's window handle:
 HWND TABCTL_gethwnd(HWND wnd, DWORD tabctl);
 

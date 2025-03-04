@@ -6,7 +6,7 @@
 #include "tga.h"
 
 
-TGA_Info TGA_FileLoad_Error(TGA_Info& ans, FILE*& handle, const CBYTE*& file) {
+TGA_Info TGA_FileLoad_Error(TGA_Info& ans, FILE*& handle, const char*& file) {
 
 	TRACE("File error loading TGA file %s\n", *file);
 	fclose(handle);
@@ -16,26 +16,26 @@ TGA_Info TGA_FileLoad_Error(TGA_Info& ans, FILE*& handle, const CBYTE*& file) {
 
 
 TGA_Info TGA_load(
-			const CBYTE* file,
-			SLONG        max_width,
-			SLONG        max_height,
+			const char* file,
+			std::int32_t        max_width,
+			std::int32_t        max_height,
 			TGA_Pixel   *data)
 {
-	SLONG i;
+	std::int32_t i;
 
-	UBYTE red;
-	UBYTE green;
-	UBYTE blue;
+	std::uint8_t red;
+	std::uint8_t green;
+	std::uint8_t blue;
 
-	SLONG tga_width;
-	SLONG tga_height;
-	SLONG tga_pixel_depth;
-	SLONG tga_image_type;
-	SLONG tga_id_length;
+	std::int32_t tga_width;
+	std::int32_t tga_height;
+	std::int32_t tga_pixel_depth;
+	std::int32_t tga_image_type;
+	std::int32_t tga_id_length;
 
-	UBYTE header[18];
-	UBYTE rubbish;
-	UBYTE no_alpha;
+	std::uint8_t header[18];
+	std::uint8_t rubbish;
+	std::uint8_t no_alpha;
 
 	FILE *handle;
 
@@ -58,7 +58,7 @@ TGA_Info TGA_load(
 	// Read the header.
 	//
 
-	if (fread(header, sizeof(UBYTE), 18, handle) != 18) 
+	if (fread(header, sizeof(std::uint8_t), 18, handle) != 18) 
 		return TGA_FileLoad_Error(ans, handle, file);
 
 	//
@@ -114,7 +114,7 @@ TGA_Info TGA_load(
 	
 	for (i = 0; i < tga_id_length; i++)
 	{
-		if (fread(&rubbish, sizeof(UBYTE), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
+		if (fread(&rubbish, sizeof(std::uint8_t), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
 	}
 
 	//
@@ -135,9 +135,9 @@ TGA_Info TGA_load(
 
 		for (i = 0; i < tga_width * tga_height; i++)
 		{
-			if (fread(&blue,  sizeof(UBYTE), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
-			if (fread(&green, sizeof(UBYTE), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
-			if (fread(&red,   sizeof(UBYTE), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
+			if (fread(&blue,  sizeof(std::uint8_t), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
+			if (fread(&green, sizeof(std::uint8_t), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
+			if (fread(&red,   sizeof(std::uint8_t), 1, handle) != 1) return TGA_FileLoad_Error(ans, handle, file);
 			
 			data[i].red   = red;
 			data[i].green = green;
@@ -211,7 +211,7 @@ TGA_Info TGA_load(
 #if 0
 
 
-UBYTE TGA_header[18] =
+std::uint8_t TGA_header[18] =
 {
 	0, 0, 2, 0,
 	0, 0, 0, 0, 
@@ -223,18 +223,18 @@ UBYTE TGA_header[18] =
 };
 
 void TGA_save(
-		const CBYTE* file,
-		SLONG        width,
-		SLONG        height,
+		const char* file,
+		std::int32_t        width,
+		std::int32_t        height,
 		TGA_Pixel   *data,
-		SLONG contains_alpha)
+		std::int32_t contains_alpha)
 {
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG num_pixels;
-	UBYTE header[18];
-	SLONG bpp;
+	std::int32_t num_pixels;
+	std::uint8_t header[18];
+	std::int32_t bpp;
 
 	FILE *handle;
 
@@ -251,7 +251,7 @@ void TGA_save(
 	// Create the header.
 	//
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < 18; i++)
 	{
@@ -269,7 +269,7 @@ void TGA_save(
 	// Write out the header.
 	//
 
-	fwrite(&header, sizeof(UBYTE), 18, handle);
+	fwrite(&header, sizeof(std::uint8_t), 18, handle);
 
 	//
 	// Write out the pixel data.
@@ -280,12 +280,12 @@ void TGA_save(
 	{
 		if (contains_alpha)
 		{
-			fwrite(&data[x + y * width].alpha, sizeof(UBYTE), 1, handle);
+			fwrite(&data[x + y * width].alpha, sizeof(std::uint8_t), 1, handle);
 		}
 
-		fwrite(&data[x + y * width].blue,  sizeof(UBYTE), 1, handle);
-		fwrite(&data[x + y * width].green, sizeof(UBYTE), 1, handle);
-		fwrite(&data[x + y * width].red,   sizeof(UBYTE), 1, handle);
+		fwrite(&data[x + y * width].blue,  sizeof(std::uint8_t), 1, handle);
+		fwrite(&data[x + y * width].green, sizeof(std::uint8_t), 1, handle);
+		fwrite(&data[x + y * width].red,   sizeof(std::uint8_t), 1, handle);
 	}
 
 	fclose(handle);

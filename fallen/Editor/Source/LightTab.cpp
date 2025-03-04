@@ -84,9 +84,9 @@ LightTab	*the_lighttab;
 static	light_x,light_y,light_z,light_bright;
 
 void	redraw_tab(void);
-void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+void	scan_apply_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra);
 void	link_all_lights(void);
-void	scan_undo_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra);
+void	scan_undo_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra);
 //---------------------------------------------------------------
 
 LightTab::LightTab(EditorModule *parent)
@@ -146,8 +146,8 @@ void	LightTab::DrawTabContent(void)
 	SetWorkWindowBounds(ContentLeft()+1,ContentTop()+1,ContentWidth()-1,ContentHeight()-1);
 	if(CurrentLight)
 	{
-		SLONG	bright;
-		static	SLONG	old_bright;
+		std::int32_t	bright;
+		static	std::int32_t	old_bright;
 	 	bright =	((CHSlider*)GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
 		if(bright!=old_bright)
 		{
@@ -181,12 +181,12 @@ void	LightTab::DrawTabContent(void)
 
 
 
-SLONG	sum_shared_brightness(SWORD shared_point)
+std::int32_t	sum_shared_brightness(std::int16_t shared_point)
 {
-	SLONG	c0,point;
-	SLONG	face;
-	SLONG	bright=0;
-	SLONG count=0;
+	std::int32_t	c0,point;
+	std::int32_t	face;
+	std::int32_t	bright=0;
+	std::int32_t count=0;
 
 	for(c0=1;c0<next_face_selected;c0++)
 	{
@@ -223,10 +223,10 @@ SLONG	sum_shared_brightness(SWORD shared_point)
 		return(0);
 }
 
-void	set_shared_brightness(SWORD shared_point,SWORD bright)
+void	set_shared_brightness(std::int16_t shared_point,std::int16_t bright)
 {
-	SLONG	c0,point;
-	SLONG	face;
+	std::int32_t	c0,point;
+	std::int32_t	face;
 
 	for(c0=1;c0<next_face_selected;c0++)
 	{
@@ -257,9 +257,9 @@ void	set_shared_brightness(SWORD shared_point,SWORD bright)
 
 void	LightTab::SmoothGroup(void)
 {
-	SLONG	c0,c1,point;
-	SLONG	face;
-	SLONG	bright;
+	std::int32_t	c0,c1,point;
+	std::int32_t	face;
+	std::int32_t	bright;
 
 	for(c0=1;c0<next_face_selected;c0++)
 	{
@@ -292,8 +292,8 @@ void	LightTab::SmoothGroup(void)
 
 void	apply_ambient_to_floor(void)
 {
-	SLONG	x,z;
-	SLONG	bright,temp_bright;
+	std::int32_t	x,z;
+	std::int32_t	bright,temp_bright;
 
 	bright=(edit_info.amb_bright*(-edit_info.amb_dy))>>9;
 
@@ -320,8 +320,8 @@ void	apply_ambient_to_floor(void)
 }
 void	remove_ambient_from_floor(void)
 {
-	SLONG	x,z;
-	SLONG	bright,temp_bright;
+	std::int32_t	x,z;
+	std::int32_t	bright,temp_bright;
 
 	bright=(edit_info.amb_bright*(-edit_info.amb_dy))>>9;
 //	bright=edit_info.amb_bright>>1;
@@ -346,7 +346,7 @@ void	remove_ambient_from_floor(void)
 
 void	LightTab::RecalcAllLights(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	edit_info.amb_flags|=2;
 
 	scan_function=scan_apply_ambient;
@@ -413,9 +413,9 @@ void	redraw_tab(void)
 
 //---------------------------------------------------------------
 
-void	LightTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void	LightTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 	EdRect	drawrect;
 
 	RedrawModuleContent=0;
@@ -464,7 +464,7 @@ void	LightTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 void	LightTab::HandleTab(MFPoint *current_point)
 {
-	SLONG		   update	=	0;
+	std::int32_t		   update	=	0;
 	
 
 	ModeTab::HandleTab(current_point);
@@ -472,7 +472,7 @@ void	LightTab::HandleTab(MFPoint *current_point)
 
 }
 
-inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG h)
+inline std::int32_t is_point_in_box(std::int32_t x,std::int32_t y,std::int32_t left,std::int32_t top,std::int32_t w,std::int32_t h)
 {
 	if(x>left&&x<left+w&&y>top&&y<top+h)
 		return(1);
@@ -482,7 +482,7 @@ inline SLONG is_point_in_box(SLONG x,SLONG y,SLONG left,SLONG top,SLONG w,SLONG 
 //---------------------------------------------------------------
 
 
-SLONG	LightTab::KeyboardInterface(void)
+std::int32_t	LightTab::KeyboardInterface(void)
 {
 	if(Keys[KB_TAB])
 	{
@@ -525,9 +525,9 @@ SLONG	LightTab::KeyboardInterface(void)
 	return(0);
 }
 
-inline	SLONG normalise_xyz(SLONG *x,SLONG *y,SLONG *z)
+inline	std::int32_t normalise_xyz(std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
-	SLONG	dist;
+	std::int32_t	dist;
 
 	dist=(*x)*(*x)+(*y)*(*y)+(*z)*(*z);
 	dist=sqrl(dist);
@@ -543,14 +543,14 @@ inline	SLONG normalise_xyz(SLONG *x,SLONG *y,SLONG *z)
 }
 
 
-void	scan_apply_light(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
+void	scan_apply_light(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra)
 {
 	SVector	normal;
-	SLONG dx,dy,dz,dist;
-	SLONG	point,bright;
-	SLONG	angle_light;
+	std::int32_t dx,dy,dz,dist;
+	std::int32_t	point,bright;
+	std::int32_t	angle_light;
 
-	SLONG	lnx,lny,lnz;
+	std::int32_t	lnx,lny,lnz;
 
 
 
@@ -662,7 +662,7 @@ static	light_head=0;
 
 void	link_all_lights(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 	for(c0=1;c0<MAX_MAP_THINGS;c0++)
 	{
@@ -675,10 +675,10 @@ void	link_all_lights(void)
 	
 }
 
-void	apply_all_lights_to_this_face(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
+void	apply_all_lights_to_this_face(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra)
 {
-	SLONG	index;
-	SLONG temp_bright;
+	std::int32_t	index;
+	std::int32_t temp_bright;
 	return;
 	temp_bright=light_bright;
 	index=light_head;
@@ -696,14 +696,14 @@ void	apply_all_lights_to_this_face(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extr
 	light_bright=temp_bright;
 }
 
-void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
+void	scan_apply_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra)
 {
 	SVector	normal;
-	SLONG dx,dy,dz,dist;
-	SLONG	point,bright;
-	SLONG	angle_light;
+	std::int32_t dx,dy,dz,dist;
+	std::int32_t	point,bright;
+	std::int32_t	angle_light;
 
-	SLONG	lnx,lny,lnz;
+	std::int32_t	lnx,lny,lnz;
 
 
 
@@ -783,7 +783,7 @@ void	scan_apply_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
 //		apply_all_lights_to_this_face(face,x,y,z,extra);
 	}
 }
-void	scan_unlight(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
+void	scan_unlight(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra)
 {
 	if(face<0)
 	{	//tris
@@ -803,14 +803,14 @@ void	scan_unlight(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
 	
 }
 
-void	scan_undo_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
+void	scan_undo_ambient(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra)
 {
 	SVector	normal;
-	SLONG dx,dy,dz,dist;
-	SLONG	point,bright;
-	SLONG	angle_light;
+	std::int32_t dx,dy,dz,dist;
+	std::int32_t	point,bright;
+	std::int32_t	angle_light;
 
-	SLONG	lnx,lny,lnz;
+	std::int32_t	lnx,lny,lnz;
 
 	return;
 
@@ -880,12 +880,12 @@ void	scan_undo_ambient(SLONG face,SLONG x,SLONG y,SLONG z,SLONG extra)
 	}
 }
 
-void	apply_light_to_floor(SLONG x,SLONG y,SLONG z,SLONG light_bright)
+void	apply_light_to_floor(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t light_bright)
 {
-	SLONG	mx,mz,dx,dz;
+	std::int32_t	mx,mz,dx,dz;
 
-	SLONG	ldx,ldy,ldz,dist;
-	SLONG	bright;
+	std::int32_t	ldx,ldy,ldz,dist;
+	std::int32_t	bright;
 
 	mx=x>>ELE_SHIFT;
 	mz=z>>ELE_SHIFT;
@@ -916,7 +916,7 @@ void	apply_light_to_floor(SLONG x,SLONG y,SLONG z,SLONG light_bright)
 	}
 }
 
-void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright)
+void	apply_light_to_map(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright)
 {
 	return;
 	apply_light_to_floor(x,y,z,bright);
@@ -929,9 +929,9 @@ void	apply_light_to_map(SLONG x,SLONG y,SLONG z,SLONG bright)
 }
 
 
-SWORD	CreateALightThing(SLONG x,SLONG y,SLONG z,SLONG bright)
+std::int16_t	CreateALightThing(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright)
 {
-	UWORD	map_thing;
+	std::uint16_t	map_thing;
 	struct	MapThing	*p_mthing;
 
 	map_thing=find_empty_map_thing();
@@ -944,15 +944,15 @@ SWORD	CreateALightThing(SLONG x,SLONG y,SLONG z,SLONG bright)
 	p_mthing->Z=z;
 
 	p_mthing->Type=MAP_THING_TYPE_LIGHT;
-	p_mthing->IndexOther=(SWORD)bright;
+	p_mthing->IndexOther=(std::int16_t)bright;
 	apply_light_to_map(x,y,z,bright);
 
 	return(map_thing);
 }
 
-SWORD	LightTab::CreateLightThing(SLONG x,SLONG y,SLONG z,SLONG bright)
+std::int16_t	LightTab::CreateLightThing(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright)
 {
-	UWORD	map_thing;
+	std::uint16_t	map_thing;
 	struct	MapThing	*p_mthing;
 
 	map_thing=find_empty_map_thing();
@@ -966,7 +966,7 @@ SWORD	LightTab::CreateLightThing(SLONG x,SLONG y,SLONG z,SLONG bright)
 
 	p_mthing->Type=MAP_THING_TYPE_LIGHT;
 	p_mthing->SubType = LIGHT_TYPE_NORMAL;
-	p_mthing->IndexOther=(SWORD)bright;
+	p_mthing->IndexOther=(std::int16_t)bright;
 
 	p_mthing->AngleX	= ((CHSlider*)GetControlPtr(CTRL_LIGHT_SLIDE_RED  ))->GetCurrentValue();
 	p_mthing->AngleY	= ((CHSlider*)GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->GetCurrentValue();
@@ -981,11 +981,11 @@ SWORD	LightTab::CreateLightThing(SLONG x,SLONG y,SLONG z,SLONG bright)
 
 
 
-SLONG	LightTab::ClickOnLight(MFPoint *clicked_point)
+std::int32_t	LightTab::ClickOnLight(MFPoint *clicked_point)
 {
 	MFPoint		local_point;
-	SLONG	x,y,w,h;
-	SLONG	drag;
+	std::int32_t	x,y,w,h;
+	std::int32_t	drag;
 
 	x=Parent->ContentLeft();
 	y=Parent->ContentTop();
@@ -1015,21 +1015,21 @@ SLONG	LightTab::ClickOnLight(MFPoint *clicked_point)
 	return(0);
 }
 
-SLONG	LightTab::DragALight(UBYTE flags,MFPoint *clicked_point,UWORD copy)
+std::int32_t	LightTab::DragALight(std::uint8_t flags,MFPoint *clicked_point,std::uint16_t copy)
 {
-	SLONG	dx,dy,dz;
-	UWORD	index;
+	std::int32_t	dx,dy,dz;
+	std::uint16_t	index;
 	EdRect	prim_rect;
 	struct	MapThing	*p_mthing;
-	static	UBYTE col=0;
-	SLONG	screen_change=0;
+	static	std::uint8_t col=0;
+	std::int32_t	screen_change=0;
 	MFPoint		local_point;
-	SLONG	x,y,w,h;
-	SLONG	drag;
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	ox,oy,oz;
+	std::int32_t	x,y,w,h;
+	std::int32_t	drag;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	ox,oy,oz;
 
-	SLONG	last_world_mouse;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -1077,7 +1077,7 @@ SLONG	LightTab::DragALight(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 	if(drag)  //drag in plan view
 	{
-		SLONG	offset_x,offset_y,offset_z;
+		std::int32_t	offset_x,offset_y,offset_z;
 		last_world_mouse=SetWorldMouse(0);
 		offset_x=map_things[drag].X-engine.MousePosX;
 		offset_y=map_things[drag].Y-engine.MousePosY;
@@ -1087,7 +1087,7 @@ SLONG	LightTab::DragALight(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 		while(SHELL_ACTIVE && ((copy==0&&LeftButton)||(copy==1&&RightButton)))
 		{
-			SLONG	nx,ny,nz;
+			std::int32_t	nx,ny,nz;
 			last_world_mouse=SetWorldMouse(0);
 
 			nx=map_things[drag].X;
@@ -1096,7 +1096,7 @@ SLONG	LightTab::DragALight(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 
 			if(GridFlag)
 			{
-				SLONG	grid_and;
+				std::int32_t	grid_and;
 				grid_and=~(HALF_ELE_SIZE-1);
 				if(Axis&X_AXIS)
 					nx=(engine.MousePosX+offset_x)&grid_and;
@@ -1155,7 +1155,7 @@ SLONG	LightTab::DragALight(UBYTE flags,MFPoint *clicked_point,UWORD copy)
 }
 void	LightTab::SetAmbientAngle(void)
 {
-	SLONG	bright;
+	std::int32_t	bright;
 	//there has been a left click in a content window
 	while(SHELL_ACTIVE && LeftButton)
 	{
@@ -1180,7 +1180,7 @@ void	LightTab::SetAmbientAngle(void)
 
 			if(LockWorkScreen())
 			{
-	//			DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+	//			DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 				Parent->DrawContent();
 				UnlockWorkScreen();
 			}
@@ -1204,11 +1204,11 @@ void	LightTab::SetAmbientAngle(void)
 	}
 
 }
-SLONG	LightTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	LightTab::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -1217,9 +1217,9 @@ SLONG	LightTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 
 	{
-		SLONG	start_x=0,start_y=0,start_z=0,flag=0;
-		SLONG	old_x,old_y,old_z;
-		SLONG	nx,ny,nz;
+		std::int32_t	start_x=0,start_y=0,start_z=0,flag=0;
+		std::int32_t	old_x,old_y,old_z;
+		std::int32_t	nx,ny,nz;
 
 		old_x=nx=engine.X;
 		old_y=ny=engine.Y;
@@ -1270,10 +1270,10 @@ SLONG	LightTab::DragEngine(UBYTE flags,MFPoint *clicked_point)
 
 }
 
-SLONG	LightTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLONG x,SLONG y,SLONG w,SLONG h)
+std::int32_t	LightTab::HandleModuleContentClick(MFPoint	*clicked_point,std::uint8_t flags,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
-	SWORD	thing;
-	SWORD	bright;
+	std::int16_t	thing;
+	std::int16_t	bright;
 	switch(flags)
 	{
 		case	NO_CLICK:
@@ -1336,9 +1336,9 @@ SLONG	LightTab::HandleModuleContentClick(MFPoint	*clicked_point,UBYTE flags,SLON
 	
 }
 
-UWORD	LightTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	LightTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 	Control		*current_control;
 	MFPoint		local_point;
 
@@ -1390,12 +1390,12 @@ UWORD	LightTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-SLONG	LightTab::SetWorldMouse(ULONG flag)
+std::int32_t	LightTab::SetWorldMouse(std::uint32_t flag)
 {
 	MFPoint		mouse_point;
 	MFPoint		local_point;
 	SVector		point,out;
-	SLONG	wwx,wwy,www,wwh;
+	std::int32_t	wwx,wwy,www,wwh;
 
 	wwx=WorkWindowRect.Left;
 	wwy=WorkWindowRect.Top;
@@ -1437,7 +1437,7 @@ SLONG	LightTab::SetWorldMouse(ULONG flag)
 
 void	delete_all_lights(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	
 
 	for(c0=1;c0<MAX_MAP_THINGS;c0++)
@@ -1456,7 +1456,7 @@ void	delete_all_lights(void)
 
 }
 
-void	LightTab::HandleControl(UWORD control_id)
+void	LightTab::HandleControl(std::uint16_t control_id)
 {
 	switch(control_id&0xff)
 	{

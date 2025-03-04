@@ -14,14 +14,14 @@
 
 #define	PAINT2
 //---------------------------------------------------------------
-void	scale_selected_tmaps(SWORD scale);
+void	scale_selected_tmaps(std::int16_t scale);
 void	remove_style_textures(void);
 void	remove_painted_textures(void);
 
-UWORD	page_remap[64*8];
-SLONG	show_info=0;
+std::uint16_t	page_remap[64*8];
+std::int32_t	show_info=0;
 
-CBYTE	texture_style_names[200][21]=
+char	texture_style_names[200][21]=
 {
 	{"                    "},
 	{"BROWN_BRICK1"},
@@ -45,34 +45,34 @@ CBYTE	texture_style_names[200][21]=
 
 MenuDef2		texture_menu[]	=
 {
-	{(CBYTE*)"World Page 1"},
-	{(CBYTE*)"World Page 2"},
-	{(CBYTE*)"World Page 3"},
-	{(CBYTE*)"World Page 4"},
-	{(CBYTE*)"Shared Page 1"},
-	{(CBYTE*)"Shared Page 2"},
-	{(CBYTE*)"Shared Page 3"},
-	{(CBYTE*)"Shared Page 4"},
-	{(CBYTE*)"Inside Page 1"},
-	{(CBYTE*)"People Page 1"},
-	{(CBYTE*)"People Page 2"},
-	{(CBYTE*)"Prims Page 1"},
-	{(CBYTE*)"Prims Page 2"},
-	{(CBYTE*)"Prims Page 3"},
-	{(CBYTE*)"other14"},
-	{(CBYTE*)"other15"},
-	{(CBYTE*)"other16"},
-	{(CBYTE*)"other17"},
-	{(CBYTE*)"other18"},
-	{(CBYTE*)"other19"},
-	{(CBYTE*)"other20"},
-	{(CBYTE*)"other21"},
-	{(CBYTE*)"other9"},
-	{(CBYTE*)"other1"},
-	{(CBYTE*)"other1"},
-	{(CBYTE*)"other1"},
-	{(CBYTE*)"other1"},
-	{(CBYTE*)"other1"},
+	{(char*)"World Page 1"},
+	{(char*)"World Page 2"},
+	{(char*)"World Page 3"},
+	{(char*)"World Page 4"},
+	{(char*)"Shared Page 1"},
+	{(char*)"Shared Page 2"},
+	{(char*)"Shared Page 3"},
+	{(char*)"Shared Page 4"},
+	{(char*)"Inside Page 1"},
+	{(char*)"People Page 1"},
+	{(char*)"People Page 2"},
+	{(char*)"Prims Page 1"},
+	{(char*)"Prims Page 2"},
+	{(char*)"Prims Page 3"},
+	{(char*)"other14"},
+	{(char*)"other15"},
+	{(char*)"other16"},
+	{(char*)"other17"},
+	{(char*)"other18"},
+	{(char*)"other19"},
+	{(char*)"other20"},
+	{(char*)"other21"},
+	{(char*)"other9"},
+	{(char*)"other1"},
+	{(char*)"other1"},
+	{(char*)"other1"},
+	{(char*)"other1"},
+	{(char*)"other1"},
 	{"!"}
 };
 
@@ -92,7 +92,7 @@ MenuDef2		mode_menu[]	=
 	{"planar"},{"ANIMS"},{"PLAN VIEW"},{"Style Paint"},{"Style Def"},{"Inside Style Def"},{"PSX Alt"},{"!"}
 };
 
-UBYTE	texture_sizes[]={8,16,32,64,96,128,160,192};
+std::uint8_t	texture_sizes[]={8,16,32,64,96,128,160,192};
 
 //---------------------------------------------------------------
 
@@ -198,11 +198,11 @@ void	new_tile_size(void);
 PaintTab	*the_painttab;	
 //---------------------------------------------------------------
 
-SLONG	max_textures=NUM_GAME_TEXTURES - 1;
+std::int32_t	max_textures=NUM_GAME_TEXTURES - 1;
 
 PaintTab::PaintTab(EditorModule *parent)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 
 
 	CurrentColour=0;
@@ -293,14 +293,14 @@ PaintTab::~PaintTab()
 }
 
 void	fix_all_selected_faces_for_tile_mode(void);
-extern void	find_highest_selected_tmap(SLONG *tx,SLONG *ty);
+extern void	find_highest_selected_tmap(std::int32_t *tx,std::int32_t *ty);
 /*
-void	scale_selected_tmaps(SLONG scale)
+void	scale_selected_tmaps(std::int32_t scale)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
-	SLONG tx,ty;
+	std::int32_t tx,ty;
 
 	find_highest_selected_tmap(&tx,&ty);
 	scale+=32;
@@ -313,7 +313,7 @@ void	scale_selected_tmaps(SLONG scale)
 			p_f4=&prim_faces4[face_selected_list[c0]];
 			for(c1=0;c1<4;c1++)
 			{
-				SLONG wx,wy;
+				std::int32_t wx,wy;
 
 			   	wx=p_f4->UV[c1][0];
 			   	wy=p_f4->UV[c1][1];
@@ -374,7 +374,7 @@ void	PaintTab::UpdateTabInfo(void)
 }
 
 //---------------------------------------------------------------
-extern SLONG	editor_texture_set;
+extern std::int32_t	editor_texture_set;
 
 void	PaintTab::DrawTabContent(void)
 {
@@ -388,9 +388,9 @@ void	PaintTab::DrawTabContent(void)
 	SetWorkWindowBounds(ContentLeft()+1,ContentTop()+1,ContentWidth()-1,ContentHeight()-1);
 
 	DrawControlSet();
-	extern UWORD	diff_page_count1,diff_page_count2;
+	extern std::uint16_t	diff_page_count1,diff_page_count2;
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"diff tex(world %d) %d  shared %d",editor_texture_set,diff_page_count1,diff_page_count2); 
 		QuickText(0,0,str,0);
 		QuickText(1,0,str,WHITE_COL);
@@ -438,9 +438,9 @@ void	PaintTab::DrawTabContent(void)
 
 //---------------------------------------------------------------
 
-void	draw_selected_face_textures(SLONG tx,SLONG ty,SLONG zoom)
+void	draw_selected_face_textures(std::int32_t tx,std::int32_t ty,std::int32_t zoom)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
 
@@ -450,7 +450,7 @@ void	draw_selected_face_textures(SLONG tx,SLONG ty,SLONG zoom)
 	{
 		if(face_selected_list[c0]>0)
 		{
-			SLONG	x1,y1,x2,y2,x3,y3,x4,y4;
+			std::int32_t	x1,y1,x2,y2,x3,y3,x4,y4;
 			p_f4=&prim_faces4[face_selected_list[c0]];
 			x1=((p_f4->UV[0][0]+tx)*zoom);
 			y1=((p_f4->UV[0][1]+ty)*zoom);
@@ -469,7 +469,7 @@ void	draw_selected_face_textures(SLONG tx,SLONG ty,SLONG zoom)
 		else
 		if(face_selected_list[c0]<0)
 		{
-			SLONG	x1,y1,x2,y2,x3,y3;
+			std::int32_t	x1,y1,x2,y2,x3,y3;
 			p_f3=&prim_faces3[-face_selected_list[c0]];
 			x1=(p_f3->UV[0][0]+tx)*zoom;
 			y1=(p_f3->UV[0][1]+ty)*zoom;
@@ -485,11 +485,11 @@ void	draw_selected_face_textures(SLONG tx,SLONG ty,SLONG zoom)
 	}
 }
 
-extern void	build_texture(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE page,UBYTE u0,UBYTE v0,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3);
+extern void	build_texture(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::uint8_t page,std::uint8_t u0,std::uint8_t v0,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3);
 
 void	PaintTab::DrawAnimTmapSelector(void)
 {
-	SLONG	w,h,count;
+	std::int32_t	w,h,count;
 	EdRect	tex_rect;
 	w=AnimRect.GetLeft();
 	count=ShowAnimTmap;
@@ -510,7 +510,7 @@ void	PaintTab::DrawAnimTmapSelector(void)
 
 		if(anim_tmaps[count].Flags)
 		{
-			UWORD	frame;
+			std::uint16_t	frame;
 			frame=anim_tmaps[count].Current;
 
 			build_texture(w+1,h+1,16,16,anim_tmaps[count].Page[frame],
@@ -528,12 +528,12 @@ void	PaintTab::DrawAnimTmapSelector(void)
 void	PaintTab::SelectStyle(MFPoint *clicked_point)
 {
 	MFPoint		local_point;
-	SLONG	scroll_pos=CurrentStylePos;
-	SLONG	c0,pos;
+	std::int32_t	scroll_pos=CurrentStylePos;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
-	SLONG	tx=20,ty=20;
-	SLONG	c1;
-	UBYTE	UV[4][2];
+	std::int32_t	tx=20,ty=20;
+	std::int32_t	c1;
+	std::uint8_t	UV[4][2];
 
 	local_point=*clicked_point;
 	GlobalToLocal(&local_point);
@@ -608,16 +608,16 @@ void	PaintTab::SelectStyle(MFPoint *clicked_point)
 
 }
 
-extern UBYTE	tmap2[];
-extern void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags);
+extern std::uint8_t	tmap2[];
+extern void	draw_quad_now(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::uint8_t tx,std::uint8_t ty,std::uint8_t page,std::uint8_t flip,std::uint8_t flags);
 
 void	PaintTab::DrawStyleTexture(void)
 {
-	SLONG	scroll_pos=CurrentStylePos;
-	SLONG	c0,pos;
+	std::int32_t	scroll_pos=CurrentStylePos;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
 
-	SLONG	tx=20,ty=20;
+	std::int32_t	tx=20,ty=20;
 	
 
 	for(c0=0;c0<10;c0++)
@@ -638,12 +638,12 @@ void	PaintTab::DrawStyleTexture(void)
 }
 void	PaintTab::DrawTexture(void)
 {
-	ULONG		pixel;
-	SLONG		c0,c1,
+	std::uint32_t		pixel;
+	std::int32_t		c0,c1,
 				texture_x,
 				texture_y,
 				zoom;
-	SLONG		x[4],y[4];
+	std::int32_t		x[4],y[4];
 
 
 	SetWorkWindowBounds(ContentLeft()+1,ContentTop()+1,ContentWidth()-1,ContentHeight()-1);
@@ -656,10 +656,10 @@ void	PaintTab::DrawTexture(void)
 			case	1:
 				{
 /*
-				UBYTE		*texture_ptr;
-				UBYTE		*rect_ptr;
-				UBYTE		*buffer_ptr;
-				UBYTE		texture_buffer[256];
+				std::uint8_t		*texture_ptr;
+				std::uint8_t		*rect_ptr;
+				std::uint8_t		*buffer_ptr;
+				std::uint8_t		texture_buffer[256];
 
 				
 				SET_TEXTURE_COORDS
@@ -704,15 +704,15 @@ void	PaintTab::DrawTexture(void)
 /*
 				if (Keys[KB_8])
 				{
-					UBYTE		*texture_ptr;
-					UWORD		*rect_ptr;
-					UWORD		*buffer_ptr;
-					UWORD		texture_buffer[256];
+					std::uint8_t		*texture_ptr;
+					std::uint16_t		*rect_ptr;
+					std::uint16_t		*buffer_ptr;
+					std::uint16_t		texture_buffer[256];
 
 					
 					SET_TEXTURE_COORDS
 
-					rect_ptr	=	((UWORD*)WorkWindow)+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenPixelWidth);
+					rect_ptr	=	((std::uint16_t*)WorkWindow)+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenPixelWidth);
 					if(Keys[KB_9])
 						texture_ptr	=	tmap2+texture_x+(texture_y*256);
 					else
@@ -725,8 +725,8 @@ void	PaintTab::DrawTexture(void)
 						c1			=	1<<TextureZoom;
 						while(c1)
 						{
-	extern UWORD	pal_to_16[];
-	extern UWORD	yc_to_555[8][256*64];
+	extern std::uint16_t	pal_to_16[];
+	extern std::uint16_t	yc_to_555[8][256*64];
 							pixel	=	yc_to_555[CurrentTexturePage][texture_ptr[c1-1]+(256*32)];
 							zoom	=	256>>TextureZoom;
 							while(zoom--)
@@ -756,14 +756,14 @@ void	PaintTab::DrawTexture(void)
 
 					SET_TEXTURE_COORDS
 
-					UWORD *rect_ptr = ((UWORD*)WorkWindow)+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenPixelWidth);
-					UWORD *text_ptr = game_textures[CurrentTexturePage].TexturePtr;
+					std::uint16_t *rect_ptr = ((std::uint16_t*)WorkWindow)+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenPixelWidth);
+					std::uint16_t *text_ptr = game_textures[CurrentTexturePage].TexturePtr;
 
-					SLONG i;
-					SLONG j;
+					std::int32_t i;
+					std::int32_t j;
 
-					SLONG zoom   = 256 >> TextureZoom;
-					SLONG unzoom = 8 - TextureZoom;
+					std::int32_t zoom   = 256 >> TextureZoom;
+					std::int32_t unzoom = 8 - TextureZoom;
 
 					if (zoom == 1)
 					{
@@ -777,10 +777,10 @@ void	PaintTab::DrawTexture(void)
 						if(show_info)
 						if(CurrentTexturePage<8)
 						{
-							CBYTE str[100];
-							SLONG	x,y,page;
+							char str[100];
+							std::int32_t	x,y,page;
 							page=CurrentTexturePage*64;
-extern UWORD	page_count[];
+extern std::uint16_t	page_count[];
 							for(y=0;y<8;y++)
 							for(x=0;x<8;x++)
 							{
@@ -790,8 +790,8 @@ extern UWORD	page_count[];
 								QuickText(PaintRect.GetLeft()+x*32+1,PaintRect.GetTop()+y*32+1,str,WHITE_COL);
 								if(page_remap[page])
 								{
-									SLONG	u,v,flip=0;
-									UWORD	rpage;
+									std::int32_t	u,v,flip=0;
+									std::uint16_t	rpage;
 
 									rpage=page_remap[page]-1;
 
@@ -821,14 +821,14 @@ extern UWORD	page_count[];
 						if(show_info)
 						if(CurrentTexturePage<8)
 						{
-							CBYTE str[100];
-							SLONG	x,y,page;
+							char str[100];
+							std::int32_t	x,y,page;
 							page=CurrentTexturePage*64;
-extern UWORD	page_count[];
+extern std::uint16_t	page_count[];
 							for(y=0;y<8;y++)
 							for(x=0;x<8;x++)
 							{
-								SLONG	zoom_x,zoom_y;
+								std::int32_t	zoom_x,zoom_y;
 
 								zoom_x=((x*32)<<unzoom)-(texture_x<<unzoom);
 								zoom_y=((y*32)<<unzoom)-(texture_y<<unzoom);
@@ -841,8 +841,8 @@ extern UWORD	page_count[];
 	
 									if(page_remap[page])
 									{
-										SLONG	u,v,flip=0;
-										UWORD	rpage;
+										std::int32_t	u,v,flip=0;
+										std::uint16_t	rpage;
 
 										rpage=page_remap[page]-1;
 
@@ -871,7 +871,7 @@ extern UWORD	page_count[];
 	//show fade table
 	/*
 		{
-			SLONG	x,y;
+			std::int32_t	x,y;
 			for(y=0;y<64;y++)
 			{
 				memcpy(rect_ptr,&fade_tables[y<<8],256);
@@ -956,11 +956,11 @@ void	PaintTab::UpdateTexture(void)
 
 //---------------------------------------------------------------
 
-UBYTE	bit_tab[10]	=	{	0,1,2,3,4,4,4,4,4,4	};
+std::uint8_t	bit_tab[10]	=	{	0,1,2,3,4,4,4,4,4,4	};
 
 void	PaintTab::UpdateTextureInfo(void)
 {
-	CBYTE	str[20];
+	char	str[20];
 	if(CurrentTexturePage>=0)
 		((CStaticText*)GetControlPtr(CTRL_TEX_PAGE_TEXT))->SetString1(texture_menu[CurrentTexturePage].ItemText);
 //		((CStaticText*)TextureSet.GetControlPtr(CTRL_TEX_PAGE_TEXT))->SetString1(texture_menu[CurrentTexturePage].ItemText);
@@ -994,7 +994,7 @@ void	PaintTab::UpdateTextureInfo(void)
 
 void	PaintTab::DrawPalette(void)
 {
-	ULONG		c0,c1,
+	std::uint32_t		c0,c1,
 				colour,
 				*rect_ptr,
 				*temp_ptr;
@@ -1004,7 +1004,7 @@ void	PaintTab::DrawPalette(void)
 
 
 	SetWorkWindowBounds(ContentLeft()+1,ContentTop()+1,ContentWidth()-1,ContentHeight()-1);
-	rect_ptr	=	(ULONG*)(WorkWindow+PaintRect.GetLeft()*2+2+((PaintRect.GetTop()+1)*WorkScreenWidth));
+	rect_ptr	=	(std::uint32_t*)(WorkWindow+PaintRect.GetLeft()*2+2+((PaintRect.GetTop()+1)*WorkScreenWidth));
 	for(c0=0;c0<256;c0++)
 	{
 		colour		=	pal_to_16[c0]*0x00010001;
@@ -1052,10 +1052,10 @@ void	PaintTab::UpdatePaletteInfo(void)
 
 //---------------------------------------------------------------
 
-void	PaintTab::do_undo_me_bloody_self_then(SLONG index)
+void	PaintTab::do_undo_me_bloody_self_then(std::int32_t index)
 {
 	struct	GenericUndo	*p_u;
-	SLONG	c0;
+	std::int32_t	c0;
 	if(index<0)
 		p_u=&MyUndo.undo_undo_info[-index];
 	else
@@ -1089,7 +1089,7 @@ void	PaintTab::do_undo_me_bloody_self_then(SLONG index)
 					{
 						if(selected_face.Face<0)
 						{
-							prim_faces3[-selected_face.Face].TexturePage	=	(UWORD)CurrentTexturePage;
+							prim_faces3[-selected_face.Face].TexturePage	=	(std::uint16_t)CurrentTexturePage;
 							for(c0=0;c0<3;c0++)
 							{
 								prim_faces3[-selected_face.Face].UV[c0][0]		=	CurrentTexture.U[c0];
@@ -1098,7 +1098,7 @@ void	PaintTab::do_undo_me_bloody_self_then(SLONG index)
 						}
 						else
 						{
-							prim_faces4[selected_face.Face].TexturePage	=	(UWORD)CurrentTexturePage;
+							prim_faces4[selected_face.Face].TexturePage	=	(std::uint16_t)CurrentTexturePage;
 							for(c0=0;c0<4;c0++)
 							{
 								prim_faces4[selected_face.Face].UV[c0][0]	=	CurrentTexture.U[c0];
@@ -1121,10 +1121,10 @@ void	PaintTab::CutFloorBrush(BuildTab *BuildMode,MFPoint *current_point)
 {
 
 	MFPoint		point1,point2;
-	SLONG		con_top,con_left;
-	SLONG		x,y,w,h;
-	SLONG		mx1,my1,mz1;
-	SLONG		mx2,my2,mz2;
+	std::int32_t		con_top,con_left;
+	std::int32_t		x,y,w,h;
+	std::int32_t		mx1,my1,mz1;
+	std::int32_t		mx2,my2,mz2;
 
 	x=Parent->ContentLeft();
 	y=Parent->ContentTop();
@@ -1159,7 +1159,7 @@ void	PaintTab::CutFloorBrush(BuildTab *BuildMode,MFPoint *current_point)
 		ShowWorkWindow(0);
 	}
 	{
-		SLONG	mw,mh;
+		std::int32_t	mw,mh;
 		mw=mx2-mx1;
 		if(mw<0)
 		{
@@ -1182,8 +1182,8 @@ void	PaintTab::CutFloorBrush(BuildTab *BuildMode,MFPoint *current_point)
 
 void	PaintTab::HandleTab(MFPoint *current_point)
 {
-	ULONG		control_id;
-	SLONG		update	=	0;
+	std::uint32_t		control_id;
+	std::int32_t		update	=	0;
 
 
 //	ModeTab::HandleTab(current_point);
@@ -1212,7 +1212,7 @@ void	PaintTab::HandleTab(MFPoint *current_point)
 
 	if(Keys[KB_U])
 	{
-		SLONG	index;
+		std::int32_t	index;
 		Keys[KB_U]=0;
 		index=MyUndo.DoUndo(ShiftFlag?1:0);
 		if(index)
@@ -1270,7 +1270,7 @@ void	PaintTab::HandleTab(MFPoint *current_point)
 
 	if(Keys[KB_K])
 	{
-		SLONG	scale=	260;
+		std::int32_t	scale=	260;
 		if(ShiftFlag)
 			scale+=20;
 		scale_selected_tmaps(scale);
@@ -1283,7 +1283,7 @@ void	PaintTab::HandleTab(MFPoint *current_point)
 
 	if(Keys[KB_L])
 	{
-		SLONG	scale=	250;
+		std::int32_t	scale=	250;
 		if(ShiftFlag)
 			scale-=20;
 		scale_selected_tmaps(scale);
@@ -1295,10 +1295,10 @@ void	PaintTab::HandleTab(MFPoint *current_point)
 		update=1;
 	}
 
-void	offset_selected_tex_page(SWORD offset);
+void	offset_selected_tex_page(std::int16_t offset);
 	if(Keys[KB_PLUS])
 	{
-		SLONG	offset=1;
+		std::int32_t	offset=1;
 		Keys[KB_PLUS]=0;
 		if(ShiftFlag)
 			offset=64;
@@ -1306,7 +1306,7 @@ void	offset_selected_tex_page(SWORD offset);
 	}
 	if(Keys[KB_MINUS])
 	{
-		SLONG	offset=-1;
+		std::int32_t	offset=-1;
 		Keys[KB_MINUS]=0;
 		if(ShiftFlag)
 			offset=-64;
@@ -1324,7 +1324,7 @@ void	offset_selected_tex_page(SWORD offset);
 
 	if(!ControlFlag)
 	{
-		SLONG	offset=0;
+		std::int32_t	offset=0;
 		
 		if(ShiftFlag)
 			offset=10;
@@ -1493,7 +1493,7 @@ void	offset_selected_tex_page(SWORD offset);
 #define	DRAG_SHIFT_V		3
 #define	DRAG_CONTROL		4
 
-ULONG	hooks[4][2]	=
+std::uint32_t	hooks[4][2]	=
 {
 	{	2,1	},
 	{	3,0	},
@@ -1503,7 +1503,7 @@ ULONG	hooks[4][2]	=
 
 void	PaintTab::SelectAnimTexture(MFPoint *clicked_point)
 {
-	SLONG x,y;
+	std::int32_t x,y;
 
 	x=clicked_point->X-AnimRect.GetLeft();
 	y=clicked_point->Y-AnimRect.GetTop();
@@ -1522,7 +1522,7 @@ void	PaintTab::SelectAnimTexture(MFPoint *clicked_point)
 
 void	PaintTab::SetEditAnimTexture(MFPoint *clicked_point)
 {
-	SLONG x,y;
+	std::int32_t x,y;
 
 	x=clicked_point->X-AnimRect.GetLeft();
 	y=clicked_point->Y-AnimRect.GetTop();
@@ -1542,10 +1542,10 @@ void	PaintTab::SetEditAnimTexture(MFPoint *clicked_point)
 	}
 }
 
-UWORD	PaintTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	PaintTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	ULONG		control_id;
-	SLONG		zoom;
+	std::uint32_t		control_id;
+	std::int32_t		zoom;
 	Control		*current_control;
 	MFPoint		current_point,
 				local_point;
@@ -1706,7 +1706,7 @@ UWORD	PaintTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-void	PaintTab::HandleControl(UWORD control_id)
+void	PaintTab::HandleControl(std::uint16_t control_id)
 {
 
 
@@ -1779,7 +1779,7 @@ void	PaintTab::HandleControl(UWORD control_id)
 			break;
 
 		case	CTRL_BUILD_OTHER:
-extern SLONG	build_psx;
+extern std::int32_t	build_psx;
 			build_psx^=1;
 			create_city(BUILD_MODE_EDITOR);
 			break;
@@ -1820,7 +1820,7 @@ extern SLONG	build_psx;
 		case	CTRL_TEX_IMPORT_TEX:
 			{
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 				fr=new FileRequester("data\\","*.tex","Save A Prim","temp.tex");
 				if(fr->Draw())
 				{
@@ -1874,10 +1874,10 @@ extern SLONG	build_psx;
 			edit_info.Clipped^=2;
 			break;
 		case	CTRL_TEX_SET_CLIPPED:
-extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(std::int32_t *minx,std::int32_t *maxx,std::int32_t *minz,std::int32_t *maxz);
 			{
 
-				SLONG	minx,maxx,minz,maxz;
+				std::int32_t	minx,maxx,minz,maxz;
 
 				find_map_clip(&minx,&maxx,&minz,&maxz);
 				edit_info.MinX=minx;
@@ -1905,7 +1905,7 @@ extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
 
 //---------------------------------------------------------------
 
-void	PaintTab::HandlePaletteControl(UWORD control_id)
+void	PaintTab::HandlePaletteControl(std::uint16_t control_id)
 {
 	UpdatePaletteInfo();
 
@@ -1918,7 +1918,7 @@ void	PaintTab::HandlePaletteControl(UWORD control_id)
 	ShowWorkWindow(0);
 }
 
-void	PaintTab::HandleStyleControl(UWORD control_id)
+void	PaintTab::HandleStyleControl(std::uint16_t control_id)
 {
 
 	switch(control_id&0xff)
@@ -2005,7 +2005,7 @@ void	PaintTab::DoPlanarMapF(void)
 
 //---------------------------------------------------------------
 
-void	PaintTab::HandleTextureControl(UWORD control_id)
+void	PaintTab::HandleTextureControl(std::uint16_t control_id)
 {
 	
 	switch(control_id&0xff)
@@ -2044,7 +2044,7 @@ void	PaintTab::HandleTextureControl(UWORD control_id)
 		case	CTRL_TEX_IMPORT_TEX:
 			{
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 				fr=new FileRequester("data\\","*.tex","Save A Prim","temp.tex");
 				if(fr->Draw())
 				{
@@ -2098,10 +2098,10 @@ void	PaintTab::HandleTextureControl(UWORD control_id)
 			edit_info.Clipped^=2;
 			break;
 		case	CTRL_TEX_SET_CLIPPED:
-extern void	find_map_clip(SLONG *minx,SLONG *maxx,SLONG *minz,SLONG *maxz);
+extern void	find_map_clip(std::int32_t *minx,std::int32_t *maxx,std::int32_t *minz,std::int32_t *maxz);
 			{
 
-				SLONG	minx,maxx,minz,maxz;
+				std::int32_t	minx,maxx,minz,maxz;
 
 				find_map_clip(&minx,&maxx,&minz,&maxz);
 				edit_info.MinX=minx;
@@ -2144,9 +2144,9 @@ void	PaintTab::SelectColour(MFPoint *clicked_point)
 }
 
 //---------------------------------------------------------------
-void	find_highest_selected_tmap(SLONG *tx,SLONG *ty)
+void	find_highest_selected_tmap(std::int32_t *tx,std::int32_t *ty)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
 	*tx=1000000;
@@ -2183,9 +2183,9 @@ void	find_highest_selected_tmap(SLONG *tx,SLONG *ty)
 	}		 
 }
 
-void	offset_selected_tmaps(SLONG tx,SLONG ty,UBYTE	page,SLONG sx,SLONG sy,SLONG flag)
+void	offset_selected_tmaps(std::int32_t tx,std::int32_t ty,std::uint8_t	page,std::int32_t sx,std::int32_t sy,std::int32_t flag)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
 
@@ -2222,12 +2222,12 @@ void	offset_selected_tmaps(SLONG tx,SLONG ty,UBYTE	page,SLONG sx,SLONG sy,SLONG 
 	}
 }
 
-void	scale_selected_tmaps(SWORD scale)
+void	scale_selected_tmaps(std::int16_t scale)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
-	SLONG	mid_x=0,mid_y=0,count=0;
+	std::int32_t	mid_x=0,mid_y=0,count=0;
 
 	for(c0=1;c0<next_face_selected;c0++)
 	{
@@ -2265,7 +2265,7 @@ void	scale_selected_tmaps(SWORD scale)
 				p_f4=&prim_faces4[face_selected_list[c0]];
 				for(c1=0;c1<4;c1++)
 				{
-					SLONG	temp;
+					std::int32_t	temp;
 
 					temp=p_f4->UV[c1][0];
 					temp-=mid_x;
@@ -2287,7 +2287,7 @@ void	scale_selected_tmaps(SWORD scale)
 				p_f3=&prim_faces3[-face_selected_list[c0]];
 				for(c1=0;c1<3;c1++)
 				{
-					SLONG	temp;
+					std::int32_t	temp;
 
 					temp=p_f3->UV[c1][0];
 					temp-=mid_x;
@@ -2308,13 +2308,13 @@ void	scale_selected_tmaps(SWORD scale)
 
 }
 
-void	offset_selected_tex_page(SWORD offset)
+void	offset_selected_tex_page(std::int16_t offset)
 {
-	SLONG	c0,c1;
+	std::int32_t	c0,c1;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
-	SLONG	mid_x=0,mid_y=0,count=0;
-	SLONG	u,v,page;
+	std::int32_t	mid_x=0,mid_y=0,count=0;
+	std::int32_t	u,v,page;
 
 	for(c0=1;c0<next_face_selected;c0++)
 	{
@@ -2443,7 +2443,7 @@ void	offset_selected_tex_page(SWORD offset)
 
 void	PaintTab::PlanarMapping(MFPoint *clicked_point)
 {
-	SLONG		c0,c1,
+	std::int32_t		c0,c1,
 				scale,
 				texture_x,
 				texture_y,
@@ -2517,11 +2517,11 @@ void	PaintTab::PlanarMapping(MFPoint *clicked_point)
 
 void	PaintTab::SelectTexture(MFPoint *clicked_point)
 {
-	ULONG		drag_flags,
+	std::uint32_t		drag_flags,
 				update,
 				x_quad,
 				y_quad;
-	SLONG		angle,
+	std::int32_t		angle,
 				c0,c1,
 				scale,
 				texture_x,
@@ -2569,8 +2569,8 @@ void	PaintTab::SelectTexture(MFPoint *clicked_point)
 			update	=	0;
 			for(c0=0;c0<c1;c0++)
 			{
-				SLONG	width,height;
-				SLONG	sx,sy;
+				std::int32_t	width,height;
+				std::int32_t	sx,sy;
 				current_point	=	*clicked_point;
 				current_point.X	-=	PaintRect.GetLeft()+2;
 				current_point.Y	-=	PaintRect.GetTop()+2;
@@ -2800,9 +2800,9 @@ void	PaintTab::SelectTexture(MFPoint *clicked_point)
 						y_offset	=	local_point.Y-current_point.Y;
 						if(selected_face.PEle==(struct EditMapElement*)-1 && face_is_in_list(selected_face.Face))
 						{
-							SLONG	p;
-							SLONG	sx,sy;
-							SLONG	flag=0;
+							std::int32_t	p;
+							std::int32_t	sx,sy;
+							std::int32_t	flag=0;
 
 							if(ShiftFlag)
 								flag=1;
@@ -3039,9 +3039,9 @@ void	PaintTab::SelectTexture(MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-UWORD	PaintTab::ConvertFreeToFixedEle(struct TextureBits *t,SLONG *x,SLONG *y,SLONG *width,SLONG *height,SLONG *page)
+std::uint16_t	PaintTab::ConvertFreeToFixedEle(struct TextureBits *t,std::int32_t *x,std::int32_t *y,std::int32_t *width,std::int32_t *height,std::int32_t *page)
 {
-	SLONG	size;
+	std::int32_t	size;
 	t->X=CurrentTexture.U[0]>>3;
 	t->Y=CurrentTexture.V[0]>>3;
 
@@ -3116,7 +3116,7 @@ UWORD	PaintTab::ConvertFreeToFixedEle(struct TextureBits *t,SLONG *x,SLONG *y,SL
 
 void	PaintTab::ConvertFixedToFree(struct TextureBits *t)
 {
-	UBYTE	sx,sy,w,h;
+	std::uint8_t	sx,sy,w,h;
 
 	sx=t->X<<3;
 	sy=t->Y<<3;
@@ -3138,8 +3138,8 @@ void	PaintTab::ConvertFixedToFree(struct TextureBits *t)
 
 void	PaintTab::ConvertMiniTex(struct	MiniTextureBits	*tex)
 {
-	SLONG	sx,sy,w;
-	SLONG	rot;
+	std::int32_t	sx,sy,w;
+	std::int32_t	rot;
 
 	sx=tex->X<<5;
 	sy=tex->Y<<5;
@@ -3159,7 +3159,7 @@ void	PaintTab::ConvertMiniTex(struct	MiniTextureBits	*tex)
 
 	for(;rot>0;rot--)
 	{
-		SLONG	temp_u,temp_v;
+		std::int32_t	temp_u,temp_v;
 		temp_u	=	CurrentTexture.U[0];
 		temp_v	=	CurrentTexture.V[0];
 		CurrentTexture.U[0]	=	CurrentTexture.U[1];
@@ -3178,9 +3178,9 @@ void	PaintTab::ConvertMiniTex(struct	MiniTextureBits	*tex)
 
 	
 }
-UWORD	PaintTab::ConvertTexToMiniTex(void)
+std::uint16_t	PaintTab::ConvertTexToMiniTex(void)
 {
-	UBYTE x1, y1, x2, y2, x3, y3, x4, y4, page;
+	std::uint8_t x1, y1, x2, y2, x3, y3, x4, y4, page;
 	struct	MiniTextureBits	tex;
 
 	tex.X=(CurrentTexture.U[0]+CurrentTexture.U[1]+CurrentTexture.U[2]+CurrentTexture.U[3])>>7;
@@ -3188,12 +3188,12 @@ UWORD	PaintTab::ConvertTexToMiniTex(void)
 	tex.Page=CurrentTexturePage;
 	tex.Size=0;
 	tex.Rot=CurrentTextureRot;
-	return(*((UWORD*)&tex));
+	return(*((std::uint16_t*)&tex));
 }
 
 bool	PaintTab::ApplyTexture(struct EditFace *edit_face)
 {
-	SLONG		c0;
+	std::int32_t		c0;
 
 
 	if(edit_face->PEle==(struct EditMapElement*)-2)
@@ -3237,7 +3237,7 @@ bool	PaintTab::ApplyTexture(struct EditFace *edit_face)
 			if(edit_face->Face<0)
 			{
 				prim_faces3[-edit_face->Face].DrawFlags		|=	POLY_FLAG_TEXTURED;
-				prim_faces3[-edit_face->Face].TexturePage	=	(UWORD)CurrentTexturePage;
+				prim_faces3[-edit_face->Face].TexturePage	=	(std::uint16_t)CurrentTexturePage;
 				for(c0=0;c0<3;c0++)
 				{
 					prim_faces3[-edit_face->Face].UV[c0][0]		=	CurrentTexture.U[c0];
@@ -3247,7 +3247,7 @@ bool	PaintTab::ApplyTexture(struct EditFace *edit_face)
 			else
 			{
 				prim_faces4[edit_face->Face].DrawFlags		|=	POLY_FLAG_TEXTURED;
-				prim_faces4[edit_face->Face].TexturePage	=	(UWORD)CurrentTexturePage;
+				prim_faces4[edit_face->Face].TexturePage	=	(std::uint16_t)CurrentTexturePage;
 				for(c0=0;c0<4;c0++)
 				{
 					prim_faces4[edit_face->Face].UV[c0][0]		=	CurrentTexture.U[c0];
@@ -3255,21 +3255,21 @@ bool	PaintTab::ApplyTexture(struct EditFace *edit_face)
 				}
 				if(prim_faces4[edit_face->Face].ThingIndex<0)
 				{
-extern void	set_wall_texture_info(SLONG	wall,UBYTE page,EdTexture	*current_texture,UBYTE type,UBYTE side);
-					UBYTE	type=0;
+extern void	set_wall_texture_info(std::int32_t	wall,std::uint8_t page,EdTexture	*current_texture,std::uint8_t type,std::uint8_t side);
+					std::uint8_t	type=0;
 					if(PaintMode==STYLE_PAINT)
 					{
 						type=CurrentStyleEdit;
-						set_wall_texture_info(-prim_faces4[edit_face->Face].ThingIndex,(SBYTE)CurrentTexturePage,&CurrentTexture,type,(prim_faces4[edit_face->Face].FaceFlags&FACE_FLAG_TEX2)?1:0);
+						set_wall_texture_info(-prim_faces4[edit_face->Face].ThingIndex,(std::int8_t)CurrentTexturePage,&CurrentTexture,type,(prim_faces4[edit_face->Face].FaceFlags&FACE_FLAG_TEX2)?1:0);
 					}
 					else
 					{
 						//
 						// apply an individual texture to a wall face
 						//
-extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
-						SLONG	t;
-						SLONG	x=0,y=0,c0;
+extern void	apply_texture_to_wall_face(std::int32_t face,std::int32_t texture);
+						std::int32_t	t;
+						std::int32_t	x=0,y=0,c0;
 
 						for(c0=0;c0<4;c0++)
 						{
@@ -3291,7 +3291,7 @@ extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
 	}
 	else if(edit_face->PEle)
 	{
-		SLONG x,y,width,height,page;
+		std::int32_t x,y,width,height,page;
 //		ConvertFreeToFixedEle(&edit_face->PEle->Textures[edit_face->Face]);
 		ConvertFreeToFixedEle(&edit_face->PEle->Textures[edit_face->Face],&x,&y,&width,&height,&page);
 		return	1;
@@ -3300,21 +3300,21 @@ extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
 }
 
 
-void	paint_texture_to_wall(SLONG wall,SLONG pos,SLONG texture)
+void	paint_texture_to_wall(std::int32_t wall,std::int32_t pos,std::int32_t texture)
 {
 	ASSERT(pos<200);
 		
 	if(wall_list[wall].Tcount<=pos)
 	{
-		SLONG	size;
-		UBYTE	*old=0;
+		std::int32_t	size;
+		std::uint8_t	*old=0;
 		if(wall_list[wall].Textures&&wall_list[wall].Tcount)
 			old=wall_list[wall].Textures;
 
 		size=pos+1;
 		if(size<8)
 			size=8;
-		wall_list[wall].Textures=(UBYTE*)MemAlloc(size+1);
+		wall_list[wall].Textures=(std::uint8_t*)MemAlloc(size+1);
 		if(wall_list[wall].Textures==0)
 		{
 			wall_list[wall].Tcount=0;
@@ -3330,21 +3330,21 @@ void	paint_texture_to_wall(SLONG wall,SLONG pos,SLONG texture)
 	}
 	wall_list[wall].Textures[pos]=texture;
 }
-void	paint_texture_to_wall2(SLONG wall,SLONG pos,SLONG texture)
+void	paint_texture_to_wall2(std::int32_t wall,std::int32_t pos,std::int32_t texture)
 {
 	ASSERT(pos<200);
 		
 	if(wall_list[wall].Tcount2<=pos)
 	{
-		SLONG	size;
-		UBYTE	*old=0;
+		std::int32_t	size;
+		std::uint8_t	*old=0;
 		if(wall_list[wall].Textures2 && wall_list[wall].Tcount2)
 			old=wall_list[wall].Textures2;
 
 		size=pos+1;
 		if(size<8)
 			size=8;
-		wall_list[wall].Textures2=(UBYTE*)MemAlloc(size+1);
+		wall_list[wall].Textures2=(std::uint8_t*)MemAlloc(size+1);
 		if(wall_list[wall].Textures2==0)
 		{
 			wall_list[wall].Tcount2=0;
@@ -3363,7 +3363,7 @@ void	paint_texture_to_wall2(SLONG wall,SLONG pos,SLONG texture)
 
 void	remove_painted_textures(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<MAX_WALLS;c0++)
 	{
 		if(wall_list[c0].Textures&&wall_list[c0].Tcount)
@@ -3384,7 +3384,7 @@ void	remove_painted_textures(void)
 }
 void	remove_style_textures(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<MAX_WALLS;c0++)
 	{
 			wall_list[c0].TextureStyle=0;
@@ -3392,20 +3392,20 @@ void	remove_style_textures(void)
 	}
 }
 
-void	paint_texture_to_storey(SLONG storey,SLONG pos,SLONG texture)
+void	paint_texture_to_storey(std::int32_t storey,std::int32_t pos,std::int32_t texture)
 {
 	ASSERT(pos<100);
 /*		
 	if(storey_list[storey].Tcount<=pos)
 	{
-		SLONG	size;
+		std::int32_t	size;
 		if(storey_list[storey].Textures&&storey_list[storey].Tcount)
 			MemFree(storey_list[storey].Textures);
 
 		size=pos;
 		if(size<8)
 			size=8;
-		storey_list[storey].Textures=(UBYTE*)MemAlloc(size);
+		storey_list[storey].Textures=(std::uint8_t*)MemAlloc(size);
 		if(storey_list[storey].Textures==0)
 		{
 			storey_list[storey].Tcount=0;
@@ -3418,15 +3418,15 @@ void	paint_texture_to_storey(SLONG storey,SLONG pos,SLONG texture)
 */
 }
 
-void	apply_texture_to_wall_face(SLONG face,SLONG texture)
+void	apply_texture_to_wall_face(std::int32_t face,std::int32_t texture)
 {
-	SLONG	wall,storey,building;
-	SLONG	c0;
-	SLONG	mx=0,my=0,mz=0;
-	SLONG	head;
-	SLONG	x1,z1;
-	SLONG	dx,dz;
-	SLONG	dist;
+	std::int32_t	wall,storey,building;
+	std::int32_t	c0;
+	std::int32_t	mx=0,my=0,mz=0;
+	std::int32_t	head;
+	std::int32_t	x1,z1;
+	std::int32_t	dx,dz;
+	std::int32_t	dist;
 
 
 	// quads only
@@ -3457,7 +3457,7 @@ void	apply_texture_to_wall_face(SLONG face,SLONG texture)
 	if (wall > 0)
 	{
 		struct	MapThing	*p_mthing;
-		SLONG	thing;
+		std::int32_t	thing;
 
 		storey   = wall_list[wall].StoreyHead;
 		building = storey_list[storey].BuildingHead;
@@ -3483,7 +3483,7 @@ void	apply_texture_to_wall_face(SLONG face,SLONG texture)
 	}
 	else
 	{
-		SLONG	index;
+		std::int32_t	index;
 		index=storey_list[storey].WallHead;
 		while(index)
 		{

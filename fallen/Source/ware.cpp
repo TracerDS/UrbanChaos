@@ -22,28 +22,28 @@
 
 
 WARE_Ware *WARE_ware;//[WARE_MAX_WARES];
-UWORD WARE_ware_upto;
+std::uint16_t WARE_ware_upto;
 
-UWORD *WARE_nav;//[WARE_MAX_NAVS];
-UWORD WARE_nav_upto;
+std::uint16_t *WARE_nav;//[WARE_MAX_NAVS];
+std::uint16_t WARE_nav_upto;
 
-SBYTE *WARE_height;//[WARE_MAX_HEIGHTS];
-UWORD WARE_height_upto;
+std::int8_t *WARE_height;//[WARE_MAX_HEIGHTS];
+std::uint16_t WARE_height_upto;
 
-UWORD *WARE_rooftex;//[WARE_MAX_ROOFTEXES];
-UWORD WARE_rooftex_upto;
+std::uint16_t *WARE_rooftex;//[WARE_MAX_ROOFTEXES];
+std::uint16_t WARE_rooftex_upto;
 
-UBYTE WARE_in;
+std::uint8_t WARE_in;
 
 
 //
 // The height array for a warehouse.
 //
 
-SLONG WARE_calc_height_at(UBYTE ware, SLONG x, SLONG z)
+std::int32_t WARE_calc_height_at(std::uint8_t ware, std::int32_t x, std::int32_t z)
 {
-	SLONG ans;
-	SLONG index;
+	std::int32_t ans;
+	std::int32_t index;
 
 	WARE_Ware *ww;
 
@@ -83,24 +83,24 @@ SLONG WARE_calc_height_at(UBYTE ware, SLONG x, SLONG z)
 // Returns the bounding box of the given building. The bounding box is exclusive.
 //
 
-void WARE_bounding_box(SLONG dbuilding, 
-		SLONG *bx1, SLONG *bz1,
-		SLONG *bx2, SLONG *bz2)
+void WARE_bounding_box(std::int32_t dbuilding, 
+		std::int32_t *bx1, std::int32_t *bz1,
+		std::int32_t *bx2, std::int32_t *bz2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
 	DBuilding *db;
 	DFacet    *df;
 
-	SLONG height;
+	std::int32_t height;
 
 	//
 	// Initialise the bounding box.
@@ -165,39 +165,39 @@ void WARE_bounding_box(SLONG dbuilding,
 // The rooftop layer of textures.
 //
 
-UWORD WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
+std::uint16_t WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
 
 void WARE_init()
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
-	SLONG mx;
-	SLONG mz;
-	SLONG door_x;
-	SLONG door_y;
-	SLONG door_z;
-	SLONG door_angle;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG rx;
-	SLONG rz;
-	SLONG sx;
-	SLONG sz;
-	SLONG bx1;
-	SLONG bz1;
-	SLONG bx2;
-	SLONG bz2;
-	SLONG nav_memory;
-	SLONG facet;
-	SLONG index;
-	SLONG walkable;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t door_x;
+	std::int32_t door_y;
+	std::int32_t door_z;
+	std::int32_t door_angle;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t rx;
+	std::int32_t rz;
+	std::int32_t sx;
+	std::int32_t sz;
+	std::int32_t bx1;
+	std::int32_t bz1;
+	std::int32_t bx2;
+	std::int32_t bz2;
+	std::int32_t nav_memory;
+	std::int32_t facet;
+	std::int32_t index;
+	std::int32_t walkable;
 
 	DBuilding *db;
 	DFacet    *df;
@@ -210,11 +210,11 @@ void WARE_init()
 	//
 	// Load the rooftop textures from the mapfile.
 	//
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 
 	if(!save_psx) // psx has them allready loaded in load_game_map()
 	{
-		CBYTE* ch;
+		char* ch;
 
 		for (ch = ELEV_last_map_loaded; *ch; ch++);
 
@@ -230,7 +230,7 @@ extern SLONG	save_psx;
 
 		if (!handle)
 		{
-			memset(WARE_roof_tex, 0, sizeof(UWORD) * PAP_SIZE_HI * PAP_SIZE_HI);
+			memset(WARE_roof_tex, 0, sizeof(std::uint16_t) * PAP_SIZE_HI * PAP_SIZE_HI);
 		}
 		else
 		{
@@ -239,7 +239,7 @@ extern SLONG	save_psx;
 			fseek(handle, WARE_OFFSET_TO_ROOFTEXTURES, SEEK_SET);
 
 
-			fread(WARE_roof_tex, sizeof(UWORD), PAP_SIZE_HI * PAP_SIZE_HI, handle);
+			fread(WARE_roof_tex, sizeof(std::uint16_t), PAP_SIZE_HI * PAP_SIZE_HI, handle);
 
 			MF_Fclose(handle);
 		}
@@ -269,7 +269,7 @@ extern SLONG	save_psx;
 	// Initialise warehouse navigation memory.
 	//
 
-	memset(WARE_nav, 0, sizeof(UWORD) * WARE_MAX_NAVS);
+	memset(WARE_nav, 0, sizeof(std::uint16_t) * WARE_MAX_NAVS);
 
 	WARE_nav_upto = 0;
 
@@ -277,7 +277,7 @@ extern SLONG	save_psx;
 	// Initialise warehouse height memory.
 	//
 
-	memset(WARE_height, 0, sizeof(UBYTE) * WARE_MAX_HEIGHTS);
+	memset(WARE_height, 0, sizeof(std::uint8_t) * WARE_MAX_HEIGHTS);
 
 	WARE_height_upto = 0;
 
@@ -285,7 +285,7 @@ extern SLONG	save_psx;
 	// Initialise warehouse rooftex memory.
 	//
 
-	memset(WARE_rooftex, 0, sizeof(UWORD) * WARE_MAX_ROOFTEXES);
+	memset(WARE_rooftex, 0, sizeof(std::uint16_t) * WARE_MAX_ROOFTEXES);
 
 	WARE_rooftex_upto = 0;
 
@@ -542,11 +542,11 @@ extern SLONG	save_psx;
 						dx = pi->minx + pi->maxx >> 1;
 						dz = pi->minz + pi->maxz >> 1;
 
-						SLONG matrix[4];
-						SLONG useangle;
+						std::int32_t matrix[4];
+						std::int32_t useangle;
 
-						SLONG sin_yaw;
-						SLONG cos_yaw;
+						std::int32_t sin_yaw;
+						std::int32_t cos_yaw;
 
 						useangle  = -oi->yaw;
 						useangle &=  2047;
@@ -690,14 +690,14 @@ extern SLONG	save_psx;
 
 /*
 
-SLONG WARE_old_amb_red;
-SLONG WARE_old_amb_green;
-SLONG WARE_old_amb_blue;
-SLONG WARE_old_amb_norm_x;
-SLONG WARE_old_amb_norm_y;
-SLONG WARE_old_amb_norm_z;
+std::int32_t WARE_old_amb_red;
+std::int32_t WARE_old_amb_green;
+std::int32_t WARE_old_amb_blue;
+std::int32_t WARE_old_amb_norm_x;
+std::int32_t WARE_old_amb_norm_y;
+std::int32_t WARE_old_amb_norm_z;
 
-void WARE_enter(SLONG building)
+void WARE_enter(std::int32_t building)
 {
 	WARE_Ware *ww;
 	DBuilding *db;
@@ -779,14 +779,14 @@ void WARE_exit()
 
 */
 
-MAV_Action WARE_mav_enter(Thing *p_person, UBYTE ware, UBYTE caps)
+MAV_Action WARE_mav_enter(Thing *p_person, std::uint8_t ware, std::uint8_t caps)
 {
-	UBYTE i;
-	UBYTE best_door;
-	SLONG best_dist = 0xffff;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::uint8_t i;
+	std::uint8_t best_door;
+	std::int32_t best_dist = 0xffff;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	MAV_Action ans;
 
@@ -861,13 +861,13 @@ MAV_Action WARE_mav_enter(Thing *p_person, UBYTE ware, UBYTE caps)
 	return ans;
 }
 
-MAV_Action WARE_mav_inside(Thing *p_person, UBYTE dest_x, UBYTE dest_z, UBYTE caps)
+MAV_Action WARE_mav_inside(Thing *p_person, std::uint8_t dest_x, std::uint8_t dest_z, std::uint8_t caps)
 {
-	UBYTE start_x;
-	UBYTE start_z;
+	std::uint8_t start_x;
+	std::uint8_t start_z;
 
-	UWORD     *old_mav;
-	UWORD      old_mav_pitch;
+	std::uint16_t     *old_mav;
+	std::uint16_t      old_mav_pitch;
 
 	MAV_Action ma;
 	WARE_Ware *ww;
@@ -941,21 +941,21 @@ MAV_Action WARE_mav_inside(Thing *p_person, UBYTE dest_x, UBYTE dest_z, UBYTE ca
 	return ma;
 }
 
-MAV_Action WARE_mav_exit(Thing *p_person, UBYTE caps)
+MAV_Action WARE_mav_exit(Thing *p_person, std::uint8_t caps)
 {
-	UBYTE i;
-	UBYTE best_door = 0;
-	UBYTE start_x;
-	UBYTE start_z;
-	UBYTE dest_x;
-	UBYTE dest_z;
-	SLONG best_dist = 0xffff;
-	SLONG dx;
-	SLONG dz;
-	SLONG dist;
+	std::uint8_t i;
+	std::uint8_t best_door = 0;
+	std::uint8_t start_x;
+	std::uint8_t start_z;
+	std::uint8_t dest_x;
+	std::uint8_t dest_z;
+	std::int32_t best_dist = 0xffff;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t dist;
 
-	UWORD     *old_mav;
-	UWORD      old_mav_pitch;
+	std::uint16_t     *old_mav;
+	std::uint16_t      old_mav_pitch;
 
 	MAV_Action ans;
 	WARE_Ware *ww;
@@ -986,12 +986,12 @@ MAV_Action WARE_mav_exit(Thing *p_person, UBYTE caps)
 
 		dist = abs(dx) + abs(dz);
 
-		SLONG height_in = WARE_calc_height_at(
+		std::int32_t height_in = WARE_calc_height_at(
 							p_person->Genus.Person->Ware,
 							(ww->door[i].in_x << 8) + 0x80,
 							(ww->door[i].in_z << 8) + 0x80);
 
-		SLONG height_out = PAP_calc_map_height_at(
+		std::int32_t height_out = PAP_calc_map_height_at(
 							(ww->door[i].out_x << 8) + 0x80,
 							(ww->door[i].out_z << 8) + 0x80);
 
@@ -1059,7 +1059,7 @@ MAV_Action WARE_mav_exit(Thing *p_person, UBYTE caps)
 }
 
 
-SLONG WARE_in_floorplan(UBYTE ware, UBYTE x, UBYTE z)
+std::int32_t WARE_in_floorplan(std::uint8_t ware, std::uint8_t x, std::uint8_t z)
 {
 	ASSERT(WITHIN(ware, 1, WARE_ware_upto - 1));
 
@@ -1085,12 +1085,12 @@ SLONG WARE_in_floorplan(UBYTE ware, UBYTE x, UBYTE z)
 #ifndef TARGET_DC
 void WARE_debug()
 {
-	SLONG i;
-	SLONG j;
-	SLONG k;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t k;
 
-	SLONG x1, y1, z1;
-	SLONG x2, y2, z2;
+	std::int32_t x1, y1, z1;
+	std::int32_t x2, y2, z2;
 
 	WARE_Ware *ww;
 
@@ -1139,33 +1139,33 @@ void WARE_debug()
 		//
 
 		{
-			SLONG x;
-			SLONG z;
+			std::int32_t x;
+			std::int32_t z;
 
-			SLONG x1;
-			SLONG y1;
-			SLONG z1;
-			SLONG x2;
-			SLONG y2;
-			SLONG z2;
+			std::int32_t x1;
+			std::int32_t y1;
+			std::int32_t z1;
+			std::int32_t x2;
+			std::int32_t y2;
+			std::int32_t z2;
 
-			SLONG mx;
-			SLONG mz;
+			std::int32_t mx;
+			std::int32_t mz;
 
-			SLONG dx;
-			SLONG dz;
+			std::int32_t dx;
+			std::int32_t dz;
 
-			SLONG lx;
-			SLONG lz;
+			std::int32_t lx;
+			std::int32_t lz;
 
-			SLONG index;
+			std::int32_t index;
 
 			MAV_Opt *mo;
 
 			struct
 			{
-				SLONG dx;
-				SLONG dz;
+				std::int32_t dx;
+				std::int32_t dz;
 
 			} order[4] =
 			{
@@ -1175,7 +1175,7 @@ void WARE_debug()
 				{0, +1}
 			};
 
-			ULONG colour[7] =
+			std::uint32_t colour[7] =
 			{
 				0x00ff0000,
 				0x0000ff00,
@@ -1256,10 +1256,10 @@ void WARE_debug()
 #endif
 #endif
 
-SLONG WARE_inside(UBYTE ware, SLONG x, SLONG y, SLONG z)
+std::int32_t WARE_inside(std::uint8_t ware, std::int32_t x, std::int32_t y, std::int32_t z)
 {
-	SLONG index;
-	SLONG height;
+	std::int32_t index;
+	std::int32_t height;
 
 	WARE_Ware *ww;
 
@@ -1303,9 +1303,9 @@ SLONG WARE_inside(UBYTE ware, SLONG x, SLONG y, SLONG z)
 
 
 
-SLONG WARE_which_contains(UBYTE x, UBYTE z)
+std::int32_t WARE_which_contains(std::uint8_t x, std::uint8_t z)
 {
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 1; i < WARE_ware_upto; i++)
 	{
@@ -1319,14 +1319,14 @@ SLONG WARE_which_contains(UBYTE x, UBYTE z)
 }
 
 
-UBYTE WARE_get_caps(
-		UBYTE ware,
-		UBYTE x,
-		UBYTE z,
-		UBYTE dir)
+std::uint8_t WARE_get_caps(
+		std::uint8_t ware,
+		std::uint8_t x,
+		std::uint8_t z,
+		std::uint8_t dir)
 {
-	SLONG index;
-	SLONG mo_index;
+	std::int32_t index;
+	std::int32_t mo_index;
 
 	WARE_Ware *ww;
 

@@ -24,22 +24,22 @@ struct Grenade
 {
 	Thing*	owner;			// person who threw the grenade
 
-	SLONG	x;				// position
-	SLONG	y;
-	SLONG	z;
+	std::int32_t	x;				// position
+	std::int32_t	y;
+	std::int32_t	z;
 
-	SWORD	yaw;			// orientation
-	SWORD	pitch;
+	std::int16_t	yaw;			// orientation
+	std::int16_t	pitch;
 
-	SLONG	dx;				// velocity
-	SLONG	dy;
-	SLONG	dz;
+	std::int32_t	dx;				// velocity
+	std::int32_t	dy;
+	std::int32_t	dz;
 
-	SWORD	dyaw;			// rotational velocity
-	SWORD	dpitch;
+	std::int16_t	dyaw;			// rotational velocity
+	std::int16_t	dpitch;
 
-	UWORD	timer;			// time to explosion
-	UWORD	rsvd;			// reserved
+	std::uint16_t	timer;			// time to explosion
+	std::uint16_t	rsvd;			// reserved
 };
 
 #define	MAX_GRENADES	6
@@ -64,7 +64,7 @@ void InitGrenades()
 
 Grenade *global_g;
 
-bool CreateGrenade(Thing* owner, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG timer)
+bool CreateGrenade(Thing* owner, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t timer)
 {
 	int ix;
 	for (ix = 0; ix < MAX_GRENADES; ix++)
@@ -102,15 +102,15 @@ bool CreateGrenade(Thing* owner, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, 
 //
 // create a grenade throw by a person
 
-bool CreateGrenadeFromPerson(Thing* p_person, SLONG timer)
+bool CreateGrenadeFromPerson(Thing* p_person, std::int32_t timer)
 {
-	SLONG	vector[3];
+	std::int32_t	vector[3];
 
 	FMATRIX_vector(vector, p_person->Draw.Tweened->Angle, 0);
 
-	SLONG	dx = -vector[0] * 181 >> 11;
-	SLONG	dz = -vector[2] * 181 >> 11;
-	SLONG	dy = 181 << 6;
+	std::int32_t	dx = -vector[0] * 181 >> 11;
+	std::int32_t	dz = -vector[2] * 181 >> 11;
+	std::int32_t	dy = 181 << 6;
 
 	//
 	// Is this an enemy attacking someone?
@@ -121,16 +121,16 @@ bool CreateGrenadeFromPerson(Thing* p_person, SLONG timer)
 	}
 	else
 	{
-		SLONG i_target = PCOM_person_wants_to_kill(p_person);
+		std::int32_t i_target = PCOM_person_wants_to_kill(p_person);
 
 		if (i_target)
 		{
 			Thing *p_target = TO_THING(i_target);
 
-			SLONG dpx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
-			SLONG dpz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
+			std::int32_t dpx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
+			std::int32_t dpz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
 
-			SLONG pdist = QDIST2(dpx,dpz);
+			std::int32_t pdist = QDIST2(dpx,dpz);
 
 			if (pdist < 0x500)
 			{
@@ -141,7 +141,7 @@ bool CreateGrenadeFromPerson(Thing* p_person, SLONG timer)
 		}
 	}
 
-	SLONG	px,py,pz;
+	std::int32_t	px,py,pz;
 
 	calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, SUB_OBJECT_LEFT_HAND, &px, &py, &pz);
 
@@ -158,7 +158,7 @@ bool CreateGrenadeFromPerson(Thing* p_person, SLONG timer)
 
 void DrawGrenades()
 {
-	SLONG angle;
+	std::int32_t angle;
 
 	for (int ii = 0; ii < MAX_GRENADES; ii++)
 	{
@@ -172,10 +172,10 @@ void DrawGrenades()
 			angle <<= 6;
 			angle  &= 2047;
 
-			SLONG dx = SIN(angle) >> 8;
-			SLONG dz = COS(angle) >> 8;
+			std::int32_t dx = SIN(angle) >> 8;
+			std::int32_t dz = COS(angle) >> 8;
 
-			extern void BLOOM_draw(SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG col, UBYTE opts);
+			extern void BLOOM_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t col, std::uint8_t opts);
 
 			BLOOM_draw(
 				(gp->x >> 8),
@@ -205,12 +205,12 @@ void DrawGrenades()
 // ProcessGrenades
 //
 // process grenades
-void ProcessGrenade(Grenade* gp,SLONG explode,SLONG ii)
+void ProcessGrenade(Grenade* gp,std::int32_t explode,std::int32_t ii)
 {
 		if (!gp->owner)	return;
 
 		// run countdown
-		SLONG	ticks = 16 * TICK_RATIO >> TICK_SHIFT;
+		std::int32_t	ticks = 16 * TICK_RATIO >> TICK_SHIFT;
 
 		if (gp->timer < ticks)
 		{
@@ -238,9 +238,9 @@ void ProcessGrenade(Grenade* gp,SLONG explode,SLONG ii)
 		if (gp->dy < -0x2000)	gp->dy = -0x2000;
 
 		// move it
-		SLONG	oldx = gp->x;
-		SLONG	oldy = gp->y;
-		SLONG	oldz = gp->z;
+		std::int32_t	oldx = gp->x;
+		std::int32_t	oldy = gp->y;
+		std::int32_t	oldz = gp->z;
 
 		gp->x += (gp->dx * TICK_RATIO) >> TICK_SHIFT;
 		gp->y += (gp->dy * TICK_RATIO) >> TICK_SHIFT;
@@ -250,11 +250,11 @@ void ProcessGrenade(Grenade* gp,SLONG explode,SLONG ii)
 		gp->pitch	+= gp->dpitch;
 
 		// check for collisions
-		SLONG	floor = (PAP_calc_map_height_at(gp->x >> 8, gp->z >> 8) + 11) << 8;
+		std::int32_t	floor = (PAP_calc_map_height_at(gp->x >> 8, gp->z >> 8) + 11) << 8;
 
 		if (gp->y < floor)
 		{
-			SLONG	under = floor - gp->y;
+			std::int32_t	under = floor - gp->y;
 
 			if(explode)
 			if (abs(gp->dy) > 0x80000)
@@ -323,10 +323,10 @@ void ProcessGrenades()
 //
 // cause a grenade to explode
 
-void CreateGrenadeExplosion(SLONG x, SLONG y, SLONG z, Thing* owner)
+void CreateGrenadeExplosion(std::int32_t x, std::int32_t y, std::int32_t z, Thing* owner)
 {
 
-	SLONG ytest = PAP_calc_map_height_at(x>>8,z>>8)<<8;
+	std::int32_t ytest = PAP_calc_map_height_at(x>>8,z>>8)<<8;
 
 	if (y<=ytest) y=ytest+1;
 
@@ -416,9 +416,9 @@ void CreateGrenadeExplosion(SLONG x, SLONG y, SLONG z, Thing* owner)
 
 #endif
 
-	SLONG	sx = x >> 8;
-	SLONG	sy = y >> 8;
-	SLONG	sz = z >> 8;
+	std::int32_t	sx = x >> 8;
+	std::int32_t	sy = y >> 8;
+	std::int32_t	sz = z >> 8;
 
 	DIRT_new_sparks(sx,sy,sz,2);
 	DIRT_new_sparks(sx,sy,sz,2|64);
@@ -432,17 +432,17 @@ void CreateGrenadeExplosion(SLONG x, SLONG y, SLONG z, Thing* owner)
 	create_shockwave(sx, sy, sz, 0x300, 500, owner);
 }
 
-void PANEL_draw_gun_sight(SLONG mx,SLONG my,SLONG mz,SLONG accuracy,SLONG scale);
+void PANEL_draw_gun_sight(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t accuracy,std::int32_t scale);
 
 #ifndef PSX
-SLONG GAMEMENU_is_paused();
-SLONG GAMEMENU_slowdown_mul();
+std::int32_t GAMEMENU_is_paused();
+std::int32_t GAMEMENU_slowdown_mul();
 
 void show_grenade_path(Thing *p_person)
 {
 	Grenade*	gp ;
-	SLONG	x,y,z,x1,y1,z1;
-	SLONG	count=(-GAME_TURN);
+	std::int32_t	x,y,z,x1,y1,z1;
+	std::int32_t	count=(-GAME_TURN);
 
 	if (GAMEMENU_is_paused())
 		return;

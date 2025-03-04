@@ -8,34 +8,34 @@
 
 #pragma warning( disable : 4244)
 
-extern void	do_quad_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2,SLONG p3); //prim.cpp
-extern void	do_tri_clip_list(SWORD face,SLONG p0,SLONG p1,SLONG p2); //prim.cpp
-extern UWORD	calc_lights(SLONG x,SLONG y,SLONG z,struct SVECTOR *p_vect);
+extern void	do_quad_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2,std::int32_t p3); //prim.cpp
+extern void	do_tri_clip_list(std::int16_t face,std::int32_t p0,std::int32_t p1,std::int32_t p2); //prim.cpp
+extern std::uint16_t	calc_lights(std::int32_t x,std::int32_t y,std::int32_t z,struct SVECTOR *p_vect);
 
 extern struct	SVECTOR			global_res[]; //max points per object?
-extern SLONG	global_flags[];
-extern UWORD	global_bright[];
+extern std::int32_t	global_flags[];
+extern std::uint16_t	global_bright[];
 extern float	global_light[];
 
 #define	SORT_LEVEL_LONG_LEDGE	1
 #define	SORT_LEVEL_FIRE_ESCAPE	3
 
-extern SLONG	calc_height_at(SLONG x,SLONG z);
-extern void	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim,UBYTE prim_extra,SWORD face);
-extern SLONG	dist_between_vertex_and_vector(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG px,SLONG py);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
+extern void	insert_collision_vect(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::uint8_t prim,std::uint8_t prim_extra,std::int16_t face);
+extern std::int32_t	dist_between_vertex_and_vector(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t px,std::int32_t py);
 
-struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece);
-void	build_face_texture_info(struct PrimFace4* p_f4,UWORD texture);
-struct	PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD texture_piece);
+struct	PrimFace4*	create_a_quad(std::uint16_t p1,std::uint16_t p0,std::uint16_t p3,std::uint16_t p2,std::int16_t	texture_style,std::int16_t texture_piece);
+void	build_face_texture_info(struct PrimFace4* p_f4,std::uint16_t texture);
+struct	PrimFace3*	create_a_tri(std::uint16_t p2,std::uint16_t p1,std::uint16_t p0,std::int16_t	texture_id,std::int16_t texture_piece);
 
 struct	BuildingFacet	building_facets[MAX_BUILDING_FACETS];
 struct	BuildingObject	building_objects[MAX_BUILDING_OBJECTS];
 
-UWORD	next_building_object=1;
-UWORD	end_building_object=MAX_BUILDING_OBJECTS-2;
+std::uint16_t	next_building_object=1;
+std::uint16_t	end_building_object=MAX_BUILDING_OBJECTS-2;
 
-UWORD	next_building_facet=1;
-UWORD	end_building_facet=MAX_BUILDING_FACETS-2;
+std::uint16_t	next_building_facet=1;
+std::uint16_t	end_building_facet=MAX_BUILDING_FACETS-2;
 
 
 //data
@@ -55,22 +55,22 @@ struct	FBuilding	building_list[MAX_BUILDINGS];
 
 */
 
-static	SLONG	build_seed=0x12345678;
+static	std::int32_t	build_seed=0x12345678;
 
-SLONG	build_rand()
+std::int32_t	build_rand()
 {
 	build_seed=(build_seed*12345678)+12345678;
 //	LogText(" build_seed %x \n",build_seed);
 	return(build_seed>>16);
 }
 
-void	set_build_seed(SLONG seed)
+void	set_build_seed(std::int32_t seed)
 {
 	build_seed=seed;
 }
 
 
-void	add_walk_face_to_map(SWORD face,SLONG x,SLONG z)
+void	add_walk_face_to_map(std::int16_t face,std::int32_t x,std::int32_t z)
 {
 	if(next_walk_link>=(MAX_WALK_POOL-4))
 	{
@@ -84,20 +84,20 @@ void	add_walk_face_to_map(SWORD face,SLONG x,SLONG z)
 }
 
 
-void scan_walk_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLONG x2, SLONG y2, SLONG z2,SLONG face)
+void scan_walk_triangle(std::int32_t x0, std::int32_t y0, std::int32_t z0,std::int32_t x1, std::int32_t y1, std::int32_t z1,std::int32_t x2, std::int32_t y2, std::int32_t z2,std::int32_t face)
 {
 
-	SLONG	px,py,pz;
-	SLONG	face_x,face_y,face_z;
-	SLONG	c0;
-	SLONG	s,t,step_s,step_t;
-	SLONG	vx,vy,vz,wx,wy,wz;
+	std::int32_t	px,py,pz;
+	std::int32_t	face_x,face_y,face_z;
+	std::int32_t	c0;
+	std::int32_t	s,t,step_s,step_t;
+	std::int32_t	vx,vy,vz,wx,wy,wz;
 	struct	DepthStrip *me;
-	SLONG	prev_x,prev_z;
-	SLONG	quad;
-	SLONG	len;
-	CBYTE	str[100];
-	UBYTE	info=0;
+	std::int32_t	prev_x,prev_z;
+	std::int32_t	quad;
+	std::int32_t	len;
+	char	str[100];
+	std::uint8_t	info=0;
 
 	face_x = x0;
 	face_y = y0;
@@ -151,10 +151,10 @@ void scan_walk_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z
 //  0   1
 //
 //	2   3
-void	add_quad_to_walkable_list(SWORD face)
+void	add_quad_to_walkable_list(std::int16_t face)
 {
-	SLONG	x[4],y[4],z[4];
-	SLONG	c0,p0;
+	std::int32_t	x[4],y[4],z[4];
+	std::int32_t	c0,p0;
 	struct PrimFace4 *p_f4;
 	p_f4=&prim_faces4[face];
 
@@ -170,10 +170,10 @@ void	add_quad_to_walkable_list(SWORD face)
 
 }
 
-void	add_tri_to_walkable_list(SWORD face)
+void	add_tri_to_walkable_list(std::int16_t face)
 {
-	SLONG	x,z;
-	SLONG	p0;
+	std::int32_t	x,z;
+	std::int32_t	p0;
 	struct PrimFace3 *p_f3;
 
 	p_f3=&prim_faces3[face];
@@ -184,9 +184,9 @@ void	add_tri_to_walkable_list(SWORD face)
 	add_walk_face_to_map(-face,x,z);
 }
 
-SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z)
+std::int32_t	place_building_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	UWORD	map_thing;
+	std::uint16_t	map_thing;
 	struct	MapThing	*p_mthing;
 
 	//y=0;
@@ -211,18 +211,18 @@ SLONG	place_building_at(UWORD prim,SLONG x,SLONG y,SLONG z)
 }
 
 
-void	add_point(SLONG x,SLONG y,SLONG z)
+void	add_point(std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	prim_points[next_prim_point].X=x;
 	prim_points[next_prim_point].Y=y;
 	prim_points[next_prim_point++].Z=z;
 }
 
-SLONG	build_row_wall_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+std::int32_t	build_row_wall_points_at_y(std::int32_t y,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t wall)
 {
-	SLONG	wcount,wwidth,wallwidth,dx,dz,dist;
+	std::int32_t	wcount,wwidth,wallwidth,dx,dz,dist;
 
-	SLONG	start_point;
+	std::int32_t	start_point;
 
 	start_point=next_prim_point;
 
@@ -284,11 +284,11 @@ SLONG	build_row_wall_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLO
 	
 }
 
-SLONG	build_row_wall_only_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+std::int32_t	build_row_wall_only_points_at_y(std::int32_t y,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t wall)
 {
-	SLONG	wcount,wwidth,dx,dz,dist;
+	std::int32_t	wcount,wwidth,dx,dz,dist;
 
-	SLONG	start_point;
+	std::int32_t	start_point;
 
 	start_point=next_prim_point;
 
@@ -331,13 +331,13 @@ SLONG	build_row_wall_only_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z
 	
 }
 
-SLONG	build_row_window_depth_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall)
+std::int32_t	build_row_window_depth_points_at_y(std::int32_t y,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t wall)
 {
 
-	SLONG	wcount,wwidth,wallwidth,dx,dz,dist;
-	SLONG 	pdx,pdz;
+	std::int32_t	wcount,wwidth,wallwidth,dx,dz,dist;
+	std::int32_t 	pdx,pdz;
 
-	SLONG	start_point;
+	std::int32_t	start_point;
 
 	start_point=next_prim_point;
 
@@ -410,25 +410,25 @@ SLONG	build_row_window_depth_points_at_y(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLON
 
 struct	Edge
 {
-	SWORD	X;
-	SWORD	Type;
-	SWORD	Next;
-	SWORD	Prev;
+	std::int16_t	X;
+	std::int16_t	Type;
+	std::int16_t	Next;
+	std::int16_t	Prev;
 };
 
 struct	Edge	*edge_pool_ptr;
-static	UWORD	*edge_heads_ptr;
-static	ULONG	next_edge;
-static	ULONG	edge_min_z;
-static	UWORD	*flag_blocks;
-static	UWORD	*cut_blocks;
-static	SLONG	global_y;
+static	std::uint16_t	*edge_heads_ptr;
+static	std::uint32_t	next_edge;
+static	std::uint32_t	edge_min_z;
+static	std::uint16_t	*flag_blocks;
+static	std::uint16_t	*cut_blocks;
+static	std::int32_t	global_y;
 #define	MAX_BOUND_SIZE	(200)
 
 
-void	insert_point(SLONG z,SLONG x,SWORD type)
+void	insert_point(std::int32_t z,std::int32_t x,std::int16_t type)
 {
-	SLONG	edge;
+	std::int32_t	edge;
 
 	LogText(" insert point (%x,%x) \n",x,z);
 
@@ -442,7 +442,7 @@ void	insert_point(SLONG z,SLONG x,SWORD type)
 		{
 			if(edge_pool_ptr[edge].X>x)
 			{
-				SLONG	prev;
+				std::int32_t	prev;
 				prev=edge_pool_ptr[edge].Prev;
 
 				if(prev)
@@ -503,7 +503,7 @@ void	insert_point(SLONG z,SLONG x,SWORD type)
 #define	CUT_BLOCK_LEFT		(2)
 #define	CUT_BLOCK_RIGHT		(3)
 
-void	set_cut_blocks(SLONG x,SLONG z)  // x is in pixels // zis in blocks
+void	set_cut_blocks(std::int32_t x,std::int32_t z)  // x is in pixels // zis in blocks
 {
 
 	LogText(" cut block [%d][%d] top    x %d x %x\n",x>>ELE_SHIFT,z+1,x,x);
@@ -513,7 +513,7 @@ void	set_cut_blocks(SLONG x,SLONG z)  // x is in pixels // zis in blocks
 		cut_blocks[(x>>ELE_SHIFT)*4+((z-1)*MAX_BOUND_SIZE*4+CUT_BLOCK_BOTTOM)]=x;
 }
 
-void	set_cut_blocks_z(SLONG x,SLONG z) // x is in blocks z is in pixels
+void	set_cut_blocks_z(std::int32_t x,std::int32_t z) // x is in blocks z is in pixels
 {
 
 	LogText(" cut block [%d][%d] left   z %d z %x\n",x,z>>ELE_SHIFT,z,z);
@@ -522,11 +522,11 @@ void	set_cut_blocks_z(SLONG x,SLONG z) // x is in blocks z is in pixels
 	cut_blocks[(x-1)*4+(((z>>ELE_SHIFT)-0)*MAX_BOUND_SIZE*4+CUT_BLOCK_RIGHT)]=z;
 }
 
-void	scan_line_z(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
+void	scan_line_z(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t flag)
 {
-	SLONG	dx,dz,count;
-	SLONG	x,z;
-	SWORD	type;
+	std::int32_t	dx,dz,count;
+	std::int32_t	x,z;
+	std::int16_t	type;
 //	LogText(" scan line z x1 %d z1 %d x2 %d z2 %d  \n",x1,z1,x2,z2);
 	LogText(" scan lineZ (%x,%x)->(%x,%x) \n",x1,(z1>>ELE_SHIFT),x2,(z2>>ELE_SHIFT));
 
@@ -596,11 +596,11 @@ void	scan_line_z(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
 	}
 }
 
-UBYTE	scan_line(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
+std::uint8_t	scan_line(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t flag)
 {
-	SLONG	dx,dz,count;
-	SLONG	x,z;
-	SWORD	type;
+	std::int32_t	dx,dz,count;
+	std::int32_t	x,z;
+	std::int16_t	type;
 	LogText(" scan line (%x,%x)->(%x,%x) \n",x1,(z1>>ELE_SHIFT),x2,(z2>>ELE_SHIFT));
 
 
@@ -722,20 +722,20 @@ UBYTE	scan_line(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG flag)
 
 
 
-void	build_edge_list(SLONG storey,SLONG flag)
+void	build_edge_list(std::int32_t storey,std::int32_t flag)
 {
-	UWORD	wall;
-	SLONG	px,pz;
+	std::uint16_t	wall;
+	std::int32_t	px,pz;
 
 	next_edge=1;
 	edge_pool_ptr=(struct Edge*)MemAlloc(sizeof(struct Edge)*MAX_BOUND_SIZE*5);
-	edge_heads_ptr=(UWORD*)MemAlloc(sizeof(UWORD)*MAX_BOUND_SIZE);
-	flag_blocks=(UWORD*)MemAlloc(sizeof(UWORD)*MAX_BOUND_SIZE*MAX_BOUND_SIZE);
-	cut_blocks=(UWORD*)MemAlloc(sizeof(UWORD)*MAX_BOUND_SIZE*MAX_BOUND_SIZE*4);
+	edge_heads_ptr=(std::uint16_t*)MemAlloc(sizeof(std::uint16_t)*MAX_BOUND_SIZE);
+	flag_blocks=(std::uint16_t*)MemAlloc(sizeof(std::uint16_t)*MAX_BOUND_SIZE*MAX_BOUND_SIZE);
+	cut_blocks=(std::uint16_t*)MemAlloc(sizeof(std::uint16_t)*MAX_BOUND_SIZE*MAX_BOUND_SIZE*4);
 
-	memset(edge_heads_ptr,0,sizeof(UWORD)*MAX_BOUND_SIZE);
-	memset(flag_blocks,0,sizeof(UWORD)*MAX_BOUND_SIZE*MAX_BOUND_SIZE);
-	memset(cut_blocks,0,sizeof(UWORD)*MAX_BOUND_SIZE*MAX_BOUND_SIZE*4);
+	memset(edge_heads_ptr,0,sizeof(std::uint16_t)*MAX_BOUND_SIZE);
+	memset(flag_blocks,0,sizeof(std::uint16_t)*MAX_BOUND_SIZE*MAX_BOUND_SIZE);
+	memset(cut_blocks,0,sizeof(std::uint16_t)*MAX_BOUND_SIZE*MAX_BOUND_SIZE*4);
 
 	px=storey_list[storey].DX;
 	pz=storey_list[storey].DZ-edge_min_z;
@@ -757,9 +757,9 @@ void	build_edge_list(SLONG storey,SLONG flag)
 
 
 
-void	scan_bottom_line(SLONG x,SLONG z,SLONG x2,SLONG y)
+void	scan_bottom_line(std::int32_t x,std::int32_t z,std::int32_t x2,std::int32_t y)
 {
-	SLONG	dy;
+	std::int32_t	dy;
 	//LogText(" scan bottom line (%x,%x)->(%x) \n",x1,(z1>>ELE_SIZE),x2);
 
 	//LogText(" scan bottom before x %d x2 %d z %d\n",x,x2,z);
@@ -768,7 +768,7 @@ void	scan_bottom_line(SLONG x,SLONG z,SLONG x2,SLONG y)
 	x=(x>>ELE_SHIFT);
 	if(x>x2)
 	{
-		SLONG temp;
+		std::int32_t temp;
 		temp=x;
 		x=x2;
 		x2=temp;
@@ -791,10 +791,10 @@ void	scan_bottom_line(SLONG x,SLONG z,SLONG x2,SLONG y)
 
 
 // scan horizontal edges
-void	build_bottom_edge_list(SLONG storey,SLONG y)
+void	build_bottom_edge_list(std::int32_t storey,std::int32_t y)
 {
-	UWORD	wall;
-	SLONG	px,pz;
+	std::uint16_t	wall;
+	std::int32_t	px,pz;
 
 	px=storey_list[storey].DX;
 	pz=storey_list[storey].DZ-edge_min_z;
@@ -805,7 +805,7 @@ void	build_bottom_edge_list(SLONG storey,SLONG y)
 		//add end points to the fray, incase we missed any
 		if(flag_blocks[(px>>ELE_SHIFT)+(pz>>ELE_SHIFT)*MAX_BOUND_SIZE]==0)
 		{
-			SLONG	dy;
+			std::int32_t	dy;
 			dy=edit_map[px>>ELE_SHIFT][((pz+edge_min_z)>>ELE_SHIFT)].Y<<FLOOR_HEIGHT_SHIFT;
 			add_point(px,y+dy,(pz)+edge_min_z);
 			flag_blocks[(px>>ELE_SHIFT)+(pz>>ELE_SHIFT)*MAX_BOUND_SIZE]=next_prim_point-1;
@@ -823,10 +823,10 @@ void	build_bottom_edge_list(SLONG storey,SLONG y)
 
 void	bin_edge_list()
 {
-	MemFree((UBYTE*)edge_pool_ptr);
-	MemFree((UBYTE*)edge_heads_ptr);
-	MemFree((UBYTE*)flag_blocks);
-	MemFree((UBYTE*)cut_blocks);
+	MemFree((std::uint8_t*)edge_pool_ptr);
+	MemFree((std::uint8_t*)edge_heads_ptr);
+	MemFree((std::uint8_t*)flag_blocks);
+	MemFree((std::uint8_t*)cut_blocks);
 }
 
 
@@ -838,10 +838,10 @@ void	bin_edge_list()
 #define	OUTSIDE			(2)
 
 
-void	dump_edge_list(UWORD size)
+void	dump_edge_list(std::uint16_t size)
 {
-	SLONG	c0;
-	SLONG	edge;
+	std::int32_t	c0;
+	std::int32_t	edge;
 
 	for(c0=0;c0<size;c0++)
 	{
@@ -862,11 +862,11 @@ void	dump_edge_list(UWORD size)
 #define MYFX(x)	((  ((x-(min_x<<ELE_SHIFT))*(box_width>>3))>>(ELE_SHIFT-3))+10 )
 #define MYFY(x)	( (((x)*(box_depth>>3))>>(ELE_SHIFT-3))+10)
 
-void	show_grid(SLONG width,SLONG depth,SLONG min_x)
+void	show_grid(std::int32_t width,std::int32_t depth,std::int32_t min_x)
 {
-	SLONG	xt,xb,zl,zr;
-	SLONG	x,z;
-	SLONG	box_width,box_depth;
+	std::int32_t	xt,xb,zl,zr;
+	std::int32_t	x,z;
+	std::int32_t	box_width,box_depth;
 	SetWorkWindowBounds(0,0,800,600);
 	DrawBox(0,0,800,600,0xfff);
 
@@ -882,8 +882,8 @@ void	show_grid(SLONG width,SLONG depth,SLONG min_x)
 	{
 		for(x=min_x;x<min_x+width;x++)
 		{
-			SLONG	x1,z1;
-			CBYTE	xt_s[10],xb_s[10],zl_s[10],zr_s[10];
+			std::int32_t	x1,z1;
+			char	xt_s[10],xb_s[10],zl_s[10],zr_s[10];
 
 			x1=((x-min_x)*box_width)+10;
 			z1=(z*box_depth)+10;
@@ -949,23 +949,23 @@ void	show_grid(SLONG width,SLONG depth,SLONG min_x)
 #define	set_UV4(x0,y0,x1,y1,x2,y2,x3,y3) UV[0][0]=(x0);UV[0][1]=(y0);UV[1][0]=(x1);UV[1][1]=(y1);UV[2][0]=(x3);UV[2][1]=(y3);UV[3][0]=(x2);UV[3][1]=(y2);
 
 // mx,mz are map co_ords 0..MAP_WIDTH
-void	build_free_tri_texture_info(struct PrimFace3 *p_f3,SLONG mx,SLONG mz)
+void	build_free_tri_texture_info(struct PrimFace3 *p_f3,std::int32_t mx,std::int32_t mz)
 {
-	UBYTE tx,ty,page;
-	SLONG	tsize;
-	SLONG	rot;
-	UBYTE	UV[4][2];
-	UWORD	texture,p;
+	std::uint8_t tx,ty,page;
+	std::int32_t	tsize;
+	std::int32_t	rot;
+	std::uint8_t	UV[4][2];
+	std::uint16_t	texture,p;
 
-	SLONG	dtx_down,dty_down;
-	SLONG	dtx_down_r,dty_down_r;
-	//SLONG	dtx_across,dty_across;
+	std::int32_t	dtx_down,dty_down;
+	std::int32_t	dtx_down_r,dty_down_r;
+	//std::int32_t	dtx_across,dty_across;
 
 	texture=edit_map[mx][mz].Texture;
 
 	tx=((struct	MiniTextureBits*)(&texture))->X<<5;
 	ty=((struct	MiniTextureBits*)(&texture))->Y<<5;
-	page=(UBYTE)(((struct	MiniTextureBits*)(&texture))->Page);
+	page=(std::uint8_t)(((struct	MiniTextureBits*)(&texture))->Page);
 	tsize=floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
 	rot=((struct	MiniTextureBits*)(&texture))->Rot;
 //	rot=(rot3)&3;
@@ -1000,9 +1000,9 @@ void	build_free_tri_texture_info(struct PrimFace3 *p_f3,SLONG mx,SLONG mz)
 
 	for(p=0;p<3;p++)
 	{
-		SLONG x1,z1;
-		SLONG	lx,ly;
-		SLONG	rx,ry;
+		std::int32_t x1,z1;
+		std::int32_t	lx,ly;
+		std::int32_t	rx,ry;
 
 
 		x1=prim_points[p_f3->Points[p]].X-(mx<<ELE_SHIFT);
@@ -1032,23 +1032,23 @@ void	build_free_tri_texture_info(struct PrimFace3 *p_f3,SLONG mx,SLONG mz)
 	}
 }
 
-void	build_free_quad_texture_info(struct PrimFace4 *p_f4,SLONG mx,SLONG mz)
+void	build_free_quad_texture_info(struct PrimFace4 *p_f4,std::int32_t mx,std::int32_t mz)
 {
-	UBYTE tx,ty,page;
-	SLONG	tsize;
-	SLONG	rot;
-	UBYTE	UV[4][2];
-	UWORD	texture,p;
+	std::uint8_t tx,ty,page;
+	std::int32_t	tsize;
+	std::int32_t	rot;
+	std::uint8_t	UV[4][2];
+	std::uint16_t	texture,p;
 
-	SLONG	dtx_down,dty_down;
-	SLONG	dtx_down_r,dty_down_r;
-	SLONG	dtx_across,dty_across;
+	std::int32_t	dtx_down,dty_down;
+	std::int32_t	dtx_down_r,dty_down_r;
+	std::int32_t	dtx_across,dty_across;
 
 	texture=edit_map[mx][mz].Texture;
 
 	tx=((struct	MiniTextureBits*)(&texture))->X<<5;
 	ty=((struct	MiniTextureBits*)(&texture))->Y<<5;
-	page=(UBYTE)(((struct	MiniTextureBits*)(&texture))->Page);
+	page=(std::uint8_t)(((struct	MiniTextureBits*)(&texture))->Page);
 	tsize=floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
 	rot=((struct	MiniTextureBits*)(&texture))->Rot;
 //	rot=(rot3)&3;
@@ -1083,9 +1083,9 @@ void	build_free_quad_texture_info(struct PrimFace4 *p_f4,SLONG mx,SLONG mz)
 
 	for(p=0;p<4;p++)
 	{
-		SLONG x1,z1;
-		SLONG	lx,ly;
-		SLONG	rx,ry;
+		std::int32_t x1,z1;
+		std::int32_t	lx,ly;
+		std::int32_t	rx,ry;
 
 
 		x1=prim_points[p_f4->Points[p]].X-(mx<<ELE_SHIFT);
@@ -1119,11 +1119,11 @@ void	build_free_quad_texture_info(struct PrimFace4 *p_f4,SLONG mx,SLONG mz)
 //x's are in world co-ords
 
 
-void	scan_45(SLONG x1,SLONG z1,SLONG dx,SLONG dz)
+void	scan_45(std::int32_t x1,std::int32_t z1,std::int32_t dx,std::int32_t dz)
 {
-	UBYTE	type=0;
-	SLONG	count;
-	SLONG	pp,p0,p1,p2,p3;
+	std::uint8_t	type=0;
+	std::int32_t	count;
+	std::int32_t	pp,p0,p1,p2,p3;
 	struct	PrimFace3	*p_f3;
 
 	count=abs(dx)>>ELE_SHIFT;
@@ -1196,16 +1196,16 @@ void	scan_45(SLONG x1,SLONG z1,SLONG dx,SLONG dz)
 	}
 }
 
-void	build_roof_grid(SLONG storey,SLONG y)
+void	build_roof_grid(std::int32_t storey,std::int32_t y)
 {
-	SLONG	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
-	SLONG	width,depth;
-	SLONG	x,z;
+	std::int32_t	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
+	std::int32_t	width,depth;
+	std::int32_t	x,z;
 
-	SLONG	wall;
+	std::int32_t	wall;
 	struct	PrimFace4	*p_f4;
 	struct	PrimFace3	*p_f3;
-	SLONG	face_wall;
+	std::int32_t	face_wall;
 	//return;
 	face_wall=-storey_list[storey].WallHead;
 
@@ -1237,13 +1237,13 @@ void	build_roof_grid(SLONG storey,SLONG y)
 
 	for(z=0;z<depth;z++)
 	{
-		SLONG	polarity=0;
-		SLONG	edge;
-		SLONG	dy;
+		std::int32_t	polarity=0;
+		std::int32_t	edge;
+		std::int32_t	dy;
 		edge=edge_heads_ptr[z];
 		for(x=min_x;x<max_x;x+=ELE_SIZE)
 		{
-			SLONG	done=0;
+			std::int32_t	done=0;
 			while(!done&&edge)
 			{
 				if(x<edge_pool_ptr[edge].X)
@@ -1308,15 +1308,15 @@ void	build_roof_grid(SLONG storey,SLONG y)
 	build_bottom_edge_list(storey,y);
 
 	{
-		SLONG	wall;
-		SLONG	px,pz;
+		std::int32_t	wall;
+		std::int32_t	px,pz;
 		px=storey_list[storey].DX;
 		pz=storey_list[storey].DZ-edge_min_z;
 		wall=storey_list[storey].WallHead;
 		while(wall)
 		{
-			SLONG	x,z;
-			SLONG	dx,dz;
+			std::int32_t	x,z;
+			std::int32_t	dx,dz;
 			x=wall_list[wall].DX;
 			z=wall_list[wall].DZ-edge_min_z;
 
@@ -1336,12 +1336,12 @@ void	build_roof_grid(SLONG storey,SLONG y)
 //	show_grid((max_x>>ELE_SHIFT)-(min_x>>ELE_SHIFT),depth,min_x>>ELE_SHIFT);
 	for(z=0;z<depth;z++)
 	{
-		SLONG	polarity=0;
-		SLONG	edge;
+		std::int32_t	polarity=0;
+		std::int32_t	edge;
 		edge=edge_heads_ptr[z];
 		for(x=min_x>>ELE_SHIFT;x<max_x>>ELE_SHIFT;x++)
 		{
-			SLONG	p0,p1,p2,p3;
+			std::int32_t	p0,p1,p2,p3;
 			//
 			// Build faces by finding quads with defined points
 			//
@@ -1356,7 +1356,7 @@ void	build_roof_grid(SLONG storey,SLONG y)
 			if(p0&&p1&&p2&&p3)
 			{
 				LogText(" use poly %d %d \n",x,z);
-				//UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece)
+				//std::uint16_t p1,std::uint16_t p0,std::uint16_t p3,std::uint16_t p2,std::int16_t	texture_style,std::int16_t texture_piece)
 				p_f4=create_a_quad(p0,p3,p1,p2,0,0);
 				p_f4->ThingIndex=face_wall;
 				LogText(" roof grid quad for map %d %d \n",x,z+(edge_min_z>>ELE_SHIFT));
@@ -1367,7 +1367,7 @@ void	build_roof_grid(SLONG storey,SLONG y)
 			else
 			if(p0||p1||p2||p3)
 			{ //the following code is shit, sorry
-				UBYTE exist_flags=0;
+				std::uint8_t exist_flags=0;
 
 #define	TL	(1)
 #define	TR	(2)
@@ -1384,9 +1384,9 @@ void	build_roof_grid(SLONG storey,SLONG y)
 
 				switch(exist_flags)
 				{
-					SLONG	xt,xb;
-					SLONG	zl,zr;
-					SLONG	pa,pb;
+					std::int32_t	xt,xb;
+					std::int32_t	zl,zr;
+					std::int32_t	pa,pb;
 
 					case	(TR+BR):
 						xt=cut_blocks[x*4+z*MAX_BOUND_SIZE*4+CUT_BLOCK_TOP];
@@ -1940,9 +1940,9 @@ void	build_roof_grid(SLONG storey,SLONG y)
 
 
 
-SLONG	is_storey_circular(SLONG storey)
+std::int32_t	is_storey_circular(std::int32_t storey)
 {
-	SLONG	sx,sz,wall;
+	std::int32_t	sx,sz,wall;
 	sx=storey_list[storey].DX;
 	sz=storey_list[storey].DZ;
 	wall=storey_list[storey].WallHead;
@@ -1958,13 +1958,13 @@ SLONG	is_storey_circular(SLONG storey)
 	return(0);
 }
 
-void	set_floor_hidden(SLONG storey)
+void	set_floor_hidden(std::int32_t storey)
 {
-	SLONG	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
-	SLONG	width,depth;
-	SLONG	x,z;
+	std::int32_t	min_x=9999999,max_x=0,min_z=9999999,max_z=0;
+	std::int32_t	width,depth;
+	std::int32_t	x,z;
 
-	SLONG	wall;
+	std::int32_t	wall;
 //	return;
 //	LogText(" set  floor hidden storey %d \n",storey);
 	if(!is_storey_circular(storey))
@@ -1997,12 +1997,12 @@ void	set_floor_hidden(SLONG storey)
 
 	for(z=0;z<depth;z++)
 	{
-		SLONG	polarity=0;
-		SLONG	edge;
+		std::int32_t	polarity=0;
+		std::int32_t	edge;
 		edge=edge_heads_ptr[z];
 		for(x=min_x;x<max_x;x+=ELE_SIZE)
 		{
-			SLONG	done=0;
+			std::int32_t	done=0;
 			while(!done&&edge)
 			{
 				if(x<edge_pool_ptr[edge].X)
@@ -2046,9 +2046,9 @@ void	set_floor_hidden(SLONG storey)
 	bin_edge_list();
 }
 
-void	build_fe_mid_points(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	flag)
+void	build_fe_mid_points(std::int32_t y,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t	flag)
 {
-	SLONG	dx,dz,dist;
+	std::int32_t	dx,dz,dist;
 
 	dx=abs(x2-x1);
 	dz=abs(z2-z1);
@@ -2066,11 +2066,11 @@ void	build_fe_mid_points(SLONG y,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG	flag)
 		add_point(x2-dx,y,z2-dz);
 }
 
-void	build_fire_escape_points(UWORD	storey,SLONG	y,SLONG	flag)
+void	build_fire_escape_points(std::uint16_t	storey,std::int32_t	y,std::int32_t	flag)
 {
-	SLONG	walls[3],count=0,wall;
-	SLONG	mx,mz,mx2,mz2;
-	SLONG	p0=0;
+	std::int32_t	walls[3],count=0,wall;
+	std::int32_t	mx,mz,mx2,mz2;
+	std::int32_t	p0=0;
 	if(flag==0)
 	{
 		add_point(storey_list[storey].DX,y,storey_list[storey].DZ);
@@ -2178,7 +2178,7 @@ struct	TXTY	textures_xy[200][8]=
 
 };
 
-UBYTE	textures_flags[200][8];
+std::uint8_t	textures_flags[200][8];
 
 
 struct	TextureInfo texture_info[]=
@@ -2268,15 +2268,15 @@ struct	TextureInfo texture_info[]=
 
 #define	PsetUV4(p_f4,x0,y0,x1,y1,x2,y2,x3,y3,page) p_f4->UV[0][0]=(x0);p_f4->UV[0][1]=(y0);p_f4->UV[1][0]=(x1);p_f4->UV[1][1]=(y1);p_f4->UV[2][0]=(x2);p_f4->UV[2][1]=(y2);p_f4->UV[3][0]=(x3);p_f4->UV[3][1]=(y3);p_f4->TexturePage=page;
 
-void	build_face_texture_info(struct PrimFace4 *p_f4,UWORD texture)
+void	build_face_texture_info(struct PrimFace4 *p_f4,std::uint16_t texture)
 {
-	UBYTE tx,ty,page;
-	SLONG	tsize;
-	SLONG	rot;
+	std::uint8_t tx,ty,page;
+	std::int32_t	tsize;
+	std::int32_t	rot;
 
 	tx=((struct	MiniTextureBits*)(&texture))->X<<5;
 	ty=((struct	MiniTextureBits*)(&texture))->Y<<5;
-	page=(UBYTE)(((struct	MiniTextureBits*)(&texture))->Page);
+	page=(std::uint8_t)(((struct	MiniTextureBits*)(&texture))->Page);
 	tsize=floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
 	rot=((struct	MiniTextureBits*)(&texture))->Rot;
 	rot=(rot+3)&3;
@@ -2298,10 +2298,10 @@ void	build_face_texture_info(struct PrimFace4 *p_f4,UWORD texture)
 	}
 }
 
-struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	texture_style,SWORD texture_piece)
+struct	PrimFace4*	create_a_quad(std::uint16_t p1,std::uint16_t p0,std::uint16_t p3,std::uint16_t p2,std::int16_t	texture_style,std::int16_t texture_piece)
 {
 	struct	PrimFace4	*p4;
-	SLONG	tx,ty;
+	std::int32_t	tx,ty;
 
 	p4=&prim_faces4[next_prim_face4];
 	next_prim_face4++;
@@ -2403,10 +2403,10 @@ struct	PrimFace4*	create_a_quad(UWORD p1,UWORD p0,UWORD p3,UWORD p2,SWORD	textur
 	return(p4);
 }
 
-struct	PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD texture_piece)
+struct	PrimFace3*	create_a_tri(std::uint16_t p2,std::uint16_t p1,std::uint16_t p0,std::int16_t	texture_id,std::int16_t texture_piece)
 {
 	struct	PrimFace3	*p3;
-	SLONG	tx,ty;
+	std::int32_t	tx,ty;
 	texture_id=texture_id;
 	p3=&prim_faces3[next_prim_face3];
 	next_prim_face3++;
@@ -2436,9 +2436,9 @@ struct	PrimFace3*	create_a_tri(UWORD p2,UWORD p1,UWORD p0,SWORD	texture_id,SWORD
 	
 }
 
-void	set_texture_fe(struct	PrimFace4 *p4,SLONG xw,SLONG xh,SLONG type)
+void	set_texture_fe(struct	PrimFace4 *p4,std::int32_t xw,std::int32_t xh,std::int32_t type)
 {
-	SLONG	tx,ty;
+	std::int32_t	tx,ty;
 	switch(type)
 	{
 		case	0:
@@ -2477,32 +2477,32 @@ void	set_texture_fe(struct	PrimFace4 *p4,SLONG xw,SLONG xh,SLONG type)
 
 #ifdef	OLD_DOG_POO_OF_A_SYSTEM_OR_IS_IT
 /*
-UWORD	next_face_type=1;
-UWORD	next_face_link=1;
-UWORD	next_face_connection=1;
+std::uint16_t	next_face_type=1;
+std::uint16_t	next_face_link=1;
+std::uint16_t	next_face_connection=1;
 
 struct	FaceLink
 {
-	UWORD	Index;
-	UBYTE	Count;
+	std::uint16_t	Index;
+	std::uint8_t	Count;
 };
 
-UWORD	face_type_index[50];  // for face type %1  returns index into face_links which you add your ID to , to pull out an inde and number of faces connected to
+std::uint16_t	face_type_index[50];  // for face type %1  returns index into face_links which you add your ID to , to pull out an inde and number of faces connected to
 struct	FaceLink	face_links[50*20]; // 
-UWORD	face_connection_pool[2000];
+std::uint16_t	face_connection_pool[2000];
 
 
 
 //each type has a variable number of ID's
 
 
-void	add_connection_for_current_id(SLONG offset)
+void	add_connection_for_current_id(std::int32_t offset)
 {
 	face_connection_pool[next_face_connection++]=offset;
 	face_links[next_face_link-1].Count++;
 }
 
-SLONG	advance_face_id_number()
+std::int32_t	advance_face_id_number()
 {
 	face_links[next_face_link].Count=0;
 	face_links[next_face_link].Index=next_face_connection;
@@ -2513,7 +2513,7 @@ SLONG	advance_face_id_number()
 
 }
 
-SLONG	advance_face_type_number()
+std::int32_t	advance_face_type_number()
 {
 	face_type_index[next_face_type]=next_face_link;
 	face_links[next_face_link].Count=0;
@@ -2541,7 +2541,7 @@ SLONG	advance_face_type_number()
 #define	FE_SLOPE2_RAIL		-12
 
 
-SWORD	face_offsets[]=
+std::int16_t	face_offsets[]=
 {
 	0,
 	-1,0,				//1
@@ -2552,17 +2552,17 @@ SWORD	face_offsets[]=
 
 };
 
-UWORD	id_offset[]=
+std::uint16_t	id_offset[]=
 {
 	0,1,3,6,9,12
 };
 
-SLONG	next_connected_face(SLONG type,SLONG id,SLONG count)
+std::int32_t	next_connected_face(std::int32_t type,std::int32_t id,std::int32_t count)
 {
 	switch(type)
 	{
 		case	FACE_TYPE_FIRE_ESCAPE:
-			SLONG	start;
+			std::int32_t	start;
 
 			start=id_offset[id];
 //			LogText(" id %d start %d count %d \n",id,start,count);
@@ -2571,13 +2571,13 @@ SLONG	next_connected_face(SLONG type,SLONG id,SLONG count)
 	}
 	return(0);
 }
-void	build_firescape(SLONG storey)
+void	build_firescape(std::int32_t storey)
 {
-	SLONG	y=0;
-	SLONG	count=0;
-	SLONG	sp[20];
+	std::int32_t	y=0;
+	std::int32_t	count=0;
+	std::int32_t	sp[20];
 	struct	PrimFace4	*p4;
-	SLONG	wall;
+	std::int32_t	wall;
 
 
 	wall=-storey_list[storey].WallHead;
@@ -2723,9 +2723,9 @@ void	build_firescape(SLONG storey)
 //see diag 5.2 page 164 of van dam 1
 
 
-SLONG	calc_sin_from_cos(SLONG sin)
+std::int32_t	calc_sin_from_cos(std::int32_t sin)
 {
-	SLONG	cos;
+	std::int32_t	cos;
 
 	cos=(sqrl((1<<14)-((sin*sin)>>14)));
 	cos=cos<<7;
@@ -2733,15 +2733,15 @@ SLONG	calc_sin_from_cos(SLONG sin)
 
 }
 
-void	calc_new_corner_point(SLONG	x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,SLONG z3,SLONG width,SLONG *res_x,SLONG *res_z)
+void	calc_new_corner_point(std::int32_t	x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t x3,std::int32_t z3,std::int32_t width,std::int32_t *res_x,std::int32_t *res_z)
 {
 
-	SLONG	vx,vz,dist;
-	SLONG	wx,wz;
-	SLONG	ax,az;
-	SLONG	angle;
+	std::int32_t	vx,vz,dist;
+	std::int32_t	wx,wz;
+	std::int32_t	ax,az;
+	std::int32_t	angle;
 
-	SLONG	z;
+	std::int32_t	z;
 
 
 //	LogText(" x1 %d z1 %d x2 %d z2 %d x3 %d z3 %d \n",x1,z1,x2,z2,x3,z3);
@@ -2826,12 +2826,12 @@ void	calc_new_corner_point(SLONG	x1,SLONG z1,SLONG x2,SLONG z2,SLONG x3,SLONG z3
 }
 
 
-void	build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void	build_ledge(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t wall,std::int32_t storey,std::int32_t height)
 {
-	SLONG	sp[10],count=0;
-	SLONG	index,c0;
-	SLONG	dx,dz;
-	SLONG	px,pz,rx,rz;
+	std::int32_t	sp[10],count=0;
+	std::int32_t	index,c0;
+	std::int32_t	dx,dz;
+	std::int32_t	px,pz,rx,rz;
 
 	storey=storey;
 	sp[0]=next_prim_point;
@@ -2853,7 +2853,7 @@ void	build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 	index=wall;
 	while(index)
 	{
-		SLONG	next;
+		std::int32_t	next;
 //		LogText(" calc corner %d \n",index);
 		dx=wall_list[index].DX;
 		dz=wall_list[index].DZ;
@@ -2909,13 +2909,13 @@ void	build_ledge(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
 	}
 }
 
-void	build_fence_points_and_faces(SLONG y1,SLONG y2,SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG wall,UBYTE posts)
+void	build_fence_points_and_faces(std::int32_t y1,std::int32_t y2,std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t wall,std::uint8_t posts)
 {
-	SLONG	wcount,wwidth,dx,dz,dist;
-	SLONG	start_point;
-	SLONG	texture,texture_style;
+	std::int32_t	wcount,wwidth,dx,dz,dist;
+	std::int32_t	start_point;
+	std::int32_t	texture,texture_style;
 	struct	PrimFace4	*p_f4;
-	SLONG	px,pz;
+	std::int32_t	px,pz;
 
 	texture_style=wall_list[wall].TextureStyle;
 	texture=TEXTURE_PIECE_MIDDLE;
@@ -2946,7 +2946,7 @@ void	build_fence_points_and_faces(SLONG y1,SLONG y2,SLONG x1,SLONG z1,SLONG x2,S
 
 	while(wcount)
 	{
-		SLONG	p,p1,p2;
+		std::int32_t	p,p1,p2;
 		p=next_prim_point;
 
 		add_point(x1,y2,z1);
@@ -3036,19 +3036,19 @@ void	build_fence_points_and_faces(SLONG y1,SLONG y2,SLONG x1,SLONG z1,SLONG x2,S
 	
 }
 
-void	build_fence(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void	build_fence(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t wall,std::int32_t storey,std::int32_t height)
 {
 		build_fence_points_and_faces(y,y+((height*3)>>2)+2,x,z,wall_list[wall].DX,wall_list[wall].DZ,wall,1);
 		wall_list[wall].WindowCount=0;
 
 }
 
-void	append_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG height)
+void	append_wall_prim(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t wall,std::int32_t storey,std::int32_t height)
 {
-	SLONG	c0;
-	SLONG	sp[10];
-//	SLONG	sf4[10];
-	SLONG	texture,texture_style;
+	std::int32_t	c0;
+	std::int32_t	sp[10];
+//	std::int32_t	sf4[10];
+	std::int32_t	texture,texture_style;
 	struct	PrimFace4	*p_f4;
 
 	set_build_seed(x*z*storey*wall+x+z+y);
@@ -3158,9 +3158,9 @@ void	append_wall_prim(SLONG x,SLONG y,SLONG z,SLONG wall,SLONG storey,SLONG heig
 
 
 
-SLONG	find_near_prim_point(SLONG x,SLONG z,SLONG sp,SLONG ep)
+std::int32_t	find_near_prim_point(std::int32_t x,std::int32_t z,std::int32_t sp,std::int32_t ep)
 {
-	SLONG	best,best_dist=0x7fffffff,dx,dz,dist,c0;
+	std::int32_t	best,best_dist=0x7fffffff,dx,dz,dist,c0;
 
 	for(c0=sp;c0<ep;c0++)
 	{
@@ -3178,13 +3178,13 @@ SLONG	find_near_prim_point(SLONG x,SLONG z,SLONG sp,SLONG ep)
 }
 
 
-void	create_recessed_storey_points(SLONG y,SLONG storey,SLONG count,SLONG size)
+void	create_recessed_storey_points(std::int32_t y,std::int32_t storey,std::int32_t count,std::int32_t size)
 {
 
-	SLONG	px,pz,index,dx,dz;
-	SLONG	rx,rz;
-	SLONG	wall;
-	SLONG	sp;
+	std::int32_t	px,pz,index,dx,dz;
+	std::int32_t	rx,rz;
+	std::int32_t	wall;
+	std::int32_t	sp;
 
 	count=count;	
 	sp=next_prim_point;
@@ -3197,7 +3197,7 @@ void	create_recessed_storey_points(SLONG y,SLONG storey,SLONG count,SLONG size)
 
 	while(index)
 	{
-		SLONG	next;
+		std::int32_t	next;
 //		LogText(" calc corner %d \n",index);
 		dx=wall_list[index].DX;
 		dz=wall_list[index].DZ;
@@ -3221,19 +3221,19 @@ void	create_recessed_storey_points(SLONG y,SLONG storey,SLONG count,SLONG size)
 	}
 }
 
-void scan_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLONG x2, SLONG y2, SLONG z2,SLONG flag)
+void scan_triangle(std::int32_t x0, std::int32_t y0, std::int32_t z0,std::int32_t x1, std::int32_t y1, std::int32_t z1,std::int32_t x2, std::int32_t y2, std::int32_t z2,std::int32_t flag)
 {
 
-	SLONG	px,py,pz;
-	SLONG	face_x,face_y,face_z;
-	SLONG	c0;
-	SLONG	s,t,step_s,step_t;
-	SLONG	vx,vy,vz,wx,wy,wz;
+	std::int32_t	px,py,pz;
+	std::int32_t	face_x,face_y,face_z;
+	std::int32_t	c0;
+	std::int32_t	s,t,step_s,step_t;
+	std::int32_t	vx,vy,vz,wx,wy,wz;
 	struct	DepthStrip *me;
-	SLONG	quad;
-	SLONG	len;
-	CBYTE	str[100];
-	UBYTE	info=0;
+	std::int32_t	quad;
+	std::int32_t	len;
+	char	str[100];
+	std::uint8_t	info=0;
 
 	face_x = x0;
 	face_y = y0;
@@ -3279,9 +3279,9 @@ void scan_triangle(SLONG x0, SLONG y0, SLONG z0,SLONG x1, SLONG y1, SLONG z1,SLO
 }
 
 
-void	flag_floor_tiles_for_quad(SLONG	p0,SLONG	p1,SLONG	p2,SLONG	p3)
+void	flag_floor_tiles_for_quad(std::int32_t	p0,std::int32_t	p1,std::int32_t	p2,std::int32_t	p3)
 {
-	SLONG	x0,y0,z0,x1,y1,z1,x2,y2,z2,x3,y3,z3;
+	std::int32_t	x0,y0,z0,x1,y1,z1,x2,y2,z2,x3,y3,z3;
 
 
 	x0=prim_points[p0].X;
@@ -3306,9 +3306,9 @@ void	flag_floor_tiles_for_quad(SLONG	p0,SLONG	p1,SLONG	p2,SLONG	p3)
 
 }
 
-void	flag_floor_tiles_for_tri(SLONG	p0,SLONG	p1,SLONG	p2)
+void	flag_floor_tiles_for_tri(std::int32_t	p0,std::int32_t	p1,std::int32_t	p2)
 {
-	SLONG	x0,y0,z0,x1,y1,z1,x2,y2,z2;
+	std::int32_t	x0,y0,z0,x1,y1,z1,x2,y2,z2;
 
 
 	x0=prim_points[p0].X;
@@ -3330,25 +3330,25 @@ void	flag_floor_tiles_for_tri(SLONG	p0,SLONG	p1,SLONG	p2)
 }
 
 
-void	build_roof(UWORD storey,SLONG y)
+void	build_roof(std::uint16_t storey,std::int32_t y)
 {
-//	SLONG	x1,z1,x2,z2,x3,z3;
-	SLONG	wall;
+//	std::int32_t	x1,z1,x2,z2,x3,z3;
+	std::int32_t	wall;
 //	,prev_wall,prev_prev_wall;
-	SLONG	sp[10];
-	SLONG	roof;
-	SLONG	p0,p1,p2,p3;
-//	SLONG	rx,rz;
-	SLONG	count;
-	SLONG	roof_height=BLOCK_SIZE*3;
-	SLONG	c0;
-	SLONG	overlap;
+	std::int32_t	sp[10];
+	std::int32_t	roof;
+	std::int32_t	p0,p1,p2,p3;
+//	std::int32_t	rx,rz;
+	std::int32_t	count;
+	std::int32_t	roof_height=BLOCK_SIZE*3;
+	std::int32_t	c0;
+	std::int32_t	overlap;
 
-	SLONG	roof_flags;
-	SLONG	roof_rim;
-	SLONG	overlap_height=BLOCK_SIZE>>1;
+	std::int32_t	roof_flags;
+	std::int32_t	roof_rim;
+	std::int32_t	overlap_height=BLOCK_SIZE>>1;
 
-	SLONG	poox,pooz;
+	std::int32_t	poox,pooz;
 
 	//calc_new_corner_point(0,0,0,50,0,100,12,&poox,&pooz);
 	overlap=BLOCK_SIZE>>1;
@@ -3407,7 +3407,7 @@ void	build_roof(UWORD storey,SLONG y)
 			roof_rim=next_prim_point;
 			for(c0=0;c0<sp[2]-sp[1];c0++)
 			{
-				SLONG	x,z;
+				std::int32_t	x,z;
 				x=prim_points[c0+sp[1]].X;
 				z=prim_points[c0+sp[1]].Z;
 
@@ -3468,7 +3468,7 @@ void	build_roof(UWORD storey,SLONG y)
 				roof_rim=next_prim_point;
 				for(c0=0;c0<sp[5]-sp[4];c0++)
 				{
-					SLONG	x,z;
+					std::int32_t	x,z;
 					x=prim_points[c0+sp[4]].X;
 					z=prim_points[c0+sp[4]].Z;
 
@@ -3534,7 +3534,7 @@ void	build_roof(UWORD storey,SLONG y)
 			count=0;
 			while(wall)
 			{
-				SLONG	q0,q1;
+				std::int32_t	q0,q1;
 
 				p0=roof_rim+count+1;
 				p1=roof_rim+count;
@@ -3568,10 +3568,10 @@ void	build_roof(UWORD storey,SLONG y)
 
 }
 
-SLONG	area_of_quad(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
+std::int32_t	area_of_quad(std::int32_t	p0,std::int32_t p1,std::int32_t p2,std::int32_t p3)
 {
 
-	SLONG dx,dz;
+	std::int32_t dx,dz;
 	dx=abs(prim_points[p0].X-prim_points[p1].X);
 	dz=abs(prim_points[p0].Z-prim_points[p2].Z);
 	return(dx*dz);
@@ -3587,14 +3587,14 @@ SLONG	area_of_quad(SLONG	p0,SLONG p1,SLONG p2,SLONG p3)
 // p2        p32          p3
 
 
-void	create_split_quad_into_4(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
+void	create_split_quad_into_4(std::int32_t	p0,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t wall,std::int32_t y)
 {
 
-	SLONG	p01,p13,p32,p20,p03;
-	SLONG	x,z;
+	std::int32_t	p01,p13,p32,p20,p03;
+	std::int32_t	x,z;
 	struct	PrimFace4	*p_f4;
 
-	SWORD	texture_style;
+	std::int16_t	texture_style;
 	texture_style=wall_list[wall].TextureStyle;
 
 	p01=next_prim_point;
@@ -3641,10 +3641,10 @@ void	create_split_quad_into_4(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLO
 
 }
 
-void	create_split_quad_into_16(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
+void	create_split_quad_into_16(std::int32_t	p0,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t wall,std::int32_t y)
 {
-	SLONG	p01,p13,p32,p20,p03;
-	SLONG	x,z;
+	std::int32_t	p01,p13,p32,p20,p03;
+	std::int32_t	x,z;
 	struct	PrimFace4	*p_f4;
 
 
@@ -3681,10 +3681,10 @@ void	create_split_quad_into_16(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SL
 
 }
 
-void	create_split_quad_into_48(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SLONG y)
+void	create_split_quad_into_48(std::int32_t	p0,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t wall,std::int32_t y)
 {
-	SLONG	p01,p13,p32,p20,p03;
-	SLONG	x,z;
+	std::int32_t	p01,p13,p32,p20,p03;
+	std::int32_t	x,z;
 	struct	PrimFace4	*p_f4;
 
 
@@ -3721,25 +3721,25 @@ void	create_split_quad_into_48(SLONG	p0,SLONG p1,SLONG p2,SLONG p3,SLONG wall,SL
 
 }
 
-void	build_roof_quad(UWORD storey,SLONG y)
+void	build_roof_quad(std::uint16_t storey,std::int32_t y)
 {
-//	SLONG	x1,z1,x2,z2,x3,z3;
-	SLONG	wall;
+//	std::int32_t	x1,z1,x2,z2,x3,z3;
+	std::int32_t	wall;
 //	,prev_wall,prev_prev_wall;
-	SLONG	sp[10];
-	SLONG	roof;
-	SLONG	p0,p1,p2,p3;
-//	SLONG	rx,rz;
-	SLONG	count=0;
-	SLONG	roof_height=0; //BLOCK_SIZE*3;
+	std::int32_t	sp[10];
+	std::int32_t	roof;
+	std::int32_t	p0,p1,p2,p3;
+//	std::int32_t	rx,rz;
+	std::int32_t	count=0;
+	std::int32_t	roof_height=0; //BLOCK_SIZE*3;
 	struct	PrimFace4	*p_f4;
-	SWORD	texture_style;
+	std::int16_t	texture_style;
 
 
 
 	if(storey_list[storey].WallHead && storey_list[storey].Roof)
 	{
-		SLONG	area;
+		std::int32_t	area;
 
 		roof=storey_list[storey].Roof;
 		sp[0]=next_prim_point;
@@ -3783,13 +3783,13 @@ void	build_roof_quad(UWORD storey,SLONG y)
 	}
 }
 
-static SLONG	build_x,build_y,build_z;
+static std::int32_t	build_x,build_y,build_z;
 
-void	center_object(SLONG sp,SLONG ep)
+void	center_object(std::int32_t sp,std::int32_t ep)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 //	,count;
-	SLONG	az=0,ax=0;
+	std::int32_t	az=0,ax=0;
 	if(ep-sp<0)
 	{
 		LogText(" sp %d ep %d \n",sp,ep);
@@ -3824,7 +3824,7 @@ void	center_object(SLONG sp,SLONG ep)
 
 
 
-SLONG	build_facet(SLONG sp,SLONG mp,SLONG sf3,SLONG sf4,SLONG mf4,SLONG prev_facet,UWORD flags)
+std::int32_t	build_facet(std::int32_t sp,std::int32_t mp,std::int32_t sf3,std::int32_t sf4,std::int32_t mf4,std::int32_t prev_facet,std::uint16_t flags)
 {
 	struct	BuildingFacet	*p_obj;
 	p_obj=&building_facets[next_building_facet];
@@ -3846,7 +3846,7 @@ SLONG	build_facet(SLONG sp,SLONG mp,SLONG sf3,SLONG sf4,SLONG mf4,SLONG prev_fac
 	return(next_building_facet-1);
 }
 
-SLONG	build_building(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet)
+std::int32_t	build_building(std::int32_t sp,std::int32_t sf3,std::int32_t sf4,std::int32_t prev_facet)
 {
 	struct	BuildingObject	*p_bobj;
 	p_bobj=&building_objects[next_building_object];
@@ -3873,7 +3873,7 @@ SLONG	build_building(SLONG sp,SLONG sf3,SLONG sf4,SLONG prev_facet)
 	return(next_building_object-1);
 }
 
-SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4)
+std::int32_t	build_prim_object(std::int32_t sp,std::int32_t sf3,std::int32_t sf4)
 {
 	struct	PrimObject	*p_obj;
 	p_obj=&prim_objects[next_prim_object];
@@ -3892,9 +3892,9 @@ SLONG	build_prim_object(SLONG sp,SLONG sf3,SLONG sf4)
 }
 
 
-void	find_next_last_coord(SWORD wall,SLONG *x,SLONG *z)
+void	find_next_last_coord(std::int16_t wall,std::int32_t *x,std::int32_t *z)
 {
-	SLONG	next_wall;
+	std::int32_t	next_wall;
 	LogText(" find next to last wall %d ",wall);
 	while(wall)
 	{
@@ -3913,9 +3913,9 @@ void	find_next_last_coord(SWORD wall,SLONG *x,SLONG *z)
 
 struct	LedgeInfo
 {
-	SWORD	Storey,Wall;
-	SWORD	Y;
-	SLONG   X1,Z1,X2,Z2,X3,Z3,X4,Z4;
+	std::int16_t	Storey,Wall;
+	std::int16_t	Y;
+	std::int32_t   X1,Z1,X2,Z2,X3,Z3,X4,Z4;
 	
 };
 
@@ -3923,10 +3923,10 @@ struct	LedgeInfo
 void	build_single_ledge(struct LedgeInfo	*p_ledge)
 {
 	
-	SLONG	sp[4],count=0;
-	SLONG	rx,rz,rx2,rz2;
+	std::int32_t	sp[4],count=0;
+	std::int32_t	rx,rz,rx2,rz2;
 
-	SLONG	y,height;
+	std::int32_t	y,height;
 	struct	PrimFace4	*p4;
 
 //	LogText(" build ledge (%d,%d) (%d,%d) (%d,%d) (%d,%d)  storey %d wall %d \n",p_ledge->X1,p_ledge->Z1,p_ledge->X2,p_ledge->Z2,p_ledge->X3,p_ledge->Z3,p_ledge->X4,p_ledge->Z4,p_ledge->Storey,p_ledge->Wall);
@@ -3961,12 +3961,12 @@ void	build_single_ledge(struct LedgeInfo	*p_ledge)
 
 }
 
-SLONG	find_wall_for_fe(SLONG fe_x,SLONG fe_y,SLONG storey)
+std::int32_t	find_wall_for_fe(std::int32_t fe_x,std::int32_t fe_y,std::int32_t storey)
 {
-	SLONG 	wall=0;
-	SLONG	px,pz,x1,z1;
-	SLONG	best_wall=-1,best_dist=0x7fffffff,dist;
-	SLONG	wall_count=0;
+	std::int32_t 	wall=0;
+	std::int32_t	px,pz,x1,z1;
+	std::int32_t	best_wall=-1,best_dist=0x7fffffff,dist;
+	std::int32_t	wall_count=0;
 
 	while(storey_list[storey].StoreyType==STOREY_TYPE_FIRE_ESCAPE||storey_list[storey].StoreyType==STOREY_TYPE_STAIRCASE||storey_list[storey].StoreyType==STOREY_TYPE_FENCE)
 	{
@@ -3998,23 +3998,23 @@ SLONG	find_wall_for_fe(SLONG fe_x,SLONG fe_y,SLONG storey)
 	
 }
 
-void	build_staircase(SLONG	storey)
+void	build_staircase(std::int32_t	storey)
 {
-	SLONG	wall;
-	SLONG	wall_count=0;
-	SLONG	count;
-	SLONG	step_count,step_size,step_height,len,step_y,step_pos,step_length;
-	SLONG	sp[300];
-	SLONG	row=0;
-	SLONG	c0,c1;
-	SLONG	y,start_y=0;
+	std::int32_t	wall;
+	std::int32_t	wall_count=0;
+	std::int32_t	count;
+	std::int32_t	step_count,step_size,step_height,len,step_y,step_pos,step_length;
+	std::int32_t	sp[300];
+	std::int32_t	row=0;
+	std::int32_t	c0,c1;
+	std::int32_t	y,start_y=0;
 	struct	PrimFace4	*p4;
-	SLONG	step_pos_old;
-	SLONG	last;
+	std::int32_t	step_pos_old;
+	std::int32_t	last;
 
 	struct	 StairVect
 	{
-		SLONG	X1,Z1,X2,Z2;
+		std::int32_t	X1,Z1,X2,Z2;
 		
 	};
 
@@ -4044,7 +4044,7 @@ void	build_staircase(SLONG	storey)
 		}
 		else
 		{
-			SLONG	pos;
+			std::int32_t	pos;
 			pos=(wall_count)-(count)+1;
 
 			s_vects[pos-1].X2=wall_list[wall].DX;
@@ -4079,7 +4079,7 @@ void	build_staircase(SLONG	storey)
 	sp[99]=next_prim_point;
 	while(step_pos>=0)
 	{
-		SLONG	x,z;
+		std::int32_t	x,z;
 		if(storey_list[storey].Info1&&step_pos<storey_list[storey].Info1*step_size)
 		{
 			step_pos=0;
@@ -4106,7 +4106,7 @@ void	build_staircase(SLONG	storey)
 			sp[row]=next_prim_point;
 			for(c0=0;c0<(wall_count>>1);c0++)
 			{
-				SLONG	x,z;
+				std::int32_t	x,z;
 
 				x=s_vects[c0].X1;
 				z=s_vects[c0].Z1;
@@ -4125,7 +4125,7 @@ void	build_staircase(SLONG	storey)
 			sp[row]=next_prim_point;
 			for(c0=0;c0<(wall_count>>1);c0++)
 			{
-				SLONG	x,z;
+				std::int32_t	x,z;
 				x=s_vects[c0].X1+((s_vects[c0].X2-s_vects[c0].X1)*step_pos)/(len<<8);
 				z=s_vects[c0].Z1+((s_vects[c0].Z2-s_vects[c0].Z1)*step_pos)/(len<<8);
 				add_point(x,y,z);
@@ -4174,9 +4174,9 @@ void	build_staircase(SLONG	storey)
 
 #define	LIGHT_SIZE	BLOCK_SIZE
 #define	CONE_MULT	5
-SLONG	create_suspended_light(SLONG x,SLONG y,SLONG z,SLONG flags)
+std::int32_t	create_suspended_light(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t flags)
 {
-	SLONG	p1,p2;
+	std::int32_t	p1,p2;
 	struct	PrimFace3 *p_f3;
 
 	flags=flags;
@@ -4220,17 +4220,17 @@ SLONG	create_suspended_light(SLONG x,SLONG y,SLONG z,SLONG flags)
    return(0);	
 }
 
-void	build_cable(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wall,SWORD type)
+void	build_cable(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int16_t wall,std::int16_t type)
 {
-	SLONG	p1;
-	UWORD	start_point;
-	UWORD	start_face3,start_face4;
+	std::int32_t	p1;
+	std::uint16_t	start_point;
+	std::uint16_t	start_face3,start_face4;
 	struct	PrimFace4 *p_f4;
-	SLONG	prim;
-	SLONG	len,dx,dy,dz,count;
-	SLONG	px,py,pz;
-	SLONG	c0;
-	SLONG	light_x,light_y,light_z;
+	std::int32_t	prim;
+	std::int32_t	len,dx,dy,dz,count;
+	std::int32_t	px,py,pz;
+	std::int32_t	c0;
+	std::int32_t	light_x,light_y,light_z;
 
 	wall=wall;
 	type=type;
@@ -4258,8 +4258,8 @@ void	build_cable(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wal
 
 	for(c0=1;c0<=count;c0++)
 	{
-		SLONG	ex,ey,ez;
-		SLONG	angle;
+		std::int32_t	ex,ey,ez;
+		std::int32_t	angle;
 
 		ex=x1+(c0*dx)/count;
 		ey=y1+(c0*dy)/count;
@@ -4306,12 +4306,12 @@ void	build_cable(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,SWORD wal
 	
 }
 
-SLONG	build_cables(SWORD storey,SLONG prev_facet)
+std::int32_t	build_cables(std::int16_t storey,std::int32_t prev_facet)
 {
-	SLONG	wall;
-	SLONG	x1,y1,z1,x2,y2,z2;
-	SLONG	start_point,start_face3,start_face4;
-	SLONG	prim;
+	std::int32_t	wall;
+	std::int32_t	x1,y1,z1,x2,y2,z2;
+	std::int32_t	start_point,start_face3,start_face4;
+	std::int32_t	prim;
 
 
 	wall=storey_list[storey].WallHead;
@@ -4344,10 +4344,10 @@ SLONG	build_cables(SWORD storey,SLONG prev_facet)
 	return(0);
 }
 
-SLONG	process_external_pieces(UWORD building)
+std::int32_t	process_external_pieces(std::uint16_t building)
 {
-	SLONG	storey,c0=0;
-	SLONG	prev_facet=0;
+	std::int32_t	storey,c0=0;
+	std::int32_t	prev_facet=0;
 
 	storey=building_list[building].StoreyHead;
 
@@ -4369,19 +4369,19 @@ SLONG	process_external_pieces(UWORD building)
 /*   //pre store face  wall/storey links
 struct	StoreyLink
 {
-	SWORD	Face;   //storey or wall
-	UWORD	Link;
+	std::int16_t	Face;   //storey or wall
+	std::uint16_t	Link;
 };
 
 struct	StoreyLink	storey_link_pool[2000];
-UWORD	next_storey_link=1;
+std::uint16_t	next_storey_link=1;
 
-UWORD	storey_heads[100];
+std::uint16_t	storey_heads[100];
 
 
-void	build_link_table(UWORD building)
+void	build_link_table(std::uint16_t building)
 {
-	UWORD	storey;
+	std::uint16_t	storey;
 
 	next_storey_link=1;
 
@@ -4405,9 +4405,9 @@ void	build_link_table(UWORD building)
 */
 
 
-void	clear_storey_flags(UWORD building)
+void	clear_storey_flags(std::uint16_t building)
 {
-	SLONG	wall,storey;
+	std::int32_t	wall,storey;
 
 	storey=building_list[building].StoreyHead;
 	while(storey)
@@ -4432,11 +4432,11 @@ void	clear_storey_flags(UWORD building)
 
 }
 
-SLONG	find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_storey,SLONG storey)
+std::int32_t	find_connect_wall(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2,std::int32_t *connect_storey,std::int32_t storey)
 {
-	SLONG	found=0;
-	SLONG	wall;
-	SLONG	fx1,fz1,fx2,fz2;
+	std::int32_t	found=0;
+	std::int32_t	wall;
+	std::int32_t	fx1,fz1,fx2,fz2;
 
 	storey=storey_list[storey].Next;
 
@@ -4485,23 +4485,23 @@ SLONG	find_connect_wall(SLONG x1,SLONG z1,SLONG x2,SLONG z2,SLONG *connect_store
 
 	
 */
-SLONG	create_building_prim(UWORD building,SLONG	*small_y)
+std::int32_t	create_building_prim(std::uint16_t building,std::int32_t	*small_y)
 {
-	UBYTE	pass2=0;
-	SLONG	storey;
-	SLONG	wall;
+	std::uint8_t	pass2=0;
+	std::int32_t	storey;
+	std::int32_t	wall;
 
-	SLONG	start_point,start_face3,start_face4;
-	SLONG	mid_point,mid_face4;
-	SLONG	y=0,offset_y=0;
+	std::int32_t	start_point,start_face3,start_face4;
+	std::int32_t	mid_point,mid_face4;
+	std::int32_t	y=0,offset_y=0;
 
-	ULONG	obj_start_point;
-	ULONG	obj_start_face3,obj_start_face4;
-	ULONG	prev_facet=0;
-	SWORD	wall_for_fe[100];
-	SLONG	wall_count=0;
-	SWORD	fire_escape_count=0;
-	SLONG	first=0;
+	std::uint32_t	obj_start_point;
+	std::uint32_t	obj_start_face3,obj_start_face4;
+	std::uint32_t	prev_facet=0;
+	std::int16_t	wall_for_fe[100];
+	std::int32_t	wall_count=0;
+	std::int16_t	fire_escape_count=0;
+	std::int32_t	first=0;
 
 //	LogText(" create building prim  next prim_point %d \n",next_prim_point);
 
@@ -4524,7 +4524,7 @@ SLONG	create_building_prim(UWORD building,SLONG	*small_y)
 	storey=building_list[building].StoreyHead;
 	while(storey)
 	{
-		SLONG	x1,z1,x2,z2;
+		std::int32_t	x1,z1,x2,z2;
 
 		switch(storey_list[storey].StoreyType)
 		{
@@ -4543,7 +4543,7 @@ SLONG	create_building_prim(UWORD building,SLONG	*small_y)
 				wall=storey_list[storey].WallHead;
 				while(wall)
 				{
-					SLONG	connect_wall,connect_storey;
+					std::int32_t	connect_wall,connect_storey;
 
 					x2=wall_list[wall].DX;
 					z2=wall_list[wall].DZ;
@@ -4553,7 +4553,7 @@ SLONG	create_building_prim(UWORD building,SLONG	*small_y)
 
 						if(y==0)
 						{
-							SLONG	temp_y;
+							std::int32_t	temp_y;
 							temp_y=calc_height_at(x1,z1);
 							if(temp_y<*small_y)
 								*small_y=temp_y;
@@ -4641,31 +4641,31 @@ SLONG	create_building_prim(UWORD building,SLONG	*small_y)
 }
 
 
-SLONG	create_building_prim_old(UWORD building)
+std::int32_t	create_building_prim_old(std::uint16_t building)
 {
-	UWORD	start_point;
-	UWORD	start_face3,start_face4;
-	SLONG	storey;
-	SLONG	wall,next_wall,next_next_wall;
-	SLONG	prev_storey=0;
-	SLONG	x,y,z;
-	SLONG	offset_y=0;
-	SWORD	wall_index[200]; //no building will have more than 200 storey's surely?
-	SWORD	prev_x[200];
-	SWORD	prev_z[200];
-	SWORD	storey_index[200];
-	SLONG	c0,c1,walls_left,max_storeys;
-	SLONG	storey_count;
+	std::uint16_t	start_point;
+	std::uint16_t	start_face3,start_face4;
+	std::int32_t	storey;
+	std::int32_t	wall,next_wall,next_next_wall;
+	std::int32_t	prev_storey=0;
+	std::int32_t	x,y,z;
+	std::int32_t	offset_y=0;
+	std::int16_t	wall_index[200]; //no building will have more than 200 storey's surely?
+	std::int16_t	prev_x[200];
+	std::int16_t	prev_z[200];
+	std::int16_t	storey_index[200];
+	std::int32_t	c0,c1,walls_left,max_storeys;
+	std::int32_t	storey_count;
 
-	ULONG	obj_start_point;
-	ULONG	obj_start_face3,obj_start_face4;
-	SLONG	prev_facet=0;
-	SLONG	ledge_count=0;
+	std::uint32_t	obj_start_point;
+	std::uint32_t	obj_start_face3,obj_start_face4;
+	std::int32_t	prev_facet=0;
+	std::int32_t	ledge_count=0;
 	struct	LedgeInfo	ledge_info[200];
-	SWORD	wall_for_fe[100];
-	SWORD	fire_escape_count=0;
+	std::int16_t	wall_for_fe[100];
+	std::int16_t	fire_escape_count=0;
 
-	SLONG	facet_count=0;
+	std::int32_t	facet_count=0;
 
 	memset(wall_for_fe,0,200);
 	memset(ledge_info,0,sizeof(struct LedgeInfo)*100);
@@ -4789,7 +4789,7 @@ SLONG	create_building_prim_old(UWORD building)
 
 	while(walls_left)
 	{
-		SLONG	temp_next;
+		std::int32_t	temp_next;
 		facet_count++;
 		y=0;
 		offset_y=0;
@@ -4984,14 +4984,14 @@ SLONG	create_building_prim_old(UWORD building)
 	
 }
 
-void	create_building_prim_old2(UWORD building)
+void	create_building_prim_old2(std::uint16_t building)
 {
-	UWORD	start_point;
-	UWORD	start_face3,start_face4;
-	SLONG	storey,wall;
-	SLONG	prev_storey;
-	SLONG	x,y,z;
-	SLONG	offset_y=0;
+	std::uint16_t	start_point;
+	std::uint16_t	start_face3,start_face4;
+	std::int32_t	storey,wall;
+	std::int32_t	prev_storey;
+	std::int32_t	x,y,z;
+	std::int32_t	offset_y=0;
 
 	start_point=next_prim_point;
 	start_face3=next_prim_face3;
@@ -5056,11 +5056,11 @@ void	create_building_prim_old2(UWORD building)
 
 void	clear_map2()
 {
-	SLONG	x,z,c0;
+	std::int32_t	x,z,c0;
 	for(x=0;x<EDIT_MAP_WIDTH;x++)
 	for(z=0;z<EDIT_MAP_DEPTH;z++)
 	{
-		SLONG	index;
+		std::int32_t	index;
 		index=edit_map[x][z].MapThingIndex;
 		switch(map_things[index].Type)
 		{
@@ -5080,7 +5080,7 @@ void	clear_map2()
 	}
 
 //	memset(edit_map,0,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-	//memset((UBYTE*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
+	//memset((std::uint8_t*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
 	for(c0=0;c0<MAX_MAP_THINGS;c0++)
 	{
 		switch(map_things[c0].Type)
@@ -5089,7 +5089,7 @@ void	clear_map2()
 			case	MAP_THING_TYPE_LIGHT:
 				break;
 			default:
-				memset((UBYTE*)&map_things[c0],0,sizeof(struct MapThing));
+				memset((std::uint8_t*)&map_things[c0],0,sizeof(struct MapThing));
 				break;
 		}
 	}
@@ -5107,7 +5107,7 @@ void	clear_map2()
 
 void	wibble_floor()
 {
-	SLONG	dx,dz;
+	std::int32_t	dx,dz;
 	return;
 	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
 	for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
@@ -5118,15 +5118,15 @@ void	wibble_floor()
 
 
 
-void	clip_building_prim(SLONG prim,SLONG x,SLONG y,SLONG z)
+void	clip_building_prim(std::int32_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG	index;
-	SLONG	best_z=-999999,az;
+	std::int32_t	index;
+	std::int32_t	best_z=-999999,az;
 	struct	BuildingFacet	*p_facet;
-	SLONG	sp,ep;
+	std::int32_t	sp,ep;
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	SLONG	c0;
+	std::int32_t	c0;
 
 //	LogText(" draw a building %d at %d %d %d\n",building,x,y,z);
 	index=building_objects[prim].FacetHead;
@@ -5148,8 +5148,8 @@ void	clip_building_prim(SLONG prim,SLONG x,SLONG y,SLONG z)
 		ep=p_facet->EndPoint;
 		for(c0=sp;c0<ep;c0++)
 		{
-			SLONG	px,py,pz;
-			SLONG	fy;
+			std::int32_t	px,py,pz;
+			std::int32_t	fy;
 
 			px=prim_points[c0].X+x;
 			py=prim_points[c0].Y+y;
@@ -5172,13 +5172,13 @@ void	clip_building_prim(SLONG prim,SLONG x,SLONG y,SLONG z)
 
 void	create_city()
 {
-	SLONG	c0;
-	SLONG	temp_next_prim;
-	SLONG	temp_next_face3;
-	SLONG	temp_next_face4;
-	SLONG	temp_next_point;
-	SLONG	temp_next_building_object;
-	SLONG	temp_next_building_facet;
+	std::int32_t	c0;
+	std::int32_t	temp_next_prim;
+	std::int32_t	temp_next_face3;
+	std::int32_t	temp_next_face4;
+	std::int32_t	temp_next_point;
+	std::int32_t	temp_next_building_object;
+	std::int32_t	temp_next_building_facet;
 
 //	save_all_prims("temp.sav");
 	clear_map2();
@@ -5205,10 +5205,10 @@ void	create_city()
 	wibble_floor();
 	for(c0=1;c0<MAX_BUILDINGS;c0++)
 	{
-		SLONG	prim;
+		std::int32_t	prim;
 		if(building_list[c0].BuildingFlags)
 		{
-			SLONG	y;
+			std::int32_t	y;
 			prim=create_building_prim(c0,&y);
 			building_list[c0].X=build_x;
 			building_list[c0].Y=y;
@@ -5217,7 +5217,7 @@ void	create_city()
 //			LogText(" place building y %d \n",y);
 			place_building_at(prim,build_x,y,build_z);
 
-extern void save_asc(UWORD building,UWORD version);
+extern void save_asc(std::uint16_t building,std::uint16_t version);
 //			save_asc(c0,1);
 			
 //			clip_building_prim(prim,build_x,y,build_z);
@@ -5242,17 +5242,17 @@ extern void	apply_global_amb_to_map();
 
 //**************************************8
 
-void	offset_buildings(SLONG x,SLONG y,SLONG z)
+void	offset_buildings(std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for (c0=1;c0<MAX_STOREYS;c0++ )
 	{
 		if(storey_list[c0].StoreyFlags)
 		{
-			storey_list[c0].DX+=(SWORD)x;
-			storey_list[c0].DY+=(SWORD)y;
-			storey_list[c0].DY=-storey_list[c0].DY+(SWORD)y;
-			storey_list[c0].DZ+=(SWORD)z;
+			storey_list[c0].DX+=(std::int16_t)x;
+			storey_list[c0].DY+=(std::int16_t)y;
+			storey_list[c0].DY=-storey_list[c0].DY+(std::int16_t)y;
+			storey_list[c0].DZ+=(std::int16_t)z;
 		}
 		
 	}
@@ -5260,9 +5260,9 @@ void	offset_buildings(SLONG x,SLONG y,SLONG z)
 	{
 		if(wall_list[c0].WallFlags)
 		{
-			wall_list[c0].DX+=(SWORD)x;
-			wall_list[c0].DY=-wall_list[c0].DY+(SWORD)y;
-			wall_list[c0].DZ+=(SWORD)z;
+			wall_list[c0].DX+=(std::int16_t)x;
+			wall_list[c0].DY=-wall_list[c0].DY+(std::int16_t)y;
+			wall_list[c0].DZ+=(std::int16_t)z;
 		}
 	}
 /*
@@ -5270,12 +5270,12 @@ void	offset_buildings(SLONG x,SLONG y,SLONG z)
 }
 
 /*
-void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
+void	calc_buildings_screen_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect)
 {
-	SLONG	c0,flags;
+	std::int32_t	c0,flags;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
+	std::int32_t	sp,ep;
+	std::int32_t	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
 
 	p_obj    =&prim_objects[prim];
 
@@ -5318,12 +5318,12 @@ void	calc_buildings_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 	rect->SetRect(min_x-2,min_y-2,max_x-min_x+4,max_y-min_y+4);
 }
 
-void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
+void	calc_buildings_world_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimObject	*p_obj;
-	SLONG	sp,ep;
-	SLONG	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
+	std::int32_t	sp,ep;
+	std::int32_t	min_x=999999,max_x=-999999,min_y=999999,max_y=-999999;
 
 	p_obj    =&prim_objects[prim];
 
@@ -5360,10 +5360,10 @@ void	calc_buildings_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect)
 	rect->SetRect(min_x,min_y,max_x-min_x,max_y-min_y);
 }
 */
-UWORD	is_it_clockwise(SLONG p0,SLONG p1,SLONG p2)
+std::uint16_t	is_it_clockwise(std::int32_t p0,std::int32_t p1,std::int32_t p2)
 {
-	SLONG	z;
-	SLONG	vx,vy,wx,wy;
+	std::int32_t	z;
+	std::int32_t	vx,vy,wx,wy;
 
 	vx=global_res[p1].X-global_res[p0].X;
 	wx=global_res[p2].X-global_res[p1].X;
@@ -5379,28 +5379,28 @@ UWORD	is_it_clockwise(SLONG p0,SLONG p1,SLONG p2)
 }
 
 // problems getting the top face under the fires escape to be a facet member
-extern SLONG	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,SLONG l_x,SLONG l_y,SLONG l_z);
+extern std::int32_t	calc_shadow_co_ord(struct SVECTOR *input,struct SVECTOR *output,std::int32_t l_x,std::int32_t l_y,std::int32_t l_z);
 
-SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
+std::int32_t	draw_a_facet_at(std::uint16_t	facet,std::int32_t x,std::int32_t y,std::int32_t z)
 {
 	struct	PrimFace4		*p_f4;
 	struct	PrimFace3		*p_f3;
-	ULONG	flag_and,flag_or;
-	SLONG	c0;
+	std::uint32_t	flag_and,flag_or;
+	std::int32_t	c0;
 	struct	BuildingFacet	*p_facet;
-	SLONG	sp,mp,ep;
-	SLONG	az;
-	SLONG	col=0,cor=0,cob=0,cot=0,total=0;
-	SLONG	best_z=9999999;
-	SLONG	min_z=9999999,max_z=-9999999;
-	SLONG	first_face=1;
+	std::int32_t	sp,mp,ep;
+	std::int32_t	az;
+	std::int32_t	col=0,cor=0,cob=0,cot=0,total=0;
+	std::int32_t	best_z=9999999;
+	std::int32_t	min_z=9999999,max_z=-9999999;
+	std::int32_t	first_face=1;
 
-	SLONG	facet_flags;
-	SLONG	offset_z=0;
+	std::int32_t	facet_flags;
+	std::int32_t	offset_z=0;
 
 	struct	SVECTOR			res_shadow[1560],temp_shadow; //max points per object?
-	SLONG	flags_shadow[1560];
-	SLONG	shadow=0;
+	std::int32_t	flags_shadow[1560];
+	std::int32_t	shadow=0;
 
 
 
@@ -5441,7 +5441,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 		global_bright[c0-sp]=calc_lights(x,y,z,(struct SVECTOR*)&prim_points[c0]);
 		if(ControlFlag)
 		{
-			CBYTE	str[100];
+			char	str[100];
 			sprintf(str,"%d",global_res[c0-sp].Z);
 			QuickTextC(global_res[c0-sp].X+1,global_res[c0-sp].Y+1,str,0);
 			QuickTextC(global_res[c0-sp].X,global_res[c0-sp].Y,str,1);
@@ -5473,7 +5473,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 	if(p_facet->EndFace4)
 	for(c0=p_facet->StartFace4;c0<p_facet->EndFace4;c0++)
 	{
-		SLONG	p0,p1,p2,p3;
+		std::int32_t	p0,p1,p2,p3;
 
 		if(current_bucket_pool>=end_bucket_pool)
 			goto	exit;
@@ -5541,8 +5541,8 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 				
 				if( (!(flag_and & EF_CLIPFLAGS))&&((flag_or&EF_BEHIND_YOU)==0))
 				{
-					SLONG	wid,height;
-					SLONG	sort_level;
+					std::int32_t	wid,height;
+					std::int32_t	sort_level;
 /*
 					if(first_face)
 					{
@@ -5626,7 +5626,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 
 					setCol4	(
 								(struct BucketQuad*)current_bucket_pool,
-								((UBYTE)p_f4->Col)
+								((std::uint8_t)p_f4->Col)
 							);
 
 
@@ -5639,7 +5639,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 							);
 
 					if(SelectFlag)
-						do_quad_clip_list((SWORD)c0,p0,p1,p2,p3);
+						do_quad_clip_list((std::int16_t)c0,p0,p1,p2,p3);
 
 //RUD
 					if(p_f4->DrawFlags&POLY_FLAG_TEXTURED)
@@ -5650,7 +5650,7 @@ SLONG	draw_a_facet_at(UWORD	facet,SLONG x,SLONG y,SLONG z)
 								p_f4->UV[1][0],p_f4->UV[1][1],
 								p_f4->UV[2][0],p_f4->UV[2][1],
 								p_f4->UV[3][0],p_f4->UV[3][1],
-								(UBYTE)p_f4->TexturePage
+								(std::uint8_t)p_f4->TexturePage
 								);
 					}
 
@@ -5701,7 +5701,7 @@ skip_wall:;
 	if(p_facet->EndFace3)
 	for(c0=p_facet->StartFace3;c0<p_facet->EndFace3;c0++)
 	{
-		SLONG	p0,p1,p2;
+		std::int32_t	p0,p1,p2;
 
 		if(current_bucket_pool>=end_bucket_pool)
 				goto	exit;
@@ -5788,10 +5788,10 @@ exit:;
 	return(best_z);
 }
 
-void	draw_a_building_at(UWORD building,SLONG x,SLONG y,SLONG z)
+void	draw_a_building_at(std::uint16_t building,std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	UWORD	index;
-	SLONG	best_z=-999999,az;
+	std::uint16_t	index;
+	std::int32_t	best_z=-999999,az;
 	//LogText(" draw a building %d at %d %d %d\n",building,x,y,z);
 	index=building_objects[building].FacetHead;
 	while(index)

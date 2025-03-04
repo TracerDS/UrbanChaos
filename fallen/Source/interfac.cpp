@@ -41,12 +41,12 @@
 #include <segagdrm.h>
 #endif
 
-UBYTE player_relative;
+std::uint8_t player_relative;
 
 
-extern void add_damage_text(SWORD x,SWORD y,SWORD z,CBYTE* text);
+extern void add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
 extern void person_normal_move(Thing *p_person);
-UBYTE cheat=0;
+std::uint8_t cheat=0;
 
 #ifndef	PSX
 // set this to 0 if it all fucks up (it's about 5 in the morning so quite possibly i made
@@ -89,9 +89,9 @@ DWORD m_dwFogTableDebugFogTableMode = D3DFOG_NONE;
 #define	INPUT_KEYS		0
 #define	INPUT_JOYPAD	1
 
-SLONG input_mode=0;
-SLONG mouse_input=0;
-SLONG analogue=0;
+std::int32_t input_mode=0;
+std::int32_t mouse_input=0;
+std::int32_t analogue=0;
 
 
 bool g_bEngineVibrations = true;
@@ -99,36 +99,36 @@ bool g_bEngineVibrations = true;
 
 // on PC controls_inventory_mode has no effect on your ability to move, its purely a graphical effect on top of screen while you cycle through weapons
 #ifdef	PSX
-extern SWORD CONTROLS_inventory_mode;
+extern std::int16_t CONTROLS_inventory_mode;
 #else
 #define	CONTROLS_inventory_mode	0
 #endif
 
-extern void	set_person_hug_wall_leap_out(Thing *p_person,SLONG dir);
-SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input);
-extern SLONG is_person_crouching(Thing *p_person);
-extern SLONG person_has_gun_out(Thing *p_person);
-extern void	set_person_hug_wall_dir(Thing *p_person,SLONG dir);
-extern void	set_person_arrest(Thing *p_person,SLONG index);
+extern void	set_person_hug_wall_leap_out(Thing *p_person,std::int32_t dir);
+std::int32_t player_turn_left_right_analogue(Thing *p_thing,std::int32_t input);
+extern std::int32_t is_person_crouching(Thing *p_person);
+extern std::int32_t person_has_gun_out(Thing *p_person);
+extern void	set_person_hug_wall_dir(Thing *p_person,std::int32_t dir);
+extern void	set_person_arrest(Thing *p_person,std::int32_t index);
 extern void	set_person_draw_special(Thing *p_person);
-extern SLONG set_person_kick_dir(Thing *p_person,SLONG dir);
+extern std::int32_t set_person_kick_dir(Thing *p_person,std::int32_t dir);
 extern void	set_person_fight_idle(Thing *p_person);
-extern void	set_person_fight_anim(Thing *p_person,SLONG anim);
+extern void	set_person_fight_anim(Thing *p_person,std::int32_t anim);
 extern void	reset_gang_attack(Thing *p_target);
-extern SLONG turn_to_direction_and_find_target(Thing *p_person,SLONG  find_dir);
-extern SLONG	set_person_cut_fence(Thing *p_person);
-extern SLONG find_searchable_person(Thing *p_person);
-extern SLONG set_person_search(Thing *p_person, SLONG ob_index,SLONG ox,SLONG oy,SLONG oz);
-extern SLONG set_person_search_corpse(Thing *p_person, Thing *p_personb);
-extern void	set_person_carry(Thing *p_person,SLONG s_index);
-extern UWORD	find_corpse(Thing *p_person);
+extern std::int32_t turn_to_direction_and_find_target(Thing *p_person,std::int32_t  find_dir);
+extern std::int32_t	set_person_cut_fence(Thing *p_person);
+extern std::int32_t find_searchable_person(Thing *p_person);
+extern std::int32_t set_person_search(Thing *p_person, std::int32_t ob_index,std::int32_t ox,std::int32_t oy,std::int32_t oz);
+extern std::int32_t set_person_search_corpse(Thing *p_person, Thing *p_personb);
+extern void	set_person_carry(Thing *p_person,std::int32_t s_index);
+extern std::uint16_t	find_corpse(Thing *p_person);
 
 extern EWAY_Way *EWAY_magic_radius_flag;		   
 extern void EWAY_set_active(EWAY_Way *ew);
-extern SLONG EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, SLONG EWAY_sub_condition_of_a_boolean = false);
-extern SLONG	is_person_dead(Thing *p_person);
-extern SLONG	is_person_ko(Thing *p_person);
-extern void	person_pick_best_target(Thing *p_person,SLONG dir);
+extern std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t EWAY_sub_condition_of_a_boolean = false);
+extern std::int32_t	is_person_dead(Thing *p_person);
+extern std::int32_t	is_person_ko(Thing *p_person);
+extern void	person_pick_best_target(Thing *p_person,std::int32_t dir);
 extern void	set_person_walk_backwards(Thing *p_person);
 /*
 
@@ -142,7 +142,7 @@ extern void	set_person_walk_backwards(Thing *p_person);
 
 */
 #include	"fc.h"
-void FC_force_camera_behind(SLONG cam);
+void FC_force_camera_behind(std::int32_t cam);
 
 
 #define	INPUT_KEYS		0
@@ -170,13 +170,13 @@ int psx_pad_mask=0;
 
 extern Thing	*net_players[20];
 
-void player_apply_move(Thing *p_thing,ULONG input);
-void player_apply_move_analgue(Thing *p_thing,ULONG input);
+void player_apply_move(Thing *p_thing,std::uint32_t input);
+void player_apply_move_analgue(Thing *p_thing,std::uint32_t input);
 
 #ifndef PSX
-UBYTE joypad_button_use[16];
+std::uint8_t joypad_button_use[16];
 #ifndef TARGET_DC
-UBYTE keybrd_button_use[16];
+std::uint8_t keybrd_button_use[16];
 #endif
 
 
@@ -301,7 +301,7 @@ void INTERFAC_SetUpJoyPadButtons ( int iMode )
 
 void init_joypad_config()
 {
-	SLONG  val;
+	std::int32_t  val;
 /*
 	//was
 	joypad_button_use[JOYPAD_BUTTON_KICK]		= ENV_get_value_number("joypad_kick",		2, "Joypad");
@@ -383,9 +383,9 @@ void init_joypad_config()
 
 struct ActionInfo
 {
-	UBYTE	Action;
-	UBYTE	Logic;
-	ULONG	Input;
+	std::uint8_t	Action;
+	std::uint8_t	Logic;
+	std::uint32_t	Input;
 
 };
 
@@ -663,7 +663,7 @@ struct ActionInfo	*action_tree[]=
 //
 // player has pressed punch, look at her hand to see if anything needs throwing etc...
 //
-SLONG player_activate_in_hand(Thing *p_person)
+std::int32_t player_activate_in_hand(Thing *p_person)
 {
 	if (p_person->Genus.Person->Flags & FLAG_PERSON_CANNING)
 	{
@@ -733,7 +733,7 @@ SLONG player_activate_in_hand(Thing *p_person)
 	return (0);
 }
 
-void set_player_shoot(Thing *p_person,SLONG param)
+void set_player_shoot(Thing *p_person,std::int32_t param)
 {
 	if(person_has_gun_out(p_person))
 	{
@@ -770,29 +770,29 @@ void set_player_punch(Thing *p_person)
 // false if they are in the doorway to a warehouse.
 //
 
-SLONG should_i_jump(Thing *darci)
+std::int32_t should_i_jump(Thing *darci)
 {
 	//
 	// Is Darci standing in a warehouse doorway?
 	//
 
-	// SLONG dx = SIN(darci->Draw.Tweened->Angle) >> 11;
-	// SLONG dz = COS(darci->Draw.Tweened->Angle) >> 11;
+	// std::int32_t dx = SIN(darci->Draw.Tweened->Angle) >> 11;
+	// std::int32_t dz = COS(darci->Draw.Tweened->Angle) >> 11;
 
-	const SLONG dx = 0x10000 >> 11;
-	const SLONG dz = 0x00000 >> 11;
+	const std::int32_t dx = 0x10000 >> 11;
+	const std::int32_t dz = 0x00000 >> 11;
 
-	SLONG x1 = (darci->WorldPos.X >> 8);
-	SLONG z1 = (darci->WorldPos.Z >> 8);
+	std::int32_t x1 = (darci->WorldPos.X >> 8);
+	std::int32_t z1 = (darci->WorldPos.Z >> 8);
 
-	SLONG x2 = x1 + dx;
-	SLONG z2 = z1 + dz;
+	std::int32_t x2 = x1 + dx;
+	std::int32_t z2 = z1 + dz;
 
-	SLONG x3 = x1 - dz;
-	SLONG z3 = z1 + dx;
+	std::int32_t x3 = x1 - dz;
+	std::int32_t z3 = z1 + dx;
 
-	SLONG x4 = x1 + dz;
-	SLONG z4 = z1 - dx;
+	std::int32_t x4 = x1 + dz;
+	std::int32_t z4 = z1 - dx;
 
 	x1 -= dx;
 	z1 -= dz;
@@ -828,7 +828,7 @@ SLONG should_i_jump(Thing *darci)
 // Returns true if a person can safely backflip.
 //
 
-SLONG should_person_backflip(Thing *darci)
+std::int32_t should_person_backflip(Thing *darci)
 {
 	#if 0
 
@@ -850,7 +850,7 @@ SLONG should_person_backflip(Thing *darci)
 			// If you're on a lift on botanic, then you can't backflip.
 			//
 
-			SLONG wmove_index;
+			std::int32_t wmove_index;
 
 			wmove_index = f4->ThingIndex;
 
@@ -866,7 +866,7 @@ SLONG should_person_backflip(Thing *darci)
 					// You can't backflip on platform on "Grim Gardens" a.k.a. botanicc.ucm
 					//
 
-					extern SLONG playing_level(const CBYTE* name);
+					extern std::int32_t playing_level(const char* name);
 
 					if (playing_level("botanicc.ucm"))
 					{
@@ -881,7 +881,7 @@ SLONG should_person_backflip(Thing *darci)
 
 	if(darci->Genus.Person->Ware)
 	{
-		SLONG	px,py,pz,wy;
+		std::int32_t	px,py,pz,wy;
 		//
 		// slide along warehouse roof
 		//
@@ -901,16 +901,16 @@ SLONG should_person_backflip(Thing *darci)
 
 	}
 
-	SLONG dx = SIN(darci->Draw.Tweened->Angle) >> 8;
-	SLONG dz = COS(darci->Draw.Tweened->Angle) >> 8;
+	std::int32_t dx = SIN(darci->Draw.Tweened->Angle) >> 8;
+	std::int32_t dz = COS(darci->Draw.Tweened->Angle) >> 8;
 
-	SLONG x1 = (darci->WorldPos.X >> 8);
-	SLONG y1 = (darci->WorldPos.Y >> 8) + 0x60;
-	SLONG z1 = (darci->WorldPos.Z >> 8);
+	std::int32_t x1 = (darci->WorldPos.X >> 8);
+	std::int32_t y1 = (darci->WorldPos.Y >> 8) + 0x60;
+	std::int32_t z1 = (darci->WorldPos.Z >> 8);
 
-	SLONG x2 = x1 + dx;
-	SLONG y2 = y1;
-	SLONG z2 = z1 + dz;
+	std::int32_t x2 = x1 + dx;
+	std::int32_t y2 = y1;
+	std::int32_t z2 = z1 + dz;
 
 	return there_is_a_los(
 				x1, y1, z1,
@@ -919,15 +919,15 @@ SLONG should_person_backflip(Thing *darci)
 }
 
 
-SLONG bad_place_for_car(Thing *p_person,Thing *p_vehicle)
+std::int32_t bad_place_for_car(Thing *p_person,Thing *p_vehicle)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG ix,jx;
-	SLONG iz,jz;
-	SLONG width,length;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t ix,jx;
+	std::int32_t iz,jz;
+	std::int32_t width,length;
 
-	SLONG	dist,vx,vz,on;
+	std::int32_t	dist,vx,vz,on;
 
 	//
 	// Are we near it's door?
@@ -982,16 +982,16 @@ SLONG bad_place_for_car(Thing *p_person,Thing *p_vehicle)
 //
 // Returns true if a person can get into a particular car.
 // 
-extern void	get_car_door_offsets(SLONG type,SLONG door, SLONG *dx,SLONG *dz);
+extern void	get_car_door_offsets(std::int32_t type,std::int32_t door, std::int32_t *dx,std::int32_t *dz);
 
-void get_car_enter_xz(Thing *p_vehicle,SLONG door, SLONG *cx,SLONG *cz)
+void get_car_enter_xz(Thing *p_vehicle,std::int32_t door, std::int32_t *cx,std::int32_t *cz)
 {
-	SLONG dx;
-	SLONG dz;
-	SLONG ix;
-	SLONG iz;
-	SLONG dist;
-	SLONG width,length;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t ix;
+	std::int32_t iz;
+	std::int32_t dist;
+	std::int32_t width,length;
 
 	ASSERT(door == 0 || door == 1);
 
@@ -1024,17 +1024,17 @@ void get_car_enter_xz(Thing *p_vehicle,SLONG door, SLONG *cx,SLONG *cz)
 	#ifndef NDEBUG
 #ifndef	PSX
 void SHAPE_semisphere(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG dx,	// Gives the and direction of the semi-sphere.
-		SLONG dy,
-		SLONG dz,
-		SLONG radius,
-		SLONG page,
-		UBYTE red,
-		UBYTE green,
-		UBYTE blue);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t dx,	// Gives the and direction of the semi-sphere.
+		std::int32_t dy,
+		std::int32_t dz,
+		std::int32_t radius,
+		std::int32_t page,
+		std::uint8_t red,
+		std::uint8_t green,
+		std::uint8_t blue);
 
 //	SHAPE_semisphere(*cx,0,*cz,0,256,0,0xb0,POLY_PAGE_COLOUR_ALPHA,255,0,0);
 #endif
@@ -1058,14 +1058,14 @@ void SHAPE_semisphere(
 }
 
 
-SLONG in_right_place_for_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
+std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG	ix,iz;
-	SLONG dx,dy;
-	SLONG dz;
-	SLONG dist;
+	std::int32_t	ix,iz;
+	std::int32_t dx,dy;
+	std::int32_t dz;
+	std::int32_t dist;
 
 	ASSERT(p_person ->Class == CLASS_PERSON );
 	ASSERT(p_vehicle->Class == CLASS_VEHICLE);
@@ -1077,7 +1077,7 @@ SLONG in_right_place_for_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
 
 	for (i = 0; i <= 1; i++)
 	{
-extern UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
+extern std::uint8_t sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
 		get_car_enter_xz(p_vehicle,i,&ix,&iz);
 
@@ -1128,7 +1128,7 @@ extern UBYTE sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
 
 
-SLONG person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
+std::int32_t person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door)
 {
 	if (p_vehicle->Genus.Vehicle->Driver)
 	{
@@ -1162,16 +1162,16 @@ SLONG person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, SLONG *door)
 // to be 0 or 1 depending on which door they are getting into.
 //
 
-SLONG person_get_in_car(Thing *p_thing, SLONG *door)
+std::int32_t person_get_in_car(Thing *p_thing, std::int32_t *door)
 {
-	SLONG i;
+	std::int32_t i;
 
 	Thing *col_thing;
 
 	#define MAX_COL_WITH 16
 
 	THING_INDEX col_with[MAX_COL_WITH];
-	SLONG       col_with_upto;
+	std::int32_t       col_with_upto;
 
 	col_with_upto = THING_find_sphere(
 					    p_thing->WorldPos.X >> 8,
@@ -1208,15 +1208,15 @@ SLONG person_get_in_car(Thing *p_thing, SLONG *door)
 //#ifdef	FINAL
 //#define	PANEL_new_text(a,b,c)
 //#endif
-ULONG do_an_action(Thing *p_thing, ULONG input)
+std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input)
 {
-	ULONG	     closest;
-	SLONG      	 ladder_col;
+	std::uint32_t	     closest;
+	std::int32_t      	 ladder_col;
 	Thing	    *special_thing;
 	THING_INDEX  anim_switch;
 	THING_INDEX  special_index;
-	SLONG        dist;
-	SLONG        door;
+	std::int32_t        dist;
+	std::int32_t        door;
 
 	if (p_thing->SubState == SUB_STATE_GRAPPLE_HELD||p_thing->SubState == SUB_STATE_GRAPPLE_HOLD)
 	{
@@ -1259,7 +1259,7 @@ ULONG do_an_action(Thing *p_thing, ULONG input)
 	*/
 
 	//if(p_thing->SubState==SUB_STATE_HUG_WALL_STAND||p_thing->SubState==SUB_STATE_HUG_WALL_LOOK_L
-extern SLONG	can_i_hug_wall(Thing *p_person);
+extern std::int32_t	can_i_hug_wall(Thing *p_person);
 extern void	set_person_turn_to_hug_wall(Thing *p_person);
 
 	if(p_thing->State==STATE_CARRY)
@@ -1274,7 +1274,7 @@ extern void	set_person_turn_to_hug_wall(Thing *p_person);
 			return INPUT_MASK_ACTION;
 		}
 
-		extern SLONG is_there_room_in_front_of_me(Thing *p_person, SLONG how_much_room);
+		extern std::int32_t is_there_room_in_front_of_me(Thing *p_person, std::int32_t how_much_room);
 
 		if (!is_there_room_in_front_of_me(p_thing, 192))
 		{
@@ -1337,7 +1337,7 @@ extern void	set_person_turn_to_hug_wall(Thing *p_person);
 
 		if (p_vehicle->Genus.Vehicle->Skid >= 3) // SKID_START defined in vehicle.cpp!
 		{
-			SLONG	dist;
+			std::int32_t	dist;
 
 			dist=QDIST2(abs(p_vehicle->Genus.Vehicle->VelX),abs(p_vehicle->Genus.Vehicle->VelZ));
 
@@ -1399,9 +1399,9 @@ extern void	set_person_turn_to_hug_wall(Thing *p_person);
 			//
 
 			{
-				UWORD index;
+				std::uint16_t index;
 
-				extern UWORD find_arrestee(Thing *p_person);
+				extern std::uint16_t find_arrestee(Thing *p_person);
 				//PANEL_new_text(NULL,4000,"ACTION find arrest");
 
 				if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing)))
@@ -1419,15 +1419,15 @@ extern void	set_person_turn_to_hug_wall(Thing *p_person);
 			//climb down a ladder?
 			//
 			{
-				SLONG	ladder_col;
+				std::int32_t	ladder_col;
 				struct	DFacet	*p_facet;
 				ladder_col = find_nearby_ladder_colvect(p_thing);
 
-	SLONG	set_person_climb_down_onto_ladder(Thing *p_person,SLONG colvect);
+	std::int32_t	set_person_climb_down_onto_ladder(Thing *p_person,std::int32_t colvect);
 
 				if (ladder_col)
 				{
-					SLONG	top;
+					std::int32_t	top;
 					//
 					// Mount the ladder.  This could call set_person_climb_ladder(),
 					// but then it would need the storey instead of the col_vect.
@@ -1452,7 +1452,7 @@ extern void	set_person_turn_to_hug_wall(Thing *p_person);
 
 		}
 
-extern SLONG	person_on_floor(Thing *p_person);
+extern std::int32_t	person_on_floor(Thing *p_person);
 		if(person_on_floor(p_thing))
 		if (person_get_in_car(p_thing, &door))
 		{
@@ -1570,12 +1570,12 @@ extern SLONG	person_on_floor(Thing *p_person);
 	//
 	if(p_thing->State != STATE_MOVEING)
 	{
-		SLONG hook_x;
-		SLONG hook_y;
-		SLONG hook_z;
-		SLONG hook_yaw;
-		SLONG hook_pitch;
-		SLONG hook_roll;
+		std::int32_t hook_x;
+		std::int32_t hook_y;
+		std::int32_t hook_z;
+		std::int32_t hook_yaw;
+		std::int32_t hook_pitch;
+		std::int32_t hook_roll;
 
 		HOOK_pos_grapple(
 			&hook_x,
@@ -1585,9 +1585,9 @@ extern SLONG	person_on_floor(Thing *p_person);
 			&hook_pitch,
 			&hook_roll);
 
-		SLONG dx = p_thing->WorldPos.X - hook_x >> 8;
-		SLONG dy = p_thing->WorldPos.Y - hook_y >> 8;
-		SLONG dz = p_thing->WorldPos.Z - hook_z >> 8;
+		std::int32_t dx = p_thing->WorldPos.X - hook_x >> 8;
+		std::int32_t dy = p_thing->WorldPos.Y - hook_y >> 8;
+		std::int32_t dz = p_thing->WorldPos.Z - hook_z >> 8;
 
 		if (abs(dy) < 0x20)
 		{
@@ -1648,9 +1648,9 @@ extern SLONG	person_on_floor(Thing *p_person);
 		//
 
 		{
-			UWORD index;
+			std::uint16_t index;
 
-			extern UWORD find_arrestee(Thing *p_person);
+			extern std::uint16_t find_arrestee(Thing *p_person);
 
 			if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing)))
 			{
@@ -1666,12 +1666,12 @@ extern SLONG	person_on_floor(Thing *p_person);
 		//
 
 		{
-			SLONG ob_x;
-			SLONG ob_y;
-			SLONG ob_z;
-			SLONG ob_yaw;
-			SLONG ob_prim;
-			SLONG ob_index;
+			std::int32_t ob_x;
+			std::int32_t ob_y;
+			std::int32_t ob_z;
+			std::int32_t ob_yaw;
+			std::int32_t ob_prim;
+			std::int32_t ob_index;
 
 			if (OB_find_type(
 					p_thing->WorldPos.X >> 8,
@@ -1690,10 +1690,10 @@ extern SLONG	person_on_floor(Thing *p_person);
 				// In the correctish place?
 				//
 
-				SLONG anim;
+				std::int32_t anim;
 
-				SLONG want_x;
-				SLONG want_z;
+				std::int32_t want_x;
+				std::int32_t want_z;
 
 				if (ob_prim == PRIM_OBJ_SWITCH_OFF)
 				{
@@ -1708,10 +1708,10 @@ extern SLONG	person_on_floor(Thing *p_person);
 					want_z = ob_z + (COS(ob_yaw) >> 8) - (COS(ob_yaw) >> 10);
 				}
 
-				SLONG dx = abs(want_x - (p_thing->WorldPos.X >> 8));
-				SLONG dz = abs(want_z - (p_thing->WorldPos.Z >> 8));
+				std::int32_t dx = abs(want_x - (p_thing->WorldPos.X >> 8));
+				std::int32_t dz = abs(want_z - (p_thing->WorldPos.Z >> 8));
 
-				SLONG dist = QDIST2(dx,dz);
+				std::int32_t dist = QDIST2(dx,dz);
 
 				if (dist < 0x40)
 				{
@@ -1719,7 +1719,7 @@ extern SLONG	person_on_floor(Thing *p_person);
 					// Facing in the right direction?
 					//
 
-					SLONG dangle;
+					std::int32_t dangle;
 					
 					dangle  = p_thing->Draw.Tweened->Angle - ob_yaw;
 					dangle &= 2047;
@@ -1779,9 +1779,9 @@ extern SLONG	person_on_floor(Thing *p_person);
 			//
 
 			{
-				UWORD index;
+				std::uint16_t index;
 
-				extern UWORD find_arrestee(Thing *p_person);
+				extern std::uint16_t find_arrestee(Thing *p_person);
 
 				//PANEL_new_text(NULL,4000,"ACTION FIND arrest");
 				if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing)))
@@ -1852,7 +1852,7 @@ extern SLONG	person_on_floor(Thing *p_person);
 //#ifndef	PSX
 			if(p_thing->Genus.Person->PersonType==PERSON_ROPER)
 			{
-				SLONG	index;
+				std::int32_t	index;
 				if((index=find_corpse(p_thing)))
 				{
 					set_person_carry(p_thing,index);
@@ -1863,10 +1863,10 @@ extern SLONG	person_on_floor(Thing *p_person);
 			}
 //#endif
 			{
-			//	SLONG	ob_index;
+			//	std::int32_t	ob_index;
 				OB_Info *oi;
 
-extern SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_range,ULONG  prim_flags,SLONG *ob_x,SLONG *ob_y,SLONG *ob_z,SLONG *ob_yaw,SLONG *ob_prim, SLONG *ob_index);
+extern std::int32_t OB_find_type(std::int32_t  mid_x,std::int32_t  mid_y,std::int32_t  mid_z,std::int32_t  max_range,std::uint32_t  prim_flags,std::int32_t *ob_x,std::int32_t *ob_y,std::int32_t *ob_z,std::int32_t *ob_yaw,std::int32_t *ob_prim, std::int32_t *ob_index);
 
 //				if(OB_find_type(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,0xff,&ob_x,&ob_y,&ob_z,&ob_yaw,&ob_prim))
 				if(oi=OB_find_index(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,true))
@@ -1881,7 +1881,7 @@ extern SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_rang
 				}
 				
 				{
-					SLONG	index;
+					std::int32_t	index;
 					index=find_searchable_person(p_thing);
 					if(index)
 					{
@@ -1901,7 +1901,7 @@ extern SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_rang
 
 			remove_thing_from_map(p_thing);
 
-			ULONG use = THING_find_nearest(
+			std::uint32_t use = THING_find_nearest(
 							p_thing->WorldPos.X >> 8,
 							p_thing->WorldPos.Y >> 8,
 							p_thing->WorldPos.Z >> 8,
@@ -1915,7 +1915,7 @@ extern SLONG OB_find_type(SLONG  mid_x,SLONG  mid_y,SLONG  mid_z,SLONG  max_rang
 			//
 
 
-extern UBYTE	is_semtex;
+extern std::uint8_t	is_semtex;
 
 #ifdef	PSX
 			if(wad_level==25 && use==193) //psx way of skipping it
@@ -1978,7 +1978,7 @@ extern UBYTE	is_semtex;
 					if(NET_PERSON(0)->Genus.Person->PersonType==PERSON_DARCI)
 					if (PCOM_person_doing_nothing_important(p_person))
 					{
-						SLONG message_type = EWAY_FAKE_MESSAGE_NORMAL;
+						std::int32_t message_type = EWAY_FAKE_MESSAGE_NORMAL;
 
 						//
 						// Pick a random sentence for this person to say.
@@ -1999,7 +1999,7 @@ extern UBYTE	is_semtex;
 							message_type = EWAY_FAKE_MESSAGE_ANNOYED;
 						}
 
-						CBYTE* response = EWAY_get_fake_wander_message(message_type);
+						char* response = EWAY_get_fake_wander_message(message_type);
 
 						if (response)
 						{
@@ -2029,7 +2029,7 @@ extern UBYTE	is_semtex;
 
 	if(p_thing->State != STATE_MOVEING)
 	{
-		SLONG bike = BIKE_person_can_mount(p_thing);
+		std::int32_t bike = BIKE_person_can_mount(p_thing);
 
 		if (bike)
 		{
@@ -2044,7 +2044,7 @@ extern UBYTE	is_semtex;
 	if (p_thing->State == STATE_IDLE ||(p_thing->State    == STATE_GUN && p_thing->SubState==SUB_STATE_AIM_GUN))
 	{
 
-		SLONG	angle;
+		std::int32_t	angle;
 
 		/*
 		if (THING_find_nearest(
@@ -2209,7 +2209,7 @@ extern void	set_person_hop_back(Thing *p_person);
 // Currently returns the first it finds
 //
 
-SLONG find_best_action_from_tree(SLONG action,ULONG input,ULONG *input_used)
+std::int32_t find_best_action_from_tree(std::int32_t action,std::uint32_t input,std::uint32_t *input_used)
 {
 	struct	ActionInfo *action_options;
 
@@ -2430,10 +2430,10 @@ States & Substates
 */
 //modes
 
-SLONG get_camera_angle()
+std::int32_t get_camera_angle()
 {
-	SLONG	ca;
-	SLONG	cam_x,cam_y,cam_z,cam_yaw,cam_pitch,cam_roll,cam_lens;
+	std::int32_t	ca;
+	std::int32_t	cam_x,cam_y,cam_z,cam_yaw,cam_pitch,cam_roll,cam_lens;
 
 	if(EWAY_grab_camera(&cam_x,&cam_y,&cam_z,&cam_yaw,&cam_pitch,&cam_roll,&cam_lens))
 	{
@@ -2448,7 +2448,7 @@ SLONG get_camera_angle()
 
 }
 
-void player_stop_move(Thing *p_thing,ULONG input)
+void player_stop_move(Thing *p_thing,std::uint32_t input)
 {
 	if (p_thing->State == STATE_GRAPPLING ||
 		p_thing->State == STATE_CANNING ||
@@ -2493,12 +2493,12 @@ void player_stop_move(Thing *p_thing,ULONG input)
 	}
 }
 
-void get_analogue_dxdz(SLONG in_dx,SLONG in_dz,SLONG *dx,SLONG *dz)
+void get_analogue_dxdz(std::int32_t in_dx,std::int32_t in_dz,std::int32_t *dx,std::int32_t *dz)
 {
-	SLONG	angle;
-	SLONG	ca;
+	std::int32_t	angle;
+	std::int32_t	ca;
 
-	SLONG	dist;
+	std::int32_t	dist;
 
 	dist=Root(in_dx*in_dx+in_dz*in_dz);
 
@@ -2535,7 +2535,7 @@ void get_analogue_dxdz(SLONG in_dx,SLONG in_dz,SLONG *dx,SLONG *dz)
 }
 
 
-void player_interface_move(Thing *p_thing,ULONG input)
+void player_interface_move(Thing *p_thing,std::uint32_t input)
 {
 	//
 	// left and right at the same time is not allowed
@@ -2605,7 +2605,7 @@ extern bool g_bEngineVibrations;
 //
 void lock_to_compass(Thing *p_thing)
 {
-	SLONG	angle;
+	std::int32_t	angle;
 
 	//
 	// I bet theres a clever way of doing this but I refuse to use my brain
@@ -2639,11 +2639,11 @@ void lock_to_compass(Thing *p_thing)
 #define	TURN_TIMER	512
 
 #define	JOY_REL_CAMERA	(1<<0)
-SLONG get_joy_angle(ULONG input,UWORD flags)
+std::int32_t get_joy_angle(std::uint32_t input,std::uint16_t flags)
 {
-	SLONG	dx=0,dz=0;
-	SLONG	angle=-1;
-//	SLONG	velocity;
+	std::int32_t	dx=0,dz=0;
+	std::int32_t	angle=-1;
+//	std::int32_t	velocity;
 
 
 	dx=GET_JOYX(input);
@@ -2654,7 +2654,7 @@ SLONG get_joy_angle(ULONG input,UWORD flags)
 
 	if(flags&JOY_REL_CAMERA)
 	{
-		SLONG	ca;
+		std::int32_t	ca;
 		
 		ca = get_camera_angle(); //FC_cam[0].yaw>>8;
 //		ca = FC_cam[0].yaw>>8;
@@ -2665,14 +2665,14 @@ SLONG get_joy_angle(ULONG input,UWORD flags)
 	return(angle);
 }
 
-extern SLONG	EWAY_cam_jumped;
+extern std::int32_t	EWAY_cam_jumped;
 #ifdef	MIKE
-SLONG globdx,globdz;
+std::int32_t globdx,globdz;
 #endif
 
-SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input)
+std::int32_t player_turn_left_right_analogue(Thing *p_thing,std::int32_t input)
 {
-	static	UBYTE	reduce_turn=0;
+	static	std::uint8_t	reduce_turn=0;
 
 	if (EWAY_cam_jumped > 0)
 	{
@@ -2719,9 +2719,9 @@ SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input)
 	}
 	else
 	{
-		SLONG	dx=0,dz=0;
-		SLONG	angle=-1;
-		SLONG	velocity;
+		std::int32_t	dx=0,dz=0;
+		std::int32_t	angle=-1;
+		std::int32_t	velocity;
 
 		dx=GET_JOYX(input);
 		dz=GET_JOYY(input);
@@ -2748,9 +2748,9 @@ SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input)
 
 		if(angle>=0)
 		{
-			SLONG	ca;
-			SLONG	max_angle=128;
-			SLONG	dangle;
+			std::int32_t	ca;
+			std::int32_t	max_angle=128;
+			std::int32_t	dangle;
 			
 			ca = get_camera_angle(); //FC_cam[0].yaw>>8;
 
@@ -2867,12 +2867,12 @@ SLONG player_turn_left_right_analogue(Thing *p_thing,SLONG input)
 
 }
 
-void process_analogue_movement(Thing *p_thing,SLONG input)
+void process_analogue_movement(Thing *p_thing,std::int32_t input)
 {
-	SLONG	dx,dz,velocity;
-	SLONG	angle=-1;
-	SLONG	rel_x,rel_y;
-	SLONG	ca;
+	std::int32_t	dx,dz,velocity;
+	std::int32_t	angle=-1;
+	std::int32_t	rel_x,rel_y;
+	std::int32_t	ca;
 
 
 	dx=GET_JOYX(input);
@@ -2896,14 +2896,14 @@ void process_analogue_movement(Thing *p_thing,SLONG input)
 	// Is the thing facing the camera?
 	//
 
-	SLONG dangle = (ca & 2047) - (p_thing->Draw.Tweened->Angle & 20247);
+	std::int32_t dangle = (ca & 2047) - (p_thing->Draw.Tweened->Angle & 20247);
 
 	dangle &= 2047;
 
 	if (dangle >  1024) {dangle -= 2048;}
 	if (dangle < -1024) {dangle += 2048;}
 
-	SLONG facing_camera;
+	std::int32_t facing_camera;
 
 	if (abs(dangle) > 512)
 	{
@@ -3193,7 +3193,7 @@ void process_analogue_movement(Thing *p_thing,SLONG input)
 
 #if 1
 // New, clean style!
-SLONG player_turn_left_right(Thing *p_thing,SLONG input)
+std::int32_t player_turn_left_right(Thing *p_thing,std::int32_t input)
 {
 	if(p_thing->SubState==SUB_STATE_RUNNING_HIT_WALL)
 	{
@@ -3223,7 +3223,7 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 	}
 #endif
 
-	SWORD wMaxTurn = 94;
+	std::int16_t wMaxTurn = 94;
 
 	if(p_thing->State==STATE_JUMPING)
 	{
@@ -3249,7 +3249,7 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 		// Note that skidding gets modified below as well.
 		// Normal running velocity = 30.
 		// Sprinting velocity = 52
-		SWORD wRunningMaxTurn = 70 - ( p_thing->Velocity );
+		std::int16_t wRunningMaxTurn = 70 - ( p_thing->Velocity );
 		ASSERT ( wRunningMaxTurn > 0 );
 		if ( wMaxTurn > wRunningMaxTurn )
 		{
@@ -3264,8 +3264,8 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 
 
 	// Now the actual turn is a fraction of this max speed.
-	SWORD wJoyX = GET_JOYX(input);		// -128 -> +128
-	SWORD wTurn;
+	std::int16_t wJoyX = GET_JOYX(input);		// -128 -> +128
+	std::int16_t wTurn;
 	if ((input & INPUT_MASK_LEFT) || (input & INPUT_MASK_RIGHT))
 	{
 #ifndef TARGET_DC
@@ -3274,7 +3274,7 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 		if ( ( input & 0xfffc0000 ) == 0 )
 		{
 			// Keyboard only.
-			static SWORD wLastTurn = 0;
+			static std::int16_t wLastTurn = 0;
 			if ( input & INPUT_MASK_LEFT )
 			{
 				if ( wLastTurn > 0 )
@@ -3335,7 +3335,7 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 #endif
 
 	// Scale by frame rate.
-	SWORD wFrameTurn = ( wTurn * TICK_RATIO ) >> TICK_SHIFT;
+	std::int16_t wFrameTurn = ( wTurn * TICK_RATIO ) >> TICK_SHIFT;
 
 	// And apply the turn.
 	p_thing->Draw.Tweened->Angle = ( p_thing->Draw.Tweened->Angle - wFrameTurn ) & 2047;
@@ -3351,7 +3351,7 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 //#ifdef	MIKE_I_DONT_LIKE_IT_DISKETT
 #if 1
 
-	SWORD wDesiredRoll = ( wTurn * p_thing->Velocity ) >> 2;
+	std::int16_t wDesiredRoll = ( wTurn * p_thing->Velocity ) >> 2;
 
 
 
@@ -3368,7 +3368,7 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 
 	#define MAX_LEAN_DELTA 50
 
-	SWORD wCurrentRoll = p_thing->Draw.Tweened->Roll;
+	std::int16_t wCurrentRoll = p_thing->Draw.Tweened->Roll;
 	if ( wCurrentRoll > wDesiredRoll )
 	{
 		wCurrentRoll -= MAX_LEAN_DELTA;
@@ -3464,16 +3464,16 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 
 #else
 
-SLONG player_turn_left_right(Thing *p_thing,SLONG input)
+std::int32_t player_turn_left_right(Thing *p_thing,std::int32_t input)
 {
 
-	SLONG	da=94;
+	std::int32_t	da=94;
 
 #if 0	//#ifdef TARGET_DC
 
 
 	// Take da straight from the analogue stick position.
-	da = ( (ULONG)( input & 0x01fc0000 ) >> 18 ) - 64;
+	da = ( (std::uint32_t)( input & 0x01fc0000 ) >> 18 ) - 64;
 	if ( da < 0 )
 	{
 		da = -da;
@@ -3486,12 +3486,12 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 
 
 	// use a static counter (only one player) and increase delta angle linearly
-	static SLONG	s_da = 16;
+	static std::int32_t	s_da = 16;
 
 	{
-		SLONG joy_dx;
-		SLONG turn_speed;
-		SLONG max_speed;
+		std::int32_t joy_dx;
+		std::int32_t turn_speed;
+		std::int32_t max_speed;
 
 		joy_dx = GET_JOYX(input);
 		turn_speed = (abs(joy_dx) - 30) >> 3;
@@ -3563,9 +3563,9 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 				if(p_thing->SubState==SUB_STATE_RUNNING)
 				{
 #ifdef TARGET_DC
-					SLONG max_da = 14+((p_thing->Velocity-9)>>1);
+					std::int32_t max_da = 14+((p_thing->Velocity-9)>>1);
 #else
-					SLONG max_da = 14+(abs(p_thing->Draw.Tweened->Roll)/3);
+					std::int32_t max_da = 14+(abs(p_thing->Draw.Tweened->Roll)/3);
 #endif
 					if ( da > max_da )
 					{
@@ -3643,9 +3643,9 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 				if(p_thing->SubState==SUB_STATE_RUNNING)
 				{
 #ifdef TARGET_DC
-					SLONG max_da = 14+((p_thing->Velocity-9)>>1);
+					std::int32_t max_da = 14+((p_thing->Velocity-9)>>1);
 #else
-					SLONG max_da = 14+(abs(p_thing->Draw.Tweened->Roll)/3);
+					std::int32_t max_da = 14+(abs(p_thing->Draw.Tweened->Roll)/3);
 #endif
 					if ( da > max_da )
 					{
@@ -3715,9 +3715,9 @@ SLONG player_turn_left_right(Thing *p_thing,SLONG input)
 
 #endif
 
-void player_apply_move(Thing *p_thing,ULONG input)
+void player_apply_move(Thing *p_thing,std::uint32_t input)
 {
-//	SLONG	da=94;
+//	std::int32_t	da=94;
 //	LogText(" player move  input %x \n",input);
 
 	switch(p_thing->State)
@@ -3727,7 +3727,7 @@ void player_apply_move(Thing *p_thing,ULONG input)
 			{
 				case	SUB_STATE_STOPPING:
 //				case	SUB_STATE_CLIMB_AROUND_WALL:
-void locked_anim_change(Thing *p_person,UWORD locked_object,UWORD anim,SLONG	dangle=0);
+void locked_anim_change(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim,std::int32_t	dangle=0);
 #ifdef	UNUSED
 					if(input&INPUT_MASK_LEFT)
 					{
@@ -4283,10 +4283,10 @@ void person_enter_fight_mode(Thing *p_person)
 //
 
 //persumably this will be aplied to a darci or a roper
-ULONG apply_button_input(struct Thing *p_player,struct Thing *p_person,ULONG input)
+std::uint32_t apply_button_input(struct Thing *p_player,struct Thing *p_person,std::uint32_t input)
 {
-	ULONG	input_used=0;
-	ULONG	processed=0;
+	std::uint32_t	input_used=0;
+	std::uint32_t	processed=0;
 
 
 	/*
@@ -4404,7 +4404,7 @@ ULONG apply_button_input(struct Thing *p_player,struct Thing *p_person,ULONG inp
 	//record last five inputs and times, so we can 
 	if(input && (p_person->State != STATE_CARRY)) //&INPUT_ACTION_MASK)
 	{
-		SLONG	new_action;
+		std::int32_t	new_action;
 
  		new_action=find_best_action_from_tree(p_person->Genus.Person->Action,input,&input_used);
 //		if(new_action)
@@ -4820,7 +4820,7 @@ void set_person_unsit(Thing *p_person);
 
 //bits   3     2     1     0
 //		 r	   l	 b	   f
-UBYTE input_to_angle[]=
+std::uint8_t input_to_angle[]=
 {
 	0,  //nowt
 	0,  //f
@@ -4850,10 +4850,10 @@ UBYTE input_to_angle[]=
 
 */
 
-extern UWORD	count_gang(Thing *p_target);
+extern std::uint16_t	count_gang(Thing *p_target);
 
 
-ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
+std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::uint32_t input)
 {
 	Player *pl = p_player->Genus.Player;
 
@@ -4975,8 +4975,8 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 
 	if(input) //&INPUT_ACTION_MASK)
 	{
-		SLONG	new_action;
-		ULONG	input_used;
+		std::int32_t	new_action;
+		std::uint32_t	input_used;
 
  		new_action=find_best_action_from_tree(p_person->Genus.Person->Action,input,&input_used);
 		switch(new_action)
@@ -5010,7 +5010,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 	}
 
 
-	extern SLONG	get_combat_type_for_node(UBYTE current_node);
+	extern std::int32_t	get_combat_type_for_node(std::uint8_t current_node);
 
 
 	if ((pl->Pressed & INPUT_MASK_PUNCH)==0&&(pl->Pressed & INPUT_MASK_KICK)==0)
@@ -5089,7 +5089,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 	if ((pl->Pressed & INPUT_MASK_PUNCH)==0&&(pl->Pressed & INPUT_MASK_KICK)==0)
 	if (p_person->State == STATE_IDLE)
 	{
-		SLONG	flags=0;
+		std::int32_t	flags=0;
 		if (p_player->Genus.Player->Pressed & INPUT_MASK_JUMP)
 		{
 			if (p_player->Genus.Player->Pressed & INPUT_MASK_LEFT)
@@ -5115,7 +5115,7 @@ ULONG apply_button_input_fight(Thing *p_player, Thing *p_person, ULONG input)
 		//if (p_player->Genus.Player->Pressed & INPUT_MASK_BACKWARDS)
 		if(flags)
 		{
-			SLONG	angle=input_to_angle[flags];
+			std::int32_t	angle=input_to_angle[flags];
 			angle<<=3;
 //			angle+=(FC_cam[p_person->Genus.Person->PlayerID-1].yaw>>8);
 			angle+= get_camera_angle(); //FC_cam[0].yaw>>8;
@@ -5162,7 +5162,7 @@ void set_person_fight_step_forward(Thing *p_person);
 
 				if(p_person->SubState==SUB_STATE_STEP_FORWARD && p_person->Draw.Tweened->CurrentAnim==ANIM_FIGHT_STEP_N && p_person->Draw.Tweened->FrameIndex<3)
 				{
-						CBYTE	str[50];
+						char	str[50];
 						sprintf(str,"FORWARD double time %d \n",p_person->Genus.Person->Timer1);
 						CONSOLE_text(str);
 					//
@@ -5234,7 +5234,7 @@ void set_person_fight_step_forward(Thing *p_person);
 					if(p_person->Draw.Tweened->CurrentAnim==ANIM_FIGHT_STEP_S)// && p_person->Draw.Tweened->FrameIndex<2)
 					{
 
-							//CBYTE	str[50];
+							//char	str[50];
 							//sprintf(str,"BACKWARD double time %d \n",p_person->Genus.Person->Timer1);
 							//CONSOLE_text(str,2000);
 						//
@@ -5262,7 +5262,7 @@ void set_person_fight_step_forward(Thing *p_person);
 				{
 					if(p_person->Draw.Tweened->CurrentAnim==ANIM_FIGHT_STEP_E)// && p_person->Draw.Tweened->FrameIndex<2)
 					{
-							//CBYTE	str[50];
+							//char	str[50];
 							//sprintf(str,"right double time %d \n",p_person->Genus.Person->Timer1);
 							//CONSOLE_text(str);
 						//
@@ -5289,7 +5289,7 @@ void set_person_fight_step_forward(Thing *p_person);
 				{
 					if(p_person->Draw.Tweened->CurrentAnim==ANIM_FIGHT_STEP_W)// && p_person->Draw.Tweened->FrameIndex<2)
 					{
-							//CBYTE	str[50];
+							//char	str[50];
 							//sprintf(str,"LEFT double time %d \n",p_person->Genus.Person->Timer1);
 							//CONSOLE_text(str);
 						//
@@ -5340,11 +5340,11 @@ void set_person_fight_step_forward(Thing *p_person);
 		// Shall we bend down to pick up a special or arrest someone?
 		//
 
-		extern UWORD	find_arrestee(Thing *p_person);
+		extern std::uint16_t	find_arrestee(Thing *p_person);
 		if (p_person->SubState != SUB_STATE_GRAPPLE_HELD && p_person->SubState != SUB_STATE_GRAPPLE_HOLD)
 		if(p_person->State==STATE_IDLE || p_person->State==STATE_FIGHTING||p_person->SubState==SUB_STATE_RUN_STOP)
 		{
-			UWORD index;
+			std::uint16_t index;
 
 				//PANEL_new_text(NULL,4000,"COMBAT find arrest");
 			if (p_person->Genus.Person->PersonType==PERSON_DARCI && (index=find_arrestee(p_person)))
@@ -5387,7 +5387,7 @@ void set_person_fight_step_forward(Thing *p_person);
 
 	if (p_person->State == STATE_IDLE||p_person->SubState == SUB_STATE_STEP_FORWARD)
 	{
-		SLONG	dir=0;
+		std::int32_t	dir=0;
 		if(p_person->SubState == SUB_STATE_STEP_FORWARD)
 		{
 			switch(p_person->Draw.Tweened->CurrentAnim)
@@ -5647,7 +5647,7 @@ void set_person_fight_step_forward(Thing *p_person);
 							0xffeeee,
 							false);
 						{
-							CBYTE	str[100];
+							char	str[100];
 							sprintf(str," back kick timer1 %d\n",p_person->Genus.Person->Timer1);
 							CONSOLE_text(str);
 						}
@@ -5766,19 +5766,19 @@ void set_person_fight_step_forward(Thing *p_person);
 
 typedef struct
 {
-	SLONG dx;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dz;
 	
 } CAR_Input;
 
 CAR_Input car_input[MAX_CAR_INPUT];
-SLONG car_input_upto;
-SLONG car_inputting;
+std::int32_t car_input_upto;
+std::int32_t car_inputting;
 */
 
-ULONG apply_button_input_car(Thing *p_furn,ULONG input)
+std::uint32_t apply_button_input_car(Thing *p_furn,std::uint32_t input)
 {
-	ULONG	processed_input=0;
+	std::uint32_t	processed_input=0;
 
 	ASSERT(p_furn->Class==CLASS_VEHICLE);
 
@@ -5793,7 +5793,7 @@ ULONG apply_button_input_car(Thing *p_furn,ULONG input)
 #endif
 	{
 /*
-		SLONG	dx,vx;
+		std::int32_t	dx,vx;
 
 		dx = GET_JOYX(input);	// -128 to 127
 		vx = p_furn->Velocity-1000;
@@ -5815,9 +5815,9 @@ ULONG apply_button_input_car(Thing *p_furn,ULONG input)
 			veh->Steering=0;
 #else
 		// Damped a bit.
-		static SWORD wCurrentSteering = 0;
+		static std::int16_t wCurrentSteering = 0;
 #define STEERING_MAX_DELTA 30
-		SWORD wSteering = ( GET_JOYX(input) );
+		std::int16_t wSteering = ( GET_JOYX(input) );
 		if ( ( input & ( INPUT_MASK_LEFT | INPUT_MASK_RIGHT ) ) == 0 )
 		{
 			// Not big enough yet.
@@ -5874,7 +5874,7 @@ ULONG apply_button_input_car(Thing *p_furn,ULONG input)
 //
 #ifndef PSX
 #ifdef BIKE
-ULONG apply_button_input_bike(Thing *p_bike, ULONG input)
+std::uint32_t apply_button_input_bike(Thing *p_bike, std::uint32_t input)
 {
 	ASSERT(p_bike->Class == CLASS_BIKE);
 
@@ -5884,15 +5884,15 @@ ULONG apply_button_input_bike(Thing *p_bike, ULONG input)
 
 	BIKE_Control bc = BIKE_control_get(p_bike);
 
-	SLONG new_steer = 0;//bc.steer;
-	SLONG new_accel = 0;//bc.accel;
+	std::int32_t new_steer = 0;//bc.steer;
+	std::int32_t new_accel = 0;//bc.accel;
 
 	//
 	// Turn different amounts depending on the speed.
 	//
 	
-	SLONG speed  = BIKE_get_speed(p_bike);
-	SLONG tspeed = 15 - abs(speed);
+	std::int32_t speed  = BIKE_get_speed(p_bike);
+	std::int32_t tspeed = 15 - abs(speed);
 
 	SATURATE(tspeed, 15, 1);
 
@@ -5954,27 +5954,27 @@ ULONG apply_button_input_bike(Thing *p_bike, ULONG input)
 
 
 
-SLONG last_camera_dx;
-SLONG last_camera_dy;
-SLONG last_camera_dz;
+std::int32_t last_camera_dx;
+std::int32_t last_camera_dy;
+std::int32_t last_camera_dz;
 
-SLONG last_camera_yaw;
-SLONG last_camera_pitch;
+std::int32_t last_camera_yaw;
+std::int32_t last_camera_pitch;
 
-SLONG look_pitch = 0;
+std::int32_t look_pitch = 0;
 
-void set_look_pitch(SLONG p)
+void set_look_pitch(std::int32_t p)
 {
 	look_pitch=p;
 }
 
-ULONG debug_input;
+std::uint32_t debug_input;
 
-ULONG m_CurrentInput = 0;
-ULONG m_PreviousInput = 0;
-ULONG m_CurrentGoneDownInput = 0;
+std::uint32_t m_CurrentInput = 0;
+std::uint32_t m_PreviousInput = 0;
+std::uint32_t m_CurrentGoneDownInput = 0;
 
-ULONG get_last_input ( UWORD type )
+std::uint32_t get_last_input ( std::uint16_t type )
 {
 	if ( type == INPUT_TYPE_GONEDOWN )
 	{
@@ -5992,12 +5992,12 @@ ULONG get_last_input ( UWORD type )
 DWORD g_dwLastInputChangeTime = 0;
 
 
-ULONG get_hardware_input(UWORD type)
+std::uint32_t get_hardware_input(std::uint16_t type)
 {
-	ULONG	input=0;
-	ULONG	padd;
-	SLONG   dist;
-	UWORD	c0;
+	std::uint32_t	input=0;
+	std::uint32_t	padd;
+	std::int32_t   dist;
+	std::uint16_t	c0;
 
 
 	static bool bLastInputWasntAnInputCozThereWasNoController = true;
@@ -6092,8 +6092,8 @@ extern DIJOYSTATE			the_state;
 			DIJOYSTATE my_copy_of_the_state;
 //			if (CAM_get_mode() != CAM_MODE_FIRST_PERSON)
 			{
-				ULONG ulAxisMax = AXIS_MAX;
-				ULONG ulAxisMin = AXIS_MIN;
+				std::uint32_t ulAxisMax = AXIS_MAX;
+				std::uint32_t ulAxisMin = AXIS_MIN;
 #ifdef TARGET_DC
 				if ( type & INPUT_TYPE_REMAP_DPAD )
 				{
@@ -6239,8 +6239,8 @@ extern DIJOYSTATE			the_state;
 				analogue = 0;
 
 				{
-					SLONG xdir;
-					SLONG ydir;
+					std::int32_t xdir;
+					std::int32_t ydir;
 
 					xdir = ((the_state.lX) >> 9) & 0x7f;
 					ydir = ((the_state.lY) >> 9) & 0x7f;
@@ -6260,13 +6260,13 @@ extern DIJOYSTATE			the_state;
 /*
 				if (Keys[KB_I])
 				{
-					SLONG i;
+					std::int32_t i;
 
 					for (i = 0; i < 16; i++)
 					{
 						if (the_state.rgbButtons[i])
 						{
-							CBYTE tit[64];
+							char tit[64];
 
 							sprintf(tit, "Button %d", i);
 
@@ -6883,7 +6883,7 @@ extern bool bWriteVMInsteadOfVMU;
 	}
 #endif
 #ifdef	PSX
-extern UBYTE PAD_Type;
+extern std::uint8_t PAD_Type;
 
 	PAD_Type=PadInfoMode(0,InfoModeCurID,0);
 	switch(PAD_Type)
@@ -6926,7 +6926,7 @@ extern UBYTE PAD_Type;
 		}
 		if (PAD_Type==7)
 		{
-			UBYTE joyx,joyy;							
+			std::uint8_t joyx,joyy;							
 			
 			analogue=1;
 	//		input|=INPUT_MASK_MOVE;
@@ -6935,9 +6935,9 @@ extern UBYTE PAD_Type;
 
 /*			
 			{
-				SLONG	in_dx,in_dz;
-				SLONG	dx,dz;
-				SLONG	angle;
+				std::int32_t	in_dx,in_dz;
+				std::int32_t	dx,dz;
+				std::int32_t	angle;
 
 				in_dx=JoystickLeftX(&PAD_Input1)-128;
 				in_dz=JoystickLeftY(&PAD_Input1)-128;
@@ -7010,7 +7010,7 @@ extern UBYTE PAD_Type;
 //				alloc_special(SPECIAL_EXPLOSIVES, SPECIAL_SUBSTATE_NONE,(NET_PERSON(0)->WorldPos.X>>8)-128 ,NET_PERSON(0)->WorldPos.Y>>8 ,(NET_PERSON(0)->WorldPos.Z>>8)+128 , 0); 
 				alloc_special(SPECIAL_GRENADE	 , SPECIAL_SUBSTATE_NONE,(NET_PERSON(0)->WorldPos.X>>8)+128 ,NET_PERSON(0)->WorldPos.Y>>8 ,(NET_PERSON(0)->WorldPos.Z>>8)-128 , 0); 
 
-extern SLONG Wadmenu_MuckyTime;
+extern std::int32_t Wadmenu_MuckyTime;
 
 				Wadmenu_MuckyTime=0;
 				cheat=1;
@@ -7035,13 +7035,13 @@ extern SLONG Wadmenu_MuckyTime;
 /*
 		if (CAM_get_mode() == CAM_MODE_FIRST_PERSON)
 		{
-			SLONG dyaw;
-			SLONG dpitch;
+			std::int32_t dyaw;
+			std::int32_t dpitch;
 
-			SLONG dleft;
-			SLONG dright;
-			SLONG dup;
-			SLONG ddown;
+			std::int32_t dleft;
+			std::int32_t dright;
+			std::int32_t dup;
+			std::int32_t ddown;
 		
 			CAM_get_dangle(
 				&dyaw,
@@ -7381,7 +7381,7 @@ extern SLONG Wadmenu_MuckyTime;
 			// Do sniper mode movement.
 			//
 
-			SLONG turn = 0;
+			std::int32_t turn = 0;
 
 			if (input & INPUT_MASK_LEFT)      {turn |= SNIPE_TURN_LEFT;}
 			if (input & INPUT_MASK_RIGHT)     {turn |= SNIPE_TURN_RIGHT;}
@@ -7430,11 +7430,11 @@ void allow_input_autorepeat ( void )
 
 
 
-ULONG pre_process_input(SLONG mode,ULONG input)
+std::uint32_t pre_process_input(std::int32_t mode,std::uint32_t input)
 {
 	return(input);
 /*
-	UWORD	output;
+	std::uint16_t	output;
 
 	output=input;
 
@@ -7454,13 +7454,13 @@ ULONG pre_process_input(SLONG mode,ULONG input)
 
 }
 
-SLONG FirstPersonMode = false;
+std::int32_t FirstPersonMode = false;
 
-ULONG apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG input,ULONG *processed)
+std::uint32_t apply_button_input_first_person(Thing *p_player, Thing *p_person,std::uint32_t input,std::uint32_t *processed)
 {
-	static SLONG look_ami   = false;
-	SLONG fpm = false;
-	SLONG	gun=0;
+	static std::int32_t look_ami   = false;
+	std::int32_t fpm = false;
+	std::int32_t	gun=0;
 
 	*processed=0;
 
@@ -7682,7 +7682,7 @@ ULONG apply_button_input_first_person(Thing *p_player, Thing *p_person,ULONG inp
 }
 
 
-SLONG can_darci_change_weapon(Thing *p_person)
+std::int32_t can_darci_change_weapon(Thing *p_person)
 {
 	if (EWAY_stop_player_moving())
 	{
@@ -7731,12 +7731,12 @@ int g_iPlayerCameraMode = 0;
 
 void process_hardware_level_input_for_player(Thing *p_player)
 {
-	SLONG  i;
+	std::int32_t  i;
 
-	ULONG  input;
-	ULONG  last;
-	ULONG  processed = 0;
-	SLONG  tick = GetTickCount();
+	std::uint32_t  input;
+	std::uint32_t  last;
+	std::uint32_t  processed = 0;
+	std::int32_t  tick = GetTickCount();
 
 	Thing *p_person;		  
 	p_person = p_player->Genus.Player->PlayerPerson;
@@ -7887,7 +7887,7 @@ void process_hardware_level_input_for_player(Thing *p_player)
 
 	if (pl->Pressed & INPUT_MASK_JUMP)
 	{
-		CBYTE str[100];
+		char str[100];
 
 		sprintf(str, "Pressed jump turn %d\n", GAME_TURN);
 
@@ -7899,13 +7899,13 @@ void process_hardware_level_input_for_player(Thing *p_player)
 /*
 	if(pl->Pressed&INPUT_MASK_BACKWARDS)
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"BACKWARDS Pressed %d \n",GAME_TURN);
 		CONSOLE_text(str);
 	}
 	if(pl->Released&INPUT_MASK_BACKWARDS)
 	{
-		CBYTE	str[100];
+		char	str[100];
 		sprintf(str,"BACKWARDS rel %d \n",GAME_TURN);
 		CONSOLE_text(str);
 	}
@@ -7953,10 +7953,10 @@ void process_hardware_level_input_for_player(Thing *p_player)
 
 	}
 
-	SLONG no_control = false;
+	std::int32_t no_control = false;
 
 	extern Form *form_leave_map;
-	extern SLONG form_left_map;
+	extern std::int32_t form_left_map;
 
 	if (EWAY_stop_player_moving())
 	{
@@ -7973,7 +7973,7 @@ void process_hardware_level_input_for_player(Thing *p_player)
 		input      = 0;
 	}
 
-	extern UBYTE draw_map_screen;
+	extern std::uint8_t draw_map_screen;
 
 	if (draw_map_screen)
 	{
@@ -8073,7 +8073,7 @@ void process_hardware_level_input_for_player(Thing *p_player)
 					}
 				}
 
-				SLONG  special_type = SPECIAL_NONE;
+				std::int32_t  special_type = SPECIAL_NONE;
 
 				if (Keys[KB_3]) {Keys[KB_3] = 0; special_type = SPECIAL_SHOTGUN;}
 				if (Keys[KB_4]) {Keys[KB_4] = 0; special_type = SPECIAL_AK47;}
@@ -8096,7 +8096,7 @@ void process_hardware_level_input_for_player(Thing *p_player)
 					else
 					{
 /*
-						CBYTE str[40];
+						char str[40];
 
 						sprintf(str, "No %s", SPECIAL_info[special_type].name);
 
@@ -8124,7 +8124,7 @@ void process_hardware_level_input_for_player(Thing *p_player)
 				ASSERT(p_person->Genus.Person->InCar);
 #if 0
 				Thing *p_thing=TO_THING(p_person->Genus.Person->InCar);
-				SLONG vel=QDIST2(abs(p_thing->Genus.Vehicle->VelX),abs(p_thing->Genus.Vehicle->VelZ));
+				std::int32_t vel=QDIST2(abs(p_thing->Genus.Vehicle->VelX),abs(p_thing->Genus.Vehicle->VelZ));
 				// Set a minimum for tick over shock
 				vel>>=8;
 				SATURATE(vel,40,255);
@@ -8134,7 +8134,7 @@ void process_hardware_level_input_for_player(Thing *p_player)
 				if ( g_bEngineVibrations )		// user preference setting.
 				{
 					Thing *p_thing=TO_THING(p_person->Genus.Person->InCar);
-					SLONG vel=QDIST2(abs(p_thing->Genus.Vehicle->VelX),abs(p_thing->Genus.Vehicle->VelZ));
+					std::int32_t vel=QDIST2(abs(p_thing->Genus.Vehicle->VelX),abs(p_thing->Genus.Vehicle->VelZ));
 					vel>>=8;
 #if 0
 					Vibrate ( (float)( vel + 24 ) * 0.15, (float)( vel + 80 ) * 0.002f, 1.0f );
@@ -8212,10 +8212,10 @@ void process_hardware_level_input_for_player(Thing *p_player)
 }
 
 
-SLONG continue_action(Thing *p_person)
+std::int32_t continue_action(Thing *p_person)
 {
 	Thing *p_player;
-	ULONG	input,input_used,new_action;
+	std::uint32_t	input,input_used,new_action;
 	if(p_person->Genus.Person->PlayerID)
 	{
 		p_player=NET_PLAYER(p_person->Genus.Person->PlayerID-1);
@@ -8238,10 +8238,10 @@ SLONG continue_action(Thing *p_person)
 	return(0);
 }
 
-SLONG continue_pressing_action(Thing *p_person)
+std::int32_t continue_pressing_action(Thing *p_person)
 {
 	Thing *p_player;
-	ULONG	input,input_used,new_action;
+	std::uint32_t	input,input_used,new_action;
 	if(p_person->Genus.Person->PlayerID)
 	{
 		p_player=NET_PLAYER(p_person->Genus.Person->PlayerID-1);
@@ -8265,10 +8265,10 @@ void set_action_used(Thing *p_person)
 	}
 }
 
-SLONG continue_dir(Thing *p_person,SLONG dir)
+std::int32_t continue_dir(Thing *p_person,std::int32_t dir)
 {
 	Thing *p_player;
-	ULONG	input;
+	std::uint32_t	input;
 	if(p_person->Genus.Person->PlayerID)
 	{
 		p_player=NET_PLAYER(p_person->Genus.Person->PlayerID-1);
@@ -8289,10 +8289,10 @@ SLONG continue_dir(Thing *p_person,SLONG dir)
 
 	return(0);
 }
-SLONG continue_firing(Thing *p_person)
+std::int32_t continue_firing(Thing *p_person)
 {
 	Thing *p_player;
-	ULONG	input;
+	std::uint32_t	input;
 
 	if (p_person->Genus.Person->SpecialUse)
 	{
@@ -8324,7 +8324,7 @@ SLONG continue_firing(Thing *p_person)
 	else
 	{
 		Thing *p_target;
-		UWORD  i_target;
+		std::uint16_t  i_target;
 
 		//
 		// Fire until enemy dead!
@@ -8351,17 +8351,17 @@ SLONG continue_firing(Thing *p_person)
 }
 
 
-SLONG continue_moveing(Thing *p_person)
+std::int32_t continue_moveing(Thing *p_person)
 {
 	Thing *p_player;
-	ULONG	input;
+	std::uint32_t	input;
 	if(p_person->Genus.Person->PlayerID)
 	{							 
 		p_player=NET_PLAYER(p_person->Genus.Person->PlayerID-1);
 		input=p_player->Genus.Player->Input;
 		if(analogue)
 		{
-			SLONG	angle,dx,dy;
+			std::int32_t	angle,dx,dy;
 
 			dx=llabs(GET_JOYX(input));
 			dy=llabs(GET_JOYY(input));
@@ -8421,10 +8421,10 @@ SLONG continue_moveing(Thing *p_person)
 	}
 }
 
-SLONG continue_blocking(Thing *p_person)
+std::int32_t continue_blocking(Thing *p_person)
 {
 	Thing *p_player;
-	ULONG	input;
+	std::uint32_t	input;
 	if(p_person->Genus.Person->PlayerID)
 	{
 		p_player=NET_PLAYER(p_person->Genus.Person->PlayerID-1);
@@ -8450,7 +8450,7 @@ SLONG continue_blocking(Thing *p_person)
 void remove_action_used(Thing *p_person)
 {
 	Thing *p_player;
-	ULONG	input;
+	std::uint32_t	input;
 	if(p_person->Genus.Person->PlayerID)
 	{
 		p_player=NET_PLAYER(p_person->Genus.Person->PlayerID-1);

@@ -25,9 +25,9 @@ void POLY_init();
 
 
 #ifndef TARGET_DC
-void	calc_global_cloud(SLONG x,SLONG y,SLONG z);
-void	apply_cloud(SLONG x,SLONG y,SLONG z,ULONG *col);
-void	use_global_cloud(ULONG *col);
+void	calc_global_cloud(std::int32_t x,std::int32_t y,std::int32_t z);
+void	apply_cloud(std::int32_t x,std::int32_t y,std::int32_t z,std::uint32_t *col);
+void	use_global_cloud(std::uint32_t *col);
 #endif
 
 
@@ -38,7 +38,7 @@ void	use_global_cloud(ULONG *col);
 //
 
 void POLY_init_texture_flags();
-void POLY_load_texture_flags(CBYTE* fname, SLONG offset = 0);
+void POLY_load_texture_flags(char* fname, std::int32_t offset = 0);
 
 // reset renderstates
 
@@ -74,7 +74,7 @@ void POLY_camera_set(
 		float roll,
 		float view_dist,	// The maximum distance a point should be from the camera.
 		float lens,			// Normally around 1.5F... the higher it is the more zoom you get.
-		SLONG splitscreen = POLY_SPLITSCREEN_NONE);
+		std::int32_t splitscreen = POLY_SPLITSCREEN_NONE);
 
 //
 // These are set by calling camera_set()
@@ -112,13 +112,13 @@ struct POLY_Point
 	float Y;	// 2D points...
 	float Z;	//             
 
-	UWORD clip;
-	UWORD user;	// For your use!
+	std::uint16_t clip;
+	std::uint16_t user;	// For your use!
 
 	float u;
 	float v;
-	ULONG colour;		// xxRRGGBB
-	ULONG specular;		// xxRRGGBB
+	D3DCOLOR colour;		// xxRRGGBB
+	D3DCOLOR specular;		// xxRRGGBB
 
 	// IsValid - point has been rotated & projected; screen coords OK
 	bool IsValid() noexcept { return ((clip & POLY_CLIP_TRANSFORMED) != 0); }
@@ -197,7 +197,7 @@ void POLY_transform_from_view_space(POLY_Point *pt);
 // function does not care about the z-range.
 //
 
-SLONG POLY_get_screen_pos(
+std::int32_t POLY_get_screen_pos(
 		float  world_x,
 		float  world_y,
 		float  world_z,
@@ -210,7 +210,7 @@ SLONG POLY_get_screen_pos(
 // z goes from POLY_ZCLIP_PLANE to 1
 //
 
-void POLY_perspective(POLY_Point *pt, UBYTE wibble_key = 0);
+void POLY_perspective(POLY_Point *pt, std::uint8_t wibble_key = 0);
 
 //
 // sets clipping flags for a point - DON'T just set pt->clip to TRANSFORMED!!!
@@ -236,26 +236,26 @@ float POLY_approx_len(float dx, float dy);
 // Returns false if the sphere is behind you.
 //
 
-SLONG POLY_get_sphere_circle(
+std::int32_t POLY_get_sphere_circle(
 		float  world_x,
 		float  world_y,
 		float  world_z,
 		float  world_radius,
-		SLONG *screen_x,
-		SLONG *screen_y,
-		SLONG *screen_radius);
+		std::int32_t *screen_x,
+		std::int32_t *screen_y,
+		std::int32_t *screen_radius);
 
 //
 // Sets the wibble values to use.
 // 
 
 void POLY_set_wibble(
-		UBYTE wibble_y1,
-		UBYTE wibble_y2,
-		UBYTE wibble_g1,
-		UBYTE wibble_g2,
-		UBYTE wibble_s1,
-		UBYTE wibble_s2);
+		std::uint8_t wibble_y1,
+		std::uint8_t wibble_y2,
+		std::uint8_t wibble_g1,
+		std::uint8_t wibble_g2,
+		std::uint8_t wibble_s1,
+		std::uint8_t wibble_s2);
 
 //
 // Sets an additional matrix to be applied to the world point before
@@ -295,7 +295,7 @@ void POLY_transform_using_local_rotation_and_wibble(
 		float       local_y,
 		float       local_z,
 		POLY_Point *pt,
-		UBYTE       wibble_key);
+		std::uint8_t       wibble_key);
 
 //
 // Returns true if the given sphere in world space is visible
@@ -303,7 +303,7 @@ void POLY_transform_using_local_rotation_and_wibble(
 // to POLY_camera_set.  radius = world_radius / view_dist.
 //
 
-SLONG POLY_sphere_visible(
+std::int32_t POLY_sphere_visible(
 		float world_x,
 		float world_y,
 		float world_z,
@@ -314,7 +314,7 @@ SLONG POLY_sphere_visible(
 // next higher-numbered texture page over the top of it.
 //
 
-SLONG POLY_page_is_masked_self_illuminating(SLONG page);
+std::int32_t POLY_page_is_masked_self_illuminating(std::int32_t page);
 
 //
 // Handy buffers for rotating objects
@@ -330,10 +330,10 @@ SLONG POLY_page_is_masked_self_illuminating(SLONG page);
 #endif
 
 extern POLY_Point POLY_buffer[POLY_BUFFER_SIZE];
-extern SLONG      POLY_buffer_upto;
+extern std::int32_t      POLY_buffer_upto;
 
 extern POLY_Point POLY_shadow[POLY_SHADOW_SIZE];
-extern SLONG      POLY_shadow_upto;
+extern std::int32_t      POLY_shadow_upto;
 
 
 // ========================================================
@@ -346,8 +346,8 @@ extern SLONG      POLY_shadow_upto;
 // All colours are ANDed with ~POLY_colour_restrict.
 //
 
-extern ULONG POLY_colour_restrict;		// NOTted then ANDed with all colours
-extern ULONG POLY_force_additive_alpha;	// Everything is drawn with additive alpha.
+extern std::uint32_t POLY_colour_restrict;		// NOTted then ANDed with all colours
+extern std::uint32_t POLY_force_additive_alpha;	// Everything is drawn with additive alpha.
 
 //
 // The fade-out range of the points.
@@ -365,7 +365,7 @@ extern ULONG POLY_force_additive_alpha;	// Everything is drawn with additive alp
 // Applies fade out to all the points in the POLY_buffer array.
 //
 
-SLONG fade_point_more(POLY_Point *pp);
+std::int32_t fade_point_more(POLY_Point *pp);
 
 static void inline POLY_fadeout_point(POLY_Point *pp)
 {
@@ -383,7 +383,7 @@ static void inline POLY_fadeout_point(POLY_Point *pp)
 
 //	if (pp->z > POLY_FADEOUT_START)
 	{
-		SLONG multi = 255 - ftol((pp->z - POLY_FADEOUT_START) * (256.0F / (POLY_FADEOUT_END - POLY_FADEOUT_START)));
+		std::int32_t multi = 255 - ftol((pp->z - POLY_FADEOUT_START) * (256.0F / (POLY_FADEOUT_END - POLY_FADEOUT_START)));
 #ifdef TARGET_DC
 		//multi = 255 - multi;
 #endif
@@ -582,21 +582,21 @@ void POLY_fadeout_buffer();
 // Draws all the triangles and quads.
 //
 
-void  POLY_frame_init    (SLONG keep_shadow_page, SLONG keep_text_page);	// true => doesn't delete the shadow polygons.
-SLONG POLY_valid_triangle(POLY_Point *p[3]);
-SLONG POLY_valid_quad    (POLY_Point *p[4]);
-SLONG POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
-void  POLY_add_poly      (POLY_Point** poly, SLONG poly_points, SLONG page);
-void  POLY_add_triangle  (POLY_Point *p[3], SLONG page, SLONG shall_i_backface_cull, SLONG generate_clip_flags = false);
-void  POLY_add_quad      (POLY_Point *p[4], SLONG page, SLONG shall_i_backface_cull, SLONG generate_clip_flags = false);
-void  POLY_add_quad_split2(POLY_Point *pp[4], SLONG page, SLONG backface_cull);
+void  POLY_frame_init    (std::int32_t keep_shadow_page, std::int32_t keep_text_page);	// true => doesn't delete the shadow polygons.
+std::int32_t POLY_valid_triangle(POLY_Point *p[3]);
+std::int32_t POLY_valid_quad    (POLY_Point *p[4]);
+std::int32_t POLY_valid_line    (POLY_Point *p1, POLY_Point *p2);
+void  POLY_add_poly      (POLY_Point** poly, std::int32_t poly_points, std::int32_t page);
+void  POLY_add_triangle  (POLY_Point *p[3], std::int32_t page, std::int32_t shall_i_backface_cull, std::int32_t generate_clip_flags = false);
+void  POLY_add_quad      (POLY_Point *p[4], std::int32_t page, std::int32_t shall_i_backface_cull, std::int32_t generate_clip_flags = false);
+void  POLY_add_quad_split2(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull);
 void  POLY_create_cylinder_points(POLY_Point* p1, POLY_Point* p2, float width, POLY_Point* pout);
-void  POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG page, UBYTE sort_to_front);
-void  POLY_add_line_tex  (POLY_Point *p1, POLY_Point *p2, float width1, float width2, SLONG page, UBYTE sort_to_front);
-void  POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, ULONG colour);
+void  POLY_add_line      (POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front);
+void  POLY_add_line_tex  (POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front);
+void  POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, std::uint32_t colour);
 void  POLY_clip_line_box (float sx1, float sy1, float sx2, float sy2);
-void  POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, ULONG colour);
-void  POLY_frame_draw    (SLONG draw_shadow_page, SLONG draw_text_page);	// false => Doens't draw the shadow polygons.
+void  POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, std::uint32_t colour);
+void  POLY_frame_draw    (std::int32_t draw_shadow_page, std::int32_t draw_text_page);	// false => Doens't draw the shadow polygons.
 
 void  POLY_sort_sewater_page();		// Sorts the sewater page polys in order of distance from the eye.
 
@@ -604,7 +604,7 @@ void  POLY_frame_draw_odd();		// Only draws normal textures with blend mode MODU
 void  POLY_frame_draw_puddles();	// Only draws the puddle page.
 void  POLY_frame_draw_sewater();	// Only draws the sewer water page.
 
-ULONG POLY_interpolate_colour(float v, ULONG colour1, ULONG colour2);
+std::uint32_t POLY_interpolate_colour(float v, std::uint32_t colour1, std::uint32_t colour2);
 
 //
 // Draws the frame focused on the focal point.
@@ -617,9 +617,9 @@ void  POLY_frame_draw_focused(float focus);
 // page. Calling any other add functions on that page will cock this up.
 //
 
-void POLY_add_shared_start(SLONG page);
+void POLY_add_shared_start(std::int32_t page);
 void POLY_add_shared_point(POLY_Point *pp);
-void POLY_add_shared_tri  (UWORD p1, UWORD p2, UWORD p3);	// 0 => The first shared point added.
+void POLY_add_shared_tri  (std::uint16_t p1, std::uint16_t p2, std::uint16_t p3);	// 0 => The first shared point added.
 
 //
 // Returns true if the given screen coordinate is inside the quad.
@@ -629,7 +629,7 @@ void POLY_add_shared_tri  (UWORD p1, UWORD p2, UWORD p3);	// 0 => The first shar
 // ASSUMES that the QUAD is a PARALELLAGRAM
 //
 
-SLONG POLY_inside_quad(
+std::int32_t POLY_inside_quad(
 		float       screen_x,
 		float       screen_y,
 		POLY_Point *quad[3],
@@ -650,8 +650,8 @@ SLONG POLY_inside_quad(
 #define POLY_PAGE_FLAG_WINDOW_2ND	(1 << 7)
 #define POLY_PAGE_FLAG_ALPHA		(1 << 8)
 
-extern SLONG		draw_3d;
-extern UWORD		POLY_page_flag[POLY_NUM_PAGES];
+extern std::int32_t		draw_3d;
+extern std::uint16_t		POLY_page_flag[POLY_NUM_PAGES];
 
 extern void POLY_init_render_states();
 

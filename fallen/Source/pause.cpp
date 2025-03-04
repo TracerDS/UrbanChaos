@@ -44,7 +44,7 @@ extern DIJOYSTATE			the_state;
 #if 0
 static Font3D font("data\\font3d\\all\\",0.25);
 #endif
-static SWORD  selected;
+static std::int16_t  selected;
 
 #define PAUSED_KEY_START	(1 << 0)
 #define PAUSED_KEY_UP		(1 << 1)
@@ -56,7 +56,7 @@ static SWORD  selected;
 #define PAUSE_MENU_EXIT		2
 #define PAUSE_MENU_SIZE		3
 /*
-static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
+static char* pause_menu[PAUSE_MENU_SIZE] =
 {
 	"Resume Level",
 	"Restart Level",
@@ -65,10 +65,10 @@ static CBYTE* pause_menu[PAUSE_MENU_SIZE] =
 */
 
 
-SLONG PAUSE_handler() {
-	SLONG i,text_colour,input,temp;
-	static SLONG lastinput=0;
-	SLONG ans = false;
+std::int32_t PAUSE_handler() {
+	std::int32_t i,text_colour,input,temp;
+	static std::int32_t lastinput=0;
+	std::int32_t ans = false;
 
 
 #ifndef	PSX
@@ -142,7 +142,7 @@ extern bool ReadInputDevice();
 			break;
 
 		case PAUSE_MENU_RESTART:
-			//extern SLONG draw_3d;
+			//extern std::int32_t draw_3d;
 			//draw_3d ^= 1;
 			GAME_FLAGS &= ~GF_PAUSED;
 			GAME_STATE  =  GS_REPLAY;
@@ -175,8 +175,8 @@ extern bool ReadInputDevice();
 	POLY_frame_init(false,false);
 #endif
 
-	SLONG offset;
-	SLONG text_size;
+	std::int32_t offset;
+	std::int32_t text_size;
 
 	for (i = 0; i < PAUSE_MENU_SIZE; i++)
 	{

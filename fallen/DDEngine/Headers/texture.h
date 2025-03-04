@@ -24,7 +24,7 @@
 // different from the new one, then all the textures are released.
 //
 
-void TEXTURE_choose_set(SLONG number);
+void TEXTURE_choose_set(std::int32_t number);
 
 
 
@@ -33,127 +33,127 @@ void TEXTURE_choose_set(SLONG number);
 // you load the textures! It works out which pages are needed.
 //
 
-void TEXTURE_fix_prim_textures(SLONG flag);
+void TEXTURE_fix_prim_textures(std::int32_t flag);
 void TEXTURE_fix_texture_styles();
 
 //
 // The number of standard texture pages.
 //
 
-extern SLONG TEXTURE_page_num_standard;
+extern std::int32_t TEXTURE_page_num_standard;
 
 #ifdef TARGET_DC
-extern SLONG TEXTURE_page_background_use_instead;
-extern SLONG TEXTURE_page_background_use_instead2;
+extern std::int32_t TEXTURE_page_background_use_instead;
+extern std::int32_t TEXTURE_page_background_use_instead2;
 
-extern SLONG TEXTURE_page_joypad_a;
-extern SLONG TEXTURE_page_joypad_b;
-extern SLONG TEXTURE_page_joypad_c;
-extern SLONG TEXTURE_page_joypad_x;
-extern SLONG TEXTURE_page_joypad_y;
-extern SLONG TEXTURE_page_joypad_z;
-extern SLONG TEXTURE_page_joypad_l;
-extern SLONG TEXTURE_page_joypad_r;
-extern SLONG TEXTURE_page_joypad_pad_l;
-extern SLONG TEXTURE_page_joypad_pad_r;
-extern SLONG TEXTURE_page_joypad_pad_d;
-extern SLONG TEXTURE_page_joypad_pad_u;
+extern std::int32_t TEXTURE_page_joypad_a;
+extern std::int32_t TEXTURE_page_joypad_b;
+extern std::int32_t TEXTURE_page_joypad_c;
+extern std::int32_t TEXTURE_page_joypad_x;
+extern std::int32_t TEXTURE_page_joypad_y;
+extern std::int32_t TEXTURE_page_joypad_z;
+extern std::int32_t TEXTURE_page_joypad_l;
+extern std::int32_t TEXTURE_page_joypad_r;
+extern std::int32_t TEXTURE_page_joypad_pad_l;
+extern std::int32_t TEXTURE_page_joypad_pad_r;
+extern std::int32_t TEXTURE_page_joypad_pad_d;
+extern std::int32_t TEXTURE_page_joypad_pad_u;
 #endif
 
-extern SLONG TEXTURE_page_snowflake;
-extern SLONG TEXTURE_page_sparkle;
-extern SLONG TEXTURE_page_explode2;
-extern SLONG TEXTURE_page_explode1;
-extern SLONG TEXTURE_page_bigbang;
-extern SLONG TEXTURE_page_face1;
-extern SLONG TEXTURE_page_face2;
-extern SLONG TEXTURE_page_face3;
-extern SLONG TEXTURE_page_face4;
-extern SLONG TEXTURE_page_face5;
-extern SLONG TEXTURE_page_face6;
-extern SLONG TEXTURE_page_fog;
-extern SLONG TEXTURE_page_moon;
-extern SLONG TEXTURE_page_clouds;
-extern SLONG TEXTURE_page_water;
-extern SLONG TEXTURE_page_puddle;
-extern SLONG TEXTURE_page_drip;
-extern SLONG TEXTURE_page_shadow;
-extern SLONG TEXTURE_page_bang;
-extern SLONG TEXTURE_page_font;
-extern SLONG TEXTURE_page_logo;
-extern SLONG TEXTURE_page_sky;
-extern SLONG TEXTURE_page_flames;
-extern SLONG TEXTURE_page_smoke;
-extern SLONG TEXTURE_page_flame2;
-extern SLONG TEXTURE_page_steam;
-extern SLONG TEXTURE_page_menuflame;
-extern SLONG TEXTURE_page_barbwire;
-extern SLONG TEXTURE_page_font2d;
-extern SLONG TEXTURE_page_dustwave;
-extern SLONG TEXTURE_page_flames3;
-extern SLONG TEXTURE_page_bloodsplat;
-extern SLONG TEXTURE_page_bloom1;
-extern SLONG TEXTURE_page_bloom2;
-extern SLONG TEXTURE_page_hitspang;
-extern SLONG TEXTURE_page_lensflare;
-extern SLONG TEXTURE_page_tyretrack;
-extern SLONG TEXTURE_page_envmap;	// The environment map on metal
-extern SLONG TEXTURE_page_winmap;	// The environment map on windows
-extern SLONG TEXTURE_page_leaf;
-extern SLONG TEXTURE_page_raindrop;
-extern SLONG TEXTURE_page_footprint;
-extern SLONG TEXTURE_page_angel;
-extern SLONG TEXTURE_page_devil;
-extern SLONG TEXTURE_page_smoker;
-extern SLONG TEXTURE_page_target;
-extern SLONG TEXTURE_page_newfont;
-extern SLONG TEXTURE_page_droplet;
-extern SLONG TEXTURE_page_press1;
-extern SLONG TEXTURE_page_press2;
-extern SLONG TEXTURE_page_ic;
-extern SLONG TEXTURE_page_ic2;
-extern SLONG TEXTURE_page_lcdfont;
-extern SLONG TEXTURE_page_smokecloud;
-extern SLONG TEXTURE_page_menulogo;
-extern SLONG TEXTURE_page_polaroid;
-extern SLONG TEXTURE_page_bigbutton;
-extern SLONG TEXTURE_page_bigleaf;
-extern SLONG TEXTURE_page_bigrain;
-extern SLONG TEXTURE_page_finalglow;
-extern SLONG TEXTURE_page_tinybutt;
-extern SLONG TEXTURE_page_lcdfont_alpha;
-extern SLONG TEXTURE_page_flames_alpha;
-extern SLONG TEXTURE_page_tyretrack_alpha;
-extern SLONG TEXTURE_page_people3;
-extern SLONG TEXTURE_page_ladder;
-extern SLONG TEXTURE_page_fadecat;
-extern SLONG TEXTURE_page_fade_MF;
-extern SLONG TEXTURE_page_shadowoval;
-extern SLONG TEXTURE_page_rubbish;
-extern SLONG TEXTURE_page_lastpanel;
-extern SLONG TEXTURE_page_lastpanel2;
-extern SLONG TEXTURE_page_sign;
-extern SLONG TEXTURE_page_pcflamer;
-extern SLONG TEXTURE_page_shadowsquare;
-extern SLONG TEXTURE_page_litebolt;
-extern SLONG TEXTURE_page_ladshad;
-extern SLONG TEXTURE_page_meteor;
-extern SLONG TEXTURE_page_splash;
+extern std::int32_t TEXTURE_page_snowflake;
+extern std::int32_t TEXTURE_page_sparkle;
+extern std::int32_t TEXTURE_page_explode2;
+extern std::int32_t TEXTURE_page_explode1;
+extern std::int32_t TEXTURE_page_bigbang;
+extern std::int32_t TEXTURE_page_face1;
+extern std::int32_t TEXTURE_page_face2;
+extern std::int32_t TEXTURE_page_face3;
+extern std::int32_t TEXTURE_page_face4;
+extern std::int32_t TEXTURE_page_face5;
+extern std::int32_t TEXTURE_page_face6;
+extern std::int32_t TEXTURE_page_fog;
+extern std::int32_t TEXTURE_page_moon;
+extern std::int32_t TEXTURE_page_clouds;
+extern std::int32_t TEXTURE_page_water;
+extern std::int32_t TEXTURE_page_puddle;
+extern std::int32_t TEXTURE_page_drip;
+extern std::int32_t TEXTURE_page_shadow;
+extern std::int32_t TEXTURE_page_bang;
+extern std::int32_t TEXTURE_page_font;
+extern std::int32_t TEXTURE_page_logo;
+extern std::int32_t TEXTURE_page_sky;
+extern std::int32_t TEXTURE_page_flames;
+extern std::int32_t TEXTURE_page_smoke;
+extern std::int32_t TEXTURE_page_flame2;
+extern std::int32_t TEXTURE_page_steam;
+extern std::int32_t TEXTURE_page_menuflame;
+extern std::int32_t TEXTURE_page_barbwire;
+extern std::int32_t TEXTURE_page_font2d;
+extern std::int32_t TEXTURE_page_dustwave;
+extern std::int32_t TEXTURE_page_flames3;
+extern std::int32_t TEXTURE_page_bloodsplat;
+extern std::int32_t TEXTURE_page_bloom1;
+extern std::int32_t TEXTURE_page_bloom2;
+extern std::int32_t TEXTURE_page_hitspang;
+extern std::int32_t TEXTURE_page_lensflare;
+extern std::int32_t TEXTURE_page_tyretrack;
+extern std::int32_t TEXTURE_page_envmap;	// The environment map on metal
+extern std::int32_t TEXTURE_page_winmap;	// The environment map on windows
+extern std::int32_t TEXTURE_page_leaf;
+extern std::int32_t TEXTURE_page_raindrop;
+extern std::int32_t TEXTURE_page_footprint;
+extern std::int32_t TEXTURE_page_angel;
+extern std::int32_t TEXTURE_page_devil;
+extern std::int32_t TEXTURE_page_smoker;
+extern std::int32_t TEXTURE_page_target;
+extern std::int32_t TEXTURE_page_newfont;
+extern std::int32_t TEXTURE_page_droplet;
+extern std::int32_t TEXTURE_page_press1;
+extern std::int32_t TEXTURE_page_press2;
+extern std::int32_t TEXTURE_page_ic;
+extern std::int32_t TEXTURE_page_ic2;
+extern std::int32_t TEXTURE_page_lcdfont;
+extern std::int32_t TEXTURE_page_smokecloud;
+extern std::int32_t TEXTURE_page_menulogo;
+extern std::int32_t TEXTURE_page_polaroid;
+extern std::int32_t TEXTURE_page_bigbutton;
+extern std::int32_t TEXTURE_page_bigleaf;
+extern std::int32_t TEXTURE_page_bigrain;
+extern std::int32_t TEXTURE_page_finalglow;
+extern std::int32_t TEXTURE_page_tinybutt;
+extern std::int32_t TEXTURE_page_lcdfont_alpha;
+extern std::int32_t TEXTURE_page_flames_alpha;
+extern std::int32_t TEXTURE_page_tyretrack_alpha;
+extern std::int32_t TEXTURE_page_people3;
+extern std::int32_t TEXTURE_page_ladder;
+extern std::int32_t TEXTURE_page_fadecat;
+extern std::int32_t TEXTURE_page_fade_MF;
+extern std::int32_t TEXTURE_page_shadowoval;
+extern std::int32_t TEXTURE_page_rubbish;
+extern std::int32_t TEXTURE_page_lastpanel;
+extern std::int32_t TEXTURE_page_lastpanel2;
+extern std::int32_t TEXTURE_page_sign;
+extern std::int32_t TEXTURE_page_pcflamer;
+extern std::int32_t TEXTURE_page_shadowsquare;
+extern std::int32_t TEXTURE_page_litebolt;
+extern std::int32_t TEXTURE_page_ladshad;
+extern std::int32_t TEXTURE_page_meteor;
+extern std::int32_t TEXTURE_page_splash;
 
-extern SLONG TEXTURE_num_textures;	// The total number of pages.
+extern std::int32_t TEXTURE_num_textures;	// The total number of pages.
 
 //
 // Returns the texture handle of the given page.
 // DX6: returns a D3DTexture ptr to give to SET_TEXTURE macro
 //
 
-//D3DTEXTUREHANDLE TEXTURE_get_handle(SLONG page);
-LPDIRECT3DTEXTURE2 TEXTURE_get_handle(SLONG page);
+//D3DTEXTUREHANDLE TEXTURE_get_handle(std::int32_t page);
+LPDIRECT3DTEXTURE2 TEXTURE_get_handle(std::int32_t page);
 
 
 #ifdef TEX_EMBED
 class D3DTexture;
-D3DTexture *TEXTURE_get_D3DTexture(SLONG page);
+D3DTexture *TEXTURE_get_D3DTexture(std::int32_t page);
 #endif
 
 
@@ -176,22 +176,22 @@ extern CRINKLE_Handle TEXTURE_crinkle[22 * 64];
 // These are only valid after a successful lock.
 //
 
-extern UWORD *TEXTURE_shadow_bitmap;
-extern SLONG  TEXTURE_shadow_pitch;		// In bytes!
-extern SLONG  TEXTURE_shadow_mask_red;
-extern SLONG  TEXTURE_shadow_mask_green;
-extern SLONG  TEXTURE_shadow_mask_blue;
-extern SLONG  TEXTURE_shadow_mask_alpha;
-extern SLONG  TEXTURE_shadow_shift_red;
-extern SLONG  TEXTURE_shadow_shift_green;
-extern SLONG  TEXTURE_shadow_shift_blue;
-extern SLONG  TEXTURE_shadow_shift_alpha;
+extern std::uint16_t *TEXTURE_shadow_bitmap;
+extern std::int32_t  TEXTURE_shadow_pitch;		// In bytes!
+extern std::int32_t  TEXTURE_shadow_mask_red;
+extern std::int32_t  TEXTURE_shadow_mask_green;
+extern std::int32_t  TEXTURE_shadow_mask_blue;
+extern std::int32_t  TEXTURE_shadow_mask_alpha;
+extern std::int32_t  TEXTURE_shadow_shift_red;
+extern std::int32_t  TEXTURE_shadow_shift_green;
+extern std::int32_t  TEXTURE_shadow_shift_blue;
+extern std::int32_t  TEXTURE_shadow_shift_alpha;
 
-SLONG TEXTURE_shadow_lock  ();	// False on failure.
+std::int32_t TEXTURE_shadow_lock  ();	// False on failure.
 void  TEXTURE_shadow_unlock();
 void  TEXTURE_shadow_update();
 
-SLONG TEXTURE_86_lock  ();	// False on failure.
+std::int32_t TEXTURE_86_lock  ();	// False on failure.
 void  TEXTURE_86_unlock();
 void  TEXTURE_86_update();
 
@@ -202,8 +202,8 @@ void  TEXTURE_86_update();
 //
 
 void TEXTURE_get_minitexturebits_uvs(
-		UWORD			texture,
-		SLONG          *page,
+		std::uint16_t			texture,
+		std::int32_t          *page,
 		float          *u0,
 		float          *v0,
 		float          *u1,
@@ -218,10 +218,10 @@ void TEXTURE_get_minitexturebits_uvs(
 // returns the page.
 //
 
-SLONG TEXTURE_get_fiddled_position(
-		SLONG  square_u,
-		SLONG  square_v,
-		SLONG  page,
+std::int32_t TEXTURE_get_fiddled_position(
+		std::int32_t  square_u,
+		std::int32_t  square_v,
+		std::int32_t  page,
 		float *u,
 		float *v);
 
@@ -230,7 +230,7 @@ SLONG TEXTURE_get_fiddled_position(
 //
 
 #ifndef TARGET_DC
-void TEXTURE_set_colour_key(SLONG page);
+void TEXTURE_set_colour_key(std::int32_t page);
 #endif
 
 
@@ -238,13 +238,13 @@ void TEXTURE_set_colour_key(SLONG page);
 // Makes all the textures greyscale.
 //
 
-void TEXTURE_set_greyscale(SLONG is_greyscale);
+void TEXTURE_set_greyscale(std::int32_t is_greyscale);
 
 //
 // Change a specific texture to a different tga
 //
 
-void TEXTURE_set_tga(SLONG page, CBYTE* fn);
+void TEXTURE_set_tga(std::int32_t page, char* fn);
 
 //
 // Frees all the texture pages.
@@ -264,12 +264,12 @@ void TEXTURE_free_unneeded ( void );
 #define TEXTURE_LOOK_DIRT     2
 #define TEXTURE_LOOK_SLIPPERY 3
 
-extern SLONG TEXTURE_liney;
-extern SLONG TEXTURE_av_r;
-extern SLONG TEXTURE_av_g;
-extern SLONG TEXTURE_av_b;
+extern std::int32_t TEXTURE_liney;
+extern std::int32_t TEXTURE_av_r;
+extern std::int32_t TEXTURE_av_g;
+extern std::int32_t TEXTURE_av_b;
 
-SLONG TEXTURE_looks_like(SLONG page);
+std::int32_t TEXTURE_looks_like(std::int32_t page);
 
 
 #endif

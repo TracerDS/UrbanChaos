@@ -6,10 +6,10 @@
 void InitGrenades();
 
 // create a grenade with these parameters
-bool CreateGrenade(Thing* owner, SLONG x, SLONG y, SLONG z, SLONG dx, SLONG dy, SLONG dz, SLONG timer);
+bool CreateGrenade(Thing* owner, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t timer);
 
 // create a grenade from the person data
-bool CreateGrenadeFromPerson(Thing* p_person, SLONG timer);
+bool CreateGrenadeFromPerson(Thing* p_person, std::int32_t timer);
 
 // draw the grenades
 void DrawGrenades();
@@ -18,5 +18,5 @@ void DrawGrenades();
 void ProcessGrenades();
 
 // create a grenade explosion
-void CreateGrenadeExplosion(SLONG x, SLONG y, SLONG z, Thing* owner);
+void CreateGrenadeExplosion(std::int32_t x, std::int32_t y, std::int32_t z, Thing* owner);
 

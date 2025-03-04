@@ -11,13 +11,13 @@
 #if 0
 #else
 void* dud_malloc_init(void* base,void* end);
-void* dud_malloc(SLONG size);
+void* dud_malloc(std::int32_t size);
 void dud_free(void* p);
 #endif
 
-ULONG heap_index=0;
-SLONG total_mem_size;
-SLONG bucket_mem_size;
+std::uint32_t heap_index=0;
+std::int32_t total_mem_size;
+std::int32_t bucket_mem_size;
 
 //---------------------------------------------------------------
 
@@ -26,12 +26,12 @@ bool SetupMemory()
 
 #ifdef FS_ISO9660
 #ifndef VERSION_DEMO
-	total_mem_size=0x80200000-(SLONG)my_heap;
+	total_mem_size=0x80200000-(std::int32_t)my_heap;
 #else
-	total_mem_size=0x801fff00-(SLONG)my_heap;
+	total_mem_size=0x801fff00-(std::int32_t)my_heap;
 #endif
 #else
-	total_mem_size=0x80285b08-(SLONG)my_heap;
+	total_mem_size=0x80285b08-(std::int32_t)my_heap;
 #endif
 
 	InitHeap3((void*)&my_heap[0],total_mem_size);
@@ -49,10 +49,10 @@ void ResetMemory()
 
 //---------------------------------------------------------------
 
-void* MemAlloc(ULONG size)
+void* MemAlloc(std::uint32_t size)
 {
 	/*
-	SLONG	pos;
+	std::int32_t	pos;
 	pos=heap_index;
 	if(heap_index+size<INITIAL_HEAP_SIZE)
 		heap_index+=size;
@@ -79,9 +79,9 @@ void MemFree(void* mem_ptr)
 
 //---------------------------------------------------------------
 
-void ZeroMemory(void* mem_ptr,ULONG size)
+void ZeroMemory(void* mem_ptr,std::uint32_t size)
 {
-	memset((UBYTE*)mem_ptr,0,size);
+	memset((std::uint8_t*)mem_ptr,0,size);
 
 }
 

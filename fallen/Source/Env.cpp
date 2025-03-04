@@ -14,8 +14,8 @@
 
 #define ENV_HEAP_SIZE 16384
 
-CBYTE ENV_heap[ENV_HEAP_SIZE];
-CBYTE* ENV_heap_upto;
+char ENV_heap[ENV_HEAP_SIZE];
+char* ENV_heap_upto;
 
 //
 // The environment variables.
@@ -25,33 +25,33 @@ CBYTE* ENV_heap_upto;
 
 typedef struct
 {
-	CBYTE* name;
-	CBYTE* val;
+	char* name;
+	char* val;
 
 } ENV_Var;
 
 ENV_Var ENV_var[ENV_MAX_VARS];
-SLONG ENV_var_upto;
+std::int32_t ENV_var_upto;
 
 
 
 
-void ENV_load(CBYTE* fname)
+void ENV_load(char* fname)
 {
-	SLONG  i;
-	CBYTE* ch;
+	std::int32_t  i;
+	char* ch;
 
-	CBYTE* heap_name;
-	CBYTE* heap_val;
+	char* heap_name;
+	char* heap_val;
 
 #ifndef PSX
 	FILE *handle;
 	
 	#define ENV_MAX_LINE_LENGTH 256
 
-	CBYTE line[ENV_MAX_LINE_LENGTH];
-	CBYTE name[ENV_MAX_LINE_LENGTH];
-	CBYTE val [ENV_MAX_LINE_LENGTH];
+	char line[ENV_MAX_LINE_LENGTH];
+	char name[ENV_MAX_LINE_LENGTH];
+	char val [ENV_MAX_LINE_LENGTH];
 
 	//
 	// Clear the old environment.
@@ -211,7 +211,7 @@ void ENV_load(CBYTE* fname)
 }
 
 #ifndef PSX
-SLONG ENV_cmp_insensitive(CBYTE* str1, CBYTE* str2)
+std::int32_t ENV_cmp_insensitive(char* str1, char* str2)
 {
 	while (1)
 	{
@@ -226,9 +226,9 @@ SLONG ENV_cmp_insensitive(CBYTE* str1, CBYTE* str2)
 }
 #endif
 
-CBYTE* ENV_get_value_string(CBYTE* name)
+char* ENV_get_value_string(char* name)
 {
-	SLONG i;
+	std::int32_t i;
 
 #ifndef PSX
 	//
@@ -250,10 +250,10 @@ CBYTE* ENV_get_value_string(CBYTE* name)
 	return nullptr;
 }
 
-SLONG ENV_get_value_number(CBYTE* name, SLONG def)
+std::int32_t ENV_get_value_number(char* name, std::int32_t def)
 {
-	CBYTE* str;
-	SLONG  val;
+	char* str;
+	std::int32_t  val;
 #ifndef PSX
 	//
 	// Find the string...

@@ -58,10 +58,10 @@ struct MFX_Sample
 struct MFX_QWave
 {
 	MFX_QWave*	next;		// next voice to be queued, or nullptr
-	ULONG		wave;		// sound sample to be played
-	ULONG		flags;
+	std::uint32_t		wave;		// sound sample to be played
+	std::uint32_t		flags;
 	bool		is3D;
-	SLONG		x, y, z;	// coordinates of the voice
+	std::int32_t		x, y, z;	// coordinates of the voice
 	float		gain;
 };
 
@@ -70,15 +70,15 @@ struct MFX_QWave
 
 struct MFX_Voice
 {
-	UWORD		id;			// channel_id for this voice
+	std::uint16_t		id;			// channel_id for this voice
 	unsigned int handle;
-	ULONG		wave;		// sound sample playing on this voice
-	ULONG		flags;
+	std::uint32_t		wave;		// sound sample playing on this voice
+	std::uint32_t		flags;
 	bool		is3D;
-	SLONG		x, y, z;		// coordinates of this voice
+	std::int32_t		x, y, z;		// coordinates of this voice
 	Thing*		thing;		// thing this voice belongs to
 	MFX_QWave*	queue;		// queue of samples to play
-	SLONG		queuesz;	// number of queued samples
+	std::int32_t		queuesz;	// number of queued samples
 	MFX_Sample*	smp;		// sample being played
 	bool		playing;
 	float		ratemult;
@@ -111,8 +111,8 @@ static float		Volumes[3];				// volumes for each SampleType
 static int			AllocatedRAM = 0;
 
 static char*		GetFullName(char *fname);
-void				SetLinearScale(SLONG wave, float linscale);	// set volume scaling for sample (1.0 = normal)
-void				SetPower(SLONG wave, float dB);				// set power for sample in dB (0 = normal)
+void				SetLinearScale(std::int32_t wave, float linscale);	// set volume scaling for sample (1.0 = normal)
+void				SetPower(std::int32_t wave, float dB);				// set power for sample in dB (0 = normal)
 static void			InitVoices();
 static void			LoadWaveFile(MFX_Sample* sptr);
 static void			LoadTalkFile(char* filename);
@@ -128,7 +128,7 @@ static void			MoveVoice(MFX_Voice* vptr);
 static void			SetVoiceRate(MFX_Voice* vptr, float mult);
 static void			SetVoiceGain(MFX_Voice* vptr, float gain);
 
-extern CBYTE*		sound_list[];
+extern char*		sound_list[];
 
 void MFX_init()
 {
@@ -147,8 +147,8 @@ void MFX_init()
 	AllocatedRAM = 0;
 
 	NumSamples = 0;
-	CBYTE		buf[_MAX_PATH];
-	CBYTE**		names = sound_list;
+	char		buf[_MAX_PATH];
+	char**		names = sound_list;
 	MFX_Sample*	sptr = Samples;
 
 	while (strcmp(names[0], "!"))
@@ -245,8 +245,8 @@ void MFX_term()
 
 static char* GetFullName(char* fname)
 {
-	CBYTE	buf[MAX_PATH];
-	static CBYTE	pathname[MAX_PATH];
+	char	buf[MAX_PATH];
+	static char	pathname[MAX_PATH];
 
 	if (strchr(fname,'-'))  // usefully, all the taunts etc have a - in them, and none of the other sounds do... bonus!
 	{
@@ -276,7 +276,7 @@ static char* GetFullName(char* fname)
 	return pathname;
 }
 
-void SetLinearScale(SLONG wave, float linscale)
+void SetLinearScale(std::int32_t wave, float linscale)
 {
 	if ((wave >= 0) && (wave < NumSamples))
 	{
@@ -284,7 +284,7 @@ void SetLinearScale(SLONG wave, float linscale)
 	}
 }
 
-void SetPower(SLONG wave, float dB)
+void SetPower(std::int32_t wave, float dB)
 {
 	SetLinearScale(wave, float(exp(log(10) * dB / 20)));
 }
@@ -321,12 +321,12 @@ static void InitVoices()
 }
 
 // hash a channel ID to a voice ID
-static inline int Hash(UWORD channel_id)
+static inline int Hash(std::uint16_t channel_id)
 {
 	return (channel_id * 37) & VOICE_MSK;
 }
 
-static MFX_Voice* FindVoice(UWORD channel_id, ULONG wave)
+static MFX_Voice* FindVoice(std::uint16_t channel_id, std::uint32_t wave)
 {
 	int	offset = Hash(channel_id);
 
@@ -342,7 +342,7 @@ static MFX_Voice* FindVoice(UWORD channel_id, ULONG wave)
 	return nullptr;
 }
 
-static MFX_Voice* FindFirst(UWORD channel_id)
+static MFX_Voice* FindFirst(std::uint16_t channel_id)
 {
 	int	offset = Hash(channel_id);
 
@@ -377,7 +377,7 @@ static MFX_Voice* FindNext(MFX_Voice* vptr)
 	return nullptr;
 }
 
-static MFX_Voice* FindFree(UWORD channel_id)
+static MFX_Voice* FindFree(std::uint16_t channel_id)
 {
 	int	offset = Hash(channel_id);
 
@@ -431,7 +431,7 @@ static void FreeVoice(MFX_Voice* vptr)
 	vptr->smp = nullptr;
 }
 
-static MFX_Voice* GetVoiceForWave(UWORD channel_id, ULONG wave, ULONG flags)
+static MFX_Voice* GetVoiceForWave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
 {
 	// just return a new voice if overlapped
 	if (flags & MFX_OVERLAP)
@@ -468,7 +468,7 @@ static MFX_Voice* GetVoiceForWave(UWORD channel_id, ULONG wave, ULONG flags)
 	return vptr;
 }
 
-static SLONG SetupVoiceTalk(MFX_Voice* vptr, char* filename)
+static std::int32_t SetupVoiceTalk(MFX_Voice* vptr, char* filename)
 {
 	vptr->id = 0;
 	vptr->wave = NumSamples;
@@ -500,7 +500,7 @@ static SLONG SetupVoiceTalk(MFX_Voice* vptr, char* filename)
 	return true;
 }
 
-static void SetupVoice(MFX_Voice* vptr, UWORD channel_id, ULONG wave, ULONG flags, bool is3D)
+static void SetupVoice(MFX_Voice* vptr, std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, bool is3D)
 {
 	vptr->id = channel_id;
 	vptr->wave = wave;
@@ -737,7 +737,7 @@ static bool IsVoiceDone(MFX_Voice* vptr)
 	return (state != AL_PLAYING);
 }
 
-static void QueueWave(MFX_Voice* vptr, UWORD wave, ULONG flags, bool is3D, SLONG x, SLONG y, SLONG z)
+static void QueueWave(MFX_Voice* vptr, std::uint16_t wave, std::uint32_t flags, bool is3D, std::int32_t x, std::int32_t y, std::int32_t z)
 {
 	if ((flags & MFX_SHORT_QUEUE) && vptr->queue)
 	{
@@ -787,7 +787,7 @@ static void QueueWave(MFX_Voice* vptr, UWORD wave, ULONG flags, bool is3D, SLONG
 	qptr->gain = 1.0;
 }
 
-static void TriggerPairedVoice(UWORD channel_id)
+static void TriggerPairedVoice(std::uint16_t channel_id)
 {
 	MFX_Voice*	vptr = FindFirst(channel_id);
 
@@ -800,7 +800,7 @@ static void TriggerPairedVoice(UWORD channel_id)
 	PlayVoice(vptr);
 }
 //TODO: Review memory leak due to OpenAL Usage
-static UBYTE PlayWave(UWORD channel_id, ULONG wave, ULONG flags, bool is3D, SLONG x, SLONG y, SLONG z, Thing* thing)
+static std::uint8_t PlayWave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, bool is3D, std::int32_t x, std::int32_t y, std::int32_t z, Thing* thing)
 {
 	MFX_Voice*	vptr = GetVoiceForWave(channel_id, wave, flags);
 
@@ -861,7 +861,7 @@ static UBYTE PlayWave(UWORD channel_id, ULONG wave, ULONG flags, bool is3D, SLON
 	return 1;
 }
 
-static UBYTE PlayTalk(char* filename, SLONG x, SLONG y, SLONG z)
+static std::uint8_t PlayTalk(char* filename, std::int32_t x, std::int32_t y, std::int32_t z)
 {
 	MFX_Voice*	vptr = GetVoiceForWave(0, NumSamples, 0);
 	if (!vptr)
@@ -898,14 +898,14 @@ static UBYTE PlayTalk(char* filename, SLONG x, SLONG y, SLONG z)
 	return 1;
 }
 
-void MFX_get_volumes(SLONG* fx, SLONG* amb, SLONG* mus)
+void MFX_get_volumes(std::int32_t* fx, std::int32_t* amb, std::int32_t* mus)
 {
-	*fx = SLONG(127 * Volumes[SMP_Effect]);
-	*amb = SLONG(127 * Volumes[SMP_Ambient]);
-	*mus = SLONG(127 * Volumes[SMP_Music]);
+	*fx = std::int32_t(127 * Volumes[SMP_Effect]);
+	*amb = std::int32_t(127 * Volumes[SMP_Ambient]);
+	*mus = std::int32_t(127 * Volumes[SMP_Music]);
 }
 
-void MFX_set_volumes(SLONG fx, SLONG amb, SLONG mus)
+void MFX_set_volumes(std::int32_t fx, std::int32_t amb, std::int32_t mus)
 {
 	fx = min(max(fx, 0), 127);
 	amb = min(max(amb, 0), 127);
@@ -920,17 +920,17 @@ void MFX_set_volumes(SLONG fx, SLONG amb, SLONG mus)
 	ENV_set_value_number("fx_volume", fx, "Audio");
 }
 
-void MFX_play_xyz(UWORD channel_id, ULONG wave, ULONG flags, SLONG x, SLONG y, SLONG z)
+void MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t z)
 {
 	PlayWave(channel_id, wave, flags, true, x >> 8, y >> 8, z >> 8, nullptr);
 }
 
-void MFX_play_thing(UWORD channel_id, ULONG wave, ULONG flags, Thing* p)
+void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing* p)
 {
 	PlayWave(channel_id, wave, flags, true, 0,0,0, p);
 }
 
-void MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
+void MFX_play_ambient(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
 {
 	if (wave < NumSamples)
 	{
@@ -945,12 +945,12 @@ void MFX_play_ambient(UWORD channel_id, ULONG wave, ULONG flags)
 	PlayWave(channel_id, wave, flags, true, FC_cam[0].x, FC_cam[0].y, FC_cam[0].z, nullptr);
 }
 
-UBYTE MFX_play_stereo(UWORD channel_id, ULONG wave, ULONG flags)
+std::uint8_t MFX_play_stereo(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
 {
 	return PlayWave(channel_id, wave, flags, false, 0, 0, 0, nullptr);
 }
 
-void MFX_stop(SLONG channel_id, ULONG wave)
+void MFX_stop(std::int32_t channel_id, std::uint32_t wave)
 {
 	if (channel_id == MFX_CHANNEL_ALL)
 	{
@@ -986,7 +986,7 @@ void MFX_stop_attached(Thing *p)
 	}
 }
 
-void MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend)
+void MFX_set_pitch(std::uint16_t channel_id, std::uint32_t wave, std::int32_t pitchbend)
 {
 	MFX_Voice* vptr = FindVoice(channel_id, wave);
 	if (!vptr || !vptr->smp)
@@ -998,7 +998,7 @@ void MFX_set_pitch(UWORD channel_id, ULONG wave, SLONG pitchbend)
 	SetVoiceRate(vptr, pitch);
 }
 
-void MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain)
+void MFX_set_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain)
 {
 	MFX_Voice* vptr = FindVoice(channel_id, wave);
 	if (!vptr || !vptr->smp)
@@ -1010,7 +1010,7 @@ void MFX_set_gain(UWORD channel_id, ULONG wave, UBYTE gain)
 	SetVoiceGain(vptr, fgain);
 }
 
-void MFX_set_queue_gain(UWORD channel_id, ULONG wave, UBYTE gain)
+void MFX_set_queue_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain)
 {
 	float fgain = float(gain) / 256.0f;
 
@@ -1197,7 +1197,7 @@ extern void MUSIC_reset();
 	InitVoices();
 }
 
-void MFX_set_listener(SLONG x, SLONG y, SLONG z, SLONG heading, SLONG roll, SLONG pitch)
+void MFX_set_listener(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t heading, std::int32_t roll, std::int32_t pitch)
 {
 	x >>= 8;
 	y >>= 8;
@@ -1363,7 +1363,7 @@ void MFX_update()
 	}
 }
 
-UWORD MFX_get_wave(UWORD channel_id, UBYTE index)
+std::uint16_t MFX_get_wave(std::uint16_t channel_id, std::uint8_t index)
 {
 	MFX_Voice*	vptr = FindFirst(channel_id);
 
@@ -1375,12 +1375,12 @@ UWORD MFX_get_wave(UWORD channel_id, UBYTE index)
 	return vptr ? vptr->wave : 0;
 }
 
-SLONG MFX_QUICK_play(CBYTE* str, SLONG x, SLONG y, SLONG z)
+std::int32_t MFX_QUICK_play(char* str, std::int32_t x, std::int32_t y, std::int32_t z)
 {
 	return PlayTalk(str, x,y,z);
 }
 
-SLONG MFX_QUICK_still_playing()
+std::int32_t MFX_QUICK_still_playing()
 {
 	MFX_Voice*	vptr = GetVoiceForWave(0, NumSamples, 0);
 	if (!vptr)

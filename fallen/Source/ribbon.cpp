@@ -14,14 +14,14 @@
 static Ribbon	Ribbons[MAX_RIBBONS];
 
 
-inline GameCoord Coord(SLONG x, SLONG y, SLONG z) { GameCoord bob = {x,y,z}; return bob; }
+inline GameCoord Coord(std::int32_t x, std::int32_t y, std::int32_t z) { GameCoord bob = {x,y,z}; return bob; }
 
 
 // ----------------------------------------------------------------------------------------
 
 #ifndef	PSX
 void RIBBON_draw() {
-	SLONG i;
+	std::int32_t i;
 	for (i=0;i<MAX_RIBBONS;i++)
 		if ((Ribbons[i].Flags&RIBBON_FLAG_USED)&&(RIBBON_length(i+1)>2))
 			RIBBON_draw_ribbon(&Ribbons[i]);
@@ -30,7 +30,7 @@ void RIBBON_draw() {
 // ----------------------------------------------------------------------------------------
 
 void RIBBON_process() {
-	SLONG i,j;
+	std::int32_t i,j;
 
 	for (i=0;i<MAX_RIBBONS;i++)
 		if (Ribbons[i].Flags & RIBBON_FLAG_USED) {
@@ -47,15 +47,15 @@ void RIBBON_process() {
 // ----------------------------------------------------------------------------------------
 
 void RIBBON_init() {
-	memset((UBYTE*)Ribbons,0,sizeof(Ribbons));
+	memset((std::uint8_t*)Ribbons,0,sizeof(Ribbons));
 }
 
 // ----------------------------------------------------------------------------------------
 
-SLONG RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYTE fade, UBYTE scroll, UBYTE u, UBYTE v, SLONG rgb) 
+std::int32_t RIBBON_alloc(std::int32_t flags, std::uint8_t max_segments, std::int32_t page, std::int32_t life, std::uint8_t fade, std::uint8_t scroll, std::uint8_t u, std::uint8_t v, std::int32_t rgb) 
 {
-	static SLONG	NextRibbon=0;
-	SLONG LastRibbon;
+	static std::int32_t	NextRibbon=0;
+	std::int32_t LastRibbon;
 
 #ifdef	PSX
 //	return(0);
@@ -85,19 +85,19 @@ SLONG RIBBON_alloc(SLONG flags, UBYTE max_segments, SLONG page, SLONG life, UBYT
 
 // ----------------------------------------------------------------------------------------
 
-void RIBBON_free(SLONG ribbon) {
+void RIBBON_free(std::int32_t ribbon) {
 	Ribbons[ribbon].Flags=0;
 	Ribbons[ribbon].Head=Ribbons[ribbon].Tail=0;
 }
 
 // ----------------------------------------------------------------------------------------
 
-void RIBBON_extend(SLONG ribbon, SLONG x, SLONG y, SLONG z) {
+void RIBBON_extend(std::int32_t ribbon, std::int32_t x, std::int32_t y, std::int32_t z) {
 	ribbon--; // 1 based so that "if (!RIBBON_alloc())" is okay
 	if (!(Ribbons[ribbon].Flags & RIBBON_FLAG_USED)) return;
 
 	// Don't extend ribbons if we are paused.
-extern SLONG GAMEMENU_menu_type;
+extern std::int32_t GAMEMENU_menu_type;
 	if (GAMEMENU_menu_type != 0/*GAMEMENU_MENU_TYPE_NONE*/)
 	{
 		return;
@@ -117,8 +117,8 @@ extern SLONG GAMEMENU_menu_type;
 
 // ----------------------------------------------------------------------------------------
 
-SLONG RIBBON_length(SLONG ribbon) {
-	SLONG len;
+std::int32_t RIBBON_length(std::int32_t ribbon) {
+	std::int32_t len;
 	ribbon--; // 1 based so that "if (!RIBBON_alloc())" is okay
 	if (Ribbons[ribbon].Flags & RIBBON_FLAG_USED) {
 		len=Ribbons[ribbon].Head-Ribbons[ribbon].Tail;
@@ -131,7 +131,7 @@ SLONG RIBBON_length(SLONG ribbon) {
 // ----------------------------------------------------------------------------------------
 
 
-void RIBBON_life(SLONG ribbon, SLONG life) {
+void RIBBON_life(std::int32_t ribbon, std::int32_t life) {
 	ribbon--; // 1 based so that "if (!RIBBON_alloc())" is okay
 	if (Ribbons[ribbon].Flags & RIBBON_FLAG_USED) {
 		Ribbons[ribbon].Life=life;

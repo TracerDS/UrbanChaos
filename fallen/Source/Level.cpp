@@ -11,7 +11,7 @@
 //
 #include "libsn.h"
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
@@ -21,11 +21,11 @@
 #define	FileRead(h,a,s) PCread(h,(char*)a,s)
 #define	FileWrite(h,a,s) PCwrite(h,(char*)a,s)
 #define	FileSeek(h,m,o) PClseek(h,o,m)
-#define	ZeroMemory(a,s) memset((UBYTE*)a,0,s);
+#define	ZeroMemory(a,s) memset((std::uint8_t*)a,0,s);
 
 #endif
 
-UWORD comlist_map[MAX_COMLISTS],
+std::uint16_t comlist_map[MAX_COMLISTS],
 				conlist_map[MAX_CLISTS],
 				waypoint_map[MAX_WAYPOINTS];
 THING_INDEX thing_map[MAX_THINGS];
@@ -83,7 +83,7 @@ bool load_thing_def(MFFileHandle the_file)
 			//	Mark	-	Create a vehicle here.
 
 			{
-				SLONG prim;
+				std::int32_t prim;
 
 				if (the_def.Genus == 1)
 				{
@@ -124,7 +124,7 @@ bool load_thing_def(MFFileHandle the_file)
 
 bool load_waypoint_def(MFFileHandle the_file)
 {
-	UWORD			the_wp;
+	std::uint16_t			the_wp;
 	WaypointDef		the_def;
 
 
@@ -191,7 +191,7 @@ bool load_command_def(MFFileHandle the_file,CommandDef *the_def)
 
 bool load_clist_def(MFFileHandle the_file)
 {
-	SLONG				c0;
+	std::int32_t				c0;
 	Condition			*the_condition;
 	ConditionDef		the_con_def;
 	ConditionList		*the_clist;
@@ -233,7 +233,7 @@ bool load_clist_def(MFFileHandle the_file)
 
 bool load_comlist_def(MFFileHandle the_file)
 {
-	SLONG				c0;
+	std::int32_t				c0;
 	Command				*the_command;
 	CommandDef			the_com_def;
 	CommandList			*the_comlist;
@@ -273,11 +273,11 @@ bool load_comlist_def(MFFileHandle the_file)
 
 //---------------------------------------------------------------
 
-bool load_level(ULONG level)
+bool load_level(std::uint32_t level)
 {
-	CBYTE			level_name[256];
-	UBYTE			version;
-	ULONG			c0,
+	char			level_name[256];
+	std::uint8_t			version;
+	std::uint32_t			c0,
 					clist_count,
 					thing_count,
 					waypoint_count;

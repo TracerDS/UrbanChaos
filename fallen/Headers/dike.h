@@ -16,37 +16,37 @@ typedef struct
 	// The front wheel
 	//
 
-	SLONG fx;
-	SLONG fy;
-	SLONG fz;
-	SLONG fdx;
-	SLONG fdy;
-	SLONG fdz;
+	std::int32_t fx;
+	std::int32_t fy;
+	std::int32_t fz;
+	std::int32_t fdx;
+	std::int32_t fdy;
+	std::int32_t fdz;
 
 	//
 	// The back wheel
 	//
 
-	SLONG bx;
-	SLONG by;
-	SLONG bz;
-	SLONG bdx;
-	SLONG bdy;
-	SLONG bdz;
+	std::int32_t bx;
+	std::int32_t by;
+	std::int32_t bz;
+	std::int32_t bdx;
+	std::int32_t bdy;
+	std::int32_t bdz;
 
 	//
 	// Front suspension.
 	//
 
-	SLONG fsy;
-	SLONG fsdy;
+	std::int32_t fsy;
+	std::int32_t fsdy;
 
 	//
 	// Back suspension.
 	//
 
-	SLONG bsy;
-	SLONG bsdy;
+	std::int32_t bsy;
+	std::int32_t bsdy;
 	
 	//
 	// Bike control
@@ -58,9 +58,9 @@ typedef struct
 	#define DIKE_CONTROL_BRAKE   (1 << 3)
 	#define DIKE_CONTORL_WHEELIE (1 << 4)
 
-	UBYTE control;
-	SBYTE steer;
-	SBYTE power;
+	std::uint8_t control;
+	std::int8_t steer;
+	std::int8_t power;
 
 	//
 	// Flags
@@ -69,21 +69,21 @@ typedef struct
 	#define DIKE_FLAG_ON_GROUND_FRONT (1 << 0)
 	#define DIKE_FLAG_ON_GROUND_BACK  (1 << 1)
 
-	UBYTE flag;
+	std::uint8_t flag;
 
 	//
 	// The angle of the bike.
 	//
 
-	UWORD yaw;
-	UWORD pitch;
+	std::uint16_t yaw;
+	std::uint16_t pitch;
 
 } DIKE_Dike;
 
 #define DIKE_MAX_DIKES 8
 
 extern DIKE_Dike DIKE_dike[DIKE_MAX_DIKES];
-extern SLONG     DIKE_dike_upto;
+extern std::int32_t     DIKE_dike_upto;
 
 
 //
@@ -99,9 +99,9 @@ void DIKE_init();
 //
 
 DIKE_Dike *DIKE_create(
-			SLONG x,
-			SLONG z,
-			SLONG yaw);
+			std::int32_t x,
+			std::int32_t z,
+			std::int32_t yaw);
 
 
 //

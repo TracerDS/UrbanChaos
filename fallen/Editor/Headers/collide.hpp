@@ -14,13 +14,13 @@
 // FUNCTIONS
 
 extern void	calc_collision_info(struct ColInfo *p_col);
-//extern void	calc_collision_info(SLONG left,SLONG right,SLONG top,SLONG bottom,SLONG depth,SLONG flag);
+//extern void	calc_collision_info(std::int32_t left,std::int32_t right,std::int32_t top,std::int32_t bottom,std::int32_t depth,std::int32_t flag);
 
 extern void	clear_all_col_info();
 
 extern void	interface_thing();
 extern void	init_thing();
-extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
 extern calc_things_height(struct MapThing *p_thing);
 
 
@@ -33,11 +33,11 @@ extern calc_things_height(struct MapThing *p_thing);
 #define	DO_INTERSECT      1
 #define COLLINEAR         2
 
-SLONG lines_intersect(
-			SLONG x1, SLONG y1, SLONG x2, SLONG y2,
-			SLONG x3, SLONG y3, SLONG x4, SLONG y4,
-			SLONG *x,
-			SLONG *y);
+std::int32_t lines_intersect(
+			std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2,
+			std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4,
+			std::int32_t *x,
+			std::int32_t *y);
 
 
 #endif

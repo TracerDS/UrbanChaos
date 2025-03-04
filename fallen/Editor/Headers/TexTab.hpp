@@ -18,10 +18,10 @@
 class	TextureTab	:	public	ModeTab
 {
 	private:
-		ULONG				CurrentTexturePage,
+		std::uint32_t				CurrentTexturePage,
 							TextureFlags;
 
-		SLONG				TextureWidth,
+		std::int32_t				TextureWidth,
 							TextureHeight,
 							TextureX,
 							TextureY,
@@ -31,7 +31,7 @@ class	TextureTab	:	public	ModeTab
 							TextureRect;
 		EdTexture			CurrentTexture;
 
-		void				do_undo_me_bloody_self_then(SLONG index);
+		void				do_undo_me_bloody_self_then(std::int32_t index);
 	public:
 							TextureTab(EditorModule *parent);
 		void				DrawTabContent();
@@ -39,16 +39,16 @@ class	TextureTab	:	public	ModeTab
 		void				UpdateTexture();
 		void				UpdateTextureInfo();
 		void				HandleTab(MFPoint *current_point);
-		UWORD				HandleTabClick(UBYTE flags,MFPoint *clicked_point);
-		void				HandleControl(UWORD control_id);
-		UWORD				ConvertFreeToFixedEle(struct TextureBits *t);
+		std::uint16_t				HandleTabClick(std::uint8_t flags,MFPoint *clicked_point);
+		void				HandleControl(std::uint16_t control_id);
+		std::uint16_t				ConvertFreeToFixedEle(struct TextureBits *t);
 		void				ConvertFixedToFree(struct TextureBits *t);
 
-		inline ULONG		GetTexturePage()			{	return CurrentTexturePage;	}
-		inline void		SetTexturePage(ULONG page)		{	CurrentTexturePage=page;	}
+		inline std::uint32_t		GetTexturePage()			{	return CurrentTexturePage;	}
+		inline void		SetTexturePage(std::uint32_t page)		{	CurrentTexturePage=page;	}
 		inline EdTexture	*GetTexture()				{	return &CurrentTexture;		}
-		inline ULONG		GetTextureFlags()			{	return TextureFlags;		}
-		inline void			SetTextureFlags(ULONG flags)	{	TextureFlags=flags;			}
+		inline std::uint32_t		GetTextureFlags()			{	return TextureFlags;		}
+		inline void			SetTextureFlags(std::uint32_t flags)	{	TextureFlags=flags;			}
 		Undo				MyUndo;
 		bool				ApplyTexture(struct EditFace *edit_face);
 };

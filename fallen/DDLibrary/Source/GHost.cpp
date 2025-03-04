@@ -19,7 +19,7 @@ LPSTR				lpszGlobalArgs;
 WNDCLASS			DDLibClass;
 
 volatile bool		ShellActive;
-volatile ULONG		PauseFlags		=	0,
+volatile std::uint32_t		PauseFlags		=	0,
 					PauseCount		=	0;
 
 
@@ -85,10 +85,10 @@ DWORD	DDLibThread(LPVOID param)
 
 //---------------------------------------------------------------
 
-bool	SetupKeyboard(void);
-void	ResetKeyboard(void);
+bool	SetupKeyboard();
+void	ResetKeyboard();
 
-bool	SetupHost(ULONG flags)
+bool	SetupHost(std::uint32_t flags)
 {
 	DWORD			id;
 
@@ -173,7 +173,7 @@ bool	SetupHost(ULONG flags)
 
 //---------------------------------------------------------------
 
-void	ResetHost(void)
+void	ResetHost()
 {
 	MFX_term();
 
@@ -189,11 +189,11 @@ void	ResetHost(void)
 
 //---------------------------------------------------------------
 
-void	ShellPaused(void)
+void	ShellPaused()
 {
 	return;
 
-	SLONG		timeout;
+	std::int32_t		timeout;
 
 
 	if(PauseFlags&PAUSE)
@@ -221,12 +221,12 @@ void	ShellPaused(void)
 
 //---------------------------------------------------------------
 
-void	ShellPauseOn(void)
+void	ShellPauseOn()
 {
 	the_display.toGDI();
 	return;
 
-	SLONG		timeout;
+	std::int32_t		timeout;
 
 
 	PauseCount++;
@@ -257,11 +257,11 @@ void	ShellPauseOn(void)
 
 //---------------------------------------------------------------
 
-void	ShellPauseOff(void)
+void	ShellPauseOff()
 {
 	return;
 
-	SLONG		timeout;
+	std::int32_t		timeout;
 
 
 	if(PauseCount==0)
@@ -296,13 +296,13 @@ void	ShellPauseOff(void)
 //---------------------------------------------------------------
 extern void ClearLatchedKeys();
 
-extern SLONG app_inactive;
-extern SLONG restore_surfaces;
+extern std::int32_t app_inactive;
+extern std::int32_t restore_surfaces;
 
 
-bool	LibShellActive(void)
+bool	LibShellActive()
 {
-	SLONG		result;
+	std::int32_t		result;
 	MSG			msg;
 
 	//
@@ -314,7 +314,7 @@ bool	LibShellActive(void)
 	{
 		while(PeekMessage(&msg,nullptr,0,0,PM_NOREMOVE))
 		{
-			result	=	(SLONG)GetMessage(&msg,nullptr,0,0);
+			result	=	(std::int32_t)GetMessage(&msg,nullptr,0,0);
 #ifndef TARGET_DC
 			if(result)
 			{
@@ -348,7 +348,7 @@ bool	LibShellActive(void)
 		{
 			the_display.lp_DD4->RestoreAllSurfaces();
 
-			extern void FRONTEND_restore_screenfull_surfaces(void);
+			extern void FRONTEND_restore_screenfull_surfaces();
 
 			FRONTEND_restore_screenfull_surfaces();
 		}
@@ -361,7 +361,7 @@ bool	LibShellActive(void)
 
 //---------------------------------------------------------------
 
-bool	LibShellChanged(void)
+bool	LibShellChanged()
 {
 	if(the_display.IsDisplayChanged())
 	{
@@ -373,12 +373,12 @@ bool	LibShellChanged(void)
 
 //---------------------------------------------------------------
 
-bool	LibShellMessage(const char *pMessage, const char *pFile, ULONG dwLine)
+bool	LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine)
 {
 	bool		result;
-	CBYTE		buff1[512],
+	char		buff1[512],
 				buff2[512];
-	ULONG		flag; 
+	std::uint32_t		flag; 
 
 	if (!pMessage )
 	{
@@ -441,7 +441,7 @@ void	Time(MFTime *the_time)
 //
 //---------------------------------------------------------------
 
-static UWORD	argc;
+static std::uint16_t	argc;
 static LPTSTR	argv[MAX_PATH];
 
 #ifdef TARGET_DC
@@ -449,7 +449,7 @@ static LPTSTR	argv[MAX_PATH];
 #include "dtags.h"
 #endif
 
-void init_best_found(void);
+void init_best_found();
 
 int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, int iWinMode)
 {

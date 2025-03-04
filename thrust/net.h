@@ -23,7 +23,7 @@
 // 
 // ========================================================
 
-SLONG NET_init();	// Returns false on failure.
+std::int32_t NET_init();	// Returns false on failure.
 void NET_kill();
 
 
@@ -39,8 +39,8 @@ void NET_kill();
 // already active.  Return false on failure.
 //
 
-SLONG NET_connection_lan     ();		// Makes a connection to the LAN
-SLONG NET_connection_internet(CBYTE* str);	// The internet using TCP/IP give is an string like "124.15.239.24" or "www.muckyfoot.com"
+std::int32_t NET_connection_lan     ();		// Makes a connection to the LAN
+std::int32_t NET_connection_internet(char* str);	// The internet using TCP/IP give is an string like "124.15.239.24" or "www.muckyfoot.com"
 
 
 
@@ -55,7 +55,7 @@ SLONG NET_connection_internet(CBYTE* str);	// The internet using TCP/IP give is 
 // Creates a session. Returns true on success.
 //		 
 
-SLONG NET_session_create (CBYTE* session_name, SLONG max_players);
+std::int32_t NET_session_create (char* session_name, std::int32_t max_players);
 void NET_session_destroy();
 
 
@@ -72,20 +72,20 @@ void NET_session_destroy();
 
 typedef struct
 {
-	CBYTE name[NET_MAX_NAME_LENGTH];
-	SLONG max_players;
-	SLONG num_players;
+	char name[NET_MAX_NAME_LENGTH];
+	std::int32_t max_players;
+	std::int32_t num_players;
 
 } NET_Sinfo;
 
-SLONG NET_session_get_number();
-NET_Sinfo NET_session_get_info  (SLONG session);
+std::int32_t NET_session_get_number();
+NET_Sinfo NET_session_get_info  (std::int32_t session);
 
 //
 // Joins the given session. Returns true on success.
 //
 
-SLONG NET_session_join(SLONG session);
+std::int32_t NET_session_join(std::int32_t session);
 
 //
 // Leaves the session.
@@ -105,7 +105,7 @@ void NET_session_leave();
 // For a player to send a message to the server.
 //
 
-void NET_player_message_send(SLONG num_bytes, void* data, SLONG guaranteed = false);
+void NET_player_message_send(std::int32_t num_bytes, void* data, std::int32_t guaranteed = false);
 
 //
 // Receiving messages. If you get NET_MESSAGE_FROM_SERVER, then *num_bytes
@@ -116,7 +116,7 @@ void NET_player_message_send(SLONG num_bytes, void* data, SLONG guaranteed = fal
 #define NET_PLAYER_MESSAGE_LOST_CONNECTION 1
 #define NET_PLAYER_MESSAGE_FROM_SERVER     2
 
-SLONG NET_player_message_receive(SLONG *num_bytes, void* *data);
+std::int32_t NET_player_message_receive(std::int32_t *num_bytes, void* *data);
 
 
 
@@ -126,13 +126,13 @@ SLONG NET_player_message_receive(SLONG *num_bytes, void* *data);
 //
 // ========================================================
 
-typedef SLONG NET_Player;
+typedef std::int32_t NET_Player;
 
 //
 // Sends a message to the given player.
 //
 
-void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void* data, SLONG guaranteed = false);
+void NET_server_message_to_player(NET_Player player, std::int32_t num_bytes, void* data, std::int32_t guaranteed = false);
 
 //
 // Receives a message.
@@ -144,7 +144,7 @@ void NET_server_message_to_player(NET_Player player, SLONG num_bytes, void* data
 #define NET_SERVER_MESSAGE_PLAYER_JOINED   3	// *player contains the new player
 #define NET_SERVER_MESSAGE_FROM_PLAYER     4	// A message from player *player.
 
-SLONG NET_server_message_receive(NET_Player *player, SLONG *num_bytes, void* *data);
+std::int32_t NET_server_message_receive(NET_Player *player, std::int32_t *num_bytes, void* *data);
 
 
 

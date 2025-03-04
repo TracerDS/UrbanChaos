@@ -32,15 +32,15 @@
 
 typedef struct
 {
-	UBYTE texture;	// Bottom 6 bits are the texture, top 2 bits are the flip.
-	UBYTE nav;
+	std::uint8_t texture;	// Bottom 6 bits are the texture, top 2 bits are the flip.
+	std::uint8_t nav;
 
 } ND_Square;
 
 #define ND_MAX_SQUARES 2048
 
 ND_Square ND_square[ND_MAX_SQUARES];
-SLONG ND_square_upto;
+std::int32_t ND_square_upto;
 
 
 //
@@ -50,16 +50,16 @@ SLONG ND_square_upto;
 
 typedef struct
 {
-	UBYTE x1;	// End point.
-	UBYTE z1;
-	UWORD texture;
+	std::uint8_t x1;	// End point.
+	std::uint8_t z1;
+	std::uint16_t texture;
 
 } ND_Exwall;
 
 #define ND_MAX_EXWALLS 64
 
 ND_Exwall ND_exwall[ND_MAX_EXWALLS];
-SLONG ND_exwall_upto;
+std::int32_t ND_exwall_upto;
 
 
 //
@@ -68,19 +68,19 @@ SLONG ND_exwall_upto;
 
 typedef struct
 {
-	UBYTE x1;
-	UBYTE z1;
-	UBYTE x2;
-	UBYTE z2;
+	std::uint8_t x1;
+	std::uint8_t z1;
+	std::uint8_t x2;
+	std::uint8_t z2;
 
-	UWORD texture;
+	std::uint16_t texture;
 
 } ND_Inwall;
 
 #define ND_MAX_INWALLS 64
 
 ND_Inwall ND_inwall[ND_MAX_INWALLS];
-SLONG ND_inwall_upto;
+std::int32_t ND_inwall_upto;
 
 
 //
@@ -94,17 +94,17 @@ SLONG ND_inwall_upto;
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE dir;
-	UBYTE x;
-	UBYTE z;
+	std::uint8_t type;
+	std::uint8_t dir;
+	std::uint8_t x;
+	std::uint8_t z;
 
 } ND_Exit;
 
 #define ND_MAX_EXITS 256
 
 ND_Exit ND_exit[ND_MAX_EXITS];
-SLONG ND_exit_upto;
+std::int32_t ND_exit_upto;
 
 
 //
@@ -117,39 +117,39 @@ typedef struct
 	// This inclusive bounding box of the floorplan.
 	//
 
-	UBYTE x1;	// These are squares- not points.
-	UBYTE z1;
-	UBYTE x2;
-	UBYTE z2;
+	std::uint8_t x1;	// These are squares- not points.
+	std::uint8_t z1;
+	std::uint8_t x2;
+	std::uint8_t z2;
 
 	//
 	// The floorplan.
 	//
 
-	UBYTE size_x;
-	UBYTE size_z;
-	UWORD square;		// Index in the ND_square[] array
+	std::uint8_t size_x;
+	std::uint8_t size_z;
+	std::uint16_t square;		// Index in the ND_square[] array
 
-	UWORD dbuilding;	// The building whose inside this is.
+	std::uint16_t dbuilding;	// The building whose inside this is.
 
-	SBYTE alt;			// The altitude of this floor.  In MAV units- i.e. 4 per mapsquare.
-	UBYTE padding;
+	std::int8_t alt;			// The altitude of this floor.  In MAV units- i.e. 4 per mapsquare.
+	std::uint8_t padding;
 
-	UBYTE inwall_num;
-	UBYTE inwall_index;
+	std::uint8_t inwall_num;
+	std::uint8_t inwall_index;
 
-	UBYTE exwall_num;
-	UBYTE exwall_index;
+	std::uint8_t exwall_num;
+	std::uint8_t exwall_index;
 
-	UBYTE exit_index;
-	UBYTE exit_num
+	std::uint8_t exit_index;
+	std::uint8_t exit_num
 
 } ND_Floor;
 
 #define ND_MAX_FLOORS 64
 
 ND_Floor ND_floor[ND_MAX_FLOORS];
-SLONG ND_floor_upto;
+std::int32_t ND_floor_upto;
 
 
 

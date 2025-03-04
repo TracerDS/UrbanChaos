@@ -16,7 +16,7 @@
 #define AZ_MAX_LINES 512
 
 AZ_Line AZ_line[AZ_MAX_LINES];
-SLONG AZ_line_upto;
+std::int32_t AZ_line_upto;
 
 
 
@@ -31,15 +31,15 @@ void AZ_init()
 
 void AZ_create_lines()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG z1;
-	SLONG x2;
-	SLONG z2;
+	std::int32_t x1;
+	std::int32_t z1;
+	std::int32_t x2;
+	std::int32_t z2;
 
-	SLONG found_curb;
+	std::int32_t found_curb;
 
 	AZ_line_upto = 0;
 
@@ -151,8 +151,8 @@ void AZ_create_lines()
 	// Put the lines in for the buildings- just use the dfacets!
 	//
 
-	SLONG i;
-	SLONG fence;
+	std::int32_t i;
+	std::int32_t fence;
 
 	DFacet *df;
 

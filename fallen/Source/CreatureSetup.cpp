@@ -18,14 +18,14 @@
 
 //---------------------------------------------------------------
 
-SLONG creature_count,
+std::int32_t creature_count,
 				creature_type;
 
 //---------------------------------------------------------------
 
 bool CALLBACK	cs_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

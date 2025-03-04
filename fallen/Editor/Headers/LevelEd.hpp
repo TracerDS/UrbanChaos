@@ -33,11 +33,11 @@
 class	LevelEditor		:	public	EditorModule
 {
 	private:
-		UBYTE			UndoType,
+		std::uint8_t			UndoType,
 						LastU[4],
 						LastV[4];
 		ControlSet		PrimSet;
-		UWORD			CurrentAnimTmap;
+		std::uint16_t			CurrentAnimTmap;
 
 	public:
 						~LevelEditor();
@@ -45,32 +45,32 @@ class	LevelEditor		:	public	EditorModule
 		void			CreateLevelTabs();
 		void			DestroyLevelTabs();
 		void			DrawContent();
-		void			DrawAnimTmapContent(SLONG current_anim_tmap);
+		void			DrawAnimTmapContent(std::int32_t current_anim_tmap);
 		void			DrawTexStyleContent();
 		void			DrawPSXTexContent();
-		SLONG			HandlePSXTexClick(UBYTE flags,MFPoint *clicked_point);
-		SLONG			HandleTexStyleClick(UBYTE flags,MFPoint *clicked_point);
-		void			HandleAnimTmapClick(UBYTE flags,MFPoint *clicked_point);
-		void			HandleContentClick(UBYTE flags,MFPoint *clicked_point);
-		void			HandleControlClick(UBYTE flags,MFPoint *clicked_point);
-		void			DragEngine(UBYTE flags,MFPoint *clicked_point);
-		void			HandleStyleControl(ULONG  control_id);
-		void			HandlePSXControl(ULONG  control_id);
-		UBYTE			DoStylePopup(MFPoint *clicked_point,UBYTE flags);
-		void			SetWallTextureInfo(SLONG	wall,UBYTE page,EdTexture	*current_texture);
-		void			TextureFace(SWORD face,PaintTab *texture_mode);
+		std::int32_t			HandlePSXTexClick(std::uint8_t flags,MFPoint *clicked_point);
+		std::int32_t			HandleTexStyleClick(std::uint8_t flags,MFPoint *clicked_point);
+		void			HandleAnimTmapClick(std::uint8_t flags,MFPoint *clicked_point);
+		void			HandleContentClick(std::uint8_t flags,MFPoint *clicked_point);
+		void			HandleControlClick(std::uint8_t flags,MFPoint *clicked_point);
+		void			DragEngine(std::uint8_t flags,MFPoint *clicked_point);
+		void			HandleStyleControl(std::uint32_t  control_id);
+		void			HandlePSXControl(std::uint32_t  control_id);
+		std::uint8_t			DoStylePopup(MFPoint *clicked_point,std::uint8_t flags);
+		void			SetWallTextureInfo(std::int32_t	wall,std::uint8_t page,EdTexture	*current_texture);
+		void			TextureFace(std::int16_t face,PaintTab *texture_mode);
 
-		UBYTE			DoInStylePopup(MFPoint *clicked_point,UBYTE flags);
+		std::uint8_t			DoInStylePopup(MFPoint *clicked_point,std::uint8_t flags);
 		void			DrawInTexStyleContent();
-		void			HandleInStyleControl(ULONG  control_id);
+		void			HandleInStyleControl(std::uint32_t  control_id);
 		void			DrawTexInStyleContent();
-		SLONG			HandleTexInStyleClick(UBYTE flags,MFPoint *clicked_point);
+		std::int32_t			HandleTexInStyleClick(std::uint8_t flags,MFPoint *clicked_point);
 
 
 		void			HandleModule();
 		void			DoFacePopup(MFPoint *clicked_point);
 		bool			ApplyTexture(struct EditFace *edit_face);
-		inline void		SetAnimTexture(SLONG tmap)			{	CurrentAnimTmap=(UWORD)tmap;	}
+		inline void		SetAnimTexture(std::int32_t tmap)			{	CurrentAnimTmap=(std::uint16_t)tmap;	}
 		ModeTab			*TestMode;
 		PaintTab		*PaintMode;
 		PrimPickTab		*PrimMode;
@@ -88,9 +88,9 @@ class	LevelEditor		:	public	EditorModule
 
 struct	LevelEdDefaults
 {
-	SLONG		Left,
+	std::int32_t		Left,
 				Top;
-	SLONG		Height,
+	std::int32_t		Height,
 				Width;
 };
 

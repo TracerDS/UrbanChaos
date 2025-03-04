@@ -18,14 +18,14 @@
 
 typedef struct
 {
-	UBYTE x_res;
-	UBYTE y_res;
-	UBYTE z_res;
-	UBYTE defined;
+	std::uint8_t x_res;
+	std::uint8_t y_res;
+	std::uint8_t z_res;
+	std::uint8_t defined;
 
-	SLONG x_point[HMTAB_MAX_RES];
-	SLONG y_point[HMTAB_MAX_RES];
-	SLONG z_point[HMTAB_MAX_RES];
+	std::int32_t x_point[HMTAB_MAX_RES];
+	std::int32_t y_point[HMTAB_MAX_RES];
+	std::int32_t z_point[HMTAB_MAX_RES];
 
 	float x_dgrav;
 	float y_dgrav;
@@ -41,7 +41,7 @@ HMTAB_Prim HMTAB_prim[HMTAB_MAX_PRIMS];
 // The current prim.
 //
 
-SLONG HMTAB_current_prim;
+std::int32_t HMTAB_current_prim;
 
 
 
@@ -53,16 +53,16 @@ SLONG HMTAB_current_prim;
 #define VD_CAM_VIEW_Y	2
 #define VD_CAM_VIEW_Z	3
 
-SLONG VD_window_mid_x;
-SLONG VD_window_mid_y;
-SLONG VD_window_half_w;
-SLONG VD_window_half_h;
+std::int32_t VD_window_mid_x;
+std::int32_t VD_window_mid_y;
+std::int32_t VD_window_half_w;
+std::int32_t VD_window_half_h;
 
-SLONG VD_cam_view;
-SLONG VD_cam_scale;
-SLONG VD_cam_x;
-SLONG VD_cam_y;
-SLONG VD_cam_z;
+std::int32_t VD_cam_view;
+std::int32_t VD_cam_scale;
+std::int32_t VD_cam_x;
+std::int32_t VD_cam_y;
+std::int32_t VD_cam_z;
 
 
 //
@@ -70,14 +70,14 @@ SLONG VD_cam_z;
 //
 
 void VD_transform(
-		SLONG  x_3d,
-		SLONG  y_3d,
-		SLONG  z_3d,
-		SLONG *x_2d,
-		SLONG *y_2d)
+		std::int32_t  x_3d,
+		std::int32_t  y_3d,
+		std::int32_t  z_3d,
+		std::int32_t *x_2d,
+		std::int32_t *y_2d)
 {
-	SLONG xc;
-	SLONG yc;
+	std::int32_t xc;
+	std::int32_t yc;
 
 	x_3d -= VD_cam_x;
 	y_3d -= VD_cam_y;
@@ -118,10 +118,10 @@ void VD_transform(
 // view.
 //
 
-void VD_untransform(SLONG x_2d, SLONG y_2d, SLONG *x_3d, SLONG *y_3d, SLONG *z_3d)
+void VD_untransform(std::int32_t x_2d, std::int32_t y_2d, std::int32_t *x_3d, std::int32_t *y_3d, std::int32_t *z_3d)
 {
-	SLONG xc;
-	SLONG yc;
+	std::int32_t xc;
+	std::int32_t yc;
 
 	xc = DIV64( x_2d - VD_window_mid_x, VD_window_half_w);
 	yc = DIV64(-y_2d + VD_window_mid_y, VD_window_half_h);
@@ -161,10 +161,10 @@ void VD_untransform(SLONG x_2d, SLONG y_2d, SLONG *x_3d, SLONG *y_3d, SLONG *z_3
 // Saves all the prims with interesting info.
 //
 
-void HMTAB_save_primgrids(CBYTE* fname)
+void HMTAB_save_primgrids(char* fname)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	HMTAB_Prim *hp;
 
@@ -274,10 +274,10 @@ void HMTAB_save_primgrids(CBYTE* fname)
 	return;
 }
 
-void HMTAB_load_primgrids(CBYTE* fname)
+void HMTAB_load_primgrids(char* fname)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
 	HMTAB_Prim *hp;
 
@@ -356,7 +356,7 @@ void HMTAB_load_primgrids(CBYTE* fname)
 // Draws a prim from the current camera.
 //
 
-void HmTab::draw_prim(UWORD prim)
+void HmTab::draw_prim(std::uint16_t prim)
 {
 	ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 
@@ -366,14 +366,14 @@ void HmTab::draw_prim(UWORD prim)
 	PrimFace3  *f3;
 	PrimFace4  *f4;
 
-	SLONG i;
-	SLONG j;
-	SLONG p1;
-	SLONG p2;
-	SLONG sx1;
-	SLONG sy1;
-	SLONG sx2;
-	SLONG sy2;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t p1;
+	std::int32_t p2;
+	std::int32_t sx1;
+	std::int32_t sy1;
+	std::int32_t sx2;
+	std::int32_t sy2;
 
 	for (i = po->StartFace3; i < po->EndFace3; i++)
 	{
@@ -410,7 +410,7 @@ void HmTab::draw_prim(UWORD prim)
 		}
 	}
 
-	static UBYTE line_order[4] = {0, 1, 3, 2};
+	static std::uint8_t line_order[4] = {0, 1, 3, 2};
 
 	for (i = po->StartFace4; i < po->EndFace4; i++)
 	{
@@ -453,33 +453,33 @@ void HmTab::draw_prim(UWORD prim)
 // -1 if the mouse isn't over any point.
 //
 
-void HmTab::draw_grid(UWORD prim)
+void HmTab::draw_grid(std::uint16_t prim)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG x2;
-	SLONG y2;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t x2;
+	std::int32_t y2;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG px1;
-	SLONG py1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG py2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t py1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t py2;
+	std::int32_t pz2;
 
-	SLONG gx1;
-	SLONG gy1;
-	SLONG gx2;
-	SLONG gy2;
+	std::int32_t gx1;
+	std::int32_t gy1;
+	std::int32_t gx2;
+	std::int32_t gy2;
 
 	ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 	ASSERT(WITHIN(prim, 1, HMTAB_MAX_PRIMS  - 1));
@@ -518,9 +518,9 @@ void HmTab::draw_grid(UWORD prim)
 	// The size of the bounding box of the prim.
 	//
 
-	SLONG bbdx = pi->maxx - pi->minx;
-	SLONG bbdy = pi->maxy - pi->miny;
-	SLONG bbdz = pi->maxz - pi->minz;
+	std::int32_t bbdx = pi->maxx - pi->minx;
+	std::int32_t bbdy = pi->maxy - pi->miny;
+	std::int32_t bbdz = pi->maxz - pi->minz;
 
 	ASSERT(WITHIN(hp->x_res, 2, HMTAB_MAX_RES));
 	ASSERT(WITHIN(hp->y_res, 2, HMTAB_MAX_RES));
@@ -753,12 +753,12 @@ void HmTab::draw_grid(UWORD prim)
 	}
 }
 
-void HmTab::draw_cog(UWORD prim)
+void HmTab::draw_cog(std::uint16_t prim)
 {
-	UBYTE hm_index;
+	std::uint8_t hm_index;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
 	float cog_x;
 	float cog_y;
@@ -834,9 +834,9 @@ void HmTab::draw_cog(UWORD prim)
 		//
 
 		VD_transform(
-			SLONG(cog_x),
-			SLONG(cog_y),
-			SLONG(cog_z),
+			std::int32_t(cog_x),
+			std::int32_t(cog_y),
+			std::int32_t(cog_z),
 		   &x,
 		   &y);
 
@@ -863,32 +863,32 @@ void HmTab::draw_cog(UWORD prim)
 // if it was close enough to change a point.
 //
 
-SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
+std::int32_t move_point(std::uint16_t prim, std::int32_t mouse_x, std::int32_t mouse_y)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG px1;
-	SLONG py1;
-	SLONG pz1;
-	SLONG px2;
-	SLONG py2;
-	SLONG pz2;
+	std::int32_t px1;
+	std::int32_t py1;
+	std::int32_t pz1;
+	std::int32_t px2;
+	std::int32_t py2;
+	std::int32_t pz2;
 
-	SLONG mx;
-	SLONG my;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t my;
+	std::int32_t mz;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
-	SLONG x;
-	SLONG y;
+	std::int32_t x;
+	std::int32_t y;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dist;
-	SLONG change = false;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dist;
+	std::int32_t change = false;
 
 	ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 	ASSERT(WITHIN(prim, 1, HMTAB_MAX_PRIMS  - 1));
@@ -933,9 +933,9 @@ SLONG move_point(UWORD prim, SLONG mouse_x, SLONG mouse_y)
 	// The size of the bounding box of the prim.
 	//
 
-	SLONG bbdx = pi->maxx - pi->minx;
-	SLONG bbdy = pi->maxy - pi->miny;
-	SLONG bbdz = pi->maxz - pi->minz;
+	std::int32_t bbdx = pi->maxx - pi->minx;
+	std::int32_t bbdy = pi->maxy - pi->miny;
+	std::int32_t bbdz = pi->maxz - pi->minz;
 
 	ASSERT(WITHIN(hp->x_res, 2, HMTAB_MAX_RES));
 	ASSERT(WITHIN(hp->y_res, 2, HMTAB_MAX_RES));
@@ -1174,7 +1174,7 @@ void HmTab::DrawTabContent()
 
 void HmTab::HandleTab(MFPoint *current_point)
 {
-	SLONG change = false;
+	std::int32_t change = false;
 
 	//
 	// Do the buttons.
@@ -1219,9 +1219,9 @@ void HmTab::HandleTab(MFPoint *current_point)
 	}
 }
 
-UWORD HmTab::HandleTabClick(UBYTE flags, MFPoint *clicked_point)
+std::uint16_t HmTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point)
 {
-	UWORD    control_id;
+	std::uint16_t    control_id;
 	Control	*current_control;
 	MFPoint	 local_point;
 
@@ -1290,18 +1290,18 @@ UWORD HmTab::HandleTabClick(UBYTE flags, MFPoint *clicked_point)
 	return 0;
 }
 
-void HmTab::HandleControl(UWORD control_id)
+void HmTab::HandleControl(std::uint16_t control_id)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG old_x_res;
-	SLONG old_y_res;
-	SLONG old_z_res;
+	std::int32_t old_x_res;
+	std::int32_t old_y_res;
+	std::int32_t old_z_res;
 
 	float dup;
 	float dright;
 
-	SLONG mul;
+	std::int32_t mul;
 
 	ASSERT(WITHIN(HMTAB_current_prim, 1, HMTAB_MAX_PRIMS - 1));
 
@@ -1481,20 +1481,20 @@ void HmTab::HandleControl(UWORD control_id)
 	RequestUpdate();
 }
 
-void HmTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
+void HmTab::DrawModuleContent(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h)
 {
 	//
 	// To begin with...
 	//
 
-	SLONG wwx;
-	SLONG wwy;
-	SLONG www;
-	SLONG wwh;
+	std::int32_t wwx;
+	std::int32_t wwy;
+	std::int32_t www;
+	std::int32_t wwh;
 
-	SLONG over_x;
-	SLONG over_y;
-	SLONG over_z;
+	std::int32_t over_x;
+	std::int32_t over_y;
+	std::int32_t over_z;
 
 	EdRect drawrect;
 
@@ -1531,10 +1531,10 @@ void HmTab::DrawModuleContent(SLONG x,SLONG y,SLONG w,SLONG h)
 
 }
 
-SLONG HmTab::HandleModuleContentClick(MFPoint *clicked_point, UBYTE flags, SLONG x, SLONG y, SLONG w, SLONG h)
+std::int32_t HmTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h)
 {
-	SLONG mouse_x;
-	SLONG mouse_y;
+	std::int32_t mouse_x;
+	std::int32_t mouse_y;
 
 	TRACE("clicked_point = (%d,%d)\n", clicked_point->X, clicked_point->Y);
 
@@ -1543,10 +1543,10 @@ SLONG HmTab::HandleModuleContentClick(MFPoint *clicked_point, UBYTE flags, SLONG
 
 	while(move_point(HMTAB_current_prim, mouse_x, mouse_y))
 	{
-		SLONG wwx = WorkWindowRect.Left;
-		SLONG wwy = WorkWindowRect.Top;
-		SLONG www = WorkWindowRect.Width;
-		SLONG wwh = WorkWindowRect.Height;
+		std::int32_t wwx = WorkWindowRect.Left;
+		std::int32_t wwy = WorkWindowRect.Top;
+		std::int32_t www = WorkWindowRect.Width;
+		std::int32_t wwh = WorkWindowRect.Height;
 		
 		SetWorkWindowBounds(x, y, w - 1, h - 1);
 

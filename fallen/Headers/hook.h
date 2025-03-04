@@ -12,8 +12,8 @@
 //
 
 void HOOK_init(
-		SLONG x,
-		SLONG z);
+		std::int32_t x,
+		std::int32_t z);
 
 
 //
@@ -24,7 +24,7 @@ void HOOK_init(
 #define HOOK_STATE_SPINNING	1
 #define HOOK_STATE_FLYING	2
 
-SLONG HOOK_get_state();
+std::int32_t HOOK_get_state();
 
 
 //
@@ -34,11 +34,11 @@ SLONG HOOK_get_state();
 //
 
 void HOOK_spin(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG speed_or_minus_pitch);	// < 0 => it is the actual pitch of the grappling hook.
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t speed_or_minus_pitch);	// < 0 => it is the actual pitch of the grappling hook.
 
 //
 // Releases the hook from spinning.
@@ -62,7 +62,7 @@ void HOOK_process();
 #define HOOK_REELED_IN			1
 #define HOOK_REELED_TAUT		2
 
-SLONG HOOK_reel();
+std::int32_t HOOK_reel();
 
 
 
@@ -82,16 +82,16 @@ SLONG HOOK_reel();
 #define HOOK_NUM_POINTS 256
 
 void  HOOK_pos_grapple(
-		SLONG *x,
-		SLONG *y,
-		SLONG *z,
-		SLONG *yaw,
-		SLONG *pitch,
-		SLONG *roll);
-void  HOOK_pos_point(SLONG point,
-		SLONG *x,
-		SLONG *y,
-		SLONG *z);
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z,
+		std::int32_t *yaw,
+		std::int32_t *pitch,
+		std::int32_t *roll);
+void  HOOK_pos_point(std::int32_t point,
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z);
 
 
 #endif

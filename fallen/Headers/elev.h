@@ -13,12 +13,12 @@
 // This are the last ones to be loaded...
 // 
 
-extern CBYTE ELEV_last_map_loaded[MAX_PATH];
+extern char ELEV_last_map_loaded[MAX_PATH];
 
-extern CBYTE ELEV_fname_map     [_MAX_PATH];
-extern CBYTE ELEV_fname_lighting[_MAX_PATH];
-extern CBYTE ELEV_fname_citsez  [_MAX_PATH];
-extern CBYTE ELEV_fname_level   [_MAX_PATH];
+extern char ELEV_fname_map     [_MAX_PATH];
+extern char ELEV_fname_lighting[_MAX_PATH];
+extern char ELEV_fname_citsez  [_MAX_PATH];
+extern char ELEV_fname_level   [_MAX_PATH];
 
 
 #endif
@@ -30,13 +30,13 @@ extern CBYTE ELEV_fname_level   [_MAX_PATH];
 // Loads the given level in. Returns false on failure.
 //
 
-SLONG ELEV_load_user(SLONG game);
-SLONG ELEV_load_name(CBYTE* fname);
-SLONG ELEV_game_init(
-		CBYTE* fname_map,
-		CBYTE* fname_lighting,
-		CBYTE* fname_sewers,
-		CBYTE* fname_level);
+std::int32_t ELEV_load_user(std::int32_t game);
+std::int32_t ELEV_load_name(char* fname);
+std::int32_t ELEV_game_init(
+		char* fname_map,
+		char* fname_lighting,
+		char* fname_sewers,
+		char* fname_level);
 
 
 

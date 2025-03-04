@@ -13,12 +13,12 @@
 // structures
 struct	AnimTmap
 {
-	UBYTE	UV[MAX_TMAP_FRAMES][4][2];
-	SBYTE	Delay[MAX_TMAP_FRAMES];
-	UBYTE	Page[MAX_TMAP_FRAMES];
-	UWORD	Current;
-	UWORD	Timer;
-	UWORD	Flags;
+	std::uint8_t	UV[MAX_TMAP_FRAMES][4][2];
+	std::int8_t	Delay[MAX_TMAP_FRAMES];
+	std::uint8_t	Page[MAX_TMAP_FRAMES];
+	std::uint16_t	Current;
+	std::uint16_t	Timer;
+	std::uint16_t	Flags;
 };
 
 

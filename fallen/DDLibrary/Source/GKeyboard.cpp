@@ -4,22 +4,22 @@
 #include	"DDLib.h"
 
 #ifdef TARGET_DC
-volatile UBYTE	Keys[256],
+volatile std::uint8_t	Keys[256],
 				LastKey;
 #else
-volatile UBYTE	AltFlag,
+volatile std::uint8_t	AltFlag,
 				ControlFlag,
 				ShiftFlag;
-volatile UBYTE	Keys[256],
+volatile std::uint8_t	Keys[256],
 				LastKey;
 #endif
 
-UBYTE			key_turn[256];
+std::uint8_t			key_turn[256];
 
 #define			MAX_RELEASE		10
-UBYTE			Released[MAX_RELEASE];
-SWORD			release_count=0;
-UBYTE			game_turn=0;
+std::uint8_t			Released[MAX_RELEASE];
+std::int16_t			release_count=0;
+std::uint8_t			game_turn=0;
 
 HHOOK			KeyboardHook;
 
@@ -27,7 +27,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
 //---------------------------------------------------------------
 
-bool	SetupKeyboard(void)
+bool	SetupKeyboard()
 {
 #ifndef TARGET_DC
 	AltFlag		=	0;
@@ -60,7 +60,7 @@ bool	SetupKeyboard(void)
 
 //---------------------------------------------------------------
 
-void	ResetKeyboard(void)
+void	ResetKeyboard()
 {
 #if defined(_RELEASE) && !defined(TARGET_DC)
 	if(KeyboardHook)
@@ -97,8 +97,8 @@ inline void SetFlagsFromKeyArray()
 
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 {
-	UBYTE		key_code;
-	ULONG		virtual_keycode	=	wParam;
+	std::uint8_t		key_code;
+	std::uint32_t		virtual_keycode	=	wParam;
 
 
 #ifndef TARGET_DC
@@ -109,7 +109,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 #endif
 
 	// Get key scan code.
-	key_code	=	(UBYTE)((lParam&KEYMASK_SCAN)>>16);
+	key_code	=	(std::uint8_t)((lParam&KEYMASK_SCAN)>>16);
 
 	// Extended key press?
 	if(lParam&KEYMASK_EXTENDED)

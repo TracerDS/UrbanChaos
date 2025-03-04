@@ -28,26 +28,26 @@
 
 struct CollisionVectLink
 {
-	UWORD	Next; //linked list of collision vectors
-	UWORD	VectIndex;
+	std::uint16_t	Next; //linked list of collision vectors
+	std::uint16_t	VectIndex;
 };	
 
 struct CollisionVect	
 {
-	SLONG	X[2];
-	SWORD	Y[2];
-	SLONG	Z[2];
-	UBYTE	PrimType;	// A storey type...
-	UBYTE	PrimExtra;
-	SWORD	Face;
+	std::int32_t	X[2];
+	std::int16_t	Y[2];
+	std::int32_t	Z[2];
+	std::uint8_t	PrimType;	// A storey type...
+	std::uint8_t	PrimExtra;
+	std::int16_t	Face;
 
 };
 
 
 struct WalkLink
 {
-	UWORD	Next;
-	SWORD	Face;
+	std::uint16_t	Next;
+	std::int16_t	Face;
 };
 //
 // Vars
@@ -56,8 +56,8 @@ struct WalkLink
 extern struct	CollisionVectLink	col_vects_links[MAX_COL_VECT_LINK];
 extern struct	CollisionVect		col_vects[MAX_COL_VECT];
 	
-extern UWORD	next_col_vect;
-extern UWORD	next_col_vect_link;
+extern std::uint16_t	next_col_vect;
+extern std::uint16_t	next_col_vect_link;
 
 
 
@@ -66,24 +66,24 @@ extern UWORD	next_col_vect_link;
 //
 
 extern struct	WalkLink	walk_links[MAX_WALK_POOL];
-extern UWORD	next_walk_link;
+extern std::uint16_t	next_walk_link;
 
-extern SLONG	get_fence_height(SLONG h);
-extern UBYTE	two4_line_intersection(SLONG x1,SLONG y1,SLONG x2,SLONG y2,SLONG x3,SLONG y3,SLONG x4,SLONG y4);
-extern SLONG	lines_intersect(SLONG x1,SLONG  y1,SLONG x2,SLONG  y2,SLONG x3,SLONG  y3,SLONG x4,SLONG  y4,SLONG *x,SLONG  *y);
-extern SLONG	insert_collision_vect(SLONG x1,SLONG y1,SLONG z1,SLONG x2,SLONG y2,SLONG z2,UBYTE prim,UBYTE prim_extra,SWORD face);
-extern void    remove_collision_vect(UWORD vect);
+extern std::int32_t	get_fence_height(std::int32_t h);
+extern std::uint8_t	two4_line_intersection(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3,std::int32_t x4,std::int32_t y4);
+extern std::int32_t	lines_intersect(std::int32_t x1,std::int32_t  y1,std::int32_t x2,std::int32_t  y2,std::int32_t x3,std::int32_t  y3,std::int32_t x4,std::int32_t  y4,std::int32_t *x,std::int32_t  *y);
+extern std::int32_t	insert_collision_vect(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::uint8_t prim,std::uint8_t prim_extra,std::int16_t face);
+extern void    remove_collision_vect(std::uint16_t vect);
 
-extern SLONG	get_point_dist_from_col_vect(SLONG vect,SLONG x,SLONG z,SLONG *ret_x,SLONG *ret_z,SLONG new_dist);
-extern SLONG	check_vect_circle(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG radius);
-extern ULONG	move_thing(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing);
-extern ULONG	move_thing_quick(SLONG dx,SLONG dy,SLONG dz,Thing *p_thing);
-extern SLONG	check_vect_vect(SLONG m_dx,SLONG m_dy,SLONG m_dz,Thing *p_thing,SLONG scale);
-extern SLONG	find_face_for_this_pos(SLONG x,SLONG y,SLONG z,SLONG *ret_y,SLONG ignore_faces_of_this_building,UBYTE flag);
-extern SLONG	dist_to_line(SLONG x1, SLONG z1, SLONG x2, SLONG z2, SLONG a, SLONG b);
-extern void	correct_pos_for_ladder(struct DFacet *p_facet,SLONG *px,SLONG *pz,SLONG *angle,SLONG scale);
-extern SLONG	height_above_anything(Thing *p_person,SLONG body_part,SWORD *onface);
-extern SLONG	plant_feet(Thing *p_person);
+extern std::int32_t	get_point_dist_from_col_vect(std::int32_t vect,std::int32_t x,std::int32_t z,std::int32_t *ret_x,std::int32_t *ret_z,std::int32_t new_dist);
+extern std::int32_t	check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t radius);
+extern std::uint32_t	move_thing(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing);
+extern std::uint32_t	move_thing_quick(std::int32_t dx,std::int32_t dy,std::int32_t dz,Thing *p_thing);
+extern std::int32_t	check_vect_vect(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t scale);
+extern std::int32_t	find_face_for_this_pos(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t *ret_y,std::int32_t ignore_faces_of_this_building,std::uint8_t flag);
+extern std::int32_t	dist_to_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b);
+extern void	correct_pos_for_ladder(struct DFacet *p_facet,std::int32_t *px,std::int32_t *pz,std::int32_t *angle,std::int32_t scale);
+extern std::int32_t	height_above_anything(Thing *p_person,std::int32_t body_part,std::int16_t *onface);
+extern std::int32_t	plant_feet(Thing *p_person);
 
 
 //
@@ -92,32 +92,32 @@ extern SLONG	plant_feet(Thing *p_person);
 //
 
 void box_box_early_out(
-		SLONG box1_mid_x,
-		SLONG box1_mid_z,
-		SLONG box1_min_x,
-		SLONG box1_min_z,
-		SLONG box1_max_x,
-		SLONG box1_max_z,
-		SLONG box1_yaw,
-		SLONG box2_mid_x,
-		SLONG box2_mid_z,
-		SLONG box2_min_x,
-		SLONG box2_min_z,
-		SLONG box2_max_x,
-		SLONG box2_max_z,
-		SLONG box2_yaw);
+		std::int32_t box1_mid_x,
+		std::int32_t box1_mid_z,
+		std::int32_t box1_min_x,
+		std::int32_t box1_min_z,
+		std::int32_t box1_max_x,
+		std::int32_t box1_max_z,
+		std::int32_t box1_yaw,
+		std::int32_t box2_mid_x,
+		std::int32_t box2_mid_z,
+		std::int32_t box2_min_x,
+		std::int32_t box2_min_z,
+		std::int32_t box2_max_x,
+		std::int32_t box2_max_z,
+		std::int32_t box2_yaw);
 
 void box_circle_early_out(
-		SLONG box1_mid_x,
-		SLONG box1_mid_z,
-		SLONG box1_min_x,
-		SLONG box1_min_z,
-		SLONG box1_max_x,
-		SLONG box1_max_z,
-		SLONG box1_yaw,
-		SLONG cx,
-		SLONG cz,
-		SLONG cradius);
+		std::int32_t box1_mid_x,
+		std::int32_t box1_mid_z,
+		std::int32_t box1_min_x,
+		std::int32_t box1_min_z,
+		std::int32_t box1_max_x,
+		std::int32_t box1_max_z,
+		std::int32_t box1_yaw,
+		std::int32_t cx,
+		std::int32_t cz,
+		std::int32_t cradius);
 
 
 
@@ -126,63 +126,63 @@ void box_circle_early_out(
 // Returns true if a collision occurred.
 //
 
-SLONG slide_around_circle(
-		SLONG cx,
-		SLONG cz,
-		SLONG cradius,
+std::int32_t slide_around_circle(
+		std::int32_t cx,
+		std::int32_t cz,
+		std::int32_t cradius,
 
-		SLONG  x1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *z2);
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *z2);
 
 //
 // Slides the given vector against a box. Returns true if 
 // a collision occurred.
 //
 
-SLONG slide_around_box(
-		SLONG box_mid_x,
-		SLONG box_mid_z,
-		SLONG box_min_x,
-		SLONG box_min_z,
-		SLONG box_max_x,
-		SLONG box_max_z,
-		SLONG box_yaw,
-		SLONG radius,		// How far from the box the vector should be from.
+std::int32_t slide_around_box(
+		std::int32_t box_mid_x,
+		std::int32_t box_mid_z,
+		std::int32_t box_min_x,
+		std::int32_t box_min_z,
+		std::int32_t box_max_x,
+		std::int32_t box_max_z,
+		std::int32_t box_yaw,
+		std::int32_t radius,		// How far from the box the vector should be from.
 
-		SLONG  x1,			// The start of the vector is ignored! So you can use this
-		SLONG  z1,			// function to slide a circle around the box too.
-		SLONG *x2,
-		SLONG *z2);
+		std::int32_t  x1,			// The start of the vector is ignored! So you can use this
+		std::int32_t  z1,			// function to slide a circle around the box too.
+		std::int32_t *x2,
+		std::int32_t *z2);
 
 
 //
 // Returns true if a collision vector intersects a rotated box
 //
 
-SLONG collide_box(
-		SLONG midx,
-		SLONG midy,
-		SLONG midz,
-		SLONG minx, SLONG minz,
-		SLONG maxx, SLONG maxz,
-		SLONG yaw);
+std::int32_t collide_box(
+		std::int32_t midx,
+		std::int32_t midy,
+		std::int32_t midz,
+		std::int32_t minx, std::int32_t minz,
+		std::int32_t maxx, std::int32_t maxz,
+		std::int32_t yaw);
 
 //
 // Returns true if the given line intersects the rotated bounding box.
 //
 
-SLONG collide_box_with_line(
-		SLONG midx,
-		SLONG midz,
-		SLONG minx, SLONG minz,
-		SLONG maxx, SLONG maxz,
-		SLONG yaw,
-		SLONG lx1,
-		SLONG lz1,
-		SLONG lx2,
-		SLONG lz2);
+std::int32_t collide_box_with_line(
+		std::int32_t midx,
+		std::int32_t midz,
+		std::int32_t minx, std::int32_t minz,
+		std::int32_t maxx, std::int32_t maxz,
+		std::int32_t yaw,
+		std::int32_t lx1,
+		std::int32_t lz1,
+		std::int32_t lx2,
+		std::int32_t lz2);
 
 
 //
@@ -190,17 +190,17 @@ SLONG collide_box_with_line(
 // if a slide-along occured.
 //
 
-SLONG slide_around_sausage(
-		SLONG sx1,
-		SLONG sz1,
-		SLONG sx2,
-		SLONG sz2,
-		SLONG sradius,
+std::int32_t slide_around_sausage(
+		std::int32_t sx1,
+		std::int32_t sz1,
+		std::int32_t sx2,
+		std::int32_t sz2,
+		std::int32_t sradius,
 
-		SLONG  x1,
-		SLONG  z1,
-		SLONG *x2,
-		SLONG *z2);
+		std::int32_t  x1,
+		std::int32_t  z1,
+		std::int32_t *x2,
+		std::int32_t *z2);
 
 
 //
@@ -208,25 +208,25 @@ SLONG slide_around_sausage(
 // Makes the thing mount the given ladder... Returns true if it did.
 //
 
-SLONG find_nearby_ladder_colvect       (Thing *p_thing);
-SLONG find_nearby_ladder_colvect_radius(SLONG mid_x, SLONG mid_z, SLONG radius);
-SLONG mount_ladder                     (Thing *p_thing, SLONG col);
+std::int32_t find_nearby_ladder_colvect       (Thing *p_thing);
+std::int32_t find_nearby_ladder_colvect_radius(std::int32_t mid_x, std::int32_t mid_z, std::int32_t radius);
+std::int32_t mount_ladder                     (Thing *p_thing, std::int32_t col);
 
 
 //
 // Returns which side of the colvect you are on.
 //
 
-SLONG which_side(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b);
+std::int32_t which_side(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b);
 
 //
 // Returns the height of the floor at (x,z).
 //
 
-SLONG calc_height_at(SLONG x,SLONG z);
+std::int32_t calc_height_at(std::int32_t x,std::int32_t z);
 
 //
 // Returns the height of the map at (x,z)... i.e. if (x,z) is inside a building
@@ -234,7 +234,7 @@ SLONG calc_height_at(SLONG x,SLONG z);
 // the call is equivalent to calc_height_at()
 //
 
-SLONG calc_map_height_at(SLONG x, SLONG z);
+std::int32_t calc_map_height_at(std::int32_t x, std::int32_t z);
 
 //
 // Given a movement vector, this function changes it to slide
@@ -243,7 +243,7 @@ SLONG calc_map_height_at(SLONG x, SLONG z);
 // that col-vect.
 //
 
-extern SLONG last_slide_colvect;	// The last colvect you slid along, or nullptr if you didn't slide.
+extern std::int32_t last_slide_colvect;	// The last colvect you slid along, or nullptr if you didn't slide.
 
 #define SLIDE_ALONG_DEFAULT_EXTRA_WALL_HEIGHT (-0x50)
 
@@ -251,33 +251,33 @@ extern SLONG last_slide_colvect;	// The last colvect you slid along, or nullptr 
 #define SLIDE_ALONG_FLAG_CARRYING		(1 << 1)
 #define	SLIDE_ALONG_FLAG_JUMPING		(1 << 2)
 
-SLONG slide_along(
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2,
-		SLONG  extra_wall_height,	// Makes walls seem higher/lower so that a falling person won't fall through walls.
-		SLONG  radius,ULONG flags=0);
+std::int32_t slide_along(
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+		std::int32_t  extra_wall_height,	// Makes walls seem higher/lower so that a falling person won't fall through walls.
+		std::int32_t  radius,std::uint32_t flags=0);
 
 //
 // Slides the movement vector around things- If the person hits a 
 // moving vehicle- he'll die. Returns true if a collision occurs.
 // 
 
-SLONG collide_against_things(
+std::int32_t collide_against_things(
 		Thing *p_thing,
-		SLONG  radius,
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2);
+		std::int32_t  radius,
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2);
 
 //
 // Slides the given movement vector around OB_jects.
 // Returns true if a collision occurs.
 //
 
-SLONG collide_against_objects(
+std::int32_t collide_against_objects(
 		Thing *p_thing,
-		SLONG  radius,
-		SLONG  x1, SLONG  y1, SLONG  z1,
-		SLONG *x2, SLONG *y2, SLONG *z2);
+		std::int32_t  radius,
+		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2);
 
 
 
@@ -287,33 +287,33 @@ SLONG collide_against_objects(
 // the last coordinate from point 1 to 2 that can be seen from point 1.
 //
 
-extern SLONG los_failure_x;
-extern SLONG los_failure_y;
-extern SLONG los_failure_z;
-extern SLONG los_failure_dfacet;	// The dfacet that caused the LOS to fail.
+extern std::int32_t los_failure_x;
+extern std::int32_t los_failure_y;
+extern std::int32_t los_failure_z;
+extern std::int32_t los_failure_dfacet;	// The dfacet that caused the LOS to fail.
 
 #define LOS_FLAG_IGNORE_SEETHROUGH_FENCE_FLAG (1 << 0)
 #define LOS_FLAG_IGNORE_PRIMS				  (1 << 1)
 #define LOS_FLAG_IGNORE_UNDERGROUND_CHECK     (1 << 2)
 #define LOS_FLAG_INCLUDE_CARS                 (1 << 3)	// Only relevant if you don't ignore prims.
 
-SLONG there_is_a_los_things(Thing *p_person_a,Thing *p_person_b,SLONG los_flags);
+std::int32_t there_is_a_los_things(Thing *p_person_a,Thing *p_person_b,std::int32_t los_flags);
 
-SLONG there_is_a_los(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2,
-		SLONG los_flag);
+std::int32_t there_is_a_los(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2,
+		std::int32_t los_flag);
 
 //
 // An FOV calculation. Returns true if I can see him, given
 // that I am looking in the given direction.
 //
 
-SLONG in_my_fov(
-		SLONG me_x,  SLONG me_z,
-		SLONG him_x, SLONG him_z,
-		SLONG im_looking_x,
-		SLONG im_looking_z);
+std::int32_t in_my_fov(
+		std::int32_t me_x,  std::int32_t me_z,
+		std::int32_t him_x, std::int32_t him_z,
+		std::int32_t im_looking_x,
+		std::int32_t im_looking_z);
 
 //
 // Returns the nearest person of the given type that I can see.
@@ -322,15 +322,15 @@ SLONG in_my_fov(
 
 THING_INDEX find_nearby_person(
 				THING_INDEX me,
-				UWORD       person_type_bits,	// A bit for each person type (1 << person_type)
-				SLONG       max_range);			// 256 => One map block.
+				std::uint16_t       person_type_bits,	// A bit for each person type (1 << person_type)
+				std::int32_t       max_range);			// 256 => One map block.
 
 
 //
 // It doesn't check that (x,z) is a point on the face or not!
 //
 
-//SLONG calc_height_on_face(SLONG x,SLONG z,SLONG face);
+//std::int32_t calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face);
 
 
 
@@ -341,10 +341,10 @@ THING_INDEX find_nearby_person(
 // return ladders and fences.
 //
 
-SLONG find_intersected_colvect(
-			SLONG x1, SLONG z1,
-			SLONG x2, SLONG z2,
-			SLONG y);
+std::int32_t find_intersected_colvect(
+			std::int32_t x1, std::int32_t z1,
+			std::int32_t x2, std::int32_t z2,
+			std::int32_t y);
 
 
 //
@@ -352,16 +352,16 @@ SLONG find_intersected_colvect(
 // against a thick orthogonal sausage shape.
 //
 
-SLONG collide_against_sausage(
-		SLONG sx1, SLONG sz1,
-		SLONG sx2, SLONG sz2,
-		SLONG swidth,
+std::int32_t collide_against_sausage(
+		std::int32_t sx1, std::int32_t sz1,
+		std::int32_t sx2, std::int32_t sz2,
+		std::int32_t swidth,
 
-		SLONG vx1, SLONG vz1,
-		SLONG vx2, SLONG vz2,
+		std::int32_t vx1, std::int32_t vz1,
+		std::int32_t vx2, std::int32_t vz2,
 
-		SLONG *slide_x,
-		SLONG *slide_z);
+		std::int32_t *slide_x,
+		std::int32_t *slide_z);
 
 //
 // Useful mathsy stuff...
@@ -370,40 +370,40 @@ SLONG collide_against_sausage(
 //
 
 void signed_dist_to_line_with_normal(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b,
-		SLONG *dist,
-		SLONG *vec_x,
-		SLONG *vec_z,
-		SLONG *on);
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b,
+		std::int32_t *dist,
+		std::int32_t *vec_x,
+		std::int32_t *vec_z,
+		std::int32_t *on);
 
 void nearest_point_on_line(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b,
-		SLONG *ret_x,
-		SLONG *ret_z);
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b,
+		std::int32_t *ret_x,
+		std::int32_t *ret_z);
 
-SLONG nearest_point_on_line_and_dist(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b,
-		SLONG *ret_x,
-		SLONG *ret_z);
+std::int32_t nearest_point_on_line_and_dist(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b,
+		std::int32_t *ret_x,
+		std::int32_t *ret_z);
 
-SLONG nearest_point_on_line_and_dist_and_along(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b,
-		SLONG *ret_x,
-		SLONG *ret_z,
-		SLONG *along);
+std::int32_t nearest_point_on_line_and_dist_and_along(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b,
+		std::int32_t *ret_x,
+		std::int32_t *ret_z,
+		std::int32_t *along);
 
-SLONG distance_to_line(
-		SLONG  x1, SLONG z1,
-		SLONG  x2, SLONG z2,
-		SLONG  a,  SLONG b);
+std::int32_t distance_to_line(
+		std::int32_t  x1, std::int32_t z1,
+		std::int32_t  x2, std::int32_t z2,
+		std::int32_t  a,  std::int32_t b);
 
 //
 // Inserts additional STOREY_TYPE_JUST_COLLISION facets around the map
@@ -417,12 +417,12 @@ void insert_collision_facets();
 //
 
 void create_shockwave(
-		SLONG  x,
-		SLONG  y,
-		SLONG  z,
-		SLONG  radius,
-		SLONG  maxdamage,		// Remember- a person's maximum health is 200
-		Thing *p_aggressor,ULONG just_people=0);	// Who caused the shockwave or nullptr if you don't know
+		std::int32_t  x,
+		std::int32_t  y,
+		std::int32_t  z,
+		std::int32_t  radius,
+		std::int32_t  maxdamage,		// Remember- a person's maximum health is 200
+		Thing *p_aggressor,std::uint32_t just_people=0);	// Who caused the shockwave or nullptr if you don't know
 
 
 //
@@ -451,7 +451,7 @@ void COLLIDE_find_seethrough_fences();
 // The fastnav bits array.
 // 
 
-typedef UBYTE COLLIDE_Fastnavrow[PAP_SIZE_HI >> 3];
+typedef std::uint8_t COLLIDE_Fastnavrow[PAP_SIZE_HI >> 3];
 
 extern COLLIDE_Fastnavrow *COLLIDE_fastnav;
 
@@ -466,7 +466,7 @@ void COLLIDE_calc_fastnav_bits();
 //
 
 #ifndef NDEBUG
-SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z);
+std::int32_t COLLIDE_can_i_fastnav(std::int32_t x, std::int32_t z);
 #else
 #define COLLIDE_can_i_fastnav(x,z) (!(WITHIN((x), 0, PAP_SIZE_HI - 1) || !WITHIN((z), 0, PAP_SIZE_HI - 1) || (COLLIDE_fastnav[x][(z) >> 3] & (1 << ((z) & 0x7)))))
 #endif // NDEBUG
@@ -476,8 +476,8 @@ SLONG COLLIDE_can_i_fastnav(SLONG x, SLONG z);
 //
 
 void COLLIDE_debug_fastnav(
-		SLONG world_x,		// 8-bits per mapsquare.
-		SLONG world_z);
+		std::int32_t world_x,		// 8-bits per mapsquare.
+		std::int32_t world_z);
 
 
 #endif

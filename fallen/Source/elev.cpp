@@ -17,9 +17,9 @@
 #ifndef	PSX
 #include "ddlib.h"
 #else
-#define ZeroMemory(a,s) memset((UBYTE*)a,0,s)
-SLONG PSX_eog_timer;
-extern SLONG MFX_OnKey,MFX_OffKey;
+#define ZeroMemory(a,s) memset((std::uint8_t*)a,0,s)
+std::int32_t PSX_eog_timer;
+extern std::int32_t MFX_OnKey,MFX_OffKey;
 #endif
 
 
@@ -92,14 +92,14 @@ extern SLONG MFX_OnKey,MFX_OffKey;
 #include "libsn.h"
 #include "psxeng.h"
 
-#define	MFFileHandle	SLONG
+#define	MFFileHandle	std::int32_t
 #define	FILE_OPEN_ERROR	(-1)
 #define	SEEK_MODE_CURRENT	(1)
 
-extern SLONG	SpecialOpen(CBYTE* name);
-extern SLONG	SpecialRead(SLONG handle,UBYTE *ptr,SLONG s1);
-extern SLONG	SpecialSeek(SLONG handle,SLONG mode,SLONG size);
-extern SLONG	SpecialClose(SLONG handle);
+extern std::int32_t	SpecialOpen(char* name);
+extern std::int32_t	SpecialRead(std::int32_t handle,std::uint8_t *ptr,std::int32_t s1);
+extern std::int32_t	SpecialSeek(std::int32_t handle,std::int32_t mode,std::int32_t size);
+extern std::int32_t	SpecialClose(std::int32_t handle);
 
 #define	FileOpen(x)		SpecialOpen(x)
 #define	FileClose(x)	SpecialClose(x)
@@ -109,22 +109,22 @@ extern SLONG	SpecialClose(SLONG handle);
 #define	FileSeek(h,m,o) SpecialSeek(h,m,o)
 
 #ifdef PSX
-CBYTE* psx_game_name;
+char* psx_game_name;
 #endif
 
 #define	FILE_CLOSE_ERROR		((MFFileHandle)-101)
 #define	FILE_CREATION_ERROR		((MFFileHandle)-102)
-#define	FILE_SIZE_ERROR			((SLONG)-103)
-#define	FILE_READ_ERROR			((SLONG)-104)
-#define	FILE_WRITE_ERROR		((SLONG)-105)
-#define	FILE_SEEK_ERROR			((SLONG)-106)
-#define	FILE_LOAD_AT_ERROR		((SLONG)-107)
+#define	FILE_SIZE_ERROR			((std::int32_t)-103)
+#define	FILE_READ_ERROR			((std::int32_t)-104)
+#define	FILE_WRITE_ERROR		((std::int32_t)-105)
+#define	FILE_SEEK_ERROR			((std::int32_t)-106)
+#define	FILE_LOAD_AT_ERROR		((std::int32_t)-107)
 
 
 //
 // psx has no sewers at the moment
 //
-SLONG ES_load(CBYTE* filename)
+std::int32_t ES_load(char* filename)
 {
 	return(0);
 }
@@ -143,16 +143,16 @@ void ES_build_sewers()
 // This is the last map to be loaded.
 // 
 
-CBYTE ELEV_last_map_loaded[MAX_PATH];
+char ELEV_last_map_loaded[MAX_PATH];
 
 
 #ifdef	MIKE
 
 MFFileHandle llog_handle		=	nullptr;
 extern TCHAR *witem_strings[];
-void TesterText(CBYTE* error, ...)
+void TesterText(char* error, ...)
 {
-	CBYTE 			buf[512];
+	char 			buf[512];
 	va_list 		argptr;
 	if(!llog_handle)
 	{
@@ -182,55 +182,55 @@ void TesterText(CBYTE* error, ...)
 
 #ifndef PSX
 #ifndef TARGET_DC
-extern UBYTE	vehicle_random[];
+extern std::uint8_t	vehicle_random[];
 
-CBYTE junk[2048];
+char junk[2048];
 EventPoint event_point;
 
-extern SLONG save_psx;
-SLONG iamapsx=0;
+extern std::int32_t save_psx;
+std::int32_t iamapsx=0;
 
-void ELEV_load_level(CBYTE* fname_level)
+void ELEV_load_level(char* fname_level)
 {
-	SLONG i;
-	SLONG j;
-	SLONG x;
-	SLONG z;
-	SLONG tx;
-	SLONG ty;
-	SLONG tz;
-	SLONG angle;
-	SLONG version;
-	SLONG load_ok = false;
-	SLONG flag;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t x;
+	std::int32_t z;
+	std::int32_t tx;
+	std::int32_t ty;
+	std::int32_t tz;
+	std::int32_t angle;
+	std::int32_t version;
+	std::int32_t load_ok = false;
+	std::int32_t flag;
 	
-	SLONG ew_id;
-	SLONG ew_type;
-	SLONG ew_subtype;
-	SLONG ew_world_x;
-	SLONG ew_world_y;
-	SLONG ew_world_z;
-	SLONG ew_active;
-	SLONG ew_active_arg;
-	SLONG ew_stay;
-	SLONG ew_stay_arg;
-	SLONG ew_colour;
-	SLONG ew_group;
-	SLONG ew_yaw;
-	SLONG ew_speed;
-	SLONG ew_delay;
+	std::int32_t ew_id;
+	std::int32_t ew_type;
+	std::int32_t ew_subtype;
+	std::int32_t ew_world_x;
+	std::int32_t ew_world_y;
+	std::int32_t ew_world_z;
+	std::int32_t ew_active;
+	std::int32_t ew_active_arg;
+	std::int32_t ew_stay;
+	std::int32_t ew_stay_arg;
+	std::int32_t ew_colour;
+	std::int32_t ew_group;
+	std::int32_t ew_yaw;
+	std::int32_t ew_speed;
+	std::int32_t ew_delay;
 
-	SLONG mess_count  =  0;
-	SLONG cutscene_count = 0;
-	SLONG water_level = -0x80;
+	std::int32_t mess_count  =  0;
+	std::int32_t cutscene_count = 0;
+	std::int32_t water_level = -0x80;
 	
 	MFFileHandle handle = nullptr;
-	CBYTE       *error;
+	char       *error;
 
-	SLONG enemy_type;
-	SLONG enemy_count;
-	SLONG follow;
-	SLONG kludge_index;
+	std::int32_t enemy_type;
+	std::int32_t enemy_count;
+	std::int32_t follow;
+	std::int32_t kludge_index;
 
 	EWAY_Conddef ecd;
 	EWAY_Conddef ecd1;
@@ -240,7 +240,7 @@ void ELEV_load_level(CBYTE* fname_level)
 	EWAY_Edef    ee;
 
 	OB_Info *oi;
-	UBYTE	FAKE_CARS = 0;
+	std::uint8_t	FAKE_CARS = 0;
 
 	//
 	// Clear all waypoint info.
@@ -283,16 +283,16 @@ void ELEV_load_level(CBYTE* fname_level)
 			// Load in the mission file.
 			//
 
-			if (FileRead(handle, &version, sizeof(SLONG)) == FILE_READ_ERROR) goto file_error;	// Version
-			if (FileRead(handle, &flag,    sizeof(SLONG)) == FILE_READ_ERROR) goto file_error;	// Used
+			if (FileRead(handle, &version, sizeof(std::int32_t)) == FILE_READ_ERROR) goto file_error;	// Version
+			if (FileRead(handle, &flag,    sizeof(std::int32_t)) == FILE_READ_ERROR) goto file_error;	// Used
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// BriefName
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// LightMapName
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// MapName
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// MissionName
 			if (FileRead(handle,  junk,    _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// SewerMapName
-			if (FileRead(handle,  junk,    sizeof(UWORD)) == FILE_READ_ERROR) goto file_error;	// MapIndex... what's this?
-			if (FileRead(handle,  junk,    sizeof(UWORD)) == FILE_READ_ERROR) goto file_error;	// Used
-			if (FileRead(handle,  junk,    sizeof(UWORD)) == FILE_READ_ERROR) goto file_error;	// Free
+			if (FileRead(handle,  junk,    sizeof(std::uint16_t)) == FILE_READ_ERROR) goto file_error;	// MapIndex... what's this?
+			if (FileRead(handle,  junk,    sizeof(std::uint16_t)) == FILE_READ_ERROR) goto file_error;	// Used
+			if (FileRead(handle,  junk,    sizeof(std::uint16_t)) == FILE_READ_ERROR) goto file_error;	// Free
 
 			GAME_FLAGS &= ~GF_SHOW_CRIMERATE;
 			GAME_FLAGS &= ~GF_CARS_WITH_ROAD_PRIMS;
@@ -304,7 +304,7 @@ void ELEV_load_level(CBYTE* fname_level)
 			// Two bytes of crime rate and padding...
 			//
 
-			if (FileRead(handle, junk, sizeof(UWORD)) == FILE_READ_ERROR) goto file_error;	// Crime rate byte / Padding byte
+			if (FileRead(handle, junk, sizeof(std::uint16_t)) == FILE_READ_ERROR) goto file_error;	// Crime rate byte / Padding byte
 
 			CRIME_RATE = junk[0];
 
@@ -330,17 +330,17 @@ void ELEV_load_level(CBYTE* fname_level)
 			for(i=0;i<FAKE_CIVS;i++)
 
 			{
-				SLONG	index;
-				SLONG	mx,mz;
+				std::int32_t	index;
+				std::int32_t	mx,mz;
 				//
 				// lets hope the player isnt looking at the edge of the map
 				//
 
-				SLONG max = 0;
+				std::int32_t max = 0;
 
 				while(max++ < 128 * 128)
 				{
-SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
+std::int32_t WAND_find_good_start_point_near(std::int32_t *mapx,std::int32_t *mapz);
 
 					mx=(Random()%100)+14;
 					mz=(Random()%100)+14;
@@ -417,7 +417,7 @@ SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 					// game waypoint stuff.
 					//
 
-					ew_colour  = event_point.Colour;
+					ew_colour  = event_point.Color;
 					ew_group   = event_point.Group;
 					ew_world_x = event_point.X;
 					if (event_point.Flags&WPT_FLAGS_INSIDE) {
@@ -727,7 +727,7 @@ SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 							{
 								enemy_type  = event_point.Data[0];
 								enemy_count = event_point.Data[1];
-								follow      = nullptr;
+								follow      = 0;
 							}
 
 							//
@@ -860,7 +860,7 @@ SLONG WAND_find_good_start_point_near(SLONG *mapx,SLONG *mapz);
 							ee.follow    = follow;				// For PCOM_MOVE_FOLLOW
 							ee.zone      = event_point.Data[4] >> 8;
 
-extern SWORD	people_types[50];
+extern std::int16_t	people_types[50];
 
 							people_types[ed.subtype]++;
 
@@ -1072,7 +1072,7 @@ extern SWORD	people_types[50];
 											PRIM_OBJ_BARREL,
 											ew_world_x + (Random() & 0xf) - 0x7,
 											ew_world_z + (Random() & 0xf) - 0x7,
-											nullptr);
+											0);
 									}
 
 									goto dont_create_a_waypoint;
@@ -1111,7 +1111,7 @@ extern SWORD	people_types[50];
 
 							switch(event_point.Data[1])
 							{
-								case nullptr:
+								case 0:
 								case CT_NORMAL:
 									ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_PLACE;
 									break;
@@ -1151,8 +1151,8 @@ extern SWORD	people_types[50];
 							//
 
 							ecd.type   = EWAY_COND_CAMERA_AT;
-							ecd.arg1   = nullptr;
-							ecd.arg2   = nullptr;
+							ecd.arg1   = 0;
+							ecd.arg2   = 0;
 							ecd.negate = false;
 
 							break;
@@ -1284,7 +1284,7 @@ extern SWORD	people_types[50];
 							}
 							else
 							{
-								ee.follow = nullptr;
+								ee.follow = 0;
 							}
 
 							break;
@@ -1325,15 +1325,15 @@ extern SWORD	people_types[50];
 						case WPT_CREATE_BARREL:
 							
 							{
-								UWORD barrel_type;
-								UWORD prim;
+								std::uint16_t barrel_type;
+								std::uint16_t prim;
 							
 
 								switch(event_point.Data[0])
 								{
 									case BT_OIL_DRUM:
 
-										extern SLONG playing_level(const CBYTE* name);
+										extern std::int32_t playing_level(const char* name);
 
 										if (playing_level("Semtex.ucm"))
 										{
@@ -1384,7 +1384,7 @@ extern SWORD	people_types[50];
 										prim,
 										ew_world_x,
 										ew_world_z,
-										nullptr);
+										0);
 
 									goto dont_create_a_waypoint;
 								}
@@ -1428,7 +1428,7 @@ extern SWORD	people_types[50];
 							{
 								ed.type    = EWAY_DO_MESSAGE;
 								ed.arg1    = mess_count++;
-								ed.arg2    = nullptr;	// Who says the message
+								ed.arg2    = 0;	// Who says the message
 								ed.subtype = 0;		// The time the message lasts for.
 							}
 
@@ -1669,7 +1669,7 @@ extern SWORD	people_types[50];
 #ifndef	PSX
 #ifndef TARGET_DC
 				{
-					CBYTE title[256];
+					char title[256];
 
 					//
 					// Tell the user about not loading the waypoint.
@@ -1714,7 +1714,7 @@ extern SWORD	people_types[50];
 
 			for (i = 0; i < mess_count; i++)
 			{
-				SLONG l;
+				std::int32_t l;
 
 				ZeroMemory(junk,sizeof(junk));
 
@@ -1732,8 +1732,8 @@ extern SWORD	people_types[50];
 
 			for (i = 0; i < mess_count+cutscene_count; i++)
 			{
-				SLONG l;
-				UBYTE what;
+				std::int32_t l;
+				std::uint8_t what;
 
 				FileRead(handle,&what,1);
 
@@ -1795,12 +1795,12 @@ extern SWORD	people_types[50];
 					if (junk[z] & ZF_NO_GO)
 					{
 						void MAV_turn_off_whole_square(
-								SLONG x,
-								SLONG z);
+								std::int32_t x,
+								std::int32_t z);
 
 						void MAV_turn_off_whole_square_car(
-								SLONG x,
-								SLONG z);
+								std::int32_t x,
+								std::int32_t z);
 
 						MAV_turn_off_whole_square(x,z);
 						MAV_turn_off_whole_square_car(x,z);
@@ -1830,13 +1830,13 @@ extern SWORD	people_types[50];
 
 			if (handle)
 			{
-				CBYTE line[256];
-				CBYTE levname[64];
-				SLONG match;
-				SLONG mworld;
+				char line[256];
+				char levname[64];
+				std::int32_t match;
+				std::int32_t mworld;
 
-				CBYTE* ch;
-				CBYTE* blah;
+				char* ch;
+				char* blah;
 
 				for (ch = fname_level; *ch && *ch != '\\'; ch++);
 
@@ -1886,7 +1886,7 @@ extern SWORD	people_types[50];
 		// create fake cars (must do this after the "real" cars are created)
 		//
 
-extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG* yaw, SLONG anywhere);
+extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t* posx, std::int32_t* posz, std::int32_t* yaw, std::int32_t anywhere);
 	
 		if(FAKE_CARS && save_psx)
 		{
@@ -1901,8 +1901,8 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 
 		for (i = 0; i < FAKE_CARS; i++)
 		{
-			SLONG	x,z,yaw;
-			SLONG	watchdog;
+			std::int32_t	x,z,yaw;
+			std::int32_t	watchdog;
 
 
 			watchdog = 16;
@@ -1912,7 +1912,7 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 			}
 			if (!watchdog)	continue;
 
-			SLONG	ix = PCOM_create_person(
+			std::int32_t	ix = PCOM_create_person(
 				PERSON_CIV, 
 				0, 
 				0, 
@@ -1935,9 +1935,9 @@ extern SLONG WAND_find_good_start_point_for_car(SLONG* posx, SLONG* posz, SLONG*
 
 			TO_THING(ix)->Genus.Person->sewerbits = (Random()%20)+20;
 
-			SLONG	type = (Random() >> 4) &15;//% (sizeof(vehicles) / sizeof(vehicles[0]));
+			std::int32_t	type = (Random() >> 4) &15;//% (sizeof(vehicles) / sizeof(vehicles[0]));
 
-			SLONG p_index = VEH_create(
+			std::int32_t p_index = VEH_create(
 					x << 8,
 					0,
 					z << 8,
@@ -2074,12 +2074,12 @@ void load_level_anim_prims();
 #endif
 
 
-void save_dreamcast_wad(CBYTE* fname);
-void load_dreamcast_wad(CBYTE* fname);
+void save_dreamcast_wad(char* fname);
+void load_dreamcast_wad(char* fname);
 
 
-SLONG quick_load=0;
-UBYTE loading_screen_active;
+std::int32_t quick_load=0;
+std::uint8_t loading_screen_active;
 //
 // Initialises the game using the given files.
 // Any of the files can be nullptr except the map file.
@@ -2089,10 +2089,10 @@ UBYTE loading_screen_active;
 
 // The stuff that is common to DC and PC.
 void ELEV_game_init_common(
-		CBYTE* fname_map,
-		CBYTE* fname_lighting,
-		CBYTE* fname_citsez,
-		CBYTE* fname_level)
+		char* fname_map,
+		char* fname_lighting,
+		char* fname_citsez,
+		char* fname_level)
 {
 extern void SND_BeginAmbient();
 	MFX_load_wave_list();
@@ -2104,13 +2104,13 @@ extern void SND_BeginAmbient();
 //#if 1
 
 
-SLONG ELEV_game_init(
-		CBYTE* fname_map,
-		CBYTE* fname_lighting,
-		CBYTE* fname_citsez,
-		CBYTE* fname_level)
+std::int32_t ELEV_game_init(
+		char* fname_map,
+		char* fname_lighting,
+		char* fname_citsez,
+		char* fname_level)
 {
-	SLONG i;
+	std::int32_t i;
 
 	// Fix the language-specific stuff by loading the correct DAD file.
 	char cTempName[50];
@@ -2157,17 +2157,17 @@ SLONG ELEV_game_init(
 
 
 #if !defined(PSX)
-SLONG ELEV_game_init(
-		CBYTE* fname_map,
-		CBYTE* fname_lighting,
-		CBYTE* fname_citsez,
-		CBYTE* fname_level)
+std::int32_t ELEV_game_init(
+		char* fname_map,
+		char* fname_lighting,
+		char* fname_citsez,
+		char* fname_level)
 {
-	SLONG i;
+	std::int32_t i;
 
 	/*
 
-	extern UWORD darci_dlight;
+	extern std::uint16_t darci_dlight;
 
 	darci_dlight = 0;
 
@@ -2206,7 +2206,7 @@ void global_load();
 	// So we stay in synch!
 	//
 
-	extern SLONG kick_or_punch;	// This is in person.cpp
+	extern std::int32_t kick_or_punch;	// This is in person.cpp
 
 	kick_or_punch = 0;
 
@@ -2252,13 +2252,13 @@ void init_gangattack();
 	// The PC panel widescreen text...
 	//
 
-	extern CBYTE PANEL_wide_text[256];
+	extern char PANEL_wide_text[256];
 	extern THING_INDEX PANEL_wide_top_person;
 	extern THING_INDEX PANEL_wide_bot_person;
 
 	PANEL_wide_text[0]    = 0;
-	PANEL_wide_top_person = nullptr;
-	PANEL_wide_bot_person = nullptr;
+	PANEL_wide_top_person = 0;
+	PANEL_wide_bot_person = 0;
 
 #endif
 	load_animtmaps();
@@ -2552,9 +2552,9 @@ extern void SND_BeginAmbient();
 
 	OB_Mapwho *om;
 	OB_Ob     *oo;
-	SLONG num;
-	SLONG index;
-	SLONG j;
+	std::int32_t num;
+	std::int32_t index;
+	std::int32_t j;
 
 	for (i=0;i<OB_SIZE-1;i++)
 		for (j=0;j<OB_SIZE-1;j++)
@@ -2650,12 +2650,12 @@ extern void SND_BeginAmbient();
 //
 
 void ELEV_create_similar_name(
-		CBYTE* dest,
-		CBYTE* src,
-		CBYTE* ext)
+		char* dest,
+		char* src,
+		char* ext)
 {
-	CBYTE* ch;
-	CBYTE* ci;
+	char* ch;
+	char* ci;
 
 	//
 	// Find the start of the source filename.
@@ -2708,19 +2708,19 @@ void ELEV_create_similar_name(
 
 
 
-CBYTE ELEV_fname_map     [_MAX_PATH];
-CBYTE ELEV_fname_lighting[_MAX_PATH];
-CBYTE ELEV_fname_citsez  [_MAX_PATH];
-CBYTE ELEV_fname_level   [_MAX_PATH];
+char ELEV_fname_map     [_MAX_PATH];
+char ELEV_fname_lighting[_MAX_PATH];
+char ELEV_fname_citsez  [_MAX_PATH];
+char ELEV_fname_level   [_MAX_PATH];
 
 
-SLONG ELEV_load_name(CBYTE* fname_level)
+std::int32_t ELEV_load_name(char* fname_level)
 {
-	SLONG ans;
+	std::int32_t ans;
 
-	CBYTE* fname_map;
-	CBYTE* fname_lighting;
-	CBYTE* fname_citsez;
+	char* fname_map;
+	char* fname_lighting;
+	char* fname_citsez;
 
 	MFFileHandle handle;
 
@@ -2782,8 +2782,8 @@ SLONG ELEV_load_name(CBYTE* fname_level)
 
 	char junk[1000];
 
-	if (FileRead(handle, junk, sizeof(SLONG))  == FILE_READ_ERROR) goto file_error;	// Version number
-	if (FileRead(handle, junk, sizeof(SLONG))  == FILE_READ_ERROR) goto file_error;	// Used
+	if (FileRead(handle, junk, sizeof(std::int32_t))  == FILE_READ_ERROR) goto file_error;	// Version number
+	if (FileRead(handle, junk, sizeof(std::int32_t))  == FILE_READ_ERROR) goto file_error;	// Used
 	if (FileRead(handle, junk, _MAX_PATH)	  == FILE_READ_ERROR) goto file_error;	// BriefName
 
 	if (FileRead(handle,  ELEV_fname_lighting, _MAX_PATH) == FILE_READ_ERROR) goto file_error;	// LightMapName
@@ -2825,21 +2825,21 @@ SLONG ELEV_load_name(CBYTE* fname_level)
 
 extern MFFileHandle	playback_file;
 
-extern CBYTE	tab_map_name[];
+extern char	tab_map_name[];
 
 #endif
 
-//extern SLONG EWAY_conv_active;
-extern SLONG PSX_inv_open;
+//extern std::int32_t EWAY_conv_active;
+extern std::int32_t PSX_inv_open;
 
-SLONG ELEV_load_user(SLONG mission)
+std::int32_t ELEV_load_user(std::int32_t mission)
 {
 #ifndef	PSX
-	CBYTE* fname_map;
-	CBYTE* fname_lighting;
-	CBYTE* fname_citsez;
-	CBYTE* fname_level;
-	CBYTE  curr_directory[_MAX_PATH];
+	char* fname_map;
+	char* fname_lighting;
+	char* fname_citsez;
+	char* fname_level;
+	char  curr_directory[_MAX_PATH];
 
 #ifndef TARGET_DC
 	OPENFILENAME ofn;
@@ -2863,7 +2863,7 @@ try_again:;
 		// bodge for publishing meeting
 		//
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				strcpy(tab_map_name,my_mission_names[-mission]);
 				for(c0=0;c0<strlen(tab_map_name);c0++)
 				{
@@ -2894,12 +2894,12 @@ try_again:;
 #endif
 
 	if(GAME_STATE&GS_PLAYBACK) {
-		UWORD c;
+		std::uint16_t c;
 
 		// marker to indicate level name is included
 		FileRead(playback_file,&c,2);
 		if (c==1) {
-			CBYTE temp[_MAX_PATH];
+			char temp[_MAX_PATH];
 			// restore string
 			FileRead(playback_file,&c,2);
 			FileRead(playback_file,temp,c);
@@ -2924,8 +2924,8 @@ try_again:;
 	return ELEV_load_name(BRIEFING_mission_filename);
 #endif
 
-//extern CBYTE* STARTSCR_mission;
-extern CBYTE STARTSCR_mission[_MAX_PATH];
+//extern char* STARTSCR_mission;
+extern char STARTSCR_mission[_MAX_PATH];
 	if (*STARTSCR_mission) 
 	{
 		//
@@ -2935,8 +2935,8 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 
 		if(GAME_STATE&GS_RECORD)
 		{
-			UWORD c=1;
-			CBYTE fname[_MAX_PATH],*cname;
+			std::uint16_t c=1;
+			char fname[_MAX_PATH],*cname;
 
 			// marker to indicate level name is included
 			FileWrite(playback_file,&c,2);
@@ -2954,7 +2954,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 		}
 
 //		MemFree(STARTSCR_mission);
-		SLONG res=ELEV_load_name(STARTSCR_mission);
+		std::int32_t res=ELEV_load_name(STARTSCR_mission);
 		*STARTSCR_mission=0;
 		return res;
 	}
@@ -2977,7 +2977,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 	// Are we loading a combined level file or a bunch of separate files?
 	//
 
-	SLONG ans = MessageBox(
+	std::int32_t ans = MessageBox(
 					hDDLibWindow,
 					"Do you want to load a level file?",
 					"Load a (map + lighting + citsez) file or a single level file",
@@ -3010,7 +3010,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "ucm";
-			ofn.lCustData         = nullptr;
+			ofn.lCustData         = 0;
 			ofn.lpfnHook          = nullptr;
 			ofn.lpTemplateName    = nullptr;
 
@@ -3028,8 +3028,8 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 				
 			if(GAME_STATE&GS_RECORD)
 			{
-				UWORD c=1;
-				CBYTE fname[_MAX_PATH],*cname;
+				std::uint16_t c=1;
+				char fname[_MAX_PATH],*cname;
 
 				// marker to indicate level name is included
 				FileWrite(playback_file,&c,2);
@@ -3053,7 +3053,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 			//
 
 			{
-				SLONG	c0;
+				std::int32_t	c0;
 				strcpy(tab_map_name,ELEV_fname_level);
 				for(c0=0;c0<strlen(tab_map_name);c0++)
 				{
@@ -3075,7 +3075,7 @@ extern CBYTE STARTSCR_mission[_MAX_PATH];
 				//
 				// oh my god, crazy shit, it's a long shot but it just might work
 				//
-extern void	load_whole_game(CBYTE	*gamename);
+extern void	load_whole_game(char	*gamename);
 
 				load_whole_game(ELEV_fname_level);
 				return(4);
@@ -3115,7 +3115,7 @@ extern void	load_whole_game(CBYTE	*gamename);
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "iam";
-			ofn.lCustData         = nullptr;
+			ofn.lCustData         = 0;
 			ofn.lpfnHook          = nullptr;
 			ofn.lpTemplateName    = nullptr;
 
@@ -3166,7 +3166,7 @@ extern void	load_whole_game(CBYTE	*gamename);
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "lgt";
-			ofn.lCustData         = nullptr;
+			ofn.lCustData         = 0;
 			ofn.lpfnHook          = nullptr;
 			ofn.lpTemplateName    = nullptr;
 
@@ -3215,7 +3215,7 @@ extern void	load_whole_game(CBYTE	*gamename);
 			ofn.nFileOffset       = 0;
 			ofn.nFileExtension    = 0;
 			ofn.lpstrDefExt       = "txt";
-			ofn.lCustData         = nullptr;
+			ofn.lCustData         = 0;
 			ofn.lpfnHook          = nullptr;
 			ofn.lpTemplateName    = nullptr;
 
@@ -3267,11 +3267,11 @@ extern void	load_whole_game(CBYTE	*gamename);
 
 #if 1
 
-extern void	load_whole_game(CBYTE	*gamename);
+extern void	load_whole_game(char	*gamename);
 extern char *Wadmenu_AttractMenu();
-extern UBYTE Wadmenu_Video;
+extern std::uint8_t Wadmenu_Video;
 extern int Wadmenu_Levelwon;
-extern UBYTE Eidos_Played;
+extern std::uint8_t Eidos_Played;
 extern void Wadmenu_Introduction();
 
 #ifndef VERSION_DEMO
@@ -3318,7 +3318,7 @@ extern void PANEL_new_widescreen_init();
 	EWAY_conv_active=0;
 	PSX_inv_open=0;
 
-extern void	init_record(SLONG level);
+extern void	init_record(std::int32_t level);
 
 #ifndef FS_ISO9660
 	init_record(wad_level);
@@ -3328,10 +3328,10 @@ extern void	init_record(SLONG level);
 
 //	return ELEV_load_name("levels\\psx_test.ucp");
 #else
-	CBYTE* fname_map="data\\jumper1.iam";
-	CBYTE* fname_lighting="data\\lighting\\jumper1.lgt";
-	CBYTE* fname_citsez=nullptr;//"data\\gptest1.sew";
-	CBYTE* fname_level=nullptr; //"data\\gptest1.ucm";
+	char* fname_map="data\\jumper1.iam";
+	char* fname_lighting="data\\lighting\\jumper1.lgt";
+	char* fname_citsez=nullptr;//"data\\gptest1.sew";
+	char* fname_level=nullptr; //"data\\gptest1.ucm";
 	return ELEV_game_init(
 				fname_map,
 				fname_lighting,
@@ -3348,7 +3348,7 @@ void reload_level()
 #ifndef PSX
 	 ELEV_load_name(ELEV_fname_level);
 #else
-extern void	load_whole_game(CBYTE	*gamename);
+extern void	load_whole_game(char	*gamename);
 extern void Wadmenu_LoadingScreen(TIM_IMAGE *tim);
 extern void* mem_all;
 extern void setup_textures(int world);

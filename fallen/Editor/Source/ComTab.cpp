@@ -45,7 +45,7 @@
 
 #include	"ComTab.def"
 
-extern CBYTE	*class_text[],
+extern char	*class_text[],
 				*genus_text[][10],
 				*condition_text[],
 				*command_text[],
@@ -54,7 +54,7 @@ extern CBYTE	*class_text[],
 //---------------------------------------------------------------
 
 
-UWORD	command_field_widths[][MAX_FIELDS]	=
+std::uint16_t	command_field_widths[][MAX_FIELDS]	=
 {
 	{	COM_LIST_WIDTH-2,	0,				0,				0				},	//	COM_NONE		
 	{	FIELD_1_WIDTH,		0,				FIELD_3_WIDTH,	FIELD_4_WIDTH	},	//	COM_ATTACK_PLAYER
@@ -116,7 +116,7 @@ CommandTab::~CommandTab()
 
 void	CommandTab::DrawTabContent()
 {
-	SLONG			message_height,
+	std::int32_t			message_height,
 					message_width;
 	EdRect			message_rect;
 
@@ -191,7 +191,7 @@ void	CommandTab::DrawTabContent()
 
 //---------------------------------------------------------------
 
-void	CommandTab::UpdateTab(UBYTE update_level)
+void	CommandTab::UpdateTab(std::uint8_t update_level)
 {
 	if(update_level)
 	{
@@ -217,11 +217,11 @@ void	CommandTab::UpdateTab(UBYTE update_level)
 
 //---------------------------------------------------------------
 
-UWORD	CommandTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
+std::uint16_t	CommandTab::HandleTabClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UBYTE			update		=	UPDATE_NONE;
-	UWORD			select_pos;
-	ULONG			control_id	=	0;
+	std::uint8_t			update		=	UPDATE_NONE;
+	std::uint16_t			select_pos;
+	std::uint32_t			control_id	=	0;
 	EditComList		*the_comlist;
 	MFPoint			local_point;
 
@@ -313,7 +313,7 @@ UWORD	CommandTab::HandleTabClick(UBYTE flags,MFPoint *clicked_point)
 
 void	CommandTab::HandleTab(MFPoint *current_point)
 {
-	UBYTE		update	=	UPDATE_NONE;
+	std::uint8_t		update	=	UPDATE_NONE;
 	EdRect		command_rect,
 				lists_rect;
 	MFPoint		local_point;
@@ -371,9 +371,9 @@ void	CommandTab::HandleTab(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-void	CommandTab::HandleControl(UWORD control_id)
+void	CommandTab::HandleControl(std::uint16_t control_id)
 {
-	SLONG		control	=	control_id&0xff;
+	std::int32_t		control	=	control_id&0xff;
 
 
 	switch(control)
@@ -418,7 +418,7 @@ void	CommandTab::HandleControl(UWORD control_id)
 
 void	CommandTab::DoComListPopup(MFPoint *clicked_point,EditComList *the_comlist)
 {
-	ULONG			control_id		=	0;
+	std::uint32_t			control_id		=	0;
 	CPopUp			*the_control	=	0;
 
 
@@ -450,10 +450,10 @@ void	CommandTab::DoComListPopup(MFPoint *clicked_point,EditComList *the_comlist)
 
 //---------------------------------------------------------------
 
-void	CommandTab::DoCommandPopup(MFPoint *clicked_point,UWORD select_pos)
+void	CommandTab::DoCommandPopup(MFPoint *clicked_point,std::uint16_t select_pos)
 {
-	UBYTE			field;
-	ULONG			control_id		=	0;
+	std::uint8_t			field;
+	std::uint32_t			control_id		=	0;
 	CPopUp			*the_control	=	0;
 	EditCommand		*the_command;
 	EditCondList	*the_cond_list;
@@ -589,7 +589,7 @@ void	CommandTab::DoCommandPopup(MFPoint *clicked_point,UWORD select_pos)
 
 //---------------------------------------------------------------
 
-void	CommandTab::CommonCommandOptions(ULONG id,EditCommand *the_command)
+void	CommandTab::CommonCommandOptions(std::uint32_t id,EditCommand *the_command)
 {
 	switch(id)
 	{
@@ -622,9 +622,9 @@ void	CommandTab::CommonCommandOptions(ULONG id,EditCommand *the_command)
 EditCondList	*CommandTab::SelectConditionList()
 {
 	bool			exit		=	false;
-	UBYTE			update		=	2;
-	UWORD			select_pos;
-	SLONG			c0;
+	std::uint8_t			update		=	2;
+	std::uint16_t			select_pos;
+	std::int32_t			c0;
 	ControlSet		select_set;
 	EditCondList	*current_list,
 					*hilited_list,
@@ -780,8 +780,8 @@ EditCondList	*CommandTab::SelectConditionList()
 
 void	CommandTab::DrawListsBox()
 {
-	UWORD			select_pos;
-	SLONG			c0;
+	std::uint16_t			select_pos;
+	std::int32_t			c0;
 	EditComList		*current_list;
 	EdRect			item_rect,
 					lists_rect;
@@ -837,9 +837,9 @@ void	CommandTab::DrawListsBox()
 
 void	CommandTab::DrawCurrentList()
 {
-	CBYTE			field_text[MAX_FIELDS][64];
-	UWORD			select_pos;
-	SLONG			c0,c1,
+	char			field_text[MAX_FIELDS][64];
+	std::uint16_t			select_pos;
+	std::int32_t			c0,c1,
 					x_pos;
 	EditCommand		*current_command;
 	EdRect			field_rects[MAX_FIELDS],
@@ -995,9 +995,9 @@ void	CommandTab::DrawCurrentList()
 
 //---------------------------------------------------------------
 
-UWORD	CommandTab::ListsHilitePos(MFPoint *current_point)
+std::uint16_t	CommandTab::ListsHilitePos(MFPoint *current_point)
 {
-	UWORD			c0;
+	std::uint16_t			c0;
 	EdRect			item_rect,
 					lists_rect;
 
@@ -1026,9 +1026,9 @@ UWORD	CommandTab::ListsHilitePos(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-EditComList	*CommandTab::HilitetedList(UWORD select_pos)
+EditComList	*CommandTab::HilitetedList(std::uint16_t select_pos)
 {
-	ULONG			c0;
+	std::uint32_t			c0;
 	EditComList		*current_list;
 
 	
@@ -1055,10 +1055,10 @@ EditComList	*CommandTab::HilitetedList(UWORD select_pos)
 
 //---------------------------------------------------------------
 
-UWORD	CommandTab::CurrentListHilitePos(MFPoint *current_point)
+std::uint16_t	CommandTab::CurrentListHilitePos(MFPoint *current_point)
 {
-	UWORD			c0,c1;
-	SLONG			x_pos;
+	std::uint16_t			c0,c1;
+	std::int32_t			x_pos;
 	EditCommand		*current_command;
 	EdRect			command_rect,
 					field_rects[MAX_FIELDS],
@@ -1114,9 +1114,9 @@ UWORD	CommandTab::CurrentListHilitePos(MFPoint *current_point)
 
 //---------------------------------------------------------------
 
-EditCommand	*CommandTab::HilitetedCommand(UWORD select_pos)
+EditCommand	*CommandTab::HilitetedCommand(std::uint16_t select_pos)
 {
-	ULONG			c0;
+	std::uint32_t			c0;
 	EditCommand		*current_command	=	nullptr;
 
 

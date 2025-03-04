@@ -15,7 +15,7 @@
 
 //---------------------------------------------------------------
 
-SLONG	transfer_to;
+std::int32_t	transfer_to;
 
 //---------------------------------------------------------------
 
@@ -34,7 +34,7 @@ SLONG	transfer_to;
 
 bool	CALLBACK	transferpick_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
-	SLONG		c0	=	0;
+	std::int32_t		c0	=	0;
 	HWND		the_ctrl;
 	LPTSTR		lbitem_str;
 

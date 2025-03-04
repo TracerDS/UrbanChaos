@@ -15,7 +15,7 @@
 // The credits for each section.
 // 
 
-CBYTE* CREDITS_muckyfoot[] =
+char* CREDITS_muckyfoot[] =
 {
 	"Mucky Foot are Ashley Hampton, Barry Meade, Chris Knott, Eddie",
 	"Edwards, Fin McGechie, Gary Carr, Guy Simmons, James 'Dudley'",
@@ -133,7 +133,7 @@ CBYTE* CREDITS_muckyfoot[] =
 	"!"
 };
 
-CBYTE* CREDITS_eidos_uk[] =
+char* CREDITS_eidos_uk[] =
 {
 	"~BSenior Producer",
 	"\tDarren Hedges",
@@ -197,7 +197,7 @@ CBYTE* CREDITS_eidos_uk[] =
 
 
 
-CBYTE* CREDITS_eidos_usa[] =
+char* CREDITS_eidos_usa[] =
 {
 	"~BAssociate Producer",
 	"\tEric Adams",
@@ -228,7 +228,7 @@ CBYTE* CREDITS_eidos_usa[] =
 	"!"
 };
 
-CBYTE* CREDITS_eidos_france[] =
+char* CREDITS_eidos_france[] =
 {
 	"~BChef de produit",
 	"\tOlivier Salomon",
@@ -281,7 +281,7 @@ CBYTE* CREDITS_eidos_france[] =
 
 */
 
-CBYTE* CREDITS_eidos_germany[] =
+char* CREDITS_eidos_germany[] =
 {
 	"~BLeiter Produktentwicklung",
 	"\tBeco Mulderij",
@@ -325,7 +325,7 @@ CBYTE* CREDITS_eidos_germany[] =
 
 
 
-CBYTE* CREDITS_voice_production[] =
+char* CREDITS_voice_production[] =
 {
 	"~BCasting",
 	"\tPhil Morris at AllintheGame",
@@ -361,7 +361,7 @@ CBYTE* CREDITS_voice_production[] =
 
 
 
-CBYTE* CREDITS_bands[] =
+char* CREDITS_bands[] =
 {
 	"Way Out West - Urban Chaos",
 	"The 3 Jays - Feeling it too",
@@ -383,8 +383,8 @@ CBYTE* CREDITS_bands[] =
 
 typedef struct
 {
-	CBYTE  *title;
-	CBYTE* *line;
+	char  *title;
+	char* *line;
 
 } CREDITS_Section;
 
@@ -434,12 +434,12 @@ CREDITS_Section CREDITS_section[CREDITS_NUM_SECTIONS] =
 // The current section and y-offset.
 //
 
-SLONG CREDITS_current_section;
+std::int32_t CREDITS_current_section;
 float CREDITS_current_y;
 float CREDITS_current_end_y;
 
-SLONG CREDITS_last;
-SLONG CREDITS_now;
+std::int32_t CREDITS_last;
+std::int32_t CREDITS_now;
 
 
 
@@ -458,9 +458,9 @@ void CREDITS_init()
 
 void CREDITS_draw()
 {
-	SLONG i;
-	SLONG dont_draw;
-	SLONG flag;
+	std::int32_t i;
+	std::int32_t dont_draw;
+	std::int32_t flag;
 	float x;
 	float y;
 	float shimmer;
@@ -578,7 +578,7 @@ void CREDITS_draw()
 
 		if (cs->line[i])
 		{
-			CBYTE* text = cs->line[i];
+			char* text = cs->line[i];
 
 			//
 			// What style do we draw the text?

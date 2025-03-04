@@ -11,56 +11,56 @@
 // The actual data declared in the header file...
 //
 
-UWORD QMAP_texture[QMAP_MAX_TEXTURES];
-SLONG QMAP_texture_upto;
+std::uint16_t QMAP_texture[QMAP_MAX_TEXTURES];
+std::int32_t QMAP_texture_upto;
 
 QMAP_Style QMAP_style[QMAP_MAX_STYLES];
-SLONG QMAP_style_upto;
+std::int32_t QMAP_style_upto;
 
 QMAP_Road QMAP_road[QMAP_MAX_ROADS];
-SLONG QMAP_road_upto;
+std::int32_t QMAP_road_upto;
 
 QMAP_Cube QMAP_cube[QMAP_MAX_CUBES];
-SLONG QMAP_cube_upto;
+std::int32_t QMAP_cube_upto;
 
 QMAP_Gtex QMAP_gtex[QMAP_MAX_GTEXES];
-SLONG QMAP_gtex_upto;
+std::int32_t QMAP_gtex_upto;
 
 QMAP_Cable QMAP_cable[QMAP_MAX_CABLES];
-SLONG QMAP_cable_upto;
+std::int32_t QMAP_cable_upto;
 
-SBYTE QMAP_height[QMAP_MAX_HEIGHTS];
-SLONG QMAP_height_upto;
+std::int8_t QMAP_height[QMAP_MAX_HEIGHTS];
+std::int32_t QMAP_height_upto;
 
 QMAP_Hmap QMAP_hmap[QMAP_MAX_HMAPS];
-SLONG QMAP_hmap_upto;
+std::int32_t QMAP_hmap_upto;
 
 QMAP_Fence QMAP_fence[QMAP_MAX_FENCES];
-SLONG QMAP_fence_upto;
+std::int32_t QMAP_fence_upto;
 
 QMAP_Light QMAP_light[QMAP_MAX_LIGHTS];
-SLONG QMAP_light_upto;
+std::int32_t QMAP_light_upto;
 
 QMAP_Prim QMAP_prim[QMAP_MAX_PRIMS];
-SLONG QMAP_prim_upto;
+std::int32_t QMAP_prim_upto;
 
-UWORD QMAP_all[QMAP_MAX_ALL];
-SLONG QMAP_all_upto;
+std::uint16_t QMAP_all[QMAP_MAX_ALL];
+std::int32_t QMAP_all_upto;
 
 QMAP_Map QMAP_map[QMAP_MAPSIZE][QMAP_MAPSIZE];
 
 QMAP_Point QMAP_point[QMAP_MAX_POINTS];
-UWORD QMAP_point_free;
+std::uint16_t QMAP_point_free;
 
 QMAP_Face QMAP_face[QMAP_MAX_FACES];
-UWORD QMAP_face_free;
+std::uint16_t QMAP_face_free;
 
 
 
 void QMAP_init()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	QMAP_Map *qm;
 
@@ -105,17 +105,17 @@ void QMAP_init()
 
 void QMAP_compress_all()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG total_all;
+	std::int32_t total_all;
 
-	UWORD *comp;
-	SLONG  comp_upto;
+	std::uint16_t *comp;
+	std::int32_t  comp_upto;
 
 	QMAP_Map *qm;
 
-	comp      = (UWORD *) MemAlloc(sizeof(UWORD) * QMAP_MAX_ALL);
+	comp      = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * QMAP_MAX_ALL);
 	comp_upto = 0;
 
 	if (comp)
@@ -129,7 +129,7 @@ void QMAP_compress_all()
 
 			ASSERT(comp_upto + total_all <= QMAP_MAX_ALL);
 
-			memcpy(&comp[comp_upto], &QMAP_all[qm->index_all], sizeof(UWORD) * total_all);
+			memcpy(&comp[comp_upto], &QMAP_all[qm->index_all], sizeof(std::uint16_t) * total_all);
 
 			qm->index_all = comp_upto;
 			comp_upto    += total_all;
@@ -139,7 +139,7 @@ void QMAP_compress_all()
 		// Copy the compressed array over the real array.
 		//
 
-		memcpy(QMAP_all, comp, sizeof(UWORD) * QMAP_MAX_ALL);
+		memcpy(QMAP_all, comp, sizeof(std::uint16_t) * QMAP_MAX_ALL);
 		QMAP_all_upto = comp_upto;
 
 		MemFree(comp);
@@ -153,7 +153,7 @@ void QMAP_compress_all()
 // Returns true on success.
 //
 
-SLONG QMAP_make_room_at_the_end_of_the_all_array(SLONG elements)
+std::int32_t QMAP_make_room_at_the_end_of_the_all_array(std::int32_t elements)
 {
 	//
 	// Enough room already?
@@ -186,24 +186,24 @@ SLONG QMAP_make_room_at_the_end_of_the_all_array(SLONG elements)
 
 
 void QMAP_add_road(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG size_x;
-	SLONG size_z;
+	std::int32_t size_x;
+	std::int32_t size_z;
 
-	SLONG total_all;
+	std::int32_t total_all;
 
-	SLONG before;
-	SLONG after;
+	std::int32_t before;
+	std::int32_t after;
 
 	QMAP_Map *qm;
 
@@ -276,9 +276,9 @@ void QMAP_add_road(
 		// Copy all the stuff after the roads.
 		//
 
-		memcpy(&QMAP_all[QMAP_all_upto], &QMAP_all[qm->index_all], sizeof(UWORD) * before);
+		memcpy(&QMAP_all[QMAP_all_upto], &QMAP_all[qm->index_all], sizeof(std::uint16_t) * before);
 		QMAP_all[QMAP_all_upto + before] = QMAP_road_upto;
-		memcpy(&QMAP_all[QMAP_all_upto + before + 1], &QMAP_all[qm->index_all + before], sizeof(UWORD) * after);
+		memcpy(&QMAP_all[QMAP_all_upto + before + 1], &QMAP_all[qm->index_all + before], sizeof(std::uint16_t) * after);
 
 		//
 		// Update the numbers...
@@ -294,26 +294,26 @@ void QMAP_add_road(
 }
 
 void QMAP_add_cube(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2,
-		SLONG height)
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2,
+		std::int32_t height)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG mx;
-	SLONG mz;
+	std::int32_t mx;
+	std::int32_t mz;
 
-	SLONG size_x;
-	SLONG size_y;
-	SLONG size_z;
+	std::int32_t size_x;
+	std::int32_t size_y;
+	std::int32_t size_z;
 
-	SLONG total_all;
+	std::int32_t total_all;
 
-	SLONG before;
-	SLONG after;
+	std::int32_t before;
+	std::int32_t after;
 
 	QMAP_Map *qm;
 
@@ -395,9 +395,9 @@ void QMAP_add_cube(
 		// Copy all the stuff after the cubes.
 		//
 
-		memcpy(&QMAP_all[QMAP_all_upto], &QMAP_all[qm->index_all], sizeof(UWORD) * before);
+		memcpy(&QMAP_all[QMAP_all_upto], &QMAP_all[qm->index_all], sizeof(std::uint16_t) * before);
 		QMAP_all[QMAP_all_upto + before] = QMAP_cube_upto;
-		memcpy(&QMAP_all[QMAP_all_upto + before + 1], &QMAP_all[qm->index_all + before], sizeof(UWORD) * after);
+		memcpy(&QMAP_all[QMAP_all_upto + before + 1], &QMAP_all[qm->index_all + before], sizeof(std::uint16_t) * after);
 
 		//
 		// Update the numbers...
@@ -420,13 +420,13 @@ void QMAP_add_cube(
 
 void QMAP_compress_prim_array()
 {
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	QMAP_Map *qm;
 
 	QMAP_Prim *comp;
-	SLONG      comp_upto;
+	std::int32_t      comp_upto;
 
 	comp      = (QMAP_Prim *) MemAlloc(sizeof(QMAP_Prim) * QMAP_MAX_PRIMS);
 	comp_upto = 0;
@@ -457,19 +457,19 @@ void QMAP_compress_prim_array()
 
 
 void QMAP_add_prim(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG prim,
-		SLONG yaw)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t prim,
+		std::int32_t yaw)
 {
-	SLONG prim_x;
-	SLONG prim_y;
-	SLONG prim_z;
-	SLONG prim_yaw;
+	std::int32_t prim_x;
+	std::int32_t prim_y;
+	std::int32_t prim_z;
+	std::int32_t prim_yaw;
 
-	SLONG mx = x >> 21;
-	SLONG mz = z >> 21;
+	std::int32_t mx = x >> 21;
+	std::int32_t mz = z >> 21;
 
 	QMAP_Map *qm;
 
@@ -551,7 +551,7 @@ void QMAP_add_prim(
 
 
 
-SLONG QMAP_calc_height_at(SLONG x, SLONG z)
+std::int32_t QMAP_calc_height_at(std::int32_t x, std::int32_t z)
 {
 	//
 	// Easy for now!
@@ -561,12 +561,12 @@ SLONG QMAP_calc_height_at(SLONG x, SLONG z)
 }
 
 void QMAP_get_cube_coords(
-		UWORD cube,
-		SLONG *x1, SLONG *y1, SLONG *z1,
-		SLONG *x2, SLONG *y2, SLONG *z2)
+		std::uint16_t cube,
+		std::int32_t *x1, std::int32_t *y1, std::int32_t *z1,
+		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2)
 {
-	SLONG mid_x;
-	SLONG mid_z;
+	std::int32_t mid_x;
+	std::int32_t mid_z;
 
 	QMAP_Cube *qc;
 
@@ -609,7 +609,7 @@ void QMAP_get_cube_coords(
 
 void QMAP_draw_init()
 {
-	SLONG i;
+	std::int32_t i;
 
 	QMAP_point_free = 1;
 
@@ -635,19 +635,19 @@ void QMAP_draw_init()
 // rectange of (size_x, size_y) using the given style.
 //
 
-UWORD QMAP_get_style_texture(
-		SLONG x,
-		SLONG y,
-		SLONG size_x,
-		SLONG size_y,
-		UWORD style)
+std::uint16_t QMAP_get_style_texture(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t size_x,
+		std::int32_t size_y,
+		std::uint16_t style)
 {
-	SLONG cx;
-	SLONG cy;
+	std::int32_t cx;
+	std::int32_t cy;
 
-	SLONG mid;
-	SLONG index;
-	UWORD texture;
+	std::int32_t mid;
+	std::int32_t index;
+	std::uint16_t texture;
 
 	QMAP_Style *qs;
 
@@ -752,59 +752,59 @@ UWORD QMAP_get_style_texture(
 // Create the faces for given cube.
 //
 
-void QMAP_create_cube(QMAP_Draw *qd, SLONG map_x, SLONG map_z, SLONG cube)
+void QMAP_create_cube(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z, std::int32_t cube)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG y;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG mx1;
-	SLONG mz1;
-	SLONG mx2;
-	SLONG mz2;
+	std::int32_t mx1;
+	std::int32_t mz1;
+	std::int32_t mx2;
+	std::int32_t mz2;
 
-	SLONG lx1;
-	SLONG lz1;
-	SLONG lx2;
-	SLONG lz2;
+	std::int32_t lx1;
+	std::int32_t lz1;
+	std::int32_t lx2;
+	std::int32_t lz2;
 
-	SLONG look_x;
-	SLONG look_z;
+	std::int32_t look_x;
+	std::int32_t look_z;
 
-	SLONG look_x1;
-	SLONG look_y1;
-	SLONG look_z1;
+	std::int32_t look_x1;
+	std::int32_t look_y1;
+	std::int32_t look_z1;
 
-	SLONG look_x2;
-	SLONG look_y2;
-	SLONG look_z2;
+	std::int32_t look_x2;
+	std::int32_t look_y2;
+	std::int32_t look_z2;
 
-	SLONG k1;
-	SLONG k2;
+	std::int32_t k1;
+	std::int32_t k2;
 
-	SLONG base;
-	SLONG index;
-	SLONG cube_look;
+	std::int32_t base;
+	std::int32_t index;
+	std::int32_t cube_look;
 
-	SLONG width;
-	ULONG mask;
-	ULONG clip;
+	std::int32_t width;
+	std::uint32_t mask;
+	std::uint32_t clip;
 
-	UWORD p_index;
-	UWORD f_index;
+	std::uint16_t p_index;
+	std::uint16_t f_index;
 
-	ULONG face_on[32];	// 128 bytes of stack!
+	std::uint32_t face_on[32];	// 128 bytes of stack!
 
 	QMAP_Cube  *qc;
 	QMAP_Cube  *qc_look;
@@ -1167,25 +1167,25 @@ void QMAP_create_cube(QMAP_Draw *qd, SLONG map_x, SLONG map_z, SLONG cube)
 
 
 
-void QMAP_create(QMAP_Draw *qd, SLONG map_x, SLONG map_z)
+void QMAP_create(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z)
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
-	SLONG x1;
-	SLONG y1;
-	SLONG z1;
+	std::int32_t x1;
+	std::int32_t y1;
+	std::int32_t z1;
 
-	SLONG x2;
-	SLONG y2;
-	SLONG z2;
+	std::int32_t x2;
+	std::int32_t y2;
+	std::int32_t z2;
 
-	SLONG base;
-	SLONG index;
-	SLONG cube;
+	std::int32_t base;
+	std::int32_t index;
+	std::int32_t cube;
 
 	QMAP_Map *qm;
 
@@ -1229,9 +1229,9 @@ void QMAP_create(QMAP_Draw *qd, SLONG map_x, SLONG map_z)
 
 void QMAP_free(QMAP_Draw *qd)
 {
-	UWORD point;
-	UWORD face;
-	UWORD next;
+	std::uint16_t point;
+	std::uint16_t face;
+	std::uint16_t next;
 
 	QMAP_Point *qp;
 	QMAP_Face  *qf;

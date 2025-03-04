@@ -1,29 +1,29 @@
 #ifndef	PRIM_EDIT_H
 #define	PRIM_EDIT_H	1
 
-extern void	calc_prims_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
-extern void	calc_prims_world_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
+extern void	calc_prims_screen_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
+extern void	calc_prims_world_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
 
 
-extern void	save_asc(UWORD building,UWORD version);
-extern void	import_tex(CBYTE* fname);
-extern void	export_tex(CBYTE* fname);
+extern void	save_asc(std::uint16_t building,std::uint16_t version);
+extern void	import_tex(char* fname);
+extern void	export_tex(char* fname);
 
-extern SBYTE	read_asc(CBYTE* fname,SLONG scale,ULONG offset);
-extern SLONG	read_multi_asc(CBYTE* asc_name,UBYTE flag,float scale=1.0);
-extern SBYTE	read_multi_dxf();
-extern SBYTE	read_multi_vue(SLONG m_object);
-extern void	load_textures_for_prim(CBYTE* str,UWORD prim);
-extern void	save_textures_for_prim(CBYTE* str,UWORD prim);
-extern SWORD	SelectFlag;
-extern SWORD	SelectDrawn;
-extern void	calc_prims_screen_box(UWORD	prim,SLONG x,SLONG y,SLONG z,EdRect *rect);
+extern std::int8_t	read_asc(char* fname,std::int32_t scale,std::uint32_t offset);
+extern std::int32_t	read_multi_asc(char* asc_name,std::uint8_t flag,float scale=1.0);
+extern std::int8_t	read_multi_dxf();
+extern std::int8_t	read_multi_vue(std::int32_t m_object);
+extern void	load_textures_for_prim(char* str,std::uint16_t prim);
+extern void	save_textures_for_prim(char* str,std::uint16_t prim);
+extern std::int16_t	SelectFlag;
+extern std::int16_t	SelectDrawn;
+extern void	calc_prims_screen_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
 
 //
 // Saves out the given prim object. Returns false on failure.
 //
 
-SLONG save_prim_object(SLONG prim);
+std::int32_t save_prim_object(std::int32_t prim);
 
 //
 // Saves out all the loaded prims as individual objects.

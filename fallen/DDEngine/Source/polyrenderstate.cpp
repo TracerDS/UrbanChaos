@@ -24,7 +24,7 @@ extern RenderState	DefRenderState;
 extern PolyPage		POLY_Page[POLY_NUM_PAGES];
 
 #ifdef TEX_EMBED
-SLONG	PageOrder[POLY_NUM_PAGES];
+std::int32_t	PageOrder[POLY_NUM_PAGES];
 static bool	PageOrdered[POLY_NUM_PAGES];
 #endif
 
@@ -71,15 +71,15 @@ void POLY_init_texture_flags()
 //
 // load flags from file
 
-void POLY_load_texture_flags(CBYTE* fname, SLONG offset)
+void POLY_load_texture_flags(char* fname, std::int32_t offset)
 {
 	FILE *handle = MF_Fopen(fname, "rb");
 
 	if (handle)
 	{
-		CBYTE line[256];
-		SLONG match;
-		SLONG page = 0;
+		char line[256];
+		std::int32_t match;
+		std::int32_t page = 0;
 
 		while(fgets(line, 256, handle))
 		{
@@ -89,7 +89,7 @@ void POLY_load_texture_flags(CBYTE* fname, SLONG offset)
 
 			if (match == 1 && WITHIN(page, 0, POLY_NUM_PAGES - 1))
 			{
-				CBYTE* c;
+				char* c;
 
 				for (c = line; *c; c++);	// Zoom to the end of the line.
 
@@ -1591,7 +1591,7 @@ extern void POLY_ClearAllPages ( void );
 	int iNullTextureCount = 0;
 #endif
 
-	SLONG	pos = 0;
+	std::int32_t	pos = 0;
 	while (pos < POLY_NUM_PAGES)
 	{
 		int ii;

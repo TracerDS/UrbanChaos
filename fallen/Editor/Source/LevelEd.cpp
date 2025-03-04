@@ -10,13 +10,13 @@
 //#include	"collide.hpp"  //needed for ele_shift
 //#define		ShowWorkWindow(x)	{DrawLineC(0,0,WorkWindowWidth-1,WorkWindowHeight-1,255);DrawLineC(0,WorkWindowHeight-1,WorkWindowWidth-1,0,255); ShowWorkWindow(x);}
 
-extern SLONG	editor_texture_set;
+extern std::int32_t	editor_texture_set;
 
 
 //---------------------------------------------------------------
-extern void	icon_load_map(UWORD id);
-extern void	icon_save_map(UWORD id);
-extern void	handle_icon_click(UWORD id);
+extern void	icon_load_map(std::uint16_t id);
+extern void	icon_save_map(std::uint16_t id);
+extern void	handle_icon_click(std::uint16_t id);
 extern void	slider_redraw(void);
 extern void	slider_redraw_in(void);
 
@@ -72,7 +72,7 @@ ControlDef	inside_style_content_def[]	=
 	{	0																	}
 };
 
-CBYTE	inside_names[64][20]=
+char	inside_names[64][20]=
 {
 	"Apartment",
 	"Hotel",
@@ -110,17 +110,17 @@ ControlDef	prim_content_def[]	=
 	{	0	}
 };
 //from edutil.cpp
-extern void	draw_a_key_frame_at(UWORD prim,SLONG x,SLONG y,SLONG z);
+extern void	draw_a_key_frame_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
 extern void	reset_game(void);
 
-UBYTE	back_dat[256*256];
+std::uint8_t	back_dat[256*256];
 
-SLONG	draw_background(void)
+std::int32_t	draw_background(void)
 {				 
-	SLONG	x,y,mod_x;
-	SLONG	c0,c1,width,size,height;
-	UBYTE *ptr,*ptr_dat;
-	static	UBYTE	type=1;
+	std::int32_t	x,y,mod_x;
+	std::int32_t	c0,c1,width,size,height;
+	std::uint8_t *ptr,*ptr_dat;
+	static	std::uint8_t	type=1;
 
 	if(Keys[KB_1])
 	{
@@ -163,14 +163,14 @@ SLONG	draw_background(void)
 		}
 
 		memset(WorkWindow,0,-y*WorkScreenWidth);
-		ptr=(UBYTE*)WorkWindow-y*WorkScreenWidth;
-		ptr_dat=(UBYTE*)back_dat;
+		ptr=(std::uint8_t*)WorkWindow-y*WorkScreenWidth;
+		ptr_dat=(std::uint8_t*)back_dat;
 		height=WorkScreenHeight+y;
 	}
 	else
 	{
-		ptr=(UBYTE*)WorkWindow;
-		ptr_dat=(UBYTE*)back_dat+y*WorkScreenWidth;
+		ptr=(std::uint8_t*)WorkWindow;
+		ptr_dat=(std::uint8_t*)back_dat+y*WorkScreenWidth;
 		if((256-y)<WorkScreenHeight)
 		{
 			height=(256-y);
@@ -207,7 +207,7 @@ SLONG	draw_background(void)
 	return(type);
 }	
 
-extern void	init_hair(SLONG x,SLONG y,SLONG z);
+extern void	init_hair(std::int32_t x,std::int32_t y,std::int32_t z);
 extern void	draw_hair(void);
 
 void	do_clip_keys(void)
@@ -237,12 +237,12 @@ void	do_clip_keys(void)
 extern void	mini_game_test(void);
 extern void	interface_thing2(struct MapThing *p_thing);
 
-//extern void	draw_col_vects(UWORD	col_vect_link);
-//extern void	draw_actual_col_vect(UWORD	col_vect);
+//extern void	draw_col_vects(std::uint16_t	col_vect_link);
+//extern void	draw_actual_col_vect(std::uint16_t	col_vect);
 /*
 void	draw_map_col_vects(void)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=1;c0<next_col_vect;c0++)
 		draw_actual_col_vect(c0);
 	render_view(0);
@@ -251,13 +251,13 @@ void	draw_map_col_vects(void)
 */
 void	screen_shot(void)
 {
-	UBYTE header[30];
-	UWORD *p_w,*p_w2;
-	UWORD	x,y;
-	UWORD	line[2048];
-	UWORD	red,green,blue,col;
+	std::uint8_t header[30];
+	std::uint16_t *p_w,*p_w2;
+	std::uint16_t	x,y;
+	std::uint16_t	line[2048];
+	std::uint16_t	red,green,blue,col;
 	static	count=0;
-	CBYTE	fname[50];
+	char	fname[50];
 	count++;
 
 
@@ -273,7 +273,7 @@ void	screen_shot(void)
 		header[0]=0;
 		header[1]=0; //no colour map
 		header[2]=2;
-		p_w=(UWORD*)&header[8];
+		p_w=(std::uint16_t*)&header[8];
 		*p_w++=0;
 		*p_w++=0;
 		*p_w++=WorkScreenPixelWidth;
@@ -283,10 +283,10 @@ void	screen_shot(void)
 		header[18]=0x01;
 		header[19]=0;
 	
-		FileWrite(handle,&header[0],(ULONG)20);
+		FileWrite(handle,&header[0],(std::uint32_t)20);
 
-		p_w=(UWORD*)&header[20];
-		p_w2=(UWORD*)WorkScreen;
+		p_w=(std::uint16_t*)&header[20];
+		p_w2=(std::uint16_t*)WorkScreen;
 
 		for(y=0;y<WorkScreenHeight;y++)
 		{
@@ -301,14 +301,14 @@ void	screen_shot(void)
 
 				line[x]=col;
 			}
-			FileWrite(handle,&line[0],(ULONG)WorkScreenPixelWidth*2);
+			FileWrite(handle,&line[0],(std::uint32_t)WorkScreenPixelWidth*2);
 		}
 		FileClose(handle);
 	}
 }
 
 LevelEditor		*the_leveleditor;
-void	handle_icon_click(UWORD id)
+void	handle_icon_click(std::uint16_t id)
 {
 	switch(id)
 	{
@@ -316,7 +316,7 @@ void	handle_icon_click(UWORD id)
 			{
 				
 				FileRequester	*fr;
-				CBYTE	fname[100];
+				char	fname[100];
 				fr=new FileRequester("data\\","*.map","Load A MAP","temp.map");
 				if(fr->Draw())
 				{
@@ -334,8 +334,8 @@ void	handle_icon_click(UWORD id)
 		case ICON_SAVE_MAP:
 			{
 				FileRequester	*fr;
-				CBYTE	fname[100];
-				CBYTE	temp_name[100];
+				char	fname[100];
+				char	temp_name[100];
 
 				strcpy(temp_name,edit_info.MapName);
 				fr=new FileRequester("data\\","*.map","Save A MAP",temp_name);
@@ -362,15 +362,15 @@ void	handle_icon_click(UWORD id)
 extern void	Demo3Dfx(void);
 				Demo3Dfx();
 #else
-				UBYTE	display=0;
-				SLONG	tx,ty,tz;
-				SLONG	back_type=0;
-				UBYTE	test_bloke=0;
-				UBYTE	film=0;
+				std::uint8_t	display=0;
+				std::int32_t	tx,ty,tz;
+				std::int32_t	back_type=0;
+				std::uint8_t	test_bloke=0;
+				std::uint8_t	film=0;
 				struct	MapThing	*darci;
 
 extern struct MapThing *init_test_bloke_system(void);
-extern void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle);
+extern void	draw_test_bloke(std::int32_t x,std::int32_t y,std::int32_t z,std::uint8_t anim,std::int32_t angle);
 //				if(!Keys[KB_B])
 				{
 					darci=init_test_bloke_system();
@@ -400,7 +400,7 @@ extern void	draw_test_bloke(SLONG x,SLONG y,SLONG z,UBYTE anim,SLONG angle);
 				SetWorkWindowBounds(0,0,320,199);
 
 				
-extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
 
 				darci->X=engine.X>>8;
 				darci->Y=calc_height_at(darci->X,darci->Z);
@@ -420,7 +420,7 @@ extern SLONG	calc_height_at(SLONG x,SLONG z);
 					if(display==NoError)
 					while(SHELL_ACTIVE && !RightButton)
 					{
-						SLONG	depth;
+						std::int32_t	depth;
 						if(ShiftFlag)
 							depth=16;
 						else
@@ -462,12 +462,12 @@ extern SLONG	calc_height_at(SLONG x,SLONG z);
 							set_camera();
 							if(test_bloke)
 							{
-								SLONG	y;
+								std::int32_t	y;
 
-extern SLONG	calc_height_at(SLONG x,SLONG z);
+extern std::int32_t	calc_height_at(std::int32_t x,std::int32_t z);
 
 //								y=calc_height_at(engine.X>>8,engine.Z>>8);
-extern SLONG	play_x,play_y,play_z;
+extern std::int32_t	play_x,play_y,play_z;
 								draw_test_bloke(darci->X,darci->Y,darci->Z,1,0);
 //								draw_test_bloke(engine.X>>8,y,engine.Z>>8,1,0);
 								if(ShiftFlag)
@@ -488,14 +488,14 @@ extern SLONG	play_x,play_y,play_z;
 //	draw_fader();
 
 							{
-								CBYTE	str[100];
+								char	str[100];
 								sprintf(str,"face %d id %d",darci->OnFace,prim_faces4[darci->OnFace].ID);
 								QuickTextC(1,179,str,0);
 								QuickTextC(0,180,str,WHITE_COL);
 							}
 //COL VECTS							draw_map_col_vects();
 //							draw_hair();
-	//FLI						anim_make_next_frame((UBYTE*)WorkScreen, PALETTE);
+	//FLI						anim_make_next_frame((std::uint8_t*)WorkScreen, PALETTE);
 
 							if(LastKey==KB_C && ControlFlag)
 							{
@@ -555,7 +555,7 @@ extern SLONG	play_x,play_y,play_z;
 			break;
 		case ICON_CREATE_CITY:
 			create_city(BUILD_MODE_EDITOR);
-extern UWORD	count_empty_map_things(void);
+extern std::uint16_t	count_empty_map_things(void);
 				LogText(" npp %d npf %d npf4 %d npo %d UNUSED th %d \n",next_prim_point,next_prim_face3,next_prim_face4,next_prim_object,count_empty_map_things());
 			break;
 	}
@@ -786,7 +786,7 @@ void	LevelEditor::DestroyLevelTabs(void)
 //---------------------------------------------------------------
 //CONTENT WINDOW HAS DIFFERENT VIEWS DEPENDING ON TAB SELECTED 
 
-void	build_texture(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE page,UBYTE u0,UBYTE v0,UBYTE u1,UBYTE v1,UBYTE u2,UBYTE v2,UBYTE u3,UBYTE v3)
+void	build_texture(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::uint8_t page,std::uint8_t u0,std::uint8_t v0,std::uint8_t u1,std::uint8_t v1,std::uint8_t u2,std::uint8_t v2,std::uint8_t u3,std::uint8_t v3)
 {
 	
 	setPolyType4(current_bucket_pool,POLY_T);
@@ -811,11 +811,11 @@ void	build_texture(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE page,UBYTE u0,UBYTE v0,
 }
 
 
-void	LevelEditor::DrawAnimTmapContent(SLONG current_anim_tmap)
+void	LevelEditor::DrawAnimTmapContent(std::int32_t current_anim_tmap)
 {
 	EdRect	tex_rect;
-	SLONG	w,h=32,count=0;
-	CBYTE	str[100];
+	std::int32_t	w,h=32,count=0;
+	char	str[100];
 
 	animate_texture_maps();
 	sprintf(str," EDIT ANIM TEXTURE %d",current_anim_tmap);
@@ -866,7 +866,7 @@ void	LevelEditor::DrawAnimTmapContent(SLONG current_anim_tmap)
 
 			if(anim_tmaps[count].Flags)
 			{
-				UWORD	frame;
+				std::uint16_t	frame;
 				frame=anim_tmaps[count].Current;
 
 				build_texture(w+1,h+1,16,16,anim_tmaps[count].Page[frame],
@@ -886,13 +886,13 @@ void	LevelEditor::DrawAnimTmapContent(SLONG current_anim_tmap)
 	render_view(0);
 }
 
-void 	LevelEditor::HandleAnimTmapClick(UBYTE flags,MFPoint *clicked_point)
+void 	LevelEditor::HandleAnimTmapClick(std::uint8_t flags,MFPoint *clicked_point)
 {
 	EdRect	tex_rect;
-	SLONG	w,h=32,count=0,c0;
+	std::int32_t	w,h=32,count=0,c0;
 	EdTexture	*current_texture;
 	MFPoint		local_point;
-	SLONG 	current_anim_tmap;
+	std::int32_t 	current_anim_tmap;
 
 	current_anim_tmap=PaintMode->GetAnimTmap();
 
@@ -911,7 +911,7 @@ void 	LevelEditor::HandleAnimTmapClick(UBYTE flags,MFPoint *clicked_point)
 				switch(flags)
 				{
 					case	LEFT_CLICK:
-						SLONG	page;
+						std::int32_t	page;
 						if(PaintMode->GetTexturePage()>=0)
 						{
 							
@@ -921,7 +921,7 @@ void 	LevelEditor::HandleAnimTmapClick(UBYTE flags,MFPoint *clicked_point)
 								anim_tmaps[current_anim_tmap].UV[count][c0][1]=current_texture->V[c0];
 							}
 							anim_tmaps[current_anim_tmap].Flags|=(1<<count);
-							page=(UBYTE)PaintMode->GetTexturePage();
+							page=(std::uint8_t)PaintMode->GetTexturePage();
 							if(page<0)
 								page=0;
 							anim_tmaps[current_anim_tmap].Page[count]=page;
@@ -1008,10 +1008,10 @@ void 	LevelEditor::HandleAnimTmapClick(UBYTE flags,MFPoint *clicked_point)
 }
 
 
-void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,UBYTE flip,UBYTE flags)
+void	draw_quad_now(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::uint8_t tx,std::uint8_t ty,std::uint8_t page,std::uint8_t flip,std::uint8_t flags)
 {
 	struct MfEnginePoint p1,p2,p3,p4;
-	UBYTE	uv[4][2];
+	std::uint8_t	uv[4][2];
 
 	p1.X=x;
 	p1.Y=y;
@@ -1076,8 +1076,8 @@ void	draw_quad_now(SLONG x,SLONG y,SLONG w,SLONG h,UBYTE tx,UBYTE ty,UBYTE page,
 
 void	LevelEditor::DrawTexStyleContent(void)
 {
-	SLONG	scroll_pos=PaintMode->CurrentStylePos;
-	SLONG	c0,pos;
+	std::int32_t	scroll_pos=PaintMode->CurrentStylePos;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
 	
 	QuickTextC(10,10,"    Name                  MidL MidM  MidR  Mid2  Mid3 ",0);
@@ -1104,10 +1104,10 @@ void	LevelEditor::DrawTexStyleContent(void)
 
 void	LevelEditor::DrawPSXTexContent(void)
 {
-	SLONG	texpage;
-	SLONG	c0,pos;
+	std::int32_t	texpage;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
-	SLONG	x,y;
+	std::int32_t	x,y;
 	if(PaintMode->CurrentStylePos>3)
 		PaintMode->CurrentStylePos=3;
 	texpage=PaintMode->CurrentStylePos;
@@ -1149,10 +1149,10 @@ void	slider_redraw_in(void)
 	}
 	ShowWorkWindow(0);
 }
-SLONG	LevelEditor::HandleTexStyleClick(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	LevelEditor::HandleTexStyleClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	scroll_pos=PaintMode->CurrentStylePos;
-	SLONG	c0,pos;
+	std::int32_t	scroll_pos=PaintMode->CurrentStylePos;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
 	EdTexture	*current_texture;
 	MFPoint		local_point;
@@ -1171,7 +1171,7 @@ SLONG	LevelEditor::HandleTexStyleClick(UBYTE flags,MFPoint *clicked_point)
 			//want to text edit the name
 			PaintMode->CurrentStyleEdit=c0+scroll_pos;
 			((CEditText*)StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0+scroll_pos][0]);
-			((CEditText*)StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((UBYTE)(((CEditText*)StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags()&~CONTROL_INACTIVE));
+			((CEditText*)StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText*)StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags()&~CONTROL_INACTIVE));
 
 			return(1);
 			
@@ -1181,7 +1181,7 @@ SLONG	LevelEditor::HandleTexStyleClick(UBYTE flags,MFPoint *clicked_point)
 			tex_rect.SetRect(140+pos*30,c0*26+30-2,24,24);
 			if(tex_rect.PointInRect(&local_point))
 			{
-				SLONG	x,y;
+				std::int32_t	x,y;
 				switch(flags)
 				{
 					case	LEFT_CLICK:
@@ -1227,15 +1227,15 @@ SLONG	LevelEditor::HandleTexStyleClick(UBYTE flags,MFPoint *clicked_point)
 	}
 	return(0);
 }
-extern UWORD	page_remap[64*8];
+extern std::uint16_t	page_remap[64*8];
 
-SLONG	LevelEditor::HandlePSXTexClick(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	LevelEditor::HandlePSXTexClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	tex_page=PaintMode->CurrentStylePos;
+	std::int32_t	tex_page=PaintMode->CurrentStylePos;
 	EdRect	tex_rect;
 	EdTexture	*current_texture;
 	MFPoint		local_point;
-	SLONG	x,y,u,v,page;
+	std::int32_t	x,y,u,v,page;
 
 	if(tex_page>3)
 		tex_page=3;
@@ -1286,7 +1286,7 @@ SLONG	LevelEditor::HandlePSXTexClick(UBYTE flags,MFPoint *clicked_point)
 	return(0);
 }
 
-void	LevelEditor::HandleStyleControl(ULONG  control_id)
+void	LevelEditor::HandleStyleControl(std::uint32_t  control_id)
 {
 	switch(control_id)
 	{
@@ -1301,7 +1301,7 @@ extern void	fix_style_names(void);
 			//	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
 			break;
 		case	CTRL_STYLE_SAVE:
-extern void	save_texture_styles(UBYTE world);
+extern void	save_texture_styles(std::uint8_t world);
 			save_texture_styles(editor_texture_set);
 
 			//SaveAllAnims(&test_chunk);			
@@ -1314,13 +1314,13 @@ extern void	save_texture_styles(UBYTE world);
 
 }
 
-void	LevelEditor::HandlePSXControl(ULONG  control_id)
+void	LevelEditor::HandlePSXControl(std::uint32_t  control_id)
 {
 	switch(control_id)
 	{
 /*
 		case	CTRL_PSX_SAVE:
-extern void	save_texture_styles(UBYTE world);
+extern void	save_texture_styles(std::uint8_t world);
 //			save_texture_styles(editor_texture_set);
 
 			//SaveAllAnims(&test_chunk);			
@@ -1341,7 +1341,7 @@ extern void	save_texture_styles(UBYTE world);
 		case	CTRL_PSX_NOREMAP:
 			{
 				EdTexture	*current_texture;
-				SLONG	u,v,page;
+				std::int32_t	u,v,page;
 				current_texture	=	PaintMode->GetTexture();
 				u=	current_texture->U[0]+current_texture->U[1]+current_texture->U[2]+current_texture->U[3];
 				v=	current_texture->V[0]+current_texture->V[1]+current_texture->V[2]+current_texture->V[3];
@@ -1373,8 +1373,8 @@ extern void	save_texture_styles(UBYTE world);
 
 void	LevelEditor::DrawTexInStyleContent(void)
 {
-	SLONG	scroll_pos=PaintMode->CurrentStylePos;
-	SLONG	c0,pos;
+	std::int32_t	scroll_pos=PaintMode->CurrentStylePos;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
 	
 //	QuickTextC(10,10,"    Name                  MidL MidM  MidR  Mid2  Mid3 ",0);
@@ -1390,7 +1390,7 @@ void	LevelEditor::DrawTexInStyleContent(void)
 
 		for(pos=0;pos<16;pos++)
 		{
-			SLONG	x,y,page,flip,flags,value;
+			std::int32_t	x,y,page,flip,flags,value;
 //			draw_quad_now(200+pos*38,c0*20+30,16,16,textures_xy[c0+scroll_pos][pos].Tx<<5,textures_xy[c0+scroll_pos][pos].Ty<<5,textures_xy[c0+scroll_pos][pos].Page);
 			value=inside_tex[c0+scroll_pos][pos];
 
@@ -1418,10 +1418,10 @@ void	slider_redraw_inside(void)
 	}
 	ShowWorkWindow(0);
 }
-SLONG	LevelEditor::HandleTexInStyleClick(UBYTE flags,MFPoint *clicked_point)
+std::int32_t	LevelEditor::HandleTexInStyleClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	scroll_pos=PaintMode->CurrentStylePos;
-	SLONG	c0,pos;
+	std::int32_t	scroll_pos=PaintMode->CurrentStylePos;
+	std::int32_t	c0,pos;
 	EdRect	tex_rect;
 	EdTexture	*current_texture;
 	MFPoint		local_point;
@@ -1440,7 +1440,7 @@ SLONG	LevelEditor::HandleTexInStyleClick(UBYTE flags,MFPoint *clicked_point)
 			//want to text edit the name
 			PaintMode->CurrentStyleEdit=c0+scroll_pos;
 			((CEditText*)InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0+scroll_pos][0]);
-			((CEditText*)InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((UBYTE)(((CEditText*)InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags()&~CONTROL_INACTIVE));
+			((CEditText*)InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText*)InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags()&~CONTROL_INACTIVE));
 
 			return(1);
 			
@@ -1450,7 +1450,7 @@ SLONG	LevelEditor::HandleTexInStyleClick(UBYTE flags,MFPoint *clicked_point)
 			tex_rect.SetRect(120+pos*IN_BOX_STEP,c0*26+30-2,IN_BOX_SIZE,IN_BOX_SIZE);
 			if(tex_rect.PointInRect(&local_point))
 			{
-				SLONG	x,y;
+				std::int32_t	x,y;
 				switch(flags)
 				{
 					case	LEFT_CLICK:
@@ -1478,12 +1478,12 @@ SLONG	LevelEditor::HandleTexInStyleClick(UBYTE flags,MFPoint *clicked_point)
 	return(0);
 }
 
-void	save_texture_instyles(UBYTE world)
+void	save_texture_instyles(std::uint8_t world)
 {
-	UWORD	temp,temp2;
-	SLONG	save_type=1;
+	std::uint16_t	temp,temp2;
+	std::int32_t	save_type=1;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	CBYTE fname[MAX_PATH];
+	char fname[MAX_PATH];
 
 //	sprintf(fname, "u:\urbanchaos\\textures\\world%d\\instyle.tma", world);
 	sprintf(fname, "%sinstyle.tma", TEXTURE_WORLD_DIR);
@@ -1492,26 +1492,26 @@ void	save_texture_instyles(UBYTE world)
 
 	if(handle!=FILE_OPEN_ERROR)
 	{
-		FileWrite(handle,(UBYTE*)&save_type,4);
+		FileWrite(handle,(std::uint8_t*)&save_type,4);
 		temp=9;		//how many texture_pages
 
 		temp=64;
 		temp2=16;
-		FileWrite(handle,(UBYTE*)&temp,2);
-		FileWrite(handle,(UBYTE*)&temp2,2);
-		FileWrite(handle,(UBYTE*)&inside_tex[0][0],sizeof(UBYTE)*temp*temp2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp2,2);
+		FileWrite(handle,(std::uint8_t*)&inside_tex[0][0],sizeof(std::uint8_t)*temp*temp2);
 		temp=64;
 		temp2=20;
-		FileWrite(handle,(UBYTE*)&temp,2);
-		FileWrite(handle,(UBYTE*)&temp2,2);
-		FileWrite(handle,(UBYTE*)&inside_names[0][0],temp*temp2);
+		FileWrite(handle,(std::uint8_t*)&temp,2);
+		FileWrite(handle,(std::uint8_t*)&temp2,2);
+		FileWrite(handle,(std::uint8_t*)&inside_names[0][0],temp*temp2);
 
 		FileClose(handle);
 	}
 
 }
 
-void	LevelEditor::HandleInStyleControl(ULONG  control_id)
+void	LevelEditor::HandleInStyleControl(std::uint32_t  control_id)
 {
 	switch(control_id)
 	{
@@ -1580,9 +1580,9 @@ void	LevelEditor::DrawContent(void)
 			else
 			if(PaintMode->GetPaintMode()==FLOOR_PAINT)
 			{
-				UWORD	temp;
+				std::uint16_t	temp;
 				MapBlock	background;
-				SLONG		mx,my,mz;
+				std::int32_t		mx,my,mz;
 				MFPoint		mouse_point;
 
 				temp=BuildMode->Texture;
@@ -1674,8 +1674,8 @@ void	LevelEditor::DrawContent(void)
 			MapMode->DrawModuleContent(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight());
 			break;
 		case	TAB_MAPED:
-				UWORD	temp;
-				SLONG		mx,my,mz;
+				std::uint16_t	temp;
+				std::int32_t		mx,my,mz;
 				MFPoint		mouse_point;
 
 				temp=BuildMode->Texture;
@@ -1746,12 +1746,12 @@ void	LevelEditor::DrawContent(void)
 
 
 
-void	LevelEditor::DragEngine(UBYTE flags,MFPoint *clicked_point)
+void	LevelEditor::DragEngine(std::uint8_t flags,MFPoint *clicked_point)
 {
-	SLONG	wwx,wwy,www,wwh;
-	SLONG	screen_change=0;
-	SLONG	last_world_mouse;
-	SLONG	ox,oy,oz;
+	std::int32_t	wwx,wwy,www,wwh;
+	std::int32_t	screen_change=0;
+	std::int32_t	last_world_mouse;
+	std::int32_t	ox,oy,oz;
 
 	MFPoint		local_point;
 
@@ -1767,7 +1767,7 @@ void	LevelEditor::DragEngine(UBYTE flags,MFPoint *clicked_point)
 	oz=edit_info.DZ;
 
 	{
-		SLONG	old_x,old_y,old_z;
+		std::int32_t	old_x,old_y,old_z;
 
 
 //		edit_info.DX=0;
@@ -1795,10 +1795,10 @@ void	LevelEditor::DragEngine(UBYTE flags,MFPoint *clicked_point)
 //---------------------------------------------------------------
 //content clicks do different things depending on the tab selected 
 
-void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
+void	LevelEditor::HandleContentClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	ULONG				update	=	0;
-	SLONG				c0;
+	std::uint32_t				update	=	0;
+	std::int32_t				c0;
 	EdTexture			*current_texture;
 	MFPoint				local_point;
 
@@ -1932,7 +1932,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 				case	FLOOR_PAINT:
 				case	PLANAR_PAINT:
 				case	STYLE_PAINT:
-					SLONG	paint_city=0;
+					std::int32_t	paint_city=0;
 						if(PrimMode)
 						{
 							switch(PrimMode->GetPrimTabMode())
@@ -1965,7 +1965,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 							if(ControlFlag&&!paint_city)
 							{
 								MFPoint		point1,point2;
-								SLONG		con_top,con_left;
+								std::int32_t		con_top,con_left;
 								point1.X	=	MouseX;
 								point1.Y	=	MouseY;
 		//						point1		=	*clicked_point;
@@ -2000,7 +2000,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 								if(PaintMode->SubMode==FLOOR_PASTE_BRUSH)
 								{
 									MFPoint		point1;
-									SLONG		mx,my,mz;
+									std::int32_t		mx,my,mz;
 
 										point1.X	=	MouseX;
 										point1.Y	=	MouseY;
@@ -2022,9 +2022,9 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 									{
 										if(hilited_face.Face>0)
 										{
-											SLONG	face;
+											std::int32_t	face;
 											face=hilited_face.Face;
-											set_wall_texture_info(-prim_faces4[face].ThingIndex,(SBYTE)texture_mode->GetTexturePage(),current_texture);
+											set_wall_texture_info(-prim_faces4[face].ThingIndex,(std::int8_t)texture_mode->GetTexturePage(),current_texture);
 										}
 
 									}
@@ -2058,7 +2058,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 							if(ControlFlag&&!paint_city)
 							{
 								MFPoint		point1,point2;
-								SLONG		con_top,con_left;
+								std::int32_t		con_top,con_left;
 								point1.X	=	MouseX;
 								point1.Y	=	MouseY;
 								GlobalToLocal(&point1);
@@ -2126,7 +2126,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 
 											for(c0=0;c0<3;c0++)
 											{
-				//								prim_faces3[-edit_face.Face].TexturePage	=	(UWORD)TextureMode->GetTexturePage();
+				//								prim_faces3[-edit_face.Face].TexturePage	=	(std::uint16_t)TextureMode->GetTexturePage();
 												current_texture->U[c0]	=	prim_faces3[-hilited_face.Face].UV[c0][0];
 												current_texture->V[c0]	=	prim_faces3[-hilited_face.Face].UV[c0][1];
 											}		
@@ -2156,14 +2156,14 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 														prim_faces4[hilited_face.Face].UV[3][1]);
 												for(c0=0;c0<4;c0++)
 												{
-					//								prim_faces4[edit_face.Face].TexturePage	=	(UWORD)TextureMode->GetTexturePage();
+					//								prim_faces4[edit_face.Face].TexturePage	=	(std::uint16_t)TextureMode->GetTexturePage();
 													current_texture->U[c0]	=	prim_faces4[hilited_face.Face].UV[c0][0];
 													current_texture->V[c0]	=	prim_faces4[hilited_face.Face].UV[c0][1];
 												}
 
 
 												{
-													SLONG	dx,dy;
+													std::int32_t	dx,dy;
 													dx=-current_texture->U[0]+current_texture->U[1];
 													dy=-current_texture->V[0]+current_texture->V[1];
 
@@ -2196,7 +2196,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 												PaintMode->SetTextureFlags(PaintMode->GetTextureFlags()|FLAGS_QUADS);
 												if(prim_faces4[hilited_face.Face].ThingIndex<0)
 												{
-													SLONG	wall;
+													std::int32_t	wall;
 													wall=prim_faces4[hilited_face.Face].ThingIndex;
 
 													PaintMode->CurrentStyleEdit=wall_list[wall].TextureStyle;
@@ -2365,7 +2365,7 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 
 			if(SewerMode->OutsideEditStorey)
 			{
-				SLONG	inside,index;
+				std::int32_t	inside,index;
 				index=storey_list[SewerMode->OutsideEditStorey].InsideIDIndex; //building_list[building].StoreyHead;
 				if(index)
 				{
@@ -2431,9 +2431,9 @@ void	LevelEditor::HandleContentClick(UBYTE flags,MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-void	LevelEditor::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
+void	LevelEditor::HandleControlClick(std::uint8_t flags,MFPoint *clicked_point)
 {
-	UWORD		control_id;
+	std::uint16_t		control_id;
 
 
 	if(CurrentModeTab())
@@ -2445,9 +2445,9 @@ void	LevelEditor::HandleControlClick(UBYTE flags,MFPoint *clicked_point)
 //---------------------------------------------------------------
 extern void	zoom_map_onto_screen(void);
 
-void	ApplyShadow(struct EditFace *edit_face,SLONG shadow)
+void	ApplyShadow(struct EditFace *edit_face,std::int32_t shadow)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 	
 	if(edit_face->PEle==(struct EditMapElement*)-2)
 	{
@@ -2460,14 +2460,14 @@ void	ApplyShadow(struct EditFace *edit_face,SLONG shadow)
 
 void	LevelEditor::HandleModule(void)
 {
-	ULONG			update	=	0;
-	SLONG			c0,
+	std::uint32_t			update	=	0;
+	std::int32_t			c0,
 					temp_u,
 					temp_v;
 	EdTexture		*current_texture;
 	MFPoint			mouse_point;
 	MFTime			the_time;
-	static SLONG	last_msecond;
+	static std::int32_t	last_msecond;
 	static EditFace	last_face;
 
 	/*
@@ -2779,7 +2779,7 @@ void	swap_maps();
 	}
 	if(CurrentModeTab())
 	{
-		SLONG	temp_update=0;
+		std::int32_t	temp_update=0;
 		CurrentModeTab()->HandleTab(&mouse_point);
 		switch(CurrentModeTab()->GetTabID())
 		{
@@ -2792,7 +2792,7 @@ void	swap_maps();
 				break;
 
 			case	TAB_MAPED:
-extern ULONG	engine_keys_scroll_plan(void);
+extern std::uint32_t	engine_keys_scroll_plan(void);
 				//temp_update|=engine_keys_zoom();
 				update  += BuildMode->DoZoom();
 				temp_update|=engine_keys_scroll_plan();
@@ -2873,12 +2873,12 @@ MenuDef2	face_popup[]	=
 
 
 
-SLONG	find_texture_point_for_face(SWORD face)
+std::int32_t	find_texture_point_for_face(std::int16_t face)
 {
-	SLONG	stx=99999,sty=99999;
-	SLONG	x,y;
-	SLONG	tx,ty;
-	SLONG	point,tp=0;
+	std::int32_t	stx=99999,sty=99999;
+	std::int32_t	x,y;
+	std::int32_t	tx,ty;
+	std::int32_t	point,tp=0;
 
 	if(face<0) //tri's
 	{
@@ -2919,16 +2919,16 @@ SLONG	find_texture_point_for_face(SWORD face)
 
 void	fix_all_selected_faces_for_tile_mode(void)
 {
-	SLONG	c0;
-	SWORD	face;
-	SLONG	sx=99999,sy=99999;
-	SLONG	stx=99999,sty=99999;
-	SLONG	scale_point_x,scale_point_y;
+	std::int32_t	c0;
+	std::int16_t	face;
+	std::int32_t	sx=99999,sy=99999;
+	std::int32_t	stx=99999,sty=99999;
+	std::int32_t	scale_point_x,scale_point_y;
 
-	SLONG	x,y,dx,dy;
-	SLONG	tx,ty;
-	SLONG	point;
-	ULONG	tp;
+	std::int32_t	x,y,dx,dy;
+	std::int32_t	tx,ty;
+	std::int32_t	point;
+	std::uint32_t	tp;
 
 //	SelectFlag=2;
 
@@ -3048,12 +3048,12 @@ void	fix_all_selected_faces_for_tile_mode(void)
 #define	POPUP_HEIGHT	10*20
 void	LevelEditor::DoFacePopup(MFPoint *clicked_point)
 {
-	ULONG			flags;
-	ULONG			c0,
+	std::uint32_t			flags;
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
-	UBYTE			old_flags;
+	std::uint8_t			old_flags;
 
 	local_point	=	*clicked_point;
 	GlobalToLocal(&local_point);
@@ -3192,7 +3192,7 @@ void	LevelEditor::DoFacePopup(MFPoint *clicked_point)
 				{
 					if(next_face_selected>1&&face_is_in_list(hilited_face.Face))
 					{
-						SLONG	c0;
+						std::int32_t	c0;
 						if((flags&POLY_FLAG_TILED)&&!(old_flags&POLY_FLAG_TILED) )
 						{
 							//tiled mode just selecteD
@@ -3260,13 +3260,13 @@ void	LevelEditor::DoFacePopup(MFPoint *clicked_point)
 	}
 }
 
-UBYTE	LevelEditor::DoStylePopup(MFPoint *clicked_point,UBYTE flags)
+std::uint8_t	LevelEditor::DoStylePopup(MFPoint *clicked_point,std::uint8_t flags)
 {
-	ULONG			c0,
+	std::uint32_t			c0,
 					control_id;
 	CPopUp			*the_control	=	0;
 	MFPoint			local_point;
-	UBYTE			old_flags;
+	std::uint8_t			old_flags;
 
 	local_point	=	*clicked_point;
 	GlobalToLocal(&local_point);
@@ -3308,11 +3308,11 @@ UBYTE	LevelEditor::DoStylePopup(MFPoint *clicked_point,UBYTE flags)
 
 
 
-void	set_wall_texture_info(SLONG	wall,UBYTE page,EdTexture	*current_texture,UBYTE type,UBYTE side)
+void	set_wall_texture_info(std::int32_t	wall,std::uint8_t page,EdTexture	*current_texture,std::uint8_t type,std::uint8_t side)
 {
-	SLONG	x,y,index;
-	UBYTE	sub_type;
-	SLONG	storey,wall_index;
+	std::int32_t	x,y,index;
+	std::uint8_t	sub_type;
+	std::int32_t	storey,wall_index;
 	x=	current_texture->U[0]+current_texture->U[1]+current_texture->U[2]+current_texture->U[3];
 	y=	current_texture->V[0]+current_texture->V[1]+current_texture->V[2]+current_texture->V[3];
 
@@ -3364,9 +3364,9 @@ void	set_wall_texture_info(SLONG	wall,UBYTE page,EdTexture	*current_texture,UBYT
 
 //---------------------------------------------------------------
 
-void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
+void	LevelEditor::TextureFace(std::int16_t face,PaintTab *texture_mode)
 {
-	SLONG 		c0;
+	std::int32_t 		c0;
 	EdTexture	*current_texture;
 
 
@@ -3398,7 +3398,7 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 		{
 			if	(
 					prim_faces3[-face].DrawFlags&POLY_FLAG_TEXTURED							&&
-					prim_faces3[-face].TexturePage==(SBYTE)texture_mode->GetTexturePage()	&&
+					prim_faces3[-face].TexturePage==(std::int8_t)texture_mode->GetTexturePage()	&&
 					prim_faces3[-face].UV[0][0]==current_texture->U[0]		&&
 					prim_faces3[-face].UV[0][1]==current_texture->V[0]		&&
 					prim_faces3[-face].UV[1][0]==current_texture->U[1]		&&
@@ -3413,7 +3413,7 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 
 			if	(
 					prim_faces4[face].DrawFlags&POLY_FLAG_TEXTURED		&&
-					prim_faces4[face].TexturePage==(UBYTE)texture_mode->GetTexturePage()	&&
+					prim_faces4[face].TexturePage==(std::uint8_t)texture_mode->GetTexturePage()	&&
 					prim_faces4[face].UV[0][0]==current_texture->U[0]	&&
 					prim_faces4[face].UV[0][1]==current_texture->V[0]	&&
 					prim_faces4[face].UV[1][0]==current_texture->U[1]	&&
@@ -3454,7 +3454,7 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 		if(face<0)
 		{
 			prim_faces3[-face].DrawFlags	|=	POLY_FLAG_TEXTURED;
-			prim_faces3[-face].TexturePage	=	(SBYTE)texture_mode->GetTexturePage();
+			prim_faces3[-face].TexturePage	=	(std::int8_t)texture_mode->GetTexturePage();
 			for(c0=0;c0<3;c0++)
 			{
 				prim_faces3[-face].UV[c0][0]	=	current_texture->U[c0];
@@ -3471,7 +3471,7 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 			else
 			{
 				prim_faces4[face].DrawFlags		|=	POLY_FLAG_TEXTURED;
-				prim_faces4[face].TexturePage	=	(SBYTE)texture_mode->GetTexturePage();
+				prim_faces4[face].TexturePage	=	(std::int8_t)texture_mode->GetTexturePage();
 
 				for(c0=0;c0<4;c0++)
 				{
@@ -3483,7 +3483,7 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 					//
 					// try and paint roof texture to floor
 					//
-					SLONG	mx=0,mz=0;
+					std::int32_t	mx=0,mz=0;
 					for(c0=0;c0<4;c0++)
 					{
 						mx+=prim_points[prim_faces4[face].Points[c0]].X;
@@ -3497,20 +3497,20 @@ void	LevelEditor::TextureFace(SWORD face,PaintTab *texture_mode)
 
 				if(prim_faces4[face].ThingIndex<0)
 				{	// face is part of a buildtab building, so set walls texture info
-					UBYTE	type=0;
+					std::uint8_t	type=0;
 					if(PaintMode->GetPaintMode()==STYLE_PAINT)
 					{
 						type=PaintMode->CurrentStyleEdit;
-						set_wall_texture_info(-prim_faces4[face].ThingIndex,(SBYTE)texture_mode->GetTexturePage(),current_texture,type,(prim_faces4[face].FaceFlags&FACE_FLAG_TEX2)?1:0);
+						set_wall_texture_info(-prim_faces4[face].ThingIndex,(std::int8_t)texture_mode->GetTexturePage(),current_texture,type,(prim_faces4[face].FaceFlags&FACE_FLAG_TEX2)?1:0);
 					}
 					else
 					{
 						//
 						// apply an individual texture to a wall face
 						//
-extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
-						SLONG	t;
-						SLONG	x=0,y=0,c0;
+extern void	apply_texture_to_wall_face(std::int32_t face,std::int32_t texture);
+						std::int32_t	t;
+						std::int32_t	x=0,y=0,c0;
 
 						for(c0=0;c0<4;c0++)
 						{
@@ -3539,9 +3539,9 @@ extern void	apply_texture_to_wall_face(SLONG face,SLONG texture);
 	}
 }
 
-void	calc_face_midpoint(SWORD face,SLONG *x,SLONG *y,SLONG *z)
+void	calc_face_midpoint(std::int16_t face,std::int32_t *x,std::int32_t *y,std::int32_t *z)
 {
-	SLONG	x1=0,y1=0,z1=0,point;
+	std::int32_t	x1=0,y1=0,z1=0,point;
 	if(face>0)
 	{
 		for(point=0;point<4;point++)
@@ -3557,12 +3557,12 @@ void	calc_face_midpoint(SWORD face,SLONG *x,SLONG *y,SLONG *z)
 
 }
 
-SLONG	find_map_coord(SLONG *x,SLONG *y,SLONG *z,struct	EditMapElement	*p_ele)
+std::int32_t	find_map_coord(std::int32_t *x,std::int32_t *y,std::int32_t *z,struct	EditMapElement	*p_ele)
 {
 /*
-	SLONG index;
+	std::int32_t index;
 	struct	EditMapElement	*p_ele2;
-	SLONG mx,my,mz,dx,dy,dz;
+	std::int32_t mx,my,mz,dx,dy,dz;
 
 	mx=(engine.X>>8)>>ELE_SHIFT;
 	my=(engine.Y>>8)>>ELE_SHIFT;
@@ -3590,15 +3590,15 @@ SLONG	find_map_coord(SLONG *x,SLONG *y,SLONG *z,struct	EditMapElement	*p_ele)
 	return(0);
 }
 
-SLONG	static_face_no;
-SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
+std::int32_t	static_face_no;
+std::int32_t	flood_fill_texture(std::int32_t x,std::int32_t y,std::int32_t z,std::uint32_t tex_bits)
 {
 /*
 	struct	EditMapElement	*PEle;
-	SLONG	tx,ty,tz;
-	SLONG	index;
+	std::int32_t	tx,ty,tz;
+	std::int32_t	index;
 	struct	TextureBits	tex_bits2;
-	*(ULONG*)&tex_bits2=tex_bits;
+	*(std::uint32_t*)&tex_bits2=tex_bits;
 
 	tx=x;
 	ty=y;
@@ -3617,28 +3617,28 @@ SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x+1,y,z,tex_bits);
 				}
 				if(index=edit_map[(x-1)][(y)].Depth[(z)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x-1,y,z,tex_bits);
 				}
 				if(index=edit_map[(x)][(y-1)].Depth[(z)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y-1,z,tex_bits);
 				}
 				if(index=edit_map[(x)][(y+1)].Depth[(z)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y+1,z,tex_bits);
 				}
 
@@ -3649,28 +3649,28 @@ SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x+1,y,z,tex_bits);
 				}
 				if(index=edit_map[(x-1)][(y)].Depth[(z)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x-1,y,z,tex_bits);
 				}
 				if(index=edit_map[(x)][(y)].Depth[(z-1)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y,z-1,tex_bits);
 				}
 				if(index=edit_map[(x)][(y)].Depth[(z+1)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y,z+1,tex_bits);
 				}
 				break;
@@ -3681,28 +3681,28 @@ SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y,z-1,tex_bits);
 				}
 				if(index=edit_map[(x)][(y)].Depth[(z+1)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y,z+1,tex_bits);
 				}
 				if(index=edit_map[(x)][(y-1)].Depth[(z)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y-1,z,tex_bits);
 				}
 				if(index=edit_map[(x)][(y+1)].Depth[(z)])
 				{
 					
 					PEle=&edit_map_eles[index];
-					if(*(ULONG*)&PEle->Textures[static_face_no]!=tex_bits)
+					if(*(std::uint32_t*)&PEle->Textures[static_face_no]!=tex_bits)
 						flood_fill_texture(x,y+1,z,tex_bits);
 				}
 				break;
@@ -3713,10 +3713,10 @@ SLONG	flood_fill_texture(SLONG x,SLONG y,SLONG z,ULONG tex_bits)
 }
 
 
-extern UWORD	make_poly_into_glass_shatter_prim(SWORD face,SWORD mid_x,SWORD mid_y,SWORD mid_z);
+extern std::uint16_t	make_poly_into_glass_shatter_prim(std::int16_t face,std::int16_t mid_x,std::int16_t mid_y,std::int16_t mid_z);
 bool	LevelEditor::ApplyTexture(struct EditFace *edit_face)
 {
-	SLONG			c0;
+	std::int32_t			c0;
 
 	
 	if(edit_face->PEle==(struct EditMapElement*)-2)
@@ -3756,7 +3756,7 @@ bool	LevelEditor::ApplyTexture(struct EditFace *edit_face)
 	else
 	if(edit_face->PEle==(struct EditMapElement*)-1)
 	{
-		SLONG	mid_x,mid_y,mid_z;
+		std::int32_t	mid_x,mid_y,mid_z;
 
 //		calc_face_midpoint(edit_face->Face,&mid_x,&mid_y,&mid_z);
 //		make_poly_into_glass_shatter_prim(edit_face->Face,mid_x,mid_y,mid_z);
@@ -3777,14 +3777,14 @@ bool	LevelEditor::ApplyTexture(struct EditFace *edit_face)
 	}
 	else if(edit_face->PEle)
 	{
-		SLONG x,y,width,height,page;
-		SLONG mx,my,mz;
-		ULONG	texbits;
+		std::int32_t x,y,width,height,page;
+		std::int32_t mx,my,mz;
+		std::uint32_t	texbits;
 		PaintMode->ConvertFreeToFixedEle(&edit_face->PEle->Textures[edit_face->Face],&x,&y,&width,&height,&page);
 		if(ShiftFlag)
 		{
 			
-			texbits=(*(ULONG*)&edit_face->PEle->Textures[edit_face->Face]);
+			texbits=(*(std::uint32_t*)&edit_face->PEle->Textures[edit_face->Face]);
 
 			find_map_coord(&mx,&my,&mz,edit_face->PEle);
 			static_face_no=edit_face->Face;

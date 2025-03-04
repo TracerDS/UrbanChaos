@@ -9,5 +9,5 @@
 #endif
 #define		MAXIMUM_HEAP_SIZE		(16*1024*1024)
 
-extern UBYTE	my_heap[40*1024];
+extern std::uint8_t	my_heap[40*1024];
 #endif

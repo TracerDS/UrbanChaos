@@ -21,23 +21,23 @@
 
 typedef struct
 {
-	SLONG x;	// -INFINITY => Unused
-	SLONG y;
-	SLONG z;
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SWORD still;	// The number of gameturns that this sphere has been below a threshold speed.
-	UWORD radius;	// In the large coordinate system- even thought it is a UWORD!
+	std::int32_t x;	// -INFINITY => Unused
+	std::int32_t y;
+	std::int32_t z;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int16_t still;	// The number of gameturns that this sphere has been below a threshold speed.
+	std::uint16_t radius;	// In the large coordinate system- even thought it is a std::uint16_t!
 
 } BARREL_Sphere;
 
 struct Barrel
 {
-	UBYTE type;
-	UBYTE flag;
-	UWORD on;		// For stacked barrels it is the barrel you are supported by (nullptr => on the ground)
-	UWORD bs;		// For moving barrels its an index to 2 BARREL_Spheres in the BARREL_sphere[] array.
+	std::uint8_t type;
+	std::uint8_t flag;
+	std::uint16_t on;		// For stacked barrels it is the barrel you are supported by (nullptr => on the ground)
+	std::uint16_t bs;		// For moving barrels its an index to 2 BARREL_Spheres in the BARREL_sphere[] array.
 };
 
 //
@@ -57,8 +57,8 @@ void BARREL_init();
 extern BARREL_Sphere *BARREL_sphere; //[BARREL_MAX_SPHERES];
 extern Barrel *BARREL_barrel;//[BARREL_MAX_BARRELS];
 
-extern SLONG         BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
-extern SLONG  BARREL_barrel_upto;
+extern std::int32_t         BARREL_sphere_last;	  // MARK!!! WTF, you usuall call thing BLAH_blah_upto
+extern std::int32_t  BARREL_barrel_upto;
 
 
 //
@@ -71,12 +71,12 @@ extern SLONG  BARREL_barrel_upto;
 #define BARREL_TYPE_BURNING	2
 #define BARREL_TYPE_BIN     3
 
-UWORD BARREL_alloc(
-		SLONG type,
-		SLONG prim,
-		SLONG x,
-		SLONG z,
-		SLONG waypoint);	// The waypoint that creates this barrel or nullptr
+std::uint16_t BARREL_alloc(
+		std::int32_t type,
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t z,
+		std::int32_t waypoint);	// The waypoint that creates this barrel or nullptr
 
 //
 // Returns the position on a burning barrel for where the flame should start.
@@ -89,17 +89,17 @@ GameCoord BARREL_fire_pos(Thing *p_barrel);
 // 
 
 void BARREL_hit_with_prim(
-		SLONG prim,
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw);
+		std::int32_t prim,
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw);
 
 void BARREL_hit_with_sphere(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG radius);
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t radius);
 
 //
 // Call when the barrel is shot at by the given person.

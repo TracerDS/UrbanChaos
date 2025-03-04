@@ -14,13 +14,13 @@
 
 typedef struct
 {
-	SLONG x;
-	SLONG y;
-	SLONG z;
-	SWORD dx;
-	SWORD dy;
-	SWORD dz;
-	UWORD alive;
+	std::int32_t x;
+	std::int32_t y;
+	std::int32_t z;
+	std::int16_t dx;
+	std::int16_t dy;
+	std::int16_t dz;
+	std::uint16_t alive;
 
 } HOOK_Point;
 
@@ -45,35 +45,35 @@ HOOK_Point HOOK_point[HOOK_NUM_POINTS];
 // How far the string is unreeled to.
 //
 
-UBYTE HOOK_reeled;
+std::uint8_t HOOK_reeled;
 
 //
 // The current state
 //
 
-UBYTE HOOK_state;
+std::uint8_t HOOK_state;
 
 //
 // The pitch the grappling hook is currently being swung through.
 //
 
-SLONG HOOK_grapple_yaw;
-SLONG HOOK_grapple_pitch;
+std::int32_t HOOK_grapple_yaw;
+std::int32_t HOOK_grapple_pitch;
 
-SLONG HOOK_spin_x;
-SLONG HOOK_spin_y;
-SLONG HOOK_spin_z;
-SLONG HOOK_spin_speed;
+std::int32_t HOOK_spin_x;
+std::int32_t HOOK_spin_y;
+std::int32_t HOOK_spin_z;
+std::int32_t HOOK_spin_speed;
 
 //
 // Processing after we've gone still.
 //
 
-SLONG HOOK_countdown;
+std::int32_t HOOK_countdown;
 
 
 
-SLONG HOOK_get_state()
+std::int32_t HOOK_get_state()
 {
 	return HOOK_state;
 }
@@ -87,17 +87,17 @@ SLONG HOOK_get_state()
 #define HOOK_LOOP_ANGLE	 ((1436 * 2048) / 36000)		// 14.36 degrees...
 #define HOOK_LOOP_RAISE  (0x0)
 
-void HOOK_make_loop(SLONG x, SLONG z)
+void HOOK_make_loop(std::int32_t x, std::int32_t z)
 {
-	SLONG i;
-	SLONG y;
-	SLONG dy;
-	SLONG angle;
-	SLONG dx;
-	SLONG dz;
-	SLONG mx;
-	SLONG mz;
-	SLONG ground;
+	std::int32_t i;
+	std::int32_t y;
+	std::int32_t dy;
+	std::int32_t angle;
+	std::int32_t dx;
+	std::int32_t dz;
+	std::int32_t mx;
+	std::int32_t mz;
+	std::int32_t ground;
 
 	HOOK_Point *hp;
 
@@ -134,8 +134,8 @@ void HOOK_make_loop(SLONG x, SLONG z)
 }
 
 void HOOK_init(
-		SLONG x,
-		SLONG z)
+		std::int32_t x,
+		std::int32_t z)
 {
 	//
 	// Loop up the string.
@@ -154,21 +154,21 @@ void HOOK_init(
 // Processes the points starting at the given point.
 //
 
-void HOOK_process_points(SLONG start_point)
+void HOOK_process_points(std::int32_t start_point)
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG ddx;
-	SLONG ddy;
-	SLONG ddz;
+	std::int32_t ddx;
+	std::int32_t ddy;
+	std::int32_t ddz;
 
-	SLONG dist;
-	SLONG ddist;
-	SLONG ground;
+	std::int32_t dist;
+	std::int32_t ddist;
+	std::int32_t ground;
 
 	HOOK_Point *hp;
 	HOOK_Point *hp_near;
@@ -356,13 +356,13 @@ void HOOK_process_points(SLONG start_point)
 //
 
 void HOOK_spin(
-		SLONG x,
-		SLONG y,
-		SLONG z,
-		SLONG yaw,
-		SLONG speed_or_minus_pitch)
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z,
+		std::int32_t yaw,
+		std::int32_t speed_or_minus_pitch)
 {
-	SLONG i;
+	std::int32_t i;
 
 	//
 	// The number of points from where darci hold the string
@@ -454,10 +454,10 @@ void HOOK_release()
 
 void HOOK_process_flying()
 {
-	SLONG speed;
-	SLONG ground;
-	SLONG odd;
-	SLONG dy;
+	std::int32_t speed;
+	std::int32_t ground;
+	std::int32_t odd;
+	std::int32_t dy;
 
 	//
 	// Process the grappling hook (point 0)
@@ -526,11 +526,11 @@ void HOOK_process_flying()
 			// Bouncing off a wall.
 			//
 
-			SLONG check_x;
-			SLONG check_z;
-			SLONG check_height;
-			SLONG bounced_x = false;
-			SLONG bounced_z = false;
+			std::int32_t check_x;
+			std::int32_t check_z;
+			std::int32_t check_height;
+			std::int32_t bounced_x = false;
+			std::int32_t bounced_z = false;
 
 			//
 			// Bounced in x?
@@ -606,21 +606,21 @@ void HOOK_process_flying()
 
 void HOOK_process_spinning()
 {
-	SLONG i;
+	std::int32_t i;
 
-	SLONG vector[3];
+	std::int32_t vector[3];
 
-	SLONG old_x;
-	SLONG old_y;
-	SLONG old_z;
+	std::int32_t old_x;
+	std::int32_t old_y;
+	std::int32_t old_z;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
 
-	SLONG px;
-	SLONG py;
-	SLONG pz;
+	std::int32_t px;
+	std::int32_t py;
+	std::int32_t pz;
 
 	//
 	// Set the grapple going.
@@ -729,12 +729,12 @@ void HOOK_process()
 // ========================================================
 
 void HOOK_pos_grapple(
-		SLONG *x,
-		SLONG *y,
-		SLONG *z,
-		SLONG *yaw,
-		SLONG *pitch,
-		SLONG *roll)
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z,
+		std::int32_t *yaw,
+		std::int32_t *pitch,
+		std::int32_t *roll)
 {
 	*x = HOOK_point[0].x;
 	*y = HOOK_point[0].y + 0x1000;
@@ -745,10 +745,10 @@ void HOOK_pos_grapple(
 	*roll  = 0;
 }
 
-void HOOK_pos_point(SLONG point,
-		SLONG *x,
-		SLONG *y,
-		SLONG *z)
+void HOOK_pos_point(std::int32_t point,
+		std::int32_t *x,
+		std::int32_t *y,
+		std::int32_t *z)
 {
 	ASSERT(WITHIN(point, 0, HOOK_NUM_POINTS - 1));
 

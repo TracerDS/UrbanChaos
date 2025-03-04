@@ -43,7 +43,7 @@
 
 #if	!defined(MIKE)&&!defined(VERSION_DEMO)
 #include "libcrypt.h"
-UBYTE do_decrypt[]={0,0,0,0,0,0,0,1,0,1,
+std::uint8_t do_decrypt[]={0,0,0,0,0,0,0,1,0,1,
 					1,1,1,0,0,0,0,1,0,0,
 					1,0,0,1,0,0,0,0,0,0,
 					0,0,1,1,1,0};
@@ -64,7 +64,7 @@ UBYTE do_decrypt[]={0,0,0,0,0,0,0,1,0,1,
 #endif
 
 
-extern ULONG	level_index;
+extern std::uint32_t	level_index;
 /*
 
   //
@@ -168,67 +168,67 @@ extern void BAT_normal(Thing *p_thing);
 
 /*
 
-extern SLONG FC_x;
-extern SLONG FC_y;
-extern SLONG FC_z;
-extern SLONG FC_want_x;
-extern SLONG FC_want_y;
-extern SLONG FC_want_z;
-extern SLONG FC_dx;
-extern SLONG FC_dy;
-extern SLONG FC_dz;
-extern SLONG FC_yaw;
-extern SLONG FC_pitch;
-extern SLONG FC_roll;
-extern SLONG FC_want_yaw;
-extern SLONG FC_want_pitch;
-extern SLONG FC_want_roll;
-extern SLONG FC_lens ;	// Initialise this here because of the game editor!
-extern SLONG FC_toonear;
-extern SLONG FC_rotate;
-extern SLONG FC_nobehind;
-extern SLONG FC_lookabove;
-extern UBYTE FC_shake;
+extern std::int32_t FC_x;
+extern std::int32_t FC_y;
+extern std::int32_t FC_z;
+extern std::int32_t FC_want_x;
+extern std::int32_t FC_want_y;
+extern std::int32_t FC_want_z;
+extern std::int32_t FC_dx;
+extern std::int32_t FC_dy;
+extern std::int32_t FC_dz;
+extern std::int32_t FC_yaw;
+extern std::int32_t FC_pitch;
+extern std::int32_t FC_roll;
+extern std::int32_t FC_want_yaw;
+extern std::int32_t FC_want_pitch;
+extern std::int32_t FC_want_roll;
+extern std::int32_t FC_lens ;	// Initialise this here because of the game editor!
+extern std::int32_t FC_toonear;
+extern std::int32_t FC_rotate;
+extern std::int32_t FC_nobehind;
+extern std::int32_t FC_lookabove;
+extern std::uint8_t FC_shake;
 */
 
-extern ULONG        NIGHT_amb_d3d_colour;
-extern ULONG        NIGHT_amb_d3d_specular;
-extern SLONG        NIGHT_amb_red;
-extern SLONG        NIGHT_amb_green;
-extern SLONG        NIGHT_amb_blue;
-extern SLONG        NIGHT_amb_norm_x;
-extern SLONG        NIGHT_amb_norm_y;
-extern SLONG	     NIGHT_amb_norm_z;
+extern D3DCOLOR NIGHT_amb_d3d_colour;
+extern D3DCOLOR NIGHT_amb_d3d_specular;
+extern std::int32_t NIGHT_amb_red;
+extern std::int32_t NIGHT_amb_green;
+extern std::int32_t NIGHT_amb_blue;
+extern std::int32_t NIGHT_amb_norm_x;
+extern std::int32_t NIGHT_amb_norm_y;
+extern std::int32_t NIGHT_amb_norm_z;
 
-extern UBYTE        NIGHT_dlight_free;
-extern UBYTE        NIGHT_dlight_used;
-extern ULONG        NIGHT_flag;
-extern UBYTE        NIGHT_lampost_radius;
-extern SBYTE        NIGHT_lampost_red;
-extern SBYTE        NIGHT_lampost_green;
-extern SBYTE        NIGHT_lampost_blue;
+extern std::uint8_t        NIGHT_dlight_free;
+extern std::uint8_t        NIGHT_dlight_used;
+extern std::uint32_t        NIGHT_flag;
+extern std::uint8_t        NIGHT_lampost_radius;
+extern std::int8_t        NIGHT_lampost_red;
+extern std::int8_t        NIGHT_lampost_green;
+extern std::int8_t        NIGHT_lampost_blue;
 extern NIGHT_Colour NIGHT_sky_colour;
 
-extern UWORD EWAY_fake_wander_text_normal_index;
-extern UWORD EWAY_fake_wander_text_normal_number;
-extern UWORD EWAY_fake_wander_text_guilty_index;
-extern UWORD EWAY_fake_wander_text_guilty_number;
-extern UWORD EWAY_fake_wander_text_annoyed_index;
-extern UWORD EWAY_fake_wander_text_annoyed_number;
+extern std::uint16_t EWAY_fake_wander_text_normal_index;
+extern std::uint16_t EWAY_fake_wander_text_normal_number;
+extern std::uint16_t EWAY_fake_wander_text_guilty_index;
+extern std::uint16_t EWAY_fake_wander_text_guilty_number;
+extern std::uint16_t EWAY_fake_wander_text_annoyed_index;
+extern std::uint16_t EWAY_fake_wander_text_annoyed_number;
 
-extern UBYTE semtex;
-extern UBYTE estate;
+extern std::uint8_t semtex;
+extern std::uint8_t estate;
 
-extern UWORD	*thing_class_head;
-extern SWORD	world_type;
+extern std::uint16_t	*thing_class_head;
+extern std::int16_t	world_type;
 
 extern void PLAT_process(Thing *p_thing);
-extern SLONG	TEXTURE_set;
+extern std::int32_t	TEXTURE_set;
 //extern Thing *CAM_focus;
 
 void convert_index_to_pointers();
 
-SLONG load_anim_prim_object(SLONG prim);
+std::int32_t load_anim_prim_object(std::int32_t prim);
 
 MAP_Beacon *MAP_beacon; //[MAP_MAX_BEACONS];
 
@@ -240,23 +240,23 @@ PSX_TEX *psx_textures_xy; //[200][5];
 #endif
 
 void* mem_all=0;
-ULONG mem_all_size=0;
+std::uint32_t mem_all_size=0;
 
-UWORD *psx_remap;
+std::uint16_t *psx_remap;
 
 //
 // supermap stuff to do with ingame facets facet textures inside buildings and walkable rooftops
 //
 
-SWORD *facet_links; //[MAX_FACET_LINK];
+std::int16_t *facet_links; //[MAX_FACET_LINK];
 
 struct DBuilding	*dbuildings;//[MAX_DBUILDINGS];
 struct DFacet		*dfacets;   //[MAX_DFACETS	 ];
 struct DWalkable	*dwalkables;//[MAX_DWALKABLES];
-SWORD *dstyles;   //[MAX_DSTYLES	 ];
+std::int16_t *dstyles;   //[MAX_DSTYLES	 ];
 struct DStorey		*dstoreys;  //[MAX_DSTOREYS];
 
-UBYTE *paint_mem; //[MAX_PAINTMEM];
+std::uint8_t *paint_mem; //[MAX_PAINTMEM];
 
 
 //
@@ -264,7 +264,7 @@ UBYTE *paint_mem; //[MAX_PAINTMEM];
 //
 
 struct PrimPoint	*anim_mids;//[256];
-ULONG next_anim_mids=0;
+std::uint32_t next_anim_mids=0;
 
 //
 // from inside2
@@ -272,13 +272,13 @@ ULONG next_anim_mids=0;
 
 struct InsideStorey	*inside_storeys;//[MAX_INSIDE_RECT];
 struct Staircase		*inside_stairs;//[MAX_INSIDE_STAIRS];
-UBYTE *inside_block;//[MAX_INSIDE_MEM];
-UBYTE inside_tex[64][16];
+std::uint8_t *inside_block;//[MAX_INSIDE_MEM];
+std::uint8_t inside_tex[64][16];
 
 #ifdef PSX
-UWORD next_inside_storey=1;
-UWORD next_inside_stair=1;
-SLONG next_inside_block=1;
+std::uint16_t next_inside_storey=1;
+std::uint16_t next_inside_stair=1;
+std::int32_t next_inside_block=1;
 #endif
 
 
@@ -295,14 +295,14 @@ struct PrimMultiObject	*prim_multi_objects;//[MAX_PRIM_MOBJECTS];
 PrimNormal *prim_normal;//[MAX_PRIM_POINTS];
 
 
-UWORD next_roof_face4=1;
+std::uint16_t next_roof_face4=1;
 struct RoofFace4	*roof_faces4;
 
 
 
-extern SLONG EWAY_time_accurate;	// 1600 ticks per second
-extern SLONG EWAY_time;			// 100  ticks per second
-extern SLONG EWAY_tick;			// The amount of time since the last process waypoints: (100 ticks per sec.)
+extern std::int32_t EWAY_time_accurate;	// 1600 ticks per second
+extern std::int32_t EWAY_time;			// 100  ticks per second
+extern std::int32_t EWAY_tick;			// The amount of time since the last process waypoints: (100 ticks per sec.)
 
 
 
@@ -310,58 +310,58 @@ extern SLONG EWAY_tick;			// The amount of time since the last process waypoints
 // The cut-scene camera.
 //
 			   
-extern SLONG  EWAY_cam_active;
-extern SLONG  EWAY_cam_x;		// Big coordinates...
-extern SLONG  EWAY_cam_y;
-extern SLONG  EWAY_cam_z;
-extern SLONG  EWAY_cam_dx;
-extern SLONG  EWAY_cam_dy;
-extern SLONG  EWAY_cam_dz;
-extern SLONG  EWAY_cam_yaw;
-extern SLONG  EWAY_cam_pitch;
-extern SLONG  EWAY_cam_waypoint;
-extern SLONG  EWAY_cam_target;
-extern SLONG  EWAY_cam_delay;
-extern SLONG  EWAY_cam_speed;
-extern SLONG  EWAY_cam_freeze;	// Stop the player moving.
-extern UBYTE *EWAY_counter;
-extern SLONG  EWAY_cam_cant_interrupt;
+extern std::int32_t  EWAY_cam_active;
+extern std::int32_t  EWAY_cam_x;		// Big coordinates...
+extern std::int32_t  EWAY_cam_y;
+extern std::int32_t  EWAY_cam_z;
+extern std::int32_t  EWAY_cam_dx;
+extern std::int32_t  EWAY_cam_dy;
+extern std::int32_t  EWAY_cam_dz;
+extern std::int32_t  EWAY_cam_yaw;
+extern std::int32_t  EWAY_cam_pitch;
+extern std::int32_t  EWAY_cam_waypoint;
+extern std::int32_t  EWAY_cam_target;
+extern std::int32_t  EWAY_cam_delay;
+extern std::int32_t  EWAY_cam_speed;
+extern std::int32_t  EWAY_cam_freeze;	// Stop the player moving.
+extern std::uint8_t *EWAY_counter;
+extern std::int32_t  EWAY_cam_cant_interrupt;
 
-extern SLONG EWAY_cam_active;
-extern SLONG EWAY_cam_goinactive;
-extern SLONG EWAY_cam_x;		// Big coordinates...
-extern SLONG EWAY_cam_y;
-extern SLONG EWAY_cam_z;
-extern SLONG EWAY_cam_dx;
-extern SLONG EWAY_cam_dy;
-extern SLONG EWAY_cam_dz;
-extern SLONG EWAY_cam_yaw;
-extern SLONG EWAY_cam_pitch;
-extern SLONG EWAY_cam_want_yaw;
-extern SLONG EWAY_cam_want_pitch;
-extern SLONG EWAY_cam_waypoint;
-extern SLONG EWAY_cam_target;
-extern SLONG EWAY_cam_delay;
-extern SLONG EWAY_cam_speed;
-extern SLONG EWAY_cam_freeze;	// Stop the player moving.
-extern SLONG EWAY_cam_cant_interrupt;
-extern UWORD EWAY_cam_thing;
-extern SLONG EWAY_cam_targx;
-extern SLONG EWAY_cam_targy;
-extern SLONG EWAY_cam_targz;
-extern SLONG EWAY_cam_lens;	// 16-bit fixed point
-extern SLONG EWAY_cam_warehouse;
-extern SLONG EWAY_cam_lock;
-extern SLONG EWAY_cam_last_yaw;
-extern SLONG EWAY_cam_last_x;
-extern SLONG EWAY_cam_last_y;
-extern SLONG EWAY_cam_last_z;
-extern SLONG EWAY_cam_skip;
-extern SLONG EWAY_cam_last_dyaw;
+extern std::int32_t EWAY_cam_active;
+extern std::int32_t EWAY_cam_goinactive;
+extern std::int32_t EWAY_cam_x;		// Big coordinates...
+extern std::int32_t EWAY_cam_y;
+extern std::int32_t EWAY_cam_z;
+extern std::int32_t EWAY_cam_dx;
+extern std::int32_t EWAY_cam_dy;
+extern std::int32_t EWAY_cam_dz;
+extern std::int32_t EWAY_cam_yaw;
+extern std::int32_t EWAY_cam_pitch;
+extern std::int32_t EWAY_cam_want_yaw;
+extern std::int32_t EWAY_cam_want_pitch;
+extern std::int32_t EWAY_cam_waypoint;
+extern std::int32_t EWAY_cam_target;
+extern std::int32_t EWAY_cam_delay;
+extern std::int32_t EWAY_cam_speed;
+extern std::int32_t EWAY_cam_freeze;	// Stop the player moving.
+extern std::int32_t EWAY_cam_cant_interrupt;
+extern std::uint16_t EWAY_cam_thing;
+extern std::int32_t EWAY_cam_targx;
+extern std::int32_t EWAY_cam_targy;
+extern std::int32_t EWAY_cam_targz;
+extern std::int32_t EWAY_cam_lens;	// 16-bit fixed point
+extern std::int32_t EWAY_cam_warehouse;
+extern std::int32_t EWAY_cam_lock;
+extern std::int32_t EWAY_cam_last_yaw;
+extern std::int32_t EWAY_cam_last_x;
+extern std::int32_t EWAY_cam_last_y;
+extern std::int32_t EWAY_cam_last_z;
+extern std::int32_t EWAY_cam_skip;
+extern std::int32_t EWAY_cam_last_dyaw;
 
 
-UWORD *darci_normal;
-UWORD darci_normal_count=0;
+std::uint16_t *darci_normal;
+std::uint16_t darci_normal_count=0;
 
 void release_memory()
 {
@@ -380,16 +380,16 @@ struct MemTable save_table[]=
 	{M_("Pap_Lo")		,(void**)&PAP_lo				,MEM_STATIC, 0							,0							,PAP_SIZE_LO*PAP_SIZE_LO	,sizeof(PAP_Lo)					,0}, //1
 	{M_("net_peep")		,(void**)&NETPERSON				,MEM_STATIC, 0							,0							,10							,sizeof(Thing*)					,0}, //2
 	{M_("net_plyr")		,(void**)&NETPLAYERS			,MEM_STATIC, 0							,0							,10							,sizeof(Thing*)					,0}, //3
-	{M_("f-links")		,(void**)&facet_links			,MEM_DYNAMIC,0							,(UWORD*)&next_facet_link	,MAX_FACET_LINK				,sizeof(SWORD)					,0}, //4
+	{M_("f-links")		,(void**)&facet_links			,MEM_DYNAMIC,0							,(std::uint16_t*)&next_facet_link	,MAX_FACET_LINK				,sizeof(std::int16_t)					,0}, //4
 	{M_("dbuildings")	,(void**)&dbuildings			,MEM_DYNAMIC,&next_dbuilding			,0							,MAX_DBUILDINGS				,sizeof(struct DBuilding)		,0}, //5
 	{M_("dfacets")		,(void**)&dfacets				,MEM_DYNAMIC,&next_dfacet				,0							,MAX_DFACETS				,sizeof(struct DFacet)			,0}, //6
 	{M_("dwalkables")	,(void**)&dwalkables			,MEM_DYNAMIC,&next_dwalkable			,0							,MAX_DWALKABLES				,sizeof(struct DWalkable)		,0}, //7
-	{M_("dstyles")		,(void**)&dstyles				,MEM_DYNAMIC,&next_dstyle				,0							,MAX_DSTYLES				,sizeof(SWORD)					,0}, //8
-	{M_("dstoreys")		,(void**)&dstoreys				,MEM_DYNAMIC,0							,(UWORD*)&next_dstorey		,MAX_DSTOREYS				,sizeof(struct DStorey )		,0}, //9
-	{M_("paintmem")		,(void**)&paint_mem				,MEM_DYNAMIC,0							,(UWORD*)&next_paint_mem	,MAX_PAINTMEM				,sizeof(UBYTE)					,0}, //10
-	{M_("insideStoreys"),(void**)&inside_storeys		,MEM_DYNAMIC,0							,(UWORD*)&next_inside_storey,MAX_INSIDE_RECT			,sizeof(struct InsideStorey)	,0}, //11
+	{M_("dstyles")		,(void**)&dstyles				,MEM_DYNAMIC,&next_dstyle				,0							,MAX_DSTYLES				,sizeof(std::int16_t)					,0}, //8
+	{M_("dstoreys")		,(void**)&dstoreys				,MEM_DYNAMIC,0							,(std::uint16_t*)&next_dstorey		,MAX_DSTOREYS				,sizeof(struct DStorey )		,0}, //9
+	{M_("paintmem")		,(void**)&paint_mem				,MEM_DYNAMIC,0							,(std::uint16_t*)&next_paint_mem	,MAX_PAINTMEM				,sizeof(std::uint8_t)					,0}, //10
+	{M_("insideStoreys"),(void**)&inside_storeys		,MEM_DYNAMIC,0							,(std::uint16_t*)&next_inside_storey,MAX_INSIDE_RECT			,sizeof(struct InsideStorey)	,0}, //11
 	{M_("insideStairs")	,(void**)&inside_stairs			,MEM_DYNAMIC,0							,&next_inside_stair			,MAX_INSIDE_STAIRS			,sizeof(struct Staircase)		,0}, //12
-	{M_("insideblock")	,(void**)&inside_block			,MEM_DYNAMIC,&next_inside_block			,0							,MAX_INSIDE_MEM				,sizeof(UBYTE)					,0}, //13
+	{M_("insideblock")	,(void**)&inside_block			,MEM_DYNAMIC,&next_inside_block			,0							,MAX_INSIDE_MEM				,sizeof(std::uint8_t)					,0}, //13
 	{M_("roof bounds")	,(void**)&roof_bounds			,MEM_DYNAMIC,0							,&next_roof_bound			,MAX_ROOF_BOUND				,sizeof(struct	BoundBox)		,0}, //14
 	{M_("prim_points")	,(void**)&prim_points			,MEM_DYNAMIC,0							,&next_prim_point			,RMAX_PRIM_POINTS			,sizeof(struct PrimPoint)		,256}, //15
 	{M_("prim_faces4")	,(void**)&prim_faces4			,MEM_DYNAMIC,0							,&next_prim_face4			,RMAX_PRIM_FACES4			,sizeof(struct PrimFace4)		,64}, //16
@@ -405,17 +405,17 @@ struct MemTable save_table[]=
 																																										
 	{M_("ob_ob")		,(void**)&OB_ob					,MEM_DYNAMIC,&OB_ob_upto				,0							,OB_MAX_OBS					,sizeof(OB_Ob)					,0}, //20				
 	{M_("ob_ mapwho")	,(void**)&OB_mapwho				,MEM_STATIC, 0							,0							,OB_SIZE*OB_SIZE			,sizeof(OB_Mapwho)				,0}, //21
-	{M_("EWAY_mess")	,(void**)&EWAY_mess				,MEM_DYNAMIC,&EWAY_mess_upto			,0							,EWAY_MAX_MESSES			,sizeof(CBYTE*)					,0}, //22
-	{M_("EWAY_mess buf"),(void**)&EWAY_mess_buffer		,MEM_DYNAMIC,&EWAY_mess_buffer_upto		,0							,EWAY_MESS_BUFFER_SIZE		,sizeof(CBYTE)					,0}, //23
+	{M_("EWAY_mess")	,(void**)&EWAY_mess				,MEM_DYNAMIC,&EWAY_mess_upto			,0							,EWAY_MAX_MESSES			,sizeof(char*)					,0}, //22
+	{M_("EWAY_mess buf"),(void**)&EWAY_mess_buffer		,MEM_DYNAMIC,&EWAY_mess_buffer_upto		,0							,EWAY_MESS_BUFFER_SIZE		,sizeof(char)					,0}, //23
 #ifdef	NEW_LEVELS
-	{M_("EWAY_timer")	,(void**)&EWAY_timer			,MEM_STATIC,0							,0							,EWAY_MAX_TIMERS			,sizeof(UWORD)					,0}, //24
+	{M_("EWAY_timer")	,(void**)&EWAY_timer			,MEM_STATIC,0							,0							,EWAY_MAX_TIMERS			,sizeof(std::uint16_t)					,0}, //24
 #else
-	{M_("EWAY_timer")	,(void**)&EWAY_timer			,MEM_DYNAMIC,0							,0							,EWAY_MAX_TIMERS			,sizeof(UWORD)					,0}, //24
+	{M_("EWAY_timer")	,(void**)&EWAY_timer			,MEM_DYNAMIC,0							,0							,EWAY_MAX_TIMERS			,sizeof(std::uint16_t)					,0}, //24
 #endif
 	{M_("EWAY_cond")	,(void**)&EWAY_cond				,MEM_DYNAMIC,&EWAY_cond_upto			,0							,EWAY_MAX_CONDS				,sizeof(EWAY_Cond)				,0}, //25
 	{M_("EWAY_way")		,(void**)&EWAY_way				,MEM_DYNAMIC,&EWAY_way_upto				,0							,EWAY_MAX_WAYS				,sizeof(EWAY_Way)				,0}, //26
 	{M_("EWAY_edef")	,(void**)&EWAY_edef				,MEM_DYNAMIC,&EWAY_edef_upto			,0							,EWAY_MAX_EDEFS				,sizeof(EWAY_Edef)				,0}, //27
-	{M_("EWAY_counter") ,(void**)&EWAY_counter			,MEM_STATIC	,0							,0							,EWAY_MAX_COUNTERS			,sizeof(UBYTE)					,0}, //28
+	{M_("EWAY_counter") ,(void**)&EWAY_counter			,MEM_STATIC	,0							,0							,EWAY_MAX_COUNTERS			,sizeof(std::uint8_t)					,0}, //28
 																																										
 	{M_("vehicles")		,(void**)&VEHICLES				,MEM_STATIC, 0							,0							,RMAX_VEHICLES				,sizeof(Vehicle)				,32}, //29
 	{M_("people")		,(void**)&PEOPLE				,MEM_STATIC, 0							,0							,RMAX_PEOPLE				,sizeof(Person)					,128}, //30
@@ -439,26 +439,26 @@ struct MemTable save_table[]=
 	{M_("wmove")		,(void**)&WMOVE_face			,MEM_DYNAMIC,&WMOVE_face_upto			,0							,RWMOVE_MAX_FACES			,sizeof(WMOVE_Face)				,64}, //46			
 	{M_("mav_opt")		,(void**)&MAV_opt				,MEM_DYNAMIC,&MAV_opt_upto				,0							,MAV_MAX_OPTS				,sizeof(MAV_Opt)				,0}, //47			
 
-	//{M_("mav height")	,(void**)&MAV_height			,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI	,sizeof(SBYTE)					},			
+	//{M_("mav height")	,(void**)&MAV_height			,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI	,sizeof(std::int8_t)					},			
 
-	{M_("mav_nav")		,(void**)&MAV_nav				,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI	,sizeof(UWORD)					,0}, //48			
+	{M_("mav_nav")		,(void**)&MAV_nav				,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI	,sizeof(std::uint16_t)					,0}, //48			
 	{M_("road_noads")	,(void**)&ROAD_node				,MEM_DYNAMIC,&ROAD_node_upto			,0							,ROAD_MAX_NODES				,sizeof(ROAD_Node)				,0}, //49			
 	{M_("balloons")		,(void**)&BALLOON_balloon		,MEM_DYNAMIC,&BALLOON_balloon_upto		,0							,BALLOON_MAX_BALLOONS		,sizeof(BALLOON_Balloon)		,0}, //50			
 	{M_("tracks")		,(void**)&tracks				,MEM_STATIC, 0							,0							,TRACK_BUFFER_LENGTH		,sizeof(Track)					,0}, //51			
 	{M_("roofface4")	,(void**)&roof_faces4			,MEM_DYNAMIC,0							,&next_roof_face4			,MAX_ROOF_FACE4				,sizeof(struct RoofFace4)		,0}, //52			
-	{M_("fastnav")		,(void**)&COLLIDE_fastnav		,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI>>3 ,sizeof(UBYTE)					,0}, //53
+	{M_("fastnav")		,(void**)&COLLIDE_fastnav		,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI>>3 ,sizeof(std::uint8_t)					,0}, //53
 	{M_("night_slight")	,(void**)&NIGHT_slight			,MEM_DYNAMIC,&NIGHT_slight_upto			,0							,NIGHT_MAX_SLIGHTS			,sizeof(NIGHT_Slight)			,0}, //54
 	{M_("night_smap")	,(void**)&NIGHT_smap			,MEM_STATIC	,0							,0							,PAP_SIZE_LO*PAP_SIZE_LO	,sizeof(NIGHT_Smap)				,0}, //55
 	{M_("night_dlight")	,(void**)&NIGHT_dlight			,MEM_STATIC	,0							,0							,NIGHT_MAX_DLIGHTS			,sizeof(NIGHT_Dlight)			,0}, //56
 	{M_("WARE_ware")	,(void**)&WARE_ware				,MEM_DYNAMIC,0							,&WARE_ware_upto			,WARE_MAX_WARES				,sizeof(WARE_Ware)				,0}, //57
-	{M_("WARE_nav")		,(void**)&WARE_nav				,MEM_DYNAMIC,0							,&WARE_nav_upto				,WARE_MAX_NAVS				,sizeof(UWORD)					,0}, //58
-	{M_("WARE_height")	,(void**)&WARE_height			,MEM_DYNAMIC,0							,&WARE_height_upto			,WARE_MAX_HEIGHTS			,sizeof(SBYTE)					,0}, //59
-	{M_("WARE_rooftex") ,(void**)&WARE_rooftex          ,MEM_DYNAMIC,0                          ,&WARE_rooftex_upto         ,WARE_MAX_ROOFTEXES         ,sizeof(UWORD)                  ,0}, //60
+	{M_("WARE_nav")		,(void**)&WARE_nav				,MEM_DYNAMIC,0							,&WARE_nav_upto				,WARE_MAX_NAVS				,sizeof(std::uint16_t)					,0}, //58
+	{M_("WARE_height")	,(void**)&WARE_height			,MEM_DYNAMIC,0							,&WARE_height_upto			,WARE_MAX_HEIGHTS			,sizeof(std::int8_t)					,0}, //59
+	{M_("WARE_rooftex") ,(void**)&WARE_rooftex          ,MEM_DYNAMIC,0                          ,&WARE_rooftex_upto         ,WARE_MAX_ROOFTEXES         ,sizeof(std::uint16_t)                  ,0}, //60
 	{M_("Trip_Wire")	,(void**)&TRIP_wire				,MEM_DYNAMIC,&TRIP_wire_upto			,0							,TRIP_MAX_WIRES				,sizeof(TRIP_Wire)				,0}, //61
-	{M_("Road_edges")	,(void**)&ROAD_edge				,MEM_DYNAMIC,0							,&ROAD_edge_upto			,ROAD_MAX_EDGES				,sizeof(UBYTE)					,0}, //62
-	{M_("Thing_heads")	,(void**)&thing_class_head		,MEM_STATIC ,0							,0							,CLASS_END					,sizeof(UWORD)					,0}, //63
-	{M_("psx_remap")	,(void**)&psx_remap				,MEM_STATIC ,0							,0							,128						,sizeof(UWORD)					,0}, //64
-	{M_("psx_tex_xy")	,(void**)&psx_textures_xy		,MEM_STATIC ,0							,0							,200*5						,sizeof(UWORD)					,0}, //65
+	{M_("Road_edges")	,(void**)&ROAD_edge				,MEM_DYNAMIC,0							,&ROAD_edge_upto			,ROAD_MAX_EDGES				,sizeof(std::uint8_t)					,0}, //62
+	{M_("Thing_heads")	,(void**)&thing_class_head		,MEM_STATIC ,0							,0							,CLASS_END					,sizeof(std::uint16_t)					,0}, //63
+	{M_("psx_remap")	,(void**)&psx_remap				,MEM_STATIC ,0							,0							,128						,sizeof(std::uint16_t)					,0}, //64
+	{M_("psx_tex_xy")	,(void**)&psx_textures_xy		,MEM_STATIC ,0							,0							,200*5						,sizeof(std::uint16_t)					,0}, //65
 	{M_("map_beacon")	,(void**)&MAP_beacon			,MEM_STATIC ,0							,0							,MAP_MAX_BEACONS			,sizeof(MAP_Beacon)				,0}, //66
 //	{"anim_mids"	,(void**)&anim_mids				,MEM_STATIC ,0							,&next_anim_mids			,256						,sizeof(PrimPoint)				},
 // cutscene memory
@@ -466,9 +466,9 @@ struct MemTable save_table[]=
 	{M_("cutscene_data"),(void**)&PLAYCUTS_cutscenes	,MEM_DYNAMIC,0							,&PLAYCUTS_cutscene_ctr		,MAX_CUTSCENES				,sizeof(CPData)					,0},
 	{M_("cutscene_trks"),(void**)&PLAYCUTS_tracks   	,MEM_DYNAMIC,0							,&PLAYCUTS_track_ctr    	,MAX_CUTSCENE_TRACKS		,sizeof(CPChannel)				,0},
 	{M_("cutscene_pkts"),(void**)&PLAYCUTS_packets		,MEM_DYNAMIC,0							,&PLAYCUTS_packet_ctr		,MAX_CUTSCENE_PACKETS		,sizeof(CPPacket)				,0},
-	{M_("cutscene_text"),(void**)&PLAYCUTS_text_data	,MEM_DYNAMIC,0							,&PLAYCUTS_text_ctr			,MAX_CUTSCENE_TEXT			,sizeof(CBYTE)					,0},
+	{M_("cutscene_text"),(void**)&PLAYCUTS_text_data	,MEM_DYNAMIC,0							,&PLAYCUTS_text_ctr			,MAX_CUTSCENE_TEXT			,sizeof(char)					,0},
 #endif
-	{M_("darci normal") ,(void**)&darci_normal			,MEM_DYNAMIC,0							,&darci_normal_count		,12000						,sizeof(UWORD)					,0},
+	{M_("darci normal") ,(void**)&darci_normal			,MEM_DYNAMIC,0							,&darci_normal_count		,12000						,sizeof(std::uint16_t)					,0},
 	{M_("prim info")	,(void**)&prim_info				,MEM_STATIC ,0							,0							,256						,sizeof(PrimInfo)				,0},
 
 	{M_("Doors-gates")	,(void**)&DOOR_door				,MEM_STATIC	,0							,0							,DOOR_MAX_DOORS				,sizeof(DOOR_Door)				,0},
@@ -476,8 +476,8 @@ struct MemTable save_table[]=
 //
 // new ones added by MikeD for footstep surfaces
 //
-	{M_("soundfxmap")		,(void**)&SOUND_FXMapping	,MEM_STATIC, 0							,0							,1024						,sizeof(UBYTE)					,0}, //48			
-	{M_("soundfxgroup")		,(void**)&SOUND_FXGroups	,MEM_STATIC, 0							,0							,128*2						,sizeof(UWORD)					,0}, //48			
+	{M_("soundfxmap")		,(void**)&SOUND_FXMapping	,MEM_STATIC, 0							,0							,1024						,sizeof(std::uint8_t)					,0}, //48			
+	{M_("soundfxgroup")		,(void**)&SOUND_FXGroups	,MEM_STATIC, 0							,0							,128*2						,sizeof(std::uint16_t)					,0}, //48			
 
 
 	{0,0,0,0,0,0,0}
@@ -489,11 +489,11 @@ struct MemTable save_table[]=
 
 void init_memory()
 {
-	SLONG	c0=0;
-	SLONG	mem_size,mem_cumlative=0;
+	std::int32_t	c0=0;
+	std::int32_t	mem_size,mem_cumlative=0;
 	struct	MemTable	*p_tab;
-	UBYTE	*p_all;
-	SLONG	temp;
+	std::uint8_t	*p_all;
+	std::int32_t	temp;
 
 
 
@@ -512,15 +512,15 @@ void init_memory()
 	save_table[SAVE_TABLE_DTWEEN].Maximum=RMAX_DRAW_TWEENS;
 	save_table[SAVE_TABLE_DMESH].Maximum=RMAX_DRAW_MESHES;
 
-extern UBYTE	music_max_gain;
+extern std::uint8_t	music_max_gain;
 
 //	 temp= ENV_get_value_number("music_vol", 128, "Audio");
 //	 SATURATE(temp,0,255);
 //	 music_max_gain=temp;
 
 
-extern SLONG	save_psx;
-extern SLONG	build_psx;
+extern std::int32_t	save_psx;
+extern std::int32_t	build_psx;
 
 	if((save_psx=ENV_get_value_number("psx", 0, "Secret")))
 	{
@@ -559,7 +559,7 @@ extern SLONG	build_psx;
 	mem_all_size=mem_cumlative;
 
 
-	p_all=(UBYTE*)mem_all;
+	p_all=(std::uint8_t*)mem_all;
 
 	while(save_table[c0].Point)
 	{
@@ -589,14 +589,14 @@ extern SLONG	build_psx;
 #ifndef	PSX
 void set_darci_normals()
 {
-	SLONG	count_vertex;
-	SLONG	c0,c1,index;
-	SLONG	sp,ep;
-	SLONG	last_point=0,first_point=0x7fffffff;
-	SLONG	start_object;
+	std::int32_t	count_vertex;
+	std::int32_t	c0,c1,index;
+	std::int32_t	sp,ep;
+	std::int32_t	last_point=0,first_point=0x7fffffff;
+	std::int32_t	start_object;
 	for(c0=1;c0<darci_normal_count;c0++)
 	{
-		SLONG	nx,ny,nz,c;
+		std::int32_t	nx,ny,nz,c;
 
 		nx=prim_normal[c0].X;
 		ny=prim_normal[c0].Y;
@@ -646,7 +646,7 @@ void set_darci_normals()
 	}
 	ASSERT(last_point-first_point>0 &&last_point-first_point<1000);
 
-//	darci_normal=(UWORD*)MemAlloc((last_point-first_point+2)*2);
+//	darci_normal=(std::uint16_t*)MemAlloc((last_point-first_point+2)*2);
 	darci_normal[0]=first_point-1;
 
 	for(c0=0;c0<15;c0++)
@@ -656,7 +656,7 @@ void set_darci_normals()
 		ep=prim_objects[index].EndPoint;
 		for(c1=sp;c1<ep;c1++)
 		{
-			SLONG	nx,ny,nz,c;
+			std::int32_t	nx,ny,nz,c;
 
 			nx=prim_normal[c1].X;
 			ny=prim_normal[c1].Y;
@@ -699,14 +699,14 @@ void set_darci_normals()
 #endif
 
 #ifndef	PSX
-void convert_drawtype_to_index(Thing *p_thing,SLONG meshtype)
+void convert_drawtype_to_index(Thing *p_thing,std::int32_t meshtype)
 {
 	switch(meshtype)
 	{
 		case	DT_MESH:
 			if(p_thing->Draw.Mesh)
 			{
-				ULONG	drawtype;
+				std::uint32_t	drawtype;
 				drawtype=(p_thing->Draw.Mesh-DRAW_MESHES);
 				p_thing->Draw.Mesh=(DrawMesh*)drawtype;
 			}
@@ -716,8 +716,8 @@ void convert_drawtype_to_index(Thing *p_thing,SLONG meshtype)
 		case	DT_BIKE:
 			if(p_thing->Draw.Tweened)
 			{
-				ULONG	drawtype;
-				SLONG	chunk;
+				std::uint32_t	drawtype;
+				std::int32_t	chunk;
 
 				switch(p_thing->Class)
 				{
@@ -725,14 +725,14 @@ void convert_drawtype_to_index(Thing *p_thing,SLONG meshtype)
 					case	CLASS_PERSON:
 					case	CLASS_VEHICLE:
 					case	CLASS_ANIMAL:
-						chunk=(ULONG)(p_thing->Draw.Tweened->TheChunk-&game_chunk[0]);
+						chunk=(std::uint32_t)(p_thing->Draw.Tweened->TheChunk-&game_chunk[0]);
 						ASSERT(chunk>=0);
 						chunk|=1<<16;
 						p_thing->Draw.Tweened->TheChunk=(GameKeyFrameChunk*)chunk;
 						break;
 					case	CLASS_BAT:
 					case	CLASS_ANIM_PRIM:
-						chunk=(ULONG)(p_thing->Draw.Tweened->TheChunk-&anim_chunk[0]);
+						chunk=(std::uint32_t)(p_thing->Draw.Tweened->TheChunk-&anim_chunk[0]);
 						ASSERT(chunk>=0);
 						chunk|=2<<16;
 						p_thing->Draw.Tweened->TheChunk=(GameKeyFrameChunk*)chunk;
@@ -843,10 +843,10 @@ void convert_thing_to_index(Thing *p_thing)
 
 void convert_pointers_to_index()
 {
-	SLONG	c0,i;
+	std::int32_t	c0,i;
 	static int max_people=0,max_car=0,max_mesh=0,max_tween=0,max_anim=0,max_special=0,max_bat=0;
-	SLONG	count_people=0,count_car=0,count_mesh=0,count_tween=0,count_anim=0,count_special=0,count_bat=0;
-	SLONG	gap=0;
+	std::int32_t	count_people=0,count_car=0,count_mesh=0,count_tween=0,count_anim=0,count_special=0,count_bat=0;
+	std::int32_t	gap=0;
 
 	for(c0=0;c0<MAX_THINGS;c0++)
 	{
@@ -948,7 +948,7 @@ void convert_pointers_to_index()
 	save_table[SAVE_TABLE_DTWEEN].Maximum  =MIN(save_table[SAVE_TABLE_DTWEEN].Extra+count_tween,RMAX_DRAW_TWEENS);
 	save_table[SAVE_TABLE_DMESH].Maximum   =MIN(save_table[SAVE_TABLE_DMESH].Extra+count_mesh,RMAX_DRAW_MESHES);
 
-extern CBYTE ELEV_fname_level[];
+extern char ELEV_fname_level[];
 	if ( level_index==0 )
 	{
 		// This is probably Breakout! - in which case, we need the fudge in.
@@ -1017,7 +1017,7 @@ extern CBYTE ELEV_fname_level[];
 
 	for(c0=0;c0<EWAY_mess_upto;c0++)
 	{
-		EWAY_mess[c0]=(CBYTE*)((SLONG)(EWAY_mess[c0]-EWAY_mess_buffer));
+		EWAY_mess[c0]=(char*)((std::int32_t)(EWAY_mess[c0]-EWAY_mess_buffer));
 	}
 
 	for(c0=0;c0<PYRO_COUNT;c0++)
@@ -1042,97 +1042,97 @@ extern CBYTE ELEV_fname_level[];
 	for(c0=0;c0<PLAYCUTS_packet_ctr;c0++)
 	{
 //		if (PLAYCUTS_packets[c0].type==PT_TEXT) PLAYCUTS_packets[c0].pos.X-=PLAYCUTS_text_data;
-		if (PLAYCUTS_packets[c0].type==5) PLAYCUTS_packets[c0].pos.X-=(ULONG)PLAYCUTS_text_data;
+		if (PLAYCUTS_packets[c0].type==5) PLAYCUTS_packets[c0].pos.X-=(std::uint32_t)PLAYCUTS_text_data;
 	}
 #endif
 }
 
-#define	STORE_DATA(a)	FileWrite(handle,(UBYTE*)&a,sizeof(a));DebugText(" store data %d \n",sizeof(a))
+#define	STORE_DATA(a)	FileWrite(handle,(std::uint8_t*)&a,sizeof(a));DebugText(" store data %d \n",sizeof(a))
 
-void convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count)
+void convert_keyframe_to_index(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<count;c0++)
 	{
-		p[c0].FirstElement=(GameKeyFrameElement *)((SLONG)(p[c0].FirstElement-p_ele));
-		p[c0].PrevFrame=(GameKeyFrame*)((SLONG)(p[c0].PrevFrame-p));
-		p[c0].NextFrame=(GameKeyFrame*)((SLONG)(p[c0].NextFrame-p));
-		p[c0].Fight=(GameFightCol*)((SLONG)(p[c0].Fight-p_fight));
+		p[c0].FirstElement=(GameKeyFrameElement *)((std::int32_t)(p[c0].FirstElement-p_ele));
+		p[c0].PrevFrame=(GameKeyFrame*)((std::int32_t)(p[c0].PrevFrame-p));
+		p[c0].NextFrame=(GameKeyFrame*)((std::int32_t)(p[c0].NextFrame-p));
+		p[c0].Fight=(GameFightCol*)((std::int32_t)(p[c0].Fight-p_fight));
 	}
 }
 
-void convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count)
+void convert_animlist_to_index(GameKeyFrame **p,GameKeyFrame *p_anim,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<count;c0++)
 	{
-		p[c0]=(GameKeyFrame*)((SLONG)(p[c0]-p_anim));
+		p[c0]=(GameKeyFrame*)((std::int32_t)(p[c0]-p_anim));
 	}
 }
 
-void convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,SLONG count)
+void convert_fightcol_to_index(GameFightCol *p,GameFightCol *p_fight,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<count;c0++)
 	{
-		p[c0].Next=(GameFightCol*)((SLONG)(p[c0].Next-p_fight));
+		p[c0].Next=(GameFightCol*)((std::int32_t)(p[c0].Next-p_fight));
 	}
 
 }
 #endif
 
-void convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,SLONG count)
+void convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 
 
-	ASSERT(( ((ULONG)p)&3)==0);
-	ASSERT(( ((ULONG)p_ele)&3)==0);
-	ASSERT(( ((ULONG)p_fight)&3)==0);
+	ASSERT(( ((std::uint32_t)p)&3)==0);
+	ASSERT(( ((std::uint32_t)p_ele)&3)==0);
+	ASSERT(( ((std::uint32_t)p_fight)&3)==0);
 
 	for(c0=0;c0<count;c0++)
 	{
-		if(((SLONG)p[c0].FirstElement)<0)
+		if(((std::int32_t)p[c0].FirstElement)<0)
 			p[c0].FirstElement=NULL;
 		else
-			p[c0].FirstElement=&p_ele[(SLONG)p[c0].FirstElement];
+			p[c0].FirstElement=&p_ele[(std::int32_t)p[c0].FirstElement];
 
-		if(((SLONG)p[c0].PrevFrame)<0)
+		if(((std::int32_t)p[c0].PrevFrame)<0)
 			p[c0].PrevFrame=NULL;
 		else
-			p[c0].PrevFrame=&p[(SLONG)p[c0].PrevFrame];
+			p[c0].PrevFrame=&p[(std::int32_t)p[c0].PrevFrame];
 
-		if(((SLONG)p[c0].NextFrame)<0)
+		if(((std::int32_t)p[c0].NextFrame)<0)
 			p[c0].NextFrame=NULL;
 		else
-			p[c0].NextFrame=&p[(SLONG)p[c0].NextFrame];
+			p[c0].NextFrame=&p[(std::int32_t)p[c0].NextFrame];
 
-		if(((SLONG)p[c0].Fight)<0)
+		if(((std::int32_t)p[c0].Fight)<0)
 			p[c0].Fight=NULL;
 		else
-			p[c0].Fight=&p_fight[(SLONG)p[c0].Fight];
+			p[c0].Fight=&p_fight[(std::int32_t)p[c0].Fight];
 	}
 }
 
-void convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,SLONG count)
+void convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<count;c0++)
 	{
-		p[c0]=&p_anim[(SLONG)p[c0]];
+		p[c0]=&p_anim[(std::int32_t)p[c0]];
 	}
 }
 
-void convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG count)
+void convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,std::int32_t count)
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<count;c0++)
 	{
 
-		if(((SLONG)p[c0].Next)<0)
+		if(((std::int32_t)p[c0].Next)<0)
 			p[c0].Next=0;
 		else
-			p[c0].Next=&p_fight[(SLONG)p[c0].Next];
+			p[c0].Next=&p_fight[(std::int32_t)p[c0].Next];
 	}
 
 }
@@ -1141,9 +1141,9 @@ void convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,SLONG cou
 
 void save_whole_anims(MFFileHandle handle)
 {
-	SLONG	c0,c1;
-	SLONG	blank=-1;
-	SLONG	check=666;
+	std::int32_t	c0,c1;
+	std::int32_t	blank=-1;
+	std::int32_t	check=666;
 
 
 	STORE_DATA(next_game_chunk);
@@ -1181,15 +1181,15 @@ void save_whole_anims(MFFileHandle handle)
 			}
 
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
+			FileWrite(handle,(std::uint8_t*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
+			FileWrite(handle,(std::uint8_t*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
+			FileWrite(handle,(std::uint8_t*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
+			FileWrite(handle,(std::uint8_t*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
+			FileWrite(handle,(std::uint8_t*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
 			STORE_DATA(check);
 
 			//
@@ -1237,12 +1237,12 @@ void save_whole_anims(MFFileHandle handle)
 				STORE_DATA(gc->MultiObject[c1]);
 			}
 
-//			FileWrite(handle,(UBYTE*)&gc->MultiObject[0],10*sizeof(UWORD));
-			FileWrite(handle,(UBYTE*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
-			FileWrite(handle,(UBYTE*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
-			FileWrite(handle,(UBYTE*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
-			FileWrite(handle,(UBYTE*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
-			FileWrite(handle,(UBYTE*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
+//			FileWrite(handle,(std::uint8_t*)&gc->MultiObject[0],10*sizeof(std::uint16_t));
+			FileWrite(handle,(std::uint8_t*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
+			FileWrite(handle,(std::uint8_t*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
+			FileWrite(handle,(std::uint8_t*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
+			FileWrite(handle,(std::uint8_t*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
+			FileWrite(handle,(std::uint8_t*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
 
 			//
 			// Now convert the indexes back to pointers
@@ -1261,16 +1261,16 @@ void save_whole_anims(MFFileHandle handle)
 
 
 
-SLONG find_best_anim_offset_old(SLONG mx,SLONG my,SLONG mz,SLONG bdist)
+std::int32_t find_best_anim_offset_old(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t bdist)
 {
-	SLONG	c0,dist;
+	std::int32_t	c0,dist;
 
 	bdist=128-bdist;
 	ASSERT(bdist>0);
 
 	for(c0=0;(unsigned)c0<next_anim_mids;c0++)
 	{
-		SLONG	dx,dy,dz;
+		std::int32_t	dx,dy,dz;
 		dx=anim_mids[c0].X-mx;
 		dy=anim_mids[c0].Y-my;
 		dz=anim_mids[c0].Z-mz;
@@ -1294,9 +1294,9 @@ SLONG find_best_anim_offset_old(SLONG mx,SLONG my,SLONG mz,SLONG bdist)
 
 
 
-SLONG find_best_anim_offset(SLONG mx,SLONG my,SLONG mz,SLONG anim,struct GameKeyFrameChunk *gc)
+std::int32_t find_best_anim_offset(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t anim,struct GameKeyFrameChunk *gc)
 {
-	SLONG	c0,dist,bdist;
+	std::int32_t	c0,dist,bdist;
 
 
 //	if(anim<1565 || anim>1570)
@@ -1304,9 +1304,9 @@ SLONG find_best_anim_offset(SLONG mx,SLONG my,SLONG mz,SLONG anim,struct GameKey
 	{
 		for(c0=0;(unsigned)c0<next_anim_mids;c0++)
 		{
-			SLONG	cx,cy,cz;
-			SLONG	dx,dy,dz;
-			SLONG ele;
+			std::int32_t	cx,cy,cz;
+			std::int32_t	dx,dy,dz;
+			std::int32_t ele;
 
 			bdist=0;
 			cx=anim_mids[c0].X;
@@ -1352,9 +1352,9 @@ extern void convert_to_psx_gke(GameKeyFrameElementComp *to, GameKeyFrameElement 
 
 void fix_psxed_anims()
 {
-	SLONG	c0,c1,ele,index;
+	std::int32_t	c0,c1,ele,index;
 	struct	GameKeyFrameElementComp	*p;
-	UWORD	*bits;
+	std::uint16_t	*bits;
 
 	for(c0=0;c0<next_game_chunk;c0++)
 	{
@@ -1364,8 +1364,8 @@ void fix_psxed_anims()
 
 			gc=&game_chunk[c0];
 
-			bits=(UWORD *)MemAlloc(sizeof(UWORD)*gc->MaxElements);
-			memset((UBYTE*)bits,0,gc->MaxElements*2);
+			bits=(std::uint16_t *)MemAlloc(sizeof(std::uint16_t)*gc->MaxElements);
+			memset((std::uint8_t*)bits,0,gc->MaxElements*2);
 
 			if(c0!=5)
 			for(c1=0;c1<gc->MaxKeyFrames;c1++)
@@ -1373,8 +1373,8 @@ void fix_psxed_anims()
 
 				if(gc->AnimKeyFrames[c1].FirstElement)
 				{
-					SLONG	ele_index;
-					ele_index=(ULONG)(gc->AnimKeyFrames[c1].FirstElement-gc->TheElements);
+					std::int32_t	ele_index;
+					ele_index=(std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement-gc->TheElements);
 
 					  //
 					  // don't want to do a keyframe twice
@@ -1385,8 +1385,8 @@ void fix_psxed_anims()
 					}
 					else
 					{
-						SLONG	bdist=0;
-						SLONG	mx,my,mz;
+						std::int32_t	bdist=0;
+						std::int32_t	mx,my,mz;
 						mx=anim_mids[gc->AnimKeyFrames[c1].XYZIndex].X;
 						my=anim_mids[gc->AnimKeyFrames[c1].XYZIndex].Y;
 						mz=anim_mids[gc->AnimKeyFrames[c1].XYZIndex].Z;
@@ -1414,13 +1414,13 @@ void fix_psxed_anims()
 
 void save_whole_anims_psx(MFFileHandle handle)
 {
-	SLONG	c0,c1;
-	SLONG	blank=-1;
-	SLONG	check=666;
+	std::int32_t	c0,c1;
+	std::int32_t	blank=-1;
+	std::int32_t	check=666;
 	struct	GameKeyFrameElementComp	*p;
-	UWORD	*bits;
-	ULONG	ele_index,ele;
-	SLONG	big_x=0,big_y=0,big_z=0;
+	std::uint16_t	*bits;
+	std::uint32_t	ele_index,ele;
+	std::int32_t	big_x=0,big_y=0,big_z=0;
 
 	next_anim_mids=0;
 
@@ -1436,19 +1436,19 @@ void save_whole_anims_psx(MFFileHandle handle)
 			gc=&game_chunk[c0];
 
 			p=(struct	 GameKeyFrameElementComp	*)MemAlloc(sizeof(struct GameKeyFrameElementComp)*gc->MaxElements);
-			bits=(UWORD *)MemAlloc(sizeof(UWORD)*gc->MaxElements);
-			memset((UBYTE*)bits,0,gc->MaxElements*2);
+			bits=(std::uint16_t *)MemAlloc(sizeof(std::uint16_t)*gc->MaxElements);
+			memset((std::uint8_t*)bits,0,gc->MaxElements*2);
 
 			if(c0!=5)
 			for(c1=0;c1<gc->MaxKeyFrames;c1++)
 			{
-				SLONG	bx=0,by=0,bz=0;//999999,by=9999999,bz=9999999,ele;
-				UWORD	off_bits=0;
+				std::int32_t	bx=0,by=0,bz=0;//999999,by=9999999,bz=9999999,ele;
+				std::uint16_t	off_bits=0;
 
 //				ASSERT(c1!=1565);
 				if(gc->AnimKeyFrames[c1].FirstElement)
 				{
-					ele_index=(ULONG)(gc->AnimKeyFrames[c1].FirstElement-gc->TheElements);
+					ele_index=(std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement-gc->TheElements);
 
   //
   // don't want to do a keyframe twice
@@ -1460,7 +1460,7 @@ void save_whole_anims_psx(MFFileHandle handle)
 					}
 					else
 					{
-						SLONG	bdist=0;
+						std::int32_t	bdist=0;
 						for(ele=0;(signed)ele<gc->ElementCount;ele++)
 						{
 							
@@ -1488,7 +1488,7 @@ void save_whole_anims_psx(MFFileHandle handle)
 
 						for(ele=0;(signed)ele<gc->ElementCount;ele++)
 						{
-							SLONG	dx,dy,dz,dist;
+							std::int32_t	dx,dy,dz,dist;
 
 							
 							gc->AnimKeyFrames[c1].FirstElement[ele].OffsetX-=bx;
@@ -1527,8 +1527,8 @@ void save_whole_anims_psx(MFFileHandle handle)
 						ASSERT(abs(big_z)<128);
 
 						{
-							SLONG	dx,dy,dz;
-							SLONG	index;
+							std::int32_t	dx,dy,dz;
+							std::int32_t	index;
 
 							index=find_best_anim_offset(bx,by,bz,c1,gc);
 
@@ -1613,16 +1613,16 @@ void save_whole_anims_psx(MFFileHandle handle)
 
 
 
-			FileWrite(handle,(UBYTE*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
+			FileWrite(handle,(std::uint8_t*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
+			FileWrite(handle,(std::uint8_t*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
+			FileWrite(handle,(std::uint8_t*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
 			STORE_DATA(check);
-//			FileWrite(handle,(UBYTE*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
-			FileWrite(handle,(UBYTE*)p,gc->MaxElements*sizeof(GameKeyFrameElementComp));
+//			FileWrite(handle,(std::uint8_t*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
+			FileWrite(handle,(std::uint8_t*)p,gc->MaxElements*sizeof(GameKeyFrameElementComp));
 			STORE_DATA(check);
-			FileWrite(handle,(UBYTE*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
+			FileWrite(handle,(std::uint8_t*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
 			STORE_DATA(check);
 
 			//
@@ -1648,24 +1648,24 @@ void save_whole_anims_psx(MFFileHandle handle)
 		if(anim_chunk[c0].MultiObject[0])
 		{
 			struct	 GameKeyFrameChunk	*gc;
-			UWORD	ele_index;
+			std::uint16_t	ele_index;
 
 			gc=&anim_chunk[c0];
 
 
 
 			p=(struct	 GameKeyFrameElementComp	*)MemAlloc(sizeof(struct GameKeyFrameElementComp)*gc->MaxElements);
-			bits=(UWORD *)MemAlloc(sizeof(UWORD)*gc->MaxElements);
-			memset((UBYTE*)bits,0,gc->MaxElements*2);
+			bits=(std::uint16_t *)MemAlloc(sizeof(std::uint16_t)*gc->MaxElements);
+			memset((std::uint8_t*)bits,0,gc->MaxElements*2);
 
   /*
 			for(c1=0;c1<gc->MaxKeyFrames;c1++)
 			{
-				SLONG	bx=0,by=0,bz=0;//999999,by=9999999,bz=9999999,ele;
-				UWORD	off_bits=0;
+				std::int32_t	bx=0,by=0,bz=0;//999999,by=9999999,bz=9999999,ele;
+				std::uint16_t	off_bits=0;
 				if(gc->AnimKeyFrames[c1].FirstElement)
 				{
-					ele_index=(ULONG)(gc->AnimKeyFrames[c1].FirstElement-gc->TheElements);
+					ele_index=(std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement-gc->TheElements);
 					if(bits[ele_index])
 					{
 						off_bits=bits[ele_index]&0xfffe;
@@ -1769,13 +1769,13 @@ void save_whole_anims_psx(MFFileHandle handle)
 			DebugText(" elements   -> %d  tot %d\n",gc->MaxElements,gc->MaxElements*sizeof(GameKeyFrameElementComp));
 			DebugText(" fightcols  -> %d  tot %d\n",gc->MaxFightCols,gc->MaxFightCols*sizeof(GameFightCol));
 
-//			FileWrite(handle,(UBYTE*)&gc->MultiObject[0],10*sizeof(UWORD));
-			FileWrite(handle,(UBYTE*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
-			FileWrite(handle,(UBYTE*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
-			FileWrite(handle,(UBYTE*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
-//			FileWrite(handle,(UBYTE*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
-			FileWrite(handle,(UBYTE*)p,gc->MaxElements*sizeof(GameKeyFrameElementComp));
-			FileWrite(handle,(UBYTE*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
+//			FileWrite(handle,(std::uint8_t*)&gc->MultiObject[0],10*sizeof(std::uint16_t));
+			FileWrite(handle,(std::uint8_t*)gc->PeopleTypes,gc->MaxPeopleTypes*sizeof(struct BodyDef));
+			FileWrite(handle,(std::uint8_t*)gc->AnimKeyFrames,gc->MaxKeyFrames*sizeof(GameKeyFrame));
+			FileWrite(handle,(std::uint8_t*)gc->AnimList,gc->MaxAnimFrames*sizeof(GameKeyFrame*));
+//			FileWrite(handle,(std::uint8_t*)gc->TheElements,gc->MaxElements*sizeof(GameKeyFrameElement));
+			FileWrite(handle,(std::uint8_t*)p,gc->MaxElements*sizeof(GameKeyFrameElementComp));
+			FileWrite(handle,(std::uint8_t*)gc->FightCols,gc->MaxFightCols*sizeof(GameFightCol));
 
 			//
 			// Now convert the indexes back to pointers
@@ -1799,7 +1799,7 @@ void save_whole_anims_psx(MFFileHandle handle)
 
 	}
 	STORE_DATA(next_anim_mids);
-	FileWrite(handle,(UBYTE*)anim_mids,next_anim_mids*sizeof(PrimPoint));
+	FileWrite(handle,(std::uint8_t*)anim_mids,next_anim_mids*sizeof(PrimPoint));
 
 }
 #endif
@@ -1808,14 +1808,14 @@ void save_whole_anims_psx(MFFileHandle handle)
 #define getPSXV(page)		(((page)&0x38)<<2)
 
 //#ifdef PSX
-extern UWORD	psx_start_page;
+extern std::uint16_t	psx_start_page;
 //#endif
 void fix_psx_face3(struct	PrimFace3PSX	*p2)
 {
 //#ifdef PSX
-	ULONG	page;
-	SLONG	x;
-	SLONG	u,v;
+	std::uint32_t	page;
+	std::int32_t	x;
+	std::int32_t	u,v;
 
 	page=p2->TexturePage;//|((p2->UV[0][0]&0xc0)<<2)+(8<<6);
 	p2->TexturePage+=(psx_start_page>>6)<<6;
@@ -1838,9 +1838,9 @@ void fix_psx_face3(struct	PrimFace3PSX	*p2)
 void fix_psx_face4(struct	PrimFace4PSX	*p)
 {
 //#ifdef PSX
-	ULONG	page;
-	SLONG	x;
-	SLONG	u,v;
+	std::uint32_t	page;
+	std::int32_t	x;
+	std::int32_t	u,v;
 
 	page=p->TexturePage;
 	if (!(p->FaceFlags & FACE_FLAG_WALKABLE))
@@ -1859,24 +1859,24 @@ void fix_psx_face4(struct	PrimFace4PSX	*p)
 	}
 //#endif
 }
-void save_whole_wad(CBYTE	*gamename,UBYTE type)
+void save_whole_wad(char	*gamename,std::uint8_t type)
 {
 
 //	return;
 
-	SLONG	c0=0;
-	SLONG	*p_slong;
-	UWORD	*p_uword;
-	UBYTE	*p_mem;
-	SLONG	mem_size,mem_cumlative=0;
+	std::int32_t	c0=0;
+	std::int32_t	*p_slong;
+	std::uint16_t	*p_uword;
+	std::uint8_t	*p_mem;
+	std::int32_t	mem_size,mem_cumlative=0;
 	struct	MemTable *ptab;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	SLONG	count;
-	SLONG	save_type=0;
-	SLONG	check=666;
-	UBYTE	padding_byte;
-	UWORD	padding_word;
-	ULONG	struct_size;
+	std::int32_t	count;
+	std::int32_t	save_type=0;
+	std::int32_t	check=666;
+	std::uint8_t	padding_byte;
+	std::uint16_t	padding_word;
+	std::uint32_t	struct_size;
 
 
 	set_darci_normals();
@@ -1932,7 +1932,7 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 			if(c0==16)
 			{
 				struct	PrimFace4PSX	*block;
-				SLONG	index;
+				std::int32_t	index;
 				// special PSX primface4
 				DebugText(" prim face 4 psx = %d was %d\n",count*sizeof(struct PrimFace4PSX),mem_size);
 				mem_size=count*sizeof(struct PrimFace4PSX);
@@ -1940,8 +1940,8 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 
 				for(index=0;index<*ptab->CountW;index++)
 				{
-					SLONG	page;
-					SLONG	i,j;
+					std::int32_t	page;
+					std::int32_t	i,j;
 					block[index].Points[0]=prim_faces4[index].Points[0];
 					block[index].Points[1]=prim_faces4[index].Points[1];
 					block[index].Points[2]=prim_faces4[index].Points[2];
@@ -1973,22 +1973,22 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 
 				}
 				// chunk id
-				FileWrite(handle,(UBYTE*)&c0,4);
-				FileWrite(handle,(UBYTE*)&count,4);
+				FileWrite(handle,(std::uint8_t*)&c0,4);
+				FileWrite(handle,(std::uint8_t*)&count,4);
 
 
 
 
 				{
-					ULONG	size=sizeof(struct PrimFace4PSX);
-					FileWrite(handle,(UBYTE*)&size,4);
+					std::uint32_t	size=sizeof(struct PrimFace4PSX);
+					FileWrite(handle,(std::uint8_t*)&size,4);
 				}
-				FileWrite(handle,(UBYTE*)&mem_size,4);
+				FileWrite(handle,(std::uint8_t*)&mem_size,4);
 				if(mem_size&3)
-					FileWrite(handle,(UBYTE*)&mem_size,4-(mem_size&3));
+					FileWrite(handle,(std::uint8_t*)&mem_size,4-(mem_size&3));
 
 
-				FileWrite(handle,(UBYTE*)block,mem_size);
+				FileWrite(handle,(std::uint8_t*)block,mem_size);
 				MemFree(block);
 				
 
@@ -1998,7 +1998,7 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 			if(c0==17)
 			{
 				struct	PrimFace3PSX	*block;
-				SLONG	index;
+				std::int32_t	index;
 				// special PSX primface4
 				DebugText(" prim face3 psx = %d was %d\n",count*sizeof(struct PrimFace3PSX),mem_size);
 				mem_size=count*sizeof(struct PrimFace3PSX);
@@ -2006,8 +2006,8 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 
 				for(index=0;index<*ptab->CountW;index++)
 				{
-					SLONG	page;
-					SLONG	i,j;
+					std::int32_t	page;
+					std::int32_t	i,j;
 					block[index].Points[0]=prim_faces3[index].Points[0];
 					block[index].Points[1]=prim_faces3[index].Points[1];
 					block[index].Points[2]=prim_faces3[index].Points[2];
@@ -2037,35 +2037,35 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 
 				}
 				// chunk id
-				FileWrite(handle,(UBYTE*)&c0,4);
-				FileWrite(handle,(UBYTE*)&count,4);
+				FileWrite(handle,(std::uint8_t*)&c0,4);
+				FileWrite(handle,(std::uint8_t*)&count,4);
 				{
-					ULONG	size=sizeof(struct PrimFace3PSX);
-					FileWrite(handle,(UBYTE*)&size,4);
+					std::uint32_t	size=sizeof(struct PrimFace3PSX);
+					FileWrite(handle,(std::uint8_t*)&size,4);
 				}
-				FileWrite(handle,(UBYTE*)&mem_size,4);
+				FileWrite(handle,(std::uint8_t*)&mem_size,4);
 				if(mem_size&3)
-					FileWrite(handle,(UBYTE*)&mem_size,4-(mem_size&3));
+					FileWrite(handle,(std::uint8_t*)&mem_size,4-(mem_size&3));
 
 
-				FileWrite(handle,(UBYTE*)block,mem_size);
+				FileWrite(handle,(std::uint8_t*)block,mem_size);
 				MemFree(block);
 			}
 			else
 			{
-				p_mem=(UBYTE*)*ptab->Point;
+				p_mem=(std::uint8_t*)*ptab->Point;
 				
 				// chunk id
-				FileWrite(handle,(UBYTE*)&c0,4);
-				FileWrite(handle,(UBYTE*)&count,4);
+				FileWrite(handle,(std::uint8_t*)&c0,4);
+				FileWrite(handle,(std::uint8_t*)&count,4);
 				struct_size=ptab->StructSize;
-				FileWrite(handle,(UBYTE*)&struct_size,4);
-				FileWrite(handle,(UBYTE*)&mem_size,4);
+				FileWrite(handle,(std::uint8_t*)&struct_size,4);
+				FileWrite(handle,(std::uint8_t*)&mem_size,4);
 				if(mem_size&3)
-					FileWrite(handle,(UBYTE*)&mem_size,4-(mem_size&3));
+					FileWrite(handle,(std::uint8_t*)&mem_size,4-(mem_size&3));
 
 
-				FileWrite(handle,(UBYTE*)p_mem,mem_size);
+				FileWrite(handle,(std::uint8_t*)p_mem,mem_size);
 			}
 
 			mem_cumlative+=mem_size;
@@ -2172,7 +2172,7 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 																  
 		CAM_focus=(Thing*)THING_NUMBER(CAM_focus);				  
 		STORE_DATA(CAM_focus);									  
-		CAM_focus=TO_THING((SLONG)CAM_focus);					  
+		CAM_focus=TO_THING((std::int32_t)CAM_focus);					  
 #endif															  
 
 		switch(type)
@@ -2204,18 +2204,18 @@ void save_whole_wad(CBYTE	*gamename,UBYTE type)
 
 
 }
-void save_whole_game(CBYTE	*gamename)
+void save_whole_game(char	*gamename)
 {
-	SLONG	level;
-	CBYTE	name[30];
+	std::int32_t	level;
+	char	name[30];
 //	return;
-extern SLONG	save_psx;
+extern std::int32_t	save_psx;
 
 #ifndef	ULTRA_COMPRESSED_ANIMATIONS
 	if(save_psx)
 	{
 #if 0
-void WMOVE_remove(UBYTE which_class);
+void WMOVE_remove(std::uint8_t which_class);
 		WMOVE_remove(CLASS_VEHICLE);
 #endif
 //		save_whole_wad(gamename,0);
@@ -2227,7 +2227,7 @@ void WMOVE_remove(UBYTE which_class);
 		//
 		// Also adjusts the face3 and face4 texturepage numbers to the new location
 		//
-SLONG build_tims_ingame(CBYTE* name);
+std::int32_t build_tims_ingame(char* name);
 
 		level=build_tims_ingame(gamename);
 
@@ -2252,9 +2252,9 @@ SLONG build_tims_ingame(CBYTE* name);
 
 #endif
 
-extern SLONG	person_normal_animate(Thing *p_person);
+extern std::int32_t	person_normal_animate(Thing *p_person);
 
-void convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
+void convert_drawtype_to_pointer(Thing *p_thing,std::int32_t meshtype)
 {
 	switch(meshtype)
 	{
@@ -2262,7 +2262,7 @@ void convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
 //			if(p_thing->Draw.Mesh)
 			{
 				DrawMesh	*drawtype;
-				drawtype=TO_DRAW_MESH((ULONG)p_thing->Draw.Mesh);
+				drawtype=TO_DRAW_MESH((std::uint32_t)p_thing->Draw.Mesh);
 				p_thing->Draw.Mesh=drawtype;
 				drawtype->Cache=0;
 
@@ -2274,13 +2274,13 @@ void convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
 //			if(p_thing->Draw.Tweened)
 			{
 				DrawTween	*drawtype;
-				SLONG	chunk;
+				std::int32_t	chunk;
 
-				drawtype=TO_DRAW_TWEEN((ULONG)p_thing->Draw.Tweened);
-				ASSERT((ULONG)(p_thing->Draw.Tweened)<RMAX_DRAW_TWEENS);
+				drawtype=TO_DRAW_TWEEN((std::uint32_t)p_thing->Draw.Tweened);
+				ASSERT((std::uint32_t)(p_thing->Draw.Tweened)<RMAX_DRAW_TWEENS);
 				p_thing->Draw.Tweened=drawtype;
 
-				chunk=(SLONG)drawtype->TheChunk;
+				chunk=(std::int32_t)drawtype->TheChunk;
 				switch(chunk>>16)
 				{
 					case	1:
@@ -2319,8 +2319,8 @@ void convert_drawtype_to_pointer(Thing *p_thing,SLONG meshtype)
 
 						if(p_thing->State==STATE_DEAD)
 						{
-							SLONG	c0;
-							SLONG	old_tick;
+							std::int32_t	c0;
+							std::int32_t	old_tick;
 
 							old_tick=TICK_RATIO;
 
@@ -2393,40 +2393,40 @@ void convert_thing_to_pointer(Thing *p_thing)
 		case	CLASS_NONE:
 			break;
 		case	CLASS_PLAYER:
-			p_thing->Genus.Player=(Player*)TO_PLAYER((SLONG)p_thing->Genus.Player);
-			p_thing->Genus.Player->PlayerPerson=(Thing*)TO_THING((SLONG)p_thing->Genus.Player->PlayerPerson);
+			p_thing->Genus.Player=(Player*)TO_PLAYER((std::int32_t)p_thing->Genus.Player);
+			p_thing->Genus.Player->PlayerPerson=(Thing*)TO_THING((std::int32_t)p_thing->Genus.Player->PlayerPerson);
 			p_thing->StateFn		=	process_hardware_level_input_for_player; // Bodge for now
 
 			break;
 		case	CLASS_CAMERA:
 			break;
 		case	CLASS_PROJECTILE:
-			p_thing->Genus.Projectile=(Projectile *)TO_PROJECTILE((SLONG)p_thing->Genus.Projectile);
+			p_thing->Genus.Projectile=(Projectile *)TO_PROJECTILE((std::int32_t)p_thing->Genus.Projectile);
 			break;
 		case	CLASS_BUILDING:
 			break;
 		case	CLASS_PERSON:
-			p_thing->Genus.Person=(Person *)TO_PERSON((SLONG)p_thing->Genus.Person);
+			p_thing->Genus.Person=(Person *)TO_PERSON((std::int32_t)p_thing->Genus.Person);
 			set_generic_person_state_function(p_thing,p_thing->State);
 			break;
 		case	CLASS_ANIMAL:
-			p_thing->Genus.Animal=(Animal*)TO_ANIMAL((SLONG)p_thing->Genus.Animal);
+			p_thing->Genus.Animal=(Animal*)TO_ANIMAL((std::int32_t)p_thing->Genus.Animal);
 
 			set_state_function(p_thing, p_thing->State);
 
 			break;
 		case	CLASS_FURNITURE:
-			p_thing->Genus.Furniture=(Furniture*)TO_FURNITURE((SLONG)p_thing->Genus.Furniture);
+			p_thing->Genus.Furniture=(Furniture*)TO_FURNITURE((std::int32_t)p_thing->Genus.Furniture);
 			break;
 		case	CLASS_SWITCH:
-			p_thing->Genus.Switch=(Switch*)TO_SWITCH((SLONG)p_thing->Genus.Switch);
+			p_thing->Genus.Switch=(Switch*)TO_SWITCH((std::int32_t)p_thing->Genus.Switch);
 			break;
 		case	CLASS_VEHICLE:
-			p_thing->Genus.Vehicle=(Vehicle*)TO_VEHICLE((SLONG)p_thing->Genus.Vehicle);
+			p_thing->Genus.Vehicle=(Vehicle*)TO_VEHICLE((std::int32_t)p_thing->Genus.Vehicle);
 			set_state_function(p_thing, p_thing->State);
 			break;
 		case	CLASS_SPECIAL:
-			p_thing->Genus.Special=(Special*)TO_SPECIAL((SLONG)p_thing->Genus.Special);
+			p_thing->Genus.Special=(Special*)TO_SPECIAL((std::int32_t)p_thing->Genus.Special);
 void special_normal(Thing *s_thing);
 			p_thing->StateFn		 = special_normal;
 
@@ -2442,24 +2442,24 @@ void special_normal(Thing *s_thing);
 #endif
 		case	CLASS_CHOPPER:
 void CHOPPER_fn_normal(Thing *);
-			p_thing->Genus.Chopper=(Chopper*)TO_CHOPPER((SLONG)p_thing->Genus.Chopper);
+			p_thing->Genus.Chopper=(Chopper*)TO_CHOPPER((std::int32_t)p_thing->Genus.Chopper);
 			p_thing->StateFn    = CHOPPER_fn_normal;
 	
 			break;
 		case	CLASS_PYRO:
-			p_thing->Genus.Pyro=(Pyro*)TO_PYRO((SLONG)p_thing->Genus.Pyro);
+			p_thing->Genus.Pyro=(Pyro*)TO_PYRO((std::int32_t)p_thing->Genus.Pyro);
 			set_state_function(p_thing, p_thing->State);
 			break;
 		case	CLASS_TRACK:
-			p_thing->Genus.Track=(Track*)TO_TRACK((SLONG)p_thing->Genus.Track);
+			p_thing->Genus.Track=(Track*)TO_TRACK((std::int32_t)p_thing->Genus.Track);
 			break;
 		case	CLASS_PLAT:
-			p_thing->Genus.Plat=(Plat*)TO_PLAT((SLONG)p_thing->Genus.Plat);
+			p_thing->Genus.Plat=(Plat*)TO_PLAT((std::int32_t)p_thing->Genus.Plat);
 			p_thing->StateFn    = PLAT_process;
 			break;
 		case	CLASS_BARREL:
 void BARREL_process_normal(Thing *p_barrel);
-			p_thing->Genus.Barrel=(Barrel*)TO_BARREL((SLONG)p_thing->Genus.Barrel);
+			p_thing->Genus.Barrel=(Barrel*)TO_BARREL((std::int32_t)p_thing->Genus.Barrel);
 			p_thing->StateFn      = BARREL_process_normal;
 
 			break;
@@ -2468,13 +2468,13 @@ void BARREL_process_normal(Thing *p_barrel);
 		case	CLASS_BIKE:
 			void BIKE_process_normal(Thing *p_bike);
 			p_thing->StateFn      = BIKE_process_normal;
-			p_thing->Genus.Bike=(BIKE_Bike*)TO_BIKE((SLONG)p_thing->Genus.Bike);
+			p_thing->Genus.Bike=(BIKE_Bike*)TO_BIKE((std::int32_t)p_thing->Genus.Bike);
 			break;
 		#endif
 
 		case	CLASS_BAT:
 			p_thing->StateFn      = BAT_normal;
-			p_thing->Genus.Bat=(Bat*)TO_BAT((SLONG)p_thing->Genus.Bat);
+			p_thing->Genus.Bat=(Bat*)TO_BAT((std::int32_t)p_thing->Genus.Bat);
 			break;
 
 		default:
@@ -2503,7 +2503,7 @@ void BARREL_process_normal(Thing *p_barrel);
 
 void convert_index_to_pointers()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	for(c0=0;c0<MAX_THINGS;c0++)
 	{
 		convert_thing_to_pointer(TO_THING(c0));
@@ -2511,44 +2511,44 @@ void convert_index_to_pointers()
 
 	for(c0=0;c0<MAX_PLAYERS;c0++)
 	{
-		NET_PERSON(c0)=TO_THING((SLONG)NET_PERSON(c0));
-		NET_PLAYER(c0)=TO_THING((SLONG)NET_PLAYER(c0));
+		NET_PERSON(c0)=TO_THING((std::int32_t)NET_PERSON(c0));
+		NET_PLAYER(c0)=TO_THING((std::int32_t)NET_PLAYER(c0));
 	}
 
 	for(c0=0;c0<EWAY_mess_upto;c0++)
 	{
-		EWAY_mess[c0]=(CBYTE*)&EWAY_mess_buffer[(SLONG)EWAY_mess[c0]];
+		EWAY_mess[c0]=(char*)&EWAY_mess_buffer[(std::int32_t)EWAY_mess[c0]];
 	}
 
 	for(c0=0;c0<MAX_PYROS;c0++)
 	{
 		if(TO_PYRO(c0)->thing)
-			TO_PYRO(c0)->thing=TO_THING((ULONG)TO_PYRO(c0)->thing);
+			TO_PYRO(c0)->thing=TO_THING((std::uint32_t)TO_PYRO(c0)->thing);
 
 		if(TO_PYRO(c0)->victim)
-			TO_PYRO(c0)->victim=TO_THING((ULONG)TO_PYRO(c0)->victim);
+			TO_PYRO(c0)->victim=TO_THING((std::uint32_t)TO_PYRO(c0)->victim);
 	}
 #ifndef PSX
 	// cutscene stuff. convert the track pointers back first:
 	for(c0=0;c0<PLAYCUTS_cutscene_ctr;c0++)
 	{
-		PLAYCUTS_cutscenes[c0].channels=PLAYCUTS_tracks+(SLONG)PLAYCUTS_cutscenes[c0].channels;
+		PLAYCUTS_cutscenes[c0].channels=PLAYCUTS_tracks+(std::int32_t)PLAYCUTS_cutscenes[c0].channels;
 	}
 	for(c0=0;c0<PLAYCUTS_track_ctr;c0++)
 	{
-		PLAYCUTS_tracks[c0].packets=PLAYCUTS_packets+(SLONG)PLAYCUTS_tracks[c0].packets;
+		PLAYCUTS_tracks[c0].packets=PLAYCUTS_packets+(std::int32_t)PLAYCUTS_tracks[c0].packets;
 	}
 	for(c0=0;c0<PLAYCUTS_packet_ctr;c0++)
 	{
 //		if (PLAYCUTS_packets[c0].type==PT_TEXT) PLAYCUTS_packets[c0].pos.X+=PLAYCUTS_text_data;
-		if (PLAYCUTS_packets[c0].type==5) PLAYCUTS_packets[c0].pos.X+=(ULONG)PLAYCUTS_text_data;
+		if (PLAYCUTS_packets[c0].type==5) PLAYCUTS_packets[c0].pos.X+=(std::uint32_t)PLAYCUTS_text_data;
 	}
 #endif
 }
 
 void uncache()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 void NIGHT_destroy_all_cached_info();
 	NIGHT_destroy_all_cached_info();
 
@@ -2558,13 +2558,13 @@ void NIGHT_destroy_all_cached_info();
 	}
 }
 
-#define	GET_DATA(d)	memcpy((UBYTE*)&d,p_all,sizeof(d));p_all+=sizeof(d)
+#define	GET_DATA(d)	memcpy((std::uint8_t*)&d,p_all,sizeof(d));p_all+=sizeof(d)
 
-void load_whole_anims(UBYTE	*p_all)
+void load_whole_anims(std::uint8_t	*p_all)
 {
-	SLONG	c0,c1;
-	SLONG	dummy;
-	SLONG	check;
+	std::int32_t	c0,c1;
+	std::int32_t	dummy;
+	std::int32_t	check;
 
 
 	GET_DATA(next_game_chunk);
@@ -2685,22 +2685,22 @@ void load_whole_anims(UBYTE	*p_all)
 
 }
 
-extern SLONG EWAY_count_up;		 // The visible count-up timer...
+extern std::int32_t EWAY_count_up;		 // The visible count-up timer...
 
 //
 // The penalties incurred for the count-up timer.
 // 
 
-extern UBYTE EWAY_count_up_add_penalties;
-extern SWORD EWAY_count_up_num_penalties;
-extern UWORD EWAY_count_up_penalty_timer;
+extern std::uint8_t EWAY_count_up_add_penalties;
+extern std::int16_t EWAY_count_up_num_penalties;
+extern std::uint16_t EWAY_count_up_penalty_timer;
 
 void flag_v_faces()
 {
-	SLONG	c0;
+	std::int32_t	c0;
 	struct	PrimFace4 *p4;
 	struct	PrimFace3 *p3;
-	SLONG	vx,vz,wx,wz,ny;
+	std::int32_t	vx,vz,wx,wz,ny;
 
 	p4=&prim_faces4[0];
 	for(c0=0;c0<next_prim_face4;c0++)
@@ -2739,49 +2739,49 @@ void flag_v_faces()
 	}
 }
 #ifndef	NEW_LEVELS
-UWORD EWAY_timer_bodge[EWAY_MAX_TIMERS];
+std::uint16_t EWAY_timer_bodge[EWAY_MAX_TIMERS];
 #endif
 
-void load_whole_game(CBYTE	*gamename)
+void load_whole_game(char	*gamename)
 {
 //	return;
 
-	SLONG	c0=0,id;
-	SLONG	*p_slong;
-	UWORD	*p_uword;
-	UBYTE	*p_mem,*p_all;
-	SLONG	mem_size;
+	std::int32_t	c0=0,id;
+	std::int32_t	*p_slong;
+	std::uint16_t	*p_uword;
+	std::uint8_t	*p_mem,*p_all;
+	std::int32_t	mem_size;
 	struct	MemTable *ptab;
 #ifndef PSX
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 #else
-	SLONG			handle;
+	std::int32_t			handle;
 #endif
-	SLONG	count;
-	SLONG	texture_set_local;
-	SLONG	save_type;
+	std::int32_t	count;
+	std::int32_t	texture_set_local;
+	std::int32_t	save_type;
 
-	SLONG	check;
-	UBYTE	padding_byte;
-	UWORD	padding_word;
+	std::int32_t	check;
+	std::uint8_t	padding_byte;
+	std::uint16_t	padding_word;
 
 	SetSeed(1234567);
 	srand(1234567);
 #ifndef	NEW_LEVELS
-	memset((UBYTE*)EWAY_timer_bodge,0,EWAY_MAX_TIMERS*2);
+	memset((std::uint8_t*)EWAY_timer_bodge,0,EWAY_MAX_TIMERS*2);
 #endif
 
 #ifdef PSX
 
-extern void SetDisplayClear(SLONG clear);
-extern void AENG_loading_bar(SLONG percent);
+extern void SetDisplayClear(std::int32_t clear);
+extern void AENG_loading_bar(std::int32_t percent);
 extern void OB_init();
 	OB_init(); //ob_hydrant now cleared
 
 	SetDisplayClear(0);
 
 extern int wad_level;
-extern UBYTE	roper_pickup;
+extern std::uint8_t	roper_pickup;
 
 	if(wad_level==21)
 	{
@@ -2807,7 +2807,7 @@ void AENG_flip_init();
 	AENG_flip_init();
 #endif
 
-extern UWORD	player_dlight;
+extern std::uint16_t	player_dlight;
 	player_dlight=0;
 
 #ifdef	ULTRA_COMPRESSED_ANIMATIONS
@@ -2826,7 +2826,7 @@ extern UWORD	player_dlight;
 	}
 
 	mem_size=FileSize(handle);
-	p_all=(UBYTE*)MemAlloc(mem_size);
+	p_all=(std::uint8_t*)MemAlloc(mem_size);
 	ASSERT(p_all);
 	FileRead(handle,p_all,mem_size);
 	FileClose(handle);
@@ -2845,7 +2845,7 @@ extern UWORD	player_dlight;
 	}
 	mem_size=PClseek(handle,0,SEEK_END);
 	PClseek(handle,0,SEEK_SET);
-	p_all=(UBYTE*)MemAlloc(mem_size);
+	p_all=(std::uint8_t*)MemAlloc(mem_size);
 	PCread(handle,p_all,mem_size);
 	PCclose(handle);
 	// Calculate how much bucket space is available
@@ -2868,8 +2868,8 @@ extern char cd_file_buffer[];
 //		printf("Error: Cannot find level file '%s'\n",cd_file_buffer);
 	}
 	mem_size=(cfile.size+2047)&0x7ffff800;
-	p_all=(UBYTE*)MemAlloc(mem_size);
-	CdReadFile(cd_file_buffer,(ULONG*)p_all,mem_size);
+	p_all=(std::uint8_t*)MemAlloc(mem_size);
+	CdReadFile(cd_file_buffer,(std::uint32_t*)p_all,mem_size);
 	CdReadSync(0,cd_file_buffer);
 #if 1
 	BUCKET_MEM=(total_mem_size-(mem_size+128))&0xfffffffc;
@@ -2898,23 +2898,23 @@ extern char cd_file_buffer[];
 //	printf("Save Type: %d\n",save_type);
 	while(save_table[c0].Point)
 	{
-		SLONG	struct_size;
+		std::int32_t	struct_size;
 //		printf("Loading: %s\n",save_table[c0].Name);
-		id=*((SLONG*)p_all);
+		id=*((std::int32_t*)p_all);
 //		printf(" id %d ",id);
 		ASSERT(id==c0);
 		p_all+=4;
 
-		count=*((SLONG*)p_all);
+		count=*((std::int32_t*)p_all);
 //		printf(" count %d",count);
 		p_all+=4;
 
-		struct_size=*((SLONG*)p_all);
+		struct_size=*((std::int32_t*)p_all);
 		p_all+=4;
-//		printf(" struct size %d shouldbe %d memsize %d\n",struct_size,save_table[c0].StructSize,*(SLONG*)p_all);
+//		printf(" struct size %d shouldbe %d memsize %d\n",struct_size,save_table[c0].StructSize,*(std::int32_t*)p_all);
 		ASSERT(struct_size==save_table[c0].StructSize);
 
-		mem_size=*((SLONG*)p_all);
+		mem_size=*((std::int32_t*)p_all);
 		p_all+=4;
 
 		if(mem_size&3)
@@ -3086,7 +3086,7 @@ extern char cd_file_buffer[];
 	
 #ifdef VERSION_USA
 	{
-		SLONG	bright;
+		std::int32_t	bright;
 		SATURATE(NIGHT_amb_red,25,127);
 		SATURATE(NIGHT_amb_green,25,127);
 
@@ -3109,7 +3109,7 @@ extern char cd_file_buffer[];
 
 #ifdef	OLD_CAM
 	GET_DATA(CAM_focus);
-	CAM_focus=TO_THING((SLONG)CAM_focus);
+	CAM_focus=TO_THING((std::int32_t)CAM_focus);
 #endif
 
 	//
@@ -3193,7 +3193,7 @@ void init_gangattack();
 
 	init_gangattack(); //probably should save these
 
-SBYTE global_spang_count;
+std::int8_t global_spang_count;
 	global_spang_count=0;
 
 
@@ -3210,7 +3210,7 @@ extern void AENG_ambient_editor(int store);
 #endif
 
 	{
-		SLONG	c0;
+		std::int32_t	c0;
 		for(c0=0;c0<100;c0++)
 		{
 			FC_process();
@@ -3248,7 +3248,7 @@ extern void AENG_ambient_editor(int store);
 #define MEMORY_QUICK_CHECK 314159265
 
 
-SLONG MEMORY_quick_avaliable;
+std::int32_t MEMORY_quick_avaliable;
 
 
 void MEMORY_quick_init()
@@ -3260,10 +3260,10 @@ void MEMORY_quick_init()
 
 void MEMORY_quick_save()
 {
-	SLONG i;
-	UBYTE padding_byte;
-	SLONG check = 666;
-	SLONG checksum;
+	std::int32_t i;
+	std::uint8_t padding_byte;
+	std::int32_t check = 666;
+	std::int32_t checksum;
 
 	FILE *handle = MF_Fopen(MEMORY_QUICK_FNAME, "wb");
 
@@ -3276,9 +3276,9 @@ void MEMORY_quick_save()
 	// Save out a version number.
 	//
 
-	SLONG version = 1;
+	std::int32_t version = 1;
 
-	if (fwrite(&version, sizeof(SLONG), 1, handle) != 1) goto file_error;
+	if (fwrite(&version, sizeof(std::int32_t), 1, handle) != 1) goto file_error;
 
 	//
 	// Go through the memory table and save all arrays.
@@ -3386,11 +3386,11 @@ void MEMORY_quick_save()
 
 	if (fwrite( NIGHT_square,       sizeof(NIGHT_Square),      NIGHT_MAX_SQUARES        , handle) != NIGHT_MAX_SQUARES        ) goto file_error;
 	if (fwrite(&NIGHT_square_free,  sizeof(NIGHT_square_free), 1                        , handle) != 1                        ) goto file_error;
-	if (fwrite( NIGHT_cache,        sizeof(UBYTE),             PAP_SIZE_LO * PAP_SIZE_LO, handle) != PAP_SIZE_LO * PAP_SIZE_LO) goto file_error;
+	if (fwrite( NIGHT_cache,        sizeof(std::uint8_t),             PAP_SIZE_LO * PAP_SIZE_LO, handle) != PAP_SIZE_LO * PAP_SIZE_LO) goto file_error;
 
 	if (fwrite( NIGHT_dfcache,      sizeof(NIGHT_Dfcache),     NIGHT_MAX_DFCACHES       , handle) != NIGHT_MAX_DFCACHES       ) goto file_error;
-	if (fwrite(&NIGHT_dfcache_used, sizeof(UBYTE),             1                        , handle) != 1                        ) goto file_error;
-	if (fwrite(&NIGHT_dfcache_free, sizeof(UBYTE),             1                        , handle) != 1                        ) goto file_error;
+	if (fwrite(&NIGHT_dfcache_used, sizeof(std::uint8_t),             1                        , handle) != 1                        ) goto file_error;
+	if (fwrite(&NIGHT_dfcache_free, sizeof(std::uint8_t),             1                        , handle) != 1                        ) goto file_error;
 
 	//
 	// Make sure we're in the right place.
@@ -3417,18 +3417,18 @@ void MEMORY_quick_save()
 	return;
 }
 
-SLONG MEMORY_quick_load_available()
+std::int32_t MEMORY_quick_load_available()
 {
 	return MEMORY_quick_avaliable;
 }
 
 
-SLONG MEMORY_quick_load()
+std::int32_t MEMORY_quick_load()
 {
-	SLONG i;
-	UBYTE padding_byte;
-	SLONG check = 666;
-	SLONG checksum;
+	std::int32_t i;
+	std::uint8_t padding_byte;
+	std::int32_t check = 666;
+	std::int32_t checksum;
 
 	FILE *handle = MF_Fopen(MEMORY_QUICK_FNAME, "rb");
 
@@ -3441,9 +3441,9 @@ SLONG MEMORY_quick_load()
 	// Save out a version number.
 	//
 
-	SLONG version;
+	std::int32_t version;
 
-	if (fread(&version, sizeof(SLONG), 1, handle) != 1) goto file_error;
+	if (fread(&version, sizeof(std::int32_t), 1, handle) != 1) goto file_error;
 
 	ASSERT(version == 1);
 
@@ -3557,11 +3557,11 @@ SLONG MEMORY_quick_load()
 
 	if (fread( NIGHT_square,       sizeof(NIGHT_Square),      NIGHT_MAX_SQUARES        , handle) != NIGHT_MAX_SQUARES        ) goto file_error;
 	if (fread(&NIGHT_square_free,  sizeof(NIGHT_square_free), 1                        , handle) != 1                        ) goto file_error;
-	if (fread( NIGHT_cache,        sizeof(UBYTE),             PAP_SIZE_LO * PAP_SIZE_LO, handle) != PAP_SIZE_LO * PAP_SIZE_LO) goto file_error;
+	if (fread( NIGHT_cache,        sizeof(std::uint8_t),             PAP_SIZE_LO * PAP_SIZE_LO, handle) != PAP_SIZE_LO * PAP_SIZE_LO) goto file_error;
 
 	if (fread( NIGHT_dfcache,      sizeof(NIGHT_Dfcache),     NIGHT_MAX_DFCACHES       , handle) != NIGHT_MAX_DFCACHES       ) goto file_error;
-	if (fread(&NIGHT_dfcache_used, sizeof(UBYTE),             1                        , handle) != 1                        ) goto file_error;
-	if (fread(&NIGHT_dfcache_free, sizeof(UBYTE),             1                        , handle) != 1                        ) goto file_error;
+	if (fread(&NIGHT_dfcache_used, sizeof(std::uint8_t),             1                        , handle) != 1                        ) goto file_error;
+	if (fread(&NIGHT_dfcache_free, sizeof(std::uint8_t),             1                        , handle) != 1                        ) goto file_error;
 
 	//
 	// Make sure we're in the right place.
@@ -3601,22 +3601,22 @@ SLONG MEMORY_quick_load()
 // Dreamcast load/save games...
 //
 
-void save_dreamcast_wad(CBYTE* fname)
+void save_dreamcast_wad(char* fname)
 {
 
-	SLONG	c0=0;
-	SLONG	*p_slong;
-	UWORD	*p_uword;
-	UBYTE	*p_mem;
-	SLONG	mem_size,mem_cumlative=0;
+	std::int32_t	c0=0;
+	std::int32_t	*p_slong;
+	std::uint16_t	*p_uword;
+	std::uint8_t	*p_mem;
+	std::int32_t	mem_size,mem_cumlative=0;
 	struct	MemTable *ptab;
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	SLONG	count;
-	SLONG	save_type=0;
-	SLONG	check=666;
-	UBYTE	padding_byte;
-	UWORD	padding_word;
-	ULONG	struct_size;
+	std::int32_t	count;
+	std::int32_t	save_type=0;
+	std::int32_t	check=666;
+	std::uint8_t	padding_byte;
+	std::uint16_t	padding_word;
+	std::uint32_t	struct_size;
 
 	//
 	// The dreamcast doesn't want darci_normals...
@@ -3630,7 +3630,7 @@ void save_dreamcast_wad(CBYTE* fname)
 
 
 	// Sets up level_index for special fudges.
-extern SLONG get_level_no ( CBYTE* name );
+extern std::int32_t get_level_no ( char* name );
 	get_level_no(fname);
 
 
@@ -3703,18 +3703,18 @@ extern SLONG get_level_no ( CBYTE* name );
 			}
 
 
-			p_mem=(UBYTE*)*ptab->Point;
+			p_mem=(std::uint8_t*)*ptab->Point;
 			
 			// chunk id
-			FileWrite(handle,(UBYTE*)&c0,4);
-			FileWrite(handle,(UBYTE*)&count,4);
+			FileWrite(handle,(std::uint8_t*)&c0,4);
+			FileWrite(handle,(std::uint8_t*)&count,4);
 			struct_size=ptab->StructSize;
-			FileWrite(handle,(UBYTE*)&struct_size,4);
-			FileWrite(handle,(UBYTE*)&mem_size,4);
+			FileWrite(handle,(std::uint8_t*)&struct_size,4);
+			FileWrite(handle,(std::uint8_t*)&mem_size,4);
 			if(mem_size&3)
-				FileWrite(handle,(UBYTE*)&mem_size,4-(mem_size&3));
+				FileWrite(handle,(std::uint8_t*)&mem_size,4-(mem_size&3));
 
-			FileWrite(handle,(UBYTE*)p_mem,mem_size);
+			FileWrite(handle,(std::uint8_t*)p_mem,mem_size);
 
 			mem_cumlative+=mem_size;
 
@@ -3845,7 +3845,7 @@ extern SLONG get_level_no ( CBYTE* name );
 																  
 		CAM_focus=(Thing*)THING_NUMBER(CAM_focus);				  
 		STORE_DATA(CAM_focus);									  
-		CAM_focus=TO_THING((SLONG)CAM_focus);					  
+		CAM_focus=TO_THING((std::int32_t)CAM_focus);					  
 #endif															  
 
 		save_whole_anims(handle);								  
@@ -3868,26 +3868,26 @@ extern SLONG get_level_no ( CBYTE* name );
 #if TEST_DC
 
 
-void load_dreamcast_wad(CBYTE* fname)
+void load_dreamcast_wad(char* fname)
 {
-	SLONG	c0=0,id;
-	SLONG	*p_slong;
-	UWORD	*p_uword;
-	UBYTE	*p_mem,*p_all;
-	ULONG	mem_size;
+	std::int32_t	c0=0,id;
+	std::int32_t	*p_slong;
+	std::uint16_t	*p_uword;
+	std::uint8_t	*p_mem,*p_all;
+	std::uint32_t	mem_size;
 	struct	MemTable *ptab;
 #ifndef PSX
 	MFFileHandle	handle	=	FILE_OPEN_ERROR;
 #else
-	SLONG			handle;
+	std::int32_t			handle;
 #endif
-	SLONG	count;
-	SLONG	texture_set_local;
-	SLONG	save_type;
+	std::int32_t	count;
+	std::int32_t	texture_set_local;
+	std::int32_t	save_type;
 
-	SLONG	check;
-	UBYTE	padding_byte;
-	UWORD	padding_word;
+	std::int32_t	check;
+	std::uint8_t	padding_byte;
+	std::uint16_t	padding_word;
 
 	SetSeed(1234567);
 	srand(1234567);
@@ -3900,7 +3900,7 @@ extern void POLY_ClearAllPages ( void );
 
 
 
-	extern UWORD	player_dlight;
+	extern std::uint16_t	player_dlight;
 	player_dlight=0;
 
 	//
@@ -3957,7 +3957,7 @@ extern void POLY_ClearAllPages ( void );
 	}
 #else
 
-	mem_all=(UBYTE*)MemAlloc(mem_size);
+	mem_all=(std::uint8_t*)MemAlloc(mem_size);
 	mem_all_size=mem_size;
 	ASSERT(mem_all);
 #endif
@@ -3966,10 +3966,10 @@ extern void POLY_ClearAllPages ( void );
 	ASSERT ( mem_size <= mem_all_size );
 	FileRead(handle,mem_all,mem_size);
 	FileClose(handle);
-	p_all = (UBYTE *)mem_all;
+	p_all = (std::uint8_t *)mem_all;
 
 
-extern UBYTE loading_screen_active;
+extern std::uint8_t loading_screen_active;
 	loading_screen_active = true;
 
 	//
@@ -3981,23 +3981,23 @@ extern UBYTE loading_screen_active;
 //	printf("Save Type: %d\n",save_type);
 	while(save_table[c0].Point)
 	{
-		SLONG	struct_size;
+		std::int32_t	struct_size;
 //		printf("Loading: %s\n",save_table[c0].Name);
-		id=*((SLONG*)p_all);
+		id=*((std::int32_t*)p_all);
 //		printf(" id %d ",id);
 		ASSERT(id==c0);
 		p_all+=4;
 
-		count=*((SLONG*)p_all);
+		count=*((std::int32_t*)p_all);
 //		printf(" count %d",count);
 		p_all+=4;
 
-		struct_size=*((SLONG*)p_all);
+		struct_size=*((std::int32_t*)p_all);
 		p_all+=4;
-//		printf(" struct size %d shouldbe %d memsize %d\n",struct_size,save_table[c0].StructSize,*(SLONG*)p_all);
+//		printf(" struct size %d shouldbe %d memsize %d\n",struct_size,save_table[c0].StructSize,*(std::int32_t*)p_all);
 		ASSERT(struct_size==save_table[c0].StructSize);
 
-		mem_size=*((SLONG*)p_all);
+		mem_size=*((std::int32_t*)p_all);
 		p_all+=4;
 
 		if(mem_size&3)
@@ -4110,7 +4110,7 @@ extern UBYTE loading_screen_active;
 	GET_DATA(EWAY_cam_freeze);	// Stop the player moving.
 	GET_DATA(EWAY_cam_cant_interrupt);
 	GET_DATA(EWAY_cam_thing);
-	GET_DATA(EWAY_cam_thing);	// Twice because EWAY_cam_thing is a UWORD
+	GET_DATA(EWAY_cam_thing);	// Twice because EWAY_cam_thing is a std::uint16_t
 	GET_DATA(EWAY_cam_targx);
 	GET_DATA(EWAY_cam_targy);
 	GET_DATA(EWAY_cam_targz);
@@ -4233,7 +4233,7 @@ extern void POW_init();
 //	calc_prim_info();
 	VEH_init_vehinfo();
 
-extern void DIRT_init(SLONG,SLONG,SLONG,SLONG,SLONG,SLONG,SLONG);
+extern void DIRT_init(std::int32_t,std::int32_t,std::int32_t,std::int32_t,std::int32_t,std::int32_t,std::int32_t);
 	DIRT_init(100, 3, 3, INFINITY, INFINITY, INFINITY, INFINITY);
 
 extern void	init_noises();
@@ -4274,11 +4274,11 @@ void init_gangattack();
 
 	init_gangattack(); //probably should save these
 
-extern SBYTE	global_spang_count;
+extern std::int8_t	global_spang_count;
 	global_spang_count=0;
 
 
-extern UBYTE EWAY_conv_active;
+extern std::uint8_t EWAY_conv_active;
 	EWAY_conv_active=0; //fixes semtex restart crash during cut scene
 
 #ifdef TARGET_DC

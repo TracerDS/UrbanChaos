@@ -15,10 +15,10 @@
 // Instruction memory.
 //
 
-SLONG *VM_code;
-SLONG VM_code_max;
-SLONG VM_code_upto;
-SLONG *VM_code_pointer;		// The instruction we are executing...
+std::int32_t *VM_code;
+std::int32_t VM_code_max;
+std::int32_t VM_code_upto;
+std::int32_t *VM_code_pointer;		// The instruction we are executing...
 
 
 
@@ -27,7 +27,7 @@ SLONG *VM_code_pointer;		// The instruction we are executing...
 //
 
 ML_Data *VM_stack;
-SLONG VM_stack_max;
+std::int32_t VM_stack_max;
 ML_Data *VM_stack_top;		// The top of the stack
 ML_Data *VM_stack_base;		// The current stack frame
 
@@ -37,15 +37,15 @@ ML_Data *VM_stack_base;		// The current stack frame
 //
 
 ML_Data *VM_global;
-SLONG VM_global_max;
+std::int32_t VM_global_max;
 
 
 //
 // The static data table.
 //
 
-UBYTE *VM_data;
-SLONG VM_data_max;
+std::uint8_t *VM_data;
+std::int32_t VM_data_max;
 
 
 
@@ -58,7 +58,7 @@ SLONG VM_data_max;
 #define VM_EXTRA_GLOBAL_INKEY    (VM_global_extra + 256)
 #define VM_EXTRA_GLOBAL_NUMBER   257
 
-SLONG VM_global_extra;		// The index of the first extra global.
+std::int32_t VM_global_extra;		// The index of the first extra global.
 
 
 
@@ -66,7 +66,7 @@ SLONG VM_global_extra;		// The index of the first extra global.
 // OS_ticks() the last time we did a flip.
 //
 
-SLONG VM_flip_tick;
+std::int32_t VM_flip_tick;
 
 
 //
@@ -93,7 +93,7 @@ SLONG VM_flip_tick;
 
 void VM_data_free(ML_Data md)
 {
-	SLONG i;
+	std::int32_t i;
 
 	switch(md.type)
 	{
@@ -203,10 +203,10 @@ ML_Data VM_data_copy(ML_Data original)
 		case ML_TYPE_STRVAR:
 
 			{
-				SLONG length = MEM_block_size(original.strvar);
+				std::int32_t length = MEM_block_size(original.strvar);
 
 				ans.type   = ML_TYPE_STRVAR;
-				ans.strvar = (CBYTE* ) MEM_alloc(length);
+				ans.strvar = (char* ) MEM_alloc(length);
 
 				memcpy(ans.strvar, original.strvar, length);
 			}
@@ -220,12 +220,12 @@ ML_Data VM_data_copy(ML_Data original)
 				// Create another copy of the structure.
 				//
 
-				SLONG length = sizeof(ML_Structure) + original.structure->num_fields * sizeof(ML_Field);
+				std::int32_t length = sizeof(ML_Structure) + original.structure->num_fields * sizeof(ML_Field);
 
 				ans.type      = ML_TYPE_STRUCTURE;
 				ans.structure = (ML_Structure *) MEM_alloc(length);
 
-				SLONG i;
+				std::int32_t i;
 
 				ans.structure->num_fields = original.structure->num_fields;
 
@@ -245,7 +245,7 @@ ML_Data VM_data_copy(ML_Data original)
 				// Create another copy of the array.
 				//
 
-				SLONG length = sizeof(ML_Array) + original.array->num_dimensions * sizeof(ML_Dimension);
+				std::int32_t length = sizeof(ML_Array) + original.array->num_dimensions * sizeof(ML_Dimension);
 
 				ans.type  = ML_TYPE_ARRAY;
 				ans.array = (ML_Array *) MEM_alloc(length);
@@ -254,7 +254,7 @@ ML_Data VM_data_copy(ML_Data original)
 				ans.array->length         = original.array->length;
 				ans.array->num_dimensions = original.array->num_dimensions;
 
-				SLONG i;
+				std::int32_t i;
 
 				for (i = 0; i < original.array->num_dimensions; i++)
 				{
@@ -341,17 +341,17 @@ void VM_convert_to_string(ML_Data *original)
 	switch(original->type)
 	{
 		case ML_TYPE_UNDEFINED:
-			ans.strvar = (CBYTE* ) MEM_alloc(16);	// Enough to hold the string "<UNDEFINED>"
+			ans.strvar = (char* ) MEM_alloc(16);	// Enough to hold the string "<UNDEFINED>"
 			memcpy(ans.strvar, "<UNDEFINED>", 12);
 			break;
 
 		case ML_TYPE_SLUMBER:
-			ans.strvar = (CBYTE* ) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a nullptr.
+			ans.strvar = (char* ) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a nullptr.
 			sprintf(ans.strvar, "%d", original->slumber);
 			break;
 
 		case ML_TYPE_FLUMBER:
-			ans.strvar = (CBYTE* ) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a nullptr.
+			ans.strvar = (char* ) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a nullptr.
 			sprintf(ans.strvar, "%f", original->flumber);
 			break;
 
@@ -366,7 +366,7 @@ void VM_convert_to_string(ML_Data *original)
 
 		case ML_TYPE_BOOLEAN:
 
-			ans.strvar = (CBYTE* ) MEM_alloc(6);	// Enough to hold the string "true" or "false"
+			ans.strvar = (char* ) MEM_alloc(6);	// Enough to hold the string "true" or "false"
 
 			if (original->boolean)
 			{
@@ -393,13 +393,13 @@ void VM_convert_to_string(ML_Data *original)
 // Returns the string held by the given string variable.
 //
 
-CBYTE* VM_get_string(ML_Data string)
+char* VM_get_string(ML_Data string)
 {
 	switch(string.type)
 	{
 		case ML_TYPE_STRCONST:
 			ASSERT(WITHIN(string.strconst, 0, VM_data_max - 2));
-			return (CBYTE* ) (VM_data + string.strconst);
+			return (char* ) (VM_data + string.strconst);
 
 		case ML_TYPE_STRVAR:
 			return string.strvar;
@@ -463,18 +463,18 @@ void VM_convert_stack_top_to_same_numerical_type()
 
 void VM_grow_array(ML_Array *ma, ML_Data *md)
 {
-	SLONG i;
-	SLONG j;
-	SLONG bigger_index;
-	SLONG bigger_length;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t bigger_index;
+	std::int32_t bigger_length;
 
 	#define VM_MAX_DIMENSIONS 64
 
 	ASSERT(WITHIN(ma->num_dimensions, 1, VM_MAX_DIMENSIONS));
 
-	SLONG bigger_size  [VM_MAX_DIMENSIONS];
-	SLONG bigger_stride[VM_MAX_DIMENSIONS];
-	SLONG index        [VM_MAX_DIMENSIONS];
+	std::int32_t bigger_size  [VM_MAX_DIMENSIONS];
+	std::int32_t bigger_stride[VM_MAX_DIMENSIONS];
+	std::int32_t index        [VM_MAX_DIMENSIONS];
 
 	//
 	// Build the array of the new sizes of each dimension.
@@ -681,12 +681,12 @@ void VM_do_texture()
 
 void VM_do_buffer()
 {
-	SLONG i;
-	SLONG j;
-	SLONG num_verts;
-	SLONG num_indices;
-	ULONG found;
-	SLONG slumber;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t num_verts;
+	std::int32_t num_indices;
+	std::uint32_t found;
+	std::int32_t slumber;
 	float flumber;
 
 	ML_Data      *vert_array;
@@ -694,7 +694,7 @@ void VM_do_buffer()
 	ML_Field     *field;
 	ML_Data      *index_array;
 	LL_Tlvert    *tl;
-	UWORD        *index;
+	std::uint16_t        *index;
 
 	VM_POP_STACK(4);
 
@@ -1036,7 +1036,7 @@ void VM_do_buffer()
 		// Make sure we have initialised every member.
 		//
 
-		const SLONG found_every_tlvert_field =
+		const std::int32_t found_every_tlvert_field =
 						(1 << SYSVAR_FIELD_X       ) |
 						(1 << SYSVAR_FIELD_Y       ) |
 						(1 << SYSVAR_FIELD_Z       ) |
@@ -1079,7 +1079,7 @@ void VM_do_buffer()
 			ASSERT(0);
 		}
 
-		index       = (UWORD *) MEM_alloc(num_indices * sizeof(UWORD));
+		index       = (std::uint16_t *) MEM_alloc(num_indices * sizeof(std::uint16_t));
 		index_array = VM_stack_top[2].array->data;
 
 		for (i = 0; i < num_indices; i++)
@@ -1160,7 +1160,7 @@ void VM_do_draw()
 
 	LL_Buffer  *lb;
 	LL_Texture *lt;
-	ULONG       rs;
+	std::uint32_t       rs;
 
 	//
 	// We should have a buffer then a texture and a renderstate.
@@ -1241,7 +1241,7 @@ void VM_do_draw()
 
 void VM_do_cls()
 {
-	ULONG colour;
+	std::uint32_t colour;
 	float zsort;
 
 	VM_POP_STACK(2);
@@ -1463,9 +1463,9 @@ void VM_execute()
 
 						{
 							ML_Data result;
-							SLONG   length;
-							CBYTE  *str1;
-							CBYTE  *str2;
+							std::int32_t   length;
+							char  *str1;
+							char  *str2;
 							
 
 							//
@@ -1482,7 +1482,7 @@ void VM_execute()
 							//
 
 							result.type   = ML_TYPE_STRVAR;
-							result.strvar = (CBYTE* ) MEM_alloc(length);
+							result.strvar = (char* ) MEM_alloc(length);
 
 							strcpy(result.strvar, str1);
 							strcat(result.strvar, str2);
@@ -1542,7 +1542,7 @@ void VM_execute()
 
 						ASSERT(WITHIN(VM_stack_top[0].strconst, 0, VM_data_max - 2));
 
-						CONSOLE_print((CBYTE* ) (VM_data + VM_stack_top[0].strconst));
+						CONSOLE_print((char* ) (VM_data + VM_stack_top[0].strconst));
 
 						break;
 
@@ -1560,7 +1560,7 @@ void VM_execute()
 				//
 
 				{
-					SLONG i;
+					std::int32_t i;
 
 					for (i = 0; i < VM_global_max; i++)
 					{
@@ -2123,7 +2123,7 @@ void VM_execute()
 			case ML_DO_JNEQ_POP_1:
 
 				{
-					SLONG are_equal = false;
+					std::int32_t are_equal = false;
 
 					VM_POP_STACK(2);
 
@@ -2425,7 +2425,7 @@ void VM_execute()
 
 				switch(VM_stack_top[0].type)
 				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].slumber = (SLONG) sqrtf(float(VM_stack_top[0].slumber)); break;
+					case ML_TYPE_SLUMBER: VM_stack_top[0].slumber = (std::int32_t) sqrtf(float(VM_stack_top[0].slumber)); break;
 					case ML_TYPE_FLUMBER: VM_stack_top[0].flumber =         sqrtf(float(VM_stack_top[0].flumber)); break;
 
 					default:
@@ -2513,7 +2513,7 @@ void VM_execute()
 
 				if (VM_stack_top[0].type == ML_TYPE_POINTER)
 				{
-					SLONG    field_id;
+					std::int32_t    field_id;
 					ML_Data *data;
 
 					field_id = *VM_code_pointer++;
@@ -2527,7 +2527,7 @@ void VM_execute()
 							// Does this variable already have this field?
 							//
 
-							SLONG i;
+							std::int32_t i;
 
 							for (i = 0; i < data->structure->num_fields; i++)
 							{
@@ -2661,7 +2661,7 @@ void VM_execute()
 				else
 				if (VM_stack_top[0].type == ML_TYPE_VOINTER)
 				{
-					SLONG    field_id;
+					std::int32_t    field_id;
 					ML_Data *data;
 
 					field_id = *VM_code_pointer++;
@@ -2716,7 +2716,7 @@ void VM_execute()
 				ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
 				{
-					SLONG field_id;
+					std::int32_t field_id;
 
 					field_id = *VM_code_pointer++;
 
@@ -2811,7 +2811,7 @@ void VM_execute()
 						// Does this variable already have this field?
 						//
 
-						SLONG i;
+						std::int32_t i;
 
 						for (i = 0; i < VM_stack_top[0].structure->num_fields; i++)
 						{
@@ -2857,10 +2857,10 @@ void VM_execute()
 			case ML_DO_PUSH_ARRAY_ADDRESS:
 
 				{
-					SLONG i;
-					SLONG j;
-					SLONG array_length;
-					SLONG num_dimensions;
+					std::int32_t i;
+					std::int32_t j;
+					std::int32_t array_length;
+					std::int32_t num_dimensions;
 
 					ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
@@ -2996,7 +2996,7 @@ void VM_execute()
 					// What's this index of this element into the array?
 					//
 
-					SLONG index = 0;
+					std::int32_t index = 0;
 
 					for (i = 0; i < num_dimensions; i++)
 					{
@@ -3021,9 +3021,9 @@ void VM_execute()
 			case ML_DO_PUSH_ARRAY_QUICK:
 
 				{
-					SLONG i;
-					SLONG index;
-					SLONG num_dimensions;
+					std::int32_t i;
+					std::int32_t index;
+					std::int32_t num_dimensions;
 
 					ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
@@ -3142,7 +3142,7 @@ void VM_execute()
 			case ML_DO_PUSH_INPUT:
 				
 				{
-					CBYTE* string;
+					char* string;
 
 					//
 					// Get user input!
@@ -3153,7 +3153,7 @@ void VM_execute()
 					VM_CHECK_STACK_PUSH();
 
 					VM_stack_top[0].type   = ML_TYPE_STRVAR;
-					VM_stack_top[0].strvar = (CBYTE* ) MEM_alloc(strlen(string) + 1);
+					VM_stack_top[0].strvar = (char* ) MEM_alloc(strlen(string) + 1);
 
 					strcpy(VM_stack_top[0].strvar, string);
 
@@ -3290,7 +3290,7 @@ void VM_execute()
 			case ML_DO_ENTERFUNC:
 	
 				{
-					SLONG i;
+					std::int32_t i;
 
 					//
 					// Do we have the right number of arguments?
@@ -3299,7 +3299,7 @@ void VM_execute()
 					ASSERT(VM_stack_top[-2].type == ML_TYPE_NUM_ARGS    );	// Num args to functions
 					ASSERT(VM_stack_top[-1].type == ML_TYPE_CODE_POINTER);	// Return address
 
-					SLONG args_to_function = VM_stack_top[-2].args;
+					std::int32_t args_to_function = VM_stack_top[-2].args;
 
 					if (args_to_function == *VM_code_pointer)
 					{
@@ -3327,7 +3327,7 @@ void VM_execute()
 							// Remember the code pointer so we wont overwrite it.
 							//
 
-							SLONG *code_pointer = VM_stack_top[-1].code_pointer;
+							std::int32_t *code_pointer = VM_stack_top[-1].code_pointer;
 
 							//
 							// Must insert extra undefined arguments.
@@ -3398,7 +3398,7 @@ void VM_execute()
 					ASSERT(VM_stack_top[0].type == ML_TYPE_CODE_POINTER);
 					ASSERT(VM_stack_top[1].type == ML_TYPE_STACK_BASE  );
 
-					SLONG *return_instruction = VM_stack_top[0].code_pointer;
+					std::int32_t *return_instruction = VM_stack_top[0].code_pointer;
 
 					//
 					// Pop the locals off the stack.
@@ -3413,7 +3413,7 @@ void VM_execute()
 					// Free all the locals.
 					//
 
-					SLONG i;
+					std::int32_t i;
 
 					for (i = 0; i < *VM_code_pointer; i++)
 					{
@@ -3916,8 +3916,8 @@ void VM_execute()
 				{
 					ML_Data ans;
 
-					CBYTE* input = VM_get_string(VM_stack_top[0]);
-					SLONG  left  = VM_stack_top[1].slumber;
+					char* input = VM_get_string(VM_stack_top[0]);
+					std::int32_t  left  = VM_stack_top[1].slumber;
 
 					if (left < 0)
 					{
@@ -3929,10 +3929,10 @@ void VM_execute()
 					}
 
 					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (CBYTE* ) MEM_alloc(left + 1);
+					ans.strvar = (char* ) MEM_alloc(left + 1);
 
-					CBYTE* src = input;
-					CBYTE* dst = ans.strvar;
+					char* src = input;
+					char* dst = ans.strvar;
 
 					while(left > 0)
 					{
@@ -3998,10 +3998,10 @@ void VM_execute()
 				{
 					ML_Data ans;
 
-					CBYTE* input = VM_get_string(VM_stack_top[0]);
-					SLONG  in    = VM_stack_top[1].slumber - 1;	// - 1 because BASIC is 1-based not zero based.
-					SLONG  num   = VM_stack_top[2].slumber;
-					SLONG  len   = strlen(input);
+					char* input = VM_get_string(VM_stack_top[0]);
+					std::int32_t  in    = VM_stack_top[1].slumber - 1;	// - 1 because BASIC is 1-based not zero based.
+					std::int32_t  num   = VM_stack_top[2].slumber;
+					std::int32_t  len   = strlen(input);
 
 					if (num < 0)
 					{
@@ -4013,7 +4013,7 @@ void VM_execute()
 					}
 
 					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (CBYTE* ) MEM_alloc(num + 1);
+					ans.strvar = (char* ) MEM_alloc(num + 1);
 
 					if (!WITHIN(in, 0, len - 1))
 					{
@@ -4021,8 +4021,8 @@ void VM_execute()
 					}
 					else
 					{
-						CBYTE* src = input + in;
-						CBYTE* dst = ans.strvar;
+						char* src = input + in;
+						char* dst = ans.strvar;
 
 						while(num > 0)
 						{
@@ -4089,14 +4089,14 @@ void VM_execute()
 				{
 					ML_Data ans;
 
-					CBYTE* input = VM_get_string(VM_stack_top[0]);
-					SLONG  len   = VM_stack_top[1].slumber;
+					char* input = VM_get_string(VM_stack_top[0]);
+					std::int32_t  len   = VM_stack_top[1].slumber;
 
 					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (CBYTE* ) MEM_alloc(len + 1);
+					ans.strvar = (char* ) MEM_alloc(len + 1);
 
-					CBYTE* src = input;
-					CBYTE* dst = ans.strvar;
+					char* src = input;
+					char* dst = ans.strvar;
 
 					while(*src) {src++;}
 
@@ -4159,7 +4159,7 @@ void VM_execute()
 				}
 				else
 				{
-					SLONG len = strlen(VM_get_string(VM_stack_top[0]));
+					std::int32_t len = strlen(VM_get_string(VM_stack_top[0]));
 
 					VM_data_free(VM_stack_top[0]);
 
@@ -4318,9 +4318,9 @@ void VM_execute()
 
 
 
-void VM_run(CBYTE* fname)
+void VM_run(char* fname)
 {
-	SLONG i;
+	std::int32_t i;
 
 	FILE *handle;
 
@@ -4363,23 +4363,23 @@ void VM_run(CBYTE* fname)
 	// from the file.
 	//
 
-	ASSERT(mh.instructions_memory_in_bytes % sizeof(SLONG) == 0);
+	ASSERT(mh.instructions_memory_in_bytes % sizeof(std::int32_t) == 0);
 
-	VM_code_max     = (mh.instructions_memory_in_bytes + 32) / sizeof(SLONG);
-	VM_code         = (SLONG *) malloc(sizeof(SLONG) * VM_code_max);
-	VM_code_upto    = mh.instructions_memory_in_bytes / sizeof(SLONG);
+	VM_code_max     = (mh.instructions_memory_in_bytes + 32) / sizeof(std::int32_t);
+	VM_code         = (std::int32_t *) malloc(sizeof(std::int32_t) * VM_code_max);
+	VM_code_upto    = mh.instructions_memory_in_bytes / sizeof(std::int32_t);
 	VM_code_pointer = VM_code;
 
-	if (fread(VM_code, sizeof(UBYTE), mh.instructions_memory_in_bytes, handle) != mh.instructions_memory_in_bytes) goto file_error;
+	if (fread(VM_code, sizeof(std::uint8_t), mh.instructions_memory_in_bytes, handle) != mh.instructions_memory_in_bytes) goto file_error;
 	
 	//
 	// Allocate static data and read in data from the file.
 	//
 
 	VM_data_max = mh.data_table_length_in_bytes;
-	VM_data     = (UBYTE *) malloc(sizeof(UBYTE) * mh.data_table_length_in_bytes);
+	VM_data     = (std::uint8_t *) malloc(sizeof(std::uint8_t) * mh.data_table_length_in_bytes);
 
-	if (fread(VM_data, sizeof(UBYTE), mh.data_table_length_in_bytes, handle) != mh.data_table_length_in_bytes) goto file_error;
+	if (fread(VM_data, sizeof(std::uint8_t), mh.data_table_length_in_bytes, handle) != mh.data_table_length_in_bytes) goto file_error;
 
 	//
 	// Allocate the stack.

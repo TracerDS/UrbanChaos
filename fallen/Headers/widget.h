@@ -40,10 +40,10 @@ class Widget;
 class Form;
 
 typedef void (*WIDGET_Void)(Widget *widget);
-typedef bool (*WIDGET_Clik)(Widget *widget, SLONG x, SLONG y);
-typedef bool (*WIDGET_Char)(Widget *widget, CBYTE key);
-typedef SLONG(*WIDGET_Data)(Widget *widget, SLONG code, SLONG data1, SLONG data2);
-typedef bool (*FORM_Proc)(Form *form, Widget *widget, SLONG message);
+typedef bool (*WIDGET_Clik)(Widget *widget, std::int32_t x, std::int32_t y);
+typedef bool (*WIDGET_Char)(Widget *widget, char key);
+typedef std::int32_t(*WIDGET_Data)(Widget *widget, std::int32_t code, std::int32_t data1, std::int32_t data2);
+typedef bool (*FORM_Proc)(Form *form, Widget *widget, std::int32_t message);
 
 //----------------------------------------------------------------------------
 // Widget Structures
@@ -57,18 +57,18 @@ struct Methods {
 };
 
 struct WidgetPoint {
-	SLONG		x, y;
+	std::int32_t		x, y;
 };
 
 class Widget {	// C++ Now! 
 
 	public:
 
-	SLONG		x, y, ox, oy;		// parent-relative coords
-	SLONG		tag;				// a value for its parent to use as it sees fit
-	SLONG		state;				// focused, etc
-	SLONG		data[5];			// widget-specific data
-	CBYTE		*caption;			// text label as appropriate
+	std::int32_t		x, y, ox, oy;		// parent-relative coords
+	std::int32_t		tag;				// a value for its parent to use as it sees fit
+	std::int32_t		state;				// focused, etc
+	std::int32_t		data[5];			// widget-specific data
+	char		*caption;			// text label as appropriate
 	Form		*form;				// parent form
 	Methods		*methods;			// pointer to its virtual method table (muhahaha)
 	Widget		*prev, *next;		// linked list pointers
@@ -78,15 +78,15 @@ class Form {
 
 	public:
 
-	SLONG		x, y, ox, oy;		// screen coords
-	ULONG		textcolour;			// rgb for text
-	SLONG		returncode;			// if !0 then form returns
-	SLONG		age;				// for fading in forms
-	SLONG		inverse;			// bet this gets turned into flags later
+	std::int32_t		x, y, ox, oy;		// screen coords
+	std::uint32_t		textcolour;			// rgb for text
+	std::int32_t		returncode;			// if !0 then form returns
+	std::int32_t		age;				// for fading in forms
+	std::int32_t		inverse;			// bet this gets turned into flags later
 	Widget		*children;			// child widgets
 	Widget		*focus;				// current focus control
 	FORM_Proc	proc;				// dialog procedure
-	CBYTE		caption[32];		// form text
+	char		caption[32];		// form text
 };
 
 //----------------------------------------------------------------------------
@@ -94,37 +94,37 @@ class Form {
 //
 
 // Forms
-Form*	FORM_Create(CBYTE* caption, FORM_Proc proc, SLONG x, SLONG y, SLONG ox, SLONG oy, ULONG textcolour);
+Form*	FORM_Create(char* caption, FORM_Proc proc, std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::uint32_t textcolour);
 Widget*	FORM_AddWidget(Form *form, Widget *widget);
 void FORM_DelWidget(Widget *widget);
-SLONG FORM_Process(Form* form);
+std::int32_t FORM_Process(Form* form);
 void FORM_Draw(Form* form);
 void FORM_Free(Form* form);
-Widget*	FORM_Focus(Form* form, Widget* widget, SBYTE direction=0);
+Widget*	FORM_Focus(Form* form, Widget* widget, std::int8_t direction=0);
 Widget*	FORM_GetWidgetFromPoint(Form *form, WidgetPoint pt);
 
 // Widgets
 void WIDGET_menu(Form *form, ...);
-Widget*	WIDGET_Create(Methods *widget_class, SLONG x, SLONG y, SLONG ox, SLONG oy, CBYTE* caption);
-//void	WIDGET_State(Widget *widget, SLONG data, SLONG mask=0xFFFF);
-inline void	WIDGET_SetState(Widget *widget, SLONG data, SLONG mask=0) {
+Widget*	WIDGET_Create(Methods *widget_class, std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, char* caption);
+//void	WIDGET_State(Widget *widget, std::int32_t data, std::int32_t mask=0xFFFF);
+inline void	WIDGET_SetState(Widget *widget, std::int32_t data, std::int32_t mask=0) {
 	widget->state=(widget->state&~mask)|data;
 }
-inline void	WIDGET_ToggleState(Widget *widget, SLONG data) {
+inline void	WIDGET_ToggleState(Widget *widget, std::int32_t data) {
 	widget->state^=data;
 }
-inline SLONG	WIDGET_State(Widget *widget, SLONG mask=0xFFFF) {
+inline std::int32_t	WIDGET_State(Widget *widget, std::int32_t mask=0xFFFF) {
 	return (widget->state&mask);
 }
 
 
 // Utility
-inline WidgetPoint TO_WIDGETPNT(SLONG x, SLONG y) { WidgetPoint pt = { x, y }; return pt; }
+inline WidgetPoint TO_WIDGETPNT(std::int32_t x, std::int32_t y) { WidgetPoint pt = { x, y }; return pt; }
 inline WidgetPoint FORM_To_Screen(Form *form, WidgetPoint pt) { return TO_WIDGETPNT(pt.x+form->x, pt.y+form->y); }
 inline WidgetPoint WIDGET_Centre(Widget *widget) {
 	return FORM_To_Screen(widget->form, TO_WIDGETPNT((widget->x+widget->ox)>>1,(widget->y+widget->oy)>>1));
 }
-void WIDGET_snd(SLONG snd);
+void WIDGET_snd(std::int32_t snd);
 
 //----------------------------------------------------------------------------
 // Widget "class library"

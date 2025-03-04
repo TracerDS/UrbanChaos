@@ -13,24 +13,24 @@ extern LPSTR					szGlobalCmdLine;
 
 #define	main(ac,av)				MF_main(ac,av)
 
-SLONG	main(UWORD argc, TCHAR** argv);
+std::int32_t	main(std::uint16_t argc, TCHAR** argv);
 
 #endif
 
 struct MFTime
 {
-	SLONG		Hours,
+	std::int32_t		Hours,
 				Minutes,
 				Seconds,
 				MSeconds;
-	SLONG		DayOfWeek,		//	0 - 6;		Sunday		=	0
+	std::int32_t		DayOfWeek,		//	0 - 6;		Sunday		=	0
 				Day,
 				Month,			//	1 - 12;		January		=	1
 				Year;
-	SLONG		Ticks;			// Number of ticks(milliseconds) since windows started.
+	std::int32_t		Ticks;			// Number of ticks(milliseconds) since windows started.
 };
 
-bool	SetupHost(ULONG flags);
+bool	SetupHost(std::uint32_t flags);
 void	ResetHost();
-void	LogText(CBYTE* error, ...);
+void	LogText(char* error, ...);
 void	Time(struct MFTime *the_time);

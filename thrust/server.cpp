@@ -30,17 +30,17 @@
 
 typedef struct
 {
-	UBYTE      flag;
-	UBYTE      mode;
-	UBYTE      red;
-	UBYTE      green;
-	UBYTE      blue;
-	UBYTE      ship_index;	// The index into the SHIP_ship array.
-	UBYTE      padding[2];
+	std::uint8_t      flag;
+	std::uint8_t      mode;
+	std::uint8_t      red;
+	std::uint8_t      green;
+	std::uint8_t      blue;
+	std::uint8_t      ship_index;	// The index into the SHIP_ship array.
+	std::uint8_t      padding[2];
 	NET_Player player_id;
 	float      mass;
 	float      power;
-	CBYTE      name[32];
+	char      name[32];
 
 	//
 	// The keypresses we know about for sure.
@@ -48,9 +48,9 @@ typedef struct
 
 	#define SERVER_MAX_KEYS 256
 
-	UBYTE key[SERVER_MAX_KEYS];
-	SLONG gameturn;				// The gameturn we know all the keys for.
-	SLONG active;				// The gameturn when this ship became active.
+	std::uint8_t key[SERVER_MAX_KEYS];
+	std::int32_t gameturn;				// The gameturn we know all the keys for.
+	std::int32_t active;				// The gameturn when this ship became active.
 	float hash;					// The hash value at 'gameturn'
 
 } SERVER_Player;
@@ -64,7 +64,7 @@ SERVER_Player SERVER_player[SERVER_MAX_PLAYERS];
 // The gameturn we've processed the world upto.
 //
 
-SLONG SERVER_turn;
+std::int32_t SERVER_turn;
 
 
 
@@ -72,17 +72,17 @@ SLONG SERVER_turn;
 // Who we are connecting or -1 if we are not connecting anybody.
 //
 
-SLONG SERVER_connecting;	
+std::int32_t SERVER_connecting;	
 
 
 
 
 
-SLONG SERVER_session_create(
-		CBYTE* name,
-		SLONG  max_players,
-		SLONG  connection_type,
-		CBYTE* internet_address)
+std::int32_t SERVER_session_create(
+		char* name,
+		std::int32_t  max_players,
+		std::int32_t  connection_type,
+		char* internet_address)
 {
 	ASSERT(max_players <= SERVER_MAX_PLAYERS);
 
@@ -137,9 +137,9 @@ SLONG SERVER_session_create(
 
 void SERVER_process()
 {
-	SLONG i;
-	SLONG j;
-	SLONG num_bytes;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t num_bytes;
 
 	SERVER_Player *sp;
 	SERVER_Player *sp_2;
@@ -163,7 +163,7 @@ void SERVER_process()
 		case NET_SERVER_MESSAGE_PLAYER_JOINED:
 
 			{
-				SLONG i;
+				std::int32_t i;
 
 				//
 				// Look for a free player.
@@ -205,14 +205,14 @@ void SERVER_process()
 			//
 
 			{
-				SLONG exit_loop = false;
+				std::int32_t exit_loop = false;
 
-				UBYTE *upto     = ((UBYTE *) data) + 4;
-				SLONG  gameturn = ((SLONG *) data)[0];
+				std::uint8_t *upto     = ((std::uint8_t *) data) + 4;
+				std::int32_t  gameturn = ((std::int32_t *) data)[0];
 
 				while(!exit_loop)
 				{
-					if (upto - ((UBYTE *) data) >= num_bytes)
+					if (upto - ((std::uint8_t *) data) >= num_bytes)
 					{
 						//
 						// Finished processing the message.
@@ -237,7 +237,7 @@ void SERVER_process()
 
 									struct
 									{
-										SLONG             gameturn;
+										std::int32_t             gameturn;
 										SERVER_Block_ping ping;
 
 									} ping_message;
@@ -267,7 +267,7 @@ void SERVER_process()
 									// in our player structure.
 									//
 
-									SLONG i;
+									std::int32_t i;
 
 									SERVER_Player *sp;
 
@@ -321,8 +321,8 @@ void SERVER_process()
 							case SERVER_BLOCK_TYPE_RECEIVED_GAMESTATE:
 
 								{
-									SLONG i;
-									SLONG me;
+									std::int32_t i;
+									std::int32_t me;
 
 									SERVER_Player *sp;
 									SERVER_Player *sp_me;
@@ -400,7 +400,7 @@ void SERVER_process()
 
 														struct
 														{
-															SLONG                   gameturn;
+															std::int32_t                   gameturn;
 															SERVER_Block_new_player sbn;
 
 														} new_player;
@@ -460,7 +460,7 @@ void SERVER_process()
 							case SERVER_BLOCK_TYPE_MY_KEYPRESS_LIST:
 
 								{
-									SLONG i;
+									std::int32_t i;
 
 									SERVER_Block_my_keypress_list *sbk = (SERVER_Block_my_keypress_list *) upto;
 
@@ -510,7 +510,7 @@ void SERVER_process()
 	//
 
 	{
-		SLONG i;
+		std::int32_t i;
 
 		SERVER_Player *sp;
 
@@ -559,7 +559,7 @@ void SERVER_process()
 
 						struct
 						{
-							SLONG                  gameturn;
+							std::int32_t                  gameturn;
 							SERVER_Block_gamestate sbg;
 
 						} send_gamestate;
@@ -617,12 +617,12 @@ void SERVER_process()
 	//
 
 	{
-		UBYTE *upto;
-		UBYTE  buffer[1024];
+		std::uint8_t *upto;
+		std::uint8_t  buffer[1024];
 
 		memset(buffer, 0, sizeof(buffer));
 
-		SLONG *slong = (SLONG *) buffer;
+		std::int32_t *slong = (std::int32_t *) buffer;
 
 	   *slong = GAME_turn;
 
@@ -653,8 +653,8 @@ void SERVER_process()
 
 					if ((sp_2->flag & SERVER_PLAYER_FLAG_USED) && sp->mode == SERVER_PLAYER_MODE_PLAYING)
 					{
-						SLONG k;
-						SLONG num_turns;
+						std::int32_t k;
+						std::int32_t num_turns;
 
 						SERVER_Block_remote_keypress_list *sbr = (SERVER_Block_remote_keypress_list *) upto;
 
@@ -695,7 +695,7 @@ void SERVER_process()
 	// What gameturn do we know all the keypresses upto?
 	//
 
-	SLONG upto = GAME_turn;
+	std::int32_t upto = GAME_turn;
 
 	for (i = 0; i < SERVER_MAX_PLAYERS; i++)
 	{
@@ -797,10 +797,10 @@ void SERVER_process()
 
 void SERVER_draw()
 {
-	SLONG i;
+	std::int32_t i;
 
-	static SLONG last;
-	static SLONG now;
+	static std::int32_t last;
+	static std::int32_t now;
 
 	now = OS_ticks();
 

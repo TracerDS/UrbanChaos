@@ -25,7 +25,7 @@ typedef Projectile* ProjectilePtr;
 //---------------------------------------------------------------
 
 void init_projectiles();
-Thing *alloc_projectile(UBYTE type);
+Thing *alloc_projectile(std::uint8_t type);
 void free_projectile(Thing *proj_thing);
 
 //---------------------------------------------------------------

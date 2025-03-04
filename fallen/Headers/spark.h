@@ -30,25 +30,25 @@ void SPARK_init();
 
 typedef struct
 {
-	UBYTE type;
-	UBYTE flag;
-	UBYTE padding;
+	std::uint8_t type;
+	std::uint8_t flag;
+	std::uint8_t padding;
 
-	UBYTE dist;	// For circular types... the distance from the first point.
+	std::uint8_t dist;	// For circular types... the distance from the first point.
 
-	UWORD x;	// Point and ground types...
-	UWORD y;
-	UWORD z;
+	std::uint16_t x;	// Point and ground types...
+	std::uint16_t y;
+	std::uint16_t z;
 
 	THING_INDEX person;	// The limb to use.
-	UWORD		limb;
+	std::uint16_t		limb;
 	
 } SPARK_Pinfo;
 
 void SPARK_create(
 		SPARK_Pinfo *point1,
 		SPARK_Pinfo *point2,
-		UBYTE        max_life);
+		std::uint8_t        max_life);
 
 
 //
@@ -56,12 +56,12 @@ void SPARK_create(
 //
 
 void SPARK_in_sphere(
-		SLONG mid_x,
-		SLONG mid_y,
-		SLONG mid_z,
-		SLONG radius,
-		UBYTE max_life,
-		UBYTE max_create);
+		std::int32_t mid_x,
+		std::int32_t mid_y,
+		std::int32_t mid_z,
+		std::int32_t radius,
+		std::uint8_t max_life,
+		std::uint8_t max_create);
 
 
 //
@@ -86,17 +86,17 @@ void SPARK_process();
 
 typedef struct
 {
-	SLONG num_points;
-	ULONG colour;
-	SLONG size;
+	std::int32_t num_points;
+	std::uint32_t colour;
+	std::int32_t size;
 
-	SLONG x[SPARK_MAX_POINTS];
-	SLONG y[SPARK_MAX_POINTS];
-	SLONG z[SPARK_MAX_POINTS];
+	std::int32_t x[SPARK_MAX_POINTS];
+	std::int32_t y[SPARK_MAX_POINTS];
+	std::int32_t z[SPARK_MAX_POINTS];
 
 } SPARK_Info;
 
-void SPARK_get_start(UBYTE xmin, UBYTE xmax, UBYTE z);
+void SPARK_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z);
 SPARK_Info *SPARK_get_next ();	// nullptr => No more sparks...
 
 

@@ -15,13 +15,13 @@
 
 typedef struct
 {
-	SLONG		X,
+	std::int32_t		X,
 				Y;
 }MFPoint;
 
 typedef struct
 {
-	SLONG		Left,
+	std::int32_t		Left,
 				Top,
 				Right,
 				Bottom,
@@ -29,72 +29,72 @@ typedef struct
 				Height;
 }MFRect;
 
-inline bool		XYInRect(SLONG x,SLONG y,MFRect *the_rect)			{	if(x>=the_rect->Left&&y>=the_rect->Top&&x<=the_rect->Right&&y<=the_rect->Bottom)return true;else return false;	}
+inline bool		XYInRect(std::int32_t x,std::int32_t y,MFRect *the_rect)			{	if(x>=the_rect->Left&&y>=the_rect->Top&&x<=the_rect->Right&&y<=the_rect->Bottom)return true;else return false;	}
 inline bool		PointInRect(MFPoint *the_point,MFRect *the_rect)	{	if(the_point->X>=the_rect->Left&&the_point->Y>=the_rect->Top&&the_point->X<=the_rect->Right&&the_point->Y<=the_rect->Bottom)return true;else return false;	}
 
 //---------------------------------------------------------------
 // Draw2D.c
 
-extern UBYTE			*WorkWindow;
-extern SLONG			WorkWindowHeight,
+extern std::uint8_t			*WorkWindow;
+extern std::int32_t			WorkWindowHeight,
 	 					WorkWindowWidth;
 extern MFRect			WorkWindowRect;
 
-void SetWorkWindowBounds(SLONG left, SLONG top, SLONG width, SLONG height);
+void SetWorkWindowBounds(std::int32_t left, std::int32_t top, std::int32_t width, std::int32_t height);
 MFPoint *GlobalToLocal(MFPoint *the_point);
-void GlobalXYToLocal(SLONG *x,SLONG *y);
+void GlobalXYToLocal(std::int32_t *x,std::int32_t *y);
 inline void		SetWorkWindow()	{	WorkWindow=(WorkScreen+WorkWindowRect.Left*WorkScreenDepth+(WorkWindowRect.Top*WorkScreenWidth));	}
 
 //---------------------------------------------------------------
 // DrawBox.c
 
-extern void (*DrawBox)(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
-extern void (*DrawBoxC)(SLONG x,SLONG y,SLONG width,SLONG height,ULONG colour);
+extern void (*DrawBox)(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour);
+extern void (*DrawBoxC)(std::int32_t x,std::int32_t y,std::int32_t width,std::int32_t height,std::uint32_t colour);
 
 //---------------------------------------------------------------
 // DrawLine.c
 
-extern void (*DrawLine)(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern void (*DrawLineC)(SLONG x1,SLONG y1,SLONG x2,SLONG y2,ULONG colour);
-extern void (*DrawHLine)(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern void (*DrawHLineC)(SLONG x1,SLONG x2,SLONG y,ULONG colour);
-extern void (*DrawVLine)(SLONG x,SLONG y1,SLONG y2,ULONG colour);
-extern void (*DrawVLineC)(SLONG x,SLONG y1,SLONG y2,ULONG colour);
+extern void (*DrawLine)(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::uint32_t colour);
+extern void (*DrawLineC)(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::uint32_t colour);
+extern void (*DrawHLine)(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour);
+extern void (*DrawHLineC)(std::int32_t x1,std::int32_t x2,std::int32_t y,std::uint32_t colour);
+extern void (*DrawVLine)(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour);
+extern void (*DrawVLineC)(std::int32_t x,std::int32_t y1,std::int32_t y2,std::uint32_t colour);
 
 
 //---------------------------------------------------------------
 // DrawPoint.c
 
-extern void (*DrawPoint)(MFPoint *the_point,ULONG colour);
-extern void (*DrawPointC)(MFPoint *the_point,ULONG colour);
+extern void (*DrawPoint)(MFPoint *the_point,std::uint32_t colour);
+extern void (*DrawPointC)(MFPoint *the_point,std::uint32_t colour);
 
 //---------------------------------------------------------------
 // DrawPixel.c
 
-extern void  (*DrawPixel)(SLONG x,SLONG y,ULONG colour);
-extern void  (*DrawPixelC)(SLONG x,SLONG y,ULONG colour);
+extern void  (*DrawPixel)(std::int32_t x,std::int32_t y,std::uint32_t colour);
+extern void  (*DrawPixelC)(std::int32_t x,std::int32_t y,std::uint32_t colour);
 
 //---------------------------------------------------------------
 // DrawRect.c
 
-void DrawRect(MFRect *the_rect,ULONG colour);
-void DrawRectC(MFRect *the_rect,ULONG colour);
+void DrawRect(MFRect *the_rect,std::uint32_t colour);
+void DrawRectC(MFRect *the_rect,std::uint32_t colour);
 
 //---------------------------------------------------------------
 // QuickText.c
 
-extern UBYTE	*CharTable[];
+extern std::uint8_t	*CharTable[];
 
 
-extern void  (*QuickText)(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
-extern void  (*QuickTextC)(SLONG x,SLONG y,CBYTE* the_string,ULONG colour);
-extern void  (*QuickChar)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
-extern void  (*QuickCharC)(SLONG x,SLONG y,CBYTE the_char,ULONG colour);
+extern void  (*QuickText)(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour);
+extern void  (*QuickTextC)(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour);
+extern void  (*QuickChar)(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour);
+extern void  (*QuickCharC)(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour);
 
-SLONG QTStringWidth(CBYTE* the_string);
-inline SLONG	QTStringHeight()				{	return 8;	}
-inline SLONG	QTCharWidth(CBYTE the_char)			{	return (CharTable[the_char])[0];	}
-inline SLONG	QTCharHeight(CBYTE the_char)		{	return (CharTable[the_char])[1];	}
+std::int32_t QTStringWidth(char* the_string);
+inline std::int32_t	QTStringHeight()				{	return 8;	}
+inline std::int32_t	QTCharWidth(char the_char)			{	return (CharTable[the_char])[0];	}
+inline std::int32_t	QTCharHeight(char the_char)		{	return (CharTable[the_char])[1];	}
 
 //---------------------------------------------------------------
 

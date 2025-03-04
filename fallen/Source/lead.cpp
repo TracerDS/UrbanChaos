@@ -10,10 +10,10 @@
 //
 
 LEAD_Lead LEAD_lead[LEAD_MAX_LEADS];
-SLONG LEAD_lead_upto;
+std::int32_t LEAD_lead_upto;
 
 LEAD_Point LEAD_point[LEAD_MAX_POINTS];
-SLONG LEAD_point_upto;
+std::int32_t LEAD_point_upto;
 
 
 
@@ -28,12 +28,12 @@ void LEAD_init()
 
 
 void LEAD_create(
-		SLONG len,
-		SLONG world_x,
-		SLONG world_y,
-		SLONG world_z)
+		std::int32_t len,
+		std::int32_t world_x,
+		std::int32_t world_y,
+		std::int32_t world_z)
 {
-	SLONG p_num;
+	std::int32_t p_num;
 
 	LEAD_Lead *ll;
 
@@ -85,14 +85,14 @@ void LEAD_create(
 }
 
 void LEAD_find_end(
-		UBYTE  lead_index,
-		SLONG *end_x,
-		SLONG *end_y,
-		SLONG *end_z)
+		std::uint8_t  lead_index,
+		std::int32_t *end_x,
+		std::int32_t *end_y,
+		std::int32_t *end_z)
 {
-	SLONG pos_x;
-	SLONG pos_y;
-	SLONG pos_z;
+	std::int32_t pos_x;
+	std::int32_t pos_y;
+	std::int32_t pos_z;
 
 	ASSERT(WITHIN(lead_index, 1, LEAD_lead_upto - 1));
 
@@ -148,32 +148,32 @@ void LEAD_find_end(
 
 void LEAD_attach()
 {
-	SLONG i;
-	SLONG j;
+	std::int32_t i;
+	std::int32_t j;
 
-	SLONG ob_x;
-	SLONG ob_y;
-	SLONG ob_z;
-	SLONG ob_yaw;
-	SLONG ob_prim;
+	std::int32_t ob_x;
+	std::int32_t ob_y;
+	std::int32_t ob_z;
+	std::int32_t ob_yaw;
+	std::int32_t ob_prim;
 
-	SLONG dx;
-	SLONG dy;
-	SLONG dz;
-	SLONG dist;
-	SLONG score;
+	std::int32_t dx;
+	std::int32_t dy;
+	std::int32_t dz;
+	std::int32_t dist;
+	std::int32_t score;
 
-	SLONG end_x;
-	SLONG end_y;
-	SLONG end_z;
+	std::int32_t end_x;
+	std::int32_t end_y;
+	std::int32_t end_z;
 
-	SLONG best_thing =  NULL;
-	SLONG best_score = -INFINITY;
+	std::int32_t best_thing =  NULL;
+	std::int32_t best_score = -INFINITY;
 
 	#define LEAD_MAX_FIND 8
 
 	THING_INDEX find[LEAD_MAX_FIND];
-	SLONG       found;
+	std::int32_t       found;
 
 	LEAD_Lead  *ll;
 	LEAD_Point *lp;

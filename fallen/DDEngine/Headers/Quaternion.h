@@ -14,7 +14,7 @@ public:
 	float	w;
 	float	x, y, z;
 	
-	static void	BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,SLONG tween);
+	static void	BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,std::int32_t tween);
 };
 
 #endif

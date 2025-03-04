@@ -36,7 +36,7 @@ void ST_init();
 // DONT ADD THE SAME SYMBOL TWICE TO THE SAME TABLE!
 //
 
-void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag);
+void ST_add(std::int32_t table, char* string, std::int32_t value, std::int32_t flag);
 
 
 //
@@ -44,12 +44,12 @@ void ST_add(SLONG table, CBYTE* string, SLONG value, SLONG flag);
 // symbol tables in that order. Returns true if it found the symbol.
 //
 
-extern SLONG  ST_found_table;	// The table the symbol was in.
-extern SLONG  ST_found_value;	// The value associated with that symbol.
-extern SLONG  ST_found_flag;
-extern CBYTE* ST_found_string;
+extern std::int32_t  ST_found_table;	// The table the symbol was in.
+extern std::int32_t  ST_found_value;	// The value associated with that symbol.
+extern std::int32_t  ST_found_flag;
+extern char* ST_found_string;
 
-SLONG ST_find(CBYTE* string);
+std::int32_t ST_find(char* string);
 
 
 //
@@ -57,7 +57,7 @@ SLONG ST_find(CBYTE* string);
 // It is an error if the symbol is not found.
 //
 
-void ST_update_flag(CBYTE* string, SLONG new_flag);
+void ST_update_flag(char* string, std::int32_t new_flag);
 
 
 
@@ -69,7 +69,7 @@ void ST_update_flag(CBYTE* string, SLONG new_flag);
 //
 
 void ST_find_all_start();
-SLONG ST_find_all_next ();
+std::int32_t ST_find_all_next ();
 
 
 
@@ -77,7 +77,7 @@ SLONG ST_find_all_next ();
 // Clears all the symbols tables or a particular one.
 //
 
-void ST_clear    (SLONG table);
+void ST_clear    (std::int32_t table);
 void ST_clear_all();
 
 

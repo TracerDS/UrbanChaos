@@ -33,17 +33,17 @@
 
 D3DLVERTEX *FARFACET_lvert_buffer;	// Unaligned buffer FARFACET_lvert_max elements + 31bytes long.
 D3DLVERTEX *FARFACET_lvert;			// Aligned to 32 bytes
-SLONG       FARFACET_lvert_max;
-SLONG       FARFACET_lvert_upto;
+std::int32_t       FARFACET_lvert_max;
+std::int32_t       FARFACET_lvert_upto;
 
 
 //
 // Index storage.
 //
 
-UWORD *FARFACET_index;
-SLONG  FARFACET_index_max;		// The number of elements in the FARFACET_index[] array.
-SLONG  FARFACET_index_upto;
+std::uint16_t *FARFACET_index;
+std::int32_t  FARFACET_index_max;		// The number of elements in the FARFACET_index[] array.
+std::int32_t  FARFACET_index_upto;
 
 
 //
@@ -52,10 +52,10 @@ SLONG  FARFACET_index_upto;
 
 typedef struct
 {
-	UWORD lvert;
-	UWORD lvertcount;
-	UWORD index;
-	UWORD indexcount;
+	std::uint16_t lvert;
+	std::uint16_t lvertcount;
+	std::uint16_t index;
+	std::uint16_t indexcount;
 
 } FARFACET_Square;
 
@@ -69,20 +69,20 @@ FARFACET_Square FARFACET_square[FARFACET_SIZE][FARFACET_SIZE];
 
 typedef struct
 {
-	UBYTE x1;
-	SBYTE y1;
-	UBYTE z1;
+	std::uint8_t x1;
+	std::int8_t y1;
+	std::uint8_t z1;
 
-	UBYTE x2;
-	SBYTE y2;
-	UBYTE z2;
+	std::uint8_t x2;
+	std::int8_t y2;
+	std::uint8_t z2;
 
 } FARFACET_Outline;
 
 #define FARFACET_MAX_OUTLINES (8192 / ((32 / FARFACET_RATIO) * (32 / FARFACET_RATIO)) + 256)
 
 FARFACET_Outline *FARFACET_outline;
-SLONG             FARFACET_outline_upto;
+std::int32_t             FARFACET_outline_upto;
 
 
 //
@@ -97,7 +97,7 @@ RenderState FARFACET_default_renderstate;
 // A 32-byte aligned matrix.
 //
 
-UBYTE      FARFACET_matrix_buffer[sizeof(D3DMATRIX) + 32];
+std::uint8_t      FARFACET_matrix_buffer[sizeof(D3DMATRIX) + 32];
 D3DMATRIX *FARFACET_matrix;
 
 
@@ -107,9 +107,9 @@ D3DMATRIX *FARFACET_matrix;
 // it returns that vertex index, otherwise it creates one.
 //
 
-UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE map_z)
+std::uint16_t FARFACET_find_vertex(FARFACET_Square *fs, std::uint8_t map_x, std::int8_t map_y, std::uint8_t map_z)
 {
-	SLONG i;
+	std::int32_t i;
 
 	float x = float(map_x << 8);
 	float y = float(map_y << 6);
@@ -137,14 +137,14 @@ UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE 
 
 	if (FARFACET_lvert_upto >= FARFACET_lvert_max)
 	{
-		SLONG old_offset;
-		SLONG new_offset;
+		std::int32_t old_offset;
+		std::int32_t new_offset;
 
 		//
 		// How much is FARFACET_lvert offset into the FARFACET_lvert_buffer?
 		//
 
-		old_offset = ((UBYTE *) FARFACET_lvert) - ((UBYTE *) FARFACET_lvert_buffer);
+		old_offset = ((std::uint8_t *) FARFACET_lvert) - ((std::uint8_t *) FARFACET_lvert_buffer);
 
 		//
 		// Double the length of the array.
@@ -153,7 +153,7 @@ UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE 
 		FARFACET_lvert_max   *= 2;
 		FARFACET_lvert_buffer = (D3DLVERTEX *) realloc(FARFACET_lvert_buffer, sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
 		ASSERT ( FARFACET_lvert_buffer != nullptr );
-		FARFACET_lvert        = (D3DLVERTEX *) ((SLONG(FARFACET_lvert_buffer) + 31) & ~0x1f);
+		FARFACET_lvert        = (D3DLVERTEX *) ((std::int32_t(FARFACET_lvert_buffer) + 31) & ~0x1f);
 
 		ASSERT ( FARFACET_lvert_upto < FARFACET_lvert_max );
 
@@ -161,7 +161,7 @@ UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE 
 		// What is the new offset into the FARFACET_lvert_buffer?
 		//
 
-		new_offset = ((UBYTE *) FARFACET_lvert) - ((UBYTE *) FARFACET_lvert_buffer);
+		new_offset = ((std::uint8_t *) FARFACET_lvert) - ((std::uint8_t *) FARFACET_lvert_buffer);
 
 		//
 		// If the offsets are different then we have to move the data around.
@@ -169,7 +169,7 @@ UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE 
 
 		if (new_offset != old_offset)
 		{
-			memmove(((UBYTE *) FARFACET_lvert_buffer) + new_offset, ((UBYTE *) FARFACET_lvert_buffer) + old_offset, sizeof(D3DLVERTEX) * FARFACET_lvert_upto);
+			memmove(((std::uint8_t *) FARFACET_lvert_buffer) + new_offset, ((std::uint8_t *) FARFACET_lvert_buffer) + old_offset, sizeof(D3DLVERTEX) * FARFACET_lvert_upto);
 		}
 	}
 
@@ -199,12 +199,12 @@ UWORD FARFACET_find_vertex(FARFACET_Square *fs, UBYTE map_x, SBYTE map_y, UBYTE 
 // Adds an index to the given square.
 //
 
-void FARFACET_add_index(FARFACET_Square *fs, UWORD index)
+void FARFACET_add_index(FARFACET_Square *fs, std::uint16_t index)
 {
 	if (FARFACET_index_upto >= FARFACET_index_max)
 	{
 		FARFACET_index_max *= 2;
-		FARFACET_index      = (UWORD *) realloc(FARFACET_index, sizeof(UWORD) * FARFACET_index_max);
+		FARFACET_index      = (std::uint16_t *) realloc(FARFACET_index, sizeof(std::uint16_t) * FARFACET_index_max);
 	}
 
 	ASSERT(FARFACET_index_upto == fs->index + fs->indexcount);
@@ -226,25 +226,25 @@ void FARFACET_add_index(FARFACET_Square *fs, UWORD index)
 // Builds the drawprim call for the given square.
 //
 
-void FARFACET_create_square(SLONG square_x, SLONG square_z)
+void FARFACET_create_square(std::int32_t square_x, std::int32_t square_z)
 {
-	SLONG i;
-	SLONG j;
-	SLONG f_list;
-	SLONG facet;
-	SLONG build;
-	SLONG exit;
-	SLONG lvert_memory;
-	SLONG old_outline_upto;
+	std::int32_t i;
+	std::int32_t j;
+	std::int32_t f_list;
+	std::int32_t facet;
+	std::int32_t build;
+	std::int32_t exit;
+	std::int32_t lvert_memory;
+	std::int32_t old_outline_upto;
 
-	SLONG v1;
-	SLONG v2;
+	std::int32_t v1;
+	std::int32_t v2;
 
-	SLONG dx1;
-	SLONG dz1;
+	std::int32_t dx1;
+	std::int32_t dz1;
 
-	SLONG dx2;
-	SLONG dz2;
+	std::int32_t dx2;
+	std::int32_t dz2;
 
 	FARFACET_Outline *fo;
 	FARFACET_Outline *fo1;
@@ -281,14 +281,14 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 	// farfacet square.
 	//
 
-	SLONG lo_min_x;
-	SLONG lo_min_z;
+	std::int32_t lo_min_x;
+	std::int32_t lo_min_z;
 
-	SLONG lo_max_x;
-	SLONG lo_max_z;
+	std::int32_t lo_max_x;
+	std::int32_t lo_max_z;
 
-	SLONG lo_x;
-	SLONG lo_z;
+	std::int32_t lo_x;
+	std::int32_t lo_z;
 
 	lo_min_x = (square_x + 0) * FARFACET_RATIO;
 	lo_min_z = (square_z + 0) * FARFACET_RATIO;
@@ -300,11 +300,11 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 	// The box we clip facet outlines against.
 	//
 
-	SLONG hi_min_x = lo_min_x * 4;
-	SLONG hi_min_z = lo_min_z * 4;
+	std::int32_t hi_min_x = lo_min_x * 4;
+	std::int32_t hi_min_z = lo_min_z * 4;
 
-	SLONG hi_max_x = lo_max_x * 4;
-	SLONG hi_max_z = lo_max_z * 4;
+	std::int32_t hi_max_x = lo_max_x * 4;
+	std::int32_t hi_max_z = lo_max_z * 4;
 
 	//
 	// Add this squares facets to the outline array.
@@ -572,8 +572,8 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 	
 	#define FARFACET_MAX_STRIP_LENGTH 256
 
-	UWORD strip[FARFACET_MAX_STRIP_LENGTH];
-	SLONG strip_upto;
+	std::uint16_t strip[FARFACET_MAX_STRIP_LENGTH];
+	std::int32_t strip_upto;
 
 	while(1)
 	{
@@ -631,7 +631,7 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 
 				ASSERT(WITHIN(strip_upto, 1, FARFACET_MAX_STRIP_LENGTH - 1));
 
-				memmove(strip + 1, strip + 0, sizeof(UWORD) * strip_upto);
+				memmove(strip + 1, strip + 0, sizeof(std::uint16_t) * strip_upto);
 				strip_upto += 1;
 
 				strip[0] = FARFACET_outline_upto;
@@ -706,8 +706,8 @@ void FARFACET_create_square(SLONG square_x, SLONG square_z)
 
 #if FARFACET_USE_INDEXED_LISTS
 		// Do nothing.
-		SLONG v1prev = v1;
-		SLONG v2prev = v2;
+		std::int32_t v1prev = v1;
+		std::int32_t v2prev = v2;
 #else
 		FARFACET_add_index(fs, v1);
 		FARFACET_add_index(fs, v2);
@@ -753,7 +753,7 @@ void FARFACET_init()
 	FARFACET_lvert_max    = 1024;
 	FARFACET_lvert_upto   = 0;
 	FARFACET_lvert_buffer = (D3DLVERTEX *) malloc(sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
-	FARFACET_lvert        = (D3DLVERTEX *) ((SLONG(FARFACET_lvert_buffer) + 31) & ~0x1f);
+	FARFACET_lvert        = (D3DLVERTEX *) ((std::int32_t(FARFACET_lvert_buffer) + 31) & ~0x1f);
 
 #if FARFACET_USE_INDEXED_LISTS
 	FARFACET_index_max  = FARFACET_lvert_max * 5 / 4;
@@ -761,24 +761,24 @@ void FARFACET_init()
 	FARFACET_index_max  = FARFACET_lvert_max * 6 / 4;
 #endif
 	FARFACET_index_upto = 0;
-	FARFACET_index      = (UWORD *) malloc(sizeof(UWORD) * FARFACET_index_max);
+	FARFACET_index      = (std::uint16_t *) malloc(sizeof(std::uint16_t) * FARFACET_index_max);
 
 	FARFACET_outline      = (FARFACET_Outline *) malloc(sizeof(FARFACET_Outline) * FARFACET_MAX_OUTLINES);
 	FARFACET_outline_upto = 0;
 
 	memset(FARFACET_square,  0, sizeof(FARFACET_square   )                        );
 	memset(FARFACET_lvert,   0, sizeof(D3DLVERTEX        ) * FARFACET_lvert_max   );
-	memset(FARFACET_index,   0, sizeof(UWORD             ) * FARFACET_index_max   );
+	memset(FARFACET_index,   0, sizeof(std::uint16_t             ) * FARFACET_index_max   );
 	memset(FARFACET_outline, 0, sizeof(FARFACET_Outline  ) * FARFACET_MAX_OUTLINES);
 
-	FARFACET_matrix = (D3DMATRIX *) ((SLONG(FARFACET_matrix_buffer) + 31) & ~0x1f);
+	FARFACET_matrix = (D3DMATRIX *) ((std::int32_t(FARFACET_matrix_buffer) + 31) & ~0x1f);
 
 	//
 	// Calculate the FARFACET squares.
 	//
 
-	SLONG x;
-	SLONG z;
+	std::int32_t x;
+	std::int32_t z;
 
 	for (x = 0; x < FARFACET_SIZE; x++)
 	for (z = 0; z < FARFACET_SIZE; z++)
@@ -810,7 +810,7 @@ void FARFACET_init()
 }
 
 
-SLONG FARFACET_num_squares_drawn;
+std::int32_t FARFACET_num_squares_drawn;
 
 void FARFACET_draw(
 		float x,
@@ -924,13 +924,13 @@ void FARFACET_draw(
 	// Find the bounding box of squares we should draw.
 	//
 
-	SLONG square_min_x = +INFINITY;
-	SLONG square_min_z = +INFINITY;
+	std::int32_t square_min_x = +INFINITY;
+	std::int32_t square_min_z = +INFINITY;
 
-	SLONG square_max_x = -INFINITY;
-	SLONG square_max_z = -INFINITY;
+	std::int32_t square_max_x = -INFINITY;
+	std::int32_t square_max_z = -INFINITY;
 
-	SLONG i;
+	std::int32_t i;
 
 	for (i = 0; i < 5; i++)
 	{
@@ -1027,8 +1027,8 @@ void FARFACET_draw(
 	// Draw all the squares.
 	//
 
-	SLONG square_x;
-	SLONG square_z;
+	std::int32_t square_x;
+	std::int32_t square_z;
 
 	float mid_x;
 	float mid_y;
@@ -1086,7 +1086,7 @@ void FARFACET_draw(
 			if (dprod < 12.0F * 256.0F)
 #else
 			// React to the fog distance change.
-extern SLONG CurDrawDistance;
+extern std::int32_t CurDrawDistance;
 			if (dprod * 2.5f < (float)CurDrawDistance)
 #endif
 			{

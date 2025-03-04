@@ -136,14 +136,14 @@
 #define ShiftFlag 0
 
 // These don't either, but we'll leave them for now.
-extern volatile UBYTE	Keys[256],
+extern volatile std::uint8_t	Keys[256],
 						LastKey;
 
 #else
-extern volatile UBYTE	AltFlag,
+extern volatile std::uint8_t	AltFlag,
 						ControlFlag,
 						ShiftFlag;
-extern volatile UBYTE	Keys[256],
+extern volatile std::uint8_t	Keys[256],
 						LastKey;
 #endif
 

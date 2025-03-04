@@ -7,42 +7,42 @@
 
 typedef struct
 {
-	ULONG	MyEDI,MyESI,MyEBP,MyReserved,MyEBX,MyEDX,MyECX,MyEAX;
-	UWORD	MyFlags,MyES,MyDS,MyFS,MyGS,MyIP,MyCS,MySP,MySS;
+	std::uint32_t	MyEDI,MyESI,MyEBP,MyReserved,MyEBX,MyEDX,MyECX,MyEAX;
+	std::uint16_t	MyFlags,MyES,MyDS,MyFS,MyGS,MyIP,MyCS,MySP,MySS;
 }
 	TbRMREGS2;
 
-UBYTE *WorkScreen,
+std::uint8_t *WorkScreen,
 						WorkScreenDepth;
-SLONG WorkScreenHeight,
+std::int32_t WorkScreenHeight,
 						WorkScreenWidth,
 						WorkScreenPixelWidth;
-UBYTE CurrentPalette[256*3];
+std::uint8_t CurrentPalette[256*3];
 
 
-extern SLONG	SetupMouse();
-extern SLONG	ResetMouse();
-extern void	SetDrawFunctions(ULONG depth);
+extern std::int32_t	SetupMouse();
+extern std::int32_t	ResetMouse();
+extern void	SetDrawFunctions(std::uint32_t depth);
 
 
 //------------------------------------------------------------
 
-SWORD VesaBytesPerLine	= 0;
-SWORD VesaHRes			= 0;
-SWORD VesaVRes			= 0;
-UBYTE *VesaData=0;		
-SWORD VesaPage			= 0;
-SWORD VesaGran			= 0;
+std::int16_t VesaBytesPerLine	= 0;
+std::int16_t VesaHRes			= 0;
+std::int16_t VesaVRes			= 0;
+std::uint8_t *VesaData=0;		
+std::int16_t VesaPage			= 0;
+std::int16_t VesaGran			= 0;
 
 
-SWORD vesa_modes[]=
+std::int16_t vesa_modes[]=
 {
 	0x13,0x100,0x101,0x103,0x105,0x107,0,0,0,0,0,0,0,0,0,0,0,0,0
 };	
 
 //-----------------------------------------------------------------------
 
-extern SWORD	video_int(SWORD,SWORD,SWORD,SWORD);
+extern std::int16_t	video_int(std::int16_t,std::int16_t,std::int16_t,std::int16_t);
 #pragma aux		video_int=\
 				"push	bp ",\
 				"int	10h ",\
@@ -51,7 +51,7 @@ extern SWORD	video_int(SWORD,SWORD,SWORD,SWORD);
 
 				
 
-SLONG VesaGetGran(SWORD mode)
+std::int32_t VesaGetGran(std::int16_t mode)
 {
 	union	REGS	inregs;
 	union	REGS	outregs;
@@ -59,8 +59,8 @@ SLONG VesaGetGran(SWORD mode)
 	TbRMREGS2		rmregs;
 
 	memset(&rmregs,0,sizeof(TbRMREGS2));
-	rmregs.MyES=(UWORD)(((ULONG)VesaData)>>4);
-	rmregs.MyDS=(UWORD)(((ULONG)VesaData)>>4);
+	rmregs.MyES=(std::uint16_t)(((std::uint32_t)VesaData)>>4);
+	rmregs.MyDS=(std::uint16_t)(((std::uint32_t)VesaData)>>4);
 	rmregs.MyEDI=0;
 	rmregs.MyEAX=0x4f*256+1;
 	rmregs.MyECX=mode;
@@ -71,19 +71,19 @@ SLONG VesaGetGran(SWORD mode)
 	segread(&ssregs);
 	inregs.x.eax=0x300;
 	inregs.x.ebx=0x010;
-	inregs.x.edi=(ULONG)&rmregs;
+	inregs.x.edi=(std::uint32_t)&rmregs;
 	int386x(0x31,&inregs,&outregs,&ssregs);
 
-	VesaGran=(SWORD)(VesaData[5]*256+VesaData[4]);
-	VesaBytesPerLine=(SWORD)(VesaData[17]*256+VesaData[16]);
-	VesaHRes=(SWORD)(VesaData[19]*256+VesaData[18]);
-	VesaVRes=(SWORD)(VesaData[21]*256+VesaData[20]);
+	VesaGran=(std::int16_t)(VesaData[5]*256+VesaData[4]);
+	VesaBytesPerLine=(std::int16_t)(VesaData[17]*256+VesaData[16]);
+	VesaHRes=(std::int16_t)(VesaData[19]*256+VesaData[18]);
+	VesaVRes=(std::int16_t)(VesaData[21]*256+VesaData[20]);
 	
 	return (1);
 }
 
 
-SLONG VesaSetMode(SWORD bx)
+std::int32_t VesaSetMode(std::int16_t bx)
 {
 	union	REGS	inregs;
 	union	REGS	outregs;
@@ -99,12 +99,12 @@ SLONG VesaSetMode(SWORD bx)
 }
 
 
-SLONG VesaSetPage(SWORD dx)
+std::int32_t VesaSetPage(std::int16_t dx)
 {
 	if (VesaPage != dx)
 	{
-		video_int(0x4f05,0,0,(SWORD)((dx*64)/VesaGran));
-		video_int(0x4f05,1,0,(SWORD)((dx*64)/VesaGran));
+		video_int(0x4f05,0,0,(std::int16_t)((dx*64)/VesaGran));
+		video_int(0x4f05,1,0,(std::int16_t)((dx*64)/VesaGran));
 
 		VesaPage = dx;
 	}
@@ -112,7 +112,7 @@ SLONG VesaSetPage(SWORD dx)
 }
 
 
-SLONG VesaGetInfo()
+std::int32_t VesaGetInfo()
 {
 	union	REGS	inregs;
 	union	REGS	outregs;
@@ -120,8 +120,8 @@ SLONG VesaGetInfo()
 	TbRMREGS2			rmregs;
 
 	memset(&rmregs,0,sizeof(TbRMREGS2));
-	rmregs.MyES=(UWORD)(((ULONG)VesaData)>>4);
-	rmregs.MyDS=(UWORD)(((ULONG)VesaData)>>4);
+	rmregs.MyES=(std::uint16_t)(((std::uint32_t)VesaData)>>4);
+	rmregs.MyDS=(std::uint16_t)(((std::uint32_t)VesaData)>>4);
 	rmregs.MyEDI=0;
 	rmregs.MyEAX=0x4f*256;
 	rmregs.MyEBX=0x101;
@@ -132,25 +132,25 @@ SLONG VesaGetInfo()
 	segread(&ssregs);
 	inregs.x.eax=0x300;
 	inregs.x.ebx=0x010;
-	inregs.x.edi=(ULONG)&rmregs;
+	inregs.x.edi=(std::uint32_t)&rmregs;
 	int386x(0x31,&inregs,&outregs,&ssregs);
 
-	return ((strncmp((CBYTE*)VesaData,"VESA",4) == 0) ? 1 : 0);
+	return ((strncmp((char*)VesaData,"VESA",4) == 0) ? 1 : 0);
 }
 
 
-UBYTE VesaIsModeAvailable(UWORD mode)
+std::uint8_t VesaIsModeAvailable(std::uint16_t mode)
 {
-	UWORD	*wp;
-	SLONG	t;
+	std::uint16_t	*wp;
+	std::int32_t	t;
 
 	if(VesaGetInfo() == 1)
 	{
-		wp = (UWORD*)&VesaData[14];
+		wp = (std::uint16_t*)&VesaData[14];
 		t = *wp;
 		wp++;
 		t += *wp<<4;
-		wp = (UWORD*)t;
+		wp = (std::uint16_t*)t;
 		for(;*wp != 0xffff; wp++)
 		{
 			if(*wp == mode)
@@ -205,9 +205,9 @@ void freeDOS(short int sel)
 
 struct ScreenModes
 {
-	UWORD	Mode;
-	UWORD	Width;
-	UWORD	Height;
+	std::uint16_t	Mode;
+	std::uint16_t	Width;
+	std::uint16_t	Height;
 };
 
 struct ScreenModes screen_modes[]=
@@ -229,11 +229,11 @@ struct ScreenModes screen_modes[]=
 #define	SCREEN_MODE_1024_768_8			5
 #define	SCREEN_MODE_1280_1024_8			6
 
-UWORD old_display_mode=0;
+std::uint16_t old_display_mode=0;
 
-UWORD find_mode(SLONG width,SLONG height)
+std::uint16_t find_mode(std::int32_t width,std::int32_t height)
 {
-	SLONG	c0=1;
+	std::int32_t	c0=1;
 
 	while(screen_modes[c0].Mode)
 	{
@@ -246,7 +246,7 @@ UWORD find_mode(SLONG width,SLONG height)
 }
 
 	
-void MEM_COPY_LONG(UBYTE *,UBYTE *, ULONG);
+void MEM_COPY_LONG(std::uint8_t *,std::uint8_t *, std::uint32_t);
 #pragma aux MEM_COPY_LONG = \
 		"rep 	movsd"\
 		parm [edi] [esi] [ecx]\
@@ -255,10 +255,10 @@ void MEM_COPY_LONG(UBYTE *,UBYTE *, ULONG);
 static vesa_flag=0;
 static screen_setup=0;
 
-static SWORD	sect1, sect2;
-static UBYTE	alloc_for_vesa=0;
-static UBYTE	*screen_mem=0;
-SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth)
+static std::int16_t	sect1, sect2;
+static std::uint8_t	alloc_for_vesa=0;
+static std::uint8_t	*screen_mem=0;
+std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth)
 {
 	if(SetDisplay(width,height,depth)==0)
 		return(0);
@@ -267,13 +267,13 @@ SLONG OpenDisplay(ULONG width, ULONG height, ULONG depth)
 	return(1);
 }	
 
-SLONG CloseDisplay()
+std::int32_t CloseDisplay()
 {
 	ResetMouse();
 	if(alloc_for_vesa)
 		freeDOS(sect2);
 	if(old_display_mode)
-		VesaSetMode((SWORD)old_display_mode);
+		VesaSetMode((std::int16_t)old_display_mode);
 
 	if(screen_mem)
 		MemFree((void*)screen_mem);
@@ -281,20 +281,20 @@ SLONG CloseDisplay()
 	return(1);
 }
 
-SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
+std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth)
 {
 	union	REGS		inregs;
 	union	REGS		outregs;
-	SWORD	mode;
+	std::int16_t	mode;
 
 	SetDrawFunctions(8);
 	if(!alloc_for_vesa)
 	{
 		alloc_for_vesa=1;
-		VesaData=(UBYTE*)allocDOS(512,&sect1,&sect2);
+		VesaData=(std::uint8_t*)allocDOS(512,&sect1,&sect2);
 	}	
 	if(!screen_mem)
-		screen_mem=(UBYTE*)MemAlloc(1280*1024);
+		screen_mem=(std::uint8_t*)MemAlloc(1280*1024);
 
 	if(!screen_mem)
 		return(0);
@@ -318,7 +318,7 @@ SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 	else
 	{
 		
-		if(VesaSetMode((SWORD)mode))
+		if(VesaSetMode((std::int16_t)mode))
 			screen_setup=1;
 		vesa_flag=1;
 	}
@@ -328,13 +328,13 @@ SLONG SetDisplay(ULONG width,ULONG height,ULONG depth)
 	return(1);
 }
 
-void ShowWorkScreen(ULONG flags)
+void ShowWorkScreen(std::uint32_t flags)
 {
-	SLONG	copy_size;
-	SLONG	page = 0;
-	SLONG	pages;
-	SLONG	size;
-	UBYTE	*ptr;
+	std::int32_t	copy_size;
+	std::int32_t	page = 0;
+	std::int32_t	pages;
+	std::int32_t	size;
+	std::uint8_t	*ptr;
 	
 	ptr = WorkScreen;
 	if(!screen_setup)
@@ -343,8 +343,8 @@ void ShowWorkScreen(ULONG flags)
 
 	if(!vesa_flag)
 	{
-		VesaSetPage((SWORD)0);
-		MEM_COPY_LONG((UBYTE*) 0xa0000, WorkScreen, (320*200)>>2);
+		VesaSetPage((std::int16_t)0);
+		MEM_COPY_LONG((std::uint8_t*) 0xa0000, WorkScreen, (320*200)>>2);
 	}
 	else
 	{
@@ -358,8 +358,8 @@ void ShowWorkScreen(ULONG flags)
 				copy_size = size;
 			else
 				copy_size = 65536;
-			VesaSetPage((SWORD)page);
-			MEM_COPY_LONG((UBYTE*) 0xa0000, ptr, copy_size>>2);
+			VesaSetPage((std::int16_t)page);
+			MEM_COPY_LONG((std::uint8_t*) 0xa0000, ptr, copy_size>>2);
 			ptr+=65536;
 		}
 	}
@@ -367,9 +367,9 @@ void ShowWorkScreen(ULONG flags)
 
 }
 
-void SetPalette(UBYTE *pal)
+void SetPalette(std::uint8_t *pal)
 {
-	UWORD	c0;
+	std::uint16_t	c0;
 
 	outp(0x3c6, 0xff);  //tell card some palette things are a comin
 	for	(c0 = 0; c0 < 256; ++c0)
@@ -383,12 +383,12 @@ void SetPalette(UBYTE *pal)
 
 
 
-void ClearWorkScreen(UBYTE colour)
+void ClearWorkScreen(std::uint8_t colour)
 {
 	memset(WorkScreen,0,WorkScreenWidth*WorkScreenHeight);
 }
 
-void FadeDisplay(UBYTE mode)
+void FadeDisplay(std::uint8_t mode)
 {
 	
 }
@@ -408,41 +408,41 @@ void ClearDisplay()
 	
 }
 
-void ShowWorkWindow(ULONG flags)
+void ShowWorkWindow(std::uint32_t flags)
 {
-	SLONG	line;
-	UBYTE	*dest,*source;
-	UBYTE	current_page,page,left_page,right_page;
-	ULONG	offset;
+	std::int32_t	line;
+	std::uint8_t	*dest,*source;
+	std::uint8_t	current_page,page,left_page,right_page;
+	std::uint32_t	offset;
 
 
 	offset=WorkWindowRect.Top*WorkScreenWidth+WorkWindowRect.Left;
-	dest=(UBYTE*)0xa0000;
+	dest=(std::uint8_t*)0xa0000;
 	source=WorkWindow;
 	current_page=offset>>16;
 	offset&=0xffff;
 
-	VesaSetPage((UWORD)current_page);
+	VesaSetPage((std::uint16_t)current_page);
 
 	for(line=WorkWindowRect.Top;line<WorkWindowRect.Bottom;line++)
 	{
 		if(offset>=0x10000)
 		{	//address out of range, so page change
 			offset-=0x10000;
-			VesaSetPage((UWORD)++current_page);
+			VesaSetPage((std::uint16_t)++current_page);
 		}
 		
 		if((offset+WorkWindowWidth)>=0x10000)
 		{
 			//line spans 2 pages
-			SLONG	copy_size;
+			std::int32_t	copy_size;
 
 			copy_size=0x10000-offset;
 			memcpy(dest+offset,source,copy_size);
-			VesaSetPage((UWORD)++current_page);
+			VesaSetPage((std::uint16_t)++current_page);
 			offset-=0x10000;
 
-			memcpy((UBYTE*)0xa0000,source+copy_size,WorkWindowWidth-copy_size);
+			memcpy((std::uint8_t*)0xa0000,source+copy_size,WorkWindowWidth-copy_size);
 		}
 		else
 			memcpy(dest+offset,source,WorkWindowWidth);
@@ -454,9 +454,9 @@ void ShowWorkWindow(ULONG flags)
 }
 
 
-SLONG FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
+std::int32_t FindColour(std::uint8_t *the_palette,std::int32_t r,std::int32_t g,std::int32_t b)
 {
-	SLONG	found	=	-1;
+	std::int32_t	found	=	-1;
 
 	if(r>255)
 		r=255;
@@ -470,7 +470,7 @@ SLONG FindColour(UBYTE *the_palette,SLONG r,SLONG g,SLONG b)
 		case 1:
 		{
 			
-			SLONG	dist	=	0x7fffffff,
+			std::int32_t	dist	=	0x7fffffff,
 					c0,
 					dist2,
 					tr,

@@ -16,22 +16,22 @@
 
 typedef struct
 {
-	UBYTE opt[4];	// The options for moving in each direction.
+	std::uint8_t opt[4];	// The options for moving in each direction.
 
 } MAV_Opt;
 
 #define MAV_MAX_OPTS 1024	// don't change this!!!
 
 extern MAV_Opt *MAV_opt;
-extern SLONG    MAV_opt_upto;
+extern std::int32_t    MAV_opt_upto;
 
 //
 // How you can move out of each square.  This is a 2D array
 // whose pitch is given by MAV_nav_pitch;
 //
 
-extern UWORD *MAV_nav;
-extern SLONG  MAV_nav_pitch;
+extern std::uint16_t *MAV_nav;
+extern std::int32_t  MAV_nav_pitch;
 
 #define MAV_SPARE_FLAG_WATER  (1 << 0)	// The first spare bit
 #define MAV_SPARE_FLAG_UNUSED (1 << 1)	// The second spare bit
@@ -48,11 +48,11 @@ extern SLONG  MAV_nav_pitch;
 #define	MAVHEIGHT(x,z)			(PAP_hi[x][z].Height)
 
 //
-// A UBYTE of height for each mapsquare.
+// A std::uint8_t of height for each mapsquare.
 // The height is in quarter blocks.
 //
 
-//typedef	SBYTE MAV_height_workaround[PAP_SIZE_HI];
+//typedef	std::int8_t MAV_height_workaround[PAP_SIZE_HI];
 //extern MAV_height_workaround *MAV_height;
 
 
@@ -74,14 +74,14 @@ void MAV_init();
 // First, work out the MAV_height array without the warehouses.
 //
 
-void MAV_calc_height_array(SLONG ignore_warehouses);
+void MAV_calc_height_array(std::int32_t ignore_warehouses);
 
 //
 // You must have set the bounding box and the
 // mav_pitch and mav fields of the warehouse properly.
 //
 
-void MAV_precalculate_warehouse_nav(UBYTE ware);	// Index into the WARE_ware array.
+void MAV_precalculate_warehouse_nav(std::uint8_t ware);	// Index into the WARE_ware array.
 
 
 
@@ -124,11 +124,11 @@ void MAV_precalculate();
 #define MAV_CAPS_DARCI (0xff)	// She can do everything.
 
 MAV_Action MAV_do(
-			SLONG me_x,		// 0-bit fixed point- these are mapsquares.
-			SLONG me_z,
-			SLONG dest_x,	// 0-bit fixed point- these are mapsquares.
-			SLONG dest_z,
-			UBYTE caps);	// OR together all the thing you can do
+			std::int32_t me_x,		// 0-bit fixed point- these are mapsquares.
+			std::int32_t me_z,
+			std::int32_t dest_x,	// 0-bit fixed point- these are mapsquares.
+			std::int32_t dest_z,
+			std::uint8_t caps);	// OR together all the thing you can do
 
 //
 // After calling MAV_do() if this value is true, then the call found
@@ -136,26 +136,26 @@ MAV_Action MAV_do(
 // still might be a way to get there, but if it is true there definitely is.
 //
 
-extern UBYTE MAV_do_found_dest;
+extern std::uint8_t MAV_do_found_dest;
 
 //
 // Using the MAV_height array, this function returns true if the given point
 // is underground or within a building.
 // 
 
-SLONG MAV_inside(
-		SLONG x,
-		SLONG y,
-		SLONG z);
+std::int32_t MAV_inside(
+		std::int32_t x,
+		std::int32_t y,
+		std::int32_t z);
 
 //
 // Returns the caps for going from the square in the given direction.
 //
 
-UBYTE MAV_get_caps(
-		UBYTE x,
-		UBYTE z,
-		UBYTE dir);
+std::uint8_t MAV_get_caps(
+		std::uint8_t x,
+		std::uint8_t z,
+		std::uint8_t dir);
 
 
 #ifndef TARGET_DC
@@ -164,8 +164,8 @@ UBYTE MAV_get_caps(
 //
 
 void MAV_draw(
-		SLONG x1, SLONG z1,
-		SLONG x2, SLONG z2);
+		std::int32_t x1, std::int32_t z1,
+		std::int32_t x2, std::int32_t z2);
 #endif //#ifndef TARGET_DC
 
 
@@ -174,33 +174,33 @@ void MAV_draw(
 // world coordinates given with 8-bits per mapsquare.
 //
 
-extern SLONG MAV_height_los_fail_x;
-extern SLONG MAV_height_los_fail_y;
-extern SLONG MAV_height_los_fail_z;
+extern std::int32_t MAV_height_los_fail_x;
+extern std::int32_t MAV_height_los_fail_y;
+extern std::int32_t MAV_height_los_fail_z;
 
-SLONG MAV_height_los_fast(
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2);
+std::int32_t MAV_height_los_fast(
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
-SLONG MAV_height_los_slow(
-		SLONG ware,
-		SLONG x1, SLONG y1, SLONG z1,
-		SLONG x2, SLONG y2, SLONG z2);
+std::int32_t MAV_height_los_slow(
+		std::int32_t ware,
+		std::int32_t x1, std::int32_t y1, std::int32_t z1,
+		std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 
 //
 // For changing NAV info on the fly... rather dangerous.
 // 
 
-void MAV_turn_movement_on (UBYTE mx, UBYTE mz, UBYTE dir);
-void MAV_turn_movement_off(UBYTE mx, UBYTE mz, UBYTE dir);
+void MAV_turn_movement_on (std::uint8_t mx, std::uint8_t mz, std::uint8_t dir);
+void MAV_turn_movement_off(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir);
 
 //
 // For changing car MAV info on the fly... not dangerous at all.
 //
 
-void MAV_turn_car_movement_on (UBYTE mx, UBYTE mz, UBYTE dir);
-void MAV_turn_car_movement_off(UBYTE mx, UBYTE mz, UBYTE dir);
+void MAV_turn_car_movement_on (std::uint8_t mx, std::uint8_t mz, std::uint8_t dir);
+void MAV_turn_car_movement_off(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir);
 
 
 #endif
