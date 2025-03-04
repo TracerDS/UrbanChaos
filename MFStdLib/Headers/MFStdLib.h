@@ -124,7 +124,7 @@ std::int32_t main(std::uint16_t argc, TCHAR** argv);
 bool SetupHost(std::uint32_t flags);
 void ResetHost();
 //void            TraceText(char* error, ...);
-void TraceText(char *error, ...);
+void TraceText(const char *error, ...);
 bool LibShellActive();
 bool LibShellChanged();
 bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine);
@@ -134,7 +134,7 @@ bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLi
 
 #ifndef NDEBUG
 
-void DebugText(char* error, ...);
+void DebugText(const char* error, ...);
 #define TRACE				TraceText
 #define	LogText				DebugText
 #define	MFMessage			LibShellMessage

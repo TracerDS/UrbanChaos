@@ -134,7 +134,7 @@ extern std::uint32_t	get_hardware_input(std::uint16_t type);
 // Type can only be INPUT_TYPE_GONEDOWN
 extern std::uint32_t	get_last_input (std::uint16_t type);
 // Allow the last input state to autorepeat, despite GONEDOWN.
-extern void allow_input_autorepeat ( void );
+extern void allow_input_autorepeat();
 
 
 

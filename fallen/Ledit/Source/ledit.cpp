@@ -40,10 +40,10 @@ HWND LEDIT_handle_bpyellow;
 HWND LEDIT_handle_bpblue;
 HWND LEDIT_handle_bpred;
 
-char* LEDIT_name_frame  = "Urban Chaos lighting editor";
-char* LEDIT_name_engine = "Engine view";
-char* LEDIT_name_light  = "Light info";
-char* LEDIT_name_colour = "Color box";
+const char* LEDIT_name_frame  = "Urban Chaos lighting editor";
+const char* LEDIT_name_engine = "Engine view";
+const char* LEDIT_name_light  = "Light info";
+const char* LEDIT_name_colour = "Color box";
 
 HMENU LEDIT_main_menu;
 HACCEL LEDIT_accel;

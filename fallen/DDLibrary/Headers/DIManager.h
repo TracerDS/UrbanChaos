@@ -37,7 +37,7 @@
 //---------------------------------------------------------------
 
 // If bActuallyGetOne is false, then just the current types are set up, no device is actually grabbed.
-void	ClearPrimaryDevice ( void );
+void	ClearPrimaryDevice();
 bool	GetInputDevice ( std::uint8_t type, std::uint8_t sub_type, bool bActuallyGetOne = true );
 bool	ReadInputDevice();
 
@@ -104,7 +104,7 @@ public:
 	float					Vib_fMinFreq;		// Minimum vibration freq.
 	float					Vib_fMaxFreq;		// Maximum vibration freq.
 
-	MapleVMU ( void )
+	MapleVMU()
 	{
 		pNextVMU = nullptr;
 		type = 0;
@@ -118,7 +118,7 @@ public:
 		Vib_fMaxFreq = 20.0f;
 	}
 
-	~MapleVMU ( void )
+	~MapleVMU()
 	{
 		if ( pLcdBuffer != nullptr )
 		{
@@ -137,7 +137,7 @@ public:
 	}
 
 	// Call these to make sure you've grabbed the interface pointer.
-	void EnsureDevicePtr ( void );
+	void EnsureDevicePtr();
 
 	// Write this standard 48x32 bitmap to the LCD.
 	// Data format is 3x32 bytes, like you'd expect.
@@ -163,7 +163,7 @@ public:
 	// Get a directory of the flash device. Return is an array of strings.
 	// YOU DO NOT OWN THIS ARRAY. If you want to use it or store it,
 	// copy it. The array may change/move next time you do any Maple call.
-	char **Flash_GetDirectory ( void );
+	char **Flash_GetDirectory();
 
 	// Get the size of the given file. If it doesn't exist, the result is -1.
 	DWORD Flash_GetFileSize ( char *pcFilename );
@@ -183,7 +183,7 @@ public:
 
 	// Returns the number of free blocks in this VMU.
 	// If there is an error, -1 is returned.
-	int Flash_GetFreeBlocks ( void );
+	int Flash_GetFreeBlocks();
 
 
 };
@@ -279,7 +279,7 @@ class	DIDriverManager
 
 		DIDeviceInfo		*FindFirstWithButtonPressed ( std::uint8_t type, std::uint8_t sub_type );
 
-		int					ScanForVMUs ( void );
+		int					ScanForVMUs();
 
 		inline	bool		IsInitialised()			{	return	ManagerFlags&DI_DRIVER_INIT;		}
 		inline	void		InitOn()				{	ManagerFlags	|=	DI_DRIVER_INIT;			}
@@ -300,7 +300,7 @@ void SetVMUScreenUpdateEnable ( bool bEnable );
 
 // Gets the first VMU on the primary controller. If it can't find it,
 // it takes the first VMU on the first controller it finds.
-MapleVMU *FindFirstVMUOnCurrentController ( void );
+MapleVMU *FindFirstVMUOnCurrentController();
 
 
 // Tries to find a memory VMU at slot iVMUNum on controller iCtrlNum.
@@ -312,10 +312,10 @@ MapleVMU *FindMemoryVMUAt ( int iCtrlNum, int iVMUNum );
 // This does not reassign the primary - if you want to do that,
 // call ClearPrimaryDevice().
 // If anything new was found, or anything existing was removed, returns true.
-bool RescanDevices ( void );
+bool RescanDevices();
 
 // Often called after a RescanDevices - deletes any missing devices.
-void DeleteInvalidDevice ( void );
+void DeleteInvalidDevice();
 
 // Returns the current VMU. If it can't be found any more, and
 // bFindNextBest is true, it tries to find the first one on the
@@ -331,7 +331,7 @@ void SetCurrentStorageVMU ( MapleVMU *pVMU );
 // Tries to find a vibration VMU on the primary. If there are two (unlikely),
 // it retruns the first one. If there are none, it returns nullptr.
 // Yes, I know they're not actually VMUs that vibrate.
-MapleVMU *FindFirstVibratorOnCurrentController ( void );
+MapleVMU *FindFirstVibratorOnCurrentController();
 
 
 // Turn vibrations on or off.

@@ -598,7 +598,7 @@ extern void ScoresDraw();	// From attract
 	{
 		static iFlash = 0;
 extern DIDeviceInfo *primary_device;
-extern bool AreAnyDevicesConnected ( void );
+extern bool AreAnyDevicesConnected();
 		if ( primary_device == nullptr )
 		{
 			std::uint8_t bMyFade = 255;

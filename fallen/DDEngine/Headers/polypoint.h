@@ -41,7 +41,7 @@ public:
 	void	SetSpecular(std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a = 0xFF);
 
 	/*
-	D3DTLVERTEX	*GetTLVert ( void )
+	D3DTLVERTEX	*GetTLVert()
 	{
 		return ( (D3DTLVERTEX *)this );
 	}

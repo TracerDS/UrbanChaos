@@ -2333,7 +2333,7 @@ void CopyBackground(std::uint8_t* image_data, IDirectDrawSurface4* surface)
 	CopyBackground32(image_data, surface);
 }
 
-void PANEL_ResetDepthBodge ( void );
+void PANEL_ResetDepthBodge();
 
 HRESULT Display::Flip(LPDIRECTDRAWSURFACE4 alt,std::int32_t flags)
 {

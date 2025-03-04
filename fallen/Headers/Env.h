@@ -36,14 +36,16 @@ extern int ENV_save ( char *pcData );
 // retrieve values
 //
 
-char* ENV_get_value_string(char* name, char* section = "Game");				// returns nullptr if not found - NOTE: string is in a static buffer
-std::int32_t  ENV_get_value_number(char* name, std::int32_t def, char* section = "Game");	// returns def if not found
+// returns nullptr if not found - NOTE: string is in a static buffer
+char* ENV_get_value_string(const char* name, const char* section = "Game");
+// returns def if not found
+std::int32_t  ENV_get_value_number(const char* name, std::int32_t def, const char* section = "Game");
 
 //
 // store values
 //
 
-void ENV_set_value_string(char* name, char* value, char* section = "Game");
-void ENV_set_value_number(char* name, std::int32_t value, char* section = "Game");
+void ENV_set_value_string(const char* name, const char* value, const char* section = "Game");
+void ENV_set_value_number(const char* name, std::int32_t value, const char* section = "Game");
 
 #endif

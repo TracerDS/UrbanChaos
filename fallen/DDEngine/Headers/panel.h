@@ -109,16 +109,16 @@ void PANEL_draw_completion_bar(std::int32_t completion);
 // Use 1.0f - this for a Z value.
 // Each time this is called, it increases a little to help
 // with cards that depth buffer oddly.
-float PANEL_GetNextDepthBodge ( void );
+float PANEL_GetNextDepthBodge();
 
 // Call at the start of each frame.
-void PANEL_ResetDepthBodge ( void );
+void PANEL_ResetDepthBodge();
 
 
 // Screensaver stuff.
-void PANEL_enable_screensaver ( void );
+void PANEL_enable_screensaver();
 void PANEL_disable_screensaver ( bool bImmediately=false );
-void PANEL_screensaver_draw ( void );
+void PANEL_screensaver_draw();
 
 
 

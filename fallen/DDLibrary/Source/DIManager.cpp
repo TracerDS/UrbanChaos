@@ -99,7 +99,7 @@ extern HINSTANCE			hGlobalThisInst;
 
 // Clears the current primary device, and does everything
 // needed to start searching for thenext one to press a button again.
-void ClearPrimaryDevice ( void )
+void ClearPrimaryDevice()
 {
 	SHARON ( "ClearPrimaryDevice\n" );
 	primary_device = nullptr;
@@ -115,7 +115,7 @@ int m_iNumMapleDevices;
 // This does not reassign the primary - if you want to do that,
 // call ClearPrimaryDevice().
 // If anything new was found, or anything existing was removed, returns true.
-bool RescanDevices ( void )
+bool RescanDevices()
 {
 	bool bChanged = false;
 	HRESULT result = the_input_manager.LoadDevices ( &bChanged );
@@ -124,7 +124,7 @@ bool RescanDevices ( void )
 
 
 // Often called after a RescanDevices - deletes any missing devices.
-void DeleteInvalidDevice ( void )
+void DeleteInvalidDevice()
 {
 	DIDeviceInfo	*current_device,
 					*next_device;
@@ -178,7 +178,7 @@ bool	GetInputDevice ( std::uint8_t type, std::uint8_t sub_type, bool bActuallyGe
 
 // Returns true if there are any devices connected,
 // whether or not any of them is the primary.
-bool AreAnyDevicesConnected ( void )
+bool AreAnyDevicesConnected()
 {
 	if ( the_input_manager.DeviceList != nullptr )
 	{
@@ -1423,7 +1423,7 @@ int DIDriverManager::ScanForVMUs()
 
 
 // Call these to make sure you've grabbed the interface pointer.
-void MapleVMU::EnsureDevicePtr ( void )
+void MapleVMU::EnsureDevicePtr()
 {
 	if ( pUnknown != nullptr )
 	{
@@ -1588,7 +1588,7 @@ bool Flash_GetDirectoryCallback ( LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid
 // YOU DO NOT OWN THIS ARRAY. If you want to use it or store it,
 // copy it. The array may change/move next time you do any Maple call.
 // A return value of nullptr indicates an error.
-char **MapleVMU::Flash_GetDirectory ( void )
+char **MapleVMU::Flash_GetDirectory()
 {
 	ASSERT ( type == MDT_STORAGE );
 	EnsureDevicePtr();
@@ -1612,7 +1612,7 @@ char **MapleVMU::Flash_GetDirectory ( void )
 
 // Returns the number of free blocks in this VMU.
 // If there is an error, -1 is returned.
-int MapleVMU::Flash_GetFreeBlocks ( void )
+int MapleVMU::Flash_GetFreeBlocks()
 {
 	ASSERT ( type == MDT_STORAGE );
 	EnsureDevicePtr();
@@ -1915,7 +1915,7 @@ void SetVMUScreenUpdateEnable ( bool bEnable )
 
 // Gets the first VMU on the primary controller. If it can't find it,
 // it takes the first VMU on the first controller it finds.
-MapleVMU *FindFirstVMUOnCurrentController ( void )
+MapleVMU *FindFirstVMUOnCurrentController()
 {
 	if ( primary_device != nullptr )
 	{
@@ -2203,7 +2203,7 @@ void SetCurrentStorageVMU ( MapleVMU *pVMU )
 // Tries to find a vibration VMU on the primary. If there are two (unlikely),
 // it retruns the first one. If there are none, it returns nullptr.
 // Yes, I know they're not actually VMUs that vibrate.
-MapleVMU *FindFirstVibratorOnCurrentController ( void )
+MapleVMU *FindFirstVibratorOnCurrentController()
 {
 	if ( primary_device != nullptr )
 	{

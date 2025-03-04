@@ -45,7 +45,7 @@ std::int32_t FONT2D_GetLetterWidth(char chr);
 // Draws the string.
 // 
 
-void FONT2D_DrawString(char*chr, std::int32_t x, std::int32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
+void FONT2D_DrawString(const char* chr, std::int32_t x, std::int32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
 
 //
 // Draws text that won't go off the screen. Returns the y coordinate of the line it finished on.
@@ -72,9 +72,9 @@ std::int32_t FONT2D_DrawStringWrap(char*chr, std::int32_t x, std::int32_t y, std
 // line it finished on.
 //
 
-std::int32_t FONT2D_DrawStringRightJustify(char*chr, std::int32_t x, std::int32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0, bool bDontDraw=false);
+std::int32_t FONT2D_DrawStringRightJustify(char* chr, std::int32_t x, std::int32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0, bool bDontDraw=false);
 
-std::int32_t FONT2D_DrawStringRightJustifyNoWrap(char*chr, std::int32_t x, std::int32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
+std::int32_t FONT2D_DrawStringRightJustifyNoWrap(const char* chr, std::int32_t x, std::int32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
 
 
 

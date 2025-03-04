@@ -68,7 +68,7 @@
 
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
-static void ScribbleCheck ( void )
+static void ScribbleCheck()
 {
 	ASSERT ( prim_faces4[1].Points[0] >= 48 );
 	ASSERT ( prim_faces4[1].Points[0] < 62 );

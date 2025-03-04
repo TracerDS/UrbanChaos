@@ -65,7 +65,7 @@
 
 #ifndef NDEBUG
 
-void OS_string(char* fmt, ...);
+void OS_string(const char* fmt, ...);
 
 #define ASSERT(x) {assert(x);}
 #define TRACE	  OS_string

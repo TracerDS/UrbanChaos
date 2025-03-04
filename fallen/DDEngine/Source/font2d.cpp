@@ -459,7 +459,7 @@ std::int32_t FONT2D_leftmost_x;
 
 #define MAKE_FADE_RGB(RGB, FADE)	((RGB & 0x00FFFFFF) | ((255 - FADE) << 24))
 
-void FONT2D_DrawString(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
+void FONT2D_DrawString(const char* str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
 	std::uint8_t i;
 
@@ -498,7 +498,7 @@ void FONT2D_DrawString(char*str, std::int32_t x, std::int32_t y, std::uint32_t r
 	}
 }
 
-void FONT2D_DrawString_NoTrueType(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
+void FONT2D_DrawString_NoTrueType(const char* str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
 	std::uint8_t i;
 
@@ -675,7 +675,7 @@ std::int32_t FONT2D_DrawStringWrapTo(char*str, std::int32_t x, std::int32_t y, s
 }
 
 
-std::int32_t FONT2D_DrawStringRightJustify(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade, bool bDontDraw )
+std::int32_t FONT2D_DrawStringRightJustify(char* str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade, bool bDontDraw )
 {
 	if (!str )
 	{
@@ -778,14 +778,14 @@ std::int32_t FONT2D_DrawStringRightJustify(char*str, std::int32_t x, std::int32_
 }
 
 
-std::int32_t FONT2D_DrawStringRightJustifyNoWrap(char*str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
+std::int32_t FONT2D_DrawStringRightJustifyNoWrap(const char* str, std::int32_t x, std::int32_t y, std::uint32_t rgb, std::int32_t scale, std::int32_t page, std::int16_t fade)
 {
 	if (!str )
 	{
 		str = "Null string";
 	}
 
-	char* ch;
+	const char* ch;
 
 	for (ch = str; *ch; ch++)
 	{
@@ -799,7 +799,7 @@ std::int32_t FONT2D_DrawStringRightJustifyNoWrap(char*str, std::int32_t x, std::
 
 
 //POLY_PAGE_FONT2D
-void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y, std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade) 
+void FONT2D_DrawString_3d(const char* str, std::uint32_t world_x, std::uint32_t world_y, std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade) 
 {
 	if (!str )
 	{
@@ -822,7 +822,7 @@ void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y
 
 	if (mid.IsValid())
 	{
-		char* ch;
+		const char* ch;
 
 		float x = mid.X;
 		float y = mid.Y;
@@ -979,7 +979,7 @@ void FONT2D_DrawStringCentred(char*chr, std::int32_t x, std::int32_t y, std::uin
 
 
 
-float PANEL_GetNextDepthBodge ( void );
+float PANEL_GetNextDepthBodge();
 
 std::int32_t DST_offset1;
 std::int32_t DST_offset2;

@@ -199,7 +199,7 @@ std::int32_t main(std::uint16_t argc, TCHAR *argv[])
 #endif
 
 #ifdef TARGET_DC
-extern void ENV_init ( void );
+extern void ENV_init();
 	ENV_init();
 #else
 	ENV_load("config.ini");

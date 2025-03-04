@@ -487,7 +487,7 @@ extern void	init_joypad_config();
 						// And after the title screen, we play the intro movie.
 
 						// Free up as much memory as we can - the movie needs it!
-extern void FRONTEND_scr_unload_theme ( void );
+extern void FRONTEND_scr_unload_theme();
 						FRONTEND_scr_unload_theme();
 						stop_all_fx_and_music();
 						the_display.RunCutscene( 0, ENV_get_value_number("lang_num", 0, "" ) );
@@ -1224,7 +1224,7 @@ void ATTRACT_loadscreen_init()
 
 #ifdef TARGET_DC
 
-extern void POLY_ClearAllPages ( void );
+extern void POLY_ClearAllPages();
 	POLY_ClearAllPages();
 
 	// Flip once to flush the rendering (e.g. leaves will be left in).

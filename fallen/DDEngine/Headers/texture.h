@@ -253,7 +253,7 @@ void TEXTURE_set_tga(std::int32_t page, char* fn);
 void TEXTURE_free();
 
 // Frees all the non-frontend texture pages.
-void TEXTURE_free_unneeded ( void );
+void TEXTURE_free_unneeded();
 
 //
 // Returns what sort it thinks the given page looks like.

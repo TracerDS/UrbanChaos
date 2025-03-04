@@ -271,7 +271,7 @@ extern void	UCA_LookupSetup();
 
 	// NOW we can load the sounds, coz we have something sensible on-screen
 //#ifdef TARGET_DC
-extern void MFX_init ( void );
+extern void MFX_init();
 	MFX_init();
 //#endif
 
@@ -968,7 +968,7 @@ void game_fini()
 	TRACE ( "gf6 " );
 
 	// Free up the figure caches.
-void FIGURE_clean_all_LRU_slots ( void );
+void FIGURE_clean_all_LRU_slots();
 	FIGURE_clean_all_LRU_slots();
 
 
@@ -1013,7 +1013,7 @@ void FIGURE_clean_all_LRU_slots ( void );
 	TRACE ( "gf9 " );
 
 	// Clear out all the rendering pages' VBs and IBs.
-extern void POLY_ClearAllPages ( void );
+extern void POLY_ClearAllPages();
 	POLY_ClearAllPages();
 
 	TRACE ( "gf10 " );

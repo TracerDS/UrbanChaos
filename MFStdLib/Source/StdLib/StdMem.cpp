@@ -45,7 +45,7 @@ volatile bool bDumpDebug = false;
 volatile std::uint32_t ulSpotted = -1;
 
 
-void DumpDebug ( void )
+void DumpDebug()
 {
 	bDumpDebug = false;
 

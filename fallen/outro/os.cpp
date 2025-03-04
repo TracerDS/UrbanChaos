@@ -9,10 +9,8 @@
 #define DIRECTINPUT_VERSION 0x0700
 #endif
 #include <dinput.h>
-#include <stdarg.h>
-#include <string.h>
-
-
+#include <cstdarg>
+#include <cstring>
 
 #include "always.h"
 #include "key.h"
@@ -38,7 +36,7 @@ HINSTANCE OS_last_instance;
 LPSTR OS_command_line;
 int OS_start_show_state;
 
-char* OS_application_name = "Urban Chaos credits";
+const char* OS_application_name = "Urban Chaos credits";
 
 //
 // Our window class.
@@ -296,9 +294,7 @@ void OS_joy_poll()
 {
 	HRESULT hr;
 
-	if (OS_joy_direct_input  == nullptr ||
-		OS_joy_input_device  == nullptr ||
-		OS_joy_input_device2 == nullptr)
+	if (!OS_joy_direct_input || !OS_joy_input_device || !OS_joy_input_device2)
 	{
 		//
 		// No joystick detected.
@@ -319,62 +315,62 @@ void OS_joy_poll()
 
 	hr = OS_joy_input_device->Acquire();
 
-	if (hr == DI_OK)
+	if (hr != DI_OK)
+		return;
+
+	DIJOYSTATE js;
+
+	//
+	// We acquired the joystick okay.  Poll the joystick to
+	// update its state.
+	//
+
+	OS_joy_input_device2->Poll();
+
+	//
+	// Finally get the state of the joystick.
+	//
+
+	hr = OS_joy_input_device ->GetDeviceState(sizeof(js), &js);
+
+	if (!FAILED(hr))
 	{
-		DIJOYSTATE js;
-
 		//
-		// We acquired the joystick okay.  Poll the joystick to
-		// update its state.
+		// Axis movment normalised to between -1.0F and +1.0F
 		//
 
-		OS_joy_input_device2->Poll();
+		std::int32_t dx = OS_joy_x_range_max - OS_joy_x_range_min;
+		std::int32_t dy = OS_joy_y_range_max - OS_joy_y_range_min;
+
+		OS_joy_x = 0.0F;
+		OS_joy_y = 0.0F;
+
+		if (dx) {OS_joy_x = float(js.lX - OS_joy_x_range_min) * 2.0F / float(dx) - 1.0F;}
+		if (dy) {OS_joy_y = float(js.lY - OS_joy_y_range_min) * 2.0F / float(dy) - 1.0F;}
 
 		//
-		// Finally get the state of the joystick.
+		// The buttons.
 		//
 
-		hr = OS_joy_input_device ->GetDeviceState(sizeof(js), &js);
+		std::int32_t i;
 
-		if (!FAILED(hr))
+		std::uint32_t last = OS_joy_button;
+		std::uint32_t now  = 0;
+
+		for (i = 0; i < 32; i++)
 		{
-			//
-			// Axis movment normalised to between -1.0F and +1.0F
-			//
-
-			std::int32_t dx = OS_joy_x_range_max - OS_joy_x_range_min;
-			std::int32_t dy = OS_joy_y_range_max - OS_joy_y_range_min;
-
-			OS_joy_x = 0.0F;
-			OS_joy_y = 0.0F;
-
-			if (dx) {OS_joy_x = float(js.lX - OS_joy_x_range_min) * 2.0F / float(dx) - 1.0F;}
-			if (dy) {OS_joy_y = float(js.lY - OS_joy_y_range_min) * 2.0F / float(dy) - 1.0F;}
-
-			//
-			// The buttons.
-			//
-
-			std::int32_t i;
-
-			std::uint32_t last = OS_joy_button;
-			std::uint32_t now  = 0;
-
-			for (i = 0; i < 32; i++)
+			if (js.rgbButtons[i] & 0x80)
 			{
-				if (js.rgbButtons[i] & 0x80)
-				{
-					now |= 1 << i;
-				}
+				now |= 1 << i;
 			}
-
-			OS_joy_button      = now;
-			OS_joy_button_down = now  & ~last;
-			OS_joy_button_up   = last & ~now;
 		}
 
-		OS_joy_input_device->Unacquire();
+		OS_joy_button      = now;
+		OS_joy_button_down = now  & ~last;
+		OS_joy_button_up   = last & ~now;
 	}
+
+	OS_joy_input_device->Unacquire();
 }
 
 
@@ -394,7 +390,7 @@ void OS_joy_poll()
 // The pixel formats for each of our OS_TEXTURE_FORMATs
 // 
 
-typedef struct
+struct OS_Tformat
 {
 	std::int32_t valid;
 
@@ -409,8 +405,7 @@ typedef struct
 	std::int32_t shift_g;
 	std::int32_t shift_b;
 	std::int32_t shift_a;
-
-} OS_Tformat;
+};
 
 OS_Tformat OS_tformat[OS_TEXTURE_FORMAT_NUMBER];
 
@@ -419,7 +414,7 @@ OS_Tformat OS_tformat[OS_TEXTURE_FORMAT_NUMBER];
 // Our texture pages.
 //
 
-typedef struct os_texture
+struct OS_Texture
 {
 	char name[_MAX_PATH];
 	std::uint8_t format;
@@ -431,14 +426,13 @@ typedef struct os_texture
 	LPDIRECT3DTEXTURE2   ddtx;
 
 	OS_Texture *next;
-
-} OS_Texture;
+};
 
 //
 // They are stored in a linked list and dynamically allocated.
 // 
 
-OS_Texture *OS_texture_head;
+OS_Texture* OS_texture_head;
 
 
 
@@ -808,7 +802,7 @@ OS_Texture *OS_texture_create(char* fname, std::int32_t invert)
 										&ot->ddsurface,
 										nullptr);
 
-	char* err;
+	const char* err;
 
 	switch(res)
 	{
@@ -1623,7 +1617,7 @@ void OS_undo_renderstate_type_changes()
 //
 // ========================================================
 
-void OS_string(char* fmt, ...)
+void OS_string(const char* fmt, ...)
 {
 	//
 	// Work out the real message.

@@ -2043,7 +2043,7 @@ void TEXTURE_free()
 
 
 // Destroys all the non-needed (i.e. non-frontend) textures.
-void TEXTURE_free_unneeded ( void )
+void TEXTURE_free_unneeded()
 {
 	std::int32_t i;
 
@@ -2075,7 +2075,7 @@ void TEXTURE_free_unneeded ( void )
 	}
 
 	// Now free all the texture pages.
-extern void FreeAllD3DPages ( void );
+extern void FreeAllD3DPages();
 	FreeAllD3DPages();
 
 #ifdef DEBUG

@@ -119,7 +119,7 @@ std::int32_t CachedFileRead(MFFileHandle file_handle,char *buffer)
 }
 
 // Call it when you open a new file!
-void CacheFileReadFlush ( void )
+void CacheFileReadFlush()
 {
 	cached_file_handle = (void* )0xdeadbeef;
 }

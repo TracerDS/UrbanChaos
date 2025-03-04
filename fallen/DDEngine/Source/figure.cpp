@@ -779,7 +779,7 @@ LPDIRECT3DLIGHT m_pLight[MAX_NUM_OF_LIGHTS];
 bool m_bLightInScene[MAX_NUM_OF_LIGHTS];
 int m_iNumLights = 0;
 
-int FindMeAFreeLightAndPutItInTheScene ( void )
+int FindMeAFreeLightAndPutItInTheScene()
 {
 	int i = 0;
 	while ( true )
@@ -840,7 +840,7 @@ int AddThisSortOfLightToTheScene ( D3DLIGHT2 *pd3dLight )
 {
 	return ( AddThisSortOfLightToTheScene ( (D3DLIGHT *)pd3dLight ) );
 }
-void RemoveAllLightsFromScene ( void )
+void RemoveAllLightsFromScene()
 {
 	for ( int i = 0; i < MAX_NUM_OF_LIGHTS; i++ )
 	{
@@ -862,7 +862,7 @@ int AddThisSortOfLightToTheScene ( D3DLIGHT2 *pd3dLight )
 	}
 	return ( 0 );
 }
-void RemoveAllLightsFromScene ( void )
+void RemoveAllLightsFromScene()
 {
 }
 #endif
@@ -1579,7 +1579,7 @@ void FIGURE_clean_LRU_slot ( int iSlot )
 
 
 // This is suitable for calling at end of level.
-void FIGURE_clean_all_LRU_slots ( void )
+void FIGURE_clean_all_LRU_slots()
 {
 	for ( int i = 0; i < m_iLRUQueueSize; i++ )
 	{

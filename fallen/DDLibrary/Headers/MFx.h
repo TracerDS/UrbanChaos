@@ -65,7 +65,7 @@ std::uint16_t	MFX_get_wave(std::uint16_t channel_id, std::uint8_t index=0);
 
 //----- general system stuff -----
 
-void	MFX_update ( void );
+void	MFX_update();
 
 //----- init stuff -----
 

@@ -76,7 +76,7 @@ extern void	RecenterMouse();
 #else //#ifdef TARGET_DC
 
 
-inline std::int32_t check_result(HRESULT f, std::int32_t line, char* file)
+inline std::int32_t check_result(HRESULT f, std::int32_t line, const char* file)
 {
 //	if (f == DD_OK)			// this is an *INCORRECT* error test; see e.g. Petzold "Programming Windows 95"
 	if ( f >= 0 )

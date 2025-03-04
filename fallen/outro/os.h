@@ -29,7 +29,7 @@ std::int32_t OS_process_messages();
 // Returns the Mhz of the current processor.
 //
 
-void OS_string       (char* fmt, ...);
+void OS_string       (const char* fmt, ...);
 void OS_reset_ticks  ();
 std::int32_t OS_ticks        ();
 void OS_ticks_reset  ();
@@ -41,7 +41,7 @@ void OS_ticks_reset  ();
 //
 // ========================================================
 
-typedef struct os_texture OS_Texture;
+typedef struct OS_Texture OS_Texture;
 
 //
 // You can create a texture either from a TGA file or just by

@@ -62,7 +62,7 @@ extern DIJOYSTATE			the_state;
 
 extern void	init_joypad_config();
 
-void FRONTEND_display ( void );
+void FRONTEND_display();
 
 //----------------------------------------------------------------------------
 // DEFINES
@@ -789,7 +789,7 @@ std::int32_t FRONTEND_AlterAlpha(std::int32_t rgb, std::int16_t add, std::int8_t
 
 
 // Recenters (vertically) whatever menu has been put down.
-void FRONTEND_recenter_menu ( void )
+void FRONTEND_recenter_menu()
 {
 	MenuData *md=menu_data;
 	int iY = 0;
@@ -849,7 +849,7 @@ void FRONTEND_draw_title(std::int32_t x, std::int32_t y, std::int32_t cutx, char
 
 }
 
-void FRONTEND_init_xition ( void ) {
+void FRONTEND_init_xition() {
 	MidX=RealDisplayWidth/2;
 	MidY=RealDisplayHeight/2;
 	ScaleX=MidX/64.0f;

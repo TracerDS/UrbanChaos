@@ -131,7 +131,7 @@ struct POLY_Point
 
 #ifdef TARGET_DC
 
-void POLY_flush_local_rot ( void );
+void POLY_flush_local_rot();
 
 void POLY_transform_c(
 		float       world_x,
@@ -145,7 +145,7 @@ void POLY_transform_c(
 #else //#ifdef TARGET_DC
 
 // Does nothing on PC.
-inline void POLY_flush_local_rot ( void )
+inline void POLY_flush_local_rot()
 {
 }
 
@@ -167,7 +167,7 @@ void POLY_transform_c(
 #endif //#else //#ifdef TARGET_DC
 
 
-void POLY_set_local_rotation_none ( void );
+void POLY_set_local_rotation_none();
 
 void POLY_transform_abs(
 		float       world_x,

@@ -219,7 +219,7 @@ std::int32_t FileLoadAt(char* file_name,void* buffer)
 //---------------------------------------------------------------
 
 
-void TraceText(char* fmt, ...)
+void TraceText(const char* fmt, ...)
 {
 	//
 	// Work out the real message.

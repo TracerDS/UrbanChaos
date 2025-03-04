@@ -1576,7 +1576,7 @@ void POLY_init_render_states()
 	// Before we do this, we must flush all the currently queued polys,
 	// because this will change the sorting order, and thus some
 	// pages may not be drawn that should be and stuff.
-extern void POLY_ClearAllPages ( void );
+extern void POLY_ClearAllPages();
 	POLY_ClearAllPages();
 
 

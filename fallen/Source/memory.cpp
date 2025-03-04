@@ -3895,7 +3895,7 @@ void load_dreamcast_wad(char* fname)
 
 
 	// Clear out all the rendering pages' VBs and IBs.
-extern void POLY_ClearAllPages ( void );
+extern void POLY_ClearAllPages();
 	POLY_ClearAllPages();
 
 
@@ -4283,7 +4283,7 @@ extern std::uint8_t EWAY_conv_active;
 
 #ifdef TARGET_DC
 	// Reactivates mist.
-extern void EWAY_reactivate_waypoints_that_arent_in_the_dad_file ( void );
+extern void EWAY_reactivate_waypoints_that_arent_in_the_dad_file();
 	EWAY_reactivate_waypoints_that_arent_in_the_dad_file ();
 #endif
 	

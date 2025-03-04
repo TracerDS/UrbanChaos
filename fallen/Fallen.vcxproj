@@ -42,15 +42,15 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)bin\$(PlatformTarget)\$(Configuration)</OutDir>
-    <IntDir>out\$(PlatformTarget)\$(Configuration)</IntDir>
+    <OutDir>$(ProjectDir)bin\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>out\$(PlatformTarget)\$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\MFStdLib\Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)bin\$(PlatformTarget)\$(Configuration)</OutDir>
-    <IntDir>out\$(PlatformTarget)\$(Configuration)</IntDir>
+    <OutDir>$(ProjectDir)bin\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>out\$(PlatformTarget)\$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\MFStdLib\Headers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)$(Configuration);$(LibraryPath)</LibraryPath>
@@ -72,10 +72,11 @@
       <PrecompiledHeaderOutputFile>.\Release\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
-      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
+      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib /Zc:__cplusplus</AdditionalOptions>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -121,11 +122,12 @@
       <PrecompiledHeaderOutputFile>.\Debug\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>.\Debug\</ObjectFileName>
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
-      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib" "</AdditionalOptions>
+      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib /Zc:__cplusplus</AdditionalOptions>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <AdditionalIncludeDirectories>Headers;ledit\headers;sedit\headers;DDLibrary\Headers;gedit\headers;ddengine\headers;..\extern\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>

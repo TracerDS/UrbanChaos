@@ -162,7 +162,7 @@ void POLY_init()
 
 
 // Clears all poly pages.
-void POLY_ClearAllPages ( void )
+void POLY_ClearAllPages()
 {
 	for ( int i = 0; i < POLY_NUM_PAGES; i++ )
 	{
@@ -925,7 +925,7 @@ void POLY_set_local_rotation(
 
 // Sets up a null local rotation, i.e. none.
 // Only useful for setting the current camera rotation into the D3D ones.
-void POLY_set_local_rotation_none ( void )
+void POLY_set_local_rotation_none()
 {
 	LOG_ENTER ( Poly_set_local_rotation )
 

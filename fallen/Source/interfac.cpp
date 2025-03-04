@@ -7422,7 +7422,7 @@ extern std::int32_t Wadmenu_MuckyTime;
 
 
 // Allow the last input state to autorepeat, despite GONEDOWN.
-void allow_input_autorepeat ( void )
+void allow_input_autorepeat()
 {
 	m_PreviousInput = 0;
 }

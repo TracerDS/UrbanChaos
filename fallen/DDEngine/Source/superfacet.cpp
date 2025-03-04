@@ -1592,7 +1592,7 @@ extern DIJOYSTATE the_state;
 
 
 //#ifdef TARGET_DC
-//extern void POLY_set_local_rotation_none ( void );
+//extern void POLY_set_local_rotation_none();
 //	POLY_set_local_rotation_none();
 //	//POLY_flush_local_rot();
 //#endif

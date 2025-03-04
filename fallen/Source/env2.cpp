@@ -36,14 +36,14 @@ void ENV_load(char* fname)
 	}
 }
 
-char* ENV_get_value_string(char* name, char* section)
+char* ENV_get_value_string(const char* name, const char* section)
 {
 	GetPrivateProfileString(section, name, "", strbuf, _MAX_PATH, inifile);
 	TRACE("[%s] %s = \"%s\"\n", section, name, strbuf);
 	return strbuf[0] ? strbuf : nullptr;
 }
 
-std::int32_t ENV_get_value_number(char* name, std::int32_t def, char* section)
+std::int32_t ENV_get_value_number(const char* name, std::int32_t def, const char* section)
 {
 	std::int32_t val = GetPrivateProfileInt(section, name, def, inifile);
 	TRACE("[%s] %s = %d\n", section, name, val);
@@ -51,12 +51,12 @@ std::int32_t ENV_get_value_number(char* name, std::int32_t def, char* section)
 	return val;
 }
 
-void ENV_set_value_string(char* name, char* value, char* section)
+void ENV_set_value_string(const char* name, const char* value, const char* section)
 {
 	WritePrivateProfileString(section, name, value, inifile);
 }
 
-void ENV_set_value_number(char* name, std::int32_t value, char* section)
+void ENV_set_value_number(const char* name, std::int32_t value, const char* section)
 {
 	sprintf(strbuf, "%d", value);
 	WritePrivateProfileString(section, name, strbuf, inifile);
@@ -181,7 +181,7 @@ int ENV_save ( char *pcData )
 }
 
 // Unique to DC.
-void ENV_init ( void )
+void ENV_init()
 {
 	// Set up standard environment stuff, i.e. before a game has been loaded.
 

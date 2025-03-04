@@ -6,7 +6,7 @@
 
 
 // Call after doing lots of loading.
-void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit ( void );
+void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit();
 
 // handle = file opened with FileOpen
 // dwSize = number of bytes to load.
@@ -176,7 +176,7 @@ public:
 	D3DTexture	*pTex;				// The texture page texture itself.
 	//D3DTexture	*pTextures[16];		// The textures in this page, in order.
 
-	D3DPage ( void )
+	D3DPage()
 	{
 		bPageType = 0;
 		bNumTextures = 0;
@@ -187,9 +187,9 @@ public:
 	}
 
 	// Call this when linking a standard D3DTexture to the page - it will demand-load the page's texture.
-	void D3DPage::EnsureLoaded ( void );
+	void EnsureLoaded();
 	// Call this when unloading everything.
-	void D3DPage::Unload ( void );
+	void Unload();
 
 };
 

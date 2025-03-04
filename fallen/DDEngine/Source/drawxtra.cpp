@@ -400,7 +400,7 @@ void IHaveToHaveSomePyroSprites( int iINeedThisMany )
 
 
 
-void Pyros_EndOfFrameMarker ( void )
+void Pyros_EndOfFrameMarker()
 {
 	// Figure out how much we were "oversubscribed" by.
 	if ( ( iNumFixedPyrosThisFrame + iNumWantedPyrosThisFrame ) > LIMIT_TOTAL_PYRO_SPRITES_PLEASE_BOB )
@@ -442,7 +442,7 @@ inline void IHaveToHaveSomePyroSprites( int iINeedThisMany )
 	// Does nothing in this case.
 }
 
-void Pyros_EndOfFrameMarker ( void )
+void Pyros_EndOfFrameMarker()
 {
 	// Does nothing in this case.
 }

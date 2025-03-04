@@ -84,7 +84,7 @@ char* EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
 
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
-static void ScribbleCheck ( void )
+static void ScribbleCheck()
 {
 	ASSERT ( prim_faces4[1].Points[0] >= 48 );
 	ASSERT ( prim_faces4[1].Points[0] < 62 );
@@ -8195,7 +8195,7 @@ void flag_undeletable_people()
 // Goes through the waypoints that set up stuff at start of day,
 // that will already have been activated, but the state they set up wasn't
 // saved in the DAD file.
-void EWAY_reactivate_waypoints_that_arent_in_the_dad_file ( void )
+void EWAY_reactivate_waypoints_that_arent_in_the_dad_file()
 {
 	for ( int i = 0; i < EWAY_way_upto; i++ )
 	{

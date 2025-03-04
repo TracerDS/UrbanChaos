@@ -21,7 +21,7 @@ void MFdeleteTrace ( void* pvAddr );
 
 
 // Some templated new and delete stand-ins.
-template <class T> T *MFnew ( void )
+template <class T> T *MFnew()
 {
 	T *ptr = new T;
 #ifdef DEBUG

@@ -24,7 +24,7 @@ static std::uint8_t					EmbedOffset = 0;
 #endif
 
 
-extern void POLY_reset_render_states ( void );
+extern void POLY_reset_render_states();
 
 static DWORD dwSizeOfFastLoadBuffer = 0;
 void* pvFastLoadBuffer = nullptr;
@@ -87,7 +87,7 @@ inline void* FastLoadFileSomewhere ( MFFileHandle handle, DWORD dwSize )
 static bool m_bTexturePagesInitialised = false;
 
 
-void FreeAllD3DPages ( void )
+void FreeAllD3DPages()
 {
 	// And redo all the render states and sorting.
 	POLY_reset_render_states();
@@ -110,7 +110,7 @@ void D3DTexture::BeginLoading()
 
 }
 
-void D3DPage::EnsureLoaded ( void )
+void D3DPage::EnsureLoaded()
 {
 	if ( this->pTex != nullptr )
 	{
@@ -129,7 +129,7 @@ void D3DPage::EnsureLoaded ( void )
 	}
 }
 
-void D3DPage::Unload ( void )
+void D3DPage::Unload()
 {
 	if ( this->pTex != nullptr )
 	{

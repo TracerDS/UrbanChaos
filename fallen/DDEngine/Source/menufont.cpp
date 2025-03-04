@@ -540,7 +540,7 @@ void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char* ms
 	pp[0].colour=pp[1].colour=pp[2].colour=pp[3].colour=rgb;
 #ifdef TARGET_DC
 	// A bit further forwards please.
-extern float PANEL_GetNextDepthBodge ( void );
+extern float PANEL_GetNextDepthBodge();
 
 	pp[0].Z=pp[1].Z=pp[2].Z=pp[3].Z=PANEL_GetNextDepthBodge();
 #else

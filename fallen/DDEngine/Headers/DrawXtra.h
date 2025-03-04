@@ -60,7 +60,7 @@ void IHaveToHaveSomePyroSprites( int iINeedThisMany );
 
 
 // Just call this once a frame, would you? Ta.
-void Pyros_EndOfFrameMarker ( void );
+void Pyros_EndOfFrameMarker();
 
 
 #endif

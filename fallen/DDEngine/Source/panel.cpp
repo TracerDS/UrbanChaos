@@ -47,7 +47,7 @@
 
 
 #ifdef TARGET_DC
-void PANEL_draw_VMU_ammo_counts ( void );
+void PANEL_draw_VMU_ammo_counts();
 #endif
 
 
@@ -80,12 +80,12 @@ float PANEL_fDepthBodgeValue;
 
 
 #ifdef BODGE_MY_PANELS_PLEASE_BOB
-void PANEL_ResetDepthBodge ( void )
+void PANEL_ResetDepthBodge()
 {
 	PANEL_fDepthBodgeValue = DEPTH_BODGE_START;
 }
 
-float PANEL_GetNextDepthBodge ( void )
+float PANEL_GetNextDepthBodge()
 {
 	PANEL_fDepthBodgeValue += DEPTH_BODGE_INC;
 	ASSERT ( PANEL_fDepthBodgeValue < 1.0f );
@@ -93,12 +93,12 @@ float PANEL_GetNextDepthBodge ( void )
 }
 #else
 // Just use 0.9 as a goodish value.
-float PANEL_GetNextDepthBodge ( void )
+float PANEL_GetNextDepthBodge()
 {
 	return ( 0.9f );
 }
 
-void PANEL_ResetDepthBodge ( void )
+void PANEL_ResetDepthBodge()
 {
 	// Do nothing.
 }
@@ -6174,7 +6174,7 @@ void Panel_Draw_VMU_Character ( int iCharacter, std::uint8_t *pbScanline, int iX
 }
 
 
-void PANEL_draw_VMU_ammo_counts ( void )
+void PANEL_draw_VMU_ammo_counts()
 {
 	iVMUAmmoDrawCountdown--;
 	if ( iVMUAmmoDrawCountdown > 0 )
@@ -6433,7 +6433,7 @@ int iScreensaverAngleInc = 0x2ff;
 
 DWORD dwPseudorandomSeed = 0;
 
-DWORD dwGetRandomishNumber ( void )
+DWORD dwGetRandomishNumber()
 {
 	dwPseudorandomSeed *= 51929;
 	dwPseudorandomSeed ^= dwPseudorandomSeed >> 3;
@@ -6446,7 +6446,7 @@ DWORD dwGetRandomishNumber ( void )
 
 #define SCREENSAVER_SIZE 128
 
-void PANEL_enable_screensaver ( void )
+void PANEL_enable_screensaver()
 {
 	if ( !bScreensaverEnabled )
 	{
@@ -6468,7 +6468,7 @@ void PANEL_disable_screensaver ( bool bImmediately )
 	}
 }
 
-void PANEL_screensaver_draw ( void )
+void PANEL_screensaver_draw()
 {
 	if ( bScreensaverEnabled )
 	{

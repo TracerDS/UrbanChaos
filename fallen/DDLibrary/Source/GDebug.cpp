@@ -37,20 +37,20 @@ void	FiniDebugLog()
 
 //---------------------------------------------------------------
 
-void	DebugText(char* error, ...)
+void DebugText(const char* error, ...)
 {
-	char 			buf[512];
-	std::int32_t			bytes_written;
-	va_list 		argptr;
+	char buf[512];
+	std::int32_t bytes_written;
+	va_list argptr;
 
-	if(LogFile)
-	{
-		va_start(argptr,error); 
-		vsprintf(buf, error,argptr); 
-		va_end(argptr);
+	if (!LogFile)
+		return;
 
-		WriteFile(LogFile,buf,strlen(buf),(LPDWORD)&bytes_written,nullptr);
-	}
+	va_start(argptr,error); 
+	vsprintf(buf, error,argptr); 
+	va_end(argptr);
+
+	WriteFile(LogFile, buf, strlen(buf), (LPDWORD)&bytes_written, nullptr);
 }
 
 //---------------------------------------------------------------

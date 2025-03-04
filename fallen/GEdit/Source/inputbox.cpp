@@ -14,7 +14,9 @@ extern HWND			GEDIT_view_wnd;
 
 //---------------------------------------------------------------
 
-char* the_title, *the_txt, *the_prompt;
+char* the_title;
+char* the_txt;
+char* the_prompt;
 
 
 //---------------------------------------------------------------
@@ -89,5 +91,4 @@ char* InputBox(char* title, char* prompt, char* txt) {
 
 	//	Get the data.
 	return the_txt;
-
 }

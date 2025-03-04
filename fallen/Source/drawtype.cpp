@@ -41,7 +41,7 @@ DrawTween *alloc_draw_tween(std::int32_t type)
 #ifdef DEBUG
 			// Dump some info out, so I can set up levels correctly.
 			static int iLowestCount = 100000;
-std::int32_t count_draw_tween ( void );
+std::int32_t count_draw_tween();
 			int iCount = count_draw_tween();
 			if ( iLowestCount > iCount )
 			{
