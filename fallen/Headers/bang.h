@@ -2,7 +2,8 @@
 // Explosions!
 //
 
-#pragma once
+#ifndef _BANG_
+#define _BANG_
 
 
 //
@@ -56,3 +57,4 @@ BANG_Info *BANG_get_next();	// nullptr => No more bangs.
 
 
 
+#endif

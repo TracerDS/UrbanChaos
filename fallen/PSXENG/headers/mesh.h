@@ -2,7 +2,8 @@
 // Drawing rotating prims.
 //
 
-#pragma once
+#ifndef MESH_H
+#define MESH_H
 
 
 #include "c:\fallen\headers\light.h"
@@ -37,5 +38,6 @@ void MESH_draw_poly(
 */
 
 
+#endif
 
 

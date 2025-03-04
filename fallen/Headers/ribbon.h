@@ -4,7 +4,8 @@
 // matthew rosenfeld 10 nov 1998
 //
 
-#pragma once
+#ifndef _RIBBON_H_
+#define _RIBBON_H_
 
 #include "MFStdLib.h"
 #include "Structs.h"
@@ -49,3 +50,4 @@ std::int32_t RIBBON_length(std::int32_t ribbon);
 void RIBBON_life(std::int32_t ribbon, std::int32_t life);
 
 
+#endif

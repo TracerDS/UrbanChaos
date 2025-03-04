@@ -424,7 +424,7 @@ std::int32_t MIST_get_detail()
 
 		yaw_odd  = float(MIST_get_turn)  / (float(mm->type + 1) * 15.0F);
 		yaw_odd += MIST_get_upto;
-		yaw_even = yaw_odd + (M_PI / 1.75F);
+		yaw_even = yaw_odd + (PI / 1.75F);
 
 		//
 		// The radius of the rotatey wibble.

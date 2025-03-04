@@ -1,7 +1,8 @@
 // ModeTab.hpp
 // Guy Simmons, 18th February 1997.
 
-#pragma once
+#ifndef	_MODETAB_HPP_
+#define	_MODETAB_HPP_
 
 #include	"Controls.hpp"
 #include	"CtrlSet.hpp"
@@ -70,4 +71,5 @@ class	ModeTab	:	public	ControlSet
 		inline void			SetExternalUpdatePtr(std::uint32_t *ptr)	{	ExternalUpdate=ptr;		}
 };
 
+#endif
 

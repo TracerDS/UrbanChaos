@@ -2,7 +2,8 @@
 // Handles the allocation of prims and prim textures on n:\
 //
 
-#pragma once
+#ifndef _PRIMTEX_
+#define _PRIMTEX_
 
 
 // ========================================================
@@ -27,3 +28,4 @@ std::int32_t PRIMTEX_get_number(char* fname);
 
 
 
+#endif

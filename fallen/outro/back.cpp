@@ -6,17 +6,25 @@
 #include "back.h"
 #include "os.h"
 
-OS_Texture* BACK_ot_roper;
-OS_Texture* BACK_ot_darci;
-OS_Texture* BACK_ot_mib;
-OS_Texture* BACK_ot_line;
+
+
+
+
+OS_Texture *BACK_ot_roper;
+OS_Texture *BACK_ot_darci;
+OS_Texture *BACK_ot_mib;
+OS_Texture *BACK_ot_line;
+
+
 
 void BACK_init()
 {
 	static std::int32_t done;
 
 	if (done)
+	{
 		return;
+	}
 
 	BACK_ot_roper = OS_texture_create("RoperEdgeNail.tga");
 	BACK_ot_darci = OS_texture_create("GunshotNail.tga");
@@ -26,16 +34,19 @@ void BACK_init()
 	done = true;
 }
 
+
+
+
 void BACK_draw()
 {
 	std::uint32_t colour;
 
-	OS_Buffer* ob;
+	OS_Buffer *ob;
 
 	float between = 0.0F;
 
-	OS_Texture* ot1;
-	OS_Texture* ot2;
+	OS_Texture *ot1;
+	OS_Texture *ot2;
 
 	std::int32_t now = OS_ticks();
 
@@ -46,33 +57,41 @@ void BACK_draw()
 		//
 
 		colour = 0;
-	} else if (now < 4096) {
+	}
+	else
+	if (now < 4096)
+	{
 		//
 		// Then fade in over the next two seconds...
 		//
 
-		colour = now - 2048 >> 4;
+		colour  = now - 2048 >> 4;
 		colour |= colour << 8;
 		colour |= colour << 8;
-	} else {
+	}
+	else
+	{
 		now   -= 4000;
 		colour = 0x808080;
 	}
 
-	switch ((now >> 14) % 3)
+	switch((now >> 14) % 3)
 	{
 		case 0:
 			ot1 = BACK_ot_roper;
 			ot2 = BACK_ot_darci;
 			break;
+
 		case 1:
 			ot1 = BACK_ot_darci;
 			ot2 = BACK_ot_mib;
 			break;
+
 		case 2:
 			ot1 = BACK_ot_mib;
 			ot2 = BACK_ot_roper;
 			break;
+
 		default:
 			ASSERT(0);
 			break;
@@ -80,11 +99,17 @@ void BACK_draw()
 
 	now &= 0x3fff;
 
-	if (now < 6000) {
+	if (now < 6000)
+	{
 		between = 0.0F;
-	} else if (now < 10000) {
+	}
+	else
+	if (now < 10000)
+	{
 		between = (now - 6000) * (1.0F / 4000.0F);
-	} else {
+	}
+	else
+	{
 		between = 1.0F;
 	}
 

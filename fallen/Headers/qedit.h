@@ -2,7 +2,8 @@
 // An editor for the QMAP...
 //
 
-#pragma once
+#ifndef _QEDIT_
+#define _QEDIT_
 
 
 //
@@ -13,3 +14,4 @@ void QEDIT_loop();
 
 
 
+#endif

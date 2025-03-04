@@ -1,7 +1,8 @@
 // Window.hpp
 // Guy Simmons, 18th February 1997.
 
-#pragma once
+#ifndef	_WINDOW_HPP_
+#define	_WINDOW_HPP_
 
 #include	"ModeTab.hpp"
 #include	"Primativ.hpp"
@@ -117,3 +118,4 @@ class	Window	:	public EdRect
 		WinBarIcon		TopIcons;
 };
 
+#endif

@@ -2,7 +2,8 @@
 // The sewer editor.
 //
 
-#pragma once
+#ifndef _SEDIT_
+#define _SEDIT_
 
 
 
@@ -14,3 +15,4 @@ void SEDIT_do();
 
 
 
+#endif

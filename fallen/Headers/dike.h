@@ -5,7 +5,8 @@
 #ifndef TARGET_DC
 
 
-#pragma once
+#ifndef _DIKE_
+#define _DIKE_
 
 
 
@@ -122,3 +123,4 @@ void DIKE_draw(DIKE_Dike *dd);
 
 #endif
 
+#endif //#ifndef TARGET_DC

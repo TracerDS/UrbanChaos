@@ -1,7 +1,8 @@
 //	Sound.h
 //	Guy Simmons, 8th May 1998.
 
-#pragma once
+#ifndef	SOUND_H
+#define	SOUND_H
 
 #include "Structs.h"
 #include "MFX.h"
@@ -107,3 +108,4 @@ extern void A3D_Check_Init();
 
 #endif
 
+#endif

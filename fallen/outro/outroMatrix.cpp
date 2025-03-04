@@ -225,7 +225,7 @@ void MATRIX_rotate_about_its_z(float *matrix, float angle)
 
 
 #define MATRIX_FA_VECTOR_TOO_SMALL (0.001F)
-#define MATRIX_FA_ANGLE_TOO_SMALL  (M_PI * 2.0F / 180.0F)
+#define MATRIX_FA_ANGLE_TOO_SMALL  (PI * 2.0F / 180.0F)
 
 Direction MATRIX_find_angles_old(float matrix[9])
 {
@@ -271,7 +271,7 @@ Direction MATRIX_find_angles_old(float matrix[9])
 
 	if (fabs(xz) + fabs(y) < MATRIX_FA_VECTOR_TOO_SMALL)
 	{
-		if (y < 0) {ans.pitch = -M_PI;} else {ans.pitch = +M_PI;}
+		if (y < 0) {ans.pitch = -PI;} else {ans.pitch = +PI;}
 	}
 	else
 	{
@@ -324,13 +324,13 @@ Direction MATRIX_find_angles(float matrix[9])
 	// down or up.
 	//
 
-	if (fabs(ans.pitch) > (M_PI / 4.0F))
+	if (fabs(ans.pitch) > (PI / 4.0F))
 	{
 		if (fabs(matrix[0]) + fabs(matrix[2]) < 0.1F)
 		{
 		}
 
-		ans.yaw = atan2(matrix[0], matrix[2]) - (M_PI / 2.0F);
+		ans.yaw = atan2(matrix[0], matrix[2]) - (PI / 2.0F);
 	}
 	else
 	{

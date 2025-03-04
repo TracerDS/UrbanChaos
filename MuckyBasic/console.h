@@ -3,7 +3,8 @@
 // Uses the FONT module and takes control of the display.
 //
 
-#pragma once
+#ifndef _CONSOLE_
+#define _CONSOLE_
 
 
 
@@ -29,3 +30,4 @@ char* CONSOLE_input();
 
 
 
+#endif

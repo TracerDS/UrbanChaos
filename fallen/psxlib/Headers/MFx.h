@@ -5,7 +5,8 @@
 //
 // (same header, different cpp)
 //
-#pragma once
+#ifndef _mfx_h_
+#define _mfx_h_
 
 
 #include "MFStdLib.h"
@@ -84,3 +85,4 @@ void MFX_Conv_wait();
 std::int32_t MFX_Conv_play(std::int32_t waypoint,std::int32_t conv,std::int32_t conv_off);
 void MFX_Init_Speech(std::int32_t level);
 
+#endif

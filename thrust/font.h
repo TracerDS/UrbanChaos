@@ -2,7 +2,8 @@
 // A font! That's all there is to it.
 //
 
-#pragma once
+#ifndef _FONT_
+#define _FONT_
 
 
 //
@@ -46,3 +47,4 @@ void FONT_format(
 void FONT_draw(float start_x, float start_y, std::uint32_t colour, float scale, std::int32_t cursor, char* fmt, ...);
 
 
+#endif

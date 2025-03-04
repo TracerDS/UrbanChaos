@@ -2,7 +2,8 @@
 // Guy Simmons, 26th October 1996.
 
 
-#pragma once
+#ifndef	_PRIMATIV_HPP_
+#define	_PRIMATIV_HPP_
 
 
 class	EdRect
@@ -43,3 +44,4 @@ class	EdRect
 		inline MFPoint	GetBottomRight()	{	return BottomRight;	}
 };
 
+#endif

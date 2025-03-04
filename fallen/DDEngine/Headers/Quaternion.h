@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	QUATERNION_H
+#define QUATERNION_H
 
 class	FloatMatrix
 {
@@ -16,3 +17,4 @@ public:
 	static void	BuildTween(struct Matrix33 *dest,struct CMatrix33 *cm1,struct CMatrix33 *cm2,std::int32_t tween);
 };
 
+#endif

@@ -1649,7 +1649,7 @@ void AENG_set_camera_radians(
 		AENG_LENS,
 		POLY_SPLITSCREEN_NONE);
 
-	FMATRIX_vector(AENG_cam_vec,(y*2048)/(2*M_PI),(p*2048)/(2*M_PI));
+	FMATRIX_vector(AENG_cam_vec,(y*2048)/(2*PI),(p*2048)/(2*PI));
 
 	//
 	// Create the gamut
@@ -1699,7 +1699,7 @@ void AENG_set_camera_radians(
 		AENG_LENS,
 		splitscreen);
 
-	FMATRIX_vector(AENG_cam_vec,(y*2048)/(2*M_PI),(p*2048)/(2*M_PI));
+	FMATRIX_vector(AENG_cam_vec,(y*2048)/(2*PI),(p*2048)/(2*PI));
 
 
 	//
@@ -1725,9 +1725,9 @@ void AENG_set_camera(
 		std::int32_t p,
 		std::int32_t r)
 {
-	float radians_yaw   = float(y) * (2.0F * M_PI / 2048.0F);
-	float radians_pitch = float(p) * (2.0F * M_PI / 2048.0F);
-	float radians_roll  = float(r) * (2.0F * M_PI / 2048.0F);
+	float radians_yaw   = float(y) * (2.0F * PI / 2048.0F);
+	float radians_pitch = float(p) * (2.0F * PI / 2048.0F);
+	float radians_roll  = float(r) * (2.0F * PI / 2048.0F);
 
 	FC_cam[0].x=wx<<8;
 	FC_cam[0].y=wy<<8;
@@ -3123,7 +3123,7 @@ void AENG_draw_dirt()
 
 		for (i = 0; i < AENG_MAX_DIRT_UVLOOKUP; i++)
 		{
-			float angle = float(i) * (2.0F * M_PI / AENG_MAX_DIRT_UVLOOKUP);
+			float angle = float(i) * (2.0F * PI / AENG_MAX_DIRT_UVLOOKUP);
 
 			float cangle;
 			float sangle;
@@ -3303,8 +3303,8 @@ void AENG_draw_dirt()
 						// This is some rubbish...
 						//
 
-						fpitch = float(dd->pitch) * (M_PI / 1024.0F);
-						froll  = float(dd->roll)  * (M_PI / 1024.0F);
+						fpitch = float(dd->pitch) * (PI / 1024.0F);
+						froll  = float(dd->roll)  * (PI / 1024.0F);
 
 						//
 						// Copied from MATRIX_calc then fucked with...
@@ -3504,8 +3504,8 @@ void AENG_draw_dirt()
 							// The rotation matrix of this bit of dirt.
 							//
 
-							fpitch = float(dd->pitch) * (M_PI / 1024.0F);
-							froll  = float(dd->roll)  * (M_PI / 1024.0F);
+							fpitch = float(dd->pitch) * (PI / 1024.0F);
+							froll  = float(dd->roll)  * (PI / 1024.0F);
 
 							//
 							// Copied from MATRIX_calc then fucked with...
@@ -3865,8 +3865,8 @@ void AENG_draw_dirt()
 					// The rotation matrix of this bit of dirt.
 					//
 
-					fpitch = float(di.pitch) * (M_PI / 1024.0F);
-					froll  = float(di.roll)  * (M_PI / 1024.0F);
+					fpitch = float(di.pitch) * (PI / 1024.0F);
+					froll  = float(di.roll)  * (PI / 1024.0F);
 					fyaw   = float(i);
 
 					MATRIX_calc(matrix, fyaw, fpitch, froll);
@@ -4022,9 +4022,9 @@ void AENG_draw_dirt()
 						// The rotation matrix of this bit of dirt.
 						//
 
-						fyaw   = float(di.yaw)   * (M_PI / 1024.0F);
-						fpitch = float(di.pitch) * (M_PI / 1024.0F);
-						froll  = float(di.roll)  * (M_PI / 1024.0F);
+						fyaw   = float(di.yaw)   * (PI / 1024.0F);
+						fpitch = float(di.pitch) * (PI / 1024.0F);
+						froll  = float(di.roll)  * (PI / 1024.0F);
 
 						MATRIX_calc(matrix, fyaw, fpitch, froll);
 
@@ -4123,7 +4123,7 @@ void AENG_draw_dirt()
 							pp[j].u        =  LEAF_U(angle);
 							pp[j].v        =  LEAF_V(angle);
 
-							angle += 2.0F * M_PI / 3.0F;
+							angle += 2.0F * PI / 3.0F;
 						}
 
 						POLY_add_triangle(tri, LEAF_PAGE, false);
@@ -11023,7 +11023,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
 		z += darci->WorldPos.Z >> 8;
 
 		angle  = float(darci->Draw.Tweened->Angle);
-		angle *= 2.0F * M_PI / 2048.0F;
+		angle *= 2.0F * PI / 2048.0F;
 
 		float dyaw   = ((float)sin(float(GAME_TURN) * 0.025F))        * 0.25F;
 		float dpitch = ((float)cos(float(GAME_TURN) * 0.020F) - 0.5F) * 0.25F;
@@ -11031,7 +11031,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
 		float matrix[3];
 
 		dyaw += angle;
-		dyaw += M_PI;
+		dyaw += PI;
 
 		MATRIX_vector(
 			matrix,
@@ -13833,7 +13833,7 @@ void AENG_draw_scanner(
 
 	float screen_mid_x = float(screen_x1 + screen_x2 >> 1);
 	float screen_mid_y = float(screen_y1 + screen_y2 >> 1);
-	float angle        = float(map_angle) * (-2.0F * M_PI / 2048.0F);
+	float angle        = float(map_angle) * (-2.0F * PI / 2048.0F);
 	float zoom         = float(map_zoom)  * (1.0F / 65536.0F);
 	
 	float sin_yaw = sin(angle);
@@ -15231,9 +15231,9 @@ void AENG_draw_sewer_editor(
 		float(cam_x),
 		float(cam_y),
 		float(cam_z),
-		float(cam_yaw)   * 2.0F * M_PI / 2048.0F,
-		float(cam_pitch) * 2.0F * M_PI / 2048.0F,
-		float(cam_roll)  * 2.0F * M_PI / 2048.0F,
+		float(cam_yaw)   * 2.0F * PI / 2048.0F,
+		float(cam_pitch) * 2.0F * PI / 2048.0F,
+		float(cam_roll)  * 2.0F * PI / 2048.0F,
 		float(AENG_DRAW_DIST) * 256.0F,
 		AENG_LENS);
 
@@ -15245,9 +15245,9 @@ void AENG_draw_sewer_editor(
 		float(cam_x),
 		float(cam_y),
 		float(cam_z),
-		float(cam_yaw)   * 2.0F * M_PI / 2048.0F,
-		float(cam_pitch) * 2.0F * M_PI / 2048.0F,
-		float(cam_roll)  * 2.0F * M_PI / 2048.0F,
+		float(cam_yaw)   * 2.0F * PI / 2048.0F,
+		float(cam_pitch) * 2.0F * PI / 2048.0F,
+		float(cam_roll)  * 2.0F * PI / 2048.0F,
 		float(AENG_DRAW_DIST),
 		AENG_LENS);
 
@@ -15946,9 +15946,9 @@ void AENG_draw(std::int32_t draw_3d)
 				fc->x >> 8,
 				fc->y >> 8,
 				fc->z >> 8,
-				float(fc->yaw)   * (2.0F * M_PI / (2048.0F * 256.0F)),
-				float(fc->pitch) * (2.0F * M_PI / (2048.0F * 256.0F)),
-				float(fc->roll)  * (2.0F * M_PI / (2048.0F * 256.0F)),
+				float(fc->yaw)   * (2.0F * PI / (2048.0F * 256.0F)),
+				float(fc->pitch) * (2.0F * PI / (2048.0F * 256.0F)),
+				float(fc->roll)  * (2.0F * PI / (2048.0F * 256.0F)),
 				(i == 0) ? POLY_SPLITSCREEN_TOP : POLY_SPLITSCREEN_BOTTOM);
 
 			AENG_cur_fc_cam = i;
@@ -16049,9 +16049,9 @@ extern void store_thing_data();
 			fc->x >> 8,
 			fc->y >> 8,
 			fc->z >> 8,
-			float(fc->yaw  ) * (2.0F * M_PI / (2048.0F * 256.0F)),
-			float(fc->pitch) * (2.0F * M_PI / (2048.0F * 256.0F)),
-			float(fc->roll ) * (2.0F * M_PI / (2048.0F * 256.0F)),
+			float(fc->yaw  ) * (2.0F * PI / (2048.0F * 256.0F)),
+			float(fc->pitch) * (2.0F * PI / (2048.0F * 256.0F)),
+			float(fc->roll ) * (2.0F * PI / (2048.0F * 256.0F)),
 			POLY_SPLITSCREEN_NONE);
 
 		AENG_cur_fc_cam = 0;

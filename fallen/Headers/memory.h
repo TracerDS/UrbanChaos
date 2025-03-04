@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	MEMORY_H
+#define	MEMORY_H
 
 #include	"supermap.h"
 #include	"inside2.h"
@@ -98,4 +99,5 @@ std::int32_t MEMORY_quick_load          ();
 
 
 
+#endif
 

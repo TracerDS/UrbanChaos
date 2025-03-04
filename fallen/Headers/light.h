@@ -1,4 +1,5 @@
-#pragma once
+#ifndef		LIGHTG_H
+#define		LIGHTG_H
 
 //
 // Do we want coloured lights?
@@ -282,6 +283,7 @@ inline void LIGHT_get_d3d_colour(LIGHT_Colour col, std::uint32_t *colour, std::u
 #endif
 
 
+#endif
 
 
 

@@ -14,7 +14,8 @@
 */
 
 
-#pragma once
+#ifndef __midasdll_h
+#define __midasdll_h
 
 
 /* This is a kluge, but necessary as Watcom C sucks: */
@@ -378,6 +379,7 @@ _FUNC(bool)     MIDASremovePostProcessor(MIDASpostProcessor *postProc);
 
 
 
+#endif
 
 
 /*

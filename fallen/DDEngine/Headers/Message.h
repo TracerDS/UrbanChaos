@@ -3,7 +3,8 @@
 //
 
 
-#pragma once
+#ifndef _MSG_
+#define _MSG_
 
 
 
@@ -33,3 +34,4 @@ void MSG_draw();
 
 
 
+#endif

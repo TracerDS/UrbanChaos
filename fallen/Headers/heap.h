@@ -3,7 +3,8 @@
 // given largish blocks of memory out...
 //
 
-#pragma once
+#ifndef HEAP_H
+#define HEAP_H
 
 //
 // Initialises the heap.
@@ -27,3 +28,4 @@ extern std::uint8_t HEAP_pad[HEAP_PAD_SIZE];
 
 
 
+#endif

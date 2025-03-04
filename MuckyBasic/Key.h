@@ -2,7 +2,8 @@
 // Keyboard handling.
 //
 
-#pragma once
+#ifndef _KEY_
+#define _KEY_
 
 
 //
@@ -129,3 +130,4 @@ extern volatile std::int32_t KEY_shift;
 #define KEY_P0			0x052
 
 
+#endif

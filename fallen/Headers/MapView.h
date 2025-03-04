@@ -1,7 +1,8 @@
 //	MapView.h
 //	Guy Simmons, 12th August 1998.
 
-#pragma once
+#ifndef	MAPVIEW_H
+#define	MAPVIEW_H
 
 #include	"Mission.h"
 
@@ -57,3 +58,4 @@ std::int32_t OpenProperties(EventPoint *ep);
 void CleanProperties(EventPoint *ep);
 
 
+#endif

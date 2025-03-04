@@ -1,7 +1,8 @@
 // MFHeader.h
 // Guy Simmons, 1st Februry 1997.
 
-#pragma once
+#ifndef	MFHEADER_H
+#define	MFHEADER_H
 
 // Standard 'C' includes.
 #ifndef TARGET_DC
@@ -77,3 +78,4 @@
 #include	<Palette.h>
 #include	<Sprites.h>
 
+#endif

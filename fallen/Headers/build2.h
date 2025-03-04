@@ -2,7 +2,8 @@
 // The other building file!  A simpler map...
 //
 
-#pragma once
+#ifndef _BUILD2_
+#define _BUILD2_
 
 
 //
@@ -27,3 +28,4 @@ void remove_walkable_from_map(std::int32_t face);
 void add_facet_to_map(std::int32_t dfacet);
 
 
+#endif

@@ -3,7 +3,8 @@
 // walkable faces of the prim.
 //
 
-#pragma once
+#ifndef _PLAT_
+#define _PLAT_
 
 //
 // The platforms linked from the things.
@@ -77,3 +78,4 @@ std::uint16_t PLAT_create(
 
 
 
+#endif

@@ -7,11 +7,15 @@
 #include "font.h"
 #include "os.h"
 
+
+
+
+
 //
 // The credits for each section.
 // 
 
-const char* CREDITS_muckyfoot[] =
+char* CREDITS_muckyfoot[] =
 {
 	"Mucky Foot are Ashley Hampton, Barry Meade, Chris Knott, Eddie",
 	"Edwards, Fin McGechie, Gary Carr, Guy Simmons, James 'Dudley'",
@@ -129,7 +133,7 @@ const char* CREDITS_muckyfoot[] =
 	"!"
 };
 
-const char* CREDITS_eidos_uk[] =
+char* CREDITS_eidos_uk[] =
 {
 	"~BSenior Producer",
 	"\tDarren Hedges",
@@ -191,7 +195,9 @@ const char* CREDITS_eidos_uk[] =
 	"!"
 };
 
-const char* CREDITS_eidos_usa[] =
+
+
+char* CREDITS_eidos_usa[] =
 {
 	"~BAssociate Producer",
 	"\tEric Adams",
@@ -222,7 +228,7 @@ const char* CREDITS_eidos_usa[] =
 	"!"
 };
 
-const char* CREDITS_eidos_france[] =
+char* CREDITS_eidos_france[] =
 {
 	"~BChef de produit",
 	"\tOlivier Salomon",
@@ -275,7 +281,7 @@ const char* CREDITS_eidos_france[] =
 
 */
 
-const char* CREDITS_eidos_germany[] =
+char* CREDITS_eidos_germany[] =
 {
 	"~BLeiter Produktentwicklung",
 	"\tBeco Mulderij",
@@ -315,7 +321,11 @@ const char* CREDITS_eidos_germany[] =
 
 };
 
-const char* CREDITS_voice_production[] =
+
+
+
+
+char* CREDITS_voice_production[] =
 {
 	"~BCasting",
 	"\tPhil Morris at AllintheGame",
@@ -349,7 +359,9 @@ const char* CREDITS_voice_production[] =
 	"!"
 };
 
-const char* CREDITS_bands[] =
+
+
+char* CREDITS_bands[] =
 {
 	"Way Out West - Urban Chaos",
 	"The 3 Jays - Feeling it too",
@@ -369,11 +381,12 @@ const char* CREDITS_bands[] =
 // The credits grouped into sections.
 //
 
-struct CREDITS_Section
+typedef struct
 {
-	const char* title;
-	const char** line;
-};
+	char  *title;
+	char* *line;
+
+} CREDITS_Section;
 
 #define CREDITS_NUM_SECTIONS 7
 
@@ -415,6 +428,8 @@ CREDITS_Section CREDITS_section[CREDITS_NUM_SECTIONS] =
 	}
 };
 
+
+
 //
 // The current section and y-offset.
 //
@@ -426,6 +441,9 @@ float CREDITS_current_end_y;
 std::int32_t CREDITS_last;
 std::int32_t CREDITS_now;
 
+
+
+
 void CREDITS_init()
 {
 	CREDITS_current_section = 0;
@@ -434,6 +452,10 @@ void CREDITS_init()
 	CREDITS_last            = 0;
 }
 
+
+
+
+
 void CREDITS_draw()
 {
 	std::int32_t i;
@@ -441,7 +463,7 @@ void CREDITS_draw()
 	std::int32_t flag;
 	float x;
 	float y;
-	float shimmer{ 0 };
+	float shimmer;
 	float scale;
 
 	CREDITS_Section *cs;
@@ -556,7 +578,7 @@ void CREDITS_draw()
 
 		if (cs->line[i])
 		{
-			const char* text = cs->line[i];
+			char* text = cs->line[i];
 
 			//
 			// What style do we draw the text?

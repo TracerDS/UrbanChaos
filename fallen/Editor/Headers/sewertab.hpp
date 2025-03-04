@@ -1,7 +1,8 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#pragma once
+#ifndef	_SewerTab_HPP_
+#define	_SewerTab_HPP_
 
 #include	"ModeTab.hpp"
 #include	"Stealth.h"
@@ -139,4 +140,5 @@ class	SewerTab	:	public	ModeTab
 
 
 
+#endif
 

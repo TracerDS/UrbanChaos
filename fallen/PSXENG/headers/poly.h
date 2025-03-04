@@ -2,7 +2,8 @@
 // Drawing polygons with D3D
 //
 
-#pragma once
+#ifndef _POLY_H
+#define _POLY_H
 
 #define _POLY_
 
@@ -313,3 +314,4 @@ extern std::int32_t POLY_cam_off_x;
 extern std::int32_t POLY_cam_off_y;
 extern std::int32_t POLY_cam_off_z;
 
+#endif

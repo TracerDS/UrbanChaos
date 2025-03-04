@@ -2,7 +2,8 @@
 // Facet drawing functions.
 //
 
-#pragma once
+#ifndef _FACET_
+#define _FACET_
 
 
 
@@ -51,3 +52,4 @@ void FACET_draw_ns_ladder(
 
 
 
+#endif

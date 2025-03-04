@@ -1,7 +1,8 @@
 //	Text.h
 //	Guy Simmons, 17th May 1998.
 
-#pragma once
+#ifndef	TEXT_H
+#define	TEXT_H
 
 //---------------------------------------------------------------
 extern bool text_fudge;
@@ -16,4 +17,5 @@ void	show_text();
 
 //---------------------------------------------------------------
 
+#endif
 

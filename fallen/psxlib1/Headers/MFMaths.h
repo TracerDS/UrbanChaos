@@ -1,7 +1,8 @@
 // MFMaths.h
 // Guy Simmons, 16th February 1997.
 
-#pragma once
+#ifndef	MF_MATHS_H
+#define	MF_MATHS_H
 
 
 #define	SIN(a)				SinTable[a]
@@ -71,3 +72,4 @@ static inline std::int32_t		Hypotenuse(std::int32_t x,std::int32_t y)
 
 //---------------------------------------------------------------
 
+#endif

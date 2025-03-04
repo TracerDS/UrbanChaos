@@ -3,7 +3,8 @@
 //
 
 
-#pragma once
+#ifndef _MAP_
+#define _MAP_
 
 
 
@@ -47,4 +48,5 @@ void MAP_draw_onscreen_beacons();
 
 
 
+#endif
 

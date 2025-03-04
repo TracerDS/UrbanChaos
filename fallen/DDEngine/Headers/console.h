@@ -7,7 +7,8 @@
  */
 
 
-#pragma once
+#ifndef _CONSOLE_
+#define _CONSOLE_
 
 #include "MFStdLib.h"
 
@@ -29,3 +30,4 @@ void CONSOLE_text_at(
 		std::int32_t  delay,
 		char* fmt, ...);
 
+#endif

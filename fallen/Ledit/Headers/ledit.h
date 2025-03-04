@@ -2,7 +2,8 @@
 // The lighting editor.
 //
 
-#pragma once
+#ifndef _LEDIT_
+#define _LEDIT_
 
 
 
@@ -14,3 +15,4 @@ void LEDIT_do();
 
 
 
+#endif

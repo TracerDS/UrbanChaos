@@ -1,7 +1,8 @@
 // EditorLib.h
 // Guy Simmons, 10th December 1997.
 
-#pragma once
+#ifndef	EDITOR_LIB_H
+#define	EDITOR_LIB_H
 
 #include	<MFStdLib.h>
 #include	"..\ddlibrary\headers\DDLib.h"
@@ -101,4 +102,5 @@ void	SetupBSprites(BSprite *sprite_ref,std::uint8_t *sprite_data);
 
 //---------------------------------------------------------------
 
+#endif
 

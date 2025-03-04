@@ -1,7 +1,8 @@
 // Editor.h
 // Guy Simmons, 18th October 1997.
 
-#pragma once
+#ifndef	EDITOR_H
+#define	EDITOR_H
 
 //---------------------------------------------------------------
 
@@ -9,4 +10,5 @@ std::uint8_t	editor();
 
 //---------------------------------------------------------------
 
+#endif
 

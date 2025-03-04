@@ -5,7 +5,8 @@
 // translates strings to furrigan languages and remap buttons for the user's settings
 //
 
-#pragma once
+#ifndef _XLAT_STR_H_
+#define _XLAT_STR_H_
 
 #include "MFStdLib.h"
 
@@ -266,3 +267,4 @@ char* XLAT_str_ptr(std::int32_t string_id);
 void XLAT_load(char* fn);
 void XLAT_init();
 
+#endif

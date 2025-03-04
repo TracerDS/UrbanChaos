@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	SAMPLE_H
+#define	SAMPLE_H	1
 
 #define	SAMPLE_FLESH_HIT1	2
 #define	SAMPLE_FLESH_HIT2	3
@@ -22,3 +23,4 @@
 
 
 
+#endif

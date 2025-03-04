@@ -1,7 +1,8 @@
 // ObjectEd.hpp
 // Guy Simmons, 26th February 1997.
 
-#pragma once
+#ifndef	_OBJECTED_HPP_
+#define	_OBJECTED_HPP_
 
 #include	"EditMod.hpp"
 #include	"TexTab.hpp"
@@ -31,4 +32,5 @@ struct	ObjectEdDefaults
 				Width;
 };
 
+#endif
 

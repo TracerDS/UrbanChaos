@@ -1,7 +1,8 @@
 // ThingTab.h
 // Guy Simmons, 15th January 1998.
 
-#pragma once
+#ifndef	THINGTAB_H
+#define	THINGTAB_H
 
 
 #define	THING_MODE_NONE				0
@@ -58,3 +59,4 @@ class	ThingTab	:	public	ModeTab
 
 //---------------------------------------------------------------
 
+#endif

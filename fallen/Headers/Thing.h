@@ -1,7 +1,8 @@
 // Thing.h
 // Guy Simmons, 15th October 1997.
 
-#pragma once
+#ifndef	THING_H
+#define	THING_H
 #include	"../Headers/Game.h"
 #include	"../Headers/drawtype.h"
 #include	"../Headers/vehicle.h"
@@ -221,6 +222,7 @@ std::int32_t THING_find_nearest(
 
 //---------------------------------------------------------------
 
+#endif
 
 
 

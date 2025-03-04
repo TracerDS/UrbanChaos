@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	PRIM_DRAW_H
+#define	PRIM_DRAW_H	1
 
 //**********
 //*  DATA  *
@@ -20,3 +21,4 @@ extern void 	matrix_mult33(struct Matrix33* result,struct Matrix33* mat1,struct 
 extern void 	rotate_obj(std::int16_t xangle,std::int16_t yangle,std::int16_t zangle, Matrix33 *r3);
 
 
+#endif

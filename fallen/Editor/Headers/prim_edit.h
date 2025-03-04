@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	PRIM_EDIT_H
+#define	PRIM_EDIT_H	1
 
 extern void	calc_prims_screen_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
 extern void	calc_prims_world_box(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,EdRect *rect);
@@ -31,3 +32,4 @@ std::int32_t save_prim_object(std::int32_t prim);
 void save_all_individual_prims();
 
 
+#endif

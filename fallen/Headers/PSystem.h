@@ -5,7 +5,8 @@
 // smoke, dust, mud, sparks, blood...
 //
 
-#pragma once
+#ifndef _PSYSTEM_H_
+#define _PSYSTEM_H_
 
 #ifndef PSX
 #define PSYSTEM_MAX_PARTICLES	2048
@@ -83,4 +84,5 @@ std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_
 std::uint16_t PARTICLE_Steam(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t axis, std::int32_t vel, std::int32_t range, std::uint8_t time);
 std::uint16_t PARTICLE_SGrenade(Thing *object, std::uint8_t time);
 
+#endif
 

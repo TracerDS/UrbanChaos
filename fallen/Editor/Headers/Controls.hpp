@@ -1,7 +1,8 @@
 // Controls.hpp
 // Guy Simmons, 18th February 1997
 
-#pragma once
+#ifndef	_CONTROLS_HPP_
+#define	_CONTROLS_HPP_
 
 #include	"Primativ.hpp"
 
@@ -279,3 +280,4 @@ class	CVSlider	:	public	Control
 		inline std::uint8_t	GetBottomButtonFlags()			{	return BottomButtonFlags;			}
 };
 
+#endif

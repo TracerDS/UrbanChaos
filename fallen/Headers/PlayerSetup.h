@@ -1,7 +1,8 @@
 //	PlayerSetup.h
 //	Guy Simmons, 23rd August 1998.
 
-#pragma once
+#ifndef	PLAYERSETUP_H
+#define	PLAYERSETUP_H
 
 #include	"Mission.h"
 
@@ -13,3 +14,4 @@ char* get_player_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
+#endif

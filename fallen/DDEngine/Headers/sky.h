@@ -2,7 +2,8 @@
 // Sky.
 //
 
-#pragma once
+#ifndef SKY_H
+#define SKY_H
 
 
 //
@@ -84,3 +85,4 @@ void SKY_draw_poly_sky(
 		std::uint32_t top_colour);
 
 
+#endif

@@ -2,7 +2,8 @@
 // Memory allocation for the virtual machine.
 //
 
-#pragma once
+#ifndef _MEM_
+#define _MEM_
 
 
 //
@@ -36,3 +37,4 @@ std::int32_t MEM_total_bytes_allocated();
 
 
 
+#endif

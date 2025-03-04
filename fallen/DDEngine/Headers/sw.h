@@ -2,7 +2,8 @@
 // Sofware renderer hacked in!
 //
 
-#pragma once
+#ifndef _SW_
+#define _SW_
 
 
 //
@@ -80,3 +81,4 @@ void SW_copy_to_bb();
 
 
 
+#endif

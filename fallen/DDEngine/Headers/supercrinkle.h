@@ -2,7 +2,8 @@
 // SUPERCRINKLES!
 //
 
-#pragma once
+#ifndef _SUPERCRINKLE_
+#define _SUPERCRINKLE_
 
 
 // Set to 0 to remove all crinkle stuff.
@@ -53,3 +54,4 @@ inline std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4]
 #endif //#else //#if SUPERCRINKLES_ENABLED
 
 
+#endif

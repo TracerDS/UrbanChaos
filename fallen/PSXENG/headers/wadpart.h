@@ -4,7 +4,8 @@
 // the frontend.
 //
 
-#pragma once
+#ifndef _WADPART_H
+#define _WADPART_H
 
 #define WADPART_MAXPARTICLES	96
 
@@ -74,3 +75,4 @@ extern void Wadpart_AddBoardParticle(std::int32_t image,std::int32_t x,std::int3
 extern void Wadpart_AddRectParticle(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::int32_t colour,std::int32_t flags);
 
 
+#endif

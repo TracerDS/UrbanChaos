@@ -8,7 +8,8 @@
 //
 // the coordinates are stored as (x/z,y/z,1-1/z,1/z)
 
-#pragma once
+#ifndef _POLYPOINT_
+#define _POLYPOINT_
 
 // we copy U,V using int copies; this is because u,v are uninitialized in
 // a lot of cases.  we can only hope that the driver doesn't read U,V into
@@ -108,3 +109,4 @@ inline std::uint32_t PolyPoint2D::ModulateD3DColours(std::uint32_t c1, std::uint
 	return res;
 }
 
+#endif

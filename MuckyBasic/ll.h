@@ -3,7 +3,8 @@
 // the virtual machine.
 //
 
-#pragma once
+#ifndef _LL_
+#define _LL_
 
 #include "os.h"
 
@@ -216,3 +217,4 @@ void LL_flip();
 
 
 
+#endif

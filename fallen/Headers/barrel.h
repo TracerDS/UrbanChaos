@@ -2,7 +2,8 @@
 // Crappy barrels with kludged physics
 //
 
-#pragma once
+#ifndef _BARREL_
+#define _BARREL_
 
 //
 // needed by memory.h
@@ -120,3 +121,4 @@ void BARREL_throw            (Thing *p_barrel);
 
 
 
+#endif

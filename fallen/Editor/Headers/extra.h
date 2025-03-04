@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _EXTRA_
+#define _EXTRA_
 
 //
 // Extra stuff like puddles and mist.
@@ -40,3 +41,4 @@ void EXTRA_create_or_delete(std::int32_t type, std::int32_t x, std::int32_t z);
 
 
 
+#endif

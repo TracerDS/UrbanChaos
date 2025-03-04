@@ -2,7 +2,8 @@
 // A lexical analyser
 //
 
-#pragma once
+#ifndef _LEX_
+#define _LEX_
 
 
 #define	LEX_TOKEN_TYPE_EQUALS	   0
@@ -157,3 +158,4 @@ void LEX_next_line();
 
 
 
+#endif

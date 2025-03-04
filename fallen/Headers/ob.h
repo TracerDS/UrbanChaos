@@ -2,7 +2,8 @@
 // Objects (prims) on the map.
 //
 
-#pragma once
+#ifndef _OB_
+#define _OB_
 
 #include "pap.h"
 
@@ -217,3 +218,4 @@ std::int32_t OB_find_min_y(std::int32_t prim);
 OB_Info *OB_find_index(std::int32_t  mid_x,std::int32_t  mid_y,std::int32_t  mid_z,std::int32_t  max_range, std::int32_t must_be_searchable);
 //std::int32_t OB_find_index(std::int32_t  mid_x,std::int32_t  mid_y,std::int32_t  mid_z,std::int32_t  max_range);
 
+#endif

@@ -2,7 +2,8 @@
 // Water.
 //
 
-#pragma once
+#ifndef WATER_H
+#define WATER_H
 
 
 
@@ -69,3 +70,4 @@ void WATER_get_point_pos(std::uint16_t p_index, float *x, float *y, float *z);
 void WATER_get_point_uvs(std::uint16_t p_index, float *u, float *v, std::uint32_t *colour);
 
 
+#endif

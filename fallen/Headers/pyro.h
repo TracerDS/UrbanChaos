@@ -3,7 +3,8 @@
 // Burning (and maybe Exploding) Things
 //
 
-#pragma once
+#ifndef PYRO_H
+#define PYRO_H
 
 #ifdef PSX
 #define MAX_PYROS	32 //64
@@ -144,3 +145,4 @@ Pyro *PYRO_get_pyro (Thing *pyro_thing);
 void PYRO_blast_radius(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, std::int32_t strength);
 
 
+#endif

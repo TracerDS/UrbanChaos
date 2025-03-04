@@ -5,7 +5,8 @@
 //           sort of thing.
 //
 
-#pragma once
+#ifndef CANID_H
+#define CANID_H
 
 extern StateFunction CANID_state_function[];
 
@@ -13,3 +14,4 @@ void CANID_init  (Thing *canid);
 void CANID_normal(Thing *canid);
 void CANID_register();
 
+#endif

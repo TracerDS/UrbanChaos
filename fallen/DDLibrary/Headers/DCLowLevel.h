@@ -2,7 +2,8 @@
 // Dreamcast low-level functions, ripped from the example docs.
 //
 
-#pragma once
+#ifndef _DCLL_
+#define _DCLL_
 
 
 
@@ -140,3 +141,4 @@ static void DumpTracies ( void ){}
 #endif
 
 
+#endif

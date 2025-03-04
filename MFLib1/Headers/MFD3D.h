@@ -1,7 +1,8 @@
 // MFD3D.h
 // Guy Simmons, 13th May 1997.
 
-#pragma once
+#ifndef	MFD3D_H
+#define	MFD3D_H
 
 #define	D3D_HARDWARE		(1<<0)
 #define	D3D_GOURAUD			(1<<1)
@@ -22,3 +23,4 @@ bool ChooseD3DDevice(std::uint32_t flags);
 
 
 
+#endif

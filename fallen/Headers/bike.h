@@ -2,7 +2,8 @@
 // Motobikes.
 //
 
-#pragma once
+#ifndef _BIKE_
+#define _BIKE_
 
 #ifdef BIKE
 
@@ -188,3 +189,4 @@ BIKE_Drawinfo BIKE_get_drawinfo(Thing *p_bike);
 
 #endif
 
+#endif

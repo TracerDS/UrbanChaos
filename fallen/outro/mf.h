@@ -2,7 +2,8 @@
 // Functions that act on the imported meshes
 //
 
-#pragma once
+#ifndef _MF_
+#define _MF_
 
 
 #include "imp.h"
@@ -174,3 +175,4 @@ void MF_add_triangles_texture_after_bumpmap(IMP_Mesh *im);
 
 
 
+#endif

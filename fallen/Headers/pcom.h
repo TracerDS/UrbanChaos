@@ -2,7 +2,8 @@
 // Person commands and high-level AI
 //
 
-#pragma once
+#ifndef _PCOM_
+#define _PCOM_
 
 
 //
@@ -385,3 +386,4 @@ std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person);
 
 std::int32_t PCOM_call_cop_to_arrest_me(Thing *p_person,std::int32_t store_it);
 
+#endif

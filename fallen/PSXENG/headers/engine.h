@@ -2,7 +2,8 @@
 // Another engine.
 //
 
-#pragma once
+#ifndef _AENG_H
+#define _AENG_H
 
 #define		KERB_HEIGHTI	32
 
@@ -23,3 +24,4 @@
 extern std::int32_t AENG_cam_vec[3];
 
 
+#endif

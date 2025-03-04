@@ -1,7 +1,8 @@
 // Utils.h
 // Guy Simmons, 7th October 1996.
 
-#pragma once
+#ifndef _MF_UTILS_H_
+#define _MF_UTILS_H_
 
 #ifdef	__WATCOMC__
 #define	abs(a)				(((a)<0) ? -(a) : (a))
@@ -19,3 +20,4 @@
 #endif
 
 
+#endif

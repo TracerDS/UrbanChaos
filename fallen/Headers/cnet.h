@@ -2,7 +2,8 @@
 // For doing network game stuff...
 //
 
-#pragma once
+#ifndef CNET_H
+#define CNET_H
 
 
 //
@@ -20,3 +21,4 @@ std::int32_t CNET_configure();
 
 
 
+#endif

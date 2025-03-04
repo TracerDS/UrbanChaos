@@ -6,7 +6,8 @@
 ** Copyright: 1999 Mucky Foot Productions Ltd
 */
 
-#pragma once
+#ifndef _PANEL_H
+#define _PANEL_H
 
 #include "MFStdLib.h"
 #include "psxeng.h"
@@ -41,3 +42,4 @@ void PANEL_draw_local_health(std::int32_t mx,std::int32_t my,std::int32_t mz,std
 #define PANEL_SIGN_FLIP_LEFT_AND_RIGHT (1 << 0)
 #define PANEL_SIGN_FLIP_TOP_AND_BOTTOM (1 << 1)
 
+#endif

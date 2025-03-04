@@ -3,7 +3,8 @@
 // file format.
 //
 
-#pragma once
+#ifndef _ML_
+#define _ML_
 
 #include "ll.h"
 
@@ -239,3 +240,4 @@ typedef struct
 
 
 
+#endif

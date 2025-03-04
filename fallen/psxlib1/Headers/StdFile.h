@@ -1,7 +1,8 @@
 // StdFile.h
 // Guy Simmons, 18th December 1997.
 
-#pragma once
+#ifndef	STD_FILE_H
+#define	STD_FILE_H
 
 //---------------------------------------------------------------
 
@@ -34,3 +35,4 @@ std::int32_t FileLoadAt(char* file_name,void* buffer);
 
 //---------------------------------------------------------------
 
+#endif

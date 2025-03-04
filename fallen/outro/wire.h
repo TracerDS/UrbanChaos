@@ -2,7 +2,8 @@
 // The wire-frame spinny objects
 //
 
-#pragma once
+#ifndef _WIRE_
+#define _WIRE_
 
 
 //
@@ -20,3 +21,4 @@ void WIRE_draw();
 
 
 
+#endif

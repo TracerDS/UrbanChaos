@@ -2,7 +2,8 @@
 // An engine for the qmap.
 //
 
-#pragma once
+#ifndef _QENG_
+#define _QENG_
 
 
 #include "..\headers\qmap.h"
@@ -83,3 +84,4 @@ void QENG_flip();
 void QENG_fini();
 
 
+#endif

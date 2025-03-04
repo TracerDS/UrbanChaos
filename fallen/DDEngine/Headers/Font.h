@@ -2,7 +2,8 @@
 // Cheapo font stuff...
 //
 
-#pragma once
+#ifndef _FONT_
+#define _FONT_
 
 
 //
@@ -97,3 +98,4 @@ void FONT_draw_speech_bubble_text(
 
 
 
+#endif

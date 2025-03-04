@@ -2,7 +2,8 @@
 // Furniture on the streets and inside houses.
 //
 
-#pragma once
+#ifndef FURN_H
+#define FURN_H
 
 
 #define	FLAG_FURN_DRIVING	  (1<<0)
@@ -162,3 +163,4 @@ void FURN_push(
 void FURN_add_walkable();
 
 
+#endif

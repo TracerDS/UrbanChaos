@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	WALLHUG_H
+#define WALLHUG_H
 
 /*****************************************************************************
 
@@ -103,3 +104,4 @@ extern std::uint8_t wallhug_last_dirn;
 extern std::uint32_t wallhug_last_hug_count;
 extern bool wallhug_looking_for_last;
 
+#endif

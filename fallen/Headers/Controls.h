@@ -1,7 +1,8 @@
 // Controls.h
 // Guy Simmons, 4th November 1997.
 
-#pragma once
+#ifndef	CONTROLS_H
+#define	CONTROLS_H
 
 //---------------------------------------------------------------
 
@@ -9,3 +10,4 @@ void process_controls();
 
 //---------------------------------------------------------------
 
+#endif

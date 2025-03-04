@@ -1,7 +1,8 @@
 // State.h
 // Guy Simmons, 4th January 1998.
 
-#pragma once
+#ifndef	STATE_H
+#define	STATE_H
 
 struct Thing;
 //---------------------------------------------------------------
@@ -28,3 +29,4 @@ extern void	set_generic_person_just_function(Thing *t_thing,std::uint8_t state);
 
 //---------------------------------------------------------------
 
+#endif

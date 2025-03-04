@@ -1,7 +1,8 @@
 // KFrameEd.hpp
 // Guy Simmons, 12th March 1997.
 
-#pragma once
+#ifndef	_KFRAMEED_HPP_
+#define	_KFRAMEED_HPP_
 
 #include	"EditMod.hpp"
 #include	"Anim.h"
@@ -130,4 +131,5 @@ class	KeyFrameEditor	:	public	EditorModule
 };
 
 
+#endif
 

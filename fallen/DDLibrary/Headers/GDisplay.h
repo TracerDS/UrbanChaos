@@ -1,7 +1,8 @@
 // Display.h
 // Guy Simmons, 13th November 1997.
 
-#pragma once
+#ifndef	DISPLAY_H
+#define	DISPLAY_H
 
 #include	"DDManager.h"
 #include	"D3DTexture.h"
@@ -402,4 +403,5 @@ extern volatile HWND	hDDLibWindow;
 
 //---------------------------------------------------------------
 
+#endif
 

@@ -1,7 +1,8 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#pragma once
+#ifndef	_FILEREQ_HPP_
+#define	_FILEREQ_HPP_
 
 #include	"ModeTab.hpp"
 
@@ -23,4 +24,5 @@ class	FileRequester : public	EdRect
 
 };
 
+#endif
 

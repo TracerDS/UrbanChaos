@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	STATE_DEF		
+#define	STATE_DEF	1
 // #define	STATE_LOCAL					5
 // Thing states.						
 #define	STATE_INIT						0
@@ -228,3 +229,4 @@
 #define	SUB_STATE_DROP_CARRY_V			114
 #define	SUB_STATE_STAND_CARRY_V			115
 #define	SUB_STATE_CARRY_MOVE_V			116
+#endif

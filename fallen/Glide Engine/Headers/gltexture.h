@@ -2,7 +2,8 @@
 // Texture handling is wierd!
 //
 
-#pragma once
+#ifndef TEXTURE_H
+#define TEXTURE_H
 
 
 //
@@ -97,3 +98,4 @@ std::int32_t TEXTURE_get_fiddled_position(
 		float *v);
 
 
+#endif

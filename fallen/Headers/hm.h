@@ -2,7 +2,8 @@
 // Hypermatter!
 //
 
-#pragma once
+#ifndef HM_H
+#define HM_H
 
 
 
@@ -201,3 +202,4 @@ void HM_draw();
 
 
 
+#endif

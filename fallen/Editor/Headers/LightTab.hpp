@@ -1,7 +1,8 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#pragma once
+#ifndef	_LIGHTTAB_HPP_
+#define	_LIGHTTAB_HPP_
 
 #include	"ModeTab.hpp"
 #include	"Stealth.h"
@@ -58,4 +59,5 @@ class	LightTab	:	public	ModeTab
 extern void	add_a_background_thing(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
 extern void	apply_light_to_map(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t bright);
 
+#endif
 

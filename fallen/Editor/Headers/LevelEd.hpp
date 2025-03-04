@@ -1,7 +1,8 @@
 // LevelEdit.cpp
 // Guy Simmons, 19th February 1997.
 
-#pragma once
+#ifndef	_LEVELED_HPP_
+#define	_LEVELED_HPP_
 
 #include	"Edit.h"
 #include	"EditMod.hpp"
@@ -93,3 +94,4 @@ struct	LevelEdDefaults
 				Width;
 };
 
+#endif

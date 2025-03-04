@@ -6,7 +6,8 @@
 // requires either Aureal 3D sound card + drivers, OR normal sound card with A2D installed
 
 
-#pragma once
+#ifndef _A3D_MANAGER_H_
+#define _A3D_MANAGER_H_
 
 
 
@@ -240,3 +241,4 @@ public:
 
 
 
+#endif

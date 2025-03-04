@@ -1,7 +1,8 @@
 //	CameraSetup.h
 //	Matthew Rosenfeld, 1st October 1998.
 
-#pragma once
+#ifndef	_CAMTARGETSETUP_H_
+#define	_CAMTARGETSETUP_H_
 
 #include	"Mission.h"
 
@@ -13,3 +14,4 @@ char	*get_camtarget_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
+#endif

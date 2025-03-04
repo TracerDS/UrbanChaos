@@ -1,7 +1,8 @@
 // Thing.h
 // Guy Simmons, 15th October 1997.
 
-#pragma once
+#ifndef	ETHING_H
+#define	ETHING_H
 
 #include	"anim.h"
 #include	"DarkCity.h"
@@ -132,3 +133,4 @@ void		free_secondary_thing(THING_INDEX thing);
 */
 //---------------------------------------------------------------
 
+#endif

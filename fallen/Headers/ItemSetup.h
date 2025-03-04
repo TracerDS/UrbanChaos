@@ -1,7 +1,8 @@
 //	ItemSetup.h
 //	Guy Simmons, 24th August 1998.
 
-#pragma once
+#ifndef	ITEMSETUP_H
+#define	ITEMSETUP_H
 
 //---------------------------------------------------------------
 
@@ -11,3 +12,4 @@ char	*get_item_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
+#endif

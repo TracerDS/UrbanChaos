@@ -1,7 +1,8 @@
 // DDLib.h
 // Guy Simmons, 20th November 1997
 
-#pragma once
+#ifndef	DDLIB_H
+#define	DDLIB_H
 
 #include	<MFStdLib.h>
 
@@ -102,4 +103,5 @@ inline std::int32_t check_result(HRESULT f, std::int32_t line, char* file)
 
 #endif	// else use Micro$oft macros
 
+#endif
 

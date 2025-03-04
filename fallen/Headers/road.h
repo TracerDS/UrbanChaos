@@ -2,7 +2,8 @@
 // Road stuff...
 //
 
-#pragma once
+#ifndef _ROAD_
+#define _ROAD_
 
 
 
@@ -185,3 +186,4 @@ std::int32_t ROAD_signed_dist(
 void ROAD_debug();
 
 
+#endif

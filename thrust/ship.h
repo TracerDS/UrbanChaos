@@ -2,7 +2,8 @@
 // A thrust ship.
 //
 
-#pragma once
+#ifndef _SHIP_
+#define _SHIP_
 
 
 //
@@ -104,3 +105,4 @@ void SHIP_draw_all(float mid_x, float mid_y, float zoom);
 
 
 
+#endif

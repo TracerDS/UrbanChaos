@@ -2,7 +2,8 @@
 // The orbs
 //
 
-#pragma once
+#ifndef _ORB_
+#define _ORB_
 
 
 
@@ -66,4 +67,5 @@ void ORB_draw_all(float mid_x, float mid_y, float zoom);
 
 
 
+#endif
 

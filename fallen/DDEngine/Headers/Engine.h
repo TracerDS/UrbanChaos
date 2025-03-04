@@ -1,7 +1,8 @@
 // Engine.h
 // Guy Simmons, 18th October 1997
 
-#pragma once
+#ifndef	ENGINE_H
+#define	ENGINE_H
 
 #include	"Game.h"
 #include	"DDLib.h"
@@ -377,3 +378,4 @@ void	e_draw_3d_mapwho		 (std::int32_t x1,std::int32_t z1);
 void	e_draw_3d_mapwho_y		 (std::int32_t x1,std::int32_t y1,std::int32_t z1);
 
 
+#endif

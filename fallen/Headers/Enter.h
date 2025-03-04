@@ -2,7 +2,8 @@
 // Building related stuff
 //
 
-#pragma once
+#ifndef IN_BUILDING_H
+#define IN_BUILDING_H
 #include "Game.h"
 
 
@@ -63,3 +64,4 @@ std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8
 
 
 
+#endif

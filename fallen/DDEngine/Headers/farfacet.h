@@ -2,7 +2,8 @@
 // Faster far-facets...
 //
 
-#pragma once
+#ifndef _FARFACET_
+#define _FARFACET_
 
 
 
@@ -38,3 +39,4 @@ void FARFACET_fini();
 
 
 
+#endif

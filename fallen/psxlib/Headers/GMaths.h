@@ -1,7 +1,8 @@
 // Trig.h
 // Guy Simmons, 16th February 1997.
 
-#pragma once
+#ifndef	GMATHS_H
+#define	GMATHS_H
 
 #define	SIN(a)				SinTable[a]
 #define	COS(a)				CosTable[a]
@@ -68,3 +69,4 @@ static inline std::int32_t		Hypotenuse(std::int32_t x,std::int32_t y)
 
 //---------------------------------------------------------------
 
+#endif

@@ -4,7 +4,8 @@
 // 22 sept 98
 //
 
-#pragma once
+#ifndef _TRACKS_H_
+#define _TRACKS_H_
 
 #include "MFStdLib.h"
 #include "Structs.h"
@@ -84,3 +85,4 @@ std::int32_t TRACKS_GroundAtXZ(std::int32_t X, std::int32_t Z);
 void TRACKS_Bleed(Thing *bleeder);
 void TRACKS_Bloodpool(Thing *bleeder);
 
+#endif

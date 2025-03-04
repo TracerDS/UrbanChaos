@@ -1,7 +1,8 @@
 //	WaypointSetup.h
 //	Matthew Rosenfeld, 11th November 1998.
 
-#pragma once
+#ifndef	_WAYPOINTSETUP_H_
+#define	_WAYPOINTSETUP_H_
 
 #include	"Mission.h"
 
@@ -13,3 +14,4 @@ char	*get_waypoint_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
+#endif

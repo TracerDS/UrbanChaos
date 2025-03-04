@@ -2,7 +2,8 @@
 // Balloons.
 //
 
-#pragma once
+#ifndef _BALLOON_
+#define _BALLOON_
 
 
 
@@ -85,3 +86,4 @@ void BALLOON_process();
 
 
 
+#endif

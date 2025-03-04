@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _TICKLIST_H_
+#define _TICKLIST_H_
 
 /*******************************************************************
  *
@@ -46,3 +47,4 @@ bool				ticklist_measure(HWND hWnd, WPARAM wParam, LPARAM lParam);
 	}
 	*/
 
+#endif

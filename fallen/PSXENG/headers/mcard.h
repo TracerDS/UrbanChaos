@@ -4,7 +4,8 @@
 ** Memory card function defines
 */
 
-#pragma once
+#ifndef _MCARD_H
+#define _MCARD_H
 
 #define MCARD_ACCEPT_OFFSET		0
 
@@ -84,3 +85,4 @@ extern std::int32_t MCARD_FindSpace(std::int32_t blocks);
 
 #define MCARD_STATUS(x) ((x)&0x8f)
 
+#endif

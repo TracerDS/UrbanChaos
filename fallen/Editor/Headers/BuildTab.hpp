@@ -1,7 +1,8 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#pragma once
+#ifndef	_BUILDTAB_HPP_
+#define	_BUILDTAB_HPP_
 
 #include	"ModeTab.hpp"
 #include	"Stealth.h"
@@ -150,4 +151,5 @@ class	BuildTab	:	public	ModeTab
 
 
 
+#endif
 

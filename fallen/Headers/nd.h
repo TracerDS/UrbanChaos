@@ -2,7 +2,8 @@
 // New indoors.
 //
 
-#pragma once
+#ifndef _ND_
+#define _ND_
 
 
 //
@@ -152,3 +153,4 @@ std::int32_t ND_floor_upto;
 
 
 
+#endif

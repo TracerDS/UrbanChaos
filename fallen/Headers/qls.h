@@ -2,7 +2,8 @@
 // Quick load and save from within a level.
 //
 
-#pragma once
+#ifndef _QLS_
+#define _QLS_
 
 
 
@@ -38,3 +39,4 @@ std::int32_t QLS_load();
 
 
 
+#endif

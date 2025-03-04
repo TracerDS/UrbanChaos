@@ -2,7 +2,8 @@
 // Sprite drawing routines for the DC credits sequence.
 //
 
-#pragma once
+#ifndef _DCOS_
+#define _DCOS_
 
 
 
@@ -43,3 +44,4 @@ void DCOS_buffer_draw(OS_Buffer *ob, D3DTexture *texture, std::uint32_t draw = D
 
 
 
+#endif

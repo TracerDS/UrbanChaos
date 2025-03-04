@@ -2,7 +2,8 @@
 // Matrix stuff...
 //
 
-#pragma once
+#ifndef _MATRIX_
+#define _MATRIX_
 
 //
 // ALL ANGLES ARE IN RADIANS.
@@ -134,4 +135,5 @@ typedef struct
 Direction MATRIX_find_angles(float matrix[9]);
 
 
+#endif
 

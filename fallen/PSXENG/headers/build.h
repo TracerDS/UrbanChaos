@@ -2,7 +2,8 @@
 // Draws buildings.
 //
 
-#pragma once
+#ifndef _BUILD_
+#define _BUILD_
 
 
 //
@@ -25,3 +26,4 @@ void BUILD_draw_inside();
 
 
 
+#endif

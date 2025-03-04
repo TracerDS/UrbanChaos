@@ -1,7 +1,8 @@
 // EditMod.hpp
 // Guy Simmons, 26th October 1996.
 
-#pragma once
+#ifndef	_EDITMOD_HPP_
+#define	_EDITMOD_HPP_
 
 #include	"Window.hpp"
 
@@ -39,3 +40,4 @@ class	EditorModule	: public Window
 		inline bool				LocalEscape()								{	return EscapeFlag;		}
 };
 
+#endif

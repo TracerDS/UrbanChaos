@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	  INTERFACE_H
+#define   INTERFACE_H
 
 //
 // Defines
@@ -216,6 +217,7 @@ extern std::uint8_t	keybrd_button_use[16];
 
 
 
+#endif //#ifndef	  INTERFACE_H
 
 
 

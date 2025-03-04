@@ -1,4 +1,5 @@
-#pragma once
+#ifndef HIERARCHY_H
+#define HIERARCHY_H
 
 // JCL - functions and data managing the hierarchy of body parts in people
 
@@ -10,3 +11,4 @@ void	HIERARCHY_Get_Body_Part_Offset(Matrix31 *dest_position, Matrix31 *base_posi
 									   CMatrix33 *parent_base_matrix, Matrix31 *parent_base_position,
 									    Matrix33 *parent_curr_matrix, Matrix31 *parent_curr_position);
 
+#endif

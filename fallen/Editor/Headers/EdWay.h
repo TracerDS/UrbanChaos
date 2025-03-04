@@ -1,7 +1,8 @@
 // EdWay.h
 // Guy Simmons, 6th February 1998.
 
-#pragma once
+#ifndef	ED_WAY_H
+#define	ED_WAY_H
 
 //---------------------------------------------------------------
 // Waypoint definition.
@@ -30,3 +31,4 @@ void	pack_waypoints(std::uint16_t *map_table);
 
 //---------------------------------------------------------------
 
+#endif

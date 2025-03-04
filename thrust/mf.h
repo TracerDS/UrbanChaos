@@ -2,7 +2,8 @@
 // Functions that act on the imported meshes
 //
 
-#pragma once
+#ifndef _MF_
+#define _MF_
 
 
 #include "imp.h"
@@ -124,3 +125,4 @@ void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS
 
 
 
+#endif

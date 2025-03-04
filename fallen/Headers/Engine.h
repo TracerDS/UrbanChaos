@@ -1,7 +1,8 @@
 // Engine.h
 // Guy Simmons, 22nd October 1997.
 
-#pragma once
+#ifndef	ENGINE_H
+#define	ENGINE_H
 #include "../../MFStdLib/Headers/MFStdLib.h"
 //---------------------------------------------------------------
 
@@ -140,3 +141,4 @@ void ENGINE_unlock();
 
 
 
+#endif

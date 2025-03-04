@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	INSIDE2_H
+#define	INSIDE2_H	1
 
 
 
@@ -108,3 +109,4 @@ MAV_Action INSIDE2_mav_exit  (Thing *p_person, std::int32_t inside);					// Exit
 
 
 
+#endif

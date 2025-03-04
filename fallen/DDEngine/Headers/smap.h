@@ -2,7 +2,8 @@
 // Shadow maps.
 //
 
-#pragma once
+#ifndef _SMAP_
+#define _SMAP_
 
 
 
@@ -58,3 +59,4 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F poly[], std::int32_t num_points); //
 
 
 
+#endif

@@ -1,7 +1,8 @@
 // D3DTexture.h
 // Guy Simmons, 29th November 1997.
 
-#pragma once
+#ifndef	D3DTEXTURE_H
+#define	D3DTEXTURE_H
 
 
 // Call after doing lots of loading.
@@ -192,5 +193,6 @@ public:
 
 };
 
+#endif
 
 

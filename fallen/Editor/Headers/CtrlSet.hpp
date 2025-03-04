@@ -1,7 +1,8 @@
 // CtrlSet.hpp
 // Guy Simmons, 25th November 1996.
 
-#pragma once
+#ifndef	_CTRLSET_HPP_
+#define	_CTRLSET_HPP_
 
 #include	"Controls.hpp"
 #include	"Primativ.hpp"
@@ -62,3 +63,4 @@ class	ControlSet
 };
 
 
+#endif

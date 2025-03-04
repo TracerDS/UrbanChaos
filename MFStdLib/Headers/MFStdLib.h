@@ -16,28 +16,35 @@
 #include <cstdarg>
 #include <cstring>
 #include <cstdint>
-#include <cmath>
 
 // Library defines.
 #define	_MF_WINDOWS
 
+#ifndef	_WIN32
+	#define	_WIN32
+#endif
+
+#ifndef	WIN32
+	#define	WIN32
+#endif
+
 // Specific Windows includes.
 #define D3D_OVERLOADS
-#include <windows.h>
-#include <windowsx.h>
-#include <d3dtypes.h>
-#include <ddraw.h>
+#include	<windows.h>
+#include	<windowsx.h>
+#include	<d3dtypes.h>
+#include	<ddraw.h>
 #ifndef TARGET_DC
 // For the DX8 headers, you need to define this to get old interfaces.
-#	ifndef DIRECTINPUT_VERSION
-#		define DIRECTINPUT_VERSION 0x0700
-#	endif
+#ifndef DIRECTINPUT_VERSION
+#define DIRECTINPUT_VERSION 0x0700
 #endif
-#include <dinput.h>
-#include <d3d.h>
+#endif
+#include	<dinput.h>
+#include	<d3d.h>
 
 #ifdef TARGET_DC
-#	include "target.h"
+#include "target.h"
 #endif
 
 //---------------------------------------------------------------
@@ -71,13 +78,14 @@ struct MFRect {
 #define	FLAGS_USE_3D			(1<<1)
 #define	FLAGS_USE_WORKSCREEN	(1<<2)
 
-extern std::uint8_t WorkScreenDepth, *WorkScreen;
-extern std::int32_t WorkScreenHeight;
-extern std::int32_t WorkScreenPixelWidth;
-extern std::int32_t WorkScreenWidth;
-extern std::int32_t DisplayWidth;
-extern std::int32_t DisplayHeight;
-extern std::int32_t DisplayBPP;
+extern std::uint8_t				WorkScreenDepth,
+							*WorkScreen;
+extern std::int32_t				WorkScreenHeight,
+							WorkScreenPixelWidth,
+							WorkScreenWidth;
+extern std::int32_t				DisplayWidth,
+							DisplayHeight,
+							DisplayBPP;
 
 std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t depth, std::uint32_t flags);
 std::int32_t SetDisplay(std::uint32_t width,std::uint32_t height,std::uint32_t depth);
@@ -92,16 +100,16 @@ void ClearWorkScreen(std::uint8_t colour);
 //---------------------------------------------------------------
 // Host
 
-#define	SHELL_NAME "Mucky Foot Shell\0"
-#define	H_CREATE_LOG (1<<0)
-#define	SHELL_ACTIVE (LibShellActive())
-#define	SHELL_CHANGED (LibShellChanged())
+#define	SHELL_NAME				"Mucky Foot Shell\0"
+#define	H_CREATE_LOG			(1<<0)
+#define	SHELL_ACTIVE			(LibShellActive())
+#define	SHELL_CHANGED			(LibShellChanged())
 
-#define	main(ac,av) MF_main(ac,av)
+#define	main(ac,av)				MF_main(ac,av)
 
 struct MFTime
 {
-	std::int32_t Hours,
+	std::int32_t		Hours,
 				Minutes,
 				Seconds,
 				MSeconds;
@@ -182,6 +190,9 @@ bool ReadInputDevice();
 //
 // Stuff put in by Mark...
 //
+#undef INFINITY
+#define INFINITY		0x7fffffff
+#define PI				(3.14159265F)
 #define WITHIN(x,a,b)	((x) >= (a) && (x) <= (b))
 #define SATURATE(x,a,b)	{if ((x) < (a)) {(x) = (a);} else if ((x) > (b)) {(x) = (b);}}
 #define SWAP(a,b)		{std::int32_t temp; temp = (a); (a) = (b); (b) = temp;}

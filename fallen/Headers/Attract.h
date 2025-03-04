@@ -1,7 +1,8 @@
 // Attract.h
 // Guy Simmons, 20th November 1997
 
-#pragma once
+#ifndef	ATTRACT_H
+#define	ATTRACT_H
 
 //---------------------------------------------------------------
 
@@ -21,3 +22,4 @@ void ATTRACT_loadscreen_draw(std::int32_t completion);	// completion is in 8-bit
 
 //---------------------------------------------------------------
 
+#endif

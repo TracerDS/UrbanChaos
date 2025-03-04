@@ -1,7 +1,8 @@
 // MFFile.h
 // Guy Simmons, 10th February 1997.
 
-#pragma once
+#ifndef _MF_FILE_H_
+#define _MF_FILE_H_
 
 #ifdef	_MF_WINDOWS
 typedef HANDLE		MFFileHandle;
@@ -37,3 +38,4 @@ std::int32_t FileSeek(MFFileHandle file_handle,enum SeekModes mode,std::int32_t 
 std::int32_t FileLoadAt(char* file_name,void* buffer);
 
 
+#endif

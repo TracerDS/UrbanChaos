@@ -923,7 +923,7 @@ void PANEL_draw_compass_north()
 	POLY_Point p2;
 #ifdef	OLD_CAM
 	angle=CAM_get_ryaw();
-	angle=M_PI+angle;
+	angle=PI+angle;
 
 	dx=x*cos(angle)-y*sin(angle);
 	dy=x*sin(angle)+y*cos(angle);
@@ -1432,13 +1432,13 @@ void PANEL_do_heartbeat(std::int32_t which, float stamina, std::int32_t death)
 
 			if (WITHIN(PANEL_beat_x[which], 0.1F, 0.5F))
 			{
-				amp  = 1.0F + (float)sin((-M_PI * 0.5F) + (PANEL_beat_x[which] - 0.1F) * (2.0F * M_PI / 0.4F));
+				amp  = 1.0F + (float)sin((-PI * 0.5F) + (PANEL_beat_x[which] - 0.1F) * (2.0F * PI / 0.4F));
 				amp *= 0.5F * amp1;
 			}
 			else
 			if (WITHIN(PANEL_beat_x[which], 0.6F, 0.9F))
 			{
-				amp  = 1.0F + (float)sin((-M_PI * 0.5F) + (PANEL_beat_x[which] - 0.6F) * (2.0F * M_PI / 0.3F));
+				amp  = 1.0F + (float)sin((-PI * 0.5F) + (PANEL_beat_x[which] - 0.6F) * (2.0F * PI / 0.3F));
 				amp *= 0.5F * amp2;
 			}
 			else
@@ -1811,8 +1811,8 @@ void PANEL_do_tosses()
 				ax = (float)sin(pt->angle) * pa->height * 0.5F;
 				ay = (float)cos(pt->angle) * pa->height * 0.5F;
 
-				bx = (float)sin(pt->angle + M_PI * 0.5F) * pa->width * 0.5F;
-				by = (float)cos(pt->angle + M_PI * 0.5F) * pa->width * 0.5F;
+				bx = (float)sin(pt->angle + PI * 0.5F) * pa->width * 0.5F;
+				by = (float)cos(pt->angle + PI * 0.5F) * pa->width * 0.5F;
 
 				pp[0].X = pt->x - bx - ax;
 				pp[0].Y = pt->y - by - ay;
@@ -2801,7 +2801,7 @@ void PANEL_draw_beacons()
 		if (dist < 256.0F * 4.0F)
 		{
 			score  = dist * (1.0F / (256.0F * 4.0F));
-			score *= 2.0F * M_PI * 22.0F / 360.0F;
+			score *= 2.0F * PI * 22.0F / 360.0F;
 
 			PANEL_funky_quad(
 				PANEL_IC_DOT,
@@ -2813,13 +2813,13 @@ void PANEL_draw_beacons()
 		else
 		{
 			if (PANEL_scanner_poo)
-				dangle = (float)atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * M_PI / 2048.0F);
+				dangle = (float)atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F);
 			else
-				dangle = (float)atan2(dx,dz) - float(FC_cam[0].yaw>>8) * (2.0F * M_PI / 2048.0F);
-			score  = (float)fmod(dangle, 2.0F * M_PI) - M_PI;
+				dangle = (float)atan2(dx,dz) - float(FC_cam[0].yaw>>8) * (2.0F * PI / 2048.0F);
+			score  = (float)fmod(dangle, 2.0F * PI) - PI;
 
-			if (score > +M_PI) {score -= 2.0F * M_PI;}
-			if (score < -M_PI) {score += 2.0F * M_PI;}
+			if (score > +PI) {score -= 2.0F * PI;}
+			if (score < -PI) {score += 2.0F * PI;}
 
 			//
 			// The arrow positions...
@@ -4862,8 +4862,8 @@ extern std::uint32_t	strip_stats[];
 		tri[1] = &pp[1];
 		tri[2] = &pp[2];
 
-		static float blah1 = ( -43 * 2.0F * M_PI / 360.0F);
-		static float blah2 = (-227 * 2.0F * M_PI / 360.0F);
+		static float blah1 = ( -43 * 2.0F * PI / 360.0F);
+		static float blah2 = (-227 * 2.0F * PI / 360.0F);
 		std::uint8_t is_in_car = darci->Genus.Person->InCar ? 1 : 0;
 		float car_offset = is_in_car ? 130.0F : 0.0F;
 
@@ -5110,7 +5110,7 @@ extern std::uint32_t	strip_stats[];
 			if (dist < 256.0F * 4.0F)
 			{
 				score  = dist * (1.0F / (256.0F * 4.0F));
-				score *= 2.0F * M_PI * 22.0F / 360.0F;
+				score *= 2.0F * PI * 22.0F / 360.0F;
 
 				PANEL_funky_quad(
 					PANEL_IC_DOT,
@@ -5125,13 +5125,13 @@ extern std::uint32_t	strip_stats[];
 				std::uint8_t is_dot=0;
 
 				if (PANEL_scanner_poo)
-					dangle = atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * M_PI / 2048.0F);
+					dangle = atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F);
 				else
-					dangle = atan2(dx,dz) - float(FC_cam[0].yaw>>8) * (2.0F * M_PI / 2048.0F);
-				score  = (float)fmod(dangle, 2.0F * M_PI) - M_PI;
+					dangle = atan2(dx,dz) - float(FC_cam[0].yaw>>8) * (2.0F * PI / 2048.0F);
+				score  = (float)fmod(dangle, 2.0F * PI) - PI;
 
-				if (score > +M_PI) {score -= 2.0F * M_PI;}
-				if (score < -M_PI) {score += 2.0F * M_PI;}
+				if (score > +PI) {score -= 2.0F * PI;}
+				if (score < -PI) {score += 2.0F * PI;}
 
 				//dist -= 3.0F * 256.0F;
 				dist /= 16.0F * 256.0F;
@@ -5366,11 +5366,11 @@ extern std::uint32_t	strip_stats[];
 				{
 					if (PANEL_scanner_poo)
 					{
-						dangle = atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * M_PI / 2048.0F);
+						dangle = atan2(dx,dz) - float(darci->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F);
 					}
 					else
 					{
-						dangle = atan2(dx,dz) - float(FC_cam[0].yaw>>8) * (2.0F * M_PI / 2048.0F);
+						dangle = atan2(dx,dz) - float(FC_cam[0].yaw>>8) * (2.0F * PI / 2048.0F);
 					}
 
 					x = PLS_MID_X + (float)sin(dangle) * PLS_RADIUS * dist;

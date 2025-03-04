@@ -2,7 +2,8 @@
 // The whole game is based on waypoints!
 //
 
-#pragma once
+#ifndef _EWAY_
+#define _EWAY_
 
 
 #define EWAY_MAX_CONDS 128
@@ -606,6 +607,7 @@ void EWAY_cam_relinquish();
 std::int32_t EWAY_find_or_create_waypoint_that_created_person(Thing *p_person);
 
 
+#endif
 
 
 

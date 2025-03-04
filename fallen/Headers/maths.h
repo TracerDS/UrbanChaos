@@ -2,7 +2,8 @@
 // Mathy stuff...
 //
 
-#pragma once
+#ifndef MATHS_H
+#define MATHS_H
 
 
 
@@ -20,3 +21,4 @@ std::int32_t MATHS_seg_intersect(
 
 
 
+#endif

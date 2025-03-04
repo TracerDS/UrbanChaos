@@ -1,7 +1,8 @@
 // Switch.h
 // Guy Simmons, 9th March 1998.
 
-#pragma once
+#ifndef	SWITCH_H
+#define	SWITCH_H
 
 //---------------------------------------------------------------
 
@@ -53,3 +54,4 @@ void fn_switch_class(Thing *s_thing);
 
 //---------------------------------------------------------------
 
+#endif

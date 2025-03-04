@@ -2,7 +2,8 @@
 // 2d navigation around the city.
 //
 
-#pragma once
+#ifndef NAV_H
+#define NAV_H
 
 
 //
@@ -79,3 +80,4 @@ void NAV_path_draw(std::uint16_t startx, std::uint16_t startz, std::uint16_t pat
 
 
 
+#endif

@@ -21,6 +21,15 @@
 #include <cstdint>
 
 //
+// Constants.
+//
+
+#define PI         (3.14159265F)
+#undef INFINITY
+#define INFINITY   (0x7fffffff)
+
+
+//
 // Useful defines.
 //
 
@@ -58,13 +67,13 @@
 
 void OS_string(char* fmt, ...);
 
-#	define ASSERT(x) {assert(x);}
-#	define TRACE	  OS_string
-#	define VERIFY(x) ASSERT(x)
+#define ASSERT(x) {assert(x);}
+#define TRACE	  OS_string
+#define VERIFY(x) ASSERT(x)
 #else
-#	define ASSERT(x) {__assume(x);}
-#	define TRACE	  
-#	define VERIFY(x) x
+#define ASSERT(x) {__assume(x);}
+#define TRACE	  
+#define VERIFY(x) x
 
 //
 // In release build, get rid of the x == 1; warning message otherwise

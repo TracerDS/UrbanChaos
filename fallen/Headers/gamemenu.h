@@ -2,7 +2,8 @@
 // Menus from within the game.
 //
 
-#pragma once
+#ifndef _GAMEMENU_
+#define _GAMEMENU_
 
 
 
@@ -62,3 +63,4 @@ void GAMEMENU_draw();
 
 
 
+#endif

@@ -2,7 +2,8 @@
 // The sewer editor.
 //
 
-#pragma once
+#ifndef _ES_
+#define _ES_
 
 
 #include "pap.h"
@@ -282,3 +283,4 @@ std::int32_t ES_save(char* filename);
 
 
 
+#endif

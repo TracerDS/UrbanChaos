@@ -2,7 +2,8 @@
 // A whole new world...
 //
 
-#pragma once
+#ifndef _QMAP_
+#define _QMAP_
 
 //
 // Big map!
@@ -463,3 +464,4 @@ void QMAP_free(QMAP_Draw *free_me_up);
 
 
 
+#endif

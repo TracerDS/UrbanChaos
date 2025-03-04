@@ -2,7 +2,8 @@
 // Warehouses- and you can go into them!
 //
 
-#pragma once
+#ifndef _WARE_
+#define _WARE_
 
 
 
@@ -173,3 +174,4 @@ void WARE_debug();
 
 
 
+#endif

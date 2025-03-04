@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	EMAP_H
+#define	EMAP_H	1
 
 #undef ELE_SIZE
 
@@ -38,3 +39,4 @@ extern std::uint16_t	tex_map[EDIT_MAP_WIDTH][EDIT_MAP_DEPTH];
 
 //code
 
+#endif

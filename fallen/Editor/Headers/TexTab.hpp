@@ -1,7 +1,8 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#pragma once
+#ifndef	_TEXTAB_HPP_
+#define	_TEXTAB_HPP_
 
 #include	"undo.hpp"
 #include	"ModeTab.hpp"
@@ -53,4 +54,5 @@ class	TextureTab	:	public	ModeTab
 };
 
 
+#endif
 

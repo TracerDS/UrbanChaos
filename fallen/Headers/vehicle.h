@@ -2,7 +2,8 @@
 //
 // vehicle physics
 
-#pragma once
+#ifndef	VEHICLE_H
+#define	VEHICLE_H
 #include "../Headers/State.h"
 
 #define	FLAG_VEH_DRIVING	 (1<<0)
@@ -254,6 +255,7 @@ void vehicle_wheel_pos_get(
 
 
 
+#endif
 
 
 

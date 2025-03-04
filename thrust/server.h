@@ -2,7 +2,8 @@
 // The server.
 //
 
-#pragma once
+#ifndef _SERVER_
+#define _SERVER_
 
 
 
@@ -244,6 +245,7 @@ typedef struct
 
 
 
+#endif
 
 
 

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef	GUNS_H
+#define	GUNS_H
 
 #define	MAX_GUN_AIM	3000   //(3 seconds)
 
@@ -27,3 +28,4 @@ THING_INDEX find_snipe_target(Thing *p_person);
 
 
 
+#endif

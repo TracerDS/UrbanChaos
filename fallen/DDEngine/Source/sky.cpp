@@ -127,8 +127,8 @@ void SKY_init(char* star_file)
 
 		sc->texture = rand() % SKY_NUM_TEXTURES;
 		sc->flip    = rand() & 0x8;
-		sc->yaw     = (float(rand()) / float(RAND_MAX)) * (2.0F * M_PI);
-		sc->pitch   = (float(rand()) / float(RAND_MAX)) * (M_PI / 3.0F) + (M_PI / 64.0F);
+		sc->yaw     = (float(rand()) / float(RAND_MAX)) * (2.0F * PI);
+		sc->pitch   = (float(rand()) / float(RAND_MAX)) * (PI / 3.0F) + (PI / 64.0F);
 		sc->dyaw    = (float(rand()) / float(RAND_MAX)) * 0.0005F     + 0.0001F;
 		
 		ASSERT(WITHIN(sc->texture, 0, SKY_NUM_TEXTURES - 1));
@@ -180,8 +180,8 @@ void SKY_init(char* star_file)
 
 			SKY_star[i].colour =  bright;
 			SKY_star[i].spread = (bright < 100) ? 0 : bright >> 2;
-			SKY_star[i].yaw    = float(yaw)   * 2.0F * M_PI / 360.0F;
-			SKY_star[i].pitch  = float(pitch) * 2.0F * M_PI / 360.0F;
+			SKY_star[i].yaw    = float(yaw)   * 2.0F * PI / 360.0F;
+			SKY_star[i].pitch  = float(pitch) * 2.0F * PI / 360.0F;
 		}
 
 		SKY_star_upto = SKY_MAX_STARS;
@@ -213,8 +213,8 @@ void SKY_init(char* star_file)
 
 				SKY_star[SKY_star_upto].colour =  bright;
 				SKY_star[SKY_star_upto].spread = (bright < 100) ? 0 : bright >> 2;
-				SKY_star[SKY_star_upto].yaw    = float(yaw)   * 2.0F * M_PI / 2048.0F;
-				SKY_star[SKY_star_upto].pitch  = float(pitch) * 2.0F * M_PI / 2048.0F;
+				SKY_star[SKY_star_upto].yaw    = float(yaw)   * 2.0F * PI / 2048.0F;
+				SKY_star[SKY_star_upto].pitch  = float(pitch) * 2.0F * PI / 2048.0F;
 
 				SKY_star_upto += 1;
 			}
@@ -229,7 +229,7 @@ void SKY_init(char* star_file)
 
 	SKY_Star *ss;
 
-	float dpitch = 39.0F * 2.0F * M_PI / 360.0F;
+	float dpitch = 39.0F * 2.0F * PI / 360.0F;
 
 	for (i = 0; i < SKY_star_upto; i++)
 	{
@@ -523,7 +523,7 @@ void SKY_draw_poly_moon(
 	//
 
 	#define SKY_MOON_YAW	(0)
-	#define SKY_MOON_PITCH  (M_PI / 8.0F)
+	#define SKY_MOON_PITCH  (PI / 8.0F)
 	#define SKY_MOON_DIST	(max_dist - 128.0F)
 #ifdef TARGET_DC
 	// This is slightly more sensible.
@@ -1123,7 +1123,7 @@ void SKY_draw_poly_sky_old(float world_camera_x,float world_camera_y,float world
 		pp_top[i].Z *= 0.05f;
 		pp_bot[i].Z *= 0.05f;
 #endif
-		angle += 2.0F * M_PI / SKY_CIRCLE_STEPS;
+		angle += 2.0F * PI / SKY_CIRCLE_STEPS;
 	}
 
 	//

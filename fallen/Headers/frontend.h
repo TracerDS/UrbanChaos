@@ -6,7 +6,8 @@
 // this is our new front end thingy to replace the hideous startscr.cpp
 //
 
-#pragma once
+#ifndef _FRONTEND_H_
+#define _FRONTEND_H_
 
 #include "MFStdLib.h"
 
@@ -24,3 +25,4 @@ void FRONTEND_unload ( void );
 extern std::uint8_t	IsEnglish;
 
 
+#endif

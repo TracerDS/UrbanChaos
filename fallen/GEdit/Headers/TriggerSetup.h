@@ -1,7 +1,8 @@
 //	TriggerSetup.h
 //	Guy Simmons, 27th August 1998.
 
-#pragma once
+#ifndef	TRIGGERSETUP_H
+#define	TRIGGERSETUP_H
 
 //---------------------------------------------------------------
 
@@ -10,3 +11,4 @@ char	*get_trigger_message(EventPoint *ep, char* msg);
 
 //---------------------------------------------------------------
 
+#endif

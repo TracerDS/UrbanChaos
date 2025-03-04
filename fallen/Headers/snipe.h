@@ -2,7 +2,8 @@
 // Snipe rifle-mode stuff
 //
 
-#pragma once
+#ifndef _SNIPE_
+#define _SNIPE_
 
 
 //
@@ -50,3 +51,4 @@ void SNIPE_process();
 void SNIPE_shoot();
 
 
+#endif

@@ -2,7 +2,8 @@
 // Matrix stuff...
 //
 
-#pragma once
+#ifndef _FMATRIX_
+#define _FMATRIX_
 
 //
 // All angles go from 0 - 2047.
@@ -86,3 +87,4 @@ void normalise_matrix_rows(struct Matrix33 *mat);
 void FMATRIX_vector(std::int32_t vector[3], std::int32_t yaw, std::int32_t pitch);
 
 
+#endif

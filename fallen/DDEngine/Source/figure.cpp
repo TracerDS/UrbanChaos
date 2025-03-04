@@ -5288,7 +5288,7 @@ void FIGURE_draw_prim_tween_warped(
 //		temp2.Z-=offset.M[2];
 
 		angle=(temp2.Z+offset.M[2])*2;
-		angle=angle*M_PI/180;
+		angle=angle*PI/180;
 		sint=sin(angle);
 		cost=cos(angle);
 
@@ -5312,7 +5312,7 @@ void FIGURE_draw_prim_tween_warped(
 		//...
 /*		
 		angle=(temp2.Z+offset.M[2])*2;
-		angle=angle*M_PI/180;
+		angle=angle*PI/180;
 		sint=sin(angle);
 		cost=cos(angle);
 

@@ -2,7 +2,8 @@
 // The linker
 //
 
-#pragma once
+#ifndef _LINK_
+#define _LINK_
 
 
 // ========================================================
@@ -135,3 +136,4 @@ std::int32_t LINK_do(char* object_fname[], std::int32_t num_object_files, char* 
 
 
 
+#endif

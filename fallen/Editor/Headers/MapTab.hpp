@@ -1,7 +1,8 @@
 // TexTab.hpp
 // MCD, 20th February 1997
 
-#pragma once
+#ifndef	_MAPTAB_HPP_
+#define	_MAPTAB_HPP_
 
 #include	"ModeTab.hpp"
 #include	"Stealth.h"
@@ -75,4 +76,5 @@ class	MapTab	:	public	ModeTab
 extern struct	MapInfo	map_info[MAX_MAP_INFO];
 extern std::uint16_t	next_map_info;
 
+#endif
 

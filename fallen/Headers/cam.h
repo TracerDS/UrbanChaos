@@ -2,7 +2,8 @@
 // An 'intelligent' camera?
 //
 
-#pragma once
+#ifndef _CAM_
+#define _CAM_
 
 
 
@@ -157,5 +158,6 @@ void CAM_set_to_leave_sewers_position(Thing *);
 void CAM_look_at_thing(std::int32_t swoop);
 
 
+#endif
 
 

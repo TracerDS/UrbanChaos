@@ -1,7 +1,8 @@
 // Palette.h
 // Guy Simmons, 11th February 1997.
 
-#pragma once
+#ifndef	_PALETTE_H_
+#define	_PALETTE_H_
 
 #ifndef	_MF_TYPES_H_
 	#include	<MFTypes.h>
@@ -20,3 +21,4 @@ void SetPalette(std::uint8_t *the_palette);
 std::int32_t FindColour(std::uint8_t *pal,std::int32_t r,std::int32_t g,std::int32_t b);
 
 
+#endif

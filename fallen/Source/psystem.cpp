@@ -556,9 +556,9 @@ std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_
 	switch (object->DrawType) {
 	case DT_MESH:
 	case DT_VEHICLE:
-/*		yaw   = -float(object->Draw.Mesh->Angle)   * (2.0F * M_PI / 2048.0F);
-		pitch = -float(object->Draw.Mesh->Tilt) * (2.0F * M_PI / 2048.0F);
-		roll  = -float(object->Draw.Mesh->Roll)  * (2.0F * M_PI / 2048.0F);*/
+/*		yaw   = -float(object->Draw.Mesh->Angle)   * (2.0F * PI / 2048.0F);
+		pitch = -float(object->Draw.Mesh->Tilt) * (2.0F * PI / 2048.0F);
+		roll  = -float(object->Draw.Mesh->Roll)  * (2.0F * PI / 2048.0F);*/
 //		MATRIX_calc(matrix, yaw, pitch, roll);
 		if (object->Class==CLASS_BIKE) {
 //			vel=BIKE_get_speed(object);
@@ -579,9 +579,9 @@ std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_
 		break;
 	case DT_TWEEN:
 	case DT_ROT_MULTI:
-/*		yaw   = -float(object->Draw.Tweened->Angle)   * (2.0F * M_PI / 2048.0F);
-		pitch = -float(object->Draw.Tweened->Tilt) * (2.0F * M_PI / 2048.0F);
-		roll  = -float(object->Draw.Tweened->Roll)  * (2.0F * M_PI / 2048.0F);*/
+/*		yaw   = -float(object->Draw.Tweened->Angle)   * (2.0F * PI / 2048.0F);
+		pitch = -float(object->Draw.Tweened->Tilt) * (2.0F * PI / 2048.0F);
+		roll  = -float(object->Draw.Tweened->Roll)  * (2.0F * PI / 2048.0F);*/
 //		MATRIX_calc(matrix, yaw, pitch, roll);
 		FMATRIX_calc(matrix, object->Draw.Mesh->Angle, object->Draw.Mesh->Tilt, object->Draw.Mesh->Roll);
 		vector[2]=vel; vector[1]=0; vector[0]=0; 

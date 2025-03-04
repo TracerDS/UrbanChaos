@@ -440,7 +440,7 @@ void Font3D::DrawString(char* str, std::uint32_t ctrx, std::uint32_t y, std::uin
 			thisone=90+((thisone-180)*4);
 		else
 			thisone=90;
-		thisone*=M_PI/180;
+		thisone*=PI/180;
 		if (!zoom) {
 		  DrawLetter(*c,x,y,rgb,0,0,thisone,scale);
 		} else {

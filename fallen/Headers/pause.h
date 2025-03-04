@@ -8,7 +8,8 @@
  *
  */
 
-#pragma once
+#ifndef _PAUSE_
+#define _PAUSE_
 
 //
 // Returns true if you should exit the game loop...
@@ -16,3 +17,4 @@
 
 std::int32_t PAUSE_handler();
 
+#endif

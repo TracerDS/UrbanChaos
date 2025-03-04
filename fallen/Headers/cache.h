@@ -2,7 +2,8 @@
 // A cache designed for storing light info.
 //
 
-#pragma once
+#ifndef CACHE_H
+#define CACHE_H
 
 
 typedef std::uint8_t CACHE_Index;
@@ -71,3 +72,4 @@ void CACHE_invalidate_unflagged();
 
 
 
+#endif

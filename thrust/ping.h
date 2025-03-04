@@ -2,7 +2,8 @@
 // For establishing a common time with the server.
 //
 
-#pragma once
+#ifndef _PING_
+#define _PING_
 
 
 
@@ -21,3 +22,4 @@ std::int32_t PING_do();
 
 
 
+#endif

@@ -7,7 +7,8 @@
 // Copyright (C) 1997 Microsoft Corporation. All rights reserved
 //-----------------------------------------------------------------------------
 
-#pragma once
+#ifndef D3DUTIL_H
+#define D3DUTIL_H
 
 #include <ddraw.h>
 #include <d3d.h>
@@ -105,4 +106,5 @@ HRESULT _DbgOut( TCHAR*, DWORD, HRESULT, TCHAR* );
 
 
 
+#endif // D3DUTIL_H
 

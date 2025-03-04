@@ -1,7 +1,8 @@
 // Mouse.h
 // Guy Simmons, 19th February 1997.
 
-#pragma once
+#ifndef	_MOUSE_H_
+#define	_MOUSE_H_
 
 
 struct LastMouse
@@ -28,3 +29,4 @@ extern volatile MFPoint		MousePoint;
 extern void	RemoveMouse();
 extern void	PlaceMouse();
 
+#endif

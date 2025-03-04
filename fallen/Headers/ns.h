@@ -2,7 +2,8 @@
 // A new super duper sewer/cavern system.
 //
 
-#pragma once
+#ifndef _NS_
+#define _NS_
 
 
 #include "pap.h"
@@ -367,3 +368,4 @@ void NS_cache_destroy(std::uint8_t cache);
 void NS_cache_fini();
 
 
+#endif

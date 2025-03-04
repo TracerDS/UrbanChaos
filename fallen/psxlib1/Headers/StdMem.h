@@ -1,7 +1,8 @@
 // StdMem.h
 // Guy Simmons, 18th December 1997
 
-#pragma once
+#ifndef	STD_MEM_H
+#define	STD_MEM_H
 
 //---------------------------------------------------------------
 
@@ -12,3 +13,4 @@ void MemFree(void* mem_ptr);
 
 //---------------------------------------------------------------
 
+#endif

@@ -1,7 +1,8 @@
 // Errors.h
 // Guy Simmons, 6th October 1996.
 
-#pragma once
+#ifndef _MF_ERRORS_H_
+#define _MF_ERRORS_H_
 
 #ifdef	_DEBUG
 
@@ -42,3 +43,4 @@ enum
 	FileSeekError			=	-7,
 	FileLoadAtError			=	-8
 };
+#endif

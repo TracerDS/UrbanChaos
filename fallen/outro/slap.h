@@ -3,7 +3,8 @@
 // Credit to Eddie Edwards for the outline rendering idea.
 //
 
-#pragma once
+#ifndef _SLAP_
+#define _SLAP_
 
 
 
@@ -37,3 +38,4 @@ void SLAP_render();
 
 
 
+#endif

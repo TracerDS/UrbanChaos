@@ -1,7 +1,8 @@
 //	GEdit.h
 //	Guy Simmons, 27th July 1998.
 
-#pragma once
+#ifndef	GEDIT_H
+#define	GEDIT_H
 
 #include	"Mission.h"
 
@@ -53,3 +54,4 @@ void			menu_workspace_saved();
 
 //---------------------------------------------------------------
 
+#endif

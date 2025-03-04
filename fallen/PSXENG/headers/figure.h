@@ -2,7 +2,8 @@
 // Draws a person.
 //
 
-#pragma once
+#ifndef _FIGURE_
+#define _FIGURE_
 
 
 //
@@ -22,3 +23,4 @@ void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
 void FIGURE_draw_reflection(Thing *person, std::int32_t height);
 
 
+#endif

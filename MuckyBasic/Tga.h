@@ -2,7 +2,8 @@
 // Loads in 32-bit RGBA uncompressed TGAs.
 //
 
-#pragma once
+#ifndef _TGA_
+#define _TGA_
 
 
 //
@@ -76,3 +77,4 @@ std::int32_t TGA_colour(TGA_Pixel tp);
 
 
 
+#endif

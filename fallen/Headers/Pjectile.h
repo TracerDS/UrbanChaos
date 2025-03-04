@@ -1,7 +1,8 @@
 // Pjectile.h
 // Guy Simmons, 4th January 1998.
 
-#pragma once
+#ifndef	PJECTILE_H
+#define	PJECTILE_H
 
 //---------------------------------------------------------------
 
@@ -29,3 +30,4 @@ void free_projectile(Thing *proj_thing);
 
 //---------------------------------------------------------------
 
+#endif

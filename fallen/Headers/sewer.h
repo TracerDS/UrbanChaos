@@ -2,7 +2,8 @@
 // Sewers.. yuck!
 //
 
-#pragma once
+#ifndef _SEWER_
+#define _SEWER_
 
 
 //
@@ -85,3 +86,4 @@ SEWER_Face *SEWER_get_next ();	// nullptr => there are no more faces.
 SEWER_Face *SEWER_get_water();	// Returns the water faces...
 
 
+#endif

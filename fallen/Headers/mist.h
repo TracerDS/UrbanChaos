@@ -2,7 +2,8 @@
 // Mist.
 //
 
-#pragma once
+#ifndef MIST_H
+#define MIST_H
 
 
 //
@@ -60,3 +61,4 @@ void  MIST_get_texture(std::int32_t px, std::int32_t pz,
 		float *v);
 
 
+#endif

@@ -2,7 +2,8 @@
 // Imports SEX files.
 //
 
-#pragma once
+#ifndef _IMP_
+#define _IMP_
 
 #include "os.h"
 
@@ -215,3 +216,4 @@ void IMP_free(IMP_Mesh *im);
 
 
 
+#endif

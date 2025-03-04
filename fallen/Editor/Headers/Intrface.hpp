@@ -1,7 +1,8 @@
 // Intrface.hpp
 // Guy Simmons, 18th February 1997.
 
-#pragma once
+#ifndef	_INTRFACE_HPP_
+#define	_INTRFACE_HPP_
 
 class	Interface
 {
@@ -92,3 +93,4 @@ extern Interface				*InterfaceDefaults;
 #define	MIDDLE_CLICK			3
 
 
+#endif
