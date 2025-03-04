@@ -9,8 +9,7 @@
 //-----------------------------------------------------------------------------
 
 
-#ifndef D3DENUM_H
-#define D3DENUM_H
+#pragma once
 
 #include <ddraw.h>
 #include <d3d.h>
@@ -176,5 +175,4 @@ D3DEnum_DriverInfo* D3DEnum_GetFirstDriver();
 #define D3DENUMERR_NODIRECTDRAW        0x81000004 // DDraw couldn't initialize
 #define D3DENUMERR_NOTFOUND            0x81000005 // Requested device not found
 
-#endif // D3DENUM_H
 

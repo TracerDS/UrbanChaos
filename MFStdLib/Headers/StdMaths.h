@@ -1,8 +1,7 @@
 // StdMaths.h
 // Guy Simmons, 18th December 1997
 
-#ifndef	STD_MATHS_H
-#define	STD_MATHS_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -41,4 +40,3 @@ static inline std::int32_t			Hypotenuse(std::int32_t x,std::int32_t y)
 
 //---------------------------------------------------------------
 
-#endif

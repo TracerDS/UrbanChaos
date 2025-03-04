@@ -1,5 +1,4 @@
-#ifndef	POLY_H
-#define	POLY_H			1
+#pragma once
 
 #include	<d3dtypes.h>
 //DEFINES
@@ -101,4 +100,3 @@ extern void	my_quad_noz(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct
 extern void	my_trig_noz(struct MfEnginePoint *p4,struct MfEnginePoint *p3,struct MfEnginePoint *p2);
 
 
-#endif

@@ -2,8 +2,7 @@
 // A font! That's all there is to it.
 //
 
-#ifndef _FONT_
-#define _FONT_
+#pragma once
 
 
 //
@@ -34,4 +33,3 @@ std::int32_t FONT_char_is_valid(char ch);
 void FONT_draw(float start_x, float start_y, std::uint32_t colour, std::uint32_t flag, float scale, std::int32_t cursor, char* fmt, ...);
 
 
-#endif

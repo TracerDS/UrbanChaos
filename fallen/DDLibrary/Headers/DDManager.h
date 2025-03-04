@@ -1,8 +1,7 @@
 // DDManager.h
 // Guy Simmons, 12th November 1997.
 
-#ifndef	DDMANAGER_H
-#define	DDMANAGER_H
+#pragma once
 
 // #include	"Types.h"
 
@@ -306,4 +305,3 @@ extern DDDriverManager		the_manager;
 
 #define	InitStruct(s)		{ ZeroMemory(&(s), sizeof(s)); (s).dwSize = sizeof(s); }
 
-#endif

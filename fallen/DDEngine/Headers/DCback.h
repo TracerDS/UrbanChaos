@@ -2,8 +2,7 @@
 // The background...
 //
 
-#ifndef _BACK_
-#define _BACK_
+#pragma once
 
 
 
@@ -23,4 +22,3 @@ void BACK_draw();
 
 
 
-#endif

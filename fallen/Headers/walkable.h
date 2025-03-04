@@ -1,5 +1,4 @@
-#ifndef	WALKABLE_H
-#define	WALKABLE_H	1
+#pragma once
 
 
 //
@@ -50,4 +49,3 @@ extern std::int32_t	calc_height_on_rface(std::int32_t x, std::int32_t z,std::int
 void WALKABLE_remove_rface(std::uint8_t map_x, std::uint8_t map_z);
 
 
-#endif

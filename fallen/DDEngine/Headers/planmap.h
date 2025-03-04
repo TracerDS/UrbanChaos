@@ -2,8 +2,7 @@
 // The map draw.
 //
 
-#ifndef _PLANMAP_
-#define _PLANMAP_
+#pragma once
 
 
 
@@ -32,4 +31,3 @@ void map_beacon_draw(
 
 
 
-#endif

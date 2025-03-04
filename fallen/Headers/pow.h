@@ -2,8 +2,7 @@
 // Yet another explosion system.
 //
 
-#ifndef _POW_
-#define _POW_
+#pragma once
 
 
 
@@ -168,4 +167,3 @@ void POW_process();
 
 
 
-#endif

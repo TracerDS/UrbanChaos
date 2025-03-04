@@ -1,8 +1,7 @@
 // MFStdLib.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	MF_STD_LIB_H
-#define	MF_STD_LIB_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -334,5 +333,4 @@ void SetListenerPosition(std::int32_t x,std::int32_t y,std::int32_t z,std::int32
 #define	SDIST2(x,y)		(((x)*(x))+((y)*(y)))
 
 
-#endif
 

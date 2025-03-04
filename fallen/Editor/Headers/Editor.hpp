@@ -1,8 +1,7 @@
 // Editor.hpp
 // Guy Simmons, 18th February 1997.
 
-#ifndef	THE_EDITOR_HPP
-#define	THE_EDITOR_HPP
+#pragma once
 
 #ifdef	__WINDOWS_386__
 #pragma	warning	389	9 
@@ -71,4 +70,3 @@ extern void	load_game_textures(std::uint8_t flags);
 extern void	free_game_textures(std::uint8_t flags);
 
 
-#endif

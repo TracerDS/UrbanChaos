@@ -2,8 +2,7 @@
 // Texture handling is wierd!
 //
 
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#pragma once
 
 
 #include "crinkle.h"
@@ -272,7 +271,6 @@ extern std::int32_t TEXTURE_av_b;
 std::int32_t TEXTURE_looks_like(std::int32_t page);
 
 
-#endif
 
 
 

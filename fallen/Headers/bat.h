@@ -2,8 +2,7 @@
 // Bats/gargoles that circle an area and swoop to attack the player.
 //
 
-#ifndef _BAT_
-#define _BAT_
+#pragma once
 
 
 
@@ -73,4 +72,3 @@ void BAT_apply_hit(
 		std::int32_t  damage);
 
 
-#endif

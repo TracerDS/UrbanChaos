@@ -1,8 +1,7 @@
 // Sprites.h
 // Guy Simmons, 13th February 1997.
 
-#ifndef	_SPRITES_H_
-#define	_SPRITES_H_
+#pragma once
 
 #ifndef	_MF_TYPES_H_
 	#include	<MFTypes.h>
@@ -38,4 +37,3 @@ extern void	DrawBSpritePalC32(std::int32_t x,std::int32_t y,BSprite *the_sprite,
 
 extern void	SetupBSprites(BSprite *sprite_ref,std::uint8_t *sprite_data);
 
-#endif

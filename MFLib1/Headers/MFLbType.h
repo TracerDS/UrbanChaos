@@ -1,8 +1,7 @@
 // MFLbType.h
 // Guy Simmons, 31st January 1997.
 
-#ifndef	_MFLBTYPE_H_
-#define	_MFLBTYPE_H_
+#pragma once
 
 //----------------------------------------------------------------------
 // Common header for generic types, macros & functions
@@ -130,4 +129,3 @@
 
 //----------------------------------------------------------------------
 
-#endif

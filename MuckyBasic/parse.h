@@ -2,8 +2,7 @@
 // A recursive descent parser.
 //
 
-#ifndef _PARSE_
-#define _PARSE_
+#pragma once
 
 
 
@@ -193,4 +192,3 @@ std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2);
 
 
 
-#endif

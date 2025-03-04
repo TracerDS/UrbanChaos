@@ -2,8 +2,7 @@
 // Drawing polygons with D3D
 //
 
-#ifndef _POLY_
-#define _POLY_
+#pragma once
 
 
 static inline int ftol(float f)
@@ -655,4 +654,3 @@ extern std::uint16_t		POLY_page_flag[POLY_NUM_PAGES];
 
 extern void POLY_init_render_states();
 
-#endif

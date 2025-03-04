@@ -2,8 +2,7 @@
 // A player.
 //
 
-#ifndef _PLAYER_
-#define _PLAYER_
+#pragma once
 
 
 #include "server.h"
@@ -169,7 +168,6 @@ void PLAYER_press_keys(std::int32_t gameturn);
 
 
 
-#endif
 
 
 

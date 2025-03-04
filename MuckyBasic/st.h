@@ -2,8 +2,7 @@
 // A symbol table.
 //
 
-#ifndef _ST_
-#define _ST_
+#pragma once
 
 
 //
@@ -82,4 +81,3 @@ void ST_clear_all();
 
 
 
-#endif

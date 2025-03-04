@@ -1,5 +1,4 @@
-#ifndef	BUILDING_H
-#define	BUILDING_H			1
+#pragma once
 
 //DEFINES
 #define	MAX_BUILDINGS	(500)
@@ -238,4 +237,3 @@ extern std::int32_t	create_building_prim(std::uint16_t building,std::int32_t	*sm
 extern std::int32_t	next_connected_face(std::int32_t type,std::int32_t id,std::int32_t count);
 extern std::int32_t	is_storey_circular(std::int32_t storey);
 
-#endif

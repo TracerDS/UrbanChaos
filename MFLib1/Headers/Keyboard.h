@@ -1,8 +1,7 @@
 // Keyboard.h
 // Guy Simmons, 11th February 1997.
 
-#ifndef	_KEYBOARD_H_
-#define	_KEYBOARD_H_
+#pragma once
 
 #ifndef	_MF_TYPES_H_
 	#include	<MFTypes.h>
@@ -139,4 +138,3 @@ extern volatile std::uint8_t	Keys[256],
 bool SetupKeyboard();
 void ResetKeyboard();
 
-#endif

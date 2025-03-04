@@ -1,8 +1,7 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#ifndef	_MAPEDTAB_HPP_
-#define	_MAPEDTAB_HPP_
+#pragma once
 
 #include	"ModeTab.hpp"
 #include	"Stealth.h"
@@ -63,5 +62,4 @@ class	MapEdTab	:	public	ModeTab
 
 
 
-#endif
 

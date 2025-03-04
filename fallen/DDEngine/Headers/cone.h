@@ -2,8 +2,7 @@
 // Cones clipped by planar polygons.
 //
 
-#ifndef _CONE_
-#define _CONE_
+#pragma once
 
 
 //
@@ -62,4 +61,3 @@ void CONE_draw();
 
 
 
-#endif

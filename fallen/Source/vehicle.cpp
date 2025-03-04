@@ -1221,7 +1221,7 @@ extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world
 			p_car->WorldPos.Z                                                       >> 8,
 			float(veh_info[p_car->Genus.Vehicle->Type].shad_size    ) * 2.0F,
 			float(veh_info[p_car->Genus.Vehicle->Type].shad_elongate) * (1.0F / 64.0F),
-			float(p_car->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
+			float(p_car->Genus.Vehicle->Angle) * (2.0F * M_PI / 2048.0F),
 			OVAL_TYPE_SQUARE);
 
 		#endif
@@ -3985,7 +3985,7 @@ static void do_car_input(Thing *p_thing)
 		// get turn angle in radians
 		std::int32_t	radangle = DIV64(p_thing->Velocity<<(8 - CAR_VEL_SHIFT), tcr << 8);
 
-		// convert to fraction of 1.0 (divide by 2*PI = multiply by 1/2*PI = multiply by 10430)
+		// convert to fraction of 1.0 (divide by 2*M_PI = multiply by 1/2*M_PI = multiply by 10430)
 		std::int32_t	angle = MUL64(radangle, 10430);
 
 		// convert to angle 0 to 2047

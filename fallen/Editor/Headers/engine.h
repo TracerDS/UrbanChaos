@@ -1,5 +1,4 @@
-#ifndef	ED_ENGINE_H
-#define	ED_ENGINE_H			1
+#pragma once
 #include	"poly.h"
 
 //*********************************************************
@@ -396,5 +395,4 @@ extern void	animate_texture_maps();
 #define	POLY_T						(POLY_FLAG_TEXTURED)
 #define	POLY_G						(POLY_FLAG_GOURAD)
 #define	POLY_F						(0)
-#endif
 

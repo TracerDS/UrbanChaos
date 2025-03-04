@@ -1,8 +1,7 @@
 // Person.h
 // Guy Simmons, 12th January 1998
 
-#ifndef	PERSON_H
-#define	PERSON_H
+#pragma once
 #include "../Headers/Structs.h"
 
 //---------------------------------------------------------------
@@ -539,4 +538,3 @@ std::int32_t person_get_scale(Thing *t);
 
 //---------------------------------------------------------------
 
-#endif

@@ -2,8 +2,7 @@
 // Network stuff...
 //
 
-#ifndef NET_H
-#define NET_H
+#pragma once
 
 
 
@@ -148,5 +147,4 @@ std::int32_t NET_server_message_receive(NET_Player *player, std::int32_t *num_by
 
 
 
-#endif
 

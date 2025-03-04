@@ -6,8 +6,7 @@
  *  Content:	wave header
  *
  ***************************************************************************/
-#ifndef __WAVE_INCLUDED__
-#define __WAVE_INCLUDED__
+#pragma once
 #include <windows.h>
 
 #ifdef __cplusplus
@@ -63,6 +62,5 @@ bool riffCopyChunk(HMMIO, HMMIO, const LPMMCKINFO);
 }
 #endif
 
-#endif
 
 

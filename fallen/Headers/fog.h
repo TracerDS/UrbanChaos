@@ -2,8 +2,7 @@
 // Fog!
 //
 
-#ifndef FOG_H
-#define FOG_H
+#pragma once
 
 
 
@@ -71,4 +70,3 @@ void     FOG_get_start();
 FOG_Info FOG_get_info ();
 
 
-#endif

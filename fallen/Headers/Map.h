@@ -1,8 +1,7 @@
 // Map.h
 // Guy Simmons, 22nd October 1997.
 
-#ifndef	MAP_H
-#define	MAP_H
+#pragma once
 
 #include "light.h"
 
@@ -86,5 +85,4 @@ void         MAP_light_set_light (std::int32_t x, std::int32_t z, LIGHT_Colour c
 extern LIGHT_Map MAP_light_map;
 
 
-#endif
 

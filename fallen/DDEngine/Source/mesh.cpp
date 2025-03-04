@@ -1019,9 +1019,9 @@ NIGHT_Colour *MESH_draw_poly(
 	ASSERT ( alpha_bits != 0 );
 #endif
 
-	yaw   = float(i_yaw)   * (2.0F * PI / 2048.0F);
-	pitch = float(i_pitch) * (2.0F * PI / 2048.0F);
-	roll  = float(i_roll)  * (2.0F * PI / 2048.0F);
+	yaw   = float(i_yaw)   * (2.0F * M_PI / 2048.0F);
+	pitch = float(i_pitch) * (2.0F * M_PI / 2048.0F);
+	roll  = float(i_roll)  * (2.0F * M_PI / 2048.0F);
 
 	//calc_global_cloud(at_x,at_y,at_z);
 	
@@ -1059,9 +1059,9 @@ NIGHT_Colour *MESH_draw_poly_inv_matrix(
 
 	//calc_global_cloud(at_x,at_y,at_z);
 
-	yaw   = float(i_yaw)   * (2.0F * PI / 2048.0F);
-	pitch = float(i_pitch) * (2.0F * PI / 2048.0F);
-	roll  = float(i_roll)  * (2.0F * PI / 2048.0F);
+	yaw   = float(i_yaw)   * (2.0F * M_PI / 2048.0F);
+	pitch = float(i_pitch) * (2.0F * M_PI / 2048.0F);
+	roll  = float(i_roll)  * (2.0F * M_PI / 2048.0F);
 	
 	MATRIX_calc(
 		matrix,
@@ -1120,9 +1120,9 @@ NIGHT_Colour *MESH_draw_poly(
 	float pitch;
 	float roll;
 
-	yaw   = float(i_yaw)   * (2.0F * PI / 2048.0F);
-	pitch = float(i_pitch) * (2.0F * PI / 2048.0F);
-	roll  = float(i_roll)  * (2.0F * PI / 2048.0F);
+	yaw   = float(i_yaw)   * (2.0F * M_PI / 2048.0F);
+	pitch = float(i_pitch) * (2.0F * M_PI / 2048.0F);
+	roll  = float(i_roll)  * (2.0F * M_PI / 2048.0F);
 	
 	MATRIX_calc(
 		matrix,
@@ -1374,9 +1374,9 @@ void MESH_draw_morph(
 	float pitch;
 	float roll;
 
-	yaw   = float(i_yaw)   * (2.0F * PI / 2048.0F);
-	pitch = float(i_pitch) * (2.0F * PI / 2048.0F);
-	roll  = float(i_roll)  * (2.0F * PI / 2048.0F);
+	yaw   = float(i_yaw)   * (2.0F * M_PI / 2048.0F);
+	pitch = float(i_pitch) * (2.0F * M_PI / 2048.0F);
+	roll  = float(i_roll)  * (2.0F * M_PI / 2048.0F);
 	
 	//calc_global_cloud(at_x,at_y,at_z);
 
@@ -2211,7 +2211,7 @@ void MESH_draw_reflection(
 
 	MATRIX_calc(
 		matrix,
-		float(yaw) * (2.0F * PI / 2048.0F),
+		float(yaw) * (2.0F * M_PI / 2048.0F),
 		0,
 		0);
 

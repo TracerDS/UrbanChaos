@@ -2,8 +2,7 @@
 // Puddles!
 //
 
-#ifndef _PUDDLE_
-#define _PUDDLE_
+#pragma once
 
 
 #ifndef TARGET_DC
@@ -90,4 +89,3 @@ PUDDLE_Info *PUDDLE_get_next();
 #endif //#ifndef TARGET_DC
 
 
-#endif

@@ -2,8 +2,7 @@
 // Interface to all the OS functions.
 //
 
-#ifndef _OS_
-#define _OS_
+#pragma once
 
 
 // ========================================================
@@ -660,5 +659,4 @@ extern std::uint32_t OS_joy_button_down;	// The buttons that have just been pres
 extern std::uint32_t OS_joy_button_up;		// The buttons that have just been released
 
 
-#endif
 

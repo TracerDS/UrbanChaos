@@ -2,9 +2,7 @@
 // The camera.
 //
 
-#ifndef _CAM_
-#define _CAM_
-
+#pragma once
 
 //
 // The position of the camera. Only read from these vars.
@@ -18,23 +16,13 @@ extern float CAM_pitch;
 extern float CAM_lens;
 extern float CAM_matrix[9];
 
-
 //
 // Initialises the cameras. There is a free floating camera and
 // a camera that always looks at a focus point.
 //
-
 void CAM_init();
-
 
 //
 // Processes the camera using the keyboard.
 //
-
 void CAM_process();
-
-
-
-
-
-#endif

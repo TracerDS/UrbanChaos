@@ -2,8 +2,7 @@
 // Loads an environment from a file.
 //
 
-#ifndef _ENV_
-#define _ENV_
+#pragma once
 
 
 //
@@ -46,4 +45,3 @@ std::int32_t  ENV_get_value_number(char* name, std::int32_t def, char* section =
 void ENV_set_value_string(char* name, char* value, char* section = "Game");
 void ENV_set_value_number(char* name, std::int32_t value, char* section = "Game");
 
-#endif

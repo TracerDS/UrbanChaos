@@ -2,8 +2,7 @@
 // An anti-aliased triangle draw.
 //
 
-#ifndef _AA_
-#define _AA_
+#pragma once
 
 
 //
@@ -24,4 +23,3 @@ void AA_draw(
 		std::int32_t  p3x, std::int32_t p3y);
 
 
-#endif

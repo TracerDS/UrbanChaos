@@ -2,8 +2,7 @@
 // A font! That's all there is to it.
 //
 
-#ifndef _FONT_
-#define _FONT_
+#pragma once
 
 
 //
@@ -53,4 +52,3 @@ void FONT_draw(
 
 
 
-#endif

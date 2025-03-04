@@ -2,8 +2,7 @@
 // Trip wires.
 //
 
-#ifndef _TRIP_
-#define _TRIP_
+#pragma once
 
 
 //
@@ -101,4 +100,3 @@ TRIP_Info *TRIP_get_next ();	// Returns nullptr if there are no more trips left.
 
 
 
-#endif

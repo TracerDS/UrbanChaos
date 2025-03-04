@@ -2,8 +2,7 @@
 // SphereMatter - Hypermatter version 2!
 //
 
-#ifndef _SM_
-#define _SM_
+#pragma once
 
 
 
@@ -58,4 +57,3 @@ SM_Info *SM_get_next ();
 
 
 
-#endif

@@ -162,7 +162,7 @@ void CONE_create(
 	{
 		cp = &CONE_point[i];
 
-		angle   = float(i) * (2.0F * PI / float(CONE_point_upto));
+		angle   = float(i) * (2.0F * M_PI / float(CONE_point_upto));
 		along_a = cos(angle) * radius;
 		along_b = sin(angle) * radius;
 

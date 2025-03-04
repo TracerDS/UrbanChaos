@@ -1424,7 +1424,7 @@ void SUPERFACET_init()
 	{
 		MATRIX_calc(
 			SUPERFACET_direction_matrix[i],
-			float(i) * (PI / 2),
+			float(i) * (M_PI / 2),
 			0.0F,
 			0.0F);
 	}

@@ -3,8 +3,7 @@
 // wockawockawockawocka
 //
 
-#ifndef CHOPPER_H
-#define CHOPPER_H
+#pragma once
 
 #define MAX_CHOPPERS	4
 
@@ -82,4 +81,3 @@ Chopper  *CHOPPER_get_chopper (Thing *chopper_thing);
 DrawMesh *CHOPPER_get_drawmesh(Thing *chopper_thing);
 
 
-#endif

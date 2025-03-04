@@ -2,8 +2,7 @@
 // System variables.
 //
 
-#ifndef _SYSVAR_
-#define _SYSVAR_
+#pragma once
 
 
 //
@@ -30,4 +29,3 @@ void SYSVAR_init();
 
 
 
-#endif

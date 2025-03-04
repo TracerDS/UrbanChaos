@@ -2067,7 +2067,7 @@ void create_kline_bottle()
 	float	sqrt_2,a=1.0; //what the fuck should a be
 	struct	PrimFace4	*p_f4;
 
-	float	step=PI/10.0; // low poly version
+	float	step=M_PI/10.0; // low poly version
 
 	return; //switch it off for now
 
@@ -2083,10 +2083,10 @@ void create_kline_bottle()
 	sqrt_2=sqrt(2.0);
 
 
-	for(u=-1.0*PI;u<(1.0*PI)+(step/2.0);u+=step,count++)
+	for(u=-1.0*M_PI;u<(1.0*M_PI)+(step/2.0);u+=step,count++)
 	{
 		sp[count]=next_prim_point;
-		for(v=-1.0*PI;v<(1.0*PI)+(step/2.0);v+=step)
+		for(v=-1.0*M_PI;v<(1.0*M_PI)+(step/2.0);v+=step)
 		{
 //			x = cos(u)*(cos(u/2.0)*(sqrt_2+cos(v))+(sin(u/2.0)*sin(v)*cos(v)));
 //			y = sin(u)*(cos(u/2.0)*(sqrt_2+cos(v))+(sin(u/2.0)*sin(v)*cos(v)));

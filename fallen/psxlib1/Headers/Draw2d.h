@@ -1,8 +1,7 @@
 // Draw2D.h
 // Guy Simmons, 7th October 1996.
 
-#ifndef _DRAW2D_H_
-#define _DRAW2D_H_
+#pragma once
 
 #ifndef	_MF_TYPES_H_
 	#include	<MFTypes.h>
@@ -98,4 +97,3 @@ inline std::int32_t	QTCharHeight(char the_char)		{	return (CharTable[the_char])[
 
 //---------------------------------------------------------------
 
-#endif

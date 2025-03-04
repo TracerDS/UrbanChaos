@@ -2,8 +2,7 @@
 // Drawing sprites...
 //
 
-#ifndef _SPRITE_
-#define _SPRITE_
+#pragma once
 
 
 
@@ -68,5 +67,4 @@ void SPRITE_draw_tex_distorted(
 
 #endif //#else //#ifdef TARGET_DC
 
-#endif
 

@@ -1,5 +1,4 @@
-#ifndef	COLLISION_H
-#define	COLLISION_H			1
+#pragma once
 
 //#include "c:\fallen\headers\collide.h"
 //DEFINES
@@ -40,4 +39,3 @@ std::int32_t lines_intersect(
 			std::int32_t *y);
 
 
-#endif

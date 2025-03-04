@@ -2,8 +2,7 @@
 // Precalculates shadows on a built city.
 //
 
-#ifndef _SHADOW_
-#define _SHADOW_
+#pragma once
 
 
 //
@@ -102,5 +101,4 @@ std::int32_t SHADOW_in(std::int32_t x, std::int32_t y, std::int32_t z);
 
 
 
-#endif
 

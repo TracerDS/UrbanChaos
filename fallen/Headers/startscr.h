@@ -1,5 +1,4 @@
-#ifndef	START_SCR_H
-#define	START_SCR_H	1
+#pragma once
 
 
 #define	STARTS_START	1
@@ -47,4 +46,3 @@ void MissionListCallback(char* script, MISSION_callback cb);
 
 
 
-#endif

@@ -2,8 +2,7 @@
 // Realtime raytracing on the PC!
 //
 
-#ifndef _RAY_
-#define _RAY_
+#pragma once
 
 
 
@@ -15,5 +14,4 @@ void RAY_do();
 
 
 
-#endif
 

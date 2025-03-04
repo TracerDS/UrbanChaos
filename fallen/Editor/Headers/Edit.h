@@ -1,5 +1,4 @@
-#ifndef	EDIT_H
-#define	EDIT_H			1
+#pragma once
 
 #include	"primativ.hpp"
 #include	"Anim.h"
@@ -221,4 +220,3 @@ extern std::uint32_t	engine_keys_scroll_game();
 extern std::int32_t	add_floor_face_to_bucket(std::int32_t	x1,std::int32_t	y1,std::int32_t	z1,std::int32_t	x2,std::int32_t	y2,std::int32_t	z2,std::int32_t	x3,std::int32_t	y3,std::int32_t	z3,std::int32_t	x4,std::int32_t	y4,std::int32_t	z4,struct	DepthStrip	*p_map,std::int32_t b1,std::int32_t b2,std::int32_t b3,std::int32_t b4,std::uint16_t tex);
 
 
-#endif

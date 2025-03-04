@@ -2,8 +2,7 @@
 // Light editor.
 //
 
-#ifndef _ED_
-#define _ED_
+#pragma once
 
 #define	LIGHT_FLAGS_INSIDE	(1)
 
@@ -187,7 +186,6 @@ std::int32_t ED_save(char* name);
 
 
 
-#endif
 
 
 

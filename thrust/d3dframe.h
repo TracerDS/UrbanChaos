@@ -21,8 +21,7 @@
 //-----------------------------------------------------------------------------
 
 
-#ifndef D3DFRAME_H
-#define D3DFRAME_H
+#pragma once
 
 #include <ddraw.h>
 #include <d3d.h>
@@ -131,5 +130,4 @@ public:
 #define D3DFWERR_NOTINITIALIZED       0x8200000e
 
 
-#endif // D3DFRAME_H
 

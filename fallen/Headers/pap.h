@@ -2,8 +2,7 @@
 // A lower memory map: 100k
 //
 
-#ifndef _PAP_
-#define _PAP_
+#pragma once
 //#include	"game.h" //really requires thing.h but thing.h required game.h so lets cut it off at the pass#
 struct Thing;
 
@@ -188,5 +187,4 @@ std::int32_t PAP_is_flattish(
 		std::int32_t x1, std::int32_t z1,
 		std::int32_t x2, std::int32_t z2);
 
-#endif
 

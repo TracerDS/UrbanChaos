@@ -10,7 +10,7 @@
 #include "os.h"
 #include "wire.h"
 
-
+#include <cmath>
 
 //
 // Our meshes.
@@ -408,8 +408,8 @@ void WIRE_draw()
 	// Work out where the light source is.
 	//
 
-	#define WIRE_LIGHT_YAW   ((KEY_on[KEY_J]) ? (130 * 180 / PI) : (190 * 180 / PI))
-	#define WIRE_LIGHT_PITCH (-PI / 4)
+	#define WIRE_LIGHT_YAW   ((KEY_on[KEY_J]) ? (130 * 180 / M_PI) : (190 * 180 / M_PI))
+	#define WIRE_LIGHT_PITCH (-M_PI / 4)
 
 	float light_x;
 	float light_y;

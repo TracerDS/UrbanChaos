@@ -2,8 +2,7 @@
 // Image compression.
 //
 
-#ifndef _IC_
-#define _IC_
+#pragma once
 
 #include "tga.h"
 
@@ -51,4 +50,3 @@ void IC_unpack(
 void IC_test();
 
 
-#endif

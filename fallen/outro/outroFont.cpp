@@ -441,18 +441,12 @@ float FONT_get_width(char* str, float scale)
 	return ans;
 }
 
-
-
-
-
-
-
-void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t colour, float scale, std::int32_t cursor, float shimmer, char* fmt, ...)
+void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t colour, float scale, std::int32_t cursor, float shimmer, const char* fmt, ...)
 {
 	char   message[4096];
 	va_list	ap;
 
-	if (!fmt )
+	if (!fmt)
 	{
 		sprintf(message, "<nullptr>");
 	}

@@ -2,8 +2,7 @@
 // The glide library.
 //
 
-#ifndef _GLIDELIB_
-#define _GLIDELIB_
+#pragma once
 
 
 //
@@ -12,4 +11,3 @@
 
 
 
-#endif

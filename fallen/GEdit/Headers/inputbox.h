@@ -4,11 +4,9 @@
 // it's just useful
 //
 
-#ifndef _INPUT_BOX_H_
-#define _INPUT_BOX_H_
+#pragma once
 
 #include "MFStdLib.h"
 
 char* InputBox(char* title, char* prompt, char* txt);
 
-#endif

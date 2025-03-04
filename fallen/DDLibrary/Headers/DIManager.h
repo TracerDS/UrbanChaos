@@ -1,8 +1,7 @@
 // DIManager.h
 // Guy Simmons, 19th February 1998.
 
-#ifndef	DIMANAGER_H
-#define	DIMANAGER_H
+#pragma once
 
 #ifdef TARGET_DC
 #include "mapledev.h"
@@ -361,4 +360,3 @@ bool Vibrate ( float fFrequency, float fStartPower, float fShrinkTime, bool bEns
 
 
 
-#endif

@@ -3,8 +3,7 @@
 // Generated from N:\UrbanChaos\sounds.slb on 16/11/99 14:09:12
 //
 
-#ifndef _sound_id_h_
-#define _sound_id_h_
+#pragma once
 
 extern char* sound_list[];
 
@@ -350,4 +349,3 @@ enum Waves {
 	S_FRONT_END_LOOP_EDIT
 };
 
-#endif

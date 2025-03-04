@@ -2,8 +2,7 @@
 // Network stuff...
 //
 
-#ifndef NET_H
-#define NET_H
+#pragma once
 
 
 
@@ -187,4 +186,3 @@ typedef struct
 void NET_message_get(NET_Message *answer);
 
 
-#endif

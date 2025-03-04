@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef _MENUFONT_H_
-#define _MENUFONT_H_
+#pragma once
 
 #include "MFStdlib.h"
 
@@ -81,4 +80,3 @@ void MENUFONT_fadein_draw(std::int32_t x, std::int32_t y, std::uint8_t fade, cha
 
 
 
-#endif

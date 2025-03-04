@@ -2,8 +2,7 @@
 // Imports SEX files.
 //
 
-#ifndef _IMP_
-#define _IMP_
+#pragma once
 
 #include "os.h"
 
@@ -24,7 +23,7 @@
 #define IMP_SIDED_SINGLE 1
 #define IMP_SIDED_DOUBLE 2
 
-typedef struct
+struct IMP_Mat
 {
 	float r;
 	float g;
@@ -42,15 +41,14 @@ typedef struct
 	// Put extra stuff in here if you want...
 	//
 
-	OS_Texture *ot_tex;		// For the texture.
-	OS_Texture *ot_bpos;	// For the bumpmap.
-	OS_Texture *ot_bneg;	// For 1 - the bumpmap.
+	OS_Texture* ot_tex; // For the texture.
+	OS_Texture* ot_bpos; // For the bumpmap.
+	OS_Texture* ot_bneg; // For 1 - the bumpmap.
 
-	OS_Buffer  *ob;
+	OS_Buffer* ob;
+};
 
-} IMP_Mat;
-
-typedef struct
+struct IMP_Vert
 {
 	float x;
 	float y;
@@ -62,22 +60,20 @@ typedef struct
 
 	float lu;
 	float lv;
+};
 
-} IMP_Vert;
-
-typedef struct
+struct IMP_Tvert
 {
 	float u;
 	float v;
-
-} IMP_Tvert;
+};
 
 //
 // Only faces of the same smoothing group with the same material
 // and the same uvs share vertices.
 //
 
-typedef struct
+struct IMP_Svert
 {
 	float u;
 	float v;
@@ -117,17 +113,16 @@ typedef struct
 
 	float du;
 	float dv;
+};
 
-} IMP_Svert;
+#define IMP_FACE_FLAG_EDGE (1 << 0)
+#define IMP_FACE_FLAG_EDGE_A (1 << 0)
+#define IMP_FACE_FLAG_EDGE_B (1 << 1)
+#define IMP_FACE_FLAG_EDGE_C (1 << 2)
+#define IMP_FACE_FLAG_QUADDED (1 << 3)	// This face is part of a quad.
+#define IMP_FACE_FLAG_BACKFACE (1 << 4)	// EXTRA FLAG! Not set by the importer...
 
-#define IMP_FACE_FLAG_EDGE		(1 << 0)
-#define IMP_FACE_FLAG_EDGE_A	(1 << 0)
-#define IMP_FACE_FLAG_EDGE_B	(1 << 1)
-#define IMP_FACE_FLAG_EDGE_C	(1 << 2)
-#define IMP_FACE_FLAG_QUADDED	(1 << 3)	// This face is part of a quad.
-#define IMP_FACE_FLAG_BACKFACE	(1 << 4)	// EXTRA FLAG! Not set by the importer...
-
-typedef struct
+struct IMP_Face
 {
 	std::uint16_t v[3];		// Index into the vertex array.
 	std::uint16_t t[3];		// index into the texture vertex array.
@@ -147,18 +142,16 @@ typedef struct
 	float dxdv;
 	float dydv;
 	float dzdv;
- 
-} IMP_Face;
+};
 
 //
 // Using the edge flags exported from MAX to find quads.
 //
 
-typedef struct
+struct IMP_Quad
 {
 	std::uint16_t v[4];
- 
-} IMP_Quad;
+};
 
 
 //
@@ -166,49 +159,43 @@ typedef struct
 // face that lies on each edge.
 //
 
-typedef struct
+struct IMP_Edge
 {
 	std::uint16_t v1;
 	std::uint16_t v2;
 	std::uint16_t f1;
 	std::uint16_t f2;	// 0xffff => The edge belongs to only one face.
-
-} IMP_Edge;
-
+};
 
 //
 // All the visible edges of the mesh.
 //
-
-typedef struct
+struct IMP_Line
 {
 	std::uint16_t v1;
 	std::uint16_t v2;
+};
 
-} IMP_Line;
-
-
-
-typedef struct
+struct IMP_Mesh
 {
-	std::int32_t      valid;
-	char      name[32];
-	std::int32_t      num_mats;
-	std::int32_t      num_verts;
-	std::int32_t      num_tverts;
-	std::int32_t      num_faces;
-	std::int32_t      num_sverts;
-	std::int32_t      num_quads;
-	std::int32_t      num_edges;
-	std::int32_t      num_lines;
-	IMP_Mat   *mat;
-	IMP_Vert  *vert;
-	IMP_Tvert *tvert;
-	IMP_Face  *face;
-	IMP_Svert *svert;
-	IMP_Quad  *quad;
-	IMP_Edge  *edge;
-	IMP_Line  *line;
+	std::int32_t valid;
+	char name[32];
+	std::int32_t num_mats;
+	std::int32_t num_verts;
+	std::int32_t num_tverts;
+	std::int32_t num_faces;
+	std::int32_t num_sverts;
+	std::int32_t num_quads;
+	std::int32_t num_edges;
+	std::int32_t num_lines;
+	IMP_Mat* mat;
+	IMP_Vert* vert;
+	IMP_Tvert* tvert;
+	IMP_Face* face;
+	IMP_Svert* svert;
+	IMP_Quad* quad;
+	IMP_Edge* edge;
+	IMP_Line* line;
 
 	//
 	// The bounding box and bounding sphere of the mesh.
@@ -226,29 +213,20 @@ typedef struct
 	// For backing-up when we rotate.
 	//
 
-	IMP_Vert  *old_vert;
-	IMP_Svert *old_svert;
-
-} IMP_Mesh;
+	IMP_Vert* old_vert;
+	IMP_Svert* old_svert;
+};
 
 IMP_Mesh IMP_load(char* fname, float scale = 1.0F);
-
 
 //
 // All the arrays in the IMP_Mesh structure are dynamically allocated.
 // This function frees up all that memory.
 //
-
-void IMP_free(IMP_Mesh *im);
-
-
+void IMP_free(IMP_Mesh* im);
 
 //
 // Loads and saves a binary version of the mesh.
 //
-
-std::int32_t IMP_binary_save(char* fname, IMP_Mesh *im);	// Returns false on failure.
+std::int32_t IMP_binary_save(char* fname, IMP_Mesh* im); // Returns false on failure.
 IMP_Mesh IMP_binary_load(char* fname);
-
-
-#endif

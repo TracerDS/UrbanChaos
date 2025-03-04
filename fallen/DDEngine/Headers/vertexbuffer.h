@@ -2,8 +2,7 @@
 //
 // Vertex buffer stuff (DX6)
 
-#ifndef _VERTEXBUFFER_
-#define _VERTEXBUFFER_
+#pragma once
 
 #ifndef TARGET_DC
 // tried and it is about 33% faster than not using D3D vertex buffers
@@ -91,4 +90,3 @@ private:
 
 extern VertexBufferPool*	TheVPool;
 
-#endif

@@ -2,8 +2,7 @@
 // Draped cloth and flags.
 //
 
-#ifndef _CLOTH_
-#define _CLOTH_
+#pragma once
 
 
 //
@@ -108,4 +107,3 @@ typedef struct
 CLOTH_Info *CLOTH_get_info(std::uint8_t cloth);
 
 
-#endif

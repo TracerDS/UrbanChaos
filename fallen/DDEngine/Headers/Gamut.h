@@ -1,8 +1,7 @@
 // Gamut.h
 // Guy Simmons, 4th November 1997.
 
-#ifndef	GAMUT_H
-#define	GAMUT_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -27,6 +26,5 @@ void	draw_gamut(std::int32_t x,std::int32_t y);
 
 //---------------------------------------------------------------
 
-#endif
 
 

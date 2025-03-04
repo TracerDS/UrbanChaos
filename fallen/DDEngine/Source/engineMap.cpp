@@ -1729,7 +1729,7 @@ void MAP_draw()
 						MAP_SCREEN_X(float(p_thing->WorldPos.X) * (1.0F / 65536.0F)),
 						MAP_SCREEN_Y(float(p_thing->WorldPos.Z) * (1.0F / 65536.0F)),
 						scale,
-						float(p_thing->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F),
+						float(p_thing->Draw.Tweened->Angle) * (2.0F * M_PI / 2048.0F),
 						colour);
 
 					break;
@@ -1740,7 +1740,7 @@ void MAP_draw()
 						MAP_SCREEN_X(float(p_thing->WorldPos.X) * (1.0F / 65536.0F)),
 						MAP_SCREEN_Y(float(p_thing->WorldPos.Z) * (1.0F / 65536.0F)),
 						MAP_scale_x * 2.0F,
-						float(p_thing->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
+						float(p_thing->Genus.Vehicle->Angle) * (2.0F * M_PI / 2048.0F),
 						0xff0000ff);
 
 					break;
@@ -1843,7 +1843,7 @@ void MAP_draw_onscreen_beacons()
 		dx = float(mb->wx - (FC_cam[0].x >> 8));
 		dz = float(mb->wz - (FC_cam[0].z >> 8));
 
-		angle = -atan2(dx,dz) - float(FC_cam[0].yaw) * (2.0F * PI / (2048.0F * 256.0F));
+		angle = -atan2(dx,dz) - float(FC_cam[0].yaw) * (2.0F * M_PI / (2048.0F * 256.0F));
 		dist  =  fabs(dx) + fabs(dz);
 
 		colour = MAP_beacon_colour[i % MAP_MAX_BEACON_COLOURS];

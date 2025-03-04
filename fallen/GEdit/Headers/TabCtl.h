@@ -1,5 +1,4 @@
-#ifndef _TABCTL_H_
-#define _TABCTL_H_
+#pragma once
 
 /*******************************************************************
  *
@@ -45,4 +44,3 @@ std::int32_t	TABCTL_getsel(HWND wnd, DWORD tabctl);
 HWND	TABCTL_gethwnd(HWND wnd, DWORD tabctl);
 
 
-#endif

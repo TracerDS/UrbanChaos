@@ -2,8 +2,7 @@
 // Morphing keyframes.
 //
 
-#ifndef _MORPH_
-#define _MORPH_
+#pragma once
 
 
 //
@@ -36,4 +35,3 @@ MORPH_Point *MORPH_get_points    (std::int32_t morph);
 std::int32_t        MORPH_get_num_points(std::int32_t morph); 
 
 
-#endif

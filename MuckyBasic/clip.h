@@ -2,8 +2,7 @@
 // A general clipper.
 //
 
-#ifndef _CLIP_
-#define _CLIP_
+#pragma once
 
 
 //
@@ -19,4 +18,3 @@ void CLIP_do(
 		float   signed_distance_from_edge(void* point));	// +'ve => On the good side of the edge.
 
 
-#endif

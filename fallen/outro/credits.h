@@ -2,26 +2,14 @@
 // Draws the credits
 //
 
-#ifndef _CREDITS_
-#define _CREDITS_
-
-
+#pragma once
 
 //
 // Initialises the credits.
 //
-
 void CREDITS_init();
-
 
 //
 // Draws and processes the credits.
 //
-
 void CREDITS_draw();
-
-
-
-
-
-#endif

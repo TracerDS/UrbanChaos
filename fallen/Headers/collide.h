@@ -1,5 +1,4 @@
-#ifndef	COLLIDE_GAME
-#define	COLLIDE_GAME
+#pragma once
 
 #include "pap.h"
 
@@ -480,4 +479,3 @@ void COLLIDE_debug_fastnav(
 		std::int32_t world_z);
 
 
-#endif

@@ -2822,7 +2822,7 @@ void FACET_draw_rare(std::int32_t facet,std::uint8_t alpha)
 		{
 			float rdx;
 			float rdz;
-			float angle = float(p_facet->Open) * (PI / 256.0F);
+			float angle = float(p_facet->Open) * (M_PI / 256.0F);
 
 			//
 			// Open the facet!
@@ -3842,18 +3842,18 @@ draw_the_facet_common:;
 			}
 			else
 			{
-				yaw = PI;
+				yaw = M_PI;
 			}
 		}
 		else
 		{
 			if (p_facet->z[0] > p_facet->z[1])
 			{
-				yaw = 3 * PI / 2;
+				yaw = 3 * M_PI / 2;
 			}
 			else
 			{
-				yaw = PI / 2;
+				yaw = M_PI / 2;
 			}
 		}
 
@@ -3998,7 +3998,7 @@ draw_the_facet_common:;
 		{
 			float rdx;
 			float rdz;
-			float angle = float(p_facet->Open) * (PI / 256.0F);
+			float angle = float(p_facet->Open) * (M_PI / 256.0F);
 
 			//
 			// Open the facet!

@@ -1,5 +1,4 @@
-#ifndef	INLINE_H
-#define	INLINE_H
+#pragma once
 
 #if !defined (TARGET_DC)
 
@@ -162,4 +161,3 @@ inline std::int32_t	MUL64(std::int32_t a,std::int32_t b)
 
 #endif //#else //#if !defined (TARGET_DC)
 
-#endif

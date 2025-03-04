@@ -1,8 +1,7 @@
 // Command.h
 // Guy Simmons, 8th February 1998.
 
-#ifndef	COMMAND_H
-#define	COMMAND_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -203,4 +202,3 @@ void process_condition_lists();
 
 //---------------------------------------------------------------
 
-#endif

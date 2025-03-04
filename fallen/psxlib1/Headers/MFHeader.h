@@ -1,8 +1,7 @@
 // MFHeader.h
 // Guy Simmons, 1st Februry 1997.
 
-#ifndef	MFHEADER_H
-#define	MFHEADER_H
+#pragma once
 
 // Standard 'C' includes.
 #include	<iostream.h>
@@ -68,4 +67,3 @@
 #include	<Palette.h>
 #include	<Sprites.h>
 
-#endif

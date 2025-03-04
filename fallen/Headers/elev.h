@@ -2,8 +2,7 @@
 // The new ECTS level stuff!
 // 
 
-#ifndef _ELEV_
-#define _ELEV_
+#pragma once
 
 
 
@@ -40,4 +39,3 @@ std::int32_t ELEV_game_init(
 
 
 
-#endif

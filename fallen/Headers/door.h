@@ -2,8 +2,7 @@
 // Doors
 //
 
-#ifndef _DOOR_
-#define _DOOR_
+#pragma once
 
 
 
@@ -41,4 +40,3 @@ void DOOR_process();
 
 
 
-#endif

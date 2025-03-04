@@ -1,5 +1,4 @@
-#ifndef	_SCRFLC_H_
-#define	_SCRFLC_H_
+#pragma once
 
 //**************************************|************************************
 
@@ -149,4 +148,3 @@ extern std::int32_t	anim_show_FLI_COPY();
 extern std::int32_t	anim_read_data(std::uint8_t *data, std::int32_t size);
 
 //**************************************|************************************
-#endif

@@ -2,8 +2,7 @@
 // Guy Simmons, 27th March 1997.
 
 
-#ifndef	STRUCTS_H
-#define	STRUCTS_H
+#pragma once
 
 #include	"DarkCity.h"
 
@@ -75,4 +74,3 @@ typedef	struct
 
 //---------------------------------------------------------------
 
-#endif

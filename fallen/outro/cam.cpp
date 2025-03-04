@@ -8,8 +8,6 @@
 #include "matrix.h"
 #include "os.h"
 
-
-
 //
 // The two different camera types.
 // 
@@ -35,8 +33,6 @@ float CAM_matrix[9];
 float CAM_focus_x;
 float CAM_focus_y;
 float CAM_focus_z;
-
-
 
 void CAM_init()
 {

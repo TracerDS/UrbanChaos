@@ -2,8 +2,7 @@
 // Drawing polygons with D3D
 //
 
-#ifndef _POLY_
-#define _POLY_
+#pragma once
 
 
 //
@@ -198,4 +197,3 @@ void POLY_add_line_2d   (float sx1, float sy1, float sx2, float sy2, std::uint32
 void POLY_clip_line_box (float sx1, float sy1, float sx2, float sy2);
 void POLY_clip_line_add (float sx1, float sy1, float sx2, float sy2, std::uint32_t colour);
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef	ANIMATE
-#define ANIMATE
+#pragma once
 
 //
 // Defines
@@ -778,4 +777,3 @@
 //
 
 
-#endif

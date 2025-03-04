@@ -2,8 +2,7 @@
 // Loads in 32-bit RGBA uncompressed TGAs.
 //
 
-#ifndef _TGA_
-#define _TGA_
+#pragma once
 
 #include "FileClump.h"
 
@@ -64,4 +63,3 @@ bool DoesTGAExist(const char* filename, std::uint32_t id);
 void CloseTGAClump();
 FileClump* GetTGAClump();
 
-#endif

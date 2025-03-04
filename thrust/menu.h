@@ -2,8 +2,7 @@
 // The menus that appear in the game.
 //
 
-#ifndef _MENU_
-#define _MENU_
+#pragma once
 
 
 
@@ -17,4 +16,3 @@ void MENU_init();
 
 
 
-#endif

@@ -2,8 +2,7 @@
 // Simple ovals underneath people, barrels etc...
 //
 
-#ifndef _OVAL_
-#define _OVAL_
+#pragma once
 
 
 
@@ -25,4 +24,3 @@ void OVAL_add(
 
 
 
-#endif

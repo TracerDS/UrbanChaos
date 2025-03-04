@@ -3,8 +3,7 @@
 // an executable.
 //
 
-#ifndef _CG_
-#define _CG_
+#pragma once
 
 
 
@@ -29,4 +28,3 @@ std::int32_t CG_do(char* fname, std::int32_t output = CG_OUTPUT_EXECUTABLE);
 
 
 
-#endif

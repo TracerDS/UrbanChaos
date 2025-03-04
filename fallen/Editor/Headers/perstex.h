@@ -2,8 +2,7 @@
 // Handles the allocation of people textures on n:\
 //
 
-#ifndef _PERSTEX_
-#define _PERSTEX_
+#pragma once
 
 
 
@@ -32,4 +31,3 @@ std::int32_t PERSTEX_get_number(char* fname);
 
 
 
-#endif

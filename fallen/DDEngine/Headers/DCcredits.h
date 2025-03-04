@@ -2,8 +2,7 @@
 // Draws the credits
 //
 
-#ifndef _CREDITS_
-#define _CREDITS_
+#pragma once
 
 //
 // Do the credits...
@@ -11,4 +10,3 @@
 
 void CREDITS_do();
 
-#endif

@@ -2,8 +2,7 @@
 // Primitive shapes...
 //
 
-#ifndef _SHAPE_
-#define _SHAPE_
+#pragma once
 
 
 #include "ob.h"
@@ -153,7 +152,6 @@ void SHAPE_draw_balloon(std::int32_t balloon);
 
 
 
-#endif
 
 
 

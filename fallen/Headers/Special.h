@@ -1,8 +1,7 @@
 //	Special.h
 //	Guy Simmons, 28th March 1998.
 
-#ifndef	SPECIAL_H
-#define	SPECIAL_H
+#pragma once
 
 
 #define SPECIAL_AMMO_IN_A_PISTOL  15
@@ -186,4 +185,3 @@ void SPECIAL_set_explosives(Thing *p_person);
 
 
 
-#endif

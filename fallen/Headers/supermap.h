@@ -1,5 +1,4 @@
-#ifndef	SUPERMAP_H
-#define	SUPERMAP_H	1
+#pragma once
 
 #ifdef	PSX
 //
@@ -236,6 +235,5 @@ void create_super_dbuilding(std::int32_t building);
 
 
 
-#endif
 
 

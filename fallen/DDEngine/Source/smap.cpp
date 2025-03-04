@@ -494,9 +494,9 @@ std::int32_t SMAP_prim_points(
 
 	MATRIX_calc(
 		matrix,
-		float(yaw)   * (2.0F * PI / 2048.0F),
-		float(pitch) * (2.0F * PI / 2048.0F),
-		float(roll)  * (2.0F * PI / 2048.0F));
+		float(yaw) * (2.0F * M_PI / 2048.0F),
+		float(pitch) * (2.0F * M_PI / 2048.0F),
+		float(roll) * (2.0F * M_PI / 2048.0F));
 
 	//
 	// Add all the points to the shadow mapper.

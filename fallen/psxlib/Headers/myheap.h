@@ -1,5 +1,4 @@
-#ifndef _MYHEAP_H
-#define _MYHEAP_H
+#pragma once
 
 #ifndef	FS_ISO9660
 #define		INITIAL_HEAP_SIZE		(1536*1024)
@@ -10,4 +9,3 @@
 #define		MAXIMUM_HEAP_SIZE		(16*1024*1024)
 
 extern std::uint8_t	my_heap[40*1024];
-#endif

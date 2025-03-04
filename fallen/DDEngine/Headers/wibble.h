@@ -2,8 +2,7 @@
 // Wibbles the given bit of screen.
 //
 
-#ifndef _WIBBLE_
-#define _WIBBLE_
+#pragma once
 
 
 
@@ -25,4 +24,3 @@ void WIBBLE_simple(
 
 
 
-#endif

@@ -2,8 +2,7 @@
 // The virtual machine to run our basic programs.
 //
 
-#ifndef _VM_
-#define _VM_
+#pragma once
 
 
 //
@@ -14,4 +13,3 @@ void VM_run(char* fname);
 
 
 
-#endif

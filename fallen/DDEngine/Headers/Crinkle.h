@@ -2,8 +2,7 @@
 // Crinkles!
 //
 
-#ifndef CRINKLE_H
-#define CRINKLE_H
+#pragma once
 
 
 #include "aeng.h"
@@ -72,4 +71,3 @@ void CRINKLE_project(
 
 
 
-#endif

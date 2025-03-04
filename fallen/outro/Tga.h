@@ -2,8 +2,7 @@
 // Loads in 32-bit RGBA uncompressed TGAs.
 //
 
-#ifndef _TGA_
-#define _TGA_
+#pragma once
 
 
 //
@@ -62,4 +61,3 @@ void TGA_save(
 #endif
 
 
-#endif

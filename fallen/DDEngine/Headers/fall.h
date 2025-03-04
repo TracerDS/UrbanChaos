@@ -2,8 +2,7 @@
 // Poly-modelled animating waterfalls.
 //
 
-#ifndef _FALL_
-#define _FALL_
+#pragma once
 
 
 
@@ -48,7 +47,6 @@ void FALL_draw();
 
 
 
-#endif
 
 
 

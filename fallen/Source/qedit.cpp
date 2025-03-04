@@ -350,9 +350,9 @@ void QEDIT_draw()
 	float world_y = float(QEDIT_cam_y);
 	float world_z = float(QEDIT_cam_z);
 
-	float radians_yaw   = float(QEDIT_cam_yaw)   * (2.0f * PI / 2048.0F);
-	float radians_pitch = float(QEDIT_cam_pitch) * (2.0f * PI / 2048.0F);
-	float radians_roll  = float(QEDIT_cam_roll)  * (2.0f * PI / 2048.0F);
+	float radians_yaw   = float(QEDIT_cam_yaw)   * (2.0f * M_PI / 2048.0F);
+	float radians_pitch = float(QEDIT_cam_pitch) * (2.0f * M_PI / 2048.0F);
+	float radians_roll  = float(QEDIT_cam_roll)  * (2.0f * M_PI / 2048.0F);
 
 	QENG_clear_screen();
 

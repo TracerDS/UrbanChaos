@@ -2,8 +2,7 @@
 // Drawing rotating prims.
 //
 
-#ifndef MESH_H
-#define MESH_H
+#pragma once
 
 
 #include "night.h"
@@ -119,6 +118,5 @@ void MESH_draw_morph(
 
 
 
-#endif
 
 

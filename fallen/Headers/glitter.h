@@ -2,8 +2,7 @@
 // Collections of little sparkley projectiles.
 //
 
-#ifndef _GLITTER_
-#define _GLITTER_
+#pragma once
 
 
 
@@ -77,5 +76,4 @@ GLITTER_Info *GLITTER_get_next();
 
 
 
-#endif
 

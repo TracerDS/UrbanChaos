@@ -2,8 +2,7 @@
 // Guy Simmons, 19th September 1997.
 
 
-#ifndef	_KFRAMER_HPP_
-#define	_KFRAMER_HPP_
+#pragma once
 
 #include	"EditMod.hpp"
 
@@ -39,5 +38,4 @@ class	KeyFrameEditor2	:	public	EditorModule
 		void			DrawKeyFrame(std::uint16_t multi_object,EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix);
 };
 
-#endif
 

@@ -3,8 +3,7 @@
 // restricts its movements.
 //
 
-#ifndef _LEAD_
-#define _LEAD_
+#pragma once
 
 //
 // The lead structure. The first point of the lead is (attach_x,attach_y,attach_z).
@@ -85,4 +84,3 @@ void LEAD_process();
 
 
 
-#endif

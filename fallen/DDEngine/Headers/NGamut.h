@@ -2,8 +2,7 @@
 // Gamut calculations of polygons.
 //
 
-#ifndef _NGAMUT_
-#define _NGAMUT_
+#pragma once
 
 
 //
@@ -85,4 +84,3 @@ extern std::int32_t        NGAMUT_lo_zmax;
 void NGAMUT_calculate_lo_gamut();
 
 
-#endif

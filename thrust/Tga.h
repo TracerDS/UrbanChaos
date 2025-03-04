@@ -2,8 +2,7 @@
 // Loads in 32-bit RGBA uncompressed TGAs.
 //
 
-#ifndef _TGA_
-#define _TGA_
+#pragma once
 
 
 //
@@ -59,4 +58,3 @@ void TGA_save(
 		std::int32_t        contains_alpha);	// false => Save without the alpha data.
 
 
-#endif

@@ -1,8 +1,7 @@
 // Stealth.h
 // Guy Simmons, 21st February 1997.
 
-#ifndef	_STEALTH_H_
-#define	_STEALTH_H_
+#pragma once
 
 #define	TEXTURE_WIDTH		256
 #define	TEXTURE_HEIGHT		256
@@ -37,4 +36,3 @@ typedef	struct
 }EdTexture;
 
 
-#endif

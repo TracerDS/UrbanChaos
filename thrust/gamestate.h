@@ -2,8 +2,7 @@
 // For storing and restoring gamestate
 //
 
-#ifndef _GAMESTATE_
-#define _GAMESTATE_
+#pragma once
 
 #include "orb.h"
 #include "ship.h"
@@ -44,4 +43,3 @@ void GAMESTATE_restore(GAMESTATE_State *old_game_state);
 
 
 
-#endif

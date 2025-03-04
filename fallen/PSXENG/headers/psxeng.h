@@ -2,8 +2,7 @@
 // Another engine.
 //
 
-#ifndef _PSXENG_H
-#define _PSXENG_H
+#pragma once
 #define USE_A3D
 
 #ifdef VERSION_DPC
@@ -832,6 +831,5 @@ extern void	GDisp_SetupBucketMem(char *addr,std::int32_t size);
 
 #define COLLIDE_can_i_fastnav(x,z) (!(WITHIN((x), 0, PAP_SIZE_HI - 1) || !WITHIN((z), 0, PAP_SIZE_HI - 1) || (COLLIDE_fastnav[x][(z) >> 3] & (1 << ((z) & 0x7)))))
 
-#endif
 
 

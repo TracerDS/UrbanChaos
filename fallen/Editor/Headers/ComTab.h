@@ -1,8 +1,7 @@
 // ComTab.h
 // Guy Simmons, 9th March 1998.
 
-#ifndef	COMTAB_H
-#define	COMTAB_H
+#pragma once
 
 #include	"EdCom.h"
 
@@ -51,4 +50,3 @@ class	CommandTab	:	public	ModeTab
 
 //---------------------------------------------------------------
 
-#endif

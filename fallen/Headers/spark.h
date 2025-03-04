@@ -2,8 +2,7 @@
 // Electric sparks...
 //
 
-#ifndef _SPARK_
-#define _SPARK_
+#pragma once
 
 //
 // Removes all sparks.
@@ -101,4 +100,3 @@ SPARK_Info *SPARK_get_next ();	// nullptr => No more sparks...
 
 
 
-#endif

@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef _FONT_2D_H_
-#define _FONT_2D_H_
+#pragma once
 
 #include "MFStdLib.h"
 #include "poly.h"
@@ -95,5 +94,4 @@ void FONT2D_DrawStrikethrough(std::int32_t x1, std::int32_t x2, std::int32_t y, 
 
 
 
-#endif
 

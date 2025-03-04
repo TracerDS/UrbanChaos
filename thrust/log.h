@@ -2,8 +2,7 @@
 // For displaying debug messages.
 //
 
-#ifndef _LOG_
-#define _LOG_
+#pragma once
 
 
 void LOG_init   ();
@@ -18,4 +17,3 @@ void LOG_fini   ();
 void LOG_file(char* fmt, ...);
 
 
-#endif

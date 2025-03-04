@@ -2,8 +2,7 @@
 // Converts facets to draw indexed primitive calls...
 //
 
-#ifndef _SUPERFACET_
-#define _SUPERFACET_
+#pragma once
 
 
 
@@ -40,4 +39,3 @@ void SUPERFACET_fini();
 
 
 
-#endif

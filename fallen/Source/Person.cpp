@@ -1450,9 +1450,9 @@ void person_splash(
     if (limb==heh_heh_heh) return;
 	heh_heh_heh=limb;
 
-	yaw   = -float(p_person->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F);
-	pitch = -float(p_person->Draw.Tweened->Tilt)  * (2.0F * PI / 2048.0F);
-	roll  = -float(p_person->Draw.Tweened->Roll)  * (2.0F * PI / 2048.0F);
+	yaw   = -float(p_person->Draw.Tweened->Angle) * (2.0F * M_PI / 2048.0F);
+	pitch = -float(p_person->Draw.Tweened->Tilt)  * (2.0F * M_PI / 2048.0F);
+	roll  = -float(p_person->Draw.Tweened->Roll)  * (2.0F * M_PI / 2048.0F);
 
 	MATRIX_calc(matrix, yaw, pitch, roll);
 	vector[2]=20; vector[1]=0; vector[0]=0; 

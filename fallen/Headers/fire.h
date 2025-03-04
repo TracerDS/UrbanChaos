@@ -2,8 +2,7 @@
 // Fire!
 //
 
-#ifndef _FIRE_
-#define _FIRE_
+#pragma once
 
 
 //
@@ -75,4 +74,3 @@ FIRE_Info *FIRE_get_next ();		// nullptr => No more fire here.
 
 
 
-#endif

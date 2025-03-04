@@ -481,7 +481,7 @@ void SHAPE_semisphere_textured(
 		for (j = 0; j < c_points; j++)
 		{
 			angle   = j * (2048 / c_points);
-			f_angle = float(angle) * (2.0F * PI / 2048.0F);
+			f_angle = float(angle) * (2.0F * M_PI / 2048.0F);
 
 			along_a = SIN(angle) * width >> 8;
 			along_b = COS(angle) * width >> 8;
@@ -690,11 +690,11 @@ void SHAPE_sphere(
 
 	pp = &POLY_buffer[0];
 
-	pitch = PI / 2.0F;
+	pitch = M_PI / 2.0F;
 
 	for (i = 1; i < SHAPE_SPHERE_NUM_UPDOWN; i++)
 	{
-		pitch -= PI / float(SHAPE_SPHERE_NUM_UPDOWN);
+		pitch -= M_PI / float(SHAPE_SPHERE_NUM_UPDOWN);
 		yaw    = 0.0F;
  
 		for (j = 0; j < SHAPE_SPHERE_NUM_AROUND; j++)
@@ -731,7 +731,7 @@ void SHAPE_sphere(
 
 			pp->colour = SHAPE_colour_mult(pp->colour, colour);
 
-			yaw += 2.0F * PI / float(SHAPE_SPHERE_NUM_AROUND);
+			yaw += 2.0F * M_PI / float(SHAPE_SPHERE_NUM_AROUND);
 			pp  += 1;
 		}
 	}
@@ -1701,7 +1701,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 
 			pi = get_prim_info(oi->prim);
 
-			angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
+			angle = float(-oi->yaw) * (2.0F * M_PI / 2048.0F);
 
 			sin_yaw = sin(angle);
 			cos_yaw = cos(angle);
@@ -1777,7 +1777,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 			{
 				pi = get_prim_info(oi->prim);
 
-				angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
+				angle = float(-oi->yaw) * (2.0F * M_PI / 2048.0F);
 
 				sin_yaw = sin(angle);
 				cos_yaw = cos(angle);
@@ -1886,7 +1886,7 @@ void SHAPE_prim_shadow(OB_Info *oi)
 
 			pi = get_prim_info(oi->prim);
 
-			angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
+			angle = float(-oi->yaw) * (2.0F * M_PI / 2048.0F);
 
 			sin_yaw = sin(angle);
 			cos_yaw = cos(angle);
@@ -2011,11 +2011,11 @@ void SHAPE_alpha_sphere(
 
 	pp = &POLY_buffer[0];
 
-	pitch = PI / 2.0F;
+	pitch = M_PI / 2.0F;
 
 	for (i = 1; i < SHAPE_SPHERE_NUM_UPDOWN; i++)
 	{
-		pitch -= PI / float(SHAPE_SPHERE_NUM_UPDOWN);
+		pitch -= M_PI / float(SHAPE_SPHERE_NUM_UPDOWN);
 		yaw    = 0.0F;
  
 		for (j = 0; j < SHAPE_SPHERE_NUM_AROUND; j++)
@@ -2053,7 +2053,7 @@ void SHAPE_alpha_sphere(
 			pp->colour = SHAPE_colour_mult(pp->colour, colour);
 			pp->colour |= alpha;
 
-			yaw += 2.0F * PI / float(SHAPE_SPHERE_NUM_AROUND);
+			yaw += 2.0F * M_PI / float(SHAPE_SPHERE_NUM_AROUND);
 			pp  += 1;
 		}
 	}

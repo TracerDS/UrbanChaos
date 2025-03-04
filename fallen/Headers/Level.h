@@ -1,8 +1,7 @@
 // Level.h
 // Guy Simmons, 26th January 1998.
 
-#ifndef	LEVEL_H
-#define	LEVEL_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -135,5 +134,4 @@ bool	load_level(std::uint32_t level);
 
 //---------------------------------------------------------------
 
-#endif
 

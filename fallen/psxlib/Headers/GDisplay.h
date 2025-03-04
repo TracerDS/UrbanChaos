@@ -1,8 +1,7 @@
 // Display.h
 // Guy Simmons, 13th November 1997.
 
-#ifndef	DISPLAY_H
-#define	DISPLAY_H
+#pragma once
 
 
 #include "libgpu.h"
@@ -104,5 +103,4 @@ extern Display			the_display;
 
 //---------------------------------------------------------------
 
-#endif
 

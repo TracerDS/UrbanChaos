@@ -2,8 +2,7 @@
 // The landscape- its made up of lots of lines.
 //
 
-#ifndef _LAND_
-#define _LAND_
+#pragma once
 
 
 
@@ -54,5 +53,4 @@ void LAND_draw_all(float x, float y, float zoom);
 
 
 
-#endif
 

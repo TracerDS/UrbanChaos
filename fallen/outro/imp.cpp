@@ -5,32 +5,19 @@
 #include "always.h"
 #include "imp.h"
 
-
-
 //
 // Returns true if the normals are similar enough.
 //
 
 std::int32_t IMP_norm_similar(
-		float     nx1,
-		float     ny1,
-		float     nz1,
-		float     nx2,
-		float     ny2,
-		float     nz2)
+		float nx1,
+		float ny1,
+		float nz1,
+		float nx2,
+		float ny2,
+		float nz2)
 {
-	float dprod;
-
-	dprod = nx1*nx2 + ny1*ny2 + nz1*nz2;
-
-	if (dprod > 0.999F)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (nx1 * nx2 + ny1 * ny2 + nz1 * nz2) > 0.999F;
 }
 
 
@@ -99,7 +86,7 @@ std::int32_t IMP_add_line(IMP_Mesh *im, std::int32_t *max_lines, std::uint16_t v
 
 		im->line = (IMP_Line *) realloc(im->line, sizeof(IMP_Line) * *max_lines);
 
-		if (!im->line )
+		if (!im->line)
 		{
 			return false;
 		}
@@ -112,10 +99,6 @@ std::int32_t IMP_add_line(IMP_Mesh *im, std::int32_t *max_lines, std::uint16_t v
 
 	return true;
 }
-
-
-
-
 
 IMP_Mesh IMP_load(char* fname, float scale)
 {
@@ -231,14 +214,14 @@ IMP_Mesh IMP_load(char* fname, float scale)
 	ans.edge  = (IMP_Edge  *) malloc(sizeof(IMP_Edge ) * max_edges );
 	ans.line  = (IMP_Line  *) malloc(sizeof(IMP_Line ) * max_lines );
 
-	if (ans.mat   == nullptr ||
-		ans.vert  == nullptr ||
-		ans.tvert == nullptr ||
-		ans.face  == nullptr ||
-		ans.svert == nullptr ||
-		ans.quad  == nullptr ||
-		ans.edge  == nullptr ||
-		ans.line  == nullptr)
+	if (!ans.mat ||
+		!ans.vert ||
+		!ans.tvert ||
+		!ans.face ||
+		!ans.svert ||
+		!ans.quad ||
+		!ans.edge ||
+		!ans.line)
 	{
 		goto file_error;
 	}

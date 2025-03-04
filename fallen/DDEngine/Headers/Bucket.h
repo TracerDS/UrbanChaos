@@ -1,8 +1,7 @@
 // Bucket.h
 // Guy Simmons, 24th October 1997.
 
-#ifndef	BUCKET_H
-#define	BUCKET_H
+#pragma once
 #include "Engine.h"
 
 //---------------------------------------------------------------
@@ -173,7 +172,6 @@ void	init_buckets();
 
 //---------------------------------------------------------------
 
-#endif
 
 
 

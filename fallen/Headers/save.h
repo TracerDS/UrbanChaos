@@ -2,8 +2,7 @@
 // Ingame save functions.
 //
 
-#ifndef _SAVE_
-#define _SAVE_
+#pragma once
 
 
 //
@@ -17,4 +16,3 @@ std::int32_t LOAD_ingame(char* fname);
 
 
 
-#endif

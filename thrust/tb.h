@@ -2,8 +2,7 @@
 // Tractor beams!
 // 
 
-#ifndef _TB_
-#define _TB_
+#pragma once
 
 #include "orb.h"
 #include "ship.h"
@@ -61,4 +60,3 @@ void TB_draw_all(float mid_x, float mid_y, float zoom);
 
 
 
-#endif

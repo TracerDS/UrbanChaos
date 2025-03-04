@@ -2,8 +2,7 @@
 // Another engine.
 //
 
-#ifndef _AENG_
-#define _AENG_
+#pragma once
 
 //
 //  defines
@@ -490,4 +489,3 @@ void AENG_set_detail_levels(int stars,
 
 #endif
 
-#endif

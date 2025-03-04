@@ -1,8 +1,7 @@
 //	QSManager.h
 //	Guy Simmons, 6th May 1998.
 
-#ifndef	QSMANAGER_H
-#define	QSMANAGER_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -151,4 +150,3 @@ extern QSManager		the_qs_sound_manager;
 
 //---------------------------------------------------------------
 
-#endif

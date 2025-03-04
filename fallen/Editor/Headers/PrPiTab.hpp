@@ -1,8 +1,7 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#ifndef	_PRIMPICKTAB_HPP_
-#define	_PRIMPICKTAB_HPP_
+#pragma once
 
 #include	"ModeTab.hpp"
 #include	"Stealth.h"
@@ -89,5 +88,4 @@ class	PrimPickTab	:	public	ModeTab
 
 extern void	add_a_background_thing(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z);
 
-#endif
 

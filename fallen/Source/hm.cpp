@@ -1078,9 +1078,9 @@ std::uint8_t HM_create(
 	// The rotation matrix of the prim.
 	//
 
-	float f_yaw   = float(yaw)   * 2.0F * PI / 2048.0F;
-	float f_pitch = float(pitch) * 2.0F * PI / 2048.0F;
-	float f_roll  = float(roll)  * 2.0F * PI / 2048.0F;
+	float f_yaw   = float(yaw)   * 2.0F * M_PI / 2048.0F;
+	float f_pitch = float(pitch) * 2.0F * M_PI / 2048.0F;
+	float f_roll  = float(roll)  * 2.0F * M_PI / 2048.0F;
 
 	float matrix[9];
 
@@ -2954,9 +2954,9 @@ void HM_find_mesh_pos(
 
 	Direction rot = MATRIX_find_angles(matrix);
 
-	rot.yaw   *= 2048.0F / (2.0F * PI);
-	rot.pitch *= 2048.0F / (2.0F * PI);
-	rot.roll  *= 2048.0F / (2.0F * PI);
+	rot.yaw   *= 2048.0F / (2.0F * M_PI);
+	rot.pitch *= 2048.0F / (2.0F * M_PI);
+	rot.roll  *= 2048.0F / (2.0F * M_PI);
 
 	*yaw   = std::int32_t(rot.yaw);
 	*pitch = std::int32_t(rot.pitch);

@@ -2,8 +2,7 @@
 // Marks navigation system.
 //
 
-#ifndef _MAV_
-#define _MAV_
+#pragma once
 
 
 #include "pap.h"
@@ -203,4 +202,3 @@ void MAV_turn_car_movement_on (std::uint8_t mx, std::uint8_t mz, std::uint8_t di
 void MAV_turn_car_movement_off(std::uint8_t mx, std::uint8_t mz, std::uint8_t dir);
 
 
-#endif

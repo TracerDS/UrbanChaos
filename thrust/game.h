@@ -2,8 +2,7 @@
 // Game-wide stuff
 //
 
-#ifndef _GAME_
-#define _GAME_
+#pragma once
 
 
 //
@@ -33,4 +32,3 @@ void GAME_do();
 
 
 
-#endif

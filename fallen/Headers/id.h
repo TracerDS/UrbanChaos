@@ -2,8 +2,7 @@
 // Interior design module.
 //
 
-#ifndef ID_H
-#define ID_H
+#pragma once
 
 
 //
@@ -332,6 +331,5 @@ std::int32_t ID_editor_get_wall (ID_Wallinfo  *ans);
 std::int32_t ID_editor_get_stair(ID_Stairinfo *ans);
 
 
-#endif
 
 

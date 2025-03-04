@@ -5,8 +5,7 @@
 // plays back cutscenes made with cutscene.cpp in gedit
 //
 
-#ifndef _PLAYCUTS_H_
-#define _PLAYCUTS_H_
+#pragma once
 
 
 #include "MFStdLib.h"
@@ -93,4 +92,3 @@ void PLAYCUTS_Reset();
 
 
 
-#endif

@@ -279,8 +279,8 @@ void OVAL_add(
 	OVAL_dudx = (sin(angle) / float(size)) / elongate;
 	OVAL_dvdx = (cos(angle) / float(size));
 
-	OVAL_dudz = (sin(angle + PI / 2) / float(size)) / elongate;
-	OVAL_dvdz = (cos(angle + PI / 2) / float(size));
+	OVAL_dudz = (sin(angle + M_PI / 2) / float(size)) / elongate;
+	OVAL_dvdz = (cos(angle + M_PI / 2) / float(size));
 
 	//
 	// Which page are we using?

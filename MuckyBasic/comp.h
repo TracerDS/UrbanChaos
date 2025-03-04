@@ -2,8 +2,7 @@
 // The compiler.
 //
 
-#ifndef _COMP_
-#define _COMP_
+#pragma once
 
 
 
@@ -15,4 +14,3 @@ std::int32_t COMP_do(char* fname_input, char* fname_output);
 
 
 
-#endif

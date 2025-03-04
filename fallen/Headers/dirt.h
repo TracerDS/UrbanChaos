@@ -5,8 +5,7 @@
 // edge on the focus point.
 //
 
-#ifndef DIRT_H
-#define DIRT_H
+#pragma once
 
 #define DIRT_TYPE_UNUSED    0
 #define DIRT_TYPE_LEAF	    1
@@ -279,4 +278,3 @@ void DIRT_mark_as_offscreen(std::int32_t which);
 void DIRT_new_sparks(std::int32_t px, std::int32_t py, std::int32_t pz, std::uint8_t dir);
 
 
-#endif

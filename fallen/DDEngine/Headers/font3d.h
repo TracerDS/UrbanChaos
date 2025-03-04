@@ -12,20 +12,7 @@
 
 #pragma once
 
-// #include <MFStdLib.h>
-
-// why does the above line toast it?
-// oh well... set up manually then...
-
-#define PI				(3.14159265F)
-typedef	unsigned char		std::uint8_t;
-typedef signed char			std::int8_t;
-typedef char				char;
-typedef unsigned short		std::uint16_t;
-typedef signed short		std::int16_t;
-typedef unsigned long		std::uint32_t;
-typedef signed long			std::int32_t;
-
+#include <MFStdLib.h>
 
 struct FontVec {
 	float x,y,z;       // vertex pos

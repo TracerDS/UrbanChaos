@@ -2,8 +2,7 @@
 // The final camera?
 //
 
-#ifndef _FC_
-#define _FC_
+#pragma once
 
 
 
@@ -135,4 +134,3 @@ void FC_setup_initial_camera(std::int32_t cam);
 void FC_explosion(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t force);	// 0 <= force <= 400 ish
 
 
-#endif

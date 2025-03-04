@@ -2,8 +2,7 @@
 // Cached lighting.
 //
 
-#ifndef _NIGHT_
-#define _NIGHT_
+#pragma once
 
 
 #include "pap.h"
@@ -579,7 +578,6 @@ std::int32_t NIGHT_check_index(std::int32_t walkable_prim_point_index);
 void NIGHT_generate_walkable_lighting();
 
 
-#endif
 
 
 

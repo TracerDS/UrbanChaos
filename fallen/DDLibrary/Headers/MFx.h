@@ -1,5 +1,4 @@
-#ifndef _mfx_h_
-#define _mfx_h_
+#pragma once
 
 
 #include "MFStdLib.h"
@@ -80,4 +79,3 @@ void	MFX_QUICK_wait();
 void	MFX_QUICK_stop ();
 std::int32_t	MFX_QUICK_still_playing();
 
-#endif

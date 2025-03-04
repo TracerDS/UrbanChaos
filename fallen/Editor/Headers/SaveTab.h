@@ -1,8 +1,7 @@
 // SaveTab.h
 // Guy Simmons, 26th January 1998.
 
-#ifndef	SAVETAB_H
-#define	SAVETAB_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -41,4 +40,3 @@ class	SaveTab	:	public	ModeTab
 //---------------------------------------------------------------
 
 
-#endif

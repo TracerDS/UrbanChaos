@@ -22,8 +22,7 @@
 
 #endif
 
-#ifndef _POLYPAGE_
-#define _POLYPAGE_
+#pragma once
 
 #include "renderstate.h"
 #include "vertexbuffer.h"
@@ -297,7 +296,6 @@ extern HRESULT DrawIndPrimMM ( LPDIRECT3DDEVICE3 lpDevice,
 						WORD *pwIndices,
 						DWORD dwNumIndices );
 
-#endif
 
 
 // Useful.

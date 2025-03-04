@@ -1,8 +1,7 @@
 // WorkScreen.h
 // Guy Simmons, 10th December 1997
 
-#ifndef	WORK_SCREEN_H
-#define	WORK_SCREEN_H
+#pragma once
 
 
 
@@ -45,4 +44,3 @@ inline bool		PointInRect(MFPoint *the_point,MFRect *the_rect)	{	if(the_point->X>
 #endif //#ifndef TARGET_DC
 
 
-#endif

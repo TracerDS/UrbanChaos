@@ -2,8 +2,7 @@
 // An A-Z of the current city.
 //
 
-#ifndef _AZ_
-#define _AZ_
+#pragma once
 
 
 //
@@ -42,4 +41,3 @@ void AZ_create_lines();
 
 
 
-#endif

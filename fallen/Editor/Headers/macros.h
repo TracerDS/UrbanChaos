@@ -1,5 +1,4 @@
-#ifndef	MACROS_H
-#define	MACROS_H			1
+#pragma once
 #include	"math.h"
 //#define	GetTickCount()	0
 #ifdef	__MSC_VER
@@ -47,4 +46,3 @@ inline	std::int32_t TLEN(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::in
 	temp_dz=abs(z2-z1);
 	return(sqrl(SDIST2(temp_dx,temp_dz)));
 }
-#endif

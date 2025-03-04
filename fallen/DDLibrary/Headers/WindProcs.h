@@ -1,8 +1,7 @@
 // WindProcs.h
 // Guy Simmons, 14th November 1997.
 
-#ifndef	WINDPROCS_H
-#define	WINDPROCS_H
+#pragma once
 
 #include	"DDManager.h"
 
@@ -27,4 +26,3 @@ LRESULT	CALLBACK	DDLibShellProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 //---------------------------------------------------------------
 
-#endif

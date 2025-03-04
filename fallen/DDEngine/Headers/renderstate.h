@@ -2,8 +2,7 @@
 //
 // render state class; encapsulates a state of the renderer
 
-#ifndef _RENDERSTATE_
-#define _RENDERSTATE_
+#pragma once
 
 enum SpecialEffect
 {
@@ -98,4 +97,3 @@ private:
 };
 #pragma pack( pop )
 
-#endif

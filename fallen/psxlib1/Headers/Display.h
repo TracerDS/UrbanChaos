@@ -1,8 +1,7 @@
 //	Display.h
 //	Guy Simmons, 6th October 1996.
 
-#ifndef _DISPLAY_H_
-#define _DISPLAY_H_
+#pragma once
 
 #ifndef	_MF_TYPES_H_
 	#include	<MFTypes.h>
@@ -123,4 +122,3 @@ void ClearWorkScreen(std::uint8_t colour);
 
 //---------------------------------------------------------------
 
-#endif

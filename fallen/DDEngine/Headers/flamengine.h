@@ -5,8 +5,7 @@
  *
  */
 
-#ifndef _FLAMENGINE_
-#define _FLAMENGINE_
+#pragma once
 
 #include <MFStdLib.h>
 
@@ -79,4 +78,3 @@ class Flamengine {
 	void BlitHalf(char side);	//   Same, but half only (for seperate left + right)
 };
 
-#endif
