@@ -32,5 +32,6 @@
 *.app
 
 fallen/.vs
-fallen/Debug
-fallen/Release
+fallen/bin
+fallen/out
+bin/
