@@ -30,7 +30,7 @@
 *.app
 
 # Urban Chaos game files
-!/bin/
+/bin/
 
 # VS files
 fallen/.vs
