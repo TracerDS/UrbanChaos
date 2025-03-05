@@ -14,7 +14,6 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -24,15 +23,21 @@
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
 *.out
 *.app
 
+# Urban Chaos game files
+!/bin/
+
+# VS files
 fallen/.vs
-fallen/bin
+
+# Out files
 fallen/out
-bin/
+fallen/bin
+
+# Premake projects
 Projects/
