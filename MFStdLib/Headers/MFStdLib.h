@@ -174,7 +174,7 @@ bool ReadInputDevice();
 // Standard macros.
 
 #define	sgn(a)				(((a)<0) ? -1 : 1)
-#define	swap(a,b)			{a^=b;b^=a;a^=b;}
+#define	mfstdlib_swap(a,b)			{a^=b;b^=a;a^=b;}
 
 #define	in_range(a,min,max)	{if(a>(max))a=(max);else if(a<(min))a=(min);}
 #ifndef	min
