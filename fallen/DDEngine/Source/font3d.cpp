@@ -453,5 +453,4 @@ void Font3D::DrawString(char* str, std::uint32_t ctrx, std::uint32_t y, std::uin
 	}
 }
 
-
 #endif

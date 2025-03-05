@@ -1,3931 +1,3349 @@
 
-#include	"Editor.hpp"
+#include "Editor.hpp"
 
-#include	"engine.h"
-#include	"coltab.hpp"
-//#include	"collide.hpp"
-#include	"map.h"
-#include    "c:\fallen\headers\game.h"
-#include	"c:\fallen\headers\light.h"
-#include	"extra.h"
-#include	"c:\fallen\headers\animtmap.h"
-#include	"c:\fallen\headers\pap.h"
-#include	"c:\fallen\headers\ob.h"
-#include	"c:\fallen\headers\supermap.h"
-#include	"c:\fallen\headers\io.h"
-#include	"c:\fallen\headers\memory.h"
+#include "engine.h"
+#include "coltab.hpp"
+// #include	"collide.hpp"
+#include "map.h"
+#include "c:\fallen\headers\game.h"
+#include "c:\fallen\headers\light.h"
+#include "extra.h"
+#include "c:\fallen\headers\animtmap.h"
+#include "c:\fallen\headers\pap.h"
+#include "c:\fallen\headers\ob.h"
+#include "c:\fallen\headers\supermap.h"
+#include "c:\fallen\headers\io.h"
+#include "c:\fallen\headers\memory.h"
 
-#define	SET_TEXTURE_ROCKS(t)	{t.X=4;t.Y=4;t.Width=2;t.Height=2;t.Page=0;t.DrawFlags=(POLY_FLAG_GOURAD|POLY_FLAG_TEXTURED);}
+#define SET_TEXTURE_ROCKS(t)                                   \
+    {                                                          \
+        t.X = 4;                                               \
+        t.Y = 4;                                               \
+        t.Width = 2;                                           \
+        t.Height = 2;                                          \
+        t.Page = 0;                                            \
+        t.DrawFlags = (POLY_FLAG_GOURAD | POLY_FLAG_TEXTURED); \
+    }
 
-extern void load_palette(char* palette);
-extern std::int32_t	calc_edit_height_at(std::int32_t x,std::int32_t z);
-extern std::int32_t	next_inside; //building.cpp
+extern void load_palette(char *palette);
+extern std::int32_t calc_edit_height_at(std::int32_t x, std::int32_t z);
+extern std::int32_t next_inside; // building.cpp
 
-extern std::int32_t	editor_texture_set;
-extern std::uint16_t	page_count[];
-extern std::uint16_t	moved_from[16*64];
-extern std::uint16_t	moved_to[16*64];
+extern std::int32_t editor_texture_set;
+extern std::uint16_t page_count[];
+extern std::uint16_t moved_from[16 * 64];
+extern std::uint16_t moved_to[16 * 64];
 
-extern std::uint16_t	*psx_remap;//[128];
-extern std::uint16_t	page_remap[];
+extern std::uint16_t *psx_remap; //[128];
+extern std::uint16_t page_remap[];
 
-struct	MapBlock2
-{
-	std::int32_t	X;
-	std::int32_t	Y;
-	std::int32_t	Z;
-	struct	DepthStrip	*MapPtr;
-	std::int32_t	AngleX; //wont need this I suspect
-	std::int32_t	AngleY;
-	std::int32_t	AngleZ; //wont need this I suspect
+struct MapBlock2 {
+    std::int32_t X;
+    std::int32_t Y;
+    std::int32_t Z;
+    struct DepthStrip *MapPtr;
+    std::int32_t AngleX; // wont need this I suspect
+    std::int32_t AngleY;
+    std::int32_t AngleZ; // wont need this I suspect
 
-	std::int32_t	MapWidth;
-	std::int32_t	MapHeight;
-	std::int32_t	MapDepth; // (unchangeable?)
+    std::int32_t MapWidth;
+    std::int32_t MapHeight;
+    std::int32_t MapDepth; // (unchangeable?)
 
-	char	*name;
+    char *name;
 };
 
 // std::uint8_t	texture_sizes[]={8,16,32,64,96,128,160,192};
 
-std::int16_t	face_selected_list[MAX_EDIT_FACE_LIST];
-std::int16_t	next_face_selected=1;
+std::int16_t face_selected_list[MAX_EDIT_FACE_LIST];
+std::int16_t next_face_selected = 1;
 
-extern std::int32_t	save_psx;
+extern std::int32_t save_psx;
 
+struct Light d_lights[MAX_D_LIGHTS];
+std::uint16_t next_d_light = 1;
 
-struct	Light	d_lights[MAX_D_LIGHTS];
-std::uint16_t	next_d_light=1;
+// extern std::uint32_t		WorkWindowHeight,   //just for now as application does not get these
+//					WorkWindowWidth;
+extern void create_bucket_3d_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t col);
+extern void create_bucket_3d_line_whole(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t col);
 
-//extern std::uint32_t		WorkWindowHeight,   //just for now as application does not get these
-//					WorkWindowWidth; 
-extern void	create_bucket_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col);
-extern void	create_bucket_3d_line_whole(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col);
+// struct	EditMapElement	edit_map_eles[65000];
 
-
-//struct	EditMapElement	edit_map_eles[65000];
-
-
-
-std::int32_t	edit_turn;
+std::int32_t edit_turn;
 /*
 char	prim_names[200][13]=
 {
-	"testzoo.asc",
-	"testzoo.asc",
+        "testzoo.asc",
+        "testzoo.asc",
 };
 */
 
 // EditFace	edit_face;
-EditFace		hilited_face,
-				selected_face;
-struct SVector	selected_prim_xyz;
+EditFace hilited_face,
+    selected_face;
+struct SVector selected_prim_xyz;
 
+struct EditInfo edit_info;
 
-struct	EditInfo	edit_info;	
+void swap_maps() {
+    char name[128];
 
+    std::int32_t create = 1;
 
+    if (ShiftFlag)
+        create = 0;
 
-void	swap_maps()
-{
-	char	name[128];
-
-	std::int32_t	create=1;
-
-	if(ShiftFlag)
-		create=0;
-
-
-	sprintf(name,"data\\swap%d.map",edit_info.MapID);
-	save_map(name,1);
-	edit_info.MapID++;
-	edit_info.MapID&=1;
-	sprintf(name,"data\\swap%d.map",edit_info.MapID);
-	if(!load_map(name))
-	{
-		clear_map();
-	}
-	else
-	{
-		if(create)		
-			create_city(BUILD_MODE_EDITOR);
-	}
+    sprintf(name, "data\\swap%d.map", edit_info.MapID);
+    save_map(name, 1);
+    edit_info.MapID++;
+    edit_info.MapID &= 1;
+    sprintf(name, "data\\swap%d.map", edit_info.MapID);
+    if (!load_map(name)) {
+        clear_map();
+    } else {
+        if (create)
+            create_city(BUILD_MODE_EDITOR);
+    }
 }
-
-
-
 
 //		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
-std::int32_t	on_edit_map(std::int32_t x,std::int32_t z)
-{
-	if(edit_info.Clipped)
-	{
-		if((x<<8)>edit_info.MinX && (x<<8)<edit_info.MaxX && (z<<8)>edit_info.MinZ && (z<<8)<edit_info.MaxZ)
-		{
-			return(1);
-		}
-		else
-		{
-			return(0);
-		}
+std::int32_t on_edit_map(std::int32_t x, std::int32_t z) {
+    if (edit_info.Clipped) {
+        if ((x << 8) > edit_info.MinX && (x << 8) < edit_info.MaxX && (z << 8) > edit_info.MinZ && (z << 8) < edit_info.MaxZ) {
+            return (1);
+        } else {
+            return (0);
+        }
 
-	}
-	else
-	{
-		if(x>=0&&x<EDIT_MAP_WIDTH&&z>=0&&z<EDIT_MAP_DEPTH)
-		{
-			return(1);
-		}
-		else
-		{
-			return(0);
-		}
-	}
+    } else {
+        if (x >= 0 && x < EDIT_MAP_WIDTH && z >= 0 && z < EDIT_MAP_DEPTH) {
+            return (1);
+        } else {
+            return (0);
+        }
+    }
 }
 
-void	free_edit_memory()
-{
-	std::int32_t	c0;
-	for(c0=0;c0<MAX_WALLS;c0++)
-	{
-		if(wall_list[c0].Textures&&wall_list[c0].Tcount)
-		{
-			MemFree((void*)wall_list[c0].Textures);
-			wall_list[c0].Textures=0;
-			wall_list[c0].Tcount=0;
-		}
-	}
+void free_edit_memory() {
+    std::int32_t c0;
+    for (c0 = 0; c0 < MAX_WALLS; c0++) {
+        if (wall_list[c0].Textures && wall_list[c0].Tcount) {
+            MemFree((void *) wall_list[c0].Textures);
+            wall_list[c0].Textures = 0;
+            wall_list[c0].Tcount = 0;
+        }
+    }
 }
 
-
-
-std::int32_t	face_is_in_list(std::int16_t face)
-{
-	std::int32_t	c0;
-	for(c0=1;c0<next_face_selected;c0++)
-	{
-		if(face_selected_list[c0]==face)
-			return(c0);
-	}
-	return(0);
-	
+std::int32_t face_is_in_list(std::int16_t face) {
+    std::int32_t c0;
+    for (c0 = 1; c0 < next_face_selected; c0++) {
+        if (face_selected_list[c0] == face)
+            return (c0);
+    }
+    return (0);
 }
 
-void	add_face_to_list(std::int16_t face)
-{
-	std::int32_t	c0;
+void add_face_to_list(std::int16_t face) {
+    std::int32_t c0;
 
+    for (c0 = 1; c0 < next_face_selected; c0++) {
+        if (face_selected_list[c0] == face) {
+            //			LogText(" face %d removed from pos %d nfs %d \n",face,c0,next_face_selected-1);
+            for (; c0 < next_face_selected; c0++) {
+                face_selected_list[c0] = face_selected_list[c0 + 1];
+            }
+            next_face_selected--;
+            if (face < 0)
+                prim_faces3[-face].FaceFlags &= ~FACE_FLAG_OUTLINE;
+            else
+                prim_faces4[face].FaceFlags &= ~FACE_FLAG_OUTLINE;
+            return;
+        }
+    }
+    if (next_face_selected >= MAX_EDIT_FACE_LIST)
+        return;
 
-	for(c0=1;c0<next_face_selected;c0++)
-	{
-		if(face_selected_list[c0]==face)
-		{
-//			LogText(" face %d removed from pos %d nfs %d \n",face,c0,next_face_selected-1);
-			for(;c0<next_face_selected;c0++)
-			{
-				face_selected_list[c0]=face_selected_list[c0+1];
-			}
-			next_face_selected--;
-			if(face<0)
-				prim_faces3[-face].FaceFlags&=~FACE_FLAG_OUTLINE;
-			else
-				prim_faces4[face].FaceFlags&=~FACE_FLAG_OUTLINE;
-			return;
-		}
-	}
-	if(next_face_selected>=MAX_EDIT_FACE_LIST)
-		return;
+    //	LogText(" face %d added to pos %d  \n",face,next_face_selected);
 
-//	LogText(" face %d added to pos %d  \n",face,next_face_selected);
-
-	face_selected_list[next_face_selected]=face;						
-	if(face<0)
-		prim_faces3[-face].FaceFlags|=FACE_FLAG_OUTLINE;
-	else
-		prim_faces4[face].FaceFlags|=FACE_FLAG_OUTLINE;
-	next_face_selected++;
-	edit_info.TileFlag=0;
+    face_selected_list[next_face_selected] = face;
+    if (face < 0)
+        prim_faces3[-face].FaceFlags |= FACE_FLAG_OUTLINE;
+    else
+        prim_faces4[face].FaceFlags |= FACE_FLAG_OUTLINE;
+    next_face_selected++;
+    edit_info.TileFlag = 0;
 }
 
-
-
-std::int32_t	add_a_light(std::int16_t i,std::int32_t x,std::int32_t y,std::int32_t z)
-{
-	if(next_d_light<MAX_D_LIGHTS)
-	{
-		d_lights[next_d_light].Intensity=i;
-		d_lights[next_d_light].X=x;
-		d_lights[next_d_light].Y=y;
-		d_lights[next_d_light++].Z=z;
-		return(1);
-	}
-	return(0);
-
+std::int32_t add_a_light(std::int16_t i, std::int32_t x, std::int32_t y, std::int32_t z) {
+    if (next_d_light < MAX_D_LIGHTS) {
+        d_lights[next_d_light].Intensity = i;
+        d_lights[next_d_light].X = x;
+        d_lights[next_d_light].Y = y;
+        d_lights[next_d_light++].Z = z;
+        return (1);
+    }
+    return (0);
 }
 
-void	clear_lights()
-{
-	next_d_light=1;
+void clear_lights() {
+    next_d_light = 1;
 }
 
+// insert_cube((engine.X>>8)>>ELE_SHIFT,(engine.Y>>8)>>ELE_SHIFT,(engine.Z>>8)>>ELE_SHIFT);
+extern std::uint16_t apply_ambient_light_to_object(std::uint16_t object, std::int32_t lnx, std::int32_t lny, std::int32_t lnz, std::uint16_t intense);
 
-//insert_cube((engine.X>>8)>>ELE_SHIFT,(engine.Y>>8)>>ELE_SHIFT,(engine.Z>>8)>>ELE_SHIFT);
-extern std::uint16_t	apply_ambient_light_to_object(std::uint16_t object,std::int32_t lnx,std::int32_t lny,std::int32_t lnz,std::uint16_t intense);
+std::int32_t place_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
+    std::uint16_t map_thing;
+    struct MapThing *p_mthing;
 
-std::int32_t	place_prim_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
-{
-	std::uint16_t	map_thing;
-	struct	MapThing	*p_mthing;
+    y = 0;
 
-	y=0;
+    map_thing = find_empty_map_thing();
+    if (!map_thing)
+        return (0);
+    add_thing_to_edit_map(x >> ELE_SHIFT, z >> ELE_SHIFT, map_thing);
+    p_mthing = TO_MTHING(map_thing);
+    p_mthing->X = x;
+    p_mthing->Y = y;
+    p_mthing->Z = z;
 
-	map_thing=find_empty_map_thing();
-	if(!map_thing)
-		return(0);
-	add_thing_to_edit_map(x>>ELE_SHIFT,z>>ELE_SHIFT,map_thing);
-	p_mthing=TO_MTHING(map_thing);
-	p_mthing->X=x;
-	p_mthing->Y=y;
-	p_mthing->Z=z;
+    p_mthing->Type = MAP_THING_TYPE_PRIM;
+    //	p_mthing->IndexOther=copy_prim_to_end(prim,0,map_thing);
+    p_mthing->IndexOther = prim; // copy_prim_to_start(prim,0,map_thing);
+    p_mthing->IndexOrig = prim;
+    if (edit_info.Inside)
+        p_mthing->Flags |= FLAG_EDIT_PRIM_INSIDE;
+    else
+        p_mthing->Flags &= ~FLAG_EDIT_PRIM_INSIDE;
+    //	apply_ambient_light_to_object(prim,edit_info.amb_dx,edit_info.amb_dy,edit_info.amb_dz,edit_info.amb_bright);
 
-	p_mthing->Type=MAP_THING_TYPE_PRIM;
-//	p_mthing->IndexOther=copy_prim_to_end(prim,0,map_thing);
-	p_mthing->IndexOther=prim; //copy_prim_to_start(prim,0,map_thing);
-	p_mthing->IndexOrig=prim;
-	if(edit_info.Inside)
-		p_mthing->Flags|=FLAG_EDIT_PRIM_INSIDE;
-	else
-		p_mthing->Flags&=~FLAG_EDIT_PRIM_INSIDE;
-//	apply_ambient_light_to_object(prim,edit_info.amb_dx,edit_info.amb_dy,edit_info.amb_dz,edit_info.amb_bright);
-
-	return(map_thing);
+    return (map_thing);
 }
 
-std::int32_t	place_anim_prim_at(std::uint16_t prim,std::int32_t x,std::int32_t y,std::int32_t z)
-{
-	std::uint16_t	map_thing;
-	struct	MapThing	*p_mthing;
+std::int32_t place_anim_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
+    std::uint16_t map_thing;
+    struct MapThing *p_mthing;
 
-	y=0;
+    y = 0;
 
-	map_thing=find_empty_map_thing();
-	if(!map_thing)
-		return(0);
-	add_thing_to_edit_map(x>>ELE_SHIFT,z>>ELE_SHIFT,map_thing);
-	p_mthing=TO_MTHING(map_thing);
-	p_mthing->X=x;
-	p_mthing->Y=y;
-	p_mthing->Z=z;
+    map_thing = find_empty_map_thing();
+    if (!map_thing)
+        return (0);
+    add_thing_to_edit_map(x >> ELE_SHIFT, z >> ELE_SHIFT, map_thing);
+    p_mthing = TO_MTHING(map_thing);
+    p_mthing->X = x;
+    p_mthing->Y = y;
+    p_mthing->Z = z;
 
-	p_mthing->Type=MAP_THING_TYPE_ANIM_PRIM;
-//	p_mthing->IndexOther=copy_prim_to_end(prim,0,map_thing);
-	p_mthing->IndexOther=prim; //copy_prim_to_start(prim,0,map_thing);
-	p_mthing->IndexOrig=prim;
-//	apply_ambient_light_to_object(prim,edit_info.amb_dx,edit_info.amb_dy,edit_info.amb_dz,edit_info.amb_bright);
+    p_mthing->Type = MAP_THING_TYPE_ANIM_PRIM;
+    //	p_mthing->IndexOther=copy_prim_to_end(prim,0,map_thing);
+    p_mthing->IndexOther = prim; // copy_prim_to_start(prim,0,map_thing);
+    p_mthing->IndexOrig = prim;
+    //	apply_ambient_light_to_object(prim,edit_info.amb_dx,edit_info.amb_dy,edit_info.amb_dz,edit_info.amb_bright);
 
-	return(map_thing);
+    return (map_thing);
 }
 
-std::int32_t	is_thing_on_map(std::int32_t index)
-{					
-	struct MapThing *p_thing;
-	std::int32_t	map;
+std::int32_t is_thing_on_map(std::int32_t index) {
+    struct MapThing *p_thing;
+    std::int32_t map;
 
-	p_thing=TO_MTHING(index);
-	map=edit_map[p_thing->X>>ELE_SHIFT][p_thing->Z>>ELE_SHIFT].MapThingIndex;
-	while(map)
-	{
-		if(map==index)
-			return(1);
-		map=map_things[map].MapChild;
-	}
-	return(0);
+    p_thing = TO_MTHING(index);
+    map = edit_map[p_thing->X >> ELE_SHIFT][p_thing->Z >> ELE_SHIFT].MapThingIndex;
+    while (map) {
+        if (map == index)
+            return (1);
+        map = map_things[map].MapChild;
+    }
+    return (0);
 }
 
-void	build_tims(std::uint16_t	next_texture);
-
-std::uint16_t	is_road[]=
-{
-	323,324,325,326,327,328,331,332,333,334,340,341,342,343,348,349,350,351,352,353,354,355,356,0
-};
-
-extern void	move_texture(std::uint16_t from,std::uint16_t to);
-extern std::uint16_t	get_split_bits(std::uint16_t tex);
-
-
-void	save_game_map(char* name)
-{
-	std::uint16_t	temp1,temp2,temp3,temp;
-	std::int32_t	save_type=26, ob_size;
-	std::int32_t	x,y,z;
-	std::int32_t	c0;
-	MapElement	me;
-	Thing	th;
-	struct	MapThing	*t_mthing;
-	std::int32_t	next_texture=64*4;
-	std::uint16_t	*tex_map_psx;
-
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	MFFileHandle	jandle	=	FILE_OPEN_ERROR;
-
-
-	
-	//
-	// Change the extension of 'name'...
-	//
-
-	char  gamename[256];
-	char* ch;
-
-	strcpy(gamename, name);
-
-	for (ch = gamename; *ch; ch++);
-	while(*ch != '.') {ch--;}
-	ch++;
-
-	if(save_psx)
-		*ch++ = 'p';
-	else
-		*ch++ = 'i';
-	*ch++ = 'a';
-	*ch++ = 'm';
-	*ch++ = '\000';
-
-	memset((char*)moved_from,0,16*64*2);
-	memset((char*)moved_to,0,16*64*2);
-
-
-
-	jandle=FileCreate(gamename,1);
-	if(jandle!=FILE_CREATION_ERROR) {
-		// I'm evil. eeeeeeevilllle.
-extern void	save_ob_ob(MFFileHandle	handle);
-		save_ob_ob(jandle);
-		FileClose(jandle);
-	}
-
-	handle=FileCreate(gamename,1);
-	if(handle!=FILE_CREATION_ERROR)
-	{
-		PAP_Hi pap_hi;
-		PAP_Lo pap_lo;
-		std::int32_t	c0;
-
-		FileWrite(handle,(std::uint8_t*)&save_type,4);
-
-extern void	add_flat_roof_to_pap();
-		add_flat_roof_to_pap();
-
-		ob_size = sizeof(OB_ob_upto) + (sizeof(OB_Ob)*OB_ob_upto) + (sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
-		FileWrite(handle,(std::uint8_t*)&ob_size,4);
-
-		memset(&me,0,sizeof(me));
-
-		c0=0;
-		while(is_road[c0])
-		{
-//			ASSERT(is_road[c0]!=340);
-			moved_to[is_road[c0]]=next_texture;
-			moved_from[next_texture]=is_road[c0];
-
-			move_texture(is_road[c0],next_texture+25*64);
-
-			next_texture++;
-			c0++;
-		}
-		tex_map_psx=(std::uint16_t*)MemAlloc(128*128*2);
-
-		for(x=0;x<MAP_WIDTH;x++)
-		for(z=0;z<MAP_HEIGHT;z++)
-		{
-			if(x<PAP_SIZE_HI && z<PAP_SIZE_HI)
-			{
-				if(save_psx)
-				{
-					std::uint16_t	texture;
-					std::uint16_t	split;
-
-					split=get_split_bits(edit_map[x][z].Texture);
-					texture=edit_map[x][z].Texture&0x3ff;
-					edit_map[x][z].Texture&=~0xc000;
-
-
-					//if(page_count[texture]) //no effect surely
-					{
-
-
-						if(moved_to[texture])
-						{
-							// previously moved
-
-							pap_hi.Texture		   =(edit_map[x][z].Texture&(~0x3ff))|(moved_to[texture])|split;
-
-
-						}
-						else
-						{
-							pap_hi.Texture		   =(edit_map[x][z].Texture&(~0x3ff))|(next_texture)|split;
-
-							//
-							// this location contains a texture from ...
-							//
-							moved_from[next_texture]=texture;
-							moved_to[texture]=next_texture;
-
-							move_texture(texture,next_texture+25*64);
-
-							next_texture++;
-						}
-					}
-					//
-					// now the alternative texture layer (for roof tops)
-					//
-					split=get_split_bits(tex_map[x][z]);
-					texture=tex_map[x][z]&0x3ff;
-					tex_map[x][z]&=~0xc000;
-
-					if(moved_to[texture])
-					{
-						// previously moved
-
-						tex_map_psx[x*128+z]		   =(tex_map[x][z]&(~0x3ff))|(moved_to[texture])|split;
-
-
-					}
-					else
-					{
-						tex_map_psx[x*128+z]		   =(tex_map[x][z]&(~0x3ff))|(next_texture)|split;
-
-						//
-						// this location contains a texture from ...
-						//
-						moved_from[next_texture]=texture;
-						moved_to[texture]=next_texture;
-
-						move_texture(texture,next_texture+25*64);
-
-						next_texture++;
-					}
-
-
-
-				}
-				else
-				{
-
-					pap_hi.Texture			 = edit_map[x][z].Texture;
-				}
-				pap_hi.Flags			 = edit_map[x][z].Flags;
-				pap_hi.Alt				 = edit_map[x][z].Y;
-				pap_hi.Height			  =PAP_hi[x][z].Height;
-				if(edit_map[x][z].Walkable==-1)
-					pap_hi.Flags   |= FLOOR_ANIM_TMAP;
-
-				if(edit_map[x][z].Flags&FLOOR_IS_ROOF)
-				{
-					pap_hi.Flags   |= PAP_FLAG_ROOF_EXISTS;
-				}
-			}
-			else
-			{
-				memset(&pap_hi,0,sizeof(pap_hi));
-			}
-			FileWrite(handle,(std::uint8_t*)&pap_hi,sizeof(pap_hi));
-
-		}
-		if(save_psx)
-		{
-
-			std::uint32_t	check;
-
-			check=128*128*2;
-
-			FileWrite(handle,(std::uint8_t*)&check,4);
-			FileWrite(handle,(std::uint8_t*)tex_map_psx,128*128*2);
-			check=666;
-			FileWrite(handle,(std::uint8_t*)&check,4);
-
-		}
-		MemFree((void*)tex_map_psx);
-
-		temp=0;
-		for(c0=0;c0<MAX_MAP_THINGS;c0++)
-		{
-			t_mthing=&map_things[c0];
-
-			switch(t_mthing->Type)
-			{
-
-				case	MAP_THING_TYPE_ANIM_PRIM:		
-					temp++;
-					break;
-
-			}
-		}
-
-		FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
-		for(c0=0;c0<MAX_MAP_THINGS;c0++)
-		{
-			struct	LoadGameThing	io_thing;
-			t_mthing=&map_things[c0];
-
-			switch(t_mthing->Type)
-			{
-				case	MAP_THING_TYPE_ANIM_PRIM:		
-					io_thing.Type=t_mthing->Type;
-					io_thing.X=t_mthing->X;
-					io_thing.Y=t_mthing->Y;
-					io_thing.Z=t_mthing->Z;
-					io_thing.AngleY=t_mthing->AngleY;
-					io_thing.IndexOther=t_mthing->IndexOther;
-					FileWrite(handle,(std::uint8_t*)&io_thing,sizeof(struct LoadGameThing));
-					break;
-			}
-		}
-
-		//
-		// save all the ob'sa we just made
-		//
-/* //see supermap save_ob_ob
-		FileWrite(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
-		FileWrite(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
-		FileWrite(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
-*/
-
-
-
-		extern void	save_super_map(MFFileHandle	handle);
-		save_super_map(handle);
-		FileWrite(handle,(std::uint8_t*)&editor_texture_set,sizeof(editor_texture_set));
-
-
-		{
-			std::int32_t	si,pi;
-			for(si=0;si<200;si++)
-			{
-				for(pi=0;pi<5;pi++)
-				{
-					std::int32_t	flip;
-					std::int32_t	page;
-
-					page=textures_xy[si][pi].Page*64+(textures_xy[si][pi].Tx)+(textures_xy[si][pi].Ty)*8;
-					if(page>=8*64)
-						page=1;
-					page=page_remap[page]-1;
-//					ASSERT(((page)>>6)<4);
-					psx_textures_xy[si][pi]=(page&0xff);
-//					ASSERT(psx_textures_xy[si][pi]!=0x1b);
-
-					flip=textures_xy[si][pi].Flip;
-					flip^=(page>>14)&3;
-
-					psx_textures_xy[si][pi]|=flip<<14;
-				}
-			}
-			FileWrite(handle,(std::uint8_t*)psx_textures_xy,2*200*5);
-		}
-		FileClose(handle);
-	}
-
-	{
-		//
-		// Save out a special extras file.
-		//
-
-		FILE *handle = fopen("data\\game.ext", "wb");
-
-		if (handle)
-		{
-			fwrite(EXTRA_thing,1,sizeof(EXTRA_thing),handle);
-			fclose(handle);
-		}
-	}
-
-
-	if(save_psx)
-	{
-void	save_texture_styles_psx(std::uint8_t world);
-		save_texture_styles_psx(editor_texture_set);
-		build_tims(next_texture);
-	}
-	else
-	{
-//extern void	save_texture_styles(std::uint8_t world);
-//		save_texture_styles(editor_texture_set);
-	}
-
-
-
-	//
-	// Create the game.map aswell...
-	//
-
-//	CopyFile(gamename, "data\\game.map", false);
+void build_tims(std::uint16_t next_texture);
+
+std::uint16_t is_road[] =
+    {
+        323, 324, 325, 326, 327, 328, 331, 332, 333, 334, 340, 341, 342, 343, 348, 349, 350, 351, 352, 353, 354, 355, 356, 0};
+
+extern void move_texture(std::uint16_t from, std::uint16_t to);
+extern std::uint16_t get_split_bits(std::uint16_t tex);
+
+void save_game_map(char *name) {
+    std::uint16_t temp1, temp2, temp3, temp;
+    std::int32_t save_type = 26, ob_size;
+    std::int32_t x, y, z;
+    std::int32_t c0;
+    MapElement me;
+    Thing th;
+    struct MapThing *t_mthing;
+    std::int32_t next_texture = 64 * 4;
+    std::uint16_t *tex_map_psx;
+
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    MFFileHandle jandle = FILE_OPEN_ERROR;
+
+    //
+    // Change the extension of 'name'...
+    //
+
+    char gamename[256];
+    char *ch;
+
+    strcpy(gamename, name);
+
+    for (ch = gamename; *ch; ch++);
+    while (*ch != '.') {
+        ch--;
+    }
+    ch++;
+
+    if (save_psx)
+        *ch++ = 'p';
+    else
+        *ch++ = 'i';
+    *ch++ = 'a';
+    *ch++ = 'm';
+    *ch++ = '\000';
+
+    memset((char *) moved_from, 0, 16 * 64 * 2);
+    memset((char *) moved_to, 0, 16 * 64 * 2);
+
+    jandle = FileCreate(gamename, 1);
+    if (jandle != FILE_CREATION_ERROR) {
+        // I'm evil. eeeeeeevilllle.
+        extern void save_ob_ob(MFFileHandle handle);
+        save_ob_ob(jandle);
+        FileClose(jandle);
+    }
+
+    handle = FileCreate(gamename, 1);
+    if (handle != FILE_CREATION_ERROR) {
+        PAP_Hi pap_hi;
+        PAP_Lo pap_lo;
+        std::int32_t c0;
+
+        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+
+        extern void add_flat_roof_to_pap();
+        add_flat_roof_to_pap();
+
+        ob_size = sizeof(OB_ob_upto) + (sizeof(OB_Ob) * OB_ob_upto) + (sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+        FileWrite(handle, (std::uint8_t *) &ob_size, 4);
+
+        memset(&me, 0, sizeof(me));
+
+        c0 = 0;
+        while (is_road[c0]) {
+            //			ASSERT(is_road[c0]!=340);
+            moved_to[is_road[c0]] = next_texture;
+            moved_from[next_texture] = is_road[c0];
+
+            move_texture(is_road[c0], next_texture + 25 * 64);
+
+            next_texture++;
+            c0++;
+        }
+        tex_map_psx = (std::uint16_t *) MemAlloc(128 * 128 * 2);
+
+        for (x = 0; x < MAP_WIDTH; x++)
+            for (z = 0; z < MAP_HEIGHT; z++) {
+                if (x < PAP_SIZE_HI && z < PAP_SIZE_HI) {
+                    if (save_psx) {
+                        std::uint16_t texture;
+                        std::uint16_t split;
+
+                        split = get_split_bits(edit_map[x][z].Texture);
+                        texture = edit_map[x][z].Texture & 0x3ff;
+                        edit_map[x][z].Texture &= ~0xc000;
+
+                        // if(page_count[texture]) //no effect surely
+                        {
+                            if (moved_to[texture]) {
+                                // previously moved
+
+                                pap_hi.Texture = (edit_map[x][z].Texture & (~0x3ff)) | (moved_to[texture]) | split;
+
+                            } else {
+                                pap_hi.Texture = (edit_map[x][z].Texture & (~0x3ff)) | (next_texture) | split;
+
+                                //
+                                // this location contains a texture from ...
+                                //
+                                moved_from[next_texture] = texture;
+                                moved_to[texture] = next_texture;
+
+                                move_texture(texture, next_texture + 25 * 64);
+
+                                next_texture++;
+                            }
+                        }
+                        //
+                        // now the alternative texture layer (for roof tops)
+                        //
+                        split = get_split_bits(tex_map[x][z]);
+                        texture = tex_map[x][z] & 0x3ff;
+                        tex_map[x][z] &= ~0xc000;
+
+                        if (moved_to[texture]) {
+                            // previously moved
+
+                            tex_map_psx[x * 128 + z] = (tex_map[x][z] & (~0x3ff)) | (moved_to[texture]) | split;
+
+                        } else {
+                            tex_map_psx[x * 128 + z] = (tex_map[x][z] & (~0x3ff)) | (next_texture) | split;
+
+                            //
+                            // this location contains a texture from ...
+                            //
+                            moved_from[next_texture] = texture;
+                            moved_to[texture] = next_texture;
+
+                            move_texture(texture, next_texture + 25 * 64);
+
+                            next_texture++;
+                        }
+
+                    } else {
+                        pap_hi.Texture = edit_map[x][z].Texture;
+                    }
+                    pap_hi.Flags = edit_map[x][z].Flags;
+                    pap_hi.Alt = edit_map[x][z].Y;
+                    pap_hi.Height = PAP_hi[x][z].Height;
+                    if (edit_map[x][z].Walkable == -1)
+                        pap_hi.Flags |= FLOOR_ANIM_TMAP;
+
+                    if (edit_map[x][z].Flags & FLOOR_IS_ROOF) {
+                        pap_hi.Flags |= PAP_FLAG_ROOF_EXISTS;
+                    }
+                } else {
+                    memset(&pap_hi, 0, sizeof(pap_hi));
+                }
+                FileWrite(handle, (std::uint8_t *) &pap_hi, sizeof(pap_hi));
+            }
+        if (save_psx) {
+            std::uint32_t check;
+
+            check = 128 * 128 * 2;
+
+            FileWrite(handle, (std::uint8_t *) &check, 4);
+            FileWrite(handle, (std::uint8_t *) tex_map_psx, 128 * 128 * 2);
+            check = 666;
+            FileWrite(handle, (std::uint8_t *) &check, 4);
+        }
+        MemFree((void *) tex_map_psx);
+
+        temp = 0;
+        for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
+            t_mthing = &map_things[c0];
+
+            switch (t_mthing->Type) {
+                case MAP_THING_TYPE_ANIM_PRIM:
+                    temp++;
+                    break;
+            }
+        }
+
+        FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
+        for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
+            struct LoadGameThing io_thing;
+            t_mthing = &map_things[c0];
+
+            switch (t_mthing->Type) {
+                case MAP_THING_TYPE_ANIM_PRIM:
+                    io_thing.Type = t_mthing->Type;
+                    io_thing.X = t_mthing->X;
+                    io_thing.Y = t_mthing->Y;
+                    io_thing.Z = t_mthing->Z;
+                    io_thing.AngleY = t_mthing->AngleY;
+                    io_thing.IndexOther = t_mthing->IndexOther;
+                    FileWrite(handle, (std::uint8_t *) &io_thing, sizeof(struct LoadGameThing));
+                    break;
+            }
+        }
+
+        //
+        // save all the ob'sa we just made
+        //
+        /* //see supermap save_ob_ob
+                        FileWrite(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
+                        FileWrite(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
+                        FileWrite(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
+        */
+
+        extern void save_super_map(MFFileHandle handle);
+        save_super_map(handle);
+        FileWrite(handle, (std::uint8_t *) &editor_texture_set, sizeof(editor_texture_set));
+
+        {
+            std::int32_t si, pi;
+            for (si = 0; si < 200; si++) {
+                for (pi = 0; pi < 5; pi++) {
+                    std::int32_t flip;
+                    std::int32_t page;
+
+                    page = textures_xy[si][pi].Page * 64 + (textures_xy[si][pi].Tx) + (textures_xy[si][pi].Ty) * 8;
+                    if (page >= 8 * 64)
+                        page = 1;
+                    page = page_remap[page] - 1;
+                    //					ASSERT(((page)>>6)<4);
+                    psx_textures_xy[si][pi] = (page & 0xff);
+                    //					ASSERT(psx_textures_xy[si][pi]!=0x1b);
+
+                    flip = textures_xy[si][pi].Flip;
+                    flip ^= (page >> 14) & 3;
+
+                    psx_textures_xy[si][pi] |= flip << 14;
+                }
+            }
+            FileWrite(handle, (std::uint8_t *) psx_textures_xy, 2 * 200 * 5);
+        }
+        FileClose(handle);
+    }
+
+    {
+        //
+        // Save out a special extras file.
+        //
+
+        FILE *handle = fopen("data\\game.ext", "wb");
+
+        if (handle) {
+            fwrite(EXTRA_thing, 1, sizeof(EXTRA_thing), handle);
+            fclose(handle);
+        }
+    }
+
+    if (save_psx) {
+        void save_texture_styles_psx(std::uint8_t world);
+        save_texture_styles_psx(editor_texture_set);
+        build_tims(next_texture);
+    } else {
+        // extern void	save_texture_styles(std::uint8_t world);
+        //		save_texture_styles(editor_texture_set);
+    }
+
+    //
+    // Create the game.map aswell...
+    //
+
+    //	CopyFile(gamename, "data\\game.map", false);
 }
 
+void save_tex_remap(char *name) {
+    char name2[128];
+    std::int32_t c0;
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    std::uint16_t type = 1, count = 64 * 8;
 
-void	save_tex_remap(char* name)
-{
-	char	name2[128];
-	std::int32_t	c0;
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	std::uint16_t	type=1,count=64*8;
+    strcpy(name2, name);
 
-	strcpy(name2,name);
+    for (c0 = 0; c0 < 128; c0++) {
+        if (name2[c0] == '.') {
+            name2[c0 + 1] = 'r';
+            break;
+        }
+    }
 
-	for(c0=0;c0<128;c0++)
-	{
-		if(name2[c0]=='.')
-		{
-			name2[c0+1]='r';
-			break;
-		}
-	}
+    handle = FileCreate(name2, 1);
+    if (handle != FILE_OPEN_ERROR) {
+        FileWrite(handle, (std::uint8_t *) &type, sizeof(type));
+        FileWrite(handle, (std::uint8_t *) &count, sizeof(count));
 
-	handle=FileCreate(name2,1);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileWrite(handle,(std::uint8_t*)&type,sizeof(type));
-		FileWrite(handle,(std::uint8_t*)&count,sizeof(count));
-
-		FileWrite(handle,(std::uint8_t*)&page_remap,sizeof(std::uint16_t)*count);
-	}
-	FileClose(handle);
-	
+        FileWrite(handle, (std::uint8_t *) &page_remap, sizeof(std::uint16_t) * count);
+    }
+    FileClose(handle);
 }
 
-void	load_tex_remap(char* name)
-{
-	char	name2[128];
-	std::int32_t	c0;
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	std::uint16_t	type=0,count=64*8;
+void load_tex_remap(char *name) {
+    char name2[128];
+    std::int32_t c0;
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    std::uint16_t type = 0, count = 64 * 8;
 
-	strcpy(name2,name);
+    strcpy(name2, name);
 
-	for(c0=0;c0<128;c0++)
-	{
-		if(name2[c0]=='.')
-		{
-			name2[c0+1]='r';
-			name2[c0+2]='a';
-			name2[c0+3]='p';
-			break;
-		}
-	}
+    for (c0 = 0; c0 < 128; c0++) {
+        if (name2[c0] == '.') {
+            name2[c0 + 1] = 'r';
+            name2[c0 + 2] = 'a';
+            name2[c0 + 3] = 'p';
+            break;
+        }
+    }
 
-	handle=FileOpen(name2);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileRead(handle,(std::uint8_t*)&type,sizeof(type));
-		FileRead(handle,(std::uint8_t*)&count,sizeof(count));
+    handle = FileOpen(name2);
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &type, sizeof(type));
+        FileRead(handle, (std::uint8_t *) &count, sizeof(count));
 
-		FileRead(handle,(std::uint8_t*)&page_remap,sizeof(std::uint16_t)*count);
-		if(type==0)
-		{
-			std::int32_t	c0;
-			std::uint16_t	page;
-			for(c0=0;c0<count;c0++)
-			{
-				page=page_remap[c0];
-				page&=~(3<<14);
-				if(page_remap[c0]&(1<<14));
-					page|=1<<15;
-				if(page_remap[c0]&(1<<15));
-					page|=1<<14;
-			}
-		}
-	}
-	else
-		memset(page_remap,0,64*8*2);
+        FileRead(handle, (std::uint8_t *) &page_remap, sizeof(std::uint16_t) * count);
+        if (type == 0) {
+            std::int32_t c0;
+            std::uint16_t page;
+            for (c0 = 0; c0 < count; c0++) {
+                page = page_remap[c0];
+                page &= ~(3 << 14);
+                if (page_remap[c0] & (1 << 14))
+                    ;
+                page |= 1 << 15;
+                if (page_remap[c0] & (1 << 15))
+                    ;
+                page |= 1 << 14;
+            }
+        }
+    } else
+        memset(page_remap, 0, 64 * 8 * 2);
 
-	for(c0=0;c0<128;c0++)
-		psx_remap[c0]=page_remap[c0];
+    for (c0 = 0; c0 < 128; c0++)
+        psx_remap[c0] = page_remap[c0];
 
-	FileClose(handle);
-	
+    FileClose(handle);
 }
 
-void	save_map(char	*name,std::int32_t quick)
-{
-	std::uint16_t	temp;
-	std::int32_t	save_type=27;
-	std::int32_t	c0;
+void save_map(char *name, std::int32_t quick) {
+    std::uint16_t temp;
+    std::int32_t save_type = 27;
+    std::int32_t c0;
 
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
+    MFFileHandle handle = FILE_OPEN_ERROR;
 
+    if (quick == 0) {
+        std::int32_t c0;
+        std::int32_t hide_roof = 0;
 
-	if(quick==0)
-	{
-		std::int32_t	c0;
-		std::int32_t	hide_roof=0;
+        char bakname0[128];
+        char bakname1[128];
+        char bakname2[128];
 
-		char	bakname0[128];
-		char	bakname1[128];
-		char	bakname2[128];
+        strcpy(bakname0, name);
+        strcpy(bakname1, name);
+        strcpy(bakname2, name);
+        for (c0 = 0; c0 < strlen(bakname0); c0++) {
+            if (bakname0[c0] == '.')
+                break;
+        }
+        c0 += 3;
+        bakname2[c0] = '2';
+        bakname1[c0] = '1';
+        bakname0[c0] = '0';
 
-		strcpy(bakname0,name);
-		strcpy(bakname1,name);
-		strcpy(bakname2,name);
-		for(c0=0;c0<strlen(bakname0);c0++)
-		{
-			if(bakname0[c0]=='.')
-				break;
-		}
-		c0+=3;
-		bakname2[c0]='2';
-		bakname1[c0]='1';
-		bakname0[c0]='0';
+        CopyFile(bakname1, bakname2, 0);
+        CopyFile(bakname0, bakname1, 0);
+        CopyFile(name, bakname0, 0);
 
-		CopyFile(bakname1,bakname2,0);
-		CopyFile(bakname0,bakname1,0);
-		CopyFile(name,bakname0,0);
+        hide_roof = edit_info.HideMap & 4;
+        edit_info.HideMap &= ~4;
+        create_city(BUILD_MODE_EDITOR);
+        edit_info.HideMap |= hide_roof;
+    }
 
-		hide_roof=edit_info.HideMap&4;
-		edit_info.HideMap&=~4;
-		create_city(BUILD_MODE_EDITOR);
-		edit_info.HideMap|=hide_roof;
+    for (c0 = 0; c0 < MAX_PRIM_FACES4; c0++)
+        prim_faces4[c0].FaceFlags &= ~FACE_FLAG_OUTLINE;
 
-	}
+    handle = FileCreate(name, 1);
+    if (handle != FILE_OPEN_ERROR) {
+        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        FileWrite(handle, (std::uint8_t *) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-	for(c0=0;c0<MAX_PRIM_FACES4;c0++)
-		prim_faces4[c0].FaceFlags&=~FACE_FLAG_OUTLINE;
+        FileWrite(handle, (std::uint8_t *) tex_map, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-	handle=FileCreate(name,1);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileWrite(handle,(std::uint8_t*)&save_type,4);
-		FileWrite(handle,(std::uint8_t*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+        FileWrite(handle, (std::uint8_t *) edit_map_roof_height, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-		FileWrite(handle,(std::uint8_t*)tex_map,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+        FileWrite(handle, (std::uint8_t *) &end_prim_point, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t *) &end_prim_face4, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t *) &end_prim_face3, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t *) &end_prim_object, sizeof(std::uint16_t));
 
-		FileWrite(handle,(std::uint8_t*)edit_map_roof_height,sizeof(std::int8_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-		
-		FileWrite(handle,(std::uint8_t*)&end_prim_point,sizeof(std::uint16_t));
-		FileWrite(handle,(std::uint8_t*)&end_prim_face4,sizeof(std::uint16_t));
-		FileWrite(handle,(std::uint8_t*)&end_prim_face3,sizeof(std::uint16_t));
-		FileWrite(handle,(std::uint8_t*)&end_prim_object,sizeof(std::uint16_t));
+        temp = MAX_PRIM_POINTS - end_prim_point;
+        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
 
-		temp=MAX_PRIM_POINTS-end_prim_point;
-		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
+        temp = MAX_PRIM_FACES4 - end_prim_face4;
+        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
 
-		temp=MAX_PRIM_FACES4-end_prim_face4;
-		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
+        temp = MAX_PRIM_FACES3 - end_prim_face3;
+        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
 
-		temp=MAX_PRIM_FACES3-end_prim_face3;
-		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
+        temp = MAX_PRIM_OBJECTS - end_prim_object;
+        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
 
-		temp=MAX_PRIM_OBJECTS-end_prim_object;
-		FileWrite(handle,(std::uint8_t*)&temp,sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t *) &prim_points[end_prim_point], sizeof(struct PrimPoint) * (MAX_PRIM_POINTS - end_prim_point));
+        FileWrite(handle, (std::uint8_t *) &prim_faces4[end_prim_face4], sizeof(struct PrimFace4) * (MAX_PRIM_FACES4 - end_prim_face4));
+        FileWrite(handle, (std::uint8_t *) &prim_faces3[end_prim_face3], sizeof(struct PrimFace3) * (MAX_PRIM_FACES3 - end_prim_face3));
+        FileWrite(handle, (std::uint8_t *) &prim_objects[end_prim_object], sizeof(struct PrimObject) * (MAX_PRIM_OBJECTS - end_prim_object));
+        FileWrite(handle, (std::uint8_t *) &background_prim, sizeof(std::uint16_t));
 
-		FileWrite(handle,(std::uint8_t*)&prim_points[end_prim_point] ,sizeof(struct PrimPoint) *(MAX_PRIM_POINTS - end_prim_point));
-		FileWrite(handle,(std::uint8_t*)&prim_faces4[end_prim_face4] ,sizeof(struct PrimFace4) *(MAX_PRIM_FACES4 - end_prim_face4 ));
-		FileWrite(handle,(std::uint8_t*)&prim_faces3[end_prim_face3] ,sizeof(struct PrimFace3) *(MAX_PRIM_FACES3 - end_prim_face3 ));
-		FileWrite(handle,(std::uint8_t*)&prim_objects[end_prim_object],sizeof(struct PrimObject)*(MAX_PRIM_OBJECTS- end_prim_object));
-		FileWrite(handle,(std::uint8_t*)&background_prim,sizeof(std::uint16_t));
+        // Moved to the end for versions 26+
+        //		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
+        FileWrite(handle, (std::uint8_t *) &edit_info.amb_dx, 4 * 5);
+        FileWrite(handle, (std::uint8_t *) &next_col_info, 2);
+        FileWrite(handle, (std::uint8_t *) col_info, sizeof(struct ColInfo) * next_col_info);
 
+        temp = MAX_WINDOWS;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        temp = MAX_WALLS;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        temp = MAX_STOREYS;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        temp = MAX_BUILDINGS;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
 
+        FileWrite(handle, (std::uint8_t *) window_list, sizeof(struct FWindow) * MAX_WINDOWS);
+        for (c0 = 0; c0 < MAX_WALLS; c0++) {
+            FileWrite(handle, (std::uint8_t *) &wall_list[c0], sizeof(struct FWall) * 1);
+            if (wall_list[c0].Tcount && wall_list[c0].Textures) {
+                FileWrite(handle, (std::uint8_t *) wall_list[c0].Textures, wall_list[c0].Tcount);
+            }
+            if (wall_list[c0].Tcount2 && wall_list[c0].Textures2) {
+                FileWrite(handle, (std::uint8_t *) wall_list[c0].Textures2, wall_list[c0].Tcount2);
+            }
+        }
 
-// Moved to the end for versions 26+
-//		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-		FileWrite(handle,(std::uint8_t*)&edit_info.amb_dx,4*5);
-		FileWrite(handle,(std::uint8_t*)&next_col_info,2);
-		FileWrite(handle,(std::uint8_t*)col_info,sizeof(struct ColInfo)*next_col_info);
+        FileWrite(handle, (std::uint8_t *) &storey_list[0], sizeof(struct FStorey) * MAX_STOREYS);
+        FileWrite(handle, (std::uint8_t *) building_list, sizeof(struct FBuilding) * MAX_BUILDINGS);
 
+        temp = next_inside;
+        FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
+        FileWrite(handle, (std::uint8_t *) &room_ids[0], sizeof(struct RoomID) * temp);
 
-		temp=MAX_WINDOWS;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		temp=MAX_WALLS;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		temp=MAX_STOREYS;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		temp=MAX_BUILDINGS;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
+        FileWrite(handle, (std::uint8_t *) EXTRA_thing, sizeof(EXTRA_thing));
 
-		FileWrite(handle,(std::uint8_t*)window_list,sizeof(struct FWindow)*MAX_WINDOWS);
-		for(c0=0;c0<MAX_WALLS;c0++)
-		{
-			FileWrite(handle,(std::uint8_t*)&wall_list[c0],sizeof(struct FWall)*1);
-			if(wall_list[c0].Tcount&&wall_list[c0].Textures)
-			{
-				FileWrite(handle,(std::uint8_t*)wall_list[c0].Textures,wall_list[c0].Tcount);
-			}
-			if(wall_list[c0].Tcount2&&wall_list[c0].Textures2)
-			{
-				FileWrite(handle,(std::uint8_t*)wall_list[c0].Textures2,wall_list[c0].Tcount2);
-			}
-		}
+        FileWrite(handle, (std::uint8_t *) &editor_texture_set, sizeof(editor_texture_set));
 
-		FileWrite(handle,(std::uint8_t*)&storey_list[0],sizeof(struct FStorey)*MAX_STOREYS);
-		FileWrite(handle,(std::uint8_t*)building_list,sizeof(struct FBuilding)*MAX_BUILDINGS);
+        FileWrite(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
 
+        FileClose(handle);
+    }
+    save_tex_remap(name);
 
-		temp=next_inside;
-		FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
-		FileWrite(handle,(std::uint8_t*)&room_ids[0],sizeof(struct RoomID)*temp);
+    if (!quick) {
+        //		export_tex(name);
 
-
-
-		FileWrite(handle,(std::uint8_t*)EXTRA_thing,sizeof(EXTRA_thing));
-
-		FileWrite(handle,(std::uint8_t*)&editor_texture_set,sizeof(editor_texture_set));
-
-		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-
-		FileClose(handle);
-	}
-	save_tex_remap(name);
-
-	if(!quick)
-	{
-//		export_tex(name);
-
-		save_game_map(name);
-	}
+        save_game_map(name);
+    }
 }
 
-void	set_things_faces(std::int16_t thing)
-{
-	std::int32_t	c0;
-	struct	PrimObject	*p_obj;
+void set_things_faces(std::int16_t thing) {
+    std::int32_t c0;
+    struct PrimObject *p_obj;
 
-	p_obj    =	&prim_objects[map_things[thing].IndexOther];
-	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
-	{
-		prim_faces4[c0].ThingIndex=thing;
-	}
-	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
-	{
-		prim_faces3[c0].ThingIndex=thing;
-	}
+    p_obj = &prim_objects[map_things[thing].IndexOther];
+    for (c0 = p_obj->StartFace4; c0 < p_obj->EndFace4; c0++) {
+        prim_faces4[c0].ThingIndex = thing;
+    }
+    for (c0 = p_obj->StartFace3; c0 < p_obj->EndFace3; c0++) {
+        prim_faces3[c0].ThingIndex = thing;
+    }
 }
 
-void	clear_map()
-{
-	std::int32_t	x,z;
-	background_prim=0;
+void clear_map() {
+    std::int32_t x, z;
+    background_prim = 0;
 
-	next_prim_point=1;
-	next_prim_face4=1;
-	next_prim_face3=1;
-	next_prim_object=1;
-	next_prim_multi_object=1;
+    next_prim_point = 1;
+    next_prim_face4 = 1;
+    next_prim_face3 = 1;
+    next_prim_object = 1;
+    next_prim_multi_object = 1;
 
-	end_prim_point=MAX_PRIM_POINTS-1;
-	end_prim_face4=MAX_PRIM_FACES4-1;
-	end_prim_face3=MAX_PRIM_FACES3-1;
-	end_prim_object=MAX_PRIM_OBJECTS-1;
-	end_prim_multi_object=MAX_PRIM_MOBJECTS-1;
+    end_prim_point = MAX_PRIM_POINTS - 1;
+    end_prim_face4 = MAX_PRIM_FACES4 - 1;
+    end_prim_face3 = MAX_PRIM_FACES3 - 1;
+    end_prim_object = MAX_PRIM_OBJECTS - 1;
+    end_prim_multi_object = MAX_PRIM_MOBJECTS - 1;
 
-	next_face_selected=1;
-	next_d_light=1;
+    next_face_selected = 1;
+    next_d_light = 1;
 
-//	next_col_vect=1;
-//	next_col_vect_link=1;
+    //	next_col_vect=1;
+    //	next_col_vect_link=1;
 
-	memset((std::uint8_t*)&edit_map[0][0],0,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_HEIGHT);
-//	memset((std::uint8_t*)&edit_map_eles[0],0,sizeof(EditMapElement)*65000);
-	memset((std::uint8_t*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
+    memset((std::uint8_t *) &edit_map[0][0], 0, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_HEIGHT);
+    //	memset((std::uint8_t*)&edit_map_eles[0],0,sizeof(EditMapElement)*65000);
+    memset((std::uint8_t *) &map_things[0], 0, sizeof(struct MapThing) * MAX_MAP_THINGS);
 
-	memset((std::uint8_t*)wall_list,0,sizeof(struct FWall)*MAX_WALLS);
-	memset((std::uint8_t*)storey_list,0,sizeof(struct FStorey)*MAX_STOREYS);
-	memset((std::uint8_t*)building_list,0,sizeof(struct FBuilding)*MAX_BUILDINGS);
-
-
-
+    memset((std::uint8_t *) wall_list, 0, sizeof(struct FWall) * MAX_WALLS);
+    memset((std::uint8_t *) storey_list, 0, sizeof(struct FStorey) * MAX_STOREYS);
+    memset((std::uint8_t *) building_list, 0, sizeof(struct FBuilding) * MAX_BUILDINGS);
 }
 
+std::int32_t fix_storey(std::int32_t storey, std::int32_t building, std::uint8_t magnify) {
+    std::int32_t roof, wall;
+    std::int32_t some_walls = 0;
+    while (storey) {
+        storey_list[storey].BuildingHead = building;
+        if (magnify & 1) {
+            storey_list[storey].DX <<= 1;
+            storey_list[storey].DZ <<= 1;
+        }
+        if (magnify & 2) {
+            storey_list[storey].DY = (storey_list[storey].DY * 4) / 5;
+        }
 
-std::int32_t	fix_storey(std::int32_t	storey,std::int32_t	building,std::uint8_t magnify)
-{
-	std::int32_t	roof,wall;
-	std::int32_t	some_walls=0;
-	while(storey)
-	{
-		storey_list[storey].BuildingHead=building;
-		if(magnify&1)
-		{
-			storey_list[storey].DX<<=1;
-			storey_list[storey].DZ<<=1;
-		}
-		if(magnify&2)
-		{
-			storey_list[storey].DY=(storey_list[storey].DY*4)/5;
-		}
+        //		roof=storey_list[storey].Roof;
+        //		if(roof)
+        //		{
+        //			fix_storey(roof,building,magnify);
+        //		}
 
-//		roof=storey_list[storey].Roof;
-//		if(roof)
-//		{
-//			fix_storey(roof,building,magnify);
-//		}
+        /*
+                        wall=storey_list[roof].WallHead;
+                        LogText("Build %d  storey %d roofhead %d \n",c0,roof,wall);
+                        while(wall)
+                        {
+                                LogText("r wall %d set to storey %d\n",wall,storey);
+                                wall_list[wall].StoreyHead=roof;
+                                wall_list[wall].DX<<=1;
+                                wall_list[wall].DZ<<=1;
+                                wall=wall_list[wall].Next;
 
+
+                        }
+        */
+
+        wall = storey_list[storey].WallHead;
+        // LogText("building %d storey %d wallhead %d \n",c0,storey,wall);
+        while (wall) {
+            some_walls = 1;
+            //			LogText("wall %d set to storey %d\n",wall,storey);
+            wall_list[wall].StoreyHead = storey;
+            if (magnify & 1) {
+                wall_list[wall].DX <<= 1;
+                wall_list[wall].DZ <<= 1;
+            }
+            if (magnify & 1) {
+                wall_list[wall].DY = (wall_list[wall].DY * 4) / 5;
+            }
+            wall = wall_list[wall].Next;
+        }
+        storey = storey_list[storey].Next;
+    }
+
+    return (some_walls);
+}
+
+void fix_buildings(std::uint8_t magnify) {
+    std::int32_t c0;
+    std::int32_t roof, storey, wall;
+
+    for (c0 = 1; c0 < MAX_STOREYS; c0++) {
+        if (storey_list[c0].Next) {
+            storey_list[storey_list[c0].Next].Prev = c0;
+        }
+    }
+    for (c0 = 1; c0 < MAX_BUILDINGS; c0++) {
+        if (building_list[c0].BuildingFlags) {
+            storey = building_list[c0].StoreyHead;
+            if (storey) {
+                std::int32_t walls;
+                walls = fix_storey(storey, c0, magnify);
+                if (walls == 0) {
+                    LogText(" building without walls %d\n", c0);
+                    building_list[c0].BuildingFlags = 0;
+                }
+            } else {
+                LogText(" building without storey %d\n", c0);
+                building_list[c0].BuildingFlags = 0;
+            }
+        }
+    }
+}
+
+void save_texture_styles(std::uint8_t world) {
+    std::uint16_t temp, temp2;
+    std::int32_t save_type = 5;
+    MFFileHandle handle = FILE_OPEN_ERROR;
+
+    char fname[MAX_PATH];
+
+    sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
+    //	sprintf(fname, "u:\\urbanchao\\textures\\world%d\\style.tma", world);
+
+    handle = FileCreate(fname, 1);
+
+    if (handle != FILE_OPEN_ERROR) {
+        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        temp = 9; // how many texture_pages
+
+        //		FileWrite(handle,(std::uint8_t*)&temp,2);
+        //		FileWrite(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
+        temp = 200;
+        temp2 = 5;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t *) &temp2, 2);
+        FileWrite(handle, (std::uint8_t *) &textures_xy[0][0], sizeof(struct TXTY) * temp * temp2);
+        temp = 200;
+        temp2 = 21;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t *) &temp2, 2);
+        FileWrite(handle, (std::uint8_t *) &texture_style_names[0][0], temp * temp2);
+        if (save_type > 2) {
+            temp = 200;
+            temp2 = 5;
+            FileWrite(handle, (std::uint8_t *) &temp, 2);
+            FileWrite(handle, (std::uint8_t *) &temp2, 2);
+            FileWrite(handle, (std::uint8_t *) &textures_flags[0][0], sizeof(std::uint8_t) * temp * temp2);
+        }
+
+        FileClose(handle);
+    }
+}
+
+void save_texture_styles_psx(std::uint8_t world) {
+    std::uint16_t temp, temp2;
+    std::int32_t save_type = 5;
+    MFFileHandle handle = FILE_OPEN_ERROR;
+
+    char fname[MAX_PATH];
+    std::int32_t si, pi;
+    struct TXTY temp_t[200][5];
+
+    for (si = 0; si < 200; si++) {
+        for (pi = 0; pi < 5; pi++) {
+            std::int32_t page;
+
+            page = textures_xy[si][pi].Page * 64 + (textures_xy[si][pi].Tx) + (textures_xy[si][pi].Ty) * 8;
+            if (page >= 8 * 64)
+                page = 1;
+            page = page_remap[page] - 1;
+            //			ASSERT((page>>6)<4);
+            temp_t[si][pi].Page = page & 0xff; //(page>>6)&0xf;
+                                               //			textures_xy[si][pi].Tx=(page&7);//<<5;
+                                               //			textures_xy[si][pi].Ty=((page>>3)&7);//<<5;
+            temp_t[si][pi].Flip = textures_xy[si][pi].Flip;
+            temp_t[si][pi].Flip ^= (page >> 14) & 3;
+        }
+    }
+
+    sprintf(fname, "%sstyle.pma", TEXTURE_WORLD_DIR);
+
+    handle = FileCreate(fname, 1);
+
+    if (handle != FILE_OPEN_ERROR) {
+        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        temp = 9; // how many texture_pages
+
+        temp = 200;
+        temp2 = 5;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t *) &temp2, 2);
+        FileWrite(handle, (std::uint8_t *) &temp_t[0][0], sizeof(struct TXTY) * temp * temp2);
+        temp = 200;
+        temp2 = 21;
+        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t *) &temp2, 2);
+        FileWrite(handle, (std::uint8_t *) &texture_style_names[0][0], temp * temp2);
+        if (save_type > 2) {
+            temp = 200;
+            temp2 = 5;
+            FileWrite(handle, (std::uint8_t *) &temp, 2);
+            FileWrite(handle, (std::uint8_t *) &temp2, 2);
+            FileWrite(handle, (std::uint8_t *) &temp_t[0][0], sizeof(std::uint8_t) * temp * temp2);
+        }
+
+        FileClose(handle);
+    }
+}
+
+void fix_style_names() {
+    std::int32_t c0, c1;
+    for (c0 = 0; c0 < 200; c0++) {
+        for (c1 = 0; c1 < 21; c1++) {
+            if (texture_style_names[c0][c1] < 33 && texture_style_names[c0][c1 + 1] < 33) {
+                texture_style_names[c0][c1] = 0;
+                break;
+            }
+        }
+    }
+}
+
+// typical map data breakdown cumlative data used
 /*
-		wall=storey_list[roof].WallHead;
-		LogText("Build %d  storey %d roofhead %d \n",c0,roof,wall); 
-		while(wall)
-		{
-			LogText("r wall %d set to storey %d\n",wall,storey);
-			wall_list[wall].StoreyHead=roof;
-			wall_list[wall].DX<<=1;
-			wall_list[wall].DZ<<=1;
-			wall=wall_list[wall].Next;
-
-			
-		}
-*/
-
-		wall=storey_list[storey].WallHead;
-		//LogText("building %d storey %d wallhead %d \n",c0,storey,wall); 
-		while(wall)
-		{
-			some_walls=1;
-//			LogText("wall %d set to storey %d\n",wall,storey);
-			wall_list[wall].StoreyHead=storey;
-			if(magnify&1)
-			{
-				wall_list[wall].DX<<=1;
-				wall_list[wall].DZ<<=1;
-			}
-			if(magnify&1)
-			{
-				wall_list[wall].DY=(wall_list[wall].DY*4)/5;
-			}
-			wall=wall_list[wall].Next;
-			
-		}
-		storey=storey_list[storey].Next;
-	}
-
-	return(some_walls);
-}
-
-
-void	fix_buildings(std::uint8_t	magnify)
-{
-	std::int32_t	c0;	
-	std::int32_t	roof,storey,wall;
-
-	for(c0=1;c0<MAX_STOREYS;c0++)
-	{
-		if(storey_list[c0].Next)
-		{
-			storey_list[storey_list[c0].Next].Prev=c0;
-		}
-	}
-	for(c0=1;c0<MAX_BUILDINGS;c0++)
-	{
-		if(building_list[c0].BuildingFlags)
-		{
-			storey=building_list[c0].StoreyHead;
-			if(storey)
-			{
-				std::int32_t	walls;
-				walls=fix_storey(storey,c0,magnify);
-				if(walls==0)
-				{
-					LogText(" building without walls %d\n",c0);
-					building_list[c0].BuildingFlags=0;
-
-				}
-			}
-			else
-			{
-				LogText(" building without storey %d\n",c0);
-				building_list[c0].BuildingFlags=0;
-
-			}
-		}
-	}
-}
-
-
-void	save_texture_styles(std::uint8_t world)
-{
-	std::uint16_t	temp,temp2;
-	std::int32_t	save_type=5;
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-
-	char fname[MAX_PATH];
-
-	sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
-//	sprintf(fname, "u:\\urbanchao\\textures\\world%d\\style.tma", world);
-
-	handle=FileCreate(fname,1);
-
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileWrite(handle,(std::uint8_t*)&save_type,4);
-		temp=9;		//how many texture_pages
-
-//		FileWrite(handle,(std::uint8_t*)&temp,2);
-//		FileWrite(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
-		temp=200;
-		temp2=5;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		FileWrite(handle,(std::uint8_t*)&temp2,2);
-		FileWrite(handle,(std::uint8_t*)&textures_xy[0][0],sizeof(struct TXTY)*temp*temp2);
-		temp=200;
-		temp2=21;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		FileWrite(handle,(std::uint8_t*)&temp2,2);
-		FileWrite(handle,(std::uint8_t*)&texture_style_names[0][0],temp*temp2);
-		if(save_type>2)
-		{
-			temp=200;
-			temp2=5;
-			FileWrite(handle,(std::uint8_t*)&temp,2);
-			FileWrite(handle,(std::uint8_t*)&temp2,2);
-			FileWrite(handle,(std::uint8_t*)&textures_flags[0][0],sizeof(std::uint8_t)*temp*temp2);
-		}
-
-		FileClose(handle);
-	}
-
-}
-
-void	save_texture_styles_psx(std::uint8_t world)
-{
-	std::uint16_t	temp,temp2;
-	std::int32_t	save_type=5;
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-
-	char fname[MAX_PATH];
-	std::int32_t	si,pi;
-	struct	TXTY	temp_t[200][5];
-
-	
-	for(si=0;si<200;si++)
-	{
-		for(pi=0;pi<5;pi++)
-		{
-			std::int32_t	page;
-
-			page=textures_xy[si][pi].Page*64+(textures_xy[si][pi].Tx)+(textures_xy[si][pi].Ty)*8;
-			if(page>=8*64)
-				page=1;
-			page=page_remap[page]-1;
-//			ASSERT((page>>6)<4);
-			temp_t[si][pi].Page=page&0xff;//(page>>6)&0xf;
-//			textures_xy[si][pi].Tx=(page&7);//<<5;
-//			textures_xy[si][pi].Ty=((page>>3)&7);//<<5;
-			temp_t[si][pi].Flip=textures_xy[si][pi].Flip;
-			temp_t[si][pi].Flip^=(page>>14)&3;
-
-			
-
-		}
-	}
-
-
-
-	sprintf(fname, "%sstyle.pma", TEXTURE_WORLD_DIR);
-
-	handle=FileCreate(fname,1);
-
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileWrite(handle,(std::uint8_t*)&save_type,4);
-		temp=9;		//how many texture_pages
-
-		temp=200;
-		temp2=5;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		FileWrite(handle,(std::uint8_t*)&temp2,2);
-		FileWrite(handle,(std::uint8_t*)&temp_t[0][0],sizeof(struct TXTY)*temp*temp2);
-		temp=200;
-		temp2=21;
-		FileWrite(handle,(std::uint8_t*)&temp,2);
-		FileWrite(handle,(std::uint8_t*)&temp2,2);
-		FileWrite(handle,(std::uint8_t*)&texture_style_names[0][0],temp*temp2);
-		if(save_type>2)
-		{
-			temp=200;
-			temp2=5;
-			FileWrite(handle,(std::uint8_t*)&temp,2);
-			FileWrite(handle,(std::uint8_t*)&temp2,2);
-			FileWrite(handle,(std::uint8_t*)&temp_t[0][0],sizeof(std::uint8_t)*temp*temp2);
-		}
-
-		FileClose(handle);
-	}
-}
-
-void	fix_style_names()
-{
-	std::int32_t	c0,c1;
-	for(c0=0;c0<200;c0++)
-	{
-		for(c1=0;c1<21;c1++)
-		{
-			if(texture_style_names[c0][c1]<33&&texture_style_names[c0][c1+1]<33)
-			{
-				texture_style_names[c0][c1]=0;
-				break;
-			}
-		}
-	}
-}
-
-
-
-//typical map data breakdown cumlative data used
-/*
- load map data\COLMAP.MAP 
- after map 131072 
- after prim points 426636 
- after prim face4 732908 
- after prim face3 786696 
- after prim objects 809208 
- after prims 809208 
- after things 973210 
- after col_info 973276 
+ load map data\COLMAP.MAP
+ after map 131072
+ after prim points 426636
+ after prim face4 732908
+ after prim face3 786696
+ after prim objects 809208
+ after prims 809208
+ after things 973210
+ after col_info 973276
  after windows 2413284    1.5 Mb (unused)
- after walls 2863284 
- after storeys 2933284 
- after buildings 2959284 
- total size read 2959284 
+ after walls 2863284
+ after storeys 2933284
+ after buildings 2959284
+ total size read 2959284
 */
 
-
-void	reset_floor_flags()
-{
-	std::int32_t	dx,dz;
-	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
-	{
-		for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
-		{
-			edit_map[dx][dz].Flags&=~FLOOR_HIDDEN;
-		}
-	}
-
+void reset_floor_flags() {
+    std::int32_t dx, dz;
+    for (dx = 0; dx < EDIT_MAP_WIDTH; dx++) {
+        for (dz = 0; dz < EDIT_MAP_DEPTH; dz++) {
+            edit_map[dx][dz].Flags &= ~FLOOR_HIDDEN;
+        }
+    }
 }
 
+char strips[128][128];
 
-char	strips[128][128];
-
-void	get_a_strip(std::uint32_t	minsize,std::uint32_t maxsize,std::uint8_t	dir)
-{
-	std::int32_t	dx,dz,x,z;
-	std::uint16_t	tex,texs;
-	dx=0;
-	for(x=0;x<EDIT_MAP_WIDTH;x++)
-	{
-		dx=0;
-		for(z=0;z<EDIT_MAP_WIDTH;z+=dx)
-		{
-			if(strips[x][z]==0)
-			{
-				texs=edit_map[x][z].Texture&0x3fff;
-				for(dx=0;dx<EDIT_MAP_WIDTH-x;dx++)
-				{
-					
-					tex=edit_map[x][z+dx].Texture&0x3fff;
-					if(tex!=texs || strips[x][z+dz])
-						break;
-
-
-				}
-				if(dx>minsize && dx<maxsize)
-				{
-					strips[x][z]=1;
-
-				}
-			}
-
-		}
-	}
-
+void get_a_strip(std::uint32_t minsize, std::uint32_t maxsize, std::uint8_t dir) {
+    std::int32_t dx, dz, x, z;
+    std::uint16_t tex, texs;
+    dx = 0;
+    for (x = 0; x < EDIT_MAP_WIDTH; x++) {
+        dx = 0;
+        for (z = 0; z < EDIT_MAP_WIDTH; z += dx) {
+            if (strips[x][z] == 0) {
+                texs = edit_map[x][z].Texture & 0x3fff;
+                for (dx = 0; dx < EDIT_MAP_WIDTH - x; dx++) {
+                    tex = edit_map[x][z + dx].Texture & 0x3fff;
+                    if (tex != texs || strips[x][z + dz])
+                        break;
+                }
+                if (dx > minsize && dx < maxsize) {
+                    strips[x][z] = 1;
+                }
+            }
+        }
+    }
 }
 
-void	do_strips()
-{
-	memset(strips,0,128*128);
+void do_strips() {
+    memset(strips, 0, 128 * 128);
 }
 
-void	process_map()
-{
-	std::int32_t	dx,dz,x,z;
-	std::int32_t	count,find;
-	std::uint16_t	textures[64],tc[130],tcz[130];
-	std::int32_t	maxcount=0;
-	std::uint16_t	tex,texs;
-	char	str[256];
-	memset(tc,0,128);
-	for(x=0;x<EDIT_MAP_WIDTH;x+=8)
-	{
-		for(z=0;z<EDIT_MAP_WIDTH;z+=8)
-		{
-			count=0;
-			
-			for(dx=0;dx<8;dx++)
-			{
-				for(dz=0;dz<8;dz++)
-				{
-					std::uint16_t	tex;
-					tex=edit_map[x+dx][z+dz].Texture&1023;
-					find=0;
-					while(find<count)
-					{
-						if(textures[find]==tex)
-							break;
+void process_map() {
+    std::int32_t dx, dz, x, z;
+    std::int32_t count, find;
+    std::uint16_t textures[64], tc[130], tcz[130];
+    std::int32_t maxcount = 0;
+    std::uint16_t tex, texs;
+    char str[256];
+    memset(tc, 0, 128);
+    for (x = 0; x < EDIT_MAP_WIDTH; x += 8) {
+        for (z = 0; z < EDIT_MAP_WIDTH; z += 8) {
+            count = 0;
 
-						find++;
-					}
-					ASSERT(find<8*8);
-					if(find==count)
-					{
-						textures[find]=tex;
-						count=find+1;
-					}
-				}
-			}
-			if(count>maxcount)
-				maxcount=count;
-			tc[count]++;
-		}
-	}
+            for (dx = 0; dx < 8; dx++) {
+                for (dz = 0; dz < 8; dz++) {
+                    std::uint16_t tex;
+                    tex = edit_map[x + dx][z + dz].Texture & 1023;
+                    find = 0;
+                    while (find < count) {
+                        if (textures[find] == tex)
+                            break;
 
-	sprintf(str,"max8x8= %d",maxcount);
-	QuickTextC(70,70,str,0);
-/*
-	sprintf(str," 0.%d 1.%d 2.%d 3.%d 4.%d 5.%d 6.%d 7.%d 8.%d 9.%d 10.%d",tc[0],tc[1],tc[2],tc[3],tc[4],tc[5],tc[6],tc[7],tc[8],tc[9],tc[10]);
-	QuickTextC(0,90,str,0);
+                        find++;
+                    }
+                    ASSERT(find < 8 * 8);
+                    if (find == count) {
+                        textures[find] = tex;
+                        count = find + 1;
+                    }
+                }
+            }
+            if (count > maxcount)
+                maxcount = count;
+            tc[count]++;
+        }
+    }
 
-	sprintf(str," 1.%d 2.%d 3.%d 4.%d 5.%d 6.%d 7.%d 8.%d 9.%d 10.%d",tc[11],tc[12],tc[13],tc[14],tc[15],tc[16],tc[17],tc[18],tc[19],tc[20]);
-	QuickTextC(0,110,str,0);
-*/
+    sprintf(str, "max8x8= %d", maxcount);
+    QuickTextC(70, 70, str, 0);
+    /*
+            sprintf(str," 0.%d 1.%d 2.%d 3.%d 4.%d 5.%d 6.%d 7.%d 8.%d 9.%d 10.%d",tc[0],tc[1],tc[2],tc[3],tc[4],tc[5],tc[6],tc[7],tc[8],tc[9],tc[10]);
+            QuickTextC(0,90,str,0);
 
-	memset(tc,0,2*129);
-	memset(tcz,0,2*129);
-	for(z=0;z<EDIT_MAP_WIDTH;z++)
-	{
-		dx=0;
-		for(x=0;x<EDIT_MAP_WIDTH;x+=dx)
-		{
-			texs=edit_map[x][z].Texture&0x3fff;
-			for(dx=0;dx<EDIT_MAP_WIDTH-x;dx++)
-			{
-				tex=edit_map[x+dx][z].Texture&0x3fff;
-				if(tex!=texs)
-					break;
+            sprintf(str," 1.%d 2.%d 3.%d 4.%d 5.%d 6.%d 7.%d 8.%d 9.%d 10.%d",tc[11],tc[12],tc[13],tc[14],tc[15],tc[16],tc[17],tc[18],tc[19],tc[20]);
+            QuickTextC(0,110,str,0);
+    */
 
+    memset(tc, 0, 2 * 129);
+    memset(tcz, 0, 2 * 129);
+    for (z = 0; z < EDIT_MAP_WIDTH; z++) {
+        dx = 0;
+        for (x = 0; x < EDIT_MAP_WIDTH; x += dx) {
+            texs = edit_map[x][z].Texture & 0x3fff;
+            for (dx = 0; dx < EDIT_MAP_WIDTH - x; dx++) {
+                tex = edit_map[x + dx][z].Texture & 0x3fff;
+                if (tex != texs)
+                    break;
+            }
+            ASSERT(dx != 0);
+            ASSERT(dx <= 128);
+            tc[dx]++;
+        }
+    }
 
-			}
-			ASSERT(dx!=0);
-			ASSERT(dx<=128);
-			tc[dx]++;
+    dx = 0;
+    for (x = 0; x < EDIT_MAP_WIDTH; x++) {
+        dx = 0;
+        for (z = 0; z < EDIT_MAP_WIDTH; z += dx) {
+            texs = edit_map[x][z].Texture & 0x3fff;
+            for (dx = 0; dx < EDIT_MAP_WIDTH - x; dx++) {
+                tex = edit_map[x][z + dx].Texture & 0x3fff;
+                if (tex != texs)
+                    break;
+            }
+            ASSERT(dx != 0);
+            ASSERT(dx <= 128);
+            tcz[dx]++;
+        }
+    }
 
-		}
-	}
-
-	dx=0;
-	for(x=0;x<EDIT_MAP_WIDTH;x++)
-	{
-		dx=0;
-		for(z=0;z<EDIT_MAP_WIDTH;z+=dx)
-		{
-			texs=edit_map[x][z].Texture&0x3fff;
-			for(dx=0;dx<EDIT_MAP_WIDTH-x;dx++)
-			{
-				tex=edit_map[x][z+dx].Texture&0x3fff;
-				if(tex!=texs)
-					break;
-
-
-			}
-			ASSERT(dx!=0);
-			ASSERT(dx<=128);
-			tcz[dx]++;
-
-		}
-	}
-
-	std::uint32_t	tx,tz;
-	for(x=1;x<=128;x++)
-	{
-		tx+=x*tc[x];
-		tz+=x*tcz[x];
-		sprintf(str," (%d)%d,%d",x,tc[x],tcz[x]);
-		QuickTextC(((x-1)&7)*60,90+((x-1)>>3)*20,str,0);
-
-	}
-	x=128;
-		sprintf(str,"tx %d tz %d",tx,tz);
-		QuickTextC((x&7)*60,90+(x>>3)*20,str,0);
-
-
-
-
-
-
+    std::uint32_t tx, tz;
+    for (x = 1; x <= 128; x++) {
+        tx += x * tc[x];
+        tz += x * tcz[x];
+        sprintf(str, " (%d)%d,%d", x, tc[x], tcz[x]);
+        QuickTextC(((x - 1) & 7) * 60, 90 + ((x - 1) >> 3) * 20, str, 0);
+    }
+    x = 128;
+    sprintf(str, "tx %d tz %d", tx, tz);
+    QuickTextC((x & 7) * 60, 90 + (x >> 3) * 20, str, 0);
 }
 
-std::int32_t	load_map(char	*name)
-{
-	std::uint16_t	temp_end_prim_point;
-	std::uint16_t	temp_end_prim_face4;
-	std::uint16_t	temp_end_prim_face3;
-	std::uint16_t	temp_end_prim_object;
-
-	std::uint16_t	no_prim_point;
-	std::uint16_t	no_prim_face4;
-	std::uint16_t	no_prim_face3;
-	std::uint16_t	no_prim_object;
-	std::int32_t	save_type=1;
-	std::uint16_t	temp[4];
-	std::int32_t	c0;
-	std::int32_t	size=0;
-	std::int32_t	x,z;
-	std::int32_t	load_ok=0;
-	struct	TinyStrip
-	{
-		std::uint16_t	MapThingIndex;
-	//	std::uint16_t	Depth[EDIT_MAP_DEPTH];
-		std::uint16_t	ColVectHead;
-	//	std::uint16_t	Dummy1;
-		std::uint16_t	Texture;
-		std::int16_t	Bright;
-	}tinyfloor;
-
-
-//	clear_map();
-//extern void	load_game_map();
-//	load_game_map();
-//	return;
-
-	std::int32_t old_texture_set = editor_texture_set;
-
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	handle=FileOpen(name);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		std::int32_t	dx,dz;
-		PAP_clear();
-
-		LogText(" load map %s \n",name);
-		FileRead(handle,(std::uint8_t*)&save_type,4);
-
-		if(save_type<=8)
-		{
-			for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
-			{
-				for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
-				{
-					size+=FileRead(handle,(std::uint8_t*)&tinyfloor,sizeof(struct TinyStrip));
-					edit_map[dx][dz].MapThingIndex=tinyfloor.MapThingIndex;
-					edit_map[dx][dz].ColVectHead=tinyfloor.ColVectHead;
-					edit_map[dx][dz].Texture=tinyfloor.Texture;
-					edit_map[dx][dz].Bright=tinyfloor.Bright;
-				}
-			}
-		}
-		else
-		{
-			size+=FileRead(handle,(std::uint8_t*)edit_map,sizeof(struct DepthStrip)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-		}
-
-
-
-		if(save_type>19)
-		{
-			FileRead(handle,(std::uint8_t*)tex_map,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-		}
-		else
-		{
-			memset((std::uint8_t*)tex_map,0,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-
-		}
-
-
-		//
-		// clean the muck out the mapwho
-		//
-
-		for(x=0;x<EDIT_MAP_WIDTH;x++)
-		for(z=0;z<EDIT_MAP_DEPTH;z++)
-		{
-			edit_map[x][z].MapThingIndex=0;
-		}
-
-		if(save_type>18)
-		{
-			FileRead(handle,(std::uint8_t*)edit_map_roof_height,sizeof(std::int8_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-		}
-		else
-		{
-			memset((std::uint8_t*)&edit_map_roof_height[0][0],0,sizeof(std::int8_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
-		}
-
-
-		if (save_type < 13)
-		{
-			//
-			// This is where I changed FLOOR_HEIGHT_SHIFT;
-			//
-
-			for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
-			{
-				for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
-				{
-					edit_map[dx][dz].Y <<= 2;
-				}
-			}
-		}
-
-
-		reset_floor_flags();
-
-		LogText(" after map %d \n",size);
-
-		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_point,sizeof(std::uint16_t));
-		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_face4,sizeof(std::uint16_t));
-		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_face3,sizeof(std::uint16_t));
-		size+=FileRead(handle,(std::uint8_t*)&temp_end_prim_object,sizeof(std::uint16_t));
-
-		size+=FileRead(handle,(std::uint8_t*)&no_prim_point ,sizeof(std::uint16_t));
-		size+=FileRead(handle,(std::uint8_t*)&no_prim_face4 ,sizeof(std::uint16_t));
-		size+=FileRead(handle,(std::uint8_t*)&no_prim_face3 ,sizeof(std::uint16_t));
-		size+=FileRead(handle,(std::uint8_t*)&no_prim_object,sizeof(std::uint16_t));
-
-		end_prim_point =MAX_PRIM_POINTS -no_prim_point;
-		end_prim_face4 =MAX_PRIM_FACES4 -no_prim_face4;
-		end_prim_face3 =MAX_PRIM_FACES3 -no_prim_face3;
-		end_prim_object=MAX_PRIM_OBJECTS-no_prim_object;
-
-		if(save_type<24)
-		{
-			std::int32_t	c0;
-			struct	OldPrimPoint	pp;
-			for(c0=0;c0<no_prim_point;c0++)
-			{
-				size+=FileRead(handle,(std::uint8_t*)&pp ,sizeof(struct OldPrimPoint) );
-
-				prim_points[end_prim_point+c0].X=(std::int16_t)pp.X;
-				prim_points[end_prim_point+c0].Y=(std::int16_t)pp.Y;
-				prim_points[end_prim_point+c0].Z=(std::int16_t)pp.Z;
-			}
-
-		}
-		else
-		{
-			size+=FileRead(handle,(std::uint8_t*)&prim_points[end_prim_point ] ,sizeof(struct PrimPoint) *(no_prim_point));
-		}
-		LogText(" after prim points %d \n",size);
-		size+=FileRead(handle,(std::uint8_t*)&prim_faces4[end_prim_face4 ] ,sizeof(struct PrimFace4) *(no_prim_face4 ));
-		LogText(" after prim face4 %d \n",size);
-		size+=FileRead(handle,(std::uint8_t*)&prim_faces3[end_prim_face3 ] ,sizeof(struct PrimFace3) *(no_prim_face3 ));
-		LogText(" after prim face3 %d \n",size);
-
-
-		if(save_type<27)
-		{
-			std::int32_t	c0;
-			struct	PrimObjectOld oldprim;
-			for(c0=0;c0<no_prim_object;c0++)
-			{
-				FileRead(handle,&oldprim, sizeof(PrimObjectOld));
-
-				prim_objects[end_prim_object+c0].coltype=oldprim.coltype;
-				prim_objects[end_prim_object+c0].damage=oldprim.damage;
-				prim_objects[end_prim_object+c0].EndFace3=oldprim.EndFace3;
-				prim_objects[end_prim_object+c0].EndFace4=oldprim.EndFace4;
-				prim_objects[end_prim_object+c0].StartFace3=oldprim.StartFace3;
-				prim_objects[end_prim_object+c0].StartFace4=oldprim.StartFace4;
-				prim_objects[end_prim_object+c0].EndPoint=oldprim.EndPoint;
-				prim_objects[end_prim_object+c0].StartPoint=oldprim.StartPoint;
-				prim_objects[end_prim_object+c0].shadowtype=oldprim.shadowtype;
-				prim_objects[end_prim_object+c0].flag=oldprim.flag;
-//				memcpy(prim_names[prim],oldprim.ObjectName,32);
-
-			}
-		}
-		else
-		{
-
-			size+=FileRead(handle,(std::uint8_t*)&prim_objects[end_prim_object],sizeof(struct PrimObject)*(no_prim_object));
-			LogText(" after prim objects %d \n",size);
-		}
-
-		LogText(" after prims %d \n",size);
-
-		
-		for(c0=end_prim_face3+1;c0<MAX_PRIM_FACES3;c0++)
-		{
-			prim_faces3[c0].Points[0]+=-temp_end_prim_point+end_prim_point;
-			prim_faces3[c0].Points[1]+=-temp_end_prim_point+end_prim_point;
-			prim_faces3[c0].Points[2]+=-temp_end_prim_point+end_prim_point;
-		}
-		for(c0=end_prim_face4+1;c0<MAX_PRIM_FACES4;c0++)
-		{
-			prim_faces4[c0].Points[0]+=-temp_end_prim_point+end_prim_point;
-			prim_faces4[c0].Points[1]+=-temp_end_prim_point+end_prim_point;
-			prim_faces4[c0].Points[2]+=-temp_end_prim_point+end_prim_point;
-			prim_faces4[c0].Points[3]+=-temp_end_prim_point+end_prim_point;
-//			if(prim_faces4[c0].TexturePage==1)
-//				prim_faces4[c0].TexturePage=0;
-		}
-		for(c0=end_prim_object+1;c0<MAX_PRIM_OBJECTS;c0++)
-		{
-			prim_objects[c0].StartPoint+=-temp_end_prim_point+end_prim_point;
-			prim_objects[c0].EndPoint  +=-temp_end_prim_point+end_prim_point;
-
-			prim_objects[c0].StartFace3+=-temp_end_prim_face3+end_prim_face3;
-			prim_objects[c0].EndFace3  +=-temp_end_prim_face3+end_prim_face3;
-
-			prim_objects[c0].StartFace4+=-temp_end_prim_face4+end_prim_face4;
-			prim_objects[c0].EndFace4  +=-temp_end_prim_face4+end_prim_face4;
-		}
-
-		size+=FileRead(handle,(std::uint8_t*)&background_prim,sizeof(std::uint16_t));
-		background_prim=0;
-
-		if (save_type<26) {
-			size+=FileRead(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-
-			for(c0=1;c0<MAX_MAP_THINGS;c0++)
-			{
-				map_things[c0].MapChild=0;
-				map_things[c0].MapParent=0;
-				if(map_things[c0].Type==MAP_THING_TYPE_PRIM||
-				   map_things[c0].Type==MAP_THING_TYPE_ANIM_PRIM)
-				{
-					add_thing_to_edit_map(map_things[c0].X>>ELE_SHIFT,map_things[c0].Z>>ELE_SHIFT,c0);
-
-					//map_things[c0].IndexOther+=-temp_end_prim_object+end_prim_object;
-					//set_things_faces(c0);
-				}
-				else
-				{
-					delete_thing(c0);
-				}
-			}
-		}
-
-
-			size+=FileRead(handle,(std::uint8_t*)&edit_info.amb_dx,4*5);
-			size+=FileRead(handle,(std::uint8_t*)&next_col_info,2);
-			size+=FileRead(handle,(std::uint8_t*)col_info,sizeof(struct ColInfo)*next_col_info);
-		LogText(" after col_info %d \n",size);
-
-		size+=FileRead(handle,(std::uint8_t*)&temp[0],2);
-		size+=FileRead(handle,(std::uint8_t*)&temp[1],2);
-		size+=FileRead(handle,(std::uint8_t*)&temp[2],2);
-		size+=FileRead(handle,(std::uint8_t*)&temp[3],2);
-
-		size+=FileRead(handle,(std::uint8_t*)window_list,sizeof(struct FWindow)*temp[0]);
-		LogText(" after windows %d \n",size);
-
-		for(c0=0;c0<MAX_WALLS;c0++)
-		{
-			if(wall_list[c0].Textures&&wall_list[c0].Tcount)
-			{
-				MemFree((void*)wall_list[c0].Textures);
-				wall_list[c0].Textures=0;
-				wall_list[c0].Tcount=0;
-			}
-			if(wall_list[c0].Textures2&&wall_list[c0].Tcount2)
-			{
-				MemFree((void*)wall_list[c0].Textures2);
-				wall_list[c0].Textures2=0;
-				wall_list[c0].Tcount2=0;
-			}
-		}
-
-
-		if(save_type>=17)
-		{
-			for(c0=0;c0<MAX_WALLS;c0++)
-			{
-				size+=FileRead(handle,(std::uint8_t*)&wall_list[c0],sizeof(struct FWall)*1);
-				if(wall_list[c0].Tcount&&wall_list[c0].Textures)
-				{
-
-					wall_list[c0].Textures=(std::uint8_t*)MemAlloc(wall_list[c0].Tcount);
-					ASSERT(wall_list[c0].Textures);
-
-					size+=FileRead(handle,(std::uint8_t*)wall_list[c0].Textures,wall_list[c0].Tcount);
-				}
-				if(save_type>21)
-				{
-					if(wall_list[c0].Tcount2&&wall_list[c0].Textures2)
-					{
-
-						wall_list[c0].Textures2=(std::uint8_t*)MemAlloc(wall_list[c0].Tcount2);
-						ASSERT(wall_list[c0].Textures2);
-
-						size+=FileRead(handle,(std::uint8_t*)wall_list[c0].Textures2,wall_list[c0].Tcount2);
-					}
-				}
-				else
-				{
-					wall_list[c0].Tcount2=0;
-					wall_list[c0].Textures2=0;
-
-				}
-			}
-			size+=FileRead(handle,(std::uint8_t*)storey_list,sizeof(struct FStorey)*temp[2]);
-			LogText(" after storeys %d \n",size);
-			if(save_type<21)
-			{
-				for(c0=0;c0<temp[2];c0++)
-				{
-					storey_list[c0].InsideStorey=0;
-				}
-			}
-			if(save_type<23)
-			{
-				for(c0=0;c0<temp[2];c0++)
-				{
-					storey_list[c0].InsideIDIndex=0;
-				}
-			}
-
-		}
-		else
-		{
-
-
-			size+=FileRead(handle,(std::uint8_t*)wall_list,sizeof(struct FWall)*temp[1]);
-			LogText(" after walls %d \n",size);
-			size+=FileRead(handle,(std::uint8_t*)storey_list,sizeof(struct FStorey)*temp[2]);
-			LogText(" after storeys %d \n",size);
-
-
-			if(save_type<21)
-			{
-				for(c0=0;c0<temp[2];c0++)
-				{
-					storey_list[c0].InsideStorey=0;
-				}
-			}
-
-		}
-
-		size+=FileRead(handle,(std::uint8_t*)building_list,sizeof(struct FBuilding)*temp[3]);
-		//LogText(" after buildings %d \n",size);
-
-
-		if(save_type>22)
-		{
-			std::uint16_t	temp;
-			std::int32_t	c0,stair;
-
-			FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
-			next_inside=temp;
-			FileRead(handle,(std::uint8_t*)&room_ids[0],sizeof(struct RoomID)*temp);
-			for(c0=1;c0<next_inside;c0++)
-			{
-				for(stair=0;stair<MAX_STAIRS_PER_FLOOR;stair++)
-				{
-					if(room_ids[c0].StairFlags[stair])
-					{
-						if(room_ids[c0].StairsX[stair]>127)
-						{
-							room_ids[c0].StairsX[stair]=127;
-							room_ids[c0].StairFlags[stair]=0;
-						}
-						if(room_ids[c0].StairsY[stair]>127)
-						{
-							room_ids[c0].StairsY[stair]=127;
-							room_ids[c0].StairFlags[stair]=0;
-						}
-					}
-				}
-
-			}
-
-		}
-
-		//
-		// cables now have a dangle factor built in
-		//
-		if(save_type<25)
-		{
-			for(c0=0;c0<MAX_STOREYS;c0++)
-			{
-				if(storey_list[c0].StoreyFlags)
-				{
-					std::int32_t	wall;
-
-					if(storey_list[c0].StoreyType==STOREY_TYPE_CABLE)
-					{
-						wall=storey_list[c0].WallHead;
-						while(wall)
-						{
-							wall_list[wall].TextureStyle2=4;
-							wall=wall_list[wall].Next;
-						}
-
-					}
-					
-				}
-			}
-		}
-
-
-
-
-		//LogText(" total size read %d \n",size);
-		if(save_type<8)
-			offset_buildings(64<<ELE_SHIFT,0,64<<ELE_SHIFT);
-
-		if(save_type==10)
-			fix_buildings(2); // make sure next/prev tally by resetting the prev field 
-		else
-		if(save_type<10)
-			fix_buildings(3); // make sure next/prev tally by resetting the prev field 
-		else
-			fix_buildings(0); // make sure next/prev tally by resetting the prev field 
-		if(save_type==12)
-		{
-			std::int32_t	c0;
-			for(c0=0;c0<MAX_STOREYS;c0++)
-			{
-				if(storey_list[c0].StoreyType==STOREY_TYPE_LADDER)
-				{
-					storey_list[c0].Height<<=2;
-				}
-			}
-		}
-		if(save_type<17)
-		{
-			std::int32_t	c0;
-			for(c0=0;c0<MAX_WALLS;c0++)
-			{
-				wall_list[c0].Textures=0;
-				wall_list[c0].Tcount=0;
-			}
-		}
-
-		if (save_type >= 14)
-		{
-			FileRead(handle,(std::uint8_t*)EXTRA_thing,sizeof(EXTRA_thing));
-		}
-
-		if (save_type >= 21)
-		{
-			FileRead(handle,(std::uint8_t*)&editor_texture_set,sizeof(editor_texture_set));
-		}
-		else
-		{
-			editor_texture_set = 1;
-		}
-
-		//
-		// check the storey link list of this building all actually belong to this building
-		// this is to fix bug of duplicate faces caused by screwy building link list
-		{
-			std::int32_t	c0;
-			for(c0=1;c0<MAX_BUILDINGS;c0++)
-			{
-				std::int32_t	storey;
-				if(building_list[c0].StoreyHead)
-				{
-					storey=building_list[c0].StoreyHead;
-					while(storey)
-					{
-
-						if(storey_list[storey].Next)
-						if(storey_list[storey_list[storey].Next].BuildingHead!=c0)
-						{
-							storey_list[storey].Next=0;
-						}
-
-						storey=storey_list[storey].Next;
-					}
-
-				}
-			}
-		}
-
-
-		if (save_type >= 26) {
-			size+=FileRead(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-
-			for(c0=1;c0<MAX_MAP_THINGS;c0++)
-			{
-				map_things[c0].MapChild=0;
-				map_things[c0].MapParent=0;
-				if(map_things[c0].Type==MAP_THING_TYPE_PRIM||
-				   map_things[c0].Type==MAP_THING_TYPE_ANIM_PRIM)
-				{
-					add_thing_to_edit_map(map_things[c0].X>>ELE_SHIFT,map_things[c0].Z>>ELE_SHIFT,c0);
-
-					//map_things[c0].IndexOther+=-temp_end_prim_object+end_prim_object;
-					//set_things_faces(c0);
-				}
-				else
-				{
-					delete_thing(c0);
-				}
-			}
-		}
-
-
-		FileClose(handle);
-
-		load_tex_remap(name);
-
-		{
-			std::int32_t	index;
-			struct	MapThing	*p_thing;
-			index=background_prim;
-			while(index)
-			{
-				p_thing=TO_MTHING(index);
-				p_thing->Type=MAP_THING_TYPE_PRIM;
-				index=p_thing->IndexNext;
-			}
-		}
-		load_ok=1;
-	}
-
-	//
-	// Load the correct set of textures for this map.
-	//
-
-	void update_modules    ();
-
-	if (editor_texture_set != old_texture_set)
-	{
-		free_game_textures(FREE_UNSHARED_TEXTURES);
-		load_game_textures(LOAD_UNSHARED_TEXTURES);
-
-		update_modules();
-	}
-
-	{
-		std::int32_t	index,count=0;
-		LogText(" *************************************\n");
-		index=edit_map[48][45].MapThingIndex;
-		LogText(" on map cell [48][45] = index %d \n",index);
-		while(index&&count++<100)
-		{
-			LogText(" index %d type %d \n",index,map_things[index].Type);
-			index=map_things[index].MapChild;
-		}
-		LogText(" *************************************\n");
-	}
-
-	return(load_ok);
-
+std::int32_t load_map(char *name) {
+    std::uint16_t temp_end_prim_point;
+    std::uint16_t temp_end_prim_face4;
+    std::uint16_t temp_end_prim_face3;
+    std::uint16_t temp_end_prim_object;
+
+    std::uint16_t no_prim_point;
+    std::uint16_t no_prim_face4;
+    std::uint16_t no_prim_face3;
+    std::uint16_t no_prim_object;
+    std::int32_t save_type = 1;
+    std::uint16_t temp[4];
+    std::int32_t c0;
+    std::int32_t size = 0;
+    std::int32_t x, z;
+    std::int32_t load_ok = 0;
+    struct TinyStrip {
+        std::uint16_t MapThingIndex;
+        //	std::uint16_t	Depth[EDIT_MAP_DEPTH];
+        std::uint16_t ColVectHead;
+        //	std::uint16_t	Dummy1;
+        std::uint16_t Texture;
+        std::int16_t Bright;
+    } tinyfloor;
+
+    //	clear_map();
+    // extern void	load_game_map();
+    //	load_game_map();
+    //	return;
+
+    std::int32_t old_texture_set = editor_texture_set;
+
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    handle = FileOpen(name);
+    if (handle != FILE_OPEN_ERROR) {
+        std::int32_t dx, dz;
+        PAP_clear();
+
+        LogText(" load map %s \n", name);
+        FileRead(handle, (std::uint8_t *) &save_type, 4);
+
+        if (save_type <= 8) {
+            for (dx = 0; dx < EDIT_MAP_WIDTH; dx++) {
+                for (dz = 0; dz < EDIT_MAP_DEPTH; dz++) {
+                    size += FileRead(handle, (std::uint8_t *) &tinyfloor, sizeof(struct TinyStrip));
+                    edit_map[dx][dz].MapThingIndex = tinyfloor.MapThingIndex;
+                    edit_map[dx][dz].ColVectHead = tinyfloor.ColVectHead;
+                    edit_map[dx][dz].Texture = tinyfloor.Texture;
+                    edit_map[dx][dz].Bright = tinyfloor.Bright;
+                }
+            }
+        } else {
+            size += FileRead(handle, (std::uint8_t *) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        }
+
+        if (save_type > 19) {
+            FileRead(handle, (std::uint8_t *) tex_map, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        } else {
+            memset((std::uint8_t *) tex_map, 0, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        }
+
+        //
+        // clean the muck out the mapwho
+        //
+
+        for (x = 0; x < EDIT_MAP_WIDTH; x++)
+            for (z = 0; z < EDIT_MAP_DEPTH; z++) {
+                edit_map[x][z].MapThingIndex = 0;
+            }
+
+        if (save_type > 18) {
+            FileRead(handle, (std::uint8_t *) edit_map_roof_height, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        } else {
+            memset((std::uint8_t *) &edit_map_roof_height[0][0], 0, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        }
+
+        if (save_type < 13) {
+            //
+            // This is where I changed FLOOR_HEIGHT_SHIFT;
+            //
+
+            for (dx = 0; dx < EDIT_MAP_WIDTH; dx++) {
+                for (dz = 0; dz < EDIT_MAP_DEPTH; dz++) {
+                    edit_map[dx][dz].Y <<= 2;
+                }
+            }
+        }
+
+        reset_floor_flags();
+
+        LogText(" after map %d \n", size);
+
+        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_point, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_face4, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_face3, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_object, sizeof(std::uint16_t));
+
+        size += FileRead(handle, (std::uint8_t *) &no_prim_point, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t *) &no_prim_face4, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t *) &no_prim_face3, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t *) &no_prim_object, sizeof(std::uint16_t));
+
+        end_prim_point = MAX_PRIM_POINTS - no_prim_point;
+        end_prim_face4 = MAX_PRIM_FACES4 - no_prim_face4;
+        end_prim_face3 = MAX_PRIM_FACES3 - no_prim_face3;
+        end_prim_object = MAX_PRIM_OBJECTS - no_prim_object;
+
+        if (save_type < 24) {
+            std::int32_t c0;
+            struct OldPrimPoint pp;
+            for (c0 = 0; c0 < no_prim_point; c0++) {
+                size += FileRead(handle, (std::uint8_t *) &pp, sizeof(struct OldPrimPoint));
+
+                prim_points[end_prim_point + c0].X = (std::int16_t) pp.X;
+                prim_points[end_prim_point + c0].Y = (std::int16_t) pp.Y;
+                prim_points[end_prim_point + c0].Z = (std::int16_t) pp.Z;
+            }
+
+        } else {
+            size += FileRead(handle, (std::uint8_t *) &prim_points[end_prim_point], sizeof(struct PrimPoint) * (no_prim_point));
+        }
+        LogText(" after prim points %d \n", size);
+        size += FileRead(handle, (std::uint8_t *) &prim_faces4[end_prim_face4], sizeof(struct PrimFace4) * (no_prim_face4));
+        LogText(" after prim face4 %d \n", size);
+        size += FileRead(handle, (std::uint8_t *) &prim_faces3[end_prim_face3], sizeof(struct PrimFace3) * (no_prim_face3));
+        LogText(" after prim face3 %d \n", size);
+
+        if (save_type < 27) {
+            std::int32_t c0;
+            struct PrimObjectOld oldprim;
+            for (c0 = 0; c0 < no_prim_object; c0++) {
+                FileRead(handle, &oldprim, sizeof(PrimObjectOld));
+
+                prim_objects[end_prim_object + c0].coltype = oldprim.coltype;
+                prim_objects[end_prim_object + c0].damage = oldprim.damage;
+                prim_objects[end_prim_object + c0].EndFace3 = oldprim.EndFace3;
+                prim_objects[end_prim_object + c0].EndFace4 = oldprim.EndFace4;
+                prim_objects[end_prim_object + c0].StartFace3 = oldprim.StartFace3;
+                prim_objects[end_prim_object + c0].StartFace4 = oldprim.StartFace4;
+                prim_objects[end_prim_object + c0].EndPoint = oldprim.EndPoint;
+                prim_objects[end_prim_object + c0].StartPoint = oldprim.StartPoint;
+                prim_objects[end_prim_object + c0].shadowtype = oldprim.shadowtype;
+                prim_objects[end_prim_object + c0].flag = oldprim.flag;
+                //				memcpy(prim_names[prim],oldprim.ObjectName,32);
+            }
+        } else {
+            size += FileRead(handle, (std::uint8_t *) &prim_objects[end_prim_object], sizeof(struct PrimObject) * (no_prim_object));
+            LogText(" after prim objects %d \n", size);
+        }
+
+        LogText(" after prims %d \n", size);
+
+        for (c0 = end_prim_face3 + 1; c0 < MAX_PRIM_FACES3; c0++) {
+            prim_faces3[c0].Points[0] += -temp_end_prim_point + end_prim_point;
+            prim_faces3[c0].Points[1] += -temp_end_prim_point + end_prim_point;
+            prim_faces3[c0].Points[2] += -temp_end_prim_point + end_prim_point;
+        }
+        for (c0 = end_prim_face4 + 1; c0 < MAX_PRIM_FACES4; c0++) {
+            prim_faces4[c0].Points[0] += -temp_end_prim_point + end_prim_point;
+            prim_faces4[c0].Points[1] += -temp_end_prim_point + end_prim_point;
+            prim_faces4[c0].Points[2] += -temp_end_prim_point + end_prim_point;
+            prim_faces4[c0].Points[3] += -temp_end_prim_point + end_prim_point;
+            //			if(prim_faces4[c0].TexturePage==1)
+            //				prim_faces4[c0].TexturePage=0;
+        }
+        for (c0 = end_prim_object + 1; c0 < MAX_PRIM_OBJECTS; c0++) {
+            prim_objects[c0].StartPoint += -temp_end_prim_point + end_prim_point;
+            prim_objects[c0].EndPoint += -temp_end_prim_point + end_prim_point;
+
+            prim_objects[c0].StartFace3 += -temp_end_prim_face3 + end_prim_face3;
+            prim_objects[c0].EndFace3 += -temp_end_prim_face3 + end_prim_face3;
+
+            prim_objects[c0].StartFace4 += -temp_end_prim_face4 + end_prim_face4;
+            prim_objects[c0].EndFace4 += -temp_end_prim_face4 + end_prim_face4;
+        }
+
+        size += FileRead(handle, (std::uint8_t *) &background_prim, sizeof(std::uint16_t));
+        background_prim = 0;
+
+        if (save_type < 26) {
+            size += FileRead(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+
+            for (c0 = 1; c0 < MAX_MAP_THINGS; c0++) {
+                map_things[c0].MapChild = 0;
+                map_things[c0].MapParent = 0;
+                if (map_things[c0].Type == MAP_THING_TYPE_PRIM ||
+                    map_things[c0].Type == MAP_THING_TYPE_ANIM_PRIM) {
+                    add_thing_to_edit_map(map_things[c0].X >> ELE_SHIFT, map_things[c0].Z >> ELE_SHIFT, c0);
+
+                    // map_things[c0].IndexOther+=-temp_end_prim_object+end_prim_object;
+                    // set_things_faces(c0);
+                } else {
+                    delete_thing(c0);
+                }
+            }
+        }
+
+        size += FileRead(handle, (std::uint8_t *) &edit_info.amb_dx, 4 * 5);
+        size += FileRead(handle, (std::uint8_t *) &next_col_info, 2);
+        size += FileRead(handle, (std::uint8_t *) col_info, sizeof(struct ColInfo) * next_col_info);
+        LogText(" after col_info %d \n", size);
+
+        size += FileRead(handle, (std::uint8_t *) &temp[0], 2);
+        size += FileRead(handle, (std::uint8_t *) &temp[1], 2);
+        size += FileRead(handle, (std::uint8_t *) &temp[2], 2);
+        size += FileRead(handle, (std::uint8_t *) &temp[3], 2);
+
+        size += FileRead(handle, (std::uint8_t *) window_list, sizeof(struct FWindow) * temp[0]);
+        LogText(" after windows %d \n", size);
+
+        for (c0 = 0; c0 < MAX_WALLS; c0++) {
+            if (wall_list[c0].Textures && wall_list[c0].Tcount) {
+                MemFree((void *) wall_list[c0].Textures);
+                wall_list[c0].Textures = 0;
+                wall_list[c0].Tcount = 0;
+            }
+            if (wall_list[c0].Textures2 && wall_list[c0].Tcount2) {
+                MemFree((void *) wall_list[c0].Textures2);
+                wall_list[c0].Textures2 = 0;
+                wall_list[c0].Tcount2 = 0;
+            }
+        }
+
+        if (save_type >= 17) {
+            for (c0 = 0; c0 < MAX_WALLS; c0++) {
+                size += FileRead(handle, (std::uint8_t *) &wall_list[c0], sizeof(struct FWall) * 1);
+                if (wall_list[c0].Tcount && wall_list[c0].Textures) {
+                    wall_list[c0].Textures = (std::uint8_t *) MemAlloc(wall_list[c0].Tcount);
+                    ASSERT(wall_list[c0].Textures);
+
+                    size += FileRead(handle, (std::uint8_t *) wall_list[c0].Textures, wall_list[c0].Tcount);
+                }
+                if (save_type > 21) {
+                    if (wall_list[c0].Tcount2 && wall_list[c0].Textures2) {
+                        wall_list[c0].Textures2 = (std::uint8_t *) MemAlloc(wall_list[c0].Tcount2);
+                        ASSERT(wall_list[c0].Textures2);
+
+                        size += FileRead(handle, (std::uint8_t *) wall_list[c0].Textures2, wall_list[c0].Tcount2);
+                    }
+                } else {
+                    wall_list[c0].Tcount2 = 0;
+                    wall_list[c0].Textures2 = 0;
+                }
+            }
+            size += FileRead(handle, (std::uint8_t *) storey_list, sizeof(struct FStorey) * temp[2]);
+            LogText(" after storeys %d \n", size);
+            if (save_type < 21) {
+                for (c0 = 0; c0 < temp[2]; c0++) {
+                    storey_list[c0].InsideStorey = 0;
+                }
+            }
+            if (save_type < 23) {
+                for (c0 = 0; c0 < temp[2]; c0++) {
+                    storey_list[c0].InsideIDIndex = 0;
+                }
+            }
+
+        } else {
+            size += FileRead(handle, (std::uint8_t *) wall_list, sizeof(struct FWall) * temp[1]);
+            LogText(" after walls %d \n", size);
+            size += FileRead(handle, (std::uint8_t *) storey_list, sizeof(struct FStorey) * temp[2]);
+            LogText(" after storeys %d \n", size);
+
+            if (save_type < 21) {
+                for (c0 = 0; c0 < temp[2]; c0++) {
+                    storey_list[c0].InsideStorey = 0;
+                }
+            }
+        }
+
+        size += FileRead(handle, (std::uint8_t *) building_list, sizeof(struct FBuilding) * temp[3]);
+        // LogText(" after buildings %d \n",size);
+
+        if (save_type > 22) {
+            std::uint16_t temp;
+            std::int32_t c0, stair;
+
+            FileRead(handle, (std::uint8_t *) &temp, sizeof(temp));
+            next_inside = temp;
+            FileRead(handle, (std::uint8_t *) &room_ids[0], sizeof(struct RoomID) * temp);
+            for (c0 = 1; c0 < next_inside; c0++) {
+                for (stair = 0; stair < MAX_STAIRS_PER_FLOOR; stair++) {
+                    if (room_ids[c0].StairFlags[stair]) {
+                        if (room_ids[c0].StairsX[stair] > 127) {
+                            room_ids[c0].StairsX[stair] = 127;
+                            room_ids[c0].StairFlags[stair] = 0;
+                        }
+                        if (room_ids[c0].StairsY[stair] > 127) {
+                            room_ids[c0].StairsY[stair] = 127;
+                            room_ids[c0].StairFlags[stair] = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        //
+        // cables now have a dangle factor built in
+        //
+        if (save_type < 25) {
+            for (c0 = 0; c0 < MAX_STOREYS; c0++) {
+                if (storey_list[c0].StoreyFlags) {
+                    std::int32_t wall;
+
+                    if (storey_list[c0].StoreyType == STOREY_TYPE_CABLE) {
+                        wall = storey_list[c0].WallHead;
+                        while (wall) {
+                            wall_list[wall].TextureStyle2 = 4;
+                            wall = wall_list[wall].Next;
+                        }
+                    }
+                }
+            }
+        }
+
+        // LogText(" total size read %d \n",size);
+        if (save_type < 8)
+            offset_buildings(64 << ELE_SHIFT, 0, 64 << ELE_SHIFT);
+
+        if (save_type == 10)
+            fix_buildings(2); // make sure next/prev tally by resetting the prev field
+        else if (save_type < 10)
+            fix_buildings(3); // make sure next/prev tally by resetting the prev field
+        else
+            fix_buildings(0); // make sure next/prev tally by resetting the prev field
+        if (save_type == 12) {
+            std::int32_t c0;
+            for (c0 = 0; c0 < MAX_STOREYS; c0++) {
+                if (storey_list[c0].StoreyType == STOREY_TYPE_LADDER) {
+                    storey_list[c0].Height <<= 2;
+                }
+            }
+        }
+        if (save_type < 17) {
+            std::int32_t c0;
+            for (c0 = 0; c0 < MAX_WALLS; c0++) {
+                wall_list[c0].Textures = 0;
+                wall_list[c0].Tcount = 0;
+            }
+        }
+
+        if (save_type >= 14) {
+            FileRead(handle, (std::uint8_t *) EXTRA_thing, sizeof(EXTRA_thing));
+        }
+
+        if (save_type >= 21) {
+            FileRead(handle, (std::uint8_t *) &editor_texture_set, sizeof(editor_texture_set));
+        } else {
+            editor_texture_set = 1;
+        }
+
+        //
+        // check the storey link list of this building all actually belong to this building
+        // this is to fix bug of duplicate faces caused by screwy building link list
+        {
+            std::int32_t c0;
+            for (c0 = 1; c0 < MAX_BUILDINGS; c0++) {
+                std::int32_t storey;
+                if (building_list[c0].StoreyHead) {
+                    storey = building_list[c0].StoreyHead;
+                    while (storey) {
+                        if (storey_list[storey].Next)
+                            if (storey_list[storey_list[storey].Next].BuildingHead != c0) {
+                                storey_list[storey].Next = 0;
+                            }
+
+                        storey = storey_list[storey].Next;
+                    }
+                }
+            }
+        }
+
+        if (save_type >= 26) {
+            size += FileRead(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+
+            for (c0 = 1; c0 < MAX_MAP_THINGS; c0++) {
+                map_things[c0].MapChild = 0;
+                map_things[c0].MapParent = 0;
+                if (map_things[c0].Type == MAP_THING_TYPE_PRIM ||
+                    map_things[c0].Type == MAP_THING_TYPE_ANIM_PRIM) {
+                    add_thing_to_edit_map(map_things[c0].X >> ELE_SHIFT, map_things[c0].Z >> ELE_SHIFT, c0);
+
+                    // map_things[c0].IndexOther+=-temp_end_prim_object+end_prim_object;
+                    // set_things_faces(c0);
+                } else {
+                    delete_thing(c0);
+                }
+            }
+        }
+
+        FileClose(handle);
+
+        load_tex_remap(name);
+
+        {
+            std::int32_t index;
+            struct MapThing *p_thing;
+            index = background_prim;
+            while (index) {
+                p_thing = TO_MTHING(index);
+                p_thing->Type = MAP_THING_TYPE_PRIM;
+                index = p_thing->IndexNext;
+            }
+        }
+        load_ok = 1;
+    }
+
+    //
+    // Load the correct set of textures for this map.
+    //
+
+    void update_modules();
+
+    if (editor_texture_set != old_texture_set) {
+        free_game_textures(FREE_UNSHARED_TEXTURES);
+        load_game_textures(LOAD_UNSHARED_TEXTURES);
+
+        update_modules();
+    }
+
+    {
+        std::int32_t index, count = 0;
+        LogText(" *************************************\n");
+        index = edit_map[48][45].MapThingIndex;
+        LogText(" on map cell [48][45] = index %d \n", index);
+        while (index && count++ < 100) {
+            LogText(" index %d type %d \n", index, map_things[index].Type);
+            index = map_things[index].MapChild;
+        }
+        LogText(" *************************************\n");
+    }
+
+    return (load_ok);
 }
 
-void	setup_ambient(std::int32_t dx,std::int32_t dy,std::int32_t dz,std::int32_t bright,std::int32_t flags)
-{
-	edit_info.amb_dx=dx;
-	edit_info.amb_dz=dz;
-	edit_info.amb_dy=dy;
-	edit_info.amb_bright=bright;
-	edit_info.amb_flags=flags;
+void setup_ambient(std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t bright, std::int32_t flags) {
+    edit_info.amb_dx = dx;
+    edit_info.amb_dz = dz;
+    edit_info.amb_dy = dy;
+    edit_info.amb_bright = bright;
+    edit_info.amb_flags = flags;
 }
 
+std::uint16_t is_it_clockwise(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
+    std::int32_t z;
+    std::int32_t vx, vy, wx, wy;
 
+    vx = res[p2].X - res[p1].X;
+    wx = res[p3].X - res[p2].X;
+    vy = res[p2].Y - res[p1].Y;
+    wy = res[p3].Y - res[p2].Y;
+    z = vx * wy - vy * wx;
 
-std::uint16_t	is_it_clockwise(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3)
-{
-	std::int32_t	z;
-	std::int32_t	vx,vy,wx,wy;
-	
-	vx=res[p2].X-res[p1].X;
-	wx=res[p3].X-res[p2].X;
-	vy=res[p2].Y-res[p1].Y;
-	wy=res[p3].Y-res[p2].Y;
-	z=vx*wy-vy*wx;
-
-	if(z>0)
-		return	1;
-	else
-		return	0;
+    if (z > 0)
+        return 1;
+    else
+        return 0;
 }
 
+void set_quad_buckets_texture(struct BucketQuad *p_bucket, struct TextureBits *texture) {
+    std::uint8_t sx, sy, w, h;
 
-void	set_quad_buckets_texture(struct	BucketQuad	*p_bucket,struct	TextureBits *texture)
-{
-	std::uint8_t	sx,sy,w,h;
-
-	sx=texture->X<<3;
-	sy=texture->Y<<3;
-	w=texture_sizes[texture->Width];
-	h=texture_sizes[texture->Height];
-	setUV4(p_bucket,sx,sy,sx+w-1,sy,sx,sy+h-1,sx+w-1,sy+h-1,(std::int16_t)texture->Page);
+    sx = texture->X << 3;
+    sy = texture->Y << 3;
+    w = texture_sizes[texture->Width];
+    h = texture_sizes[texture->Height];
+    setUV4(p_bucket, sx, sy, sx + w - 1, sy, sx, sy + h - 1, sx + w - 1, sy + h - 1, (std::int16_t) texture->Page);
 }
 
+inline void insert_bucket_vect(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int16_t col) {
+    std::int32_t flag_and, flag_or;
+    std::int32_t az;
+    struct BucketVect *p_bucket;
 
-inline	void	insert_bucket_vect(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int16_t col)
-{
-	std::int32_t	flag_and,flag_or;
-	std::int32_t	az;
-	struct BucketVect	*p_bucket;
+    if (current_bucket_pool >= end_bucket_pool)
+        return;
 
-	if(current_bucket_pool>=end_bucket_pool)
-		return;
+    p_bucket = (struct BucketVect *) current_bucket_pool;
 
-	p_bucket =(struct BucketVect*)current_bucket_pool;
+    az = (z1 + z2) >> 1;
 
-	az=(z1+z2)>>1;
-
-	setPolyGVect(p_bucket);
-	setXY2(p_bucket,x1,y1,x2,y2);
-	p_bucket->Col=col;
-	add_bucket(p_bucket,az-150);
-	current_bucket_pool+=sizeof(struct BucketVect);
-
+    setPolyGVect(p_bucket);
+    setXY2(p_bucket, x1, y1, x2, y2);
+    p_bucket->Col = col;
+    add_bucket(p_bucket, az - 150);
+    current_bucket_pool += sizeof(struct BucketVect);
 }
 
-std::uint16_t	is_it_clockwise_xy(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3)
-{
-	std::int32_t	z;
-	std::int32_t	vx,vy,wx,wy;
-	
-	vx=x2-x1; //point2->X-point1->X;
-	wx=x3-x2; //point3->X-point2->X;
-	vy=y2-y1; //point2->Y-point1->Y;
-	wy=y3-y2; //point3->Y-point2->Y;
-	z=vx*wy-vy*wx;
+std::uint16_t is_it_clockwise_xy(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3) {
+    std::int32_t z;
+    std::int32_t vx, vy, wx, wy;
 
-	if(z>0)
-		return	1;
-	else
-		return	0;
+    vx = x2 - x1; // point2->X-point1->X;
+    wx = x3 - x2; // point3->X-point2->X;
+    vy = y2 - y1; // point2->Y-point1->Y;
+    wy = y3 - y2; // point3->Y-point2->Y;
+    z = vx * wy - vy * wx;
+
+    if (z > 0)
+        return 1;
+    else
+        return 0;
 }
 
-inline	struct BucketQuad *insert_quad(std::int32_t	*flags,struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,struct TextureBits t)
-{
-	std::int32_t	flag_and,flag_or;
-	std::int32_t	az;
-	struct	BucketQuad	*p_bucket;
+inline struct BucketQuad *insert_quad(std::int32_t *flags, struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct TextureBits t) {
+    std::int32_t flag_and, flag_or;
+    std::int32_t az;
+    struct BucketQuad *p_bucket;
 
-	if(current_bucket_pool>=end_bucket_pool)
-		return(0);
+    if (current_bucket_pool >= end_bucket_pool)
+        return (0);
 
-	p_bucket=(struct BucketQuad*)current_bucket_pool;
+    p_bucket = (struct BucketQuad *) current_bucket_pool;
 
-	az=(res[p1].Z+res[p2].Z+res[p3].Z+res[p4].Z)>>2;
+    az = (res[p1].Z + res[p2].Z + res[p3].Z + res[p4].Z) >> 2;
 
-	flag_and=flags[p1]&flags[p2]&flags[p3]&flags[p4];
-	flag_or=flags[p1]|flags[p2]|flags[p3]|flags[p4];
-	if(!is_it_clockwise_xy(res[p1].X,res[p1].Y,res[p2].X,res[p2].Y,res[p3].X,res[p3].Y))
-	{
-		if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS))
-		{
-	//		setPolyGT4(p_bucket);
-			setPolyType4(p_bucket,t.DrawFlags);
-//			setPolyType4(p_bucket,t.DrawFlags|POLY_FLAG_SEMI_TRANS);
-			setCol4(p_bucket,0xff);
-			setZ4(p_bucket,res[p4].Z,res[p3].Z,res[p1].Z,res[p2].Z);
-			setXY4(p_bucket,res[p4].X,res[p4].Y,res[p3].X,res[p3].Y,res[p1].X,res[p1].Y,res[p2].X,res[p2].Y);
-			set_quad_buckets_texture(p_bucket,&t);
-			setShade4(p_bucket,128,128,128,128);
-			p_bucket->DebugInfo=0;
-			p_bucket->DebugFlags=0;
-			add_bucket(p_bucket,az);
-			current_bucket_pool+=sizeof(struct	BucketQuad);
-			return(p_bucket);
-		}
-		else
-			return(0);
-	}
-	else
-		return(0);
+    flag_and = flags[p1] & flags[p2] & flags[p3] & flags[p4];
+    flag_or = flags[p1] | flags[p2] | flags[p3] | flags[p4];
+    if (!is_it_clockwise_xy(res[p1].X, res[p1].Y, res[p2].X, res[p2].Y, res[p3].X, res[p3].Y)) {
+        if (((flag_or & EF_BEHIND_YOU) == 0) && !(flag_and & EF_CLIPFLAGS)) {
+            //		setPolyGT4(p_bucket);
+            setPolyType4(p_bucket, t.DrawFlags);
+            //			setPolyType4(p_bucket,t.DrawFlags|POLY_FLAG_SEMI_TRANS);
+            setCol4(p_bucket, 0xff);
+            setZ4(p_bucket, res[p4].Z, res[p3].Z, res[p1].Z, res[p2].Z);
+            setXY4(p_bucket, res[p4].X, res[p4].Y, res[p3].X, res[p3].Y, res[p1].X, res[p1].Y, res[p2].X, res[p2].Y);
+            set_quad_buckets_texture(p_bucket, &t);
+            setShade4(p_bucket, 128, 128, 128, 128);
+            p_bucket->DebugInfo = 0;
+            p_bucket->DebugFlags = 0;
+            add_bucket(p_bucket, az);
+            current_bucket_pool += sizeof(struct BucketQuad);
+            return (p_bucket);
+        } else
+            return (0);
+    } else
+        return (0);
 }
 
-inline	struct BucketTri *insert_tri(std::int32_t	*flags,struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3)
-{
-	std::int32_t	flag_and,flag_or;
-	struct	BucketTri	*p_bucket;
+inline struct BucketTri *insert_tri(std::int32_t *flags, struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
+    std::int32_t flag_and, flag_or;
+    struct BucketTri *p_bucket;
 
-	if(current_bucket_pool>=end_bucket_pool)
-		return(0);
+    if (current_bucket_pool >= end_bucket_pool)
+        return (0);
 
-	p_bucket=(struct BucketTri*)current_bucket_pool;
+    p_bucket = (struct BucketTri *) current_bucket_pool;
 
-		flag_and=flags[p1]&flags[p2]&flags[p3];
-		flag_or=flags[p1]|flags[p2]|flags[p3];
-		if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS))
-		{
-			setPolyGT3(p_bucket);
-			setXY3(p_bucket,res[p1].X,res[p1].Y,res[p2].X,res[p2].Y,res[p3].X,res[p3].Y);
-			setUV3(p_bucket,64+32,32,64+64,32,64+64,64,1);
-			setShade3(p_bucket,64,128,128);
-			p_bucket->DebugInfo=0;
-			add_bucket(p_bucket,res[0].Z);
-			current_bucket_pool+=sizeof(struct	BucketTri);
-			return(++p_bucket);
-		}
-		return(p_bucket);
-		return(0);
+    flag_and = flags[p1] & flags[p2] & flags[p3];
+    flag_or = flags[p1] | flags[p2] | flags[p3];
+    if (((flag_or & EF_BEHIND_YOU) == 0) && !(flag_and & EF_CLIPFLAGS)) {
+        setPolyGT3(p_bucket);
+        setXY3(p_bucket, res[p1].X, res[p1].Y, res[p2].X, res[p2].Y, res[p3].X, res[p3].Y);
+        setUV3(p_bucket, 64 + 32, 32, 64 + 64, 32, 64 + 64, 64, 1);
+        setShade3(p_bucket, 64, 128, 128);
+        p_bucket->DebugInfo = 0;
+        add_bucket(p_bucket, res[0].Z);
+        current_bucket_pool += sizeof(struct BucketTri);
+        return (++p_bucket);
+    }
+    return (p_bucket);
+    return (0);
 }
 
-#define	TSHIFT	8
-std::uint8_t	check_big_point_triangle(std::int32_t x,std::int32_t y,std::int32_t ux,std::int32_t uy,std::int32_t vx,std::int32_t vy,std::int32_t wx,std::int32_t wy)
-{
-	std::int32_t	s,t,top,bot,res;
+#define TSHIFT 8
+std::uint8_t check_big_point_triangle(std::int32_t x, std::int32_t y, std::int32_t ux, std::int32_t uy, std::int32_t vx, std::int32_t vy, std::int32_t wx, std::int32_t wy) {
+    std::int32_t s, t, top, bot, res;
 
-	GlobalXYToLocal(&x,&y);
-	top	=	(y-uy)*(wx-ux)+(ux-x)*(wy-uy);
-	bot	=	(vy-uy)*(wx-ux)-(vx-ux)*(wy-uy);
+    GlobalXYToLocal(&x, &y);
+    top = (y - uy) * (wx - ux) + (ux - x) * (wy - uy);
+    bot = (vy - uy) * (wx - ux) - (vx - ux) * (wy - uy);
 
-	
-//	if(next_col_column<5)
-//		printf(" top %d bot %d \n",top,bot);
+    //	if(next_col_column<5)
+    //		printf(" top %d bot %d \n",top,bot);
 
-	if(bot==0)
-		return 0;
+    if (bot == 0)
+        return 0;
 
-	s=(top<<TSHIFT)/bot;
-	if(s<0)
-		return 0;
-	if((wx-ux)==0)
-		t=((y<<TSHIFT)-(uy<<TSHIFT)-s*(vy-uy))/(wy-uy);
-	else
-		t=((x<<TSHIFT)-(ux<<TSHIFT)-s*(vx-ux))/(wx-ux);
-	if(t<0)
-		return 0;
+    s = (top << TSHIFT) / bot;
+    if (s < 0)
+        return 0;
+    if ((wx - ux) == 0)
+        t = ((y << TSHIFT) - (uy << TSHIFT) - s * (vy - uy)) / (wy - uy);
+    else
+        t = ((x << TSHIFT) - (ux << TSHIFT) - s * (vx - ux)) / (wx - ux);
+    if (t < 0)
+        return 0;
 
-	res=s+t;
-	if( res<(1<<TSHIFT))
-	{
-//		if(next_col_column<5)
-//			printf(" s %d t %d \n",s>>6,t>>6);
+    res = s + t;
+    if (res < (1 << TSHIFT)) {
+        //		if(next_col_column<5)
+        //			printf(" s %d t %d \n",s>>6,t>>6);
 
-		return	1;  // point inside triangle
-	}
-	else
-		return	0;  // point outside triangle
+        return 1; // point inside triangle
+    } else
+        return 0; // point outside triangle
 }
-
 
 // p1   p2
 //
 // p2   p3
 
-bool	check_mouse_over_prim_quad(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,std::int32_t face)
-{
-	std::int32_t	az;
+bool check_mouse_over_prim_quad(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t face) {
+    std::int32_t az;
 
-
-	az	=	(res[p1].Z+res[p2].Z+res[p3].Z+res[p4].Z)>>2;
-	if(!is_it_clockwise(res,p3,p2,p1))
-	{
-		if	(
-				check_big_point_triangle(MouseX,MouseY,res[p1].X,res[p1].Y,res[p2].X,res[p2].Y,res[p3].X,res[p3].Y)	||
-				check_big_point_triangle(MouseX,MouseY,res[p2].X,res[p2].Y,res[p4].X,res[p4].Y,res[p3].X,res[p3].Y)
-			)
-		{
-			if(az < hilited_face.Z||hilited_face.EditTurn!=editor_turn)
-			{
-				hilited_face.Face		=	face;
-				hilited_face.EditTurn	=	editor_turn;
-				hilited_face.Z			=	az;
-				hilited_face.PEle		=	(struct EditMapElement*)-1;
-				hilited_face.Bucket		=	(struct BucketHead*)current_bucket_pool;
-				return	true;
-			}
-		}
-	}
-	return	false;
+    az = (res[p1].Z + res[p2].Z + res[p3].Z + res[p4].Z) >> 2;
+    if (!is_it_clockwise(res, p3, p2, p1)) {
+        if (
+            check_big_point_triangle(MouseX, MouseY, res[p1].X, res[p1].Y, res[p2].X, res[p2].Y, res[p3].X, res[p3].Y) ||
+            check_big_point_triangle(MouseX, MouseY, res[p2].X, res[p2].Y, res[p4].X, res[p4].Y, res[p3].X, res[p3].Y)) {
+            if (az < hilited_face.Z || hilited_face.EditTurn != editor_turn) {
+                hilited_face.Face = face;
+                hilited_face.EditTurn = editor_turn;
+                hilited_face.Z = az;
+                hilited_face.PEle = (struct EditMapElement *) -1;
+                hilited_face.Bucket = (struct BucketHead *) current_bucket_pool;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-bool	check_mouse_over_floor_quad(std::int32_t x1,std::int32_t y1,std::int32_t x2,std::int32_t y2,std::int32_t x3,std::int32_t y3, std::int32_t x4,std::int32_t y4,std::int32_t face,std::int32_t az)
-{
-	if	(
-			check_big_point_triangle(MouseX,MouseY,x1,y1,x2,y2,x3,y3)	||
-			check_big_point_triangle(MouseX,MouseY,x2,y2,x4,y4,x3,y3)
-		)
-	{
-		if(az < hilited_face.Z||hilited_face.EditTurn!=editor_turn)
-		{
-			hilited_face.Face		=	face;
-			hilited_face.EditTurn	=	editor_turn;
-			hilited_face.Z			=	az;
-			hilited_face.PEle		=	(struct EditMapElement*)-2;
-			hilited_face.Bucket		=	(struct BucketHead*)current_bucket_pool;
-			return	true;
-		}
-	}
-	return	false;
+bool check_mouse_over_floor_quad(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4, std::int32_t face, std::int32_t az) {
+    if (
+        check_big_point_triangle(MouseX, MouseY, x1, y1, x2, y2, x3, y3) ||
+        check_big_point_triangle(MouseX, MouseY, x2, y2, x4, y4, x3, y3)) {
+        if (az < hilited_face.Z || hilited_face.EditTurn != editor_turn) {
+            hilited_face.Face = face;
+            hilited_face.EditTurn = editor_turn;
+            hilited_face.Z = az;
+            hilited_face.PEle = (struct EditMapElement *) -2;
+            hilited_face.Bucket = (struct BucketHead *) current_bucket_pool;
+            return true;
+        }
+    }
+    return false;
 }
 
+bool check_mouse_over_prim_tri(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t face) {
+    std::int32_t az;
 
-
-
-
-
-bool	check_mouse_over_prim_tri(struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t face)
-{
-	std::int32_t	az;
-
-
-	az	=	(res[p1].Z+res[p2].Z+res[p3].Z)/3;
-	if(!is_it_clockwise(res,p3,p2,p1))
-	{
-		if(check_big_point_triangle(MouseX,MouseY,res[p1].X,res[p1].Y,res[p2].X,res[p2].Y,res[p3].X,res[p3].Y))
-		{
-			if(az < hilited_face.Z||hilited_face.EditTurn!=editor_turn)
-			{
-				hilited_face.Face		=	-face;
-				hilited_face.EditTurn	=	editor_turn;
-				hilited_face.Z			=	az;
-				hilited_face.PEle		=	(struct EditMapElement*)-1;
-				hilited_face.Bucket		=	(struct BucketHead*)current_bucket_pool;
-				return	true;
-			}
-		}
-	}
-	return	false;
+    az = (res[p1].Z + res[p2].Z + res[p3].Z) / 3;
+    if (!is_it_clockwise(res, p3, p2, p1)) {
+        if (check_big_point_triangle(MouseX, MouseY, res[p1].X, res[p1].Y, res[p2].X, res[p2].Y, res[p3].X, res[p3].Y)) {
+            if (az < hilited_face.Z || hilited_face.EditTurn != editor_turn) {
+                hilited_face.Face = -face;
+                hilited_face.EditTurn = editor_turn;
+                hilited_face.Z = az;
+                hilited_face.PEle = (struct EditMapElement *) -1;
+                hilited_face.Bucket = (struct BucketHead *) current_bucket_pool;
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-void	check_mouse_quad(struct EditMapElement *p_ele,struct SVector *res,std::int32_t p1,std::int32_t p2,std::int32_t p3,std::int32_t p4,std::int32_t wx,std::int32_t wy,std::int32_t wz,std::int32_t face)
-{
-	std::int32_t	az;
-	static	count;
-	if(hilited_face.EditTurn!=editor_turn)
-	{
-		count=0;
-	}
-/*
-	if(editor.TexturePriority)
-	{
-		if(MouseX<256&&MouseY<256)
-			return;
-	}
-*/
+void check_mouse_quad(struct EditMapElement *p_ele, struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t wx, std::int32_t wy, std::int32_t wz, std::int32_t face) {
+    std::int32_t az;
+    static count;
+    if (hilited_face.EditTurn != editor_turn) {
+        count = 0;
+    }
+    /*
+            if(editor.TexturePriority)
+            {
+                    if(MouseX<256&&MouseY<256)
+                            return;
+            }
+    */
 
-	az=(res[p1].Z+res[p2].Z+res[p3].Z+res[p4].Z)>>2;
-	if(!is_it_clockwise(res,p1,p2,p3))
-	{
-		if(check_big_point_triangle(MouseX,MouseY,res[p3].X,res[p3].Y,res[p2].X,res[p2].Y,res[p1].X,res[p1].Y)||
-		   check_big_point_triangle(MouseX,MouseY,res[p1].X,res[p1].Y,res[p4].X,res[p4].Y,res[p3].X,res[p3].Y))
-		{
-			if(az < hilited_face.Z||hilited_face.EditTurn!=editor_turn)
-			{
-				count++;
-				hilited_face.MapX=wx;				
-				hilited_face.MapY=wy;				
-				hilited_face.MapZ=wz;				
-				hilited_face.Face=face;
-				hilited_face.EditTurn=editor_turn;
-				hilited_face.PEle=p_ele;
-				hilited_face.Z=az;
-				hilited_face.Bucket	=	0; //(struct BucketHead*)current_bucket_pool;
-			}
-		}
-	}
+    az = (res[p1].Z + res[p2].Z + res[p3].Z + res[p4].Z) >> 2;
+    if (!is_it_clockwise(res, p1, p2, p3)) {
+        if (check_big_point_triangle(MouseX, MouseY, res[p3].X, res[p3].Y, res[p2].X, res[p2].Y, res[p1].X, res[p1].Y) ||
+            check_big_point_triangle(MouseX, MouseY, res[p1].X, res[p1].Y, res[p4].X, res[p4].Y, res[p3].X, res[p3].Y)) {
+            if (az < hilited_face.Z || hilited_face.EditTurn != editor_turn) {
+                count++;
+                hilited_face.MapX = wx;
+                hilited_face.MapY = wy;
+                hilited_face.MapZ = wz;
+                hilited_face.Face = face;
+                hilited_face.EditTurn = editor_turn;
+                hilited_face.PEle = p_ele;
+                hilited_face.Z = az;
+                hilited_face.Bucket = 0; //(struct BucketHead*)current_bucket_pool;
+            }
+        }
+    }
 }
 
-
-
-struct	DisplayTypes
-{
-	std::int32_t	Width,Height,Depth;
-
+struct DisplayTypes {
+    std::int32_t Width, Height, Depth;
 };
 
-struct DisplayTypes display_types[]=
-{
-	{320,200,8},
-	{640,480,8},
-	{800,600,8},
-	{1024,768,8},
-	{1280,1024,8},
-	{0,0,0},
-	{0,0,0},
-	{0,0,0},
-	{0,0,0},
-	{0,0,0},
+struct DisplayTypes display_types[] =
+    {
+        {320, 200, 8},
+        {640, 480, 8},
+        {800, 600, 8},
+        {1024, 768, 8},
+        {1280, 1024, 8},
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0},
+        {0, 0, 0},
 };
 
-void	gamut_fiddle()
-{
+void gamut_fiddle() {
+    std::uint8_t temp_pal[768];
+    std::int32_t c0, temp;
+    static std::int32_t gamut = 0;
+    std::uint8_t *pal;
 
-	std::uint8_t	temp_pal[768];
-	std::int32_t	c0,temp;
-	static	std::int32_t	gamut=0;
-	std::uint8_t	*pal;
-	
-	if((pal=PALETTE)==0)
-		return;
+    if ((pal = PALETTE) == 0)
+        return;
 
-	if(Keys[KB_F12])
-	{
-		gamut+=ShiftFlag?-1:+1;
-		if(gamut<-256)
-			gamut=-256;
-		if(gamut>256)
-			gamut=256;
-		for(c0=0;c0<256*3;c0++)
-		{
-			temp=(pal[c0]+gamut);
-			if(temp>255)
-				temp=255;
-			if(temp<0)
-				temp=0;
+    if (Keys[KB_F12]) {
+        gamut += ShiftFlag ? -1 : +1;
+        if (gamut < -256)
+            gamut = -256;
+        if (gamut > 256)
+            gamut = 256;
+        for (c0 = 0; c0 < 256 * 3; c0++) {
+            temp = (pal[c0] + gamut);
+            if (temp > 255)
+                temp = 255;
+            if (temp < 0)
+                temp = 0;
 
-			temp_pal[c0]=temp;
-		}
-		SetPalette(temp_pal);
-	}
+            temp_pal[c0] = temp;
+        }
+        SetPalette(temp_pal);
+    }
 }
 
-std::uint32_t	engine_keys_scroll_game()
-{
-   	std::int32_t	dx=0,dy=0,dz=0;
-	std::uint32_t	change=0;
-	std::int32_t	scale;
+std::uint32_t engine_keys_scroll_game() {
+    std::int32_t dx = 0, dy = 0, dz = 0;
+    std::uint32_t change = 0;
+    std::int32_t scale;
 
-	if(ShiftFlag)
-	{
-		if(Keys[KB_RIGHT])
-		{
-/*
-			dx=(SIN( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
-			dz=(COS( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
-			change=1;
-*/
-			dx=100;
-			change=1;
-		}
-		else if(Keys[KB_LEFT])
-		{
-/*
-			dx=-(SIN( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
-			dz=-(COS( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
-			change=1;
-*/
-			dx=-100;
-			change=1;
-		}
-		if(Keys[KB_UP])
-		{
-			dy=100;
-			change=1;
-		}
+    if (ShiftFlag) {
+        if (Keys[KB_RIGHT]) {
+            /*
+                                    dx=(SIN( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
+                                    dz=(COS( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
+                                    change=1;
+            */
+            dx = 100;
+            change = 1;
+        } else if (Keys[KB_LEFT]) {
+            /*
+                                    dx=-(SIN( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
+                                    dz=-(COS( ((engine.AngleY>>8)+2048+512)&2047)*80)>>16;
+                                    change=1;
+            */
+            dx = -100;
+            change = 1;
+        }
+        if (Keys[KB_UP]) {
+            dy = 100;
+            change = 1;
+        }
 
-		if(Keys[KB_DOWN])
-		{
-			dy=-1000;
-			change=1;
-		}
-	}
-	else
-	{
-		if(Keys[KB_RIGHT])
-		{
-/*
-			engine.AngleY-=2048<<1;
-			engine.AngleY=((engine.AngleY+(2048<<8))&((2048<<8)-1));
-	//		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
-	//			engine.AngleY=512<<8;
-			change=1;
-*/
-			dx=(SIN( ((engine.AngleY>>8)+2048+512)&2047)*200)>>16;
-			dz=(COS( ((engine.AngleY>>8)+2048+512)&2047)*200)>>16;
-			change=1;
-		}
-		else if(Keys[KB_LEFT])
-		{
-/*
-			engine.AngleY+=2048<<1;
-			engine.AngleY=((engine.AngleY+(2048<<8))&((2048<<8)-1));
-	//		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
-	//			engine.AngleY=1536<<8;
-			change=1;
-*/
-			dx=-(SIN( ((engine.AngleY>>8)+2048+512)&2047)*200)>>16;
-			dz=-(COS( ((engine.AngleY>>8)+2048+512)&2047)*200)>>16;
+        if (Keys[KB_DOWN]) {
+            dy = -1000;
+            change = 1;
+        }
+    } else {
+        if (Keys[KB_RIGHT]) {
+            /*
+                                    engine.AngleY-=2048<<1;
+                                    engine.AngleY=((engine.AngleY+(2048<<8))&((2048<<8)-1));
+                    //		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
+                    //			engine.AngleY=512<<8;
+                                    change=1;
+            */
+            dx = (SIN(((engine.AngleY >> 8) + 2048 + 512) & 2047) * 200) >> 16;
+            dz = (COS(((engine.AngleY >> 8) + 2048 + 512) & 2047) * 200) >> 16;
+            change = 1;
+        } else if (Keys[KB_LEFT]) {
+            /*
+                                    engine.AngleY+=2048<<1;
+                                    engine.AngleY=((engine.AngleY+(2048<<8))&((2048<<8)-1));
+                    //		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
+                    //			engine.AngleY=1536<<8;
+                                    change=1;
+            */
+            dx = -(SIN(((engine.AngleY >> 8) + 2048 + 512) & 2047) * 200) >> 16;
+            dz = -(COS(((engine.AngleY >> 8) + 2048 + 512) & 2047) * 200) >> 16;
 
-			change=1;
-		}
-		
-		if(Keys[KB_UP])
-		{
-			dx=-(SIN( ((engine.AngleY>>8)+2048)&2047)*150)>>16;
-			dz=-(COS( ((engine.AngleY>>8)+2048)&2047)*150)>>16;
-			change=1;
-		}
+            change = 1;
+        }
 
-		if(Keys[KB_DOWN])
-		{
-			dx=(SIN( ((engine.AngleY>>8)+2048)&2047)*150)>>16;
-			dz=(COS( ((engine.AngleY>>8)+2048)&2047)*150)>>16;
-			change=1;
-		}
-	}
-	if(change)
-	{
-		scale=3000-(engine.Scale+1000);
-		scale>>=8;
-		if(scale<=0)
-			scale=1;
+        if (Keys[KB_UP]) {
+            dx = -(SIN(((engine.AngleY >> 8) + 2048) & 2047) * 150) >> 16;
+            dz = -(COS(((engine.AngleY >> 8) + 2048) & 2047) * 150) >> 16;
+            change = 1;
+        }
 
-		dx*=scale;
-		dz*=scale;
+        if (Keys[KB_DOWN]) {
+            dx = (SIN(((engine.AngleY >> 8) + 2048) & 2047) * 150) >> 16;
+            dz = (COS(((engine.AngleY >> 8) + 2048) & 2047) * 150) >> 16;
+            change = 1;
+        }
+    }
+    if (change) {
+        scale = 3000 - (engine.Scale + 1000);
+        scale >>= 8;
+        if (scale <= 0)
+            scale = 1;
 
-		dx>>=2;
-		dz>>=2;
+        dx *= scale;
+        dz *= scale;
 
-		engine.X+=dx<<8;
-		engine.Y+=dy<<8;
-		engine.Z+=dz<<8;
-	}
-	return(change);
-	
+        dx >>= 2;
+        dz >>= 2;
+
+        engine.X += dx << 8;
+        engine.Y += dy << 8;
+        engine.Z += dz << 8;
+    }
+    return (change);
 }
 
-std::int32_t	calc_step_size()
-{
-	std::int32_t	scale;
- 	scale=3000-(engine.Scale+1000);
+std::int32_t calc_step_size() {
+    std::int32_t scale;
+    scale = 3000 - (engine.Scale + 1000);
 
-	if(scale<1)
-		scale=1;
+    if (scale < 1)
+        scale = 1;
 
-	scale<<=6;
-	return(scale);
-
+    scale <<= 6;
+    return (scale);
 }
 
-std::uint32_t	engine_keys_scroll()
-{
-	std::int32_t	update=0;
-	std::int32_t	step_size;
+std::uint32_t engine_keys_scroll() {
+    std::int32_t update = 0;
+    std::int32_t step_size;
 
-	step_size=calc_step_size();
+    step_size = calc_step_size();
 
-	if(ControlFlag)
-	{
-		
-		if(Keys[KB_1])
-		{
-			engine.Z=0;
-			update	=	1;
-		}
-		if(Keys[KB_2])
-		{
-			engine.Z=64<<8;
-			update	=	1;
-		}
-		if(Keys[KB_3])
-		{
-			engine.Z=128<<8;
-			update	=	1;
-		}
-		if(Keys[KB_4])
-		{
-			engine.Z=(128+64)<<8;
-			update	=	1;
-		}
-	}
+    if (ControlFlag) {
+        if (Keys[KB_1]) {
+            engine.Z = 0;
+            update = 1;
+        }
+        if (Keys[KB_2]) {
+            engine.Z = 64 << 8;
+            update = 1;
+        }
+        if (Keys[KB_3]) {
+            engine.Z = 128 << 8;
+            update = 1;
+        }
+        if (Keys[KB_4]) {
+            engine.Z = (128 + 64) << 8;
+            update = 1;
+        }
+    }
 
-	if(Keys[KB_LEFT]) //&&!(ShiftFlag))
-	{
-		Keys[KB_LEFT]=0;
-		engine.X-=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_RIGHT]) //&&!(ShiftFlag))
-	{
-		Keys[KB_RIGHT]=0;
-		engine.X+=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_UP]&&!(ShiftFlag))
-	{
-		Keys[KB_UP]=0;
-		engine.Y-=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_DOWN]&&!(ShiftFlag))
-	{
-		Keys[KB_DOWN]=0;
-		engine.Y+=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_INS]||(Keys[KB_UP]&&ShiftFlag))
-	{
-		Keys[KB_INS]=0;
-		engine.Z-=step_size;
-//		if( ((engine.Z>>ELE_SHIFT)>>8)<0)
-//		engine.Z=0;
-		update	=	1;
-	}
-	if(Keys[KB_PGUP]||(Keys[KB_DOWN]&&ShiftFlag))
-	{
-		Keys[KB_PGUP]=0;
-		engine.Z+=step_size;
-//		if( ((engine.Z>>ELE_SHIFT)>>8)>16)
-//			engine.Z=16<<(ELE_SHIFT+8);
-		update	=	1;
-	}
+    if (Keys[KB_LEFT]) //&&!(ShiftFlag))
+    {
+        Keys[KB_LEFT] = 0;
+        engine.X -= step_size;
+        update = 1;
+    }
+    if (Keys[KB_RIGHT]) //&&!(ShiftFlag))
+    {
+        Keys[KB_RIGHT] = 0;
+        engine.X += step_size;
+        update = 1;
+    }
+    if (Keys[KB_UP] && !(ShiftFlag)) {
+        Keys[KB_UP] = 0;
+        engine.Y -= step_size;
+        update = 1;
+    }
+    if (Keys[KB_DOWN] && !(ShiftFlag)) {
+        Keys[KB_DOWN] = 0;
+        engine.Y += step_size;
+        update = 1;
+    }
+    if (Keys[KB_INS] || (Keys[KB_UP] && ShiftFlag)) {
+        Keys[KB_INS] = 0;
+        engine.Z -= step_size;
+        //		if( ((engine.Z>>ELE_SHIFT)>>8)<0)
+        //		engine.Z=0;
+        update = 1;
+    }
+    if (Keys[KB_PGUP] || (Keys[KB_DOWN] && ShiftFlag)) {
+        Keys[KB_PGUP] = 0;
+        engine.Z += step_size;
+        //		if( ((engine.Z>>ELE_SHIFT)>>8)>16)
+        //			engine.Z=16<<(ELE_SHIFT+8);
+        update = 1;
+    }
 
-
-	return(update);
+    return (update);
 }
 
-std::uint32_t	engine_keys_scroll_plan()
-{
-	std::int32_t	update=0;
-	std::int32_t	step_size=256<<8;
-//	step_size=calc_step_size();
+std::uint32_t engine_keys_scroll_plan() {
+    std::int32_t update = 0;
+    std::int32_t step_size = 256 << 8;
+    //	step_size=calc_step_size();
 
-	if(ShiftFlag)
-		step_size<<=2;
+    if (ShiftFlag)
+        step_size <<= 2;
 
-	if(Keys[KB_LEFT]) //&&!(ShiftFlag))
-	{
-		Keys[KB_LEFT]=0;
-		engine.X-=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_RIGHT]) //&&!(ShiftFlag))
-	{
-		Keys[KB_RIGHT]=0;
-		engine.X+=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_UP]&&!(ShiftFlag))
-	{
-		Keys[KB_UP]=0;
-		engine.Z-=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_DOWN]&&!(ShiftFlag))
-	{
-		Keys[KB_DOWN]=0;
-		engine.Z+=step_size;
-		update	=	1;
-	}
-	if(Keys[KB_PGUP]||(Keys[KB_UP]&&ShiftFlag))
-	{
-		Keys[KB_PGUP]=0;
-		Keys[KB_UP]=0;
-		engine.Y-=step_size;
-//		if( ((engine.Z>>ELE_SHIFT)>>8)<0)
-//		engine.Z=0;
-		update	=	1;
-	}
-	if(Keys[KB_PGDN]||(Keys[KB_DOWN]&&ShiftFlag))
-	{
-		Keys[KB_PGDN]=0;
-		Keys[KB_DOWN]=0;
-		engine.Y+=step_size;
-//		if( ((engine.Z>>ELE_SHIFT)>>8)>16)
-//			engine.Z=16<<(ELE_SHIFT+8);
-		update	=	1;
-	}
-	return(update);
+    if (Keys[KB_LEFT]) //&&!(ShiftFlag))
+    {
+        Keys[KB_LEFT] = 0;
+        engine.X -= step_size;
+        update = 1;
+    }
+    if (Keys[KB_RIGHT]) //&&!(ShiftFlag))
+    {
+        Keys[KB_RIGHT] = 0;
+        engine.X += step_size;
+        update = 1;
+    }
+    if (Keys[KB_UP] && !(ShiftFlag)) {
+        Keys[KB_UP] = 0;
+        engine.Z -= step_size;
+        update = 1;
+    }
+    if (Keys[KB_DOWN] && !(ShiftFlag)) {
+        Keys[KB_DOWN] = 0;
+        engine.Z += step_size;
+        update = 1;
+    }
+    if (Keys[KB_PGUP] || (Keys[KB_UP] && ShiftFlag)) {
+        Keys[KB_PGUP] = 0;
+        Keys[KB_UP] = 0;
+        engine.Y -= step_size;
+        //		if( ((engine.Z>>ELE_SHIFT)>>8)<0)
+        //		engine.Z=0;
+        update = 1;
+    }
+    if (Keys[KB_PGDN] || (Keys[KB_DOWN] && ShiftFlag)) {
+        Keys[KB_PGDN] = 0;
+        Keys[KB_DOWN] = 0;
+        engine.Y += step_size;
+        //		if( ((engine.Z>>ELE_SHIFT)>>8)>16)
+        //			engine.Z=16<<(ELE_SHIFT+8);
+        update = 1;
+    }
+    return (update);
 }
 
-std::uint32_t	engine_keys_spin()
-{
-	std::int32_t	update=0;
-	gamut_fiddle();
-	if(Keys[KB_DEL])
-	{
-		engine.AngleY+=2048;
-		engine.AngleY+=2048;
-		engine.AngleY+=2048;
-		engine.AngleY+=2048;
-		engine.AngleY=((engine.AngleY+(2048<<8))&((2048<<8)-1));
-//		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
-//			engine.AngleY=512<<8;
-		update	=	1;
-	}
+std::uint32_t engine_keys_spin() {
+    std::int32_t update = 0;
+    gamut_fiddle();
+    if (Keys[KB_DEL]) {
+        engine.AngleY += 2048;
+        engine.AngleY += 2048;
+        engine.AngleY += 2048;
+        engine.AngleY += 2048;
+        engine.AngleY = ((engine.AngleY + (2048 << 8)) & ((2048 << 8) - 1));
+        //		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
+        //			engine.AngleY=512<<8;
+        update = 1;
+    }
 
-	if(Keys[(0x51 + 0x80)])
-	{
-		engine.AngleY-=2048;
-		engine.AngleY-=2048;
-		engine.AngleY-=2048;
-		engine.AngleY-=2048;
-		engine.AngleY=((engine.AngleY+(2048<<8))&((2048<<8)-1));
-//		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
-//			engine.AngleY=1536<<8;
-		update	=	1;
-	}
-		
-	if(Keys[KB_HOME])
-	{
-		engine.AngleX+=2048;
-		engine.AngleX+=2048;
-		engine.AngleX+=2048;
-		engine.AngleX+=2048;
-		engine.AngleX=((engine.AngleX+(2048<<8))&((2048<<8)-1));
-//		if(engine.AngleX< (1536<<8) && (engine.AngleX>512<<8))
-//			engine.AngleX=512<<8;
-		update	=	1;
-	}
+    if (Keys[(0x51 + 0x80)]) {
+        engine.AngleY -= 2048;
+        engine.AngleY -= 2048;
+        engine.AngleY -= 2048;
+        engine.AngleY -= 2048;
+        engine.AngleY = ((engine.AngleY + (2048 << 8)) & ((2048 << 8) - 1));
+        //		if(engine.AngleY< (1536<<8) && (engine.AngleY>512<<8))
+        //			engine.AngleY=1536<<8;
+        update = 1;
+    }
 
-	if(Keys[KB_END])
-	{
-		engine.AngleX-=2048;
-		engine.AngleX-=2048;
-		engine.AngleX-=2048;
-		engine.AngleX-=2048;
-		engine.AngleX=((engine.AngleX+(2048<<8))&((2048<<8)-1));
-//		if(engine.AngleX< (1536<<8) && (engine.AngleX>512<<8))
-//			engine.AngleX=1536<<8;
-		update	=	1;
-	}
-	return(update);
+    if (Keys[KB_HOME]) {
+        engine.AngleX += 2048;
+        engine.AngleX += 2048;
+        engine.AngleX += 2048;
+        engine.AngleX += 2048;
+        engine.AngleX = ((engine.AngleX + (2048 << 8)) & ((2048 << 8) - 1));
+        //		if(engine.AngleX< (1536<<8) && (engine.AngleX>512<<8))
+        //			engine.AngleX=512<<8;
+        update = 1;
+    }
+
+    if (Keys[KB_END]) {
+        engine.AngleX -= 2048;
+        engine.AngleX -= 2048;
+        engine.AngleX -= 2048;
+        engine.AngleX -= 2048;
+        engine.AngleX = ((engine.AngleX + (2048 << 8)) & ((2048 << 8) - 1));
+        //		if(engine.AngleX< (1536<<8) && (engine.AngleX>512<<8))
+        //			engine.AngleX=1536<<8;
+        update = 1;
+    }
+    return (update);
 }
 
-std::uint32_t	engine_keys_zoom()
-{
-	if(Keys[KB_I])
-	{
-		engine.Scale+=ShiftFlag?4:64;
-		return(1);
-	}
-	if(Keys[KB_O])
-	{
-		engine.Scale-=ShiftFlag?4:64;
-		if(engine.Scale<1)
-			engine.Scale=1;
-		return(1);
-	}
-	return(0);
+std::uint32_t engine_keys_zoom() {
+    if (Keys[KB_I]) {
+        engine.Scale += ShiftFlag ? 4 : 64;
+        return (1);
+    }
+    if (Keys[KB_O]) {
+        engine.Scale -= ShiftFlag ? 4 : 64;
+        if (engine.Scale < 1)
+            engine.Scale = 1;
+        return (1);
+    }
+    return (0);
 }
 
-std::uint32_t	editor_user_interface(std::uint8_t type)
-{
-	std::uint32_t	update	=	0;
-	static	std::uint32_t	res=1;
-	static	std::uint16_t	current_texture_l=0;
-	static	std::uint16_t	current_texture_r=0;
-	char	str[100];
-/*	
-	if(Keys[KB_R]&&!ControlFlag)
-	{
-		Keys[KB_R]=0;
-loop:
-		res++;
-		if(display_types[res].Width==0)
-			res=0;
-		if(SetDisplay(display_types[res].Width,display_types[res].Height,display_types[res].Depth)!=NoError)
-			goto	loop;
-		return(1);
-	}
-*/
-	switch(type)
-	{
-		case	0:
-				update|=engine_keys_scroll();
-				update|=engine_keys_spin();
-				update|=engine_keys_zoom();
-				break;
+std::uint32_t editor_user_interface(std::uint8_t type) {
+    std::uint32_t update = 0;
+    static std::uint32_t res = 1;
+    static std::uint16_t current_texture_l = 0;
+    static std::uint16_t current_texture_r = 0;
+    char str[100];
+    /*
+            if(Keys[KB_R]&&!ControlFlag)
+            {
+                    Keys[KB_R]=0;
+    loop:
+                    res++;
+                    if(display_types[res].Width==0)
+                            res=0;
+                    if(SetDisplay(display_types[res].Width,display_types[res].Height,display_types[res].Depth)!=NoError)
+                            goto	loop;
+                    return(1);
+            }
+    */
+    switch (type) {
+        case 0:
+            update |= engine_keys_scroll();
+            update |= engine_keys_spin();
+            update |= engine_keys_zoom();
+            break;
 
-		case	1:
-				update|=engine_keys_scroll_game();
-				update|=engine_keys_spin();
-				update|=engine_keys_zoom();
-				break;
-		case	2:
-				update|=engine_keys_scroll_plan();
-				update|=engine_keys_spin();
-//				update|=engine_keys_zoom();
-				break;
-
-		
-	}
-	return	update;
+        case 1:
+            update |= engine_keys_scroll_game();
+            update |= engine_keys_spin();
+            update |= engine_keys_zoom();
+            break;
+        case 2:
+            update |= engine_keys_scroll_plan();
+            update |= engine_keys_spin();
+            //				update|=engine_keys_zoom();
+            break;
+    }
+    return update;
 }
 
-void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
-{
-	struct	SVector	p1,p2;
-	struct	SVector	res1,res2;
-	std::int32_t	temp;
-	std::int32_t	f1,f2;
+void draw_3d_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t col) {
+    struct SVector p1, p2;
+    struct SVector res1, res2;
+    std::int32_t temp;
+    std::int32_t f1, f2;
 
+    temp = engine.ClipFlag;
+    engine.ClipFlag = 0;
 
-	temp=engine.ClipFlag;
-	engine.ClipFlag=0;
+    p1.X = x1;
+    p1.Y = y1;
+    p1.Z = z1;
 
-	p1.X=x1;
-	p1.Y=y1;
-	p1.Z=z1;
+    p2.X = x2;
+    p2.Y = y2;
+    p2.Z = z2;
 
-	p2.X=x2;
-	p2.Y=y2;
-	p2.Z=z2;
-	
-	f1=rotate_point_gte(&p1,&res1);
-	f2=rotate_point_gte(&p2,&res2);
-	if(!( (f1&f2) & EF_CLIPFLAGS))
-		DrawLineC(res1.X,res1.Y,res2.X,res2.Y,col);
-	engine.ClipFlag=temp;
+    f1 = rotate_point_gte(&p1, &res1);
+    f2 = rotate_point_gte(&p2, &res2);
+    if (!((f1 & f2) & EF_CLIPFLAGS))
+        DrawLineC(res1.X, res1.Y, res2.X, res2.Y, col);
+    engine.ClipFlag = temp;
 }
 
-void	draw_3d_text(std::int32_t x1,std::int32_t y1,std::int32_t z1,char* str,std::uint8_t col)
-{
-	struct	SVector	p1;
-	struct	SVector	res1,res2;
+void draw_3d_text(std::int32_t x1, std::int32_t y1, std::int32_t z1, char *str, std::uint8_t col) {
+    struct SVector p1;
+    struct SVector res1, res2;
 
-	p1.X=x1;
-	p1.Y=y1;
-	p1.Z=z1;
+    p1.X = x1;
+    p1.Y = y1;
+    p1.Z = z1;
 
-	rotate_point_gte(&p1,&res1);
-	QuickTextC(res1.X,res1.Y,str,col);
+    rotate_point_gte(&p1, &res1);
+    QuickTextC(res1.X, res1.Y, str, col);
 }
 
-void	create_bucket_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
-{
-	struct	SVector	points;
-	struct	SVector	res;
-	std::int32_t	sx,sy,sz;
-	std::int32_t	c0;
-	std::int32_t	prx,pry,prz;
-	sx=x2-x1;
-	sy=y2-y1;
-	sz=z2-z1;
+void create_bucket_3d_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t col) {
+    struct SVector points;
+    struct SVector res;
+    std::int32_t sx, sy, sz;
+    std::int32_t c0;
+    std::int32_t prx, pry, prz;
+    sx = x2 - x1;
+    sy = y2 - y1;
+    sz = z2 - z1;
 
-	sx/=32;
-	sy/=32;
-	sz/=32;
+    sx /= 32;
+    sy /= 32;
+    sz /= 32;
 
-	points.X=x1;
-	points.Y=y1;
-	points.Z=z1;
-	rotate_point_gte(&points,&res);
-	prx=res.X;
-	pry=res.Y;
-	prz=res.Z;
-	for(c0=0;c0<32;c0++)
-	{
-		points.X+=sx;
-		points.Y+=sy;
-		points.Z+=sz;
-		rotate_point_gte(&points,&res);
-		insert_bucket_vect(prx,pry,prz,res.X,res.Y,res.Z,col);
-		prx=res.X;
-		pry=res.Y;
-		prz=res.Z;
-	}
+    points.X = x1;
+    points.Y = y1;
+    points.Z = z1;
+    rotate_point_gte(&points, &res);
+    prx = res.X;
+    pry = res.Y;
+    prz = res.Z;
+    for (c0 = 0; c0 < 32; c0++) {
+        points.X += sx;
+        points.Y += sy;
+        points.Z += sz;
+        rotate_point_gte(&points, &res);
+        insert_bucket_vect(prx, pry, prz, res.X, res.Y, res.Z, col);
+        prx = res.X;
+        pry = res.Y;
+        prz = res.Z;
+    }
 }
 
+void create_bucket_3d_line_whole(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t col) {
+    struct SVector point[2];
+    struct SVector res[2];
+    // std::int32_t	sx,sy,sz,c0;
+    std::uint32_t f1, f2;
+    point[0].X = x1;
+    point[0].Y = y1;
+    point[0].Z = z1;
+    f1 = rotate_point_gte(&point[0], &res[0]);
 
-void	create_bucket_3d_line_whole(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col)
-{
-	struct	SVector	point[2];
-	struct	SVector	res[2];
-	//std::int32_t	sx,sy,sz,c0;
-	std::uint32_t	f1,f2;
-	point[0].X=x1;
-	point[0].Y=y1;
-	point[0].Z=z1;
-	f1=rotate_point_gte(&point[0],&res[0]);
-
-	point[1].X=x2;
-	point[1].Y=y2;
-	point[1].Z=z2;
-	f2=rotate_point_gte(&point[1],&res[1]);
-	f1=f1&f2;
-	if(!(f1 & EF_CLIPFLAGS))
-//		insert_bucket_vect(res[0].X,res[0].Y,res[0].Z,res[1].X,res[1].Y,res[1].Z,col);
-		insert_bucket_vect(res[0].X,res[0].Y,-5000,res[1].X,res[1].Y,-5000,col);
+    point[1].X = x2;
+    point[1].Y = y2;
+    point[1].Z = z2;
+    f2 = rotate_point_gte(&point[1], &res[1]);
+    f1 = f1 & f2;
+    if (!(f1 & EF_CLIPFLAGS))
+        //		insert_bucket_vect(res[0].X,res[0].Y,res[0].Z,res[1].X,res[1].Y,res[1].Z,col);
+        insert_bucket_vect(res[0].X, res[0].Y, -5000, res[1].X, res[1].Y, -5000, col);
 }
 
+void draw_grid2() {
+    std::int32_t x, y;
+    std::int32_t left, right, top, bottom;
+    std::int32_t col = LOLITE_COL;
+    std::int32_t z;
+    std::int32_t numb = 32;
+    /*
+            z=(engine.Z>>8)+5000;
+            left=((engine.X>>8)-numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
+            right=((engine.X>>8)+numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
+            top=((engine.Y>>8)-numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
+            bottom=((engine.Y>>8)+numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
 
-void	draw_grid2()
-{
-	
-	std::int32_t	x,y;
-	std::int32_t	left,right,top,bottom;
-	std::int32_t	col=LOLITE_COL;
-	std::int32_t	z;
-	std::int32_t	numb=32;
-/*
-	z=(engine.Z>>8)+5000;
-  	left=((engine.X>>8)-numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
-	right=((engine.X>>8)+numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
-	top=((engine.Y>>8)-numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
-	bottom=((engine.Y>>8)+numb*HALF_ELE_SIZE)&(~(HALF_ELE_SIZE-1));
+            for (x=left;x<right ;x+=HALF_ELE_SIZE )
+            {
+                    create_bucket_3d_line_whole(x,top,z,x,bottom,z,col);
+            }
+            for (y=top;y<bottom ;y+=HALF_ELE_SIZE )
+            {
+                    create_bucket_3d_line_whole(left,y,z,right,y,z,col);
+            }
+    */
+    z = 10000;
+    left = 0;
+    right = WorkWindowWidth;
+    top = 0;
+    bottom = WorkWindowHeight;
 
-	for (x=left;x<right ;x+=HALF_ELE_SIZE )
-	{
-		create_bucket_3d_line_whole(x,top,z,x,bottom,z,col);
-	}
-	for (y=top;y<bottom ;y+=HALF_ELE_SIZE )
-	{
-		create_bucket_3d_line_whole(left,y,z,right,y,z,col);
-	}
-*/
-	z=10000;
-  	left=0;
-	right=WorkWindowWidth;
-	top=0;
-	bottom=WorkWindowHeight;
-
-	for (x=left;x<right ;x+=64 )
-	{
-  		insert_bucket_vect(x,top,z,x,bottom,z,col);
-	}
-	for (y=top;y<bottom ;y+=64 )
-	{
-	  	insert_bucket_vect(left,y,z,right,y,z,col);
-	}
+    for (x = left; x < right; x += 64) {
+        insert_bucket_vect(x, top, z, x, bottom, z, col);
+    }
+    for (y = top; y < bottom; y += 64) {
+        insert_bucket_vect(left, y, z, right, y, z, col);
+    }
 }
 
-void	draw_cube_hilight()
-{
-	std::int32_t	x,y,z;
+void draw_cube_hilight() {
+    std::int32_t x, y, z;
 
-	x=(engine.X>>8);
-	y=(engine.Y>>8);
-	z=(engine.Z>>8);
+    x = (engine.X >> 8);
+    y = (engine.Y >> 8);
+    z = (engine.Z >> 8);
 
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
 
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
 
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,WHITE_COL);
-	
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, WHITE_COL);
 }
 
-void	draw_editor_grid()
-{
-	struct	SVector	points[8];
-	struct	SVector	res[8];
-	std::int32_t	c0;
-	std::int32_t	x,y,z;
-	if(edit_info.GridOn)
-	{
-		draw_grid2();
-		return;
-	}
+void draw_editor_grid() {
+    struct SVector points[8];
+    struct SVector res[8];
+    std::int32_t c0;
+    std::int32_t x, y, z;
+    if (edit_info.GridOn) {
+        draw_grid2();
+        return;
+    }
 
+    x = (engine.X >> 8);
+    y = (engine.Y >> 8);
+    z = (engine.Z >> 8);
 
-	x=(engine.X>>8);
-	y=(engine.Y>>8);
-	z=(engine.Z>>8);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE * 8, z - HALF_ELE_SIZE, x - HALF_ELE_SIZE, y + HALF_ELE_SIZE * 8, z - HALF_ELE_SIZE, 1);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y - HALF_ELE_SIZE * 8, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE * 8, z - HALF_ELE_SIZE, 1);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y - HALF_ELE_SIZE * 8, z + HALF_ELE_SIZE, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE * 8, z + HALF_ELE_SIZE, 1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE * 8, z + HALF_ELE_SIZE, x - HALF_ELE_SIZE, y + HALF_ELE_SIZE * 8, z + HALF_ELE_SIZE, 1);
 
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE*8,z-HALF_ELE_SIZE,x-HALF_ELE_SIZE,y+HALF_ELE_SIZE*8,z-HALF_ELE_SIZE,1);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y-HALF_ELE_SIZE*8,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE*8,z-HALF_ELE_SIZE,1);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y-HALF_ELE_SIZE*8,z+HALF_ELE_SIZE,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE*8,z+HALF_ELE_SIZE,1);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE*8,z+HALF_ELE_SIZE,x-HALF_ELE_SIZE,y+HALF_ELE_SIZE*8,z+HALF_ELE_SIZE,1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE * 8, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE * 8, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE, 1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE * 8, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, x + HALF_ELE_SIZE * 8, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE, 1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE * 8, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, x + HALF_ELE_SIZE * 8, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE, 1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE * 8, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, x + HALF_ELE_SIZE * 8, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE, 1);
 
-	create_bucket_3d_line(x-HALF_ELE_SIZE*8,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE*8,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE,1);
-	create_bucket_3d_line(x-HALF_ELE_SIZE*8,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,x+HALF_ELE_SIZE*8,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE,1);
-	create_bucket_3d_line(x-HALF_ELE_SIZE*8,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,x+HALF_ELE_SIZE*8,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE,1);
-	create_bucket_3d_line(x-HALF_ELE_SIZE*8,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,x+HALF_ELE_SIZE*8,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE,1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE * 8, x - HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE * 8, 1);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z - HALF_ELE_SIZE * 8, x + HALF_ELE_SIZE, y - HALF_ELE_SIZE, z + HALF_ELE_SIZE * 8, 1);
+    create_bucket_3d_line(x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE * 8, x + HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE * 8, 1);
+    create_bucket_3d_line(x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z - HALF_ELE_SIZE * 8, x - HALF_ELE_SIZE, y + HALF_ELE_SIZE, z + HALF_ELE_SIZE * 8, 1);
 
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE*8,x-HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE*8,1);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z-HALF_ELE_SIZE*8,x+HALF_ELE_SIZE,y-HALF_ELE_SIZE,z+HALF_ELE_SIZE*8,1);
-	create_bucket_3d_line(x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE*8,x+HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE*8,1);
-	create_bucket_3d_line(x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z-HALF_ELE_SIZE*8,x-HALF_ELE_SIZE,y+HALF_ELE_SIZE,z+HALF_ELE_SIZE*8,1);
+#ifdef POO
+    points[0].X = x - HALF_ELE_SIZE;
+    points[0].Y = y - HALF_ELE_SIZE * 8;
+    points[0].Z = z - HALF_ELE_SIZE;
 
-#ifdef	POO	
-	points[0].X=x-HALF_ELE_SIZE;
-	points[0].Y=y-HALF_ELE_SIZE*8;
-	points[0].Z=z-HALF_ELE_SIZE;
+    points[1].X = x + HALF_ELE_SIZE;
+    points[1].Y = y - HALF_ELE_SIZE * 8;
+    points[1].Z = z - HALF_ELE_SIZE;
 
-	points[1].X=x+HALF_ELE_SIZE;
-	points[1].Y=y-HALF_ELE_SIZE*8;
-	points[1].Z=z-HALF_ELE_SIZE;
-	
-	points[2].X=x+HALF_ELE_SIZE;
-	points[2].Y=y+HALF_ELE_SIZE*8;
-	points[2].Z=z-HALF_ELE_SIZE;
+    points[2].X = x + HALF_ELE_SIZE;
+    points[2].Y = y + HALF_ELE_SIZE * 8;
+    points[2].Z = z - HALF_ELE_SIZE;
 
-	points[3].X=x-HALF_ELE_SIZE;
-	points[3].Y=y+HALF_ELE_SIZE*8;
-	points[3].Z=z-HALF_ELE_SIZE;
+    points[3].X = x - HALF_ELE_SIZE;
+    points[3].Y = y + HALF_ELE_SIZE * 8;
+    points[3].Z = z - HALF_ELE_SIZE;
 
-	points[4].X=x-HALF_ELE_SIZE;
-	points[4].Y=y-HALF_ELE_SIZE*8;
-	points[4].Z=z+HALF_ELE_SIZE;
+    points[4].X = x - HALF_ELE_SIZE;
+    points[4].Y = y - HALF_ELE_SIZE * 8;
+    points[4].Z = z + HALF_ELE_SIZE;
 
-	points[5].X=x+HALF_ELE_SIZE;
-	points[5].Y=y-HALF_ELE_SIZE*8;
-	points[5].Z=z+HALF_ELE_SIZE;
+    points[5].X = x + HALF_ELE_SIZE;
+    points[5].Y = y - HALF_ELE_SIZE * 8;
+    points[5].Z = z + HALF_ELE_SIZE;
 
-	points[6].X=x+HALF_ELE_SIZE;
-	points[6].Y=y+HALF_ELE_SIZE*8;
-	points[6].Z=z+HALF_ELE_SIZE;
+    points[6].X = x + HALF_ELE_SIZE;
+    points[6].Y = y + HALF_ELE_SIZE * 8;
+    points[6].Z = z + HALF_ELE_SIZE;
 
-	points[7].X=x-HALF_ELE_SIZE;
-	points[7].Y=y+HALF_ELE_SIZE*8;
-	points[7].Z=z+HALF_ELE_SIZE;
+    points[7].X = x - HALF_ELE_SIZE;
+    points[7].Y = y + HALF_ELE_SIZE * 8;
+    points[7].Z = z + HALF_ELE_SIZE;
 
-	for(c0=0;c0<8;c0++)
-	{
-		//transform all points for this Object
-		rotate_point_gte(&points[c0],&res[c0]);
-	}
-	DrawLineC(res[0].X,res[0].Y,res[3].X,res[3].Y,1);
-	DrawLineC(res[1].X,res[1].Y,res[2].X,res[2].Y,1);
-	DrawLineC(res[5].X,res[5].Y,res[6].X,res[6].Y,1);
-	DrawLineC(res[4].X,res[4].Y,res[7].X,res[7].Y,1);
+    for (c0 = 0; c0 < 8; c0++) {
+        // transform all points for this Object
+        rotate_point_gte(&points[c0], &res[c0]);
+    }
+    DrawLineC(res[0].X, res[0].Y, res[3].X, res[3].Y, 1);
+    DrawLineC(res[1].X, res[1].Y, res[2].X, res[2].Y, 1);
+    DrawLineC(res[5].X, res[5].Y, res[6].X, res[6].Y, 1);
+    DrawLineC(res[4].X, res[4].Y, res[7].X, res[7].Y, 1);
 
-	points[0].X=x-HALF_ELE_SIZE*8;
-	points[0].Y=y-HALF_ELE_SIZE;
-	points[0].Z=z-HALF_ELE_SIZE;
+    points[0].X = x - HALF_ELE_SIZE * 8;
+    points[0].Y = y - HALF_ELE_SIZE;
+    points[0].Z = z - HALF_ELE_SIZE;
 
-	points[1].X=x+HALF_ELE_SIZE*8;
-	points[1].Y=y-HALF_ELE_SIZE;
-	points[1].Z=z-HALF_ELE_SIZE;
-	
-	points[2].X=x+HALF_ELE_SIZE*8;
-	points[2].Y=y+HALF_ELE_SIZE;
-	points[2].Z=z-HALF_ELE_SIZE;
+    points[1].X = x + HALF_ELE_SIZE * 8;
+    points[1].Y = y - HALF_ELE_SIZE;
+    points[1].Z = z - HALF_ELE_SIZE;
 
-	points[3].X=x-HALF_ELE_SIZE*8;
-	points[3].Y=y+HALF_ELE_SIZE;
-	points[3].Z=z-HALF_ELE_SIZE;
+    points[2].X = x + HALF_ELE_SIZE * 8;
+    points[2].Y = y + HALF_ELE_SIZE;
+    points[2].Z = z - HALF_ELE_SIZE;
 
-	points[4].X=x-HALF_ELE_SIZE*8;
-	points[4].Y=y-HALF_ELE_SIZE;
-	points[4].Z=z+HALF_ELE_SIZE;
+    points[3].X = x - HALF_ELE_SIZE * 8;
+    points[3].Y = y + HALF_ELE_SIZE;
+    points[3].Z = z - HALF_ELE_SIZE;
 
-	points[5].X=x+HALF_ELE_SIZE*8;
-	points[5].Y=y-HALF_ELE_SIZE;
-	points[5].Z=z+HALF_ELE_SIZE;
+    points[4].X = x - HALF_ELE_SIZE * 8;
+    points[4].Y = y - HALF_ELE_SIZE;
+    points[4].Z = z + HALF_ELE_SIZE;
 
-	points[6].X=x+HALF_ELE_SIZE*8;
-	points[6].Y=y+HALF_ELE_SIZE;
-	points[6].Z=z+HALF_ELE_SIZE;
+    points[5].X = x + HALF_ELE_SIZE * 8;
+    points[5].Y = y - HALF_ELE_SIZE;
+    points[5].Z = z + HALF_ELE_SIZE;
 
-	points[7].X=x-HALF_ELE_SIZE*8;
-	points[7].Y=y+HALF_ELE_SIZE;
-	points[7].Z=z+HALF_ELE_SIZE;
+    points[6].X = x + HALF_ELE_SIZE * 8;
+    points[6].Y = y + HALF_ELE_SIZE;
+    points[6].Z = z + HALF_ELE_SIZE;
 
-	for(c0=0;c0<8;c0++)
-	{
-		//transform all points for this Object
-		rotate_point_gte(&points[c0],&res[c0]);
-	}
-	DrawLineC(res[0].X,res[0].Y,res[1].X,res[1].Y,1);
-	DrawLineC(res[3].X,res[3].Y,res[2].X,res[2].Y,1);
-	DrawLineC(res[4].X,res[4].Y,res[5].X,res[5].Y,1);
-	DrawLineC(res[7].X,res[7].Y,res[6].X,res[6].Y,1);
+    points[7].X = x - HALF_ELE_SIZE * 8;
+    points[7].Y = y + HALF_ELE_SIZE;
+    points[7].Z = z + HALF_ELE_SIZE;
 
-	points[0].X=x-HALF_ELE_SIZE;
-	points[0].Y=y-HALF_ELE_SIZE;
-	points[0].Z=z-HALF_ELE_SIZE*8;
+    for (c0 = 0; c0 < 8; c0++) {
+        // transform all points for this Object
+        rotate_point_gte(&points[c0], &res[c0]);
+    }
+    DrawLineC(res[0].X, res[0].Y, res[1].X, res[1].Y, 1);
+    DrawLineC(res[3].X, res[3].Y, res[2].X, res[2].Y, 1);
+    DrawLineC(res[4].X, res[4].Y, res[5].X, res[5].Y, 1);
+    DrawLineC(res[7].X, res[7].Y, res[6].X, res[6].Y, 1);
 
-	points[1].X=x+HALF_ELE_SIZE;
-	points[1].Y=y-HALF_ELE_SIZE;
-	points[1].Z=z-HALF_ELE_SIZE*8;
-	
-	points[2].X=x+HALF_ELE_SIZE;
-	points[2].Y=y+HALF_ELE_SIZE;
-	points[2].Z=z-HALF_ELE_SIZE*8;
-							   
-	points[3].X=x-HALF_ELE_SIZE;
-	points[3].Y=y+HALF_ELE_SIZE;
-	points[3].Z=z-HALF_ELE_SIZE*8;
+    points[0].X = x - HALF_ELE_SIZE;
+    points[0].Y = y - HALF_ELE_SIZE;
+    points[0].Z = z - HALF_ELE_SIZE * 8;
 
-	points[4].X=x-HALF_ELE_SIZE;
-	points[4].Y=y-HALF_ELE_SIZE;
-	points[4].Z=z+HALF_ELE_SIZE*8;
+    points[1].X = x + HALF_ELE_SIZE;
+    points[1].Y = y - HALF_ELE_SIZE;
+    points[1].Z = z - HALF_ELE_SIZE * 8;
 
-	points[5].X=x+HALF_ELE_SIZE;
-	points[5].Y=y-HALF_ELE_SIZE;
-	points[5].Z=z+HALF_ELE_SIZE*8;
+    points[2].X = x + HALF_ELE_SIZE;
+    points[2].Y = y + HALF_ELE_SIZE;
+    points[2].Z = z - HALF_ELE_SIZE * 8;
 
-	points[6].X=x+HALF_ELE_SIZE;
-	points[6].Y=y+HALF_ELE_SIZE;
-	points[6].Z=z+HALF_ELE_SIZE*8;
+    points[3].X = x - HALF_ELE_SIZE;
+    points[3].Y = y + HALF_ELE_SIZE;
+    points[3].Z = z - HALF_ELE_SIZE * 8;
 
-	points[7].X=x-HALF_ELE_SIZE;
-	points[7].Y=y+HALF_ELE_SIZE;
-	points[7].Z=z+HALF_ELE_SIZE*8;
+    points[4].X = x - HALF_ELE_SIZE;
+    points[4].Y = y - HALF_ELE_SIZE;
+    points[4].Z = z + HALF_ELE_SIZE * 8;
 
-	for(c0=0;c0<8;c0++)
-	{
-		//transform all points for this Object
-		rotate_point_gte(&points[c0],&res[c0]);
-	}
-	DrawLineC(res[0].X,res[0].Y,res[4].X,res[4].Y,1);
-	DrawLineC(res[1].X,res[1].Y,res[5].X,res[5].Y,1);
-	DrawLineC(res[2].X,res[2].Y,res[6].X,res[6].Y,1);
-	DrawLineC(res[3].X,res[3].Y,res[7].X,res[7].Y,1);
+    points[5].X = x + HALF_ELE_SIZE;
+    points[5].Y = y - HALF_ELE_SIZE;
+    points[5].Z = z + HALF_ELE_SIZE * 8;
+
+    points[6].X = x + HALF_ELE_SIZE;
+    points[6].Y = y + HALF_ELE_SIZE;
+    points[6].Z = z + HALF_ELE_SIZE * 8;
+
+    points[7].X = x - HALF_ELE_SIZE;
+    points[7].Y = y + HALF_ELE_SIZE;
+    points[7].Z = z + HALF_ELE_SIZE * 8;
+
+    for (c0 = 0; c0 < 8; c0++) {
+        // transform all points for this Object
+        rotate_point_gte(&points[c0], &res[c0]);
+    }
+    DrawLineC(res[0].X, res[0].Y, res[4].X, res[4].Y, 1);
+    DrawLineC(res[1].X, res[1].Y, res[5].X, res[5].Y, 1);
+    DrawLineC(res[2].X, res[2].Y, res[6].X, res[6].Y, 1);
+    DrawLineC(res[3].X, res[3].Y, res[7].X, res[7].Y, 1);
 
 #endif
 }
 
-void	set_screen_box(std::int32_t x,std::int32_t y,std::int32_t z, EdRect *rect,std::int32_t w,std::int32_t h)
-{
-
-	struct	SVector	p,res;
-	std::int32_t	temp;
-	temp=engine.ClipFlag;
-	engine.ClipFlag=0;
-	p.X=x;
-	p.Y=y;
-	p.Z=z;
-	rotate_point_gte(&p,&res);
-	rect->SetRect(res.X-w,res.Y-h,w*2,h*2);
-	engine.ClipFlag=temp;
+void set_screen_box(std::int32_t x, std::int32_t y, std::int32_t z, EdRect *rect, std::int32_t w, std::int32_t h) {
+    struct SVector p, res;
+    std::int32_t temp;
+    temp = engine.ClipFlag;
+    engine.ClipFlag = 0;
+    p.X = x;
+    p.Y = y;
+    p.Z = z;
+    rotate_point_gte(&p, &res);
+    rect->SetRect(res.X - w, res.Y - h, w * 2, h * 2);
+    engine.ClipFlag = temp;
 }
 
-void	calc_things_screen_box(std::int32_t	map_thing,EdRect *rect)
-{
-	struct	MapThing	*p_mthing;
+void calc_things_screen_box(std::int32_t map_thing, EdRect *rect) {
+    struct MapThing *p_mthing;
 
-	p_mthing=TO_MTHING(map_thing);
-	switch(p_mthing->Type)
-	{
-		case	MAP_THING_TYPE_ANIM_PRIM:
-			set_screen_box(p_mthing->X,p_mthing->Y,p_mthing->Z,rect,20,20);
-			break;
-		case	MAP_THING_TYPE_PRIM:
-			//3ds Prim Mesh 
-			set_camera_angledy(p_mthing->AngleY);
-			calc_prims_screen_box(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z,rect);
-			set_camera_angledy(0);
+    p_mthing = TO_MTHING(map_thing);
+    switch (p_mthing->Type) {
+        case MAP_THING_TYPE_ANIM_PRIM:
+            set_screen_box(p_mthing->X, p_mthing->Y, p_mthing->Z, rect, 20, 20);
+            break;
+        case MAP_THING_TYPE_PRIM:
+            // 3ds Prim Mesh
+            set_camera_angledy(p_mthing->AngleY);
+            calc_prims_screen_box(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, rect);
+            set_camera_angledy(0);
 
-			break;
-		case	MAP_THING_TYPE_LIGHT:
-			set_screen_box(p_mthing->X,p_mthing->Y,p_mthing->Z,rect,10,10);
-			break;
+            break;
+        case MAP_THING_TYPE_LIGHT:
+            set_screen_box(p_mthing->X, p_mthing->Y, p_mthing->Z, rect, 10, 10);
+            break;
 
-		case	MAP_THING_TYPE_SPRITE:
-		case	MAP_THING_TYPE_AGENT:
-			break;
-
-	}
+        case MAP_THING_TYPE_SPRITE:
+        case MAP_THING_TYPE_AGENT:
+            break;
+    }
 }
 
-std::int32_t	hilight_map_things(std::uint16_t type)
-{
-	std::int32_t	dx,dy,dz;
-	std::int32_t	mx,my,mz;
-	std::uint16_t	index;
-	EdRect	prim_rect;
-	struct	MapThing	*p_mthing;
-	static	std::uint8_t col=250;
-	std::int32_t	screen_change=0;
-	col++;
-	if(col==0)
-		col=250;
+std::int32_t hilight_map_things(std::uint16_t type) {
+    std::int32_t dx, dy, dz;
+    std::int32_t mx, my, mz;
+    std::uint16_t index;
+    EdRect prim_rect;
+    struct MapThing *p_mthing;
+    static std::uint8_t col = 250;
+    std::int32_t screen_change = 0;
+    col++;
+    if (col == 0)
+        col = 250;
 
-	
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
 
-	for(dz=-28;dz<28;dz++)
-	for(dx=-28;dx<28;dx++)
-	{
-//		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
-		if(on_edit_map(dx+mx,dz+mz))
-		{
-			
-			index=edit_map[(dx+mx)][(dz+mz)].MapThingIndex;
-			while(index)
-			{
-				if(map_things[index].Type==type)
-				{							   
-					calc_things_screen_box(index,&prim_rect);
-					prim_rect.OutlineRect(col);
-					{
-						char	str[100];
-						sprintf(str,"%d",map_things[index].IndexOther);
-						QuickTextC(prim_rect.GetLeft()+1,prim_rect.GetTop(),str,0);
-						QuickTextC(prim_rect.GetLeft(),prim_rect.GetTop(),str,255);
-					}
-					screen_change=1;
-				}
-				index=map_things[index].MapChild;
-			}
-		}
-	}
-	return(screen_change);
+    for (dz = -28; dz < 28; dz++)
+        for (dx = -28; dx < 28; dx++) {
+            //		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
+            if (on_edit_map(dx + mx, dz + mz)) {
+                index = edit_map[(dx + mx)][(dz + mz)].MapThingIndex;
+                while (index) {
+                    if (map_things[index].Type == type) {
+                        calc_things_screen_box(index, &prim_rect);
+                        prim_rect.OutlineRect(col);
+                        {
+                            char str[100];
+                            sprintf(str, "%d", map_things[index].IndexOther);
+                            QuickTextC(prim_rect.GetLeft() + 1, prim_rect.GetTop(), str, 0);
+                            QuickTextC(prim_rect.GetLeft(), prim_rect.GetTop(), str, 255);
+                        }
+                        screen_change = 1;
+                    }
+                    index = map_things[index].MapChild;
+                }
+            }
+        }
+    return (screen_change);
 }
 
-std::int32_t	hilight_map_backgrounds(std::uint16_t type)
-{
-	EdRect	prim_rect;
-	std::int16_t	index;
-	struct	MapThing	*p_thing;
-	std::int32_t	screen_change=0;
-	static	std::uint8_t col=250;
-	col++;
-	if(col==0)
-		col=250;
+std::int32_t hilight_map_backgrounds(std::uint16_t type) {
+    EdRect prim_rect;
+    std::int16_t index;
+    struct MapThing *p_thing;
+    std::int32_t screen_change = 0;
+    static std::uint8_t col = 250;
+    col++;
+    if (col == 0)
+        col = 250;
 
-	index=background_prim;
-	while(index)
-	{
-		p_thing=TO_MTHING(index);
-		calc_things_screen_box(index,&prim_rect);
-		LogText(" hilight back l %d t %d w %d h %d\n",prim_rect.GetLeft(),prim_rect.GetTop(),prim_rect.GetWidth(),prim_rect.GetHeight());
-		prim_rect.OutlineRect(col);
-		index=p_thing->IndexNext;
-		screen_change=1;
-	}
-	return(screen_change);
+    index = background_prim;
+    while (index) {
+        p_thing = TO_MTHING(index);
+        calc_things_screen_box(index, &prim_rect);
+        LogText(" hilight back l %d t %d w %d h %d\n", prim_rect.GetLeft(), prim_rect.GetTop(), prim_rect.GetWidth(), prim_rect.GetHeight());
+        prim_rect.OutlineRect(col);
+        index = p_thing->IndexNext;
+        screen_change = 1;
+    }
+    return (screen_change);
 }
 
-std::int32_t	select_map_backgrounds(MFPoint *mouse,std::uint16_t type)
-{
-	EdRect	prim_rect;
-	std::int16_t	index;
-	static	std::uint8_t col=250;
-	struct	MapThing	*p_thing;
+std::int32_t select_map_backgrounds(MFPoint *mouse, std::uint16_t type) {
+    EdRect prim_rect;
+    std::int16_t index;
+    static std::uint8_t col = 250;
+    struct MapThing *p_thing;
 
-	col++;
-	if(col==0)
-		col=250;
+    col++;
+    if (col == 0)
+        col = 250;
 
-	index=background_prim;
-	while(index)
-	{
-		p_thing=TO_MTHING(index);
-		calc_things_screen_box(index,&prim_rect);
-		if(prim_rect.PointInRect(mouse))
-			return(index);
-		index=p_thing->IndexNext;
-	}
-	return(0);
+    index = background_prim;
+    while (index) {
+        p_thing = TO_MTHING(index);
+        calc_things_screen_box(index, &prim_rect);
+        if (prim_rect.PointInRect(mouse))
+            return (index);
+        index = p_thing->IndexNext;
+    }
+    return (0);
 }
 
+std::int32_t select_map_things(MFPoint *mouse, std::uint16_t type) {
+    std::int32_t dx, dy, dz;
+    std::int32_t mx, my, mz;
+    std::uint16_t index;
+    EdRect prim_rect;
+    struct MapThing *p_mthing;
+    static std::uint8_t col = 0;
+    std::int32_t screen_change = 0;
+    col++;
 
-std::int32_t	select_map_things(MFPoint *mouse,std::uint16_t type)
-{
-	std::int32_t	dx,dy,dz;
-	std::int32_t	mx,my,mz;
-	std::uint16_t	index;
-	EdRect	prim_rect;
-	struct	MapThing	*p_mthing;
-	static	std::uint8_t col=0;
-	std::int32_t	screen_change=0;
-	col++;
-	
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
 
-	for(dz=-32;dz<32;dz++)
-	for(dx=-32;dx<32;dx++)
-	{
-//		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
-		if(on_edit_map(dx+mx,dz+mz))
-		{
-			
-			index=edit_map[(dx+mx)][(dz+mz)].MapThingIndex;
-			while(index)
-			{
-				if(map_things[index].Type==type)
-				{
-					
-					calc_things_screen_box(index,&prim_rect);
-					if(prim_rect.PointInRect(mouse))
-						return(index);
-				}
-				index=map_things[index].MapChild;
-			}
-		}
-	}
-	return(0);
+    for (dz = -32; dz < 32; dz++)
+        for (dx = -32; dx < 32; dx++) {
+            //		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
+            if (on_edit_map(dx + mx, dz + mz)) {
+                index = edit_map[(dx + mx)][(dz + mz)].MapThingIndex;
+                while (index) {
+                    if (map_things[index].Type == type) {
+                        calc_things_screen_box(index, &prim_rect);
+                        if (prim_rect.PointInRect(mouse))
+                            return (index);
+                    }
+                    index = map_things[index].MapChild;
+                }
+            }
+        }
+    return (0);
 }
 
+extern struct KeyFrameChunk *test_chunk;
+extern void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next, struct Matrix33 *rot_mat);
 
-extern struct KeyFrameChunk 	*test_chunk;
-extern void	draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
+void draw_map_thing(std::int32_t map_thing) {
+    std::int32_t c0, c1;
+    struct Matrix33 r_matrix;
+    struct MapThing *p_mthing;
+    struct GameKeyFrameChunk *the_chunk;
 
-void	draw_map_thing(std::int32_t	map_thing)
-{
-	std::int32_t				c0,c1;
-	struct Matrix33		r_matrix;
-	struct MapThing		*p_mthing;
-	struct	GameKeyFrameChunk *the_chunk;
+    p_mthing = TO_MTHING(map_thing);
+    switch (p_mthing->Type) {
+        case MAP_THING_TYPE_ANIM_PRIM:
+            extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat);
+            //			break;
+            rotate_obj(
+                p_mthing->AngleX,
+                p_mthing->AngleY,
+                p_mthing->AngleZ,
+                &r_matrix);
+            {
+                the_chunk = &anim_chunk[p_mthing->IndexOther];
+                for (c1 = 0, c0 = prim_multi_objects[the_chunk->MultiObject[0]].StartObject; c0 < prim_multi_objects[the_chunk->MultiObject[0]].EndObject; c0++, c1++) {
+                    draw_anim_prim_tween(
+                        c0,
+                        p_mthing->X, p_mthing->Y, p_mthing->Z,
+                        0,
+                        &the_chunk->AnimList[1]->FirstElement[c1],
+                        &the_chunk->AnimList[1]->FirstElement[c1],
+                        //&p_mthing->AnimElements[c1],
+                        //&p_mthing->NextAnimElements[c1],
+                        &r_matrix);
+                }
+            }
 
+            break;
+        case MAP_THING_TYPE_PRIM:
+            // 3ds Prim Mesh
+            //			engine.AngleDY=p_mthing->AngleY;
+            set_camera_angledy(p_mthing->AngleY);
 
-	p_mthing	=	TO_MTHING(map_thing);
-	switch(p_mthing->Type)
-	{
-		case	MAP_THING_TYPE_ANIM_PRIM:
-extern void	draw_anim_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct GameKeyFrameElement *anim_info,struct GameKeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
-			//			break;
-			rotate_obj	(
-							p_mthing->AngleX,
-							p_mthing->AngleY,
-							p_mthing->AngleZ,
-							&r_matrix
-						);
-			{
-				the_chunk=&anim_chunk[p_mthing->IndexOther];
-				for(c1=0,c0=prim_multi_objects[the_chunk->MultiObject[0]].StartObject;c0<prim_multi_objects[the_chunk->MultiObject[0]].EndObject;c0++,c1++)
-				{
-					draw_anim_prim_tween	(
-										c0,
-										p_mthing->X,p_mthing->Y,p_mthing->Z,
-										0,
-										&the_chunk->AnimList[1]->FirstElement[c1],
-										&the_chunk->AnimList[1]->FirstElement[c1],
-										//&p_mthing->AnimElements[c1],
-										//&p_mthing->NextAnimElements[c1],
-										&r_matrix
-									);
-				}
-			}
+            //			if(p_mthing->Flags&FLAG_EDIT_PRIM_ON_FLOOR || (prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
 
-			break;
-		case	MAP_THING_TYPE_PRIM:
-			//3ds Prim Mesh 
-//			engine.AngleDY=p_mthing->AngleY;
-			set_camera_angledy(p_mthing->AngleY);
+            /*
 
-//			if(p_mthing->Flags&FLAG_EDIT_PRIM_ON_FLOOR || (prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
+            if((prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
+            {
 
-			/*
-
-			if((prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
-			{
-
-				std::int32_t	px,py,pz,y;
+                    std::int32_t	px,py,pz,y;
 
 extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz);
 
-				find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
+                    find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
 extern std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z);
-				y=find_alt_for_this_pos(p_mthing->X,p_mthing->Z);
+                    y=find_alt_for_this_pos(p_mthing->X,p_mthing->Z);
 //				y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
-				y-=py;
-				p_mthing->Y=y;
-			}
-			else
-			if(prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR) 
-			{
+                    y-=py;
+                    p_mthing->Y=y;
+            }
+            else
+            if(prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR)
+            {
 
-				std::int32_t	px,py,pz,y;
+                    std::int32_t	px,py,pz,y;
 
 extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz);
 
-				find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
+                    find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
-				y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
-				y-=py;
-				p_mthing->Y=y;
-			}
-			*/
+                    y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
+                    y-=py;
+                    p_mthing->Y=y;
+            }
+            */
 
-			draw_a_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z,1);
-			set_camera_angledy(0);
-			//engine.AngleDY=0;
-			break;
-		case	MAP_THING_TYPE_BUILDING:
-			draw_a_building_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
-			break;
-		case	MAP_THING_TYPE_MULTI_PRIM:
-			draw_a_multi_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
-			break;
+            draw_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, 1);
+            set_camera_angledy(0);
+            // engine.AngleDY=0;
+            break;
+        case MAP_THING_TYPE_BUILDING:
+            draw_a_building_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+            break;
+        case MAP_THING_TYPE_MULTI_PRIM:
+            draw_a_multi_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+            break;
 
-		case	MAP_THING_TYPE_ROT_MULTI:
-#ifdef	DOGPOO
-			//			break;
-			rotate_obj	(
-							p_mthing->AngleX,
-							p_mthing->AngleY,
-							p_mthing->AngleZ,
-							&r_matrix
-						);
-			//if(p_mthing->AnimElements&&p_mthing->NextAnimElements)
-			if(p_mthing->CurrentFrame&&p_mthing->NextFrame)
-			{
-				for(c1=0,c0=prim_multi_objects[test_chunk->MultiObject].StartObject;c0<prim_multi_objects[test_chunk->MultiObject].EndObject;c0++,c1++)
-				{
-/*					if(c1==1)
-					{
-extern std::uint8_t	store_pos;
-						store_pos	=	1;
-					}
-*/
-					draw_prim_tween	(
-										c0,
-										p_mthing->X,p_mthing->Y,p_mthing->Z,
-										p_mthing->TweenStage,
-										&p_mthing->CurrentFrame->FirstElement[c1],
-										&p_mthing->NextFrame->FirstElement[c1],
-										//&p_mthing->AnimElements[c1],
-										//&p_mthing->NextAnimElements[c1],
-										&r_matrix
-									);
-				}
-			}
+        case MAP_THING_TYPE_ROT_MULTI:
+#ifdef DOGPOO
+            //			break;
+            rotate_obj(
+                p_mthing->AngleX,
+                p_mthing->AngleY,
+                p_mthing->AngleZ,
+                &r_matrix);
+            // if(p_mthing->AnimElements&&p_mthing->NextAnimElements)
+            if (p_mthing->CurrentFrame && p_mthing->NextFrame) {
+                for (c1 = 0, c0 = prim_multi_objects[test_chunk->MultiObject].StartObject; c0 < prim_multi_objects[test_chunk->MultiObject].EndObject; c0++, c1++) {
+                    /*					if(c1==1)
+                                                            {
+                    extern std::uint8_t	store_pos;
+                                                                    store_pos	=	1;
+                                                            }
+                    */
+                    draw_prim_tween(
+                        c0,
+                        p_mthing->X, p_mthing->Y, p_mthing->Z,
+                        p_mthing->TweenStage,
+                        &p_mthing->CurrentFrame->FirstElement[c1],
+                        &p_mthing->NextFrame->FirstElement[c1],
+                        //&p_mthing->AnimElements[c1],
+                        //&p_mthing->NextAnimElements[c1],
+                        &r_matrix);
+                }
+            }
 #endif
-			break;
-		case	MAP_THING_TYPE_SPRITE:
-		case	MAP_THING_TYPE_AGENT:
-			break;
-
-	}
+            break;
+        case MAP_THING_TYPE_SPRITE:
+        case MAP_THING_TYPE_AGENT:
+            break;
+    }
 }
 
-extern std::int32_t	play_x,play_y,play_z;
+extern std::int32_t play_x, play_y, play_z;
 
+void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t *mid_x, std::int32_t *mid_y, std::int32_t *mid_z) {
+    std::int32_t c0;
+    struct PrimObject *p_obj;
+    std::int32_t sp, ep;
 
-void	scan_a_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t *mid_x,std::int32_t *mid_y,std::int32_t *mid_z)
-{
-	std::int32_t	c0;
-	struct	PrimObject	*p_obj;
-	std::int32_t	sp,ep;
+    p_obj = &prim_objects[prim];
 
+    sp = p_obj->StartPoint;
+    ep = p_obj->EndPoint;
 
-	p_obj    =	&prim_objects[prim];
+    *mid_x = 0;
+    *mid_y = 0;
+    *mid_z = 0;
 
-	sp=p_obj->StartPoint;
-	ep=p_obj->EndPoint;
-	
-	*mid_x=0;
-	*mid_y=0;
-	*mid_z=0;
+    for (c0 = sp; c0 < ep; c0++) {
+        // transform all points for this Object
+        *mid_x += prim_points[c0].X + x;
+        *mid_y += prim_points[c0].Y + y;
+        *mid_z += prim_points[c0].Z + z;
+    }
 
-	for(c0=sp;c0<ep;c0++)
-	{
-		//transform all points for this Object
-		*mid_x+=prim_points[c0].X+x;
-		*mid_y+=prim_points[c0].Y+y;
-		*mid_z+=prim_points[c0].Z+z;
-	}
-
-	if(ep-sp)
-	{
-		*mid_x/=(ep-sp);
-		*mid_y/=(ep-sp);
-		*mid_z/=(ep-sp);
-	}
+    if (ep - sp) {
+        *mid_x /= (ep - sp);
+        *mid_y /= (ep - sp);
+        *mid_z /= (ep - sp);
+    }
 }
 
-void	scan_a_prim_at_dist(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t mid_x,std::int32_t mid_y,std::int32_t mid_z,std::int32_t *dist)
-{
-	std::int32_t	c0;
-	struct	PrimObject	*p_obj;
-	std::int32_t	sp,ep;
-	std::int32_t 	dx,dy,dz;
-	std::int32_t	c_dist;
+void scan_a_prim_at_dist(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t *dist) {
+    std::int32_t c0;
+    struct PrimObject *p_obj;
+    std::int32_t sp, ep;
+    std::int32_t dx, dy, dz;
+    std::int32_t c_dist;
 
-	*dist=-999999;
-	p_obj    =	&prim_objects[prim];
+    *dist = -999999;
+    p_obj = &prim_objects[prim];
 
-	sp=p_obj->StartPoint;
-	ep=p_obj->EndPoint;
-	
+    sp = p_obj->StartPoint;
+    ep = p_obj->EndPoint;
 
-	for(c0=sp;c0<ep;c0++)
-	{
-		//transform all points for this Object
+    for (c0 = sp; c0 < ep; c0++) {
+        // transform all points for this Object
 
-		dx=abs(prim_points[c0].X+x-mid_x);
-		dy=abs(prim_points[c0].Y+y-mid_y);
-		dz=abs(prim_points[c0].Z+z-mid_z);
+        dx = abs(prim_points[c0].X + x - mid_x);
+        dy = abs(prim_points[c0].Y + y - mid_y);
+        dz = abs(prim_points[c0].Z + z - mid_z);
 
-		c_dist=sqrl(SDIST3(dx,dy,dz));
-		if(c_dist>*dist)
-			*dist=c_dist;
-	}
-
+        c_dist = sqrl(SDIST3(dx, dy, dz));
+        if (c_dist > *dist)
+            *dist = c_dist;
+    }
 }
 
+void zoom_map_onto_screen() {
+    std::int16_t index;
+    struct MapThing *p_thing;
+    std::int32_t mid_x = 0, mid_y = 0, mid_z = 0, mx, my, mz, count = 0;
+    std::int32_t dist, b_dist = -999999;
 
-void	zoom_map_onto_screen()
-{
-	std::int16_t	index;
-	struct	MapThing	*p_thing;
-	std::int32_t	mid_x=0,mid_y=0,mid_z=0,mx,my,mz,count=0;
-	std::int32_t	dist,b_dist=-999999;
+    index = background_prim;
+    while (index) {
+        p_thing = TO_MTHING(index);
+        scan_a_prim_at(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, &mx, &my, &mz);
+        mid_x += mx;
+        mid_y += my;
+        mid_z += mz;
+        count++;
+        index = p_thing->IndexNext;
+    }
+    if (count) {
+        mid_x /= count;
+        mid_y /= count;
+        mid_z /= count;
+    }
+    engine.X = mid_x << 8;
+    engine.Y = mid_y << 8;
+    engine.Z = mid_z << 8;
 
-	index=background_prim;
-	while(index)
-	{
-		p_thing=TO_MTHING(index);
-		scan_a_prim_at(p_thing->IndexOther,p_thing->X,p_thing->Y,p_thing->Z,&mx,&my,&mz);
-		mid_x+=mx;
-		mid_y+=my;
-		mid_z+=mz;
-		count++;
-		index=p_thing->IndexNext;
-	}
-	if(count)
-	{
-		mid_x/=count;
-		mid_y/=count;
-		mid_z/=count;
-	}
-	engine.X=mid_x<<8;
-	engine.Y=mid_y<<8;
-	engine.Z=mid_z<<8;
+    index = background_prim;
+    while (index) {
+        p_thing = TO_MTHING(index);
+        scan_a_prim_at_dist(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, mid_x, mid_y, mid_z, &dist);
+        if (dist > b_dist)
+            b_dist = dist;
+        index = p_thing->IndexNext;
+    }
+    // <<5*scale)>>16
 
-	index=background_prim;
-	while(index)
-	{
-		p_thing=TO_MTHING(index);
-		scan_a_prim_at_dist(p_thing->IndexOther,p_thing->X,p_thing->Y,p_thing->Z,mid_x,mid_y,mid_z,&dist);
-		if(dist>b_dist)
-			b_dist=dist;
-		index=p_thing->IndexNext;
-	}
-	// <<5*scale)>>16
+    //	pos=((b_dist<<5)*scale)>>16;
 
-//	pos=((b_dist<<5)*scale)>>16;
-
-	engine.Scale=(200<<11)/(b_dist);
-//	LogText(" zoom map dist= %d newscale %d = %d\n",b_dist,engine.Scale,((b_dist<<5)*engine.Scale)>>16);
-
+    engine.Scale = (200 << 11) / (b_dist);
+    //	LogText(" zoom map dist= %d newscale %d = %d\n",b_dist,engine.Scale,((b_dist<<5)*engine.Scale)>>16);
 }
 
-
-void	draw_linked_background()
-{
-	std::int16_t	index;
-	struct	MapThing	*p_thing;
-	index=background_prim;
-	while(index)
-	{
-		p_thing=TO_MTHING(index);
-		draw_a_prim_at(p_thing->IndexOther,p_thing->X,p_thing->Y,p_thing->Z,1);
-		index=p_thing->IndexNext;
-	}
+void draw_linked_background() {
+    std::int16_t index;
+    struct MapThing *p_thing;
+    index = background_prim;
+    while (index) {
+        p_thing = TO_MTHING(index);
+        draw_a_prim_at(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, 1);
+        index = p_thing->IndexNext;
+    }
 }
 
-#define	CLIPNEG(x)	if(x<0)x=0
-#define	SHADOW_SIZE	48
-
+#define CLIPNEG(x) \
+    if (x < 0) x = 0
+#define SHADOW_SIZE 48
 
 //   1   2
 //
 //   3   4
 
-std::int32_t	add_floor_tri_to_bucket(std::int32_t	x1,std::int32_t	y1,std::int32_t	z1,std::int32_t	x2,std::int32_t	y2,std::int32_t	z2,std::int32_t	x3,std::int32_t	y3,std::int32_t	z3,struct	DepthStrip	*p_map,std::int32_t s1,std::int32_t s2,std::int32_t s3,std::int32_t shadow_flag,std::int32_t tx1,std::int32_t ty1,std::int32_t tx2,std::int32_t ty2,std::int32_t tx3,std::int32_t ty3,std::int32_t page)
-{
-	std::int32_t	az;
-	if(current_bucket_pool > end_bucket_pool)
-		return(0);
-	az=z1;
-	setPolyType3(
-					current_bucket_pool,
-					POLY_GT
-				);
+std::int32_t add_floor_tri_to_bucket(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t x3, std::int32_t y3, std::int32_t z3, struct DepthStrip *p_map, std::int32_t s1, std::int32_t s2, std::int32_t s3, std::int32_t shadow_flag, std::int32_t tx1, std::int32_t ty1, std::int32_t tx2, std::int32_t ty2, std::int32_t tx3, std::int32_t ty3, std::int32_t page) {
+    std::int32_t az;
+    if (current_bucket_pool > end_bucket_pool)
+        return (0);
+    az = z1;
+    setPolyType3(
+        current_bucket_pool,
+        POLY_GT);
 
+    setXY3(
+        (struct BucketTri *) current_bucket_pool,
+        x1, y1,
+        x2, y2,
+        x3, y3
 
+    );
 
+    setUV3((struct BucketTri *) current_bucket_pool, tx1, ty1, tx2, ty2, tx3, ty3, page);
 
-	setXY3	(
-				(struct BucketTri*)current_bucket_pool,
-						x1,y1,
-						x2,y2,
-						x3,y3
+    setZ3((struct BucketTri *) current_bucket_pool, z1, z2, z3);
 
-			);
+    if (shadow_flag) {
+        s1 -= SHADOW_SIZE;
+        s2 -= SHADOW_SIZE;
+        s3 -= SHADOW_SIZE;
+        CLIPNEG(s1);
+        CLIPNEG(s2);
+        CLIPNEG(s3);
+    }
 
-	setUV3(	(struct BucketTri*)current_bucket_pool,tx1,ty1,tx2,ty2,tx3,ty3,page);
+    setShade3((struct BucketTri *) current_bucket_pool, s1, s2, s3);
+    ((struct BucketTri *) current_bucket_pool)->DebugInfo = z1;
+    ((struct BucketTri *) current_bucket_pool)->DebugFlags = 0;
+    add_bucket((void *) current_bucket_pool, az + 300);
 
-	setZ3((struct BucketTri*)current_bucket_pool,z1,z2,z3);
-
-
-	if(shadow_flag)
-	{
-		s1-=SHADOW_SIZE;
-		s2-=SHADOW_SIZE;
-		s3-=SHADOW_SIZE;
-		CLIPNEG(s1);
-		CLIPNEG(s2);
-		CLIPNEG(s3);
-	}
-
-	setShade3((struct BucketTri*)current_bucket_pool,s1,s2,s3);
-	((struct BucketTri*)current_bucket_pool)->DebugInfo=z1;
-	((struct BucketTri*)current_bucket_pool)->DebugFlags=0;
-	add_bucket((void* )current_bucket_pool,az+300);
-
-
-	current_bucket_pool	+=	sizeof(struct BucketTri);
-	return(0);
-
+    current_bucket_pool += sizeof(struct BucketTri);
+    return (0);
 }
 
-#define	SET_TX_TY(x1,y1,x2,y2,x3,y3,x4,y4) tx1=x1;ty1=y1;tx2=x2;ty2=y2;tx3=x3;ty3=y3;tx4=x4;ty4=y4;
+#define SET_TX_TY(x1, y1, x2, y2, x3, y3, x4, y4) \
+    tx1 = x1;                                     \
+    ty1 = y1;                                     \
+    tx2 = x2;                                     \
+    ty2 = y2;                                     \
+    tx3 = x3;                                     \
+    ty3 = y3;                                     \
+    tx4 = x4;                                     \
+    ty4 = y4;
 
-std::int32_t	add_floor_face_to_bucket(std::int32_t	x1,std::int32_t	y1,std::int32_t	z1,std::int32_t	x2,std::int32_t	y2,std::int32_t	z2,std::int32_t	x3,std::int32_t	y3,std::int32_t	z3,std::int32_t	x4,std::int32_t	y4,std::int32_t	z4,struct	DepthStrip	*p_map,std::int32_t s1,std::int32_t s2,std::int32_t s3,std::int32_t s4,std::uint16_t tex)
-{
-	std::int32_t	az;
-	std::uint8_t	tx,ty,tsize,page;
-	std::int32_t	shadow;
-	std::int32_t	ret=0;
-	std::uint8_t	tx1,ty1,tx2,ty2,tx3,ty3,tx4,ty4;
+std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t x4, std::int32_t y4, std::int32_t z4, struct DepthStrip *p_map, std::int32_t s1, std::int32_t s2, std::int32_t s3, std::int32_t s4, std::uint16_t tex) {
+    std::int32_t az;
+    std::uint8_t tx, ty, tsize, page;
+    std::int32_t shadow;
+    std::int32_t ret = 0;
+    std::uint8_t tx1, ty1, tx2, ty2, tx3, ty3, tx4, ty4;
 
-	az=z1;
+    az = z1;
 
-	if(current_bucket_pool > end_bucket_pool)
-		return(0);
+    if (current_bucket_pool > end_bucket_pool)
+        return (0);
 
-	if(check_mouse_over_floor_quad(x1,y1,x2,y2,x3,y3,x4,y4,0,az))
-	{
-		ret=1;
-	}
+    if (check_mouse_over_floor_quad(x1, y1, x2, y2, x3, y3, x4, y4, 0, az)) {
+        ret = 1;
+    }
 
-	if(p_map->Walkable==-1)
-	{
-		struct	AnimTmap	*p_a;
-		std::int32_t	cur;
+    if (p_map->Walkable == -1) {
+        struct AnimTmap *p_a;
+        std::int32_t cur;
 
-		p_a=&anim_tmaps[p_map->Texture];
-		cur=p_a->Current;
-		SET_TX_TY(p_a->UV[cur][0][0],p_a->UV[cur][0][1],p_a->UV[cur][1][0],p_a->UV[cur][1][1],p_a->UV[cur][2][0],p_a->UV[cur][2][1],p_a->UV[cur][3][0],p_a->UV[cur][3][1]);
-		page=p_a->Page[cur];
-		tsize=32;
+        p_a = &anim_tmaps[p_map->Texture];
+        cur = p_a->Current;
+        SET_TX_TY(p_a->UV[cur][0][0], p_a->UV[cur][0][1], p_a->UV[cur][1][0], p_a->UV[cur][1][1], p_a->UV[cur][2][0], p_a->UV[cur][2][1], p_a->UV[cur][3][0], p_a->UV[cur][3][1]);
+        page = p_a->Page[cur];
+        tsize = 32;
 
-	}
-	else
-	{
+    } else {
+        tx = ((struct MiniTextureBits *) (&tex))->X << 5;
+        ty = ((struct MiniTextureBits *) (&tex))->Y << 5;
+        page = ((struct MiniTextureBits *) (&tex))->Page;
+        tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&tex))->Size]-1;
+        switch (((struct MiniTextureBits *) (&tex))->Rot) {
+            case 0:
+                SET_TX_TY(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
+                break;
+            case 1:
+                SET_TX_TY(, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
+                break;
+            case 2:
+                SET_TX_TY(, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
+                break;
+            case 3:
+                SET_TX_TY(, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
+                break;
+        }
+    }
 
-		tx=((struct	MiniTextureBits*)(&tex))->X<<5;
-		ty=((struct	MiniTextureBits*)(&tex))->Y<<5;
-		page=((struct	MiniTextureBits*)(&tex))->Page;
-		tsize=31; //floor_texture_sizes[((struct	MiniTextureBits*)(&tex))->Size]-1;
-		switch(((struct	MiniTextureBits*)(&tex))->Rot)
-		{
-			case	0:		
-				SET_TX_TY(tx,ty,tx+tsize,ty,tx,ty+tsize,tx+tsize,ty+tsize);
-				break;
-			case	1:		
-				SET_TX_TY(	,tx+tsize,ty,tx+tsize,ty+tsize,tx,ty,tx,ty+tsize);
-				break;
-			case	2:	
-				SET_TX_TY(	,tx+tsize,ty+tsize,tx,ty+tsize,tx+tsize,ty,tx,ty);
-				break;
-			case	3:	
-				SET_TX_TY(	,tx,ty+tsize,tx,ty,tx+tsize,ty+tsize,tx+tsize,ty);
-				break;
-		}
-	}
+    shadow = p_map->Flags & FLOOR_SHADOW_TYPE;
 
+    if (shadow) {
+        switch (shadow) {
+            case 1: // all shadow
+                s1 -= SHADOW_SIZE;
+                s2 -= SHADOW_SIZE;
+                s3 -= SHADOW_SIZE;
+                s4 -= SHADOW_SIZE;
+                CLIPNEG(s1);
+                CLIPNEG(s2);
+                CLIPNEG(s3);
+                CLIPNEG(s4);
+                break;
+            case 2:
+                //   .
+                //  ..
+                // ...
+                add_floor_tri_to_bucket(x2, y2, z2, x4, y4, z4, x3, y3, z3, p_map, s2, s4, s3, 1, tx2, ty2, tx4, ty4, tx3, ty3, page);
+                add_floor_tri_to_bucket(x2, y2, z2, x3, y3, z3, x1, y1, z1, p_map, s2, s3, s1, 0, tx2, ty2, tx3, ty3, tx1, ty1, page);
+                return (ret);
+            case 3:
+                // .
+                // ..
+                // ...
+                add_floor_tri_to_bucket(x1, y1, z1, x4, y4, z4, x3, y3, z3, p_map, s1, s4, s3, 1, tx1, ty1, tx4, ty4, tx3, ty3, page);
+                add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x4, y4, z4, p_map, s1, s2, s4, 0, tx1, ty1, tx2, ty2, tx4, ty4, page);
+                return (ret);
+            case 4:
+                // ...
+                // ..
+                // .
+                add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x3, y3, z3, p_map, s1, s2, s3, 1, tx1, ty1, tx2, ty2, tx3, ty3, page);
+                add_floor_tri_to_bucket(x2, y2, z2, x4, y4, z4, x3, y3, z3, p_map, s2, s4, s3, 0, tx2, ty2, tx4, ty4, tx3, ty3, page);
+                return (ret);
+            case 5:
+                // ...
+                //  ..
+                //   .
+                add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x4, y4, z4, p_map, s1, s2, s4, 1, tx1, ty1, tx2, ty2, tx4, ty4, page);
+                add_floor_tri_to_bucket(x1, y1, z1, x4, y4, z4, x3, y3, z3, p_map, s1, s4, s3, 0, tx1, ty1, tx4, ty4, tx3, ty3, page);
+                return (ret);
+        }
+    }
 
-	shadow=p_map->Flags&FLOOR_SHADOW_TYPE;
+    setPolyType4(
+        current_bucket_pool,
+        POLY_GT);
 
-	if(shadow)
-	{
-		switch(shadow)
-		{
-			case	1: // all shadow
-				s1-=SHADOW_SIZE;
-				s2-=SHADOW_SIZE;
-				s3-=SHADOW_SIZE;
-				s4-=SHADOW_SIZE;
-				CLIPNEG(s1);
-				CLIPNEG(s2);
-				CLIPNEG(s3);
-				CLIPNEG(s4);
-				break;
-			case	2:
-				//   .
-				//  ..
-				// ...
-				add_floor_tri_to_bucket(x2,y2,z2,x4,y4,z4,x3,y3,z3,p_map,s2,s4,s3,1,tx2,ty2,tx4,ty4,tx3,ty3,page);
-				add_floor_tri_to_bucket(x2,y2,z2,x3,y3,z3,x1,y1,z1,p_map,s2,s3,s1,0,tx2,ty2,tx3,ty3,tx1,ty1,page);
-				return(ret);
-			case	3:
-				// . 
-				// ..
-				// ...
-				add_floor_tri_to_bucket(x1,y1,z1,x4,y4,z4,x3,y3,z3,p_map,s1,s4,s3,1,tx1,ty1,tx4,ty4,tx3,ty3,page);
-				add_floor_tri_to_bucket(x1,y1,z1,x2,y2,z2,x4,y4,z4,p_map,s1,s2,s4,0,tx1,ty1,tx2,ty2,tx4,ty4,page);
-				return(ret);
-			case	4:
-				// ... 
-				// ..
-				// .
-				add_floor_tri_to_bucket(x1,y1,z1,x2,y2,z2,x3,y3,z3,p_map,s1,s2,s3,1,tx1,ty1,tx2,ty2,tx3,ty3,page);
-				add_floor_tri_to_bucket(x2,y2,z2,x4,y4,z4,x3,y3,z3,p_map,s2,s4,s3,0,tx2,ty2,tx4,ty4,tx3,ty3,page);
-				return(ret);
-			case	5:
-				// ... 
-				//  ..
-				//   .
-				add_floor_tri_to_bucket(x1,y1,z1,x2,y2,z2,x4,y4,z4,p_map,s1,s2,s4,1,tx1,ty1,tx2,ty2,tx4,ty4,page);
-				add_floor_tri_to_bucket(x1,y1,z1,x4,y4,z4,x3,y3,z3,p_map,s1,s4,s3,0,tx1,ty1,tx4,ty4,tx3,ty3,page);
-				return(ret);
-		}
-	}
-	
-	
-	setPolyType4(
-					current_bucket_pool,
-					POLY_GT
-				);
+    setCol4(
+        (struct BucketQuad *) current_bucket_pool,
+        1);
 
+    setXY4(
+        (struct BucketQuad *) current_bucket_pool,
+        x1, y1,
+        x2, y2,
+        x3, y3,
+        x4, y4
 
-	setCol4	(
-				(struct BucketQuad*)current_bucket_pool,
-				1
-			);
+    );
 
+    //	if(SelectFlag)
+    //		do_quad_clip_list(c0,p0,p1,p2,p3);
+    setUV4((struct BucketQuad *) current_bucket_pool, tx1, ty1, tx2, ty2, tx3, ty3, tx4, ty4, page);
+    //	tx,ty,tx+tsize,ty,tx,ty+tsize,tx+tsize,ty+tsize,page);
 
-	setXY4	(
-				(struct BucketQuad*)current_bucket_pool,
-						x1,y1,
-						x2,y2,
-						x3,y3,
-						x4,y4
+    setZ4((struct BucketQuad *) current_bucket_pool, z1, z2, z3, z4);
 
-			);
+    //			setShade4((struct BucketQuad*)current_bucket_pool,p_f4->Bright[0],p_f4->Bright[1],p_f4->Bright[2],p_f4->Bright[3]);
+    setShade4((struct BucketQuad *) current_bucket_pool, s1, s2, s3, s4);
+    ((struct BucketQuad *) current_bucket_pool)->DebugInfo = z1;
+    ((struct BucketQuad *) current_bucket_pool)->DebugFlags = 0;
+    add_bucket((void *) current_bucket_pool, az + 300);
 
-//	if(SelectFlag)
-//		do_quad_clip_list(c0,p0,p1,p2,p3);
-	setUV4(	(struct BucketQuad*)current_bucket_pool,tx1,ty1,tx2,ty2,tx3,ty3,tx4,ty4,page);
-	//	tx,ty,tx+tsize,ty,tx,ty+tsize,tx+tsize,ty+tsize,page);
-
-	setZ4((struct BucketQuad*)current_bucket_pool,z1,z2,z3,z4);
-
-	
-
-//			setShade4((struct BucketQuad*)current_bucket_pool,p_f4->Bright[0],p_f4->Bright[1],p_f4->Bright[2],p_f4->Bright[3]);
-	setShade4((struct BucketQuad*)current_bucket_pool,s1,s2,s3,s4);
-	((struct BucketQuad*)current_bucket_pool)->DebugInfo=z1;
-	((struct BucketQuad*)current_bucket_pool)->DebugFlags=0;
-	add_bucket((void* )current_bucket_pool,az+300);
-
-
-
-
-/*
-	if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
-	{
-		selected_prim_xyz.X	=	x;
-		selected_prim_xyz.Y	=	y;
-		selected_prim_xyz.Z	=	z;
-	}
-*/
-	current_bucket_pool	+=	sizeof(struct BucketQuad);
-	return(ret);
+    /*
+            if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
+            {
+                    selected_prim_xyz.X	=	x;
+                    selected_prim_xyz.Y	=	y;
+                    selected_prim_xyz.Z	=	z;
+            }
+    */
+    current_bucket_pool += sizeof(struct BucketQuad);
+    return (ret);
 }
 
-#define SWAP_ROW() 					\
-{									\
-	struct SVector *temp_ptr_sv;	\
-	std::uint32_t *temp_ptr_flag;			\
-	temp_ptr_sv=prev_row_ptr;		\
-	prev_row_ptr=row_ptr;			\
-	row_ptr=temp_ptr_sv;			\
-	temp_ptr_flag=prev_row_flag_ptr;	\
-	prev_row_flag_ptr=row_flag_ptr;		\
-	row_flag_ptr=temp_ptr_flag;		\
-}	
+#define SWAP_ROW()                         \
+    {                                      \
+        struct SVector *temp_ptr_sv;       \
+        std::uint32_t *temp_ptr_flag;      \
+        temp_ptr_sv = prev_row_ptr;        \
+        prev_row_ptr = row_ptr;            \
+        row_ptr = temp_ptr_sv;             \
+        temp_ptr_flag = prev_row_flag_ptr; \
+        prev_row_flag_ptr = row_flag_ptr;  \
+        row_flag_ptr = temp_ptr_flag;      \
+    }
 
+#define DRAW_WIDTH 24
+void draw_map_floor() {
+    std::int32_t dx, dz;
+    std::int32_t mx, my, mz;
+    struct SVector point, row[2][66];
+    std::uint32_t row_flags[2][66];
+    struct SVector *row_ptr;
+    std::uint32_t *row_flag_ptr;
+    struct SVector *prev_row_ptr;
+    std::uint32_t *prev_row_flag_ptr;
+    std::int32_t row_count;
+    std::uint16_t texture;
 
-#define	DRAW_WIDTH	24
-void	draw_map_floor()
-{
-	std::int32_t	dx,dz;
-	std::int32_t	mx,my,mz;
-	struct	SVector	point,row[2][66];
-	std::uint32_t	row_flags[2][66];
-	struct	SVector	*row_ptr;
-	std::uint32_t	*row_flag_ptr;
-	struct	SVector	*prev_row_ptr;
-	std::uint32_t	*prev_row_flag_ptr;
-	std::int32_t	row_count;
-	std::uint16_t	texture;
+    //	LogText(" ddraw mmaap floorr  \n");
 
-//	LogText(" ddraw mmaap floorr  \n");
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
 
+    row_ptr = &row[0][0];
+    row_flag_ptr = &row_flags[0][0];
 
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
+    for (row_count = 0, dx = -DRAW_WIDTH, dz = -DRAW_WIDTH; dx < DRAW_WIDTH; dx++, row_count++) {
+        point.X = dx * ELE_SIZE + (mx << ELE_SHIFT);
+        point.Y = edit_map[mx + dx][mz + dz].Y << FLOOR_HEIGHT_SHIFT;
+        point.Z = (dz * ELE_SIZE) + (mz << ELE_SHIFT); //(engine.Z>>8);
 
+        row_flag_ptr[row_count] = rotate_point_gte(&point, &row_ptr[row_count]);
+    }
 
-	row_ptr=&row[0][0];
-	row_flag_ptr=&row_flags[0][0];
+    prev_row_ptr = row_ptr;
+    prev_row_flag_ptr = row_flag_ptr;
 
-	for(row_count=0,dx=-DRAW_WIDTH,dz=-DRAW_WIDTH;dx<DRAW_WIDTH;dx++,row_count++)
-	{
-		point.X=dx*ELE_SIZE+(mx<<ELE_SHIFT);
-		point.Y=edit_map[mx+dx][mz+dz].Y<<FLOOR_HEIGHT_SHIFT;
-		point.Z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT); //(engine.Z>>8);
+    row_ptr = &row[1][0];
+    row_flag_ptr = &row_flags[1][0];
 
-		row_flag_ptr[row_count]=rotate_point_gte(&point,&row_ptr[row_count]);
-	}
+    for (dz = (-DRAW_WIDTH) + 1; dz < DRAW_WIDTH; dz++) {
+        //		dz=(-DRAW_WIDTH)+1;
+        for (row_count = 0, dx = -DRAW_WIDTH; dx < DRAW_WIDTH; dx++, row_count++) {
+            std::int32_t flag_and, flag_or;
+            std::int32_t index;
+            if (row_count == 0) {
+                point.X = (dx * ELE_SIZE) + (mx << ELE_SHIFT);
+                point.Y = edit_map[mx + dx][mz + dz].Y << FLOOR_HEIGHT_SHIFT;
+                //		point.Y=0;
+                point.Z = (dz * ELE_SIZE) + (mz << ELE_SHIFT); //(engine.Z>>8);
+                *row_flag_ptr = rotate_point_gte(&point, row_ptr);
+            } else
+            //		if(dx+mx-1>0&&dx+mx+1<EDIT_MAP_WIDTH&&dz+mz-1>0&&dz+mz+1<EDIT_MAP_DEPTH)
+            {
+                //			LogText(" draw map floor dx %d dz %d row_count %d \n",dx,dz,row_count);
+                point.X = (dx * ELE_SIZE) + (mx << ELE_SHIFT);
+                point.Y = edit_map[mx + dx][mz + dz].Y << FLOOR_HEIGHT_SHIFT;
+                // point.Y=0;
+                point.Z = (dz * ELE_SIZE) + (mz << ELE_SHIFT); //(engine.Z>>8);
+                row_flag_ptr[row_count] = rotate_point_gte(&point, &row_ptr[row_count]);
 
-	prev_row_ptr=row_ptr;
-	prev_row_flag_ptr=row_flag_ptr;
+                //				if(dx+mx-1>0&&dx+mx+1<EDIT_MAP_WIDTH&&dz+mz-1>0&&dz+mz+1<EDIT_MAP_DEPTH)
 
-	row_ptr=&row[1][0];
-	row_flag_ptr=&row_flags[1][0];
+                if (on_edit_map(dx + mx - 1, dz + mz - 1))
+                    if ((!(edit_map[(dx + mx - 1)][(dz + mz - 1)].Flags & FLOOR_HIDDEN)) || edit_info.NoHidden == 0) {
+                        flag_and = row_flag_ptr[row_count] & row_flag_ptr[row_count - 1] & prev_row_flag_ptr[row_count] & prev_row_flag_ptr[row_count - 1];
+                        flag_or = row_flag_ptr[row_count] | row_flag_ptr[row_count - 1] | prev_row_flag_ptr[row_count] | prev_row_flag_ptr[row_count - 1];
 
-	for(dz=(-DRAW_WIDTH)+1;dz<DRAW_WIDTH;dz++)
-	{
-	
-//		dz=(-DRAW_WIDTH)+1;
-		for(row_count=0,dx=-DRAW_WIDTH;dx<DRAW_WIDTH;dx++,row_count++)
-		{
-			std::int32_t	flag_and,flag_or;
-			std::int32_t	index;
-			if(row_count==0)
-			{
-				point.X=(dx*ELE_SIZE)+(mx<<ELE_SHIFT);
-				point.Y=edit_map[mx+dx][mz+dz].Y<<FLOOR_HEIGHT_SHIFT;
-		//		point.Y=0;
-				point.Z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT); //(engine.Z>>8);
-				*row_flag_ptr=rotate_point_gte(&point,row_ptr);
-			}						  
-			else
-	//		if(dx+mx-1>0&&dx+mx+1<EDIT_MAP_WIDTH&&dz+mz-1>0&&dz+mz+1<EDIT_MAP_DEPTH)
-			{
-	//			LogText(" draw map floor dx %d dz %d row_count %d \n",dx,dz,row_count);
-				point.X=(dx*ELE_SIZE)+(mx<<ELE_SHIFT);
-				point.Y=edit_map[mx+dx][mz+dz].Y<<FLOOR_HEIGHT_SHIFT;
-				//point.Y=0;
-				point.Z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT); //(engine.Z>>8);
-				row_flag_ptr[row_count]=rotate_point_gte(&point,&row_ptr[row_count]);
-				
-//				if(dx+mx-1>0&&dx+mx+1<EDIT_MAP_WIDTH&&dz+mz-1>0&&dz+mz+1<EDIT_MAP_DEPTH)
+                        if (((flag_or & EF_BEHIND_YOU) == 0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED)) {
+                            std::int32_t x1, x2, x3, x4;
+                            std::int32_t y1, y2, y3, y4;
+                            std::int32_t z1;
 
-				if( on_edit_map(dx+mx-1,dz+mz-1) )
-				if( (!(edit_map[(dx+mx-1)][(dz+mz-1)].Flags&FLOOR_HIDDEN) ) ||edit_info.NoHidden==0)
-				{
-					flag_and=row_flag_ptr[row_count]&row_flag_ptr[row_count-1]&prev_row_flag_ptr[row_count]&prev_row_flag_ptr[row_count-1];
-					flag_or=row_flag_ptr[row_count]|row_flag_ptr[row_count-1]|prev_row_flag_ptr[row_count]|prev_row_flag_ptr[row_count-1];
+                            x2 = prev_row_ptr[row_count - 1].X;
+                            y2 = prev_row_ptr[row_count - 1].Y;
 
-					if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED))
-					{
-						std::int32_t	x1,x2,x3,x4;
-						std::int32_t	y1,y2,y3,y4;
-						std::int32_t	z1;
+                            x1 = prev_row_ptr[row_count].X;
+                            y1 = prev_row_ptr[row_count].Y;
 
+                            x4 = row_ptr[row_count - 1].X;
+                            y4 = row_ptr[row_count - 1].Y;
 
-						x2=prev_row_ptr[row_count-1].X;
-						y2=prev_row_ptr[row_count-1].Y;
+                            x3 = row_ptr[row_count].X;
+                            y3 = row_ptr[row_count].Y;
 
-						x1=prev_row_ptr[row_count].X;
-						y1=prev_row_ptr[row_count].Y;
+                            z1 = prev_row_ptr[row_count - 1].Z;
+                            //					LogText(" ddraw floorr ttile %d %d \n",dx,dz);
+                            if (edit_info.RoofTex) {
+                                texture = tex_map[dx + mx - 1][dz + mz - 1];
+                            } else {
+                                texture = edit_map[dx + mx - 1][dz + mz - 1].Texture;
+                            }
+                            if (add_floor_face_to_bucket(x2, y2, z1, x1, y1, 0, x4, y4, 0, x3, y3, 0, &edit_map[dx + mx - 1][dz + mz - 1], edit_map[dx + mx - 1][dz + mz - 1].Bright, edit_map[dx + mx][dz + mz - 1].Bright, edit_map[dx + mx - 1][dz + mz].Bright, edit_map[dx + mx][dz + mz].Bright, texture)) {
+                                selected_prim_xyz.X = dx + mx - 1;
+                                selected_prim_xyz.Y = 0;
+                                selected_prim_xyz.Z = dz + mz - 1;
 
-						x4=row_ptr[row_count-1].X;
-						y4=row_ptr[row_count-1].Y;
-
-						x3=row_ptr[row_count].X;
-						y3=row_ptr[row_count].Y;
-
-						z1=prev_row_ptr[row_count-1].Z;
-	//					LogText(" ddraw floorr ttile %d %d \n",dx,dz);
-						if(edit_info.RoofTex)
-						{
-							texture=tex_map[dx+mx-1][dz+mz-1];
-						}
-						else
-						{
-							texture=edit_map[dx+mx-1][dz+mz-1].Texture;
-						}
-						if(add_floor_face_to_bucket(x2,y2,z1,x1,y1,0,x4,y4,0,x3,y3,0,&edit_map[dx+mx-1][dz+mz-1],edit_map[dx+mx-1][dz+mz-1].Bright,edit_map[dx+mx][dz+mz-1].Bright,edit_map[dx+mx-1][dz+mz].Bright,edit_map[dx+mx][dz+mz].Bright,texture))
-						{
-
-							selected_prim_xyz.X	=	dx+mx-1;
-							selected_prim_xyz.Y	=	0;
-							selected_prim_xyz.Z	=	dz+mz-1;
-
-							hilited_face.MapX=dx+mx-1;
-							hilited_face.MapY=0; //dx+mx-1;
-							hilited_face.MapZ=dz+mz-1;
-						}
-	//					DrawLineC(x1,y1,x2,y2,255);
-	//					DrawLineC(x1,y1,x3,y3,255);
-
-					}
-				}
-			}
-			
-		}
-		SWAP_ROW()
-	}
-	
+                                hilited_face.MapX = dx + mx - 1;
+                                hilited_face.MapY = 0; // dx+mx-1;
+                                hilited_face.MapZ = dz + mz - 1;
+                            }
+                            //					DrawLineC(x1,y1,x2,y2,255);
+                            //					DrawLineC(x1,y1,x3,y3,255);
+                        }
+                    }
+            }
+        }
+        SWAP_ROW()
+    }
 }
 
-void	find_map_clip(std::int32_t *minx,std::int32_t *maxx,std::int32_t *minz,std::int32_t *maxz)
-{
-	std::int32_t	dx,dy,dz;
-	std::int32_t	mx,my,mz;
+void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz) {
+    std::int32_t dx, dy, dz;
+    std::int32_t mx, my, mz;
 
-	std::int32_t	min_x=9999999,max_x=-9999999;
-	std::int32_t	min_z=9999999,max_z=-9999999;
+    std::int32_t min_x = 9999999, max_x = -9999999;
+    std::int32_t min_z = 9999999, max_z = -9999999;
 
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
-	for(dx=-32;dx<=32;dx+=32)
-	for(dz=-32;dz<32;dz++)
-	{
-		struct	SVector	point,res;
-		std::int32_t	x,z;
-		std::uint32_t	flags;
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
+    for (dx = -32; dx <= 32; dx += 32)
+        for (dz = -32; dz < 32; dz++) {
+            struct SVector point, res;
+            std::int32_t x, z;
+            std::uint32_t flags;
 
-		x=dx*ELE_SIZE+(mx<<ELE_SHIFT);
-		z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
+            x = dx * ELE_SIZE + (mx << ELE_SHIFT);
+            z = (dz * ELE_SIZE) + (mz << ELE_SHIFT);
 
-		point.X=x; //dx*ELE_SIZE+(mx<<ELE_SHIFT);
-		point.Y=edit_map[mx+dx][mz+dz].Y<<FLOOR_HEIGHT_SHIFT;
-		point.Z=z; //(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
+            point.X = x; // dx*ELE_SIZE+(mx<<ELE_SHIFT);
+            point.Y = edit_map[mx + dx][mz + dz].Y << FLOOR_HEIGHT_SHIFT;
+            point.Z = z; //(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
 
-		flags=rotate_point_gte(&point,&res);
+            flags = rotate_point_gte(&point, &res);
 
+            if (flags & (EF_BEHIND_YOU | EF_CLIPFLAGS)) {
+            } else if (flags & EF_TRANSLATED) {
+                if (z > max_z) {
+                    max_z = z;
+                }
+                if (z < min_z) {
+                    min_z = z;
+                }
+            }
+        }
+    dz = 0;
+    for (dz = -32; dz <= 32; dz += 32)
+        for (dx = -32; dx < 32; dx++) {
+            struct SVector point, res;
+            std::int32_t x, z;
+            std::uint32_t flags;
 
-		if( flags&(EF_BEHIND_YOU|EF_CLIPFLAGS))
-		{
+            x = dx * ELE_SIZE + (mx << ELE_SHIFT);
+            z = (dz * ELE_SIZE) + (mz << ELE_SHIFT);
 
-		}
-		else
-		if(flags & EF_TRANSLATED)
-		{
-			if(z>max_z)
-			{
-				max_z=z;
-			}
-			if(z<min_z)
-			{
-				min_z=z;
-			}
+            point.X = x; // dx*ELE_SIZE+(mx<<ELE_SHIFT);
+            point.Y = edit_map[mx + dx][mz + dz].Y << FLOOR_HEIGHT_SHIFT;
+            point.Z = z; //(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
 
-		}
-	}
-	dz=0;
-	for(dz=-32;dz<=32;dz+=32)
-	for(dx=-32;dx<32;dx++)
-	{
-		struct	SVector	point,res;
-		std::int32_t	x,z;
-		std::uint32_t	flags;
+            flags = rotate_point_gte(&point, &res);
 
-		x=dx*ELE_SIZE+(mx<<ELE_SHIFT);
-		z=(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
+            if (flags & (EF_BEHIND_YOU | EF_CLIPFLAGS)) {
+            } else if (flags & EF_TRANSLATED) {
+                if (x > max_x) {
+                    max_x = x;
+                }
+                if (x < min_x) {
+                    min_x = x;
+                }
+            }
+        }
 
-		point.X=x; //dx*ELE_SIZE+(mx<<ELE_SHIFT);
-		point.Y=edit_map[mx+dx][mz+dz].Y<<FLOOR_HEIGHT_SHIFT;
-		point.Z=z; //(dz*ELE_SIZE)+(mz<<ELE_SHIFT);
+    min_x -= 512;
+    max_x += 512;
 
-		flags=rotate_point_gte(&point,&res);
+    min_z -= 512;
+    max_z += 512;
 
+    if (min_x < 0)
+        min_x = 0;
 
-		if( flags&(EF_BEHIND_YOU|EF_CLIPFLAGS))
-		{
+    if (min_z < 0)
+        min_z = 0;
 
-		}
-		else
-		if(flags & EF_TRANSLATED)
-		{
-			if(x>max_x)
-			{
-				max_x=x;
-			}
-			if(x<min_x)
-			{
-				min_x=x;
-			}
-		}
-	}
+    if (max_x >= EDIT_MAP_WIDTH << 8)
+        max_x = (EDIT_MAP_WIDTH << 8) - 1;
 
-	min_x-=512;
-	max_x+=512;
+    if (max_z >= EDIT_MAP_WIDTH << 8)
+        max_z = (EDIT_MAP_WIDTH << 8) - 1;
 
-	min_z-=512;
-	max_z+=512;
+    *minx = min_x;
+    *maxx = max_x;
 
-
-	if(min_x<0)
-		min_x=0;
-
-	if(min_z<0)
-		min_z=0;
-
-	if(max_x>=EDIT_MAP_WIDTH<<8)
-		max_x=(EDIT_MAP_WIDTH<<8)-1;
-
-	if(max_z>=EDIT_MAP_WIDTH<<8)
-		max_z=(EDIT_MAP_WIDTH<<8)-1;
-
-	*minx=min_x;
-	*maxx=max_x;
-
-	*minz=min_z;
-	*maxz=max_z;
+    *minz = min_z;
+    *maxz = max_z;
 }
 
-void	draw_editor_map(std::uint32_t flags)
-{
-	std::int32_t	dx,dy,dz;
-	std::int32_t	mx,my,mz;
-	struct	EditMapElement	*p_ele;
-	std::uint16_t	index;
+void draw_editor_map(std::uint32_t flags) {
+    std::int32_t dx, dy, dz;
+    std::int32_t mx, my, mz;
+    struct EditMapElement *p_ele;
+    std::uint16_t index;
 
-	animate_texture_maps();
-//	LogText(" draw editor \n");
-	
-	engine.TrueY=engine.Y;
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
-//#ifdef	POO
-	draw_map_floor();
+    animate_texture_maps();
+    //	LogText(" draw editor \n");
 
+    engine.TrueY = engine.Y;
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
+    // #ifdef	POO
+    draw_map_floor();
 
-	for(dz=-32;dz<32;dz++)
-	for(dx=-32;dx<32;dx++)
-	{
-//		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
-		if(on_edit_map(dx+mx,dz+mz))
-		{
-			
-			index=edit_map[(dx+mx)][(dz+mz)].MapThingIndex;
-			while(index)
-			{
-//				LogText(" draw index %d at dx %d dz %d (%d,%d)\n",index,dx,dz,mx+dx,mz+dz);
-				draw_map_thing(index);
-				index=map_things[index].MapChild;
-			}
-		}
+    for (dz = -32; dz < 32; dz++)
+        for (dx = -32; dx < 32; dx++) {
+            //		if(dx+mx>0&&dx+mx<EDIT_MAP_WIDTH&&dz+mz>0&&dz+mz<EDIT_MAP_DEPTH)
+            if (on_edit_map(dx + mx, dz + mz)) {
+                index = edit_map[(dx + mx)][(dz + mz)].MapThingIndex;
+                while (index) {
+                    //				LogText(" draw index %d at dx %d dz %d (%d,%d)\n",index,dx,dz,mx+dx,mz+dz);
+                    draw_map_thing(index);
+                    index = map_things[index].MapChild;
+                }
+            }
 
-//		if(!flags)
-/*
-		{
-			index=edit_map[(dx+mx)][(dz+mz)].ColVectHead;
-			if(index)
-				draw_col_vects(index);
-		}
-*/
+            //		if(!flags)
+            /*
+                            {
+                                    index=edit_map[(dx+mx)][(dz+mz)].ColVectHead;
+                                    if(index)
+                                            draw_col_vects(index);
+                            }
+            */
 
-/*
-		for(dz=-12;dz<12;dz++)
-		if( dz+mz>=0 && dz+mz<EDIT_MAP_DEPTH )
-		{
-			index=edit_map[(dx+mx)][(dy+my)].Depth[(dz+mz)];
-//			draw_map_thing(index);
-			if(index)
-			{
-				p_ele=&edit_map_eles[index];
-				switch(p_ele->CubeType.Prim)
-				{
-					case	0:
-						//error
-						break;
-					case	CUBE_TYPE_FULL:
-						draw_cube_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
-						break;
-					case	CUBE_TYPE_SLOPE_LR:
-						draw_slope_lr_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
-						break;
-					case	CUBE_TYPE_STEPS_LR:
-						draw_steps_lr_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
-						break;
-					case	CUBE_TYPE_LEDGE1:
-						draw_ledge1_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
-						break;
-				}
-			}
-		}
-*/
+            /*
+                            for(dz=-12;dz<12;dz++)
+                            if( dz+mz>=0 && dz+mz<EDIT_MAP_DEPTH )
+                            {
+                                    index=edit_map[(dx+mx)][(dy+my)].Depth[(dz+mz)];
+            //			draw_map_thing(index);
+                                    if(index)
+                                    {
+                                            p_ele=&edit_map_eles[index];
+                                            switch(p_ele->CubeType.Prim)
+                                            {
+                                                    case	0:
+                                                            //error
+                                                            break;
+                                                    case	CUBE_TYPE_FULL:
+                                                            draw_cube_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
+                                                            break;
+                                                    case	CUBE_TYPE_SLOPE_LR:
+                                                            draw_slope_lr_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
+                                                            break;
+                                                    case	CUBE_TYPE_STEPS_LR:
+                                                            draw_steps_lr_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
+                                                            break;
+                                                    case	CUBE_TYPE_LEDGE1:
+                                                            draw_ledge1_ele_at((dx+mx)<<ELE_SHIFT,(dy+my)<<ELE_SHIFT,(dz+mz)<<ELE_SHIFT,p_ele);
+                                                            break;
+                                            }
+                                    }
+                            }
+            */
+        }
 
-	}
+    //	if(background_prim)
+    //		draw_linked_background();
 
-//	if(background_prim)
-//		draw_linked_background();
+    //	animate_and_draw_chap();
 
-//	animate_and_draw_chap();
+    //	if(!flags)
+    //		draw_editor_grid();
+    //	draw_cube_hilight();
+    {
+        std::int32_t x, y, z;
+        char str[100];
 
-//	if(!flags)
-//		draw_editor_grid();
-//	draw_cube_hilight();		
-	{
-		std::int32_t	x,y,z;
-		char	str[100];
+        x = (engine.X >> 8) >> ELE_SHIFT;
+        y = (engine.Y >> 8) >> ELE_SHIFT;
+        z = (engine.Z >> 8) >> ELE_SHIFT;
 
-		x=(engine.X>>8)>>ELE_SHIFT;
-		y=(engine.Y>>8)>>ELE_SHIFT;
-		z=(engine.Z>>8)>>ELE_SHIFT;
+        sprintf(str, " x %d y %d z %d ", x, y, z);
+        QuickText(20, 20, str, 0);
+    }
+    void process_map();
+    process_map();
 
-		sprintf(str," x %d y %d z %d ",x,y,z);
-		QuickText(20,20,str,0);
-		
-	}
-void	process_map();
-		process_map();
-
-
-//#endif
-//	test_poly();
-//	editor_user_interface();
-/*
-	if(editor.TexturePriority)
-		render_view(1);
-	if(editor.TexturePriority)
-		show_texture(0,0,0,0);
-*/
-	if(SelectFlag<5)
-		SelectFlag=0;
+    // #endif
+    //	test_poly();
+    //	editor_user_interface();
+    /*
+            if(editor.TexturePriority)
+                    render_view(1);
+            if(editor.TexturePriority)
+                    show_texture(0,0,0,0);
+    */
+    if (SelectFlag < 5)
+        SelectFlag = 0;
 }
-
 
 /* --------------------------- 3DSRDR.C -------------------------------
     .3DS file format exerciser v1.2.
@@ -4015,120 +3433,118 @@ void	process_map();
 #define PI 3.141592687
 #endif
 
-typedef unsigned char  byte;
+typedef unsigned char byte;
 typedef unsigned short word;
-typedef unsigned long  dword;
+typedef unsigned long dword;
 
-typedef signed char  sbyte;
+typedef signed char sbyte;
 typedef signed short sword;
-typedef signed long  sdword;
+typedef signed long sdword;
 
 #pragma pack(2)
 
-#define	printf LogText
+#define printf LogText
 
 typedef struct {
-    word    id;
-    dword   len;
+    word id;
+    dword len;
 } TChunkHeader, *PChunkHeader;
 
 #pragma pack()
 
 enum {
-    CHUNK_RGBF      = 0x0010,
-    CHUNK_RGBB      = 0x0011,
-//    CHUNK_RBGB2     = 0x0012,       // ?? NOT HLS.
+    CHUNK_RGBF = 0x0010,
+    CHUNK_RGBB = 0x0011,
+    //    CHUNK_RBGB2     = 0x0012,       // ?? NOT HLS.
 
-    CHUNK_PRJ       = 0xC23D,
-    CHUNK_MLI       = 0x3DAA,
+    CHUNK_PRJ = 0xC23D,
+    CHUNK_MLI = 0x3DAA,
 
-    CHUNK_MAIN      = 0x4D4D,
-        CHUNK_OBJMESH   = 0x3D3D,
-            CHUNK_BKGCOLOR  = 0x1200,
-            CHUNK_AMBCOLOR  = 0x2100,
-            CHUNK_OBJBLOCK  = 0x4000,
-                CHUNK_TRIMESH   = 0x4100,
-                    CHUNK_VERTLIST  = 0x4110,
-                    CHUNK_FACELIST  = 0x4120,
-                    CHUNK_FACEMAT   = 0x4130,
-                    CHUNK_MAPLIST   = 0x4140,
-                    CHUNK_SMOOLIST  = 0x4150,
-                    CHUNK_TRMATRIX  = 0x4160,
-                CHUNK_LIGHT     = 0x4600,
-                    CHUNK_SPOTLIGHT = 0x4610,
-                CHUNK_CAMERA    = 0x4700,
-                CHUNK_HIERARCHY = 0x4F00,
-        CHUNK_VIEWPORT  = 0x7001,
-        CHUNK_MATERIAL  = 0xAFFF,
-            CHUNK_MATNAME   = 0xA000,
-            CHUNK_AMBIENT   = 0xA010,
-            CHUNK_DIFFUSE   = 0xA020,
-            CHUNK_SPECULAR  = 0xA030,
-            CHUNK_TEXTURE   = 0xA200,
-            CHUNK_BUMPMAP   = 0xA230,
-            CHUNK_MAPFILE   = 0xA300,
-        CHUNK_KEYFRAMER = 0xB000,
-            CHUNK_AMBIENTKEY    = 0xB001,
-            CHUNK_TRACKINFO = 0xB002,
-                CHUNK_TRACKOBJNAME  = 0xB010,
-                CHUNK_TRACKPIVOT    = 0xB013,
-                CHUNK_TRACKPOS      = 0xB020,
-                CHUNK_TRACKROTATE   = 0xB021,
-                CHUNK_TRACKSCALE    = 0xB022,
-                CHUNK_OBJNUMBER     = 0xB030,
-            CHUNK_TRACKCAMERA = 0xB003,
-                CHUNK_TRACKFOV  = 0xB023,
-                CHUNK_TRACKROLL = 0xB024,
-            CHUNK_TRACKCAMTGT = 0xB004,
-            CHUNK_TRACKLIGHT  = 0xB005,
-            CHUNK_TRACKLIGTGT = 0xB006,
-            CHUNK_TRACKSPOTL  = 0xB007,
-            CHUNK_FRAMES    = 0xB008,
-
+    CHUNK_MAIN = 0x4D4D,
+    CHUNK_OBJMESH = 0x3D3D,
+    CHUNK_BKGCOLOR = 0x1200,
+    CHUNK_AMBCOLOR = 0x2100,
+    CHUNK_OBJBLOCK = 0x4000,
+    CHUNK_TRIMESH = 0x4100,
+    CHUNK_VERTLIST = 0x4110,
+    CHUNK_FACELIST = 0x4120,
+    CHUNK_FACEMAT = 0x4130,
+    CHUNK_MAPLIST = 0x4140,
+    CHUNK_SMOOLIST = 0x4150,
+    CHUNK_TRMATRIX = 0x4160,
+    CHUNK_LIGHT = 0x4600,
+    CHUNK_SPOTLIGHT = 0x4610,
+    CHUNK_CAMERA = 0x4700,
+    CHUNK_HIERARCHY = 0x4F00,
+    CHUNK_VIEWPORT = 0x7001,
+    CHUNK_MATERIAL = 0xAFFF,
+    CHUNK_MATNAME = 0xA000,
+    CHUNK_AMBIENT = 0xA010,
+    CHUNK_DIFFUSE = 0xA020,
+    CHUNK_SPECULAR = 0xA030,
+    CHUNK_TEXTURE = 0xA200,
+    CHUNK_BUMPMAP = 0xA230,
+    CHUNK_MAPFILE = 0xA300,
+    CHUNK_KEYFRAMER = 0xB000,
+    CHUNK_AMBIENTKEY = 0xB001,
+    CHUNK_TRACKINFO = 0xB002,
+    CHUNK_TRACKOBJNAME = 0xB010,
+    CHUNK_TRACKPIVOT = 0xB013,
+    CHUNK_TRACKPOS = 0xB020,
+    CHUNK_TRACKROTATE = 0xB021,
+    CHUNK_TRACKSCALE = 0xB022,
+    CHUNK_OBJNUMBER = 0xB030,
+    CHUNK_TRACKCAMERA = 0xB003,
+    CHUNK_TRACKFOV = 0xB023,
+    CHUNK_TRACKROLL = 0xB024,
+    CHUNK_TRACKCAMTGT = 0xB004,
+    CHUNK_TRACKLIGHT = 0xB005,
+    CHUNK_TRACKLIGTGT = 0xB006,
+    CHUNK_TRACKSPOTL = 0xB007,
+    CHUNK_FRAMES = 0xB008,
 
 };
 
 // ------------------------------------
 
-    // Forward declaration.
+// Forward declaration.
 void ChunkReader(FILE *f, int ind, long p);
 
-void SkipReader(FILE *f, int ind, long p) 
-{
+void SkipReader(FILE *f, int ind, long p) {
 }
 
-void RGBFReader (FILE *f, int ind, long p) {
+void RGBFReader(FILE *f, int ind, long p) {
     float c[3];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Red: %f, Green: %f, Blue: %f\n", ind, "", c[0], c[1], c[2]);
 }
 
-void RGBBReader (FILE *f, int ind, long p) {
+void RGBBReader(FILE *f, int ind, long p) {
     byte c[3];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Red: %d, Green: %d, Blue: %d\n", ind, "", c[0], c[1], c[2]);
 }
 
-void ASCIIZReader (FILE *f, int ind, long p) {
+void ASCIIZReader(FILE *f, int ind, long p) {
     int c;
 
-        // Read ASCIIZ name
-    while ( (c = fgetc(f)) != EOF && c != '\0')
+    // Read ASCIIZ name
+    while ((c = fgetc(f)) != EOF && c != '\0')
         putchar(c);
     printf("\"\n");
 }
 
-void ObjBlockReader (FILE *f, int ind, long p) {
+void ObjBlockReader(FILE *f, int ind, long p) {
     int c;
 
-        // Read ASCIIZ object name
+    // Read ASCIIZ object name
     printf("%*sObject name \"", ind, "");
     ASCIIZReader(f, ind, p);
-        // Read rest of chunks inside this one.
+    // Read rest of chunks inside this one.
     ChunkReader(f, ind, p);
 }
 
-void VertListReader (FILE *f, int ind, long p) {
+void VertListReader(FILE *f, int ind, long p) {
     word nv;
     float c[3];
 
@@ -4140,7 +3556,7 @@ void VertListReader (FILE *f, int ind, long p) {
     }
 }
 
-void FaceListReader (FILE *f, int ind, long p) {
+void FaceListReader(FILE *f, int ind, long p) {
     word nv;
     word c[3];
     word flags;
@@ -4152,21 +3568,21 @@ void FaceListReader (FILE *f, int ind, long p) {
         if (fread(&flags, sizeof(flags), 1, f) != 1) return;
         printf("%*s  A %d, B %d, C %d, 0x%X:",
                ind, "", c[0], c[1], c[2], flags);
-//        printf("%*s    AB: %d, BC: %d, CA: %d, UWrap %d, VWrap %d\n",
-//               ind, "",
+        //        printf("%*s    AB: %d, BC: %d, CA: %d, UWrap %d, VWrap %d\n",
+        //               ind, "",
         printf(" AB %d BC %d CA %d UWrap %d VWrap %d\n",
                (flags & 0x04) != 0, (flags & 0x02) != 0, (flags & 0x01) != 0,
                (flags & 0x08) != 0, (flags & 0x10) != 0);
     }
-        // Read rest of chunks inside this one.
+    // Read rest of chunks inside this one.
     ChunkReader(f, ind, p);
 }
 
-void FaceMatReader (FILE *f, int ind, long p) {
+void FaceMatReader(FILE *f, int ind, long p) {
     int c;
     word n, nf;
 
-        // Read ASCIIZ material name
+    // Read ASCIIZ material name
     printf("%*sMaterial name for faces: \"", ind, "");
     ASCIIZReader(f, ind, p);
 
@@ -4179,7 +3595,7 @@ void FaceMatReader (FILE *f, int ind, long p) {
     }
 }
 
-void MapListReader (FILE *f, int ind, long p) {
+void MapListReader(FILE *f, int ind, long p) {
     word nv;
     float c[2];
 
@@ -4191,7 +3607,7 @@ void MapListReader (FILE *f, int ind, long p) {
     }
 }
 
-void SmooListReader (FILE *f, int ind, long p) {
+void SmooListReader(FILE *f, int ind, long p) {
     dword s;
     int i;
 
@@ -4222,7 +3638,7 @@ void LightReader(FILE *f, int ind, long p) {
     float c[3];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    X: %f, Y: %f, Z: %f\n", ind, "", c[0], c[1], c[2]);
-        // Read rest of chunks inside this one.
+    // Read rest of chunks inside this one.
     ChunkReader(f, ind, p);
 }
 
@@ -4232,7 +3648,7 @@ void SpotLightReader(FILE *f, int ind, long p) {
     printf("%*s    Target X: %f, Y: %f, Z: %f; Hotspot %f, Falloff %f\n",
            ind, "", c[0], c[1], c[2], c[3], c[4]);
 }
- 
+
 void CameraReader(FILE *f, int ind, long p) {
     float c[8];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
@@ -4241,10 +3657,10 @@ void CameraReader(FILE *f, int ind, long p) {
     printf("%*s    Bank: %f, Lens: %f\n", ind, "", c[6], c[7]);
 }
 
-void MatNameReader (FILE *f, int ind, long p) {
+void MatNameReader(FILE *f, int ind, long p) {
     int c;
 
-        // Read ASCIIZ object name
+    // Read ASCIIZ object name
     printf("%*sMaterial name \"", ind, "");
     ASCIIZReader(f, ind, p);
 }
@@ -4252,7 +3668,7 @@ void MatNameReader (FILE *f, int ind, long p) {
 void MapFileReader(FILE *f, int ind, long p) {
     int c;
 
-        // Read ASCIIZ filename
+    // Read ASCIIZ filename
     printf("%*sMap filename \"", ind, "");
     ASCIIZReader(f, ind, p);
 }
@@ -4269,7 +3685,7 @@ void TrackObjNameReader(FILE *f, int ind, long p) {
     word w[2];
     word parent;
 
-        // Read ASCIIZ name
+    // Read ASCIIZ name
     printf("%*sTrack object name \"", ind, "");
     ASCIIZReader(f, ind, p);
     if (fread(&w, sizeof(w), 1, f) != 1) return;
@@ -4287,18 +3703,17 @@ void PivotPointReader(FILE *f, int ind, long p) {
            pos[0], pos[1], pos[2]);
 }
 
-    /* Key info flags for position, rotation and scaling:
-        Until I know the meaning of each bit in flags I assume all mean
-        a following float data.
-    */
+/* Key info flags for position, rotation and scaling:
+    Until I know the meaning of each bit in flags I assume all mean
+    a following float data.
+*/
 
-        // NOTE THIS IS NOT A CHUNK, but A PART OF SEVERAL CHUNKS
+// NOTE THIS IS NOT A CHUNK, but A PART OF SEVERAL CHUNKS
 void SplineFlagsReader(FILE *f, int ind, word flags) {
     int i;
     float dat;
 
-    for (i = 0; i < 16; i++) 
-	{
+    for (i = 0; i < 16; i++) {
         static const char *flagnames[] = {
             "SPLINETension",
             "SPLINEContinuity",
@@ -4308,7 +3723,7 @@ void SplineFlagsReader(FILE *f, int ind, word flags) {
         };
         if (flags & (1 << i)) {
             if (fread(&dat, sizeof(dat), 1, f) != 1) return;
-            if (i < sizeof(flagnames)/sizeof(*flagnames))
+            if (i < sizeof(flagnames) / sizeof(*flagnames))
                 printf("%*s             %-15s = %f\n",
                        ind, "", flagnames[i], dat);
             else
@@ -4350,32 +3765,27 @@ void TrackRotReader(FILE *f, int ind, long p) {
     if (fread(&n, sizeof(n), 1, f) != 1) return;
     printf("%*sRotation keys: %d\n", ind, "", n);
     fseek(f, 2, SEEK_CUR);
-    while (n-- > 0) 
-	{
-        if (fread(&nf, sizeof(nf), 1, f) != 1) 
-		{
-			printf(" error nf\n");
-			return;
-		}
-        if (fread(&unkown, sizeof(unkown), 1, f) != 1) 
-		{
-			printf(" error unknown\n");
-			return;
-		}
-        if (fread(&flags, sizeof(flags), 1, f) != 1)
-		{
-			printf(" error flags\n");
-			return;
-		}
-		printf("%*s  Frame %3d: Flags 0x%X\n", ind, "", nf, flags);
+    while (n-- > 0) {
+        if (fread(&nf, sizeof(nf), 1, f) != 1) {
+            printf(" error nf\n");
+            return;
+        }
+        if (fread(&unkown, sizeof(unkown), 1, f) != 1) {
+            printf(" error unknown\n");
+            return;
+        }
+        if (fread(&flags, sizeof(flags), 1, f) != 1) {
+            printf(" error flags\n");
+            return;
+        }
+        printf("%*s  Frame %3d: Flags 0x%X\n", ind, "", nf, flags);
 
         SplineFlagsReader(f, ind, flags);
-        if (fread(&pos, sizeof(pos), 1, f) != 1) 
-		{
-			printf(" error pos\n");
-			return;
-		}
-        printf("%*s             Angle: %f�, X: %f, Y: %f, Z: %f\n",ind, "", pos[0], pos[1], pos[2], pos[3]);
+        if (fread(&pos, sizeof(pos), 1, f) != 1) {
+            printf(" error pos\n");
+            return;
+        }
+        printf("%*s             Angle: %f�, X: %f, Y: %f, Z: %f\n", ind, "", pos[0], pos[1], pos[2], pos[3]);
     }
 }
 
@@ -4408,7 +3818,6 @@ void ObjNumberReader(FILE *f, int ind, long p) {
     printf("%*sObject number: %d\n", ind, "", n);
 }
 
-
 // ------------------------------------
 
 struct {
@@ -4416,62 +3825,62 @@ struct {
     const char *name;
     void (*func)(FILE *f, int ind, long p);
 } ChunkNames[] = {
-    {CHUNK_RGBF,        "RGB float",        RGBFReader},
-    {CHUNK_RGBB,        "RGB byte",         RGBBReader},
+    {CHUNK_RGBF, "RGB float", RGBFReader},
+    {CHUNK_RGBB, "RGB byte", RGBBReader},
 
-    {CHUNK_PRJ,         "Project",          nullptr},
-    {CHUNK_MLI,         "Material Library", nullptr},
+    {CHUNK_PRJ, "Project", nullptr},
+    {CHUNK_MLI, "Material Library", nullptr},
 
-    {CHUNK_MAIN,        "Main",             nullptr},
-    {CHUNK_OBJMESH,     "Object Mesh",      nullptr},
-    {CHUNK_BKGCOLOR,    "Background color", nullptr},
-    {CHUNK_AMBCOLOR,    "Ambient color",    nullptr},
-    {CHUNK_OBJBLOCK,    "Object Block",     ObjBlockReader},
-    {CHUNK_TRIMESH,     "Tri-Mesh",         nullptr},
-    {CHUNK_VERTLIST,    "Vertex list",      VertListReader},
-    {CHUNK_FACELIST,    "Face list",        FaceListReader},
-    {CHUNK_FACEMAT,     "Face material",    FaceMatReader},
-    {CHUNK_MAPLIST,     "Mappings list",    MapListReader},
-    {CHUNK_SMOOLIST,    "Smoothings",       SmooListReader},
-    {CHUNK_TRMATRIX,    "Matrix",           TrMatrixReader},
-    {CHUNK_LIGHT,       "Light",            LightReader},
-    {CHUNK_SPOTLIGHT,   "Spotlight",        SpotLightReader},
-    {CHUNK_CAMERA,      "Camera",           CameraReader},
-    {CHUNK_HIERARCHY,   "Hierarchy",        nullptr},
+    {CHUNK_MAIN, "Main", nullptr},
+    {CHUNK_OBJMESH, "Object Mesh", nullptr},
+    {CHUNK_BKGCOLOR, "Background color", nullptr},
+    {CHUNK_AMBCOLOR, "Ambient color", nullptr},
+    {CHUNK_OBJBLOCK, "Object Block", ObjBlockReader},
+    {CHUNK_TRIMESH, "Tri-Mesh", nullptr},
+    {CHUNK_VERTLIST, "Vertex list", VertListReader},
+    {CHUNK_FACELIST, "Face list", FaceListReader},
+    {CHUNK_FACEMAT, "Face material", FaceMatReader},
+    {CHUNK_MAPLIST, "Mappings list", MapListReader},
+    {CHUNK_SMOOLIST, "Smoothings", SmooListReader},
+    {CHUNK_TRMATRIX, "Matrix", TrMatrixReader},
+    {CHUNK_LIGHT, "Light", LightReader},
+    {CHUNK_SPOTLIGHT, "Spotlight", SpotLightReader},
+    {CHUNK_CAMERA, "Camera", CameraReader},
+    {CHUNK_HIERARCHY, "Hierarchy", nullptr},
 
-    {CHUNK_VIEWPORT,    "Viewport info",    nullptr},
-    {CHUNK_MATERIAL,    "Material",         nullptr},
-    {CHUNK_MATNAME,     "Material name",    MatNameReader},
-    {CHUNK_AMBIENT,     "Ambient color",    nullptr},
-    {CHUNK_DIFFUSE,     "Diffuse color",    nullptr},
-    {CHUNK_SPECULAR,    "Specular color",   nullptr},
-    {CHUNK_TEXTURE,     "Texture map",      nullptr},
-    {CHUNK_BUMPMAP,     "Bump map",         nullptr},
-    {CHUNK_MAPFILE,     "Map filename",     MapFileReader},
+    {CHUNK_VIEWPORT, "Viewport info", nullptr},
+    {CHUNK_MATERIAL, "Material", nullptr},
+    {CHUNK_MATNAME, "Material name", MatNameReader},
+    {CHUNK_AMBIENT, "Ambient color", nullptr},
+    {CHUNK_DIFFUSE, "Diffuse color", nullptr},
+    {CHUNK_SPECULAR, "Specular color", nullptr},
+    {CHUNK_TEXTURE, "Texture map", nullptr},
+    {CHUNK_BUMPMAP, "Bump map", nullptr},
+    {CHUNK_MAPFILE, "Map filename", MapFileReader},
 
-    {CHUNK_KEYFRAMER,   "Keyframer data",   nullptr},
-    {CHUNK_AMBIENTKEY,  "Ambient key",      nullptr},
-    {CHUNK_TRACKINFO,   "Track info",       nullptr},
-    {CHUNK_FRAMES,      "Frames",           FramesReader},
-    {CHUNK_TRACKOBJNAME,"Track Obj. Name",  TrackObjNameReader},
-    {CHUNK_TRACKPIVOT,  "Pivot point",      PivotPointReader},
-    {CHUNK_TRACKPOS,    "Position keys",    TrackPosReader},
-    {CHUNK_TRACKROTATE, "Rotation keys",    TrackRotReader},
-    {CHUNK_TRACKSCALE,  "Scale keys",       TrackScaleReader},
-    {CHUNK_OBJNUMBER,   "Object number",    ObjNumberReader},
+    {CHUNK_KEYFRAMER, "Keyframer data", nullptr},
+    {CHUNK_AMBIENTKEY, "Ambient key", nullptr},
+    {CHUNK_TRACKINFO, "Track info", nullptr},
+    {CHUNK_FRAMES, "Frames", FramesReader},
+    {CHUNK_TRACKOBJNAME, "Track Obj. Name", TrackObjNameReader},
+    {CHUNK_TRACKPIVOT, "Pivot point", PivotPointReader},
+    {CHUNK_TRACKPOS, "Position keys", TrackPosReader},
+    {CHUNK_TRACKROTATE, "Rotation keys", TrackRotReader},
+    {CHUNK_TRACKSCALE, "Scale keys", TrackScaleReader},
+    {CHUNK_OBJNUMBER, "Object number", ObjNumberReader},
 
-    {CHUNK_TRACKCAMERA, "Camera track",             nullptr},
-    {CHUNK_TRACKCAMTGT, "Camera target track",      nullptr},
-    {CHUNK_TRACKLIGHT,  "Pointlight track",         nullptr},
-    {CHUNK_TRACKLIGTGT, "Pointlight target track",  nullptr},
-    {CHUNK_TRACKSPOTL,  "Spotlight track",          nullptr},
-    {CHUNK_TRACKFOV,    "FOV track",                nullptr},
-    {CHUNK_TRACKROLL,   "Roll track",               nullptr},
+    {CHUNK_TRACKCAMERA, "Camera track", nullptr},
+    {CHUNK_TRACKCAMTGT, "Camera target track", nullptr},
+    {CHUNK_TRACKLIGHT, "Pointlight track", nullptr},
+    {CHUNK_TRACKLIGTGT, "Pointlight target track", nullptr},
+    {CHUNK_TRACKSPOTL, "Spotlight track", nullptr},
+    {CHUNK_TRACKFOV, "FOV track", nullptr},
+    {CHUNK_TRACKROLL, "Roll track", nullptr},
 };
 
 int FindChunk(word id) {
     int i;
-    for (i = 0; i < sizeof(ChunkNames)/sizeof(ChunkNames[0]); i++)
+    for (i = 0; i < sizeof(ChunkNames) / sizeof(ChunkNames[0]); i++)
         if (id == ChunkNames[i].id)
             return i;
     return -1;
@@ -4480,363 +3889,309 @@ int FindChunk(word id) {
 // ------------------------------------
 
 int Verbose = 0;
-int Quiet   = 0;
+int Quiet = 0;
 
 void ChunkReader(FILE *f, int ind, long p) {
-	TChunkHeader h;
-	int n;
-	long pc;
-	
-	while (ftell(f) < p) 
-	{
-		pc = ftell(f);
-		if (fread(&h, sizeof(h), 1, f) != 1) 
-			return;
-		if (h.len == 0) 
-			return;
-		n = FindChunk(h.id);
-		if (n < 0) 
-		{
-			if (Verbose)
-				printf("%*sUnknown chunk: 0x%04X, offset 0x%lX, size: %d bytes.\n",	ind, "", h.id, pc, h.len);
-			fseek(f, pc + h.len, SEEK_SET);
-		} 
-		else 
-		{
-			if (!!Quiet || ChunkNames[n].func )
-				printf("%*sChunk type \"%s\", offset 0x%lX, size %d bytes\n",ind, "", ChunkNames[n].name, pc, h.len);
-			pc = pc + h.len;
-			if (ChunkNames[n].func )
-				ChunkNames[n].func(f, ind + 2, pc);
-			else
-			{
-				LogText(" Skip ,because NO CODE \n");
-				ChunkReader(f, ind + 2, pc);
-			}
-			fseek(f, pc, SEEK_SET);
-		}
-		if (ferror(f))
-			break;
-	}
+    TChunkHeader h;
+    int n;
+    long pc;
+
+    while (ftell(f) < p) {
+        pc = ftell(f);
+        if (fread(&h, sizeof(h), 1, f) != 1)
+            return;
+        if (h.len == 0)
+            return;
+        n = FindChunk(h.id);
+        if (n < 0) {
+            if (Verbose)
+                printf("%*sUnknown chunk: 0x%04X, offset 0x%lX, size: %d bytes.\n", ind, "", h.id, pc, h.len);
+            fseek(f, pc + h.len, SEEK_SET);
+        } else {
+            if (!!Quiet || ChunkNames[n].func)
+                printf("%*sChunk type \"%s\", offset 0x%lX, size %d bytes\n", ind, "", ChunkNames[n].name, pc, h.len);
+            pc = pc + h.len;
+            if (ChunkNames[n].func)
+                ChunkNames[n].func(f, ind + 2, pc);
+            else {
+                LogText(" Skip ,because NO CODE \n");
+                ChunkReader(f, ind + 2, pc);
+            }
+            fseek(f, pc, SEEK_SET);
+        }
+        if (ferror(f))
+            break;
+    }
 }
 
 // ------------------------------------
 
-
-void read_3ds() 
-{
+void read_3ds() {
     FILE *f;
     long p;
-	return;
+    return;
 
     f = fopen("darci1.3ds", "rb");
-    if (!f ) 
-	{
+    if (!f) {
         printf("Can't open %s!\n");
-		return;
+        return;
     }
 
-
-        // Find file size.
+    // Find file size.
     fseek(f, 0, SEEK_END);
     p = ftell(f);
     fseek(f, 0, SEEK_SET);
-        // Go!
+    // Go!
     ChunkReader(f, 0, p);
 }
 
+struct TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
+struct TinyXZ *radius_ptr[MAX_RADIUS + 2];
 
-struct	TinyXZ	radius_pool[MAX_RADIUS*4*MAX_RADIUS*2];
-struct	TinyXZ	*radius_ptr[MAX_RADIUS+2];
+void build_radius_info() {
+    std::int8_t *grid;
+    std::int32_t dx, dz;
+    struct TinyXZ *ptr_rad;
+    std::int32_t actual_radius, radius, radius_offset, old_radius = 0;
+    std::int32_t angle;
+    std::int32_t sum_count = 0;
+    std::int32_t count = 0;
 
-void	build_radius_info()
-{
-	std::int8_t	*grid;
-	std::int32_t	dx,dz;
-	struct	TinyXZ	*ptr_rad;
-	std::int32_t	actual_radius,radius,radius_offset,old_radius=0;
-	std::int32_t	angle;
-	std::int32_t	sum_count=0;
-	std::int32_t	count=0;
+    ptr_rad = radius_pool;
 
-	ptr_rad=radius_pool;
-
-
-	grid=(std::int8_t*)MemAlloc((MAX_RADIUS+1)*(MAX_RADIUS+1)*4);
-	if(grid)
-	{
-
-		for(radius=(MAX_RADIUS<<2);radius>3;radius--)
-		{
-			if((radius>>2)!=old_radius)
-			{
-				old_radius=radius>>2;
-//				LogText(" radius %d max_radius %d \n",radius>>2,MAX_RADIUS);
-				radius_ptr[(radius>>2)]=ptr_rad;
-
-			}
-			for(angle=0;angle<2048;angle+=4)
-			{
-				for(radius_offset=-4;radius_offset<4;radius_offset++)
-				{
-					
-					dx=(SIN(angle)*(radius+radius_offset))>>(16+2);
-					dz=(COS(angle)*(radius+radius_offset))>>(16+2);
-					actual_radius=Root(SDIST2(dx,dz));
-					if(actual_radius==(radius>>2))
-					{
-						if(grid[(dx+MAX_RADIUS)+(dz+MAX_RADIUS)*(MAX_RADIUS*2)]!=-1)
-						{
-							grid[(dx+MAX_RADIUS)+(dz+MAX_RADIUS)*(MAX_RADIUS*2)]=-1;
-							ptr_rad->Dx=dx;
-							ptr_rad->Dz=dz;
-							ptr_rad->Angle=angle;
-							ptr_rad++;
-						}
-					}
-				}
-			}
-		}
-		radius_ptr[0]=ptr_rad;
-		MemFree(grid);
-	}
-	for(radius=1;radius<MAX_RADIUS;radius++)
-	{
-//		LogText("count=%d \n",count);
-//		LogText(" rad %d ->",radius);
-		ptr_rad=radius_ptr[radius];
-		count=0;
-		while(ptr_rad<radius_ptr[radius-1])
-		{
-//			LogText("[%d](%d,%d) ",ptr_rad->Angle,ptr_rad->Dx,ptr_rad->Dz);
-			ptr_rad++;
-			count++;
-		}
-		sum_count+=count;
-//		LogText("\n");
-	}
-//		LogText("count=%d sum %d\n",count,sum_count);
+    grid = (std::int8_t *) MemAlloc((MAX_RADIUS + 1) * (MAX_RADIUS + 1) * 4);
+    if (grid) {
+        for (radius = (MAX_RADIUS << 2); radius > 3; radius--) {
+            if ((radius >> 2) != old_radius) {
+                old_radius = radius >> 2;
+                //				LogText(" radius %d max_radius %d \n",radius>>2,MAX_RADIUS);
+                radius_ptr[(radius >> 2)] = ptr_rad;
+            }
+            for (angle = 0; angle < 2048; angle += 4) {
+                for (radius_offset = -4; radius_offset < 4; radius_offset++) {
+                    dx = (SIN(angle) * (radius + radius_offset)) >> (16 + 2);
+                    dz = (COS(angle) * (radius + radius_offset)) >> (16 + 2);
+                    actual_radius = Root(SDIST2(dx, dz));
+                    if (actual_radius == (radius >> 2)) {
+                        if (grid[(dx + MAX_RADIUS) + (dz + MAX_RADIUS) * (MAX_RADIUS * 2)] != -1) {
+                            grid[(dx + MAX_RADIUS) + (dz + MAX_RADIUS) * (MAX_RADIUS * 2)] = -1;
+                            ptr_rad->Dx = dx;
+                            ptr_rad->Dz = dz;
+                            ptr_rad->Angle = angle;
+                            ptr_rad++;
+                        }
+                    }
+                }
+            }
+        }
+        radius_ptr[0] = ptr_rad;
+        MemFree(grid);
+    }
+    for (radius = 1; radius < MAX_RADIUS; radius++) {
+        //		LogText("count=%d \n",count);
+        //		LogText(" rad %d ->",radius);
+        ptr_rad = radius_ptr[radius];
+        count = 0;
+        while (ptr_rad < radius_ptr[radius - 1]) {
+            //			LogText("[%d](%d,%d) ",ptr_rad->Angle,ptr_rad->Dx,ptr_rad->Dz);
+            ptr_rad++;
+            count++;
+        }
+        sum_count += count;
+        //		LogText("\n");
+    }
+    //		LogText("count=%d sum %d\n",count,sum_count);
 }
 
-void	init_editor()
-{
-	std::int32_t	x,z;
+void init_editor() {
+    std::int32_t x, z;
 
+    load_palette("data\\tex01.pal");
+    build_radius_info();
+    init_poly_system();
+    //	clear_map();
+    //	read_3ds();
+    PAP_clear();
 
-	load_palette("data\\tex01.pal");
-	build_radius_info();
-	init_poly_system();	
-//	clear_map();
-//	read_3ds();
-	PAP_clear();
+    clear_map();
+    extern void init_map();
+    init_map();
+    /*
+            edit_map_eles[0].CubeType.Prim=255;
+            edit_map_eles[1].CubeType.Prim=CUBE_TYPE_FULL;
+            edit_map_eles[1].CubeFlags=CUBE_FLAG_ALL;
 
-	clear_map();
-extern void	init_map();
-	init_map();
-/*
-	edit_map_eles[0].CubeType.Prim=255;
-	edit_map_eles[1].CubeType.Prim=CUBE_TYPE_FULL;
-	edit_map_eles[1].CubeFlags=CUBE_FLAG_ALL;
+            for(x=0;x<EDIT_MAP_WIDTH;x++)
+            {
+                    for(z=0;z<EDIT_MAP_DEPTH;z++)
+                    {
+                            insert_cube(x,126,z);
+                    }
+            }
+    */
+    memset((std::uint8_t *) tex_map, 0, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-	for(x=0;x<EDIT_MAP_WIDTH;x++)
-	{
-		for(z=0;z<EDIT_MAP_DEPTH;z++)
-		{
-			insert_cube(x,126,z);
-		}
-	}
-*/
-	memset((std::uint8_t*)tex_map,0,sizeof(std::uint16_t)*EDIT_MAP_WIDTH*EDIT_MAP_DEPTH);
+    engine.X = (((EDIT_MAP_WIDTH << (ELE_SHIFT - 1)) + 0 * HALF_ELE_SIZE) << 8);
+    engine.Y = (((1 << ELE_SHIFT) + 0 * HALF_ELE_SIZE) << 8);
+    engine.Z = (((EDIT_MAP_DEPTH << (ELE_SHIFT - 1)) + 0 * HALF_ELE_SIZE) << 8);
 
-	engine.X=(((EDIT_MAP_WIDTH<<(ELE_SHIFT-1))+0*HALF_ELE_SIZE)<<8);
-	engine.Y=(((1<<ELE_SHIFT)+0*HALF_ELE_SIZE)<<8);
-	engine.Z=(((EDIT_MAP_DEPTH<<(ELE_SHIFT-1))+0*HALF_ELE_SIZE)<<8);
+    edit_info.amb_dx = -128;
+    edit_info.amb_dy = -126;
+    edit_info.amb_dz = -40;
+    edit_info.amb_bright = 255;
+    edit_info.amb_flags = 0;
+    edit_info.amb_offset = 0;
+    edit_info.GridOn = 1;
+    edit_info.FlatShade = 0;
 
-	edit_info.amb_dx=-128;
-	edit_info.amb_dy=-126;
-	edit_info.amb_dz=-40;
-	edit_info.amb_bright=255;
-	edit_info.amb_flags=0;
-	edit_info.amb_offset=0;
-	edit_info.GridOn=1;
-	edit_info.FlatShade=0;
+    edit_info.RoofTex = 0;
+    edit_info.MapID = 0;
 
-	edit_info.RoofTex=0;
-	edit_info.MapID=0;
+    edit_info.TileFlag = 0;
+    edit_info.TileScale = 100;
+    edit_info.Inside = 0;
+    edit_info.HideMap = 0;
 
-	edit_info.TileFlag=0;
-	edit_info.TileScale=100;
-	edit_info.Inside=0;
-	edit_info.HideMap=0;
+    next_dbuilding = 1;
+    next_dwalkable = 1;
+    next_dfacet = 1;
+    next_dstyle = 1;
+    next_facet_link = 1;
+    facet_link_count = 0;
 
-	next_dbuilding=1;
-	next_dwalkable=1;
-	next_dfacet=1;
-	next_dstyle=1;
-	next_facet_link=1;
-	facet_link_count=0;
+    DeleteFile("data\\swap0.map");
+    DeleteFile("data\\swap1.map");
 
+    load_all_individual_prims();
 
-	DeleteFile("data\\swap0.map");
-	DeleteFile("data\\swap1.map");
-
-	load_all_individual_prims();
-
-	calc_prim_info();
-void	clear_build_stuff();
-	clear_build_stuff();
+    calc_prim_info();
+    void clear_build_stuff();
+    clear_build_stuff();
 }
 
+extern TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
+extern TinyXZ *radius_ptr[MAX_RADIUS + 2];
 
-extern TinyXZ	radius_pool[MAX_RADIUS*4*MAX_RADIUS*2];
-extern TinyXZ	*radius_ptr[MAX_RADIUS+2];
+void draw_quick_map() {
+    std::int32_t radius;
+    std::int32_t dx, dz, cdx, cdz;
+    struct SVector point, ret_point;
+    struct TinyXZ *ptr_rad;
+    std::int32_t clip_flags;
 
+    struct SVector buffer_points[MAX_RADIUS * (MAX_RADIUS + 1) * 4];
+    std::uint32_t buffer_flags[MAX_RADIUS * (MAX_RADIUS + 1) * 4];
+    std::uint32_t *ptr_flag;
+    struct SVector *ptr;
+    std::int32_t mx, my, mz;
+    std::uint16_t texture;
 
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
 
-void	draw_quick_map()
-{
-	std::int32_t	radius;
-	std::int32_t	dx,dz,cdx,cdz;
-	struct	SVector point,ret_point;
-	struct	TinyXZ	*ptr_rad;
-	std::int32_t	clip_flags;
+    //	LogText(" draw arround (%d,%d,%d)\n",mx,my,mz);
 
-	struct	SVector		buffer_points[MAX_RADIUS*(MAX_RADIUS+1)*4];
-	std::uint32_t	buffer_flags[MAX_RADIUS*(MAX_RADIUS+1)*4];
-	std::uint32_t	*ptr_flag;
-	struct	SVector		*ptr;
-	std::int32_t	mx,my,mz;
-	std::uint16_t	texture;
+    memset((std::uint8_t *) buffer_flags, 0, MAX_RADIUS * (MAX_RADIUS + 1) * 4 * 4);
 
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
+    ptr = &buffer_points[MAX_RADIUS + MAX_RADIUS * MAX_RADIUS * 2];
 
-//	LogText(" draw arround (%d,%d,%d)\n",mx,my,mz);
+    point.X = (mx << ELE_SHIFT);
+    point.Y = edit_map[mx][mz].Y << FLOOR_HEIGHT_SHIFT;
+    point.Z = (mz << ELE_SHIFT); //(engine.Z>>8);
 
+    clip_flags = rotate_point_gte(&point, ptr);
+    buffer_flags[MAX_RADIUS + MAX_RADIUS * MAX_RADIUS * 2] = clip_flags;
 
+    for (radius = 1; radius < MAX_RADIUS; radius++) {
+        ptr_rad = radius_ptr[radius];
+        while (ptr_rad < radius_ptr[radius - 1]) {
+            // std::int32_t	mx,mz;
+            cdx = ptr_rad->Dx;
+            cdz = ptr_rad->Dz;
 
-	memset((std::uint8_t*)buffer_flags,0,MAX_RADIUS*(MAX_RADIUS+1)*4*4);
+            dx = (cdx * ELE_SIZE);
+            dz = (cdz * ELE_SIZE);
 
-	ptr=&buffer_points[MAX_RADIUS+MAX_RADIUS*MAX_RADIUS*2];
+            cdx += MAX_RADIUS;
+            cdz += MAX_RADIUS;
 
-	point.X=(mx<<ELE_SHIFT);
-	point.Y=edit_map[mx][mz].Y<<FLOOR_HEIGHT_SHIFT;
-	point.Z=(mz<<ELE_SHIFT); //(engine.Z>>8);
+            ptr = &buffer_points[cdx + cdz * MAX_RADIUS * 2];
 
-	clip_flags=rotate_point_gte(&point,ptr);
-	buffer_flags[MAX_RADIUS+MAX_RADIUS*MAX_RADIUS*2]=clip_flags;
+            point.X = dx + (mx << ELE_SHIFT);
 
-	for(radius=1;radius<MAX_RADIUS;radius++)
-	{
-		ptr_rad=radius_ptr[radius];
-		while(ptr_rad<radius_ptr[radius-1])
-		{
-			//std::int32_t	mx,mz;
-			cdx=ptr_rad->Dx;
-			cdz=ptr_rad->Dz;
+            mx = cdx + mx - MAX_RADIUS;
+            mz = cdz + mz - MAX_RADIUS;
+            if (mx >= 0 && mx < EDIT_MAP_WIDTH && mz >= 0 && mz < EDIT_MAP_DEPTH)
+                point.Y = edit_map[cdx + mx - MAX_RADIUS][cdz + mz - MAX_RADIUS].Y << FLOOR_HEIGHT_SHIFT;
+            else
+                point.Y = 0;
+            point.Z = dz + (mz << ELE_SHIFT); //(engine.Z>>8);
 
-			dx=(cdx*ELE_SIZE);
-			dz=(cdz*ELE_SIZE);
+            clip_flags = rotate_point_gte(&point, ptr);
+            //			if( ((clip_flags&EF_BEHIND_YOU)==0) && !(clip_flags & EF_CLIPFLAGS))
+            {
+                buffer_flags[cdx + cdz * MAX_RADIUS * 2] = clip_flags;
+            }
+            ptr_rad++;
+        }
+    }
 
-			cdx+=MAX_RADIUS;
-			cdz+=MAX_RADIUS;
+    ptr_flag = buffer_flags;
+    for (dz = 0; dz < MAX_RADIUS * 2; dz++)
+        for (dx = 0; dx < MAX_RADIUS * 2; dx++) {
+            std::int32_t flag_and, flag_or;
+            std::int32_t index;
 
-			ptr=&buffer_points[cdx+cdz*MAX_RADIUS*2];
+            //		if(dx+mx-MAX_RADIUS-1>=0&&dx+mx-MAX_RADIUS<EDIT_MAP_WIDTH&&dz+mz-MAX_RADIUS-1>=0&&dz+mz-MAX_RADIUS<EDIT_MAP_DEPTH)
 
-			point.X=dx+(mx<<ELE_SHIFT);
+            if (on_edit_map(dx + mx - MAX_RADIUS - 1, dz + mz - MAX_RADIUS - 1)) {
+                index = edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)].MapThingIndex;
+                while (index) {
+                    //			LogText(" draw QUICK index %d at dx %d dz %d (%d,%d)\n",index,dx,dz,mx+dx,mz+dz);
+                    draw_map_thing(index);
+                    index = map_things[index].MapChild;
+                }
 
-			mx=cdx+mx-MAX_RADIUS;
-			mz=cdz+mz-MAX_RADIUS;
-			if(mx>=0&&mx<EDIT_MAP_WIDTH&& mz>=0 && mz<EDIT_MAP_DEPTH)
-				point.Y=edit_map[cdx+mx-MAX_RADIUS][cdz+mz-MAX_RADIUS].Y<<FLOOR_HEIGHT_SHIFT;
-			else
-				point.Y=0;
-			point.Z=dz+(mz<<ELE_SHIFT); //(engine.Z>>8);
+                // index=edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)].ColVectHead;
+                // if(!index)
 
+                // EC HIDDEN_FLOOR
+                if (!(edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)].Flags & FLOOR_HIDDEN)) {
+                    flag_and = (*ptr_flag) & (*(ptr_flag + 1)) & (*(ptr_flag + MAX_RADIUS * 2)) & (*(ptr_flag + 1 + MAX_RADIUS * 2));
+                    flag_or = (*ptr_flag) | (*(ptr_flag + 1)) | (*(ptr_flag + MAX_RADIUS * 2)) | (*(ptr_flag + 1 + MAX_RADIUS * 2));
+                    //		if(*ptr_flag&&*(ptr_flag+1)&&*(ptr_flag+MAX_RADIUS*2)&&*(ptr_flag+1+MAX_RADIUS*2))
+                    if (((flag_or & EF_BEHIND_YOU) == 0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED)) {
+                        std::int32_t x1, x2, x3, x4;
+                        std::int32_t y1, y2, y3, y4;
+                        std::int32_t z1;
+                        x2 = buffer_points[dx + dz * MAX_RADIUS * 2].X;
+                        x1 = buffer_points[dx + dz * MAX_RADIUS * 2 + 1].X;
+                        x4 = buffer_points[dx + (dz + 1) * MAX_RADIUS * 2].X;
+                        x3 = buffer_points[dx + (dz + 1) * MAX_RADIUS * 2 + 1].X;
+                        y2 = buffer_points[dx + dz * MAX_RADIUS * 2].Y;
+                        y1 = buffer_points[dx + dz * MAX_RADIUS * 2 + 1].Y;
+                        y4 = buffer_points[dx + (dz + 1) * MAX_RADIUS * 2].Y;
+                        y3 = buffer_points[dx + (dz + 1) * MAX_RADIUS * 2 + 1].Y;
+                        z1 = buffer_points[dx + dz * MAX_RADIUS * 2].Z;
+                        if (edit_info.RoofTex) {
+                            texture = tex_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)];
+                        } else {
+                            texture = edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)].Texture;
+                        }
+                        add_floor_face_to_bucket(x2, y2, z1, x1, y1, 0, x4, y4, 0, x3, y3, 0, &edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)],
+                                                 edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)].Bright,
+                                                 edit_map[(dx + mx - MAX_RADIUS + 1)][(dz + mz - MAX_RADIUS)].Bright,
+                                                 edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS + 1)].Bright,
+                                                 edit_map[(dx + mx - MAX_RADIUS + 1)][(dz + mz - MAX_RADIUS + 1)].Bright, texture);
 
-			clip_flags=rotate_point_gte(&point,ptr);
-//			if( ((clip_flags&EF_BEHIND_YOU)==0) && !(clip_flags & EF_CLIPFLAGS))
-			{
-				buffer_flags[cdx+cdz*MAX_RADIUS*2]=clip_flags;
-			}
-			ptr_rad++;
-		}
-	}
-
-	ptr_flag=buffer_flags;
-	for(dz=0;dz<MAX_RADIUS*2;dz++)
-	for(dx=0;dx<MAX_RADIUS*2;dx++)
-	{
-		std::int32_t	flag_and,flag_or;
-		std::int32_t	index;
-
-//		if(dx+mx-MAX_RADIUS-1>=0&&dx+mx-MAX_RADIUS<EDIT_MAP_WIDTH&&dz+mz-MAX_RADIUS-1>=0&&dz+mz-MAX_RADIUS<EDIT_MAP_DEPTH)
-
-		if(on_edit_map(dx+mx-MAX_RADIUS-1,dz+mz-MAX_RADIUS-1))
-		{
-			
-			index=edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)].MapThingIndex;
-			while(index)
-			{
-	//			LogText(" draw QUICK index %d at dx %d dz %d (%d,%d)\n",index,dx,dz,mx+dx,mz+dz);
-				draw_map_thing(index);
-				index=map_things[index].MapChild;
-			}
-
-			//index=edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)].ColVectHead;
-			//if(!index)
-
-//EC HIDDEN_FLOOR
-			if(!(edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)].Flags&FLOOR_HIDDEN))
-			{
-				flag_and=(*ptr_flag) & (*(ptr_flag+1)) & (*(ptr_flag+MAX_RADIUS*2)) & (*(ptr_flag+1+MAX_RADIUS*2));
-				flag_or =(*ptr_flag) | (*(ptr_flag+1)) | (*(ptr_flag+MAX_RADIUS*2)) | (*(ptr_flag+1+MAX_RADIUS*2));
-		//		if(*ptr_flag&&*(ptr_flag+1)&&*(ptr_flag+MAX_RADIUS*2)&&*(ptr_flag+1+MAX_RADIUS*2))
-				if( ((flag_or&EF_BEHIND_YOU)==0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED))
-				{
-						std::int32_t	x1,x2,x3,x4;
-						std::int32_t	y1,y2,y3,y4;
-						std::int32_t	z1;
-						x2=buffer_points[dx+dz*MAX_RADIUS*2].X;
-						x1=buffer_points[dx+dz*MAX_RADIUS*2+1].X;
-						x4=buffer_points[dx+(dz+1)*MAX_RADIUS*2].X;
-						x3=buffer_points[dx+(dz+1)*MAX_RADIUS*2+1].X;
-						y2=buffer_points[dx+dz*MAX_RADIUS*2].Y;
-						y1=buffer_points[dx+dz*MAX_RADIUS*2+1].Y;
-						y4=buffer_points[dx+(dz+1)*MAX_RADIUS*2].Y;
-						y3=buffer_points[dx+(dz+1)*MAX_RADIUS*2+1].Y;
-						z1=buffer_points[dx+dz*MAX_RADIUS*2].Z;
-						if(edit_info.RoofTex)
-						{
-							texture=tex_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)];
-						}
-						else
-						{
-							texture=edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)].Texture;
-						}
-						add_floor_face_to_bucket(x2,y2,z1,x1,y1,0,x4,y4,0,x3,y3,0,&edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)],
-							edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS)].Bright,
-							edit_map[(dx+mx-MAX_RADIUS+1)][(dz+mz-MAX_RADIUS)].Bright,
-							edit_map[(dx+mx-MAX_RADIUS)][(dz+mz-MAX_RADIUS+1)].Bright,
-							edit_map[(dx+mx-MAX_RADIUS+1)][(dz+mz-MAX_RADIUS+1)].Bright,texture);
-
-	//				DrawLineC(buffer_points[dx+dz*MAX_RADIUS*2].X,buffer_points[dx+dz*MAX_RADIUS*2].Y,buffer_points[dx+dz*MAX_RADIUS*2+1].X,buffer_points[dx+dz*MAX_RADIUS*2+1].Y,255);
-	//				DrawLineC(buffer_points[dx+dz*MAX_RADIUS*2+1].X,buffer_points[dx+dz*MAX_RADIUS*2+1].Y,buffer_points[dx+(dz+1)*MAX_RADIUS*2+1].X,buffer_points[dx+(dz+1)*MAX_RADIUS*2+1].Y,255);
-				}
-			}
-
-		}
-		ptr_flag++;
-	
-	}
-
+                        //				DrawLineC(buffer_points[dx+dz*MAX_RADIUS*2].X,buffer_points[dx+dz*MAX_RADIUS*2].Y,buffer_points[dx+dz*MAX_RADIUS*2+1].X,buffer_points[dx+dz*MAX_RADIUS*2+1].Y,255);
+                        //				DrawLineC(buffer_points[dx+dz*MAX_RADIUS*2+1].X,buffer_points[dx+dz*MAX_RADIUS*2+1].Y,buffer_points[dx+(dz+1)*MAX_RADIUS*2+1].X,buffer_points[dx+(dz+1)*MAX_RADIUS*2+1].Y,255);
+                    }
+                }
+            }
+            ptr_flag++;
+        }
 }
 
-//struct	QuickMap	quick_map[128*128];
-
-
-
-
-
-
+// struct	QuickMap	quick_map[128*128];

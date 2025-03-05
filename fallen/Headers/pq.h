@@ -14,8 +14,8 @@
 // Returns the best heap element.
 //
 
-static void    PQ_init  ();
-static void    PQ_add   (PQ_Type);
-static void    PQ_remove();
-static PQ_Type PQ_best  ();
-static std::int32_t   PQ_empty ();
+static void PQ_init();
+static void PQ_add(PQ_Type);
+static void PQ_remove();
+static PQ_Type PQ_best();
+static std::int32_t PQ_empty();

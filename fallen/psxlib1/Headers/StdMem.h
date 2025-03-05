@@ -1,8 +1,8 @@
 // StdMem.h
 // Guy Simmons, 18th December 1997
 
-#ifndef	STD_MEM_H
-#define	STD_MEM_H
+#ifndef STD_MEM_H
+#define STD_MEM_H
 
 //---------------------------------------------------------------
 

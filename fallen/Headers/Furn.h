@@ -5,12 +5,11 @@
 #ifndef FURN_H
 #define FURN_H
 
-
-#define	FLAG_FURN_DRIVING	  (1<<0)
-#define	FLAG_FURN_WHEEL1_GRIP (1<<1)
-#define	FLAG_FURN_WHEEL2_GRIP (1<<2)
-#define	FLAG_FURN_WHEEL3_GRIP (1<<3)
-#define	FLAG_FURN_WHEEL4_GRIP (1<<4)
+#define FLAG_FURN_DRIVING (1 << 0)
+#define FLAG_FURN_WHEEL1_GRIP (1 << 1)
+#define FLAG_FURN_WHEEL2_GRIP (1 << 2)
+#define FLAG_FURN_WHEEL3_GRIP (1 << 3)
+#define FLAG_FURN_WHEEL4_GRIP (1 << 4)
 
 //
 // The furniture structure. A static piece of furniture does not have
@@ -19,44 +18,44 @@
 // of these structures and decallocates it once it stops.
 //
 
-typedef struct 
+typedef struct
 {
-	std::int32_t dx;
-	std::int32_t dy;
-	std::int32_t dz;
-	std::int32_t dyaw;
-	std::int32_t dpitch;
-	std::int32_t droll;
+    std::int32_t dx;
+    std::int32_t dy;
+    std::int32_t dz;
+    std::int32_t dyaw;
+    std::int32_t dpitch;
+    std::int32_t droll;
 
-	//
-	// temp stuff for cars...
+    //
+    // temp stuff for cars...
 
-	//
-	std::int16_t	Wheel; //steering wheel position
-	std::int16_t	RAngle;
-	std::int16_t	OverSteer;
-	std::int16_t	DeltaOverSteer;
-	std::int16_t	Compression[4]; // suspension extension *4
-	std::int16_t	SpringDY[4];
-	std::uint16_t	Flags;
-	std::uint16_t	Driver;
+    //
+    std::int16_t Wheel; // steering wheel position
+    std::int16_t RAngle;
+    std::int16_t OverSteer;
+    std::int16_t DeltaOverSteer;
+    std::int16_t Compression[4]; // suspension extension *4
+    std::int16_t SpringDY[4];
+    std::uint16_t Flags;
+    std::uint16_t Driver;
 
-	//
-	// Command system stuff.
-	//
+    //
+    // Command system stuff.
+    //
 
-	std::uint16_t	Command;
-	std::uint16_t	Waypoint;
+    std::uint16_t Command;
+    std::uint16_t Waypoint;
 
-	//
-	// Temp stuff for doors...
-	//
+    //
+    // Temp stuff for doors...
+    //
 
-	std::uint16_t	closed_angle;
-	std::uint16_t   ajar;
-}Furniture;
+    std::uint16_t closed_angle;
+    std::uint16_t ajar;
+} Furniture;
 
-typedef	Furniture* FurniturePtr;
+typedef Furniture *FurniturePtr;
 #define MAX_FURNITURE 10
 
 //
@@ -75,39 +74,36 @@ void init_furniture();
 void free_furniture(Thing *furniture_thing);
 Furniture *FURN_alloc_furniture();
 
-
 //
 // Creates the furniture thing and puts it on the mapwho in
 // a stationary position.
 //
 
 THING_INDEX FURN_create(
-				std::int32_t x,
-				std::int32_t y,
-				std::int32_t z,
-				std::int32_t yaw,
-				std::int32_t pitch,
-				std::int32_t roll,
-				std::int32_t prim);
+    std::int32_t x,
+    std::int32_t y,
+    std::int32_t z,
+    std::int32_t yaw,
+    std::int32_t pitch,
+    std::int32_t roll,
+    std::int32_t prim);
 
 THING_INDEX VEHICLE_create(
-				std::int32_t x,
-				std::int32_t y,
-				std::int32_t z,
-				std::int32_t angle,
-				std::int32_t prim);
+    std::int32_t x,
+    std::int32_t y,
+    std::int32_t z,
+    std::int32_t angle,
+    std::int32_t prim);
 
 //
 // Turns a normal furniture thing into a door.
 //
 
 void FURN_turn_into_door(
-		THING_INDEX furniture_thing,
-		std::uint16_t       closed_angle,
-		std::uint16_t		ajar,
-		std::uint8_t		am_i_locked);
-
-
+    THING_INDEX furniture_thing,
+    std::uint16_t closed_angle,
+    std::uint16_t ajar,
+    std::uint8_t am_i_locked);
 
 //
 // Slides a movement vector of someone with the given radius
@@ -121,11 +117,11 @@ void FURN_turn_into_door(
 //
 
 std::int32_t FURN_slide_along(
-		THING_INDEX thing,
-		std::int32_t  x1, std::int32_t  y1, std::int32_t  z1,
-		std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
-		std::int32_t  radius,
-		std::int32_t  dont_slide);
+    THING_INDEX thing,
+    std::int32_t x1, std::int32_t y1, std::int32_t z1,
+    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+    std::int32_t radius,
+    std::int32_t dont_slide);
 
 //
 // Checks a movement vector against a piece of furniture and
@@ -134,9 +130,9 @@ std::int32_t FURN_slide_along(
 //
 
 std::int32_t FURN_avoid(
-		THING_INDEX thing,
-		std::int32_t x1, std::int32_t y1, std::int32_t z1,
-		std::int32_t x2, std::int32_t y2, std::int32_t z2);
+    THING_INDEX thing,
+    std::int32_t x1, std::int32_t y1, std::int32_t z1,
+    std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 //
 // Starts modelling the furniture with hypermatter.
@@ -144,16 +140,14 @@ std::int32_t FURN_avoid(
 
 void FURN_hypermatterise(THING_INDEX thing);
 
-
 //
 // Applies the force to the given piece of furniture.
 //
 
 void FURN_push(
-		THING_INDEX thing,
-		std::int32_t x1, std::int32_t y1, std::int32_t z1,
-		std::int32_t x2, std::int32_t y2, std::int32_t z2);
-
+    THING_INDEX thing,
+    std::int32_t x1, std::int32_t y1, std::int32_t z1,
+    std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 //
 // For each furniture thing, scan for walkable faces, copy them,
@@ -161,6 +155,5 @@ void FURN_push(
 //
 
 void FURN_add_walkable();
-
 
 #endif

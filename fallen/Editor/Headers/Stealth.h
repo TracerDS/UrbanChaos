@@ -1,40 +1,36 @@
 // Stealth.h
 // Guy Simmons, 21st February 1997.
 
-#ifndef	_STEALTH_H_
-#define	_STEALTH_H_
+#ifndef _STEALTH_H_
+#define _STEALTH_H_
 
-#define	TEXTURE_WIDTH		256
-#define	TEXTURE_HEIGHT		256
-#define	TEXTURE_PAGE_SIZE	(TEXTURE_WIDTH*TEXTURE_HEIGHT*2)
+#define TEXTURE_WIDTH 256
+#define TEXTURE_HEIGHT 256
+#define TEXTURE_PAGE_SIZE (TEXTURE_WIDTH * TEXTURE_HEIGHT * 2)
 
-
-typedef	struct
+typedef struct
 {
-	std::uint16_t		*TexturePtr;
-	std::uint8_t		*PalPtr;
+    std::uint16_t *TexturePtr;
+    std::uint8_t *PalPtr;
 
-}GameTexture;
+} GameTexture;
 
 #define NUM_GAME_TEXTURES 50
 
-extern GameTexture		game_textures[NUM_GAME_TEXTURES];
+extern GameTexture game_textures[NUM_GAME_TEXTURES];
 
-typedef	struct
+typedef struct
 {
-	
-}EdTriangle;
+} EdTriangle;
 
-typedef	struct
+typedef struct
 {
-	
-}EdQuad;
+} EdQuad;
 
-typedef	struct
+typedef struct
 {
-	std::int32_t	U[4],
-			V[4];
-}EdTexture;
-
+    std::int32_t U[4],
+        V[4];
+} EdTexture;
 
 #endif

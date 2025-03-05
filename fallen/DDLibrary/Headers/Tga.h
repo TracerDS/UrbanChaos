@@ -13,10 +13,10 @@
 
 typedef struct
 {
-	std::uint8_t blue;
-	std::uint8_t green;
-	std::uint8_t red;
-	std::uint8_t alpha;
+    std::uint8_t blue;
+    std::uint8_t green;
+    std::uint8_t red;
+    std::uint8_t alpha;
 
 } TGA_Pixel;
 
@@ -26,11 +26,11 @@ typedef struct
 
 typedef struct
 {
-	std::int32_t valid;
-	std::int32_t width;
-	std::int32_t height;
-	std::int32_t contains_alpha;
-	
+    std::int32_t valid;
+    std::int32_t width;
+    std::int32_t height;
+    std::int32_t contains_alpha;
+
 } TGA_Info;
 
 //
@@ -38,24 +38,23 @@ typedef struct
 //
 
 TGA_Info TGA_load(
-			const char* file,
-			std::int32_t        max_width,
-			std::int32_t        max_height,
-			TGA_Pixel   *data,
-			std::uint32_t		id,
-			bool		bCanShrink = true);
+    const char* file,
+    std::int32_t max_width,
+    std::int32_t max_height,
+    TGA_Pixel* data,
+    std::uint32_t id,
+    bool bCanShrink = true);
 
 //
 // Saves out a tga.
 //
 
 void TGA_save(
-		const char* file,
-		std::int32_t        width,
-		std::int32_t        height,
-		TGA_Pixel   *data,
-		std::int32_t        contains_alpha);	// false => Save without the alpha data.
-
+    const char* file,
+    std::int32_t width,
+    std::int32_t height,
+    TGA_Pixel* data,
+    std::int32_t contains_alpha); // false => Save without the alpha data.
 
 // Clump management
 

@@ -6,7 +6,7 @@
 #include "pap.h"
 #include "game.h"
 #include "mav.h"
-#ifndef		PSX
+#ifndef PSX
 #include "..\ddengine\headers\aeng.h"
 #else
 #include "c:\fallen\psxeng\headers\engine.h"
@@ -20,16 +20,14 @@
 
 //
 // The maps.
-// 
+//
 
 MEM_PAP_Lo *PAP_lo; //[PAP_SIZE_LO][PAP_SIZE_LO];
 MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 
-
-void PAP_clear()
-{
-	memset((std::uint8_t*) &PAP_lo[0][0],0,sizeof(PAP_Lo)*PAP_SIZE_LO*PAP_SIZE_LO);
-	memset((std::uint8_t*) &PAP_hi[0][0],0,sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
+void PAP_clear() {
+    memset((std::uint8_t *) &PAP_lo[0][0], 0, sizeof(PAP_Lo) * PAP_SIZE_LO * PAP_SIZE_LO);
+    memset((std::uint8_t *) &PAP_hi[0][0], 0, sizeof(PAP_Hi) * PAP_SIZE_HI * PAP_SIZE_HI);
 }
 
 #ifndef PSX
@@ -38,156 +36,128 @@ void PAP_clear()
 // A couple of debug functions.
 //
 
-std::int32_t PAP_on_map_lo(std::int32_t x, std::int32_t z)
-{
-	if (WITHIN(x, 0, PAP_SIZE_LO - 1) &&
-		WITHIN(z, 0, PAP_SIZE_LO - 1))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+std::int32_t PAP_on_map_lo(std::int32_t x, std::int32_t z) {
+    if (WITHIN(x, 0, PAP_SIZE_LO - 1) &&
+        WITHIN(z, 0, PAP_SIZE_LO - 1)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-std::int32_t PAP_on_map_hi(std::int32_t x, std::int32_t z)
-{
-	if (WITHIN(x, 0, PAP_SIZE_HI - 1) &&
-		WITHIN(z, 0, PAP_SIZE_HI - 1))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+std::int32_t PAP_on_map_hi(std::int32_t x, std::int32_t z) {
+    if (WITHIN(x, 0, PAP_SIZE_HI - 1) &&
+        WITHIN(z, 0, PAP_SIZE_HI - 1)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-void PAP_assert_if_off_map_lo(std::int32_t x, std::int32_t z)
-{
-	ASSERT(PAP_on_map_lo(x,z));
+void PAP_assert_if_off_map_lo(std::int32_t x, std::int32_t z) {
+    ASSERT(PAP_on_map_lo(x, z));
 }
 
-void PAP_assert_if_off_map_hi(std::int32_t x, std::int32_t z)
-{
-	ASSERT(PAP_on_map_hi(x,z));
+void PAP_assert_if_off_map_hi(std::int32_t x, std::int32_t z) {
+    ASSERT(PAP_on_map_hi(x, z));
 }
 
-#endif	// PSX
+#endif // PSX
 
-
-std::int32_t PAP_calc_height_at_point(std::int32_t map_x, std::int32_t map_z)
-{
-	if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
-		!WITHIN(map_z, 0, PAP_SIZE_HI - 1))
-	{
-		return 0;
-	}
-	else
-	{
-		return PAP_2HI(map_x,map_z).Alt << PAP_ALT_SHIFT;
-	}
+std::int32_t PAP_calc_height_at_point(std::int32_t map_x, std::int32_t map_z) {
+    if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
+        !WITHIN(map_z, 0, PAP_SIZE_HI - 1)) {
+        return 0;
+    } else {
+        return PAP_2HI(map_x, map_z).Alt << PAP_ALT_SHIFT;
+    }
 }
 
-std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z)
-{
-	std::int32_t h0;
-	std::int32_t h1;
-	std::int32_t h2;
-	std::int32_t h3;
+std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z) {
+    std::int32_t h0;
+    std::int32_t h1;
+    std::int32_t h2;
+    std::int32_t h3;
 
-	std::int32_t xfrac;
-	std::int32_t zfrac;
+    std::int32_t xfrac;
+    std::int32_t zfrac;
 
-	std::int32_t answer;
+    std::int32_t answer;
 
-	PAP_Hi *ph;
+    PAP_Hi *ph;
 
-	if (GAME_FLAGS & GF_NO_FLOOR)
-	{
-		return -32767;
-	}
+    if (GAME_FLAGS & GF_NO_FLOOR) {
+        return -32767;
+    }
 
-	std::int32_t mx = x >> PAP_SHIFT_HI;
-	std::int32_t mz = z >> PAP_SHIFT_HI;
+    std::int32_t mx = x >> PAP_SHIFT_HI;
+    std::int32_t mz = z >> PAP_SHIFT_HI;
 
-	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
-		mz < 0 || mz > PAP_SIZE_HI - 2)
-	{
-		return 0;
-	}
+    if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
+        mz < 0 || mz > PAP_SIZE_HI - 2) {
+        return 0;
+    }
 
-	ph = &PAP_2HI(mx,mz);
+    ph = &PAP_2HI(mx, mz);
 
-//	if(ph->Flags&PAP_FLAG_ROOF_EXISTS)
-//		return(MAVHEIGHT(mx,mz)<<6);
+    //	if(ph->Flags&PAP_FLAG_ROOF_EXISTS)
+    //		return(MAVHEIGHT(mx,mz)<<6);
 
-	h0 = ph[              0].Alt;
-	h1 = ph[              1].Alt;
-	h2 = ph[PAP_SIZE_HI + 0].Alt;
-	h3 = ph[PAP_SIZE_HI + 1].Alt;
+    h0 = ph[0].Alt;
+    h1 = ph[1].Alt;
+    h2 = ph[PAP_SIZE_HI + 0].Alt;
+    h3 = ph[PAP_SIZE_HI + 1].Alt;
 
-	if (h0 == h1 && h1 == h2 && h2 == h3)
-	{
-		//
-		// No need to do any interpolation.
-		//
+    if (h0 == h1 && h1 == h2 && h2 == h3) {
+        //
+        // No need to do any interpolation.
+        //
 
-		answer = h0 << PAP_ALT_SHIFT;
-	}
-	else
-	{
-		h0 <<= PAP_ALT_SHIFT;
-		h1 <<= PAP_ALT_SHIFT;
-		h2 <<= PAP_ALT_SHIFT;
-		h3 <<= PAP_ALT_SHIFT;
+        answer = h0 << PAP_ALT_SHIFT;
+    } else {
+        h0 <<= PAP_ALT_SHIFT;
+        h1 <<= PAP_ALT_SHIFT;
+        h2 <<= PAP_ALT_SHIFT;
+        h3 <<= PAP_ALT_SHIFT;
 
-		xfrac = x & 0xff;
-		zfrac = z & 0xff;
+        xfrac = x & 0xff;
+        zfrac = z & 0xff;
 
-		if (xfrac + zfrac < 0x100)
-		{
-			answer  =  h0;
-			answer += (h2 - h0) * xfrac >> 8;
-			answer += (h1 - h0) * zfrac >> 8;
-		}
-		else
-		{
-			answer  =  h3;
-			answer += (h1 - h3) * (0x100 - xfrac) >> 8;
-			answer += (h2 - h3) * (0x100 - zfrac) >> 8;
-		}
-	}
+        if (xfrac + zfrac < 0x100) {
+            answer = h0;
+            answer += (h2 - h0) * xfrac >> 8;
+            answer += (h1 - h0) * zfrac >> 8;
+        } else {
+            answer = h3;
+            answer += (h1 - h3) * (0x100 - xfrac) >> 8;
+            answer += (h2 - h3) * (0x100 - zfrac) >> 8;
+        }
+    }
 
-	//
-	// Modifiers.
-	//
+    //
+    // Modifiers.
+    //
 
-	if (ph->Flags & PAP_FLAG_SINK_SQUARE)
-	{
-		answer -= KERB_HEIGHTI;
-	}
+    if (ph->Flags & PAP_FLAG_SINK_SQUARE) {
+        answer -= KERB_HEIGHTI;
+    }
 
-	return answer;
+    return answer;
 }
 
 //
 // Things sometimes like to think the map is at a strange height
 //
-std::int32_t PAP_calc_height_at_thing(Thing	*p_thing,std::int32_t x, std::int32_t z)
-{
-	switch(p_thing->Class)
-	{
-		case	CLASS_PERSON:
+std::int32_t PAP_calc_height_at_thing(Thing *p_thing, std::int32_t x, std::int32_t z) {
+    switch (p_thing->Class) {
+        case CLASS_PERSON:
 
-			if (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE)
-			{
-				return WARE_calc_height_at(
-							p_thing->Genus.Person->Ware,
-							p_thing->WorldPos.X >> 8,
-							p_thing->WorldPos.Z >> 8);
-			}
+            if (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
+                return WARE_calc_height_at(
+                    p_thing->Genus.Person->Ware,
+                    p_thing->WorldPos.X >> 8,
+                    p_thing->WorldPos.Z >> 8);
+            }
 #if 0
 			else
 			if(p_thing->Genus.Person->InsideIndex)
@@ -217,382 +187,337 @@ std::int32_t PAP_calc_height_at_thing(Thing	*p_thing,std::int32_t x, std::int32_
 				return(NS_calc_height_at(x,z)); //p_thing->WorldPos.X>>8,p_thing->WorldPos.Z>>8));
 			}
 #endif
-			break;
-	}
-	return(PAP_calc_map_height_at(x,z));
+            break;
+    }
+    return (PAP_calc_map_height_at(x, z));
 }
 
+std::int32_t PAP_calc_map_height_at(std::int32_t x, std::int32_t z) {
+    std::int32_t h0;
+    std::int32_t h1;
+    std::int32_t h2;
+    std::int32_t h3;
 
-std::int32_t PAP_calc_map_height_at(std::int32_t x, std::int32_t z)
-{
-	std::int32_t h0;
-	std::int32_t h1;
-	std::int32_t h2;
-	std::int32_t h3;
+    std::int32_t xfrac;
+    std::int32_t zfrac;
 
-	std::int32_t xfrac;
-	std::int32_t zfrac;
+    std::int32_t answer;
 
-	std::int32_t answer;
+    PAP_Hi *ph;
 
-	PAP_Hi *ph;
+    std::int32_t mx = x >> PAP_SHIFT_HI;
+    std::int32_t mz = z >> PAP_SHIFT_HI;
 
-	std::int32_t mx = x >> PAP_SHIFT_HI;
-	std::int32_t mz = z >> PAP_SHIFT_HI;
+    if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
+        mz < 0 || mz > PAP_SIZE_HI - 2) {
+        if (GAME_FLAGS & GF_NO_FLOOR) {
+            return -32767;
+        } else {
+            return 0;
+        }
+    }
 
-	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
-		mz < 0 || mz > PAP_SIZE_HI - 2)
-	{
-		if (GAME_FLAGS & GF_NO_FLOOR)
-		{
-			return -32767;
-		}
-		else
-		{
-			return 0;
-		}
-	}
+    ph = &PAP_2HI(mx, mz);
 
-	ph = &PAP_2HI(mx,mz);
+    if (ph->Flags & PAP_FLAG_HIDDEN) {
+        return MAVHEIGHT(mx, mz) << 6;
+    }
 
-	if (ph->Flags & PAP_FLAG_HIDDEN)
-	{
-		return MAVHEIGHT(mx,mz) << 6;
-	}
+    if (GAME_FLAGS & GF_NO_FLOOR) {
+        return -32767;
+    }
 
-	if (GAME_FLAGS & GF_NO_FLOOR)
-	{
-		return -32767;
-	}
+    h0 = ph[0].Alt;
+    h1 = ph[1].Alt;
+    h2 = ph[PAP_SIZE_HI + 0].Alt;
+    h3 = ph[PAP_SIZE_HI + 1].Alt;
 
-	h0 = ph[              0].Alt;
-	h1 = ph[              1].Alt;
-	h2 = ph[PAP_SIZE_HI + 0].Alt;
-	h3 = ph[PAP_SIZE_HI + 1].Alt;
+    if (h0 == h1 && h1 == h2 && h2 == h3) {
+        //
+        // No need to do any interpolation.
+        //
 
-	if (h0 == h1 && h1 == h2 && h2 == h3)
-	{
-		//
-		// No need to do any interpolation.
-		//
+        answer = h0 << PAP_ALT_SHIFT;
+    } else {
+        h0 <<= PAP_ALT_SHIFT;
+        h1 <<= PAP_ALT_SHIFT;
+        h2 <<= PAP_ALT_SHIFT;
+        h3 <<= PAP_ALT_SHIFT;
 
-		answer = h0 << PAP_ALT_SHIFT;
-	}
-	else
-	{
-		h0 <<= PAP_ALT_SHIFT;
-		h1 <<= PAP_ALT_SHIFT;
-		h2 <<= PAP_ALT_SHIFT;
-		h3 <<= PAP_ALT_SHIFT;
+        xfrac = x & 0xff;
+        zfrac = z & 0xff;
 
-		xfrac = x & 0xff;
-		zfrac = z & 0xff;
+        if (xfrac + zfrac < 0x100) {
+            answer = h0;
+            answer += (h2 - h0) * xfrac >> 8;
+            answer += (h1 - h0) * zfrac >> 8;
+        } else {
+            answer = h3;
+            answer += (h1 - h3) * (0x100 - xfrac) >> 8;
+            answer += (h2 - h3) * (0x100 - zfrac) >> 8;
+        }
+    }
 
-		if (xfrac + zfrac < 0x100)
-		{
-			answer  =  h0;
-			answer += (h2 - h0) * xfrac >> 8;
-			answer += (h1 - h0) * zfrac >> 8;
-		}
-		else
-		{
-			answer  =  h3;
-			answer += (h1 - h3) * (0x100 - xfrac) >> 8;
-			answer += (h2 - h3) * (0x100 - zfrac) >> 8;
-		}
-	}
+    //
+    // Modifiers.
+    //
 
-	//
-	// Modifiers.
-	//
+    if (ph->Flags & PAP_FLAG_SINK_SQUARE) {
+        answer -= KERB_HEIGHTI;
+    }
 
-	if (ph->Flags & PAP_FLAG_SINK_SQUARE)
-	{
-		answer -= KERB_HEIGHTI;
-	}
-
-	return answer;
+    return answer;
 }
 
-#ifndef	PSX
+#ifndef PSX
 std::int32_t PAP_is_flattish(
-		std::int32_t x1, std::int32_t z1,
-		std::int32_t x2, std::int32_t z2)
-{
-	std::int32_t i;
+    std::int32_t x1, std::int32_t z1,
+    std::int32_t x2, std::int32_t z2) {
+    std::int32_t i;
 
-	std::int32_t max = -INFINITY;
-	std::int32_t min = +INFINITY;
+    std::int32_t max = -INFINITY;
+    std::int32_t min = +INFINITY;
 
-	std::int32_t alongx;
-	std::int32_t alongz;
+    std::int32_t alongx;
+    std::int32_t alongz;
 
-	std::int32_t dx = x2 - x1;
-	std::int32_t dz = z2 - z1;
+    std::int32_t dx = x2 - x1;
+    std::int32_t dz = z2 - z1;
 
-	std::int32_t x;
-	std::int32_t z;
+    std::int32_t x;
+    std::int32_t z;
 
-	std::int32_t height;
+    std::int32_t height;
 
-	#define PAP_FLATTISH_SAMPLES 8
+#define PAP_FLATTISH_SAMPLES 8
 
-	for (i = 0; i < PAP_FLATTISH_SAMPLES; i++)
-	{
-		alongx = Random() & 0xff;
-		alongz = Random() & 0xff;
+    for (i = 0; i < PAP_FLATTISH_SAMPLES; i++) {
+        alongx = Random() & 0xff;
+        alongz = Random() & 0xff;
 
-		x = x1 + (dx * alongx >> 8);
-		z = z1 + (dz * alongz >> 8);
+        x = x1 + (dx * alongx >> 8);
+        z = z1 + (dz * alongz >> 8);
 
-		height = PAP_calc_height_at(x,z);
+        height = PAP_calc_height_at(x, z);
 
-		if (height > max) {max = height;}
-		if (height < min) {min = height;}
+        if (height > max) {
+            max = height;
+        }
+        if (height < min) {
+            min = height;
+        }
 
-		if (abs(max - min) > 0x10)
-		{
-			return false;
-		}
-	}
+        if (abs(max - min) > 0x10) {
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
-std::int32_t PAP_calc_height_noroads(std::int32_t x, std::int32_t z)
-{
-	std::int32_t h0;
-	std::int32_t h1;
-	std::int32_t h2;
-	std::int32_t h3;
+std::int32_t PAP_calc_height_noroads(std::int32_t x, std::int32_t z) {
+    std::int32_t h0;
+    std::int32_t h1;
+    std::int32_t h2;
+    std::int32_t h3;
 
-	std::int32_t xfrac;
-	std::int32_t zfrac;
+    std::int32_t xfrac;
+    std::int32_t zfrac;
 
-	std::int32_t answer;
+    std::int32_t answer;
 
-	PAP_Hi *ph;
+    PAP_Hi *ph;
 
-	std::int32_t mx = x >> PAP_SHIFT_HI;
-	std::int32_t mz = z >> PAP_SHIFT_HI;
+    std::int32_t mx = x >> PAP_SHIFT_HI;
+    std::int32_t mz = z >> PAP_SHIFT_HI;
 
-	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
-		mz < 0 || mz > PAP_SIZE_HI - 2)
-	{
-		return 0;
-	}
+    if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
+        mz < 0 || mz > PAP_SIZE_HI - 2) {
+        return 0;
+    }
 
-	ph = &PAP_2HI(mx,mz);
+    ph = &PAP_2HI(mx, mz);
 
-	h0 = ph[              0].Alt;
-	h1 = ph[              1].Alt;
-	h2 = ph[PAP_SIZE_HI + 0].Alt;
-	h3 = ph[PAP_SIZE_HI + 1].Alt;
+    h0 = ph[0].Alt;
+    h1 = ph[1].Alt;
+    h2 = ph[PAP_SIZE_HI + 0].Alt;
+    h3 = ph[PAP_SIZE_HI + 1].Alt;
 
-	if (h0 == h1 && h1 == h2 && h2 == h3)
-	{
-		//
-		// No need to do any interpolation.
-		//
+    if (h0 == h1 && h1 == h2 && h2 == h3) {
+        //
+        // No need to do any interpolation.
+        //
 
-		answer = h0 << PAP_ALT_SHIFT;
-	}
-	else
-	{
-		h0 <<= PAP_ALT_SHIFT;
-		h1 <<= PAP_ALT_SHIFT;
-		h2 <<= PAP_ALT_SHIFT;
-		h3 <<= PAP_ALT_SHIFT;
+        answer = h0 << PAP_ALT_SHIFT;
+    } else {
+        h0 <<= PAP_ALT_SHIFT;
+        h1 <<= PAP_ALT_SHIFT;
+        h2 <<= PAP_ALT_SHIFT;
+        h3 <<= PAP_ALT_SHIFT;
 
-		xfrac = x & 0xff;
-		zfrac = z & 0xff;
+        xfrac = x & 0xff;
+        zfrac = z & 0xff;
 
-		if (xfrac + zfrac < 0x100)
-		{
-			answer  =  h0;
-			answer += (h2 - h0) * xfrac >> 8;
-			answer += (h1 - h0) * zfrac >> 8;
-		}
-		else
-		{
-			answer  =  h3;
-			answer += (h1 - h3) * (0x100 - xfrac) >> 8;
-			answer += (h2 - h3) * (0x100 - zfrac) >> 8;
-		}
-	}
+        if (xfrac + zfrac < 0x100) {
+            answer = h0;
+            answer += (h2 - h0) * xfrac >> 8;
+            answer += (h1 - h0) * zfrac >> 8;
+        } else {
+            answer = h3;
+            answer += (h1 - h3) * (0x100 - xfrac) >> 8;
+            answer += (h2 - h3) * (0x100 - zfrac) >> 8;
+        }
+    }
 
-	//
-	// Modifiers.
-	//
+    //
+    // Modifiers.
+    //
 
-	return answer;
+    return answer;
 }
 
-std::int32_t PAP_calc_map_height_near(std::int32_t x, std::int32_t z)
-{
-	std::int32_t i;
+std::int32_t PAP_calc_map_height_near(std::int32_t x, std::int32_t z) {
+    std::int32_t i;
 
-	std::int32_t dx;
-	std::int32_t dz;
+    std::int32_t dx;
+    std::int32_t dz;
 
-	std::int32_t height;
-	std::int32_t max = -INFINITY;
+    std::int32_t height;
+    std::int32_t max = -INFINITY;
 
-	for (i = 0; i < 4; i++)
-	{
-		dx = (i & 1) ? -8 : +8;
-		dz = (i & 2) ? -8 : +8;
+    for (i = 0; i < 4; i++) {
+        dx = (i & 1) ? -8 : +8;
+        dz = (i & 2) ? -8 : +8;
 
-		height = PAP_calc_map_height_at(x + dx, z + dz);
+        height = PAP_calc_map_height_at(x + dx, z + dz);
 
-		if (height > max)
-		{	
-			max = height;
-		}
-	}
+        if (height > max) {
+            max = height;
+        }
+    }
 
-	return max;
+    return max;
 }
 #endif
 
+std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t *angle) {
+    std::int32_t h0;
+    std::int32_t h1;
+    std::int32_t h2;
+    std::int32_t h3;
 
-std::int32_t PAP_on_slope(std::int32_t x,std::int32_t z,std::int32_t *angle)
-{
-	std::int32_t h0;
-	std::int32_t h1;
-	std::int32_t h2;
-	std::int32_t h3;
+    std::int32_t xfrac;
+    std::int32_t zfrac;
 
-	std::int32_t xfrac;
-	std::int32_t zfrac;
+    std::int32_t answer;
 
-	std::int32_t answer;
+    PAP_Hi *ph;
 
-	PAP_Hi *ph;
+    std::int32_t mx = x >> PAP_SHIFT_HI;
+    std::int32_t mz = z >> PAP_SHIFT_HI;
 
-	std::int32_t mx = x >> PAP_SHIFT_HI;
-	std::int32_t mz = z >> PAP_SHIFT_HI;
+    if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
+        mz < 0 || mz > PAP_SIZE_HI - 2) {
+        return 0;
+    }
 
-	if (mx < 0 || mx > PAP_SIZE_HI - 2 ||
-		mz < 0 || mz > PAP_SIZE_HI - 2)
-	{
-		return 0;
-	}
+    ph = &PAP_2HI(mx, mz);
 
-	ph = &PAP_2HI(mx,mz);
+    if (ph->Flags & PAP_FLAG_HIDDEN) {
+        //
+        // We should be calling RFACE_on_slope here really!
+        //
 
-	if (ph->Flags & PAP_FLAG_HIDDEN)
-	{
-		//
-		// We should be calling RFACE_on_slope here really!
-		//
+        // ASSERT(0);
 
-		// ASSERT(0);
+        return 0;
+    }
 
-		return 0;
-	}
+    h0 = ph[0].Alt;
+    h1 = ph[1].Alt;
+    h2 = ph[PAP_SIZE_HI + 0].Alt;
+    h3 = ph[PAP_SIZE_HI + 1].Alt;
 
-	h0 = ph[              0].Alt;
-	h1 = ph[              1].Alt;
-	h2 = ph[PAP_SIZE_HI + 0].Alt;
-	h3 = ph[PAP_SIZE_HI + 1].Alt;
+    if (h0 == h1 && h1 == h2 && h2 == h3) {
+        //
+        // No need to do any interpolation.
+        //
+        return (0);
 
-	if (h0 == h1 && h1 == h2 && h2 == h3)
-	{
-		//
-		// No need to do any interpolation.
-		//
-		return(0);
+    } else {
+        //  h0   h2
+        //
+        //	h1   h3
 
-	}
-	else
-	{
+        h0 <<= PAP_ALT_SHIFT;
+        h1 <<= PAP_ALT_SHIFT;
+        h2 <<= PAP_ALT_SHIFT;
+        h3 <<= PAP_ALT_SHIFT;
 
-		//  h0   h2
-		//
-		//	h1   h3
+        xfrac = x & 0xff;
+        zfrac = z & 0xff;
 
-		
-		h0 <<= PAP_ALT_SHIFT;
-		h1 <<= PAP_ALT_SHIFT;
-		h2 <<= PAP_ALT_SHIFT;
-		h3 <<= PAP_ALT_SHIFT;
+        if (xfrac + zfrac < 0x100) {
+            std::int32_t vx, vy, vz;
+            std::int32_t wx, wy, wz;
+            std::int32_t rx, ry, rz;
+            std::int32_t len;
 
-		xfrac = x & 0xff;
-		zfrac = z & 0xff;
+            vx = 256;
+            vy = h2 - h0;
+            vz = 0;
 
-		if (xfrac + zfrac < 0x100)
-		{
-			std::int32_t	vx,vy,vz;
-			std::int32_t	wx,wy,wz;
-			std::int32_t	rx,ry,rz;
-			std::int32_t	len;
+            wx = 0;
+            wy = h1 - h0;
+            wz = -256;
 
-			vx=256;
-			vy=h2-h0;
-			vz=0;
+            rx = (vy * wz); //-vz*wy;
+            ry = 65536;     // vz*wx-vx*wz; dont care about this
+            rz = (vx * wy); //-vy*wx;
 
-			wx=0;
-			wy=h1-h0;
-			wz=-256;
+            if (rx == 0 && rz == 0)
+                return (0);
 
-			rx=(vy*wz); //-vz*wy;
-			ry=65536; //vz*wx-vx*wz; dont care about this
-			rz=(vx*wy); //-vy*wx;
+            *angle = (Arctan(-rx, -rz)) & 2047;
 
-			if(rx==0 && rz==0)
-				return(0);
+            rx = abs(rx);
+            rz = abs(rz);
+            len = QDIST3(rx, ry, rz);
 
-		   	*angle   = (Arctan(-rx,-rz))&2047;
+            ry = (ry << 8) / (len);
 
-			rx=abs(rx);
-			rz=abs(rz);
-			len=QDIST3(rx,ry,rz);
+            return (abs(256 - (len >> 8)));
 
-			ry=(ry<<8)/(len);
+        } else {
+            std::int32_t vx, vy, vz;
+            std::int32_t wx, wy, wz;
+            std::int32_t rx, ry, rz;
+            std::int32_t len;
 
+            vx = -256;
+            vy = h1 - h3;
+            vz = 0;
 
+            wx = 0;
+            wy = h2 - h3;
+            wz = -256;
 
+            rx = (vy * wz); //-vz*wy;
+            ry = 65536;     // vz*wx-vx*wz; dont care about this
+            rz = (vx * wy); //-vy*wx;
 
-			return(abs(256-(len>>8)));
+            if (rx == 0 && rz == 0)
+                return (0);
 
-		}
-		else
-		{
-			std::int32_t	vx,vy,vz;
-			std::int32_t	wx,wy,wz;
-			std::int32_t	rx,ry,rz;
-			std::int32_t	len;
+            *angle = (Arctan(rx, -rz)) & 2047;
 
-			vx=-256;
-			vy=h1-h3;
-			vz=0;
+            rx = abs(rx);
+            rz = abs(rz);
+            len = QDIST3(rx, ry, rz);
 
-			wx=0;
-			wy=h2-h3;
-			wz=-256;
+            ry = (ry << 8) / (len);
 
-			rx=(vy*wz); //-vz*wy;
-			ry=65536; //vz*wx-vx*wz; dont care about this
-			rz=(vx*wy); //-vy*wx;
-
-			if(rx==0 && rz==0)
-				return(0);
-
-		   	*angle   = (Arctan(rx,-rz))&2047 ;
-
-			rx=abs(rx);
-			rz=abs(rz);
-			len=QDIST3(rx,ry,rz);
-
-			ry=(ry<<8)/(len);
-
-
-
-
-			return(abs(256-(len>>8)));
-		}
-	}
+            return (abs(256 - (len >> 8)));
+        }
+    }
 }
-
-

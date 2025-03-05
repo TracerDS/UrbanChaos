@@ -4,17 +4,15 @@
 #include "c:\fallen\headers\pap.h"
 #include "c:\fallen\headers\road.h"
 
-
-#define MAP_BACK	(0)
-#define MAP_TEXT	(1)
+#define MAP_BACK (0)
+#define MAP_TEXT (1)
 #define MAP_OVERLAY (2)
-#define MAP_MASK	(3)
+#define MAP_MASK (3)
 
-
-#define	EDGE_LEFT	(1<<0)
-#define	EDGE_TOP	(1<<1)
-#define	EDGE_RIGHT	(1<<2)
-#define	EDGE_BOTTOM	(1<<3)
+#define EDGE_LEFT (1 << 0)
+#define EDGE_TOP (1 << 1)
+#define EDGE_RIGHT (1 << 2)
+#define EDGE_BOTTOM (1 << 3)
 
 #if 0
 extern std::uint8_t	player_visited[16][128];    
@@ -56,10 +54,10 @@ void draw_edge(std::int32_t csx,std::int32_t csy,std::int32_t dsx,std::int32_t d
 }
 */
 
-#define CORNER_TL (csx),(csy)
-#define CORNER_TR (csx+pixelw-1),(csy)
-#define CORNER_BL (csx),(csy+pixelw-1)
-#define CORNER_BR (csx+pixelw-1),(csy+pixelw-1)
+#define CORNER_TL (csx), (csy)
+#define CORNER_TR (csx + pixelw - 1), (csy)
+#define CORNER_BL (csx), (csy + pixelw - 1)
+#define CORNER_BR (csx + pixelw - 1), (csy + pixelw - 1)
 
 void draw_shadow_quad(std::int32_t csx,std::int32_t csy,std::int32_t pixelw,std::int32_t red,std::int32_t green,std::int32_t blue,std::int32_t tls,std::int32_t trs,std::int32_t bls,std::int32_t brs)
 {
@@ -310,8 +308,7 @@ void plan_view_shot(std::int32_t wx,std::int32_t wz,std::int32_t pixelw,std::int
 
 }
 #else
-void plan_view_shot(std::int32_t wx,std::int32_t wz,std::int32_t pixelw,std::int32_t sx,std::int32_t sy,std::int32_t w,std::int32_t h)
-{
+void plan_view_shot(std::int32_t wx, std::int32_t wz, std::int32_t pixelw, std::int32_t sx, std::int32_t sy, std::int32_t w, std::int32_t h) {
 }
 
 #endif

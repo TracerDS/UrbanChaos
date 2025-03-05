@@ -7,23 +7,21 @@
 #include <math.h>
 #include "console.h"
 #include "poly.h"
-#ifdef	TARGET_DC
+#ifdef TARGET_DC
 #include "target.h"
 #endif
 
 #include "vertexbuffer.h"
 
-VertexBufferPool*	TheVPool = nullptr;
+VertexBufferPool* TheVPool = nullptr;
 
-void VB_Init()
-{
-	if (!TheVPool)		TheVPool = MFnew<VertexBufferPool>();
+void VB_Init() {
+    if (!TheVPool) TheVPool = MFnew<VertexBufferPool>();
 }
 
-void VB_Term()
-{
-	MFdelete(TheVPool);
-	TheVPool = nullptr;
+void VB_Term() {
+    MFdelete(TheVPool);
+    TheVPool = nullptr;
 }
 
 //-----------------------------
@@ -32,37 +30,33 @@ void VB_Term()
 
 // constructor / destructor
 
-VertexBuffer::VertexBuffer()
-{
-	m_LogSize = 0;
-	m_LockedPtr = nullptr;
-	m_Prev = nullptr;
-	m_Next = nullptr;
+VertexBuffer::VertexBuffer() {
+    m_LogSize = 0;
+    m_LockedPtr = nullptr;
+    m_Prev = nullptr;
+    m_Next = nullptr;
 #if USE_D3D_VBUF
-	m_TheBuffer = nullptr;
+    m_TheBuffer = nullptr;
 #endif
 }
 
-VertexBuffer::~VertexBuffer()
-{
-	ASSERT(!m_Next);
-	ASSERT(!m_Prev);
+VertexBuffer::~VertexBuffer() {
+    ASSERT(!m_Next);
+    ASSERT(!m_Prev);
 
-	if (m_LockedPtr)
-	{
+    if (m_LockedPtr) {
 #if !USE_D3D_VBUF
-		//delete[] m_LockedPtr;
-		MemFree ( m_LockedPtr );
- #endif
-		Unlock();
-	}
+        // delete[] m_LockedPtr;
+        MemFree(m_LockedPtr);
+#endif
+        Unlock();
+    }
 
 #if USE_D3D_VBUF
-	if (m_TheBuffer)
-	{
-		m_TheBuffer->Release();
-		m_TheBuffer = nullptr;
-	}
+    if (m_TheBuffer) {
+        m_TheBuffer->Release();
+        m_TheBuffer = nullptr;
+    }
 #endif
 }
 
@@ -70,92 +64,86 @@ VertexBuffer::~VertexBuffer()
 //
 // create the vertex buffer
 
-HRESULT VertexBuffer::Create(IDirect3D3* d3d, bool force_system, std::uint32_t logsize)
-{
-	ASSERT(!m_LockedPtr);
-	ASSERT(d3d);
+HRESULT VertexBuffer::Create(IDirect3D3* d3d, bool force_system, std::uint32_t logsize) {
+    ASSERT(!m_LockedPtr);
+    ASSERT(d3d);
 
 #if USE_D3D_VBUF
 
-	ASSERT(!m_TheBuffer);
+    ASSERT(!m_TheBuffer);
 
-	TRACE("Create vertex buffer\n");
+    TRACE("Create vertex buffer\n");
 
-	D3DVERTEXBUFFERDESC		desc;
+    D3DVERTEXBUFFERDESC desc;
 
-	InitStruct(desc);
+    InitStruct(desc);
 
-	desc.dwCaps = force_system ? D3DVBCAPS_SYSTEMMEMORY : 0;
-//	desc.dwCaps |= D3DVBCAPS_WRITEONLY;	// oops ... can't expand with this flag set ;-)
-	desc.dwFVF	= D3DFVF_TLVERTEX;
-	desc.dwNumVertices = 1 << logsize;
+    desc.dwCaps = force_system ? D3DVBCAPS_SYSTEMMEMORY : 0;
+    //	desc.dwCaps |= D3DVBCAPS_WRITEONLY;	// oops ... can't expand with this flag set ;-)
+    desc.dwFVF = D3DFVF_TLVERTEX;
+    desc.dwNumVertices = 1 << logsize;
 
-	HRESULT	res = d3d->CreateVertexBuffer(&desc, &m_TheBuffer, 0, nullptr);
+    HRESULT res = d3d->CreateVertexBuffer(&desc, &m_TheBuffer, 0, nullptr);
 
-	if (FAILED(res))
-	{
-		m_TheBuffer = nullptr;
-		return res;
-	}
+    if (FAILED(res)) {
+        m_TheBuffer = nullptr;
+        return res;
+    }
 
 #else
 
-	//m_LockedPtr = new D3DTLVERTEX[1 << logsize];
-	m_LockedPtr = (D3DTLVERTEX*)MemAlloc ( (1 << logsize) * sizeof (D3DTLVERTEX ) );
-	if (!m_LockedPtr)	return DDERR_OUTOFMEMORY;
+    // m_LockedPtr = new D3DTLVERTEX[1 << logsize];
+    m_LockedPtr = (D3DTLVERTEX*) MemAlloc((1 << logsize) * sizeof(D3DTLVERTEX));
+    if (!m_LockedPtr) return DDERR_OUTOFMEMORY;
 
 #endif
 
-	m_LogSize = logsize;
+    m_LogSize = logsize;
 
-	return DD_OK;
+    return DD_OK;
 }
 
 // Lock
 //
 // lock the vertex buffer
 
-D3DTLVERTEX* VertexBuffer::Lock()
-{
+D3DTLVERTEX* VertexBuffer::Lock() {
 #if USE_D3D_VBUF
 
-	ASSERT(m_TheBuffer);
-	ASSERT(!m_LockedPtr);
+    ASSERT(m_TheBuffer);
+    ASSERT(!m_LockedPtr);
 
-	HRESULT	res = m_TheBuffer->Lock(DDLOCK_SURFACEMEMORYPTR | DDLOCK_NOSYSLOCK, (LPVOID*)&m_LockedPtr, nullptr);
+    HRESULT res = m_TheBuffer->Lock(DDLOCK_SURFACEMEMORYPTR | DDLOCK_NOSYSLOCK, (LPVOID*) &m_LockedPtr, nullptr);
 
-	if (FAILED(res))
-	{
-		ASSERT(res != DDERR_SURFACELOST);
-		m_LockedPtr = nullptr;
-		return nullptr;
-	}
+    if (FAILED(res)) {
+        ASSERT(res != DDERR_SURFACELOST);
+        m_LockedPtr = nullptr;
+        return nullptr;
+    }
 
 #endif
 
-	return m_LockedPtr;
+    return m_LockedPtr;
 }
 
 // Unlock
 //
 // unlock the vertex buffer
 
-void VertexBuffer::Unlock()
-{
+void VertexBuffer::Unlock() {
 #if USE_D3D_VBUF
 
-	ASSERT(m_TheBuffer);
-	ASSERT(m_LockedPtr);
+    ASSERT(m_TheBuffer);
+    ASSERT(m_LockedPtr);
 
-	HRESULT res = m_TheBuffer->Unlock();
+    HRESULT res = m_TheBuffer->Unlock();
 
-	if (FAILED(res))
-	{
-		ASSERT(res != DDERR_SURFACELOST);
-		ASSERT(0);
-	}
+    if (FAILED(res)) {
+        ASSERT(res != DDERR_SURFACELOST);
+        ASSERT(0);
+    }
 
-	m_LockedPtr = nullptr;
+    m_LockedPtr = nullptr;
 
 #endif
 }
@@ -166,216 +154,191 @@ void VertexBuffer::Unlock()
 
 // constructor & destructor
 
-VertexBufferPool::VertexBufferPool()
-{
-	m_D3D = nullptr;
-	m_SysMem = false;
+VertexBufferPool::VertexBufferPool() {
+    m_D3D = nullptr;
+    m_SysMem = false;
 
-	for (int ii = 0; ii < 16; ii++)
-	{
-		m_FreeList[ii] = nullptr;
-		m_BusyListLRU[ii] = nullptr;
-		m_BusyListMRU[ii] = nullptr;
-		m_Count[ii] = 0;
-	}
+    for (int ii = 0; ii < 16; ii++) {
+        m_FreeList[ii] = nullptr;
+        m_BusyListLRU[ii] = nullptr;
+        m_BusyListMRU[ii] = nullptr;
+        m_Count[ii] = 0;
+    }
 }
 
-VertexBufferPool::~VertexBufferPool()
-{
-	VertexBuffer*	p;
+VertexBufferPool::~VertexBufferPool() {
+    VertexBuffer* p;
 
-	for (int ii = 0; ii < 16; ii++)
-	{
-		while (p = m_FreeList[ii])
-		{
-			m_FreeList[ii] = p->m_Next;
-			p->m_Next = nullptr;
-			p->m_Prev = nullptr;
-			delete p;
-		}
-		while (p = m_BusyListLRU[ii])
-		{
-			m_BusyListLRU[ii] = p->m_Next;
-			p->m_Next = nullptr;
-			p->m_Prev = nullptr;
-			delete p;
-		}
-	}
+    for (int ii = 0; ii < 16; ii++) {
+        while (p = m_FreeList[ii]) {
+            m_FreeList[ii] = p->m_Next;
+            p->m_Next = nullptr;
+            p->m_Prev = nullptr;
+            delete p;
+        }
+        while (p = m_BusyListLRU[ii]) {
+            m_BusyListLRU[ii] = p->m_Next;
+            p->m_Next = nullptr;
+            p->m_Prev = nullptr;
+            delete p;
+        }
+    }
 }
 
 // Create
 //
 // create an initial pool of buffers
 
-void VertexBufferPool::Create(IDirect3D3* d3d, bool force_system)
-{
+void VertexBufferPool::Create(IDirect3D3* d3d, bool force_system) {
 #ifdef TARGET_DC
-	// A quarter of the size.
-	static int	Allocations[16] = {0,0,0,0, 0,0,128,64,32,16, 8,4, 0,0,0,0};
+    // A quarter of the size.
+    static int Allocations[16] = {0, 0, 0, 0, 0, 0, 128, 64, 32, 16, 8, 4, 0, 0, 0, 0};
 #else
-	static int	Allocations[16] = {0,0,0,0, 0,0,128,64, 32,16,8,4, 0,0,0,0};	// total 48,000 vertices
+    static int Allocations[16] = {0, 0, 0, 0, 0, 0, 128, 64, 32, 16, 8, 4, 0, 0, 0, 0}; // total 48,000 vertices
 #endif
 
-	ASSERT(!m_D3D);
-	ASSERT(d3d);
+    ASSERT(!m_D3D);
+    ASSERT(d3d);
 
-	m_D3D = d3d;
-	m_SysMem = force_system;
+    m_D3D = d3d;
+    m_SysMem = force_system;
 
-	// create a variety of buffers
-	for (int ii = 0; ii < 16; ii++)
-	{
-		for (int jj = 0; jj < Allocations[ii]; jj++)
-		{
-			CreateBuffer(ii);
-		}
-	}
+    // create a variety of buffers
+    for (int ii = 0; ii < 16; ii++) {
+        for (int jj = 0; jj < Allocations[ii]; jj++) {
+            CreateBuffer(ii);
+        }
+    }
 }
 
 // CreateBuffer
 //
 // try to create a new VertexBuffer and put it on the free list
 
-void VertexBufferPool::CreateBuffer(std::uint32_t logsize)
-{
-	ASSERT(logsize < 16);
+void VertexBufferPool::CreateBuffer(std::uint32_t logsize) {
+    ASSERT(logsize < 16);
 
-	VertexBuffer* p = new VertexBuffer;
-	if (!p)	return;
+    VertexBuffer* p = new VertexBuffer;
+    if (!p) return;
 
-	HRESULT	res = p->Create(m_D3D, m_SysMem, logsize);
+    HRESULT res = p->Create(m_D3D, m_SysMem, logsize);
 
-	if (FAILED(res))
-	{
-		delete p;
-		return;
-	}
+    if (FAILED(res)) {
+        delete p;
+        return;
+    }
 
-	if (p->Lock())
-	{
-		p->m_Next = m_FreeList[logsize];
-		m_FreeList[logsize] = p;
+    if (p->Lock()) {
+        p->m_Next = m_FreeList[logsize];
+        m_FreeList[logsize] = p;
 
-		m_Count[logsize]++;
-	}
-	else
-	{
-		ASSERT(0);
-	}
+        m_Count[logsize]++;
+    } else {
+        ASSERT(0);
+    }
 }
 
 // CheckBuffers
 //
 // try to lock the buffers in the busy list
 
-void VertexBufferPool::CheckBuffers(std::uint32_t logsize, bool time_critical)
-{
-	VertexBuffer* list = m_BusyListLRU[logsize];
+void VertexBufferPool::CheckBuffers(std::uint32_t logsize, bool time_critical) {
+    VertexBuffer* list = m_BusyListLRU[logsize];
 
-	while (list)
-	{
-		VertexBuffer*	next = list->m_Next;
+    while (list) {
+        VertexBuffer* next = list->m_Next;
 
-		if (list->Lock())
-		{
-			// remove from busy list
-			if (!list->m_Prev )	m_BusyListLRU[logsize]	= list->m_Next;
-			else						list->m_Prev->m_Next	= list->m_Next;
-			if (!list->m_Next )	m_BusyListMRU[logsize]	= list->m_Prev;
-			else						list->m_Next->m_Prev	= list->m_Prev;
-			// add to free list
-			list->m_Prev = nullptr;
-			list->m_Next = m_FreeList[logsize];
-			m_FreeList[logsize] = list;
+        if (list->Lock()) {
+            // remove from busy list
+            if (!list->m_Prev)
+                m_BusyListLRU[logsize] = list->m_Next;
+            else
+                list->m_Prev->m_Next = list->m_Next;
+            if (!list->m_Next)
+                m_BusyListMRU[logsize] = list->m_Prev;
+            else
+                list->m_Next->m_Prev = list->m_Prev;
+            // add to free list
+            list->m_Prev = nullptr;
+            list->m_Next = m_FreeList[logsize];
+            m_FreeList[logsize] = list;
 
-			if (time_critical)	return;	// don't check any more
-		}
+            if (time_critical) return; // don't check any more
+        }
 
-		list = next;
-	}
+        list = next;
+    }
 }
 
 // GetBuffer
 //
 // get a buffer with the given size
 
-VertexBuffer* VertexBufferPool::GetBuffer(std::uint32_t logsize)
-{
-	ASSERT(logsize < 16);
+VertexBuffer* VertexBufferPool::GetBuffer(std::uint32_t logsize) {
+    ASSERT(logsize < 16);
 
-	if (!m_FreeList[logsize])
-	{
-		// try and lock a busy buffer
-		CheckBuffers(logsize, true);
+    if (!m_FreeList[logsize]) {
+        // try and lock a busy buffer
+        CheckBuffers(logsize, true);
 
-		if (!m_FreeList[logsize])
-		{
-			// try and create a new buffer
-			CreateBuffer(logsize);
+        if (!m_FreeList[logsize]) {
+            // try and create a new buffer
+            CreateBuffer(logsize);
 
-			if (!m_FreeList[logsize])
-			{
-				if (m_BusyListLRU[logsize])
-				{
-					// wait for a busy buffer
-					ASSERT(0);
-					while (!m_FreeList[logsize])	CheckBuffers(logsize, true);
-				}
-				else
-				{
-					return nullptr;
-				}
-			}
-		}
-	}
+            if (!m_FreeList[logsize]) {
+                if (m_BusyListLRU[logsize]) {
+                    // wait for a busy buffer
+                    ASSERT(0);
+                    while (!m_FreeList[logsize]) CheckBuffers(logsize, true);
+                } else {
+                    return nullptr;
+                }
+            }
+        }
+    }
 
-	VertexBuffer* p = m_FreeList[logsize];
-	m_FreeList[logsize] = p->m_Next;
-	p->m_Next = nullptr;
+    VertexBuffer* p = m_FreeList[logsize];
+    m_FreeList[logsize] = p->m_Next;
+    p->m_Next = nullptr;
 
-	ASSERT(p->m_LockedPtr);
+    ASSERT(p->m_LockedPtr);
 
-	return p;
+    return p;
 }
 
 // ReleaseBuffer
 //
 // release a buffer back to the free list
 
-void VertexBufferPool::ReleaseBuffer(VertexBuffer* buffer)
-{
-	ASSERT(buffer);
-	ASSERT(buffer->m_LockedPtr);
-	ASSERT(!buffer->m_Next);
+void VertexBufferPool::ReleaseBuffer(VertexBuffer* buffer) {
+    ASSERT(buffer);
+    ASSERT(buffer->m_LockedPtr);
+    ASSERT(!buffer->m_Next);
 
-	buffer->m_Next = m_FreeList[buffer->m_LogSize];
-	m_FreeList[buffer->m_LogSize] = buffer;
+    buffer->m_Next = m_FreeList[buffer->m_LogSize];
+    m_FreeList[buffer->m_LogSize] = buffer;
 }
 
 // ExpandBuffer
 //
 // expand a buffer by swapping with a bigger one
 
-VertexBuffer* VertexBufferPool::ExpandBuffer(VertexBuffer* buffer)
-{
-	ASSERT(buffer);
-	ASSERT(buffer->m_LockedPtr);
-	ASSERT(!buffer->m_Next);
-	ASSERT(buffer->m_LogSize < 16);
+VertexBuffer* VertexBufferPool::ExpandBuffer(VertexBuffer* buffer) {
+    ASSERT(buffer);
+    ASSERT(buffer->m_LockedPtr);
+    ASSERT(!buffer->m_Next);
+    ASSERT(buffer->m_LogSize < 16);
 
-	VertexBuffer* p = GetBuffer(buffer->m_LogSize + 1);
+    VertexBuffer* p = GetBuffer(buffer->m_LogSize + 1);
 
-	if (p)
-	{
-		memcpy(p->GetPtr(), buffer->GetPtr(), buffer->GetSize() * sizeof(D3DTLVERTEX));
-		ReleaseBuffer(buffer);
-	}
-	else
-	{
-		p = buffer;
-	}
+    if (p) {
+        memcpy(p->GetPtr(), buffer->GetPtr(), buffer->GetSize() * sizeof(D3DTLVERTEX));
+        ReleaseBuffer(buffer);
+    } else {
+        p = buffer;
+    }
 
-	return p;
+    return p;
 }
 
 // PrepareBuffer
@@ -384,28 +347,24 @@ VertexBuffer* VertexBufferPool::ExpandBuffer(VertexBuffer* buffer)
 
 #if USE_D3D_VBUF
 
-IDirect3DVertexBuffer* VertexBufferPool::PrepareBuffer(VertexBuffer* buffer)
-{
-	ASSERT(buffer);
-	ASSERT(buffer->m_LockedPtr);
-	ASSERT(!buffer->m_Next);
+IDirect3DVertexBuffer* VertexBufferPool::PrepareBuffer(VertexBuffer* buffer) {
+    ASSERT(buffer);
+    ASSERT(buffer->m_LockedPtr);
+    ASSERT(!buffer->m_Next);
 
-	buffer->Unlock();
+    buffer->Unlock();
 
-	// add to end (MRU) of busy list
-	buffer->m_Next = nullptr;
-	buffer->m_Prev = m_BusyListMRU[buffer->m_LogSize];
-	if (buffer->m_Prev)
-	{
-		buffer->m_Prev->m_Next = buffer;
-	}
-	else
-	{
-		m_BusyListLRU[buffer->m_LogSize] = buffer;
-	}
-	m_BusyListMRU[buffer->m_LogSize] = buffer;
+    // add to end (MRU) of busy list
+    buffer->m_Next = nullptr;
+    buffer->m_Prev = m_BusyListMRU[buffer->m_LogSize];
+    if (buffer->m_Prev) {
+        buffer->m_Prev->m_Next = buffer;
+    } else {
+        m_BusyListLRU[buffer->m_LogSize] = buffer;
+    }
+    m_BusyListMRU[buffer->m_LogSize] = buffer;
 
-	return buffer->m_TheBuffer;
+    return buffer->m_TheBuffer;
 }
 
 #endif
@@ -415,38 +374,39 @@ IDirect3DVertexBuffer* VertexBufferPool::PrepareBuffer(VertexBuffer* buffer)
 // dump info to a file
 
 #ifndef TARGET_DC
-void VertexBufferPool::DumpInfo(FILE* fd)
-{
-	ReclaimBuffers();
+void VertexBufferPool::DumpInfo(FILE* fd) {
+    ReclaimBuffers();
 
-	for (int ii = 0; ii < 16; ii++)
-	{
-		if (m_Count[ii])
-		{
-			fprintf(fd, "Buffer size %d vertices (1 << %d)\n\n", 1 << ii, ii);
-			fprintf(fd, "Allocated ever = %d\n", m_Count[ii]);
+    for (int ii = 0; ii < 16; ii++) {
+        if (m_Count[ii]) {
+            fprintf(fd, "Buffer size %d vertices (1 << %d)\n\n", 1 << ii, ii);
+            fprintf(fd, "Allocated ever = %d\n", m_Count[ii]);
 
-			VertexBuffer*	p;
-			int	busy = 0;
-			int	free = 0;
+            VertexBuffer* p;
+            int busy = 0;
+            int free = 0;
 
-			p = m_FreeList[ii];
-			while (p)	{ free++; p = p->m_Next; }
+            p = m_FreeList[ii];
+            while (p) {
+                free++;
+                p = p->m_Next;
+            }
 
-			p = m_BusyListLRU[ii];
-			while (p)	{ busy++; p = p->m_Next; }
+            p = m_BusyListLRU[ii];
+            while (p) {
+                busy++;
+                p = p->m_Next;
+            }
 
-			fprintf(fd, "Free now = %d\n", free);
-			fprintf(fd, "Used now = %d\n", m_Count[ii] - free - busy);
-			fprintf(fd, "Busy now = %d\n", busy);
-		}
-		else
-		{
-			fprintf(fd, "Buffer size %d vertices - never allocated\n", 1 << ii);
-		}
+            fprintf(fd, "Free now = %d\n", free);
+            fprintf(fd, "Used now = %d\n", m_Count[ii] - free - busy);
+            fprintf(fd, "Busy now = %d\n", busy);
+        } else {
+            fprintf(fd, "Buffer size %d vertices - never allocated\n", 1 << ii);
+        }
 
-		fprintf(fd, "\n");
-	}
+        fprintf(fd, "\n");
+    }
 }
 #endif
 
@@ -454,10 +414,8 @@ void VertexBufferPool::DumpInfo(FILE* fd)
 //
 // run CheckBuffer on each pool
 
-void VertexBufferPool::ReclaimBuffers()
-{
-	for (int ii = 0; ii < 16; ii++)
-	{
-		CheckBuffers(ii, false);
-	}
+void VertexBufferPool::ReclaimBuffers() {
+    for (int ii = 0; ii < 16; ii++) {
+        CheckBuffers(ii, false);
+    }
 }

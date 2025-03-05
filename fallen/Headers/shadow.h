@@ -5,7 +5,6 @@
 #ifndef _SHADOW_
 #define _SHADOW_
 
-
 //
 // The SHADOW module creates 3bit values for a square-
 // and this is what they mean.
@@ -84,15 +83,11 @@
 //      +------+
 //
 
-
-
 //
 // Shadows the outside world.
 //
 
 void SHADOW_do();
-
-
 
 //
 // Returns true if the given point is in shadow.
@@ -100,7 +95,4 @@ void SHADOW_do();
 
 std::int32_t SHADOW_in(std::int32_t x, std::int32_t y, std::int32_t z);
 
-
-
 #endif
-

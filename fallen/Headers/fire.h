@@ -5,10 +5,9 @@
 #ifndef _FIRE_
 #define _FIRE_
 
-
 //
 // Gets rid of all the fire.
-// 
+//
 
 void FIRE_init();
 
@@ -17,11 +16,11 @@ void FIRE_init();
 //
 
 void FIRE_create(
-		std::uint16_t x,
-		std::int16_t y,
-		std::uint16_t z,
-		std::uint8_t size,
-		std::uint8_t life);	// 0 => Live for ever, 1 => Live for for ages, 255 => live a very short time.
+    std::uint16_t x,
+    std::int16_t y,
+    std::uint16_t z,
+    std::uint8_t size,
+    std::uint8_t life); // 0 => Live for ever, 1 => Live for for ages, 255 => live a very short time.
 
 //
 // Processes all the fire.
@@ -53,26 +52,24 @@ void FIRE_process();
 
 typedef struct
 {
-	std::int32_t x;
-	std::int32_t y;
-	std::int32_t z;
-	std::uint8_t u;
-	std::uint8_t v;
-	std::uint8_t alpha;
-	std::uint8_t shit;
+    std::int32_t x;
+    std::int32_t y;
+    std::int32_t z;
+    std::uint8_t u;
+    std::uint8_t v;
+    std::uint8_t alpha;
+    std::uint8_t shit;
 
 } FIRE_Point;
 
 typedef struct
 {
-	std::int32_t       num_points;
-	FIRE_Point *point;
+    std::int32_t num_points;
+    FIRE_Point *point;
 
 } FIRE_Info;
 
-void       FIRE_get_start(std::uint8_t z, std::uint8_t x_min, std::uint8_t x_max);
-FIRE_Info *FIRE_get_next ();		// nullptr => No more fire here.
-
-
+void FIRE_get_start(std::uint8_t z, std::uint8_t x_min, std::uint8_t x_max);
+FIRE_Info *FIRE_get_next(); // nullptr => No more fire here.
 
 #endif

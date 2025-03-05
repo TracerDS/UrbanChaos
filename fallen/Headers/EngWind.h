@@ -1,8 +1,8 @@
 //	EngWind.cpp
 //	Guy Simmons, 27th July 1998.
 
-#ifndef	ENGWIND_H
-#define	ENGWIND_H
+#ifndef ENGWIND_H
+#define ENGWIND_H
 
 //---------------------------------------------------------------
 

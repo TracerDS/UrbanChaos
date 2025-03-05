@@ -1,77 +1,75 @@
 // Structs.h
 // Guy Simmons, 27th March 1997.
 
+#ifndef STRUCTS_H
+#define STRUCTS_H
 
-#ifndef	STRUCTS_H
-#define	STRUCTS_H
-
-#include	"DarkCity.h"
-
+#include "DarkCity.h"
 
 //---------------------------------------------------------------
 
-typedef	struct
+typedef struct
 {
-	std::int32_t		X,
-				Y,
-				Z;
-}Coord;
+    std::int32_t X,
+        Y,
+        Z;
+} Coord;
 
 //---------------------------------------------------------------
 
 /*
 typedef	struct
 {
-	Matrix33		*TheMatrix;
+        Matrix33		*TheMatrix;
 }Object3D;
 
 typedef	struct
 {
-	
+
 }Object2D;
 
 
 typedef	struct
 {
-	std::uint8_t				DrawType;
-	KeyFrameElement		*AnimElements,
-						*NextAnimElements;
-	union
-	{
-		Object3D		
-		Object	
-	}DrawType;
+        std::uint8_t				DrawType;
+        KeyFrameElement		*AnimElements,
+                                                *NextAnimElements;
+        union
+        {
+                Object3D
+                Object
+        }DrawType;
 }Draw;
 */
 
-typedef	struct
+typedef struct
 {
-	std::uint32_t		DrawType;
-}Draw;
+    std::uint32_t DrawType;
+} Draw;
 
 //---------------------------------------------------------------
 
-typedef	struct
+typedef struct
 {
-	std::int8_t		Class,
-				State;
-	std::uint32_t		Flags;
-	std::int32_t		Child,
-				Parent;
-	std::int32_t		LinkChild,
-				LinkParent;
+    std::int8_t Class,
+        State;
+    std::uint32_t Flags;
+    std::int32_t Child,
+        Parent;
+    std::int32_t LinkChild,
+        LinkParent;
 
-	Draw		Draw;
-}Thing;
+    Draw Draw;
+} Thing;
 
 //---------------------------------------------------------------
 
-typedef	struct
+typedef struct
 {
-	float			Altitude;
-	void			*MapWho;
+    float Altitude;
+    void *MapWho;
 
-}MapElement;
+} MapElement;
 
 //---------------------------------------------------------------
 

@@ -1,10 +1,10 @@
 #include "game.h"
 #include "pap.h"
 #include "walkable.h"
-#include	"memory.h"
-#include	"mav.h"
+#include "memory.h"
+#include "mav.h"
 
-extern void	highlight_rface(std::int32_t rface);
+extern void highlight_rface(std::int32_t rface);
 //
 // code to do with walkable faces
 //
@@ -13,300 +13,262 @@ extern void	highlight_rface(std::int32_t rface);
 // this whole module has been changed to treat walkable faces as 10% (more in terms of area) bigger for collision.
 //
 
-
-std::int32_t clock(const std::int32_t dx,const std::int32_t dz,const std::int32_t dx1,const std::int32_t dz1)
-{
-	if((dx*dz1-dz*dx1)<=0)
-		return(0);
-	else
-		return(1);
+std::int32_t clock(const std::int32_t dx, const std::int32_t dz, const std::int32_t dx1, const std::int32_t dz1) {
+    if ((dx * dz1 - dz * dx1) <= 0)
+        return (0);
+    else
+        return (1);
 }
 
-std::int32_t point_in_quad(std::int32_t px,std::int32_t pz,std::int32_t x,std::int32_t y,std::int32_t z,std::int16_t face)
-{
-	std::int32_t	c0;
-	std::int16_t	vx[4],vz[4];
-	std::int32_t	mx=0,mz=0;
+std::int32_t point_in_quad(std::int32_t px, std::int32_t pz, std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t face) {
+    std::int32_t c0;
+    std::int16_t vx[4], vz[4];
+    std::int32_t mx = 0, mz = 0;
 
-	ASSERT(face>=0);
+    ASSERT(face >= 0);
 
-	
-	for(c0=0;c0<4;c0++)
-	{
-		vx[c0]=x+prim_points[prim_faces4[face].Points[c0]].X;
-		vz[c0]=z+prim_points[prim_faces4[face].Points[c0]].Z;
+    for (c0 = 0; c0 < 4; c0++) {
+        vx[c0] = x + prim_points[prim_faces4[face].Points[c0]].X;
+        vz[c0] = z + prim_points[prim_faces4[face].Points[c0]].Z;
 
-		mx+=vx[c0];
-		mz+=vz[c0];
-	}
+        mx += vx[c0];
+        mz += vz[c0];
+    }
 
-	
-//	mx=0;
-	mx>>=2;
-//	mz/=mx;
-	mz>>=2;
-	for(c0=0;c0<4;c0++)
-	{
-		vx[c0]=( ( (vx[c0]-mx)*268)>>8 )+mx;
-		vz[c0]=( ( (vz[c0]-mz)*268)>>8 )+mz;
-	}
+    //	mx=0;
+    mx >>= 2;
+    //	mz/=mx;
+    mz >>= 2;
+    for (c0 = 0; c0 < 4; c0++) {
+        vx[c0] = (((vx[c0] - mx) * 268) >> 8) + mx;
+        vz[c0] = (((vz[c0] - mz) * 268) >> 8) + mz;
+    }
 
-
-	if(clock(vx[1]-vx[0],vz[1]-vz[0],px-vx[0],pz-vz[0]))//x2-x1,z2-z1,px-x1,pz-z1))
-	{
-		if(clock(vx[3]-vx[1],vz[3]-vz[1],px-vx[1],pz-vz[1]))
-		{
-			if(clock(vx[2]-vx[3],vz[2]-vz[3],px-vx[3],pz-vz[3]))
-			{
-				if(clock(vx[0]-vx[2],vz[0]-vz[2],px-vx[2],pz-vz[2]))
-				{
-					return(1);
-				}
-
-			}
-
-		}
-
-	}
-	return(0);
+    if (clock(vx[1] - vx[0], vz[1] - vz[0], px - vx[0], pz - vz[0])) // x2-x1,z2-z1,px-x1,pz-z1))
+    {
+        if (clock(vx[3] - vx[1], vz[3] - vz[1], px - vx[1], pz - vz[1])) {
+            if (clock(vx[2] - vx[3], vz[2] - vz[3], px - vx[3], pz - vz[3])) {
+                if (clock(vx[0] - vx[2], vz[0] - vz[2], px - vx[2], pz - vz[2])) {
+                    return (1);
+                }
+            }
+        }
+    }
+    return (0);
 }
 
 //
 // returns true if on face
 //   *height always trys to have the height
 
-std::int32_t gh_vx[4],gh_vy[4],gh_vz[4];//out of stack space (on PSX) so words
-std::int32_t get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz, std::int16_t face,std::int32_t *height)
-{
-//	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
-	struct	PrimFace4 *this_face4;
-	std::int32_t	ax,ay,az,bx,by,bz;
+std::int32_t gh_vx[4], gh_vy[4], gh_vz[4]; // out of stack space (on PSX) so words
+std::int32_t get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz, std::int16_t face, std::int32_t *height) {
+    //	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
+    struct PrimFace4 *this_face4;
+    std::int32_t ax, ay, az, bx, by, bz;
 
-	std::int32_t	top, bot;
-	std::int32_t	alpha, beta;
-	std::int32_t	x,y,z;
+    std::int32_t top, bot;
+    std::int32_t alpha, beta;
+    std::int32_t x, y, z;
 
-	std::int32_t   mx=0,my=0,mz=0; 
-	std::uint16_t	c0;
-	std::int32_t	on_face=1;
-	ASSERT(face>=0);
+    std::int32_t mx = 0, my = 0, mz = 0;
+    std::uint16_t c0;
+    std::int32_t on_face = 1;
+    ASSERT(face >= 0);
 
-	this_face4=&prim_faces4[face];
+    this_face4 = &prim_faces4[face];
 
-	for(c0=0;c0<4;c0++)
-	{
-		gh_vx[c0] = prim_points[this_face4->Points[c0]].X;
-		gh_vy[c0] = prim_points[this_face4->Points[c0]].Y;
-		gh_vz[c0] = prim_points[this_face4->Points[c0]].Z;
+    for (c0 = 0; c0 < 4; c0++) {
+        gh_vx[c0] = prim_points[this_face4->Points[c0]].X;
+        gh_vy[c0] = prim_points[this_face4->Points[c0]].Y;
+        gh_vz[c0] = prim_points[this_face4->Points[c0]].Z;
 
-		mx+=gh_vx[c0];
-//		my+=gh_vy[c0];
-		mz+=gh_vz[c0];
-		
-	}
+        mx += gh_vx[c0];
+        //		my+=gh_vy[c0];
+        mz += gh_vz[c0];
+    }
 
-	if(gh_vy[0]==gh_vy[1] && gh_vy[1]==gh_vy[2] && gh_vy[2]==gh_vy[3])
-	{
-		*height=gh_vy[0];
-		return(1);
-	}
+    if (gh_vy[0] == gh_vy[1] && gh_vy[1] == gh_vy[2] && gh_vy[2] == gh_vy[3]) {
+        *height = gh_vy[0];
+        return (1);
+    }
 
-	mx>>=2;
-//	my>>=2;
-	mz>>=2;
+    mx >>= 2;
+    //	my>>=2;
+    mz >>= 2;
 
-	for(c0=0;c0<4;c0++)
-	{
-		gh_vx[c0]=( ( (gh_vx[c0]-mx)*268)>>8 )+mx;
-//		gh_vy[c0]=( ( (gh_vy[c0]-my)*268)>>8 )+my;
-		gh_vz[c0]=( ( (gh_vz[c0]-mz)*268)>>8 )+mz;
-	}
+    for (c0 = 0; c0 < 4; c0++) {
+        gh_vx[c0] = (((gh_vx[c0] - mx) * 268) >> 8) + mx;
+        //		gh_vy[c0]=( ( (gh_vy[c0]-my)*268)>>8 )+my;
+        gh_vz[c0] = (((gh_vz[c0] - mz) * 268) >> 8) + mz;
+    }
 
+    /*
+            ux=	obj_x+prim_points[this_face4->Points[0]].X;
+            uy=	obj_y+prim_points[this_face4->Points[0]].Y;
+            uz=	obj_z+prim_points[this_face4->Points[0]].Z;
 
-/*
-	ux=	obj_x+prim_points[this_face4->Points[0]].X;
-	uy=	obj_y+prim_points[this_face4->Points[0]].Y;
-	uz=	obj_z+prim_points[this_face4->Points[0]].Z;
+            vx=	obj_x+prim_points[this_face4->Points[1]].X;
+            vy=	obj_y+prim_points[this_face4->Points[1]].Y;
+            vz=	obj_z+prim_points[this_face4->Points[1]].Z;
 
-	vx=	obj_x+prim_points[this_face4->Points[1]].X;
-	vy=	obj_y+prim_points[this_face4->Points[1]].Y;
-	vz=	obj_z+prim_points[this_face4->Points[1]].Z;
- 
-	wx=	obj_x+prim_points[this_face4->Points[2]].X;
-	wy=	obj_y+prim_points[this_face4->Points[2]].Y;
-	wz=	obj_z+prim_points[this_face4->Points[2]].Z;
+            wx=	obj_x+prim_points[this_face4->Points[2]].X;
+            wy=	obj_y+prim_points[this_face4->Points[2]].Y;
+            wz=	obj_z+prim_points[this_face4->Points[2]].Z;
 
-	if(uy==vy && vy==wy)
-		return(uy);
-*/
+            if(uy==vy && vy==wy)
+                    return(uy);
+    */
 
-	
-	ax = (gh_vx[1] - gh_vx[0]) << 8;
-	ay = (gh_vy[1] - gh_vy[0]) << 8;
-	az = (gh_vz[1] - gh_vz[0]) << 8;
-				  
-	bx = (gh_vx[2] - gh_vx[0]) << 8;
-	by = (gh_vy[2] - gh_vy[0]) << 8;
-	bz = (gh_vz[2] - gh_vz[0]) << 8;
+    ax = (gh_vx[1] - gh_vx[0]) << 8;
+    ay = (gh_vy[1] - gh_vy[0]) << 8;
+    az = (gh_vz[1] - gh_vz[0]) << 8;
 
-	x  = (rx<<8) - (gh_vx[0] << 8);
-	z  = (rz<<8) - (gh_vz[0] << 8);
+    bx = (gh_vx[2] - gh_vx[0]) << 8;
+    by = (gh_vy[2] - gh_vy[0]) << 8;
+    bz = (gh_vz[2] - gh_vz[0]) << 8;
 
-	//printf("face =%d a=(%d,%d,%d) b =(%d,%d,%d) xz=(%d,%d)\n",face,ax,ay,az,bx,by,bz,x,z);
+    x = (rx << 8) - (gh_vx[0] << 8);
+    z = (rz << 8) - (gh_vz[0] << 8);
 
-	// Work out alpha and beta such that x = alpha*ax + beta*bx and y = alhpa*ay + beta*by
-	
-	// First alpha...
+    // printf("face =%d a=(%d,%d,%d) b =(%d,%d,%d) xz=(%d,%d)\n",face,ax,ay,az,bx,by,bz,x,z);
 
-	top   = MUL64(x,  bz) - MUL64(z,  bx);
-	bot   = MUL64(bz, ax) - MUL64(bx, az);
+    // Work out alpha and beta such that x = alpha*ax + beta*bx and y = alhpa*ay + beta*by
 
-	if (bot == 0) {bot = 0x8000;}
+    // First alpha...
 
-	alpha = DIV64(top, bot);
+    top = MUL64(x, bz) - MUL64(z, bx);
+    bot = MUL64(bz, ax) - MUL64(bx, az);
 
-	// Now beta...
+    if (bot == 0) {
+        bot = 0x8000;
+    }
 
-	top   = MUL64(z,  ax) - MUL64(x,  az);
-	if(bot<3)
-	{
-		*height=gh_vy[0];
+    alpha = DIV64(top, bot);
 
-		return(1);
-	}
-	beta  = DIV64(top, bot);
+    // Now beta...
 
+    top = MUL64(z, ax) - MUL64(x, az);
+    if (bot < 3) {
+        *height = gh_vy[0];
 
-	if(alpha<0)
-	{
-		alpha=0;
-		on_face=0;
-	}
-	if(beta<0)
-	{
-		beta=0;
-		on_face=0;
-	}
-	if(alpha>0x10000)
-	{
-		alpha=0x10000;
-		on_face=0;
-	}
-	if(beta>0x10000)
-	{
-		beta=0x10000;
-		on_face=0;
-	}
+        return (1);
+    }
+    beta = DIV64(top, bot);
 
-/*
-	if (alpha < 0 || alpha > 0x10000 || beta < 0 || beta > 0x10000) 
-	{
-		LogText(" get height on QUAD NOT %d alpha %x beta %x \n",face,alpha,beta);
-		return 1000000;
-	}
-*/
-//	else
-	if (alpha+beta>0x10000)
-	{
-		// 0   1	      3	   2
-		//
-		// 2			  1	   0
-		//       3
-		//
-		// other triangular half of quad
-		//
+    if (alpha < 0) {
+        alpha = 0;
+        on_face = 0;
+    }
+    if (beta < 0) {
+        beta = 0;
+        on_face = 0;
+    }
+    if (alpha > 0x10000) {
+        alpha = 0x10000;
+        on_face = 0;
+    }
+    if (beta > 0x10000) {
+        beta = 0x10000;
+        on_face = 0;
+    }
 
-		ax = (gh_vx[2] - gh_vx[3]) << 8;
-		ay = (gh_vy[2] - gh_vy[3]) << 8;
-		az = (gh_vz[2] - gh_vz[3]) << 8;
-					  
-		bx = (gh_vx[1] - gh_vx[3]) << 8;
-		by = (gh_vy[1] - gh_vy[3]) << 8;
-		bz = (gh_vz[1] - gh_vz[3]) << 8;
+    /*
+            if (alpha < 0 || alpha > 0x10000 || beta < 0 || beta > 0x10000)
+            {
+                    LogText(" get height on QUAD NOT %d alpha %x beta %x \n",face,alpha,beta);
+                    return 1000000;
+            }
+    */
+    //	else
+    if (alpha + beta > 0x10000) {
+        // 0   1	      3	   2
+        //
+        // 2			  1	   0
+        //       3
+        //
+        // other triangular half of quad
+        //
 
-		x  = (rx<<8) - (gh_vx[3] << 8);
-		z  = (rz<<8) - (gh_vz[3] << 8);
+        ax = (gh_vx[2] - gh_vx[3]) << 8;
+        ay = (gh_vy[2] - gh_vy[3]) << 8;
+        az = (gh_vz[2] - gh_vz[3]) << 8;
 
-		//printf("face =%d a=(%d,%d,%d) b =(%d,%d,%d) xz=(%d,%d)\n",face,ax,ay,az,bx,by,bz,x,z);
+        bx = (gh_vx[1] - gh_vx[3]) << 8;
+        by = (gh_vy[1] - gh_vy[3]) << 8;
+        bz = (gh_vz[1] - gh_vz[3]) << 8;
 
-		// Work out alpha and beta such that x = alpha*ax + beta*bx and y = alhpa*ay + beta*by
-		
-		// First alpha...
+        x = (rx << 8) - (gh_vx[3] << 8);
+        z = (rz << 8) - (gh_vz[3] << 8);
 
-		top   = MUL64(x,  bz) - MUL64(z,  bx);
-		bot   = MUL64(bz, ax) - MUL64(bx, az);
+        // printf("face =%d a=(%d,%d,%d) b =(%d,%d,%d) xz=(%d,%d)\n",face,ax,ay,az,bx,by,bz,x,z);
 
-		if (bot == 0) {bot = 0x8000;}
+        // Work out alpha and beta such that x = alpha*ax + beta*bx and y = alhpa*ay + beta*by
 
-		alpha = DIV64(top, bot);
+        // First alpha...
 
-		// Now beta...
+        top = MUL64(x, bz) - MUL64(z, bx);
+        bot = MUL64(bz, ax) - MUL64(bx, az);
 
-		top   = MUL64(z,  ax) - MUL64(x,  az);
-		if(bot<3)
-		{
-			*height=gh_vy[3];
-			return(on_face);
-		}
-		beta  = DIV64(top, bot);
-/*
-		if (alpha < 0 || alpha > 0x10000 || beta < 0 || beta > 0x10000) 
-		{
+        if (bot == 0) {
+            bot = 0x8000;
+        }
 
-		}
-		else
-*/
-		if(alpha<0)
-		{
-			alpha=0;
-			on_face=0;
-		}
-		if(beta<0)
-		{
-			beta=0;
-			on_face=0;
-		}
-		if(alpha>0x10000)
-		{
-			alpha=0x10000;
-			on_face=0;
-		}
-		if(beta>0x10000)
-		{
-			beta=0x10000;
-			on_face=0;
-		}
-		if (alpha+beta>0x10000)
-		{
-			// This is benign - happens very very occasionally - don't worry about it.
-			ASSERT(0);
-			*height=gh_vy[1];
-			return(0);
-		}
-		else
-		{
-			y     = gh_vy[3] << 8;
-			y    += MUL64(alpha, ay);
-			y    += MUL64(beta,  by);
-			*height= y >> 8;
-			return(on_face);
-		}
+        alpha = DIV64(top, bot);
 
+        // Now beta...
 
-	}
-	else
-	{
-//		LogText(" get height on face=%d alpha %x beta %x  uy %d vy %d wy %d\n",y>>8,face,alpha,beta),uy,vy,wy;
-		y     = gh_vy[0] << 8;
-		y    += MUL64(alpha, ay);
-		y    += MUL64(beta,  by);
-		*height= y >> 8;
-		return(on_face);
-	}
+        top = MUL64(z, ax) - MUL64(x, az);
+        if (bot < 3) {
+            *height = gh_vy[3];
+            return (on_face);
+        }
+        beta = DIV64(top, bot);
+        /*
+                        if (alpha < 0 || alpha > 0x10000 || beta < 0 || beta > 0x10000)
+                        {
+
+                        }
+                        else
+        */
+        if (alpha < 0) {
+            alpha = 0;
+            on_face = 0;
+        }
+        if (beta < 0) {
+            beta = 0;
+            on_face = 0;
+        }
+        if (alpha > 0x10000) {
+            alpha = 0x10000;
+            on_face = 0;
+        }
+        if (beta > 0x10000) {
+            beta = 0x10000;
+            on_face = 0;
+        }
+        if (alpha + beta > 0x10000) {
+            // This is benign - happens very very occasionally - don't worry about it.
+            ASSERT(0);
+            *height = gh_vy[1];
+            return (0);
+        } else {
+            y = gh_vy[3] << 8;
+            y += MUL64(alpha, ay);
+            y += MUL64(beta, by);
+            *height = y >> 8;
+            return (on_face);
+        }
+
+    } else {
+        //		LogText(" get height on face=%d alpha %x beta %x  uy %d vy %d wy %d\n",y>>8,face,alpha,beta),uy,vy,wy;
+        y = gh_vy[0] << 8;
+        y += MUL64(alpha, ay);
+        y += MUL64(beta, by);
+        *height = y >> 8;
+        return (on_face);
+    }
 }
-
-
-
 
 //
 // returns 0 or 1 (on face false/true) new_y is alt on face
@@ -315,670 +277,571 @@ std::int32_t get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz, std:
 std::int32_t calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face,std::int32_t *new_y)
 {
 
-	if (face > 0)
-	{
-			return(get_height_on_face_quad64_at(x,z,face,new_y));
-	}
-	ASSERT(0);
+        if (face > 0)
+        {
+                        return(get_height_on_face_quad64_at(x,z,face,new_y));
+        }
+        ASSERT(0);
 //	return(1000000);
 //	return(-100);
 }
 */
 
+std::int32_t is_thing_on_this_quad(std::int32_t x, std::int32_t z, std::int32_t face) {
+    if (face < 0) {
+        struct RoofFace4 *rf;
+        //		highlight_rface(-face);
 
-std::int32_t is_thing_on_this_quad(std::int32_t x,std::int32_t z,std::int32_t face)
-{
-	if(face<0)
-	{
-		struct	RoofFace4 *rf;
-//		highlight_rface(-face);
+        if (IS_ROOF_HIDDEN_FACE(face)) {
+            if ((x >> 8) == ROOF_HIDDEN_X(face) && (z >> 8) == ROOF_HIDDEN_Z(face))
+                return (1);
+            else
+                return (0);
+        }
+        rf = &roof_faces4[-face];
+        x >>= 8;
+        z >>= 8;
+        if (x == (rf->RX & 127) && z == (rf->RZ & 127))
+            return (1);
+        else
+            return (0);
 
-		if(IS_ROOF_HIDDEN_FACE(face))
-		{
-			if((x>>8)==ROOF_HIDDEN_X(face) && (z>>8)==ROOF_HIDDEN_Z(face))
-				return(1);
-			else
-				return(0);
-
-		}
-		rf=&roof_faces4[-face];
-		x>>=8;
-		z>>=8;
-		if(x==(rf->RX&127) && z==(rf->RZ&127))
-			return(1);
-		else
-			return(0);
-		
-	}
-	else
-	{
-
-		if(point_in_quad(x,z,0,0,0,face))
-		{
-			return(1);
-		}
-		else
-		{
-			return(0);
-		}
-	}
+    } else {
+        if (point_in_quad(x, z, 0, 0, 0, face)) {
+            return (1);
+        } else {
+            return (0);
+        }
+    }
 }
 
-std::int32_t calc_height_on_rface(std::int32_t x, std::int32_t z,std::int16_t	face,std::int32_t *ret_y)
-{
-	std::int32_t h0;
-	std::int32_t h1;
-	std::int32_t h2;
-	std::int32_t h3;
+std::int32_t calc_height_on_rface(std::int32_t x, std::int32_t z, std::int16_t face, std::int32_t *ret_y) {
+    std::int32_t h0;
+    std::int32_t h1;
+    std::int32_t h2;
+    std::int32_t h3;
 
-	std::int32_t xfrac;
-	std::int32_t zfrac;
+    std::int32_t xfrac;
+    std::int32_t zfrac;
 
-	std::int32_t answer;
+    std::int32_t answer;
 
-	struct	RoofFace4 *rf;
+    struct RoofFace4 *rf;
 
-	ASSERT(face>0);
+    ASSERT(face > 0);
 
-	if(IS_ROOF_HIDDEN_FACE(-face))
-	{
-		if(ROOF_HIDDEN_X(-face)!=(x>>8) || ROOF_HIDDEN_Z(-face)!=(z>>8))
-			return(0);
+    if (IS_ROOF_HIDDEN_FACE(-face)) {
+        if (ROOF_HIDDEN_X(-face) != (x >> 8) || ROOF_HIDDEN_Z(-face) != (z >> 8))
+            return (0);
 
-		if(PAP_hi[x>>8][z>>8].Flags&PAP_FLAG_ROOF_EXISTS)
-		{
-			*ret_y = MAVHEIGHT(x>>8,z>>8)<<6;
+        if (PAP_hi[x >> 8][z >> 8].Flags & PAP_FLAG_ROOF_EXISTS) {
+            *ret_y = MAVHEIGHT(x >> 8, z >> 8) << 6;
 
-			return(ROOF_HIDDEN_GET_FACE(x>>8,z>>8));
-		}
-		else
-			return(0);
+            return (ROOF_HIDDEN_GET_FACE(x >> 8, z >> 8));
+        } else
+            return (0);
+    }
 
-	}
+    //	highlight_rface(face);
 
-//	highlight_rface(face);
+    rf = &roof_faces4[face];
 
-	rf=&roof_faces4[face];
+    if (x >> 8 != (rf->RX & 127) || z >> 8 != (rf->RZ & 127))
+        return (0);
 
-	if(x>>8!=(rf->RX&127) ||z>>8!=(rf->RZ&127))
-		return(0);
+    h0 = rf->Y;
+    if (!(rf->RZ & 128)) {
+        *ret_y = h0;
+        return (face);
+    }
 
+    h1 = h0 + (rf->DY[2] << ROOF_SHIFT);
+    h2 = h0 + (rf->DY[0] << ROOF_SHIFT);
+    h3 = h0 + (rf->DY[1] << ROOF_SHIFT);
 
-	h0 = rf->Y;
-	if(!(rf->RZ&128))
-	{
-		*ret_y=h0;
-		return(face);
-	}
+    {
+        if (rf->RX & 1 << 7) {
+            xfrac = x & 0xff;
+            zfrac = z & 0xff;
 
-	h1 = h0+(rf->DY[2]<<ROOF_SHIFT);
-	h2 = h0+(rf->DY[0]<<ROOF_SHIFT);
-	h3 = h0+(rf->DY[1]<<ROOF_SHIFT);
+            if (xfrac + (256 - zfrac) < 0x100) {
+                answer = h1;
+                answer += (h3 - h1) * xfrac >> 8;
+                answer += (h0 - h1) * (256 - zfrac) >> 8;
+            } else {
+                answer = h2;
+                answer += (h0 - h2) * (0x100 - xfrac) >> 8;
+                answer += (h3 - h2) * (zfrac) >> 8;
+            }
+        } else {
+            xfrac = x & 0xff;
+            zfrac = z & 0xff;
 
-	{
-		if(rf->RX&1<<7)
-		{
-			xfrac = x & 0xff;
-			zfrac = z & 0xff;
+            if (xfrac + zfrac < 0x100) {
+                answer = h0;
+                answer += (h2 - h0) * xfrac >> 8;
+                answer += (h1 - h0) * zfrac >> 8;
+            } else {
+                answer = h3;
+                answer += (h1 - h3) * (0x100 - xfrac) >> 8;
+                answer += (h2 - h3) * (0x100 - zfrac) >> 8;
+            }
+        }
+    }
 
-			if (xfrac + (256-zfrac) < 0x100)
-			{
-				answer  =  h1;
-				answer += (h3 - h1) * xfrac >> 8;
-				answer += (h0 - h1) * (256-zfrac) >> 8;
-			}
-			else
-			{
-				answer  =  h2;
-				answer += (h0 - h2) * (0x100 - xfrac) >> 8;
-				answer += (h3 - h2) * (zfrac) >> 8;
-			}
-		}
-		else
-		{
-			xfrac = x & 0xff;
-			zfrac = z & 0xff;
-
-			if (xfrac + zfrac < 0x100)
-			{
-				answer  =  h0;
-				answer += (h2 - h0) * xfrac >> 8;
-				answer += (h1 - h0) * zfrac >> 8;
-			}
-			else
-			{
-				answer  =  h3;
-				answer += (h1 - h3) * (0x100 - xfrac) >> 8;
-				answer += (h2 - h3) * (0x100 - zfrac) >> 8;
-			}
-		}
-	}
-
-	*ret_y=answer;
-	return(face);
+    *ret_y = answer;
+    return (face);
 }
-
 
 //
 // Finds a face to be stood on (checks height is not out of range)
 //
 
 std::int32_t find_face_for_this_pos(
-			std::int32_t  x,
-			std::int32_t  y,
-			std::int32_t  z,
-			std::int32_t *ret_y,
-			std::int32_t  ignore_building,
-			std::uint8_t	ignore_height_flag)
-{
-	std::uint8_t mx;
-	std::uint8_t mz;
-	std::int16_t dy;
-	std::int32_t facey;
-	std::int16_t index;
-	std::int16_t groundy;
-	std::int16_t best_face  = NULL;
-	std::int16_t best_dy    = 0x7fff;
-	std::int16_t best_facey = 0;
+    std::int32_t x,
+    std::int32_t y,
+    std::int32_t z,
+    std::int32_t *ret_y,
+    std::int32_t ignore_building,
+    std::uint8_t ignore_height_flag) {
+    std::uint8_t mx;
+    std::uint8_t mz;
+    std::int16_t dy;
+    std::int32_t facey;
+    std::int16_t index;
+    std::int16_t groundy;
+    std::int16_t best_face = NULL;
+    std::int16_t best_dy = 0x7fff;
+    std::int16_t best_facey = 0;
 
-	std::int16_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
-	std::int16_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
 
-	std::int16_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
-	std::int16_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
 
-	SATURATE(mx1, 0, PAP_SIZE_LO - 1);
-	SATURATE(mz1, 0, PAP_SIZE_LO - 1);
+    SATURATE(mx1, 0, PAP_SIZE_LO - 1);
+    SATURATE(mz1, 0, PAP_SIZE_LO - 1);
 
-	SATURATE(mx2, 0, PAP_SIZE_LO - 1);
-	SATURATE(mz2, 0, PAP_SIZE_LO - 1);
+    SATURATE(mx2, 0, PAP_SIZE_LO - 1);
+    SATURATE(mz2, 0, PAP_SIZE_LO - 1);
 
-	if(PAP_hi[x>>8][z>>8].Flags&PAP_FLAG_ROOF_EXISTS)
-	{
-		best_face=ROOF_HIDDEN_GET_FACE(x>>8,z>>8);
+    if (PAP_hi[x >> 8][z >> 8].Flags & PAP_FLAG_ROOF_EXISTS) {
+        best_face = ROOF_HIDDEN_GET_FACE(x >> 8, z >> 8);
 
-		if(ignore_height_flag==FIND_ANYFACE)
-		{
-			*ret_y = MAVHEIGHT(x>>8,z>>8)<<6;
-			return(best_face);
-		}
-		best_facey=MAVHEIGHT(x>>8,z>>8)<<6;
-		best_dy = best_facey - y;
-		if(best_dy<30 && ignore_height_flag==FIND_FACE_NEAR_BELOW)
-		{
-			*ret_y = best_facey;
+        if (ignore_height_flag == FIND_ANYFACE) {
+            *ret_y = MAVHEIGHT(x >> 8, z >> 8) << 6;
+            return (best_face);
+        }
+        best_facey = MAVHEIGHT(x >> 8, z >> 8) << 6;
+        best_dy = best_facey - y;
+        if (best_dy < 30 && ignore_height_flag == FIND_FACE_NEAR_BELOW) {
+            *ret_y = best_facey;
 
-			return best_face;
-		}
-		if (best_dy < 0xa0)
-		{
-			best_face  = best_face;
-			best_dy    = abs(best_dy);
-		}
-	}
+            return best_face;
+        }
+        if (best_dy < 0xa0) {
+            best_face = best_face;
+            best_dy = abs(best_dy);
+        }
+    }
 
-	for (mx = mx1; mx <= mx2; mx++)
-	for (mz = mz1; mz <= mz2; mz++)
-	{
-		index = PAP_2LO(mx,mz).Walkable;
-		
-		 while(index)
-		 {
-//			ASSERT(index >= 0);
-//			ASSERT(WITHIN(index, 1, next_prim_face4 - 1));
+    for (mx = mx1; mx <= mx2; mx++)
+        for (mz = mz1; mz <= mz2; mz++) {
+            index = PAP_2LO(mx, mz).Walkable;
 
-			if (is_thing_on_this_quad(x,z, index))
-			{
-				//
-				// We've found a face to stand on. But at what height?
-				// we are on this face so use clipped alpha and beta in calc height on face
-				//
+            while (index) {
+                //			ASSERT(index >= 0);
+                //			ASSERT(WITHIN(index, 1, next_prim_face4 - 1));
 
-				if(index<0)
-				{
-					calc_height_on_rface(x,z, -index,&facey);
+                if (is_thing_on_this_quad(x, z, index)) {
+                    //
+                    // We've found a face to stand on. But at what height?
+                    // we are on this face so use clipped alpha and beta in calc height on face
+                    //
 
-				}
-				else
-				{
-					calc_height_on_face(x,z, index,&facey);
-				}
+                    if (index < 0) {
+                        calc_height_on_rface(x, z, -index, &facey);
 
-				dy = facey - y;
+                    } else {
+                        calc_height_on_face(x, z, index, &facey);
+                    }
 
-				if(ignore_height_flag==FIND_ANYFACE)
-				{
-					*ret_y = facey;
+                    dy = facey - y;
 
-					return index;
-				}
+                    if (ignore_height_flag == FIND_ANYFACE) {
+                        *ret_y = facey;
 
-				if(dy<30 && ignore_height_flag==FIND_FACE_NEAR_BELOW)
-				{
-					*ret_y = facey;
+                        return index;
+                    }
 
-					return index;
-				}
+                    if (dy < 30 && ignore_height_flag == FIND_FACE_NEAR_BELOW) {
+                        *ret_y = facey;
 
-				if (dy <= 0xa0)
-				{
-					//
-					// This is a candidate face.
-					//
+                        return index;
+                    }
 
-					if (abs(dy) < best_dy)
-					{
-						best_dy    = abs(dy);
-						best_face  = index;
-						best_facey = facey;
-					}
-				}
-				else
-				{
-					//
-					// Too much difference in y. Ignore this face.
-					//
-				}
-			}
+                    if (dy <= 0xa0) {
+                        //
+                        // This is a candidate face.
+                        //
 
-			if(index<0)
-			{
-				index = roof_faces4[-index].Next;
-			}
-			else
-			{
-				index = prim_faces4[index].WALKABLE;
-			}
-		 }
-	}
+                        if (abs(dy) < best_dy) {
+                            best_dy = abs(dy);
+                            best_face = index;
+                            best_facey = facey;
+                        }
+                    } else {
+                        //
+                        // Too much difference in y. Ignore this face.
+                        //
+                    }
+                }
 
-	if (best_face == NULL)
-	{
-		//
-		// Could not find a face to stand on. How about the ground?
-		//
+                if (index < 0) {
+                    index = roof_faces4[-index].Next;
+                } else {
+                    index = prim_faces4[index].WALKABLE;
+                }
+            }
+        }
 
-		if(PAP_2HI(x>>PAP_SHIFT_HI,z>>PAP_SHIFT_HI).Flags & PAP_FLAG_HIDDEN)
-		{
-			return(0);
-		}
+    if (best_face == NULL) {
+        //
+        // Could not find a face to stand on. How about the ground?
+        //
 
-		groundy = PAP_calc_height_at(x,z); //+5
-		*ret_y  = groundy;
+        if (PAP_2HI(x >> PAP_SHIFT_HI, z >> PAP_SHIFT_HI).Flags & PAP_FLAG_HIDDEN) {
+            return (0);
+        }
 
-		dy = y - groundy;
+        groundy = PAP_calc_height_at(x, z); //+5
+        *ret_y = groundy;
 
-		if (abs(dy) < 0x50)
-		{
-			return GRAB_FLOOR; // step onto floor
-		}
-	}
-	else
-	{
-		*ret_y = best_facey;
+        dy = y - groundy;
 
-		return best_face;
-	}
+        if (abs(dy) < 0x50) {
+            return GRAB_FLOOR; // step onto floor
+        }
+    } else {
+        *ret_y = best_facey;
 
-	return NULL;
+        return best_face;
+    }
 
+    return NULL;
 }
 
-std::int32_t find_height_for_this_pos(	std::int32_t  x,std::int32_t  z,	std::int32_t *ret_face)
-{
-	std::uint8_t mx;
-	std::uint8_t mz;
-	std::int32_t dy;
-	std::int32_t facey;
-	std::int16_t index;
-	std::int32_t groundy;
+std::int32_t find_height_for_this_pos(std::int32_t x, std::int32_t z, std::int32_t *ret_face) {
+    std::uint8_t mx;
+    std::uint8_t mz;
+    std::int32_t dy;
+    std::int32_t facey;
+    std::int16_t index;
+    std::int32_t groundy;
 
-	std::int16_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
-	std::int16_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mx1 = x - 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mz1 = z - 0x200 >> PAP_SHIFT_LO;
 
-	std::int16_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
-	std::int16_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mx2 = x + 0x200 >> PAP_SHIFT_LO;
+    std::int16_t mz2 = z + 0x200 >> PAP_SHIFT_LO;
 
-	SATURATE(mx1, 0, PAP_SIZE_LO - 1);
-	SATURATE(mz1, 0, PAP_SIZE_LO - 1);
+    SATURATE(mx1, 0, PAP_SIZE_LO - 1);
+    SATURATE(mz1, 0, PAP_SIZE_LO - 1);
 
-	SATURATE(mx2, 0, PAP_SIZE_LO - 1);
-	SATURATE(mz2, 0, PAP_SIZE_LO - 1);
+    SATURATE(mx2, 0, PAP_SIZE_LO - 1);
+    SATURATE(mz2, 0, PAP_SIZE_LO - 1);
 
-	if(PAP_hi[x>>8][z>>8].Flags&PAP_FLAG_ROOF_EXISTS)
-	{
-		*ret_face=ROOF_HIDDEN_GET_FACE(x>>8,z>>8);
-		return(MAVHEIGHT(x>>8,z>>8)<<6);
-	}
+    if (PAP_hi[x >> 8][z >> 8].Flags & PAP_FLAG_ROOF_EXISTS) {
+        *ret_face = ROOF_HIDDEN_GET_FACE(x >> 8, z >> 8);
+        return (MAVHEIGHT(x >> 8, z >> 8) << 6);
+    }
 
-	for (mx = mx1; mx <= mx2; mx++)
-	for (mz = mz1; mz <= mz2; mz++)
-	{
-		index = PAP_2LO(mx,mz).Walkable;
-		
-		 while(index)
-		 {
-//			ASSERT(index >= 0);
-//			ASSERT(WITHIN(index, 1, next_prim_face4 - 1));
+    for (mx = mx1; mx <= mx2; mx++)
+        for (mz = mz1; mz <= mz2; mz++) {
+            index = PAP_2LO(mx, mz).Walkable;
 
-			if (is_thing_on_this_quad(x,z, index))
-			{
-				//
-				// We've found a face to stand on. But at what height?
-				//
+            while (index) {
+                //			ASSERT(index >= 0);
+                //			ASSERT(WITHIN(index, 1, next_prim_face4 - 1));
 
-				//
-				// use result no matter what as we are on the face
-				//
-				if(index<0)
-				{
-					calc_height_on_rface(x,z, -index,&facey);
+                if (is_thing_on_this_quad(x, z, index)) {
+                    //
+                    // We've found a face to stand on. But at what height?
+                    //
 
-				}
-				else
-				{
-					calc_height_on_face(x,z, index,&facey);
-				}
-				{
+                    //
+                    // use result no matter what as we are on the face
+                    //
+                    if (index < 0) {
+                        calc_height_on_rface(x, z, -index, &facey);
 
-						*ret_face = index;
+                    } else {
+                        calc_height_on_face(x, z, index, &facey);
+                    }
+                    {
+                        *ret_face = index;
 
-						return facey;
-				}
-			}
+                        return facey;
+                    }
+                }
 
-			if(index<0)
-			{
-				index = roof_faces4[-index].Next;
-			}
-			else
-			{
-				index = prim_faces4[index].WALKABLE;
-			}
-		 }
-	}
+                if (index < 0) {
+                    index = roof_faces4[-index].Next;
+                } else {
+                    index = prim_faces4[index].WALKABLE;
+                }
+            }
+        }
 
-	//
-	// How about the ground?
-	//
+    //
+    // How about the ground?
+    //
 
-	if(PAP_2HI(x>>PAP_SHIFT_HI,z>>PAP_SHIFT_HI).Flags & PAP_FLAG_HIDDEN)
-		return(0);
+    if (PAP_2HI(x >> PAP_SHIFT_HI, z >> PAP_SHIFT_HI).Flags & PAP_FLAG_HIDDEN)
+        return (0);
 
-	groundy = PAP_calc_height_at(x,z); //+5
+    groundy = PAP_calc_height_at(x, z); //+5
 
-	*ret_face = 0;
-	return groundy; // step onto floor
-
+    *ret_face = 0;
+    return groundy; // step onto floor
 }
 
-std::int32_t RFACE_on_slope(std::int32_t face,std::int32_t x,std::int32_t z,std::int32_t *angle)
-{
-	std::int32_t h0;
-	std::int32_t h1;
-	std::int32_t h2;
-	std::int32_t h3;
+std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, std::int32_t *angle) {
+    std::int32_t h0;
+    std::int32_t h1;
+    std::int32_t h2;
+    std::int32_t h3;
 
-	std::int32_t xfrac;
-	std::int32_t zfrac;
+    std::int32_t xfrac;
+    std::int32_t zfrac;
 
+    struct RoofFace4 *rf;
 
-	struct	RoofFace4 *rf;
+    ASSERT(face > 0);
 
-	ASSERT(face>0);
+    if (IS_ROOF_HIDDEN_FACE(-face))
+        return (0);
 
+    rf = &roof_faces4[face];
+    if (!(rf->RZ & 128)) {
+        *angle = 0;
+        return (0);
+    }
 
-	if(IS_ROOF_HIDDEN_FACE(-face))
-		return(0);
+    if (x >> 8 != (rf->RX & 127) || z >> 8 != (rf->RZ & 127))
+        return (0);
 
-	rf=&roof_faces4[face];
-	if(!(rf->RZ&128))
-	{
-		*angle=0;
-		return(0);
-	}
+    h0 = rf->Y;
+    h1 = h0 + (rf->DY[2] << ROOF_SHIFT);
+    h2 = h0 + (rf->DY[0] << ROOF_SHIFT);
+    h3 = h0 + (rf->DY[1] << ROOF_SHIFT);
 
-	if(x>>8!=(rf->RX&127) ||z>>8!=(rf->RZ&127))
-		return(0);
+    if (h0 == h1 && h1 == h2 && h2 == h3) {
+        //
+        // No need to do any interpolation.
+        //
+        return (0);
 
+    } else {
+        //  h0   h2
+        //
+        //	h1   h3
 
+        h0 <<= PAP_ALT_SHIFT;
+        h1 <<= PAP_ALT_SHIFT;
+        h2 <<= PAP_ALT_SHIFT;
+        h3 <<= PAP_ALT_SHIFT;
 
-	h0 = rf->Y;
-	h1 = h0+(rf->DY[2]<<ROOF_SHIFT);
-	h2 = h0+(rf->DY[0]<<ROOF_SHIFT);
-	h3 = h0+(rf->DY[1]<<ROOF_SHIFT);
+        xfrac = x & 0xff;
+        zfrac = z & 0xff;
 
+        if (rf->RX & (1 << 7)) {
+            if (xfrac + (256 - zfrac) < 0x100) {
+                std::int32_t vx, vy, vz;
+                std::int32_t wx, wy, wz;
+                std::int32_t rx, ry, rz;
+                std::int32_t len;
 
-	if (h0 == h1 && h1 == h2 && h2 == h3)
-	{
-		//
-		// No need to do any interpolation.
-		//
-		return(0);
+                vx = 256;
+                vy = h3 - h1;
+                vz = 0;
 
-	}
-	else
-	{
+                wx = 0;
+                wy = h0 - h1;
+                wz = 256;
 
-		//  h0   h2
-		//
-		//	h1   h3
+                rx = (vy * wz); //-vz*wy;
+                ry = 65536;     // vz*wx-vx*wz; dont care about this
+                rz = (vx * wy); //-vy*wx;
 
-		
-		h0 <<= PAP_ALT_SHIFT;
-		h1 <<= PAP_ALT_SHIFT;
-		h2 <<= PAP_ALT_SHIFT;
-		h3 <<= PAP_ALT_SHIFT;
+                if (rx == 0 && rz == 0)
+                    return (0);
 
-		xfrac = x & 0xff;
-		zfrac = z & 0xff;
+                *angle = (Arctan(rx, rz)) & 2047;
 
-		if(rf->RX&(1<<7))
-		{
-			if (xfrac + (256-zfrac) < 0x100)
-			{
-				std::int32_t	vx,vy,vz;
-				std::int32_t	wx,wy,wz;
-				std::int32_t	rx,ry,rz;
-				std::int32_t	len;
+                rx = abs(rx);
+                rz = abs(rz);
+                len = QDIST3(rx, ry, rz);
 
-				vx=256;
-				vy=h3-h1;
-				vz=0;
+                ry = (ry << 8) / (len);
 
-				wx=0;
-				wy=h0-h1;
-				wz=256;
+                return (abs(256 - (len >> 8)));
 
-				rx=(vy*wz); //-vz*wy;
-				ry=65536; //vz*wx-vx*wz; dont care about this
-				rz=(vx*wy); //-vy*wx;
+            } else {
+                std::int32_t vx, vy, vz;
+                std::int32_t wx, wy, wz;
+                std::int32_t rx, ry, rz;
+                std::int32_t len;
 
-				if(rx==0 && rz==0)
-					return(0);
+                vx = -256;
+                vy = h0 - h2;
+                vz = 0;
 
-		   		*angle   = (Arctan(rx,rz))&2047;
+                wx = 0;
+                wy = h3 - h2;
+                wz = 256;
 
-				rx=abs(rx);
-				rz=abs(rz);
-				len=QDIST3(rx,ry,rz);
+                rx = (vy * wz); //-vz*wy;
+                ry = 65536;     // vz*wx-vx*wz; dont care about this
+                rz = (vx * wy); //-vy*wx;
 
-				ry=(ry<<8)/(len);
+                if (rx == 0 && rz == 0)
+                    return (0);
 
-				return(abs(256-(len>>8)));
+                *angle = (Arctan(-rx, rz)) & 2047;
 
-			}
-			else
-			{
-				std::int32_t	vx,vy,vz;
-				std::int32_t	wx,wy,wz;
-				std::int32_t	rx,ry,rz;
-				std::int32_t	len;
+                rx = abs(rx);
+                rz = abs(rz);
+                len = QDIST3(rx, ry, rz);
 
-				vx=-256;
-				vy=h0-h2;
-				vz=0;
+                ry = (ry << 8) / (len);
 
-				wx=0;
-				wy=h3-h2;
-				wz=256;
+                return (abs(256 - (len >> 8)));
+            }
+        } else {
+            if (xfrac + zfrac < 0x100) {
+                std::int32_t vx, vy, vz;
+                std::int32_t wx, wy, wz;
+                std::int32_t rx, ry, rz;
+                std::int32_t len;
 
-				rx=(vy*wz); //-vz*wy;
-				ry=65536; //vz*wx-vx*wz; dont care about this
-				rz=(vx*wy); //-vy*wx;
+                vx = 256;
+                vy = h2 - h0;
+                vz = 0;
 
-				if(rx==0 && rz==0)
-					return(0);
+                wx = 0;
+                wy = h1 - h0;
+                wz = -256;
 
-		   		*angle   = (Arctan(-rx,rz))&2047 ;
+                rx = (vy * wz); //-vz*wy;
+                ry = 65536;     // vz*wx-vx*wz; dont care about this
+                rz = (vx * wy); //-vy*wx;
 
-				rx=abs(rx);
-				rz=abs(rz);
-				len=QDIST3(rx,ry,rz);
+                if (rx == 0 && rz == 0)
+                    return (0);
 
-				ry=(ry<<8)/(len);
+                *angle = (Arctan(-rx, -rz)) & 2047;
 
-				return(abs(256-(len>>8)));
-			}
-		}
-		else
-		{
+                rx = abs(rx);
+                rz = abs(rz);
+                len = QDIST3(rx, ry, rz);
 
-			if (xfrac + zfrac < 0x100)
-			{
-				std::int32_t	vx,vy,vz;
-				std::int32_t	wx,wy,wz;
-				std::int32_t	rx,ry,rz;
-				std::int32_t	len;
+                ry = (ry << 8) / (len);
 
-				vx=256;
-				vy=h2-h0;
-				vz=0;
+                return (abs(256 - (len >> 8)));
 
-				wx=0;
-				wy=h1-h0;
-				wz=-256;
+            } else {
+                std::int32_t vx, vy, vz;
+                std::int32_t wx, wy, wz;
+                std::int32_t rx, ry, rz;
+                std::int32_t len;
 
-				rx=(vy*wz); //-vz*wy;
-				ry=65536; //vz*wx-vx*wz; dont care about this
-				rz=(vx*wy); //-vy*wx;
+                vx = -256;
+                vy = h1 - h3;
+                vz = 0;
 
-				if(rx==0 && rz==0)
-					return(0);
+                wx = 0;
+                wy = h2 - h3;
+                wz = -256;
 
-		   		*angle   = (Arctan(-rx,-rz))&2047;
+                rx = (vy * wz); //-vz*wy;
+                ry = 65536;     // vz*wx-vx*wz; dont care about this
+                rz = (vx * wy); //-vy*wx;
 
-				rx=abs(rx);
-				rz=abs(rz);
-				len=QDIST3(rx,ry,rz);
+                if (rx == 0 && rz == 0)
+                    return (0);
 
-				ry=(ry<<8)/(len);
+                *angle = (Arctan(rx, -rz)) & 2047;
 
-				return(abs(256-(len>>8)));
+                rx = abs(rx);
+                rz = abs(rz);
+                len = QDIST3(rx, ry, rz);
 
-			}
-			else
-			{
-				std::int32_t	vx,vy,vz;
-				std::int32_t	wx,wy,wz;
-				std::int32_t	rx,ry,rz;
-				std::int32_t	len;
+                ry = (ry << 8) / (len);
 
-				vx=-256;
-				vy=h1-h3;
-				vz=0;
-
-				wx=0;
-				wy=h2-h3;
-				wz=-256;
-
-				rx=(vy*wz); //-vz*wy;
-				ry=65536; //vz*wx-vx*wz; dont care about this
-				rz=(vx*wy); //-vy*wx;
-
-				if(rx==0 && rz==0)
-					return(0);
-
-		   		*angle   = (Arctan(rx,-rz))&2047 ;
-
-				rx=abs(rx);
-				rz=abs(rz);
-				len=QDIST3(rx,ry,rz);
-
-				ry=(ry<<8)/(len);
-
-				return(abs(256-(len>>8)));
-			}
-		}
-	}
+                return (abs(256 - (len >> 8)));
+            }
+        }
+    }
 }
 
-#ifndef	PSX
-void WALKABLE_remove_rface(std::uint8_t map_x, std::uint8_t map_z)
-{
-	std::int16_t  next;
-	std::int16_t *prev;
+#ifndef PSX
+void WALKABLE_remove_rface(std::uint8_t map_x, std::uint8_t map_z) {
+    std::int16_t next;
+    std::int16_t *prev;
 
-	PAP_Lo    *pl;
-	RoofFace4 *rf;
-	
-	pl = &PAP_2LO(map_x >> 2, map_z >> 2);
+    PAP_Lo *pl;
+    RoofFace4 *rf;
 
-	if(PAP_hi[map_x][map_z].Flags&PAP_FLAG_ROOF_EXISTS)
-	{
-		PAP_hi[map_x][map_z].Flags&=~PAP_FLAG_ROOF_EXISTS;
-		return;
-	}
-	
+    pl = &PAP_2LO(map_x >> 2, map_z >> 2);
 
+    if (PAP_hi[map_x][map_z].Flags & PAP_FLAG_ROOF_EXISTS) {
+        PAP_hi[map_x][map_z].Flags &= ~PAP_FLAG_ROOF_EXISTS;
+        return;
+    }
 
-	prev = &pl->Walkable;
-	next =  pl->Walkable;
+    prev = &pl->Walkable;
+    next = pl->Walkable;
 
-	while(next)
-	{
-		if (next < 0)
-		{
-			rf = &roof_faces4[-next];
+    while (next) {
+        if (next < 0) {
+            rf = &roof_faces4[-next];
 
-			if ((rf->RX&127) == map_x &&
-				(rf->RZ&127) == map_z)
-			{
-				//
-				// We have found the face to get rid of.  Take it out of the linked list
-				// for this square.
-				//
+            if ((rf->RX & 127) == map_x &&
+                (rf->RZ & 127) == map_z) {
+                //
+                // We have found the face to get rid of.  Take it out of the linked list
+                // for this square.
+                //
 
-			   *prev = rf->Next;
+                *prev = rf->Next;
 
-				//
-				// Instead of deleting this face proper, we mark it as no-draw for now.
-				//
+                //
+                // Instead of deleting this face proper, we mark it as no-draw for now.
+                //
 
-				rf->DrawFlags |= RFACE_FLAG_NODRAW;
+                rf->DrawFlags |= RFACE_FLAG_NODRAW;
 
-				return;
-			}
+                return;
+            }
 
-			prev = &rf->Next;
-			next =  rf->Next;
-		}
-		else
-		{
-			//
-			// This is a normal walkable face.
-			//
+            prev = &rf->Next;
+            next = rf->Next;
+        } else {
+            //
+            // This is a normal walkable face.
+            //
 
-			prev = &prim_faces4[next].WALKABLE;
-			next =  prim_faces4[next].WALKABLE;
-		}
-	}
+            prev = &prim_faces4[next].WALKABLE;
+            next = prim_faces4[next].WALKABLE;
+        }
+    }
 
-	//
-	// Make this mapsquare be HIDDEN.
-	//
+    //
+    // Make this mapsquare be HIDDEN.
+    //
 
-	PAP_2HI(map_x,map_z).Flags |= PAP_FLAG_HIDDEN;
+    PAP_2HI(map_x, map_z).Flags |= PAP_FLAG_HIDDEN;
 }
 #endif
-

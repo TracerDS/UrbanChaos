@@ -554,9 +554,8 @@ char* sound_list[] = {
     "misc\\GTRAMP-PAIN04.wav",
     "misc\\GTRAMP-PAIN05.wav",
     "GeneralMusic\\AlbumTracks\\ADFoundation.wav",
-	"GeneralMusic\\FrontLoop.wav",
+    "GeneralMusic\\FrontLoop.wav",
     "!",
-    };
+};
 
 #endif
-

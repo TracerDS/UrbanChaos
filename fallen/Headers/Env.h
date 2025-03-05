@@ -5,7 +5,6 @@
 #ifndef _ENV_
 #define _ENV_
 
-
 //
 // now we use standard Windows .INI files
 //
@@ -18,17 +17,15 @@ void ENV_load(char* fname);
 
 // Oh no we don't...
 
-
 // Feed it the start of the env save/load block, and
 // it loads the block and returns a pointer to the end of the block.
-extern char *ENV_load ( char *pcData );
+extern char* ENV_load(char* pcData);
 
 // Call once with pcData = nullptr, and it returns the number of
 // bytes it needs to save the data. Call it again with a pointer
 // to the start of this data, and it will actually fill in the data
 // (and return the number of bytes again).
-extern int ENV_save ( char *pcData );
-
+extern int ENV_save(char* pcData);
 
 #endif
 
@@ -39,7 +36,7 @@ extern int ENV_save ( char *pcData );
 // returns nullptr if not found - NOTE: string is in a static buffer
 char* ENV_get_value_string(const char* name, const char* section = "Game");
 // returns def if not found
-std::int32_t  ENV_get_value_number(const char* name, std::int32_t def, const char* section = "Game");
+std::int32_t ENV_get_value_number(const char* name, std::int32_t def, const char* section = "Game");
 
 //
 // store values

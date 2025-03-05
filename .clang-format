@@ -1,0 +1,24 @@
+BasedOnStyle: Google
+IndentWidth: 4
+UseTab: Never
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: InlineOnly
+ColumnLimit: 0
+SpaceBeforeParens: ControlStatements
+PointerAlignment: Left
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+FixNamespaceComments: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+SpacesBeforeTrailingComments: 1
+SpaceAfterCStyleCast: true
+
+# Ensures there is no ";" after class function definitions
+Cpp11BracedListStyle: true
+
+# Enforce early returns and breaks by preventing unnecessary nesting
+SortIncludes: false
+
+# Disallow goto usage
+ForEachMacros: ["goto"]

@@ -5,9 +5,7 @@
 #ifndef _MF_
 #define _MF_
 
-
 #include "imp.h"
-
 
 //
 // Loads all the textures for the mesh.
@@ -15,42 +13,38 @@
 
 void MF_load_textures(IMP_Mesh *im);
 
-
 //
 // Backs up the mesh, so it can be rotated later on.
 //
 
 void MF_backup(IMP_Mesh *im);
 
-
 //
 // MAKE SURE YOU'VE ALREADY CALLED MF_backup()
 //
 
 void MF_rotate_mesh(
-		IMP_Mesh *im,
-		float     yaw,
-		float     pitch = 0.0F,
-		float     roll  = 0.0F,
-		float     scale = 1.0F,
-		float     pos_x = 0.0F,
-		float     pos_y = 0.0F,
-		float     pos_z = 0.0F);
+    IMP_Mesh *im,
+    float yaw,
+    float pitch = 0.0F,
+    float roll = 0.0F,
+    float scale = 1.0F,
+    float pos_x = 0.0F,
+    float pos_y = 0.0F,
+    float pos_z = 0.0F);
 
 void MF_rotate_mesh(
-		IMP_Mesh *im,
-		float     pos_x,
-		float     pos_y,
-		float     pos_z,
-		float     matrix[9]);	// Matrix must be normalised or the mesh normals will be fucked up.
-
+    IMP_Mesh *im,
+    float pos_x,
+    float pos_y,
+    float pos_z,
+    float matrix[9]); // Matrix must be normalised or the mesh normals will be fucked up.
 
 //
 // Transforms all the points of the mesh into the OS_trans array
 //
 
 void MF_transform_points(IMP_Mesh *im);
-
 
 //
 // Inverts the zbuffer-zeds of all the transformed points. Call this
@@ -59,27 +53,21 @@ void MF_transform_points(IMP_Mesh *im);
 
 void MF_invert_zeds(IMP_Mesh *im);
 
-
-
-
 //
 // Lights the sverts of the mesh from the given parallel light.
 //
 
 void MF_ambient(
-		IMP_Mesh *im,
-		float     light_dx,	// The light vector does not need to
-		float     light_dy,	// be normalised...
-		float     light_dz,
-		std::int32_t     light_r,
-		std::int32_t     light_g,
-		std::int32_t     light_b,
-		std::int32_t     amb_r,
-		std::int32_t     amb_g,
-		std::int32_t     amb_b);
-
-
-
+    IMP_Mesh *im,
+    float light_dx, // The light vector does not need to
+    float light_dy, // be normalised...
+    float light_dz,
+    std::int32_t light_r,
+    std::int32_t light_g,
+    std::int32_t light_b,
+    std::int32_t amb_r,
+    std::int32_t amb_g,
+    std::int32_t amb_b);
 
 //
 // Sets the (lu,lv)s of the vertices of the mesh to give a diffuse spotlight.
@@ -88,13 +76,12 @@ void MF_ambient(
 //
 
 void MF_diffuse_spotlight(
-		IMP_Mesh *im,
-		float     light_x,
-		float     light_y,
-		float     light_z,
-		float     light_matrix[9],
-		float     light_lens);		// The bigger the lens the smaller the spotlight.
-
+    IMP_Mesh *im,
+    float light_x,
+    float light_y,
+    float light_z,
+    float light_matrix[9],
+    float light_lens); // The bigger the lens the smaller the spotlight.
 
 //
 // Sets the (lu,lv)s of the shared vertices of the given light to
@@ -104,47 +91,41 @@ void MF_diffuse_spotlight(
 //
 
 void MF_specular_spotlight(
-		IMP_Mesh *im,
-		float     light_x,
-		float     light_y,
-		float     light_z,
-		float     light_matrix[9],
-		float     light_lens);		// The bigger the lens the smaller the spotlight.
-
-
+    IMP_Mesh *im,
+    float light_x,
+    float light_y,
+    float light_z,
+    float light_matrix[9],
+    float light_lens); // The bigger the lens the smaller the spotlight.
 
 //
 // Adds all the faces of the mesh normally...
-// 
+//
 
 void MF_add_triangles_normal(IMP_Mesh *im, std::uint32_t draw = OS_DRAW_NORMAL);
-
 
 //
 // Adds all the faces of the mesh normally but uses the given gouraud shade
 // value for all the points.
-// 
+//
 
 void MF_add_triangles_normal_colour(IMP_Mesh *im, std::uint32_t draw = OS_DRAW_NORMAL, std::uint32_t colour = 0xffffff);
-
 
 //
 // Creates each face using the (u,v)s from the verts and the colour from the
 // sverts.  Draws using the given texture page.
 //
 
-void MF_add_triangles_light           (IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
 void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
-
 
 //
 // Adds the faces using a mesh light with MF_specular_spotlight. It takes the (u,v) from
 // the sverts.  The texture (ot) should be a specular spotlight texture.
 //
 
-void MF_add_triangles_specular           (IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
+void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
 void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP);
-
 
 //
 // Draws the specular shadowed using the diffuse spotlight.
@@ -152,13 +133,11 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uin
 
 void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_CLAMP | OS_DRAW_TEX_MUL);
 
-
 //
 // Draws the visible edges of the mesh in wireframe.
 //
 
 void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, std::uint32_t colour, float width = 0.002F, std::uint32_t draw = OS_DRAW_ADD | OS_DRAW_NOZWRITE);
-
 
 //
 // Bumpmapping with single pass hardware... pass should be 0 or 1.
@@ -172,7 +151,5 @@ void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, std::int32_t pass, std::uint
 //
 
 void MF_add_triangles_texture_after_bumpmap(IMP_Mesh *im);
-
-
 
 #endif

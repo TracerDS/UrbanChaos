@@ -5,26 +5,31 @@
 
 #include "wallhug.h"
 
-#undef  ERROR
-#define ERROR(err) {TRACE("Wallhug error...\n"); TRACE(err); TRACE("\n"); ASSERT(0);}
+#undef ERROR
+#define ERROR(err)                   \
+    {                                \
+        TRACE("Wallhug error...\n"); \
+        TRACE(err);                  \
+        TRACE("\n");                 \
+        ASSERT(0);                   \
+    }
 
 wallhug_waypoint wallhug_dirn_steps[4] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
 
 //----------------------------------------------------------------------------
 
-#define STEP_DIRN(waypoint, dirn)				\
-{												\
-	if (dirn != WALLHUG_NORTH &&				\
-		dirn != WALLHUG_EAST &&					\
-		dirn != WALLHUG_SOUTH &&				\
-		dirn != WALLHUG_WEST)					\
-	{											\
-		ERROR("Step in which direction?");		\
-	}											\
-												\
-	(waypoint).x += wallhug_dirn_steps[dirn].x;	\
-	(waypoint).y += wallhug_dirn_steps[dirn].y;	\
-}
+#define STEP_DIRN(waypoint, dirn)                   \
+    {                                               \
+        if (dirn != WALLHUG_NORTH &&                \
+            dirn != WALLHUG_EAST &&                 \
+            dirn != WALLHUG_SOUTH &&                \
+            dirn != WALLHUG_WEST) {                 \
+            ERROR("Step in which direction?");      \
+        }                                           \
+                                                    \
+        (waypoint).x += wallhug_dirn_steps[dirn].x; \
+        (waypoint).y += wallhug_dirn_steps[dirn].y; \
+    }
 
 #define MAX_LOOKAHEAD 4 // for line-of-sight stuff
 
@@ -45,600 +50,545 @@ bool wallhug_looking_for_last = false;
 // set up the info for the bresenham line-draw
 
 static void bresenham_start(wallhug_waypoint start,
-							wallhug_waypoint end)
-{
-	std::int32_t xdiff, ydiff;
+                            wallhug_waypoint end) {
+    std::int32_t xdiff, ydiff;
 
-	xdiff = (std::uint32_t)end.x; xdiff -= (std::uint32_t)start.x;
-	ydiff = (std::uint32_t)end.y; ydiff -= (std::uint32_t)start.y;
+    xdiff = (std::uint32_t) end.x;
+    xdiff -= (std::uint32_t) start.x;
+    ydiff = (std::uint32_t) end.y;
+    ydiff -= (std::uint32_t) start.y;
 
-	if (abs(xdiff) > abs(ydiff)) x_longer = true;
-	else						 x_longer = false;
+    if (abs(xdiff) > abs(ydiff))
+        x_longer = true;
+    else
+        x_longer = false;
 
+    // work out which direction the line is, for stepping along the x or
+    // the y.
 
-	// work out which direction the line is, for stepping along the x or 
-	// the y.
+    if (xdiff > 0)
+        x_dirn = WALLHUG_EAST;
+    else
+        x_dirn = WALLHUG_WEST;
 
-	if (xdiff > 0) x_dirn = WALLHUG_EAST;
-	else		   x_dirn = WALLHUG_WEST;
+    if (ydiff > 0)
+        y_dirn = WALLHUG_SOUTH;
+    else
+        y_dirn = WALLHUG_NORTH;
 
-	if (ydiff > 0) y_dirn = WALLHUG_SOUTH;
-	else		   y_dirn = WALLHUG_NORTH;
+    // if the line is horizontal or vertical, just force the
+    // bresenham stuff to always return the same direction
 
+    if (start.x == end.x) x_dirn = y_dirn;
+    if (start.y == end.y) y_dirn = x_dirn;
 
-	// if the line is horizontal or vertical, just force the 
-	// bresenham stuff to always return the same direction
+    // and do the bresenham thingies
 
-	if (start.x == end.x) x_dirn = y_dirn;
-	if (start.y == end.y) y_dirn = x_dirn;
-
-
-	// and do the bresenham thingies
-
-	dx = abs(xdiff); dy = abs(ydiff); bresval = dx / 2 + dy / 2;
+    dx = abs(xdiff);
+    dy = abs(ydiff);
+    bresval = dx / 2 + dy / 2;
 }
 
 //----------------------------------------------------------------------------
 // return the direction for the next step of the current bresenham draw
 
-static std::uint32_t bresenham()
-{
-	if (bresval >= dx)
-	{
-		bresval -= dx;
-		return y_dirn;
-	}
+static std::uint32_t bresenham() {
+    if (bresval >= dx) {
+        bresval -= dx;
+        return y_dirn;
+    }
 
-	bresval += dy;
-	return x_dirn;
+    bresval += dy;
+    return x_dirn;
 }
 
 //----------------------------------------------------------------------------
 // the hugger is in the process of hugging a wall. this steps it along.
 
-inline void wallhug_hugstep(wallhug_info *hugger)
-{
-	// has this hugger failed already?
+inline void wallhug_hugstep(wallhug_info *hugger) {
+    // has this hugger failed already?
 
-	if (hugger->dirn == WALLHUG_FAILED_DIRN) return;
+    if (hugger->dirn == WALLHUG_FAILED_DIRN) return;
 
+    // is there a wall in front? if so, turn so that your hand is touching
+    // it. so if you're left-handed, turn right, and vice versa.
 
-	// is there a wall in front? if so, turn so that your hand is touching
-	// it. so if you're left-handed, turn right, and vice versa.
+    if (WALLHUG_WALL_IN_WAY(hugger->current.x, hugger->current.y, hugger->dirn)) {
+        hugger->dirn = WALLHUG_ADDMOD4(hugger->dirn, -hugger->handed);
 
-	if (WALLHUG_WALL_IN_WAY(hugger->current.x, hugger->current.y, hugger->dirn))
-	{
-		hugger->dirn = WALLHUG_ADDMOD4(hugger->dirn, -hugger->handed);
+        // and write out a waypoint
 
-		// and write out a waypoint
+        hugger->path.waypoints[hugger->path.length] = hugger->current;
+        hugger->path.length++;
 
-		hugger->path.waypoints[hugger->path.length] = hugger->current;
-		hugger->path.length++;
+        if (hugger->path.length > WALLHUG_MAX_PTS - 1) {
+            hugger->dirn = WALLHUG_FAILED_DIRN;
+            return;
+        }
+    } else {
+        // it's clear to step forward
+        STEP_DIRN(hugger->current, hugger->dirn);
 
-		if (hugger->path.length > WALLHUG_MAX_PTS - 1)
-		{
-			hugger->dirn = WALLHUG_FAILED_DIRN;
-			return;
-		}
-	}
-	else
-	{
-		// it's clear to step forward
-		STEP_DIRN(hugger->current, hugger->dirn);
+        // check if your hand will still be touching a wall one step in
+        // the future.
 
-		// check if your hand will still be touching a wall one step in
-		// the future.
+        // define the side your hand sticks out
 
-		// define the side your hand sticks out
+        {
+            std::uint32_t hugside = WALLHUG_ADDMOD4(hugger->dirn, hugger->handed);
 
-		{
-			std::uint32_t hugside = WALLHUG_ADDMOD4(hugger->dirn, hugger->handed);
+            // if there isn't, then you should turn towards your hugside
 
-			// if there isn't, then you should turn towards your hugside
+            if (!WALLHUG_WALL_IN_WAY(hugger->current.x, hugger->current.y, hugside)) {
+                hugger->dirn = hugside;
 
-			if (!WALLHUG_WALL_IN_WAY(hugger->current.x, hugger->current.y, hugside))
-			{
-				hugger->dirn = hugside;
+                // and write out a waypoint
 
-				// and write out a waypoint
+                hugger->path.waypoints[hugger->path.length] = hugger->current;
+                hugger->path.length++;
 
-				hugger->path.waypoints[hugger->path.length] = hugger->current;
-				hugger->path.length++;
+                if (hugger->path.length > WALLHUG_MAX_PTS - 1) {
+                    hugger->dirn = WALLHUG_FAILED_DIRN;
+                    return;
+                }
+            }
+        }
+    }
 
-				if (hugger->path.length > WALLHUG_MAX_PTS - 1)
-				{
-					hugger->dirn = WALLHUG_FAILED_DIRN;
-					return;
-				}
-			}
-		}
-	}
+    // now check if you can release the wall and set off towards your
+    // destination again.
 
+    // first check: if the plane of the wall you're hugging is between you
+    // and your destination, forget it.
 
-	// now check if you can release the wall and set off towards your
-	// destination again.
+    switch (WALLHUG_ADDMOD4(hugger->dirn, hugger->handed)) {
+        case WALLHUG_NORTH:
+            if (hugger->path.end.y < hugger->current.y) return;
+            break;
 
-	// first check: if the plane of the wall you're hugging is between you
-	// and your destination, forget it.
+        case WALLHUG_EAST:
+            if (hugger->path.end.x > hugger->current.x) return;
+            break;
 
-	switch(WALLHUG_ADDMOD4(hugger->dirn, hugger->handed))
-	{
-		case WALLHUG_NORTH:
-			if (hugger->path.end.y < hugger->current.y) return;
-			break;
+        case WALLHUG_SOUTH:
+            if (hugger->path.end.y > hugger->current.y) return;
+            break;
 
-		case WALLHUG_EAST:
-			if (hugger->path.end.x > hugger->current.x) return;
-			break;
-
-		case WALLHUG_SOUTH:
-			if (hugger->path.end.y > hugger->current.y) return;
-			break;
-
-		case WALLHUG_WEST:
-			if (hugger->path.end.x < hugger->current.x) return;
-			break;
+        case WALLHUG_WEST:
+            if (hugger->path.end.x < hugger->current.x) return;
+            break;
 
 #if DEBUG == 1
-		default:
-			ERROR("Wall being hugged is an invalid direction");
+        default:
+            ERROR("Wall being hugged is an invalid direction");
 #endif
-	}
+    }
 
-	
-	// next check: are you facing towards the destination?
-	// i.e. if the plane of your back is between you and your destination, 
-	// forget it.
+    // next check: are you facing towards the destination?
+    // i.e. if the plane of your back is between you and your destination,
+    // forget it.
 
-	switch(hugger->dirn)
-	{
-		case WALLHUG_NORTH:
-			if (hugger->path.end.y > hugger->current.y) return;
-			break;
+    switch (hugger->dirn) {
+        case WALLHUG_NORTH:
+            if (hugger->path.end.y > hugger->current.y) return;
+            break;
 
-		case WALLHUG_EAST:
-			if (hugger->path.end.x < hugger->current.x) return;
-			break;
+        case WALLHUG_EAST:
+            if (hugger->path.end.x < hugger->current.x) return;
+            break;
 
-		case WALLHUG_SOUTH:
-			if (hugger->path.end.y < hugger->current.y) return;
-			break;
+        case WALLHUG_SOUTH:
+            if (hugger->path.end.y < hugger->current.y) return;
+            break;
 
-		case WALLHUG_WEST:
-			if (hugger->path.end.x > hugger->current.x) return;
-			break;
+        case WALLHUG_WEST:
+            if (hugger->path.end.x > hugger->current.x) return;
+            break;
 
 #if DEBUG == 1
-		default:
-			ERROR("Hugger is facing an invalid direction");
+        default:
+            ERROR("Hugger is facing an invalid direction");
 #endif
-	}
+    }
 
+    // third check: are you closer to the destination than you were when
+    // you started hugging this bit of wall? this is defined as being not
+    // further away on either axis where there is a difference between the
+    // start and end points. also, you've got to be not equal to the start on
+    // the axis that has the greater difference.
+    // also, you've got to be not beyond the destination.
 
-	// third check: are you closer to the destination than you were when
-	// you started hugging this bit of wall? this is defined as being not
-	// further away on either axis where there is a difference between the 
-	// start and end points. also, you've got to be not equal to the start on
-	// the axis that has the greater difference.
-	// also, you've got to be not beyond the destination.
+    if (hugger->old.x <= hugger->path.end.x) {
+        if (hugger->current.x < hugger->old.x) return;
+        if (hugger->current.x > hugger->path.end.x) return;
+    }
 
-	if (hugger->old.x <= hugger->path.end.x)
-	{
-		if (hugger->current.x < hugger->old.x) return;
-		if (hugger->current.x > hugger->path.end.x) return;
-	}
+    if (hugger->old.x >= hugger->path.end.x) {
+        if (hugger->current.x > hugger->old.x) return;
+        if (hugger->current.x < hugger->path.end.x) return;
+    }
 
-	if (hugger->old.x >= hugger->path.end.x)
-	{
-		if (hugger->current.x > hugger->old.x) return;
-		if (hugger->current.x < hugger->path.end.x) return;
-	}
+    if (hugger->old.y <= hugger->path.end.y) {
+        if (hugger->current.y < hugger->old.y) return;
+        if (hugger->current.y > hugger->path.end.y) return;
+    }
 
-	if (hugger->old.y <= hugger->path.end.y)
-	{
-		if (hugger->current.y < hugger->old.y) return;
-		if (hugger->current.y > hugger->path.end.y) return;
-	}
-	
-	if (hugger->old.y >= hugger->path.end.y)
-	{
-		if (hugger->current.y > hugger->old.y) return;
-		if (hugger->current.y < hugger->path.end.y) return;
-	}
+    if (hugger->old.y >= hugger->path.end.y) {
+        if (hugger->current.y > hugger->old.y) return;
+        if (hugger->current.y < hugger->path.end.y) return;
+    }
 
-	if (hugger->old.x == hugger->current.x &&
-		hugger->old.y == hugger->current.y) return;
+    if (hugger->old.x == hugger->current.x &&
+        hugger->old.y == hugger->current.y) return;
 
-	// otherwise, you can release the wall.
+    // otherwise, you can release the wall.
 
-	hugger->dirn = WALLHUG_DONE;
+    hugger->dirn = WALLHUG_DONE;
 }
 
 //----------------------------------------------------------------------------
 // true if there's a direct line-of-sight from start to end
 
-static bool line_of_sight(wallhug_waypoint start, wallhug_waypoint end)
-{
-	wallhug_waypoint current = start;
-	std::uint32_t dirn;
+static bool line_of_sight(wallhug_waypoint start, wallhug_waypoint end) {
+    wallhug_waypoint current = start;
+    std::uint32_t dirn;
 
-	bresenham_start(start, end);
+    bresenham_start(start, end);
 
-	while (current.x != end.x || current.y != end.y)
-	{
-		dirn = bresenham();
+    while (current.x != end.x || current.y != end.y) {
+        dirn = bresenham();
 
-		if (WALLHUG_WALL_IN_WAY(current.x, current.y, dirn)) return false;
+        if (WALLHUG_WALL_IN_WAY(current.x, current.y, dirn)) return false;
 
-		STEP_DIRN(current, dirn);
-	}
+        STEP_DIRN(current, dirn);
+    }
 
-	return true;
+    return true;
 }
 
 //----------------------------------------------------------------------------
 
-inline static bool huggers_met_again(wallhug_info *huggers)
-{
-	wallhug_waypoint one_ahead;
+inline static bool huggers_met_again(wallhug_info *huggers) {
+    wallhug_waypoint one_ahead;
 
-	if (huggers[0].dirn == WALLHUG_FAILED_DIRN || huggers[0].dirn == WALLHUG_DONE) return false;
+    if (huggers[0].dirn == WALLHUG_FAILED_DIRN || huggers[0].dirn == WALLHUG_DONE) return false;
 
-	one_ahead = huggers[0].current;
-	STEP_DIRN(one_ahead, huggers[0].dirn);
+    one_ahead = huggers[0].current;
+    STEP_DIRN(one_ahead, huggers[0].dirn);
 
-	if (huggers[1].current.x == one_ahead.x &&
-		huggers[1].current.y == one_ahead.y &&
-		WALLHUG_ADDMOD4(huggers[0].dirn, 2) == huggers[1].dirn)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    if (huggers[1].current.x == one_ahead.x &&
+        huggers[1].current.y == one_ahead.y &&
+        WALLHUG_ADDMOD4(huggers[0].dirn, 2) == huggers[1].dirn) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //----------------------------------------------------------------------------
 
-inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger)
-{
-	std::uint32_t c1;
+inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger) {
+    std::uint32_t c1;
 
-	if (successful_hugger->path.length + path->length + 2 > WALLHUG_MAX_PTS) return 0;
+    if (successful_hugger->path.length + path->length + 2 > WALLHUG_MAX_PTS) return 0;
 
-	for (c1 = 0; c1 < successful_hugger->path.length; c1++)
-	{
-		path->waypoints[path->length] =
-			successful_hugger->path.waypoints[c1];
-		path->length++;
-	}
+    for (c1 = 0; c1 < successful_hugger->path.length; c1++) {
+        path->waypoints[path->length] =
+            successful_hugger->path.waypoints[c1];
+        path->length++;
+    }
 
-	path->waypoints[path->length] = successful_hugger->current;
-	path->length++;
+    path->waypoints[path->length] = successful_hugger->current;
+    path->length++;
 
-	return 1;
+    return 1;
 }
 
 //----------------------------------------------------------------------------
-					
-static bool line_of_sight_cleanup(wallhug_path *path, std::uint32_t first_waypoint)
-{
-	bool deleted_waypoint, done_anything_at_all = false;
-	wallhug_waypoint start;
-	std::uint32_t finalised, walker;
 
+static bool line_of_sight_cleanup(wallhug_path *path, std::uint32_t first_waypoint) {
+    bool deleted_waypoint, done_anything_at_all = false;
+    wallhug_waypoint start;
+    std::uint32_t finalised, walker;
 
-	do
-	{
-		// finalised = the next waypoint in the finalised version of the path.
-		// walker is the next waypoint being considered.
+    do {
+        // finalised = the next waypoint in the finalised version of the path.
+        // walker is the next waypoint being considered.
 
-		walker = finalised = first_waypoint;
+        walker = finalised = first_waypoint;
 
-		if (first_waypoint == 0) start = path->start;
-		else					 start = path->waypoints[first_waypoint - 1];
+        if (first_waypoint == 0)
+            start = path->start;
+        else
+            start = path->waypoints[first_waypoint - 1];
 
-		for (deleted_waypoint = false; walker < path->length;)
-		{
-			std::uint32_t lookahead;
+        for (deleted_waypoint = false; walker < path->length;) {
+            std::uint32_t lookahead;
 
-			for (lookahead = MAX_LOOKAHEAD; lookahead > 0; lookahead--)
-			{
-				if (walker + lookahead < path->length &&
-					line_of_sight(start, path->waypoints[walker + lookahead]))
-				{
-					walker += lookahead;
-					deleted_waypoint = true;
-					done_anything_at_all = true;
-					goto found_line;
-				}
-			}
+            for (lookahead = MAX_LOOKAHEAD; lookahead > 0; lookahead--) {
+                if (walker + lookahead < path->length &&
+                    line_of_sight(start, path->waypoints[walker + lookahead])) {
+                    walker += lookahead;
+                    deleted_waypoint = true;
+                    done_anything_at_all = true;
+                    goto found_line;
+                }
+            }
 
-			// no line of sight to later waypoints - just go for this one
+            // no line of sight to later waypoints - just go for this one
 
-			start = path->waypoints[finalised] = path->waypoints[walker];
-			finalised++;
-			walker++;
+            start = path->waypoints[finalised] = path->waypoints[walker];
+            finalised++;
+            walker++;
 
-	   	found_line:;
-		}
+        found_line:;
+        }
 
-		path->length = finalised;
-	}
-	while (deleted_waypoint);
+        path->length = finalised;
+    } while (deleted_waypoint);
 
-	return done_anything_at_all;
+    return done_anything_at_all;
 }
 
 //----------------------------------------------------------------------------
 // removes redundant waypoints from an already calculated path
 
-std::uint32_t wallhug_cleanup(wallhug_path *path, std::uint32_t retval)
-{
-	wallhug_waypoint start;
-	std::uint32_t finalised, walker, lookahead_done;
-	std::uint32_t count = 10;
-	std::uint32_t changed_waypoint = 0;
+std::uint32_t wallhug_cleanup(wallhug_path *path, std::uint32_t retval) {
+    wallhug_waypoint start;
+    std::uint32_t finalised, walker, lookahead_done;
+    std::uint32_t count = 10;
+    std::uint32_t changed_waypoint = 0;
 
-	// keep iterating the following until no further waypoints deleted.
+    // keep iterating the following until no further waypoints deleted.
 
+line_of_sight_stuff:
 
-   line_of_sight_stuff:
+    line_of_sight_cleanup(path, changed_waypoint);
 
-	line_of_sight_cleanup(path, changed_waypoint);
+    if (!--count) {
+        TRACE("Something bad has happened in the wallhug.c!\n");
 
-	if (!--count)
-	{
-		TRACE("Something bad has happened in the wallhug.c!\n");
+        return retval;
+    }
 
-		return retval;
-	}
+    // another post-process. for each waypoint, navigate from the one before
+    // to the one after, and if that new path does not include the middle
+    // waypoint, replace the waypoint with the new path.
 
+    {
+        std::uint32_t c1, c2;
+        wallhug_path new_path;
 
-	// another post-process. for each waypoint, navigate from the one before
-	// to the one after, and if that new path does not include the middle
-	// waypoint, replace the waypoint with the new path.
+        for (c1 = 0; c1 + 1 < path->length; c1++) {
+            if (c1 == 0) {
+                new_path.start = path->start;
+            } else {
+                new_path.start = path->waypoints[c1 - 1];
+            }
 
-	{
-		std::uint32_t c1, c2;
-		wallhug_path new_path;
+            new_path.end = path->waypoints[c1 + 1];
 
-		for (c1 = 0; c1 + 1 < path->length; c1++)
-		{
-			if (c1 == 0)
-			{
-				new_path.start = path->start;
-			}
-			else
-			{
-				new_path.start = path->waypoints[c1 - 1];
-			}
+            if (wallhug_trivial(&new_path) == WALLHUG_FAILED) continue;
 
-			new_path.end = path->waypoints[c1 + 1];
+            for (c2 = 0; c2 + 1 < new_path.length; c2++) {
+                if (new_path.waypoints[c2].x == path->waypoints[c1].x &&
+                    new_path.waypoints[c2].y == path->waypoints[c1].y) {
+                    goto non_silly_waypoint;
+                }
+            }
 
-			if (wallhug_trivial(&new_path) == WALLHUG_FAILED) continue;
+            // ok, the waypoint c1 is not really necessary - replace it
+            // with the waypoints in new_path.
 
+            if (new_path.length + path->length - 2 > WALLHUG_MAX_PTS) {
+                continue; // too many waypoints
+            }
 
-			for (c2 = 0; c2 + 1 < new_path.length; c2++)
-			{
-				if (new_path.waypoints[c2].x == path->waypoints[c1].x &&
-					new_path.waypoints[c2].y == path->waypoints[c1].y)
-				{
-					goto non_silly_waypoint;
-				}
-			}
+            // move the remaining waypoints in the path out of the way
 
+            memmove((std::uint8_t *) path->waypoints + c1 + new_path.length,
+                    (std::uint8_t *) path->waypoints + c1 + 2,
+                    (path->length - c1 - 2) * sizeof(wallhug_waypoint));
 
-			// ok, the waypoint c1 is not really necessary - replace it
-			// with the waypoints in new_path.
+            // and copy in the new waypoints
 
-			if (new_path.length + path->length - 2 > WALLHUG_MAX_PTS)
-			{
-				continue;		// too many waypoints
-			}
+            memcpy((std::uint8_t *) path->waypoints + c1,
+                   (std::uint8_t *) new_path.waypoints,
+                   new_path.length * sizeof(wallhug_waypoint));
 
+            path->length = new_path.length + path->length - 2;
 
-			// move the remaining waypoints in the path out of the way
+            if (c1 < MAX_LOOKAHEAD)
+                changed_waypoint = 0;
+            else
+                changed_waypoint = c1 - MAX_LOOKAHEAD;
 
-			memmove((std::uint8_t*)path->waypoints + c1 + new_path.length,
-					(std::uint8_t*)path->waypoints + c1 + 2,
-					(path->length - c1 - 2) * sizeof(wallhug_waypoint));
+            goto line_of_sight_stuff;
 
+        non_silly_waypoint:;
+        }
+    }
 
-			// and copy in the new waypoints
-
-			memcpy((std::uint8_t*)path->waypoints + c1,
-				   (std::uint8_t*)new_path.waypoints,
-				   new_path.length * sizeof(wallhug_waypoint));
-
-			path->length = new_path.length + path->length - 2;
-
-			if (c1 < MAX_LOOKAHEAD) changed_waypoint = 0;
-			else					changed_waypoint = c1 - MAX_LOOKAHEAD;
-
-			goto line_of_sight_stuff;
-
-		   non_silly_waypoint:;
-		}
-	}
-
-	return retval;
+    return retval;
 }
 
 //----------------------------------------------------------------------------
 // returns the number of steps taken
 
-std::uint32_t wallhug_tricky(wallhug_path *path)
-{
-	std::uint32_t retval;
+std::uint32_t wallhug_tricky(wallhug_path *path) {
+    std::uint32_t retval;
 
-	// first get a simple answer. even if the path fails, we want to optimise
-	// the path, because we'll return a path that gets you close.
+    // first get a simple answer. even if the path fails, we want to optimise
+    // the path, because we'll return a path that gets you close.
 
-	retval = wallhug_trivial(path);
+    retval = wallhug_trivial(path);
 
-	return wallhug_cleanup(path, retval);
+    return wallhug_cleanup(path, retval);
 }
 
 //----------------------------------------------------------------------------
 // carries on the path from current
 
-std::uint32_t wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, std::uint32_t max_count)
-{
-	wallhug_waypoint start = current;
-	std::uint32_t dirn;
+std::uint32_t wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, std::uint32_t max_count) {
+    wallhug_waypoint start = current;
+    std::uint32_t dirn;
 
 #if DEBUG == 1
-	if (path->end.x >= WALLHUG_WIDTH || path->end.y >= WALLHUG_HEIGHT)
-	{
-		ERROR("Wallhugging has been asked for an invalid path");
-	}
+    if (path->end.x >= WALLHUG_WIDTH || path->end.y >= WALLHUG_HEIGHT) {
+        ERROR("Wallhugging has been asked for an invalid path");
+    }
 #endif
 
+    // boldly set off on a straight line for the destination
 
-	// boldly set off on a straight line for the destination
+    bresenham_start(start, path->end);
 
-	bresenham_start(start, path->end);
+    for (; wallhug_current_count < max_count &&
+           (current.x != path->end.x || current.y != path->end.y);
+         wallhug_current_count++) {
+        // get the next step of the current line
 
+        dirn = bresenham();
 
-	for (; wallhug_current_count < max_count &&
-		   (current.x != path->end.x || current.y != path->end.y);
-		 wallhug_current_count++)
-	{
-		// get the next step of the current line
+        // will this step make you crash into a wall?
 
-		dirn = bresenham();
+        if (WALLHUG_WALL_IN_WAY(current.x, current.y, dirn)) {
+            // hit a wall - must start hugging. Output a waypoint, then
+            // set up a left-handed and a right-handed hugger
 
+            if (wallhug_looking_for_last) {
+                // also note which waypoint nr it was when you started hugging.
+                wallhug_last_hugstart = path->length;
+                wallhug_last_hug_count = wallhug_current_count;
+                wallhug_last_dirn = dirn;
+            }
 
-		// will this step make you crash into a wall?
+            wallhug_info huggers[2];
 
-		if (WALLHUG_WALL_IN_WAY(current.x, current.y, dirn))
-		{
-			// hit a wall - must start hugging. Output a waypoint, then
-			// set up a left-handed and a right-handed hugger
+            path->waypoints[path->length] = current;
+            path->length++;
 
-			if (wallhug_looking_for_last)
-			{
-				// also note which waypoint nr it was when you started hugging.
-				wallhug_last_hugstart  = path->length;
-				wallhug_last_hug_count = wallhug_current_count;
-				wallhug_last_dirn	   = dirn;
-			}
+            huggers[0].current = current;
+            huggers[1].current = current;
 
-			wallhug_info huggers[2];
-			
-			path->waypoints[path->length] = current;
-			path->length++;
+            huggers[0].old = current;
+            huggers[1].old = current;
 
-			huggers[0].current		= current;
-			huggers[1].current		= current;
+            huggers[0].handed = -1;
+            huggers[1].handed = 1;
 
-			huggers[0].old			= current;
-			huggers[1].old			= current;
+            huggers[0].dirn = WALLHUG_ADDMOD4(dirn, 1);
+            huggers[1].dirn = WALLHUG_ADDMOD4(dirn, -1);
 
-			huggers[0].handed		= -1;
-			huggers[1].handed 		=  1;
+            huggers[0].path.start = start;
+            huggers[1].path.start = start;
+            huggers[0].path.end = path->end;
+            huggers[1].path.end = path->end;
+            huggers[0].path.length = 0;
+            huggers[1].path.length = 0;
 
-			huggers[0].dirn			= WALLHUG_ADDMOD4(dirn,  1);
-			huggers[1].dirn			= WALLHUG_ADDMOD4(dirn, -1);
+            // and set them off hugging, until one succeeds or both fail.
+            while (wallhug_current_count < max_count) {
+                wallhug_hugstep(huggers + 0);
 
-			huggers[0].path.start 	= start;
-			huggers[1].path.start 	= start;
-			huggers[0].path.end   	= path->end;
-			huggers[1].path.end   	= path->end;
-			huggers[0].path.length	= 0;
-			huggers[1].path.length	= 0;
+                if (huggers_met_again(huggers))
+                    goto fail_hugging_and_return;
 
+                wallhug_hugstep(huggers + 1);
 
-			// and set them off hugging, until one succeeds or both fail.
-			while(wallhug_current_count < max_count)
-			{
-				wallhug_hugstep(huggers + 0);
+                if (huggers_met_again(huggers))
+                    goto fail_hugging_and_return;
 
-				if (huggers_met_again(huggers)) goto fail_hugging_and_return;
+                // check if either of the huggers have decided to let go
+                if (huggers[0].dirn == WALLHUG_DONE) {
+                    if (!wallhug_add_huggers_path(path, &huggers[0]))
+                        goto fail_hugging_and_return;
+                    if (wallhug_looking_for_last) wallhug_last_handed = -1; // note which hand the hugger was using.
+                    break;
+                }
+                if (huggers[1].dirn == WALLHUG_DONE) {
+                    if (!wallhug_add_huggers_path(path, &huggers[1]))
+                        goto fail_hugging_and_return;
+                    if (wallhug_looking_for_last) wallhug_last_handed = 1; // note which hand the hugger was using.
+                    break;
+                }
 
-				wallhug_hugstep(huggers + 1);
+                // if both have failed, it's bad.
+                if (huggers[0].dirn == WALLHUG_FAILED_DIRN &&
+                    huggers[1].dirn == WALLHUG_FAILED_DIRN) {
+                    goto fail_hugging_and_return;
+                }
 
-				if (huggers_met_again(huggers)) goto fail_hugging_and_return;
+                wallhug_current_count++;
+            }
 
-				// check if either of the huggers have decided to let go
-				if (huggers[0].dirn == WALLHUG_DONE)
-				{
-					if (!wallhug_add_huggers_path(path, &huggers[0])) goto fail_hugging_and_return;
-					if (wallhug_looking_for_last) wallhug_last_handed = -1; // note which hand the hugger was using.
-					break;
-				}
-				if (huggers[1].dirn == WALLHUG_DONE)
-				{
-					if (!wallhug_add_huggers_path(path, &huggers[1])) goto fail_hugging_and_return;
-					if (wallhug_looking_for_last) wallhug_last_handed = 1; // note which hand the hugger was using.
-					break;
-				}
+            if (wallhug_current_count == max_count)
+                goto fail_hugging_and_return;
 
-				// if both have failed, it's bad.
-				if (huggers[0].dirn == WALLHUG_FAILED_DIRN &&
-					huggers[1].dirn == WALLHUG_FAILED_DIRN)
-				{
-					goto fail_hugging_and_return;
-				}
+            // must restart all the shit from here.
 
-				wallhug_current_count++;
-			}
+            current = path->waypoints[path->length - 1];
+            start = current;
+            bresenham_start(start, path->end);
+        } else {
+            // can still walk along the current line - just go for it.
 
-			if (wallhug_current_count == max_count) goto fail_hugging_and_return;
+            STEP_DIRN(current, dirn);
+        }
+    }
 
-			// must restart all the shit from here.
+    if (path->length >= WALLHUG_MAX_PTS - 2) return WALLHUG_FAILED;
 
-			current = path->waypoints[path->length - 1];
-			start   = current;
-			bresenham_start(start, path->end);
-		}
-		else
-		{
-			// can still walk along the current line - just go for it.
+    if (current.x == path->end.x && current.y == path->end.y) {
+        path->waypoints[path->length] = current;
+        path->length++;
+        return wallhug_current_count;
+    } else
+        return WALLHUG_FAILED;
 
-			STEP_DIRN(current, dirn);
-		}
-	}
-
-	if (path->length >= WALLHUG_MAX_PTS - 2) return WALLHUG_FAILED;
-
-	if (current.x == path->end.x && current.y == path->end.y)
-	{
-		path->waypoints[path->length] = current;
-		path->length++;
-		return wallhug_current_count;
-	}
-	else return WALLHUG_FAILED;
-
-
-	// extra stuff...
+    // extra stuff...
 
 fail_hugging_and_return:
 
-	// put a waypoint on the end of the path, that's where you started
-	// hugging.
+    // put a waypoint on the end of the path, that's where you started
+    // hugging.
 
-	path->waypoints[path->length] = current;
-	path->length++;
-	return WALLHUG_FAILED;
+    path->waypoints[path->length] = current;
+    path->length++;
+    return WALLHUG_FAILED;
 }
 
 //----------------------------------------------------------------------------
 // returns the number of steps taken
 
-std::uint32_t wallhug_trivial(wallhug_path *path)
-{
-	path->length = 0; // initialise path.
+std::uint32_t wallhug_trivial(wallhug_path *path) {
+    path->length = 0; // initialise path.
 
-	wallhug_current_count = 0;
+    wallhug_current_count = 0;
 
-	if (wallhug_looking_for_last)
-	{
-		wallhug_last_hugstart = WALLHUG_INVALID_WAYPOINT; // so we can tell later on if we never hugged.
-	}
+    if (wallhug_looking_for_last) {
+        wallhug_last_hugstart = WALLHUG_INVALID_WAYPOINT; // so we can tell later on if we never hugged.
+    }
 
-	return wallhug_continue_trivial(path, path->start, WALLHUG_MAX_COUNT);
+    return wallhug_continue_trivial(path, path->start, WALLHUG_MAX_COUNT);
 }
-

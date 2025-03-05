@@ -1,83 +1,77 @@
 // Level.h
 // Guy Simmons, 26th January 1998.
 
-#ifndef	LEVEL_H
-#define	LEVEL_H
+#ifndef LEVEL_H
+#define LEVEL_H
 
 //---------------------------------------------------------------
 
-struct	ThingDef
-{
-	std::uint8_t		Version;
+struct ThingDef {
+    std::uint8_t Version;
 
-	std::int32_t		Class,
-				Genus,
-				X,Y,Z;
-	std::uint16_t		CommandRef;
-	std::int32_t		Data[10];
-	std::uint16_t		EdThingRef;
+    std::int32_t Class,
+        Genus,
+        X, Y, Z;
+    std::uint16_t CommandRef;
+    std::int32_t Data[10];
+    std::uint16_t EdThingRef;
 };
 
 //---------------------------------------------------------------
 
-struct	WaypointDef
-{
-	std::uint8_t		Version;
+struct WaypointDef {
+    std::uint8_t Version;
 
-	std::uint16_t		Next,
-				Prev;
-	std::int32_t		X,Y,Z;
-	std::uint16_t		EdWaypointRef;
+    std::uint16_t Next,
+        Prev;
+    std::int32_t X, Y, Z;
+    std::uint16_t EdWaypointRef;
 };
 
 //---------------------------------------------------------------
 
-struct	ConditionListDef
-{
-	std::uint8_t		Version;
+struct ConditionListDef {
+    std::uint8_t Version;
 
-	char		ListName[32];
-	std::uint32_t		ConditionCount;
-	std::uint16_t		EdConListRef;
+    char ListName[32];
+    std::uint32_t ConditionCount;
+    std::uint16_t EdConListRef;
 };
 
 //---------------------------------------------------------------
 
-struct	ConditionDef
-{
-	std::uint8_t		Version;
+struct ConditionDef {
+    std::uint8_t Version;
 
-	std::uint16_t		Flags,
-				ConditionType,
-				GroupRef;
-	std::int32_t		Data1,
-				Data2,
-				Data3;
+    std::uint16_t Flags,
+        ConditionType,
+        GroupRef;
+    std::int32_t Data1,
+        Data2,
+        Data3;
 };
 
 //---------------------------------------------------------------
 
-struct	CommandListDef
-{
-	std::uint8_t		Version;
+struct CommandListDef {
+    std::uint8_t Version;
 
-	char		ListName[32];
-	std::uint32_t		CommandCount;
-	std::uint16_t		EdComListRef;
+    char ListName[32];
+    std::uint32_t CommandCount;
+    std::uint16_t EdComListRef;
 };
 
 //---------------------------------------------------------------
 
-struct	CommandDef
-{
-	std::uint8_t		Version;
+struct CommandDef {
+    std::uint8_t Version;
 
-	std::uint16_t		Flags,
-				CommandType,
-				GroupRef;
-	std::int32_t		Data1,
-				Data2,
-				Data3;
+    std::uint16_t Flags,
+        CommandType,
+        GroupRef;
+    std::int32_t Data1,
+        Data2,
+        Data3;
 };
 
 //---------------------------------------------------------------
@@ -88,7 +82,6 @@ struct	CommandDef
 //	std::uint8_t		Version
 //	std::uint32_t		ThingCount
 //	ThingDef	ThingDefs * ThingCount
-
 
 // VERSION 1
 
@@ -131,9 +124,8 @@ struct	CommandDef
 
 //---------------------------------------------------------------
 
-bool	load_level(std::uint32_t level);
+bool load_level(std::uint32_t level);
 
 //---------------------------------------------------------------
 
 #endif
-

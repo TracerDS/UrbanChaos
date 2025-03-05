@@ -10,14 +10,14 @@
 
 // include files
 
-#define	DUMP_COORDS	0
+#define DUMP_COORDS 0
 
 #ifndef PSX
 #include <math.h>
 #endif
 
 #include "game.h"
-#ifndef	PSX
+#ifndef PSX
 #include "..\ddengine\headers\matrix.h"
 #include "..\ddengine\headers\poly.h"
 #include "..\ddengine\headers\oval.h"
@@ -30,7 +30,7 @@
 #include "statedef.h"
 #include "pcom.h"
 
-#ifndef	PSX
+#ifndef PSX
 #include "..\ddengine\headers\aeng.h"
 #include "..\ddengine\headers\mesh.h"
 #else
@@ -61,11 +61,6 @@
 #include "font2d.h"
 #endif
 
-
-
-
-
-
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
 static void ScribbleCheck()
@@ -84,154 +79,141 @@ static void ScribbleCheck()
 #define ANNOYINGSCRIBBLECHECK
 #endif
 
-
-
-
-
-
 // Some externs
-extern std::int32_t	is_person_ko(Thing *p_person);
-
+extern std::int32_t is_person_ko(Thing *p_person);
 
 // constants for physics
 
-#define	MIN_COMPRESSION		(13 << 8)
-#define	MAX_COMPRESSION		(115 << 8)
+#define MIN_COMPRESSION (13 << 8)
+#define MAX_COMPRESSION (115 << 8)
 
-#define	UNITS_PER_METER		128
-#define	TICK_LOOP			(4)
-#define	TICKS_PER_SECOND	(20*TICK_LOOP)
-#define	GRAVITY				(-(UNITS_PER_METER*10*256)/(TICKS_PER_SECOND*TICKS_PER_SECOND))
+#define UNITS_PER_METER 128
+#define TICK_LOOP (4)
+#define TICKS_PER_SECOND (20 * TICK_LOOP)
+#define GRAVITY (-(UNITS_PER_METER * 10 * 256) / (TICKS_PER_SECOND * TICKS_PER_SECOND))
 
-#define WHEELTIME			35			// time to full lock
-#define WHEELRATIO			45			// WHEELRATIO/WHEELTIME = tan(max. steering angle)
-#define SKID_START			3			// number of tics to slam the brakes on before we skid
-#define SKID_FORCE			8500		// lateral force required to start a skid
-#define NEAR_SKID_FORCE		5000		// not skidding, but enough to starsky the sound fx
+#define WHEELTIME 35         // time to full lock
+#define WHEELRATIO 45        // WHEELRATIO/WHEELTIME = tan(max. steering angle)
+#define SKID_START 3         // number of tics to slam the brakes on before we skid
+#define SKID_FORCE 8500      // lateral force required to start a skid
+#define NEAR_SKID_FORCE 5000 // not skidding, but enough to starsky the sound fx
 
-#define STABLE_COUNT		16			// number of "stable" tics to actually be stable
+#define STABLE_COUNT 16 // number of "stable" tics to actually be stable
 
-#define CAR_VEL_SHIFT	4
+#define CAR_VEL_SHIFT 4
 
 #ifndef PSX
 extern bool allow_debug_keys;
 #endif
 
-static void siren(Vehicle* veh, std::uint8_t play);
-static inline void GetCarPoints(Thing* p_car, std::int32_t* x, std::int32_t* y, std::int32_t* z, std::int32_t step);
-extern std::int32_t	is_person_ko_and_lay_down(Thing *p_person);
+static void siren(Vehicle *veh, std::uint8_t play);
+static inline void GetCarPoints(Thing *p_car, std::int32_t *x, std::int32_t *y, std::int32_t *z, std::int32_t step);
+extern std::int32_t is_person_ko_and_lay_down(Thing *p_person);
 //
 // random vehicle types
 //
 std::uint8_t vehicle_random[] =
-{
-	VEH_TYPE_VAN,	VEH_TYPE_CAR,	VEH_TYPE_TAXI,	VEH_TYPE_JEEP,
-	VEH_TYPE_SEDAN,	VEH_TYPE_VAN,	VEH_TYPE_CAR,	VEH_TYPE_TAXI,
-	VEH_TYPE_JEEP,	VEH_TYPE_SEDAN,	VEH_TYPE_VAN,	VEH_TYPE_CAR, 
-	VEH_TYPE_TAXI,	VEH_TYPE_VAN,	VEH_TYPE_CAR,	VEH_TYPE_TAXI
-};
+    {
+        VEH_TYPE_VAN, VEH_TYPE_CAR, VEH_TYPE_TAXI, VEH_TYPE_JEEP,
+        VEH_TYPE_SEDAN, VEH_TYPE_VAN, VEH_TYPE_CAR, VEH_TYPE_TAXI,
+        VEH_TYPE_JEEP, VEH_TYPE_SEDAN, VEH_TYPE_VAN, VEH_TYPE_CAR,
+        VEH_TYPE_TAXI, VEH_TYPE_VAN, VEH_TYPE_CAR, VEH_TYPE_TAXI};
 
 // VehInfo
 //
 // vehicle information per type
 
-struct VehInfo
-{
-	std::int16_t	DX[4],DZ[4];
+struct VehInfo {
+    std::int16_t DX[4], DZ[4];
 
-	std::int8_t	FwdAccel;			// note, terminal velocity depends on this!
-	std::int8_t	BkAccel;
-	std::int8_t	SoftBrake;
-	std::int8_t	HardBrake;
+    std::int8_t FwdAccel; // note, terminal velocity depends on this!
+    std::int8_t BkAccel;
+    std::int8_t SoftBrake;
+    std::int8_t HardBrake;
 
-	std::uint16_t	Reserved;
-	std::int16_t	BodyDy;
-	std::uint16_t	WheelPrim;
-	std::uint16_t	BodyPrim;
-	std::int16_t   BodyOffset;
-	std::uint16_t	NumVertices;
-	std::uint8_t*	VertexAssignments;
+    std::uint16_t Reserved;
+    std::int16_t BodyDy;
+    std::uint16_t WheelPrim;
+    std::uint16_t BodyPrim;
+    std::int16_t BodyOffset;
+    std::uint16_t NumVertices;
+    std::uint8_t *VertexAssignments;
 
-	std::int16_t	HLX;				// headlights x,y,z
-	std::int16_t	HLY;
-	std::int16_t	HLZ;
+    std::int16_t HLX; // headlights x,y,z
+    std::int16_t HLY;
+    std::int16_t HLZ;
 
-	std::int16_t	BLX;				// brakelights x,y,z; z = 0 ==> no brakelights
-	std::int16_t	BLY;
-	std::int16_t	BLZ;
+    std::int16_t BLX; // brakelights x,y,z; z = 0 ==> no brakelights
+    std::int16_t BLY;
+    std::int16_t BLZ;
 
-	std::int16_t	FLX;				// flashing lights x,y,z; z = 0 ==> no flashing lights
-	std::int16_t	FLY;
-	std::int16_t	FLZ;
-	std::int16_t	FLRED;				// if 1, the lights are both red (else blue & red)
+    std::int16_t FLX; // flashing lights x,y,z; z = 0 ==> no flashing lights
+    std::int16_t FLY;
+    std::int16_t FLZ;
+    std::int16_t FLRED; // if 1, the lights are both red (else blue & red)
 
-	std::uint8_t	shad_size;
-	std::uint8_t	shad_elongate;		// In 6-bit fixed point!
+    std::uint8_t shad_size;
+    std::uint8_t shad_elongate; // In 6-bit fixed point!
 };
 
+#define WHEELBASE_VAN {-120, 120, -120, 120}, {150, 150, -165, -165}
+#define WHEELBASE_CAR {-85, 85, -85, 85}, {160, 160, -120, -120}
 
-#define	WHEELBASE_VAN	{-120,120,-120,120},{150,150,-165,-165}
-#define WHEELBASE_CAR	{- 85, 85,- 85, 85},{160,160,-120,-120}
-
-#define	ENGINE_LGV		17, 10, 4, 8	// light goods vehicle - slow in both directions, normal brakes
-#define ENGINE_CAR		21, 10, 4, 8	// car - faster than LGV, same brakes
-#define ENGINE_PIG		25, 15, 5, 10	// cop car - faster and better brakes
-#define ENGINE_AMB		25, 10, 5, 8	// ambulance - cop car speed forwards; LGV speed backwards; better than average brakes
+#define ENGINE_LGV 17, 10, 4, 8  // light goods vehicle - slow in both directions, normal brakes
+#define ENGINE_CAR 21, 10, 4, 8  // car - faster than LGV, same brakes
+#define ENGINE_PIG 25, 15, 5, 10 // cop car - faster and better brakes
+#define ENGINE_AMB 25, 10, 5, 8  // ambulance - cop car speed forwards; LGV speed backwards; better than average brakes
 
 struct VehInfo veh_info[VEH_TYPE_NUMBER] =
-{
-	{WHEELBASE_VAN, ENGINE_LGV, 0,30,PRIM_OBJ_VAN_WHEEL,PRIM_OBJ_VAN_BODY,        0x6800, 0, NULL, -248, 15, 90,    0,  0,  0,   0,   0,  0, 0, 185, 100},
-	{WHEELBASE_CAR, ENGINE_CAR, 0,30,PRIM_OBJ_CAR_WHEEL,PRIM_OBJ_CAR_BODY,        0x4000, 0, NULL, -205,  0, 60,  235, -8, 60,   0,   0,  0, 0, 125, 160},
-	{WHEELBASE_CAR, ENGINE_CAR, 0,30,PRIM_OBJ_CAR_WHEEL,PRIM_OBJ_TAXI_BODY,       0x4000, 0, NULL, -225,  0, 60,  245, -8, 60,   0,   0,  0, 0, 125, 160},
-	{WHEELBASE_CAR, ENGINE_PIG, 0,30,PRIM_OBJ_CAR_WHEEL,PRIM_OBJ_POLICE_BODY,     0x4000, 0, NULL, -225,  0, 60,  205,-24, 60,   0,  70, 40, 0, 125, 160},
-	{WHEELBASE_VAN, ENGINE_AMB, 0,30,PRIM_OBJ_VAN_WHEEL,PRIM_OBJ_AMBULANCE_BODY,  0x6800, 0, NULL, -248, 15, 90,  240, 15, 90, -40, 210, 50, 1, 185, 100},
-	{WHEELBASE_VAN, ENGINE_CAR, 0,30,PRIM_OBJ_VAN_WHEEL,PRIM_OBJ_JEEP_BODY,		  0x6800, 0, NULL, -225,-10, 80,  240, -5, 90,   0,   0,  0, 0, 185, 100},
-	{WHEELBASE_VAN, ENGINE_AMB, 0,30,PRIM_OBJ_VAN_WHEEL,PRIM_OBJ_MEATWAGON_BODY,  0x6800, 0, NULL, -240,-10, 80,  240, 15, 90,  50, 140, 40, 0, 185, 100},
-	{WHEELBASE_CAR, ENGINE_PIG, 0,30,PRIM_OBJ_CAR_WHEEL,PRIM_OBJ_SEDAN_BODY,	  0x4000, 0, NULL, -225,-20, 60,  205,-24, 70,   0,   0,  0, 0, 125, 160},
-	{WHEELBASE_VAN, ENGINE_LGV, 0,30,PRIM_OBJ_VAN_WHEEL,PRIM_OBJ_WILDCATVAN_BODY, 0x6800, 0, NULL, -248, 15, 90,    0,  0,  0,   0,   0,  0, 0, 185, 100},
+    {
+        {WHEELBASE_VAN, ENGINE_LGV, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_VAN_BODY, 0x6800, 0, NULL, -248, 15, 90, 0, 0, 0, 0, 0, 0, 0, 185, 100},
+        {WHEELBASE_CAR, ENGINE_CAR, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_CAR_BODY, 0x4000, 0, NULL, -205, 0, 60, 235, -8, 60, 0, 0, 0, 0, 125, 160},
+        {WHEELBASE_CAR, ENGINE_CAR, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_TAXI_BODY, 0x4000, 0, NULL, -225, 0, 60, 245, -8, 60, 0, 0, 0, 0, 125, 160},
+        {WHEELBASE_CAR, ENGINE_PIG, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_POLICE_BODY, 0x4000, 0, NULL, -225, 0, 60, 205, -24, 60, 0, 70, 40, 0, 125, 160},
+        {WHEELBASE_VAN, ENGINE_AMB, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_AMBULANCE_BODY, 0x6800, 0, NULL, -248, 15, 90, 240, 15, 90, -40, 210, 50, 1, 185, 100},
+        {WHEELBASE_VAN, ENGINE_CAR, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_JEEP_BODY, 0x6800, 0, NULL, -225, -10, 80, 240, -5, 90, 0, 0, 0, 0, 185, 100},
+        {WHEELBASE_VAN, ENGINE_AMB, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_MEATWAGON_BODY, 0x6800, 0, NULL, -240, -10, 80, 240, 15, 90, 50, 140, 40, 0, 185, 100},
+        {WHEELBASE_CAR, ENGINE_PIG, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_SEDAN_BODY, 0x4000, 0, NULL, -225, -20, 60, 205, -24, 70, 0, 0, 0, 0, 125, 160},
+        {WHEELBASE_VAN, ENGINE_LGV, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_WILDCATVAN_BODY, 0x6800, 0, NULL, -248, 15, 90, 0, 0, 0, 0, 0, 0, 0, 185, 100},
 };
-
 
 // debug stuff
 #if !defined(PSX) && !defined(TARGET_DC)
 #ifndef NDEBUG
 
-Thing*	SelectedThing = NULL;
+Thing *SelectedThing = NULL;
 
-void LookForSelectedThing()
-{
-	std::int32_t world_x;
-	std::int32_t world_y;
-	std::int32_t world_z;
+void LookForSelectedThing() {
+    std::int32_t world_x;
+    std::int32_t world_y;
+    std::int32_t world_z;
 
-	SelectedThing = NULL;
+    SelectedThing = NULL;
 
-	RECT	client;
+    RECT client;
 
-	GetClientRect(hDDLibWindow, &client);
+    GetClientRect(hDDLibWindow, &client);
 
-	float	hitx = float(MouseX) * float(DisplayWidth) / float(client.right - client.left);
-	float	hity = float(MouseY) * float(DisplayHeight) / float(client.bottom - client.top);
+    float hitx = float(MouseX) * float(DisplayWidth) / float(client.right - client.left);
+    float hity = float(MouseY) * float(DisplayHeight) / float(client.bottom - client.top);
 
-	AENG_raytraced_position(
-		std::int32_t(hitx + 0.5f),
-		std::int32_t(hity + 0.5f),
-	   &world_x,
-	   &world_y,
-	   &world_z);
+    AENG_raytraced_position(
+        std::int32_t(hitx + 0.5f),
+        std::int32_t(hity + 0.5f),
+        &world_x,
+        &world_y,
+        &world_z);
 
-	if (WITHIN(world_x, 600, (PAP_SIZE_HI << PAP_SHIFT_HI) - 601) &&
-		WITHIN(world_z, 600, (PAP_SIZE_HI << PAP_SHIFT_HI) - 601))
-	{
-		std::uint16_t	found[8];
+    if (WITHIN(world_x, 600, (PAP_SIZE_HI << PAP_SHIFT_HI) - 601) &&
+        WITHIN(world_z, 600, (PAP_SIZE_HI << PAP_SHIFT_HI) - 601)) {
+        std::uint16_t found[8];
 
-		std::int32_t	num = THING_find_sphere(world_x, world_y, world_z, 0x100, found, 8, 1 << CLASS_VEHICLE);
+        std::int32_t num = THING_find_sphere(world_x, world_y, world_z, 0x100, found, 8, 1 << CLASS_VEHICLE);
 
-		if (num == 1)
-		{
-			SelectedThing = TO_THING(found[0]);
-		}
-	}
+        if (num == 1) {
+            SelectedThing = TO_THING(found[0]);
+        }
+    }
 }
 
 #endif
@@ -243,457 +225,421 @@ void LookForSelectedThing()
 
 std::uint8_t sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
-void get_car_door_offsets(std::int32_t type, std::int32_t door, std::int32_t *dx,std::int32_t *dz)
-{
-	ASSERT(door == 0 || door == 1);
+void get_car_door_offsets(std::int32_t type, std::int32_t door, std::int32_t *dx, std::int32_t *dz) {
+    ASSERT(door == 0 || door == 1);
 
-	if (sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim)
-	{
-		*dx=(veh_info[type].DX[door + 1]*450)>>8;
-	}
-	else
-	{
-		*dx=(veh_info[type].DX[door + 1]*300)>>8;
-	}
+    if (sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim) {
+        *dx = (veh_info[type].DX[door + 1] * 450) >> 8;
+    } else {
+        *dx = (veh_info[type].DX[door + 1] * 300) >> 8;
+    }
 
-	*dz=(veh_info[type].DZ[door + 1]*50)>>8;
+    *dz = (veh_info[type].DZ[door + 1] * 50) >> 8;
 }
 
 std::int32_t VEH_collide_line_ignore_walls = 0;
 
-std::uint16_t get_vehicle_body_prim(std::int32_t type)
-{
-	ASSERT(WITHIN(type, 0, VEH_TYPE_NUMBER - 1));
+std::uint16_t get_vehicle_body_prim(std::int32_t type) {
+    ASSERT(WITHIN(type, 0, VEH_TYPE_NUMBER - 1));
 
-	return(veh_info[type].BodyPrim);
+    return (veh_info[type].BodyPrim);
 }
 
-std::int32_t get_vehicle_body_offset(std::int32_t type)
-{
-	ASSERT(WITHIN(type, 0, VEH_TYPE_NUMBER - 1));
+std::int32_t get_vehicle_body_offset(std::int32_t type) {
+    ASSERT(WITHIN(type, 0, VEH_TYPE_NUMBER - 1));
 
-	return(std::int32_t(veh_info[type].BodyOffset));
+    return (std::int32_t(veh_info[type].BodyOffset));
 }
 
 // state functions
 
 StateFunction VEH_statefunctions[] =
-{
-	{STATE_INIT,            NULL},
-	{STATE_NORMAL,          NULL},
-	{STATE_COLLISION,       NULL},
-	{STATE_ABOUT_TO_REMOVE, NULL},
-	{STATE_REMOVE_ME,       NULL},
-	{STATE_MOVEING,         NULL},
-	{STATE_FDRIVING,        VEH_driving},
-	{STATE_FDOOR,			NULL}
-};
+    {
+        {STATE_INIT, NULL},
+        {STATE_NORMAL, NULL},
+        {STATE_COLLISION, NULL},
+        {STATE_ABOUT_TO_REMOVE, NULL},
+        {STATE_REMOVE_ME, NULL},
+        {STATE_MOVEING, NULL},
+        {STATE_FDRIVING, VEH_driving},
+        {STATE_FDOOR, NULL}};
 
 // utilities
 
 // make car matrix from yaw,tilt,roll
 
-static std::int32_t	car_matrix[9];
+static std::int32_t car_matrix[9];
 
-static void make_car_matrix(Vehicle* v)
-{
-//#ifndef PSX
-	FMATRIX_calc(car_matrix, v->Angle, v->Tilt, v->Roll);
-//#else
-//	FMATRIX_calc(car_matrix, -v->Angle, v->Tilt, v->Roll);
-//#endif
+static void make_car_matrix(Vehicle *v) {
+    // #ifndef PSX
+    FMATRIX_calc(car_matrix, v->Angle, v->Tilt, v->Roll);
+    // #else
+    //	FMATRIX_calc(car_matrix, -v->Angle, v->Tilt, v->Roll);
+    // #endif
 }
 
-static void make_car_matrix_p(std::int32_t angle, std::int32_t tilt, std::int32_t roll)
-{
-	FMATRIX_calc(car_matrix, angle, tilt, roll);
+static void make_car_matrix_p(std::int32_t angle, std::int32_t tilt, std::int32_t roll) {
+    FMATRIX_calc(car_matrix, angle, tilt, roll);
 }
 
-static void	apply_car_matrix(std::int32_t *x,std::int32_t *y,std::int32_t *z)
-{
-	std::int32_t tx,ty,tz;
+static void apply_car_matrix(std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+    std::int32_t tx, ty, tz;
 
-	tx=*x; ty=*y; tz=*z;
-	FMATRIX_MUL_BY_TRANSPOSE(car_matrix,tx,ty,tz);
-	*x=tx; *y=ty; *z=tz;
+    tx = *x;
+    ty = *y;
+    tz = *z;
+    FMATRIX_MUL_BY_TRANSPOSE(car_matrix, tx, ty, tz);
+    *x = tx;
+    *y = ty;
+    *z = tz;
 }
 
 //
 // Returns NULL if there isn't a driver...
 //
 
-Thing *get_vehicle_driver(Thing *p_vehicle)
-{
-	Thing *p_driver;
+Thing *get_vehicle_driver(Thing *p_vehicle) {
+    Thing *p_driver;
 
-	ASSERT(p_vehicle->Class == CLASS_VEHICLE);
+    ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
-	if (p_vehicle->Genus.Vehicle->Driver)
-	{
-		p_driver = TO_THING(p_vehicle->Genus.Vehicle->Driver);
-	}
-	else
-	{
-		p_driver = NULL;
-	}
+    if (p_vehicle->Genus.Vehicle->Driver) {
+        p_driver = TO_THING(p_vehicle->Genus.Vehicle->Driver);
+    } else {
+        p_driver = NULL;
+    }
 
-	return p_driver;
+    return p_driver;
 }
 
 // are we driving a car?
 
-inline bool is_driven_by_player(Thing* p_car)
-{
-	if (p_car->Genus.Vehicle->Driver)
-	{
-		Thing* p_driver = TO_THING(p_car->Genus.Vehicle->Driver);
+inline bool is_driven_by_player(Thing *p_car) {
+    if (p_car->Genus.Vehicle->Driver) {
+        Thing *p_driver = TO_THING(p_car->Genus.Vehicle->Driver);
 
-		ASSERT(p_driver->Class == CLASS_PERSON);
+        ASSERT(p_driver->Class == CLASS_PERSON);
 
-		if (p_driver->Genus.Person->PlayerID)
-		{
-			return true;
-		}
-	}
+        if (p_driver->Genus.Person->PlayerID) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 // find things we might run over
 
-std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle)
-{
-	std::int32_t i;
+std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle) {
+    std::int32_t i;
 
-	std::int32_t dx;
-	std::int32_t dz;
+    std::int32_t dx;
+    std::int32_t dz;
 
-	std::int32_t cx;
-	std::int32_t cy;
-	std::int32_t cz;
+    std::int32_t cx;
+    std::int32_t cy;
+    std::int32_t cz;
 
-	std::int32_t num;
-	std::int32_t angle;
-	std::int32_t infront;
+    std::int32_t num;
+    std::int32_t angle;
+    std::int32_t infront;
 
-	//
-	// A vector pointing out in front of the car and how far infront
-	// of the car shall we look for things.  The more the car is
-	// turning the closer in we check.
-	//
+    //
+    // A vector pointing out in front of the car and how far infront
+    // of the car shall we look for things.  The more the car is
+    // turning the closer in we check.
+    //
 
-#define MAX_INFRONT		512
+#define MAX_INFRONT 512
 
-	switch(p_vehicle->Class)
-	{
-		case CLASS_VEHICLE:
-			angle   = p_vehicle->Genus.Vehicle->Angle & 2047;
-			infront = MAX_INFRONT;
-			if (!dangle)	infront -= abs(p_vehicle->Genus.Vehicle->WheelAngle * 3);
-			break;
+    switch (p_vehicle->Class) {
+        case CLASS_VEHICLE:
+            angle = p_vehicle->Genus.Vehicle->Angle & 2047;
+            infront = MAX_INFRONT;
+            if (!dangle) infront -= abs(p_vehicle->Genus.Vehicle->WheelAngle * 3);
+            break;
 
-		#ifdef BIKE
+#ifdef BIKE
 
-		case CLASS_BIKE:
-			angle   = p_vehicle->Draw.Mesh->Angle & 2047;
-			infront = MAX_INFRONT;
-			if (!dangle)	infront -= abs(BIKE_control_get(p_vehicle).steer) * 8;
-			break;
+        case CLASS_BIKE:
+            angle = p_vehicle->Draw.Mesh->Angle & 2047;
+            infront = MAX_INFRONT;
+            if (!dangle) infront -= abs(BIKE_control_get(p_vehicle).steer) * 8;
+            break;
 
-		#endif
+#endif
 
-		default:
-			ASSERT(0);
-			break;
-	}
+        default:
+            ASSERT(0);
+            break;
+    }
 
-	dx = -SIN(angle);
-	dz = -COS(angle);
+    dx = -SIN(angle);
+    dz = -COS(angle);
 
-	SATURATE(infront, 256, MAX_INFRONT);
+    SATURATE(infront, 256, MAX_INFRONT);
 
-	dx = dx * infront >> 8;
-	dz = dz * infront >> 8;
+    dx = dx * infront >> 8;
+    dz = dz * infront >> 8;
 
-	cx = p_vehicle->WorldPos.X + dx >> 8;
-	cy = p_vehicle->WorldPos.Y      >> 8;
-	cz = p_vehicle->WorldPos.Z + dz >> 8;
+    cx = p_vehicle->WorldPos.X + dx >> 8;
+    cy = p_vehicle->WorldPos.Y >> 8;
+    cz = p_vehicle->WorldPos.Z + dz >> 8;
 
-	//
-	// Draw a line to where we are checking for people.
-	//
+    //
+    // Draw a line to where we are checking for people.
+    //
 #ifndef PSX
 #ifndef TARGET_DC
-	if (ControlFlag&&allow_debug_keys)
-	{
-		AENG_world_line(
-			p_vehicle->WorldPos.X >> 8,
-			p_vehicle->WorldPos.Y >> 8,
-			p_vehicle->WorldPos.Z >> 8,
-			32,
-			0xffffff,
-			cx,
-			cy,
-			cz,
-			0,
-			0xff0000,
-			true);
-	}
+    if (ControlFlag && allow_debug_keys) {
+        AENG_world_line(
+            p_vehicle->WorldPos.X >> 8,
+            p_vehicle->WorldPos.Y >> 8,
+            p_vehicle->WorldPos.Z >> 8,
+            32,
+            0xffffff,
+            cx,
+            cy,
+            cz,
+            0,
+            0xff0000,
+            true);
+    }
 #endif
 #endif
-	//
-	// Look for things at this position.
-	//
+    //
+    // Look for things at this position.
+    //
 
-	num = THING_find_sphere(
-			cx, cy, cz,
-			infront,	// 0x140,
-			thing_index,
-			max_number,
-			(1 << CLASS_PERSON) | (1 << CLASS_VEHICLE));
+    num = THING_find_sphere(
+        cx, cy, cz,
+        infront, // 0x140,
+        thing_index,
+        max_number,
+        (1 << CLASS_PERSON) | (1 << CLASS_VEHICLE));
 
-	//
-	// Look for things ahead
-	//
+    //
+    // Look for things ahead
+    //
 
-	cx += dx >> 8;
-	cz += dz >> 8;
+    cx += dx >> 8;
+    cz += dz >> 8;
 
-	num += THING_find_sphere(cx, cy, cz, infront, thing_index + num, max_number - num, (1 << CLASS_PERSON) | (1 << CLASS_VEHICLE));
+    num += THING_find_sphere(cx, cy, cz, infront, thing_index + num, max_number - num, (1 << CLASS_PERSON) | (1 << CLASS_VEHICLE));
 
-	//
-	// Make sure that we are not in the list!
-	//
+    //
+    // Make sure that we are not in the list!
+    //
 
-	for (i = 0; i < num; i++)
-	{
-		if (thing_index[i] == THING_NUMBER(p_vehicle))
-		{
-			thing_index[i] = thing_index[--num];
+    for (i = 0; i < num; i++) {
+        if (thing_index[i] == THING_NUMBER(p_vehicle)) {
+            thing_index[i] = thing_index[--num];
 
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	return num;
+    return num;
 }
 
 // find door position
 
-void VEH_find_door(Thing *p_vehicle, std::int32_t i_am_a_passenger, std::int32_t *door_x, std::int32_t *door_z)
-{
-	std::int32_t dx;
-	std::int32_t dz;
+void VEH_find_door(Thing *p_vehicle, std::int32_t i_am_a_passenger, std::int32_t *door_x, std::int32_t *door_z) {
+    std::int32_t dx;
+    std::int32_t dz;
 
-	std::int32_t ix;
-	std::int32_t iz;
+    std::int32_t ix;
+    std::int32_t iz;
 
-	ASSERT(p_vehicle->Class == CLASS_VEHICLE);
+    ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
-	dx = -SIN(p_vehicle->Genus.Vehicle->Angle);
-	dz = -COS(p_vehicle->Genus.Vehicle->Angle);
+    dx = -SIN(p_vehicle->Genus.Vehicle->Angle);
+    dz = -COS(p_vehicle->Genus.Vehicle->Angle);
 
-	ix = p_vehicle->WorldPos.X >> 8;
-	iz = p_vehicle->WorldPos.Z >> 8;
+    ix = p_vehicle->WorldPos.X >> 8;
+    iz = p_vehicle->WorldPos.Z >> 8;
 
-	if (i_am_a_passenger)
-	{
-/*
-		switch(p_vehicle->Genus.Vehicle->Type)
-		{
-			case VEH_TYPE_VAN:
-			case VEH_TYPE_AMBULANCE:
-			case VEH_TYPE_JEEP:
-			case VEH_TYPE_MEATWAGON:
-			case VEH_TYPE_WILDCATVAN:
+    if (i_am_a_passenger) {
+        /*
+                        switch(p_vehicle->Genus.Vehicle->Type)
+                        {
+                                case VEH_TYPE_VAN:
+                                case VEH_TYPE_AMBULANCE:
+                                case VEH_TYPE_JEEP:
+                                case VEH_TYPE_MEATWAGON:
+                                case VEH_TYPE_WILDCATVAN:
 
-				//
-				// Get in the back of the van.
-				//
+                                        //
+                                        // Get in the back of the van.
+                                        //
 
-				ix -= dx >> 10;
-				iz -= dz >> 10;
+                                        ix -= dx >> 10;
+                                        iz -= dz >> 10;
 
-				break;
+                                        break;
 
-			case VEH_TYPE_CAR:
-			case VEH_TYPE_TAXI:
-			case VEH_TYPE_POLICE:
-			case VEH_TYPE_SEDAN:
+                                case VEH_TYPE_CAR:
+                                case VEH_TYPE_TAXI:
+                                case VEH_TYPE_POLICE:
+                                case VEH_TYPE_SEDAN:
 
-				//
-				// The back seat on the same side as what Darci gets in.
-				//
+                                        //
+                                        // The back seat on the same side as what Darci gets in.
+                                        //
 
-				ix -= dx >> 10;
-				iz -= dz >> 10;
+                                        ix -= dx >> 10;
+                                        iz -= dz >> 10;
 
-				ix += dz >> 9;
-				iz -= dx >> 9;
+                                        ix += dz >> 9;
+                                        iz -= dx >> 9;
 
-				break;
+                                        break;
 
-			default:
-				ASSERT(0);
-				break;
-		}
-*/
+                                default:
+                                        ASSERT(0);
+                                        break;
+                        }
+        */
 
-		ix += dx >> 10;
-		iz += dz >> 10;
+        ix += dx >> 10;
+        iz += dz >> 10;
 
-		ix -= dz >> 9;
-		iz += dx >> 9;
+        ix -= dz >> 9;
+        iz += dx >> 9;
 
-		ix -= dz >> 11;
-		iz += dx >> 11;
+        ix -= dz >> 11;
+        iz += dx >> 11;
 
-	}
-	else
-	{
-		ix += dx >> 10;
-		iz += dz >> 10;
+    } else {
+        ix += dx >> 10;
+        iz += dz >> 10;
 
-		ix += dz >> 9;
-		iz -= dx >> 9;
+        ix += dz >> 9;
+        iz -= dx >> 9;
 
-		ix += dz >> 11;
-		iz -= dx >> 11;
-	}
+        ix += dz >> 11;
+        iz -= dx >> 11;
+    }
 
-   *door_x = ix;
-   *door_z = iz;
+    *door_x = ix;
+    *door_z = iz;
 }
 
 //
 // Returns true if the given car is completely on the road.
 //
 
-std::int32_t VEH_on_road(Thing *p_vehicle, std::int32_t step)
-{
-	std::int32_t x[4];
-	std::int32_t y[4];
-	std::int32_t z[4];
+std::int32_t VEH_on_road(Thing *p_vehicle, std::int32_t step) {
+    std::int32_t x[4];
+    std::int32_t y[4];
+    std::int32_t z[4];
 
-	// get rotated points
-	GetCarPoints(p_vehicle, x, y, z, step);
+    // get rotated points
+    GetCarPoints(p_vehicle, x, y, z, step);
 
-	// check 8 points along each edge
-	for (int i = 0; i < 4; i++)
-	{
-		std::int32_t	x1 = x[i];
-		std::int32_t	z1 = z[i];
+    // check 8 points along each edge
+    for (int i = 0; i < 4; i++) {
+        std::int32_t x1 = x[i];
+        std::int32_t z1 = z[i];
 
-		std::int32_t	x2 = x[(i + 1) & 0x3];
-		std::int32_t	z2 = z[(i + 1) & 0x3];
+        std::int32_t x2 = x[(i + 1) & 0x3];
+        std::int32_t z2 = z[(i + 1) & 0x3];
 
-		std::int32_t	dx = (x2 - x1) >> 3;
-		std::int32_t	dz = (z2 - z1) >> 3;
+        std::int32_t dx = (x2 - x1) >> 3;
+        std::int32_t dz = (z2 - z1) >> 3;
 
-		std::int32_t	cx = x1;
-		std::int32_t	cz = z1;
+        std::int32_t cx = x1;
+        std::int32_t cz = z1;
 
-		for (int j = 0; j < 7; j++)
-		{
-			if (!ROAD_is_road(cx >> 8, cz >> 8))
-			{
-				return false;
-			}
+        for (int j = 0; j < 7; j++) {
+            if (!ROAD_is_road(cx >> 8, cz >> 8)) {
+                return false;
+            }
 
-			cx += dx;
-			cz += dz;
-		}
-	}
+            cx += dx;
+            cz += dz;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 // add damage to a specified area of a vehicle
 
-void VEH_add_damage(Vehicle* vp, std::uint8_t area, std::uint8_t hp)
-{
-	// max out at 2hp
-	if (hp > 2)	hp = 2;
+void VEH_add_damage(Vehicle *vp, std::uint8_t area, std::uint8_t hp) {
+    // max out at 2hp
+    if (hp > 2) hp = 2;
 
-	if (!hp)
-	{
-		// small amount of damage
-		if (vp->damage[area] < 2)	vp->damage[area]++;
-	}
-	else
-	{
-		vp->damage[area] += hp;
-		if (vp->damage[area] > 4)	vp->damage[area] = 4;
-	}
+    if (!hp) {
+        // small amount of damage
+        if (vp->damage[area] < 2) vp->damage[area]++;
+    } else {
+        vp->damage[area] += hp;
+        if (vp->damage[area] > 4) vp->damage[area] = 4;
+    }
 
-	// even out damage across sides
-	if (vp->damage[2] < (vp->damage[0] + vp->damage[4])/2)
-	{
-		vp->damage[2] = (vp->damage[0] + vp->damage[4])/2;
-	}
-	if (vp->damage[3] < (vp->damage[1] + vp->damage[5])/2)
-	{
-		vp->damage[3] = (vp->damage[1] + vp->damage[5])/2;
-	}
+    // even out damage across sides
+    if (vp->damage[2] < (vp->damage[0] + vp->damage[4]) / 2) {
+        vp->damage[2] = (vp->damage[0] + vp->damage[4]) / 2;
+    }
+    if (vp->damage[3] < (vp->damage[1] + vp->damage[5]) / 2) {
+        vp->damage[3] = (vp->damage[1] + vp->damage[5]) / 2;
+    }
 
-	// reduce damage at opposite corner
-	if ((vp->damage[0] + vp->damage[1] > 6) && (area == 0))	vp->damage[1]--;
-	if ((vp->damage[0] + vp->damage[1] > 6) && (area == 1))	vp->damage[0]--;
-	
-	if ((vp->damage[4] + vp->damage[5] > 6) && (area == 4))	vp->damage[5]--;
-	if ((vp->damage[4] + vp->damage[5] > 6) && (area == 5))	vp->damage[4]--;
+    // reduce damage at opposite corner
+    if ((vp->damage[0] + vp->damage[1] > 6) && (area == 0)) vp->damage[1]--;
+    if ((vp->damage[0] + vp->damage[1] > 6) && (area == 1)) vp->damage[0]--;
 
-	// randomly reduce damage at diagonally opposite corner
-	if ((hp == 2) && (Random() > 25000) && (vp->damage[5-area]))	vp->damage[5-area]--;
+    if ((vp->damage[4] + vp->damage[5] > 6) && (area == 4)) vp->damage[5]--;
+    if ((vp->damage[4] + vp->damage[5] > 6) && (area == 5)) vp->damage[4]--;
+
+    // randomly reduce damage at diagonally opposite corner
+    if ((hp == 2) && (Random() > 25000) && (vp->damage[5 - area])) vp->damage[5 - area]--;
 }
 
 // bounce a vehicle
 
-void VEH_bounce(Vehicle* vp, std::uint8_t area, std::int32_t amount)
-{
-	amount *= 2;
+void VEH_bounce(Vehicle *vp, std::uint8_t area, std::int32_t amount) {
+    amount *= 2;
 
-	switch (area)
-	{
-	case 0:
-		vp->DY[1] -= amount;
-		break;
+    switch (area) {
+        case 0:
+            vp->DY[1] -= amount;
+            break;
 
-	case 1:
-		vp->DY[0] -= amount;
-		break;
+        case 1:
+            vp->DY[0] -= amount;
+            break;
 
-	case 2:
-		vp->DY[1] -= amount;
-		vp->DY[3] -= amount;
-		break;
+        case 2:
+            vp->DY[1] -= amount;
+            vp->DY[3] -= amount;
+            break;
 
-	case 3:
-		vp->DY[0] -= amount;
-		vp->DY[2] -= amount;
-		break;
+        case 3:
+            vp->DY[0] -= amount;
+            vp->DY[2] -= amount;
+            break;
 
-	case 4:
-		vp->DY[3] -= amount;
-		break;
+        case 4:
+            vp->DY[3] -= amount;
+            break;
 
-	case 5:
-		vp->DY[2] -= amount;
-		break;		
-	}
+        case 5:
+            vp->DY[2] -= amount;
+            break;
+    }
 }
 
 // init the vehicle array
 
 #ifndef PSX
-void init_vehicles()
-{
-	std::int32_t i;
+void init_vehicles() {
+    std::int32_t i;
 
-	for (i = 0; i < MAX_VEHICLES; i++)
-	{
-		TO_VEHICLE(i)->Spring[0].Compression = VEH_NULL;
-	}
+    for (i = 0; i < MAX_VEHICLES; i++) {
+        TO_VEHICLE(i)->Spring[0].Compression = VEH_NULL;
+    }
 }
 #endif
 
@@ -706,95 +652,87 @@ void init_vehicles()
 
 static void init_arctans();
 
+void VEH_init_vehinfo() {
+    int ii;
 
-
-void VEH_init_vehinfo()
-{
-	int	ii;
-
-	init_arctans();
+    init_arctans();
 
 #ifndef PSX
 
 #ifdef TARGET_DC
-	// Just allocate these once.
-	static bool bAllocatedVertexAssignments = false;
-	if ( !bAllocatedVertexAssignments )
-	{
-		for (ii = 0; ii < VEH_TYPE_NUMBER; ii++)
-		{
-			veh_info[ii].VertexAssignments = NULL;
-		}
-	}
+    // Just allocate these once.
+    static bool bAllocatedVertexAssignments = false;
+    if (!bAllocatedVertexAssignments) {
+        for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
+            veh_info[ii].VertexAssignments = NULL;
+        }
+    }
 
 #else
-	for (ii = 0; ii < VEH_TYPE_NUMBER; ii++)
-	{
-		if (veh_info[ii].VertexAssignments)
-		{
-			MemFree(veh_info[ii].VertexAssignments);
-		}
-	}
+    for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
+        if (veh_info[ii].VertexAssignments) {
+            MemFree(veh_info[ii].VertexAssignments);
+        }
+    }
 #endif
 
-	for (ii = 0; ii < VEH_TYPE_NUMBER; ii++)
-	{
-		PrimObject*	obj = &prim_objects[veh_info[ii].BodyPrim];
-		PrimInfo*	inf = get_prim_info(veh_info[ii].BodyPrim);
-		std::int32_t		px[6],pz[6];
+    for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
+        PrimObject *obj = &prim_objects[veh_info[ii].BodyPrim];
+        PrimInfo *inf = get_prim_info(veh_info[ii].BodyPrim);
+        std::int32_t px[6], pz[6];
 
-		// create 6 crumple points
-		px[0] = inf->minx;	pz[0] = inf->minz;
-		px[1] = inf->maxx;	pz[1] = inf->minz;
-		px[2] = inf->minx;	pz[2] = (inf->minz + inf->maxz) / 2;
-		px[3] = inf->maxx;	pz[3] = (inf->minz + inf->maxz) / 2;
-		px[4] = inf->minx;	pz[4] = inf->maxz;
-		px[5] = inf->maxx;	pz[5] = inf->maxz;
-				
-		veh_info[ii].NumVertices = obj->EndPoint - obj->StartPoint;
+        // create 6 crumple points
+        px[0] = inf->minx;
+        pz[0] = inf->minz;
+        px[1] = inf->maxx;
+        pz[1] = inf->minz;
+        px[2] = inf->minx;
+        pz[2] = (inf->minz + inf->maxz) / 2;
+        px[3] = inf->maxx;
+        pz[3] = (inf->minz + inf->maxz) / 2;
+        px[4] = inf->minx;
+        pz[4] = inf->maxz;
+        px[5] = inf->maxx;
+        pz[5] = inf->maxz;
+
+        veh_info[ii].NumVertices = obj->EndPoint - obj->StartPoint;
 
 #ifdef TARGET_DC
-		if ( !bAllocatedVertexAssignments )
-		{
-			ASSERT ( veh_info[ii].VertexAssignments == NULL );
-			veh_info[ii].VertexAssignments = (std::uint8_t*)MemAlloc(obj->EndPoint - obj->StartPoint);
-		}
-		else
-		{
-			ASSERT ( veh_info[ii].VertexAssignments != NULL );
-		}
+        if (!bAllocatedVertexAssignments) {
+            ASSERT(veh_info[ii].VertexAssignments == NULL);
+            veh_info[ii].VertexAssignments = (std::uint8_t *) MemAlloc(obj->EndPoint - obj->StartPoint);
+        } else {
+            ASSERT(veh_info[ii].VertexAssignments != NULL);
+        }
 #else
-		veh_info[ii].VertexAssignments = (std::uint8_t*)MemAlloc(obj->EndPoint - obj->StartPoint);
+        veh_info[ii].VertexAssignments = (std::uint8_t *) MemAlloc(obj->EndPoint - obj->StartPoint);
 #endif
 
-		// assign each vertex to the nearest crumple point
-		for (int jj = obj->StartPoint; jj < obj->EndPoint; jj++)
-		{
-			std::int32_t	maxdist = 0x7FFFFFFF;
-			std::int32_t	best = -1;
+        // assign each vertex to the nearest crumple point
+        for (int jj = obj->StartPoint; jj < obj->EndPoint; jj++) {
+            std::int32_t maxdist = 0x7FFFFFFF;
+            std::int32_t best = -1;
 
-			std::int32_t	x = prim_points[jj].X;
-			std::int32_t	z = prim_points[jj].Z;
+            std::int32_t x = prim_points[jj].X;
+            std::int32_t z = prim_points[jj].Z;
 
-			for (int kk = 0; kk < 6; kk++)
-			{
-				std::int32_t	dist = (x - px[kk])*(x - px[kk]) + (z - pz[kk])*(z - pz[kk]);
-				
-				if (dist < maxdist)
-				{
-					maxdist = dist;
-					best = kk;
-				}
-			}
+            for (int kk = 0; kk < 6; kk++) {
+                std::int32_t dist = (x - px[kk]) * (x - px[kk]) + (z - pz[kk]) * (z - pz[kk]);
 
-			ASSERT(best != -1);
+                if (dist < maxdist) {
+                    maxdist = dist;
+                    best = kk;
+                }
+            }
 
-			veh_info[ii].VertexAssignments[jj - obj->StartPoint] = best;
-		}
-	}
+            ASSERT(best != -1);
+
+            veh_info[ii].VertexAssignments[jj - obj->StartPoint] = best;
+        }
+    }
 
 #ifdef TARGET_DC
-	bAllocatedVertexAssignments = true;
+    bAllocatedVertexAssignments = true;
 #endif
 
 #endif
@@ -802,739 +740,686 @@ void VEH_init_vehinfo()
 
 // find a free vehicle slot
 
-Vehicle *VEH_alloc()
-{
-	std::int32_t i;
+Vehicle *VEH_alloc() {
+    std::int32_t i;
 
-	for (i = 0; i < MAX_VEHICLES; i++)
-	{
-		if (TO_VEHICLE(i)->Spring[0].Compression == VEH_NULL)
-		{
-			Vehicle *ans = TO_VEHICLE(i);
+    for (i = 0; i < MAX_VEHICLES; i++) {
+        if (TO_VEHICLE(i)->Spring[0].Compression == VEH_NULL) {
+            Vehicle *ans = TO_VEHICLE(i);
 
-			ans->Spring[0].Compression = MIN_COMPRESSION;
+            ans->Spring[0].Compression = MIN_COMPRESSION;
 
-			return ans;
-		}
-	}
+            return ans;
+        }
+    }
 
-	ASSERT(0);
+    ASSERT(0);
 
-	return NULL;
+    return NULL;
 }
 
 // free a vehicle slot
 
-void VEH_dealloc(Vehicle *veh)
-{
-	veh->Spring[0].Compression = VEH_NULL;
-	if (veh->dlight) NIGHT_dlight_destroy(veh->dlight);
+void VEH_dealloc(Vehicle *veh) {
+    veh->Spring[0].Compression = VEH_NULL;
+    if (veh->dlight) NIGHT_dlight_destroy(veh->dlight);
 }
 
 //
 // Initialises a vehicles drawmesh structure.
 //
 
-static void set_vehicle_draw(Thing *p_thing)
-{
-	DrawTween	*draw;
-	ASSERT(0);
-	return;
+static void set_vehicle_draw(Thing *p_thing) {
+    DrawTween *draw;
+    ASSERT(0);
+    return;
 
-	draw=&p_thing->Genus.Vehicle->Draw;
+    draw = &p_thing->Genus.Vehicle->Draw;
 
-	draw->Angle				=	p_thing->Genus.Vehicle->Angle;
-	draw->Roll				=	0;
-	draw->Tilt				=	0;
-	draw->AnimTween			=	0;
-	draw->TweenStage		=	0;
-	draw->CurrentFrame		=	game_chunk[5].AnimList[2];
-	draw->NextFrame			=	draw->CurrentFrame->NextFrame;
-	draw->QueuedFrame		=	NULL;
-	draw->TheChunk			=	&game_chunk[5];
-	draw->FrameIndex		=	0;
-	draw->Flags				=	0;
+    draw->Angle = p_thing->Genus.Vehicle->Angle;
+    draw->Roll = 0;
+    draw->Tilt = 0;
+    draw->AnimTween = 0;
+    draw->TweenStage = 0;
+    draw->CurrentFrame = game_chunk[5].AnimList[2];
+    draw->NextFrame = draw->CurrentFrame->NextFrame;
+    draw->QueuedFrame = NULL;
+    draw->TheChunk = &game_chunk[5];
+    draw->FrameIndex = 0;
+    draw->Flags = 0;
 }
 THING_INDEX VEH_create(
-		std::int32_t x,
-		std::int32_t y,
-		std::int32_t z,
-		std::int32_t yaw,
-		std::int32_t pitch,
-		std::int32_t roll,
-		std::int32_t type,
-		std::uint8_t key,
-		std::uint8_t colour)
-{
-	DrawMesh*	dm;
-	THING_INDEX ans = NULL;
-	Thing*		p_thing;
-	int			ii;
+    std::int32_t x,
+    std::int32_t y,
+    std::int32_t z,
+    std::int32_t yaw,
+    std::int32_t pitch,
+    std::int32_t roll,
+    std::int32_t type,
+    std::uint8_t key,
+    std::uint8_t colour) {
+    DrawMesh *dm;
+    THING_INDEX ans = NULL;
+    Thing *p_thing;
+    int ii;
 
-ANNOYINGSCRIBBLECHECK;
+    ANNOYINGSCRIBBLECHECK;
 
-	ASSERT(WITHIN(type, 0, VEH_TYPE_NUMBER - 1));
+    ASSERT(WITHIN(type, 0, VEH_TYPE_NUMBER - 1));
 
-	//
-	// Looks like vehicles treat their yaw strangely...
-	//
+    //
+    // Looks like vehicles treat their yaw strangely...
+    //
 
-	yaw += 1024;
-	yaw &= 2047;
+    yaw += 1024;
+    yaw &= 2047;
 
 #if defined(FAST_EDDIE) && 0
 
-	//
-	// OK, now we'll ask the road system about our position
-	//
+    //
+    // OK, now we'll ask the road system about our position
+    //
 
-	std::int32_t	rn1,rn2;
+    std::int32_t rn1, rn2;
 
-	ROAD_find(x >> 8, z >> 8, &rn1, &rn2);
+    ROAD_find(x >> 8, z >> 8, &rn1, &rn2);
 
-	std::int32_t	rd = ROAD_signed_dist(rn1, rn2, x >> 8, z >> 8);
+    std::int32_t rd = ROAD_signed_dist(rn1, rn2, x >> 8, z >> 8);
 
-	if (rd < 0)
-	{
-		std::int32_t	tmp = rn1; rn1 = rn2; rn2 = tmp;		
-	}
+    if (rd < 0) {
+        std::int32_t tmp = rn1;
+        rn1 = rn2;
+        rn2 = tmp;
+    }
 
-	std::int32_t	x1,z1;
-	std::int32_t	x2,z2;
+    std::int32_t x1, z1;
+    std::int32_t x2, z2;
 
-ANNOYINGSCRIBBLECHECK;
+    ANNOYINGSCRIBBLECHECK;
 
-	ROAD_node_pos(rn1, &x1, &z1);
-	ROAD_node_pos(rn2, &x2, &z2);
+    ROAD_node_pos(rn1, &x1, &z1);
+    ROAD_node_pos(rn2, &x2, &z2);
 
-ANNOYINGSCRIBBLECHECK;
+    ANNOYINGSCRIBBLECHECK;
 
-	std::int32_t	dx = -SIN(yaw);
-	std::int32_t	dz = -COS(yaw);
+    std::int32_t dx = -SIN(yaw);
+    std::int32_t dz = -COS(yaw);
 
-	if (dx * (x2 - x1) + dz * (z2 - z1) < 0)
-	{
-		// facing the wrong way
-		yaw ^= 1024;
-	}
+    if (dx * (x2 - x1) + dz * (z2 - z1) < 0) {
+        // facing the wrong way
+        yaw ^= 1024;
+    }
 #endif
 
-	//
-	// Get a DrawMesh for this thing.
-	//
-ANNOYINGSCRIBBLECHECK;
-	dm = alloc_draw_mesh();
-ANNOYINGSCRIBBLECHECK;
+    //
+    // Get a DrawMesh for this thing.
+    //
+    ANNOYINGSCRIBBLECHECK;
+    dm = alloc_draw_mesh();
+    ANNOYINGSCRIBBLECHECK;
 
-	if (dm)
-	{
-ANNOYINGSCRIBBLECHECK;
-		ans = alloc_primary_thing(CLASS_VEHICLE);
-ANNOYINGSCRIBBLECHECK;
+    if (dm) {
+        ANNOYINGSCRIBBLECHECK;
+        ans = alloc_primary_thing(CLASS_VEHICLE);
+        ANNOYINGSCRIBBLECHECK;
 
-		if (ans)
-		{
-			Vehicle*	vp;
+        if (ans) {
+            Vehicle *vp;
 
-ANNOYINGSCRIBBLECHECK;
-			p_thing = TO_THING(ans);
+            ANNOYINGSCRIBBLECHECK;
+            p_thing = TO_THING(ans);
 
-			//
-			// Initialise the thing.
-			//
+            //
+            // Initialise the thing.
+            //
 
-			p_thing->Class      = CLASS_VEHICLE;
-			p_thing->State      = 0;
-			p_thing->SubState   = 0;
-			p_thing->DrawType   = DT_VEHICLE;
-			p_thing->Flags      = 0;
-			p_thing->WorldPos.X = x;
-			p_thing->WorldPos.Y = y;
-			p_thing->WorldPos.Z = z;
+            p_thing->Class = CLASS_VEHICLE;
+            p_thing->State = 0;
+            p_thing->SubState = 0;
+            p_thing->DrawType = DT_VEHICLE;
+            p_thing->Flags = 0;
+            p_thing->WorldPos.X = x;
+            p_thing->WorldPos.Y = y;
+            p_thing->WorldPos.Z = z;
 
-			p_thing->Draw.Mesh  = dm;
-ANNOYINGSCRIBBLECHECK;
+            p_thing->Draw.Mesh = dm;
+            ANNOYINGSCRIBBLECHECK;
 
-			dm->Angle = yaw;
+            dm->Angle = yaw;
 
-			vp = p_thing->Genus.Vehicle = VEH_alloc();
-ANNOYINGSCRIBBLECHECK;
+            vp = p_thing->Genus.Vehicle = VEH_alloc();
+            ANNOYINGSCRIBBLECHECK;
 
-			ASSERT(vp);
+            ASSERT(vp);
 
-			vp->Angle  = yaw;
-			vp->Roll   = roll;
-			vp->Tilt   = pitch;
-			vp->Flags  = 0;
+            vp->Angle = yaw;
+            vp->Roll = roll;
+            vp->Tilt = pitch;
+            vp->Flags = 0;
 
-ANNOYINGSCRIBBLECHECK;
-			for (ii = 0; ii < 4; ii++)
-			{
-				vp->Spring[ii].Compression = MIN_COMPRESSION;
-				vp->DY[ii] = 0;
-			}
+            ANNOYINGSCRIBBLECHECK;
+            for (ii = 0; ii < 4; ii++) {
+                vp->Spring[ii].Compression = MIN_COMPRESSION;
+                vp->DY[ii] = 0;
+            }
 
-ANNOYINGSCRIBBLECHECK;
-			vp->Type = type;
+            ANNOYINGSCRIBBLECHECK;
+            vp->Type = type;
 
-			if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
-ANNOYINGSCRIBBLECHECK;
-				vp->dlight = NIGHT_dlight_create( p_thing->WorldPos.X>>8, p_thing->WorldPos.Y>>8, p_thing->WorldPos.Z>>8, 200, 35, 32, 10);
-ANNOYINGSCRIBBLECHECK;
-			} else {
-ANNOYINGSCRIBBLECHECK;
-				vp->dlight=0;
-ANNOYINGSCRIBBLECHECK;
-			}
+            if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
+                ANNOYINGSCRIBBLECHECK;
+                vp->dlight = NIGHT_dlight_create(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 200, 35, 32, 10);
+                ANNOYINGSCRIBBLECHECK;
+            } else {
+                ANNOYINGSCRIBBLECHECK;
+                vp->dlight = 0;
+                ANNOYINGSCRIBBLECHECK;
+            }
 
-			// set extension parameters
-ANNOYINGSCRIBBLECHECK;
-			reinit_vehicle(p_thing);
-ANNOYINGSCRIBBLECHECK;
+            // set extension parameters
+            ANNOYINGSCRIBBLECHECK;
+            reinit_vehicle(p_thing);
+            ANNOYINGSCRIBBLECHECK;
 
-			set_state_function(p_thing, STATE_FDRIVING);
-//			set_vehicle_draw(p_thing);
+            set_state_function(p_thing, STATE_FDRIVING);
+            //			set_vehicle_draw(p_thing);
 
-			//
-			// Initialises more stuff...
-			//
+            //
+            // Initialises more stuff...
+            //
 
-ANNOYINGSCRIBBLECHECK;
-			p_thing->Genus.Vehicle->Roll	= 0;
-			p_thing->Genus.Vehicle->Tilt	= 0;
-			p_thing->Genus.Vehicle->key		= key;
+            ANNOYINGSCRIBBLECHECK;
+            p_thing->Genus.Vehicle->Roll = 0;
+            p_thing->Genus.Vehicle->Tilt = 0;
+            p_thing->Genus.Vehicle->key = key;
 
-			//
-			// Place on the mapwho.
-			//
+            //
+            // Place on the mapwho.
+            //
 
-ANNOYINGSCRIBBLECHECK;
-			add_thing_to_map(p_thing);
-ANNOYINGSCRIBBLECHECK;
-		}
-		else
-		{
-			ASSERT(0);
-		}
-	}
-	else
-	{
-		ASSERT(0);
-	}
+            ANNOYINGSCRIBBLECHECK;
+            add_thing_to_map(p_thing);
+            ANNOYINGSCRIBBLECHECK;
+        } else {
+            ASSERT(0);
+        }
+    } else {
+        ASSERT(0);
+    }
 
-ANNOYINGSCRIBBLECHECK;
-	return ans;
+    ANNOYINGSCRIBBLECHECK;
+    return ans;
 }
 
-void reinit_vehicle(Thing* p_thing)
-{
-	Vehicle*	vp = p_thing->Genus.Vehicle;
+void reinit_vehicle(Thing *p_thing) {
+    Vehicle *vp = p_thing->Genus.Vehicle;
 
-	vp->VelX        = 0;
-	vp->VelY		= 0;
-	vp->VelZ        = 0;
-	vp->VelR        = 0;
-	vp->Dir         = 0;
-	vp->WheelAngle  = 0;
-	vp->Skid        = 0;
-	vp->Stable      = 0;
-	vp->Smokin      = 0;
-	vp->OnRoadFlags = 0;
-	vp->Health      = 300;
-	vp->Siren       = 0;
-	vp->GrabAction	= 0;
+    vp->VelX = 0;
+    vp->VelY = 0;
+    vp->VelZ = 0;
+    vp->VelR = 0;
+    vp->Dir = 0;
+    vp->WheelAngle = 0;
+    vp->Skid = 0;
+    vp->Stable = 0;
+    vp->Smokin = 0;
+    vp->OnRoadFlags = 0;
+    vp->Health = 300;
+    vp->Siren = 0;
+    vp->GrabAction = 0;
 
-	for (int ii = 0; ii < 6; ii++)
-	{
-		vp->damage[ii] = 0;
-	}
+    for (int ii = 0; ii < 6; ii++) {
+        vp->damage[ii] = 0;
+    }
 
-	std::int32_t	height;
-	
-	for (int ii = 0; ii < 4; ii++)
-	{
-		vp->DY[ii] = 0;
-		vp->Spring[ii].Compression = 4300;
-	}
+    std::int32_t height;
 
-	vp->Tilt = 0;
-	vp->Roll = 0;
-	height = PAP_calc_map_height_at(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8);
-	//
-	// 107 is length of suspension 128 *(100-%compressed)   =128*.84
-	//
-	p_thing->WorldPos.Y = (height + 107) << 8;
+    for (int ii = 0; ii < 4; ii++) {
+        vp->DY[ii] = 0;
+        vp->Spring[ii].Compression = 4300;
+    }
+
+    vp->Tilt = 0;
+    vp->Roll = 0;
+    height = PAP_calc_map_height_at(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8);
+    //
+    // 107 is length of suspension 128 *(100-%compressed)   =128*.84
+    //
+    p_thing->WorldPos.Y = (height + 107) << 8;
 }
 
-void free_vehicle(Thing *p_thing)
-{
-	ASSERT(0);
-	if (p_thing->Genus.Vehicle)
-	{
-		VEH_dealloc(p_thing->Genus.Vehicle);
-	}
+void free_vehicle(Thing *p_thing) {
+    ASSERT(0);
+    if (p_thing->Genus.Vehicle) {
+        VEH_dealloc(p_thing->Genus.Vehicle);
+    }
 
-	free_draw_mesh(p_thing->Draw.Mesh);
+    free_draw_mesh(p_thing->Draw.Mesh);
 
-	free_thing(p_thing);
+    free_thing(p_thing);
 }
-
-
 
 // static functions
 //
 // (don't static functions have the "static" keyword?)
 
-std::int32_t calc_car_collision_turn(Thing *p_car,std::int32_t angle,std::int32_t tilt,std::int32_t roll);
-void calc_car_normal(std::int32_t *p,std::int32_t *dy,std::int32_t *nx,std::int32_t *ny,std::int32_t *nz);
-void calc_car_vect(std::int32_t p1,std::int32_t p2,std::int32_t *dy,std::int32_t *vx,std::int32_t *vy,std::int32_t *vz);
-void normalise_val256(std::int32_t *vx,std::int32_t *vy,std::int32_t *vz);
+std::int32_t calc_car_collision_turn(Thing *p_car, std::int32_t angle, std::int32_t tilt, std::int32_t roll);
+void calc_car_normal(std::int32_t *p, std::int32_t *dy, std::int32_t *nx, std::int32_t *ny, std::int32_t *nz);
+void calc_car_vect(std::int32_t p1, std::int32_t p2, std::int32_t *dy, std::int32_t *vx, std::int32_t *vy, std::int32_t *vz);
+void normalise_val256(std::int32_t *vx, std::int32_t *vy, std::int32_t *vz);
 
+void animate_car(Thing *p_car) {
+    std::int32_t tween_step;
+    DrawTween *draw_info;
+    ASSERT(0);
+    return;
 
+    draw_info = &p_car->Genus.Vehicle->Draw;
+    //	tween_step=256/(draw_info->CurrentFrame->TweenStep+1);
+    tween_step = draw_info->CurrentFrame->TweenStep << 1;
 
+    tween_step = (tween_step * TICK_RATIO) >> TICK_SHIFT;
+    if (tween_step == 0)
+        tween_step = 1;
+    draw_info->AnimTween += tween_step; // 256/(draw_info->CurrentFrame->TweenStep+1);
 
+    if (p_car->Genus.Vehicle->Draw.AnimTween > 256) {
+        p_car->Genus.Vehicle->Draw.AnimTween -= 256;
 
-
-void animate_car(Thing *p_car)
-{
-	std::int32_t	tween_step;
-	DrawTween	*draw_info;
-	ASSERT(0);
-	return;
-
-
-	draw_info=&p_car->Genus.Vehicle->Draw;
-//	tween_step=256/(draw_info->CurrentFrame->TweenStep+1);
-	tween_step=draw_info->CurrentFrame->TweenStep<<1;
-
-	tween_step = (tween_step*TICK_RATIO)>>TICK_SHIFT;
-	if(tween_step==0)
-		tween_step=1;
-	draw_info->AnimTween += tween_step; //256/(draw_info->CurrentFrame->TweenStep+1);
-
-	if(p_car->Genus.Vehicle->Draw.AnimTween>256)
-	{
-		p_car->Genus.Vehicle->Draw.AnimTween-=256;
-
-std::int32_t advance_keyframe(DrawTween *draw_info);
-		advance_keyframe(&p_car->Genus.Vehicle->Draw);
-	}
+        std::int32_t advance_keyframe(DrawTween * draw_info);
+        advance_keyframe(&p_car->Genus.Vehicle->Draw);
+    }
 }
 
+void draw_car(Thing *p_car) {
+    std::int32_t x[8], y[8], z[8];
+    std::int32_t vector[3];
+    std::int32_t dx, dy, dz;
+    std::int32_t c0 = 0;
+    struct VehInfo *info;
+    std::int32_t tilt;
+    Vehicle *vp;
 
-void draw_car(Thing *p_car)
-{
-	std::int32_t	x[8],y[8],z[8];
-	std::int32_t	vector[3];
-	std::int32_t	dx,dy,dz;
-	std::int32_t	c0=0;
-	struct	VehInfo	*info;
-	std::int32_t	tilt;
-	Vehicle*	vp;
+    vp = p_car->Genus.Vehicle;
+    info = &veh_info[p_car->Genus.Vehicle->Type];
 
-	vp = p_car->Genus.Vehicle;
-	info=&veh_info[p_car->Genus.Vehicle->Type];
-
-	make_car_matrix(p_car->Genus.Vehicle);
-#ifdef	PSX
+    make_car_matrix(p_car->Genus.Vehicle);
+#ifdef PSX
 /*
-	{
-		char	str[30];
+        {
+                char	str[30];
 extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
-		sprintf(str,"S%d W%d A%d d %d",p_car->Genus.Vehicle->Steering,p_car->Genus.Vehicle->Wheel,p_car->Genus.Vehicle->IsAnalog,(p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING));
+                sprintf(str,"S%d W%d A%d d %d",p_car->Genus.Vehicle->Steering,p_car->Genus.Vehicle->Wheel,p_car->Genus.Vehicle->IsAnalog,(p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING));
 
-		FONT2D_DrawString_3d(str,p_car->WorldPos.X>>8,p_car->WorldPos.Y>>8,p_car->WorldPos.Z>>8,0xffffff,512,0);
+                FONT2D_DrawString_3d(str,p_car->WorldPos.X>>8,p_car->WorldPos.Y>>8,p_car->WorldPos.Z>>8,0xffffff,512,0);
 //			char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
-	}
+        }
 */
 #endif
 #if !defined(PSX) && !defined(TARGET_DC)
-	if (0)
-	{
-		//
-		// Draw the car as an animating prim.
-		//
+    if (0) {
+        //
+        // Draw the car as an animating prim.
+        //
 
-		extern void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
+        extern void ANIM_obj_draw(Thing * p_thing, DrawTween * dt);
 
-		p_car->WorldPos.Y -= info->BodyOffset;
+        p_car->WorldPos.Y -= info->BodyOffset;
 
-		p_car->Genus.Vehicle->Draw.Angle = p_car->Genus.Vehicle->Angle;
-		p_car->Genus.Vehicle->Draw.Tilt  = p_car->Genus.Vehicle->Tilt;
-		p_car->Genus.Vehicle->Draw.Roll  = p_car->Genus.Vehicle->Roll;
+        p_car->Genus.Vehicle->Draw.Angle = p_car->Genus.Vehicle->Angle;
+        p_car->Genus.Vehicle->Draw.Tilt = p_car->Genus.Vehicle->Tilt;
+        p_car->Genus.Vehicle->Draw.Roll = p_car->Genus.Vehicle->Roll;
 
-		ANIM_obj_draw(p_car,&p_car->Genus.Vehicle->Draw);
+        ANIM_obj_draw(p_car, &p_car->Genus.Vehicle->Draw);
 
-		p_car->WorldPos.Y += info->BodyOffset;
-	}
-	else
+        p_car->WorldPos.Y += info->BodyOffset;
+    } else
 #endif
-	{
-		//
-		// Draw the car as a normal prim.
-		// 
+    {
+        //
+        // Draw the car as a normal prim.
+        //
 #ifndef PSX
-		// set crumples
-		MESH_set_crumple(info->VertexAssignments, p_car->Genus.Vehicle->damage);
+        // set crumples
+        MESH_set_crumple(info->VertexAssignments, p_car->Genus.Vehicle->damage);
 #endif
 
-		if(MESH_draw_poly(
-
-#ifdef	PSX
-			info->BodyPrim|(1<<16),	// The van,
+        if (MESH_draw_poly(
+#ifdef PSX
+                info->BodyPrim | (1 << 16), // The van,
 #else
-			info->BodyPrim,	// The van,
+                info->BodyPrim, // The van,
 #endif
 
-//			info->BodyPrim,	// The van,
-			p_car->WorldPos.X                                                       >> 8,
-			p_car->WorldPos.Y - get_vehicle_body_offset(p_car->Genus.Vehicle->Type) >> 8,
-			p_car->WorldPos.Z                                                       >> 8,
-			p_car->Genus.Vehicle->Angle,
-			p_car->Genus.Vehicle->Tilt,
-			p_car->Genus.Vehicle->Roll,
-			NULL,
+                //			info->BodyPrim,	// The van,
+                p_car->WorldPos.X >> 8,
+                p_car->WorldPos.Y - get_vehicle_body_offset(p_car->Genus.Vehicle->Type) >> 8,
+                p_car->WorldPos.Z >> 8,
+                p_car->Genus.Vehicle->Angle,
+                p_car->Genus.Vehicle->Tilt,
+                p_car->Genus.Vehicle->Roll,
+                NULL,
 #ifndef PSX
-			0xff,
-			-1)==NULL)	// means use MESH_set_crumple parameters
+                0xff,
+                -1) == NULL) // means use MESH_set_crumple parameters
 #else
-			0)==NULL)
+                0) == NULL)
 #endif
-		{
-			//
-			// nowt, one day skip drawing wheels if body fails to be drawn
-			//
+        {
+            //
+            // nowt, one day skip drawing wheels if body fails to be drawn
+            //
+        }
 
-		}
-
-
-		#ifndef PSX
-
-		//
-		// Draw the car shadow...
-		//
-		OVAL_add(
-			p_car->WorldPos.X                                                       >> 8,
-			p_car->WorldPos.Y - get_vehicle_body_offset(p_car->Genus.Vehicle->Type) >> 8,
-			p_car->WorldPos.Z                                                       >> 8,
-			float(veh_info[p_car->Genus.Vehicle->Type].shad_size    ) * 2.0F,
-			float(veh_info[p_car->Genus.Vehicle->Type].shad_elongate) * (1.0F / 64.0F),
-			float(p_car->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
-			OVAL_TYPE_SQUARE);
-
-		#endif
-
-//#ifndef PSX
-		// transpose matrix for some reason
-		FMATRIX_TRANSPOSE(car_matrix);
-//#endif
-		if (p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING)
-		{
-			// headlights
 #ifndef PSX
-			if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME))
-			{
-				static std::int32_t	xyz[5][3] = { -255,0,0, -254,12,16, -251,24,32, -247,36,48, -243,48,60 };
 
-				dz = xyz[p_car->Genus.Vehicle->damage[1]][0];
-				dy = xyz[p_car->Genus.Vehicle->damage[1]][1];
-				dx = xyz[p_car->Genus.Vehicle->damage[1]][2];
-				FMATRIX_MUL(car_matrix,dx,dy,dz);
-				
-				vector[2] =  info->HLX;
-				vector[1] =  info->HLY;
-				vector[0] =  info->HLZ;
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
-				BLOOM_draw( (p_car->WorldPos.X>>8)+vector[0],(p_car->WorldPos.Y>>8)+vector[1],(p_car->WorldPos.Z>>8)+vector[2],dx,dy,dz,0x606040,BLOOM_FLENSFLARE|BLOOM_BEAM);
+        //
+        // Draw the car shadow...
+        //
+        OVAL_add(
+            p_car->WorldPos.X >> 8,
+            p_car->WorldPos.Y - get_vehicle_body_offset(p_car->Genus.Vehicle->Type) >> 8,
+            p_car->WorldPos.Z >> 8,
+            float(veh_info[p_car->Genus.Vehicle->Type].shad_size) * 2.0F,
+            float(veh_info[p_car->Genus.Vehicle->Type].shad_elongate) * (1.0F / 64.0F),
+            float(p_car->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
+            OVAL_TYPE_SQUARE);
 
-				dz = xyz[p_car->Genus.Vehicle->damage[0]][0];
-				dy = -xyz[p_car->Genus.Vehicle->damage[0]][1];
-				dx = -xyz[p_car->Genus.Vehicle->damage[0]][2];
-				FMATRIX_MUL(car_matrix,dx,dy,dz);
-
-				vector[2] =  info->HLX;
-				vector[1] =  info->HLY;
-				vector[0] = -info->HLZ;
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
-				BLOOM_draw( (p_car->WorldPos.X>>8)+vector[0],(p_car->WorldPos.Y>>8)+vector[1],(p_car->WorldPos.Z>>8)+vector[2],dx,dy,dz,0x606040,BLOOM_FLENSFLARE|BLOOM_BEAM);
-			}
 #endif
-			// flashing lights
-			if (info->FLZ && (vp->Siren == 1))
-			{
-				std::int32_t	rx, rz;
 
-				rx = SIN((std::int32_t(p_car)+(GAME_TURN<<7))&2047)>>8;
-				rz = COS((std::int32_t(p_car)+(GAME_TURN<<7))&2047)>>8;
+        // #ifndef PSX
+        //  transpose matrix for some reason
+        FMATRIX_TRANSPOSE(car_matrix);
+        // #endif
+        if (p_car->Genus.Vehicle->Flags & FLAG_FURN_DRIVING) {
+            // headlights
+#ifndef PSX
+            if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
+                static std::int32_t xyz[5][3] = {-255, 0, 0, -254, 12, 16, -251, 24, 32, -247, 36, 48, -243, 48, 60};
 
-				vector[2] =  info->FLX + (rx >> 6);
-				vector[1] =  info->FLY;
-				vector[0] =  info->FLZ + (rz >> 6);
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
+                dz = xyz[p_car->Genus.Vehicle->damage[1]][0];
+                dy = xyz[p_car->Genus.Vehicle->damage[1]][1];
+                dx = xyz[p_car->Genus.Vehicle->damage[1]][2];
+                FMATRIX_MUL(car_matrix, dx, dy, dz);
 
-				std::int32_t	colour = info->FLRED ? 0xDF0000 : 0x0000DF;
+                vector[2] = info->HLX;
+                vector[1] = info->HLY;
+                vector[0] = info->HLZ;
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
+                BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], dx, dy, dz, 0x606040, BLOOM_FLENSFLARE | BLOOM_BEAM);
 
-				BLOOM_draw( (p_car->WorldPos.X>>8)+vector[0],(p_car->WorldPos.Y>>8)+vector[1],(p_car->WorldPos.Z>>8)+vector[2], rx, 0, rz, colour, 0);
+                dz = xyz[p_car->Genus.Vehicle->damage[0]][0];
+                dy = -xyz[p_car->Genus.Vehicle->damage[0]][1];
+                dx = -xyz[p_car->Genus.Vehicle->damage[0]][2];
+                FMATRIX_MUL(car_matrix, dx, dy, dz);
 
-				vector[2] =  info->FLX + (rx >> 6);
-				vector[1] =  info->FLY;
-				vector[0] = -info->FLZ + (rz >> 6);
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
+                vector[2] = info->HLX;
+                vector[1] = info->HLY;
+                vector[0] = -info->HLZ;
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
+                BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], dx, dy, dz, 0x606040, BLOOM_FLENSFLARE | BLOOM_BEAM);
+            }
+#endif
+            // flashing lights
+            if (info->FLZ && (vp->Siren == 1)) {
+                std::int32_t rx, rz;
 
-				BLOOM_draw( (p_car->WorldPos.X>>8)+vector[0],(p_car->WorldPos.Y>>8)+vector[1],(p_car->WorldPos.Z>>8)+vector[2], rz, 0, rx, 0xDF0000, 0);
-			}
-		}
+                rx = SIN((std::int32_t(p_car) + (GAME_TURN << 7)) & 2047) >> 8;
+                rz = COS((std::int32_t(p_car) + (GAME_TURN << 7)) & 2047) >> 8;
 
-		// smoke from bonnet
+                vector[2] = info->FLX + (rx >> 6);
+                vector[1] = info->FLY;
+                vector[0] = info->FLZ + (rz >> 6);
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
 
-		/*
+                std::int32_t colour = info->FLRED ? 0xDF0000 : 0x0000DF;
 
-		if (vp->damage[0] || vp->damage[1] || vp->damage[2] || vp->damage[3] || vp->damage[4] || vp->damage[5])
-		{
-			std::uint8_t total = vp->damage[0] + vp->damage[1] + vp->damage[2] + 
-						  vp->damage[3] + vp->damage[4] + vp->damage[5];
+                BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], rx, 0, rz, colour, 0);
 
-			total /= 6;
+                vector[2] = info->FLX + (rx >> 6);
+                vector[1] = info->FLY;
+                vector[0] = -info->FLZ + (rz >> 6);
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
 
-			if ((Random()&7)<total)
-			{
-		*/
+                BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], rz, 0, rx, 0xDF0000, 0);
+            }
+        }
 
-		{
-			if ((Random()&0x7f)>p_car->Genus.Vehicle->Health)
-			{
-				vector[2] = info->HLX * 0.7f;
-				vector[1] = info->HLY;
-				vector[0] = 0;
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
-				PARTICLE_Add(
-					p_car->WorldPos.X+(vector[0]<<8) + (Random() & 0x3fff) - 0x1fff,
-					p_car->WorldPos.Y+(vector[1]<<8),
-					p_car->WorldPos.Z+(vector[2]<<8) + (Random() & 0x3fff) - 0x1fff,
-					vp->VelX+(Random()&0xff)-0x7f,
-					0x3ff+(Random()&0xff),
-					vp->VelZ+(Random()&0xff)-0x7f,
-					POLY_PAGE_SMOKECLOUD,2+((Random()&3)<<2),0x7FFFFFFF,
-					PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FADE2|PFLAG_RESIZE|PFLAG_DAMPING,
-					75,40+(rand()&31),1,4,1);
+        // smoke from bonnet
 
-				if (p_car->Genus.Vehicle->Health <= 0)
-				{
-					//
-					// Smoke from out the back of the vehicle aswell...
-					// 
+        /*
 
-					PARTICLE_Add(
-						p_car->WorldPos.X-(vector[0]<<8) + (Random() & 0x7fff) - 0x3fff,
-						p_car->WorldPos.Y-(vector[1]<<8),
-						p_car->WorldPos.Z-(vector[2]<<8) + (Random() & 0x7fff) - 0x3fff,
-						vp->VelX+(Random()&0xff)-0x7f,
-						0x3ff+(Random()&0xff),
-						vp->VelZ+(Random()&0xff)-0x7f,
-						POLY_PAGE_SMOKECLOUD,2+((Random()&3)<<2),0x7FFFFFFF,
-						PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FADE2|PFLAG_RESIZE|PFLAG_DAMPING,
-						75,40+(rand()&31),1,4,1);
-				}
-			}
-		}
+        if (vp->damage[0] || vp->damage[1] || vp->damage[2] || vp->damage[3] || vp->damage[4] || vp->damage[5])
+        {
+                std::uint8_t total = vp->damage[0] + vp->damage[1] + vp->damage[2] +
+                                          vp->damage[3] + vp->damage[4] + vp->damage[5];
 
-		// brake/reversing lights are always shown, day or night
-		if (info->BLZ)	// else no lights
-		{
-			std::int32_t	colour = 0;
+                total /= 6;
 
-			switch (p_car->Genus.Vehicle->Dir)
-			{
-			case -1:
-			case  1:
-				p_car->Genus.Vehicle->Brakelight = is_driven_by_player(p_car) ? 1 : 10;	// timer for NPCs (non-player cars)
-				break;
+                if ((Random()&7)<total)
+                {
+        */
 
-			case -2:
-				p_car->Genus.Vehicle->Brakelight = 0;
-				if (p_car->Genus.Vehicle->DControl & VEH_DECEL)	//	colour = 0x606060;	// reversing light
-					colour=0x303030;
-				break;
+        {
+            if ((Random() & 0x7f) > p_car->Genus.Vehicle->Health) {
+                vector[2] = info->HLX * 0.7f;
+                vector[1] = info->HLY;
+                vector[0] = 0;
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
+                PARTICLE_Add(
+                    p_car->WorldPos.X + (vector[0] << 8) + (Random() & 0x3fff) - 0x1fff,
+                    p_car->WorldPos.Y + (vector[1] << 8),
+                    p_car->WorldPos.Z + (vector[2] << 8) + (Random() & 0x3fff) - 0x1fff,
+                    vp->VelX + (Random() & 0xff) - 0x7f,
+                    0x3ff + (Random() & 0xff),
+                    vp->VelZ + (Random() & 0xff) - 0x7f,
+                    POLY_PAGE_SMOKECLOUD, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                    PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING,
+                    75, 40 + (rand() & 31), 1, 4, 1);
 
-			case  2:
-				p_car->Genus.Vehicle->Brakelight = 0;
-				break;
+                if (p_car->Genus.Vehicle->Health <= 0) {
+                    //
+                    // Smoke from out the back of the vehicle aswell...
+                    //
 
-			case 0:
-				break;
-			}
+                    PARTICLE_Add(
+                        p_car->WorldPos.X - (vector[0] << 8) + (Random() & 0x7fff) - 0x3fff,
+                        p_car->WorldPos.Y - (vector[1] << 8),
+                        p_car->WorldPos.Z - (vector[2] << 8) + (Random() & 0x7fff) - 0x3fff,
+                        vp->VelX + (Random() & 0xff) - 0x7f,
+                        0x3ff + (Random() & 0xff),
+                        vp->VelZ + (Random() & 0xff) - 0x7f,
+                        POLY_PAGE_SMOKECLOUD, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                        PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING,
+                        75, 40 + (rand() & 31), 1, 4, 1);
+                }
+            }
+        }
 
-			if (p_car->Genus.Vehicle->Brakelight)
-			{
-				p_car->Genus.Vehicle->Brakelight--;
-				colour = 0x600000;	// brake light
-			}
+        // brake/reversing lights are always shown, day or night
+        if (info->BLZ) // else no lights
+        {
+            std::int32_t colour = 0;
 
-			if (colour)
-			{
-				dx = 0; dy = 0; dz =255;
-				FMATRIX_MUL(car_matrix,dx,dy,dz);
+            switch (p_car->Genus.Vehicle->Dir) {
+                case -1:
+                case 1:
+                    p_car->Genus.Vehicle->Brakelight = is_driven_by_player(p_car) ? 1 : 10; // timer for NPCs (non-player cars)
+                    break;
 
-				vector[2] =  info->BLX;
-				vector[1] =  info->BLY;
-				vector[0] =  info->BLZ;
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
-				BLOOM_draw( (p_car->WorldPos.X>>8)+vector[0],(p_car->WorldPos.Y>>8)+vector[1],(p_car->WorldPos.Z>>8)+vector[2],dx,dy,dz,colour,0);
+                case -2:
+                    p_car->Genus.Vehicle->Brakelight = 0;
+                    if (p_car->Genus.Vehicle->DControl & VEH_DECEL) //	colour = 0x606060;	// reversing light
+                        colour = 0x303030;
+                    break;
 
-				vector[2] =  info->BLX;
-				vector[1] =  info->BLY;
-				vector[0] = -info->BLZ;
-				FMATRIX_MUL(car_matrix,vector[0],vector[1],vector[2]);
-				BLOOM_draw( (p_car->WorldPos.X>>8)+vector[0],(p_car->WorldPos.Y>>8)+vector[1],(p_car->WorldPos.Z>>8)+vector[2],dx,dy,dz,colour,0);
-			}
-		}
+                case 2:
+                    p_car->Genus.Vehicle->Brakelight = 0;
+                    break;
 
-		// return to original
-		FMATRIX_TRANSPOSE(car_matrix);
-//#endif
+                case 0:
+                    break;
+            }
 
-	}
+            if (p_car->Genus.Vehicle->Brakelight) {
+                p_car->Genus.Vehicle->Brakelight--;
+                colour = 0x600000; // brake light
+            }
 
-	tilt = p_car->Genus.Vehicle->Spin;
+            if (colour) {
+                dx = 0;
+                dy = 0;
+                dz = 255;
+                FMATRIX_MUL(car_matrix, dx, dy, dz);
 
+                vector[2] = info->BLX;
+                vector[1] = info->BLY;
+                vector[0] = info->BLZ;
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
+                BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], dx, dy, dz, colour, 0);
 
-void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim);
-	// I know it says "bike" on the box, but it doesn't mean "bike" in the box.
-	// Leave it! This is needed.
-	AENG_set_bike_wheel_rotation(tilt, info->WheelPrim);
+                vector[2] = info->BLX;
+                vector[1] = info->BLY;
+                vector[0] = -info->BLZ;
+                FMATRIX_MUL(car_matrix, vector[0], vector[1], vector[2]);
+                BLOOM_draw((p_car->WorldPos.X >> 8) + vector[0], (p_car->WorldPos.Y >> 8) + vector[1], (p_car->WorldPos.Z >> 8) + vector[2], dx, dy, dz, colour, 0);
+            }
+        }
 
+        // return to original
+        FMATRIX_TRANSPOSE(car_matrix);
+        // #endif
+    }
+
+    tilt = p_car->Genus.Vehicle->Spin;
+
+    void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim);
+    // I know it says "bike" on the box, but it doesn't mean "bike" in the box.
+    // Leave it! This is needed.
+    AENG_set_bike_wheel_rotation(tilt, info->WheelPrim);
 
 #if !defined(PSX) && !defined(TARGET_DC)
 #ifndef NDEBUG
-	if (p_car != SelectedThing)	// don't draw wheels when selected	
+    if (p_car != SelectedThing) // don't draw wheels when selected
 #endif
 #endif
-	for(c0=0;c0<4;c0++)
-	{
-		std::int32_t	wx,wy,wz;
-		std::int32_t	angle;
+        for (c0 = 0; c0 < 4; c0++) {
+            std::int32_t wx, wy, wz;
+            std::int32_t angle;
 
-		wx = info->DX[c0];
-		wy = 51 - (((128 << 8) - p_car->Genus.Vehicle->Spring[c0].Compression) >> 8);
-		wz = info->DZ[c0];
+            wx = info->DX[c0];
+            wy = 51 - (((128 << 8) - p_car->Genus.Vehicle->Spring[c0].Compression) >> 8);
+            wz = info->DZ[c0];
 
-		apply_car_matrix(&wx,&wy,&wz);
+            apply_car_matrix(&wx, &wy, &wz);
 
-		if (c0>=2)
-		{
-			angle=p_car->Genus.Vehicle->Angle - p_car->Genus.Vehicle->WheelAngle;
-			angle=(angle+2048)&2047;
-		}
-		else
-		{
-			angle=p_car->Genus.Vehicle->Angle;
-		}
+            if (c0 >= 2) {
+                angle = p_car->Genus.Vehicle->Angle - p_car->Genus.Vehicle->WheelAngle;
+                angle = (angle + 2048) & 2047;
+            } else {
+                angle = p_car->Genus.Vehicle->Angle;
+            }
 
 #ifndef TARGET_DC
-		MESH_draw_poly(
-			info->WheelPrim,
-			(p_car->WorldPos.X>>8)+wx,
-			(p_car->WorldPos.Y>>8)+wy,
-			(p_car->WorldPos.Z>>8)+wz,
-			angle,
-			0,
-			p_car->Genus.Vehicle->Roll,
-			NULL,
-			0);
+            MESH_draw_poly(
+                info->WheelPrim,
+                (p_car->WorldPos.X >> 8) + wx,
+                (p_car->WorldPos.Y >> 8) + wy,
+                (p_car->WorldPos.Z >> 8) + wz,
+                angle,
+                0,
+                p_car->Genus.Vehicle->Roll,
+                NULL,
+                0);
 #else
-		MESH_draw_poly(
-			info->WheelPrim,
-			(p_car->WorldPos.X>>8)+wx,
-			(p_car->WorldPos.Y>>8)+wy,
-			(p_car->WorldPos.Z>>8)+wz,
-			angle,
-			0,
-			p_car->Genus.Vehicle->Roll,
-			NULL,
-			0xff);
+        MESH_draw_poly(
+            info->WheelPrim,
+            (p_car->WorldPos.X >> 8) + wx,
+            (p_car->WorldPos.Y >> 8) + wy,
+            (p_car->WorldPos.Z >> 8) + wz,
+            angle,
+            0,
+            p_car->Genus.Vehicle->Roll,
+            NULL,
+            0xff);
 #endif
-	}
+        }
 
-	if (vp->Smokin)
-	{
-		vp->Smokin = 0;	// must be set each time
+    if (vp->Smokin) {
+        vp->Smokin = 0; // must be set each time
 
-		for(c0=0;c0<4;c0++)
-		{
-			std::int32_t	wx,wy,wz;
-			std::int32_t	speed;
+        for (c0 = 0; c0 < 4; c0++) {
+            std::int32_t wx, wy, wz;
+            std::int32_t speed;
 
-			wx = info->DX[c0];
-			wy = 51 - (((128 << 8) - vp->Spring[c0].Compression) >> 8);
-			wz = info->DZ[c0];
+            wx = info->DX[c0];
+            wy = 51 - (((128 << 8) - vp->Spring[c0].Compression) >> 8);
+            wz = info->DZ[c0];
 
-			apply_car_matrix(&wx,&wy,&wz);
+            apply_car_matrix(&wx, &wy, &wz);
 
-			wx = p_car->WorldPos.X + (wx << 8);
-			wy = p_car->WorldPos.Y + (wy << 8);
-			wz = p_car->WorldPos.Z + (wz << 8);
-/*
-			PARTICLE_Add(wx,wy,wz,
-						(rand()&7)-3,20,(rand()&7)-3,
-						POLY_PAGE_STEAM,1+((rand()&3)<<2),
-						0x3FC9B7A3,PFLAG_FADE|PFLAG_RESIZE,
-						500,	// life
-						60,		// size
-						1,
-						20,		// fade
-						4);*/
-			PARTICLE_Add(wx,wy,wz,
-				(rand()&7)-3,20,(rand()&7)-3,
-				POLY_PAGE_SMOKECLOUD2,2+((Random()&3)<<2),0x7Fc9B7A3,PFLAG_FADE|PFLAG_RESIZE|PFLAG_SPRITEANI|PFLAG_SPRITELOOP,30,60,1,16,10);
-			speed=((vp->VelX>>CAR_VEL_SHIFT)*(vp->VelX>>CAR_VEL_SHIFT))
-				 +((vp->VelZ>>CAR_VEL_SHIFT)*(vp->VelZ>>CAR_VEL_SHIFT));
+            wx = p_car->WorldPos.X + (wx << 8);
+            wy = p_car->WorldPos.Y + (wy << 8);
+            wz = p_car->WorldPos.Z + (wz << 8);
+            /*
+                                    PARTICLE_Add(wx,wy,wz,
+                                                            (rand()&7)-3,20,(rand()&7)-3,
+                                                            POLY_PAGE_STEAM,1+((rand()&3)<<2),
+                                                            0x3FC9B7A3,PFLAG_FADE|PFLAG_RESIZE,
+                                                            500,	// life
+                                                            60,		// size
+                                                            1,
+                                                            20,		// fade
+                                                            4);*/
+            PARTICLE_Add(wx, wy, wz,
+                         (rand() & 7) - 3, 20, (rand() & 7) - 3,
+                         POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7Fc9B7A3, PFLAG_FADE | PFLAG_RESIZE | PFLAG_SPRITEANI | PFLAG_SPRITELOOP, 30, 60, 1, 16, 10);
+            speed = ((vp->VelX >> CAR_VEL_SHIFT) * (vp->VelX >> CAR_VEL_SHIFT)) + ((vp->VelZ >> CAR_VEL_SHIFT) * (vp->VelZ >> CAR_VEL_SHIFT));
 
-//			TRACE("speed: %d\n",speed);
-			if ((speed>200)&&(vp->Skid==SKID_START)) {
+            //			TRACE("speed: %d\n",speed);
+            if ((speed > 200) && (vp->Skid == SKID_START)) {
 #ifdef PSX
-				MFX_play_thing(THING_NUMBER(p_car),S_SKID_START,MFX_MOVING,p_car);
+                MFX_play_thing(THING_NUMBER(p_car), S_SKID_START, MFX_MOVING, p_car);
 #else
-				if (speed>300000) 
-					MFX_play_thing(THING_NUMBER(p_car),S_SKID_START,MFX_MOVING,p_car);
-				else
-					if (speed>100000)
-						MFX_play_thing(THING_NUMBER(p_car),S_SKID_START+1,MFX_MOVING,p_car);
-					else
-						MFX_play_thing(THING_NUMBER(p_car),S_SKID_END,MFX_MOVING,p_car);
+                if (speed > 300000)
+                    MFX_play_thing(THING_NUMBER(p_car), S_SKID_START, MFX_MOVING, p_car);
+                else if (speed > 100000)
+                    MFX_play_thing(THING_NUMBER(p_car), S_SKID_START + 1, MFX_MOVING, p_car);
+                else
+                    MFX_play_thing(THING_NUMBER(p_car), S_SKID_END, MFX_MOVING, p_car);
 
 #endif
-			}
+            }
 
-			if ((speed>200)&&(GAME_TURN&1)) {
+            if ((speed > 200) && (GAME_TURN & 1)) {
 #ifndef PSX
-				std::int32_t dx,dz;
-				if (vp->oldX[c0]&&vp->oldZ[c0]) {
-					dx=(vp->oldX[c0]-wx)>>8;
-					dz=(vp->oldZ[c0]-wz)>>8;
-					TRACKS_Add(wx,(PAP_calc_map_height_at(wx>>8,wz>>8)+5)<<8,wz,dx,0,dz,TRACK_TYPE_TYRE_SKID,0);
-				}
-				vp->oldX[c0]=wx;
-				vp->oldZ[c0]=wz;
+                std::int32_t dx, dz;
+                if (vp->oldX[c0] && vp->oldZ[c0]) {
+                    dx = (vp->oldX[c0] - wx) >> 8;
+                    dz = (vp->oldZ[c0] - wz) >> 8;
+                    TRACKS_Add(wx, (PAP_calc_map_height_at(wx >> 8, wz >> 8) + 5) << 8, wz, dx, 0, dz, TRACK_TYPE_TYRE_SKID, 0);
+                }
+                vp->oldX[c0] = wx;
+                vp->oldZ[c0] = wz;
 #else
-				TRACKS_Add(wx,(PAP_calc_map_height_at(wx>>8,wz>>8)+5)<<8,wz,-vp->VelX>>7,0,-vp->VelZ>>7,TRACK_TYPE_TYRE_SKID,0);
+                TRACKS_Add(wx, (PAP_calc_map_height_at(wx >> 8, wz >> 8) + 5) << 8, wz, -vp->VelX >> 7, 0, -vp->VelZ >> 7, TRACK_TYPE_TYRE_SKID, 0);
 #endif
-			}
-		}
-	} else {
+            }
+        }
+    } else {
 #ifndef PSX
-		vp->oldX[0]=vp->oldX[1]=vp->oldX[2]=vp->oldX[3]=0;
-		vp->oldZ[0]=vp->oldZ[1]=vp->oldZ[2]=vp->oldZ[3]=0;
+        vp->oldX[0] = vp->oldX[1] = vp->oldX[2] = vp->oldX[3] = 0;
+        vp->oldZ[0] = vp->oldZ[1] = vp->oldZ[2] = vp->oldZ[3] = 0;
 #endif
-	}
-
+    }
 }
 
-#define	WHEEL_GRAV	(5<<8)
+#define WHEEL_GRAV (5 << 8)
 
 /*
-	Suspension is a damped spring connecting each wheel to the car
+        Suspension is a damped spring connecting each wheel to the car
 
    The extension of the spring goes from Min to Max
    If the car is in mid air then the spring is free to extend to max extension.
@@ -1543,7 +1428,7 @@ void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim);
 
   F=Ma     F= carMass*Gravity/4     (this assumes the mass is equaly dispersed)
 
-  The spring will exert an upwards force on the car of 
+  The spring will exert an upwards force on the car of
 
   Force = k/Extension, (the force is inversely proportional to the extension of the spring)
 
@@ -1559,13 +1444,13 @@ void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim);
 
 /*
 
-Suggested Readings: 
+Suggested Readings:
 
 1 "Fundamental of Vehicle Dynamics," Thomas D. Gillespie, 1992, Society of Automotive Engineers, Inc.
 
 2. "Theory of Ground Vehicles," J. Y. Wong, John Wiley & Sons, Inc, 1993.
 
-3. MOTOR VEHICLE DYNAMICS: MODELING AND SIMULATION by G Genta (Poli. Torino, Italy) 
+3. MOTOR VEHICLE DYNAMICS: MODELING AND SIMULATION by G Genta (Poli. Torino, Italy)
 
 */
 
@@ -1575,7 +1460,7 @@ Suggested Readings:
 //
 // ========================================================
 
-extern std::int32_t there_is_a_los_car(std::int32_t x1, std::int32_t y1, std::int32_t z1,std::int32_t x2, std::int32_t y2, std::int32_t z2);
+extern std::int32_t there_is_a_los_car(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2);
 extern std::int32_t should_i_collide_against_this_anim_prim(Thing *p_animprim);
 
 VEH_Col VEH_col[VEH_MAX_COL];
@@ -1586,1298 +1471,1181 @@ std::int32_t VEH_col_upto;
 // Finds all the things that can possibly be collided with and stores
 // their details int VEH_col[]
 
-void VEH_collide_find_things(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, std::int32_t ignore, std::int32_t ignore_prims)
-{
-	static std::uint16_t	found[VEH_MAX_COL];
+void VEH_collide_find_things(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, std::int32_t ignore, std::int32_t ignore_prims) {
+    static std::uint16_t found[VEH_MAX_COL];
 
-	std::int32_t i;
-	std::int32_t num;
-	std::int32_t prim;
-	std::int32_t dx;
-	std::int32_t dz;
-	std::int32_t dist;
+    std::int32_t i;
+    std::int32_t num;
+    std::int32_t prim;
+    std::int32_t dx;
+    std::int32_t dz;
+    std::int32_t dist;
 
-	Thing        *p_found;
-	VEH_Col      *vc;
-	PrimInfo     *pi;
-	AnimPrimBbox *apb;
-	OB_Info      *oi;
-	
-	//
-	// Do we include bikes or not? 
-	//
+    Thing *p_found;
+    VEH_Col *vc;
+    PrimInfo *pi;
+    AnimPrimBbox *apb;
+    OB_Info *oi;
 
-	std::uint32_t collide_types;
+    //
+    // Do we include bikes or not?
+    //
 
-	#if BIKE
-	if (ignore && TO_THING(ignore)->Class == CLASS_BIKE)
-	{
-		// This is collision for a bike - include bikes.
-		collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_ANIM_PRIM) | (1 << CLASS_BIKE);
-	}
-	else
-	#else
-	{
-		// This is collision for a van or car - ignore bikes.
-		collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_ANIM_PRIM) | (1 << CLASS_BAT);
-	}
-	#endif
+    std::uint32_t collide_types;
 
-	//
-	// Find everything in our sphere
-	//
-
-	num = THING_find_sphere(
-			x,y,z,
-			radius + 0x200,
-			found,
-			VEH_MAX_COL,
-			collide_types);
-
-	//
-	// Scan through
-	//
-
-	VEH_col_upto = 0;
-
-	for (i = 0; i < num; i++)
-	{
-		if (found[i] == ignore)		continue;
-
-		ASSERT(WITHIN(VEH_col_upto, 0, VEH_MAX_COL - 1));
-
-		p_found =  TO_THING(found[i]);
-
-		switch(p_found->Class)
-		{
-			case CLASS_VEHICLE:
-
-				prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
-				pi   = get_prim_info(prim);
-
-				// Simple bounding circle rejection.
-
-				dx = abs((p_found->WorldPos.X >> 8) - x);
-				dz = abs((p_found->WorldPos.Z >> 8) - z);
-
-				dist = QDIST2(dx,dz);
-
-				if (dist <= radius + pi->radius + 0x10)
-				{
-					vc = &VEH_col[VEH_col_upto++];
-
-					vc->type     = VEH_COL_TYPE_BBOX;
-					vc->ob_index = NULL;
-					vc->veh		 = p_found;
-					vc->mid_x    = p_found->WorldPos.X >> 8;
-					vc->mid_y    = p_found->WorldPos.Y >> 8;
-					vc->mid_z    = p_found->WorldPos.Z >> 8;
-					vc->height   = pi->maxy;
-					vc->min_x    = pi->minx;
-					vc->min_z    = pi->minz;
-					vc->max_x    = pi->maxx;
-					vc->max_z    = pi->maxz;
-
-					vc->radius_or_yaw = p_found->Genus.Vehicle->Angle;	// (= yaw for a BBOX)
-				}
-
-				break;
-
-			case CLASS_ANIM_PRIM:
-#ifdef	ANIM_PRIMS
-				if (should_i_collide_against_this_anim_prim(p_found))
-				{
-					apb = &anim_prim_bbox[p_found->Index];
-					pi   = get_prim_info(p_found->Index);
-
-					// Simple bounding circle rejection.
-
-					dx = abs((p_found->WorldPos.X >> 8) - x);
-					dz = abs((p_found->WorldPos.Z >> 8) - z);
-
-					dist = QDIST2(dx,dz);
-
-					if (dist <= radius + pi->radius + 0x10)
-					{
-						vc = &VEH_col[VEH_col_upto++];
-					
-						vc->type     = VEH_COL_TYPE_BBOX;
-						vc->ob_index = NULL;
-						vc->veh		 = NULL;
-						vc->mid_x    = p_found->WorldPos.X >> 8;
-						vc->mid_y    = p_found->WorldPos.Y >> 8;
-						vc->mid_z    = p_found->WorldPos.Z >> 8;
-						vc->height   = apb->maxy;
-						vc->min_x    = apb->minx;
-						vc->min_z    = apb->minz;
-						vc->max_x    = apb->maxx;
-						vc->max_z    = apb->maxz;
-
-						vc->radius_or_yaw = p_found->Draw.Tweened->Angle;	// (= yaw for a BBOX)
-					}
-				}
+#if BIKE
+    if (ignore && TO_THING(ignore)->Class == CLASS_BIKE) {
+        // This is collision for a bike - include bikes.
+        collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_ANIM_PRIM) | (1 << CLASS_BIKE);
+    } else
+#else
+    {
+        // This is collision for a van or car - ignore bikes.
+        collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_ANIM_PRIM) | (1 << CLASS_BAT);
+    }
 #endif
-				break;
 
-			#if BIKE
+        //
+        // Find everything in our sphere
+        //
 
-			case CLASS_BIKE:
+        num = THING_find_sphere(
+            x, y, z,
+            radius + 0x200,
+            found,
+            VEH_MAX_COL,
+            collide_types);
 
-				vc = &VEH_col[VEH_col_upto++];
-			
-				vc->type     = VEH_COL_TYPE_CYLINDER;
-				vc->ob_index = NULL;
-				vc->veh		 = NULL;
-				vc->mid_x    = p_found->WorldPos.X >> 8;
-				vc->mid_y    = p_found->WorldPos.Y >> 8;
-				vc->mid_z    = p_found->WorldPos.Z >> 8;
-				vc->height   = 0x100;
+    //
+    // Scan through
+    //
 
-				vc->radius_or_yaw = 0x40;	// (= radius for a cylinder)
+    VEH_col_upto = 0;
 
-				break;
+    for (i = 0; i < num; i++) {
+        if (found[i] == ignore) continue;
 
-			#endif
+        ASSERT(WITHIN(VEH_col_upto, 0, VEH_MAX_COL - 1));
 
-			case CLASS_BAT:
+        p_found = TO_THING(found[i]);
 
-				if (p_found->Genus.Bat->type == BAT_TYPE_BALROG)
-				{
-					vc = &VEH_col[VEH_col_upto++];
-				
-					vc->type     = VEH_COL_TYPE_CYLINDER;
-					vc->ob_index = NULL;
-					vc->veh		 = p_found;
-					vc->mid_x    = p_found->WorldPos.X >> 8;
-					vc->mid_y    = p_found->WorldPos.Y >> 8;
-					vc->mid_z    = p_found->WorldPos.Z >> 8;
-					vc->height   = 0x100;
+        switch (p_found->Class) {
+            case CLASS_VEHICLE:
 
-					vc->radius_or_yaw = 0x40;	// (= radius for a cylinder)
-				}
+                prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
+                pi = get_prim_info(prim);
 
-				break;
+                // Simple bounding circle rejection.
 
-			default:
-				ASSERT(0);
-				break;
-		}
-	}
+                dx = abs((p_found->WorldPos.X >> 8) - x);
+                dz = abs((p_found->WorldPos.Z >> 8) - z);
 
-	//
-	// Now scan OBs
-	//
+                dist = QDIST2(dx, dz);
 
-	if (!ignore_prims)
-	{
-		std::int32_t mx1 = x - radius >> PAP_SHIFT_LO;
-		std::int32_t mz1 = z - radius >> PAP_SHIFT_LO;
-		std::int32_t mx2 = x + radius >> PAP_SHIFT_LO;
-		std::int32_t mz2 = z + radius >> PAP_SHIFT_LO;
+                if (dist <= radius + pi->radius + 0x10) {
+                    vc = &VEH_col[VEH_col_upto++];
 
-		SATURATE(mx1, 0, PAP_SIZE_LO - 1);
-		SATURATE(mz1, 0, PAP_SIZE_LO - 1);
-		SATURATE(mx2, 0, PAP_SIZE_LO - 1);
-		SATURATE(mz2, 0, PAP_SIZE_LO - 1);
+                    vc->type = VEH_COL_TYPE_BBOX;
+                    vc->ob_index = NULL;
+                    vc->veh = p_found;
+                    vc->mid_x = p_found->WorldPos.X >> 8;
+                    vc->mid_y = p_found->WorldPos.Y >> 8;
+                    vc->mid_z = p_found->WorldPos.Z >> 8;
+                    vc->height = pi->maxy;
+                    vc->min_x = pi->minx;
+                    vc->min_z = pi->minz;
+                    vc->max_x = pi->maxx;
+                    vc->max_z = pi->maxz;
 
-		for (std::int32_t mx = mx1; mx <= mx2; mx++)
-		{
-			for (std::int32_t mz = mz1; mz <= mz2; mz++)
-			{
-				for (oi = OB_find(mx,mz); oi->prim; oi++)
-				{
-					if (VEH_col_upto >= VEH_MAX_COL)	return;		// erk - out of room in array!
+                    vc->radius_or_yaw = p_found->Genus.Vehicle->Angle; // (= yaw for a BBOX)
+                }
 
-					if (oi->y >= y + 0x180)				continue;	// it's above us
+                break;
 
-					switch (prim_get_collision_model(oi->prim))
-					{
-						case PRIM_COLLIDE_BOX:
-						case PRIM_COLLIDE_SMALLBOX:
+            case CLASS_ANIM_PRIM:
+#ifdef ANIM_PRIMS
+                if (should_i_collide_against_this_anim_prim(p_found)) {
+                    apb = &anim_prim_bbox[p_found->Index];
+                    pi = get_prim_info(p_found->Index);
 
-							pi = get_prim_info(oi->prim);
+                    // Simple bounding circle rejection.
 
-							// Simple bounding circle rejection.
+                    dx = abs((p_found->WorldPos.X >> 8) - x);
+                    dz = abs((p_found->WorldPos.Z >> 8) - z);
 
-							dx = abs(oi->x - x);
-							dz = abs(oi->z - z);
+                    dist = QDIST2(dx, dz);
 
-							dist = QDIST2(dx,dz);
+                    if (dist <= radius + pi->radius + 0x10) {
+                        vc = &VEH_col[VEH_col_upto++];
 
-							if (dist <= radius + pi->radius + 0x10)
-							{
-								vc = &VEH_col[VEH_col_upto++];
-							
-								vc->type     = VEH_COL_TYPE_BBOX;
-								vc->ob_index = oi->index;
-								vc->veh		 = NULL;
-								vc->mid_x    = oi->x;
-								vc->mid_y    = oi->y;
-								vc->mid_z    = oi->z;
-								vc->height   = pi->maxy;
-								vc->min_x    = pi->minx;
-								vc->min_z    = pi->minz;
-								vc->max_x    = pi->maxx;
-								vc->max_z    = pi->maxz;
+                        vc->type = VEH_COL_TYPE_BBOX;
+                        vc->ob_index = NULL;
+                        vc->veh = NULL;
+                        vc->mid_x = p_found->WorldPos.X >> 8;
+                        vc->mid_y = p_found->WorldPos.Y >> 8;
+                        vc->mid_z = p_found->WorldPos.Z >> 8;
+                        vc->height = apb->maxy;
+                        vc->min_x = apb->minx;
+                        vc->min_z = apb->minz;
+                        vc->max_x = apb->maxx;
+                        vc->max_z = apb->maxz;
 
-								vc->radius_or_yaw = oi->yaw;	// (= yaw for BBOXs)
-							}
+                        vc->radius_or_yaw = p_found->Draw.Tweened->Angle; // (= yaw for a BBOX)
+                    }
+                }
+#endif
+                break;
 
-							break;
+#if BIKE
 
-						case PRIM_COLLIDE_NONE:
-							break;
+            case CLASS_BIKE:
 
-						case PRIM_COLLIDE_CYLINDER:
+                vc = &VEH_col[VEH_col_upto++];
 
-							pi = get_prim_info(oi->prim);
+                vc->type = VEH_COL_TYPE_CYLINDER;
+                vc->ob_index = NULL;
+                vc->veh = NULL;
+                vc->mid_x = p_found->WorldPos.X >> 8;
+                vc->mid_y = p_found->WorldPos.Y >> 8;
+                vc->mid_z = p_found->WorldPos.Z >> 8;
+                vc->height = 0x100;
 
-							// Simple bounding circle rejection.
+                vc->radius_or_yaw = 0x40; // (= radius for a cylinder)
 
-							dx = abs(oi->x - x);
-							dz = abs(oi->z - z);
+                break;
 
-							dist = QDIST2(dx,dz);
+#endif
 
-							if (dist <= radius + 0x40)
-							{
-								vc = &VEH_col[VEH_col_upto++];
-							
-								vc->type     = VEH_COL_TYPE_CYLINDER;
-								vc->ob_index = oi->index;
-								vc->veh		 = NULL;
-								vc->mid_x    = oi->x;
-								vc->mid_y    = oi->y;
-								vc->mid_z    = oi->z;
-								vc->height   = pi->maxy;
+            case CLASS_BAT:
 
-								vc->radius_or_yaw = 0x30;	// (= radius for cylinders)
-							}
+                if (p_found->Genus.Bat->type == BAT_TYPE_BALROG) {
+                    vc = &VEH_col[VEH_col_upto++];
 
-							break;
+                    vc->type = VEH_COL_TYPE_CYLINDER;
+                    vc->ob_index = NULL;
+                    vc->veh = p_found;
+                    vc->mid_x = p_found->WorldPos.X >> 8;
+                    vc->mid_y = p_found->WorldPos.Y >> 8;
+                    vc->mid_z = p_found->WorldPos.Z >> 8;
+                    vc->height = 0x100;
 
-						default:
-							ASSERT(0);
-							break;
-					}
-				}
-			}
-		}
-	}
+                    vc->radius_or_yaw = 0x40; // (= radius for a cylinder)
+                }
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
+        }
+    }
+
+    //
+    // Now scan OBs
+    //
+
+    if (!ignore_prims) {
+        std::int32_t mx1 = x - radius >> PAP_SHIFT_LO;
+        std::int32_t mz1 = z - radius >> PAP_SHIFT_LO;
+        std::int32_t mx2 = x + radius >> PAP_SHIFT_LO;
+        std::int32_t mz2 = z + radius >> PAP_SHIFT_LO;
+
+        SATURATE(mx1, 0, PAP_SIZE_LO - 1);
+        SATURATE(mz1, 0, PAP_SIZE_LO - 1);
+        SATURATE(mx2, 0, PAP_SIZE_LO - 1);
+        SATURATE(mz2, 0, PAP_SIZE_LO - 1);
+
+        for (std::int32_t mx = mx1; mx <= mx2; mx++) {
+            for (std::int32_t mz = mz1; mz <= mz2; mz++) {
+                for (oi = OB_find(mx, mz); oi->prim; oi++) {
+                    if (VEH_col_upto >= VEH_MAX_COL) return; // erk - out of room in array!
+
+                    if (oi->y >= y + 0x180) continue; // it's above us
+
+                    switch (prim_get_collision_model(oi->prim)) {
+                        case PRIM_COLLIDE_BOX:
+                        case PRIM_COLLIDE_SMALLBOX:
+
+                            pi = get_prim_info(oi->prim);
+
+                            // Simple bounding circle rejection.
+
+                            dx = abs(oi->x - x);
+                            dz = abs(oi->z - z);
+
+                            dist = QDIST2(dx, dz);
+
+                            if (dist <= radius + pi->radius + 0x10) {
+                                vc = &VEH_col[VEH_col_upto++];
+
+                                vc->type = VEH_COL_TYPE_BBOX;
+                                vc->ob_index = oi->index;
+                                vc->veh = NULL;
+                                vc->mid_x = oi->x;
+                                vc->mid_y = oi->y;
+                                vc->mid_z = oi->z;
+                                vc->height = pi->maxy;
+                                vc->min_x = pi->minx;
+                                vc->min_z = pi->minz;
+                                vc->max_x = pi->maxx;
+                                vc->max_z = pi->maxz;
+
+                                vc->radius_or_yaw = oi->yaw; // (= yaw for BBOXs)
+                            }
+
+                            break;
+
+                        case PRIM_COLLIDE_NONE:
+                            break;
+
+                        case PRIM_COLLIDE_CYLINDER:
+
+                            pi = get_prim_info(oi->prim);
+
+                            // Simple bounding circle rejection.
+
+                            dx = abs(oi->x - x);
+                            dz = abs(oi->z - z);
+
+                            dist = QDIST2(dx, dz);
+
+                            if (dist <= radius + 0x40) {
+                                vc = &VEH_col[VEH_col_upto++];
+
+                                vc->type = VEH_COL_TYPE_CYLINDER;
+                                vc->ob_index = oi->index;
+                                vc->veh = NULL;
+                                vc->mid_x = oi->x;
+                                vc->mid_y = oi->y;
+                                vc->mid_z = oi->z;
+                                vc->height = pi->maxy;
+
+                                vc->radius_or_yaw = 0x30; // (= radius for cylinders)
+                            }
+
+                            break;
+
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // VEH_shake_fences
 //
 // Shakes all the fence facets that lie on the edge of the given mapsquare.
 
-void VEH_shake_fences(std::int32_t mx, std::int32_t mz)
-{
-	std::int32_t exit;
-	std::int32_t facet;
-	std::int32_t f_list;
+void VEH_shake_fences(std::int32_t mx, std::int32_t mz) {
+    std::int32_t exit;
+    std::int32_t facet;
+    std::int32_t f_list;
 
-	DFacet *df;
+    DFacet *df;
 
-	f_list = PAP_2LO(mx >> 2, mz >> 2).ColVectHead;
+    f_list = PAP_2LO(mx >> 2, mz >> 2).ColVectHead;
 
-	if (f_list)
-	{
-		exit = false;
+    if (f_list) {
+        exit = false;
 
-		while(1)
-		{
-			ASSERT(WITHIN(f_list, 1, next_facet_link - 1));
+        while (1) {
+            ASSERT(WITHIN(f_list, 1, next_facet_link - 1));
 
-			facet = facet_links[f_list];
+            facet = facet_links[f_list];
 
-			if (facet < 0)
-			{
-				facet = -facet;
-				exit  =  true;
-			}
+            if (facet < 0) {
+                facet = -facet;
+                exit = true;
+            }
 
-			ASSERT(WITHIN(facet, 1, next_dfacet - 1));
+            ASSERT(WITHIN(facet, 1, next_dfacet - 1));
 
-			df = &dfacets[facet];
+            df = &dfacets[facet];
 
-			if (df->FacetType == STOREY_TYPE_FENCE      ||
-				df->FacetType == STOREY_TYPE_FENCE_FLAT ||
-				df->FacetType == STOREY_TYPE_FENCE_BRICK)
-			{
-				if (df->x[0] == df->x[1])
-				{
-					if (df->x[0] == mx || df->x[0] == mx + 1)
-					{
-						df->Shake = 255;
-					}
-				}
-				else
-				{
-					ASSERT(df->z[0] == df->z[1]);
+            if (df->FacetType == STOREY_TYPE_FENCE ||
+                df->FacetType == STOREY_TYPE_FENCE_FLAT ||
+                df->FacetType == STOREY_TYPE_FENCE_BRICK) {
+                if (df->x[0] == df->x[1]) {
+                    if (df->x[0] == mx || df->x[0] == mx + 1) {
+                        df->Shake = 255;
+                    }
+                } else {
+                    ASSERT(df->z[0] == df->z[1]);
 
-					if (df->z[0] == mz || df->z[0] == mz + 1)
-					{
-						df->Shake = 255;
-					}
-				}
-			}
+                    if (df->z[0] == mz || df->z[0] == mz + 1) {
+                        df->Shake = 255;
+                    }
+                }
+            }
 
-			if (exit)
-			{
-				return;
-			}
+            if (exit) {
+                return;
+            }
 
-			f_list += 1;
-		}
-	}
+            f_list += 1;
+        }
+    }
 }
 
 // find closest car point to x,y,z
 
-static std::uint8_t	find_closest_car_point(std::int32_t x, std::int32_t y, std::int32_t z, Thing* car)
-{
-	Vehicle*	v = car->Genus.Vehicle;
+static std::uint8_t find_closest_car_point(std::int32_t x, std::int32_t y, std::int32_t z, Thing *car) {
+    Vehicle *v = car->Genus.Vehicle;
 
-	make_car_matrix(v);
+    make_car_matrix(v);
 
-	PrimInfo *inf;
-	std::int32_t	xx[6],yy[6],zz[6];
+    PrimInfo *inf;
+    std::int32_t xx[6], yy[6], zz[6];
 
-	inf = get_prim_info(veh_info[car->Genus.Vehicle->Type].BodyPrim);
+    inf = get_prim_info(veh_info[car->Genus.Vehicle->Type].BodyPrim);
 
-	xx[0]=inf->minx;
-	xx[1]=inf->maxx;
-	xx[2]=inf->minx;
-	xx[3]=inf->maxx;
-	xx[4]=inf->minx;
-	xx[5]=inf->maxx;
+    xx[0] = inf->minx;
+    xx[1] = inf->maxx;
+    xx[2] = inf->minx;
+    xx[3] = inf->maxx;
+    xx[4] = inf->minx;
+    xx[5] = inf->maxx;
 
-	yy[0]=inf->miny;
-	yy[1]=inf->miny;
-	yy[2]=inf->miny;
-	yy[3]=inf->miny;
-	yy[4]=inf->miny;
-	yy[5]=inf->miny;
+    yy[0] = inf->miny;
+    yy[1] = inf->miny;
+    yy[2] = inf->miny;
+    yy[3] = inf->miny;
+    yy[4] = inf->miny;
+    yy[5] = inf->miny;
 
-	zz[0]=inf->minz;
-	zz[1]=inf->minz;
-	zz[2]=(inf->minz + inf->maxz)/2;
-	zz[3]=(inf->minz + inf->maxz)/2;
-	zz[4]=inf->maxz;
-	zz[5]=inf->maxz;
-	
-	std::int32_t	best_manhattan_distance = 0x7FFFFFFF;
-	std::int32_t	nearest = -1;
+    zz[0] = inf->minz;
+    zz[1] = inf->minz;
+    zz[2] = (inf->minz + inf->maxz) / 2;
+    zz[3] = (inf->minz + inf->maxz) / 2;
+    zz[4] = inf->maxz;
+    zz[5] = inf->maxz;
 
-	for (int ii = 0; ii < 6; ii++)
-	{
-		apply_car_matrix(&xx[ii],&yy[ii],&zz[ii]);
-		std::int32_t	manhattan = abs(xx[ii] + (car->WorldPos.X >> 8) - x) + abs(zz[ii] + (car->WorldPos.Z >> 8) - z);
-		if (manhattan < best_manhattan_distance)
-		{
-			best_manhattan_distance = manhattan;
-			nearest = ii;
-		}
-	}
+    std::int32_t best_manhattan_distance = 0x7FFFFFFF;
+    std::int32_t nearest = -1;
 
-	ASSERT(nearest != -1);
+    for (int ii = 0; ii < 6; ii++) {
+        apply_car_matrix(&xx[ii], &yy[ii], &zz[ii]);
+        std::int32_t manhattan = abs(xx[ii] + (car->WorldPos.X >> 8) - x) + abs(zz[ii] + (car->WorldPos.Z >> 8) - z);
+        if (manhattan < best_manhattan_distance) {
+            best_manhattan_distance = manhattan;
+            nearest = ii;
+        }
+    }
 
-	return nearest;
+    ASSERT(nearest != -1);
+
+    return nearest;
 }
 
 // add car-car damage
 //
 // (only if one of the cars is driven by player)
 
-void VEH_co_damage(Thing* v1, Thing* v2)
-{
-	if (!is_driven_by_player(v1) && !is_driven_by_player(v2))	return;
+void VEH_co_damage(Thing *v1, Thing *v2) {
+    if (!is_driven_by_player(v1) && !is_driven_by_player(v2)) return;
 
-	std::uint8_t	c1 = find_closest_car_point(v2->WorldPos.X >> 8, v2->WorldPos.Y >> 8, v2->WorldPos.Z >> 8, v1);
-	std::uint8_t	c2 = find_closest_car_point(v1->WorldPos.X >> 8, v1->WorldPos.Y >> 8, v1->WorldPos.Z >> 8, v2);
-	std::int32_t	damage;
+    std::uint8_t c1 = find_closest_car_point(v2->WorldPos.X >> 8, v2->WorldPos.Y >> 8, v2->WorldPos.Z >> 8, v1);
+    std::uint8_t c2 = find_closest_car_point(v1->WorldPos.X >> 8, v1->WorldPos.Y >> 8, v1->WorldPos.Z >> 8, v2);
+    std::int32_t damage;
 
-	MFX_play_thing(THING_NUMBER(v1),SOUND_Range(S_CAR_SMASH_START,S_CAR_SMASH_END),0,v1);
-	// give most damage to slower vehicle (faster vehicle gets caned already)
-	if (abs(v1->Velocity) > abs(v2->Velocity))
-	{
-		VEH_add_damage(v1->Genus.Vehicle, c1, (abs(v1->Velocity) + abs(v2->Velocity)) / 1024);
-		VEH_add_damage(v2->Genus.Vehicle, c2, abs(v1->Velocity) / 512);
-		VEH_bounce(v1->Genus.Vehicle, c1, abs(v1->Velocity));
-		VEH_bounce(v2->Genus.Vehicle, c2, abs(v1->Velocity));
-	}
-	else
-	{
-		VEH_add_damage(v1->Genus.Vehicle, c1, abs(v2->Velocity) / 512);
-		VEH_add_damage(v2->Genus.Vehicle, c2, (abs(v1->Velocity) + abs(v2->Velocity)) / 1024);
-		VEH_bounce(v1->Genus.Vehicle, c1, abs(v2->Velocity));
-		VEH_bounce(v2->Genus.Vehicle, c2, abs(v2->Velocity));
-	}
+    MFX_play_thing(THING_NUMBER(v1), SOUND_Range(S_CAR_SMASH_START, S_CAR_SMASH_END), 0, v1);
+    // give most damage to slower vehicle (faster vehicle gets caned already)
+    if (abs(v1->Velocity) > abs(v2->Velocity)) {
+        VEH_add_damage(v1->Genus.Vehicle, c1, (abs(v1->Velocity) + abs(v2->Velocity)) / 1024);
+        VEH_add_damage(v2->Genus.Vehicle, c2, abs(v1->Velocity) / 512);
+        VEH_bounce(v1->Genus.Vehicle, c1, abs(v1->Velocity));
+        VEH_bounce(v2->Genus.Vehicle, c2, abs(v1->Velocity));
+    } else {
+        VEH_add_damage(v1->Genus.Vehicle, c1, abs(v2->Velocity) / 512);
+        VEH_add_damage(v2->Genus.Vehicle, c2, (abs(v1->Velocity) + abs(v2->Velocity)) / 1024);
+        VEH_bounce(v1->Genus.Vehicle, c1, abs(v2->Velocity));
+        VEH_bounce(v2->Genus.Vehicle, c2, abs(v2->Velocity));
+    }
 
-	// set 2nd vehicle moving
-	Vehicle* vv1 = v1->Genus.Vehicle;
-	Vehicle* vv2 = v2->Genus.Vehicle;
+    // set 2nd vehicle moving
+    Vehicle *vv1 = v1->Genus.Vehicle;
+    Vehicle *vv2 = v2->Genus.Vehicle;
 
-	vv2->VelX = -vv2->VelX/8 + vv1->VelX/4;
-	vv2->VelZ = -vv2->VelZ/8 + vv1->VelZ/4;
-	
-	std::int32_t torque = abs(vv1->VelX) + abs(vv1->VelZ);
-	torque >>= 10;
+    vv2->VelX = -vv2->VelX / 8 + vv1->VelX / 4;
+    vv2->VelZ = -vv2->VelZ / 8 + vv1->VelZ / 4;
 
-	switch (c2)
-	{
-	case 0:
-	case 5:
-		vv2->VelR -= torque;
-		break;
+    std::int32_t torque = abs(vv1->VelX) + abs(vv1->VelZ);
+    torque >>= 10;
 
-	case 1:
-	case 4:
-		vv2->VelR += torque;
-		break;
-	}
+    switch (c2) {
+        case 0:
+        case 5:
+            vv2->VelR -= torque;
+            break;
 
-	vv2->Skid = SKID_START;
-	// make unstable
-	vv2->Stable = 0;
-	v2->StateFn = VEH_driving;
+        case 1:
+        case 4:
+            vv2->VelR += torque;
+            break;
+    }
+
+    vv2->Skid = SKID_START;
+    // make unstable
+    vv2->Stable = 0;
+    v2->StateFn = VEH_driving;
 }
 
 // GetCarPoints
 //
 // generate corner points of the car
 
-static inline void GetCarPoints(Thing* p_car, std::int32_t* x, std::int32_t* y, std::int32_t* z, std::int32_t step)
-{
-	Vehicle*	veh;
-	PrimInfo*	pinfo;
-	int			ii;
+static inline void GetCarPoints(Thing *p_car, std::int32_t *x, std::int32_t *y, std::int32_t *z, std::int32_t step) {
+    Vehicle *veh;
+    PrimInfo *pinfo;
+    int ii;
 
-	veh = p_car->Genus.Vehicle;
-	pinfo = get_prim_info(veh_info[veh->Type].BodyPrim);
+    veh = p_car->Genus.Vehicle;
+    pinfo = get_prim_info(veh_info[veh->Type].BodyPrim);
 
-	// get points in car frame
-	x[0] = pinfo->minx;
-	x[1] = pinfo->maxx;
-	x[2] = pinfo->maxx;
-	x[3] = pinfo->minx;
+    // get points in car frame
+    x[0] = pinfo->minx;
+    x[1] = pinfo->maxx;
+    x[2] = pinfo->maxx;
+    x[3] = pinfo->minx;
 
-	y[0] = pinfo->miny;
-	y[1] = pinfo->miny;
-	y[2] = pinfo->miny;
-	y[3] = pinfo->miny;
+    y[0] = pinfo->miny;
+    y[1] = pinfo->miny;
+    y[2] = pinfo->miny;
+    y[3] = pinfo->miny;
 
-	z[0] = pinfo->minz;
-	z[1] = pinfo->minz;
-	z[2] = pinfo->maxz;
-	z[3] = pinfo->maxz;
+    z[0] = pinfo->minz;
+    z[1] = pinfo->minz;
+    z[2] = pinfo->maxz;
+    z[3] = pinfo->maxz;
 
-	// make car matrix for new position (ignore tilt & roll)
-	make_car_matrix_p((veh->Angle + ((veh->VelR * step) >> TICK_SHIFT)) & 2047, 0, 0);
+    // make car matrix for new position (ignore tilt & roll)
+    make_car_matrix_p((veh->Angle + ((veh->VelR * step) >> TICK_SHIFT)) & 2047, 0, 0);
 
-	// transform to world coordinates
-	for (ii = 0; ii < 4; ii++)
-	{
-		apply_car_matrix(&x[ii],&y[ii],&z[ii]);
+    // transform to world coordinates
+    for (ii = 0; ii < 4; ii++) {
+        apply_car_matrix(&x[ii], &y[ii], &z[ii]);
 
-		x[ii] += (p_car->WorldPos.X + ((veh->VelX * step) >> TICK_SHIFT)) >> 8;
-		y[ii] += (p_car->WorldPos.Y + ((veh->VelY * step) >> TICK_SHIFT)) >> 8;
-		z[ii] += (p_car->WorldPos.Z + ((veh->VelZ * step) >> TICK_SHIFT)) >> 8;
-	}
+        x[ii] += (p_car->WorldPos.X + ((veh->VelX * step) >> TICK_SHIFT)) >> 8;
+        y[ii] += (p_car->WorldPos.Y + ((veh->VelY * step) >> TICK_SHIFT)) >> 8;
+        z[ii] += (p_car->WorldPos.Z + ((veh->VelZ * step) >> TICK_SHIFT)) >> 8;
+    }
 }
 
 // DoDamage
 //
 // do damage to a prim after a collision
 
-static void DoDamage(Thing* p_car, VEH_Col* col)
-{
-	// do car damage
-	if (col->veh && col->veh->Class == CLASS_VEHICLE)	// Might be a Balrog!
-	{
-		// damage the other cars health
-		{
-			std::int32_t speed = p_car->Velocity >> 5;
+static void DoDamage(Thing *p_car, VEH_Col *col) {
+    // do car damage
+    if (col->veh && col->veh->Class == CLASS_VEHICLE) // Might be a Balrog!
+    {
+        // damage the other cars health
+        {
+            std::int32_t speed = p_car->Velocity >> 5;
 
-			speed -= 16;
+            speed -= 16;
 
-			if (speed > 0)
-			{
-				col->veh->Genus.Vehicle->Health -= speed>>1; 
-			}
-		}
+            if (speed > 0) {
+                col->veh->Genus.Vehicle->Health -= speed >> 1;
+            }
+        }
 
-		VEH_co_damage(p_car, col->veh);
-	}
-	// do ob damage
-	if (col->ob_index)
-	{
-		Vehicle*	veh = p_car->Genus.Vehicle;
-		std::int32_t		vel = Root(veh->VelX*veh->VelX + veh->VelZ*veh->VelZ);
+        VEH_co_damage(p_car, col->veh);
+    }
+    // do ob damage
+    if (col->ob_index) {
+        Vehicle *veh = p_car->Genus.Vehicle;
+        std::int32_t vel = Root(veh->VelX * veh->VelX + veh->VelZ * veh->VelZ);
 
-		if (vel > 20000) {
-			OB_damage(col->ob_index, 
-				p_car->WorldPos.X >> 8, p_car->WorldPos.Y >> 8, 
-				col->mid_x, col->mid_z, 
-				get_vehicle_driver(p_car));
-			MFX_play_thing(THING_NUMBER(p_car),SOUND_Range(S_CAR_SMASH_START,S_CAR_SMASH_END),0,p_car);
-		} else {
-			if (vel > 10000) 
-			  MFX_play_thing(THING_NUMBER(p_car),SOUND_Range(S_CAR_SMASH_START,S_CAR_SMASH_END),0,p_car);
-			else // find a wimpy minor scrape?
-			if (vel>1000) // otherwise you get crunchy noises when 'stuck' against objects
-			  MFX_play_thing(THING_NUMBER(p_car),SOUND_Range(S_CAR_SMASH_START,S_CAR_SMASH_START+1),0,p_car);
-			else
-				if (vel>250)
-					MFX_play_thing(THING_NUMBER(p_car),S_CAR_BUMP,0,p_car);
-
-		}
-	}
+        if (vel > 20000) {
+            OB_damage(col->ob_index,
+                      p_car->WorldPos.X >> 8, p_car->WorldPos.Y >> 8,
+                      col->mid_x, col->mid_z,
+                      get_vehicle_driver(p_car));
+            MFX_play_thing(THING_NUMBER(p_car), SOUND_Range(S_CAR_SMASH_START, S_CAR_SMASH_END), 0, p_car);
+        } else {
+            if (vel > 10000)
+                MFX_play_thing(THING_NUMBER(p_car), SOUND_Range(S_CAR_SMASH_START, S_CAR_SMASH_END), 0, p_car);
+            else                // find a wimpy minor scrape?
+                if (vel > 1000) // otherwise you get crunchy noises when 'stuck' against objects
+                    MFX_play_thing(THING_NUMBER(p_car), SOUND_Range(S_CAR_SMASH_START, S_CAR_SMASH_START + 1), 0, p_car);
+                else if (vel > 250)
+                    MFX_play_thing(THING_NUMBER(p_car), S_CAR_BUMP, 0, p_car);
+        }
+    }
 }
 
 // CollideCar
 //
 // check car for collisions
 
-#define COLL_NONE	0x00
+#define COLL_NONE 0x00
 
-#define	COLL_FL		0x01		// front-left corner
-#define COLL_FR		0x02		// front-right corner
-#define COLL_BR		0x03		// back-right corner 
-#define COLL_BL		0x04		// back-left corner
-#define COLL_FRONT	0x05		// front edge
-#define COLL_BACK	0x06		// back edge
-#define COLL_LEFT	0x07		// left edge
-#define COLL_RIGHT	0x08		// right edge
-#define COLL_ALL	0x09		// all edges
+#define COLL_FL 0x01    // front-left corner
+#define COLL_FR 0x02    // front-right corner
+#define COLL_BR 0x03    // back-right corner
+#define COLL_BL 0x04    // back-left corner
+#define COLL_FRONT 0x05 // front edge
+#define COLL_BACK 0x06  // back edge
+#define COLL_LEFT 0x07  // left edge
+#define COLL_RIGHT 0x08 // right edge
+#define COLL_ALL 0x09   // all edges
 
 extern std::uint8_t last_mav_square_x;
 extern std::uint8_t last_mav_square_z;
 extern std::int8_t last_mav_dx;
 extern std::int8_t last_mav_dz;
 
-static void CollideWithKerb(Thing* p_car);
+static void CollideWithKerb(Thing *p_car);
 static void process_car(Thing *p_car);
 
 //		1
 //   0    1
 //	8	    2
-//   3    2 
+//   3    2
 //     4
-void nudge_car(Thing* p_car,std::int32_t flags,std::int32_t *x,std::int32_t *z,std::int32_t neg)
-{
-	std::int32_t	dx=0,dz=0;
-	switch(flags&15)
-	{
-		case	1+2:
-			dx=x[3]-x[1];
-			dz=z[3]-z[1];
-			break;
-		case	2+4:
-			dx=x[0]-x[2];
-			dz=z[0]-z[2];
-			break;
-		case	4+8:
-			dx=x[1]-x[3];
-			dz=z[1]-z[3];
-			break;
-		case	8+1:
-			dx=x[2]-x[0];
-			dz=z[2]-z[0];
-			break;
+void nudge_car(Thing *p_car, std::int32_t flags, std::int32_t *x, std::int32_t *z, std::int32_t neg) {
+    std::int32_t dx = 0, dz = 0;
+    switch (flags & 15) {
+        case 1 + 2:
+            dx = x[3] - x[1];
+            dz = z[3] - z[1];
+            break;
+        case 2 + 4:
+            dx = x[0] - x[2];
+            dz = z[0] - z[2];
+            break;
+        case 4 + 8:
+            dx = x[1] - x[3];
+            dz = z[1] - z[3];
+            break;
+        case 8 + 1:
+            dx = x[2] - x[0];
+            dz = z[2] - z[0];
+            break;
 
-		case	1:
-		case	1+8+2:
-			//front
-			dx=x[2]-x[1];
-			dz=z[2]-z[1];
-			break;
+        case 1:
+        case 1 + 8 + 2:
+            // front
+            dx = x[2] - x[1];
+            dz = z[2] - z[1];
+            break;
 
-		case	2:
-		case	2+1+4:
-			//rhs
-			dx=x[0]-x[1];
-			dz=z[0]-z[1];
-			break;
+        case 2:
+        case 2 + 1 + 4:
+            // rhs
+            dx = x[0] - x[1];
+            dz = z[0] - z[1];
+            break;
 
-		case	4:
-		case	4+2+8:
-			//back
-			dx=x[1]-x[2];
-			dz=z[1]-z[2];
-			break;
+        case 4:
+        case 4 + 2 + 8:
+            // back
+            dx = x[1] - x[2];
+            dz = z[1] - z[2];
+            break;
 
-		case	8:
-		case	8+4+1:
-			//lhs
-			dx=x[1]-x[0];
-			dz=z[1]-z[0];
-			break;
-	}
+        case 8:
+        case 8 + 4 + 1:
+            // lhs
+            dx = x[1] - x[0];
+            dz = z[1] - z[0];
+            break;
+    }
 
 //	dx>>=4;
 //	dz>>=4;
-#ifndef	NDEBUG
-	if(ShiftFlag)
-	{
-		dx<<=8;
-		dz<<=8;
-	}
+#ifndef NDEBUG
+    if (ShiftFlag) {
+        dx <<= 8;
+        dz <<= 8;
+    }
 #endif
 
-	if(neg)
-	{
-		dx=-dx;
-		dz=-dz;
-	}
+    if (neg) {
+        dx = -dx;
+        dz = -dz;
+    }
 
-	if(dx||dz)
-	{
-		GameCoord	new_pos;
+    if (dx || dz) {
+        GameCoord new_pos;
 
-		new_pos.X = p_car->WorldPos.X + dx;
-		new_pos.Y = p_car->WorldPos.Y;
-		new_pos.Z = p_car->WorldPos.Z + dz;
+        new_pos.X = p_car->WorldPos.X + dx;
+        new_pos.Y = p_car->WorldPos.Y;
+        new_pos.Z = p_car->WorldPos.Z + dz;
 
-		move_thing_on_map(p_car, &new_pos);
-
-	}
-
+        move_thing_on_map(p_car, &new_pos);
+    }
 }
 std::int32_t car_hit_flags;
-static std::int32_t CollideCar(Thing* p_car, std::int32_t step)
-{
-	Vehicle*	veh = p_car->Genus.Vehicle;
-	VehInfo*	vinfo = &veh_info[veh->Type];
+static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
+    Vehicle *veh = p_car->Genus.Vehicle;
+    VehInfo *vinfo = &veh_info[veh->Type];
 
-	std::int32_t		x[4],y[4],z[4];
-	int			ii;
+    std::int32_t x[4], y[4], z[4];
+    int ii;
 
-	car_hit_flags=0;
-	
+    car_hit_flags = 0;
+
 #ifdef _DEBUG
-	if (Keys[KB_H] && is_driven_by_player(p_car))	return 0;
+    if (Keys[KB_H] && is_driven_by_player(p_car)) return 0;
 #endif
 
-	// hit the kerb?
-	CollideWithKerb(p_car);
+    // hit the kerb?
+    CollideWithKerb(p_car);
 
-	// run suspension now and save results
-	std::int32_t	old_y = p_car->WorldPos.Y;
-	process_car(p_car);
-	veh->VelY = p_car->WorldPos.Y - old_y;
-	p_car->WorldPos.Y = old_y;
+    // run suspension now and save results
+    std::int32_t old_y = p_car->WorldPos.Y;
+    process_car(p_car);
+    veh->VelY = p_car->WorldPos.Y - old_y;
+    p_car->WorldPos.Y = old_y;
 
 #if DUMP_COORDS
-	GetCarPoints(p_car, x, y, z, 0);
-	
-	if (is_driven_by_player(p_car))
-	{
-		TRACE("Before move\n");
-		for (ii = 0; ii < 4; ii++)
-		{
-			TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-		}
-	}
+    GetCarPoints(p_car, x, y, z, 0);
+
+    if (is_driven_by_player(p_car)) {
+        TRACE("Before move\n");
+        for (ii = 0; ii < 4; ii++) {
+            TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+        }
+    }
 #endif
 
-	// generate corner points of the car, pushed out slightly
-	GetCarPoints(p_car, x, y, z, step);
+    // generate corner points of the car, pushed out slightly
+    GetCarPoints(p_car, x, y, z, step);
 
 #if DUMP_COORDS
-	if (is_driven_by_player(p_car))
-	{
-		TRACE("After move\n");
-		for (ii = 0; ii < 4; ii++)
-		{
-			TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-		}
-	}
+    if (is_driven_by_player(p_car)) {
+        TRACE("After move\n");
+        for (ii = 0; ii < 4; ii++) {
+            TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+        }
+    }
 #endif
 
-	std::uint8_t	flags = 0,pflags=0;
-	static std::uint8_t flags_to_code[16] =
-	{
-		COLL_NONE, COLL_FRONT, COLL_NONE,  COLL_FR, 
-		COLL_BACK, COLL_LEFT,  COLL_BR,    COLL_RIGHT,
-		COLL_NONE, COLL_FL,    COLL_FRONT, COLL_FRONT,
-		COLL_BL,   COLL_LEFT,  COLL_BACK,  COLL_ALL
-//		COLL_NONE, COLL_FRONT, COLL_RIGHT, COLL_FR, 
-//		COLL_BACK, COLL_LEFT,  COLL_BR,    COLL_RIGHT,
-//		COLL_LEFT, COLL_FL,    COLL_FRONT, COLL_FRONT,
-//		COLL_BL,   COLL_LEFT,  COLL_BACK,  COLL_ALL
-	};
+    std::uint8_t flags = 0, pflags = 0;
+    static std::uint8_t flags_to_code[16] =
+        {
+            COLL_NONE, COLL_FRONT, COLL_NONE, COLL_FR,
+            COLL_BACK, COLL_LEFT, COLL_BR, COLL_RIGHT,
+            COLL_NONE, COLL_FL, COLL_FRONT, COLL_FRONT,
+            COLL_BL, COLL_LEFT, COLL_BACK, COLL_ALL
+            //		COLL_NONE, COLL_FRONT, COLL_RIGHT, COLL_FR,
+            //		COLL_BACK, COLL_LEFT,  COLL_BR,    COLL_RIGHT,
+            //		COLL_LEFT, COLL_FL,    COLL_FRONT, COLL_FRONT,
+            //		COLL_BL,   COLL_LEFT,  COLL_BACK,  COLL_ALL
+        };
 
-	// check each edge against the walls
-	if (!VEH_collide_line_ignore_walls)
-	{
-		for (ii = 0; ii < 4; ii++)
-		{
-			int	jj = (ii + 1) & 3;
-			int	aa;
+    // check each edge against the walls
+    if (!VEH_collide_line_ignore_walls) {
+        for (ii = 0; ii < 4; ii++) {
+            int jj = (ii + 1) & 3;
+            int aa;
 
-			if (aa = there_is_a_los_car(x[ii],y[ii],z[ii], x[jj],y[jj],z[jj]))
-			{
-				// hit a wall or fence
-				flags |= 1 << ii;
+            if (aa = there_is_a_los_car(x[ii], y[ii], z[ii], x[jj], y[jj], z[jj])) {
+                // hit a wall or fence
+                flags |= 1 << ii;
 
-				if (aa == 1)	flags |= 16;	// X wall
-				if (aa == 2)	flags |= 32;	// Z wall
+                if (aa == 1) flags |= 16; // X wall
+                if (aa == 2) flags |= 32; // Z wall
 
-				if (veh->Scrapin<10) veh->Scrapin++;
-				
-//				if (is_driven_by_player(p_car))
-//				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
-//								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
-//								true);
+                if (veh->Scrapin < 10) veh->Scrapin++;
 
-				// shake fence
-#ifndef	PSX
-				VEH_shake_fences(last_mav_square_x, last_mav_square_z);
+                //				if (is_driven_by_player(p_car))
+                //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
+                //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
+                //								true);
+
+                // shake fence
+#ifndef PSX
+                VEH_shake_fences(last_mav_square_x, last_mav_square_z);
 #endif
-			}
-		}
-		nudge_car(p_car,flags,x,z,0);
+            }
+        }
+        nudge_car(p_car, flags, x, z, 0);
 
+        if (((flags & 15) == 8) || ((flags & 15) == 2) || ((flags & 15) == 10)) {
+            //			if (is_driven_by_player(p_car))	TRACE("Facet my flags up [%2.2X]\n", flags);
+            flags |= 1; // front
+        }
+    }
+    if (veh->Scrapin > 5) {
+        std::int32_t vel = (veh->VelX >> CAR_VEL_SHIFT) * (veh->VelX >> CAR_VEL_SHIFT) + (veh->VelZ >> CAR_VEL_SHIFT) * (veh->VelZ >> CAR_VEL_SHIFT);
+        if (vel > 300)
+            MFX_play_thing(THING_NUMBER(p_car), SOUND_Range(S_CAR_SCRAPE_START, S_CAR_SCRAPE_END), MFX_MOVING, p_car);
+        if (veh->Scrapin > 0) veh->Scrapin -= 2;
 
-		if (((flags & 15) == 8) || ((flags & 15) == 2) || ((flags & 15) == 10))
-		{
-//			if (is_driven_by_player(p_car))	TRACE("Facet my flags up [%2.2X]\n", flags);	
-			flags |= 1;	// front
-		}
-	}
-	if (veh->Scrapin>5) {
-		std::int32_t	vel = (veh->VelX >> CAR_VEL_SHIFT) * (veh->VelX >> CAR_VEL_SHIFT) + (veh->VelZ >> CAR_VEL_SHIFT) * (veh->VelZ >> CAR_VEL_SHIFT);
-		if (vel>300)
-			MFX_play_thing(THING_NUMBER(p_car),SOUND_Range(S_CAR_SCRAPE_START,S_CAR_SCRAPE_END),MFX_MOVING,p_car);
-		if (veh->Scrapin>0) veh->Scrapin-=2;
+        if (flags & 15) {
+            std::int32_t px = 0;
+            std::int32_t pz = 0;
+            std::int32_t div = 0;
 
-		if (flags & 15)
-		{
-			std::int32_t	px = 0;
-			std::int32_t	pz = 0;
-			std::int32_t	div = 0;
+            for (ii = 0; ii < 4; ii++) {
+                int jj = (ii + 1) & 3;
 
-			for (ii = 0; ii < 4; ii++)
-			{
-				int jj = (ii + 1) & 3;
-				
-				if (flags & (1 << ii))
-				{
-					px += x[ii] + x[jj];
-					pz += z[ii] + z[jj];
-					div += 2;
-				}
-			}
+                if (flags & (1 << ii)) {
+                    px += x[ii] + x[jj];
+                    pz += z[ii] + z[jj];
+                    div += 2;
+                }
+            }
 
-			px /= div;
-			pz /= div;
+            px /= div;
+            pz /= div;
 
-#ifndef	PSX
-			DIRT_new_sparks(px,y[0],pz,2);
+#ifndef PSX
+            DIRT_new_sparks(px, y[0], pz, 2);
 #endif
-		
-/*			AENG_world_line(px, y[0], pz, 32, 0xFFFFFF,
-							(x[0] + x[1] + x[2] + x[3])/4, y[0], (z[0] + z[1] + z[2] + z[3])/4, 0, 0xFFFFFF,
-							true);*/
-		}
-	}
 
-	// check against prims
-	for (ii = 0; ii < VEH_col_upto; ii++)
-	{
-		VEH_Col* vc = &VEH_col[ii];
-		int	inside = 1;
+            /*			AENG_world_line(px, y[0], pz, 32, 0xFFFFFF,
+                                                                    (x[0] + x[1] + x[2] + x[3])/4, y[0], (z[0] + z[1] + z[2] + z[3])/4, 0, 0xFFFFFF,
+                                                                    true);*/
+        }
+    }
 
-		if (vc->type == VEH_COL_TYPE_BBOX)
-		{
-			int	jj;
+    // check against prims
+    for (ii = 0; ii < VEH_col_upto; ii++) {
+        VEH_Col *vc = &VEH_col[ii];
+        int inside = 1;
 
-			for (jj = 0; jj < 4; jj++)
-			{
-				int kk = (jj + 1) & 3;
+        if (vc->type == VEH_COL_TYPE_BBOX) {
+            int jj;
 
-				if (collide_box_with_line(  vc->mid_x, 
-											vc->mid_z, 
-											vc->min_x,
-											vc->min_z,
-											vc->max_x,
-											vc->max_z,
-											vc->radius_or_yaw,
-											x[jj], z[jj],
-											x[kk], z[kk]))
-				{
-					pflags |= 1 << jj;
+            for (jj = 0; jj < 4; jj++) {
+                int kk = (jj + 1) & 3;
 
-					pflags |= 48;	// just bounce
+                if (collide_box_with_line(vc->mid_x,
+                                          vc->mid_z,
+                                          vc->min_x,
+                                          vc->min_z,
+                                          vc->max_x,
+                                          vc->max_z,
+                                          vc->radius_or_yaw,
+                                          x[jj], z[jj],
+                                          x[kk], z[kk])) {
+                    pflags |= 1 << jj;
 
-//					if (is_driven_by_player(p_car))
-//					AENG_world_line((x[jj] + x[kk]) / 2, (y[jj] + y[kk]) / 2, (z[jj] + z[kk]) / 2, 32, 0xff0000,
-//									(x[jj] + x[kk]) / 2, (y[jj] + y[kk]) / 2 + 0xC00, (z[jj] + z[kk]) / 2, 0, 0xff0000,
-//									true);
+                    pflags |= 48; // just bounce
 
-					DoDamage(p_car, vc);
-				}
+                    //					if (is_driven_by_player(p_car))
+                    //					AENG_world_line((x[jj] + x[kk]) / 2, (y[jj] + y[kk]) / 2, (z[jj] + z[kk]) / 2, 32, 0xff0000,
+                    //									(x[jj] + x[kk]) / 2, (y[jj] + y[kk]) / 2 + 0xC00, (z[jj] + z[kk]) / 2, 0, 0xff0000,
+                    //									true);
 
-				std::int32_t	x1 = x[kk] - x[jj];
-				std::int32_t	z1 = z[kk] - z[jj];
-				std::int32_t	x2 = vc->mid_x - x[jj];
-				std::int32_t	z2 = vc->mid_z - z[jj];
+                    DoDamage(p_car, vc);
+                }
 
-				if (x2*z1 > x1*z2)	inside = 0;
-			}
-		}
-		else
-		{
-			int	jj;
-			
-			ASSERT(vc->type == VEH_COL_TYPE_CYLINDER);
+                std::int32_t x1 = x[kk] - x[jj];
+                std::int32_t z1 = z[kk] - z[jj];
+                std::int32_t x2 = vc->mid_x - x[jj];
+                std::int32_t z2 = vc->mid_z - z[jj];
 
-			for (jj = 0; jj < 4; jj++)
-			{
-				int kk = (jj + 1) & 3;
+                if (x2 * z1 > x1 * z2) inside = 0;
+            }
+        } else {
+            int jj;
 
-				if (distance_to_line(x[jj], z[jj],
-									 x[kk], z[kk],
-									 vc->mid_x,
-									 vc->mid_z) < vc->radius_or_yaw)
-				{
-					pflags |= 1 << jj;
+            ASSERT(vc->type == VEH_COL_TYPE_CYLINDER);
 
-					pflags |= 48;
+            for (jj = 0; jj < 4; jj++) {
+                int kk = (jj + 1) & 3;
 
-//					if (is_driven_by_player(p_car))
-//					AENG_world_line((x[kk] + x[jj]) / 2, (y[kk] + y[jj]) / 2, (z[kk] + z[jj]) / 2, 32, 0xff00,
-//									(x[kk] + x[jj]) / 2, (y[kk] + y[jj]) / 2 + 0xC00, (z[kk] + z[jj]) / 2, 0, 0xff00,
-//									true);		
+                if (distance_to_line(x[jj], z[jj],
+                                     x[kk], z[kk],
+                                     vc->mid_x,
+                                     vc->mid_z) < vc->radius_or_yaw) {
+                    pflags |= 1 << jj;
 
-					DoDamage(p_car, vc);
+                    pflags |= 48;
 
-					if (vc->veh && vc->veh->Class == CLASS_BAT)
-					{
-						//
-						// This car has it a Balrog! The driver is terrified!
-						//
+                    //					if (is_driven_by_player(p_car))
+                    //					AENG_world_line((x[kk] + x[jj]) / 2, (y[kk] + y[jj]) / 2, (z[kk] + z[jj]) / 2, 32, 0xff00,
+                    //									(x[kk] + x[jj]) / 2, (y[kk] + y[jj]) / 2 + 0xC00, (z[kk] + z[jj]) / 2, 0, 0xff00,
+                    //									true);
 
-						if (veh->Driver)
-						{
-							//
-							// Make the car driver run away.
-							//
+                    DoDamage(p_car, vc);
 
-							PCOM_make_driver_run_away(TO_THING(veh->Driver), vc->veh);
+                    if (vc->veh && vc->veh->Class == CLASS_BAT) {
+                        //
+                        // This car has it a Balrog! The driver is terrified!
+                        //
 
-							//
-							// Make the Balrog angry with the driver!
-							//
+                        if (veh->Driver) {
+                            //
+                            // Make the car driver run away.
+                            //
 
-							vc->veh->Genus.Bat->target = veh->Driver;
-							vc->veh->Genus.Bat->timer  = 0;
-						}
-					}
-				}
+                            PCOM_make_driver_run_away(TO_THING(veh->Driver), vc->veh);
 
-				std::int32_t	x1 = x[kk] - x[jj];
-				std::int32_t	z1 = z[kk] - z[jj];
-				std::int32_t	x2 = vc->mid_x - x[jj];
-				std::int32_t	z2 = vc->mid_z - z[jj];
+                            //
+                            // Make the Balrog angry with the driver!
+                            //
 
-				if (x2*z1 > x1*z2)	inside = 0;
-			}
-		}
+                            vc->veh->Genus.Bat->target = veh->Driver;
+                            vc->veh->Genus.Bat->timer = 0;
+                        }
+                    }
+                }
 
-		if ((((flags|pflags) & 15) == 8) || (((flags|pflags) & 15) == 2) || (((flags|pflags) & 15) == 10))
-		{
-//			if (is_driven_by_player(p_car))	TRACE("Fix my flags up [%2.2X]\n", flags);	
-			std::int32_t	dsf = ((x[0] + x[1])/2 - vc->mid_x) * ((x[0] + x[1])/2 - vc->mid_x) + ((z[0] + z[1])/2 - vc->mid_z) * ((z[0] + z[1])/2 - vc->mid_z);
-			std::int32_t	dsb = ((x[2] + x[3])/2 - vc->mid_x) * ((x[2] + x[3])/2 - vc->mid_x) + ((z[2] + z[3])/2 - vc->mid_z) * ((z[2] + z[3])/2 - vc->mid_z);
-			if (dsf < dsb)	pflags |= 1;	// front
-			else			pflags |= 4;	// back
-		}
+                std::int32_t x1 = x[kk] - x[jj];
+                std::int32_t z1 = z[kk] - z[jj];
+                std::int32_t x2 = vc->mid_x - x[jj];
+                std::int32_t z2 = vc->mid_z - z[jj];
 
-		// prim is inside car - bounce off
-		if (!(flags|pflags) && inside)
-		{
-//			if (is_driven_by_player(p_car))	TRACE("INSIDE\n");
-			pflags = 49;
-			DoDamage(p_car, vc);
-		}
-	}
+                if (x2 * z1 > x1 * z2) inside = 0;
+            }
+        }
 
-	if(pflags)
-	{
-		if(flags)
-			nudge_car(p_car,flags,x,z,1);
-	}
-	flags|=pflags;
+        if ((((flags | pflags) & 15) == 8) || (((flags | pflags) & 15) == 2) || (((flags | pflags) & 15) == 10)) {
+            //			if (is_driven_by_player(p_car))	TRACE("Fix my flags up [%2.2X]\n", flags);
+            std::int32_t dsf = ((x[0] + x[1]) / 2 - vc->mid_x) * ((x[0] + x[1]) / 2 - vc->mid_x) + ((z[0] + z[1]) / 2 - vc->mid_z) * ((z[0] + z[1]) / 2 - vc->mid_z);
+            std::int32_t dsb = ((x[2] + x[3]) / 2 - vc->mid_x) * ((x[2] + x[3]) / 2 - vc->mid_x) + ((z[2] + z[3]) / 2 - vc->mid_z) * ((z[2] + z[3]) / 2 - vc->mid_z);
+            if (dsf < dsb)
+                pflags |= 1; // front
+            else
+                pflags |= 4; // back
+        }
 
-	//
-	// return if no collision
-	//
+        // prim is inside car - bounce off
+        if (!(flags | pflags) && inside) {
+            //			if (is_driven_by_player(p_car))	TRACE("INSIDE\n");
+            pflags = 49;
+            DoDamage(p_car, vc);
+        }
+    }
 
-	if (!flags)	return 0;
+    if (pflags) {
+        if (flags)
+            nudge_car(p_car, flags, x, z, 1);
+    }
+    flags |= pflags;
 
-	//
-	// There has been a collision...
-	// Damage the car depending on how fast it is going
-	// 
+    //
+    // return if no collision
+    //
+
+    if (!flags) return 0;
+
+    //
+    // There has been a collision...
+    // Damage the car depending on how fast it is going
+    //
 
 #if !defined(FAST_EDDIE) || !defined(_DEBUG)
-	{
-		std::int32_t speed = p_car->Velocity >> 5;
+    {
+        std::int32_t speed = p_car->Velocity >> 5;
 
-		speed -= 16;
+        speed -= 16;
 
-		if (speed > 0)
-		{
-			veh->Health -= speed>>1;   //miked cars were blowing up too easy so I've halved the damage, Ive increased cars health to 300 so they are harder to shoot too
-		}
-	}
+        if (speed > 0) {
+            veh->Health -= speed >> 1; // miked cars were blowing up too easy so I've halved the damage, Ive increased cars health to 300 so they are harder to shoot too
+        }
+    }
 #endif
 
-	//
-	// set flag
-	//
+    //
+    // set flag
+    //
 
-	std::uint8_t	code = flags_to_code[flags & 15];
-	std::int32_t	torque;
+    std::uint8_t code = flags_to_code[flags & 15];
+    std::int32_t torque;
 
-	if (!is_driven_by_player(p_car))	veh->Wheel = 0;
+    if (!is_driven_by_player(p_car)) veh->Wheel = 0;
 
-	torque = 0;
-	if (flags & 16)	torque += abs(veh->VelX);
-	if (flags & 32)	torque += abs(veh->VelZ);
-	torque >>= 9;
+    torque = 0;
+    if (flags & 16) torque += abs(veh->VelX);
+    if (flags & 32) torque += abs(veh->VelZ);
+    torque >>= 9;
 
-	switch (code)
-	{
-	case COLL_FRONT:
-	case COLL_BACK:
-		p_car->Flags |= FLAGS_COLLIDED;
-		// Fallthrough!
+    switch (code) {
+        case COLL_FRONT:
+        case COLL_BACK:
+            p_car->Flags |= FLAGS_COLLIDED;
+            // Fallthrough!
 
-	case COLL_LEFT:
-	case COLL_RIGHT:
-		if (flags & 16)	veh->VelX = -veh->VelX/4;
-		if (flags & 32)	veh->VelZ = -veh->VelZ/4;
-		veh->Skid = SKID_START;
-		break;
+        case COLL_LEFT:
+        case COLL_RIGHT:
+            if (flags & 16) veh->VelX = -veh->VelX / 4;
+            if (flags & 32) veh->VelZ = -veh->VelZ / 4;
+            veh->Skid = SKID_START;
+            break;
 
-	case COLL_FL:
-	case COLL_BR:
-		p_car->Flags |= FLAGS_COLLIDED;
-		veh->VelR -= torque;
-		if (veh->VelR > -10)	veh->VelR = -10;
-		if (flags & 16)	veh->VelX = -veh->VelX/8;
-		if (flags & 32)	veh->VelZ = -veh->VelZ/8;
-//		veh->Skid = SKID_START;
-		break;
+        case COLL_FL:
+        case COLL_BR:
+            p_car->Flags |= FLAGS_COLLIDED;
+            veh->VelR -= torque;
+            if (veh->VelR > -10) veh->VelR = -10;
+            if (flags & 16) veh->VelX = -veh->VelX / 8;
+            if (flags & 32) veh->VelZ = -veh->VelZ / 8;
+            //		veh->Skid = SKID_START;
+            break;
 
-	case COLL_FR:
-	case COLL_BL:
-		p_car->Flags |= FLAGS_COLLIDED;
-		veh->VelR += torque;
-		if (veh->VelR < +10)	veh->VelR = +10;
-		if (flags & 16)	veh->VelX = -veh->VelX/8;
-		if (flags & 32)	veh->VelZ = -veh->VelZ/8;
-//		veh->Skid = SKID_START;
-		break;
+        case COLL_FR:
+        case COLL_BL:
+            p_car->Flags |= FLAGS_COLLIDED;
+            veh->VelR += torque;
+            if (veh->VelR < +10) veh->VelR = +10;
+            if (flags & 16) veh->VelX = -veh->VelX / 8;
+            if (flags & 32) veh->VelZ = -veh->VelZ / 8;
+            //		veh->Skid = SKID_START;
+            break;
 
-	case COLL_ALL:
-		veh->VelX = 0;
-		veh->VelZ = 0;
-		veh->VelR = 0;
-		p_car->Velocity = 0;
-		veh->Skid = SKID_START;
-		break;
-	}
+        case COLL_ALL:
+            veh->VelX = 0;
+            veh->VelZ = 0;
+            veh->VelR = 0;
+            p_car->Velocity = 0;
+            veh->Skid = SKID_START;
+            break;
+    }
 
-	// reduce velocity to prevent bounce
-	p_car->Velocity >>= 1;
+    // reduce velocity to prevent bounce
+    p_car->Velocity >>= 1;
 
-	// regenerate car points for new position
-	GetCarPoints(p_car, x, y, z, step);
+    // regenerate car points for new position
+    GetCarPoints(p_car, x, y, z, step);
 
 #if DUMP_COORDS
-	if (is_driven_by_player(p_car))
-	{
-		TRACE("After bounce\n");
-		for (ii = 0; ii < 4; ii++)
-		{
-			TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-		}
-	}
+    if (is_driven_by_player(p_car)) {
+        TRACE("After bounce\n");
+        for (ii = 0; ii < 4; ii++) {
+            TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+        }
+    }
 #endif
 
-	// check each edge against the walls
-	if (!VEH_collide_line_ignore_walls)
-	{
-		for (ii = 0; ii < 4; ii++)
-		{
-			int	jj = (ii + 1) & 3;
+    // check each edge against the walls
+    if (!VEH_collide_line_ignore_walls) {
+        for (ii = 0; ii < 4; ii++) {
+            int jj = (ii + 1) & 3;
 
-			if (there_is_a_los_car(x[ii],y[ii],z[ii], x[jj],y[jj],z[jj]))
-			{
-				// fucked it all up - don't move anywhere or we'll be in the shite
-//				if (is_driven_by_player(p_car))	TRACE("ARSE CUNT MOTHERFUCKER\n", flags);	
-				veh->VelX = 0;
-				veh->VelY = 0;
-				veh->VelZ = 0;
-				veh->VelR = 0;
-				p_car->Velocity = 0;
-				veh->Skid = SKID_START;
+            if (there_is_a_los_car(x[ii], y[ii], z[ii], x[jj], y[jj], z[jj])) {
+                // fucked it all up - don't move anywhere or we'll be in the shite
+                //				if (is_driven_by_player(p_car))	TRACE("ARSE CUNT MOTHERFUCKER\n", flags);
+                veh->VelX = 0;
+                veh->VelY = 0;
+                veh->VelZ = 0;
+                veh->VelR = 0;
+                p_car->Velocity = 0;
+                veh->Skid = SKID_START;
 
 #if DUMP_COORDS
-				if (is_driven_by_player(p_car))
-				{
-					GetCarPoints(p_car, x, y, z, step);
-				
-					TRACE("After halt vs walls\n");
-					for (ii = 0; ii < 4; ii++)
-					{
-						TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-					}
+                if (is_driven_by_player(p_car)) {
+                    GetCarPoints(p_car, x, y, z, step);
 
-					for (ii = 0; ii < 4; ii++)
-					{
-						int	jj = (ii + 1) & 3;
-						ASSERT(!there_is_a_los_car(x[ii],y[ii],z[ii], x[jj],y[jj],z[jj]));
-					}
-				}
+                    TRACE("After halt vs walls\n");
+                    for (ii = 0; ii < 4; ii++) {
+                        TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+                    }
+
+                    for (ii = 0; ii < 4; ii++) {
+                        int jj = (ii + 1) & 3;
+                        ASSERT(!there_is_a_los_car(x[ii], y[ii], z[ii], x[jj], y[jj], z[jj]));
+                    }
+                }
 #endif
-				return 1;
-			}
-		}
-	}
+                return 1;
+            }
+        }
+    }
 
-	// check against prims
-	for (ii = 0; ii < VEH_col_upto; ii++)
-	{
-		VEH_Col* vc = &VEH_col[ii];
+    // check against prims
+    for (ii = 0; ii < VEH_col_upto; ii++) {
+        VEH_Col *vc = &VEH_col[ii];
 
-		if (vc->type == VEH_COL_TYPE_BBOX)
-		{
-			int		jj;
-			bool	slide;
+        if (vc->type == VEH_COL_TYPE_BBOX) {
+            int jj;
+            bool slide;
 
-			slide = false;
+            slide = false;
 
-			do
-			{
-				for (jj = 0; jj < 4; jj++)
-				{
-					int kk = (jj + 1) & 3;
+            do {
+                for (jj = 0; jj < 4; jj++) {
+                    int kk = (jj + 1) & 3;
 
-					if (collide_box_with_line(  vc->mid_x, 
-												vc->mid_z, 
-												vc->min_x + 0x10,	 
-												vc->min_z + 0x10,	
-												vc->max_x - 0x10,	 
-												vc->max_z - 0x10,	
-												vc->radius_or_yaw,
-												x[jj], z[jj],
-												x[kk], z[kk]))
-					{
-						// fucked up
-						if (!slide)
-						{
-							// move us a *tiny* bit away from the other object
-							veh->VelX = ((p_car->WorldPos.X >> 8) - vc->mid_x) >> 4;
-							veh->VelZ = ((p_car->WorldPos.Z >> 8) - vc->mid_z) >> 4;
-							veh->VelR = 0;
-							slide = true;
-							veh->Skid = SKID_START;
-							break;
-						}
-						else
-						{
-							veh->VelX = 0;
-							veh->VelZ = 0;
-							veh->VelR = 0;
-							p_car->Velocity = 0;
+                    if (collide_box_with_line(vc->mid_x,
+                                              vc->mid_z,
+                                              vc->min_x + 0x10,
+                                              vc->min_z + 0x10,
+                                              vc->max_x - 0x10,
+                                              vc->max_z - 0x10,
+                                              vc->radius_or_yaw,
+                                              x[jj], z[jj],
+                                              x[kk], z[kk])) {
+                        // fucked up
+                        if (!slide) {
+                            // move us a *tiny* bit away from the other object
+                            veh->VelX = ((p_car->WorldPos.X >> 8) - vc->mid_x) >> 4;
+                            veh->VelZ = ((p_car->WorldPos.Z >> 8) - vc->mid_z) >> 4;
+                            veh->VelR = 0;
+                            slide = true;
+                            veh->Skid = SKID_START;
+                            break;
+                        } else {
+                            veh->VelX = 0;
+                            veh->VelZ = 0;
+                            veh->VelR = 0;
+                            p_car->Velocity = 0;
 #if DUMP_COORDS
-							if (is_driven_by_player(p_car))
-							{
-								GetCarPoints(p_car, x, y, z, step);
-							
-								TRACE("After halt vs square prim\n");
-								for (ii = 0; ii < 4; ii++)
-								{
-									TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-								}
+                            if (is_driven_by_player(p_car)) {
+                                GetCarPoints(p_car, x, y, z, step);
 
-								for (jj = 0; jj < 4; jj++)
-								{
-									int	kk = (jj + 1) & 3;
+                                TRACE("After halt vs square prim\n");
+                                for (ii = 0; ii < 4; ii++) {
+                                    TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+                                }
 
-									ASSERT(!collide_box_with_line(vc->mid_x, 
-												vc->mid_z, 
-												vc->min_x + 0x10,	 
-												vc->min_z + 0x10,	
-												vc->max_x - 0x10,	 
-												vc->max_z - 0x10,	
-												vc->radius_or_yaw,
-												x[jj], z[jj],
-												x[kk], z[kk]));
-								}
-							}
+                                for (jj = 0; jj < 4; jj++) {
+                                    int kk = (jj + 1) & 3;
+
+                                    ASSERT(!collide_box_with_line(vc->mid_x,
+                                                                  vc->mid_z,
+                                                                  vc->min_x + 0x10,
+                                                                  vc->min_z + 0x10,
+                                                                  vc->max_x - 0x10,
+                                                                  vc->max_z - 0x10,
+                                                                  vc->radius_or_yaw,
+                                                                  x[jj], z[jj],
+                                                                  x[kk], z[kk]));
+                                }
+                            }
 #endif
-							return 1;
-						}
-					}
-				}
-				if (jj == 4)	break;
+                            return 1;
+                        }
+                    }
+                }
+                if (jj == 4) break;
 
-				if (slide)
-				{
-					GetCarPoints(p_car, x, y, z, step);
+                if (slide) {
+                    GetCarPoints(p_car, x, y, z, step);
 
 #if DUMP_COORDS
-					if (is_driven_by_player(p_car))
-					{
-						TRACE("After slide (square prim)\n");
-						for (ii = 0; ii < 4; ii++)
-						{
-							TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-						}
-					}
+                    if (is_driven_by_player(p_car)) {
+                        TRACE("After slide (square prim)\n");
+                        for (ii = 0; ii < 4; ii++) {
+                            TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+                        }
+                    }
 #endif
-				}
-			} while (slide);
-		}
-		else
-		{
-			int		jj;
-			bool	slide;
-			
-			ASSERT(vc->type == VEH_COL_TYPE_CYLINDER);
+                }
+            } while (slide);
+        } else {
+            int jj;
+            bool slide;
 
-			slide = false;
+            ASSERT(vc->type == VEH_COL_TYPE_CYLINDER);
 
-			do 
-			{
-				for (jj = 0; jj < 4; jj++)
-				{
-					int kk = (jj + 1) & 3;
+            slide = false;
 
-					if (distance_to_line(x[jj], z[jj],
-										 x[kk], z[kk],
-										 vc->mid_x,
-										 vc->mid_z) < vc->radius_or_yaw - 0x10)
-					{
-						// fucked up
-						if (!slide)
-						{
-							// try sliding car forwards
-							std::int32_t	vel = Root((veh->VelX >> 4) * (veh->VelX >> 4) + (veh->VelZ >> 4) * (veh->VelZ >> 4));
-							veh->VelR = 0;
-							veh->VelX = (vel * SIN(veh->Angle & 2047)) >> 12;
-							veh->VelZ = (vel * COS(veh->Angle & 2047)) >> 12;
-							slide = true;
-							break;
-						}
-						else
-						{
-							veh->VelX = 0;
-							veh->VelZ = 0;
-							veh->VelR = 0;
-							p_car->Velocity = 0;
+            do {
+                for (jj = 0; jj < 4; jj++) {
+                    int kk = (jj + 1) & 3;
+
+                    if (distance_to_line(x[jj], z[jj],
+                                         x[kk], z[kk],
+                                         vc->mid_x,
+                                         vc->mid_z) < vc->radius_or_yaw - 0x10) {
+                        // fucked up
+                        if (!slide) {
+                            // try sliding car forwards
+                            std::int32_t vel = Root((veh->VelX >> 4) * (veh->VelX >> 4) + (veh->VelZ >> 4) * (veh->VelZ >> 4));
+                            veh->VelR = 0;
+                            veh->VelX = (vel * SIN(veh->Angle & 2047)) >> 12;
+                            veh->VelZ = (vel * COS(veh->Angle & 2047)) >> 12;
+                            slide = true;
+                            break;
+                        } else {
+                            veh->VelX = 0;
+                            veh->VelZ = 0;
+                            veh->VelR = 0;
+                            p_car->Velocity = 0;
 #if DUMP_COORDS
-							if (is_driven_by_player(p_car))
-							{
-								GetCarPoints(p_car, x, y, z, step);
-							
-								TRACE("After halt vs round prim\n");
-								for (ii = 0; ii < 4; ii++)
-								{
-									TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-								}
+                            if (is_driven_by_player(p_car)) {
+                                GetCarPoints(p_car, x, y, z, step);
 
-								for (jj = 0; jj < 4; jj++)
-								{
-									int	kk = (jj + 1) & 3;
+                                TRACE("After halt vs round prim\n");
+                                for (ii = 0; ii < 4; ii++) {
+                                    TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+                                }
 
-									ASSERT(distance_to_line(x[jj],z[jj],x[kk],z[kk],vc->mid_x,vc->mid_z) >= vc->radius_or_yaw - 0x10);
-								}
-							}
+                                for (jj = 0; jj < 4; jj++) {
+                                    int kk = (jj + 1) & 3;
+
+                                    ASSERT(distance_to_line(x[jj], z[jj], x[kk], z[kk], vc->mid_x, vc->mid_z) >= vc->radius_or_yaw - 0x10);
+                                }
+                            }
 #endif
-							return 1;
-						}
-					}
-				}
-				if (jj == 4)	break;
+                            return 1;
+                        }
+                    }
+                }
+                if (jj == 4) break;
 
-				if (slide)
-				{
-					GetCarPoints(p_car, x, y, z, step);
+                if (slide) {
+                    GetCarPoints(p_car, x, y, z, step);
 
 #if DUMP_COORDS
-					if (is_driven_by_player(p_car))
-					{
-						TRACE("After slide (round prim)\n");
-						for (ii = 0; ii < 4; ii++)
-						{
-							TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
-						}
-					}
+                    if (is_driven_by_player(p_car)) {
+                        TRACE("After slide (round prim)\n");
+                        for (ii = 0; ii < 4; ii++) {
+                            TRACE("[%d] = %8.8X %8.8X %8.8X\n", ii, x[ii], y[ii], z[ii]);
+                        }
+                    }
 #endif
-				}
-			} while (slide);
-		}
-	}
+                }
+            } while (slide);
+        }
+    }
 
-	return 1;
+    return 1;
 }
 
 // CollideWithKerb
 //
 // nudge the car away from the kerb
 
-static void CollideWithKerb(Thing* p_car)
-{
-	Vehicle*	veh = p_car->Genus.Vehicle;
-	VehInfo*	vinfo = &veh_info[veh->Type];
+static void CollideWithKerb(Thing *p_car) {
+    Vehicle *veh = p_car->Genus.Vehicle;
+    VehInfo *vinfo = &veh_info[veh->Type];
 
-	// make car matrix for new position (ignore tilt & roll)
-	make_car_matrix_p((veh->Angle + ((veh->VelR * TICK_RATIO) >> TICK_SHIFT)) & 2047, 0, 0);
+    // make car matrix for new position (ignore tilt & roll)
+    make_car_matrix_p((veh->Angle + ((veh->VelR * TICK_RATIO) >> TICK_SHIFT)) & 2047, 0, 0);
 
-	// generate flags
-	std::uint8_t	on_road = 0;
+    // generate flags
+    std::uint8_t on_road = 0;
 
-	for (std::int32_t wheel = 0; wheel < 4; wheel++)
-	{
-		std::int32_t wx = vinfo->DX[wheel];
-		std::int32_t wy = 0;
-		std::int32_t wz = vinfo->DZ[wheel];
-		
-		apply_car_matrix(&wx, &wy, &wz);
+    for (std::int32_t wheel = 0; wheel < 4; wheel++) {
+        std::int32_t wx = vinfo->DX[wheel];
+        std::int32_t wy = 0;
+        std::int32_t wz = vinfo->DZ[wheel];
 
-		std::int32_t	papx = wx + (p_car->WorldPos.X >> 8);
-		std::int32_t	papz = wz + (p_car->WorldPos.Z >> 8);
+        apply_car_matrix(&wx, &wy, &wz);
 
-		if (ROAD_is_road(papx >> 8, papz >> 8))		on_road |= (1 << wheel);
-	}
+        std::int32_t papx = wx + (p_car->WorldPos.X >> 8);
+        std::int32_t papz = wz + (p_car->WorldPos.Z >> 8);
 
-	std::uint8_t	change = (on_road ^ veh->OnRoadFlags);
+        if (ROAD_is_road(papx >> 8, papz >> 8)) on_road |= (1 << wheel);
+    }
 
-	if (change && !veh->DControl)
-	{
-#define	KERB_TURN	16
+    std::uint8_t change = (on_road ^ veh->OnRoadFlags);
 
-		// lower your shields and prepare to be boarded.  your angle will be assimilated and merged with ours.  resistance is futile.
-		static std::int32_t	towards_table[8] = { 0x000, 0x200, 0x200, 0x400, 0x400, 0x600, 0x600, 0x800 };	// takes top 3 bits to nearest axis
-		std::int32_t	towards = towards_table[veh->Angle >> 8];
+    if (change && !veh->DControl) {
+#define KERB_TURN 16
 
-		if ((towards - veh->Angle) < -(KERB_TURN * TICK_RATIO) >> TICK_SHIFT)
-		{
-			veh->VelR -= KERB_TURN;
-		}
-		else if ((towards - veh->Angle) > (KERB_TURN * TICK_RATIO) >> TICK_SHIFT)
-		{
-			veh->VelR += KERB_TURN;
-		}
-	}
-	veh->OnRoadFlags = on_road;
+        // lower your shields and prepare to be boarded.  your angle will be assimilated and merged with ours.  resistance is futile.
+        static std::int32_t towards_table[8] = {0x000, 0x200, 0x200, 0x400, 0x400, 0x600, 0x600, 0x800}; // takes top 3 bits to nearest axis
+        std::int32_t towards = towards_table[veh->Angle >> 8];
+
+        if ((towards - veh->Angle) < -(KERB_TURN * TICK_RATIO) >> TICK_SHIFT) {
+            veh->VelR -= KERB_TURN;
+        } else if ((towards - veh->Angle) > (KERB_TURN * TICK_RATIO) >> TICK_SHIFT) {
+            veh->VelR += KERB_TURN;
+        }
+    }
+    veh->OnRoadFlags = on_road;
 }
 
 // GetRunoverHP
@@ -2886,38 +2654,33 @@ static void CollideWithKerb(Thing* p_car)
 // to person - this gives an indication of the amount of HP the person
 // must lose
 
-std::int32_t GetRunoverHP(Thing* p_car, Thing* p_person)
-{
-	std::int32_t	tx = (p_person->WorldPos.X - p_car->WorldPos.X) >> 8;
-	std::int32_t	tz = (p_person->WorldPos.Z - p_car->WorldPos.Z) >> 8;
+std::int32_t GetRunoverHP(Thing *p_car, Thing *p_person) {
+    std::int32_t tx = (p_person->WorldPos.X - p_car->WorldPos.X) >> 8;
+    std::int32_t tz = (p_person->WorldPos.Z - p_car->WorldPos.Z) >> 8;
 
-	std::int32_t	tt = Root(tx*tx + tz*tz) * 200;	// 200 units per HP
+    std::int32_t tt = Root(tx * tx + tz * tz) * 200; // 200 units per HP
 
-	std::int32_t	hp = abs(p_car->Genus.Vehicle->VelX * tx + p_car->Genus.Vehicle->VelZ * tz) / tt;
+    std::int32_t hp = abs(p_car->Genus.Vehicle->VelX * tx + p_car->Genus.Vehicle->VelZ * tz) / tt;
 
-	if (hp < 10)	hp = 10;
+    if (hp < 10) hp = 10;
 
-	return hp;
+    return hp;
 }
-
 
 //
 // Throws a person out of the car and knocks him over.
 //
 
-void VEH_throw_out_person(Thing *p_person, Thing *p_vehicle)
-{
-	set_person_exit_vehicle(p_person);
+void VEH_throw_out_person(Thing *p_person, Thing *p_vehicle) {
+    set_person_exit_vehicle(p_person);
 
-	knock_person_down(
-		p_person,
-		30,
-		p_vehicle->WorldPos.X >> 8,
-		p_vehicle->WorldPos.Z >> 8,
-		NULL);
+    knock_person_down(
+        p_person,
+        30,
+        p_vehicle->WorldPos.X >> 8,
+        p_vehicle->WorldPos.Z >> 8,
+        NULL);
 }
-
-
 
 //===============================================================
 //
@@ -2931,468 +2694,422 @@ void VEH_throw_out_person(Thing *p_person, Thing *p_vehicle)
 
 static void do_car_input(Thing *p_thing);
 
-void VEH_driving(Thing *p_thing)
-{
-	DrawMesh	*dm		= p_thing->Draw.Mesh;
-	Vehicle		*veh	= p_thing->Genus.Vehicle;
-	std::int32_t		dx,dy,dz;
-	std::int32_t		coltype;
-	std::int32_t		dwheel;
+void VEH_driving(Thing *p_thing) {
+    DrawMesh *dm = p_thing->Draw.Mesh;
+    Vehicle *veh = p_thing->Genus.Vehicle;
+    std::int32_t dx, dy, dz;
+    std::int32_t coltype;
+    std::int32_t dwheel;
 
-	dy = 0;
+    dy = 0;
 
-	//
-	// Make sure that this is a furniture thing and everything is valid.
-	//
+    //
+    // Make sure that this is a furniture thing and everything is valid.
+    //
 
-	ASSERT(p_thing->Class == CLASS_VEHICLE);
+    ASSERT(p_thing->Class == CLASS_VEHICLE);
 
-	//
-	// Forget you've been shot at every once in a while...
-	//
+    //
+    // Forget you've been shot at every once in a while...
+    //
 
-	if ((GAME_TURN & 0x1f) == 0)
-	{
-		veh->Flags &= ~FLAG_VEH_SHOT_AT;
-	}
+    if ((GAME_TURN & 0x1f) == 0) {
+        veh->Flags &= ~FLAG_VEH_SHOT_AT;
+    }
 
-	if (veh->Health <= 0)
-	{
-		veh->Steering = 0;
-		veh->DControl = 0;
+    if (veh->Health <= 0) {
+        veh->Steering = 0;
+        veh->DControl = 0;
 
-		if (p_thing->State != STATE_DEAD)	// Magic number... we've already blown up!
-		{
-			//
-			// Blow up!
-			//
+        if (p_thing->State != STATE_DEAD) // Magic number... we've already blown up!
+        {
+            //
+            // Blow up!
+            //
 
 #ifdef PSX
-			POW_create(
-				POW_CREATE_LARGE_SEMI,
-				p_thing->WorldPos.X,
-				p_thing->WorldPos.Y,
-				p_thing->WorldPos.Z,0,0,0);
+            POW_create(
+                POW_CREATE_LARGE_SEMI,
+                p_thing->WorldPos.X,
+                p_thing->WorldPos.Y,
+                p_thing->WorldPos.Z, 0, 0, 0);
 #else
-			{
-				Thing *pyro;
-				std::int32_t wave;
-				pyro=PYRO_create(p_thing->WorldPos,PYRO_FIREBOMB);
-				if (pyro)
-					pyro->Genus.Pyro->Flags|=PYRO_FLAGS_WAVE;
-				wave=S_EXPLODE_MEDIUM;
-				if (!(Random()&3)) wave++; // 25% chance of a bigger bang than usual
-				MFX_play_xyz(THING_NUMBER(p_thing),wave,0,p_thing->WorldPos.X,p_thing->WorldPos.Y,p_thing->WorldPos.Z);
-			}
+            {
+                Thing *pyro;
+                std::int32_t wave;
+                pyro = PYRO_create(p_thing->WorldPos, PYRO_FIREBOMB);
+                if (pyro)
+                    pyro->Genus.Pyro->Flags |= PYRO_FLAGS_WAVE;
+                wave = S_EXPLODE_MEDIUM;
+                if (!(Random() & 3)) wave++; // 25% chance of a bigger bang than usual
+                MFX_play_xyz(THING_NUMBER(p_thing), wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+            }
 #endif
-			VEH_bounce(veh, 0, 4000);
-
-			veh->damage[0] = 4;
-			veh->damage[1] = 4;
-			veh->damage[2] = 4;
-			veh->damage[3] = 4;
-			veh->damage[4] = 4;
-			veh->damage[5] = 4;
-
-			p_thing->State                = STATE_DEAD;
-			p_thing->Genus.Person->Action = ACTION_DEAD;
-			veh->Health                   = 0;
-
-			//
-			// Anyone driving the car gets thrown out of the car and knocked over.
-			//
-
-			if (veh->Driver)
-			{	
-				VEH_throw_out_person(TO_THING(veh->Driver), p_thing);
-			}
-
-			while(veh->Passenger)
-			{
-				//
-				// This function removes the person from the passenger list.
-				//
-
-				VEH_throw_out_person(TO_THING(veh->Passenger), p_thing);
-			}
-		}
-		else
-		{
-			//
-			// Use health as a countdown timer...
-			//
-
-			if (!(p_thing->Flags & FLAGS_IN_VIEW))
-			{
-				veh->Health -= 1;
-
-				if (veh->Health < -200)
-				{
-					//
-					// Get rid of the vehicle.
-					//
-
-					remove_thing_from_map(p_thing);
-
-					p_thing->StateFn = NULL;
-
-					return;
-				}
-			}
-		}
-	}
-
-	if (veh->Flags & FLAG_VEH_STALLED)
-	{
-		//
-		// Can't control this car no more...
-		//
-
-		veh->Steering = 0;
-
-		if (p_thing->Velocity > 0)
-		{
-			veh->DControl = VEH_DECEL;
-		}
-		else
-		{
-			veh->DControl = 0;
-		}
-	}
-
-	//
-	// Move it.
-	//
-
-	if (!(veh->Flags & FLAG_FURN_DRIVING) && 
-		!p_thing->Genus.Vehicle->VelX && 
-		!p_thing->Genus.Vehicle->VelZ && 
-		(veh->Stable >= STABLE_COUNT))
-	{
-		if (p_thing->State != STATE_DEAD)
-		{
-			//
-			// Dead cars need to execute the above code so they can dissapear
-			// from the map after a while.
-			// 
-
-			siren(veh, 0);
-			p_thing->StateFn = NULL;
-		}
-
-		return;
-	}
-
-	do_car_input(p_thing);
-
-	//
-	// If this car is on the road, there is no need to collide with the walls.
-	// 
-
-	VEH_collide_line_ignore_walls = VEH_on_road(p_thing, 0) && VEH_on_road(p_thing, TICK_RATIO);
-
-	//
-	// And maybe not prims to...
-	//
-
-	std::int32_t ignore_prims;
-
-	if (GAME_FLAGS & GF_CARS_WITH_ROAD_PRIMS)
-	{
-		ignore_prims = false;
-	}
-	else
-	{
-		ignore_prims = VEH_collide_line_ignore_walls;
-	}
-
-	{
-		Thing	*p_driver;
-		p_driver=TO_THING(p_thing->Genus.Vehicle->Driver);
-		if(p_driver->Class==CLASS_PERSON)
-		{
-			if(p_driver->Genus.Person->PlayerID)
-			{
-				ignore_prims=0;
-				VEH_collide_line_ignore_walls=0;
-			}
-		}
-	}
-
-	//
-	// Mark the vehicle as not having collided this frame.
-	//
-
-	p_thing->Flags &= ~FLAGS_COLLIDED;
-
-	//
-	// Find all the things this vehicle can collide with.
-	//
-
-	std::int32_t	vel = Root((veh->VelX >> 4) * (veh->VelX >> 4) + (veh->VelZ >> 4) * (veh->VelZ >> 4)) >> 4;
-
-	VEH_collide_find_things(
-		p_thing->WorldPos.X >> 8,
-		p_thing->WorldPos.Y >> 8,
-		p_thing->WorldPos.Z >> 8,
-		0x180 + vel,
-		THING_NUMBER(p_thing),
-		ignore_prims);
-
-	//
-	// Collide with them
-	//
-
-	coltype = CollideCar(p_thing, TICK_RATIO);
-
-
-
-	//
-	// set new position / angle
-	//
-
-	GameCoord	new_pos;
-
-	new_pos.X = p_thing->WorldPos.X + ((veh->VelX * TICK_RATIO) >> TICK_SHIFT);
-	new_pos.Y = p_thing->WorldPos.Y + veh->VelY;
-	new_pos.Z = p_thing->WorldPos.Z + ((veh->VelZ * TICK_RATIO) >> TICK_SHIFT);
-
-	move_thing_on_map(p_thing, &new_pos);
-	veh->Angle += (veh->VelR * TICK_RATIO) >> TICK_SHIFT;
-	veh->Angle &= 2047;
-
-	//
-	// Are there any people inside our bounding box? If there is
-	// then we should run them over.
-	//
-
-	if ((veh->VelX || veh->VelZ) && veh->Driver)	// make sure we don't run ourselves over when we get out
-	{
-		std::int32_t i;
-
-		#define MAX_RUNOVER 8
-
-		std::uint16_t people[MAX_RUNOVER];
-		std::int32_t num;
-
-		std::int32_t box_valid = false;
-		std::int32_t miny;
-		std::int32_t maxy;
-		std::int32_t prim;
-		std::int32_t useangle;
-		std::int32_t sin_yaw;
-		std::int32_t cos_yaw;
-		std::int32_t matrix[4];
-
-		std::int32_t tx;
-		std::int32_t tz;
-
-		std::int32_t rx;
-		std::int32_t rz;
-
-		PrimInfo	*pi;
-		Thing		*p_found;
-
-		num = THING_find_sphere(
-					p_thing->WorldPos.X >> 8,
-					p_thing->WorldPos.Y >> 8,
-					p_thing->WorldPos.Z >> 8,
-					0x200,
-					people,
-					MAX_RUNOVER,
-					1 << CLASS_PERSON);
-
-		if (num)
-		{
-			prim  = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
-			pi    = get_prim_info(prim);
-			miny = (p_thing->WorldPos.Y - get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8) + pi->miny - 0x80;
-			maxy = (p_thing->WorldPos.Y - get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8) + pi->maxy - 0x80;
-		}
-
-		for (i = 0; i < num; i++)
-		{
-			p_found = TO_THING(people[i]);
-
-			if (p_found->Genus.Person->Flags & FLAG_PERSON_DRIVING)
-			{
-				// You can't run yourself over!
-			}
-/*
-			else if (p_found->State == STATE_DEAD || p_found->State == STATE_DYING)
-			{
-				// Ignore dead people.
-			}
-*/
-			else if (p_found->OnFace)
-			{
-				// Ignore people on faces... they might be dangling on this car!
-			}
-			else if (!WITHIN((p_found->WorldPos.Y >> 8), miny, maxy))
-			{
-//				TRACE("foundy = %d (%d-%d)\n", p_found->WorldPos.Y, miny, maxy);
-			}
-			else
-			{
-				//
-				// This person is a candidate for being run over.
-				//
-
-				if (!box_valid)
-				{
-					useangle  = -p_thing->Genus.Vehicle->Angle;
-					useangle &=  2047;
-
-					sin_yaw = SIN(useangle);
-					cos_yaw = COS(useangle);
-
-					matrix[0] =  cos_yaw;
-					matrix[1] =  sin_yaw;
-					matrix[2] = -sin_yaw;
-					matrix[3] =  cos_yaw;
-
-					box_valid = true;
-				}
-
-				//
-				// Rotate this person into the space of the prim.
-				//
-				
-				tx = p_found->WorldPos.X - p_thing->WorldPos.X >> 8;
-				tz = p_found->WorldPos.Z - p_thing->WorldPos.Z >> 8;
-
-				rx = MUL64(tx, matrix[0]) + MUL64(tz, matrix[1]);
-				rz = MUL64(tx, matrix[2]) + MUL64(tz, matrix[3]);
-
-				if (WITHIN(rx, pi->minx - 0x18, pi->maxx + 0x18) &&
-					WITHIN(rz, pi->minz - 0x18, pi->maxz + 0x18))
-				{
-					Thing*	p_driver = get_vehicle_driver(p_thing);
-
-					//
-					// Run this person over.
-					//
-
-					if (p_found->State == STATE_DEAD || p_found->State == STATE_DYING)
-					{
-						//
-						// ran over a corpse or someone lay down
-						//
-						if(is_person_ko_and_lay_down(p_found))
-						{
-							std::int32_t anim;
-
-							//
-							// Is this person on their front or back?
-							//
-
-							switch(person_is_lying_on_what(p_found))
-							{
-								case PERSON_ON_HIS_FRONT:
-									anim  =  ANIM_FIGHT_STOMPED_BACK;
-									break;
-
-								case PERSON_ON_HIS_BACK:
-									anim  =  ANIM_FIGHT_STOMPED_FRONT;
-									break;
-
-								default:
-									ASSERT(0);
-									break;
-							}
-
-							if(p_found->Draw.Tweened->CurrentAnim!=anim || (p_found->Draw.Tweened->CurrentFrame->Flags&ANIM_FLAG_LAST_FRAME))
-								set_person_ko_recoil(p_found,anim,0);
-
-						}
-
-
-					}
-					else
-					{
-						// if(version_censored)
-						if((!VIOLENCE)&&(p_found->Genus.Person->PersonType==PERSON_COP||p_found->Genus.Person->PersonType==PERSON_CIV))
-						{
-							if(p_found->SubState!=SUB_STATE_FLIPING)
-							{
-								set_person_flip(p_found, Random() & 0x1);
-							}
-
-
-						}
-						else
-						{
-							knock_person_down(p_found,
-								GetRunoverHP(p_thing, p_found),
-								p_thing->WorldPos.X >> 8,
-								p_thing->WorldPos.Z >> 8,
-								p_driver);
-
-							//
-							// A nice sound!
-							//
-
-							MFX_play_thing(THING_NUMBER(p_found),S_THUMP_SQUISH,MFX_REPLACE,p_found);
-						}
-
-					}
-				}
-			}
-		}
-	}
-
-	//
-	// Rustle up some leaves.
-	//
-
-	DIRT_gust(
-		p_thing,
-		p_thing->WorldPos.X>>8,
-		p_thing->WorldPos.Z>>8,
-		new_pos.X>>8,
-		new_pos.Z>>8);
-
-	//
-	// Swirl the mist.
-	//
+            VEH_bounce(veh, 0, 4000);
+
+            veh->damage[0] = 4;
+            veh->damage[1] = 4;
+            veh->damage[2] = 4;
+            veh->damage[3] = 4;
+            veh->damage[4] = 4;
+            veh->damage[5] = 4;
+
+            p_thing->State = STATE_DEAD;
+            p_thing->Genus.Person->Action = ACTION_DEAD;
+            veh->Health = 0;
+
+            //
+            // Anyone driving the car gets thrown out of the car and knocked over.
+            //
+
+            if (veh->Driver) {
+                VEH_throw_out_person(TO_THING(veh->Driver), p_thing);
+            }
+
+            while (veh->Passenger) {
+                //
+                // This function removes the person from the passenger list.
+                //
+
+                VEH_throw_out_person(TO_THING(veh->Passenger), p_thing);
+            }
+        } else {
+            //
+            // Use health as a countdown timer...
+            //
+
+            if (!(p_thing->Flags & FLAGS_IN_VIEW)) {
+                veh->Health -= 1;
+
+                if (veh->Health < -200) {
+                    //
+                    // Get rid of the vehicle.
+                    //
+
+                    remove_thing_from_map(p_thing);
+
+                    p_thing->StateFn = NULL;
+
+                    return;
+                }
+            }
+        }
+    }
+
+    if (veh->Flags & FLAG_VEH_STALLED) {
+        //
+        // Can't control this car no more...
+        //
+
+        veh->Steering = 0;
+
+        if (p_thing->Velocity > 0) {
+            veh->DControl = VEH_DECEL;
+        } else {
+            veh->DControl = 0;
+        }
+    }
+
+    //
+    // Move it.
+    //
+
+    if (!(veh->Flags & FLAG_FURN_DRIVING) &&
+        !p_thing->Genus.Vehicle->VelX &&
+        !p_thing->Genus.Vehicle->VelZ &&
+        (veh->Stable >= STABLE_COUNT)) {
+        if (p_thing->State != STATE_DEAD) {
+            //
+            // Dead cars need to execute the above code so they can dissapear
+            // from the map after a while.
+            //
+
+            siren(veh, 0);
+            p_thing->StateFn = NULL;
+        }
+
+        return;
+    }
+
+    do_car_input(p_thing);
+
+    //
+    // If this car is on the road, there is no need to collide with the walls.
+    //
+
+    VEH_collide_line_ignore_walls = VEH_on_road(p_thing, 0) && VEH_on_road(p_thing, TICK_RATIO);
+
+    //
+    // And maybe not prims to...
+    //
+
+    std::int32_t ignore_prims;
+
+    if (GAME_FLAGS & GF_CARS_WITH_ROAD_PRIMS) {
+        ignore_prims = false;
+    } else {
+        ignore_prims = VEH_collide_line_ignore_walls;
+    }
+
+    {
+        Thing *p_driver;
+        p_driver = TO_THING(p_thing->Genus.Vehicle->Driver);
+        if (p_driver->Class == CLASS_PERSON) {
+            if (p_driver->Genus.Person->PlayerID) {
+                ignore_prims = 0;
+                VEH_collide_line_ignore_walls = 0;
+            }
+        }
+    }
+
+    //
+    // Mark the vehicle as not having collided this frame.
+    //
+
+    p_thing->Flags &= ~FLAGS_COLLIDED;
+
+    //
+    // Find all the things this vehicle can collide with.
+    //
+
+    std::int32_t vel = Root((veh->VelX >> 4) * (veh->VelX >> 4) + (veh->VelZ >> 4) * (veh->VelZ >> 4)) >> 4;
+
+    VEH_collide_find_things(
+        p_thing->WorldPos.X >> 8,
+        p_thing->WorldPos.Y >> 8,
+        p_thing->WorldPos.Z >> 8,
+        0x180 + vel,
+        THING_NUMBER(p_thing),
+        ignore_prims);
+
+    //
+    // Collide with them
+    //
+
+    coltype = CollideCar(p_thing, TICK_RATIO);
+
+    //
+    // set new position / angle
+    //
+
+    GameCoord new_pos;
+
+    new_pos.X = p_thing->WorldPos.X + ((veh->VelX * TICK_RATIO) >> TICK_SHIFT);
+    new_pos.Y = p_thing->WorldPos.Y + veh->VelY;
+    new_pos.Z = p_thing->WorldPos.Z + ((veh->VelZ * TICK_RATIO) >> TICK_SHIFT);
+
+    move_thing_on_map(p_thing, &new_pos);
+    veh->Angle += (veh->VelR * TICK_RATIO) >> TICK_SHIFT;
+    veh->Angle &= 2047;
+
+    //
+    // Are there any people inside our bounding box? If there is
+    // then we should run them over.
+    //
+
+    if ((veh->VelX || veh->VelZ) && veh->Driver) // make sure we don't run ourselves over when we get out
+    {
+        std::int32_t i;
+
+#define MAX_RUNOVER 8
+
+        std::uint16_t people[MAX_RUNOVER];
+        std::int32_t num;
+
+        std::int32_t box_valid = false;
+        std::int32_t miny;
+        std::int32_t maxy;
+        std::int32_t prim;
+        std::int32_t useangle;
+        std::int32_t sin_yaw;
+        std::int32_t cos_yaw;
+        std::int32_t matrix[4];
+
+        std::int32_t tx;
+        std::int32_t tz;
+
+        std::int32_t rx;
+        std::int32_t rz;
+
+        PrimInfo *pi;
+        Thing *p_found;
+
+        num = THING_find_sphere(
+            p_thing->WorldPos.X >> 8,
+            p_thing->WorldPos.Y >> 8,
+            p_thing->WorldPos.Z >> 8,
+            0x200,
+            people,
+            MAX_RUNOVER,
+            1 << CLASS_PERSON);
+
+        if (num) {
+            prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
+            pi = get_prim_info(prim);
+            miny = (p_thing->WorldPos.Y - get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8) + pi->miny - 0x80;
+            maxy = (p_thing->WorldPos.Y - get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8) + pi->maxy - 0x80;
+        }
+
+        for (i = 0; i < num; i++) {
+            p_found = TO_THING(people[i]);
+
+            if (p_found->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
+                // You can't run yourself over!
+            }
+            /*
+                                    else if (p_found->State == STATE_DEAD || p_found->State == STATE_DYING)
+                                    {
+                                            // Ignore dead people.
+                                    }
+            */
+            else if (p_found->OnFace) {
+                // Ignore people on faces... they might be dangling on this car!
+            } else if (!WITHIN((p_found->WorldPos.Y >> 8), miny, maxy)) {
+                //				TRACE("foundy = %d (%d-%d)\n", p_found->WorldPos.Y, miny, maxy);
+            } else {
+                //
+                // This person is a candidate for being run over.
+                //
+
+                if (!box_valid) {
+                    useangle = -p_thing->Genus.Vehicle->Angle;
+                    useangle &= 2047;
+
+                    sin_yaw = SIN(useangle);
+                    cos_yaw = COS(useangle);
+
+                    matrix[0] = cos_yaw;
+                    matrix[1] = sin_yaw;
+                    matrix[2] = -sin_yaw;
+                    matrix[3] = cos_yaw;
+
+                    box_valid = true;
+                }
+
+                //
+                // Rotate this person into the space of the prim.
+                //
+
+                tx = p_found->WorldPos.X - p_thing->WorldPos.X >> 8;
+                tz = p_found->WorldPos.Z - p_thing->WorldPos.Z >> 8;
+
+                rx = MUL64(tx, matrix[0]) + MUL64(tz, matrix[1]);
+                rz = MUL64(tx, matrix[2]) + MUL64(tz, matrix[3]);
+
+                if (WITHIN(rx, pi->minx - 0x18, pi->maxx + 0x18) &&
+                    WITHIN(rz, pi->minz - 0x18, pi->maxz + 0x18)) {
+                    Thing *p_driver = get_vehicle_driver(p_thing);
+
+                    //
+                    // Run this person over.
+                    //
+
+                    if (p_found->State == STATE_DEAD || p_found->State == STATE_DYING) {
+                        //
+                        // ran over a corpse or someone lay down
+                        //
+                        if (is_person_ko_and_lay_down(p_found)) {
+                            std::int32_t anim;
+
+                            //
+                            // Is this person on their front or back?
+                            //
+
+                            switch (person_is_lying_on_what(p_found)) {
+                                case PERSON_ON_HIS_FRONT:
+                                    anim = ANIM_FIGHT_STOMPED_BACK;
+                                    break;
+
+                                case PERSON_ON_HIS_BACK:
+                                    anim = ANIM_FIGHT_STOMPED_FRONT;
+                                    break;
+
+                                default:
+                                    ASSERT(0);
+                                    break;
+                            }
+
+                            if (p_found->Draw.Tweened->CurrentAnim != anim || (p_found->Draw.Tweened->CurrentFrame->Flags & ANIM_FLAG_LAST_FRAME))
+                                set_person_ko_recoil(p_found, anim, 0);
+                        }
+
+                    } else {
+                        // if(version_censored)
+                        if ((!VIOLENCE) && (p_found->Genus.Person->PersonType == PERSON_COP || p_found->Genus.Person->PersonType == PERSON_CIV)) {
+                            if (p_found->SubState != SUB_STATE_FLIPING) {
+                                set_person_flip(p_found, Random() & 0x1);
+                            }
+
+                        } else {
+                            knock_person_down(p_found,
+                                              GetRunoverHP(p_thing, p_found),
+                                              p_thing->WorldPos.X >> 8,
+                                              p_thing->WorldPos.Z >> 8,
+                                              p_driver);
+
+                            //
+                            // A nice sound!
+                            //
+
+                            MFX_play_thing(THING_NUMBER(p_found), S_THUMP_SQUISH, MFX_REPLACE, p_found);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //
+    // Rustle up some leaves.
+    //
+
+    DIRT_gust(
+        p_thing,
+        p_thing->WorldPos.X >> 8,
+        p_thing->WorldPos.Z >> 8,
+        new_pos.X >> 8,
+        new_pos.Z >> 8);
+
+    //
+    // Swirl the mist.
+    //
 #ifndef PSX
-	MIST_gust(
-		p_thing->WorldPos.X>>8,
-		p_thing->WorldPos.Z>>8,
-		new_pos.X>>8,
-		new_pos.Z>>8);
+    MIST_gust(
+        p_thing->WorldPos.X >> 8,
+        p_thing->WorldPos.Z >> 8,
+        new_pos.X >> 8,
+        new_pos.Z >> 8);
 #endif
-	//
-	// Knock down barrels.
-	//
+    //
+    // Knock down barrels.
+    //
 
-	{
-		std::int32_t prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
+    {
+        std::int32_t prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
 
-		BARREL_hit_with_prim(
-			prim,
-			p_thing->WorldPos.X                                                         >> 8,
-			p_thing->WorldPos.Y - get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8,
-			p_thing->WorldPos.Z                                                         >> 8,
-			p_thing->Genus.Vehicle->Angle);
-	}		
+        BARREL_hit_with_prim(
+            prim,
+            p_thing->WorldPos.X >> 8,
+            p_thing->WorldPos.Y - get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8,
+            p_thing->WorldPos.Z >> 8,
+            p_thing->Genus.Vehicle->Angle);
+    }
 
-	if (p_thing->Velocity > 500)
-	{
-		dx = -SIN(p_thing->Genus.Vehicle->Angle) << 1;
-		dz = -COS(p_thing->Genus.Vehicle->Angle) << 1; 
+    if (p_thing->Velocity > 500) {
+        dx = -SIN(p_thing->Genus.Vehicle->Angle) << 1;
+        dz = -COS(p_thing->Genus.Vehicle->Angle) << 1;
 
-		//
-		// Scare nearby people.
-		//
+        //
+        // Scare nearby people.
+        //
 
-		PCOM_oscillate_tympanum(
-			PCOM_SOUND_VAN,
-			NULL,
-			p_thing->WorldPos.X + dx >> 8,
-			p_thing->WorldPos.Y      >> 8,
-			p_thing->WorldPos.Z + dz >> 8);
-	}
+        PCOM_oscillate_tympanum(
+            PCOM_SOUND_VAN,
+            NULL,
+            p_thing->WorldPos.X + dx >> 8,
+            p_thing->WorldPos.Y >> 8,
+            p_thing->WorldPos.Z + dz >> 8);
+    }
 }
 
 //===============================================================
@@ -3405,27 +3122,24 @@ void VEH_driving(Thing *p_thing)
 //
 // init arctan table (for steering)
 
-static std::int32_t arctan_table[2*WHEELTIME + 1];
+static std::int32_t arctan_table[2 * WHEELTIME + 1];
 static std::int32_t arctan_table_ok = 0;
 
-static void init_arctans()
-{
-	int	ii;
+static void init_arctans() {
+    int ii;
 
-	if (arctan_table_ok)	return;
+    if (arctan_table_ok) return;
 
-	for (ii = 0; ii <= WHEELTIME; ii++)
-	{
-		arctan_table[WHEELTIME - ii] = -Arctan(ii, -WHEELRATIO) & 2047;
-		arctan_table[WHEELTIME + ii] = +Arctan(ii, -WHEELRATIO) & 2047;
-	}
+    for (ii = 0; ii <= WHEELTIME; ii++) {
+        arctan_table[WHEELTIME - ii] = -Arctan(ii, -WHEELRATIO) & 2047;
+        arctan_table[WHEELTIME + ii] = +Arctan(ii, -WHEELRATIO) & 2047;
+    }
 
-	for (ii = 0; ii <= 2*WHEELTIME + 1; ii++)
-	{
-		if (arctan_table[ii] > 1024)	arctan_table[ii] -= 2048;
-	}
+    for (ii = 0; ii <= 2 * WHEELTIME + 1; ii++) {
+        if (arctan_table[ii] > 1024) arctan_table[ii] -= 2048;
+    }
 
-	arctan_table_ok = 1;
+    arctan_table_ok = 1;
 }
 
 // steering_wheel
@@ -3436,441 +3150,378 @@ static void init_arctans()
 // changed fro analogue input by MikeD  dx has a scalar value, really the wheel should equal dx in analogue mode
 //
 
-extern std::int32_t	analogue;
+extern std::int32_t analogue;
 
-void steering_wheel(Vehicle* veh, std::int32_t velocity, bool player)
-{
-	std::int32_t	inc = TICK_RATIO;
+void steering_wheel(Vehicle *veh, std::int32_t velocity, bool player) {
+    std::int32_t inc = TICK_RATIO;
 
-	if (!(veh->Flags & FLAG_FURN_DRIVING) || (veh->Flags & FLAG_VEH_IN_AIR))
-	{
-		// bring wheel in
-		if (veh->Wheel > inc)		
-			veh->Wheel -= inc;
-		else 
-			if (veh->Wheel < -inc)	
-				veh->Wheel += inc;
-		else						
-			veh->Wheel = 0;
-	}
-	else
-	{
-		if (player)
-		{
-			velocity = abs(velocity);
+    if (!(veh->Flags & FLAG_FURN_DRIVING) || (veh->Flags & FLAG_VEH_IN_AIR)) {
+        // bring wheel in
+        if (veh->Wheel > inc)
+            veh->Wheel -= inc;
+        else if (veh->Wheel < -inc)
+            veh->Wheel += inc;
+        else
+            veh->Wheel = 0;
+    } else {
+        if (player) {
+            velocity = abs(velocity);
 
-			if (velocity > 1000)	
-				velocity = 1000;
+            if (velocity > 1000)
+                velocity = 1000;
 
-			if (veh->IsAnalog)
-			{
+            if (veh->IsAnalog) {
 #if 0
 				inc = (abs(veh->Steering)*inc * (256 - velocity / 8)) >> (6+7);
 #else
-				// The steering says where the steering wheel is directly.
-				// It is damped by the input routine.
-				//veh->Wheel = veh->Steering << 5;
+                // The steering says where the steering wheel is directly.
+                // It is damped by the input routine.
+                // veh->Wheel = veh->Steering << 5;
 
-				// Actually, I'd love to do that, but it becomes unmanageable at high speed,
-				// and doesn't give a decent turning circle at low speed.
-				// So inversely to speed it is...
-				veh->Wheel = ( veh->Steering * ( 700 - ( velocity >> 1 ) ) ) >> ( 3 );
+                // Actually, I'd love to do that, but it becomes unmanageable at high speed,
+                // and doesn't give a decent turning circle at low speed.
+                // So inversely to speed it is...
+                veh->Wheel = (veh->Steering * (700 - (velocity >> 1))) >> (3);
 
-				if (veh->Wheel > (WHEELTIME << TICK_SHIFT))
-				{
-					veh->Wheel = WHEELTIME << TICK_SHIFT;
-				}
-				else if (veh->Wheel < -(WHEELTIME << TICK_SHIFT))
-				{
-					veh->Wheel = -(WHEELTIME << TICK_SHIFT);
-				}
-				goto steering_done;
+                if (veh->Wheel > (WHEELTIME << TICK_SHIFT)) {
+                    veh->Wheel = WHEELTIME << TICK_SHIFT;
+                } else if (veh->Wheel < -(WHEELTIME << TICK_SHIFT)) {
+                    veh->Wheel = -(WHEELTIME << TICK_SHIFT);
+                }
+                goto steering_done;
 #endif
-			}
-			else
-			{
-				inc = (inc * (256 - velocity / 8)) >> 7;
-			}
-		}
+            } else {
+                inc = (inc * (256 - velocity / 8)) >> 7;
+            }
+        }
 
-		{
-			// scale inc according to velocity
+        {
+            // scale inc according to velocity
 
-			if (veh->Steering > 0)
-			{
-				// steer right
-				if (veh->Wheel < 0)		veh->Wheel = 0;
-				else					veh->Wheel += inc;
+            if (veh->Steering > 0) {
+                // steer right
+                if (veh->Wheel < 0)
+                    veh->Wheel = 0;
+                else
+                    veh->Wheel += inc;
 
-				if (veh->Wheel > (WHEELTIME << TICK_SHIFT))		veh->Wheel = WHEELTIME << TICK_SHIFT;
-			}
-			else if (veh->Steering < 0)
-			{
-				// steer left
-				if (veh->Wheel > 0)		veh->Wheel = 0;
-				else					veh->Wheel -= inc;
+                if (veh->Wheel > (WHEELTIME << TICK_SHIFT)) veh->Wheel = WHEELTIME << TICK_SHIFT;
+            } else if (veh->Steering < 0) {
+                // steer left
+                if (veh->Wheel > 0)
+                    veh->Wheel = 0;
+                else
+                    veh->Wheel -= inc;
 
-				if (veh->Wheel < -(WHEELTIME << TICK_SHIFT))	veh->Wheel = -(WHEELTIME << TICK_SHIFT);
-			}
-			else
-			{
-				// let go of wheel
-				if (veh->Wheel > 0)			veh->Wheel >>= 1;
-				else if (veh->Wheel < 0)	veh->Wheel = (veh->Wheel + 1) >> 1;
-			}
-		}
-steering_done:;
-	}
+                if (veh->Wheel < -(WHEELTIME << TICK_SHIFT)) veh->Wheel = -(WHEELTIME << TICK_SHIFT);
+            } else {
+                // let go of wheel
+                if (veh->Wheel > 0)
+                    veh->Wheel >>= 1;
+                else if (veh->Wheel < 0)
+                    veh->Wheel = (veh->Wheel + 1) >> 1;
+            }
+        }
+    steering_done:;
+    }
 
-	// lookup in table
-	veh->WheelAngle = arctan_table[(veh->Wheel >> TICK_SHIFT) + WHEELTIME];
+    // lookup in table
+    veh->WheelAngle = arctan_table[(veh->Wheel >> TICK_SHIFT) + WHEELTIME];
 }
 
 // siren
 //
 // play/stop the siren
 
-static void siren(Vehicle* veh, std::uint8_t play)
-{
-	if (veh->Siren == play)	return;
+static void siren(Vehicle *veh, std::uint8_t play) {
+    if (veh->Siren == play) return;
 
-	if ((veh->Type==VEH_TYPE_POLICE)||
-		(veh->Type==VEH_TYPE_AMBULANCE)||
-		(veh->Type==VEH_TYPE_MEATWAGON)) 
-	{
-		if (play)
-			MFX_play_ambient(VEHICLE_NUMBER(veh),S_CAR_SIREN1,MFX_LOOPED);
-		else
-			MFX_stop(VEHICLE_NUMBER(veh),S_CAR_SIREN1);
-	}
+    if ((veh->Type == VEH_TYPE_POLICE) ||
+        (veh->Type == VEH_TYPE_AMBULANCE) ||
+        (veh->Type == VEH_TYPE_MEATWAGON)) {
+        if (play)
+            MFX_play_ambient(VEHICLE_NUMBER(veh), S_CAR_SIREN1, MFX_LOOPED);
+        else
+            MFX_stop(VEHICLE_NUMBER(veh), S_CAR_SIREN1);
+    }
 
-	veh->Siren = play;
+    veh->Siren = play;
 }
 
 // pedals
 //
 // run the pedals
 
-static inline void pedals(Vehicle* veh, VehInfo* vinfo, std::int32_t velocity, std::uint8_t& friction, std::uint16_t& move_cancel, std::int16_t& accel,Thing *p_thing)
-{
+static inline void pedals(Vehicle *veh, VehInfo *vinfo, std::int32_t velocity, std::uint8_t &friction, std::uint16_t &move_cancel, std::int16_t &accel, Thing *p_thing) {
+    if (veh->DControl & VEH_ACCEL) veh->Skid = 0;
 
-	if (veh->DControl & VEH_ACCEL)	veh->Skid = 0;
+    // set GrabAction flag for preventing Darci getting out of the car
+    if (veh->DControl & (VEH_ACCEL | VEH_DECEL)) {
+        veh->GrabAction = 1;
+    } else if (!(veh->DControl & VEH_FASTER)) {
+        veh->GrabAction = 0;
+    }
 
-	// set GrabAction flag for preventing Darci getting out of the car
-	if (veh->DControl & (VEH_ACCEL | VEH_DECEL))
-	{
-		veh->GrabAction = 1;
-	}
-	else if (!(veh->DControl & VEH_FASTER))
-	{
-		veh->GrabAction = 0;
-	}
-
-	if (!(veh->Flags & FLAG_FURN_DRIVING))
-	{
-		// no-one in the car - slow down with a big friction (engine braking + braking)
-		siren(veh,0);
-		veh->Dir = 0;
-		friction -= 4;
-	}
-	else if (veh->DControl & VEH_ACCEL)
-	{
-
-		if (veh->Dir < 0)
-		{
-			// applying brakes while in reverse
-			veh->Dir = -1;
-			friction -= 4;
-			accel = vinfo->SoftBrake;
-			move_cancel = INPUT_CAR_ACCELERATE;
-		}
-		else
-		{
-			// accelerating forwards (terminal velocity is an emergent property
-			// of constant acceleration and velocity-based friction)
-			veh->Dir = +2;
-			accel = vinfo->FwdAccel;
-			if (veh->DControl & VEH_FASTER)
-			{
-				if (velocity < VEH_SPEED_LIMIT)			accel <<= 1;
-				else if (velocity < VEH_SPEED_LIMIT*2)	accel += (accel >> 1);
-			}
-			else
-			{
-				if (velocity >= VEH_SPEED_LIMIT)	accel = 0;
-			}
+    if (!(veh->Flags & FLAG_FURN_DRIVING)) {
+        // no-one in the car - slow down with a big friction (engine braking + braking)
+        siren(veh, 0);
+        veh->Dir = 0;
+        friction -= 4;
+    } else if (veh->DControl & VEH_ACCEL) {
+        if (veh->Dir < 0) {
+            // applying brakes while in reverse
+            veh->Dir = -1;
+            friction -= 4;
+            accel = vinfo->SoftBrake;
+            move_cancel = INPUT_CAR_ACCELERATE;
+        } else {
+            // accelerating forwards (terminal velocity is an emergent property
+            // of constant acceleration and velocity-based friction)
+            veh->Dir = +2;
+            accel = vinfo->FwdAccel;
+            if (veh->DControl & VEH_FASTER) {
+                if (velocity < VEH_SPEED_LIMIT)
+                    accel <<= 1;
+                else if (velocity < VEH_SPEED_LIMIT * 2)
+                    accel += (accel >> 1);
+            } else {
+                if (velocity >= VEH_SPEED_LIMIT) accel = 0;
+            }
 
 #ifdef FAST_EDDIE
-			if (Keys[KB_T])	accel <<= 1;	// !$$! we're fucking Batman!
+            if (Keys[KB_T]) accel <<= 1; // !$$! we're fucking Batman!
 #endif
 
-			if ((velocity < -200) || ((veh->DControl & VEH_FASTER) && (velocity < 400)))
-			{
-				// do wheelspin smoke
-				veh->Smokin = 1;
-			}
-		}
-	}
-	else if (veh->DControl & VEH_DECEL)
-	{
-		if ((veh->Dir > 0) || (velocity > 200))	// 2nd check so you don't bust the engine going into reverse at 50mph
-		{
-			// applying brakes while going forwards
-			veh->Dir = +1;
-			friction -= 4;
-			accel = -vinfo->SoftBrake;
-			move_cancel = INPUT_CAR_DECELERATE;
+            if ((velocity < -200) || ((veh->DControl & VEH_FASTER) && (velocity < 400))) {
+                // do wheelspin smoke
+                veh->Smokin = 1;
+            }
+        }
+    } else if (veh->DControl & VEH_DECEL) {
+        if ((veh->Dir > 0) || (velocity > 200)) // 2nd check so you don't bust the engine going into reverse at 50mph
+        {
+            // applying brakes while going forwards
+            veh->Dir = +1;
+            friction -= 4;
+            accel = -vinfo->SoftBrake;
+            move_cancel = INPUT_CAR_DECELERATE;
 
-			if (!veh->Skid)
-			{
-				if ((veh->DControl & VEH_FASTER) && (velocity > 1600))	veh->Skid = 1;
-			}
-			else
-			{
-				veh->Skid++;
-				if (veh->Skid == SKID_START)
-				{
-					// skid in a 60s style
-					if (!veh->VelR)
-					{
-						// Justin wants these lines removed
-						// I don't, so what I've done is make sure they're included
-						// in the final builds but not in the release build
-						// Aren't I cunning? ;)
-//#ifdef FINAL
-						if (Random() & 128)		veh->VelR =  velocity >> 6;
-						else					veh->VelR = -velocity >> 6;
-//#endif
-					}
-					else
-					{
-						if (veh->VelR > 0)	veh->VelR =  velocity >> 5;
-						else				veh->VelR = -velocity >> 5;
-					}
-				}
-			}
-		}
-		else
-		{
-			// accelerating backwards
-			veh->Dir = -2;
-			accel = -vinfo->BkAccel;
-		}
-	}
-	else
-	{
-		// slow down with a little friction (engine braking)
-		friction -= 1;
+            if (!veh->Skid) {
+                if ((veh->DControl & VEH_FASTER) && (velocity > 1600)) veh->Skid = 1;
+            } else {
+                veh->Skid++;
+                if (veh->Skid == SKID_START) {
+                    // skid in a 60s style
+                    if (!veh->VelR) {
+                        // Justin wants these lines removed
+                        // I don't, so what I've done is make sure they're included
+                        // in the final builds but not in the release build
+                        // Aren't I cunning? ;)
+                        // #ifdef FINAL
+                        if (Random() & 128)
+                            veh->VelR = velocity >> 6;
+                        else
+                            veh->VelR = -velocity >> 6;
+                        // #endif
+                    } else {
+                        if (veh->VelR > 0)
+                            veh->VelR = velocity >> 5;
+                        else
+                            veh->VelR = -velocity >> 5;
+                    }
+                }
+            }
+        } else {
+            // accelerating backwards
+            veh->Dir = -2;
+            accel = -vinfo->BkAccel;
+        }
+    } else {
+        // slow down with a little friction (engine braking)
+        friction -= 1;
 
-		// reset state
-		if ((veh->Dir == -1) || (veh->Dir == +1))	veh->Dir = 0;
-	}
+        // reset state
+        if ((veh->Dir == -1) || (veh->Dir == +1)) veh->Dir = 0;
+    }
 
-	// operate siren
-	if (veh->DControl & VEH_SIREN)
-	{
-		siren(veh, !veh->Siren);
-		move_cancel = INPUT_CAR_SIREN;
-	}
+    // operate siren
+    if (veh->DControl & VEH_SIREN) {
+        siren(veh, !veh->Siren);
+        move_cancel = INPUT_CAR_SIREN;
+    }
 }
 
 // do_car_input
 //
 // handle inputs from the player
 
-static void do_car_input(Thing *p_thing)
-{
-	Vehicle*	veh = p_thing->Genus.Vehicle;
-	VehInfo*	vinfo = &veh_info[p_thing->Genus.Vehicle->Type];
+static void do_car_input(Thing *p_thing) {
+    Vehicle *veh = p_thing->Genus.Vehicle;
+    VehInfo *vinfo = &veh_info[p_thing->Genus.Vehicle->Type];
 
 #ifdef _DEBUG
-	if (is_driven_by_player(p_thing))
-	{
-		if (Keys[KB_H] && ControlFlag)
-		{
-			Keys[KB_H] = 0;
-			ASSERT(0);
-		}
+    if (is_driven_by_player(p_thing)) {
+        if (Keys[KB_H] && ControlFlag) {
+            Keys[KB_H] = 0;
+            ASSERT(0);
+        }
 
-		if (Keys[KB_Y])	veh->Skid = SKID_START;
-	}
+        if (Keys[KB_Y]) veh->Skid = SKID_START;
+    }
 #endif
 
-	if (!(veh->Flags & FLAG_FURN_DRIVING) && !veh->VelX && !veh->VelZ)
-	{
-		siren(veh, 0);
-		veh->VelR = 0;
-		return;
-	}
+    if (!(veh->Flags & FLAG_FURN_DRIVING) && !veh->VelX && !veh->VelZ) {
+        siren(veh, 0);
+        veh->VelR = 0;
+        return;
+    }
 
-	//
-	// move steering wheel
-	//
+    //
+    // move steering wheel
+    //
 
-	steering_wheel(veh, p_thing->Velocity, is_driven_by_player(p_thing));
+    steering_wheel(veh, p_thing->Velocity, is_driven_by_player(p_thing));
 
-	//
-	// modify engine velocity
-	//
+    //
+    // modify engine velocity
+    //
 
-	if (veh->Flags & FLAG_VEH_IN_AIR)
-	{
-		// do nothing
-	}
-	else if (veh->Skid < SKID_START)
-	{
-		std::uint8_t	friction;		// amount of friction (lower number = more friction)
-		std::uint16_t	move_cancel;	// move to cancel if velocity becomes 0
-		std::int16_t	accel;			// acceleration
+    if (veh->Flags & FLAG_VEH_IN_AIR) {
+        // do nothing
+    } else if (veh->Skid < SKID_START) {
+        std::uint8_t friction;     // amount of friction (lower number = more friction)
+        std::uint16_t move_cancel; // move to cancel if velocity becomes 0
+        std::int16_t accel;        // acceleration
 
-		//
-		// get input from controls
-		//
+        //
+        // get input from controls
+        //
 
+        pedals(veh, vinfo, p_thing->Velocity, friction = 7, move_cancel = 0, accel = 0, p_thing);
 
-		pedals(veh, vinfo, p_thing->Velocity, friction = 7, move_cancel = 0, accel = 0,p_thing);
+        if (move_cancel == INPUT_CAR_SIREN && p_thing->Genus.Vehicle->Driver) {
+            // always cancel this key immediately
+            Thing *p_driver;
+            p_driver = TO_THING(p_thing->Genus.Vehicle->Driver);
+            if (p_driver->Genus.Person->PlayerID) {
+                Thing *p_player;
+                p_player = NET_PLAYER(p_driver->Genus.Person->PlayerID - 1);
+                p_player->Genus.Player->InputDone = move_cancel;
+            }
+        }
 
-		if (move_cancel == INPUT_CAR_SIREN && p_thing->Genus.Vehicle->Driver)
-		{
-			// always cancel this key immediately
-			Thing	*p_driver;
-			p_driver=TO_THING(p_thing->Genus.Vehicle->Driver);
-			if (p_driver->Genus.Person->PlayerID)
-			{
-				Thing	*p_player;
-				p_player = NET_PLAYER(p_driver->Genus.Person->PlayerID-1);
-				p_player->Genus.Player->InputDone = move_cancel;
-			}
-		}
+        //
+        // apply acceleration & friction
+        //
 
-		//
-		// apply acceleration & friction
-		//
+        std::int32_t oldvel = p_thing->Velocity;
+        std::int32_t oldmag = abs(oldvel);
 
-		std::int32_t	oldvel = p_thing->Velocity;
-		std::int32_t	oldmag = abs(oldvel);
+        p_thing->Velocity = ((std::int32_t(p_thing->Velocity) << friction) - std::int32_t(p_thing->Velocity)) >> friction;
+        p_thing->Velocity += accel;
 
-		p_thing->Velocity = ((std::int32_t(p_thing->Velocity) << friction) - std::int32_t(p_thing->Velocity)) >> friction;
-		p_thing->Velocity += accel;
+        std::int32_t newvel = p_thing->Velocity;
+        std::int32_t newmag = abs(newvel);
 
-		std::int32_t	newvel = p_thing->Velocity;
-		std::int32_t	newmag = abs(newvel);
+        std::int32_t realacc = newvel - oldvel;
 
-		std::int32_t	realacc = newvel - oldvel;
+        //
+        // apply forces to suspension from acceleration
+        //
 
-		//
-		// apply forces to suspension from acceleration
-		//
+        if (realacc > 0) {
+            if (abs(veh->DY[0]) < (realacc << 4)) veh->DY[0] -= realacc << 2;
+            if (abs(veh->DY[1]) < (realacc << 4)) veh->DY[1] -= realacc << 2;
+        } else {
+            if (abs(veh->DY[0]) < (-realacc << 2)) veh->DY[0] += -realacc;
+            if (abs(veh->DY[1]) < (-realacc << 2)) veh->DY[1] += -realacc;
+        }
 
-		if (realacc > 0)
-		{
-			if (abs(veh->DY[0]) < (realacc << 4))	veh->DY[0] -= realacc << 2;
-			if (abs(veh->DY[1]) < (realacc << 4))	veh->DY[1] -= realacc << 2;
-		}
-		else
-		{
-			if (abs(veh->DY[0]) < (-realacc << 2))	veh->DY[0] += -realacc;
-			if (abs(veh->DY[1]) < (-realacc << 2))	veh->DY[1] += -realacc;
-		}
+        //
+        // detect if we've stopped
+        //
 
-		//
-		// detect if we've stopped
-		//
+        bool stopped = false;
 
-		bool	stopped = false;
+        if ((veh->Dir == +2) || (veh->Dir == -2)) {
+            if (!accel && (newmag < 10)) stopped = true; // coast to a halt
+        } else if ((veh->Dir == +1) || (veh->Dir == -1)) {
+            if ((newmag < 10) || (newmag > oldmag)) stopped = true; // brake to a halt
+        } else {
+            ASSERT(accel == 0);
+            if (newmag < 10) stopped = true; // coast to a halt
+        }
 
-		if ((veh->Dir == +2) || (veh->Dir == -2))
-		{
-			if (!accel && (newmag < 10))	stopped = true;		// coast to a halt
-		}
-		else if ((veh->Dir == +1) || (veh->Dir == -1))
-		{
-			if ((newmag < 10) || (newmag > oldmag))	stopped = true;	// brake to a halt
-		}
-		else
-		{
-			ASSERT(accel == 0);
-			if (newmag < 10)				stopped = true;		// coast to a halt
-		}
+        //
+        // deal with stopping
+        //
 
-		//
-		// deal with stopping
-		//
+        if (stopped) {
+            p_thing->Velocity = 0;
+            veh->Dir = 0;
 
-		if (stopped)
-		{
-			p_thing->Velocity = 0;
-			veh->Dir = 0;
+            if (move_cancel && p_thing->Genus.Vehicle->Driver) {
+                // cancel keypress
+                Thing *p_driver;
+                p_driver = TO_THING(p_thing->Genus.Vehicle->Driver);
+                if (p_driver->Genus.Person->PlayerID) {
+                    Thing *p_player;
+                    p_player = NET_PLAYER(p_driver->Genus.Person->PlayerID - 1);
+                    p_player->Genus.Player->InputDone = move_cancel;
+                }
+            }
+            if (!(veh->Flags & FLAG_FURN_DRIVING)) {
+                // kill velocity, reset wheel
+                p_thing->Velocity = 0;
+                veh->Wheel = 0;
+                veh->WheelAngle = 0;
+            }
 
-			if (move_cancel && p_thing->Genus.Vehicle->Driver)
-			{
-				// cancel keypress
-				Thing	*p_driver;
-				p_driver=TO_THING(p_thing->Genus.Vehicle->Driver);
-				if (p_driver->Genus.Person->PlayerID)
-				{
-					Thing	*p_player;
-					p_player = NET_PLAYER(p_driver->Genus.Person->PlayerID-1);
-					p_player->Genus.Player->InputDone = move_cancel;
-				}
-			}
-			if (!(veh->Flags & FLAG_FURN_DRIVING))
-			{
-				// kill velocity, reset wheel
-				p_thing->Velocity	= 0;
-				veh->Wheel			= 0;
-				veh->WheelAngle	= 0;
-			}
+            veh->VelX = 0;
+            veh->VelZ = 0;
+            veh->VelR = 0;
 
-			veh->VelX = 0;
-			veh->VelZ = 0;
-			veh->VelR = 0;
+            return;
+        }
+        /*
+                        if (is_driven_by_player(p_thing))
+                        {
+                                TRACE("Velocity = %d\n", p_thing->Velocity);
+                        }
+        */
+    } else {
+        // skidding - slow car down
+        veh->VelX = ((std::int32_t(veh->VelX) << 4) - std::int32_t(veh->VelX)) >> 4;
+        veh->VelZ = ((std::int32_t(veh->VelZ) << 4) - std::int32_t(veh->VelZ)) >> 4;
+        if (veh->VelR > 0)
+            veh->VelR = ((std::int32_t(veh->VelR) << 4) - std::int32_t(veh->VelR)) >> 4;
+        else
+            veh->VelR = veh->VelR - (veh->VelR >> 4);
 
-			return;
-		}
-/*
-		if (is_driven_by_player(p_thing))	
-		{
-			TRACE("Velocity = %d\n", p_thing->Velocity);
-		}
-*/
-	}
-	else
-	{
-		// skidding - slow car down
-		veh->VelX = ((std::int32_t(veh->VelX) << 4) - std::int32_t(veh->VelX)) >> 4;
-		veh->VelZ = ((std::int32_t(veh->VelZ) << 4) - std::int32_t(veh->VelZ)) >> 4;
-		if (veh->VelR > 0)		veh->VelR = ((std::int32_t(veh->VelR) << 4) - std::int32_t(veh->VelR)) >> 4;
-		else					veh->VelR = veh->VelR - (veh->VelR >> 4);
+        if (veh->Steering < 0) {
+            if (veh->VelR < 32) veh->VelR += (abs(veh->VelX) + abs(veh->VelZ)) >> 12;
+        } else if (veh->Steering > 0) {
+            if (veh->VelR > -32) veh->VelR -= (abs(veh->VelX) + abs(veh->VelZ)) >> 12;
+        }
 
-		if (veh->Steering < 0)
-		{
-			if (veh->VelR < 32)		veh->VelR += (abs(veh->VelX) + abs(veh->VelZ)) >> 12;
-		}
-		else if (veh->Steering > 0)
-		{
-			if (veh->VelR > -32)	veh->VelR -= (abs(veh->VelX) + abs(veh->VelZ)) >> 12;
-		}
+        // stop car if too slow
+        if (abs(veh->VelX) < 2048) veh->VelX = 0;
+        if (abs(veh->VelZ) < 2048) veh->VelZ = 0;
 
-		// stop car if too slow
-		if (abs(veh->VelX) < 2048)	veh->VelX = 0;
-		if (abs(veh->VelZ) < 2048)	veh->VelZ = 0;
+        if (!veh->VelX && !veh->VelZ) veh->VelR = (veh->VelR + 1) >> 1;
 
-		if (!veh->VelX && !veh->VelZ)	veh->VelR = (veh->VelR + 1) >> 1;
+        // slow engine down rapidly
+        p_thing->Velocity = (p_thing->Velocity + 1) >> 1;
 
-		// slow engine down rapidly
-		p_thing->Velocity = (p_thing->Velocity + 1) >> 1;
+        if (abs(p_thing->Velocity) < 10) p_thing->Velocity = 0;
 
-		if (abs(p_thing->Velocity) < 10)	p_thing->Velocity = 0;
+        if (abs(veh->VelR) < 16) {
+            // see how the skid angle compares to the car's direction
+            std::int32_t dx = veh->VelX >> (8 - CAR_VEL_SHIFT);
+            std::int32_t dz = veh->VelZ >> (8 - CAR_VEL_SHIFT);
 
-		if (abs(veh->VelR) < 16)
-		{
-			// see how the skid angle compares to the car's direction
-			std::int32_t	dx = veh->VelX >> (8 - CAR_VEL_SHIFT);
-			std::int32_t	dz = veh->VelZ >> (8 - CAR_VEL_SHIFT);
-
-			std::int32_t	mvx = dx * dx + dz * dz;
-			std::int32_t	dp = (dx * -SIN(veh->Angle) + dz * COS(veh->Angle)) >> 16;
+            std::int32_t mvx = dx * dx + dz * dz;
+            std::int32_t dp = (dx * -SIN(veh->Angle) + dz * COS(veh->Angle)) >> 16;
 
 #if 0
 			if (is_driven_by_player(p_thing))
@@ -3896,331 +3547,303 @@ static void do_car_input(Thing *p_thing)
 			}
 #endif
 
-			if ((dp > 0) && (dp * dp > (mvx - (mvx >> 2))))	// cos^2 angle > 15/16 => cos angle > 3/4
-			{
-				p_thing->Velocity = Root(mvx);
-//				if (is_driven_by_player(p_thing))	TRACE("Set Velocity = %d\n", p_thing->Velocity);
+            if ((dp > 0) && (dp * dp > (mvx - (mvx >> 2)))) // cos^2 angle > 15/16 => cos angle > 3/4
+            {
+                p_thing->Velocity = Root(mvx);
+                //				if (is_driven_by_player(p_thing))	TRACE("Set Velocity = %d\n", p_thing->Velocity);
 
-				// come out of skid
-//				if (p_thing->Velocity < 800)	veh->Skid = 0;
-				veh->Skid = 0;
-			}
-		}		
+                // come out of skid
+                //				if (p_thing->Velocity < 800)	veh->Skid = 0;
+                veh->Skid = 0;
+            }
+        }
 
-		if (!veh->VelX && !veh->VelZ && !p_thing->Velocity)
-		{
-			veh->Skid = 0;
-		}
+        if (!veh->VelX && !veh->VelZ && !p_thing->Velocity) {
+            veh->Skid = 0;
+        }
 
-		// still connect brake lights to brake pedal
-		veh->Dir = (veh->DControl & VEH_DECEL) ? +1 : 0;
+        // still connect brake lights to brake pedal
+        veh->Dir = (veh->DControl & VEH_DECEL) ? +1 : 0;
 
-		// smokin!
-		veh->Smokin = 1;
+        // smokin!
+        veh->Smokin = 1;
 
 #ifdef PSX
-		if (is_driven_by_player(p_thing))
-		{
-			std::int32_t shock=p_thing->Velocity>>1;
-			SATURATE(shock,64,192);
-			PSX_SetShock((shock>128)?1:0,shock);
-		}
+        if (is_driven_by_player(p_thing)) {
+            std::int32_t shock = p_thing->Velocity >> 1;
+            SATURATE(shock, 64, 192);
+            PSX_SetShock((shock > 128) ? 1 : 0, shock);
+        }
 #endif
 #ifdef TARGET_DC
-		if (is_driven_by_player(p_thing))
-		{
-			Vibrate ( 30.0f, (float)( p_thing->Velocity ) * 0.01f, 2.0f );
-		}
+        if (is_driven_by_player(p_thing)) {
+            Vibrate(30.0f, (float) (p_thing->Velocity) * 0.01f, 2.0f);
+        }
 #endif
+    }
 
-	}
+    //
+    // steer the car
+    //
 
-	//
-	// steer the car
-	//
+    std::int32_t dangle; // delta angle, nothing rude
+    std::int32_t dx, dz; // delta position
 
-	std::int32_t	dangle;			// delta angle, nothing rude
-	std::int32_t	dx,dz;			// delta position
+    if (veh->WheelAngle && !(veh->Flags & FLAG_VEH_IN_AIR)) {
+        std::int32_t tcx, tcz, tcr; // turning circle x,y, radius
+        std::int32_t dx1, dz1;      // delta position (in car frame)
 
-	if (veh->WheelAngle && !(veh->Flags & FLAG_VEH_IN_AIR))
-	{
-		std::int32_t	tcx,tcz,tcr;	// turning circle x,y, radius
-		std::int32_t	dx1,dz1;		// delta position (in car frame)
+        //
+        // find the car's turning circle
+        //
 
-		//
-		// find the car's turning circle
-		//
+        if (veh->WheelAngle < 0) {
+            // turning circle centre is to left of car
+            std::int32_t angle = -veh->WheelAngle;
+            std::int32_t wheelbase = vinfo->DZ[0] - vinfo->DZ[2];
 
-		if (veh->WheelAngle < 0)
-		{
-			// turning circle centre is to left of car
-			std::int32_t	angle = -veh->WheelAngle;
-			std::int32_t	wheelbase = vinfo->DZ[0] - vinfo->DZ[2];
+            // radius = wheelbase / sin(angle)
+            tcr = DIV64(wheelbase, SIN(angle));
 
-			// radius = wheelbase / sin(angle)
-			tcr = DIV64(wheelbase, SIN(angle));
+            // x offset = radius * cos(angle)
+            tcx = vinfo->DX[0] - (tcr * COS(angle) >> 16);
+            tcz = vinfo->DZ[0];
+        } else {
+            // turning circle centre is to right of car
+            std::int32_t angle = veh->WheelAngle;
+            std::int32_t wheelbase = vinfo->DZ[1] - vinfo->DZ[3];
 
-			// x offset = radius * cos(angle)
-			tcx = vinfo->DX[0] - (tcr * COS(angle) >> 16);
-			tcz = vinfo->DZ[0];
-		}
-		else
-		{
-			// turning circle centre is to right of car
-			std::int32_t	angle = veh->WheelAngle;
-			std::int32_t	wheelbase = vinfo->DZ[1] - vinfo->DZ[3];
+            // radius = wheelbase / sin(angle)
+            tcr = DIV64(wheelbase, SIN(angle));
 
-			// radius = wheelbase / sin(angle)
-			tcr = DIV64(wheelbase, SIN(angle));
+            // x offset = radius * cos(angle)
+            tcx = vinfo->DX[1] + (tcr * COS(angle) >> 16);
+            tcz = vinfo->DZ[1];
+        }
 
-			// x offset = radius * cos(angle)
-			tcx = vinfo->DX[1] + (tcr * COS(angle) >> 16);
-			tcz = vinfo->DZ[1];
-		}
+        //
+        // get angle turned
+        //
 
-		//
-		// get angle turned
-		//
+        // get turn angle in radians
+        std::int32_t radangle = DIV64(p_thing->Velocity << (8 - CAR_VEL_SHIFT), tcr << 8);
 
-		// get turn angle in radians
-		std::int32_t	radangle = DIV64(p_thing->Velocity<<(8 - CAR_VEL_SHIFT), tcr << 8);
+        // convert to fraction of 1.0 (divide by 2*PI = multiply by 1/2*PI = multiply by 10430)
+        std::int32_t angle = MUL64(radangle, 10430);
 
-		// convert to fraction of 1.0 (divide by 2*PI = multiply by 1/2*PI = multiply by 10430)
-		std::int32_t	angle = MUL64(radangle, 10430);
+        // convert to angle 0 to 2047
+        angle >>= 5;
 
-		// convert to angle 0 to 2047
-		angle >>= 5;
+        //		angle = (angle * TICK_RATIO) >> TICK_SHIFT;
+        if (!angle) angle = 1;
 
-//		angle = (angle * TICK_RATIO) >> TICK_SHIFT;
-		if (!angle)	angle = 1;
+        //
+        // apply forces to suspension
+        //
 
-		//
-		// apply forces to suspension
-		//
+        if (veh->WheelAngle > 0) {
+            if (abs(veh->DY[1]) < (angle << 2)) veh->DY[1] += angle << 1;
+            if (abs(veh->DY[3]) < (angle << 2)) veh->DY[3] += angle << 1;
 
-		if (veh->WheelAngle > 0)
-		{
-			if (abs(veh->DY[1]) < (angle << 2))	veh->DY[1] += angle << 1;
-			if (abs(veh->DY[3]) < (angle << 2))	veh->DY[3] += angle << 1;
-		
-			dangle = -angle;
-		}
-		else
-		{
-			if (abs(veh->DY[0]) < (angle << 2))	veh->DY[0] += angle << 1;
-			if (abs(veh->DY[2]) < (angle << 2))	veh->DY[2] += angle << 1;
+            dangle = -angle;
+        } else {
+            if (abs(veh->DY[0]) < (angle << 2)) veh->DY[0] += angle << 1;
+            if (abs(veh->DY[2]) < (angle << 2)) veh->DY[2] += angle << 1;
 
-			dangle = +angle;
-		}
+            dangle = +angle;
+        }
 
-		dangle &= 2047;
+        dangle &= 2047;
 
-		//
-		// Get the vector of the vehicle's movement, in the vehicle's own frame
-		//
+        //
+        // Get the vector of the vehicle's movement, in the vehicle's own frame
+        //
 
-		if (angle > 2)
-		{
-			if (veh->WheelAngle < 0)
-			{
-				std::int32_t	c = COS(dangle) - 65536;
-				std::int32_t	s = SIN(dangle);
+        if (angle > 2) {
+            if (veh->WheelAngle < 0) {
+                std::int32_t c = COS(dangle) - 65536;
+                std::int32_t s = SIN(dangle);
 
-				dx1 = (-tcx * c - -tcz * s) >> (16 - CAR_VEL_SHIFT);
-				dz1 = -(-tcx * s + -tcz * c) >> (16 - CAR_VEL_SHIFT);
-			}
-			else
-			{
-				std::int32_t	c = COS(dangle) - 65536;
-				std::int32_t	s = -SIN(dangle);
+                dx1 = (-tcx * c - -tcz * s) >> (16 - CAR_VEL_SHIFT);
+                dz1 = -(-tcx * s + -tcz * c) >> (16 - CAR_VEL_SHIFT);
+            } else {
+                std::int32_t c = COS(dangle) - 65536;
+                std::int32_t s = -SIN(dangle);
 
-				dx1 = -(tcx * c - -tcz * s) >> (16 - CAR_VEL_SHIFT);
-				dz1 = -(tcx * s + -tcz * c) >> (16 - CAR_VEL_SHIFT);
-			}
-		}
-		else
-		{
-			// use simpler approximation to avoid the asymptote
-			dx1 = 0;
-//			dz1 = -std::int32_t(p_thing->Velocity * TICK_RATIO) >> TICK_SHIFT;
-			dz1 = -std::int32_t(p_thing->Velocity);
-		}
+                dx1 = -(tcx * c - -tcz * s) >> (16 - CAR_VEL_SHIFT);
+                dz1 = -(tcx * s + -tcz * c) >> (16 - CAR_VEL_SHIFT);
+            }
+        } else {
+            // use simpler approximation to avoid the asymptote
+            dx1 = 0;
+            //			dz1 = -std::int32_t(p_thing->Velocity * TICK_RATIO) >> TICK_SHIFT;
+            dz1 = -std::int32_t(p_thing->Velocity);
+        }
 
-		//
-		// convert to world frame
-		//
+        //
+        // convert to world frame
+        //
 
-		dx = (SIN(veh->Angle) * dz1 - COS(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
-		dz = (COS(veh->Angle) * dz1 + SIN(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
-		dangle = (dangle & 1024) ? dangle - 2048 : dangle;
-	}
-	else
-	{
-		//
-		// not steering
-		//
+        dx = (SIN(veh->Angle) * dz1 - COS(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
+        dz = (COS(veh->Angle) * dz1 + SIN(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
+        dangle = (dangle & 1024) ? dangle - 2048 : dangle;
+    } else {
+        //
+        // not steering
+        //
 
-		std::int32_t dx1 = 0;
-//		std::int32_t dz1 = -std::int32_t(p_thing->Velocity * TICK_RATIO) >> TICK_SHIFT;
-		std::int32_t dz1 = -std::int32_t(p_thing->Velocity);
+        std::int32_t dx1 = 0;
+        //		std::int32_t dz1 = -std::int32_t(p_thing->Velocity * TICK_RATIO) >> TICK_SHIFT;
+        std::int32_t dz1 = -std::int32_t(p_thing->Velocity);
 
-		dx = (SIN(veh->Angle) * dz1 - COS(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
-		dz = (COS(veh->Angle) * dz1 + SIN(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
-		dangle = 0;
-	}
+        dx = (SIN(veh->Angle) * dz1 - COS(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
+        dz = (COS(veh->Angle) * dz1 + SIN(veh->Angle) * dx1) >> (8 + CAR_VEL_SHIFT);
+        dangle = 0;
+    }
 
-	if ((veh->VelX || veh->VelZ) && (veh->Skid < SKID_START))
-	{
-		std::int32_t	ax,az;		// acceleration
-		std::int32_t	vx,vz,vv;	// velocity
-		std::int32_t	av;			// |v x a|
+    if ((veh->VelX || veh->VelZ) && (veh->Skid < SKID_START)) {
+        std::int32_t ax, az;     // acceleration
+        std::int32_t vx, vz, vv; // velocity
+        std::int32_t av;         // |v x a|
 
-		// get acceleration
-		ax = dx - veh->VelX;
-		az = dz - veh->VelZ;
+        // get acceleration
+        ax = dx - veh->VelX;
+        az = dz - veh->VelZ;
 
-		// get normalized velocity
-		vx = veh->VelX;
-		vz = veh->VelZ;
-		vv = vx*vx + vz*vz;
-		if (vv)
-		{
-			// get speed
-			vv = Root(vv);
+        // get normalized velocity
+        vx = veh->VelX;
+        vz = veh->VelZ;
+        vv = vx * vx + vz * vz;
+        if (vv) {
+            // get speed
+            vv = Root(vv);
 
-			// get acceleration component
-			av = (ax * vz) - (az * vx);
+            // get acceleration component
+            av = (ax * vz) - (az * vx);
 
-			// if abs((av * 256 / vv) >> 8) > SKID_FORCE
-			if (abs(av) > SKID_FORCE * vv)		
-				veh->Skid = SKID_START;
-			else
-				if (abs(av) > ((NEAR_SKID_FORCE*vinfo->FwdAccel)>>5) * vv)
-					MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_SKID_SLOW_START,S_SKID_SLOW_END),MFX_MOVING,p_thing);
-		}
-	}
+            // if abs((av * 256 / vv) >> 8) > SKID_FORCE
+            if (abs(av) > SKID_FORCE * vv)
+                veh->Skid = SKID_START;
+            else if (abs(av) > ((NEAR_SKID_FORCE * vinfo->FwdAccel) >> 5) * vv)
+                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_SKID_SLOW_START, S_SKID_SLOW_END), MFX_MOVING, p_thing);
+        }
+    }
 
-	if (veh->Skid < SKID_START)
-	{
-		veh->VelX = dx;
-		veh->VelZ = dz;
-		veh->VelR = dangle;
-	}
+    if (veh->Skid < SKID_START) {
+        veh->VelX = dx;
+        veh->VelZ = dz;
+        veh->VelR = dangle;
+    }
 
-	// spin the wheels
-	veh->Spin  = (veh->Spin + (p_thing->Velocity >> 2)) & 2047;
+    // spin the wheels
+    veh->Spin = (veh->Spin + (p_thing->Velocity >> 2)) & 2047;
 
 #define VEH_FWD_ACCEL (1)
 #define VEH_FWD_DECEL (2)
 #define VEH_REV_ACCEL (3)
 #define VEH_REV_DECEL (4)
 
-	if (is_driven_by_player(p_thing))
-	{
-		std::uint8_t state=0;
+    if (is_driven_by_player(p_thing)) {
+        std::uint8_t state = 0;
 
-		if (veh->Dir>=0)
-		{
-			if ((veh->DControl & VEH_ACCEL) && !veh->Skid)
-				state=VEH_FWD_ACCEL;
-			else
-				state=VEH_FWD_DECEL;
-		} else {
-			if ((veh->DControl & VEH_DECEL) && !veh->Skid)
-				state=VEH_REV_ACCEL;
-			else
-				state=VEH_REV_DECEL;
-		}
+        if (veh->Dir >= 0) {
+            if ((veh->DControl & VEH_ACCEL) && !veh->Skid)
+                state = VEH_FWD_ACCEL;
+            else
+                state = VEH_FWD_DECEL;
+        } else {
+            if ((veh->DControl & VEH_DECEL) && !veh->Skid)
+                state = VEH_REV_ACCEL;
+            else
+                state = VEH_REV_DECEL;
+        }
 
-		if (state!=veh->LastSoundState)
-		{
-			MFX_stop(THING_NUMBER(p_thing),S_CARX_START);
-			MFX_stop(THING_NUMBER(p_thing),S_CARX_CRUISE);
-			MFX_stop(THING_NUMBER(p_thing),S_CARX_DECEL);
-			MFX_stop(THING_NUMBER(p_thing),S_CARX_IDLE);
-			MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_START);
-			MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP);
-			MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_END);
-			switch(state)
-			{
-			case VEH_FWD_ACCEL:
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_START,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_CRUISE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
-				break;
-			case VEH_FWD_DECEL:
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_DECEL,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_IDLE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
-				break;
-			case VEH_REV_ACCEL:
+        if (state != veh->LastSoundState) {
+            MFX_stop(THING_NUMBER(p_thing), S_CARX_START);
+            MFX_stop(THING_NUMBER(p_thing), S_CARX_CRUISE);
+            MFX_stop(THING_NUMBER(p_thing), S_CARX_DECEL);
+            MFX_stop(THING_NUMBER(p_thing), S_CARX_IDLE);
+            MFX_stop(THING_NUMBER(p_thing), S_CAR_REVERSE_START);
+            MFX_stop(THING_NUMBER(p_thing), S_CAR_REVERSE_LOOP);
+            MFX_stop(THING_NUMBER(p_thing), S_CAR_REVERSE_END);
+            switch (state) {
+                case VEH_FWD_ACCEL:
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                    break;
+                case VEH_FWD_DECEL:
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                    break;
+                case VEH_REV_ACCEL:
 #ifdef PSX
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_START,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_CRUISE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #else
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_START,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_START, MFX_MOVING | MFX_EARLY_OUT);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_LOOP, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #endif
-				break;
-			case VEH_REV_DECEL:
+                    break;
+                case VEH_REV_DECEL:
 #ifdef PSX
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_DECEL,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_IDLE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #else
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_END,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_IDLE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_END, MFX_MOVING | MFX_EARLY_OUT);
+                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #endif
-				break;
-			}
-		}
+                    break;
+            }
+        }
 
-		veh->LastSoundState=state;
-		
+        veh->LastSoundState = state;
 
-/*		std::uint8_t state=(veh->DControl==VEH_ACCEL)|((veh->DControl==VEH_DECEL)<<1)|((veh->Dir==-2)<<3);
-		
-		if ((veh->DControl == VEH_ACCEL) && !veh->Skid)
-		{
-			if (!(veh->Flags & FLAG_VEH_FX_STATE))
-			{
-				MFX_stop(THING_NUMBER(p_thing),S_CARX_DECEL);
-				MFX_stop(THING_NUMBER(p_thing),S_CARX_IDLE);
-				MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_START);
-				MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_START,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_CRUISE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+        /*		std::uint8_t state=(veh->DControl==VEH_ACCEL)|((veh->DControl==VEH_DECEL)<<1)|((veh->Dir==-2)<<3);
 
-				veh->Flags|=FLAG_VEH_FX_STATE;
-			}
-		}
-		else
-		{
-			if ((veh->DControl == VEH_DECEL))
-			{
-				if ((veh->Dir==-2)&&!(veh->Flags & FLAG_VEH_FX_STATE))
-				{
-					MFX_stop(THING_NUMBER(p_thing),S_CARX_DECEL);
-					MFX_stop(THING_NUMBER(p_thing),S_CARX_IDLE);
-					MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_START,MFX_MOVING|MFX_EARLY_OUT);
-					MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
-					veh->Flags|=FLAG_VEH_FX_STATE;
-				}
-					
-			} else
+                        if ((veh->DControl == VEH_ACCEL) && !veh->Skid)
+                        {
+                                if (!(veh->Flags & FLAG_VEH_FX_STATE))
+                                {
+                                        MFX_stop(THING_NUMBER(p_thing),S_CARX_DECEL);
+                                        MFX_stop(THING_NUMBER(p_thing),S_CARX_IDLE);
+                                        MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_START);
+                                        MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP);
+                                        MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_START,MFX_MOVING|MFX_EARLY_OUT);
+                                        MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_CRUISE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
 
-			if (veh->Flags & FLAG_VEH_FX_STATE)
-			{
-				MFX_stop(THING_NUMBER(p_thing),S_CARX_START);
-				MFX_stop(THING_NUMBER(p_thing),S_CARX_CRUISE);
-				MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_START);
-				MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_DECEL,MFX_MOVING|MFX_EARLY_OUT);
-				MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_IDLE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+                                        veh->Flags|=FLAG_VEH_FX_STATE;
+                                }
+                        }
+                        else
+                        {
+                                if ((veh->DControl == VEH_DECEL))
+                                {
+                                        if ((veh->Dir==-2)&&!(veh->Flags & FLAG_VEH_FX_STATE))
+                                        {
+                                                MFX_stop(THING_NUMBER(p_thing),S_CARX_DECEL);
+                                                MFX_stop(THING_NUMBER(p_thing),S_CARX_IDLE);
+                                                MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_START,MFX_MOVING|MFX_EARLY_OUT);
+                                                MFX_play_ambient(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+                                                veh->Flags|=FLAG_VEH_FX_STATE;
+                                        }
 
-				veh->Flags^=FLAG_VEH_FX_STATE;
-			}
-		} */
-	}
+                                } else
 
-//	TRACE("dx: %d  dz: %d  dir: %d  \n",veh->dx,veh->dz, veh->Dir);
+                                if (veh->Flags & FLAG_VEH_FX_STATE)
+                                {
+                                        MFX_stop(THING_NUMBER(p_thing),S_CARX_START);
+                                        MFX_stop(THING_NUMBER(p_thing),S_CARX_CRUISE);
+                                        MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_START);
+                                        MFX_stop(THING_NUMBER(p_thing),S_CAR_REVERSE_LOOP);
+                                        MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_DECEL,MFX_MOVING|MFX_EARLY_OUT);
+                                        MFX_play_ambient(THING_NUMBER(p_thing),S_CARX_IDLE,MFX_MOVING|MFX_QUEUED|MFX_SHORT_QUEUE|MFX_LOOPED);
+
+                                        veh->Flags^=FLAG_VEH_FX_STATE;
+                                }
+                        } */
+    }
+
+    //	TRACE("dx: %d  dz: %d  dir: %d  \n",veh->dx,veh->dz, veh->Dir);
 }
 
 //===============================================================
@@ -4233,50 +3856,52 @@ static void do_car_input(Thing *p_thing)
 //
 // work out effect on car of the suspension parameters given
 
-inline static std::int32_t apply_thrust_to_suspension(Suspension *p_sus, std::int32_t velocity, std::int32_t penetrate_dist)
-{
-	std::int32_t	acc;
-	std::int32_t	compression;
+inline static std::int32_t apply_thrust_to_suspension(Suspension *p_sus, std::int32_t velocity, std::int32_t penetrate_dist) {
+    std::int32_t acc;
+    std::int32_t compression;
 
-	// damp the velocity
-	velocity = ((velocity << 4) - velocity) >> 4;
+    // damp the velocity
+    velocity = ((velocity << 4) - velocity) >> 4;
 
-	// subtract velocity from compression, but if we're penetrating, reduce velocity to
-	// handle the collision
-	compression = p_sus->Compression - (velocity - penetrate_dist);
+    // subtract velocity from compression, but if we're penetrating, reduce velocity to
+    // handle the collision
+    compression = p_sus->Compression - (velocity - penetrate_dist);
 
-	// clamp
-	if (compression < MIN_COMPRESSION)		compression = MIN_COMPRESSION;
-	else if (compression > MAX_COMPRESSION)	compression = MAX_COMPRESSION;
+    // clamp
+    if (compression < MIN_COMPRESSION)
+        compression = MIN_COMPRESSION;
+    else if (compression > MAX_COMPRESSION)
+        compression = MAX_COMPRESSION;
 
-	// get restoring acceleration (mass = 256)
-	// NOTE: this is *totally* non-physical, but it works (linear is *very* unstable)
-	acc = (compression >> 5) * (compression >> 5) >> 9;
+    // get restoring acceleration (mass = 256)
+    // NOTE: this is *totally* non-physical, but it works (linear is *very* unstable)
+    acc = (compression >> 5) * (compression >> 5) >> 9;
 
-	// add acceleration due to spring & gravity
-	velocity += GRAVITY + acc;
+    // add acceleration due to spring & gravity
+    velocity += GRAVITY + acc;
 
-	// if really compressed, we're going up a step, so make sure the
-	// wheel stays above the surface
-	if (compression == MAX_COMPRESSION)		velocity += penetrate_dist;
+    // if really compressed, we're going up a step, so make sure the
+    // wheel stays above the surface
+    if (compression == MAX_COMPRESSION) velocity += penetrate_dist;
 
-	p_sus->Compression = compression;
+    p_sus->Compression = compression;
 
-	return velocity;
+    return velocity;
 }
 
 // expand_suspension
 //
 // allow suspension to expand (when in air)
 
-inline static void expand_suspension(Suspension *p_sus, std::int32_t size)
-{
-	ASSERT(size >= 0);
+inline static void expand_suspension(Suspension *p_sus, std::int32_t size) {
+    ASSERT(size >= 0);
 
-	size -= size >> 2;	// size = size * 200 / 256
+    size -= size >> 2; // size = size * 200 / 256
 
-	if (p_sus->Compression - size < MIN_COMPRESSION)		p_sus->Compression = MIN_COMPRESSION;
-	else													p_sus->Compression -= size;
+    if (p_sus->Compression - size < MIN_COMPRESSION)
+        p_sus->Compression = MIN_COMPRESSION;
+    else
+        p_sus->Compression -= size;
 }
 
 // process_car
@@ -4284,153 +3909,147 @@ inline static void expand_suspension(Suspension *p_sus, std::int32_t size)
 // given where it is, work out the wheel's positions, the suspension
 // action and the car's orientation
 
-static void do_car_fall_and_tilt(Thing* p_car, std::int32_t *wx, std::int32_t *wy, std::int32_t *wz, std::int32_t *dy);
+static void do_car_fall_and_tilt(Thing *p_car, std::int32_t *wx, std::int32_t *wy, std::int32_t *wz, std::int32_t *dy);
 
-static void process_car(Thing *p_car)
-{
-	std::int32_t		count;
-	std::int32_t		wheel;
-	std::int32_t		c0;
-	std::int32_t		wx[4],wy[4],wz[4];
-	std::int32_t		dy[4];
-	VehInfo*	info;
-	Vehicle*	vp;
-	bool		squeaky=0;
-	bool		crunchy=0;
-/*
-	{
-		std::int32_t	door;
-extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door);
-		in_right_place_for_car(NET_PERSON(0)
-			,p_car, &door);
-	}
-*/
+static void process_car(Thing *p_car) {
+    std::int32_t count;
+    std::int32_t wheel;
+    std::int32_t c0;
+    std::int32_t wx[4], wy[4], wz[4];
+    std::int32_t dy[4];
+    VehInfo *info;
+    Vehicle *vp;
+    bool squeaky = 0;
+    bool crunchy = 0;
+    /*
+            {
+                    std::int32_t	door;
+    extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door);
+                    in_right_place_for_car(NET_PERSON(0)
+                            ,p_car, &door);
+            }
+    */
 
-	vp = p_car->Genus.Vehicle;
-	info = &veh_info[vp->Type];
+    vp = p_car->Genus.Vehicle;
+    info = &veh_info[vp->Type];
 
-	if (vp->Flags & FLAG_VEH_ANIMATING)
-	{
-//		animate_car(p_car);
-	}
+    if (vp->Flags & FLAG_VEH_ANIMATING) {
+        //		animate_car(p_car);
+    }
 
-	make_car_matrix(vp);
+    make_car_matrix(vp);
 
-	std::uint8_t	on_road = 0;
+    std::uint8_t on_road = 0;
 
-//	if((p_car->Flags & FLAGS_IN_VIEW) && !ShiftFlag)
-	//if(!ShiftFlag)
-	{
-		int	in_air = 0;
+    //	if((p_car->Flags & FLAGS_IN_VIEW) && !ShiftFlag)
+    // if(!ShiftFlag)
+    {
+        int in_air = 0;
 
-		for (wheel = 0; wheel < 4; wheel++)
-		{
-			std::int32_t	y;
-			std::int32_t	height;
+        for (wheel = 0; wheel < 4; wheel++) {
+            std::int32_t y;
+            std::int32_t height;
 
-			y = p_car->WorldPos.Y;
+            y = p_car->WorldPos.Y;
 
-			dy[wheel]=0;
+            dy[wheel] = 0;
 
-			ASSERT(p_car->Genus.Vehicle->Spring[wheel].Compression >= MIN_COMPRESSION);
+            ASSERT(p_car->Genus.Vehicle->Spring[wheel].Compression >= MIN_COMPRESSION);
 
-			// Calculate wheel's position relative to origin of car
-			// given that the car has an angle,tilt and roll
-			//
-			wx[wheel] = info->DX[wheel];
-			wy[wheel] = 0;
-			wz[wheel] = info->DZ[wheel];
-			
-			apply_car_matrix(&wx[wheel],&wy[wheel],&wz[wheel]);
+            // Calculate wheel's position relative to origin of car
+            // given that the car has an angle,tilt and roll
+            //
+            wx[wheel] = info->DX[wheel];
+            wy[wheel] = 0;
+            wz[wheel] = info->DZ[wheel];
 
-			std::int32_t	papx = wx[wheel] + (p_car->WorldPos.X >> 8);
-			std::int32_t	papz = wz[wheel] + (p_car->WorldPos.Z >> 8);
+            apply_car_matrix(&wx[wheel], &wy[wheel], &wz[wheel]);
 
-			height = PAP_calc_map_height_at(papx, papz) << 8;
+            std::int32_t papx = wx[wheel] + (p_car->WorldPos.X >> 8);
+            std::int32_t papz = wz[wheel] + (p_car->WorldPos.Z >> 8);
 
-			if (ROAD_is_road(papx >> 8, papz >> 8))		on_road |= (1 << wheel);
-#ifndef		FINAL
+            height = PAP_calc_map_height_at(papx, papz) << 8;
+
+            if (ROAD_is_road(papx >> 8, papz >> 8)) on_road |= (1 << wheel);
+#ifndef FINAL
 #ifndef TARGET_DC
-			if (Keys[KB_Q] && is_driven_by_player(p_car))
-			{
-				if (wheel < 2)	height += 0x4000;
-				else			height += 0x8000;
-			}
+            if (Keys[KB_Q] && is_driven_by_player(p_car)) {
+                if (wheel < 2)
+                    height += 0x4000;
+                else
+                    height += 0x8000;
+            }
 #endif
 #endif
 
-			//
-			// iterate the suspension algorithm
-			//
+            //
+            // iterate the suspension algorithm
+            //
 
-			std::int32_t	y_pos;
+            std::int32_t y_pos;
 
-			count = TICK_LOOP;
-			while (--count)
-			{
-				std::int32_t	size;
+            count = TICK_LOOP;
+            while (--count) {
+                std::int32_t size;
 
-				// saturate the DY on the wheels to stop the car going mad!
-				if (vp->DY[wheel] > 1536)	vp->DY[wheel] = 1536;
+                // saturate the DY on the wheels to stop the car going mad!
+                if (vp->DY[wheel] > 1536) vp->DY[wheel] = 1536;
 
-				// get size of spring
-				size = (128 << 8) - vp->Spring[wheel].Compression;
+                // get size of spring
+                size = (128 << 8) - vp->Spring[wheel].Compression;
 
-				// get position of wheel
-				y_pos =  y + (wy[wheel] << 8) - size;
+                // get position of wheel
+                y_pos = y + (wy[wheel] << 8) - size;
 
-				if (y_pos <= height)
-				{
-					// wheel on the floor - push car upwards
-					vp->DY[wheel] = apply_thrust_to_suspension(&vp->Spring[wheel], vp->DY[wheel], height - y_pos);
-	//				TRACE("s-floor: %d\n",vp->DY[wheel]);
-					squeaky+=abs(vp->DY[wheel]);			
-					crunchy+=vp->DY[wheel];
-				}
-				else
-				{
-					// in air
-					if (vp->Spring[wheel].Compression > MIN_COMPRESSION)
-					{
-						// expand suspension
-						expand_suspension(&vp->Spring[wheel], y_pos - height);
+                if (y_pos <= height) {
+                    // wheel on the floor - push car upwards
+                    vp->DY[wheel] = apply_thrust_to_suspension(&vp->Spring[wheel], vp->DY[wheel], height - y_pos);
+                    //				TRACE("s-floor: %d\n",vp->DY[wheel]);
+                    squeaky += abs(vp->DY[wheel]);
+                    crunchy += vp->DY[wheel];
+                } else {
+                    // in air
+                    if (vp->Spring[wheel].Compression > MIN_COMPRESSION) {
+                        // expand suspension
+                        expand_suspension(&vp->Spring[wheel], y_pos - height);
 
-						if (vp->Spring[wheel].Compression > MIN_COMPRESSION)
-						{
-							// if still compressed then do an upthrust
-							vp->DY[wheel] = apply_thrust_to_suspension(&vp->Spring[wheel],  vp->DY[wheel], 0);
-	//						TRACE("s-up: %d\n",vp->DY[wheel]);
-	//						squeaky=1;
-						}
-					}
-					// falling
-					vp->DY[wheel] += GRAVITY;
-				}
+                        if (vp->Spring[wheel].Compression > MIN_COMPRESSION) {
+                            // if still compressed then do an upthrust
+                            vp->DY[wheel] = apply_thrust_to_suspension(&vp->Spring[wheel], vp->DY[wheel], 0);
+                            //						TRACE("s-up: %d\n",vp->DY[wheel]);
+                            //						squeaky=1;
+                        }
+                    }
+                    // falling
+                    vp->DY[wheel] += GRAVITY;
+                }
 
-				y += vp->DY[wheel];
-				dy[wheel] += vp->DY[wheel];
-			}
+                y += vp->DY[wheel];
+                dy[wheel] += vp->DY[wheel];
+            }
 
-			// get size of spring
-			std::int32_t	size = (128 << 8) - vp->Spring[wheel].Compression;
+            // get size of spring
+            std::int32_t size = (128 << 8) - vp->Spring[wheel].Compression;
 
-			// get final position of wheel
-			y_pos =  y + (wy[wheel] << 8) - size;
+            // get final position of wheel
+            y_pos = y + (wy[wheel] << 8) - size;
 
-			if (y_pos - height > 1024)	in_air++;
-		}
+            if (y_pos - height > 1024) in_air++;
+        }
 #ifndef PSX
-		if (squeaky>1600) MFX_play_thing(THING_NUMBER(p_car),SOUND_Range(S_CAR_SUSPENSION_START,S_CAR_SUSPENSION_END),MFX_MOVING,p_car);
+        if (squeaky > 1600) MFX_play_thing(THING_NUMBER(p_car), SOUND_Range(S_CAR_SUSPENSION_START, S_CAR_SUSPENSION_END), MFX_MOVING, p_car);
 #endif
-		if (crunchy<-4000) MFX_play_thing(THING_NUMBER(p_car),S_CAR_SMASH_START+1,MFX_MOVING,p_car);
-	//	TRACE("crunchy: %d\n",crunchy);
+        if (crunchy < -4000) MFX_play_thing(THING_NUMBER(p_car), S_CAR_SMASH_START + 1, MFX_MOVING, p_car);
+        //	TRACE("crunchy: %d\n",crunchy);
 
-		do_car_fall_and_tilt(p_car, &wx[0], &wy[0], &wz[0], &dy[0]);
+        do_car_fall_and_tilt(p_car, &wx[0], &wy[0], &wz[0], &dy[0]);
 
-		if (in_air == 4)	vp->Flags |= FLAG_VEH_IN_AIR;
-		else				vp->Flags &= ~FLAG_VEH_IN_AIR;
-	}
-	#if 0
+        if (in_air == 4)
+            vp->Flags |= FLAG_VEH_IN_AIR;
+        else
+            vp->Flags &= ~FLAG_VEH_IN_AIR;
+    }
+#if 0
 	else
 	{
 		//
@@ -4455,24 +4074,23 @@ extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, st
 
 
 	}
-	#endif
+#endif
 
-	if (vp->dlight)
-	{
-		std::int32_t dx = -car_matrix[6] << 1;
-		std::int32_t dy =  0x2000;
-		std::int32_t dz = -car_matrix[8] << 1;
+    if (vp->dlight) {
+        std::int32_t dx = -car_matrix[6] << 1;
+        std::int32_t dy = 0x2000;
+        std::int32_t dz = -car_matrix[8] << 1;
 
-		std::int32_t lx;
-		std::int32_t ly;
-		std::int32_t lz;
+        std::int32_t lx;
+        std::int32_t ly;
+        std::int32_t lz;
 
-		lx = p_car->WorldPos.X + dx >> 8;
-		ly = p_car->WorldPos.Y + dy >> 8;
-		lz = p_car->WorldPos.Z + dz >> 8;
+        lx = p_car->WorldPos.X + dx >> 8;
+        ly = p_car->WorldPos.Y + dy >> 8;
+        lz = p_car->WorldPos.Z + dz >> 8;
 
-		NIGHT_dlight_move(p_car->Genus.Vehicle->dlight, lx, ly,	lz);
-	}
+        NIGHT_dlight_move(p_car->Genus.Vehicle->dlight, lx, ly, lz);
+    }
 }
 
 //===============================================================
@@ -4483,69 +4101,61 @@ extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, st
 
 static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int32_t *whx, std::int32_t *why, std::int32_t *whz, std::int32_t angle);
 
-static void do_car_fall_and_tilt(Thing* car, std::int32_t *wx, std::int32_t *wy, std::int32_t *wz, std::int32_t *dy)
-{
-	std::int32_t	min_dy,max_dy;
-	std::int32_t	c0,pos_count,neg_count;
-	std::int32_t	remove;
-	std::int32_t	tilt,roll;
+static void do_car_fall_and_tilt(Thing *car, std::int32_t *wx, std::int32_t *wy, std::int32_t *wz, std::int32_t *dy) {
+    std::int32_t min_dy, max_dy;
+    std::int32_t c0, pos_count, neg_count;
+    std::int32_t remove;
+    std::int32_t tilt, roll;
 
-	// find min,max dy and number of positive vectors
-	min_dy = 0x7FFFFFFF;
-	max_dy = 0x80000000;
-	pos_count = 0;
-	neg_count = 0;
+    // find min,max dy and number of positive vectors
+    min_dy = 0x7FFFFFFF;
+    max_dy = 0x80000000;
+    pos_count = 0;
+    neg_count = 0;
 
-	for (c0 = 0; c0 < 4; c0++)
-	{
-		if (dy[c0] > 0)			pos_count++;
-		if (dy[c0] < 0)			neg_count++;
-		if (dy[c0] > max_dy) 	max_dy = dy[c0];
-		if (dy[c0] < min_dy)	min_dy = dy[c0];
-	}
+    for (c0 = 0; c0 < 4; c0++) {
+        if (dy[c0] > 0) pos_count++;
+        if (dy[c0] < 0) neg_count++;
+        if (dy[c0] > max_dy) max_dy = dy[c0];
+        if (dy[c0] < min_dy) min_dy = dy[c0];
+    }
 
-	if (pos_count == 4)			// all positive, whole car is rising
-	{
-		car->WorldPos.Y += max_dy;
-		remove = max_dy;
-	}
-	else if (pos_count == 0)	// all negative, whole car is falling
-	{
-		car->WorldPos.Y += min_dy;
-		remove = min_dy;
-	}
-	else
-	{
-		remove = 0;
-	}
+    if (pos_count == 4) // all positive, whole car is rising
+    {
+        car->WorldPos.Y += max_dy;
+        remove = max_dy;
+    } else if (pos_count == 0) // all negative, whole car is falling
+    {
+        car->WorldPos.Y += min_dy;
+        remove = min_dy;
+    } else {
+        remove = 0;
+    }
 
-	// remove aggregate vector
-	dy[0] -= remove;
-	dy[1] -= remove;
-	dy[2] -= remove;
-	dy[3] -= remove;
+    // remove aggregate vector
+    dy[0] -= remove;
+    dy[1] -= remove;
+    dy[2] -= remove;
+    dy[3] -= remove;
 
-	// add dy into wy
-	wy[0] += dy[0] >> 8;
-	wy[1] += dy[1] >> 8;
-	wy[2] += dy[2] >> 8;
-	wy[3] += dy[3] >> 8;
+    // add dy into wy
+    wy[0] += dy[0] >> 8;
+    wy[1] += dy[1] >> 8;
+    wy[2] += dy[2] >> 8;
+    wy[3] += dy[3] >> 8;
 
-	// calculate tilt and roll for car
-	calc_tilt_and_roll(&tilt, &roll, wx, wy, wz, car->Genus.Vehicle->Angle);
+    // calculate tilt and roll for car
+    calc_tilt_and_roll(&tilt, &roll, wx, wy, wz, car->Genus.Vehicle->Angle);
 
-	// check stability
-	if ((abs(car->Genus.Vehicle->Tilt - tilt) < 16) && (abs(car->Genus.Vehicle->Roll - roll) < 16) && !remove)
-	{
-		if (car->Genus.Vehicle->Stable != STABLE_COUNT)		car->Genus.Vehicle->Stable++;
-	}
-	else
-	{
-		car->Genus.Vehicle->Stable = 0;
-	}
+    // check stability
+    if ((abs(car->Genus.Vehicle->Tilt - tilt) < 16) && (abs(car->Genus.Vehicle->Roll - roll) < 16) && !remove) {
+        if (car->Genus.Vehicle->Stable != STABLE_COUNT) car->Genus.Vehicle->Stable++;
+    } else {
+        car->Genus.Vehicle->Stable = 0;
+    }
 
-	car->Genus.Vehicle->Tilt = tilt;
-	car->Genus.Vehicle->Roll = roll;
+    car->Genus.Vehicle->Tilt = tilt;
+    car->Genus.Vehicle->Roll = roll;
 }
 
 // fast_root
@@ -4553,8 +4163,7 @@ static void do_car_fall_and_tilt(Thing* car, std::int32_t *wx, std::int32_t *wy,
 // perform a proper fast squareroot
 
 #ifndef PSX
-static inline std::int32_t fast_root(std::int32_t num)
-{
+static inline std::int32_t fast_root(std::int32_t num) {
 #if 0
 	std::int32_t	sh;
 	std::int32_t	ans;
@@ -4587,9 +4196,9 @@ static inline std::int32_t fast_root(std::int32_t num)
 
 	return ans;
 #else
-	// OK, I've done it now ... but to be honest, I reckon this is the
-	// fastest way on current Intel chips ...
-	return (std::int32_t)sqrt((double)num);
+    // OK, I've done it now ... but to be honest, I reckon this is the
+    // fastest way on current Intel chips ...
+    return (std::int32_t) sqrt((double) num);
 #endif
 }
 #endif
@@ -4598,252 +4207,257 @@ static inline std::int32_t fast_root(std::int32_t num)
 //
 // normalize a vector to magnitude 256
 
-static inline void normalise_val256(std::int32_t *vx, std::int32_t *vy, std::int32_t *vz)
-{
-	std::int32_t	len;
+static inline void normalise_val256(std::int32_t *vx, std::int32_t *vy, std::int32_t *vz) {
+    std::int32_t len;
 
-	len = *vx * *vx + *vy * *vy + *vz * *vz;
+    len = *vx * *vx + *vy * *vy + *vz * *vz;
 
 #ifndef PSX
-	len = fast_root(len);
+    len = fast_root(len);
 #else
-	len = Root(len);
+    len = Root(len);
 #endif
 
-	if (len)	len = 65536 / len;
-	else		len = 65536;
+    if (len)
+        len = 65536 / len;
+    else
+        len = 65536;
 
-	*vx = (*vx * len) >> 8;
-	*vy = (*vy * len) >> 8;
-	*vz = (*vz * len) >> 8;
+    *vx = (*vx * len) >> 8;
+    *vy = (*vy * len) >> 8;
+    *vz = (*vz * len) >> 8;
 }
 
 // calc_tilt_n_roll_with_matrix
 //
 // calculate tilt & roll from 3 vectors
 
-static inline void calc_tilt_n_roll_with_matrix(std::int32_t across_x,std::int32_t across_y,std::int32_t across_z,std::int32_t nose_x,std::int32_t nose_y,std::int32_t nose_z,std::int32_t nx,std::int32_t ny,std::int32_t nz,std::int32_t *angle,std::int32_t *tilt,std::int32_t *roll)
-{
-	std::int32_t	matrix[9];
+static inline void calc_tilt_n_roll_with_matrix(std::int32_t across_x, std::int32_t across_y, std::int32_t across_z, std::int32_t nose_x, std::int32_t nose_y, std::int32_t nose_z, std::int32_t nx, std::int32_t ny, std::int32_t nz, std::int32_t *angle, std::int32_t *tilt, std::int32_t *roll) {
+    std::int32_t matrix[9];
 
-	//
-	// assumes nx,ny,nz is normalised 256 & is the normal out of the top of the car
-	//
+    //
+    // assumes nx,ny,nz is normalised 256 & is the normal out of the top of the car
+    //
 
-	matrix[0]=(across_x)<<8;
-	matrix[1]=(across_y)<<8;
-	matrix[2]=(across_z)<<8;
+    matrix[0] = (across_x) << 8;
+    matrix[1] = (across_y) << 8;
+    matrix[2] = (across_z) << 8;
 
-	matrix[3]=(nx)<<8;
-	matrix[4]=(ny)<<8;
-	matrix[5]=(nz)<<8;
+    matrix[3] = (nx) << 8;
+    matrix[4] = (ny) << 8;
+    matrix[5] = (nz) << 8;
 
-	matrix[6]=(nose_x)<<8;
-	matrix[7]=(nose_y)<<8;
-	matrix[8]=(nose_z)<<8;
+    matrix[6] = (nose_x) << 8;
+    matrix[7] = (nose_y) << 8;
+    matrix[8] = (nose_z) << 8;
 
-	FMATRIX_find_angles(matrix,angle,tilt,roll);
+    FMATRIX_find_angles(matrix, angle, tilt, roll);
 }
 
 // calc_tilt_and_roll
 //
 // calculate tilt and roll for the car
 
-static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int32_t *whx, std::int32_t *why, std::int32_t *whz, std::int32_t angle)
-{
-	std::int32_t	nx,ny,nz;
+static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int32_t *whx, std::int32_t *why, std::int32_t *whz, std::int32_t angle) {
+    std::int32_t nx, ny, nz;
 
-	std::int32_t	vx,vy,vz;
-	std::int32_t	wx,wy,wz;
-	std::int32_t	wheel;
+    std::int32_t vx, vy, vz;
+    std::int32_t wx, wy, wz;
+    std::int32_t wheel;
 
-	std::int32_t	x02,y02,z02;
-	std::int32_t	x10,y10,z10;
-	std::int32_t	x31,y31,z31;
-	std::int32_t	x23,y23,z23;
+    std::int32_t x02, y02, z02;
+    std::int32_t x10, y10, z10;
+    std::int32_t x31, y31, z31;
+    std::int32_t x23, y23, z23;
 
-	std::int32_t	tt = 0;
-	std::int32_t	tr = 0;
+    std::int32_t tt = 0;
+    std::int32_t tr = 0;
 
-	// precalculate the normal vectors
-	x02 = whx[0] - whx[2];
-	y02 = -(why[0] - why[2]);
-	z02 = whz[0] - whz[2];
+    // precalculate the normal vectors
+    x02 = whx[0] - whx[2];
+    y02 = -(why[0] - why[2]);
+    z02 = whz[0] - whz[2];
 
-	normalise_val256(&x02, &y02, &z02);
+    normalise_val256(&x02, &y02, &z02);
 
-	x10 = whx[1] - whx[0];
-	y10 = -(why[1] - why[0]);
-	z10 = whz[1] - whz[0];
+    x10 = whx[1] - whx[0];
+    y10 = -(why[1] - why[0]);
+    z10 = whz[1] - whz[0];
 
-	normalise_val256(&x10, &y10, &z10);
+    normalise_val256(&x10, &y10, &z10);
 
-	x31 = whx[3] - whx[1];
-	y31 = -(why[3] - why[1]);
-	z31 = whz[3] - whz[1];
+    x31 = whx[3] - whx[1];
+    y31 = -(why[3] - why[1]);
+    z31 = whz[3] - whz[1];
 
-	normalise_val256(&x31, &y31, &z31);
+    normalise_val256(&x31, &y31, &z31);
 
-	x23 = whx[2] - whx[3];
-	y23 = -(why[2] - why[3]);
-	z23 = whz[2] - whz[3];
+    x23 = whx[2] - whx[3];
+    y23 = -(why[2] - why[3]);
+    z23 = whz[2] - whz[3];
 
-	normalise_val256(&x23, &y23, &z23);
+    normalise_val256(&x23, &y23, &z23);
 
-	for (wheel = 0; wheel < 4; wheel++)
-	{
-		switch (wheel)
-		{
-		case 0:
-			vx = x02; vy = y02; vz = z02;
-			wx = x10; wy = y10; wz = z10;
+    for (wheel = 0; wheel < 4; wheel++) {
+        switch (wheel) {
+            case 0:
+                vx = x02;
+                vy = y02;
+                vz = z02;
+                wx = x10;
+                wy = y10;
+                wz = z10;
 
-			nx = (vy * wz - vz * wy) >> 8;
-			ny = (vz * wx - vx * wz) >> 8;
-			nz = (vx * wy - vy * wx) >> 8;
+                nx = (vy * wz - vz * wy) >> 8;
+                ny = (vz * wx - vx * wz) >> 8;
+                nz = (vx * wy - vy * wx) >> 8;
 
-			calc_tilt_n_roll_with_matrix( wx, wy, wz, vx, vy, vz,nx,ny,nz,&angle,tilt,roll);
-			break;
+                calc_tilt_n_roll_with_matrix(wx, wy, wz, vx, vy, vz, nx, ny, nz, &angle, tilt, roll);
+                break;
 
-		case 1:
-			vx = x10; vy = y10; vz = z10;
-			wx = x31; wy = y31; wz = z31;
+            case 1:
+                vx = x10;
+                vy = y10;
+                vz = z10;
+                wx = x31;
+                wy = y31;
+                wz = z31;
 
-			nx = (vy * wz - vz * wy) >> 8;
-			ny = (vz * wx - vx * wz) >> 8;
-			nz = (vx * wy - vy * wx) >> 8;
+                nx = (vy * wz - vz * wy) >> 8;
+                ny = (vz * wx - vx * wz) >> 8;
+                nz = (vx * wy - vy * wx) >> 8;
 
-			calc_tilt_n_roll_with_matrix( vx, vy, vz,-wx,-wy,-wz,nx,ny,nz,&angle,tilt,roll);
-			break;
+                calc_tilt_n_roll_with_matrix(vx, vy, vz, -wx, -wy, -wz, nx, ny, nz, &angle, tilt, roll);
+                break;
 
-		case 2:
-			vx = x23; vy = y23; vz = z23;
-			wx = x02; wy = y02; wz = z02;
+            case 2:
+                vx = x23;
+                vy = y23;
+                vz = z23;
+                wx = x02;
+                wy = y02;
+                wz = z02;
 
-			nx = (vy * wz - vz * wy) >> 8;
-			ny = (vz * wx - vx * wz) >> 8;
-			nz = (vx * wy - vy * wx) >> 8;
+                nx = (vy * wz - vz * wy) >> 8;
+                ny = (vz * wx - vx * wz) >> 8;
+                nz = (vx * wy - vy * wx) >> 8;
 
-			calc_tilt_n_roll_with_matrix(-vx,-vy,-vz, wx, wy, wz,nx,ny,nz,&angle,tilt,roll);
-			break;
+                calc_tilt_n_roll_with_matrix(-vx, -vy, -vz, wx, wy, wz, nx, ny, nz, &angle, tilt, roll);
+                break;
 
-		case 3:
-			vx = x31; vy = y31; vz = z31;
-			wx = x23; wy = y23; wz = z23;
+            case 3:
+                vx = x31;
+                vy = y31;
+                vz = z31;
+                wx = x23;
+                wy = y23;
+                wz = z23;
 
-			nx = (vy * wz - vz * wy) >> 8;
-			ny = (vz * wx - vx * wz) >> 8;
-			nz = (vx * wy - vy * wx) >> 8;
+                nx = (vy * wz - vz * wy) >> 8;
+                ny = (vz * wx - vx * wz) >> 8;
+                nz = (vx * wy - vy * wx) >> 8;
 
-			calc_tilt_n_roll_with_matrix(-wx,-wy,-wz,-vx,-vy,-vz,nx,ny,nz,&angle,tilt,roll);
-			break;
-		}
+                calc_tilt_n_roll_with_matrix(-wx, -wy, -wz, -vx, -vy, -vz, nx, ny, nz, &angle, tilt, roll);
+                break;
+        }
 
-		if (*roll > 1024)		*roll = *roll - 2048;
-		if (*tilt > 1024)		*tilt = *tilt - 2048;
+        if (*roll > 1024) *roll = *roll - 2048;
+        if (*tilt > 1024) *tilt = *tilt - 2048;
 
-		tt += *tilt;
-		tr += *roll;
-	}
+        tt += *tilt;
+        tr += *roll;
+    }
 
-	// take average
-	tt /= 4;
-	tr /= 4;
+    // take average
+    tt /= 4;
+    tr /= 4;
 
-	// max out
-	if (tt < -312)		tt = -312;
-	else if (tt > 312)	tt = 312;
+    // max out
+    if (tt < -312)
+        tt = -312;
+    else if (tt > 312)
+        tt = 312;
 
-	if (tr < -312)		tr = -312;
-	if (tr > 312)		tr = 312;
+    if (tr < -312) tr = -312;
+    if (tr > 312) tr = 312;
 
-	*tilt = -tt & 2047;
-	*roll = -tr & 2047;
+    *tilt = -tt & 2047;
+    *roll = -tr & 2047;
 }
-
 
 void VEH_reduce_health(
-		Thing *p_car,
-		Thing *p_person,
-		std::int32_t  damage)
-{
-	ASSERT(p_car->Class == CLASS_VEHICLE);
+    Thing *p_car,
+    Thing *p_person,
+    std::int32_t damage) {
+    ASSERT(p_car->Class == CLASS_VEHICLE);
 
-	p_car->Genus.Vehicle->Health -= damage >> 1;
+    p_car->Genus.Vehicle->Health -= damage >> 1;
 
-	if (p_car->Genus.Vehicle->Health <= 0)
-	{
-		if (p_car->Genus.Vehicle->Driver)
-		{
-			//
-			// The person has blown up a car with someone inside it.  So
-			// they have killed that person!
-			//
+    if (p_car->Genus.Vehicle->Health <= 0) {
+        if (p_car->Genus.Vehicle->Driver) {
+            //
+            // The person has blown up a car with someone inside it.  So
+            // they have killed that person!
+            //
 
-			if (p_person)
-			{
-				p_person->Genus.Person->Flags2 |= FLAG2_PERSON_IS_MURDERER;
-			}
-		}
+            if (p_person) {
+                p_person->Genus.Person->Flags2 |= FLAG2_PERSON_IS_MURDERER;
+            }
+        }
 
-		if (p_car->Genus.Vehicle->Type == VEH_TYPE_POLICE ||
-			p_car->Genus.Vehicle->Type == VEH_TYPE_MEATWAGON)
-		{
-			//
-			// This is a police car that has blown up.
-			//
+        if (p_car->Genus.Vehicle->Type == VEH_TYPE_POLICE ||
+            p_car->Genus.Vehicle->Type == VEH_TYPE_MEATWAGON) {
+            //
+            // This is a police car that has blown up.
+            //
 
-			if (p_person && p_person->Class == CLASS_PERSON && p_person->Genus.Person->PlayerID)
-			{
-				//
-				// Give the player a red mark!
-				//
+            if (p_person && p_person->Class == CLASS_PERSON && p_person->Genus.Person->PlayerID) {
+                //
+                // Give the player a red mark!
+                //
 
-				NET_PLAYER(0)->Genus.Player->RedMarks += 1;
-			}
-		}
-	}
+                NET_PLAYER(0)->Genus.Player->RedMarks += 1;
+            }
+        }
+    }
 
-	//
-	// Make sure the car processes this health info...
-	//
+    //
+    // Make sure the car processes this health info...
+    //
 
-	p_car->StateFn = VEH_driving;
+    p_car->StateFn = VEH_driving;
 }
-
 
 Thing *vehicle_wheel_pos_vehicle;
 VehInfo *vehicle_wheel_pos_info;
 
+void vehicle_wheel_pos_init(Thing *p_vehicle) {
+    vehicle_wheel_pos_vehicle = p_vehicle;
+    vehicle_wheel_pos_info = &veh_info[p_vehicle->Genus.Vehicle->Type];
+    ;
 
-void vehicle_wheel_pos_init(Thing *p_vehicle)
-{
-	vehicle_wheel_pos_vehicle =  p_vehicle;
-	vehicle_wheel_pos_info    = &veh_info[p_vehicle->Genus.Vehicle->Type];;
-
-	make_car_matrix(p_vehicle->Genus.Vehicle);
+    make_car_matrix(p_vehicle->Genus.Vehicle);
 }
 
 void vehicle_wheel_pos_get(
-		std::int32_t  which,
-		std::int32_t *wx,
-		std::int32_t *wy,
-		std::int32_t *wz)
-{
-	std::int32_t wheel_x;
-	std::int32_t wheel_y;
-	std::int32_t wheel_z;
+    std::int32_t which,
+    std::int32_t *wx,
+    std::int32_t *wy,
+    std::int32_t *wz) {
+    std::int32_t wheel_x;
+    std::int32_t wheel_y;
+    std::int32_t wheel_z;
 
-	wheel_x = vehicle_wheel_pos_info->DX[which];
-	wheel_y = 51 - (((128 << 8) - vehicle_wheel_pos_vehicle->Genus.Vehicle->Spring[which].Compression) >> 8);
-	wheel_z = vehicle_wheel_pos_info->DZ[which];
+    wheel_x = vehicle_wheel_pos_info->DX[which];
+    wheel_y = 51 - (((128 << 8) - vehicle_wheel_pos_vehicle->Genus.Vehicle->Spring[which].Compression) >> 8);
+    wheel_z = vehicle_wheel_pos_info->DZ[which];
 
-	apply_car_matrix(
-	   &wheel_x,
-	   &wheel_y,
-	   &wheel_z);
+    apply_car_matrix(
+        &wheel_x,
+        &wheel_y,
+        &wheel_z);
 
-   *wx = wheel_x + (vehicle_wheel_pos_vehicle->WorldPos.X >> 8);
-   *wy = wheel_y + (vehicle_wheel_pos_vehicle->WorldPos.Y >> 8);
-   *wz = wheel_z + (vehicle_wheel_pos_vehicle->WorldPos.Z >> 8);
+    *wx = wheel_x + (vehicle_wheel_pos_vehicle->WorldPos.X >> 8);
+    *wy = wheel_y + (vehicle_wheel_pos_vehicle->WorldPos.Y >> 8);
+    *wz = wheel_z + (vehicle_wheel_pos_vehicle->WorldPos.Z >> 8);
 }

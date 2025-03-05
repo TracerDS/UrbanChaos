@@ -17,20 +17,19 @@
 #include "c:\fallen\psxeng\headers\psxeng.h"
 #include "c:\fallen\psxeng\headers\panel.h"
 #endif
-#include	"interfac.h"
+#include "interfac.h"
 
 #include "eway.h"
 #include "xlat_str.h"
 #ifdef PSX
-#include	"ctrller.h"
+#include "ctrller.h"
 #endif
 
-#ifdef	MIKE
-#define	VERSION_NTSC	1
+#ifdef MIKE
+#define VERSION_NTSC 1
 #endif
 
-extern void	add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text);
-
+extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text);
 
 //
 // local prototypes
@@ -42,1052 +41,919 @@ void OVERLAY_draw_damage_values();
 // like panels and text and maps and ...
 //
 
-
-
 //
 // All the draw routines to support this module should go in ddengine\source\panel.cpp
 //
 
-
-#define	INFO_NUMBER	1
-#define	INFO_TEXT	2
-#ifdef	DAMAGE_TEXT
-struct DamageValue
-{
-	std::uint8_t	Type;
-	char	*text_ptr;
-	std::int16_t	Age;
-	std::int16_t	Value;
-	std::int16_t	X;
-	std::int16_t	Y;
-	std::int16_t	Z;
-
+#define INFO_NUMBER 1
+#define INFO_TEXT 2
+#ifdef DAMAGE_TEXT
+struct DamageValue {
+    std::uint8_t Type;
+    char *text_ptr;
+    std::int16_t Age;
+    std::int16_t Value;
+    std::int16_t X;
+    std::int16_t Y;
+    std::int16_t Z;
 };
 
+#define MAX_DAMAGE_VALUES 16
 
-#define	MAX_DAMAGE_VALUES	16
-
-struct DamageValue	damage_values[MAX_DAMAGE_VALUES];
-std::int32_t damage_value_upto=1;
+struct DamageValue damage_values[MAX_DAMAGE_VALUES];
+std::int32_t damage_value_upto = 1;
 #endif
 
-
-struct TrackEnemy
-{
-	Thing	*PThing;
-	std::int16_t	State;
-	std::int16_t	Timer;
-	std::int16_t	Face;
+struct TrackEnemy {
+    Thing *PThing;
+    std::int16_t State;
+    std::int16_t Timer;
+    std::int16_t Face;
 };
 
-#define	MAX_TRACK	4
+#define MAX_TRACK 4
 
-#define	STATE_TRACKING	1
-#define	STATE_UNUSED	0
+#define STATE_TRACKING 1
+#define STATE_UNUSED 0
 
 /*
 #define	MAX_BEACON	5
 struct Beacon
 {
-	std::uint16_t	X;
-	std::uint16_t	Z;
-	std::uint16_t	Type;
-	std::uint16_t	OTHER;
+        std::uint16_t	X;
+        std::uint16_t	Z;
+        std::uint16_t	Type;
+        std::uint16_t	OTHER;
 };
 
 struct Beacon	beacons[MAX_BEACON];
 std::uint16_t beacon_upto=1;
 */
 
+struct TrackEnemy panel_enemy[MAX_TRACK];
 
-struct TrackEnemy	panel_enemy[MAX_TRACK];
+#define USE_CAR (1)
+#define USE_CABLE (2)
+#define USE_LADDER (3)
+#define PICKUP_ITEM (4)
+#define USE_MOTORBIKE (5)
+#define TALK (6)
 
-#define	USE_CAR			(1)
-#define	USE_CABLE		(2)
-#define	USE_LADDER		(3)
-#define	PICKUP_ITEM		(4)
-#define	USE_MOTORBIKE	(5)
-#define	TALK			(6)
+#define HELP_MAX_COL 16
 
-
-
-#define	HELP_MAX_COL	16
-
-#define	HELP_GRAB_CABLE		0
-#define	HELP_PICKUP_ITEM	1
-#define	HELP_USE_CAR		2
-#define	HELP_USE_BIKE		3
+#define HELP_GRAB_CABLE 0
+#define HELP_PICKUP_ITEM 1
+#define HELP_USE_CAR 2
+#define HELP_USE_BIKE 3
 
 #ifndef TARGET_DC
-char* help_text[]=
-{
-	"Jump up to grab cables",
-	"Press action to pickup items",
-	"Press action to use vehicles",
-	"Press action to use bikes",
-	""
-};
+char *help_text[] =
+    {
+        "Jump up to grab cables",
+        "Press action to pickup items",
+        "Press action to use vehicles",
+        "Press action to use bikes",
+        ""};
 
-std::uint16_t help_xlat[] = { X_GRAB_CABLE, X_PICK_UP, X_ENTER_VEHICLE, X_USE_BIKE };
+std::uint16_t help_xlat[] = {X_GRAB_CABLE, X_PICK_UP, X_ENTER_VEHICLE, X_USE_BIKE};
 #endif
 
 #ifndef PSX
 #ifndef TARGET_DC
-std::int32_t should_i_add_message(std::int32_t type)
-{
-	static std::int32_t last_message[4]={0,0,0,0};	// The gameturn when the last message was added.
+std::int32_t should_i_add_message(std::int32_t type) {
+    static std::int32_t last_message[4] = {0, 0, 0, 0}; // The gameturn when the last message was added.
 
-	ASSERT(WITHIN(type, 0, 3));
+    ASSERT(WITHIN(type, 0, 3));
 
-	if (last_message[type] >  GAME_TURN ||
-		last_message[type] <= GAME_TURN - 100)
-	{
-		last_message[type] = GAME_TURN;
+    if (last_message[type] > GAME_TURN ||
+        last_message[type] <= GAME_TURN - 100) {
+        last_message[type] = GAME_TURN;
 
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+        return true;
+    } else {
+        return false;
+    }
 }
 
-void arrow_object(Thing *p_special,std::int32_t dir,std::int32_t type)
-{
-	std::int32_t	x,y,z;
+void arrow_object(Thing *p_special, std::int32_t dir, std::int32_t type) {
+    std::int32_t x, y, z;
 
-	if (!should_i_add_message(type))
-	{
-		return;
-	}
+    if (!should_i_add_message(type)) {
+        return;
+    }
 
-	x=p_special->WorldPos.X>>8;
-	y=p_special->WorldPos.Y>>8;
-	z=p_special->WorldPos.Z>>8;
+    x = p_special->WorldPos.X >> 8;
+    y = p_special->WorldPos.Y >> 8;
+    z = p_special->WorldPos.Z >> 8;
 
-	y+=((GAME_TURN+THING_INDEX(p_special))<<3)&63;
+    y += ((GAME_TURN + THING_INDEX(p_special)) << 3) & 63;
 
-	//add_damage_text(x,y,z, help_text[type]);
-	add_damage_text(x,y,z,XLAT_str(help_xlat[type]));
+    // add_damage_text(x,y,z, help_text[type]);
+    add_damage_text(x, y, z, XLAT_str(help_xlat[type]));
 
-	/*
+    /*
 
-	if(dir==1)
-	{
-		AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,false);
-		AENG_world_line(x,y+64,z,20,0xff0000,x,y+128,z,20,0x800000,false);
-	}
-	else
-	{
-		AENG_world_line(x,y+128,z,1,0xff0000,x,y+64,z,50,0x800000,false);
-		AENG_world_line(x,y+64,z,20,0xff0000,x,y,z,20,0x800000,false);
-	}
+    if(dir==1)
+    {
+            AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,false);
+            AENG_world_line(x,y+64,z,20,0xff0000,x,y+128,z,20,0x800000,false);
+    }
+    else
+    {
+            AENG_world_line(x,y+128,z,1,0xff0000,x,y+64,z,50,0x800000,false);
+            AENG_world_line(x,y+64,z,20,0xff0000,x,y,z,20,0x800000,false);
+    }
 
-	*/
+    */
 }
 
-void arrow_pos(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t dir,std::int32_t type)
-{
-	y+=((GAME_TURN+x)<<3)&63;
+void arrow_pos(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dir, std::int32_t type) {
+    y += ((GAME_TURN + x) << 3) & 63;
 
-	if (!should_i_add_message(type))
-	{
-		return;
-	}
+    if (!should_i_add_message(type)) {
+        return;
+    }
 
-//	add_damage_text(x,y,z, help_text[type]);
-	add_damage_text(x,y,z, XLAT_str(help_xlat[type]));
-	
-	/*
+    //	add_damage_text(x,y,z, help_text[type]);
+    add_damage_text(x, y, z, XLAT_str(help_xlat[type]));
 
-	if(dir==1)
-	{
-		AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,false);
-		AENG_world_line(x,y+64,z,20,0x800000,x,y+128,z,20,0x400000,false);
-	}
-	else
-	{
-		AENG_world_line(x,y-0,z,1,0xff0000,x,y-64,z,50,0x800000,false);
-		AENG_world_line(x,y-64,z,20,0x800000,x,y-128,z,20,0x400000,false);
-	}
-	*/
+    /*
+
+    if(dir==1)
+    {
+            AENG_world_line(x,y,z,1,0xff0000,x,y+64,z,50,0x800000,false);
+            AENG_world_line(x,y+64,z,20,0x800000,x,y+128,z,20,0x400000,false);
+    }
+    else
+    {
+            AENG_world_line(x,y-0,z,1,0xff0000,x,y-64,z,50,0x800000,false);
+            AENG_world_line(x,y-64,z,20,0x800000,x,y-128,z,20,0x400000,false);
+    }
+    */
 }
 #endif
 #endif
 
 void Time(struct MFTime *the_time);
 
-void show_help_text(std::int32_t index)
-{
-	/*
+void show_help_text(std::int32_t index) {
+    /*
 #ifndef	PSX
-	static	std::uint32_t	last_message=0;
-	struct MFTime 	the_time;
-	std::uint32_t	time_now;
+    static	std::uint32_t	last_message=0;
+    struct MFTime 	the_time;
+    std::uint32_t	time_now;
 
-	Time(&the_time);
-	time_now=the_time.Ticks;
+    Time(&the_time);
+    time_now=the_time.Ticks;
 
-	if(time_now-last_message>14000)
-	{
-		last_message=time_now;
-		PANEL_new_help_message(help_text[index]);
-	}
+    if(time_now-last_message>14000)
+    {
+            last_message=time_now;
+            PANEL_new_help_message(help_text[index]);
+    }
 #endif
-	*/
+    */
 }
 
+#ifdef UNUSED
+void highlight_cable_grab() {
+    std::int32_t index;
+    std::int32_t x, z;
+    Thing *p_person;
+    std::int32_t exit = 0;
+    std::int16_t f_list;
+    std::int16_t i_facet;
 
+    p_person = NET_PERSON(0);
 
+    x = p_person->WorldPos.X >> 8;
+    z = p_person->WorldPos.Z >> 8;
 
+    exit = false;
+    f_list = PAP_2LO(x >> 10, z >> 10).ColVectHead;
 
-#ifdef	UNUSED
-void highlight_cable_grab()
-{
-	std::int32_t	index;
-	std::int32_t	x,z;
-	Thing	*p_person;
-	std::int32_t	exit=0;
-	std::int16_t f_list;
-	std::int16_t i_facet;
+    if (!f_list) {
+        //
+        // No facets on this square.
+        //
 
+        return;
+    }
 
-	p_person=NET_PERSON(0);
+    while (!exit) {
+        std::int32_t fdx, fdy, fdz, sdx, sdz, len, step;
+        DFacet *df;
 
-	x=p_person->WorldPos.X>>8;
-	z=p_person->WorldPos.Z>>8;
+        i_facet = facet_links[f_list++];
+        ASSERT(i_facet < next_dfacet);
 
-	exit   = false;
-	f_list = PAP_2LO(x>>10,z>>10).ColVectHead;
+        if (i_facet < 0) {
+            i_facet = -i_facet;
+            exit = true;
+        }
 
+        df = &dfacets[i_facet];
 
-	if (!f_list)
-	{
-		//
-		// No facets on this square.
-		//
+        fdx = ((df->x[1] - df->x[0]) << 8);
+        fdz = ((df->z[1] - df->z[0]) << 8);
 
-		return;
-	}
+        len = QDIST2(abs(fdx), abs(fdz));
+        len = len >> 7; // how many 128 lengths there are
+        len += 1;
 
-	while(!exit)
-	{
+        fdx = (fdx << 8) / len;
+        fdz = (fdz << 8) / len;
 
-		std::int32_t	fdx,fdy,fdz,sdx,sdz,len,step;
-		DFacet *df;
+        sdx = df->x[0] << 16;
+        sdz = df->z[0] << 16;
 
-		i_facet = facet_links[f_list++];
-		ASSERT(i_facet<next_dfacet);
+        step = (1 << 12) / len;
+        if (step < 1)
+            step = 1;
 
-		if (i_facet < 0)
-		{
-			i_facet = -i_facet;
-			exit   =   true;
-		}
+        if (df->FacetType == STOREY_TYPE_CABLE) {
+            std::int32_t along;
+            for (along = 0; along < (1 << 12); along += step) {
+                std::int32_t wx, wz;
+                std::int32_t dx, dz;
+                std::int32_t my;
 
-		df = &dfacets[i_facet];
+                wx = sdx >> 8;
+                wz = sdz >> 8;
 
-		fdx = ((df->x[1]-df->x[0])<<8);
-		fdz = ((df->z[1]-df->z[0])<<8);
+                dx = abs(wx - x);
+                dz = abs(wz - z);
 
-		len=QDIST2(abs(fdx),abs(fdz));
-		len=len>>7; // how many 128 lengths there are
-		len+=1;
+                if (QDIST2(dx, dz) < 512) {
+                    char str[100];
+                    std::int32_t dy;
 
-		fdx=(fdx<<8)/len;
-		fdz=(fdz<<8)/len;
+                    my = find_cable_y_along(df, along);
 
-		sdx=df->x[0]<<16;
-		sdz=df->z[0]<<16;
+                    // extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
-		step=(1<<12)/len;
-		if(step<1)
-			step=1;
+                    //					sprintf(str,"%d",((MAVHEIGHT(wx>>8,wz>>8)<<6)-my));
+                    //					FONT2D_DrawString_3d(str,wx,50+(MAVHEIGHT(wx>>8,wz>>8)<<6),wz,0xff0000,60,0);
 
-		if (df->FacetType == STOREY_TYPE_CABLE)
-		{
-			std::int32_t	along;
-			for(along=0;along<(1<<12);along+=step)
-			{
-				std::int32_t	wx,wz;
-				std::int32_t	dx,dz;
-				std::int32_t	my;
-
-
-				wx=sdx>>8;
-				wz=sdz>>8;
-
-				dx=abs(wx-x);
-				dz=abs(wz-z);
-
-				if(QDIST2(dx,dz)<512)
-				{
-					char	str[100];
-					std::int32_t	dy;
-					
-					my=find_cable_y_along(df,along);
-
-//extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
-
-//					sprintf(str,"%d",((MAVHEIGHT(wx>>8,wz>>8)<<6)-my));
-//					FONT2D_DrawString_3d(str,wx,50+(MAVHEIGHT(wx>>8,wz>>8)<<6),wz,0xff0000,60,0);
-
-					dy=abs(((MAVHEIGHT(wx>>8,wz>>8)<<6)-my));
-					if(dy>200&&dy<240)
-					{
-						arrow_pos(wx,my-128,wz,2,HELP_GRAB_CABLE);
-						show_help_text(HELP_GRAB_CABLE);
-					}
-				}
-				sdx+=fdx;
-				sdz+=fdz;
-			}
-		}
-	}
-
+                    dy = abs(((MAVHEIGHT(wx >> 8, wz >> 8) << 6) - my));
+                    if (dy > 200 && dy < 240) {
+                        arrow_pos(wx, my - 128, wz, 2, HELP_GRAB_CABLE);
+                        show_help_text(HELP_GRAB_CABLE);
+                    }
+                }
+                sdx += fdx;
+                sdz += fdz;
+            }
+        }
+    }
 }
-//#endif
+// #endif
 
+std::int32_t help_system() {
+    Thing *p_person;
+    std::uint32_t collide_types;
+    std::uint16_t found[HELP_MAX_COL];
 
+    std::int32_t i;
+    std::int32_t num;
+    std::int32_t prim;
+    std::int32_t dx;
+    std::int32_t dz;
+    std::int32_t dist;
 
-std::int32_t help_system()
-{
-	Thing	*p_person;
-	std::uint32_t collide_types;
-	std::uint16_t	found[HELP_MAX_COL];
+    Thing *p_found;
+    VEH_Col *vc;
+    PrimInfo *pi;
+    AnimPrimBbox *apb;
 
-	std::int32_t i;
-	std::int32_t num;
-	std::int32_t prim;
-	std::int32_t dx;
-	std::int32_t dz;
-	std::int32_t dist;
+    std::int32_t x, y, z;
 
-	Thing        *p_found;
-	VEH_Col      *vc;
-	PrimInfo     *pi;
-	AnimPrimBbox *apb;
+    std::int32_t nearest_car = 0, nearest_car_d = 0;
 
-	std::int32_t	x,y,z;
+#ifdef BIKE
+    std::int32_t nearest_bike = 0, nearest_bike_d = 0;
+#endif
 
-	std::int32_t	nearest_car=0,nearest_car_d=0;
+    p_person = NET_PERSON(0);
+    if (p_person->State == STATE_DEAD)
+        return (0);
 
-	#ifdef BIKE
-	std::int32_t	nearest_bike=0,nearest_bike_d=0;
-	#endif
+    x = p_person->WorldPos.X >> 8;
+    y = p_person->WorldPos.Y >> 8;
+    z = p_person->WorldPos.Z >> 8;
 
-	p_person=NET_PERSON(0);
-	if(p_person->State==STATE_DEAD)
-		return(0);
+    collide_types = (1 << CLASS_VEHICLE) | (1 << CLASS_BIKE) | (1 << CLASS_SPECIAL);
 
-	x=p_person->WorldPos.X>>8;
-	y=p_person->WorldPos.Y>>8;
-	z=p_person->WorldPos.Z>>8;
+    num = THING_find_sphere(
+        x, y, z,
+        0x300,
+        found,
+        HELP_MAX_COL,
+        collide_types);
 
-	collide_types = (1 << CLASS_VEHICLE) |(1 << CLASS_BIKE)|(1<<CLASS_SPECIAL);
+    //
+    // Scan through
+    //
 
-	num = THING_find_sphere(
-			x,y,z,
-			0x300,
-			found,
-			HELP_MAX_COL,
-			collide_types);
+    VEH_col_upto = 0;
 
-	//
-	// Scan through
-	//
+    for (i = 0; i < num; i++) {
+        //	if (found[i] == ignore)		continue;
 
-	VEH_col_upto = 0;
+        ASSERT(WITHIN(VEH_col_upto, 0, VEH_MAX_COL - 1));
 
-	for (i = 0; i < num; i++)
-	{
-	//	if (found[i] == ignore)		continue;
+        p_found = TO_THING(found[i]);
 
-		ASSERT(WITHIN(VEH_col_upto, 0, VEH_MAX_COL - 1));
+        switch (p_found->Class) {
+            case CLASS_VEHICLE:
+                if (!p_found->Genus.Vehicle->Driver && p_found->State != STATE_DEAD) {
+                    if (p_found->Genus.Vehicle->key) {
+                        if (!person_has_special(p_person, p_found->Genus.Vehicle->key)) {
+                            continue;
+                        }
+                    }
 
-		p_found =  TO_THING(found[i]);
+                    // Simple bounding circle rejection.
 
-		switch(p_found->Class)
-		{
-			case CLASS_VEHICLE:
-				if (!p_found->Genus.Vehicle->Driver && p_found->State != STATE_DEAD)
-				{
-					if (p_found->Genus.Vehicle->key)
-					{
-						if (!person_has_special(p_person, p_found->Genus.Vehicle->key))
-						{
-							continue;
-						}
-					}
+                    dx = abs((p_found->WorldPos.X >> 8) - x);
+                    dz = abs((p_found->WorldPos.Z >> 8) - z);
 
-					// Simple bounding circle rejection.
+                    dist = QDIST2(dx, dz);
 
-					dx = abs((p_found->WorldPos.X >> 8) - x);
-					dz = abs((p_found->WorldPos.Z >> 8) - z);
+                    if (dist <= 512) {
+                        std::int32_t cx, cz, dy;
 
-					dist = QDIST2(dx,dz);
+                        show_help_text(HELP_USE_CAR);
 
-					if (dist <= 512)
-					{
-						std::int32_t cx,cz,dy;
+                        extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t *cx, std::int32_t *cz);
 
-						show_help_text(HELP_USE_CAR);
+                        get_car_enter_xz(p_found, &cx, &cz);
 
-						extern void	get_car_enter_xz(Thing *p_vehicle,std::int32_t *cx,std::int32_t *cz);
+                        switch (p_found->Genus.Vehicle->Type) {
+                            case VEH_TYPE_VAN:
+                            case VEH_TYPE_AMBULANCE:
+                            case VEH_TYPE_MEATWAGON:
+                            case VEH_TYPE_JEEP:
+                            case VEH_TYPE_WILDCATVAN:
+                                dy = 150;
+                                break;
+                            default:
+                                dy = 50;
+                                break;
+                        }
+                        arrow_pos(cx, (p_found->WorldPos.Y >> 8) + dy, cz, 1, HELP_USE_CAR);
+                    }
+                }
 
-						get_car_enter_xz(p_found,&cx,&cz);
-						 
-						switch(p_found->Genus.Vehicle->Type)
-						{
-							case VEH_TYPE_VAN:
-							case VEH_TYPE_AMBULANCE:	
-							case VEH_TYPE_MEATWAGON:
-							case VEH_TYPE_JEEP:
-							case VEH_TYPE_WILDCATVAN:
-								dy=150;
-								break;
-							default:
-								dy=50;
-								break;
+                break;
 
+#ifdef BIKE
+            case CLASS_BIKE:
+                if (p_found->Genus.Vehicle->Driver) {
+                    // prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
+                    // pi   = get_prim_info(prim);
 
-						}
-						arrow_pos(cx,(p_found->WorldPos.Y>>8)+dy,cz,1,HELP_USE_CAR);
+                    // Simple bounding circle rejection.
 
-					}
-				}
+                    dx = abs((p_found->WorldPos.X >> 8) - x);
+                    dz = abs((p_found->WorldPos.Z >> 8) - z);
 
-				break;
+                    dist = QDIST2(dx, dz);
 
-			#ifdef BIKE
-			case CLASS_BIKE:
-				if (p_found->Genus.Vehicle->Driver)
-				{
+                    if (dist <= 512) {
+                        std::int32_t cx, cz;
+                        show_help_text(HELP_USE_BIKE);
 
-					//prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
-					//pi   = get_prim_info(prim);
+                        arrow_object(p_found, 1, HELP_USE_BIKE);
+                        // draw_arrow(cx,(p_found->WorldPos.Y>>8)+150,cz,1);
+                    }
+                }
+                break;
+#endif
 
-					// Simple bounding circle rejection.
+            case CLASS_SPECIAL:
 
-					dx = abs((p_found->WorldPos.X >> 8) - x);
-					dz = abs((p_found->WorldPos.Z >> 8) - z);
+                if (should_person_get_item(p_person, p_found)) {
+                    switch (p_found->Genus.Special->SpecialType) {
+                        case SPECIAL_TREASURE:
+                            //
+                            // don't highlight treasure
+                            //
+                            break;
 
-					dist = QDIST2(dx,dz);
+                        default:
 
-					if (dist <= 512)
-					{
-						std::int32_t	cx,cz;
-						show_help_text(HELP_USE_BIKE);
-						 
-						arrow_object(p_found,1,HELP_USE_BIKE);
-						//draw_arrow(cx,(p_found->WorldPos.Y>>8)+150,cz,1);
+                            // Simple bounding circle rejection.
 
-					}
-				}
-				break;
-			#endif
+                            dx = abs((p_found->WorldPos.X >> 8) - x);
+                            dz = abs((p_found->WorldPos.Z >> 8) - z);
 
-			case CLASS_SPECIAL:
+                            dist = QDIST2(dx, dz);
+                            /*
+                                                                            if (dist <= 256)
+                                                                            {
+                                    //						if((GAME_TURN&63)==0)
+                                    //							CONSOLE_text("Stand over item and press action to pickup\n");
+                                                                                    show_help_text(HELP_PICKUP_ITEM);
+                                                                                    arrow_object(p_found,1,HELP_PICKUP_ITEM);
+                                                                            }
+                            */
+                            break;
+                    }
+                }
 
-				if(should_person_get_item(p_person, p_found))
-				{
-					switch(p_found->Genus.Special->SpecialType)
-					{
-						case SPECIAL_TREASURE:
-							//
-							// don't highlight treasure
-							//
-							break;
+                break;
+        }
+    }
 
-						default:
+    highlight_cable_grab();
 
+    //	find_thing_for_this_pos
 
-						// Simple bounding circle rejection.
-
-						dx = abs((p_found->WorldPos.X >> 8) - x);
-						dz = abs((p_found->WorldPos.Z >> 8) - z);
-
-						dist = QDIST2(dx,dz);
-/*
-						if (dist <= 256)
-						{
-	//						if((GAME_TURN&63)==0)
-	//							CONSOLE_text("Stand over item and press action to pickup\n");
-							show_help_text(HELP_PICKUP_ITEM);
-							arrow_object(p_found,1,HELP_PICKUP_ITEM);
-						}
-*/
-						break;
-					}
-				}
-
-				break;
-
-		}
-	}
-
-	highlight_cable_grab();
-
-//	find_thing_for_this_pos
-		
-	return(0);
+    return (0);
 }
 #endif
 
+void track_enemy(Thing *p_thing) {
+#ifdef OLD_POO
 
+    std::int32_t c0;
+    std::int32_t unused = -1;
 
-void track_enemy(Thing *p_thing)
-{
-	#ifdef OLD_POO
+    for (c0 = 0; c0 < MAX_TRACK; c0++) {
+        if (panel_enemy[c0].PThing == p_thing) {
+            panel_enemy[c0].State = STATE_TRACKING;
+            panel_enemy[c0].Timer = 5000; // 5 seconds
+            return;
+        } else if (panel_enemy[c0].State == STATE_UNUSED) {
+            unused = c0;
+        }
+    }
+    if (unused >= 0) {
+        std::int32_t face;
+        switch (p_thing->Genus.Person->PersonType) {
+            case 0:
+                // PERSON_DARCI
+            case 1:
+            case 2:
+                face = 5;
+                break;
+            case 3:
+                face = THING_NUMBER(p_thing) & 3; // special boss man
+                if (face == 0)
+                    face = 1;
+                break;
 
-	std::int32_t	c0;
-	std::int32_t	unused=-1;
+            case 4:
+                face = 6; // special boss man
+                break;
+            case 5:
+                face = 4;
+                break;
+            case 6:
+            case 7:       // soldier
+                face = 4; // buggered if i know
+                break;
+            default:
+                ///				ASSERT(0); // oi, guvnor. set a face value for whatever you just created
+                face = 0;
+                break;
+        }
+        panel_enemy[unused].PThing = p_thing;
+        panel_enemy[unused].State = STATE_TRACKING;
+        panel_enemy[unused].Timer = 15000; // 5 seconds
+        panel_enemy[unused].Face = face;   // 5 seconds
+    }
 
-	for(c0=0;c0<MAX_TRACK;c0++)
-	{
-		if(panel_enemy[c0].PThing==p_thing)
-		{
-			panel_enemy[c0].State=STATE_TRACKING;
-			panel_enemy[c0].Timer=5000; //5 seconds
-			return;
-		}
-		else
-		if(panel_enemy[c0].State==STATE_UNUSED)
-		{
-			unused=c0;
-		}
-	}
-	if(unused>=0)
-	{
-		std::int32_t	face;
-		switch(p_thing->Genus.Person->PersonType)
-		{				
-			case	0:
-				//PERSON_DARCI
-			case	1:
-			case	2:
-				face=5;
-				break;
-			case	3:
-				face=THING_NUMBER(p_thing)&3;   //special boss man
-				if(face==0)
-					face=1;
-				break;
-
-			case	4:
-				face=6;   //special boss man
-				break;
-			case	5:
-				face=4;
-				break;
-			case	6:
-			case	7: //soldier
-				face=4; // buggered if i know
-				break;
-			default:
-///				ASSERT(0); // oi, guvnor. set a face value for whatever you just created
-				face=0;
-				break;
-		}
-		panel_enemy[unused].PThing=p_thing;
-		panel_enemy[unused].State=STATE_TRACKING;
-		panel_enemy[unused].Timer=15000; //5 seconds
-		panel_enemy[unused].Face=face; //5 seconds
-	}
-	
-	#endif
+#endif
 }
 
-struct TrackEnemy	panel_gun_sight[MAX_TRACK];
-std::uint16_t track_count=0;
+struct TrackEnemy panel_gun_sight[MAX_TRACK];
+std::uint16_t track_count = 0;
 
-
-void track_gun_sight(Thing *p_thing,std::int32_t accuracy)
-{
-	std::int32_t	c0;
-	std::int32_t	unused=-1;
-	for(c0=0;c0<track_count;c0++)
-	{
-		if(panel_gun_sight[c0].PThing==p_thing)
-		{
-			if(accuracy<panel_gun_sight[c0].Timer)
-				panel_gun_sight[c0].Timer=accuracy;
-			return;
-		}
-	}
-	if(track_count<MAX_TRACK)
-	{
-		panel_gun_sight[track_count].Timer=accuracy;
-		panel_gun_sight[track_count].PThing=p_thing;
-		track_count++;
-	}
-/*
-	for(c0=0;c0<MAX_TRACK;c0++)
-	{
-		if(panel_gun_sight[c0].PThing==p_thing)
-		{
-			panel_gun_sight[c0].State=STATE_TRACKING;
-			panel_gun_sight[c0].Timer=5000; //5 seconds
-			panel_gun_sight[c0].Face=accuracy; //5 seconds
-			return;
-		}
-		else
-		if(panel_gun_sight[c0].State==STATE_UNUSED)
-		{
-			unused=c0;
-		}
-	}
-	if(unused>=0)
-	{
-		std::int32_t	face;
-		panel_gun_sight[unused].PThing=p_thing;
-		panel_gun_sight[unused].State=STATE_TRACKING;
-		panel_gun_sight[unused].Timer=15000; //5 seconds
-		panel_gun_sight[unused].Face=accuracy; //5 seconds
-	}
-*/
-	
+void track_gun_sight(Thing *p_thing, std::int32_t accuracy) {
+    std::int32_t c0;
+    std::int32_t unused = -1;
+    for (c0 = 0; c0 < track_count; c0++) {
+        if (panel_gun_sight[c0].PThing == p_thing) {
+            if (accuracy < panel_gun_sight[c0].Timer)
+                panel_gun_sight[c0].Timer = accuracy;
+            return;
+        }
+    }
+    if (track_count < MAX_TRACK) {
+        panel_gun_sight[track_count].Timer = accuracy;
+        panel_gun_sight[track_count].PThing = p_thing;
+        track_count++;
+    }
+    /*
+            for(c0=0;c0<MAX_TRACK;c0++)
+            {
+                    if(panel_gun_sight[c0].PThing==p_thing)
+                    {
+                            panel_gun_sight[c0].State=STATE_TRACKING;
+                            panel_gun_sight[c0].Timer=5000; //5 seconds
+                            panel_gun_sight[c0].Face=accuracy; //5 seconds
+                            return;
+                    }
+                    else
+                    if(panel_gun_sight[c0].State==STATE_UNUSED)
+                    {
+                            unused=c0;
+                    }
+            }
+            if(unused>=0)
+            {
+                    std::int32_t	face;
+                    panel_gun_sight[unused].PThing=p_thing;
+                    panel_gun_sight[unused].State=STATE_TRACKING;
+                    panel_gun_sight[unused].Timer=15000; //5 seconds
+                    panel_gun_sight[unused].Face=accuracy; //5 seconds
+            }
+    */
 }
 
 #ifndef PSX
 #ifndef TARGET_DC
-void OVERLAY_draw_tracked_enemies()
-{
-	std::int32_t	c0;
-	for(c0=0;c0<MAX_TRACK;c0++)
-	{
-		if(panel_enemy[c0].State==STATE_TRACKING)
-		{
-			std::int32_t	h;
+void OVERLAY_draw_tracked_enemies() {
+    std::int32_t c0;
+    for (c0 = 0; c0 < MAX_TRACK; c0++) {
+        if (panel_enemy[c0].State == STATE_TRACKING) {
+            std::int32_t h;
 
-/* draw face */
+            /* draw face */
 
-
-			h=panel_enemy[c0].PThing->Genus.Person->Health;
-			if(h<0)
-				h=0;
-void PANEL_draw_face(std::int32_t x,std::int32_t y,std::int32_t face,std::int32_t size);
+            h = panel_enemy[c0].PThing->Genus.Person->Health;
+            if (h < 0)
+                h = 0;
+            void PANEL_draw_face(std::int32_t x, std::int32_t y, std::int32_t face, std::int32_t size);
 #ifndef PSX
-			PANEL_draw_face(c0*150+5,450-14,panel_enemy[c0].Face,32);
-			PANEL_draw_health_bar(40+c0*150,450,h>>1);
+            PANEL_draw_face(c0 * 150 + 5, 450 - 14, panel_enemy[c0].Face, 32);
+            PANEL_draw_health_bar(40 + c0 * 150, 450, h >> 1);
 #else
-			PANEL_draw_face((c0<<7),214,panel_enemy[c0].Face,16);
-			PANEL_draw_health_bar(24+(c0<<7),220,h>>1);
+            PANEL_draw_face((c0 << 7), 214, panel_enemy[c0].Face, 16);
+            PANEL_draw_health_bar(24 + (c0 << 7), 220, h >> 1);
 #endif
 
-			PANEL_draw_health_bar(40+c0*150,460,(GET_SKILL(panel_enemy[c0].PThing)*100)/15);
+            PANEL_draw_health_bar(40 + c0 * 150, 460, (GET_SKILL(panel_enemy[c0].PThing) * 100) / 15);
 
-			panel_enemy[c0].Timer-=TICK_TOCK;
-//			if(panel_enemy[c0].Timer<0)
-			{
-				panel_enemy[c0].State=STATE_UNUSED;
-				panel_enemy[c0].PThing=0;
-
-			}
-		}
-	}
+            panel_enemy[c0].Timer -= TICK_TOCK;
+            //			if(panel_enemy[c0].Timer<0)
+            {
+                panel_enemy[c0].State = STATE_UNUSED;
+                panel_enemy[c0].PThing = 0;
+            }
+        }
+    }
 }
 #endif
 #endif
 
-void OVERLAY_draw_gun_sights()
-{
-	std::int32_t	c0;
-	std::int32_t	hx,hy,hz;
-	Thing	*p_thing;
+void OVERLAY_draw_gun_sights() {
+    std::int32_t c0;
+    std::int32_t hx, hy, hz;
+    Thing *p_thing;
 
-	// Dodgy internals issue :-)
-	POLY_flush_local_rot();
+    // Dodgy internals issue :-)
+    POLY_flush_local_rot();
 
-	for(c0=0;c0<track_count;c0++)
-	{
-		p_thing=panel_gun_sight[c0].PThing;
-		switch(p_thing->Class)
-		{
-			case	CLASS_PERSON:
+    for (c0 = 0; c0 < track_count; c0++) {
+        p_thing = panel_gun_sight[c0].PThing;
+        switch (p_thing->Class) {
+            case CLASS_PERSON:
 
-				// 11 is head
-				calc_sub_objects_position(p_thing,p_thing->Draw.Tweened->AnimTween,11,&hx,&hy,&hz);
+                // 11 is head
+                calc_sub_objects_position(p_thing, p_thing->Draw.Tweened->AnimTween, 11, &hx, &hy, &hz);
 
-				hx+=p_thing->WorldPos.X>>8;
-				hy+=p_thing->WorldPos.Y>>8;
-				hz+=p_thing->WorldPos.Z>>8;
+                hx += p_thing->WorldPos.X >> 8;
+                hy += p_thing->WorldPos.Y >> 8;
+                hz += p_thing->WorldPos.Z >> 8;
 
-				PANEL_draw_gun_sight(hx,hy,hz,panel_gun_sight[c0].Timer,256);
-				break;
-			case	CLASS_SPECIAL:
-					PANEL_draw_gun_sight(p_thing->WorldPos.X>>8,(p_thing->WorldPos.Y>>8)+30,p_thing->WorldPos.Z>>8,panel_gun_sight[c0].Timer,128);
-					break;
-			case	CLASS_BAT:
+                PANEL_draw_gun_sight(hx, hy, hz, panel_gun_sight[c0].Timer, 256);
+                break;
+            case CLASS_SPECIAL:
+                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 30, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 128);
+                break;
+            case CLASS_BAT:
 
-				{
-					std::int32_t scale;
+            {
+                std::int32_t scale;
 
-					if (p_thing->Genus.Bat->type == BAT_TYPE_BALROG)
-					{
-						scale = 450;
-					}
-					else
-					{
-						scale = 128;
-					}
+                if (p_thing->Genus.Bat->type == BAT_TYPE_BALROG) {
+                    scale = 450;
+                } else {
+                    scale = 128;
+                }
 
+                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 30, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, scale);
+            }
 
-					PANEL_draw_gun_sight(p_thing->WorldPos.X>>8,(p_thing->WorldPos.Y>>8)+30,p_thing->WorldPos.Z>>8,panel_gun_sight[c0].Timer,scale);
-				}
+            break;
+            case CLASS_BARREL:
+                p_thing = panel_gun_sight[c0].PThing;
+                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 80, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 200);
+                break;
+            case CLASS_VEHICLE:
+                p_thing = panel_gun_sight[c0].PThing;
+                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 80, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 450);
+                break;
+        }
+    }
+    track_count = 0;
 
-				break;
-			case	CLASS_BARREL:
-				p_thing=panel_gun_sight[c0].PThing;
-				PANEL_draw_gun_sight(p_thing->WorldPos.X>>8,(p_thing->WorldPos.Y>>8)+80,p_thing->WorldPos.Z>>8,panel_gun_sight[c0].Timer,200);
-				break;
-			case	CLASS_VEHICLE:
-				p_thing=panel_gun_sight[c0].PThing;
-				PANEL_draw_gun_sight(p_thing->WorldPos.X>>8,(p_thing->WorldPos.Y>>8)+80,p_thing->WorldPos.Z>>8,panel_gun_sight[c0].Timer,450);
-				break;
-		}
-	}
-	track_count=0;
+    // draw a grenade aim target
+    extern std::int32_t person_holding_special(Thing * p_person, std::uint8_t special); // I am so naughty.  I blame Mark.
 
-	// draw a grenade aim target
-extern std::int32_t person_holding_special(Thing* p_person, std::uint8_t special);	// I am so naughty.  I blame Mark.
+    Thing *p_player = NET_PERSON(0);
 
-	Thing*	p_player = NET_PERSON(0);
+    if (person_holding_special(p_player, SPECIAL_GRENADE)) {
+        /*
+                        std::int32_t	angle = p_player->Draw.Tweened->Angle;
 
-	if (person_holding_special(p_player, SPECIAL_GRENADE))
-	{
-/*
-		std::int32_t	angle = p_player->Draw.Tweened->Angle;
+                        // now make the angle more conformant with normality
+                        angle = 1536 - angle;
 
-		// now make the angle more conformant with normality
-		angle = 1536 - angle;
+                        // mask.  I don't mind that.
+                        angle &= 2047;
 
-		// mask.  I don't mind that.
-		angle &= 2047;
+                        // fortunately the grenade is now frame-rate independant (thanks to me, hurrah!)
+                        std::int32_t	addx = COS(angle) * 2150 / 65536;
+                        std::int32_t	addz = SIN(angle) * 2150 / 65536;
 
-		// fortunately the grenade is now frame-rate independant (thanks to me, hurrah!)
-		std::int32_t	addx = COS(angle) * 2150 / 65536;
-		std::int32_t	addz = SIN(angle) * 2150 / 65536;
+                        PANEL_draw_gun_sight((p_player->WorldPos.X >> 8) + addx, (p_player->WorldPos.Y >> 8) + 128, (p_player->WorldPos.Z >> 8) + addz, 1000, 200);
+        */
 
-		PANEL_draw_gun_sight((p_player->WorldPos.X >> 8) + addx, (p_player->WorldPos.Y >> 8) + 128, (p_player->WorldPos.Z >> 8) + addz, 1000, 200);
-*/
-
-		if (!p_player->Genus.Person->Ware)
-		{
-
+        if (!p_player->Genus.Person->Ware) {
 #ifndef PSX
-void show_grenade_path(Thing *p_person);
-		show_grenade_path(p_player);
+            void show_grenade_path(Thing * p_person);
+            show_grenade_path(p_player);
 #endif
-		}
-
-	}
+        }
+    }
 }
 
 #ifndef PSX
-void OVERLAY_draw_health()
-{
-	std::int32_t	ph;
-	ph=NET_PERSON(0)->Genus.Person->Health;
-	if(ph<0)
-		ph=0;
-	PANEL_draw_health_bar(10,10,ph>>1);
-
-	
+void OVERLAY_draw_health() {
+    std::int32_t ph;
+    ph = NET_PERSON(0)->Genus.Person->Health;
+    if (ph < 0)
+        ph = 0;
+    PANEL_draw_health_bar(10, 10, ph >> 1);
 }
 
-void OVERLAY_draw_stamina()
-{
-	std::int32_t	ph;
-	ph=NET_PERSON(0)->Genus.Person->Stamina;
-	if(ph<0)
-		ph=0;
-	PANEL_draw_health_bar(10,30,(ph*100)>>8);
-
-	
+void OVERLAY_draw_stamina() {
+    std::int32_t ph;
+    ph = NET_PERSON(0)->Genus.Person->Stamina;
+    if (ph < 0)
+        ph = 0;
+    PANEL_draw_health_bar(10, 30, (ph * 100) >> 8);
 }
 #endif
 
-extern void PANEL_draw_local_health(std::int32_t mx,std::int32_t my,std::int32_t mz,std::int32_t percentage,std::int32_t radius=60);
+extern void PANEL_draw_local_health(std::int32_t mx, std::int32_t my, std::int32_t mz, std::int32_t percentage, std::int32_t radius = 60);
 
-void OVERLAY_draw_enemy_health()
-{
-	Thing *p_person;
+void OVERLAY_draw_enemy_health() {
+    Thing *p_person;
 
-	p_person=NET_PERSON(0);
+    p_person = NET_PERSON(0);
 
-	if(p_person->Genus.Person->Mode==PERSON_MODE_FIGHT||p_person->SubState==SUB_STATE_AIM_GUN)
-	{
-		if(p_person->Genus.Person->Target)
-		{
-			Thing	*p_target;
-			p_target=TO_THING(p_person->Genus.Person->Target);
+    if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT || p_person->SubState == SUB_STATE_AIM_GUN) {
+        if (p_person->Genus.Person->Target) {
+            Thing *p_target;
+            p_target = TO_THING(p_person->Genus.Person->Target);
 
-
-			switch(p_target->Class)
-			{
-				case	CLASS_BAT:
-					if(p_target->Genus.Bat->type==BAT_TYPE_BALROG)
-					{
+            switch (p_target->Class) {
+                case CLASS_BAT:
+                    if (p_target->Genus.Bat->type == BAT_TYPE_BALROG) {
 #ifndef PSX
-						PANEL_draw_local_health(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,(100*p_target->Genus.Bat->health)>>8,300);
+                        PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, (100 * p_target->Genus.Bat->health) >> 8, 300);
 #else
-						PANEL_draw_local_health(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,(100*p_target->Genus.Bat->health)>>8,150);
+                        PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, (100 * p_target->Genus.Bat->health) >> 8, 150);
 #endif
-					}
-					break;
-				case	CLASS_PERSON:
+                    }
+                    break;
+                case CLASS_PERSON:
 
-					{
-						std::int32_t percent;
+                {
+                    std::int32_t percent;
 
-						extern bool PersonIsMIB(Thing *p_person);
+                    extern bool PersonIsMIB(Thing * p_person);
 
-						if (PersonIsMIB(p_target))
-						{
-							percent = p_target->Genus.Person->Health * 100 / 700;
-						}
-						else
-						{
-//							percent = p_target->Genus.Person->Health >> 1;
+                    if (PersonIsMIB(p_target)) {
+                        percent = p_target->Genus.Person->Health * 100 / 700;
+                    } else {
+                        //							percent = p_target->Genus.Person->Health >> 1;
 
-							percent = p_target->Genus.Person->Health *100/health[p_target->Genus.Person->PersonType];
-						}
+                        percent = p_target->Genus.Person->Health * 100 / health[p_target->Genus.Person->PersonType];
+                    }
 
-						PANEL_draw_local_health(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,percent);
-					}
+                    PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, percent);
+                }
 
-					break;
-			}
-						
-		}
-	}
+                break;
+            }
+        }
+    }
 }
-#ifdef	PSX
+#ifdef PSX
 char punch[3];
 char kick[3];
 
-void init_punch_kick()
-{
-#ifdef	VERSION_NTSC
-	std::int32_t	c0;
-	for(c0=0;c0<14;c0++)
-	{
-		if (PAD_Current->data[c0].input_mask>0)
-		{
-			if (PAD_Current->data[c0].input_mask&INPUT_MASK_PUNCH)
-			{
-				switch(PAD_Current->data[c0].pad_button)
-				{
-					case	PAD_RU:
-						sprintf(punch,STR_TRI);
-						break;
-					case	PAD_RL:
-						sprintf(punch,STR_SQUARE);
-						break;
-					case	PAD_RR:
-						sprintf(punch,STR_CIRCLE);
-						break;
-					case	PAD_RD:
-						sprintf(punch,STR_CROSS);
-						break;
-					case	PAD_FLT:
-						sprintf(punch,"L1");
-						break;
-					case	PAD_FRT:
-						sprintf(punch,"R1");
-						break;
-					case	PAD_FLB:
-						sprintf(punch,"L2");
-						break;
-					case	PAD_FRB:
-						sprintf(punch,"R2");
-						break;
-				}
-			}
-			if (PAD_Current->data[c0].input_mask&INPUT_MASK_KICK)
-			{
-				switch(PAD_Current->data[c0].pad_button)
-				{
-					case	PAD_RU:
-						sprintf(kick,STR_TRI);
-						break;
-					case	PAD_RL:
-						sprintf(kick,STR_SQUARE);
-						break;
-					case	PAD_RR:
-						sprintf(kick,STR_CIRCLE);
-						break;
-					case	PAD_RD:
-						sprintf(kick,STR_CROSS);
-						break;
-					case	PAD_FLT:
-						sprintf(kick,"L1");
-						break;
-					case	PAD_FRT:
-						sprintf(kick,"R1");
-						break;
-					case	PAD_FLB:
-						sprintf(kick,"L2");
-						break;
-					case	PAD_FRB:
-						sprintf(kick,"R2");
-						break;
-				}
-			}
-		}
-	}
+void init_punch_kick() {
+#ifdef VERSION_NTSC
+    std::int32_t c0;
+    for (c0 = 0; c0 < 14; c0++) {
+        if (PAD_Current->data[c0].input_mask > 0) {
+            if (PAD_Current->data[c0].input_mask & INPUT_MASK_PUNCH) {
+                switch (PAD_Current->data[c0].pad_button) {
+                    case PAD_RU:
+                        sprintf(punch, STR_TRI);
+                        break;
+                    case PAD_RL:
+                        sprintf(punch, STR_SQUARE);
+                        break;
+                    case PAD_RR:
+                        sprintf(punch, STR_CIRCLE);
+                        break;
+                    case PAD_RD:
+                        sprintf(punch, STR_CROSS);
+                        break;
+                    case PAD_FLT:
+                        sprintf(punch, "L1");
+                        break;
+                    case PAD_FRT:
+                        sprintf(punch, "R1");
+                        break;
+                    case PAD_FLB:
+                        sprintf(punch, "L2");
+                        break;
+                    case PAD_FRB:
+                        sprintf(punch, "R2");
+                        break;
+                }
+            }
+            if (PAD_Current->data[c0].input_mask & INPUT_MASK_KICK) {
+                switch (PAD_Current->data[c0].pad_button) {
+                    case PAD_RU:
+                        sprintf(kick, STR_TRI);
+                        break;
+                    case PAD_RL:
+                        sprintf(kick, STR_SQUARE);
+                        break;
+                    case PAD_RR:
+                        sprintf(kick, STR_CIRCLE);
+                        break;
+                    case PAD_RD:
+                        sprintf(kick, STR_CROSS);
+                        break;
+                    case PAD_FLT:
+                        sprintf(kick, "L1");
+                        break;
+                    case PAD_FRT:
+                        sprintf(kick, "R1");
+                        break;
+                    case PAD_FLB:
+                        sprintf(kick, "L2");
+                        break;
+                    case PAD_FRB:
+                        sprintf(kick, "R2");
+                        break;
+                }
+            }
+        }
+    }
 #endif
 }
 #endif
 
-static std::int16_t	timer_prev=0;
+static std::int16_t timer_prev = 0;
 
-#undef	MIKE
-void OVERLAY_handle()
-{
-	Thing *darci = NET_PERSON(0);
-	Thing *player = NET_PLAYER(0);
-	std::int32_t	panel=1;
+#undef MIKE
+void OVERLAY_handle() {
+    Thing *darci = NET_PERSON(0);
+    Thing *player = NET_PLAYER(0);
+    std::int32_t panel = 1;
 
-	//TRACE ( "OHi" );
+    // TRACE ( "OHi" );
 
 #ifdef FINAL
-	char str[8];
+    char str[8];
 #else
-	char str[32];
+    char str[32];
 #endif
 
-	/*
+    /*
 
-	if (darci && !(darci->Flags & FLAGS_ON_MAPWHO))
-	{
-		panel=0;
-	}
-	*/
+    if (darci && !(darci->Flags & FLAGS_ON_MAPWHO))
+    {
+            panel=0;
+    }
+    */
 
-	// Internal gubbins.
-	POLY_flush_local_rot();
-
-
+    // Internal gubbins.
+    POLY_flush_local_rot();
 
 #if 1
-	// Reset the viewport so that text, etc gets drawn even when in letterbox mode.
+    // Reset the viewport so that text, etc gets drawn even when in letterbox mode.
 
-	//HRESULT hres = (the_display.lp_D3D_Viewport)->EndScene();
+    // HRESULT hres = (the_display.lp_D3D_Viewport)->EndScene();
 
-	D3DVIEWPORT2 viewData;
-	memset(&viewData, 0, sizeof(D3DVIEWPORT2));
-	viewData.dwSize = sizeof(D3DVIEWPORT2);
+    D3DVIEWPORT2 viewData;
+    memset(&viewData, 0, sizeof(D3DVIEWPORT2));
+    viewData.dwSize = sizeof(D3DVIEWPORT2);
 
-	// A horrible hack for letterbox mode.
-	viewData.dwWidth  = RealDisplayWidth;
-	viewData.dwHeight = RealDisplayHeight;
-	viewData.dwX = 0;
-	viewData.dwY = 0;
-	viewData.dvClipX  = -1.0f;
-	viewData.dvClipY  =  1.0f;
-	viewData.dvClipWidth  = 2.0f;
-	viewData.dvClipHeight = 2.0f;
-	viewData.dvMinZ = 0.0f;
-	viewData.dvMaxZ = 1.0f;
-	HRESULT hres = (the_display.lp_D3D_Viewport)->SetViewport2 ( &viewData );
+    // A horrible hack for letterbox mode.
+    viewData.dwWidth = RealDisplayWidth;
+    viewData.dwHeight = RealDisplayHeight;
+    viewData.dwX = 0;
+    viewData.dwY = 0;
+    viewData.dvClipX = -1.0f;
+    viewData.dvClipY = 1.0f;
+    viewData.dvClipWidth = 2.0f;
+    viewData.dvClipHeight = 2.0f;
+    viewData.dvMinZ = 0.0f;
+    viewData.dvMaxZ = 1.0f;
+    HRESULT hres = (the_display.lp_D3D_Viewport)->SetViewport2(&viewData);
 
-	//hres = (the_display.lp_D3D_Viewport)->BeginScene();
+    // hres = (the_display.lp_D3D_Viewport)->BeginScene();
 
 #endif
 
+    PANEL_start();
 
-
-	PANEL_start();
-
-
-
-	if (!EWAY_stop_player_moving())
-	{
-		if (panel)
-		{
+    if (!EWAY_stop_player_moving()) {
+        if (panel) {
 #ifndef TARGET_DC
-			// This is all fucked - don't do it.
-			PANEL_draw_buffered();
+            // This is all fucked - don't do it.
+            PANEL_draw_buffered();
 #endif
-			OVERLAY_draw_gun_sights();
-			OVERLAY_draw_enemy_health();
-		}
-	}
+            OVERLAY_draw_gun_sights();
+            OVERLAY_draw_enemy_health();
+        }
+    }
 
-//	OVERLAY_draw_damage_values();
-	if(panel)
-	{
-#ifdef	PSX
-			PANEL_new_funky();
+    //	OVERLAY_draw_damage_values();
+    if (panel) {
+#ifdef PSX
+        PANEL_new_funky();
 #else
 
-/*
-		if (Keys[KB_B])
-		{
-			PANEL_new_funky();
-		}
-		else
-*/
-		{
-
-			if(!(GAME_STATE&GS_LEVEL_WON))
-			{
-				PANEL_last();
-			}
-		}
+        /*
+                        if (Keys[KB_B])
+                        {
+                                PANEL_new_funky();
+                        }
+                        else
+        */
+        {
+            if (!(GAME_STATE & GS_LEVEL_WON)) {
+                PANEL_last();
+            }
+        }
 #endif
-	}
+    }
 
+    //	if((GAME_TURN&15)==0)
 
-//	if((GAME_TURN&15)==0)
+    extern std::uint8_t draw_map_screen;
+    /*
+            if (!draw_map_screen)
+            {
+                    help_system();
+            }
+    */
 
-	extern std::uint8_t draw_map_screen;
-/*
-	if (!draw_map_screen)
-	{
-		help_system();
-	}
-*/
+#ifdef MIKE
+    {
+        char str[100];
+        std::int32_t count, cbl = 0, c0;
 
-#ifdef	MIKE
-	{
-		char	str[100];
-		std::int32_t	count,cbl=0,c0;
+        for (c0 = 0; c0 < MAX_THINGS; c0++) {
+            Thing *p_thing;
 
-	for(c0=0;c0<MAX_THINGS;c0++)
-	{
-		Thing	*p_thing;
+            p_thing = TO_THING(c0);
 
-		p_thing=TO_THING(c0);
+            if (p_thing->Class == CLASS_SPECIAL) {
+                if (p_thing->Genus.Special->SpecialType == SPECIAL_TREASURE) {
+                    cbl++;
+                }
+            }
+        }
 
-		if(p_thing->Class==CLASS_SPECIAL)
-		{
-			if(p_thing->Genus.Special->SpecialType==SPECIAL_TREASURE)
-			{
-				cbl++;
-			}
-		}
+        extern std::uint8_t global_person;
+        std::int32_t count_draw_tween();
+        count = count_draw_tween();
 
-	}
+        extern std::int32_t globdx, globdz;
 
+        //		sprintf(str," people used %d dt left%d (%d,%d)",global_person,count,globdx,globdz);
+        sprintf(str, "specials %d", cbl);
+        FONT2D_DrawString(str, 100, 20);
+        globdx = -999;
+        globdz = -999;
+    }
 
-extern std::uint8_t	global_person;
-std::int32_t count_draw_tween();
-		count=count_draw_tween();
-
-extern std::int32_t	globdx,globdz;
-
-//		sprintf(str," people used %d dt left%d (%d,%d)",global_person,count,globdx,globdz);
-		sprintf(str,"specials %d",cbl);
-		FONT2D_DrawString(str,100,20);
-		globdx=-999;
-		globdz=-999;
-	}
-
-
-#endif	
+#endif
 #if 0
 	if(MFX_QUICK_still_playing())
 	{
@@ -1095,517 +961,451 @@ extern std::int32_t	globdx,globdz;
 	}
 #endif
 
+#ifdef PSX
 
-#ifdef	PSX
+    extern std::uint8_t combo_display;
+#ifdef VERSION_NTSC
+    if (combo_display || timer_prev) {
+        static std::int16_t timer = 0;
 
-extern std::uint8_t	combo_display;
-#ifdef	VERSION_NTSC
-	if(combo_display||timer_prev)
-	{
-		static	std::int16_t	timer=0;
+        timer += TICK_TOCK;
 
+        if (timer > 1500)
+            timer = 0;
 
-		timer+=TICK_TOCK;
+        if (combo_display == 1)
+            timer_prev = 10;
+        else if (combo_display == 2)
+            timer_prev = -10;
 
+        combo_display = 0;
 
-		if(timer>1500)
-			timer=0;
+        if (timer_prev > 0) {
+            timer_prev--;
+            if (timer > 0 && timer < 100 ||
+                timer > 200 && timer < 300 ||
+                timer > 700 && timer < 900)
 
-		if(combo_display==1)
-			timer_prev=10;
-		else
-		if(combo_display==2)
-			timer_prev=-10;
+                FONT2D_DrawString(punch, 10, 80);
+        } else if (timer_prev < 0) {
+            timer_prev++;
+            if (timer > 0 && timer < 100 ||
+                timer > 350 && timer < 500 ||
+                timer > 700 && timer < 850)
 
-		combo_display=0;
-
-
-		if(timer_prev>0)
-		{
-			timer_prev--;
-			if(timer>0 && timer<100||
-				timer>200 && timer<300||
-				timer>700 && timer<900)
-
-				FONT2D_DrawString(punch,10,80);
-		}
-		else
-		if(timer_prev<0)
-		{
-			timer_prev++;
-			if(timer>0 && timer<100||
-				timer>350 && timer<500||
-				timer>700 && timer<850)
-
-				FONT2D_DrawString(kick,10,80);
-		}
-
-	}
+                FONT2D_DrawString(kick, 10, 80);
+        }
+    }
 #endif
 #endif
 
+    if (!draw_map_screen) {
+        // Waste not Want no, why have we got 50 bytes.
 
+        //		char	str[50];
+        std::int32_t crime;
+        /*
+                        if(!EWAY_stop_player_moving())
+                        if(CRIME_RATE_MAX)
+                        {
+                                //
+                                // we have a crime rate
+                                //
+                                crime=(CRIME_RATE*100)/CRIME_RATE_MAX;
+                                sprintf(str,"CRIME RATE %d%%",crime);
+                                FONT2D_DrawString(str,400,20);
+                        }
+        */
 
-	if (!draw_map_screen)
-	{
-		// Waste not Want no, why have we got 50 bytes.
-
-//		char	str[50];
-		std::int32_t	crime;
-/*
-		if(!EWAY_stop_player_moving())
-		if(CRIME_RATE_MAX)
-		{
-			//
-			// we have a crime rate
-			//
-			crime=(CRIME_RATE*100)/CRIME_RATE_MAX;
-			sprintf(str,"CRIME RATE %d%%",crime);
-			FONT2D_DrawString(str,400,20);
-		}
-*/
-
-		if(darci)
-		{
-			if(darci->State==STATE_SEARCH)
-			{
+        if (darci) {
+            if (darci->State == STATE_SEARCH) {
 #ifndef PSX
-				/*
+                /*
 
-				std::int32_t percent = darci->Genus.Person->Timer1 >> 8;
+                std::int32_t percent = darci->Genus.Person->Timer1 >> 8;
 
-				SATURATE(percent, 0, 100);
+                SATURATE(percent, 0, 100);
 
 //				char	str[50];
-				sprintf(str,"%d%%", percent);
+                sprintf(str,"%d%%", percent);
 
-				if ((darci->Genus.Person->Timer1 & 0xfff) < 3000 || percent == 100)
-				{
-					FONT2D_DrawStringCentred(
+                if ((darci->Genus.Person->Timer1 & 0xfff) < 3000 || percent == 100)
+                {
+                        FONT2D_DrawStringCentred(
 //						(percent == 100 ? "Complete" : "Searching"),
-						XLAT_str( (percent == 100 ? X_COMPLETE : X_SEARCHING) ),
-						DisplayWidth  / 2,
-						DisplayHeight / 2 - 10,
-						0x00ff00,
-						256);
-				}
+                                XLAT_str( (percent == 100 ? X_COMPLETE : X_SEARCHING) ),
+                                DisplayWidth  / 2,
+                                DisplayHeight / 2 - 10,
+                                0x00ff00,
+                                256);
+                }
 
-				FONT2D_DrawStringCentred(
-					str,
-					DisplayWidth  / 2,
-					DisplayHeight / 2 + 20,
-					0x00ff00,
-					512);
+                FONT2D_DrawStringCentred(
+                        str,
+                        DisplayWidth  / 2,
+                        DisplayHeight / 2 + 20,
+                        0x00ff00,
+                        512);
 
-				*/
+                */
 #else
-extern void PANEL_draw_search(std::int32_t timer);
+                extern void PANEL_draw_search(std::int32_t timer);
 
-				PANEL_draw_search(darci->Genus.Person->Timer1);
+                PANEL_draw_search(darci->Genus.Person->Timer1);
 #endif
-			}
-		}
-	}
+            }
+        }
+    }
 
 #ifndef PSX
-	PANEL_inventory(darci, player);
+    PANEL_inventory(darci, player);
 #endif
 
-
-//#if 0
-				// I have found the offending code, Holmes!
-				// Now we must teach these heathen a lesson in coding manners.
-				// I shall fetch the larger of my beating sticks.
-extern std::uint8_t	cheat;
-
+    // #if 0
+    //  I have found the offending code, Holmes!
+    //  Now we must teach these heathen a lesson in coding manners.
+    //  I shall fetch the larger of my beating sticks.
+    extern std::uint8_t cheat;
 
 #ifndef TARGET_DC
-	if(cheat==2)
-	{
-		char	str[50];
-		std::uint32_t	in;
+    if (cheat == 2) {
+        char str[50];
+        std::uint32_t in;
 
-extern std::int32_t	tick_tock_unclipped;
-		if(tick_tock_unclipped==0)
-			tick_tock_unclipped=1;
+        extern std::int32_t tick_tock_unclipped;
+        if (tick_tock_unclipped == 0)
+            tick_tock_unclipped = 1;
 
 #ifndef PSX
-		extern std::int32_t SW_tick1;
-		extern std::int32_t SW_tick2;
+        extern std::int32_t SW_tick1;
+        extern std::int32_t SW_tick2;
 #endif
-		extern std::uint32_t	debug_input;
-		in=debug_input;
+        extern std::uint32_t debug_input;
+        in = debug_input;
 
-		extern std::int32_t	geom;
-		extern std::int32_t	EWAY_cam_jumped;
-		extern std::int32_t	look_pitch;
+        extern std::int32_t geom;
+        extern std::int32_t EWAY_cam_jumped;
+        extern std::int32_t look_pitch;
 
 //		sprintf(str,"(%d,%d,%d) fps %d up %d down %d left %d right %d geom %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1,in&INPUT_MASK_FORWARDS,in&INPUT_MASK_BACKWARDS,in&INPUT_MASK_LEFT,in&INPUT_MASK_RIGHT,geom);
 #ifndef PSX
 
-// for eidos build		sprintf(str,"(%d,%d,%d) fps %d render ticks %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1, SW_tick2 - SW_tick1);
-		sprintf(str,"(%d,%d,%d) fps %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1);
+        // for eidos build		sprintf(str,"(%d,%d,%d) fps %d render ticks %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1, SW_tick2 - SW_tick1);
+        sprintf(str, "(%d,%d,%d) fps %d", darci->WorldPos.X >> 16, darci->WorldPos.Y >> 16, darci->WorldPos.Z >> 16, ((1000) / tick_tock_unclipped) + 1);
 #else
-		sprintf(str,"(%d,%d,%d) fps %d",darci->WorldPos.X>>16,darci->WorldPos.Y>>16,darci->WorldPos.Z>>16,((1000)/tick_tock_unclipped)+1);
+        sprintf(str, "(%d,%d,%d) fps %d", darci->WorldPos.X >> 16, darci->WorldPos.Y >> 16, darci->WorldPos.Z >> 16, ((1000) / tick_tock_unclipped) + 1);
 #endif
 
-#ifdef	PSX
-		FONT2D_DrawString(str,20,212,0xffffff,256);
-		
-
-#else
-		FONT2D_DrawString(str,2,2,0xffffff,256);
-#endif
-	}
-#endif
-
-//#endif
-
-	if (GAME_STATE & GS_LEVEL_LOST)
-	{
 #ifdef PSX
-			PANEL_draw_eog(0);
-#endif
+        FONT2D_DrawString(str, 20, 212, 0xffffff, 256);
 
-#ifndef	PSX
-
-		/*
-
-		FONT2D_DrawStringCentred(
-			"Level Lost",
-			DisplayWidth  / 2,
-			DisplayHeight / 2 - 10,
-			0x00ff00,
-			512);
-
-			if(SAVE_VALID)
-			{
-				FONT2D_DrawStringCentred(
-					"R-Load AutoSave    Space- Quit",
-					DisplayWidth  / 2,
-					DisplayHeight / 2 + 40,
-					0x00ff00,
-					512);
-			}
-			else
-			{
-				FONT2D_DrawStringCentred(
-					"R- replay    Space- Quit",
-					DisplayWidth  / 2,
-					DisplayHeight / 2 + 40,
-					0x00ff00,
-					512);
-			}
-
-		*/
-
-#endif
-	}
-	else
-	if (GAME_STATE & GS_LEVEL_WON)
-	{
-#ifndef	PSX
-
-		/*
-
-		FONT2D_DrawStringCentred(
-			"Level Complete",
-			DisplayWidth  / 2,
-			DisplayHeight / 2 - 10,
-			0x00ff00,
-			512);
-
-		FONT2D_DrawStringCentred(
-			"Space to Continue",
-			DisplayWidth  / 2,
-			DisplayHeight / 2 + 40,
-			0x00ff00,
-			512);
-
-		*/
 #else
-		PANEL_draw_eog(1);
+        FONT2D_DrawString(str, 2, 2, 0xffffff, 256);
+#endif
+    }
+#endif
+
+    // #endif
+
+    if (GAME_STATE & GS_LEVEL_LOST) {
+#ifdef PSX
+        PANEL_draw_eog(0);
+#endif
+
+#ifndef PSX
+
+        /*
+
+        FONT2D_DrawStringCentred(
+                "Level Lost",
+                DisplayWidth  / 2,
+                DisplayHeight / 2 - 10,
+                0x00ff00,
+                512);
+
+                if(SAVE_VALID)
+                {
+                        FONT2D_DrawStringCentred(
+                                "R-Load AutoSave    Space- Quit",
+                                DisplayWidth  / 2,
+                                DisplayHeight / 2 + 40,
+                                0x00ff00,
+                                512);
+                }
+                else
+                {
+                        FONT2D_DrawStringCentred(
+                                "R- replay    Space- Quit",
+                                DisplayWidth  / 2,
+                                DisplayHeight / 2 + 40,
+                                0x00ff00,
+                                512);
+                }
+
+        */
+
+#endif
+    } else if (GAME_STATE & GS_LEVEL_WON) {
+#ifndef PSX
+
+        /*
+
+        FONT2D_DrawStringCentred(
+                "Level Complete",
+                DisplayWidth  / 2,
+                DisplayHeight / 2 - 10,
+                0x00ff00,
+                512);
+
+        FONT2D_DrawStringCentred(
+                "Space to Continue",
+                DisplayWidth  / 2,
+                DisplayHeight / 2 + 40,
+                0x00ff00,
+                512);
+
+        */
+#else
+        PANEL_draw_eog(1);
 //		POLY2D_TextImage(IMAGE_LEVEL_COMPLETE,(DisplayWidth>>1)-98,(DisplayHeight>>1)-10,0x00ff00);
 //		if (GAME_TURN&24)
 //			draw_text_at(DISPLAYWIDTH-128,212,STR_CROSS" to Continue",0x00ffff);
 #endif
+    }
 
-	}
+    /*
 
-	/*
+    //
+    // Draw useful info...
+    //
 
-	//
-	// Draw useful info...
-	//
+    {
+            char str[58];
 
-	{
-		char str[58];
+            sprintf(str, "%d", NET_PERSON(0)->Draw.Tweened->Roll);
 
-		sprintf(str, "%d", NET_PERSON(0)->Draw.Tweened->Roll);
+            FONT2D_DrawStringCentred(
+                    str,
+                    DisplayWidth  / 2,
+                    30,
+                    0x00ff00,
+                    16);
+    }
 
-		FONT2D_DrawStringCentred(
-			str,
-			DisplayWidth  / 2,
-			30,
-			0x00ff00,
-			16);
-	}
+    */
 
-	*/
+    PANEL_finish();
+    /*
+            if (GAME_STATE & GS_LEVEL_WON)
+            {
+                    extern void ScoresDraw();	// From attract
 
-	PANEL_finish();
-/*
-	if (GAME_STATE & GS_LEVEL_WON)
-	{
-		extern void ScoresDraw();	// From attract
+                    ScoresDraw();
+            }
+    */
 
-		ScoresDraw();
-	}
-*/
-
-	//TRACE ( "OHo" );
-
+    // TRACE ( "OHo" );
 }
-
 
 /*
 void set_beacon(std::int32_t bx,std::int32_t by,std::int32_t bz)
 {
-	
-	if(beacon_upto<(MAX_BEACON-1))
-	{
-		beacons[beacon_upto].X=bx;
-		beacons[beacon_upto].Z=bz;
-		beacon_upto++;
-	}
-	
+
+        if(beacon_upto<(MAX_BEACON-1))
+        {
+                beacons[beacon_upto].X=bx;
+                beacons[beacon_upto].Z=bz;
+                beacon_upto++;
+        }
+
 }
 
 
 std::uint32_t col_type[]=
 {
-	0xff0000,
-	0xff0000,
-	0x00ff00,
-	0x00ffff,
-	0x000080,
-	0x0000a0,
-	0x0000c0,
-	0x0000e0,
-	0x0000ff,
-	0x0000ff,
-	0x0000ff,
-	0x0000ff,
-	0x0000ff
+        0xff0000,
+        0xff0000,
+        0x00ff00,
+        0x00ffff,
+        0x000080,
+        0x0000a0,
+        0x0000c0,
+        0x0000e0,
+        0x0000ff,
+        0x0000ff,
+        0x0000ff,
+        0x0000ff,
+        0x0000ff
 };
 */
 
-void overlay_beacons()
-{
+void overlay_beacons() {
 #ifndef PSX
 /*
-	std::int32_t	c0;
-	Thing			*t_thing;
-	THING_INDEX		current_thing;
+        std::int32_t	c0;
+        Thing			*t_thing;
+        THING_INDEX		current_thing;
 
-	current_thing	=	PRIMARY_USED;
-	while(current_thing)
-	{
-		t_thing			=	TO_THING(current_thing);
-		current_thing	=	t_thing->LinkChild;
+        current_thing	=	PRIMARY_USED;
+        while(current_thing)
+        {
+                t_thing			=	TO_THING(current_thing);
+                current_thing	=	t_thing->LinkChild;
 
-		if(t_thing->Class==CLASS_PERSON)
-		{
-			map_beacon_draw(
-				t_thing->WorldPos.X>>8,
-				t_thing->WorldPos.Z>>8,
-				col_type[t_thing->Genus.Person->PersonType],
-				(t_thing->Genus.Person->PlayerID) ? BEACON_FLAG_POINTY : 0,
-				t_thing->Draw.Tweened->Angle);
-		}
-	}
+                if(t_thing->Class==CLASS_PERSON)
+                {
+                        map_beacon_draw(
+                                t_thing->WorldPos.X>>8,
+                                t_thing->WorldPos.Z>>8,
+                                col_type[t_thing->Genus.Person->PersonType],
+                                (t_thing->Genus.Person->PlayerID) ? BEACON_FLAG_POINTY : 0,
+                                t_thing->Draw.Tweened->Angle);
+                }
+        }
 //	map_beacon_draw(NET_PERSON(0)->WorldPos.X>>8,NET_PERSON(0)->WorldPos.Z>>8);
 
-	for(c0=1;c0<beacon_upto;c0++)
-	{
-		map_beacon_draw(beacons[c0].X,beacons[c0].Z,0x0000ff,BEACON_FLAG_BEACON,0);
+        for(c0=1;c0<beacon_upto;c0++)
+        {
+                map_beacon_draw(beacons[c0].X,beacons[c0].Z,0x0000ff,BEACON_FLAG_BEACON,0);
 
-	}
+        }
 */
 #endif
 }
 
-#ifdef	DAMAGE_TEXT
-std::int32_t get_damage_index()
-{
-	std::int32_t	oldest=-1,oldest_age=-1;
-	std::int32_t	c0;
+#ifdef DAMAGE_TEXT
+std::int32_t get_damage_index() {
+    std::int32_t oldest = -1, oldest_age = -1;
+    std::int32_t c0;
 
-	if(damage_value_upto<MAX_DAMAGE_VALUES)
-	{
-		damage_value_upto++;
-		return(damage_value_upto-1);
-	}
+    if (damage_value_upto < MAX_DAMAGE_VALUES) {
+        damage_value_upto++;
+        return (damage_value_upto - 1);
+    }
 
-	for(c0=1;c0<damage_value_upto;c0++)
-	{
-		if(damage_values[c0].Age==-1)
-			return(c0);
+    for (c0 = 1; c0 < damage_value_upto; c0++) {
+        if (damage_values[c0].Age == -1)
+            return (c0);
 
-		if(damage_values[c0].Age>oldest_age)
-		{
-			oldest_age=damage_values[c0].Age;
-			oldest=c0;
-		}
-	}
-	return(oldest);
+        if (damage_values[c0].Age > oldest_age) {
+            oldest_age = damage_values[c0].Age;
+            oldest = c0;
+        }
+    }
+    return (oldest);
 }
 
-void free_damage_index(std::int32_t index)
-{
-	if(index==damage_value_upto-1)
-		damage_value_upto--;
+void free_damage_index(std::int32_t index) {
+    if (index == damage_value_upto - 1)
+        damage_value_upto--;
 
-	damage_values[index].Age=-1;
+    damage_values[index].Age = -1;
 }
 #endif
-void add_damage_value(std::int16_t x,std::int16_t y,std::int16_t z,std::int32_t value)
-{
-#ifdef	DAMAGE_TEXT
-	std::int32_t	index;
+void add_damage_value(std::int16_t x, std::int16_t y, std::int16_t z, std::int32_t value) {
+#ifdef DAMAGE_TEXT
+    std::int32_t index;
 
-	index=get_damage_index();
-	if(index)
-	{
-		damage_values[index].X=x;
-		damage_values[index].Y=y;
-		damage_values[index].Z=z;
-		damage_values[index].Age=0;
-		damage_values[index].Value=value;
-		damage_values[index].Type=INFO_NUMBER;
-	}
-	else
-	{
-//		ASSERT(0);
-	}
+    index = get_damage_index();
+    if (index) {
+        damage_values[index].X = x;
+        damage_values[index].Y = y;
+        damage_values[index].Z = z;
+        damage_values[index].Age = 0;
+        damage_values[index].Value = value;
+        damage_values[index].Type = INFO_NUMBER;
+    } else {
+        //		ASSERT(0);
+    }
 #endif
-	
 }
 
-void add_damage_text(std::int16_t x,std::int16_t y,std::int16_t z,char* text)
-{
-#ifdef	DAMAGE_TEXT
-	std::int32_t	index;
+void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text) {
+#ifdef DAMAGE_TEXT
+    std::int32_t index;
 
-	index=get_damage_index();
-	if(index)
-	{
-		damage_values[index].X=x;
-		damage_values[index].Y=y;
-		damage_values[index].Z=z;
-		damage_values[index].Age=0;
-		damage_values[index].text_ptr=text;
-		damage_values[index].Type=INFO_TEXT;
-	}
-	else
-	{
-//
-		ASSERT(0);
-	}
-#endif	
-}
-
-void add_damage_value_thing(Thing *p_thing,std::int32_t value)
-{
-#ifdef	DAMAGE_TEXT
-	std::int32_t	dx,dy,dz;
-
-	calc_sub_objects_position(p_thing,p_thing->Draw.Tweened->AnimTween,SUB_OBJECT_HEAD,&dx,&dy,&dz);
-	dx+=p_thing->WorldPos.X>>8;
-	dy+=p_thing->WorldPos.Y>>8;
-	dz+=p_thing->WorldPos.Z>>8;
-
-	add_damage_value(dx,dy,dz,value);
+    index = get_damage_index();
+    if (index) {
+        damage_values[index].X = x;
+        damage_values[index].Y = y;
+        damage_values[index].Z = z;
+        damage_values[index].Age = 0;
+        damage_values[index].text_ptr = text;
+        damage_values[index].Type = INFO_TEXT;
+    } else {
+        //
+        ASSERT(0);
+    }
 #endif
-	
 }
 
-#ifdef	DAMAGE_TEXT
-void OVERLAY_draw_damage_values()
-{
-	std::int32_t	c0;
-	char	str[10];
+void add_damage_value_thing(Thing *p_thing, std::int32_t value) {
+#ifdef DAMAGE_TEXT
+    std::int32_t dx, dy, dz;
 
-	for(c0=1;c0<damage_value_upto;c0++)
-	{
-		if(damage_values[c0].Age>=0)
-		{
-			damage_values[c0].Age++;
+    calc_sub_objects_position(p_thing, p_thing->Draw.Tweened->AnimTween, SUB_OBJECT_HEAD, &dx, &dy, &dz);
+    dx += p_thing->WorldPos.X >> 8;
+    dy += p_thing->WorldPos.Y >> 8;
+    dz += p_thing->WorldPos.Z >> 8;
 
-extern void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world_y,std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
+    add_damage_value(dx, dy, dz, value);
+#endif
+}
 
-		
-			{
-				std::uint16_t	fade;
-				std::uint32_t	col;
-				fade=damage_values[c0].Age;
+#ifdef DAMAGE_TEXT
+void OVERLAY_draw_damage_values() {
+    std::int32_t c0;
+    char str[10];
 
-				if(damage_values[c0].Value<10)
-				{
-					col=0xff00;
-				}
-				else
-				if(damage_values[c0].Value<20)
-				{
-					col=0x80ff00;
-				}
-				else
-				if(damage_values[c0].Value<30)
-				{
-					col=0xffff00;
-				}
-				else
-				{
-					col=0xffffff;
-				}
+    for (c0 = 1; c0 < damage_value_upto; c0++) {
+        if (damage_values[c0].Age >= 0) {
+            damage_values[c0].Age++;
 
+            extern void FONT2D_DrawString_3d(char *str, std::uint32_t world_x, std::uint32_t world_y, std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
+            {
+                std::uint16_t fade;
+                std::uint32_t col;
+                fade = damage_values[c0].Age;
 
-				switch(damage_values[c0].Type)
-				{
-					case	INFO_NUMBER:
-						sprintf(str,"%d",damage_values[c0].Value);
+                if (damage_values[c0].Value < 10) {
+                    col = 0xff00;
+                } else if (damage_values[c0].Value < 20) {
+                    col = 0x80ff00;
+                } else if (damage_values[c0].Value < 30) {
+                    col = 0xffff00;
+                } else {
+                    col = 0xffffff;
+                }
 
-						FONT2D_DrawString_3d(str, damage_values[c0].X,damage_values[c0].Y,damage_values[c0].Z, col, 512, fade);
-						break;
-					case	INFO_TEXT:
-						FONT2D_DrawString_3d(damage_values[c0].text_ptr, damage_values[c0].X,damage_values[c0].Y,damage_values[c0].Z, col, 512, fade);
-						break;
+                switch (damage_values[c0].Type) {
+                    case INFO_NUMBER:
+                        sprintf(str, "%d", damage_values[c0].Value);
 
-				}
-			}
+                        FONT2D_DrawString_3d(str, damage_values[c0].X, damage_values[c0].Y, damage_values[c0].Z, col, 512, fade);
+                        break;
+                    case INFO_TEXT:
+                        FONT2D_DrawString_3d(damage_values[c0].text_ptr, damage_values[c0].X, damage_values[c0].Y, damage_values[c0].Z, col, 512, fade);
+                        break;
+                }
+            }
 
+            if (damage_values[c0].Age > 63) {
+                free_damage_index(c0);
+            }
 
-			if(damage_values[c0].Age>63)
-			{
-				free_damage_index(c0);
-			}
-
-			damage_values[c0].Y+=(damage_values[c0].Age>>4)+1;
-
-		}
-	}
+            damage_values[c0].Y += (damage_values[c0].Age >> 4) + 1;
+        }
+    }
 }
 #endif
 
-void init_overlay()
-{
+void init_overlay() {
 //	beacon_upto=1;
-#ifdef	DAMAGE_TEXT
-	damage_value_upto=1;
-	memset((std::uint8_t*)damage_values,0,sizeof(struct DamageValue)*MAX_DAMAGE_VALUES);
+#ifdef DAMAGE_TEXT
+    damage_value_upto = 1;
+    memset((std::uint8_t *) damage_values, 0, sizeof(struct DamageValue) * MAX_DAMAGE_VALUES);
 #endif
-//	memset((std::uint8_t*)beacons,0,sizeof(struct	Beacon)*MAX_BEACON);
-	memset((std::uint8_t*)panel_enemy,0,sizeof(struct	TrackEnemy)*MAX_TRACK);
-
+    //	memset((std::uint8_t*)beacons,0,sizeof(struct	Beacon)*MAX_BEACON);
+    memset((std::uint8_t *) panel_enemy, 0, sizeof(struct TrackEnemy) * MAX_TRACK);
 }

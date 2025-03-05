@@ -3,7 +3,7 @@
 **
 ** Full motion video playback for PSX.
 */
-				  
+
 #include "game.h"
 #include "psxeng.h"
 
@@ -19,20 +19,20 @@ typedef struct {
 	std::uint8_t slow;
 } MDEC_vibra;
 
-#define VIBRA_NONE(f)		{f,0,0}
-#define VIBRA_GUNSHOT(f)	{f,1,64}
-#define VIBRA_RICOCHET(f)	{f,1,0}
-#define VIBRA_SHOTGUN(f)	{f,1,128}
-#define VIBRA_SMASH(f)		{f,0,192}
-#define VIBRA_CRACK(f)		{f,1,128}
-#define VIBRA_WINDOW(f)		{f,0,128}
-#define VIBRA_BULLET(f)		{f,1,96}
-#define VIBRA_EXPLODE(f)	{f,0,192}
-#define VIBRA_MINISTART(f)	{f,255,0}
-#define VIBRA_MINIEND(f)	{f,255,0}
-#define VIBRA_COVER(f)		{f,0,64}
-#define VIBRA_FINALE(f)		{f,0,255}
-#define VIBRA_FINALEEND(f)	{f,0,255}
+#define VIBRA_NONE(f) {f, 0, 0}
+#define VIBRA_GUNSHOT(f) {f, 1, 64}
+#define VIBRA_RICOCHET(f) {f, 1, 0}
+#define VIBRA_SHOTGUN(f) {f, 1, 128}
+#define VIBRA_SMASH(f) {f, 0, 192}
+#define VIBRA_CRACK(f) {f, 1, 128}
+#define VIBRA_WINDOW(f) {f, 0, 128}
+#define VIBRA_BULLET(f) {f, 1, 96}
+#define VIBRA_EXPLODE(f) {f, 0, 192}
+#define VIBRA_MINISTART(f) {f, 255, 0}
+#define VIBRA_MINIEND(f) {f, 255, 0}
+#define VIBRA_COVER(f) {f, 0, 64}
+#define VIBRA_FINALE(f) {f, 0, 255}
+#define VIBRA_FINALEEND(f) {f, 0, 255}
 
 
 MDEC_vibra vib_none[]={VIBRA_NONE(32767)};
@@ -81,9 +81,9 @@ MDEC_vibra vib_intro[]={
 	VIBRA_NONE(32767)
 };
 
-#define VIBRA_RUMBLE(f) {f,0,96}
-#define VIBRA_BOLT(f)	{f,1,64}
-#define VIBRA_LAMP(f)	{f,1,128}
+#define VIBRA_RUMBLE(f) {f, 0, 96}
+#define VIBRA_BOLT(f) {f, 1, 64}
+#define VIBRA_LAMP(f) {f, 1, 128}
 
 MDEC_vibra vib_endgame[]={
 	VIBRA_RUMBLE(246),
@@ -109,15 +109,15 @@ MDEC_vibra vib_endgame[]={
 MDEC_vibra *vibra[]={vib_none,vib_none,vib_intro,vib_none,vib_endgame,vib_none};
 #else
 typedef struct {
-	std::uint8_t	fast;
-	std::uint8_t	slow;
+    std::uint8_t fast;
+    std::uint8_t slow;
 } VibraData;
 
 VibraData *MDEC_vibra;
 
 #endif
 
-extern ControllerPacket	PAD_Input1,PAD_Input2;
+extern ControllerPacket PAD_Input1, PAD_Input2;
 
 DECDCTTAB *MDEC_VLCTable;
 std::uint32_t *MDEC_input;
@@ -132,219 +132,201 @@ extern int screen_x;
 extern int screen_y;
 int MDEC_height;
 
-static void MDEC_Callback()
-{
+static void MDEC_Callback() {
 #ifndef VERSION_REVIEW
-	if (MDEC_rect.x<MDEC_width)
-	{
-		// not last frame
-		DecDCTout(MDEC_output[1-MDEC_frame],MDEC_height*8);
-	} else
-		MDEC_done=1;
+    if (MDEC_rect.x < MDEC_width) {
+        // not last frame
+        DecDCTout(MDEC_output[1 - MDEC_frame], MDEC_height * 8);
+    } else
+        MDEC_done = 1;
 
-	LoadImage(&MDEC_rect,MDEC_output[MDEC_frame]);
-	MDEC_frame=1-MDEC_frame;
-	MDEC_rect.x+=16;
+    LoadImage(&MDEC_rect, MDEC_output[MDEC_frame]);
+    MDEC_frame = 1 - MDEC_frame;
+    MDEC_rect.x += 16;
 #endif
 }
 
 static CdlATV MDEC_mix;
 
-int MDEC_Init(char *fname,int len)
-{
+int MDEC_Init(char *fname, int len) {
 #ifndef VERSION_REVIEW
-	CdlFILE file;
-	CdlFILTER filter;
-	char str[20];
+    CdlFILE file;
+    CdlFILTER filter;
+    char str[20];
 
-	int i;
-	
-	DecDCTReset(0);
-	MDEC_VLCTable=(DECDCTTAB*)MemAlloc(sizeof(DECDCTTAB));
-	DecDCTvlcBuild(*MDEC_VLCTable);
-	MDEC_input=(std::uint32_t*)MemAlloc(24*2048);
-	MDEC_slice=(std::uint32_t*)MemAlloc(320*240);
-	MDEC_output[0]=(std::uint32_t*)MemAlloc(30*256);
-	MDEC_output[1]=(std::uint32_t*)MemAlloc(30*256);
-	MDEC_vibra=(VibraData *)MemAlloc(10240);
+    int i;
 
-	DecDCToutCallback(MDEC_Callback);
+    DecDCTReset(0);
+    MDEC_VLCTable = (DECDCTTAB *) MemAlloc(sizeof(DECDCTTAB));
+    DecDCTvlcBuild(*MDEC_VLCTable);
+    MDEC_input = (std::uint32_t *) MemAlloc(24 * 2048);
+    MDEC_slice = (std::uint32_t *) MemAlloc(320 * 240);
+    MDEC_output[0] = (std::uint32_t *) MemAlloc(30 * 256);
+    MDEC_output[1] = (std::uint32_t *) MemAlloc(30 * 256);
+    MDEC_vibra = (VibraData *) MemAlloc(10240);
 
-	filter.chan=0;
-	filter.file=1;
+    DecDCToutCallback(MDEC_Callback);
 
-	CdControl(CdlSetfilter,(std::uint8_t*)&filter,0);
+    filter.chan = 0;
+    filter.file = 1;
 
-	MDEC_mix.val0=MDEC_mix.val2=127;
-	MDEC_mix.val1=MDEC_mix.val3=0;
+    CdControl(CdlSetfilter, (std::uint8_t *) &filter, 0);
 
-	CdMix(&MDEC_mix);
+    MDEC_mix.val0 = MDEC_mix.val2 = 127;
+    MDEC_mix.val1 = MDEC_mix.val3 = 0;
 
-	if (CdSearchFile(&file, fname)==0)
-		return 0;
+    CdMix(&MDEC_mix);
 
+    if (CdSearchFile(&file, fname) == 0)
+        return 0;
 
-	memset((void*)MDEC_input,0,24*2048);
-	memset((void*)MDEC_slice,0,320*240);
-	memset((void*)MDEC_output[0],0,30*256);
-	memset((void*)MDEC_output[1],0,30*256);
-	memset((void*)MDEC_vibra,0,10240);
+    memset((void *) MDEC_input, 0, 24 * 2048);
+    memset((void *) MDEC_slice, 0, 320 * 240);
+    memset((void *) MDEC_output[0], 0, 30 * 256);
+    memset((void *) MDEC_output[1], 0, 30 * 256);
+    memset((void *) MDEC_vibra, 0, 10240);
 
-	strcpy(str,fname);
-	strcpy(strrchr(str,'.'),".PVD");
+    strcpy(str, fname);
+    strcpy(strrchr(str, '.'), ".PVD");
 
-	PCReadFile(&str[1],(std::uint8_t*)MDEC_vibra,10240);
+    PCReadFile(&str[1], (std::uint8_t *) MDEC_vibra, 10240);
 
-	StSetRing(MDEC_input,24);
-	StSetStream(0,0,0xffffffff,0,0);
-	
-	MDEC_endframe=len;
-	do
-	{
-		std::uint8_t param=CdlModeSpeed;
-		while (CdControl(CdlSetloc,(std::uint8_t*)&file.pos,0)==0);
-		while (CdControl(CdlSetmode,&param,0)==0);
-		VSync(3);
-	}
-	while(CdRead2(CdlModeStream|CdlModeSpeed|CdlModeRT)==0);
+    StSetRing(MDEC_input, 24);
+    StSetStream(0, 0, 0xffffffff, 0, 0);
+
+    MDEC_endframe = len;
+    do {
+        std::uint8_t param = CdlModeSpeed;
+        while (CdControl(CdlSetloc, (std::uint8_t *) &file.pos, 0) == 0);
+        while (CdControl(CdlSetmode, &param, 0) == 0);
+        VSync(3);
+    } while (CdRead2(CdlModeStream | CdlModeSpeed | CdlModeRT) == 0);
 #endif
 }
 
 std::int32_t MDEC_CurrentFrame;
 
-
-int MDEC_Render()
-{
+int MDEC_Render() {
 #ifndef VERSION_REVIEW
-	RECT rect;
-	std::uint32_t *addr;
-	StHEADER *sector;
-	std::int32_t decode,b;
-	std::int32_t pos;
-	std::int32_t timer=0x80000;
+    RECT rect;
+    std::uint32_t *addr;
+    StHEADER *sector;
+    std::int32_t decode, b;
+    std::int32_t pos;
+    std::int32_t timer = 0x80000;
 
-	// Setup the strip rectangle for one column of display based on the current display buffer's
-	// draw location.
+    // Setup the strip rectangle for one column of display based on the current display buffer's
+    // draw location.
 
-	while((timer)&&(StGetNext(&addr,(std::uint32_t **)&sector)!=0)) timer--;
+    while ((timer) && (StGetNext(&addr, (std::uint32_t **) &sector) != 0)) timer--;
 
-	// Okay if we timeout on this operation then skip the FMV
+    // Okay if we timeout on this operation then skip the FMV
 
-	if (timer==0)
-		return 1;
+    if (timer == 0)
+        return 1;
 
-	MDEC_rect.x=160-(sector->width>>1);
-	MDEC_rect.y=the_display.CurrentDisplayBuffer->Draw.clip.y+ (120-(sector->height>>1));
-	MDEC_rect.w=16;
-	MDEC_rect.h=sector->height;
-	// find nearest 16 below the width of the video (normally width-16)
-	ASSERT((sector->width&15)==0);
-	ASSERT((sector->height&15)==0);
-	MDEC_width=(sector->width-1)&0xff0;
-	MDEC_height=sector->height;
+    MDEC_rect.x = 160 - (sector->width >> 1);
+    MDEC_rect.y = the_display.CurrentDisplayBuffer->Draw.clip.y + (120 - (sector->height >> 1));
+    MDEC_rect.w = 16;
+    MDEC_rect.h = sector->height;
+    // find nearest 16 below the width of the video (normally width-16)
+    ASSERT((sector->width & 15) == 0);
+    ASSERT((sector->height & 15) == 0);
+    MDEC_width = (sector->width - 1) & 0xff0;
+    MDEC_height = sector->height;
 
+    DecDCTvlcSize2(0);
+    decode = DecDCTvlc2(addr, MDEC_slice, *MDEC_VLCTable);
+    StFreeRing(addr);
+    DecDCTin(MDEC_slice, 0);
 
-	DecDCTvlcSize2(0);
-	decode=DecDCTvlc2(addr,MDEC_slice,*MDEC_VLCTable);
-	StFreeRing(addr);
-	DecDCTin(MDEC_slice,0);
+    MDEC_frame = 0;
+    MDEC_done = 0;
+    DecDCTout(MDEC_output[0], MDEC_height * 8);
 
-	MDEC_frame=0;
-	MDEC_done=0;
-	DecDCTout(MDEC_output[0],MDEC_height*8);
+    while (MDEC_done == 0);
 
-	while(MDEC_done==0);
-
-	DrawSync(0);
-	MDEC_CurrentFrame=sector->frameCount;
-	if ((sector->frameCount>=MDEC_endframe))
-		return 1;
-	if ((sector->frameCount>5)&&(PadKeyIsPressed(&PAD_Input1,PAD_RD)||PadKeyIsPressed(&PAD_Input1,PAD_START)))
-		return 1;
+    DrawSync(0);
+    MDEC_CurrentFrame = sector->frameCount;
+    if ((sector->frameCount >= MDEC_endframe))
+        return 1;
+    if ((sector->frameCount > 5) && (PadKeyIsPressed(&PAD_Input1, PAD_RD) || PadKeyIsPressed(&PAD_Input1, PAD_START)))
+        return 1;
 #endif
-	return 0;
+    return 0;
 }
 
-int MDEC_Close()
-{
+int MDEC_Close() {
 #ifndef VERSION_REVIEW
-	CdPause();
-	DecDCToutCallback(0);
-//	StUnSetRing();
-	MemFree((void*)MDEC_input);
-	MemFree((void*)MDEC_slice);
-	MemFree((void*)MDEC_output[0]);
-	MemFree((void*)MDEC_output[1]);
-	MemFree((void*)MDEC_VLCTable);
-	MemFree((void*)MDEC_vibra);
-	PSX_SetShock(0,0);
+    CdPause();
+    DecDCToutCallback(0);
+    //	StUnSetRing();
+    MemFree((void *) MDEC_input);
+    MemFree((void *) MDEC_slice);
+    MemFree((void *) MDEC_output[0]);
+    MemFree((void *) MDEC_output[1]);
+    MemFree((void *) MDEC_VLCTable);
+    MemFree((void *) MDEC_vibra);
+    PSX_SetShock(0, 0);
 #endif
 }
 
-void MDEC_VideoSet(int width,int height)
-{
-	SetDefDrawEnv(&the_display.DisplayBuffers[0].Draw, 0,   0, width, height);	
-	SetDefDrawEnv(&the_display.DisplayBuffers[1].Draw, 0, 256, width, height);
-	SetDefDispEnv(&the_display.DisplayBuffers[0].Disp, 0, 256, width, height);
-	SetDefDispEnv(&the_display.DisplayBuffers[1].Disp, 0,   0, width, height);
+void MDEC_VideoSet(int width, int height) {
+    SetDefDrawEnv(&the_display.DisplayBuffers[0].Draw, 0, 0, width, height);
+    SetDefDrawEnv(&the_display.DisplayBuffers[1].Draw, 0, 256, width, height);
+    SetDefDispEnv(&the_display.DisplayBuffers[0].Disp, 0, 256, width, height);
+    SetDefDispEnv(&the_display.DisplayBuffers[1].Disp, 0, 0, width, height);
 
-	the_display.DisplayBuffers[0].Draw.isbg=1;
-	the_display.DisplayBuffers[0].Draw.r0=0;
-	the_display.DisplayBuffers[0].Draw.g0=0;
-	the_display.DisplayBuffers[0].Draw.b0=0;
+    the_display.DisplayBuffers[0].Draw.isbg = 1;
+    the_display.DisplayBuffers[0].Draw.r0 = 0;
+    the_display.DisplayBuffers[0].Draw.g0 = 0;
+    the_display.DisplayBuffers[0].Draw.b0 = 0;
 
-	the_display.DisplayBuffers[1].Draw.isbg=1;
-	the_display.DisplayBuffers[1].Draw.r0=0;
-	the_display.DisplayBuffers[1].Draw.g0=0;
-	the_display.DisplayBuffers[1].Draw.b0=0;
+    the_display.DisplayBuffers[1].Draw.isbg = 1;
+    the_display.DisplayBuffers[1].Draw.r0 = 0;
+    the_display.DisplayBuffers[1].Draw.g0 = 0;
+    the_display.DisplayBuffers[1].Draw.b0 = 0;
 
-	the_display.DisplayBuffers[0].Disp.screen.x=screen_x;
-	the_display.DisplayBuffers[1].Disp.screen.x=screen_x;
-	the_display.DisplayBuffers[0].Disp.screen.y=screen_y;
-	the_display.DisplayBuffers[1].Disp.screen.y=screen_y;
-	
-	SetGeomOffset(width>>1, height>>1);	/* set geometry origin as (160, 120) */
+    the_display.DisplayBuffers[0].Disp.screen.x = screen_x;
+    the_display.DisplayBuffers[1].Disp.screen.x = screen_x;
+    the_display.DisplayBuffers[0].Disp.screen.y = screen_y;
+    the_display.DisplayBuffers[1].Disp.screen.y = screen_y;
 
+    SetGeomOffset(width >> 1, height >> 1); /* set geometry origin as (160, 120) */
 }
 
 extern std::int32_t MFX_Seek_delay;
 
 extern std::uint8_t psx_motor[];
 
-MDEC_Shock(int frame)
-{
-	psx_motor[0]=MDEC_vibra[frame].fast;
-	psx_motor[1]=MDEC_vibra[frame].slow;
-	PadSetAct(0x00,psx_motor,2);
-//	PadSetAct(0x00,&MDEC_vibra[frame],2);
+MDEC_Shock(int frame) {
+    psx_motor[0] = MDEC_vibra[frame].fast;
+    psx_motor[1] = MDEC_vibra[frame].slow;
+    PadSetAct(0x00, psx_motor, 2);
+    //	PadSetAct(0x00,&MDEC_vibra[frame],2);
 }
 
-std::int32_t MDEC_Play(char *fname,int len,int lang)
-{
+std::int32_t MDEC_Play(char *fname, int len, int lang) {
 #ifndef VERSION_REVIEW
-extern int vibra_mode;
+    extern int vibra_mode;
 
-	ClearOTag(the_display.DisplayBuffers[0].ot,OTSIZE);
-	ClearOTag(the_display.DisplayBuffers[1].ot,OTSIZE);
+    ClearOTag(the_display.DisplayBuffers[0].ot, OTSIZE);
+    ClearOTag(the_display.DisplayBuffers[1].ot, OTSIZE);
 
-	MFX_Seek_delay=INFINITY;
-	MDEC_VideoSet(320,240);
-	MDEC_Init(fname,len);
-	while(MDEC_Render()==0)
-	{
-		if (vibra_mode)
-			MDEC_Shock(MDEC_CurrentFrame);
-		AENG_flip();
-	}
-	MDEC_Close();
-	if (PadKeyIsPressed(&PAD_Input1,PAD_START))
-	{
-		return 1;
-	}
-	MFX_Seek_delay=20;
+    MFX_Seek_delay = INFINITY;
+    MDEC_VideoSet(320, 240);
+    MDEC_Init(fname, len);
+    while (MDEC_Render() == 0) {
+        if (vibra_mode)
+            MDEC_Shock(MDEC_CurrentFrame);
+        AENG_flip();
+    }
+    MDEC_Close();
+    if (PadKeyIsPressed(&PAD_Input1, PAD_START)) {
+        return 1;
+    }
+    MFX_Seek_delay = 20;
 //	MDEC_VideoSet(512,240);
 #endif
-	return 0;
+    return 0;
 }
-
-    

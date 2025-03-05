@@ -11,18 +11,16 @@
 
 #include "MFStdLib.h"
 
-void	FRONTEND_init ( bool bGoToTitleScreen = false );
-std::int8_t	FRONTEND_loop();
-void	FRONTEND_level_won();
-void	FRONTEND_level_lost();
+void FRONTEND_init(bool bGoToTitleScreen = false);
+std::int8_t FRONTEND_loop();
+void FRONTEND_level_won();
+void FRONTEND_level_lost();
 
 #ifdef TARGET_DC
 // Unload frontend gubbins to save memory.
-void FRONTEND_unload ( void );
+void FRONTEND_unload(void);
 #endif
 
-
-extern std::uint8_t	IsEnglish;
-
+extern std::uint8_t IsEnglish;
 
 #endif

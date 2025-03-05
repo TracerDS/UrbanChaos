@@ -1,94 +1,73 @@
 // drawtype.cpp
 // Mike Diskett, 15th January 1998.
 
-#include	"Game.h"
+#include "Game.h"
 #include "memory.h"
 
-
 //---------------------------------------------------------------
 
-void init_draw_tweens()
-{
-	std::int32_t	c0;
-	memset((std::uint8_t*)DRAW_TWEENS,0,sizeof(DrawTween)*MAX_DRAW_TWEENS);
-	DRAW_TWEEN_COUNT	=	0;
-	for(c0=0;c0<MAX_DRAW_TWEENS;c0++)
-	{
-		DRAW_TWEENS[c0].Flags|=DT_FLAG_UNUSED;
-
-	}
+void init_draw_tweens() {
+    std::int32_t c0;
+    memset((std::uint8_t *) DRAW_TWEENS, 0, sizeof(DrawTween) * MAX_DRAW_TWEENS);
+    DRAW_TWEEN_COUNT = 0;
+    for (c0 = 0; c0 < MAX_DRAW_TWEENS; c0++) {
+        DRAW_TWEENS[c0].Flags |= DT_FLAG_UNUSED;
+    }
 }
 
 //---------------------------------------------------------------
 
-DrawTween *alloc_draw_tween(std::int32_t type)
-{
-	std::int32_t			c0;
-	DrawTween		*new_draw=0;
+DrawTween *alloc_draw_tween(std::int32_t type) {
+    std::int32_t c0;
+    DrawTween *new_draw = 0;
 
-
-	// Run through the camera array & find an unused one.
-	for(c0=0;c0<MAX_DRAW_TWEENS;c0++)
-	{
-		if(DRAW_TWEENS[c0].Flags&DT_FLAG_UNUSED)
-		{
-			new_draw = TO_DRAW_TWEEN(c0);
-			new_draw->Flags&=~DT_FLAG_UNUSED;
-//			ASSERT(c0);
-
-
+    // Run through the camera array & find an unused one.
+    for (c0 = 0; c0 < MAX_DRAW_TWEENS; c0++) {
+        if (DRAW_TWEENS[c0].Flags & DT_FLAG_UNUSED) {
+            new_draw = TO_DRAW_TWEEN(c0);
+            new_draw->Flags &= ~DT_FLAG_UNUSED;
+            //			ASSERT(c0);
 
 #ifdef DEBUG
-			// Dump some info out, so I can set up levels correctly.
-			static int iLowestCount = 100000;
-std::int32_t count_draw_tween();
-			int iCount = count_draw_tween();
-			if ( iLowestCount > iCount )
-			{
-				iLowestCount = iCount;
-			}
-			TRACE ( "Now only %i tweens left out of %i, lowest was %i\n", iCount, MAX_DRAW_TWEENS, iLowestCount );
+            // Dump some info out, so I can set up levels correctly.
+            static int iLowestCount = 100000;
+            std::int32_t count_draw_tween();
+            int iCount = count_draw_tween();
+            if (iLowestCount > iCount) {
+                iLowestCount = iCount;
+            }
+            TRACE("Now only %i tweens left out of %i, lowest was %i\n", iCount, MAX_DRAW_TWEENS, iLowestCount);
 #endif
 
-
-			return(new_draw);
-		}
-	}
-	ASSERT(0);
-	return(0);
+            return (new_draw);
+        }
+    }
+    ASSERT(0);
+    return (0);
 }
 
-std::int32_t count_draw_tween()
-{
-	std::int32_t			c0;
-	std::int32_t	count=0;
+std::int32_t count_draw_tween() {
+    std::int32_t c0;
+    std::int32_t count = 0;
 
-
-	// Run through the camera array & find an unused one.
-	for(c0=0;c0<MAX_DRAW_TWEENS;c0++)
-	{
-		if(DRAW_TWEENS[c0].Flags&DT_FLAG_UNUSED)
-		{
-			count++;
-		}
-	}
-	return(count);
+    // Run through the camera array & find an unused one.
+    for (c0 = 0; c0 < MAX_DRAW_TWEENS; c0++) {
+        if (DRAW_TWEENS[c0].Flags & DT_FLAG_UNUSED) {
+            count++;
+        }
+    }
+    return (count);
 }
 
 //---------------------------------------------------------------
 
-void free_draw_tween(DrawTween *draw_tween)
-{
-	// Set the camera type to none & free the thing.
-//	draw_tween->LDrawType	=	DT_NONE;
-	memset((std::uint8_t*)draw_tween,0,sizeof(DrawTween));
-	draw_tween->Flags|=DT_FLAG_UNUSED;
+void free_draw_tween(DrawTween *draw_tween) {
+    // Set the camera type to none & free the thing.
+    //	draw_tween->LDrawType	=	DT_NONE;
+    memset((std::uint8_t *) draw_tween, 0, sizeof(DrawTween));
+    draw_tween->Flags |= DT_FLAG_UNUSED;
 
-
-//	ASSERT(0);
-
-
-
+    //	ASSERT(0);
 }
 
 #define DRAW_MESH_NULL_ANGLE (0xfafa)
@@ -97,69 +76,60 @@ void free_draw_tween(DrawTween *draw_tween)
 // DrawMesh functions.
 //
 #ifndef PSX
-void init_draw_meshes()
-{
-	std::int32_t i;
+void init_draw_meshes() {
+    std::int32_t i;
 
+    //
+    // if the angle of a drawmesh is DRAW_MESH_NULL_ANGLE then
+    // that drawmesh is unused.
+    //
 
-	//
-	// if the angle of a drawmesh is DRAW_MESH_NULL_ANGLE then
-	// that drawmesh is unused.
-	//
+    for (i = 0; i < MAX_DRAW_MESHES; i++) {
+        DRAW_MESHES[i].Angle = DRAW_MESH_NULL_ANGLE;
+    }
 
-	for (i = 0; i < MAX_DRAW_MESHES; i++)
-	{
-		DRAW_MESHES[i].Angle = DRAW_MESH_NULL_ANGLE;
-	}
-
-	DRAW_MESH_COUNT = 0;
+    DRAW_MESH_COUNT = 0;
 }
 #endif
 
-DrawMesh *alloc_draw_mesh()
-{
-	std::int32_t i;
+DrawMesh *alloc_draw_mesh() {
+    std::int32_t i;
 
-	DrawMesh *ans;
+    DrawMesh *ans;
 
-	ASSERT(DRAW_MESH_COUNT < MAX_DRAW_MESHES);
+    ASSERT(DRAW_MESH_COUNT < MAX_DRAW_MESHES);
 
-	for (i = 0; i < MAX_DRAW_MESHES; i++)
-	{
-		if (DRAW_MESHES[i].Angle == DRAW_MESH_NULL_ANGLE)
-		{
-			//
-			// This is an unused DrawMesh.
-			//
+    for (i = 0; i < MAX_DRAW_MESHES; i++) {
+        if (DRAW_MESHES[i].Angle == DRAW_MESH_NULL_ANGLE) {
+            //
+            // This is an unused DrawMesh.
+            //
 
-			ans = &DRAW_MESHES[i];
+            ans = &DRAW_MESHES[i];
 
-			//
-			// Mark it as used.
-			//
+            //
+            // Mark it as used.
+            //
 
-			ans->Angle = 0;
-			ans->Cache = 0;
-			ans->Hm    = 255;	// 255 means no Hm.
+            ans->Angle = 0;
+            ans->Cache = 0;
+            ans->Hm = 255; // 255 means no Hm.
 
-			return ans;
-		}
-	}
+            return ans;
+        }
+    }
 
-//	ASSERT(0);
+    //	ASSERT(0);
 
-	return nullptr;
+    return nullptr;
 }
 
-void free_draw_mesh(DrawMesh *drawmesh)
-{
-	ASSERT(WITHIN(drawmesh, &DRAW_MESHES[0], &DRAW_MESHES[MAX_DRAW_MESHES - 1]));
+void free_draw_mesh(DrawMesh *drawmesh) {
+    ASSERT(WITHIN(drawmesh, &DRAW_MESHES[0], &DRAW_MESHES[MAX_DRAW_MESHES - 1]));
 
-	//
-	// Mark the DrawMesh as used.
-	//
+    //
+    // Mark the DrawMesh as used.
+    //
 
-	drawmesh->Angle = DRAW_MESH_NULL_ANGLE;
+    drawmesh->Angle = DRAW_MESH_NULL_ANGLE;
 }
-
-

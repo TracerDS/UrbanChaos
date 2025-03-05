@@ -8,10 +8,6 @@
 #include "mem.h"
 #include "os.h"
 
-
-
-
-
 //
 // All the textures.
 //
@@ -19,8 +15,6 @@
 #define LL_MAX_TEXTURES 4096
 
 LL_Texture *LL_texture[LL_MAX_TEXTURES];
-
-
 
 //
 // All the sounds.
@@ -30,259 +24,211 @@ LL_Texture *LL_texture[LL_MAX_TEXTURES];
 
 LL_Sound *LL_sound[LL_MAX_SOUNDS];
 
+LL_Texture *LL_create_texture(char *fname) {
+    std::int32_t i;
 
+    //
+    // Create the OS texture.
+    //
 
+    OS_Texture *ot = OS_texture_create(fname);
 
+    //
+    // Do we already have this texture?
+    //
 
+    for (i = 0; i < LL_MAX_TEXTURES; i++) {
+        if (LL_texture[i] && LL_texture[i]->ot == ot) {
+            //
+            // We already have this texture!
+            //
 
+            LL_texture[i]->ref_count += 1;
 
+            return LL_texture[i];
+        }
+    }
 
+    //
+    // Create a new texture.
+    //
 
+    LL_Texture *lt;
 
-LL_Texture *LL_create_texture(char* fname)
-{
-	std::int32_t i;
+    lt = (LL_Texture *) MEM_alloc(sizeof(LL_Texture));
+    lt->ot = ot;
+    lt->width = OS_texture_width(ot);
+    lt->height = OS_texture_height(ot);
+    lt->ref_count = 1;
 
-	//
-	// Create the OS texture.
-	//
+    //
+    // Add it to our list of textures.
+    //
 
-	OS_Texture *ot = OS_texture_create(fname);
+    for (i = 0; i < LL_MAX_TEXTURES; i++) {
+        if (!LL_texture[i]) {
+            LL_texture[i] = lt;
 
-	//
-	// Do we already have this texture?
-	//
+            return lt;
+        }
+    }
 
-	for (i = 0; i < LL_MAX_TEXTURES; i++)
-	{
-		if (LL_texture[i] && LL_texture[i]->ot == ot)
-		{
-			//
-			// We already have this texture!
-			//
+    //
+    // No more textures!
+    //
 
-			LL_texture[i]->ref_count += 1;
+    ASSERT(0);
 
-			return LL_texture[i];
-		}
-	}
-
-	//
-	// Create a new texture.
-	//
-
-	LL_Texture *lt;
-	
-	lt            = (LL_Texture *) MEM_alloc(sizeof(LL_Texture));
-	lt->ot        = ot;
-	lt->width     = OS_texture_width (ot);
-	lt->height    = OS_texture_height(ot);
-	lt->ref_count = 1;
-
-	//
-	// Add it to our list of textures.
-	//
-
-	for (i = 0; i < LL_MAX_TEXTURES; i++)
-	{
-		if (!LL_texture[i] )
-		{
-			LL_texture[i] = lt;
-
-			return lt;
-		}
-	}
-
-	//
-	// No more textures!
-	//
-
-	ASSERT(0);
-
-	return nullptr;
+    return nullptr;
 }
 
+void LL_free_texture(LL_Texture *lt) {
+    //
+    // Free everything! We can't free OS_Textures!
+    //
 
-void LL_free_texture(LL_Texture *lt)
-{
-	//
-	// Free everything! We can't free OS_Textures!
-	//
+    MEM_free(lt);
 
-	MEM_free(lt);
+    //
+    // Get rid of the reference in the LL_texture[] array.
+    //
 
-	//
-	// Get rid of the reference in the LL_texture[] array.
-	//
-	
-	std::int32_t i;
+    std::int32_t i;
 
-	for (i = 0; i < LL_MAX_TEXTURES; i++)
-	{
-		if (LL_texture[i] == lt)
-		{
-			LL_texture[i] = nullptr;
+    for (i = 0; i < LL_MAX_TEXTURES; i++) {
+        if (LL_texture[i] == lt) {
+            LL_texture[i] = nullptr;
 
-			return;
-		}
-	}
+            return;
+        }
+    }
 
-	ASSERT(0);
+    ASSERT(0);
 }
 
+LL_Sound *LL_create_sound(char *fname) {
+    std::int32_t i;
 
+    //
+    // Create the OS sound.
+    //
 
+    OS_Sound *os = OS_sound_create(fname, OS_SOUND_TYPE_2D);
 
+    //
+    // Do we already have this sound?
+    //
 
+    for (i = 0; i < LL_MAX_SOUNDS; i++) {
+        if (LL_sound[i] && LL_sound[i]->os == os) {
+            //
+            // We already have this sound!
+            //
 
+            LL_sound[i]->ref_count += 1;
 
-LL_Sound *LL_create_sound(char* fname)
-{
-	std::int32_t i;
+            return LL_sound[i];
+        }
+    }
 
-	//
-	// Create the OS sound.
-	//
+    //
+    // Create a new sound.
+    //
 
-	OS_Sound *os = OS_sound_create(fname, OS_SOUND_TYPE_2D);
+    LL_Sound *ls;
 
-	//
-	// Do we already have this sound?
-	//
+    ls = (LL_Sound *) MEM_alloc(sizeof(LL_Sound));
+    ls->os = os;
+    ls->ref_count = 1;
 
-	for (i = 0; i < LL_MAX_SOUNDS; i++)
-	{
-		if (LL_sound[i] && LL_sound[i]->os == os)
-		{
-			//
-			// We already have this sound!
-			//
+    //
+    // Add it to our list of sounds.
+    //
 
-			LL_sound[i]->ref_count += 1;
+    for (i = 0; i < LL_MAX_SOUNDS; i++) {
+        if (!LL_sound[i]) {
+            LL_sound[i] = ls;
 
-			return LL_sound[i];
-		}
-	}
+            return ls;
+        }
+    }
 
-	//
-	// Create a new sound.
-	//
+    //
+    // No more sounds!
+    //
 
-	LL_Sound *ls;
-	
-	ls            = (LL_Sound *) MEM_alloc(sizeof(LL_Sound));
-	ls->os        = os;
-	ls->ref_count = 1;
+    ASSERT(0);
 
-	//
-	// Add it to our list of sounds.
-	//
-
-	for (i = 0; i < LL_MAX_SOUNDS; i++)
-	{
-		if (!LL_sound[i] )
-		{
-			LL_sound[i] = ls;
-
-			return ls;
-		}
-	}
-
-	//
-	// No more sounds!
-	//
-
-	ASSERT(0);
-
-	return nullptr;
+    return nullptr;
 }
 
+void LL_free_sound(LL_Sound *ls) {
+    //
+    // Free everything! We can't free OS_Sounds!
+    //
 
-void LL_free_sound(LL_Sound *ls)
-{
-	//
-	// Free everything! We can't free OS_Sounds!
-	//
+    MEM_free(ls);
 
-	MEM_free(ls);
+    //
+    // Get rid of the reference in the LL_sound[] array.
+    //
 
-	//
-	// Get rid of the reference in the LL_sound[] array.
-	//
-	
-	std::int32_t i;
+    std::int32_t i;
 
-	for (i = 0; i < LL_MAX_SOUNDS; i++)
-	{
-		if (LL_sound[i] == ls)
-		{
-			LL_sound[i] = nullptr;
+    for (i = 0; i < LL_MAX_SOUNDS; i++) {
+        if (LL_sound[i] == ls) {
+            LL_sound[i] = nullptr;
 
-			return;
-		}
-	}
+            return;
+        }
+    }
 
-	ASSERT(0);
+    ASSERT(0);
 }
-
-
-
-
-
-
 
 LL_Buffer *LL_create_buffer(
-				std::int32_t  type,
-				void  *vert,
-				std::int32_t  num_verts,
-				std::uint16_t *index,
-				std::int32_t  num_indices)
-{
-	ASSERT(
-		type == LL_BUFFER_TYPE_TLV ||
-		type == LL_BUFFER_TYPE_LV);
+    std::int32_t type,
+    void *vert,
+    std::int32_t num_verts,
+    std::uint16_t *index,
+    std::int32_t num_indices) {
+    ASSERT(
+        type == LL_BUFFER_TYPE_TLV ||
+        type == LL_BUFFER_TYPE_LV);
 
-	//
-	// Create a new buffer.
-	//
+    //
+    // Create a new buffer.
+    //
 
-	LL_Buffer *lb = (LL_Buffer *) MEM_alloc(sizeof(LL_Buffer));
+    LL_Buffer *lb = (LL_Buffer *) MEM_alloc(sizeof(LL_Buffer));
 
-	lb->type        = type;
-	lb->vert_data   = vert;
-	lb->index       = index;
-	lb->num_verts   = num_verts;
-	lb->num_indices = num_indices;
-	lb->ref_count   = 1;
+    lb->type = type;
+    lb->vert_data = vert;
+    lb->index = index;
+    lb->num_verts = num_verts;
+    lb->num_indices = num_indices;
+    lb->ref_count = 1;
 
-	return lb;
+    return lb;
 }
 
+void LL_free_buffer(LL_Buffer *lb) {
+    //
+    // Free up data.
+    //
 
+    MEM_free(lb->vert);
 
-void LL_free_buffer(LL_Buffer *lb)
-{
-	//
-	// Free up data.
-	//
+    if (lb->index) {
+        MEM_free(lb->index);
+    }
 
-	MEM_free(lb->vert);
-	
-	if (lb->index)
-	{
-		MEM_free(lb->index);
-	}
+    //
+    // Now free up the actual buffer.
+    //
 
-	//
-	// Now free up the actual buffer.
-	//
-
-	MEM_free(lb);
+    MEM_free(lb);
 }
-
-
-
-
 
 //
 // Draws a buffer
@@ -291,115 +237,102 @@ void LL_free_buffer(LL_Buffer *lb)
 OS_Vert LL_vert[OS_MAX_TRANS];
 
 void LL_draw_buffer(
-		LL_Buffer  *lb,
-		LL_Texture *lt,		// nullptr => Draw untextured
-		std::uint32_t       rs)		// The LL_RS_* renderstates ORed together.
+    LL_Buffer *lb,
+    LL_Texture *lt,   // nullptr => Draw untextured
+    std::uint32_t rs) // The LL_RS_* renderstates ORed together.
 {
-	std::int32_t i;
+    std::int32_t i;
 
-	OS_Buffer *ob;
-	OS_Trans  *ot;
-	OS_Vert   *ov;
-	LL_Tlvert *tl;
+    OS_Buffer *ob;
+    OS_Trans *ot;
+    OS_Vert *ov;
+    LL_Tlvert *tl;
 
-	ob = OS_buffer_new();
+    ob = OS_buffer_new();
 
-	//
-	// Are there too many points in this buffer?
-	//
+    //
+    // Are there too many points in this buffer?
+    //
 
-	ASSERT(lb->num_verts <= OS_MAX_TRANS);
+    ASSERT(lb->num_verts <= OS_MAX_TRANS);
 
-	//
-	// Build the OS_trans and OS_vert buffers.
-	//
+    //
+    // Build the OS_trans and OS_vert buffers.
+    //
 
-	switch(lb->type)
-	{
-		case LL_BUFFER_TYPE_TLV:
-			
-			//
-			// These are already transformed, so we can write
-			// directly into the OS_trans[] array.
-			//
+    switch (lb->type) {
+        case LL_BUFFER_TYPE_TLV:
 
-			for (i = 0; i < lb->num_verts; i++)
-			{
-				ot = &OS_trans   [i];
-				ov = &LL_vert    [i];
-				tl = &lb->vert_tl[i];
+            //
+            // These are already transformed, so we can write
+            // directly into the OS_trans[] array.
+            //
 
-				ot->X    = tl->x;
-				ot->Y    = tl->y;
-				ot->Z    = tl->rhw;
-				ot->z    = tl->z;
-				ot->clip = OS_CLIP_TRANSFORMED;
+            for (i = 0; i < lb->num_verts; i++) {
+                ot = &OS_trans[i];
+                ov = &LL_vert[i];
+                tl = &lb->vert_tl[i];
 
-				ov->trans    = i;
-				ov->index    = 0;
-				ov->colour   = tl->colour;
-				ov->specular = tl->specular;
-				ov->u1       = tl->u;
-				ov->v1       = tl->v;
-				ov->u2       = 0.0F;
-				ov->v2       = 0.0F;
-			}
+                ot->X = tl->x;
+                ot->Y = tl->y;
+                ot->Z = tl->rhw;
+                ot->z = tl->z;
+                ot->clip = OS_CLIP_TRANSFORMED;
 
-			if (lb->index)
-			{
-				ASSERT(lb->num_indices % 3 == 0);
+                ov->trans = i;
+                ov->index = 0;
+                ov->colour = tl->colour;
+                ov->specular = tl->specular;
+                ov->u1 = tl->u;
+                ov->v1 = tl->v;
+                ov->u2 = 0.0F;
+                ov->v2 = 0.0F;
+            }
 
-				for (i = 0; i < lb->num_indices; i += 3)
-				{
-					OS_buffer_add_triangle(
-						ob,
-					   &LL_vert[lb->index[i + 0]],
-					   &LL_vert[lb->index[i + 1]],
-					   &LL_vert[lb->index[i + 2]]);
-				}
-			}
-			else
-			{
-				for (i = 0; i < lb->num_verts; i += 3)
-				{
-					OS_buffer_add_triangle(
-						ob,
-					   &LL_vert[i + 0],
-					   &LL_vert[i + 1],
-					   &LL_vert[i + 2]);
-				}
-			}
+            if (lb->index) {
+                ASSERT(lb->num_indices % 3 == 0);
 
-			break;
+                for (i = 0; i < lb->num_indices; i += 3) {
+                    OS_buffer_add_triangle(
+                        ob,
+                        &LL_vert[lb->index[i + 0]],
+                        &LL_vert[lb->index[i + 1]],
+                        &LL_vert[lb->index[i + 2]]);
+                }
+            } else {
+                for (i = 0; i < lb->num_verts; i += 3) {
+                    OS_buffer_add_triangle(
+                        ob,
+                        &LL_vert[i + 0],
+                        &LL_vert[i + 1],
+                        &LL_vert[i + 2]);
+                }
+            }
 
-		default:
-			ASSERT(0);
-			break;
-	}
+            break;
 
-	//
-	// Now draw the buffer.
-	//
+        default:
+            ASSERT(0);
+            break;
+    }
 
-	OS_buffer_draw(ob, (lt) ? lt->ot : nullptr, nullptr, rs | OS_DRAW_DOUBLESIDED | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE);
+    //
+    // Now draw the buffer.
+    //
+
+    OS_buffer_draw(ob, (lt) ? lt->ot : nullptr, nullptr, rs | OS_DRAW_DOUBLESIDED | OS_DRAW_ZALWAYS | OS_DRAW_NOZWRITE);
 }
 
+void LL_cls(std::uint32_t colour, float z) {
+    std::int32_t r = (colour >> 16) & 0xff;
+    std::int32_t g = (colour >> 8) & 0xff;
+    std::int32_t b = (colour >> 0) & 0xff;
 
+    ASSERT(WITHIN(z, 0.0F, 1.0F));
 
-void LL_cls(std::uint32_t colour, float z)
-{
-	std::int32_t r = (colour >> 16) & 0xff;
-	std::int32_t g = (colour >>  8) & 0xff;
-	std::int32_t b = (colour >>  0) & 0xff;
-
-	ASSERT(WITHIN(z, 0.0F, 1.0F));
-
-	OS_clear_screen(r,g,b,z);
+    OS_clear_screen(r, g, b, z);
 }
 
-
-void LL_flip()
-{
-	OS_show();
+void LL_flip() {
+    OS_show();
 }
-

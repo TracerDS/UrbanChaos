@@ -11,4 +11,4 @@ extern char BRIEFING_mission_filename[_MAX_PATH];
 std::int8_t BRIEFING_select();
 std::int8_t BRIEFING_next_mission(); // 0 = run out of missions
 
-//#define OBEY_SCRIPT
+// #define OBEY_SCRIPT
