@@ -6,7 +6,7 @@
 #include "c:\fallen\psxeng\headers\engine.h"
 // #include "c:\fallen\editor\headers\poly.h"
 // #include "light.h"
-#include "build.h"
+#include "psxbuild.h"
 
 std::int32_t check_vect_with_gamut(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2) {
     std::int32_t step_x, step_z;
