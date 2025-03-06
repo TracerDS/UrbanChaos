@@ -1,5 +1,5 @@
 #include <MFStdLib.h>
-#include "matrix.h"
+#include "psxmatrix.h"
 
 // #include <math.h>
 

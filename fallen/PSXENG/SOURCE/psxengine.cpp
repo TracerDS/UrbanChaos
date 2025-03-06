@@ -1,9 +1,9 @@
 // #include	"game.h"
 // #include	<MFStdLib.h>
 #include "game.h"
-#include "facet.h"
+#include "psxfacet.h"
 #include "c:\fallen\headers\memory.h"
-#include "c:\fallen\psxeng\headers\engine.h"
+#include "c:\fallen\psxeng\headers\psxengine.h"
 #include "c:\fallen\headers\pap.h"
 #include "c:\fallen\headers\ob.h"
 #include "c:\fallen\headers\supermap.h"
