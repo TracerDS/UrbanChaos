@@ -3,7 +3,7 @@
 
 #include "Game.h"
 #include "cam.h"
-#ifndef	PSX
+#ifndef PSX
 #include "..\Headers\ddlib.h"
 #include "font2d.h"
 #include "poly.h"
@@ -12,11 +12,11 @@
 #include "c:\fallen\psxeng\headers\psxeng.h"
 #include "c:\fallen\psxeng\headers\poly.h"
 #include "c:\ps\psx\include\ctrller.h"
-extern ControllerPacket PAD_Input1,PAD_Input2;
+extern ControllerPacket PAD_Input1, PAD_Input2;
 #endif
 #include "startscr.h"
 #include "briefing.h"
-#define	DEMO
+#define DEMO
 #include "attract.h"
 #include "env.h"
 #include "overlay.h"
@@ -28,47 +28,45 @@ extern ControllerPacket PAD_Input1,PAD_Input2;
 #include "frontend.h"
 #include "statedef.h"
 #include "DCLowLevel.h"
-//#include "console.h"
+// #include "console.h"
 
 // undef this to get the old menus back...
-#define NEW_FRONTEND	1
+#define NEW_FRONTEND 1
 
 //---------------------------------------------------------------
 #ifndef PSX
-char demo_text[]	=	"Urban Chaos utilises a ground breaking graphics engine which includes 3D volumetric\n"
-						"fog, true wall hugging shadows, atomic matter simulation for real-time physical\n"
-						"modelling of dynamic object collisions and so provides the perfect environment \n"
-						"for incredible feats of acrobatic skill and total scenery interaction. \n\n"
-						"The plot of Urban Chaos is still a closely guarded secret but revolves around end\n"
-						"of the millennium chaos as predictions for Armageddon become more than mere \n"
-						"fantasy.\n\n"
-						"Urban Chaos is being developed by Mucky Foot one of the UK's hottest new \n"
-						"development teams and will be published world-wide by Eidos Interactive.";
+char demo_text[] =
+    "Urban Chaos utilises a ground breaking graphics engine which includes 3D volumetric\n"
+    "fog, true wall hugging shadows, atomic matter simulation for real-time physical\n"
+    "modelling of dynamic object collisions and so provides the perfect environment \n"
+    "for incredible feats of acrobatic skill and total scenery interaction. \n\n"
+    "The plot of Urban Chaos is still a closely guarded secret but revolves around end\n"
+    "of the millennium chaos as predictions for Armageddon become more than mere \n"
+    "fantasy.\n\n"
+    "Urban Chaos is being developed by Mucky Foot one of the UK's hottest new \n"
+    "development teams and will be published world-wide by Eidos Interactive.";
 #endif
 //---------------------------------------------------------------
 
-extern std::int32_t	stat_killed_thug;
-extern std::int32_t	stat_killed_innocent;
-extern std::int32_t	stat_arrested_thug;
-extern std::int32_t	stat_arrested_innocent;
+extern std::int32_t stat_killed_thug;
+extern std::int32_t stat_killed_innocent;
+extern std::int32_t stat_arrested_thug;
+extern std::int32_t stat_arrested_innocent;
 
+#define MAX_PLAYBACKS 3
 
-#define	MAX_PLAYBACKS	3
+char *playbacks[] =
+    {
+        "Data\\Game.pkt",
+        "Data\\Game2.pkt",
+        "Data\\Game3.pkt"};
+std::int32_t current_playback = 0;
 
-char* playbacks[]	=
-{
-	"Data\\Game.pkt",
-	"Data\\Game2.pkt",
-	"Data\\Game3.pkt"
-};
-std::int32_t current_playback	=	0;
+// extern std::uint32_t get_hardware_input(std::uint16_t type);
 
-//extern std::uint32_t get_hardware_input(std::uint16_t type);
-
-extern char		*playback_name;
+extern char *playback_name;
 std::int32_t go_into_game;
 std::uint8_t auto_advance = 0;
-
 
 //---------------------------------------------------------------
 
@@ -77,573 +75,513 @@ std::uint8_t auto_advance = 0;
 // showing the 'PRESS START' bits.
 
 void LoadBackImage(std::uint8_t *image_data);
-void AENG_demo_attract(std::int32_t x,std::int32_t y,char* text);
-extern bool		text_fudge;
-extern std::int32_t	do_start_menu();
+void AENG_demo_attract(std::int32_t x, std::int32_t y, char *text);
+extern bool text_fudge;
+extern std::int32_t do_start_menu();
 
-#ifndef	PSX
-extern DIJOYSTATE			the_state;
+#ifndef PSX
+extern DIJOYSTATE the_state;
 #endif
 
-std::int32_t any_button_pressed()
-{
-#ifndef	PSX
+std::int32_t any_button_pressed() {
+#ifndef PSX
 
-	if(ReadInputDevice())
-	{
-		if (the_state.rgbButtons[0] ||
-			the_state.rgbButtons[1] ||
-			the_state.rgbButtons[2] ||
-			the_state.rgbButtons[3] ||
-			the_state.rgbButtons[4] ||
-			the_state.rgbButtons[5] ||
-			the_state.rgbButtons[6] ||
-			the_state.rgbButtons[7] ||
-			the_state.rgbButtons[8]	||
-			the_state.rgbButtons[9])
-		{
-//			GAME_STATE &= ~GS_ATTRACT_MODE;
-//			GAME_STATE |=  GS_PLAY_GAME;
-			return(1);
-		}
-	}
-	return(0);
+    if (ReadInputDevice()) {
+        if (the_state.rgbButtons[0] ||
+            the_state.rgbButtons[1] ||
+            the_state.rgbButtons[2] ||
+            the_state.rgbButtons[3] ||
+            the_state.rgbButtons[4] ||
+            the_state.rgbButtons[5] ||
+            the_state.rgbButtons[6] ||
+            the_state.rgbButtons[7] ||
+            the_state.rgbButtons[8] ||
+            the_state.rgbButtons[9]) {
+            //			GAME_STATE &= ~GS_ATTRACT_MODE;
+            //			GAME_STATE |=  GS_PLAY_GAME;
+            return (1);
+        }
+    }
+    return (0);
 #endif
-
 }
 
-void game_attract_mode()
-{
-	float			y;
-	std::uint8_t			*image_mem	=	nullptr,
-					*image		=	nullptr;
+void game_attract_mode() {
+    float y;
+    std::uint8_t *image_mem = nullptr,
+                 *image = nullptr;
 #ifndef PSX
-	std::int32_t			height,
-					image_size;
-	MFFileHandle	image_file;
-	std::int32_t           dont_leave_for_a_while = 25;
+    std::int32_t height,
+        image_size;
+    MFFileHandle image_file;
+    std::int32_t dont_leave_for_a_while = 25;
 
-
-	//
-	// make sure lighting is ok
-	//
+    //
+    // make sure lighting is ok
+    //
 #ifndef TARGET_DC
-extern void NIGHT_init();
-	NIGHT_init();
+    extern void NIGHT_init();
+    NIGHT_init();
 #endif
 
+    if (auto_advance) {
+        go_into_game = true;
+        auto_advance = 0;
+        GAME_STATE &= ~GS_ATTRACT_MODE;
+        GAME_STATE |= GS_PLAY_GAME;
+    } else
+        go_into_game = false;
+    /*
+            image_size	=	640*480*3;
+            image_mem	=	(std::uint8_t*)MemAlloc(image_size);
+            if(image_mem)
+            {
+                    image_file	=	FileOpen("Data\\gamelogo.tga");
+                    if(image_file>0)
+                    {
+                            FileSeek(image_file,SEEK_MODE_BEGINNING,18);
+                            image	=	image_mem+(640*479*3);
+                            for(height=480;height;height--,image-=(640*3))
+                            {
+                                    FileRead(image_file,image,640*3);
+                            }
+                            FileClose(image_file);
+                    }
+            }
+    */
+    //	InitBackImage("e3title.tga");
 
+    // load our sound fx; for the menu sound's benefit
+    // (later, do a cut down version w/ only the menu sounds for speed)
+    /*	#ifndef USE_A3D
+                    LoadWaveList("Data\\SFX\\1622\\","Data\\SFX\\Samples.txt");
+            #else
+                    A3DLoadWaveList("Data\\SFX\\1622\\","Data\\SFX\\Samples.txt");
+            #endif
+    */
+    MFX_load_wave_list();
 
-	if (auto_advance) {
-		go_into_game = true;
-		auto_advance=0;
-		GAME_STATE &= ~GS_ATTRACT_MODE;
-		GAME_STATE |=  GS_PLAY_GAME;
-	} else go_into_game = false;
-/*
-	image_size	=	640*480*3;
-	image_mem	=	(std::uint8_t*)MemAlloc(image_size);
-	if(image_mem)
-	{
-		image_file	=	FileOpen("Data\\gamelogo.tga");
-		if(image_file>0)
-		{
-			FileSeek(image_file,SEEK_MODE_BEGINNING,18);
-			image	=	image_mem+(640*479*3);
-			for(height=480;height;height--,image-=(640*3))
-			{
-				FileRead(image_file,image,640*3);
-			}
-			FileClose(image_file);
-		}
-	}
-*/
-//	InitBackImage("e3title.tga");
-
-	// load our sound fx; for the menu sound's benefit
-	// (later, do a cut down version w/ only the menu sounds for speed)
-/*	#ifndef USE_A3D
-		LoadWaveList("Data\\SFX\\1622\\","Data\\SFX\\Samples.txt");
-	#else
-		A3DLoadWaveList("Data\\SFX\\1622\\","Data\\SFX\\Samples.txt");
-	#endif
-*/
-	MFX_load_wave_list();
-
-
-	bool bReinitBecauseOfLanguageChange = false;
+    bool bReinitBecauseOfLanguageChange = false;
 reinit_because_of_language_change:
 
-
 #ifdef TARGET_DC
-	// If the softreset combo was pressed, go straight to the title screen.
-	if ( g_bDreamcastABXYStartComboPressed )
-	{
-		g_bDreamcastABXYStartComboPressed = false;
-		FRONTEND_init ( true );
-	}
-	else
-	{
-		FRONTEND_init ( bReinitBecauseOfLanguageChange );
-	}
+    // If the softreset combo was pressed, go straight to the title screen.
+    if (g_bDreamcastABXYStartComboPressed) {
+        g_bDreamcastABXYStartComboPressed = false;
+        FRONTEND_init(true);
+    } else {
+        FRONTEND_init(bReinitBecauseOfLanguageChange);
+    }
 #else
-	FRONTEND_init(bReinitBecauseOfLanguageChange);
+    FRONTEND_init(bReinitBecauseOfLanguageChange);
 #endif
 
+    bReinitBecauseOfLanguageChange = false;
 
-	bReinitBecauseOfLanguageChange = false;
+    //
+    // Create a surface from this image.
+    //
 
-	//
-	// Create a surface from this image.
-	//
-
-//	the_display.create_background_surface(image_mem);
-
-
-
+    //	the_display.create_background_surface(image_mem);
 
 #if 1
-	LPDIRECT3DDEVICE3 dev = the_display.lp_D3D_Device;
-	HRESULT hres;
+    LPDIRECT3DDEVICE3 dev = the_display.lp_D3D_Device;
+    HRESULT hres;
 
+    D3DVIEWPORT2 vp;
+    vp.dwSize = sizeof(vp);
+    vp.dwX = the_display.ViewportRect.x1;
+    vp.dwY = the_display.ViewportRect.y1;
+    vp.dwWidth = the_display.ViewportRect.x2 - the_display.ViewportRect.x1;
+    vp.dwHeight = the_display.ViewportRect.y2 - the_display.ViewportRect.y1;
+    vp.dvClipX = (float) vp.dwX;
+    vp.dvClipY = (float) vp.dwY;
+    vp.dvClipWidth = (float) vp.dwWidth;
+    vp.dvClipHeight = (float) vp.dwHeight;
+    vp.dvMinZ = 0.0f;
+    vp.dvMaxZ = 1.0f;
+    hres = the_display.lp_D3D_Viewport->SetViewport2(&vp);
 
-	D3DVIEWPORT2 vp;
-	vp.dwSize = sizeof ( vp );
-	vp.dwX = the_display.ViewportRect.x1;
-	vp.dwY = the_display.ViewportRect.y1;
-	vp.dwWidth = the_display.ViewportRect.x2 - the_display.ViewportRect.x1;
-	vp.dwHeight = the_display.ViewportRect.y2 - the_display.ViewportRect.y1;
-	vp.dvClipX = (float)vp.dwX;
-	vp.dvClipY = (float)vp.dwY;
-	vp.dvClipWidth = (float)vp.dwWidth;
-	vp.dvClipHeight = (float)vp.dwHeight;
-	vp.dvMinZ = 0.0f;
-	vp.dvMaxZ = 1.0f;
-	hres = the_display.lp_D3D_Viewport->SetViewport2 ( &vp );
-
-
-	dev->SetRenderState(D3DRENDERSTATE_FILLMODE,			D3DFILL_SOLID);
-	dev->SetRenderState(D3DRENDERSTATE_STIPPLEDALPHA,		false);
-	dev->SetRenderState(D3DRENDERSTATE_SHADEMODE,			D3DSHADE_GOURAUD);
-	dev->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE,	true);
-	dev->SetRenderState(D3DRENDERSTATE_SPECULARENABLE,		false);
-	dev->SetRenderState(D3DRENDERSTATE_SUBPIXEL,			true);
-	dev->SetRenderState(D3DRENDERSTATE_ZENABLE,				true);
-	dev->SetRenderState(D3DRENDERSTATE_ZFUNC,				D3DCMP_LESSEQUAL);
-	dev->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE,		true);
-	dev->SetRenderState(D3DRENDERSTATE_CULLMODE,			D3DCULL_NONE);
-	dev->SetRenderState(D3DRENDERSTATE_FOGENABLE,			false);
-	dev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE,		false);
-	dev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC,			D3DCMP_ALWAYS);
-	dev->SetRenderState(D3DRENDERSTATE_ANTIALIAS,			D3DANTIALIAS_NONE);
-	dev->SetTextureStageState(0, D3DTSS_COLOROP,		D3DTOP_MODULATE);
-	dev->SetTextureStageState(0, D3DTSS_COLORARG1,		D3DTA_TEXTURE);
-	dev->SetTextureStageState(0, D3DTSS_COLORARG2,		D3DTA_DIFFUSE);
-	dev->SetTextureStageState(0, D3DTSS_ALPHAOP,		D3DTOP_MODULATE);
-	dev->SetTextureStageState(0, D3DTSS_ALPHAARG1,		D3DTA_TEXTURE);
-	dev->SetTextureStageState(0, D3DTSS_ALPHAARG2,		D3DTA_DIFFUSE);
+    dev->SetRenderState(D3DRENDERSTATE_FILLMODE, D3DFILL_SOLID);
+    dev->SetRenderState(D3DRENDERSTATE_STIPPLEDALPHA, false);
+    dev->SetRenderState(D3DRENDERSTATE_SHADEMODE, D3DSHADE_GOURAUD);
+    dev->SetRenderState(D3DRENDERSTATE_TEXTUREPERSPECTIVE, true);
+    dev->SetRenderState(D3DRENDERSTATE_SPECULARENABLE, false);
+    dev->SetRenderState(D3DRENDERSTATE_SUBPIXEL, true);
+    dev->SetRenderState(D3DRENDERSTATE_ZENABLE, true);
+    dev->SetRenderState(D3DRENDERSTATE_ZFUNC, D3DCMP_LESSEQUAL);
+    dev->SetRenderState(D3DRENDERSTATE_ZWRITEENABLE, true);
+    dev->SetRenderState(D3DRENDERSTATE_CULLMODE, D3DCULL_NONE);
+    dev->SetRenderState(D3DRENDERSTATE_FOGENABLE, false);
+    dev->SetRenderState(D3DRENDERSTATE_ALPHATESTENABLE, false);
+    dev->SetRenderState(D3DRENDERSTATE_ALPHAFUNC, D3DCMP_ALWAYS);
+    dev->SetRenderState(D3DRENDERSTATE_ANTIALIAS, D3DANTIALIAS_NONE);
+    dev->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+    dev->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+    dev->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+    dev->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+    dev->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+    dev->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
     dev->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
-	dev->SetTextureStageState(0, D3DTSS_MINFILTER,		D3DTFN_LINEAR);
-	dev->SetTextureStageState(0, D3DTSS_MAGFILTER,		D3DTFG_LINEAR);
-	dev->SetTextureStageState(0, D3DTSS_MIPFILTER,		D3DTFP_NONE);
-	dev->SetTextureStageState(0, D3DTSS_ADDRESS,		D3DTADDRESS_WRAP);
-	//dev->SetTexture ( 0, nullptr );
-extern LPDIRECT3DTEXTURE2	TEXTURE_get_handle(std::int32_t page);
-extern std::int32_t TEXTURE_page_water;
-	dev->SetTexture ( 0, TEXTURE_get_handle(TEXTURE_page_water) );
-	
-	dev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
-	dev->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+    dev->SetTextureStageState(0, D3DTSS_MINFILTER, D3DTFN_LINEAR);
+    dev->SetTextureStageState(0, D3DTSS_MAGFILTER, D3DTFG_LINEAR);
+    dev->SetTextureStageState(0, D3DTSS_MIPFILTER, D3DTFP_NONE);
+    dev->SetTextureStageState(0, D3DTSS_ADDRESS, D3DTADDRESS_WRAP);
+    // dev->SetTexture ( 0, nullptr );
+    extern LPDIRECT3DTEXTURE2 TEXTURE_get_handle(std::int32_t page);
+    extern std::int32_t TEXTURE_page_water;
+    dev->SetTexture(0, TEXTURE_get_handle(TEXTURE_page_water));
 
-	dev->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE,	false);
-	dev->SetRenderState(D3DRENDERSTATE_SRCBLEND,			D3DBLEND_ONE);
-	dev->SetRenderState(D3DRENDERSTATE_DESTBLEND,			D3DBLEND_ZERO);
+    dev->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+    dev->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
+    dev->SetRenderState(D3DRENDERSTATE_ALPHABLENDENABLE, false);
+    dev->SetRenderState(D3DRENDERSTATE_SRCBLEND, D3DBLEND_ONE);
+    dev->SetRenderState(D3DRENDERSTATE_DESTBLEND, D3DBLEND_ZERO);
 #endif
 
-
-
-
-
-
-	y	=	500;
-	while(SHELL_ACTIVE&&(GAME_STATE&GS_ATTRACT_MODE))
-	{
+    y = 500;
+    while (SHELL_ACTIVE && (GAME_STATE & GS_ATTRACT_MODE)) {
 #ifdef TARGET_DC
-		Sleep(1);
+        Sleep(1);
 #endif
-		if (dont_leave_for_a_while > 0)
-		{
-			dont_leave_for_a_while -= 1;
-		}
+        if (dont_leave_for_a_while > 0) {
+            dont_leave_for_a_while -= 1;
+        }
 
-
-#ifdef	EDITOR
-/*		if(ControlFlag && Keys[KB_E])
-		{
-			GAME_STATE	=	GS_EDITOR;
-		}*/
-#endif
-
-#ifdef	DEMO
-		if(ControlFlag && Keys[KB_Q])
-		{
-			GAME_STATE	=	0;
-			LastKey	=	0;
-		}
-/*
-		else if(Keys[KB_SPACE] || Keys[KB_ENTER] || go_into_game)
-		{
-			GAME_STATE	&=	~GS_ATTRACT_MODE;
-			GAME_STATE	|=	GS_PLAY_GAME;
-			break;
-		}
-*/
-
-
-		if (dont_leave_for_a_while == 0)
-		{
-/*			if(any_button_pressed())
-			{
-				GAME_STATE &= ~GS_ATTRACT_MODE;
-				GAME_STATE |=  GS_PLAY_GAME;
-				go_into_game=true;
-			}*/
-		}
-
-#else
-		if(LastKey==KB_ESC || (ControlFlag && Keys[KB_Q]))
-		{
-			GAME_STATE	=	0;
-			LastKey	=	0;
-		}
-		/*
-		else if(Keys[KB_SPACE] || Keys[KB_ENTER])
-		{
-			GAME_STATE	&=	~GS_ATTRACT_MODE;
-			GAME_STATE	|=	GS_PLAY_GAME;
-		}
-		*/
-#endif
-/*		if (Keys[KB_N])
-		{
-			Keys[KB_N] = 0;
-
-			//
-			// Go the network configuration screen.
-			//
-
-			GAME_STATE = GS_CONFIGURE_NET;
-		}*/
-
-		//	Record a game.
-extern bool	allow_debug_keys;
-		if(allow_debug_keys)
-		{
-			if(ControlFlag && LastKey==KB_R)
-			{
-				LastKey	=	0;
-				GAME_STATE	&= ~GS_ATTRACT_MODE;
-				GAME_STATE	|=	GS_PLAY_GAME;
-				go_into_game =  true;
-
-				GAME_STATE	|=	GS_RECORD;
-			}
-
-			//	Playback a game.
-			if(ControlFlag && LastKey==KB_P)
-			{
-				LastKey	=	0;
-				GAME_STATE	&= ~GS_ATTRACT_MODE;
-				GAME_STATE	|=	GS_PLAY_GAME;
-				go_into_game =  true;
-
-				GAME_STATE	|=	GS_PLAYBACK;
-			}
-		}
-
-#ifdef TARGET_DC
-		// Always clear the screen. Not a real clear, it just triggers a render.
-		AENG_clear_screen();
-#else
-		if (y < 57.0F)
-		{
-			AENG_clear_screen();
-		}
-#endif
-
- 		//LoadBackImage(image_mem);
-//		the_display.blit_background_surface();
-
-		text_fudge	=	true;
-//		y	-=	0.25f;
-//		y--;
-		if(Keys[KB_LEFT]||Keys[KB_RIGHT]||Keys[KB_UP]||Keys[KB_DOWN]||Keys[KB_SPACE]||Keys[KB_ENTER]) y=500;
-
-
-
-//		AENG_demo_attract(0,y,demo_text);
-		{
-			std::int32_t	res;
-
-#ifdef NEW_FRONTEND	
-			res=FRONTEND_loop();
-#else
-			res=do_start_menu();
-#endif
-
-//			res=STARTS_PLAYBACK;
-
-			if(res)
-			{
-				switch(res)
-				{
-/*
-				case	1:
-				case	2:
-				case	3:
-				case	4:
-				case	5:
-				case	6:
-				case	7:
-				case	8:
-						GAME_STATE	&= ~GS_ATTRACT_MODE;
-						GAME_STATE	|=	GS_PLAY_GAME;
-						go_into_game =  -res;
-						break;
-				case	9:
-						GAME_STATE	=	0;
-						LastKey	=	0;
-						break;
-*/
-
-
-
-					case	STARTS_PSX:
 #ifdef EDITOR
-void make_all_wads();
-						make_all_wads();
+/*		if(ControlFlag && Keys[KB_E])
+                {
+                        GAME_STATE	=	GS_EDITOR;
+                }*/
 #endif
-						break;
-					case	STARTS_START:
+
+#ifdef DEMO
+        if (ControlFlag && Keys[KB_Q]) {
+            GAME_STATE = 0;
+            LastKey = 0;
+        }
+        /*
+                        else if(Keys[KB_SPACE] || Keys[KB_ENTER] || go_into_game)
+                        {
+                                GAME_STATE	&=	~GS_ATTRACT_MODE;
+                                GAME_STATE	|=	GS_PLAY_GAME;
+                                break;
+                        }
+        */
+
+        if (dont_leave_for_a_while == 0) {
+            /*			if(any_button_pressed())
+                                    {
+                                            GAME_STATE &= ~GS_ATTRACT_MODE;
+                                            GAME_STATE |=  GS_PLAY_GAME;
+                                            go_into_game=true;
+                                    }*/
+        }
+
+#else
+        if (LastKey == KB_ESC || (ControlFlag && Keys[KB_Q])) {
+            GAME_STATE = 0;
+            LastKey = 0;
+        }
+        /*
+        else if(Keys[KB_SPACE] || Keys[KB_ENTER])
+        {
+                GAME_STATE	&=	~GS_ATTRACT_MODE;
+                GAME_STATE	|=	GS_PLAY_GAME;
+        }
+        */
+#endif
+        /*		if (Keys[KB_N])
+                        {
+                                Keys[KB_N] = 0;
+
+                                //
+                                // Go the network configuration screen.
+                                //
+
+                                GAME_STATE = GS_CONFIGURE_NET;
+                        }*/
+
+        //	Record a game.
+        extern bool allow_debug_keys;
+        if (allow_debug_keys) {
+            if (ControlFlag && LastKey == KB_R) {
+                LastKey = 0;
+                GAME_STATE &= ~GS_ATTRACT_MODE;
+                GAME_STATE |= GS_PLAY_GAME;
+                go_into_game = true;
+
+                GAME_STATE |= GS_RECORD;
+            }
+
+            //	Playback a game.
+            if (ControlFlag && LastKey == KB_P) {
+                LastKey = 0;
+                GAME_STATE &= ~GS_ATTRACT_MODE;
+                GAME_STATE |= GS_PLAY_GAME;
+                go_into_game = true;
+
+                GAME_STATE |= GS_PLAYBACK;
+            }
+        }
+
+#ifdef TARGET_DC
+        // Always clear the screen. Not a real clear, it just triggers a render.
+        AENG_clear_screen();
+#else
+        if (y < 57.0F) {
+            AENG_clear_screen();
+        }
+#endif
+
+        // LoadBackImage(image_mem);
+        //		the_display.blit_background_surface();
+
+        text_fudge = true;
+        //		y	-=	0.25f;
+        //		y--;
+        if (Keys[KB_LEFT] || Keys[KB_RIGHT] || Keys[KB_UP] || Keys[KB_DOWN] || Keys[KB_SPACE] || Keys[KB_ENTER]) y = 500;
+
+        //		AENG_demo_attract(0,y,demo_text);
+        {
+            std::int32_t res;
+
+#ifdef NEW_FRONTEND
+            res = FRONTEND_loop();
+#else
+            res = do_start_menu();
+#endif
+
+            //			res=STARTS_PLAYBACK;
+
+            if (res) {
+                switch (res) {
+                        /*
+                                                        case	1:
+                                                        case	2:
+                                                        case	3:
+                                                        case	4:
+                                                        case	5:
+                                                        case	6:
+                                                        case	7:
+                                                        case	8:
+                                                                        GAME_STATE	&= ~GS_ATTRACT_MODE;
+                                                                        GAME_STATE	|=	GS_PLAY_GAME;
+                                                                        go_into_game =  -res;
+                                                                        break;
+                                                        case	9:
+                                                                        GAME_STATE	=	0;
+                                                                        LastKey	=	0;
+                                                                        break;
+                        */
+
+                    case STARTS_PSX:
+#ifdef EDITOR
+                        void make_all_wads();
+                        make_all_wads();
+#endif
+                        break;
+                    case STARTS_START:
 #ifdef OBEY_SCRIPT
-						if (BRIEFING_select()>0)
+                        if (BRIEFING_select() > 0)
 #endif
-						{
-						GAME_STATE	&= ~GS_ATTRACT_MODE;
-						GAME_STATE	|=	GS_PLAY_GAME;
-						go_into_game =  true;
+                        {
+                            GAME_STATE &= ~GS_ATTRACT_MODE;
+                            GAME_STATE |= GS_PLAY_GAME;
+                            go_into_game = true;
 
 #ifdef TARGET_DC
-						// Unload all the frontend gubbins.
-						FRONTEND_unload();
+                            // Unload all the frontend gubbins.
+                            FRONTEND_unload();
 #endif
 
+                            ATTRACT_loadscreen_init();
 
-						ATTRACT_loadscreen_init();
+                            // Stop everything.
+                            stop_all_fx_and_music();
 
-						// Stop everything.
-						stop_all_fx_and_music();
+                            // but play the loading music, coz it's all in memory.
+                            // (No, should already be played, and stopping then starting it
+                            // makes it huccup.)
+                            // DCLL_memstream_play();
 
-						// but play the loading music, coz it's all in memory.
-						// (No, should already be played, and stopping then starting it
-						// makes it huccup.)
-						//DCLL_memstream_play();
+                            extern void init_joypad_config();
+                            init_joypad_config(); // incase it's been changed in front end
+                        }
+                        break;
+                    case STARTS_PLAYBACK:
+                        GAME_STATE &= ~GS_ATTRACT_MODE;
+                        GAME_STATE |= GS_PLAY_GAME;
+                        GAME_STATE |= GS_PLAYBACK;
+                        go_into_game = true;
+                        break;
+                    case STARTS_EDITOR:
+                        GAME_STATE = GS_EDITOR;
+                        break;
+                    case STARTS_MULTI:
 
+                        NET_init();
+                        GAME_STATE = GS_CONFIGURE_NET;
 
-extern void	init_joypad_config();
-						init_joypad_config(); // incase it's been changed in front end
-						}
-						break;
-					case	STARTS_PLAYBACK:
-						GAME_STATE	&= ~GS_ATTRACT_MODE;
-						GAME_STATE	|=	GS_PLAY_GAME;
-						GAME_STATE	|=	GS_PLAYBACK;
-						go_into_game =  true;
-						break;
-					case	STARTS_EDITOR:
-						GAME_STATE	=	GS_EDITOR;
-						break;
-					case	STARTS_MULTI:
-
-						NET_init();
-						GAME_STATE=GS_CONFIGURE_NET;
-
-						break;
-					case	STARTS_EXIT:
-						GAME_STATE	=	0;
-						LastKey	=	0;
-						break;
-					case	STARTS_HOST:
-						break;
-					case	STARTS_JOIN:
-						break;
-					case	STARTS_LANGUAGE_CHANGE:
-						// A language change has been made -
-						// reload all the language stuff and go to the main menu.
-
+                        break;
+                    case STARTS_EXIT:
+                        GAME_STATE = 0;
+                        LastKey = 0;
+                        break;
+                    case STARTS_HOST:
+                        break;
+                    case STARTS_JOIN:
+                        break;
+                    case STARTS_LANGUAGE_CHANGE:
+                        // A language change has been made -
+                        // reload all the language stuff and go to the main menu.
 
 #ifdef TARGET_DC
-						// The only place this can happen is at the title screen.
-						// And after the title screen, we play the intro movie.
+                        // The only place this can happen is at the title screen.
+                        // And after the title screen, we play the intro movie.
 
-						// Free up as much memory as we can - the movie needs it!
-extern void FRONTEND_scr_unload_theme();
-						FRONTEND_scr_unload_theme();
-						stop_all_fx_and_music();
-						the_display.RunCutscene( 0, ENV_get_value_number("lang_num", 0, "" ) );
+                        // Free up as much memory as we can - the movie needs it!
+                        extern void FRONTEND_scr_unload_theme();
+                        FRONTEND_scr_unload_theme();
+                        stop_all_fx_and_music();
+                        the_display.RunCutscene(0, ENV_get_value_number("lang_num", 0, ""));
 #endif
 
-						// Loading screen for a second.
-						ATTRACT_loadscreen_init();
+                        // Loading screen for a second.
+                        ATTRACT_loadscreen_init();
 
+                        // This goto makes the compiler very unhappy - it seems to get very confused.
+                        // goto reinit_because_of_language_change;
+                        bReinitBecauseOfLanguageChange = true;
+                        break;
+                }
+            }
+        }
 
-						// This goto makes the compiler very unhappy - it seems to get very confused.
-						//goto reinit_because_of_language_change;
-						bReinitBecauseOfLanguageChange = true;
-						break;
+        if (y < 57.0F) {
+            AENG_fade_out((57 - std::int32_t(y)) * 15);
+        }
 
-				}
-			}
-			
-		}
+        /*
+        if(y<40.0f)
+        {
+                text_fudge	=	false;
+                GAME_STATE	|=	(GS_PLAYBACK|GS_PLAY_GAME);
+                playback_name	=	playbacks[current_playback];
 
-		if(y<57.0F)
-		{
-			AENG_fade_out((57 - std::int32_t(y)) * 15);
-		}
-
-
-		/*
-		if(y<40.0f)
-		{
-			text_fudge	=	false;
-			GAME_STATE	|=	(GS_PLAYBACK|GS_PLAY_GAME);
-			playback_name	=	playbacks[current_playback];
-
-			go_into_game = false;	// Go into game could be set by game_loop()!!!
-			game_loop();
-			GAME_STATE	=	GS_ATTRACT_MODE;
-			y	=	490.0f;
-			current_playback++;
-			if(current_playback>=MAX_PLAYBACKS)
-				current_playback	=	0;
-			dont_leave_for_a_while = 25;
-		}
-		*/
-
+                go_into_game = false;	// Go into game could be set by game_loop()!!!
+                game_loop();
+                GAME_STATE	=	GS_ATTRACT_MODE;
+                y	=	490.0f;
+                current_playback++;
+                if(current_playback>=MAX_PLAYBACKS)
+                        current_playback	=	0;
+                dont_leave_for_a_while = 25;
+        }
+        */
 
 #ifndef TARGET_DC
-		extern void lock_frame_rate(std::int32_t fps);
+        extern void lock_frame_rate(std::int32_t fps);
 
-		lock_frame_rate(60); // because 30 is so slow i want to gnaw my own liver out rather than go through the menus
+        lock_frame_rate(60); // because 30 is so slow i want to gnaw my own liver out rather than go through the menus
 #endif
 
-		if ( ( GAME_STATE & GS_PLAY_GAME ) == 0 )
-		{
-	 		AENG_flip();
-		}
+        if ((GAME_STATE & GS_PLAY_GAME) == 0) {
+            AENG_flip();
+        }
 
-		if ( bReinitBecauseOfLanguageChange )
-		{
-			// Crappy compiler workaround.
-			break;
-		}
-	}
+        if (bReinitBecauseOfLanguageChange) {
+            // Crappy compiler workaround.
+            break;
+        }
+    }
 
+    if (bReinitBecauseOfLanguageChange) {
+        // Crappy compiler workaround.
+        goto reinit_because_of_language_change;
+    }
 
-	if ( bReinitBecauseOfLanguageChange )
-	{
-		// Crappy compiler workaround.
-		goto reinit_because_of_language_change;
-	}
-
-
-
-	//	Fade to logo.
-	if(GAME_STATE&GS_PLAY_GAME)
-	{
-		if (go_into_game)
-		{
+    //	Fade to logo.
+    if (GAME_STATE & GS_PLAY_GAME) {
+        if (go_into_game) {
 #ifdef TARGET_DC
-			// Unload all the frontend gubbins.
-			FRONTEND_unload();
+            // Unload all the frontend gubbins.
+            FRONTEND_unload();
 #endif
 
-/*			AENG_clear_screen();
-			AENG_fade_out(255);*/
-			ShowBackImage(false);
-			AENG_flip();
+            /*			AENG_clear_screen();
+                                    AENG_fade_out(255);*/
+            ShowBackImage(false);
+            AENG_flip();
 
-		}
-		else
-		{
-			std::int32_t c0;
+        } else {
+            std::int32_t c0;
 
-//			ASSERT(0);
-/*
-			c0 = (57 - std::int32_t(y)) * 17;
+            //			ASSERT(0);
+            /*
+                                    c0 = (57 - std::int32_t(y)) * 17;
 
-			SATURATE(c0, 0, 255);
+                                    SATURATE(c0, 0, 255);
 
-			c0 -= c0 % 15;
+                                    c0 -= c0 % 15;
 
-			for(;c0<256;c0+=15)
-			{
-				AENG_clear_screen();
- 				LoadBackImage(image_mem); //image_mem not valid
-				AENG_demo_attract(0,(std::int32_t)y,demo_text);
-				AENG_fade_out((std::uint8_t)c0);
-				AENG_flip();
-			}
-*/
-		}
-	}
+                                    for(;c0<256;c0+=15)
+                                    {
+                                            AENG_clear_screen();
+                                            LoadBackImage(image_mem); //image_mem not valid
+                                            AENG_demo_attract(0,(std::int32_t)y,demo_text);
+                                            AENG_fade_out((std::uint8_t)c0);
+                                            AENG_flip();
+                                    }
+            */
+        }
+    }
 
-	text_fudge	=	false;
-/*
-	the_display.destroy_background_surface();
+    text_fudge = false;
+    /*
+            the_display.destroy_background_surface();
 
-	if(image_mem)
-	{
-		MemFree(image_mem);
-	}
-*/
-	ResetBackImage();
+            if(image_mem)
+            {
+                    MemFree(image_mem);
+            }
+    */
+    ResetBackImage();
 #endif
 }
 
 //---------------------------------------------------------------
 #ifdef PSX
-extern FONT2D_DrawString(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=256, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
+extern FONT2D_DrawString(char *chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb = 0xffffff, std::int32_t scale = 256, std::int32_t page = POLY_PAGE_FONT2D, std::int16_t fade = 0);
 #endif
 
-inline void printf2d(std::int32_t x, std::int32_t &y, char* fmt, ...) {
+inline void printf2d(std::int32_t x, std::int32_t &y, char *fmt, ...) {
 #ifndef PSX
-	char msg[_MAX_PATH];
+    char msg[_MAX_PATH];
 #else
-	char msg[128];
+    char msg[128];
 #endif
-	va_list	ap;
+    va_list ap;
 
-	va_start(ap, fmt);
-	vsprintf(msg, fmt, ap);
-	va_end  (ap);
+    va_start(ap, fmt);
+    vsprintf(msg, fmt, ap);
+    va_end(ap);
 
-	FONT2D_DrawString(msg,x,y,0x00ff00,256,POLY_PAGE_FONT2D);
+    FONT2D_DrawString(msg, x, y, 0x00ff00, 256, POLY_PAGE_FONT2D);
 #ifndef PSX
-	y+=20;
+    y += 20;
 #else
-	y+=14;
+    y += 14;
 #endif
 }
-
 
 #if 0
 
 // urgh.
 std::int32_t PrimaryScore, SecondaryScore, BonusScore;
-#define EWAY_FLAG_ACTIVE	(1 << 0)
-#ifndef	PSX
+#define EWAY_FLAG_ACTIVE (1 << 0)
+#ifndef PSX
 void ScoresCalc() {
 	std::int32_t i, pts;
 	EWAY_Way *ew;
@@ -673,154 +611,129 @@ void ScoresCalc() {
 #define SCORE_SPACER 20
 #endif
 
-extern std::int32_t	stat_killed_thug;
-extern std::int32_t	stat_killed_innocent;
-extern std::int32_t	stat_arrested_thug;
-extern std::int32_t	stat_arrested_innocent;
-extern std::int32_t	stat_count_bonus;
-extern std::int32_t	stat_start_time,stat_game_time;
+extern std::int32_t stat_killed_thug;
+extern std::int32_t stat_killed_innocent;
+extern std::int32_t stat_arrested_thug;
+extern std::int32_t stat_arrested_innocent;
+extern std::int32_t stat_count_bonus;
+extern std::int32_t stat_start_time, stat_game_time;
 
-void ScoresDraw() 
-{
+void ScoresDraw() {
 #ifndef PSX
 
-	std::int32_t y=35;
-	std::int32_t count=0,count_bonus=0,count_bonus_left=0,c0;
-	std::int32_t	ticks,h,m,s;
-	ticks=stat_game_time;
+    std::int32_t y = 35;
+    std::int32_t count = 0, count_bonus = 0, count_bonus_left = 0, c0;
+    std::int32_t ticks, h, m, s;
+    ticks = stat_game_time;
 
-	h=ticks/(1000*60*60);
-	ticks-=h*1000*60*60;
-	m=ticks/(1000*60);
-	ticks-=m*1000*60;
-	s=ticks/(1000);
+    h = ticks / (1000 * 60 * 60);
+    ticks -= h * 1000 * 60 * 60;
+    m = ticks / (1000 * 60);
+    ticks -= m * 1000 * 60;
+    s = ticks / (1000);
 
-	for(c0=0;c0<MAX_THINGS;c0++)
-	{
-		Thing	*p_thing;
+    for (c0 = 0; c0 < MAX_THINGS; c0++) {
+        Thing *p_thing;
 
-		p_thing=TO_THING(c0);
+        p_thing = TO_THING(c0);
 
-		if(p_thing->Class==CLASS_PERSON)
-		{
-			if(p_thing->State!=STATE_DEAD)
-			{
-				switch(p_thing->Genus.Person->PersonType)
-				{
- 					case PERSON_THUG_RASTA:
-					case PERSON_THUG_GREY:
-					case PERSON_THUG_RED:
-					case PERSON_MIB1:
-					case PERSON_MIB2:
-					case PERSON_MIB3:
-						count++;
-						break;
+        if (p_thing->Class == CLASS_PERSON) {
+            if (p_thing->State != STATE_DEAD) {
+                switch (p_thing->Genus.Person->PersonType) {
+                    case PERSON_THUG_RASTA:
+                    case PERSON_THUG_GREY:
+                    case PERSON_THUG_RED:
+                    case PERSON_MIB1:
+                    case PERSON_MIB2:
+                    case PERSON_MIB3:
+                        count++;
+                        break;
+                }
+            }
+        }
+        if (p_thing->Class == CLASS_SPECIAL) {
+            if (p_thing->Genus.Special->SpecialType == SPECIAL_TREASURE) {
+                count_bonus_left++;
+            }
+        }
+    }
 
+    char str[128];
 
-				}
-			}
+    //	POLY_frame_init(false, false);
 
-		}
-		if(p_thing->Class==CLASS_SPECIAL)
-		{
-			if(p_thing->Genus.Special->SpecialType==SPECIAL_TREASURE)
-			{
-				count_bonus_left++;
-			}
-		}
+    extern std::int32_t playing_real_mission();
 
-	}
+    if (playing_real_mission()) {
+        if (NET_PERSON(0)->Genus.Person->PersonType != PERSON_DARCI &&
+            NET_PERSON(0)->Genus.Person->PersonType != PERSON_ROPER) {
+            //
+            // This only works for Darci or Roper!
+            //
+        } else {
+            FONT2D_DrawString(XLAT_str(X_WON_KILLED), 10 + 2, 300 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(XLAT_str(X_WON_ARRESTED), 10 + 2, 320 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(XLAT_str(X_WON_AT_LARGE), 10 + 2, 340 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
 
+            FONT2D_DrawString(XLAT_str(X_WON_KILLED), 10, 300, 0xffffff, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(XLAT_str(X_WON_ARRESTED), 10, 320, 0xffffff, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(XLAT_str(X_WON_AT_LARGE), 10, 340, 0xffffff, 256, POLY_PAGE_FONT2D);
+        }
 
+        FONT2D_DrawString(XLAT_str(X_WON_BONUS_FOUND), 10 + 2, 360 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(XLAT_str(X_WON_BONUS_MISSED), 10 + 2, 380 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(XLAT_str(X_WON_TIMETAKEN), 10 + 2, 400 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(XLAT_str(X_WON_MUCKYTIME), 10 + 2, 420 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
 
+        FONT2D_DrawString(XLAT_str(X_WON_BONUS_FOUND), 10, 360, 0xffffff, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(XLAT_str(X_WON_BONUS_MISSED), 10, 380, 0xffffff, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(XLAT_str(X_WON_TIMETAKEN), 10, 400, 0xffffff, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(XLAT_str(X_WON_MUCKYTIME), 10, 420, 0xffffff, 256, POLY_PAGE_FONT2D);
 
+        //	FONT2D_DrawString(XLAT_str(X_WON_BESTTIME)	,10,420,0xffffff,256,POLY_PAGE_FONT2D);
 
+        if (NET_PERSON(0)->Genus.Person->PersonType != PERSON_DARCI &&
+            NET_PERSON(0)->Genus.Person->PersonType != PERSON_ROPER) {
+            //
+            // This only works for Darci or Roper!
+            //
+        } else {
+            sprintf(str, ": %d", stat_killed_thug);
+            FONT2D_DrawString(str, 300 + 2, 300 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(str, 300, 300, 0xffffff, 256, POLY_PAGE_FONT2D);
 
-	char	str[128];
+            //	sprintf(str,": %d",stat_killed_innocent);
+            //	FONT2D_DrawString(str	,300,300,0xffffff,256,POLY_PAGE_FONT2D);
 
-//	POLY_frame_init(false, false);
+            sprintf(str, ": %d", stat_arrested_thug);
+            FONT2D_DrawString(str, 300 + 2, 320 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(str, 300, 320, 0xffffff, 256, POLY_PAGE_FONT2D);
 
+            sprintf(str, ": %d", count);
+            FONT2D_DrawString(str, 300 + 2, 340 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(str, 300, 340, 0xffffff, 256, POLY_PAGE_FONT2D);
+        }
 
-extern std::int32_t	playing_real_mission();
-	
-	if(playing_real_mission())
-	{
-		if (NET_PERSON(0)->Genus.Person->PersonType != PERSON_DARCI &&
-			NET_PERSON(0)->Genus.Person->PersonType != PERSON_ROPER)
-		{
-			//
-			// This only works for Darci or Roper!
-			//
-		}
-		else
-		{
+        sprintf(str, ": %d", stat_count_bonus);
+        FONT2D_DrawString(str, 300 + 2, 360 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(str, 300, 360, 0xffffff, 256, POLY_PAGE_FONT2D);
 
-			FONT2D_DrawString(XLAT_str(X_WON_KILLED)	,10+2,300+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(XLAT_str(X_WON_ARRESTED)	,10+2,320+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(XLAT_str(X_WON_AT_LARGE)	,10+2,340+2,0x000000,256,POLY_PAGE_FONT2D);
+        sprintf(str, ": %d", count_bonus_left);
+        FONT2D_DrawString(str, 300 + 2, 380 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+        FONT2D_DrawString(str, 300, 380, 0xffffff, 256, POLY_PAGE_FONT2D);
 
-			FONT2D_DrawString(XLAT_str(X_WON_KILLED)	,10,300,0xffffff,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(XLAT_str(X_WON_ARRESTED)	,10,320,0xffffff,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(XLAT_str(X_WON_AT_LARGE)	,10,340,0xffffff,256,POLY_PAGE_FONT2D);
-		}
+        char code[32];
 
-		FONT2D_DrawString(XLAT_str(X_WON_BONUS_FOUND)	,10+2,360+2,0x000000,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(XLAT_str(X_WON_BONUS_MISSED)	,10+2,380+2,0x000000,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(XLAT_str(X_WON_TIMETAKEN)		,10+2,400+2,0x000000,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(XLAT_str(X_WON_MUCKYTIME)		,10+2,420+2,0x000000,256,POLY_PAGE_FONT2D);
+        {
+            typedef struct
+            {
+                char *level_fname;
+                char *level_name;
+                std::int32_t mins;
+                std::int32_t secs;
+                char *who;
 
-		FONT2D_DrawString(XLAT_str(X_WON_BONUS_FOUND)	,10,360,0xffffff,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(XLAT_str(X_WON_BONUS_MISSED)	,10,380,0xffffff,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(XLAT_str(X_WON_TIMETAKEN)		,10,400,0xffffff,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(XLAT_str(X_WON_MUCKYTIME)		,10,420,0xffffff,256,POLY_PAGE_FONT2D);
-
-	//	FONT2D_DrawString(XLAT_str(X_WON_BESTTIME)	,10,420,0xffffff,256,POLY_PAGE_FONT2D);
-
-		if (NET_PERSON(0)->Genus.Person->PersonType != PERSON_DARCI &&
-			NET_PERSON(0)->Genus.Person->PersonType != PERSON_ROPER)
-		{
-			//
-			// This only works for Darci or Roper!
-			//
-		}
-		else
-		{
-			sprintf(str,": %d",stat_killed_thug);
-			FONT2D_DrawString(str	,300+2,300+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(str	,300  ,300  ,0xffffff,256,POLY_PAGE_FONT2D);
-
-		//	sprintf(str,": %d",stat_killed_innocent);
-		//	FONT2D_DrawString(str	,300,300,0xffffff,256,POLY_PAGE_FONT2D);
-
-			sprintf(str,": %d",stat_arrested_thug);
-			FONT2D_DrawString(str	,300+2,320+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(str	,300  ,320  ,0xffffff,256,POLY_PAGE_FONT2D);
-
-			sprintf(str,": %d",count);
-			FONT2D_DrawString(str	,300+2,340+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(str	,300  ,340  ,0xffffff,256,POLY_PAGE_FONT2D);
-		}
-
-		sprintf(str,": %d",stat_count_bonus);
-		FONT2D_DrawString(str	,300+2,360+2,0x000000,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(str	,300  ,360  ,0xffffff,256,POLY_PAGE_FONT2D);
-
-		sprintf(str,": %d",count_bonus_left);
-		FONT2D_DrawString(str	,300+2,380+2,0x000000,256,POLY_PAGE_FONT2D);
-		FONT2D_DrawString(str	,300  ,380  ,0xffffff,256,POLY_PAGE_FONT2D);
-
-		char code[32];
-
-		{
-			typedef struct
-			{
-				char* level_fname;
-				char* level_name;
-				std::int32_t  mins;
-				std::int32_t  secs;
-				char* who;
-			 
-			} Mime;	// A mucky time!
+            } Mime; // A mucky time!
 
 #if 0
 // Times that shipped with the PC. Or was it the PSX?
@@ -863,123 +776,114 @@ extern std::int32_t	playing_real_mission();
 				{nullptr}
 			};
 #else
-// DC times, starting from scratch.
-			static Mime mucky_times[] =
-			{
-				{"\\FTutor1.ucm"	,"Combat Tutorial",				 0,	 0				},
-				{"\\Assault1.ucm"	,"Physical Training",			 0,	 0				},
-				{"\\testdrive1a.ucm","Driving Bronze",				 0,	 0				},
-				{"\\fight1.ucm"		,"Combat Bronze",				 0,	 0				},
-				{"\\police1.ucm"	,"RTA",							 1,  5,	"Alex Hood" },
-				{"\\testdrive2.ucm"	,"Driving Silver",				 0,	 0				},
-				{"\\fight2.ucm"		,"Combat Silver",				 0,	 0				},
-				{"\\police2.ucm"	,"The Jump",					 1,	32,	"Joe Neate"	},
-				{"\\testdrive3.ucm"	,"Driving Gold",				 0,	 0				},
-				{"\\Bankbomb1.ucm"	,"Nitro Car",					 5,	 0, "Kenny Tang"	},
-				{"\\police3.ucm"	,"Gun Hunt",					 1,	37,	"Alex Hood"	},
-				{"\\Gangorder2.ucm"	,"Rat Catch",					 3,	14, "David Babajee"	},
-				{"\\police4.ucm"	,"Trouble in the Park",			 1,	24,	"Kaoski"	},
-				{"\\bball2.ucm"		,"Gatecrasher",					 0,	45,	"Tom Forsyth"	},
-				{"\\wstores1.ucm"	,"Arms Breaker",				 4,	 3,	"Joe Neate"		},
-				{"\\e3.ucm"			,"Media Trouble",				 5,	54, "Kwesi Moodie"	},
-				{"\\westcrime1.ucm"	,"Urban Shakedown",				 6,	 4,	"Alex Hood"	},
-				{"\\carbomb1.ucm"	,"Auto-Destruct",				 4,	18, "David Babajee"	},
-				{"\\botanicc.ucm"	,"Grim Gardens",				 6,	29,	"Kwesi Moodie"		},
-				{"\\Semtex.ucm"		,"Semtex",						16,	 3,	"Kaoski"	},
-				{"\\AWOL1.ucm"		,"Cop Killers",					10,	30,	"Kenny Tang"	},
-				{"\\mission2.ucm"	,"Southside Offensive",			 7,	49,	"Alex Hood"	},
-				{"\\park2.ucm"		,"Psycho Park",					 6,	45, "Tom Forsyth"		},
-				{"\\MIB.ucm"		,"The Fallen",					26,	53,	"Phil Maskell"		},
-				{"\\skymiss2.ucm"	,"Stern Revenge",				 9,	28, "David Babajee"	},
-				{"\\factory1.ucm"	,"Transmission Terminated",		 8,	35,	"Kwesi Moodie"		},
-				{"\\estate2.ucm"	,"Estate of Emergency",			 8,	14,	"Phil Maskell"		},
-				{"\\Stealtst1.ucm"	,"Seek, Sneak and Seize",		 5,	28, "Kaoski"	},
-				{"\\snow2.ucm"		,"Target UC",					 2, 26,	"Kaoski"	},
-				{"\\Gordout1.ucm"	,"Headline Hostage",			 5,	42,	"Kenny Tang"	},
-				{"\\Baalrog3.ucm"	,"Insane Assault",				 2,	38,	"Mike Diskett"		},
-				{"\\Finale1.ucm"	,"Day Of Reckoning",			40,	00,	"Beat me"		},
-				{"\\Gangorder1.ucm"	,"Assassin",					 5,	21,	"Joe Neate"		},
-				{"\\FreeCD1.ucm"	,"Demo map",					40,	00, "Beat me"},
-				{"\\Album1.ucm"		,"Breakout!",					15,	38, "Tom Forsyth"},
-				{nullptr}
-			};
+            // DC times, starting from scratch.
+            static Mime mucky_times[] =
+                {
+                    {"\\FTutor1.ucm", "Combat Tutorial", 0, 0},
+                    {"\\Assault1.ucm", "Physical Training", 0, 0},
+                    {"\\testdrive1a.ucm", "Driving Bronze", 0, 0},
+                    {"\\fight1.ucm", "Combat Bronze", 0, 0},
+                    {"\\police1.ucm", "RTA", 1, 5, "Alex Hood"},
+                    {"\\testdrive2.ucm", "Driving Silver", 0, 0},
+                    {"\\fight2.ucm", "Combat Silver", 0, 0},
+                    {"\\police2.ucm", "The Jump", 1, 32, "Joe Neate"},
+                    {"\\testdrive3.ucm", "Driving Gold", 0, 0},
+                    {"\\Bankbomb1.ucm", "Nitro Car", 5, 0, "Kenny Tang"},
+                    {"\\police3.ucm", "Gun Hunt", 1, 37, "Alex Hood"},
+                    {"\\Gangorder2.ucm", "Rat Catch", 3, 14, "David Babajee"},
+                    {"\\police4.ucm", "Trouble in the Park", 1, 24, "Kaoski"},
+                    {"\\bball2.ucm", "Gatecrasher", 0, 45, "Tom Forsyth"},
+                    {"\\wstores1.ucm", "Arms Breaker", 4, 3, "Joe Neate"},
+                    {"\\e3.ucm", "Media Trouble", 5, 54, "Kwesi Moodie"},
+                    {"\\westcrime1.ucm", "Urban Shakedown", 6, 4, "Alex Hood"},
+                    {"\\carbomb1.ucm", "Auto-Destruct", 4, 18, "David Babajee"},
+                    {"\\botanicc.ucm", "Grim Gardens", 6, 29, "Kwesi Moodie"},
+                    {"\\Semtex.ucm", "Semtex", 16, 3, "Kaoski"},
+                    {"\\AWOL1.ucm", "Cop Killers", 10, 30, "Kenny Tang"},
+                    {"\\mission2.ucm", "Southside Offensive", 7, 49, "Alex Hood"},
+                    {"\\park2.ucm", "Psycho Park", 6, 45, "Tom Forsyth"},
+                    {"\\MIB.ucm", "The Fallen", 26, 53, "Phil Maskell"},
+                    {"\\skymiss2.ucm", "Stern Revenge", 9, 28, "David Babajee"},
+                    {"\\factory1.ucm", "Transmission Terminated", 8, 35, "Kwesi Moodie"},
+                    {"\\estate2.ucm", "Estate of Emergency", 8, 14, "Phil Maskell"},
+                    {"\\Stealtst1.ucm", "Seek, Sneak and Seize", 5, 28, "Kaoski"},
+                    {"\\snow2.ucm", "Target UC", 2, 26, "Kaoski"},
+                    {"\\Gordout1.ucm", "Headline Hostage", 5, 42, "Kenny Tang"},
+                    {"\\Baalrog3.ucm", "Insane Assault", 2, 38, "Mike Diskett"},
+                    {"\\Finale1.ucm", "Day Of Reckoning", 40, 00, "Beat me"},
+                    {"\\Gangorder1.ucm", "Assassin", 5, 21, "Joe Neate"},
+                    {"\\FreeCD1.ucm", "Demo map", 40, 00, "Beat me"},
+                    {"\\Album1.ucm", "Breakout!", 15, 38, "Tom Forsyth"},
+                    {nullptr}};
 #endif
 
-			char par[128];
+            char par[128];
 
-			sprintf(par, "No time yet. Email TomF your time!");
+            sprintf(par, "No time yet. Email TomF your time!");
 
-			std::int32_t i = 0;
+            std::int32_t i = 0;
 
-			while(1)
-			{
-				Mime *mm = &mucky_times[i];
-				
-				if (!mm->level_fname)
-				{
-					break;
-				}
+            while (1) {
+                Mime *mm = &mucky_times[i];
 
-				extern char ELEV_fname_level[];
+                if (!mm->level_fname) {
+                    break;
+                }
 
-				if (strstr(ELEV_fname_level, mm->level_fname) && mm->who)
-				{
-					std::int32_t mucky_time;
-					std::int32_t their_time;
+                extern char ELEV_fname_level[];
 
-					mucky_time = mm->mins * 60 + mm->secs;
-					their_time = (h * 60 + m) * 60 + s;
+                if (strstr(ELEV_fname_level, mm->level_fname) && mm->who) {
+                    std::int32_t mucky_time;
+                    std::int32_t their_time;
 
-					extern bool dkeys_have_been_used;
+                    mucky_time = mm->mins * 60 + mm->secs;
+                    their_time = (h * 60 + m) * 60 + s;
 
-extern bool g_bPunishMePleaseICheatedOnThisLevel;
-					if (their_time >= mucky_time || dkeys_have_been_used || g_bPunishMePleaseICheatedOnThisLevel)
-					{
-						// No code for you!
-						code[0] = '\000';
-					}
-					else
-					{
-						std::int32_t hash;
-						
-						hash  = (i + 1) * (m + 1) * (s + 1) * 3141;
-						hash  = hash % 12345;
-						hash += 0x9a2f;
+                    extern bool dkeys_have_been_used;
+
+                    extern bool g_bPunishMePleaseICheatedOnThisLevel;
+                    if (their_time >= mucky_time || dkeys_have_been_used || g_bPunishMePleaseICheatedOnThisLevel) {
+                        // No code for you!
+                        code[0] = '\000';
+                    } else {
+                        std::int32_t hash;
+
+                        hash = (i + 1) * (m + 1) * (s + 1) * 3141;
+                        hash = hash % 12345;
+                        hash += 0x9a2f;
 
 #ifdef TARGET_DC
-						// Invert the code for the DC to stop cheating scum
-						// sending in the PC times.
-						hash ^= 0xffff;
+                        // Invert the code for the DC to stop cheating scum
+                        // sending in the PC times.
+                        hash ^= 0xffff;
 #endif
 
-						sprintf(code, ": CODE <%X> ", hash);
-					}
+                        sprintf(code, ": CODE <%X> ", hash);
+                    }
 
-					sprintf(par, ": (00:%02d:%02d)  %s", mm->mins, mm->secs, mm->who);
+                    sprintf(par, ": (00:%02d:%02d)  %s", mm->mins, mm->secs, mm->who);
 
-					break;
-				}
+                    break;
+                }
 
-				i++;
-			}
+                i++;
+            }
 
-			sprintf(str,": (%02d:%02d:%02d) %s",h,m,s, code);
-			FONT2D_DrawString(str	,300+2,400+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(str	,300  ,400  ,0xffffff,256,POLY_PAGE_FONT2D);
+            sprintf(str, ": (%02d:%02d:%02d) %s", h, m, s, code);
+            FONT2D_DrawString(str, 300 + 2, 400 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(str, 300, 400, 0xffffff, 256, POLY_PAGE_FONT2D);
 
-			FONT2D_DrawString(par	,300+2,420+2,0x000000,256,POLY_PAGE_FONT2D);
-			FONT2D_DrawString(par	,300  ,420  ,0xffffff,256,POLY_PAGE_FONT2D);
-		}
+            FONT2D_DrawString(par, 300 + 2, 420 + 2, 0x000000, 256, POLY_PAGE_FONT2D);
+            FONT2D_DrawString(par, 300, 420, 0xffffff, 256, POLY_PAGE_FONT2D);
+        }
 
-	//	sprintf(str,": %d",stat_arrested_innocent);
-	//	FONT2D_DrawString(str	,300,300,0xffffff,256,POLY_PAGE_FONT2D);
-	}
+        //	sprintf(str,": %d",stat_arrested_innocent);
+        //	FONT2D_DrawString(str	,300,300,0xffffff,256,POLY_PAGE_FONT2D);
+    }
 
-
-//	POLY_frame_draw(false, false);
+    //	POLY_frame_draw(false, false);
 
 #endif
-
 }
 
 #if 0
@@ -1005,7 +909,7 @@ void level_won()
 	CONSOLE_text(XLAT_str(X_PRESS_TO_CONTINUE));
 	while(SHELL_ACTIVE&&(GAME_STATE&GS_LEVEL_WON))
 	{
-#ifndef	PSX
+#ifndef PSX
 
 
 		std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY); // 1 << 1 => Joystick
@@ -1023,7 +927,7 @@ void level_won()
 
 #endif
 //		process_things(1);
-#ifdef	OLD_CAM
+#ifdef OLD_CAM
 		{
 
 			std::int32_t cam_x;
@@ -1125,7 +1029,7 @@ void level_lost()
 
 	while(SHELL_ACTIVE&&(GAME_STATE&GS_LEVEL_LOST))
 	{
-#ifndef	PSX
+#ifndef PSX
 
 		std::uint32_t input = get_hardware_input(INPUT_TYPE_JOY); // 1 << 1 => Joystick
 
@@ -1144,7 +1048,7 @@ void level_lost()
 #endif
 
 //		process_things(1);
-#ifdef	OLD_CAM
+#ifdef OLD_CAM
 		{
 			std::int32_t cam_x;
 			std::int32_t cam_y;
@@ -1216,204 +1120,183 @@ void level_lost()
 
 //---------------------------------------------------------------
 
-
-void ATTRACT_loadscreen_init()
-{
-
-	PANEL_disable_screensaver ( true );
+void ATTRACT_loadscreen_init() {
+    PANEL_disable_screensaver(true);
 
 #ifdef TARGET_DC
 
-extern void POLY_ClearAllPages();
-	POLY_ClearAllPages();
+    extern void POLY_ClearAllPages();
+    POLY_ClearAllPages();
 
-	// Flip once to flush the rendering (e.g. leaves will be left in).
-	the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
-	the_display.lp_D3D_Device->EndScene();
-	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
+    // Flip once to flush the rendering (e.g. leaves will be left in).
+    the_display.lp_D3D_Viewport->Clear2(0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0);
+    the_display.lp_D3D_Device->EndScene();
+    the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
-	// Clear both buffers.
-	the_display.lp_D3D_Device->BeginScene();
-	the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
-	the_display.lp_D3D_Device->EndScene();
-	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
+    // Clear both buffers.
+    the_display.lp_D3D_Device->BeginScene();
+    the_display.lp_D3D_Viewport->Clear2(0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0);
+    the_display.lp_D3D_Device->EndScene();
+    the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
-	the_display.lp_D3D_Device->BeginScene();
-	the_display.lp_D3D_Viewport->Clear2 ( 0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0 );
-	the_display.lp_D3D_Device->EndScene();
-	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
+    the_display.lp_D3D_Device->BeginScene();
+    the_display.lp_D3D_Viewport->Clear2(0, nullptr, D3DCLEAR_TARGET, 0x0, 0.0f, 0);
+    the_display.lp_D3D_Device->EndScene();
+    the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
-	// Really horrible hack.
-void FRONTEND_scr_img_load_into_screenfull(char* name, CompressedBackground *screen);
-	FRONTEND_scr_img_load_into_screenfull ( "e3load.tga", &(the_display.lp_DD_Background) );
-	UnpackBackground ( (BYTE*)( the_display.lp_DD_Background ), the_display.lp_DD_BackSurface );
-	//AENG_flip();
-	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
+    // Really horrible hack.
+    void FRONTEND_scr_img_load_into_screenfull(char *name, CompressedBackground *screen);
+    FRONTEND_scr_img_load_into_screenfull("e3load.tga", &(the_display.lp_DD_Background));
+    UnpackBackground((BYTE *) (the_display.lp_DD_Background), the_display.lp_DD_BackSurface);
+    // AENG_flip();
+    the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
-	the_display.lp_DD_BackSurface->Blt ( nullptr, the_display.lp_DD_FrontSurface, nullptr, DDBLT_WAIT, nullptr );
+    the_display.lp_DD_BackSurface->Blt(nullptr, the_display.lp_DD_FrontSurface, nullptr, DDBLT_WAIT, nullptr);
 
-	the_display.lp_DD_FrontSurface->Flip ( nullptr, DDFLIP_WAIT );
+    the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
-	//InitBackImage("e3load.tga");
-	//ShowBackImage(false);
-	//AENG_flip();
+    // InitBackImage("e3load.tga");
+    // ShowBackImage(false);
+    // AENG_flip();
 
-	// Then free up the compressed image data again.
-	ResetBackImage();
-
+    // Then free up the compressed image data again.
+    ResetBackImage();
 
 #else
 
 #ifndef PSX
-	InitBackImage("e3load.tga");
-	ShowBackImage(false);
-	AENG_flip();
-	// Er... why do this again????
-	InitBackImage("e3load.tga");
-	ShowBackImage(false);
-	AENG_flip();
+    InitBackImage("e3load.tga");
+    ShowBackImage(false);
+    AENG_flip();
+    // Er... why do this again????
+    InitBackImage("e3load.tga");
+    ShowBackImage(false);
+    AENG_flip();
 #endif
 
 #endif
 }
-
 
 #ifdef TARGET_DC
 
 // None of the graphics systems are up at the moment,
 // so just draw straight to the front buffer.
-void ATTRACT_loadscreen_draw(std::int32_t completion)	// completion is in 8-bit fixed point from 0 to 256.
+void ATTRACT_loadscreen_draw(std::int32_t completion) // completion is in 8-bit fixed point from 0 to 256.
 {
-	#define START_R 50
-	#define START_G 59
-	#define START_B	80
+#define START_R 50
+#define START_G 59
+#define START_B 80
 
-	#define END_R 210
-	#define END_G 216
-	#define END_B 208
+#define END_R 210
+#define END_G 216
+#define END_B 208
 
-	std::int32_t along;
+    std::int32_t along;
 
-	std::int32_t r;
-	std::int32_t g;
-	std::int32_t b;
+    std::int32_t r;
+    std::int32_t g;
+    std::int32_t b;
 
-	std::int32_t i;
+    std::int32_t i;
 
-	std::int32_t colour;
+    std::int32_t colour;
 
-	HRESULT hres;
-
+    HRESULT hres;
 
 #if 1
 
-	DDSURFACEDESC2 ddsd;
-	memset ( &ddsd, 0, sizeof ( ddsd ) );
-	ddsd.dwSize = sizeof ( ddsd );
+    DDSURFACEDESC2 ddsd;
+    memset(&ddsd, 0, sizeof(ddsd));
+    ddsd.dwSize = sizeof(ddsd);
 
-	hres = the_display.lp_DD_FrontSurface->Lock ( nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_WRITEONLY, nullptr );
+    hres = the_display.lp_DD_FrontSurface->Lock(nullptr, &ddsd, DDLOCK_WAIT | DDLOCK_WRITEONLY, nullptr);
 
-	for (i = 0; i < (completion >> 3); i += 1)
-	{
-		r = START_R + (END_R - START_R) * i >> 5;
-		g = START_G + (END_G - START_G) * i >> 5;
-		b = START_B + (END_B - START_B) * i >> 5;
+    for (i = 0; i < (completion >> 3); i += 1) {
+        r = START_R + (END_R - START_R) * i >> 5;
+        g = START_G + (END_G - START_G) * i >> 5;
+        b = START_B + (END_B - START_B) * i >> 5;
 
-		// Tailored to 565.
-		colour = ((r & 0xf8) << 8) | ((g & 0xfc ) << 3) | (b >> 3);
-		//colour |= colour << 16;
+        // Tailored to 565.
+        colour = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | (b >> 3);
+        // colour |= colour << 16;
 
-		RECT rect;
-		rect.left   = 0  + i * 20;
-		rect.right  = 20 + i * 20;
-		// Got to move this higher for NTSC, or it falls off the bottom of the screen.
-		if ( eDisplayType == DT_NTSC )
-		{
-			rect.top    = 435;
-			rect.bottom = 455;
-		}
-		else
-		{
-			rect.top    = 455;
-			rect.bottom = 475;
-		}
+        RECT rect;
+        rect.left = 0 + i * 20;
+        rect.right = 20 + i * 20;
+        // Got to move this higher for NTSC, or it falls off the bottom of the screen.
+        if (eDisplayType == DT_NTSC) {
+            rect.top = 435;
+            rect.bottom = 455;
+        } else {
+            rect.top = 455;
+            rect.bottom = 475;
+        }
 
-		// Two black lines.
-		for ( int iY = rect.top; iY < rect.top+2; iY++ )
-		{
-			WORD *wPtr = (WORD*)( (char *)ddsd.lpSurface + iY * ddsd.lPitch );
-			wPtr += rect.left;
-			for ( int iX = rect.left; iX < rect.right; iX++ )
-			{
-				*wPtr++ = 0;
-			}
-		}
+        // Two black lines.
+        for (int iY = rect.top; iY < rect.top + 2; iY++) {
+            WORD *wPtr = (WORD *) ((char *) ddsd.lpSurface + iY * ddsd.lPitch);
+            wPtr += rect.left;
+            for (int iX = rect.left; iX < rect.right; iX++) {
+                *wPtr++ = 0;
+            }
+        }
 
-		for ( iY = rect.top+2; iY < rect.bottom; iY++ )
-		{
-			WORD *wPtr = (WORD*)( (char *)ddsd.lpSurface + iY * ddsd.lPitch );
-			wPtr += rect.left;
-			for ( int iX = rect.left; iX < rect.right - 2; iX++ )
-			{
-				*wPtr++ = colour;
-			}
-			// And two black pixels.
-			*wPtr++ = 0;
-			*wPtr++ = 0;
-		}
+        for (iY = rect.top + 2; iY < rect.bottom; iY++) {
+            WORD *wPtr = (WORD *) ((char *) ddsd.lpSurface + iY * ddsd.lPitch);
+            wPtr += rect.left;
+            for (int iX = rect.left; iX < rect.right - 2; iX++) {
+                *wPtr++ = colour;
+            }
+            // And two black pixels.
+            *wPtr++ = 0;
+            *wPtr++ = 0;
+        }
+    }
 
-	}
-
-	hres = the_display.lp_DD_FrontSurface->Unlock ( nullptr );
-
+    hres = the_display.lp_DD_FrontSurface->Unlock(nullptr);
 
 #else
 
-	DDBLTFX ddbltfx;
-	memset ( &ddbltfx, 0, sizeof ( ddbltfx ) );
-	ddbltfx.dwSize = sizeof ( ddbltfx );
+    DDBLTFX ddbltfx;
+    memset(&ddbltfx, 0, sizeof(ddbltfx));
+    ddbltfx.dwSize = sizeof(ddbltfx);
 
-	for (i = 0; i < (completion >> 3); i += 1)
-	{
-		r = START_R + (END_R - START_R) * i >> 5;
-		g = START_G + (END_G - START_G) * i >> 5;
-		b = START_B + (END_B - START_B) * i >> 5;
+    for (i = 0; i < (completion >> 3); i += 1) {
+        r = START_R + (END_R - START_R) * i >> 5;
+        g = START_G + (END_G - START_G) * i >> 5;
+        b = START_B + (END_B - START_B) * i >> 5;
 
-		// Tailored to 565.
-		colour = ((r & 0xf8) << 8) | ((g & 0xfc ) << 3) | (b >> 3);
-		colour |= colour << 16;
+        // Tailored to 565.
+        colour = ((r & 0xf8) << 8) | ((g & 0xfc) << 3) | (b >> 3);
+        colour |= colour << 16;
 
-		RECT rect;
-		rect.left   = 5  + i * 20;
-		rect.right  = 23 + i * 20;
-		rect.top    = 455;
-		rect.bottom = 475;
+        RECT rect;
+        rect.left = 5 + i * 20;
+        rect.right = 23 + i * 20;
+        rect.top = 455;
+        rect.bottom = 475;
 
-		ddbltfx.dwFillColor = colour;
+        ddbltfx.dwFillColor = colour;
 
-		HRESULT hres = the_display.lp_DD_BackSurface->Blt ( &rect, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_DDFX, &ddbltfx );
+        HRESULT hres = the_display.lp_DD_BackSurface->Blt(&rect, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_DDFX, &ddbltfx);
 
-		hres++;
+        hres++;
+    }
 
-	}
-
-	AENG_flip();
+    AENG_flip();
 
 #endif
-
 }
-
 
 #else
 
-void ATTRACT_loadscreen_draw(std::int32_t completion)	// completion is in 8-bit fixed point from 0 to 256.
+void ATTRACT_loadscreen_draw(std::int32_t completion) // completion is in 8-bit fixed point from 0 to 256.
 {
-#ifndef	PSX
-	ShowBackImage(false);
-	PANEL_draw_completion_bar(completion);
-	AENG_flip();
+#ifndef PSX
+    ShowBackImage(false);
+    PANEL_draw_completion_bar(completion);
+    AENG_flip();
 #endif
 }
 
 #endif
-

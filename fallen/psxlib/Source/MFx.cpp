@@ -25,38 +25,37 @@
 
 #include "c:\fallen\psxlib\headers\mfxmusic.h"
 
-#define MFX_MAX_CHANNELS	24
-#define MFX_MAX_WAVES		547
+#define MFX_MAX_CHANNELS 24
+#define MFX_MAX_WAVES 547
 
-#define MFX_FLAG_AMBIENT	(32768)
+#define MFX_FLAG_AMBIENT (32768)
 
 #ifdef NTSC
-#define MFX_BYTES_PER_FRAME	35
+#define MFX_BYTES_PER_FRAME 35
 #else
 #define MFX_BYTES_PER_FRAME 45
 #endif
 
-#define S_PITCH 0x400		// 8000
+#define S_PITCH 0x400 // 8000
 
 CdlFILE MFX_audio_start;
 extern char *PANEL_wide_cont;
 extern char PANEL_wide_text[];
 
 typedef struct {
-	std::int16_t	waypoint;
-	std::uint8_t	conversation;
-	std::uint8_t	conv_off;
-	std::uint8_t	channel;
-	std::uint8_t   pack;
-	std::int16_t	length;
-	std::int16_t	offset;
+    std::int16_t waypoint;
+    std::uint8_t conversation;
+    std::uint8_t conv_off;
+    std::uint8_t channel;
+    std::uint8_t pack;
+    std::int16_t length;
+    std::int16_t offset;
 } AudioOffset;
-
 
 std::int32_t MFX_Speech_files;
 std::int32_t MFX_Cd_Position;
-std::int32_t MFX_Seek_delay=0;
-std::int32_t MFX_music_stop=0;
+std::int32_t MFX_Seek_delay = 0;
+std::int32_t MFX_music_stop = 0;
 std::int32_t MFX_sound_frame;
 
 AudioOffset Audio_data[128];
@@ -67,7 +66,7 @@ extern char *GDisp_Bucket;
 #else
 extern char GDisp_Bucket[];
 #endif
-std::int32_t MFX_Conv_playing=0;
+std::int32_t MFX_Conv_playing = 0;
 
 extern std::int16_t music_current_level;
 extern std::uint8_t music_current_mode;
@@ -79,26 +78,26 @@ std::int32_t MFX_music_pending;
 std::int32_t MFX_music_world;
 
 typedef struct {
-	GameCoord *position;
-	GameCoord poshold;
-	std::uint16_t	  channel_id;
-	std::uint8_t	  channel;
-	std::uint8_t	  in_use;
-	std::uint32_t	  wave;
-	std::uint32_t	  end_frame;
-	std::uint32_t	  flags;
-	SpuVoiceAttr voice;
+    GameCoord *position;
+    GameCoord poshold;
+    std::uint16_t channel_id;
+    std::uint8_t channel;
+    std::uint8_t in_use;
+    std::uint32_t wave;
+    std::uint32_t end_frame;
+    std::uint32_t flags;
+    SpuVoiceAttr voice;
 } MFX_Sound;
 
 typedef struct {
-	GameCoord position;
-	SVECTOR	  orientation;
-	std::int32_t	  environment;
+    GameCoord position;
+    SVECTOR orientation;
+    std::int32_t environment;
 } MFX_Listener;
 
 typedef struct {
-	std::int32_t	  address;
-	std::int32_t	  length;
+    std::int32_t address;
+    std::int32_t length;
 } MFX_Wave;
 
 MFX_Sound MFX_channel[MFX_MAX_CHANNELS];
@@ -110,263 +109,233 @@ std::int32_t MFX_WaveFree;
 std::int32_t MFX_music_wave;
 std::int32_t MFX_music_int;
 
-std::int32_t MFX_OnKey,MFX_OffKey;
+std::int32_t MFX_OnKey, MFX_OffKey;
 
 void MFX_Conv_stop();
 
 //----- transport functions -----
 
-inline std::uint32_t MFX_FindPSXChannel(std::uint32_t channel_id,std::uint32_t wave,std::uint32_t flags) 
-{
-	int i=MFX_MAX_CHANNELS,c0;
-	channel_id&=0xffff;
-	c0=channel_id%MFX_MAX_CHANNELS;
+inline std::uint32_t MFX_FindPSXChannel(std::uint32_t channel_id, std::uint32_t wave, std::uint32_t flags) {
+    int i = MFX_MAX_CHANNELS, c0;
+    channel_id &= 0xffff;
+    c0 = channel_id % MFX_MAX_CHANNELS;
 
-	while((i--)&&(MFX_channel[c0].in_use))
-	{
-		if ((MFX_channel[c0].in_use)&&(MFX_channel[c0].channel_id==channel_id)&&(MFX_channel[c0].wave==wave))
-		{
-			if (flags&MFX_REPLACE)
-				return c0;
-			if (!(flags&MFX_OVERLAP))
-				return 0xffff;
-		}
-		c0=(c0+1)%MFX_MAX_CHANNELS;
-	}
-	// We have no channels free, play on the original intended channel no matter what.
-	return c0;
+    while ((i--) && (MFX_channel[c0].in_use)) {
+        if ((MFX_channel[c0].in_use) && (MFX_channel[c0].channel_id == channel_id) && (MFX_channel[c0].wave == wave)) {
+            if (flags & MFX_REPLACE)
+                return c0;
+            if (!(flags & MFX_OVERLAP))
+                return 0xffff;
+        }
+        c0 = (c0 + 1) % MFX_MAX_CHANNELS;
+    }
+    // We have no channels free, play on the original intended channel no matter what.
+    return c0;
 }
 
-inline std::uint32_t MFX_SearchPSXChannel(std::uint32_t channel_id,std::uint32_t wave) 
-{
-	int i=MFX_MAX_CHANNELS,c0;
-	channel_id&=0xffff;
-	c0=channel_id%MFX_MAX_CHANNELS;
+inline std::uint32_t MFX_SearchPSXChannel(std::uint32_t channel_id, std::uint32_t wave) {
+    int i = MFX_MAX_CHANNELS, c0;
+    channel_id &= 0xffff;
+    c0 = channel_id % MFX_MAX_CHANNELS;
 
-	for(i=0;i<MFX_MAX_CHANNELS;i++)
-	{
-		if (MFX_channel[c0].in_use)
-		{
-			if (MFX_channel[c0].channel_id==channel_id)
-			{
-				if (wave==MFX_WAVE_ALL)
-					return c0;
-				if (MFX_channel[c0].wave==wave)
-					return c0;
-			}
-		}
-		c0=(c0+1)%MFX_MAX_CHANNELS;
-	}
-	return 0xffff;
+    for (i = 0; i < MFX_MAX_CHANNELS; i++) {
+        if (MFX_channel[c0].in_use) {
+            if (MFX_channel[c0].channel_id == channel_id) {
+                if (wave == MFX_WAVE_ALL)
+                    return c0;
+                if (MFX_channel[c0].wave == wave)
+                    return c0;
+            }
+        }
+        c0 = (c0 + 1) % MFX_MAX_CHANNELS;
+    }
+    return 0xffff;
 }
 
-void MFX_StartWave(MFX_Sound *channel,std::uint32_t wave,std::uint32_t flags)
-{
-	if (MFX_wave[wave].length)
-	{
-		channel->wave=wave;
-		channel->in_use=1;
-		channel->flags=flags;
-		channel->voice.voice=1<<channel->channel;
-//		printf("channel: %d\n",channel->channel_id);
-		channel->voice.addr=MFX_wave[wave].address;
-		channel->voice.volume.left=0x3fff;
-		channel->voice.volume.right=0x3fff;
-		channel->voice.pitch=S_PITCH;
-		channel->voice.mask|=SPU_VOICE_WDSA|SPU_VOICE_VOLL|SPU_VOICE_VOLR|SPU_VOICE_PITCH;
-		if (flags&MFX_LOOPED)
-			channel->end_frame=INFINITY;
-		else
-			channel->end_frame=MFX_sound_frame+(MFX_wave[wave].length/MFX_BYTES_PER_FRAME)+1;
+void MFX_StartWave(MFX_Sound *channel, std::uint32_t wave, std::uint32_t flags) {
+    if (MFX_wave[wave].length) {
+        channel->wave = wave;
+        channel->in_use = 1;
+        channel->flags = flags;
+        channel->voice.voice = 1 << channel->channel;
+        //		printf("channel: %d\n",channel->channel_id);
+        channel->voice.addr = MFX_wave[wave].address;
+        channel->voice.volume.left = 0x3fff;
+        channel->voice.volume.right = 0x3fff;
+        channel->voice.pitch = S_PITCH;
+        channel->voice.mask |= SPU_VOICE_WDSA | SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH;
+        if (flags & MFX_LOOPED)
+            channel->end_frame = INFINITY;
+        else
+            channel->end_frame = MFX_sound_frame + (MFX_wave[wave].length / MFX_BYTES_PER_FRAME) + 1;
 
-		MFX_OnKey|=1<<channel->channel;
-	}	  
+        MFX_OnKey |= 1 << channel->channel;
+    }
 
-	/*
-	if ((wave>=S_PISTOL_SHOT)&&(wave<=S_PUNCH_END))
-		channel->flags|=MFX_SHOT;
-	if ((wave>=S_EXPLODE_START)&&(wave<=S_EXPLODE_END))
-		channel->flags|=MFX_EXPLODE;
-	if ((wave==S_SHOTGUN_SHOT)||(wave==S_DARCI_HIT_START)||(wave==S_DARCI_HIT_END))
-		channel->flags|=MFX_SHOT;
-	*/
+    /*
+    if ((wave>=S_PISTOL_SHOT)&&(wave<=S_PUNCH_END))
+            channel->flags|=MFX_SHOT;
+    if ((wave>=S_EXPLODE_START)&&(wave<=S_EXPLODE_END))
+            channel->flags|=MFX_EXPLODE;
+    if ((wave==S_SHOTGUN_SHOT)||(wave==S_DARCI_HIT_START)||(wave==S_DARCI_HIT_END))
+            channel->flags|=MFX_SHOT;
+    */
 }
 
-void MFX_StopWave(MFX_Sound *channel,std::uint32_t wave)
-{
-	// Check we are playing the wave we expected
-	if (channel->wave!=wave)
-		return;
+void MFX_StopWave(MFX_Sound *channel, std::uint32_t wave) {
+    // Check we are playing the wave we expected
+    if (channel->wave != wave)
+        return;
 
-	channel->in_use=0;
-	MFX_OffKey|=1<<channel->channel;
+    channel->in_use = 0;
+    MFX_OffKey |= 1 << channel->channel;
 }
 
-void MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t z)
-{
-	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
-	if (psx_channel==0xffff)
-		return;
-//	ASSERT(!(flags & MFX_FLAG_SEARCHER));
+void MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t z) {
+    std::uint16_t psx_channel = MFX_FindPSXChannel(channel_id, wave, flags);
+    if (psx_channel == 0xffff)
+        return;
+    //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
 
-	MFX_channel[psx_channel].poshold.X=x;
-	MFX_channel[psx_channel].poshold.Y=y;
-	MFX_channel[psx_channel].poshold.Z=z;
-	MFX_channel[psx_channel].position=&MFX_channel[psx_channel].poshold;
-	MFX_channel[psx_channel].channel_id=channel_id&0xffff;
-	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
+    MFX_channel[psx_channel].poshold.X = x;
+    MFX_channel[psx_channel].poshold.Y = y;
+    MFX_channel[psx_channel].poshold.Z = z;
+    MFX_channel[psx_channel].position = &MFX_channel[psx_channel].poshold;
+    MFX_channel[psx_channel].channel_id = channel_id & 0xffff;
+    MFX_StartWave(&MFX_channel[psx_channel], wave, flags);
 }
 
-void MFX_play_pos(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, GameCoord* position)
-{
-	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
-	if (psx_channel==0xffff)
-		return;
-//	ASSERT(!(flags & MFX_FLAG_SEARCHER));
-	MFX_channel[psx_channel].position=position;
-	MFX_channel[psx_channel].channel_id=channel_id&0xffff;
-	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
+void MFX_play_pos(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, GameCoord *position) {
+    std::uint16_t psx_channel = MFX_FindPSXChannel(channel_id, wave, flags);
+    if (psx_channel == 0xffff)
+        return;
+    //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
+    MFX_channel[psx_channel].position = position;
+    MFX_channel[psx_channel].channel_id = channel_id & 0xffff;
+    MFX_StartWave(&MFX_channel[psx_channel], wave, flags);
 }
 
-void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing* p)
-{
-	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
-	if (psx_channel==0xffff)
-		return;
+void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing *p) {
+    std::uint16_t psx_channel = MFX_FindPSXChannel(channel_id, wave, flags);
+    if (psx_channel == 0xffff)
+        return;
 
-//	if(p->Class==CLASS_VEHICLE)
-//		ASSERT(p->Genus.Vehicle->Driver);
-//	ASSERT(!(flags & MFX_FLAG_SEARCHER));
-	MFX_channel[psx_channel].position=&p->WorldPos;
-	MFX_channel[psx_channel].channel_id=channel_id&0xffff;
-	if (p->Genus.Person->PlayerID)
-		flags|=MFX_PLAYER;
-	// Bodge in a check to see if we're playing a search or slide sound.
+    //	if(p->Class==CLASS_VEHICLE)
+    //		ASSERT(p->Genus.Vehicle->Driver);
+    //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
+    MFX_channel[psx_channel].position = &p->WorldPos;
+    MFX_channel[psx_channel].channel_id = channel_id & 0xffff;
+    if (p->Genus.Person->PlayerID)
+        flags |= MFX_PLAYER;
+    // Bodge in a check to see if we're playing a search or slide sound.
 
-//	if (flags & (MFX_FLAG_SLIDER|MFX_FLAG_SEARCHER)) //just store it all the time, the instructions wont be in the cache so a read and a write is probably no worse than reading the extra instructions
-		MFX_channel[psx_channel].poshold.X=(std::int32_t)p;
+    //	if (flags & (MFX_FLAG_SLIDER|MFX_FLAG_SEARCHER)) //just store it all the time, the instructions wont be in the cache so a read and a write is probably no worse than reading the extra instructions
+    MFX_channel[psx_channel].poshold.X = (std::int32_t) p;
 
-	MFX_StartWave(&MFX_channel[psx_channel],wave,flags);
+    MFX_StartWave(&MFX_channel[psx_channel], wave, flags);
 }
 
-void MFX_play_ambient(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
-{
-	std::uint16_t	psx_channel=MFX_FindPSXChannel(channel_id,wave,flags);
-	if (psx_channel==0xffff)
-		return;
-	MFX_channel[psx_channel].channel_id=channel_id&0xffff;
-//	ASSERT(!(flags & MFX_FLAG_SEARCHER));
-	if (flags & MFX_FLAG_SEARCHER)
-	{
-		MFX_channel[psx_channel].poshold.X=(std::int32_t)NET_PERSON(0);
-	}
-	MFX_StartWave(&MFX_channel[psx_channel],wave,flags|MFX_FLAG_AMBIENT);
+void MFX_play_ambient(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags) {
+    std::uint16_t psx_channel = MFX_FindPSXChannel(channel_id, wave, flags);
+    if (psx_channel == 0xffff)
+        return;
+    MFX_channel[psx_channel].channel_id = channel_id & 0xffff;
+    //	ASSERT(!(flags & MFX_FLAG_SEARCHER));
+    if (flags & MFX_FLAG_SEARCHER) {
+        MFX_channel[psx_channel].poshold.X = (std::int32_t) NET_PERSON(0);
+    }
+    MFX_StartWave(&MFX_channel[psx_channel], wave, flags | MFX_FLAG_AMBIENT);
 }
 
-void MFX_play_stereo(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags)
-{
+void MFX_play_stereo(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags) {
 }
 
-void MFX_stop(std::int32_t channel_id, std::uint32_t wave)
-{
-	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
-	if (psx_channel==0xffff)
-		return;
+void MFX_stop(std::int32_t channel_id, std::uint32_t wave) {
+    std::uint16_t psx_channel = MFX_SearchPSXChannel(channel_id, wave);
+    if (psx_channel == 0xffff)
+        return;
 
-	if (wave==MFX_WAVE_ALL)
-	{
-		while(psx_channel!=0xffff)
-		{
-			printf("Channel: %d\n",psx_channel);
-//			ASSERT(!(MFX_channel[psx_channel].flags & MFX_FLAG_SLIDER));
-			MFX_channel[psx_channel].in_use=0;
-			MFX_OffKey|=1<<MFX_channel[psx_channel].channel;
-			psx_channel=MFX_SearchPSXChannel(channel_id,wave);
-		}
-		printf("Done.\n");
-	}
-	else
-		MFX_StopWave(&MFX_channel[psx_channel],wave);
+    if (wave == MFX_WAVE_ALL) {
+        while (psx_channel != 0xffff) {
+            printf("Channel: %d\n", psx_channel);
+            //			ASSERT(!(MFX_channel[psx_channel].flags & MFX_FLAG_SLIDER));
+            MFX_channel[psx_channel].in_use = 0;
+            MFX_OffKey |= 1 << MFX_channel[psx_channel].channel;
+            psx_channel = MFX_SearchPSXChannel(channel_id, wave);
+        }
+        printf("Done.\n");
+    } else
+        MFX_StopWave(&MFX_channel[psx_channel], wave);
 }
 
-void MFX_stop_attached(Thing *p)
-{
+void MFX_stop_attached(Thing *p) {
 }
 
 //----- audio processing functions -----
 
-void MFX_SetPitch(MFX_Sound *channel,std::uint32_t wave, std::int32_t pitchbend)
-{
-	if (channel->wave!=wave)
-		return;
-	channel->voice.pitch=(S_PITCH*(pitchbend+256))>>8;
-	channel->voice.mask|=SPU_VOICE_PITCH;
+void MFX_SetPitch(MFX_Sound *channel, std::uint32_t wave, std::int32_t pitchbend) {
+    if (channel->wave != wave)
+        return;
+    channel->voice.pitch = (S_PITCH * (pitchbend + 256)) >> 8;
+    channel->voice.mask |= SPU_VOICE_PITCH;
 }
 
-void MFX_SetWave(MFX_Sound *channel,std::uint32_t wave, std::int32_t new_wave)
-{
-	if (channel->wave!=wave)
-		return;
+void MFX_SetWave(MFX_Sound *channel, std::uint32_t wave, std::int32_t new_wave) {
+    if (channel->wave != wave)
+        return;
 }
 
-void MFX_set_pitch(std::uint16_t channel_id, std::uint32_t wave, std::int32_t pitchbend)
-{
-	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
-	if (psx_channel==0xffff)
-		return;
-	MFX_SetPitch(&MFX_channel[psx_channel],wave,pitchbend);
+void MFX_set_pitch(std::uint16_t channel_id, std::uint32_t wave, std::int32_t pitchbend) {
+    std::uint16_t psx_channel = MFX_SearchPSXChannel(channel_id, wave);
+    if (psx_channel == 0xffff)
+        return;
+    MFX_SetPitch(&MFX_channel[psx_channel], wave, pitchbend);
 }
 
-void MFX_set_wave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t new_wave)
-{
-	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
-	if (psx_channel==0xffff)
-		return;
-	MFX_SetWave(&MFX_channel[psx_channel],wave,new_wave);
+void MFX_set_wave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t new_wave) {
+    std::uint16_t psx_channel = MFX_SearchPSXChannel(channel_id, wave);
+    if (psx_channel == 0xffff)
+        return;
+    MFX_SetWave(&MFX_channel[psx_channel], wave, new_wave);
 }
 
-void MFX_set_xyz(std::uint16_t channel_id, std::uint32_t wave, std::int32_t x, std::int32_t y, std::int32_t z)
-{
-	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
-	if (psx_channel==0xffff)
-		return;
-	MFX_channel[channel_id].poshold.X=x;
-	MFX_channel[channel_id].poshold.Y=y;
-	MFX_channel[channel_id].poshold.Z=z;
-	MFX_channel[channel_id].position=&MFX_channel[channel_id].poshold;
+void MFX_set_xyz(std::uint16_t channel_id, std::uint32_t wave, std::int32_t x, std::int32_t y, std::int32_t z) {
+    std::uint16_t psx_channel = MFX_SearchPSXChannel(channel_id, wave);
+    if (psx_channel == 0xffff)
+        return;
+    MFX_channel[channel_id].poshold.X = x;
+    MFX_channel[channel_id].poshold.Y = y;
+    MFX_channel[channel_id].poshold.Z = z;
+    MFX_channel[channel_id].position = &MFX_channel[channel_id].poshold;
 }
 
-void MFX_set_pos(std::uint16_t channel_id, std::uint32_t wave, GameCoord* position)
-{
-	std::uint16_t	psx_channel=MFX_SearchPSXChannel(channel_id,wave);
-	if (psx_channel==0xffff)
-		return;
-	MFX_channel[channel_id].position=position;
+void MFX_set_pos(std::uint16_t channel_id, std::uint32_t wave, GameCoord *position) {
+    std::uint16_t psx_channel = MFX_SearchPSXChannel(channel_id, wave);
+    if (psx_channel == 0xffff)
+        return;
+    MFX_channel[channel_id].position = position;
 }
 
 //----- listener & environment -----
 
-void MFX_set_listener(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t heading, std::int32_t roll, std::int32_t pitch)
-{
-	MFX_listener.position.X=x;
-	MFX_listener.position.Y=y;
-	MFX_listener.position.Z=z;
-	MFX_listener.orientation.vx=pitch;
-	MFX_listener.orientation.vy=heading;
-	MFX_listener.orientation.vz=roll;
+void MFX_set_listener(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t heading, std::int32_t roll, std::int32_t pitch) {
+    MFX_listener.position.X = x;
+    MFX_listener.position.Y = y;
+    MFX_listener.position.Z = z;
+    MFX_listener.orientation.vx = pitch;
+    MFX_listener.orientation.vy = heading;
+    MFX_listener.orientation.vz = roll;
 }
 
-void MFX_set_environment(std::int32_t env_type)
-{
-	MFX_listener.environment=env_type;
+void MFX_set_environment(std::int32_t env_type) {
+    MFX_listener.environment = env_type;
 }
 
 //----- sound library functions -----
 
-extern char* sound_list[];
+extern char *sound_list[];
 
-void MFX_load_wave_list(char* path,char* script_file)
-{
+void MFX_load_wave_list(char *path, char *script_file) {
 }
 #if 0
 void MFX_load_wave_file(char* wave_file)
@@ -408,7 +377,7 @@ void MFX_load_wave_file(char* wave_file)
 }
 #endif
 
-void MFX_load_wave_list(char* names[]=0)				// load list from array
+void MFX_load_wave_list(char *names[] = 0) // load list from array
 {
 #if 0
 	char **ptr;
@@ -429,61 +398,58 @@ void MFX_load_wave_list(char* names[]=0)				// load list from array
 	printf("Done.\n");
 #else
 
-#ifdef	MIKE
+#ifdef MIKE
 //	return;
 #endif
-	std::int32_t *buffer=(std::int32_t*)MemAlloc(530*1024);
-	std::int32_t *p=buffer;
-	std::int32_t i;
+    std::int32_t *buffer = (std::int32_t *) MemAlloc(530 * 1024);
+    std::int32_t *p = buffer;
+    std::int32_t i;
 
-
-	ASSERT(buffer!=0);
+    ASSERT(buffer != 0);
 
 #ifndef VERSION_DEMO
-	PCReadFile("DATA\\PSXSOUND.VAG",(std::uint8_t*)buffer,512*1025);
+    PCReadFile("DATA\\PSXSOUND.VAG", (std::uint8_t *) buffer, 512 * 1025);
 #else
-	PCReadFile("URBAN\\PSXSOUND.VAG",(std::uint8_t*)buffer,512*1025);
+    PCReadFile("URBAN\\PSXSOUND.VAG", (std::uint8_t *) buffer, 512 * 1025);
 #endif
-	MFX_WavesLoaded=*p++;
-	MFX_WaveFree=0x1010;
+    MFX_WavesLoaded = *p++;
+    MFX_WaveFree = 0x1010;
 
-	printf("MFX_WavesLoaded = %d\n",MFX_WavesLoaded);
+    printf("MFX_WavesLoaded = %d\n", MFX_WavesLoaded);
 
-	for(i=0;i<MFX_WavesLoaded;i++)
-	{
-		MFX_wave[i].address=MFX_WaveFree+(std::int32_t)*p++;
-		MFX_wave[i].length=(MFX_WaveFree+(std::int32_t)*p)-MFX_wave[i].address;
-		if ((MFX_wave[i].length==0)&&(i>0))
-			MFX_wave[i].length=MFX_wave[i-1].length;
-	}
-	p++;
+    for (i = 0; i < MFX_WavesLoaded; i++) {
+        MFX_wave[i].address = MFX_WaveFree + (std::int32_t) *p++;
+        MFX_wave[i].length = (MFX_WaveFree + (std::int32_t) *p) - MFX_wave[i].address;
+        if ((MFX_wave[i].length == 0) && (i > 0))
+            MFX_wave[i].length = MFX_wave[i - 1].length;
+    }
+    p++;
 
-	SpuSetTransferMode(SPU_TRANSFER_BY_IO);
-	SpuSetTransferStartAddr(MFX_WaveFree);
-	SpuWrite((char*)p,(0x80000-MFX_WaveFree));
-//	SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
+    SpuSetTransferMode(SPU_TRANSFER_BY_IO);
+    SpuSetTransferStartAddr(MFX_WaveFree);
+    SpuWrite((char *) p, (0x80000 - MFX_WaveFree));
+    //	SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
 
-	MemFree((void*)buffer);
+    MemFree((void *) buffer);
 #endif
 }
 
-void MFX_free_wave_list()
-{
-	MFX_WavesLoaded=0;
-//	MFX_WaveFree=0x1010;
+void MFX_free_wave_list() {
+    MFX_WavesLoaded = 0;
+    //	MFX_WaveFree=0x1010;
 }
 
 //----- Callback with one function only -----
 /*
 void MFX_Callback_CdRead(std::uint8_t status,std::uint8_t *result)
 {
-	CdlLOC buffer[8];
+        CdlLOC buffer[8];
 
-	if (status == CdlDataReady)
-	{
+        if (status == CdlDataReady)
+        {
         CdGetSector((u_long*)buffer,2);
-		MFX_Cd_Position=CdPosToInt(buffer);
-	}
+                MFX_Cd_Position=CdPosToInt(buffer);
+        }
 }
 */
 
@@ -494,556 +460,497 @@ extern int music_volume;
 extern int sound_mode;
 extern int speech_volume;
 
-inline std::int32_t MFX_Volume(std::int32_t invol)
-{
-	return (invol*sfx_volume)>>8;
+inline std::int32_t MFX_Volume(std::int32_t invol) {
+    return (invol * sfx_volume) >> 8;
 }
 
-void MFX_render()
-{
-	int i;
-	MATRIX m;
-	MFX_Sound *ch;
-	CdlATV mix;
-	static CdlLOC sector;
+void MFX_render() {
+    int i;
+    MATRIX m;
+    MFX_Sound *ch;
+    CdlATV mix;
+    static CdlLOC sector;
 
-	RotMatrix(&MFX_listener.orientation,&m);
-	m.t[0]=-MFX_listener.position.X >> 10;//8;
-	m.t[1]=-MFX_listener.position.Y >> 10;//8;
-	m.t[2]=-MFX_listener.position.Z >> 10;//8;
+    RotMatrix(&MFX_listener.orientation, &m);
+    m.t[0] = -MFX_listener.position.X >> 10; // 8;
+    m.t[1] = -MFX_listener.position.Y >> 10; // 8;
+    m.t[2] = -MFX_listener.position.Z >> 10; // 8;
 
-	SetRotMatrix(&m);
-	SetTransMatrix(&m);
+    SetRotMatrix(&m);
+    SetTransMatrix(&m);
 
-	ch=&MFX_channel[0];
+    ch = &MFX_channel[0];
 
-	for(i=0;i<MFX_MAX_CHANNELS;i++)
-	{
-		// Process each channel
-		if (ch->in_use)
-		{
+    for (i = 0; i < MFX_MAX_CHANNELS; i++) {
+        // Process each channel
+        if (ch->in_use) {
+            if (!(ch->flags & MFX_FLAG_AMBIENT)) {
+                // Process any non-ambient sounds
+                VECTOR v;
+                VECTOR lv;
+                std::int32_t flags, dist;
 
-			if(!(ch->flags&MFX_FLAG_AMBIENT))
-			{
-				// Process any non-ambient sounds
-				VECTOR v;
-				VECTOR lv;
-				std::int32_t flags,dist;
+                GameCoord *p = ch->position;
+                v.vx = p->X >> 10;
+                v.vy = p->Y >> 10;
+                v.vz = p->Z >> 10;
+                TransRot_32(&v, &lv, &flags);
 
-				GameCoord *p=ch->position;
-				v.vx=p->X>>10;
-				v.vy=p->Y>>10;
-				v.vz=p->Z>>10;
-				TransRot_32(&v,&lv,&flags);
+                dist = (lv.vx * lv.vx) + (lv.vy * lv.vy) + (lv.vz * lv.vz);
 
-				dist=(lv.vx*lv.vx)+(lv.vy*lv.vy)+(lv.vz*lv.vz);
+                if (dist < 0x3fffff) {
+                    // Calculate Left/Right panning
+                    if (sound_mode) {
+                        ch->voice.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+                        ch->voice.volume.left = MFX_Volume(0x3fff - (dist >> ((lv.vx < 0) ? 8 : 7)));
+                        ch->voice.volume.right = MFX_Volume(0x3fff - (dist >> ((lv.vx < 0) ? 7 : 8)));
+                    } else {
+                        ch->voice.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+                        ch->voice.volume.left = ch->voice.volume.right = MFX_Volume(0x3fff - (dist >> 7));
+                    }
 
-				if (dist<0x3fffff)
-				{
-					// Calculate Left/Right panning
-					if (sound_mode)
-					{
-						ch->voice.mask|=SPU_VOICE_VOLL|SPU_VOICE_VOLR;
-						ch->voice.volume.left=MFX_Volume(0x3fff-(dist>>((lv.vx<0)?8:7)));
-						ch->voice.volume.right=MFX_Volume(0x3fff-(dist>>((lv.vx<0)?7:8)));
-					} else
-					{
-						ch->voice.mask|=SPU_VOICE_VOLL|SPU_VOICE_VOLR;
-						ch->voice.volume.left=ch->voice.volume.right=MFX_Volume(0x3fff-(dist>>7));
-					}
+                    SATURATE(ch->voice.volume.left, 0, 0x3fff);
+                    SATURATE(ch->voice.volume.right, 0, 0x3fff);
 
-					SATURATE(ch->voice.volume.left,0,0x3fff);
-					SATURATE(ch->voice.volume.right,0,0x3fff);
+                } else {
+                    ch->voice.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+                    ch->voice.volume.left = ch->voice.volume.right = 0;
+                }
+            } else {
+                ch->voice.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
+                ch->voice.volume.left = ch->voice.volume.right = MFX_Volume(0x3fff);
+            }
 
+            if (ch->flags & MFX_FLAG_SLIDER) {
+                Thing *p = (Thing *) ch->poshold.X;
+                if (p->SubState != SUB_STATE_RUNNING_SKID_STOP || p->Draw.Tweened->CurrentAnim == ANIM_SLIDER_END) {
+                    MFX_OffKey |= (1 << i);
+                    ch->in_use = 0;
+                    //					ASSERT(0);
+                }
+            }
 
-				} else
-				{
-					ch->voice.mask|=SPU_VOICE_VOLL|SPU_VOICE_VOLR;
-					ch->voice.volume.left=ch->voice.volume.right=0;
-				}
-			} else
-			{
-				ch->voice.mask|=SPU_VOICE_VOLL|SPU_VOICE_VOLR;
-				ch->voice.volume.left=ch->voice.volume.right=MFX_Volume(0x3fff);
-			}
+            if (ch->flags & MFX_FLAG_SEARCHER) {
+                Thing *p = (Thing *) ch->poshold.X;
+                if (p->State != STATE_SEARCH) {
+                    MFX_OffKey |= (1 << i);
+                    ch->in_use = 0;
+                }
+            }
 
-			if (ch->flags & MFX_FLAG_SLIDER)
-			{
-				Thing *p=(Thing *)ch->poshold.X;
-				if (p->SubState!=SUB_STATE_RUNNING_SKID_STOP ||p->Draw.Tweened->CurrentAnim==ANIM_SLIDER_END)
-				{
-					MFX_OffKey|=(1<<i);
-					ch->in_use=0;
-//					ASSERT(0);
-				}
-			}
+            if (ch->end_frame <= MFX_sound_frame) {
+                // Turn off all expired channels
+                MFX_OffKey |= (1 << i);
+                ch->in_use = 0;
+                //				ASSERT(!(ch->flags & MFX_FLAG_SLIDER));
+            }
 
-			if (ch->flags & MFX_FLAG_SEARCHER)
-			{
-				Thing *p=(Thing *)ch->poshold.X;
-				if (p->State!=STATE_SEARCH)
-				{
-					MFX_OffKey|=(1<<i);
-					ch->in_use=0;
-				}
-			}
+            if (ch->voice.mask) {
+                SpuSetVoiceAttr(&ch->voice);
+                ch->voice.mask = 0;
+            }
+        }
+        ch++;
+    }
+    // If we turn off first, we can catch channels that are supposed to restart again the
+    // same frame (well thats the theory)
+    if (MFX_OnKey) {
+        SpuSetKey(SpuOn, MFX_OnKey);
+    }
+    // Set all the keys changed this frame, including those shutdown by the above loop.
+    if (MFX_OffKey) {
+        SpuSetKey(SpuOff, MFX_OffKey);
+    }
 
+    // If we're playing a conversation, check it see if it's ended.
 
-			if (ch->end_frame<=MFX_sound_frame)
-			{
-				// Turn off all expired channels
-				MFX_OffKey|=(1<<i);
-				ch->in_use=0;
-//				ASSERT(!(ch->flags & MFX_FLAG_SLIDER));
-			}
+    if (MFX_Conv_playing)
+        mix.val0 = mix.val1 = (128 * speech_volume) >> 7;
+    else
+        mix.val0 = mix.val1 = (music_current_level * music_volume) >> 7;
 
-			if (ch->voice.mask)
-			{
-				SpuSetVoiceAttr(&ch->voice);
-				ch->voice.mask=0;
-			}
-		}
-		ch++;
-	}
-	// If we turn off first, we can catch channels that are supposed to restart again the
-	// same frame (well thats the theory)
-	if (MFX_OnKey)
-	{
-		SpuSetKey(SpuOn,MFX_OnKey);
-	}
-	// Set all the keys changed this frame, including those shutdown by the above loop.
-	if (MFX_OffKey)
-	{
-		SpuSetKey(SpuOff,MFX_OffKey);
-	}
+    if (!MFX_Seek_delay) {
+        CdControl(CdlGetlocL, 0, (std::uint8_t *) &sector);
+        MFX_Cd_Position = CdPosToInt(&sector);
+    } else {
+        // If we're seeking then turn the volume off.
+        mix.val0 = mix.val1 = 0;
+        MFX_Cd_Position = 0;
+        CdControl(CdlNop, 0, 0);
+        if (CdStatus() & CdlStatRead)
+            MFX_Seek_delay = 0;
+    }
 
-	// If we're playing a conversation, check it see if it's ended.
+    if (MFX_Conv_playing && !MFX_Seek_delay) {
+        CdlLOC sector;
+        std::int32_t pos;
+#ifndef MIKE
 
-	if (MFX_Conv_playing)
-		mix.val0=mix.val1=(128*speech_volume)>>7;
-	else
-		mix.val0=mix.val1=(music_current_level*music_volume)>>7;
-
-	if (!MFX_Seek_delay)
-	{
-		CdControl(CdlGetlocL,0,(std::uint8_t*)&sector);
-		MFX_Cd_Position=CdPosToInt(&sector);
-	} else
-	{
-		// If we're seeking then turn the volume off.
-		mix.val0=mix.val1=0;
-		MFX_Cd_Position=0;
-		CdControl(CdlNop,0,0);
-		if (CdStatus() & CdlStatRead)
-			MFX_Seek_delay=0;
-	}
-
-	if (MFX_Conv_playing&&!MFX_Seek_delay)
-	{
-		CdlLOC	sector;
-		std::int32_t pos;
-#ifndef	MIKE
-
-		if ((MFX_Cd_Position>MFX_Speech_End)&&(MFX_Cd_Position<MFX_music_int))
-		{
-			if (PANEL_wide_cont)
-				PANEL_wide_cont=0;
-			MFX_Conv_stop();
-			mix.val0=mix.val1=0;
-			music_current_level=0;
-		}
+        if ((MFX_Cd_Position > MFX_Speech_End) && (MFX_Cd_Position < MFX_music_int)) {
+            if (PANEL_wide_cont)
+                PANEL_wide_cont = 0;
+            MFX_Conv_stop();
+            mix.val0 = mix.val1 = 0;
+            music_current_level = 0;
+        }
 #endif
-	}
+    }
 
+    if (MFX_music_wave != -1) {
+        if (MFX_Cd_Position >= MFX_music_end) {
+            MUSIC_stop(0);
+            mix.val0 = mix.val1 = 0;
+        }
+    }
 
-	if (MFX_music_wave!=-1)
-	{
-		if (MFX_Cd_Position>=MFX_music_end)
-		{
-			MUSIC_stop(0);
-			mix.val0=mix.val1=0;
-		}
-	}
+    mix.val2 = mix.val3 = 0;
+    CdMix(&mix);
 
-   	mix.val2=mix.val3=0;
-	CdMix(&mix);
+    // Clear the keys and mask
 
-
-	// Clear the keys and mask
-
-	MFX_OnKey=0;
-	MFX_OffKey=0;
+    MFX_OnKey = 0;
+    MFX_OffKey = 0;
 }
 
-void MFX_init()
-{
-	SpuCommonAttr attr;
-	SpuVoiceAttr s_attr;
-	int i;
+void MFX_init() {
+    SpuCommonAttr attr;
+    SpuVoiceAttr s_attr;
+    int i;
 
-	SpuInit();
+    SpuInit();
 
-	MFX_free_wave_list();
+    MFX_free_wave_list();
 
-	attr.mask=(SPU_COMMON_MVOLL | SPU_COMMON_MVOLR | SPU_COMMON_CDVOLL | SPU_COMMON_CDVOLR | SPU_COMMON_CDMIX);
-	attr.mvol.left=0x1fff;
-	attr.mvol.right=0x1fff;
-	attr.cd.volume.left=0x3fff;
-	attr.cd.volume.right=0x3fff;
-	attr.cd.mix=SPU_ON;
+    attr.mask = (SPU_COMMON_MVOLL | SPU_COMMON_MVOLR | SPU_COMMON_CDVOLL | SPU_COMMON_CDVOLR | SPU_COMMON_CDMIX);
+    attr.mvol.left = 0x1fff;
+    attr.mvol.right = 0x1fff;
+    attr.cd.volume.left = 0x3fff;
+    attr.cd.volume.right = 0x3fff;
+    attr.cd.mix = SPU_ON;
 
-	SpuSetCommonAttr(&attr);
+    SpuSetCommonAttr(&attr);
 
-	s_attr.mask = (SPU_VOICE_VOLL |
-				   SPU_VOICE_VOLR |
-				   SPU_VOICE_VOLMODEL |
-				   SPU_VOICE_VOLMODER |
-				   SPU_VOICE_PITCH |
-				   SPU_VOICE_ADSR_AMODE |
-				   SPU_VOICE_ADSR_SMODE |
-				   SPU_VOICE_ADSR_RMODE |
-				   SPU_VOICE_ADSR_AR |
-				   SPU_VOICE_ADSR_DR |
-				   SPU_VOICE_ADSR_SR |
-				   SPU_VOICE_ADSR_RR |
-				   SPU_VOICE_ADSR_SL
-		   );
+    s_attr.mask = (SPU_VOICE_VOLL |
+                   SPU_VOICE_VOLR |
+                   SPU_VOICE_VOLMODEL |
+                   SPU_VOICE_VOLMODER |
+                   SPU_VOICE_PITCH |
+                   SPU_VOICE_ADSR_AMODE |
+                   SPU_VOICE_ADSR_SMODE |
+                   SPU_VOICE_ADSR_RMODE |
+                   SPU_VOICE_ADSR_AR |
+                   SPU_VOICE_ADSR_DR |
+                   SPU_VOICE_ADSR_SR |
+                   SPU_VOICE_ADSR_RR |
+                   SPU_VOICE_ADSR_SL);
 
     /* set the attributes with all voice */
     s_attr.voice = SPU_ALLCH;
 
     /* value of each voice attribute */
-    s_attr.volume.left  = 0x1fff;		/* Left volume */
-    s_attr.volume.right = 0x1fff;		/* Right volume */
-	s_attr.volmode.left = SPU_VOICE_DIRECT;
-	s_attr.volmode.right= SPU_VOICE_DIRECT;
-    s_attr.pitch        = S_PITCH;		/* Pitch */
-    s_attr.a_mode       = SPU_VOICE_LINEARIncN;	/* Attack curve */
-    s_attr.s_mode       = SPU_VOICE_LINEARIncN;	/* Sustain curve */
-    s_attr.r_mode       = SPU_VOICE_LINEARDecN;	/* Release curve */
-    s_attr.ar           = 0x0;			/* Attack rate value */
-    s_attr.dr           = 0x0;			/* Decay rate value */
-    s_attr.sr           = 0x0;			/* Sustain rate value */
-    s_attr.rr           = 0x0;			/* Release rate value */
-    s_attr.sl           = 0xf;			/* Sustain level value */
+    s_attr.volume.left = 0x1fff;  /* Left volume */
+    s_attr.volume.right = 0x1fff; /* Right volume */
+    s_attr.volmode.left = SPU_VOICE_DIRECT;
+    s_attr.volmode.right = SPU_VOICE_DIRECT;
+    s_attr.pitch = S_PITCH;               /* Pitch */
+    s_attr.a_mode = SPU_VOICE_LINEARIncN; /* Attack curve */
+    s_attr.s_mode = SPU_VOICE_LINEARIncN; /* Sustain curve */
+    s_attr.r_mode = SPU_VOICE_LINEARDecN; /* Release curve */
+    s_attr.ar = 0x0;                      /* Attack rate value */
+    s_attr.dr = 0x0;                      /* Decay rate value */
+    s_attr.sr = 0x0;                      /* Sustain rate value */
+    s_attr.rr = 0x0;                      /* Release rate value */
+    s_attr.sl = 0xf;                      /* Sustain level value */
 
-    SpuSetVoiceAttr (&s_attr);
+    SpuSetVoiceAttr(&s_attr);
 
-	for(i=0;i<MFX_MAX_CHANNELS;i++)
-		MFX_channel[i].channel=i;
+    for (i = 0; i < MFX_MAX_CHANNELS; i++)
+        MFX_channel[i].channel = i;
 
-	MFX_OnKey=0;
-	MFX_OffKey=0;
+    MFX_OnKey = 0;
+    MFX_OffKey = 0;
 
-	MFX_music_wave=-1;
-	MFX_sound_frame=0;
-	MFX_Conv_playing=0;
+    MFX_music_wave = -1;
+    MFX_sound_frame = 0;
+    MFX_Conv_playing = 0;
 }
 
 #ifdef VERSION_NTSC
-#define SECOND(x) ((x)*60)
+#define SECOND(x) ((x) * 60)
 #else
-#define SECOND(x) ((x)*50)
+#define SECOND(x) ((x) * 50)
 #endif
 
 CdlFILTER MFX_filter;
 
-std::uint8_t MFX_music[]={0,1,2,3,4,1,4,3,5,6,7,0,0,6,4};
+std::uint8_t MFX_music[] = {0, 1, 2, 3, 4, 1, 4, 3, 5, 6, 7, 0, 0, 6, 4};
 
 extern std::uint8_t MUSIC_bodge_code;
 
-std::uint8_t MUSIC_play(std::uint16_t wave,std::uint8_t flags)
-{
+std::uint8_t MUSIC_play(std::uint16_t wave, std::uint8_t flags) {
 #ifndef MIKE
-	char param[8];
-	std::int32_t wv;
+    char param[8];
+    std::int32_t wv;
 
-	// Dont even think of stopping the speech when it's going.
+    // Dont even think of stopping the speech when it's going.
 
-	if (MFX_Conv_playing)
-		return -1;
-/*
-	if (MUSIC_bodge_code)
-	{
-		if (MFX_music_wave!=MUSIC_bodge_code)
-		{
-			printf("Bodging music to : %d\n",MUSIC_bodge_code);
-			MFX_music_wave=-1;
-			wave=MUSIC_bodge_code;
-			flags=0;
-//			MFX_music_pending=MUSIC_bodge_code;
-			music_current_level=127;
-		} else
-		{
-			flags=0;
-		}
-	}
-*/
-	MFX_filter.file=1;
+    if (MFX_Conv_playing)
+        return -1;
+    /*
+            if (MUSIC_bodge_code)
+            {
+                    if (MFX_music_wave!=MUSIC_bodge_code)
+                    {
+                            printf("Bodging music to : %d\n",MUSIC_bodge_code);
+                            MFX_music_wave=-1;
+                            wave=MUSIC_bodge_code;
+                            flags=0;
+    //			MFX_music_pending=MUSIC_bodge_code;
+                            music_current_level=127;
+                    } else
+                    {
+                            flags=0;
+                    }
+            }
+    */
+    MFX_filter.file = 1;
 
-	MFX_filter.chan=MFX_music[wave&0x7f];
+    MFX_filter.chan = MFX_music[wave & 0x7f];
 
-//	printf("Bodged music wave: %d (%d)\n",wave,MFX_filter.chan);
+    //	printf("Bodged music wave: %d (%d)\n",wave,MFX_filter.chan);
 
-	if (MFX_music_wave==-1)
-	{
-//		printf("Playing: %d (%D - %d)\n",wave,MFX_music_int,MFX_Music_len[MFX_music_world][MFX_filter.chan]);
-		MFX_music_pending=wave;
-		if (flags&(MUSIC_FLAG_FADE_IN|MUSIC_FLAG_FADE_OUT))
-		{
-			music_current_level=0;
-		}
-		MFX_music_wave=wave;
-		MFX_music_queued=-1;
-		MFX_music_end=MFX_music_int+(MFX_Music_len[MFX_music_world][MFX_filter.chan]<<3);
+    if (MFX_music_wave == -1) {
+        //		printf("Playing: %d (%D - %d)\n",wave,MFX_music_int,MFX_Music_len[MFX_music_world][MFX_filter.chan]);
+        MFX_music_pending = wave;
+        if (flags & (MUSIC_FLAG_FADE_IN | MUSIC_FLAG_FADE_OUT)) {
+            music_current_level = 0;
+        }
+        MFX_music_wave = wave;
+        MFX_music_queued = -1;
+        MFX_music_end = MFX_music_int + (MFX_Music_len[MFX_music_world][MFX_filter.chan] << 3);
 
-		CdControlF(CdlSetfilter,(std::uint8_t*)&MFX_filter);
-		CdControlF(CdlReadS,(std::uint8_t*)&MFX_audio_start.pos);
-		MFX_Seek_delay=10;
-	} 
-	else
-	{
-//		if (flags&MUSIC_FLAG_FADE_OUT)
-//			MFX_music_gain=-2;
+        CdControlF(CdlSetfilter, (std::uint8_t *) &MFX_filter);
+        CdControlF(CdlReadS, (std::uint8_t *) &MFX_audio_start.pos);
+        MFX_Seek_delay = 10;
+    } else {
+        //		if (flags&MUSIC_FLAG_FADE_OUT)
+        //			MFX_music_gain=-2;
 
-		if (flags&MUSIC_FLAG_QUEUED)
-		{
-			MFX_music_queued=wave;
-			MFX_music_q_flag=flags;
-		}
-	}
-	return MFX_music_wave;
+        if (flags & MUSIC_FLAG_QUEUED) {
+            MFX_music_queued = wave;
+            MFX_music_q_flag = flags;
+        }
+    }
+    return MFX_music_wave;
 #else
-	return -1;
+    return -1;
 #endif
 }
 
-void MUSIC_stop(bool fade)
-{
+void MUSIC_stop(bool fade) {
 #ifndef MIKE
-	char param[8];
+    char param[8];
 
-	if (fade)
-	{
-		if (MFX_music_gain==0)
-			MFX_music_wave=-1;
-		else
-			MFX_music_gain=-2;
-	} else
-	{
-		// Pause the CD System
-//		CdControlF(CdlPause,param);
-		// Then seek to the start of the music stuff again.
-//		CdControlF(CdlSetloc,(char*)&MFX_audio_start.pos);
-		MFX_music_wave=-1;
-	}
+    if (fade) {
+        if (MFX_music_gain == 0)
+            MFX_music_wave = -1;
+        else
+            MFX_music_gain = -2;
+    } else {
+        // Pause the CD System
+        //		CdControlF(CdlPause,param);
+        // Then seek to the start of the music stuff again.
+        //		CdControlF(CdlSetloc,(char*)&MFX_audio_start.pos);
+        MFX_music_wave = -1;
+    }
 #endif
 }
 
-std::uint16_t MUSIC_wave()
-{
-	return MFX_music_wave;
+std::uint16_t MUSIC_wave() {
+    return MFX_music_wave;
 }
 
-void MFX_set_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain) 
-{
-	return;
+void MFX_set_gain(std::uint16_t channel_id, std::uint32_t wave, std::uint8_t gain) {
+    return;
 }
 
-#define MUSIC_PHY	0x81
-#define MUSIC_COM	0x82
-#define MUSIC_DRI	0x83
-#define MUSIC_DAN	0x84
-#define MUSIC_FIN	0x88
+#define MUSIC_PHY 0x81
+#define MUSIC_COM 0x82
+#define MUSIC_DRI 0x83
+#define MUSIC_DAN 0x84
+#define MUSIC_FIN 0x88
 
-std::uint8_t MFX_music_worlds[]={MUSIC_COM,MUSIC_PHY,MUSIC_DRI,MUSIC_COM,1,
-						  MUSIC_DRI,MUSIC_COM,7,MUSIC_DRI,6,
-						  7,6,1,1,3,
-						  6,6,6,8,8,
-						  6,8,9,5,5,
-						  9,4,5,2,5,
-						  0,9,MUSIC_FIN,6};
+std::uint8_t MFX_music_worlds[] = {MUSIC_COM, MUSIC_PHY, MUSIC_DRI, MUSIC_COM, 1,
+                                   MUSIC_DRI, MUSIC_COM, 7, MUSIC_DRI, 6,
+                                   7, 6, 1, 1, 3,
+                                   6, 6, 6, 8, 8,
+                                   6, 8, 9, 5, 5,
+                                   9, 4, 5, 2, 5,
+                                   0, 9, MUSIC_FIN, 6};
 
-void MUSIC_init_level(std::int32_t world)
-{
+void MUSIC_init_level(std::int32_t world) {
 #ifndef MIKE
-	char str[32];
+    char str[32];
 
-	std::int32_t new_world=world;
+    std::int32_t new_world = world;
 
-	// Cludge for martin
+    // Cludge for martin
 #ifndef VERSION_DEMO
-	if (world)
-		new_world=MFX_music_worlds[wad_level-1];
+    if (world)
+        new_world = MFX_music_worlds[wad_level - 1];
 #else
-	new_world=6;
+    new_world = 6;
 #endif
 
-	printf("New world: %d (%d)\n",new_world,world);
+    printf("New world: %d (%d)\n", new_world, world);
 
-	if (new_world&0x80)
-	{
-		MUSIC_bodge_code=new_world&0x7f;
-//		printf("MUSIC_bodge_code=%d\n",MUSIC_bodge_code);
-		new_world=0;
-	} else
-		MUSIC_bodge_code=0;
+    if (new_world & 0x80) {
+        MUSIC_bodge_code = new_world & 0x7f;
+        //		printf("MUSIC_bodge_code=%d\n",MUSIC_bodge_code);
+        new_world = 0;
+    } else
+        MUSIC_bodge_code = 0;
 
 #ifndef VERSION_DEMO
-	sprintf(str,"\\XA\\IMUSIC%d.XA;1",new_world);
+    sprintf(str, "\\XA\\IMUSIC%d.XA;1", new_world);
 #else
-	sprintf(str,"\\URBAN\\IMUSIC%d.XA;1",new_world);
+    sprintf(str, "\\URBAN\\IMUSIC%d.XA;1", new_world);
 #endif
-	CdSearchFile(&MFX_audio_start,str);
-	
-	MFX_music_int=CdPosToInt(&MFX_audio_start.pos);
-//	printf("Position: %d\n",MFX_music_int);
-	MFX_music_stop=0;
-	MFX_music_world=new_world;
-	MFX_OffKey=-1;
-	MUSIC_stop(0);
-//	printf("MFX_music_world=%d\n",MFX_music_world);
-	MFX_Mute(0);
+    CdSearchFile(&MFX_audio_start, str);
+
+    MFX_music_int = CdPosToInt(&MFX_audio_start.pos);
+    //	printf("Position: %d\n",MFX_music_int);
+    MFX_music_stop = 0;
+    MFX_music_world = new_world;
+    MFX_OffKey = -1;
+    MUSIC_stop(0);
+    //	printf("MFX_music_world=%d\n",MFX_music_world);
+    MFX_Mute(0);
 #endif
 }
 
-void MFX_Init_Speech(std::int32_t level)
-{
-	char str[32];
-#ifndef	MIKE
+void MFX_Init_Speech(std::int32_t level) {
+    char str[32];
+#ifndef MIKE
 #ifndef VERSION_DEMO
-	sprintf(str,"LEVELS%d\\LEVEL%02d\\CONVERSE.OFF",level/10,level);
+    sprintf(str, "LEVELS%d\\LEVEL%02d\\CONVERSE.OFF", level / 10, level);
 #else
-	sprintf(str,"URBAN\\LEVEL%02d\\CONVERSE.OFF",level);
+    sprintf(str, "URBAN\\LEVEL%02d\\CONVERSE.OFF", level);
 #endif
-	PCReadFile(str,(unsigned char*)&GDisp_Bucket[BUCKET_MEM-2048],2048);
+    PCReadFile(str, (unsigned char *) &GDisp_Bucket[BUCKET_MEM - 2048], 2048);
 
-	MFX_Speech_files=*(std::int32_t*)&GDisp_Bucket[BUCKET_MEM-2048];
-	memcpy((void*)Audio_data,(void*)&GDisp_Bucket[BUCKET_MEM-2044],MFX_Speech_files*sizeof(AudioOffset));
+    MFX_Speech_files = *(std::int32_t *) &GDisp_Bucket[BUCKET_MEM - 2048];
+    memcpy((void *) Audio_data, (void *) &GDisp_Bucket[BUCKET_MEM - 2044], MFX_Speech_files * sizeof(AudioOffset));
 
 #ifndef VERSION_DEMO
-	sprintf(str,"\\LEVELS%d\\LEVEL%02d\\CONVERSE.XA;1",level/10,level);
+    sprintf(str, "\\LEVELS%d\\LEVEL%02d\\CONVERSE.XA;1", level / 10, level);
 #else
-	sprintf(str,"\\URBAN\\LEVEL%02d\\CONVERSE.XA;1",level);
+    sprintf(str, "\\URBAN\\LEVEL%02d\\CONVERSE.XA;1", level);
 #endif
-	CdSearchFile(&MFX_Speech_Start,str);
-	str[0]=CdlModeRT|CdlModeSF|CdlModeSize1;
-	CdControlB(CdlSetmode,(std::uint8_t*)str,0);
+    CdSearchFile(&MFX_Speech_Start, str);
+    str[0] = CdlModeRT | CdlModeSF | CdlModeSize1;
+    CdControlB(CdlSetmode, (std::uint8_t *) str, 0);
 #endif
-	MFX_Conv_playing=0;
-	MFX_Mute(0);
-//	CdReadyCallback(MFX_Callback_CdRead);
+    MFX_Conv_playing = 0;
+    MFX_Mute(0);
+    //	CdReadyCallback(MFX_Callback_CdRead);
 }
 
-AudioOffset *MFX_Find_Speech(std::int32_t waypoint,std::int32_t conv,std::int32_t conv_off)
-{
-	std::int32_t found=-1;
-	std::int32_t i;
+AudioOffset *MFX_Find_Speech(std::int32_t waypoint, std::int32_t conv, std::int32_t conv_off) {
+    std::int32_t found = -1;
+    std::int32_t i;
 
-	for(i=0;(i<MFX_Speech_files)&&(found==-1);i++)
-	{
-		if ((Audio_data[i].waypoint==waypoint)&&
-			(Audio_data[i].conversation==conv)&&
-			(Audio_data[i].conv_off==conv_off))
-				found=i;
-	}
-	if (found!=-1)
-		return &Audio_data[found];
-	else
-	{
-		printf("Cannot find: %d (%d,%d)\n",waypoint,conv,conv_off);
-		return 0;
-	}
+    for (i = 0; (i < MFX_Speech_files) && (found == -1); i++) {
+        if ((Audio_data[i].waypoint == waypoint) &&
+            (Audio_data[i].conversation == conv) &&
+            (Audio_data[i].conv_off == conv_off))
+            found = i;
+    }
+    if (found != -1)
+        return &Audio_data[found];
+    else {
+        printf("Cannot find: %d (%d,%d)\n", waypoint, conv, conv_off);
+        return 0;
+    }
 }
 
-void MFX_Mute(std::int32_t mute)
-{
-	SpuSetMute(mute?SPU_ON:SPU_OFF);
+void MFX_Mute(std::int32_t mute) {
+    SpuSetMute(mute ? SPU_ON : SPU_OFF);
 }
 
-void MFX_Conv_stop()
-{
-	MFX_Conv_playing=0;
-#ifndef	MIKE
+void MFX_Conv_stop() {
+    MFX_Conv_playing = 0;
+#ifndef MIKE
 //	CdControl(CdlPause,0,0);
 #endif
 
-	music_current_level=0;
-	music_current_mode=-1;
-	MFX_music_wave=-1;
+    music_current_level = 0;
+    music_current_mode = -1;
+    MFX_music_wave = -1;
 }
 
-extern ControllerPacket	PAD_Input1,PAD_Input2;
+extern ControllerPacket PAD_Input1, PAD_Input2;
 
-void MFX_Conv_wait()
-{
-	int awaiting=0;
+void MFX_Conv_wait() {
+    int awaiting = 0;
 
-	while(MFX_Conv_playing || awaiting)
-	{
-		VSync(0);
+    while (MFX_Conv_playing || awaiting) {
+        VSync(0);
 
-		if (PadKeyIsPressed(&PAD_Input1,PAD_RD))
-		{
-			if (awaiting)
-				continue;
-			if (PANEL_wide_cont)
-			{
-				strcpy(PANEL_wide_text,PANEL_wide_cont);
-				PANEL_wide_cont=0;
-				awaiting=1;
-			}
-			else
-			{
-				MFX_Conv_stop();
-				awaiting=1;
-			}
-		}
-		else
-			awaiting=0;
+        if (PadKeyIsPressed(&PAD_Input1, PAD_RD)) {
+            if (awaiting)
+                continue;
+            if (PANEL_wide_cont) {
+                strcpy(PANEL_wide_text, PANEL_wide_cont);
+                PANEL_wide_cont = 0;
+                awaiting = 1;
+            } else {
+                MFX_Conv_stop();
+                awaiting = 1;
+            }
+        } else
+            awaiting = 0;
 
-		MFX_render();
-	}
+        MFX_render();
+    }
 }
 
-std::int32_t MFX_Conv_play(std::int32_t waypoint,std::int32_t conv,std::int32_t conv_off)
-{
-#ifndef	MIKE
-	AudioOffset *voice=MFX_Find_Speech(waypoint,conv,conv_off);
+std::int32_t MFX_Conv_play(std::int32_t waypoint, std::int32_t conv, std::int32_t conv_off) {
+#ifndef MIKE
+    AudioOffset *voice = MFX_Find_Speech(waypoint, conv, conv_off);
 
-	std::int32_t pos;
-	static CdlLOC sector;
+    std::int32_t pos;
+    static CdlLOC sector;
 
-	// We should never be calling a sound without any audio track, but since we may
-	// this is the surefire way of making sure it dont crash.
+    // We should never be calling a sound without any audio track, but since we may
+    // this is the surefire way of making sure it dont crash.
 
-	if (voice==0) 
-	{
-//		printf("Cannot find voice: %d - %d,%d\n",waypoint,conv,conv_off);
-		return 0;
-	}
+    if (voice == 0) {
+        //		printf("Cannot find voice: %d - %d,%d\n",waypoint,conv,conv_off);
+        return 0;
+    }
 
-	MFX_filter.file=1;
-	MFX_filter.chan=voice->channel;
+    MFX_filter.file = 1;
+    MFX_filter.chan = voice->channel;
 
-	pos=CdPosToInt(&MFX_Speech_Start.pos);
-	pos+=(voice->offset<<4)+voice->channel-11;
-	CdIntToPos(pos,&sector);
+    pos = CdPosToInt(&MFX_Speech_Start.pos);
+    pos += (voice->offset << 4) + voice->channel - 11;
+    CdIntToPos(pos, &sector);
 #ifndef VERSION_GERMAN
-	MFX_Speech_End=pos+((voice->length)<<4)+9;
+    MFX_Speech_End = pos + ((voice->length) << 4) + 9;
 #else
-	MFX_Speech_End=pos+((voice->length-1)<<4)+9;
+    MFX_Speech_End = pos + ((voice->length - 1) << 4) + 9;
 #endif
 
-	CdControlF(CdlSetfilter,(std::uint8_t*)&MFX_filter);
-	CdControlF(CdlReadS,(char*)&sector);
-	MFX_Seek_delay=10;
+    CdControlF(CdlSetfilter, (std::uint8_t *) &MFX_filter);
+    CdControlF(CdlReadS, (char *) &sector);
+    MFX_Seek_delay = 10;
 
-	music_current_level=127;
-	MFX_Conv_playing=1;
-	return 1;
+    music_current_level = 127;
+    MFX_Conv_playing = 1;
+    return 1;
 #endif
-}					   
+}
 #if 0
 std::int32_t MFX_QUICK_still_playing()
 {

@@ -5,9 +5,7 @@
 #ifndef STAIR_H
 #define STAIR_H
 
-
 #include "id.h"
-
 
 //
 // Clear all the current building info.
@@ -33,8 +31,8 @@ void STAIR_set_bounding_box(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, s
 // are invalid and you can't create stairs for this building.
 //
 
-void STAIR_storey_new   (std::int32_t handle, std::uint8_t height);				// 0 => Ground floor, 1 => First floor
-void STAIR_storey_wall  (std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::uint8_t z2, std::int32_t opposite);
+void STAIR_storey_new(std::int32_t handle, std::uint8_t height); // 0 => Ground floor, 1 => First floor
+void STAIR_storey_wall(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::uint8_t z2, std::int32_t opposite);
 std::int32_t STAIR_storey_finish();
 
 //
@@ -50,7 +48,5 @@ void STAIR_calculate(std::uint16_t seed);
 //
 
 std::int32_t STAIR_get(std::int32_t handle, ID_Stair **stair, std::int32_t *num_stairs);
-
-
 
 #endif

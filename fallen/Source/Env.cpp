@@ -46,8 +46,8 @@ void ENV_load(char* fname)
 
 #ifndef PSX
 	FILE *handle;
-	
-	#define ENV_MAX_LINE_LENGTH 256
+
+#define ENV_MAX_LINE_LENGTH 256
 
 	char line[ENV_MAX_LINE_LENGTH];
 	char name[ENV_MAX_LINE_LENGTH];

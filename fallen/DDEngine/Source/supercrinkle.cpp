@@ -10,11 +10,7 @@
 #include "supercrinkle.h"
 #include <math.h>
 
-
-
-
 #if SUPERCRINKLES_ENABLED
-
 
 //
 // The D3DLVERTEX array.
@@ -22,10 +18,10 @@
 
 #define SUPERCRINKLE_MAX_LVERTS 16384
 
-//D3DLVERTEX  SUPERCRINKLE_lvert_buffer[SUPERCRINKLE_MAX_LVERTS + 1];
+// D3DLVERTEX  SUPERCRINKLE_lvert_buffer[SUPERCRINKLE_MAX_LVERTS + 1];
 D3DLVERTEX *SUPERCRINKLE_lvert_buffer = nullptr;
 D3DLVERTEX *SUPERCRINKLE_lvert;
-std::int32_t       SUPERCRINKLE_lvert_upto;
+std::int32_t SUPERCRINKLE_lvert_upto;
 
 //
 // Color interpolations for each lvert.
@@ -33,15 +29,14 @@ std::int32_t       SUPERCRINKLE_lvert_upto;
 
 typedef struct
 {
-	std::uint8_t i[4];
+    std::uint8_t i[4];
 
 } SUPERCRINKLE_Colour;
 
 #define SUPERCRINKLE_MAX_COLOURS SUPERCRINKLE_MAX_LVERTS
 
 SUPERCRINKLE_Colour SUPERCRINKLE_colour[SUPERCRINKLE_MAX_COLOURS];
-std::int32_t               SUPERCRINKLE_colour_upto;
-
+std::int32_t SUPERCRINKLE_colour_upto;
 
 //
 // The indices.
@@ -49,11 +44,9 @@ std::int32_t               SUPERCRINKLE_colour_upto;
 
 #define SUPERCRINKLE_MAX_INDICES (SUPERCRINKLE_MAX_LVERTS * 2)
 
-std::uint16_t  SUPERCRINKLE_index_buffer[SUPERCRINKLE_MAX_INDICES + 16];
+std::uint16_t SUPERCRINKLE_index_buffer[SUPERCRINKLE_MAX_INDICES + 16];
 std::uint16_t *SUPERCRINKLE_index;
-std::int32_t  SUPERCRINKLE_index_upto;
-
-
+std::int32_t SUPERCRINKLE_index_upto;
 
 //
 // Whether each page is crinkled or not.
@@ -61,15 +54,11 @@ std::int32_t  SUPERCRINKLE_index_upto;
 
 std::uint8_t SUPERCRINKLE_is_crinkled[512];
 
-
-
 //
 // The size of the lighting texure for a crinkle.
 //
 
 #define SUPERCRINKLE_TEXTURE_SIZE 128
-
-
 
 //
 // A supercrinkle!
@@ -77,13 +66,13 @@ std::uint8_t SUPERCRINKLE_is_crinkled[512];
 
 typedef struct
 {
-	std::uint16_t lvert;			// Index into the D3DLVERTEX array.
-	std::uint16_t num_lverts;		// Number of lverts used by this crinkle.
-	
-	std::uint16_t index;			// DrawIndexedPrimitive indices into the vert array
-	std::uint16_t num_indices;		// for this crinkle.
+    std::uint16_t lvert;      // Index into the D3DLVERTEX array.
+    std::uint16_t num_lverts; // Number of lverts used by this crinkle.
 
-	std::uint32_t hash;				// The colours in this crinkle.
+    std::uint16_t index;       // DrawIndexedPrimitive indices into the vert array
+    std::uint16_t num_indices; // for this crinkle.
+
+    std::uint32_t hash; // The colours in this crinkle.
 
 } SUPERCRINKLE_Crinkle;
 
@@ -91,64 +80,53 @@ typedef struct
 
 SUPERCRINKLE_Crinkle SUPERCRINKLE_crinkle[SUPERCRINKLE_MAX_CRINKLES];
 
-
-
 //
 // A SUPERCRINKLE_Colour
 //
 
 typedef struct
 {
-	std::uint32_t colour;
-	std::uint32_t specular;
+    std::uint32_t colour;
+    std::uint32_t specular;
 
 } SUPERCRINKLE_Precalc;
-
-
-
 
 //
 // Cached lighting.
 //
 
-typedef struct supercrinkle_cache
-{
-	std::uint32_t hash;
+typedef struct supercrinkle_cache {
+    std::uint32_t hash;
 
-	struct supercrinkle_cache *next;
+    struct supercrinkle_cache *next;
 
-	SUPERCRINKLE_Precalc precalc[2];	// Not really 2!
+    SUPERCRINKLE_Precalc precalc[2]; // Not really 2!
 
 } SUPERCRINKLE_Cache;
-
-
 
 //
 // Three arrays, with different numbers of points... This is about 256k
 //
 
-#define SUPERCRINKLE_MAX_CACHE64  128
+#define SUPERCRINKLE_MAX_CACHE64 128
 #define SUPERCRINKLE_MAX_CACHE128 96
 #define SUPERCRINKLE_MAX_CACHE384 32
 
-union
-{
-	std::uint8_t              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 64];
-	SUPERCRINKLE_Cache cache;
+union {
+    std::uint8_t padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 64];
+    SUPERCRINKLE_Cache cache;
 
 } SUPERCRINKLE_cache64[SUPERCRINKLE_MAX_CACHE64];
 
-union
-{
-	std::uint8_t              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 128];
-	SUPERCRINKLE_Cache cache;
+union {
+    std::uint8_t padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 128];
+    SUPERCRINKLE_Cache cache;
 
 } SUPERCRINKLE_cache128[SUPERCRINKLE_MAX_CACHE128];
 
-union
-{
-	std::uint8_t              padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 384];
-	SUPERCRINKLE_Cache cache;
+union {
+    std::uint8_t padding[sizeof(SUPERCRINKLE_Cache) + sizeof(SUPERCRINKLE_Precalc) * 384];
+    SUPERCRINKLE_Cache cache;
 
 } SUPERCRINKLE_cache384[SUPERCRINKLE_MAX_CACHE384];
 
@@ -160,946 +138,921 @@ SUPERCRINKLE_Cache *SUPERCRINKLE_free64;
 SUPERCRINKLE_Cache *SUPERCRINKLE_free128;
 SUPERCRINKLE_Cache *SUPERCRINKLE_free384;
 
-
 //
 // A hash table for each size.
 //
 
-#define SUPERCRINKLE_HASH_SIZE 256	// Power of 2 please.
+#define SUPERCRINKLE_HASH_SIZE 256 // Power of 2 please.
 
-SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table64 [SUPERCRINKLE_HASH_SIZE];
+SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table64[SUPERCRINKLE_HASH_SIZE];
 SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table128[SUPERCRINKLE_HASH_SIZE];
 SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table384[SUPERCRINKLE_HASH_SIZE];
-
-
-
 
 //
 // The hash function.
 //
 
-std::uint32_t SUPERCRINKLE_hash_function(std::int32_t crinkle, std::uint32_t colour[4], std::uint32_t specular[4])
-{
-	std::uint32_t ans;
-	
-	ans  = crinkle;
+std::uint32_t SUPERCRINKLE_hash_function(std::int32_t crinkle, std::uint32_t colour[4], std::uint32_t specular[4]) {
+    std::uint32_t ans;
 
-	ans ^= _rotr(colour[0],  2);
-	ans ^= _rotr(colour[1],  7);
-	ans ^= _rotr(colour[2], 12);
-	ans ^= _rotr(colour[3], 17);
+    ans = crinkle;
 
-	ans ^= _rotl(specular[0],  3);
-	ans ^= _rotl(specular[1],  8);
-	ans ^= _rotl(specular[2], 13);
-	ans ^= _rotl(specular[3], 18);
+    ans ^= _rotr(colour[0], 2);
+    ans ^= _rotr(colour[1], 7);
+    ans ^= _rotr(colour[2], 12);
+    ans ^= _rotr(colour[3], 17);
 
-	return ans;
+    ans ^= _rotl(specular[0], 3);
+    ans ^= _rotl(specular[1], 8);
+    ans ^= _rotl(specular[2], 13);
+    ans ^= _rotl(specular[3], 18);
+
+    return ans;
 }
-
-
-
-
 
 //
 // Loads the given SUPERCRINKLE from the .SEX file.
 //
 
-void SUPERCRINKLE_load(std::int32_t crinkle, char* fname)
-{
-	//
-	// Temporary buffer for holding points and faces.
-	//
+void SUPERCRINKLE_load(std::int32_t crinkle, char *fname) {
+    //
+    // Temporary buffer for holding points and faces.
+    //
 
-	typedef struct
-	{
-		float x;
-		float y;
-		float z;
-		
-		float nx;
-		float ny;
-		float nz;
+    typedef struct
+    {
+        float x;
+        float y;
+        float z;
 
-		std::uint8_t i[4];		// The colour interpolations for this point.
+        float nx;
+        float ny;
+        float nz;
 
-		std::uint8_t light;	// How much darker/brigher this point should be than normal... 128 => Same as before.
-		std::uint8_t padding;
-		std::uint16_t duplicate;
+        std::uint8_t i[4]; // The colour interpolations for this point.
 
-	} SUPERCRINKLE_Point;
+        std::uint8_t light; // How much darker/brigher this point should be than normal... 128 => Same as before.
+        std::uint8_t padding;
+        std::uint16_t duplicate;
 
-	#define SUPERCRINKLE_MAX_POINTS 1536
+    } SUPERCRINKLE_Point;
 
-	SUPERCRINKLE_Point point[SUPERCRINKLE_MAX_POINTS];
-	std::int32_t              point_upto;
+#define SUPERCRINKLE_MAX_POINTS 1536
 
-	typedef struct
-	{
-		std::uint16_t p[3];
+    SUPERCRINKLE_Point point[SUPERCRINKLE_MAX_POINTS];
+    std::int32_t point_upto;
 
-		float nx;
-		float ny;
-		float nz;
-		
-	} SUPERCRINKLE_Face;
+    typedef struct
+    {
+        std::uint16_t p[3];
 
-	#define SUPERCRINKLE_MAX_FACES 512
+        float nx;
+        float ny;
+        float nz;
 
-	SUPERCRINKLE_Face face[SUPERCRINKLE_MAX_FACES];
-	std::int32_t             face_upto;
+    } SUPERCRINKLE_Face;
 
+#define SUPERCRINKLE_MAX_FACES 512
 
-	std::int32_t i;
-	std::int32_t j;
+    SUPERCRINKLE_Face face[SUPERCRINKLE_MAX_FACES];
+    std::int32_t face_upto;
 
-	std::int32_t o;
-	std::int32_t f;
+    std::int32_t i;
+    std::int32_t j;
 
-	float x;
-	float y;
-	float z;
+    std::int32_t o;
+    std::int32_t f;
 
-	float ax;
-	float ay;
-	float az;
+    float x;
+    float y;
+    float z;
 
-	float bx;
-	float by;
-	float bz;
+    float ax;
+    float ay;
+    float az;
 
-	float dx;
-	float dy;
-	float dz;
+    float bx;
+    float by;
+    float bz;
 
-	float nx;
-	float ny;
-	float nz;
+    float dx;
+    float dy;
+    float dz;
 
-	float dprod;
-	float length;
-	float overlength;
+    float nx;
+    float ny;
+    float nz;
 
-	std::int32_t a;
-	std::int32_t b;
-	std::int32_t c;
+    float dprod;
+    float length;
+    float overlength;
 
-	std::int32_t p1;
-	std::int32_t p2;
-	std::int32_t p3;
+    std::int32_t a;
+    std::int32_t b;
+    std::int32_t c;
 
-	std::int32_t match;
-	std::int32_t index;
+    std::int32_t p1;
+    std::int32_t p2;
+    std::int32_t p3;
 
-	char line[512];
+    std::int32_t match;
+    std::int32_t index;
 
-	SUPERCRINKLE_Crinkle *sc;
-	SUPERCRINKLE_Face    *sf;
-	SUPERCRINKLE_Point   *sp;
-	D3DLVERTEX           *tl;
-	PolyPage             *pp;
+    char line[512];
 
-	FILE *handle;
+    SUPERCRINKLE_Crinkle *sc;
+    SUPERCRINKLE_Face *sf;
+    SUPERCRINKLE_Point *sp;
+    D3DLVERTEX *tl;
+    PolyPage *pp;
 
-	//
-	// Clear the temporary buffers.
-	//
+    FILE *handle;
 
-	memset(point, 0, sizeof(point));
-	memset(face,  0, sizeof(face ));
+    //
+    // Clear the temporary buffers.
+    //
 
-	point_upto = 0;
-	face_upto  = 0;
+    memset(point, 0, sizeof(point));
+    memset(face, 0, sizeof(face));
 
-	//
-	// Open the file.
-	//
+    point_upto = 0;
+    face_upto = 0;
 
-	handle = MF_Fopen(fname, "rb");
+    //
+    // Open the file.
+    //
 
-	if (!handle)
-	{
-		TRACE("Could not open crinkle file \"%s\"\n", fname);
+    handle = MF_Fopen(fname, "rb");
 
-		return;
-	}
+    if (!handle) {
+        TRACE("Could not open crinkle file \"%s\"\n", fname);
 
-	ASSERT(WITHIN(crinkle, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
+        return;
+    }
 
-	//
-	// The new crinkle.
-	//
+    ASSERT(WITHIN(crinkle, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
 
-	sc = &SUPERCRINKLE_crinkle[crinkle];
+    //
+    // The new crinkle.
+    //
 
-	sc->num_lverts  = 0;
-	sc->num_indices = 0;
-	sc->lvert       = SUPERCRINKLE_lvert_upto;
-	sc->index       = SUPERCRINKLE_index_upto;
+    sc = &SUPERCRINKLE_crinkle[crinkle];
 
-	//
-	// Assume the crinkle index is the same as the POLY_Page index.
-	//
+    sc->num_lverts = 0;
+    sc->num_indices = 0;
+    sc->lvert = SUPERCRINKLE_lvert_upto;
+    sc->index = SUPERCRINKLE_index_upto;
 
-	pp = &POLY_Page[crinkle];
+    //
+    // Assume the crinkle index is the same as the POLY_Page index.
+    //
 
-	//
-	// Load the asc. Put the points into the buffer and the faces
-	// into the CRINKLE_face array.
-	//
+    pp = &POLY_Page[crinkle];
 
-	while(fgets(line, 512, handle))
-	{
-		match = sscanf(line, "Vertex: (%f, %f, %f)", &x, &y, &z);
+    //
+    // Load the asc. Put the points into the buffer and the faces
+    // into the CRINKLE_face array.
+    //
 
-		if (match == 3)
-		{
-			ASSERT(WITHIN(point_upto, 0, SUPERCRINKLE_MAX_POINTS - 1));
+    while (fgets(line, 512, handle)) {
+        match = sscanf(line, "Vertex: (%f, %f, %f)", &x, &y, &z);
 
-			//
-			// Found a point. Add it to the buffer.
-			//
+        if (match == 3) {
+            ASSERT(WITHIN(point_upto, 0, SUPERCRINKLE_MAX_POINTS - 1));
 
-			SWAP_FL(y, z);
-			x = -x;
+            //
+            // Found a point. Add it to the buffer.
+            //
 
-			point[point_upto].x = -x;
-			point[point_upto].y = -y;
-			point[point_upto].z =  z;
+            SWAP_FL(y, z);
+            x = -x;
 
-			point_upto += 1;
+            point[point_upto].x = -x;
+            point[point_upto].y = -y;
+            point[point_upto].z = z;
 
-			continue;
-		}
+            point_upto += 1;
 
-		match = sscanf(line, "Face: Material %d xyz (%d, %d, %d)", &f, &a, &b, &c);
+            continue;
+        }
 
-		if (match == 4)
-		{
-			ASSERT(WITHIN(face_upto, 0, SUPERCRINKLE_MAX_FACES - 1));
+        match = sscanf(line, "Face: Material %d xyz (%d, %d, %d)", &f, &a, &b, &c);
 
-			face[face_upto].p[0] = a;
-			face[face_upto].p[1] = b;
-			face[face_upto].p[2] = c;
+        if (match == 4) {
+            ASSERT(WITHIN(face_upto, 0, SUPERCRINKLE_MAX_FACES - 1));
 
-			face_upto += 1;
+            face[face_upto].p[0] = a;
+            face[face_upto].p[1] = b;
+            face[face_upto].p[2] = c;
 
-			continue;
-		}
-	}
+            face_upto += 1;
 
-	//
-	// Finished with the file.
-	//
+            continue;
+        }
+    }
 
-	MF_Fclose(handle);
+    //
+    // Finished with the file.
+    //
 
-	//
-	// What is the bounding rectangle?
-	//
+    MF_Fclose(handle);
 
-	float minx = +float(INFINITY);
-	float miny = +float(INFINITY);
-	float minz = +float(INFINITY);
+    //
+    // What is the bounding rectangle?
+    //
 
-	float maxx = -float(INFINITY);
-	float maxy = -float(INFINITY);
-	float maxz = -float(INFINITY);
+    float minx = +float(INFINITY);
+    float miny = +float(INFINITY);
+    float minz = +float(INFINITY);
 
-	for (i = 0; i < point_upto; i++)
-	{
-		sp = &point[i];
+    float maxx = -float(INFINITY);
+    float maxy = -float(INFINITY);
+    float maxz = -float(INFINITY);
 
-		if (sp->x < minx) {minx = sp->x;}
-		if (sp->y < miny) {miny = sp->y;}
-		if (sp->z < minz) {minz = sp->z;}
+    for (i = 0; i < point_upto; i++) {
+        sp = &point[i];
 
-		if (sp->x > maxx) {maxx = sp->x;}
-		if (sp->y > maxy) {maxy = sp->y;}
-		if (sp->z > maxz) {maxz = sp->z;}
-	}
+        if (sp->x < minx) {
+            minx = sp->x;
+        }
+        if (sp->y < miny) {
+            miny = sp->y;
+        }
+        if (sp->z < minz) {
+            minz = sp->z;
+        }
 
-	float sizex = maxx - minx;
-	float sizey = maxy - miny;
-	float sizez = maxz - minz;
+        if (sp->x > maxx) {
+            maxx = sp->x;
+        }
+        if (sp->y > maxy) {
+            maxy = sp->y;
+        }
+        if (sp->z > maxz) {
+            maxz = sp->z;
+        }
+    }
 
-	if (sizey < sizex && sizey < sizez)
-	{
-		//
-		// This is a ground crinkle. ABORT!
-		//
+    float sizex = maxx - minx;
+    float sizey = maxy - miny;
+    float sizez = maxz - minz;
 
-		SUPERCRINKLE_lvert_upto = sc->lvert;
-		SUPERCRINKLE_index_upto = sc->index;
+    if (sizey < sizex && sizey < sizez) {
+        //
+        // This is a ground crinkle. ABORT!
+        //
 
-		memset(sc, 0, sizeof(SUPERCRINKLE_Crinkle));
+        SUPERCRINKLE_lvert_upto = sc->lvert;
+        SUPERCRINKLE_index_upto = sc->index;
 
-		return;
-	}
+        memset(sc, 0, sizeof(SUPERCRINKLE_Crinkle));
 
-	//
-	// This is a wall crinkle.
-	//
+        return;
+    }
 
-	for (i = 0; i < point_upto; i++)
-	{
-		sp = &point[i];
+    //
+    // This is a wall crinkle.
+    //
 
-		x = sp->x;
-		y = sp->y;
-		z = sp->z;
+    for (i = 0; i < point_upto; i++) {
+        sp = &point[i];
 
-		x -= minx;
-		y -= miny;
+        x = sp->x;
+        y = sp->y;
+        z = sp->z;
 
-		x *= 1.0F / 100.0F;
-		y *= 1.0F / 100.0F;
-		z *= 1.0F / 100.0F;
+        x -= minx;
+        y -= miny;
 
-		SATURATE(x, 0.0F, 1.0F);
-		SATURATE(y, 0.0F, 1.0F);
+        x *= 1.0F / 100.0F;
+        y *= 1.0F / 100.0F;
+        z *= 1.0F / 100.0F;
 
-		sp->x = x;
-		sp->y = y;
-		sp->z = z;	// z is the extrusion coordinate...
-	}
+        SATURATE(x, 0.0F, 1.0F);
+        SATURATE(y, 0.0F, 1.0F);
 
-	//
-	// Work out the normal of each face.
-	//
+        sp->x = x;
+        sp->y = y;
+        sp->z = z; // z is the extrusion coordinate...
+    }
 
-	for (i = 0; i < face_upto; i++)
-	{
-		sf = &face[i];
+    //
+    // Work out the normal of each face.
+    //
 
-		ASSERT(WITHIN(sf->p[0], 0, point_upto - 1));
-		ASSERT(WITHIN(sf->p[1], 0, point_upto - 1));
-		ASSERT(WITHIN(sf->p[2], 0, point_upto - 1));
-
-		//
-		// The two vectors of the triangle.
-		//
-
-		ax = point[sf->p[1]].x - point[sf->p[0]].x;
-		ay = point[sf->p[1]].y - point[sf->p[0]].y;
-		az = point[sf->p[1]].z - point[sf->p[0]].z;
-
-		bx = point[sf->p[2]].x - point[sf->p[0]].x;
-		by = point[sf->p[2]].y - point[sf->p[0]].y;
-		bz = point[sf->p[2]].z - point[sf->p[0]].z;
-
-		//
-		// Normal of the triangle.
-		//
-
-		nx = ay*bz - az*by;
-		ny = az*bx - ax*bz;
-		nz = ax*by - ay*bx;
-
-		//
-		// Normalise the normal.
-		//
-
-		length     = sqrtf(nx*nx + ny*ny + nz*nz);
-		overlength = 1.0F / length;
-
-		sf->nx = nx * overlength;
-		sf->ny = ny * overlength;
-		sf->nz = nz * overlength;
-	}
-
-	//
-	// Set the colour interpolations.
-	//
-
-	float v[4];
-
-	for (i = 0; i < point_upto; i++)
-	{
-		sp = &point[i];
-
-		v[0] = (1.0F - sp->x) * (1.0F - sp->y);
-		v[1] = (       sp->x) * (1.0F - sp->y);
-		v[2] = (1.0F - sp->x) * (       sp->y);
-		v[3] = (       sp->x) * (       sp->y);
-
-		ASSERT(WITHIN(v[0] + v[1] + v[2] + v[3], 0.9F, 1.1F));
-
-		sp->i[0] = (std::uint8_t)(v[0] * 128.0F);
-		sp->i[1] = (std::uint8_t)(v[1] * 128.0F);
-		sp->i[2] = (std::uint8_t)(v[2] * 128.0F);
-		sp->i[3] = (std::uint8_t)(v[3] * 128.0F);
-	}
-	
-	//
-	// Create duplicate points so that only points with the
-	// same normals are shared.
-	//
-
-	for (i = 0; i < face_upto; i++)
-	{
-		sf = &face[i];
-
-		for (j = 0; j < 3; j++)
-		{
-			sp = &point[sf->p[j]];
-
-			if (sp->nx == 0.0F &&
-				sp->ny == 0.0F &&
-				sp->nz == 0.0F)
-			{
-				//
-				// The normal of this point hasn't been set yet.
-				// Make is equal to this face normal.
-				//
-
-				sp->nx = sf->nx;
-				sp->ny = sf->ny;
-				sp->nz = sf->nz;
-			}
-			else
-			{
-				//
-				// Is the normal of this point similar enough to our face?
-				//
+    for (i = 0; i < face_upto; i++) {
+        sf = &face[i];
 
-				dprod =
-					sp->nx * sf->nx +
-					sp->ny * sf->ny +
-					sp->nz * sf->nz;
+        ASSERT(WITHIN(sf->p[0], 0, point_upto - 1));
+        ASSERT(WITHIN(sf->p[1], 0, point_upto - 1));
+        ASSERT(WITHIN(sf->p[2], 0, point_upto - 1));
 
-				if (dprod > 0.94F)
-				{
-					//
-					// These normals are similar enough. About 20degrees different.
-					//
-				}
-				else
-				{
-					//
-					// We must create a new point.
-					//
+        //
+        // The two vectors of the triangle.
+        //
 
-					ASSERT(WITHIN(point_upto, 0, SUPERCRINKLE_MAX_POINTS - 1));
+        ax = point[sf->p[1]].x - point[sf->p[0]].x;
+        ay = point[sf->p[1]].y - point[sf->p[0]].y;
+        az = point[sf->p[1]].z - point[sf->p[0]].z;
 
-					point[point_upto].x = sp->x;
-					point[point_upto].y = sp->y;
-					point[point_upto].z = sp->z;
+        bx = point[sf->p[2]].x - point[sf->p[0]].x;
+        by = point[sf->p[2]].y - point[sf->p[0]].y;
+        bz = point[sf->p[2]].z - point[sf->p[0]].z;
 
-					point[point_upto].nx = sf->nx;
-					point[point_upto].ny = sf->ny;
-					point[point_upto].nz = sf->nz;
+        //
+        // Normal of the triangle.
+        //
 
-					point[point_upto].i[0] = sp->i[0];
-					point[point_upto].i[1] = sp->i[1];
-					point[point_upto].i[2] = sp->i[2];
-					point[point_upto].i[3] = sp->i[3];
+        nx = ay * bz - az * by;
+        ny = az * bx - ax * bz;
+        nz = ax * by - ay * bx;
 
-					point[point_upto].duplicate = sf->p[j];
+        //
+        // Normalise the normal.
+        //
 
-					//
-					// An index into this new point from the face.
-					//
+        length = sqrtf(nx * nx + ny * ny + nz * nz);
+        overlength = 1.0F / length;
 
-					sf->p[j] = point_upto++;
-				}
-			}
-		}
-	}
+        sf->nx = nx * overlength;
+        sf->ny = ny * overlength;
+        sf->nz = nz * overlength;
+    }
 
-	//
-	// Work out how each point should be lit.
-	//
+    //
+    // Set the colour interpolations.
+    //
 
-	for (i = 0; i < point_upto; i++)
-	{
-		sp = &point[i];
+    float v[4];
 
-		//
-		// Kludged so that faces that point to the front are the same brightness
-		// as normal and other faces aren't!
-		//
+    for (i = 0; i < point_upto; i++) {
+        sp = &point[i];
 
-		sp->light  = 128;
-		sp->light += std::int32_t(sp->nx * 64.0F);
-		sp->light += std::int32_t(sp->ny * 64.0F);
-	}
+        v[0] = (1.0F - sp->x) * (1.0F - sp->y);
+        v[1] = (sp->x) * (1.0F - sp->y);
+        v[2] = (1.0F - sp->x) * (sp->y);
+        v[3] = (sp->x) * (sp->y);
 
-	//
-	// Create the DrawIndexedPrim lvert data and the colour interpolation data.
-	//
+        ASSERT(WITHIN(v[0] + v[1] + v[2] + v[3], 0.9F, 1.1F));
 
-	for (i = 0; i < point_upto; i++)
-	{
-		sp = &point[i];
+        sp->i[0] = (std::uint8_t) (v[0] * 128.0F);
+        sp->i[1] = (std::uint8_t) (v[1] * 128.0F);
+        sp->i[2] = (std::uint8_t) (v[2] * 128.0F);
+        sp->i[3] = (std::uint8_t) (v[3] * 128.0F);
+    }
 
-		ASSERT(WITHIN(SUPERCRINKLE_lvert_upto, 0, SUPERCRINKLE_MAX_LVERTS - 1));
+    //
+    // Create duplicate points so that only points with the
+    // same normals are shared.
+    //
 
-		tl = &SUPERCRINKLE_lvert[SUPERCRINKLE_lvert_upto];
+    for (i = 0; i < face_upto; i++) {
+        sf = &face[i];
 
-		tl->x = 256.0F - sp->x * 256.0F;
-		tl->y = 256.0F - sp->y * 256.0F;
-		tl->z = sp->z * 256.0F;
-		
-		//
-		// Initialise lighting to reasonable values.
-		//
+        for (j = 0; j < 3; j++) {
+            sp = &point[sf->p[j]];
 
-		tl->color    = 0xff000000 | (sp->light << 16) | (sp->light << 8) | (sp->light << 0);
-		tl->specular = 0xff000000;
+            if (sp->nx == 0.0F &&
+                sp->ny == 0.0F &&
+                sp->nz == 0.0F) {
+                //
+                // The normal of this point hasn't been set yet.
+                // Make is equal to this face normal.
+                //
 
-		tl->tu = sp->x;
-		tl->tv = sp->y;
+                sp->nx = sf->nx;
+                sp->ny = sf->ny;
+                sp->nz = sf->nz;
+            } else {
+                //
+                // Is the normal of this point similar enough to our face?
+                //
 
-		#ifdef TEX_EMBED
+                dprod =
+                    sp->nx * sf->nx +
+                    sp->ny * sf->ny +
+                    sp->nz * sf->nz;
 
-		//
-		// UV's depend on the paging...
-		//
+                if (dprod > 0.94F) {
+                    //
+                    // These normals are similar enough. About 20degrees different.
+                    //
+                } else {
+                    //
+                    // We must create a new point.
+                    //
 
-		tl->tu = pp->m_UOffset + tl->tu * pp->m_UScale;
-		tl->tv = pp->m_VOffset + tl->tv * pp->m_VScale;
+                    ASSERT(WITHIN(point_upto, 0, SUPERCRINKLE_MAX_POINTS - 1));
 
-		#endif
+                    point[point_upto].x = sp->x;
+                    point[point_upto].y = sp->y;
+                    point[point_upto].z = sp->z;
 
-		ASSERT(SUPERCRINKLE_colour_upto == SUPERCRINKLE_lvert_upto);
+                    point[point_upto].nx = sf->nx;
+                    point[point_upto].ny = sf->ny;
+                    point[point_upto].nz = sf->nz;
 
-		SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[0] = sp->i[0] * sp->light >> 7;
-		SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[1] = sp->i[1] * sp->light >> 7;
-		SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[2] = sp->i[2] * sp->light >> 7;
-		SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[3] = sp->i[3] * sp->light >> 7;
+                    point[point_upto].i[0] = sp->i[0];
+                    point[point_upto].i[1] = sp->i[1];
+                    point[point_upto].i[2] = sp->i[2];
+                    point[point_upto].i[3] = sp->i[3];
 
-		SUPERCRINKLE_lvert_upto  += 1;
-		SUPERCRINKLE_colour_upto += 1;
+                    point[point_upto].duplicate = sf->p[j];
 
-	}
+                    //
+                    // An index into this new point from the face.
+                    //
 
-	sc->num_lverts = point_upto;
+                    sf->p[j] = point_upto++;
+                }
+            }
+        }
+    }
 
-	//
-	// Create the DrawIndexedPrim face data.
-	//
+    //
+    // Work out how each point should be lit.
+    //
 
-	for (i = 0; i < face_upto; i++)
-	{
-		sf = &face[i];
+    for (i = 0; i < point_upto; i++) {
+        sp = &point[i];
 
-		ASSERT(WITHIN(SUPERCRINKLE_index_upto + 4, 0, SUPERCRINKLE_MAX_INDICES - 1));
+        //
+        // Kludged so that faces that point to the front are the same brightness
+        // as normal and other faces aren't!
+        //
 
-		SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 0] = sf->p[0];
-		SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 1] = sf->p[1];
-		SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 2] = sf->p[2];
-		SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 3] = 0xffff;
+        sp->light = 128;
+        sp->light += std::int32_t(sp->nx * 64.0F);
+        sp->light += std::int32_t(sp->ny * 64.0F);
+    }
 
-		SUPERCRINKLE_index_upto += 4;
-	}
+    //
+    // Create the DrawIndexedPrim lvert data and the colour interpolation data.
+    //
 
-	sc->num_indices = face_upto * 4;	// Four indices per face.
+    for (i = 0; i < point_upto; i++) {
+        sp = &point[i];
 
-	//
-	// Mark this page as crinkled.
-	//
+        ASSERT(WITHIN(SUPERCRINKLE_lvert_upto, 0, SUPERCRINKLE_MAX_LVERTS - 1));
 
-	SUPERCRINKLE_is_crinkled[crinkle] = true;
+        tl = &SUPERCRINKLE_lvert[SUPERCRINKLE_lvert_upto];
+
+        tl->x = 256.0F - sp->x * 256.0F;
+        tl->y = 256.0F - sp->y * 256.0F;
+        tl->z = sp->z * 256.0F;
+
+        //
+        // Initialise lighting to reasonable values.
+        //
+
+        tl->color = 0xff000000 | (sp->light << 16) | (sp->light << 8) | (sp->light << 0);
+        tl->specular = 0xff000000;
+
+        tl->tu = sp->x;
+        tl->tv = sp->y;
+
+#ifdef TEX_EMBED
+
+        //
+        // UV's depend on the paging...
+        //
+
+        tl->tu = pp->m_UOffset + tl->tu * pp->m_UScale;
+        tl->tv = pp->m_VOffset + tl->tv * pp->m_VScale;
+
+#endif
+
+        ASSERT(SUPERCRINKLE_colour_upto == SUPERCRINKLE_lvert_upto);
+
+        SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[0] = sp->i[0] * sp->light >> 7;
+        SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[1] = sp->i[1] * sp->light >> 7;
+        SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[2] = sp->i[2] * sp->light >> 7;
+        SUPERCRINKLE_colour[SUPERCRINKLE_colour_upto].i[3] = sp->i[3] * sp->light >> 7;
+
+        SUPERCRINKLE_lvert_upto += 1;
+        SUPERCRINKLE_colour_upto += 1;
+    }
+
+    sc->num_lverts = point_upto;
+
+    //
+    // Create the DrawIndexedPrim face data.
+    //
+
+    for (i = 0; i < face_upto; i++) {
+        sf = &face[i];
+
+        ASSERT(WITHIN(SUPERCRINKLE_index_upto + 4, 0, SUPERCRINKLE_MAX_INDICES - 1));
+
+        SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 0] = sf->p[0];
+        SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 1] = sf->p[1];
+        SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 2] = sf->p[2];
+        SUPERCRINKLE_index[SUPERCRINKLE_index_upto + 3] = 0xffff;
+
+        SUPERCRINKLE_index_upto += 4;
+    }
+
+    sc->num_indices = face_upto * 4; // Four indices per face.
+
+    //
+    // Mark this page as crinkled.
+    //
+
+    SUPERCRINKLE_is_crinkled[crinkle] = true;
 }
 
+void SUPERCRINKLE_init() {
+    std::int32_t i;
+    char fname[512];
 
-void SUPERCRINKLE_init()
-{
-	std::int32_t i;
-	char fname[512];
+    PolyPage *pp;
 
-	PolyPage *pp;
+    //
+    // Initalise all the data.
+    //
 
-	//
-	// Initalise all the data.
-	//
+    if (SUPERCRINKLE_lvert_buffer == nullptr) {
+        SUPERCRINKLE_lvert_buffer = (D3DLVERTEX *) MemAlloc(sizeof(D3DLVERTEX) * (SUPERCRINKLE_MAX_LVERTS + 1));
+    }
 
+    memset(SUPERCRINKLE_lvert_buffer, 0, sizeof(SUPERCRINKLE_lvert_buffer));
+    memset(SUPERCRINKLE_index_buffer, 0, sizeof(SUPERCRINKLE_index_buffer));
+    memset(SUPERCRINKLE_crinkle, 0, sizeof(SUPERCRINKLE_crinkle));
+    memset(SUPERCRINKLE_colour, 0, sizeof(SUPERCRINKLE_colour));
+    memset(SUPERCRINKLE_is_crinkled, 0, sizeof(SUPERCRINKLE_is_crinkled));
+    memset(SUPERCRINKLE_cache64, 0, sizeof(SUPERCRINKLE_cache64));
+    memset(SUPERCRINKLE_cache128, 0, sizeof(SUPERCRINKLE_cache128));
+    memset(SUPERCRINKLE_cache384, 0, sizeof(SUPERCRINKLE_cache384));
+    memset(SUPERCRINKLE_hash_table64, 0, sizeof(SUPERCRINKLE_hash_table64));
+    memset(SUPERCRINKLE_hash_table128, 0, sizeof(SUPERCRINKLE_hash_table128));
+    memset(SUPERCRINKLE_hash_table384, 0, sizeof(SUPERCRINKLE_hash_table384));
 
-	if ( SUPERCRINKLE_lvert_buffer == nullptr )
-	{
-		SUPERCRINKLE_lvert_buffer = (D3DLVERTEX*)MemAlloc ( sizeof(D3DLVERTEX) * ( SUPERCRINKLE_MAX_LVERTS + 1 ) );
-	}
+    SUPERCRINKLE_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERCRINKLE_lvert_buffer) + 31) & ~0x1f);
+    SUPERCRINKLE_index = (std::uint16_t *) ((std::int32_t(SUPERCRINKLE_index_buffer) + 31) & ~0x1f);
 
-	memset(SUPERCRINKLE_lvert_buffer,  0, sizeof(SUPERCRINKLE_lvert_buffer ));
-	memset(SUPERCRINKLE_index_buffer,  0, sizeof(SUPERCRINKLE_index_buffer ));
-	memset(SUPERCRINKLE_crinkle,       0, sizeof(SUPERCRINKLE_crinkle      ));
-	memset(SUPERCRINKLE_colour,        0, sizeof(SUPERCRINKLE_colour       ));
-	memset(SUPERCRINKLE_is_crinkled,   0, sizeof(SUPERCRINKLE_is_crinkled  ));
-	memset(SUPERCRINKLE_cache64,       0, sizeof(SUPERCRINKLE_cache64      ));
-	memset(SUPERCRINKLE_cache128,      0, sizeof(SUPERCRINKLE_cache128     ));
-	memset(SUPERCRINKLE_cache384,      0, sizeof(SUPERCRINKLE_cache384     ));
-	memset(SUPERCRINKLE_hash_table64,  0, sizeof(SUPERCRINKLE_hash_table64 ));
-	memset(SUPERCRINKLE_hash_table128, 0, sizeof(SUPERCRINKLE_hash_table128));
-	memset(SUPERCRINKLE_hash_table384, 0, sizeof(SUPERCRINKLE_hash_table384));
+    SUPERCRINKLE_lvert_upto = 0;
+    SUPERCRINKLE_index_upto = 0;
+    SUPERCRINKLE_colour_upto = 0;
 
-	SUPERCRINKLE_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERCRINKLE_lvert_buffer) + 31) & ~0x1f);
-	SUPERCRINKLE_index = (std::uint16_t      *) ((std::int32_t(SUPERCRINKLE_index_buffer) + 31) & ~0x1f);
+    //
+    // Setup the freelists of cache entries.
+    //
 
-	SUPERCRINKLE_lvert_upto  = 0;
-	SUPERCRINKLE_index_upto  = 0;
-	SUPERCRINKLE_colour_upto = 0;
+    for (i = 0; i < SUPERCRINKLE_MAX_CACHE64 - 1; i++) {
+        SUPERCRINKLE_cache64[i].cache.next = &SUPERCRINKLE_cache64[i + 1].cache;
+    }
+    for (i = 0; i < SUPERCRINKLE_MAX_CACHE128 - 1; i++) {
+        SUPERCRINKLE_cache128[i].cache.next = &SUPERCRINKLE_cache128[i + 1].cache;
+    }
+    for (i = 0; i < SUPERCRINKLE_MAX_CACHE384 - 1; i++) {
+        SUPERCRINKLE_cache384[i].cache.next = &SUPERCRINKLE_cache384[i + 1].cache;
+    }
 
-	//
-	// Setup the freelists of cache entries.
-	//
-	
-	for (i = 0; i < SUPERCRINKLE_MAX_CACHE64  - 1; i++) {SUPERCRINKLE_cache64 [i].cache.next = &SUPERCRINKLE_cache64 [i + 1].cache;}
-	for (i = 0; i < SUPERCRINKLE_MAX_CACHE128 - 1; i++) {SUPERCRINKLE_cache128[i].cache.next = &SUPERCRINKLE_cache128[i + 1].cache;}
-	for (i = 0; i < SUPERCRINKLE_MAX_CACHE384 - 1; i++) {SUPERCRINKLE_cache384[i].cache.next = &SUPERCRINKLE_cache384[i + 1].cache;}
+    SUPERCRINKLE_free64 = &SUPERCRINKLE_cache64[0].cache;
+    SUPERCRINKLE_free128 = &SUPERCRINKLE_cache128[0].cache;
+    SUPERCRINKLE_free384 = &SUPERCRINKLE_cache384[0].cache;
 
-	SUPERCRINKLE_free64  = &SUPERCRINKLE_cache64 [0].cache;
-	SUPERCRINKLE_free128 = &SUPERCRINKLE_cache128[0].cache;
-	SUPERCRINKLE_free384 = &SUPERCRINKLE_cache384[0].cache;
+    //
+    // Load all the crinkles we need.
+    //
 
-	//
-	// Load all the crinkles we need.
-	//
+    for (i = 0; i < 512; i++) {
+        pp = &POLY_Page[i];
 
-	for (i = 0; i < 512; i++)
-	{
-		pp = &POLY_Page[i];
+        if (pp->RS.GetTexture()) {
+            //
+            // This poly page is used.
+            //
 
-		if (pp->RS.GetTexture())
-		{
-			//
-			// This poly page is used.
-			//
+            extern char TEXTURE_world_dir[];
+            extern char TEXTURE_shared_dir[];
 
-			extern char TEXTURE_world_dir[];
-			extern char TEXTURE_shared_dir[];
+            if (i < 256) {
+                sprintf(fname, "%ssex%03dhi.sex", TEXTURE_world_dir, i);
+            } else {
+                sprintf(fname, "%ssex%03dhi.sex", TEXTURE_shared_dir, i);
+            }
 
-			if (i < 256)
-			{
-				sprintf(fname, "%ssex%03dhi.sex", TEXTURE_world_dir, i);
-			}
-			else
-			{
-				sprintf(fname, "%ssex%03dhi.sex", TEXTURE_shared_dir, i);
-			}
-
-			SUPERCRINKLE_load(i,fname);
-		}
-	}
+            SUPERCRINKLE_load(i, fname);
+        }
+    }
 }
-
-
-
 
 //
 // Relights the given crinkle.
 //
 
-void SUPERCRINKLE_relight(std::int32_t crinkle, std::uint32_t colour[4], std::uint32_t specular[4])
-{
-	std::int32_t i;
-	std::int32_t j;
+void SUPERCRINKLE_relight(std::int32_t crinkle, std::uint32_t colour[4], std::uint32_t specular[4]) {
+    std::int32_t i;
+    std::int32_t j;
 
-	std::uint32_t index;
-	std::uint32_t hash;
+    std::uint32_t index;
+    std::uint32_t hash;
 
-	std::int32_t cr;
-	std::int32_t cg;
-	std::int32_t cb;
+    std::int32_t cr;
+    std::int32_t cg;
+    std::int32_t cb;
 
-	std::int32_t sr;
-	std::int32_t sg;
-	std::int32_t sb;
+    std::int32_t sr;
+    std::int32_t sg;
+    std::int32_t sb;
 
-	SUPERCRINKLE_Crinkle *sc;
-	SUPERCRINKLE_Cache   *sh;
-	SUPERCRINKLE_Colour  *sl;
-	SUPERCRINKLE_Precalc *sp;
-	D3DLVERTEX           *lv;
+    SUPERCRINKLE_Crinkle *sc;
+    SUPERCRINKLE_Cache *sh;
+    SUPERCRINKLE_Colour *sl;
+    SUPERCRINKLE_Precalc *sp;
+    D3DLVERTEX *lv;
 
-	ASSERT(WITHIN(crinkle, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
+    ASSERT(WITHIN(crinkle, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
 
-	sc = &SUPERCRINKLE_crinkle[crinkle];
+    sc = &SUPERCRINKLE_crinkle[crinkle];
 
-	//
-	// The hash value of this lighting.
-	//
+    //
+    // The hash value of this lighting.
+    //
 
-	hash = SUPERCRINKLE_hash_function(crinkle, colour, specular);
+    hash = SUPERCRINKLE_hash_function(crinkle, colour, specular);
 
-	if (sc->hash == hash)
-	{
-		//
-		// This crinkle already has this lighting! (probably...)
-		//
+    if (sc->hash == hash) {
+        //
+        // This crinkle already has this lighting! (probably...)
+        //
 
-		return;
-	}
+        return;
+    }
 
-	//
-	// Where is our freelist and hashtable?
-	//
+    //
+    // Where is our freelist and hashtable?
+    //
 
-	SUPERCRINKLE_Cache **hash_table;
-	SUPERCRINKLE_Cache **free_list;
-	std::int32_t                cache_table_size;
+    SUPERCRINKLE_Cache **hash_table;
+    SUPERCRINKLE_Cache **free_list;
+    std::int32_t cache_table_size;
 
-	     if (sc->num_lverts <= 64 ) {hash_table = SUPERCRINKLE_hash_table64 ; free_list = &SUPERCRINKLE_free64;  cache_table_size = SUPERCRINKLE_MAX_CACHE64; }
-	else if (sc->num_lverts <= 128) {hash_table = SUPERCRINKLE_hash_table128; free_list = &SUPERCRINKLE_free128; cache_table_size = SUPERCRINKLE_MAX_CACHE128;}
-	else if (sc->num_lverts <= 384) {hash_table = SUPERCRINKLE_hash_table384; free_list = &SUPERCRINKLE_free384; cache_table_size = SUPERCRINKLE_MAX_CACHE384;}
-	else
-	{
-		//
-		// More than 384 points in a single crinkle! Yikes!
-		//
+    if (sc->num_lverts <= 64) {
+        hash_table = SUPERCRINKLE_hash_table64;
+        free_list = &SUPERCRINKLE_free64;
+        cache_table_size = SUPERCRINKLE_MAX_CACHE64;
+    } else if (sc->num_lverts <= 128) {
+        hash_table = SUPERCRINKLE_hash_table128;
+        free_list = &SUPERCRINKLE_free128;
+        cache_table_size = SUPERCRINKLE_MAX_CACHE128;
+    } else if (sc->num_lverts <= 384) {
+        hash_table = SUPERCRINKLE_hash_table384;
+        free_list = &SUPERCRINKLE_free384;
+        cache_table_size = SUPERCRINKLE_MAX_CACHE384;
+    } else {
+        //
+        // More than 384 points in a single crinkle! Yikes!
+        //
 
 #ifdef TARGET_DC
-		// Don't want to know during level builds.
-		ASSERT(0);
+        // Don't want to know during level builds.
+        ASSERT(0);
 #endif
 
-		return;
-	}
+        return;
+    }
 
-	//
-	// Do we have the lighting handy?
-	//
+    //
+    // Do we have the lighting handy?
+    //
 
-	index = hash & (SUPERCRINKLE_HASH_SIZE - 1);
+    index = hash & (SUPERCRINKLE_HASH_SIZE - 1);
 
-	for (sh = hash_table[index]; sh; sh = sh->next)
-	{
-		if (sh->hash == hash)
-		{
-			//
-			// Don't bother actually checking the color[] and specular[] value!
-			// Assume this is correct!
-			//
+    for (sh = hash_table[index]; sh; sh = sh->next) {
+        if (sh->hash == hash) {
+            //
+            // Don't bother actually checking the color[] and specular[] value!
+            // Assume this is correct!
+            //
 
-			goto found_cached_info;
-		}
-	}
+            goto found_cached_info;
+        }
+    }
 
-	//
-	// No cached info found. Create it!
-	//
+    //
+    // No cached info found. Create it!
+    //
 
-	if (!*free_list )
-	{
-		//
-		// We must free up a structure. Pick a random one.
-		//
+    if (!*free_list) {
+        //
+        // We must free up a structure. Pick a random one.
+        //
 
-		std::uint32_t free = rand() % (cache_table_size - 1);
+        std::uint32_t free = rand() % (cache_table_size - 1);
 
-			 if (sc->num_lverts <= 64 ) {sh = &SUPERCRINKLE_cache64 [free].cache;}
-		else if (sc->num_lverts <= 128) {sh = &SUPERCRINKLE_cache128[free].cache;}
-		else if (sc->num_lverts <= 384) {sh = &SUPERCRINKLE_cache384[free].cache;}
+        if (sc->num_lverts <= 64) {
+            sh = &SUPERCRINKLE_cache64[free].cache;
+        } else if (sc->num_lverts <= 128) {
+            sh = &SUPERCRINKLE_cache128[free].cache;
+        } else if (sc->num_lverts <= 384) {
+            sh = &SUPERCRINKLE_cache384[free].cache;
+        }
 
-		//
-		// Remove this from the hash table.
-		//
+        //
+        // Remove this from the hash table.
+        //
 
-		SUPERCRINKLE_Cache **prev;
-		SUPERCRINKLE_Cache  *next;
+        SUPERCRINKLE_Cache **prev;
+        SUPERCRINKLE_Cache *next;
 
-		prev = &hash_table[sh->hash & (SUPERCRINKLE_HASH_SIZE - 1)];
-		next =  hash_table[sh->hash & (SUPERCRINKLE_HASH_SIZE - 1)];
+        prev = &hash_table[sh->hash & (SUPERCRINKLE_HASH_SIZE - 1)];
+        next = hash_table[sh->hash & (SUPERCRINKLE_HASH_SIZE - 1)];
 
-		while(1)
-		{
-			if (!next )
-			{
-				//	 
-				// Reached the end of the list without finding our cache element!
-				//
+        while (1) {
+            if (!next) {
+                //
+                // Reached the end of the list without finding our cache element!
+                //
 
-				ASSERT(0);
-			}
+                ASSERT(0);
+            }
 
-			if (next == sh)
-			{
-				//
-				// This is the one to delete.
-				//
+            if (next == sh) {
+                //
+                // This is the one to delete.
+                //
 
-			   *prev = next->next;
+                *prev = next->next;
 
-				break;
-			}
+                break;
+            }
 
-			prev = &next->next;
-			next =  next->next;
-		}
-	}
-	else
-	{
-		//
-		// Take this element out of the free list.
-		//
+            prev = &next->next;
+            next = next->next;
+        }
+    } else {
+        //
+        // Take this element out of the free list.
+        //
 
-		sh        = *free_list;
-	   *free_list =  sh->next;
-	}
-	
-	//
-	// Build the lighting info and put it into *sh.
-	//
+        sh = *free_list;
+        *free_list = sh->next;
+    }
 
-	sh->hash = hash;
-	sh->next = nullptr;
-	
-	for (i = 0; i < sc->num_lverts; i++)
-	{
-		sl = &SUPERCRINKLE_colour[sc->lvert + i];
-		sp = &sh->precalc[i];
+    //
+    // Build the lighting info and put it into *sh.
+    //
 
-		cr = 0;
-		cg = 0;
-		cb = 0;
+    sh->hash = hash;
+    sh->next = nullptr;
 
-		sr = 0;
-		sg = 0;
-		sb = 0;
+    for (i = 0; i < sc->num_lverts; i++) {
+        sl = &SUPERCRINKLE_colour[sc->lvert + i];
+        sp = &sh->precalc[i];
 
-		for (j = 0; j < 4; j++)
-		{
-			cr += ((colour[j] >> 16) & 0xff) * sl->i[j];
-			cg += ((colour[j] >>  8) & 0xff) * sl->i[j];
-			cb += ((colour[j] >>  0) & 0xff) * sl->i[j];
+        cr = 0;
+        cg = 0;
+        cb = 0;
 
-			sr += ((specular[j] >> 16) & 0xff) * sl->i[j];
-			sg += ((specular[j] >>  8) & 0xff) * sl->i[j];
-			sb += ((specular[j] >>  0) & 0xff) * sl->i[j];
-		}
+        sr = 0;
+        sg = 0;
+        sb = 0;
 
-		cr >>= 7;
-		cg >>= 7;
-		cb >>= 7;
+        for (j = 0; j < 4; j++) {
+            cr += ((colour[j] >> 16) & 0xff) * sl->i[j];
+            cg += ((colour[j] >> 8) & 0xff) * sl->i[j];
+            cb += ((colour[j] >> 0) & 0xff) * sl->i[j];
 
-		sr >>= 7;
-		sg >>= 7;
-		sb >>= 7;
+            sr += ((specular[j] >> 16) & 0xff) * sl->i[j];
+            sg += ((specular[j] >> 8) & 0xff) * sl->i[j];
+            sb += ((specular[j] >> 0) & 0xff) * sl->i[j];
+        }
 
-		if (cr > 255) {cr = 255;}
-		if (cg > 255) {cg = 255;}
-		if (cb > 255) {cb = 255;}
+        cr >>= 7;
+        cg >>= 7;
+        cb >>= 7;
 
-		if (sr > 255) {sr = 255;}
-		if (sg > 255) {sg = 255;}
-		if (sb > 255) {sb = 255;}
+        sr >>= 7;
+        sg >>= 7;
+        sb >>= 7;
 
-		sp->colour   = (cr << 16) | (cg << 8) | (cb << 0);
-		sp->specular = (sr << 16) | (sg << 8) | (sb << 0);
+        if (cr > 255) {
+            cr = 255;
+        }
+        if (cg > 255) {
+            cg = 255;
+        }
+        if (cb > 255) {
+            cb = 255;
+        }
 
-		//
-		// Assume no fogging and that the alpha is the same across the poly.
-		//
+        if (sr > 255) {
+            sr = 255;
+        }
+        if (sg > 255) {
+            sg = 255;
+        }
+        if (sb > 255) {
+            sb = 255;
+        }
 
-		sp->colour   |= colour[0] & 0xff000000;
-		sp->specular |= 0xff000000;
-	}
+        sp->colour = (cr << 16) | (cg << 8) | (cb << 0);
+        sp->specular = (sr << 16) | (sg << 8) | (sb << 0);
 
-	//
-	// Add it to the correct hash table.
-	//
+        //
+        // Assume no fogging and that the alpha is the same across the poly.
+        //
 
-	sh->next          = hash_table[index];
-	hash_table[index] = sh;
+        sp->colour |= colour[0] & 0xff000000;
+        sp->specular |= 0xff000000;
+    }
 
-  found_cached_info:;
+    //
+    // Add it to the correct hash table.
+    //
 
-	//
-	// Put the lighting into our crinkle.
-	//
+    sh->next = hash_table[index];
+    hash_table[index] = sh;
 
-	for (i = 0; i < sc->num_lverts; i++)
-	{
-		sp = &sh->precalc[i];
-		lv = &SUPERCRINKLE_lvert[sc->lvert + i];
+found_cached_info:;
 
-		lv->color    = sp->colour;
-		lv->specular = sp->specular;
-	}
+    //
+    // Put the lighting into our crinkle.
+    //
 
-	//
-	// Remember which sort of lighting the crinkle has.
-	//
+    for (i = 0; i < sc->num_lverts; i++) {
+        sp = &sh->precalc[i];
+        lv = &SUPERCRINKLE_lvert[sc->lvert + i];
 
-	sc->hash = hash;
+        lv->color = sp->colour;
+        lv->specular = sp->specular;
+    }
+
+    //
+    // Remember which sort of lighting the crinkle has.
+    //
+
+    sc->hash = hash;
 }
-
-
-
-
-
 
 //
 // A 32-byte aligned matrix.
 //
 
-std::uint8_t      SUPERCRINKLE_matrix_buffer[sizeof(D3DMATRIX) + 32];
+std::uint8_t SUPERCRINKLE_matrix_buffer[sizeof(D3DMATRIX) + 32];
 D3DMATRIX *SUPERCRINKLE_matrix;
 
+std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::uint32_t specular[4]) {
+    PolyPage *pp;
+    SUPERCRINKLE_Crinkle *sc;
+    D3DMULTIMATRIX d3dmm;
 
-std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::uint32_t specular[4])
-{
-	PolyPage             *pp;
-	SUPERCRINKLE_Crinkle *sc;
-	D3DMULTIMATRIX        d3dmm;
+    return (0);
 
-	return(0);
+    ASSERT(WITHIN(page, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
+    ASSERT(SUPERCRINKLE_is_crinkled[page]);
 
-	ASSERT(WITHIN(page, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
-	ASSERT(SUPERCRINKLE_is_crinkled[page]);
+    //
+    // Light it.
+    //
 
-	//
-	// Light it.
-	//
+    SUPERCRINKLE_relight(page, colour, specular);
 
-	SUPERCRINKLE_relight(page, colour, specular);
-	
-	//
-	// Setup the matrix.
-	//
+    //
+    // Setup the matrix.
+    //
 
-	SUPERCRINKLE_matrix = (D3DMATRIX *) ((std::int32_t(SUPERCRINKLE_matrix_buffer) + 31) & ~0x1f);
+    SUPERCRINKLE_matrix = (D3DMATRIX *) ((std::int32_t(SUPERCRINKLE_matrix_buffer) + 31) & ~0x1f);
 
-	pp = &POLY_Page[page];
-	sc = &SUPERCRINKLE_crinkle[page];
+    pp = &POLY_Page[page];
+    sc = &SUPERCRINKLE_crinkle[page];
 
-	//
-	// Set the renderstate.
-	//
+    //
+    // Set the renderstate.
+    //
 
-	pp->RS.SetChanged();
+    pp->RS.SetChanged();
 
-	//
-	// Setup the multi-matrix stuff...
-	// 
+    //
+    // Setup the multi-matrix stuff...
+    //
 
-	d3dmm.lpvVertices   = SUPERCRINKLE_lvert + sc->lvert;
-	d3dmm.lpd3dMatrices = SUPERCRINKLE_matrix;
-	d3dmm.lpvLightDirs  = nullptr;
-	d3dmm.lpLightTable  = nullptr;
+    d3dmm.lpvVertices = SUPERCRINKLE_lvert + sc->lvert;
+    d3dmm.lpd3dMatrices = SUPERCRINKLE_matrix;
+    d3dmm.lpvLightDirs = nullptr;
+    d3dmm.lpLightTable = nullptr;
 
-	GenerateMMMatrixFromStandardD3DOnes(
-		SUPERCRINKLE_matrix,
-	    &g_matProjection,
-		&g_matWorld,
-	    &g_viewData);
-	
-	//
-	// Do the call.
-	//
+    GenerateMMMatrixFromStandardD3DOnes(
+        SUPERCRINKLE_matrix,
+        &g_matProjection,
+        &g_matWorld,
+        &g_viewData);
 
-	DrawIndPrimMM(
-		the_display.lp_D3D_Device,
-		D3DFVF_LVERTEX,
-	   &d3dmm,
-		sc->num_lverts,
-		SUPERCRINKLE_index + sc->index,
-		sc->num_indices);
+    //
+    // Do the call.
+    //
 
-	return true;
+    DrawIndPrimMM(
+        the_display.lp_D3D_Device,
+        D3DFVF_LVERTEX,
+        &d3dmm,
+        sc->num_lverts,
+        SUPERCRINKLE_index + sc->index,
+        sc->num_indices);
+
+    return true;
 }
 
-
-
 #endif
-

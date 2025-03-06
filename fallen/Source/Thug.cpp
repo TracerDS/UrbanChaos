@@ -1,71 +1,65 @@
 // Thug.cpp
 // Guy Simmons, 8th February 1998.
 
-#include	"Game.h"
-//#include	"Command.h"
-#include	"Thug.h"
-#include	"statedef.h"
-#include	"animate.h"
-#include	"pap.h"
+#include "Game.h"
+// #include	"Command.h"
+#include "Thug.h"
+#include "statedef.h"
+#include "animate.h"
+#include "pap.h"
 
-std::int32_t calc_height_at(std::int32_t x,std::int32_t z);
+std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 std::int32_t person_normal_animate(Thing *p_person);
 
-
-#define	THUG_IDLE		1
+#define THUG_IDLE 1
 
 #undef THUG_ANIM_WALK
-#define	THUG_ANIM_WALK	1
-#define	THUG_ANIM_IDLE	0
-
-
-//---------------------------------------------------------------
-
-StateFunction thug_states[]	=
-{
-	{	STATE_INIT,				fn_thug_init	},
-	{	STATE_NORMAL,			fn_thug_normal	},
-	{	STATE_HIT,				NULL			},
-	{	STATE_ABOUT_TO_REMOVE,	NULL			},
-	{	STATE_REMOVE_ME,		NULL			}
-};
+#define THUG_ANIM_WALK 1
+#define THUG_ANIM_IDLE 0
 
 //---------------------------------------------------------------
 
-void fn_thug_init(Thing *t_thing)
-{
-	ASSERT(0);
-	t_thing->DrawType						=	DT_ROT_MULTI;
-	t_thing->Draw.Tweened->Angle			=	0;
-	t_thing->Draw.Tweened->Roll				=	0;
-	t_thing->Draw.Tweened->Tilt				=	0;
-	t_thing->Draw.Tweened->AnimTween		=	0;
-	t_thing->Draw.Tweened->TweenStage		=	0;
-	t_thing->Draw.Tweened->QueuedFrame		=	NULL;
-	t_thing->Draw.Tweened->TheChunk			=	&game_chunk[1];
-//	t_thing->Genus.Person->Health		=	200;
-	t_thing->Genus.Person->Health = health[t_thing->Genus.Person->PersonType];
+StateFunction thug_states[] =
+    {
+        {STATE_INIT, fn_thug_init},
+        {STATE_NORMAL, fn_thug_normal},
+        {STATE_HIT, NULL},
+        {STATE_ABOUT_TO_REMOVE, NULL},
+        {STATE_REMOVE_ME, NULL}};
 
+//---------------------------------------------------------------
 
-	// Initialise the cop to be walking.
-//	t_thing->Genus.Person->State		=	0;
-	set_thing_velocity(t_thing,10);
+void fn_thug_init(Thing *t_thing) {
+    ASSERT(0);
+    t_thing->DrawType = DT_ROT_MULTI;
+    t_thing->Draw.Tweened->Angle = 0;
+    t_thing->Draw.Tweened->Roll = 0;
+    t_thing->Draw.Tweened->Tilt = 0;
+    t_thing->Draw.Tweened->AnimTween = 0;
+    t_thing->Draw.Tweened->TweenStage = 0;
+    t_thing->Draw.Tweened->QueuedFrame = NULL;
+    t_thing->Draw.Tweened->TheChunk = &game_chunk[1];
+    //	t_thing->Genus.Person->Health		=	200;
+    t_thing->Genus.Person->Health = health[t_thing->Genus.Person->PersonType];
 
-	// Set up the command index;
-//	t_thing->Genus.Person->Command		=	t_thing->Genus.Person->CommandRef;
+    // Initialise the cop to be walking.
+    //	t_thing->Genus.Person->State		=	0;
+    set_thing_velocity(t_thing, 10);
 
-	set_anim(t_thing,ANIM_STAND_READY);
+    // Set up the command index;
+    //	t_thing->Genus.Person->Command		=	t_thing->Genus.Person->CommandRef;
 
-	set_state_function(t_thing,STATE_NORMAL);
-//	set_person_idle(t_thing);
-	add_thing_to_map(t_thing);
+    set_anim(t_thing, ANIM_STAND_READY);
+
+    set_state_function(t_thing, STATE_NORMAL);
+    //	set_person_idle(t_thing);
+    add_thing_to_map(t_thing);
 }
 
 //---------------------------------------------------------------
 
-void fn_thug_normal(Thing *t_thing)
-{
-	#if 0
+void fn_thug_normal(Thing *t_thing) {
+#if 0
 
 	std::int16_t			angle_diff;
 	std::int32_t			distance,
@@ -149,7 +143,7 @@ void fn_thug_normal(Thing *t_thing)
 		}
 	}
 
-	#endif
+#endif
 }
 
 //---------------------------------------------------------------

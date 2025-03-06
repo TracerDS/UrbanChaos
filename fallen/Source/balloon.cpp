@@ -2,574 +2,553 @@
 // Balloons.
 //
 
-
 #include "game.h"
 #include "animate.h"
 #include "balloon.h"
 #include "mav.h"
 
-
 //
 // The balloons...
-// 
+//
 
-BALLOON_Balloon *BALLOON_balloon;//[BALLOON_MAX_BALLOONS];
+BALLOON_Balloon *BALLOON_balloon; //[BALLOON_MAX_BALLOONS];
 std::int32_t BALLOON_balloon_upto;
 
 //
 // The desired distance between balloon points.
-// 
-
+//
 
 #ifndef TARGET_DC
 #ifndef PSX
 
-
-
 #define BALLOON_POINT_DIST (0x2000)
 
+void BALLOON_init() {
+    std::int32_t i;
 
+    //
+    // Initialise the balloon array.
+    //
 
+    memset(BALLOON_balloon, 0, sizeof(BALLOON_Balloon) * BALLOON_MAX_BALLOONS);
 
-void BALLOON_init()
-{
-	std::int32_t i;
-
-	//
-	// Initialise the balloon array.
-	//
-
-	memset(BALLOON_balloon, 0, sizeof(BALLOON_Balloon)*BALLOON_MAX_BALLOONS);
-
-	BALLOON_balloon_upto = 1;
+    BALLOON_balloon_upto = 1;
 }
-
 
 //
 // Returns the point on a thing that a balloon is attached to.
 //
 
 void BALLOON_get_attached_point(
-		std::uint16_t  thing,
-		std::int32_t *ax,
-		std::int32_t *ay,
-		std::int32_t *az)
-{
-	std::int32_t px;
-	std::int32_t py;
-	std::int32_t pz;
+    std::uint16_t thing,
+    std::int32_t *ax,
+    std::int32_t *ay,
+    std::int32_t *az) {
+    std::int32_t px;
+    std::int32_t py;
+    std::int32_t pz;
 
-	Thing *p_thing = TO_THING(thing);
+    Thing *p_thing = TO_THING(thing);
 
-	switch(p_thing->Class)
-	{
-		case CLASS_PERSON:
+    switch (p_thing->Class) {
+        case CLASS_PERSON:
 
-			calc_sub_objects_position(
-				p_thing,
-				p_thing->Draw.Tweened->AnimTween,
-				SUB_OBJECT_LEFT_HAND,
-			   &px,
-			   &py,
-			   &pz);
+            calc_sub_objects_position(
+                p_thing,
+                p_thing->Draw.Tweened->AnimTween,
+                SUB_OBJECT_LEFT_HAND,
+                &px,
+                &py,
+                &pz);
 
-			px <<= 8;
-			py <<= 8;
-			pz <<= 8;
+            px <<= 8;
+            py <<= 8;
+            pz <<= 8;
 
-			px += p_thing->WorldPos.X;
-			py += p_thing->WorldPos.Y;
-			pz += p_thing->WorldPos.Z;
-			
-			break;
+            px += p_thing->WorldPos.X;
+            py += p_thing->WorldPos.Y;
+            pz += p_thing->WorldPos.Z;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+            break;
 
-   *ax = px;
-   *ay = py;
-   *az = pz;
+        default:
+            ASSERT(0);
+            break;
+    }
 
-	return;
+    *ax = px;
+    *ay = py;
+    *az = pz;
+
+    return;
 }
 
+std::uint8_t BALLOON_create(std::uint16_t thing, std::uint8_t type) {
+    std::int32_t i;
 
-std::uint8_t BALLOON_create(std::uint16_t thing, std::uint8_t type)
-{
-	std::int32_t i;
+    std::int32_t ax;
+    std::int32_t ay;
+    std::int32_t az;
 
-	std::int32_t ax;	
-	std::int32_t ay;
-	std::int32_t az;
+    Thing *p_thing = TO_THING(thing);
 
-	Thing *p_thing = TO_THING(thing);
+    BALLOON_Balloon *bb;
 
-	BALLOON_Balloon *bb;
+    if (!WITHIN(BALLOON_balloon_upto, 1, BALLOON_MAX_BALLOONS - 1)) {
+        //
+        // No balloons left.
+        //
 
-	if (!WITHIN(BALLOON_balloon_upto, 1, BALLOON_MAX_BALLOONS - 1))
-	{
-		//
-		// No balloons left.
-		//
+        return 0;
+    }
 
-		return 0;
-	}
+    ASSERT(WITHIN(type, 1, BALLOON_TYPE_NUMBER - 1));
 
-	ASSERT(WITHIN(type, 1, BALLOON_TYPE_NUMBER - 1));
+    bb = &BALLOON_balloon[BALLOON_balloon_upto];
 
-	bb = &BALLOON_balloon[BALLOON_balloon_upto];
+    bb->type = type;
+    bb->next = 0;
+    bb->thing = thing;
+    bb->yaw = 0;
+    bb->pitch = 0;
 
-	bb->type   = type;
-	bb->next   = 0;
-	bb->thing  = thing;
-	bb->yaw    = 0;
-	bb->pitch  = 0;
+    //
+    // Where is this balloon attached to the thing?
+    //
 
-	//
-	// Where is this balloon attached to the thing?
-	//
+    BALLOON_get_attached_point(
+        thing,
+        &ax,
+        &ay,
+        &az);
 
-	BALLOON_get_attached_point(
-		thing,
-	   &ax,
-	   &ay,
-	   &az);
+    //
+    // Initilise the points.
+    //
 
-	//
-	// Initilise the points.
-	//
+    for (i = 0; i < BALLOON_POINTS_PER_BALLOON; i++) {
+        bb->bp[i].x = ax;
+        bb->bp[i].y = ay;
+        bb->bp[i].z = az;
 
-	for (i = 0; i < BALLOON_POINTS_PER_BALLOON; i++)
-	{
-		bb->bp[i].x = ax;
-		bb->bp[i].y = ay;
-		bb->bp[i].z = az;
+        ay += BALLOON_POINT_DIST;
+    }
 
-		ay += BALLOON_POINT_DIST;
-	}
+    //
+    // Attach to the thing.
+    //
 
-	//
-	// Attach to the thing.
-	//
+    switch (p_thing->Class) {
+        case CLASS_PERSON:
+            bb->next = p_thing->Genus.Person->Balloon;
+            p_thing->Genus.Person->Balloon = BALLOON_balloon_upto;
+            break;
 
-	switch(p_thing->Class)
-	{
-		case CLASS_PERSON:
-			bb->next                       = p_thing->Genus.Person->Balloon;
-			p_thing->Genus.Person->Balloon = BALLOON_balloon_upto;
-			break;
+        default:
+            //			ASSERT(0);
+            break;
+    }
 
-		default:
-//			ASSERT(0);
-			break;
-	}
-
-	return BALLOON_balloon_upto++;
+    return BALLOON_balloon_upto++;
 }
 
+void BALLOON_process() {
+    std::int32_t i;
+    std::int32_t j;
 
+    std::int32_t ax;
+    std::int32_t ay;
+    std::int32_t az;
 
+    std::int32_t dx;
+    std::int32_t dy;
+    std::int32_t dz;
+    std::int32_t dist;
+    std::int32_t ddist;
+    std::int32_t hyp;
+    std::int32_t other;
 
-void BALLOON_process()
-{
-	std::int32_t i;
-	std::int32_t j;
+    std::int32_t px;
+    std::int32_t py;
+    std::int32_t pz;
 
-	std::int32_t ax;
-	std::int32_t ay;
-	std::int32_t az;
+    std::int32_t yaw;
+    std::int32_t pitch;
 
-	std::int32_t dx;
-	std::int32_t dy;
-	std::int32_t dz;
-	std::int32_t dist;
-	std::int32_t ddist;
-	std::int32_t hyp;
-	std::int32_t other;
+    BALLOON_Balloon *bb;
+    BALLOON_Balloon *bbo;
+    BALLOON_Point *bp;
+    BALLOON_Point *bp1;
+    BALLOON_Point *bp2;
 
-	std::int32_t px;
-	std::int32_t py;
-	std::int32_t pz;
+    for (i = 1; i < BALLOON_balloon_upto; i++) {
+        bb = &BALLOON_balloon[i];
 
-	std::int32_t yaw;
-	std::int32_t pitch;
+        if (bb->type == BALLOON_TYPE_UNUSED) {
+            continue;
+        }
 
-	BALLOON_Balloon *bb;
-	BALLOON_Balloon *bbo;
-	BALLOON_Point   *bp;
-	BALLOON_Point   *bp1;
-	BALLOON_Point   *bp2;
+        if (bb->thing) {
+#define BALLOON_RADIUS 0x30
+#define BALLOON_BOUNCE 0x100
 
-	for (i = 1; i < BALLOON_balloon_upto; i++)
-	{
-		bb = &BALLOON_balloon[i];
+            /*
 
-		if (bb->type == BALLOON_TYPE_UNUSED)
-		{
-			continue;
-		}
+            //
+            // PEOPLE ONLY CARRY ONE BALLOON NOW.
+            //
 
-		if (bb->thing)
-		{
-			#define BALLOON_RADIUS 0x30
-			#define BALLOON_BOUNCE 0x100
+            //
+            // If this person is carrying more than one balloon- make sure that
+            // it bounces off all the others.
+            //
 
-			/*
+            other = TO_THING(bb->thing)->Genus.Person->Balloon;
 
-			//
-			// PEOPLE ONLY CARRY ONE BALLOON NOW.
-			//
+            while(other)
+            {
+                    ASSERT(WITHIN(other, 1, BALLOON_MAX_BALLOONS - 1));
 
-			//
-			// If this person is carrying more than one balloon- make sure that
-			// it bounces off all the others.
-			//
+                    bbo = &BALLOON_balloon[other];
 
-			other = TO_THING(bb->thing)->Genus.Person->Balloon;
+                    if (other != i && other < i)
+                    {
+                            dx = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x - bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].x;
+                            dy = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y - bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].y;
+                            dz = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z - bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].z;
 
-			while(other)
-			{	
-				ASSERT(WITHIN(other, 1, BALLOON_MAX_BALLOONS - 1));
+                            dist = QDIST3(abs(dx),abs(dy),abs(dz));
 
-				bbo = &BALLOON_balloon[other];
+                            if (dist < (BALLOON_RADIUS << 9))
+                            {
+                                    bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx -= dx >> 1;
+                                    bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy -= dy >> 1;
+                                    bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz -= dz >> 1;
 
-				if (other != i && other < i)
-				{
-					dx = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x - bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].x;
-					dy = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y - bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].y;
-					dz = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z - bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].z;
+                                    bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].dx += dx >> 1;
+                                    bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].dy += dy >> 1;
+                                    bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].dz += dz >> 1;
+                            }
+                    }
 
-					dist = QDIST3(abs(dx),abs(dy),abs(dz));
+                    other = bbo->next;
+            }
 
-					if (dist < (BALLOON_RADIUS << 9))
-					{
-						bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx -= dx >> 1;
-						bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy -= dy >> 1;
-						bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz -= dz >> 1;
+            */
 
-						bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].dx += dx >> 1;
-						bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].dy += dy >> 1;
-						bbo->bp[BALLOON_POINTS_PER_BALLOON - 1].dz += dz >> 1;
-					}
-				}
+            //
+            // Point zero is attached to the thing.
+            //
 
-				other = bbo->next;
-			}
+            BALLOON_get_attached_point(
+                bb->thing,
+                &ax,
+                &ay,
+                &az);
 
-			*/
+            bb->bp[0].x = ax;
+            bb->bp[0].y = ay;
+            bb->bp[0].z = az;
 
-			//
-			// Point zero is attached to the thing.
-			//
+            for (j = 1; j < BALLOON_POINTS_PER_BALLOON; j++) {
+                bp1 = &bb->bp[j - 1];
+                bp2 = &bb->bp[j - 0];
 
-			BALLOON_get_attached_point(
-				bb->thing,
-			   &ax,
-			   &ay,
-			   &az);
+                bp2->x += bp2->dx;
+                bp2->y += bp2->dy;
+                bp2->z += bp2->dz;
 
-			bb->bp[0].x = ax;
-			bb->bp[0].y = ay;
-			bb->bp[0].z = az;
+                dx = bp2->x - bp1->x;
+                dy = bp2->y - bp1->y;
+                dz = bp2->z - bp1->z;
 
-			for (j = 1; j < BALLOON_POINTS_PER_BALLOON; j++)
-			{
-				bp1 = &bb->bp[j - 1];
-				bp2 = &bb->bp[j - 0];
-				
-				bp2->x += bp2->dx;
-				bp2->y += bp2->dy;
-				bp2->z += bp2->dz;
+                //
+                // Avoid overflows.
+                //
 
-				dx = bp2->x - bp1->x;
-				dy = bp2->y - bp1->y;
-				dz = bp2->z - bp1->z;
+                if (dx > 0x7000) {
+                    dx = 0x7000;
+                }
+                if (dy > 0x7000) {
+                    dy = 0x7000;
+                }
+                if (dz > 0x7000) {
+                    dz = 0x7000;
+                }
 
-				//
-				// Avoid overflows.
-				//
+                if (dx < -0x7000) {
+                    dx = -0x7000;
+                }
+                if (dy < -0x7000) {
+                    dy = -0x7000;
+                }
+                if (dz < -0x7000) {
+                    dz = -0x7000;
+                }
 
-				if (dx >  0x7000) {dx =  0x7000;}
-				if (dy >  0x7000) {dy =  0x7000;}
-				if (dz >  0x7000) {dz =  0x7000;}
+                dist = QDIST3(abs(dx), abs(dy), abs(dz)) + 1;
 
-				if (dx < -0x7000) {dx = -0x7000;}
-				if (dy < -0x7000) {dy = -0x7000;}
-				if (dz < -0x7000) {dz = -0x7000;}
+                if (dist > BALLOON_POINT_DIST) {
+                    ddist = dist - BALLOON_POINT_DIST;
 
-				dist = QDIST3(abs(dx),abs(dy),abs(dz)) + 1;
+                    dx = (dx * ddist) / dist;
+                    dy = (dy * ddist) / dist;
+                    dz = (dz * ddist) / dist;
 
-				if (dist > BALLOON_POINT_DIST)
-				{
-					ddist = dist - BALLOON_POINT_DIST;
+                    bp2->x -= dx;
+                    bp2->y -= dy;
+                    bp2->z -= dz;
 
-					dx = (dx * ddist) / dist;
-					dy = (dy * ddist) / dist;
-					dz = (dz * ddist) / dist;
+                    bp2->dx -= dx / 0x10;
+                    bp2->dy -= dy / 0x10;
+                    bp2->dz -= dz / 0x10;
+                }
 
-					bp2->x -= dx;
-					bp2->y -= dy;
-					bp2->z -= dz;
+                bp2->dy += 0x40;
 
-					bp2->dx -= dx / 0x10;
-					bp2->dy -= dy / 0x10;
-					bp2->dz -= dz / 0x10;
-				}
+                bp2->dx -= bp2->dx / 0x10;
+                bp2->dy -= bp2->dy / 0x10;
+                bp2->dz -= bp2->dz / 0x10;
+            }
 
-				bp2->dy += 0x40;
+            //
+            // Stop the balloon going through walls.
+            //
 
-				bp2->dx -= bp2->dx / 0x10;
-				bp2->dy -= bp2->dy / 0x10;
-				bp2->dz -= bp2->dz / 0x10;
-			}
+            bp = &bb->bp[BALLOON_POINTS_PER_BALLOON - 1];
 
-			//
-			// Stop the balloon going through walls.
-			//
+            px = bp->x >> 8;
+            py = bp->y >> 8;
+            pz = bp->z >> 8;
 
-			bp = &bb->bp[BALLOON_POINTS_PER_BALLOON - 1];
+            if (MAV_inside(px + BALLOON_RADIUS, py, pz)) {
+                bp->dx -= BALLOON_BOUNCE;
+            }
+            if (MAV_inside(px - BALLOON_RADIUS, py, pz)) {
+                bp->dx += BALLOON_BOUNCE;
+            }
+            if (MAV_inside(px, py, pz + BALLOON_RADIUS)) {
+                bp->dz -= BALLOON_BOUNCE;
+            }
+            if (MAV_inside(px, py, pz - BALLOON_RADIUS)) {
+                bp->dz += BALLOON_BOUNCE;
+            }
+        } else {
+            //
+            // Make the balloon drift away...
+            //
 
-			px = bp->x >> 8;
-			py = bp->y >> 8;
-			pz = bp->z >> 8;
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy += 0x40;
 
-			if (MAV_inside(px + BALLOON_RADIUS, py, pz)) {bp->dx -= BALLOON_BOUNCE;}
-			if (MAV_inside(px - BALLOON_RADIUS, py, pz)) {bp->dx += BALLOON_BOUNCE;}
-			if (MAV_inside(px, py, pz + BALLOON_RADIUS)) {bp->dz -= BALLOON_BOUNCE;}
-			if (MAV_inside(px, py, pz - BALLOON_RADIUS)) {bp->dz += BALLOON_BOUNCE;}
-		}
-		else
-		{
-			//
-			// Make the balloon drift away...
-			//
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx -= bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx / 0x10;
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy -= bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy / 0x10;
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz -= bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz / 0x10;
 
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy += 0x40;
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x += bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx;
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y += bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy;
+            bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z += bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz;
 
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx -= bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx / 0x10;
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy -= bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy / 0x10;
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz -= bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz / 0x10;
+            if (bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y > 0x100000) {
+                //
+                // Kill the balloon- its too high up.
+                //
 
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x += bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dx;
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y += bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dy;
-			bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z += bb->bp[BALLOON_POINTS_PER_BALLOON - 1].dz;
+                bb->type = BALLOON_TYPE_UNUSED;
+            } else {
+                //
+                // ...and pull the string with it.
+                //
 
-			if (bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y > 0x100000)
-			{
-				//
-				// Kill the balloon- its too high up.
-				//
+                for (j = BALLOON_POINTS_PER_BALLOON - 2; j >= 0; j--) {
+                    bp1 = &bb->bp[j + 1];
+                    bp2 = &bb->bp[j + 0];
 
-				bb->type = BALLOON_TYPE_UNUSED;
-			}
-			else
-			{
-				//
-				// ...and pull the string with it.
-				// 
+                    bp2->x += bp2->dx;
+                    bp2->y += bp2->dy;
+                    bp2->z += bp2->dz;
 
-				for (j = BALLOON_POINTS_PER_BALLOON - 2; j >= 0; j--)
-				{
-					bp1 = &bb->bp[j + 1];
-					bp2 = &bb->bp[j + 0];
-					
-					bp2->x += bp2->dx;
-					bp2->y += bp2->dy;
-					bp2->z += bp2->dz;
+                    dx = bp2->x - bp1->x;
+                    dy = bp2->y - bp1->y;
+                    dz = bp2->z - bp1->z;
 
-					dx = bp2->x - bp1->x;
-					dy = bp2->y - bp1->y;
-					dz = bp2->z - bp1->z;
+                    if (dx > 0x4000) {
+                        dx = 0x4000;
+                    }
+                    if (dy > 0x4000) {
+                        dy = 0x4000;
+                    }
+                    if (dz > 0x4000) {
+                        dz = 0x4000;
+                    }
 
-					if (dx >  0x4000) {dx =  0x4000;}
-					if (dy >  0x4000) {dy =  0x4000;}
-					if (dz >  0x4000) {dz =  0x4000;}
+                    if (dx < -0x4000) {
+                        dx = -0x4000;
+                    }
+                    if (dy < -0x4000) {
+                        dy = -0x4000;
+                    }
+                    if (dz < -0x4000) {
+                        dz = -0x4000;
+                    }
 
-					if (dx < -0x4000) {dx = -0x4000;}
-					if (dy < -0x4000) {dy = -0x4000;}
-					if (dz < -0x4000) {dz = -0x4000;}
+                    dist = QDIST3(abs(dx), abs(dy), abs(dz)) + 1;
 
-					dist = QDIST3(abs(dx),abs(dy),abs(dz)) + 1;
+                    if (dist > BALLOON_POINT_DIST) {
+                        ddist = dist - BALLOON_POINT_DIST;
 
-					if (dist > BALLOON_POINT_DIST)
-					{
-						ddist = dist - BALLOON_POINT_DIST;
+                        dx = (dx * ddist) / dist;
+                        dy = (dy * ddist) / dist;
+                        dz = (dz * ddist) / dist;
 
-						dx = (dx * ddist) / dist;
-						dy = (dy * ddist) / dist;
-						dz = (dz * ddist) / dist;
+                        bp2->x -= dx;
+                        bp2->y -= dy;
+                        bp2->z -= dz;
 
-						bp2->x -= dx;
-						bp2->y -= dy;
-						bp2->z -= dz;
+                        bp2->dx = bp1->dx;
+                        bp2->dy = bp1->dy;
+                        bp2->dz = bp1->dz;
+                    }
 
-						bp2->dx = bp1->dx;
-						bp2->dy = bp1->dy;
-						bp2->dz = bp1->dz;
-					}
+                    bp2->dy -= 0x100;
 
-					bp2->dy -= 0x100;
+                    bp2->dx -= bp2->dx / 0x10;
+                    bp2->dy -= bp2->dy / 0x10;
+                    bp2->dz -= bp2->dz / 0x10;
+                }
+            }
+        }
 
-					bp2->dx -= bp2->dx / 0x10;
-					bp2->dy -= bp2->dy / 0x10;
-					bp2->dz -= bp2->dz / 0x10;
-				}
-			}
-		}
+        //
+        // Work out the yaw/pitch of the balloon.
+        //
 
-		//
-		// Work out the yaw/pitch of the balloon.
-		//
+        dx = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x - bb->bp[BALLOON_POINTS_PER_BALLOON - 2].x;
+        dy = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y - bb->bp[BALLOON_POINTS_PER_BALLOON - 2].y;
+        dz = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z - bb->bp[BALLOON_POINTS_PER_BALLOON - 2].z;
 
-		dx = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].x - bb->bp[BALLOON_POINTS_PER_BALLOON - 2].x;
-		dy = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].y - bb->bp[BALLOON_POINTS_PER_BALLOON - 2].y;
-		dz = bb->bp[BALLOON_POINTS_PER_BALLOON - 1].z - bb->bp[BALLOON_POINTS_PER_BALLOON - 2].z;
+        hyp = QDIST2(abs(dx), abs(dz));
 
-		hyp = QDIST2(abs(dx),abs(dz));
+        yaw = calc_angle(dx, dz) + 1024;
+        pitch = calc_angle(dy, hyp);
+        pitch = -pitch;
+        pitch += 512;
+        pitch &= 2047;
 
-		yaw    =  calc_angle(dx,dz) + 1024;
-		pitch  =  calc_angle(dy,hyp);
-		pitch  = -pitch;
-		pitch +=  512;
-		pitch &=  2047;
-
-		bb->yaw   = yaw;
-		bb->pitch = pitch;
-	}
+        bb->yaw = yaw;
+        bb->pitch = pitch;
+    }
 }
 
+void BALLOON_release(std::uint8_t balloon) {
+    ASSERT(WITHIN(balloon, 1, BALLOON_MAX_BALLOONS - 1));
 
-void BALLOON_release(std::uint8_t balloon)
-{
-	ASSERT(WITHIN(balloon, 1, BALLOON_MAX_BALLOONS - 1));
+    BALLOON_Balloon *bb;
 
-	BALLOON_Balloon *bb;
+    bb = &BALLOON_balloon[balloon];
 
-	bb = &BALLOON_balloon[balloon];
+    ASSERT(bb->type);
 
-	ASSERT(bb->type);
+    //
+    // detach from the thing.
+    //
 
-	//
-	// detach from the thing.
-	//
+    Thing *p_thing = TO_THING(bb->thing);
 
-	Thing *p_thing = TO_THING(bb->thing);
+    switch (p_thing->Class) {
+        case CLASS_PERSON:
+            p_thing->Genus.Person->Balloon = 0;
+            break;
 
-	switch(p_thing->Class)
-	{
-		case CLASS_PERSON:
-			p_thing->Genus.Person->Balloon = 0;
-			break;
+        default:
+            ASSERT(0);
+            break;
+    }
 
-		default:
-			ASSERT(0);
-			break;
-	}
+    while (balloon) {
+        ASSERT(WITHIN(balloon, 1, BALLOON_balloon_upto - 1));
 
-	while(balloon)
-	{
-		ASSERT(WITHIN(balloon, 1, BALLOON_balloon_upto - 1));
+        bb = &BALLOON_balloon[balloon];
 
-		bb = &BALLOON_balloon[balloon];
-
-		bb->thing = 0;
-		balloon   = bb->next;
-	}
+        bb->thing = 0;
+        balloon = bb->next;
+    }
 }
 
+void BALLOON_find_grab(std::uint16_t thing) {
+    std::int32_t i;
 
+    std::int32_t ax;
+    std::int32_t ay;
+    std::int32_t az;
 
-void BALLOON_find_grab(std::uint16_t thing)
-{
-	std::int32_t i;
+    std::int32_t dx;
+    std::int32_t dy;
+    std::int32_t dz;
 
-	std::int32_t ax;
-	std::int32_t ay;
-	std::int32_t az;
+    std::int32_t dist;
 
-	std::int32_t dx;
-	std::int32_t dy;
-	std::int32_t dz;
+    Thing *p_thing = TO_THING(thing);
 
-	std::int32_t dist;
-	
-	Thing *p_thing = TO_THING(thing);
+    BALLOON_Balloon *bb;
 
-	BALLOON_Balloon *bb;
+    if (BALLOON_balloon_upto == 1) {
+        //
+        // No balloons, so no point doing anything.
+        //
 
-	if (BALLOON_balloon_upto == 1)
-	{
-		//
-		// No balloons, so no point doing anything.
-		// 
+        return;
+    }
 
-		return;
-	}
+    //
+    // PEOPLE ONLY CARRY ONE BALLOON NOW.
+    //
 
-	//
-	// PEOPLE ONLY CARRY ONE BALLOON NOW.
-	//
+    if (p_thing->Genus.Person->Balloon) {
+        return;
+    }
 
-	if (p_thing->Genus.Person->Balloon)
-	{
-		return;
-	}
+    //
+    // Where would the balloon be attached to?
+    //
 
-	//
-	// Where would the balloon be attached to?
-	//
+    BALLOON_get_attached_point(
+        thing,
+        &ax,
+        &ay,
+        &az);
 
-	BALLOON_get_attached_point(
-		thing,
-	   &ax,
-	   &ay,
-	   &az);
-	
-	//
-	// Look for a released balloon near this position.
-	//
+    //
+    // Look for a released balloon near this position.
+    //
 
-	#define BALLOON_GRAB_DIST (0x80)
+#define BALLOON_GRAB_DIST (0x80)
 
-	for (i = 1; i < BALLOON_balloon_upto; i++)
-	{
-		bb = &BALLOON_balloon[i];
+    for (i = 1; i < BALLOON_balloon_upto; i++) {
+        bb = &BALLOON_balloon[i];
 
-		if (bb->type == BALLOON_TYPE_UNUSED || bb->thing)
-		{
-			continue;
-		}
+        if (bb->type == BALLOON_TYPE_UNUSED || bb->thing) {
+            continue;
+        }
 
-		dx = abs(bb->bp[0].x - ax);
-		dy = abs(bb->bp[0].y - ay);
-		dz = abs(bb->bp[0].z - az);
+        dx = abs(bb->bp[0].x - ax);
+        dy = abs(bb->bp[0].y - ay);
+        dz = abs(bb->bp[0].z - az);
 
-		dist = QDIST3(dx,dy,dz);
+        dist = QDIST3(dx, dy, dz);
 
-		if (dist < 0x10000)
-		{
-			//
-			// Attach this balloon to the person.
-			//
+        if (dist < 0x10000) {
+            //
+            // Attach this balloon to the person.
+            //
 
-			bb->thing                      = thing;
-			bb->next                       = p_thing->Genus.Person->Balloon;
-			p_thing->Genus.Person->Balloon = i;
+            bb->thing = thing;
+            bb->next = p_thing->Genus.Person->Balloon;
+            p_thing->Genus.Person->Balloon = i;
 
-			return;
-		}
-	}
+            return;
+        }
+    }
 }
 #endif
 
-
-
-
-#endif //#ifndef TARGET_DC
-
-
-
-
-
+#endif // #ifndef TARGET_DC

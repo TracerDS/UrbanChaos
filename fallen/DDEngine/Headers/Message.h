@@ -2,11 +2,8 @@
 // Message passing to the user.
 //
 
-
 #ifndef _MSG_
 #define _MSG_
-
-
 
 //
 // Clears all current messages.	You don't have to call this at the
@@ -23,15 +20,12 @@ void MSG_clear();
 // If you add the same message more than once, only one copy will appear.
 //
 
-//void MSG_add(char* message, ...);
-
+// void MSG_add(char* message, ...);
 
 //
 // Draws the messages onto the screen. It expects the screen to be locked.
 //
 
 void MSG_draw();
-
-
 
 #endif

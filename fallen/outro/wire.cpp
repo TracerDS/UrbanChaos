@@ -10,8 +10,6 @@
 #include "os.h"
 #include "wire.h"
 
-
-
 //
 // Our meshes.
 //
@@ -20,7 +18,6 @@
 
 IMP_Mesh WIRE_mesh[WIRE_NUM_MESHES];
 
-
 //
 // The textures.
 //
@@ -28,475 +25,412 @@ IMP_Mesh WIRE_mesh[WIRE_NUM_MESHES];
 OS_Texture *WIRE_ot_line;
 OS_Texture *WIRE_ot_dot;
 
-
-
 std::int32_t WIRE_last;
 std::int32_t WIRE_now;
 
-
 //
 // The box we use as the zbuffer hack.
-// 
+//
 
 typedef struct
 {
-	float x;
-	float y;
-	float z;
+    float x;
+    float y;
+    float z;
 
-	OS_Vert ov;
- 
+    OS_Vert ov;
+
 } WIRE_Point;
 
 #define WIRE_NUM_POINTS 8
 
 WIRE_Point WIRE_point[WIRE_NUM_POINTS];
 
-
-
 //
 // The current mesh we are drawing and how we are drawing it...
 //
 
-#define WIRE_MODE_NONE_WIRE			0
-#define WIRE_MODE_WIRE_BRIGHT		1
-#define WIRE_MODE_BRIGHT_TEXTURE	2
-#define WIRE_MODE_TEXTURE_NONE		3
+#define WIRE_MODE_NONE_WIRE 0
+#define WIRE_MODE_WIRE_BRIGHT 1
+#define WIRE_MODE_BRIGHT_TEXTURE 2
+#define WIRE_MODE_TEXTURE_NONE 3
 
 std::int32_t WIRE_current_mesh;
 std::int32_t WIRE_current_mode;
 std::int32_t WIRE_current_countdown;
-
-
-
-
 
 //
 // Initialises the box so it will encompass the given mesh, no
 // matter how it is rotated.
 //
 
-void WIRE_plane_init(IMP_Mesh *im)
-{
-	std::int32_t i;
+void WIRE_plane_init(IMP_Mesh *im) {
+    std::int32_t i;
 
-	for (i = 0; i < WIRE_NUM_POINTS; i++)	
-	{
-		WIRE_point[i].x = (i & 1) ? im->max_x + 1.0F : im->min_x - 1.0F;
-		WIRE_point[i].y = (i & 2) ? im->max_y + 5.0F : im->min_y - 5.0F;
-		WIRE_point[i].z = (i & 4) ? im->max_z + 1.0F : im->min_z - 1.0F;
-	}
+    for (i = 0; i < WIRE_NUM_POINTS; i++) {
+        WIRE_point[i].x = (i & 1) ? im->max_x + 1.0F : im->min_x - 1.0F;
+        WIRE_point[i].y = (i & 2) ? im->max_y + 5.0F : im->min_y - 5.0F;
+        WIRE_point[i].z = (i & 4) ? im->max_z + 1.0F : im->min_z - 1.0F;
+    }
 }
 
-void WIRE_plane_rotate(IMP_Mesh *im, float angle)
-{
-	std::int32_t i;
+void WIRE_plane_rotate(IMP_Mesh *im, float angle) {
+    std::int32_t i;
 
-	float matrix[9];
+    float matrix[9];
 
-	MATRIX_calc(
-		matrix,
-		angle,
-		0.0F,
-		0.0F);
+    MATRIX_calc(
+        matrix,
+        angle,
+        0.0F,
+        0.0F);
 
-	for (i = 0; i < WIRE_NUM_POINTS; i++)	
-	{
-		WIRE_point[i].x = (i & 1) ? im->max_x + 5.0F : im->min_x - 5.0F;
-		WIRE_point[i].z = (i & 4) ? im->max_z + 5.0F : im->min_z - 5.0F;
+    for (i = 0; i < WIRE_NUM_POINTS; i++) {
+        WIRE_point[i].x = (i & 1) ? im->max_x + 5.0F : im->min_x - 5.0F;
+        WIRE_point[i].z = (i & 4) ? im->max_z + 5.0F : im->min_z - 5.0F;
 
-		MATRIX_MUL(
-			matrix,
-			WIRE_point[i].x,
-			WIRE_point[i].y,	// y will be unchanged.
-			WIRE_point[i].z);
-	}
+        MATRIX_MUL(
+            matrix,
+            WIRE_point[i].x,
+            WIRE_point[i].y, // y will be unchanged.
+            WIRE_point[i].z);
+    }
 }
-
 
 //
 // Makes the plane sink down.
 //
 
-void WIRE_plane_process()
-{
-	std::int32_t i;
+void WIRE_plane_process() {
+    std::int32_t i;
 
+    WIRE_now = OS_ticks();
 
-	WIRE_now = OS_ticks();
+    if (WIRE_last < WIRE_now - 500) {
+        WIRE_last = WIRE_now - 500;
+    }
 
-	if (WIRE_last < WIRE_now - 500)
-	{
-		WIRE_last = WIRE_now - 500;
-	}
+    if (KEY_on[KEY_S]) {
+        WIRE_last -= 100;
+    }
 
-	if (KEY_on[KEY_S])
-	{
-		WIRE_last -= 100;
-	}
+    while (WIRE_last < WIRE_now) {
+        WIRE_last += 1000 / 50; // Process 20 times a second...
 
-	while(WIRE_last < WIRE_now)
-	{
-		WIRE_last += 1000 / 50;	// Process 20 times a second...
-
-		if (WIRE_current_mode == WIRE_MODE_TEXTURE_NONE)
-		{
-			if (WIRE_current_countdown == 0)
-			{
-				for (i = 0; i < WIRE_NUM_POINTS; i++)
-				{
-					if (i &  2)
-					{
-						WIRE_point[i].y += 0.3F;
-					}
-				}
-			}
-		}
-		else
-		{
-			for (i = 0; i < WIRE_NUM_POINTS; i++)
-			{
-				if (i &  2)
-				{
-					WIRE_point[i].y -= 0.2F;
-				}
-			}
-		}
-	}
+        if (WIRE_current_mode == WIRE_MODE_TEXTURE_NONE) {
+            if (WIRE_current_countdown == 0) {
+                for (i = 0; i < WIRE_NUM_POINTS; i++) {
+                    if (i & 2) {
+                        WIRE_point[i].y += 0.3F;
+                    }
+                }
+            }
+        } else {
+            for (i = 0; i < WIRE_NUM_POINTS; i++) {
+                if (i & 2) {
+                    WIRE_point[i].y -= 0.2F;
+                }
+            }
+        }
+    }
 }
 
+void WIRE_plane_draw() {
+    std::int32_t i;
+    std::int32_t px;
+    std::int32_t pz;
+    std::int32_t index;
 
-void WIRE_plane_draw()
-{
-	std::int32_t i;
-	std::int32_t px;
-	std::int32_t pz;
-	std::int32_t index;
-	
-	OS_Buffer  *ob = OS_buffer_new();
-	OS_Vert    *ov;
-	WIRE_Point *wp;
+    OS_Buffer *ob = OS_buffer_new();
+    OS_Vert *ov;
+    WIRE_Point *wp;
 
-	//
-	// Rotate all the points.
-	//
+    //
+    // Rotate all the points.
+    //
 
-	for (i = 0; i < WIRE_NUM_POINTS; i++)
-	{
-		wp = &WIRE_point[i];
+    for (i = 0; i < WIRE_NUM_POINTS; i++) {
+        wp = &WIRE_point[i];
 
-		OS_transform(
-			wp->x,
-			wp->y,
-			wp->z,
-		   &OS_trans[i]);
+        OS_transform(
+            wp->x,
+            wp->y,
+            wp->z,
+            &OS_trans[i]);
 
-		ov = &wp->ov;
-	
-		ov->trans    = i;
-		ov->index    = 0;
-		ov->u1       = 0.0F;
-		ov->v1       = 0.0F;
-		ov->u2       = 0.0F;
-		ov->v2       = 0.0F;
-		ov->colour   = 0x44444444;
-		ov->specular = 0x00000000;
-	}
+        ov = &wp->ov;
 
-	//
-	// Add each face to our buffer.
-	//
+        ov->trans = i;
+        ov->index = 0;
+        ov->u1 = 0.0F;
+        ov->v1 = 0.0F;
+        ov->u2 = 0.0F;
+        ov->v2 = 0.0F;
+        ov->colour = 0x44444444;
+        ov->specular = 0x00000000;
+    }
 
-	struct
-	{
-		std::uint8_t p1;
-		std::uint8_t p2;
-		std::uint8_t p3;
-		std::uint8_t p4;
+    //
+    // Add each face to our buffer.
+    //
 
-	} face[5] =
-	{
-		{0,1,2,3},
-		{2,3,6,7},
-		{6,7,4,5},
-		{1,5,3,7},
-		{4,0,6,2}
-	};
+    struct
+    {
+        std::uint8_t p1;
+        std::uint8_t p2;
+        std::uint8_t p3;
+        std::uint8_t p4;
 
+    } face[5] =
+        {
+            {0, 1, 2, 3},
+            {2, 3, 6, 7},
+            {6, 7, 4, 5},
+            {1, 5, 3, 7},
+            {4, 0, 6, 2}};
 
-	for (i = 0; i < 5; i++)
-	{
-		OS_buffer_add_triangle(
-			ob,
-		   &WIRE_point[face[i].p3].ov,
-		   &WIRE_point[face[i].p2].ov,
-		   &WIRE_point[face[i].p1].ov);
+    for (i = 0; i < 5; i++) {
+        OS_buffer_add_triangle(
+            ob,
+            &WIRE_point[face[i].p3].ov,
+            &WIRE_point[face[i].p2].ov,
+            &WIRE_point[face[i].p1].ov);
 
-		OS_buffer_add_triangle(
-			ob,
-		   &WIRE_point[face[i].p2].ov,
-		   &WIRE_point[face[i].p3].ov,
-		   &WIRE_point[face[i].p4].ov);
-	}
+        OS_buffer_add_triangle(
+            ob,
+            &WIRE_point[face[i].p2].ov,
+            &WIRE_point[face[i].p3].ov,
+            &WIRE_point[face[i].p4].ov);
+    }
 
-	OS_buffer_draw(ob, nullptr, nullptr, OS_DRAW_TRANSPARENT | OS_DRAW_ZALWAYS);
+    OS_buffer_draw(ob, nullptr, nullptr, OS_DRAW_TRANSPARENT | OS_DRAW_ZALWAYS);
 }
 
+void WIRE_init() {
+    std::int32_t i;
 
+    static std::int32_t done;
 
-void WIRE_init()
-{
-	std::int32_t i;
+    if (!done) {
+        /*
+        WIRE_mesh[0] = IMP_load("Meshes\\coinlogo.sex", 0.80F);
+        WIRE_mesh[1] = IMP_load("Meshes\\tallpot.sex",  0.25F);
+        WIRE_mesh[2] = IMP_load("Meshes\\capsule.sex",  0.25F);
+        */
 
-	static std::int32_t done;
+        WIRE_mesh[0] = IMP_binary_load("Meshes\\heart.imp");
+        WIRE_mesh[1] = IMP_binary_load("Meshes\\coinlogo.imp");
+        WIRE_mesh[2] = IMP_binary_load("Meshes\\tallpot.imp");
+        WIRE_mesh[3] = IMP_binary_load("Meshes\\capsule.imp");
 
-	if (!done)
-	{
-		/*
-		WIRE_mesh[0] = IMP_load("Meshes\\coinlogo.sex", 0.80F);
-		WIRE_mesh[1] = IMP_load("Meshes\\tallpot.sex",  0.25F);
-		WIRE_mesh[2] = IMP_load("Meshes\\capsule.sex",  0.25F);
-		*/
+        //
+        // Process each mesh.
+        //
 
-		WIRE_mesh[0] = IMP_binary_load("Meshes\\heart.imp");
-		WIRE_mesh[1] = IMP_binary_load("Meshes\\coinlogo.imp");
-		WIRE_mesh[2] = IMP_binary_load("Meshes\\tallpot.imp");
-		WIRE_mesh[3] = IMP_binary_load("Meshes\\capsule.imp");
+        for (i = 0; i < WIRE_NUM_MESHES; i++) {
+            //
+            // Load the textures.
+            //
 
-		//
-		// Process each mesh.
-		// 
+            MF_load_textures(&WIRE_mesh[i]);
 
-		for (i = 0; i < WIRE_NUM_MESHES; i++)
-		{
-			//
-			// Load the textures.
-			//
+            //
+            // So we can rotate it later...
+            //
 
-			MF_load_textures(&WIRE_mesh[i]);
+            MF_backup(&WIRE_mesh[i]);
+        }
 
-			//
-			// So we can rotate it later...
-			//
+        //
+        // The wireframe textures.
+        //
 
-			MF_backup(&WIRE_mesh[i]);
-		}
+        WIRE_ot_line = OS_texture_create("line.tga");
+        WIRE_ot_dot = OS_texture_create("dot.tga");
 
-		//
-		// The wireframe textures.
-		//
+        done = true;
+    }
 
-		WIRE_ot_line = OS_texture_create("line.tga");
-		WIRE_ot_dot  = OS_texture_create("dot.tga");
+    //
+    // The plane.
+    //
 
-		done = true;
-	}
+    WIRE_plane_init(&WIRE_mesh[0]);
 
-	//
-	// The plane.
-	//
+    WIRE_current_mesh = 0;
+    WIRE_current_mode = 0;
 
-	WIRE_plane_init(&WIRE_mesh[0]);
-
-	WIRE_current_mesh = 0;
-	WIRE_current_mode = 0;
-
-	WIRE_now  = 0;
-	WIRE_last = 0;
+    WIRE_now = 0;
+    WIRE_last = 0;
 }
 
+void WIRE_draw() {
+    IMP_Mesh *im = &WIRE_mesh[WIRE_current_mesh];
 
+    std::int32_t mode_over;
 
+    if (OS_ticks() < 7000) {
+        //
+        // Nothing for a while...
+        //
 
+        //		return;
+    }
 
+    WIRE_plane_process();
 
-void WIRE_draw()
-{
-	IMP_Mesh *im = &WIRE_mesh[WIRE_current_mesh];
+    switch (WIRE_current_mode) {
+        case WIRE_MODE_NONE_WIRE:
+        case WIRE_MODE_WIRE_BRIGHT:
+            mode_over = (WIRE_point[2].y < im->min_y - 5.0F);
+            break;
 
-	std::int32_t mode_over;
+        case WIRE_MODE_BRIGHT_TEXTURE:
+            mode_over = (WIRE_point[2].y < im->min_y - 55.0F);
+            break;
 
-	if (OS_ticks() < 7000)
-	{
-		//
-		// Nothing for a while...
-		//
+        case WIRE_MODE_TEXTURE_NONE:
 
-//		return;
-	}
+            if (WIRE_point[2].y >= im->max_y + 5.0F) {
+                if (WIRE_current_countdown == 0) {
+                    WIRE_current_countdown = OS_ticks();
+                }
+            }
 
-	WIRE_plane_process();
+            mode_over = WIRE_current_countdown && (OS_ticks() > WIRE_current_countdown + 4096);
 
-	switch(WIRE_current_mode)
-	{
-		case WIRE_MODE_NONE_WIRE:
-		case WIRE_MODE_WIRE_BRIGHT:
-			mode_over = (WIRE_point[2].y < im->min_y - 5.0F);
-			break;
+            break;
 
-		case WIRE_MODE_BRIGHT_TEXTURE:
-			mode_over = (WIRE_point[2].y < im->min_y - 55.0F);
-			break;
+        default:
+            ASSERT(0);
+            break;
+    }
 
-		case WIRE_MODE_TEXTURE_NONE:
+    if (mode_over) {
+        //
+        // Start another sweep.
+        //
 
-			if (WIRE_point[2].y >= im->max_y + 5.0F)
-			{
-				if (WIRE_current_countdown == 0)
-				{
-					WIRE_current_countdown = OS_ticks();
-				}
-			}
+        WIRE_current_mode += 1;
 
-			mode_over = WIRE_current_countdown && (OS_ticks() > WIRE_current_countdown + 4096);
+        if (WIRE_current_mode > WIRE_MODE_TEXTURE_NONE) {
+            //
+            // Start a new mesh.
+            //
 
-			break;
+            WIRE_current_mode = 0;
+            WIRE_current_mesh += 1;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+            if (WIRE_current_mesh >= WIRE_NUM_MESHES) {
+                WIRE_current_mesh = 0;
+            }
+        }
 
-	if (mode_over)
-	{
-		//
-		// Start another sweep.
-		//
+        if (WIRE_current_mode == WIRE_MODE_TEXTURE_NONE) {
+            WIRE_current_countdown = 0;
+        } else {
+            WIRE_plane_init(im);
+        }
+    }
 
-		WIRE_current_mode += 1;
+    if (KEY_on[KEY_P]) {
+        WIRE_plane_init(im);
+    }
 
-		if (WIRE_current_mode > WIRE_MODE_TEXTURE_NONE)
-		{
-			//
-			// Start a new mesh.
-			//
+    //
+    // Rotate the mesh and plane.
+    //
 
-			WIRE_current_mode  = 0;
-			WIRE_current_mesh += 1;
+    float angle = OS_ticks() * 0.001F;
 
-			if (WIRE_current_mesh >= WIRE_NUM_MESHES)
-			{
-				WIRE_current_mesh = 0;
-			}
-		}
-	
-		if (WIRE_current_mode == WIRE_MODE_TEXTURE_NONE)
-		{
-			WIRE_current_countdown = 0;
-		}
-		else
-		{
-			WIRE_plane_init(im);
-		}
-	}
+    MF_rotate_mesh(im, angle);
+    WIRE_plane_rotate(im, angle);
 
-	if (KEY_on[KEY_P])
-	{
-		WIRE_plane_init(im);
-	}
+    //
+    // Work out where the light source is.
+    //
 
-	//
-	// Rotate the mesh and plane.
-	//
+#define WIRE_LIGHT_YAW ((KEY_on[KEY_J]) ? (130 * 180 / PI) : (190 * 180 / PI))
+#define WIRE_LIGHT_PITCH (-PI / 4)
 
-	float angle = OS_ticks() * 0.001F;
+    float light_x;
+    float light_y;
+    float light_z;
+    float light_matrix[9];
 
-	MF_rotate_mesh   (im, angle);
-	WIRE_plane_rotate(im, angle);
+    MATRIX_calc(
+        light_matrix,
+        WIRE_LIGHT_YAW,
+        WIRE_LIGHT_PITCH,
+        0.0F);
 
-	//
-	// Work out where the light source is.
-	//
+    light_x = 0.0F - light_matrix[6] * 512.0F;
+    light_y = 0.0F - light_matrix[7] * 512.0F;
+    light_z = 0.0F - light_matrix[8] * 512.0F;
 
-	#define WIRE_LIGHT_YAW   ((KEY_on[KEY_J]) ? (130 * 180 / PI) : (190 * 180 / PI))
-	#define WIRE_LIGHT_PITCH (-PI / 4)
+    switch (WIRE_current_mode) {
+        case WIRE_MODE_NONE_WIRE:
+            WIRE_plane_draw();
+            MF_transform_points(im);
+            MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
+            break;
 
-	float light_x;
-	float light_y;
-	float light_z;
-	float light_matrix[9];
+        case WIRE_MODE_WIRE_BRIGHT:
+            WIRE_plane_draw();
+            MF_transform_points(im);
+            MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
+            MF_transform_points(im);
+            MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
+            break;
 
-	MATRIX_calc(
-		light_matrix,
-		WIRE_LIGHT_YAW,
-		WIRE_LIGHT_PITCH,
-		0.0F);
+        case WIRE_MODE_BRIGHT_TEXTURE:
 
-	light_x = 0.0F - light_matrix[6] * 512.0F;
-	light_y = 0.0F - light_matrix[7] * 512.0F;
-	light_z = 0.0F - light_matrix[8] * 512.0F;
+            WIRE_plane_draw();
+            MF_transform_points(im);
+            MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
 
-	switch(WIRE_current_mode)
-	{
-		case WIRE_MODE_NONE_WIRE:
-			WIRE_plane_draw();
-			MF_transform_points(im);
-			MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
-			break;
+            MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+            MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
+            MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
+            MF_add_triangles_texture_after_bumpmap(im);
+            MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+            MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
 
-		case WIRE_MODE_WIRE_BRIGHT:
-			WIRE_plane_draw();
-			MF_transform_points(im);
-			MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
-			MF_transform_points(im);
-			MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
-			break;
+            break;
 
-		case WIRE_MODE_BRIGHT_TEXTURE:
+        case WIRE_MODE_TEXTURE_NONE:
 
-			WIRE_plane_draw();
-			MF_transform_points(im);
-			MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
+        {
+            std::int32_t bright;
+            std::uint32_t colour;
 
+            if (WIRE_current_countdown == 0) {
+                bright = 255;
+            } else {
+                bright = OS_ticks() - WIRE_current_countdown >> 4;
+                bright = 255 - bright;
+            }
 
-			MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-			MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
-			MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
-			MF_add_triangles_texture_after_bumpmap(im);
-			MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-			MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
+            SATURATE(bright, 0, 255);
 
-			break;
+            colour = bright;
+            colour |= (colour >> 3) << 16;
 
-		case WIRE_MODE_TEXTURE_NONE:
+            WIRE_plane_draw();
+            MF_transform_points(im);
+            MF_add_wireframe(im, WIRE_ot_line, colour, 0.006F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
 
-			{
-				std::int32_t bright;
-				std::uint32_t colour;
+            MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+            MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
+            MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
+            MF_add_triangles_texture_after_bumpmap(im);
+            MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+            MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
+        }
 
-				if (WIRE_current_countdown == 0)
-				{
-					bright = 255;
-				}
-				else
-				{
-					bright = OS_ticks() - WIRE_current_countdown >> 4;
-					bright = 255 - bright;
-				}
+        break;
 
-				SATURATE(bright, 0, 255);
-				
-				colour  = bright;
-				colour |= (colour >> 3) << 16;
-
-				WIRE_plane_draw();
-				MF_transform_points(im);
-				MF_add_wireframe(im, WIRE_ot_line, colour, 0.006F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
-
-
-
-				MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-				MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
-				MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
-				MF_add_triangles_texture_after_bumpmap(im);
-				MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-				MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
-			}
-
-			break;
-
-		default:
-			ASSERT(0);
-	}
+        default:
+            ASSERT(0);
+    }
 }
-

@@ -1,209 +1,179 @@
 // File.cpp
 // Guy Simmons, 10th February 1997.
 
-#include	"DDLib.h"
-
+#include "DDLib.h"
 
 #define MAX_LENGTH_OF_BASE_PATH 64
-char cBasePath[MAX_LENGTH_OF_BASE_PATH+1];
+char cBasePath[MAX_LENGTH_OF_BASE_PATH + 1];
 
 //---------------------------------------------------------------
 
-#define MAX_LENGTH_OF_FULL_NAME (MAX_LENGTH_OF_BASE_PATH+16)
-char cTempFilename[MAX_LENGTH_OF_FULL_NAME+1];
+#define MAX_LENGTH_OF_FULL_NAME (MAX_LENGTH_OF_BASE_PATH + 16)
+char cTempFilename[MAX_LENGTH_OF_FULL_NAME + 1];
 
-char* MakeFullPathName ( char* cFilename )
-{
-	strcpy ( cTempFilename, cBasePath );
-	ASSERT ( strlen (cFilename) < ( MAX_LENGTH_OF_FULL_NAME - MAX_LENGTH_OF_BASE_PATH ) );
-	strcat ( cTempFilename, cFilename );
-	return ( cTempFilename );
-}
-
-
-//---------------------------------------------------------------
-
-bool	FileExists(char* file_name)
-{
-	file_name = MakeFullPathName ( file_name );
-
-	if(GetFileAttributes(file_name)==0xffffffff)
-		return	false;
-	else
-		return	true;
+char* MakeFullPathName(char* cFilename) {
+    strcpy(cTempFilename, cBasePath);
+    ASSERT(strlen(cFilename) < (MAX_LENGTH_OF_FULL_NAME - MAX_LENGTH_OF_BASE_PATH));
+    strcat(cTempFilename, cFilename);
+    return (cTempFilename);
 }
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileOpen(char* file_name)
-{
-	MFFileHandle	result	=	FILE_OPEN_ERROR;
+bool FileExists(char* file_name) {
+    file_name = MakeFullPathName(file_name);
 
-	file_name = MakeFullPathName ( file_name );
-
-	if(FileExists(file_name))
-	{
-    	result	=	CreateFile	(
-									file_name,
-									(GENERIC_READ|GENERIC_WRITE),
-									(FILE_SHARE_READ|FILE_SHARE_WRITE),
-									nullptr,
-									OPEN_EXISTING,
-									0,
-									nullptr
-    	                   		);
-		if(result==INVALID_HANDLE_VALUE)
-			result	=	FILE_OPEN_ERROR;
-	}
-	return	result;
+    if (GetFileAttributes(file_name) == 0xffffffff)
+        return false;
+    else
+        return true;
 }
 
 //---------------------------------------------------------------
 
-void	FileClose(MFFileHandle file_handle)
-{
-	CloseHandle(file_handle);
+MFFileHandle FileOpen(char* file_name) {
+    MFFileHandle result = FILE_OPEN_ERROR;
+
+    file_name = MakeFullPathName(file_name);
+
+    if (FileExists(file_name)) {
+        result = CreateFile(
+            file_name,
+            (GENERIC_READ | GENERIC_WRITE),
+            (FILE_SHARE_READ | FILE_SHARE_WRITE),
+            nullptr,
+            OPEN_EXISTING,
+            0,
+            nullptr);
+        if (result == INVALID_HANDLE_VALUE)
+            result = FILE_OPEN_ERROR;
+    }
+    return result;
 }
 
 //---------------------------------------------------------------
 
-MFFileHandle	FileCreate(char* file_name,bool overwrite)
-{
-	DWORD			creation_mode;
-	MFFileHandle	result;
-
-	file_name = MakeFullPathName ( file_name );
-
-	if(overwrite)
-	{
-		creation_mode	=	CREATE_ALWAYS;
-	}
-	else
-	{
-		creation_mode	=	CREATE_NEW;
-	}
-	result	=	CreateFile	(
-								file_name,
-								(GENERIC_READ|GENERIC_WRITE),
-								(FILE_SHARE_READ|FILE_SHARE_WRITE),
-								nullptr,
-								creation_mode,
-								0,
-								nullptr
-	                   		);
-	if(result==INVALID_HANDLE_VALUE)
-		result	=	FILE_CREATION_ERROR;
-
-	return	result;
+void FileClose(MFFileHandle file_handle) {
+    CloseHandle(file_handle);
 }
 
 //---------------------------------------------------------------
 
-void	FileDelete(char* file_name)
-{
-	file_name = MakeFullPathName ( file_name );
-	DeleteFile(file_name);
+MFFileHandle FileCreate(char* file_name, bool overwrite) {
+    DWORD creation_mode;
+    MFFileHandle result;
+
+    file_name = MakeFullPathName(file_name);
+
+    if (overwrite) {
+        creation_mode = CREATE_ALWAYS;
+    } else {
+        creation_mode = CREATE_NEW;
+    }
+    result = CreateFile(
+        file_name,
+        (GENERIC_READ | GENERIC_WRITE),
+        (FILE_SHARE_READ | FILE_SHARE_WRITE),
+        nullptr,
+        creation_mode,
+        0,
+        nullptr);
+    if (result == INVALID_HANDLE_VALUE)
+        result = FILE_CREATION_ERROR;
+
+    return result;
 }
 
 //---------------------------------------------------------------
 
-std::int32_t	FileSize(MFFileHandle file_handle)
-{
-	DWORD	result;
-
-
-	result	=	GetFileSize(file_handle,nullptr);
-	if(result==0xffffffff)
-		return	FILE_SIZE_ERROR;
-	else
-		return	(std::int32_t)result;
+void FileDelete(char* file_name) {
+    file_name = MakeFullPathName(file_name);
+    DeleteFile(file_name);
 }
 
 //---------------------------------------------------------------
 
-std::int32_t	FileRead(MFFileHandle file_handle,void* buffer,std::uint32_t size)
-{
-	std::int32_t	bytes_read;
+std::int32_t FileSize(MFFileHandle file_handle) {
+    DWORD result;
 
-
-	if(ReadFile(file_handle,buffer,size,(LPDWORD)&bytes_read,nullptr)==false)
-		return	FILE_READ_ERROR;
-	else
-		return	bytes_read;
+    result = GetFileSize(file_handle, nullptr);
+    if (result == 0xffffffff)
+        return FILE_SIZE_ERROR;
+    else
+        return (std::int32_t) result;
 }
 
 //---------------------------------------------------------------
 
-std::int32_t	FileWrite(MFFileHandle file_handle,void* buffer,std::uint32_t size)
-{
-	std::int32_t	bytes_written;
+std::int32_t FileRead(MFFileHandle file_handle, void* buffer, std::uint32_t size) {
+    std::int32_t bytes_read;
 
-
-	if(WriteFile(file_handle,buffer,size,(LPDWORD)&bytes_written,nullptr)==false)
-		return	FILE_WRITE_ERROR;
-	else
-		return	bytes_written;
+    if (ReadFile(file_handle, buffer, size, (LPDWORD) &bytes_read, nullptr) == false)
+        return FILE_READ_ERROR;
+    else
+        return bytes_read;
 }
 
 //---------------------------------------------------------------
 
-std::int32_t	FileSeek(MFFileHandle file_handle,const int mode,std::int32_t offset)
-{
-	DWORD		method;
+std::int32_t FileWrite(MFFileHandle file_handle, void* buffer, std::uint32_t size) {
+    std::int32_t bytes_written;
 
-
-	switch(mode)
-	{
-		case	SEEK_MODE_BEGINNING:
-			method	=	FILE_BEGIN;
-			break;
-		case	SEEK_MODE_CURRENT:
-			method	=	FILE_CURRENT;
-			break;
-		case	SEEK_MODE_END:
-			method	=	FILE_END;
-			break;
-	}
-	if(SetFilePointer(file_handle,offset,nullptr,method)==0xffffffff)
-		return	FILE_SEEK_ERROR;
-	else
-		return	0;
+    if (WriteFile(file_handle, buffer, size, (LPDWORD) &bytes_written, nullptr) == false)
+        return FILE_WRITE_ERROR;
+    else
+        return bytes_written;
 }
 
 //---------------------------------------------------------------
 
-std::int32_t	FileLoadAt(char* file_name,void* buffer)
-{
-	std::int32_t			size;
-	MFFileHandle	handle;
+std::int32_t FileSeek(MFFileHandle file_handle, const int mode, std::int32_t offset) {
+    DWORD method;
 
-	file_name = MakeFullPathName ( file_name );
-	
-	handle	=	FileOpen(file_name);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		size	=	FileSize(handle);
-		if(size>0)
-		{
-			if(FileRead(handle,buffer,size)==size)
-			{
-				FileClose(handle);
-				return	size;
-			}
-		}
-		FileClose(handle);
-	}
-	return	FILE_LOAD_AT_ERROR;
+    switch (mode) {
+        case SEEK_MODE_BEGINNING:
+            method = FILE_BEGIN;
+            break;
+        case SEEK_MODE_CURRENT:
+            method = FILE_CURRENT;
+            break;
+        case SEEK_MODE_END:
+            method = FILE_END;
+            break;
+    }
+    if (SetFilePointer(file_handle, offset, nullptr, method) == 0xffffffff)
+        return FILE_SEEK_ERROR;
+    else
+        return 0;
 }
 
 //---------------------------------------------------------------
 
-void			FileSetBasePath(char* path_name)
-{
-	ASSERT ( strlen ( path_name ) < MAX_LENGTH_OF_BASE_PATH );
-	strncpy ( cBasePath, path_name, MAX_LENGTH_OF_BASE_PATH );
+std::int32_t FileLoadAt(char* file_name, void* buffer) {
+    std::int32_t size;
+    MFFileHandle handle;
+
+    file_name = MakeFullPathName(file_name);
+
+    handle = FileOpen(file_name);
+    if (handle != FILE_OPEN_ERROR) {
+        size = FileSize(handle);
+        if (size > 0) {
+            if (FileRead(handle, buffer, size) == size) {
+                FileClose(handle);
+                return size;
+            }
+        }
+        FileClose(handle);
+    }
+    return FILE_LOAD_AT_ERROR;
 }
 
 //---------------------------------------------------------------
 
+void FileSetBasePath(char* path_name) {
+    ASSERT(strlen(path_name) < MAX_LENGTH_OF_BASE_PATH);
+    strncpy(cBasePath, path_name, MAX_LENGTH_OF_BASE_PATH);
+}
 
+//---------------------------------------------------------------

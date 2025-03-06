@@ -4,7 +4,6 @@
 
 #include <setjmp.h>
 
-
 //
 // The nodes.
 //
@@ -14,32 +13,29 @@
 PARSE_Node PARSE_node[PARSE_MAX_NODES];
 std::int32_t PARSE_node_upto;
 
-PARSE_Node *PARSE_get_node()
-{
-	ASSERT(WITHIN(PARSE_node_upto, 0, PARSE_MAX_NODES - 1));
+PARSE_Node *PARSE_get_node() {
+    ASSERT(WITHIN(PARSE_node_upto, 0, PARSE_MAX_NODES - 1));
 
-	return &PARSE_node[PARSE_node_upto++];
+    return &PARSE_node[PARSE_node_upto++];
 }
-
-
 
 //
 // Output variables and others...
 //
 
-#define PARSE_MAX_LINES             16384
+#define PARSE_MAX_LINES 16384
 #define PARSE_MAX_STRING_TABLE_SIZE 65536
-#define PARSE_MAX_ERRORS              256
+#define PARSE_MAX_ERRORS 256
 
-PARSE_Node *PARSE_line[PARSE_MAX_LINES];		// nullptr value means that line was blank.
+PARSE_Node *PARSE_line[PARSE_MAX_LINES]; // nullptr value means that line was blank.
 std::int32_t PARSE_line_upto;
 char PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
 std::int32_t PARSE_string_table_upto;
-char* PARSE_error[PARSE_MAX_ERRORS];
+char *PARSE_error[PARSE_MAX_ERRORS];
 std::int32_t PARSE_error_upto;
-std::int32_t PARSE_ifcode;			// This gets incremented every time we parse an IF    statement...
-std::int32_t PARSE_forcode;			// This gets incremented every time we parse a  FOR   statement...
-std::int32_t PARSE_whilecode;		// This gets incremented every time we parse a  WHILE statement...
+std::int32_t PARSE_ifcode;    // This gets incremented every time we parse an IF    statement...
+std::int32_t PARSE_forcode;   // This gets incremented every time we parse a  FOR   statement...
+std::int32_t PARSE_whilecode; // This gets incremented every time we parse a  WHILE statement...
 
 //
 // The error buffer.
@@ -55,43 +51,40 @@ std::int32_t PARSE_errbuf_upto;
 // returns false.
 //
 
-std::int32_t PARSE_add_error(char* fmt, ...)
-{
-	if (PARSE_error_upto >= PARSE_MAX_ERRORS)
-	{
-		return false;
-	}
+std::int32_t PARSE_add_error(char *fmt, ...) {
+    if (PARSE_error_upto >= PARSE_MAX_ERRORS) {
+        return false;
+    }
 
-	//
-	// Work out the real error.
-	//
+    //
+    // Work out the real error.
+    //
 
-	char   error[512];
-	va_list	ap;
+    char error[512];
+    va_list ap;
 
-	va_start(ap, fmt);
-	vsprintf(error, fmt, ap);
-	va_end  (ap);
+    va_start(ap, fmt);
+    vsprintf(error, fmt, ap);
+    va_end(ap);
 
-	//
-	// Put it into the buffer.
-	//
+    //
+    // Put it into the buffer.
+    //
 
-	std::int32_t len = strlen(error) + 1;	// + 1 to include terminating nullptr.
+    std::int32_t len = strlen(error) + 1; // + 1 to include terminating nullptr.
 
-	if (PARSE_errbuf_upto + len > PARSE_MAX_ERRBUF)
-	{
-		return false;
-	}
-	
-	strcpy(PARSE_errbuf + PARSE_errbuf_upto, error);
+    if (PARSE_errbuf_upto + len > PARSE_MAX_ERRBUF) {
+        return false;
+    }
 
-	PARSE_error[PARSE_error_upto] = PARSE_errbuf + PARSE_errbuf_upto;
+    strcpy(PARSE_errbuf + PARSE_errbuf_upto, error);
 
-	PARSE_error_upto  += 1;
-	PARSE_errbuf_upto += len;
+    PARSE_error[PARSE_error_upto] = PARSE_errbuf + PARSE_errbuf_upto;
 
-	return true;
+    PARSE_error_upto += 1;
+    PARSE_errbuf_upto += len;
+
+    return true;
 }
 
 //
@@ -100,288 +93,269 @@ std::int32_t PARSE_add_error(char* fmt, ...)
 
 jmp_buf PARSE_error_jmp;
 
-
 //
 // The reason the parser jumped to PARSE_error_jmp;
 //
 
-char* PARSE_error_type;
-
-
+char *PARSE_error_type;
 
 //
 // Throws up an error.
 //
 
-void PARSE_throw(char* error = "Parse error")
-{
-	PARSE_error_type = error;
+void PARSE_throw(char *error = "Parse error") {
+    PARSE_error_type = error;
 
-	longjmp(PARSE_error_jmp, 1);
+    longjmp(PARSE_error_jmp, 1);
 }
-
-
-
-
 
 //
 // Adds the string to PARSE_string_table and return the address
 // where it was copied.
 //
 
-char* PARSE_add_string(char* string)
-{
-	std::int32_t length = strlen(string) + 1;	// + 1 to include the terminating nullptr
-	
-	if (PARSE_string_table_upto + length > PARSE_MAX_STRING_TABLE_SIZE)
-	{
-		//
-		// ERROR!
-		//
+char *PARSE_add_string(char *string) {
+    std::int32_t length = strlen(string) + 1; // + 1 to include the terminating nullptr
 
-		PARSE_throw("No more string constant memory");
-	}
+    if (PARSE_string_table_upto + length > PARSE_MAX_STRING_TABLE_SIZE) {
+        //
+        // ERROR!
+        //
 
-	char* ans = PARSE_string_table + PARSE_string_table_upto;
+        PARSE_throw("No more string constant memory");
+    }
 
-	strcpy(ans, string);
+    char *ans = PARSE_string_table + PARSE_string_table_upto;
 
-	PARSE_string_table_upto += length;
+    strcpy(ans, string);
 
-	return ans;
+    PARSE_string_table_upto += length;
+
+    return ans;
 }
-
 
 //
 // Sets the PARSE_NODE_FLAG_CONDITIONAL flag in the given node.
 //
 
-std::int32_t PARSE_set_conditional_flag(PARSE_Node *pn)
-{
-	pn->flag |= PARSE_NODE_FLAG_CONDITIONAL;
+std::int32_t PARSE_set_conditional_flag(PARSE_Node *pn) {
+    pn->flag |= PARSE_NODE_FLAG_CONDITIONAL;
 
-	return true;
+    return true;
 }
-
 
 //
 // Sets the PARSE_NODE_FLAG_EXPRESSION flag in the given node.
 //
 
-std::int32_t PARSE_set_expression_flag(PARSE_Node *pn)
-{
-	pn->flag |= PARSE_NODE_FLAG_EXPRESSION;
+std::int32_t PARSE_set_expression_flag(PARSE_Node *pn) {
+    pn->flag |= PARSE_NODE_FLAG_EXPRESSION;
 
-	return true;
+    return true;
 }
-
-
 
 //
 // Returns true if the given expression is sure to return
 // a BOOLEAN value.
 //
 
-std::int32_t PARSE_expression_is_boolean(PARSE_Node *exp)
-{
-	switch(exp->type)
-	{
-		case PARSE_NODE_TYPE_EQUALS:
-		case PARSE_NODE_TYPE_GT:
-		case PARSE_NODE_TYPE_LT:
-		case PARSE_NODE_TYPE_GTEQ:
-		case PARSE_NODE_TYPE_LTEQ:
-		case PARSE_NODE_TYPE_AND:
-		case PARSE_NODE_TYPE_OR:
-		case PARSE_NODE_TYPE_NOT:
-		case PARSE_NODE_TYPE_BOOLEAN:
-		case PARSE_NODE_TYPE_XOR:
-		case PARSE_NODE_TYPE_KEY_VALUE:
-			return true;
+std::int32_t PARSE_expression_is_boolean(PARSE_Node *exp) {
+    switch (exp->type) {
+        case PARSE_NODE_TYPE_EQUALS:
+        case PARSE_NODE_TYPE_GT:
+        case PARSE_NODE_TYPE_LT:
+        case PARSE_NODE_TYPE_GTEQ:
+        case PARSE_NODE_TYPE_LTEQ:
+        case PARSE_NODE_TYPE_AND:
+        case PARSE_NODE_TYPE_OR:
+        case PARSE_NODE_TYPE_NOT:
+        case PARSE_NODE_TYPE_BOOLEAN:
+        case PARSE_NODE_TYPE_XOR:
+        case PARSE_NODE_TYPE_KEY_VALUE:
+            return true;
 
-		case PARSE_NODE_TYPE_NOP:
-		case PARSE_NODE_TYPE_PLUS:
-		case PARSE_NODE_TYPE_MINUS:
-		case PARSE_NODE_TYPE_UMINUS:
-		case PARSE_NODE_TYPE_TIMES:
-		case PARSE_NODE_TYPE_DIVIDE:
-		case PARSE_NODE_TYPE_SLUMBER:
-		case PARSE_NODE_TYPE_FLUMBER:
-		case PARSE_NODE_TYPE_STRING:
-		case PARSE_NODE_TYPE_VAR_VALUE:
-		case PARSE_NODE_TYPE_IF:
-		case PARSE_NODE_TYPE_GOTO:
-		case PARSE_NODE_TYPE_LABEL:
-		case PARSE_NODE_TYPE_DOT:
-		case PARSE_NODE_TYPE_CALL:
-		case PARSE_NODE_TYPE_LOCAL:
-		case PARSE_NODE_TYPE_PRINT:
-		case PARSE_NODE_TYPE_ASSIGN:
-		case PARSE_NODE_TYPE_VAR_ADDRESS:
-		case PARSE_NODE_TYPE_MOD:
-		case PARSE_NODE_TYPE_SQRT:
-		case PARSE_NODE_TYPE_NEWLINE:
-		case PARSE_NODE_TYPE_ABS:
-		case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
-		case PARSE_NODE_TYPE_FIELD:
-		case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
-		case PARSE_NODE_TYPE_EXP_LIST:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
-		case PARSE_NODE_TYPE_INPUT:
-		case PARSE_NODE_TYPE_UNDEFINED:
-		case PARSE_NODE_TYPE_STATEMENT_LIST:
-		case PARSE_NODE_TYPE_EXIT:
-		case PARSE_NODE_TYPE_RETURN:
-		case PARSE_NODE_TYPE_GOSUB:
-		case PARSE_NODE_TYPE_FOR:
-		case PARSE_NODE_TYPE_NEXT:
-		case PARSE_NODE_TYPE_NOTEQUAL:
-		case PARSE_NODE_TYPE_RANDOM:
-		case PARSE_NODE_TYPE_SWAP:
-		case PARSE_NODE_TYPE_MIF:
-		case PARSE_NODE_TYPE_MELSE:
-		case PARSE_NODE_TYPE_MENDIF:
-		case PARSE_NODE_TYPE_WHILE:
-		case PARSE_NODE_TYPE_LOOP:
-		case PARSE_NODE_TYPE_FUNCTION:
-		case PARSE_NODE_TYPE_ARGUMENT:
-		case PARSE_NODE_TYPE_ENDFUNC:
-		case PARSE_NODE_TYPE_TEXTURE:
-		case PARSE_NODE_TYPE_BUFFER:
-		case PARSE_NODE_TYPE_DRAW:
-		case PARSE_NODE_TYPE_CLS:
-		case PARSE_NODE_TYPE_FLIP:
-		case PARSE_NODE_TYPE_KEY_ASSIGN:
-		case PARSE_NODE_TYPE_INKEY_VALUE:
-		case PARSE_NODE_TYPE_INKEY_ASSIGN:
-		case PARSE_NODE_TYPE_TIMER:
-		case PARSE_NODE_TYPE_SIN:
-		case PARSE_NODE_TYPE_COS:
-		case PARSE_NODE_TYPE_TAN:
-		case PARSE_NODE_TYPE_ASIN:
-		case PARSE_NODE_TYPE_ACOS:
-		case PARSE_NODE_TYPE_ATAN:
-		case PARSE_NODE_TYPE_ATAN2:
-		case PARSE_NODE_TYPE_EXPORT:
-		case PARSE_NODE_TYPE_LEFT:
-		case PARSE_NODE_TYPE_MID:
-		case PARSE_NODE_TYPE_RIGHT:
-		case PARSE_NODE_TYPE_MATRIX:
-		case PARSE_NODE_TYPE_VECTOR:
-			return false;
+        case PARSE_NODE_TYPE_NOP:
+        case PARSE_NODE_TYPE_PLUS:
+        case PARSE_NODE_TYPE_MINUS:
+        case PARSE_NODE_TYPE_UMINUS:
+        case PARSE_NODE_TYPE_TIMES:
+        case PARSE_NODE_TYPE_DIVIDE:
+        case PARSE_NODE_TYPE_SLUMBER:
+        case PARSE_NODE_TYPE_FLUMBER:
+        case PARSE_NODE_TYPE_STRING:
+        case PARSE_NODE_TYPE_VAR_VALUE:
+        case PARSE_NODE_TYPE_IF:
+        case PARSE_NODE_TYPE_GOTO:
+        case PARSE_NODE_TYPE_LABEL:
+        case PARSE_NODE_TYPE_DOT:
+        case PARSE_NODE_TYPE_CALL:
+        case PARSE_NODE_TYPE_LOCAL:
+        case PARSE_NODE_TYPE_PRINT:
+        case PARSE_NODE_TYPE_ASSIGN:
+        case PARSE_NODE_TYPE_VAR_ADDRESS:
+        case PARSE_NODE_TYPE_MOD:
+        case PARSE_NODE_TYPE_SQRT:
+        case PARSE_NODE_TYPE_NEWLINE:
+        case PARSE_NODE_TYPE_ABS:
+        case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
+        case PARSE_NODE_TYPE_FIELD:
+        case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
+        case PARSE_NODE_TYPE_EXP_LIST:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
+        case PARSE_NODE_TYPE_INPUT:
+        case PARSE_NODE_TYPE_UNDEFINED:
+        case PARSE_NODE_TYPE_STATEMENT_LIST:
+        case PARSE_NODE_TYPE_EXIT:
+        case PARSE_NODE_TYPE_RETURN:
+        case PARSE_NODE_TYPE_GOSUB:
+        case PARSE_NODE_TYPE_FOR:
+        case PARSE_NODE_TYPE_NEXT:
+        case PARSE_NODE_TYPE_NOTEQUAL:
+        case PARSE_NODE_TYPE_RANDOM:
+        case PARSE_NODE_TYPE_SWAP:
+        case PARSE_NODE_TYPE_MIF:
+        case PARSE_NODE_TYPE_MELSE:
+        case PARSE_NODE_TYPE_MENDIF:
+        case PARSE_NODE_TYPE_WHILE:
+        case PARSE_NODE_TYPE_LOOP:
+        case PARSE_NODE_TYPE_FUNCTION:
+        case PARSE_NODE_TYPE_ARGUMENT:
+        case PARSE_NODE_TYPE_ENDFUNC:
+        case PARSE_NODE_TYPE_TEXTURE:
+        case PARSE_NODE_TYPE_BUFFER:
+        case PARSE_NODE_TYPE_DRAW:
+        case PARSE_NODE_TYPE_CLS:
+        case PARSE_NODE_TYPE_FLIP:
+        case PARSE_NODE_TYPE_KEY_ASSIGN:
+        case PARSE_NODE_TYPE_INKEY_VALUE:
+        case PARSE_NODE_TYPE_INKEY_ASSIGN:
+        case PARSE_NODE_TYPE_TIMER:
+        case PARSE_NODE_TYPE_SIN:
+        case PARSE_NODE_TYPE_COS:
+        case PARSE_NODE_TYPE_TAN:
+        case PARSE_NODE_TYPE_ASIN:
+        case PARSE_NODE_TYPE_ACOS:
+        case PARSE_NODE_TYPE_ATAN:
+        case PARSE_NODE_TYPE_ATAN2:
+        case PARSE_NODE_TYPE_EXPORT:
+        case PARSE_NODE_TYPE_LEFT:
+        case PARSE_NODE_TYPE_MID:
+        case PARSE_NODE_TYPE_RIGHT:
+        case PARSE_NODE_TYPE_MATRIX:
+        case PARSE_NODE_TYPE_VECTOR:
+            return false;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+        default:
+            ASSERT(0);
+            break;
+    }
 
-	return false;
+    return false;
 }
-
 
 //
 // Returns a copy of the parse tree.
 //
 
-PARSE_Node *PARSE_copy_tree(PARSE_Node *tree)
-{
-	PARSE_Node *ans = PARSE_get_node();
+PARSE_Node *PARSE_copy_tree(PARSE_Node *tree) {
+    PARSE_Node *ans = PARSE_get_node();
 
-   *ans = *tree;
+    *ans = *tree;
 
-	if (ans->child1) {ans->child1 = PARSE_copy_tree(ans->child1);}
-	if (ans->child2) {ans->child2 = PARSE_copy_tree(ans->child2);}
-	if (ans->child3) {ans->child3 = PARSE_copy_tree(ans->child3);}
+    if (ans->child1) {
+        ans->child1 = PARSE_copy_tree(ans->child1);
+    }
+    if (ans->child2) {
+        ans->child2 = PARSE_copy_tree(ans->child2);
+    }
+    if (ans->child3) {
+        ans->child3 = PARSE_copy_tree(ans->child3);
+    }
 
-	return ans;
+    return ans;
 }
 
 //
 // Converts an lvalue to an rvalue.
 //
 
-PARSE_Node *PARSE_convert_lvalue_to_rvalue(PARSE_Node *lv)
-{
-	PARSE_Node *ans = PARSE_get_node();
+PARSE_Node *PARSE_convert_lvalue_to_rvalue(PARSE_Node *lv) {
+    PARSE_Node *ans = PARSE_get_node();
 
-   *ans = *lv;
+    *ans = *lv;
 
-	switch(lv->type)
-	{
-		case PARSE_NODE_TYPE_VAR_ADDRESS:
-			ans->type = PARSE_NODE_TYPE_VAR_VALUE;
-			break;
+    switch (lv->type) {
+        case PARSE_NODE_TYPE_VAR_ADDRESS:
+            ans->type = PARSE_NODE_TYPE_VAR_VALUE;
+            break;
 
-		case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
+        case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
 
-			ans->type   = PARSE_NODE_TYPE_PUSH_FIELD_VALUE;
-			ans->child1 = PARSE_convert_lvalue_to_rvalue(ans->child1);
-			ans->child2 = PARSE_copy_tree(ans->child2);
+            ans->type = PARSE_NODE_TYPE_PUSH_FIELD_VALUE;
+            ans->child1 = PARSE_convert_lvalue_to_rvalue(ans->child1);
+            ans->child2 = PARSE_copy_tree(ans->child2);
 
-			//
-			// We need a 'QUICK' copy from the child
-			//
-			
-			ans->child1->flag |= PARSE_NODE_FLAG_EXTRACT;
+            //
+            // We need a 'QUICK' copy from the child
+            //
 
-			break;
+            ans->child1->flag |= PARSE_NODE_FLAG_EXTRACT;
 
-		case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
-			ans->type = PARSE_NODE_TYPE_PUSH_ARRAY_VALUE;
-			ans->child1 = PARSE_convert_lvalue_to_rvalue(ans->child1);
-			ans->child2 = PARSE_copy_tree(ans->child2);
+            break;
 
-			//
-			// We need a 'QUICK' copy from the child
-			//
-			
-			ans->child1->flag |= PARSE_NODE_FLAG_EXTRACT;
+        case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
+            ans->type = PARSE_NODE_TYPE_PUSH_ARRAY_VALUE;
+            ans->child1 = PARSE_convert_lvalue_to_rvalue(ans->child1);
+            ans->child2 = PARSE_copy_tree(ans->child2);
 
-			break;
+            //
+            // We need a 'QUICK' copy from the child
+            //
 
-		default:
-			ASSERT(0);
-			break;
-	}
+            ans->child1->flag |= PARSE_NODE_FLAG_EXTRACT;
 
-	return ans;
+            break;
+
+        default:
+            ASSERT(0);
+            break;
+    }
+
+    return ans;
 }
 
 //
 // Converts an rvalue to an lvalue. Only work on certain nodes... of course!
 //
 
-void PARSE_convert_rvalue_to_lvalue(PARSE_Node *rv)
-{
-	switch(rv->type)
-	{
-		case PARSE_NODE_TYPE_VAR_VALUE:
-			rv->type = PARSE_NODE_TYPE_VAR_ADDRESS;
-			break;
+void PARSE_convert_rvalue_to_lvalue(PARSE_Node *rv) {
+    switch (rv->type) {
+        case PARSE_NODE_TYPE_VAR_VALUE:
+            rv->type = PARSE_NODE_TYPE_VAR_ADDRESS;
+            break;
 
-		case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
+        case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
 
-			rv->type = PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS;
+            rv->type = PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS;
 
-			PARSE_convert_rvalue_to_lvalue(rv->child1);
+            PARSE_convert_rvalue_to_lvalue(rv->child1);
 
-			break;
+            break;
 
-		case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
 
-			rv->type = PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS;
+            rv->type = PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS;
 
-			PARSE_convert_rvalue_to_lvalue(rv->child1);
+            PARSE_convert_rvalue_to_lvalue(rv->child1);
 
-			break;
+            break;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+        default:
+            ASSERT(0);
+            break;
+    }
 }
-
 
 //
 // Call this function on all top-level nodes that are in argument
@@ -389,182 +363,170 @@ void PARSE_convert_rvalue_to_lvalue(PARSE_Node *rv)
 // passed by reference.
 //
 
-void PARSE_convert_rvalue_to_argument(PARSE_Node *arg)
-{
-	//
-	// Sometimes we must change the type of the node's children.
-	//
+void PARSE_convert_rvalue_to_argument(PARSE_Node *arg) {
+    //
+    // Sometimes we must change the type of the node's children.
+    //
 
-	switch(arg->type)
-	{
-		case PARSE_NODE_TYPE_VAR_VALUE:
-		case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
-			PARSE_convert_rvalue_to_lvalue(arg);
-			break;
+    switch (arg->type) {
+        case PARSE_NODE_TYPE_VAR_VALUE:
+        case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
+            PARSE_convert_rvalue_to_lvalue(arg);
+            break;
 
-		default:
-			break;
-	}
+        default:
+            break;
+    }
 }
 
+std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2) {
+    //
+    // Make sure both tree have the same type.
+    //
 
+    if (tree1->type != tree2->type) {
+        return false;
+    }
 
+    //
+    // For nodes with data, make sure the data is the same.
+    //
 
-std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2)
-{
-	//
-	// Make sure both tree have the same type.
-	//
+    switch (tree1->type) {
+        case PARSE_NODE_TYPE_SLUMBER:
+            if (tree1->slumber != tree2->slumber) return false;
+            break;
 
-	if (tree1->type != tree2->type)
-	{
-		return false;
-	}
+        case PARSE_NODE_TYPE_FLUMBER:
+            if (tree1->flumber != tree2->flumber) return false;
+            break;
 
-	//
-	// For nodes with data, make sure the data is the same.
-	//
+        case PARSE_NODE_TYPE_STRING:
+            if (strcmp(tree1->string, tree2->string) != 0) return false;
+            break;
 
-	switch(tree1->type)
-	{
-		case PARSE_NODE_TYPE_SLUMBER:
-			if (tree1->slumber != tree2->slumber) return false;
-			break;
+        case PARSE_NODE_TYPE_VAR_VALUE:
+        case PARSE_NODE_TYPE_VAR_ADDRESS:
+        case PARSE_NODE_TYPE_CALL:
+        case PARSE_NODE_TYPE_FUNCTION:
+        case PARSE_NODE_TYPE_FIELD:
+        case PARSE_NODE_TYPE_ARGUMENT:
+        case PARSE_NODE_TYPE_LOCAL:
+        case PARSE_NODE_TYPE_EXPORT:
+            if (strcmp(tree1->variable, tree2->variable) != 0) return false;
+            break;
 
-		case PARSE_NODE_TYPE_FLUMBER:
-			if (tree1->flumber != tree2->flumber) return false;
-			break;
+        case PARSE_NODE_TYPE_GOTO:
+        case PARSE_NODE_TYPE_LABEL:
+        case PARSE_NODE_TYPE_GOSUB:
+            if (strcmp(tree1->label, tree2->label) != 0) return false;
+            break;
 
-		case PARSE_NODE_TYPE_STRING:
-			if (strcmp(tree1->string, tree2->string) != 0) return false;
-			break;
+        case PARSE_NODE_TYPE_BOOLEAN:
+            if (tree1->boolean != tree2->boolean) return false;
+            break;
 
-		case PARSE_NODE_TYPE_VAR_VALUE:
-		case PARSE_NODE_TYPE_VAR_ADDRESS:
-		case PARSE_NODE_TYPE_CALL:
-		case PARSE_NODE_TYPE_FUNCTION:
-		case PARSE_NODE_TYPE_FIELD:
-		case PARSE_NODE_TYPE_ARGUMENT:
-		case PARSE_NODE_TYPE_LOCAL:
-		case PARSE_NODE_TYPE_EXPORT:
-			if (strcmp(tree1->variable, tree2->variable) != 0) return false;
-			break;
+        case PARSE_NODE_TYPE_NOP:
+        case PARSE_NODE_TYPE_EQUALS:
+        case PARSE_NODE_TYPE_PLUS:
+        case PARSE_NODE_TYPE_MINUS:
+        case PARSE_NODE_TYPE_UMINUS:
+        case PARSE_NODE_TYPE_TIMES:
+        case PARSE_NODE_TYPE_DIVIDE:
+        case PARSE_NODE_TYPE_IF:
+        case PARSE_NODE_TYPE_GT:
+        case PARSE_NODE_TYPE_LT:
+        case PARSE_NODE_TYPE_GTEQ:
+        case PARSE_NODE_TYPE_LTEQ:
+        case PARSE_NODE_TYPE_AND:
+        case PARSE_NODE_TYPE_OR:
+        case PARSE_NODE_TYPE_NOT:
+        case PARSE_NODE_TYPE_DOT:
+        case PARSE_NODE_TYPE_PRINT:
+        case PARSE_NODE_TYPE_ASSIGN:
+        case PARSE_NODE_TYPE_MOD:
+        case PARSE_NODE_TYPE_SQRT:
+        case PARSE_NODE_TYPE_NEWLINE:
+        case PARSE_NODE_TYPE_ABS:
+        case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
+        case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
+        case PARSE_NODE_TYPE_EXP_LIST:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
+        case PARSE_NODE_TYPE_INPUT:
+        case PARSE_NODE_TYPE_UNDEFINED:
+        case PARSE_NODE_TYPE_STATEMENT_LIST:
+        case PARSE_NODE_TYPE_EXIT:
+        case PARSE_NODE_TYPE_RETURN:
+        case PARSE_NODE_TYPE_XOR:
+        case PARSE_NODE_TYPE_FOR:
+        case PARSE_NODE_TYPE_NEXT:
+        case PARSE_NODE_TYPE_NOTEQUAL:
+        case PARSE_NODE_TYPE_RANDOM:
+        case PARSE_NODE_TYPE_SWAP:
+        case PARSE_NODE_TYPE_MIF:
+        case PARSE_NODE_TYPE_MELSE:
+        case PARSE_NODE_TYPE_MENDIF:
+        case PARSE_NODE_TYPE_WHILE:
+        case PARSE_NODE_TYPE_LOOP:
+        case PARSE_NODE_TYPE_ENDFUNC:
+        case PARSE_NODE_TYPE_TEXTURE:
+        case PARSE_NODE_TYPE_BUFFER:
+        case PARSE_NODE_TYPE_DRAW:
+        case PARSE_NODE_TYPE_CLS:
+        case PARSE_NODE_TYPE_FLIP:
+        case PARSE_NODE_TYPE_KEY_ASSIGN:
+        case PARSE_NODE_TYPE_KEY_VALUE:
+        case PARSE_NODE_TYPE_INKEY_ASSIGN:
+        case PARSE_NODE_TYPE_INKEY_VALUE:
+        case PARSE_NODE_TYPE_TIMER:
+        case PARSE_NODE_TYPE_SIN:
+        case PARSE_NODE_TYPE_COS:
+        case PARSE_NODE_TYPE_TAN:
+        case PARSE_NODE_TYPE_ASIN:
+        case PARSE_NODE_TYPE_ACOS:
+        case PARSE_NODE_TYPE_ATAN:
+        case PARSE_NODE_TYPE_ATAN2:
+        case PARSE_NODE_TYPE_LEFT:
+        case PARSE_NODE_TYPE_MID:
+        case PARSE_NODE_TYPE_RIGHT:
+        case PARSE_NODE_TYPE_MATRIX:
+        case PARSE_NODE_TYPE_VECTOR:
+            break;
 
-		case PARSE_NODE_TYPE_GOTO:
-		case PARSE_NODE_TYPE_LABEL:
-		case PARSE_NODE_TYPE_GOSUB:
-			if (strcmp(tree1->label, tree2->label) != 0) return false;
-			break;
+        default:
+            ASSERT(0);
+            break;
+    }
 
-		case PARSE_NODE_TYPE_BOOLEAN:
-			if (tree1->boolean != tree2->boolean) return false;
-			break;
+    //
+    // Make sure both trees have the same number of children.
+    //
 
-		case PARSE_NODE_TYPE_NOP:
-		case PARSE_NODE_TYPE_EQUALS:
-		case PARSE_NODE_TYPE_PLUS:
-		case PARSE_NODE_TYPE_MINUS:
-		case PARSE_NODE_TYPE_UMINUS:
-		case PARSE_NODE_TYPE_TIMES:
-		case PARSE_NODE_TYPE_DIVIDE:
-		case PARSE_NODE_TYPE_IF:
-		case PARSE_NODE_TYPE_GT:
-		case PARSE_NODE_TYPE_LT:
-		case PARSE_NODE_TYPE_GTEQ:
-		case PARSE_NODE_TYPE_LTEQ:
-		case PARSE_NODE_TYPE_AND:
-		case PARSE_NODE_TYPE_OR:
-		case PARSE_NODE_TYPE_NOT:
-		case PARSE_NODE_TYPE_DOT:
-		case PARSE_NODE_TYPE_PRINT:
-		case PARSE_NODE_TYPE_ASSIGN:
-		case PARSE_NODE_TYPE_MOD:
-		case PARSE_NODE_TYPE_SQRT:
-		case PARSE_NODE_TYPE_NEWLINE:
-		case PARSE_NODE_TYPE_ABS:
-		case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
-		case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
-		case PARSE_NODE_TYPE_EXP_LIST:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
-		case PARSE_NODE_TYPE_INPUT:
-		case PARSE_NODE_TYPE_UNDEFINED:
-		case PARSE_NODE_TYPE_STATEMENT_LIST:
-		case PARSE_NODE_TYPE_EXIT:
-		case PARSE_NODE_TYPE_RETURN:
-		case PARSE_NODE_TYPE_XOR:
-		case PARSE_NODE_TYPE_FOR:
-		case PARSE_NODE_TYPE_NEXT:
-		case PARSE_NODE_TYPE_NOTEQUAL:
-		case PARSE_NODE_TYPE_RANDOM:
-		case PARSE_NODE_TYPE_SWAP:
-		case PARSE_NODE_TYPE_MIF:
-		case PARSE_NODE_TYPE_MELSE:
-		case PARSE_NODE_TYPE_MENDIF:
-		case PARSE_NODE_TYPE_WHILE:
-		case PARSE_NODE_TYPE_LOOP:
-		case PARSE_NODE_TYPE_ENDFUNC:
-		case PARSE_NODE_TYPE_TEXTURE:
-		case PARSE_NODE_TYPE_BUFFER:
-		case PARSE_NODE_TYPE_DRAW:
-		case PARSE_NODE_TYPE_CLS:
-		case PARSE_NODE_TYPE_FLIP:
-		case PARSE_NODE_TYPE_KEY_ASSIGN:
-		case PARSE_NODE_TYPE_KEY_VALUE:
-		case PARSE_NODE_TYPE_INKEY_ASSIGN:
-		case PARSE_NODE_TYPE_INKEY_VALUE:
-		case PARSE_NODE_TYPE_TIMER:
-		case PARSE_NODE_TYPE_SIN:
-		case PARSE_NODE_TYPE_COS:
-		case PARSE_NODE_TYPE_TAN:
-		case PARSE_NODE_TYPE_ASIN:
-		case PARSE_NODE_TYPE_ACOS:
-		case PARSE_NODE_TYPE_ATAN:
-		case PARSE_NODE_TYPE_ATAN2:
-		case PARSE_NODE_TYPE_LEFT:
-		case PARSE_NODE_TYPE_MID:
-		case PARSE_NODE_TYPE_RIGHT:
-		case PARSE_NODE_TYPE_MATRIX:
-		case PARSE_NODE_TYPE_VECTOR:
-			break;
+    if (tree1->child1 && !tree2->child1) return false;
+    if (!tree1->child1 && tree2->child1) return false;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+    if (tree1->child2 && !tree2->child2) return false;
+    if (!tree1->child2 && tree2->child2) return false;
 
-	//
-	// Make sure both trees have the same number of children.
-	//
+    if (tree1->child3 && !tree2->child3) return false;
+    if (!tree1->child3 && tree2->child3) return false;
 
-	if ( tree1->child1 && !tree2->child1) return false;
-	if (!tree1->child1 &&  tree2->child1) return false;
+    //
+    // The children must be the same too.
+    //
 
-	if ( tree1->child2 && !tree2->child2) return false;
-	if (!tree1->child2 &&  tree2->child2) return false;
+    if (tree1->child1 && !PARSE_trees_the_same(tree1->child1, tree2->child1)) return false;
+    if (tree1->child2 && !PARSE_trees_the_same(tree1->child2, tree2->child2)) return false;
+    if (tree1->child3 && !PARSE_trees_the_same(tree1->child3, tree2->child3)) return false;
 
-	if ( tree1->child3 && !tree2->child3) return false;
-	if (!tree1->child3 &&  tree2->child3) return false;
+    //
+    // All fine!
+    //
 
-	//
-	// The children must be the same too.
-	//
-
-	if (tree1->child1 && !PARSE_trees_the_same(tree1->child1, tree2->child1)) return false;
-	if (tree1->child2 && !PARSE_trees_the_same(tree1->child2, tree2->child2)) return false;
-	if (tree1->child3 && !PARSE_trees_the_same(tree1->child3, tree2->child3)) return false;
-
-	//
-	// All fine!
-	//
-
-	return true;
+    return true;
 }
-
-
-
-
 
 //
 // Our parsing functions........
@@ -589,3406 +551,3144 @@ PARSE_Node *PARSE_argument_definition();
 
 std::int32_t PARSE_expression_list_depth(PARSE_Node *explist);
 
-
-
 //
 // Recursive descent parsing...
 //
 
-PARSE_Node *PARSE_function_call()
-{
-	PARSE_Node *ans;
+PARSE_Node *PARSE_function_call() {
+    PARSE_Node *ans;
 
-	LEX_Token lt;
+    LEX_Token lt;
 
-	//
-	// A function call.
-	//
+    //
+    // A function call.
+    //
 
-	lt = LEX_get();
+    lt = LEX_get();
 
-	if (lt.type != LEX_TOKEN_TYPE_VARIABLE)
-	{
-		//
-		// ERROR! What function are we calling?
-		//
+    if (lt.type != LEX_TOKEN_TYPE_VARIABLE) {
+        //
+        // ERROR! What function are we calling?
+        //
 
-		PARSE_throw("Expected a function name");
-	}
+        PARSE_throw("Expected a function name");
+    }
 
-	LEX_pop();
+    LEX_pop();
 
-	//
-	// Put "()" onto the front of the function name so
-	// we know that it's a function.
-	//
+    //
+    // Put "()" onto the front of the function name so
+    // we know that it's a function.
+    //
 
-	char name[LEX_MAX_STRING_LENGTH + 32];
+    char name[LEX_MAX_STRING_LENGTH + 32];
 
-	sprintf(name, "()%s", lt.variable);
+    sprintf(name, "()%s", lt.variable);
 
-	//
-	// The start of an argument list?
-	//
+    //
+    // The start of an argument list?
+    //
 
-	lt = LEX_get();
+    lt = LEX_get();
 
-	if (lt.type != LEX_TOKEN_TYPE_OPEN)
-	{
-		//
-		// ERROR!
-		//
+    if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+        //
+        // ERROR!
+        //
 
-		PARSE_throw("Expected an open bracket after the function name");
-	}
+        PARSE_throw("Expected an open bracket after the function name");
+    }
 
-	LEX_pop();
+    LEX_pop();
 
-	lt = LEX_get();
+    lt = LEX_get();
 
-	if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-	{
-		//
-		// No argments to the function.
-		//
+    if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+        //
+        // No argments to the function.
+        //
 
-		LEX_pop();
+        LEX_pop();
 
-		ans           = PARSE_get_node();
-		ans->type     = PARSE_NODE_TYPE_CALL;
-		ans->child1   = nullptr;
-		ans->args     = 0;
-		ans->variable = PARSE_add_string(name);
+        ans = PARSE_get_node();
+        ans->type = PARSE_NODE_TYPE_CALL;
+        ans->child1 = nullptr;
+        ans->args = 0;
+        ans->variable = PARSE_add_string(name);
 
-		return ans;
-	}
+        return ans;
+    }
 
-	//
-	// This function call has an argument list.
-	//
+    //
+    // This function call has an argument list.
+    //
 
-	ans           = PARSE_get_node();
-	ans->type     = PARSE_NODE_TYPE_CALL;
-	ans->child1   = PARSE_expression_list();
-	ans->args     = PARSE_expression_list_depth(ans->child1);
-	ans->variable = PARSE_add_string(name);
+    ans = PARSE_get_node();
+    ans->type = PARSE_NODE_TYPE_CALL;
+    ans->child1 = PARSE_expression_list();
+    ans->args = PARSE_expression_list_depth(ans->child1);
+    ans->variable = PARSE_add_string(name);
 
-	lt = LEX_get();
+    lt = LEX_get();
 
-	if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-	{
-		//
-		// ERROR!
-		//
+    if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+        //
+        // ERROR!
+        //
 
-		PARSE_throw("No close bracket after the list of arguments");
-	}
+        PARSE_throw("No close bracket after the list of arguments");
+    }
 
-	LEX_pop();
+    LEX_pop();
 
-	//
-	// Descend the expression list and convert each rvalue to an arguement.
-	//
+    //
+    // Descend the expression list and convert each rvalue to an arguement.
+    //
 
-	PARSE_Node *arg = ans->child1;
+    PARSE_Node *arg = ans->child1;
 
-	while(1)
-	{
-		if (arg->type == PARSE_NODE_TYPE_EXP_LIST)
-		{
-			PARSE_convert_rvalue_to_argument(arg->child1);
+    while (1) {
+        if (arg->type == PARSE_NODE_TYPE_EXP_LIST) {
+            PARSE_convert_rvalue_to_argument(arg->child1);
 
-			arg = arg->child2;
-		}
-		else
-		{
-			PARSE_convert_rvalue_to_argument(arg);
+            arg = arg->child2;
+        } else {
+            PARSE_convert_rvalue_to_argument(arg);
 
-			break;
-		}
-	}
+            break;
+        }
+    }
 
-	return ans;
-
+    return ans;
 }
 
+PARSE_Node *PARSE_primary() {
+    PARSE_Node *ans;
 
+    LEX_Token lt = LEX_get();
 
-PARSE_Node *PARSE_primary()
-{
-	PARSE_Node *ans;
+    switch (lt.type) {
+        case LEX_TOKEN_TYPE_MINUS:
 
-	LEX_Token lt = LEX_get();
+            //
+            // A unary minus!
+            //
 
-	switch(lt.type)
-	{
-		case LEX_TOKEN_TYPE_MINUS:
+            LEX_pop();
 
-			//
-			// A unary minus!
-			//
+            ans = PARSE_get_node();
 
-			LEX_pop();
+            ans->type = PARSE_NODE_TYPE_UMINUS;
+            ans->child1 = PARSE_primary();
 
-			ans = PARSE_get_node();
+            return ans;
 
-			ans->type   = PARSE_NODE_TYPE_UMINUS;
-			ans->child1 = PARSE_primary();
+        case LEX_TOKEN_TYPE_SLUMBER:
 
-			return ans;
-	
-		case LEX_TOKEN_TYPE_SLUMBER:
+            LEX_pop();
 
-			LEX_pop();
+            ans = PARSE_get_node();
 
-			ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_SLUMBER;
+            ans->slumber = lt.slumber;
 
-			ans->type    = PARSE_NODE_TYPE_SLUMBER;
-			ans->slumber = lt.slumber;
+            return ans;
 
-			return ans;
+        case LEX_TOKEN_TYPE_FLUMBER:
 
-		case LEX_TOKEN_TYPE_FLUMBER:
-			
-			LEX_pop();
+            LEX_pop();
 
-			ans = PARSE_get_node();
+            ans = PARSE_get_node();
 
-			ans->type    = PARSE_NODE_TYPE_FLUMBER;
-			ans->flumber = lt.flumber;
+            ans->type = PARSE_NODE_TYPE_FLUMBER;
+            ans->flumber = lt.flumber;
 
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_VARIABLE:
-			
-			{
-				char* varname = PARSE_add_string(lt.variable);
+        case LEX_TOKEN_TYPE_VARIABLE:
 
-				//
-				// This could be a function call.
-				//
+        {
+            char *varname = PARSE_add_string(lt.variable);
 
-				LEX_pop();
+            //
+            // This could be a function call.
+            //
 
-				LEX_Token lookahead = LEX_get();
+            LEX_pop();
 
-				if (lookahead.type == LEX_TOKEN_TYPE_OPEN)
-				{
-					//
-					// This is a function call!
-					//
+            LEX_Token lookahead = LEX_get();
 
-					LEX_push(lt);
+            if (lookahead.type == LEX_TOKEN_TYPE_OPEN) {
+                //
+                // This is a function call!
+                //
 
-					ans = PARSE_function_call();
-					
-					return ans;
-				}
+                LEX_push(lt);
 
-				ans = PARSE_get_node();
+                ans = PARSE_function_call();
 
-				ans->type     = PARSE_NODE_TYPE_VAR_VALUE;
-				ans->variable = varname;
-				
-				return ans;
-			}
+                return ans;
+            }
 
-		case LEX_TOKEN_TYPE_OPEN:
+            ans = PARSE_get_node();
 
-			LEX_pop();
+            ans->type = PARSE_NODE_TYPE_VAR_VALUE;
+            ans->variable = varname;
 
-			ans = PARSE_expression();
+            return ans;
+        }
 
-			lt = LEX_get();
+        case LEX_TOKEN_TYPE_OPEN:
 
-			if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// ERROR!
-				//
+            LEX_pop();
 
-				PARSE_throw("No matching close bracket found");
-			}
-			else
-			{
-				LEX_pop();
+            ans = PARSE_expression();
 
-				return ans;
-			}
+            lt = LEX_get();
 
-		case LEX_TOKEN_TYPE_TRUE:
+            if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // ERROR!
+                //
 
-			LEX_pop();
+                PARSE_throw("No matching close bracket found");
+            } else {
+                LEX_pop();
 
-			ans = PARSE_get_node();
+                return ans;
+            }
 
-			ans->type    = PARSE_NODE_TYPE_BOOLEAN;
-			ans->boolean = true;
+        case LEX_TOKEN_TYPE_TRUE:
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_FALSE:
+            ans = PARSE_get_node();
 
-			LEX_pop();
+            ans->type = PARSE_NODE_TYPE_BOOLEAN;
+            ans->boolean = true;
 
-			ans = PARSE_get_node();
+            return ans;
 
-			ans->type    = PARSE_NODE_TYPE_BOOLEAN;
-			ans->boolean = false;
+        case LEX_TOKEN_TYPE_FALSE:
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_NOT:
+            ans = PARSE_get_node();
 
-			LEX_pop();
+            ans->type = PARSE_NODE_TYPE_BOOLEAN;
+            ans->boolean = false;
 
-			ans = PARSE_get_node();
+            return ans;
 
-			ans->type   = PARSE_NODE_TYPE_NOT;
-			ans->child1 = PARSE_primary();
+        case LEX_TOKEN_TYPE_NOT:
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_STRING:
+            ans = PARSE_get_node();
 
-			LEX_pop();
+            ans->type = PARSE_NODE_TYPE_NOT;
+            ans->child1 = PARSE_primary();
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_STRING;
-			ans->string = PARSE_add_string(lt.string);
-	
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_INPUT:
+        case LEX_TOKEN_TYPE_STRING:
 
-			LEX_pop();
+            LEX_pop();
 
-			ans = PARSE_get_node();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_STRING;
+            ans->string = PARSE_add_string(lt.string);
 
-			ans->type = PARSE_NODE_TYPE_INPUT;
+            return ans;
 
-			return ans;
+        case LEX_TOKEN_TYPE_INPUT:
 
-		case LEX_TOKEN_TYPE_UNDEFINED:
-			
-			LEX_pop();
+            LEX_pop();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_UNDEFINED;
+            ans = PARSE_get_node();
 
-			return ans;
+            ans->type = PARSE_NODE_TYPE_INPUT;
 
-		case LEX_TOKEN_TYPE_RANDOM:
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_UNDEFINED:
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_RANDOM;
+            LEX_pop();
 
-			return ans;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_UNDEFINED;
 
-		case LEX_TOKEN_TYPE_CALL:
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_RANDOM:
 
-			ans = PARSE_function_call();
-			
-			return ans;
-		
-		case LEX_TOKEN_TYPE_TEXTURE:
-		case LEX_TOKEN_TYPE_BUFFER:
-			
-			//
-			// Creation of a texture or a buffer.
-			//
+            LEX_pop();
 
-			LEX_pop();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_RANDOM;
 
-			ans = PARSE_get_node();
+            return ans;
 
-			switch(lt.type)
-			{
-				case LEX_TOKEN_TYPE_TEXTURE: ans->type = PARSE_NODE_TYPE_TEXTURE; break;
-				case LEX_TOKEN_TYPE_BUFFER:	 ans->type = PARSE_NODE_TYPE_BUFFER;  break;
+        case LEX_TOKEN_TYPE_CALL:
 
-				default:
-					ASSERT(0);
-					break;
-			}
+            LEX_pop();
 
-			lt = LEX_get();
+            ans = PARSE_function_call();
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+            return ans;
 
-				switch(ans->type)
-				{
-					case PARSE_NODE_TYPE_TEXTURE: PARSE_throw("No open bracket after the keyword TEXTURE"); break;
-					case PARSE_NODE_TYPE_BUFFER:  PARSE_throw("No open bracket after the keyword BUFFER");  break;
+        case LEX_TOKEN_TYPE_TEXTURE:
+        case LEX_TOKEN_TYPE_BUFFER:
 
-					default:
-						ASSERT(0);
-				}
-			}
+            //
+            // Creation of a texture or a buffer.
+            //
 
-			LEX_pop();
+            LEX_pop();
 
-			lt = LEX_get();
+            ans = PARSE_get_node();
 
-			if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// No arguments 
-				//
+            switch (lt.type) {
+                case LEX_TOKEN_TYPE_TEXTURE: ans->type = PARSE_NODE_TYPE_TEXTURE; break;
+                case LEX_TOKEN_TYPE_BUFFER: ans->type = PARSE_NODE_TYPE_BUFFER; break;
 
-				LEX_pop();
+                default:
+                    ASSERT(0);
+                    break;
+            }
 
-				ans->child1 = nullptr;
-				ans->args   = 0;
-			}
-			else
-			{
-				//
-				// An argument list.
-				//
+            lt = LEX_get();
 
-				ans->child1 = PARSE_expression_list();
-				ans->args   = PARSE_expression_list_depth(ans->child1);
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-				lt = LEX_get();
+                switch (ans->type) {
+                    case PARSE_NODE_TYPE_TEXTURE: PARSE_throw("No open bracket after the keyword TEXTURE"); break;
+                    case PARSE_NODE_TYPE_BUFFER: PARSE_throw("No open bracket after the keyword BUFFER"); break;
 
-				if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-				{
-					//
-					// ERROR!
-					//
+                    default:
+                        ASSERT(0);
+                }
+            }
 
-					switch(ans->type)
-					{
-						case PARSE_NODE_TYPE_TEXTURE: PARSE_throw("No close bracket after the keyword TEXTURE"); break;
-						case PARSE_NODE_TYPE_BUFFER:  PARSE_throw("No close bracket after the keyword BUFFER");  break;
+            LEX_pop();
 
-						default:
-							ASSERT(0);
-					}
-				}
+            lt = LEX_get();
 
-				LEX_pop();
-			}
+            if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // No arguments
+                //
 
-			return ans;
+                LEX_pop();
 
+                ans->child1 = nullptr;
+                ans->args = 0;
+            } else {
+                //
+                // An argument list.
+                //
 
-		case LEX_TOKEN_TYPE_KEY:
+                ans->child1 = PARSE_expression_list();
+                ans->args = PARSE_expression_list_depth(ans->child1);
 
-			LEX_pop();
+                lt = LEX_get();
 
-			lt = LEX_get();
+                if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                    //
+                    // ERROR!
+                    //
 
-			if (lt.type != LEX_TOKEN_TYPE_OSQUARE)
-			{
-				//
-				// ERROR!
-				//
+                    switch (ans->type) {
+                        case PARSE_NODE_TYPE_TEXTURE: PARSE_throw("No close bracket after the keyword TEXTURE"); break;
+                        case PARSE_NODE_TYPE_BUFFER: PARSE_throw("No close bracket after the keyword BUFFER"); break;
 
-				PARSE_throw("KEY must be accessed like an array, e.g. KEY[50] or KEY[x]");
-			}
+                        default:
+                            ASSERT(0);
+                    }
+                }
 
-			LEX_pop();
+                LEX_pop();
+            }
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_KEY_VALUE;
-			ans->child1 = PARSE_expression();
+            return ans;
 
-			lt = LEX_get();
+        case LEX_TOKEN_TYPE_KEY:
 
-			if (lt.type != LEX_TOKEN_TYPE_CSQUARE)
-			{
-				//
-				// ERROR!
-				//
+            LEX_pop();
 
-				PARSE_throw("Missing close bracket for the KEY keyword");
-			}
+            lt = LEX_get();
 
-			LEX_pop();
+            if (lt.type != LEX_TOKEN_TYPE_OSQUARE) {
+                //
+                // ERROR!
+                //
 
-			return ans;
+                PARSE_throw("KEY must be accessed like an array, e.g. KEY[50] or KEY[x]");
+            }
 
-		case LEX_TOKEN_TYPE_INKEY:
+            LEX_pop();
 
-			LEX_pop();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_KEY_VALUE;
+            ans->child1 = PARSE_expression();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_INKEY_VALUE;
+            lt = LEX_get();
 
-			return ans;
+            if (lt.type != LEX_TOKEN_TYPE_CSQUARE) {
+                //
+                // ERROR!
+                //
 
-		case LEX_TOKEN_TYPE_TIMER:
-			
-			LEX_pop();
+                PARSE_throw("Missing close bracket for the KEY keyword");
+            }
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_TIMER;
+            LEX_pop();
 
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_SQRT:
-		case LEX_TOKEN_TYPE_ABS:
-		case LEX_TOKEN_TYPE_SIN:
-		case LEX_TOKEN_TYPE_COS:
-		case LEX_TOKEN_TYPE_TAN:
-		case LEX_TOKEN_TYPE_ASIN:
-		case LEX_TOKEN_TYPE_ACOS:
-		case LEX_TOKEN_TYPE_ATAN:
-		case LEX_TOKEN_TYPE_LEN:
+        case LEX_TOKEN_TYPE_INKEY:
 
-			LEX_pop();
+            LEX_pop();
 
-			ans = PARSE_get_node();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_INKEY_VALUE;
 
-			switch(lt.type)
-			{
-				case LEX_TOKEN_TYPE_SQRT:  ans->type = PARSE_NODE_TYPE_SQRT;  break;
-				case LEX_TOKEN_TYPE_ABS:   ans->type = PARSE_NODE_TYPE_ABS;	  break;
-				case LEX_TOKEN_TYPE_SIN:   ans->type = PARSE_NODE_TYPE_SIN;	  break;
-				case LEX_TOKEN_TYPE_COS:   ans->type = PARSE_NODE_TYPE_COS;	  break;
-				case LEX_TOKEN_TYPE_TAN:   ans->type = PARSE_NODE_TYPE_TAN;	  break;
-				case LEX_TOKEN_TYPE_ASIN:  ans->type = PARSE_NODE_TYPE_ASIN;  break;
-				case LEX_TOKEN_TYPE_ACOS:  ans->type = PARSE_NODE_TYPE_ACOS;  break;
-				case LEX_TOKEN_TYPE_ATAN:  ans->type = PARSE_NODE_TYPE_ATAN;  break;
-				case LEX_TOKEN_TYPE_LEN:   ans->type = PARSE_NODE_TYPE_LEN;   break;
+            return ans;
 
-				default:
-					ASSERT(0);
-					break;
-			}
+        case LEX_TOKEN_TYPE_TIMER:
 
-			lt = LEX_get();
+            LEX_pop();
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_TIMER;
 
-				switch(ans->type)
-				{
-					case PARSE_NODE_TYPE_SQRT: PARSE_throw("Missing open bracket after SQRT"); break;
-					case PARSE_NODE_TYPE_ABS:  PARSE_throw("Missing open bracket after ABS");  break;
-					case PARSE_NODE_TYPE_SIN:  PARSE_throw("Missing open bracket after SIN");  break;
-					case PARSE_NODE_TYPE_COS:  PARSE_throw("Missing open bracket after COS");  break;
-					case PARSE_NODE_TYPE_TAN:  PARSE_throw("Missing open bracket after TAN");  break;
-					case PARSE_NODE_TYPE_ASIN: PARSE_throw("Missing open bracket after ASIN"); break;
-					case PARSE_NODE_TYPE_ACOS: PARSE_throw("Missing open bracket after ACOS"); break;
-					case PARSE_NODE_TYPE_ATAN: PARSE_throw("Missing open bracket after ATAN"); break;
-					case PARSE_NODE_TYPE_LEN:  PARSE_throw("Missing open bracket after LEN");  break;
+            return ans;
 
-					default:
-						ASSERT(0);
-						break;
-				}
-			}
+        case LEX_TOKEN_TYPE_SQRT:
+        case LEX_TOKEN_TYPE_ABS:
+        case LEX_TOKEN_TYPE_SIN:
+        case LEX_TOKEN_TYPE_COS:
+        case LEX_TOKEN_TYPE_TAN:
+        case LEX_TOKEN_TYPE_ASIN:
+        case LEX_TOKEN_TYPE_ACOS:
+        case LEX_TOKEN_TYPE_ATAN:
+        case LEX_TOKEN_TYPE_LEN:
 
-			LEX_pop();
+            LEX_pop();
 
-			ans->child1 = PARSE_expression();
+            ans = PARSE_get_node();
 
-			lt = LEX_get();
+            switch (lt.type) {
+                case LEX_TOKEN_TYPE_SQRT: ans->type = PARSE_NODE_TYPE_SQRT; break;
+                case LEX_TOKEN_TYPE_ABS: ans->type = PARSE_NODE_TYPE_ABS; break;
+                case LEX_TOKEN_TYPE_SIN: ans->type = PARSE_NODE_TYPE_SIN; break;
+                case LEX_TOKEN_TYPE_COS: ans->type = PARSE_NODE_TYPE_COS; break;
+                case LEX_TOKEN_TYPE_TAN: ans->type = PARSE_NODE_TYPE_TAN; break;
+                case LEX_TOKEN_TYPE_ASIN: ans->type = PARSE_NODE_TYPE_ASIN; break;
+                case LEX_TOKEN_TYPE_ACOS: ans->type = PARSE_NODE_TYPE_ACOS; break;
+                case LEX_TOKEN_TYPE_ATAN: ans->type = PARSE_NODE_TYPE_ATAN; break;
+                case LEX_TOKEN_TYPE_LEN: ans->type = PARSE_NODE_TYPE_LEN; break;
 
-			if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// ERROR!
-				//
+                default:
+                    ASSERT(0);
+                    break;
+            }
 
-				switch(ans->type)
-				{
-					case PARSE_NODE_TYPE_SQRT: PARSE_throw("Missing close bracket after SQRT"); break;
-					case PARSE_NODE_TYPE_ABS:  PARSE_throw("Missing close bracket after ABS");  break;
-					case PARSE_NODE_TYPE_SIN:  PARSE_throw("Missing close bracket after SIN");  break;
-					case PARSE_NODE_TYPE_COS:  PARSE_throw("Missing close bracket after COS");  break;
-					case PARSE_NODE_TYPE_TAN:  PARSE_throw("Missing close bracket after TAN");  break;
-					case PARSE_NODE_TYPE_ASIN: PARSE_throw("Missing close bracket after ASIN"); break;
-					case PARSE_NODE_TYPE_ACOS: PARSE_throw("Missing close bracket after ACOS"); break;
-					case PARSE_NODE_TYPE_ATAN: PARSE_throw("Missing close bracket after ATAN"); break;
-					case PARSE_NODE_TYPE_LEN:  PARSE_throw("Missing close bracket after LEN");  break;
+            lt = LEX_get();
 
-					default:
-						ASSERT(0);
-						break;
-				}
-			}
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-			LEX_pop();
+                switch (ans->type) {
+                    case PARSE_NODE_TYPE_SQRT: PARSE_throw("Missing open bracket after SQRT"); break;
+                    case PARSE_NODE_TYPE_ABS: PARSE_throw("Missing open bracket after ABS"); break;
+                    case PARSE_NODE_TYPE_SIN: PARSE_throw("Missing open bracket after SIN"); break;
+                    case PARSE_NODE_TYPE_COS: PARSE_throw("Missing open bracket after COS"); break;
+                    case PARSE_NODE_TYPE_TAN: PARSE_throw("Missing open bracket after TAN"); break;
+                    case PARSE_NODE_TYPE_ASIN: PARSE_throw("Missing open bracket after ASIN"); break;
+                    case PARSE_NODE_TYPE_ACOS: PARSE_throw("Missing open bracket after ACOS"); break;
+                    case PARSE_NODE_TYPE_ATAN: PARSE_throw("Missing open bracket after ATAN"); break;
+                    case PARSE_NODE_TYPE_LEN: PARSE_throw("Missing open bracket after LEN"); break;
 
-			return ans;
-	
-		case LEX_TOKEN_TYPE_ATAN2:
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
 
-			LEX_pop();
+            LEX_pop();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_ATAN2;
+            ans->child1 = PARSE_expression();
 
-			lt = LEX_get();
+            lt = LEX_get();
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+            if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // ERROR!
+                //
 
-				PARSE_throw("Missing open bracket after ATAN2");
-			}
+                switch (ans->type) {
+                    case PARSE_NODE_TYPE_SQRT: PARSE_throw("Missing close bracket after SQRT"); break;
+                    case PARSE_NODE_TYPE_ABS: PARSE_throw("Missing close bracket after ABS"); break;
+                    case PARSE_NODE_TYPE_SIN: PARSE_throw("Missing close bracket after SIN"); break;
+                    case PARSE_NODE_TYPE_COS: PARSE_throw("Missing close bracket after COS"); break;
+                    case PARSE_NODE_TYPE_TAN: PARSE_throw("Missing close bracket after TAN"); break;
+                    case PARSE_NODE_TYPE_ASIN: PARSE_throw("Missing close bracket after ASIN"); break;
+                    case PARSE_NODE_TYPE_ACOS: PARSE_throw("Missing close bracket after ACOS"); break;
+                    case PARSE_NODE_TYPE_ATAN: PARSE_throw("Missing close bracket after ATAN"); break;
+                    case PARSE_NODE_TYPE_LEN: PARSE_throw("Missing close bracket after LEN"); break;
 
-			LEX_pop();
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
 
-			ans->child1 = PARSE_expression();
+            LEX_pop();
 
-			lt = LEX_get();
+            return ans;
 
-			if (lt.type != LEX_TOKEN_TYPE_COMMA)
-			{
-				//
-				// ERROR!
-				//
+        case LEX_TOKEN_TYPE_ATAN2:
 
-				PARSE_throw("Expected a comma separating the two arguments to ATAN2");
-			}
+            LEX_pop();
 
-			LEX_pop();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_ATAN2;
 
-			ans->child2 = PARSE_expression();
+            lt = LEX_get();
 
-			lt = LEX_get();
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-			if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// ERROR!
-				//
+                PARSE_throw("Missing open bracket after ATAN2");
+            }
 
-				PARSE_throw("Missing close bracket after ATAN2");
-			}
+            LEX_pop();
 
-			LEX_pop();
+            ans->child1 = PARSE_expression();
 
-			return ans;
+            lt = LEX_get();
 
-		case LEX_TOKEN_TYPE_LEFT:
-		case LEX_TOKEN_TYPE_RIGHT:
-			
-			//
-			// These functions take either one or two arguments.
-			//
+            if (lt.type != LEX_TOKEN_TYPE_COMMA) {
+                //
+                // ERROR!
+                //
 
-			LEX_pop();
+                PARSE_throw("Expected a comma separating the two arguments to ATAN2");
+            }
 
-			ans = PARSE_get_node();
+            LEX_pop();
 
-			switch(lt.type)
-			{
-				case LEX_TOKEN_TYPE_LEFT:  ans->type = PARSE_NODE_TYPE_LEFT;  break;
-				case LEX_TOKEN_TYPE_RIGHT: ans->type = PARSE_NODE_TYPE_RIGHT; break;
+            ans->child2 = PARSE_expression();
 
-				default:
-					ASSERT(0);
-					break;
-			}
+            lt = LEX_get();
 
-			lt = LEX_get();
+            if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // ERROR!
+                //
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+                PARSE_throw("Missing close bracket after ATAN2");
+            }
 
-				switch(ans->type)
-				{
-					case PARSE_NODE_TYPE_LEFT:  PARSE_throw("Missing open bracket after LEFT");  break;
-					case PARSE_NODE_TYPE_RIGHT:	PARSE_throw("Missing open bracket after RIGHT"); break;
+            LEX_pop();
 
-					default:
-						ASSERT(0);
-						break;
-				}
-			}
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_LEFT:
+        case LEX_TOKEN_TYPE_RIGHT:
 
-			ans->child1 = PARSE_expression();
+            //
+            // These functions take either one or two arguments.
+            //
 
-			lt = LEX_get();
+            LEX_pop();
 
-			if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-			{
-				LEX_pop();
+            ans = PARSE_get_node();
 
-				//
-				// This is a one-argugment version.
-				//
+            switch (lt.type) {
+                case LEX_TOKEN_TYPE_LEFT: ans->type = PARSE_NODE_TYPE_LEFT; break;
+                case LEX_TOKEN_TYPE_RIGHT: ans->type = PARSE_NODE_TYPE_RIGHT; break;
 
-				ans->child2 = nullptr;
+                default:
+                    ASSERT(0);
+                    break;
+            }
 
-				return ans;
-			}
-			else
-			if (lt.type != LEX_TOKEN_TYPE_COMMA)
-			{
-				//
-				// ERROR!
-				//
+            lt = LEX_get();
 
-				switch(ans->type)
-				{
-					case PARSE_NODE_TYPE_LEFT:  PARSE_throw("Expected a comma or a close bracket after the first argument to LEFT");  break;
-					case PARSE_NODE_TYPE_RIGHT:	PARSE_throw("Expected a comma or a close bracket after the first argument to RIGHT"); break;
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-					default:
-						ASSERT(0);
-						break;
-				}
-			}
+                switch (ans->type) {
+                    case PARSE_NODE_TYPE_LEFT: PARSE_throw("Missing open bracket after LEFT"); break;
+                    case PARSE_NODE_TYPE_RIGHT: PARSE_throw("Missing open bracket after RIGHT"); break;
 
-			LEX_pop();
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
 
-			ans->child2 = PARSE_expression();
+            LEX_pop();
 
-			lt = LEX_get();
+            ans->child1 = PARSE_expression();
 
-			if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// ERROR!
-				//
+            lt = LEX_get();
 
-				switch(ans->type)
-				{
-					case PARSE_NODE_TYPE_LEFT:  PARSE_throw("Expected a close bracket after LEFT");  break;
-					case PARSE_NODE_TYPE_RIGHT:	PARSE_throw("Expected a close bracket after RIGHT"); break;
+            if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                LEX_pop();
 
-					default:
-						ASSERT(0);
-						break;
-				}
-			}
+                //
+                // This is a one-argugment version.
+                //
 
-			LEX_pop();
+                ans->child2 = nullptr;
 
-			return ans;
+                return ans;
+            } else if (lt.type != LEX_TOKEN_TYPE_COMMA) {
+                //
+                // ERROR!
+                //
 
-		case LEX_TOKEN_TYPE_MID:
+                switch (ans->type) {
+                    case PARSE_NODE_TYPE_LEFT: PARSE_throw("Expected a comma or a close bracket after the first argument to LEFT"); break;
+                    case PARSE_NODE_TYPE_RIGHT: PARSE_throw("Expected a comma or a close bracket after the first argument to RIGHT"); break;
 
-			//
-			// A two or three arguement function.
-			//
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
 
-			LEX_pop();
+            LEX_pop();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_MID;
+            ans->child2 = PARSE_expression();
 
-			lt = LEX_get();
+            lt = LEX_get();
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+            if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // ERROR!
+                //
 
-				PARSE_throw("Expected an open bracket after MID");
-			}
+                switch (ans->type) {
+                    case PARSE_NODE_TYPE_LEFT: PARSE_throw("Expected a close bracket after LEFT"); break;
+                    case PARSE_NODE_TYPE_RIGHT: PARSE_throw("Expected a close bracket after RIGHT"); break;
 
-			LEX_pop();
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
 
-			ans->child1 = PARSE_expression();
+            LEX_pop();
 
-			lt = LEX_get();
+            return ans;
 
-			if (lt.type != LEX_TOKEN_TYPE_COMMA)
-			{
-				//
-				// ERROR!
-				//
+        case LEX_TOKEN_TYPE_MID:
 
-				PARSE_throw("Expected a comma after the first argument to MID");
-			}
+            //
+            // A two or three arguement function.
+            //
 
-			LEX_pop();
+            LEX_pop();
 
-			ans->child2 = PARSE_expression();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_MID;
 
-			lt = LEX_get();
+            lt = LEX_get();
 
-			if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-			{
-				LEX_pop();
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-				//
-				// This is a two-argument version.
-				//
+                PARSE_throw("Expected an open bracket after MID");
+            }
 
-				ans->child3 = nullptr;
+            LEX_pop();
 
-				return ans;
-			}
-			else
-			if (lt.type != LEX_TOKEN_TYPE_COMMA)
-			{
-				//
-				// ERROR!
-				//
+            ans->child1 = PARSE_expression();
 
-				PARSE_throw("Expected a comma or close bracket after the second argument to MID");
-			}
+            lt = LEX_get();
 
-			LEX_pop();
+            if (lt.type != LEX_TOKEN_TYPE_COMMA) {
+                //
+                // ERROR!
+                //
 
-			ans->child3 = PARSE_expression();
+                PARSE_throw("Expected a comma after the first argument to MID");
+            }
 
-			lt = LEX_get();
+            LEX_pop();
 
-			if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// ERROR!
-				//
+            ans->child2 = PARSE_expression();
 
-				PARSE_throw("Expected a close bracket after the third argument to MID");
-			}
+            lt = LEX_get();
 
-			LEX_pop();
+            if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                LEX_pop();
 
-			return ans;
+                //
+                // This is a two-argument version.
+                //
 
-		case LEX_TOKEN_TYPE_MATRIX:
+                ans->child3 = nullptr;
 
-			//
-			// A matrix constant.
-			//
+                return ans;
+            } else if (lt.type != LEX_TOKEN_TYPE_COMMA) {
+                //
+                // ERROR!
+                //
 
-			LEX_pop();
+                PARSE_throw("Expected a comma or close bracket after the second argument to MID");
+            }
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_MATRIX;
-			
-			lt = LEX_get();
+            LEX_pop();
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+            ans->child3 = PARSE_expression();
 
-				PARSE_throw("Expected an open bracket after MATRIX");
-			}
+            lt = LEX_get();
 
-			LEX_pop();
+            if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // ERROR!
+                //
 
-			lt = LEX_get();
+                PARSE_throw("Expected a close bracket after the third argument to MID");
+            }
 
-			if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// This is the identity matrix.
-				//
+            LEX_pop();
 
-				ans->child1 = nullptr;
-			}
-			else
-			{
-				//
-				// There must be an expression list.
-				//
+            return ans;
 
-				ans->child1 = PARSE_expression_list();
-				ans->args   = PARSE_expression_list_depth(ans->child1);
+        case LEX_TOKEN_TYPE_MATRIX:
 
-				//
-				// Right number of arguments? 3 args that must all be vectors,
-				//
+            //
+            // A matrix constant.
+            //
 
-				if (ans->	args != 3)
-				{
-					//
-					// ERROR!
-					//
+            LEX_pop();
 
-					PARSE_throw("MATRIX wants three vector arguments");
-				}
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_MATRIX;
 
-				lt = LEX_get();
+            lt = LEX_get();
 
-				if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-				{
-					//
-					// ERROR!
-					//
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-					PARSE_throw("Expected a close bracket after the argument list to MATRIX");
-				}
+                PARSE_throw("Expected an open bracket after MATRIX");
+            }
 
-				LEX_pop();
-			}
+            LEX_pop();
 
-			return ans;
+            lt = LEX_get();
 
-		case LEX_TOKEN_TYPE_VECTOR:
+            if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // This is the identity matrix.
+                //
 
-			//
-			// A matrix constant.
-			//
+                ans->child1 = nullptr;
+            } else {
+                //
+                // There must be an expression list.
+                //
 
-			LEX_pop();
+                ans->child1 = PARSE_expression_list();
+                ans->args = PARSE_expression_list_depth(ans->child1);
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_VECTOR;
-			
-			lt = LEX_get();
+                //
+                // Right number of arguments? 3 args that must all be vectors,
+                //
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+                if (ans->args != 3) {
+                    //
+                    // ERROR!
+                    //
 
-				PARSE_throw("Expected an open bracket after VECTOR");
-			}
+                    PARSE_throw("MATRIX wants three vector arguments");
+                }
 
-			LEX_pop();
+                lt = LEX_get();
 
-			lt = LEX_get();
+                if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                    //
+                    // ERROR!
+                    //
 
-			if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// This is the zero vector (0,0,0).
-				//
+                    PARSE_throw("Expected a close bracket after the argument list to MATRIX");
+                }
 
-				ans->child1 = nullptr;
-			}
-			else
-			{
-				//
-				// There must be an expression list.
-				//
+                LEX_pop();
+            }
 
-				ans->child1 = PARSE_expression_list();
-				ans->args   = PARSE_expression_list_depth(ans->child1);
+            return ans;
 
-				//
-				// Right number of arguments?
-				//
+        case LEX_TOKEN_TYPE_VECTOR:
 
-				if (ans->args != 3)
-				{
-					//
-					// ERROR!
-					//
+            //
+            // A matrix constant.
+            //
 
-					PARSE_throw("The VECTOR command expects either 3 arguments or an empty argument list");
-				}
+            LEX_pop();
 
-				lt = LEX_get();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_VECTOR;
 
-				if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-				{
-					//
-					// ERROR!
-					//
+            lt = LEX_get();
 
-					PARSE_throw("Expected a close bracket after the argument list to VECTOR");
-				}
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-				LEX_pop();
-			}
+                PARSE_throw("Expected an open bracket after VECTOR");
+            }
 
-			return ans;
+            LEX_pop();
 
-		default:
+            lt = LEX_get();
 
-			//
-			// ERROR!
-			//
+            if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // This is the zero vector (0,0,0).
+                //
 
-			PARSE_throw();
+                ans->child1 = nullptr;
+            } else {
+                //
+                // There must be an expression list.
+                //
 
-			return nullptr;
-	}
+                ans->child1 = PARSE_expression_list();
+                ans->args = PARSE_expression_list_depth(ans->child1);
+
+                //
+                // Right number of arguments?
+                //
+
+                if (ans->args != 3) {
+                    //
+                    // ERROR!
+                    //
+
+                    PARSE_throw("The VECTOR command expects either 3 arguments or an empty argument list");
+                }
+
+                lt = LEX_get();
+
+                if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                    //
+                    // ERROR!
+                    //
+
+                    PARSE_throw("Expected a close bracket after the argument list to VECTOR");
+                }
+
+                LEX_pop();
+            }
+
+            return ans;
+
+        default:
+
+            //
+            // ERROR!
+            //
+
+            PARSE_throw();
+
+            return nullptr;
+    }
 }
 
+PARSE_Node *PARSE_p6exp() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
-PARSE_Node *PARSE_p6exp()
-{
-	LEX_Token lt;
+    lhs = PARSE_primary();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+    while (1) {
+        lt = LEX_get();
 
-	lhs = PARSE_primary();
-	
-	while(1)
-	{
-		lt = LEX_get();
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_DOT:
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_DOT:
+                LEX_pop();
 
-				LEX_pop();
+                rhs = PARSE_struct();
 
-				rhs = PARSE_struct();
+                //
+                // Build a little tree...
+                //
 
-				//
-				// Build a little tree...
-				//
+                ans = PARSE_get_node();
 
-				ans = PARSE_get_node();
+                ans->type = PARSE_NODE_TYPE_PUSH_FIELD_VALUE;
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				ans->type   = PARSE_NODE_TYPE_PUSH_FIELD_VALUE;
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                lhs->flag |= PARSE_NODE_FLAG_EXTRACT;
 
-				lhs->flag |= PARSE_NODE_FLAG_EXTRACT;
+                //
+                // Now carry on...
+                //
 
-				//
-				// Now carry on...
-				//
+                lhs = ans;
 
-				lhs = ans;
+                break;
 
-				break;
+            case LEX_TOKEN_TYPE_OSQUARE:
 
-			case LEX_TOKEN_TYPE_OSQUARE:
-				
-				LEX_pop();
+                LEX_pop();
 
-				rhs = PARSE_expression_list();
+                rhs = PARSE_expression_list();
 
-				ans = PARSE_get_node();
+                ans = PARSE_get_node();
 
-				ans->type       = PARSE_NODE_TYPE_PUSH_ARRAY_VALUE;
-				ans->dimensions = PARSE_expression_list_depth(rhs);
-				ans->child1     = lhs;
-				ans->child2     = rhs;
+                ans->type = PARSE_NODE_TYPE_PUSH_ARRAY_VALUE;
+                ans->dimensions = PARSE_expression_list_depth(rhs);
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				lhs->flag |= PARSE_NODE_FLAG_EXTRACT;
+                lhs->flag |= PARSE_NODE_FLAG_EXTRACT;
 
-				lt = LEX_get();
+                lt = LEX_get();
 
-				if (lt.type != LEX_TOKEN_TYPE_CSQUARE)
-				{
-					//
-					// ERROR!
-					//
+                if (lt.type != LEX_TOKEN_TYPE_CSQUARE) {
+                    //
+                    // ERROR!
+                    //
 
-					PARSE_throw("Missing close square bracket in an array access");
-				}
+                    PARSE_throw("Missing close square bracket in an array access");
+                }
 
-				LEX_pop();
+                LEX_pop();
 
-				//
-				// Now carry on...
-				//
+                //
+                // Now carry on...
+                //
 
-				lhs = ans;
+                lhs = ans;
 
-				break;
+                break;
 
-			default:
-				return lhs;
-		}
-	}
+            default:
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_p5exp() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
+    lhs = PARSE_p6exp();
 
-PARSE_Node *PARSE_p5exp()
-{
-	LEX_Token lt;
+    while (1) {
+        lt = LEX_get();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_TIMES:
+            case LEX_TOKEN_TYPE_DIVIDE:
+            case LEX_TOKEN_TYPE_MOD:
+            case LEX_TOKEN_TYPE_CPROD:
 
-	lhs = PARSE_p6exp();
-	
-	while(1)
-	{
-		lt = LEX_get();
+                LEX_pop();
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_TIMES:
-			case LEX_TOKEN_TYPE_DIVIDE:
-			case LEX_TOKEN_TYPE_MOD:
-			case LEX_TOKEN_TYPE_CPROD:
+                rhs = PARSE_p6exp();
 
-				LEX_pop();
+                //
+                // Build a little tree...
+                //
 
-				rhs = PARSE_p6exp();
+                ans = PARSE_get_node();
 
-				//
-				// Build a little tree...
-				//
+                switch (lt.type) {
+                    case LEX_TOKEN_TYPE_TIMES: ans->type = PARSE_NODE_TYPE_TIMES; break;
+                    case LEX_TOKEN_TYPE_DIVIDE: ans->type = PARSE_NODE_TYPE_DIVIDE; break;
+                    case LEX_TOKEN_TYPE_MOD: ans->type = PARSE_NODE_TYPE_MOD; break;
 
-				ans = PARSE_get_node();
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				switch(lt.type)
-				{
-					case LEX_TOKEN_TYPE_TIMES:  ans->type = PARSE_NODE_TYPE_TIMES;  break;
-					case LEX_TOKEN_TYPE_DIVIDE: ans->type = PARSE_NODE_TYPE_DIVIDE; break;
-					case LEX_TOKEN_TYPE_MOD:    ans->type = PARSE_NODE_TYPE_MOD;    break;
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                //
+                // Now carry on...
+                //
 
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                lhs = ans;
 
-				//
-				// Now carry on...
-				//
+                break;
 
-				lhs = ans;
-
-				break;
-
-			default:
-				return lhs;
-		}
-	}
+            default:
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_p4exp() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
-PARSE_Node *PARSE_p4exp()
-{
-	LEX_Token lt;
+    lhs = PARSE_p5exp();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+    while (1) {
+        lt = LEX_get();
 
-	lhs = PARSE_p5exp();
-	
-	while(1)
-	{
-		lt = LEX_get();
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_PLUS:
+            case LEX_TOKEN_TYPE_MINUS:
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_PLUS:
-			case LEX_TOKEN_TYPE_MINUS:
+                LEX_pop();
 
-				LEX_pop();
+                rhs = PARSE_p5exp();
 
-				rhs = PARSE_p5exp();
+                //
+                // Build a little tree...
+                //
 
-				//
-				// Build a little tree...
-				//
+                ans = PARSE_get_node();
 
-				ans = PARSE_get_node();
+                switch (lt.type) {
+                    case LEX_TOKEN_TYPE_PLUS: ans->type = PARSE_NODE_TYPE_PLUS; break;
+                    case LEX_TOKEN_TYPE_MINUS: ans->type = PARSE_NODE_TYPE_MINUS; break;
 
-				switch(lt.type)
-				{
-					case LEX_TOKEN_TYPE_PLUS:  ans->type = PARSE_NODE_TYPE_PLUS;  break;
-					case LEX_TOKEN_TYPE_MINUS: ans->type = PARSE_NODE_TYPE_MINUS; break;
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                //
+                // Now carry on...
+                //
 
-				//
-				// Now carry on...
-				//
+                lhs = ans;
 
-				lhs = ans;
+                break;
 
-				break;
-
-			default:
-				return lhs;
-		}
-	}
+            default:
+                return lhs;
+        }
+    }
 }
 
-PARSE_Node *PARSE_p3exp()
-{
-	LEX_Token lt;
+PARSE_Node *PARSE_p3exp() {
+    LEX_Token lt;
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
-	lhs = PARSE_p4exp();
-	
-	while(1)
-	{
-		lt = LEX_get();
+    lhs = PARSE_p4exp();
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_LT:
-			case LEX_TOKEN_TYPE_GT:
-			case LEX_TOKEN_TYPE_LTEQ:
-			case LEX_TOKEN_TYPE_GTEQ:
+    while (1) {
+        lt = LEX_get();
 
-				LEX_pop();
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_LT:
+            case LEX_TOKEN_TYPE_GT:
+            case LEX_TOKEN_TYPE_LTEQ:
+            case LEX_TOKEN_TYPE_GTEQ:
 
-				rhs = PARSE_p4exp();
+                LEX_pop();
 
-				//
-				// Build a little tree...
-				//
+                rhs = PARSE_p4exp();
 
-				ans = PARSE_get_node();
+                //
+                // Build a little tree...
+                //
 
-				switch(lt.type)
-				{
-					case LEX_TOKEN_TYPE_LT:   ans->type = PARSE_NODE_TYPE_LT;   break;
-					case LEX_TOKEN_TYPE_GT:   ans->type = PARSE_NODE_TYPE_GT;   break;
-					case LEX_TOKEN_TYPE_LTEQ: ans->type = PARSE_NODE_TYPE_LTEQ; break;
-					case LEX_TOKEN_TYPE_GTEQ: ans->type = PARSE_NODE_TYPE_GTEQ; break;
+                ans = PARSE_get_node();
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                switch (lt.type) {
+                    case LEX_TOKEN_TYPE_LT: ans->type = PARSE_NODE_TYPE_LT; break;
+                    case LEX_TOKEN_TYPE_GT: ans->type = PARSE_NODE_TYPE_GT; break;
+                    case LEX_TOKEN_TYPE_LTEQ: ans->type = PARSE_NODE_TYPE_LTEQ; break;
+                    case LEX_TOKEN_TYPE_GTEQ: ans->type = PARSE_NODE_TYPE_GTEQ; break;
 
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				//
-				// Now carry on...
-				//
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				lhs = ans;
+                //
+                // Now carry on...
+                //
 
-				break;
+                lhs = ans;
 
-			default:
-				return lhs;
-		}
-	}
+                break;
+
+            default:
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_p2exp() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
+    lhs = PARSE_p3exp();
 
-PARSE_Node *PARSE_p2exp()
-{
-	LEX_Token lt;
+    while (1) {
+        lt = LEX_get();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_EQUALS:
+            case LEX_TOKEN_TYPE_NOTEQUAL:
 
-	lhs = PARSE_p3exp();
-	
-	while(1)
-	{
-		lt = LEX_get();
+                LEX_pop();
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_EQUALS:
-			case LEX_TOKEN_TYPE_NOTEQUAL:
+                rhs = PARSE_p3exp();
 
-				LEX_pop();
+                //
+                // Build a little tree...
+                //
 
-				rhs = PARSE_p3exp();
+                ans = PARSE_get_node();
 
-				//
-				// Build a little tree...
-				//
+                switch (lt.type) {
+                    case LEX_TOKEN_TYPE_EQUALS: ans->type = PARSE_NODE_TYPE_EQUALS; break;
+                    case LEX_TOKEN_TYPE_NOTEQUAL: ans->type = PARSE_NODE_TYPE_NOTEQUAL; break;
 
-				ans = PARSE_get_node();
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				switch(lt.type)
-				{
-					case LEX_TOKEN_TYPE_EQUALS:	  ans->type = PARSE_NODE_TYPE_EQUALS;   break;
-					case LEX_TOKEN_TYPE_NOTEQUAL: ans->type = PARSE_NODE_TYPE_NOTEQUAL; break;
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                //
+                // Now carry on...
+                //
 
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                lhs = ans;
 
-				//
-				// Now carry on...
-				//
+                break;
 
-				lhs = ans;
-
-				break;
-
-			default:
-				return lhs;
-		}
-	}
+            default:
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_p1exp() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
-PARSE_Node *PARSE_p1exp()
-{
-	LEX_Token lt;
+    lhs = PARSE_p2exp();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+    while (1) {
+        lt = LEX_get();
 
-	lhs = PARSE_p2exp();
-	
-	while(1)
-	{
-		lt = LEX_get();
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_AND:
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_AND:
+                LEX_pop();
 
-				LEX_pop();
+                rhs = PARSE_p2exp();
 
-				rhs = PARSE_p2exp();
+                //
+                // Build a little tree...
+                //
 
-				//
-				// Build a little tree...
-				//
+                ans = PARSE_get_node();
 
-				ans = PARSE_get_node();
+                ans->type = PARSE_NODE_TYPE_AND;
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				ans->type   = PARSE_NODE_TYPE_AND;
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                //
+                // Now carry on...
+                //
 
-				//
-				// Now carry on...
-				//
+                lhs = ans;
 
-				lhs = ans;
+                break;
 
-				break;
-
-			default:
-				return lhs;
-		}
-	}
+            default:
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_expression() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
+    lhs = PARSE_p1exp();
 
-PARSE_Node *PARSE_expression()
-{
-	LEX_Token lt;
+    while (1) {
+        lt = LEX_get();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_OR:
+            case LEX_TOKEN_TYPE_XOR:
 
-	lhs = PARSE_p1exp();
-	
-	while(1)
-	{
-		lt = LEX_get();
+                LEX_pop();
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_OR:
-			case LEX_TOKEN_TYPE_XOR:
+                rhs = PARSE_p1exp();
 
-				LEX_pop();
+                //
+                // Build a little tree...
+                //
 
-				rhs = PARSE_p1exp();
+                ans = PARSE_get_node();
 
-				//
-				// Build a little tree...
-				//
+                switch (lt.type) {
+                    case LEX_TOKEN_TYPE_OR: ans->type = PARSE_NODE_TYPE_OR; break;
+                    case LEX_TOKEN_TYPE_XOR: ans->type = PARSE_NODE_TYPE_XOR; break;
 
-				ans = PARSE_get_node();
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				switch(lt.type)
-				{
-					case LEX_TOKEN_TYPE_OR:	 ans->type = PARSE_NODE_TYPE_OR;  break;
-					case LEX_TOKEN_TYPE_XOR: ans->type = PARSE_NODE_TYPE_XOR; break;
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-					default:
-						ASSERT(0);
-						break;
-				}
-				
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                //
+                // Now carry on...
+                //
 
-				//
-				// Now carry on...
-				//
+                lhs = ans;
 
-				lhs = ans;
+                break;
 
-				break;
+            default:
 
-			default:
+                //
+                // Make this whole tree as belonging to an expression.
+                //
 
-				//
-				// Make this whole tree as belonging to an expression.
-				//
+                PARSE_traverse(lhs, PARSE_set_expression_flag);
 
-				PARSE_traverse(lhs, PARSE_set_expression_flag);
-
-				return lhs;
-		}
-	}
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_expression_list() {
+    LEX_Token lt;
 
-PARSE_Node *PARSE_expression_list()
-{
-	LEX_Token lt;
+    PARSE_Node *exp;
+    PARSE_Node *ans;
 
-	PARSE_Node *exp;
-	PARSE_Node *ans;
+    exp = PARSE_expression();
 
-	exp = PARSE_expression();
+    lt = LEX_get();
 
-	lt = LEX_get();
+    if (lt.type == LEX_TOKEN_TYPE_COMMA) {
+        LEX_pop();
 
-	if (lt.type == LEX_TOKEN_TYPE_COMMA)
-	{
-		LEX_pop();
+        ans = PARSE_get_node();
 
-		ans = PARSE_get_node();
+        ans->type = PARSE_NODE_TYPE_EXP_LIST;
+        ans->child1 = exp;
+        ans->child2 = PARSE_expression_list();
 
-		ans->type   = PARSE_NODE_TYPE_EXP_LIST;
-		ans->child1 = exp;
-		ans->child2 = PARSE_expression_list();
-
-		return ans;
-	}
-	else
-	{
-		return exp;
-	}
+        return ans;
+    } else {
+        return exp;
+    }
 }
 
 //
 // Returns the depth of an expressionlist.
 //
 
-std::int32_t PARSE_expression_list_depth(PARSE_Node *explist)
-{
-	if (explist->type != PARSE_NODE_TYPE_EXP_LIST)
-	{
-		return 1;
-	}
-	else
-	{
-		return 1 + PARSE_expression_list_depth(explist->child2);
-	}
+std::int32_t PARSE_expression_list_depth(PARSE_Node *explist) {
+    if (explist->type != PARSE_NODE_TYPE_EXP_LIST) {
+        return 1;
+    } else {
+        return 1 + PARSE_expression_list_depth(explist->child2);
+    }
 }
 
+PARSE_Node *PARSE_var() {
+    //
+    // No arrays for now!
+    //
 
+    PARSE_Node *ans;
 
-PARSE_Node *PARSE_var()
-{
-	//
-	// No arrays for now!
-	//
+    LEX_Token lt = LEX_get();
 
-	PARSE_Node *ans;
+    if (lt.type == LEX_TOKEN_TYPE_VARIABLE) {
+        LEX_pop();
 
-	LEX_Token lt = LEX_get();
+        ans = PARSE_get_node();
 
-	if (lt.type == LEX_TOKEN_TYPE_VARIABLE)
-	{
-		LEX_pop();
+        ans->type = PARSE_NODE_TYPE_VAR_ADDRESS;
+        ans->variable = PARSE_add_string(lt.variable);
 
-		ans = PARSE_get_node();
+        return ans;
+    }
 
-		ans->type     = PARSE_NODE_TYPE_VAR_ADDRESS;
-		ans->variable = PARSE_add_string(lt.variable);
+    //
+    // ERROR!
+    //
 
-		return ans;
-	}
+    PARSE_throw();
 
-	//
-	// ERROR!
-	//
-
-	PARSE_throw();
-
-	return nullptr;
+    return nullptr;
 }
 
-PARSE_Node *PARSE_struct()
-{
-	//
-	// No arrays for now!
-	//
+PARSE_Node *PARSE_struct() {
+    //
+    // No arrays for now!
+    //
 
-	PARSE_Node *ans;
+    PARSE_Node *ans;
 
-	LEX_Token lt = LEX_get();
+    LEX_Token lt = LEX_get();
 
-	if (lt.type == LEX_TOKEN_TYPE_VARIABLE)
-	{
-		LEX_pop();
+    if (lt.type == LEX_TOKEN_TYPE_VARIABLE) {
+        LEX_pop();
 
-		ans = PARSE_get_node();
+        ans = PARSE_get_node();
 
-		ans->type = PARSE_NODE_TYPE_FIELD;
+        ans->type = PARSE_NODE_TYPE_FIELD;
 
-		{
-			//
-			// Build the field name (insert a '.' at the beginning)
-			//
+        {
+            //
+            // Build the field name (insert a '.' at the beginning)
+            //
 
-			char field[LEX_MAX_STRING_LENGTH + 32];
+            char field[LEX_MAX_STRING_LENGTH + 32];
 
-			sprintf(field, ".%s", lt.variable);
+            sprintf(field, ".%s", lt.variable);
 
-			ans->field = PARSE_add_string(field);
-		}
+            ans->field = PARSE_add_string(field);
+        }
 
-		return ans;
-	}
+        return ans;
+    }
 
-	//
-	// ERROR!
-	//
+    //
+    // ERROR!
+    //
 
-	PARSE_throw();
+    PARSE_throw();
 
-	return nullptr;
+    return nullptr;
 }
 
+PARSE_Node *PARSE_lvalue() {
+    LEX_Token lt;
 
+    PARSE_Node *lhs;
+    PARSE_Node *rhs;
+    PARSE_Node *ans;
 
+    lhs = PARSE_var();
 
-PARSE_Node *PARSE_lvalue()
-{
-	LEX_Token lt;
+    while (1) {
+        lt = LEX_get();
 
-	PARSE_Node *lhs;
-	PARSE_Node *rhs;
-	PARSE_Node *ans;
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_DOT:
 
-	lhs = PARSE_var();
-	
-	while(1)
-	{
-		lt = LEX_get();
+                LEX_pop();
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_DOT:
+                rhs = PARSE_struct();
 
-				LEX_pop();
+                //
+                // Build a little tree...
+                //
 
-				rhs = PARSE_struct();
+                ans = PARSE_get_node();
 
-				//
-				// Build a little tree...
-				//
+                ans->type = PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS;
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				ans = PARSE_get_node();
+                //
+                // Now carry on...
+                //
 
-				ans->type   = PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS;
-				ans->child1 = lhs;
-				ans->child2 = rhs;
+                lhs = ans;
 
-				//
-				// Now carry on...
-				//
+                break;
 
-				lhs = ans;
+            case LEX_TOKEN_TYPE_OSQUARE:
 
-				break;
+                LEX_pop();
 
-			case LEX_TOKEN_TYPE_OSQUARE:
+                //
+                // Get a list of numbers...
+                //
 
-				LEX_pop();
+                rhs = PARSE_expression_list();
 
-				//
-				// Get a list of numbers...
-				//
+                ans = PARSE_get_node();
 
-				rhs = PARSE_expression_list();
+                ans->type = PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS;
+                ans->dimensions = PARSE_expression_list_depth(rhs);
+                ans->child1 = lhs;
+                ans->child2 = rhs;
 
-				ans = PARSE_get_node();
+                lt = LEX_get();
 
-				ans->type       = PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS;
-				ans->dimensions = PARSE_expression_list_depth(rhs);
-				ans->child1     = lhs;
-				ans->child2     = rhs;
+                if (lt.type != LEX_TOKEN_TYPE_CSQUARE) {
+                    //
+                    // ERROR!
+                    //
 
-				lt = LEX_get();
+                    PARSE_throw("Missing close square bracket in array access");
+                }
 
-				if (lt.type != LEX_TOKEN_TYPE_CSQUARE)
-				{
-					//
-					// ERROR!
-					//
+                LEX_pop();
 
-					PARSE_throw("Missing close square bracket in array access");
-				}
+                //
+                // Now carry on...
+                //
 
-				LEX_pop();
+                lhs = ans;
 
-				//
-				// Now carry on...
-				//
+                break;
 
-				lhs = ans;
-
-				break;
-
-			default:
-				return lhs;
-		}
-	}
+            default:
+                return lhs;
+        }
+    }
 }
 
+PARSE_Node *PARSE_argument_definition() {
+    LEX_Token lt;
 
-PARSE_Node *PARSE_argument_definition()
-{
-	LEX_Token lt;
+    //
+    // Initailise our answer.
+    //
 
-	//
-	// Initailise our answer.
-	//
+    PARSE_Node *ans = nullptr;
+    PARSE_Node *arg = nullptr;
+    PARSE_Node *last = nullptr;
 
-	PARSE_Node *ans  = nullptr;
-	PARSE_Node *arg  = nullptr;
-	PARSE_Node *last = nullptr;
+    lt = LEX_get();
 
-	lt = LEX_get();
+    if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+        //
+        // No arguements?
+        //
 
-	if (lt.type != LEX_TOKEN_TYPE_OPEN)
-	{
-		//
-		// No arguements?
-		//
+        return nullptr;
+    }
 
-		return nullptr;
-	}
+    LEX_pop();
 
-	LEX_pop();
+    lt = LEX_get();
 
-	lt = LEX_get();
+    if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+        LEX_pop();
 
-	if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-	{
-		LEX_pop();
+        //
+        // An empty argument call...
+        //
 
-		//
-		// An empty argument call...
-		//
+        ans = PARSE_get_node();
+        ans->type = PARSE_NODE_TYPE_NOP;
 
-		ans       = PARSE_get_node();
-		ans->type = PARSE_NODE_TYPE_NOP;
+        return ans;
+    }
 
-		return ans;
-	}
+    while (1) {
+        lt = LEX_get();
 
-	while(1)
-	{
-		lt = LEX_get();
+        switch (lt.type) {
+            case LEX_TOKEN_TYPE_VARIABLE:
 
-		switch(lt.type)
-		{
-			case LEX_TOKEN_TYPE_VARIABLE:
+                LEX_pop();
 
-				LEX_pop();
+                //
+                // Create another argument.
+                //
 
-				//
-				// Create another argument.
-				//
+                arg = PARSE_get_node();
 
-				arg = PARSE_get_node();
+                arg->type = PARSE_NODE_TYPE_ARGUMENT;
+                arg->variable = PARSE_add_string(lt.variable);
+                arg->child1 = nullptr;
 
-				arg->type     = PARSE_NODE_TYPE_ARGUMENT;
-				arg->variable = PARSE_add_string(lt.variable);
-				arg->child1   = nullptr;
+                //
+                // Is this the first argument?
+                //
 
-				//
-				// Is this the first argument?
-				//
+                if (!ans) {
+                    ans = arg;
+                }
 
-				if (!ans )
-				{
-					ans = arg;
-				}
+                //
+                // Do we have to put this onto the end of existing tree
+                // of arguments?
+                //
 
-				//
-				// Do we have to put this onto the end of existing tree
-				// of arguments?
-				//
+                if (last) {
+                    last->child1 = arg;
+                }
 
-				if (last)
-				{
-					last->child1 = arg;
-				}
+                last = arg;
 
-				last = arg;
+                //
+                // End of the list or is there another one?
+                //
 
-				//
-				// End of the list or is there another one?
-				//
+                lt = LEX_get();
 
-				lt = LEX_get();
+                if (lt.type == LEX_TOKEN_TYPE_COMMA) {
+                    //
+                    // Another variable...
+                    //
 
-				if (lt.type == LEX_TOKEN_TYPE_COMMA)
-				{
-					//
-					// Another variable... 
-					//
+                    LEX_pop();
+                } else if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                    //
+                    // End of the list.
+                    //
 
-					LEX_pop();
-				}
-				else
-				if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-				{
-					//
-					// End of the list.
-					//
+                    LEX_pop();
 
-					LEX_pop();
+                    return ans;
+                } else {
+                    //
+                    // ERROR!
+                    //
 
-					return ans;
-				}
-				else
-				{
-					//
-					// ERROR!
-					//
+                    PARSE_throw("Expected a comma or close bracket in argument list");
+                }
 
-					PARSE_throw("Expected a comma or close bracket in argument list");
-				}
+                break;
 
-				break;
+            default:
 
-			default:
-				
-				//
-				// ERROR!
-				//
+                //
+                // ERROR!
+                //
 
-				PARSE_throw("Something odd in the argument list - only variables allowed!");
-		}
-	}
+                PARSE_throw("Something odd in the argument list - only variables allowed!");
+        }
+    }
 }
 
+PARSE_Node *PARSE_statement() {
+    PARSE_Node *ans;
 
+    LEX_Token lt = LEX_get();
 
+    switch (lt.type) {
+        case LEX_TOKEN_TYPE_PRINT:
 
+            LEX_pop();
 
-PARSE_Node *PARSE_statement()
-{
-	PARSE_Node *ans;
+            ans = PARSE_get_node();
 
-	LEX_Token lt = LEX_get();
+            if (LEX_get().type == LEX_TOKEN_TYPE_NEWLINE ||
+                LEX_get().type == LEX_TOKEN_TYPE_COLON) {
+                ans->type = PARSE_NODE_TYPE_NEWLINE;
+            } else {
+                ans->type = PARSE_NODE_TYPE_PRINT;
+                ans->child1 = PARSE_expression();
+            }
 
-	switch(lt.type)
-	{
-		case LEX_TOKEN_TYPE_PRINT:
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_GOTO:
+        case LEX_TOKEN_TYPE_GOSUB:
 
-			ans = PARSE_get_node();
+            LEX_pop();
 
-			if (LEX_get().type == LEX_TOKEN_TYPE_NEWLINE ||
-				LEX_get().type == LEX_TOKEN_TYPE_COLON)
-			{
-				ans->type = PARSE_NODE_TYPE_NEWLINE;
-			}
-			else
-			{
-				ans->type   = PARSE_NODE_TYPE_PRINT;
-				ans->child1 = PARSE_expression();
-			}
+            ans = PARSE_get_node();
 
-			return ans;
+            switch (lt.type) {
+                case LEX_TOKEN_TYPE_GOTO: ans->type = PARSE_NODE_TYPE_GOTO; break;
+                case LEX_TOKEN_TYPE_GOSUB: ans->type = PARSE_NODE_TYPE_GOSUB; break;
 
-		case LEX_TOKEN_TYPE_GOTO:
-		case LEX_TOKEN_TYPE_GOSUB:
+                default:
+                    ASSERT(0);
+                    break;
+            }
 
-			LEX_pop();
+            lt = LEX_get();
 
-			ans = PARSE_get_node();
+            if (lt.type == LEX_TOKEN_TYPE_SLUMBER) {
+                LEX_pop();
 
-			switch(lt.type)
-			{
-				case LEX_TOKEN_TYPE_GOTO:  ans->type = PARSE_NODE_TYPE_GOTO;  break;
-				case LEX_TOKEN_TYPE_GOSUB: ans->type = PARSE_NODE_TYPE_GOSUB; break;
+                char label[32];
+                char *ch;
 
-				default:
-					ASSERT(0);
-					break;
-			}
+                itoa(lt.slumber, label, 10);
 
-			lt = LEX_get();
+                for (ch = label; *ch; ch++);
 
-			if (lt.type == LEX_TOKEN_TYPE_SLUMBER)
-			{
-				LEX_pop();
+                ch[0] = ':';
+                ch[1] = '\000';
 
-				char  label[32];
-				char* ch;
+                ans->label = PARSE_add_string(label);
+            } else if (lt.type == LEX_TOKEN_TYPE_VARIABLE) {
+                LEX_pop();
 
-				itoa(lt.slumber, label, 10);
+                strcat(lt.variable, ":");
 
-				for (ch = label; *ch; ch++);
+                ans->label = PARSE_add_string(lt.variable);
+            } else {
+                //
+                // ERROR!
+                //
 
-				ch[0] = ':';
-				ch[1] = '\000';
+                PARSE_throw("You can only GOTO labels or line numbers");
+            }
 
-				ans->label = PARSE_add_string(label);
-			}
-			else
-			if (lt.type == LEX_TOKEN_TYPE_VARIABLE)
-			{
-				LEX_pop();
+            return ans;
 
-				strcat(lt.variable, ":");
+        case LEX_TOKEN_TYPE_VARIABLE:
 
-				ans->label = PARSE_add_string(lt.variable);
-			}
-			else
-			{
-				//
-				// ERROR!
-				//
+        {
+            char *varname = PARSE_add_string(lt.variable);
 
-				PARSE_throw("You can only GOTO labels or line numbers");
-			}
+            //
+            // This could be a function call.
+            //
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_VARIABLE:
+            LEX_Token lookahead = LEX_get();
 
-			{
-				char* varname = PARSE_add_string(lt.variable);
+            if (lookahead.type == LEX_TOKEN_TYPE_OPEN) {
+                //
+                // This is a function call!
+                //
 
-				//
-				// This could be a function call.
-				//
+                LEX_push(lt);
 
-				LEX_pop();
+                ans = PARSE_function_call();
 
-				LEX_Token lookahead = LEX_get();
+                return ans;
+            }
 
-				if (lookahead.type == LEX_TOKEN_TYPE_OPEN)
-				{
-					//
-					// This is a function call!
-					//
+            //
+            // The 'variable' part could have been
+            // overwritten by the LEX_get()...
+            //
 
-					LEX_push(lt);
+            lt.variable = varname;
 
-					ans = PARSE_function_call();
-					
-					return ans;
-				}
+            LEX_push(lt);
 
-				//
-				// The 'variable' part could have been
-				// overwritten by the LEX_get()...
-				//
+            //
+            // Variable assignement...
+            //
 
-				lt.variable = varname;
+            ans = PARSE_get_node();
 
-				LEX_push(lt);
+            ans->type = PARSE_NODE_TYPE_ASSIGN;
+            ans->child1 = PARSE_lvalue();
 
-				//
-				// Variable assignement...
-				//
+            lt = LEX_get();
 
-				ans = PARSE_get_node();
+            if (lt.type != LEX_TOKEN_TYPE_EQUALS) {
+                //
+                // ERROR!
+                //
 
-				ans->type   = PARSE_NODE_TYPE_ASSIGN;
-				ans->child1 = PARSE_lvalue();
+                PARSE_throw("Missing equals after a variable (assuming you wanted to assign a value!)");
+            }
 
-				lt = LEX_get();
+            LEX_pop();
 
-				if (lt.type != LEX_TOKEN_TYPE_EQUALS)
-				{
-					//
-					// ERROR!
-					//
+            ans->child2 = PARSE_expression();
 
-					PARSE_throw("Missing equals after a variable (assuming you wanted to assign a value!)");
-				}
+            return ans;
+        }
 
-				LEX_pop();
+        case LEX_TOKEN_TYPE_IF:
 
-				ans->child2 = PARSE_expression();
+            //
+            // IF THEN (ELSE) statement.
+            //
 
-				return ans;
-			}
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_IF:
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_IF;
+            ans->child1 = PARSE_expression();
 
-			//
-			// IF THEN (ELSE) statement.
-			//
+            lt = LEX_get();
 
-			LEX_pop();
+            if (lt.type == LEX_TOKEN_TYPE_NEWLINE) {
+                //
+                // This must be a multi-line if.
+                //
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_IF;
-			ans->child1 = PARSE_expression();
+                ans->type = PARSE_NODE_TYPE_MIF;
+                ans->child2 = nullptr;
+                ans->child3 = nullptr;
 
-			lt = LEX_get();
+                return ans;
+            }
 
-			if (lt.type == LEX_TOKEN_TYPE_NEWLINE)
-			{
-				//
-				// This must be a multi-line if.
-				//
+            if (lt.type != LEX_TOKEN_TYPE_THEN) {
+                //
+                // ERROR!
+                //
 
-				ans->type   = PARSE_NODE_TYPE_MIF;
-				ans->child2 = nullptr;
-				ans->child3 = nullptr;
+                PARSE_throw("Missing THEN after an IF statement");
+            }
 
-				return ans;
-			}
+            LEX_pop();
 
-			if (lt.type != LEX_TOKEN_TYPE_THEN)
-			{
-				//
-				// ERROR!
-				//
+            lt = LEX_get();
 
-				PARSE_throw("Missing THEN after an IF statement");
-			}
+            if (lt.type == LEX_TOKEN_TYPE_NEWLINE) {
+                //
+                // This must be a multi-line if.
+                //
 
-			LEX_pop();
+                ans->type = PARSE_NODE_TYPE_MIF;
+                ans->child2 = nullptr;
+                ans->child3 = nullptr;
 
-			lt = LEX_get();
+                return ans;
+            }
 
-			if (lt.type == LEX_TOKEN_TYPE_NEWLINE)
-			{
-				//
-				// This must be a multi-line if.
-				//
+            ans->child2 = PARSE_statement_list();
 
-				ans->type   = PARSE_NODE_TYPE_MIF;
-				ans->child2 = nullptr;
-				ans->child3 = nullptr;
+            //
+            // Tell the THEN statements they are part of a conditional.
+            //
 
-				return ans;
-			}
+            PARSE_traverse(ans->child2, PARSE_set_conditional_flag);
 
-			ans->child2 = PARSE_statement_list();
+            lt = LEX_get();
 
-			//
-			// Tell the THEN statements they are part of a conditional.
-			//
+            if (lt.type == LEX_TOKEN_TYPE_ELSE) {
+                //
+                // This IF statement has an ELSE bit!
+                //
 
-			PARSE_traverse(ans->child2, PARSE_set_conditional_flag);
+                LEX_pop();
 
-			lt = LEX_get();
+                ans->child3 = PARSE_statement_list();
 
-			if (lt.type == LEX_TOKEN_TYPE_ELSE)
-			{
-				//
-				// This IF statement has an ELSE bit!
-				//
+                //
+                // Tell the ELSE statements they are part of a conditional.
+                //
 
-				LEX_pop();
+                PARSE_traverse(ans->child3, PARSE_set_conditional_flag);
+            } else {
+                //
+                // IF and THEN without an ELSE.
+                //
 
-				ans->child3 = PARSE_statement_list();
+                ans->child3 = nullptr;
+            }
 
-				//
-				// Tell the ELSE statements they are part of a conditional.
-				//
+            return ans;
 
-				PARSE_traverse(ans->child3, PARSE_set_conditional_flag);
-			}
-			else
-			{
-				//
-				// IF and THEN without an ELSE.
-				//
+        case LEX_TOKEN_TYPE_NEWLINE:
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_NOP;
+            return ans;
 
-				ans->child3 = nullptr;
-			}
+        case LEX_TOKEN_TYPE_EXIT:
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_NEWLINE:
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_NOP;
-			return ans;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_EXIT;
 
-		case LEX_TOKEN_TYPE_EXIT:
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_FOR:
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_EXIT;
+        {
+            LEX_pop();
 
-			return ans;
+            PARSE_forcode++;
 
-		case LEX_TOKEN_TYPE_FOR:
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_FOR;
+            ans->forcode = PARSE_forcode;
 
-			{
-				LEX_pop();
+            //
+            // The initialisation.
+            //
 
-				PARSE_forcode++;
+            ans->child1 = PARSE_statement_list();
 
-				ans          = PARSE_get_node();
-				ans->type    = PARSE_NODE_TYPE_FOR;
-				ans->forcode = PARSE_forcode;
+            lt = LEX_get();
 
-				//
-				// The initialisation.
-				//
+            if (lt.type != LEX_TOKEN_TYPE_TO) {
+                //
+                // ERROR!
+                //
 
-				ans->child1  = PARSE_statement_list();
+                PARSE_throw("Missing TO in the FOR statement");
+            }
 
-				lt = LEX_get();
+            LEX_pop();
 
-				if (lt.type != LEX_TOKEN_TYPE_TO)
-				{
-					//
-					// ERROR!
-					//
+            //
+            // Find the variable by which the FOR loop is recognised.
+            //
 
-					PARSE_throw("Missing TO in the FOR statement");
-				}
+            {
+                PARSE_Node *init;
 
-				LEX_pop();
+                if (ans->child1->type == PARSE_NODE_TYPE_STATEMENT_LIST) {
+                    init = ans->child1->child1;
+                } else {
+                    init = ans->child1;
+                }
 
-				//
-				// Find the variable by which the FOR loop is recognised.
-				//
+                if (init->type == PARSE_NODE_TYPE_ASSIGN) {
+                    //
+                    // Store the lvalue the FOR loop is initialising.
+                    //
 
-				{
-					PARSE_Node *init;
+                    ans->lvalue = init->child1;
+                } else {
+                    //
+                    // This is an anonymous FOR loop.
+                    //
 
-					if (ans->child1->type == PARSE_NODE_TYPE_STATEMENT_LIST)
-					{
-						init = ans->child1->child1;
-					}
-					else
-					{
-						init = ans->child1;
-					}
+                    ans->lvalue = nullptr;
+                }
+            }
 
-					if (init->type == PARSE_NODE_TYPE_ASSIGN)
-					{
-						//
-						// Store the lvalue the FOR loop is initialising.
-						//
+            //
+            // Now parse the end condition.
+            //
 
-						ans->lvalue = init->child1;
-					}
-					else
-					{
-						//
-						// This is an anonymous FOR loop.
-						//
+            ans->child2 = PARSE_expression();
 
-						ans->lvalue = nullptr;
-					}
-				}
-				
-				//
-				// Now parse the end condition.
-				//
+            if (PARSE_expression_is_boolean(ans->child2)) {
+                //
+                // We don't have to create a boolean expression.
+                //
+            } else {
+                //
+                // Replace the expression with the condition that
+                // this FOR loop's lvalue > the expression.
+                //
 
-				ans->child2 = PARSE_expression();
+                if (!ans->lvalue) {
+                    //
+                    // ERROR!
+                    //
 
-				if (PARSE_expression_is_boolean(ans->child2))
-				{
-					//
-					// We don't have to create a boolean expression.
-					//
-				}
-				else
-				{
-					//
-					// Replace the expression with the condition that
-					// this FOR loop's lvalue > the expression.
-					//
+                    PARSE_throw("Cannot establish a condition for terminating the FOR loop. Try making the TO part of the FOR loop a BOOLEAN expression");
+                }
 
-					if (!ans->lvalue )
-					{
-						//
-						// ERROR!
-						//
+                PARSE_Node *cond = PARSE_get_node();
 
-						PARSE_throw("Cannot establish a condition for terminating the FOR loop. Try making the TO part of the FOR loop a BOOLEAN expression");
-					}
+                cond->type = PARSE_NODE_TYPE_GT;
+                cond->child1 = PARSE_convert_lvalue_to_rvalue(ans->lvalue);
+                cond->child2 = ans->child2;
 
-					PARSE_Node *cond = PARSE_get_node();
+                ans->child2 = cond;
+            }
 
-					cond->type   = PARSE_NODE_TYPE_GT;
-					cond->child1 = PARSE_convert_lvalue_to_rvalue(ans->lvalue);
-					cond->child2 = ans->child2;
+            lt = LEX_get();
 
-					ans->child2 = cond;
-				}
+            if (lt.type != LEX_TOKEN_TYPE_STEP) {
+                if (!ans->lvalue) {
+                    //
+                    // ERROR! Can't build a default STEP for an anonymous FOR loop.
+                    //
 
-				lt = LEX_get();
+                    PARSE_throw("Cannot create a default STEP for the FOR loop. You must specify a STEP instruction");
+                }
 
-				if (lt.type != LEX_TOKEN_TYPE_STEP)
-				{
-					if (!ans->lvalue )
-					{
-						//
-						// ERROR! Can't build a default STEP for an anonymous FOR loop.
-						//
+                //
+                // Build a parse tree to increment this variable.
+                //
 
-						PARSE_throw( "Cannot create a default STEP for the FOR loop. You must specify a STEP instruction");
-					}
+                PARSE_Node *assign;
+                PARSE_Node *varaddress;
+                PARSE_Node *varvalue;
+                PARSE_Node *one;
+                PARSE_Node *add;
 
-					//
-					// Build a parse tree to increment this variable.
-					//
+                varaddress = PARSE_copy_tree(ans->lvalue);
+                varvalue = PARSE_convert_lvalue_to_rvalue(ans->lvalue);
 
-					PARSE_Node *assign;
-					PARSE_Node *varaddress;
-					PARSE_Node *varvalue;
-					PARSE_Node *one;
-					PARSE_Node *add;
+                one = PARSE_get_node();
+                one->type = PARSE_NODE_TYPE_SLUMBER;
+                one->slumber = 1;
 
-					varaddress = PARSE_copy_tree(ans->lvalue);
- 					varvalue   = PARSE_convert_lvalue_to_rvalue(ans->lvalue);
+                add = PARSE_get_node();
+                add->type = PARSE_NODE_TYPE_PLUS;
+                add->child1 = varvalue;
+                add->child2 = one;
 
-					one          = PARSE_get_node();
-					one->type    = PARSE_NODE_TYPE_SLUMBER;
-					one->slumber = 1;
+                assign = PARSE_get_node();
+                assign->type = PARSE_NODE_TYPE_ASSIGN;
+                assign->child1 = varaddress;
+                assign->child2 = add;
 
-					add         = PARSE_get_node();
-					add->type   = PARSE_NODE_TYPE_PLUS;
-					add->child1 = varvalue;
-					add->child2 = one;
+                //
+                // And make this our STEP instruction.
+                //
 
-					assign         = PARSE_get_node();
-					assign->type   = PARSE_NODE_TYPE_ASSIGN;
-					assign->child1 = varaddress;
-					assign->child2 = add;
+                ans->child3 = assign;
+            } else {
+                LEX_pop();
 
-					//
-					// And make this our STEP instruction.
-					//
+                //
+                // We have a STEP statement!
+                //
 
-					ans->child3 = assign;
-				}
-				else
-				{
-					LEX_pop();
+                ans->child3 = PARSE_statement_list();
+            }
+        }
 
-					//
-					// We have a STEP statement!
-					//
+            return ans;
 
-					ans->child3 = PARSE_statement_list();
-				}
-			}
+        case LEX_TOKEN_TYPE_NEXT:
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_NEXT:
-			
-			LEX_pop();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_NEXT;
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_NEXT;
+            lt = LEX_get();
 
-			lt = LEX_get();
+            if (lt.type == LEX_TOKEN_TYPE_VARIABLE) {
+                //
+                // The NEXT statement that knows which FOR loop it belongs to.
+                //
 
-			if (lt.type == LEX_TOKEN_TYPE_VARIABLE)
-			{
-				//
-				// The NEXT statement that knows which FOR loop it belongs to.
-				//
+                ans->lvalue = PARSE_lvalue();
+            } else {
+                //
+                // An anonymous NEXT.
+                //
 
-				ans->lvalue = PARSE_lvalue();
-			}
-			else
-			{
-				//
-				// An anonymous NEXT.
-				//
+                ans->lvalue = nullptr;
+            }
 
-				ans->lvalue = nullptr;
-			}
+            return ans;
 
-			return ans;
+        case LEX_TOKEN_TYPE_SWAP:
 
-		case LEX_TOKEN_TYPE_SWAP:
-			
-			LEX_pop();
+            LEX_pop();
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_SWAP;
-			ans->child1 = PARSE_lvalue();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_SWAP;
+            ans->child1 = PARSE_lvalue();
 
-			lt = LEX_get();
+            lt = LEX_get();
 
-			if (lt.type != LEX_TOKEN_TYPE_AND)
-			{
-				//
-				// ERROR!
-				//
+            if (lt.type != LEX_TOKEN_TYPE_AND) {
+                //
+                // ERROR!
+                //
 
-				PARSE_throw("The two things to swap must be separated by an AND with a SWAP statment. e.g. SWAP x AND w");
-			}
+                PARSE_throw("The two things to swap must be separated by an AND with a SWAP statment. e.g. SWAP x AND w");
+            }
 
-			LEX_pop();
+            LEX_pop();
 
-			ans->child2 = PARSE_lvalue();
+            ans->child2 = PARSE_lvalue();
 
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_ELSE:
+        case LEX_TOKEN_TYPE_ELSE:
 
-			//
-			// This must be the ELSE instruction of a multi-line IF.
-			//
+            //
+            // This must be the ELSE instruction of a multi-line IF.
+            //
 
-			LEX_pop();
+            LEX_pop();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_MELSE;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_MELSE;
 
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_ENDIF:
+        case LEX_TOKEN_TYPE_ENDIF:
 
-			//
-			// This must be the ELSE instruction of a multi-line IF.
-			//
+            //
+            // This must be the ELSE instruction of a multi-line IF.
+            //
 
-			LEX_pop();
+            LEX_pop();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_MENDIF;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_MENDIF;
 
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_WHILE:
-			
-			//
-			// The start of a WHILE loop.
-			//
+        case LEX_TOKEN_TYPE_WHILE:
 
-			LEX_pop();
+            //
+            // The start of a WHILE loop.
+            //
 
-			PARSE_whilecode += 1;
+            LEX_pop();
 
-			ans            = PARSE_get_node();
-			ans->type      = PARSE_NODE_TYPE_WHILE;
-			ans->whilecode = PARSE_whilecode;
-			ans->child1    = PARSE_expression();
+            PARSE_whilecode += 1;
 
-			return ans;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_WHILE;
+            ans->whilecode = PARSE_whilecode;
+            ans->child1 = PARSE_expression();
 
-		case LEX_TOKEN_TYPE_LOOP:
-			
-			//
-			// The end of a while loop.
-			//
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_LOOP:
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_LOOP;
+            //
+            // The end of a while loop.
+            //
 
-			return ans;
+            LEX_pop();
 
-		case LEX_TOKEN_TYPE_FUNCTION:
-			
-			//
-			// A function definition!
-			//
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_LOOP;
 
-			LEX_pop();
+            return ans;
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_FUNCTION;
+        case LEX_TOKEN_TYPE_FUNCTION:
 
-			//
-			// Name of the function...
-			//
+            //
+            // A function definition!
+            //
 
-			lt = LEX_get();
+            LEX_pop();
 
-			if (lt.type != LEX_TOKEN_TYPE_VARIABLE)
-			{
-				//
-				// ERROR!
-				//
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_FUNCTION;
 
-				PARSE_throw("Expected the name of the function after the FUNCTION keyword");
-			}
+            //
+            // Name of the function...
+            //
 
-			LEX_pop();
+            lt = LEX_get();
 
-			{
-				//
-				// Put "()" onto the front of the function name so
-				// we know that it's a function.
-				//
+            if (lt.type != LEX_TOKEN_TYPE_VARIABLE) {
+                //
+                // ERROR!
+                //
 
-				char name[LEX_MAX_STRING_LENGTH + 32];
+                PARSE_throw("Expected the name of the function after the FUNCTION keyword");
+            }
 
-				sprintf(name, "()%s", lt.variable);
+            LEX_pop();
 
-				ans->variable = PARSE_add_string(name);
-			}
+            {
+                //
+                // Put "()" onto the front of the function name so
+                // we know that it's a function.
+                //
 
-			//
-			// Argument declaration.
-			//
+                char name[LEX_MAX_STRING_LENGTH + 32];
 
-			ans->child1 = PARSE_argument_definition();
+                sprintf(name, "()%s", lt.variable);
 
-			return ans;
+                ans->variable = PARSE_add_string(name);
+            }
 
-		case LEX_TOKEN_TYPE_RETURN:
+            //
+            // Argument declaration.
+            //
 
-			//
-			// Return from a function or subroutine.
-			//
+            ans->child1 = PARSE_argument_definition();
 
-			LEX_pop();
+            return ans;
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_RETURN;
+        case LEX_TOKEN_TYPE_RETURN:
 
-			lt = LEX_get();
+            //
+            // Return from a function or subroutine.
+            //
 
-			if (lt.type == LEX_TOKEN_TYPE_ELSE  ||
-				lt.type == LEX_TOKEN_TYPE_ENDIF ||
-				lt.type == LEX_TOKEN_TYPE_COLON ||
-				lt.type == LEX_TOKEN_TYPE_NEWLINE)
-			{
-				//
-				// No argument to return...
-				//
+            LEX_pop();
 
-				ans->child1 = nullptr;
-			}
-			else
-			{
-				//
-				// The expression to be returned
-				// 
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_RETURN;
 
-				ans->child1 = PARSE_expression();
-			}
+            lt = LEX_get();
 
-			return ans;
+            if (lt.type == LEX_TOKEN_TYPE_ELSE ||
+                lt.type == LEX_TOKEN_TYPE_ENDIF ||
+                lt.type == LEX_TOKEN_TYPE_COLON ||
+                lt.type == LEX_TOKEN_TYPE_NEWLINE) {
+                //
+                // No argument to return...
+                //
 
-		case LEX_TOKEN_TYPE_ENDFUNC:
-			
-			//
-			// The end of a function declaration...
-			//
+                ans->child1 = nullptr;
+            } else {
+                //
+                // The expression to be returned
+                //
 
-			LEX_pop();
+                ans->child1 = PARSE_expression();
+            }
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_ENDFUNC;
+            return ans;
 
-			return ans;
+        case LEX_TOKEN_TYPE_ENDFUNC:
 
-		case LEX_TOKEN_TYPE_CALL:
+            //
+            // The end of a function declaration...
+            //
 
-			LEX_pop();
+            LEX_pop();
 
-			ans = PARSE_function_call();
-			
-			return ans;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_ENDFUNC;
 
-		case LEX_TOKEN_TYPE_DRAW:
-			
-			//
-			// Drawing something!
-			//
+            return ans;
 
-			LEX_pop();
+        case LEX_TOKEN_TYPE_CALL:
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_DRAW;
+            LEX_pop();
 
-			lt = LEX_get();
+            ans = PARSE_function_call();
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// ERROR!
-				//
+            return ans;
 
-				PARSE_throw("Missing open bracket after DRAW");
-			}
+        case LEX_TOKEN_TYPE_DRAW:
 
-			LEX_pop();
+            //
+            // Drawing something!
+            //
 
-			lt = LEX_get();
+            LEX_pop();
 
-			if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-			{
-				//
-				// No arguments 
-				//
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_DRAW;
 
-				LEX_pop();
+            lt = LEX_get();
 
-				ans->child1 = nullptr;
-				ans->args   = 0;
-			}
-			else
-			{
-				//
-				// An argument list.
-				//
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // ERROR!
+                //
 
-				ans->child1 = PARSE_expression_list();
-				ans->args   = PARSE_expression_list_depth(ans->child1);
+                PARSE_throw("Missing open bracket after DRAW");
+            }
 
-				lt = LEX_get();
+            LEX_pop();
 
-				if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-				{
-					//
-					// ERROR!
-					//
+            lt = LEX_get();
 
-					PARSE_throw("Missing close bracket after DRAW");
-				}
+            if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                //
+                // No arguments
+                //
 
-				LEX_pop();
-			}
+                LEX_pop();
 
-			return ans;
+                ans->child1 = nullptr;
+                ans->args = 0;
+            } else {
+                //
+                // An argument list.
+                //
 
-		case LEX_TOKEN_TYPE_CLS:
-			
-			//
-			// Clear the screen.
-			//
+                ans->child1 = PARSE_expression_list();
+                ans->args = PARSE_expression_list_depth(ans->child1);
 
-			LEX_pop();
+                lt = LEX_get();
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_CLS;
+                if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                    //
+                    // ERROR!
+                    //
 
-			lt = LEX_get();
+                    PARSE_throw("Missing close bracket after DRAW");
+                }
 
-			if (lt.type != LEX_TOKEN_TYPE_OPEN)
-			{
-				//
-				// A CLS without an argument list.
-				//
+                LEX_pop();
+            }
 
-				ans->child1 = nullptr;
-				ans->args   = 0;
-			}
-			else
-			{
-				LEX_pop();
+            return ans;
 
-				lt = LEX_get();
+        case LEX_TOKEN_TYPE_CLS:
 
-				if (lt.type == LEX_TOKEN_TYPE_CLOSE)
-				{
-					//
-					// No arguments 
-					//
+            //
+            // Clear the screen.
+            //
 
-					LEX_pop();
+            LEX_pop();
 
-					ans->child1 = nullptr;
-					ans->args   = 0;
-				}
-				else
-				{
-					//
-					// An argument list.
-					//
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_CLS;
 
-					ans->child1 = PARSE_expression_list();
-					ans->args   = PARSE_expression_list_depth(ans->child1);
+            lt = LEX_get();
 
-					lt = LEX_get();
+            if (lt.type != LEX_TOKEN_TYPE_OPEN) {
+                //
+                // A CLS without an argument list.
+                //
 
-					if (lt.type != LEX_TOKEN_TYPE_CLOSE)
-					{
-						//
-						// ERROR!
-						//
+                ans->child1 = nullptr;
+                ans->args = 0;
+            } else {
+                LEX_pop();
 
-						PARSE_throw("Missing close bracket after CLS");
-					}
+                lt = LEX_get();
 
-					LEX_pop();
-				}
-			}
+                if (lt.type == LEX_TOKEN_TYPE_CLOSE) {
+                    //
+                    // No arguments
+                    //
 
-			return ans;
+                    LEX_pop();
 
-		case LEX_TOKEN_TYPE_FLIP:
-			
-			//
-			// A FLIP statement.
-			//
+                    ans->child1 = nullptr;
+                    ans->args = 0;
+                } else {
+                    //
+                    // An argument list.
+                    //
 
-			LEX_pop();
+                    ans->child1 = PARSE_expression_list();
+                    ans->args = PARSE_expression_list_depth(ans->child1);
 
-			ans       = PARSE_get_node();
-			ans->type = PARSE_NODE_TYPE_FLIP;
+                    lt = LEX_get();
 
-			return ans;
+                    if (lt.type != LEX_TOKEN_TYPE_CLOSE) {
+                        //
+                        // ERROR!
+                        //
 
-		case LEX_TOKEN_TYPE_KEY:
+                        PARSE_throw("Missing close bracket after CLS");
+                    }
 
-			//
-			// Assiging to the KEY array.
-			//
+                    LEX_pop();
+                }
+            }
 
-			LEX_pop();
+            return ans;
 
-			lt = LEX_get();
+        case LEX_TOKEN_TYPE_FLIP:
 
-			if (lt.type != LEX_TOKEN_TYPE_OSQUARE)
-			{
-				//
-				// ERROR!
-				//
+            //
+            // A FLIP statement.
+            //
 
-				PARSE_throw("Expected an open square bracket after KEY");
-			}
+            LEX_pop();
 
-			LEX_pop();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_FLIP;
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_KEY_ASSIGN;
-			ans->child1 = PARSE_expression();
+            return ans;
 
-			lt = LEX_get();
+        case LEX_TOKEN_TYPE_KEY:
 
-			if (lt.type != LEX_TOKEN_TYPE_CSQUARE)
-			{
-				//
-				// ERROR!
-				//
+            //
+            // Assiging to the KEY array.
+            //
 
-				PARSE_throw("Expected a close square bracket after KEY");
-			}
+            LEX_pop();
 
-			LEX_pop();
+            lt = LEX_get();
 
-			lt = LEX_get();
+            if (lt.type != LEX_TOKEN_TYPE_OSQUARE) {
+                //
+                // ERROR!
+                //
 
-			if (lt.type != LEX_TOKEN_TYPE_EQUALS)
-			{
-				//
-				// ERROR!
-				//
+                PARSE_throw("Expected an open square bracket after KEY");
+            }
 
-				PARSE_throw("Expected an equals after KEY[...]");
-			}
+            LEX_pop();
 
-			LEX_pop();
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_KEY_ASSIGN;
+            ans->child1 = PARSE_expression();
 
-			ans->child2 = PARSE_expression();
+            lt = LEX_get();
 
-			return ans;
+            if (lt.type != LEX_TOKEN_TYPE_CSQUARE) {
+                //
+                // ERROR!
+                //
 
-		case LEX_TOKEN_TYPE_INKEY:
-			
-			//
-			// Assigning to INKEY
-			//
+                PARSE_throw("Expected a close square bracket after KEY");
+            }
 
-			LEX_pop();
+            LEX_pop();
 
-			lt = LEX_get();
+            lt = LEX_get();
 
-			if (lt.type != LEX_TOKEN_TYPE_EQUALS)
-			{
-				//
-				// ERROR!
-				//
+            if (lt.type != LEX_TOKEN_TYPE_EQUALS) {
+                //
+                // ERROR!
+                //
 
-				PARSE_throw("Expected an equals after INKEY");
-			}
+                PARSE_throw("Expected an equals after KEY[...]");
+            }
 
-			LEX_pop();
+            LEX_pop();
 
-			ans         = PARSE_get_node();
-			ans->type   = PARSE_NODE_TYPE_INKEY_ASSIGN;
-			ans->child1 = PARSE_expression();
+            ans->child2 = PARSE_expression();
 
-			return ans;
+            return ans;
 
-		case LEX_TOKEN_TYPE_EXPORT:
+        case LEX_TOKEN_TYPE_INKEY:
 
-			//
-			// Exporting a global or function.
-			//
+            //
+            // Assigning to INKEY
+            //
 
-			LEX_pop();
+            LEX_pop();
 
-			lt = LEX_get();
+            lt = LEX_get();
 
-			if (lt.type != LEX_TOKEN_TYPE_VARIABLE)
-			{
-				//
-				// ERROR!
-				//
+            if (lt.type != LEX_TOKEN_TYPE_EQUALS) {
+                //
+                // ERROR!
+                //
 
-				PARSE_throw("Expected a variable list after EXPORT");
-			}
-			
-			LEX_pop();
+                PARSE_throw("Expected an equals after INKEY");
+            }
 
-			ans           = PARSE_get_node();
-			ans->type     = PARSE_NODE_TYPE_EXPORT;
-			ans->variable = PARSE_add_string(lt.variable);
+            LEX_pop();
 
-			{
-				PARSE_Node *higher = ans;
-				PARSE_Node *lower;
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_INKEY_ASSIGN;
+            ans->child1 = PARSE_expression();
 
-				//
-				// We can have a whole long list of exports.
-				//
+            return ans;
 
-				while(1)
-				{
-					lt = LEX_get();
+        case LEX_TOKEN_TYPE_EXPORT:
 
-					if (lt.type != LEX_TOKEN_TYPE_COMMA)
-					{
-						break;
-					}
+            //
+            // Exporting a global or function.
+            //
 
-					LEX_pop();
+            LEX_pop();
 
-					lt = LEX_get();
+            lt = LEX_get();
 
-					if (lt.type != LEX_TOKEN_TYPE_VARIABLE)
-					{
-						//
-						// ERROR!
-						//
+            if (lt.type != LEX_TOKEN_TYPE_VARIABLE) {
+                //
+                // ERROR!
+                //
 
-						PARSE_throw("Expected a variable after the comma in the EXPORT statement");
-					}
+                PARSE_throw("Expected a variable list after EXPORT");
+            }
 
-					LEX_pop();
+            LEX_pop();
 
-					//
-					// Create a new node.
-					//
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_EXPORT;
+            ans->variable = PARSE_add_string(lt.variable);
 
-					lower           = PARSE_get_node();
-					lower->type     = PARSE_NODE_TYPE_EXPORT;
-					lower->variable = PARSE_add_string(lt.variable);
+            {
+                PARSE_Node *higher = ans;
+                PARSE_Node *lower;
 
-					higher->child1 = lower;
-					higher         = lower;
-				}
-			}
+                //
+                // We can have a whole long list of exports.
+                //
 
-			return ans;
+                while (1) {
+                    lt = LEX_get();
 
-		case LEX_TOKEN_TYPE_LOCAL:
+                    if (lt.type != LEX_TOKEN_TYPE_COMMA) {
+                        break;
+                    }
 
-			//
-			// Declaring a variable to be a local.
-			//
+                    LEX_pop();
 
-			LEX_pop();
+                    lt = LEX_get();
 
-			lt = LEX_get();
+                    if (lt.type != LEX_TOKEN_TYPE_VARIABLE) {
+                        //
+                        // ERROR!
+                        //
 
-			if (lt.type != LEX_TOKEN_TYPE_VARIABLE)
-			{
-				//
-				// ERROR!
-				//
+                        PARSE_throw("Expected a variable after the comma in the EXPORT statement");
+                    }
 
-				PARSE_throw("Expected a variable list after LOCAL");
-			}
+                    LEX_pop();
 
-			LEX_pop();
+                    //
+                    // Create a new node.
+                    //
 
-			ans           = PARSE_get_node();
-			ans->type     = PARSE_NODE_TYPE_LOCAL;
-			ans->variable = PARSE_add_string(lt.variable);
-			
-			{
-				PARSE_Node *higher = ans;
-				PARSE_Node *lower;
+                    lower = PARSE_get_node();
+                    lower->type = PARSE_NODE_TYPE_EXPORT;
+                    lower->variable = PARSE_add_string(lt.variable);
 
-				//
-				// We can have a whole long list of locals.
-				//
+                    higher->child1 = lower;
+                    higher = lower;
+                }
+            }
 
-				while(1)
-				{
-					lt = LEX_get();
+            return ans;
 
-					if (lt.type != LEX_TOKEN_TYPE_COMMA)
-					{
-						break;
-					}
+        case LEX_TOKEN_TYPE_LOCAL:
 
-					LEX_pop();
+            //
+            // Declaring a variable to be a local.
+            //
 
-					lt = LEX_get();
+            LEX_pop();
 
-					if (lt.type != LEX_TOKEN_TYPE_VARIABLE)
-					{
-						//
-						// ERROR!
-						//
+            lt = LEX_get();
 
-						PARSE_throw("Expected a variable after the comma in the LOCAL statement");
-					}
+            if (lt.type != LEX_TOKEN_TYPE_VARIABLE) {
+                //
+                // ERROR!
+                //
 
-					LEX_pop();
+                PARSE_throw("Expected a variable list after LOCAL");
+            }
 
-					//
-					// Create a new node.
-					//
+            LEX_pop();
 
-					lower           = PARSE_get_node();
-					lower->type     = PARSE_NODE_TYPE_LOCAL;
-					lower->variable = PARSE_add_string(lt.variable);
+            ans = PARSE_get_node();
+            ans->type = PARSE_NODE_TYPE_LOCAL;
+            ans->variable = PARSE_add_string(lt.variable);
 
-					higher->child1 = lower;
-					higher         = lower;
-				}
-			}
+            {
+                PARSE_Node *higher = ans;
+                PARSE_Node *lower;
 
-			return ans;
+                //
+                // We can have a whole long list of locals.
+                //
 
-		default:
-			
-			//
-			// ERROR!
-			//
+                while (1) {
+                    lt = LEX_get();
 
-			PARSE_throw();
+                    if (lt.type != LEX_TOKEN_TYPE_COMMA) {
+                        break;
+                    }
 
-			return nullptr;	// To stop the compiler complaining that not all control paths return a value.
-	}
+                    LEX_pop();
+
+                    lt = LEX_get();
+
+                    if (lt.type != LEX_TOKEN_TYPE_VARIABLE) {
+                        //
+                        // ERROR!
+                        //
+
+                        PARSE_throw("Expected a variable after the comma in the LOCAL statement");
+                    }
+
+                    LEX_pop();
+
+                    //
+                    // Create a new node.
+                    //
+
+                    lower = PARSE_get_node();
+                    lower->type = PARSE_NODE_TYPE_LOCAL;
+                    lower->variable = PARSE_add_string(lt.variable);
+
+                    higher->child1 = lower;
+                    higher = lower;
+                }
+            }
+
+            return ans;
+
+        default:
+
+            //
+            // ERROR!
+            //
+
+            PARSE_throw();
+
+            return nullptr; // To stop the compiler complaining that not all control paths return a value.
+    }
 }
 
+PARSE_Node *PARSE_statement_list() {
+    LEX_Token lt;
 
+    PARSE_Node *statement;
 
-PARSE_Node *PARSE_statement_list()
-{
-	LEX_Token lt;
+    statement = PARSE_statement();
 
-	PARSE_Node *statement;
+    //
+    // Should we continue to PARSE another statement?
+    //
 
-	statement = PARSE_statement();
+    std::int32_t another_statement = false;
 
-	//
-	// Should we continue to PARSE another statement?
-	//
+    lt = LEX_get();
 
-	std::int32_t another_statement = false;
+    switch (lt.type) {
+        case LEX_TOKEN_TYPE_COLON:
 
-	lt = LEX_get();
+            //
+            // We've found a colon separator.
+            //
 
-	switch(lt.type)
-	{
-		case LEX_TOKEN_TYPE_COLON:
+            LEX_pop();
 
-			//
-			// We've found a colon separator.
-			//
+            another_statement = true;
 
-			LEX_pop();
+            break;
 
-			another_statement = true;
+        case LEX_TOKEN_TYPE_ENDIF:
 
-			break;
+            //
+            // We don't need a colon before an ENDIF instruction...
+            //
 
-		case LEX_TOKEN_TYPE_ENDIF:
+            another_statement = true;
 
-			//
-			// We don't need a colon before an ENDIF instruction...
-			//
-			
-			another_statement = true;
+            break;
 
-			break;
-		
-		case LEX_TOKEN_TYPE_NEWLINE:
-			break;
+        case LEX_TOKEN_TYPE_NEWLINE:
+            break;
 
-		default:
+        default:
 
-			if (statement->type == PARSE_NODE_TYPE_MELSE)
-			{
-				//
-				// We dont need a COLON before the next statement.
-				//
+            if (statement->type == PARSE_NODE_TYPE_MELSE) {
+                //
+                // We dont need a COLON before the next statement.
+                //
 
-				another_statement = true;
-			}
+                another_statement = true;
+            }
 
-			break;
-	}
+            break;
+    }
 
-	if (another_statement)
-	{
-		PARSE_Node *ans;
+    if (another_statement) {
+        PARSE_Node *ans;
 
-		ans = PARSE_get_node();
+        ans = PARSE_get_node();
 
-		ans->type   = PARSE_NODE_TYPE_STATEMENT_LIST;
-		ans->child1 = statement;
-		ans->child2 = PARSE_statement_list();
+        ans->type = PARSE_NODE_TYPE_STATEMENT_LIST;
+        ans->child1 = statement;
+        ans->child2 = PARSE_statement_list();
 
-		return ans;
-	}
+        return ans;
+    }
 
-	return statement;
+    return statement;
 }
 
+PARSE_Node *PARSE_labelled_statement_list() {
+    PARSE_Node *ans;
 
+    LEX_Token lt = LEX_get();
 
-PARSE_Node *PARSE_labelled_statement_list()
-{
-	PARSE_Node *ans;
+    if (lt.type == LEX_TOKEN_TYPE_FLUMBER) {
+        //
+        // ERROR! Labelling a line with a floating point number?
+        //
 
-	LEX_Token lt = LEX_get();
+        PARSE_throw("You can't label a line with a floating point number");
+    }
 
-	if (lt.type == LEX_TOKEN_TYPE_FLUMBER)
-	{
-		//
-		// ERROR! Labelling a line with a floating point number?
-		//
+    if (lt.type == LEX_TOKEN_TYPE_SLUMBER) {
+        LEX_pop();
 
-		PARSE_throw("You can't label a line with a floating point number");
-	}
+        //
+        // This line is labelled with a number.
+        //
 
-	if (lt.type == LEX_TOKEN_TYPE_SLUMBER)
-	{
-		LEX_pop();
+        ans = PARSE_get_node();
 
-		//
-		// This line is labelled with a number.
-		//
+        ans->type = PARSE_NODE_TYPE_LABEL;
 
-		ans = PARSE_get_node();
+        char label[32];
+        char *ch;
 
-		ans->type   = PARSE_NODE_TYPE_LABEL;
+        itoa(lt.slumber, label, 10);
 
-		char  label[32];
-		char* ch;
+        for (ch = label; *ch; ch++);
 
-		itoa(lt.slumber, label, 10);
+        ch[0] = ':';
+        ch[1] = '\000';
 
-		for (ch = label; *ch; ch++);
+        ans->label = PARSE_add_string(label);
+        ans->child1 = PARSE_statement();
+    } else if (lt.type == LEX_TOKEN_TYPE_LABEL) {
+        LEX_pop();
 
-		ch[0] = ':';
-		ch[1] = '\000';
+        //
+        // This line is labelled with a proper label.
+        //
 
-		ans->label  = PARSE_add_string(label);
-		ans->child1 = PARSE_statement();
-	}
-	else if (lt.type == LEX_TOKEN_TYPE_LABEL)
-	{
-		LEX_pop();
+        ans = PARSE_get_node();
 
-		//
-		// This line is labelled with a proper label.
-		//
+        ans->type = PARSE_NODE_TYPE_LABEL;
+        ans->label = PARSE_add_string(lt.label);
+        ans->child1 = PARSE_statement();
+    } else {
+        //
+        // No label...
+        //
 
-		ans = PARSE_get_node();
+        ans = PARSE_statement_list();
+    }
 
-		ans->type   = PARSE_NODE_TYPE_LABEL;
-		ans->label  = PARSE_add_string(lt.label);
-		ans->child1 = PARSE_statement();
-	}
-	else
-	{
-		//
-		// No label...
-		//
+    lt = LEX_pop();
 
-		ans = PARSE_statement_list();
-	}
+    if (lt.type != LEX_TOKEN_TYPE_NEWLINE) {
+        //
+        // ERROR!
+        //
 
-	lt = LEX_pop();
+        PARSE_throw("Expected the end of the line but there was extra stuff");
+    }
 
-	if (lt.type != LEX_TOKEN_TYPE_NEWLINE)
-	{
-		//
-		// ERROR!
-		//
-
-		PARSE_throw("Expected the end of the line but there was extra stuff");
-	}
-
-	return ans;
+    return ans;
 }
-
-
 
 //
 // The maximum length of a source file in bytes. This is pants!
 //
 
-
-char* PARSE_program;
+char *PARSE_program;
 std::int32_t PARSE_program_upto;
 std::int32_t PARSE_program_max;
 
+void PARSE_do(char *fname) {
+    std::int32_t want_to_read;
+    std::int32_t bytes_read;
+    LEX_Token lt;
+    PARSE_Node *nop;
 
+    //
+    // Initialise...
+    //
 
-void PARSE_do(char* fname)
-{
-	std::int32_t       want_to_read;
-	std::int32_t       bytes_read;
-	LEX_Token   lt;
-	PARSE_Node *nop;
+    PARSE_node_upto = 0;
+    PARSE_string_table_upto = 0;
+    PARSE_line_upto = 0;
+    PARSE_error_upto = 0;
+    PARSE_errbuf_upto = 0;
 
-	//
-	// Initialise...
-	//													   
+    memset(PARSE_node, 0, sizeof(PARSE_node));
 
-	PARSE_node_upto         = 0;
-	PARSE_string_table_upto = 0;
-	PARSE_line_upto         = 0;
-	PARSE_error_upto        = 0;
-	PARSE_errbuf_upto       = 0;
+    if (PARSE_program_max == 0) {
+        //
+        // Allocate memory for the file.
+        //
 
-	memset(PARSE_node, 0, sizeof(PARSE_node));
+        PARSE_program_max = 16;
+        PARSE_program = (char *) malloc(sizeof(char) * PARSE_program_max);
 
-	if (PARSE_program_max == 0)
-	{
-		//
-		// Allocate memory for the file.
-		//
+        memset(PARSE_program, 0, sizeof(char) * PARSE_program_max);
+    }
 
-		PARSE_program_max = 16;
-		PARSE_program     = (char* ) malloc(sizeof(char) * PARSE_program_max);
+    //
+    // Load the file.
+    //
 
-		memset(PARSE_program, 0, sizeof(char) * PARSE_program_max);
-	}
+    FILE *handle = fopen(fname, "rb");
 
-	//
-	// Load the file.
-	//
+    if (!handle) {
+        PARSE_add_error("Could not open source file \"%s\"", fname);
 
-	FILE *handle = fopen(fname, "rb");
+        return;
+    }
 
-	if (!handle)
-	{
-		PARSE_add_error("Could not open source file \"%s\"", fname);
+    PARSE_program_upto = 0;
 
-		return;
-	}
+    while (1) {
+        //
+        // How many bytes till the end of our buffer?
+        //
 
-	PARSE_program_upto = 0;
+        want_to_read = PARSE_program_max - PARSE_program_upto;
 
-	while(1)
-	{
-		//
-		// How many bytes till the end of our buffer?
-		//
+        //
+        // Try and load in that many bytes.
+        //
 
-		want_to_read = PARSE_program_max - PARSE_program_upto;
+        bytes_read = fread(
+            PARSE_program + PARSE_program_upto,
+            sizeof(char),
+            want_to_read,
+            handle);
 
-		//
-		// Try and load in that many bytes.
-		//
+        PARSE_program_upto += bytes_read;
 
-		bytes_read = fread(
-						PARSE_program + PARSE_program_upto,
-						sizeof(char),
-						want_to_read,
-						handle);
+        if (bytes_read == want_to_read) {
+            //
+            // More data to read, so allocate a bigger buffer.
+            //
 
-		PARSE_program_upto += bytes_read;
+            PARSE_program_max *= 2;
+            PARSE_program = (char *) realloc(PARSE_program, sizeof(char) * PARSE_program_max);
 
-		if (bytes_read == want_to_read)
-		{
-			//
-			// More data to read, so allocate a bigger buffer.
-			//
+            //
+            // Zero out newly allocated memory.
+            //
 
-			PARSE_program_max *= 2;
-			PARSE_program      = (char* ) realloc(PARSE_program, sizeof(char) * PARSE_program_max);
+            memset(PARSE_program + (PARSE_program_max / 2), 0, sizeof(char) * PARSE_program_max / 2);
+        } else {
+            //
+            // Finished reading program.
+            //
 
-			//
-			// Zero out newly allocated memory.
-			//
+            break;
+        }
+    }
 
-			memset(PARSE_program + (PARSE_program_max / 2), 0, sizeof(char) * PARSE_program_max / 2);
-		}
-		else
-		{
-			//
-			// Finished reading program.
-			//
+    //
+    // Give the input to the lexical analyser.
+    //
 
-			break;
-		}
-	}
+    LEX_start(PARSE_program);
 
-	//
-	// Give the input to the lexical analyser.
-	//
+    //
+    // This is where we pop back to when we get an error!
+    //
 
-	LEX_start(PARSE_program);
+    if (setjmp(PARSE_error_jmp) == 0) {
+        //
+        // This is the first call...
+        //
 
-	//
-	// This is where we pop back to when we get an error!
-	//
+        ASSERT(PARSE_line_upto == 0);
+    } else {
+        //
+        // An error has occurred.
+        //
 
-	if (setjmp(PARSE_error_jmp) == 0)
-	{
-		//
-		// This is the first call...
-		//
+        lt = LEX_get();
 
-		ASSERT(PARSE_line_upto == 0);
-	}
-	else
-	{
-		//
-		// An error has occurred.
-		//
+        if (lt.type == LEX_TOKEN_TYPE_ERROR) {
+            //
+            // Override the parse error with the lexical error.
+            //
 
-		lt = LEX_get();
+            PARSE_error_type = lt.error;
+        }
 
-		if (lt.type == LEX_TOKEN_TYPE_ERROR)
-		{
-			//
-			// Override the parse error with the lexical error.
-			//
+        if (!PARSE_add_error("ERROR in %s line %d : %s", fname, PARSE_line_upto, PARSE_error_type)) {
+            //
+            // Too many errors! ABORT!
+            //
 
-			PARSE_error_type = lt.error;
-		}
+            return;
+        }
 
-		if (!PARSE_add_error("ERROR in %s line %d : %s", fname, PARSE_line_upto, PARSE_error_type))
-		{
-			//
-			// Too many errors! ABORT!
-			//
+        //
+        // Try and recover. Go onto the next line.
+        //
 
-			return;
-		}
+        LEX_next_line();
 
-		//
-		// Try and recover. Go onto the next line.
-		//
+        //
+        // Mark this line as blank.
+        //
 
-		LEX_next_line();
+        nop = PARSE_get_node();
+        nop->type = PARSE_NODE_TYPE_NOP;
 
-		//
-		// Mark this line as blank.
-		//
+        PARSE_line[PARSE_line_upto++] = nop;
+    }
 
-		nop       = PARSE_get_node();
-		nop->type = PARSE_NODE_TYPE_NOP;
+    while (1) {
+        lt = LEX_get();
 
-		PARSE_line[PARSE_line_upto++] = nop;
-	}
+        if (lt.type == LEX_TOKEN_TYPE_EOF) {
+            //
+            // Parsing complete!
+            //
 
-	while(1)
-	{
-		lt = LEX_get();
+            break;
+        }
 
-		if (lt.type == LEX_TOKEN_TYPE_EOF)
-		{
-			//
-			// Parsing complete!
-			//
+        ASSERT(WITHIN(PARSE_line_upto, 0, PARSE_MAX_LINES - 1));
 
-			break;
-		}
-
-		ASSERT(WITHIN(PARSE_line_upto, 0, PARSE_MAX_LINES - 1));
-
-		PARSE_line[PARSE_line_upto++] = PARSE_labelled_statement_list();
-	}
+        PARSE_line[PARSE_line_upto++] = PARSE_labelled_statement_list();
+    }
 }
 
+void PARSE_traverse_do(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn)) {
+    switch (pn->type) {
+        case PARSE_NODE_TYPE_NOP:
+        case PARSE_NODE_TYPE_SLUMBER:
+        case PARSE_NODE_TYPE_FLUMBER:
+        case PARSE_NODE_TYPE_STRING:
+        case PARSE_NODE_TYPE_VAR_VALUE:
+        case PARSE_NODE_TYPE_VAR_ADDRESS:
+        case PARSE_NODE_TYPE_GOTO:
+        case PARSE_NODE_TYPE_BOOLEAN:
+        case PARSE_NODE_TYPE_NEWLINE:
+        case PARSE_NODE_TYPE_FIELD:
+        case PARSE_NODE_TYPE_INPUT:
+        case PARSE_NODE_TYPE_UNDEFINED:
+        case PARSE_NODE_TYPE_EXIT:
+        case PARSE_NODE_TYPE_GOSUB:
+        case PARSE_NODE_TYPE_NEXT:
+        case PARSE_NODE_TYPE_RANDOM:
+        case PARSE_NODE_TYPE_MELSE:
+        case PARSE_NODE_TYPE_MENDIF:
+        case PARSE_NODE_TYPE_LOOP:
+        case PARSE_NODE_TYPE_ENDFUNC:
+        case PARSE_NODE_TYPE_FLIP:
+        case PARSE_NODE_TYPE_INKEY_VALUE:
+        case PARSE_NODE_TYPE_TIMER:
+        case PARSE_NODE_TYPE_EXPORT:
+
+            //
+            // No children.
+            //
+
+            user_function(pn);
+
+            break;
+
+        case PARSE_NODE_TYPE_LABEL:
+        case PARSE_NODE_TYPE_UMINUS:
+        case PARSE_NODE_TYPE_NOT:
+        case PARSE_NODE_TYPE_PRINT:
+        case PARSE_NODE_TYPE_SQRT:
+        case PARSE_NODE_TYPE_ABS:
+        case PARSE_NODE_TYPE_MIF:
+        case PARSE_NODE_TYPE_INKEY_ASSIGN:
+        case PARSE_NODE_TYPE_KEY_VALUE:
+        case PARSE_NODE_TYPE_SIN:
+        case PARSE_NODE_TYPE_COS:
+        case PARSE_NODE_TYPE_TAN:
+        case PARSE_NODE_TYPE_ASIN:
+        case PARSE_NODE_TYPE_ACOS:
+        case PARSE_NODE_TYPE_ATAN:
+        case PARSE_NODE_TYPE_LEN:
+
+            //
+            // One child.
+            //
+
+            PARSE_traverse_do(pn->child1, user_function);
+
+            user_function(pn);
+
+            break;
+
+        case PARSE_NODE_TYPE_EQUALS:
+        case PARSE_NODE_TYPE_PLUS:
+        case PARSE_NODE_TYPE_MINUS:
+        case PARSE_NODE_TYPE_TIMES:
+        case PARSE_NODE_TYPE_DIVIDE:
+        case PARSE_NODE_TYPE_GT:
+        case PARSE_NODE_TYPE_LT:
+        case PARSE_NODE_TYPE_GTEQ:
+        case PARSE_NODE_TYPE_LTEQ:
+        case PARSE_NODE_TYPE_AND:
+        case PARSE_NODE_TYPE_OR:
+        case PARSE_NODE_TYPE_XOR:
+        case PARSE_NODE_TYPE_DOT:
+        case PARSE_NODE_TYPE_MOD:
+        case PARSE_NODE_TYPE_EXP_LIST:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
+        case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
+        case PARSE_NODE_TYPE_STATEMENT_LIST:
+        case PARSE_NODE_TYPE_NOTEQUAL:
+        case PARSE_NODE_TYPE_SWAP:
+        case PARSE_NODE_TYPE_ATAN2:
+
+            //
+            // Two children.
+            //
+
+            PARSE_traverse_do(pn->child1, user_function);
+            PARSE_traverse_do(pn->child2, user_function);
+
+            user_function(pn);
+
+            break;
+
+        case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
+        case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
+
+            //
+            // Two children- strange order of traversal!
+            //
 
-void PARSE_traverse_do(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn))
-{
-	switch(pn->type)
-	{
-		case PARSE_NODE_TYPE_NOP:
-		case PARSE_NODE_TYPE_SLUMBER:
-		case PARSE_NODE_TYPE_FLUMBER:
-		case PARSE_NODE_TYPE_STRING:
-		case PARSE_NODE_TYPE_VAR_VALUE:
-		case PARSE_NODE_TYPE_VAR_ADDRESS:
-		case PARSE_NODE_TYPE_GOTO:
-		case PARSE_NODE_TYPE_BOOLEAN:
-		case PARSE_NODE_TYPE_NEWLINE:
-		case PARSE_NODE_TYPE_FIELD:
-		case PARSE_NODE_TYPE_INPUT:
-		case PARSE_NODE_TYPE_UNDEFINED:
-		case PARSE_NODE_TYPE_EXIT:
-		case PARSE_NODE_TYPE_GOSUB:
-		case PARSE_NODE_TYPE_NEXT:
-		case PARSE_NODE_TYPE_RANDOM:
-		case PARSE_NODE_TYPE_MELSE:
-		case PARSE_NODE_TYPE_MENDIF:
-		case PARSE_NODE_TYPE_LOOP:
-		case PARSE_NODE_TYPE_ENDFUNC:
-		case PARSE_NODE_TYPE_FLIP:
-		case PARSE_NODE_TYPE_INKEY_VALUE:
-		case PARSE_NODE_TYPE_TIMER:
-		case PARSE_NODE_TYPE_EXPORT:
-
-			//
-			// No children.
-			//
-
-			user_function(pn);
-
-			break;
-
-		case PARSE_NODE_TYPE_LABEL:
-		case PARSE_NODE_TYPE_UMINUS:
-		case PARSE_NODE_TYPE_NOT:
-		case PARSE_NODE_TYPE_PRINT:
-		case PARSE_NODE_TYPE_SQRT:
-		case PARSE_NODE_TYPE_ABS:
-		case PARSE_NODE_TYPE_MIF:
-		case PARSE_NODE_TYPE_INKEY_ASSIGN:
-		case PARSE_NODE_TYPE_KEY_VALUE:
-		case PARSE_NODE_TYPE_SIN:
-		case PARSE_NODE_TYPE_COS:
-		case PARSE_NODE_TYPE_TAN:
-		case PARSE_NODE_TYPE_ASIN:
-		case PARSE_NODE_TYPE_ACOS:
-		case PARSE_NODE_TYPE_ATAN:
-		case PARSE_NODE_TYPE_LEN:
-
-			//
-			// One child.
-			//
-
-			PARSE_traverse_do(pn->child1, user_function);
-
-			user_function(pn);
-
-			break;
-
-		case PARSE_NODE_TYPE_EQUALS:
-		case PARSE_NODE_TYPE_PLUS:
-		case PARSE_NODE_TYPE_MINUS:
-		case PARSE_NODE_TYPE_TIMES:
-		case PARSE_NODE_TYPE_DIVIDE:
-		case PARSE_NODE_TYPE_GT:
-		case PARSE_NODE_TYPE_LT:
-		case PARSE_NODE_TYPE_GTEQ:
-		case PARSE_NODE_TYPE_LTEQ:
-		case PARSE_NODE_TYPE_AND:
-		case PARSE_NODE_TYPE_OR:
-		case PARSE_NODE_TYPE_XOR:
-		case PARSE_NODE_TYPE_DOT:
-		case PARSE_NODE_TYPE_MOD:
-		case PARSE_NODE_TYPE_EXP_LIST:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
-		case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
-		case PARSE_NODE_TYPE_STATEMENT_LIST:
-		case PARSE_NODE_TYPE_NOTEQUAL:
-		case PARSE_NODE_TYPE_SWAP:
-		case PARSE_NODE_TYPE_ATAN2:
-
-			//
-			// Two children.
-			//
-
-			PARSE_traverse_do(pn->child1, user_function);
-			PARSE_traverse_do(pn->child2, user_function);
-
-			user_function(pn);
-
-			break;
-
-		case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
-		case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
-
-			//
-			// Two children- strange order of traversal!
-			//
+            PARSE_traverse_do(pn->child1, user_function);
+            user_function(pn);
+            PARSE_traverse_do(pn->child2, user_function);
 
-			PARSE_traverse_do(pn->child1, user_function);
-			user_function(pn);
-			PARSE_traverse_do(pn->child2, user_function);
+            break;
 
-			break;
+        case PARSE_NODE_TYPE_IF:
 
-		case PARSE_NODE_TYPE_IF:
-			
-			{
-				//
-				// Special case order of traversal including
-				// putting in fake nodes to help out the CG module!
-				//
+        {
+            //
+            // Special case order of traversal including
+            // putting in fake nodes to help out the CG module!
+            //
 
-				PARSE_Node fake_then;
-				PARSE_Node fake_else;
-				PARSE_Node fake_end_else;
+            PARSE_Node fake_then;
+            PARSE_Node fake_else;
+            PARSE_Node fake_end_else;
 
-				memset(&fake_then,     0, sizeof(fake_then    ));
-				memset(&fake_else,     0, sizeof(fake_else    ));
-				memset(&fake_end_else, 0, sizeof(fake_end_else));
+            memset(&fake_then, 0, sizeof(fake_then));
+            memset(&fake_else, 0, sizeof(fake_else));
+            memset(&fake_end_else, 0, sizeof(fake_end_else));
 
-				pn->ifcode = PARSE_ifcode;
+            pn->ifcode = PARSE_ifcode;
 
-				fake_then.type   = PARSE_NODE_TYPE_FAKE_THEN;
-				fake_then.ifcode = PARSE_ifcode;
+            fake_then.type = PARSE_NODE_TYPE_FAKE_THEN;
+            fake_then.ifcode = PARSE_ifcode;
 
-				fake_else.type   = PARSE_NODE_TYPE_FAKE_ELSE;
-				fake_else.ifcode = PARSE_ifcode;
+            fake_else.type = PARSE_NODE_TYPE_FAKE_ELSE;
+            fake_else.ifcode = PARSE_ifcode;
 
-				fake_end_else.type   = PARSE_NODE_TYPE_FAKE_END_ELSE;
-				fake_end_else.ifcode = PARSE_ifcode;
+            fake_end_else.type = PARSE_NODE_TYPE_FAKE_END_ELSE;
+            fake_end_else.ifcode = PARSE_ifcode;
 
-				PARSE_ifcode += 1;
+            PARSE_ifcode += 1;
 
-				PARSE_traverse_do(pn->child1, user_function);	// Condition
-				user_function(pn);								// IF node ...
+            PARSE_traverse_do(pn->child1, user_function); // Condition
+            user_function(pn);                            // IF node ...
 
-				PARSE_traverse_do(pn->child2, user_function);	// 'THEN' statement
-				user_function(&fake_then);						// The fake THEN node.
+            PARSE_traverse_do(pn->child2, user_function); // 'THEN' statement
+            user_function(&fake_then);                    // The fake THEN node.
 
-				if (pn->child3)
-				{
-					//
-					// This IF statement has an ELSE.
-					//
+            if (pn->child3) {
+                //
+                // This IF statement has an ELSE.
+                //
 
-					user_function(&fake_else);						// The fake ELSE node.
-					PARSE_traverse_do(pn->child3, user_function);	// 'ELSE' statement
-					user_function(&fake_end_else);					// The fake END_ELSE node.
-				}
-			}
+                user_function(&fake_else);                    // The fake ELSE node.
+                PARSE_traverse_do(pn->child3, user_function); // 'ELSE' statement
+                user_function(&fake_end_else);                // The fake END_ELSE node.
+            }
+        }
 
-			break;
+        break;
 
-		case PARSE_NODE_TYPE_ASSIGN:
-		case PARSE_NODE_TYPE_KEY_ASSIGN:
+        case PARSE_NODE_TYPE_ASSIGN:
+        case PARSE_NODE_TYPE_KEY_ASSIGN:
 
-			//
-			// Special case order of traversal.
-			//
+            //
+            // Special case order of traversal.
+            //
 
-			PARSE_traverse_do(pn->child2, user_function);
-			PARSE_traverse_do(pn->child1, user_function);
+            PARSE_traverse_do(pn->child2, user_function);
+            PARSE_traverse_do(pn->child1, user_function);
 
-			user_function(pn);
+            user_function(pn);
 
-			break;
+            break;
 
-		case PARSE_NODE_TYPE_FOR:
+        case PARSE_NODE_TYPE_FOR:
 
-			{
-				PARSE_Node fake_end_for;
-				PARSE_Node fake_for_cond;
+        {
+            PARSE_Node fake_end_for;
+            PARSE_Node fake_for_cond;
 
-				memset(&fake_end_for,  0, sizeof(fake_end_for ));
-				memset(&fake_for_cond, 0, sizeof(fake_for_cond));
-								  
-				fake_end_for.type    = PARSE_NODE_TYPE_FAKE_END_FOR;
-				fake_end_for.forcode = pn->forcode;
+            memset(&fake_end_for, 0, sizeof(fake_end_for));
+            memset(&fake_for_cond, 0, sizeof(fake_for_cond));
 
-				fake_for_cond.type    = PARSE_NODE_TYPE_FAKE_FOR_COND;
-				fake_for_cond.forcode = pn->forcode;
+            fake_end_for.type = PARSE_NODE_TYPE_FAKE_END_FOR;
+            fake_end_for.forcode = pn->forcode;
 
-				//
-				// Initialisation.
-				//
+            fake_for_cond.type = PARSE_NODE_TYPE_FAKE_FOR_COND;
+            fake_for_cond.forcode = pn->forcode;
 
-				PARSE_traverse_do(pn->child1, user_function);
+            //
+            // Initialisation.
+            //
 
-				//
-				// The FOR...
-				//
+            PARSE_traverse_do(pn->child1, user_function);
 
-				user_function(pn);
+            //
+            // The FOR...
+            //
 
-				//
-				// The STEP code.
-				//
+            user_function(pn);
 
-				PARSE_traverse_do(pn->child3, user_function);
+            //
+            // The STEP code.
+            //
 
-				//
-				// The END_FOR code...
-				//
+            PARSE_traverse_do(pn->child3, user_function);
 
-				user_function(&fake_end_for);
+            //
+            // The END_FOR code...
+            //
 
-				//
-				// The condition.
-				//
+            user_function(&fake_end_for);
 
-				PARSE_traverse_do(pn->child2, user_function);
+            //
+            // The condition.
+            //
 
-				//
-				// THE FOR_COND node...
-				//
+            PARSE_traverse_do(pn->child2, user_function);
 
-				user_function(&fake_for_cond);
-			}
+            //
+            // THE FOR_COND node...
+            //
 
-			break;
+            user_function(&fake_for_cond);
+        }
 
-		case PARSE_NODE_TYPE_WHILE:
+        break;
 
-			{
-				//
-				// Build a FAKE_WHILE_COND node.
-				//
+        case PARSE_NODE_TYPE_WHILE:
 
-				PARSE_Node fake_while_cond;
+        {
+            //
+            // Build a FAKE_WHILE_COND node.
+            //
 
-				memset(&fake_while_cond, 0, sizeof(fake_while_cond));
+            PARSE_Node fake_while_cond;
 
-				fake_while_cond.type      = PARSE_NODE_TYPE_FAKE_WHILE_COND;
-				fake_while_cond.whilecode = pn->whilecode;
+            memset(&fake_while_cond, 0, sizeof(fake_while_cond));
 
-				//
-				// Mark the beginning of the while loop.
-				//
+            fake_while_cond.type = PARSE_NODE_TYPE_FAKE_WHILE_COND;
+            fake_while_cond.whilecode = pn->whilecode;
 
-				user_function(pn);
+            //
+            // Mark the beginning of the while loop.
+            //
 
-				//
-				// The condition.
-				//
+            user_function(pn);
 
-				PARSE_traverse_do(pn->child1, user_function);
-				
-				//
-				// Mark the end of the condition.
-				//
+            //
+            // The condition.
+            //
 
-				user_function(&fake_while_cond);
-			}
+            PARSE_traverse_do(pn->child1, user_function);
 
-			break;
+            //
+            // Mark the end of the condition.
+            //
 
-		case PARSE_NODE_TYPE_FUNCTION:
-		case PARSE_NODE_TYPE_ARGUMENT:
-		case PARSE_NODE_TYPE_LOCAL:
+            user_function(&fake_while_cond);
+        }
 
-			user_function(pn);
+        break;
 
-			if (pn->child1)
-			{
-				PARSE_traverse_do(pn->child1, user_function);
-			}
+        case PARSE_NODE_TYPE_FUNCTION:
+        case PARSE_NODE_TYPE_ARGUMENT:
+        case PARSE_NODE_TYPE_LOCAL:
 
-			break;
+            user_function(pn);
 
-		case PARSE_NODE_TYPE_CALL:
-		case PARSE_NODE_TYPE_TEXTURE:
-		case PARSE_NODE_TYPE_BUFFER:
-		case PARSE_NODE_TYPE_DRAW:
-		case PARSE_NODE_TYPE_CLS:
-		case PARSE_NODE_TYPE_RETURN:
-		case PARSE_NODE_TYPE_MATRIX:
-		case PARSE_NODE_TYPE_VECTOR:
-			
-			//
-			// Possibly one child.
-			//
+            if (pn->child1) {
+                PARSE_traverse_do(pn->child1, user_function);
+            }
 
-			if (pn->child1)
-			{
-				PARSE_traverse_do(pn->child1, user_function);
-			}
+            break;
 
-			user_function(pn);
+        case PARSE_NODE_TYPE_CALL:
+        case PARSE_NODE_TYPE_TEXTURE:
+        case PARSE_NODE_TYPE_BUFFER:
+        case PARSE_NODE_TYPE_DRAW:
+        case PARSE_NODE_TYPE_CLS:
+        case PARSE_NODE_TYPE_RETURN:
+        case PARSE_NODE_TYPE_MATRIX:
+        case PARSE_NODE_TYPE_VECTOR:
 
-			break;
+            //
+            // Possibly one child.
+            //
 
-		case PARSE_NODE_TYPE_LEFT:
-		case PARSE_NODE_TYPE_RIGHT:
+            if (pn->child1) {
+                PARSE_traverse_do(pn->child1, user_function);
+            }
 
-			//
-			// One or two kids...
-			//
+            user_function(pn);
 
-			PARSE_traverse_do(pn->child1, user_function);
+            break;
 
-			if (pn->child2)
-			{
-				PARSE_traverse_do(pn->child2, user_function);
-			}
+        case PARSE_NODE_TYPE_LEFT:
+        case PARSE_NODE_TYPE_RIGHT:
 
-			user_function(pn);
+            //
+            // One or two kids...
+            //
 
-			break;
+            PARSE_traverse_do(pn->child1, user_function);
 
-		case PARSE_NODE_TYPE_MID:
+            if (pn->child2) {
+                PARSE_traverse_do(pn->child2, user_function);
+            }
 
-			//
-			// Two or three kids...
-			//
+            user_function(pn);
 
-			PARSE_traverse_do(pn->child1, user_function);
-			PARSE_traverse_do(pn->child2, user_function);
+            break;
 
-			if (pn->child3)
-			{
-				PARSE_traverse_do(pn->child3, user_function);
-			}
+        case PARSE_NODE_TYPE_MID:
 
-			user_function(pn);
+            //
+            // Two or three kids...
+            //
 
-			break;
+            PARSE_traverse_do(pn->child1, user_function);
+            PARSE_traverse_do(pn->child2, user_function);
 
-		default:
-			ASSERT(0);
-			break;
-	}
+            if (pn->child3) {
+                PARSE_traverse_do(pn->child3, user_function);
+            }
 
-	return;
+            user_function(pn);
+
+            break;
+
+        default:
+            ASSERT(0);
+            break;
+    }
+
+    return;
 }
 
+void PARSE_traverse(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn)) {
+    //
+    // Store stack info...
+    //
 
-void PARSE_traverse(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn))
-{
-	//
-	// Store stack info...
-	//
-
-	PARSE_traverse_do(pn, user_function);
+    PARSE_traverse_do(pn, user_function);
 }

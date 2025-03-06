@@ -1,175 +1,140 @@
 
-#include	"Editor.hpp"
-#include	"c:\fallen\headers\memory.h"
+#include "Editor.hpp"
+#include "c:\fallen\headers\memory.h"
 
+void (*scan_function)(std::int32_t face, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t extra);
+extern std::int16_t SelectFlag; // edit.h
 
-void	(*scan_function)(std::int32_t face,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t extra);
-extern std::int16_t	SelectFlag; //edit.h
+void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
+    std::int32_t c0;
+    struct PrimObject *p_obj;
 
+    p_obj = &prim_objects[prim];
 
-void	scan_a_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z)
-{
-	std::int32_t	c0;
-	struct	PrimObject	*p_obj;
+    if (p_obj->EndFace4)
+        for (c0 = p_obj->StartFace4; c0 < p_obj->EndFace4; c0++) {
+            scan_function(c0, x, y, z, 0);
+        }
 
-
-	p_obj    =	&prim_objects[prim];
-
-	if(p_obj->EndFace4)
-	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
-	{
-		scan_function(c0,x,y,z,0);
-	}
-
-	if(p_obj->EndFace3)
-	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
-	{
-		scan_function(-c0,x,y,z,0);
-	}
+    if (p_obj->EndFace3)
+        for (c0 = p_obj->StartFace3; c0 < p_obj->EndFace3; c0++) {
+            scan_function(-c0, x, y, z, 0);
+        }
 }
 
-void	scan_a_building(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z)
-{
-	
-	std::int32_t	c0;
-	struct	BuildingObject	*p_obj;
+void scan_a_building(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
+    std::int32_t c0;
+    struct BuildingObject *p_obj;
 
+    p_obj = &building_objects[prim];
 
-	p_obj    =	&building_objects[prim];
+    if (p_obj->EndFace4)
+        for (c0 = p_obj->StartFace4; c0 < p_obj->EndFace4; c0++) {
+            scan_function(c0, x, y, z, 0);
+        }
 
-	if(p_obj->EndFace4)
-	for(c0=p_obj->StartFace4;c0<p_obj->EndFace4;c0++)
-	{
-		scan_function(c0,x,y,z,0);
-	}
-
-	if(p_obj->EndFace3)
-	for(c0=p_obj->StartFace3;c0<p_obj->EndFace3;c0++)
-	{
-		scan_function(-c0,x,y,z,0);
-	}
+    if (p_obj->EndFace3)
+        for (c0 = p_obj->StartFace3; c0 < p_obj->EndFace3; c0++) {
+            scan_function(-c0, x, y, z, 0);
+        }
 }
 
+void scan_map_thing(std::int32_t map_thing) {
+    std::int32_t c0, c1;
+    struct Matrix33 r_matrix;
+    struct MapThing *p_mthing;
+    std::uint8_t prim_done[1000];
 
+    memset(prim_done, 0, 1000);
 
-
-
-
-void	scan_map_thing(std::int32_t	map_thing)
-{
-	std::int32_t				c0,c1;
-	struct Matrix33		r_matrix;
-	struct MapThing		*p_mthing;
-	std::uint8_t	prim_done[1000];
-
-	memset(prim_done,0,1000);
-
-
-	p_mthing	=	TO_MTHING(map_thing);
-	switch(p_mthing->Type)
-	{
-		case	MAP_THING_TYPE_PRIM:
-			//3ds Prim Mesh 
-			if(p_mthing->IndexOther<1000)
-			if(!prim_done[p_mthing->IndexOther])
-			{
-				prim_done[p_mthing->IndexOther]=1;
-				scan_a_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
-			}
-			break;
-		case	MAP_THING_TYPE_MULTI_PRIM:
-//			scan_a_multi_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
-			break;
-		case	MAP_THING_TYPE_ROT_MULTI:
-		case	MAP_THING_TYPE_SPRITE:
-		case	MAP_THING_TYPE_AGENT:
-			break;
-		case	MAP_THING_TYPE_BUILDING:
-			scan_a_building(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
-			break;
-
-	}
+    p_mthing = TO_MTHING(map_thing);
+    switch (p_mthing->Type) {
+        case MAP_THING_TYPE_PRIM:
+            // 3ds Prim Mesh
+            if (p_mthing->IndexOther < 1000)
+                if (!prim_done[p_mthing->IndexOther]) {
+                    prim_done[p_mthing->IndexOther] = 1;
+                    scan_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+                }
+            break;
+        case MAP_THING_TYPE_MULTI_PRIM:
+            //			scan_a_multi_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
+            break;
+        case MAP_THING_TYPE_ROT_MULTI:
+        case MAP_THING_TYPE_SPRITE:
+        case MAP_THING_TYPE_AGENT:
+            break;
+        case MAP_THING_TYPE_BUILDING:
+            scan_a_building(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+            break;
+    }
 }
 
-void	scan_game_map_thing(std::int32_t	map_thing)
-{
-	std::int32_t				c0,c1;
-	struct Matrix33		r_matrix;
-	Thing		*p_thing;
-	std::uint8_t	prim_done[1000];
+void scan_game_map_thing(std::int32_t map_thing) {
+    std::int32_t c0, c1;
+    struct Matrix33 r_matrix;
+    Thing *p_thing;
+    std::uint8_t prim_done[1000];
 
-	memset(prim_done,0,1000);
+    memset(prim_done, 0, 1000);
 
-
-	p_thing	=	TO_THING(map_thing);
-	switch(p_thing->DrawType)
-	{
-		//case	MAP_THING_TYPE_PRIM:
-		case	DT_PRIM:
-			//3ds Prim Mesh 
-			if(p_thing->Index<1000)
-			if(!prim_done[p_thing->Index])
-			{
-				prim_done[p_thing->Index]=1;
-				scan_a_prim_at(p_thing->Index,p_thing->WorldPos.X,p_thing->WorldPos.Y,p_thing->WorldPos.Z);
-			}
-			break;
-		case	DT_BUILDING:
-			scan_a_building(p_thing->Index,p_thing->WorldPos.X,p_thing->WorldPos.Y,p_thing->WorldPos.Z);
-			break;
-
-	}
+    p_thing = TO_THING(map_thing);
+    switch (p_thing->DrawType) {
+        // case	MAP_THING_TYPE_PRIM:
+        case DT_PRIM:
+            // 3ds Prim Mesh
+            if (p_thing->Index < 1000)
+                if (!prim_done[p_thing->Index]) {
+                    prim_done[p_thing->Index] = 1;
+                    scan_a_prim_at(p_thing->Index, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+                }
+            break;
+        case DT_BUILDING:
+            scan_a_building(p_thing->Index, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+            break;
+    }
 }
 
-void	scan_linked_background(void)
-{
-	std::int16_t	index;
-	struct	MapThing	*p_thing;
-	index=background_prim;
-	while(index)
-	{
-		p_thing=TO_MTHING(index);
-		scan_a_prim_at(p_thing->IndexOther,p_thing->X,p_thing->Y,p_thing->Z);
-		index=p_thing->IndexNext;
-	}
+void scan_linked_background(void) {
+    std::int16_t index;
+    struct MapThing *p_thing;
+    index = background_prim;
+    while (index) {
+        p_thing = TO_MTHING(index);
+        scan_a_prim_at(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z);
+        index = p_thing->IndexNext;
+    }
 }
 
-void	scan_map(void)
-{
-	std::int32_t	dx,dy,dz;
-	std::int32_t	mx,my,mz;
-	struct	EditMapElement	*p_ele;
-	std::uint16_t	index,count;
-	
+void scan_map(void) {
+    std::int32_t dx, dy, dz;
+    std::int32_t mx, my, mz;
+    struct EditMapElement *p_ele;
+    std::uint16_t index, count;
 
-	mx=(engine.X>>8)>>ELE_SHIFT;
-	my=(engine.Y>>8)>>ELE_SHIFT;
-	mz=(engine.Z>>8)>>ELE_SHIFT;
+    mx = (engine.X >> 8) >> ELE_SHIFT;
+    my = (engine.Y >> 8) >> ELE_SHIFT;
+    mz = (engine.Z >> 8) >> ELE_SHIFT;
 
-	for(dz=0;dz<EDIT_MAP_DEPTH;dz++)
-	for(dx=0;dx<EDIT_MAP_WIDTH;dx++)
-	{
-		index=edit_map[(dx)][(dz)].MapThingIndex;
-		count=0;
-		while(index&&count++<20)
-		{
-			scan_map_thing(index);
-			index=map_things[index].MapChild;
-		}
-		
-		count=0;
-		index=MAP2(dx,dz).MapWho;
-		while(index&&count++<20)
-		{
-			scan_game_map_thing(index);
-			index=TO_THING(index)->Child;
-		}
-		
-	}
+    for (dz = 0; dz < EDIT_MAP_DEPTH; dz++)
+        for (dx = 0; dx < EDIT_MAP_WIDTH; dx++) {
+            index = edit_map[(dx)][(dz)].MapThingIndex;
+            count = 0;
+            while (index && count++ < 20) {
+                scan_map_thing(index);
+                index = map_things[index].MapChild;
+            }
 
-	if(background_prim)
-		scan_linked_background();
+            count = 0;
+            index = MAP2(dx, dz).MapWho;
+            while (index && count++ < 20) {
+                scan_game_map_thing(index);
+                index = TO_THING(index)->Child;
+            }
+        }
 
-	SelectFlag=0;
+    if (background_prim)
+        scan_linked_background();
+
+    SelectFlag = 0;
 }
-

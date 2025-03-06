@@ -5,21 +5,17 @@
 #ifndef CRINKLE_H
 #define CRINKLE_H
 
-
 #include "aeng.h"
 #include "poly.h"
 #include "fileclump.h"
 
-
 typedef std::uint16_t CRINKLE_Handle;
-
 
 //
 // Clears out all the crinkles and invalidates all the handles.
 //
 
 void CRINKLE_init();
-
 
 //
 // Loads the given crinkle in and returns its handle.  Returns
@@ -37,14 +33,11 @@ void CRINKLE_write_bin(FileClump* tclump, CRINKLE_Handle hnd, int id);
 
 void CRINKLE_light(float dx, float dy, float dz);
 
-
 //
 // Tells the crinkle module how view-space is skewed.
 //
 
 void CRINKLE_skew(float aspect, float lens);
-
-
 
 //
 // Draws a crinkle extruded by 'amount' from 0.0 to 1.0 between
@@ -52,24 +45,20 @@ void CRINKLE_skew(float aspect, float lens);
 //
 
 void CRINKLE_do(
-		CRINKLE_Handle crinkle,
-		std::int32_t          page,
-		float          amount,
-		POLY_Point    *pp[4],
-		std::int32_t          flip);
-
+    CRINKLE_Handle crinkle,
+    std::int32_t page,
+    float amount,
+    POLY_Point* pp[4],
+    std::int32_t flip);
 
 //
 // Projects an SMAP shadow over the crinkle.
 //
 
 void CRINKLE_project(
-		CRINKLE_Handle crinkle,
-		float          amount,
-		SVector_F      poly[4],
-		std::int32_t          flip);
-
-
-
+    CRINKLE_Handle crinkle,
+    float amount,
+    SVector_F poly[4],
+    std::int32_t flip);
 
 #endif

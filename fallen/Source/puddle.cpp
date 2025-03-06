@@ -3,47 +3,42 @@
 //
 
 #include <MFStdLib.h>
-#include "game.h"	// :-(
+#include "game.h" // :-(
 #include "puddle.h"
 #include "mav.h"
 #include "pap.h"
 
 #include "memory.h"
 
-
-
-
 #ifndef TARGET_DC
-
-
 
 //
 // The puddles.
-// 
+//
 
-#define PUDDLE_TYPE_STRIP1	0
-#define PUDDLE_TYPE_STRIP2	1
-#define PUDDLE_TYPE_CORNER	2
-#define PUDDLE_TYPE_WHOLE	3
-#define PUDDLE_TYPE_NUMBER	4
+#define PUDDLE_TYPE_STRIP1 0
+#define PUDDLE_TYPE_STRIP2 1
+#define PUDDLE_TYPE_CORNER 2
+#define PUDDLE_TYPE_WHOLE 3
+#define PUDDLE_TYPE_NUMBER 4
 
 typedef struct
 {
-	std::uint16_t x1;
-	std::uint16_t z1;
-	std::uint16_t x2;
-	std::uint16_t z2;
-	std::int16_t y;
-	std::uint8_t type;
-	std::uint8_t rotate_uvs;
-	std::uint8_t map_x;
-	std::uint8_t next;
-	std::uint8_t y1;
-	std::uint8_t y2;
-	std::uint8_t g1;
-	std::uint8_t g2;
-	std::uint8_t s1;
-	std::uint8_t s2;
+    std::uint16_t x1;
+    std::uint16_t z1;
+    std::uint16_t x2;
+    std::uint16_t z2;
+    std::int16_t y;
+    std::uint8_t type;
+    std::uint8_t rotate_uvs;
+    std::uint8_t map_x;
+    std::uint8_t next;
+    std::uint8_t y1;
+    std::uint8_t y2;
+    std::uint8_t g1;
+    std::uint8_t g2;
+    std::uint8_t s1;
+    std::uint8_t s2;
 
 } PUDDLE_Puddle;
 
@@ -60,557 +55,513 @@ std::int32_t PUDDLE_puddle_upto;
 
 std::uint8_t PUDDLE_mapwho[PUDDLE_MAPWHO_SIZE];
 
-
 //
 // The uv coordinates of each puddle type.
 //
 
 typedef struct
 {
-	std::int32_t u1;
-	std::int32_t v1;
-	std::int32_t u2;
-	std::int32_t v2;
+    std::int32_t u1;
+    std::int32_t v1;
+    std::int32_t u2;
+    std::int32_t v2;
 
 } PUDDLE_Texture;
 
 PUDDLE_Texture PUDDLE_texture[PUDDLE_TYPE_NUMBER] =
-{
-	{  0,   0, 256,  62},
-	{  0,  64, 256, 126},
-	{  0, 128, 128, 256},
-	{128, 128, 256, 256}
-};
+    {
+        {0, 0, 256, 62},
+        {0, 64, 256, 126},
+        {0, 128, 128, 256},
+        {128, 128, 256, 256}};
 
+void PUDDLE_init() {
+    std::int32_t i;
 
+    //
+    // Clear the puddles and the puddle mapwho.
+    //
 
-void PUDDLE_init()
-{
-	std::int32_t i;
+    memset(PUDDLE_puddle, 0, sizeof(PUDDLE_puddle));
+    memset(PUDDLE_mapwho, 0, sizeof(PUDDLE_mapwho));
 
-	//
-	// Clear the puddles and the puddle mapwho.
-	//
+    PUDDLE_puddle_upto = 1;
 
-	memset(PUDDLE_puddle, 0, sizeof(PUDDLE_puddle));
-	memset(PUDDLE_mapwho, 0, sizeof(PUDDLE_mapwho));
+    //
+    // Clear the REFLECTIVE bit in the mapwho square.
+    //
 
-	PUDDLE_puddle_upto = 1;
+    {
+        std::int32_t x;
+        std::int32_t z;
 
-	//
-	// Clear the REFLECTIVE bit in the mapwho square.
-	//
+        MapElement *me;
 
-	{
-		std::int32_t x;
-		std::int32_t z;
-
-		MapElement *me;
-
-		for (x = 0; x < MAP_WIDTH;  x++)
-		for (z = 0; z < MAP_HEIGHT; z++)
-		{
-			PAP_2HI(x,z).Flags &= ~PAP_FLAG_REFLECTIVE;
-		}
-	}
+        for (x = 0; x < MAP_WIDTH; x++)
+            for (z = 0; z < MAP_HEIGHT; z++) {
+                PAP_2HI(x, z).Flags &= ~PAP_FLAG_REFLECTIVE;
+            }
+    }
 }
 
-
-
 void PUDDLE_create_do(
-		std::uint16_t x1,
-		std::uint16_t z1,
-		std::uint16_t x2,
-		std::uint16_t z2,
-		std::int16_t y,
-		std::uint8_t type,
-		std::uint8_t rotate_uvs)
-{
-	std::int32_t x;
-	std::int32_t z;
+    std::uint16_t x1,
+    std::uint16_t z1,
+    std::uint16_t x2,
+    std::uint16_t z2,
+    std::int16_t y,
+    std::uint8_t type,
+    std::uint8_t rotate_uvs) {
+    std::int32_t x;
+    std::int32_t z;
 
-	PUDDLE_Puddle *pp;
-	std::uint8_t          next;
-	std::uint8_t         *prev;
+    PUDDLE_Puddle *pp;
+    std::uint8_t next;
+    std::uint8_t *prev;
 
-	std::uint8_t map_x = x1 + x2 >> 9;
-	std::uint8_t map_z = z1 + z2 >> 9;
+    std::uint8_t map_x = x1 + x2 >> 9;
+    std::uint8_t map_z = z1 + z2 >> 9;
 
-	if (!WITHIN(map_z, 0, PUDDLE_MAPWHO_SIZE - 1))
-	{
-		//
-		// Off map.
-		//
+    if (!WITHIN(map_z, 0, PUDDLE_MAPWHO_SIZE - 1)) {
+        //
+        // Off map.
+        //
 
-		return;
-	}
+        return;
+    }
 
-	if (!WITHIN(PUDDLE_puddle_upto, 1, PUDDLE_MAX_PUDDLES - 1))
-	{
-		//
-		// No more puddles.
-		//
+    if (!WITHIN(PUDDLE_puddle_upto, 1, PUDDLE_MAX_PUDDLES - 1)) {
+        //
+        // No more puddles.
+        //
 
-		return;
-	}
+        return;
+    }
 
-	if (!PAP_is_flattish(x1, z1, x2, z2))
-	{
-		//
-		// On a hill!
-		//
+    if (!PAP_is_flattish(x1, z1, x2, z2)) {
+        //
+        // On a hill!
+        //
 
-		return;
-	}
+        return;
+    }
 
-	pp = &PUDDLE_puddle[PUDDLE_puddle_upto];
+    pp = &PUDDLE_puddle[PUDDLE_puddle_upto];
 
-	pp->x1         = x1;
-	pp->z1         = z1;
-	pp->x2         = x2;
-	pp->z2         = z2;
-	pp->y          = y;
-	pp->map_x      = map_x;
-	pp->rotate_uvs = rotate_uvs;
-	pp->type       = type;
-	
-	//
-	// Put this puddle into the correct place in the mapwho.
-	//
+    pp->x1 = x1;
+    pp->z1 = z1;
+    pp->x2 = x2;
+    pp->z2 = z2;
+    pp->y = y;
+    pp->map_x = map_x;
+    pp->rotate_uvs = rotate_uvs;
+    pp->type = type;
 
-	prev = &PUDDLE_mapwho[map_z];
-	next =  PUDDLE_mapwho[map_z];
+    //
+    // Put this puddle into the correct place in the mapwho.
+    //
 
-	while(1)
-	{
-		ASSERT(WITHIN(next, 0, PUDDLE_puddle_upto - 1));
+    prev = &PUDDLE_mapwho[map_z];
+    next = PUDDLE_mapwho[map_z];
 
-		if (next == NULL || PUDDLE_puddle[next].map_x >= map_x)
-		{
-			//
-			// This is the correct place to insert the puddle.
-			//
+    while (1) {
+        ASSERT(WITHIN(next, 0, PUDDLE_puddle_upto - 1));
 
-		   *prev                = PUDDLE_puddle_upto;
-		    pp->next            = next;
-			PUDDLE_puddle_upto += 1;
+        if (next == NULL || PUDDLE_puddle[next].map_x >= map_x) {
+            //
+            // This is the correct place to insert the puddle.
+            //
 
-			break;
-		}
+            *prev = PUDDLE_puddle_upto;
+            pp->next = next;
+            PUDDLE_puddle_upto += 1;
 
-		prev = &PUDDLE_puddle[next].next;
-		next =  PUDDLE_puddle[next].next;
-	}
+            break;
+        }
 
-	//
-	// Set the relfective bit in the mapsquares around this puddle.
-	//
+        prev = &PUDDLE_puddle[next].next;
+        next = PUDDLE_puddle[next].next;
+    }
 
-	{
-		std::int32_t mx1;
-		std::int32_t mz1;
-		std::int32_t mx2;
-		std::int32_t mz2;
+    //
+    // Set the relfective bit in the mapsquares around this puddle.
+    //
 
-		#define PUDDLE_EXTEND_REFLECTION 128
+    {
+        std::int32_t mx1;
+        std::int32_t mz1;
+        std::int32_t mx2;
+        std::int32_t mz2;
 
-		mx1 = pp->x1;
-		mz1 = pp->z1;
+#define PUDDLE_EXTEND_REFLECTION 128
 
-		mx2 = pp->x2;
-		mz2 = pp->z2;
+        mx1 = pp->x1;
+        mz1 = pp->z1;
 
-		if (mx1 > mx2) {SWAP(mx1,mx2);}
-		if (mz1 > mz2) {SWAP(mz1,mz2);}
+        mx2 = pp->x2;
+        mz2 = pp->z2;
 
-		mx1 = mx1 - PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
-		mz1 = mz1 - PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
-				                                          
-		mx2 = mx2 + PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
-		mz2 = mz2 + PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
+        if (mx1 > mx2) {
+            SWAP(mx1, mx2);
+        }
+        if (mz1 > mz2) {
+            SWAP(mz1, mz2);
+        }
 
-		SATURATE(mx1, 0, MAP_WIDTH  - 1);
-		SATURATE(mx2, 0, MAP_WIDTH  - 1);
+        mx1 = mx1 - PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
+        mz1 = mz1 - PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
 
-		SATURATE(mz1, 0, MAP_HEIGHT - 1);
-		SATURATE(mz2, 0, MAP_HEIGHT - 1);
+        mx2 = mx2 + PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
+        mz2 = mz2 + PUDDLE_EXTEND_REFLECTION >> ELE_SHIFT;
 
-		for (x = mx1; x <= mx2; x++)
-		for (z = mz1; z <= mz2; z++)
-		{
-			PAP_2HI(x,z).Flags |= PAP_FLAG_REFLECTIVE;
-		}
-	}
+        SATURATE(mx1, 0, MAP_WIDTH - 1);
+        SATURATE(mx2, 0, MAP_WIDTH - 1);
+
+        SATURATE(mz1, 0, MAP_HEIGHT - 1);
+        SATURATE(mz2, 0, MAP_HEIGHT - 1);
+
+        for (x = mx1; x <= mx2; x++)
+            for (z = mz1; z <= mz2; z++) {
+                PAP_2HI(x, z).Flags |= PAP_FLAG_REFLECTIVE;
+            }
+    }
 }
 
 void PUDDLE_create(
-		std::uint16_t x,
-		std::int16_t y,
-		std::uint16_t z)
-{
-	std::int32_t x1;
-	std::int32_t z1;
-	std::int32_t x2;
-	std::int32_t z2;
+    std::uint16_t x,
+    std::int16_t y,
+    std::uint16_t z) {
+    std::int32_t x1;
+    std::int32_t z1;
+    std::int32_t x2;
+    std::int32_t z2;
 
-	#define PUDDLE_WHOLE_SIZE 0x140
+#define PUDDLE_WHOLE_SIZE 0x140
 
-	x1 = x - PUDDLE_WHOLE_SIZE;
-	z1 = z - PUDDLE_WHOLE_SIZE;
-	x2 = x + PUDDLE_WHOLE_SIZE;
-	z2 = z + PUDDLE_WHOLE_SIZE;
-	//
-	// A randomish rotation of the puddle.
-	//
+    x1 = x - PUDDLE_WHOLE_SIZE;
+    z1 = z - PUDDLE_WHOLE_SIZE;
+    x2 = x + PUDDLE_WHOLE_SIZE;
+    z2 = z + PUDDLE_WHOLE_SIZE;
+    //
+    // A randomish rotation of the puddle.
+    //
 
-	if (rand() & 0x1) {SWAP(x1, x2);}
-	if (rand() & 0x1) {SWAP(z1, z2);}
+    if (rand() & 0x1) {
+        SWAP(x1, x2);
+    }
+    if (rand() & 0x1) {
+        SWAP(z1, z2);
+    }
 
-	PUDDLE_create_do(
-		x1, z1,
-		x2, z2,
-		y,
-		PUDDLE_TYPE_WHOLE,
-		false);
+    PUDDLE_create_do(
+        x1, z1,
+        x2, z2,
+        y,
+        PUDDLE_TYPE_WHOLE,
+        false);
 }
 
+void PUDDLE_precalculate() {
+    std::int32_t i;
+    std::int32_t j;
+
+    std::int32_t mx;
+    std::int32_t mz;
+
+    std::int32_t dx;
+    std::int32_t dz;
+
+    std::int32_t cx;
+    std::int32_t cz;
+
+    std::int32_t type;
+
+    std::int32_t vec1x;
+    std::int32_t vec1z;
+    std::int32_t vec2x;
+    std::int32_t vec2z;
+
+    std::int32_t midx;
+    std::int32_t midz;
+    std::int32_t size;
+    std::int32_t px1, px2;
+    std::int32_t pz1, pz2;
+    std::int32_t py;
+
+    struct
+    {
+        std::int32_t dx;
+        std::int32_t dz;
+
+    } order[4] =
+        {
+            {-1, 0},
+            {+1, 0},
+            {0, -1},
+            {0, +1}};
+
+    for (mx = 1; mx < MAP_WIDTH - 2; mx++)
+        for (mz = 1; mz < MAP_HEIGHT - 2; mz++) {
+            //
+            // Look for corners of buildings.
+            //
+
+            if (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN) {
+                for (i = 0; i < 4; i++) {
+                    dx = (i & 0x1) ? +1 : -1;
+                    dz = (i & 0x2) ? +1 : -1;
+
+                    for (j = 1; j < 4; j++) {
+                        cx = mx + ((j & 0x1) ? dx : 0);
+                        cz = mz + ((j & 0x2) ? dz : 0);
+
+                        if (PAP_2HI(cx, cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)) {
+                            goto not_a_corner_of_a_building;
+                        }
+
+                        if (MAVHEIGHT(cx, cz) > MAVHEIGHT(mx, mz)) {
+                            goto not_a_corner_of_a_building;
+                        }
+                        if (MAV_SPARE(cx, cz) & MAV_SPARE_FLAG_WATER) {
+                            goto not_a_corner_of_a_building;
+                        }
+                    }
+
+                    if ((rand() & 0x3) == ((mx + mz) & 0x3)) {
+                        //
+                        // Create a corner puddle.
+                        //
+
+                        midx = (mx << 8) + 0x80 + dx * 0x80;
+                        midz = (mz << 8) + 0x80 + dz * 0x80;
+
+                        size = 0xa0 + (rand() & 0x3f);
+
+                        px1 = midx - dx * size;
+                        pz1 = midz - dz * size;
+
+                        px2 = midx + dx * size;
+                        pz2 = midz + dz * size;
+
+                        py = PAP_calc_height_at(px2, pz2);
+                        py += 0x8;
+
+                        PUDDLE_create_do(
+                            px1, pz1,
+                            px2, pz2,
+                            py,
+                            PUDDLE_TYPE_CORNER,
+                            false);
+                    }
+
+                not_a_corner_of_a_building:;
+                }
+            }
+
+            //
+            // Corners of roads.
+            //
+
+            if (!(PAP_2HI(mx, mz).Flags & PAP_FLAG_SINK_SQUARE)) {
+                for (i = 0; i < 4; i++) {
+                    dx = (i & 0x1) ? +1 : -1;
+                    dz = (i & 0x2) ? +1 : -1;
+
+                    for (j = 1; j < 4; j++) {
+                        cx = mx + ((j & 0x1) ? dx : 0);
+                        cz = mz + ((j & 0x2) ? dz : 0);
+
+                        if (PAP_2HI(cx, cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)) {
+                            goto not_a_corner_of_a_road;
+                        }
 
-void PUDDLE_precalculate()
-{
-	std::int32_t i;
-	std::int32_t j;
-
-	std::int32_t mx;
-	std::int32_t mz;
-
-	std::int32_t dx;
-	std::int32_t dz;
-
-	std::int32_t cx;
-	std::int32_t cz;
-
-	std::int32_t type;
-
-	std::int32_t vec1x;
-	std::int32_t vec1z;
-	std::int32_t vec2x;
-	std::int32_t vec2z;
-
-	std::int32_t midx;
-	std::int32_t midz;
-	std::int32_t size;
-	std::int32_t px1, px2;
-	std::int32_t pz1, pz2;
-	std::int32_t py;
-
-	struct
-	{
-		std::int32_t dx;
-		std::int32_t dz;
-
-	} order[4] =
-	{
-		{-1,0},
-		{+1,0},
-		{0,-1},
-		{0,+1}
-	};
-
-	for (mx = 1; mx < MAP_WIDTH  - 2; mx++)
-	for (mz = 1; mz < MAP_HEIGHT - 2; mz++)
-	{
-		//
-		// Look for corners of buildings.
-		//
-
-		if (PAP_2HI(mx,mz).Flags & PAP_FLAG_HIDDEN)
-		{
-			for (i = 0; i < 4; i++)
-			{
-				dx = (i & 0x1) ? +1 : -1;
-				dz = (i & 0x2) ? +1 : -1;
-
-				for (j = 1; j < 4; j++)
-				{
-					cx = mx + ((j & 0x1) ? dx : 0);
-					cz = mz + ((j & 0x2) ? dz : 0);
-
-					if (PAP_2HI(cx,cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
-					{
-						goto not_a_corner_of_a_building;
-					}
-
-					if (MAVHEIGHT(cx,cz) > MAVHEIGHT(mx,mz))
-					{
-						goto not_a_corner_of_a_building;
-					}
-					if(MAV_SPARE(cx,cz) & MAV_SPARE_FLAG_WATER)
-					{
-						goto not_a_corner_of_a_building;
-					}
-				}
-
-				if ((rand() & 0x3) == ((mx + mz) & 0x3))
-				{
-					//
-					// Create a corner puddle.
-					//
-
-					midx = (mx << 8) + 0x80 + dx * 0x80;
-					midz = (mz << 8) + 0x80 + dz * 0x80;
-
-					size = 0xa0 + (rand() & 0x3f);
-
-					px1 = midx - dx * size;
-					pz1 = midz - dz * size;
-
-					px2 = midx + dx * size;
-					pz2 = midz + dz * size;
-
-					py  = PAP_calc_height_at(px2, pz2);
-					py += 0x8;
-
-					PUDDLE_create_do(
-						px1, pz1,
-						px2, pz2,
-						py,
-						PUDDLE_TYPE_CORNER,
-						false);
-				}
-
-			  not_a_corner_of_a_building:;
-			}
-		}
-
-		//
-		// Corners of roads.
-		//
-
-		if (!(PAP_2HI(mx,mz).Flags & PAP_FLAG_SINK_SQUARE))
-		{
-			for (i = 0; i < 4; i++)
-			{
-				dx = (i & 0x1) ? +1 : -1;
-				dz = (i & 0x2) ? +1 : -1;
-
-				for (j = 1; j < 4; j++)
-				{
-					cx = mx + ((j & 0x1) ? dx : 0);
-					cz = mz + ((j & 0x2) ? dz : 0);
-
-					if (PAP_2HI(cx,cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
-					{
-						goto not_a_corner_of_a_road;
-					}
-
-					if (!(PAP_2HI(cx,cz).Flags & PAP_FLAG_SINK_SQUARE))
-					{
-						goto not_a_corner_of_a_road;
-					}
-				}
-				if(MAV_SPARE(cx,cz) & MAV_SPARE_FLAG_WATER)
-					goto not_a_corner_of_a_road;
-
-				if ((rand() & 0x3) == ((mx + mz) & 0x3))
-				{
-					//
-					// Create a corner puddle.
-					//
-
-					midx = (mx << 8) + 0x80 + dx * 0x80;
-					midz = (mz << 8) + 0x80 + dz * 0x80;
-
-					size = 0xa0 + (rand() & 0x3f);
-
-					px1 = midx - dx * size;
-					pz1 = midz - dz * size;
-
-					px2 = midx + dx * size;
-					pz2 = midz + dz * size;
-
-					py  = PAP_calc_height_at(px2, pz2);
-					py += 0x2;
-
-					PUDDLE_create_do(
-						px1, pz1,
-						px2, pz2,
-						py,
-						PUDDLE_TYPE_CORNER,
-						false);
-				}
-
-			  not_a_corner_of_a_road:;
-			}
-		}
-
-		//
-		// Edges of buildings.
-		//
-
-		if (!(PAP_2HI(mx,mz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE)))
-		{
-			for (i = 0; i < 4; i++)
-			{
-				dx = order[i].dx;
-				dz = order[i].dz;
-
-				vec1x =  dx;
-				vec1z =  dz;
-
-				vec2x =  dz;
-				vec2z = -dx;
-
-				cx = mx + vec1x;
-				cz = mz + vec1z;
-
-				if (!(PAP_2HI(cx,cz).Flags & PAP_FLAG_HIDDEN) ||
-					 (PAP_2HI(cx,cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)))
-				{	 
-					goto not_a_building_edge;
-				}
-
-				if (MAVHEIGHT(cx,cz) < MAVHEIGHT(mx,mz))
-				{
-					goto not_a_building_edge;
-				}
-				if(MAV_SPARE(cx,cz) & MAV_SPARE_FLAG_WATER)
-					goto not_a_building_edge;
-
-				cx = mx + vec1x + vec2x;
-				cz = mz + vec1z + vec2z;
-
-				if (!(PAP_2HI(cx,cz).Flags & PAP_FLAG_HIDDEN) ||
-					 (PAP_2HI(cx,cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)))
-				{	 
-					goto not_a_building_edge;
-				}
-
-				if (MAVHEIGHT(cx,cz) < MAVHEIGHT(mx,mz))
-				{
-					goto not_a_building_edge;
-				}
-
-				cx = mx + vec2x;
-				cz = mz + vec2z;
-
-				if (PAP_2HI(cx,cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
-				{	 
-					goto not_a_building_edge;
-				}
-
-				if ((rand() & 0x7) == ((mx + mz) & 0x7))
-				{
-					//
-					// Create a puddle along the edge of this building.
-					//
-
-					size = 0xa0 + (rand() & 0x3f);
-
-					px1 = (mx << 8) + 0x80 + vec1x * 0x80 - vec2x * 0x80;
-					pz1 = (mz << 8) + 0x80 + vec1z * 0x80 - vec2z * 0x80;
-
-					px2 = px1 - vec1x * size + vec2x * 0x200;
-					pz2 = pz1 - vec1z * size + vec2z * 0x200;
-
-					py  = PAP_calc_height_at(px2,pz2);
-					py += 0x4;
-
-					type = PUDDLE_TYPE_STRIP1 + (rand() & 0x1);
-
-					PUDDLE_create_do(
-						px1, pz1,
-						px2, pz2,
-						py,
-						type,
-						(i == 0 || i == 1));
-				}
-
-			  not_a_building_edge:;
-			}
-		}
-
-		//
-		// Edges of roads.
-		//
-
-		if ( (PAP_2HI(mx,mz).Flags & PAP_FLAG_SINK_SQUARE) &&
-			!(PAP_2HI(mx,mz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)))
-		{
-			for (i = 0; i < 4; i++)
-			{
-				dx = order[i].dx;
-				dz = order[i].dz;
-
-				vec1x =  dx;
-				vec1z =  dz;
-
-				vec2x =  dz;
-				vec2z = -dx;
-
-				cx = mx + vec1x;
-				cz = mz + vec1z;
-
-				if (PAP_2HI(cx,cz).Flags & (PAP_FLAG_SINK_SQUARE | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
-				{	 
-					goto not_a_road_edge;
-				}
-				if(MAV_SPARE(cx,cz) & MAV_SPARE_FLAG_WATER)
-					goto not_a_road_edge;
-
-				cx = mx + vec1x + vec2x;
-				cz = mz + vec1z + vec2z;
-
-				if (PAP_2HI(cx,cz).Flags & (PAP_FLAG_SINK_SQUARE | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))
-				{	 
-					goto not_a_road_edge;
-				}
-
-				cx = mx + vec2x;
-				cz = mz + vec2z;
-
-				if (!(PAP_2HI(cx,cz).Flags & PAP_FLAG_SINK_SQUARE) ||
-					 (PAP_2HI(cx,cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)))
-				{
-					goto not_a_road_edge;
-				}
-
-				if ((rand() & 0x3) == ((mx + mz) & 0x3))
-				{
-					//
-					// Create a puddle along the edge of this road.
-					//
-
-					size = 0xa0 + (rand() & 0x3f);
-
-					px1 = (mx << 8) + 0x80 + vec1x * 0x80 - vec2x * 0x80;
-					pz1 = (mz << 8) + 0x80 + vec1z * 0x80 - vec2z * 0x80;
-
-					px2 = px1 - vec1x * size + vec2x * 0x200;
-					pz2 = pz1 - vec1z * size + vec2z * 0x200;
-
-					py  = PAP_calc_height_at(px2,pz2);
-					py += 0x2;
-
-					type = PUDDLE_TYPE_STRIP1 + (rand() & 0x1);
-
-					PUDDLE_create_do(
-						px1, pz1,
-						px2, pz2,
-						py,
-						type,
-						(i == 0 || i == 1));
-				}
-
-			  not_a_road_edge:;
-			}
-		}
-	}
+                        if (!(PAP_2HI(cx, cz).Flags & PAP_FLAG_SINK_SQUARE)) {
+                            goto not_a_corner_of_a_road;
+                        }
+                    }
+                    if (MAV_SPARE(cx, cz) & MAV_SPARE_FLAG_WATER)
+                        goto not_a_corner_of_a_road;
+
+                    if ((rand() & 0x3) == ((mx + mz) & 0x3)) {
+                        //
+                        // Create a corner puddle.
+                        //
+
+                        midx = (mx << 8) + 0x80 + dx * 0x80;
+                        midz = (mz << 8) + 0x80 + dz * 0x80;
+
+                        size = 0xa0 + (rand() & 0x3f);
+
+                        px1 = midx - dx * size;
+                        pz1 = midz - dz * size;
+
+                        px2 = midx + dx * size;
+                        pz2 = midz + dz * size;
+
+                        py = PAP_calc_height_at(px2, pz2);
+                        py += 0x2;
+
+                        PUDDLE_create_do(
+                            px1, pz1,
+                            px2, pz2,
+                            py,
+                            PUDDLE_TYPE_CORNER,
+                            false);
+                    }
+
+                not_a_corner_of_a_road:;
+                }
+            }
+
+            //
+            // Edges of buildings.
+            //
+
+            if (!(PAP_2HI(mx, mz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE))) {
+                for (i = 0; i < 4; i++) {
+                    dx = order[i].dx;
+                    dz = order[i].dz;
+
+                    vec1x = dx;
+                    vec1z = dz;
+
+                    vec2x = dz;
+                    vec2z = -dx;
+
+                    cx = mx + vec1x;
+                    cz = mz + vec1z;
+
+                    if (!(PAP_2HI(cx, cz).Flags & PAP_FLAG_HIDDEN) ||
+                        (PAP_2HI(cx, cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))) {
+                        goto not_a_building_edge;
+                    }
+
+                    if (MAVHEIGHT(cx, cz) < MAVHEIGHT(mx, mz)) {
+                        goto not_a_building_edge;
+                    }
+                    if (MAV_SPARE(cx, cz) & MAV_SPARE_FLAG_WATER)
+                        goto not_a_building_edge;
+
+                    cx = mx + vec1x + vec2x;
+                    cz = mz + vec1z + vec2z;
+
+                    if (!(PAP_2HI(cx, cz).Flags & PAP_FLAG_HIDDEN) ||
+                        (PAP_2HI(cx, cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))) {
+                        goto not_a_building_edge;
+                    }
+
+                    if (MAVHEIGHT(cx, cz) < MAVHEIGHT(mx, mz)) {
+                        goto not_a_building_edge;
+                    }
+
+                    cx = mx + vec2x;
+                    cz = mz + vec2z;
+
+                    if (PAP_2HI(cx, cz).Flags & (PAP_FLAG_HIDDEN | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)) {
+                        goto not_a_building_edge;
+                    }
+
+                    if ((rand() & 0x7) == ((mx + mz) & 0x7)) {
+                        //
+                        // Create a puddle along the edge of this building.
+                        //
+
+                        size = 0xa0 + (rand() & 0x3f);
+
+                        px1 = (mx << 8) + 0x80 + vec1x * 0x80 - vec2x * 0x80;
+                        pz1 = (mz << 8) + 0x80 + vec1z * 0x80 - vec2z * 0x80;
+
+                        px2 = px1 - vec1x * size + vec2x * 0x200;
+                        pz2 = pz1 - vec1z * size + vec2z * 0x200;
+
+                        py = PAP_calc_height_at(px2, pz2);
+                        py += 0x4;
+
+                        type = PUDDLE_TYPE_STRIP1 + (rand() & 0x1);
+
+                        PUDDLE_create_do(
+                            px1, pz1,
+                            px2, pz2,
+                            py,
+                            type,
+                            (i == 0 || i == 1));
+                    }
+
+                not_a_building_edge:;
+                }
+            }
+
+            //
+            // Edges of roads.
+            //
+
+            if ((PAP_2HI(mx, mz).Flags & PAP_FLAG_SINK_SQUARE) &&
+                !(PAP_2HI(mx, mz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))) {
+                for (i = 0; i < 4; i++) {
+                    dx = order[i].dx;
+                    dz = order[i].dz;
+
+                    vec1x = dx;
+                    vec1z = dz;
+
+                    vec2x = dz;
+                    vec2z = -dx;
+
+                    cx = mx + vec1x;
+                    cz = mz + vec1z;
+
+                    if (PAP_2HI(cx, cz).Flags & (PAP_FLAG_SINK_SQUARE | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)) {
+                        goto not_a_road_edge;
+                    }
+                    if (MAV_SPARE(cx, cz) & MAV_SPARE_FLAG_WATER)
+                        goto not_a_road_edge;
+
+                    cx = mx + vec1x + vec2x;
+                    cz = mz + vec1z + vec2z;
+
+                    if (PAP_2HI(cx, cz).Flags & (PAP_FLAG_SINK_SQUARE | PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER)) {
+                        goto not_a_road_edge;
+                    }
+
+                    cx = mx + vec2x;
+                    cz = mz + vec2z;
+
+                    if (!(PAP_2HI(cx, cz).Flags & PAP_FLAG_SINK_SQUARE) ||
+                        (PAP_2HI(cx, cz).Flags & (PAP_FLAG_REFLECTIVE | PAP_FLAG_WATER))) {
+                        goto not_a_road_edge;
+                    }
+
+                    if ((rand() & 0x3) == ((mx + mz) & 0x3)) {
+                        //
+                        // Create a puddle along the edge of this road.
+                        //
+
+                        size = 0xa0 + (rand() & 0x3f);
+
+                        px1 = (mx << 8) + 0x80 + vec1x * 0x80 - vec2x * 0x80;
+                        pz1 = (mz << 8) + 0x80 + vec1z * 0x80 - vec2z * 0x80;
+
+                        px2 = px1 - vec1x * size + vec2x * 0x200;
+                        pz2 = pz1 - vec1z * size + vec2z * 0x200;
+
+                        py = PAP_calc_height_at(px2, pz2);
+                        py += 0x2;
+
+                        type = PUDDLE_TYPE_STRIP1 + (rand() & 0x1);
+
+                        PUDDLE_create_do(
+                            px1, pz1,
+                            px2, pz2,
+                            py,
+                            type,
+                            (i == 0 || i == 1));
+                    }
+
+                not_a_road_edge:;
+                }
+            }
+        }
 }
-
-
-
-
-
 
 //
 // Each type of ripple.
@@ -620,220 +571,209 @@ void PUDDLE_precalculate()
 
 struct
 {
-	std::uint8_t y1;
-	std::uint8_t y2;
-	std::uint8_t g1;
-	std::uint8_t g2;
-	std::uint8_t s1;
-	std::uint8_t s2;
+    std::uint8_t y1;
+    std::uint8_t y2;
+    std::uint8_t g1;
+    std::uint8_t g2;
+    std::uint8_t s1;
+    std::uint8_t s2;
 
 } PUDDLE_ripple[PUDDLE_NUM_RIPPLES] =
-{
-//	{182, 251, 235,  82, 128,  64},
-	{ 62, 137,  17, 178,  40,  45},
-//	{161,  74, 215,   6,  32,  64},
-//	{172, 222,  55, 206, 128, 128}
+    {
+        //	{182, 251, 235,  82, 128,  64},
+        {62, 137, 17, 178, 40, 45},
+        //	{161,  74, 215,   6,  32,  64},
+        //	{172, 222,  55, 206, 128, 128}
 };
 
-
-
 std::int32_t PUDDLE_in(
-		std::int32_t x,
-		std::int32_t z)
-{
-	std::int32_t lz;
-	std::int32_t pz;
+    std::int32_t x,
+    std::int32_t z) {
+    std::int32_t lz;
+    std::int32_t pz;
 
-	std::int32_t px1, px2;
-	std::int32_t pz1, pz2;
+    std::int32_t px1, px2;
+    std::int32_t pz1, pz2;
 
-	std::uint8_t next;
+    std::uint8_t next;
 
-	PUDDLE_Puddle *pp;
+    PUDDLE_Puddle *pp;
 
-	//
-	// Only bother looking if this is in a reflective place.
-	//
+    //
+    // Only bother looking if this is in a reflective place.
+    //
 
-	std::int32_t mx = x >> 8;
-	std::int32_t mz = z >> 8;
+    std::int32_t mx = x >> 8;
+    std::int32_t mz = z >> 8;
 
-	if (!WITHIN(mx, 0, MAP_WIDTH  - 1) ||
-		!WITHIN(mz, 0, MAP_HEIGHT - 1))
-	{
-		return false;
-	}
+    if (!WITHIN(mx, 0, MAP_WIDTH - 1) ||
+        !WITHIN(mz, 0, MAP_HEIGHT - 1)) {
+        return false;
+    }
 
-	if(MAV_SPARE(mx,mz) & MAV_SPARE_FLAG_WATER)
-		return(true);
+    if (MAV_SPARE(mx, mz) & MAV_SPARE_FLAG_WATER)
+        return (true);
 
-	if (PAP_2HI(mx,mz).Flags & PAP_FLAG_REFLECTIVE)
-	{
-		//
-		// Look for a puddle this splash could be in.
-		//
+    if (PAP_2HI(mx, mz).Flags & PAP_FLAG_REFLECTIVE) {
+        //
+        // Look for a puddle this splash could be in.
+        //
 
-		for (lz = -1; lz <= 1; lz++)
-		{
-			pz = mz + lz;
+        for (lz = -1; lz <= 1; lz++) {
+            pz = mz + lz;
 
-			if (WITHIN(pz, 0, PUDDLE_MAPWHO_SIZE - 1))
-			{
-				for (next = PUDDLE_mapwho[pz]; next; next = PUDDLE_puddle[next].next)
-				{
-					ASSERT(WITHIN(next, 1, PUDDLE_puddle_upto - 1));
+            if (WITHIN(pz, 0, PUDDLE_MAPWHO_SIZE - 1)) {
+                for (next = PUDDLE_mapwho[pz]; next; next = PUDDLE_puddle[next].next) {
+                    ASSERT(WITHIN(next, 1, PUDDLE_puddle_upto - 1));
 
-					pp = &PUDDLE_puddle[next];
+                    pp = &PUDDLE_puddle[next];
 
-					//
-					// Is the splash in this puddle?
-					//
+                    //
+                    // Is the splash in this puddle?
+                    //
 
-					px1 = pp->x1;
-					pz1 = pp->z1;
-					px2 = pp->x2;
-					pz2 = pp->z2;
+                    px1 = pp->x1;
+                    pz1 = pp->z1;
+                    px2 = pp->x2;
+                    pz2 = pp->z2;
 
-					if (px1 > px2) {SWAP(px1, px2);}
-					if (pz1 > pz2) {SWAP(pz1, pz2);}
+                    if (px1 > px2) {
+                        SWAP(px1, px2);
+                    }
+                    if (pz1 > pz2) {
+                        SWAP(pz1, pz2);
+                    }
 
-					if (WITHIN(x, px1, px2) &&
-						WITHIN(z, pz1, pz2))
-					{
-						return true;
-					}
-				}
-			}
-		}
-	}
+                    if (WITHIN(x, px1, px2) &&
+                        WITHIN(z, pz1, pz2)) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
 
-	return false;
+    return false;
 }
-
 
 void PUDDLE_splash(
-		std::int32_t x,
-		std::int32_t y,
-		std::int32_t z)
-{
-	std::int32_t mx;
-	std::int32_t mz;
-	std::int32_t lz;
-	std::int32_t pz;
+    std::int32_t x,
+    std::int32_t y,
+    std::int32_t z) {
+    std::int32_t mx;
+    std::int32_t mz;
+    std::int32_t lz;
+    std::int32_t pz;
 
-	std::int32_t dx;
-	std::int32_t dy;
-	std::int32_t dz;
+    std::int32_t dx;
+    std::int32_t dy;
+    std::int32_t dz;
 
-	std::int32_t dist;
-	std::int32_t ripple;
+    std::int32_t dist;
+    std::int32_t ripple;
 
-	std::uint8_t next;
+    std::uint8_t next;
 
-	PUDDLE_Puddle *pp;
+    PUDDLE_Puddle *pp;
 
-	//
-	// Only bother looking if this is in a reflective place.
-	//
+    //
+    // Only bother looking if this is in a reflective place.
+    //
 
-	mx = x >> 8;
-	mz = z >> 8;
+    mx = x >> 8;
+    mz = z >> 8;
 
-	if (!WITHIN(mx, 0, MAP_WIDTH  - 1) ||
-		!WITHIN(mz, 0, MAP_HEIGHT - 1))
-	{
-		return;
-	}
+    if (!WITHIN(mx, 0, MAP_WIDTH - 1) ||
+        !WITHIN(mz, 0, MAP_HEIGHT - 1)) {
+        return;
+    }
 
-	if ((PAP_2HI(mx,mz).Flags & PAP_FLAG_REFLECTIVE)||(MAV_SPARE(mx,mz) & MAV_SPARE_FLAG_WATER))
-	{
-		//
-		// Look for a puddle this splash could be in.
-		//
+    if ((PAP_2HI(mx, mz).Flags & PAP_FLAG_REFLECTIVE) || (MAV_SPARE(mx, mz) & MAV_SPARE_FLAG_WATER)) {
+        //
+        // Look for a puddle this splash could be in.
+        //
 
-		for (lz = -1; lz <= 1; lz++)
-		{
-			pz = mz + lz;
+        for (lz = -1; lz <= 1; lz++) {
+            pz = mz + lz;
 
-			if (WITHIN(pz, 0, PUDDLE_MAPWHO_SIZE - 1))
-			{
-				for (next = PUDDLE_mapwho[pz]; next; next = PUDDLE_puddle[next].next)
-				{
-					ASSERT(WITHIN(next, 1, PUDDLE_puddle_upto - 1));
+            if (WITHIN(pz, 0, PUDDLE_MAPWHO_SIZE - 1)) {
+                for (next = PUDDLE_mapwho[pz]; next; next = PUDDLE_puddle[next].next) {
+                    ASSERT(WITHIN(next, 1, PUDDLE_puddle_upto - 1));
 
-					pp = &PUDDLE_puddle[next];
+                    pp = &PUDDLE_puddle[next];
 
-					//
-					// Is the splash in this puddle?
-					//
+                    //
+                    // Is the splash in this puddle?
+                    //
 
-					dy = pp->y - y;
+                    dy = pp->y - y;
 
-					#define PUDDLE_SPLASH_Y_RANGE 32
+#define PUDDLE_SPLASH_Y_RANGE 32
 
-					if (WITHIN(dy, -PUDDLE_SPLASH_Y_RANGE, +PUDDLE_SPLASH_Y_RANGE))
-					{
-						std::int32_t px1, px2;
-						std::int32_t pz1, pz2;
+                    if (WITHIN(dy, -PUDDLE_SPLASH_Y_RANGE, +PUDDLE_SPLASH_Y_RANGE)) {
+                        std::int32_t px1, px2;
+                        std::int32_t pz1, pz2;
 
-						px1 = pp->x1;
-						pz1 = pp->z1;
-						px2 = pp->x2;
-						pz2 = pp->z2;
+                        px1 = pp->x1;
+                        pz1 = pp->z1;
+                        px2 = pp->x2;
+                        pz2 = pp->z2;
 
-						if (px1 > px2) {SWAP(px1, px2);}
-						if (pz1 > pz2) {SWAP(pz1, pz2);}
+                        if (px1 > px2) {
+                            SWAP(px1, px2);
+                        }
+                        if (pz1 > pz2) {
+                            SWAP(pz1, pz2);
+                        }
 
-						if (WITHIN(x, px1, px2) &&
-							WITHIN(z, pz1, pz2))
-						{
-							//
-							// Splash this puddle.
-							//
+                        if (WITHIN(x, px1, px2) &&
+                            WITHIN(z, pz1, pz2)) {
+                            //
+                            // Splash this puddle.
+                            //
 
-							ripple = rand() & (PUDDLE_NUM_RIPPLES - 1);
+                            ripple = rand() & (PUDDLE_NUM_RIPPLES - 1);
 
-							pp->y1 = PUDDLE_ripple[ripple].y1;
-							pp->y2 = PUDDLE_ripple[ripple].y2;
-							pp->g1 = PUDDLE_ripple[ripple].g1;
-							pp->g2 = PUDDLE_ripple[ripple].g2;
-							pp->s1 = PUDDLE_ripple[ripple].s1;
-							pp->s2 = PUDDLE_ripple[ripple].s2;
-						}
-					}
-				}
-			}
-		}
-	}
+                            pp->y1 = PUDDLE_ripple[ripple].y1;
+                            pp->y2 = PUDDLE_ripple[ripple].y2;
+                            pp->g1 = PUDDLE_ripple[ripple].g1;
+                            pp->g2 = PUDDLE_ripple[ripple].g2;
+                            pp->s1 = PUDDLE_ripple[ripple].s1;
+                            pp->s2 = PUDDLE_ripple[ripple].s2;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-void PUDDLE_process()
-{
-	std::int32_t i;
-	std::int32_t s1;
-	std::int32_t s2;
+void PUDDLE_process() {
+    std::int32_t i;
+    std::int32_t s1;
+    std::int32_t s2;
 
-	PUDDLE_Puddle *pp;
+    PUDDLE_Puddle *pp;
 
-	for (i = 1; i < PUDDLE_puddle_upto; i++)
-	{
-		pp = &PUDDLE_puddle[i];
+    for (i = 1; i < PUDDLE_puddle_upto; i++) {
+        pp = &PUDDLE_puddle[i];
 
-		if (pp->s1 | pp->s2)
-		{
-			s1 = pp->s1;
-			s2 = pp->s2;
+        if (pp->s1 | pp->s2) {
+            s1 = pp->s1;
+            s2 = pp->s2;
 
-			if (s1 > 0) {s1 -= 1;}
-			if (s2 > 0) {s2 -= 1;}
+            if (s1 > 0) {
+                s1 -= 1;
+            }
+            if (s2 > 0) {
+                s2 -= 1;
+            }
 
-			pp->s1 = s1;
-			pp->s2 = s2;
-		}
-	}
+            pp->s1 = s1;
+            pp->s2 = s2;
+        }
+    }
 }
-
-
 
 std::uint8_t PUDDLE_get_upto;
 std::uint8_t PUDDLE_get_z;
@@ -841,95 +781,77 @@ std::uint8_t PUDDLE_get_x_min;
 std::uint8_t PUDDLE_get_x_max;
 PUDDLE_Info PUDDLE_get_info;
 
-void PUDDLE_get_start(std::uint8_t z_map, std::uint8_t x_map_min, std::uint8_t x_map_max)
-{
-	PUDDLE_get_z     = z_map;
-	PUDDLE_get_x_min = x_map_min - 1;
-	PUDDLE_get_x_max = x_map_max + 1;
+void PUDDLE_get_start(std::uint8_t z_map, std::uint8_t x_map_min, std::uint8_t x_map_max) {
+    PUDDLE_get_z = z_map;
+    PUDDLE_get_x_min = x_map_min - 1;
+    PUDDLE_get_x_max = x_map_max + 1;
 
-	if (!WITHIN(z_map, 0, PUDDLE_MAPWHO_SIZE - 1))
-	{
-		PUDDLE_get_upto = 0;
-	}
-	else
-	{
-		//
-		// Find the first puddle in the linked list for this z-line, which
-		// lies on an x-square >= x_map_min.
-		//
+    if (!WITHIN(z_map, 0, PUDDLE_MAPWHO_SIZE - 1)) {
+        PUDDLE_get_upto = 0;
+    } else {
+        //
+        // Find the first puddle in the linked list for this z-line, which
+        // lies on an x-square >= x_map_min.
+        //
 
-		PUDDLE_get_upto = PUDDLE_mapwho[z_map];
+        PUDDLE_get_upto = PUDDLE_mapwho[z_map];
 
-		while(1)
-		{
-			if (PUDDLE_get_upto == NULL)
-			{
-				return;
-			}
-			else
-			{
-				ASSERT(WITHIN(PUDDLE_get_upto, 1, PUDDLE_puddle_upto - 1));
+        while (1) {
+            if (PUDDLE_get_upto == NULL) {
+                return;
+            } else {
+                ASSERT(WITHIN(PUDDLE_get_upto, 1, PUDDLE_puddle_upto - 1));
 
-				if (PUDDLE_puddle[PUDDLE_get_upto].map_x >= x_map_min)
-				{
-					return;
-				}
-				else
-				{
-					PUDDLE_get_upto = PUDDLE_puddle[PUDDLE_get_upto].next;
-				}
-			}
-		}
-	}
+                if (PUDDLE_puddle[PUDDLE_get_upto].map_x >= x_map_min) {
+                    return;
+                } else {
+                    PUDDLE_get_upto = PUDDLE_puddle[PUDDLE_get_upto].next;
+                }
+            }
+        }
+    }
 }
 
+PUDDLE_Info *PUDDLE_get_next() {
+    PUDDLE_Puddle *pp;
 
-PUDDLE_Info *PUDDLE_get_next()
-{
-	PUDDLE_Puddle *pp;
+    if (PUDDLE_get_upto == NULL) {
+        return NULL;
+    }
 
-	if (PUDDLE_get_upto == NULL)
-	{
-		return NULL;
-	}
+    ASSERT(WITHIN(PUDDLE_get_upto, 1, PUDDLE_puddle_upto - 1));
 
-	ASSERT(WITHIN(PUDDLE_get_upto, 1, PUDDLE_puddle_upto - 1));
+    pp = &PUDDLE_puddle[PUDDLE_get_upto];
 
-	pp = &PUDDLE_puddle[PUDDLE_get_upto];
+    if (pp->map_x > PUDDLE_get_x_max) {
+        return NULL;
+    }
 
-	if (pp->map_x > PUDDLE_get_x_max)
-	{
-		return NULL;
-	}
+    PUDDLE_get_info.x1 = pp->x1;
+    PUDDLE_get_info.z1 = pp->z1;
+    PUDDLE_get_info.x2 = pp->x2;
+    PUDDLE_get_info.z2 = pp->z2;
+    PUDDLE_get_info.y = pp->y;
 
-	PUDDLE_get_info.x1 = pp->x1;
-	PUDDLE_get_info.z1 = pp->z1;
-	PUDDLE_get_info.x2 = pp->x2;
-	PUDDLE_get_info.z2 = pp->z2;
-	PUDDLE_get_info.y  = pp->y;
+    PUDDLE_get_info.puddle_y1 = pp->y1;
+    PUDDLE_get_info.puddle_y2 = pp->y2;
+    PUDDLE_get_info.puddle_g1 = pp->g1;
+    PUDDLE_get_info.puddle_g2 = pp->g2;
+    PUDDLE_get_info.puddle_s1 = pp->s1;
+    PUDDLE_get_info.puddle_s2 = pp->s2;
 
-	PUDDLE_get_info.puddle_y1 = pp->y1;
-	PUDDLE_get_info.puddle_y2 = pp->y2;
-	PUDDLE_get_info.puddle_g1 = pp->g1;
-	PUDDLE_get_info.puddle_g2 = pp->g2;
-	PUDDLE_get_info.puddle_s1 = pp->s1;
-	PUDDLE_get_info.puddle_s2 = pp->s2;
+    ASSERT(WITHIN(pp->type, 0, PUDDLE_TYPE_NUMBER - 1));
 
-	ASSERT(WITHIN(pp->type, 0, PUDDLE_TYPE_NUMBER - 1));
+    PUDDLE_get_info.u1 = PUDDLE_texture[pp->type].u1;
+    PUDDLE_get_info.v1 = PUDDLE_texture[pp->type].v1;
+    PUDDLE_get_info.u2 = PUDDLE_texture[pp->type].u2;
+    PUDDLE_get_info.v2 = PUDDLE_texture[pp->type].v2;
 
-	PUDDLE_get_info.u1 = PUDDLE_texture[pp->type].u1;
-	PUDDLE_get_info.v1 = PUDDLE_texture[pp->type].v1;
-	PUDDLE_get_info.u2 = PUDDLE_texture[pp->type].u2;
-	PUDDLE_get_info.v2 = PUDDLE_texture[pp->type].v2;
+    PUDDLE_get_info.rotate_uvs = pp->rotate_uvs;
 
-	PUDDLE_get_info.rotate_uvs = pp->rotate_uvs;
+    PUDDLE_get_upto = pp->next;
 
-	PUDDLE_get_upto = pp->next;
-
-	return &PUDDLE_get_info;
+    return &PUDDLE_get_info;
 }
 
-#endif //#ifndef TARGET_DC
-
-
-
+#endif // #ifndef TARGET_DC

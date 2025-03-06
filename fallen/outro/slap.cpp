@@ -6,8 +6,6 @@
 #include "always.h"
 #include "slap.h"
 
-
-
 //
 // The bitmap we are rendering to.
 //
@@ -15,21 +13,19 @@
 std::uint8_t *SLAP_bitmap;
 std::int32_t SLAP_bitmap_size;
 
-
-
 //
 // Each line of the bitmap has a sorted linked list for all the lines that cross it.
 //
 
 #define SLAP_TYPE_START 0
-#define SLAP_TYPE_END   1
+#define SLAP_TYPE_END 1
 
 typedef struct
 {
-	std::uint8_t type;
-	std::uint8_t padding;
-	std::uint16_t next;
-	std::int32_t pos;		// 8-bit fixed point.
+    std::uint8_t type;
+    std::uint8_t padding;
+    std::uint16_t next;
+    std::int32_t pos; // 8-bit fixed point.
 
 } SLAP_Link;
 
@@ -38,414 +34,352 @@ typedef struct
 SLAP_Link SLAP_link[SLAP_MAX_LINKS];
 std::int32_t SLAP_link_upto;
 
-
 //
 // 4 line per bitmap pixel. Each line has a linked list of SLAP_Links.
 //
 
 std::uint16_t SLAP_line[SLAP_MAX_BITMAP_SIZE * 4];
-std::int32_t SLAP_line_number;	// SLAP_bitmap_size * 4
-
-
-
+std::int32_t SLAP_line_number; // SLAP_bitmap_size * 4
 
 //
 // Adds a value to a pixel.
-// 
+//
 
-inline void SLAP_add_pixel(std::int32_t px, std::int32_t py, std::int32_t value)
-{
-	ASSERT(WITHIN(px, 0, SLAP_bitmap_size - 1));
-	ASSERT(WITHIN(py, 0, SLAP_bitmap_size - 1));
+inline void SLAP_add_pixel(std::int32_t px, std::int32_t py, std::int32_t value) {
+    ASSERT(WITHIN(px, 0, SLAP_bitmap_size - 1));
+    ASSERT(WITHIN(py, 0, SLAP_bitmap_size - 1));
 
-	std::int32_t now = SLAP_bitmap[py * SLAP_bitmap_size + px];
+    std::int32_t now = SLAP_bitmap[py * SLAP_bitmap_size + px];
 
-	now += value;
+    now += value;
 
-	if (now > 255)
-	{
-		now = 255;
-	}
+    if (now > 255) {
+        now = 255;
+    }
 
-	SLAP_bitmap[py * SLAP_bitmap_size + px] = now;
+    SLAP_bitmap[py * SLAP_bitmap_size + px] = now;
 }
-
-
-
-
-
-
 
 void SLAP_init(
-		std::uint8_t *bitmap,
-		std::int32_t  bitmap_size)
-{
-	//
-	// Proper size...
-	//
+    std::uint8_t *bitmap,
+    std::int32_t bitmap_size) {
+    //
+    // Proper size...
+    //
 
-	ASSERT(
-		bitmap_size ==   4 ||
-		bitmap_size ==   8 ||
-		bitmap_size ==  16 ||
-		bitmap_size ==  32 ||
-		bitmap_size ==  64 ||
-		bitmap_size == 128 ||
-		bitmap_size == 256 ||
-		bitmap_size == 512 ||
-		bitmap_size == 256);
+    ASSERT(
+        bitmap_size == 4 ||
+        bitmap_size == 8 ||
+        bitmap_size == 16 ||
+        bitmap_size == 32 ||
+        bitmap_size == 64 ||
+        bitmap_size == 128 ||
+        bitmap_size == 256 ||
+        bitmap_size == 512 ||
+        bitmap_size == 256);
 
-	ASSERT(bitmap_size <= SLAP_MAX_BITMAP_SIZE);
+    ASSERT(bitmap_size <= SLAP_MAX_BITMAP_SIZE);
 
-	SLAP_bitmap      = bitmap;
-	SLAP_bitmap_size = bitmap_size;
-	SLAP_link_upto   = 1;
-	SLAP_line_number = bitmap_size * 4;
+    SLAP_bitmap = bitmap;
+    SLAP_bitmap_size = bitmap_size;
+    SLAP_link_upto = 1;
+    SLAP_line_number = bitmap_size * 4;
 
-	#ifndef NDEBUG
+#ifndef NDEBUG
 
-	//
-	// Make sure all the links have been cleared up after the last render.
-	//
+    //
+    // Make sure all the links have been cleared up after the last render.
+    //
 
-	std::int32_t i;
+    std::int32_t i;
 
-	for (i = 0; i < SLAP_line_number; i++)
-	{
-		ASSERT(SLAP_line[i] == nullptr);
-	}
+    for (i = 0; i < SLAP_line_number; i++) {
+        ASSERT(SLAP_line[i] == nullptr);
+    }
 
-	#endif
+#endif
 }
-
-
 
 void SLAP_add_edge(
-		std::int32_t x1, std::int32_t y1,
-		std::int32_t x2, std::int32_t y2)
-{
-	std::int32_t x;
-	std::int32_t y;
+    std::int32_t x1, std::int32_t y1,
+    std::int32_t x2, std::int32_t y2) {
+    std::int32_t x;
+    std::int32_t y;
 
-	std::int32_t dx;
-	std::int32_t dy;
-	
-	std::int32_t type;
+    std::int32_t dx;
+    std::int32_t dy;
 
-	std::uint16_t  next;
-	std::uint16_t *prev;
+    std::int32_t type;
 
+    std::uint16_t next;
+    std::uint16_t *prev;
 
-	//
-	// Clip to the top and bottom of the bitmap.
-	// 
+    //
+    // Clip to the top and bottom of the bitmap.
+    //
 
-	if (y1 < 0 && y2 < 0)
-	{
-		return;
-	}
+    if (y1 < 0 && y2 < 0) {
+        return;
+    }
 
-	if ((y1 >= SLAP_bitmap_size << 8) && y2 >= (SLAP_bitmap_size << 8))
-	{
-		return;
-	}
+    if ((y1 >= SLAP_bitmap_size << 8) && y2 >= (SLAP_bitmap_size << 8)) {
+        return;
+    }
 
-	//
-	// What type of edge is this?
-	//
+    //
+    // What type of edge is this?
+    //
 
-	if (y1 < y2)
-	{
-		type = SLAP_TYPE_START;
-	}
-	else
-	{
-		type = SLAP_TYPE_END;
+    if (y1 < y2) {
+        type = SLAP_TYPE_START;
+    } else {
+        type = SLAP_TYPE_END;
 
-		SWAP(x1, x2);
-		SWAP(y1, y2);
-	}
+        SWAP(x1, x2);
+        SWAP(y1, y2);
+    }
 
-	//
-	// The gradient down the edge.
-	//
+    //
+    // The gradient down the edge.
+    //
 
-	dx = x2 - x1;
-	dy = y2 - y1;
+    dx = x2 - x1;
+    dy = y2 - y1;
 
-	if (dy == 0)
-	{
-		//
-		// We can ignore horizontal edges.
-		//
+    if (dy == 0) {
+        //
+        // We can ignore horizontal edges.
+        //
 
-		return;
-	}
+        return;
+    }
 
-	dx = ((dx << 6) << 7) / dy;
+    dx = ((dx << 6) << 7) / dy;
 
-	//
-	// Add a link to each line covered by the edge.
-	//
+    //
+    // Add a link to each line covered by the edge.
+    //
 
-	if (y1 & 0x3f)
-	{
-		x  = (x1 << 7) + ((0x40 - (y1 & 0x3f)) * dx >> 6);
-		y  = y1 >> 6;
-		y += 1;
-	}
-	else
-	{
-		x = x1 << 7;
-		y = y1 >> 6;
-	}
+    if (y1 & 0x3f) {
+        x = (x1 << 7) + ((0x40 - (y1 & 0x3f)) * dx >> 6);
+        y = y1 >> 6;
+        y += 1;
+    } else {
+        x = x1 << 7;
+        y = y1 >> 6;
+    }
 
-	y1 >>= 6;
-	y2   = y2 + 0x3f >> 6;
+    y1 >>= 6;
+    y2 = y2 + 0x3f >> 6;
 
-	if (y < 0)
-	{
-		x += -y * dx;
-		y  =  0;
-	}
+    if (y < 0) {
+        x += -y * dx;
+        y = 0;
+    }
 
-	if (y2 > SLAP_line_number)
-	{
-		y2 = SLAP_line_number;
-	}
+    if (y2 > SLAP_line_number) {
+        y2 = SLAP_line_number;
+    }
 
-	while(y < y2)
-	{
-		ASSERT(WITHIN(SLAP_link_upto, 1, SLAP_MAX_LINKS - 1));
+    while (y < y2) {
+        ASSERT(WITHIN(SLAP_link_upto, 1, SLAP_MAX_LINKS - 1));
 
-		SLAP_link[SLAP_link_upto].pos  = x >> 7;
-		SLAP_link[SLAP_link_upto].type = type;
-		
-		//
-		// Insert into the linked list for this line.
-		//
+        SLAP_link[SLAP_link_upto].pos = x >> 7;
+        SLAP_link[SLAP_link_upto].type = type;
 
-		ASSERT(WITHIN(y, 0, SLAP_line_number - 1));
+        //
+        // Insert into the linked list for this line.
+        //
 
-		prev = &SLAP_line[y];
-		next =  SLAP_line[y];
+        ASSERT(WITHIN(y, 0, SLAP_line_number - 1));
 
-		while(1)
-		{
-			ASSERT(WITHIN(next, 0, SLAP_link_upto - 1));
+        prev = &SLAP_line[y];
+        next = SLAP_line[y];
 
-			if (next == nullptr || SLAP_link[next].pos >= (x >> 7))
-			{
-				//
-				// This is where to insert...
-				//
+        while (1) {
+            ASSERT(WITHIN(next, 0, SLAP_link_upto - 1));
 
-				SLAP_link[SLAP_link_upto].next = next;
-			   *prev                           = SLAP_link_upto;
-				SLAP_link_upto                += 1;
+            if (next == nullptr || SLAP_link[next].pos >= (x >> 7)) {
+                //
+                // This is where to insert...
+                //
 
-				break;
-			}
+                SLAP_link[SLAP_link_upto].next = next;
+                *prev = SLAP_link_upto;
+                SLAP_link_upto += 1;
 
-			prev = &SLAP_link[next].next;
-			next =  SLAP_link[next].next;
-		}
+                break;
+            }
 
-		x += dx;
-		y += 1;
-	}
+            prev = &SLAP_link[next].next;
+            next = SLAP_link[next].next;
+        }
+
+        x += dx;
+        y += 1;
+    }
 }
 
+void SLAP_render() {
+    std::int32_t x;
+    std::int32_t y;
 
+    std::int32_t on;
 
-void SLAP_render()
-{
-	std::int32_t x;
-	std::int32_t y;
+    std::int32_t add;
 
-	std::int32_t on;
+    SLAP_Link *sk1;
+    SLAP_Link *sk2;
 
-	std::int32_t add;
+    for (y = 0; y < SLAP_line_number; y++) {
+        if (!SLAP_line[y]) {
+            //
+            // Nothing to render on this line.
+            //
 
-	SLAP_Link *sk1;
-	SLAP_Link *sk2;
+            continue;
+        }
 
-	for (y = 0; y < SLAP_line_number; y++)
-	{
-		if (!SLAP_line[y] )
-		{
-			//
-			// Nothing to render on this line.
-			//
+        //
+        // The first link on this line.
+        //
 
-			continue;
-		}
+        ASSERT(WITHIN(SLAP_line[y], 1, SLAP_link_upto - 1));
 
-		//
-		// The first link on this line.
-		//
+        sk1 = &SLAP_link[SLAP_line[y]];
 
-		ASSERT(WITHIN(SLAP_line[y], 1, SLAP_link_upto - 1));
+        //
+        // All links should at least come in pairs.
+        //
 
-		sk1 = &SLAP_link[SLAP_line[y]];
+        ASSERT(WITHIN(sk1->next, 1, SLAP_link_upto - 1));
 
-		//
-		// All links should at least come in pairs.
-		//
+        sk2 = &SLAP_link[sk1->next];
 
-		ASSERT(WITHIN(sk1->next, 1, SLAP_link_upto - 1));
+        //
+        // Render the span between sk1 and sk2.
+        //
 
-		sk2 = &SLAP_link[sk1->next];
+        on = 1;
 
-		//
-		// Render the span between sk1 and sk2.
-		//
+        while (1) {
+            ASSERT(sk1->pos <= sk2->pos);
 
-		on = 1;
+            if ((sk1->pos >> 8) >= SLAP_bitmap_size) {
+                //
+                // Finished this line.
+                //
 
-		while(1)
-		{
-			ASSERT(sk1->pos <= sk2->pos);
+                break;
+            }
 
-			if ((sk1->pos >> 8) >= SLAP_bitmap_size)
-			{
-				//
-				// Finished this line.
-				//
+            if (!on || sk2->pos <= 0) {
+                //
+                // Easy peasy! This is some blank space.
+                //
+            } else {
+                if ((sk1->pos >> 8) == (sk2->pos >> 8)) {
+                    //
+                    // Start and end in the same pixel.
+                    //
 
-				break;
-			}
+                    add = sk2->pos - sk1->pos >> 2;
 
-			if (!on || sk2->pos <= 0)
-			{
-				//
-				// Easy peasy! This is some blank space.
-				// 
-			}
-			else
-			{
+                    SLAP_add_pixel(sk1->pos >> 8, y >> 2, add);
+                } else {
+                    x = sk1->pos;
 
-				if ((sk1->pos >> 8) == (sk2->pos >> 8))
-				{
-					//
-					// Start and end in the same pixel.
-					//
+                    if (x <= 0) {
+                        //
+                        // Zoom to the beginning of the line.
+                        //
 
-					add = sk2->pos - sk1->pos >> 2;
+                        x = 0;
+                    } else {
+                        //
+                        // The first pixel might be fractional.
+                        //
 
-					SLAP_add_pixel(sk1->pos >> 8, y >> 2, add);
-				}
-				else
-				{
-					x = sk1->pos;
+                        SLAP_add_pixel(x >> 8, y >> 2, 256 - (x & 0xff) >> 2);
 
-					if (x <= 0)
-					{
-						//
-						// Zoom to the beginning of the line.
-						//
+                        x &= ~0xff;
+                        x += 256;
+                    }
 
-						x = 0;
-					}
-					else
-					{
-						//
-						// The first pixel might be fractional.
-						//
+                    //
+                    // Don't zoom off the end of the bitmap.
+                    //
 
-						SLAP_add_pixel(x >> 8, y >> 2, 256 - (x & 0xff) >> 2);
+                    if (sk2->pos > (SLAP_bitmap_size << 8)) {
+                        sk2->pos = SLAP_bitmap_size << 8;
+                    }
 
-						x &= ~0xff;
-						x +=  256;
-					}
+                    ASSERT((x & 0xff) == 0);
 
-					//
-					// Don't zoom off the end of the bitmap.
-					// 
+                    //
+                    // This'd be the place to optimise!
+                    //
 
-					if (sk2->pos > (SLAP_bitmap_size << 8))
-					{
-						sk2->pos = SLAP_bitmap_size << 8;
-					}
+                    while ((x >> 8) < (sk2->pos >> 8)) {
+                        SLAP_add_pixel(x >> 8, y >> 2, 64);
 
-					ASSERT((x & 0xff) == 0);
+                        x += 256;
+                    }
 
-					//
-					// This'd be the place to optimise!
-					//
+                    if (x >= (SLAP_bitmap_size << 8)) {
+                        //
+                        // Finished the line.
+                        //
 
-					while((x >> 8) < (sk2->pos >> 8))
-					{
-						SLAP_add_pixel(x >> 8, y >> 2, 64);
+                        break;
+                    } else {
+                        //
+                        // The final pixel of the line.
+                        //
 
-						x += 256;
-					}
+                        add = sk2->pos - x >> 2;
 
+                        if (add) {
+                            SLAP_add_pixel(x >> 8, y >> 2, add);
+                        }
+                    }
+                }
+            }
 
-					if (x >= (SLAP_bitmap_size << 8))
-					{
-						//
-						// Finished the line.
-						//
+            switch (sk2->type) {
+                case SLAP_TYPE_START:
+                    on += 1;
+                    break;
 
-						break;
-					}
-					else
-					{
-						//
-						// The final pixel of the line.
-						//
+                case SLAP_TYPE_END:
+                    on -= 1;
+                    break;
 
-						add = sk2->pos - x >> 2;
+                default:
+                    ASSERT(0);
+                    break;
+            }
 
-						if (add)
-						{
-							SLAP_add_pixel(x >> 8, y >> 2, add);
-						}
-					}
-				}
-			}
+            if (!sk2->next) {
+                break;
+            }
 
-			switch(sk2->type)
-			{
-				case SLAP_TYPE_START:
-					on += 1;
-					break;
+            ASSERT(WITHIN(sk2->next, 1, SLAP_link_upto - 1));
 
-				case SLAP_TYPE_END:
-					on -= 1;
-					break;
+            sk1 = sk2;
+            sk2 = &SLAP_link[sk2->next];
+        }
 
-				default:
-					ASSERT(0);
-					break;
-			}
+        //
+        // Finished this line.
+        //
 
-			if (!sk2->next )
-			{
-				break;
-			}
+        SLAP_line[y] = nullptr;
+    }
 
-			ASSERT(WITHIN(sk2->next, 1, SLAP_link_upto - 1));
+    //
+    // Clear the links
+    //
 
-			sk1 =  sk2;
-			sk2 = &SLAP_link[sk2->next];
-		}
-
-		//
-		// Finished this line.
-		//
-
-		SLAP_line[y] = nullptr;
-	}
-
-	//
-	// Clear the links
-	//
-
-	SLAP_link_upto = 1;
+    SLAP_link_upto = 1;
 }
-
-
-
-

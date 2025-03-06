@@ -7,7 +7,7 @@
  *	In WM_INITDIALOG call:
  *		TABCTL_add( handle_of_instance,
  *					handle_of_dialog_window,
- *					resource_id_of_tabctl, 
+ *					resource_id_of_tabctl,
  *					resource_id_of_first_tab,
  *					title_of_first_tab,
  *					window_proc_of_first_tab,
@@ -25,12 +25,12 @@
 #include "MFStdLib.h"
 
 struct TabInfo {
-	 HWND			hwndTabCtl;
-	 HWND			hwndDisplay;
-	 HINSTANCE		hInstance;
-	 std::int32_t			tabcount;
-	 DLGTEMPLATE	**resTabs;
-	 DLGPROC		*ChildProc;
+    HWND hwndTabCtl;
+    HWND hwndDisplay;
+    HINSTANCE hInstance;
+    std::int32_t tabcount;
+    DLGTEMPLATE **resTabs;
+    DLGPROC *ChildProc;
 };
 
 // Add tabs to a tabcontrol:
@@ -43,6 +43,5 @@ void TABCTL_sel(HWND wnd, DWORD tabctl);
 std::int32_t TABCTL_getsel(HWND wnd, DWORD tabctl);
 // Query for visible tab's window handle:
 HWND TABCTL_gethwnd(HWND wnd, DWORD tabctl);
-
 
 #endif

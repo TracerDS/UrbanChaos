@@ -19,4 +19,3 @@ void ProcessGrenades();
 
 // create a grenade explosion
 void CreateGrenadeExplosion(std::int32_t x, std::int32_t y, std::int32_t z, Thing* owner);
-

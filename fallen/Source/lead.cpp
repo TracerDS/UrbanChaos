@@ -4,7 +4,6 @@
 #include "animate.h"
 #include "ob.h"
 
-
 //
 // The structures.
 //
@@ -15,250 +14,223 @@ std::int32_t LEAD_lead_upto;
 LEAD_Point LEAD_point[LEAD_MAX_POINTS];
 std::int32_t LEAD_point_upto;
 
+void LEAD_init() {
+    memset(LEAD_lead, 0, sizeof(LEAD_lead));
+    memset(LEAD_point, 0, sizeof(LEAD_point));
 
-
-void LEAD_init()
-{
-	memset(LEAD_lead,  0, sizeof(LEAD_lead));
-	memset(LEAD_point, 0, sizeof(LEAD_point));
-
-	LEAD_lead_upto  = 1;
-	LEAD_point_upto = 1;
+    LEAD_lead_upto = 1;
+    LEAD_point_upto = 1;
 }
 
-
 void LEAD_create(
-		std::int32_t len,
-		std::int32_t world_x,
-		std::int32_t world_y,
-		std::int32_t world_z)
-{
-	std::int32_t p_num;
+    std::int32_t len,
+    std::int32_t world_x,
+    std::int32_t world_y,
+    std::int32_t world_z) {
+    std::int32_t p_num;
 
-	LEAD_Lead *ll;
+    LEAD_Lead *ll;
 
-	//
-	// How many points do we need?
-	//
+    //
+    // How many points do we need?
+    //
 
-	switch(len)
-	{
-		case LEAD_LEN_SHORT:  p_num = 8;  break;
-		case LEAD_LEN_MEDIUM: p_num = 16; break;
-		case LEAD_LEN_LONG:   p_num = 32; break;
+    switch (len) {
+        case LEAD_LEN_SHORT: p_num = 8; break;
+        case LEAD_LEN_MEDIUM: p_num = 16; break;
+        case LEAD_LEN_LONG: p_num = 32; break;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+        default:
+            ASSERT(0);
+            break;
+    }
 
-	//
-	// Do we have enough points?
-	//
+    //
+    // Do we have enough points?
+    //
 
-	if (LEAD_point_upto + p_num > LEAD_MAX_POINTS)
-	{
-		return;
-	}
+    if (LEAD_point_upto + p_num > LEAD_MAX_POINTS) {
+        return;
+    }
 
-	//
-	// Ran out of objects?
-	//
+    //
+    // Ran out of objects?
+    //
 
-	if (LEAD_lead_upto >= LEAD_MAX_LEADS)
-	{
-		return;
-	}
+    if (LEAD_lead_upto >= LEAD_MAX_LEADS) {
+        return;
+    }
 
-	ll = &LEAD_lead[LEAD_lead_upto];
+    ll = &LEAD_lead[LEAD_lead_upto];
 
-	ll->p_num        = p_num;
-	ll->p_index      = LEAD_point_upto;
-	ll->attach_x     = world_x;
-	ll->attach_y     = world_y;
-	ll->attach_z     = world_z;
-	ll->attach_thing = NULL;
+    ll->p_num = p_num;
+    ll->p_index = LEAD_point_upto;
+    ll->attach_x = world_x;
+    ll->attach_y = world_y;
+    ll->attach_z = world_z;
+    ll->attach_thing = NULL;
 
-
-	LEAD_lead_upto  += 1;
-	LEAD_point_upto += p_num;
+    LEAD_lead_upto += 1;
+    LEAD_point_upto += p_num;
 }
 
 void LEAD_find_end(
-		std::uint8_t  lead_index,
-		std::int32_t *end_x,
-		std::int32_t *end_y,
-		std::int32_t *end_z)
-{
-	std::int32_t pos_x;
-	std::int32_t pos_y;
-	std::int32_t pos_z;
+    std::uint8_t lead_index,
+    std::int32_t *end_x,
+    std::int32_t *end_y,
+    std::int32_t *end_z) {
+    std::int32_t pos_x;
+    std::int32_t pos_y;
+    std::int32_t pos_z;
 
-	ASSERT(WITHIN(lead_index, 1, LEAD_lead_upto - 1));
+    ASSERT(WITHIN(lead_index, 1, LEAD_lead_upto - 1));
 
-	LEAD_Lead *ll;
-	Thing     *p_thing;
+    LEAD_Lead *ll;
+    Thing *p_thing;
 
-	ll = &LEAD_lead[lead_index];
+    ll = &LEAD_lead[lead_index];
 
-	if (ll->attach_thing)
-	{
-		p_thing = TO_THING(ll->attach_thing);
+    if (ll->attach_thing) {
+        p_thing = TO_THING(ll->attach_thing);
 
-		switch(p_thing->Class)
-		{
-			case CLASS_PERSON:
-				
-				calc_sub_objects_position(
-					p_thing,
-					p_thing->Draw.Tweened->AnimTween,
-					SUB_OBJECT_HEAD,
-				   &pos_x,
-				   &pos_y,
-				   &pos_z);
+        switch (p_thing->Class) {
+            case CLASS_PERSON:
 
-				pos_x += p_thing->WorldPos.X >> 8;
-				pos_y += p_thing->WorldPos.Y >> 8;
-				pos_z += p_thing->WorldPos.Z >> 8;
-				
-				break;
+                calc_sub_objects_position(
+                    p_thing,
+                    p_thing->Draw.Tweened->AnimTween,
+                    SUB_OBJECT_HEAD,
+                    &pos_x,
+                    &pos_y,
+                    &pos_z);
 
-			case CLASS_ANIMAL:
+                pos_x += p_thing->WorldPos.X >> 8;
+                pos_y += p_thing->WorldPos.Y >> 8;
+                pos_z += p_thing->WorldPos.Z >> 8;
 
-				pos_x = (p_thing->WorldPos.X >> 8);
-				pos_y = (p_thing->WorldPos.Y >> 8) + 0x80;
-				pos_z = (p_thing->WorldPos.Z >> 8);
+                break;
 
-				break;
+            case CLASS_ANIMAL:
 
-			default:
-				ASSERT(0);
-				break;
-		}
-	}
-	else
-	{
-		//
-		// Pick a random to initialise the string in.
-		//
-	}
+                pos_x = (p_thing->WorldPos.X >> 8);
+                pos_y = (p_thing->WorldPos.Y >> 8) + 0x80;
+                pos_z = (p_thing->WorldPos.Z >> 8);
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
+        }
+    } else {
+        //
+        // Pick a random to initialise the string in.
+        //
+    }
 }
 
+void LEAD_attach() {
+    std::int32_t i;
+    std::int32_t j;
 
+    std::int32_t ob_x;
+    std::int32_t ob_y;
+    std::int32_t ob_z;
+    std::int32_t ob_yaw;
+    std::int32_t ob_prim;
 
-void LEAD_attach()
-{
-	std::int32_t i;
-	std::int32_t j;
+    std::int32_t dx;
+    std::int32_t dy;
+    std::int32_t dz;
+    std::int32_t dist;
+    std::int32_t score;
 
-	std::int32_t ob_x;
-	std::int32_t ob_y;
-	std::int32_t ob_z;
-	std::int32_t ob_yaw;
-	std::int32_t ob_prim;
+    std::int32_t end_x;
+    std::int32_t end_y;
+    std::int32_t end_z;
 
-	std::int32_t dx;
-	std::int32_t dy;
-	std::int32_t dz;
-	std::int32_t dist;
-	std::int32_t score;
+    std::int32_t best_thing = NULL;
+    std::int32_t best_score = -INFINITY;
 
-	std::int32_t end_x;
-	std::int32_t end_y;
-	std::int32_t end_z;
+#define LEAD_MAX_FIND 8
 
-	std::int32_t best_thing =  NULL;
-	std::int32_t best_score = -INFINITY;
+    THING_INDEX find[LEAD_MAX_FIND];
+    std::int32_t found;
 
-	#define LEAD_MAX_FIND 8
+    LEAD_Lead *ll;
+    LEAD_Point *lp;
+    Thing *p_found;
 
-	THING_INDEX find[LEAD_MAX_FIND];
-	std::int32_t       found;
+    for (i = 1; i < LEAD_lead_upto; i++) {
+        ll = &LEAD_lead[i];
 
-	LEAD_Lead  *ll;
-	LEAD_Point *lp;
-	Thing       *p_found;
+        //
+        // Look for a lampost or a tree to attach to.
+        //
 
-	for (i = 1; i < LEAD_lead_upto; i++)
-	{
-		ll = &LEAD_lead[i];
+        if (OB_find_type(
+                ll->attach_x,
+                ll->attach_y,
+                ll->attach_z,
+                0x200,
+                PRIM_FLAG_LAMPOST | PRIM_FLAG_TREE,
+                &ob_x,
+                &ob_y,
+                &ob_z,
+                &ob_yaw,
+                &ob_prim)) {
+            ll->attach_x = ob_x;
+            ll->attach_y = ob_y + 0x60;
+            ll->attach_z = ob_z;
+        } else {
+            //
+            // We couldn't find a tree or a lampost- so just stick to the ground.
+            //
 
-		//
-		// Look for a lampost or a tree to attach to.
-		//
+            ll->attach_y = PAP_calc_map_height_at(ll->attach_x, ll->attach_z);
+        }
 
-		if (OB_find_type(
-				ll->attach_x,
-				ll->attach_y,
-				ll->attach_z,
-				0x200,
-				PRIM_FLAG_LAMPOST | PRIM_FLAG_TREE,
-			   &ob_x,
-			   &ob_y,
-			   &ob_z,
-			   &ob_yaw,
-			   &ob_prim))
-		{
-			ll->attach_x = ob_x;
-			ll->attach_y = ob_y + 0x60;
-			ll->attach_z = ob_z;
-		}
-		else
-		{
-			//
-			// We couldn't find a tree or a lampost- so just stick to the ground.
-			//
+        //
+        // Find an animal or person to attach to.
+        //
 
-			ll->attach_y = PAP_calc_map_height_at(ll->attach_x, ll->attach_z);
-		}
+        found = THING_find_sphere(
+            ll->attach_x,
+            ll->attach_y,
+            ll->attach_z,
+            0x200,
+            find,
+            LEAD_MAX_FIND,
+            (1 << CLASS_PERSON) | (1 << CLASS_ANIMAL));
 
-		//
-		// Find an animal or person to attach to.
-		//
+        //
+        // Look for the best thing to attach to.
+        //
 
-		found = THING_find_sphere(
-					ll->attach_x,
-					ll->attach_y,
-					ll->attach_z,
-					0x200,
-					find,
-					LEAD_MAX_FIND,
-					(1 << CLASS_PERSON) | (1 << CLASS_ANIMAL));
+        for (j = 0; j < found; j++) {
+            p_found = TO_THING(find[j]);
 
-		//
-		// Look for the best thing to attach to.
-		//
+            dx = (p_found->WorldPos.X >> 8) - ll->attach_x;
+            dy = (p_found->WorldPos.Y >> 8) - ll->attach_y;
+            dz = (p_found->WorldPos.Z >> 8) - ll->attach_z;
 
-		for (j = 0; j < found; j++)
-		{
-			p_found = TO_THING(find[j]);
+            dist = QDIST3(abs(dx), abs(dy), abs(dz));
+            score = dist;
 
-			dx = (p_found->WorldPos.X >> 8) - ll->attach_x;
-			dy = (p_found->WorldPos.Y >> 8) - ll->attach_y;
-			dz = (p_found->WorldPos.Z >> 8) - ll->attach_z;
+            if (p_found->Class == CLASS_ANIMAL) {
+                //
+                // It is better to attach to animals than to people!
+                //
 
-			dist  = QDIST3(abs(dx),abs(dy),abs(dz));
-			score = dist;
+                score <<= 2;
+            }
 
-			if (p_found->Class == CLASS_ANIMAL)
-			{
-				//
-				// It is better to attach to animals than to people!
-				//
+            if (score > best_score) {
+                best_score = score;
+                best_thing = find[j];
+            }
+        }
 
-				score <<= 2;
-			}
-
-			if (score > best_score)
-			{
-				best_score = score;
-				best_thing = find[j];
-			}
-		}
-
-		ll->attach_thing = best_thing;
-	}
+        ll->attach_thing = best_thing;
+    }
 }
-
-
-

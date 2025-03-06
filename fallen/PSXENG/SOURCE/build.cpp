@@ -4,798 +4,700 @@
 
 #include "game.h"
 #include "c:\fallen\psxeng\headers\engine.h"
-//#include "c:\fallen\editor\headers\poly.h"
-//#include "light.h"
+// #include "c:\fallen\editor\headers\poly.h"
+// #include "light.h"
 #include "build.h"
 
-std::int32_t check_vect_with_gamut(std::int32_t x1,std::int32_t z1,std::int32_t x2,std::int32_t z2)
-{
-	std::int32_t	step_x,step_z;
-	std::int32_t	count;
-/*
-	if((z1<NGAMUT_zmin && z2<NGAMUT_zmin) || (z1>NGAMUT_zmax && z2>NGAMUT_zmax))
-		return(0); //dont draw
+std::int32_t check_vect_with_gamut(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2) {
+    std::int32_t step_x, step_z;
+    std::int32_t count;
+    /*
+            if((z1<NGAMUT_zmin && z2<NGAMUT_zmin) || (z1>NGAMUT_zmax && z2>NGAMUT_zmax))
+                    return(0); //dont draw
 
-	if((x1<NGAMUT_xmin && x2<NGAMUT_xmin) || (x1>NGAMUT_xmax && x2>NGAMUT_xmax))
-		return(0); //dont draw
-*/ 
-	step_x=x2-x1;
-	step_z=z2-z1;
+            if((x1<NGAMUT_xmin && x2<NGAMUT_xmin) || (x1>NGAMUT_xmax && x2>NGAMUT_xmax))
+                    return(0); //dont draw
+    */
+    step_x = x2 - x1;
+    step_z = z2 - z1;
 
+    if (abs(step_z) >= abs(step_x)) {
+        count = abs(step_z);
+        if (count == 0)
+            count = 1;
+        step_x = (step_x << 8) / count;
+        count >>= 8;
+        if (count == 0)
+            count = 1;
 
+        if (step_z > 0)
+            step_z = 1;
+        else
+            step_z = -1;
 
-	if(abs(step_z)>=abs(step_x))
-	{
+        x1 <<= 8;
+        z1 >>= 8;
+        while (count) {
+            if (z1 >= NGAMUT_zmin && z1 <= NGAMUT_zmax) {
+                std::int32_t temp_x;
+                temp_x = x1 >> 16;
+                if (temp_x >= NGAMUT_gamut[z1].xmin && temp_x <= NGAMUT_gamut[z1].xmax)
+                    return (1); // draw this facet
+            }
+            x1 += step_x;
+            z1 += step_z;
+            count--;
+        }
+    } else {
+        count = abs(step_x);
+        if (count == 0)
+            count = 1;
+        step_z = (step_z << 8) / count;
+        count >>= 8;
+        if (count == 0)
+            count = 1;
 
-		count=abs(step_z);
-		if(count==0)
-			count=1;
-		step_x=(step_x<<8)/count;
-		count>>=8;
-		if(count==0)
-			count=1;
+        if (step_x > 0)
+            step_x = 1;
+        else
+            step_x = -1;
 
+        x1 >>= 8;
+        z1 <<= 8;
+        while (count) {
+            std::int32_t temp_z;
 
-		if(step_z>0)
-			step_z=1;
-		else
-			step_z=-1;
+            temp_z = z1 >> 16;
 
-
-		x1<<=8;
-		z1>>=8;
-		while(count)
-		{
-
-			if(z1>=NGAMUT_zmin&&z1<=NGAMUT_zmax)
-			{
-				std::int32_t	temp_x;
-				temp_x=x1>>16;
-				if(temp_x>=NGAMUT_gamut[z1].xmin&&temp_x<=NGAMUT_gamut[z1].xmax)
-					return(1); //draw this facet
-			}
-			x1+=step_x;
-			z1+=step_z;
-			count--;
-		}
-	}
-	else
-	{
-		count=abs(step_x);
-		if(count==0)
-			count=1;
-		step_z=(step_z<<8)/count;
-		count>>=8;
-		if(count==0)
-			count=1;
-
-
-		if(step_x>0)
-			step_x=1;
-		else
-			step_x=-1;
-
-
-		x1>>=8;
-		z1<<=8;
-		while(count)
-		{
-			std::int32_t	temp_z;
-
-			temp_z=z1>>16;
-
-			if(temp_z>NGAMUT_zmin&&temp_z<NGAMUT_zmax)
-			{
-				if(x1>=NGAMUT_gamut[temp_z].xmin && x1<=NGAMUT_gamut[temp_z].xmax)
-				{
-					return(1); //draw this facet
-				}
-			}
-			x1+=step_x;
-			z1+=step_z;
-			count--;
-		}
-
-	}
-	return(0);
+            if (temp_z > NGAMUT_zmin && temp_z < NGAMUT_zmax) {
+                if (x1 >= NGAMUT_gamut[temp_z].xmin && x1 <= NGAMUT_gamut[temp_z].xmax) {
+                    return (1); // draw this facet
+                }
+            }
+            x1 += step_x;
+            z1 += step_z;
+            count--;
+        }
+    }
+    return (0);
 }
-#ifndef	PSX
-std::int32_t check_col_vect(std::int32_t vect)
-{
-	CollisionVect *p_vect;
-	std::int32_t	draw;
-	std::int32_t	x1,z1,x2,z2;
-	std::int32_t	tx1,tz1,tx2,tz2;
-	p_vect = &col_vects[vect];
+#ifndef PSX
+std::int32_t check_col_vect(std::int32_t vect) {
+    CollisionVect *p_vect;
+    std::int32_t draw;
+    std::int32_t x1, z1, x2, z2;
+    std::int32_t tx1, tz1, tx2, tz2;
+    p_vect = &col_vects[vect];
 
+    x1 = p_vect->X[0];
+    z1 = p_vect->Z[0];
 
-	x1=p_vect->X[0];
-	z1=p_vect->Z[0];
+    x2 = p_vect->X[1];
+    z2 = p_vect->Z[1];
 
+    tx1 = x1 >> 8;
+    tz1 = z1 >> 8;
+    tx2 = x2 >> 8;
+    tz2 = z2 >> 8;
 
-	x2=p_vect->X[1];
-	z2=p_vect->Z[1];
+    if ((tz1 < NGAMUT_zmin && tz2 < NGAMUT_zmin) || (tz1 > NGAMUT_zmax && tz2 > NGAMUT_zmax)) //|| (tx1<NGAMUT_xmin && tx2<NGAMUT_xmin) || (tx1>NGAMUT_xmax && tx2>NGAMUT_xmax) )
+    {
+        draw = 0;
+    } else {
+        draw = check_vect_with_gamut(x1, z1, x2, z2);
+    }
 
-	tx1=x1>>8;
-	tz1=z1>>8;
-	tx2=x2>>8;
-	tz2=z2>>8;
+    //
+    // no points found inside the gamut
+    //
+    if (0) {
+        LINE_F2 *p;
 
-	if( (tz1<NGAMUT_zmin && tz2<NGAMUT_zmin) || (tz1>NGAMUT_zmax && tz2>NGAMUT_zmax)) //|| (tx1<NGAMUT_xmin && tx2<NGAMUT_xmin) || (tx1>NGAMUT_xmax && tx2>NGAMUT_xmax) )
-	{
-		draw=0;
-	}
-	else
-	{
-		draw=check_vect_with_gamut(x1,z1,x2,z2);
-	}
+        p = (LINE_F2 *) the_display.CurrentPrim;
 
-	//
-	// no points found inside the gamut
-	//
-	if(0)		   
-	{
-		LINE_F2	*p;
+        setLineF2(p);
+        if (draw == 0)
+            setRGB0(p, 0, 0, 255);
+        else
+            setRGB0(p, 255, 255, 255);
+        setXY2(p, p_vect->X[0] >> 7, p_vect->Z[0] >> 7, p_vect->X[1] >> 7, p_vect->Z[1] >> 7);
 
-		p=(LINE_F2 *)the_display.CurrentPrim;
-
-		setLineF2(p);
-		if(draw==0)
-			setRGB0(p,0,0,255);
-		else
-			setRGB0(p,255,255,255);
-		setXY2(p,p_vect->X[0]>>7, p_vect->Z[0]>>7,p_vect->X[1]>>7, p_vect->Z[1]>>7);
-
-		addPrim(&the_display.CurrentDisplayBuffer->ot[4095],p);
-
-	}
-	return(draw);
-
+        addPrim(&the_display.CurrentDisplayBuffer->ot[4095], p);
+    }
+    return (draw);
 }
-std::int32_t draw_bound_box(struct BoundBox *p_box,std::int32_t r,std::int32_t g,std::int32_t b)
-{
-	return(0);
+std::int32_t draw_bound_box(struct BoundBox *p_box, std::int32_t r, std::int32_t g, std::int32_t b) {
+    return (0);
 
-	POLY_F4	*p;
-	p=(POLY_F4 *)the_display.CurrentPrim;
+    POLY_F4 *p;
+    p = (POLY_F4 *) the_display.CurrentPrim;
 
-	setPolyF4(p);
-	setRGB0(p,r,g,b);
-	setXY4(p,p_box->MinX<<1,p_box->MinZ<<1,p_box->MaxX<<1,p_box->MinZ<<1,p_box->MinX<<1,p_box->MaxZ<<1,p_box->MaxX<<1,p_box->MaxZ<<1);
+    setPolyF4(p);
+    setRGB0(p, r, g, b);
+    setXY4(p, p_box->MinX << 1, p_box->MinZ << 1, p_box->MaxX << 1, p_box->MinZ << 1, p_box->MinX << 1, p_box->MaxZ << 1, p_box->MaxX << 1, p_box->MaxZ << 1);
 
-	the_display.CurrentPrim+=sizeof(POLY_F4);
-	addPrim(&the_display.CurrentDisplayBuffer->ot[4095],p);
+    the_display.CurrentPrim += sizeof(POLY_F4);
+    addPrim(&the_display.CurrentDisplayBuffer->ot[4095], p);
 }
 
-std::int32_t check_roof_facet(std::int32_t bbox)
-{
-	struct	BoundBox *p_box;
-	std::int32_t	x,z;
-	p_box=&roof_bounds[bbox];
-		return(1);
+std::int32_t check_roof_facet(std::int32_t bbox) {
+    struct BoundBox *p_box;
+    std::int32_t x, z;
+    p_box = &roof_bounds[bbox];
+    return (1);
 
-	if(p_box->Y>NGAMUT_Ymax||p_box->Y<NGAMUT_Ymin)
-	{
+    if (p_box->Y > NGAMUT_Ymax || p_box->Y < NGAMUT_Ymin) {
+        draw_bound_box(p_box, 255, 0, 0);
+        return (0);
+    }
 
-		draw_bound_box(p_box,255,0,0);
-		return(0);
-	}
+    if (p_box->MinZ > NGAMUT_zmax || p_box->MaxZ < NGAMUT_zmin) {
+        draw_bound_box(p_box, 128, 0, 0);
+        return (0);
+    }
 
-	if(p_box->MinZ>NGAMUT_zmax || p_box->MaxZ<NGAMUT_zmin)
-	{
-		draw_bound_box(p_box,128,0,0);
-		return(0);
-	}
+    if (p_box->MinX > NGAMUT_xmax || p_box->MaxX < NGAMUT_xmin) {
+        draw_bound_box(p_box, 64, 0, 0);
+        return (0);
+    }
 
-	if(p_box->MinX>NGAMUT_xmax || p_box->MaxX<NGAMUT_xmin)
-	{
-		draw_bound_box(p_box,64,0,0);
-		return(0);
-	}
+    for (x = p_box->MinX; x < p_box->MaxX; x += 2)
+        for (z = p_box->MinZ; z < p_box->MaxZ; z += 2) {
+            if (z > NGAMUT_zmin && z < NGAMUT_zmax) {
+                if (x > NGAMUT_gamut[z].xmin && x <= NGAMUT_gamut[z].xmax) {
+                    draw_bound_box(p_box, 255, 255, 255);
 
-
-
-	for(x=p_box->MinX;x<p_box->MaxX;x+=2)
-	for(z=p_box->MinZ;z<p_box->MaxZ;z+=2)
-	{
-		if(z>NGAMUT_zmin&&z<NGAMUT_zmax)
-		{
-			if(x>NGAMUT_gamut[z].xmin && x<=NGAMUT_gamut[z].xmax)
-			{
-				draw_bound_box(p_box,255,255,255);
-
-				return(1); //draw the bastard
-			}
-		}
-		
-	}
-	draw_bound_box(p_box,0,0,255);
-	return(0); //dont draw
+                    return (1); // draw the bastard
+                }
+            }
+        }
+    draw_bound_box(p_box, 0, 0, 255);
+    return (0); // dont draw
 }
 
+std::int32_t check_facet(std::int32_t bx, std::int32_t by, std::int32_t bz, std::int32_t bf_index) {
+    BuildingFacet *bf;
 
+    std::int32_t sp;
+    std::int32_t ep;
+    std::int32_t i;
+    std::int32_t pass = 0;
 
+    bf = &building_facets[bf_index];
 
-std::int32_t check_facet(std::int32_t bx,std::int32_t by,std::int32_t bz,std::int32_t bf_index)
-{
-	BuildingFacet  *bf;
+    if (bf->ColVect > 0) {
+        if (check_col_vect(bf->ColVect) == 0) {
+            return (0); // dont draw this facet
+        }
 
-	std::int32_t sp;
-	std::int32_t ep;
-	std::int32_t i;
-	std::int32_t	pass=0;
+    } else if (bf->ColVect < 0) {
+        if (check_roof_facet(-bf->ColVect) == 0)
+            return (0); // dont draw this facet
+    }
 
+    return (1);
 
+    sp = bf->StartPoint;
+    ep = bf->EndPoint;
 
-	bf = &building_facets[bf_index];
+    for (i = sp; i < ep; i++) {
+        std::int32_t y;
 
-	if(bf->ColVect>0)
-	{
-		if(check_col_vect(bf->ColVect)==0)
-		{
-			return(0); //dont draw this facet
-		}
+        y = by + prim_points[i].Y;
 
-	}
-	else
-	if(bf->ColVect<0)
-	{
-		if(check_roof_facet(-bf->ColVect)==0)
-			return(0); //dont draw this facet
+        if (y > NGAMUT_Ymin && y < NGAMUT_Ymax) {
+            pass = 1;
+            break;
+        }
+    }
 
-	}
+    if (pass) {
+        /*
+        do more tests
+        */
 
-		return(1);
-
-	sp = bf->StartPoint;
-	ep = bf->EndPoint;
-
-	for (i = sp; i < ep; i++)
-	{
-		std::int32_t	y;
-
-		y=by+prim_points[i].Y;
-
-		if(y>NGAMUT_Ymin && y <NGAMUT_Ymax)
-		{
-			pass=1;
-			break;
-		}
-	}
-
-	if(pass)
-	{
-		/*
-		do more tests
-		*/
-
-		return(1);
-	}
-	else
-	{
-		//
-		// facet off screen
-		//
-		return(0);
-	}
-
+        return (1);
+    } else {
+        //
+        // facet off screen
+        //
+        return (0);
+    }
 }
 
-void BUILD_draw(Thing *p_thing)
-{
-	std::int32_t i;
+void BUILD_draw(Thing *p_thing) {
+    std::int32_t i;
 
-	std::int32_t sp;
-	std::int32_t ep;
+    std::int32_t sp;
+    std::int32_t ep;
 
-	std::int32_t p0;
-	std::int32_t p1;
-	std::int32_t p2;
-	std::int32_t p3;
-	
-	PrimFace4  *p_f4;
-	PrimFace3  *p_f3;
-	PrimObject *p_obj;
+    std::int32_t p0;
+    std::int32_t p1;
+    std::int32_t p2;
+    std::int32_t p3;
 
-	POLY_Point *pp;
-	POLY_Point *ps;
+    PrimFace4 *p_f4;
+    PrimFace3 *p_f3;
+    PrimObject *p_obj;
 
-	POLY_Point *tri [3];
-	POLY_Point *quad[4];
+    POLY_Point *pp;
+    POLY_Point *ps;
 
-	std::int32_t page;
-	std::int32_t backface_cull;
-	std::uint32_t shadow;
-	std::uint32_t face_colour;
-	std::uint32_t face_specular;
+    POLY_Point *tri[3];
+    POLY_Point *quad[4];
 
-	std::int32_t bx = (p_thing->WorldPos.X >> 8);
-	std::int32_t by = (p_thing->WorldPos.Y >> 8);
-	std::int32_t bz = (p_thing->WorldPos.Z >> 8);
+    std::int32_t page;
+    std::int32_t backface_cull;
+    std::uint32_t shadow;
+    std::uint32_t face_colour;
+    std::uint32_t face_specular;
 
-	std::int32_t bo_index;
-	std::int32_t bf_index;
+    std::int32_t bx = (p_thing->WorldPos.X >> 8);
+    std::int32_t by = (p_thing->WorldPos.Y >> 8);
+    std::int32_t bz = (p_thing->WorldPos.Z >> 8);
 
-	BuildingFacet  *bf;			 
-	BuildingObject *bo;
-	static	std::int32_t	most_quads=300;
-	std::int32_t	count_quad=0;
-	
-	bo_index =  p_thing->Index;
-	bo       = &building_objects[bo_index];
+    std::int32_t bo_index;
+    std::int32_t bf_index;
 
-	//
-	// Points out of the ambient light.
-	//
-/*
-	shadow =
-		((LIGHT_amb_colour.red   >> 1) << 16) |
-		((LIGHT_amb_colour.green >> 1) <<  8) |
-		((LIGHT_amb_colour.blue  >> 1) <<  0);
-  */
-	//
-	// The ambient light colour.
-	//
+    BuildingFacet *bf;
+    BuildingObject *bo;
+    static std::int32_t most_quads = 300;
+    std::int32_t count_quad = 0;
 
-	std::uint32_t colour;
-	std::uint32_t specular;
-/*
-	LIGHT_get_d3d_colour(
-		LIGHT_amb_colour,
-	   &colour,
-	   &specular);
-	   */
+    bo_index = p_thing->Index;
+    bo = &building_objects[bo_index];
 
-	//
-	// ONLY TRIANGLES USE THESE VALUES. MAKE THEM STAND OUT.
-	// 
+    //
+    // Points out of the ambient light.
+    //
+    /*
+            shadow =
+                    ((LIGHT_amb_colour.red   >> 1) << 16) |
+                    ((LIGHT_amb_colour.green >> 1) <<  8) |
+                    ((LIGHT_amb_colour.blue  >> 1) <<  0);
+      */
+    //
+    // The ambient light colour.
+    //
 
-	colour   = 0xffffffff;
-	specular = 0xffffffff;
+    std::uint32_t colour;
+    std::uint32_t specular;
+    /*
+            LIGHT_get_d3d_colour(
+                    LIGHT_amb_colour,
+               &colour,
+               &specular);
+               */
 
-	//
-	// Draw each facet.
-	//
+    //
+    // ONLY TRIANGLES USE THESE VALUES. MAKE THEM STAND OUT.
+    //
 
-	bf_index = bo->FacetHead;
+    colour = 0xffffffff;
+    specular = 0xffffffff;
 
-	while(bf_index)
-	{
-		std::int32_t	do_facet=1;
-		std::int32_t	max_z=-999999;
+    //
+    // Draw each facet.
+    //
 
-		bf = &building_facets[bf_index];
+    bf_index = bo->FacetHead;
 
-		//
-		// Rotate all the points.
-		//
+    while (bf_index) {
+        std::int32_t do_facet = 1;
+        std::int32_t max_z = -999999;
 
-		sp = bf->StartPoint;
-		ep = bf->EndPoint;
+        bf = &building_facets[bf_index];
 
-		POLY_buffer_upto = 0;
-		if(ep-sp>8)
-		{
-			do_facet=check_facet(bx,by,bz,bf_index);
+        //
+        // Rotate all the points.
+        //
 
-		}
+        sp = bf->StartPoint;
+        ep = bf->EndPoint;
 
-		if(do_facet)
-		{
-			for (i = sp; i < ep; i++)
-			{
-				ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
+        POLY_buffer_upto = 0;
+        if (ep - sp > 8) {
+            do_facet = check_facet(bx, by, bz, bf_index);
+        }
 
-				pp = &POLY_buffer[POLY_buffer_upto++];
+        if (do_facet) {
+            for (i = sp; i < ep; i++) {
+                ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-				if(prim_points[i].Y + by>NGAMUT_Ymax+260)
-				{
-					pp->clip=0;
-				}
-				else
+                pp = &POLY_buffer[POLY_buffer_upto++];
 
-				{
-					POLY_transform(
-						prim_points[i].X + bx,
-						prim_points[i].Y + by,
-						prim_points[i].Z + bz,
-						pp);
-				}
+                if (prim_points[i].Y + by > NGAMUT_Ymax + 260) {
+                    pp->clip = 0;
+                } else
 
-				if (pp->clip & POLY_CLIP_TRANSFORMED)
-				{
-//					if(pp->Z>max_z)
-//						max_z=pp->Z;
-	/*
-					LIGHT_get_d3d_colour(
-						LIGHT_building_point[i],
-					   &pp->colour,
-					   &pp->specular);
+                {
+                    POLY_transform(
+                        prim_points[i].X + bx,
+                        prim_points[i].Y + by,
+                        prim_points[i].Z + bz,
+                        pp);
+                }
 
-					POLY_fadeout_point(pp);
-					*/
-				}
-			}
-/*
-			max_z>>=1;
-			if(max_z<0)
-				max_z=0;
-			if(max_z>4095)
-				max_z=4095;
-			max_z=4095-max_z;
-*/
+                if (pp->clip & POLY_CLIP_TRANSFORMED) {
+                    //					if(pp->Z>max_z)
+                    //						max_z=pp->Z;
+                    /*
+                                                    LIGHT_get_d3d_colour(
+                                                            LIGHT_building_point[i],
+                                                       &pp->colour,
+                                                       &pp->specular);
 
-			//
-			// Draw all the quads.
-			//
+                                                    POLY_fadeout_point(pp);
+                                                    */
+                }
+            }
+            /*
+                                    max_z>>=1;
+                                    if(max_z<0)
+                                            max_z=0;
+                                    if(max_z>4095)
+                                            max_z=4095;
+                                    max_z=4095-max_z;
+            */
 
-			count_quad+=bf->EndFace4-bf->StartFace4;
-			for (i = bf->StartFace4; i < bf->EndFace4; i++)
-			{
-				p_f4 = &prim_faces4[i];
+            //
+            // Draw all the quads.
+            //
 
-				p0 = p_f4->Points[0] - sp;
-				p1 = p_f4->Points[2] - sp;
-				p2 = p_f4->Points[1] - sp;
-				p3 = p_f4->Points[3] - sp;
-				
-				ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
-				ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
-				ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
-				ASSERT(WITHIN(p3, 0, POLY_buffer_upto - 1));
+            count_quad += bf->EndFace4 - bf->StartFace4;
+            for (i = bf->StartFace4; i < bf->EndFace4; i++) {
+                p_f4 = &prim_faces4[i];
 
-				quad[0] = &POLY_buffer[p0];
-				quad[1] = &POLY_buffer[p1];
-				quad[2] = &POLY_buffer[p2];
-				quad[3] = &POLY_buffer[p3];
+                p0 = p_f4->Points[0] - sp;
+                p1 = p_f4->Points[2] - sp;
+                p2 = p_f4->Points[1] - sp;
+                p3 = p_f4->Points[3] - sp;
 
-				backface_cull = !(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED);
+                ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
+                ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
+                ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
+                ASSERT(WITHIN(p3, 0, POLY_buffer_upto - 1));
 
-				if (backface_cull<0)
-				{
-					//
-					// Should this poly be backface culled?
-					//
+                quad[0] = &POLY_buffer[p0];
+                quad[1] = &POLY_buffer[p1];
+                quad[2] = &POLY_buffer[p2];
+                quad[3] = &POLY_buffer[p3];
 
+                backface_cull = !(p_f4->DrawFlags & POLY_FLAG_DOUBLESIDED);
 
-					//
-					// The texture page to use.
-					//
-	//void	add_quad(POLY_Point *quad,MapElement *me)
-					{
-						POLY_FT4	*p;
-						std::int32_t	z;
+                if (backface_cull < 0) {
+                    //
+                    // Should this poly be backface culled?
+                    //
 
-						if(the_display.CurrentPrim+sizeof(*p)>&the_display.CurrentDisplayBuffer->PrimMem[BUCKET_MEM])
-							return;
+                    //
+                    // The texture page to use.
+                    //
+                    // void	add_quad(POLY_Point *quad,MapElement *me)
+                    {
+                        POLY_FT4 *p;
+                        std::int32_t z;
 
-						p=(POLY_FT4 *)the_display.CurrentPrim;
+                        if (the_display.CurrentPrim + sizeof(*p) > &the_display.CurrentDisplayBuffer->PrimMem[BUCKET_MEM])
+                            return;
 
-						setPolyFT4(p);
-						setUV4(p,p_f4->UV[0][0],p_f4->UV[0][1],
-								p_f4->UV[2][0],p_f4->UV[2][1],
-								p_f4->UV[1][0],p_f4->UV[1][1],
-								p_f4->UV[3][0],p_f4->UV[3][1]);
+                        p = (POLY_FT4 *) the_display.CurrentPrim;
 
-						setRGB0(p,128,128,128);
-						setXY4(p,POLY_buffer[p0].X,POLY_buffer[p0].Y,
-							POLY_buffer[p1].X,POLY_buffer[p1].Y,
-							POLY_buffer[p2].X,POLY_buffer[p2].Y,
-							POLY_buffer[p3].X,POLY_buffer[p3].Y);
+                        setPolyFT4(p);
+                        setUV4(p, p_f4->UV[0][0], p_f4->UV[0][1],
+                               p_f4->UV[2][0], p_f4->UV[2][1],
+                               p_f4->UV[1][0], p_f4->UV[1][1],
+                               p_f4->UV[3][0], p_f4->UV[3][1]);
 
-						z=POLY_buffer[p0].Z;
-						if(z<POLY_buffer[p1].Z)
-							z=POLY_buffer[p1].Z;
-						if(z<POLY_buffer[p2].Z)
-							z=POLY_buffer[p2].Z;
-						if(z<POLY_buffer[p3].Z)
-							z=POLY_buffer[p3].Z;
-						z>>=1;
-						z=get_z_sort(z);
+                        setRGB0(p, 128, 128, 128);
+                        setXY4(p, POLY_buffer[p0].X, POLY_buffer[p0].Y,
+                               POLY_buffer[p1].X, POLY_buffer[p1].Y,
+                               POLY_buffer[p2].X, POLY_buffer[p2].Y,
+                               POLY_buffer[p3].X, POLY_buffer[p3].Y);
 
-//						z=max_z; //POLY_buffer[p0].Z;
+                        z = POLY_buffer[p0].Z;
+                        if (z < POLY_buffer[p1].Z)
+                            z = POLY_buffer[p1].Z;
+                        if (z < POLY_buffer[p2].Z)
+                            z = POLY_buffer[p2].Z;
+                        if (z < POLY_buffer[p3].Z)
+                            z = POLY_buffer[p3].Z;
+                        z >>= 1;
+                        z = get_z_sort(z);
 
+                        //						z=max_z; //POLY_buffer[p0].Z;
 
-						page = p_f4->TexturePage;
-						p->tpage=psx_tpages[page];	   
+                        page = p_f4->TexturePage;
+                        p->tpage = psx_tpages[page];
 
-						p->clut =psx_tpages_clut[page];
+                        p->clut = psx_tpages_clut[page];
 
+                        addPrim(&the_display.CurrentDisplayBuffer->ot[z], p);
+                        the_display.CurrentPrim += sizeof(POLY_FT4);
+                    }
 
-						addPrim(&the_display.CurrentDisplayBuffer->ot[z],p);
-						the_display.CurrentPrim+=sizeof(POLY_FT4);
+                    /*
+                    if (p_f4->DrawFlags & POLY_FLAG_MASKED)
+                    {
+                            page = POLY_PAGE_MASKED;
+                    }
+                    else
+                    {
+                            page = p_f4->TexturePage;
+                    }
+                    */
+                }
+            }
 
-					}
+            //
+            // Draw all the triangles.
+            //
+            /*
+                            for (i = bf->StartFace3; i < bf->EndFace3; i++)
+                            {
+                                    p_f3 = &prim_faces3[i];
 
-					/*
-					if (p_f4->DrawFlags & POLY_FLAG_MASKED)
-					{
-						page = POLY_PAGE_MASKED;
-					}
-					else
-					{
-						page = p_f4->TexturePage;
-					}
-					*/
+                                    p0 = p_f3->Points[0] - sp;
+                                    p1 = p_f3->Points[1] - sp;
+                                    p2 = p_f3->Points[2] - sp;
 
-				}
-			}
+                                    ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
+                                    ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
+                                    ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
 
-			//
-			// Draw all the triangles.
-			//
-	/*
-			for (i = bf->StartFace3; i < bf->EndFace3; i++)
-			{
-				p_f3 = &prim_faces3[i];
+                                    tri[0] = &POLY_buffer[p0];
+                                    tri[1] = &POLY_buffer[p1];
+                                    tri[2] = &POLY_buffer[p2];
 
-				p0 = p_f3->Points[0] - sp;
-				p1 = p_f3->Points[1] - sp;
-				p2 = p_f3->Points[2] - sp;
-				
-				ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
-				ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
-				ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
+                                    if (POLY_valid_triangle(tri))
+                                    {
+                                            //
+                                            // Should this poly be backface culled?
+                                            //
 
-				tri[0] = &POLY_buffer[p0];
-				tri[1] = &POLY_buffer[p1];
-				tri[2] = &POLY_buffer[p2];
+                                            backface_cull = !(p_f3->DrawFlags & POLY_FLAG_DOUBLESIDED);
 
-				if (POLY_valid_triangle(tri))
-				{
-					//
-					// Should this poly be backface culled?
-					//
+                                            //
+                                            // The texture page to use.
+                                            //
 
-					backface_cull = !(p_f3->DrawFlags & POLY_FLAG_DOUBLESIDED);
+                                            if (p_f3->DrawFlags & POLY_FLAG_MASKED)
+                                            {
+                                                    page = POLY_PAGE_MASKED;
+                                            }
+                                            else
+                                            {
+                                                    page = p_f3->TexturePage;
+                                            }
 
-					//
-					// The texture page to use.
-					//
+                                            //
+                                            // Texture the triangle.
+                                            //
 
-					if (p_f3->DrawFlags & POLY_FLAG_MASKED)
-					{
-						page = POLY_PAGE_MASKED;
-					}
-					else
-					{
-						page = p_f3->TexturePage;
-					}					
+                                            tri[0]->u = float(p_f3->UV[0][0]) * (1.0F / 256.0F);
+                                            tri[0]->v = float(p_f3->UV[0][1]) * (1.0F / 256.0F);
 
-					//
-					// Texture the triangle.
-					// 
+                                            tri[1]->u = float(p_f3->UV[1][0]) * (1.0F / 256.0F);
+                                            tri[1]->v = float(p_f3->UV[1][1]) * (1.0F / 256.0F);
 
-					tri[0]->u = float(p_f3->UV[0][0]) * (1.0F / 256.0F);
-					tri[0]->v = float(p_f3->UV[0][1]) * (1.0F / 256.0F);
+                                            tri[2]->u = float(p_f3->UV[2][0]) * (1.0F / 256.0F);
+                                            tri[2]->v = float(p_f3->UV[2][1]) * (1.0F / 256.0F);
 
-					tri[1]->u = float(p_f3->UV[1][0]) * (1.0F / 256.0F);
-					tri[1]->v = float(p_f3->UV[1][1]) * (1.0F / 256.0F);
+                                            POLY_add_triangle(tri, page, backface_cull);
+                                    }
+                            }
+                    */
+        }
 
-					tri[2]->u = float(p_f3->UV[2][0]) * (1.0F / 256.0F);
-					tri[2]->v = float(p_f3->UV[2][1]) * (1.0F / 256.0F);
-
-					POLY_add_triangle(tri, page, backface_cull);
-				}
-			}
-		*/
-		}
-		
-		bf_index = bf->NextFacet;
-	}
-	if(count_quad>most_quads)
-	{
-		most_quads=count_quad;
-//		printf("most quad %d \n",most_quads);
-	}
-
+        bf_index = bf->NextFacet;
+    }
+    if (count_quad > most_quads) {
+        most_quads = count_quad;
+        //		printf("most quad %d \n",most_quads);
+    }
 }
 
+void BUILD_draw_inside() {
+#ifdef POO
+    Thing *p_thing = TO_THING(INDOORS_THING);
 
-void BUILD_draw_inside()
-{
-#ifdef	POO
-	Thing *p_thing = TO_THING(INDOORS_THING);
+    std::int32_t i;
 
-	std::int32_t i;
+    std::int32_t sp;
+    std::int32_t ep;
 
-	std::int32_t sp;
-	std::int32_t ep;
+    std::int32_t p0;
+    std::int32_t p1;
+    std::int32_t p2;
+    std::int32_t p3;
 
-	std::int32_t p0;
-	std::int32_t p1;
-	std::int32_t p2;
-	std::int32_t p3;
-	
-	float max_height;
+    float max_height;
 
-	PrimFace4  *p_f4;
-	PrimFace3  *p_f3;
-	PrimObject *p_obj;
+    PrimFace4 *p_f4;
+    PrimFace3 *p_f3;
+    PrimObject *p_obj;
 
-	POLY_Point *pp;
-	POLY_Point *ps;
+    POLY_Point *pp;
+    POLY_Point *ps;
 
-	POLY_Point *tri [3];
-	POLY_Point *quad[4];
+    POLY_Point *tri[3];
+    POLY_Point *quad[4];
 
-	std::uint32_t amb_colour;
-	std::uint32_t amb_specular;
+    std::uint32_t amb_colour;
+    std::uint32_t amb_specular;
 
-	float bx = float(p_thing->WorldPos.X >> 8);
-	float by = float(p_thing->WorldPos.Y >> 8);
-	float bz = float(p_thing->WorldPos.Z >> 8);
+    float bx = float(p_thing->WorldPos.X >> 8);
+    float by = float(p_thing->WorldPos.Y >> 8);
+    float bz = float(p_thing->WorldPos.Z >> 8);
 
-	std::int32_t bo_index;
-	std::int32_t bf_index;
+    std::int32_t bo_index;
+    std::int32_t bf_index;
 
-	BuildingFacet  *bf;
-	BuildingObject *bo;
-	
-	bo_index =  p_thing->Index;
-	bo       = &building_objects[bo_index];
+    BuildingFacet *bf;
+    BuildingObject *bo;
 
-	//
-	// The ambient light colour.
-	//
+    bo_index = p_thing->Index;
+    bo = &building_objects[bo_index];
 
-	std::uint32_t colour;
-	std::uint32_t specular;
-/*
-	LIGHT_get_d3d_colour(
-		LIGHT_amb_colour,
-	   &colour,
-	   &specular);
-*/
+    //
+    // The ambient light colour.
+    //
 
-	//
-	// Draw each facet.
-	//
+    std::uint32_t colour;
+    std::uint32_t specular;
+    /*
+            LIGHT_get_d3d_colour(
+                    LIGHT_amb_colour,
+               &colour,
+               &specular);
+    */
 
-	bf_index = bo->FacetHead;
+    //
+    // Draw each facet.
+    //
 
-	while(bf_index)
-	{
-		bf = &building_facets[bf_index];
+    bf_index = bo->FacetHead;
 
-		if (bf->FacetFlags & FACET_FLAG_ROOF)
-		{
-			max_height = float(INDOORS_HEIGHT_FLOOR + 32);
-		}
-		else
-		{
-			if (building_list[p_thing->BuildingList].BuildingType == BUILDING_TYPE_WAREHOUSE)
-			{
-				max_height = float(INDOORS_HEIGHT_CEILING + 256 + 32);
-			}
-			else
-			{
-				max_height = float(INDOORS_HEIGHT_CEILING + 32);
-			}
-		}
+    while (bf_index) {
+        bf = &building_facets[bf_index];
 
-		//
-		// Rotate all the points.
-		//
+        if (bf->FacetFlags & FACET_FLAG_ROOF) {
+            max_height = float(INDOORS_HEIGHT_FLOOR + 32);
+        } else {
+            if (building_list[p_thing->BuildingList].BuildingType == BUILDING_TYPE_WAREHOUSE) {
+                max_height = float(INDOORS_HEIGHT_CEILING + 256 + 32);
+            } else {
+                max_height = float(INDOORS_HEIGHT_CEILING + 32);
+            }
+        }
 
-		sp = bf->StartPoint;
-		ep = bf->EndPoint;
+        //
+        // Rotate all the points.
+        //
 
-		POLY_buffer_upto = 0;
+        sp = bf->StartPoint;
+        ep = bf->EndPoint;
 
-		for (i = sp; i < ep; i++)
-		{
-			ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
+        POLY_buffer_upto = 0;
 
-			pp = &POLY_buffer[POLY_buffer_upto++];
+        for (i = sp; i < ep; i++) {
+            ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-			if (AENG_dx_prim_points[i].Y + by <= max_height)
-			{
-				POLY_transform(
-					AENG_dx_prim_points[i].X + bx,
-					AENG_dx_prim_points[i].Y + by,
-					AENG_dx_prim_points[i].Z + bz,
-					pp);
-				
-				if (pp->clip & POLY_CLIP_TRANSFORMED)
-				{
-					pp->colour   = colour;
-					pp->specular = specular;
+            pp = &POLY_buffer[POLY_buffer_upto++];
 
-					POLY_fadeout_point(pp);
-				}
-			}
-			else
-			{
-				pp->clip = 0;
-			}
-		}
+            if (AENG_dx_prim_points[i].Y + by <= max_height) {
+                POLY_transform(
+                    AENG_dx_prim_points[i].X + bx,
+                    AENG_dx_prim_points[i].Y + by,
+                    AENG_dx_prim_points[i].Z + bz,
+                    pp);
 
-		//
-		// Draw all the quads.
-		//
+                if (pp->clip & POLY_CLIP_TRANSFORMED) {
+                    pp->colour = colour;
+                    pp->specular = specular;
 
-		for (i = bf->StartFace4; i < bf->EndFace4; i++)
-		{
-			p_f4 = &prim_faces4[i];
+                    POLY_fadeout_point(pp);
+                }
+            } else {
+                pp->clip = 0;
+            }
+        }
 
-			p0 = p_f4->Points[0] - sp;
-			p1 = p_f4->Points[1] - sp;
-			p2 = p_f4->Points[2] - sp;
-			p3 = p_f4->Points[3] - sp;
-			
-			ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p3, 0, POLY_buffer_upto - 1));
+        //
+        // Draw all the quads.
+        //
 
-			quad[0] = &POLY_buffer[p0];
-			quad[1] = &POLY_buffer[p1];
-			quad[2] = &POLY_buffer[p2];
-			quad[3] = &POLY_buffer[p3];
+        for (i = bf->StartFace4; i < bf->EndFace4; i++) {
+            p_f4 = &prim_faces4[i];
 
-			if (POLY_valid_quad(quad))
-			{
-				quad[0]->u = float(p_f4->UV[0][0]) * (1.0F / 256.0F);
-				quad[0]->v = float(p_f4->UV[0][1]) * (1.0F / 256.0F);
+            p0 = p_f4->Points[0] - sp;
+            p1 = p_f4->Points[1] - sp;
+            p2 = p_f4->Points[2] - sp;
+            p3 = p_f4->Points[3] - sp;
 
-				quad[1]->u = float(p_f4->UV[1][0]) * (1.0F / 256.0F);
-				quad[1]->v = float(p_f4->UV[1][1]) * (1.0F / 256.0F);
+            ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
+            ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
+            ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
+            ASSERT(WITHIN(p3, 0, POLY_buffer_upto - 1));
 
-				quad[2]->u = float(p_f4->UV[2][0]) * (1.0F / 256.0F);
-				quad[2]->v = float(p_f4->UV[2][1]) * (1.0F / 256.0F);
+            quad[0] = &POLY_buffer[p0];
+            quad[1] = &POLY_buffer[p1];
+            quad[2] = &POLY_buffer[p2];
+            quad[3] = &POLY_buffer[p3];
 
-				quad[3]->u = float(p_f4->UV[3][0]) * (1.0F / 256.0F);
-				quad[3]->v = float(p_f4->UV[3][1]) * (1.0F / 256.0F);
+            if (POLY_valid_quad(quad)) {
+                quad[0]->u = float(p_f4->UV[0][0]) * (1.0F / 256.0F);
+                quad[0]->v = float(p_f4->UV[0][1]) * (1.0F / 256.0F);
 
-				POLY_add_quad(quad, p_f4->TexturePage, true);
-			}
-		}
+                quad[1]->u = float(p_f4->UV[1][0]) * (1.0F / 256.0F);
+                quad[1]->v = float(p_f4->UV[1][1]) * (1.0F / 256.0F);
 
+                quad[2]->u = float(p_f4->UV[2][0]) * (1.0F / 256.0F);
+                quad[2]->v = float(p_f4->UV[2][1]) * (1.0F / 256.0F);
 
-		//
-		// Draw all the quads.
-		//
+                quad[3]->u = float(p_f4->UV[3][0]) * (1.0F / 256.0F);
+                quad[3]->v = float(p_f4->UV[3][1]) * (1.0F / 256.0F);
 
-		for (i = bf->StartFace3; i < bf->EndFace3; i++)
-		{
-			p_f3 = &prim_faces3[i];
+                POLY_add_quad(quad, p_f4->TexturePage, true);
+            }
+        }
 
-			p0 = p_f3->Points[0] - sp;
-			p1 = p_f3->Points[1] - sp;
-			p2 = p_f3->Points[2] - sp;
-			
-			ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
-			ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
+        //
+        // Draw all the quads.
+        //
 
-			tri[0] = &POLY_buffer[p0];
-			tri[1] = &POLY_buffer[p1];
-			tri[2] = &POLY_buffer[p2];
+        for (i = bf->StartFace3; i < bf->EndFace3; i++) {
+            p_f3 = &prim_faces3[i];
 
-			if (POLY_valid_triangle(tri))
-			{
-				tri[0]->u = float(p_f3->UV[0][0]) * (1.0F / 256.0F);
-				tri[0]->v = float(p_f3->UV[0][1]) * (1.0F / 256.0F);
+            p0 = p_f3->Points[0] - sp;
+            p1 = p_f3->Points[1] - sp;
+            p2 = p_f3->Points[2] - sp;
 
-				tri[1]->u = float(p_f3->UV[1][0]) * (1.0F / 256.0F);
-				tri[1]->v = float(p_f3->UV[1][1]) * (1.0F / 256.0F);
+            ASSERT(WITHIN(p0, 0, POLY_buffer_upto - 1));
+            ASSERT(WITHIN(p1, 0, POLY_buffer_upto - 1));
+            ASSERT(WITHIN(p2, 0, POLY_buffer_upto - 1));
 
-				tri[2]->u = float(p_f3->UV[2][0]) * (1.0F / 256.0F);
-				tri[2]->v = float(p_f3->UV[2][1]) * (1.0F / 256.0F);
+            tri[0] = &POLY_buffer[p0];
+            tri[1] = &POLY_buffer[p1];
+            tri[2] = &POLY_buffer[p2];
 
-				POLY_add_triangle(tri, p_f3->TexturePage, true);
-			}
-		}
-		
-		bf_index = bf->NextFacet;
-	}
+            if (POLY_valid_triangle(tri)) {
+                tri[0]->u = float(p_f3->UV[0][0]) * (1.0F / 256.0F);
+                tri[0]->v = float(p_f3->UV[0][1]) * (1.0F / 256.0F);
+
+                tri[1]->u = float(p_f3->UV[1][0]) * (1.0F / 256.0F);
+                tri[1]->v = float(p_f3->UV[1][1]) * (1.0F / 256.0F);
+
+                tri[2]->u = float(p_f3->UV[2][0]) * (1.0F / 256.0F);
+                tri[2]->v = float(p_f3->UV[2][1]) * (1.0F / 256.0F);
+
+                POLY_add_triangle(tri, p_f3->TexturePage, true);
+            }
+        }
+
+        bf_index = bf->NextFacet;
+    }
 #endif
 }
 
 #endif
-
-
-
-
-

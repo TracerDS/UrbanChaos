@@ -8,10 +8,10 @@
 #include "ob.h"
 #include "supermap.h"
 #include "..\editor\headers\thing.h"
-#include	"io.h"
-#include	"eway.h"
+#include "io.h"
+#include "eway.h"
 #include "..\headers\inside2.h"
-#include	"memory.h"
+#include "memory.h"
 #include "..\headers\noserver.h"
 #ifdef FS_ISO9660
 #include <libcd.h>
@@ -20,10 +20,10 @@
 
 //		STOREY_TYPE_NORMAL
 
-#ifndef	PSX
+#ifndef PSX
 
-#include	"math.h"
-void skip_load_a_multi_prim(MFFileHandle	handle);
+#include "math.h"
+void skip_load_a_multi_prim(MFFileHandle handle);
 
 #else
 
@@ -31,75 +31,73 @@ void skip_load_a_multi_prim(MFFileHandle	handle);
 // PSX include
 //
 #include "libsn.h"
-extern void			TEXTURE_choose_set(std::int32_t number);
+extern void TEXTURE_choose_set(std::int32_t number);
 
-#define	MAX_PATH	128
-#define	FILE	std::int32_t
+#define MAX_PATH 128
+#define FILE std::int32_t
 
-#define	MFFileHandle	std::int32_t
-#define	FILE_OPEN_ERROR	(-1)
-#define	SEEK_MODE_CURRENT	(1)
+#define MFFileHandle std::int32_t
+#define FILE_OPEN_ERROR (-1)
+#define SEEK_MODE_CURRENT (1)
 
-extern std::int32_t	SpecialOpen(char* name);
-extern std::int32_t	SpecialRead(std::int32_t handle,std::uint8_t *ptr,std::int32_t s1);
-extern std::int32_t	SpecialSeek(std::int32_t handle,std::int32_t mode,std::int32_t size);
+extern std::int32_t SpecialOpen(char *name);
+extern std::int32_t SpecialRead(std::int32_t handle, std::uint8_t *ptr, std::int32_t s1);
+extern std::int32_t SpecialSeek(std::int32_t handle, std::int32_t mode, std::int32_t size);
 
-#define	FileOpen(x)		SpecialOpen(x)
-#define	FileClose(x)	SpecialClose(x)
-#define	FileCreate(x,y)	ASSERT(0)
-#define	FileRead(h,a,s) SpecialRead(h,(std::uint8_t*)a,s)
-#define	FileWrite(h,a,s) ASSERT(0)
-#define	FileSeek(h,m,o) SpecialSeek(h,m,o)
+#define FileOpen(x) SpecialOpen(x)
+#define FileClose(x) SpecialClose(x)
+#define FileCreate(x, y) ASSERT(0)
+#define FileRead(h, a, s) SpecialRead(h, (std::uint8_t *) a, s)
+#define FileWrite(h, a, s) ASSERT(0)
+#define FileSeek(h, m, o) SpecialSeek(h, m, o)
 
-#define	MF_Fopen(x,y)		SpecialOpen(x)
-#define	MF_Fclose(x)		SpecialClose(x)
-#define	fread(a,s1,s2,h) SpecialRead(h,a,s1*s2)
+#define MF_Fopen(x, y) SpecialOpen(x)
+#define MF_Fclose(x) SpecialClose(x)
+#define fread(a, s1, s2, h) SpecialRead(h, a, s1 *s2)
 
 #endif
 
-//#include "math.h"
-extern char	texture_style_names[200][21];
-extern void	fix_style_names();
-std::int32_t load_a_multi_prim(char* name);
+// #include "math.h"
+extern char texture_style_names[200][21];
+extern void fix_style_names();
+std::int32_t load_a_multi_prim(char *name);
 void create_kline_bottle();
-std::int32_t load_anim_system(struct GameKeyFrameChunk *p_chunk,char	*name,std::int32_t type=0);
+std::int32_t load_anim_system(struct GameKeyFrameChunk *p_chunk, char *name, std::int32_t type = 0);
 std::int32_t load_anim_prim_object(std::int32_t prim);
 
 #ifdef EDITOR
-extern char	inside_names[64][20];
+extern char inside_names[64][20];
 #endif
 
 #ifndef PSX
-#ifdef	NO_SERVER
-char EXTRAS_DIR[100]="data\\textures";
-char PRIM_DIR[100]="server\\prims";
-char DATA_DIR[100]="";
-char LEVELS_DIR[100]="";
-char TEXTURE_WORLD_DIR[100]="";
+#ifdef NO_SERVER
+char EXTRAS_DIR[100] = "data\\textures";
+char PRIM_DIR[100] = "server\\prims";
+char DATA_DIR[100] = "";
+char LEVELS_DIR[100] = "";
+char TEXTURE_WORLD_DIR[100] = "";
 #else
 
-char EXTRAS_DIR[100]="data\\textures";
-char PRIM_DIR[100]="u:\\urbanchaos\\prims";
-char DATA_DIR[100]="";
-char LEVELS_DIR[100]="";
-char TEXTURE_WORLD_DIR[100]="";
+char EXTRAS_DIR[100] = "data\\textures";
+char PRIM_DIR[100] = "u:\\urbanchaos\\prims";
+char DATA_DIR[100] = "";
+char LEVELS_DIR[100] = "";
+char TEXTURE_WORLD_DIR[100] = "";
 #endif
 
 #else
 
-struct FileSystem2
-{
-	std::uint8_t	*filemem;
-	std::uint32_t	fileindex;
-	std::uint32_t	filelen;
+struct FileSystem2 {
+    std::uint8_t *filemem;
+    std::uint32_t fileindex;
+    std::uint32_t filelen;
 };
 
 struct FileSystem2 file_system[5];
-std::int32_t file_handle=1;
+std::int32_t file_handle = 1;
 
-std::int32_t SpecialSize(std::int32_t handle)
-{
-	return file_system[handle].filelen;
+std::int32_t SpecialSize(std::int32_t handle) {
+    return file_system[handle].filelen;
 }
 
 #if 1
@@ -108,118 +106,106 @@ extern char *GDisp_Bucket;
 extern char GDisp_Bucket[];
 #endif
 
-std::int32_t SpecialOpen(char* name)
-{
-	std::int32_t	handle;
-	struct	FileSystem2 *fs;
+std::int32_t SpecialOpen(char *name) {
+    std::int32_t handle;
+    struct FileSystem2 *fs;
 
 #ifndef FS_ISO9660
-	fs=&file_system[file_handle];
-	handle=PCopen(name,0,0);
-	if(handle!=FILE_OPEN_ERROR)
-	{
+    fs = &file_system[file_handle];
+    handle = PCopen(name, 0, 0);
+    if (handle != FILE_OPEN_ERROR) {
+        fs->filelen = PClseek(handle, 0, 2);
+        fs->fileindex = 0;
 
-		fs->filelen=PClseek(handle,0,2);
-		fs->fileindex=0;
-
-
-		fs->filemem=(std::uint8_t*)&GDisp_Bucket[BUCKET_MEM-fs->filelen];
-		ASSERT(fs->filemem);
-		PClseek(handle,0,0);
-		PCread(handle,fs->filemem,fs->filelen);
-		PCclose(handle);
-		file_handle++;
-		return(file_handle-1);
-	}
-	else
-		return(handle);
+        fs->filemem = (std::uint8_t *) &GDisp_Bucket[BUCKET_MEM - fs->filelen];
+        ASSERT(fs->filemem);
+        PClseek(handle, 0, 0);
+        PCread(handle, fs->filemem, fs->filelen);
+        PCclose(handle);
+        file_handle++;
+        return (file_handle - 1);
+    } else
+        return (handle);
 #else
-extern char cd_file_buffer[];
-extern std::int32_t MFX_Seek_delay;
+    extern char cd_file_buffer[];
+    extern std::int32_t MFX_Seek_delay;
 
-	CdlFILE cfile;
-	char *p;
+    CdlFILE cfile;
+    char *p;
 
-	sprintf(cd_file_buffer,"\\%s;1",name);
+    sprintf(cd_file_buffer, "\\%s;1", name);
 
-	p=cd_file_buffer;
-	while(*p) *p++=toupper(*p);
+    p = cd_file_buffer;
+    while (*p) *p++ = toupper(*p);
 
-	MFX_Seek_delay=INFINITY;
-	if (CdSearchFile(&cfile,cd_file_buffer)==0)
-		return FILE_OPEN_ERROR;
+    MFX_Seek_delay = INFINITY;
+    if (CdSearchFile(&cfile, cd_file_buffer) == 0)
+        return FILE_OPEN_ERROR;
 
-	fs=&file_system[file_handle];
-	fs->filelen=cfile.size;
-	fs->fileindex=0;
-	fs->filemem=(std::uint8_t*)&GDisp_Bucket[BUCKET_MEM-(fs->filelen+2048)];
+    fs = &file_system[file_handle];
+    fs->filelen = cfile.size;
+    fs->fileindex = 0;
+    fs->filemem = (std::uint8_t *) &GDisp_Bucket[BUCKET_MEM - (fs->filelen + 2048)];
 
-	ASSERT(fs->filemem);
+    ASSERT(fs->filemem);
 
-	CdReadFile(cd_file_buffer,(std::uint32_t*)fs->filemem,fs->filelen);
-	CdReadSync(0,cd_file_buffer);
+    CdReadFile(cd_file_buffer, (std::uint32_t *) fs->filemem, fs->filelen);
+    CdReadSync(0, cd_file_buffer);
 
-	file_handle++;
-	return(file_handle-1);
+    file_handle++;
+    return (file_handle - 1);
 #endif
 }
 
-std::int32_t SpecialRead(std::int32_t handle,std::uint8_t *ptr,std::int32_t s1)
-{
-	std::int32_t	c0;
-	struct	FileSystem2 *fs;
+std::int32_t SpecialRead(std::int32_t handle, std::uint8_t *ptr, std::int32_t s1) {
+    std::int32_t c0;
+    struct FileSystem2 *fs;
 
-	fs=&file_system[handle];
+    fs = &file_system[handle];
 
-	if(fs->fileindex>=fs->filelen) return FILE_OPEN_ERROR;
-	
+    if (fs->fileindex >= fs->filelen) return FILE_OPEN_ERROR;
 
-	for(c0=0;c0<s1;c0++)
-	{
-		*ptr++=fs->filemem[fs->fileindex++];
-	}
+    for (c0 = 0; c0 < s1; c0++) {
+        *ptr++ = fs->filemem[fs->fileindex++];
+    }
 
-	return(s1);
+    return (s1);
 }
 
+std::int32_t SpecialSeek(std::int32_t handle, std::int32_t mode, std::int32_t size) {
+    std::int32_t c0, max;
+    struct FileSystem2 *fs;
 
-std::int32_t SpecialSeek(std::int32_t handle,std::int32_t mode,std::int32_t size)
-{
-	std::int32_t	c0,max;
-	struct	FileSystem2 *fs;
+    fs = &file_system[handle];
 
-	fs=&file_system[handle];
+    if (mode == 0)
+        fs->fileindex = size;
 
-	if(mode==0)
-		fs->fileindex=size;
+    if (mode == 1)
+        fs->fileindex += size;
 
-	if(mode==1)
-		fs->fileindex+=size;
-
-	if(mode==2)
-		fs->fileindex=fs->filelen+size;
-	return(size);
+    if (mode == 2)
+        fs->fileindex = fs->filelen + size;
+    return (size);
 }
 
-std::int32_t SpecialClose(std::int32_t handle)
-{
-	struct	FileSystem2 *fs;
+std::int32_t SpecialClose(std::int32_t handle) {
+    struct FileSystem2 *fs;
 
-	fs=&file_system[handle];
+    fs = &file_system[handle];
 
-	ASSERT(handle==file_handle-1);
-//	MemFree(fs->filemem);
-	fs->filemem=0;
-	file_handle--;
-extern std::int32_t MFX_Seek_delay;
-	MFX_Seek_delay=20;
-	return(1);
+    ASSERT(handle == file_handle - 1);
+    //	MemFree(fs->filemem);
+    fs->filemem = 0;
+    file_handle--;
+    extern std::int32_t MFX_Seek_delay;
+    MFX_Seek_delay = 20;
+    return (1);
 }
 
 #endif
 
 #ifndef PSX
-
 
 std::uint16_t local_next_prim_point;
 std::uint16_t local_next_prim_face4;
@@ -227,1255 +213,1075 @@ std::uint16_t local_next_prim_face3;
 std::uint16_t local_next_prim_object;
 std::uint16_t local_next_prim_multi_object;
 
-
-void record_prim_status()
-{
-
-	local_next_prim_point = next_prim_point;       
-	local_next_prim_face4 = next_prim_face4;       
-	local_next_prim_face3 = next_prim_face3;       
-	local_next_prim_object = next_prim_object;      
-	local_next_prim_multi_object=next_prim_multi_object;
+void record_prim_status() {
+    local_next_prim_point = next_prim_point;
+    local_next_prim_face4 = next_prim_face4;
+    local_next_prim_face3 = next_prim_face3;
+    local_next_prim_object = next_prim_object;
+    local_next_prim_multi_object = next_prim_multi_object;
 }
 
-void revert_to_prim_status()
-{
-
-	next_prim_point =      local_next_prim_point;       
-	next_prim_face4 =      local_next_prim_face4;       
-	next_prim_face3 =      local_next_prim_face3;       
-	next_prim_object =     local_next_prim_object;      
-	next_prim_multi_object=local_next_prim_multi_object;
+void revert_to_prim_status() {
+    next_prim_point = local_next_prim_point;
+    next_prim_face4 = local_next_prim_face4;
+    next_prim_face3 = local_next_prim_face3;
+    next_prim_object = local_next_prim_object;
+    next_prim_multi_object = local_next_prim_multi_object;
 }
 
+std::int32_t find_colour(std::uint8_t *the_palette, std::int32_t r, std::int32_t g, std::int32_t b) {
+    std::int32_t found = -1;
+    std::int32_t dist = 0x7fffffff,
+                 c0,
+                 dist2,
+                 tr,
+                 tg,
+                 tb;
 
+    if (r > 255)
+        r = 255;
+    if (g > 255)
+        g = 255;
+    if (b > 255)
+        b = 255;
 
-std::int32_t find_colour(std::uint8_t *the_palette,std::int32_t r,std::int32_t g,std::int32_t b)
-{
-	std::int32_t	found	=	-1;
-	std::int32_t	dist	=	0x7fffffff,
-			c0,
-			dist2,
-			tr,
-			tg,
-			tb;
+    for (c0 = 0; c0 < 256; c0++) {
+        tr = *the_palette++;
+        tg = *the_palette++;
+        tb = *the_palette++;
 
-	if(r>255)
-		r=255;
-	if(g>255)
-		g=255;
-	if(b>255)
-		b=255;
+        tr -= r;
+        tg -= g;
+        tb -= b;
 
-	for(c0=0;c0<256;c0++)
-	{
-		tr	=	*the_palette++;
-		tg	=	*the_palette++;
-		tb	=	*the_palette++;
-
-		tr	-=	r;
-		tg	-=	g;
-		tb	-=	b;
-
-		dist2=	abs(tr*tr)*1+abs(tg*tg)*1+abs(tb*tb)*1; //we notice differences in red more than green more than blue1
-		if(dist2<dist)
-		{
-			found	=	c0;
-			dist	=	dist2;
-			if(dist<8)
-				return(c0);
-		}
-	}
-	return(found);
+        dist2 = abs(tr * tr) * 1 + abs(tg * tg) * 1 + abs(tb * tb) * 1; // we notice differences in red more than green more than blue1
+        if (dist2 < dist) {
+            found = c0;
+            dist = dist2;
+            if (dist < 8)
+                return (c0);
+        }
+    }
+    return (found);
 }
 
-
-void change_extension(char	*name,char* add,char* new_name)
-{
-	std::int32_t	c0=0;
-	while(name[c0])
-	{
-		new_name[c0]=name[c0];
-		if(name[c0]=='.')
-		{
-			new_name[c0+1]=add[0];
-			new_name[c0+2]=add[1];
-			new_name[c0+3]=add[2];
-			new_name[c0+4]=0;
-			return;
-		}
-		c0++;
-	}
-	new_name[c0]='.';
-	new_name[c0+1]=add[0];
-	new_name[c0+2]=add[1];
-	new_name[c0+3]=add[2];
-	new_name[c0+4]=0;
+void change_extension(char *name, char *add, char *new_name) {
+    std::int32_t c0 = 0;
+    while (name[c0]) {
+        new_name[c0] = name[c0];
+        if (name[c0] == '.') {
+            new_name[c0 + 1] = add[0];
+            new_name[c0 + 2] = add[1];
+            new_name[c0 + 3] = add[2];
+            new_name[c0 + 4] = 0;
+            return;
+        }
+        c0++;
+    }
+    new_name[c0] = '.';
+    new_name[c0 + 1] = add[0];
+    new_name[c0 + 2] = add[1];
+    new_name[c0 + 3] = add[2];
+    new_name[c0 + 4] = 0;
 }
 
+void load_texture_instyles(std::uint8_t editor, std::uint8_t world) {
+    std::uint16_t temp, temp2;
+    std::int32_t save_type = 1;
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    char fname[MAX_PATH];
 
-void load_texture_instyles(std::uint8_t editor, std::uint8_t world)
-{
-	std::uint16_t	temp,temp2;
-	std::int32_t	save_type=1;
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	char   fname[MAX_PATH];
+    //
+    // Which file do we try to load?
+    //
 
-	//
-	// Which file do we try to load?
-	//
+    sprintf(fname, "%sinstyle.tma", TEXTURE_WORLD_DIR);
 
+    handle = FileOpen(fname);
 
-	sprintf(fname, "%sinstyle.tma", TEXTURE_WORLD_DIR);
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, 4);
 
-	handle=FileOpen(fname);
+        FileRead(handle, (std::uint8_t *) &temp, 2);
+        FileRead(handle, (std::uint8_t *) &temp2, 2);
+        FileRead(handle, (std::uint8_t *) &inside_tex[0][0], sizeof(std::uint8_t) * temp * temp2);
+        FileRead(handle, (std::uint8_t *) &temp, 2);
+        FileRead(handle, (std::uint8_t *) &temp2, 2);
 
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileRead(handle,(std::uint8_t*)&save_type,4);
-
-		FileRead(handle,(std::uint8_t*)&temp,2);
-		FileRead(handle,(std::uint8_t*)&temp2,2);
-		FileRead(handle,(std::uint8_t*)&inside_tex[0][0],sizeof(std::uint8_t)*temp*temp2);
-		FileRead(handle,(std::uint8_t*)&temp,2);
-		FileRead(handle,(std::uint8_t*)&temp2,2);
-
-		if(editor)
-		{
-#ifdef	EDITOR
-			FileRead(handle,(std::uint8_t*)&inside_names[0][0],temp*temp2);
+        if (editor) {
+#ifdef EDITOR
+            FileRead(handle, (std::uint8_t *) &inside_names[0][0], temp * temp2);
 #endif
-		}
-		else
-			FileSeek(handle,SEEK_MODE_CURRENT,temp*temp2);
+        } else
+            FileSeek(handle, SEEK_MODE_CURRENT, temp * temp2);
 
-
-
-		FileClose(handle);
-	}
-
+        FileClose(handle);
+    }
 }
 #endif
 
 #ifndef PSX
-void load_texture_styles(std::uint8_t editor, std::uint8_t world)
-{
-	std::uint16_t	temp,temp2;
-	std::int32_t	save_type=1;
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	char   fname[MAX_PATH];
+void load_texture_styles(std::uint8_t editor, std::uint8_t world) {
+    std::uint16_t temp, temp2;
+    std::int32_t save_type = 1;
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    char fname[MAX_PATH];
 
-	//
-	// Which file do we try to load?
-	//
+    //
+    // Which file do we try to load?
+    //
 
 #ifndef PSX
-	sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
+    sprintf(fname, "%sstyle.tma", TEXTURE_WORLD_DIR);
 //	sprintf(fname, "u:\\urbanchaos\\textures\\world%d\\style.tma", world);
 #else
-	sprintf(fname, "data\\textures\\world%d\\style.pma",world);
+    sprintf(fname, "data\\textures\\world%d\\style.pma", world);
 #endif
 
-	handle=FileOpen(fname);
+    handle = FileOpen(fname);
 
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileRead(handle,(std::uint8_t*)&save_type,4);
-		if(save_type>1)
-		{
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, 4);
+        if (save_type > 1) {
+            if (save_type < 4) {
+                FileRead(handle, (std::uint8_t *) &temp, 2);
+                FileSeek(handle, SEEK_MODE_CURRENT, sizeof(struct TextureInfo) * 8 * 8 * temp);
+                //	FileRead(handle,(std::uint8_t*)&temp,2);
+                //	FileRead(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
+            }
 
-			if(save_type<4)
-			{
-				FileRead(handle,(std::uint8_t*)&temp,2);
-				FileSeek(handle,SEEK_MODE_CURRENT,sizeof(struct TextureInfo)*8*8*temp);
-			//	FileRead(handle,(std::uint8_t*)&temp,2);
-			//	FileRead(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
-			}
+            FileRead(handle, (std::uint8_t *) &temp, 2);
+            FileRead(handle, (std::uint8_t *) &temp2, 2);
+            ASSERT(temp == 200);
+            if (save_type < 5) {
+                std::int32_t c0, c1;
+                ASSERT(temp2 == 8);
+                for (c0 = 0; c0 < temp; c0++) {
+                    FileSeek(handle, SEEK_MODE_CURRENT, sizeof(struct TXTY) * 3);
+                    FileRead(handle, (std::uint8_t *) &textures_xy[c0][0], sizeof(struct TXTY) * (temp2 - 3));
+                }
+            } else {
+                ASSERT(temp2 == 5);
+                FileRead(handle, (std::uint8_t *) &textures_xy[0][0], sizeof(struct TXTY) * temp * temp2);
+            }
 
-
-			FileRead(handle,(std::uint8_t*)&temp,2);
-			FileRead(handle,(std::uint8_t*)&temp2,2);
-			ASSERT(temp==200);
-			if(save_type<5)
-			{
-				std::int32_t	c0,c1;
-				ASSERT(temp2==8);
-				for(c0=0;c0<temp;c0++)
-				{
-					FileSeek(handle,SEEK_MODE_CURRENT,sizeof(struct TXTY)*3);
-					FileRead(handle,(std::uint8_t*)&textures_xy[c0][0],sizeof(struct TXTY)*(temp2-3));
-				}
-			}
-			else
-			{
-				ASSERT(temp2==5);
-				FileRead(handle,(std::uint8_t*)&textures_xy[0][0],sizeof(struct TXTY)*temp*temp2);
-			}
-
-			FileRead(handle,(std::uint8_t*)&temp,2);
-			FileRead(handle,(std::uint8_t*)&temp2,2);
-			ASSERT(temp==200);
-			ASSERT(temp2==21);
-			if(editor)
-			{
-#ifdef	EDITOR
-				FileRead(handle,(std::uint8_t*)&texture_style_names[0][0],temp*temp2);
-				fix_style_names();
+            FileRead(handle, (std::uint8_t *) &temp, 2);
+            FileRead(handle, (std::uint8_t *) &temp2, 2);
+            ASSERT(temp == 200);
+            ASSERT(temp2 == 21);
+            if (editor) {
+#ifdef EDITOR
+                FileRead(handle, (std::uint8_t *) &texture_style_names[0][0], temp * temp2);
+                fix_style_names();
 #endif
-			}
-			else
-				FileSeek(handle,SEEK_MODE_CURRENT,temp*temp2);
+            } else
+                FileSeek(handle, SEEK_MODE_CURRENT, temp * temp2);
 
+            ASSERT(save_type > 2);
+            FileRead(handle, (std::uint8_t *) &temp, 2);
+            FileRead(handle, (std::uint8_t *) &temp2, 2);
+            if (save_type < 5) {
+                std::int32_t c0;
+                for (c0 = 0; c0 < temp; c0++) {
+                    ASSERT(temp2 == 8);
+                    FileSeek(handle, SEEK_MODE_CURRENT, 3);
+                    FileRead(handle, (std::uint8_t *) &textures_flags[c0][0], sizeof(std::uint8_t) * (temp2 - 3));
+                }
 
-			ASSERT(save_type>2);
-			FileRead(handle,(std::uint8_t*)&temp,2);
-			FileRead(handle,(std::uint8_t*)&temp2,2);
-			if(save_type<5)
-			{
-				std::int32_t	c0;
-				for(c0=0;c0<temp;c0++)
-				{
-					ASSERT(temp2==8);
-					FileSeek(handle,SEEK_MODE_CURRENT,3);
-					FileRead(handle,(std::uint8_t*)&textures_flags[c0][0],sizeof(std::uint8_t)*(temp2-3));
+            } else {
+                if (temp2 != 5) {
+                    std::int32_t c0, c1;
+                    FileClose(handle);
+                    //					memset((std::uint8_t*)&textures_flags[0][0],0,temp*5);
+                    for (c0 = 0; c0 < temp; c0++)
+                        for (c1 = 0; c1 < 5; c1++) {
+                            textures_flags[c0][c1] = POLY_GT;
+                        }
+                    return;
+                }
+                LogText(" read flags x %d z %d\n", temp, temp2);
+                FileRead(handle, (std::uint8_t *) &textures_flags[0][0], sizeof(std::uint8_t) * temp * temp2);
+            }
 
-				}
-
-
-			}
-			else
-			{
-				if(temp2!=5)
-				{
-					std::int32_t	c0,c1;
-					FileClose(handle);
-//					memset((std::uint8_t*)&textures_flags[0][0],0,temp*5);
-					for(c0=0;c0<temp;c0++)
-					for(c1=0;c1<5;c1++)
-					{
-						textures_flags[c0][c1]=POLY_GT;
-					}
-					return;
-				}
-				LogText(" read flags x %d z %d\n",temp,temp2);
-				FileRead(handle,(std::uint8_t*)&textures_flags[0][0],sizeof(std::uint8_t)*temp*temp2);
-			}
-
-/*
-			if(save_type>2)
-			{
-				FileRead(handle,(std::uint8_t*)&temp,2);
-				FileRead(handle,(std::uint8_t*)&temp2,2);
-				LogText(" read flags x %d z %d\n",temp,temp2);
-				FileRead(handle,(std::uint8_t*)&textures_flags[0][0],sizeof(std::uint8_t)*temp*temp2);
-			}
-			else
-			{
-				std::int32_t	x,z;
-				for(x=0;x<200;x++)
-				{
-					for(z=0;z<8;z++)
-					{
-//						textures_flags[x][z]=POLY_GT;
-					}
-				}
-			}
-*/
-		}
-		FileClose(handle);
-	}
-
+            /*
+                                    if(save_type>2)
+                                    {
+                                            FileRead(handle,(std::uint8_t*)&temp,2);
+                                            FileRead(handle,(std::uint8_t*)&temp2,2);
+                                            LogText(" read flags x %d z %d\n",temp,temp2);
+                                            FileRead(handle,(std::uint8_t*)&textures_flags[0][0],sizeof(std::uint8_t)*temp*temp2);
+                                    }
+                                    else
+                                    {
+                                            std::int32_t	x,z;
+                                            for(x=0;x<200;x++)
+                                            {
+                                                    for(z=0;z<8;z++)
+                                                    {
+            //						textures_flags[x][z]=POLY_GT;
+                                                    }
+                                            }
+                                    }
+            */
+        }
+        FileClose(handle);
+    }
 }
 
 #ifndef TARGET_DC
 
-std::int32_t load_anim_prim_object(std::int32_t prim)
-{
-	char fname[130];
-#ifdef	PSX
-	FILE handle;
+std::int32_t load_anim_prim_object(std::int32_t prim) {
+    char fname[130];
+#ifdef PSX
+    FILE handle;
 #else
-	FILE *handle;
+    FILE *handle;
 #endif
-	ASSERT(WITHIN(prim, 0, 255));
+    ASSERT(WITHIN(prim, 0, 255));
 
+    if (anim_chunk[prim].MultiObject[0])
+        return (0);
 
-	if(anim_chunk[prim].MultiObject[0])
-		return(0);
+    sprintf(fname, "anim%03d.all", prim);
+    /*
+            handle = MF_Fopen(fname, "rb");
 
-	sprintf(fname, "anim%03d.all", prim);
-/*
-	handle = MF_Fopen(fname, "rb");
+            if (!handle)
+            {
+                    return false;
+            }
+            MF_Fclose(handle);
+    */
 
-	if (!handle)
-	{
-		return false;
-	}
-	MF_Fclose(handle);
-*/
+    if (prim >= next_anim_chunk)
+        next_anim_chunk = prim + 1;
 
-	if(prim>=next_anim_chunk)
-		next_anim_chunk=prim+1;
-
-	return(load_anim_system(&anim_chunk[prim],fname));
-//	return(true);
+    return (load_anim_system(&anim_chunk[prim], fname));
+    //	return(true);
 }
 
-extern std::int32_t	save_psx;
+extern std::int32_t save_psx;
 
-void load_needed_anim_prims()
-{
-	std::int32_t c0;
+void load_needed_anim_prims() {
+    std::int32_t c0;
 
-	//
-	// Anim prims are loaded as they are found on the map- but this
-	// doesn't do any harm because load_anim_prim_object() only
-	// loads the prim if it isn't already loaded.
-	//
+    //
+    // Anim prims are loaded as they are found on the map- but this
+    // doesn't do any harm because load_anim_prim_object() only
+    // loads the prim if it isn't already loaded.
+    //
 
-	for(c0=1;c0<MAX_PRIMARY_THINGS;c0++)
-	{
-		if(TO_THING(c0)->Class	==	CLASS_ANIM_PRIM)
-		{
-			load_anim_prim_object(TO_THING(c0)->Index);
-			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMprim %d \n",next_prim_point,next_prim_face3,next_prim_face4,TO_THING(c0)->Index);
-		}
+    for (c0 = 1; c0 < MAX_PRIMARY_THINGS; c0++) {
+        if (TO_THING(c0)->Class == CLASS_ANIM_PRIM) {
+            load_anim_prim_object(TO_THING(c0)->Index);
+            DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMprim %d \n", next_prim_point, next_prim_face3, next_prim_face4, TO_THING(c0)->Index);
+        }
+    }
 
+    //
+    // We always need the bat, gargoyle and balrog and bane (in the final levels anyway!)
+    //
 
+    if (!save_psx) {
+        // load_anim_prim_object(1);	  //bat
+        // load_anim_prim_object(2); //gargoyle		// Never used!
 
-	}
+        extern std::uint8_t this_level_has_the_balrog;
+        extern std::uint8_t this_level_has_bane;
 
-	//
-	// We always need the bat, gargoyle and balrog and bane (in the final levels anyway!)
-	//
+        if (this_level_has_the_balrog) {
+            load_anim_prim_object(3); // balrog
+        }
 
+        if (this_level_has_bane) {
+            load_anim_prim_object(4); // bane
+        }
+    }
 
-	if(!save_psx)
-	{
-		//load_anim_prim_object(1);	  //bat
-		//load_anim_prim_object(2); //gargoyle		// Never used!
-
-		extern std::uint8_t this_level_has_the_balrog;
-		extern std::uint8_t this_level_has_bane;
-
-		if (this_level_has_the_balrog)
-		{
-			load_anim_prim_object(3); //balrog
-		}
-
-		if (this_level_has_bane)
-		{
-			load_anim_prim_object(4); //bane
-		}
-	}
-
-//	load_anim_prim_object(3); //balrog
-	#ifdef BIKE
-	load_anim_prim_object(9);
-			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMprim %d \n",next_prim_point,next_prim_face3,next_prim_face4,9);
-	load_anim_prim_object(12);
-			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMprim %d \n",next_prim_point,next_prim_face3,next_prim_face4,12);
-	#endif
+    //	load_anim_prim_object(3); //balrog
+#ifdef BIKE
+    load_anim_prim_object(9);
+    DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMprim %d \n", next_prim_point, next_prim_face3, next_prim_face4, 9);
+    load_anim_prim_object(12);
+    DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMprim %d \n", next_prim_point, next_prim_face3, next_prim_face4, 12);
+#endif
 }
 
-void load_level_anim_prims()
-{
-	std::int32_t	i;
-	EWAY_Way *ew;
+void load_level_anim_prims() {
+    std::int32_t i;
+    EWAY_Way *ew;
 
-	for (i = 1; i < EWAY_way_upto; i++)
-	{
-		ew = &EWAY_way[i];
-		if(ew->ed.type==EWAY_DO_CREATE_ANIMAL)
-		{
-			std::int32_t	anim;
-			anim=0;
-			switch(ew->ed.subtype)
-			{
-				
-				case EWAY_SUBTYPE_ANIMAL_BAT:
-					if(save_psx)
-						continue;
-					anim=1;
-					break;
-				case EWAY_SUBTYPE_ANIMAL_GARGOYLE:
-					anim=2;
-					break;
-				case EWAY_SUBTYPE_ANIMAL_BALROG:
-					anim=3;
-					break;
-				case EWAY_SUBTYPE_ANIMAL_BANE:
-					anim=4;
-					break;
-			}
-			if(anim_chunk[anim].AnimList==0)
-				load_anim_prim_object(anim);
-		}
-	}
+    for (i = 1; i < EWAY_way_upto; i++) {
+        ew = &EWAY_way[i];
+        if (ew->ed.type == EWAY_DO_CREATE_ANIMAL) {
+            std::int32_t anim;
+            anim = 0;
+            switch (ew->ed.subtype) {
+                case EWAY_SUBTYPE_ANIMAL_BAT:
+                    if (save_psx)
+                        continue;
+                    anim = 1;
+                    break;
+                case EWAY_SUBTYPE_ANIMAL_GARGOYLE:
+                    anim = 2;
+                    break;
+                case EWAY_SUBTYPE_ANIMAL_BALROG:
+                    anim = 3;
+                    break;
+                case EWAY_SUBTYPE_ANIMAL_BANE:
+                    anim = 4;
+                    break;
+            }
+            if (anim_chunk[anim].AnimList == 0)
+                load_anim_prim_object(anim);
+        }
+    }
 }
 
-void load_game_map(char* name)
-{
-	std::uint16_t	i;
-	std::uint16_t	temp;
-	std::int32_t	save_type=1, ob_size;
-	std::int16_t	x,z;
-	std::int16_t	c0;
-	MapElement	me;
-	Thing	th;
-	struct	MapThingPSX	*t_mthing;
+void load_game_map(char *name) {
+    std::uint16_t i;
+    std::uint16_t temp;
+    std::int32_t save_type = 1, ob_size;
+    std::int16_t x, z;
+    std::int16_t c0;
+    MapElement me;
+    Thing th;
+    struct MapThingPSX *t_mthing;
 
-	std::uint16_t	count1,count2,count3,count4;
-	char	fname[100];
+    std::uint16_t count1, count2, count3, count4;
+    char fname[100];
 
-	sprintf(fname,"%s%s",DATA_DIR,name);
+    sprintf(fname, "%s%s", DATA_DIR, name);
 
-	if(save_psx)
-	{
-		fname[strlen(fname)-3]='p';
-		if(!FileExists(fname))
-			fname[strlen(fname)-3]='i';
-	}
+    if (save_psx) {
+        fname[strlen(fname) - 3] = 'p';
+        if (!FileExists(fname))
+            fname[strlen(fname) - 3] = 'i';
+    }
 
+    MFFileHandle handle = FILE_OPEN_ERROR;
+    handle = FileOpen(fname);
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, 4);
 
-	MFFileHandle	handle	=	FILE_OPEN_ERROR;
-	handle=FileOpen(fname);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileRead(handle,(std::uint8_t*)&save_type,4);
+        // extra 'ob' info
+        if (save_type > 23) {
+            FileRead(handle, (std::uint8_t *) &ob_size, 4);
+        }
 
-		// extra 'ob' info
-		if (save_type>23) {
-			FileRead(handle,(std::uint8_t*)&ob_size,4);
-		}
+        FileRead(handle, (std::uint8_t *) &PAP_2HI(0, 0), sizeof(PAP_Hi) * PAP_SIZE_HI * PAP_SIZE_HI);
 
-		FileRead(handle,(std::uint8_t*)&PAP_2HI(0,0),sizeof(PAP_Hi)*PAP_SIZE_HI*PAP_SIZE_HI);
+        extern std::uint16_t WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
 
-extern std::uint16_t WARE_roof_tex[PAP_SIZE_HI][PAP_SIZE_HI];
+        if (save_psx && save_type >= 26) {
+            std::uint32_t check;
 
-		if(save_psx&&save_type>=26)
-		{
-			std::uint32_t	check;
+            //
+            // PSX has the remaped rooftop textures stuck in the pam
+            //
 
-			//
-			//PSX has the remaped rooftop textures stuck in the pam
-			//
+            FileRead(handle, (std::uint8_t *) &check, 4);
+            ASSERT(check == sizeof(std::uint16_t) * PAP_SIZE_HI * PAP_SIZE_HI);
 
-			FileRead(handle,(std::uint8_t*)&check,4);
-			ASSERT(check==sizeof(std::uint16_t)*PAP_SIZE_HI * PAP_SIZE_HI);
+            FileRead(handle, WARE_roof_tex, sizeof(std::uint16_t) * PAP_SIZE_HI * PAP_SIZE_HI);
+            FileRead(handle, (std::uint8_t *) &check, 4);
+            ASSERT(check == 666);
+        } else {
+            memset((std::uint8_t *) WARE_roof_tex, 0, sizeof(std::uint16_t) * PAP_SIZE_HI * PAP_SIZE_HI);
+        }
 
-			FileRead(handle,WARE_roof_tex, sizeof(std::uint16_t)*PAP_SIZE_HI * PAP_SIZE_HI);
-			FileRead(handle,(std::uint8_t*)&check,4);
-			ASSERT(check==666);
-		}
-		else
-		{
-			memset((std::uint8_t*)WARE_roof_tex,0,sizeof(std::uint16_t)*PAP_SIZE_HI * PAP_SIZE_HI);
-		}
+        //
+        // Clear the mapwho data in the low-res map.
+        //
 
+        for (x = 0; x < PAP_SIZE_LO; x++)
+            for (z = 0; z < PAP_SIZE_LO; z++) {
+                PAP_2LO(x, z).MapWho = 0;
+            }
 
-		//
-		// Clear the mapwho data in the low-res map.
-		//
+        if (save_type == 18) {
+            FileRead(handle, (std::uint8_t *) &temp, sizeof(temp));
+            for (c0 = 0; c0 < temp; c0++) {
+                struct MapThingPSX map_thing;
+                t_mthing = &map_thing;
+                FileRead(handle, (std::uint8_t *) &map_thing, sizeof(struct MapThingPSX));
 
-		for (x = 0; x < PAP_SIZE_LO; x++)
-		for (z = 0; z < PAP_SIZE_LO; z++)
-		{
-			PAP_2LO(x,z).MapWho = 0;
-		}
+                switch (t_mthing->Type) {
+                    case MAP_THING_TYPE_ANIM_PRIM:
+                        //
+                        // Now add an animating prim to the universe
+                        //
 
+                        extern void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw);
 
-		if(save_type==18)
-		{
-			FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
-			for(c0=0;c0<temp;c0++)
-			{
-				struct	MapThingPSX	map_thing;
-				t_mthing=&map_thing;
-				FileRead(handle,(std::uint8_t*)&map_thing,sizeof(struct MapThingPSX));
+                        load_anim_prim_object(t_mthing->IndexOther);
+                        create_anim_prim(t_mthing->X, t_mthing->Y, t_mthing->Z, t_mthing->IndexOther, t_mthing->AngleY);
+                        break;
+                }
+            }
+        } else if (save_type > 18) {
+            FileRead(handle, (std::uint8_t *) &temp, sizeof(temp));
+            for (c0 = 0; c0 < temp; c0++) {
+                struct LoadGameThing map_thing;
+                FileRead(handle, (std::uint8_t *) &map_thing, sizeof(struct LoadGameThing));
 
-				switch(t_mthing->Type)
-				{
-					case	MAP_THING_TYPE_ANIM_PRIM:		
-						//
-						// Now add an animating prim to the universe
-						//
+                switch (map_thing.Type) {
+                    case MAP_THING_TYPE_ANIM_PRIM:
+                        //
+                        // Now add an animating prim to the universe
+                        //
 
-	extern void	create_anim_prim(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t prim, std::int32_t yaw);
+                        extern void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw);
 
-						load_anim_prim_object(t_mthing->IndexOther);
-						create_anim_prim(t_mthing->X,t_mthing->Y,t_mthing->Z,t_mthing->IndexOther,t_mthing->AngleY);
-						break;
-				}
-			}
-		}
-		else if(save_type>18)
-		{
-			FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
-			for(c0=0;c0<temp;c0++)
-			{
-				struct	LoadGameThing	map_thing;
-				FileRead(handle,(std::uint8_t*)&map_thing,sizeof(struct LoadGameThing));
+                        load_anim_prim_object(map_thing.IndexOther);
+                        create_anim_prim(map_thing.X, map_thing.Y, map_thing.Z, map_thing.IndexOther, map_thing.AngleY);
+                        break;
+                }
+            }
+        }
 
-				switch(map_thing.Type)
-				{
-					case	MAP_THING_TYPE_ANIM_PRIM:		
-						//
-						// Now add an animating prim to the universe
-						//
+        //
+        // All this ob nonsense are the objects on the map (like lamposts)
+        //
 
-	extern void	create_anim_prim(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t prim, std::int32_t yaw);
+        if (save_type < 23) {
+            FileRead(handle, (std::uint8_t *) &OB_ob_upto, sizeof(OB_ob_upto));
+            FileRead(handle, (std::uint8_t *) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
 
-						load_anim_prim_object(map_thing.IndexOther);
-						create_anim_prim(map_thing.X,map_thing.Y,map_thing.Z,map_thing.IndexOther,map_thing.AngleY);
-						break;
-				}
-			}
-		}
+            //
+            // Notice that strangely they have their very own mapwho
+            //
 
-		//
-		// All this ob nonsense are the objects on the map (like lamposts)
-		//
+            FileRead(handle, (std::uint8_t *) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+        }
 
-		if(save_type<23)
-		{
+        for (i = 1; i < OB_ob_upto; i++) {
+            OB_ob[i].flags &= ~OB_FLAG_DAMAGED;
+            OB_ob[i].flags &= ~OB_FLAG_RESERVED1;
+            OB_ob[i].flags &= ~OB_FLAG_RESERVED2;
+        }
 
-			FileRead(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
-			FileRead(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
+        //
+        // load super map
+        //
 
-			//
-			// Notice that strangely they have their very own mapwho
-			//
+        load_super_map(handle, save_type);
 
-			FileRead(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
-		}
+        //
+        // Load all the prim objects
+        //
 
-		for (i = 1; i < OB_ob_upto; i++)
-		{
-			OB_ob[i].flags &= ~OB_FLAG_DAMAGED;
-			OB_ob[i].flags &= ~OB_FLAG_RESERVED1;
-			OB_ob[i].flags &= ~OB_FLAG_RESERVED2;
-		}
+        OB_load_needed_prims();
+        load_needed_anim_prims();
+        DebugText("Julyb npp %d npf3 %d name %s\n", next_prim_point, next_prim_face3, name);
 
-		//
-		// load super map
-		//
+        if (save_type >= 20) {
+            std::int32_t texture_set;
 
-		load_super_map(handle,save_type);
+            FileRead(handle, (std::uint8_t *) &texture_set, sizeof(texture_set));
 
-		//
-		// Load all the prim objects 
-		//
+            ASSERT(WITHIN(texture_set, 0, 21));
 
-		OB_load_needed_prims();
-		load_needed_anim_prims();
-	DebugText("Julyb npp %d npf3 %d name %s\n",next_prim_point,next_prim_face3,name);
+            TEXTURE_choose_set(texture_set);
+            TEXTURE_SET = texture_set;
+            world_type = 0;
+            if (texture_set == 5) {
+                //				ASSERT(0);
+                world_type = WORLD_TYPE_SNOW;
+            } else if (texture_set == 1) {
+                //				ASSERT(0);
+                world_type = WORLD_TYPE_FOREST;
+            }
+        } else {
+            TEXTURE_choose_set(1);
+        }
+        if (save_type >= 25) {
+            FileRead(handle, (std::uint8_t *) psx_textures_xy, 2 * 200 * 5);
+        }
 
-
-		if (save_type >= 20)
-		{
-			std::int32_t texture_set;
-
-			FileRead(handle,(std::uint8_t*)&texture_set,sizeof(texture_set));
-
-			ASSERT(WITHIN(texture_set, 0, 21));
-
-			TEXTURE_choose_set(texture_set);
-			TEXTURE_SET=texture_set;
-			world_type=0;
-			if(texture_set==5)
-			{
-//				ASSERT(0);
-				world_type=WORLD_TYPE_SNOW;
-			}
-			else
-			if(texture_set==1)
-			{
-//				ASSERT(0);
-				world_type=WORLD_TYPE_FOREST;
-			}
-		}
-		else
-		{
-			TEXTURE_choose_set(1);
-		}
-		if (save_type >= 25)
-		{
-			FileRead(handle,(std::uint8_t*)psx_textures_xy,2*200*5);
-		}
-
-		FileClose(handle);
-	}
+        FileClose(handle);
+    }
 #ifdef EDITOR
-void load_tex_remap(char* name);
-	load_tex_remap(name);
+    void load_tex_remap(char *name);
+    load_tex_remap(name);
 #endif
-	DebugText("Julyc npp %d npf3 %d \n",next_prim_point,next_prim_face3);
-
+    DebugText("Julyc npp %d npf3 %d \n", next_prim_point, next_prim_face3);
 }
 
 /*
 void add_point(std::int32_t x,std::int32_t y,std::int32_t z)
 {
-	prim_points[next_prim_point].X=x;
-	prim_points[next_prim_point].Y=y;
-	prim_points[next_prim_point].Z=z;
-	next_prim_point++;
+        prim_points[next_prim_point].X=x;
+        prim_points[next_prim_point].Y=y;
+        prim_points[next_prim_point].Z=z;
+        next_prim_point++;
 }
 #define	CHEIGHT1	80
 #define	CHEIGHT2	160
 void build_car_prim()
 {
-	std::int32_t sp[5];
+        std::int32_t sp[5];
 
-	sp[0]=next_prim_point;
+        sp[0]=next_prim_point;
 
-	add_point(-128,0,-30);
-	add_point(-128,CHEIGHT,-30);
+        add_point(-128,0,-30);
+        add_point(-128,CHEIGHT,-30);
 
-	add_point(-128,0,-30);
-	add_point(-128,CHEIGHT,-30);
+        add_point(-128,0,-30);
+        add_point(-128,CHEIGHT,-30);
 
 
 
 }
 */
 
-std::int32_t load_all_prims(char	*name)
-{
-	std::int32_t			c0,point;
-	MFFileHandle	handle;
-	char			file_name[64];
-	std::uint16_t	dummy[100];
-	std::uint16_t	check_it;
+std::int32_t load_all_prims(char *name) {
+    std::int32_t c0, point;
+    MFFileHandle handle;
+    char file_name[64];
+    std::uint16_t dummy[100];
+    std::uint16_t check_it;
 
-/* fucked because primpoint size changed	
-	sprintf(file_name,"data\\%s",name);
-	handle	=	FileOpen(file_name);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileRead(handle,(std::uint8_t*)&next_prim_point,sizeof(std::uint16_t));
-		FileRead(handle,(std::uint8_t*)&next_prim_face4,sizeof(std::uint16_t));
-		FileRead(handle,(std::uint8_t*)&next_prim_face3,sizeof(std::uint16_t));
-		FileRead(handle,(std::uint8_t*)&next_prim_object,sizeof(std::uint16_t));
+    /* fucked because primpoint size changed
+            sprintf(file_name,"data\\%s",name);
+            handle	=	FileOpen(file_name);
+            if(handle!=FILE_OPEN_ERROR)
+            {
+                    FileRead(handle,(std::uint8_t*)&next_prim_point,sizeof(std::uint16_t));
+                    FileRead(handle,(std::uint8_t*)&next_prim_face4,sizeof(std::uint16_t));
+                    FileRead(handle,(std::uint8_t*)&next_prim_face3,sizeof(std::uint16_t));
+                    FileRead(handle,(std::uint8_t*)&next_prim_object,sizeof(std::uint16_t));
 
-		FileRead(handle,(std::uint8_t*)dummy,sizeof(std::uint16_t)*10);
+                    FileRead(handle,(std::uint8_t*)dummy,sizeof(std::uint16_t)*10);
 
-		FileRead(handle,(std::uint8_t*)prim_points,sizeof(struct PrimPoint)*next_prim_point);
-		FileRead(handle,(std::uint8_t*)prim_faces4,sizeof(struct PrimFace4)*next_prim_face4);
-		FileRead(handle,(std::uint8_t*)prim_faces3,sizeof(struct PrimFace3)*next_prim_face3);
-		FileRead(handle,(std::uint8_t*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
-		FileClose(handle);
-#ifdef	EDITOR
-extern void	record_prim_status();
-		record_prim_status();
-#endif
-		//create_kline_bottle();
-		return(1);
-	}
-*/
-	return(0);
-	
+                    FileRead(handle,(std::uint8_t*)prim_points,sizeof(struct PrimPoint)*next_prim_point);
+                    FileRead(handle,(std::uint8_t*)prim_faces4,sizeof(struct PrimFace4)*next_prim_face4);
+                    FileRead(handle,(std::uint8_t*)prim_faces3,sizeof(struct PrimFace3)*next_prim_face3);
+                    FileRead(handle,(std::uint8_t*)prim_objects,sizeof(struct PrimObject)*next_prim_object);
+                    FileClose(handle);
+    #ifdef	EDITOR
+    extern void	record_prim_status();
+                    record_prim_status();
+    #endif
+                    //create_kline_bottle();
+                    return(1);
+            }
+    */
+    return (0);
 }
-
 
 //
 // Loads in the given prim object if it is not already loaded.
 // Returns false on failure.
 //
 
+std::int32_t load_prim_object(std::int32_t prim) {
+    std::int32_t i;
+    std::int32_t j;
 
-std::int32_t load_prim_object(std::int32_t prim)
-{
-	std::int32_t i;
-	std::int32_t j;
+    std::int32_t num_points;
+    std::int32_t num_faces3;
+    std::int32_t num_faces4;
 
-	std::int32_t num_points;
-	std::int32_t num_faces3;
-	std::int32_t num_faces4;
+    PrimObject *po;
+    PrimFace3 *f3;
+    PrimFace4 *f4;
 
-	PrimObject *po;
-	PrimFace3  *f3;
-	PrimFace4  *f4;
+    char fname[156];
+    std::uint16_t save_type;
+    std::uint16_t file_type = 1;
 
-	char fname[156];
-	std::uint16_t	save_type;
-	std::uint16_t	file_type=1;
+    MFFileHandle handle;
 
-	MFFileHandle handle;
+    if (prim == 15) {
+        LogText("hello");
+    }
 
-	if(prim==15)
-	{
-		LogText("hello");
-	}
+    ASSERT(WITHIN(prim, 0, 265));
 
-	ASSERT(WITHIN(prim, 0, 265));
+    //	ASSERT(prim!=238);
+    po = &prim_objects[prim];
 
-//	ASSERT(prim!=238);
-	po = &prim_objects[prim];
+    //
+    // Is this prim already in memory?
+    //
 
-	//
-	// Is this prim already in memory?
-	//
+    if (po->StartPoint || prim == 238) {
+        //
+        // Don't load twice!
+        //
 
-	if (po->StartPoint||prim==238)
-	{
-		//
-		// Don't load twice!
-		//
+        return true;
+    }
 
-		return true;
-	}
+    sprintf(fname, "%s\\nprim%03d.prm", PRIM_DIR, prim);
 
-	sprintf(fname, "%s\\nprim%03d.prm", PRIM_DIR,prim);
+    handle = FileOpen(fname);
+    if (handle == FILE_OPEN_ERROR) {
+        sprintf(fname, "%s\\prim%03d.prm", PRIM_DIR, prim);
 
-	handle = FileOpen(fname);
-	if(handle==FILE_OPEN_ERROR)
-	{
+        handle = FileOpen(fname);
+        if (handle == FILE_OPEN_ERROR) {
+            //
+            // Oh dear!
+            //
+            po->StartPoint = 0;
+            po->EndPoint = 0;
+            po->StartFace3 = 0;
+            po->EndFace3 = 0;
+            po->StartFace4 = 0;
+            po->EndFace4 = 0;
+            return false;
+        }
+        file_type = 0;
+    }
 
-		sprintf(fname, "%s\\prim%03d.prm", PRIM_DIR,prim);
+    //
+    // Load in the prim object.
+    //
 
+    if (file_type == 1) {
+        FileRead(handle, &save_type, sizeof(save_type));
+        FileRead(handle, &prim_names[prim], 32);
+        if (FileRead(handle, &prim_objects[prim], sizeof(PrimObject)) != sizeof(PrimObject))
+            goto file_error;
+    } else {
+        struct PrimObjectOld oldprim;
+        if (FileRead(handle, &oldprim, sizeof(PrimObjectOld)) != sizeof(PrimObjectOld))
+            goto file_error;
+        prim_objects[prim].coltype = oldprim.coltype;
+        prim_objects[prim].damage = oldprim.damage;
+        prim_objects[prim].EndFace3 = oldprim.EndFace3;
+        prim_objects[prim].EndFace4 = oldprim.EndFace4;
+        prim_objects[prim].StartFace3 = oldprim.StartFace3;
+        prim_objects[prim].StartFace4 = oldprim.StartFace4;
+        prim_objects[prim].EndPoint = oldprim.EndPoint;
+        prim_objects[prim].StartPoint = oldprim.StartPoint;
+        prim_objects[prim].shadowtype = oldprim.shadowtype;
+        prim_objects[prim].flag = oldprim.flag;
+        memcpy(prim_names[prim], oldprim.ObjectName, 32);
+        save_type = oldprim.Dummy[3];
+    }
 
-		handle = FileOpen(fname);
-		if(handle==FILE_OPEN_ERROR)
-		{
-			//
-			// Oh dear!
-			// 
-			po->StartPoint=0;
-			po->EndPoint=0;
-			po->StartFace3=0;
-			po->EndFace3=0;
-			po->StartFace4=0;
-			po->EndFace4=0;
-			return false;
-		}
-		file_type=0;
-	}
+    num_points = po->EndPoint - po->StartPoint;
+    num_faces3 = po->EndFace3 - po->StartFace3;
+    num_faces4 = po->EndFace4 - po->StartFace4;
+    ASSERT(num_points >= 0);
+    ASSERT(num_faces3 >= 0);
+    ASSERT(num_faces4 >= 0);
 
-	//
-	// Load in the prim object.
-	//
+    //
+    // Enough memory?
+    //
 
-	if(file_type==1)
-	{
-		FileRead(handle,&save_type, sizeof(save_type));
-		FileRead(handle,&prim_names[prim],32);
-		if(FileRead(handle,&prim_objects[prim], sizeof(PrimObject)) != sizeof(PrimObject))
-			goto file_error;
-	}
-	else
-	{
-		struct	PrimObjectOld	oldprim;
-		if (FileRead(handle,&oldprim, sizeof(PrimObjectOld)) != sizeof(PrimObjectOld))
-			goto file_error;
-		prim_objects[prim].coltype=oldprim.coltype;
-		prim_objects[prim].damage=oldprim.damage;
-		prim_objects[prim].EndFace3=oldprim.EndFace3;
-		prim_objects[prim].EndFace4=oldprim.EndFace4;
-		prim_objects[prim].StartFace3=oldprim.StartFace3;
-		prim_objects[prim].StartFace4=oldprim.StartFace4;
-		prim_objects[prim].EndPoint=oldprim.EndPoint;
-		prim_objects[prim].StartPoint=oldprim.StartPoint;
-		prim_objects[prim].shadowtype=oldprim.shadowtype;
-		prim_objects[prim].flag=oldprim.flag;
-		memcpy(prim_names[prim],oldprim.ObjectName,32);
-		save_type=oldprim.Dummy[3];
-	}
+    if (next_prim_point + num_points > MAX_PRIM_POINTS ||
+        next_prim_face3 + num_faces3 > MAX_PRIM_FACES3 ||
+        next_prim_face4 + num_faces4 > MAX_PRIM_FACES4) {
+        FileClose(handle);
 
-	num_points = po->EndPoint - po->StartPoint;
-	num_faces3 = po->EndFace3 - po->StartFace3;
-	num_faces4 = po->EndFace4 - po->StartFace4;
-	ASSERT(num_points>=0);
-	ASSERT(num_faces3>=0);
-	ASSERT(num_faces4>=0);
+        po->StartPoint = po->EndPoint = 0;
+        po->StartFace3 = po->EndFace3 = 0;
+        po->StartFace4 = po->EndFace4 = 0;
+        ASSERT(0);
 
+        return false;
+    }
 
+    //
+    // Load in the point and faces data.
+    //
 
-	//
-	// Enough memory?
-	// 
+    if (save_type - PRIM_START_SAVE_TYPE == 1) {
+        if (FileRead(handle, &prim_points[next_prim_point], sizeof(PrimPoint) * num_points) != sizeof(PrimPoint) * num_points)
+            goto file_error;
+    } else {
+        std::int32_t c0;
+        struct OldPrimPoint pp;
+        for (c0 = 0; c0 < num_points; c0++) {
+            if (FileRead(handle, &pp, sizeof(OldPrimPoint)) != sizeof(OldPrimPoint))
+                goto file_error;
 
-	if (next_prim_point + num_points > MAX_PRIM_POINTS ||
-		next_prim_face3 + num_faces3 > MAX_PRIM_FACES3 ||
-		next_prim_face4 + num_faces4 > MAX_PRIM_FACES4)
-	{
-		FileClose(handle);
+            prim_points[c0 + next_prim_point].X = (std::int16_t) pp.X;
+            prim_points[c0 + next_prim_point].Y = (std::int16_t) pp.Y;
+            prim_points[c0 + next_prim_point].Z = (std::int16_t) pp.Z;
+        }
+    }
+    if (FileRead(handle, &prim_faces3[next_prim_face3], sizeof(PrimFace3) * num_faces3) != sizeof(PrimFace3) * num_faces3)
+        goto file_error;
+    if (FileRead(handle, &prim_faces4[next_prim_face4], sizeof(PrimFace4) * num_faces4) != sizeof(PrimFace4) * num_faces4)
+        goto file_error;
 
-		po->StartPoint = po->EndPoint = 0;
-		po->StartFace3 = po->EndFace3 = 0;
-		po->StartFace4 = po->EndFace4 = 0;
-		ASSERT(0);
+    FileClose(handle);
 
-		return false;
-	}
+    /*
 
-	//
-	// Load in the point and faces data.
-	//
+    if (prim == PRIM_OBJ_BALLOON)
+    {
+            for (i = 0; i < num_points; i++)
+            {
+                    prim_points[next_prim_point + i].X /= 2;
+                    prim_points[next_prim_point + i].Y /= 2;
+                    prim_points[next_prim_point + i].Z /= 2;
+            }
+    }
 
-	if(save_type-PRIM_START_SAVE_TYPE==1)
-	{
-		if (FileRead(handle,&prim_points[next_prim_point], sizeof(PrimPoint)*num_points) != sizeof(PrimPoint)*num_points) 
-			goto file_error;
-	}
-	else
-	{
-		std::int32_t	c0;
-		struct	OldPrimPoint pp;
-		for(c0=0;c0<num_points;c0++)
-		{
-			if (FileRead(handle,&pp, sizeof(OldPrimPoint)) != sizeof(OldPrimPoint)) 
-				goto file_error;
+    */
 
-			prim_points[c0+next_prim_point].X=(std::int16_t)pp.X;
-			prim_points[c0+next_prim_point].Y=(std::int16_t)pp.Y;
-			prim_points[c0+next_prim_point].Z=(std::int16_t)pp.Z;
-			
+    //
+    // Fix the point indices inside the prim faces
+    //
 
-		}
-	}
-	if (FileRead(handle,&prim_faces3[next_prim_face3], sizeof(PrimFace3)*num_faces3) != sizeof(PrimFace3)*num_faces3) goto file_error;
-	if (FileRead(handle,&prim_faces4[next_prim_face4], sizeof(PrimFace4)*num_faces4) != sizeof(PrimFace4)*num_faces4) goto file_error;
+    for (i = 0; i < num_faces3; i++) {
+        f3 = &prim_faces3[next_prim_face3 + i];
 
-	FileClose(handle);
+        for (j = 0; j < 3; j++) {
+            f3->Points[j] += next_prim_point - po->StartPoint;
+        }
+    }
 
-	/*
+    for (i = 0; i < num_faces4; i++) {
+        f4 = &prim_faces4[next_prim_face4 + i];
 
-	if (prim == PRIM_OBJ_BALLOON)
-	{
-		for (i = 0; i < num_points; i++)
-		{
-			prim_points[next_prim_point + i].X /= 2;
-			prim_points[next_prim_point + i].Y /= 2;
-			prim_points[next_prim_point + i].Z /= 2;
-		}
-	}
+        for (j = 0; j < 4; j++) {
+            f4->Points[j] += next_prim_point - po->StartPoint;
+        }
+    }
 
-	*/
+    //
+    // Setup everything.
+    //
 
-	//
-	// Fix the point indices inside the prim faces
-	// 
+    po->StartPoint = next_prim_point;
+    po->StartFace3 = next_prim_face3;
+    po->StartFace4 = next_prim_face4;
 
-	for (i = 0; i < num_faces3; i++)
-	{
-		f3 = &prim_faces3[next_prim_face3 + i];
+    po->EndPoint = po->StartPoint + num_points;
+    po->EndFace3 = po->StartFace3 + num_faces3;
+    po->EndFace4 = po->StartFace4 + num_faces4;
 
-		for (j = 0; j < 3; j++)
-		{
-			f3->Points[j] += next_prim_point - po->StartPoint;
-		}
-	}
+    next_prim_point += num_points;
+    next_prim_face3 += num_faces3;
+    next_prim_face4 += num_faces4;
 
-	for (i = 0; i < num_faces4; i++)
-	{
-		f4 = &prim_faces4[next_prim_face4 + i];
+    //
+    // Hard code the items!
+    //
 
-		for (j = 0; j < 4; j++)
-		{
-			f4->Points[j] += next_prim_point - po->StartPoint;
-		}
-	}
+    switch (prim) {
+        case PRIM_OBJ_ITEM_HEALTH:
+        case PRIM_OBJ_ITEM_GUN:
+        case PRIM_OBJ_ITEM_KEY:
+            po->flag |= PRIM_FLAG_ITEM;
+            break;
+    }
 
-	//
-	// Setup everything.
-	//
+    //
+    // All ok.
+    //
+    DebugText(" next_prim_point %d primface3 %d primface4 %d   load prim %d \n", next_prim_point, next_prim_face3, next_prim_face4, prim);
 
-	po->StartPoint = next_prim_point;
-	po->StartFace3 = next_prim_face3;
-	po->StartFace4 = next_prim_face4;
+    return true;
 
-	po->EndPoint = po->StartPoint + num_points;
-	po->EndFace3 = po->StartFace3 + num_faces3;
-	po->EndFace4 = po->StartFace4 + num_faces4;
+file_error:;
+    DebugText("FAILED next_prim_point %d primface3 %d primface4 %d   load prim %d \n", next_prim_point, next_prim_face3, next_prim_face4, prim);
 
-	next_prim_point += num_points;
-	next_prim_face3	+= num_faces3;
-	next_prim_face4	+= num_faces4;
+    //
+    // An error occurred.
+    //
 
-	//
-	// Hard code the items!
-	// 
+    FileClose(handle);
 
-	switch(prim)
-	{
-		case PRIM_OBJ_ITEM_HEALTH:
-		case PRIM_OBJ_ITEM_GUN:
-		case PRIM_OBJ_ITEM_KEY:
-			po->flag |= PRIM_FLAG_ITEM;
-			break;
-	}
-
-	//
-	// All ok.
-	//
-	DebugText(" next_prim_point %d primface3 %d primface4 %d   load prim %d \n",next_prim_point,next_prim_face3,next_prim_face4,prim);
-
-	return true;
-
-  file_error:;
-	DebugText("FAILED next_prim_point %d primface3 %d primface4 %d   load prim %d \n",next_prim_point,next_prim_face3,next_prim_face4,prim);
-
-	//
-	// An error occurred.
-	//
-
-	FileClose(handle);
-
-	return false;
+    return false;
 }
-
 
 //
 // Loads in all the individual prim objects.
 //
 
-void load_all_individual_prims()
-{
-	std::int32_t i;
+void load_all_individual_prims() {
+    std::int32_t i;
 
-	clear_prims();
+    clear_prims();
 
-	for (i = 1; i < 266; i++)
-	{
-		load_prim_object(i);
-	}
-	if(next_prim_object<266)
-		next_prim_object=266;
-	//
-	// now load the animating objects
-	//
+    for (i = 1; i < 266; i++) {
+        load_prim_object(i);
+    }
+    if (next_prim_object < 266)
+        next_prim_object = 266;
+    //
+    // now load the animating objects
+    //
 
-	for (i = 1; i < 256; i++)
-	{
-		load_anim_prim_object(i);
-	}
+    for (i = 1; i < 256; i++) {
+        load_anim_prim_object(i);
+    }
 }
 
-
-
-
-
-
 //---------------------------------------------------------
-#ifndef	PSX
-void read_object_name(FILE *file_handle,char* dest_string)
-{
-	char		the_char	=	0;
-	std::int32_t	count=0;
+#ifndef PSX
+void read_object_name(FILE *file_handle, char *dest_string) {
+    char the_char = 0;
+    std::int32_t count = 0;
 
+    // Read up to the first quote.
+    while (the_char != '\"' && count++ < 100) {
+        fscanf(file_handle, "%c", &the_char);
 
-	// Read up to the first quote.
-	while(the_char!='\"' && count++<100)
-	{
-		fscanf(file_handle,"%c",&the_char);
-		
-		//if(the_char)
-		//	TRACE("%c",&the_char);
-	}
+        // if(the_char)
+        //	TRACE("%c",&the_char);
+    }
 
-	// Get the first character.
-	fscanf(file_handle,"%c",&the_char);
+    // Get the first character.
+    fscanf(file_handle, "%c", &the_char);
 
-	// Read until the next quote.
-	count=0;
-	while(the_char!='\"'&&count++<100)
-	{
-		*(dest_string++)	=	the_char;
-		fscanf(file_handle,"%c",&the_char);
-	}
-	*dest_string	=	0;
+    // Read until the next quote.
+    count = 0;
+    while (the_char != '\"' && count++ < 100) {
+        *(dest_string++) = the_char;
+        fscanf(file_handle, "%c", &the_char);
+    }
+    *dest_string = 0;
 }
 
 //---------------------------------------------------------------
-std::int32_t key_frame_count,current_element;
-std::int32_t x_centre,y_centre,z_centre;
+std::int32_t key_frame_count, current_element;
+std::int32_t x_centre, y_centre, z_centre;
 
-void load_frame_numbers(char* vue_name,std::uint16_t *frames,std::int32_t max_frames)
-{
-	char	name[200];
-	std::int32_t	len;
-#ifdef	PSX
-	FILE f_handle;
+void load_frame_numbers(char *vue_name, std::uint16_t *frames, std::int32_t max_frames) {
+    char name[200];
+    std::int32_t len;
+#ifdef PSX
+    FILE f_handle;
 #else
-	FILE *f_handle;
+    FILE *f_handle;
 #endif
-	std::int32_t	result=0;
-	std::int32_t	val,val2,index=0;
+    std::int32_t result = 0;
+    std::int32_t val, val2, index = 0;
 
-	memset((std::uint8_t*)frames,0,sizeof(std::uint16_t)*max_frames);
+    memset((std::uint8_t *) frames, 0, sizeof(std::uint16_t) * max_frames);
 
-	strcpy(name,vue_name);
-	len=strlen(name);
-	name[len-3]='T';
-	name[len-2]='X';
-	name[len-1]='T';
-	LogText(" load frames >%s< \n",name);
+    strcpy(name, vue_name);
+    len = strlen(name);
+    name[len - 3] = 'T';
+    name[len - 2] = 'X';
+    name[len - 1] = 'T';
+    LogText(" load frames >%s< \n", name);
 
-	f_handle	=	MF_Fopen(name,"r");
-	if(f_handle)
-	{
-		char	string[100];
-		do
-		{
+    f_handle = MF_Fopen(name, "r");
+    if (f_handle) {
+        char string[100];
+        do {
+            result = fscanf(f_handle, "%s", &string[0]);
+            if (result >= 0) {
+                if (string[0] == '*') {
+                    //
+                    // load the rest of the frames
+                    //
+                    for (; val < max_frames; val++) {
+                        if (frames[val] == 0) {
+                            frames[val] = index + 1;
+                            index++;
+                        }
+                        //							else
+                        //								ASSERT(0);
+                    }
+                } else if (string[0] == '-') {
+                    //
+                    // load a range of frames
+                    //
+                    result = sscanf(&string[1], "%d", &val);
+                    result = fscanf(f_handle, "%d", &val2);
 
-			result	=	fscanf(f_handle,"%s",&string[0]);
-			if(result>=0)
-			{
-				if(string[0]=='*')
-				{
-					//
-					// load the rest of the frames
-					//
-						for(;val<max_frames;val++)
-						{
-							if(frames[val]==0)
-							{
-								frames[val]=index+1;  
-								index++;
-							}
-//							else
-//								ASSERT(0);
+                    if ((result >= 0) && (val2 < max_frames) && val < val2) {
+                        for (; val <= val2; val++) {
+                            frames[val] = index + 1;
+                            index++;
+                        }
+                    }
 
-						}
-				}
-				else
-				if(string[0]=='-')
-				{
-					//
-					// load a range of frames
-					//
-					result	=	sscanf(&string[1],"%d",&val);
-					result	=	fscanf(f_handle,"%d",&val2);
+                } else {
+                    result = sscanf(&string[0], "%d", &val);
 
-					if((result>=0) && (val2<max_frames) && val<val2)
-					{
-						for(;val<=val2;val++)
-						{
-							frames[val]=index+1;
-							index++;
-
-						}
-					}
-
-				}
-				else
-				{
-					result	=	sscanf(&string[0],"%d",&val);
-
-					if( (result>=0) && (val<max_frames) )
-					{
-						//
-						// This records the order for frames, so if we need to know where 24 should be in the list you simply inquire at frames[24]
-						//
-						//
-						LogText(" val %d at pos %d \n",val,index+1);
-						frames[val]=index+1;
-						index++;
-					}
-				}
-			}
-		}
-		while(result>=0);
-		MF_Fclose(f_handle);
-	}
-	else
-	{
-		LogText(" open error 1a, NO .txt for VUE\n");
-		for(index=0;index<max_frames;index++)
-		{
-			frames[index]=index+1;
-		}
-	}
+                    if ((result >= 0) && (val < max_frames)) {
+                        //
+                        // This records the order for frames, so if we need to know where 24 should be in the list you simply inquire at frames[24]
+                        //
+                        //
+                        LogText(" val %d at pos %d \n", val, index + 1);
+                        frames[val] = index + 1;
+                        index++;
+                    }
+                }
+            }
+        } while (result >= 0);
+        MF_Fclose(f_handle);
+    } else {
+        LogText(" open error 1a, NO .txt for VUE\n");
+        for (index = 0; index < max_frames; index++) {
+            frames[index] = index + 1;
+        }
+    }
 }
 
-void invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
-{
-	Matrix33	temp_mat;
-	std::int32_t	i,j;
-	std::int32_t	x,y,z;
+void invert_mult(struct Matrix33 *mat, struct PrimPoint *pp) {
+    Matrix33 temp_mat;
+    std::int32_t i, j;
+    std::int32_t x, y, z;
 
-	for(i=0;i<3;i++)
-	for(j=0;j<3;j++)
-	{
-		temp_mat.M[i][j]=mat->M[j][i];
-	}
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++) {
+            temp_mat.M[i][j] = mat->M[j][i];
+        }
 
-//	LogText(" len before %d \n",SDIST3(pp->X,pp->Y,pp->Z));
+    //	LogText(" len before %d \n",SDIST3(pp->X,pp->Y,pp->Z));
 
-	x = (pp->X * temp_mat.M[0][0])+(pp->Y * temp_mat.M[0][1])+(pp->Z * temp_mat.M[0][2])>>15; 
-	y = (pp->X * temp_mat.M[1][0])+(pp->Y * temp_mat.M[1][1])+(pp->Z * temp_mat.M[1][2])>>15; 
-	z = (pp->X * temp_mat.M[2][0])+(pp->Y * temp_mat.M[2][1])+(pp->Z * temp_mat.M[2][2])>>15;
-//	LogText(" len after %d \n",SDIST3(x,y,z));
+    x = (pp->X * temp_mat.M[0][0]) + (pp->Y * temp_mat.M[0][1]) + (pp->Z * temp_mat.M[0][2]) >> 15;
+    y = (pp->X * temp_mat.M[1][0]) + (pp->Y * temp_mat.M[1][1]) + (pp->Z * temp_mat.M[1][2]) >> 15;
+    z = (pp->X * temp_mat.M[2][0]) + (pp->Y * temp_mat.M[2][1]) + (pp->Z * temp_mat.M[2][2]) >> 15;
+    //	LogText(" len after %d \n",SDIST3(x,y,z));
 
-	pp->X=x;
-	pp->Y=y;
-	pp->Z=z;
+    pp->X = x;
+    pp->Y = y;
+    pp->Z = z;
 }
 
-extern char	*body_part_names[];
-void sort_multi_object(struct KeyFrameChunk *the_chunk)
-{
-	std::int32_t					c0,c1,c2,
-							so,eo,
-							sp,ep;
-	struct KeyFrameElement	*the_element;
-	struct PrimObject		*p_obj;
-	struct	KeyFrame		*the_keyframe;
-	std::int32_t					multi;
+extern char *body_part_names[];
+void sort_multi_object(struct KeyFrameChunk *the_chunk) {
+    std::int32_t c0, c1, c2,
+        so, eo,
+        sp, ep;
+    struct KeyFrameElement *the_element;
+    struct PrimObject *p_obj;
+    struct KeyFrame *the_keyframe;
+    std::int32_t multi;
 
-	//LogText(" key frame count %d \n",key_frame_count);
-  /*
-	for(c0=0;c0<key_frame_count;c0++)
-	{
-		the_keyframe=&the_chunk->KeyFrames[c0];
-		the_element	=	the_keyframe->FirstElement;
-//		LogText(" frame %d  dxyz (%d,%d,%d) elementcount %d\n",c0,the_keyframe->Dx,the_keyframe->Dy,the_keyframe->Dz,the_keyframe->ElementCount);
-		for(c1=0;c1<the_keyframe->ElementCount;c1++,the_element++)
-		{
- 			the_element->OffsetX-=the_keyframe->Dx<<2;
-// 			the_element->OffsetY-=the_keyframe->Dy<<2;
- 			the_element->OffsetZ-=the_keyframe->Dz<<2;
-			the_element->Parent=c0;
-		}
-	}
-	*/
+    // LogText(" key frame count %d \n",key_frame_count);
+    /*
+          for(c0=0;c0<key_frame_count;c0++)
+          {
+                  the_keyframe=&the_chunk->KeyFrames[c0];
+                  the_element	=	the_keyframe->FirstElement;
+  //		LogText(" frame %d  dxyz (%d,%d,%d) elementcount %d\n",c0,the_keyframe->Dx,the_keyframe->Dy,the_keyframe->Dz,the_keyframe->ElementCount);
+                  for(c1=0;c1<the_keyframe->ElementCount;c1++,the_element++)
+                  {
+                          the_element->OffsetX-=the_keyframe->Dx<<2;
+  // 			the_element->OffsetY-=the_keyframe->Dy<<2;
+                          the_element->OffsetZ-=the_keyframe->Dz<<2;
+                          the_element->Parent=c0;
+                  }
+          }
+          */
 
-#ifdef	EDITOR
+#ifdef EDITOR
 
-	for(multi=the_chunk->MultiObject;multi<=the_chunk->MultiObjectEnd;multi++)
-	{
-		so=prim_multi_objects[multi].StartObject;
-		eo=prim_multi_objects[multi].EndObject;
-		p_obj		=	&prim_objects[prim_multi_objects[multi].StartObject];
+    for (multi = the_chunk->MultiObject; multi <= the_chunk->MultiObjectEnd; multi++) {
+        so = prim_multi_objects[multi].StartObject;
+        eo = prim_multi_objects[multi].EndObject;
+        p_obj = &prim_objects[prim_multi_objects[multi].StartObject];
 
-		if(the_chunk->ElementCount==15)
-		{
-			for(c0=so;c0<eo;c0++,p_obj++)
-			{
-				sp	=	p_obj->StartPoint;
-				ep	=	p_obj->EndPoint;
-				//
-				// Look at object name to find relevant ele
-				//
-				for(c1=0;c1<MAX_BODY_BITS;c1++)
-				{
-					if(body_part_names[c1]==0)
-						break;
-//					if( !memcmp( body_part_names[c1],p_obj->ObjectName,strlen( body_part_names[c1] ) ) )
-					if( !memcmp( body_part_names[c1],prim_names[c0],strlen( body_part_names[c1] ) ) )
-					{
-						the_element	=	&the_chunk->KeyFrames[0].FirstElement[c1];
-						for(c2=sp;c2<ep;c2++)
-						{
-							prim_points[c2].X	-=	the_element->OffsetX;
-							prim_points[c2].Y	-=	the_element->OffsetY;
-							prim_points[c2].Z	-=	the_element->OffsetZ;
-							invert_mult(&the_element->Matrix,&prim_points[c2]);
-						}
-						break;
-					}
-				}
-			}
-		}
-		else
-		{
-		// old system before object names became very very important
+        if (the_chunk->ElementCount == 15) {
+            for (c0 = so; c0 < eo; c0++, p_obj++) {
+                sp = p_obj->StartPoint;
+                ep = p_obj->EndPoint;
+                //
+                // Look at object name to find relevant ele
+                //
+                for (c1 = 0; c1 < MAX_BODY_BITS; c1++) {
+                    if (body_part_names[c1] == 0)
+                        break;
+                    //					if( !memcmp( body_part_names[c1],p_obj->ObjectName,strlen( body_part_names[c1] ) ) )
+                    if (!memcmp(body_part_names[c1], prim_names[c0], strlen(body_part_names[c1]))) {
+                        the_element = &the_chunk->KeyFrames[0].FirstElement[c1];
+                        for (c2 = sp; c2 < ep; c2++) {
+                            prim_points[c2].X -= the_element->OffsetX;
+                            prim_points[c2].Y -= the_element->OffsetY;
+                            prim_points[c2].Z -= the_element->OffsetZ;
+                            invert_mult(&the_element->Matrix, &prim_points[c2]);
+                        }
+                        break;
+                    }
+                }
+            }
+        } else {
+            // old system before object names became very very important
 
-			p_obj		=	&prim_objects[prim_multi_objects[multi].StartObject];
-			the_element	=	the_chunk->KeyFrames[0].FirstElement;
-			for(c0=0;c0<the_chunk->ElementCount;c0++,p_obj++,the_element++)
-			{
-				sp	=	p_obj->StartPoint;
-				ep	=	p_obj->EndPoint;
-		//		LogText("SIZE part %d    offset %d %d %d \n",c0,the_element->OffsetX,the_element->OffsetY,the_element->OffsetZ);
+            p_obj = &prim_objects[prim_multi_objects[multi].StartObject];
+            the_element = the_chunk->KeyFrames[0].FirstElement;
+            for (c0 = 0; c0 < the_chunk->ElementCount; c0++, p_obj++, the_element++) {
+                sp = p_obj->StartPoint;
+                ep = p_obj->EndPoint;
+                //		LogText("SIZE part %d    offset %d %d %d \n",c0,the_element->OffsetX,the_element->OffsetY,the_element->OffsetZ);
 
-				for(c1=sp;c1<ep;c1++)
-				{
-					prim_points[c1].X	-=	the_element->OffsetX;
-					prim_points[c1].Y	-=	the_element->OffsetY;
-					prim_points[c1].Z	-=	the_element->OffsetZ;
-					invert_mult(&the_element->Matrix,&prim_points[c1]);
-				}
-		//		the_element->OffsetX-=
-			}
-		}
-	}
+                for (c1 = sp; c1 < ep; c1++) {
+                    prim_points[c1].X -= the_element->OffsetX;
+                    prim_points[c1].Y -= the_element->OffsetY;
+                    prim_points[c1].Z -= the_element->OffsetZ;
+                    invert_mult(&the_element->Matrix, &prim_points[c1]);
+                }
+                //		the_element->OffsetX-=
+            }
+        }
+    }
 #endif
 }
 
-void set_default_people_types(struct	KeyFrameChunk *the_chunk)
-{
-	std::int32_t	c0,c1;
+void set_default_people_types(struct KeyFrameChunk *the_chunk) {
+    std::int32_t c0, c1;
 
-	for(c0=0;c0<20;c0++)
-	{
-		strcpy(the_chunk->PeopleNames[c0],"Undefined");
-		for(c1=0;c1<MAX_BODY_BITS;c1++)
-		{
-			the_chunk->PeopleTypes[c0].BodyPart[c1]=c1;
-
-
-		}
-	}
+    for (c0 = 0; c0 < 20; c0++) {
+        strcpy(the_chunk->PeopleNames[c0], "Undefined");
+        for (c1 = 0; c1 < MAX_BODY_BITS; c1++) {
+            the_chunk->PeopleTypes[c0].BodyPart[c1] = c1;
+        }
+    }
 }
 
+void make_compress_matrix(struct KeyFrameElement *the_element, struct Matrix33 *matrix) {
+    std::uint32_t encode;
+    std::int32_t u, v, w;
+    /*
+            LogText(" compress>>6 %x %x %x \n",matrix->M[0][0]>>6,matrix->M[0][1]>>6,matrix->M[0][2]>>6);
+            LogText(" compress>>6<<? %x %x %x \n",(((matrix->M[0][0]>>6))<<20),(((matrix->M[0][1]>>6))<<10),(((matrix->M[0][2]>>6))<<0));
+            LogText(" compress>>6<<?&? %x %x %x \n",((matrix->M[0][0]>>6)<<20)&CMAT0_MASK,((matrix->M[0][1]>>6)<<10)&CMAT1_MASK,((matrix->M[0][2]>>6)<<0)&CMAT2_MASK);
+            LogText(" compress %d %d %d ",matrix->M[0][0],matrix->M[0][1],matrix->M[0][2]);
 
+            u=(((the_element->CMatrix.M[0]&CMAT0_MASK)<<2)>>22);
+            v=(((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22);
+            w=(((the_element->CMatrix.M[0]&CMAT2_MASK)<<22)>>22);
 
-void make_compress_matrix(struct KeyFrameElement	*the_element,struct Matrix33 *matrix)
-{
-	std::uint32_t	encode;
-	std::int32_t	u,v,w;
-/*
-	LogText(" compress>>6 %x %x %x \n",matrix->M[0][0]>>6,matrix->M[0][1]>>6,matrix->M[0][2]>>6);
-	LogText(" compress>>6<<? %x %x %x \n",(((matrix->M[0][0]>>6))<<20),(((matrix->M[0][1]>>6))<<10),(((matrix->M[0][2]>>6))<<0));
-	LogText(" compress>>6<<?&? %x %x %x \n",((matrix->M[0][0]>>6)<<20)&CMAT0_MASK,((matrix->M[0][1]>>6)<<10)&CMAT1_MASK,((matrix->M[0][2]>>6)<<0)&CMAT2_MASK);
-	LogText(" compress %d %d %d ",matrix->M[0][0],matrix->M[0][1],matrix->M[0][2]);
+      LogText(" into %d %d %d all %x\n",u<<6,v<<6,w<<6,the_element->CMatrix.M[0]);
 
-	u=(((the_element->CMatrix.M[0]&CMAT0_MASK)<<2)>>22);
-	v=(((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22);
-	w=(((the_element->CMatrix.M[0]&CMAT2_MASK)<<22)>>22);
-
-  LogText(" into %d %d %d all %x\n",u<<6,v<<6,w<<6,the_element->CMatrix.M[0]);
-
-	LogText(" into %d \n",the_element->CMatrix.M[0]&CMAT1_MASK);
-	LogText(" into<<2 %d \n",the_element->CMatrix.M[0]&CMAT1_MASK<<12);
-	LogText(" into>>20 %d \n",((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22);
-	LogText(" into>>20 %d \n",(((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22));
-	LogText(" into>>20)<<6 %d \n",((((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22))<<6);
-*/
-	the_element->CMatrix.M[0]=((((matrix->M[0][0]>>6))<<20)&CMAT0_MASK)+((((matrix->M[0][1]>>6))<<10)&CMAT1_MASK)+((((matrix->M[0][2]>>6))<<0)&CMAT2_MASK);
-	the_element->CMatrix.M[1]=((((matrix->M[1][0]>>6))<<20)&CMAT0_MASK)+((((matrix->M[1][1]>>6))<<10)&CMAT1_MASK)+((((matrix->M[1][2]>>6))<<0)&CMAT2_MASK);
-	the_element->CMatrix.M[2]=((((matrix->M[2][0]>>6))<<20)&CMAT0_MASK)+((((matrix->M[2][1]>>6))<<10)&CMAT1_MASK)+((((matrix->M[2][2]>>6))<<0)&CMAT2_MASK);
+            LogText(" into %d \n",the_element->CMatrix.M[0]&CMAT1_MASK);
+            LogText(" into<<2 %d \n",the_element->CMatrix.M[0]&CMAT1_MASK<<12);
+            LogText(" into>>20 %d \n",((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22);
+            LogText(" into>>20 %d \n",(((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22));
+            LogText(" into>>20)<<6 %d \n",((((the_element->CMatrix.M[0]&CMAT1_MASK)<<12)>>22))<<6);
+    */
+    the_element->CMatrix.M[0] = ((((matrix->M[0][0] >> 6)) << 20) & CMAT0_MASK) + ((((matrix->M[0][1] >> 6)) << 10) & CMAT1_MASK) + ((((matrix->M[0][2] >> 6)) << 0) & CMAT2_MASK);
+    the_element->CMatrix.M[1] = ((((matrix->M[1][0] >> 6)) << 20) & CMAT0_MASK) + ((((matrix->M[1][1] >> 6)) << 10) & CMAT1_MASK) + ((((matrix->M[1][2] >> 6)) << 0) & CMAT2_MASK);
+    the_element->CMatrix.M[2] = ((((matrix->M[2][0] >> 6)) << 20) & CMAT0_MASK) + ((((matrix->M[2][1] >> 6)) << 10) & CMAT1_MASK) + ((((matrix->M[2][2] >> 6)) << 0) & CMAT2_MASK);
 }
 
-void normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
-{
-	float	len;
-	std::int32_t	h,w;
+void normalise_max_matrix(float fe_matrix[3][3], float *x, float *y, float *z) {
+    float len;
+    std::int32_t h, w;
 
-	len=fe_matrix[0][0]*fe_matrix[0][0];
-	len+=fe_matrix[0][1]*fe_matrix[0][1];
-	len+=fe_matrix[0][2]*fe_matrix[0][2];
+    len = fe_matrix[0][0] * fe_matrix[0][0];
+    len += fe_matrix[0][1] * fe_matrix[0][1];
+    len += fe_matrix[0][2] * fe_matrix[0][2];
 
-	len=sqrt(len);
+    len = sqrt(len);
 
-	for(h=0;h<3;h++)
-	{
+    for (h = 0; h < 3; h++) {
+        fe_matrix[h][0] = fe_matrix[h][0] / len;
+        fe_matrix[h][1] = fe_matrix[h][1] / len;
+        fe_matrix[h][2] = fe_matrix[h][2] / len;
+    }
 
-		fe_matrix[h][0]=fe_matrix[h][0]/len;
-		fe_matrix[h][1]=fe_matrix[h][1]/len;
-		fe_matrix[h][2]=fe_matrix[h][2]/len;
-	}
-
-
-//	*x=*x/len;
-//	*y=*y/len;
-//	*z=*z/len;
-
+    //	*x=*x/len;
+    //	*y=*y/len;
+    //	*z=*z/len;
 }
-
 
 //************************************************************************************************
 //************************************************************************************************
@@ -1483,690 +1289,625 @@ void normalise_max_matrix(float fe_matrix[3][3],float *x,float *y,float *z)
 #ifndef PSX
 #ifndef TARGET_DC
 
-void load_multi_vue(struct	KeyFrameChunk *the_chunk,float shrink_me)
-{
-	char					temp_string[512],
-							transform_name[32];
-	std::int32_t					c0,c1,
-							last_frame=0,
-							frame=-1,
-							result;
-	float					fe_matrix[3][3],
-							fe_offset_x,
-							fe_offset_y,
-							fe_offset_z;
-#ifdef	PSX
-	FILE					f_handle;
+void load_multi_vue(struct KeyFrameChunk *the_chunk, float shrink_me) {
+    char temp_string[512],
+        transform_name[32];
+    std::int32_t c0, c1,
+        last_frame = 0,
+        frame = -1,
+        result;
+    float fe_matrix[3][3],
+        fe_offset_x,
+        fe_offset_y,
+        fe_offset_z;
+#ifdef PSX
+    FILE f_handle;
 #else
-	FILE					*f_handle;
+    FILE *f_handle;
 #endif
-	struct Matrix33			temp_matrix;
-	struct KeyFrame			*the_key_frame;
-	struct KeyFrameElement	*the_element;
-	std::int32_t	pivot;
-	std::uint16_t					frame_id[4501]; //more than 3000 frames, I don't think so.
-	std::int32_t	funny_fanny=0;
-	std::int32_t	c2;
+    struct Matrix33 temp_matrix;
+    struct KeyFrame *the_key_frame;
+    struct KeyFrameElement *the_element;
+    std::int32_t pivot;
+    std::uint16_t frame_id[4501]; // more than 3000 frames, I don't think so.
+    std::int32_t funny_fanny = 0;
+    std::int32_t c2;
 
-	//!JCL delete me
-//	jcl_setup();
+    //! JCL delete me
+    //	jcl_setup();
 
-	if(the_chunk->ElementCount!=15)
-		funny_fanny=1;
+    if (the_chunk->ElementCount != 15)
+        funny_fanny = 1;
 
-	set_default_people_types(the_chunk);
+    set_default_people_types(the_chunk);
 
-	LogText("read VUE %s \n",the_chunk->VUEName);
-	f_handle	=	MF_Fopen(the_chunk->VUEName,"r");
-	if(f_handle)
-	{
+    LogText("read VUE %s \n", the_chunk->VUEName);
+    f_handle = MF_Fopen(the_chunk->VUEName, "r");
+    if (f_handle) {
+        the_chunk->FirstElement = &the_elements[current_element];
+        the_chunk->KeyFrameCount = 0;
+        load_frame_numbers(the_chunk->VUEName, frame_id, 4500);
+        do {
+            result = fscanf(f_handle, "%s", temp_string);
+            if (!strcmp(temp_string, "frame")) {
+                std::int32_t read_frame;
+                fscanf(f_handle, "%d", &read_frame);
+                // LogText("read %d, pos %d\n",read_frame,frame_id[read_frame]);
+                if (frame_id[read_frame] == 0) {
+                    // skip this frame because it aint in list
+                    //					LogText(" skipping %d \n",read_frame);
 
-		the_chunk->FirstElement=&the_elements[current_element];
-		the_chunk->KeyFrameCount	=	0;
-		load_frame_numbers(the_chunk->VUEName,frame_id,4500);
-		do
-		{
-			result	=	fscanf(f_handle,"%s",temp_string);
-			if(!strcmp(temp_string,"frame"))
-			{
-				std::int32_t	read_frame;
-				fscanf(f_handle,"%d",&read_frame);
-				//LogText("read %d, pos %d\n",read_frame,frame_id[read_frame]);
-				if(frame_id[read_frame]==0)
-				{
-					//skip this frame because it aint in list
-//					LogText(" skipping %d \n",read_frame);
+                } else {
+                    // frame++;
 
-				}
-				else
-				{
-					//frame++;
+                    frame = frame_id[read_frame] - 1;
 
-					frame=frame_id[read_frame]-1;
+                    if (frame == 234) {
+                        //						ASSERT(0);
+                    }
 
-					if(frame==234)
-					{
-//						ASSERT(0);
-					}
+                    if (frame > last_frame)
+                        last_frame = frame;
+                    //					LogText(" read data into frame %d \n",frame);
+                    the_key_frame = &the_chunk->KeyFrames[frame];
+                    the_key_frame->ChunkID = 0;
+                    the_key_frame->FrameID = frame;
+                    the_key_frame->TweenStep = 4;
+                    the_key_frame->ElementCount = the_chunk->ElementCount;
+                    the_key_frame->FirstElement = &the_elements[current_element];
+                    //					LogText(" Read a keyframe elecount %d \n",the_key_frame->ElementCount);
+                    for (c0 = 0; c0 < the_key_frame->ElementCount;) {
+                        // poo						LogText("element c0 %d out of %d \n",c0,the_key_frame->ElementCount);
+                        fscanf(f_handle, "%s", temp_string); // Read the 'transform' bit.
+                        if (!strcmp(temp_string, "transform")) {
+                            read_object_name(f_handle, transform_name);
+                            for (c2 = 0; c2 < strlen(transform_name); c2++) {
+                                transform_name[c2] = tolower(transform_name[c2]);
+                            }
 
-					if(frame>last_frame)
-						last_frame=frame;
-//					LogText(" read data into frame %d \n",frame);
-					the_key_frame				=	&the_chunk->KeyFrames[frame];
-					the_key_frame->ChunkID		=	0;
-					the_key_frame->FrameID		=	frame;
-					the_key_frame->TweenStep	=	4;
-					the_key_frame->ElementCount	=	the_chunk->ElementCount;
-					the_key_frame->FirstElement	=	&the_elements[current_element];
-//					LogText(" Read a keyframe elecount %d \n",the_key_frame->ElementCount);
-					for(c0=0;c0<the_key_frame->ElementCount;)
-					{
-//poo						LogText("element c0 %d out of %d \n",c0,the_key_frame->ElementCount);
-						fscanf(f_handle,"%s",temp_string);	// Read the 'transform' bit.
-						if(!strcmp(temp_string,"transform"))
-						{
-							read_object_name(f_handle,transform_name);
-							for(c2=0;c2<strlen(transform_name);c2++)
-							{
-								transform_name[c2]=tolower(transform_name[c2]);
-							}
+                            LogText(" object name %s \n", transform_name);
+                            if ((!strcmp(transform_name, "lfoot")) || (!strcmp(transform_name, "pivot")))
+                                pivot = 1;
+                            else
+                                pivot = 0;
 
-							LogText(" object name %s \n",transform_name);
-							if((!strcmp(transform_name,"lfoot"))||(!strcmp(transform_name,"pivot")))
-								pivot=1;
-							else
-								pivot=0;
+                            for (c1 = 0; c1 < the_key_frame->ElementCount; c1++) {
+                                std::int32_t offset;
+                                if (funny_fanny)
+                                    offset = 0;
+                                else
+                                    offset = 2;
 
-							for(c1=0;c1<the_key_frame->ElementCount;c1++)
-							{
-								std::int32_t	offset;
-								if(funny_fanny)
-									offset=0;
-								else
-									offset=2;
+                                //								if(!memcmp(transform_name,prim_objects[prim_multi_objects[the_chunk->MultiObject].StartObject+c1].ObjectName,strlen(transform_name)-offset))
+                                if (!memcmp(transform_name, prim_names[prim_multi_objects[the_chunk->MultiObject].StartObject + c1], strlen(transform_name) - offset))
+                                    break;
+                                //
+                                // find the element to assign it to
+                                //
+                            }
 
-//								if(!memcmp(transform_name,prim_objects[prim_multi_objects[the_chunk->MultiObject].StartObject+c1].ObjectName,strlen(transform_name)-offset))
-								if(!memcmp(transform_name,prim_names[prim_multi_objects[the_chunk->MultiObject].StartObject+c1],strlen(transform_name)-offset))
-									break;
-								//
-								// find the element to assign it to
-								//
-							}
+                            fscanf(
+                                f_handle,
+                                "%f %f %f %f %f %f %f %f %f %f %f %f",
+                                &fe_matrix[0][0], &fe_matrix[0][1], &fe_matrix[0][2],
+                                &fe_matrix[1][0], &fe_matrix[1][1], &fe_matrix[1][2],
+                                &fe_matrix[2][0], &fe_matrix[2][1], &fe_matrix[2][2],
+                                &fe_offset_x, &fe_offset_y, &fe_offset_z);
 
+                            //							normalise_max_matrix(fe_matrix,&fe_offset_x,&fe_offset_y,&fe_offset_z);
 
-							fscanf	(
-										f_handle,
-										"%f %f %f %f %f %f %f %f %f %f %f %f",
-										&fe_matrix[0][0],&fe_matrix[0][1],&fe_matrix[0][2],
-										&fe_matrix[1][0],&fe_matrix[1][1],&fe_matrix[1][2],
-										&fe_matrix[2][0],&fe_matrix[2][1],&fe_matrix[2][2],
-										&fe_offset_x,&fe_offset_y,&fe_offset_z
-									);
+                            // this matrix has been fiddled so y=-z && z=y
+                            /*
+                            if(funny_fanny)
+                            {
+                                    fe_matrix[0][0]/=18.091;
+                                    fe_matrix[0][1]/=18.091;
+                                    fe_matrix[0][2]/=18.091;
 
-//							normalise_max_matrix(fe_matrix,&fe_offset_x,&fe_offset_y,&fe_offset_z);
+                                    fe_matrix[1][0]/=18.091;
+                                    fe_matrix[1][1]/=18.091;
+                                    fe_matrix[1][2]/=18.091;
 
-		//this matrix has been fiddled so y=-z && z=y
-							/*
-							if(funny_fanny)
-							{
-								fe_matrix[0][0]/=18.091;
-								fe_matrix[0][1]/=18.091;
-								fe_matrix[0][2]/=18.091;
+                                    fe_matrix[2][0]/=18.091;
+                                    fe_matrix[2][1]/=18.091;
+                                    fe_matrix[2][2]/=18.091;
+                            } */
 
-								fe_matrix[1][0]/=18.091;
-								fe_matrix[1][1]/=18.091;
-								fe_matrix[1][2]/=18.091;
+                            temp_matrix.M[0][0] = (std::int32_t) (fe_matrix[0][0] * (1 << 15));
+                            temp_matrix.M[0][2] = (std::int32_t) (fe_matrix[1][0] * (1 << 15));
+                            temp_matrix.M[0][1] = (std::int32_t) (fe_matrix[2][0] * (1 << 15)); //-ve md
 
-								fe_matrix[2][0]/=18.091;
-								fe_matrix[2][1]/=18.091;
-								fe_matrix[2][2]/=18.091;
-							} */
+                            temp_matrix.M[2][0] = (std::int32_t) (fe_matrix[0][1] * (1 << 15));
+                            temp_matrix.M[2][2] = (std::int32_t) (fe_matrix[1][1] * (1 << 15));
+                            temp_matrix.M[2][1] = (std::int32_t) (fe_matrix[2][1] * (1 << 15)); //-ve md
 
-							temp_matrix.M[0][0]	=	(std::int32_t)(fe_matrix[0][0]*(1<<15));
-							temp_matrix.M[0][2]	=	(std::int32_t)(fe_matrix[1][0]*(1<<15));
-							temp_matrix.M[0][1]	=	(std::int32_t)(fe_matrix[2][0]*(1<<15)); //-ve md
+                            temp_matrix.M[1][0] = (std::int32_t) (fe_matrix[0][2] * (1 << 15));
+                            temp_matrix.M[1][2] = (std::int32_t) (fe_matrix[1][2] * (1 << 15));
+                            temp_matrix.M[1][1] = (std::int32_t) (fe_matrix[2][2] * (1 << 15)); // not -ve md
+                            {
+                                std::int32_t dx, dy;
+                                for (dx = 0; dx < 3; dx++) {
+                                    for (dy = 0; dy < 3; dy++) {
+                                        /*
+                                                                                                                        if(temp_matrix.M[dx][dy] == 32768)
+                                                                                                                        {
+                                                                                                                                temp_matrix.M[dx][dy] = 32767;
+                                                                                                                        }
 
-							temp_matrix.M[2][0]	=	(std::int32_t)(fe_matrix[0][1]*(1<<15));
-							temp_matrix.M[2][2]	=	(std::int32_t)(fe_matrix[1][1]*(1<<15));
-							temp_matrix.M[2][1]	=	(std::int32_t)(fe_matrix[2][1]*(1<<15)); //-ve md
+                                                                                                                        if(temp_matrix.M[dx][dy] == -32768)
+                                                                                                                        {
+                                                                                                                                temp_matrix.M[dx][dy] = -32767;
+                                                                                                                        }
+                                        */
+                                        SATURATE(temp_matrix.M[dx][dy], -32767, 32767);
 
-							temp_matrix.M[1][0]	=	(std::int32_t)(fe_matrix[0][2]*(1<<15));
-							temp_matrix.M[1][2]	=	(std::int32_t)(fe_matrix[1][2]*(1<<15));
-							temp_matrix.M[1][1]	=	(std::int32_t)(fe_matrix[2][2]*(1<<15)); //not -ve md
-							{
-								std::int32_t	dx,dy;
-								for(dx=0;dx<3;dx++)
-								{
-									for(dy=0;dy<3;dy++)
-									{
-/*
-										if(temp_matrix.M[dx][dy] == 32768)
-										{
-											temp_matrix.M[dx][dy] = 32767;
-										}
+                                        //										ASSERT(temp_matrix.M[dx][dy] <32768 && temp_matrix.M[dx][dy]>=-32768);
+                                    }
+                                }
+                            }
 
-										if(temp_matrix.M[dx][dy] == -32768)
-										{
-											temp_matrix.M[dx][dy] = -32767;
-										}
-*/
-										SATURATE(temp_matrix.M[dx][dy],-32767,32767);
+                            the_element = &the_elements[(current_element + c1)];
+                            //					current_element++;
+                            memcpy(&the_element->Matrix, &temp_matrix, sizeof(struct Matrix33));
 
+                            make_compress_matrix(the_element, &temp_matrix);
 
-//										ASSERT(temp_matrix.M[dx][dy] <32768 && temp_matrix.M[dx][dy]>=-32768);
+                            /*
+                            // Guy - Added scaling to multi objects.
+                                                                    the_element->OffsetX	=	(std::int32_t)fe_offset_x;
+                                                                    the_element->OffsetY	=	-(std::int32_t)fe_offset_z;
+                                                                    the_element->OffsetZ	=	(std::int32_t)fe_offset_y;
+                            */
+                            the_element->OffsetX = (std::int32_t) ((fe_offset_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me));
+                            the_element->OffsetY = (std::int32_t) ((fe_offset_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me)); // -ve md
+                            the_element->OffsetZ = (std::int32_t) ((fe_offset_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me));
+                            the_element->Next = current_element;
 
-									}
-								}
-							}
+                            the_element->OffsetX -= x_centre;
+                            the_element->OffsetY -= y_centre;
+                            the_element->OffsetZ -= z_centre;
 
+                            //						the_element->OffsetX>>=2; //TWEEN_OFFSET_SHIFT;
+                            //						the_element->OffsetY>>=2; //TWEEN_OFFSET_SHIFT;
+                            //						the_element->OffsetZ>>=2; //TWEEN_OFFSET_SHIFT;
 
-							the_element	=	&the_elements[(current_element+c1)];
-		//					current_element++;
-							memcpy(&the_element->Matrix,&temp_matrix,sizeof(struct Matrix33));
+                            //! jcl - delete me!
+                            //							jcl_process_offset_check(the_element->OffsetX, the_element->OffsetZ, the_element->OffsetZ);
 
-							make_compress_matrix(the_element,&temp_matrix);
+                            if (pivot) {
+                                the_key_frame->Dx = the_element->OffsetX >> 2;
+                                the_key_frame->Dy = the_element->OffsetY >> 2;
+                                the_key_frame->Dz = the_element->OffsetZ >> 2;
+                                //							LogText("PIVOT frame %d  dx %d dy %d dz %d \n",frame,the_key_frame->Dx,the_key_frame->Dy,the_key_frame->Dz);
+                            }
 
-		/*
-		// Guy - Added scaling to multi objects.
-							the_element->OffsetX	=	(std::int32_t)fe_offset_x;
-							the_element->OffsetY	=	-(std::int32_t)fe_offset_z;
-							the_element->OffsetZ	=	(std::int32_t)fe_offset_y;
-		*/
-							the_element->OffsetX	=	(std::int32_t)((fe_offset_x*GAME_SCALE)/(GAME_SCALE_DIV*shrink_me));
-							the_element->OffsetY	=	(std::int32_t)((fe_offset_z*GAME_SCALE)/(GAME_SCALE_DIV*shrink_me)); // -ve md
-							the_element->OffsetZ	=	(std::int32_t)((fe_offset_y*GAME_SCALE)/(GAME_SCALE_DIV*shrink_me));
-							the_element->Next		=	current_element;
+                            c0++;
+                        }
+                    }
+                    current_element += (the_key_frame->ElementCount);
+                    the_element->Next = 0;
+                }
+            }
+            //			LogText(" duff >%s<\n",temp_string);
 
-							the_element->OffsetX	-=	x_centre;
-							the_element->OffsetY	-=	y_centre;
-							the_element->OffsetZ	-=	z_centre;
+        } while (result >= 0);
+        MF_Fclose(f_handle);
+        the_chunk->LastElement = &the_elements[current_element];
+    }
+    the_chunk->KeyFrameCount = last_frame;
+    sort_multi_object(the_chunk);
 
-	//						the_element->OffsetX>>=2; //TWEEN_OFFSET_SHIFT;
-	//						the_element->OffsetY>>=2; //TWEEN_OFFSET_SHIFT;
-	//						the_element->OffsetZ>>=2; //TWEEN_OFFSET_SHIFT;
-
-							//!jcl - delete me!
-//							jcl_process_offset_check(the_element->OffsetX, the_element->OffsetZ, the_element->OffsetZ);
-
-							if(pivot)
-							{
-								the_key_frame->Dx=the_element->OffsetX>>2;
-								the_key_frame->Dy=the_element->OffsetY>>2;
-								the_key_frame->Dz=the_element->OffsetZ>>2;
-	//							LogText("PIVOT frame %d  dx %d dy %d dz %d \n",frame,the_key_frame->Dx,the_key_frame->Dy,the_key_frame->Dz);
-							}
-
-							c0++;
-						}
-					}
-					current_element		+=	(the_key_frame->ElementCount);
-					the_element->Next	=	0;
-				}
-
-			}
-//			LogText(" duff >%s<\n",temp_string);
-
-		}while(result>=0);
-		MF_Fclose(f_handle);
-		the_chunk->LastElement=&the_elements[current_element];
-	}
-	the_chunk->KeyFrameCount	=	last_frame;
-	sort_multi_object(the_chunk);
-
-	//! jcl delete me
-//	jcl_fini();
+    //! jcl delete me
+    //	jcl_fini();
 }
 
-
-std::int32_t load_anim_mesh(char* fname,float scale)
-{
-	std::int32_t	ele_count;
-#ifdef	EDITOR
-extern std::int32_t read_multi_asc(char* asc_name,std::uint8_t flag,float scale);
-	ele_count=read_multi_asc(fname,0,scale);
+std::int32_t load_anim_mesh(char *fname, float scale) {
+    std::int32_t ele_count;
+#ifdef EDITOR
+    extern std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float scale);
+    ele_count = read_multi_asc(fname, 0, scale);
 #else
-	ele_count=load_a_multi_prim(fname); //ele_count bug
+    ele_count = load_a_multi_prim(fname); // ele_count bug
 #endif
 
-	return(ele_count);
-
+    return (ele_count);
 }
 
-void load_key_frame_chunks(KeyFrameChunk *the_chunk,char* vue_name,float scale)
-{
-	std::int32_t		c0;
-	std::int32_t		ele_count=0;
+void load_key_frame_chunks(KeyFrameChunk *the_chunk, char *vue_name, float scale) {
+    std::int32_t c0;
+    std::int32_t ele_count = 0;
 
+    x_centre = 0;
+    y_centre = 0;
+    z_centre = 0;
 
-	x_centre	=	0;
-	y_centre	=	0;
-	z_centre	=	0;
+    the_chunk->KeyFrameCount = 0;
+    strcpy(the_chunk->VUEName, "Data\\");
+    strcat(the_chunk->VUEName, vue_name);
+    strcpy(the_chunk->ASCName, the_chunk->VUEName);
+    strcpy(the_chunk->ANMName, the_chunk->VUEName);
+    c0 = 0;
+    while (the_chunk->ASCName[c0] != '.' && the_chunk->ASCName[c0] != 0) c0++;
+    if (the_chunk->ASCName[c0] == '.') {
+        the_chunk->ASCName[c0 + 1] = 'A';
+        the_chunk->ASCName[c0 + 2] = 'S';
+        the_chunk->ASCName[c0 + 3] = 'C';
+        the_chunk->ASCName[c0 + 4] = 0;
 
-	the_chunk->KeyFrameCount	=	0;
-	strcpy(the_chunk->VUEName,"Data\\");
-	strcat(the_chunk->VUEName,vue_name);
-	strcpy(the_chunk->ASCName,the_chunk->VUEName);
-	strcpy(the_chunk->ANMName,the_chunk->VUEName);
-	c0=0;
-	while(the_chunk->ASCName[c0]!='.' && the_chunk->ASCName[c0]!=0)c0++;
-	if(the_chunk->ASCName[c0]=='.')
-	{
-		the_chunk->ASCName[c0+1]	=	'A';
-		the_chunk->ASCName[c0+2]	=	'S';
-		the_chunk->ASCName[c0+3]	=	'C';
-		the_chunk->ASCName[c0+4]	=	0;
+        the_chunk->ANMName[c0 + 1] = 'A';
+        the_chunk->ANMName[c0 + 2] = 'N';
+        the_chunk->ANMName[c0 + 3] = 'M';
+        the_chunk->ANMName[c0 + 4] = 0;
+    }
+    the_chunk->MultiObject = next_prim_multi_object;
+    ele_count = load_anim_mesh(the_chunk->ASCName, scale);
+    if (ele_count) {
+        std::int32_t ret = 1, count = 0;
 
-		the_chunk->ANMName[c0+1]	=	'A';
-		the_chunk->ANMName[c0+2]	=	'N';
-		the_chunk->ANMName[c0+3]	=	'M';
-		the_chunk->ANMName[c0+4]	=	0;
-	}
-	the_chunk->MultiObject	=	next_prim_multi_object;
-	ele_count=load_anim_mesh(the_chunk->ASCName,scale);
-	if(ele_count)
-	{
-		std::int32_t	ret=1,count=0;
+        while (ret) {
+            std::int32_t in;
 
-		while(ret)
-		{
-			std::int32_t	in;
+            in = '1' + count;
+            the_chunk->ASCName[5] = in;
+            ret = load_anim_mesh(the_chunk->ASCName, scale);
+            count++;
+        }
+    }
+    the_chunk->MultiObjectEnd = next_prim_multi_object - 1;
+    the_chunk->MultiObjectStart = the_chunk->MultiObject;
+    if (ele_count) {
+        //		if(ele_count>15)
+        //			ele_count=15;
+        // md change
+        //		the_chunk->ElementCount	=	prim_multi_objects[the_chunk->MultiObject].EndObject-prim_multi_objects[the_chunk->MultiObject].StartObject;
+        the_chunk->ElementCount = ele_count; // prim_multi_objects[the_chunk->MultiObject].EndObject-prim_multi_objects[the_chunk->MultiObject].StartObject;
+        LogText(" element count %d \n", the_chunk->ElementCount);
 
-			in='1'+count;
-			the_chunk->ASCName[5]=in;
-			ret=load_anim_mesh(the_chunk->ASCName,scale);
-			count++;
-		}
-	}
-	the_chunk->MultiObjectEnd	=	next_prim_multi_object-1;
-	the_chunk->MultiObjectStart	=	the_chunk->MultiObject;
-	if(ele_count)
-	{
-//		if(ele_count>15)
-//			ele_count=15;
-//md change
-//		the_chunk->ElementCount	=	prim_multi_objects[the_chunk->MultiObject].EndObject-prim_multi_objects[the_chunk->MultiObject].StartObject;
-		the_chunk->ElementCount	=	ele_count; //prim_multi_objects[the_chunk->MultiObject].EndObject-prim_multi_objects[the_chunk->MultiObject].StartObject;
-		LogText(" element count %d \n",the_chunk->ElementCount);
+        // Fudgy bit for centering.
+        {
+            std::int32_t multi;
+            extern std::int32_t x_centre,
+                y_centre,
+                z_centre;
+            std::int32_t c1,
+                sp, ep;
+            struct PrimObject *p_obj;
 
-				// Fudgy bit for centering.
-		{
-			std::int32_t	multi;
-extern std::int32_t		x_centre,
-			y_centre,
-			z_centre;
-std::int32_t c1,
-			sp,ep;
-struct PrimObject	*p_obj;
+            LogText("SIZE edutils   center %d %d %d \n", x_centre, y_centre, z_centre);
 
-			LogText("SIZE edutils   center %d %d %d \n",x_centre,y_centre,z_centre);
+            for (multi = the_chunk->MultiObjectStart; multi <= the_chunk->MultiObjectEnd; multi++)
+                for (c0 = prim_multi_objects[multi].StartObject; c0 < prim_multi_objects[multi].EndObject; c0++) {
+                    p_obj = &prim_objects[c0];
+                    sp = p_obj->StartPoint;
+                    ep = p_obj->EndPoint;
 
-			
-			for(multi=the_chunk->MultiObjectStart;multi<=the_chunk->MultiObjectEnd;multi++)
-			for(c0=prim_multi_objects[multi].StartObject;c0<prim_multi_objects[multi].EndObject;c0++)
-			{
-				p_obj   =	&prim_objects[c0];
-				sp		=	p_obj->StartPoint;
-				ep		=	p_obj->EndPoint;
+                    for (c1 = sp; c1 < ep; c1++) {
+                        prim_points[c1].X -= x_centre;
+                        prim_points[c1].Y -= y_centre;
+                        prim_points[c1].Z -= z_centre;
+                    }
+                }
+        }
 
-				for(c1=sp;c1<ep;c1++)
-				{
-					prim_points[c1].X	-=	x_centre;
-					prim_points[c1].Y	-=	y_centre;
-					prim_points[c1].Z	-=	z_centre;
-				}
-			}
-		}				
-
-		load_multi_vue(the_chunk,scale);
-#ifdef	EDITOR
-extern void	load_chunk_texture_info(KeyFrameChunk *the_chunk);
-		load_chunk_texture_info(the_chunk);
+        load_multi_vue(the_chunk, scale);
+#ifdef EDITOR
+        extern void load_chunk_texture_info(KeyFrameChunk * the_chunk);
+        load_chunk_texture_info(the_chunk);
 #endif
-	}
+    }
 }
 #endif
 #endif
 
 /*
 fucked one
-LCTI obj 122 has f4 6 f3 31 
-LCTI obj 123 has f4 0 f3 16 
-LCTI obj 124 has f4 2 f3 8 
-LCTI obj 125 has f4 3 f3 6 
-LCTI obj 126 has f4 17 f3 77 
-LCTI obj 127 has f4 1 f3 11 
-LCTI obj 128 has f4 1 f3 14 
-LCTI obj 129 has f4 4 f3 6 
-LCTI obj 130 has f4 2 f3 9 
-LCTI obj 131 has f4 2 f3 12 
-LCTI obj 132 has f4 3 f3 8 
-LCTI obj 133 has f4 7 f3 20 
-LCTI obj 134 has f4 1 f3 14 
-LCTI obj 135 has f4 2 f3 8 
-LCTI obj 136 has f4 3 f3 6 
-LCTI obj 137 has f4 0 f3 0 
+LCTI obj 122 has f4 6 f3 31
+LCTI obj 123 has f4 0 f3 16
+LCTI obj 124 has f4 2 f3 8
+LCTI obj 125 has f4 3 f3 6
+LCTI obj 126 has f4 17 f3 77
+LCTI obj 127 has f4 1 f3 11
+LCTI obj 128 has f4 1 f3 14
+LCTI obj 129 has f4 4 f3 6
+LCTI obj 130 has f4 2 f3 9
+LCTI obj 131 has f4 2 f3 12
+LCTI obj 132 has f4 3 f3 8
+LCTI obj 133 has f4 7 f3 20
+LCTI obj 134 has f4 1 f3 14
+LCTI obj 135 has f4 2 f3 8
+LCTI obj 136 has f4 3 f3 6
+LCTI obj 137 has f4 0 f3 0
 
 
 fucked one
-LCTI obj 122 has f4 6 f3 31 
-LCTI obj 123 has f4 0 f3 16 
-LCTI obj 124 has f4 2 f3 8 
-LCTI obj 125 has f4 3 f3 6 
-LCTI obj 126 has f4 17 f3 77 
-LCTI obj 127 has f4 1 f3 11 
-LCTI obj 128 has f4 1 f3 14 
-LCTI obj 129 has f4 4 f3 6 
-LCTI obj 130 has f4 2 f3 9 
-LCTI obj 131 has f4 2 f3 12 
-LCTI obj 132 has f4 3 f3 8 
-LCTI obj 133 has f4 7 f3 20 
-LCTI obj 134 has f4 1 f3 14 
-LCTI obj 135 has f4 2 f3 8 
-LCTI obj 136 has f4 3 f3 6 
-LCTI obj 137 has f4 0 f3 0 
+LCTI obj 122 has f4 6 f3 31
+LCTI obj 123 has f4 0 f3 16
+LCTI obj 124 has f4 2 f3 8
+LCTI obj 125 has f4 3 f3 6
+LCTI obj 126 has f4 17 f3 77
+LCTI obj 127 has f4 1 f3 11
+LCTI obj 128 has f4 1 f3 14
+LCTI obj 129 has f4 4 f3 6
+LCTI obj 130 has f4 2 f3 9
+LCTI obj 131 has f4 2 f3 12
+LCTI obj 132 has f4 3 f3 8
+LCTI obj 133 has f4 7 f3 20
+LCTI obj 134 has f4 1 f3 14
+LCTI obj 135 has f4 2 f3 8
+LCTI obj 136 has f4 3 f3 6
+LCTI obj 137 has f4 0 f3 0
 
-fucked but right sex 
-LCTI obj 122 has f4 6 f3 31 
-LCTI obj 123 has f4 0 f3 16 
-LCTI obj 124 has f4 2 f3 8 
-LCTI obj 125 has f4 3 f3 6 
-LCTI obj 126 has f4 17 f3 77 
-LCTI obj 127 has f4 1 f3 11 
-LCTI obj 128 has f4 1 f3 14 
-LCTI obj 129 has f4 4 f3 6 
-LCTI obj 130 has f4 2 f3 9 
-LCTI obj 131 has f4 2 f3 12 
-LCTI obj 132 has f4 3 f3 8 
-LCTI obj 133 has f4 7 f3 20 
-LCTI obj 134 has f4 1 f3 14 
-LCTI obj 135 has f4 2 f3 8 
-LCTI obj 136 has f4 3 f3 6 
-LCTI obj 137 has f4 0 f3 0 
+fucked but right sex
+LCTI obj 122 has f4 6 f3 31
+LCTI obj 123 has f4 0 f3 16
+LCTI obj 124 has f4 2 f3 8
+LCTI obj 125 has f4 3 f3 6
+LCTI obj 126 has f4 17 f3 77
+LCTI obj 127 has f4 1 f3 11
+LCTI obj 128 has f4 1 f3 14
+LCTI obj 129 has f4 4 f3 6
+LCTI obj 130 has f4 2 f3 9
+LCTI obj 131 has f4 2 f3 12
+LCTI obj 132 has f4 3 f3 8
+LCTI obj 133 has f4 7 f3 20
+LCTI obj 134 has f4 1 f3 14
+LCTI obj 135 has f4 2 f3 8
+LCTI obj 136 has f4 3 f3 6
+LCTI obj 137 has f4 0 f3 0
 
 right but wrong sex
-LCTI obj 122 has f4 6 f3 31 
-LCTI obj 123 has f4 0 f3 16 
-LCTI obj 124 has f4 1 f3 10 
-LCTI obj 125 has f4 3 f3 6 
-LCTI obj 126 has f4 18 f3 75 
-LCTI obj 127 has f4 0 f3 13 
-LCTI obj 128 has f4 0 f3 16 
-LCTI obj 129 has f4 4 f3 6 
-LCTI obj 130 has f4 2 f3 9 
-LCTI obj 131 has f4 2 f3 12 
-LCTI obj 132 has f4 3 f3 8 
-LCTI obj 133 has f4 5 f3 24 
-LCTI obj 134 has f4 1 f3 14 
-LCTI obj 135 has f4 2 f3 8 
-LCTI obj 136 has f4 3 f3 6 
-LCTI obj 137 has f4 0 f3 0 
+LCTI obj 122 has f4 6 f3 31
+LCTI obj 123 has f4 0 f3 16
+LCTI obj 124 has f4 1 f3 10
+LCTI obj 125 has f4 3 f3 6
+LCTI obj 126 has f4 18 f3 75
+LCTI obj 127 has f4 0 f3 13
+LCTI obj 128 has f4 0 f3 16
+LCTI obj 129 has f4 4 f3 6
+LCTI obj 130 has f4 2 f3 9
+LCTI obj 131 has f4 2 f3 12
+LCTI obj 132 has f4 3 f3 8
+LCTI obj 133 has f4 5 f3 24
+LCTI obj 134 has f4 1 f3 14
+LCTI obj 135 has f4 2 f3 8
+LCTI obj 136 has f4 3 f3 6
+LCTI obj 137 has f4 0 f3 0
 
 */
 #endif
 #ifndef PSX
 #ifndef TARGET_DC
 
-void read_a_prim(std::int32_t prim,MFFileHandle	handle,std::int32_t	save_type)
-{
-	std::int32_t	c0;
-	std::int32_t	sf3,ef3,sf4,ef4,sp,ep;
-	std::int32_t	dp;
+void read_a_prim(std::int32_t prim, MFFileHandle handle, std::int32_t save_type) {
+    std::int32_t c0;
+    std::int32_t sf3, ef3, sf4, ef4, sp, ep;
+    std::int32_t dp;
 
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &prim_names[next_prim_object], 32); // sizeof(prim_objects[0].ObjectName));
 
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		FileRead(handle,(std::uint8_t*)&prim_names[next_prim_object],32);//sizeof(prim_objects[0].ObjectName));
+        //		LogText(" name %s becomes prim %d\n",prim_objects[next_prim_object].ObjectName,next_prim_object);
 
-//		LogText(" name %s becomes prim %d\n",prim_objects[next_prim_object].ObjectName,next_prim_object);
+        FileRead(handle, (std::uint8_t *) &sp, sizeof(sp));
+        FileRead(handle, (std::uint8_t *) &ep, sizeof(ep));
 
-		FileRead(handle,(std::uint8_t*)&sp,sizeof(sp));
-		FileRead(handle,(std::uint8_t*)&ep,sizeof(ep));
+        LogText(" no points %d \n", ep - sp);
 
-		LogText(" no points %d \n",ep-sp);
+        for (c0 = sp; c0 < ep; c0++) {
+            if (save_type > 3) {
+                FileRead(handle, (std::uint8_t *) &prim_points[next_prim_point + c0 - sp], sizeof(struct PrimPoint));
+            } else {
+                struct OldPrimPoint pp;
+                FileRead(handle, (std::uint8_t *) &pp, sizeof(struct OldPrimPoint));
 
+                prim_points[next_prim_point + c0 - sp].X = (std::int16_t) pp.X;
+                prim_points[next_prim_point + c0 - sp].Y = (std::int16_t) pp.Y;
+                prim_points[next_prim_point + c0 - sp].Z = (std::int16_t) pp.Z;
+            }
+        }
 
-		for(c0=sp;c0<ep;c0++)
-		{
-			if(save_type>3)
-			{
-				FileRead(handle,(std::uint8_t*)&prim_points[next_prim_point+c0-sp],sizeof(struct PrimPoint));
-			}
-			else
-			{
-				struct	OldPrimPoint	pp;
-				FileRead(handle,(std::uint8_t*)&pp,sizeof(struct OldPrimPoint));
+        dp = next_prim_point - sp; // was 10 but is now 50 so need to add 40 to all point indexs
 
-				prim_points[next_prim_point+c0-sp].X=(std::int16_t)pp.X;
-				prim_points[next_prim_point+c0-sp].Y=(std::int16_t)pp.Y;
-				prim_points[next_prim_point+c0-sp].Z=(std::int16_t)pp.Z;
+        FileRead(handle, (std::uint8_t *) &sf3, sizeof(sf3));
+        FileRead(handle, (std::uint8_t *) &ef3, sizeof(ef3));
+        LogText(" no face3 %d \n", ef3 - sf3);
+        for (c0 = sf3; c0 < ef3; c0++) {
+            FileRead(handle, (std::uint8_t *) &prim_faces3[next_prim_face3 + c0 - sf3], sizeof(struct PrimFace3));
+            prim_faces3[next_prim_face3 + c0 - sf3].Points[0] += dp;
+            prim_faces3[next_prim_face3 + c0 - sf3].Points[1] += dp;
+            prim_faces3[next_prim_face3 + c0 - sf3].Points[2] += dp;
+        }
 
-			}
-		}
-		
+        FileRead(handle, (std::uint8_t *) &sf4, sizeof(sf4));
+        FileRead(handle, (std::uint8_t *) &ef4, sizeof(ef4));
+        LogText(" no face4 %d \n", ef4 - sf4);
+        for (c0 = sf4; c0 < ef4; c0++) {
+            FileRead(handle, (std::uint8_t *) &prim_faces4[next_prim_face4 + c0 - sf4], sizeof(struct PrimFace4));
+            prim_faces4[next_prim_face4 + c0 - sf4].Points[0] += dp;
+            prim_faces4[next_prim_face4 + c0 - sf4].Points[1] += dp;
+            prim_faces4[next_prim_face4 + c0 - sf4].Points[2] += dp;
+            prim_faces4[next_prim_face4 + c0 - sf4].Points[3] += dp;
 
-		dp=next_prim_point-sp;// was 10 but is now 50 so need to add 40 to all point indexs
+            prim_faces4[next_prim_face4 + c0 - sf4].FaceFlags &= ~FACE_FLAG_WALKABLE;
+        }
 
-		FileRead(handle,(std::uint8_t*)&sf3,sizeof(sf3));
-		FileRead(handle,(std::uint8_t*)&ef3,sizeof(ef3));
-		LogText(" no face3 %d \n",ef3-sf3);
-		for(c0=sf3;c0<ef3;c0++)
-		{
-			FileRead(handle,(std::uint8_t*)&prim_faces3[next_prim_face3+c0-sf3],sizeof(struct PrimFace3));
-			prim_faces3[next_prim_face3+c0-sf3].Points[0]+=dp;
-			prim_faces3[next_prim_face3+c0-sf3].Points[1]+=dp;
-			prim_faces3[next_prim_face3+c0-sf3].Points[2]+=dp;
-		}
+        prim_objects[next_prim_object].StartPoint = next_prim_point;
+        prim_objects[next_prim_object].EndPoint = next_prim_point + ep - sp;
 
+        prim_objects[next_prim_object].StartFace3 = next_prim_face3;
+        prim_objects[next_prim_object].EndFace3 = next_prim_face3 + ef3 - sf3;
 
-		FileRead(handle,(std::uint8_t*)&sf4,sizeof(sf4));
-		FileRead(handle,(std::uint8_t*)&ef4,sizeof(ef4));
-		LogText(" no face4 %d \n",ef4-sf4);
-		for(c0=sf4;c0<ef4;c0++)
-		{
-			FileRead(handle,(std::uint8_t*)&prim_faces4[next_prim_face4+c0-sf4],sizeof(struct PrimFace4));
-			prim_faces4[next_prim_face4+c0-sf4].Points[0]+=dp;
-			prim_faces4[next_prim_face4+c0-sf4].Points[1]+=dp;
-			prim_faces4[next_prim_face4+c0-sf4].Points[2]+=dp;
-			prim_faces4[next_prim_face4+c0-sf4].Points[3]+=dp;
+        prim_objects[next_prim_object].StartFace4 = next_prim_face4;
+        prim_objects[next_prim_object].EndFace4 = next_prim_face4 + ef4 - sf4;
 
-			prim_faces4[next_prim_face4+c0-sf4].FaceFlags &= ~FACE_FLAG_WALKABLE;
-		}
+        next_prim_point += ep - sp;
+        next_prim_face3 += ef3 - sf3;
+        next_prim_face4 += ef4 - sf4;
 
-		prim_objects[next_prim_object].StartPoint=next_prim_point;
-		prim_objects[next_prim_object].EndPoint=next_prim_point+ep-sp;
-
-		prim_objects[next_prim_object].StartFace3=next_prim_face3;
-		prim_objects[next_prim_object].EndFace3=next_prim_face3+ef3-sf3;
-
-		prim_objects[next_prim_object].StartFace4=next_prim_face4;
-		prim_objects[next_prim_object].EndFace4=next_prim_face4+ef4-sf4;
-	
-		next_prim_point+=ep-sp;
-		next_prim_face3+=ef3-sf3;
-		next_prim_face4+=ef4-sf4;
-
-		next_prim_object++;
-	}
-
+        next_prim_object++;
+    }
 }
 #endif
 #endif
-#ifndef	PSX
+#ifndef PSX
 #ifndef TARGET_DC
 
-//extern struct	PrimMultiObject	prim_multi_objects[];
+// extern struct	PrimMultiObject	prim_multi_objects[];
 
-std::int32_t load_a_multi_prim(char* name)
-{
-	std::int32_t			c0;
-	MFFileHandle	handle;
-	std::int32_t			save_type=0;
-	std::int32_t			so,eo;
-	char			ext_name[80];
+std::int32_t load_a_multi_prim(char *name) {
+    std::int32_t c0;
+    MFFileHandle handle;
+    std::int32_t save_type = 0;
+    std::int32_t so, eo;
+    char ext_name[80];
 
-	change_extension(name,"moj",ext_name);
-//	sprintf(ext_name,"data/%s",ext_name);
-	handle	=	FileOpen(ext_name);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		
-		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    change_extension(name, "moj", ext_name);
+    //	sprintf(ext_name,"data/%s",ext_name);
+    handle = FileOpen(ext_name);
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		FileRead(handle,(std::uint8_t*)&so,sizeof(so));
-		FileRead(handle,(std::uint8_t*)&eo,sizeof(eo));
+        FileRead(handle, (std::uint8_t *) &so, sizeof(so));
+        FileRead(handle, (std::uint8_t *) &eo, sizeof(eo));
 
-		prim_multi_objects[next_prim_multi_object].StartObject=next_prim_object;
-		prim_multi_objects[next_prim_multi_object].EndObject=next_prim_object+(eo-so);
-		LogText(" load multi prim  no object %d \n",eo-so);
-		for(c0=so;c0<eo;c0++)
-			read_a_prim(c0,handle,save_type);
+        prim_multi_objects[next_prim_multi_object].StartObject = next_prim_object;
+        prim_multi_objects[next_prim_multi_object].EndObject = next_prim_object + (eo - so);
+        LogText(" load multi prim  no object %d \n", eo - so);
+        for (c0 = so; c0 < eo; c0++)
+            read_a_prim(c0, handle, save_type);
 
-		FileClose(handle);
-		next_prim_multi_object++;
-		return(next_prim_multi_object-1);
-	}
-	else
-		return(0);
+        FileClose(handle);
+        next_prim_multi_object++;
+        return (next_prim_multi_object - 1);
+    } else
+        return (0);
 }
 
+std::int32_t find_matching_face(struct PrimPoint *p1, struct PrimPoint *p2, struct PrimPoint *p3, std::uint16_t prim) {
+    std::int32_t c0, sf, ef, point;
+    sf = prim_objects[prim].StartFace4;
+    ef = prim_objects[prim].EndFace4;
 
-
-
-std::int32_t find_matching_face(struct	PrimPoint	*p1,struct	PrimPoint	*p2,struct	PrimPoint	*p3,std::uint16_t prim)
-{
-	std::int32_t	c0,sf,ef,point;
-	sf=prim_objects[prim].StartFace4;
-	ef=prim_objects[prim].EndFace4;
-
-	for(c0=sf;c0<=ef;c0++)
-	{
-		if(prim_points[prim_faces4[c0].Points[0]].X==p1->X&&
-		   prim_points[prim_faces4[c0].Points[0]].Y==p1->Y&&
-		   prim_points[prim_faces4[c0].Points[0]].Z==p1->Z&&
-		   prim_points[prim_faces4[c0].Points[1]].X==p2->X&&
-		   prim_points[prim_faces4[c0].Points[1]].Y==p2->Y&&
-		   prim_points[prim_faces4[c0].Points[1]].Z==p2->Z&&
-		   prim_points[prim_faces4[c0].Points[2]].X==p3->X&&
-		   prim_points[prim_faces4[c0].Points[2]].Y==p3->Y&&
-		   prim_points[prim_faces4[c0].Points[2]].Z==p3->Z)
-		   {
-				return(c0);
-		   }
-	}
-	return(-1);
+    for (c0 = sf; c0 <= ef; c0++) {
+        if (prim_points[prim_faces4[c0].Points[0]].X == p1->X &&
+            prim_points[prim_faces4[c0].Points[0]].Y == p1->Y &&
+            prim_points[prim_faces4[c0].Points[0]].Z == p1->Z &&
+            prim_points[prim_faces4[c0].Points[1]].X == p2->X &&
+            prim_points[prim_faces4[c0].Points[1]].Y == p2->Y &&
+            prim_points[prim_faces4[c0].Points[1]].Z == p2->Z &&
+            prim_points[prim_faces4[c0].Points[2]].X == p3->X &&
+            prim_points[prim_faces4[c0].Points[2]].Y == p3->Y &&
+            prim_points[prim_faces4[c0].Points[2]].Z == p3->Z) {
+            return (c0);
+        }
+    }
+    return (-1);
 }
 
-extern void	add_point(std::int32_t x,std::int32_t y,std::int32_t z);
-extern struct	PrimFace4*	create_a_quad(std::uint16_t p1,std::uint16_t p0,std::uint16_t p3,std::uint16_t p2,std::int16_t	texture_style,std::int16_t texture_piece);
-extern std::int32_t	build_prim_object(std::int32_t sp,std::int32_t sf3,std::int32_t sf4);
-extern void save_prim_asc(std::uint16_t prim,std::uint16_t version);
+extern void add_point(std::int32_t x, std::int32_t y, std::int32_t z);
+extern struct PrimFace4 *create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_t p3, std::uint16_t p2, std::int16_t texture_style, std::int16_t texture_piece);
+extern std::int32_t build_prim_object(std::int32_t sp, std::int32_t sf3, std::int32_t sf4);
+extern void save_prim_asc(std::uint16_t prim, std::uint16_t version);
 
-void create_kline_bottle()
-{
-	float	x,y,z,u,v;
-	float	sqrt_2,a=1.0; //what the fuck should a be
-	struct	PrimFace4	*p_f4;
+void create_kline_bottle() {
+    float x, y, z, u, v;
+    float sqrt_2, a = 1.0; // what the fuck should a be
+    struct PrimFace4 *p_f4;
 
-	float	step=PI/10.0; // low poly version
+    float step = PI / 10.0; // low poly version
 
-	return; //switch it off for now
+    return; // switch it off for now
 
-/*
-	std::int32_t	sp[10000],count=0,inner_count=0;
-	std::int32_t	c0,c1;
-	std::int32_t	sf3,sf4,stp;
+    /*
+            std::int32_t	sp[10000],count=0,inner_count=0;
+            std::int32_t	c0,c1;
+            std::int32_t	sf3,sf4,stp;
 
-	stp=next_prim_point;
-	sf3=next_prim_face3;
-	sf4=next_prim_face4;
+            stp=next_prim_point;
+            sf3=next_prim_face3;
+            sf4=next_prim_face4;
 
-	sqrt_2=sqrt(2.0);
-
-
-	for(u=-1.0*PI;u<(1.0*PI)+(step/2.0);u+=step,count++)
-	{
-		sp[count]=next_prim_point;
-		for(v=-1.0*PI;v<(1.0*PI)+(step/2.0);v+=step)
-		{
-//			x = cos(u)*(cos(u/2.0)*(sqrt_2+cos(v))+(sin(u/2.0)*sin(v)*cos(v)));
-//			y = sin(u)*(cos(u/2.0)*(sqrt_2+cos(v))+(sin(u/2.0)*sin(v)*cos(v)));
-//			z = -1.0*sin(u/2.0)*(sqrt_2+cos(v))+cos(u/2.0)*sin(v)*cos(v);
-
-			  x = (a+cos(u/2.0)*sin(v)-sin(u/2.0)*sin(2.0*v))*cos(u);
-
-			  y = (a+cos(u/2.0)*sin(v)-sin(u/2.0)*sin(2.0*v))*sin(u);
-
-			  z = sin(u/2.0)*sin(v)+cos(u/2.0)*sin(2.0*v);
+            sqrt_2=sqrt(2.0);
 
 
-			add_point((std::int32_t)(x*200.0),(std::int32_t)(y*200.0),(std::int32_t)(z*200.0));
-		}
-	}
+            for(u=-1.0*PI;u<(1.0*PI)+(step/2.0);u+=step,count++)
+            {
+                    sp[count]=next_prim_point;
+                    for(v=-1.0*PI;v<(1.0*PI)+(step/2.0);v+=step)
+                    {
+    //			x = cos(u)*(cos(u/2.0)*(sqrt_2+cos(v))+(sin(u/2.0)*sin(v)*cos(v)));
+    //			y = sin(u)*(cos(u/2.0)*(sqrt_2+cos(v))+(sin(u/2.0)*sin(v)*cos(v)));
+    //			z = -1.0*sin(u/2.0)*(sqrt_2+cos(v))+cos(u/2.0)*sin(v)*cos(v);
 
-	for(c0=0;c0<count-1;c0++)
-	for(c1=0;c1<count-1;c1++)
-	{
-//		if((c0+c1)&1)
-		{
-			p_f4=create_a_quad(sp[c0]+c1,sp[c0]+c1+1,sp[c0+1]+c1,sp[c0+1]+c1+1,0,0);
-			p_f4->DrawFlags=1+(1<<6); //POLY_G; gourad
-			p_f4->Col=((c0+c1)&1)*50+50;
-		}
-	}
-	
-	build_prim_object(stp,sf3,sf4);
-	save_prim_asc(next_prim_object-1,0);
-	*/
+                              x = (a+cos(u/2.0)*sin(v)-sin(u/2.0)*sin(2.0*v))*cos(u);
+
+                              y = (a+cos(u/2.0)*sin(v)-sin(u/2.0)*sin(2.0*v))*sin(u);
+
+                              z = sin(u/2.0)*sin(v)+cos(u/2.0)*sin(2.0*v);
+
+
+                            add_point((std::int32_t)(x*200.0),(std::int32_t)(y*200.0),(std::int32_t)(z*200.0));
+                    }
+            }
+
+            for(c0=0;c0<count-1;c0++)
+            for(c1=0;c1<count-1;c1++)
+            {
+    //		if((c0+c1)&1)
+                    {
+                            p_f4=create_a_quad(sp[c0]+c1,sp[c0]+c1+1,sp[c0+1]+c1,sp[c0+1]+c1+1,0,0);
+                            p_f4->DrawFlags=1+(1<<6); //POLY_G; gourad
+                            p_f4->Col=((c0+c1)&1)*50+50;
+                    }
+            }
+
+            build_prim_object(stp,sf3,sf4);
+            save_prim_asc(next_prim_object-1,0);
+            */
 }
 
-void load_palette(char* palette)
-{
-#ifdef	PSX
-	FILE					handle;
+void load_palette(char *palette) {
+#ifdef PSX
+    FILE handle;
 #else
-	FILE					*handle;
+    FILE *handle;
 #endif
 
-	handle = MF_Fopen(palette, "rb");
+    handle = MF_Fopen(palette, "rb");
 
-#ifdef	EDITOR
-extern std::uint8_t	*pals[];
-	pals[0]=(std::uint8_t*)ENGINE_palette;
+#ifdef EDITOR
+    extern std::uint8_t *pals[];
+    pals[0] = (std::uint8_t *) ENGINE_palette;
 #endif
 
-	if (handle == NULL)
-	{
-		TRACE("Could not open palette file.\n");
+    if (handle == NULL) {
+        TRACE("Could not open palette file.\n");
 
-		goto file_error;
-	}
+        goto file_error;
+    }
 
-	if (fread(ENGINE_palette, 1, sizeof(ENGINE_palette), handle) != sizeof(ENGINE_palette))
-	{
-		TRACE("Error reading palette file.\n");
+    if (fread(ENGINE_palette, 1, sizeof(ENGINE_palette), handle) != sizeof(ENGINE_palette)) {
+        TRACE("Error reading palette file.\n");
 
-		MF_Fclose(handle);
+        MF_Fclose(handle);
 
-		goto file_error;
-	}
+        goto file_error;
+    }
 
-	MF_Fclose(handle);
+    MF_Fclose(handle);
 
-	return;
+    return;
 
-  file_error:;
+file_error:;
 
-	std::int32_t i;
+    std::int32_t i;
 
-	for (i = 0; i < 256; i++)
-	{
-		ENGINE_palette[i].red   = rand();
-		ENGINE_palette[i].green = rand();
-		ENGINE_palette[i].blue  = rand();
-	}
+    for (i = 0; i < 256; i++) {
+        ENGINE_palette[i].red = rand();
+        ENGINE_palette[i].green = rand();
+        ENGINE_palette[i].blue = rand();
+    }
 }
-
-
 
 //
 // no meshes
@@ -2174,797 +1915,684 @@ extern std::uint8_t	*pals[];
 
 // mesh
 
-// 
+//
 
-extern void	write_a_prim(std::int32_t prim,MFFileHandle	handle);
+extern void write_a_prim(std::int32_t prim, MFFileHandle handle);
 
-std::int32_t save_insert_a_multi_prim(MFFileHandle	handle,std::int32_t multi)
-{
-	std::int32_t			c0,point;
-	char			file_name[64];
-	std::int32_t			save_type=4;
-	std::int32_t			so,eo;
-	char			ext_name[80];
-#ifdef	EDITOR
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		
-		FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+std::int32_t save_insert_a_multi_prim(MFFileHandle handle, std::int32_t multi) {
+    std::int32_t c0, point;
+    char file_name[64];
+    std::int32_t save_type = 4;
+    std::int32_t so, eo;
+    char ext_name[80];
+#ifdef EDITOR
+    if (handle != FILE_OPEN_ERROR) {
+        FileWrite(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		so=prim_multi_objects[multi].StartObject;
-		eo=prim_multi_objects[multi].EndObject;
+        so = prim_multi_objects[multi].StartObject;
+        eo = prim_multi_objects[multi].EndObject;
 
-		FileWrite(handle,(std::uint8_t*)&so,sizeof(so));
-		FileWrite(handle,(std::uint8_t*)&eo,sizeof(eo));
+        FileWrite(handle, (std::uint8_t *) &so, sizeof(so));
+        FileWrite(handle, (std::uint8_t *) &eo, sizeof(eo));
 
-		for(c0=so;c0<eo;c0++)
-			write_a_prim(c0,handle);
+        for (c0 = so; c0 < eo; c0++)
+            write_a_prim(c0, handle);
 
-		return(1);
-	}
+        return (1);
+    }
 #endif
-	return(0);
-	
+    return (0);
 }
 
-std::int32_t save_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk)
-{
-	std::int32_t	save_type=5;
-	std::int32_t	temp;
-	std::uint16_t	check=666;
-#ifdef	EDITOR
+std::int32_t save_insert_game_chunk(MFFileHandle handle, struct GameKeyFrameChunk *p_chunk) {
+    std::int32_t save_type = 5;
+    std::int32_t temp;
+    std::uint16_t check = 666;
+#ifdef EDITOR
 
-	FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    FileWrite(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-	FileWrite(handle,(std::uint8_t*)&p_chunk->ElementCount,sizeof(p_chunk->ElementCount));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->ElementCount, sizeof(p_chunk->ElementCount));
 
-	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxPeopleTypes,sizeof(p_chunk->MaxPeopleTypes));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxAnimFrames,sizeof(p_chunk->MaxAnimFrames));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxElements,sizeof(p_chunk->MaxElements));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxKeyFrames,sizeof(p_chunk->MaxKeyFrames));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxFightCols,sizeof(p_chunk->MaxFightCols));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->MaxPeopleTypes, sizeof(p_chunk->MaxPeopleTypes));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->MaxAnimFrames, sizeof(p_chunk->MaxAnimFrames));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->MaxElements, sizeof(p_chunk->MaxElements));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->MaxKeyFrames, sizeof(p_chunk->MaxKeyFrames));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->MaxFightCols, sizeof(p_chunk->MaxFightCols));
 
-//	FileWrite(handle,(std::uint8_t*)&p_chunk->TweakSpeeds[0],p_chunk->MaxAnimFrames);
-//	FileWrite(handle,(std::uint8_t*)&check,2);
+    //	FileWrite(handle,(std::uint8_t*)&p_chunk->TweakSpeeds[0],p_chunk->MaxAnimFrames);
+    //	FileWrite(handle,(std::uint8_t*)&check,2);
 
-	//
-	// save the people types
-	//
-//	temp=MAX_PEOPLE_TYPES;
-//	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->PeopleTypes[0],sizeof(struct BodyDef)*p_chunk->MaxPeopleTypes);
-	FileWrite(handle,(std::uint8_t*)&check,2);
-	//
-	// save the keyframe linked lists
-	//
-	temp=(std::int32_t)&p_chunk->AnimKeyFrames[0];
-	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->AnimKeyFrames[0],sizeof(struct GameKeyFrame)*p_chunk->MaxKeyFrames);
-	FileWrite(handle,(std::uint8_t*)&check,2);
+    //
+    // save the people types
+    //
+    //	temp=MAX_PEOPLE_TYPES;
+    //	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->PeopleTypes[0], sizeof(struct BodyDef) * p_chunk->MaxPeopleTypes);
+    FileWrite(handle, (std::uint8_t *) &check, 2);
+    //
+    // save the keyframe linked lists
+    //
+    temp = (std::int32_t) &p_chunk->AnimKeyFrames[0];
+    FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->AnimKeyFrames[0], sizeof(struct GameKeyFrame) * p_chunk->MaxKeyFrames);
+    FileWrite(handle, (std::uint8_t *) &check, 2);
 
-	//
-	// save the anim elements
-	//
-	temp=(std::int32_t)&p_chunk->TheElements[0];
-	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->TheElements[0],sizeof(struct GameKeyFrameElement)*p_chunk->MaxElements);
-	check=666;
-	FileWrite(handle,(std::uint8_t*)&check,2);
+    //
+    // save the anim elements
+    //
+    temp = (std::int32_t) &p_chunk->TheElements[0];
+    FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->TheElements[0], sizeof(struct GameKeyFrameElement) * p_chunk->MaxElements);
+    check = 666;
+    FileWrite(handle, (std::uint8_t *) &check, 2);
 
-	//
-	// save the animlist
-	//
-//	temp=200;
-//	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->AnimList[0],sizeof(struct GameKeyFrame*)*p_chunk->MaxAnimFrames);
-	check=666;
-	FileWrite(handle,(std::uint8_t*)&check,2);
-	check=666;
+    //
+    // save the animlist
+    //
+    //	temp=200;
+    //	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->AnimList[0], sizeof(struct GameKeyFrame *) * p_chunk->MaxAnimFrames);
+    check = 666;
+    FileWrite(handle, (std::uint8_t *) &check, 2);
+    check = 666;
 
-//	if(p_chunk->AnimKeyFrames[30])
-//		if(p_chunk->AnimKeyFrames[30].Fight)
-//			DebugText(" animkeyframes[30].fight %x  next %x \n",p_chunk->AnimKeyFrames[30].Fight,p_chunk->AnimKeyFrames[30].Fight->Next);
+    //	if(p_chunk->AnimKeyFrames[30])
+    //		if(p_chunk->AnimKeyFrames[30].Fight)
+    //			DebugText(" animkeyframes[30].fight %x  next %x \n",p_chunk->AnimKeyFrames[30].Fight,p_chunk->AnimKeyFrames[30].Fight->Next);
 
-	temp=(std::int32_t)&p_chunk->FightCols[0];
-	FileWrite(handle,(std::uint8_t*)&temp,sizeof(temp));
+    temp = (std::int32_t) &p_chunk->FightCols[0];
+    FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
 
-//	temp=p_chunk->MaxFightCols;
-//	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxFightCols,sizeof(p_chunk->MaxFightCols));
-	FileWrite(handle,(std::uint8_t*)&p_chunk->FightCols[0],sizeof(struct GameFightCol)*p_chunk->MaxFightCols);
-	FileWrite(handle,(std::uint8_t*)&check,2);
+    //	temp=p_chunk->MaxFightCols;
+    //	FileWrite(handle,(std::uint8_t*)&p_chunk->MaxFightCols,sizeof(p_chunk->MaxFightCols));
+    FileWrite(handle, (std::uint8_t *) &p_chunk->FightCols[0], sizeof(struct GameFightCol) * p_chunk->MaxFightCols);
+    FileWrite(handle, (std::uint8_t *) &check, 2);
 
 #endif
-	return(1);
-
+    return (1);
 }
 
-std::int32_t save_anim_system(struct GameKeyFrameChunk *p_chunk,char	*name)
-{
-	std::int32_t			c0,point;
-	MFFileHandle	handle;
-	char			file_name[64];
-	std::int32_t			save_type=5;
-	std::int32_t			so,eo;
-	char			ext_name[80];
-	std::int32_t			count;
-#ifdef	EDITOR
+std::int32_t save_anim_system(struct GameKeyFrameChunk *p_chunk, char *name) {
+    std::int32_t c0, point;
+    MFFileHandle handle;
+    char file_name[64];
+    std::int32_t save_type = 5;
+    std::int32_t so, eo;
+    char ext_name[80];
+    std::int32_t count;
+#ifdef EDITOR
 
-	change_extension(name,"all",ext_name);
-	handle	=	FileCreate(ext_name,1);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		
-		FileWrite(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    change_extension(name, "all", ext_name);
+    handle = FileCreate(ext_name, 1);
+    if (handle != FILE_OPEN_ERROR) {
+        FileWrite(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		count=0;
-		while(p_chunk->MultiObject[count])
-		{
-			count++;
-		}
+        count = 0;
+        while (p_chunk->MultiObject[count]) {
+            count++;
+        }
 
-		FileWrite(handle,(std::uint8_t*)&count,sizeof(count));
+        FileWrite(handle, (std::uint8_t *) &count, sizeof(count));
 
-		count=0;
-		while(p_chunk->MultiObject[count])
-		{
-			save_insert_a_multi_prim(handle,p_chunk->MultiObject[count]);
-			count++;
-		}
-		save_insert_game_chunk(handle,p_chunk);
+        count = 0;
+        while (p_chunk->MultiObject[count]) {
+            save_insert_a_multi_prim(handle, p_chunk->MultiObject[count]);
+            count++;
+        }
+        save_insert_game_chunk(handle, p_chunk);
 
-		FileClose(handle);
-		return(1);
-	}
+        FileClose(handle);
+        return (1);
+    }
 #endif
-	return(0);
-	
+    return (0);
 }
 #endif
 #endif
 #ifndef TARGET_DC
 #ifndef PSX
-std::int32_t load_insert_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk)
-{
-	std::int32_t	save_type=0,c0;
-	std::int32_t	temp;
-	std::uint32_t	addr1,addr2,a_off,ae_off;
-	std::uint32_t	af_off,addr3;
-	std::uint16_t	check;
+std::int32_t load_insert_game_chunk(MFFileHandle handle, struct GameKeyFrameChunk *p_chunk) {
+    std::int32_t save_type = 0, c0;
+    std::int32_t temp;
+    std::uint32_t addr1, addr2, a_off, ae_off;
+    std::uint32_t af_off, addr3;
+    std::uint16_t check;
 
-	struct GameKeyFrameElementBig *temp_mem;
+    struct GameKeyFrameElementBig *temp_mem;
 
-	
+    FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-	FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    ASSERT(save_type > 1);
 
-	ASSERT(save_type>1);
-	
+    FileRead(handle, (std::uint8_t *) &p_chunk->ElementCount, sizeof(p_chunk->ElementCount));
 
-	FileRead(handle,(std::uint8_t*)&p_chunk->ElementCount,sizeof(p_chunk->ElementCount));
+    FileRead(handle, (std::uint8_t *) &p_chunk->MaxPeopleTypes, sizeof(p_chunk->MaxPeopleTypes));
+    FileRead(handle, (std::uint8_t *) &p_chunk->MaxAnimFrames, sizeof(p_chunk->MaxAnimFrames));
+    FileRead(handle, (std::uint8_t *) &p_chunk->MaxElements, sizeof(p_chunk->MaxElements));
+    FileRead(handle, (std::uint8_t *) &p_chunk->MaxKeyFrames, sizeof(p_chunk->MaxKeyFrames));
+    FileRead(handle, (std::uint8_t *) &p_chunk->MaxFightCols, sizeof(p_chunk->MaxFightCols));
 
-	FileRead(handle,(std::uint8_t*)&p_chunk->MaxPeopleTypes,sizeof(p_chunk->MaxPeopleTypes));
-	FileRead(handle,(std::uint8_t*)&p_chunk->MaxAnimFrames,sizeof(p_chunk->MaxAnimFrames));
-	FileRead(handle,(std::uint8_t*)&p_chunk->MaxElements,sizeof(p_chunk->MaxElements));
-	FileRead(handle,(std::uint8_t*)&p_chunk->MaxKeyFrames,sizeof(p_chunk->MaxKeyFrames));
-	FileRead(handle,(std::uint8_t*)&p_chunk->MaxFightCols,sizeof(p_chunk->MaxFightCols));
+    if (p_chunk->MaxPeopleTypes)
+        p_chunk->PeopleTypes = (struct BodyDef *) MemAlloc(MAX_PEOPLE_TYPES * sizeof(struct BodyDef));
 
-	if(p_chunk->MaxPeopleTypes)
-		p_chunk->PeopleTypes=(struct BodyDef*)MemAlloc(MAX_PEOPLE_TYPES*sizeof(struct BodyDef));
+    if (p_chunk->MaxKeyFrames)
+        p_chunk->AnimKeyFrames = (struct GameKeyFrame *) MemAlloc((p_chunk->MaxKeyFrames + 500) * sizeof(struct GameKeyFrame));
 
-	if(p_chunk->MaxKeyFrames)
-		p_chunk->AnimKeyFrames=(struct GameKeyFrame*)MemAlloc((p_chunk->MaxKeyFrames+500)*sizeof(struct GameKeyFrame));
+    if (p_chunk->MaxAnimFrames)
+        p_chunk->AnimList = (struct GameKeyFrame **) MemAlloc((p_chunk->MaxAnimFrames + 200) * sizeof(struct GameKeyFrame *));
 
-	if(p_chunk->MaxAnimFrames)
-		p_chunk->AnimList=(struct GameKeyFrame**)MemAlloc((p_chunk->MaxAnimFrames+200)*sizeof(struct GameKeyFrame *));
+    if (p_chunk->MaxElements)
+        p_chunk->TheElements = (struct GameKeyFrameElement *) MemAlloc((p_chunk->MaxElements + 500 * 15) * sizeof(struct GameKeyFrameElement));
 
-	if(p_chunk->MaxElements)
-		p_chunk->TheElements=(struct GameKeyFrameElement*)MemAlloc((p_chunk->MaxElements+500*15)*sizeof(struct GameKeyFrameElement));
+    temp_mem = (struct GameKeyFrameElementBig *) MemAlloc(p_chunk->MaxElements * sizeof(struct GameKeyFrameElementBig));
 
-	temp_mem=(struct GameKeyFrameElementBig*)MemAlloc(p_chunk->MaxElements*sizeof(struct GameKeyFrameElementBig));
+    if (p_chunk->MaxFightCols)
+        p_chunk->FightCols = (struct GameFightCol *) MemAlloc((p_chunk->MaxFightCols + 50) * sizeof(struct GameFightCol));
 
-	if(p_chunk->MaxFightCols)
-		p_chunk->FightCols=(struct GameFightCol*)MemAlloc((p_chunk->MaxFightCols+50)*sizeof(struct GameFightCol));
+    //	if(p_chunk->MaxAnimFrames)
+    //		p_chunk->TweakSpeeds=(std::uint8_t*)MemAlloc(p_chunk->MaxAnimFrames);
 
-//	if(p_chunk->MaxAnimFrames)
-//		p_chunk->TweakSpeeds=(std::uint8_t*)MemAlloc(p_chunk->MaxAnimFrames);
+    //	if(save_type>=3)
+    //	{
+    //		FileRead(handle,(std::uint8_t*)&p_chunk->TweakSpeeds[0],p_chunk->MaxAnimFrames);
+    //		FileRead(handle,&check,2);
+    //		ASSERT(check==666);
+    //
+    //	}
 
-//	if(save_type>=3)
-//	{
-//		FileRead(handle,(std::uint8_t*)&p_chunk->TweakSpeeds[0],p_chunk->MaxAnimFrames);
-//		FileRead(handle,&check,2);
-//		ASSERT(check==666);
-//
-//	}
+    //
+    // Load the people types
+    //
+    // FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
+    FileRead(handle, (std::uint8_t *) &p_chunk->PeopleTypes[0], sizeof(struct BodyDef) * p_chunk->MaxPeopleTypes);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
+    //
+    // Load the keyframe linked lists
+    //
+    FileRead(handle, (std::uint8_t *) &addr1, sizeof(addr1));
+    FileRead(handle, (std::uint8_t *) &p_chunk->AnimKeyFrames[0], sizeof(struct GameKeyFrame) * p_chunk->MaxKeyFrames);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
-	//
-	// Load the people types
-	//
-	//FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
-	FileRead(handle,(std::uint8_t*)&p_chunk->PeopleTypes[0],sizeof(struct BodyDef)*p_chunk->MaxPeopleTypes);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
-	//
-	// Load the keyframe linked lists
-	//
-	FileRead(handle,(std::uint8_t*)&addr1,sizeof(addr1));
-	FileRead(handle,(std::uint8_t*)&p_chunk->AnimKeyFrames[0],sizeof(struct GameKeyFrame)*p_chunk->MaxKeyFrames);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
-
-	//
-	// Load the anim elements
-	//
+    //
+    // Load the anim elements
+    //
 
 #ifndef ULTRA_COMPRESSED_ANIMATIONS
-	FileRead(handle,(std::uint8_t*)&addr2,sizeof(addr2));
-	FileRead(handle,(std::uint8_t*)&p_chunk->TheElements[0],sizeof(struct GameKeyFrameElement)*p_chunk->MaxElements);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+    FileRead(handle, (std::uint8_t *) &addr2, sizeof(addr2));
+    FileRead(handle, (std::uint8_t *) &p_chunk->TheElements[0], sizeof(struct GameKeyFrameElement) * p_chunk->MaxElements);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 #else
 
-
-
-
-//#error  // need to load in a different file, or bodge the sizeof command above.
-	FileRead(handle,(std::uint8_t*)&addr2,sizeof(addr2));
-	//JCL - convert compressed to ultra compressed.
-	for (c0 = 0; c0 < p_chunk->MaxElements; c0++)
-	{
-
-
-		FileRead(handle,(std::uint8_t*)&temp_mem[c0],sizeof(struct GameKeyFrameElementBig));
-		CMatrix33 c = *((CMatrix33 *)(&temp_mem[c0])); //!er....
-		SetCMatrix(&p_chunk->TheElements[c0], &c);
-		p_chunk->TheElements[c0].OffsetX=(temp_mem[c0].OffsetX)&0xff;
-		p_chunk->TheElements[c0].OffsetY=(temp_mem[c0].OffsetY)&0xff;
-		p_chunk->TheElements[c0].OffsetZ=(temp_mem[c0].OffsetZ)&0xff;
-
-	}	
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
-
-
+    // #error  // need to load in a different file, or bodge the sizeof command above.
+    FileRead(handle, (std::uint8_t *) &addr2, sizeof(addr2));
+    // JCL - convert compressed to ultra compressed.
+    for (c0 = 0; c0 < p_chunk->MaxElements; c0++) {
+        FileRead(handle, (std::uint8_t *) &temp_mem[c0], sizeof(struct GameKeyFrameElementBig));
+        CMatrix33 c = *((CMatrix33 *) (&temp_mem[c0])); //! er....
+        SetCMatrix(&p_chunk->TheElements[c0], &c);
+        p_chunk->TheElements[c0].OffsetX = (temp_mem[c0].OffsetX) & 0xff;
+        p_chunk->TheElements[c0].OffsetY = (temp_mem[c0].OffsetY) & 0xff;
+        p_chunk->TheElements[c0].OffsetZ = (temp_mem[c0].OffsetZ) & 0xff;
+    }
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
 #endif
 
+    //
+    // Load the animlist
+    //
+    //	FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
+    FileRead(handle, (std::uint8_t *) &p_chunk->AnimList[0], sizeof(struct GameKeyFrame *) * p_chunk->MaxAnimFrames);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
+    FileRead(handle, (std::uint8_t *) &addr3, sizeof(addr3));
 
-	//
-	// Load the animlist
-	//
-//	FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
-	FileRead(handle,(std::uint8_t*)&p_chunk->AnimList[0],sizeof(struct GameKeyFrame *)*p_chunk->MaxAnimFrames);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+    FileRead(handle, (std::uint8_t *) &p_chunk->FightCols[0], sizeof(struct GameFightCol) * p_chunk->MaxFightCols);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
-	FileRead(handle,(std::uint8_t*)&addr3,sizeof(addr3));
+    if (save_type < 3) {
+        std::int32_t c0;
+        //
+        // convert anim speeds to step sizes rather than step counts
+        //
 
-	FileRead(handle,(std::uint8_t*)&p_chunk->FightCols[0],sizeof(struct GameFightCol)*p_chunk->MaxFightCols);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+        for (c0 = 0; c0 < p_chunk->MaxKeyFrames; c0++) {
+            p_chunk->AnimKeyFrames[c0].TweenStep = (256 / (p_chunk->AnimKeyFrames[c0].TweenStep + 1)) >> 1;
+        }
+    }
 
-	if(save_type<3)
-	{
-		std::int32_t	c0;
-		//
-		// convert anim speeds to step sizes rather than step counts
-		//
+    if (save_type > 4) {
+        extern void convert_keyframe_to_pointer(GameKeyFrame * p, GameKeyFrameElement * p_ele, GameFightCol * p_fight, std::int32_t count);
+        extern void convert_animlist_to_pointer(GameKeyFrame * *p, GameKeyFrame * p_anim, std::int32_t count);
+        extern void convert_fightcol_to_pointer(GameFightCol * p, GameFightCol * p_fight, std::int32_t count);
 
-		for(c0=0;c0<p_chunk->MaxKeyFrames;c0++)
-		{
-			p_chunk->AnimKeyFrames[c0].TweenStep=(256/(p_chunk->AnimKeyFrames[c0].TweenStep+1))>>1;
+        convert_keyframe_to_pointer(p_chunk->AnimKeyFrames, p_chunk->TheElements, p_chunk->FightCols, p_chunk->MaxKeyFrames);
+        convert_animlist_to_pointer(p_chunk->AnimList, p_chunk->AnimKeyFrames, p_chunk->MaxAnimFrames);
+        convert_fightcol_to_pointer(p_chunk->FightCols, p_chunk->FightCols, p_chunk->MaxFightCols);
+    } else {
+        LogText("PSX1 game chunk  max animkeyframes %d max theelements %d max animlist %d\n", p_chunk->MaxKeyFrames, p_chunk->MaxElements, temp);
 
-		}
+        // was at 100 now at 10, a_off =-90 so we take 90 off each stored address
 
+        a_off = ((std::uint32_t) &p_chunk->AnimKeyFrames[0]) - addr1;
+        ae_off = ((std::uint32_t) &p_chunk->TheElements[0]) - addr2;
+        af_off = ((std::uint32_t) &p_chunk->FightCols[0]) - addr3;
+        for (c0 = 0; c0 < p_chunk->MaxKeyFrames; c0++) {
+            std::uint32_t a;
 
-	}
+            a = (std::uint32_t) p_chunk->AnimKeyFrames[c0].NextFrame;
+            a += a_off;
+            if (p_chunk->AnimKeyFrames[c0].NextFrame)
+                p_chunk->AnimKeyFrames[c0].NextFrame = (struct GameKeyFrame *) a;
 
+            a = (std::uint32_t) p_chunk->AnimKeyFrames[c0].PrevFrame;
+            a += a_off;
+            if (p_chunk->AnimKeyFrames[c0].PrevFrame)
+                p_chunk->AnimKeyFrames[c0].PrevFrame = (struct GameKeyFrame *) a;
 
-	if(save_type>4)
-	{
-extern void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,std::int32_t count);
-extern void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,std::int32_t count);
-extern void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,std::int32_t count);
+            //		p_chunk->AnimKeyFrames[c0].Fight=0;
 
-  		convert_keyframe_to_pointer(p_chunk->AnimKeyFrames,p_chunk->TheElements,p_chunk->FightCols,p_chunk->MaxKeyFrames);
-		convert_animlist_to_pointer(p_chunk->AnimList,p_chunk->AnimKeyFrames,p_chunk->MaxAnimFrames);
-		convert_fightcol_to_pointer(p_chunk->FightCols,p_chunk->FightCols,p_chunk->MaxFightCols);
-	}
-	else
-	{
+            a = (std::uint32_t) p_chunk->AnimKeyFrames[c0].FirstElement;
+            a += ae_off;
+            p_chunk->AnimKeyFrames[c0].FirstElement = (struct GameKeyFrameElement *) a;
+            DebugText(" fight %x addr3 %x \n", p_chunk->AnimKeyFrames[c0].Fight, addr3);
 
+            a = (std::uint32_t) p_chunk->AnimKeyFrames[c0].Fight;
+            if (a != 0 && a < (std::uint32_t) addr3) {
+                DebugText(" fight %x <addr3 %x abort\n", p_chunk->AnimKeyFrames[c0].Fight, addr3);
+                a = 0;
+                p_chunk->AnimKeyFrames[c0].Fight = 0;
+            }
+            a += af_off;
 
-		LogText("PSX1 game chunk  max animkeyframes %d max theelements %d max animlist %d\n",p_chunk->MaxKeyFrames,p_chunk->MaxElements,temp);
+            if (p_chunk->AnimKeyFrames[c0].Fight) {
+                struct GameFightCol *p_fight;
+                std::uint32_t offset;
+                DebugText(" fight on animkeyframe %d \n", c0);
 
-		// was at 100 now at 10, a_off =-90 so we take 90 off each stored address
+                offset = (std::uint32_t) p_chunk->AnimKeyFrames[c0].Fight;
+                offset -= (std::uint32_t) addr3;
+                offset /= sizeof(struct GameFightCol);
+                DebugText(" p_chunk->AnimKeyFrames[%d].Fight %x   offset %d fixed \n", c0, p_chunk->AnimKeyFrames[c0].Fight, offset);
 
-		a_off=((std::uint32_t)&p_chunk->AnimKeyFrames[0])-addr1;
-		ae_off=((std::uint32_t)&p_chunk->TheElements[0])-addr2;
-		af_off=((std::uint32_t)&p_chunk->FightCols[0])-addr3;
-		for(c0=0;c0<p_chunk->MaxKeyFrames;c0++)
-		{
-			std::uint32_t	a;
+                p_chunk->AnimKeyFrames[c0].Fight = (struct GameFightCol *) a;
 
-			a=(std::uint32_t)p_chunk->AnimKeyFrames[c0].NextFrame;
-			a+=a_off;
-			if(p_chunk->AnimKeyFrames[c0].NextFrame)
-				p_chunk->AnimKeyFrames[c0].NextFrame=(struct GameKeyFrame*)a;
+                p_fight = (struct GameFightCol *) a;
+                p_fight->Next = 0;
 
-			a=(std::uint32_t)p_chunk->AnimKeyFrames[c0].PrevFrame;
-			a+=a_off;
-			if(p_chunk->AnimKeyFrames[c0].PrevFrame)
-				p_chunk->AnimKeyFrames[c0].PrevFrame=(struct GameKeyFrame*)a;
+                while (p_fight->Next) {
+                    offset = (std::uint32_t) p_fight->Next;
+                    offset -= (std::uint32_t) addr3;
+                    offset /= sizeof(struct GameFightCol);
+                    DebugText(" p_fight->Next %x   offset %d fixed \n", p_fight->Next, offset);
+                    if (offset > p_chunk->MaxFightCols) {
+                        DebugText(" error error offset>max %d \n", p_chunk->MaxFightCols);
+                        p_fight->Next = 0;
+                    } else {
+                        a = (std::uint32_t) p_fight->Next;
+                        a += af_off;
+                        p_fight->Next = 0; //(struct GameFightCol*)a;
+                        p_fight = p_fight->Next;
+                    }
+                }
+            }
+        }
 
-	//		p_chunk->AnimKeyFrames[c0].Fight=0;
+        a_off = ((std::uint32_t) &p_chunk->AnimKeyFrames[0]) - addr1;
+        for (c0 = 0; c0 < p_chunk->MaxAnimFrames; c0++) {
+            std::uint32_t a;
 
-			a=(std::uint32_t)p_chunk->AnimKeyFrames[c0].FirstElement;
-			a+=ae_off;
-			p_chunk->AnimKeyFrames[c0].FirstElement=(struct GameKeyFrameElement*)a;
-			DebugText(" fight %x addr3 %x \n",p_chunk->AnimKeyFrames[c0].Fight,addr3);
+            a = (std::uint32_t) p_chunk->AnimList[c0];
+            a += a_off;
+            p_chunk->AnimList[c0] = (struct GameKeyFrame *) a;
+        }
+    }
 
-			a=(std::uint32_t)p_chunk->AnimKeyFrames[c0].Fight;
-			if( a!=0&& a<(std::uint32_t)addr3)
-			{
-				DebugText(" fight %x <addr3 %x abort\n",p_chunk->AnimKeyFrames[c0].Fight,addr3);
-				a=0;
-				p_chunk->AnimKeyFrames[c0].Fight=0;
-			}
-			a+=af_off;
-
-			if(p_chunk->AnimKeyFrames[c0].Fight)
-			{
-				struct	GameFightCol	*p_fight;
-				std::uint32_t	offset;
-				DebugText(" fight on animkeyframe %d \n",c0);
-
-				offset=(std::uint32_t)p_chunk->AnimKeyFrames[c0].Fight;
-				offset-=(std::uint32_t)addr3;
-				offset/=sizeof(struct GameFightCol);
-				DebugText(" p_chunk->AnimKeyFrames[%d].Fight %x   offset %d fixed \n",c0,p_chunk->AnimKeyFrames[c0].Fight,offset);
-
-
-				p_chunk->AnimKeyFrames[c0].Fight=(struct GameFightCol*)a;
-
-				p_fight=(struct GameFightCol*)a;
-				p_fight->Next=0;
-
-				while(p_fight->Next)
-				{
-					offset=(std::uint32_t)p_fight->Next;
-					offset-=(std::uint32_t)addr3;
-					offset/=sizeof(struct GameFightCol);
-					DebugText(" p_fight->Next %x   offset %d fixed \n",p_fight->Next,offset);
-					if(offset>p_chunk->MaxFightCols)
-					{
-						DebugText(" error error offset>max %d \n",p_chunk->MaxFightCols);
-						p_fight->Next=0;
-					}
-					else
-					{
-						a=(std::uint32_t)p_fight->Next;
-						a+=af_off;
-						p_fight->Next=0; //(struct GameFightCol*)a;
-						p_fight=p_fight->Next;
-					}
-				}
-			}
-		}
-
-		
-		a_off=((std::uint32_t)&p_chunk->AnimKeyFrames[0])-addr1;
-		for(c0=0;c0<p_chunk->MaxAnimFrames;c0++)
-		{
-			std::uint32_t	a;
-
-			a=(std::uint32_t)p_chunk->AnimList[c0];
-			a+=a_off;
-			p_chunk->AnimList[c0]=(struct GameKeyFrame*)a;
-		}
-	}
-
-	MemFree((void*)temp_mem);
-	return(1);
-
-
-
+    MemFree((void *) temp_mem);
+    return (1);
 }
 
-std::int32_t load_insert_a_multi_prim(MFFileHandle	handle)
-{
-	std::int32_t			c0;
-	std::int32_t			save_type=0;
-	std::int32_t			so,eo;
-//	char			ext_name[80];
+std::int32_t load_insert_a_multi_prim(MFFileHandle handle) {
+    std::int32_t c0;
+    std::int32_t save_type = 0;
+    std::int32_t so, eo;
+    //	char			ext_name[80];
 
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		
-		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		FileRead(handle,(std::uint8_t*)&so,sizeof(so));
-		FileRead(handle,(std::uint8_t*)&eo,sizeof(eo));
+        FileRead(handle, (std::uint8_t *) &so, sizeof(so));
+        FileRead(handle, (std::uint8_t *) &eo, sizeof(eo));
 
-		prim_multi_objects[next_prim_multi_object].StartObject=next_prim_object;
-		prim_multi_objects[next_prim_multi_object].EndObject=next_prim_object+(eo-so);
-		LogText(" load multi prim  no object %d \n",eo-so);
-		for(c0=so;c0<eo;c0++)
-			read_a_prim(c0,handle,save_type);
+        prim_multi_objects[next_prim_multi_object].StartObject = next_prim_object;
+        prim_multi_objects[next_prim_multi_object].EndObject = next_prim_object + (eo - so);
+        LogText(" load multi prim  no object %d \n", eo - so);
+        for (c0 = so; c0 < eo; c0++)
+            read_a_prim(c0, handle, save_type);
 
-		next_prim_multi_object++;
-		return(next_prim_multi_object-1);
-	}
-	else
-		return(0);
+        next_prim_multi_object++;
+        return (next_prim_multi_object - 1);
+    } else
+        return (0);
 }
 
-extern std::uint32_t	DONT_load;
-std::int32_t load_anim_system(struct GameKeyFrameChunk *p_chunk,char	*name,std::int32_t type)
-{
-	std::int32_t			c0,point;
-	MFFileHandle	handle;
-//	char			file_name[64];
-	std::int32_t			save_type=0;
-//	std::int32_t			so,eo;
-	char			ext_name[100];
-	std::int32_t			count;
-	std::uint8_t	load;
+extern std::uint32_t DONT_load;
+std::int32_t load_anim_system(struct GameKeyFrameChunk *p_chunk, char *name, std::int32_t type) {
+    std::int32_t c0, point;
+    MFFileHandle handle;
+    //	char			file_name[64];
+    std::int32_t save_type = 0;
+    //	std::int32_t			so,eo;
+    char ext_name[100];
+    std::int32_t count;
+    std::uint8_t load;
 
-	char	fname[100];
+    char fname[100];
 
-	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
+    sprintf(fname, "%sdata\\%s", DATA_DIR, name);
 
-extern void	free_game_chunk(GameKeyFrameChunk *the_chunk);
-	free_game_chunk(p_chunk);
+    extern void free_game_chunk(GameKeyFrameChunk * the_chunk);
+    free_game_chunk(p_chunk);
 
-	DebugText(" load chunk name %s\n",fname);
-	change_extension(fname,"all",ext_name);
-	handle	=	FileOpen(ext_name);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		
-		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    DebugText(" load chunk name %s\n", fname);
+    change_extension(fname, "all", ext_name);
+    handle = FileOpen(ext_name);
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		if(save_type>2)
-		{
+        if (save_type > 2) {
+            FileRead(handle, (std::uint8_t *) &count, sizeof(count));
 
-			FileRead(handle,(std::uint8_t*)&count,sizeof(count));
+            for (c0 = 0; c0 < count; c0++) {
+                switch (type) {
+                    case 0:
+                        p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
+                        break;
+                    case 1:
+                        // darci
+                        switch (c0) {
+                            case 0: // darci
+                                load = 1;
+                                break;
+                            case 1: // slag
+                                load = !(DONT_load & (1 << PERSON_SLAG_TART));
+                                break;
+                            case 2: // fat slag
+                                load = !(DONT_load & (1 << PERSON_SLAG_FATUGLY));
+                                break;
+                            case 3: // hostage
+                                load = !(DONT_load & (1 << PERSON_HOSTAGE));
+                                break;
+                            default:
+                                load = 1;
+                                break;
+                        }
+                        if (load)
+                            p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
+                        else {
+                            skip_load_a_multi_prim(handle);
+                            p_chunk->MultiObject[c0] = 1;
+                        }
+                        break;
+                    case 2:
+                        // thug   // 0 rasta 1 grey 2 red 3 miller 4 cop 5 mib 6 tramp 7 civ variety
 
-			for(c0=0;c0<count;c0++)
-			{
-				switch(type)
-				{
-					case	0:
-						p_chunk->MultiObject[c0]=load_insert_a_multi_prim(handle);
-						break;
-					case	1:
-						// darci 
-						switch(c0)
-						{
-							case	0: //darci
-								load=1;
-								break;
-							case	1: //slag
-								load=!(DONT_load&(1<<PERSON_SLAG_TART));
-								break;
-							case	2: //fat slag
-								load=!(DONT_load&(1<<PERSON_SLAG_FATUGLY));
-								break;
-							case	3: //hostage
-								load=!(DONT_load&(1<<PERSON_HOSTAGE));
-								break;
-							default:
-								load=1;
-								break;
-						}
-						if(load)
-							p_chunk->MultiObject[c0]=load_insert_a_multi_prim(handle);
-						else
-						{
-							skip_load_a_multi_prim(handle);
-							p_chunk->MultiObject[c0]=1;
-						}
-						break;
-					case	2:
-						//thug   // 0 rasta 1 grey 2 red 3 miller 4 cop 5 mib 6 tramp 7 civ variety
-						
-						switch(c0)
-						{
-							case	0: //rasta
-							case	1: //grey
-							case	2: //red
-							case	4: //cop
-							case	7: //civ variety
-								load=1;
-								break;
-							case	3: //miller (mechanic)
-								load=!(DONT_load&(1<<PERSON_MECHANIC));
-								break;
-							case	5: //MIB
-								load=!(DONT_load&(1<<PERSON_MIB1));
-								break;
-							case	6: //tramp
-								load=!(DONT_load&(1<<PERSON_TRAMP));
-								break;
-							default:
-								load=1;
-								break;
-						}
-						if(load)
-							p_chunk->MultiObject[c0]=load_insert_a_multi_prim(handle);
-						else
-						{
-							skip_load_a_multi_prim(handle);
-							p_chunk->MultiObject[c0]=1;
-						}
-						break;
+                        switch (c0) {
+                            case 0: // rasta
+                            case 1: // grey
+                            case 2: // red
+                            case 4: // cop
+                            case 7: // civ variety
+                                load = 1;
+                                break;
+                            case 3: // miller (mechanic)
+                                load = !(DONT_load & (1 << PERSON_MECHANIC));
+                                break;
+                            case 5: // MIB
+                                load = !(DONT_load & (1 << PERSON_MIB1));
+                                break;
+                            case 6: // tramp
+                                load = !(DONT_load & (1 << PERSON_TRAMP));
+                                break;
+                            default:
+                                load = 1;
+                                break;
+                        }
+                        if (load)
+                            p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
+                        else {
+                            skip_load_a_multi_prim(handle);
+                            p_chunk->MultiObject[c0] = 1;
+                        }
+                        break;
+                }
+                DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM part %d \n", next_prim_point, next_prim_face3, next_prim_face4, c0);
+            }
+            p_chunk->MultiObject[c0] = 0;
+        } else {
+            p_chunk->MultiObject[0] = load_insert_a_multi_prim(handle);
+            p_chunk->MultiObject[1] = 0;
+            DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM partb %d \n", next_prim_point, next_prim_face3, next_prim_face4, 0);
+        }
+        load_insert_game_chunk(handle, p_chunk);
 
-				}
-				DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM part %d \n",next_prim_point,next_prim_face3,next_prim_face4,c0);
-			}
-			p_chunk->MultiObject[c0]=0;
-		}
-		else
-		{
-			p_chunk->MultiObject[0]=load_insert_a_multi_prim(handle);
-			p_chunk->MultiObject[1]=0;
-			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM partb %d \n",next_prim_point,next_prim_face3,next_prim_face4,0);
-		}
-		load_insert_game_chunk(handle,p_chunk);
-
-		FileClose(handle);
-		return(1);
-	}
-	else
-	{
-		DebugText("\n ERROR failed to open \n");
-	}
-	return(0);
-	
+        FileClose(handle);
+        return (1);
+    } else {
+        DebugText("\n ERROR failed to open \n");
+    }
+    return (0);
 }
-std::int32_t load_append_game_chunk(MFFileHandle	handle,struct GameKeyFrameChunk *p_chunk,std::int32_t start_frame)
-{
-	std::int32_t	save_type=0,c0;
-	std::int32_t	temp;
-	std::uint32_t	addr1,addr2,a_off,ae_off;
-	std::uint32_t	af_off,addr3;
-	std::uint16_t	check;
+std::int32_t load_append_game_chunk(MFFileHandle handle, struct GameKeyFrameChunk *p_chunk, std::int32_t start_frame) {
+    std::int32_t save_type = 0, c0;
+    std::int32_t temp;
+    std::uint32_t addr1, addr2, a_off, ae_off;
+    std::uint32_t af_off, addr3;
+    std::uint16_t check;
 
-	struct GameKeyFrameElementBig *temp_mem;
+    struct GameKeyFrameElementBig *temp_mem;
 
-	std::int32_t	ElementCount;
-	std::int16_t	MaxPeopleTypes;
-	std::int16_t	MaxKeyFrames;
-	std::int16_t	MaxAnimFrames;
-	std::int16_t	MaxFightCols;
-	std::int32_t	MaxElements;
+    std::int32_t ElementCount;
+    std::int16_t MaxPeopleTypes;
+    std::int16_t MaxKeyFrames;
+    std::int16_t MaxAnimFrames;
+    std::int16_t MaxFightCols;
+    std::int32_t MaxElements;
 
-	std::uint32_t	error;
-	
+    std::uint32_t error;
 
-	FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-	ASSERT(save_type>1);
-	
+    ASSERT(save_type > 1);
 
-	//
-	//
-	//
-	FileRead(handle,(std::uint8_t*)&ElementCount,sizeof(p_chunk->ElementCount));
-	FileRead(handle,(std::uint8_t*)&MaxPeopleTypes,sizeof(p_chunk->MaxPeopleTypes));
-	FileRead(handle,(std::uint8_t*)&MaxAnimFrames,sizeof(p_chunk->MaxAnimFrames));
-	FileRead(handle,(std::uint8_t*)&MaxElements,sizeof(p_chunk->MaxElements));
-	FileRead(handle,(std::uint8_t*)&MaxKeyFrames,sizeof(p_chunk->MaxKeyFrames));
-	FileRead(handle,(std::uint8_t*)&MaxFightCols,sizeof(p_chunk->MaxFightCols));
+    //
+    //
+    //
+    FileRead(handle, (std::uint8_t *) &ElementCount, sizeof(p_chunk->ElementCount));
+    FileRead(handle, (std::uint8_t *) &MaxPeopleTypes, sizeof(p_chunk->MaxPeopleTypes));
+    FileRead(handle, (std::uint8_t *) &MaxAnimFrames, sizeof(p_chunk->MaxAnimFrames));
+    FileRead(handle, (std::uint8_t *) &MaxElements, sizeof(p_chunk->MaxElements));
+    FileRead(handle, (std::uint8_t *) &MaxKeyFrames, sizeof(p_chunk->MaxKeyFrames));
+    FileRead(handle, (std::uint8_t *) &MaxFightCols, sizeof(p_chunk->MaxFightCols));
 
-	//
-	// memory should have been allocated over when the .all was loaded
-	//
+    //
+    // memory should have been allocated over when the .all was loaded
+    //
 
-	//
-	// Load the people types
-	//
-	//FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
-//	FileRead(handle,(std::uint8_t*)&p_chunk->PeopleTypes[0],sizeof(struct BodyDef)*p_chunk->MaxPeopleTypes);
-	FileSeek(handle,SEEK_MODE_CURRENT,sizeof(struct BodyDef)*MaxPeopleTypes);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
-	//
-	// Load the keyframe linked lists
-	//
-	FileRead(handle,(std::uint8_t*)&addr1,sizeof(addr1));
+    //
+    // Load the people types
+    //
+    // FileRead(handle,(std::uint8_t*)&temp,sizeof(temp));
+    //	FileRead(handle,(std::uint8_t*)&p_chunk->PeopleTypes[0],sizeof(struct BodyDef)*p_chunk->MaxPeopleTypes);
+    FileSeek(handle, SEEK_MODE_CURRENT, sizeof(struct BodyDef) * MaxPeopleTypes);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
+    //
+    // Load the keyframe linked lists
+    //
+    FileRead(handle, (std::uint8_t *) &addr1, sizeof(addr1));
 
-	FileRead(handle,(std::uint8_t*)&p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames],sizeof(struct GameKeyFrame)*MaxKeyFrames);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+    FileRead(handle, (std::uint8_t *) &p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames], sizeof(struct GameKeyFrame) * MaxKeyFrames);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
-	//
-	// Load the anim elements
-	//
+    //
+    // Load the anim elements
+    //
 
 #ifndef ULTRA_COMPRESSED_ANIMATIONS
-	FileRead(handle,(std::uint8_t*)&addr2,sizeof(addr2));
-	FileRead(handle,(std::uint8_t*)&p_chunk->TheElements[p_chunk->MaxElements],sizeof(struct GameKeyFrameElement)*MaxElements);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+    FileRead(handle, (std::uint8_t *) &addr2, sizeof(addr2));
+    FileRead(handle, (std::uint8_t *) &p_chunk->TheElements[p_chunk->MaxElements], sizeof(struct GameKeyFrameElement) * MaxElements);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 #else
 
-
-
-
 #endif
 
+    //
+    // Load the animlist
+    //
+    FileRead(handle, (std::uint8_t *) &p_chunk->AnimList[start_frame], sizeof(struct GameKeyFrame *) * MaxAnimFrames);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
+    FileRead(handle, (std::uint8_t *) &addr3, sizeof(addr3));
 
-	//
-	// Load the animlist
-	//
-	FileRead(handle,(std::uint8_t*)&p_chunk->AnimList[start_frame],sizeof(struct GameKeyFrame *)*MaxAnimFrames);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+    FileRead(handle, (std::uint8_t *) &p_chunk->FightCols[p_chunk->MaxFightCols], sizeof(struct GameFightCol) * MaxFightCols);
+    FileRead(handle, &check, 2);
+    ASSERT(check == 666);
 
-	FileRead(handle,(std::uint8_t*)&addr3,sizeof(addr3));
+    if (save_type > 4) {
+        extern void convert_keyframe_to_pointer(GameKeyFrame * p, GameKeyFrameElement * p_ele, GameFightCol * p_fight, std::int32_t count);
+        extern void convert_animlist_to_pointer(GameKeyFrame * *p, GameKeyFrame * p_anim, std::int32_t count);
+        extern void convert_fightcol_to_pointer(GameFightCol * p, GameFightCol * p_fight, std::int32_t count);
 
-	FileRead(handle,(std::uint8_t*)&p_chunk->FightCols[p_chunk->MaxFightCols],sizeof(struct GameFightCol)*MaxFightCols);
-	FileRead(handle,&check,2);
-	ASSERT(check==666);
+        convert_keyframe_to_pointer(&p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames], &p_chunk->TheElements[p_chunk->MaxElements], &p_chunk->FightCols[p_chunk->MaxFightCols], MaxKeyFrames);
+        convert_animlist_to_pointer(&p_chunk->AnimList[start_frame], &p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames], MaxAnimFrames);
+        convert_fightcol_to_pointer(&p_chunk->FightCols[p_chunk->MaxFightCols], &p_chunk->FightCols[p_chunk->MaxFightCols], MaxFightCols);
+    }
 
+    //	p_chunk->ElementCount+=ElementCount;
+    p_chunk->MaxAnimFrames = start_frame + MaxAnimFrames;
+    p_chunk->MaxElements += MaxElements;
+    p_chunk->MaxKeyFrames += MaxKeyFrames;
+    p_chunk->MaxFightCols += MaxFightCols;
 
-
-	if(save_type>4)
-	{
-extern void	convert_keyframe_to_pointer(GameKeyFrame *p,GameKeyFrameElement *p_ele,GameFightCol *p_fight,std::int32_t count);
-extern void	convert_animlist_to_pointer(GameKeyFrame **p,GameKeyFrame *p_anim,std::int32_t count);
-extern void	convert_fightcol_to_pointer(GameFightCol *p,GameFightCol *p_fight,std::int32_t count);
-
-  		convert_keyframe_to_pointer(&p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames],&p_chunk->TheElements[p_chunk->MaxElements],&p_chunk->FightCols[p_chunk->MaxFightCols],MaxKeyFrames);
-		convert_animlist_to_pointer(&p_chunk->AnimList[start_frame],&p_chunk->AnimKeyFrames[p_chunk->MaxKeyFrames],MaxAnimFrames);
-		convert_fightcol_to_pointer(&p_chunk->FightCols[p_chunk->MaxFightCols],&p_chunk->FightCols[p_chunk->MaxFightCols],MaxFightCols);
-	}
-
-
-//	p_chunk->ElementCount+=ElementCount;
-	p_chunk->MaxAnimFrames=start_frame+MaxAnimFrames;
-	p_chunk->MaxElements+=MaxElements;
-	p_chunk->MaxKeyFrames+=MaxKeyFrames;
-	p_chunk->MaxFightCols+=MaxFightCols;
-
-
-
-	return(1);
-
-
-
+    return (1);
 }
 
-void skip_a_prim(std::int32_t prim,MFFileHandle	handle,std::int32_t	save_type)
-{
-	std::int32_t	c0;
-	std::int32_t	sf3,ef3,sf4,ef4,sp,ep;
-	std::int32_t	dp;
+void skip_a_prim(std::int32_t prim, MFFileHandle handle, std::int32_t save_type) {
+    std::int32_t c0;
+    std::int32_t sf3, ef3, sf4, ef4, sp, ep;
+    std::int32_t dp;
 
+    if (handle != FILE_OPEN_ERROR) {
+        //		FileRead(handle,(std::uint8_t*)&prim_names[next_prim_object],32);//sizeof(prim_objects[0].ObjectName));
+        FileSeek(handle, SEEK_MODE_CURRENT, 32);
 
-	if(handle!=FILE_OPEN_ERROR)
-	{
-//		FileRead(handle,(std::uint8_t*)&prim_names[next_prim_object],32);//sizeof(prim_objects[0].ObjectName));
-		FileSeek(handle,SEEK_MODE_CURRENT,32);
+        //		LogText(" name %s becomes prim %d\n",prim_objects[next_prim_object].ObjectName,next_prim_object);
 
-//		LogText(" name %s becomes prim %d\n",prim_objects[next_prim_object].ObjectName,next_prim_object);
+        FileRead(handle, (std::uint8_t *) &sp, sizeof(sp));
+        FileRead(handle, (std::uint8_t *) &ep, sizeof(ep));
 
-		FileRead(handle,(std::uint8_t*)&sp,sizeof(sp));
-		FileRead(handle,(std::uint8_t*)&ep,sizeof(ep));
+        ASSERT(ep - sp >= 0 && ep - sp < 10000);
 
-		ASSERT(ep-sp>=0 && ep-sp<10000);
+        for (c0 = sp; c0 < ep; c0++) {
+            //			FileRead(handle,(std::uint8_t*)&prim_points[next_prim_point+c0-sp],sizeof(struct PrimPoint));
+            FileSeek(handle, SEEK_MODE_CURRENT, sizeof(struct PrimPoint));
+        }
 
+        FileRead(handle, (std::uint8_t *) &sf3, sizeof(sf3));
+        FileRead(handle, (std::uint8_t *) &ef3, sizeof(ef3));
+        ASSERT(ef3 - sf3 >= 0 && ef3 - sf3 < 10000);
+        for (c0 = sf3; c0 < ef3; c0++) {
+            //			FileRead(handle,(std::uint8_t*)&prim_faces3[next_prim_face3+c0-sf3],sizeof(struct PrimFace3));
+            FileSeek(handle, SEEK_MODE_CURRENT, sizeof(struct PrimFace3));
+        }
 
-		for(c0=sp;c0<ep;c0++)
-		{
-//			FileRead(handle,(std::uint8_t*)&prim_points[next_prim_point+c0-sp],sizeof(struct PrimPoint));
-			FileSeek(handle,SEEK_MODE_CURRENT,sizeof(struct PrimPoint));
-		}
-		
-
-
-		FileRead(handle,(std::uint8_t*)&sf3,sizeof(sf3));
-		FileRead(handle,(std::uint8_t*)&ef3,sizeof(ef3));
-		ASSERT(ef3-sf3>=0 && ef3-sf3<10000);
-		for(c0=sf3;c0<ef3;c0++)
-		{
-//			FileRead(handle,(std::uint8_t*)&prim_faces3[next_prim_face3+c0-sf3],sizeof(struct PrimFace3));
-			FileSeek(handle,SEEK_MODE_CURRENT,sizeof(struct PrimFace3));
-		}
-
-
-		FileRead(handle,(std::uint8_t*)&sf4,sizeof(sf4));
-		FileRead(handle,(std::uint8_t*)&ef4,sizeof(ef4));
-		ASSERT(ef4-sf4>=0 && ef4-sf4<10000);
-		for(c0=sf4;c0<ef4;c0++)
-		{
-//			FileRead(handle,(std::uint8_t*)&prim_faces4[next_prim_face4+c0-sf4],sizeof(struct PrimFace4));
-			FileSeek(handle,SEEK_MODE_CURRENT,sizeof(struct PrimFace4));
-		}
-
-	}
-
+        FileRead(handle, (std::uint8_t *) &sf4, sizeof(sf4));
+        FileRead(handle, (std::uint8_t *) &ef4, sizeof(ef4));
+        ASSERT(ef4 - sf4 >= 0 && ef4 - sf4 < 10000);
+        for (c0 = sf4; c0 < ef4; c0++) {
+            //			FileRead(handle,(std::uint8_t*)&prim_faces4[next_prim_face4+c0-sf4],sizeof(struct PrimFace4));
+            FileSeek(handle, SEEK_MODE_CURRENT, sizeof(struct PrimFace4));
+        }
+    }
 }
 
-void skip_load_a_multi_prim(MFFileHandle	handle)
-{
-	std::int32_t			c0;
-	std::int32_t			save_type=0;
-	std::int32_t			so,eo;
+void skip_load_a_multi_prim(MFFileHandle handle) {
+    std::int32_t c0;
+    std::int32_t save_type = 0;
+    std::int32_t so, eo;
 
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		
-		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+    if (handle != FILE_OPEN_ERROR) {
+        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		FileRead(handle,(std::uint8_t*)&so,sizeof(so));
-		FileRead(handle,(std::uint8_t*)&eo,sizeof(eo));
+        FileRead(handle, (std::uint8_t *) &so, sizeof(so));
+        FileRead(handle, (std::uint8_t *) &eo, sizeof(eo));
 
-		for(c0=so;c0<eo;c0++)
-			skip_a_prim(c0,handle,save_type);
-	}
+        for (c0 = so; c0 < eo; c0++)
+            skip_a_prim(c0, handle, save_type);
+    }
 }
 
-std::int32_t append_anim_system(struct GameKeyFrameChunk *p_chunk,char	*name,std::int32_t start_anim,std::int32_t load_mesh)
-{
-	std::int32_t			c0,point;
-	MFFileHandle	handle;
-//	char			file_name[64];
-	std::int32_t			save_type=0;
-//	std::int32_t			so,eo;
-	char			ext_name[100];
-	std::int32_t			count;
+std::int32_t append_anim_system(struct GameKeyFrameChunk *p_chunk, char *name, std::int32_t start_anim, std::int32_t load_mesh) {
+    std::int32_t c0, point;
+    MFFileHandle handle;
+    //	char			file_name[64];
+    std::int32_t save_type = 0;
+    //	std::int32_t			so,eo;
+    char ext_name[100];
+    std::int32_t count;
 
-	char	fname[100];
+    char fname[100];
 
-	sprintf(fname,"%sdata\\%s",DATA_DIR,name);
+    sprintf(fname, "%sdata\\%s", DATA_DIR, name);
 
-extern void	free_game_chunk(GameKeyFrameChunk *the_chunk);
-//	free_game_chunk(p_chunk);
+    extern void free_game_chunk(GameKeyFrameChunk * the_chunk);
+    //	free_game_chunk(p_chunk);
 
-	DebugText(" APPEND chunk name %s\n",fname);
-	change_extension(fname,"all",ext_name);
-	handle	=	FileOpen(ext_name);
-	if(handle!=FILE_OPEN_ERROR)
-	{
-		std::int32_t	start_ob=0;
+    DebugText(" APPEND chunk name %s\n", fname);
+    change_extension(fname, "all", ext_name);
+    handle = FileOpen(ext_name);
+    if (handle != FILE_OPEN_ERROR) {
+        std::int32_t start_ob = 0;
 
-		while(p_chunk->MultiObject[start_ob])
-		{
-			start_ob++;
-		}
+        while (p_chunk->MultiObject[start_ob]) {
+            start_ob++;
+        }
 
-		
+        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
 
-		FileRead(handle,(std::uint8_t*)&save_type,sizeof(save_type));
+        FileRead(handle, (std::uint8_t *) &count, sizeof(count));
 
-		FileRead(handle,(std::uint8_t*)&count,sizeof(count));
+        ASSERT(start_ob + count < 11);
 
-		ASSERT(start_ob+count<11);
+        for (c0 = 0; c0 < count; c0++) {
+            if (load_mesh)
+                p_chunk->MultiObject[start_ob + c0] = load_insert_a_multi_prim(handle);
+            else
+                skip_load_a_multi_prim(handle);
+            //			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM part %d \n",next_prim_point,next_prim_face3,next_prim_face4,c0);
+        }
+        if (c0 + start_ob < 10)
+            p_chunk->MultiObject[c0 + start_ob] = 0;
 
-		for(c0=0;c0<count;c0++)
-		{
-			if(load_mesh)
-				p_chunk->MultiObject[start_ob+c0]=load_insert_a_multi_prim(handle);
-			else
-				skip_load_a_multi_prim(handle);
-//			DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM part %d \n",next_prim_point,next_prim_face3,next_prim_face4,c0);
-		}
-		if(c0+start_ob<10)
-			p_chunk->MultiObject[c0+start_ob]=0;
+        load_append_game_chunk(handle, p_chunk, start_anim);
 
-		load_append_game_chunk(handle,p_chunk,start_anim);
-
-		FileClose(handle);
-		return(1);
-	}
-	else
-	{
-		DebugText("\n ERROR failed to open \n");
-	}
-	return(0);
-	
+        FileClose(handle);
+        return (1);
+    } else {
+        DebugText("\n ERROR failed to open \n");
+    }
+    return (0);
 }
 
 #endif
@@ -2972,4 +2600,3 @@ extern void	free_game_chunk(GameKeyFrameChunk *the_chunk);
 
 #endif
 #endif
-

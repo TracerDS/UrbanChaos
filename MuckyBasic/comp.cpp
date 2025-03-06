@@ -5,58 +5,54 @@
 #include "st.h"
 #include "vm.h"
 
-#define COMP_MAX_PROGRAM (512 * 1024)		// Huge buffer!
+#define COMP_MAX_PROGRAM (512 * 1024) // Huge buffer!
 
 char COMP_program[COMP_MAX_PROGRAM];
 
-std::int32_t COMP_do(char* fname_input, char* fname_output)
-{
-	//
-	// Load program.
-	//
+std::int32_t COMP_do(char* fname_input, char* fname_output) {
+    //
+    // Load program.
+    //
 
-	FILE *handle = fopen(fname_input, "rb");
+    FILE* handle = fopen(fname_input, "rb");
 
-	if (!handle)
-	{
-		//
-		// Could not open input file.
-		//
+    if (!handle) {
+        //
+        // Could not open input file.
+        //
 
-		return false;
-	}
+        return false;
+    }
 
-	//
-	// Load in the source.
-	//
+    //
+    // Load in the source.
+    //
 
-	std::int32_t bytes_read;
+    std::int32_t bytes_read;
 
-	bytes_read = fread(COMP_program, sizeof(char), COMP_MAX_PROGRAM, handle);
+    bytes_read = fread(COMP_program, sizeof(char), COMP_MAX_PROGRAM, handle);
 
-	if (bytes_read == 0)
-	{
-		//
-		// No data read?
-		//
+    if (bytes_read == 0) {
+        //
+        // No data read?
+        //
 
-		return false;
-	}
+        return false;
+    }
 
-	if (bytes_read >= COMP_MAX_PROGRAM)
-	{
-		//
-		// Our source buffer isn't large enough!
-		//
+    if (bytes_read >= COMP_MAX_PROGRAM) {
+        //
+        // Our source buffer isn't large enough!
+        //
 
-		return false;
-	}
+        return false;
+    }
 
-	ST_init();
+    ST_init();
 
-	PARSE_do(COMP_program);
+    PARSE_do(COMP_program);
 
-	CG_do(fname_output);
+    CG_do(fname_output);
 
-	return true;
+    return true;
 }

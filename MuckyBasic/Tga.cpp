@@ -5,339 +5,309 @@
 #include "always.h"
 #include "tga.h"
 
-
-
 TGA_Info TGA_load(
-			const char* file,
-			std::int32_t        max_width,
-			std::int32_t        max_height,
-			TGA_Pixel   *data)
-{
-	std::int32_t i;
-	std::int32_t j;
+    const char *file,
+    std::int32_t max_width,
+    std::int32_t max_height,
+    TGA_Pixel *data) {
+    std::int32_t i;
+    std::int32_t j;
 
-	std::uint8_t red;
-	std::uint8_t green;
-	std::uint8_t blue;
+    std::uint8_t red;
+    std::uint8_t green;
+    std::uint8_t blue;
 
-	std::int32_t tga_width;
-	std::int32_t tga_height;
-	std::int32_t tga_pixel_depth;
-	std::int32_t tga_image_type;
-	std::int32_t tga_id_length;
+    std::int32_t tga_width;
+    std::int32_t tga_height;
+    std::int32_t tga_pixel_depth;
+    std::int32_t tga_image_type;
+    std::int32_t tga_id_length;
 
-	std::uint8_t header[18];
-	std::uint8_t rubbish;
-	std::uint8_t no_alpha;
+    std::uint8_t header[18];
+    std::uint8_t rubbish;
+    std::uint8_t no_alpha;
 
-	FILE *handle;
+    FILE *handle;
 
-	TGA_Info ans;
+    TGA_Info ans;
 
-	//
-	// Open the file.
-	//
+    //
+    // Open the file.
+    //
 
-	handle = fopen(file, "rb");
+    handle = fopen(file, "rb");
 
-	if (!handle )
-	{
-		TRACE("Could not open TGA file %s", file);
-		ans.valid = false;
-		return ans;
-	}
+    if (!handle) {
+        TRACE("Could not open TGA file %s", file);
+        ans.valid = false;
+        return ans;
+    }
 
-	//
-	// Read the header.
-	//
+    //
+    // Read the header.
+    //
 
-	if (fread(header, sizeof(std::uint8_t), 18, handle) != 18) goto file_error;
+    if (fread(header, sizeof(std::uint8_t), 18, handle) != 18)
+        goto file_error;
 
-	//
-	// Extract info from the header.
-	//
+    //
+    // Extract info from the header.
+    //
 
-	tga_id_length   = header[0x0];
-	tga_image_type  = header[0x2];
-	tga_width       = header[0xc] + header[0xd] * 256;
-	tga_height      = header[0xe] + header[0xf] * 256;
-	tga_pixel_depth = header[0x10];
+    tga_id_length = header[0x0];
+    tga_image_type = header[0x2];
+    tga_width = header[0xc] + header[0xd] * 256;
+    tga_height = header[0xe] + header[0xf] * 256;
+    tga_pixel_depth = header[0x10];
 
-	//
-	// Is this a valid tga file?
-	//
+    //
+    // Is this a valid tga file?
+    //
 
-	ans.valid  = false;
-	ans.width  = tga_width;
-	ans.height = tga_height;
-	ans.flag   = 0;
+    ans.valid = false;
+    ans.width = tga_width;
+    ans.height = tga_height;
+    ans.flag = 0;
 
-	if (tga_image_type != 2)
-	{
-		TRACE("Tga must be true colour and uncompressed.\n");
-		fclose(handle);
-		return ans;
-	}
+    if (tga_image_type != 2) {
+        TRACE("Tga must be true colour and uncompressed.\n");
+        fclose(handle);
+        return ans;
+    }
 
-	if (tga_pixel_depth != 32 && tga_pixel_depth != 24)
-	{
-		TRACE("Tga must be 32-bit or 24-bit (24-bit + 8-bit alpha channel)\n");
-		fclose(handle);
-		return ans;
-	}
-	
-	if (tga_width  > max_width ||
-		tga_height > max_height)
-	{
-		TRACE("Invalid dimensions:\n\tWanted <= %d x %d\n\tGot       %d x %d\n", max_width, max_height, tga_width, tga_height);
-		fclose(handle);
-		return ans;
-	}
+    if (tga_pixel_depth != 32 && tga_pixel_depth != 24) {
+        TRACE("Tga must be 32-bit or 24-bit (24-bit + 8-bit alpha channel)\n");
+        fclose(handle);
+        return ans;
+    }
 
-	//
-	// The tga file is valid...
-	//
+    if (tga_width > max_width ||
+        tga_height > max_height) {
+        TRACE("Invalid dimensions:\n\tWanted <= %d x %d\n\tGot       %d x %d\n", max_width, max_height, tga_width, tga_height);
+        fclose(handle);
+        return ans;
+    }
 
-	ans.valid = true;
+    //
+    // The tga file is valid...
+    //
 
-	//
-	// Skip past the image identification field.
-	//
-	
-	for (i = 0; i < tga_id_length; i++)
-	{
-		if (fread(&rubbish, sizeof(std::uint8_t), 1, handle) != 1) goto file_error;
-	}
+    ans.valid = true;
 
-	//
-	// Load in the data upside down (because the TGA's themselves are stored upside down!)
-	//
+    //
+    // Skip past the image identification field.
+    //
 
-	if (tga_pixel_depth == 32)
-	{
-		for (i = tga_height - 1; i >= 0; i--)
-		{
-			if (fread(data + tga_width * i, sizeof(TGA_Pixel), tga_width, handle) != tga_width) goto file_error;
-		}		
+    for (i = 0; i < tga_id_length; i++) {
+        if (fread(&rubbish, sizeof(std::uint8_t), 1, handle) != 1)
+            goto file_error;
+    }
 
-		no_alpha = false;
-	}
-	else
-	{
-		//
-		// We have to load a pixel in at a time to add the nullptr alpha channel.
-		//
+    //
+    // Load in the data upside down (because the TGA's themselves are stored upside down!)
+    //
 
-		for (i = tga_height - 1; i >= 0; i--)
-		{
-			for (j = 0; j < tga_width; j++)
-			{
-				if (fread(&blue,  sizeof(std::uint8_t), 1, handle) != 1) goto file_error;
-				if (fread(&green, sizeof(std::uint8_t), 1, handle) != 1) goto file_error;
-				if (fread(&red,   sizeof(std::uint8_t), 1, handle) != 1) goto file_error;
-				
-				data[i * tga_width + j].red   = red;
-				data[i * tga_width + j].green = green;
-				data[i * tga_width + j].blue  = blue;
-				data[i * tga_width + j].alpha = 255;
-			}
-		}
+    if (tga_pixel_depth == 32) {
+        for (i = tga_height - 1; i >= 0; i--) {
+            if (fread(data + tga_width * i, sizeof(TGA_Pixel), tga_width, handle) != tga_width)
+                goto file_error;
+        }
 
-		no_alpha = true;
-	}
+        no_alpha = false;
+    } else {
+        //
+        // We have to load a pixel in at a time to add the nullptr alpha channel.
+        //
 
-	fclose(handle);
+        for (i = tga_height - 1; i >= 0; i--) {
+            for (j = 0; j < tga_width; j++) {
+                if (fread(&blue, sizeof(std::uint8_t), 1, handle) != 1)
+                    goto file_error;
+                if (fread(&green, sizeof(std::uint8_t), 1, handle) != 1)
+                    goto file_error;
+                if (fread(&red, sizeof(std::uint8_t), 1, handle) != 1)
+                    goto file_error;
 
-	//
-	// Loaded in the tga. Sets the flags- is it grayscale?
-	//
+                data[i * tga_width + j].red = red;
+                data[i * tga_width + j].green = green;
+                data[i * tga_width + j].blue = blue;
+                data[i * tga_width + j].alpha = 255;
+            }
+        }
 
-	if (!no_alpha)
-	{
-		ans.flag |= TGA_FLAG_ONE_BIT_ALPHA;
+        no_alpha = true;
+    }
 
-		for (i = 0; i < tga_width * tga_height; i++)
-		{
-			if (data[i].alpha != 255)
-			{
-				//
-				// Found alpha channel data.
-				//
+    fclose(handle);
 
-				ans.flag |= TGA_FLAG_CONTAINS_ALPHA;
+    //
+    // Loaded in the tga. Sets the flags- is it grayscale?
+    //
 
-				if (ans.flag != 0)
-				{
-					ans.flag &= ~TGA_FLAG_ONE_BIT_ALPHA;
+    if (!no_alpha) {
+        ans.flag |= TGA_FLAG_ONE_BIT_ALPHA;
 
-					break;
-				}
-			}
-		}
+        for (i = 0; i < tga_width * tga_height; i++) {
+            if (data[i].alpha != 255) {
+                //
+                // Found alpha channel data.
+                //
 
-		if (!(ans.flag & TGA_FLAG_CONTAINS_ALPHA))
-		{
-			ans.flag &= ~TGA_FLAG_ONE_BIT_ALPHA;
-		}
-	}
+                ans.flag |= TGA_FLAG_CONTAINS_ALPHA;
 
-	//
-	// Is it grayscale?
-	//
+                if (ans.flag != 0) {
+                    ans.flag &= ~TGA_FLAG_ONE_BIT_ALPHA;
 
-	ans.flag |= TGA_FLAG_GRAYSCALE;
+                    break;
+                }
+            }
+        }
 
-	for (i = 0; i < tga_width * tga_height; i++)
-	{
-		if (data[i].red   != data[i].green ||
-			data[i].red   != data[i].blue  ||
-			data[i].green != data[i].blue)
-		{
-			ans.flag &= ~TGA_FLAG_GRAYSCALE;
+        if (!(ans.flag & TGA_FLAG_CONTAINS_ALPHA)) {
+            ans.flag &= ~TGA_FLAG_ONE_BIT_ALPHA;
+        }
+    }
 
-			break;
-		}
-	}
+    //
+    // Is it grayscale?
+    //
 
-	return ans;
+    ans.flag |= TGA_FLAG_GRAYSCALE;
 
-  file_error:;
+    for (i = 0; i < tga_width * tga_height; i++) {
+        if (data[i].red != data[i].green ||
+            data[i].red != data[i].blue ||
+            data[i].green != data[i].blue) {
+            ans.flag &= ~TGA_FLAG_GRAYSCALE;
 
-	//
-	// Error!
-	//
+            break;
+        }
+    }
 
-	TRACE("File error loading TGA file %s\n", file);
-	fclose(handle);
-	ans.valid = false;
+    return ans;
 
-	return ans;
+file_error:;
+
+    //
+    // Error!
+    //
+
+    TRACE("File error loading TGA file %s\n", file);
+    fclose(handle);
+    ans.valid = false;
+
+    return ans;
 }
-
-
-
-
-
-
-
 
 std::uint8_t TGA_header[18] =
-{
-	0, 0, 2, 0,
-	0, 0, 0, 0, 
-	0, 0, 0, 0, 
-	0, 1,	// Width  LSB:MSB
-	0, 1, 	// Height LSB:MSB
-	24,		// Pixel depth
-	0
-};
+    {
+        0, 0, 2, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 1, // Width  LSB:MSB
+        0, 1, // Height LSB:MSB
+        24,   // Pixel depth
+        0};
 
 void TGA_save(
-		const char* file,
-		std::int32_t        width,
-		std::int32_t        height,
-		TGA_Pixel   *data,
-		std::int32_t contains_alpha)
-{
-	std::int32_t x;
-	std::int32_t y;
+    const char *file,
+    std::int32_t width,
+    std::int32_t height,
+    TGA_Pixel *data,
+    std::int32_t contains_alpha) {
+    std::int32_t x;
+    std::int32_t y;
 
-	std::int32_t num_pixels;
-	std::uint8_t header[18];
-	std::int32_t bpp;
+    std::int32_t num_pixels;
+    std::uint8_t header[18];
+    std::int32_t bpp;
 
-	FILE *handle;
+    FILE *handle;
 
-	handle = fopen(file, "wb");
+    handle = fopen(file, "wb");
 
-	if (!handle )
-	{
-		TRACE("Cannot open TGA file %s\n", file);
+    if (!handle) {
+        TRACE("Cannot open TGA file %s\n", file);
 
-		return;
-	}
+        return;
+    }
 
-	//
-	// Create the header.
-	//
+    //
+    // Create the header.
+    //
 
-	std::int32_t i;
+    std::int32_t i;
 
-	for (i = 0; i < 18; i++)
-	{
-		header[i] = TGA_header[i];
-	}
+    for (i = 0; i < 18; i++) {
+        header[i] = TGA_header[i];
+    }
 
-	header[0xc] = width  & 0xff;
-	header[0xd] = width  >> 8;
-	header[0xe] = height & 0xff;
-	header[0xf] = height >> 8;
+    header[0xc] = width & 0xff;
+    header[0xd] = width >> 8;
+    header[0xe] = height & 0xff;
+    header[0xf] = height >> 8;
 
-	header[0x10] = (contains_alpha) ? 32 : 24;
+    header[0x10] = (contains_alpha) ? 32 : 24;
 
-	//
-	// Write out the header.
-	//
+    //
+    // Write out the header.
+    //
 
-	fwrite(&header, sizeof(std::uint8_t), 18, handle);
+    fwrite(&header, sizeof(std::uint8_t), 18, handle);
 
-	//
-	// Write out the pixel data.
-	//
+    //
+    // Write out the pixel data.
+    //
 
-	for (y = height - 1; y >=     0; y--)
-	for (x =          0; x <  width; x++)
-	{
-		if (contains_alpha)
-		{
-			fwrite(&data[x + y * width].alpha, sizeof(std::uint8_t), 1, handle);
-		}
+    for (y = height - 1; y >= 0; y--)
+        for (x = 0; x < width; x++) {
+            if (contains_alpha) {
+                fwrite(&data[x + y * width].alpha, sizeof(std::uint8_t), 1, handle);
+            }
 
-		fwrite(&data[x + y * width].blue,  sizeof(std::uint8_t), 1, handle);
-		fwrite(&data[x + y * width].green, sizeof(std::uint8_t), 1, handle);
-		fwrite(&data[x + y * width].red,   sizeof(std::uint8_t), 1, handle);
-	}
+            fwrite(&data[x + y * width].blue, sizeof(std::uint8_t), 1, handle);
+            fwrite(&data[x + y * width].green, sizeof(std::uint8_t), 1, handle);
+            fwrite(&data[x + y * width].red, sizeof(std::uint8_t), 1, handle);
+        }
 
-	fclose(handle);
+    fclose(handle);
 }
 
+std::int32_t TGA_colour(TGA_Pixel tp) {
+    if (abs(tp.red - tp.green) < 24 &&
+        abs(tp.red - tp.blue) < 24 &&
+        abs(tp.green - tp.blue) < 24) {
+        //
+        // All the colours are roughly in the same proportions.
+        // The colour is a shade of grey.
+        //
 
-std::int32_t TGA_colour(TGA_Pixel tp)
-{
-	if (abs(tp.red   - tp.green) < 24 &&
-		abs(tp.red   - tp.blue ) < 24 &&
-		abs(tp.green - tp.blue ) < 24)
-	{
-		//
-		// All the colours are roughly in the same proportions.
-		// The colour is a shade of grey.
-		//
+        if (tp.red < 64) {
+            return TGA_COLOUR_BLACK;
+        }
+        if (tp.red < 192) {
+            return TGA_COLOUR_GREY;
+        }
 
-		if (tp.red <  64) {return TGA_COLOUR_BLACK;}
-		if (tp.red < 192) {return TGA_COLOUR_GREY ;}
+        return TGA_COLOUR_WHITE;
+    }
 
-		return TGA_COLOUR_WHITE;
-	}
-	
-	if (tp.red > tp.green && tp.green > tp.blue && tp.blue < (tp.red >> 1))
-	{
-		//
-		// Red green blue in descending order and not much blue. 
-		// This must be a brown pixel.
-		//
+    if (tp.red > tp.green && tp.green > tp.blue && tp.blue < (tp.red >> 1)) {
+        //
+        // Red green blue in descending order and not much blue.
+        // This must be a brown pixel.
+        //
 
-		return TGA_COLOUR_BROWN;
-	}
+        return TGA_COLOUR_BROWN;
+    }
 
-	if (tp.red > (tp.green << 1) && tp.red > (tp.blue << 1))
-	{
-		return TGA_COLOUR_RED;
-	}
+    if (tp.red > (tp.green << 1) && tp.red > (tp.blue << 1)) {
+        return TGA_COLOUR_RED;
+    }
 
-	if (tp.green > (tp.red << 1) && tp.red > (tp.blue << 1))
-	{
-		return TGA_COLOUR_GREEN;
-	}
+    if (tp.green > (tp.red << 1) && tp.red > (tp.blue << 1)) {
+        return TGA_COLOUR_GREEN;
+    }
 
-	return TGA_COLOUR_DONTKNOW;
+    return TGA_COLOUR_DONTKNOW;
 }

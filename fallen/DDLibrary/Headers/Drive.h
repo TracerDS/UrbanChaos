@@ -2,11 +2,10 @@
 //
 // handles CD-ROM drives
 
-void	LocateCDROM();
+void LocateCDROM();
 
-char*	GetCDPath();
-char*	GetTexturePath();
-char*	GetSFXPath();
-char*	GetMoviesPath();
-char*	GetSpeechPath();
-
+char* GetCDPath();
+char* GetTexturePath();
+char* GetSFXPath();
+char* GetMoviesPath();
+char* GetSpeechPath();

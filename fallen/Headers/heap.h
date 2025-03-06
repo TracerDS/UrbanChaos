@@ -12,10 +12,9 @@
 // Gives back an unused block of memory.
 //
 
-void  HEAP_init();
+void HEAP_init();
 void* HEAP_get(std::int32_t num_bytes);
-void  HEAP_give(void* , std::int32_t num_bytes);
-
+void HEAP_give(void*, std::int32_t num_bytes);
 
 //
 // A chunk of useful memory for you to do with as you please.
@@ -24,8 +23,5 @@ void  HEAP_give(void* , std::int32_t num_bytes);
 #define HEAP_PAD_SIZE (1024 * 4)
 
 extern std::uint8_t HEAP_pad[HEAP_PAD_SIZE];
-
-
-
 
 #endif

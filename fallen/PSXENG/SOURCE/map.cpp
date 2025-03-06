@@ -16,7 +16,5 @@
 
 #include "psxeng.h"
 
-void MAP_draw()
-{
-	
+void MAP_draw() {
 }

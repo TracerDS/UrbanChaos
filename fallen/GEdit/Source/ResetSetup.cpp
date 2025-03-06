@@ -1,101 +1,90 @@
 //	TransferSetup.cpp
 //	Mark Adami.
 
-#include	<MFStdLib.h>
-#include	<windows.h>
-#include	<windowsx.h>
-#include	<ddlib.h>
-#include	<commctrl.h>
-#include	"resource.h"
+#include <MFStdLib.h>
+#include <windows.h>
+#include <windowsx.h>
+#include <ddlib.h>
+#include <commctrl.h>
+#include "resource.h"
 
-#include	"EdStrings.h"
-#include	"GEdit.h"
-#include	"ticklist.h"
-
-
-//---------------------------------------------------------------
-
-std::int32_t	reset_counter;
+#include "EdStrings.h"
+#include "GEdit.h"
+#include "ticklist.h"
 
 //---------------------------------------------------------------
 
-#define	INIT_COMBO_BOX(i,s,d)		the_ctrl	=	GetDlgItem(hWnd,i);								\
-									c0			=	1;												\
-									lbitem_str	=	s[0];											\
-									while(*lbitem_str!='!')											\
-									{																\
-										SendMessage(the_ctrl,CB_ADDSTRING,0,(LPARAM)lbitem_str);	\
-										lbitem_str	=	s[c0++];									\
-									}																\
-									SendMessage(the_ctrl,CB_SETCURSEL,d,0);
+std::int32_t reset_counter;
 
 //---------------------------------------------------------------
 
+#define INIT_COMBO_BOX(i, s, d)                                      \
+    the_ctrl = GetDlgItem(hWnd, i);                                  \
+    c0 = 1;                                                          \
+    lbitem_str = s[0];                                               \
+    while (*lbitem_str != '!') {                                     \
+        SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str); \
+        lbitem_str = s[c0++];                                        \
+    }                                                                \
+    SendMessage(the_ctrl, CB_SETCURSEL, d, 0);
 
-bool	CALLBACK	reset_proc(HWND hWnd,UINT message,WPARAM wParam,LPARAM lParam)
-{
-	std::int32_t		c0	=	0;
-	HWND		the_ctrl;
-	LPTSTR		lbitem_str;
+//---------------------------------------------------------------
 
-	
-	switch(message)
-	{
-		case	WM_INITDIALOG:
-			//	Set up the 'transfer' spin.
-			SendMessage	(
-							GetDlgItem(hWnd,IDC_SPIN1),
-							UDM_SETRANGE,
-							0,
-							MAKELONG(9,0)
-						);
-			SendMessage	(
-							GetDlgItem(hWnd,IDC_SPIN1),
-							UDM_SETPOS,
-							0,
-							MAKELONG(reset_counter,0)
-						);
+bool CALLBACK reset_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    std::int32_t c0 = 0;
+    HWND the_ctrl;
+    LPTSTR lbitem_str;
 
-			return	true;
+    switch (message) {
+        case WM_INITDIALOG:
+            //	Set up the 'transfer' spin.
+            SendMessage(
+                GetDlgItem(hWnd, IDC_SPIN1),
+                UDM_SETRANGE,
+                0,
+                MAKELONG(9, 0));
+            SendMessage(
+                GetDlgItem(hWnd, IDC_SPIN1),
+                UDM_SETPOS,
+                0,
+                MAKELONG(reset_counter, 0));
 
-		case	WM_COMMAND:
-			switch(LOWORD(wParam))
-			{
-				case	IDOK:
-					reset_counter = SendMessage (GetDlgItem(hWnd,IDC_SPIN1),UDM_GETPOS,0,0);
+            return true;
 
-				case	IDCANCEL:
-					SendMessage(hWnd,WM_CLOSE,0,0);
-					return	true;
-			}
-			break;
+        case WM_COMMAND:
+            switch (LOWORD(wParam)) {
+                case IDOK:
+                    reset_counter = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
 
-		case WM_CLOSE:
-			EndDialog(hWnd,0);
-			return true;
-	}
-	return	false;
+                case IDCANCEL:
+                    SendMessage(hWnd, WM_CLOSE, 0, 0);
+                    return true;
+            }
+            break;
+
+        case WM_CLOSE:
+            EndDialog(hWnd, 0);
+            return true;
+    }
+    return false;
 }
 
 //---------------------------------------------------------------
 
-void	do_reset_pick(EventPoint *the_ep)
-{
-	//	Set the dialog.
-	reset_counter		=	the_ep->Data[0];
+void do_reset_pick(EventPoint *the_ep) {
+    //	Set the dialog.
+    reset_counter = the_ep->Data[0];
 
-	//	Do the dialog.
+    //	Do the dialog.
 
-	DialogBox	(
-					GEDIT_hinstance,
-					MAKEINTRESOURCE(IDD_RESET_SETUP),
-					GEDIT_view_wnd,
-					(DLGPROC)reset_proc
-				);
+    DialogBox(
+        GEDIT_hinstance,
+        MAKEINTRESOURCE(IDD_RESET_SETUP),
+        GEDIT_view_wnd,
+        (DLGPROC) reset_proc);
 
-
-	//	Get the data.
-	the_ep->Data[0]		=	reset_counter;
+    //	Get the data.
+    the_ep->Data[0] = reset_counter;
 }
 
 //---------------------------------------------------------------

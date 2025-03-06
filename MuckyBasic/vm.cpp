@@ -9,8 +9,6 @@
 #include "ml.h"
 #include "sysvar.h"
 
-
-
 //
 // Instruction memory.
 //
@@ -18,9 +16,7 @@
 std::int32_t *VM_code;
 std::int32_t VM_code_max;
 std::int32_t VM_code_upto;
-std::int32_t *VM_code_pointer;		// The instruction we are executing...
-
-
+std::int32_t *VM_code_pointer; // The instruction we are executing...
 
 //
 // The stack.
@@ -28,9 +24,8 @@ std::int32_t *VM_code_pointer;		// The instruction we are executing...
 
 ML_Data *VM_stack;
 std::int32_t VM_stack_max;
-ML_Data *VM_stack_top;		// The top of the stack
-ML_Data *VM_stack_base;		// The current stack frame
-
+ML_Data *VM_stack_top;  // The top of the stack
+ML_Data *VM_stack_base; // The current stack frame
 
 //
 // The globals.
@@ -39,7 +34,6 @@ ML_Data *VM_stack_base;		// The current stack frame
 ML_Data *VM_global;
 std::int32_t VM_global_max;
 
-
 //
 // The static data table.
 //
@@ -47,20 +41,15 @@ std::int32_t VM_global_max;
 std::uint8_t *VM_data;
 std::int32_t VM_data_max;
 
-
-
-
 //
 // Extra globals we add onto the end of the program.
 //
 
 #define VM_EXTRA_GLOBAL_KEY(key) (VM_global_extra + (key))
-#define VM_EXTRA_GLOBAL_INKEY    (VM_global_extra + 256)
-#define VM_EXTRA_GLOBAL_NUMBER   257
+#define VM_EXTRA_GLOBAL_INKEY (VM_global_extra + 256)
+#define VM_EXTRA_GLOBAL_NUMBER 257
 
-std::int32_t VM_global_extra;		// The index of the first extra global.
-
-
+std::int32_t VM_global_extra; // The index of the first extra global.
 
 //
 // OS_ticks() the last time we did a flip.
@@ -68,263 +57,247 @@ std::int32_t VM_global_extra;		// The index of the first extra global.
 
 std::int32_t VM_flip_tick;
 
-
 //
 // Checks for sufficient stack space to push on another
 // item of data.
 //
 
-#define VM_CHECK_STACK_PUSH() {ASSERT(WITHIN(VM_stack_top, VM_stack, VM_stack + VM_stack_max - 1));}
+#define VM_CHECK_STACK_PUSH()                                                \
+    {                                                                        \
+        ASSERT(WITHIN(VM_stack_top, VM_stack, VM_stack + VM_stack_max - 1)); \
+    }
 
 //
 // Pops two items off the stack (just decreases the stack pointer!)
 //
 
-#define VM_POP_STACK(n) {VM_stack_top -= (n); ASSERT(WITHIN(VM_stack_top, VM_stack, VM_stack + VM_stack_max - 1));}
-
-
-
-
-
+#define VM_POP_STACK(n)                                                      \
+    {                                                                        \
+        VM_stack_top -= (n);                                                 \
+        ASSERT(WITHIN(VM_stack_top, VM_stack, VM_stack + VM_stack_max - 1)); \
+    }
 
 //
 // Frees memory used by the given bit of data.
 //
 
-void VM_data_free(ML_Data md)
-{
-	std::int32_t i;
+void VM_data_free(ML_Data md) {
+    std::int32_t i;
 
-	switch(md.type)
-	{
-		case ML_TYPE_STRVAR:
-			MEM_free(md.strvar);
-			break;
+    switch (md.type) {
+        case ML_TYPE_STRVAR:
+            MEM_free(md.strvar);
+            break;
 
-		case ML_TYPE_STRUCTURE:
-			
-			//
-			// Free all the fields.
-			//
+        case ML_TYPE_STRUCTURE:
 
-			for (i = 0; i < md.structure->num_fields; i++)
-			{
-				VM_data_free(md.structure->field[i].data);
-			}
+            //
+            // Free all the fields.
+            //
 
-			//
-			// Now free the structure.
-			//
+            for (i = 0; i < md.structure->num_fields; i++) {
+                VM_data_free(md.structure->field[i].data);
+            }
 
-			MEM_free(md.structure);
+            //
+            // Now free the structure.
+            //
 
-			break;
+            MEM_free(md.structure);
 
-		case ML_TYPE_ARRAY:
-			
-			//
-			// Free all the elements of the array.
-			//
+            break;
 
-			for (i = 0; i < md.array->length; i++)
-			{
-				VM_data_free(md.array->data[i]);
-			}
+        case ML_TYPE_ARRAY:
 
-			MEM_free(md.array->data);
+            //
+            // Free all the elements of the array.
+            //
 
-			//
-			// Now free the array.
-			//
+            for (i = 0; i < md.array->length; i++) {
+                VM_data_free(md.array->data[i]);
+            }
 
-			MEM_free(md.array);
+            MEM_free(md.array->data);
 
-			break;
+            //
+            // Now free the array.
+            //
 
-		case ML_TYPE_TEXTURE:
+            MEM_free(md.array);
 
-			md.lt->ref_count -= 1;
+            break;
 
-			if (md.lt->ref_count == 0)
-			{
-				//
-				// Free the texture.
-				//
+        case ML_TYPE_TEXTURE:
 
-				LL_free_texture(md.lt);
-			}
+            md.lt->ref_count -= 1;
 
-			break;
+            if (md.lt->ref_count == 0) {
+                //
+                // Free the texture.
+                //
 
+                LL_free_texture(md.lt);
+            }
 
-		case ML_TYPE_BUFFER:
+            break;
 
-			md.lb->ref_count -= 1;
+        case ML_TYPE_BUFFER:
 
-			if (md.lb->ref_count == 0)
-			{
-				//
-				// Free the buffer.
-				//
+            md.lb->ref_count -= 1;
 
-				LL_free_buffer(md.lb);
-			}
+            if (md.lb->ref_count == 0) {
+                //
+                // Free the buffer.
+                //
 
-			break;
+                LL_free_buffer(md.lb);
+            }
 
-		case ML_TYPE_MATRIX:
-			MEM_free(md.matrix);
-			break;
-		
-		case ML_TYPE_VECTOR:
-			MEM_free(md.vector);
-			break;
+            break;
 
-		default:
-			break;
-	}
+        case ML_TYPE_MATRIX:
+            MEM_free(md.matrix);
+            break;
+
+        case ML_TYPE_VECTOR:
+            MEM_free(md.vector);
+            break;
+
+        default:
+            break;
+    }
 }
-
 
 //
 // Creates a copy of the given bit of data.
 //
 
-ML_Data VM_data_copy(ML_Data original)
-{
-	ML_Data ans;
+ML_Data VM_data_copy(ML_Data original) {
+    ML_Data ans;
 
-	switch(original.type)
-	{
-		//
-		// Types that need extra allocation.
-		//
+    switch (original.type) {
+            //
+            // Types that need extra allocation.
+            //
 
-		case ML_TYPE_STRVAR:
+        case ML_TYPE_STRVAR:
 
-			{
-				std::int32_t length = MEM_block_size(original.strvar);
+        {
+            std::int32_t length = MEM_block_size(original.strvar);
 
-				ans.type   = ML_TYPE_STRVAR;
-				ans.strvar = (char* ) MEM_alloc(length);
+            ans.type = ML_TYPE_STRVAR;
+            ans.strvar = (char *) MEM_alloc(length);
 
-				memcpy(ans.strvar, original.strvar, length);
-			}
+            memcpy(ans.strvar, original.strvar, length);
+        }
 
-			return ans;
+            return ans;
 
-		case ML_TYPE_STRUCTURE:
+        case ML_TYPE_STRUCTURE:
 
-			{
-				//
-				// Create another copy of the structure.
-				//
+        {
+            //
+            // Create another copy of the structure.
+            //
 
-				std::int32_t length = sizeof(ML_Structure) + original.structure->num_fields * sizeof(ML_Field);
+            std::int32_t length = sizeof(ML_Structure) + original.structure->num_fields * sizeof(ML_Field);
 
-				ans.type      = ML_TYPE_STRUCTURE;
-				ans.structure = (ML_Structure *) MEM_alloc(length);
+            ans.type = ML_TYPE_STRUCTURE;
+            ans.structure = (ML_Structure *) MEM_alloc(length);
 
-				std::int32_t i;
+            std::int32_t i;
 
-				ans.structure->num_fields = original.structure->num_fields;
+            ans.structure->num_fields = original.structure->num_fields;
 
-				for (i = 0; i < ans.structure->num_fields; i++)
-				{
-					ans.structure->field[i].field_id = original.structure->field[i].field_id;
-					ans.structure->field[i].data     = VM_data_copy(original.structure->field[i].data);
-				}
-			}
+            for (i = 0; i < ans.structure->num_fields; i++) {
+                ans.structure->field[i].field_id = original.structure->field[i].field_id;
+                ans.structure->field[i].data = VM_data_copy(original.structure->field[i].data);
+            }
+        }
 
-			return ans;
+            return ans;
 
-		case ML_TYPE_ARRAY:
+        case ML_TYPE_ARRAY:
 
-			{
-				//
-				// Create another copy of the array.
-				//
+        {
+            //
+            // Create another copy of the array.
+            //
 
-				std::int32_t length = sizeof(ML_Array) + original.array->num_dimensions * sizeof(ML_Dimension);
+            std::int32_t length = sizeof(ML_Array) + original.array->num_dimensions * sizeof(ML_Dimension);
 
-				ans.type  = ML_TYPE_ARRAY;
-				ans.array = (ML_Array *) MEM_alloc(length);
+            ans.type = ML_TYPE_ARRAY;
+            ans.array = (ML_Array *) MEM_alloc(length);
 
-				ans.array->data           = (ML_Data *) MEM_alloc(sizeof(ML_Data) * original.array->length);
-				ans.array->length         = original.array->length;
-				ans.array->num_dimensions = original.array->num_dimensions;
+            ans.array->data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * original.array->length);
+            ans.array->length = original.array->length;
+            ans.array->num_dimensions = original.array->num_dimensions;
 
-				std::int32_t i;
+            std::int32_t i;
 
-				for (i = 0; i < original.array->num_dimensions; i++)
-				{
-					ans.array->dimension[i] = original.array->dimension[i];
-				}
+            for (i = 0; i < original.array->num_dimensions; i++) {
+                ans.array->dimension[i] = original.array->dimension[i];
+            }
 
-				for (i = 0; i < original.array->length; i++)
-				{
-					ans.array->data[i] = VM_data_copy(original.array->data[i]);
-				}
-			}
+            for (i = 0; i < original.array->length; i++) {
+                ans.array->data[i] = VM_data_copy(original.array->data[i]);
+            }
+        }
 
-			return ans;
+            return ans;
 
-		case ML_TYPE_TEXTURE:
+        case ML_TYPE_TEXTURE:
 
-			//
-			// Increase the reference count of the texture.
-			//
+            //
+            // Increase the reference count of the texture.
+            //
 
-			original.lt->ref_count += 1;
+            original.lt->ref_count += 1;
 
-			return original;
+            return original;
 
-		case ML_TYPE_BUFFER:
+        case ML_TYPE_BUFFER:
 
-			//
-			// Increase the reference count of the buffer.
-			//
+            //
+            // Increase the reference count of the buffer.
+            //
 
-			original.lb->ref_count += 1;
+            original.lb->ref_count += 1;
 
-			return original;
+            return original;
 
-		case ML_TYPE_POINTER:
+        case ML_TYPE_POINTER:
 
-			//
-			// Push on the derefenced value.
-			//
+            //
+            // Push on the derefenced value.
+            //
 
-			return VM_data_copy(*original.data);
+            return VM_data_copy(*original.data);
 
-		case ML_TYPE_MATRIX:
+        case ML_TYPE_MATRIX:
 
-			ans.type    =  ML_TYPE_MATRIX;
-			ans.matrix  =  (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
-		  *(ans.matrix) = *original.matrix;
+            ans.type = ML_TYPE_MATRIX;
+            ans.matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+            *(ans.matrix) = *original.matrix;
 
-			return ans;
+            return ans;
 
-		case ML_TYPE_VECTOR:
+        case ML_TYPE_VECTOR:
 
-			ans.type    =  ML_TYPE_VECTOR;
-			ans.vector  =  (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
-		  *(ans.vector) = *original.vector;
+            ans.type = ML_TYPE_VECTOR;
+            ans.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+            *(ans.vector) = *original.vector;
 
-			return ans;
+            return ans;
 
-		//
-		// Simple types.
-		//
+            //
+            // Simple types.
+            //
 
-		default:
-			return original;
-	}
+        default:
+            return original;
+    }
 }
-
-
-
-
 
 //
 // Convert the given bit of data to a string. If the input is a
@@ -332,4104 +305,3795 @@ ML_Data VM_data_copy(ML_Data original)
 // not a copy.
 //
 
-void VM_convert_to_string(ML_Data *original)
-{
-	ML_Data ans;
+void VM_convert_to_string(ML_Data *original) {
+    ML_Data ans;
 
-	ans.type = ML_TYPE_STRVAR;
+    ans.type = ML_TYPE_STRVAR;
 
-	switch(original->type)
-	{
-		case ML_TYPE_UNDEFINED:
-			ans.strvar = (char* ) MEM_alloc(16);	// Enough to hold the string "<UNDEFINED>"
-			memcpy(ans.strvar, "<UNDEFINED>", 12);
-			break;
+    switch (original->type) {
+        case ML_TYPE_UNDEFINED:
+            ans.strvar = (char *) MEM_alloc(16); // Enough to hold the string "<UNDEFINED>"
+            memcpy(ans.strvar, "<UNDEFINED>", 12);
+            break;
 
-		case ML_TYPE_SLUMBER:
-			ans.strvar = (char* ) MEM_alloc(16);	// Enough to hold the number -2 ^ 32 and a nullptr.
-			sprintf(ans.strvar, "%d", original->slumber);
-			break;
+        case ML_TYPE_SLUMBER:
+            ans.strvar = (char *) MEM_alloc(16); // Enough to hold the number -2 ^ 32 and a nullptr.
+            sprintf(ans.strvar, "%d", original->slumber);
+            break;
 
-		case ML_TYPE_FLUMBER:
-			ans.strvar = (char* ) MEM_alloc(32);	// Enough to hold the number -2 ^ 32 and a nullptr.
-			sprintf(ans.strvar, "%f", original->flumber);
-			break;
+        case ML_TYPE_FLUMBER:
+            ans.strvar = (char *) MEM_alloc(32); // Enough to hold the number -2 ^ 32 and a nullptr.
+            sprintf(ans.strvar, "%f", original->flumber);
+            break;
 
-		case ML_TYPE_STRCONST:
-		case ML_TYPE_STRVAR:
+        case ML_TYPE_STRCONST:
+        case ML_TYPE_STRVAR:
 
-			//
-			// Should we be calling this function?
-			//
+            //
+            // Should we be calling this function?
+            //
 
-			return;
+            return;
 
-		case ML_TYPE_BOOLEAN:
+        case ML_TYPE_BOOLEAN:
 
-			ans.strvar = (char* ) MEM_alloc(6);	// Enough to hold the string "true" or "false"
+            ans.strvar = (char *) MEM_alloc(6); // Enough to hold the string "true" or "false"
 
-			if (original->boolean)
-			{
-				memcpy(ans.strvar, "true", 5);
-			}
-			else
-			{
-				memcpy(ans.strvar, "false", 6);
-			}
+            if (original->boolean) {
+                memcpy(ans.strvar, "true", 5);
+            } else {
+                memcpy(ans.strvar, "false", 6);
+            }
 
-			break;
+            break;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+        default:
+            ASSERT(0);
+            break;
+    }
 
-   *original = ans;	
+    *original = ans;
 
-	return;
+    return;
 }
 
 //
 // Returns the string held by the given string variable.
 //
 
-char* VM_get_string(ML_Data string)
-{
-	switch(string.type)
-	{
-		case ML_TYPE_STRCONST:
-			ASSERT(WITHIN(string.strconst, 0, VM_data_max - 2));
-			return (char* ) (VM_data + string.strconst);
+char *VM_get_string(ML_Data string) {
+    switch (string.type) {
+        case ML_TYPE_STRCONST:
+            ASSERT(WITHIN(string.strconst, 0, VM_data_max - 2));
+            return (char *) (VM_data + string.strconst);
 
-		case ML_TYPE_STRVAR:
-			return string.strvar;
+        case ML_TYPE_STRVAR:
+            return string.strvar;
 
-		default:
-			ASSERT(0);
-			return nullptr;
-	}
+        default:
+            ASSERT(0);
+            return nullptr;
+    }
 }
-
 
 //
 // Makes VM_stack_top[0] and VM_stack_top[1] have the same type.
 // VM_stack_top[0] must be a FLUMBER or a SLUMBER.
 //
 
-void VM_convert_stack_top_to_same_numerical_type()
-{
-	switch(VM_stack_top[0].type)
-	{
-		case ML_TYPE_SLUMBER:
+void VM_convert_stack_top_to_same_numerical_type() {
+    switch (VM_stack_top[0].type) {
+        case ML_TYPE_SLUMBER:
 
-			if (VM_stack_top[1].type == ML_TYPE_FLUMBER)
-			{
-				//
-				// Convert first argument to a float.
-				//
+            if (VM_stack_top[1].type == ML_TYPE_FLUMBER) {
+                //
+                // Convert first argument to a float.
+                //
 
-				VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-				VM_stack_top[0].flumber = float(VM_stack_top[0].slumber);
-			}
+                VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                VM_stack_top[0].flumber = float(VM_stack_top[0].slumber);
+            }
 
-			break;
+            break;
 
-		case ML_TYPE_FLUMBER:
+        case ML_TYPE_FLUMBER:
 
-			if (VM_stack_top[1].type == ML_TYPE_SLUMBER)
-			{
-				//
-				// Convert second argument to a float.
-				//
+            if (VM_stack_top[1].type == ML_TYPE_SLUMBER) {
+                //
+                // Convert second argument to a float.
+                //
 
-				VM_stack_top[1].type    = ML_TYPE_FLUMBER;
-				VM_stack_top[1].flumber = float(VM_stack_top[1].slumber);
-			}
+                VM_stack_top[1].type = ML_TYPE_FLUMBER;
+                VM_stack_top[1].flumber = float(VM_stack_top[1].slumber);
+            }
 
-			break;
+            break;
 
-		default:
-			ASSERT(0);
-			break;
-	}
+        default:
+            ASSERT(0);
+            break;
+    }
 }
-
-
 
 //
 // Makes sure the array is big enough to for the indices
 // given in the md[] array (an array of SLUMBERs)
 //
 
-void VM_grow_array(ML_Array *ma, ML_Data *md)
-{
-	std::int32_t i;
-	std::int32_t j;
-	std::int32_t bigger_index;
-	std::int32_t bigger_length;
+void VM_grow_array(ML_Array *ma, ML_Data *md) {
+    std::int32_t i;
+    std::int32_t j;
+    std::int32_t bigger_index;
+    std::int32_t bigger_length;
 
-	#define VM_MAX_DIMENSIONS 64
+#define VM_MAX_DIMENSIONS 64
 
-	ASSERT(WITHIN(ma->num_dimensions, 1, VM_MAX_DIMENSIONS));
+    ASSERT(WITHIN(ma->num_dimensions, 1, VM_MAX_DIMENSIONS));
 
-	std::int32_t bigger_size  [VM_MAX_DIMENSIONS];
-	std::int32_t bigger_stride[VM_MAX_DIMENSIONS];
-	std::int32_t index        [VM_MAX_DIMENSIONS];
+    std::int32_t bigger_size[VM_MAX_DIMENSIONS];
+    std::int32_t bigger_stride[VM_MAX_DIMENSIONS];
+    std::int32_t index[VM_MAX_DIMENSIONS];
 
-	//
-	// Build the array of the new sizes of each dimension.
-	//
+    //
+    // Build the array of the new sizes of each dimension.
+    //
 
-	for (i = 0; i < ma->num_dimensions; i++)
-	{
-		if (md[i].slumber > ma->dimension[i].size)
-		{
-			//
-			// Double the dimension of the array.
-			//
+    for (i = 0; i < ma->num_dimensions; i++) {
+        if (md[i].slumber > ma->dimension[i].size) {
+            //
+            // Double the dimension of the array.
+            //
 
-			bigger_size[i] = ma->dimension[i].size * 2;
+            bigger_size[i] = ma->dimension[i].size * 2;
 
-			if (md[i].slumber > bigger_size[i])
-			{
-				//
-				// Doubling wasn't good enough! Make it as big as need be.
-				//
+            if (md[i].slumber > bigger_size[i]) {
+                //
+                // Doubling wasn't good enough! Make it as big as need be.
+                //
 
-				bigger_size[i] = md[i].slumber;
-			}
-		}
-		else
-		{
-			bigger_size[i] = ma->dimension[i].size;
-		}
-	}
+                bigger_size[i] = md[i].slumber;
+            }
+        } else {
+            bigger_size[i] = ma->dimension[i].size;
+        }
+    }
 
-	//
-	// The new stride in each dimension.
-	//
+    //
+    // The new stride in each dimension.
+    //
 
-	for (i = 0; i < ma->num_dimensions; i++)
-	{
-		bigger_stride[i] = 1;
+    for (i = 0; i < ma->num_dimensions; i++) {
+        bigger_stride[i] = 1;
 
-		for (j = i + 1; j < ma->num_dimensions; j++)
-		{
-			bigger_stride[i] *= bigger_size[j];
-		}
-	}
-	
-	//
-	// How long is the new array?
-	//
+        for (j = i + 1; j < ma->num_dimensions; j++) {
+            bigger_stride[i] *= bigger_size[j];
+        }
+    }
 
-	bigger_length = bigger_size[0];
+    //
+    // How long is the new array?
+    //
 
-	for (i = 1; i < ma->num_dimensions; i++)
-	{
-		bigger_length *= bigger_size[1];
-	}
+    bigger_length = bigger_size[0];
 
-	//
-	// Allocate a new area of memory.
-	//
+    for (i = 1; i < ma->num_dimensions; i++) {
+        bigger_length *= bigger_size[1];
+    }
 
-	ML_Data *bigger_data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * bigger_length);
+    //
+    // Allocate a new area of memory.
+    //
 
-	if (ma->num_dimensions == 1)
-	{
-		//
-		// Easy to copy over data...
-		//
+    ML_Data *bigger_data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * bigger_length);
 
-		memcpy(bigger_data,  ma->data, sizeof(ML_Data) * ma->length);
-		memset(bigger_data + ma->length, 0, sizeof(ML_Data) * (bigger_length - ma->length));
-	}
-	else
-	{
-		//
-		// Nightmare to copy over data. Initialise new memory to <UNDEFINED>
-		//
+    if (ma->num_dimensions == 1) {
+        //
+        // Easy to copy over data...
+        //
 
- 		memset(bigger_data, 0, sizeof(ML_Data) * bigger_length);
+        memcpy(bigger_data, ma->data, sizeof(ML_Data) * ma->length);
+        memset(bigger_data + ma->length, 0, sizeof(ML_Data) * (bigger_length - ma->length));
+    } else {
+        //
+        // Nightmare to copy over data. Initialise new memory to <UNDEFINED>
+        //
 
-		//
-		// Clear the index array.
-		//
+        memset(bigger_data, 0, sizeof(ML_Data) * bigger_length);
 
-		for (i = 0; i < ma->num_dimensions; i++)
-		{
-			index[i] = 0;
-		}
+        //
+        // Clear the index array.
+        //
 
-		//
-		// Copy over all old data in a horribly inefficient manner.
-		//
+        for (i = 0; i < ma->num_dimensions; i++) {
+            index[i] = 0;
+        }
 
-		for (i = 0; i < ma->length; i++)
-		{
-			//
-			// What's the new index of this element?
-			//
+        //
+        // Copy over all old data in a horribly inefficient manner.
+        //
 
-			bigger_index = 0;
+        for (i = 0; i < ma->length; i++) {
+            //
+            // What's the new index of this element?
+            //
 
-			for (j = 0; j < ma->num_dimensions; j++)
-			{
-				bigger_index += bigger_stride[j] * index[j];
-			}
+            bigger_index = 0;
 
-			//
-			// Copy over this element.
-			//
+            for (j = 0; j < ma->num_dimensions; j++) {
+                bigger_index += bigger_stride[j] * index[j];
+            }
 
-			bigger_data[bigger_index] = ma->data[i];
+            //
+            // Copy over this element.
+            //
 
-			//
-			// Update our indices...
-			//
+            bigger_data[bigger_index] = ma->data[i];
 
-			for (j = ma->num_dimensions - 1; j >= 1; j--)
-			{
-				index[j] += 1;
+            //
+            // Update our indices...
+            //
 
-				if (index[j] >= ma->dimension[j].size)
-				{
-					//
-					// Roll-over.
-					//
+            for (j = ma->num_dimensions - 1; j >= 1; j--) {
+                index[j] += 1;
 
-					index[j    ]  = 0;
-					index[j - 1] += 1;
-				}
-			}
-		}
-	}
+                if (index[j] >= ma->dimension[j].size) {
+                    //
+                    // Roll-over.
+                    //
 
-	//
-	// Free old memory.
-	//
+                    index[j] = 0;
+                    index[j - 1] += 1;
+                }
+            }
+        }
+    }
 
-	MEM_free(ma->data);
+    //
+    // Free old memory.
+    //
 
-	ma->data   = bigger_data;
-	ma->length = bigger_length;
-	
-	for (i = 0; i < ma->num_dimensions; i++)
-	{
-		ma->dimension[i].size   = bigger_size[i];
-		ma->dimension[i].stride = bigger_stride[i];
-	}
+    MEM_free(ma->data);
+
+    ma->data = bigger_data;
+    ma->length = bigger_length;
+
+    for (i = 0; i < ma->num_dimensions; i++) {
+        ma->dimension[i].size = bigger_size[i];
+        ma->dimension[i].stride = bigger_stride[i];
+    }
 }
-
 
 //
 // Complicated instructions that needn't be fast
 // get their own function.
 //
 
+void VM_do_texture() {
+    VM_POP_STACK(2);
 
-void VM_do_texture()
-{
-	VM_POP_STACK(2);
+    //
+    // We don't support USER textures now, so the
+    // first argument must be the filename and the
+    // second should be UNDEFINED.
+    //
 
-	//
-	// We don't support USER textures now, so the
-	// first argument must be the filename and the
-	// second should be UNDEFINED.
-	// 
+    if (VM_stack_top[0].type != ML_TYPE_STRCONST &&
+        VM_stack_top[0].type != ML_TYPE_STRVAR) {
+        //
+        // ERROR!
+        //
 
-	if (VM_stack_top[0].type != ML_TYPE_STRCONST &&
-		VM_stack_top[0].type != ML_TYPE_STRVAR)
-	{
-		//
-		// ERROR!
-		//
+        ASSERT(0);
+    }
 
-		ASSERT(0);
-	}
+    if (VM_stack_top[1].type != ML_TYPE_UNDEFINED) {
+        //
+        // ERROR!
+        //
 
-	if (VM_stack_top[1].type != ML_TYPE_UNDEFINED)
-	{
-		//
-		// ERROR!
-		//
+        ASSERT(0);
+    }
 
-		ASSERT(0);
-	}
-	
-	//
-	// Create the texture.
-	//
+    //
+    // Create the texture.
+    //
 
-	ML_Data texture;
+    ML_Data texture;
 
-	texture.type = ML_TYPE_TEXTURE;
-	texture.lt   = LL_create_texture(VM_get_string(VM_stack_top[0]));
+    texture.type = ML_TYPE_TEXTURE;
+    texture.lt = LL_create_texture(VM_get_string(VM_stack_top[0]));
 
-	//
-	// Free the arguments.
-	//
+    //
+    // Free the arguments.
+    //
 
-	VM_data_free(VM_stack_top[0]);
-	VM_data_free(VM_stack_top[1]);
+    VM_data_free(VM_stack_top[0]);
+    VM_data_free(VM_stack_top[1]);
 
-	VM_stack_top[0] = texture;
+    VM_stack_top[0] = texture;
 
-	VM_stack_top += 1;
+    VM_stack_top += 1;
 }
 
-void VM_do_buffer()
-{
-	std::int32_t i;
-	std::int32_t j;
-	std::int32_t num_verts;
-	std::int32_t num_indices;
-	std::uint32_t found;
-	std::int32_t slumber;
-	float flumber;
-
-	ML_Data      *vert_array;
-	ML_Structure *vert_struct;
-	ML_Field     *field;
-	ML_Data      *index_array;
-	LL_Tlvert    *tl;
-	std::uint16_t        *index;
-
-	VM_POP_STACK(4);
-
-	//
-	// The first argument should be an 1d array of structures!
-	//
-
-	if (VM_stack_top[0].type != ML_TYPE_ARRAY)
-	{
-		//
-		// ERROR!
-		//
-
-		ASSERT(0);
-	}
-	else
-	if (VM_stack_top[0].array->num_dimensions != 1)
-	{
-		//
-		// ERROR!
-		//
-
-		ASSERT(0);
-	}
-
-	//
-	// The next argument should be the number of vertices.
-	//
-
-	if (VM_stack_top[1].type == ML_TYPE_SLUMBER)
-	{
-		num_verts = VM_stack_top[1].slumber;
-	}
-	else
-	if (VM_stack_top[1].type == ML_TYPE_FLUMBER)
-	{
-		float integer;
-		float fraction;
-
-		fraction = modff(VM_stack_top[1].flumber, &integer);
-
-		if (fraction != 0.0F)
-		{
-			//
-			// ERROR! A fractional number of verts?
-			//
-
-			ASSERT(0);
-		}
-
-		num_verts = ftol(integer);
-	}
-
-	//
-	// The next two arguments are optional depending on whether
-	// this is a triangle list or an indexed list.
-	//
-
-	if (VM_stack_top[3].type == ML_TYPE_UNDEFINED)
-	{
-		//
-		// Ok... just means no indices.
-		//
-
-		num_indices = 0;
-	}
-	else
-	if (VM_stack_top[3].type == ML_TYPE_SLUMBER)
-	{
-		num_indices = VM_stack_top[3].slumber;
-	}
-	else
-	if (VM_stack_top[3].type == ML_TYPE_FLUMBER)
-	{
-		float integer;
-		float fraction;
-
-		fraction = modff(VM_stack_top[1].flumber, &integer);
-
-		if (fraction != 0.0F)
-		{
-			//
-			// ERROR! Oh dear! A fractional number of indices!
-			//
-
-			ASSERT(0);
-		}
-
-		num_indices = ftol(integer);
-	}
-	else
-	{
-		//
-		// ERROR!
-		//
-
-		ASSERT(0);
-	}
-
-	if (VM_stack_top[2].type == ML_TYPE_ARRAY)
-	{
-		//
-		// Should be an 1d array of numbers.
-		//
-
-		if (VM_stack_top[2].array->num_dimensions != 1)
-		{
-			//
-			// ERROR!
-			//
-
-			ASSERT(0);
-		}
-
-		if (num_indices == 0 || num_indices % 3 != 0)
-		{
-			//
-			// ERROR!
-			//
-
-			ASSERT(0);
-		}
-	}
-	else
-	if (VM_stack_top[2].type == ML_TYPE_UNDEFINED)
-	{
-		//
-		// Can't have indices without an array.
-		//
-
-		if (num_indices != 0)
-		{
-			//
-			// ERROR!
-			//
-
-			ASSERT(0);
-		}
-	}
-
-	//
-	// Is our vert array big enough?
-	//
-
-	if (num_verts > VM_stack_top[0].array->length)
-	{
-		//
-		// ERROR!
-		//
-
-		ASSERT(0);
-	}
-
-	//
-	// Create the vert buffer.
-	//
-
-	tl = (LL_Tlvert *) MEM_alloc(num_verts * sizeof(LL_Tlvert));
-
-	vert_array = VM_stack_top[0].array->data;
-
-	for (i = 0; i < num_verts; i++)
-	{
-		if (vert_array[i].type != ML_TYPE_STRUCTURE)
-		{
-			//
-			// ERROR!
-			//
-
-			ASSERT(0);
-		}
-
-		vert_struct = vert_array[i].structure;
-
-		//
-		// Extract the various components of the LL_Tlvert.
-		//
-
-		found = 0;
-
-		for (j = 0; j < vert_struct->num_fields; j++)
-		{
-			field = &vert_struct->field[j];
-
-			if (field->field_id < SYSVAR_FIELD_NUMBER)
-			{
-				//
-				// This is a system field so it could be part of our
-				// Tlvert structure. Type check the data if it is.
-				//
-
-				switch(field->field_id)
-				{
-					case SYSVAR_FIELD_X:
-					case SYSVAR_FIELD_Y:
-					case SYSVAR_FIELD_U:
-					case SYSVAR_FIELD_V:
-						
-						//
-						// Must be numbers.
-						//
-
-						if (field->data.type == ML_TYPE_SLUMBER)
-						{
-							flumber = float(field->data.slumber);
-						}
-						else
-						if (field->data.type == ML_TYPE_FLUMBER)
-						{
-							flumber = field->data.flumber;
-						}
-						else
-						{
-							//
-							// ERROR!
-							//
-
-							ASSERT(0);
-						}
-
-						break;
-
-
-					case SYSVAR_FIELD_Z:
-					case SYSVAR_FIELD_RHW:
-
-						//
-						// Must be floating point numbers between 0 and 1.
-						//
-
-						if (field->data.type == ML_TYPE_SLUMBER)
-						{
-							flumber = float(field->data.slumber);
-						}
-						else
-						if (field->data.type == ML_TYPE_FLUMBER)
-						{
-							flumber = field->data.flumber;
-						}
-						else
-						{
-							//
-							// ERROR!
-							//
-
-							ASSERT(0);
-						}
-
-						if (!WITHIN(flumber, 0.0F, 1.0F))
-						{
-							//
-							// ERROR!
-							//
-
-							ASSERT(0);
-						}
-
-						if (field->field_id == SYSVAR_FIELD_RHW)
-						{
-							//
-							// If RHW is too small it fucks up... in general!
-							//
-
-							if (flumber < 1.0F / 1024.0F)
-							{
-								flumber = 1.0F / 1024.0F;
-							}
-						}
-
-						break;
-
-					case SYSVAR_FIELD_COLOUR:
-					case SYSVAR_FIELD_SPECULAR:
-
-						//
-						// Must be numbers... or maybe string colours?!
-						//
-
-						if (field->data.type == ML_TYPE_SLUMBER)
-						{
-							slumber = field->data.slumber;
-						}
-						else
-						{
-							//
-							// ERROR!
-							//
-
-							ASSERT(0);
-						}
-
-						break;
-
-					default:
-
-						//
-						// Not a field we are interested in.
-						//
-
-						continue;
-				}
-
-				//
-				// This is one of our fields.
-				//
-
-				found |= 1 << field->field_id;
-
-				switch(field->field_id)
-				{
-					case SYSVAR_FIELD_X:        tl[i].x        = flumber; break;
-					case SYSVAR_FIELD_Y:		tl[i].y        = flumber; break;
-					case SYSVAR_FIELD_Z:		tl[i].z        = flumber; break;
-					case SYSVAR_FIELD_RHW:		tl[i].x        = flumber; break;
-					case SYSVAR_FIELD_U:		tl[i].u        = flumber; break;
-					case SYSVAR_FIELD_V:		tl[i].v        = flumber; break;
-					case SYSVAR_FIELD_COLOUR:   tl[i].colour   = slumber; break;
-					case SYSVAR_FIELD_SPECULAR: tl[i].specular = slumber; break;
-
-					default:
-						ASSERT(0);
-						break;
-				}
-			}
-		}
-
-		//
-		// Fill in missing fields with default values.
-		//
-
-		if (!(found & (1 << SYSVAR_FIELD_Z       ))) {tl[i].z        = 0.0F;       found |= 1 << SYSVAR_FIELD_Z;       }
-		if (!(found & (1 << SYSVAR_FIELD_RHW     ))) {tl[i].rhw      = 0.5F;       found |= 1 << SYSVAR_FIELD_RHW;     }
-		if (!(found & (1 << SYSVAR_FIELD_U       ))) {tl[i].u        = 0.0F;       found |= 1 << SYSVAR_FIELD_U;       }
-		if (!(found & (1 << SYSVAR_FIELD_V       ))) {tl[i].v        = 0.0F;       found |= 1 << SYSVAR_FIELD_V;       }
-		if (!(found & (1 << SYSVAR_FIELD_COLOUR  ))) {tl[i].colour   = 0xffffffff; found |= 1 << SYSVAR_FIELD_COLOUR;  }
-		if (!(found & (1 << SYSVAR_FIELD_SPECULAR))) {tl[i].specular = 0xff000000; found |= 1 << SYSVAR_FIELD_SPECULAR;}
-
-		//
-		// Make sure we have initialised every member.
-		//
-
-		const std::int32_t found_every_tlvert_field =
-						(1 << SYSVAR_FIELD_X       ) |
-						(1 << SYSVAR_FIELD_Y       ) |
-						(1 << SYSVAR_FIELD_Z       ) |
-						(1 << SYSVAR_FIELD_RHW     ) |
-						(1 << SYSVAR_FIELD_U       ) |
-						(1 << SYSVAR_FIELD_V       ) |
-						(1 << SYSVAR_FIELD_COLOUR  ) |
-						(1 << SYSVAR_FIELD_SPECULAR);
-
-		if (found != found_every_tlvert_field)
-		{
-			//
-			// ERROR!
-			//
-
-			ASSERT(0);
-		}
-	}
-
-	//
-	// Now create the index buffer.
-	//
-
-	if (num_indices == 0)
-	{
-		index = nullptr;
-	}
-	else
-	{
-		//
-		// Is our index array big enough?
-		//
-
-		if (num_indices > VM_stack_top[2].array->length)
-		{
-			//
-			// ERROR!
-			//
-
-			ASSERT(0);
-		}
-
-		index       = (std::uint16_t *) MEM_alloc(num_indices * sizeof(std::uint16_t));
-		index_array = VM_stack_top[2].array->data;
-
-		for (i = 0; i < num_indices; i++)
-		{
-			if (index_array[i].type == ML_TYPE_SLUMBER)
-			{
-				slumber = index_array[i].slumber;
-			}
-			else
-			if (index_array[i].type == ML_TYPE_FLUMBER)
-			{
-				float integer;
-				float fraction;
-
-				fraction = modff(index_array[i].flumber, &integer);
-
-				if (fraction != 0.0F)
-				{
-					//
-					// ERROR! Oh dear! A fractional number of indices!
-					//
-
-					ASSERT(0);
-				}
-
-				slumber = ftol(integer);
-			}
-			else
-			{
-				//
-				// ERROR!
-				//
-
-				ASSERT(0);
-			}
-
-			if (!WITHIN(slumber, 1, num_verts))
-			{
-				//
-				// ERROR!
-				//
-
-				ASSERT(0);
-			}
-
-			//
-			// Convert from 1-based indexing to 0-based indexing.
-			// 
-
-			index[i] = slumber - 1;
-		}
-	}
-
-	//
-	// Free the arguments.
-	//
-
-	VM_data_free(VM_stack_top[0]);
-	VM_data_free(VM_stack_top[1]);
-	VM_data_free(VM_stack_top[2]);
-	VM_data_free(VM_stack_top[3]);
-
-	VM_stack_top[0].type = ML_TYPE_BUFFER;
-	VM_stack_top[0].lb   = LL_create_buffer(
-								LL_BUFFER_TYPE_TLV,
-								tl,
-								num_verts,
-								index,
-								num_indices);
-
-	VM_stack_top += 1;
+void VM_do_buffer() {
+    std::int32_t i;
+    std::int32_t j;
+    std::int32_t num_verts;
+    std::int32_t num_indices;
+    std::uint32_t found;
+    std::int32_t slumber;
+    float flumber;
+
+    ML_Data *vert_array;
+    ML_Structure *vert_struct;
+    ML_Field *field;
+    ML_Data *index_array;
+    LL_Tlvert *tl;
+    std::uint16_t *index;
+
+    VM_POP_STACK(4);
+
+    //
+    // The first argument should be an 1d array of structures!
+    //
+
+    if (VM_stack_top[0].type != ML_TYPE_ARRAY) {
+        //
+        // ERROR!
+        //
+
+        ASSERT(0);
+    } else if (VM_stack_top[0].array->num_dimensions != 1) {
+        //
+        // ERROR!
+        //
+
+        ASSERT(0);
+    }
+
+    //
+    // The next argument should be the number of vertices.
+    //
+
+    if (VM_stack_top[1].type == ML_TYPE_SLUMBER) {
+        num_verts = VM_stack_top[1].slumber;
+    } else if (VM_stack_top[1].type == ML_TYPE_FLUMBER) {
+        float integer;
+        float fraction;
+
+        fraction = modff(VM_stack_top[1].flumber, &integer);
+
+        if (fraction != 0.0F) {
+            //
+            // ERROR! A fractional number of verts?
+            //
+
+            ASSERT(0);
+        }
+
+        num_verts = ftol(integer);
+    }
+
+    //
+    // The next two arguments are optional depending on whether
+    // this is a triangle list or an indexed list.
+    //
+
+    if (VM_stack_top[3].type == ML_TYPE_UNDEFINED) {
+        //
+        // Ok... just means no indices.
+        //
+
+        num_indices = 0;
+    } else if (VM_stack_top[3].type == ML_TYPE_SLUMBER) {
+        num_indices = VM_stack_top[3].slumber;
+    } else if (VM_stack_top[3].type == ML_TYPE_FLUMBER) {
+        float integer;
+        float fraction;
+
+        fraction = modff(VM_stack_top[1].flumber, &integer);
+
+        if (fraction != 0.0F) {
+            //
+            // ERROR! Oh dear! A fractional number of indices!
+            //
+
+            ASSERT(0);
+        }
+
+        num_indices = ftol(integer);
+    } else {
+        //
+        // ERROR!
+        //
+
+        ASSERT(0);
+    }
+
+    if (VM_stack_top[2].type == ML_TYPE_ARRAY) {
+        //
+        // Should be an 1d array of numbers.
+        //
+
+        if (VM_stack_top[2].array->num_dimensions != 1) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        }
+
+        if (num_indices == 0 || num_indices % 3 != 0) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        }
+    } else if (VM_stack_top[2].type == ML_TYPE_UNDEFINED) {
+        //
+        // Can't have indices without an array.
+        //
+
+        if (num_indices != 0) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        }
+    }
+
+    //
+    // Is our vert array big enough?
+    //
+
+    if (num_verts > VM_stack_top[0].array->length) {
+        //
+        // ERROR!
+        //
+
+        ASSERT(0);
+    }
+
+    //
+    // Create the vert buffer.
+    //
+
+    tl = (LL_Tlvert *) MEM_alloc(num_verts * sizeof(LL_Tlvert));
+
+    vert_array = VM_stack_top[0].array->data;
+
+    for (i = 0; i < num_verts; i++) {
+        if (vert_array[i].type != ML_TYPE_STRUCTURE) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        }
+
+        vert_struct = vert_array[i].structure;
+
+        //
+        // Extract the various components of the LL_Tlvert.
+        //
+
+        found = 0;
+
+        for (j = 0; j < vert_struct->num_fields; j++) {
+            field = &vert_struct->field[j];
+
+            if (field->field_id < SYSVAR_FIELD_NUMBER) {
+                //
+                // This is a system field so it could be part of our
+                // Tlvert structure. Type check the data if it is.
+                //
+
+                switch (field->field_id) {
+                    case SYSVAR_FIELD_X:
+                    case SYSVAR_FIELD_Y:
+                    case SYSVAR_FIELD_U:
+                    case SYSVAR_FIELD_V:
+
+                        //
+                        // Must be numbers.
+                        //
+
+                        if (field->data.type == ML_TYPE_SLUMBER) {
+                            flumber = float(field->data.slumber);
+                        } else if (field->data.type == ML_TYPE_FLUMBER) {
+                            flumber = field->data.flumber;
+                        } else {
+                            //
+                            // ERROR!
+                            //
+
+                            ASSERT(0);
+                        }
+
+                        break;
+
+                    case SYSVAR_FIELD_Z:
+                    case SYSVAR_FIELD_RHW:
+
+                        //
+                        // Must be floating point numbers between 0 and 1.
+                        //
+
+                        if (field->data.type == ML_TYPE_SLUMBER) {
+                            flumber = float(field->data.slumber);
+                        } else if (field->data.type == ML_TYPE_FLUMBER) {
+                            flumber = field->data.flumber;
+                        } else {
+                            //
+                            // ERROR!
+                            //
+
+                            ASSERT(0);
+                        }
+
+                        if (!WITHIN(flumber, 0.0F, 1.0F)) {
+                            //
+                            // ERROR!
+                            //
+
+                            ASSERT(0);
+                        }
+
+                        if (field->field_id == SYSVAR_FIELD_RHW) {
+                            //
+                            // If RHW is too small it fucks up... in general!
+                            //
+
+                            if (flumber < 1.0F / 1024.0F) {
+                                flumber = 1.0F / 1024.0F;
+                            }
+                        }
+
+                        break;
+
+                    case SYSVAR_FIELD_COLOUR:
+                    case SYSVAR_FIELD_SPECULAR:
+
+                        //
+                        // Must be numbers... or maybe string colours?!
+                        //
+
+                        if (field->data.type == ML_TYPE_SLUMBER) {
+                            slumber = field->data.slumber;
+                        } else {
+                            //
+                            // ERROR!
+                            //
+
+                            ASSERT(0);
+                        }
+
+                        break;
+
+                    default:
+
+                        //
+                        // Not a field we are interested in.
+                        //
+
+                        continue;
+                }
+
+                //
+                // This is one of our fields.
+                //
+
+                found |= 1 << field->field_id;
+
+                switch (field->field_id) {
+                    case SYSVAR_FIELD_X: tl[i].x = flumber; break;
+                    case SYSVAR_FIELD_Y: tl[i].y = flumber; break;
+                    case SYSVAR_FIELD_Z: tl[i].z = flumber; break;
+                    case SYSVAR_FIELD_RHW: tl[i].x = flumber; break;
+                    case SYSVAR_FIELD_U: tl[i].u = flumber; break;
+                    case SYSVAR_FIELD_V: tl[i].v = flumber; break;
+                    case SYSVAR_FIELD_COLOUR: tl[i].colour = slumber; break;
+                    case SYSVAR_FIELD_SPECULAR: tl[i].specular = slumber; break;
+
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
+        }
+
+        //
+        // Fill in missing fields with default values.
+        //
+
+        if (!(found & (1 << SYSVAR_FIELD_Z))) {
+            tl[i].z = 0.0F;
+            found |= 1 << SYSVAR_FIELD_Z;
+        }
+        if (!(found & (1 << SYSVAR_FIELD_RHW))) {
+            tl[i].rhw = 0.5F;
+            found |= 1 << SYSVAR_FIELD_RHW;
+        }
+        if (!(found & (1 << SYSVAR_FIELD_U))) {
+            tl[i].u = 0.0F;
+            found |= 1 << SYSVAR_FIELD_U;
+        }
+        if (!(found & (1 << SYSVAR_FIELD_V))) {
+            tl[i].v = 0.0F;
+            found |= 1 << SYSVAR_FIELD_V;
+        }
+        if (!(found & (1 << SYSVAR_FIELD_COLOUR))) {
+            tl[i].colour = 0xffffffff;
+            found |= 1 << SYSVAR_FIELD_COLOUR;
+        }
+        if (!(found & (1 << SYSVAR_FIELD_SPECULAR))) {
+            tl[i].specular = 0xff000000;
+            found |= 1 << SYSVAR_FIELD_SPECULAR;
+        }
+
+        //
+        // Make sure we have initialised every member.
+        //
+
+        const std::int32_t found_every_tlvert_field =
+            (1 << SYSVAR_FIELD_X) |
+            (1 << SYSVAR_FIELD_Y) |
+            (1 << SYSVAR_FIELD_Z) |
+            (1 << SYSVAR_FIELD_RHW) |
+            (1 << SYSVAR_FIELD_U) |
+            (1 << SYSVAR_FIELD_V) |
+            (1 << SYSVAR_FIELD_COLOUR) |
+            (1 << SYSVAR_FIELD_SPECULAR);
+
+        if (found != found_every_tlvert_field) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        }
+    }
+
+    //
+    // Now create the index buffer.
+    //
+
+    if (num_indices == 0) {
+        index = nullptr;
+    } else {
+        //
+        // Is our index array big enough?
+        //
+
+        if (num_indices > VM_stack_top[2].array->length) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        }
+
+        index = (std::uint16_t *) MEM_alloc(num_indices * sizeof(std::uint16_t));
+        index_array = VM_stack_top[2].array->data;
+
+        for (i = 0; i < num_indices; i++) {
+            if (index_array[i].type == ML_TYPE_SLUMBER) {
+                slumber = index_array[i].slumber;
+            } else if (index_array[i].type == ML_TYPE_FLUMBER) {
+                float integer;
+                float fraction;
+
+                fraction = modff(index_array[i].flumber, &integer);
+
+                if (fraction != 0.0F) {
+                    //
+                    // ERROR! Oh dear! A fractional number of indices!
+                    //
+
+                    ASSERT(0);
+                }
+
+                slumber = ftol(integer);
+            } else {
+                //
+                // ERROR!
+                //
+
+                ASSERT(0);
+            }
+
+            if (!WITHIN(slumber, 1, num_verts)) {
+                //
+                // ERROR!
+                //
+
+                ASSERT(0);
+            }
+
+            //
+            // Convert from 1-based indexing to 0-based indexing.
+            //
+
+            index[i] = slumber - 1;
+        }
+    }
+
+    //
+    // Free the arguments.
+    //
+
+    VM_data_free(VM_stack_top[0]);
+    VM_data_free(VM_stack_top[1]);
+    VM_data_free(VM_stack_top[2]);
+    VM_data_free(VM_stack_top[3]);
+
+    VM_stack_top[0].type = ML_TYPE_BUFFER;
+    VM_stack_top[0].lb = LL_create_buffer(
+        LL_BUFFER_TYPE_TLV,
+        tl,
+        num_verts,
+        index,
+        num_indices);
+
+    VM_stack_top += 1;
 }
 
+void VM_do_draw() {
+    VM_POP_STACK(3);
 
-void VM_do_draw()
-{
-	VM_POP_STACK(3);
+    LL_Buffer *lb;
+    LL_Texture *lt;
+    std::uint32_t rs;
 
-	LL_Buffer  *lb;
-	LL_Texture *lt;
-	std::uint32_t       rs;
+    //
+    // We should have a buffer then a texture and a renderstate.
+    //
 
-	//
-	// We should have a buffer then a texture and a renderstate.
-	//
+    if (VM_stack_top[0].type == ML_TYPE_BUFFER) {
+        lb = VM_stack_top[0].lb;
+    } else {
+        //
+        // ERROR!
+        //
 
-	if (VM_stack_top[0].type == ML_TYPE_BUFFER)
-	{
-		lb = VM_stack_top[0].lb;
-	}
-	else
-	{
-		//
-		// ERROR!
-		//
+        ASSERT(0);
+    }
 
-		ASSERT(0);
-	}
+    if (VM_stack_top[1].type == ML_TYPE_TEXTURE) {
+        lt = VM_stack_top[1].lt;
+    } else if (VM_stack_top[1].type == ML_TYPE_UNDEFINED) {
+        //
+        // Undefined => draw untextured.
+        //
 
-	if (VM_stack_top[1].type == ML_TYPE_TEXTURE)
-	{
-		lt = VM_stack_top[1].lt;
-	}
-	else
-	if (VM_stack_top[1].type == ML_TYPE_UNDEFINED)
-	{
-		//
-		// Undefined => draw untextured.
-		//
+        lt = nullptr;
+    } else {
+        //
+        // ERROR!
+        //
 
-		lt = nullptr;
-	}
-	else
-	{
-		//
-		// ERROR!
-		//
-		
-		ASSERT(0);
-	}
+        ASSERT(0);
+    }
 
-	if (VM_stack_top[2].type == ML_TYPE_SLUMBER)
-	{
-		rs = VM_stack_top[2].slumber;
-	}
-	else
-	if (VM_stack_top[2].type == ML_TYPE_UNDEFINED)
-	{
-		//
-		// Default renderstate.
-		//
+    if (VM_stack_top[2].type == ML_TYPE_SLUMBER) {
+        rs = VM_stack_top[2].slumber;
+    } else if (VM_stack_top[2].type == ML_TYPE_UNDEFINED) {
+        //
+        // Default renderstate.
+        //
 
-		rs = LL_RS_NORMAL;
-	}
-	else
-	{
-		//
-		// ERROR!
-		//
+        rs = LL_RS_NORMAL;
+    } else {
+        //
+        // ERROR!
+        //
 
-		ASSERT(0);
-	}
+        ASSERT(0);
+    }
 
-	//
-	// Do the draw!
-	//
+    //
+    // Do the draw!
+    //
 
-	LL_draw_buffer(lb,lt,rs);
+    LL_draw_buffer(lb, lt, rs);
 
-	//
-	// Free the arguments.
-	//
+    //
+    // Free the arguments.
+    //
 
-	VM_data_free(VM_stack_top[0]);
-	VM_data_free(VM_stack_top[1]);
-	VM_data_free(VM_stack_top[2]);
+    VM_data_free(VM_stack_top[0]);
+    VM_data_free(VM_stack_top[1]);
+    VM_data_free(VM_stack_top[2]);
 }
 
+void VM_do_cls() {
+    std::uint32_t colour;
+    float zsort;
 
-void VM_do_cls()
-{
-	std::uint32_t colour;
-	float zsort;
+    VM_POP_STACK(2);
 
-	VM_POP_STACK(2);
+    //
+    // The colour.
+    //
 
-	//
-	// The colour.
-	//
+    if (VM_stack_top[0].type == ML_TYPE_SLUMBER) {
+        colour = VM_stack_top[0].slumber;
+    } else if (VM_stack_top[0].type == ML_TYPE_UNDEFINED) {
+        colour = 0;
+    } else {
+        //
+        // ERROR!
+        //
 
-	if (VM_stack_top[0].type == ML_TYPE_SLUMBER)
-	{
-		colour = VM_stack_top[0].slumber;
-	}
-	else
-	if (VM_stack_top[0].type == ML_TYPE_UNDEFINED)
-	{
-		colour = 0;
-	}
-	else
-	{
-		//
-		// ERROR!
-		//
+        ASSERT(0);
+    }
 
-		ASSERT(0);
-	}
+    //
+    // The z-value.
+    //
 
-	//
-	// The z-value.
-	//
+    if (VM_stack_top[1].type == ML_TYPE_SLUMBER) {
+        zsort = float(VM_stack_top[1].slumber);
+    } else if (VM_stack_top[1].type == ML_TYPE_FLUMBER) {
+        zsort = VM_stack_top[1].flumber;
+    } else if (VM_stack_top[1].type == ML_TYPE_UNDEFINED) {
+        zsort = 1.0F;
+    }
 
-	if (VM_stack_top[1].type == ML_TYPE_SLUMBER)
-	{
-		zsort = float(VM_stack_top[1].slumber);
-	}
-	else
-	if (VM_stack_top[1].type == ML_TYPE_FLUMBER)
-	{
-		zsort = VM_stack_top[1].flumber;
-	}
-	else
-	if (VM_stack_top[1].type == ML_TYPE_UNDEFINED)
-	{	
-		zsort = 1.0F;
-	}
+    if (!WITHIN(zsort, 0.0F, 1.0F)) {
+        //
+        // ERROR!
+        //
 
-	if (!WITHIN(zsort, 0.0F, 1.0F))
-	{
-		//
-		// ERROR!
-		//
+        ASSERT(0);
+    }
 
-		ASSERT(0);
-	}
-
-	LL_cls(colour, zsort);
+    LL_cls(colour, zsort);
 }
-
-
-
 
 //
 // Executes the program!
 //
 
-void VM_execute()
-{
-	while(1)
-	{
-		ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-
-		switch(*VM_code_pointer++)
-		{
-			case ML_DO_PUSH_CONSTANT:
-
-				VM_CHECK_STACK_PUSH();
-
-				ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
-
-				VM_stack_top->type  = *VM_code_pointer++;
-				VM_stack_top->value = *VM_code_pointer++;
-
-				VM_stack_top += 1;
-
-				break;
-
-			case ML_DO_ADD:
-
-				VM_POP_STACK(2);
-
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// Must do type conversion...
-					//
-
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_BOOLEAN:
-
-							if (VM_stack_top[1].type == ML_TYPE_STRVAR ||
-								VM_stack_top[1].type == ML_TYPE_STRCONST)
-							{
-								//
-								// Convert first argument to a string.
-								//
-
-								VM_convert_to_string(&VM_stack_top[0]);
-							}
-							else
-							{
-								//
-								// ERROR!
-								//
-
-								ASSERT(0);
-							}
-
-							break;
-
-						case ML_TYPE_SLUMBER:
-
-							if (VM_stack_top[1].type == ML_TYPE_FLUMBER)
-							{
-								//
-								// Convert first argument to a float.
-								//
-
-								VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-								VM_stack_top[0].flumber = float(VM_stack_top[0].slumber);
-							}
-							else
-							if (VM_stack_top[1].type == ML_TYPE_STRVAR ||
-								VM_stack_top[1].type == ML_TYPE_STRCONST)
-							{
-								//
-								// Convert first argument to a string.
-								//
-
-								VM_convert_to_string(&VM_stack_top[0]);
-							}
-							else
-							{
-								//
-								// ERROR!
-								//
-
-								ASSERT(0);
-							}
-
-							break;
-
-						case ML_TYPE_FLUMBER:
+void VM_execute() {
+    while (1) {
+        ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
 
-							if (VM_stack_top[1].type == ML_TYPE_SLUMBER)
-							{
-								//
-								// Convert second argument to a float.
-								//
-
-								VM_stack_top[1].type    = ML_TYPE_FLUMBER;
-								VM_stack_top[1].flumber = float(VM_stack_top[1].slumber);
-							}
-							else
-							if (VM_stack_top[1].type == ML_TYPE_STRVAR ||
-								VM_stack_top[1].type == ML_TYPE_STRCONST)
-							{
-								//
-								// Convert first argument to a string.
-								//
+        switch (*VM_code_pointer++) {
+            case ML_DO_PUSH_CONSTANT:
 
-								VM_convert_to_string(&VM_stack_top[0]);
-							}
-							else
-							{
-								//
-								// ERROR!
-								//
+                VM_CHECK_STACK_PUSH();
 
-								ASSERT(0);
-							}
+                ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
-							break;
+                VM_stack_top->type = *VM_code_pointer++;
+                VM_stack_top->value = *VM_code_pointer++;
 
-						case ML_TYPE_STRVAR:
-						case ML_TYPE_STRCONST:
+                VM_stack_top += 1;
 
-							//
-							// Converts to a string representing the data.
-							//
+                break;
 
-							VM_convert_to_string(&VM_stack_top[1]);
+            case ML_DO_ADD:
 
-							break;
+                VM_POP_STACK(2);
 
-						default:
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do type conversion...
+                    //
 
-							//
-							// ERROR!
-							//
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_BOOLEAN:
 
-							ASSERT(0);
+                            if (VM_stack_top[1].type == ML_TYPE_STRVAR ||
+                                VM_stack_top[1].type == ML_TYPE_STRCONST) {
+                                //
+                                // Convert first argument to a string.
+                                //
 
-							break;
-					}
-				}
+                                VM_convert_to_string(&VM_stack_top[0]);
+                            } else {
+                                //
+                                // ERROR!
+                                //
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER:
-						VM_stack_top[0].slumber = VM_stack_top[0].slumber + VM_stack_top[1].slumber;
-						break;
+                                ASSERT(0);
+                            }
 
-					case ML_TYPE_FLUMBER:
-						VM_stack_top[0].flumber = VM_stack_top[0].flumber + VM_stack_top[1].flumber;
-						break;
+                            break;
 
-					case ML_TYPE_STRVAR:
-					case ML_TYPE_STRCONST:
+                        case ML_TYPE_SLUMBER:
 
-						{
-							ML_Data result;
-							std::int32_t   length;
-							char  *str1;
-							char  *str2;
-							
+                            if (VM_stack_top[1].type == ML_TYPE_FLUMBER) {
+                                //
+                                // Convert first argument to a float.
+                                //
 
-							//
-							// How long is the resulting string?
-							//
+                                VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                                VM_stack_top[0].flumber = float(VM_stack_top[0].slumber);
+                            } else if (VM_stack_top[1].type == ML_TYPE_STRVAR ||
+                                       VM_stack_top[1].type == ML_TYPE_STRCONST) {
+                                //
+                                // Convert first argument to a string.
+                                //
 
-							str1 = VM_get_string(VM_stack_top[0]);
-							str2 = VM_get_string(VM_stack_top[1]);
+                                VM_convert_to_string(&VM_stack_top[0]);
+                            } else {
+                                //
+                                // ERROR!
+                                //
 
-							length = strlen(str1) + strlen(str2) + 1;	// + 1 for the terminating nullptr.
+                                ASSERT(0);
+                            }
 
-							//
-							// Build the result.
-							//
+                            break;
 
-							result.type   = ML_TYPE_STRVAR;
-							result.strvar = (char* ) MEM_alloc(length);
+                        case ML_TYPE_FLUMBER:
 
-							strcpy(result.strvar, str1);
-							strcat(result.strvar, str2);
+                            if (VM_stack_top[1].type == ML_TYPE_SLUMBER) {
+                                //
+                                // Convert second argument to a float.
+                                //
 
-							//
-							// Free memory.
-							//
+                                VM_stack_top[1].type = ML_TYPE_FLUMBER;
+                                VM_stack_top[1].flumber = float(VM_stack_top[1].slumber);
+                            } else if (VM_stack_top[1].type == ML_TYPE_STRVAR ||
+                                       VM_stack_top[1].type == ML_TYPE_STRCONST) {
+                                //
+                                // Convert first argument to a string.
+                                //
 
-							VM_data_free(VM_stack_top[0]);
-							VM_data_free(VM_stack_top[1]);
+                                VM_convert_to_string(&VM_stack_top[0]);
+                            } else {
+                                //
+                                // ERROR!
+                                //
 
-							//
-							// Put new data on the stack.
-							//
+                                ASSERT(0);
+                            }
 
-							VM_stack_top[0] = result;
-						}
+                            break;
 
-						break;
+                        case ML_TYPE_STRVAR:
+                        case ML_TYPE_STRCONST:
 
-					case ML_TYPE_VECTOR:
+                            //
+                            // Converts to a string representing the data.
+                            //
 
-						VM_stack_top[0].vector->x += VM_stack_top[1].vector->x;
-						VM_stack_top[0].vector->y += VM_stack_top[1].vector->y;
-						VM_stack_top[0].vector->z += VM_stack_top[1].vector->z;
+                            VM_convert_to_string(&VM_stack_top[1]);
 
-						VM_data_free(VM_stack_top[1]);
+                            break;
 
-						break;
+                        default:
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                            //
+                            // ERROR!
+                            //
 
-				VM_stack_top += 1;
+                            ASSERT(0);
 
-				break;
+                            break;
+                    }
+                }
 
-			case ML_DO_PRINT:
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER:
+                        VM_stack_top[0].slumber = VM_stack_top[0].slumber + VM_stack_top[1].slumber;
+                        break;
 
-				VM_POP_STACK(1);
+                    case ML_TYPE_FLUMBER:
+                        VM_stack_top[0].flumber = VM_stack_top[0].flumber + VM_stack_top[1].flumber;
+                        break;
 
-				VM_convert_to_string(&VM_stack_top[0]);
+                    case ML_TYPE_STRVAR:
+                    case ML_TYPE_STRCONST:
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_STRVAR:
+                    {
+                        ML_Data result;
+                        std::int32_t length;
+                        char *str1;
+                        char *str2;
 
-						CONSOLE_print(VM_stack_top[0].strvar);
+                        //
+                        // How long is the resulting string?
+                        //
 
-						VM_data_free(VM_stack_top[0]);
+                        str1 = VM_get_string(VM_stack_top[0]);
+                        str2 = VM_get_string(VM_stack_top[1]);
 
-						break;
+                        length = strlen(str1) + strlen(str2) + 1; // + 1 for the terminating nullptr.
 
-					case ML_TYPE_STRCONST:
+                        //
+                        // Build the result.
+                        //
 
-						ASSERT(WITHIN(VM_stack_top[0].strconst, 0, VM_data_max - 2));
+                        result.type = ML_TYPE_STRVAR;
+                        result.strvar = (char *) MEM_alloc(length);
 
-						CONSOLE_print((char* ) (VM_data + VM_stack_top[0].strconst));
+                        strcpy(result.strvar, str1);
+                        strcat(result.strvar, str2);
 
-						break;
+                        //
+                        // Free memory.
+                        //
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                        VM_data_free(VM_stack_top[0]);
+                        VM_data_free(VM_stack_top[1]);
 
-				break;
+                        //
+                        // Put new data on the stack.
+                        //
 
-			case ML_DO_EXIT:
-				
-				//
-				// Free memory.
-				//
+                        VM_stack_top[0] = result;
+                    }
 
-				{
-					std::int32_t i;
+                    break;
 
-					for (i = 0; i < VM_global_max; i++)
-					{
-						VM_data_free(VM_global[i]);
-					}
+                    case ML_TYPE_VECTOR:
 
-					ASSERT(MEM_total_bytes_allocated() == 0);
-				}
+                        VM_stack_top[0].vector->x += VM_stack_top[1].vector->x;
+                        VM_stack_top[0].vector->y += VM_stack_top[1].vector->y;
+                        VM_stack_top[0].vector->z += VM_stack_top[1].vector->z;
 
-				return;
+                        VM_data_free(VM_stack_top[1]);
 
-			case ML_DO_GOTO:
+                        break;
 
-				//
-				// Valid address?
-				//
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
+                VM_stack_top += 1;
 
-				VM_code_pointer = &VM_code[VM_code_pointer[0]];
+                break;
 
-				break;
-			
-			case ML_DO_UMINUS:
-				
-				VM_POP_STACK(1);
+            case ML_DO_PRINT:
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER:
-						VM_stack_top[0].slumber = -VM_stack_top[0].slumber;
-						break;
+                VM_POP_STACK(1);
 
-					case ML_TYPE_FLUMBER:
-						VM_stack_top[0].flumber = -VM_stack_top[0].flumber;
-						break;
+                VM_convert_to_string(&VM_stack_top[0]);
 
-					case ML_TYPE_VECTOR:
-						VM_stack_top[0].vector->x = -VM_stack_top[0].vector->x;
-						VM_stack_top[0].vector->y = -VM_stack_top[0].vector->y;
-						VM_stack_top[0].vector->z = -VM_stack_top[0].vector->z;
-						break;
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_STRVAR:
 
-					default:
+                        CONSOLE_print(VM_stack_top[0].strvar);
 
-						//
-						// ERROR!
-						//
+                        VM_data_free(VM_stack_top[0]);
 
-						ASSERT(0);
+                        break;
 
-						break;
-				}
+                    case ML_TYPE_STRCONST:
 
-				VM_stack_top += 1;
+                        ASSERT(WITHIN(VM_stack_top[0].strconst, 0, VM_data_max - 2));
 
-				break;
+                        CONSOLE_print((char *) (VM_data + VM_stack_top[0].strconst));
 
-			case ML_DO_PUSH_GLOBAL_VALUE:
-				
-				VM_CHECK_STACK_PUSH();
+                        break;
 
-				ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(VM_code_pointer[0], 0, VM_global_max - 1));
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				//
-				// Push a copy of the global onto the stack. Any memory allocated
-				// by the original will be duplicated.
-				//
+                break;
 
-			   *VM_stack_top++ = VM_data_copy(VM_global[*VM_code_pointer++]);
+            case ML_DO_EXIT:
 
-				break;
+                //
+                // Free memory.
+                //
 
-			case ML_DO_PUSH_GLOBAL_QUICK:
-				
-				VM_CHECK_STACK_PUSH();
+                {
+                    std::int32_t i;
 
-				ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(VM_code_pointer[0], 0, VM_global_max - 1));
+                    for (i = 0; i < VM_global_max; i++) {
+                        VM_data_free(VM_global[i]);
+                    }
 
-				//
-				// Push a copy of the global onto the stack - don't copy data.
-				//
+                    ASSERT(MEM_total_bytes_allocated() == 0);
+                }
 
-			   *VM_stack_top++ = VM_global[*VM_code_pointer++];
+                return;
 
-				break;
+            case ML_DO_GOTO:
 
-			case ML_DO_MINUS:
-				
-				VM_POP_STACK(2);
+                //
+                // Valid address?
+                //
 
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// Must do type conversion...
-					//
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
 
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+                VM_code_pointer = &VM_code[VM_code_pointer[0]];
 
-				ASSERT(VM_stack_top[0].type == VM_stack_top[1].type);
+                break;
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER:
-						VM_stack_top[0].slumber = VM_stack_top[0].slumber - VM_stack_top[1].slumber;
-						break;
+            case ML_DO_UMINUS:
 
-					case ML_TYPE_FLUMBER:
-						VM_stack_top[0].flumber = VM_stack_top[0].flumber - VM_stack_top[1].flumber;
-						break;
+                VM_POP_STACK(1);
 
-					case ML_TYPE_VECTOR:
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER:
+                        VM_stack_top[0].slumber = -VM_stack_top[0].slumber;
+                        break;
 
-						VM_stack_top[0].vector->x -= VM_stack_top[1].vector->x;
-						VM_stack_top[0].vector->y -= VM_stack_top[1].vector->y;
-						VM_stack_top[0].vector->z -= VM_stack_top[1].vector->z;
+                    case ML_TYPE_FLUMBER:
+                        VM_stack_top[0].flumber = -VM_stack_top[0].flumber;
+                        break;
 
-						VM_data_free(VM_stack_top[1]);
+                    case ML_TYPE_VECTOR:
+                        VM_stack_top[0].vector->x = -VM_stack_top[0].vector->x;
+                        VM_stack_top[0].vector->y = -VM_stack_top[0].vector->y;
+                        VM_stack_top[0].vector->z = -VM_stack_top[0].vector->z;
+                        break;
 
-						break;
+                    default:
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                        //
+                        // ERROR!
+                        //
 
-				VM_stack_top += 1;
+                        ASSERT(0);
 
-				break;
+                        break;
+                }
 
-			case ML_DO_TIMES:
-				
-				VM_POP_STACK(2);
+                VM_stack_top += 1;
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER:
+                break;
 
-						switch(VM_stack_top[1].type)
-						{
-							case ML_TYPE_SLUMBER:
-								VM_stack_top[0].slumber *= VM_stack_top[1].slumber;
-								break;
+            case ML_DO_PUSH_GLOBAL_VALUE:
 
-							case ML_TYPE_FLUMBER:
+                VM_CHECK_STACK_PUSH();
 
-								//
-								// Answer becomes a float.
-								//
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(VM_code_pointer[0], 0, VM_global_max - 1));
 
-								VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-								VM_stack_top[0].flumber = float(VM_stack_top[0].slumber) * VM_stack_top[1].flumber;
+                //
+                // Push a copy of the global onto the stack. Any memory allocated
+                // by the original will be duplicated.
+                //
 
-								break;
+                *VM_stack_top++ = VM_data_copy(VM_global[*VM_code_pointer++]);
 
-							case ML_TYPE_VECTOR:
+                break;
 
-								{	
-									float fmul = float(VM_stack_top[0].slumber);
+            case ML_DO_PUSH_GLOBAL_QUICK:
 
-									VM_stack_top[0] = VM_stack_top[1];
+                VM_CHECK_STACK_PUSH();
 
-									VM_stack_top[0].vector->x *= fmul;
-									VM_stack_top[0].vector->y *= fmul;
-									VM_stack_top[0].vector->z *= fmul;
-								}
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(VM_code_pointer[0], 0, VM_global_max - 1));
 
-								break;
+                //
+                // Push a copy of the global onto the stack - don't copy data.
+                //
 
-							case ML_TYPE_MATRIX:
+                *VM_stack_top++ = VM_global[*VM_code_pointer++];
 
-								{	
-									float fmul = float(VM_stack_top[0].slumber);
+                break;
 
-									VM_stack_top[0] = VM_stack_top[1];
+            case ML_DO_MINUS:
 
-									VM_stack_top[0].matrix->vector[0].x *= fmul;
-									VM_stack_top[0].matrix->vector[0].y *= fmul;
-									VM_stack_top[0].matrix->vector[0].z *= fmul;
+                VM_POP_STACK(2);
 
-									VM_stack_top[0].matrix->vector[1].x *= fmul;
-									VM_stack_top[0].matrix->vector[1].y *= fmul;
-									VM_stack_top[0].matrix->vector[1].z *= fmul;
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do type conversion...
+                    //
 
-									VM_stack_top[0].matrix->vector[2].x *= fmul;
-									VM_stack_top[0].matrix->vector[2].y *= fmul;
-									VM_stack_top[0].matrix->vector[2].z *= fmul;
-								}
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-								break;
+                ASSERT(VM_stack_top[0].type == VM_stack_top[1].type);
 
-							default:
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER:
+                        VM_stack_top[0].slumber = VM_stack_top[0].slumber - VM_stack_top[1].slumber;
+                        break;
 
-								//
-								// ERROR!
-								//
+                    case ML_TYPE_FLUMBER:
+                        VM_stack_top[0].flumber = VM_stack_top[0].flumber - VM_stack_top[1].flumber;
+                        break;
 
-								ASSERT(0);
+                    case ML_TYPE_VECTOR:
 
-								break;
-						}
+                        VM_stack_top[0].vector->x -= VM_stack_top[1].vector->x;
+                        VM_stack_top[0].vector->y -= VM_stack_top[1].vector->y;
+                        VM_stack_top[0].vector->z -= VM_stack_top[1].vector->z;
 
-						break;
+                        VM_data_free(VM_stack_top[1]);
 
-					case ML_TYPE_FLUMBER:
+                        break;
 
-						switch(VM_stack_top[1].type)
-						{
-							case ML_TYPE_SLUMBER:
-								VM_stack_top[0].flumber *= (float) VM_stack_top[1].slumber;
-								break;
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-							case ML_TYPE_FLUMBER:
-								VM_stack_top[0].flumber *= VM_stack_top[1].flumber;
+                VM_stack_top += 1;
 
-								break;
+                break;
 
-							case ML_TYPE_VECTOR:
+            case ML_DO_TIMES:
 
-								{	
-									float fmul = VM_stack_top[0].flumber;
+                VM_POP_STACK(2);
 
-									VM_stack_top[0] = VM_stack_top[1];
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER:
 
-									VM_stack_top[0].vector->x *= fmul;
-									VM_stack_top[0].vector->y *= fmul;
-									VM_stack_top[0].vector->z *= fmul;
-								}
+                        switch (VM_stack_top[1].type) {
+                            case ML_TYPE_SLUMBER:
+                                VM_stack_top[0].slumber *= VM_stack_top[1].slumber;
+                                break;
 
-								break;
+                            case ML_TYPE_FLUMBER:
 
-							case ML_TYPE_MATRIX:
+                                //
+                                // Answer becomes a float.
+                                //
 
-								{	
-									float fmul = VM_stack_top[0].flumber;
+                                VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                                VM_stack_top[0].flumber = float(VM_stack_top[0].slumber) * VM_stack_top[1].flumber;
 
-									VM_stack_top[0] = VM_stack_top[1];
+                                break;
 
-									VM_stack_top[0].matrix->vector[0].x *= fmul;
-									VM_stack_top[0].matrix->vector[0].y *= fmul;
-									VM_stack_top[0].matrix->vector[0].z *= fmul;
+                            case ML_TYPE_VECTOR:
 
-									VM_stack_top[0].matrix->vector[1].x *= fmul;
-									VM_stack_top[0].matrix->vector[1].y *= fmul;
-									VM_stack_top[0].matrix->vector[1].z *= fmul;
+                            {
+                                float fmul = float(VM_stack_top[0].slumber);
 
-									VM_stack_top[0].matrix->vector[2].x *= fmul;
-									VM_stack_top[0].matrix->vector[2].y *= fmul;
-									VM_stack_top[0].matrix->vector[2].z *= fmul;
-								}
+                                VM_stack_top[0] = VM_stack_top[1];
 
-								break;
+                                VM_stack_top[0].vector->x *= fmul;
+                                VM_stack_top[0].vector->y *= fmul;
+                                VM_stack_top[0].vector->z *= fmul;
+                            }
 
-							default:
-								
-								//
-								// ERROR!
-								//
+                            break;
 
-								ASSERT(0);
+                            case ML_TYPE_MATRIX:
 
-								break;
-						}
+                            {
+                                float fmul = float(VM_stack_top[0].slumber);
 
-						break;
+                                VM_stack_top[0] = VM_stack_top[1];
 
-					case ML_TYPE_MATRIX:
+                                VM_stack_top[0].matrix->vector[0].x *= fmul;
+                                VM_stack_top[0].matrix->vector[0].y *= fmul;
+                                VM_stack_top[0].matrix->vector[0].z *= fmul;
 
-						switch(VM_stack_top[1].type)
-						{
-							case ML_TYPE_MATRIX:
+                                VM_stack_top[0].matrix->vector[1].x *= fmul;
+                                VM_stack_top[0].matrix->vector[1].y *= fmul;
+                                VM_stack_top[0].matrix->vector[1].z *= fmul;
 
-								//
-								// Matrix multiplication.
-								//
+                                VM_stack_top[0].matrix->vector[2].x *= fmul;
+                                VM_stack_top[0].matrix->vector[2].y *= fmul;
+                                VM_stack_top[0].matrix->vector[2].z *= fmul;
+                            }
 
-								{
-									ML_Matrix  ans;
-									ML_Matrix *a = VM_stack_top[0].matrix;
-									ML_Matrix *b = VM_stack_top[1].matrix;
+                            break;
 
-									ans.vector[0].x = a->vector[0].x * b->vector[0].x + a->vector[0].y * b->vector[1].x + a->vector[0].z * b->vector[2].x;
-									ans.vector[0].y = a->vector[0].x * b->vector[0].y + a->vector[0].y * b->vector[1].y + a->vector[0].z * b->vector[2].y;
-									ans.vector[0].z = a->vector[0].x * b->vector[0].z + a->vector[0].y * b->vector[1].z + a->vector[0].z * b->vector[2].z;
+                            default:
 
-									ans.vector[1].x = a->vector[1].x * b->vector[0].x + a->vector[1].y * b->vector[1].x + a->vector[1].z * b->vector[2].x;
-									ans.vector[1].y = a->vector[1].x * b->vector[0].y + a->vector[1].y * b->vector[1].y + a->vector[1].z * b->vector[2].y;
-									ans.vector[1].z = a->vector[1].x * b->vector[0].z + a->vector[1].y * b->vector[1].z + a->vector[1].z * b->vector[2].z;
+                                //
+                                // ERROR!
+                                //
 
-									ans.vector[2].x = a->vector[2].x * b->vector[0].x + a->vector[2].y * b->vector[1].x + a->vector[2].z * b->vector[2].x;
-									ans.vector[2].y = a->vector[2].x * b->vector[0].y + a->vector[2].y * b->vector[1].y + a->vector[2].z * b->vector[2].y;
-									ans.vector[2].z = a->vector[2].x * b->vector[0].z + a->vector[2].y * b->vector[1].z + a->vector[2].z * b->vector[2].z;
+                                ASSERT(0);
 
-								   *VM_stack_top[0].matrix = ans;
+                                break;
+                        }
 
-									//
-									// Don't need the second matrix any more.
-									//
+                        break;
 
-									VM_data_free(VM_stack_top[1]);
-								}
+                    case ML_TYPE_FLUMBER:
 
-								break;
-							
-							case ML_TYPE_VECTOR:
+                        switch (VM_stack_top[1].type) {
+                            case ML_TYPE_SLUMBER:
+                                VM_stack_top[0].flumber *= (float) VM_stack_top[1].slumber;
+                                break;
 
-								//
-								// Matrix * vector.
-								//
+                            case ML_TYPE_FLUMBER:
+                                VM_stack_top[0].flumber *= VM_stack_top[1].flumber;
 
-								{
-									ML_Vector ans;
+                                break;
 
-									ans.x = VM_stack_top[0].matrix->vector[0].x * VM_stack_top[1].vector->x + VM_stack_top[0].matrix->vector[0].y * VM_stack_top[1].vector->y + VM_stack_top[0].matrix->vector[0].z * VM_stack_top[1].vector->z;
-									ans.y = VM_stack_top[0].matrix->vector[1].x * VM_stack_top[1].vector->x + VM_stack_top[0].matrix->vector[1].y * VM_stack_top[1].vector->y + VM_stack_top[0].matrix->vector[1].z * VM_stack_top[1].vector->z;
-									ans.z = VM_stack_top[0].matrix->vector[2].x * VM_stack_top[1].vector->x + VM_stack_top[0].matrix->vector[2].y * VM_stack_top[1].vector->y + VM_stack_top[0].matrix->vector[2].z * VM_stack_top[1].vector->z;
+                            case ML_TYPE_VECTOR:
 
-									VM_data_free(VM_stack_top[0]);
+                            {
+                                float fmul = VM_stack_top[0].flumber;
 
-									VM_stack_top[0]           = VM_stack_top[1];
-									VM_stack_top[0].vector->x = ans.x;
-									VM_stack_top[0].vector->y = ans.y;
-									VM_stack_top[0].vector->z = ans.z;
-								}
+                                VM_stack_top[0] = VM_stack_top[1];
 
-								break;
+                                VM_stack_top[0].vector->x *= fmul;
+                                VM_stack_top[0].vector->y *= fmul;
+                                VM_stack_top[0].vector->z *= fmul;
+                            }
 
-							default:
+                            break;
 
-								//
-								// ERROR!
-								//
+                            case ML_TYPE_MATRIX:
 
-								ASSERT(0);
+                            {
+                                float fmul = VM_stack_top[0].flumber;
 
-								break;
-						}
+                                VM_stack_top[0] = VM_stack_top[1];
 
-						break;
+                                VM_stack_top[0].matrix->vector[0].x *= fmul;
+                                VM_stack_top[0].matrix->vector[0].y *= fmul;
+                                VM_stack_top[0].matrix->vector[0].z *= fmul;
 
-					case ML_TYPE_VECTOR:
+                                VM_stack_top[0].matrix->vector[1].x *= fmul;
+                                VM_stack_top[0].matrix->vector[1].y *= fmul;
+                                VM_stack_top[0].matrix->vector[1].z *= fmul;
 
-						switch(VM_stack_top[1].type)
-						{
-							case ML_TYPE_SLUMBER:
+                                VM_stack_top[0].matrix->vector[2].x *= fmul;
+                                VM_stack_top[0].matrix->vector[2].y *= fmul;
+                                VM_stack_top[0].matrix->vector[2].z *= fmul;
+                            }
 
-								{
-									float fmul = float(VM_stack_top[1].slumber);
+                            break;
 
-									VM_stack_top[0].vector->x *= fmul;
-									VM_stack_top[0].vector->y *= fmul;
-									VM_stack_top[0].vector->z *= fmul;
-								}
+                            default:
 
-								break;
+                                //
+                                // ERROR!
+                                //
 
-							case ML_TYPE_FLUMBER:
+                                ASSERT(0);
 
-								{
-									float fmul = VM_stack_top[1].flumber;
+                                break;
+                        }
 
-									VM_stack_top[0].vector->x *= fmul;
-									VM_stack_top[0].vector->y *= fmul;
-									VM_stack_top[0].vector->z *= fmul;
-								}
+                        break;
 
-								break;
+                    case ML_TYPE_MATRIX:
 
-							default:
-								
-								//
-								// ERROR!
-								//
+                        switch (VM_stack_top[1].type) {
+                            case ML_TYPE_MATRIX:
 
-								ASSERT(0);
+                                //
+                                // Matrix multiplication.
+                                //
 
-								break;
-						}
-						
+                                {
+                                    ML_Matrix ans;
+                                    ML_Matrix *a = VM_stack_top[0].matrix;
+                                    ML_Matrix *b = VM_stack_top[1].matrix;
 
-						break;
+                                    ans.vector[0].x = a->vector[0].x * b->vector[0].x + a->vector[0].y * b->vector[1].x + a->vector[0].z * b->vector[2].x;
+                                    ans.vector[0].y = a->vector[0].x * b->vector[0].y + a->vector[0].y * b->vector[1].y + a->vector[0].z * b->vector[2].y;
+                                    ans.vector[0].z = a->vector[0].x * b->vector[0].z + a->vector[0].y * b->vector[1].z + a->vector[0].z * b->vector[2].z;
 
-					default:
+                                    ans.vector[1].x = a->vector[1].x * b->vector[0].x + a->vector[1].y * b->vector[1].x + a->vector[1].z * b->vector[2].x;
+                                    ans.vector[1].y = a->vector[1].x * b->vector[0].y + a->vector[1].y * b->vector[1].y + a->vector[1].z * b->vector[2].y;
+                                    ans.vector[1].z = a->vector[1].x * b->vector[0].z + a->vector[1].y * b->vector[1].z + a->vector[1].z * b->vector[2].z;
 
-						//
-						// ERROR!
-						//
+                                    ans.vector[2].x = a->vector[2].x * b->vector[0].x + a->vector[2].y * b->vector[1].x + a->vector[2].z * b->vector[2].x;
+                                    ans.vector[2].y = a->vector[2].x * b->vector[0].y + a->vector[2].y * b->vector[1].y + a->vector[2].z * b->vector[2].y;
+                                    ans.vector[2].z = a->vector[2].x * b->vector[0].z + a->vector[2].y * b->vector[1].z + a->vector[2].z * b->vector[2].z;
 
-						ASSERT(0);
+                                    *VM_stack_top[0].matrix = ans;
 
-						break;
-				}
+                                    //
+                                    // Don't need the second matrix any more.
+                                    //
 
-				VM_stack_top += 1;
+                                    VM_data_free(VM_stack_top[1]);
+                                }
 
-				break;
+                                break;
 
-			case ML_DO_DIVIDE:
-				
-				VM_POP_STACK(2);
+                            case ML_TYPE_VECTOR:
 
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// Must do type conversion...
-					//
+                                //
+                                // Matrix * vector.
+                                //
 
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+                                {
+                                    ML_Vector ans;
 
-				ASSERT(VM_stack_top[0].type == VM_stack_top[1].type);
+                                    ans.x = VM_stack_top[0].matrix->vector[0].x * VM_stack_top[1].vector->x + VM_stack_top[0].matrix->vector[0].y * VM_stack_top[1].vector->y + VM_stack_top[0].matrix->vector[0].z * VM_stack_top[1].vector->z;
+                                    ans.y = VM_stack_top[0].matrix->vector[1].x * VM_stack_top[1].vector->x + VM_stack_top[0].matrix->vector[1].y * VM_stack_top[1].vector->y + VM_stack_top[0].matrix->vector[1].z * VM_stack_top[1].vector->z;
+                                    ans.z = VM_stack_top[0].matrix->vector[2].x * VM_stack_top[1].vector->x + VM_stack_top[0].matrix->vector[2].y * VM_stack_top[1].vector->y + VM_stack_top[0].matrix->vector[2].z * VM_stack_top[1].vector->z;
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER:
-						VM_stack_top[0].slumber = VM_stack_top[0].slumber / VM_stack_top[1].slumber;
-						break;
+                                    VM_data_free(VM_stack_top[0]);
 
-					case ML_TYPE_FLUMBER:
-						VM_stack_top[0].flumber = VM_stack_top[0].flumber / VM_stack_top[1].flumber;
-						break;
+                                    VM_stack_top[0] = VM_stack_top[1];
+                                    VM_stack_top[0].vector->x = ans.x;
+                                    VM_stack_top[0].vector->y = ans.y;
+                                    VM_stack_top[0].vector->z = ans.z;
+                                }
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                                break;
 
-				VM_stack_top += 1;
+                            default:
 
-				break;
+                                //
+                                // ERROR!
+                                //
 
-			case ML_DO_MOD:
-				
-				VM_POP_STACK(2);
+                                ASSERT(0);
 
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// Must do type conversion...
-					//
+                                break;
+                        }
 
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+                        break;
 
-				ASSERT(VM_stack_top[0].type == VM_stack_top[1].type);
+                    case ML_TYPE_VECTOR:
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER:
-						VM_stack_top[0].slumber = VM_stack_top[0].slumber % VM_stack_top[1].slumber;
-						break;
+                        switch (VM_stack_top[1].type) {
+                            case ML_TYPE_SLUMBER:
 
-					case ML_TYPE_FLUMBER:
-						VM_stack_top[0].flumber = fmodf(VM_stack_top[0].flumber,VM_stack_top[1].flumber);
-						break;
+                            {
+                                float fmul = float(VM_stack_top[1].slumber);
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                                VM_stack_top[0].vector->x *= fmul;
+                                VM_stack_top[0].vector->y *= fmul;
+                                VM_stack_top[0].vector->z *= fmul;
+                            }
 
-				VM_stack_top += 1;
+                            break;
 
-				break;
+                            case ML_TYPE_FLUMBER:
 
-			case ML_DO_IF_FALSE_GOTO:
+                            {
+                                float fmul = VM_stack_top[1].flumber;
 
-				VM_POP_STACK(1);
+                                VM_stack_top[0].vector->x *= fmul;
+                                VM_stack_top[0].vector->y *= fmul;
+                                VM_stack_top[0].vector->z *= fmul;
+                            }
 
-				if (VM_stack_top[0].type != ML_TYPE_BOOLEAN)
-				{
-					//
-					// ERROR! Or maybe type conversion? What if there is a string
-					// that says "YES", for instance?
-					//
+                            break;
 
-					ASSERT(0);
-				}
+                            default:
 
-				if (!VM_stack_top[0].boolean)
-				{
-					//
-					// Valid address?
-					//
+                                //
+                                // ERROR!
+                                //
 
-					ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-					ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
+                                ASSERT(0);
 
-					VM_code_pointer = &VM_code[VM_code_pointer[0]];
-				}
-				else
-				{
-					//
-					// Skip over the address instruction.
-					//
+                                break;
+                        }
 
-					VM_code_pointer++;
-				}
+                        break;
 
-				break;
+                    default:
 
-			case ML_DO_AND:
+                        //
+                        // ERROR!
+                        //
 
-				VM_POP_STACK(2);
+                        ASSERT(0);
 
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// ERROR! AND only works on the same values!
-					//
+                        break;
+                }
 
-					ASSERT(0);
-				}
+                VM_stack_top += 1;
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = VM_stack_top[0].boolean && VM_stack_top[1].boolean; break;
+                break;
 
-					default:
-						ASSERT(0);
-						break;
-				}
+            case ML_DO_DIVIDE:
 
-				VM_stack_top++;
+                VM_POP_STACK(2);
 
-				break;
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do type conversion...
+                    //
 
-			case ML_DO_OR:
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-				VM_POP_STACK(2);
+                ASSERT(VM_stack_top[0].type == VM_stack_top[1].type);
 
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// ERROR! AND only works on the same values!
-					//
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER:
+                        VM_stack_top[0].slumber = VM_stack_top[0].slumber / VM_stack_top[1].slumber;
+                        break;
 
-					ASSERT(0);
-				}
+                    case ML_TYPE_FLUMBER:
+                        VM_stack_top[0].flumber = VM_stack_top[0].flumber / VM_stack_top[1].flumber;
+                        break;
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = VM_stack_top[0].boolean || VM_stack_top[1].boolean; break;
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                VM_stack_top += 1;
 
-				VM_stack_top++;
+                break;
 
-				break;
+            case ML_DO_MOD:
 
-			case ML_DO_EQUALS:
-			case ML_DO_NOTEQUAL:
-			case ML_DO_JNEQ_POP_1:
+                VM_POP_STACK(2);
 
-				{
-					std::int32_t are_equal = false;
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do type conversion...
+                    //
 
-					VM_POP_STACK(2);
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-					if (VM_stack_top[0].type !=	VM_stack_top[1].type)
-					{
-						//
-						// Must do some type conversion???
-						//
+                ASSERT(VM_stack_top[0].type == VM_stack_top[1].type);
 
-						if ((VM_stack_top[0].type == ML_TYPE_STRVAR || VM_stack_top[0].type == ML_TYPE_STRCONST) &&
-							(VM_stack_top[1].type == ML_TYPE_STRVAR || VM_stack_top[1].type == ML_TYPE_STRCONST))
-						{
-							//
-							// Both are strings... 
-							//
-						}
-						else
-						{
-							//
-							// Different types aren't equal.
-							//
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER:
+                        VM_stack_top[0].slumber = VM_stack_top[0].slumber % VM_stack_top[1].slumber;
+                        break;
 
-							are_equal = false;
+                    case ML_TYPE_FLUMBER:
+                        VM_stack_top[0].flumber = fmodf(VM_stack_top[0].flumber, VM_stack_top[1].flumber);
+                        break;
 
-							goto found_out_equality;
-						}
-					}
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_BOOLEAN: are_equal = VM_stack_top[0].boolean == VM_stack_top[1].boolean; break;
-						case ML_TYPE_SLUMBER: are_equal = VM_stack_top[0].slumber == VM_stack_top[1].slumber; break;
-						case ML_TYPE_FLUMBER: are_equal = VM_stack_top[0].flumber == VM_stack_top[1].flumber; break;
+                VM_stack_top += 1;
 
-						case ML_TYPE_STRCONST:
-						case ML_TYPE_STRVAR:
-							
-							{
-								if (strcmp(
-										VM_get_string(VM_stack_top[0]), 
-										VM_get_string(VM_stack_top[1])) == 0)
-								{
-									are_equal = true;
-								}
-								else
-								{
-									are_equal = false;
-								}
-							}
+                break;
 
-							break;
+            case ML_DO_IF_FALSE_GOTO:
 
-						case ML_TYPE_UNDEFINED:
-							are_equal = true;
-							break;
+                VM_POP_STACK(1);
 
-						default:
+                if (VM_stack_top[0].type != ML_TYPE_BOOLEAN) {
+                    //
+                    // ERROR! Or maybe type conversion? What if there is a string
+                    // that says "YES", for instance?
+                    //
 
-							//
-							// ERROR!
-							//
+                    ASSERT(0);
+                }
 
-							ASSERT(0);
+                if (!VM_stack_top[0].boolean) {
+                    //
+                    // Valid address?
+                    //
 
-							break;
-					}
+                    ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                    ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
 
-				  found_out_equality:;
+                    VM_code_pointer = &VM_code[VM_code_pointer[0]];
+                } else {
+                    //
+                    // Skip over the address instruction.
+                    //
 
-					switch(VM_code_pointer[-1])
-					{
-						case ML_DO_NOTEQUAL:
+                    VM_code_pointer++;
+                }
 
-							VM_data_free(VM_stack_top[0]);
-							VM_data_free(VM_stack_top[1]);
+                break;
 
-							VM_stack_top[0].type    =  ML_TYPE_BOOLEAN;
-							VM_stack_top[0].boolean = !are_equal;
+            case ML_DO_AND:
 
-							VM_stack_top++;
+                VM_POP_STACK(2);
 
-							break;
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // ERROR! AND only works on the same values!
+                    //
 
-						case ML_DO_JNEQ_POP_1:
+                    ASSERT(0);
+                }
 
-							if (VM_stack_top[0].boolean)
-							{
-								//
-								// Pop both values.
-								//
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = VM_stack_top[0].boolean && VM_stack_top[1].boolean; break;
 
-								VM_data_free(VM_stack_top[0]);
-								VM_data_free(VM_stack_top[1]);
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-								//
-								// Step over the jump address.
-								//
+                VM_stack_top++;
 
-								VM_code_pointer += 1;
-							}
-							else
-							{
-								//
-								// Pop just one value and jump.
-								//
+                break;
 
-								VM_data_free(VM_stack_top[1]);
+            case ML_DO_OR:
 
-								VM_stack_top++;
+                VM_POP_STACK(2);
 
-								//
-								// Valid address?
-								//
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // ERROR! AND only works on the same values!
+                    //
 
-								ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-								ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
+                    ASSERT(0);
+                }
 
-								VM_code_pointer = &VM_code[VM_code_pointer[0]];
-							}
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = VM_stack_top[0].boolean || VM_stack_top[1].boolean; break;
 
-							break;
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-						case ML_DO_EQUALS:
+                VM_stack_top++;
 
-							VM_data_free(VM_stack_top[0]);
-							VM_data_free(VM_stack_top[1]);
+                break;
 
-							VM_stack_top[0].type    = ML_TYPE_BOOLEAN;
-							VM_stack_top[0].boolean = are_equal;
+            case ML_DO_EQUALS:
+            case ML_DO_NOTEQUAL:
+            case ML_DO_JNEQ_POP_1:
 
-							VM_stack_top++;
+            {
+                std::int32_t are_equal = false;
 
-							break;
+                VM_POP_STACK(2);
 
-						default:
-							ASSERT(0);
-							break;
-					}
-				}
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do some type conversion???
+                    //
 
-				break;
+                    if ((VM_stack_top[0].type == ML_TYPE_STRVAR || VM_stack_top[0].type == ML_TYPE_STRCONST) &&
+                        (VM_stack_top[1].type == ML_TYPE_STRVAR || VM_stack_top[1].type == ML_TYPE_STRCONST)) {
+                        //
+                        // Both are strings...
+                        //
+                    } else {
+                        //
+                        // Different types aren't equal.
+                        //
 
-			case ML_DO_GT:
+                        are_equal = false;
 
-				VM_POP_STACK(2);
+                        goto found_out_equality;
+                    }
+                }
 
-				if (VM_stack_top[0].type !=	VM_stack_top[1].type)
-				{
-					//
-					// Must do some type conversion.
-					//
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_BOOLEAN: are_equal = VM_stack_top[0].boolean == VM_stack_top[1].boolean; break;
+                    case ML_TYPE_SLUMBER: are_equal = VM_stack_top[0].slumber == VM_stack_top[1].slumber; break;
+                    case ML_TYPE_FLUMBER: are_equal = VM_stack_top[0].flumber == VM_stack_top[1].flumber; break;
 
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+                    case ML_TYPE_STRCONST:
+                    case ML_TYPE_STRVAR:
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber > VM_stack_top[1].slumber; break;
-					case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber > VM_stack_top[1].flumber; break;
+                    {
+                        if (strcmp(
+                                VM_get_string(VM_stack_top[0]),
+                                VM_get_string(VM_stack_top[1])) == 0) {
+                            are_equal = true;
+                        } else {
+                            are_equal = false;
+                        }
+                    }
 
-					default:
+                    break;
 
-						//
-						// ERROR!
-						//
+                    case ML_TYPE_UNDEFINED:
+                        are_equal = true;
+                        break;
 
-						ASSERT(0);
+                    default:
 
-						break;
-				}
+                        //
+                        // ERROR!
+                        //
 
-				VM_stack_top[0].type = ML_TYPE_BOOLEAN;
-				VM_stack_top++;
+                        ASSERT(0);
 
-				break;
+                        break;
+                }
 
-			case ML_DO_LT:
+            found_out_equality:;
 
-				VM_POP_STACK(2);
+                switch (VM_code_pointer[-1]) {
+                    case ML_DO_NOTEQUAL:
 
-				if (VM_stack_top[0].type !=	VM_stack_top[1].type)
-				{
-					//
-					// Must do some type conversion.
-					//
+                        VM_data_free(VM_stack_top[0]);
+                        VM_data_free(VM_stack_top[1]);
 
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+                        VM_stack_top[0].type = ML_TYPE_BOOLEAN;
+                        VM_stack_top[0].boolean = !are_equal;
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber < VM_stack_top[1].slumber; break;
-					case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber < VM_stack_top[1].flumber; break;
+                        VM_stack_top++;
 
-					default:
+                        break;
 
-						//
-						// ERROR!
-						//
+                    case ML_DO_JNEQ_POP_1:
 
-						ASSERT(0);
+                        if (VM_stack_top[0].boolean) {
+                            //
+                            // Pop both values.
+                            //
 
-						break;
-				}
+                            VM_data_free(VM_stack_top[0]);
+                            VM_data_free(VM_stack_top[1]);
 
-				VM_stack_top[0].type = ML_TYPE_BOOLEAN;
-				VM_stack_top++;
+                            //
+                            // Step over the jump address.
+                            //
 
-				break;
+                            VM_code_pointer += 1;
+                        } else {
+                            //
+                            // Pop just one value and jump.
+                            //
 
-			case ML_DO_GTEQ:
+                            VM_data_free(VM_stack_top[1]);
 
-				VM_POP_STACK(2);
+                            VM_stack_top++;
 
-				if (VM_stack_top[0].type !=	VM_stack_top[1].type)
-				{
-					//
-					// Must do some type conversion.
-					//
-				
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+                            //
+                            // Valid address?
+                            //
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber >= VM_stack_top[1].slumber; break;
-					case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber >= VM_stack_top[1].flumber; break;
+                            ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                            ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
 
-					default:
+                            VM_code_pointer = &VM_code[VM_code_pointer[0]];
+                        }
 
-						//
-						// ERROR!
-						//
+                        break;
 
-						ASSERT(0);
+                    case ML_DO_EQUALS:
 
-						break;
-				}
+                        VM_data_free(VM_stack_top[0]);
+                        VM_data_free(VM_stack_top[1]);
 
-				VM_stack_top[0].type = ML_TYPE_BOOLEAN;
-				VM_stack_top++;
+                        VM_stack_top[0].type = ML_TYPE_BOOLEAN;
+                        VM_stack_top[0].boolean = are_equal;
 
-				break;
+                        VM_stack_top++;
 
-			case ML_DO_LTEQ:
+                        break;
 
-				VM_POP_STACK(2);
+                    default:
+                        ASSERT(0);
+                        break;
+                }
+            }
 
-				if (VM_stack_top[0].type !=	VM_stack_top[1].type)
-				{
-					//
-					// Must do some type conversion.
-					//
+            break;
 
-					VM_convert_stack_top_to_same_numerical_type();
-				}
+            case ML_DO_GT:
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber <= VM_stack_top[1].slumber; break;
-					case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber <= VM_stack_top[1].flumber; break;
+                VM_POP_STACK(2);
 
-					default:
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do some type conversion.
+                    //
 
-						//
-						// ERROR!
-						//
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-						ASSERT(0);
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber > VM_stack_top[1].slumber; break;
+                    case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber > VM_stack_top[1].flumber; break;
 
-						break;
-				}
+                    default:
 
-				VM_stack_top[0].type = ML_TYPE_BOOLEAN;
-				VM_stack_top++;
+                        //
+                        // ERROR!
+                        //
 
-				break;
+                        ASSERT(0);
 
-			case ML_DO_NOT:
+                        break;
+                }
 
-				VM_POP_STACK(1);
+                VM_stack_top[0].type = ML_TYPE_BOOLEAN;
+                VM_stack_top++;
 
-				switch (VM_stack_top[0].type)
-				{
-					case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = !VM_stack_top[0].boolean; break;
+                break;
 
-					default:
-						ASSERT(0);
-						break;
-				}
+            case ML_DO_LT:
 
-				VM_stack_top++;
-				
-				break;
+                VM_POP_STACK(2);
 
-			case ML_DO_SQRT:
-				
-				VM_POP_STACK(1);
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do some type conversion.
+                    //
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].slumber = (std::int32_t) sqrtf(float(VM_stack_top[0].slumber)); break;
-					case ML_TYPE_FLUMBER: VM_stack_top[0].flumber =         sqrtf(float(VM_stack_top[0].flumber)); break;
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-					default:
-						
-						//
-						// ERROR!
-						//
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber < VM_stack_top[1].slumber; break;
+                    case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber < VM_stack_top[1].flumber; break;
 
-						ASSERT(0);
+                    default:
 
-						break;
-				}
+                        //
+                        // ERROR!
+                        //
 
-				VM_stack_top += 1;
+                        ASSERT(0);
 
-				break;
+                        break;
+                }
 
-			case ML_DO_NEWLINE:
-				CONSOLE_print("");
-				break;
+                VM_stack_top[0].type = ML_TYPE_BOOLEAN;
+                VM_stack_top++;
 
-			case ML_DO_ABS:
+                break;
 
-				VM_POP_STACK(1);
+            case ML_DO_GTEQ:
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_SLUMBER: VM_stack_top[0].slumber = abs  (VM_stack_top[0].slumber); break;
-					case ML_TYPE_FLUMBER: VM_stack_top[0].flumber = fabsf(VM_stack_top[0].flumber); break;
+                VM_POP_STACK(2);
 
-					default:
-						
-						//
-						// ERROR!
-						//
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do some type conversion.
+                    //
 
-						ASSERT(0);
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-						break;
-				}
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber >= VM_stack_top[1].slumber; break;
+                    case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber >= VM_stack_top[1].flumber; break;
 
-				VM_stack_top += 1;
+                    default:
 
-				break;
+                        //
+                        // ERROR!
+                        //
 
-			case ML_DO_PUSH_GLOBAL_ADDRESS:
-				
-				VM_CHECK_STACK_PUSH();
+                        ASSERT(0);
 
-				ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(VM_code_pointer[0], 0, VM_global_max - 1));
+                        break;
+                }
 
-				VM_stack_top[0].type =  ML_TYPE_POINTER;
-				VM_stack_top[0].data = &VM_global[*VM_code_pointer++];
+                VM_stack_top[0].type = ML_TYPE_BOOLEAN;
+                VM_stack_top++;
 
-				VM_stack_top++;
+                break;
 
-				break;
+            case ML_DO_LTEQ:
 
-			case ML_DO_ASSIGN:
+                VM_POP_STACK(2);
 
-				VM_POP_STACK(2);
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // Must do some type conversion.
+                    //
 
-				ASSERT(VM_stack_top[1].type == ML_TYPE_POINTER);
-				
-				//
-				// Free any memory used by the current variable.
-				//
+                    VM_convert_stack_top_to_same_numerical_type();
+                }
 
-				VM_data_free(*VM_stack_top[1].data);
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].slumber <= VM_stack_top[1].slumber; break;
+                    case ML_TYPE_FLUMBER: VM_stack_top[0].boolean = VM_stack_top[0].flumber <= VM_stack_top[1].flumber; break;
 
-				//
-				// Overwrite old value.
-				//
+                    default:
 
-			   *VM_stack_top[1].data = VM_stack_top[0];
+                        //
+                        // ERROR!
+                        //
 
-				break;
+                        ASSERT(0);
 
-			case ML_DO_PUSH_FIELD_ADDRESS:
+                        break;
+                }
 
-				VM_POP_STACK(1);
+                VM_stack_top[0].type = ML_TYPE_BOOLEAN;
+                VM_stack_top++;
 
-				ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
+                break;
 
-				if (VM_stack_top[0].type == ML_TYPE_POINTER)
-				{
-					std::int32_t    field_id;
-					ML_Data *data;
+            case ML_DO_NOT:
 
-					field_id = *VM_code_pointer++;
-					data     =  VM_stack_top[0].data;
+                VM_POP_STACK(1);
 
-					switch(data->type)
-					{
-						case ML_TYPE_STRUCTURE:
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = !VM_stack_top[0].boolean; break;
 
-							//
-							// Does this variable already have this field?
-							//
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-							std::int32_t i;
+                VM_stack_top++;
 
-							for (i = 0; i < data->structure->num_fields; i++)
-							{
-								if (data->structure->field[i].field_id == field_id)
-								{
-									//
-									// Found our field. Push the address onto the stack.
-									//
+                break;
 
-									VM_stack_top[0].type =  ML_TYPE_POINTER;
-									VM_stack_top[0].data = &data->structure->field[i].data;
+            case ML_DO_SQRT:
 
-									VM_stack_top++;
+                VM_POP_STACK(1);
 
-									break;
-								}
-							}
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER: VM_stack_top[0].slumber = (std::int32_t) sqrtf(float(VM_stack_top[0].slumber)); break;
+                    case ML_TYPE_FLUMBER: VM_stack_top[0].flumber = sqrtf(float(VM_stack_top[0].flumber)); break;
 
-							//
-							// Must add another field.
-							//
+                    default:
 
-							ML_Structure *ms;
-							
-							ms = (ML_Structure *) MEM_alloc(sizeof(ML_Structure) + (data->structure->num_fields + 1) * sizeof(ML_Field));
+                        //
+                        // ERROR!
+                        //
 
-							memcpy(ms, data->structure, sizeof(ML_Structure) + data->structure->num_fields * sizeof(ML_Field));
+                        ASSERT(0);
 
-							ms->field[ms->num_fields].field_id  = field_id;
-							ms->field[ms->num_fields].data.type = ML_TYPE_UNDEFINED;
+                        break;
+                }
 
-							//
-							// Push address onto the stack.
-							//
+                VM_stack_top += 1;
 
-							VM_stack_top[0].type =  ML_TYPE_POINTER;
-							VM_stack_top[0].data = &ms->field[ms->num_fields].data;
+                break;
 
-							VM_stack_top++;
+            case ML_DO_NEWLINE:
+                CONSOLE_print("");
+                break;
 
-							ms->num_fields += 1;
+            case ML_DO_ABS:
 
-							//
-							// Get rid of old memory- point to new memory.
-							//
+                VM_POP_STACK(1);
 
-							MEM_free(data->structure);
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_SLUMBER: VM_stack_top[0].slumber = abs(VM_stack_top[0].slumber); break;
+                    case ML_TYPE_FLUMBER: VM_stack_top[0].flumber = fabsf(VM_stack_top[0].flumber); break;
 
-							data->structure = ms;
+                    default:
 
-							break;
+                        //
+                        // ERROR!
+                        //
 
-						case ML_TYPE_MATRIX:
+                        ASSERT(0);
 
-							//
-							// Can only access fields (x,y,z)
-							//
+                        break;
+                }
 
-							if (!WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z))
-							{
-								//
-								// ERROR!
-								//
+                VM_stack_top += 1;
 
-								ASSERT(0);
-							}
+                break;
 
-							//
-							// Push address onto the stack.
-							//
+            case ML_DO_PUSH_GLOBAL_ADDRESS:
 
-							VM_stack_top[0].type   =  ML_TYPE_VOINTER;
-							VM_stack_top[0].vector = &data->matrix->vector[field_id];
+                VM_CHECK_STACK_PUSH();
 
-							VM_stack_top++;
+                ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(VM_code_pointer[0], 0, VM_global_max - 1));
 
-							break;
+                VM_stack_top[0].type = ML_TYPE_POINTER;
+                VM_stack_top[0].data = &VM_global[*VM_code_pointer++];
 
-						case ML_TYPE_VECTOR:
+                VM_stack_top++;
 
-							//
-							// Can only access fields (x,y,z)
-							//
+                break;
 
-							if (!WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z))
-							{
-								//
-								// ERROR!
-								//
+            case ML_DO_ASSIGN:
 
-								ASSERT(0);
-							}
+                VM_POP_STACK(2);
 
-							//
-							// Push address onto the stack.
-							//
+                ASSERT(VM_stack_top[1].type == ML_TYPE_POINTER);
 
-							VM_stack_top[0].type     = ML_TYPE_FLOINTER;
-							VM_stack_top[0].flointer = &(&data->vector->x)[field_id];
+                //
+                // Free any memory used by the current variable.
+                //
 
-							VM_stack_top++;
+                VM_data_free(*VM_stack_top[1].data);
 
-							break;
+                //
+                // Overwrite old value.
+                //
 
-						default:
+                *VM_stack_top[1].data = VM_stack_top[0];
 
-							//
-							// Create a struture with just one field marked as undefined.
-							//
+                break;
 
-							VM_data_free(*data);
+            case ML_DO_PUSH_FIELD_ADDRESS:
 
-							data->type                          = ML_TYPE_STRUCTURE;
-							data->structure                     = (ML_Structure *) MEM_alloc(sizeof(ML_Structure) + sizeof(ML_Field) * 1);
-							data->structure->num_fields         = 1;
-							data->structure->field[0].field_id  = field_id;
-							data->structure->field[0].data.type = ML_TYPE_UNDEFINED;
+                VM_POP_STACK(1);
 
-							//
-							// Push the address of this field onto the stack.
-							//
+                ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
-							VM_stack_top[0].type =  ML_TYPE_POINTER;
-							VM_stack_top[0].data = &data->structure->field[0].data;
+                if (VM_stack_top[0].type == ML_TYPE_POINTER) {
+                    std::int32_t field_id;
+                    ML_Data *data;
 
-							VM_stack_top++;
+                    field_id = *VM_code_pointer++;
+                    data = VM_stack_top[0].data;
 
-							break;
-					}
-				}
-				else
-				if (VM_stack_top[0].type == ML_TYPE_VOINTER)
-				{
-					std::int32_t    field_id;
-					ML_Data *data;
+                    switch (data->type) {
+                        case ML_TYPE_STRUCTURE:
 
-					field_id = *VM_code_pointer++;
+                            //
+                            // Does this variable already have this field?
+                            //
 
-					//
-					// Can only access fields (x,y,z)
-					//
+                            std::int32_t i;
 
-					if (!WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z))
-					{
-						//
-						// ERROR!
-						//
+                            for (i = 0; i < data->structure->num_fields; i++) {
+                                if (data->structure->field[i].field_id == field_id) {
+                                    //
+                                    // Found our field. Push the address onto the stack.
+                                    //
 
-						ASSERT(0);
-					}
+                                    VM_stack_top[0].type = ML_TYPE_POINTER;
+                                    VM_stack_top[0].data = &data->structure->field[i].data;
 
-					//
-					// Push address onto the stack.
-					//
+                                    VM_stack_top++;
 
-					VM_stack_top[0].type     = ML_TYPE_FLOINTER;
-					VM_stack_top[0].flointer = &(&VM_stack_top[0].vector->x)[field_id];
+                                    break;
+                                }
+                            }
 
-					VM_stack_top++;
-				}
-				else
-				if (VM_stack_top[0].type == ML_TYPE_FLOINTER)
-				{
-					//
-					// ERROR!
-					//
+                            //
+                            // Must add another field.
+                            //
 
-					ASSERT(0);
-				}
-				else
-				{
-					//
-					// ERROR! This is an internal error - not a real error.
-					//
+                            ML_Structure *ms;
 
-					ASSERT(0);
-				}
+                            ms = (ML_Structure *) MEM_alloc(sizeof(ML_Structure) + (data->structure->num_fields + 1) * sizeof(ML_Field));
 
-				break;
+                            memcpy(ms, data->structure, sizeof(ML_Structure) + data->structure->num_fields * sizeof(ML_Field));
 
-			case ML_DO_PUSH_FIELD_VALUE:
-			case ML_DO_PUSH_FIELD_QUICK:
+                            ms->field[ms->num_fields].field_id = field_id;
+                            ms->field[ms->num_fields].data.type = ML_TYPE_UNDEFINED;
 
-				VM_POP_STACK(1);
+                            //
+                            // Push address onto the stack.
+                            //
 
-				ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
+                            VM_stack_top[0].type = ML_TYPE_POINTER;
+                            VM_stack_top[0].data = &ms->field[ms->num_fields].data;
 
-				{
-					std::int32_t field_id;
+                            VM_stack_top++;
 
-					field_id = *VM_code_pointer++;
+                            ms->num_fields += 1;
 
-					//
-					// Is this variable already a structure?
-					//
+                            //
+                            // Get rid of old memory- point to new memory.
+                            //
 
-					if (VM_stack_top[0].type != ML_TYPE_STRUCTURE)
-					{
-						if (VM_stack_top[0].type == ML_TYPE_MATRIX)
-						{
-							if (WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z))
-							{
-								ML_Data ans;
+                            MEM_free(data->structure);
 
-								if (VM_code_pointer[-2] == ML_DO_PUSH_FIELD_QUICK)
-								{
-									//
-									// Point to the same data as the matrix.
-									//
+                            data->structure = ms;
 
-									ans.type   =  ML_TYPE_VECTOR;
-									ans.vector = &VM_stack_top[0].matrix->vector[field_id];
-								}
-								else
-								{
-									//
-									// Copy the matrix data to create a new vector.
-									//
+                            break;
 
-									ans.type     = ML_TYPE_VECTOR;
-									ans.vector   = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
-								   *(ans.vector) = VM_stack_top[0].matrix->vector[field_id];
+                        case ML_TYPE_MATRIX:
 
-									VM_stack_top[0] = ans;
-									VM_stack_top++;
-								}
-							}
-							else
-							{
-								//
-								// No such field... push <UNDEFINED> onto the stack.
-								//
+                            //
+                            // Can only access fields (x,y,z)
+                            //
 
-								VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                            if (!WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z)) {
+                                //
+                                // ERROR!
+                                //
 
-								VM_stack_top++;
-							}
-						}
-						else
-						if (VM_stack_top[0].type == ML_TYPE_VECTOR)
-						{
-							if (WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z))
-							{
-								ML_Data ans;
+                                ASSERT(0);
+                            }
 
-								//
-								// Point to the same data as the matrix.
-								//
+                            //
+                            // Push address onto the stack.
+                            //
 
-								ans.type    = ML_TYPE_FLUMBER;
-								ans.flumber = (&VM_stack_top[0].vector->x)[field_id];
+                            VM_stack_top[0].type = ML_TYPE_VOINTER;
+                            VM_stack_top[0].vector = &data->matrix->vector[field_id];
 
-								VM_stack_top[0] = ans;
-								VM_stack_top++;
-							}
-							else
-							{
-								//
-								// No such field... push <UNDEFINED> onto the stack.
-								//
+                            VM_stack_top++;
 
-								VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                            break;
 
-								VM_stack_top++;
-							}
-						}
-						else
-						{
-							//
-							// No such field... push <UNDEFINED> onto the stack.
-							//
+                        case ML_TYPE_VECTOR:
 
-							VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                            //
+                            // Can only access fields (x,y,z)
+                            //
 
-							VM_stack_top++;
-						}
-					}
-					else
-					{
-						//
-						// Does this variable already have this field?
-						//
+                            if (!WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z)) {
+                                //
+                                // ERROR!
+                                //
 
-						std::int32_t i;
+                                ASSERT(0);
+                            }
 
-						for (i = 0; i < VM_stack_top[0].structure->num_fields; i++)
-						{
-							if (VM_stack_top[0].structure->field[i].field_id == field_id)
-							{
-								//
-								// Found our field. Push a copy of the value onto the stack.
-								//
+                            //
+                            // Push address onto the stack.
+                            //
 
-								if (VM_code_pointer[-2] == ML_DO_PUSH_FIELD_QUICK)
-								{
-									//
-									// Push on the actual data rather than a copy.
-									//
+                            VM_stack_top[0].type = ML_TYPE_FLOINTER;
+                            VM_stack_top[0].flointer = &(&data->vector->x)[field_id];
 
-									VM_stack_top[0] = VM_stack_top[0].structure->field[i].data;
-								}
-								else
-								{
-									//
-									// Push on a copy of the data.
-									//
+                            VM_stack_top++;
 
-									VM_stack_top[0] = VM_data_copy(VM_stack_top[0].structure->field[i].data);
-								}
+                            break;
 
-								VM_stack_top++;
+                        default:
 
-								goto pushed_field_value;
-							}
-						}
+                            //
+                            // Create a struture with just one field marked as undefined.
+                            //
 
-						VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                            VM_data_free(*data);
 
-						VM_stack_top++;
+                            data->type = ML_TYPE_STRUCTURE;
+                            data->structure = (ML_Structure *) MEM_alloc(sizeof(ML_Structure) + sizeof(ML_Field) * 1);
+                            data->structure->num_fields = 1;
+                            data->structure->field[0].field_id = field_id;
+                            data->structure->field[0].data.type = ML_TYPE_UNDEFINED;
 
-					  pushed_field_value:;
-					}
-				}
+                            //
+                            // Push the address of this field onto the stack.
+                            //
 
-				break;
+                            VM_stack_top[0].type = ML_TYPE_POINTER;
+                            VM_stack_top[0].data = &data->structure->field[0].data;
 
-			case ML_DO_PUSH_ARRAY_ADDRESS:
+                            VM_stack_top++;
 
-				{
-					std::int32_t i;
-					std::int32_t j;
-					std::int32_t array_length;
-					std::int32_t num_dimensions;
+                            break;
+                    }
+                } else if (VM_stack_top[0].type == ML_TYPE_VOINTER) {
+                    std::int32_t field_id;
+                    ML_Data *data;
 
-					ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
+                    field_id = *VM_code_pointer++;
 
-					num_dimensions = *VM_code_pointer++;
+                    //
+                    // Can only access fields (x,y,z)
+                    //
 
-					VM_POP_STACK(num_dimensions + 1);
+                    if (!WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z)) {
+                        //
+                        // ERROR!
+                        //
 
-					//
-					// Make sure all the indices are given by integers!
-					//
+                        ASSERT(0);
+                    }
 
-					for (i = 0; i < num_dimensions; i++)
-					{
-						if (VM_stack_top[i + 1].type != ML_TYPE_SLUMBER)
-						{
-							//
-							// ERROR!
-							//
+                    //
+                    // Push address onto the stack.
+                    //
 
-							ASSERT(0);
-						}
+                    VM_stack_top[0].type = ML_TYPE_FLOINTER;
+                    VM_stack_top[0].flointer = &(&VM_stack_top[0].vector->x)[field_id];
 
-						if (VM_stack_top[i + 1].slumber <= 0)
-						{
-							//
-							// ERROR!
-							//
+                    VM_stack_top++;
+                } else if (VM_stack_top[0].type == ML_TYPE_FLOINTER) {
+                    //
+                    // ERROR!
+                    //
 
-							ASSERT(0);
-						}
+                    ASSERT(0);
+                } else {
+                    //
+                    // ERROR! This is an internal error - not a real error.
+                    //
 
-						if (VM_stack_top[i + 1].slumber >= 1024 * 1024 * 2 / 8)
-						{
-							//
-							// ERROR! Limit to 2meg arrays to guard against ridiculous memory usage?
-							//
+                    ASSERT(0);
+                }
 
-							ASSERT(0);
-						} 
-					}
+                break;
 
-					//
-					// Make sure we have a pointer on the stack.
-					//
+            case ML_DO_PUSH_FIELD_VALUE:
+            case ML_DO_PUSH_FIELD_QUICK:
 
-					if (VM_stack_top[0].type != ML_TYPE_POINTER)
-					{
-						//
-						// ERROR!
-						//
+                VM_POP_STACK(1);
 
-						ASSERT(0);
-					}
+                ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
-					ML_Data *data = VM_stack_top[0].data;
+                {
+                    std::int32_t field_id;
 
-					//
-					// Do we already have an array on the stack of the correct
-					// dimensions?
-					//
+                    field_id = *VM_code_pointer++;
 
-					if (data->type != ML_TYPE_ARRAY || data->array->num_dimensions != num_dimensions)
-					{
-						//
-						// Free old value.
-						//
+                    //
+                    // Is this variable already a structure?
+                    //
 
-						VM_data_free(*data);
+                    if (VM_stack_top[0].type != ML_TYPE_STRUCTURE) {
+                        if (VM_stack_top[0].type == ML_TYPE_MATRIX) {
+                            if (WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z)) {
+                                ML_Data ans;
 
-						//
-						// How long should the array be?
-						//
+                                if (VM_code_pointer[-2] == ML_DO_PUSH_FIELD_QUICK) {
+                                    //
+                                    // Point to the same data as the matrix.
+                                    //
 
-						array_length = VM_stack_top[1].slumber;
+                                    ans.type = ML_TYPE_VECTOR;
+                                    ans.vector = &VM_stack_top[0].matrix->vector[field_id];
+                                } else {
+                                    //
+                                    // Copy the matrix data to create a new vector.
+                                    //
 
-						for (i = 1; i < num_dimensions; i++)
-						{
-							array_length *= VM_stack_top[i + 1].slumber;
-						}
+                                    ans.type = ML_TYPE_VECTOR;
+                                    ans.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+                                    *(ans.vector) = VM_stack_top[0].matrix->vector[field_id];
 
-						//
-						// Create the array.
-						//
+                                    VM_stack_top[0] = ans;
+                                    VM_stack_top++;
+                                }
+                            } else {
+                                //
+                                // No such field... push <UNDEFINED> onto the stack.
+                                //
 
-						data->type                  = ML_TYPE_ARRAY;
-						data->array                 = (ML_Array *) MEM_alloc(sizeof(ML_Array) + sizeof(ML_Dimension) * num_dimensions);
-						data->array->length         = array_length;
-						data->array->num_dimensions = num_dimensions;
-						data->array->data           = (ML_Data *) MEM_alloc(sizeof(ML_Data) * array_length);
+                                VM_stack_top[0].type = ML_TYPE_UNDEFINED;
 
-						for (i = 0; i < num_dimensions; i++)
-						{
-							data->array->dimension[i].size   = VM_stack_top[i + 1].slumber;
-							data->array->dimension[i].stride = 1;
+                                VM_stack_top++;
+                            }
+                        } else if (VM_stack_top[0].type == ML_TYPE_VECTOR) {
+                            if (WITHIN(field_id, SYSVAR_FIELD_X, SYSVAR_FIELD_Z)) {
+                                ML_Data ans;
 
-							for (j = i + 1; j < num_dimensions; j++)
-							{
-								data->array->dimension[i].stride *= VM_stack_top[j + 1].slumber;
-							}
-						}
+                                //
+                                // Point to the same data as the matrix.
+                                //
 
-						//
-						// Make all elements of the array undefined.
-						//
+                                ans.type = ML_TYPE_FLUMBER;
+                                ans.flumber = (&VM_stack_top[0].vector->x)[field_id];
 
-						memset(data->array->data, 0, sizeof(ML_Data) * array_length);
-					}
+                                VM_stack_top[0] = ans;
+                                VM_stack_top++;
+                            } else {
+                                //
+                                // No such field... push <UNDEFINED> onto the stack.
+                                //
 
-					//
-					// Should have a compatible data type by now...
-					//
+                                VM_stack_top[0].type = ML_TYPE_UNDEFINED;
 
-					ASSERT(data->type == ML_TYPE_ARRAY);
-					ASSERT(data->array->num_dimensions == num_dimensions);
+                                VM_stack_top++;
+                            }
+                        } else {
+                            //
+                            // No such field... push <UNDEFINED> onto the stack.
+                            //
 
-					//
-					// Is this array big enough?
-					//
+                            VM_stack_top[0].type = ML_TYPE_UNDEFINED;
 
-					for (i = 0; i < num_dimensions; i++)
-					{
-						if (VM_stack_top[i + 1].slumber > data->array->dimension[i].size)
-						{
-							VM_grow_array(data->array, VM_stack_top + 1);
+                            VM_stack_top++;
+                        }
+                    } else {
+                        //
+                        // Does this variable already have this field?
+                        //
 
-							goto grown_array;
-						}
-					}
+                        std::int32_t i;
 
-				  grown_array:;
+                        for (i = 0; i < VM_stack_top[0].structure->num_fields; i++) {
+                            if (VM_stack_top[0].structure->field[i].field_id == field_id) {
+                                //
+                                // Found our field. Push a copy of the value onto the stack.
+                                //
 
-					//
-					// What's this index of this element into the array?
-					//
+                                if (VM_code_pointer[-2] == ML_DO_PUSH_FIELD_QUICK) {
+                                    //
+                                    // Push on the actual data rather than a copy.
+                                    //
 
-					std::int32_t index = 0;
+                                    VM_stack_top[0] = VM_stack_top[0].structure->field[i].data;
+                                } else {
+                                    //
+                                    // Push on a copy of the data.
+                                    //
 
-					for (i = 0; i < num_dimensions; i++)
-					{
-						index += data->array->dimension[i].stride * (VM_stack_top[i + 1].slumber - 1);
-					}
+                                    VM_stack_top[0] = VM_data_copy(VM_stack_top[0].structure->field[i].data);
+                                }
 
-					ASSERT(WITHIN(index, 0, data->array->length - 1));
+                                VM_stack_top++;
 
-					//
-					// Push the address of the element onto the stack.
-					//
+                                goto pushed_field_value;
+                            }
+                        }
 
-					VM_stack_top[0].type = ML_TYPE_POINTER;
-					VM_stack_top[0].data = data->array->data + index;
+                        VM_stack_top[0].type = ML_TYPE_UNDEFINED;
 
-					VM_stack_top++;
-				}
+                        VM_stack_top++;
 
-				break;
+                    pushed_field_value:;
+                    }
+                }
 
-			case ML_DO_PUSH_ARRAY_VALUE:
-			case ML_DO_PUSH_ARRAY_QUICK:
+                break;
 
-				{
-					std::int32_t i;
-					std::int32_t index;
-					std::int32_t num_dimensions;
+            case ML_DO_PUSH_ARRAY_ADDRESS:
 
-					ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
+            {
+                std::int32_t i;
+                std::int32_t j;
+                std::int32_t array_length;
+                std::int32_t num_dimensions;
 
-					num_dimensions = *VM_code_pointer++;
+                ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
-					VM_POP_STACK(num_dimensions + 1);
-				
-					//
-					// Make sure all the indices are given by integers!
-					//
+                num_dimensions = *VM_code_pointer++;
 
-					for (i = 0; i < num_dimensions; i++)
-					{
-						if (VM_stack_top[i + 1].type != ML_TYPE_SLUMBER)
-						{
-							//
-							// ERROR!
-							//
+                VM_POP_STACK(num_dimensions + 1);
 
-							ASSERT(0);
-						}
+                //
+                // Make sure all the indices are given by integers!
+                //
 
-						if (VM_stack_top[i + 1].slumber <= 0)
-						{
-							//
-							// ERROR!
-							//
+                for (i = 0; i < num_dimensions; i++) {
+                    if (VM_stack_top[i + 1].type != ML_TYPE_SLUMBER) {
+                        //
+                        // ERROR!
+                        //
 
-							ASSERT(0);
-						}
+                        ASSERT(0);
+                    }
 
-						if (VM_stack_top[i + 1].slumber >= 1024 * 1024 * 2 / 8)
-						{
-							//
-							// ERROR! Limit to 2meg arrays to guard against ridiculous memory usage?
-							//
+                    if (VM_stack_top[i + 1].slumber <= 0) {
+                        //
+                        // ERROR!
+                        //
 
-							ASSERT(0);
-						} 
-					}
+                        ASSERT(0);
+                    }
 
-					if (VM_stack_top[0].type != ML_TYPE_ARRAY || VM_stack_top[0].array->num_dimensions != num_dimensions)
-					{
-						//
-						// Incompatible data type- push <UNDEFINED>
-						//
+                    if (VM_stack_top[i + 1].slumber >= 1024 * 1024 * 2 / 8) {
+                        //
+                        // ERROR! Limit to 2meg arrays to guard against ridiculous memory usage?
+                        //
 
-						VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                        ASSERT(0);
+                    }
+                }
 
-						VM_stack_top++;
-					}
-					else
-					{
-						//
-						// Are all indices in range?
-						//
+                //
+                // Make sure we have a pointer on the stack.
+                //
 
-						for (i = 0; i < num_dimensions; i++)
-						{
-							if (VM_stack_top[i + 1].slumber > VM_stack_top[0].array->dimension[i].size)
-							{
-								//
-								// Referencing outside the array.
-								//
+                if (VM_stack_top[0].type != ML_TYPE_POINTER) {
+                    //
+                    // ERROR!
+                    //
 
-								VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                    ASSERT(0);
+                }
 
-								VM_stack_top++;
-								
-								goto outside_the_array;
-							}
-						}
+                ML_Data *data = VM_stack_top[0].data;
 
-						//
-						// What's this index of this element into the array?
-						//
+                //
+                // Do we already have an array on the stack of the correct
+                // dimensions?
+                //
 
-						index = 0;
+                if (data->type != ML_TYPE_ARRAY || data->array->num_dimensions != num_dimensions) {
+                    //
+                    // Free old value.
+                    //
 
-						for (i = 0; i < num_dimensions; i++)
-						{
-							index += VM_stack_top[0].array->dimension[i].stride * (VM_stack_top[i + 1].slumber - 1);
-						}
+                    VM_data_free(*data);
 
-						//
-						// Push a copy of this element onto the stack.
-						//
+                    //
+                    // How long should the array be?
+                    //
 
-						ASSERT(WITHIN(index, 0, VM_stack_top[0].array->length - 1));
+                    array_length = VM_stack_top[1].slumber;
 
-						if (VM_code_pointer[-2] == ML_DO_PUSH_ARRAY_QUICK)
-						{
-							//
-							// Push the actual value rather than a copy.
-							//
+                    for (i = 1; i < num_dimensions; i++) {
+                        array_length *= VM_stack_top[i + 1].slumber;
+                    }
 
-							VM_stack_top[0] = VM_stack_top[0].array->data[index];
-						}
-						else
-						{
-							//
-							// Push a copy of the data.
-							//
+                    //
+                    // Create the array.
+                    //
 
-							VM_stack_top[0] = VM_data_copy(VM_stack_top[0].array->data[index]);
-						}
+                    data->type = ML_TYPE_ARRAY;
+                    data->array = (ML_Array *) MEM_alloc(sizeof(ML_Array) + sizeof(ML_Dimension) * num_dimensions);
+                    data->array->length = array_length;
+                    data->array->num_dimensions = num_dimensions;
+                    data->array->data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * array_length);
 
-						VM_stack_top++;
+                    for (i = 0; i < num_dimensions; i++) {
+                        data->array->dimension[i].size = VM_stack_top[i + 1].slumber;
+                        data->array->dimension[i].stride = 1;
 
-					  outside_the_array:;
-					}
-				}
+                        for (j = i + 1; j < num_dimensions; j++) {
+                            data->array->dimension[i].stride *= VM_stack_top[j + 1].slumber;
+                        }
+                    }
 
-				break;
+                    //
+                    // Make all elements of the array undefined.
+                    //
 
-			case ML_DO_PUSH_INPUT:
-				
-				{
-					char* string;
+                    memset(data->array->data, 0, sizeof(ML_Data) * array_length);
+                }
 
-					//
-					// Get user input!
-					//
+                //
+                // Should have a compatible data type by now...
+                //
 
-					string = CONSOLE_input();
+                ASSERT(data->type == ML_TYPE_ARRAY);
+                ASSERT(data->array->num_dimensions == num_dimensions);
 
-					VM_CHECK_STACK_PUSH();
+                //
+                // Is this array big enough?
+                //
 
-					VM_stack_top[0].type   = ML_TYPE_STRVAR;
-					VM_stack_top[0].strvar = (char* ) MEM_alloc(strlen(string) + 1);
+                for (i = 0; i < num_dimensions; i++) {
+                    if (VM_stack_top[i + 1].slumber > data->array->dimension[i].size) {
+                        VM_grow_array(data->array, VM_stack_top + 1);
 
-					strcpy(VM_stack_top[0].strvar, string);
+                        goto grown_array;
+                    }
+                }
 
-					VM_stack_top++;
-				}
+            grown_array:;
 
-				break;
+                //
+                // What's this index of this element into the array?
+                //
 
-			case ML_DO_GOSUB:
+                std::int32_t index = 0;
 
-				VM_CHECK_STACK_PUSH();
+                for (i = 0; i < num_dimensions; i++) {
+                    index += data->array->dimension[i].stride * (VM_stack_top[i + 1].slumber - 1);
+                }
 
-				//
-				// Push the return address onto the stack.
-				//
+                ASSERT(WITHIN(index, 0, data->array->length - 1));
 
-				VM_stack_top[0].type         = ML_TYPE_CODE_POINTER;
-				VM_stack_top[0].code_pointer = VM_code_pointer + 1;
+                //
+                // Push the address of the element onto the stack.
+                //
 
-				VM_stack_top++;
+                VM_stack_top[0].type = ML_TYPE_POINTER;
+                VM_stack_top[0].data = data->array->data + index;
 
-				//
-				// Valid address?
-				//
+                VM_stack_top++;
+            }
 
-				ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
+            break;
 
-				VM_code_pointer = &VM_code[VM_code_pointer[0]];
+            case ML_DO_PUSH_ARRAY_VALUE:
+            case ML_DO_PUSH_ARRAY_QUICK:
 
-				break;
-			
-			case ML_DO_RETURN:
+            {
+                std::int32_t i;
+                std::int32_t index;
+                std::int32_t num_dimensions;
 
-				VM_POP_STACK(1);
+                ASSERT(WITHIN(VM_code_pointer + 1, VM_code, VM_code + VM_code_upto - 1));
 
-				ASSERT(VM_stack_top[0].type == ML_TYPE_CODE_POINTER);
-				ASSERT(WITHIN(VM_stack_top[0].code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                num_dimensions = *VM_code_pointer++;
 
-				VM_code_pointer = VM_stack_top[0].code_pointer;
+                VM_POP_STACK(num_dimensions + 1);
 
-				break;
+                //
+                // Make sure all the indices are given by integers!
+                //
 
-			case ML_DO_XOR:
+                for (i = 0; i < num_dimensions; i++) {
+                    if (VM_stack_top[i + 1].type != ML_TYPE_SLUMBER) {
+                        //
+                        // ERROR!
+                        //
 
-				VM_POP_STACK(2);
+                        ASSERT(0);
+                    }
 
-				if (VM_stack_top[0].type != VM_stack_top[1].type)
-				{
-					//
-					// ERROR! AND only works on the same values!
-					//
+                    if (VM_stack_top[i + 1].slumber <= 0) {
+                        //
+                        // ERROR!
+                        //
 
-					ASSERT(0);
-				}
+                        ASSERT(0);
+                    }
 
-				switch(VM_stack_top[0].type)
-				{
-					case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = VM_stack_top[0].boolean ^ VM_stack_top[1].boolean; break;
+                    if (VM_stack_top[i + 1].slumber >= 1024 * 1024 * 2 / 8) {
+                        //
+                        // ERROR! Limit to 2meg arrays to guard against ridiculous memory usage?
+                        //
 
-					default:
-						ASSERT(0);
-						break;
-				}
+                        ASSERT(0);
+                    }
+                }
 
-				VM_stack_top++;
+                if (VM_stack_top[0].type != ML_TYPE_ARRAY || VM_stack_top[0].array->num_dimensions != num_dimensions) {
+                    //
+                    // Incompatible data type- push <UNDEFINED>
+                    //
 
-				break;
+                    VM_stack_top[0].type = ML_TYPE_UNDEFINED;
 
-			case ML_DO_IF_TRUE_GOTO:
+                    VM_stack_top++;
+                } else {
+                    //
+                    // Are all indices in range?
+                    //
 
-				VM_POP_STACK(1);
+                    for (i = 0; i < num_dimensions; i++) {
+                        if (VM_stack_top[i + 1].slumber > VM_stack_top[0].array->dimension[i].size) {
+                            //
+                            // Referencing outside the array.
+                            //
 
-				if (VM_stack_top[0].type != ML_TYPE_BOOLEAN)
-				{
-					//
-					// ERROR! Or maybe type conversion? What if there is a string
-					// that says "YES", for instance?
-					//
+                            VM_stack_top[0].type = ML_TYPE_UNDEFINED;
 
-					ASSERT(0);
-				}
+                            VM_stack_top++;
 
-				if (VM_stack_top[0].boolean)
-				{
-					//
-					// Valid address?
-					//
+                            goto outside_the_array;
+                        }
+                    }
 
-					ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-					ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
+                    //
+                    // What's this index of this element into the array?
+                    //
 
-					VM_code_pointer = &VM_code[VM_code_pointer[0]];
-				}
-				else
-				{
-					//
-					// Skip over the address instruction.
-					//
+                    index = 0;
 
-					VM_code_pointer++;
-				}
+                    for (i = 0; i < num_dimensions; i++) {
+                        index += VM_stack_top[0].array->dimension[i].stride * (VM_stack_top[i + 1].slumber - 1);
+                    }
 
-				break;
+                    //
+                    // Push a copy of this element onto the stack.
+                    //
 
-			case ML_DO_PUSH_RANDOM_SLUMBER:
-				
-				VM_CHECK_STACK_PUSH();
+                    ASSERT(WITHIN(index, 0, VM_stack_top[0].array->length - 1));
 
-				VM_stack_top[0].type    = ML_TYPE_SLUMBER;
-				VM_stack_top[0].slumber = rand();
+                    if (VM_code_pointer[-2] == ML_DO_PUSH_ARRAY_QUICK) {
+                        //
+                        // Push the actual value rather than a copy.
+                        //
 
-				VM_stack_top++;
+                        VM_stack_top[0] = VM_stack_top[0].array->data[index];
+                    } else {
+                        //
+                        // Push a copy of the data.
+                        //
 
-				break;
-			
-			case ML_DO_SWAP:
+                        VM_stack_top[0] = VM_data_copy(VM_stack_top[0].array->data[index]);
+                    }
 
-				VM_POP_STACK(2);
+                    VM_stack_top++;
 
-				ASSERT(VM_stack_top[0].type == ML_TYPE_POINTER);
-				ASSERT(VM_stack_top[1].type == ML_TYPE_POINTER);
+                outside_the_array:;
+                }
+            }
 
-				{
-					ML_Data swap_spare;
+            break;
 
-					swap_spare           = *VM_stack_top[0].data;
-				   *VM_stack_top[0].data = *VM_stack_top[1].data;
-				   *VM_stack_top[1].data =  swap_spare;
-				}
+            case ML_DO_PUSH_INPUT:
 
-				break;
+            {
+                char *string;
 
-			case ML_DO_ENTERFUNC:
-	
-				{
-					std::int32_t i;
+                //
+                // Get user input!
+                //
 
-					//
-					// Do we have the right number of arguments?
-					//
+                string = CONSOLE_input();
 
-					ASSERT(VM_stack_top[-2].type == ML_TYPE_NUM_ARGS    );	// Num args to functions
-					ASSERT(VM_stack_top[-1].type == ML_TYPE_CODE_POINTER);	// Return address
+                VM_CHECK_STACK_PUSH();
 
-					std::int32_t args_to_function = VM_stack_top[-2].args;
+                VM_stack_top[0].type = ML_TYPE_STRVAR;
+                VM_stack_top[0].strvar = (char *) MEM_alloc(strlen(string) + 1);
 
-					if (args_to_function == *VM_code_pointer)
-					{
-						//
-						// Get rid of the number of args to the function.
-						//
+                strcpy(VM_stack_top[0].strvar, string);
 
-						VM_POP_STACK(1);
+                VM_stack_top++;
+            }
 
-						VM_stack_top[-1] = VM_stack_top[0];
-					}
-					else
-					{
-						if (args_to_function > *VM_code_pointer)
-						{
-							//
-							// ERROR! Too many argument passed to the function!
-							//
+            break;
 
-							ASSERT(0);
-						}
-						else
-						{
-							//
-							// Remember the code pointer so we wont overwrite it.
-							//
+            case ML_DO_GOSUB:
 
-							std::int32_t *code_pointer = VM_stack_top[-1].code_pointer;
+                VM_CHECK_STACK_PUSH();
 
-							//
-							// Must insert extra undefined arguments.
-							//
+                //
+                // Push the return address onto the stack.
+                //
 
-							VM_POP_STACK(2);
-							
-							for (i = args_to_function; i < *VM_code_pointer; i++)
-							{
-								VM_CHECK_STACK_PUSH();
+                VM_stack_top[0].type = ML_TYPE_CODE_POINTER;
+                VM_stack_top[0].code_pointer = VM_code_pointer + 1;
 
-								VM_stack_top[0].type  = ML_TYPE_UNDEFINED;
-								VM_stack_top[0].value = 0;	// Not required.
+                VM_stack_top++;
 
-								VM_stack_top++;
-							}
+                //
+                // Valid address?
+                //
 
-							//
-							// Now push the return address.
-							//
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
 
-							VM_CHECK_STACK_PUSH();
+                VM_code_pointer = &VM_code[VM_code_pointer[0]];
 
-							VM_stack_top[0].type         = ML_TYPE_CODE_POINTER;
-							VM_stack_top[0].code_pointer = code_pointer;
+                break;
 
-							VM_stack_top++;
-						}
-					}
-				}
+            case ML_DO_RETURN:
 
-				//
-				// Push the old base pointer.
-				//
+                VM_POP_STACK(1);
 
-				VM_CHECK_STACK_PUSH();
+                ASSERT(VM_stack_top[0].type == ML_TYPE_CODE_POINTER);
+                ASSERT(WITHIN(VM_stack_top[0].code_pointer, VM_code, VM_code + VM_code_upto - 1));
 
-				VM_stack_top[0].type       = ML_TYPE_STACK_BASE;
-				VM_stack_top[0].stack_base = VM_stack_base;
+                VM_code_pointer = VM_stack_top[0].code_pointer;
 
-				VM_stack_top++;
+                break;
 
-				//
-				// Work out the new stack base.
-				//
+            case ML_DO_XOR:
 
-				ASSERT(WITHIN( VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(*VM_code_pointer, 0, 256));	// Sensible numbers of arguments?
+                VM_POP_STACK(2);
 
-				//
-				// Minus 2 to skip over the return address and the old stack base.
-				//
+                if (VM_stack_top[0].type != VM_stack_top[1].type) {
+                    //
+                    // ERROR! AND only works on the same values!
+                    //
 
-				VM_stack_base = VM_stack_top - *VM_code_pointer++ - 2;
+                    ASSERT(0);
+                }
 
-				break;
+                switch (VM_stack_top[0].type) {
+                    case ML_TYPE_BOOLEAN: VM_stack_top[0].boolean = VM_stack_top[0].boolean ^ VM_stack_top[1].boolean; break;
 
-			case ML_DO_ENDFUNC:
+                    default:
+                        ASSERT(0);
+                        break;
+                }
 
-				{
-					//
-					// On the stack there should be the return value of the function,
-					// the old base pointer and the return address.
-					//
+                VM_stack_top++;
 
-					VM_POP_STACK(3);
+                break;
 
-					ASSERT(VM_stack_top[0].type == ML_TYPE_CODE_POINTER);
-					ASSERT(VM_stack_top[1].type == ML_TYPE_STACK_BASE  );
+            case ML_DO_IF_TRUE_GOTO:
 
-					std::int32_t *return_instruction = VM_stack_top[0].code_pointer;
+                VM_POP_STACK(1);
 
-					//
-					// Pop the locals off the stack.
-					//
+                if (VM_stack_top[0].type != ML_TYPE_BOOLEAN) {
+                    //
+                    // ERROR! Or maybe type conversion? What if there is a string
+                    // that says "YES", for instance?
+                    //
 
-					ASSERT(WITHIN( VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-					ASSERT(WITHIN(*VM_code_pointer, 0, 256));	// Sensible numbers of arguments?
+                    ASSERT(0);
+                }
 
-					VM_POP_STACK(*VM_code_pointer);
+                if (VM_stack_top[0].boolean) {
+                    //
+                    // Valid address?
+                    //
 
-					//
-					// Free all the locals.
-					//
+                    ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                    ASSERT(WITHIN(VM_code_pointer[0], 0, VM_code_upto - 1));
 
-					std::int32_t i;
+                    VM_code_pointer = &VM_code[VM_code_pointer[0]];
+                } else {
+                    //
+                    // Skip over the address instruction.
+                    //
 
-					for (i = 0; i < *VM_code_pointer; i++)
-					{
-						VM_data_free(VM_stack_top[i]);
-					}
+                    VM_code_pointer++;
+                }
 
-					//
-					// Push the return value onto the bottom of the stack.
-					//
+                break;
 
-					VM_stack_top[0] = VM_stack_top[*VM_code_pointer + 2];
+            case ML_DO_PUSH_RANDOM_SLUMBER:
 
-					VM_stack_top++;
+                VM_CHECK_STACK_PUSH();
 
-					//
-					// Continue execution from the return address.
-					//
+                VM_stack_top[0].type = ML_TYPE_SLUMBER;
+                VM_stack_top[0].slumber = rand();
 
-					VM_code_pointer = return_instruction;
-				}
+                VM_stack_top++;
 
-				break;
+                break;
 
-			case ML_DO_POP:
-				VM_POP_STACK(1);
-				break;
+            case ML_DO_SWAP:
 
-			case ML_DO_PUSH_LOCAL_VALUE:
+                VM_POP_STACK(2);
 
-				VM_CHECK_STACK_PUSH();
+                ASSERT(VM_stack_top[0].type == ML_TYPE_POINTER);
+                ASSERT(VM_stack_top[1].type == ML_TYPE_POINTER);
 
-				ASSERT(WITHIN( VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(*VM_code_pointer, 0, 256));	// Sensible local index?
+                {
+                    ML_Data swap_spare;
 
-				ASSERT(VM_stack_base);
-				ASSERT(VM_stack_base + *VM_code_pointer <= VM_stack_top - 2);
+                    swap_spare = *VM_stack_top[0].data;
+                    *VM_stack_top[0].data = *VM_stack_top[1].data;
+                    *VM_stack_top[1].data = swap_spare;
+                }
 
-				ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_CODE_POINTER);
-				ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_STACK_BASE);
+                break;
 
-				//
-				// Push a copy of the local onto the stack. Any memory allocated
-				// by the original will be duplicated.
-				//
+            case ML_DO_ENTERFUNC:
 
-			   *VM_stack_top++ = VM_data_copy(VM_stack_base[*VM_code_pointer++]);
+            {
+                std::int32_t i;
 
-				break;
+                //
+                // Do we have the right number of arguments?
+                //
 
-			case ML_DO_PUSH_LOCAL_ADDRESS:
+                ASSERT(VM_stack_top[-2].type == ML_TYPE_NUM_ARGS);     // Num args to functions
+                ASSERT(VM_stack_top[-1].type == ML_TYPE_CODE_POINTER); // Return address
 
-				VM_CHECK_STACK_PUSH();
+                std::int32_t args_to_function = VM_stack_top[-2].args;
 
-				ASSERT(WITHIN( VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(*VM_code_pointer, 0, 256));	// Sensible local index?
+                if (args_to_function == *VM_code_pointer) {
+                    //
+                    // Get rid of the number of args to the function.
+                    //
 
-				ASSERT(VM_stack_base);
-				ASSERT(VM_stack_base + *VM_code_pointer < VM_stack_top - 2);
+                    VM_POP_STACK(1);
 
-				ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_CODE_POINTER);
-				ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_STACK_BASE);
+                    VM_stack_top[-1] = VM_stack_top[0];
+                } else {
+                    if (args_to_function > *VM_code_pointer) {
+                        //
+                        // ERROR! Too many argument passed to the function!
+                        //
 
-				if (VM_stack_base[*VM_code_pointer].type == ML_TYPE_POINTER)
-				{
-					//
-					// This local is already a pointer, just push on
-					// it's current value.
-					//
+                        ASSERT(0);
+                    } else {
+                        //
+                        // Remember the code pointer so we wont overwrite it.
+                        //
 
-					VM_stack_top[0] = VM_stack_base[*VM_code_pointer++];
-				}
-				else
-				{
-					//
-					// Push on the address of this local.
-					//
+                        std::int32_t *code_pointer = VM_stack_top[-1].code_pointer;
 
-					VM_stack_top[0].type = ML_TYPE_POINTER;
-					VM_stack_top[0].data = VM_stack_base + *VM_code_pointer++;
-				}
+                        //
+                        // Must insert extra undefined arguments.
+                        //
 
-				VM_stack_top++;
+                        VM_POP_STACK(2);
 
-				break;
+                        for (i = args_to_function; i < *VM_code_pointer; i++) {
+                            VM_CHECK_STACK_PUSH();
 
-			case ML_DO_PUSH_LOCAL_QUICK:
+                            VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                            VM_stack_top[0].value = 0; // Not required.
 
-				VM_CHECK_STACK_PUSH();
+                            VM_stack_top++;
+                        }
 
-				ASSERT(WITHIN( VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
-				ASSERT(WITHIN(*VM_code_pointer, 0, 256));	// Sensible local index?
+                        //
+                        // Now push the return address.
+                        //
 
-				ASSERT(VM_stack_base);
-				ASSERT(VM_stack_base + *VM_code_pointer < VM_stack_top - 2);
+                        VM_CHECK_STACK_PUSH();
 
-				ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_CODE_POINTER);
-				ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_STACK_BASE);
+                        VM_stack_top[0].type = ML_TYPE_CODE_POINTER;
+                        VM_stack_top[0].code_pointer = code_pointer;
 
-				//
-				// Push a copy of the local onto the stack - don't copy data.
-				//
+                        VM_stack_top++;
+                    }
+                }
+            }
 
-			   *VM_stack_top++ = VM_stack_base[*VM_code_pointer++];
+                //
+                // Push the old base pointer.
+                //
 
-				break;
+                VM_CHECK_STACK_PUSH();
 
-			case ML_DO_TEXTURE: VM_do_texture(); break;
-			case ML_DO_BUFFER:  VM_do_buffer();  break;
-			case ML_DO_DRAW:    VM_do_draw();    break;
-			case ML_DO_CLS:     VM_do_cls();     break;
+                VM_stack_top[0].type = ML_TYPE_STACK_BASE;
+                VM_stack_top[0].stack_base = VM_stack_base;
 
-			case ML_DO_FLIP:
+                VM_stack_top++;
 
-				//
-				// Less than 10 milliseconds since our last FLIP?
-				//
+                //
+                // Work out the new stack base.
+                //
 
-				while(VM_flip_tick > OS_ticks() - 10);
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(*VM_code_pointer, 0, 256)); // Sensible numbers of arguments?
 
-				LL_flip();
+                //
+                // Minus 2 to skip over the return address and the old stack base.
+                //
 
-				VM_flip_tick = OS_ticks();
+                VM_stack_base = VM_stack_top - *VM_code_pointer++ - 2;
 
-				break;
+                break;
 
-			case ML_DO_KEY_VALUE:
+            case ML_DO_ENDFUNC:
 
-				VM_POP_STACK(1);
+            {
+                //
+                // On the stack there should be the return value of the function,
+                // the old base pointer and the return address.
+                //
 
-				if (VM_stack_top[0].type != ML_TYPE_SLUMBER)
-				{
-					//
-					// ERROR!
-					//
+                VM_POP_STACK(3);
 
-					ASSERT(0);
-				}
+                ASSERT(VM_stack_top[0].type == ML_TYPE_CODE_POINTER);
+                ASSERT(VM_stack_top[1].type == ML_TYPE_STACK_BASE);
 
-				if (!WITHIN(VM_stack_top[0].slumber, 1, 255))
-				{
-					//
-					// Outside the array...
-					//
+                std::int32_t *return_instruction = VM_stack_top[0].code_pointer;
 
-					VM_stack_top[0].type = ML_TYPE_UNDEFINED;
-				}
-				else
-				{
-					if (KEY_on[VM_stack_top[0].slumber] == 0 ||
-						KEY_on[VM_stack_top[0].slumber] == 1)
-					{
-						//
-						// This key has been pressed since the last time
-						// it was assigned to.  Free the current key value.
-						//
+                //
+                // Pop the locals off the stack.
+                //
 
-						VM_data_free(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)]);
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(*VM_code_pointer, 0, 256)); // Sensible numbers of arguments?
 
-						//
-						// Create a new value.
-						//
+                VM_POP_STACK(*VM_code_pointer);
 
-						VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)].type    = ML_TYPE_BOOLEAN;
-						VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)].boolean = KEY_on[VM_stack_top[0].slumber];
+                //
+                // Free all the locals.
+                //
 
-						//
-						// Push it onto the stack.
-						//
+                std::int32_t i;
 
-						VM_stack_top[0] = VM_data_copy(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)]);
-					}
-					else
-					{
-						//
-						// Use the value the user wrote to the KEY[] array...
-						//
+                for (i = 0; i < *VM_code_pointer; i++) {
+                    VM_data_free(VM_stack_top[i]);
+                }
 
-						VM_stack_top[0] = VM_data_copy(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)]);
-					}
-				}
+                //
+                // Push the return value onto the bottom of the stack.
+                //
 
-				VM_stack_top++;
+                VM_stack_top[0] = VM_stack_top[*VM_code_pointer + 2];
 
-				break;
+                VM_stack_top++;
 
-			case ML_DO_KEY_ASSIGN:
+                //
+                // Continue execution from the return address.
+                //
 
-				VM_POP_STACK(2);
+                VM_code_pointer = return_instruction;
+            }
 
-				if (VM_stack_top[1].type != ML_TYPE_SLUMBER)
-				{
-					//
-					// ERROR!
-					//
+            break;
 
-					ASSERT(0);
-				}
+            case ML_DO_POP:
+                VM_POP_STACK(1);
+                break;
 
-				if (!WITHIN(VM_stack_top[1].slumber, 1, 255))
-				{
-					//
-					// ERROR!
-					//
+            case ML_DO_PUSH_LOCAL_VALUE:
 
-					ASSERT(0);
-				}
+                VM_CHECK_STACK_PUSH();
 
-				//
-				// Free the current value.
-				//
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(*VM_code_pointer, 0, 256)); // Sensible local index?
 
-				VM_data_free(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[1].slumber)]);
+                ASSERT(VM_stack_base);
+                ASSERT(VM_stack_base + *VM_code_pointer <= VM_stack_top - 2);
 
-				//
-				// Assign the new number.
-				//
+                ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_CODE_POINTER);
+                ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_STACK_BASE);
 
-				VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[1].slumber)] = VM_stack_top[0];
+                //
+                // Push a copy of the local onto the stack. Any memory allocated
+                // by the original will be duplicated.
+                //
 
-				//
-				// Overwrite the real KEY_on array with a special value so we know
-				// if the key has been pressed or release since it was assigned to...
-				//
+                *VM_stack_top++ = VM_data_copy(VM_stack_base[*VM_code_pointer++]);
 
-				KEY_on[VM_stack_top[1].slumber] = 42;
+                break;
 
-				break;
+            case ML_DO_PUSH_LOCAL_ADDRESS:
 
-			case ML_DO_INKEY_VALUE:
-				
-				VM_CHECK_STACK_PUSH();
+                VM_CHECK_STACK_PUSH();
 
-				if (KEY_inkey)
-				{
-					VM_data_free(VM_global[VM_EXTRA_GLOBAL_INKEY]);
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(*VM_code_pointer, 0, 256)); // Sensible local index?
 
-					VM_global[VM_EXTRA_GLOBAL_INKEY].type    = ML_TYPE_SLUMBER;
-					VM_global[VM_EXTRA_GLOBAL_INKEY].slumber = KEY_inkey;
+                ASSERT(VM_stack_base);
+                ASSERT(VM_stack_base + *VM_code_pointer < VM_stack_top - 2);
 
-					KEY_inkey = 0;
-				}
+                ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_CODE_POINTER);
+                ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_STACK_BASE);
 
-				VM_stack_top[0] = VM_data_copy(VM_global[VM_EXTRA_GLOBAL_INKEY]);
+                if (VM_stack_base[*VM_code_pointer].type == ML_TYPE_POINTER) {
+                    //
+                    // This local is already a pointer, just push on
+                    // it's current value.
+                    //
 
-				VM_stack_top++;
-				
-				break;
+                    VM_stack_top[0] = VM_stack_base[*VM_code_pointer++];
+                } else {
+                    //
+                    // Push on the address of this local.
+                    //
 
-			case ML_DO_INKEY_ASSIGN:
+                    VM_stack_top[0].type = ML_TYPE_POINTER;
+                    VM_stack_top[0].data = VM_stack_base + *VM_code_pointer++;
+                }
 
-				VM_POP_STACK(1);
+                VM_stack_top++;
 
-				//
-				// Free memory used by the current inkey variable.
-				//
+                break;
 
-				VM_data_free(VM_global[VM_EXTRA_GLOBAL_INKEY]);
+            case ML_DO_PUSH_LOCAL_QUICK:
 
-				//
-				// Assign the new value.
-				//
+                VM_CHECK_STACK_PUSH();
 
-				VM_global[VM_EXTRA_GLOBAL_INKEY] = VM_stack_top[0];
+                ASSERT(WITHIN(VM_code_pointer, VM_code, VM_code + VM_code_upto - 1));
+                ASSERT(WITHIN(*VM_code_pointer, 0, 256)); // Sensible local index?
 
-				//
-				// Overwrite the real inkey too!
-				//
+                ASSERT(VM_stack_base);
+                ASSERT(VM_stack_base + *VM_code_pointer < VM_stack_top - 2);
 
-				KEY_inkey = 0;
+                ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_CODE_POINTER);
+                ASSERT(VM_stack_base[*VM_code_pointer].type != ML_TYPE_STACK_BASE);
 
-				break;
+                //
+                // Push a copy of the local onto the stack - don't copy data.
+                //
 
-			case ML_DO_TIMER:
+                *VM_stack_top++ = VM_stack_base[*VM_code_pointer++];
 
-				VM_CHECK_STACK_PUSH();
+                break;
 
-				VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-				VM_stack_top[0].flumber = float(OS_ticks()) * 0.001F;
+            case ML_DO_TEXTURE: VM_do_texture(); break;
+            case ML_DO_BUFFER: VM_do_buffer(); break;
+            case ML_DO_DRAW: VM_do_draw(); break;
+            case ML_DO_CLS: VM_do_cls(); break;
 
-				VM_stack_top++;
+            case ML_DO_FLIP:
 
-				break;
+                //
+                // Less than 10 milliseconds since our last FLIP?
+                //
 
-			case ML_DO_SIN:
+                while (VM_flip_tick > OS_ticks() - 10);
 
-				VM_POP_STACK(1);
-				
-				{
-					float val;
+                LL_flip();
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val =       VM_stack_top[0].flumber;  break;
+                VM_flip_tick = OS_ticks();
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                break;
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = sinf(val);
-				}
+            case ML_DO_KEY_VALUE:
 
-				VM_stack_top++;
+                VM_POP_STACK(1);
 
-				break;
+                if (VM_stack_top[0].type != ML_TYPE_SLUMBER) {
+                    //
+                    // ERROR!
+                    //
 
-			case ML_DO_COS:
+                    ASSERT(0);
+                }
 
-				VM_POP_STACK(1);
-				
-				{
-					float val;
+                if (!WITHIN(VM_stack_top[0].slumber, 1, 255)) {
+                    //
+                    // Outside the array...
+                    //
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val =       VM_stack_top[0].flumber;  break;
+                    VM_stack_top[0].type = ML_TYPE_UNDEFINED;
+                } else {
+                    if (KEY_on[VM_stack_top[0].slumber] == 0 ||
+                        KEY_on[VM_stack_top[0].slumber] == 1) {
+                        //
+                        // This key has been pressed since the last time
+                        // it was assigned to.  Free the current key value.
+                        //
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                        VM_data_free(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)]);
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = cosf(val);
-				}
+                        //
+                        // Create a new value.
+                        //
 
-				VM_stack_top++;
+                        VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)].type = ML_TYPE_BOOLEAN;
+                        VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)].boolean = KEY_on[VM_stack_top[0].slumber];
 
-				break;
+                        //
+                        // Push it onto the stack.
+                        //
 
-			case ML_DO_TAN:
+                        VM_stack_top[0] = VM_data_copy(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)]);
+                    } else {
+                        //
+                        // Use the value the user wrote to the KEY[] array...
+                        //
 
-				VM_POP_STACK(1);
-				
-				{
-					float val;
+                        VM_stack_top[0] = VM_data_copy(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[0].slumber)]);
+                    }
+                }
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val =       VM_stack_top[0].flumber;  break;
+                VM_stack_top++;
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                break;
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = tanf(val);
-				}
+            case ML_DO_KEY_ASSIGN:
 
-				VM_stack_top++;
+                VM_POP_STACK(2);
 
-				break;
+                if (VM_stack_top[1].type != ML_TYPE_SLUMBER) {
+                    //
+                    // ERROR!
+                    //
 
-			case ML_DO_ASIN:
+                    ASSERT(0);
+                }
 
-				VM_POP_STACK(1);
-				
-				{
-					float val;
+                if (!WITHIN(VM_stack_top[1].slumber, 1, 255)) {
+                    //
+                    // ERROR!
+                    //
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val =       VM_stack_top[0].flumber;  break;
+                    ASSERT(0);
+                }
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                //
+                // Free the current value.
+                //
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = asinf(val);
-				}
+                VM_data_free(VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[1].slumber)]);
 
-				VM_stack_top++;
+                //
+                // Assign the new number.
+                //
 
-				break;
+                VM_global[VM_EXTRA_GLOBAL_KEY(VM_stack_top[1].slumber)] = VM_stack_top[0];
 
-			case ML_DO_ACOS:
+                //
+                // Overwrite the real KEY_on array with a special value so we know
+                // if the key has been pressed or release since it was assigned to...
+                //
 
-				VM_POP_STACK(1);
-				
-				{
-					float val;
+                KEY_on[VM_stack_top[1].slumber] = 42;
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val =       VM_stack_top[0].flumber;  break;
+                break;
 
-						default:
-							ASSERT(0);
-							break;
-					}
+            case ML_DO_INKEY_VALUE:
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = acosf(val);
-				}
+                VM_CHECK_STACK_PUSH();
 
-				VM_stack_top++;
+                if (KEY_inkey) {
+                    VM_data_free(VM_global[VM_EXTRA_GLOBAL_INKEY]);
 
-				break;
+                    VM_global[VM_EXTRA_GLOBAL_INKEY].type = ML_TYPE_SLUMBER;
+                    VM_global[VM_EXTRA_GLOBAL_INKEY].slumber = KEY_inkey;
 
-			case ML_DO_ATAN:
+                    KEY_inkey = 0;
+                }
 
-				VM_POP_STACK(1);
-				
-				{
-					float val;
+                VM_stack_top[0] = VM_data_copy(VM_global[VM_EXTRA_GLOBAL_INKEY]);
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val =       VM_stack_top[0].flumber;  break;
+                VM_stack_top++;
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                break;
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = atanf(val);
-				}
+            case ML_DO_INKEY_ASSIGN:
 
-				VM_stack_top++;
+                VM_POP_STACK(1);
 
-				break;
+                //
+                // Free memory used by the current inkey variable.
+                //
 
-			case ML_DO_ATAN2:
+                VM_data_free(VM_global[VM_EXTRA_GLOBAL_INKEY]);
 
-				VM_POP_STACK(2);
-				
-				{
-					float val1;
-					float val2;
+                //
+                // Assign the new value.
+                //
 
-					switch(VM_stack_top[0].type)
-					{
-						case ML_TYPE_SLUMBER: val1 = float(VM_stack_top[0].slumber); break;
-						case ML_TYPE_FLUMBER: val1 =       VM_stack_top[0].flumber;  break;
+                VM_global[VM_EXTRA_GLOBAL_INKEY] = VM_stack_top[0];
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                //
+                // Overwrite the real inkey too!
+                //
 
-					switch(VM_stack_top[1].type)
-					{
-						case ML_TYPE_SLUMBER: val2 = float(VM_stack_top[1].slumber); break;
-						case ML_TYPE_FLUMBER: val2 =       VM_stack_top[1].flumber;  break;
+                KEY_inkey = 0;
 
-						default:
-							ASSERT(0);
-							break;
-					}
+                break;
 
-					VM_stack_top[0].type    = ML_TYPE_FLUMBER;
-					VM_stack_top[0].flumber = atan2f(val1,val2);
-				}
+            case ML_DO_TIMER:
 
-				VM_stack_top++;
+                VM_CHECK_STACK_PUSH();
 
-				break;
+                VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                VM_stack_top[0].flumber = float(OS_ticks()) * 0.001F;
 
-			case ML_DO_NOP:
-				break;
+                VM_stack_top++;
 
-			case ML_DO_LEFT:
+                break;
 
-				VM_POP_STACK(2);
+            case ML_DO_SIN:
 
-				//
-				// Check types.
-				//
+                VM_POP_STACK(1);
 
-				if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
-					VM_stack_top[0].type != ML_TYPE_STRCONST)
-				{
-					//
-					// ERROR!
-					//
+                {
+                    float val;
 
-					ASSERT(0);
-				}
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val = VM_stack_top[0].flumber; break;
 
-				if (VM_stack_top[1].type != ML_TYPE_SLUMBER)
-				{
-					//
-					// ERROR!
-					//
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-					ASSERT(0);
-				}
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = sinf(val);
+                }
 
-				{
-					ML_Data ans;
+                VM_stack_top++;
 
-					char* input = VM_get_string(VM_stack_top[0]);
-					std::int32_t  left  = VM_stack_top[1].slumber;
+                break;
 
-					if (left < 0)
-					{
-						//
-						// ERROR!
-						//
+            case ML_DO_COS:
 
-						ASSERT(0);
-					}
+                VM_POP_STACK(1);
 
-					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (char* ) MEM_alloc(left + 1);
+                {
+                    float val;
 
-					char* src = input;
-					char* dst = ans.strvar;
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val = VM_stack_top[0].flumber; break;
 
-					while(left > 0)
-					{
-						if (*src == '\000')
-						{
-							break;
-						}
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-					   *dst++ = *src++;
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = cosf(val);
+                }
 
-						left--;
-					}
+                VM_stack_top++;
 
-				   *dst = '\000';
+                break;
 
-					//
-					// Free args.
-					//
+            case ML_DO_TAN:
 
-					VM_data_free(VM_stack_top[0]);
-					VM_data_free(VM_stack_top[1]);
+                VM_POP_STACK(1);
 
-					//
-					// Push answer onto the stack.
-					//
+                {
+                    float val;
 
-					VM_CHECK_STACK_PUSH();
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val = VM_stack_top[0].flumber; break;
 
-					VM_stack_top[0] = ans;
-					VM_stack_top++;
-				}
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-				break;
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = tanf(val);
+                }
 
-			case ML_DO_MID:
+                VM_stack_top++;
 
-				VM_POP_STACK(3);
+                break;
 
-				//
-				// Check types.
-				//
+            case ML_DO_ASIN:
 
-				if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
-					VM_stack_top[0].type != ML_TYPE_STRCONST)
-				{
-					//
-					// ERROR!
-					//
+                VM_POP_STACK(1);
 
-					ASSERT(0);
-				}
+                {
+                    float val;
 
-				if (VM_stack_top[1].type != ML_TYPE_SLUMBER ||
-					VM_stack_top[2].type != ML_TYPE_SLUMBER)
-				{
-					//
-					// ERROR!
-					//
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val = VM_stack_top[0].flumber; break;
 
-					ASSERT(0);
-				}
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-				{
-					ML_Data ans;
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = asinf(val);
+                }
 
-					char* input = VM_get_string(VM_stack_top[0]);
-					std::int32_t  in    = VM_stack_top[1].slumber - 1;	// - 1 because BASIC is 1-based not zero based.
-					std::int32_t  num   = VM_stack_top[2].slumber;
-					std::int32_t  len   = strlen(input);
+                VM_stack_top++;
 
-					if (num < 0)
-					{
-						//
-						// ERROR! Bad number of characters.
-						//
+                break;
 
-						ASSERT(0);
-					}
+            case ML_DO_ACOS:
 
-					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (char* ) MEM_alloc(num + 1);
+                VM_POP_STACK(1);
 
-					if (!WITHIN(in, 0, len - 1))
-					{
-						ans.strvar[0] = '\000';
-					}
-					else
-					{
-						char* src = input + in;
-						char* dst = ans.strvar;
+                {
+                    float val;
 
-						while(num > 0)
-						{
-							if (*src == '\000')
-							{
-								break;
-							}
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val = VM_stack_top[0].flumber; break;
 
-						   *dst++ = *src++;
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-							num--;
-						}
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = acosf(val);
+                }
 
-					   *dst = '\000';
-					}
+                VM_stack_top++;
 
-					//
-					// Free args.
-					//
+                break;
 
-					VM_data_free(VM_stack_top[0]);
-					VM_data_free(VM_stack_top[1]);
-					VM_data_free(VM_stack_top[2]);
+            case ML_DO_ATAN:
 
-					//
-					// Push answer onto the stack.
-					//
+                VM_POP_STACK(1);
 
-					VM_CHECK_STACK_PUSH();
+                {
+                    float val;
 
-					VM_stack_top[0] = ans;
-					VM_stack_top++;
-				}
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val = VM_stack_top[0].flumber; break;
 
-				break;
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-			case ML_DO_RIGHT:
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = atanf(val);
+                }
 
-				VM_POP_STACK(2);
+                VM_stack_top++;
 
-				//
-				// Check types.
-				//
+                break;
 
-				if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
-					VM_stack_top[0].type != ML_TYPE_STRCONST)
-				{
-					//
-					// ERROR!
-					//
+            case ML_DO_ATAN2:
 
-					ASSERT(0);
-				}
+                VM_POP_STACK(2);
 
-				if (VM_stack_top[1].type != ML_TYPE_SLUMBER)
-				{
-					//
-					// ERROR!
-					//
+                {
+                    float val1;
+                    float val2;
 
-					ASSERT(0);
-				}
+                    switch (VM_stack_top[0].type) {
+                        case ML_TYPE_SLUMBER: val1 = float(VM_stack_top[0].slumber); break;
+                        case ML_TYPE_FLUMBER: val1 = VM_stack_top[0].flumber; break;
 
-				{
-					ML_Data ans;
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-					char* input = VM_get_string(VM_stack_top[0]);
-					std::int32_t  len   = VM_stack_top[1].slumber;
+                    switch (VM_stack_top[1].type) {
+                        case ML_TYPE_SLUMBER: val2 = float(VM_stack_top[1].slumber); break;
+                        case ML_TYPE_FLUMBER: val2 = VM_stack_top[1].flumber; break;
 
-					ans.type   = ML_TYPE_STRVAR;
-					ans.strvar = (char* ) MEM_alloc(len + 1);
+                        default:
+                            ASSERT(0);
+                            break;
+                    }
 
-					char* src = input;
-					char* dst = ans.strvar;
+                    VM_stack_top[0].type = ML_TYPE_FLUMBER;
+                    VM_stack_top[0].flumber = atan2f(val1, val2);
+                }
 
-					while(*src) {src++;}
+                VM_stack_top++;
 
-					src -= len;
+                break;
 
-					if (src < input)
-					{
-						//
-						// We want a segment that is bigger that the string!
-						//
+            case ML_DO_NOP:
+                break;
 
-						src = input;
-					}
+            case ML_DO_LEFT:
 
-					while(len > 0)
-					{
-						if (*src == '\000')
-						{
-							break;
-						}
+                VM_POP_STACK(2);
 
-					   *dst++ = *src++;
+                //
+                // Check types.
+                //
 
-						len--;
-					}
+                if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
+                    VM_stack_top[0].type != ML_TYPE_STRCONST) {
+                    //
+                    // ERROR!
+                    //
 
-				   *dst = '\000';
+                    ASSERT(0);
+                }
 
-					//
-					// Free args.
-					//
+                if (VM_stack_top[1].type != ML_TYPE_SLUMBER) {
+                    //
+                    // ERROR!
+                    //
 
-					VM_data_free(VM_stack_top[0]);
-					VM_data_free(VM_stack_top[1]);
+                    ASSERT(0);
+                }
 
-					//
-					// Push answer onto the stack.
-					//
+                {
+                    ML_Data ans;
 
-					VM_CHECK_STACK_PUSH();
+                    char *input = VM_get_string(VM_stack_top[0]);
+                    std::int32_t left = VM_stack_top[1].slumber;
 
-					VM_stack_top[0] = ans;
-					VM_stack_top++;
-				}
+                    if (left < 0) {
+                        //
+                        // ERROR!
+                        //
 
-				break;
+                        ASSERT(0);
+                    }
 
-			case ML_DO_LEN:
+                    ans.type = ML_TYPE_STRVAR;
+                    ans.strvar = (char *) MEM_alloc(left + 1);
 
-				VM_POP_STACK(1);
+                    char *src = input;
+                    char *dst = ans.strvar;
 
-				if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
-					VM_stack_top[0].type != ML_TYPE_STRCONST)
-				{
-					//
-					// ERROR!
-					//
+                    while (left > 0) {
+                        if (*src == '\000') {
+                            break;
+                        }
 
-					ASSERT(0);
-				}
-				else
-				{
-					std::int32_t len = strlen(VM_get_string(VM_stack_top[0]));
+                        *dst++ = *src++;
 
-					VM_data_free(VM_stack_top[0]);
+                        left--;
+                    }
 
-					VM_CHECK_STACK_PUSH();
+                    *dst = '\000';
 
-					VM_stack_top[0].type    = ML_TYPE_SLUMBER;
-					VM_stack_top[0].slumber = len;
+                    //
+                    // Free args.
+                    //
 
-					VM_stack_top++;
-				}
+                    VM_data_free(VM_stack_top[0]);
+                    VM_data_free(VM_stack_top[1]);
 
-				break;
-	
-			case ML_DO_PUSH_IDENTITY_MATRIX:
+                    //
+                    // Push answer onto the stack.
+                    //
 
-				{
-					const ML_Vector right    = {1.0F, 0.0F, 0.0F};
-					const ML_Vector up       = {0.0F, 1.0F, 0.0F};
-					const ML_Vector forwards = {0.0F, 0.0F, 1.0F};
+                    VM_CHECK_STACK_PUSH();
 
-					VM_CHECK_STACK_PUSH();
+                    VM_stack_top[0] = ans;
+                    VM_stack_top++;
+                }
 
-					VM_stack_top[0].type   = ML_TYPE_MATRIX;
-					VM_stack_top[0].matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+                break;
 
-					VM_stack_top[0].matrix->vector[0] = right;
-					VM_stack_top[0].matrix->vector[1] = up;
-					VM_stack_top[0].matrix->vector[2] = forwards;
+            case ML_DO_MID:
 
-					VM_stack_top++;
-				}
+                VM_POP_STACK(3);
 
-				break;
+                //
+                // Check types.
+                //
 
-			case ML_DO_PUSH_ZERO_VECTOR:
+                if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
+                    VM_stack_top[0].type != ML_TYPE_STRCONST) {
+                    //
+                    // ERROR!
+                    //
 
-				VM_CHECK_STACK_PUSH();
+                    ASSERT(0);
+                }
 
-				VM_stack_top[0].type   = ML_TYPE_VECTOR;
-				VM_stack_top[0].vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
-				
-				VM_stack_top[0].vector->x = 0.0F;
-				VM_stack_top[0].vector->y = 0.0F;
-				VM_stack_top[0].vector->z = 0.0F;
+                if (VM_stack_top[1].type != ML_TYPE_SLUMBER ||
+                    VM_stack_top[2].type != ML_TYPE_SLUMBER) {
+                    //
+                    // ERROR!
+                    //
 
-				break;
+                    ASSERT(0);
+                }
 
-			case ML_DO_MATRIX:
+                {
+                    ML_Data ans;
 
-				VM_POP_STACK(3);
+                    char *input = VM_get_string(VM_stack_top[0]);
+                    std::int32_t in = VM_stack_top[1].slumber - 1; // - 1 because BASIC is 1-based not zero based.
+                    std::int32_t num = VM_stack_top[2].slumber;
+                    std::int32_t len = strlen(input);
 
-				//
-				// Make sure all the arguments are vectors.
-				//
+                    if (num < 0) {
+                        //
+                        // ERROR! Bad number of characters.
+                        //
 
-				if (VM_stack_top[0].type != ML_TYPE_VECTOR ||
-					VM_stack_top[1].type != ML_TYPE_VECTOR ||
-					VM_stack_top[2].type != ML_TYPE_VECTOR)
-				{
-					//
-					// ERROR!
-					//
+                        ASSERT(0);
+                    }
 
-					ASSERT(0);
-				}
-				
-				{
-					ML_Data res;
+                    ans.type = ML_TYPE_STRVAR;
+                    ans.strvar = (char *) MEM_alloc(num + 1);
 
-					res.type   = ML_TYPE_MATRIX;
-					res.matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+                    if (!WITHIN(in, 0, len - 1)) {
+                        ans.strvar[0] = '\000';
+                    } else {
+                        char *src = input + in;
+                        char *dst = ans.strvar;
 
-					res.matrix->vector[0] = *VM_stack_top[0].vector;
-					res.matrix->vector[1] = *VM_stack_top[1].vector;
-					res.matrix->vector[2] = *VM_stack_top[2].vector;
+                        while (num > 0) {
+                            if (*src == '\000') {
+                                break;
+                            }
 
-					VM_data_free(VM_stack_top[0]);
-					VM_data_free(VM_stack_top[1]);
-					VM_data_free(VM_stack_top[2]);
+                            *dst++ = *src++;
 
-					VM_stack_top[0] = res;
+                            num--;
+                        }
 
-					VM_stack_top++;
-				}
+                        *dst = '\000';
+                    }
 
-				break;
+                    //
+                    // Free args.
+                    //
 
-			case ML_DO_VECTOR:
+                    VM_data_free(VM_stack_top[0]);
+                    VM_data_free(VM_stack_top[1]);
+                    VM_data_free(VM_stack_top[2]);
 
-				VM_POP_STACK(3);
+                    //
+                    // Push answer onto the stack.
+                    //
 
-				{
-					ML_Data res;
+                    VM_CHECK_STACK_PUSH();
 
-					res.type   = ML_TYPE_VECTOR;
-					res.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+                    VM_stack_top[0] = ans;
+                    VM_stack_top++;
+                }
 
-					     if (VM_stack_top[0].type == ML_TYPE_FLUMBER) {res.vector->x =         VM_stack_top[0].flumber;}
-					else if (VM_stack_top[0].type == ML_TYPE_SLUMBER) {res.vector->x = (float) VM_stack_top[0].slumber;}
-					else
-					{
-						//
-						// ERROR!
-						//
+                break;
 
-						ASSERT(0);
-					}
+            case ML_DO_RIGHT:
 
-					     if (VM_stack_top[1].type == ML_TYPE_FLUMBER) {res.vector->y =         VM_stack_top[1].flumber;}
-					else if (VM_stack_top[1].type == ML_TYPE_SLUMBER) {res.vector->y = (float) VM_stack_top[1].slumber;}
-					else
-					{
-						//
-						// ERROR!
-						//
+                VM_POP_STACK(2);
 
-						ASSERT(0);
-					}
+                //
+                // Check types.
+                //
 
-					     if (VM_stack_top[2].type == ML_TYPE_FLUMBER) {res.vector->z =         VM_stack_top[2].flumber;}
-					else if (VM_stack_top[2].type == ML_TYPE_SLUMBER) {res.vector->z = (float) VM_stack_top[2].slumber;}
-					else
-					{
-						//
-						// ERROR!
-						//
+                if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
+                    VM_stack_top[0].type != ML_TYPE_STRCONST) {
+                    //
+                    // ERROR!
+                    //
 
-						ASSERT(0);
-					}
+                    ASSERT(0);
+                }
 
-					//
-					// No need to free the arguments... they are all just numbers.
-					//
+                if (VM_stack_top[1].type != ML_TYPE_SLUMBER) {
+                    //
+                    // ERROR!
+                    //
 
-					VM_stack_top[0] = res;
+                    ASSERT(0);
+                }
 
-					VM_stack_top++;
-				}
+                {
+                    ML_Data ans;
 
-				break;
+                    char *input = VM_get_string(VM_stack_top[0]);
+                    std::int32_t len = VM_stack_top[1].slumber;
 
-			default:
-				ASSERT(0);
-				break;
-		}
-	}
+                    ans.type = ML_TYPE_STRVAR;
+                    ans.strvar = (char *) MEM_alloc(len + 1);
+
+                    char *src = input;
+                    char *dst = ans.strvar;
+
+                    while (*src) {
+                        src++;
+                    }
+
+                    src -= len;
+
+                    if (src < input) {
+                        //
+                        // We want a segment that is bigger that the string!
+                        //
+
+                        src = input;
+                    }
+
+                    while (len > 0) {
+                        if (*src == '\000') {
+                            break;
+                        }
+
+                        *dst++ = *src++;
+
+                        len--;
+                    }
+
+                    *dst = '\000';
+
+                    //
+                    // Free args.
+                    //
+
+                    VM_data_free(VM_stack_top[0]);
+                    VM_data_free(VM_stack_top[1]);
+
+                    //
+                    // Push answer onto the stack.
+                    //
+
+                    VM_CHECK_STACK_PUSH();
+
+                    VM_stack_top[0] = ans;
+                    VM_stack_top++;
+                }
+
+                break;
+
+            case ML_DO_LEN:
+
+                VM_POP_STACK(1);
+
+                if (VM_stack_top[0].type != ML_TYPE_STRVAR &&
+                    VM_stack_top[0].type != ML_TYPE_STRCONST) {
+                    //
+                    // ERROR!
+                    //
+
+                    ASSERT(0);
+                } else {
+                    std::int32_t len = strlen(VM_get_string(VM_stack_top[0]));
+
+                    VM_data_free(VM_stack_top[0]);
+
+                    VM_CHECK_STACK_PUSH();
+
+                    VM_stack_top[0].type = ML_TYPE_SLUMBER;
+                    VM_stack_top[0].slumber = len;
+
+                    VM_stack_top++;
+                }
+
+                break;
+
+            case ML_DO_PUSH_IDENTITY_MATRIX:
+
+            {
+                const ML_Vector right = {1.0F, 0.0F, 0.0F};
+                const ML_Vector up = {0.0F, 1.0F, 0.0F};
+                const ML_Vector forwards = {0.0F, 0.0F, 1.0F};
+
+                VM_CHECK_STACK_PUSH();
+
+                VM_stack_top[0].type = ML_TYPE_MATRIX;
+                VM_stack_top[0].matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+
+                VM_stack_top[0].matrix->vector[0] = right;
+                VM_stack_top[0].matrix->vector[1] = up;
+                VM_stack_top[0].matrix->vector[2] = forwards;
+
+                VM_stack_top++;
+            }
+
+            break;
+
+            case ML_DO_PUSH_ZERO_VECTOR:
+
+                VM_CHECK_STACK_PUSH();
+
+                VM_stack_top[0].type = ML_TYPE_VECTOR;
+                VM_stack_top[0].vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+
+                VM_stack_top[0].vector->x = 0.0F;
+                VM_stack_top[0].vector->y = 0.0F;
+                VM_stack_top[0].vector->z = 0.0F;
+
+                break;
+
+            case ML_DO_MATRIX:
+
+                VM_POP_STACK(3);
+
+                //
+                // Make sure all the arguments are vectors.
+                //
+
+                if (VM_stack_top[0].type != ML_TYPE_VECTOR ||
+                    VM_stack_top[1].type != ML_TYPE_VECTOR ||
+                    VM_stack_top[2].type != ML_TYPE_VECTOR) {
+                    //
+                    // ERROR!
+                    //
+
+                    ASSERT(0);
+                }
+
+                {
+                    ML_Data res;
+
+                    res.type = ML_TYPE_MATRIX;
+                    res.matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+
+                    res.matrix->vector[0] = *VM_stack_top[0].vector;
+                    res.matrix->vector[1] = *VM_stack_top[1].vector;
+                    res.matrix->vector[2] = *VM_stack_top[2].vector;
+
+                    VM_data_free(VM_stack_top[0]);
+                    VM_data_free(VM_stack_top[1]);
+                    VM_data_free(VM_stack_top[2]);
+
+                    VM_stack_top[0] = res;
+
+                    VM_stack_top++;
+                }
+
+                break;
+
+            case ML_DO_VECTOR:
+
+                VM_POP_STACK(3);
+
+                {
+                    ML_Data res;
+
+                    res.type = ML_TYPE_VECTOR;
+                    res.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+
+                    if (VM_stack_top[0].type == ML_TYPE_FLUMBER) {
+                        res.vector->x = VM_stack_top[0].flumber;
+                    } else if (VM_stack_top[0].type == ML_TYPE_SLUMBER) {
+                        res.vector->x = (float) VM_stack_top[0].slumber;
+                    } else {
+                        //
+                        // ERROR!
+                        //
+
+                        ASSERT(0);
+                    }
+
+                    if (VM_stack_top[1].type == ML_TYPE_FLUMBER) {
+                        res.vector->y = VM_stack_top[1].flumber;
+                    } else if (VM_stack_top[1].type == ML_TYPE_SLUMBER) {
+                        res.vector->y = (float) VM_stack_top[1].slumber;
+                    } else {
+                        //
+                        // ERROR!
+                        //
+
+                        ASSERT(0);
+                    }
+
+                    if (VM_stack_top[2].type == ML_TYPE_FLUMBER) {
+                        res.vector->z = VM_stack_top[2].flumber;
+                    } else if (VM_stack_top[2].type == ML_TYPE_SLUMBER) {
+                        res.vector->z = (float) VM_stack_top[2].slumber;
+                    } else {
+                        //
+                        // ERROR!
+                        //
+
+                        ASSERT(0);
+                    }
+
+                    //
+                    // No need to free the arguments... they are all just numbers.
+                    //
+
+                    VM_stack_top[0] = res;
+
+                    VM_stack_top++;
+                }
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
+        }
+    }
 }
 
+void VM_run(char *fname) {
+    std::int32_t i;
 
+    FILE *handle;
 
+    handle = fopen(fname, "rb");
 
+    if (!handle) {
+        fprintf(stderr, "Unable to open file \"%s\"\n", fname);
 
+        return;
+    }
 
+    //
+    // Load in the file header.
+    //
 
+    ML_Header mh;
 
+    if (fread(&mh, sizeof(mh), 1, handle) != 1) {
+        goto file_error;
+    }
 
+    //
+    // Valid file?
+    //
 
+    if (mh.version != ML_VERSION_NUMBER) {
+        //
+        // This is an old file.
+        //
 
-void VM_run(char* fname)
-{
-	std::int32_t i;
+        fprintf(stderr, "File \"%s\" has an old version number.\n", fname);
 
-	FILE *handle;
+        fclose(handle);
 
-	handle = fopen(fname, "rb");
+        return;
+    }
 
-	if (!handle )
-	{
-		fprintf(stderr, "Unable to open file \"%s\"\n", fname);
+    //
+    // Allocate instruction memory and read in the instructions
+    // from the file.
+    //
 
-		return;
-	}
+    ASSERT(mh.instructions_memory_in_bytes % sizeof(std::int32_t) == 0);
 
-	//
-	// Load in the file header.
-	//
+    VM_code_max = (mh.instructions_memory_in_bytes + 32) / sizeof(std::int32_t);
+    VM_code = (std::int32_t *) malloc(sizeof(std::int32_t) * VM_code_max);
+    VM_code_upto = mh.instructions_memory_in_bytes / sizeof(std::int32_t);
+    VM_code_pointer = VM_code;
 
-	ML_Header mh;
+    if (fread(VM_code, sizeof(std::uint8_t), mh.instructions_memory_in_bytes, handle) != mh.instructions_memory_in_bytes)
+        goto file_error;
 
-	if (fread(&mh, sizeof(mh), 1, handle) != 1) {goto file_error;}
+    //
+    // Allocate static data and read in data from the file.
+    //
 
-	//
-	// Valid file?
-	//
+    VM_data_max = mh.data_table_length_in_bytes;
+    VM_data = (std::uint8_t *) malloc(sizeof(std::uint8_t) * mh.data_table_length_in_bytes);
 
-	if (mh.version != ML_VERSION_NUMBER)
-	{
-		//
-		// This is an old file.
-		//
+    if (fread(VM_data, sizeof(std::uint8_t), mh.data_table_length_in_bytes, handle) != mh.data_table_length_in_bytes)
+        goto file_error;
 
-		fprintf(stderr, "File \"%s\" has an old version number.\n", fname);
-	
-		fclose(handle);
+    //
+    // Allocate the stack.
+    //
 
-		return;
-	}
+    VM_stack_max = 2048;
+    VM_stack = (ML_Data *) malloc(sizeof(ML_Data) * VM_stack_max);
+    VM_stack_top = VM_stack;
+    VM_stack_base = nullptr;
 
-	//
-	// Allocate instruction memory and read in the instructions
-	// from the file.
-	//
+    //
+    // Allocate the globals and initialise all of them to undefined.
+    //
 
-	ASSERT(mh.instructions_memory_in_bytes % sizeof(std::int32_t) == 0);
+    VM_global_max = mh.num_globals + VM_EXTRA_GLOBAL_NUMBER;
+    VM_global_extra = mh.num_globals;
+    VM_global = (ML_Data *) malloc(sizeof(ML_Data) * VM_global_max);
 
-	VM_code_max     = (mh.instructions_memory_in_bytes + 32) / sizeof(std::int32_t);
-	VM_code         = (std::int32_t *) malloc(sizeof(std::int32_t) * VM_code_max);
-	VM_code_upto    = mh.instructions_memory_in_bytes / sizeof(std::int32_t);
-	VM_code_pointer = VM_code;
+    memset(VM_global, 0, sizeof(ML_Data) * VM_global_max);
 
-	if (fread(VM_code, sizeof(std::uint8_t), mh.instructions_memory_in_bytes, handle) != mh.instructions_memory_in_bytes) goto file_error;
-	
-	//
-	// Allocate static data and read in data from the file.
-	//
+    //
+    // Initialise the KEY[] array to false.
+    //
 
-	VM_data_max = mh.data_table_length_in_bytes;
-	VM_data     = (std::uint8_t *) malloc(sizeof(std::uint8_t) * mh.data_table_length_in_bytes);
+    for (i = 0; i < 256; i++) {
+        VM_global[VM_EXTRA_GLOBAL_KEY(i)].type = ML_TYPE_BOOLEAN;
+        VM_global[VM_EXTRA_GLOBAL_KEY(i)].boolean = false;
+    }
 
-	if (fread(VM_data, sizeof(std::uint8_t), mh.data_table_length_in_bytes, handle) != mh.data_table_length_in_bytes) goto file_error;
+    //
+    // Initialise the flip tick.
+    //
 
-	//
-	// Allocate the stack.
-	//
+    VM_flip_tick = 0;
 
-	VM_stack_max  = 2048;
-	VM_stack      = (ML_Data *) malloc(sizeof(ML_Data) * VM_stack_max);
-	VM_stack_top  = VM_stack;
-	VM_stack_base = nullptr;
+    //
+    // Start execution!
+    //
 
-	//
-	// Allocate the globals and initialise all of them to undefined.
-	//
+    VM_execute();
 
-	VM_global_max   = mh.num_globals + VM_EXTRA_GLOBAL_NUMBER;
-	VM_global_extra = mh.num_globals;
-	VM_global       = (ML_Data *) malloc(sizeof(ML_Data) * VM_global_max);
+    return;
 
-	memset(VM_global, 0, sizeof(ML_Data) * VM_global_max);
+file_error:;
 
-	//
-	// Initialise the KEY[] array to false.
-	//
+    fclose(handle);
 
-	for (i = 0; i < 256; i++)
-	{
-		VM_global[VM_EXTRA_GLOBAL_KEY(i)].type    = ML_TYPE_BOOLEAN;
-		VM_global[VM_EXTRA_GLOBAL_KEY(i)].boolean = false;
-	}
+    if (VM_code) {
+        free(VM_code);
+        VM_code = nullptr;
+    }
+    if (VM_stack) {
+        free(VM_stack);
+        VM_stack = nullptr;
+    }
 
-	//
-	// Initialise the flip tick.
-	//
-
-	VM_flip_tick = 0;
-
-	//
-	// Start execution!
-	//
-
-	VM_execute();
-
-	return;
-
-  file_error:;
-
-	fclose(handle);
-
-	if (VM_code)  {free(VM_code);  VM_code  = nullptr;}
-	if (VM_stack) {free(VM_stack); VM_stack = nullptr;}
-
-	return;
+    return;
 }

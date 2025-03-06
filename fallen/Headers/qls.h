@@ -5,14 +5,11 @@
 #ifndef _QLS_
 #define _QLS_
 
-
-
 //
 // Clears all savegame info.
 //
 
 void QLS_init();
-
 
 //
 // Returns true if a quick-savegame is available to load.
@@ -20,13 +17,11 @@ void QLS_init();
 
 void QLS_available();
 
-
 //
 // Saves the current gamestate.
 //
 
 void QLS_save();
-
 
 //
 // Loads the last QLS_saved game. Reurns false on failure. In which
@@ -35,8 +30,5 @@ void QLS_save();
 //
 
 std::int32_t QLS_load();
-
-
-
 
 #endif

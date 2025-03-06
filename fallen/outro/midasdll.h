@@ -11,39 +11,36 @@
  * Digital Audio System license, "license.txt". By continuing to use,
  * modify or distribute this file you indicate that you have
  * read the license and understand and accept it fully.
-*/
-
+ */
 
 #ifndef __midasdll_h
 #define __midasdll_h
-
 
 /* This is a kluge, but necessary as Watcom C sucks: */
 #ifdef EXPORT_IN_MIDASDLL_H
 
 #ifdef __WC32__
-    #define _FUNC(x) x __export __stdcall
-    #define MIDAS_CALL __cdecl
+#define _FUNC(x) x __export __stdcall
+#define MIDAS_CALL __cdecl
 #else
-    #define _FUNC(x) __declspec(dllexport) x __stdcall
-    #define MIDAS_CALL __cdecl
+#define _FUNC(x) __declspec(dllexport) x __stdcall
+#define MIDAS_CALL __cdecl
 #endif
 
 #else
-    #if defined(__linux__) || defined(__UNIX__) || defined(__DJGPP__)
-        #define _FUNC(x) x
-        #define MIDAS_CALL
-    #else
-        #ifdef __DOS__
-            #define _FUNC(x) x cdecl
-            #define MIDAS_CALL __cdecl
-        #else
-            #define _FUNC(x) x __stdcall
-            #define MIDAS_CALL __cdecl
-        #endif
-    #endif
+#if defined(__linux__) || defined(__UNIX__) || defined(__DJGPP__)
+#define _FUNC(x) x
+#define MIDAS_CALL
+#else
+#ifdef __DOS__
+#define _FUNC(x) x cdecl
+#define MIDAS_CALL __cdecl
+#else
+#define _FUNC(x) x __stdcall
+#define MIDAS_CALL __cdecl
 #endif
-
+#endif
+#endif
 
 #if defined(__WATCOMC__) && defined(__cplusplus)
 /* Disable to annoying Watcom C++ warnings - I have no idea how to get around
@@ -52,8 +49,7 @@
 #pragma warning 594 9
 #endif
 
-enum MIDASoptions
-{
+enum MIDASoptions {
     MIDAS_OPTION_NONE = 0,
     MIDAS_OPTION_MIXRATE,
     MIDAS_OPTION_OUTPUTMODE,
@@ -70,9 +66,7 @@ enum MIDASoptions
     MIDAS_OPTION_FORCE_NO_SOUND
 };
 
-
-enum MIDASmodes
-{
+enum MIDASmodes {
     MIDAS_MODE_NONE = 0,
     MIDAS_MODE_MONO = 1,
     MIDAS_MODE_STEREO = 2,
@@ -84,10 +78,7 @@ enum MIDASmodes
     MIDAS_MODE_16BIT_STEREO = MIDAS_MODE_16BIT | MIDAS_MODE_STEREO
 };
 
-
-
-enum MIDASsampleTypes
-{
+enum MIDASsampleTypes {
     MIDAS_SAMPLE_NONE = 0,
     MIDAS_SAMPLE_8BIT_MONO = 1,
     MIDAS_SAMPLE_16BIT_MONO = 2,
@@ -99,288 +90,315 @@ enum MIDASsampleTypes
     MIDAS_SAMPLE_ULAW_STEREO = 8
 };
 
-
-
-enum MIDASloop
-{
+enum MIDASloop {
     MIDAS_LOOP_NO = 0,
     MIDAS_LOOP_YES
 };
 
-
-enum MIDASpanning
-{
+enum MIDASpanning {
     MIDAS_PAN_LEFT = -64,
     MIDAS_PAN_MIDDLE = 0,
     MIDAS_PAN_RIGHT = 64,
     MIDAS_PAN_SURROUND = 0x80
 };
 
-
-enum MIDASchannels
-{
+enum MIDASchannels {
     MIDAS_CHANNEL_AUTO = 0xFFFF,
     MIDAS_ILLEGAL_CHANNEL = 0xFFFF
 };
 
-
-enum MIDASdsoundModes
-{
+enum MIDASdsoundModes {
     MIDAS_DSOUND_DISABLED = 0,
     MIDAS_DSOUND_STREAM,
     MIDAS_DSOUND_PRIMARY,
     MIDAS_DSOUND_FORCE_STREAM
 };
 
-
-enum MIDASpositions
-{
+enum MIDASpositions {
     MIDAS_POSITION_DEFAULT = 0xFFFFFFFF
 };
 
-
-
-enum MIDASfilterModes
-{
+enum MIDASfilterModes {
     MIDAS_FILTER_NONE = 0,
     MIDAS_FILTER_LESS = 1,
     MIDAS_FILTER_MORE = 2,
     MIDAS_FILTER_AUTO = 3
 };
 
-
-enum MIDASechoFilterTypes
-{
+enum MIDASechoFilterTypes {
     MIDAS_ECHO_FILTER_NONE = 0,
     MIDAS_ECHO_FILTER_LOWPASS = 1,
     MIDAS_ECHO_FILTER_HIGHPASS = 2
 };
 
-
-enum MIDASmixingModes
-{
+enum MIDASmixingModes {
     MIDAS_MIX_NORMAL_QUALITY = 0,
     MIDAS_MIX_HIGH_QUALITY = 1
 };
 
-
-enum MIDASsamplePlayStatus
-{
+enum MIDASsamplePlayStatus {
     MIDAS_SAMPLE_STOPPED = 0,
     MIDAS_SAMPLE_PLAYING = 1
 };
 
-
-enum MIDASpostProcPosition
-{
+enum MIDASpostProcPosition {
     MIDAS_POST_PROC_FIRST = 0,
     MIDAS_POST_PROC_LAST
 };
 
-
-
 typedef struct
 {
-    char        songName[32];
-    unsigned    songLength;
-    unsigned    numPatterns;
-    unsigned    numInstruments;
-    unsigned    numChannels;
+    char songName[32];
+    unsigned songLength;
+    unsigned numPatterns;
+    unsigned numInstruments;
+    unsigned numChannels;
 } MIDASmoduleInfo;
 
-
-
 typedef struct
 {
-    char        instName[32];
+    char instName[32];
 } MIDASinstrumentInfo;
 
-
-
 typedef struct
 {
-    unsigned    position;
-    unsigned    pattern;
-    unsigned    row;
-    int         syncInfo;
-    unsigned    songLoopCount;
+    unsigned position;
+    unsigned pattern;
+    unsigned row;
+    int syncInfo;
+    unsigned songLoopCount;
 } MIDASplayStatus;
 
-
 typedef struct
 {
-    unsigned    delay;                  /* milliseconds, 16.16 fixed point */
-    int         gain;                   /* gain, 16.16 fixed point */
-    int         reverseChannels;        /* reverse channels? */
-    unsigned    filterType;             /* filter type, MIDASechoFilterTypes */
+    unsigned delay;      /* milliseconds, 16.16 fixed point */
+    int gain;            /* gain, 16.16 fixed point */
+    int reverseChannels; /* reverse channels? */
+    unsigned filterType; /* filter type, MIDASechoFilterTypes */
 } MIDASecho;
 
-
 typedef struct
 {
-    int         feedback;               /* feedback, 16.16 fixed point */
-    int         gain;                   /* total gain, 16.16 fixed point */
-    unsigned    numEchoes;              /* number of echoes */
-    MIDASecho   *echoes;                /* the echoes */
+    int feedback;       /* feedback, 16.16 fixed point */
+    int gain;           /* total gain, 16.16 fixed point */
+    unsigned numEchoes; /* number of echoes */
+    MIDASecho *echoes;  /* the echoes */
 } MIDASechoSet;
 
+typedef void(MIDAS_CALL *MIDASpostProcFunction)(void *data,
+                                                unsigned numSamples, void *user);
 
-typedef void (MIDAS_CALL *MIDASpostProcFunction)(void* data,
-    unsigned numSamples, void* user);
-
-typedef struct _MIDASpostProcessor
-{
+typedef struct _MIDASpostProcessor {
     struct _MIDASpostProcessor *next, *prev; /* reserved */
-    void* userData;                          /* reserved */
+    void *userData;                          /* reserved */
     MIDASpostProcFunction floatMono;
     MIDASpostProcFunction floatStereo;
     MIDASpostProcFunction intMono;
     MIDASpostProcFunction intStereo;
 } MIDASpostProcessor;
 
-
-
-typedef void* MIDASmodule;
+typedef void *MIDASmodule;
 typedef DWORD MIDASmodulePlayHandle;
 typedef DWORD MIDASsample;
 typedef DWORD MIDASsamplePlayHandle;
-typedef void* MIDASstreamHandle;
-typedef void* MIDASechoHandle;
-
+typedef void *MIDASstreamHandle;
+typedef void *MIDASechoHandle;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-_FUNC(int)      MIDASgetLastError();
-_FUNC(char*)    MIDASgetErrorMessage(int errorCode);
+_FUNC(int)
+MIDASgetLastError();
+_FUNC(char *)
+MIDASgetErrorMessage(int errorCode);
 
-_FUNC(DWORD)    MIDASgetDisplayRefreshRate();
+_FUNC(DWORD)
+MIDASgetDisplayRefreshRate();
 
-_FUNC(bool)     MIDASstartup();
-_FUNC(bool)     MIDASdetectSD();
-_FUNC(bool)     MIDASdetectSoundCard();
-_FUNC(bool)     MIDASconfig();
-_FUNC(bool)     MIDASloadConfig(char *fileName);
-_FUNC(bool)     MIDASsaveConfig(char *fileName);
-_FUNC(bool)     MIDASreadConfigRegistry(DWORD key, char *subKey);
-_FUNC(bool)     MIDASwriteConfigRegistry(DWORD key, char *subKey);
+_FUNC(bool)
+MIDASstartup();
+_FUNC(bool)
+MIDASdetectSD();
+_FUNC(bool)
+MIDASdetectSoundCard();
+_FUNC(bool)
+MIDASconfig();
+_FUNC(bool)
+MIDASloadConfig(char *fileName);
+_FUNC(bool)
+MIDASsaveConfig(char *fileName);
+_FUNC(bool)
+MIDASreadConfigRegistry(DWORD key, char *subKey);
+_FUNC(bool)
+MIDASwriteConfigRegistry(DWORD key, char *subKey);
 
-_FUNC(bool)     MIDASinit();
-_FUNC(bool)     MIDASsetOption(int option, DWORD value);
-_FUNC(DWORD)    MIDASgetOption(int option);
-_FUNC(bool)     MIDASclose();
-_FUNC(bool)     MIDASsuspend();
-_FUNC(bool)     MIDASresume();
-_FUNC(bool)     MIDASopenChannels(int numChannels);
-_FUNC(bool)     MIDAScloseChannels();
-_FUNC(bool)     MIDASsetAmplification(DWORD amplification);
-_FUNC(bool)     MIDASstartBackgroundPlay(DWORD pollRate);
-_FUNC(bool)     MIDASstopBackgroundPlay();
-_FUNC(bool)     MIDASpoll();
-_FUNC()     MIDASlock();
-_FUNC()     MIDASunlock();
-_FUNC(char*)    MIDASgetVersionString();
-_FUNC(bool)     MIDASsetTimerCallbacks(DWORD rate, bool displaySync,
-				       void (MIDAS_CALL *preVR)(),
-				       void (MIDAS_CALL *immVR)(),
-				       void (MIDAS_CALL *inVR)());
-_FUNC(bool)     MIDASremoveTimerCallbacks();
+_FUNC(bool)
+MIDASinit();
+_FUNC(bool)
+MIDASsetOption(int option, DWORD value);
+_FUNC(DWORD)
+MIDASgetOption(int option);
+_FUNC(bool)
+MIDASclose();
+_FUNC(bool)
+MIDASsuspend();
+_FUNC(bool)
+MIDASresume();
+_FUNC(bool)
+MIDASopenChannels(int numChannels);
+_FUNC(bool)
+MIDAScloseChannels();
+_FUNC(bool)
+MIDASsetAmplification(DWORD amplification);
+_FUNC(bool)
+MIDASstartBackgroundPlay(DWORD pollRate);
+_FUNC(bool)
+MIDASstopBackgroundPlay();
+_FUNC(bool)
+MIDASpoll();
+_FUNC()
+MIDASlock();
+_FUNC()
+MIDASunlock();
+_FUNC(char *)
+MIDASgetVersionString();
+_FUNC(bool)
+MIDASsetTimerCallbacks(DWORD rate, bool displaySync,
+                       void(MIDAS_CALL *preVR)(),
+                       void(MIDAS_CALL *immVR)(),
+                       void(MIDAS_CALL *inVR)());
+_FUNC(bool)
+MIDASremoveTimerCallbacks();
 
-_FUNC(DWORD)    MIDASallocateChannel();
-_FUNC(bool)     MIDASfreeChannel(DWORD channel);
+_FUNC(DWORD)
+MIDASallocateChannel();
+_FUNC(bool)
+MIDASfreeChannel(DWORD channel);
 
-_FUNC(MIDASmodule) MIDASloadModule(char *fileName);
-_FUNC(MIDASmodulePlayHandle) MIDASplayModule(MIDASmodule module,
-                                             bool loopSong);
-_FUNC(MIDASmodulePlayHandle) MIDASplayModuleSection(MIDASmodule module,
-                                                    unsigned startPos,
-                                                    unsigned endPos,
-                                                    unsigned restartPos,
-                                                    bool loopSong);
-_FUNC(bool)     MIDASstopModule(MIDASmodulePlayHandle playHandle);
-_FUNC(bool)     MIDASfreeModule(MIDASmodule module);
+_FUNC(MIDASmodule)
+MIDASloadModule(char *fileName);
+_FUNC(MIDASmodulePlayHandle)
+MIDASplayModule(MIDASmodule module,
+                bool loopSong);
+_FUNC(MIDASmodulePlayHandle)
+MIDASplayModuleSection(MIDASmodule module,
+                       unsigned startPos,
+                       unsigned endPos,
+                       unsigned restartPos,
+                       bool loopSong);
+_FUNC(bool)
+MIDASstopModule(MIDASmodulePlayHandle playHandle);
+_FUNC(bool)
+MIDASfreeModule(MIDASmodule module);
 
-_FUNC(bool)     MIDASgetPlayStatus(MIDASmodulePlayHandle playHandle,
-                                   MIDASplayStatus *status);
-_FUNC(bool)     MIDASsetPosition(MIDASmodulePlayHandle playHandle,
-                                 int newPosition);
-_FUNC(bool)     MIDASsetMusicVolume(MIDASmodulePlayHandle playHandle,
-                                    unsigned volume);
-_FUNC(bool)     MIDASgetModuleInfo(MIDASmodule module, MIDASmoduleInfo *info);
-_FUNC(bool)     MIDASgetInstrumentInfo(MIDASmodule module, int instNum,
-                    MIDASinstrumentInfo *info);
-_FUNC(bool)     MIDASsetMusicSyncCallback(MIDASmodulePlayHandle playHandle,
-                                          void (MIDAS_CALL *callback)
-                                          (unsigned syncInfo,
-                                           unsigned position, unsigned row));
-_FUNC(bool)     MIDASfadeMusicChannel(MIDASmodulePlayHandle playHandle,
-                                      unsigned channel, unsigned fade);
-
-_FUNC(MIDASsample) MIDASloadRawSample(char *fileName, int sampleType,
-                    int loopSample);
-_FUNC(MIDASsample) MIDASloadWaveSample(char *fileName, int loopSample);
-_FUNC(bool)         MIDASfreeSample(MIDASsample sample);
-_FUNC(bool)         MIDASallocAutoEffectChannels(unsigned numChannels);
-_FUNC(bool)         MIDASfreeAutoEffectChannels();
-_FUNC(MIDASsamplePlayHandle) MIDASplaySample(MIDASsample sample,
-                        unsigned channel, int priority, unsigned rate,
-                        unsigned volume, int panning);
-_FUNC(bool)     MIDASstopSample(MIDASsamplePlayHandle sample);
-_FUNC(bool)     MIDASsetSampleRate(MIDASsamplePlayHandle sample,
-                    unsigned rate);
-_FUNC(bool)     MIDASsetSampleVolume(MIDASsamplePlayHandle sample,
+_FUNC(bool)
+MIDASgetPlayStatus(MIDASmodulePlayHandle playHandle,
+                   MIDASplayStatus *status);
+_FUNC(bool)
+MIDASsetPosition(MIDASmodulePlayHandle playHandle,
+                 int newPosition);
+_FUNC(bool)
+MIDASsetMusicVolume(MIDASmodulePlayHandle playHandle,
                     unsigned volume);
-_FUNC(bool)     MIDASsetSamplePanning(MIDASsamplePlayHandle sample,
-                    int panning);
-_FUNC(bool)     MIDASsetSamplePriority(MIDASsamplePlayHandle sample,
-                    int priority);
-_FUNC(DWORD)    MIDASgetSamplePlayStatus(MIDASsamplePlayHandle sample);
+_FUNC(bool)
+MIDASgetModuleInfo(MIDASmodule module, MIDASmoduleInfo *info);
+_FUNC(bool)
+MIDASgetInstrumentInfo(MIDASmodule module, int instNum,
+                       MIDASinstrumentInfo *info);
+_FUNC(bool)
+MIDASsetMusicSyncCallback(MIDASmodulePlayHandle playHandle,
+                          void(MIDAS_CALL *callback)(unsigned syncInfo,
+                                                     unsigned position, unsigned row));
+_FUNC(bool)
+MIDASfadeMusicChannel(MIDASmodulePlayHandle playHandle,
+                      unsigned channel, unsigned fade);
 
-_FUNC(MIDASstreamHandle) MIDASplayStreamFile(char *fileName,
-                                             unsigned sampleType,
-                                             unsigned sampleRate,
-                                             unsigned bufferLength,
-                                             int loopStream);
-_FUNC(bool)     MIDASstopStream(MIDASstreamHandle stream);
+_FUNC(MIDASsample)
+MIDASloadRawSample(char *fileName, int sampleType,
+                   int loopSample);
+_FUNC(MIDASsample)
+MIDASloadWaveSample(char *fileName, int loopSample);
+_FUNC(bool)
+MIDASfreeSample(MIDASsample sample);
+_FUNC(bool)
+MIDASallocAutoEffectChannels(unsigned numChannels);
+_FUNC(bool)
+MIDASfreeAutoEffectChannels();
+_FUNC(MIDASsamplePlayHandle)
+MIDASplaySample(MIDASsample sample,
+                unsigned channel, int priority, unsigned rate,
+                unsigned volume, int panning);
+_FUNC(bool)
+MIDASstopSample(MIDASsamplePlayHandle sample);
+_FUNC(bool)
+MIDASsetSampleRate(MIDASsamplePlayHandle sample,
+                   unsigned rate);
+_FUNC(bool)
+MIDASsetSampleVolume(MIDASsamplePlayHandle sample,
+                     unsigned volume);
+_FUNC(bool)
+MIDASsetSamplePanning(MIDASsamplePlayHandle sample,
+                      int panning);
+_FUNC(bool)
+MIDASsetSamplePriority(MIDASsamplePlayHandle sample,
+                       int priority);
+_FUNC(DWORD)
+MIDASgetSamplePlayStatus(MIDASsamplePlayHandle sample);
 
-_FUNC(MIDASstreamHandle) MIDASplayStreamWaveFile(char *fileName,
-                                                 unsigned bufferLength,
-                                                 int loopStream);
+_FUNC(MIDASstreamHandle)
+MIDASplayStreamFile(char *fileName,
+                    unsigned sampleType,
+                    unsigned sampleRate,
+                    unsigned bufferLength,
+                    int loopStream);
+_FUNC(bool)
+MIDASstopStream(MIDASstreamHandle stream);
 
-_FUNC(MIDASstreamHandle) MIDASplayStreamPolling(unsigned sampleType,
-                                                unsigned sampleRate,
-                                                unsigned bufferLength);
-_FUNC(unsigned) MIDASfeedStreamData(MIDASstreamHandle stream,
+_FUNC(MIDASstreamHandle)
+MIDASplayStreamWaveFile(char *fileName,
+                        unsigned bufferLength,
+                        int loopStream);
+
+_FUNC(MIDASstreamHandle)
+MIDASplayStreamPolling(unsigned sampleType,
+                       unsigned sampleRate,
+                       unsigned bufferLength);
+_FUNC(unsigned)
+MIDASfeedStreamData(MIDASstreamHandle stream,
                     unsigned char *data, unsigned numBytes, bool feedAll);
 
-_FUNC(bool)     MIDASsetStreamRate(MIDASstreamHandle stream, unsigned rate);
-_FUNC(bool)     MIDASsetStreamVolume(MIDASstreamHandle stream,
-                    unsigned volume);
-_FUNC(bool)     MIDASsetStreamPanning(MIDASstreamHandle stream, int panning);
+_FUNC(bool)
+MIDASsetStreamRate(MIDASstreamHandle stream, unsigned rate);
+_FUNC(bool)
+MIDASsetStreamVolume(MIDASstreamHandle stream,
+                     unsigned volume);
+_FUNC(bool)
+MIDASsetStreamPanning(MIDASstreamHandle stream, int panning);
 
-_FUNC(DWORD)    MIDASgetStreamBytesBuffered(MIDASstreamHandle stream);
-_FUNC(bool)     MIDASpauseStream(MIDASstreamHandle stream);
-_FUNC(bool)     MIDASresumeStream(MIDASstreamHandle stream);
+_FUNC(DWORD)
+MIDASgetStreamBytesBuffered(MIDASstreamHandle stream);
+_FUNC(bool)
+MIDASpauseStream(MIDASstreamHandle stream);
+_FUNC(bool)
+MIDASresumeStream(MIDASstreamHandle stream);
 
-_FUNC(MIDASechoHandle) MIDASaddEchoEffect(MIDASechoSet *echoSet);
-_FUNC(bool)     MIDASremoveEchoEffect(MIDASechoHandle echoHandle);
+_FUNC(MIDASechoHandle)
+MIDASaddEchoEffect(MIDASechoSet *echoSet);
+_FUNC(bool)
+MIDASremoveEchoEffect(MIDASechoHandle echoHandle);
 
-_FUNC(bool)     MIDASaddPostProcessor(MIDASpostProcessor *postProc,
-                                      unsigned procPos, void* userData);
-_FUNC(bool)     MIDASremovePostProcessor(MIDASpostProcessor *postProc);
-
-
+_FUNC(bool)
+MIDASaddPostProcessor(MIDASpostProcessor *postProc,
+                      unsigned procPos, void *userData);
+_FUNC(bool)
+MIDASremovePostProcessor(MIDASpostProcessor *postProc);
 
 #ifdef __cplusplus
 }
 #endif
 
-
-
-
 #endif
-
 
 /*
  * $Log: midasdll.h,v $
@@ -493,4 +511,4 @@ _FUNC(bool)     MIDASremovePostProcessor(MIDASpostProcessor *postProc);
  * Revision 1.1  1996/09/25 18:38:12  pekangas
  * Initial revision
  *
-*/
+ */

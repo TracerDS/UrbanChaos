@@ -6,159 +6,131 @@
 #include "back.h"
 #include "os.h"
 
-
-
-
-
 OS_Texture *BACK_ot_roper;
 OS_Texture *BACK_ot_darci;
 OS_Texture *BACK_ot_mib;
 OS_Texture *BACK_ot_line;
 
+void BACK_init() {
+    static std::int32_t done;
 
+    if (done) {
+        return;
+    }
 
-void BACK_init()
-{
-	static std::int32_t done;
+    BACK_ot_roper = OS_texture_create("RoperEdgeNail.tga");
+    BACK_ot_darci = OS_texture_create("GunshotNail.tga");
+    BACK_ot_mib = OS_texture_create("ThreeAmigos4.tga");
+    BACK_ot_line = OS_texture_create("Bumpyline.tga");
 
-	if (done)
-	{
-		return;
-	}
-
-	BACK_ot_roper = OS_texture_create("RoperEdgeNail.tga");
-	BACK_ot_darci = OS_texture_create("GunshotNail.tga");
-	BACK_ot_mib   = OS_texture_create("ThreeAmigos4.tga");
-	BACK_ot_line  = OS_texture_create("Bumpyline.tga");
-
-	done = true;
+    done = true;
 }
 
+void BACK_draw() {
+    std::uint32_t colour;
 
+    OS_Buffer *ob;
 
+    float between = 0.0F;
 
-void BACK_draw()
-{
-	std::uint32_t colour;
+    OS_Texture *ot1;
+    OS_Texture *ot2;
 
-	OS_Buffer *ob;
+    std::int32_t now = OS_ticks();
 
-	float between = 0.0F;
+    if (now < 2048) {
+        //
+        // Draw nothing for a while...
+        //
 
-	OS_Texture *ot1;
-	OS_Texture *ot2;
+        colour = 0;
+    } else if (now < 4096) {
+        //
+        // Then fade in over the next two seconds...
+        //
 
-	std::int32_t now = OS_ticks();
+        colour = now - 2048 >> 4;
+        colour |= colour << 8;
+        colour |= colour << 8;
+    } else {
+        now -= 4000;
+        colour = 0x808080;
+    }
 
-	if (now < 2048)
-	{
-		//
-		// Draw nothing for a while...
-		//
+    switch ((now >> 14) % 3) {
+        case 0:
+            ot1 = BACK_ot_roper;
+            ot2 = BACK_ot_darci;
+            break;
 
-		colour = 0;
-	}
-	else
-	if (now < 4096)
-	{
-		//
-		// Then fade in over the next two seconds...
-		//
+        case 1:
+            ot1 = BACK_ot_darci;
+            ot2 = BACK_ot_mib;
+            break;
 
-		colour  = now - 2048 >> 4;
-		colour |= colour << 8;
-		colour |= colour << 8;
-	}
-	else
-	{
-		now   -= 4000;
-		colour = 0x808080;
-	}
+        case 2:
+            ot1 = BACK_ot_mib;
+            ot2 = BACK_ot_roper;
+            break;
 
-	switch((now >> 14) % 3)
-	{
-		case 0:
-			ot1 = BACK_ot_roper;
-			ot2 = BACK_ot_darci;
-			break;
+        default:
+            ASSERT(0);
+            break;
+    }
 
-		case 1:
-			ot1 = BACK_ot_darci;
-			ot2 = BACK_ot_mib;
-			break;
+    now &= 0x3fff;
 
-		case 2:
-			ot1 = BACK_ot_mib;
-			ot2 = BACK_ot_roper;
-			break;
+    if (now < 6000) {
+        between = 0.0F;
+    } else if (now < 10000) {
+        between = (now - 6000) * (1.0F / 4000.0F);
+    } else {
+        between = 1.0F;
+    }
 
-		default:
-			ASSERT(0);
-			break;
-	}
+    if (between < 1.0F) {
+        ob = OS_buffer_new();
 
-	now &= 0x3fff;
+        OS_buffer_add_sprite(
+            ob,
+            0.0F, 0.0F, 1.0F - between, 1.0F,
+            0.0F, 1.0F, 1.0F - between, 0.0F,
+            0.9999F,
+            colour,
+            0x00000000,
+            OS_FADE_RIGHT);
 
-	if (now < 6000)
-	{
-		between = 0.0F;
-	}
-	else
-	if (now < 10000)
-	{
-		between = (now - 6000) * (1.0F / 4000.0F);
-	}
-	else
-	{
-		between = 1.0F;
-	}
+        OS_buffer_draw(ob, ot1, nullptr, OS_DRAW_ZALWAYS);
+    }
 
-	if (between < 1.0F)
-	{
-		ob = OS_buffer_new();
+    if (between > 0.0F) {
+        ob = OS_buffer_new();
 
-		OS_buffer_add_sprite(
-			ob,
-			0.0F, 0.0F, 1.0F - between, 1.0F,
-			0.0F, 1.0F,	1.0F - between, 0.0F,
-			0.9999F,
-			colour,
-			0x00000000,
-			OS_FADE_RIGHT);
+        OS_buffer_add_sprite(
+            ob,
+            1.0F - between, 0.0F, 1.0F, 1.0F,
+            1.0F - between, 1.0F, 1.0F, 0.0F,
+            0.9999F,
+            colour,
+            0x00000000,
+            OS_FADE_RIGHT);
 
-		OS_buffer_draw(ob, ot1, nullptr, OS_DRAW_ZALWAYS);
-	}
+        OS_buffer_draw(ob, ot2, nullptr, OS_DRAW_ZALWAYS);
+    }
 
-	if (between > 0.0F)
-	{
-		ob = OS_buffer_new();
+    if (between > 0.0F && between < 1.0F) {
+        ob = OS_buffer_new();
 
-		OS_buffer_add_sprite(
-			ob,
-			1.0F - between, 0.0F, 1.0F, 1.0F,
-			1.0F - between, 1.0F, 1.0F, 0.0F,
-			0.9999F,
-			colour,
-			0x00000000,
-			OS_FADE_RIGHT);
+        OS_buffer_add_line_2d(
+            ob,
+            1.0F - between, 0.0F,
+            1.0F - between, 1.0F,
+            0.04F * frand(),
+            0.0F, 0.0F + frand(),
+            1.0F, 8.0F + frand(),
+            0.0F,
+            ftol((1.0F - between) * 255) | 0x5522ff);
 
-		OS_buffer_draw(ob, ot2, nullptr, OS_DRAW_ZALWAYS);
-	}
-
-	if (between > 0.0F && between < 1.0F)
-	{
-		ob = OS_buffer_new();
-
-		OS_buffer_add_line_2d(
-			ob,
-			1.0F - between, 0.0F,
-			1.0F - between, 1.0F,
-			0.04F * frand(),
-			0.0F, 0.0F + frand(),
-			1.0F, 8.0F + frand(),
-			0.0F,
-			ftol((1.0F - between) * 255) | 0x5522ff);
-
-		OS_buffer_draw(ob, BACK_ot_line, nullptr, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZALWAYS);
-	}
+        OS_buffer_draw(ob, BACK_ot_line, nullptr, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZALWAYS);
+    }
 }

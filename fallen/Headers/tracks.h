@@ -16,53 +16,49 @@
 // nads on his PC.
 
 #ifndef BUILD_PSX
-#define TRACK_BUFFER_LENGTH		300
+#define TRACK_BUFFER_LENGTH 300
 #else
-#define TRACK_BUFFER_LENGTH		50
+#define TRACK_BUFFER_LENGTH 50
 #endif
 
+#define TRACK_SURFACE_NONE 0
+#define TRACK_SURFACE_MUDDY 1
+#define TRACK_SURFACE_WATER 2
+#define TRACK_SURFACE_ONSNOW 3
 
+#define TRACK_TYPE_TYRE 1
+#define TRACK_TYPE_TYRE_SKID 2
+#define TRACK_TYPE_LEFT_PRINT 3
+#define TRACK_TYPE_RIGHT_PRINT 4
 
-#define TRACK_SURFACE_NONE			0
-#define	TRACK_SURFACE_MUDDY			1
-#define	TRACK_SURFACE_WATER			2
-#define	TRACK_SURFACE_ONSNOW		3
-
-#define TRACK_TYPE_TYRE				1
-#define TRACK_TYPE_TYRE_SKID		2
-#define	TRACK_TYPE_LEFT_PRINT		3
-#define	TRACK_TYPE_RIGHT_PRINT		4
-
-#define	TRACK_FLAGS_FLIPABLE		1
-#define	TRACK_FLAGS_SPLUTTING		2
-#define TRACK_FLAGS_INVALPHA		4
+#define TRACK_FLAGS_FLIPABLE 1
+#define TRACK_FLAGS_SPLUTTING 2
+#define TRACK_FLAGS_INVALPHA 4
 
 struct Track {
-//	std::int32_t	x,y,z; // not required -- here to debug...
+    //	std::int32_t	x,y,z; // not required -- here to debug...
 
-	std::int32_t	dx,dy,dz;
-	std::int32_t	page,colour;
-	THING_INDEX	thing; //Thing*	thing; //miked did this
-	std::int16_t	sx,sz;
-	std::uint16_t	padtolong;
-	std::uint8_t	flip;
-	std::uint8_t	flags;
-	std::uint8_t	splut;
-	std::uint8_t	splutmax;
+    std::int32_t dx, dy, dz;
+    std::int32_t page, colour;
+    THING_INDEX thing; // Thing*	thing; //miked did this
+    std::int16_t sx, sz;
+    std::uint16_t padtolong;
+    std::uint8_t flip;
+    std::uint8_t flags;
+    std::uint8_t splut;
+    std::uint8_t splutmax;
 };
 
-typedef Track* TrackPtr;
+typedef Track *TrackPtr;
 
-extern Track	*tracks;//[TRACK_BUFFER_LENGTH];
-extern std::uint16_t	track_head,track_tail,track_eob;
+extern Track *tracks; //[TRACK_BUFFER_LENGTH];
+extern std::uint16_t track_head, track_tail, track_eob;
 
-#define	TO_TRACK(x)		(&tracks[x])
-#define	TRACK_NUMBER(x)	(std::uint16_t)(x-TO_TRACK(0))
+#define TO_TRACK(x) (&tracks[x])
+#define TRACK_NUMBER(x) (std::uint16_t) (x - TO_TRACK(0))
 
-
-
-void TRACKS_InitOnce(std::int16_t size=TRACK_BUFFER_LENGTH);
-void TRACKS_Reset(std::int16_t size=TRACK_BUFFER_LENGTH);
+void TRACKS_InitOnce(std::int16_t size = TRACK_BUFFER_LENGTH);
+void TRACKS_Reset(std::int16_t size = TRACK_BUFFER_LENGTH);
 void TRACKS_Draw();
 void TRACKS_DrawTrack(Thing *p_thing);
 

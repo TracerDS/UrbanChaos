@@ -5,22 +5,17 @@
 #ifndef _FACET_
 #define _FACET_
 
-
-
 //
 // Draws the given facet.
 //
 
-void FACET_draw(std::int32_t facet,std::uint8_t alpha);
-
+void FACET_draw(std::int32_t facet, std::uint8_t alpha);
 
 //
 // Draws all the walkable faces for the given building.
 //
 
 void FACET_draw_walkable(std::int32_t building);
-
-
 
 //
 // Projects a shadow onto the crinkled facet. When it has made a
@@ -30,9 +25,6 @@ void FACET_draw_walkable(std::int32_t building);
 //
 
 void FACET_project_crinkled_shadow(std::int32_t facet);
-
-
-
 
 //
 // NOT USED ANY MORE!
@@ -44,12 +36,10 @@ void FACET_project_crinkled_shadow(std::int32_t facet);
 //
 
 void FACET_draw_ns_ladder(
-		std::int32_t x1,
-		std::int32_t z1,
-		std::int32_t x2,
-		std::int32_t z2,
-		std::int32_t height);
-
-
+    std::int32_t x1,
+    std::int32_t z1,
+    std::int32_t x2,
+    std::int32_t z2,
+    std::int32_t height);
 
 #endif

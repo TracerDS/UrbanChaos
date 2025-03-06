@@ -5,25 +5,17 @@
 #ifndef _DCLL_
 #define _DCLL_
 
-
-
-
 //
 // A dreamcast sound buffer...
 //
 
 typedef struct dcll_sound DCLL_Sound;
 
-
-
 //
 // Initialises the DC sound system.
 //
 
 void DCLL_init(void);
-
-
-
 
 // ========================================================
 //
@@ -35,8 +27,7 @@ void DCLL_init(void);
 // Loads a sound from a file.
 //
 
-DCLL_Sound *DCLL_load_sound(char* fname);
-
+DCLL_Sound *DCLL_load_sound(char *fname);
 
 //
 // Sets the volume of the sample. 0.0F <= volume <= 1.0F
@@ -44,17 +35,14 @@ DCLL_Sound *DCLL_load_sound(char* fname);
 
 void DCLL_set_volume(DCLL_Sound *ds, float volume);
 
-
-
 //
 // Plays a 2D sound.
 //
 
 #define DCLL_FLAG_INTERRUPT (1 << 0)
-#define DCLL_FLAG_LOOP      (1 << 1)
+#define DCLL_FLAG_LOOP (1 << 1)
 
 void DCLL_2d_play_sound(DCLL_Sound *ds, std::int32_t flag = 0);
-
 
 //
 // Plays a 3D sound.
@@ -62,23 +50,21 @@ void DCLL_2d_play_sound(DCLL_Sound *ds, std::int32_t flag = 0);
 
 void DCLL_3d_play_sound(DCLL_Sound *ds, float x, float y, float z, std::int32_t flag = 0);
 
-
 //
 // The 'head' for 3d sounds.
 //
 
 void DCLL_3d_set_listener(
-		float x,
-		float y,
-		float z,
-		float matrix[9]);
+    float x,
+    float y,
+    float z,
+    float matrix[9]);
 
 //
 // Stop the sound from playing (2D or 3D)
-// 
+//
 
 void DCLL_stop_sound(DCLL_Sound *ds);
-
 
 //
 // Frees up the given sound.
@@ -86,14 +72,11 @@ void DCLL_stop_sound(DCLL_Sound *ds);
 
 void DCLL_free_sound(DCLL_Sound *ds);
 
-
 //
 // Shuts down the sound system.
 //
 
 void DCLL_fini(void);
-
-
 
 // ========================================================
 //
@@ -105,15 +88,13 @@ void DCLL_fini(void);
 // Sets the range of DCLL_stream_volume.
 //
 
-void DCLL_stream_set_volume_range(float max_vol);	// 0.0F to 1.0F
+void DCLL_stream_set_volume_range(float max_vol); // 0.0F to 1.0F
 
-
-std::int32_t DCLL_stream_play(char* fname, std::int32_t loop = false);	// Play the file streaming off CD. Looping samples have a lower priority. Returns false if it doesn't issue the play.
-void  DCLL_stream_wait(void);								// Wait until the streaming file has finished playing
-void  DCLL_stream_stop(void);								// Stop the streaming sound.
-std::int32_t DCLL_stream_is_playing(void);							// Returns true if the streaming sound is still playing.
-void  DCLL_stream_volume(float volume);						// 0.0F <= volume <= 1.0F
-
+std::int32_t DCLL_stream_play(char *fname, std::int32_t loop = false); // Play the file streaming off CD. Looping samples have a lower priority. Returns false if it doesn't issue the play.
+void DCLL_stream_wait(void);                                           // Wait until the streaming file has finished playing
+void DCLL_stream_stop(void);                                           // Stop the streaming sound.
+std::int32_t DCLL_stream_is_playing(void);                             // Returns true if the streaming sound is still playing.
+void DCLL_stream_volume(float volume);                                 // 0.0F <= volume <= 1.0F
 
 // ========================================================
 //
@@ -121,24 +102,21 @@ void  DCLL_stream_volume(float volume);						// 0.0F <= volume <= 1.0F
 //
 // ========================================================
 
-void DCLL_memstream_load  (char* fname);					// Loads the file.
-void DCLL_memstream_volume(float volume);					// 0.0F <= volume <= 1.0F
-void DCLL_memstream_play  (void);							// Loops and plays the file
-void DCLL_memstream_stop  (void);							// Stops playing the file
-void DCLL_memstream_unload(void);							// Frees memory.
-
-
-
+void DCLL_memstream_load(char *fname);    // Loads the file.
+void DCLL_memstream_volume(float volume); // 0.0F <= volume <= 1.0F
+void DCLL_memstream_play(void);           // Loops and plays the file
+void DCLL_memstream_stop(void);           // Stops playing the file
+void DCLL_memstream_unload(void);         // Frees memory.
 
 #ifdef DEBUG
 
-void DumpTracies ( void );
+void DumpTracies(void);
 
 #else
 
-static void DumpTracies ( void ){}
+static void DumpTracies(void) {
+}
 
 #endif
-
 
 #endif

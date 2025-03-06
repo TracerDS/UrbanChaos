@@ -17,7 +17,7 @@
 // why does the above line toast it?
 // oh well... set up manually then...
 
-#define PI				(3.14159265F)
+#define PI (3.14159265F)
 typedef	unsigned char		std::uint8_t;
 typedef signed char			std::int8_t;
 typedef char				char;

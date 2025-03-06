@@ -5,18 +5,15 @@
 #ifndef NET_H
 #define NET_H
 
-
-
 // ========================================================
 //
 // Initialising and releasing all the DirectPlay stuff...
 // Call once each at the start and end of the program.
-// 
+//
 // ========================================================
 
 void NET_init();
 void NET_kill();
-
 
 //
 // The nullptr player ID.
@@ -24,10 +21,9 @@ void NET_kill();
 // If the system sends a message, then it comes from NET_PLAYER_SYSTEM
 //
 
-#define NET_PLAYER_NONE		255
-#define NET_PLAYER_ALL		254
-#define NET_PLAYER_SYSTEM	253
-
+#define NET_PLAYER_NONE 255
+#define NET_PLAYER_ALL 254
+#define NET_PLAYER_SYSTEM 253
 
 // ========================================================
 //
@@ -40,15 +36,14 @@ void NET_kill();
 // Returns the name of the given connection.
 //
 
-std::int32_t  NET_get_connection_number();
-char* NET_get_connection_name  (std::int32_t connection);
+std::int32_t NET_get_connection_number();
+char* NET_get_connection_name(std::int32_t connection);
 
 //
 // Establishes a connection. Returns true on success.
 //
 
 std::int32_t NET_connection_make(std::int32_t connection);
-
 
 // ========================================================
 //
@@ -59,7 +54,7 @@ std::int32_t NET_connection_make(std::int32_t connection);
 //
 // Creates a session. Makes this machine the host. Returns false
 // on failure.
-//		 
+//
 
 std::int32_t NET_create_session(char* name, std::int32_t max_players, char* my_player_name);
 
@@ -73,12 +68,12 @@ std::int32_t NET_create_session(char* name, std::int32_t max_players, char* my_p
 
 typedef struct
 {
-	char name[NET_NAME_LENGTH];
+    char name[NET_NAME_LENGTH];
 
 } NET_Sinfo;
 
-std::int32_t      NET_get_session_number();
-NET_Sinfo  NET_get_session_info  (std::int32_t session);
+std::int32_t NET_get_session_number();
+NET_Sinfo NET_get_session_info(std::int32_t session);
 
 //
 // Joins the given session. Returns false on failure.
@@ -116,9 +111,8 @@ std::uint8_t NET_start_game();
 // is not a player_id, just the n'th player in the session.
 //
 
-std::int32_t  NET_get_num_players();
+std::int32_t NET_get_num_players();
 char* NET_get_player_name(std::int32_t player);
-
 
 // ========================================================
 //
@@ -138,9 +132,9 @@ char* NET_get_player_name(std::int32_t player);
 //
 
 void NET_message_send(
-		std::uint8_t  player_id,
-		void  *data,
-		std::uint16_t  num_bytes);
+    std::uint8_t player_id,
+    void* data,
+    std::uint16_t num_bytes);
 
 //
 // Returns true if there is a message in the queue.
@@ -152,39 +146,37 @@ std::int32_t NET_message_waiting();
 // Gets the next message in the queue.
 //
 
-#define NET_SYSMESS_NOP				0	// Do nothing!
-#define NET_SYSMESS_START_GAME      1
-#define NET_SYSMESS_LOST_CONNECTION	2
-#define NET_SYSMESS_HOST_QUIT_OUT	3
+#define NET_SYSMESS_NOP 0 // Do nothing!
+#define NET_SYSMESS_START_GAME 1
+#define NET_SYSMESS_LOST_CONNECTION 2
+#define NET_SYSMESS_HOST_QUIT_OUT 3
 
 typedef struct
 {
-	std::uint8_t player_id;
-	std::uint8_t shit1;
-	std::uint16_t shit2;
+    std::uint8_t player_id;
+    std::uint8_t shit1;
+    std::uint16_t shit2;
 
-	union
-	{
-		struct	// For system messages, when player == NET_PLAYER_SYSTEM
-		{
-			std::uint8_t sysmess;
-			std::uint8_t player_id;	// For the START_GAME system message.
-			std::uint8_t shite;
-			
-		} system;
+    union {
+        struct // For system messages, when player == NET_PLAYER_SYSTEM
+        {
+            std::uint8_t sysmess;
+            std::uint8_t player_id; // For the START_GAME system message.
+            std::uint8_t shite;
 
-		struct	// For all other messages.
-		{
-			std::uint16_t num_bytes;
-			std::uint16_t more_shit;
-			void* data;
-			
-		} player;
-	};
+        } system;
+
+        struct // For all other messages.
+        {
+            std::uint16_t num_bytes;
+            std::uint16_t more_shit;
+            void* data;
+
+        } player;
+    };
 
 } NET_Message;
 
-void NET_message_get(NET_Message *answer);
-
+void NET_message_get(NET_Message* answer);
 
 #endif
