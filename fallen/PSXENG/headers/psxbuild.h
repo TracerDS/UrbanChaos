@@ -1,9 +1,7 @@
 //
 // Draws buildings.
 //
-
-#ifndef _BUILD_
-#define _BUILD_
+#pragma once
 
 //
 // This function uses the POLY module, and assumes
@@ -22,5 +20,3 @@ void BUILD_draw_facet(Thing *p_thing, std::uint16_t facet);
 //
 
 void BUILD_draw_inside();
-
-#endif
