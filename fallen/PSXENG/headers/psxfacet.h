@@ -1,9 +1,7 @@
 //
 // Facet drawing functions.
 //
-
-#ifndef _FACET_
-#define _FACET_
+#pragma once
 
 //
 // Draws the given facet.
@@ -34,4 +32,3 @@ void FACET_draw_ns_ladder(
     std::int32_t z2,
     std::int32_t height);
 
-#endif

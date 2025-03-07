@@ -2,8 +2,7 @@
 // Primitive shapes...
 //
 
-#ifndef _SHAPE_
-#define _SHAPE_
+#pragma once
 
 #include "ob.h"
 
@@ -125,5 +124,3 @@ void SHAPE_droplet(
 //
 
 void SHAPE_prim_shadow(OB_Info *oi);
-
-#endif

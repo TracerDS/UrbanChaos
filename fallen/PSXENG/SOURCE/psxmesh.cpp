@@ -3,9 +3,9 @@
 //
 
 #include "game.h"
-#include "c:\fallen\headers\memory.h"
-#include "c:\fallen\psxeng\headers\engine.h"
-#include "c:\fallen\headers\FMatrix.h"
+#include "memory.h"
+#include "psxengine.h"
+#include "FMatrix.h"
 // #include "aeng.h"
 // #include "matrix.h"
 // #include "mesh.h"

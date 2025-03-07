@@ -1,10 +1,7 @@
 //
 // Matrix stuff...
 //
-
-#ifndef _MATRIX_
-#define _MATRIX_
-
+#pragma once
 //
 // ALL ANGLES ARE IN RADIANS.
 //
@@ -165,5 +162,3 @@ typedef struct
 } Direction;
 
 Direction MATRIX_find_angles(std::int32_t matrix[9]);
-
-#endif
