@@ -5,8 +5,8 @@
 #ifndef PSX
 #include "DDLib.h"
 #ifndef TARGET_DC
-#include "sedit.h"
-#include "ledit.h"
+#include <sedit/Headers/sedit.h>
+#include <ledit/Headers/ledit.h>
 #endif
 #include "renderstate.h"
 #include "Drive.h"

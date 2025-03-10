@@ -45,7 +45,7 @@ char STARTSCR_mission[_MAX_PATH] = {0};
 
 // editor stuff being roped in for background view
 
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 #include "engwind.h"
 #include "mapview.h"
 #include "xlat_str.h"

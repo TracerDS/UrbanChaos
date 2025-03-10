@@ -8,7 +8,7 @@
 #include <commctrl.h>
 #include "resource.h"
 
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 
 #include "GEdit.h"
 #include "Mission.h"

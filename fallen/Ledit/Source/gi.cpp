@@ -4,7 +4,7 @@
 
 #include <MFStdLib.h>
 #include "game.h"
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 #include "morph.h"
 #include "night.h"
 #include "ob.h"

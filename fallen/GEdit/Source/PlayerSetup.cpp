@@ -9,7 +9,7 @@
 #include "resource.h"
 #include "fmatrix.h"
 #include "inline.h"
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 #include "edstrings.h"
 #include "GEdit.h"
 

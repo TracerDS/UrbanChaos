@@ -5,11 +5,11 @@
 #include <commctrl.h>
 #include <zmouse.h> // Mouse wheel support
 #include "resource.h"
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 #include "fmatrix.h"
 #include "pap.h"
 #include "inline.h"
-#include "ed.h"
+#include <Ledit/Headers/ed.h>
 #include "game.h"
 #include "inside2.h"
 #include "memory.h"

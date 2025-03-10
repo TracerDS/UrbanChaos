@@ -7,7 +7,7 @@
 #include <commctrl.h>
 #include "resource.h"
 #include "inline.h"
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 
 #include "EdStrings.h"
 #include "GEdit.h"

@@ -13,7 +13,7 @@
 #include "WSpace.h"
 
 #include "pap.h"
-#include "gi.h"
+#include <Ledit/Headers/gi.h>
 
 #include "..\Editor\Headers\Anim.h"
 #include "io.h"
