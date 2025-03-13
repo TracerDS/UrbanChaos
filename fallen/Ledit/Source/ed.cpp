@@ -3,7 +3,7 @@
 //
 
 #include <MFStdLib.h>
-#include "ed.h"
+#include <Ledit/Headers/ed.h>
 #include "night.h"
 
 //
