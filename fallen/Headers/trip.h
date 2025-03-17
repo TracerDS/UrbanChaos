@@ -2,8 +2,7 @@
 // Trip wires.
 //
 
-#ifndef _TRIP_
-#define _TRIP_
+#pragma once
 
 //
 // When x1 == this magic number means the trip wire is deactivated.
@@ -92,4 +91,3 @@ typedef struct
 void TRIP_get_start();
 TRIP_Info *TRIP_get_next(); // Returns nullptr if there are no more trips left.
 
-#endif

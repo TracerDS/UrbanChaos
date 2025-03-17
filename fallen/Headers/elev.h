@@ -2,8 +2,7 @@
 // The new ECTS level stuff!
 //
 
-#ifndef _ELEV_
-#define _ELEV_
+#pragma once
 
 #ifndef PSX
 
@@ -33,4 +32,3 @@ std::int32_t ELEV_game_init(
     char* fname_sewers,
     char* fname_level);
 
-#endif

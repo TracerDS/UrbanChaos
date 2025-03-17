@@ -2,8 +2,7 @@
 // Quick load and save from within a level.
 //
 
-#ifndef _QLS_
-#define _QLS_
+#pragma once
 
 //
 // Clears all savegame info.
@@ -31,4 +30,3 @@ void QLS_save();
 
 std::int32_t QLS_load();
 
-#endif

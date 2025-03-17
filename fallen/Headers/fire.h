@@ -2,8 +2,7 @@
 // Fire!
 //
 
-#ifndef _FIRE_
-#define _FIRE_
+#pragma once
 
 //
 // Gets rid of all the fire.
@@ -72,4 +71,3 @@ typedef struct
 void FIRE_get_start(std::uint8_t z, std::uint8_t x_min, std::uint8_t x_max);
 FIRE_Info *FIRE_get_next(); // nullptr => No more fire here.
 
-#endif

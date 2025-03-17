@@ -2,8 +2,7 @@
 // A grappling hook.
 //
 
-#ifndef _HOOK_
-#define _HOOK_
+#pragma once
 
 //
 // Creates the grappling hook lying neatly coiled up on the ground.
@@ -83,4 +82,3 @@ void HOOK_pos_point(std::int32_t point,
                     std::int32_t *y,
                     std::int32_t *z);
 
-#endif

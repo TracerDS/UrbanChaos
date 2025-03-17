@@ -2,8 +2,7 @@
 // Electric sparks...
 //
 
-#ifndef _SPARK_
-#define _SPARK_
+#pragma once
 
 //
 // Removes all sparks.
@@ -95,4 +94,3 @@ typedef struct
 void SPARK_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z);
 SPARK_Info *SPARK_get_next(); // nullptr => No more sparks...
 
-#endif

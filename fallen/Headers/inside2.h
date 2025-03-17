@@ -1,5 +1,4 @@
-#ifndef INSIDE2_H
-#define INSIDE2_H 1
+#pragma once
 
 #include "structs.h"
 
@@ -84,4 +83,3 @@ MAV_Action INSIDE2_mav_stair (Thing *p_person, std::int32_t inside, std::int32_t
 MAV_Action INSIDE2_mav_exit  (Thing *p_person, std::int32_t inside);					// Exit the building
 #endif
 
-#endif

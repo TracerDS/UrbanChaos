@@ -2,8 +2,7 @@
 // Loads an environment from a file.
 //
 
-#ifndef _ENV_
-#define _ENV_
+#pragma once
 
 //
 // now we use standard Windows .INI files
@@ -45,4 +44,3 @@ std::int32_t ENV_get_value_number(const char* name, std::int32_t def, const char
 void ENV_set_value_string(const char* name, const char* value, const char* section = "Game");
 void ENV_set_value_number(const char* name, std::int32_t value, const char* section = "Game");
 
-#endif

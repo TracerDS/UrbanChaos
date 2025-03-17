@@ -2,8 +2,7 @@
 // Sewers.. yuck!
 //
 
-#ifndef _SEWER_
-#define _SEWER_
+#pragma once
 
 //
 // The size of the sewage system.
@@ -78,4 +77,3 @@ void SEWER_get_start(std::int32_t x, std::int32_t z);
 SEWER_Face* SEWER_get_next();  // nullptr => there are no more faces.
 SEWER_Face* SEWER_get_water(); // Returns the water faces...
 
-#endif

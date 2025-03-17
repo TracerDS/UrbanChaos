@@ -1,5 +1,4 @@
-#ifndef INTERACT_H
-#define INTERACT_H
+#pragma once
 
 #include "building.h"
 #include "Thing.h"
@@ -108,4 +107,3 @@ extern void calc_sub_objects_position_global(GameKeyFrame *cur_frame, GameKeyFra
 
 std::int32_t find_cable_y_along(struct DFacet *p_facet, std::int32_t along); // 0 <= along <= CABLE_MAX_ALONG
 
-#endif

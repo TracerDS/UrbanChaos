@@ -2,8 +2,7 @@
 // New indoors.
 //
 
-#ifndef _ND_
-#define _ND_
+#pragma once
 
 //
 // The directions leading out of a navsquare.
@@ -145,4 +144,3 @@ typedef struct
 ND_Floor ND_floor[ND_MAX_FLOORS];
 std::int32_t ND_floor_upto;
 
-#endif

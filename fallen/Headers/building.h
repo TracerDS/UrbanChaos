@@ -1,5 +1,4 @@
-#ifndef BUILDING_H
-#define BUILDING_H 1
+#pragma once
 
 // #include	"c:\fallen\headers\memory.h"
 
@@ -456,4 +455,3 @@ void make_cable_taut_along(
 
 void make_cable_flabby(std::int32_t building);
 
-#endif

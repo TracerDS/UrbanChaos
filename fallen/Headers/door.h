@@ -2,8 +2,7 @@
 // Doors
 //
 
-#ifndef _DOOR_
-#define _DOOR_
+#pragma once
 
 //
 // Doors in the process of opening or closing.
@@ -32,4 +31,3 @@ void DOOR_shut(std::int32_t world_x, std::int32_t world_z);
 
 void DOOR_process();
 
-#endif

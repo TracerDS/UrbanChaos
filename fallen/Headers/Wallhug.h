@@ -1,5 +1,4 @@
-#ifndef WALLHUG_H
-#define WALLHUG_H
+#pragma once
 
 /*****************************************************************************
 
@@ -38,6 +37,8 @@ wallhug_trivial just does a normal wallhug
 wallhug_tricky cleans the path up a bit so it looks less foolish.
 
 *****************************************************************************/
+
+#include <cstdint>
 
 std::int32_t NAV_wall_in_way(std::int32_t x, std::int32_t y, std::int32_t dirn);
 
@@ -98,5 +99,3 @@ extern std::uint8_t wallhug_last_handed;
 extern std::uint8_t wallhug_last_dirn;
 extern std::uint32_t wallhug_last_hug_count;
 extern bool wallhug_looking_for_last;
-
-#endif

@@ -2,8 +2,7 @@
 // Tells you where to put staircases in a building.
 //
 
-#ifndef STAIR_H
-#define STAIR_H
+#pragma once
 
 #include "id.h"
 
@@ -49,4 +48,3 @@ void STAIR_calculate(std::uint16_t seed);
 
 std::int32_t STAIR_get(std::int32_t handle, ID_Stair **stair, std::int32_t *num_stairs);
 
-#endif

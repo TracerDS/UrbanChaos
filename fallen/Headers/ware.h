@@ -2,8 +2,7 @@
 // Warehouses- and you can go into them!
 //
 
-#ifndef _WARE_
-#define _WARE_
+#pragma once
 
 //
 // Warehouses have their own private MAVigation system and they know
@@ -159,4 +158,3 @@ MAV_Action WARE_mav_exit(Thing *p_person, std::uint8_t caps);
 
 void WARE_debug();
 
-#endif

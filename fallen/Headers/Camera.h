@@ -1,8 +1,7 @@
 // Camera.h
 // Guy Simmons, 5th December 1997.
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -46,4 +45,3 @@ void restore_old_camera(Thing *c_thing);
 
 //---------------------------------------------------------------
 
-#endif

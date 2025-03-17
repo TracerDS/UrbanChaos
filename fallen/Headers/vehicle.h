@@ -2,8 +2,8 @@
 //
 // vehicle physics
 
-#ifndef VEHICLE_H
-#define VEHICLE_H
+#pragma once
+
 #include "../Headers/State.h"
 
 #define FLAG_VEH_DRIVING (1 << 0)
@@ -19,11 +19,11 @@
 
 // Vehicle structure
 
-typedef struct
+struct Suspension
 {
     std::uint16_t Compression;
     std::uint16_t Length;
-} Suspension;
+};
 
 // DButtons bits
 
@@ -37,7 +37,7 @@ typedef struct
 #define VEH_SPEED_LIMIT 750   // the speed limit ("35 mph")
 #define VEH_REVERSE_SPEED 300 // the speed limit for reversing
 
-typedef struct
+struct Vehicle
 {
     DrawTween Draw;
 
@@ -91,10 +91,7 @@ typedef struct
     // #ifndef PSX
     std::int32_t oldX[4], oldZ[4];
     // #endif
-
-} Vehicle;
-
-typedef Vehicle *VehiclePtr;
+};
 
 #define RMAX_VEHICLES 40
 #define MAX_VEHICLES (save_table[SAVE_TABLE_VEHICLE].Maximum)
@@ -102,7 +99,7 @@ typedef Vehicle *VehiclePtr;
 
 // state
 
-void VEH_driving(Thing *);
+void VEH_driving(Thing*);
 extern StateFunction VEH_statefunctions[];
 
 void init_vehicles();
@@ -165,7 +162,7 @@ extern std::int32_t GetRunoverHP(Thing *p_car, Thing *p_person, std::int32_t min
 #define VEH_COL_TYPE_BBOX 0
 #define VEH_COL_TYPE_CYLINDER 1
 
-typedef struct
+struct VEH_Col
 {
     std::uint16_t type;
     std::uint16_t ob_index; // If this collision came from an OB this is its OB_index and position.
@@ -179,8 +176,7 @@ typedef struct
     std::int16_t min_z;
     std::int16_t max_z;
     std::uint16_t radius_or_yaw;
-
-} VEH_Col;
+};
 
 #define VEH_MAX_COL 8
 
@@ -243,5 +239,3 @@ void vehicle_wheel_pos_get(
     std::int32_t *wx,
     std::int32_t *wy,
     std::int32_t *wz);
-
-#endif

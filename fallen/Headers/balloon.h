@@ -2,8 +2,7 @@
 // Balloons.
 //
 
-#ifndef _BALLOON_
-#define _BALLOON_
+#pragma once
 
 //
 // The points of a balloon.
@@ -77,4 +76,3 @@ void BALLOON_find_grab(std::uint16_t thing);
 
 void BALLOON_process();
 
-#endif

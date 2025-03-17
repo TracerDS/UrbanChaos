@@ -2,8 +2,7 @@
 // Building related stuff
 //
 
-#ifndef IN_BUILDING_H
-#define IN_BUILDING_H
+#pragma once
 #include "Game.h"
 
 //
@@ -58,4 +57,3 @@ void ENTER_get_extents(
 
 std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8_t furnished, std::uint8_t find_best_layout);
 
-#endif

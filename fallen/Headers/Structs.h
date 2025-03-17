@@ -1,8 +1,7 @@
 // Structs.h
 // Guy Simmons, 17th October 1997.
 
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#pragma once
 
 #include "..\Editor\Headers\Anim.h"
 
@@ -82,4 +81,3 @@ struct CommandList; //	Prototype 'CommandList' structure.
 
 //---------------------------------------------------------------
 
-#endif

@@ -2,8 +2,7 @@
 // A system for wandering people.
 //
 
-#ifndef _WAND_
-#define _WAND_
+#pragma once
 
 //
 // Initialises the wander system. Looks for nice places to walk and
@@ -32,5 +31,3 @@ std::int32_t WAND_square_is_wander(std::int32_t map_x, std::int32_t map_z);
 //
 
 void WAND_draw(std::int32_t map_x, std::int32_t map_z);
-
-#endif

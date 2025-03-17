@@ -1,8 +1,7 @@
 // Player.h
 // Guy Simmons, 2nd January 1998.
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -72,4 +71,3 @@ Thing *create_player(std::uint8_t type, std::int32_t x, std::int32_t y, std::int
 
 void PLAYER_redmark(std::int32_t playerid, std::int32_t dredmarks);
 
-#endif

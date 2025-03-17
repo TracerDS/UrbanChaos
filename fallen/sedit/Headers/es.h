@@ -2,8 +2,7 @@
 // The sewer editor.
 //
 
-#ifndef _ES_
-#define _ES_
+#pragma once
 
 #include "pap.h"
 
@@ -20,14 +19,13 @@
 #define ES_FLAG_ENTRANCE (1 << 1)
 #define ES_FLAG_NOCURBS (1 << 2)
 
-typedef struct
+struct ES_Hi
 {
     std::uint8_t type;
     std::uint8_t height;
     std::uint8_t flag;
     std::uint8_t water; // 0 => no water.
-
-} ES_Hi;
+};
 
 extern ES_Hi ES_hi[PAP_SIZE_HI][PAP_SIZE_HI];
 
@@ -46,7 +44,7 @@ extern std::int8_t ES_city_water_level[PAP_SIZE_LO][PAP_SIZE_LO];
 #define ES_THING_TYPE_LADDER 1
 #define ES_THING_TYPE_PRIM 2
 
-typedef struct
+struct ES_Thing
 {
     std::uint8_t type;
     std::uint8_t padding;
@@ -60,8 +58,7 @@ typedef struct
     std::int16_t x;
     std::int16_t y;
     std::int16_t z;
-
-} ES_Thing;
+};
 
 #define ES_MAX_THINGS 512
 
@@ -71,7 +68,7 @@ extern ES_Thing ES_thing[ES_MAX_THINGS];
 // The lo-res mapwho.
 //
 
-typedef struct
+struct ES_Lo
 {
     //
     // Inside the square.
@@ -81,8 +78,7 @@ typedef struct
     std::uint8_t light_x;
     std::uint8_t light_y;
     std::uint8_t light_z;
-
-} ES_Lo;
+};
 
 extern ES_Lo ES_lo[PAP_SIZE_LO][PAP_SIZE_LO];
 
@@ -268,7 +264,5 @@ std::int32_t ES_undo_redo_valid();
 // Loading / saving the sewer editor. Returns true on success.
 //
 
-std::int32_t ES_load(char *filename);
-std::int32_t ES_save(char *filename);
-
-#endif
+std::int32_t ES_load(char* filename);
+std::int32_t ES_save(char* filename);

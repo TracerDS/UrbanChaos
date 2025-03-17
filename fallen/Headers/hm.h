@@ -2,8 +2,7 @@
 // Hypermatter!
 //
 
-#ifndef HM_H
-#define HM_H
+#pragma once
 
 //
 // Initialises all the hypermatter objects.
@@ -190,4 +189,3 @@ std::int32_t HM_stationary(std::uint8_t hm_index);
 
 void HM_draw();
 
-#endif

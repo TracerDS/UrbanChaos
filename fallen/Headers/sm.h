@@ -2,8 +2,7 @@
 // SphereMatter - Hypermatter version 2!
 //
 
-#ifndef _SM_
-#define _SM_
+#pragma once
 
 //
 // Initialises all the sphere matter
@@ -50,4 +49,3 @@ typedef struct
 void SM_get_start();
 SM_Info *SM_get_next();
 
-#endif

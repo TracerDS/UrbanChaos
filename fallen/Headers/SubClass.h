@@ -1,8 +1,7 @@
 //	SubClass.h
 //	Guy Simmons, 15th August 1998.
 
-#ifndef SUBCLASS_H
-#define SUBCLASS_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -20,4 +19,3 @@ LRESULT CALLBACK sc_tree_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
 //---------------------------------------------------------------
 
-#endif

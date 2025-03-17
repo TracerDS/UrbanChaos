@@ -1,5 +1,4 @@
-#ifndef DRAWTYPE_H
-#define DRAWTYPE_H
+#pragma once
 //
 // Draw Types
 //
@@ -89,4 +88,3 @@ void init_draw_meshes();
 DrawMesh *alloc_draw_mesh();
 void free_draw_mesh(DrawMesh *drawmesh);
 
-#endif

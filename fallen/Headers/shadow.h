@@ -2,8 +2,7 @@
 // Precalculates shadows on a built city.
 //
 
-#ifndef _SHADOW_
-#define _SHADOW_
+#pragma once
 
 //
 // The SHADOW module creates 3bit values for a square-
@@ -95,4 +94,3 @@ void SHADOW_do();
 
 std::int32_t SHADOW_in(std::int32_t x, std::int32_t y, std::int32_t z);
 
-#endif

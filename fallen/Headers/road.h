@@ -2,8 +2,7 @@
 // Road stuff...
 //
 
-#ifndef _ROAD_
-#define _ROAD_
+#pragma once
 
 //
 // The wander system for vehicles.
@@ -176,4 +175,3 @@ std::int32_t ROAD_signed_dist(
 
 void ROAD_debug();
 
-#endif

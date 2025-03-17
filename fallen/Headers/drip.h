@@ -2,8 +2,7 @@
 // Splashes...
 //
 
-#ifndef _DRIP_
-#define _DRIP_
+#pragma once
 
 #define DRIP_FLAG_PUDDLES_ONLY (1)
 
@@ -57,4 +56,3 @@ typedef struct
 void DRIP_get_start();
 DRIP_Info *DRIP_get_next(); // nullptr => no more drips.
 
-#endif

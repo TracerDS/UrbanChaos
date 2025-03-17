@@ -2,8 +2,7 @@
 // 2d navigation around the city.
 //
 
-#ifndef NAV_H
-#define NAV_H
+#pragma once
 
 //
 // Initiliases the navigation system from the current map.
@@ -71,4 +70,3 @@ void NAV_path_give(std::uint16_t index);
 
 void NAV_path_draw(std::uint16_t startx, std::uint16_t startz, std::uint16_t path);
 
-#endif

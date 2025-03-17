@@ -1,5 +1,4 @@
-#ifndef IO_H
-#define IO_H
+#pragma once
 
 //
 // Defines
@@ -67,4 +66,3 @@ std::int32_t load_prim_object(std::int32_t prim);
 
 void load_all_individual_prims();
 
-#endif

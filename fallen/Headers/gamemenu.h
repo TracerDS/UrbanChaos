@@ -2,8 +2,7 @@
 // Menus from within the game.
 //
 
-#ifndef _GAMEMENU_
-#define _GAMEMENU_
+#pragma once
 
 //
 // Initialises all the gamemenu stuff. Call at the start of the
@@ -50,4 +49,3 @@ void GAMEMENU_set_level_lost_reason(char* reason);
 
 void GAMEMENU_draw();
 
-#endif
