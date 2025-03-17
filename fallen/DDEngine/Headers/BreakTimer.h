@@ -1,6 +1,4 @@
-// BreakTimer.h
-//
-// break timer
+#pragma once
 
 // Interface:
 //

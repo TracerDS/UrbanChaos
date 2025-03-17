@@ -2,8 +2,7 @@
 // Cones clipped by planar polygons.
 //
 
-#ifndef _CONE_
-#define _CONE_
+#pragma once
 
 //
 // Creates a new cone. (dx,dy,dz) need not be normalised.
@@ -26,13 +25,12 @@ void CONE_create(
 // Clips the last created cone with the given planar polygon.
 //
 
-typedef struct
+struct CONE_Poly
 {
     float x;
     float y;
     float z;
-
-} CONE_Poly;
+};
 
 void CONE_clip(
     CONE_Poly p[],
@@ -54,5 +52,3 @@ void CONE_intersect_with_map();
 //
 
 void CONE_draw();
-
-#endif

@@ -1,13 +1,4 @@
-//
-// Another engine.
-//
-
-#ifndef _AENG_
-#define _AENG_
-
-//
-//  defines
-//
+#pragma once
 
 #define KERB_HEIGHT 32.0F
 #define KERB_HEIGHTI ((std::int32_t) (KERB_HEIGHT))
@@ -463,7 +454,5 @@ void AENG_set_detail_levels(int stars,
                             int filter,
                             int perspective,
                             int crinkles);
-
-#endif
 
 #endif

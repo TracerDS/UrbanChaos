@@ -3919,8 +3919,8 @@ static void process_car(Thing *p_car) {
     std::int32_t dy[4];
     VehInfo *info;
     Vehicle *vp;
-    bool squeaky = 0;
-    bool crunchy = 0;
+    std::int32_t squeaky = 0;
+    std::int32_t crunchy = 0;
     /*
             {
                     std::int32_t	door;
