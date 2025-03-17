@@ -1,8 +1,8 @@
 // Bucket.h
 // Guy Simmons, 24th October 1997.
 
-#ifndef BUCKET_H
-#define BUCKET_H
+#pragma once
+
 #include "Engine.h"
 
 //---------------------------------------------------------------
@@ -40,7 +40,7 @@
 #define BUCKETS_FULL (e_buckets >= e_end_buckets)
 
 struct BucketHead {
-    BucketHead *NextBucket;
+    BucketHead* NextBucket;
     std::uint32_t BucketType;
 };
 
@@ -159,10 +159,4 @@ inline void add_bucket(BucketHead *header, std::uint8_t bucket_type, std::int32_
     */
 }
 
-//---------------------------------------------------------------
-
 void init_buckets();
-
-//---------------------------------------------------------------
-
-#endif

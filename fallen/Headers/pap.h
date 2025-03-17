@@ -2,8 +2,10 @@
 // A lower memory map: 100k
 //
 
-#ifndef _PAP_
-#define _PAP_
+#pragma once
+
+#include <cstdint>
+
 // #include	"game.h" //really requires thing.h but thing.h required game.h so lets cut it off at the pass#
 struct Thing;
 
@@ -63,15 +65,14 @@ struct Thing;
 
 #define PAP_LO_FLAG_WAREHOUSE (1 << 0) // This lo-res mapsquare has square that are inside a warehouse
 
-typedef struct
+struct PAP_Lo
 {
     std::uint16_t MapWho;
     std::int16_t Walkable;     // +ve normal prim_face4, -ve is special roof quad
     std::uint16_t ColVectHead; // don't need this, it could be -ve mapwho
     std::int8_t water;         // The height of any water in this mapsquare.
     std::uint8_t Flag;
-
-} PAP_Lo;
+};
 
 // extern PAP_Lo PAP_lo[PAP_SIZE_LO][PAP_SIZE_LO];
 
@@ -79,14 +80,13 @@ typedef struct
 // The hi-res map.
 //
 
-typedef struct
+struct PAP_Hi
 {
     std::uint16_t Texture; // 3 spare bits here
     std::uint16_t Flags;   // full but some sewer stuff that could go perhaps
     std::int8_t Alt;
     std::int8_t Height; // padding; // better find something to do with this 16K
-
-} PAP_Hi;
+};
 
 typedef PAP_Lo MEM_PAP_Lo[PAP_SIZE_LO];
 typedef PAP_Hi MEM_PAP_Hi[PAP_SIZE_HI];
@@ -174,5 +174,3 @@ void PAP_clear();
 std::int32_t PAP_is_flattish(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2);
-
-#endif

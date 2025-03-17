@@ -7,7 +7,7 @@
 #include <glideutl.h>
 #include <sst1vid.h>
 
-#include "c:\fallen\ddlibrary\headers\dsmanager.h"
+#include "dsmanager.h"
 
 
 #pragma comment(lib, "glide3x.lib")
@@ -359,7 +359,3 @@ bool LibShellActive()
 }
 
 #include "ddlib.h"
-
-
-
-
