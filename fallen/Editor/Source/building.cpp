@@ -451,7 +451,7 @@ void set_cut_blocks_z(std::int32_t x, std::int32_t z) // x is in blocks z is in 
 {
     LogText(" cut block [%d][%d] left   z %d z %x\n", x, z >> ELE_SHIFT, z, z);
     LogText(" cut block [%d][%d] right  z %d z %x\n", x - 1, z >> ELE_SHIFT, z, z);
-    cut_blocks[(x) * 4 + (((z >> ELE_SHIFT) - 0) * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT)] = z;
+    cut_blocks[(x) *4 + (((z >> ELE_SHIFT) - 0) * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT)] = z;
     cut_blocks[(x - 1) * 4 + (((z >> ELE_SHIFT) - 0) * MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT)] = z;
 }
 
@@ -746,7 +746,7 @@ void dump_edge_list(std::uint16_t size) {
 }
 
 #define MYX(x) (((x - min_x) * box_width) + 10)
-#define MYY(x) (((x) * box_depth) + 10)
+#define MYY(x) (((x) *box_depth) + 10)
 
 #define MYFX(x) ((((x - (min_x << ELE_SHIFT)) * (box_width >> 3)) >> (ELE_SHIFT - 3)) + 10)
 #define MYFY(x) ((((x) * (box_depth >> 3)) >> (ELE_SHIFT - 3)) + 10)
@@ -771,10 +771,10 @@ void show_grid(std::int32_t width, std::int32_t depth, std::int32_t min_x) {
             x1 = ((x - min_x) * box_width) + 10;
             z1 = (z * box_depth) + 10;
 
-            xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-            xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-            zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-            zr = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+            xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+            xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+            zl = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+            zr = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
 
             DrawLineC(x1, z1, x1 + box_width, z1, 0x8);
             DrawLineC(x1 + box_width, z1, x1 + box_width, z1 + box_depth, 0x8);
@@ -820,7 +820,8 @@ void show_grid(std::int32_t width, std::int32_t depth, std::int32_t min_x) {
     ShowWorkScreen(0);
     while (!RightButton) {
     }
-    while (RightButton);
+    while (RightButton)
+        ;
 }
 
 #define set_UV4(x0, y0, x1, y1, x2, y2, x3, y3) \
@@ -849,7 +850,7 @@ void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::i
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
@@ -926,7 +927,7 @@ void build_free_quad_texture_info(struct PrimFace4 *p_f4, std::int32_t mx, std::
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
@@ -1265,8 +1266,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
 
                         break;
                     case (BL + BR):
-                        zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                        zl = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
                         LogText(" zl %x zr %x \n", zl, zr);
 
                         if (zl && zr) {
@@ -1303,8 +1304,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                             LogText(" pooerror2\n");
                         break;
                     case (TL + BL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        xb = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                        xb = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
 
                         if (xt && xb) {
                             //  p0  pa
@@ -1357,8 +1358,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         // LogText(" pooerror3\n");
                         break;
                     case (TL + TR):
-                        zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                        zl = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
                         LogText(" zl %x zr %x \n", zl, zr);
 
                         if (zl && zr) {
@@ -1396,8 +1397,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         break;
 
                     case (TR + BR + BL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
                         LogText("POO1 xt %x zl %x \n", xt, zl);
                         LogText(" [%d][%d] \n", x, z);
                         if (xt && zl) {
@@ -1446,8 +1447,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
 
                         break;
                     case (TL + BR + BL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
                         LogText("POO2 xt %x zr %x \n", xt, zr);
                         LogText(" [%d][%d] \n", x, z);
                         LogText(" p0 (%d,%d,%d) p2 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
@@ -1498,8 +1499,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
 
                         break;
                     case (TL + TR + BL):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
                         LogText("POO3 xb %x zr %x \n", xb, zr);
                         LogText(" [%d][%d] \n", x, z);
                         LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
@@ -1551,8 +1552,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         break;
 
                     case (TL + TR + BR):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
                         LogText("POO444 xb %x zl %x \n", xb, zl);
                         LogText(" [%d][%d] \n", x, z);
 
@@ -1603,8 +1604,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         //							create_a_tri(p2,p1,p0,0,0);
                         break;
                     case (TL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
                         LogText("SINGLE1 xt %x zl %x \n", xt, zl);
                         LogText(" [%d][%d] \n", x, z);
 
@@ -1623,8 +1624,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         }
                         break;
                     case (TR):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
                         LogText("SINGLE2 xt %x zr %x \n", xt, zr);
                         LogText(" [%d][%d] \n", x, z);
 
@@ -1643,8 +1644,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         }
                         break;
                     case (BR):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
                         LogText("SINGLE3 xb %x zr %x \n", xb, zr);
                         LogText(" [%d][%d] \n", x, z);
 
@@ -1663,8 +1664,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                         }
                         break;
                     case (BL):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
                         LogText("SINGLE4 xb %x zl %x \n", xb, zl);
                         LogText(" [%d][%d] \n", x, z);
 
@@ -2511,7 +2512,7 @@ void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture) {
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     rot = (rot + 3) & 3;

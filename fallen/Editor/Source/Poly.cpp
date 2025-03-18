@@ -777,8 +777,7 @@ void RENDER_SETUP2(void);
 #ifdef _MSC_VER
 void RENDER_MSC_GT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -874,8 +873,7 @@ void RENDER_GO_COL(void);
 #ifdef _MSC_VER
 void RENDER_MSC_G(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -919,8 +917,7 @@ lp:
 
 void RENDER_MSC_G16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -978,8 +975,7 @@ std::int32_t RENDER_GO_G(void);
 
 #ifdef _MSC_VER
 void RENDER_MSC_50F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -993,7 +989,7 @@ void RENDER_MSC_50F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
 lp:
 		inc edi
 		mov ch,[edi]
-               //		mov [edi],cl
+        //		mov [edi],cl
 		mov dl,mix_map[ecx]
 		mov [edi],dl
 		dec eax
@@ -1014,8 +1010,7 @@ std::int32_t RENDER_GO_50F(void);
 
 #ifdef _MSC_VER
 void RENDER_MSC_F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1037,8 +1032,7 @@ lp:
     }
 }
 void RENDER_MSC_F16(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1072,8 +1066,7 @@ std::int32_t RENDER_GO_F(void);
 #ifdef _MSC_VER
 void RENDER_MSC_T16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1119,11 +1112,11 @@ lp:
 		mov dl,cl
 		mov dx,[ebp+edx*2]
 		add edi,2
-               //		mov dh,0
-               // mov dh,bl
-               // mov dl,fade_tables[edx]
-               //		mov	ebp,ASMpal_address
-               //		mov dx,[ebp+edx*2]
+        //		mov dh,0
+        // mov dh,bl
+        // mov dl,fade_tables[edx]
+        //		mov	ebp,ASMpal_address
+        //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1142,8 +1135,7 @@ std::int32_t RENDER_GO_T16(void) {
 
 void RENDER_MSC_GT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1188,9 +1180,9 @@ lp:
 		mov dl,cl
 		mov dx,[ebp+edx*2]
 		add edi,2
-               //		mov dh,bl
-               //		mov	ebp,ASMfade_page
-               //		mov dx,[ebp+edx*2]
+        //		mov dh,bl
+        //		mov	ebp,ASMfade_page
+        //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1203,8 +1195,7 @@ lp:
 
 void RENDER_MSC_TGT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1250,10 +1241,10 @@ lp:
 		and	edx,0x1f1f
 		mov dx,[ebp+edx*2]
 		add edi,2
-                   //		mov dh,bl
-                   //		mov dx,yc_to_555[edx*2]
-                   //		mov	ebp,ASMfade_page
-                   //		mov dx,[ebp+edx*2]
+        //		mov dh,bl
+        //		mov dx,yc_to_555[edx*2]
+        //		mov	ebp,ASMfade_page
+        //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1370,8 +1361,7 @@ std::int32_t RENDER_GO_TT(void);
 #ifdef _MSC_VER
 void RENDER_MSC_50GT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1458,8 +1448,7 @@ std::int32_t RENDER_GO_50GT(void);
 #ifdef _MSC_VER
 void RENDER_MSC_50T(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1572,8 +1561,7 @@ std::int32_t RENDER_GO_50MGT(void);
 #ifdef _MSC_VER
 void RENDER_MSC_MGT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1635,8 +1623,7 @@ skip:
 
 void RENDER_MSC_MGT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1682,23 +1669,23 @@ lp:
 
 		mov dx,[ebp+edx*2]
 		add edi,2
-                   //		mov dh,bl
+            //		mov dh,bl
 		or	dx,dx
 		jz	skip
-                   //		mov dx,yc_to_555[edx*2]
-                   //		mov	ebp,ASMfade_page
-                   //		mov dx,[ebp+edx*2]
+                //		mov dx,yc_to_555[edx*2]
+                //		mov	ebp,ASMfade_page
+                //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 
-                   /*
-                                   mov dl,[ebp+edx]
-                                   add edi,2
-                                   or	dl,dl
-                                   jz	skip
-                                   mov dh,bl
-                                   mov dx,yc_to_555[edx*2]
-                                   mov [edi],dx
-                   */
+            /*
+                            mov dl,[ebp+edx]
+                            add edi,2
+                            or	dl,dl
+                            jz	skip
+                            mov dh,bl
+                            mov dx,yc_to_555[edx*2]
+                            mov [edi],dx
+            */
 skip:
 		dec esi
 		jnz  lp
@@ -1736,8 +1723,7 @@ std::int32_t RENDER_GO_MGT(void);
 #ifdef _MSC_VER
 void RENDER_MSC_MT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1797,8 +1783,7 @@ skip:
 
 void RENDER_MSC_MT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1847,10 +1832,10 @@ lp:
 		add edi,2
 		or	dx,dx
 		jz	skip
-                   //		mov dh,0
+                //		mov dh,0
 
-                   //		mov	ebp,ASMpal_address
-                   //		mov dx,[ebp+edx*2]
+                //		mov	ebp,ASMpal_address
+                //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 
 
@@ -1888,8 +1873,7 @@ std::int32_t RENDER_GO_MT(void);
 #ifdef _MSC_VER
 void RENDER_MSC_T(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
-    __asm
-    {
+    __asm {
 		push	edi
 		push	esi
 		mov	edi,param_ptr_screen
@@ -1934,8 +1918,8 @@ lp:
 		mov dl,cl
 		mov dl,[ebp+edx]
 		inc edi
-                                                                                                       // mov dh,bl
-                                                                                                       // mov dl,fade_tables[edx]
+            // mov dh,bl
+            // mov dl,fade_tables[edx]
 		mov [edi],dl
 		dec esi
 		jnz  lp
@@ -2071,8 +2055,8 @@ void PSCAN_LINE_GT(struct FloatPolyParameters *poly) {
         std::uint8_t col;
         while (width) {
             std::int32_t tx, ty;
-            tx = (std::int32_t) (lpoly.FLeftTextX / lpoly.Q);
-            ty = (std::int32_t) (lpoly.FLeftTextY / lpoly.Q);
+            tx = (std::int32_t)(lpoly.FLeftTextX / lpoly.Q);
+            ty = (std::int32_t)(lpoly.FLeftTextY / lpoly.Q);
             if (tx < 0 || tx > 255 || ty < 0 || ty > 255)
                 tx = ty = 0;
 
@@ -4478,8 +4462,8 @@ inline void pers_average_points(struct MfEnginePoint *mid, struct MfEnginePoint 
 
     mid->X = (p1->X + p2->X) >> 1;
     mid->Y = (p1->Y + p2->Y) >> 1;
-    mid->TX = (std::int32_t) (as / aq);
-    mid->TY = (std::int32_t) (at / aq);
+    mid->TX = (std::int32_t)(as / aq);
+    mid->TY = (std::int32_t)(at / aq);
     mid->Shade = (p1->Shade + p2->Shade) >> 1;
     mid->Z3d = (p1->Z3d + p2->Z3d) >> 1;
 }
@@ -4504,8 +4488,8 @@ inline void pers_average_points4(struct MfEnginePoint *mid, struct MfEnginePoint
 
     mid->X = (p1->X + p2->X + p3->X + p4->X) >> 2;
     mid->Y = (p1->Y + p2->Y + p3->Y + p4->Y) >> 2;
-    mid->TX = (std::int32_t) (as / aq);
-    mid->TY = (std::int32_t) (at / aq);
+    mid->TX = (std::int32_t)(as / aq);
+    mid->TY = (std::int32_t)(at / aq);
     mid->Shade = (p1->Shade + p2->Shade + p3->Shade + p4->Shade) >> 2;
     mid->Z3d = (p1->Z3d + p2->Z3d + p3->Z3d + p4->Z3d) >> 2;
 }

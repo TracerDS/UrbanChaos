@@ -79,7 +79,7 @@ void draw_h_xord_line(std::int32_t x1, std::int32_t x2, std::int32_t y1) {
 
                 the_line = WorkWindow + x1 + (y1 * WorkScreenWidth);
                 for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
-                    *the_line = (std::uint8_t) (*(the_line) ^ 0xaa);
+                    *the_line = (std::uint8_t)(*(the_line) ^ 0xaa);
             }
         }
 
@@ -94,7 +94,7 @@ void draw_h_xord_line(std::int32_t x1, std::int32_t x2, std::int32_t y1) {
 
                 the_line = (std::uint16_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 1);
                 for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
-                    *the_line = (std::uint16_t) (*(the_line) ^ 0xaaaa);
+                    *the_line = (std::uint16_t)(*(the_line) ^ 0xaaaa);
             }
         }
 
@@ -109,7 +109,7 @@ void draw_h_xord_line(std::int32_t x1, std::int32_t x2, std::int32_t y1) {
 
                 the_line = (std::uint32_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 2);
                 for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
-                    *the_line = (std::uint32_t) (*(the_line) ^ 0xaaaaaa);
+                    *the_line = (std::uint32_t)(*(the_line) ^ 0xaaaaaa);
             }
         }
 
@@ -132,7 +132,7 @@ void draw_v_xord_line(std::int32_t x1, std::int32_t y1, std::int32_t y2) {
 
                 the_line = WorkWindow + x1 + (y1 * WorkScreenWidth);
                 for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth << 1))
-                    *the_line = (std::uint8_t) (*(the_line) ^ 0xaa);
+                    *the_line = (std::uint8_t)(*(the_line) ^ 0xaa);
             }
             break;
         }
@@ -147,7 +147,7 @@ void draw_v_xord_line(std::int32_t x1, std::int32_t y1, std::int32_t y2) {
 
                 the_line = (std::uint16_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 1);
                 for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth))
-                    *the_line = (std::uint16_t) (*(the_line) ^ 0xaaaa);
+                    *the_line = (std::uint16_t)(*(the_line) ^ 0xaaaa);
             }
             break;
         }
@@ -162,7 +162,7 @@ void draw_v_xord_line(std::int32_t x1, std::int32_t y1, std::int32_t y2) {
 
                 the_line = (std::uint32_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 2);
                 for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth >> 1))
-                    *the_line = (std::uint32_t) (*(the_line) ^ 0xaaaaaa);
+                    *the_line = (std::uint32_t)(*(the_line) ^ 0xaaaaaa);
             }
             break;
         }

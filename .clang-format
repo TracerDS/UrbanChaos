@@ -1,24 +1,31 @@
 BasedOnStyle: Google
-IndentWidth: 4
-UseTab: Never
-BreakBeforeBraces: Attach
-AllowShortFunctionsOnASingleLine: InlineOnly
-ColumnLimit: 0
-SpaceBeforeParens: ControlStatements
-PointerAlignment: Left
+
+AlignArrayOfStructures: Left
+AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: true
+#AllowShortCompoundRequirementOnASingleLine: true
+AllowShortFunctionsOnASingleLine: InlineOnly
 AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
-FixNamespaceComments: false
-KeepEmptyLinesAtTheStartOfBlocks: false
-SpacesBeforeTrailingComments: 1
-SpaceAfterCStyleCast: true
 
-# Ensures there is no ";" after class function definitions
+BreakBeforeBraces: Attach
+
+ColumnLimit: 0
 Cpp11BracedListStyle: true
 
-# Enforce early returns and breaks by preventing unnecessary nesting
-SortIncludes: false
-
+FixNamespaceComments: false
 # Disallow goto usage
 ForEachMacros: ["goto"]
+
+IndentWidth: 4
+IndentCaseLabels: false
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+PointerAlignment: Left
+SortIncludes: false
+SpaceAfterCStyleCast: true
+SpaceBeforeParens: ControlStatements
+SpacesBeforeTrailingComments: 1
+
+UseTab: Never

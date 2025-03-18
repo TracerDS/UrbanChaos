@@ -21,7 +21,7 @@ std::uint16_t Control::TrackControl(MFPoint *down_point) {
     start_flags = Flags;
     start_point.X = MouseX;
     start_point.Y = MouseY;
-    Flags = (std::uint8_t) (start_flags | CONTROL_CLICKED);
+    Flags = (std::uint8_t)(start_flags | CONTROL_CLICKED);
     update = 1;
     while (SHELL_ACTIVE && LeftButton) {
         current_point.X = down_point->X + (MouseX - start_point.X);
@@ -29,12 +29,12 @@ std::uint16_t Control::TrackControl(MFPoint *down_point) {
 
         if (PointInControl(&current_point)) {
             if (!(Flags & CONTROL_CLICKED)) {
-                Flags = (std::uint8_t) (start_flags | CONTROL_CLICKED);
+                Flags = (std::uint8_t)(start_flags | CONTROL_CLICKED);
                 update = 1;
             }
         } else {
             if (Flags & CONTROL_CLICKED) {
-                Flags = (std::uint8_t) (start_flags & ~(CONTROL_HILITED));
+                Flags = (std::uint8_t)(start_flags & ~(CONTROL_HILITED));
                 update = 1;
             }
         }
@@ -65,7 +65,8 @@ void Control::TrackKey() {
         UnlockWorkScreen();
         ShowWorkWindow(0);
     }
-    while (SHELL_ACTIVE && Keys[GetHotKey()]);
+    while (SHELL_ACTIVE && Keys[GetHotKey()])
+        ;
     Flags &= ~CONTROL_HILITED;
 }
 
@@ -339,9 +340,9 @@ void CEditText::DrawControl() {
         Time(&the_time);
         if (the_time.MSeconds > 500) {
             DrawVLine(cursor_x, GetTop() + 1, GetBottom() - 1, LOLITE_COL);
-            SetFlags((std::uint8_t) (GetFlags() | CONTROL_SHOW_EXTRA));
+            SetFlags((std::uint8_t)(GetFlags() | CONTROL_SHOW_EXTRA));
         } else {
-            SetFlags((std::uint8_t) (GetFlags() & ~(CONTROL_SHOW_EXTRA)));
+            SetFlags((std::uint8_t)(GetFlags() & ~(CONTROL_SHOW_EXTRA)));
         }
     }
 }
@@ -490,7 +491,7 @@ std::uint16_t CEditText::TrackControl(MFPoint *down_point) {
             update = 0;
         }
     }
-    SetFlags((std::uint8_t) (GetFlags() & ~(CONTROL_CLICKED)));
+    SetFlags((std::uint8_t)(GetFlags() & ~(CONTROL_CLICKED)));
     DrawControl();
     ShowWorkWindow(0);
 
@@ -683,10 +684,10 @@ std::uint16_t CPullDown::TrackControl(MFPoint *down_point) {
             */
         }
     }
-    SetFlags((std::uint8_t) (GetFlags() & ~(CONTROL_CLICKED)));
+    SetFlags((std::uint8_t)(GetFlags() & ~(CONTROL_CLICKED)));
 
     if (menu_id)
-        return (std::uint16_t) ((menu_id << 8) | GetID());
+        return (std::uint16_t)((menu_id << 8) | GetID());
     else
         return 0;
 }
@@ -878,7 +879,7 @@ std::uint16_t CPopUp::TrackControl(MFPoint *down_point) {
             last_point = current_point;
         }
     }
-    SetFlags((std::uint8_t) (GetFlags() & ~(CONTROL_CLICKED)));
+    SetFlags((std::uint8_t)(GetFlags() & ~(CONTROL_CLICKED)));
 
     if (menu_id && TheMenu[menu_id - 1].ItemFlags & MENU_CHECK) {
         //		TheMenu[menu_id-1].ItemFlags	^=	MENU_CHECK_MASK;
@@ -886,7 +887,7 @@ std::uint16_t CPopUp::TrackControl(MFPoint *down_point) {
 
     LeftMouse.ButtonState = 0;
 
-    return (std::uint16_t) ((menu_id << 8) | GetID());
+    return (std::uint16_t)((menu_id << 8) | GetID());
 }
 
 //---------------------------------------------------------------
@@ -894,10 +895,10 @@ std::uint16_t CPopUp::TrackControl(MFPoint *down_point) {
 void CPopUp::SetItemState(std::uint16_t item, std::uint8_t state) {
     switch (state) {
         case CTRL_ACTIVE:
-            SetItemFlags(item, (std::uint8_t) (GetItemFlags(item) & ~(MENU_INACTIVE)));
+            SetItemFlags(item, (std::uint8_t)(GetItemFlags(item) & ~(MENU_INACTIVE)));
             break;
         case CTRL_INACTIVE:
-            SetItemFlags(item, (std::uint8_t) (GetItemFlags(item) | MENU_INACTIVE));
+            SetItemFlags(item, (std::uint8_t)(GetItemFlags(item) | MENU_INACTIVE));
             break;
     }
 }
@@ -1005,7 +1006,7 @@ void CHSlider::HiliteControl(MFPoint *current_point) {
             LeftButtonFlags |= CONTROL_HILITED;
         else if (RightButtonRect.PointInRect(current_point))
             RightButtonFlags |= CONTROL_HILITED;
-        SetFlags((std::uint8_t) (GetFlags() | CONTROL_HILITED));
+        SetFlags((std::uint8_t)(GetFlags() | CONTROL_HILITED));
     }
 }
 
@@ -1015,7 +1016,7 @@ void CHSlider::UnHiliteControl() {
     DragFlags &= ~(CONTROL_HILITED);
     LeftButtonFlags &= ~(CONTROL_HILITED);
     RightButtonFlags &= ~(CONTROL_HILITED);
-    SetFlags((std::uint8_t) (GetFlags() & ~(CONTROL_HILITED)));
+    SetFlags((std::uint8_t)(GetFlags() & ~(CONTROL_HILITED)));
 }
 
 //---------------------------------------------------------------
@@ -1072,7 +1073,7 @@ std::uint16_t CHSlider::TrackControl(MFPoint *down_point) {
 
                 if (LeftButtonRect.PointInRect(&current_point)) {
                     if (!(LeftButtonFlags & CONTROL_CLICKED)) {
-                        LeftButtonFlags = (std::uint8_t) (start_flags | CONTROL_CLICKED);
+                        LeftButtonFlags = (std::uint8_t)(start_flags | CONTROL_CLICKED);
                         CurrentValue -= ValueStep;
                         in_range(CurrentValue, MinValue, MaxValue);
                         CurrentDrag -= DragStep;
@@ -1092,7 +1093,7 @@ std::uint16_t CHSlider::TrackControl(MFPoint *down_point) {
                     }
                 } else {
                     if (LeftButtonFlags & CONTROL_CLICKED) {
-                        LeftButtonFlags = (std::uint8_t) (start_flags & ~(CONTROL_HILITED));
+                        LeftButtonFlags = (std::uint8_t)(start_flags & ~(CONTROL_HILITED));
                         update = 1;
                     }
                 }
@@ -1120,7 +1121,7 @@ std::uint16_t CHSlider::TrackControl(MFPoint *down_point) {
 
                 if (RightButtonRect.PointInRect(&current_point)) {
                     if (!(RightButtonFlags & CONTROL_CLICKED)) {
-                        RightButtonFlags = (std::uint8_t) (start_flags | CONTROL_CLICKED);
+                        RightButtonFlags = (std::uint8_t)(start_flags | CONTROL_CLICKED);
                         CurrentValue += ValueStep;
                         in_range(CurrentValue, MinValue, MaxValue);
                         CurrentDrag += DragStep;
@@ -1140,7 +1141,7 @@ std::uint16_t CHSlider::TrackControl(MFPoint *down_point) {
                     }
                 } else {
                     if (RightButtonFlags & CONTROL_CLICKED) {
-                        RightButtonFlags = (std::uint8_t) (start_flags & ~(CONTROL_HILITED));
+                        RightButtonFlags = (std::uint8_t)(start_flags & ~(CONTROL_HILITED));
                         update = 1;
                     }
                 }
@@ -1304,7 +1305,7 @@ void CVSlider::HiliteControl(MFPoint *current_point) {
             TopButtonFlags |= CONTROL_HILITED;
         else if (BottomButtonRect.PointInRect(current_point))
             BottomButtonFlags |= CONTROL_HILITED;
-        SetFlags((std::uint8_t) (GetFlags() | CONTROL_HILITED));
+        SetFlags((std::uint8_t)(GetFlags() | CONTROL_HILITED));
     }
 }
 
@@ -1314,7 +1315,7 @@ void CVSlider::UnHiliteControl() {
     DragFlags &= ~(CONTROL_HILITED);
     TopButtonFlags &= ~(CONTROL_HILITED);
     BottomButtonFlags &= ~(CONTROL_HILITED);
-    SetFlags((std::uint8_t) (GetFlags() & ~(CONTROL_HILITED)));
+    SetFlags((std::uint8_t)(GetFlags() & ~(CONTROL_HILITED)));
 }
 
 //---------------------------------------------------------------
@@ -1371,7 +1372,7 @@ std::uint16_t CVSlider::TrackControl(MFPoint *down_point) {
 
                 if (TopButtonRect.PointInRect(&current_point)) {
                     if (!(TopButtonFlags & CONTROL_CLICKED)) {
-                        TopButtonFlags = (std::uint8_t) (start_flags | CONTROL_CLICKED);
+                        TopButtonFlags = (std::uint8_t)(start_flags | CONTROL_CLICKED);
                         CurrentValue -= ValueStep;
                         in_range(CurrentValue, MinValue, MaxValue);
                         CurrentDrag -= DragStep;
@@ -1391,7 +1392,7 @@ std::uint16_t CVSlider::TrackControl(MFPoint *down_point) {
                     }
                 } else {
                     if (TopButtonFlags & CONTROL_CLICKED) {
-                        TopButtonFlags = (std::uint8_t) (start_flags & ~(CONTROL_HILITED));
+                        TopButtonFlags = (std::uint8_t)(start_flags & ~(CONTROL_HILITED));
                         update = 1;
                     }
                 }
@@ -1419,7 +1420,7 @@ std::uint16_t CVSlider::TrackControl(MFPoint *down_point) {
 
                 if (BottomButtonRect.PointInRect(&current_point)) {
                     if (!(BottomButtonFlags & CONTROL_CLICKED)) {
-                        BottomButtonFlags = (std::uint8_t) (start_flags | CONTROL_CLICKED);
+                        BottomButtonFlags = (std::uint8_t)(start_flags | CONTROL_CLICKED);
                         CurrentValue += ValueStep;
                         in_range(CurrentValue, MinValue, MaxValue);
                         CurrentDrag += DragStep;
@@ -1439,7 +1440,7 @@ std::uint16_t CVSlider::TrackControl(MFPoint *down_point) {
                     }
                 } else {
                     if (BottomButtonFlags & CONTROL_CLICKED) {
-                        BottomButtonFlags = (std::uint8_t) (start_flags & ~(CONTROL_HILITED));
+                        BottomButtonFlags = (std::uint8_t)(start_flags & ~(CONTROL_HILITED));
                         update = 1;
                     }
                 }

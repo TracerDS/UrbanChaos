@@ -1017,7 +1017,7 @@ std::int32_t LevelEditor::HandleTexStyleClick(std::uint8_t flags, MFPoint *click
             // want to text edit the name
             PaintMode->CurrentStyleEdit = c0 + scroll_pos;
             ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0 + scroll_pos][0]);
-            ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+            ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
 
             return (1);
         }
@@ -1246,7 +1246,7 @@ std::int32_t LevelEditor::HandleTexInStyleClick(std::uint8_t flags, MFPoint *cli
             // want to text edit the name
             PaintMode->CurrentStyleEdit = c0 + scroll_pos;
             ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0 + scroll_pos][0]);
-            ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+            ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
 
             return (1);
         }

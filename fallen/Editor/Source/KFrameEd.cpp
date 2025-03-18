@@ -887,13 +887,13 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
                             ShowWorkScreen(0);
                     }
                     */
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->GetFlags() & ~CONTROL_INACTIVE));
+                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->GetFlags() & ~CONTROL_INACTIVE));
                     if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP)
                         AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
                     else
                         AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
 
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
                     ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
 
                     ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1); // added by MD to try and fix slider bug
@@ -1271,7 +1271,7 @@ void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_poi
                     if (frame_rect.PointInRect(&local_point)) {
                         PersonID = c0;
                         SetPersonBits();
-                        ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+                        ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
                         ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
                         edit_name = 1;
 
@@ -2269,7 +2269,7 @@ void KeyFrameEditor::HandleAnimControl(std::uint32_t control_id) {
             break;
         case CTRL_ANIM_NEW_ANIM_BUTTON:
             AppendAnim();
-            ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+            ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
             ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
             break;
         case CTRL_ANIM_ALL_ANIMS_SLIDER:
@@ -2293,7 +2293,7 @@ void KeyFrameEditor::HandleAnimControl(std::uint32_t control_id) {
 
         case CTRL_ANIM_LOOP_SELECT:
             if (CurrentAnim[Bank]) {
-                CurrentAnim[Bank]->SetAnimFlags((std::uint8_t) (CurrentAnim[Bank]->GetAnimFlags() ^ ANIM_LOOP));
+                CurrentAnim[Bank]->SetAnimFlags((std::uint8_t)(CurrentAnim[Bank]->GetAnimFlags() ^ ANIM_LOOP));
                 if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP) {
                     AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
                     CurrentAnim[Bank]->StartLooping();
@@ -3549,17 +3549,17 @@ void convert_mat_to_float(float *mat_f, Matrix33 *mat_m) {
 
 void convert_float_to_mat(Matrix33 *mat_m, float *mat_f) {
     // LogText(" mat (%f,%f,%f)(%f,%f,%f)(%f,%f,%f)== ",mat_f[0],mat_f[1],mat_f[2],mat_f[3],mat_f[4],mat_f[5],mat_f[6],mat_f[7],mat_f[8]);
-    mat_m->M[0][0] = (std::int32_t) (mat_f[0] * 32768.0);
-    mat_m->M[0][1] = (std::int32_t) (mat_f[1] * 32768.0);
-    mat_m->M[0][2] = (std::int32_t) (mat_f[2] * 32768.0);
+    mat_m->M[0][0] = (std::int32_t)(mat_f[0] * 32768.0);
+    mat_m->M[0][1] = (std::int32_t)(mat_f[1] * 32768.0);
+    mat_m->M[0][2] = (std::int32_t)(mat_f[2] * 32768.0);
 
-    mat_m->M[1][0] = (std::int32_t) (mat_f[3] * 32768.0);
-    mat_m->M[1][1] = (std::int32_t) (mat_f[4] * 32768.0);
-    mat_m->M[1][2] = (std::int32_t) (mat_f[5] * 32768.0);
+    mat_m->M[1][0] = (std::int32_t)(mat_f[3] * 32768.0);
+    mat_m->M[1][1] = (std::int32_t)(mat_f[4] * 32768.0);
+    mat_m->M[1][2] = (std::int32_t)(mat_f[5] * 32768.0);
 
-    mat_m->M[2][0] = (std::int32_t) (mat_f[6] * 32768.0);
-    mat_m->M[2][1] = (std::int32_t) (mat_f[7] * 32768.0);
-    mat_m->M[2][2] = (std::int32_t) (mat_f[8] * 32768.0);
+    mat_m->M[2][0] = (std::int32_t)(mat_f[6] * 32768.0);
+    mat_m->M[2][1] = (std::int32_t)(mat_f[7] * 32768.0);
+    mat_m->M[2][2] = (std::int32_t)(mat_f[8] * 32768.0);
     // LogText(" mat (%d,%d,%d)(%d,%d,%d)(%d,%d,%d)\n ",mat_m->M[0][0],mat_m->M[0][1],mat_m->M[0][2],mat_m->M[1][0],mat_m->M[1][1],mat_m->M[1][2],mat_m->M[2][0],mat_m->M[2][1],mat_m->M[2][2]);
 }
 

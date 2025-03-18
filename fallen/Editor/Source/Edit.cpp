@@ -292,7 +292,8 @@ void save_game_map(char *name) {
 
     strcpy(gamename, name);
 
-    for (ch = gamename; *ch; ch++);
+    for (ch = gamename; *ch; ch++)
+        ;
     while (*ch != '.') {
         ch--;
     }
@@ -2626,7 +2627,7 @@ void draw_map_thing(std::int32_t map_thing) {
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
         case MAP_THING_TYPE_ANIM_PRIM:
-            extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat);
+            extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement * anim_info, struct GameKeyFrameElement * anim_info_next, struct Matrix33 * rot_mat);
             //			break;
             rotate_obj(
                 p_mthing->AngleX,

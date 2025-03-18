@@ -139,11 +139,11 @@ struct GameKeyFrameElement {
 };
 
 // inline	void	GetCMatrix(GameKeyFrameElement *e, CMatrix33 *c)
-inline void GetCMatrix(GameKeyFrameElement *e, CMatrix33 *c) {
+inline void GetCMatrix(GameKeyFrameElement* e, CMatrix33* c) {
     *c = e->CMatrix;
 }
 
-inline void SetCMatrix(GameKeyFrameElement *e, CMatrix33 *c) {
+inline void SetCMatrix(GameKeyFrameElement* e, CMatrix33* c) {
     e->CMatrix = *c;
 };
 
@@ -162,8 +162,8 @@ struct GameKeyFrameElement {
     std::uint8_t Pad;
 };
 
-void GetCMatrix(GameKeyFrameElement *e, CMatrix33 *c);
-void SetCMatrix(GameKeyFrameElement *e, CMatrix33 *c);
+void GetCMatrix(GameKeyFrameElement* e, CMatrix33* c);
+void SetCMatrix(GameKeyFrameElement* e, CMatrix33* c);
 
 #endif
 //************************************************************************************************
@@ -183,7 +183,7 @@ struct GameFightCol {
     std::uint8_t Width;
     std::uint8_t Dummy;
 
-    struct GameFightCol *Next;
+    struct GameFightCol* Next;
 };
 
 //
@@ -193,9 +193,9 @@ struct GameKeyFrame {
     std::uint8_t XYZIndex;
     std::uint8_t TweenStep;
     std::int16_t Flags;
-    GameKeyFrameElement *FirstElement;
+    GameKeyFrameElement* FirstElement;
     GameKeyFrame *PrevFrame, *NextFrame;
-    GameFightCol *Fight;
+    GameFightCol* Fight;
 };
 
 /*
@@ -228,17 +228,17 @@ struct FightCol {
 
     std::uint32_t Dummy2;
 
-    struct FightCol *Next;
+    struct FightCol* Next;
 };
 
 struct GameKeyFrameChunk {
     std::uint16_t MultiObject[10];
     std::int32_t ElementCount;
-    struct BodyDef *PeopleTypes;             //[MAX_PEOPLE_TYPES];
-    struct GameKeyFrame *AnimKeyFrames;      //[MAX_NUMBER_OF_FRAMES];
-    struct GameKeyFrame **AnimList;          //[200];
-    struct GameKeyFrameElement *TheElements; //[MAX_NUMBER_OF_ELEMENTS];
-    struct GameFightCol *FightCols;          //[200];
+    struct BodyDef* PeopleTypes;             //[MAX_PEOPLE_TYPES];
+    struct GameKeyFrame* AnimKeyFrames;      //[MAX_NUMBER_OF_FRAMES];
+    struct GameKeyFrame** AnimList;          //[200];
+    struct GameKeyFrameElement* TheElements; //[MAX_NUMBER_OF_ELEMENTS];
+    struct GameFightCol* FightCols;          //[200];
 
     std::int16_t MaxPeopleTypes;
     std::int16_t MaxKeyFrames;
@@ -253,12 +253,12 @@ struct KeyFrame {
     std::int32_t FrameID,
         TweenStep,
         ElementCount;
-    KeyFrameElement *FirstElement;
+    KeyFrameElement* FirstElement;
     KeyFrame *PrevFrame,
         *NextFrame;
     std::int16_t Dx, Dy, Dz;
     std::int16_t Fixed;
-    struct FightCol *Fight;
+    struct FightCol* Fight;
 };
 
 struct KeyFrameChunk {
@@ -277,8 +277,8 @@ struct KeyFrameChunk {
 #else
     KeyFrame KeyFrames[MAX_NUMBER_OF_FRAMES];
 #endif
-    KeyFrameElement *FirstElement;
-    KeyFrameElement *LastElement;
+    KeyFrameElement* FirstElement;
+    KeyFrameElement* LastElement;
     std::int32_t KeyFrameCount;
 };
 
@@ -308,16 +308,16 @@ class Anim {
    public:
     Anim();
     ~Anim();
-    void AddKeyFrame(KeyFrame *the_frame);
-    void RemoveKeyFrame(KeyFrame *the_frame);
-    inline void SetAnimName(char *string) { strcpy(AnimName, string); }
-    inline char *GetAnimName() { return AnimName; }
-    inline void SetCurrentFrame(KeyFrame *the_frame) { CurrentFrame = the_frame; }
-    inline KeyFrame *GetFrameList() { return FrameListStart; }
-    inline void SetFrameList(KeyFrame *frame_list) { FrameListStart = frame_list; }
-    inline KeyFrame *GetFrameListEnd() { return FrameListEnd; }
-    inline KeyFrame *GetFrameListStart() { return FrameListStart; }
-    inline void SetFrameListEnd(KeyFrame *frame_list_end) { FrameListEnd = frame_list_end; }
+    void AddKeyFrame(KeyFrame* the_frame);
+    void RemoveKeyFrame(KeyFrame* the_frame);
+    inline void SetAnimName(char* string) { strcpy(AnimName, string); }
+    inline char* GetAnimName() { return AnimName; }
+    inline void SetCurrentFrame(KeyFrame* the_frame) { CurrentFrame = the_frame; }
+    inline KeyFrame* GetFrameList() { return FrameListStart; }
+    inline void SetFrameList(KeyFrame* frame_list) { FrameListStart = frame_list; }
+    inline KeyFrame* GetFrameListEnd() { return FrameListEnd; }
+    inline KeyFrame* GetFrameListStart() { return FrameListStart; }
+    inline void SetFrameListEnd(KeyFrame* frame_list_end) { FrameListEnd = frame_list_end; }
     inline std::int32_t GetFrameCount() { return FrameCount; }
     inline void SetFrameCount(std::int32_t count) { FrameCount = count; }
     inline std::uint32_t GetAnimFlags() { return AnimFlags; }
@@ -325,10 +325,10 @@ class Anim {
     void SetAllTweens(std::int32_t tween);
     void StartLooping();
     void StopLooping();
-    inline void SetNextAnim(Anim *next) { NextAnim = next; }
-    inline Anim *GetNextAnim() { return NextAnim; }
-    inline void SetLastAnim(Anim *last) { LastAnim = last; }
-    inline Anim *GetLastAnim() { return LastAnim; }
+    inline void SetNextAnim(Anim* next) { NextAnim = next; }
+    inline Anim* GetNextAnim() { return NextAnim; }
+    inline void SetLastAnim(Anim* last) { LastAnim = last; }
+    inline Anim* GetLastAnim() { return LastAnim; }
     inline std::uint8_t GetTweakSpeed() { return TweakSpeed; }
     inline void SetTweakSpeed(std::uint8_t speed) { TweakSpeed = speed; }
 };
@@ -345,12 +345,20 @@ class Character {
     Anim AnimList[50];
 
    public:
-    void AddAnim(Anim *the_anim);
-    void RemoveAnim(Anim *the_anim);
-    inline char *GetCharName() { return CharName; }
-    inline void SetCharName(char *string) { strcpy(CharName, string); }
-    inline std::uint16_t GetMultiObject() { return MultiObject; }
-    inline void SetMultiObject(std::uint16_t multi) { MultiObject = multi; }
+    void AddAnim(Anim* the_anim);
+    void RemoveAnim(Anim* the_anim);
+    inline char* GetCharName() {
+        return CharName;
+    }
+    inline void SetCharName(char* string) {
+        strcpy(CharName, string);
+    }
+    inline std::uint16_t GetMultiObject() {
+        return MultiObject;
+    }
+    inline void SetMultiObject(std::uint16_t multi) {
+        MultiObject = multi;
+    }
 };
 
 //

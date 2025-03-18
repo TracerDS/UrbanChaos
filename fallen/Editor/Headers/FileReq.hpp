@@ -1,28 +1,26 @@
 // TexTab.hpp
 // Guy Simmons, 20th February 1997
 
-#ifndef	_FILEREQ_HPP_
-#define	_FILEREQ_HPP_
+#ifndef _FILEREQ_HPP_
+#define _FILEREQ_HPP_
 
-#include	"ModeTab.hpp"
+#include "ModeTab.hpp"
 
+class FileRequester : public EdRect {
+   private:
+    char *WildCard;
+    char *Title;
+    EdRect OK;
+    EdRect Cancel;
+    EdRect TextEdit;
+    EdRect TextList[30];
 
-class	FileRequester : public	EdRect 
-{
-	private:	char		*WildCard;
-				char		*Title;
-				EdRect		OK;
-				EdRect		Cancel;
-				EdRect		TextEdit;
-				EdRect		TextList[30];
-	public:
-							FileRequester(char	*Path,char	*Extension,char* Title,char* FileName);
-				char		*Path;
-				char		FileName[200];
-				std::int32_t		Draw();
-				ControlSet	Controls;
-
+   public:
+    FileRequester(char *Path, char *Extension, char *Title, char *FileName);
+    char *Path;
+    char FileName[200];
+    std::int32_t Draw();
+    ControlSet Controls;
 };
 
 #endif
-

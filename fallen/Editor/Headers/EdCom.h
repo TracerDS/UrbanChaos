@@ -56,7 +56,7 @@ extern EditCondList edit_clists[MAX_EDIT_CLISTS],
     *win_conditions,
     *lose_conditions;
 
-#define ED_CONLIST_NUMBER(c) (std::uint16_t) (c - edit_clists)
+#define ED_CONLIST_NUMBER(c) (std::uint16_t)(c - edit_clists)
 
 //---------------------------------------------------------------
 
@@ -117,7 +117,7 @@ extern EditComList edit_comlists[MAX_EDIT_COMLISTS],
     *comlists,
     *comlists_end;
 
-#define ED_COMLIST_NUMBER(c) (std::uint16_t) (c - edit_comlists)
+#define ED_COMLIST_NUMBER(c) (std::uint16_t)(c - edit_comlists)
 
 //---------------------------------------------------------------
 

@@ -469,7 +469,7 @@ std::int32_t anim_make_FLI_SS2(std::uint8_t *wscreen, std::uint8_t *last_screen)
         (*number_of_packets)--;
     }
 
-    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t) ((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
+    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t)((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
     return (animation->NextFrameBufferPointer.UByte - NextFrameBufferPointer);
 }
 
@@ -602,7 +602,7 @@ std::int32_t anim_make_FLI_LC(std::uint8_t *wscreen, std::uint8_t *last_screen) 
         *animation->NextFrameBufferPointer.UByte++ = 0;
     }
 
-    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t) ((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
+    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t)((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
     return (animation->NextFrameBufferPointer.UByte - NextFrameBufferPointer);
 }
 
@@ -659,7 +659,7 @@ std::int32_t anim_make_FLI_BRUN(std::uint8_t *wscreen) {
             }
         }
     }
-    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t) ((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
+    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t)((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
     return (animation->NextFrameBufferPointer.UByte - NextFrameBufferPointer);
 }
 

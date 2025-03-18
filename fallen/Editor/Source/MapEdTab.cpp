@@ -339,7 +339,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
     // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
-    std::int32_t MapEdTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+    std::int32_t MapEdTab::DragEngine(std::uint8_t flags, MFPoint * clicked_point) {
         std::int32_t wwx, wwy, www, wwh;
         std::int32_t screen_change = 0;
         std::int32_t last_world_mouse;
@@ -397,7 +397,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         return (screen_change);
     }
 
-    std::int32_t MapEdTab::CalcMapCoord(std::int32_t *mapx, std::int32_t *mapy, std::int32_t *mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *clicked_point) {
+    std::int32_t MapEdTab::CalcMapCoord(std::int32_t * mapx, std::int32_t * mapy, std::int32_t * mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint * clicked_point) {
         std::int32_t width, count_across, count_high;
         std::int32_t mx, my, mz;
         std::int32_t dx, dy;
@@ -964,7 +964,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         return (0);
     }
 
-    std::uint16_t MapEdTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+    std::uint16_t MapEdTab::HandleTabClick(std::uint8_t flags, MFPoint * clicked_point) {
         std::uint16_t control_id;
         Control *current_control;
         MFPoint local_point;

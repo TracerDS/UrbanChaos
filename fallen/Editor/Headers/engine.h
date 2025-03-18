@@ -259,42 +259,42 @@ extern void animate_texture_maps();
 // 				MACROS
 //*********************************************************
 
-#define setZ4(p, z1, z2, z3, z4)         \
-    (p)->P[0].Z3d = (std::int16_t) (z1); \
-    (p)->P[1].Z3d = (std::int16_t) (z2); \
-    (p)->P[2].Z3d = (std::int16_t) (z3); \
-    (p)->P[3].Z3d = (std::int16_t) (z4)
+#define setZ4(p, z1, z2, z3, z4)        \
+    (p)->P[0].Z3d = (std::int16_t)(z1); \
+    (p)->P[1].Z3d = (std::int16_t)(z2); \
+    (p)->P[2].Z3d = (std::int16_t)(z3); \
+    (p)->P[3].Z3d = (std::int16_t)(z4)
 #define setXY4(p, x1, y1, x2, y2, x3, y3, x4, y4) \
-    (p)->P[0].X = (std::int16_t) (x1);            \
-    (p)->P[1].X = (std::int16_t) (x2);            \
-    (p)->P[2].X = (std::int16_t) (x3);            \
-    (p)->P[3].X = (std::int16_t) (x4);            \
-    (p)->P[0].Y = (std::int16_t) (y1);            \
-    (p)->P[1].Y = (std::int16_t) (y2);            \
-    (p)->P[2].Y = (std::int16_t) (y3);            \
-    (p)->P[3].Y = (std::int16_t) (y4)
+    (p)->P[0].X = (std::int16_t)(x1);             \
+    (p)->P[1].X = (std::int16_t)(x2);             \
+    (p)->P[2].X = (std::int16_t)(x3);             \
+    (p)->P[3].X = (std::int16_t)(x4);             \
+    (p)->P[0].Y = (std::int16_t)(y1);             \
+    (p)->P[1].Y = (std::int16_t)(y2);             \
+    (p)->P[2].Y = (std::int16_t)(y3);             \
+    (p)->P[3].Y = (std::int16_t)(y4)
 #define setUV4NA(p, x1, y1, x2, y2, x3, y3, x4, y4, page) \
-    (p)->P[0].TX = (std::int16_t) (x1);                   \
-    (p)->P[1].TX = (std::int16_t) (x2);                   \
-    (p)->P[2].TX = (std::int16_t) (x3);                   \
-    (p)->P[3].TX = (std::int16_t) (x4);                   \
-    (p)->P[0].TY = (std::int16_t) (y1);                   \
-    (p)->P[1].TY = (std::int16_t) (y2);                   \
-    (p)->P[2].TY = (std::int16_t) (y3);                   \
-    (p)->P[3].TY = (std::int16_t) (y4);                   \
-    (p)->TextPage = (std::int16_t) (page);
+    (p)->P[0].TX = (std::int16_t)(x1);                    \
+    (p)->P[1].TX = (std::int16_t)(x2);                    \
+    (p)->P[2].TX = (std::int16_t)(x3);                    \
+    (p)->P[3].TX = (std::int16_t)(x4);                    \
+    (p)->P[0].TY = (std::int16_t)(y1);                    \
+    (p)->P[1].TY = (std::int16_t)(y2);                    \
+    (p)->P[2].TY = (std::int16_t)(y3);                    \
+    (p)->P[3].TY = (std::int16_t)(y4);                    \
+    (p)->TextPage = (std::int16_t)(page);
 
 #define setUV4(p, x1, y1, x2, y2, x3, y3, x4, y4, page)           \
     if (page >= 0) {                                              \
-        (p)->P[0].TX = (std::int16_t) (x1);                       \
-        (p)->P[1].TX = (std::int16_t) (x2);                       \
-        (p)->P[2].TX = (std::int16_t) (x3);                       \
-        (p)->P[3].TX = (std::int16_t) (x4);                       \
-        (p)->P[0].TY = (std::int16_t) (y1);                       \
-        (p)->P[1].TY = (std::int16_t) (y2);                       \
-        (p)->P[2].TY = (std::int16_t) (y3);                       \
-        (p)->P[3].TY = (std::int16_t) (y4);                       \
-        (p)->TextPage = (std::int16_t) (page);                    \
+        (p)->P[0].TX = (std::int16_t)(x1);                        \
+        (p)->P[1].TX = (std::int16_t)(x2);                        \
+        (p)->P[2].TX = (std::int16_t)(x3);                        \
+        (p)->P[3].TX = (std::int16_t)(x4);                        \
+        (p)->P[0].TY = (std::int16_t)(y1);                        \
+        (p)->P[1].TY = (std::int16_t)(y2);                        \
+        (p)->P[2].TY = (std::int16_t)(y3);                        \
+        (p)->P[3].TY = (std::int16_t)(y4);                        \
+        (p)->TextPage = (std::int16_t)(page);                     \
     } else {                                                      \
         std::int32_t temp_unique;                                 \
         temp_unique = anim_tmaps[-(page)].Current;                \
@@ -309,57 +309,57 @@ extern void animate_texture_maps();
         (p)->TextPage = anim_tmaps[-(page)].Page[temp_unique];    \
     }
 
-#define setShade4(p, s1, s2, s3, s4)       \
-    (p)->P[0].Shade = (std::int16_t) (s1); \
-    (p)->P[1].Shade = (std::int16_t) (s2); \
-    (p)->P[2].Shade = (std::int16_t) (s3); \
-    (p)->P[3].Shade = (std::int16_t) (s4)
+#define setShade4(p, s1, s2, s3, s4)      \
+    (p)->P[0].Shade = (std::int16_t)(s1); \
+    (p)->P[1].Shade = (std::int16_t)(s2); \
+    (p)->P[2].Shade = (std::int16_t)(s3); \
+    (p)->P[3].Shade = (std::int16_t)(s4)
 
-#define setZ3(p, z1, z2, z3)             \
-    (p)->P[0].Z3d = (std::int16_t) (z1); \
-    (p)->P[1].Z3d = (std::int16_t) (z2); \
-    (p)->P[2].Z3d = (std::int16_t) (z3)
+#define setZ3(p, z1, z2, z3)            \
+    (p)->P[0].Z3d = (std::int16_t)(z1); \
+    (p)->P[1].Z3d = (std::int16_t)(z2); \
+    (p)->P[2].Z3d = (std::int16_t)(z3)
 #define setXY3(p, x1, y1, x2, y2, x3, y3) \
-    (p)->P[0].X = (std::int16_t) (x1);    \
-    (p)->P[1].X = (std::int16_t) (x2);    \
-    (p)->P[2].X = (std::int16_t) (x3);    \
-    (p)->P[0].Y = (std::int16_t) (y1);    \
-    (p)->P[1].Y = (std::int16_t) (y2);    \
-    (p)->P[2].Y = (std::int16_t) (y3)
+    (p)->P[0].X = (std::int16_t)(x1);     \
+    (p)->P[1].X = (std::int16_t)(x2);     \
+    (p)->P[2].X = (std::int16_t)(x3);     \
+    (p)->P[0].Y = (std::int16_t)(y1);     \
+    (p)->P[1].Y = (std::int16_t)(y2);     \
+    (p)->P[2].Y = (std::int16_t)(y3)
 #define setUV3(p, x1, y1, x2, y2, x3, y3, page) \
-    (p)->P[0].TX = (std::int16_t) (x1);         \
-    (p)->P[1].TX = (std::int16_t) (x2);         \
-    (p)->P[2].TX = (std::int16_t) (x3);         \
-    (p)->P[0].TY = (std::int16_t) (y1);         \
-    (p)->P[1].TY = (std::int16_t) (y2);         \
-    (p)->P[2].TY = (std::int16_t) (y3);         \
-    (p)->TextPage = (std::int16_t) (page)
-#define setShade3(p, s1, s2, s3)           \
-    (p)->P[0].Shade = (std::int16_t) (s1); \
-    (p)->P[1].Shade = (std::int16_t) (s2); \
-    (p)->P[2].Shade = (std::int16_t) (s3)
+    (p)->P[0].TX = (std::int16_t)(x1);          \
+    (p)->P[1].TX = (std::int16_t)(x2);          \
+    (p)->P[2].TX = (std::int16_t)(x3);          \
+    (p)->P[0].TY = (std::int16_t)(y1);          \
+    (p)->P[1].TY = (std::int16_t)(y2);          \
+    (p)->P[2].TY = (std::int16_t)(y3);          \
+    (p)->TextPage = (std::int16_t)(page)
+#define setShade3(p, s1, s2, s3)          \
+    (p)->P[0].Shade = (std::int16_t)(s1); \
+    (p)->P[1].Shade = (std::int16_t)(s2); \
+    (p)->P[2].Shade = (std::int16_t)(s3)
 
-#define setXY2(p, x1, y1, x2, y2)      \
-    (p)->P[0].X = (std::int16_t) (x1); \
-    (p)->P[1].X = (std::int16_t) (x2); \
-    (p)->P[0].Y = (std::int16_t) (y1); \
-    (p)->P[1].Y = (std::int16_t) (y2)
-#define setUV2(p, x1, y1, x2, y2)       \
-    (p)->P[0].TX = (std::int16_t) (x1); \
-    (p)->P[1].TX = (std::int16_t) (x2); \
-    (p)->P[0].TY = (std::int16_t) (y1); \
-    (p)->P[1].TY = (std::int16_t) (y2)
-#define setShade2(p, s1, s2)               \
-    (p)->P[0].Shade = (std::int16_t) (s1); \
-    (p)->P[1].Shade = (std::int16_t) (s2)
+#define setXY2(p, x1, y1, x2, y2)     \
+    (p)->P[0].X = (std::int16_t)(x1); \
+    (p)->P[1].X = (std::int16_t)(x2); \
+    (p)->P[0].Y = (std::int16_t)(y1); \
+    (p)->P[1].Y = (std::int16_t)(y2)
+#define setUV2(p, x1, y1, x2, y2)      \
+    (p)->P[0].TX = (std::int16_t)(x1); \
+    (p)->P[1].TX = (std::int16_t)(x2); \
+    (p)->P[0].TY = (std::int16_t)(y1); \
+    (p)->P[1].TY = (std::int16_t)(y2)
+#define setShade2(p, s1, s2)              \
+    (p)->P[0].Shade = (std::int16_t)(s1); \
+    (p)->P[1].Shade = (std::int16_t)(s2)
 
-#define setXY1(p, x1, y1)              \
-    (p)->P[0].X = (std::int16_t) (x1); \
-    (p)->P[0].Y = (std::int16_t) (y1)
+#define setXY1(p, x1, y1)             \
+    (p)->P[0].X = (std::int16_t)(x1); \
+    (p)->P[0].Y = (std::int16_t)(y1)
 
-#define setCol4(p, col) (p)->Col = (std::int16_t) (col)
-#define setCol3(p, col) (p)->Col = (std::int16_t) (col)
-#define setCol2(p, col) (p)->Col = (std::int16_t) (col)
+#define setCol4(p, col) (p)->Col = (std::int16_t)(col)
+#define setCol3(p, col) (p)->Col = (std::int16_t)(col)
+#define setCol2(p, col) (p)->Col = (std::int16_t)(col)
 
 #define setPoly50MGT4(p)                             \
     ((struct BucketQuad *) p)->BucketType = BT_QUAD; \

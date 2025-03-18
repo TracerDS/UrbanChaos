@@ -5,11 +5,11 @@
 #ifdef __MSC_VER
 #define sqrl(x) (Root((std::int32_t) x))
 #else
-#define sqrl(x) (std::int32_t) (sqrt((float) x))
+#define sqrl(x) (std::int32_t)(sqrt((float) x))
 #endif
 
-#define COL_TO_RGB565(col) (((PALETTE[(col) * 3] >> 3) << 11) | ((PALETTE[(col) * 3 + 1] >> 2) << 5) | (PALETTE[(col) * 3 + 2] >> 3))
-#define COL_TO_RGB888(col) ((PALETTE[(col) * 3] << 16) | (PALETTE[(col) * 3 + 1] << 8) | PALETTE[(col) * 3 + 2])
+#define COL_TO_RGB565(col) (((PALETTE[(col) *3] >> 3) << 11) | ((PALETTE[(col) *3 + 1] >> 2) << 5) | (PALETTE[(col) *3 + 2] >> 3))
+#define COL_TO_RGB888(col) ((PALETTE[(col) *3] << 16) | (PALETTE[(col) *3 + 1] << 8) | PALETTE[(col) *3 + 2])
 
 #define RGB_TO_RGB565(r, g, b) (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3))
 #define RGB_TO_565(r, g, b) (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3))

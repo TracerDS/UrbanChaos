@@ -806,7 +806,7 @@ void PrimPickTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t
     drawrect.FillRect(CONTENT_COL_BR);
     drawrect.HiliteRect(HILITE_COL, HILITE_COL);
     set_camera_plan();
-    extern void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz);
+    extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
     {
         std::int32_t minx, maxx, minz, maxz;
 
@@ -949,7 +949,7 @@ void PrimPickTab::DrawPrims(void) {
                 if (prim == CurrentPrim)
                     rect.FillRect(LOLITE_COL);
 
-                extern void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect *bounds_rect, struct GameKeyFrame *the_frame, struct Matrix33 *r_matrix, std::int32_t person_id, struct GameKeyFrameChunk *the_chunk);
+                extern void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect * bounds_rect, struct GameKeyFrame * the_frame, struct Matrix33 * r_matrix, std::int32_t person_id, struct GameKeyFrameChunk * the_chunk);
 
                 if (anim_chunk[prim].MultiObject[0])
                     drawkeyframeboxgamechunk(anim_chunk[prim].MultiObject[0], &rect, anim_chunk[prim].AnimList[1], &r_matrix, 0, &anim_chunk[prim]);
@@ -1287,7 +1287,7 @@ std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint *clicked_point, 
             }
             */
 
-    extern void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz);
+    extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
     {
         std::int32_t minx, maxx, minz, maxz;
 
@@ -1404,7 +1404,7 @@ std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint *clicked_point, 
                         ny = ((engine.MousePosY + offset_y) & grid_and) + ((-py) & 0x7f);
                 } else {
                     if (Axis & Y_AXIS)
-                        ny = ((engine.MousePosY + offset_y) & grid_and) - ((py) & 0x7f);
+                        ny = ((engine.MousePosY + offset_y) & grid_and) - ((py) &0x7f);
                 }
                 if (Axis & Z_AXIS)
                     nz = ((engine.MousePosZ + offset_z) & grid_and) - (pz);

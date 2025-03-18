@@ -1317,12 +1317,12 @@ void set_game_camera(struct MapThing *track_thing) {
     // Point camera at thing we're tracking.
 
     angle_xz = -get_angle_xz(&thing_position, &cam_position);
-    engine.CosY = COS((angle_xz) & 2047);
-    engine.SinY = SIN((angle_xz) & 2047);
+    engine.CosY = COS((angle_xz) &2047);
+    engine.SinY = SIN((angle_xz) &2047);
 
     angle_yz = get_angle_yz(&cam_position, &thing_position);
-    engine.CosX = COS((angle_yz) & 2047);
-    engine.SinX = SIN((angle_yz) & 2047);
+    engine.CosX = COS((angle_yz) &2047);
+    engine.SinX = SIN((angle_yz) &2047);
 
     /*
             engine.CosX=COS(0);
@@ -1379,7 +1379,7 @@ void set_game_camera(struct MapThing *track_thing) {
     if (Keys[KB_G]) {
         std::int32_t mid_x, mid_y, mid_z;
         extern std::uint16_t make_poly_into_glass_shatter_prim(std::int16_t face, std::int16_t mid_x, std::int16_t mid_y, std::int16_t mid_z);
-        extern void calc_face_midpoint(std::int16_t face, std::int32_t *x, std::int32_t *y, std::int32_t *z);
+        extern void calc_face_midpoint(std::int16_t face, std::int32_t * x, std::int32_t * y, std::int32_t * z);
         calc_face_midpoint(31989, &mid_x, &mid_y, &mid_z);
         make_poly_into_glass_shatter_prim(31989, mid_x, mid_y, mid_z);
         Keys[KB_G] = 0;
