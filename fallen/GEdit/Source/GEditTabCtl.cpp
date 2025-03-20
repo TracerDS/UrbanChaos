@@ -4,7 +4,7 @@
  *
  */
 
-#include "TabCtl.h"
+#include "GEditTabCtl.h"
 #include <commctrl.h>
 
 DLGTEMPLATE *WINAPI LockDlgResource(HINSTANCE hInstance, LPCSTR lpszResName) {

@@ -1,4 +1,4 @@
-//	PlayerSetup.cpp
+//	GEditPlayerSetup.cpp
 //	Guy Simmons, 23rd August 1998.
 
 #include <MFStdLib.h>

@@ -11,7 +11,7 @@
 #include "inline.h"
 #include <Ledit/Headers/gi.h>
 
-#include "EdStrings.h"
+#include "GEditEdStrings.h"
 #include "GEdit.h"
 
 //

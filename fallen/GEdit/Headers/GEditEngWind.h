@@ -1,9 +1,7 @@
-//	EngWind.cpp
+//	GEditEngWind.cpp
 //	Guy Simmons, 27th July 1998.
 
-#ifndef ENGWIND_H
-#define ENGWIND_H
-
+#pragma once
 //---------------------------------------------------------------
 
 bool init_ewind();
@@ -13,4 +11,3 @@ void process_ewind();
 
 //---------------------------------------------------------------
 
-#endif

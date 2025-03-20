@@ -8,7 +8,7 @@
 #include <commctrl.h>
 #include "resource.h"
 
-#include "EdStrings.h"
+#include "GEditEdStrings.h"
 #include "GEdit.h"
 #include "ticklist.h"
 

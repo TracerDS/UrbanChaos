@@ -8,7 +8,7 @@
 #include "resource.h"
 #include "inline.h"
 
-#include "EdStrings.h"
+#include "GEditEdStrings.h"
 #include "GEdit.h"
 
 //---------------------------------------------------------------

@@ -2,8 +2,7 @@
 // The camera.
 //
 
-#ifndef _CAM_
-#define _CAM_
+#pragma once
 
 //
 // The position of the camera. Only read from these vars.
@@ -29,5 +28,3 @@ void CAM_init();
 //
 
 void CAM_process();
-
-#endif

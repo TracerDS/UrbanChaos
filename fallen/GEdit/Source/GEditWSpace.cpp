@@ -1,4 +1,4 @@
-//	WSpace.cpp
+//	GEditWSpace.cpp
 //	Guy Simmons, 11th August 1998.
 
 #include <MFStdLib.h>
@@ -11,10 +11,10 @@
 #include <Ledit/Headers/gi.h>
 
 #include "GEdit.h"
-#include "Mission.h"
-#include "SubClass.h"
-#include "WSpace.h"
-#include "MapView.h"
+#include "GEditMission.h"
+#include "GEditSubClass.h"
+#include "GEditWSpace.h"
+#include "GEditMapView.h"
 
 //---------------------------------------------------------------
 

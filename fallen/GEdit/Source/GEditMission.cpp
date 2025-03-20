@@ -7,8 +7,8 @@
 #include <ddlib.h>
 #include <commctrl.h>
 #include "resource.h"
-#include "Mission.h"
-#include "WSpace.h"
+#include "GEditMission.h"
+#include "GEditWSpace.h"
 #include "inputbox.h"
 #include "console.h"
 #include "cutscene.h"

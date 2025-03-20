@@ -14,7 +14,7 @@
 #include "person.h"
 
 #include "GEdit.h"
-#include "MapView.h"
+#include "GEditMapView.h"
 #include "console.h"
 #include "propedit.h"
 

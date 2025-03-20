@@ -1,4 +1,4 @@
-//	WayWind.cpp
+//	GEditWayWind.cpp
 //	Guy Simmons, 31st July 1998.
 
 #include <MFStdLib.h>
@@ -7,8 +7,8 @@
 #include <ddlib.h>
 #include <commctrl.h>
 #include "resource.h"
-#include "EdStrings.h"
-#include "waywind.h"
+#include "GEditEdStrings.h"
+#include "GEditWayWind.h"
 
 //---------------------------------------------------------------
 

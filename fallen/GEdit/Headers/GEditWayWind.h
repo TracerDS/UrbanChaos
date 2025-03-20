@@ -1,8 +1,7 @@
-//	WayWind.h
+//	GEditWayWind.h
 //	Guy Simmons, 31st July 1998.
 
-#ifndef WAYWIND_H
-#define WAYWIND_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -13,4 +12,3 @@ void fini_wwind();
 
 //---------------------------------------------------------------
 
-#endif
