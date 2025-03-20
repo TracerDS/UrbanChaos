@@ -250,7 +250,7 @@
     <ClCompile Include="GEdit\Source\GEditEdStrings.cpp" />
     <ClCompile Include="GEdit\Source\enemyflagsetup.cpp" />
     <ClCompile Include="GEdit\Source\GEditEnemySetup.cpp" />
-    <ClCompile Include="GEdit\Source\EngWind.cpp" />
+    <ClCompile Include="GEdit\Source\GEditEngWind.cpp" />
     <ClCompile Include="GEdit\Source\ExtendSetup.cpp" />
     <ClCompile Include="GEdit\Source\GEdit.cpp" />
     <ClCompile Include="GEdit\Source\inputbox.cpp" />
@@ -854,7 +854,7 @@
     <ClInclude Include="GEdit\Headers\cutscene.h" />
     <ClInclude Include="GEdit\Headers\GEditEdStrings.h" />
     <ClInclude Include="GEdit\Headers\GEditEnemySetup.h" />
-    <ClInclude Include="GEdit\Headers\EngWind.h" />
+    <ClInclude Include="GEdit\Headers\GEditEngWind.h" />
     <ClInclude Include="GEdit\Headers\GEdit.h" />
     <ClInclude Include="GEdit\Headers\inputbox.h" />
     <ClInclude Include="GEdit\Headers\GEditItemSetup.h" />
