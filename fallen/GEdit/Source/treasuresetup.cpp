@@ -7,7 +7,7 @@
 #include <ddlib.h>
 #include <commctrl.h>
 #include "resource.h"
-#include "EdStrings.h"
+#include "GEditEdStrings.h"
 
 #include "GEdit.h"
 

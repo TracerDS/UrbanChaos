@@ -9,7 +9,7 @@
 #include "inline.h"
 #include <Ledit/Headers/gi.h>
 
-#include "EdStrings.h"
+#include "GEditEdStrings.h"
 #include "GEdit.h"
 
 std::uint8_t skills_list[255];

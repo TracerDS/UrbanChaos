@@ -1,4 +1,4 @@
-//	ItemSetup.cpp
+//	GEditItemSetup.cpp
 //	Guy Simmons, 24th August 1998.
 
 #include <MFStdLib.h>
@@ -11,7 +11,7 @@
 #include "inline.h"
 #include <Ledit/Headers/gi.h>
 
-#include "EdStrings.h"
+#include "GEditEdStrings.h"
 #include "GEdit.h"
 #include "ticklist.h"
 

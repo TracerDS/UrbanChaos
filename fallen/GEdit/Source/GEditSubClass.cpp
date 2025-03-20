@@ -9,8 +9,8 @@
 #include "resource.h"
 
 #include "GEdit.h"
-#include "MapView.h"
-#include "WSpace.h"
+#include "GEditMapView.h"
+#include "GEditWSpace.h"
 
 #include "pap.h"
 #include <Ledit/Headers/gi.h>

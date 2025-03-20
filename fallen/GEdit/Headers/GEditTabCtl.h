@@ -1,5 +1,4 @@
-#ifndef _TABCTL_H_
-#define _TABCTL_H_
+#pragma once
 
 /*******************************************************************
  *
@@ -43,5 +42,3 @@ void TABCTL_sel(HWND wnd, DWORD tabctl);
 std::int32_t TABCTL_getsel(HWND wnd, DWORD tabctl);
 // Query for visible tab's window handle:
 HWND TABCTL_gethwnd(HWND wnd, DWORD tabctl);
-
-#endif

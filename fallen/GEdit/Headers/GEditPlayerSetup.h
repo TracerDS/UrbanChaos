@@ -1,8 +1,7 @@
-//	PlayerSetup.h
+//	GEditPlayerSetup.h
 //	Guy Simmons, 23rd August 1998.
 
-#ifndef PLAYERSETUP_H
-#define PLAYERSETUP_H
+#pragma once
 
 #include "Mission.h"
 
@@ -13,4 +12,3 @@ char *get_player_message(EventPoint *ep, char *msg);
 
 //---------------------------------------------------------------
 
-#endif

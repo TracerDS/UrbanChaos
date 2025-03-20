@@ -4,7 +4,7 @@
 
 #include "always.h"
 #include "back.h"
-#include "cam.h"
+#include "outroCam.h"
 #include "credits.h"
 #include "key.h"
 #include "font.h"

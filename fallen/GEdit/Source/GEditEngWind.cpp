@@ -1,4 +1,4 @@
-//	EngWind.cpp
+//	GEditEngWind.cpp
 //	Guy Simmons, 27th July 1998.
 
 #include <MFStdLib.h>
@@ -11,9 +11,9 @@
 #include "inline.h"
 #include <Ledit/Headers/gi.h>
 
-#include "MapView.h"
-#include "Mission.h"
-#include "WayWind.h"
+#include "GEditMapView.h"
+#include "GEditMission.h"
+#include "GEditWayWind.h"
 
 //---------------------------------------------------------------
 

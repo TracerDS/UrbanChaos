@@ -1,8 +1,7 @@
 //	SubClass.h
 //	Guy Simmons, 15th August 1998.
 
-#ifndef SUBCLASS_H
-#define SUBCLASS_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -19,5 +18,3 @@ extern WNDPROC check_procs[],
 LRESULT CALLBACK sc_tree_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 //---------------------------------------------------------------
-
-#endif

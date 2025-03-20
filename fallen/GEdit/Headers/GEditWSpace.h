@@ -1,9 +1,7 @@
-//	WSpace.h
+//	GEditWSpace.h
 //	Guy Simmons, 11th August 1998.
 
-#ifndef WSPACE_H
-#define WSPACE_H
-
+#pragma once
 //---------------------------------------------------------------
 
 #define ET_NONE 0
@@ -83,5 +81,3 @@ void ws_sel_waypoint(EventPoint *ep);
 void ws_del_waypoint(EventPoint *ep);
 
 //---------------------------------------------------------------
-
-#endif
