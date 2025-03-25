@@ -2391,7 +2391,7 @@ void PYRO_draw_armageddon(Pyro *pyro) {
  *
  */
 
-#if 0
+#if 1
 
 extern void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
 extern void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt);
