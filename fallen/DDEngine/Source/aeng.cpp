@@ -88,13 +88,13 @@
 
 #include "polypage.h"
 #include "DCLowLevel.h"
+#include "es.h"
 
 #ifdef TARGET_DC
 #include <shsgintr.h>
 #else
 #define POLY_set_local_rotation_none() \
-    {                                  \
-    }
+    {}
 
 #endif
 
@@ -102,11 +102,13 @@
 #define AENG_BBOX_PUSH_IN 16
 #define AENG_BBOX_PUSH_OUT 4
 
+#define TEX_EMBED 1
+
 // #ifdef DEBUG
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
 
-static void ScribbleCheck()
+static void ScribbleCheck ( void )
 {
 	ASSERT ( prim_faces4[1].Points[0] >= 48 );
 	ASSERT ( prim_faces4[1].Points[0] < 62 );
@@ -125,18 +127,15 @@ static void ScribbleCheck()
 #ifndef TARGET_DC
 
 #define LOG_ENTER(x) \
-    {                \
-    }
+    {}
 #define LOG_EXIT(x) \
-    {               \
-    }
+    {}
 #define LOG_EVENT(x) \
-    {                \
-    }
+    {}
 
 #endif
 
-void AENG_draw_far_facets();
+void AENG_draw_far_facets(void);
 void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out);
 void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen);
 void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_room, std::uint8_t fade);
@@ -177,7 +176,7 @@ std::int32_t AENG_cur_fc_cam;
 #ifndef TARGET_DC
 // Clouds?!?!?!?!?!?!? Madness.
 
-void move_clouds() {
+void move_clouds(void) {
     cloud_x += 10;
     cloud_z += 5;
 }
@@ -361,7 +360,7 @@ inline void apply_cloud(std::int32_t x, std::int32_t y, std::int32_t z, D3DCOLOR
     *col = (*col & 0xff000000) | (r << 16) | (g << 8) | (b);
 }
 
-void init_clouds() {
+void init_clouds(void) {
     MFFileHandle handle;
     handle = FileOpen("data\\cloud.raw");
     if (handle != FILE_OPEN_ERROR) {
@@ -495,7 +494,7 @@ void add_debug_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int3
 }
 
 #ifdef DEBUG
-void draw_debug_lines() {
+void draw_debug_lines(void) {
     std::int32_t c0, s, e;
     if ((!ControlFlag) || (!allow_debug_keys)) return;
 
@@ -592,8 +591,8 @@ void AENG_movie_init() {
 
 file_error:;
 
-    AENG_frame_last = nullptr;
-    AENG_frame_next = nullptr;
+    AENG_frame_last = NULL;
+    AENG_frame_next = NULL;
     AENG_frame_count = 0;
     AENG_frame_tick = 0;
     AENG_frame_number = 0;
@@ -707,7 +706,7 @@ std::uint8_t *movie_data_upto;
 
 */
 
-void AENG_init() {
+void AENG_init(void) {
     MESH_init();
 //	FONT2D_init();
 #ifndef TARGET_DC
@@ -718,7 +717,7 @@ void AENG_init() {
     AENG_movie_init();
     TEXTURE_choose_set(1);
     INDOORS_INDEX_FADE = 255;
-    // POLY_frame_init(false, false);
+    // POLY_frame_init(FALSE, FALSE);
 
 #if 0
 
@@ -764,7 +763,7 @@ void AENG_init() {
 				COMP_SIZE,
 				COMP_SIZE,
 				(TGA_Pixel *) next->p,
-				false);
+				FALSE);
 
 			SWAP_FRAME(last,next);
 		}
@@ -784,28 +783,28 @@ void AENG_init() {
 		COMP_SIZE,
 		COMP_SIZE,
 		(TGA_Pixel *) cf1.p,
-		false);
+		FALSE);
 
 	TGA_save(
 		"movie\\test2.tga",
 		COMP_SIZE,
 		COMP_SIZE,
 		(TGA_Pixel *) cf2.p,
-		false);
+		FALSE);
 
 	TGA_save(
 		"movie\\test3.tga",
 		COMP_SIZE,
 		COMP_SIZE,
 		(TGA_Pixel *) cf3.p,
-		false);
+		FALSE);
 
 	TGA_save(
 		"movie\\test4.tga",
 		COMP_SIZE,
 		COMP_SIZE,
 		(TGA_Pixel *) cf4.p,
-		false);
+		FALSE);
 
 	IC_test();
 
@@ -852,9 +851,9 @@ void AENG_world_line(
     std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,
     std::int32_t sort_to_front) {
-#ifdef DEBUG
+#ifdef NDEBUG
 #ifdef TARGET_DC
-    ASSERT(false);
+    ASSERT(FALSE);
     return;
 #endif
 #else
@@ -903,7 +902,7 @@ void AENG_world_line_infinite(
     std::int32_t ix2, std::int32_t iy2, std::int32_t iz2, std::int32_t iwidth2, std::uint32_t colour2,
     std::int32_t sort_to_front) {
 #ifdef TARGET_DC
-    ASSERT(false);
+    ASSERT(FALSE);
     return;
 
 #else
@@ -1242,38 +1241,38 @@ void AENG_calc_gamut_lo_only(
     for (int i = 0; i < 8; i++) {
         int iPt1, iPt2;
         switch (i) {
-            case 0:
-                iPt1 = 4;
-                iPt2 = 0;
-                break;
-            case 1:
-                iPt1 = 4;
-                iPt2 = 1;
-                break;
-            case 2:
-                iPt1 = 4;
-                iPt2 = 2;
-                break;
-            case 3:
-                iPt1 = 4;
-                iPt2 = 3;
-                break;
-            case 4:
-                iPt1 = 0;
-                iPt2 = 1;
-                break;
-            case 5:
-                iPt1 = 1;
-                iPt2 = 2;
-                break;
-            case 6:
-                iPt1 = 2;
-                iPt2 = 3;
-                break;
-            case 7:
-                iPt1 = 3;
-                iPt2 = 4;
-                break;
+        case 0:
+            iPt1 = 4;
+            iPt2 = 0;
+            break;
+        case 1:
+            iPt1 = 4;
+            iPt2 = 1;
+            break;
+        case 2:
+            iPt1 = 4;
+            iPt2 = 2;
+            break;
+        case 3:
+            iPt1 = 4;
+            iPt2 = 3;
+            break;
+        case 4:
+            iPt1 = 0;
+            iPt2 = 1;
+            break;
+        case 5:
+            iPt1 = 1;
+            iPt2 = 2;
+            break;
+        case 6:
+            iPt1 = 2;
+            iPt2 = 3;
+            break;
+        case 7:
+            iPt1 = 3;
+            iPt2 = 4;
+            break;
         }
 
         float fX1 = AENG_cone[iPt1].x * 0.25f;
@@ -1615,7 +1614,7 @@ void AENG_set_camera(
         POLY_SPLITSCREEN_NONE);
 }
 
-void AENG_do_cached_lighting_old() {
+void AENG_do_cached_lighting_old(void) {
     std::int32_t i;
     std::int32_t x;
     std::int32_t z;
@@ -1623,7 +1622,7 @@ void AENG_do_cached_lighting_old() {
 
     NIGHT_Square *nq;
 
-    extern std::int32_t HEAP_max_free();
+    extern std::int32_t HEAP_max_free(void);
 
     if (HEAP_max_free() < 4000 || Keys[KB_Q]) {
         char str[100];
@@ -1704,7 +1703,7 @@ void AENG_do_cached_lighting_old() {
                 }
 
                 for (x = min_x; x <= max_x + 1; x++) {
-                    if (!NIGHT_cache[x][z]) {
+                    if (NIGHT_cache[x][z] == NULL) {
                         //
                         // Creating cached lighting for this square.
                         //
@@ -1737,7 +1736,7 @@ void AENG_do_cached_lighting_old() {
             ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
             ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
 
-            if (!NIGHT_cache[x][z]) {
+            if (NIGHT_cache[x][z] == NULL) {
                 //
                 // Creating cached lighting for this square.
                 //
@@ -1753,7 +1752,7 @@ void AENG_do_cached_lighting_old() {
 // its DELETEME flag is cleared.
 //
 
-void AENG_mark_night_squares_as_deleteme() {
+void AENG_mark_night_squares_as_deleteme(void) {
     std::int32_t i;
 
     NIGHT_Square *nq;
@@ -1786,7 +1785,7 @@ void AENG_ensure_appropriate_caching(std::int32_t ware) {
             ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
             ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
 
-            if (!NIGHT_cache[x][z]) {
+            if (NIGHT_cache[x][z] == NULL) {
                 //
                 // Creating cached lighting for this square.
                 //
@@ -1911,7 +1910,7 @@ void AENG_add_projected_shadow_poly(SMAP_Link *sl) {
         tri[2] = &POLY_buffer[i + 1];
 
         if (POLY_valid_triangle(tri)) {
-            POLY_add_triangle(tri, POLY_PAGE_SHADOW, true);
+            POLY_add_triangle(tri, POLY_PAGE_SHADOW, TRUE);
         }
     }
 }
@@ -1996,7 +1995,7 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl) {
         tri[2] = &POLY_buffer[i + 1];
 
         if (POLY_valid_triangle(tri)) {
-            POLY_add_triangle(tri, POLY_PAGE_SHADOW, true);
+            POLY_add_triangle(tri, POLY_PAGE_SHADOW, TRUE);
         }
     }
 }
@@ -2045,9 +2044,7 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl) {
             if (bright > 0.0F) {
                 std::int32_t alpha = std::int32_t(bright);
 
-                if (alpha > 255) {
-                    alpha = 255;
-                }
+                if (alpha > 255) { alpha = 255; }
 
                 alpha |= alpha << 8;
                 alpha |= alpha << 16;
@@ -2095,7 +2092,7 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl) {
         tri[2] = &POLY_buffer[i + 1];
 
         if (POLY_valid_triangle(tri)) {
-            POLY_add_triangle(tri, POLY_PAGE_SHADOW, true);
+            POLY_add_triangle(tri, POLY_PAGE_SHADOW, TRUE);
         }
     }
 }
@@ -2178,7 +2175,7 @@ void AENG_draw_rain_old(float angle) {
         pp[2].Z = Z;
         pp[2].z = z;
 
-        POLY_add_triangle(tri, POLY_PAGE_ALPHA, false, true);
+        POLY_add_triangle(tri, POLY_PAGE_ALPHA, FALSE, TRUE);
     }
 }
 
@@ -2386,7 +2383,7 @@ void AENG_draw_drips(std::uint8_t puddles_only) {
             pp[2].colour = colour;
             pp[3].colour = colour;
 
-            POLY_add_quad(quad, POLY_PAGE_DRIP, false);
+            POLY_add_quad(quad, POLY_PAGE_DRIP, FALSE);
         }
     }
 }
@@ -2463,7 +2460,7 @@ void AENG_draw_bangs() {
 // Draws the cloth.
 //
 
-void AENG_draw_cloth() {
+void AENG_draw_cloth(void) {
 #ifdef DOG_POO
     std::int32_t i;
 
@@ -2560,7 +2557,7 @@ void AENG_draw_cloth() {
                         quad[3] = &pp[CLOTH_INDEX(px + 1, py + 1)];
 
                         if (POLY_valid_quad(quad)) {
-                            POLY_add_quad(quad, POLY_PAGE_COLOUR, false);
+                            POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE);
                         }
                     }
 
@@ -2636,9 +2633,9 @@ void AENG_draw_sparks() {
 // Draws the hook.
 //
 
-void AENG_draw_hook() {
+void AENG_draw_hook(void) {
 #ifdef TARGET_DC
-    ASSERT(false);
+    ASSERT(FALSE);
 #else  // #ifdef TARGET_DC
     std::int32_t i;
 
@@ -2682,7 +2679,7 @@ void AENG_draw_hook() {
         yaw,
         pitch,
         roll,
-        nullptr, 0xff, 0);
+        NULL, 0xff, 0);
 
     for (i = HOOK_NUM_POINTS - 1; i >= 1; i--) {
         HOOK_pos_point(i + 0, &x1, &y1, &z1);
@@ -2714,7 +2711,7 @@ void AENG_draw_hook() {
         AENG_world_line(
             x1, y1, z1, 0x8, colour1,
             x2, y2, z2, 0x6, colour2,
-            false);
+            FALSE);
     }
 #endif // #else //#ifdef TARGET_DC
 }
@@ -2766,6 +2763,131 @@ struct
 } AENG_dirt_uvlookup[AENG_MAX_DIRT_UVLOOKUP];
 std::int32_t AENG_dirt_uvlookup_valid;
 std::int16_t AENG_dirt_uvlookup_world_type;
+
+void AENG_draw_dirt_PZI() {
+    if (the_game.GameFlags & GF_NO_FLOOR) {
+        //
+        // No dirt if there is no floor!
+        //
+
+        return;
+    }
+    std::int32_t i = 0;
+
+#define LEAF_PAGE (POLY_PAGE_LEAF)
+#define LEAF_CENTRE_U (0.5F)
+#define LEAF_CENTRE_V (0.5F)
+#define LEAF_RADIUS (0.5F)
+#define LEAF_U(a) (LEAF_CENTRE_U + LEAF_RADIUS * (float) sin(a))
+#define LEAF_V(a) (LEAF_CENTRE_V + LEAF_RADIUS * (float) cos(a))
+#define SNOW_CENTRE_U (0.5F)
+#define SNOW_CENTRE_V (0.5F)
+#define SNOW_RADIUS (1.0F)
+#define LEAF_UP 8
+#define LEAF_SIZE (20.0F + (float) (i & 15))
+
+    std::int32_t j = 0;
+
+    float fyaw;
+    float fpitch;
+    float froll;
+    float ubase;
+    float vbase;
+
+    float matrix[9];
+    float angle;
+    SVector_F temp[4];
+    PolyPage *pp;
+    D3DLVERTEX *lv;
+    std::uint32_t rubbish_colour;
+
+    std::uint32_t leaf_colour_choice_rgb[4] =
+        {
+            0x332d1d,
+            0x243224,
+            0x123320,
+            0x332f07};
+
+    std::uint32_t leaf_colour_choice_grey[4] =
+        {
+            0x333333,
+            0x444444,
+            0x222222,
+            0x383838};
+
+    if (AENG_dirt_uvlookup_valid && AENG_dirt_uvlookup_world_type == world_type) {
+        //
+        // Valid lookup table.
+        //
+    } else {
+        //
+        // Calclate the uvlookup table.
+        //
+
+        for (i = 0; i < AENG_MAX_DIRT_UVLOOKUP; i++) {
+            float angle = float(i) * (2.0F * PI / AENG_MAX_DIRT_UVLOOKUP);
+
+            float cangle;
+            float sangle;
+
+            sangle = sinf(angle);
+            cangle = cosf(angle);
+
+            //
+            // Fix the uv's for texture paging.
+            //
+
+            if (world_type == WORLD_TYPE_SNOW) {
+                pp = &POLY_Page[POLY_PAGE_SNOWFLAKE];
+                // And the snowflake texture is bigger and needs a bit of squishing.
+                AENG_dirt_uvlookup[i].u = SNOW_CENTRE_U + sangle * SNOW_RADIUS;
+                AENG_dirt_uvlookup[i].v = SNOW_CENTRE_V + cangle * SNOW_RADIUS;
+            } else {
+                pp = &POLY_Page[POLY_PAGE_LEAF];
+                AENG_dirt_uvlookup[i].u = LEAF_CENTRE_U + sangle * LEAF_RADIUS;
+                AENG_dirt_uvlookup[i].v = LEAF_CENTRE_V + cangle * LEAF_RADIUS;
+            }
+
+            AENG_dirt_uvlookup[i].u = AENG_dirt_uvlookup[i].u * pp->m_UScale + pp->m_UOffset;
+            AENG_dirt_uvlookup[i].v = AENG_dirt_uvlookup[i].v * pp->m_VScale + pp->m_VOffset;
+        }
+
+        AENG_dirt_uvlookup_valid = TRUE;
+        AENG_dirt_uvlookup_world_type = world_type;
+    }
+}
+
+void AENG_draw_dirt2() {
+    if (AENG_dirt_lvert_upto) {
+        // Cope with some wacky internals.
+        POLY_set_local_rotation_none();
+
+        // Set the appropriate texture for leaves or snowflakes
+        if (world_type == WORLD_TYPE_SNOW) {
+            POLY_Page[POLY_PAGE_SNOWFLAKE].RS.SetChanged();
+        } else {
+            POLY_Page[POLY_PAGE_LEAF].RS.SetChanged();
+        }
+
+        // Set render states for drawing leaves
+        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE, TRUE);          // Enable Z-buffer
+        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE); // Enable alpha blending
+        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND, D3DBLEND_SRCALPHA);
+        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+        // Draw the leaves or snowflakes
+        the_display.lp_D3D_Device->DrawIndexedPrimitive(
+            D3DPT_TRIANGLELIST,
+            D3DFVF_LVERTEX,
+            AENG_dirt_lvert,
+            AENG_dirt_lvert_upto,
+            AENG_dirt_index,
+            AENG_dirt_index_upto,
+            0);
+    }
+
+    // TRACE ( "Drew %i bits of dirt\n", iDrawnDirtCount );
+}
 
 void AENG_draw_dirt() {
     if (GAME_FLAGS & GF_NO_FLOOR) {
@@ -2829,17 +2951,17 @@ void AENG_draw_dirt() {
 #else
     std::uint32_t leaf_colour_choice_rgb[4] =
         {
-            0x332d1d,
-            0x243224,
-            0x123320,
-            0x332f07};
+            0xffffff,
+            0xffffff,
+            0xffffff,
+            0xffffff};
 
     std::uint32_t leaf_colour_choice_grey[4] =
         {
-            0x333333,
-            0x444444,
-            0x222222,
-            0x383838};
+            0xffffff,
+            0xffffff,
+            0xffffff,
+            0xffffff};
 #endif
 
     if (AENG_dirt_uvlookup_valid && AENG_dirt_uvlookup_world_type == world_type) {
@@ -2891,7 +3013,7 @@ void AENG_draw_dirt() {
 #endif
         }
 
-        AENG_dirt_uvlookup_valid = true;
+        AENG_dirt_uvlookup_valid = TRUE;
         AENG_dirt_uvlookup_world_type = world_type;
     }
 
@@ -2971,48 +3093,259 @@ void AENG_draw_dirt() {
 #endif
 
         switch (dd->type) {
-            case DIRT_TYPE_LEAF:
-            case DIRT_TYPE_SNOW:
+        case DIRT_TYPE_LEAF:
+        case DIRT_TYPE_SNOW:
 
-            {
+        {
+            //
+            // Get four vertices from the leaf page.
+            //
+
+            if (AENG_dirt_lvert_upto + 4 > AENG_MAX_DIRT_LVERTS) {
                 //
-                // Get four vertices from the leaf page.
+                // Draw what we have so far...
                 //
 
-                if (AENG_dirt_lvert_upto + 4 > AENG_MAX_DIRT_LVERTS) {
-                    //
-                    // Draw what we have so far...
-                    //
+                // Cope with some wacky internals.
+                POLY_set_local_rotation_none();
 
-                    // Cope with some wacky internals.
-                    POLY_set_local_rotation_none();
-
-                    if (world_type == WORLD_TYPE_SNOW) {
-                        POLY_Page[POLY_PAGE_SNOWFLAKE].RS.SetChanged();
-                    } else {
-                        POLY_Page[POLY_PAGE_LEAF].RS.SetChanged();
-                    }
-
-                    the_display.lp_D3D_Device->DrawIndexedPrimitive(
-                        D3DPT_TRIANGLELIST,
-                        D3DFVF_LVERTEX,
-                        AENG_dirt_lvert,
-                        AENG_dirt_lvert_upto,
-                        AENG_dirt_index,
-                        AENG_dirt_index_upto,
-                        0);
-
-                    AENG_dirt_lvert_upto = 0;
-                    AENG_dirt_index_upto = 0;
-
-                    lv = AENG_dirt_lvert;
+                if (world_type == WORLD_TYPE_SNOW) {
+                    POLY_Page[POLY_PAGE_SNOWFLAKE].RS.SetChanged();
                 } else {
-                    lv = &AENG_dirt_lvert[AENG_dirt_lvert_upto];
+                    POLY_Page[POLY_PAGE_LEAF].RS.SetChanged();
                 }
 
-                if ((i & 0xf) == 0 && !estate && world_type != WORLD_TYPE_SNOW) {
+                /*			float lvert_x = the_game.net_persons[0]->WorldPos.X;
+                                        float shifted_lvert_x = lvert_x / (1 << 8);
+                                        float lvert_y = the_game.net_persons[0]->WorldPos.Y + 0x8000;
+                                        float shifted_lvert_y = lvert_y / (1 << 8);
+                                        float lvert_z = the_game.net_persons[0]->WorldPos.Z;
+                                        float shifted_lvert_z = lvert_z / (1 << 8);
+                                        */
+
+                static int mum_go_sky = 0;
+
+                ++mum_go_sky;
+                // static int mum_go_sky = 10;
+                for (int i = 0; i < AENG_dirt_lvert_upto; ++i) {
+                    // AENG_dirt_lvert[i].x = shifted_lvert_x;
+                    // AENG_dirt_lvert[i].y = AENG_dirt_lvert[i].y + (mum_go_sky/100);
+                    // AENG_dirt_lvert[i].z += 1.f;
+                }
+
+                the_display.lp_D3D_Device->DrawIndexedPrimitive(
+                    D3DPT_TRIANGLELIST,
+                    D3DFVF_LVERTEX,
+                    AENG_dirt_lvert,
+                    AENG_dirt_lvert_upto,
+                    AENG_dirt_index,
+                    AENG_dirt_index_upto,
+                    0);
+
+                AENG_dirt_lvert_upto = 0;
+                AENG_dirt_index_upto = 0;
+
+                lv = AENG_dirt_lvert;
+            } else {
+                lv = &AENG_dirt_lvert[AENG_dirt_lvert_upto];
+            }
+
+            if ((i & 0xf) == 0 && !estate && world_type != WORLD_TYPE_SNOW) {
+                //
+                // This is some rubbish...
+                //
+
+                fpitch = float(dd->pitch) * (PI / 1024.0F);
+                froll = float(dd->roll) * (PI / 1024.0F);
+
+                //
+                // Copied from MATRIX_calc then fucked with...
+                //
+
+                float cy, cp, cr;
+                float sy, sp, sr;
+
+#ifdef TARGET_DC
+
+                // Use the fast intrinsics.
+                // Error is 2e-21 at most.
+
+                sy = 0.0F; // sin(0)
+                cy = 1.0F; // cos(0)
+
+                _SinCosA(&sr, &cr, froll);
+                _SinCosA(&sp, &cp, fpitch);
+
+#else
+
+                sy = 0.0F; // sin(0)
+                cy = 1.0F; // cos(0)
+
+                sp = sin(fpitch);
+                sr = sin(froll);
+
+                cp = cos(fpitch);
+                cr = cos(froll);
+
+#endif
+
+                //
+                // (matrix[3],matrix[4],matrix[5]) remains undefined...
+                //
+
+                matrix[0] = cy * cr + sy * sp * sr;
+                matrix[6] = sy * cp;
+                matrix[1] = -cp * sr;
+                matrix[7] = sp;
+                matrix[2] = -sy * cr + cy * sp * sr;
+                matrix[8] = cy * cp;
+
+                matrix[0] *= 24.0F;
+                matrix[1] *= 24.0F;
+                matrix[2] *= 24.0F;
+
+                matrix[6] *= 24.0F;
+                matrix[7] *= 24.0F;
+                matrix[8] *= 24.0F;
+
+                //
+                // Work out the position of the points.
+                //
+
+                float base_x = float(dd->x);
+                float base_y = float(dd->y + LEAF_UP);
+                float base_z = float(dd->z);
+
+                lv[0].x = base_x + matrix[6] + matrix[0];
+                lv[0].y = base_y + matrix[7] + matrix[1];
+                lv[0].z = base_z + matrix[8] + matrix[2];
+
+                lv[1].x = base_x + matrix[6] - matrix[0];
+                lv[1].y = base_y + matrix[7] - matrix[1];
+                lv[1].z = base_z + matrix[8] - matrix[2];
+
+                lv[2].x = base_x - matrix[6] + matrix[0];
+                lv[2].y = base_y - matrix[7] + matrix[1];
+                lv[2].z = base_z - matrix[8] + matrix[2];
+
+                lv[3].x = base_x - matrix[6] - matrix[0];
+                lv[3].y = base_y - matrix[7] - matrix[1];
+                lv[3].z = base_z - matrix[8] - matrix[2];
+
+                lv[0].z += 0.001f; // Adding a small bias to push leaves slightly above ground
+                lv[1].z += 0.001f;
+                lv[2].z += 0.001f;
+                lv[3].z += 0.001f;
+
+                //
+                // What are the uv's and colour of this quad?
+                //
+
+                rubbish_colour = NIGHT_amb_d3d_colour;
+
+                if (i & 32) {
+                    ubase = 0.0F;
+                    vbase = 0.0F;
+                } else {
+                    ubase = 0.5F;
+                    vbase = 0.0F;
+                }
+
+                if (i == 64) {
                     //
-                    // This is some rubbish...
+                    // Only one bit of money!
+                    //
+
+                    ubase = 0.0F;
+                    vbase = 0.5F;
+                } else {
+                    if (!(i & 32)) {
+                        if (i & 64) {
+                            rubbish_colour &= 0xffffff00;
+                        }
+                    }
+                }
+
+                lv[0].tu = ubase;
+                lv[0].tv = vbase;
+                lv[0].color = rubbish_colour;
+                lv[0].specular = 0xff000000;
+
+                lv[1].tu = ubase + 0.5F;
+                lv[1].tv = vbase;
+                lv[1].color = rubbish_colour;
+                lv[1].specular = 0xff000000;
+
+                lv[2].tu = ubase;
+                lv[2].tv = vbase + 0.5F;
+                lv[2].color = rubbish_colour;
+                lv[2].specular = 0xff000000;
+
+                lv[3].tu = ubase + 0.5F;
+                lv[3].tv = vbase + 0.5F;
+                lv[3].color = rubbish_colour;
+                lv[3].specular = 0xff000000;
+
+#ifdef TEX_EMBED
+
+                pp = &POLY_Page[POLY_PAGE_RUBBISH];
+
+                lv[0].tu = lv[0].tu * pp->m_UScale + pp->m_UOffset;
+                lv[0].tv = lv[0].tv * pp->m_VScale + pp->m_VOffset;
+
+                lv[1].tu = lv[1].tu * pp->m_UScale + pp->m_UOffset;
+                lv[1].tv = lv[1].tv * pp->m_VScale + pp->m_VOffset;
+
+                lv[2].tu = lv[2].tu * pp->m_UScale + pp->m_UOffset;
+                lv[2].tv = lv[2].tv * pp->m_VScale + pp->m_VOffset;
+
+                lv[3].tu = lv[3].tu * pp->m_UScale + pp->m_UOffset;
+                lv[3].tv = lv[3].tv * pp->m_VScale + pp->m_VOffset;
+
+#endif
+
+                //
+                // Build the indices.
+                //
+
+                ASSERT(AENG_dirt_index_upto + 6 <= AENG_MAX_DIRT_INDICES);
+
+                AENG_dirt_index[AENG_dirt_index_upto + 0] = AENG_dirt_lvert_upto + 0;
+                AENG_dirt_index[AENG_dirt_index_upto + 1] = AENG_dirt_lvert_upto + 1;
+                AENG_dirt_index[AENG_dirt_index_upto + 2] = AENG_dirt_lvert_upto + 2;
+
+                AENG_dirt_index[AENG_dirt_index_upto + 3] = AENG_dirt_lvert_upto + 3;
+                AENG_dirt_index[AENG_dirt_index_upto + 4] = AENG_dirt_lvert_upto + 2;
+                AENG_dirt_index[AENG_dirt_index_upto + 5] = AENG_dirt_lvert_upto + 1;
+
+                AENG_dirt_index_upto += 6;
+                AENG_dirt_lvert_upto += 4;
+            } else {
+                //
+                // This is a leaf or snowflake
+                //
+
+                float leaf_size = LEAF_SIZE;
+
+                if ((dd->pitch | dd->roll) == 0) {
+                    //
+                    // This happens often... so we optimise it out.
+                    //
+
+                    lv[0].x = float(dd->x);
+                    lv[0].y = float(dd->y + LEAF_UP);
+                    lv[0].z = float(dd->z + leaf_size);
+
+                    lv[1].x = float(dd->x + leaf_size);
+                    lv[1].y = float(dd->y + LEAF_UP);
+                    lv[1].z = float(dd->z - leaf_size);
+
+                    lv[2].x = float(dd->x - leaf_size);
+                    lv[2].y = float(dd->y + LEAF_UP);
+                    lv[2].z = float(dd->z - leaf_size);
+                } else {
+                    //
+                    // The rotation matrix of this bit of dirt.
                     //
 
                     fpitch = float(dd->pitch) * (PI / 1024.0F);
@@ -3060,43 +3393,400 @@ void AENG_draw_dirt() {
                     matrix[2] = -sy * cr + cy * sp * sr;
                     matrix[8] = cy * cp;
 
-                    matrix[0] *= 24.0F;
-                    matrix[1] *= 24.0F;
-                    matrix[2] *= 24.0F;
+                    matrix[0] *= leaf_size;
+                    matrix[1] *= leaf_size;
+                    matrix[2] *= leaf_size;
 
-                    matrix[6] *= 24.0F;
-                    matrix[7] *= 24.0F;
-                    matrix[8] *= 24.0F;
+                    matrix[6] *= leaf_size;
+                    matrix[7] *= leaf_size;
+                    matrix[8] *= leaf_size;
 
                     //
                     // Work out the position of the points.
                     //
 
-                    float base_x = float(dd->x);
-                    float base_y = float(dd->y + LEAF_UP);
-                    float base_z = float(dd->z);
+                    lv[0].x = float(dd->x);
+                    lv[0].y = float(dd->y + LEAF_UP);
+                    lv[0].z = float(dd->z);
 
-                    lv[0].x = base_x + matrix[6] + matrix[0];
-                    lv[0].y = base_y + matrix[7] + matrix[1];
-                    lv[0].z = base_z + matrix[8] + matrix[2];
+                    lv[1].x = lv[0].x - matrix[6] + matrix[0];
+                    lv[1].y = lv[0].y - matrix[7] + matrix[1];
+                    lv[1].z = lv[0].z - matrix[8] + matrix[2];
 
-                    lv[1].x = base_x + matrix[6] - matrix[0];
-                    lv[1].y = base_y + matrix[7] - matrix[1];
-                    lv[1].z = base_z + matrix[8] - matrix[2];
+                    lv[2].x = lv[0].x - matrix[6] - matrix[0];
+                    lv[2].y = lv[0].y - matrix[7] - matrix[1];
+                    lv[2].z = lv[0].z - matrix[8] - matrix[2];
 
-                    lv[2].x = base_x - matrix[6] + matrix[0];
-                    lv[2].y = base_y - matrix[7] + matrix[1];
-                    lv[2].z = base_z - matrix[8] + matrix[2];
+                    lv[0].x += matrix[6];
+                    lv[0].y += matrix[7];
+                    lv[0].z += matrix[8];
+                }
 
-                    lv[3].x = base_x - matrix[6] - matrix[0];
-                    lv[3].y = base_y - matrix[7] - matrix[1];
-                    lv[3].z = base_z - matrix[8] - matrix[2];
+                if (world_type == WORLD_TYPE_SNOW) {
+                    // A snowflake - just subtle shades of grey
+                    DWORD dwColour = ((i & 0x0f) << 2) + 0xc0;
+                    dwColour *= 0x010101;
+                    dwColour |= 0xff000000;
 
+                    lv[0].color = dwColour;
+                    lv[0].specular = 0xff000000;
+
+                    lv[1].color = dwColour;
+                    lv[1].specular = 0xff000000;
+
+                    lv[2].color = dwColour;
+                    lv[2].specular = 0xff000000;
+                } else {
                     //
-                    // What are the uv's and colour of this quad?
+                    // The colour of this leaf.
                     //
 
-                    rubbish_colour = NIGHT_amb_d3d_colour;
+                    leaf_colour = leaf_colour_choice_rgb[i & 0x3];
+
+                    lv[0].color = (leaf_colour * 3) | 0xff000000;
+                    lv[0].specular = 0xff000000;
+
+                    lv[1].color = (leaf_colour * 4) | 0xff000000;
+                    lv[1].specular = 0xff000000;
+
+                    lv[2].color = (leaf_colour * 5) | 0xff000000;
+                    lv[2].specular = 0xff000000;
+                }
+
+                //
+                // The rotation angle of the leaf.
+                //
+
+                lv[0].tu = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 0 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].u;
+                lv[0].tv = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 0 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].v;
+
+                lv[1].tu = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 1 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].u;
+                lv[1].tv = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 1 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].v;
+
+                lv[2].tu = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 2 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].u;
+                lv[2].tv = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 2 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].v;
+
+                //
+                // Build the indices.
+                //
+
+                ASSERT(AENG_dirt_index_upto + 3 <= AENG_MAX_DIRT_INDICES);
+
+                AENG_dirt_index[AENG_dirt_index_upto + 0] = AENG_dirt_lvert_upto + 0;
+                AENG_dirt_index[AENG_dirt_index_upto + 1] = AENG_dirt_lvert_upto + 1;
+                AENG_dirt_index[AENG_dirt_index_upto + 2] = AENG_dirt_lvert_upto + 2;
+
+                AENG_dirt_index_upto += 3;
+                AENG_dirt_lvert_upto += 3;
+            }
+        }
+
+        break;
+
+        case DIRT_TYPE_HELDCAN:
+
+            //
+            // Don't draw inside the car?!
+            //
+
+            {
+                Thing *p_person = TO_THING(dd->droll); // droll => owner
+
+                if (p_person->Genus.Person->InCar) {
+                    continue;
+                }
+            }
+
+            //
+            // FALLTHROUGH!
+            //
+            [[fallthrough]];
+        case DIRT_TYPE_CAN:
+        case DIRT_TYPE_THROWCAN:
+
+            MESH_draw_poly(
+                PRIM_OBJ_CAN,
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->yaw,
+                dd->pitch,
+                dd->roll,
+#ifdef TARGET_DC
+                NULL, 0xff, 0);
+#else
+                NULL, 0, 0);
+#endif
+
+            break;
+
+        case DIRT_TYPE_BRASS:
+
+            extern std::uint8_t kludge_shrink;
+
+            kludge_shrink = TRUE;
+
+            MESH_draw_poly(
+                PRIM_OBJ_ITEM_AMMO_SHOTGUN,
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->yaw,
+                dd->pitch,
+                dd->roll,
+#ifdef TARGET_DC
+                NULL, 0xff, 0);
+#else
+                NULL, 0, 0);
+#endif
+
+            kludge_shrink = FALSE;
+
+            break;
+
+        case DIRT_TYPE_WATER:
+
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+#ifdef TARGET
+                0xff224455,
+#else
+                0x00224455,
+#endif
+                POLY_PAGE_DROPLET);
+            break;
+
+        case DIRT_TYPE_SPARKS:
+
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+                0x7f997744,
+                POLY_PAGE_BLOOM1);
+            break;
+
+        case DIRT_TYPE_URINE:
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+#ifdef TARGET
+                0xff775533,
+#else
+                0x00775533,
+#endif
+                POLY_PAGE_DROPLET);
+            break;
+
+        case DIRT_TYPE_BLOOD:
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+                0x9fFFFFFF,
+                POLY_PAGE_BLOODSPLAT);
+            break;
+
+            // case DIRT_INFO_TYPE_MORPH:
+
+            //	MESH_draw_morph(
+            //		232,
+            //		dd->UU.Pidgeon.morph1,
+            //		dd->UU.Pidgeon.morph2,
+            //		dd->UU.Pidgeon.tween,
+            //		dd->x,
+            //		dd->y,
+            //		dd->z,
+            //		dd->yaw,
+            //		dd->pitch,
+            //		dd->roll,
+            //		NULL);
+
+            //	break;
+
+        default:
+            ASSERT(0);
+            break;
+        }
+
+#if 1
+
+        switch (dd->type) {
+        case DIRT_INFO_TYPE_WATER:
+
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+#ifdef TARGET
+                0xff224455,
+#else
+                0x00224455,
+#endif
+                POLY_PAGE_DROPLET);
+
+            break;
+
+        case DIRT_INFO_TYPE_URINE:
+
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+#ifdef TARGET
+                0xff775533,
+#else
+                0x00775533,
+#endif
+                POLY_PAGE_DROPLET);
+
+            break;
+
+        case DIRT_INFO_TYPE_SPARKS:
+
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+                0x7f997744,
+                POLY_PAGE_BLOOM1);
+
+            break;
+
+        case DIRT_INFO_TYPE_BLOOD:
+
+            SHAPE_droplet(
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->dx >> 2,
+                dd->dy >> TICK_SHIFT,
+                dd->dz >> 2,
+                0x9fFFFFFF,
+                POLY_PAGE_BLOODSPLAT);
+
+            break;
+
+        case DIRT_INFO_TYPE_SNOW:
+            /*leaf_colour=di.morph1;
+            leaf_colour<<=23;
+            leaf_colour|=0xffFFff;
+            SPRITE_draw_tex(di.x,di.y,di.z,20,leaf_colour,0xFF000000,POLY_PAGE_SNOWFLAKE,0.0,0.0,1.0,1.0,SPRITE_SORT_NORMAL);*/
+            break;
+
+        case DIRT_INFO_TYPE_LEAF:
+
+            //
+            // Create the rotation matrix for this bit of dirt...
+            //
+
+            // if ((di.pitch | di.roll) == 0)
+            //{
+            //
+            // }
+
+            //
+            // There is a chance we are going to draw some rubbish instead of a leaf.
+            //
+
+            if ((i & 0xf) == 0 && estate == 0) {
+                //
+                // The rotation matrix of this bit of dirt.
+                //
+
+                fpitch = float(dd->pitch) * (PI / 1024.0F);
+                froll = float(dd->roll) * (PI / 1024.0F);
+                fyaw = float(i);
+
+                MATRIX_calc(matrix, fyaw, fpitch, froll);
+
+                matrix[0] *= 24.0F;
+                matrix[1] *= 24.0F;
+                matrix[2] *= 24.0F;
+
+                matrix[6] *= 24.0F;
+                matrix[7] *= 24.0F;
+                matrix[8] *= 24.0F;
+
+                temp[0].X = float(dd->x) + matrix[6] + matrix[0];
+                temp[0].Y = float(dd->y) + matrix[7] + matrix[1];
+                temp[0].Z = float(dd->z) + matrix[8] + matrix[2];
+
+                temp[1].X = float(dd->x) + matrix[6] - matrix[0];
+                temp[1].Y = float(dd->y) + matrix[7] - matrix[1];
+                temp[1].Z = float(dd->z) + matrix[8] - matrix[2];
+
+                temp[2].X = float(dd->x) - matrix[6] + matrix[0];
+                temp[2].Y = float(dd->y) - matrix[7] + matrix[1];
+                temp[2].Z = float(dd->z) - matrix[8] + matrix[2];
+
+                temp[3].X = float(dd->x) - matrix[6] - matrix[0];
+                temp[3].Y = float(dd->y) - matrix[7] - matrix[1];
+                temp[3].Z = float(dd->z) - matrix[8] - matrix[2];
+
+                //
+                // Transform the points.
+                //
+                POLY_Point pzi_pp[4];
+                POLY_Point *quad[4];
+
+                quad[0] = &pzi_pp[0];
+                quad[1] = &pzi_pp[1];
+                quad[2] = &pzi_pp[2];
+                quad[3] = &pzi_pp[3];
+
+                for (j = 0; j < 4; j++) {
+                    POLY_transform(
+                        temp[j].X,
+                        temp[j].Y + 4.0F,
+                        temp[j].Z,
+                        &pzi_pp[j]);
+
+                    if (!pzi_pp[j].IsValid()) {
+                        //
+                        // Tell the DIRT module that the leaf is off-screen.
+                        //
+
+                        DIRT_mark_as_offscreen(i);
+
+                        //
+                        // Don't bother transforming the other points.
+                        //
+
+                        goto do_next_dirt;
+                    }
+                }
+
+                // if (POLY_valid_quad(quad))
+                {
+                    float ubase;
+                    float vbase;
+
+                    std::int32_t colour_and = 0xffffffff;
 
                     if (i & 32) {
                         ubase = 0.0F;
@@ -3116,773 +3806,228 @@ void AENG_draw_dirt() {
                     } else {
                         if (!(i & 32)) {
                             if (i & 64) {
-                                rubbish_colour &= 0xffffff00;
+                                colour_and = 0xffffff00;
                             }
                         }
                     }
 
-                    lv[0].tu = ubase;
-                    lv[0].tv = vbase;
-                    lv[0].color = rubbish_colour;
-                    lv[0].specular = 0xff000000;
-
-                    lv[1].tu = ubase + 0.5F;
-                    lv[1].tv = vbase;
-                    lv[1].color = rubbish_colour;
-                    lv[1].specular = 0xff000000;
-
-                    lv[2].tu = ubase;
-                    lv[2].tv = vbase + 0.5F;
-                    lv[2].color = rubbish_colour;
-                    lv[2].specular = 0xff000000;
-
-                    lv[3].tu = ubase + 0.5F;
-                    lv[3].tv = vbase + 0.5F;
-                    lv[3].color = rubbish_colour;
-                    lv[3].specular = 0xff000000;
-
-#ifdef TEX_EMBED
-
-                    pp = &POLY_Page[POLY_PAGE_RUBBISH];
-
-                    lv[0].tu = lv[0].tu * pp->m_UScale + pp->m_UOffset;
-                    lv[0].tv = lv[0].tv * pp->m_VScale + pp->m_VOffset;
-
-                    lv[1].tu = lv[1].tu * pp->m_UScale + pp->m_UOffset;
-                    lv[1].tv = lv[1].tv * pp->m_VScale + pp->m_VOffset;
-
-                    lv[2].tu = lv[2].tu * pp->m_UScale + pp->m_UOffset;
-                    lv[2].tv = lv[2].tv * pp->m_VScale + pp->m_VOffset;
-
-                    lv[3].tu = lv[3].tu * pp->m_UScale + pp->m_UOffset;
-                    lv[3].tv = lv[3].tv * pp->m_VScale + pp->m_VOffset;
-
-#endif
-
                     //
-                    // Build the indices.
+                    // Set the uvs.
                     //
 
-                    ASSERT(AENG_dirt_index_upto + 6 <= AENG_MAX_DIRT_INDICES);
+                    for (j = 0; j < 4; j++) {
+                        pzi_pp[j].u = ubase;
+                        pzi_pp[j].v = vbase;
 
-                    AENG_dirt_index[AENG_dirt_index_upto + 0] = AENG_dirt_lvert_upto + 0;
-                    AENG_dirt_index[AENG_dirt_index_upto + 1] = AENG_dirt_lvert_upto + 1;
-                    AENG_dirt_index[AENG_dirt_index_upto + 2] = AENG_dirt_lvert_upto + 2;
-
-                    AENG_dirt_index[AENG_dirt_index_upto + 3] = AENG_dirt_lvert_upto + 3;
-                    AENG_dirt_index[AENG_dirt_index_upto + 4] = AENG_dirt_lvert_upto + 2;
-                    AENG_dirt_index[AENG_dirt_index_upto + 5] = AENG_dirt_lvert_upto + 1;
-
-                    AENG_dirt_index_upto += 6;
-                    AENG_dirt_lvert_upto += 4;
-                } else {
-                    //
-                    // This is a leaf or snowflake
-                    //
-
-                    float leaf_size = LEAF_SIZE;
-
-                    if ((dd->pitch | dd->roll) == 0) {
-                        //
-                        // This happens often... so we optimise it out.
-                        //
-
-                        lv[0].x = float(dd->x);
-                        lv[0].y = float(dd->y + LEAF_UP);
-                        lv[0].z = float(dd->z + leaf_size);
-
-                        lv[1].x = float(dd->x + leaf_size);
-                        lv[1].y = float(dd->y + LEAF_UP);
-                        lv[1].z = float(dd->z - leaf_size);
-
-                        lv[2].x = float(dd->x - leaf_size);
-                        lv[2].y = float(dd->y + LEAF_UP);
-                        lv[2].z = float(dd->z - leaf_size);
-                    } else {
-                        //
-                        // The rotation matrix of this bit of dirt.
-                        //
-
-                        fpitch = float(dd->pitch) * (PI / 1024.0F);
-                        froll = float(dd->roll) * (PI / 1024.0F);
-
-                        //
-                        // Copied from MATRIX_calc then fucked with...
-                        //
-
-                        float cy, cp, cr;
-                        float sy, sp, sr;
+                        if (j & 1) { pzi_pp[j].u += 0.5F; }
+                        if (j & 2) { pzi_pp[j].v += 0.5F; }
 
 #ifdef TARGET_DC
-
-                        // Use the fast intrinsics.
-                        // Error is 2e-21 at most.
-
-                        sy = 0.0F; // sin(0)
-                        cy = 1.0F; // cos(0)
-
-                        _SinCosA(&sr, &cr, froll);
-                        _SinCosA(&sp, &cp, fpitch);
-
+                        pp[j].colour = (NIGHT_amb_d3d_colour & colour_and) | 0xff000000;
 #else
-
-                        sy = 0.0F; // sin(0)
-                        cy = 1.0F; // cos(0)
-
-                        sp = sin(fpitch);
-                        sr = sin(froll);
-
-                        cp = cos(fpitch);
-                        cr = cos(froll);
-
+                        pzi_pp[j].colour = NIGHT_amb_d3d_colour & colour_and;
 #endif
-
-                        //
-                        // (matrix[3],matrix[4],matrix[5]) remains undefined...
-                        //
-
-                        matrix[0] = cy * cr + sy * sp * sr;
-                        matrix[6] = sy * cp;
-                        matrix[1] = -cp * sr;
-                        matrix[7] = sp;
-                        matrix[2] = -sy * cr + cy * sp * sr;
-                        matrix[8] = cy * cp;
-
-                        matrix[0] *= leaf_size;
-                        matrix[1] *= leaf_size;
-                        matrix[2] *= leaf_size;
-
-                        matrix[6] *= leaf_size;
-                        matrix[7] *= leaf_size;
-                        matrix[8] *= leaf_size;
-
-                        //
-                        // Work out the position of the points.
-                        //
-
-                        lv[0].x = float(dd->x);
-                        lv[0].y = float(dd->y + LEAF_UP);
-                        lv[0].z = float(dd->z);
-
-                        lv[1].x = lv[0].x - matrix[6] + matrix[0];
-                        lv[1].y = lv[0].y - matrix[7] + matrix[1];
-                        lv[1].z = lv[0].z - matrix[8] + matrix[2];
-
-                        lv[2].x = lv[0].x - matrix[6] - matrix[0];
-                        lv[2].y = lv[0].y - matrix[7] - matrix[1];
-                        lv[2].z = lv[0].z - matrix[8] - matrix[2];
-
-                        lv[0].x += matrix[6];
-                        lv[0].y += matrix[7];
-                        lv[0].z += matrix[8];
+                        pzi_pp[j].specular = 0xff000000;
                     }
 
-                    if (world_type == WORLD_TYPE_SNOW) {
-                        // A snowflake - just subtle shades of grey
-                        DWORD dwColour = ((i & 0x0f) << 2) + 0xc0;
-                        dwColour *= 0x010101;
-                        dwColour |= 0xff000000;
+                    //
+                    // Draw the quad.
+                    //
 
-                        lv[0].color = dwColour;
-                        lv[0].specular = 0xff000000;
+                    POLY_add_quad(quad, POLY_PAGE_RUBBISH, FALSE);
+                }
+                // else
+                //{
+                //	//
+                //	// Tell the DIRT module that the leaf is off-screen.
+                //	//
 
-                        lv[1].color = dwColour;
-                        lv[1].specular = 0xff000000;
+                //	DIRT_mark_as_offscreen(i);
+                //}
+            } else {
+                if ((dd->yaw | dd->pitch | dd->roll) == 0) {
+                    //
+                    // This happens often... so we optimise it out.
+                    //
 
-                        lv[2].color = dwColour;
-                        lv[2].specular = 0xff000000;
+                    temp[0].X = float(dd->x);
+                    temp[0].Y = float(dd->y + LEAF_UP);
+                    temp[0].Z = float(dd->z + LEAF_SIZE);
+
+                    temp[1].X = float(dd->x + LEAF_SIZE);
+                    temp[1].Y = float(dd->y + LEAF_UP);
+                    temp[1].Z = float(dd->z - LEAF_SIZE);
+
+                    temp[2].X = float(dd->x - LEAF_SIZE);
+                    temp[2].Y = float(dd->y + LEAF_UP);
+                    temp[2].Z = float(dd->z - LEAF_SIZE);
+                } else {
+                    //
+                    // The rotation matrix of this bit of dirt.
+                    //
+
+                    fyaw = float(dd->yaw) * (PI / 1024.0F);
+                    fpitch = float(dd->pitch) * (PI / 1024.0F);
+                    froll = float(dd->roll) * (PI / 1024.0F);
+
+                    MATRIX_calc(matrix, fyaw, fpitch, froll);
+
+                    //
+                    // Work out the position of the points.
+                    //
+
+                    for (j = 0; j < 3; j++) {
+                        temp[j].X = float(dd->x);
+                        temp[j].Y = float(dd->y);
+                        temp[j].Z = float(dd->z);
+
+                        temp[j].Y += float(LEAF_UP);
+                    }
+
+                    temp[0].X += matrix[6] * LEAF_SIZE;
+                    temp[0].Y += matrix[7] * LEAF_SIZE;
+                    temp[0].Z += matrix[8] * LEAF_SIZE;
+
+                    temp[1].X -= matrix[6] * LEAF_SIZE;
+                    temp[1].Y -= matrix[7] * LEAF_SIZE;
+                    temp[1].Z -= matrix[8] * LEAF_SIZE;
+
+                    temp[2].X -= matrix[6] * LEAF_SIZE;
+                    temp[2].Y -= matrix[7] * LEAF_SIZE;
+                    temp[2].Z -= matrix[8] * LEAF_SIZE;
+
+                    temp[1].X += matrix[0] * LEAF_SIZE;
+                    temp[1].Y += matrix[1] * LEAF_SIZE;
+                    temp[1].Z += matrix[2] * LEAF_SIZE;
+
+                    temp[2].X -= matrix[0] * LEAF_SIZE;
+                    temp[2].Y -= matrix[1] * LEAF_SIZE;
+                    temp[2].Z -= matrix[2] * LEAF_SIZE;
+
+                    // falling = TRUE;
+                }
+
+                //
+                // Transform the points.
+                //
+
+                POLY_Point pzi2_pp[3];
+                POLY_Point *tri[3];
+
+                tri[0] = &pzi2_pp[0];
+                tri[1] = &pzi2_pp[1];
+                tri[2] = &pzi2_pp[2];
+
+                for (j = 0; j < 3; j++) {
+                    POLY_transform(
+                        temp[j].X,
+                        temp[j].Y,
+                        temp[j].Z,
+                        &pzi2_pp[j]);
+
+                    if (!pzi2_pp[j].IsValid()) {
+                        //
+                        // Tell the DIRT module that the leaf is off-screen.
+                        //
+
+                        DIRT_mark_as_offscreen(i);
+
+                        //
+                        // Don't bother transforming the other points.
+                        //
+
+                        goto do_next_dirt;
+                    }
+                }
+
+                if (POLY_valid_triangle(tri)) {
+                    //
+                    // The colour and texture of the leaf.
+                    //
+
+                    if (POLY_force_additive_alpha) {
+                        leaf_colour = leaf_colour_choice_grey[i & 0x3];
                     } else {
-                        //
-                        // The colour of this leaf.
-                        //
-
                         leaf_colour = leaf_colour_choice_rgb[i & 0x3];
-
-                        lv[0].color = (leaf_colour * 3) | 0xff000000;
-                        lv[0].specular = 0xff000000;
-
-                        lv[1].color = (leaf_colour * 4) | 0xff000000;
-                        lv[1].specular = 0xff000000;
-
-                        lv[2].color = (leaf_colour * 5) | 0xff000000;
-                        lv[2].specular = 0xff000000;
+                        leaf_colour = AENG_colour_mult(leaf_colour, NIGHT_amb_d3d_colour);
                     }
 
+                    angle = float(i);
+
+                    for (j = 0; j < 3; j++) {
+                        pzi2_pp[j].colour = leaf_colour * (j + 3);
+                        pzi2_pp[j].colour &= ~POLY_colour_restrict;
+#ifdef TARGET_DC
+                        pp[j].colour |= 0xff000000;
+#endif
+                        pzi2_pp[j].specular = 0xff000000;
+                        pzi2_pp[j].u = LEAF_U(angle);
+                        pzi2_pp[j].v = LEAF_V(angle);
+
+                        angle += 2.0F * PI / 3.0F;
+                    }
+
+                    POLY_add_triangle(tri, LEAF_PAGE, FALSE);
+                } else {
                     //
-                    // The rotation angle of the leaf.
+                    // Tell the DIRT module that the leaf is off-screen.
                     //
 
-                    lv[0].tu = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 0 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].u;
-                    lv[0].tv = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 0 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].v;
-
-                    lv[1].tu = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 1 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].u;
-                    lv[1].tv = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 1 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].v;
-
-                    lv[2].tu = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 2 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].u;
-                    lv[2].tv = AENG_dirt_uvlookup[(i + (AENG_MAX_DIRT_UVLOOKUP * 2 / 3)) & (AENG_MAX_DIRT_UVLOOKUP - 1)].v;
-
-                    //
-                    // Build the indices.
-                    //
-
-                    ASSERT(AENG_dirt_index_upto + 3 <= AENG_MAX_DIRT_INDICES);
-
-                    AENG_dirt_index[AENG_dirt_index_upto + 0] = AENG_dirt_lvert_upto + 0;
-                    AENG_dirt_index[AENG_dirt_index_upto + 1] = AENG_dirt_lvert_upto + 1;
-                    AENG_dirt_index[AENG_dirt_index_upto + 2] = AENG_dirt_lvert_upto + 2;
-
-                    AENG_dirt_index_upto += 3;
-                    AENG_dirt_lvert_upto += 3;
+                    DIRT_mark_as_offscreen(i);
                 }
             }
 
             break;
 
-            case DIRT_TYPE_HELDCAN:
+        case DIRT_INFO_TYPE_PRIM:
 
-                //
-                // Don't draw inside the car?!
-                //
+            extern std::uint8_t kludge_shrink;
 
-                {
-                    Thing *p_person = TO_THING(dd->droll); // droll => owner
+            /*if (di.held||(di.prim==253))
+            {
+                    kludge_shrink = TRUE;
+            }*/
 
-                    if (p_person->Genus.Person->InCar) {
-                        continue;
-                    }
-                }
-
-                //
-                // FALLTHROUGH!
-                //
-
-            case DIRT_TYPE_CAN:
-            case DIRT_TYPE_THROWCAN:
-
-                MESH_draw_poly(
-                    PRIM_OBJ_CAN,
-                    dd->x,
-                    dd->y,
-                    dd->z,
-                    dd->yaw,
-                    dd->pitch,
-                    dd->roll,
+            MESH_draw_poly(
+                dd->UU.Head.prim,
+                dd->x,
+                dd->y,
+                dd->z,
+                dd->yaw,
+                dd->pitch,
+                dd->roll,
 #ifdef TARGET_DC
-                    nullptr, 0xff, 0);
+                NULL, 0xff, 0);
 #else
-                    nullptr, 0, 0);
+                NULL, 0, 0);
 #endif
 
-                break;
+            kludge_shrink = FALSE;
 
-            case DIRT_TYPE_BRASS:
+            break;
 
-                extern std::uint8_t kludge_shrink;
+        case DIRT_INFO_TYPE_MORPH:
 
-                kludge_shrink = true;
+            /*	MESH_draw_morph(
+                            di.prim,
+                            di.morph1,
+                            di.morph2,
+                            di.tween,
+                            di.x,
+                            di.y,
+                            di.z,
+                            di.yaw,
+                            di.pitch,
+                            di.roll,
+                            NULL);*/
 
-                MESH_draw_poly(
-                    PRIM_OBJ_ITEM_AMMO_SHOTGUN,
-                    dd->x,
-                    dd->y,
-                    dd->z,
-                    dd->yaw,
-                    dd->pitch,
-                    dd->roll,
-#ifdef TARGET_DC
-                    nullptr, 0xff, 0);
-#else
-                    nullptr, 0, 0);
-#endif
+            break;
 
-                kludge_shrink = false;
-
-                break;
-
-            case DIRT_TYPE_WATER:
-
-                SHAPE_droplet(
-                    dd->x,
-                    dd->y,
-                    dd->z,
-                    dd->dx >> 2,
-                    dd->dy >> TICK_SHIFT,
-                    dd->dz >> 2,
-#ifdef TARGET
-                    0xff224455,
-#else
-                    0x00224455,
-#endif
-                    POLY_PAGE_DROPLET);
-                break;
-
-            case DIRT_TYPE_SPARKS:
-
-                SHAPE_droplet(
-                    dd->x,
-                    dd->y,
-                    dd->z,
-                    dd->dx >> 2,
-                    dd->dy >> TICK_SHIFT,
-                    dd->dz >> 2,
-                    0x7f997744,
-                    POLY_PAGE_BLOOM1);
-                break;
-
-            case DIRT_TYPE_URINE:
-                SHAPE_droplet(
-                    dd->x,
-                    dd->y,
-                    dd->z,
-                    dd->dx >> 2,
-                    dd->dy >> TICK_SHIFT,
-                    dd->dz >> 2,
-#ifdef TARGET
-                    0xff775533,
-#else
-                    0x00775533,
-#endif
-                    POLY_PAGE_DROPLET);
-                break;
-
-            case DIRT_TYPE_BLOOD:
-                SHAPE_droplet(
-                    dd->x,
-                    dd->y,
-                    dd->z,
-                    dd->dx >> 2,
-                    dd->dy >> TICK_SHIFT,
-                    dd->dz >> 2,
-                    0x9fFFFFFF,
-                    POLY_PAGE_BLOODSPLAT);
-                break;
-
-            default:
-                ASSERT(0);
-                break;
+        default:
+            // ASSERT(0);
+            break;
         }
 
-#if 0
-/*
-		switch(di.type)
-		{
-			case DIRT_INFO_TYPE_WATER:
-
-				SHAPE_droplet(
-					di.x,
-					di.y,
-					di.z,
-					di.dx * 4,
-					di.dy * 4,
-					di.dz * 4,
-#ifdef TARGET
-					0xff224455,
-#else
-					0x00224455,
-#endif
-					POLY_PAGE_DROPLET);
-
-				break;
-
-			case DIRT_INFO_TYPE_URINE:
-
-				SHAPE_droplet(
-					di.x,
-					di.y,
-					di.z,
-					di.dx * 4,
-					di.dy * 4,
-					di.dz * 4,
-#ifdef TARGET
-					0xff775533,
-#else
-					0x00775533,
-#endif
-					POLY_PAGE_DROPLET);
-
-				break;
-
-			case DIRT_INFO_TYPE_SPARKS:
-
-				SHAPE_droplet(
-					di.x,
-					di.y,
-					di.z,
-					di.dx * 4,
-					di.dy * 4,
-					di.dz * 4,
-					0x7f997744,
-					POLY_PAGE_BLOOM1);
-
-				break;
-
-			case DIRT_INFO_TYPE_BLOOD:
-
-				SHAPE_droplet(
-					di.x,
-					di.y,
-					di.z,
-					di.dx * 4,
-					di.dy * 4,
-					di.dz * 4,
-					0x9fFFFFFF,
-					POLY_PAGE_BLOODSPLAT);
-
-				break;
-
-			case DIRT_INFO_TYPE_SNOW:
-				leaf_colour=di.morph1;
-				leaf_colour<<=23;
-				leaf_colour|=0xffFFff;
-				SPRITE_draw_tex(di.x,di.y,di.z,20,leaf_colour,0xFF000000,POLY_PAGE_SNOWFLAKE,0.0,0.0,1.0,1.0,SPRITE_SORT_NORMAL);
-				break;
-
-			case DIRT_INFO_TYPE_LEAF:
-
-				//
-				// Create the rotation matrix for this bit of dirt...
-				//
-
-				if ((di.pitch | di.roll) == 0)
-				{
-					
-				}
-
-				//
-				// There is a chance we are going to draw some rubbish instead of a leaf.
-				//
-
-				if ((i & 0xf) == 0 && estate==0)
-				{
-					//
-					// The rotation matrix of this bit of dirt.
-					//
-
-					fpitch = float(di.pitch) * (PI / 1024.0F);
-					froll  = float(di.roll)  * (PI / 1024.0F);
-					fyaw   = float(i);
-
-					MATRIX_calc(matrix, fyaw, fpitch, froll);
-
-					matrix[0] *= 24.0F;
-					matrix[1] *= 24.0F;
-					matrix[2] *= 24.0F;
-
-					matrix[6] *= 24.0F;
-					matrix[7] *= 24.0F;
-					matrix[8] *= 24.0F;
-					
-					temp[0].X = float(di.x) + matrix[6] + matrix[0];
-					temp[0].Y = float(di.y) + matrix[7] + matrix[1];
-					temp[0].Z = float(di.z) + matrix[8] + matrix[2];
-					
-					temp[1].X = float(di.x) + matrix[6] - matrix[0];
-					temp[1].Y = float(di.y) + matrix[7] - matrix[1];
-					temp[1].Z = float(di.z) + matrix[8] - matrix[2];
-					
-					temp[2].X = float(di.x) - matrix[6] + matrix[0];
-					temp[2].Y = float(di.y) - matrix[7] + matrix[1];
-					temp[2].Z = float(di.z) - matrix[8] + matrix[2];
-					
-					temp[3].X = float(di.x) - matrix[6] - matrix[0];
-					temp[3].Y = float(di.y) - matrix[7] - matrix[1];
-					temp[3].Z = float(di.z) - matrix[8] - matrix[2];
-
-					//
-					// Transform the points.
-					//
-
-					for (j = 0; j < 4; j++)
-					{
-						POLY_transform(
-							temp[j].X,
-							temp[j].Y + 4.0F,
-							temp[j].Z,
-						   &pp[j]);
-
-						if (!pp[j].IsValid())
-						{
-							//
-							// Tell the DIRT module that the leaf is off-screen.
-							//
-
-							DIRT_mark_as_offscreen(i);
-
-							//
-							// Don't bother transforming the other points.
-							//
-
-							goto do_next_dirt;
-						}
-					}
-
-					if (POLY_valid_quad(quad))
-					{
-						float ubase;
-						float vbase;
-
-						std::int32_t colour_and = 0xffffffff;
-
-						if (i & 32)
-						{
-							ubase = 0.0F;
-							vbase = 0.0F;
-						}
-						else
-						{
-							ubase = 0.5F;
-							vbase = 0.0F;
-						}
-
-						if (i == 64)
-						{
-							//
-							// Only one bit of money!
-							//
-
-							ubase = 0.0F;
-							vbase = 0.5F;
-						}
-						else
-						{
-							if (!(i & 32))
-							{
-								if (i & 64)
-								{
-									colour_and = 0xffffff00;
-								}
-							}
-						}
-
-						//
-						// Set the uvs.
-						//
-
-						for (j = 0; j < 4; j++)
-						{
-							pp[j].u = ubase;
-							pp[j].v = vbase;
-
-							if (j & 1) {pp[j].u += 0.5F;}
-							if (j & 2) {pp[j].v += 0.5F;}
-
-#ifdef TARGET_DC
-							pp[j].colour   = ( NIGHT_amb_d3d_colour & colour_and ) | 0xff000000;
-#else
-							pp[j].colour   = NIGHT_amb_d3d_colour & colour_and;
-#endif
-							pp[j].specular = 0xff000000;
-						}
-
-						//
-						// Draw the quad.
-						//
-
-						POLY_add_quad(quad, POLY_PAGE_RUBBISH, false);
-					}
-					else
-					{
-						//
-						// Tell the DIRT module that the leaf is off-screen.
-						//
-
-						DIRT_mark_as_offscreen(i);
-					}
-				}
-				else
-				{
-					if ((di.yaw | di.pitch | di.roll) == 0)
-					{
-						//
-						// This happens often... so we optimise it out.
-						//
-
-						temp[0].X = float(di.x);
-						temp[0].Y = float(di.y + LEAF_UP);
-						temp[0].Z = float(di.z + LEAF_SIZE);
-
-						temp[1].X = float(di.x + LEAF_SIZE);
-						temp[1].Y = float(di.y + LEAF_UP);
-						temp[1].Z = float(di.z - LEAF_SIZE);
-
-						temp[2].X = float(di.x - LEAF_SIZE);
-						temp[2].Y = float(di.y + LEAF_UP);
-						temp[2].Z = float(di.z - LEAF_SIZE);
-					}
-					else
-					{
-						//
-						// The rotation matrix of this bit of dirt.
-						//
-
-						fyaw   = float(di.yaw)   * (PI / 1024.0F);
-						fpitch = float(di.pitch) * (PI / 1024.0F);
-						froll  = float(di.roll)  * (PI / 1024.0F);
-
-						MATRIX_calc(matrix, fyaw, fpitch, froll);
-
-						//
-						// Work out the position of the points.
-						//
-
-						for (j = 0; j < 3; j++)
-						{
-
-							temp[j].X  = float(di.x);
-							temp[j].Y  = float(di.y);
-							temp[j].Z  = float(di.z);
-
-							temp[j].Y += float(LEAF_UP);
-						}
-
-
-						temp[0].X += matrix[6] * LEAF_SIZE;
-						temp[0].Y += matrix[7] * LEAF_SIZE;
-						temp[0].Z += matrix[8] * LEAF_SIZE;
-
-						temp[1].X -= matrix[6] * LEAF_SIZE;
-						temp[1].Y -= matrix[7] * LEAF_SIZE;
-						temp[1].Z -= matrix[8] * LEAF_SIZE;
-
-						temp[2].X -= matrix[6] * LEAF_SIZE;
-						temp[2].Y -= matrix[7] * LEAF_SIZE;
-						temp[2].Z -= matrix[8] * LEAF_SIZE;
-
-						temp[1].X += matrix[0] * LEAF_SIZE;
-						temp[1].Y += matrix[1] * LEAF_SIZE;
-						temp[1].Z += matrix[2] * LEAF_SIZE;
-
-						temp[2].X -= matrix[0] * LEAF_SIZE;
-						temp[2].Y -= matrix[1] * LEAF_SIZE;
-						temp[2].Z -= matrix[2] * LEAF_SIZE;
-
-						falling = true;
-					}
-
-					//
-					// Transform the points.
-					//
-
-					for (j = 0; j < 3; j++)
-					{
-						POLY_transform(
-							temp[j].X,
-							temp[j].Y,
-							temp[j].Z,
-						   &pp[j]);
-
-						if (!pp[j].IsValid())
-						{
-							//
-							// Tell the DIRT module that the leaf is off-screen.
-							//
-
-							DIRT_mark_as_offscreen(i);
-
-							//
-							// Don't bother transforming the other points.
-							//
-
-							goto do_next_dirt;
-						}
-					}
-
-					if (POLY_valid_triangle(tri))
-					{
-						//
-						// The colour and texture of the leaf.
-						//
-
-						if (POLY_force_additive_alpha)
-						{
-							leaf_colour = leaf_colour_choice_grey[i & 0x3];
-						}
-						else
-						{
-							leaf_colour = leaf_colour_choice_rgb[i & 0x3];
-							leaf_colour = AENG_colour_mult(leaf_colour, NIGHT_amb_d3d_colour);
-						}
-
-						angle = float(i);
-
-						for (j = 0; j < 3; j++)
-						{
-						    pp[j].colour =  leaf_colour * (j + 3);
-							pp[j].colour  &= ~POLY_colour_restrict;
-#ifdef TARGET_DC
-							pp[j].colour |= 0xff000000;
-#endif
-							pp[j].specular =  0xff000000;
-							pp[j].u        =  LEAF_U(angle);
-							pp[j].v        =  LEAF_V(angle);
-
-							angle += 2.0F * PI / 3.0F;
-						}
-
-						POLY_add_triangle(tri, LEAF_PAGE, false);
-					}
-					else
-					{
-						//
-						// Tell the DIRT module that the leaf is off-screen.
-						//
-
-						DIRT_mark_as_offscreen(i);
-					}
-
-				}
-
-				break;
-
-			case DIRT_INFO_TYPE_PRIM:
-
-				extern std::uint8_t kludge_shrink;
-
-				if (di.held||(di.prim==253))
-				{
-					kludge_shrink = true;
-				}
-
-				MESH_draw_poly(
-					di.prim,
-					di.x,
-					di.y,
-					di.z,
-					di.yaw,
-					di.pitch,
-					di.roll,
-#ifdef TARGET_DC
-					nullptr,0xff,0);
-#else
-					nullptr,0,0);
-#endif
-
-				kludge_shrink = false;
-
-				break;
-
-			case DIRT_INFO_TYPE_MORPH:
-
-				MESH_draw_morph(
-					di.prim,
-					di.morph1,
-					di.morph2,
-					di.tween,
-					di.x,
-					di.y,
-					di.z,
-					di.yaw,
-					di.pitch,
-					di.roll,
-					nullptr);
-
-				break;
-
-			default:
-				ASSERT(0);
-				break;
-		}
-*/
 #endif
 
     do_next_dirt:;
@@ -3902,14 +4047,24 @@ void AENG_draw_dirt() {
             POLY_Page[POLY_PAGE_LEAF].RS.SetChanged();
         }
 
-        the_display.lp_D3D_Device->DrawIndexedPrimitive(
-            D3DPT_TRIANGLELIST,
-            D3DFVF_LVERTEX,
-            AENG_dirt_lvert,
-            AENG_dirt_lvert_upto,
-            AENG_dirt_index,
-            AENG_dirt_index_upto,
-            0);
+        // INSERT SNIPPET HERE
+        // Adjust y-coordinate for leaves before rendering them
+
+        // HRESULT result = the_display.lp_D3D_Device->DrawIndexedPrimitive(
+        //								D3DPT_TRIANGLELIST,
+        //								D3DFVF_LVERTEX,
+        //								AENG_dirt_lvert,
+        //								AENG_dirt_lvert_upto,
+        //								AENG_dirt_index,
+        //								AENG_dirt_index_upto,
+        //								0);
+
+        // if (FAILED(result))
+        //{
+        //	// Log or handle the error
+        //	TRACE("DrawIndexedPrimitive failed: %lx\n", result);
+        //	printf("lx \n", result);
+        // }
     }
 
     // TRACE ( "Drew %i bits of dirt\n", iDrawnDirtCount );
@@ -3943,7 +4098,7 @@ AENG_Pow *AENG_pow_bucket[AENG_POW_NUM_BUCKETS];
 // Draws the POWS
 //
 
-void AENG_draw_pows() {
+void AENG_draw_pows(void) {
     std::int32_t pow;
     std::int32_t sprite;
     std::int32_t bucket;
@@ -3996,7 +4151,7 @@ void AENG_draw_pows() {
                 ap->sy = pt.Y;
                 ap->sz = pt.z;
                 ap->Z = pt.Z;
-                ap->next = nullptr;
+                ap->next = NULL;
 
                 //
                 // Add to the bucket list.
@@ -4094,14 +4249,14 @@ void AENG_draw_pows() {
                 ppt[2].z = ap->sz;
                 ppt[3].z = ap->sz;
 
-                POLY_add_quad(quad, POLY_PAGE_EXPLODE1, false, true);
+                POLY_add_quad(quad, POLY_PAGE_EXPLODE1, FALSE, TRUE);
             }
         }
     }
 }
 
 #ifndef TARGET_DC
-void AENG_draw_released_balloons() {
+void AENG_draw_released_balloons(void) {
     std::int32_t i;
 
     BALLOON_Balloon *bb;
@@ -4159,8 +4314,8 @@ POLY_Point AENG_lower[MAP_WIDTH / 2 + MAP_SIZE_TWEAK * 2][MAP_HEIGHT / 2 + MAP_S
 #define AENG_SKY_TYPE_NIGHT 0
 #define AENG_SKY_TYPE_DAY 1
 
-std::int32_t AENG_torch_on = false;
-std::int32_t AENG_shadows_on = true;
+std::int32_t AENG_torch_on = FALSE;
+std::int32_t AENG_shadows_on = TRUE;
 std::int32_t AENG_sky_type = AENG_SKY_TYPE_DAY;
 std::uint32_t AENG_sky_colour_bot = 0x008890ee;
 std::uint32_t AENG_sky_colour_top = 0x006670cc;
@@ -4201,7 +4356,7 @@ void AENG_draw_rectr(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_
 }
 
 void AENG_draw_rect(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, std::int32_t col, std::int32_t layer, std::int32_t page);
-void draw_all_boxes() {
+void draw_all_boxes(void) {
     std::int32_t x, y, w, h, col, layer, page;
     std::int32_t c0;
 
@@ -4274,7 +4429,7 @@ void AENG_draw_rect(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t
     quad[2] = &pp[2];
     quad[3] = &pp[3];
 
-    POLY_add_quad(quad, page, false, true);
+    POLY_add_quad(quad, page, FALSE, TRUE);
 }
 
 void AENG_draw_col_tri(std::int32_t x0, std::int32_t y0, std::int32_t col0, std::int32_t x1, std::int32_t y1, std::int32_t col1, std::int32_t x2, std::int32_t y2, std::int32_t col2, std::int32_t layer) {
@@ -4336,7 +4491,7 @@ void AENG_draw_col_tri(std::int32_t x0, std::int32_t y0, std::int32_t col0, std:
             quad[2] = &pp[2];
             quad[3] = &pp[3];
 
-            POLY_add_quad(quad, POLY_PAGE_COLOUR, false, true);
+            POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE, TRUE);
     */
 
 #define AENG_BACKGROUND_COLOUR 0x55888800
@@ -4376,7 +4531,7 @@ void AENG_draw_col_tri(std::int32_t x0, std::int32_t y0, std::int32_t col0, std:
     tri[1] = &pp[1];
     tri[2] = &pp[2];
 
-    POLY_add_triangle(tri, POLY_PAGE_COLOUR, false, true);
+    POLY_add_triangle(tri, POLY_PAGE_COLOUR, FALSE, TRUE);
 }
 
 void show_gamut_lo(std::int32_t x, std::int32_t z) {
@@ -4422,18 +4577,18 @@ void show_facet(std::int32_t facet) {
     z2 -= (p_facet->Y[0] >> 8);
 
     switch (p_facet->Height) {
-        case 2:
-            colour = 0xff;
-            break;
-        case 3:
-            colour = 0xff00;
-            break;
-        case 4:
-            colour = 0x7f7f;
-            break;
-        case 5:
-            colour = 0xffff;
-            break;
+    case 2:
+        colour = 0xff;
+        break;
+    case 3:
+        colour = 0xff00;
+        break;
+    case 4:
+        colour = 0x7f7f;
+        break;
+    case 5:
+        colour = 0xffff;
+        break;
     }
 
     POLY_add_line_2d((float) x1, (float) z1, (float) x2, (float) z2, colour);
@@ -4442,8 +4597,6 @@ void show_facet(std::int32_t facet) {
 #endif
 
 void AENG_draw_people_messages() {
-    return;
-
     std::int32_t x;
     std::int32_t z;
 
@@ -4463,30 +4616,30 @@ void AENG_draw_people_messages() {
                     //
                 } else {
                     switch (p_thing->DrawType) {
-                        case DT_ROT_MULTI:
+                    case DT_ROT_MULTI:
 
-                            if (POLY_sphere_visible(
-                                    float(p_thing->WorldPos.X >> 8),
-                                    float(p_thing->WorldPos.Y >> 8) + KERB_HEIGHT,
-                                    float(p_thing->WorldPos.Z >> 8),
-                                    256.0F / (AENG_DRAW_DIST * 256.0F))) {
-                                char str[100];
-                                //								FIGURE_draw(p_thing);
+                        if (POLY_sphere_visible(
+                                float(p_thing->WorldPos.X >> 8),
+                                float(p_thing->WorldPos.Y >> 8) + KERB_HEIGHT,
+                                float(p_thing->WorldPos.Z >> 8),
+                                256.0F / (AENG_DRAW_DIST * 256.0F))) {
+                            char str[100];
+                            //								FIGURE_draw(p_thing);
 
-                                sprintf(str, "%d %d", p_thing->State, p_thing->SubState);
-                                AENG_world_text(
-                                    (p_thing->WorldPos.X >> 8),
-                                    (p_thing->WorldPos.Y >> 8) + 0x60,
-                                    (p_thing->WorldPos.Z >> 8),
-                                    200,
-                                    180,
-                                    50,
-                                    true,
-                                    str);
-                                //									PCOM_person_state_debug(p_thing));
-                            }
+                            sprintf(str, "%d %d", p_thing->State, p_thing->SubState);
+                            AENG_world_text(
+                                (p_thing->WorldPos.X >> 8),
+                                (p_thing->WorldPos.Y >> 8) + 0x60,
+                                (p_thing->WorldPos.Z >> 8),
+                                200,
+                                180,
+                                50,
+                                TRUE,
+                                str);
+                            //									PCOM_person_state_debug(p_thing));
+                        }
 
-                            break;
+                        break;
                     }
                 }
 
@@ -4585,22 +4738,22 @@ void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim) {
 
     for (i = 0; i < 4; i++) {
         switch (order[i]) {
-            case 0:
-                u = 16 + du1;
-                v = 16 + dv1;
-                break;
-            case 1:
-                u = 16 + dv1;
-                v = 16 - du1;
-                break;
-            case 2:
-                u = 16 - du1;
-                v = 16 - dv1;
-                break;
-            case 3:
-                u = 16 - dv1;
-                v = 16 + du1;
-                break;
+        case 0:
+            u = 16 + du1;
+            v = 16 + dv1;
+            break;
+        case 1:
+            u = 16 + dv1;
+            v = 16 - du1;
+            break;
+        case 2:
+            u = 16 - du1;
+            v = 16 - dv1;
+            break;
+        case 3:
+            u = 16 - dv1;
+            v = 16 + du1;
+            break;
         }
 
         f4[0].UV[i][0] &= ~0x3f;
@@ -4610,22 +4763,22 @@ void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim) {
         f4[0].UV[i][1] |= v;
 
         switch (order[i]) {
-            case 0:
-                u = 16 + du2;
-                v = 16 + dv2;
-                break;
-            case 1:
-                u = 16 + dv2;
-                v = 16 - du2;
-                break;
-            case 2:
-                u = 16 - du2;
-                v = 16 - dv2;
-                break;
-            case 3:
-                u = 16 - dv2;
-                v = 16 + du2;
-                break;
+        case 0:
+            u = 16 + du2;
+            v = 16 + dv2;
+            break;
+        case 1:
+            u = 16 + dv2;
+            v = 16 - du2;
+            break;
+        case 2:
+            u = 16 - du2;
+            v = 16 - dv2;
+            break;
+        case 3:
+            u = 16 - dv2;
+            v = 16 + du2;
+            break;
         }
 
         f4[1].UV[i][0] &= ~0x3f;
@@ -4782,7 +4935,7 @@ void AENG_draw_warehouse_floor_near_door(DFacet *df)
                                            &quad[3]->u,
                                            &quad[3]->v);
 
-                                POLY_add_quad(quad, page, true);
+                                POLY_add_quad(quad, page, TRUE);
                         }
                 }
         }
@@ -4913,14 +5066,14 @@ float AENG_draw_some_polys(bool large, bool blend) {
     BEGIN_SCENE;
 
     REALLY_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND, D3DTBLEND_MODULATE);
-    REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE, false);
-    REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE, false);
+    REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE, FALSE);
+    REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE, FALSE);
     if (blend) {
         REALLY_SET_RENDER_STATE(D3DRENDERSTATE_SRCBLEND, D3DBLEND_SRCALPHA);
         REALLY_SET_RENDER_STATE(D3DRENDERSTATE_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE, true);
+        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
     } else {
-        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE, false);
+        REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
     }
 
     if (large) {
@@ -5075,7 +5228,7 @@ std::uint16_t page_next[64 * 10][64 * 10];
 std::uint32_t group_upto = 1;
 
 #define MAX_PREV 8
-float how_good() {
+float how_good(void) {
     std::int32_t x, z;
     std::int32_t page, my_group = 0, prev_group[10];
     std::int32_t bucket_group[10], bucket_length[10], bucket = 0;
@@ -5183,7 +5336,7 @@ float how_good() {
 }
 std::uint16_t frequency[64 * 10];
 
-float init_groups2() {
+float init_groups2(void) {
     std::int32_t x, z;
     std::int32_t page, p1, p2;
     std::int32_t highest, best;
@@ -5416,7 +5569,7 @@ float init_groups2() {
 #define MAX_DRAW_WIDTH 128
 
 struct FloorStore {
-    std::uint32_t Color;
+    std::uint32_t Colour;
     //	std::uint32_t	Specular;        // is this needed?
     float Alt;
     std::uint16_t Flags;   // not really needed
@@ -5477,7 +5630,7 @@ inline void cache_a_row(std::int32_t x, std::int32_t z, struct FloorStore *p2, s
 
         NIGHT_get_d3d_colour_and_fade(
                 nq->colour[dx + dz * PAP_BLOCKS],
-           &p2->Color,
+           &p2->Colour,
            &spec,dist);
 
         */
@@ -5489,17 +5642,11 @@ inline void cache_a_row(std::int32_t x, std::int32_t z, struct FloorStore *p2, s
             std::int32_t g = col->green << 2;
             std::int32_t b = col->blue << 2;
 
-            if (r > 255) {
-                r = 255;
-            }
-            if (g > 255) {
-                g = 255;
-            }
-            if (b > 255) {
-                b = 255;
-            }
+            if (r > 255) { r = 255; }
+            if (g > 255) { g = 255; }
+            if (b > 255) { b = 255; }
 
-            p2->Color = (r << 16) | (g << 8) | b;
+            p2->Colour = (r << 16) | (g << 8) | b;
         }
 
         p2->Flags = ph->Flags;
@@ -5517,7 +5664,7 @@ inline void cache_a_row(std::int32_t x, std::int32_t z, struct FloorStore *p2, s
                 // Too close to camera- set the alpha of the colour.
                 //
 
-                p2->Color |= 0x01000000;
+                p2->Colour |= 0x01000000;
         }
 
         */
@@ -5671,7 +5818,7 @@ inline std::int32_t add_kerb(float alt1, float alt2, std::int32_t x, std::int32_
                     // Too close the camera!
                     //
 
-                    return false;
+                    return FALSE;
                 }
             }
         }
@@ -5699,7 +5846,7 @@ inline std::int32_t add_kerb(float alt1, float alt2, std::int32_t x, std::int32_
         *p_indicies++ = 0xffff;
     }
 
-    return true;
+    return TRUE;
 }
 
 inline void draw_i_prim(LPDIRECT3DTEXTURE2 page, D3DLVERTEX *verts, std::uint16_t *indicies, std::int32_t *vert_count, std::int32_t *index_count, D3DMULTIMATRIX *mm_draw_floor) {
@@ -5742,7 +5889,7 @@ int m_iDrawThingCount = 0;
 // Look Mike, when I say "don't put stuff on the stack", I mean
 // DONT PUT STUFF ON THE STACK. And it's "indices" - only two "i"s.
 std::uint8_t m_vert_mem_block32[sizeof(D3DLVERTEX) * KERB_VERTS + sizeof(D3DLVERTEX) * MAX_VERTS_FOR_STRIPS * IPRIM_COUNT + 32]; // used to 32 byte align the vertex memory
-std::uint16_t m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1];                                                               // data for verts, on stack or not?
+std::uint16_t m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1];                                                                // data for verts, on stack or not?
 
 struct GroupInfo {
     LPDIRECT3DTEXTURE2 page; // ptr to actual page to use for drawing
@@ -5793,25 +5940,25 @@ inline void general_steam(std::int32_t x, std::int32_t z, std::uint16_t texture,
         if (dist < 15) {
             std::int32_t sx, sy, sz;
             switch ((texture >> 0xa) & 0x3) {
-                case 0:
-                    sx = 190;
-                    sz = 128;
-                    break;
-                case 1:
-                    sx = 128;
-                    sz = 66;
-                    break;
-                case 2:
-                    sx = 66;
-                    sz = 128;
-                    break;
-                case 3:
-                    sx = 128;
-                    sz = 190;
-                    break;
-                default:
-                    ASSERT(0);
-                    break;
+            case 0:
+                sx = 190;
+                sz = 128;
+                break;
+            case 1:
+                sx = 128;
+                sz = 66;
+                break;
+            case 2:
+                sx = 66;
+                sz = 128;
+                break;
+            case 3:
+                sx = 128;
+                sz = 190;
+                break;
+            default:
+                ASSERT(0);
+                break;
             }
             sx += x << 8;
             sz += z << 8;
@@ -5904,8 +6051,8 @@ void draw_quick_floor(std::int32_t warehouse) {
     m_view = (D3DMATRIX *) ptr32;
 
     mm_draw_floor.lpd3dMatrices = m_view;
-    mm_draw_floor.lpvLightDirs = nullptr;
-    mm_draw_floor.lpLightTable = nullptr;
+    mm_draw_floor.lpvLightDirs = NULL;
+    mm_draw_floor.lpLightTable = NULL;
 
     ptr32 = (std::uint8_t *) (((std::uint32_t) (m_vert_mem_block32 + 32)) & 0xffffffe0);
 
@@ -5928,11 +6075,11 @@ void draw_quick_floor(std::int32_t warehouse) {
 
     /*
             REALLY_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREMAPBLEND,D3DTBLEND_MODULATE);
-            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,true);
-            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,true);
+            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZENABLE,TRUE);
+            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZWRITEENABLE,TRUE);
             REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ZBIAS,0);
-            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,false);
-            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,false);
+            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_ALPHABLENDENABLE,FALSE);
+            REALLY_SET_RENDER_STATE(D3DRENDERSTATE_FOGENABLE,FALSE);
             REALLY_SET_RENDER_STATE(D3DRENDERSTATE_TEXTUREADDRESS,D3DTADDRESS_CLAMP);
     */
 
@@ -5944,7 +6091,7 @@ void draw_quick_floor(std::int32_t warehouse) {
     // REALLY_SET_RENDER_STATE(D3DRENDERSTATE_CULLMODE,D3DCULL_CCW);
 
     //	GenerateMMMatrixFromStandardD3DOnes (m_view,g_matProjection,g_matWorld,g_viewData);
-    GenerateMMMatrixFromStandardD3DOnes(m_view, &g_matProjection, nullptr, &g_viewData);
+    GenerateMMMatrixFromStandardD3DOnes(m_view, &g_matProjection, NULL, &g_viewData);
 
     //	colour   = 0x00888888;
     //	specular = 0xff000000;
@@ -6043,7 +6190,7 @@ void draw_quick_floor(std::int32_t warehouse) {
                             draw_i_prim(POLY_Page[0].RS.GetTexture(), kerb_verts, kerb_indicies, &kerb_countv, &kerb_counti, &mm_draw_floor);
                         }
 
-                        if (add_kerb((p1 + 1)->Alt, (p2 + 1)->Alt, x + 1, z, 0, 1, &kerb_verts[kerb_countv], &kerb_indicies[kerb_counti], kerb_countv, (p1 + 1)->Color, (p2 + 1)->Color, s1)) {
+                        if (add_kerb((p1 + 1)->Alt, (p2 + 1)->Alt, x + 1, z, 0, 1, &kerb_verts[kerb_countv], &kerb_indicies[kerb_counti], kerb_countv, (p1 + 1)->Colour, (p2 + 1)->Colour, s1)) {
                             kerb_countv += 4;
                             kerb_counti += 5;
                         }
@@ -6061,7 +6208,7 @@ void draw_quick_floor(std::int32_t warehouse) {
                             draw_i_prim(POLY_Page[0].RS.GetTexture(), kerb_verts, kerb_indicies, &kerb_countv, &kerb_counti, &mm_draw_floor);
                         }
 
-                        if (add_kerb((p2)->Alt, (p2 + 1)->Alt, x, z + 1, 1, 0, &kerb_verts[kerb_countv], &kerb_indicies[kerb_counti], kerb_countv, (p2)->Color, (p2 + 1)->Color, s2)) {
+                        if (add_kerb((p2)->Alt, (p2 + 1)->Alt, x, z + 1, 1, 0, &kerb_verts[kerb_countv], &kerb_indicies[kerb_counti], kerb_countv, (p2)->Colour, (p2 + 1)->Colour, s2)) {
                             kerb_countv += 4;
                             kerb_counti += 5;
                         }
@@ -6221,28 +6368,28 @@ void draw_quick_floor(std::int32_t warehouse) {
 
                 pv->x = x * 256.0F;
                 pv->z = z * 256.0F;
-                pv->color = p1->Color; // 0xff808080;//202020;
+                pv->color = p1->Colour; // 0xff808080;//202020;
                 pv->specular = 0xff000000;
                 SET_MM_INDEX(*pv, 0);
                 pv++;
 
                 pv->x = (x + 1) * 256.0F;
                 pv->z = z * 256.0F;
-                pv->color = (p1 + 1)->Color; // 202020;
+                pv->color = (p1 + 1)->Colour; // 202020;
                 pv->specular = 0xff000000;
                 SET_MM_INDEX(*pv, 0);
                 pv++;
 
                 pv->x = (x + 1) * 256.0F;
                 pv->z = (z + 1) * 256.0F;
-                pv->color = (p2 + 1)->Color; // 202020;
+                pv->color = (p2 + 1)->Colour; // 202020;
                 pv->specular = 0xff000000;
                 SET_MM_INDEX(*pv, 0);
                 pv++;
 
                 pv->x = x * 256.0F;
                 pv->z = (z + 1) * 256.0F;
-                pv->color = p2->Color; // 202020;
+                pv->color = p2->Colour; // 202020;
                 pv->specular = 0xff000000;
                 SET_MM_INDEX(*pv, 0);
                 //			pv++;
@@ -6289,7 +6436,7 @@ void draw_quick_floor(std::int32_t warehouse) {
 
 #ifdef DEBUG
 #ifdef TARGET_DC
-            // Color the vertices.
+            // Colour the vertices.
 #define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
                 extern DIJOYSTATE the_state;
                 if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
@@ -6417,53 +6564,53 @@ void draw_quick_floor(std::int32_t warehouse) {
 
                     switch (is_shadow) // p1->Flags & (PAP_FLAG_SHADOW_1|PAP_FLAG_SHADOW_2|PAP_FLAG_SHADOW_3))
                     {
-                        case 0:
-                            ASSERT(0); // We shouldn't be doing any of this in this case.
-                            break;
+                    case 0:
+                        ASSERT(0); // We shouldn't be doing any of this in this case.
+                        break;
 
-                        case 1:
-                            HALF_COL(pv[0].color);
-                            HALF_COL(pv[3].color);
+                    case 1:
+                        HALF_COL(pv[0].color);
+                        HALF_COL(pv[3].color);
 
-                            break;
+                        break;
 
-                        case 2:
-                        case 6:
-                            HALF_COL(pv[4].color);
-                            HALF_COL(pv[3].color);
-                            HALF_COL(pv[0].color);
-                            // HALF_COL(pv[2].color);
+                    case 2:
+                    case 6:
+                        HALF_COL(pv[4].color);
+                        HALF_COL(pv[3].color);
+                        HALF_COL(pv[0].color);
+                        // HALF_COL(pv[2].color);
 
-                            break;
+                        break;
 
-                        case 3:
-                            HALF_COL(pv[4].color);
-                            HALF_COL(pv[3].color);
+                    case 3:
+                        HALF_COL(pv[4].color);
+                        HALF_COL(pv[3].color);
 
-                            break;
+                        break;
 
-                        case 4:
-                            HALF_COL(pv[2].color);
-                            HALF_COL(pv[3].color);
-                            HALF_COL(pv[4].color);
+                    case 4:
+                        HALF_COL(pv[2].color);
+                        HALF_COL(pv[3].color);
+                        HALF_COL(pv[4].color);
 
-                            break;
+                        break;
 
-                        case 5:
-                            HALF_COL(pv[2].color);
-                            HALF_COL(pv[0].color);
-                            HALF_COL(pv[4].color);
-                            HALF_COL(pv[3].color);
-                            break;
+                    case 5:
+                        HALF_COL(pv[2].color);
+                        HALF_COL(pv[0].color);
+                        HALF_COL(pv[4].color);
+                        HALF_COL(pv[3].color);
+                        break;
 
-                        case 7:
-                            HALF_COL(pv[2].color);
-                            HALF_COL(pv[4].color);
-                            break;
+                    case 7:
+                        HALF_COL(pv[2].color);
+                        HALF_COL(pv[4].color);
+                        break;
 
-                        default:
-                            ASSERT(0);
-                            break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
                     pv += 5;
 
@@ -6541,9 +6688,9 @@ int m_iDCFramerateMin = 15;
 int m_iDCFramerateMax = 18;
 #endif
 
-bool m_bTweakFramerates = false;
+bool m_bTweakFramerates = FALSE;
 
-void fiddle_draw_distance_DC() {
+void fiddle_draw_distance_DC(void) {
     // #ifdef DEBUG
 
 #define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
@@ -6692,7 +6839,7 @@ void AENG_draw_city() {
     static int sea_offset = 0;
 
     AENG_total_polys_drawn = 0;
-    void draw_all_boxes();
+    void draw_all_boxes(void);
     draw_all_boxes();
 
     extern std::int32_t tick_tock_unclipped;
@@ -6703,7 +6850,7 @@ void AENG_draw_city() {
 	// For some reason the PC version decides not to call this.
 	// I think they have some mad scheme of calling it in the previous
 	// frame, but it really screws things up. STOP IT!
-	POLY_frame_init(true,true);
+	POLY_frame_init(TRUE,TRUE);
 #endif
 #endif
 
@@ -6726,29 +6873,29 @@ void AENG_draw_city() {
                     //
                 } else {
                     switch (p_thing->Class) {
-                        case CLASS_PERSON:
+                    case CLASS_PERSON:
 
-                            //
-                            // We only have a rejection test for people now.
-                            //
+                        //
+                        // We only have a rejection test for people now.
+                        //
 
-                            if (p_thing->Genus.Person->PlayerID && !p_thing->Genus.Person->Ware)
-                                p_thing->Flags |= FLAGS_IN_VIEW;
-                            else if (!p_thing->Genus.Person->Ware && FC_can_see_person(AENG_cur_fc_cam, p_thing)) {
-                                if (POLY_sphere_visible(
-                                        float(p_thing->WorldPos.X >> 8),
-                                        float(p_thing->WorldPos.Y >> 8) + 0x80,
-                                        float(p_thing->WorldPos.Z >> 8),
-                                        256.0F / (AENG_DRAW_DIST * 256.0F))) {
-                                    p_thing->Flags |= FLAGS_IN_VIEW;
-                                }
-                            }
-
-                            break;
-
-                        default:
+                        if (p_thing->Genus.Person->PlayerID && !p_thing->Genus.Person->Ware)
                             p_thing->Flags |= FLAGS_IN_VIEW;
-                            break;
+                        else if (!p_thing->Genus.Person->Ware && FC_can_see_person(AENG_cur_fc_cam, p_thing)) {
+                            if (POLY_sphere_visible(
+                                    float(p_thing->WorldPos.X >> 8),
+                                    float(p_thing->WorldPos.Y >> 8) + 0x80,
+                                    float(p_thing->WorldPos.Z >> 8),
+                                    256.0F / (AENG_DRAW_DIST * 256.0F))) {
+                                p_thing->Flags |= FLAGS_IN_VIEW;
+                            }
+                        }
+
+                        break;
+
+                    default:
+                        p_thing->Flags |= FLAGS_IN_VIEW;
+                        break;
                     }
                 }
 
@@ -6782,18 +6929,18 @@ void AENG_draw_city() {
 
     if (INDOORS_INDEX) {
 #ifndef TARGET_DC
-        POLY_frame_draw(true, true);
-        POLY_frame_init(true, true);
+        POLY_frame_draw(TRUE, TRUE);
+        POLY_frame_init(TRUE, TRUE);
 #endif
         if (INDOORS_INDEX_NEXT)
             AENG_draw_inside_floor(INDOORS_INDEX_NEXT, INDOORS_ROOM_NEXT, 0);
 
-        //		POLY_frame_draw(true,true);
+        //		POLY_frame_draw(TRUE,TRUE);
         if (INDOORS_INDEX)
             AENG_draw_inside_floor(INDOORS_INDEX, INDOORS_ROOM, INDOORS_INDEX_FADE);
 #ifndef TARGET_DC
-        POLY_frame_draw(true, true);
-        POLY_frame_init(true, true);
+        POLY_frame_draw(TRUE, TRUE);
+        POLY_frame_init(TRUE, TRUE);
 #endif
         //		return;
     }
@@ -6838,7 +6985,7 @@ void AENG_draw_city() {
                 world_y = ph->Alt * float(1 << ALT_SHIFT);
                 world_z = z * 256.0F;
 
-                worked_out_colour = false;
+                worked_out_colour = FALSE;
 
                 if (!(ph->Flags & PAP_FLAG_NOUPPER)) {
                     pp = &AENG_upper[x & 63][z & 63];
@@ -6876,7 +7023,7 @@ void AENG_draw_city() {
 
                             square = NIGHT_cache[px][pz];
 
-                            ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
+                            // ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
                             ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
 
                             nq = &NIGHT_square[square];
@@ -6896,7 +7043,7 @@ void AENG_draw_city() {
                         colour = pp->colour;
                         specular = pp->specular;
 
-                        worked_out_colour = true;
+                        worked_out_colour = TRUE;
                     }
                 }
 
@@ -7206,7 +7353,7 @@ void AENG_draw_city() {
                 std::int32_t mz1;
                 std::int32_t mx2;
                 std::int32_t mz2;
-                std::int32_t exit = false;
+                std::int32_t exit = FALSE;
 
                 std::int32_t mx_lo;
                 std::int32_t mz_lo;
@@ -7357,7 +7504,7 @@ void AENG_draw_city() {
                         v_list = PAP_2LO(mx_lo, mz_lo).ColVectHead;
 
                         if (v_list) {
-                            exit = false;
+                            exit = FALSE;
 
                             while (!exit) {
                                 i_vect = facet_links[v_list];
@@ -7365,7 +7512,7 @@ void AENG_draw_city() {
                                 if (i_vect < 0) {
                                     i_vect = -i_vect;
 
-                                    exit = true;
+                                    exit = TRUE;
                                 }
 
                                 df = &dfacets[i_vect];
@@ -7577,7 +7724,7 @@ void AENG_draw_city() {
             bbox[0].x2 = MIN((std::int32_t)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
             bbox[0].y2 = MIN((std::int32_t)moon_y2, DisplayHeight);
 
-            bbox[0].water_box = false;
+            bbox[0].water_box = FALSE;
 
             bbox_upto = 1;
 
@@ -7722,7 +7869,7 @@ void AENG_draw_city() {
                                                             oi->y,
                                                             oi->z,
                                                             oi->yaw,
-                                                            nullptr);
+                                                            NULL);
                                             }
                                     }
                             }
@@ -7753,8 +7900,8 @@ void AENG_draw_city() {
         //
 
 #ifndef TARGET_DC
-        POLY_frame_draw(false, false);
-        POLY_frame_init(true, true);
+        POLY_frame_draw(FALSE, FALSE);
+        POLY_frame_init(TRUE, TRUE);
 #endif
         BreakTime("Done first poly flush");
     }
@@ -7789,7 +7936,8 @@ void AENG_draw_city() {
                 {0.0F, 0.0F},
                 {1.0F, 0.0F},
                 {1.0F, 1.0F},
-                {0.0F, 1.0F}};
+                {0.0F, 1.0F}
+        };
 
         POLY_Point pp[4];
         POLY_Point *quad[4];
@@ -7825,12 +7973,8 @@ void AENG_draw_city() {
                         pp[i].v = ((i & 0x2) ? float(pi->v1) : float(pi->v2)) * (1.0F / 256.0F);
                         pp[i].colour = 0xffffffff;
 
-                        if (ControlFlag) {
-                            pp[i].colour = 0x44ffffff;
-                        }
-                        if (ShiftFlag) {
-                            pp[i].colour = 0x88ffffff;
-                        }
+                        if (ControlFlag) { pp[i].colour = 0x44ffffff; }
+                        if (ShiftFlag) { pp[i].colour = 0x88ffffff; }
 
                         pp[i].specular = 0xff000000;
                     } else {
@@ -7885,7 +8029,7 @@ void AENG_draw_city() {
                         SWAP_FL(pp[3].v, pp[2].v);
                     }
 
-                    POLY_add_quad(quad, POLY_PAGE_PUDDLE, false);
+                    POLY_add_quad(quad, POLY_PAGE_PUDDLE, FALSE);
 
                     if (pi->puddle_s1 | pi->puddle_s2) {
                         //
@@ -7903,18 +8047,10 @@ void AENG_draw_city() {
                             px = std::int32_t(pp[i].X);
                             py = std::int32_t(pp[i].Y);
 
-                            if (px < px1) {
-                                px1 = px;
-                            }
-                            if (py < py1) {
-                                py1 = py;
-                            }
-                            if (px > px2) {
-                                px2 = px;
-                            }
-                            if (py > py2) {
-                                py2 = py;
-                            }
+                            if (px < px1) { px1 = px; }
+                            if (py < py1) { py1 = py; }
+                            if (px > px2) { px2 = px; }
+                            if (py > py2) { py2 = py; }
                         }
 
                         //
@@ -8071,7 +8207,7 @@ void AENG_draw_city() {
                             &quad[3]->v);
                     }
 
-                    POLY_add_quad(quad, page, false);
+                    POLY_add_quad(quad, page, FALSE);
 
                     //
                     // Restore old colour info.
@@ -8220,7 +8356,7 @@ void AENG_draw_city() {
 
                                                     if (POLY_valid_quad(quad))
                                                     {
-                                                            POLY_add_quad(quad, POLY_PAGE_SEWATER, false);
+                                                            POLY_add_quad(quad, POLY_PAGE_SEWATER, FALSE);
                                                     }
                                             }
 
@@ -8293,7 +8429,7 @@ void AENG_draw_city() {
 #endif
 
 #ifndef TARGET_DC
-        POLY_frame_init(true, true);
+        POLY_frame_init(TRUE, TRUE);
 #endif
     }
     BreakTime("Done second polygon flush");
@@ -8330,7 +8466,6 @@ void AENG_draw_city() {
     // Create all the squares.
     //
 
-    //
     // draw floor draw_floor  //things to search for
     //
 
@@ -8343,6 +8478,9 @@ void AENG_draw_city() {
         if (!INDOORS_INDEX || outside)
             for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
                 for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
+                    //if (DebugVars::getInstance().GetDisableFloorsRender()) {
+                    //    continue;
+                    //}
                     ASSERT(WITHIN(x, 0, PAP_SIZE_HI - 2));
                     ASSERT(WITHIN(z, 0, PAP_SIZE_HI - 2));
 
@@ -8353,7 +8491,9 @@ void AENG_draw_city() {
                     }
 
 #ifdef FAST_EDDIE
-                    if (Keys[KB_1] && ((x ^ z) & 1)) continue;
+                    if (Keys[KB_1] && ((x ^ z) & 1)) {
+                        continue;
+                    }
 #endif
 
                     /*
@@ -8519,25 +8659,25 @@ void AENG_draw_city() {
                                             std::int32_t sx, sy, sz;
                                             void draw_steam(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t lod);
                                             switch ((ph->Texture >> 0xa) & 0x3) {
-                                                case 0:
-                                                    sx = 190;
-                                                    sz = 128;
-                                                    break;
-                                                case 1:
-                                                    sx = 128;
-                                                    sz = 66;
-                                                    break;
-                                                case 2:
-                                                    sx = 66;
-                                                    sz = 128;
-                                                    break;
-                                                case 3:
-                                                    sx = 128;
-                                                    sz = 190;
-                                                    break;
-                                                default:
-                                                    ASSERT(0);
-                                                    break;
+                                            case 0:
+                                                sx = 190;
+                                                sz = 128;
+                                                break;
+                                            case 1:
+                                                sx = 128;
+                                                sz = 66;
+                                                break;
+                                            case 2:
+                                                sx = 66;
+                                                sz = 128;
+                                                break;
+                                            case 3:
+                                                sx = 128;
+                                                sz = 190;
+                                                break;
+                                            default:
+                                                ASSERT(0);
+                                                break;
                                             }
                                             sx += x << 8;
                                             sz += z << 8;
@@ -8572,15 +8712,9 @@ void AENG_draw_city() {
                                         green -= 120;
                                         blue -= 120;
 
-                                        if (red < 0) {
-                                            red = 0;
-                                        }
-                                        if (green < 0) {
-                                            green = 0;
-                                        }
-                                        if (blue < 0) {
-                                            blue = 0;
-                                        }
+                                        if (red < 0) { red = 0; }
+                                        if (green < 0) { green = 0; }
+                                        if (blue < 0) { blue = 0; }
 
                                         ps[i].colour = (red << 16) | (green << 8) | (blue << 0) | (0xff000000);
                                     }
@@ -8588,127 +8722,127 @@ void AENG_draw_city() {
                                     ASSERT(PAP_FLAG_SHADOW_1 == 1);
 
                                     switch (ph->Flags & (PAP_FLAG_SHADOW_1 | PAP_FLAG_SHADOW_2 | PAP_FLAG_SHADOW_3)) {
-                                        case 0:
-                                            ASSERT(0); // We shouldn't be doing any of this in this case.
-                                            break;
+                                    case 0:
+                                        ASSERT(0); // We shouldn't be doing any of this in this case.
+                                        break;
 
-                                        case 1:
+                                    case 1:
 
-                                            tri[0] = &ps[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = &ps[2];
+                                        tri[0] = &ps[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = quad[3];
-                                            tri[2] = quad[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = quad[3];
+                                        tri[2] = quad[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        case 2:
+                                    case 2:
 
-                                            tri[0] = &ps[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = &ps[2];
+                                        tri[0] = &ps[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = quad[3];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = quad[3];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        case 3:
+                                    case 3:
 
-                                            // ps[2].colour += 0x00101010;
+                                        // ps[2].colour += 0x00101010;
 
-                                            tri[0] = quad[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = quad[3];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = quad[3];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        case 4:
+                                    case 4:
 
-                                            tri[0] = quad[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = &ps[3];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = &ps[3];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        case 5:
+                                    case 5:
 
-                                            tri[0] = &ps[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = &ps[2];
+                                        tri[0] = &ps[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = &ps[3];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = &ps[3];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        case 6:
+                                    case 6:
 
-                                            tri[0] = &ps[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = &ps[2];
+                                        tri[0] = &ps[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = quad[3];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = quad[3];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        case 7:
+                                    case 7:
 
-                                            tri[0] = quad[0];
-                                            tri[1] = quad[1];
-                                            tri[2] = quad[2];
+                                        tri[0] = quad[0];
+                                        tri[1] = quad[1];
+                                        tri[2] = quad[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            tri[0] = quad[1];
-                                            tri[1] = &ps[3];
-                                            tri[2] = &ps[2];
+                                        tri[0] = quad[1];
+                                        tri[1] = &ps[3];
+                                        tri[2] = &ps[2];
 
-                                            POLY_add_triangle(tri, page, true);
+                                        POLY_add_triangle(tri, page, TRUE);
 
-                                            break;
+                                        break;
 
-                                        default:
-                                            ASSERT(0);
-                                            break;
+                                    default:
+                                        ASSERT(0);
+                                        break;
                                     }
                                 } else {
 #if 0
@@ -8729,7 +8863,7 @@ void AENG_draw_city() {
 										// Too far away to be crinkled.
 										//
 
-										POLY_add_quad(quad, page, false);
+										POLY_add_quad(quad, page, FALSE);
 									}
 									else
 									if (quad[0]->z < 0.2F)
@@ -8743,7 +8877,7 @@ void AENG_draw_city() {
 											page,
 											1.0F,
 											quad,
-											false);
+											FALSE);
 									}
 									else
 									{
@@ -8772,11 +8906,11 @@ void AENG_draw_city() {
 												page,
 												extrude,
 												quad,
-												false);
+												FALSE);
 										}
 										else
 										{
-											POLY_add_quad(quad, page, false);
+											POLY_add_quad(quad, page, FALSE);
 										}
 									}
 								}
@@ -8784,7 +8918,7 @@ void AENG_draw_city() {
 
 #endif
                                     {
-                                        POLY_add_quad(quad, page, false);
+                                        POLY_add_quad(quad, page, FALSE);
                                     }
                                 }
                             }
@@ -8808,10 +8942,11 @@ void AENG_draw_city() {
 
                         } curb[4] =
                             {
-                                {0, 0, 0, 1, -1, 0},
-                                {0, 1, 1, 1, 0, +1},
-                                {1, 1, 1, 0, +1, 0},
-                                {1, 0, 0, 0, 0, -1}};
+                                {0, 0, 0, 1, -1, 0 },
+                                {0, 1, 1, 1, 0,  +1},
+                                {1, 1, 1, 0, +1, 0 },
+                                {1, 0, 0, 0, 0,  -1}
+                        };
 
                         for (i = 0; i < 4; i++) {
                             nx = x + curb[i].dsx;
@@ -8845,7 +8980,7 @@ void AENG_draw_city() {
                                         // Add the poly.
                                         //
 
-                                        POLY_add_quad(quad, page, true);
+                                        POLY_add_quad(quad, page, TRUE);
                                     }
                                 }
                             }
@@ -8861,8 +8996,8 @@ void AENG_draw_city() {
 
     ANNOYINGSCRIBBLECHECK;
 
-    //	POLY_frame_draw(false,false);
-    //	POLY_frame_init(true,true);
+    //	POLY_frame_draw(FALSE,FALSE);
+    //	POLY_frame_init(TRUE,TRUE);
     //	BreakTime("Done another flush");
 
     //
@@ -8947,17 +9082,17 @@ void AENG_draw_city() {
                             }
                         } else if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
                             switch (oi->prim) {
-                                case 2:
-                                    /*
-                                    BLOOM_draw(oi->x+270,oi->y+350,oi->z, 0,-255,0,0x7f6500,BLOOM_BEAM);
-                                    BLOOM_draw(oi->x-270,oi->y+350,oi->z, 0,-255,0,0x7f6500,BLOOM_BEAM);
-                                    BLOOM_draw(oi->x,oi->y+350,oi->z+270, 0,-255,0,0x7f6500,BLOOM_BEAM);
-                                    BLOOM_draw(oi->x,oi->y+350,oi->z-270, 0,-255,0,0x7f6500,BLOOM_BEAM);
-                                    */
-                                    break;
-                                case 190:
-                                    BLOOM_draw(oi->x, oi->y, oi->z, 0, 0, 0, 0x808080, 0);
-                                    break;
+                            case 2:
+                                /*
+                                BLOOM_draw(oi->x+270,oi->y+350,oi->z, 0,-255,0,0x7f6500,BLOOM_BEAM);
+                                BLOOM_draw(oi->x-270,oi->y+350,oi->z, 0,-255,0,0x7f6500,BLOOM_BEAM);
+                                BLOOM_draw(oi->x,oi->y+350,oi->z+270, 0,-255,0,0x7f6500,BLOOM_BEAM);
+                                BLOOM_draw(oi->x,oi->y+350,oi->z-270, 0,-255,0,0x7f6500,BLOOM_BEAM);
+                                */
+                                break;
+                            case 190:
+                                BLOOM_draw(oi->x, oi->y, oi->z, 0, 0, 0, 0x808080, 0);
+                                break;
                             }
                         }
 
@@ -8980,8 +9115,8 @@ void AENG_draw_city() {
         ANNOYINGSCRIBBLECHECK;
 
         BreakTime("Drawn prims");
-        //		POLY_frame_draw(false,false);
-        //		POLY_frame_init(true,true);
+        //		POLY_frame_draw(FALSE,FALSE);
+        //		POLY_frame_init(TRUE,TRUE);
         //		BreakTime("Flushed prims");
 
         LOG_ENTER(AENG_Draw_Facets)
@@ -8990,6 +9125,8 @@ void AENG_draw_city() {
 
         for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
             for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
+                // sciany
+                //
                 //
                 // The cached lighting for this low-res mapsquare.
                 //
@@ -9005,7 +9142,7 @@ void AENG_draw_city() {
                     std::int32_t f_list;
                     std::int32_t facet;
                     std::int32_t build;
-                    std::int32_t exit = false;
+                    std::int32_t exit = FALSE;
 
                     f_list = PAP_2LO(x, z).ColVectHead;
 
@@ -9036,7 +9173,7 @@ void AENG_draw_city() {
                                 //
 
                                 facet = -facet;
-                                exit = true;
+                                exit = TRUE;
                             }
 
                             if (dfacets[facet].Counter[AENG_cur_fc_cam] != SUPERMAP_counter[AENG_cur_fc_cam]) {
@@ -9065,7 +9202,7 @@ void AENG_draw_city() {
                                     // the facet.
                                     //
 
-                                    AENG_draw_box_around_recessed_door(&dfacets[facet], false);
+                                    AENG_draw_box_around_recessed_door(&dfacets[facet], FALSE);
                                 } else {
                                     //
                                     // Draw the facet.
@@ -9080,24 +9217,24 @@ void AENG_draw_city() {
                                     //
 
                                     switch (dfacets[facet].FacetType) {
-                                        case STOREY_TYPE_NORMAL:
+                                    case STOREY_TYPE_NORMAL:
 
-                                            if (build) {
-                                                if (dbuildings[build].Counter[AENG_cur_fc_cam] != SUPERMAP_counter[AENG_cur_fc_cam]) {
-                                                    //
-                                                    // Draw all the walkable faces for this building.
-                                                    //
+                                        if (build) {
+                                            if (dbuildings[build].Counter[AENG_cur_fc_cam] != SUPERMAP_counter[AENG_cur_fc_cam]) {
+                                                //
+                                                // Draw all the walkable faces for this building.
+                                                //
 
-                                                    FACET_draw_walkable(build);
+                                                FACET_draw_walkable(build);
 
-                                                    //
-                                                    // Mark the buiding as procesed this gameturn.
-                                                    //
+                                                //
+                                                // Mark the buiding as procesed this gameturn.
+                                                //
 
-                                                    dbuildings[build].Counter[AENG_cur_fc_cam] = SUPERMAP_counter[AENG_cur_fc_cam];
-                                                }
+                                                dbuildings[build].Counter[AENG_cur_fc_cam] = SUPERMAP_counter[AENG_cur_fc_cam];
                                             }
-                                            break;
+                                        }
+                                        break;
                                     }
                                 }
                             }
@@ -9111,8 +9248,8 @@ void AENG_draw_city() {
 
         BreakFacets(dfacets_drawn_this_gameturn);
         BreakTime("Drawn facets");
-        //		POLY_frame_draw(false,false);
-        //		POLY_frame_init(true,true);
+        //		POLY_frame_draw(FALSE,FALSE);
+        //		POLY_frame_init(TRUE,TRUE);
         //		BreakTime("Flushed facets");
 
         LOG_EXIT(AENG_Draw_Facets)
@@ -9123,6 +9260,9 @@ void AENG_draw_city() {
 
         for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
             for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
+                //if (DebugVars::getInstance().GetDisableThingsRender()) {
+                //    continue;
+                //}
                 //
                 // The cached lighting for this low-res mapsquare.
                 //
@@ -9138,544 +9278,544 @@ void AENG_draw_city() {
                     if (p_thing->Flags & FLAGS_IN_VIEW) {
                         //						p_thing->Flags &=~FLAGS_IN_VIEW;
                         switch (p_thing->DrawType) {
-                            case DT_NONE:
-                                break;
+                        case DT_NONE:
+                            break;
 
-                            case DT_BUILDING:
-                                break;
+                        case DT_BUILDING:
+                            break;
 
-                            case DT_PRIM:
-                                break;
-                            case DT_ANIM_PRIM:
-                                extern void ANIM_obj_draw(Thing * p_thing, DrawTween * dt);
-                                ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
+                        case DT_PRIM:
+                            break;
+                        case DT_ANIM_PRIM:
+                            extern void ANIM_obj_draw(Thing * p_thing, DrawTween * dt);
+                            ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
 
-                                if (p_thing->Class == CLASS_BAT &&
-                                    p_thing->Genus.Bat->type == BAT_TYPE_BANE) {
-                                    DRAWXTRA_final_glow(
-                                        p_thing->WorldPos.X >> 8,
-                                        p_thing->WorldPos.Y + 0x8000 >> 8,
-                                        p_thing->WorldPos.Z >> 8,
-                                        p_thing->Genus.Bat->glow >> 8);
-                                }
-                                break;
+                            if (p_thing->Class == CLASS_BAT &&
+                                p_thing->Genus.Bat->type == BAT_TYPE_BANE) {
+                                DRAWXTRA_final_glow(
+                                    p_thing->WorldPos.X >> 8,
+                                    p_thing->WorldPos.Y + 0x8000 >> 8,
+                                    p_thing->WorldPos.Z >> 8,
+                                    p_thing->Genus.Bat->glow >> 8);
+                            }
+                            break;
 
-                            case DT_ROT_MULTI:
-                                LOG_ENTER(AENG_Draw_DT_ROT_MULTI)
+                        case DT_ROT_MULTI:
+                            LOG_ENTER(AENG_Draw_DT_ROT_MULTI)
 
-                                /*
-                                if (ControlFlag)
-                                if (p_thing->Genus.Person->PlayerID)
-                                {
-                                        //
-                                        // Draw some wheels above Darci's head!
-                                        //
+                            /*
+                            if (ControlFlag)
+                            if (p_thing->Genus.Person->PlayerID)
+                            {
+                                    //
+                                    // Draw some wheels above Darci's head!
+                                    //
 
-                                        AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_BIKE_BWHEEL);
+                                    AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_BIKE_BWHEEL);
 
-                                        MESH_draw_poly(
-                                                        PRIM_OBJ_BIKE_BWHEEL,
-                                                        p_thing->WorldPos.X          >> 8,
-                                                        p_thing->WorldPos.Y + 0xa000 >> 8,
-                                                        p_thing->WorldPos.Z          >> 8,
-                                                        p_thing->Draw.Tweened->Angle,
-                                                        0,0,
-                                                        nullptr,0);
+                                    MESH_draw_poly(
+                                                    PRIM_OBJ_BIKE_BWHEEL,
+                                                    p_thing->WorldPos.X          >> 8,
+                                                    p_thing->WorldPos.Y + 0xa000 >> 8,
+                                                    p_thing->WorldPos.Z          >> 8,
+                                                    p_thing->Draw.Tweened->Angle,
+                                                    0,0,
+                                                    NULL,0);
 
-                                        AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_VAN_WHEEL);
+                                    AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_VAN_WHEEL);
 
-                                        MESH_draw_poly(
-                                                        PRIM_OBJ_VAN_WHEEL,
-                                                        p_thing->WorldPos.X           >> 8,
-                                                        p_thing->WorldPos.Y + 0x10000 >> 8,
-                                                        p_thing->WorldPos.Z           >> 8,
-                                                        p_thing->Draw.Tweened->Angle,
-                                                        0,0,
-                                                        nullptr,0);
+                                    MESH_draw_poly(
+                                                    PRIM_OBJ_VAN_WHEEL,
+                                                    p_thing->WorldPos.X           >> 8,
+                                                    p_thing->WorldPos.Y + 0x10000 >> 8,
+                                                    p_thing->WorldPos.Z           >> 8,
+                                                    p_thing->Draw.Tweened->Angle,
+                                                    0,0,
+                                                    NULL,0);
 
-                                        AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_CAR_WHEEL);
+                                    AENG_set_bike_wheel_rotation((GAME_TURN << 3) & 2047, PRIM_OBJ_CAR_WHEEL);
 
-                                        MESH_draw_poly(
-                                                        PRIM_OBJ_CAR_WHEEL,
-                                                        p_thing->WorldPos.X           >> 8,
-                                                        p_thing->WorldPos.Y + 0x16000 >> 8,
-                                                        p_thing->WorldPos.Z           >> 8,
-                                                        p_thing->Draw.Tweened->Angle,
-                                                        0,0,
-                                                        nullptr,0);
-                                }
-                                */
+                                    MESH_draw_poly(
+                                                    PRIM_OBJ_CAR_WHEEL,
+                                                    p_thing->WorldPos.X           >> 8,
+                                                    p_thing->WorldPos.Y + 0x16000 >> 8,
+                                                    p_thing->WorldPos.Z           >> 8,
+                                                    p_thing->Draw.Tweened->Angle,
+                                                    0,0,
+                                                    NULL,0);
+                            }
+                            */
 
-                                {
-                                    ASSERT(p_thing->Class == CLASS_PERSON);
+                            {
+                                ASSERT(p_thing->Class == CLASS_PERSON);
 
 #ifdef BIKE
-#error Better not be doing this.
+                                // #error Better not be doing this.
+                                //
+                                //  If this person is riding the bike...
+                                //
+
+                                if (p_thing->SubState == SUB_STATE_RIDING_BIKE) {
+                                    Thing *p_bike = TO_THING(p_thing->Genus.Person->InCar);
+
+                                    ASSERT(p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING);
+                                    ASSERT(p_thing->Genus.Person->InCar);
+
+                                    BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
+
                                     //
-                                    // If this person is riding the bike...
+                                    // Move to the same position above the bike.
                                     //
 
-                                    if (p_thing->SubState == SUB_STATE_RIDING_BIKE) {
-                                        Thing *p_bike = TO_THING(p_thing->Genus.Person->InCar);
+                                    GameCoord newpos = p_bike->WorldPos;
 
-                                        ASSERT(p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING);
-                                        ASSERT(p_thing->Genus.Person->InCar);
+                                    p_thing->Draw.Tweened->Angle = bdi.yaw;
+                                    p_thing->Draw.Tweened->Tilt = bdi.pitch;
+                                    p_thing->Draw.Tweened->Roll = bdi.roll;
 
-                                        BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
-
-                                        //
-                                        // Move to the same position above the bike.
-                                        //
-
-                                        GameCoord newpos = p_bike->WorldPos;
-
-                                        p_thing->Draw.Tweened->Angle = bdi.yaw;
-                                        p_thing->Draw.Tweened->Tilt = bdi.pitch;
-                                        p_thing->Draw.Tweened->Roll = bdi.roll;
-
-                                        /*
-                                        {
-                                                std::int32_t roll = bdi.roll;
-
-                                                if (roll > 1024)
-                                                {
-                                                        roll -= 2048;
-                                                }
-
-                                                roll /= 2;
-                                                roll &= 2047;
-
-                                                p_thing->Draw.Tweened->Roll = roll;
-                                        }
-                                        */
-
-                                        {
-                                            BIKE_Control bc;
-                                            DrawTween *dt = p_thing->Draw.Tweened;
-                                            std::int32_t steer;
-
-                                            bc = BIKE_control_get(p_bike);
-                                            steer = bc.steer >> 1;
-
-                                            if (steer > 32)
-                                                steer = 32;
-                                            else if (steer < -32)
-                                                steer = -32;
-
-                                            if (abs(steer) > 21) {
-                                                std::int32_t tween;
-                                                if (steer < 0) {
-                                                    dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
-                                                    dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT_FOOT];
-                                                    tween = ((-steer) - 21) << 5;
-
-                                                } else {
-                                                    dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
-                                                    dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT_FOOT];
-                                                    tween = ((steer) -21) << 5;
-                                                }
-                                                if (tween < 0)
-                                                    tween = 0;
-                                                if (tween > 255)
-                                                    tween = 255;
-
-                                                dt->AnimTween = tween;
-                                            } else if (bc.steer == 0) {
-                                                // dt->CurrentFrame = dt->TheChunk->AnimList[248];
-                                                // dt->NextFrame    = dt->TheChunk->AnimList[248];
-                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                            } else if (bc.steer < 0) {
-                                                // dt->CurrentFrame =  dt->TheChunk->AnimList[248];
-                                                // dt->NextFrame    =  dt->TheChunk->AnimList[250];
-                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
-                                                dt->AnimTween = -steer << 3;
-                                            } else {
-                                                // dt->CurrentFrame = dt->TheChunk->AnimList[248];
-                                                // dt->NextFrame    = dt->TheChunk->AnimList[252];
-                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
-                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
-                                                dt->AnimTween = steer << 3;
-                                            }
-                                        }
-
-                                        {
-                                            GameCoord oldpos = p_thing->WorldPos;
-
-                                            p_thing->WorldPos = newpos;
-                                            FIGURE_draw(p_thing);
-
-                                            p_thing->WorldPos = oldpos;
-                                        }
-
-                                        /*
-
-
-                                //	p_person->Draw.Tweened->Roll = bdi.roll;//BIKE_get_roll(TO_THING(p_person->Genus.Person->InCar));
-                                //	p_person->Draw.Tweened->Tilt = bdi.pitch;
-
-                                //	if (p_person->Draw.Tweened.Roll > 1024)
-
-                                        */
-                                    } else
-#endif
+                                    /*
                                     {
-                                        if (p_thing->Genus.Person->PlayerID) {
-                                            if (FirstPersonMode) {
-                                                FirstPersonAlpha -= (TICK_RATIO * 16) >> TICK_SHIFT;
-                                                if (FirstPersonAlpha < MAX_FPM_ALPHA) FirstPersonAlpha = MAX_FPM_ALPHA;
+                                            std::int32_t roll = bdi.roll;
+
+                                            if (roll > 1024)
+                                            {
+                                                    roll -= 2048;
+                                            }
+
+                                            roll /= 2;
+                                            roll &= 2047;
+
+                                            p_thing->Draw.Tweened->Roll = roll;
+                                    }
+                                    */
+
+                                    {
+                                        BIKE_Control bc;
+                                        DrawTween *dt = p_thing->Draw.Tweened;
+                                        std::int32_t steer;
+
+                                        bc = BIKE_control_get(p_bike);
+                                        steer = bc.steer >> 1;
+
+                                        if (steer > 32)
+                                            steer = 32;
+                                        else if (steer < -32)
+                                            steer = -32;
+
+                                        if (abs(steer) > 21) {
+                                            std::int32_t tween;
+                                            if (steer < 0) {
+                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
+                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT_FOOT];
+                                                tween = ((-steer) - 21) << 5;
+
                                             } else {
-                                                FirstPersonAlpha += (TICK_RATIO * 16) >> TICK_SHIFT;
-                                                if (FirstPersonAlpha > 255) FirstPersonAlpha = 255;
+                                                dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
+                                                dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT_FOOT];
+                                                tween = ((steer) -21) << 5;
                                             }
+                                            if (tween < 0)
+                                                tween = 0;
+                                            if (tween > 255)
+                                                tween = 255;
 
-                                            // FIGURE_alpha = FirstPersonAlpha;
-                                            FIGURE_draw(p_thing);
-                                            // FIGURE_alpha = 255;
+                                            dt->AnimTween = tween;
+                                        } else if (bc.steer == 0) {
+                                            // dt->CurrentFrame = dt->TheChunk->AnimList[248];
+                                            // dt->NextFrame    = dt->TheChunk->AnimList[248];
+                                            dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+                                            dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+                                        } else if (bc.steer < 0) {
+                                            // dt->CurrentFrame =  dt->TheChunk->AnimList[248];
+                                            // dt->NextFrame    =  dt->TheChunk->AnimList[250];
+                                            dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+                                            dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_RIGHT];
+                                            dt->AnimTween = -steer << 3;
                                         } else {
-                                            std::int32_t dx, dy, dz, dist;
-
-                                            dx = fabs((p_thing->WorldPos.X >> 8) - AENG_cam_x);
-                                            dy = fabs((p_thing->WorldPos.Y >> 8) - AENG_cam_y);
-                                            dz = fabs((p_thing->WorldPos.Z >> 8) - AENG_cam_z);
-
-                                            dist = QDIST3(dx, dy, dz);
-
-                                            if (dist < AENG_DRAW_PEOPLE_DIST) {
-                                                FIGURE_draw(p_thing);
-                                            }
+                                            // dt->CurrentFrame = dt->TheChunk->AnimList[248];
+                                            // dt->NextFrame    = dt->TheChunk->AnimList[252];
+                                            dt->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN];
+                                            dt->NextFrame = global_anim_array[p_thing->Genus.Person->AnimType][ANIM_BIKE_LEAN_LEFT];
+                                            dt->AnimTween = steer << 3;
                                         }
                                     }
 
-                                    p_thing->Draw.Tweened->Drawn = (std::uint8_t) SUPERMAP_counter;
+                                    {
+                                        GameCoord oldpos = p_thing->WorldPos;
 
-                                    if (ControlFlag && allow_debug_keys) {
-                                        AENG_world_text(
-                                            (p_thing->WorldPos.X >> 8),
-                                            (p_thing->WorldPos.Y >> 8) + 0x60,
-                                            (p_thing->WorldPos.Z >> 8),
-                                            200,
-                                            180,
-                                            50,
-                                            true,
-                                            PCOM_person_state_debug(p_thing));
+                                        p_thing->WorldPos = newpos;
+                                        FIGURE_draw(p_thing);
+
+                                        p_thing->WorldPos = oldpos;
                                     }
 
-#if DRAW_THIS_DEBUG_STUFF
+                                    /*
 
-                                    AENG_world_line(
+
+                            //	p_person->Draw.Tweened->Roll = bdi.roll;//BIKE_get_roll(TO_THING(p_person->Genus.Person->InCar));
+                            //	p_person->Draw.Tweened->Tilt = bdi.pitch;
+
+                            //	if (p_person->Draw.Tweened.Roll > 1024)
+
+                                    */
+                                } else
+#endif
+                                {
+                                    if (p_thing->Genus.Person->PlayerID) {
+                                        if (FirstPersonMode) {
+                                            FirstPersonAlpha -= (TICK_RATIO * 16) >> TICK_SHIFT;
+                                            if (FirstPersonAlpha < MAX_FPM_ALPHA) FirstPersonAlpha = MAX_FPM_ALPHA;
+                                        } else {
+                                            FirstPersonAlpha += (TICK_RATIO * 16) >> TICK_SHIFT;
+                                            if (FirstPersonAlpha > 255) FirstPersonAlpha = 255;
+                                        }
+
+                                        // FIGURE_alpha = FirstPersonAlpha;
+                                        FIGURE_draw(p_thing);
+                                        // FIGURE_alpha = 255;
+                                    } else {
+                                        std::int32_t dx, dy, dz, dist;
+
+                                        dx = fabs((p_thing->WorldPos.X >> 8) - AENG_cam_x);
+                                        dy = fabs((p_thing->WorldPos.Y >> 8) - AENG_cam_y);
+                                        dz = fabs((p_thing->WorldPos.Z >> 8) - AENG_cam_z);
+
+                                        dist = QDIST3(dx, dy, dz);
+
+                                        if (dist < AENG_DRAW_PEOPLE_DIST) {
+                                            FIGURE_draw(p_thing);
+                                        }
+                                    }
+                                }
+
+                                p_thing->Draw.Tweened->Drawn = (std::uint8_t) SUPERMAP_counter;
+
+                                if (ControlFlag && allow_debug_keys) {
+                                    AENG_world_text(
                                         (p_thing->WorldPos.X >> 8),
                                         (p_thing->WorldPos.Y >> 8) + 0x60,
                                         (p_thing->WorldPos.Z >> 8),
-                                        32,
-                                        0x00ffffff,
-                                        (x << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
-                                        (p_thing->WorldPos.Y >> 8),
-                                        (z << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
-                                        0,
-                                        0x0000ff00,
-                                        false);
+                                        200,
+                                        180,
+                                        50,
+                                        true,
+                                        PCOM_person_state_debug(p_thing));
+                                }
+
+#if DRAW_THIS_DEBUG_STUFF
+
+                                AENG_world_line(
+                                    (p_thing->WorldPos.X >> 8),
+                                    (p_thing->WorldPos.Y >> 8) + 0x60,
+                                    (p_thing->WorldPos.Z >> 8),
+                                    32,
+                                    0x00ffffff,
+                                    (x << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
+                                    (p_thing->WorldPos.Y >> 8),
+                                    (z << PAP_SHIFT_LO) + (1 << (PAP_SHIFT_LO - 1)),
+                                    0,
+                                    0x0000ff00,
+                                    FALSE);
 
 #endif
-                                }
+                            }
 
 #ifndef TARGET_DC
 #if NO_MORE_BALLOONS
 
-                                if (p_thing->Genus.Person->Balloon) {
-                                    std::int32_t balloon;
-                                    BALLOON_Balloon *bb;
+                            if (p_thing->Genus.Person->Balloon) {
+                                std::int32_t balloon;
+                                BALLOON_Balloon *bb;
 
-                                    //
-                                    // Draw this person's balloon.
-                                    //
+                                //
+                                // Draw this person's balloon.
+                                //
 
-                                    for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next) {
-                                        SHAPE_draw_balloon(balloon);
-                                    }
+                                for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next) {
+                                    SHAPE_draw_balloon(balloon);
                                 }
+                            }
 
 #endif
 #endif
 
-                                if (p_thing->State == STATE_DEAD) {
-                                    if (p_thing->Genus.Person->Timer1 > 10) {
-                                        if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
-                                            p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
-                                            p_thing->Genus.Person->PersonType == PERSON_MIB3) {
-                                            //
-                                            // Dead MIB self destruct!
-                                            //
-                                            DRAWXTRA_MIB_destruct(p_thing);
-                                            /*
-                                                                                                                                    std::int32_t px;
-                                                                                                                                    std::int32_t py;
-                                                                                                                                    std::int32_t pz;
+                            if (p_thing->State == STATE_DEAD) {
+                                if (p_thing->Genus.Person->Timer1 > 10) {
+                                    if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
+                                        p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
+                                        p_thing->Genus.Person->PersonType == PERSON_MIB3) {
+                                        //
+                                        // Dead MIB self destruct!
+                                        //
+                                        DRAWXTRA_MIB_destruct(p_thing);
+                                        /*
+                                                                                                                                std::int32_t px;
+                                                                                                                                std::int32_t py;
+                                                                                                                                std::int32_t pz;
 
-                                                                                                                                    calc_sub_objects_position(
-                                                                                                                                            p_thing,
-                                                                                                                                            p_thing->Draw.Tweened->AnimTween,
-                                                                                                                                            SUB_OBJECT_PELVIS,
-                                                                                                                                       &px,
-                                                                                                                                       &py,
-                                                                                                                                       &pz);
+                                                                                                                                calc_sub_objects_position(
+                                                                                                                                        p_thing,
+                                                                                                                                        p_thing->Draw.Tweened->AnimTween,
+                                                                                                                                        SUB_OBJECT_PELVIS,
+                                                                                                                                   &px,
+                                                                                                                                   &py,
+                                                                                                                                   &pz);
 
-                                                                                                                                    px += p_thing->WorldPos.X >> 8;
-                                                                                                                                    py += p_thing->WorldPos.Y >> 8;
-                                                                                                                                    pz += p_thing->WorldPos.Z >> 8;
+                                                                                                                                px += p_thing->WorldPos.X >> 8;
+                                                                                                                                py += p_thing->WorldPos.Y >> 8;
+                                                                                                                                pz += p_thing->WorldPos.Z >> 8;
 
-                                                                                                                                    //
-                                                                                                                                    // Ripped from the DRAWXTRA_special!
-                                                                                                                                    //
+                                                                                                                                //
+                                                                                                                                // Ripped from the DRAWXTRA_special!
+                                                                                                                                //
 
-                                                                                                                                    // (So why didn't you put it there?!)
+                                                                                                                                // (So why didn't you put it there?!)
 
-                                                                                                                                    {
-                                                                                                                                            std::int32_t c0;
-                                                                                                                                            std::int32_t dx;
-                                                                                                                                            std::int32_t dz;
+                                                                                                                                {
+                                                                                                                                        std::int32_t c0;
+                                                                                                                                        std::int32_t dx;
+                                                                                                                                        std::int32_t dz;
 
-                                                                                                                                      c0=3+(THING_NUMBER(p_thing)&7);
-                                                                                                                                      c0=(((GAME_TURN*c0)+(THING_NUMBER(p_thing)*9))<<4)&2047;
-                                                                                                                                      dx=SIN(c0)>>8;
-                                                                                                                                      dz=COS(c0)>>8;
-                                                                                                                                      BLOOM_draw(
-                                                                                                                                            px, py+15, pz,
-                                                                                                                                            dx,0,dz,0x9F2040,0);
-                                                                                                                                    }*/
-                                        }
+                                                                                                                                  c0=3+(THING_NUMBER(p_thing)&7);
+                                                                                                                                  c0=(((GAME_TURN*c0)+(THING_NUMBER(p_thing)*9))<<4)&2047;
+                                                                                                                                  dx=SIN(c0)>>8;
+                                                                                                                                  dz=COS(c0)>>8;
+                                                                                                                                  BLOOM_draw(
+                                                                                                                                        px, py+15, pz,
+                                                                                                                                        dx,0,dz,0x9F2040,0);
+                                                                                                                                }*/
                                     }
                                 }
+                            }
 
-                                if (p_thing->Genus.Person->pcom_ai == PCOM_AI_BANE) {
-                                    DRAWXTRA_final_glow(
-                                        p_thing->WorldPos.X >> 8,
-                                        p_thing->WorldPos.Y + 0x8000 >> 8,
-                                        p_thing->WorldPos.Z >> 8,
-                                        -p_thing->Draw.Tweened->Tilt);
-                                }
-
-                                LOG_EXIT(AENG_Draw_DT_ROT_MULTI)
-
-                                break;
-
-                            case DT_EFFECT:
-                                break;
-
-                            case DT_MESH:
-
-                            {
-                                // Weapons & other powerups.
-                                if (p_thing->Class == CLASS_SPECIAL) DRAWXTRA_Special(p_thing);
-
-                                MESH_draw_poly(
-                                    p_thing->Draw.Mesh->ObjectId,
+                            if (p_thing->Genus.Person->pcom_ai == PCOM_AI_BANE) {
+                                DRAWXTRA_final_glow(
                                     p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
+                                    p_thing->WorldPos.Y + 0x8000 >> 8,
                                     p_thing->WorldPos.Z >> 8,
-                                    p_thing->Draw.Mesh->Angle,
-                                    p_thing->Draw.Mesh->Tilt,
-                                    p_thing->Draw.Mesh->Roll,
-                                    nullptr, 0xff, 0);
+                                    -p_thing->Draw.Tweened->Tilt);
+                            }
+
+                            LOG_EXIT(AENG_Draw_DT_ROT_MULTI)
+
+                            break;
+
+                        case DT_EFFECT:
+                            break;
+
+                        case DT_MESH:
+
+                        {
+                            // Weapons & other powerups.
+                            if (p_thing->Class == CLASS_SPECIAL) DRAWXTRA_Special(p_thing);
+
+                            MESH_draw_poly(
+                                p_thing->Draw.Mesh->ObjectId,
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                p_thing->Draw.Mesh->Angle,
+                                p_thing->Draw.Mesh->Tilt,
+                                p_thing->Draw.Mesh->Roll,
+                                NULL, 0xff, 0);
+                        }
+
+                        break;
+
+#ifdef BIKE
+
+                            // #error A bike! Are you mad?
+
+                        case DT_BIKE:
+
+                            ASSERT(p_thing->Class == CLASS_BIKE);
+                            {
+                                //
+                                // Nasty eh! But I can't be arsed to create a new drawtype.
+                                //
+
+                                BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_thing);
+
+                                //
+                                // Draw the frame of the bike.
+                                //
+
+                                ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
+
+                                //
+                                // If the bike is parked or being mounted then the wheels are
+                                // included in the animating object.
+                                //
+
+                                if (p_thing->Genus.Bike->mode == BIKE_MODE_DRIVING) {
+                                    AENG_set_bike_wheel_rotation(bdi.front_rot, PRIM_OBJ_BIKE_BWHEEL);
+
+                                    MESH_draw_poly(
+                                        PRIM_OBJ_BIKE_BWHEEL,
+                                        bdi.front_x,
+                                        bdi.front_y,
+                                        bdi.front_z,
+                                        bdi.steer,
+                                        bdi.pitch,
+                                        bdi.roll,
+                                        NULL, 0xff, 0);
+
+                                    AENG_set_bike_wheel_rotation(bdi.back_rot, PRIM_OBJ_BIKE_BWHEEL);
+
+                                    MESH_draw_poly(
+                                        PRIM_OBJ_BIKE_BWHEEL,
+                                        bdi.back_x,
+                                        bdi.back_y,
+                                        bdi.back_z,
+                                        bdi.yaw,
+                                        0,
+                                        bdi.roll,
+                                        NULL, 0xff, 0);
+                                }
+
+                                // Now some bike fx... first the exhaust
+                                PARTICLE_Exhaust2(p_thing, 5, 16);
+
+                                if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
+                                    std::int32_t matrix[9], vector[3], dx, dy, dz;
+                                    //										FMATRIX_calc(matrix, 1024-bdi.steer, bdi.pitch, bdi.roll);
+                                    FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
+                                    FMATRIX_TRANSPOSE(matrix);
+                                    vector[2] = -255;
+                                    vector[1] = 0;
+                                    vector[0] = 0;
+                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+                                    dx = vector[0];
+                                    dy = vector[1];
+                                    dz = vector[2];
+                                    vector[2] = 25;
+                                    vector[1] = 80;
+                                    vector[0] = 0;
+                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+                                    BLOOM_draw(bdi.front_x + vector[0], bdi.front_y + vector[1], bdi.front_z + vector[2], dx, dy, dz, 0x606040, BLOOM_LENSFLARE | BLOOM_BEAM);
+
+                                    FMATRIX_calc(matrix, bdi.yaw, bdi.pitch, bdi.roll);
+                                    FMATRIX_TRANSPOSE(matrix);
+                                    vector[2] = 255;
+                                    vector[1] = 0;
+                                    vector[0] = 0;
+                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+                                    dx = vector[0];
+                                    dy = vector[1];
+                                    dz = vector[2];
+                                    vector[2] = 70;
+                                    vector[1] = 75;
+                                    vector[0] = 0;
+                                    FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+
+                                    BLOOM_draw(
+                                        (p_thing->WorldPos.X >> 8) + vector[0],
+                                        (p_thing->WorldPos.Y >> 8) + vector[1],
+                                        (p_thing->WorldPos.Z >> 8) + vector[2],
+                                        dx, dy, dz, 0x800000, 0);
+                                }
                             }
 
                             break;
 
-#ifdef BIKE
-
-#error A bike! Are you mad?
-
-                            case DT_BIKE:
-
-                                ASSERT(p_thing->Class == CLASS_BIKE);
-                                {
-                                    //
-                                    // Nasty eh! But I can't be arsed to create a new drawtype.
-                                    //
-
-                                    BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_thing);
-
-                                    //
-                                    // Draw the frame of the bike.
-                                    //
-
-                                    ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
-
-                                    //
-                                    // If the bike is parked or being mounted then the wheels are
-                                    // included in the animating object.
-                                    //
-
-                                    if (p_thing->Genus.Bike->mode == BIKE_MODE_DRIVING) {
-                                        AENG_set_bike_wheel_rotation(bdi.front_rot, PRIM_OBJ_BIKE_BWHEEL);
-
-                                        MESH_draw_poly(
-                                            PRIM_OBJ_BIKE_BWHEEL,
-                                            bdi.front_x,
-                                            bdi.front_y,
-                                            bdi.front_z,
-                                            bdi.steer,
-                                            bdi.pitch,
-                                            bdi.roll,
-                                            nullptr, 0xff, 0);
-
-                                        AENG_set_bike_wheel_rotation(bdi.back_rot, PRIM_OBJ_BIKE_BWHEEL);
-
-                                        MESH_draw_poly(
-                                            PRIM_OBJ_BIKE_BWHEEL,
-                                            bdi.back_x,
-                                            bdi.back_y,
-                                            bdi.back_z,
-                                            bdi.yaw,
-                                            0,
-                                            bdi.roll,
-                                            nullptr, 0xff, 0);
-                                    }
-
-                                    // Now some bike fx... first the exhaust
-                                    PARTICLE_Exhaust2(p_thing, 5, 16);
-
-                                    if (!(NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
-                                        std::int32_t matrix[9], vector[3], dx, dy, dz;
-                                        //										FMATRIX_calc(matrix, 1024-bdi.steer, bdi.pitch, bdi.roll);
-                                        FMATRIX_calc(matrix, bdi.steer, bdi.pitch, bdi.roll);
-                                        FMATRIX_TRANSPOSE(matrix);
-                                        vector[2] = -255;
-                                        vector[1] = 0;
-                                        vector[0] = 0;
-                                        FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-                                        dx = vector[0];
-                                        dy = vector[1];
-                                        dz = vector[2];
-                                        vector[2] = 25;
-                                        vector[1] = 80;
-                                        vector[0] = 0;
-                                        FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-                                        BLOOM_draw(bdi.front_x + vector[0], bdi.front_y + vector[1], bdi.front_z + vector[2], dx, dy, dz, 0x606040, BLOOM_LENSFLARE | BLOOM_BEAM);
-
-                                        FMATRIX_calc(matrix, bdi.yaw, bdi.pitch, bdi.roll);
-                                        FMATRIX_TRANSPOSE(matrix);
-                                        vector[2] = 255;
-                                        vector[1] = 0;
-                                        vector[0] = 0;
-                                        FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-                                        dx = vector[0];
-                                        dy = vector[1];
-                                        dz = vector[2];
-                                        vector[2] = 70;
-                                        vector[1] = 75;
-                                        vector[0] = 0;
-                                        FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-
-                                        BLOOM_draw(
-                                            (p_thing->WorldPos.X >> 8) + vector[0],
-                                            (p_thing->WorldPos.Y >> 8) + vector[1],
-                                            (p_thing->WorldPos.Z >> 8) + vector[2],
-                                            dx, dy, dz, 0x800000, 0);
-                                    }
-                                }
-
-                                break;
-
 #endif
 
-                            case DT_VEHICLE:
+                        case DT_VEHICLE:
 
-                                if (p_thing->Class == CLASS_VEHICLE) {
-                                    if (p_thing->Genus.Vehicle->Driver) {
-                                        TO_THING(p_thing->Genus.Vehicle->Driver)->Flags |= FLAGS_IN_VIEW;
-                                    }
+                            if (p_thing->Class == CLASS_VEHICLE) {
+                                if (p_thing->Genus.Vehicle->Driver) {
+                                    TO_THING(p_thing->Genus.Vehicle->Driver)->Flags |= FLAGS_IN_VIEW;
                                 }
-                                //
-                                // Set the tinted colour of this van.
-                                //
+                            }
+                            //
+                            // Set the tinted colour of this van.
+                            //
 
-                                {
+                            {
 #if 1
-                                    std::uint32_t car_colours[6] =
-                                        {
-                                            0xffffff00,
-                                            0xffff00ff,
-                                            0xff00ffff,
-                                            0xffff0000,
-                                            0xff00ff00,
-                                            0xf00000ff};
+                                std::uint32_t car_colours[6] =
+                                    {
+                                        0xffffff00,
+                                        0xffff00ff,
+                                        0xff00ffff,
+                                        0xffff0000,
+                                        0xff00ff00,
+                                        0xf00000ff};
 
-                                    MESH_colour_and = car_colours[THING_NUMBER(p_thing) % 6];
+                                MESH_colour_and = car_colours[THING_NUMBER(p_thing) % 6];
 #else
 
 #define DEFCOL(R, G, B) (0xFF000000 | R | (G << 8) | (B << 16))
 
-                                    static DWORD colours[7] =
-                                        {
-                                            DEFCOL(18, 192, 120),
-                                            DEFCOL(255, 14, 90),
-                                            DEFCOL(112, 122, 216),
-                                            DEFCOL(176, 158, 54),
-                                            DEFCOL(0, 149, 186),
-                                            DEFCOL(194, 162, 34),
-                                            DEFCOL(255, 255, 255),
-                                        };
+                                static DWORD colours[7] =
+                                    {
+                                        DEFCOL(18, 192, 120),
+                                        DEFCOL(255, 14, 90),
+                                        DEFCOL(112, 122, 216),
+                                        DEFCOL(176, 158, 54),
+                                        DEFCOL(0, 149, 186),
+                                        DEFCOL(194, 162, 34),
+                                        DEFCOL(255, 255, 255),
+                                    };
 
-                                    int col = THING_NUMBER(p_thing) % 7;
-                                    MESH_colour_and = colours[col];
+                                int col = THING_NUMBER(p_thing) % 7;
+                                MESH_colour_and = colours[col];
 #endif
-                                }
+                            }
 
-                                extern void draw_car(Thing * p_car);
+                            extern void draw_car(Thing * p_car);
 
-                                draw_car(p_thing);
+                            draw_car(p_thing);
 
 #ifndef TARGET_DC
-                                if (ControlFlag && allow_debug_keys) {
-                                    //
-                                    // Draw a line towards where you have to be
-                                    // to get into the van.
-                                    //
+                            if (ControlFlag && allow_debug_keys) {
+                                //
+                                // Draw a line towards where you have to be
+                                // to get into the van.
+                                //
 
-                                    std::int32_t dx = -SIN(p_thing->Genus.Vehicle->Draw.Angle);
-                                    std::int32_t dz = -COS(p_thing->Genus.Vehicle->Draw.Angle);
+                                std::int32_t dx = -SIN(p_thing->Genus.Vehicle->Draw.Angle);
+                                std::int32_t dz = -COS(p_thing->Genus.Vehicle->Draw.Angle);
 
-                                    std::int32_t ix = p_thing->WorldPos.X >> 8;
-                                    std::int32_t iz = p_thing->WorldPos.Z >> 8;
+                                std::int32_t ix = p_thing->WorldPos.X >> 8;
+                                std::int32_t iz = p_thing->WorldPos.Z >> 8;
 
-                                    ix += dx >> 9;
-                                    iz += dz >> 9;
+                                ix += dx >> 9;
+                                iz += dz >> 9;
 
-                                    ix -= dz >> 9;
-                                    iz += dx >> 9;
+                                ix -= dz >> 9;
+                                iz += dx >> 9;
 
-                                    AENG_world_line(
-                                        p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 64, 0x00ffffff,
-                                        ix, p_thing->WorldPos.Y >> 8, iz, 0, 0x0000ff00, true);
-                                }
+                                AENG_world_line(
+                                    p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 64, 0x00ffffff,
+                                    ix, p_thing->WorldPos.Y >> 8, iz, 0, 0x0000ff00, TRUE);
+                            }
 #endif
 
-                                break;
+                            break;
 
-                            case DT_CHOPPER:
-                                CHOPPER_draw_chopper(p_thing);
-                                break;
+                        case DT_CHOPPER:
+                            CHOPPER_draw_chopper(p_thing);
+                            break;
 
-                            case DT_PYRO:
-                                PYRO_draw_pyro(p_thing);
-                                break;
-                            case DT_ANIMAL_PRIM:
-#if 0
-extern void	ANIMAL_draw(Thing *p_thing);
-								ANIMAL_draw(p_thing);
+                        case DT_PYRO:
+                            PYRO_draw_pyro(p_thing);
+                            break;
+                        case DT_ANIMAL_PRIM:
+#if 1
+                            extern void ANIMAL_draw(Thing * p_thing);
+                            ANIMAL_draw(p_thing);
 #endif
-                                break;
+                            break;
 
-                            case DT_TRACK:
-                                if (!INDOORS_INDEX)
-                                    TRACKS_DrawTrack(p_thing);
-                                break;
+                        case DT_TRACK:
+                            if (!INDOORS_INDEX)
+                                TRACKS_DrawTrack(p_thing);
+                            break;
 
-                            default:
-                                ASSERT(0);
-                                break;
+                        default:
+                            ASSERT(0);
+                            break;
                         }
                     }
                     t_index = p_thing->Child;
@@ -9691,14 +9831,14 @@ extern void	ANIMAL_draw(Thing *p_thing);
 
     ANNOYINGSCRIBBLECHECK;
 
-    //	POLY_frame_draw(false,false);
-    //	POLY_frame_init(true,true);
+    //	POLY_frame_draw(FALSE,FALSE);
+    //	POLY_frame_init(TRUE,TRUE);
     //	BreakTime("Flushed things");
 
     //
     // debug info for the car movement
     //
-    // void	draw_car_tracks();
+    // void	draw_car_tracks(void);
     //	if(!INDOORS_INDEX||outside)
     //		draw_car_tracks();
 
@@ -9727,56 +9867,56 @@ extern void	ANIMAL_draw(Thing *p_thing);
 
                     if (draw) {
                         switch (p_thing->Class) {
-                            case CLASS_PERSON:
+                        case CLASS_PERSON:
 
-                            {
-                                std::int32_t px;
-                                std::int32_t py;
-                                std::int32_t pz;
+                        {
+                            std::int32_t px;
+                            std::int32_t py;
+                            std::int32_t pz;
 
-                                calc_sub_objects_position(
-                                    p_thing,
-                                    p_thing->Draw.Tweened->AnimTween,
-                                    SUB_OBJECT_PELVIS,
-                                    &px,
-                                    &py,
-                                    &pz);
+                            calc_sub_objects_position(
+                                p_thing,
+                                p_thing->Draw.Tweened->AnimTween,
+                                SUB_OBJECT_PELVIS,
+                                &px,
+                                &py,
+                                &pz);
 
-                                px += p_thing->WorldPos.X >> 8;
-                                py += p_thing->WorldPos.Y >> 8;
-                                pz += p_thing->WorldPos.Z >> 8;
+                            px += p_thing->WorldPos.X >> 8;
+                            py += p_thing->WorldPos.Y >> 8;
+                            pz += p_thing->WorldPos.Z >> 8;
 
-                                OVAL_add(
-                                    px,
-                                    py,
-                                    pz,
-                                    130);
-                            }
+                            OVAL_add(
+                                px,
+                                py,
+                                pz,
+                                130);
+                        }
+
+                        break;
+
+                        case CLASS_SPECIAL:
+
+                            OVAL_add(
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                100);
 
                             break;
 
-                            case CLASS_SPECIAL:
+                        case CLASS_BARREL:
 
-                                OVAL_add(
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    100);
+                            OVAL_add(
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                128);
 
-                                break;
+                            break;
 
-                            case CLASS_BARREL:
-
-                                OVAL_add(
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    128);
-
-                                break;
-
-                            default:
-                                break;
+                        default:
+                            break;
                         }
                     }
                 }
@@ -9789,6 +9929,10 @@ extern void	ANIMAL_draw(Thing *p_thing);
     LOG_EXIT(AENG_Draw_Oval_Shadows)
 
     ANNOYINGSCRIBBLECHECK;
+
+    //// Cope with some wacky internals.
+    // POLY_set_local_rotation_none();
+    // POLY_flush_local_rot();
 
     // Grenades should be drawn here.
     DrawGrenades();
@@ -9901,7 +10045,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
                         quad[3] = &mist_pp[sx + 1][sz + 1];
 
                         if (POLY_valid_quad(quad)) {
-                            POLY_add_quad(quad, POLY_PAGE_FOG, false);
+                            POLY_add_quad(quad, POLY_PAGE_FOG, FALSE);
                         }
                     }
             }
@@ -9988,7 +10132,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
     tptp[2] = &tpt[2];
     tptp[3] = &tpt[3];
 
-    POLY_add_quad(tptp, POLY_PAGE_TEST_SHADOWMAP, false, true);
+    POLY_add_quad(tptp, POLY_PAGE_TEST_SHADOWMAP, FALSE, TRUE);
 #endif
 
     LOG_EXIT(AENG_Draw_Rain)
@@ -10050,7 +10194,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
                   }
   */
 
-    //	if (Keys[KB_RBRACE] && !ShiftFlag) {Keys[KB_RBRACE] = 0; AENG_torch_on ^= true;}
+    //	if (Keys[KB_RBRACE] && !ShiftFlag) {Keys[KB_RBRACE] = 0; AENG_torch_on ^= TRUE;}
 
     //
     // Draw a torch out of darci...
@@ -10287,11 +10431,11 @@ extern void	ANIMAL_draw(Thing *p_thing);
 
     /*
 
-    POLY_frame_draw(true,true);
+    POLY_frame_draw(TRUE,TRUE);
     if(INDOORS_INDEX_NEXT)
             AENG_draw_inside_floor(INDOORS_INDEX_NEXT,INDOORS_ROOM_NEXT,255); //downtairs non transparent
 
-    POLY_frame_draw(true,true);
+    POLY_frame_draw(TRUE,TRUE);
     if(INDOORS_INDEX)
     {
             AENG_draw_inside_floor(INDOORS_INDEX,INDOORS_ROOM,INDOORS_INDEX_FADE);
@@ -10302,10 +10446,20 @@ extern void	ANIMAL_draw(Thing *p_thing);
 
     BreakTime("Drawn other crap");
 
+    LOG_ENTER(AENG_Draw_Dirt)
+
+    if (!INDOORS_INDEX || outside) {
+        if (AENG_detail_dirt) {
+            AENG_draw_dirt();
+        }
+    }
+
+    LOG_EXIT(AENG_Draw_Dirt)
+
     LOG_ENTER(AENG_Poly_Flush)
 
 #ifndef TARGET_DC
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 #endif
 
     LOG_EXIT(AENG_Poly_Flush)
@@ -10318,17 +10472,17 @@ extern void	ANIMAL_draw(Thing *p_thing);
     // The dirt.
     //
 
-    LOG_ENTER(AENG_Draw_Dirt)
+    // LOG_ENTER(AENG_Draw_Dirt)
 
-    if (!INDOORS_INDEX || outside)
-        if (AENG_detail_dirt)
-            AENG_draw_dirt();
+    //	if (!INDOORS_INDEX || outside)
+    //		if (AENG_detail_dirt)
+    //			AENG_draw_dirt();
 
-    LOG_EXIT(AENG_Draw_Dirt)
+    // LOG_EXIT(AENG_Draw_Dirt)
 
-    // Cope with some wacky internals.
-    POLY_set_local_rotation_none();
-    POLY_flush_local_rot();
+    //// Cope with some wacky internals.
+    // POLY_set_local_rotation_none();
+    // POLY_flush_local_rot();
 
     ANNOYINGSCRIBBLECHECK;
 
@@ -10364,7 +10518,7 @@ extern void	ANIMAL_draw(Thing *p_thing);
     // TRACE ( "AengOut" );
 }
 
-void AENG_draw_far_facets() {
+void AENG_draw_far_facets(void) {
     std::int32_t x, z;
 
     POLY_camera_set(
@@ -10411,7 +10565,7 @@ void AENG_draw_far_facets() {
                 std::int32_t f_list;
                 std::int32_t facet;
                 std::int32_t build;
-                std::int32_t exit = false;
+                std::int32_t exit = FALSE;
 
                 f_list = PAP_2LO(x, z).ColVectHead;
 
@@ -10433,7 +10587,7 @@ void AENG_draw_far_facets() {
                             //
 
                             facet = -facet;
-                            exit = true;
+                            exit = TRUE;
                         }
 
                         if (dfacets[facet].Counter[AENG_cur_fc_cam] != SUPERMAP_counter[AENG_cur_fc_cam]) {
@@ -10531,9 +10685,9 @@ void AENG_draw_warehouse() {
     //
 
     std::int32_t old_aeng_draw_cloud_flag = aeng_draw_cloud_flag;
-    false;
+    FALSE;
 
-    aeng_draw_cloud_flag = false;
+    aeng_draw_cloud_flag = FALSE;
 
     Thing *p_thing;
     OB_Info *oi;
@@ -10548,10 +10702,10 @@ void AENG_draw_warehouse() {
 #endif
     POLY_Point *quad[4];
 
-    // POLY_frame_init(false,false);
+    // POLY_frame_init(FALSE,FALSE);
 
 #ifndef TARGET_DC
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 #endif
 
     //
@@ -10566,37 +10720,37 @@ void AENG_draw_warehouse() {
                 p_thing = TO_THING(t_index);
 
                 switch (p_thing->Class) {
-                    case CLASS_PERSON:
+                case CLASS_PERSON:
 
-                        //
-                        // Only draw people who are in warehouses.
-                        //
-                        if (p_thing->Genus.Person->PlayerID && (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
-                            p_thing->Flags |= FLAGS_IN_VIEW;
-                        else if (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
-                            if (POLY_sphere_visible(
-                                    float(p_thing->WorldPos.X >> 8),
-                                    float(p_thing->WorldPos.Y >> 8) + KERB_HEIGHT,
-                                    float(p_thing->WorldPos.Z >> 8),
-                                    256.0F / (AENG_DRAW_DIST * 256.0F))) {
-                                p_thing->Flags |= FLAGS_IN_VIEW;
-                            }
-                        }
-
-                        break;
-
-                    default:
-
-                        //
-                        // Draw everything else that is on a HIDDEN square (i.e. is inside the
-                        // floorplan of the warehouse)
-                        //
-
-                        if (PAP_2HI(p_thing->WorldPos.X >> 16, p_thing->WorldPos.Z >> 16).Flags & PAP_FLAG_HIDDEN) {
+                    //
+                    // Only draw people who are in warehouses.
+                    //
+                    if (p_thing->Genus.Person->PlayerID && (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
+                        p_thing->Flags |= FLAGS_IN_VIEW;
+                    else if (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
+                        if (POLY_sphere_visible(
+                                float(p_thing->WorldPos.X >> 8),
+                                float(p_thing->WorldPos.Y >> 8) + KERB_HEIGHT,
+                                float(p_thing->WorldPos.Z >> 8),
+                                256.0F / (AENG_DRAW_DIST * 256.0F))) {
                             p_thing->Flags |= FLAGS_IN_VIEW;
                         }
+                    }
 
-                        break;
+                    break;
+
+                default:
+
+                    //
+                    // Draw everything else that is on a HIDDEN square (i.e. is inside the
+                    // floorplan of the warehouse)
+                    //
+
+                    if (PAP_2HI(p_thing->WorldPos.X >> 16, p_thing->WorldPos.Z >> 16).Flags & PAP_FLAG_HIDDEN) {
+                        p_thing->Flags |= FLAGS_IN_VIEW;
+                    }
+
+                    break;
                 }
 
                 t_index = p_thing->Child;
@@ -10649,8 +10803,8 @@ void AENG_draw_warehouse() {
 
                 square = NIGHT_cache[px][pz];
 
-                ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
-                ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
+                /*ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
+                ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);*/
 
                 nq = &NIGHT_square[square];
 
@@ -10840,7 +10994,7 @@ void AENG_draw_warehouse() {
                 std::int32_t mz1;
                 std::int32_t mx2;
                 std::int32_t mz2;
-                std::int32_t exit = false;
+                std::int32_t exit = FALSE;
 
                 std::int32_t mx_lo;
                 std::int32_t mz_lo;
@@ -11068,38 +11222,38 @@ void AENG_draw_warehouse() {
 
                     if (p_thing->Flags & FLAGS_IN_VIEW) {
                         switch (p_thing->Class) {
-                            case CLASS_PERSON:
+                        case CLASS_PERSON:
 
-                                OVAL_add(
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    32);
+                            OVAL_add(
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                32);
 
-                                break;
+                            break;
 
-                            case CLASS_SPECIAL:
+                        case CLASS_SPECIAL:
 
-                                OVAL_add(
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    16);
+                            OVAL_add(
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                16);
 
-                                break;
+                            break;
 
-                            case CLASS_BARREL:
+                        case CLASS_BARREL:
 
-                                OVAL_add(
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    32);
+                            OVAL_add(
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                32);
 
-                                break;
+                            break;
 
-                            default:
-                                break;
+                        default:
+                            break;
                         }
                     }
 
@@ -11154,7 +11308,7 @@ void AENG_draw_warehouse() {
                     &quad[3]->u,
                     &quad[3]->v);
 
-                POLY_add_quad(quad, page, true);
+                POLY_add_quad(quad, page, TRUE);
             }
         }
     }
@@ -11186,9 +11340,9 @@ void AENG_draw_warehouse() {
             // The cached lighting for this low-res mapsquare.
             //
 
-            ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
-            ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
-            ASSERT(WITHIN(NIGHT_cache[x][z], 1, NIGHT_MAX_SQUARES - 1));
+            // ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
+            // ASSERT(WITHIN(z, 0, PAP_SIZE_LO - 1));
+            // ASSERT(WITHIN(NIGHT_cache[x][z], 1, NIGHT_MAX_SQUARES - 1));
 
             col = NIGHT_square[NIGHT_cache[x][z]].colour;
 
@@ -11243,7 +11397,7 @@ void AENG_draw_warehouse() {
             f_list = PAP_2LO(x, z).ColVectHead;
 
             if (f_list) {
-                exit = false;
+                exit = FALSE;
 
                 while (!exit) {
                     facet = facet_links[f_list];
@@ -11256,7 +11410,7 @@ void AENG_draw_warehouse() {
                         //
 
                         facet = -facet;
-                        exit = true;
+                        exit = TRUE;
                     }
 
                     df = &dfacets[facet];
@@ -11284,7 +11438,7 @@ void AENG_draw_warehouse() {
                                     // Draw the outside around this facet but don't draw
                                     //
 
-                                    AENG_draw_box_around_recessed_door(&dfacets[facet], true);
+                                    AENG_draw_box_around_recessed_door(&dfacets[facet], TRUE);
                                 } else
                                 // if (df->FacetType == STOREY_TYPE_NORMAL) Why only draw normal facets?
                                 {
@@ -11334,142 +11488,142 @@ void AENG_draw_warehouse() {
 
                 if (p_thing->Flags & FLAGS_IN_VIEW) {
                     switch (p_thing->DrawType) {
-                        case DT_NONE:
-                            break;
+                    case DT_NONE:
+                        break;
 
-                        case DT_BUILDING:
-                            break;
+                    case DT_BUILDING:
+                        break;
 
-                        case DT_PRIM:
-                            break;
+                    case DT_PRIM:
+                        break;
 
-                        case DT_ANIM_PRIM:
-                            ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
-                            break;
+                    case DT_ANIM_PRIM:
+                        ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
+                        break;
 
-                        case DT_ROT_MULTI:
+                    case DT_ROT_MULTI:
 
-                            ASSERT(p_thing->Class == CLASS_PERSON);
+                        ASSERT(p_thing->Class == CLASS_PERSON);
 
-                            if (p_thing->Genus.Person->PlayerID) {
-                                if (FirstPersonMode) {
-                                    FirstPersonAlpha -= (TICK_RATIO * 16) >> TICK_SHIFT;
-                                    if (FirstPersonAlpha < MAX_FPM_ALPHA) FirstPersonAlpha = MAX_FPM_ALPHA;
-                                } else {
-                                    FirstPersonAlpha += (TICK_RATIO * 16) >> TICK_SHIFT;
-                                    if (FirstPersonAlpha > 255) FirstPersonAlpha = 255;
-                                }
-
-                                // FIGURE_alpha = FirstPersonAlpha;
-                                FIGURE_draw(p_thing);
-                                // FIGURE_alpha = 255;
+                        if (p_thing->Genus.Person->PlayerID) {
+                            if (FirstPersonMode) {
+                                FirstPersonAlpha -= (TICK_RATIO * 16) >> TICK_SHIFT;
+                                if (FirstPersonAlpha < MAX_FPM_ALPHA) FirstPersonAlpha = MAX_FPM_ALPHA;
                             } else {
-                                std::int32_t dx, dy, dz, dist;
-
-                                dx = fabs((p_thing->WorldPos.X >> 8) - AENG_cam_x);
-                                dy = fabs((p_thing->WorldPos.Y >> 8) - AENG_cam_y);
-                                dz = fabs((p_thing->WorldPos.Z >> 8) - AENG_cam_z);
-
-                                dist = QDIST3(dx, dy, dz);
-
-                                if (dist < AENG_DRAW_PEOPLE_DIST) {
-                                    FIGURE_draw(p_thing);
-                                }
+                                FirstPersonAlpha += (TICK_RATIO * 16) >> TICK_SHIFT;
+                                if (FirstPersonAlpha > 255) FirstPersonAlpha = 255;
                             }
+
+                            // FIGURE_alpha = FirstPersonAlpha;
+                            FIGURE_draw(p_thing);
+                            // FIGURE_alpha = 255;
+                        } else {
+                            std::int32_t dx, dy, dz, dist;
+
+                            dx = fabs((p_thing->WorldPos.X >> 8) - AENG_cam_x);
+                            dy = fabs((p_thing->WorldPos.Y >> 8) - AENG_cam_y);
+                            dz = fabs((p_thing->WorldPos.Z >> 8) - AENG_cam_z);
+
+                            dist = QDIST3(dx, dy, dz);
+
+                            if (dist < AENG_DRAW_PEOPLE_DIST) {
+                                FIGURE_draw(p_thing);
+                            }
+                        }
 
 #if NO_MORE_BALLOONS_NOW
 
-                            if (p_thing->Genus.Person->Balloon) {
-                                //
-                                // Draw this person's balloon.
-                                //
+                        if (p_thing->Genus.Person->Balloon) {
+                            //
+                            // Draw this person's balloon.
+                            //
 
-                                for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next) {
-                                    SHAPE_draw_balloon(balloon);
-                                }
+                            for (balloon = p_thing->Genus.Person->Balloon; balloon; balloon = BALLOON_balloon[balloon].next) {
+                                SHAPE_draw_balloon(balloon);
                             }
+                        }
 
 #endif
 
-                            if (ControlFlag && allow_debug_keys) {
-                                AENG_world_text(
-                                    (p_thing->WorldPos.X >> 8),
-                                    (p_thing->WorldPos.Y >> 8) + 0x60,
-                                    (p_thing->WorldPos.Z >> 8),
-                                    200,
-                                    180,
-                                    50,
-                                    true,
-                                    PCOM_person_state_debug(p_thing));
-                            }
+                        if (ControlFlag && allow_debug_keys) {
+                            AENG_world_text(
+                                (p_thing->WorldPos.X >> 8),
+                                (p_thing->WorldPos.Y >> 8) + 0x60,
+                                (p_thing->WorldPos.Z >> 8),
+                                200,
+                                180,
+                                50,
+                                TRUE,
+                                PCOM_person_state_debug(p_thing));
+                        }
 
-                            if ((p_thing->State == STATE_DEAD) && (p_thing->Genus.Person->Timer1 > 10)) {
-                                if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
-                                    p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
-                                    p_thing->Genus.Person->PersonType == PERSON_MIB3) {
-                                    //
-                                    // Dead MIB self destruct!
-                                    //
-                                    DRAWXTRA_MIB_destruct(p_thing);
-                                }
-                            }
-
-                            break;
-
-                        case DT_EFFECT:
-                            break;
-
-                        case DT_MESH:
-
-                            if (p_thing->Class == CLASS_SPECIAL) {
-                                DRAWXTRA_Special(p_thing);
-                            }
-
-                            if (p_thing->Class == CLASS_BIKE) {
+                        if ((p_thing->State == STATE_DEAD) && (p_thing->Genus.Person->Timer1 > 10)) {
+                            if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
+                                p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
+                                p_thing->Genus.Person->PersonType == PERSON_MIB3) {
                                 //
-                                // There shouldn't be any bikes indoors.
+                                // Dead MIB self destruct!
                                 //
-
-                                ASSERT(0);
-                            } else {
-                                MESH_draw_poly(
-                                    p_thing->Draw.Mesh->ObjectId,
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    p_thing->Draw.Mesh->Angle,
-                                    p_thing->Draw.Mesh->Tilt,
-                                    p_thing->Draw.Mesh->Roll,
-                                    nullptr, 0xff, 0);
+                                DRAWXTRA_MIB_destruct(p_thing);
                             }
+                        }
 
-                            break;
+                        break;
 
-                        case DT_VEHICLE:
-                        case DT_CHOPPER:
+                    case DT_EFFECT:
+                        break;
 
+                    case DT_MESH:
+
+                        if (p_thing->Class == CLASS_SPECIAL) {
+                            DRAWXTRA_Special(p_thing);
+                        }
+
+                        if (p_thing->Class == CLASS_BIKE) {
                             //
-                            // There shouldn't be any vehicles or helicopters indoors.
+                            // There shouldn't be any bikes indoors.
                             //
 
-                            break;
+                            ASSERT(0);
+                        } else {
+                            MESH_draw_poly(
+                                p_thing->Draw.Mesh->ObjectId,
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                p_thing->Draw.Mesh->Angle,
+                                p_thing->Draw.Mesh->Tilt,
+                                p_thing->Draw.Mesh->Roll,
+                                NULL, 0xff, 0);
+                        }
 
-                        case DT_PYRO:
-                            PYRO_draw_pyro(p_thing);
-                            break;
+                        break;
 
-                        case DT_ANIMAL_PRIM:
-#if 0
-							ANIMAL_draw(p_thing);
+                    case DT_VEHICLE:
+                    case DT_CHOPPER:
+
+                        //
+                        // There shouldn't be any vehicles or helicopters indoors.
+                        //
+
+                        break;
+
+                    case DT_PYRO:
+                        PYRO_draw_pyro(p_thing);
+                        break;
+
+                    case DT_ANIMAL_PRIM:
+#if 1
+                        ANIMAL_draw(p_thing);
 #endif
-                            break;
+                        break;
 
-                        case DT_TRACK:
-                            TRACKS_DrawTrack(p_thing);
-                            break;
+                    case DT_TRACK:
+                        TRACKS_DrawTrack(p_thing);
+                        break;
 
-                        default:
-                            break;
+                    default:
+                        break;
                     }
                 }
 
@@ -11492,7 +11646,7 @@ void AENG_draw_warehouse() {
     //
 
 #ifndef TARGET_DC
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 #endif
 
     //
@@ -11577,12 +11731,12 @@ void AENG_draw_ns() {
     THING_INDEX t_index;
     Thing *p_thing;
 
-    static bool bright = false;
+    static BOOL bright = FALSE;
 
     if (Keys[KB_COLON]) {
         Keys[KB_COLON] = 0;
 
-        bright ^= true;
+        bright ^= TRUE;
     }
 
     //
@@ -11618,7 +11772,7 @@ void AENG_draw_ns() {
     //
 
 #ifndef TARGET_DC
-    POLY_frame_init(true, true);
+    POLY_frame_init(TRUE, TRUE);
 #endif
 
     //
@@ -11649,7 +11803,7 @@ void AENG_draw_ns() {
 
     if (Keys[KB_3]) {
         Keys[KB_3] = 0;
-        AENG_shadows_on ^= true;
+        AENG_shadows_on ^= TRUE;
     }
 
     if (AENG_shadows_on) {
@@ -11908,7 +12062,7 @@ void AENG_draw_ns() {
                     for (mz = mz1; mz <= mz2; mz++) {
                         nl = &NS_lo[mx][mz];
 
-                        if (!nl->cache) {
+                        if (nl->cache == NULL) {
                             //
                             // We can't see this lo-res mapsquare, so there is no point projecting
                             // a shadow onto it!
@@ -12038,8 +12192,8 @@ void AENG_draw_ns() {
     //
 
 #ifndef TARGET_DC
-    POLY_frame_draw(false, false);
-    POLY_frame_init(true, true);
+    POLY_frame_draw(FALSE, FALSE);
+    POLY_frame_init(TRUE, TRUE);
 #endif
 
     //
@@ -12062,7 +12216,7 @@ void AENG_draw_ns() {
 
             nl = &NS_lo[x][z];
 
-            if (!nl->cache) {
+            if (nl->cache == NULL) {
                 //
                 // Create the points and faces for this mapsquare.
                 //
@@ -12191,7 +12345,7 @@ void AENG_draw_ns() {
                                 quad[3]->u = 1.0F;
                                 quad[3]->v = 1.0F;
 
-                                POLY_add_quad(quad, POLY_PAGE_SEWATER, true);
+                                POLY_add_quad(quad, POLY_PAGE_SEWATER, TRUE);
                             }
                         }
                     }
@@ -12233,7 +12387,7 @@ void AENG_draw_ns() {
     */
 
 #ifndef TARGET_DC
-    POLY_frame_init(true, true);
+    POLY_frame_init(TRUE, TRUE);
 #endif
 
     //
@@ -12423,7 +12577,7 @@ void AENG_draw_ns() {
 
                     page = NS_page[nf->page].page;
 
-                    POLY_add_quad(quad, page, true);
+                    POLY_add_quad(quad, page, TRUE);
                 }
 
                 nf += 1;
@@ -12439,33 +12593,33 @@ void AENG_draw_ns() {
                 nst = &NS_st[i];
 
                 switch (nst->type) {
-                    case NS_ST_TYPE_PRIM:
+                case NS_ST_TYPE_PRIM:
 
-                        MESH_draw_poly(
-                            nst->prim.prim,
-                            (x << PAP_SHIFT_LO) + (nst->prim.x << 3),
-                            (nst->prim.y << 5) + 0x100 * -32,
-                            (z << PAP_SHIFT_LO) + (nst->prim.z << 3),
-                            nst->prim.yaw << 3,
-                            0, 0,
-                            nullptr, 0xff, 0);
+                    MESH_draw_poly(
+                        nst->prim.prim,
+                        (x << PAP_SHIFT_LO) + (nst->prim.x << 3),
+                        (nst->prim.y << 5) + 0x100 * -32,
+                        (z << PAP_SHIFT_LO) + (nst->prim.z << 3),
+                        nst->prim.yaw << 3,
+                        0, 0,
+                        NULL, 0xff, 0);
 
-                        break;
+                    break;
 
-                    case NS_ST_TYPE_LADDER:
+                case NS_ST_TYPE_LADDER:
 
-                        FACET_draw_ns_ladder(
-                            nst->ladder.x1,
-                            nst->ladder.z1,
-                            nst->ladder.x2,
-                            nst->ladder.z2,
-                            nst->ladder.height);
+                    FACET_draw_ns_ladder(
+                        nst->ladder.x1,
+                        nst->ladder.z1,
+                        nst->ladder.x2,
+                        nst->ladder.z2,
+                        nst->ladder.height);
 
-                        break;
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             }
 
@@ -12477,7 +12631,7 @@ void AENG_draw_ns() {
                 std::int32_t f_list;
                 std::int32_t facet;
                 std::int32_t build;
-                std::int32_t exit = false;
+                std::int32_t exit = FALSE;
 
                 f_list = PAP_2LO(x, z).ColVectHead;
 
@@ -12496,7 +12650,7 @@ void AENG_draw_ns() {
                             //
 
                             facet = -facet;
-                            exit = true;
+                            exit = TRUE;
                         }
 
                         if (dfacets[facet].Counter[AENG_cur_fc_cam] != SUPERMAP_counter[AENG_cur_fc_cam]) {
@@ -12543,36 +12697,36 @@ void AENG_draw_ns() {
                     //
                 } else {
                     switch (p_thing->DrawType) {
-                        case DT_NONE:
-                            break;
+                    case DT_NONE:
+                        break;
 
-                        case DT_BUILDING:
-                            break;
+                    case DT_BUILDING:
+                        break;
 
-                        case DT_PRIM:
-                            break;
+                    case DT_PRIM:
+                        break;
 
-                        case DT_ROT_MULTI:
+                    case DT_ROT_MULTI:
 
-                            if (POLY_sphere_visible(
-                                    float(p_thing->WorldPos.X >> 8),
-                                    float(p_thing->WorldPos.Y >> 8) + KERB_HEIGHT,
-                                    float(p_thing->WorldPos.Z >> 8),
-                                    256.0F / (AENG_DRAW_DIST * 256.0F))) {
-                                FIGURE_draw(p_thing);
-                            }
+                        if (POLY_sphere_visible(
+                                float(p_thing->WorldPos.X >> 8),
+                                float(p_thing->WorldPos.Y >> 8) + KERB_HEIGHT,
+                                float(p_thing->WorldPos.Z >> 8),
+                                256.0F / (AENG_DRAW_DIST * 256.0F))) {
+                            FIGURE_draw(p_thing);
+                        }
 
-                            break;
+                        break;
 
-                        case DT_EFFECT:
-                            break;
+                    case DT_EFFECT:
+                        break;
 
-                        case DT_MESH:
-                            break;
+                    case DT_MESH:
+                        break;
 
-                        default:
-                            ASSERT(0);
-                            break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
                 }
 
@@ -12585,7 +12739,7 @@ void AENG_draw_ns() {
     // The dirt.
     //
 
-    AENG_draw_dirt();
+    // AENG_draw_dirt();
 
     //
     // Draw the drips.
@@ -12597,7 +12751,7 @@ void AENG_draw_ns() {
     // Draw the polys.
     //
 
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 }
 
 #endif
@@ -12669,7 +12823,7 @@ void AENG_draw_scanner(
     // Initialise the frame.
     //
 
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 
     //
     // Add each line in turn.
@@ -12854,7 +13008,7 @@ void AENG_draw_scanner(
     quad[2] = &pp[2];
     quad[3] = &pp[3];
 
-    POLY_add_quad(quad, POLY_PAGE_ALPHA, false, true);
+    POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
 
 #if WE_WANT_TO_DRAW_THE_TEXTURE_SHADOW_PAGE
 
@@ -12908,7 +13062,7 @@ void AENG_draw_scanner(
         quad[2] = &pp[2];
         quad[3] = &pp[3];
 
-        POLY_add_quad(quad, POLY_PAGE_SHADOW, false, true);
+        POLY_add_quad(quad, POLY_PAGE_SHADOW, FALSE, TRUE);
     }
 
 #endif
@@ -12917,7 +13071,7 @@ void AENG_draw_scanner(
     // Draw the polys.
     //
 
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 #endif
 }
 
@@ -12942,7 +13096,7 @@ void AENG_draw_power(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_
             x+w,
             y+h);
 
-    POLY_frame_init(false,false);
+    POLY_frame_init(FALSE,FALSE);
 
     //
     // Draw an outline.
@@ -12999,9 +13153,9 @@ void AENG_draw_power(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_
     quad[2] = &pp[2];
     quad[3] = &pp[3];
 
-    POLY_add_quad(quad, POLY_PAGE_COLOUR, false, true);
+    POLY_add_quad(quad, POLY_PAGE_COLOUR, FALSE, TRUE);
 
-    POLY_frame_draw(true,true);
+    POLY_frame_draw(TRUE,TRUE);
 
     */
 }
@@ -13011,7 +13165,7 @@ std::uint8_t record_video = 0;
 #if defined(TARGET_DC)
 
 // Chews memory - sod it.
-void AENG_screen_shot() {
+void AENG_screen_shot(void) {
 }
 
 // time.h doesn't seem to exist in the DC stuff - wierd.
@@ -13021,7 +13175,7 @@ void AENG_draw_FPS() {
 
 #else // #if defined(TARGET_DC)
 
-void AENG_screen_shot() {
+void AENG_screen_shot(void) {
     if (allow_debug_keys)
         if (Keys[KB_S] || record_video) {
             Keys[KB_S] = 0;
@@ -13030,7 +13184,7 @@ void AENG_screen_shot() {
             }
 
             if (the_display.screen_lock()) {
-                extern void tga_dump();
+                extern void tga_dump(void);
                 tga_dump();
 
                 the_display.screen_unlock();
@@ -13042,7 +13196,7 @@ void AENG_draw_FPS() {
     static std::int32_t fps = 0;            // current FPS
     static std::int32_t avfps = 0;          // average FPS
     static std::int32_t last_game_turn = 0; // game turn when FPS was sampled
-    static clock_t last_time = 0;           // time when FPS was sampled
+    static clock_t last_time = 0;    // time when FPS was sampled
     static std::int32_t total_frames = 0;
     static float total_time = 0;
     static std::int32_t ups = 0; // us per frame
@@ -13210,7 +13364,7 @@ void AENG_draw_messages() {
                         //
 
                         FONT_draw(DisplayWidth >> 1, 20, "Facets: %d", dfacets_drawn_this_gameturn);
-        extern std::int32_t	damp;
+        extern	std::int32_t	damp;
                         FONT_draw(20,30, "DAMP: %d", damp);
                         */
 
@@ -13287,7 +13441,7 @@ void AENG_fade_out(std::uint8_t amount) {
 #define AENG_LOGO_SIZE (128.0F)
 
 #ifndef TARGET_DC
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 #endif
 
     pp[0].X = AENG_LOGO_MID_X - AENG_LOGO_SIZE;
@@ -13326,11 +13480,11 @@ void AENG_fade_out(std::uint8_t amount) {
     pp[3].colour = logo_colour_bot;
     pp[3].specular = 0x00000000;
 
-    POLY_add_quad(quad, POLY_PAGE_LOGO, false, true);
+    POLY_add_quad(quad, POLY_PAGE_LOGO, FALSE, TRUE);
 
 #ifndef TARGET_DC
-    POLY_frame_draw(true, true);
-    POLY_frame_init(false, false);
+    POLY_frame_draw(TRUE, TRUE);
+    POLY_frame_init(FALSE, FALSE);
 #endif
 
     pp[0].X = 0.0F;
@@ -13369,10 +13523,10 @@ void AENG_fade_out(std::uint8_t amount) {
     pp[3].colour = back_colour_bot;
     pp[3].specular = 0x00000000;
 
-    POLY_add_quad(quad, POLY_PAGE_ALPHA, false, true);
+    POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
 
 #ifndef TARGET_DC
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 #endif
 }
 
@@ -13402,7 +13556,7 @@ void AENG_fade_in(std::uint8_t amount) {
     quad[3] = &pp[3];
 
 #ifndef TARGET_DC
-    POLY_frame_init(true, true);
+    POLY_frame_init(TRUE, TRUE);
 #endif
 
     pp[0].X = AENG_LOGO_MID_X - AENG_LOGO_SIZE;
@@ -13441,10 +13595,10 @@ void AENG_fade_in(std::uint8_t amount) {
     pp[3].colour = logo_colour_bot;
     pp[3].specular = 0xff000000;
 
-    POLY_add_quad(quad, POLY_PAGE_LOGO, false, true);
+    POLY_add_quad(quad, POLY_PAGE_LOGO, FALSE, TRUE);
 
 #ifndef TARGET_DC
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 #endif
 
     pp[0].X = 0.0F;
@@ -13483,11 +13637,11 @@ void AENG_fade_in(std::uint8_t amount) {
     pp[3].colour = back_colour_bot;
     pp[3].specular = 0xff000000;
 
-    POLY_add_quad(quad, POLY_PAGE_ALPHA, false, true);
+    POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE, TRUE);
 
 #ifndef TARGET_DC
-    POLY_frame_draw(true, true);
-    POLY_frame_init(false, false);
+    POLY_frame_draw(TRUE, TRUE);
+    POLY_frame_init(FALSE, FALSE);
 #endif
 }
 
@@ -13521,7 +13675,7 @@ void AENG_unlock() {
 }
 
 void AENG_flip() {
-    FLIP(nullptr, DDFLIP_WAIT); // PerMedia2 needs this, or else!
+    FLIP(NULL, DDFLIP_WAIT); // PerMedia2 needs this, or else!
 }
 
 void AENG_blit() {
@@ -13533,14 +13687,14 @@ void AENG_e_draw_3d_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std:
     AENG_world_line(
         x1, y1, z1, 8, 0x00ffffff,
         x2, y2, z2, 8, 0x00ffffff,
-        true);
+        TRUE);
 }
 
 void AENG_e_draw_3d_line_dir(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
     AENG_world_line(
         x1, y1, z1, 32, 0x00ffffff,
         x2, y2, z2, 0, 0x00553311,
-        true);
+        TRUE);
 }
 
 void AENG_e_draw_3d_line_col(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r, std::int32_t g, std::int32_t b) {
@@ -13553,7 +13707,7 @@ void AENG_e_draw_3d_line_col(std::int32_t x1, std::int32_t y1, std::int32_t z1, 
     AENG_world_line(
         x1, y1, z1, 8, colour,
         x2, y2, z2, 8, colour,
-        true);
+        TRUE);
 }
 
 void AENG_e_draw_3d_line_col_sorted(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r, std::int32_t g, std::int32_t b) {
@@ -13566,7 +13720,7 @@ void AENG_e_draw_3d_line_col_sorted(std::int32_t x1, std::int32_t y1, std::int32
     AENG_world_line(
         x1, y1, z1, 8, colour,
         x2, y2, z2, 8, colour,
-        false);
+        FALSE);
 }
 
 void AENG_e_draw_3d_mapwho(std::int32_t x1, std::int32_t z1) {
@@ -13597,17 +13751,17 @@ void AENG_demo_attract(std::int32_t x, std::int32_t y, char *text) {
 
     static flash = 0;
 
-    POLY_frame_init(false,false);
+    POLY_frame_init(FALSE,FALSE);
 
 
-    text_fudge = true;
+    text_fudge = TRUE;
 
 
     draw_centre_text_at(x,y,text,1,1);
 
     //if (flash++ & 0x10)	Do it all the time!
     {
-            text_fudge  = false;
+            text_fudge  = FALSE;
             text_colour = 0x00eeeeff;
 
             draw_centre_text_at(
@@ -13616,7 +13770,7 @@ void AENG_demo_attract(std::int32_t x, std::int32_t y, char *text) {
                     0,0);
     }
 
-    POLY_frame_draw(false,true);
+    POLY_frame_draw(FALSE,TRUE);
 
     */
 }
@@ -13718,7 +13872,7 @@ std::int32_t AENG_raytraced_position(
         if (NS_there_is_a_los(
                 x1, y1, z1,
                 x2, y2, z2)) {
-            return false;
+            return FALSE;
         }
 
         *world_x = NS_los_fail_x;
@@ -13727,9 +13881,9 @@ std::int32_t AENG_raytraced_position(
 
         if (!WITHIN(*world_x, 0, (PAP_SIZE_HI << 8) - 1) ||
             !WITHIN(*world_z, 0, (PAP_SIZE_HI << 8) - 1)) {
-            return false;
+            return FALSE;
         } else {
-            return true;
+            return TRUE;
         }
     }
 
@@ -13760,9 +13914,9 @@ std::int32_t AENG_raytraced_position(
 
             if (!WITHIN(*world_x, 0, (PAP_SIZE_HI << 8) - 1) ||
                 !WITHIN(*world_z, 0, (PAP_SIZE_HI << 8) - 1)) {
-                return false;
+                return FALSE;
             } else {
-                return true;
+                return TRUE;
             }
         }
 
@@ -13771,7 +13925,7 @@ std::int32_t AENG_raytraced_position(
         rz += dz;
     }
 
-    return false;
+    return FALSE;
 }
 
 std::uint32_t AENG_light_draw(
@@ -13788,7 +13942,7 @@ std::uint32_t AENG_light_draw(
     std::int32_t h2 = ly;
 
 #ifndef TARGET_DC
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 #endif
 
     //
@@ -13813,10 +13967,10 @@ std::uint32_t AENG_light_draw(
     AENG_world_line(
         lx, h1, lz, 32, 0xffffff,
         lx, h2, lz, 0, colour,
-        false);
+        FALSE);
 
 #ifndef TARGET_DC
-    POLY_frame_draw(false, false);
+    POLY_frame_draw(FALSE, FALSE);
 #endif
 
     //
@@ -13947,7 +14101,7 @@ void AENG_draw_sewer_editor(
     // Clear out stuff.
     //
 
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 
     //
     // Set the camera.
@@ -13977,7 +14131,7 @@ void AENG_draw_sewer_editor(
         float(AENG_DRAW_DIST),
         AENG_LENS);
 
-    *mouse_over_valid = false;
+    *mouse_over_valid = FALSE;
 
     for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
         for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
@@ -13987,13 +14141,13 @@ void AENG_draw_sewer_editor(
             eh = &ES_hi[x][z];
 
             switch (eh->type) {
-                case ES_TYPE_ROCK: page = NS_page[NS_PAGE_ROCK].page; break;
-                case ES_TYPE_SEWER: page = NS_page[NS_PAGE_SWALL].page; break;
-                case ES_TYPE_GROUND: page = NS_page[NS_PAGE_STONE].page; break;
-                case ES_TYPE_HOLE: page = 0; break;
-                default:
-                    ASSERT(0);
-                    break;
+            case ES_TYPE_ROCK: page = NS_page[NS_PAGE_ROCK].page; break;
+            case ES_TYPE_SEWER: page = NS_page[NS_PAGE_SWALL].page; break;
+            case ES_TYPE_GROUND: page = NS_page[NS_PAGE_STONE].page; break;
+            case ES_TYPE_HOLE: page = 0; break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             if (eh->flag & ES_FLAG_GRATING) {
@@ -14026,7 +14180,7 @@ void AENG_draw_sewer_editor(
             }
 
             if (POLY_valid_quad(quad)) {
-                POLY_add_quad(quad, page, false);
+                POLY_add_quad(quad, page, FALSE);
 
                 //
                 // Is the mouse in this quad?
@@ -14038,7 +14192,7 @@ void AENG_draw_sewer_editor(
                         quad,
                         &along_01,
                         &along_02)) {
-                    *mouse_over_valid = true;
+                    *mouse_over_valid = TRUE;
 
                     *mouse_over_x = x * 256 + 0x80;
                     *mouse_over_y = std::int32_t(py);
@@ -14084,7 +14238,7 @@ void AENG_draw_sewer_editor(
                 pp[3].colour = 0x00222266;
 
                 if (POLY_valid_quad(quad)) {
-                    POLY_add_quad(quad, POLY_PAGE_ADDITIVE, false);
+                    POLY_add_quad(quad, POLY_PAGE_ADDITIVE, FALSE);
                 }
 
                 pp[0].colour = 0x00ffffff;
@@ -14113,7 +14267,7 @@ void AENG_draw_sewer_editor(
                 AENG_world_line(
                     mx, std::int32_t(py) + 0x010, mz, 32, colourbot,
                     mx, std::int32_t(py) + 0x280, mz, 0, colourtop,
-                    false);
+                    FALSE);
             }
         }
     }
@@ -14150,35 +14304,35 @@ void AENG_draw_sewer_editor(
         et = &ES_thing[i];
 
         switch (et->type) {
-            case ES_THING_TYPE_UNUSED:
-                break;
+        case ES_THING_TYPE_UNUSED:
+            break;
 
-            case ES_THING_TYPE_LADDER:
+        case ES_THING_TYPE_LADDER:
 
-                FACET_draw_ns_ladder(
-                    et->x1,
-                    et->z1,
-                    et->x2,
-                    et->z2,
-                    et->height);
+            FACET_draw_ns_ladder(
+                et->x1,
+                et->z1,
+                et->x2,
+                et->z2,
+                et->height);
 
-                break;
+            break;
 
-            case ES_THING_TYPE_PRIM:
+        case ES_THING_TYPE_PRIM:
 
-                MESH_draw_poly(
-                    et->prim,
-                    et->x,
-                    et->y,
-                    et->z,
-                    et->yaw, 0, 0,
-                    nullptr, 0xff, 0);
+            MESH_draw_poly(
+                et->prim,
+                et->x,
+                et->y,
+                et->z,
+                et->yaw, 0, 0,
+                NULL, 0xff, 0);
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -14199,11 +14353,11 @@ void AENG_draw_sewer_editor(
                 *mouse_over_y,
                 *mouse_over_z & ~0xff,
                 prim_yaw, 0, 0,
-                nullptr, 0xff, 0);
+                NULL, 0xff, 0);
         }
     }
 
-    POLY_frame_draw(true, true);
+    POLY_frame_draw(TRUE, TRUE);
 
     return;
 }
@@ -14280,7 +14434,7 @@ std::uint32_t AENG_waypoint_draw(
     //	std::int32_t h1 = PAP_calc_map_height_at(lx, lz);
     std::int32_t h2 = ly;
 
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 
     //
     // Draw a single sphere.
@@ -14302,7 +14456,7 @@ std::uint32_t AENG_waypoint_draw(
             30 + (highlight >> 4),
             colour);
 
-    POLY_frame_draw(false, false);
+    POLY_frame_draw(FALSE, FALSE);
 
     //
     // Was it over the mouse?
@@ -14353,7 +14507,7 @@ std::uint32_t AENG_rad_trigger_draw(
     std::int32_t h1 = PAP_calc_map_height_at(lx, lz);
     std::int32_t h2 = ly;
 
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 
     //
     // Draw a single sphere.
@@ -14375,7 +14529,7 @@ std::uint32_t AENG_rad_trigger_draw(
         colour,
         0x88000000);
 
-    POLY_frame_draw(false, false);
+    POLY_frame_draw(FALSE, FALSE);
 
     //
     // Was it over the mouse?
@@ -14444,13 +14598,13 @@ void AENG_groundsquare_draw(
     pp[0].specular = pp[1].specular = pp[2].specular = pp[3].specular = 0xFF000000;
     pp[0].colour = pp[1].colour = pp[2].colour = pp[3].colour = colour;
 
-    if (polyinit & 1) POLY_frame_init(false, false);
+    if (polyinit & 1) POLY_frame_init(FALSE, FALSE);
 
     if (pp[0].MaybeValid() && pp[1].MaybeValid() && pp[2].MaybeValid() && pp[3].MaybeValid()) {
-        POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
+        POLY_add_quad(quad, POLY_PAGE_ALPHA, FALSE);
     }
 
-    if (polyinit & 2) POLY_frame_draw(false, false);
+    if (polyinit & 2) POLY_frame_draw(FALSE, FALSE);
 }
 
 #endif // #ifndef TARGET_DC
@@ -14560,7 +14714,7 @@ void AENG_draw(std::int32_t draw_3d) {
             }
     */
 
-    AENG_drawing_a_warehouse = false;
+    AENG_drawing_a_warehouse = FALSE;
 
     //
     // Update stuff.
@@ -14587,7 +14741,7 @@ void AENG_draw(std::int32_t draw_3d) {
     NIGHT_dlight_squares_up();
 
     POLY_colour_restrict = 0;
-    POLY_force_additive_alpha = false;
+    POLY_force_additive_alpha = FALSE;
 
     //
     // Mark all NIGHT cache squares for deletion.
@@ -14621,16 +14775,16 @@ void AENG_draw(std::int32_t draw_3d) {
 
             if (fc->focus->Class == CLASS_PERSON &&
                 fc->focus->Genus.Person->Ware) {
-                AENG_ensure_appropriate_caching(true);
+                AENG_ensure_appropriate_caching(TRUE);
                 AENG_draw_warehouse();
             } else {
-                AENG_ensure_appropriate_caching(false);
+                AENG_ensure_appropriate_caching(FALSE);
                 AENG_draw_city();
             }
         }
 
         AENG_get_rid_of_deleteme_squares();
-        AENG_get_rid_of_unused_dfcache_lighting(true);
+        AENG_get_rid_of_unused_dfcache_lighting(TRUE);
     } else {
         fc = &FC_cam[0];
 
@@ -14710,25 +14864,25 @@ void AENG_draw(std::int32_t draw_3d) {
         AENG_cur_fc_cam = 0;
 
         if (warehouse) {
-            AENG_drawing_a_warehouse = true;
+            AENG_drawing_a_warehouse = TRUE;
 
-            AENG_ensure_appropriate_caching(true);
+            AENG_ensure_appropriate_caching(TRUE);
             AENG_draw_warehouse();
         } else {
-            AENG_ensure_appropriate_caching(false);
+            AENG_ensure_appropriate_caching(FALSE);
             //			if(ShiftFlag)
             AENG_draw_city();
 
             if (AENG_transparent_warehouses) {
                 SUPERMAP_counter_increase(0);
 
-                AENG_ensure_appropriate_caching(true);
+                AENG_ensure_appropriate_caching(TRUE);
                 AENG_draw_warehouse();
             }
         }
 
         AENG_get_rid_of_deleteme_squares();
-        AENG_get_rid_of_unused_dfcache_lighting(false);
+        AENG_get_rid_of_unused_dfcache_lighting(FALSE);
 
         //
         // Restore the old camera.
@@ -14794,7 +14948,7 @@ void AENG_draw(std::int32_t draw_3d) {
                             cam_roll);
 
                     POLY_colour_restrict      = 0x0000ffff;		// No green or blue
-                    POLY_force_additive_alpha = false;
+                    POLY_force_additive_alpha = FALSE;
 
                     AENG_draw_city();
 
@@ -14822,7 +14976,7 @@ void AENG_draw(std::int32_t draw_3d) {
                             cam_roll);
 
                     POLY_colour_restrict      = 0x00ff0000;		// No red
-                    POLY_force_additive_alpha = true;
+                    POLY_force_additive_alpha = TRUE;
 
                     GAME_TURN += 1;		// So the buildings are drawn again...
 
@@ -14860,7 +15014,7 @@ void AENG_draw(std::int32_t draw_3d) {
     NIGHT_dlight_squares_down();
 
     POLY_colour_restrict = 0;
-    POLY_force_additive_alpha = false;
+    POLY_force_additive_alpha = FALSE;
 
     // SPONG
     // #if !USE_TOMS_ENGINE_PLEASE_BOB
@@ -14869,7 +15023,7 @@ void AENG_draw(std::int32_t draw_3d) {
     //
 
 #ifndef TARGET_DC
-    POLY_frame_init(false, false);
+    POLY_frame_init(FALSE, FALSE);
 #endif
     // #endif
 }
@@ -15107,7 +15261,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
                 &quad[3]->u,
                 &quad[3]->v);
 
-            POLY_add_quad(quad, page, false);
+            POLY_add_quad(quad, page, FALSE);
         }
 
         //
@@ -15120,7 +15274,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
         quad[3] = &upper[i + 1][1];
 
         if (POLY_valid_quad(quad)) {
-            POLY_add_quad(quad, col_page, false);
+            POLY_add_quad(quad, col_page, FALSE);
         }
 
         //
@@ -15133,7 +15287,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
         quad[3] = &upper[i + 1][1];
 
         if (POLY_valid_quad(quad)) {
-            POLY_add_quad(quad, col_page, false);
+            POLY_add_quad(quad, col_page, FALSE);
         }
 
         x += dx;
@@ -15157,7 +15311,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
             quad[1]->specular = 0xff000000;
         }
 
-        POLY_add_quad(quad, col_page, true);
+        POLY_add_quad(quad, col_page, TRUE);
     }
 
     quad[0] = &upper[upto - 1][0];
@@ -15173,7 +15327,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
             quad[2]->specular = 0xff000000;
         }
 
-        POLY_add_quad(quad, col_page, true);
+        POLY_add_quad(quad, col_page, TRUE);
     }
 
     if (inside_out) {
@@ -15186,7 +15340,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
 // Get rid of any unused dfcache lighting.
 //
 
-void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen) // Splitscreen = true or false
+void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen) // Splitscreen = TRUE or FALSE
 {
     std::int32_t dfcache;
     std::int32_t next;
@@ -15204,8 +15358,8 @@ void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen) // Splits
         // free up the cached lighting info for it.
         //
 
-        ASSERT(WITHIN(ndf->dfacet, 1, next_dfacet - 1));
-        ASSERT(dfacets[ndf->dfacet].Dfcache == dfcache);
+        /*ASSERT(WITHIN(ndf->dfacet, 1, next_dfacet - 1));
+        ASSERT(dfacets[ndf->dfacet].Dfcache == dfcache);*/
 
         if (dfacets[ndf->dfacet].Counter[0] != SUPERMAP_counter[0]) {
             if (splitscreen) {
@@ -15462,7 +15616,7 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
                             pp[2].colour = col;
                             pp[3].colour = col;
                             page = inside_tex[floor_type][room_id - 1] + START_PAGE_FOR_FLOOR * 64; // temp
-                            POLY_add_quad(quad, page, false);
+                            POLY_add_quad(quad, page, FALSE);
                         }
                     }
                 }

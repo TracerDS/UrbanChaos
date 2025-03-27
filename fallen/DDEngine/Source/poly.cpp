@@ -28,11 +28,9 @@
 #ifndef TARGET_DC
 
 #define LOG_ENTER(x) \
-    {                \
-    }
+    {}
 #define LOG_EXIT(x) \
-    {               \
-    }
+    {}
 
 #endif
 
@@ -158,11 +156,11 @@ std::int32_t fade_point_more(POLY_Point *pp) {
 //
 // init engine
 
-void POLY_init() {
+void POLY_init(void) {
 }
 
 // Clears all poly pages.
-void POLY_ClearAllPages() {
+void POLY_ClearAllPages(void) {
     for (int i = 0; i < POLY_NUM_PAGES; i++) {
         POLY_Page[i].Clear();
     }
@@ -301,75 +299,75 @@ void POLY_camera_set(
     POLY_screen_mul_x = POLY_screen_width * 0.5F / POLY_ZCLIP_PLANE;
 
     switch (POLY_splitscreen) {
-        case POLY_SPLITSCREEN_NONE:
-            POLY_screen_height = float(DisplayHeight);
+    case POLY_SPLITSCREEN_NONE:
+        POLY_screen_height = float(DisplayHeight);
 
-            POLY_screen_clip_top = 00.0;
-            POLY_screen_clip_bottom = POLY_screen_height - 00.0;
+        POLY_screen_clip_top = 00.0;
+        POLY_screen_clip_bottom = POLY_screen_height - 00.0;
 
+        {
+            static float wideify = 0.0f;
+
+            /*
+
+            if (EWAY_stop_player_moving())
             {
-                static float wideify = 0.0f;
-
-                /*
-
-                if (EWAY_stop_player_moving())
-                {
-                        wideify += (80.0F - wideify) * 0.125F;
-                }
-                else
-                {
-                        wideify += (0.0F - wideify) * 0.125F;
-                }
-
-                if (wideify < 1)	wideify = 0;
-
-                */
-
-                if (EWAY_stop_player_moving()) {
-                    wideify = 80.0F;
-                } else {
-                    wideify = 0.0F;
-                }
-
-                POLY_screen_clip_top += wideify;
-                POLY_screen_clip_bottom -= wideify;
-
-                POLY_screen_height -= wideify * 2.0F;
+                    wideify += (80.0F - wideify) * 0.125F;
+            }
+            else
+            {
+                    wideify += (0.0F - wideify) * 0.125F;
             }
 
-            POLY_screen_mid_y = POLY_screen_height * 0.5F + POLY_screen_clip_top;
-            POLY_screen_mul_y = POLY_screen_height * 0.5F / POLY_ZCLIP_PLANE;
+            if (wideify < 1)	wideify = 0;
 
-            s_ClipMask = STD_CLIPMASK;
-            break;
+            */
 
-        case POLY_SPLITSCREEN_TOP:
-            POLY_screen_height = float(DisplayHeight >> 1);
+            if (EWAY_stop_player_moving()) {
+                wideify = 80.0F;
+            } else {
+                wideify = 0.0F;
+            }
 
-            POLY_screen_clip_top = 0.0F;
-            POLY_screen_clip_bottom = POLY_screen_height;
+            POLY_screen_clip_top += wideify;
+            POLY_screen_clip_bottom -= wideify;
 
-            POLY_screen_mid_y = POLY_screen_height * 0.50F;
-            POLY_screen_mul_y = POLY_screen_height * 0.50F / POLY_ZCLIP_PLANE;
+            POLY_screen_height -= wideify * 2.0F;
+        }
 
-            s_ClipMask = STD_CLIPMASK | POLY_CLIP_BOTTOM;
-            break;
+        POLY_screen_mid_y = POLY_screen_height * 0.5F + POLY_screen_clip_top;
+        POLY_screen_mul_y = POLY_screen_height * 0.5F / POLY_ZCLIP_PLANE;
 
-        case POLY_SPLITSCREEN_BOTTOM:
-            POLY_screen_height = float(DisplayHeight >> 1);
+        s_ClipMask = STD_CLIPMASK;
+        break;
 
-            POLY_screen_clip_top = POLY_screen_height;
-            POLY_screen_clip_bottom = float(DisplayHeight);
+    case POLY_SPLITSCREEN_TOP:
+        POLY_screen_height = float(DisplayHeight >> 1);
 
-            POLY_screen_mid_y = POLY_screen_height * 1.50F;
-            POLY_screen_mul_y = POLY_screen_height * 0.50F / POLY_ZCLIP_PLANE;
+        POLY_screen_clip_top = 0.0F;
+        POLY_screen_clip_bottom = POLY_screen_height;
 
-            s_ClipMask = STD_CLIPMASK | POLY_CLIP_TOP;
-            break;
+        POLY_screen_mid_y = POLY_screen_height * 0.50F;
+        POLY_screen_mul_y = POLY_screen_height * 0.50F / POLY_ZCLIP_PLANE;
 
-        default:
-            ASSERT(0);
-            break;
+        s_ClipMask = STD_CLIPMASK | POLY_CLIP_BOTTOM;
+        break;
+
+    case POLY_SPLITSCREEN_BOTTOM:
+        POLY_screen_height = float(DisplayHeight >> 1);
+
+        POLY_screen_clip_top = POLY_screen_height;
+        POLY_screen_clip_bottom = float(DisplayHeight);
+
+        POLY_screen_mid_y = POLY_screen_height * 1.50F;
+        POLY_screen_mul_y = POLY_screen_height * 0.50F / POLY_ZCLIP_PLANE;
+
+        s_ClipMask = STD_CLIPMASK | POLY_CLIP_TOP;
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 
     //	POLY_screen_clip_left += 32;
@@ -849,7 +847,7 @@ void POLY_set_local_rotation(
 
 // Sets up a null local rotation, i.e. none.
 // Only useful for setting the current camera rotation into the D3D ones.
-void POLY_set_local_rotation_none() {
+void POLY_set_local_rotation_none(void) {
     LOG_ENTER(Poly_set_local_rotation)
 
     POLY_cam_off_x = -POLY_cam_x;
@@ -1433,167 +1431,147 @@ static float s_DistBuffer[128];
 static POLY_Point *s_PtrBuffer[128];
 
 // POLY_add_poly no longer works - system's been changed.
-#if 0
+#if 1
 
 // POLY_add_poly
 //
 // clip poly and write to the vertex buffer
 
-void POLY_add_poly(POLY_Point** poly, std::int32_t poly_points, std::int32_t page)
-{
+void POLY_add_poly(POLY_Point **poly, std::int32_t poly_points, std::int32_t page) {
+    std::uint8_t clip_or;
+    std::uint8_t clip_and;
+    std::int32_t ii;
 
-	std::uint8_t	clip_or;
-	std::uint8_t	clip_and;
-	std::int32_t	ii;
+    // get aggregate clip flags
+    clip_or = 0;
+    clip_and = 0xFF;
+    for (ii = 0; ii < poly_points; ii++) {
+        ASSERT(poly[ii]->MaybeValid());
+        clip_or |= poly[ii]->clip;
+        clip_and &= poly[ii]->clip;
+    }
 
-	// get aggregate clip flags
-	clip_or = 0;
-	clip_and = 0xFF;
-	for (ii = 0; ii < poly_points; ii++)
-	{
-		ASSERT(poly[ii]->MaybeValid());
-		clip_or |= poly[ii]->clip;
-		clip_and &= poly[ii]->clip;
-	}
+    if (clip_and & (POLY_CLIP_NEAR | POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM)) {
+        return; // is this triggering?
+    }
 
-	if (clip_and & (POLY_CLIP_NEAR | POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM))
-	{
-		return;		  // is this triggering?
-	}
+    // initialize state for clipping
+    POLY_Point **rptr = poly;
+    POLY_Point **wptr = s_PtrBuffer;
 
-	// initialize state for clipping
-	POLY_Point**	rptr = poly;
-	POLY_Point**	wptr = s_PtrBuffer;
+    s_PointBufferOffset = 0;
 
-	s_PointBufferOffset = 0;
+    // remove flags that we don't care about
+    clip_or &= s_ClipMask;
 
-	// remove flags that we don't care about
-	clip_or &= s_ClipMask;
+    // clip to nearplane
+    if (clip_or & POLY_CLIP_NEAR) {
+        for (ii = 0; ii < poly_points; ii++) {
+            s_DistBuffer[ii] = rptr[ii]->z - POLY_Z_NEARPLANE;
+        }
 
-	// clip to nearplane
-	if (clip_or & POLY_CLIP_NEAR)
-	{
-		for (ii = 0; ii < poly_points; ii++)
-		{
-			s_DistBuffer[ii] = rptr[ii]->z - POLY_Z_NEARPLANE;
-		}
+        poly_points = POLY_clip_against_nearplane(rptr, s_DistBuffer, poly_points, wptr);
+        rptr = wptr;
+        wptr += poly_points;
 
-		poly_points = POLY_clip_against_nearplane(rptr, s_DistBuffer, poly_points, wptr);
-		rptr = wptr;
-		wptr += poly_points;
+        if (!poly_points) {
+            return;
+        }
 
-		if (!poly_points)
-		{
-			return;
-		}
-
-		// refresh clip flags
-		clip_or = 0;
-		clip_and = 0xFF;
-		for (ii = 0; ii < poly_points; ii++)
-		{
-			ASSERT(rptr[ii]->MaybeValid());
-			clip_or |= rptr[ii]->clip;
-			clip_and &= rptr[ii]->clip;
-		}
-		clip_or &= s_ClipMask;
-	}
+        // refresh clip flags
+        clip_or = 0;
+        clip_and = 0xFF;
+        for (ii = 0; ii < poly_points; ii++) {
+            ASSERT(rptr[ii]->MaybeValid());
+            clip_or |= rptr[ii]->clip;
+            clip_and &= rptr[ii]->clip;
+        }
+        clip_or &= s_ClipMask;
+    }
 
 #if _DEBUG
-	// check that clip flags are correctly set
-	for (ii = 0; ii < poly_points; ii++)
-	{
-		std::uint8_t	tmp = rptr[ii]->clip;
-		POLY_setclip(rptr[ii]);
-		if (tmp != rptr[ii]->clip)
-		{
-			TRACE("ERROR!  Polygon vertex clip flags not set\n(Hint: add ,true parameter to the add polygon call if you set screen coordinates by hand, or call POLY_setclip())\n");
- 			ASSERT(0);
-			// now trace through the call - I've just realized this won't necessarily work ;-(
-			POLY_transform(rptr[ii]->x, rptr[ii]->y, rptr[ii]->z, rptr[ii]);
-		}
-	}
+    // check that clip flags are correctly set
+    for (ii = 0; ii < poly_points; ii++) {
+        std::uint8_t tmp = rptr[ii]->clip;
+        POLY_setclip(rptr[ii]);
+        if (tmp != rptr[ii]->clip) {
+            TRACE("ERROR!  Polygon vertex clip flags not set\n(Hint: add ,true parameter to the add polygon call if you set screen coordinates by hand, or call POLY_setclip())\n");
+            ASSERT(0);
+            // now trace through the call - I've just realized this won't necessarily work ;-(
+            POLY_transform(rptr[ii]->x, rptr[ii]->y, rptr[ii]->z, rptr[ii]);
+        }
+    }
 #endif
 
 #if !NO_CLIPPING_TO_THE_SIDES_PLEASE_BOB
-	if (clip_or & (POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM))
-	{
-		if (clip_or & POLY_CLIP_LEFT)
-		{
-			LOG_ENTER ( POLY_side_clip )
-			for (ii = 0; ii < poly_points; ii++)
-			{
-				s_DistBuffer[ii] = rptr[ii]->X - POLY_screen_clip_left;
-			}
+    if (clip_or & (POLY_CLIP_LEFT | POLY_CLIP_RIGHT | POLY_CLIP_TOP | POLY_CLIP_BOTTOM)) {
+        if (clip_or & POLY_CLIP_LEFT) {
+            LOG_ENTER(POLY_side_clip)
+            for (ii = 0; ii < poly_points; ii++) {
+                s_DistBuffer[ii] = rptr[ii]->X - POLY_screen_clip_left;
+            }
 
-			poly_points = POLY_clip_against_side_X(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_left);
-			rptr = wptr;
-			wptr += poly_points;
+            poly_points = POLY_clip_against_side_X(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_left);
+            rptr = wptr;
+            wptr += poly_points;
 
-			LOG_EXIT ( POLY_side_clip )
-			if (!poly_points)	return;
-		}
+            LOG_EXIT(POLY_side_clip)
+            if (!poly_points) return;
+        }
 
-		if (clip_or & POLY_CLIP_RIGHT)
-		{
-			LOG_ENTER ( POLY_side_clip )
-			for (ii = 0; ii < poly_points; ii++)
-			{
-				s_DistBuffer[ii] = POLY_screen_clip_right - rptr[ii]->X;
-			}
+        if (clip_or & POLY_CLIP_RIGHT) {
+            LOG_ENTER(POLY_side_clip)
+            for (ii = 0; ii < poly_points; ii++) {
+                s_DistBuffer[ii] = POLY_screen_clip_right - rptr[ii]->X;
+            }
 
-			poly_points = POLY_clip_against_side_X(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_right);
-			rptr = wptr;
-			wptr += poly_points;
+            poly_points = POLY_clip_against_side_X(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_right);
+            rptr = wptr;
+            wptr += poly_points;
 
-			LOG_EXIT ( POLY_side_clip )
-			if (!poly_points)	return;
-		}
+            LOG_EXIT(POLY_side_clip)
+            if (!poly_points) return;
+        }
 
-		if (clip_or & POLY_CLIP_TOP)
-		{
-			LOG_ENTER ( POLY_side_clip )
-			for (ii = 0; ii < poly_points; ii++)
-			{
-				s_DistBuffer[ii] = rptr[ii]->Y - POLY_screen_clip_top;
-			}
+        if (clip_or & POLY_CLIP_TOP) {
+            LOG_ENTER(POLY_side_clip)
+            for (ii = 0; ii < poly_points; ii++) {
+                s_DistBuffer[ii] = rptr[ii]->Y - POLY_screen_clip_top;
+            }
 
-			poly_points = POLY_clip_against_side_Y(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_top);
-			rptr = wptr;
-			wptr += poly_points;
+            poly_points = POLY_clip_against_side_Y(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_top);
+            rptr = wptr;
+            wptr += poly_points;
 
-			LOG_EXIT ( POLY_side_clip )
-			if (!poly_points)	return;
-		}
+            LOG_EXIT(POLY_side_clip)
+            if (!poly_points) return;
+        }
 
-		if (clip_or & POLY_CLIP_BOTTOM)
-		{
-			LOG_ENTER ( POLY_side_clip )
-			for (ii = 0; ii < poly_points; ii++)
-			{
-				s_DistBuffer[ii] = POLY_screen_clip_bottom - rptr[ii]->Y;
-			}
+        if (clip_or & POLY_CLIP_BOTTOM) {
+            LOG_ENTER(POLY_side_clip)
+            for (ii = 0; ii < poly_points; ii++) {
+                s_DistBuffer[ii] = POLY_screen_clip_bottom - rptr[ii]->Y;
+            }
 
-			poly_points = POLY_clip_against_side_Y(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_bottom);
-			rptr = wptr;
-			wptr += poly_points;
+            poly_points = POLY_clip_against_side_Y(rptr, s_DistBuffer, poly_points, wptr, POLY_screen_clip_bottom);
+            rptr = wptr;
+            wptr += poly_points;
 
-			LOG_EXIT ( POLY_side_clip )
-			if (!poly_points)	return;
-		}
-	}
+            LOG_EXIT(POLY_side_clip)
+            if (!poly_points) return;
+        }
+    }
 #endif // #if !NO_CLIPPING_TO_THE_SIDES_PLEASE_BOB
 
-	//
-	// add to appropriate pages
-	//
+    //
+    // add to appropriate pages
+    //
 
-	POLY_Page[page].AddFan(rptr, poly_points);
+    POLY_Page[page].AddFan(rptr, poly_points);
 
-	if (POLY_page_flag[page] & POLY_PAGE_FLAG_2PASS)
-	{
-		POLY_Page[page + 1].AddFan(rptr, poly_points);
-	}
+    if (POLY_page_flag[page] & POLY_PAGE_FLAG_2PASS) {
+        POLY_Page[page + 1].AddFan(rptr, poly_points);
+    }
 }
 
 #endif // #if 1 ????!
@@ -1722,7 +1700,7 @@ void POLY_add_nearclipped_triangle(POLY_Point *pt[3], std::int32_t page, std::in
         }
 
 #else // #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-      // The version with index buffers
+        // The version with index buffers
 
         PolyPage *pp = &POLY_Page[page];
 #ifdef TEX_EMBED
@@ -1923,12 +1901,8 @@ void POLY_add_quad_fast(POLY_Point *pt[4], std::int32_t page, std::int32_t backf
 
         cull = 0;
 
-        if (POLY_tri_backfacing(pt[0], pt[1], pt[2])) {
-            cull |= 1;
-        }
-        if (POLY_tri_backfacing(pt[1], pt[3], pt[2])) {
-            cull |= 2;
-        }
+        if (POLY_tri_backfacing(pt[0], pt[1], pt[2])) { cull |= 1; }
+        if (POLY_tri_backfacing(pt[1], pt[3], pt[2])) { cull |= 2; }
 
         if (cull == 0) {
             //
@@ -2120,38 +2094,31 @@ second_page:;
     LOG_EXIT(POLY_add_quad)
 }
 
-#if 0
+#if 1
 //
 // add a triangle to the poly list
 //
 
-void POLY_add_triangle_slow(POLY_Point *pp[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
-{
-	{
-		if (generate_clip_flags)
-		{
-			POLY_setclip(pp[0]);
-			POLY_setclip(pp[1]);
-			POLY_setclip(pp[2]);
-		}
-		else
-		{
-			ASSERT(pp[0]->MaybeValid());
-			ASSERT(pp[1]->MaybeValid());
-			ASSERT(pp[2]->MaybeValid());
-		}
+void POLY_add_triangle_slow(POLY_Point *pp[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
+    {
+        if (generate_clip_flags) {
+            POLY_setclip(pp[0]);
+            POLY_setclip(pp[1]);
+            POLY_setclip(pp[2]);
+        } else {
+            ASSERT(pp[0]->MaybeValid());
+            ASSERT(pp[1]->MaybeValid());
+            ASSERT(pp[2]->MaybeValid());
+        }
 
-		if (backface_cull && POLY_tri_backfacing(pp[0], pp[1], pp[2]))
-		{
-			//
-			// This triangle is backface culled.
-			//
-		}
-		else
-		{
-			POLY_add_poly(pp, 3, page);
-		}
-	}
+        if (backface_cull && POLY_tri_backfacing(pp[0], pp[1], pp[2])) {
+            //
+            // This triangle is backface culled.
+            //
+        } else {
+            POLY_add_poly(pp, 3, page);
+        }
+    }
 }
 
 //
@@ -2161,89 +2128,79 @@ void POLY_add_triangle_slow(POLY_Point *pp[3], std::int32_t page, std::int32_t b
 extern std::int32_t TEXTURE_set;
 extern std::uint8_t TEXTURE_dontexist[];
 
-void POLY_add_quad_slow(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
-{
-
-	LOG_ENTER ( POLY_add_quad )
-
+void POLY_add_quad_slow(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
+    LOG_ENTER(POLY_add_quad)
 #if 0 // or #ifdef _DEBUG or something, you lazy gits
 	if(ShiftFlag && Keys[KB_Q])
 	if(pp[0]->z<0.3)
 	if(page<64*8)
 	{
-		char	str[10];
+		CBYTE	str[10];
 		if(page<256)
 			sprintf(str,"W%d %d",TEXTURE_set,page);
 		else
 			sprintf(str,"W%d S%d",TEXTURE_set,page);
-//extern FONT2D_DrawString(char*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=16, std::int32_t page=POLY_PAGE_FONT2D, std::int16_t fade=0);
+//extern	FONT2D_DrawString(CBYTE*chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb=0xffffff, std::int32_t scale=16, std::int32_t page=POLY_PAGE_FONT2D, SWORD fade=0);
 		FONT2D_DrawString(str,pp[0]->X,pp[0]->Y,0xff0000);
 	}
 #endif
-	
 
-/*
-	if(ShiftFlag)
-	{
-		if (TEXTURE_texture[page].Type == D3DTEXTURE_TYPE_UNUSED)
-			ASSERT(0);
-		if(TEXTURE_dontexist[page])
-			ASSERT(0);
-	}
-*/
+    /*
+            if(ShiftFlag)
+            {
+                    if (TEXTURE_texture[page].Type == D3DTEXTURE_TYPE_UNUSED)
+                            ASSERT(0);
+                    if(TEXTURE_dontexist[page])
+                            ASSERT(0);
+            }
+    */
 
-//	if(page!=128)
-//		return;
+    //	if(page!=128)
+    //		return;
 
-	{
-		if (generate_clip_flags)
-		{
-			POLY_setclip(pp[0]);
-			POLY_setclip(pp[1]);
-			POLY_setclip(pp[2]);
-			POLY_setclip(pp[3]);
-		}
-		else
-		{
-			ASSERT(pp[0]->MaybeValid());
-			ASSERT(pp[1]->MaybeValid());
-			ASSERT(pp[2]->MaybeValid());
-			ASSERT(pp[3]->MaybeValid());
-		}
+    {
+        if (generate_clip_flags) {
+            POLY_setclip(pp[0]);
+            POLY_setclip(pp[1]);
+            POLY_setclip(pp[2]);
+            POLY_setclip(pp[3]);
+        } else {
+            ASSERT(pp[0]->MaybeValid());
+            ASSERT(pp[1]->MaybeValid());
+            ASSERT(pp[2]->MaybeValid());
+            ASSERT(pp[3]->MaybeValid());
+        }
 
-		if (backface_cull)
-		{
-			bool	first;
-			bool	second;
+        if (backface_cull) {
+            bool first;
+            bool second;
 
-			first  = POLY_tri_backfacing(pp[0], pp[1], pp[2]);
-			second = POLY_tri_backfacing(pp[1], pp[3], pp[2]);
+            first = POLY_tri_backfacing(pp[0], pp[1], pp[2]);
+            second = POLY_tri_backfacing(pp[1], pp[3], pp[2]);
 
-			if (first && second)
-			{
-			}
-			else
-			{
-				if (!first)		POLY_add_poly(pp, 3, page);
-				if (!second)	POLY_add_poly(pp+1, 3, page);
-			}
-		}
-		else
-		{
+            if (first && second) {
+            } else {
+                if (!first) POLY_add_poly(pp, 3, page);
+                if (!second) POLY_add_poly(pp + 1, 3, page);
+            }
+        } else {
 #if USE_D3D_VBUF
-				// bent quads break clipping - submit as two triangles
-				POLY_add_poly(pp, 3, page);
-				POLY_add_poly(pp+1, 3, page);
+            // bent quads break clipping - submit as two triangles
+            POLY_add_poly(pp, 3, page);
+            POLY_add_poly(pp + 1, 3, page);
 #else
-				POLY_Point*	tmp;
+            POLY_Point *tmp;
 
-				tmp = pp[2]; pp[2] = pp[3]; pp[3] = tmp;
-				POLY_add_poly(pp, 4, page);
-				tmp = pp[2]; pp[2] = pp[3]; pp[3] = tmp;
+            tmp = pp[2];
+            pp[2] = pp[3];
+            pp[3] = tmp;
+            POLY_add_poly(pp, 4, page);
+            tmp = pp[2];
+            pp[2] = pp[3];
+            pp[3] = tmp;
 #endif
-		}
-	}
-
+        }
+    }
 }
 
 #endif // #if 0
@@ -2251,12 +2208,10 @@ void POLY_add_quad_slow(POLY_Point *pp[4], std::int32_t page, std::int32_t backf
 #ifndef TARGET_DC
 
 void POLY_add_quad(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
-#if 0
-	if (!Keys[KB_F8])
-	{
-		POLY_add_quad_slow(pp, page, backface_cull, generate_clip_flags);
-	}
-	else
+#if 1
+    if (!Keys[KB_F8]) {
+        POLY_add_quad_slow(pp, page, backface_cull, generate_clip_flags);
+    } else
 #endif
     {
         POLY_add_quad_fast(pp, page, backface_cull, generate_clip_flags);
@@ -2264,12 +2219,10 @@ void POLY_add_quad(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_c
 }
 
 void POLY_add_triangle(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
-#if 0
-	if (!Keys[KB_F8])
-	{
-		POLY_add_triangle_slow(pp, page, backface_cull, generate_clip_flags);
-	}
-	else
+#if 1
+    if (!Keys[KB_F8]) {
+        POLY_add_triangle_slow(pp, page, backface_cull, generate_clip_flags);
+    } else
 #endif
     {
         POLY_add_triangle_fast(pp, page, backface_cull, generate_clip_flags);
@@ -2757,11 +2710,11 @@ void POLY_clip_line_add(float sx1, float sy1, float sx2, float sy2, std::uint32_
         return;
     }
 
-#define SWAP_UB(q, w)            \
-    {                            \
+#define SWAP_UB(q, w)     \
+    {                     \
         std::uint8_t temp = (q); \
-        (q) = (w);               \
-        (w) = temp;              \
+        (q) = (w);        \
+        (w) = temp;       \
     }
 
     if (clip_or) {
@@ -3161,7 +3114,7 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
         //		BreakTime("FRAMEDRAW start buckets");
         PolyPoly *buckets[2048];
 
-        for (i = 0; i < 2048; i++) buckets[i] = nullptr;
+        for (i = 0; i < 2048; i++) buckets[i] = NULL;
 
         for (i = 0; i < POLY_NUM_PAGES; i++) {
             pa = &POLY_Page[i];
@@ -3197,7 +3150,7 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
         //		BreakTime("FRAMEDRAW end buckets");
 
 #else // do it page by page
-      //		BreakTime("FRAMEDRAW start page by page");
+        //		BreakTime("FRAMEDRAW start page by page");
 
 #ifdef TEX_EMBED
         for (i = 0; i <= iPolyNumPagesRender; i++) // <= because we skip POLY_PAGE_COLOUR...
@@ -3323,15 +3276,15 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
 
     if(GAME_STATE&GS_ATTRACT_MODE)
     {
-extern void	draw_text_at(float x,float y,char* message,std::int32_t font_id);
-    extern bool  text_fudge;
+extern	void	draw_text_at(float x,float y,CBYTE *message,std::int32_t font_id);
+    extern BOOL  text_fudge;
     extern std::uint32_t text_colour;
 
             text_fudge  = false;
             text_colour = 0x00ffffff;
             draw_text_at(200,150,"Press Anything To Play",0);
 
-extern void	show_text();
+extern void	show_text(void);
             show_text();
     }
 
